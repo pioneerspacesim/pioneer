@@ -46,10 +46,13 @@ private:
 
 	vector3f m_pos;
 	vector3f m_posMovingTo;
+
+	float m_rotX, m_rotZ;
+	float m_rotXMovingTo, m_rotZMovingTo;
+
 	SystemPath m_hyperspaceTarget;
 	bool m_matchTargetToSelection;
 
-	float m_rot_x, m_rot_z;
 	Gui::Label *m_infoLabel;
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;

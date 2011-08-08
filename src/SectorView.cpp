@@ -19,8 +19,8 @@ SectorView::SectorView() :
 {
 	SetTransparency(true);
 	m_pos = m_posMovingTo = vector3f(0.0f);
-	m_rot_x = -45.0f;
-	m_rot_z = 0;
+	m_rotX = m_rotXMovingTo = -45.0f;
+	m_rotZ = m_rotZMovingTo = 0;
 	m_zoom = 2.0f;
 
 	Gui::Screen::PushFont("OverlayFont");
@@ -85,8 +85,8 @@ void SectorView::Save(Serializer::Writer &wr)
 	wr.Float(m_pos.x);
 	wr.Float(m_pos.y);
 	wr.Float(m_pos.z);
-	wr.Float(m_rot_x);
-	wr.Float(m_rot_z);
+	wr.Float(m_rotX);
+	wr.Float(m_rotZ);
 }
 
 void SectorView::Load(Serializer::Reader &rd)
@@ -96,8 +96,8 @@ void SectorView::Load(Serializer::Reader &rd)
 	m_pos.x = m_posMovingTo.x = rd.Float();
 	m_pos.y = m_posMovingTo.y = rd.Float();
 	m_pos.z = m_posMovingTo.z = rd.Float();
-	m_rot_x = rd.Float();
-	m_rot_z = rd.Float();
+	m_rotX = m_rotXMovingTo = rd.Float();
+	m_rotZ = m_rotZMovingTo = rd.Float();
 }
 
 void SectorView::OnSearchBoxValueChanged()
@@ -152,8 +152,8 @@ void SectorView::Draw3D()
 		}
 		glEnd();
 	}
-	glRotatef(m_rot_x, 1, 0, 0);
-	glRotatef(m_rot_z, 0, 0, 1);
+	glRotatef(m_rotX, 1, 0, 0);
+	glRotatef(m_rotZ, 0, 0, 1);
 	glTranslatef(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
@@ -350,8 +350,8 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		// draw star blob itself
 		glColor4f(col[0], col[1], col[2], 1.0f);
 		glPushMatrix();
-		glRotatef(-m_rot_z, 0, 0, 1);
-		glRotatef(-m_rot_x, 1, 0, 0);
+		glRotatef(-m_rotZ, 0, 0, 1);
+		glRotatef(-m_rotX, 1, 0, 0);
 		glScalef((StarSystem::starScale[(*i).starType[0]]),
 			(StarSystem::starScale[(*i).starType[0]]),
 			(StarSystem::starScale[(*i).starType[0]]));
@@ -438,8 +438,8 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 			GotoSystem(m_hyperspaceTarget);
 
 		if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
-			m_rot_x = -45.0f;
-			m_rot_z = 0;
+			m_rotXMovingTo = -45.0f;
+			m_rotZMovingTo = 0;
 			m_zoom = 2.0f;
 		}
 	}
@@ -451,8 +451,8 @@ void SectorView::Update()
 	const float frameTime = Pi::GetFrameTime();
 
 	matrix4x4f rot = matrix4x4f::Identity();
-	rot.RotateX(DEG2RAD(-m_rot_x));
-	rot.RotateZ(DEG2RAD(-m_rot_z));
+	rot.RotateX(DEG2RAD(-m_rotX));
+	rot.RotateZ(DEG2RAD(-m_rotZ));
 
 	float moveSpeed = 1.0;
 	if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
@@ -472,22 +472,32 @@ void SectorView::Update()
 	if (m_zoomOutButton->IsPressed()) m_zoom *= pow(2.0f, frameTime);
 	m_zoom = Clamp(m_zoom, 0.1f, 5.0f);
 	
-	// when zooming to a clicked on spot
-	{
-		vector3f diff = m_posMovingTo - m_pos;
-		vector3f travel = diff * 10.0f*frameTime;
-		if (travel.Length() > diff.Length()) m_pos = m_posMovingTo;
-		else m_pos = m_pos + travel;
-	}
-	
 	if (Pi::MouseButtonState(3)) {
 		int motion[2];
 		Pi::GetMouseMotion(motion);
-		m_rot_x += 0.2f*float(motion[1]);
-		m_rot_z += 0.2f*float(motion[0]);
+
+		m_rotXMovingTo += 0.2f*float(motion[1]);
+		m_rotXMovingTo = Clamp(m_rotXMovingTo, -170.0f, -10.0f);
+
+		m_rotZMovingTo += 0.2f*float(motion[0]);
 	}
-	// clamp x rotation because without it, getting lost is easier
-	m_rot_x = Clamp(m_rot_x, -170.0f, -10.0f);
+
+	{
+		vector3f diffPos = m_posMovingTo - m_pos;
+		vector3f travelPos = diffPos * 10.0f*frameTime;
+		if (travelPos.Length() > diffPos.Length()) m_pos = m_posMovingTo;
+		else m_pos = m_pos + travelPos;
+
+		float diffX = m_rotXMovingTo - m_rotX;
+		float travelX = diffX * 10.0f*frameTime;
+		if (fabs(travelX) > fabs(diffX)) m_rotX = m_rotXMovingTo;
+		else m_rotX = m_rotX + travelX;
+
+		float diffZ = m_rotZMovingTo - m_rotZ;
+		float travelZ = diffZ * 10.0f*frameTime;
+		if (fabs(travelZ) > fabs(diffZ)) m_rotZ = m_rotZMovingTo;
+		else m_rotZ = m_rotZ + travelZ;
+	}
 
 	SystemPath last_selected = m_selected;
 	
