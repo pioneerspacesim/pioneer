@@ -185,7 +185,9 @@ bool LoadStrings(const std::string &lang)
 	f = fopen(filename.c_str(), "r");
 	if (!f) {
 		fprintf(stderr, "couldn't open string file '%s': %s\n", filename.c_str(), strerror(errno));
-		return false;
+		// we failed to open/find the language file, but we've already successfully
+		// read the default language above, so we still claim success here.
+		return true;
 	}
 
 	lineno = 0;
