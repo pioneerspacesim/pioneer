@@ -137,7 +137,7 @@ void SectorView::Draw3D()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	char buf[80];
-	snprintf(buf, sizeof(buf), Lang::SECTOR_X_Y_Z, m_selected.sectorX, m_selected.sectorY, m_selected.sectorZ);
+	snprintf(buf, sizeof(buf), Lang::SECTOR_X_Y_Z, int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
 	m_infoLabel->SetText(buf);
 
 	// units are lightyears, my friend
@@ -158,7 +158,7 @@ void SectorView::Draw3D()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 	
-	SystemPath playerLoc = m_selected;
+	SystemPath playerLoc = Pi::currentSystem->GetPath();
 	Sector* playerSec = GetCached(playerLoc.sectorX, playerLoc.sectorY, playerLoc.sectorZ);
 	vector3f playerPos(0.0f);
 	if (m_selected.systemIndex < playerSec->m_systems.size())
@@ -173,7 +173,7 @@ void SectorView::Draw3D()
 			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
 				glPushMatrix();
 				glTranslatef(Sector::SIZE*sx, Sector::SIZE*sy, Sector::SIZE*sz);
-				DrawSector(m_selected.sectorX+sx, m_selected.sectorY+sy, m_selected.sectorZ+sz, playerPos);
+				DrawSector(int(floorf(m_pos.x))+sx, int(floorf(m_pos.y))+sy, int(floorf(m_pos.z))+sz, playerPos);
 				glPopMatrix();
 			}
 		}
@@ -222,7 +222,68 @@ void SectorView::WarpToSystem(const SystemPath &path)
 
 void SectorView::OnClickSystem(const SystemPath &path)
 {
-	GotoSystem(path);
+    m_selected = path;
+
+	SystemPath playerLoc = Pi::currentSystem->GetPath();
+
+	Sector sec(m_selected.sectorX, m_selected.sectorY, m_selected.sectorZ);
+	Sector psec(playerLoc.sectorX, playerLoc.sectorY, playerLoc.sectorZ);
+	if (m_selected.systemIndex < sec.m_systems.size()) {
+		if (m_matchTargetToSelection) {
+			m_hyperspaceTarget = m_selected;
+			onHyperspaceTargetChanged.emit();
+		}
+	
+		const float dist = Sector::DistanceBetween(&sec, m_selected.systemIndex, &psec, playerLoc.systemIndex);
+
+		char buf[256];
+		int fuelRequired;
+		double dur;
+		enum Ship::HyperjumpStatus jumpStatus;
+		Pi::player->CanHyperspaceTo(&m_selected, fuelRequired, dur, &jumpStatus);
+		switch (jumpStatus) {
+			case Ship::HYPERJUMP_OK:
+				snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt | time loss: %.1fhrs)", dist, fuelRequired, dur*0.0002778);
+				m_distance->Color(0.0f, 1.0f, 0.2f);
+				break;
+			case Ship::HYPERJUMP_CURRENT_SYSTEM:
+				snprintf(buf, sizeof(buf), "Current system");
+				m_distance->Color(0.0f, 1.0f, 1.0f);
+				break;
+			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
+				snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
+				m_distance->Color(1.0f, 1.0f, 0.0f);
+				break;
+			case Ship::HYPERJUMP_OUT_OF_RANGE:
+				snprintf(buf, sizeof(buf), "Dist. %.2f light years (out of range)", dist);
+				m_distance->Color(1.0f, 0.0f, 0.0f);
+				break;
+			case Ship::HYPERJUMP_NO_DRIVE:
+				snprintf(buf, sizeof(buf), "You cannot perform a hyperjump because you do not have a functioning hyperdrive");
+				m_distance->Color(1.0f, 0.6f, 1.0f);
+				break;
+		}
+
+		StarSystem *sys = StarSystem::GetCached(m_selected);
+
+		std::string desc;
+		if (sys->GetNumStars() == 4) {
+			desc = "Quadruple system. ";
+		} else if (sys->GetNumStars() == 3) {
+			desc = "Triple system. ";
+		} else if (sys->GetNumStars() == 2) {
+			desc = "Binary system. ";
+		} else {
+			desc = sys->rootBody->GetAstroDescription();
+		}
+
+		m_systemName->SetText(sys->GetName());
+		m_distance->SetText(buf);
+		m_starType->SetText(desc);
+		m_shortDesc->SetText(sys->GetShortDescription());
+
+		sys->Release();
+	}
 }
 
 void SectorView::PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path)
@@ -403,6 +464,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 void SectorView::OnSwitchTo() {
 	if (m_firstTime) {
 		WarpToSystem(Pi::currentSystem->GetPath());
+		OnClickSystem(Pi::currentSystem->GetPath());
 		m_firstTime = false;
 	}
 	
@@ -499,91 +561,6 @@ void SectorView::Update()
 		float travelZ = diffZ * 10.0f*frameTime;
 		if (fabs(travelZ) > fabs(diffZ)) m_rotZ = m_rotZMovingTo;
 		else m_rotZ = m_rotZ + travelZ;
-	}
-
-	SystemPath last_selected = m_selected;
-	
-	m_selected = SystemPath(int(floor(m_pos.x)), int(floor(m_pos.y)), int(floor(m_pos.z)), 0);
-
-	Sector* ps = GetCached(m_selected.sectorX, m_selected.sectorY, m_selected.sectorZ);
-	float px = FFRAC(m_pos.x)*Sector::SIZE;
-	float py = FFRAC(m_pos.y)*Sector::SIZE;
-	float pz = FFRAC(m_pos.z)*Sector::SIZE;
-
-	float min_dist = FLT_MAX;
-	for (unsigned int i=0; i<ps->m_systems.size(); i++) {
-		Sector::System *ss = &ps->m_systems[i];
-		float dx = px - ss->p.x;
-		float dy = py - ss->p.y;
-		float dz = pz - ss->p.z;
-		float dist = sqrtf(dx*dx + dy*dy + dz*dz);
-		if (dist < min_dist) {
-			min_dist = dist;
-			m_selected.systemIndex = i;
-		}
-	}
-
-	if (last_selected != m_selected) {
-		SystemPath playerLoc = Pi::currentSystem->GetPath();
-
-		Sector sec(m_selected.sectorX, m_selected.sectorY, m_selected.sectorZ);
-		Sector psec(playerLoc.sectorX, playerLoc.sectorY, playerLoc.sectorZ);
-		if (m_selected.systemIndex < sec.m_systems.size()) {
-			if (m_matchTargetToSelection) {
-				m_hyperspaceTarget = m_selected;
-				onHyperspaceTargetChanged.emit();
-			}
-	
-			const float dist = Sector::DistanceBetween(&sec, m_selected.systemIndex, &psec, playerLoc.systemIndex);
-
-			char buf[256];
-			int fuelRequired;
-			double dur;
-			enum Ship::HyperjumpStatus jumpStatus;
-			Pi::player->CanHyperspaceTo(&m_selected, fuelRequired, dur, &jumpStatus);
-			switch (jumpStatus) {
-				case Ship::HYPERJUMP_OK:
-					snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt | time loss: %.1fhrs)", dist, fuelRequired, dur*0.0002778);
-					m_distance->Color(0.0f, 1.0f, 0.2f);
-					break;
-				case Ship::HYPERJUMP_CURRENT_SYSTEM:
-					snprintf(buf, sizeof(buf), "Current system");
-					m_distance->Color(0.0f, 1.0f, 1.0f);
-					break;
-				case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
-					snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
-					m_distance->Color(1.0f, 1.0f, 0.0f);
-					break;
-				case Ship::HYPERJUMP_OUT_OF_RANGE:
-					snprintf(buf, sizeof(buf), "Dist. %.2f light years (out of range)", dist);
-					m_distance->Color(1.0f, 0.0f, 0.0f);
-					break;
-				case Ship::HYPERJUMP_NO_DRIVE:
-					snprintf(buf, sizeof(buf), "You cannot perform a hyperjump because you do not have a functioning hyperdrive");
-					m_distance->Color(1.0f, 0.6f, 1.0f);
-					break;
-			}
-
-			StarSystem *sys = StarSystem::GetCached(m_selected);
-
-			std::string desc;
-			if (sys->GetNumStars() == 4) {
-				desc = "Quadruple system. ";
-			} else if (sys->GetNumStars() == 3) {
-				desc = "Triple system. ";
-			} else if (sys->GetNumStars() == 2) {
-				desc = "Binary system. ";
-			} else {
-				desc = sys->rootBody->GetAstroDescription();
-			}
-
-			m_systemName->SetText(sys->GetName());
-			m_distance->SetText(buf);
-			m_starType->SetText(desc);
-			m_shortDesc->SetText(sys->GetShortDescription());
-
-			sys->Release();
-		}
 	}
 
 	ShrinkCache();

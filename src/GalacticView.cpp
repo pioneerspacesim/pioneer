@@ -95,9 +95,9 @@ void GalacticView::PutLabels(vector3d offset)
 
 void GalacticView::Draw3D()
 {
-	SystemPath path = Pi::sectorView->GetSelectedSystem();
-	float offset_x = (path.sectorX*Sector::SIZE + Galaxy::SOL_OFFSET_X)/Galaxy::GALAXY_RADIUS;
-	float offset_y = (-path.sectorY*Sector::SIZE + Galaxy::SOL_OFFSET_Y)/Galaxy::GALAXY_RADIUS;
+	vector3f pos = Pi::sectorView->GetPosition();
+	float offset_x = (pos.x*Sector::SIZE + Galaxy::SOL_OFFSET_X)/Galaxy::GALAXY_RADIUS;
+	float offset_y = (-pos.y*Sector::SIZE + Galaxy::SOL_OFFSET_Y)/Galaxy::GALAXY_RADIUS;
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();

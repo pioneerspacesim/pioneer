@@ -16,6 +16,7 @@ public:
 	virtual ~SectorView();
 	virtual void Update();
 	virtual void Draw3D();
+	vector3f GetPosition() const { return m_pos; }
 	SystemPath GetSelectedSystem() const { return m_selected; }
 	SystemPath GetHyperspaceTarget() const { return m_hyperspaceTarget; }
 	void SetHyperspaceTarget(const SystemPath &path);
