@@ -425,7 +425,7 @@ static int l_space_get_body(lua_State *l)
  *
  *   filter - an option function. If specificed the function will be called
  *            once for each body with the <Body> object as the only parameter.
- *            If the filter function returns true then the ship name will be
+ *            If the filter function returns true then the <Body> will be
  *            included in the array returned by <GetBodies>, otherwise it will
  *            be omitted. If no filter function is specified then all bodies
  *            are returned.

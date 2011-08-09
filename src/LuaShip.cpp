@@ -60,7 +60,7 @@ static int l_ship_is_player(lua_State *l)
  *
  * Returns statistics for the ship
  *
- * > stats - ship:GetStats()
+ * > stats = ship:GetStats()
  *
  * Returns:
  *
@@ -849,7 +849,7 @@ static int l_ship_attr_alert_status(lua_State *l)
  * Group: AI methods
  *
  * The AI methods are the script's equivalent of the autopilot. They are
- * high-level commands instruct the ship to fly somewhere and possibly take
+ * high-level commands to instruct the ship to fly somewhere and possibly take
  * some action when it arrives (like dock or attack).
  *
  * When an AI completes the <EventQueue.onAICompleted> event is triggered, and
