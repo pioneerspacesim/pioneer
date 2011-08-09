@@ -28,15 +28,15 @@ namespace Lang {
 static bool _read_pair(FILE *f, const std::string &filename, int *lineno, token_map::iterator *outIter, char **outValue)
 {
 	static char buf[1024];
-	*outValue = buf;
+	*outValue = 0;
 
 	bool doing_token = true;
 
-	errno = 0;
-	while (fgets(buf, sizeof(buf), f)) {
-		(*lineno)++;
+	char *line;
 
-		char *line = buf;
+	errno = 0;
+	while ((line = fgets(buf, sizeof(buf), f))) {
+		(*lineno)++;
 
 		int i = 0;
 		while (buf[i]) {
@@ -151,10 +151,13 @@ bool LoadStrings(const std::string &lang)
 	}
 
 	int lineno = 0;
-	while (!feof(f)) {
+	while (1) {
 		bool success = _read_pair(f, filename, &lineno, &token_iter, &value);
 		if (!success)
 			return false;
+
+		if (!value)
+			break;
 
 		_copy_string(value, (*token_iter).second);
 		seen.insert(std::make_pair((*token_iter).first, true));
