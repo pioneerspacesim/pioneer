@@ -1109,3 +1109,5 @@ COMPLETED
     Completed
 ACTIVE
     Active
+DISTANCE_LY
+    Distance: %0.2f ly

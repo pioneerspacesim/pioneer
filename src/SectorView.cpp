@@ -29,8 +29,10 @@ SectorView::SectorView() :
 	Add(m_clickableLabels, 0, 0);
 	Gui::Screen::PopFont();
 
-	m_infoLabel = new Gui::Label("");
-	Add(m_infoLabel, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
+	m_sectorLabel = new Gui::Label("");
+	Add(m_sectorLabel, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()*2-66);
+	m_distanceLabel = new Gui::Label("");
+	Add(m_distanceLabel, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
 	
 	m_zoomInButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_in.png");
 	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
@@ -125,6 +127,8 @@ void SectorView::OnSearchBoxValueChanged()
 
 void SectorView::Draw3D()
 {
+	SystemPath playerLoc = Pi::currentSystem->GetPath();
+
 	m_clickableLabels->Clear();
 
 	glMatrixMode(GL_PROJECTION);
@@ -136,9 +140,10 @@ void SectorView::Draw3D()
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	char buf[80];
-	snprintf(buf, sizeof(buf), Lang::SECTOR_X_Y_Z, int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
-	m_infoLabel->SetText(buf);
+	m_sectorLabel->SetText(stringf(128, Lang::SECTOR_X_Y_Z, int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z))));
+
+	vector3f dv = vector3f(floorf(m_pos.x)-playerLoc.sectorX, floorf(m_pos.y)-playerLoc.sectorY, floorf(m_pos.z)-playerLoc.sectorZ) * Sector::SIZE;
+	m_distanceLabel->SetText(stringf(128, Lang::DISTANCE_LY, dv.Length()));
 
 	// units are lightyears, my friend
 	glTranslatef(0, 0, -10-10*m_zoom);
@@ -158,7 +163,6 @@ void SectorView::Draw3D()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 	
-	SystemPath playerLoc = Pi::currentSystem->GetPath();
 	Sector* playerSec = GetCached(playerLoc.sectorX, playerLoc.sectorY, playerLoc.sectorZ);
 	vector3f playerPos(0.0f);
 	if (m_selected.systemIndex < playerSec->m_systems.size())

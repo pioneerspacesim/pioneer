@@ -54,7 +54,8 @@ private:
 	SystemPath m_hyperspaceTarget;
 	bool m_matchTargetToSelection;
 
-	Gui::Label *m_infoLabel;
+	Gui::Label *m_sectorLabel;
+	Gui::Label *m_distanceLabel;
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::ImageButton *m_galaxyButton;
