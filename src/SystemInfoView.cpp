@@ -269,7 +269,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	
 	std::string _info = stringf(2048, Lang::STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS,
 		majorBodies, majorBodies == 1 ? Lang::BODY : Lang::BODIES,
-		starports, starports == 1 ? "" : Lang::PLURAL_SUFFIX,
+		starports, starports == 1 ? Lang::STARPORT : Lang::STARPORTS,
 		std::string(s->GetLongDescription()).c_str());
 	
 	{
