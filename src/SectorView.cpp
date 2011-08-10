@@ -22,7 +22,7 @@ SectorView::SectorView() :
 {
 	SetTransparency(true);
 	m_pos = m_posMovingTo = vector3f(0.0f);
-	m_rotX = m_rotXMovingTo = -45.0f;
+	m_rotX = m_rotXMovingTo = -10.0f;
 	m_rotZ = m_rotZMovingTo = 0;
 	m_zoom = 2.0f;
 
@@ -593,7 +593,7 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 		if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
 			while (m_rotZ < -180.0f) m_rotZ += 360.0f;
 			while (m_rotZ > 180.0f)  m_rotZ -= 360.0f;
-			m_rotXMovingTo = -45.0f;
+			m_rotXMovingTo = -10.0f;
 			m_rotZMovingTo = 0;
 			m_zoom = 2.0f;
 		}
