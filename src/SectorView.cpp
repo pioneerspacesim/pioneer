@@ -59,7 +59,13 @@ SectorView::SectorView() :
 	Add(m_infoBox, 5, 5);
 
 	Gui::VBox *systemBox = new Gui::VBox();
-	systemBox->PackEnd((new Gui::Label("Current system"))->Color(1.0f, 1.0f, 1.0f));
+	Gui::HBox *warpBox = new Gui::HBox();
+	warpBox->SetSpacing(5.0f);
+	Gui::Button *b = new Gui::SolidButton();
+	b->onClick.connect(sigc::mem_fun(this, &SectorView::GotoCurrentSystem));
+	warpBox->PackEnd(b);
+	warpBox->PackEnd((new Gui::Label("Current system"))->Color(1.0f, 1.0f, 1.0f));
+	systemBox->PackEnd(warpBox);
 	m_currentSystemLabels.systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
 	m_currentSystemLabels.distance = (new Gui::Label(""))->Color(1.0f, 0.0f, 0.0f);
 	m_currentSystemLabels.starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
@@ -71,7 +77,13 @@ SectorView::SectorView() :
 	m_infoBox->PackEnd(systemBox);
 
 	systemBox = new Gui::VBox();
-	systemBox->PackEnd((new Gui::Label("Selected system"))->Color(1.0f, 1.0f, 1.0f));
+	warpBox = new Gui::HBox();
+	warpBox->SetSpacing(5.0f);
+	b = new Gui::SolidButton();
+	b->onClick.connect(sigc::mem_fun(this, &SectorView::GotoSelectedSystem));
+	warpBox->PackEnd(b);
+	warpBox->PackEnd((new Gui::Label("Selected system"))->Color(1.0f, 1.0f, 1.0f));
+	systemBox->PackEnd(warpBox);
 	m_selectedSystemLabels.systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
 	m_selectedSystemLabels.distance = (new Gui::Label(""))->Color(1.0f, 0.0f, 0.0f);
 	m_selectedSystemLabels.starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
@@ -83,7 +95,13 @@ SectorView::SectorView() :
 	m_infoBox->PackEnd(systemBox);
 
 	systemBox = new Gui::VBox();
-	systemBox->PackEnd((new Gui::Label("Hyperspace target"))->Color(1.0f, 1.0f, 1.0f));
+	warpBox = new Gui::HBox();
+	warpBox->SetSpacing(5.0f);
+	b = new Gui::SolidButton();
+	b->onClick.connect(sigc::mem_fun(this, &SectorView::GotoHyperspaceTarget));
+	warpBox->PackEnd(b);
+	warpBox->PackEnd((new Gui::Label("Hyperspace target"))->Color(1.0f, 1.0f, 1.0f));
+	systemBox->PackEnd(warpBox);
 	m_targetSystemLabels.systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
 	m_targetSystemLabels.distance = (new Gui::Label(""))->Color(1.0f, 0.0f, 0.0f);
 	m_targetSystemLabels.starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
@@ -245,6 +263,21 @@ void SectorView::GotoSystem(const SystemPath &path)
 	m_posMovingTo.x = path.sectorX + p.x/Sector::SIZE;
 	m_posMovingTo.y = path.sectorY + p.y/Sector::SIZE;
 	m_posMovingTo.z = path.sectorZ + p.z/Sector::SIZE;
+}
+
+void SectorView::GotoCurrentSystem()
+{
+	GotoSystem(Pi::currentSystem->GetPath());
+}
+
+void SectorView::GotoSelectedSystem()
+{
+	GotoSystem(m_selected);
+}
+
+void SectorView::GotoHyperspaceTarget()
+{
+	GotoSystem(m_hyperspaceTarget);
 }
 
 void SectorView::WarpToSystem(const SystemPath &path)

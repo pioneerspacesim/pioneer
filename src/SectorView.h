@@ -23,6 +23,9 @@ public:
 	void FloatHyperspaceTarget();
 	void ResetHyperspaceTarget();
 	void GotoSystem(const SystemPath &path);
+	void GotoCurrentSystem();
+	void GotoSelectedSystem();
+	void GotoHyperspaceTarget();
 	void WarpToSystem(const SystemPath &path);
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
