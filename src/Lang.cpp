@@ -191,10 +191,13 @@ bool LoadStrings(const std::string &lang)
 	}
 
 	lineno = 0;
-	while (!feof(f)) {
+	while (1) {
 		bool success = _read_pair(f, filename, &lineno, &token_iter, &value);
 		if (!success)
 			return false;
+
+		if (!value)
+			break;
 
 		_copy_string(value, (*token_iter).second);
 		seen.insert(std::make_pair((*token_iter).first, true));
