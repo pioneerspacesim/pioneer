@@ -170,8 +170,6 @@ void SectorView::OnSearchBoxValueChanged()
 
 void SectorView::Draw3D()
 {
-	SystemPath playerLoc = Pi::currentSystem->GetPath();
-
 	m_clickableLabels->Clear();
 
 	glMatrixMode(GL_PROJECTION);
@@ -185,7 +183,7 @@ void SectorView::Draw3D()
 	
 	m_sectorLabel->SetText(stringf(128, Lang::SECTOR_X_Y_Z, int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z))));
 
-	vector3f dv = vector3f(floorf(m_pos.x)-playerLoc.sectorX, floorf(m_pos.y)-playerLoc.sectorY, floorf(m_pos.z)-playerLoc.sectorZ) * Sector::SIZE;
+	vector3f dv = vector3f(floorf(m_pos.x)-m_current.sectorX, floorf(m_pos.y)-m_current.sectorY, floorf(m_pos.z)-m_current.sectorZ) * Sector::SIZE;
 	m_distanceLabel->SetText(stringf(128, Lang::DISTANCE_LY, dv.Length()));
 
 	// units are lightyears, my friend
@@ -206,12 +204,12 @@ void SectorView::Draw3D()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 	
-	Sector* playerSec = GetCached(playerLoc.sectorX, playerLoc.sectorY, playerLoc.sectorZ);
+	Sector* playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
 	vector3f playerPos(0.0f);
 	if (m_selected.systemIndex < playerSec->m_systems.size())
 	{
-		playerPos = Sector::SIZE * vector3f(float(playerLoc.sectorX), float(playerLoc.sectorY), float(playerLoc.sectorZ))
-			+ playerSec->m_systems[playerLoc.systemIndex].p;
+		playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ))
+			+ playerSec->m_systems[m_current.systemIndex].p;
 	}
 	
 
@@ -265,21 +263,6 @@ void SectorView::GotoSystem(const SystemPath &path)
 	m_posMovingTo.z = path.sectorZ + p.z/Sector::SIZE;
 }
 
-void SectorView::GotoCurrentSystem()
-{
-	GotoSystem(Pi::currentSystem->GetPath());
-}
-
-void SectorView::GotoSelectedSystem()
-{
-	GotoSystem(m_selected);
-}
-
-void SectorView::GotoHyperspaceTarget()
-{
-	GotoSystem(m_hyperspaceTarget);
-}
-
 void SectorView::WarpToSystem(const SystemPath &path)
 {
 	GotoSystem(path);
@@ -311,11 +294,9 @@ void SectorView::PutClickableLabel(const std::string &text, const Color &labelCo
 
 void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path)
 {
-	SystemPath playerLoc = Pi::currentSystem->GetPath();
-
 	Sector *sec = GetCached(path.sectorX, path.sectorY, path.sectorZ);
-	Sector *playerSec = GetCached(playerLoc.sectorX, playerLoc.sectorY, playerLoc.sectorZ);
-	const float dist = Sector::DistanceBetween(sec, path.systemIndex, playerSec, playerLoc.systemIndex);
+	Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+	const float dist = Sector::DistanceBetween(sec, path.systemIndex, playerSec, m_current.systemIndex);
 
 	char buf[256];
 
@@ -396,7 +377,6 @@ static void _draw_arrow(const vector3f &direction)
 
 void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos)
 {
-	SystemPath playerLoc = Pi::currentSystem->GetPath();
 	Sector* ps = GetCached(sx, sy, sz);
 
 	int cz = floor(m_pos.z+0.5f);
@@ -494,7 +474,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		glScalef(2,2,2);
 
 		// player location indicator
-		if (current == playerLoc) {
+		if (current == m_current) {
 			glPushMatrix();
 			glDepthRange(0.2,1.0);
 			glColor3f(0,0,0.8);
@@ -512,7 +492,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 			glPopMatrix();
 		}
 		// hyperspace target indicator (if different from selection)
-		if (current == m_hyperspaceTarget && m_hyperspaceTarget != m_selected && m_hyperspaceTarget != playerLoc) {
+		if (current == m_hyperspaceTarget && m_hyperspaceTarget != m_selected && m_hyperspaceTarget != m_current) {
 			glPushMatrix();
 			glDepthRange(0.1,1.0);
 			glColor3f(0.3,0.3,0.3);
@@ -537,12 +517,12 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 
 void SectorView::OnSwitchTo() {
 	if (m_firstTime) {
-		SystemPath path = Pi::currentSystem->GetPath();
+		SystemPath m_current = Pi::currentSystem->GetPath();
 
-		UpdateSystemLabels(m_currentSystemLabels, path);
+		UpdateSystemLabels(m_currentSystemLabels, m_current);
 
-		WarpToSystem(path);
-		OnClickSystem(path);
+		WarpToSystem(m_current);
+		OnClickSystem(m_current);
 
 		m_firstTime = false;
 	}
@@ -561,11 +541,9 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 		return;
 	}
 
-	SystemPath playerLoc = Pi::currentSystem->GetPath();
-
 	// space "locks" (or unlocks) the hyperspace target to the selected system
 	if (keysym->sym == SDLK_SPACE) {
-		if ((m_matchTargetToSelection || m_hyperspaceTarget != m_selected) && !m_selected.IsSameSystem(playerLoc))
+		if ((m_matchTargetToSelection || m_hyperspaceTarget != m_selected) && !m_selected.IsSameSystem(m_current))
 			SetHyperspaceTarget(m_selected);
 		else
 			ResetHyperspaceTarget();
@@ -574,7 +552,7 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 	// fast move selection to current player system or hyperspace target
 	if (Pi::KeyState(SDLK_c) || Pi::KeyState(SDLK_h)) {
 		if (Pi::KeyState(SDLK_c))
-			GotoSystem(playerLoc);
+			GotoSystem(m_current);
 		else
 			GotoSystem(m_hyperspaceTarget);
 
@@ -591,6 +569,11 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 
 void SectorView::Update()
 {
+	SystemPath last_current = m_current;
+	m_current = Pi::currentSystem->GetPath();
+	if (last_current != m_current)
+		UpdateSystemLabels(m_currentSystemLabels, m_current);
+
 	const float frameTime = Pi::GetFrameTime();
 
 	matrix4x4f rot = matrix4x4f::Identity();

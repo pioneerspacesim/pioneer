@@ -23,9 +23,9 @@ public:
 	void FloatHyperspaceTarget();
 	void ResetHyperspaceTarget();
 	void GotoSystem(const SystemPath &path);
-	void GotoCurrentSystem();
-	void GotoSelectedSystem();
-	void GotoHyperspaceTarget();
+	void GotoCurrentSystem() { GotoSystem(m_current); }
+	void GotoSelectedSystem() { GotoSystem(m_selected); }
+	void GotoHyperspaceTarget() { GotoSystem(m_hyperspaceTarget); }
 	void WarpToSystem(const SystemPath &path);
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
@@ -56,6 +56,8 @@ private:
 	float m_zoom;
 
 	bool m_firstTime;
+
+	SystemPath m_current;
 	SystemPath m_selected;
 
 	vector3f m_pos;
