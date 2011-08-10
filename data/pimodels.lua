@@ -100,6 +100,8 @@ end
 load_lua(CurrentDirectory .. "/sub_models")
 load_lua(CurrentDirectory .. "/models")
 
+print("If you see Error IMG_Load below, delete your ~/.pioneer/model_cache folder.");
+
 poo = 0
 define_model('test', {
 	info = {
