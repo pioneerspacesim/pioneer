@@ -29,10 +29,20 @@ public:
 	virtual void OnSwitchTo();
 
 	sigc::signal<void> onHyperspaceTargetChanged;
+
 private:
+	struct SystemLabels {
+		Gui::Label *systemName;
+		Gui::Label *distance;
+		Gui::Label *starType;
+		Gui::Label *shortDesc;
+	};
+	
 	void DrawSector(int x, int y, int z, const vector3f &playerAbsPos);
 	void PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path);
 	void OnClickSystem(const SystemPath &path);
+
+	void UpdateSystemLabels(SystemLabels &labels, const SystemPath &path);
 
 	void MouseButtonDown(int button, int x, int y);
 	Sector* GetCached(int sectorX, int sectorY, int sectorZ);
@@ -62,11 +72,13 @@ private:
 	Gui::TextEntry *m_searchBox;
 	GLuint m_gluDiskDlist;
 	
-	Gui::Label *m_systemName;
-	Gui::Label *m_distance;
-	Gui::Label *m_starType;
-	Gui::Label *m_shortDesc;
 	Gui::LabelSet *m_clickableLabels;
+
+	Gui::VBox *m_infoBox;
+	
+	SystemLabels m_currentSystemLabels;
+	SystemLabels m_selectedSystemLabels;
+	SystemLabels m_targetSystemLabels;
 
 	sigc::connection m_onMouseButtonDown;
 	sigc::connection m_onKeyPressConnection;

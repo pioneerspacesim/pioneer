@@ -52,22 +52,47 @@ SectorView::SectorView() :
 	gluDisk(Pi::gluQuadric, 0.0, 0.2, 20, 1);
 	glEndList();
 	
-	Gui::Fixed *infoBar = new Gui::Fixed(Gui::Screen::GetWidth(), 60);
-	infoBar->SetTransparency(false);
-	infoBar->SetBgColor(0.0f, 0.0f, 1.0f, 0.25f);
-	Add(infoBar, 0, 0);
+	m_infoBox = new Gui::VBox();
+	m_infoBox->SetTransparency(false);
+	m_infoBox->SetBgColor(1.0f, 1.0f, 1.0f, 0.05f);
+	m_infoBox->SetSpacing(5.0f);
+	Add(m_infoBox, 5, 5);
 
-	m_systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
-	infoBar->Add(m_systemName, 15, 4);
-	
-	m_distance = (new Gui::Label(""))->Color(1.0f, 0.0f, 0.0f);
-	infoBar->Add(m_distance, 300, 4);
+	Gui::VBox *systemBox = new Gui::VBox();
+	systemBox->PackEnd((new Gui::Label("Current system"))->Color(1.0f, 1.0f, 1.0f));
+	m_currentSystemLabels.systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
+	m_currentSystemLabels.distance = (new Gui::Label(""))->Color(1.0f, 0.0f, 0.0f);
+	m_currentSystemLabels.starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
+	m_currentSystemLabels.shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
+	systemBox->PackEnd(m_currentSystemLabels.systemName);
+	systemBox->PackEnd(m_currentSystemLabels.distance);
+	systemBox->PackEnd(m_currentSystemLabels.starType);
+	systemBox->PackEnd(m_currentSystemLabels.shortDesc);
+	m_infoBox->PackEnd(systemBox);
 
-	m_starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
-	infoBar->Add(m_starType, 15, 20);
+	systemBox = new Gui::VBox();
+	systemBox->PackEnd((new Gui::Label("Selected system"))->Color(1.0f, 1.0f, 1.0f));
+	m_selectedSystemLabels.systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
+	m_selectedSystemLabels.distance = (new Gui::Label(""))->Color(1.0f, 0.0f, 0.0f);
+	m_selectedSystemLabels.starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
+	m_selectedSystemLabels.shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
+	systemBox->PackEnd(m_selectedSystemLabels.systemName);
+	systemBox->PackEnd(m_selectedSystemLabels.distance);
+	systemBox->PackEnd(m_selectedSystemLabels.starType);
+	systemBox->PackEnd(m_selectedSystemLabels.shortDesc);
+	m_infoBox->PackEnd(systemBox);
 
-	m_shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
-	infoBar->Add(m_shortDesc, 15, 38);
+	systemBox = new Gui::VBox();
+	systemBox->PackEnd((new Gui::Label("Hyperspace target"))->Color(1.0f, 1.0f, 1.0f));
+	m_targetSystemLabels.systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
+	m_targetSystemLabels.distance = (new Gui::Label(""))->Color(1.0f, 0.0f, 0.0f);
+	m_targetSystemLabels.starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
+	m_targetSystemLabels.shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
+	systemBox->PackEnd(m_targetSystemLabels.systemName);
+	systemBox->PackEnd(m_targetSystemLabels.distance);
+	systemBox->PackEnd(m_targetSystemLabels.starType);
+	systemBox->PackEnd(m_targetSystemLabels.shortDesc);
+	m_infoBox->PackEnd(systemBox);
 
 	m_onMouseButtonDown = 
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SectorView::MouseButtonDown));
@@ -192,6 +217,8 @@ void SectorView::SetHyperspaceTarget(const SystemPath &path)
 	m_hyperspaceTarget = path;
 	m_matchTargetToSelection = false;
 	onHyperspaceTargetChanged.emit();
+
+	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 }
 
 void SectorView::FloatHyperspaceTarget()
@@ -205,8 +232,10 @@ void SectorView::ResetHyperspaceTarget()
 	m_hyperspaceTarget = m_selected;
 	m_matchTargetToSelection = true;
 
-	if (old != m_hyperspaceTarget)
+	if (old != m_hyperspaceTarget) {
 		onHyperspaceTargetChanged.emit();
+		UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
+	}
 }
 
 void SectorView::GotoSystem(const SystemPath &path)
@@ -228,66 +257,13 @@ void SectorView::OnClickSystem(const SystemPath &path)
 {
     m_selected = path;
 
-	SystemPath playerLoc = Pi::currentSystem->GetPath();
-
-	Sector sec(m_selected.sectorX, m_selected.sectorY, m_selected.sectorZ);
-	Sector psec(playerLoc.sectorX, playerLoc.sectorY, playerLoc.sectorZ);
-	if (m_selected.systemIndex < sec.m_systems.size()) {
-		if (m_matchTargetToSelection) {
-			m_hyperspaceTarget = m_selected;
-			onHyperspaceTargetChanged.emit();
-		}
-	
-		const float dist = Sector::DistanceBetween(&sec, m_selected.systemIndex, &psec, playerLoc.systemIndex);
-
-		char buf[256];
-		int fuelRequired;
-		double dur;
-		enum Ship::HyperjumpStatus jumpStatus;
-		Pi::player->CanHyperspaceTo(&m_selected, fuelRequired, dur, &jumpStatus);
-		switch (jumpStatus) {
-			case Ship::HYPERJUMP_OK:
-				snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt | time loss: %.1fhrs)", dist, fuelRequired, dur*0.0002778);
-				m_distance->Color(0.0f, 1.0f, 0.2f);
-				break;
-			case Ship::HYPERJUMP_CURRENT_SYSTEM:
-				snprintf(buf, sizeof(buf), "Current system");
-				m_distance->Color(0.0f, 1.0f, 1.0f);
-				break;
-			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
-				snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
-				m_distance->Color(1.0f, 1.0f, 0.0f);
-				break;
-			case Ship::HYPERJUMP_OUT_OF_RANGE:
-				snprintf(buf, sizeof(buf), "Dist. %.2f light years (out of range)", dist);
-				m_distance->Color(1.0f, 0.0f, 0.0f);
-				break;
-			case Ship::HYPERJUMP_NO_DRIVE:
-				snprintf(buf, sizeof(buf), "You cannot perform a hyperjump because you do not have a functioning hyperdrive");
-				m_distance->Color(1.0f, 0.6f, 1.0f);
-				break;
-		}
-
-		StarSystem *sys = StarSystem::GetCached(m_selected);
-
-		std::string desc;
-		if (sys->GetNumStars() == 4) {
-			desc = "Quadruple system. ";
-		} else if (sys->GetNumStars() == 3) {
-			desc = "Triple system. ";
-		} else if (sys->GetNumStars() == 2) {
-			desc = "Binary system. ";
-		} else {
-			desc = sys->rootBody->GetAstroDescription();
-		}
-
-		m_systemName->SetText(sys->GetName());
-		m_distance->SetText(buf);
-		m_starType->SetText(desc);
-		m_shortDesc->SetText(sys->GetShortDescription());
-
-		sys->Release();
+	if (m_matchTargetToSelection) {
+		m_hyperspaceTarget = m_selected;
+		onHyperspaceTargetChanged.emit();
+		UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 	}
+
+	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
 }
 
 void SectorView::PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path)
@@ -298,6 +274,67 @@ void SectorView::PutClickableLabel(const std::string &text, const Color &labelCo
 		m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path), pos.x, pos.y, labelCol);
 	}
 	Gui::Screen::LeaveOrtho();
+}
+
+void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path)
+{
+	SystemPath playerLoc = Pi::currentSystem->GetPath();
+
+	Sector *sec = GetCached(path.sectorX, path.sectorY, path.sectorZ);
+	Sector *playerSec = GetCached(playerLoc.sectorX, playerLoc.sectorY, playerLoc.sectorZ);
+	const float dist = Sector::DistanceBetween(sec, path.systemIndex, playerSec, playerLoc.systemIndex);
+
+	char buf[256];
+
+	int fuelRequired;
+	double dur;
+	enum Ship::HyperjumpStatus jumpStatus;
+	Pi::player->CanHyperspaceTo(&path, fuelRequired, dur, &jumpStatus);
+
+	switch (jumpStatus) {
+		case Ship::HYPERJUMP_OK:
+			snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt | time loss: %.1fhrs)", dist, fuelRequired, dur*0.0002778);
+			labels.distance->Color(0.0f, 1.0f, 0.2f);
+			break;
+		case Ship::HYPERJUMP_CURRENT_SYSTEM:
+			snprintf(buf, sizeof(buf), "Current system");
+			labels.distance->Color(0.0f, 1.0f, 1.0f);
+			break;
+		case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
+			snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
+			labels.distance->Color(1.0f, 1.0f, 0.0f);
+			break;
+		case Ship::HYPERJUMP_OUT_OF_RANGE:
+			snprintf(buf, sizeof(buf), "Dist. %.2f light years (out of range)", dist);
+			labels.distance->Color(1.0f, 0.0f, 0.0f);
+			break;
+		case Ship::HYPERJUMP_NO_DRIVE:
+			snprintf(buf, sizeof(buf), "You cannot perform a hyperjump because you do not have a functioning hyperdrive");
+			labels.distance->Color(1.0f, 0.6f, 1.0f);
+			break;
+	}
+
+	StarSystem *sys = StarSystem::GetCached(path);
+
+	std::string desc;
+	if (sys->GetNumStars() == 4) {
+		desc = "Quadruple system. ";
+	} else if (sys->GetNumStars() == 3) {
+		desc = "Triple system. ";
+	} else if (sys->GetNumStars() == 2) {
+		desc = "Binary system. ";
+	} else {
+		desc = sys->rootBody->GetAstroDescription();
+	}
+
+	labels.systemName->SetText(sys->GetName());
+	labels.distance->SetText(buf);
+	labels.starType->SetText(desc);
+	labels.shortDesc->SetText(sys->GetShortDescription());
+
+	sys->Release();
+
+	m_infoBox->ShowAll();
 }
 
 static void _draw_arrow(const vector3f &direction)
@@ -467,8 +504,13 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 
 void SectorView::OnSwitchTo() {
 	if (m_firstTime) {
-		WarpToSystem(Pi::currentSystem->GetPath());
-		OnClickSystem(Pi::currentSystem->GetPath());
+		SystemPath path = Pi::currentSystem->GetPath();
+
+		UpdateSystemLabels(m_currentSystemLabels, path);
+
+		WarpToSystem(path);
+		OnClickSystem(path);
+
 		m_firstTime = false;
 	}
 	
@@ -604,6 +646,8 @@ void SectorView::ShrinkCache()
 	const int ymax = ceilf(m_pos.y)+DRAW_RAD;
 	const int zmin = floorf(m_pos.z)-DRAW_RAD;
 	const int zmax = ceilf(m_pos.z)+DRAW_RAD;
+
+	// XXX don't clear the current/selected/target sectors
 
 	std::map<SystemPath,Sector*>::iterator iter = m_sectorCache.begin();
 	while (iter != m_sectorCache.end())	{
