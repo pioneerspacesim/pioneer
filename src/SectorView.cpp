@@ -15,7 +15,8 @@
 		
 SectorView::SectorView() :
 	m_firstTime(true),
-	m_matchTargetToSelection(true)
+	m_matchTargetToSelection(true),
+	m_infoBoxVisible(true)
 {
 	SetTransparency(true);
 	m_pos = m_posMovingTo = vector3f(0.0f);
@@ -350,7 +351,8 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 
 	sys->Release();
 
-	m_infoBox->ShowAll();
+	if (m_infoBoxVisible)
+		m_infoBox->ShowAll();
 }
 
 static void _draw_arrow(const vector3f &direction)
@@ -551,6 +553,15 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 			ResetHyperspaceTarget();
 	}
 
+	// toggle the info box
+	if (keysym->sym == SDLK_TAB) {
+		m_infoBoxVisible = !m_infoBoxVisible;
+		if (m_infoBoxVisible)
+			m_infoBox->ShowAll();
+		else
+			m_infoBox->HideAll();
+	}
+
 	// fast move selection to current player system or hyperspace target
 	if (Pi::KeyState(SDLK_c) || Pi::KeyState(SDLK_h)) {
 		if (Pi::KeyState(SDLK_c))
@@ -566,7 +577,6 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 			m_zoom = 2.0f;
 		}
 	}
-
 }
 
 void SectorView::Update()

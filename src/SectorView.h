@@ -80,6 +80,7 @@ private:
 	Gui::LabelSet *m_clickableLabels;
 
 	Gui::VBox *m_infoBox;
+	bool m_infoBoxVisible;
 	
 	SystemLabels m_currentSystemLabels;
 	SystemLabels m_selectedSystemLabels;
