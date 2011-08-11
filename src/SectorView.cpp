@@ -59,13 +59,13 @@ SectorView::SectorView() :
 	Add(m_infoBox, 5, 5);
 
 	Gui::VBox *systemBox = new Gui::VBox();
-	Gui::HBox *warpBox = new Gui::HBox();
-	warpBox->SetSpacing(5.0f);
+	Gui::HBox *hbox = new Gui::HBox();
+	hbox->SetSpacing(5.0f);
 	Gui::Button *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &SectorView::GotoCurrentSystem));
-	warpBox->PackEnd(b);
-	warpBox->PackEnd((new Gui::Label("Current system"))->Color(1.0f, 1.0f, 1.0f));
-	systemBox->PackEnd(warpBox);
+	hbox->PackEnd(b);
+	hbox->PackEnd((new Gui::Label("Current system"))->Color(1.0f, 1.0f, 1.0f));
+	systemBox->PackEnd(hbox);
 	m_currentSystemLabels.systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
 	m_currentSystemLabels.distance = 0;
 	m_currentSystemLabels.starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
@@ -76,37 +76,43 @@ SectorView::SectorView() :
 	m_infoBox->PackEnd(systemBox);
 
 	systemBox = new Gui::VBox();
-	warpBox = new Gui::HBox();
-	warpBox->SetSpacing(5.0f);
+	hbox = new Gui::HBox();
+	hbox->SetSpacing(5.0f);
 	b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &SectorView::GotoSelectedSystem));
-	warpBox->PackEnd(b);
-	warpBox->PackEnd((new Gui::Label("Selected system"))->Color(1.0f, 1.0f, 1.0f));
-	systemBox->PackEnd(warpBox);
+	hbox->PackEnd(b);
+	hbox->PackEnd((new Gui::Label("Selected system"))->Color(1.0f, 1.0f, 1.0f));
+	systemBox->PackEnd(hbox);
+	hbox = new Gui::HBox();
+	hbox->SetSpacing(5.0f);
 	m_selectedSystemLabels.systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
 	m_selectedSystemLabels.distance = (new Gui::Label(""))->Color(1.0f, 0.0f, 0.0f);
+	hbox->PackEnd(m_selectedSystemLabels.systemName);
+	hbox->PackEnd(m_selectedSystemLabels.distance);
+	systemBox->PackEnd(hbox);
 	m_selectedSystemLabels.starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
 	m_selectedSystemLabels.shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
-	systemBox->PackEnd(m_selectedSystemLabels.systemName);
-	systemBox->PackEnd(m_selectedSystemLabels.distance);
 	systemBox->PackEnd(m_selectedSystemLabels.starType);
 	systemBox->PackEnd(m_selectedSystemLabels.shortDesc);
 	m_infoBox->PackEnd(systemBox);
 
 	systemBox = new Gui::VBox();
-	warpBox = new Gui::HBox();
-	warpBox->SetSpacing(5.0f);
+	hbox = new Gui::HBox();
+	hbox->SetSpacing(5.0f);
 	b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &SectorView::GotoHyperspaceTarget));
-	warpBox->PackEnd(b);
-	warpBox->PackEnd((new Gui::Label("Hyperspace target"))->Color(1.0f, 1.0f, 1.0f));
-	systemBox->PackEnd(warpBox);
+	hbox->PackEnd(b);
+	hbox->PackEnd((new Gui::Label("Hyperspace target"))->Color(1.0f, 1.0f, 1.0f));
+	systemBox->PackEnd(hbox);
+	hbox = new Gui::HBox();
+	hbox->SetSpacing(5.0f);
 	m_targetSystemLabels.systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
 	m_targetSystemLabels.distance = (new Gui::Label(""))->Color(1.0f, 0.0f, 0.0f);
+	hbox->PackEnd(m_targetSystemLabels.systemName);
+	hbox->PackEnd(m_targetSystemLabels.distance);
+	systemBox->PackEnd(hbox);
 	m_targetSystemLabels.starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
 	m_targetSystemLabels.shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
-	systemBox->PackEnd(m_targetSystemLabels.systemName);
-	systemBox->PackEnd(m_targetSystemLabels.distance);
 	systemBox->PackEnd(m_targetSystemLabels.starType);
 	systemBox->PackEnd(m_targetSystemLabels.shortDesc);
 	m_infoBox->PackEnd(systemBox);
@@ -307,24 +313,19 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	
 		switch (jumpStatus) {
 			case Ship::HYPERJUMP_OK:
-				snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt | time loss: %.1fhrs)", dist, fuelRequired, dur*0.0002778);
+				snprintf(buf, sizeof(buf), "[ %.2f ly | %dt | %.1f hrs ]", dist, fuelRequired, dur*0.0002778);
 				labels.distance->Color(0.0f, 1.0f, 0.2f);
 				break;
-			case Ship::HYPERJUMP_CURRENT_SYSTEM:
-				snprintf(buf, sizeof(buf), "Current system");
-				labels.distance->Color(0.0f, 1.0f, 1.0f);
-				break;
 			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
-				snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
+				snprintf(buf, sizeof(buf), "[ %.2f ly | %dt ]", dist, fuelRequired);
 				labels.distance->Color(1.0f, 1.0f, 0.0f);
 				break;
 			case Ship::HYPERJUMP_OUT_OF_RANGE:
-				snprintf(buf, sizeof(buf), "Dist. %.2f light years (out of range)", dist);
+				snprintf(buf, sizeof(buf), "[ %.2f ly ]", dist);
 				labels.distance->Color(1.0f, 0.0f, 0.0f);
 				break;
-			case Ship::HYPERJUMP_NO_DRIVE:
-				snprintf(buf, sizeof(buf), "You cannot perform a hyperjump because you do not have a functioning hyperdrive");
-				labels.distance->Color(1.0f, 0.6f, 1.0f);
+			default:
+				buf[0] = '\0';
 				break;
 		}
 		labels.distance->SetText(buf);
