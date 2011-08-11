@@ -67,11 +67,10 @@ SectorView::SectorView() :
 	warpBox->PackEnd((new Gui::Label("Current system"))->Color(1.0f, 1.0f, 1.0f));
 	systemBox->PackEnd(warpBox);
 	m_currentSystemLabels.systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
-	m_currentSystemLabels.distance = (new Gui::Label(""))->Color(1.0f, 0.0f, 0.0f);
+	m_currentSystemLabels.distance = 0;
 	m_currentSystemLabels.starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
 	m_currentSystemLabels.shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
 	systemBox->PackEnd(m_currentSystemLabels.systemName);
-	systemBox->PackEnd(m_currentSystemLabels.distance);
 	systemBox->PackEnd(m_currentSystemLabels.starType);
 	systemBox->PackEnd(m_currentSystemLabels.shortDesc);
 	m_infoBox->PackEnd(systemBox);
@@ -298,34 +297,37 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
 	const float dist = Sector::DistanceBetween(sec, path.systemIndex, playerSec, m_current.systemIndex);
 
-	char buf[256];
-
-	int fuelRequired;
-	double dur;
-	enum Ship::HyperjumpStatus jumpStatus;
-	Pi::player->CanHyperspaceTo(&path, fuelRequired, dur, &jumpStatus);
-
-	switch (jumpStatus) {
-		case Ship::HYPERJUMP_OK:
-			snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt | time loss: %.1fhrs)", dist, fuelRequired, dur*0.0002778);
-			labels.distance->Color(0.0f, 1.0f, 0.2f);
-			break;
-		case Ship::HYPERJUMP_CURRENT_SYSTEM:
-			snprintf(buf, sizeof(buf), "Current system");
-			labels.distance->Color(0.0f, 1.0f, 1.0f);
-			break;
-		case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
-			snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
-			labels.distance->Color(1.0f, 1.0f, 0.0f);
-			break;
-		case Ship::HYPERJUMP_OUT_OF_RANGE:
-			snprintf(buf, sizeof(buf), "Dist. %.2f light years (out of range)", dist);
-			labels.distance->Color(1.0f, 0.0f, 0.0f);
-			break;
-		case Ship::HYPERJUMP_NO_DRIVE:
-			snprintf(buf, sizeof(buf), "You cannot perform a hyperjump because you do not have a functioning hyperdrive");
-			labels.distance->Color(1.0f, 0.6f, 1.0f);
-			break;
+    if (labels.distance) {
+		char buf[256];
+	
+		int fuelRequired;
+		double dur;
+		enum Ship::HyperjumpStatus jumpStatus;
+		Pi::player->CanHyperspaceTo(&path, fuelRequired, dur, &jumpStatus);
+	
+		switch (jumpStatus) {
+			case Ship::HYPERJUMP_OK:
+				snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt | time loss: %.1fhrs)", dist, fuelRequired, dur*0.0002778);
+				labels.distance->Color(0.0f, 1.0f, 0.2f);
+				break;
+			case Ship::HYPERJUMP_CURRENT_SYSTEM:
+				snprintf(buf, sizeof(buf), "Current system");
+				labels.distance->Color(0.0f, 1.0f, 1.0f);
+				break;
+			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
+				snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
+				labels.distance->Color(1.0f, 1.0f, 0.0f);
+				break;
+			case Ship::HYPERJUMP_OUT_OF_RANGE:
+				snprintf(buf, sizeof(buf), "Dist. %.2f light years (out of range)", dist);
+				labels.distance->Color(1.0f, 0.0f, 0.0f);
+				break;
+			case Ship::HYPERJUMP_NO_DRIVE:
+				snprintf(buf, sizeof(buf), "You cannot perform a hyperjump because you do not have a functioning hyperdrive");
+				labels.distance->Color(1.0f, 0.6f, 1.0f);
+				break;
+		}
+		labels.distance->SetText(buf);
 	}
 
 	StarSystem *sys = StarSystem::GetCached(path);
@@ -340,10 +342,9 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	} else {
 		desc = sys->rootBody->GetAstroDescription();
 	}
+	labels.starType->SetText(desc);
 
 	labels.systemName->SetText(sys->GetName());
-	labels.distance->SetText(buf);
-	labels.starType->SetText(desc);
 	labels.shortDesc->SetText(sys->GetShortDescription());
 
 	sys->Release();
