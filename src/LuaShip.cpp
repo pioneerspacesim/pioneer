@@ -618,7 +618,7 @@ static int l_ship_jettison(lua_State *l)
  *
  * Get the station that the ship is currently docked with
  *
- * > station = ship:GetDockedWidth()
+ * > station = ship:GetDockedWith()
  *
  * Return:
  *
