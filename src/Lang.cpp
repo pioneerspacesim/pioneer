@@ -185,14 +185,19 @@ bool LoadStrings(const std::string &lang)
 	f = fopen(filename.c_str(), "r");
 	if (!f) {
 		fprintf(stderr, "couldn't open string file '%s': %s\n", filename.c_str(), strerror(errno));
-		return false;
+		// we failed to open/find the language file, but we've already successfully
+		// read the default language above, so we still claim success here.
+		return true;
 	}
 
 	lineno = 0;
-	while (!feof(f)) {
+	while (1) {
 		bool success = _read_pair(f, filename, &lineno, &token_iter, &value);
 		if (!success)
 			return false;
+
+		if (!value)
+			break;
 
 		_copy_string(value, (*token_iter).second);
 		seen.insert(std::make_pair((*token_iter).first, true));
