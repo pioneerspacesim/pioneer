@@ -140,6 +140,7 @@ void SectorView::Save(Serializer::Writer &wr)
 	wr.Float(m_pos.z);
 	wr.Float(m_rotX);
 	wr.Float(m_rotZ);
+	wr.Bool(m_selectionFollowsMovement);
 }
 
 void SectorView::Load(Serializer::Reader &rd)
@@ -151,6 +152,7 @@ void SectorView::Load(Serializer::Reader &rd)
 	m_pos.z = m_posMovingTo.z = rd.Float();
 	m_rotX = m_rotXMovingTo = rd.Float();
 	m_rotZ = m_rotZMovingTo = rd.Float();
+	m_selectionFollowsMovement = rd.Bool();
 }
 
 void SectorView::OnSearchBoxValueChanged()
