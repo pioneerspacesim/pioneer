@@ -43,6 +43,8 @@ private:
 	
 	void DrawSector(int x, int y, int z, const vector3f &playerAbsPos);
 	void PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path);
+
+	void SetSelectedSystem(const SystemPath &path);
 	void OnClickSystem(const SystemPath &path);
 
 	void UpdateSystemLabels(SystemLabels &labels, const SystemPath &path);
@@ -68,6 +70,8 @@ private:
 
 	SystemPath m_hyperspaceTarget;
 	bool m_matchTargetToSelection;
+
+	bool m_selectionFollowsMovement;
 
 	Gui::Label *m_sectorLabel;
 	Gui::Label *m_distanceLabel;

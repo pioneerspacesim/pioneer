@@ -9,6 +9,7 @@
 #include "StarSystem.h"
 #include "GalacticView.h"
 #include "Lang.h"
+#include "ShipCpanel.h"
 
 #define INNER_RADIUS (Sector::SIZE*1.5f)
 #define OUTER_RADIUS (Sector::SIZE*3.0f)
@@ -16,6 +17,7 @@
 SectorView::SectorView() :
 	m_firstTime(true),
 	m_matchTargetToSelection(true),
+	m_selectionFollowsMovement(true),
 	m_infoBoxVisible(true)
 {
 	SetTransparency(true);
@@ -275,7 +277,7 @@ void SectorView::WarpToSystem(const SystemPath &path)
 	m_pos = m_posMovingTo;
 }
 
-void SectorView::OnClickSystem(const SystemPath &path)
+void SectorView::SetSelectedSystem(const SystemPath &path)
 {
     m_selected = path;
 
@@ -286,6 +288,14 @@ void SectorView::OnClickSystem(const SystemPath &path)
 	}
 
 	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
+}
+
+void SectorView::OnClickSystem(const SystemPath &path)
+{
+	if (m_selectionFollowsMovement)
+		GotoSystem(path);
+	else
+		SetSelectedSystem(path);
 }
 
 void SectorView::PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path)
@@ -562,6 +572,15 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 			m_infoBox->HideAll();
 	}
 
+	// toggle selection mode
+	if (keysym->sym == SDLK_RETURN) {
+		m_selectionFollowsMovement = !m_selectionFollowsMovement;
+		if (m_selectionFollowsMovement)
+			Pi::cpan->MsgLog()->Message("", "Enabled automatic system selection");
+		else
+			Pi::cpan->MsgLog()->Message("", "Disabled automatic system selection");
+	}
+
 	// fast move selection to current player system or hyperspace target
 	if (Pi::KeyState(SDLK_c) || Pi::KeyState(SDLK_h)) {
 		if (Pi::KeyState(SDLK_c))
@@ -635,6 +654,33 @@ void SectorView::Update()
 		float travelZ = diffZ * 10.0f*frameTime;
 		if (fabs(travelZ) > fabs(diffZ)) m_rotZ = m_rotZMovingTo;
 		else m_rotZ = m_rotZ + travelZ;
+	}
+
+	if (m_selectionFollowsMovement) {
+		SystemPath new_selected = SystemPath(int(floor(m_pos.x)), int(floor(m_pos.y)), int(floor(m_pos.z)), 0);
+
+		Sector* ps = GetCached(new_selected.sectorX, new_selected.sectorY, new_selected.sectorZ);
+		if (ps->m_systems.size()) {
+			float px = FFRAC(m_pos.x)*Sector::SIZE;
+			float py = FFRAC(m_pos.y)*Sector::SIZE;
+			float pz = FFRAC(m_pos.z)*Sector::SIZE;
+
+			float min_dist = FLT_MAX;
+			for (unsigned int i=0; i<ps->m_systems.size(); i++) {
+				Sector::System *ss = &ps->m_systems[i];
+				float dx = px - ss->p.x;
+				float dy = py - ss->p.y;
+				float dz = pz - ss->p.z;
+				float dist = sqrtf(dx*dx + dy*dy + dz*dz);
+				if (dist < min_dist) {
+					min_dist = dist;
+					new_selected.systemIndex = i;
+				}
+			}
+
+			if (m_selected != new_selected)
+				SetSelectedSystem(new_selected);
+		}
 	}
 
 	ShrinkCache();
