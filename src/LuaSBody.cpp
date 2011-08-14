@@ -129,7 +129,7 @@ static int l_sbody_attr_seed(lua_State *l)
  *
  * Availability:
  *
- *   future
+ *   alpha 14
  *
  * Status:
  *
