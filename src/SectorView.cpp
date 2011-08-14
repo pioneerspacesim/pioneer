@@ -213,21 +213,14 @@ void SectorView::Draw3D()
 	vector3f dv = vector3f(floorf(m_pos.x)-m_current.sectorX, floorf(m_pos.y)-m_current.sectorY, floorf(m_pos.z)-m_current.sectorZ) * Sector::SIZE;
 	m_distanceLabel->SetText(stringf(128, Lang::DISTANCE_LY, dv.Length()));
 
+	glDisable(GL_LIGHTING);
+
 	// units are lightyears, my friend
 	glTranslatef(0, 0, -10-10*m_zoom);
-	glDisable(GL_LIGHTING);
-	{
-		// draw a circle around the outer view radius	
-		glColor3f(0,0,1);
-		glBegin(GL_LINE_LOOP);
-		for (float theta=0; theta < 2*M_PI; theta += 0.05*M_PI) {
-			glVertex3f(OUTER_RADIUS*sin(theta), OUTER_RADIUS*cos(theta), 0);
-		}
-		glEnd();
-	}
 	glRotatef(m_rotX, 1, 0, 0);
 	glRotatef(m_rotZ, 0, 0, 1);
 	glTranslatef(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 	
