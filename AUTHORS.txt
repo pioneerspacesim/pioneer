@@ -16,6 +16,7 @@ Programming:
   Kimmo Kotajärvi
   Andrew Copland
   Paul Mahol
+  John Bartholomew
 
 Art:
   Gernot
