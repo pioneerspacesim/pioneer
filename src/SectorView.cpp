@@ -16,7 +16,6 @@
 		
 SectorView::SectorView() :
 	m_firstTime(true),
-	m_matchTargetToSelection(true),
 	m_selectionFollowsMovement(true),
 	m_infoBoxVisible(true)
 {
@@ -106,6 +105,8 @@ SectorView::SectorView() :
 	b->onClick.connect(sigc::mem_fun(this, &SectorView::GotoHyperspaceTarget));
 	hbox->PackEnd(b);
 	hbox->PackEnd((new Gui::Label("Hyperspace target"))->Color(1.0f, 1.0f, 1.0f));
+    m_hyperspaceLockLabel = (new Gui::Label(""))->Color(1.0f, 1.0f, 1.0f);
+    hbox->PackEnd(m_hyperspaceLockLabel);
 	systemBox->PackEnd(hbox);
 	hbox = new Gui::HBox();
 	hbox->SetSpacing(5.0f);
@@ -122,6 +123,8 @@ SectorView::SectorView() :
 
 	m_onMouseButtonDown = 
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SectorView::MouseButtonDown));
+	
+	FloatHyperspaceTarget();
 }
 
 SectorView::~SectorView()
@@ -245,18 +248,21 @@ void SectorView::SetHyperspaceTarget(const SystemPath &path)
 	onHyperspaceTargetChanged.emit();
 
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
+
+	m_hyperspaceLockLabel->SetText("[locked]");
 }
 
 void SectorView::FloatHyperspaceTarget()
 {
 	m_matchTargetToSelection = true;
+	m_hyperspaceLockLabel->SetText("[following selection]");
 }
 
 void SectorView::ResetHyperspaceTarget()
 {
 	SystemPath old = m_hyperspaceTarget;
 	m_hyperspaceTarget = m_selected;
-	m_matchTargetToSelection = true;
+	FloatHyperspaceTarget();
 
 	if (old != m_hyperspaceTarget) {
 		onHyperspaceTargetChanged.emit();

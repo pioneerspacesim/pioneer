@@ -90,6 +90,8 @@ private:
 	SystemLabels m_selectedSystemLabels;
 	SystemLabels m_targetSystemLabels;
 
+	Gui::Label *m_hyperspaceLockLabel;
+
 	sigc::connection m_onMouseButtonDown;
 	sigc::connection m_onKeyPressConnection;
 
