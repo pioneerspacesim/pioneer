@@ -138,7 +138,7 @@ static int l_sbody_attr_seed(lua_State *l)
 static int l_sbody_attr_parent(lua_State *l)
 {
 	SBody *sbody = LuaSBody::GetFromLua(1);
-	LuaSBody::PushToLua(sbody);
+	LuaSBody::PushToLua(sbody->parent);
 	return 1;
 }
 
