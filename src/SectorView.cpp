@@ -137,25 +137,39 @@ SectorView::~SectorView()
 void SectorView::Save(Serializer::Writer &wr)
 {
 	wr.Float(m_zoom);
+	m_current.Serialize(wr);
 	m_selected.Serialize(wr);
+	m_hyperspaceTarget.Serialize(wr);
 	wr.Float(m_pos.x);
 	wr.Float(m_pos.y);
 	wr.Float(m_pos.z);
 	wr.Float(m_rotX);
 	wr.Float(m_rotZ);
+	wr.Bool(m_matchTargetToSelection);
 	wr.Bool(m_selectionFollowsMovement);
 }
 
 void SectorView::Load(Serializer::Reader &rd)
 {
 	m_zoom = rd.Float();
+	m_current = SystemPath::Unserialize(rd);
 	m_selected = SystemPath::Unserialize(rd);
+	m_hyperspaceTarget = SystemPath::Unserialize(rd);
 	m_pos.x = m_posMovingTo.x = rd.Float();
 	m_pos.y = m_posMovingTo.y = rd.Float();
 	m_pos.z = m_posMovingTo.z = rd.Float();
 	m_rotX = m_rotXMovingTo = rd.Float();
 	m_rotZ = m_rotZMovingTo = rd.Float();
+	m_matchTargetToSelection = rd.Bool();
 	m_selectionFollowsMovement = rd.Bool();
+
+	UpdateSystemLabels(m_currentSystemLabels, m_current);
+	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
+	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
+
+	m_hyperspaceLockLabel->SetText(m_matchTargetToSelection ? "[following selection]" : "[locked]");
+
+	m_firstTime = false;
 }
 
 void SectorView::OnSearchBoxValueChanged()
