@@ -651,15 +651,20 @@ void SectorView::Update()
 	if (m_zoomOutButton->IsPressed()) m_zoom *= pow(2.0f, frameTime);
 	m_zoom = Clamp(m_zoom, 0.1f, 5.0f);
 	
+	if (Pi::KeyState(SDLK_a) || Pi::KeyState(SDLK_d))
+		m_rotZMovingTo += (Pi::KeyState(SDLK_a) ? -0.5f : 0.5f) * moveSpeed;
+	if (Pi::KeyState(SDLK_w) || Pi::KeyState(SDLK_s))
+		m_rotXMovingTo += (Pi::KeyState(SDLK_w) ? -0.5f : 0.5f) * moveSpeed;
+
 	if (Pi::MouseButtonState(3)) {
 		int motion[2];
 		Pi::GetMouseMotion(motion);
 
 		m_rotXMovingTo += 0.2f*float(motion[1]);
-		m_rotXMovingTo = Clamp(m_rotXMovingTo, -170.0f, -10.0f);
-
 		m_rotZMovingTo += 0.2f*float(motion[0]);
 	}
+
+	m_rotXMovingTo = Clamp(m_rotXMovingTo, -170.0f, -10.0f);
 
 	{
 		vector3f diffPos = m_posMovingTo - m_pos;
