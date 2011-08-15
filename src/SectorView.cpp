@@ -433,7 +433,10 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
 
+		// don't worry about looking for inhabited systems if they're
+		// unexplored (same calculation as in StarSystem.cpp)
 		if (isqrt(1 + sx*sx + sy*sy + sz*sz) <= 90) {
+
 			// only do this once we've pretty much stopped moving.
 			vector3f diff = vector3f(
 					fabs(m_posMovingTo.x - m_pos.x),
