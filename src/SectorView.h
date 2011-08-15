@@ -63,6 +63,8 @@ private:
 	vector3f m_pos;
 	vector3f m_posMovingTo;
 
+	float m_rotXDefault, m_rotZDefault, m_zoomDefault;
+
 	float m_rotX, m_rotZ;
 	float m_rotXMovingTo, m_rotZMovingTo;
 

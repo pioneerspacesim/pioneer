@@ -20,10 +20,17 @@ SectorView::SectorView() :
 	m_infoBoxVisible(true)
 {
 	SetTransparency(true);
+
+	m_rotXDefault = Pi::config.Float("SectorViewXRotation");
+	m_rotZDefault = Pi::config.Float("SectorViewZRotation");
+	m_zoomDefault = Pi::config.Float("SectorViewZoom");
+	m_rotXDefault = Clamp(m_rotXDefault, -170.0f, -10.0f);
+	m_zoomDefault = Clamp(m_zoomDefault, 0.1f, 5.0f);
+
 	m_pos = m_posMovingTo = vector3f(0.0f);
-	m_rotX = m_rotXMovingTo = -10.0f;
-	m_rotZ = m_rotZMovingTo = 0;
-	m_zoom = m_zoomMovingTo = 2.0f;
+	m_rotX = m_rotXMovingTo = m_rotXDefault;
+	m_rotZ = m_rotZMovingTo = m_rotZDefault;
+	m_zoom = m_zoomMovingTo = m_zoomDefault;
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_clickableLabels = new Gui::LabelSet();
@@ -615,9 +622,9 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 	if (Pi::KeyState(SDLK_r)) {
 		while (m_rotZ < -180.0f) m_rotZ += 360.0f;
 		while (m_rotZ > 180.0f)  m_rotZ -= 360.0f;
-		m_rotXMovingTo = -10.0f;
-		m_rotZMovingTo = 0;
-		m_zoomMovingTo = 2.0f;
+		m_rotXMovingTo = m_rotXDefault;
+		m_rotZMovingTo = m_rotZDefault;
+		m_zoomMovingTo = m_zoomDefault;
 	}
 }
 
