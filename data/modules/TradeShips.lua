@@ -166,8 +166,8 @@ local cleanTradeShipsTable = function ()
 		if label ~= 'attacker' and label ~= 'interval' then
 			total = total + 1
 			if trader.status == 'hyperspace' then
-				-- remove past due ships as the player can not catch them
-				if trader.arrival < Game.time then
+				-- remove well past due ships as the player can not catch them
+				if trader.arrival + 86400 < Game.time then
 					trade_ships[label] = nil
 					removed = removed + 1
 				end
