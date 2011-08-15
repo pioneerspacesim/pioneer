@@ -232,7 +232,7 @@ local onEnterSystem = function (ship)
 
 	-- nothing else to stop us from trading, set up housekeeping
 	stop_clean = false
-	Timer:CallEvery(43200, cleanTradeShipsTable) -- 12 hours
+	Timer:CallEvery(86400, cleanTradeShipsTable) -- 12 hours
 
 	-- determine how many trade ships to spawn
 	local lawlessness = Game.system.lawlessness
