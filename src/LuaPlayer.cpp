@@ -372,11 +372,13 @@ static int l_player_add_money(lua_State *l)
  *
  * Add a crime to the player's criminal record
  *
- * > player:AddCrime(crime)
+ * > player:AddCrime(crime, fine)
  *
  * Parameters:
  *
  *   crime - a <Constants.PolitCrime> string describing the crime
+ *
+ *   fine - an amount to add to the player's fine
  *
  * Availability:
  *
