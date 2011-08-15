@@ -51,7 +51,7 @@ SectorView::SectorView() :
 
 	m_gluDiskDlist = glGenLists(1);
 	glNewList(m_gluDiskDlist, GL_COMPILE);
-	gluDisk(Pi::gluQuadric, 0.0, 0.2, 20, 1);
+	gluDisk(Pi::gluQuadric, 0.0, 0.2, 40, 1);
 	glEndList();
 	
 	m_infoBox = new Gui::VBox();
