@@ -226,16 +226,18 @@ local onEnterSystem = function (ship)
 	local import_score, export_score = 0, 0
 	imports, exports = {}, {}
 	for k,v in pairs(prices) do
-		if		v > 10	then
-			import_score = import_score + 2
-		elseif	v > 2	then
-			import_score = import_score + 1
-			table.insert(imports, k)
-		elseif	v < -10	then
-			export_score = export_score + 2
-		elseif	v < -2	then
-			export_score = export_score + 1
-			table.insert(exports, k)
+		if Game.system:IsCommodityLegal(k) then
+			if		v > 10	then
+				import_score = import_score + 2
+			elseif	v > 2	then
+				import_score = import_score + 1
+				table.insert(imports, k)
+			elseif	v < -10	then
+				export_score = export_score + 2
+			elseif	v < -2	then
+				export_score = export_score + 1
+				table.insert(exports, k)
+			end
 		end
 	end
 	-- if there is no market then there is no trade
