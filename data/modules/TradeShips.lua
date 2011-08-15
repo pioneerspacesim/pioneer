@@ -394,6 +394,9 @@ local onFrameChanged = function (ship)
 	if trader.status == 'outbound' then
 		ship:CancelAI()
 		getSystemAndJump(ship)
+	elseif trader.status == 'inbound' then
+		-- no need to cancel, issuing a new order does that 
+		ship:AIDockWith(trader.starport)
 	end
 end
 EventQueue.onFrameChanged:Connect(onFrameChanged)
