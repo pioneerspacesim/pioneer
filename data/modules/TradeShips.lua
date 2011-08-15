@@ -137,6 +137,27 @@ local getSystemAndJump = function (ship)
 	return jumpToSystem(ship, getSystem(ship))
 end
 
+local spawnReplacement = function ()
+	if #starports > 0 and Game.system.population > 0 and #imports > 0 and #exports > 0 then
+		local ship_names = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= 100 end)
+		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
+		local arrival = Game.time + Engine.rand:Number(trade_ships.interval, trade_ships.interval * 2)
+		local local_systems = Game.system:GetNearbySystems(20)
+		local from_system = local_systems[Engine.rand:Integer(1, #local_systems)]
+		local ship = Space.SpawnShip(ship_name, 9, 11, {from_system.path, arrival})
+		trade_ships[ship.label] = {
+			status			= 'hyperspace',
+			arrival			= arrival,
+			arrival_system	= Game.system,
+			from_system		= from_system.path,
+			ship_name		= ship_name,
+			cargo 			= imports[Engine.rand:Integer(1, #imports)],
+		}
+		addShipContents(ship)
+		ship:RemoveEquip(trade_ships[ship.label]['cargo'], 8)
+	end
+end
+
 local updateTradeShipsTable = function ()
 	local total, removed = 0, 0
 	for label, trader in pairs(trade_ships) do
@@ -366,24 +387,7 @@ local onLeaveSystem = function (ship)
 	elseif trade_ships[ship.label] ~= nil then
 		print(ship.label .. ' left ' .. Game.system.name)
 		-- spawn new ship in hyperspace
-		if #starports > 0 and Game.system.population > 0 and #imports > 0 and #exports > 0 then
-			local ship_names = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= 100 end)
-			local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
-			local arrival = Game.time + Engine.rand:Number(trade_ships.interval, trade_ships.interval * 2)
-			local local_systems = Game.system:GetNearbySystems(20)
-			local from_system = local_systems[Engine.rand:Integer(1, #local_systems)]
-			ship = Space.SpawnShip(ship_name, 9, 11, {from_system.path, arrival})
-			trade_ships[ship.label] = {
-				status			= 'hyperspace',
-				arrival			= arrival,
-				arrival_system	= Game.system,
-				from_system		= from_system.path,
-				ship_name		= ship_name,
-				cargo 			= imports[Engine.rand:Integer(1, #imports)],
-			}
-			addShipContents(ship)
-			ship:RemoveEquip(trade_ships[ship.label]['cargo'], 8)
-		end
+		spawnReplacement()
 	end
 end
 EventQueue.onLeaveSystem:Connect(onLeaveSystem)
@@ -616,6 +620,8 @@ local onShipDestroyed = function (ship)
 	if trade_ships[ship.label] ~= nil then
 		trade_ships[ship.label] = nil
 		print(ship.label .. ' destroyed')
+		-- spawn new ship in hyperspace
+		spawnReplacement()
 	end
 end
 EventQueue.onShipDestroyed:Connect(onShipDestroyed)
