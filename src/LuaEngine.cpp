@@ -3,6 +3,7 @@
 #include "LuaUtils.h"
 #include "LuaRand.h"
 #include "Pi.h"
+#include "utils.h"
 
 /*
  * Interface: Engine
@@ -33,6 +34,25 @@ static int l_engine_meta_index(lua_State *l)
 	 */
 	if (strcmp(key, "rand") == 0) {
 		LuaRand::PushToLua(&Pi::rng);
+		return 1;
+	}
+
+	/*
+	 * Attribute: userdir
+	 *
+	 * The Pioneer configuration directory (should be writable).
+	 *
+	 * Availability:
+	 *
+	 *   future
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 */
+	if (strcmp(key, "userdir") == 0) {
+		const std::string& userdir = GetPiUserDir();
+		lua_pushlstring(l, userdir.c_str(), userdir.size());
 		return 1;
 	}
 

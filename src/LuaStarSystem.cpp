@@ -262,7 +262,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 				if (filter) {
 					lua_pushvalue(l, 3);
 					LuaStarSystem::PushToLua(sys);
-					lua_call(l, 1, 1);
+					pi_lua_protected_call(l, 1, 1);
 					if (!lua_toboolean(l, -1)) {
 						lua_pop(l, 1);
 						sys->Release();

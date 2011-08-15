@@ -50,6 +50,21 @@ int pi_lua_panic(lua_State *L)
 	return 0;
 }
 
+void pi_lua_protected_call(lua_State* L, int nargs, int nresults) {
+	int handleridx = lua_gettop(L) - nargs;
+	lua_getfield(L, LUA_REGISTRYINDEX, "PiDebug");
+	lua_getfield(L, -1, "error_handler");
+	lua_insert(L, handleridx);
+	lua_pop(L, 1); // pop PiDebug table
+	int ret = lua_pcall(L, nargs, nresults, handleridx);
+	lua_remove(L, handleridx); // pop error_handler
+	if (ret) {
+		std::string errorMsg = lua_tostring(L, -1);
+		lua_pop(L, 1);
+		Error("%s", errorMsg.c_str());
+	}
+}
+
 void pi_lua_dofile_recursive(lua_State *l, std::string basepath)
 {
 	DIR *dir;
