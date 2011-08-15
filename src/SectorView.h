@@ -96,6 +96,8 @@ private:
 	sigc::connection m_onKeyPressConnection;
 
 	std::map<SystemPath,Sector*> m_sectorCache;
+
+	float m_playerHyperspaceRange;
 };
 
 #endif /* _SECTORVIEW_H */

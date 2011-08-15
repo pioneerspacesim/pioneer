@@ -56,7 +56,7 @@ SectorView::SectorView() :
 	
 	m_infoBox = new Gui::VBox();
 	m_infoBox->SetTransparency(false);
-	m_infoBox->SetBgColor(1.0f, 1.0f, 1.0f, 0.05f);
+	m_infoBox->SetBgColor(0.0f, 0.0f, 0.0f, 0.8f);
 	m_infoBox->SetSpacing(5.0f);
 	Add(m_infoBox, 5, 5);
 
@@ -241,25 +241,6 @@ void SectorView::Draw3D()
 				DrawSector(int(floorf(m_pos.x))+sx, int(floorf(m_pos.y))+sy, int(floorf(m_pos.z))+sz, playerPos);
 				glPopMatrix();
 			}
-		}
-	}
-
-	{
-		float range = Pi::player->CalcStats()->hyperspace_range;
-		float sector_range = roundf(range / Sector::SIZE);
-
-		vector3f dv(floorf(m_pos.x)-m_current.sectorX, floorf(m_pos.y)-m_current.sectorY, floorf(m_pos.z)-m_current.sectorZ);
-		float diff = dv.Length()-sector_range;
-		if (diff < DRAW_RAD) {
-			glPushMatrix();
-			const vector3f &p = playerSec->m_systems[m_current.systemIndex].p;
-			glTranslatef(-dv.x*Sector::SIZE+p.x, -dv.y*Sector::SIZE+p.y, -dv.z*Sector::SIZE+p.z);
-			glRotatef(-m_rotZ, 0, 0, 1);
-			glRotatef(-m_rotX, 1, 0, 0);
-			glScalef(range*5, range*5, range*5);
-			glColor4f(0.0f, 0.0f, 1.0f, 0.1f);
-			glCallList(m_gluDiskDlist);
-			glPopMatrix();
 		}
 	}
 
@@ -449,7 +430,6 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		const vector3f sysAbsPos = Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + (*i).p;
 		const vector3f toPlayer = playerAbsPos - sysAbsPos;
 		const vector3f toCentreOfView = m_pos*Sector::SIZE - sysAbsPos;
-		const float distanceFade = (OUTER_RADIUS - Clamp(toCentreOfView.Length()-0.5f*INNER_RADIUS, 0.0f, OUTER_RADIUS)) / OUTER_RADIUS;
 
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
 
@@ -489,7 +469,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				glVertex3f(0, 0, 0);
 			glEnd();
 		} else {
-			glColor4f(distanceFade, distanceFade, distanceFade, 0.2f);
+			glColor4f(0.5f, 0.5f, 0.5f, 0.2f);
 			glBegin(GL_LINES);
 				float z = -(*i).p.z;
 				if (sz <= cz)
@@ -552,13 +532,18 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		}
 		glDepthRange(0,1);
 		glPopMatrix();
-		Color labelColor(0.5f,0.5f,0.5f,0.75f);
+
+		Color labelColor(0.8f,0.8f,0.8f,0.5f);
 		if ((*i).IsSetInhabited() && (*i).IsInhabited()) {
+			labelColor.r = 0.5;
 			labelColor.b = labelColor.g = 1.0f;
 		}
-		labelColor *= distanceFade;
 
-		PutClickableLabel((*i).name, labelColor, SystemPath(sx, sy, sz, num));
+		float dist = Sector::DistanceBetween( ps, num, GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ), m_current.systemIndex);
+		if (dist <= m_playerHyperspaceRange)
+			labelColor.a = 1.0f;
+
+		PutClickableLabel((*i).name, labelColor, current);
 		glDisable(GL_LIGHTING);
 
 		glPopMatrix();
@@ -725,6 +710,8 @@ void SectorView::Update()
 	}
 
 	ShrinkCache();
+
+	m_playerHyperspaceRange = Pi::player->CalcStats()->hyperspace_range;
 }
 
 void SectorView::MouseButtonDown(int button, int x, int y)
