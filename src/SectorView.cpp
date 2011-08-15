@@ -241,6 +241,25 @@ void SectorView::Draw3D()
 		}
 	}
 
+	{
+		float range = Pi::player->CalcStats()->hyperspace_range;
+		float sector_range = roundf(range / Sector::SIZE);
+
+		vector3f dv(floorf(m_pos.x)-m_current.sectorX, floorf(m_pos.y)-m_current.sectorY, floorf(m_pos.z)-m_current.sectorZ);
+		float diff = dv.Length()-sector_range;
+		if (diff < DRAW_RAD) {
+			glPushMatrix();
+			const vector3f &p = playerSec->m_systems[m_current.systemIndex].p;
+			glTranslatef(-dv.x*Sector::SIZE+p.x, -dv.y*Sector::SIZE+p.y, -dv.z*Sector::SIZE+p.z);
+			glRotatef(-m_rotZ, 0, 0, 1);
+			glRotatef(-m_rotX, 1, 0, 0);
+			glScalef(range*5, range*5, range*5);
+			glColor4f(0.0f, 0.0f, 1.0f, 0.1f);
+			glCallList(m_gluDiskDlist);
+			glPopMatrix();
+		}
+	}
+
 	glDisable(GL_BLEND);
 	glEnable(GL_LIGHTING);
 }
