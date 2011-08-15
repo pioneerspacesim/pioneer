@@ -555,7 +555,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 
 void SectorView::OnSwitchTo() {
 	if (m_firstTime) {
-		SystemPath m_current = Pi::currentSystem->GetPath();
+		m_current = Pi::currentSystem->GetPath();
 
 		UpdateSystemLabels(m_currentSystemLabels, m_current);
 
