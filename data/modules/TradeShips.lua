@@ -391,6 +391,7 @@ local onFrameChanged = function (ship)
 	local trader = trade_ships[ship.label]
 	if trader.status == 'outbound' then
 		getSystemAndJump(ship)
+		ship:CancelAI()
 	end
 end
 EventQueue.onFrameChanged:Connect(onFrameChanged)
