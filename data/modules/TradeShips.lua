@@ -47,28 +47,18 @@ local addShipContents = function (ship)
 	return added
 end
 
-local getStarport = function (ship, which)
-	-- XXX not currently used
-	-- getStarport() for random
-	-- getStarport(ship, 'nearest') for nearest
+local getNearestStarport = function (ship)
 	if #starports == 0 then return nil end
 	if #starports == 1 then return starports[1] end
 
-	local starport = nil
-	if which == 'nearest' then
-		starport = starports[1]
-		local distance = ship:DistanceTo(starport)
-		for _, next_starport in ipairs(starports) do
-			local next_distance = ship:DistanceTo(next_starport)
-			if next_distance < distance then
-				starport, distance = next_starport, next_distance
-			end
+	local starport = starports[1]
+	local distance = ship:DistanceTo(starport)
+	for _, next_starport in ipairs(starports) do
+		local next_distance = ship:DistanceTo(next_starport)
+		if next_distance < distance then
+			starport, distance = next_starport, next_distance
 		end
-	else
-		starport = starports[Engine.rand:Integer(1, #starports)]
 	end
-
-	assert(starport ~= nil, 'getStarport:starport is nil')
 
 	return starport
 end
@@ -212,7 +202,7 @@ local onEnterSystem = function (ship)
 				-- if we couldn't reach any systems we're fucked
 				-- wait for player to attack and let onShipHit take over
 			else
-				local starport = starports[Engine.rand:Integer(1, #starports)]
+				local starport = getNearestStarport(ship)
 				ship:AIDockWith(starport)
 				trade_ships[ship.label]['status'] = 'inbound'
 				trade_ships[ship.label]['starport'] = starport
@@ -310,7 +300,7 @@ local onEnterSystem = function (ship)
 			ship = Space.SpawnShip(ship_name, min_distance, max_distance)
 			trade_ships[ship.label] = {
 				status		= 'inbound',
-				starport	= starports[Engine.rand:Integer(1, #starports)],
+				starport	= getNearestStarport(ship),
 				ship_name	= ship_name,
 				cargo 		= imports[Engine.rand:Integer(1, #imports)],
 			}
