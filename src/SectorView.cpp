@@ -646,10 +646,10 @@ void SectorView::Update()
 	if (Pi::KeyState(SDLK_PAGEUP) || Pi::KeyState(SDLK_PAGEDOWN))
 		m_posMovingTo += vector3f(0,0, Pi::KeyState(SDLK_PAGEUP) ? -move : move) * rot;
 
-	if (Pi::KeyState(SDLK_EQUALS)) m_zoomMovingTo += move;
-	if (Pi::KeyState(SDLK_MINUS)) m_zoomMovingTo -= move;
-	if (m_zoomInButton->IsPressed()) m_zoomMovingTo += move;
-	if (m_zoomOutButton->IsPressed()) m_zoomMovingTo -= move;
+	if (Pi::KeyState(SDLK_EQUALS)) m_zoomMovingTo -= move;
+	if (Pi::KeyState(SDLK_MINUS)) m_zoomMovingTo += move;
+	if (m_zoomInButton->IsPressed()) m_zoomMovingTo -= move;
+	if (m_zoomOutButton->IsPressed()) m_zoomMovingTo += move;
 	m_zoomMovingTo = Clamp(m_zoomMovingTo, 0.1f, 5.0f);
 	
 	if (Pi::KeyState(SDLK_a) || Pi::KeyState(SDLK_d))
