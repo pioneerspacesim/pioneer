@@ -606,19 +606,18 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 	}
 
 	// fast move selection to current player system or hyperspace target
-	if (Pi::KeyState(SDLK_c) || Pi::KeyState(SDLK_h)) {
-		if (Pi::KeyState(SDLK_c))
-			GotoSystem(m_current);
-		else
-			GotoSystem(m_hyperspaceTarget);
+	if (Pi::KeyState(SDLK_c))
+		GotoSystem(m_current);
+	else if (Pi::KeyState(SDLK_h))
+		GotoSystem(m_hyperspaceTarget);
 
-		if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
-			while (m_rotZ < -180.0f) m_rotZ += 360.0f;
-			while (m_rotZ > 180.0f)  m_rotZ -= 360.0f;
-			m_rotXMovingTo = -10.0f;
-			m_rotZMovingTo = 0;
-			m_zoomMovingTo = 2.0f;
-		}
+	// reset rotation and zoom
+	if (Pi::KeyState(SDLK_r)) {
+		while (m_rotZ < -180.0f) m_rotZ += 360.0f;
+		while (m_rotZ > 180.0f)  m_rotZ -= 360.0f;
+		m_rotXMovingTo = -10.0f;
+		m_rotZMovingTo = 0;
+		m_zoomMovingTo = 2.0f;
 	}
 }
 
