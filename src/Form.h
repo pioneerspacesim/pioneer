@@ -14,6 +14,8 @@ public:
 	virtual const std::string &GetTitle() const { return m_title; }
 	void SetTitle(const std::string &title) { m_title = title; }
 
+	virtual void OnClose() { }
+
 protected:
 	Form(FormController *controller, float w, float h) : Gui::Fixed(w, h), m_formController(controller) {}
 	virtual ~Form() {}
