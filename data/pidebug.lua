@@ -27,40 +27,69 @@ local function functionEntryString(func)
 	return string.format('%s function%s%s', info.what, fname, floc)
 end
 
-local function parseableValue(value, onlyReadable)
-	local ty = type(value)
+--[==[
+test_table = { [1] = 'hello', [2] = 'world', [3] = { 'one', 'two', 'three' } }
+test_table.loop = test_table[3]
+test_table.func = function (answer)
+	print(string.format('And the winner is... %d!', answer))
+end
+--]==]
 
-	if ty == 'string' then
-		return string.format('%q', value)
-	elseif ty == 'table' then
-		local entries = {}
-		-- FIXME: detect and break cycles
-		for k,v in pairs(value) do
-			entries[#entries + 1] =
-				string.format('[%s] = %s',
-					parseableValue(k, onlyReadable),
-					parseableValue(v, onlyReadable))
-		end
-		return '{ ' .. table.concat(entries, ', ') .. ' }'
-	elseif ty == 'function' then
-		local finfo = debug.getinfo(value, 'u')
-		if onlyReadable or finfo.nups ~= 0 then
-			return string.format('%q', functionEntryString(value))
-		else
-			return string.format('loadstring(%q)', string.dump(value))
-		end
-	elseif ty == 'thread' then
-		-- might be able to give more info than this with debug.getinfo()
-		-- to find out the current stack state of the thread
-		return string.format('%q', '<' .. tostring(value) .. '>')
-	elseif ty == 'userdata' then
-		-- this is slightly dangerous: tostring() can fall into a
-		-- metamethod which might not be valid during debug
-		return string.format('%q', tostring(value))
-	else
-		-- tostring() does the right thing for number, boolean and nil
-		return tostring(value)
+local function parseableValue(value, onlyReadable, pretty)
+	local seenTables = {}
+	if type(onlyReadable) ~= 'boolean' then
+		onlyReadable = true
 	end
+	if type(pretty) ~= 'boolean' then
+		pretty = false
+	end
+	local function buildValue(value, onlyReadable, pretty, indent)
+		local ty = type(value)
+		local indentStr = pretty and string.rep('  ', indent) or ''
+
+		if ty == 'string' then
+			return string.format('%q', value)
+		elseif ty == 'table' then
+			local entries = {}
+			-- break cycles in tables...
+			if seenTables[value] then
+				return '"<repeated table...>"'
+			else
+				seenTables[value] = true
+				for k,v in pairs(value) do
+					entries[#entries + 1] =
+						string.format('%s[%s] = %s',
+							indentStr,
+							buildValue(k, onlyReadable, false, 0),
+							buildValue(v, onlyReadable, pretty, indent+1))
+				end
+				if pretty then
+					return '{\n' .. table.concat(entries, ',\n') .. '\n' .. string.rep('  ', indent-1) .. '}'
+				else
+					return '{ ' .. table.concat(entries, ', ') .. ' }'
+				end
+			end
+		elseif ty == 'function' then
+			local finfo = debug.getinfo(value, 'u')
+			if onlyReadable or finfo.nups ~= 0 then
+				return string.format('%q', functionEntryString(value))
+			else
+				return string.format('loadstring(%q)', string.dump(value))
+			end
+		elseif ty == 'thread' then
+			-- might be able to give more info than this with debug.getinfo()
+			-- to find out the current stack state of the thread
+			return string.format('%q', '<' .. tostring(value) .. '>')
+		elseif ty == 'userdata' then
+			-- this is slightly dangerous: tostring() can fall into a
+			-- metamethod which might not be valid during debug
+			return string.format('%q', tostring(value))
+		else
+			-- tostring() does the right thing for number, boolean and nil
+			return tostring(value)
+		end
+	end
+	return buildValue(value, onlyReadable, pretty, 1)
 end
 
 local function valueToString(value)
@@ -76,6 +105,10 @@ local function valueToString(value)
 	else
 		return tostring(value)
 	end
+end
+
+local function dumpEnv(env)
+	return parseableValue(env, true, true)
 end
 
 local function dumpStack(top_level)
@@ -106,6 +139,7 @@ local function dumpStack(top_level)
 			end
 		end
 
+		-- print up-values
 		if finfo.nups > 0 then
 			local func = finfo.func
 
@@ -118,6 +152,12 @@ local function dumpStack(top_level)
 				varidx = varidx + 1
 				varname, varval = debug.getupvalue(func, varidx)
 			end
+		end
+
+		local fenv = debug.getfenv(finfo.func)
+		if fenv ~= _G then
+			lines[#lines + 1] = 'Environment (' .. tostring(fenv) .. '):'
+			lines[#lines + 1] = dumpEnv(fenv)
 		end
 
 		level = level + 1
@@ -136,6 +176,9 @@ return {
 			fl:write('\n\n')
 			fl:write('### STACK TRACE\n')
 			fl:write(dumpStack(2)) -- dump from level 2 (0 is dumpStack, 1 is error_handler)
+			fl:write('\n\n')
+			fl:write('### GLOBALS\n')
+			fl:write(dumpEnv(_G))
 			fl:write('\n\n')
 			fl:close()
 			return (trace)
