@@ -23,7 +23,7 @@ SectorView::SectorView() :
 	m_pos = m_posMovingTo = vector3f(0.0f);
 	m_rotX = m_rotXMovingTo = -10.0f;
 	m_rotZ = m_rotZMovingTo = 0;
-	m_zoom = 2.0f;
+	m_zoom = m_zoomMovingTo = 2.0f;
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_clickableLabels = new Gui::LabelSet();
@@ -151,7 +151,7 @@ void SectorView::Save(Serializer::Writer &wr)
 
 void SectorView::Load(Serializer::Reader &rd)
 {
-	m_zoom = rd.Float();
+	m_zoom = m_zoomMovingTo = rd.Float();
 	m_current = SystemPath::Unserialize(rd);
 	m_selected = SystemPath::Unserialize(rd);
 	m_hyperspaceTarget = SystemPath::Unserialize(rd);
@@ -617,7 +617,7 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 			while (m_rotZ > 180.0f)  m_rotZ -= 360.0f;
 			m_rotXMovingTo = -10.0f;
 			m_rotZMovingTo = 0;
-			m_zoom = 2.0f;
+			m_zoomMovingTo = 2.0f;
 		}
 	}
 }
@@ -647,11 +647,11 @@ void SectorView::Update()
 	if (Pi::KeyState(SDLK_PAGEUP) || Pi::KeyState(SDLK_PAGEDOWN))
 		m_posMovingTo += vector3f(0,0, Pi::KeyState(SDLK_PAGEUP) ? -move : move) * rot;
 
-	if (Pi::KeyState(SDLK_EQUALS)) m_zoom *= pow(0.5f, frameTime);
-	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(2.0f, frameTime);
-	if (m_zoomInButton->IsPressed()) m_zoom *= pow(0.5f, frameTime);
-	if (m_zoomOutButton->IsPressed()) m_zoom *= pow(2.0f, frameTime);
-	m_zoom = Clamp(m_zoom, 0.1f, 5.0f);
+	if (Pi::KeyState(SDLK_EQUALS)) m_zoomMovingTo *= pow(0.5f, frameTime);
+	if (Pi::KeyState(SDLK_MINUS)) m_zoomMovingTo *= pow(2.0f, frameTime);
+	if (m_zoomInButton->IsPressed()) m_zoomMovingTo *= pow(0.5f, frameTime);
+	if (m_zoomOutButton->IsPressed()) m_zoomMovingTo *= pow(2.0f, frameTime);
+	m_zoomMovingTo = Clamp(m_zoomMovingTo, 0.1f, 5.0f);
 	
 	if (Pi::KeyState(SDLK_a) || Pi::KeyState(SDLK_d))
 		m_rotZMovingTo += (Pi::KeyState(SDLK_a) ? -0.5f : 0.5f) * moveSpeed;
@@ -683,6 +683,11 @@ void SectorView::Update()
 		float travelZ = diffZ * 10.0f*frameTime;
 		if (fabs(travelZ) > fabs(diffZ)) m_rotZ = m_rotZMovingTo;
 		else m_rotZ = m_rotZ + travelZ;
+
+		float diffZoom = m_zoomMovingTo - m_zoom;
+		float travelZoom = diffZoom * 10.0f*frameTime;
+		if (fabs(travelZoom) > fabs(diffZoom)) m_zoom = m_zoomMovingTo;
+		else m_zoom = m_zoom + travelZoom;
 	}
 
 	if (m_selectionFollowsMovement) {
@@ -721,9 +726,9 @@ void SectorView::MouseButtonDown(int button, int x, int y)
 {
 	const float ft = Pi::GetFrameTime();
 	if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN)) 
-			m_zoom *= pow(2.0f, ft);
+			m_zoomMovingTo *= pow(2.0f, ft);
 	if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP)) 
-			m_zoom *= pow(0.5f, ft);
+			m_zoomMovingTo *= pow(0.5f, ft);
 }
 
 Sector* SectorView::GetCached(int sectorX, int sectorY, int sectorZ)

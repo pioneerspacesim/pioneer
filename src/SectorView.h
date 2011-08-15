@@ -55,8 +55,6 @@ private:
 	void OnSearchBoxValueChanged();
 	void ShrinkCache();
 
-	float m_zoom;
-
 	bool m_firstTime;
 
 	SystemPath m_current;
@@ -67,6 +65,9 @@ private:
 
 	float m_rotX, m_rotZ;
 	float m_rotXMovingTo, m_rotZMovingTo;
+
+	float m_zoom;
+	float m_zoomMovingTo;
 
 	SystemPath m_hyperspaceTarget;
 	bool m_matchTargetToSelection;
