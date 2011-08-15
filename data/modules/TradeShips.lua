@@ -386,6 +386,15 @@ local onLeaveSystem = function (ship)
 end
 EventQueue.onLeaveSystem:Connect(onLeaveSystem)
 
+local onFrameChanged = function (ship)
+	if not ship:isa("Ship") or trade_ships[ship.label] == nil then return end
+	local trader = trade_ships[ship.label]
+	if trader.status == 'outbound' then
+		getSystemAndJump(ship)
+	end
+end
+EventQueue.onFrameChanged:Connect(onFrameChanged)
+
 local onShipDocked = function (ship)
 	if trade_ships[ship.label] == nil then return end
 
