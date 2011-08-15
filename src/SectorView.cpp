@@ -224,6 +224,9 @@ void SectorView::Draw3D()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 	
+	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+	glEnable(GL_LINE_SMOOTH);
+
 	Sector* playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
 	vector3f playerPos
 		= Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ))
@@ -259,6 +262,8 @@ void SectorView::Draw3D()
 			glPopMatrix();
 		}
 	}
+
+	glDisable(GL_LINE_SMOOTH);
 
 	glDisable(GL_BLEND);
 	glEnable(GL_LIGHTING);
