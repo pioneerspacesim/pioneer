@@ -1047,4 +1047,4 @@ define_model('interdictor', {
 	end
 })
 
---load_lua('data/models/mods')
+--load_lua('models/mods')
