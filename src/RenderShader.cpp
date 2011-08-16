@@ -34,7 +34,12 @@ static __attribute((malloc)) char *load_file(const char *filename)
 	size_t len = ftell(f);
 	fseek(f, 0, SEEK_SET);
 	char *buf = static_cast<char*>(malloc(sizeof(char) * (len+1)));
-	fread(buf, 1, len, f);
+	size_t len_read = fread(buf, 1, len, f);
+	if (len_read != len) {
+		fclose(f);
+		free(buf);
+		return 0;
+	}
 	fclose(f);
 	buf[len] = 0;
 	return buf;
