@@ -73,7 +73,7 @@ SectorView::SectorView() :
 	Gui::Button *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &SectorView::GotoCurrentSystem));
 	hbox->PackEnd(b);
-	hbox->PackEnd((new Gui::Label("Current system"))->Color(1.0f, 1.0f, 1.0f));
+	hbox->PackEnd((new Gui::Label(Lang::CURRENT_SYSTEM))->Color(1.0f, 1.0f, 1.0f));
 	systemBox->PackEnd(hbox);
 	m_currentSystemLabels.systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
 	m_currentSystemLabels.distance = 0;
@@ -90,7 +90,7 @@ SectorView::SectorView() :
 	b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &SectorView::GotoSelectedSystem));
 	hbox->PackEnd(b);
-	hbox->PackEnd((new Gui::Label("Selected system"))->Color(1.0f, 1.0f, 1.0f));
+	hbox->PackEnd((new Gui::Label(Lang::SELECTED_SYSTEM))->Color(1.0f, 1.0f, 1.0f));
 	systemBox->PackEnd(hbox);
 	hbox = new Gui::HBox();
 	hbox->SetSpacing(5.0f);
@@ -111,7 +111,7 @@ SectorView::SectorView() :
 	b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &SectorView::GotoHyperspaceTarget));
 	hbox->PackEnd(b);
-	hbox->PackEnd((new Gui::Label("Hyperspace target"))->Color(1.0f, 1.0f, 1.0f));
+	hbox->PackEnd((new Gui::Label(Lang::HYPERSPACE_TARGET))->Color(1.0f, 1.0f, 1.0f));
     m_hyperspaceLockLabel = (new Gui::Label(""))->Color(1.0f, 1.0f, 1.0f);
     hbox->PackEnd(m_hyperspaceLockLabel);
 	systemBox->PackEnd(hbox);
@@ -174,7 +174,7 @@ void SectorView::Load(Serializer::Reader &rd)
 	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 
-	m_hyperspaceLockLabel->SetText(m_matchTargetToSelection ? "[following selection]" : "[locked]");
+	m_hyperspaceLockLabel->SetText(stringf(64, "[%s]", m_matchTargetToSelection ? Lang::FOLLOWING_SELECTION : Lang::LOCKED));
 
 	m_firstTime = false;
 }
@@ -265,13 +265,13 @@ void SectorView::SetHyperspaceTarget(const SystemPath &path)
 
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 
-	m_hyperspaceLockLabel->SetText("[locked]");
+	m_hyperspaceLockLabel->SetText(stringf(64, "[%s]", Lang::LOCKED));
 }
 
 void SectorView::FloatHyperspaceTarget()
 {
 	m_matchTargetToSelection = true;
-	m_hyperspaceLockLabel->SetText("[following selection]");
+	m_hyperspaceLockLabel->SetText(stringf(64, "[%s]", Lang::FOLLOWING_SELECTION));
 }
 
 void SectorView::ResetHyperspaceTarget()
@@ -339,7 +339,7 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	const float dist = Sector::DistanceBetween(sec, path.systemIndex, playerSec, m_current.systemIndex);
 
     if (labels.distance) {
-		char buf[256];
+		char format[256];
 	
 		int fuelRequired;
 		double dur;
@@ -348,22 +348,24 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	
 		switch (jumpStatus) {
 			case Ship::HYPERJUMP_OK:
-				snprintf(buf, sizeof(buf), "[ %.2f ly | %dt | %.1f hrs ]", dist, fuelRequired, dur*0.0002778);
+				snprintf(format, sizeof(format), "[ %s | %s | %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES, Lang::NUMBER_HOURS);
+				labels.distance->SetText(stringf(256, format, dist, fuelRequired, dur*0.0002778));
 				labels.distance->Color(0.0f, 1.0f, 0.2f);
 				break;
 			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
-				snprintf(buf, sizeof(buf), "[ %.2f ly | %dt ]", dist, fuelRequired);
+				snprintf(format, sizeof(format), "[ %s | %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES);
+				labels.distance->SetText(stringf(256, format, dist, fuelRequired));
 				labels.distance->Color(1.0f, 1.0f, 0.0f);
 				break;
 			case Ship::HYPERJUMP_OUT_OF_RANGE:
-				snprintf(buf, sizeof(buf), "[ %.2f ly ]", dist);
+				snprintf(format, sizeof(format), "[ %s ]", Lang::NUMBER_LY);
+				labels.distance->SetText(stringf(256, format, dist));
 				labels.distance->Color(1.0f, 0.0f, 0.0f);
 				break;
 			default:
-				buf[0] = '\0';
+				labels.distance->SetText("");
 				break;
 		}
-		labels.distance->SetText(buf);
 	}
 
 	StarSystem *sys = StarSystem::GetCached(path);
@@ -607,9 +609,9 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 	if (keysym->sym == SDLK_RETURN) {
 		m_selectionFollowsMovement = !m_selectionFollowsMovement;
 		if (m_selectionFollowsMovement)
-			Pi::cpan->MsgLog()->Message("", "Enabled automatic system selection");
+			Pi::cpan->MsgLog()->Message("", Lang::ENABLED_AUTOMATIC_SYSTEM_SELECTION);
 		else
-			Pi::cpan->MsgLog()->Message("", "Disabled automatic system selection");
+			Pi::cpan->MsgLog()->Message("", Lang::DISABLED_AUTOMATIC_SYSTEM_SELECTION);
 	}
 
 	// fast move selection to current player system or hyperspace target

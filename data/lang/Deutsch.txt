@@ -655,16 +655,8 @@ X_CANNOT_BE_TOLERATED_HERE
     %s kann hier nicht geduldet werden.
 SECTOR_X_Y_Z
     Sektor: %d,%d,%d
-DISTANCE_FUEL_TIME
-    Abst. %.2f Lichtjahre (Kraftstoff benötigt: %dt | Zeitverlust: %.1fst.)
 CURRENT_SYSTEM
     Aktuelle System
-DISTANCE_FUEL_REQUIRED
-    Abst. %.2f Lichtjahre (unzureichende Kraftstoff; benötigt: %dt)
-DISTANCE_OUT_OF_RANGE
-    Abst. %.2f Lichtjahre (Außerhalb der Reichweite)
-CANNOT_HYPERJUMP_WITHOUT_WORKING_DRIVE
-    Sie können nicht durchführen Hypersprung weil Sie nicht ein funktionierende Hyperlaufwerk haben
 QUADRUPLE_SYSTEM
     "VierfachSternsystem. "
 TRIPLE_SYSTEM

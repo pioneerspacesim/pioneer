@@ -655,22 +655,28 @@ X_CANNOT_BE_TOLERATED_HERE
     %s cannot be tolerated here.
 SECTOR_X_Y_Z
     Sector: %d,%d,%d
-DISTANCE_FUEL_TIME
-    Dist. %.2f light years (fuel required: %dt | time loss: %.1fhrs)
 CURRENT_SYSTEM
     Current system
-DISTANCE_FUEL_REQUIRED
-    Dist. %.2f light years (insufficient fuel, required: %dt)
-DISTANCE_OUT_OF_RANGE
-    Dist. %.2f light years (out of range)
-CANNOT_HYPERJUMP_WITHOUT_WORKING_DRIVE
-    You cannot perform a hyperjump because you do not have a functioning hyperdrive
+SELECTED_SYSTEM
+    Selected system
+HYPERSPACE_TARGET
+    Hyperspace target
+FOLLOWING_SELECTION
+    following selection
+LOCKED
+    locked
+NUMBER_HOURS
+    %.2f hrs
 QUADRUPLE_SYSTEM
     "Quadruple system. "
 TRIPLE_SYSTEM
     "Triple system. "
 BINARY_SYSTEM
     "Binary system. "
+ENABLED_AUTOMATIC_SYSTEM_SELECTION
+    Enabled automatic system selection.
+DISABLED_AUTOMATIC_SYSTEM_SELECTION
+    Disabled automatic system selection.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
     Fuel scoop active. You now have %d tonnes of hydrogen.
 CARGO_BAY_LIFE_SUPPORT_LOST
