@@ -103,7 +103,7 @@ local jumpToSystem = function (ship, target_path)
 	trade_ships[ship.label]['status'] = 'hyperspace'
 	trade_ships[ship.label]['starport'] = nil
 	trade_ships[ship.label]['arrival'] = Game.time + duration
-	trade_ships[ship.label]['arrival_system'] = target_path:GetStarSystem()
+	trade_ships[ship.label]['arrival_system'] = target_path
 	trade_ships[ship.label]['from_system'] = Game.system.path
 	return status
 end
@@ -124,7 +124,7 @@ local spawnReplacement = function ()
 		trade_ships[ship.label] = {
 			status			= 'hyperspace',
 			arrival			= arrival,
-			arrival_system	= Game.system,
+			arrival_system	= Game.system.path,
 			from_system		= from_system.path,
 			ship_name		= ship_name,
 			cargo 			= imports[Engine.rand:Integer(1, #imports)],
@@ -141,7 +141,7 @@ local updateTradeShipsTable = function ()
 			total = total + 1
 			if trader.status == 'hyperspace' then
 				-- remove ships not coming here
-				if trader.arrival_system ~= Game.system then
+				if trader.arrival_system ~= Game.system.path then
 					trade_ships[label] = nil
 					removed = removed + 1
 				end
@@ -303,7 +303,7 @@ local onEnterSystem = function (ship)
 			trade_ships[ship.label] = {
 				status			= 'hyperspace',
 				arrival			= arrival,
-				arrival_system	= Game.system,
+				arrival_system	= Game.system.path,
 				from_system		= from_system.path,
 				ship_name		= ship_name,
 				cargo 			= imports[Engine.rand:Integer(1, #imports)],
@@ -344,7 +344,7 @@ local onLeaveSystem = function (ship)
 			if label ~= 'attacker' and label ~= 'interval' then
 				total = total + 1
 				if trader.status == 'hyperspace' then
-					if trader.arrival_system == Game.system then
+					if trader.arrival_system == Game.system.path then
 						-- remove ships that are in hyperspace to here
 						trade_ships[label] = nil
 						removed = removed + 1
