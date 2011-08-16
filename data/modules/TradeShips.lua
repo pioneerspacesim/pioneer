@@ -1,17 +1,3 @@
-local onGameStart = function ()
-	-- create table to hold ships, keyed by label (ex. OD-7764)
-	-- and tables for data on the current system
-	trade_ships, starports, imports, exports = {}, {}, {}, {}
-end
-EventQueue.onGameStart:Connect(onGameStart)
-
-local onGameEnd = function ()
-	-- drop the references for our data so Lua can free them
-	-- and so we can start fresh if the player starts another game
-	trade_ships, starports, imports, exports = nil, nil, nil, nil
-end
-EventQueue.onGameEnd:Connect(onGameEnd)
-
 local addFuel = function (ship)
 	-- the fuel needed for max range is the square of the drive class
 	-- the last character of the fitted drive is the class
@@ -617,3 +603,17 @@ local onShipDestroyed = function (ship)
 	end
 end
 EventQueue.onShipDestroyed:Connect(onShipDestroyed)
+
+local onGameStart = function ()
+	-- create table to hold ships, keyed by label (ex. OD-7764)
+	-- and tables for data on the current system
+	trade_ships, starports, imports, exports = {}, {}, {}, {}
+end
+EventQueue.onGameStart:Connect(onGameStart)
+
+local onGameEnd = function ()
+	-- drop the references for our data so Lua can free them
+	-- and so we can start fresh if the player starts another game
+	trade_ships, starports, imports, exports = nil, nil, nil, nil
+end
+EventQueue.onGameEnd:Connect(onGameEnd)
