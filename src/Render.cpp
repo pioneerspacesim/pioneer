@@ -6,7 +6,10 @@ static GLuint boundElementArrayBufferObject = 0;
 namespace Render {
 
 static bool initted = false;
-static bool isHDREnabled = false;
+
+static bool hdrAvailable = false;
+static bool hdrEnabled = false;
+
 Shader *simpleShader;
 Shader *planetRingsShader[4];
 
@@ -353,13 +356,14 @@ static struct postprocessBuffers_t {
 void Init(int screen_width, int screen_height)
 {
 	if (initted) return;
-	shadersAvailable = (GLEW_VERSION_2_0 ? true : false);
+	shadersAvailable = glewIsSupported("GL_VERSION_2_0");
 	shadersEnabled = shadersAvailable;
 	printf("GLSL shaders %s.\n", shadersEnabled ? "on" : "off");
+
 	// Framebuffers for HDR
-	if (GLEW_EXT_framebuffer_object && GLEW_ARB_color_buffer_float && GLEW_ARB_texture_rectangle) { // && GLEW_ARB_depth_buffer_float) {
+	hdrAvailable = glewIsSupported("GL_EXT_framebuffer_object GL_ARB_color_buffer_float GL_ARB_texture_rectangle");
+	if (hdrAvailable)
 		s_hdrBufs.CreateBuffers(screen_width, screen_height);
-	}
 	
 	initted = true;
 
@@ -373,17 +377,15 @@ void Init(int screen_width, int screen_height)
 	}
 }
 
-bool IsHDREnabled() { return (s_hdrBufs.Initted() && isHDREnabled && shadersEnabled) ? 1 : 0; }
-
-bool IsHDRAvailable() { return s_hdrBufs.Initted() ? true : false; }
+bool IsHDREnabled() { return shadersEnabled && hdrEnabled; }
+bool IsHDRAvailable() { return hdrAvailable; }
 
 void PrepareFrame()
 {
-	if (IsHDREnabled()) {
+	if (IsHDREnabled())
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, s_hdrBufs.fb);
-	} else {
-		if (GLEW_EXT_framebuffer_object) glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-	}
+    else if (IsHDRAvailable())
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 }
 
 void PostProcess()
@@ -413,8 +415,9 @@ void ToggleShaders()
 
 void ToggleHDR()
 {
-	isHDREnabled = !isHDREnabled;
-	printf("HDR lighting %s.\n", isHDREnabled ? "enabled" : "disabled");
+	if (hdrAvailable)
+		hdrEnabled = !hdrEnabled;
+	printf("HDR lighting %s.\n", hdrEnabled ? "enabled" : "disabled");
 }
 
 /**
