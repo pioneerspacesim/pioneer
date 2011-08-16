@@ -5,6 +5,7 @@ Alpha 14
 
   * Fixes
     * Remove a couple of hardcoded references to the data directory (#363)
+    * Fix crash when closing police form triggered from inside a advert (#371, #372)
 
 Alpha 13
 

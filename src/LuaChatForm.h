@@ -13,10 +13,11 @@ class LuaChatForm: public StationAdvertForm, public MarketAgent, public DeleteEm
 	friend class LuaObject<LuaChatForm>;
 
 public:
-    LuaChatForm(FormController *controller, SpaceStation *station, const BBAdvert &ad);
-	~LuaChatForm();
+	LuaChatForm(FormController *controller, SpaceStation *station, const BBAdvert &ad) :
+		StationAdvertForm(controller, station, ad), m_commodityTradeWidget(0) {}
 
 	virtual void OnOptionClicked(int option);
+	virtual void OnClose();
 
 	/* MarketAgent stuff */
 	virtual Sint64 GetPrice(Equip::Type t) const;
@@ -41,9 +42,6 @@ private:
 	static int l_luachatform_close(lua_State *l);
 	static int l_luachatform_add_goods_trader(lua_State *l);
 	static int l_luachatform_goto_police(lua_State *l);
-
-	void OnClose(Form *form);
-	sigc::connection m_formClosedConnection;
 };
 
 #endif /* _LUACHATFORM_H */
