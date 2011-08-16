@@ -41,7 +41,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, uns
 		vector3d v = vector3d(&m_vertices[3*i]);
 		for (int j=i+1; j<numVerts; j++) {
 			vector3d v2 = vector3d(&m_vertices[3*j]);
-			if (v2 == v) {
+			if (v2.ExactlyEqual(v)) {
 				for (int k=0; k<numTris*3; k++) {
 					if ((indices[k] == j) && (triflags[k/3] < 0x8000)) indices[k] = i;
 				}

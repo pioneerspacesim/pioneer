@@ -62,8 +62,8 @@ public:
     inline operator vector3f () const { return v; }
 	inline vector3f to_vector3f() const { return v; }
 
-	inline bool operator==(const pi_vector &a) const { return v == a.to_vector3f(); }
-	inline bool operator!=(const pi_vector &a) const { return v != a.to_vector3f(); }
+	//inline bool operator==(const pi_vector &a) const { return v == a.to_vector3f(); }
+	//inline bool operator!=(const pi_vector &a) const { return v != a.to_vector3f(); }
 	inline pi_vector operator+(const pi_vector &a) const { return v + a.to_vector3f(); }
 	inline pi_vector operator-(const pi_vector &a) const { return v - a.to_vector3f(); }
 
@@ -84,8 +84,8 @@ private:
 
 OOLUA_CLASS_NO_BASES(pi_vector)
 	OOLUA_TYPEDEFS
-		Equal_op,
-		Not_equal_op,
+		//Equal_op,
+		//Not_equal_op,
 		Add_op,
 		Sub_op
 	OOLUA_END_TYPES

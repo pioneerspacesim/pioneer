@@ -34,8 +34,11 @@ public:
 	vector3 &operator/=(const double a) { const T inva = T(1.0/a); x*=inva; y*=inva; z*=inva; return *this; }
 	vector3 operator-(const vector3 &a) const { return vector3(x-a.x, y-a.y, z-a.z); }
 	vector3 operator-() const { return vector3(-x, -y, -z); }
-	bool operator==(const vector3 &a) const { return ((a.x==x)&&(a.y==y)&&(a.z==z)); }
-	bool operator!=(const vector3 &a) const { return ((a.x!=x)||(a.y!=y)||(a.z!=z)); }
+
+#pragma GCC diagnostic ignored "-Wfloat-equal"
+	bool ExactlyEqual(const vector3 &a) const { return ((a.x==x)&&(a.y==y)&&(a.z==z)); }
+	//bool operator!=(const vector3 &a) const { return ((a.x!=x)||(a.y!=y)||(a.z!=z)); }
+#pragma GCC diagnostic warning "-Wfloat-equal"
 
 	friend vector3 operator*(const vector3 &a, const float  scalar) { return vector3(T(a.x*scalar), T(a.y*scalar), T(a.z*scalar)); }
 	friend vector3 operator*(const vector3 &a, const double scalar) { return vector3(T(a.x*scalar), T(a.y*scalar), T(a.z*scalar)); }
