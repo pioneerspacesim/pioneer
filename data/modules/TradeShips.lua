@@ -605,9 +605,31 @@ end
 EventQueue.onShipDestroyed:Connect(onShipDestroyed)
 
 local onGameStart = function ()
-	-- create table to hold ships, keyed by label (ex. OD-7764)
-	-- and tables for data on the current system
-	trade_ships, starports, imports, exports = {}, {}, {}, {}
+	-- create tables for data on the current system
+	starports, imports, exports = {}, {}, {}
+	if trade_ships == nil then
+		-- create table to hold ships, keyed by label (ex. OD-7764)
+		trade_ships = {}
+	else
+		-- trade_ships was loaded by unserialize
+		-- rebuild starports, imports and exports tables
+		starports = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
+		if #starports == 0 then
+			-- there are no starports so don't bother looking for goods
+			return
+		else
+			local prices = Game.system:GetCommodityBasePriceAlterations()
+			for k,v in pairs(prices) do
+				if Game.system:IsCommodityLegal(k) then
+					if v > 2 then
+						table.insert(imports, k)
+					elseif v < -2 then
+						table.insert(exports, k)
+					end
+				end
+			end
+		end
+	end
 end
 EventQueue.onGameStart:Connect(onGameStart)
 
@@ -617,3 +639,13 @@ local onGameEnd = function ()
 	trade_ships, starports, imports, exports = nil, nil, nil, nil
 end
 EventQueue.onGameEnd:Connect(onGameEnd)
+
+local serialize = function ()
+	return trade_ships
+end
+
+local unserialize = function (data)
+	trade_ships = data
+end
+
+Serializer:Register("TradeShips", serialize, unserialize)
