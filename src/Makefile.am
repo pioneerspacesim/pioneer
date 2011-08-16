@@ -8,11 +8,11 @@ noinst_HEADERS = \
 	Aabb.h \
 	AmbientSounds.h \
 	Background.h \
-	BBAdvertChatForm.h \
 	BezierCurve.h \
 	Body.h \
 	BufferObject.h \
 	CargoBody.h \
+	ChatForm.h \
 	CityOnPlanet.h \
 	Color.h \
 	CommodityTradeWidget.h \
@@ -24,11 +24,12 @@ noinst_HEADERS = \
 	FaceVideoLink.h \
 	Font.h \
 	FontManager.h \
+	Form.h \
+	FormController.h \
 	Frame.h \
 	GalacticView.h \
 	Galaxy.h \
 	GameMenuView.h \
-	GenericChatForm.h \
 	GeoSphere.h \
 	GeoSphereStyle.h \
 	HyperspaceCloud.h \
@@ -37,6 +38,7 @@ noinst_HEADERS = \
 	GameConfig.h \
 	FontConfig.h \
 	KeyBindings.h \
+	Lang.h \
 	LmrModel.h \
 	LuaBody.h \
 	LuaCargoBody.h \
@@ -48,13 +50,14 @@ noinst_HEADERS = \
 	LuaFormat.h \
 	LuaGame.h \
 	LuaManager.h \
+	LuaMusic.h \
 	LuaNameGen.h \
 	LuaObject.h \
 	LuaPlanet.h \
 	LuaPlayer.h \
 	LuaRand.h \
 	LuaSBody.h \
-	LuaSBodyPath.h \
+	LuaSystemPath.h \
 	LuaSerializer.h \
 	LuaShip.h \
 	LuaShipType.h \
@@ -77,7 +80,6 @@ noinst_HEADERS = \
 	PiLuaClasses.h \
 	Planet.h \
 	Player.h \
-	PoliceChatForm.h \
 	Polit.h \
 	Projectile.h \
 	Quaternion.h \
@@ -88,23 +90,36 @@ noinst_HEADERS = \
 	Sector.h \
 	SectorView.h \
 	Serializer.h \
+	StationAdvertForm.h \
+	StationBulletinBoardForm.h \
+	StationCommodityMarketForm.h \
+	StationPoliceForm.h \
+	StationServicesForm.h \
+	StationShipEquipmentForm.h \
+	StationShipMarketForm.h \
+	StationShipRepairForm.h \
+	StationShipViewForm.h \
+	StationShipyardForm.h \
 	Sfx.h \
 	Ship.h \
 	ShipAICmd.h \
 	ShipCpanel.h \
 	ShipCpanelMultiFuncDisplays.h \
 	ShipFlavour.h \
+	ShipSpinnerWidget.h \
 	ShipType.h \
 	Sound.h \
+	SoundMusic.h \
 	Space.h \
 	SpaceStation.h \
 	SpaceStationView.h \
 	Star.h \
 	StarSystem.h \
-	SysLoc.h \
 	SystemInfoView.h \
+	SystemPath.h \
 	SystemView.h \
 	TextureFont.h \
+	TextureManager.h \
 	VectorFont.h \
 	VideoLink.h \
 	View.h \
@@ -122,9 +137,9 @@ noinst_HEADERS = \
 pioneer_SOURCES	= \
 	AmbientSounds.cpp \
 	Background.cpp \
-	BBAdvertChatForm.cpp \
 	Body.cpp \
 	CargoBody.cpp \
+	ChatForm.cpp \
 	CityOnPlanet.cpp \
 	CommodityTradeWidget.cpp \
 	CustomSystem.cpp \
@@ -134,11 +149,11 @@ pioneer_SOURCES	= \
 	FaceVideoLink.cpp \
 	Font.cpp \
 	FontManager.cpp \
+	FormController.cpp \
 	Frame.cpp \
 	GalacticView.cpp \
 	Galaxy.cpp \
 	GameMenuView.cpp \
-	GenericChatForm.cpp \
 	GeoSphere.cpp \
 	GeoSphereStyle.cpp \
 	HyperspaceCloud.cpp \
@@ -147,6 +162,7 @@ pioneer_SOURCES	= \
 	GameConfig.cpp \
 	FontConfig.cpp \
 	KeyBindings.cpp \
+	Lang.cpp \
 	LmrModel.cpp \
 	LuaBody.cpp \
 	LuaCargoBody.cpp \
@@ -158,13 +174,14 @@ pioneer_SOURCES	= \
 	LuaFormat.cpp \
 	LuaGame.cpp \
 	LuaManager.cpp \
+	LuaMusic.cpp \
 	LuaNameGen.cpp \
 	LuaObject.cpp \
 	LuaPlanet.cpp \
 	LuaPlayer.cpp \
 	LuaRand.cpp \
 	LuaSBody.cpp \
-	LuaSBodyPath.cpp \
+	LuaSystemPath.cpp \
 	LuaSerializer.cpp \
 	LuaShip.cpp \
 	LuaShipType.cpp \
@@ -185,7 +202,6 @@ pioneer_SOURCES	= \
 	PiLuaClasses.cpp \
 	Planet.cpp \
 	Player.cpp \
-	PoliceChatForm.cpp \
 	Polit.cpp \
 	Projectile.cpp \
 	Render.cpp \
@@ -193,6 +209,16 @@ pioneer_SOURCES	= \
 	Sector.cpp \
 	SectorView.cpp \
 	Serializer.cpp \
+	StationAdvertForm.cpp \
+	StationBulletinBoardForm.cpp \
+	StationCommodityMarketForm.cpp \
+	StationPoliceForm.cpp \
+	StationServicesForm.cpp \
+	StationShipEquipmentForm.cpp \
+	StationShipMarketForm.cpp \
+	StationShipRepairForm.cpp \
+	StationShipViewForm.cpp \
+	StationShipyardForm.cpp \
 	Sfx.cpp \
 	Ship-AI.cpp \
 	Ship.cpp \
@@ -200,17 +226,19 @@ pioneer_SOURCES	= \
 	ShipCpanel.cpp \
 	ShipCpanelMultiFuncDisplays.cpp \
 	ShipFlavour.cpp \
+	ShipSpinnerWidget.cpp \
 	ShipType.cpp \
 	Sound.cpp \
+	SoundMusic.cpp \
 	Space.cpp \
 	SpaceStation.cpp \
 	SpaceStationView.cpp \
 	Star.cpp \
 	StarSystem.cpp \
-	SysLoc.cpp \
 	SystemInfoView.cpp \
 	SystemView.cpp \
 	TextureFont.cpp \
+	TextureManager.cpp \
 	VectorFont.cpp \
 	WorldView.cpp \
 	main.cpp \
@@ -239,6 +267,7 @@ modelviewer_SOURCES = \
 	Render.cpp \
 	RenderShader.cpp \
 	TextureFont.cpp \
+	TextureManager.cpp \
 	VectorFont.cpp \
 	perlin.cpp \
 	utils.cpp

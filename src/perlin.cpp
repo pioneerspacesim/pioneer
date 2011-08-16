@@ -23,6 +23,32 @@
  *
  */
 
+/*
+ * I noticed this file was GPL2, not 2+, and thus incompatible with the GPL3.
+ * I emailed the author asking for permission to use it under GPL3. His
+ * response:
+ *
+ * From: Eliot Eshelman <eliot.eshelman@6by9.net>
+ * To: Robert Norris <rob@eatenbyagrue.org>
+ * Date: Sat, 16 Jul 2011 09:32:36 -0400
+ * Subject: Re: License for Battlestar TUX
+ * Message-ID: <CA+5Z5RTS2_wNLz-eBRi93Zi2VW3zEGPsVLWMrT=grEVPpKLFEQ@mail.gmail.com>
+ *
+ * Hi Rob,
+ *
+ * I'm glad you've found Simplex useful.
+ *
+ * You are correct - the headers need updating. The project is GPLv3. You may
+ * re-use Simplex.cpp in your GPL3 project.
+ *
+ * If you feel this covers you, please go ahead and continue to use the file.
+ * If it would be more appropriate for me to provide an updated file, I can do
+ * so.
+ *
+ * Best,
+ * Eliot
+ */
+
 static int fastfloor( const double x ) { return int(x > 0 ? x : x - 1); }
 
 //static double dot( const int* g, const double x, const double y ) { return g[0]*x + g[1]*y; }

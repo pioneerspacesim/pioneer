@@ -4,15 +4,15 @@
 #include "libs.h"
 #include "EquipType.h"
 #include "Polit.h"
-#include "SysLoc.h"
 #include "Serializer.h"
 #include <vector>
 #include <string>
 #include "DeleteEmitter.h"
 #include "RefCounted.h"
+#include "SystemPath.h"
 
-struct CustomSBody;
-struct CustomSystem;
+class CustomSBody;
+class CustomSystem;
 class SBody;
 
 // doubles - all masses in Kg, all lengths in meters
@@ -36,28 +36,6 @@ struct Orbit {
 	matrix4x4d rotMatrix;
 };
 
-#define SBODYPATHLEN	8
-
-class SBodyPath: public SysLoc {
-public:
-	SBodyPath();
-	SBodyPath(int sectorX, int sectorY, int systemNum);
-	SBodyPath(const SBodyPath &p) : SysLoc() {
-		sectorX = p.sectorX;
-		sectorY = p.sectorY;
-		systemNum = p.systemNum;
-		sbodyId = p.sbodyId;
-	}
-	Uint32 sbodyId;
-	
-	void Serialize(Serializer::Writer &wr) const;
-	static void Unserialize(Serializer::Reader &rd, SBodyPath *path);
-	
-	bool operator== (const SBodyPath &b) const {
-		return (sbodyId == b.sbodyId) && (sectorX == b.sectorX) && (sectorY == b.sectorY) && (systemNum == b.systemNum);
-	}
-};
-
 class SBody {
 public:
 	SBody();
@@ -70,41 +48,41 @@ public:
 	enum BodyType {
 		TYPE_GRAVPOINT = 0,
 		TYPE_BROWN_DWARF = 1, //  L+T Class Brown Dwarfs
-		TYPE_STAR_M = 2, //red
-		TYPE_STAR_K = 3, //orange
-		TYPE_STAR_G = 4, //yellow
-		TYPE_STAR_F = 5, //white
-		TYPE_STAR_A = 6, //blue/white
-		TYPE_STAR_B = 7, //blue
-		TYPE_STAR_O = 8,  //blue/purple/white
-		TYPE_STAR_M_GIANT = 9, 
-		TYPE_STAR_K_GIANT = 10, 
-		TYPE_STAR_G_GIANT = 11, 
-		TYPE_STAR_F_GIANT = 12, 
-		TYPE_STAR_A_GIANT = 13, 
-		TYPE_STAR_B_GIANT = 14, 
-		TYPE_STAR_O_GIANT = 15,
-		TYPE_STAR_M_SUPER_GIANT = 16, 
-		TYPE_STAR_K_SUPER_GIANT = 17, 
-		TYPE_STAR_G_SUPER_GIANT = 18,
-		TYPE_STAR_F_SUPER_GIANT = 19,
-		TYPE_STAR_A_SUPER_GIANT = 20, 
-		TYPE_STAR_B_SUPER_GIANT = 21, 
-		TYPE_STAR_O_SUPER_GIANT = 22, 
-		TYPE_STAR_M_HYPER_GIANT = 23, 
-		TYPE_STAR_K_HYPER_GIANT = 24, 
-		TYPE_STAR_G_HYPER_GIANT = 25, 
-		TYPE_STAR_F_HYPER_GIANT = 26, 
-		TYPE_STAR_A_HYPER_GIANT = 27, 
-		TYPE_STAR_B_HYPER_GIANT = 28, 
-		TYPE_STAR_O_HYPER_GIANT = 29, // these various stars do exist, they are transitional states and are rare
-		TYPE_STAR_M_WF = 30,  //Wolf-Rayet star
-		TYPE_STAR_B_WF = 31,  // while you do not specifically get class M,B or O WF stars,
-		TYPE_STAR_O_WF = 32, //  you do get red, blue and purple from the colour of the gasses, so spectral class is an easy way to define them. 
-		TYPE_STAR_S_BH = 33, //stellar blackhole
-		TYPE_STAR_IM_BH = 34, //Intermediate-mass blackhole
-		TYPE_STAR_SM_BH = 35, //Supermassive blackhole
-		TYPE_WHITE_DWARF = 36,
+		TYPE_WHITE_DWARF = 2,
+		TYPE_STAR_M = 3, //red
+		TYPE_STAR_K = 4, //orange
+		TYPE_STAR_G = 5, //yellow
+		TYPE_STAR_F = 6, //white
+		TYPE_STAR_A = 7, //blue/white
+		TYPE_STAR_B = 8, //blue
+		TYPE_STAR_O = 9,  //blue/purple/white
+		TYPE_STAR_M_GIANT = 10, 
+		TYPE_STAR_K_GIANT = 11, 
+		TYPE_STAR_G_GIANT = 12, 
+		TYPE_STAR_F_GIANT = 13, 
+		TYPE_STAR_A_GIANT = 14, 
+		TYPE_STAR_B_GIANT = 15, 
+		TYPE_STAR_O_GIANT = 16,
+		TYPE_STAR_M_SUPER_GIANT = 17, 
+		TYPE_STAR_K_SUPER_GIANT = 18, 
+		TYPE_STAR_G_SUPER_GIANT = 19,
+		TYPE_STAR_F_SUPER_GIANT = 20,
+		TYPE_STAR_A_SUPER_GIANT = 21, 
+		TYPE_STAR_B_SUPER_GIANT = 22, 
+		TYPE_STAR_O_SUPER_GIANT = 23, 
+		TYPE_STAR_M_HYPER_GIANT = 24, 
+		TYPE_STAR_K_HYPER_GIANT = 25, 
+		TYPE_STAR_G_HYPER_GIANT = 26, 
+		TYPE_STAR_F_HYPER_GIANT = 27, 
+		TYPE_STAR_A_HYPER_GIANT = 28, 
+		TYPE_STAR_B_HYPER_GIANT = 29, 
+		TYPE_STAR_O_HYPER_GIANT = 30, // these various stars do exist, they are transitional states and are rare
+		TYPE_STAR_M_WF = 31,  //Wolf-Rayet star
+		TYPE_STAR_B_WF = 32,  // while you do not specifically get class M,B or O WF stars,
+		TYPE_STAR_O_WF = 33, //  you do get red, blue and purple from the colour of the gasses, so spectral class is an easy way to define them. 
+		TYPE_STAR_S_BH = 34, //stellar blackhole
+		TYPE_STAR_IM_BH = 35, //Intermediate-mass blackhole
+		TYPE_STAR_SM_BH = 36, //Supermassive blackhole
 		TYPE_PLANET_GAS_GIANT = 37,
 		TYPE_PLANET_ASTEROID = 38,
 		TYPE_PLANET_TERRESTRIAL = 39,
@@ -113,7 +91,7 @@ public:
 		TYPE_MIN = TYPE_BROWN_DWARF,
 		TYPE_MAX = TYPE_STARPORT_SURFACE,
 		TYPE_STAR_MIN = TYPE_BROWN_DWARF,
-		TYPE_STAR_MAX = TYPE_WHITE_DWARF
+		TYPE_STAR_MAX = TYPE_STAR_SM_BH
 		// XXX need larger atmosphereless thing
 	};
 	
@@ -195,27 +173,17 @@ class StarSystem : public DeleteEmitter, public RefCounted {
 public:
 	friend class SBody;
 
-    static StarSystem *GetCached(int sectorX, int sectorY, int systemNum);
+	static StarSystem *GetCached(const SystemPath &path);
 	inline void Release() { DecRefCount(); }
 	static void ShrinkCache();
 
-    static inline StarSystem *GetCached(const SysLoc &loc) { return GetCached(loc.sectorX, loc.sectorY, loc.systemNum); }
-    static inline StarSystem *GetCached(const SysLoc *loc) { return GetCached(*loc); }
-
 	const std::string &GetName() const { return m_name; }
-	void GetPathOf(const SBody *body, SBodyPath *path) const;
-	SBody *GetBodyByPath(const SBodyPath *path) const;
+	SystemPath GetPathOf(const SBody *sbody) const;
+	SBody *GetBodyByPath(const SystemPath &path) const;
 	static void Serialize(Serializer::Writer &wr, StarSystem *);
 	static StarSystem *Unserialize(Serializer::Reader &rd);
 	void Dump();
-	bool IsSystem(int sector_x, int sector_y, int system_idx);
-	int SectorX() const { return m_loc.sectorX; }
-	int SectorY() const { return m_loc.sectorY; }
-	int SystemIdx() const { return m_loc.systemNum; }
-	const SysLoc &GetLocation() const { return m_loc; }
-	void GetPos(int *sec_x, int *sec_y, int *sys_idx) const {
-		*sec_x = m_loc.sectorX; *sec_y = m_loc.sectorY; *sys_idx = m_loc.systemNum;
-	}
+	const SystemPath &GetPath() const { return m_path; }
 	const char *GetShortDescription() const { return m_shortDesc.c_str(); }
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
 	int GetNumStars() const { return m_numStars; }
@@ -233,7 +201,7 @@ public:
 
 	SBody *rootBody;
 	std::vector<SBody*> m_spaceStations;
-	// index into this will be the SBody ID used by SBodyPath
+	// index into this will be the SBody ID used by SystemPath
 	std::vector<SBody*> m_bodies;
 	
 	fixed m_metallicity;
@@ -254,8 +222,7 @@ public:
 		return m_tradeLevel[t];
 	}
 private:
-	StarSystem() { rootBody = 0; }
-	StarSystem(int sector_x, int sector_y, int system_idx);
+	StarSystem(const SystemPath &path);
 	~StarSystem();
 
 	SBody *NewBody() {
@@ -274,7 +241,7 @@ private:
 	void GenerateFromCustom(const CustomSystem *, MTRand &rand);
 	void Populate(bool addSpaceStations);
 
-	SysLoc m_loc;
+	SystemPath m_path;
 	int m_numStars;
 	std::string m_name;
 	std::string m_shortDesc, m_longDesc;

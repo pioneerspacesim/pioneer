@@ -77,10 +77,29 @@
 		4A20B11C13531CD10020F43E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11613531CD10020F43E /* Credits.rtf */; };
 		4A20B11D13531CD10020F43E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11813531CD10020F43E /* InfoPlist.strings */; };
 		4A20B12013531E950020F43E /* SDLMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11F13531E950020F43E /* SDLMain.nib */; };
+		4A24077213F5240F002A5C12 /* ChatForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24075513F5240F002A5C12 /* ChatForm.cpp */; };
+		4A24077313F5240F002A5C12 /* FormController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24075813F5240F002A5C12 /* FormController.cpp */; };
+		4A24077413F5240F002A5C12 /* Lang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24075A13F5240F002A5C12 /* Lang.cpp */; };
+		4A24077513F5240F002A5C12 /* ShipSpinnerWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24075C13F5240F002A5C12 /* ShipSpinnerWidget.cpp */; };
+		4A24077613F5240F002A5C12 /* StationAdvertForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24075E13F5240F002A5C12 /* StationAdvertForm.cpp */; };
+		4A24077713F5240F002A5C12 /* StationBulletinBoardForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24076013F5240F002A5C12 /* StationBulletinBoardForm.cpp */; };
+		4A24077813F5240F002A5C12 /* StationCommodityMarketForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24076213F5240F002A5C12 /* StationCommodityMarketForm.cpp */; };
+		4A24077913F5240F002A5C12 /* StationPoliceForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24076413F5240F002A5C12 /* StationPoliceForm.cpp */; };
+		4A24077A13F5240F002A5C12 /* StationServicesForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24076613F5240F002A5C12 /* StationServicesForm.cpp */; };
+		4A24077B13F5240F002A5C12 /* StationShipEquipmentForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24076813F5240F002A5C12 /* StationShipEquipmentForm.cpp */; };
+		4A24077C13F5240F002A5C12 /* StationShipMarketForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24076A13F5240F002A5C12 /* StationShipMarketForm.cpp */; };
+		4A24077D13F5240F002A5C12 /* StationShipRepairForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24076C13F5240F002A5C12 /* StationShipRepairForm.cpp */; };
+		4A24077E13F5240F002A5C12 /* StationShipViewForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24076E13F5240F002A5C12 /* StationShipViewForm.cpp */; };
+		4A24077F13F5240F002A5C12 /* StationShipyardForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24077013F5240F002A5C12 /* StationShipyardForm.cpp */; };
+		4A24078413F524E6002A5C12 /* GuiGradient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24078013F524E6002A5C12 /* GuiGradient.cpp */; };
+		4A24078513F524E6002A5C12 /* GuiStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24078213F524E6002A5C12 /* GuiStack.cpp */; };
+		4A30F3C713D463DC00DB17D9 /* TextureManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A30F3C513D463DC00DB17D9 /* TextureManager.cpp */; };
 		4A5619CF13866622002A904C /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5619CE13866622002A904C /* libfreetype.6.dylib */; };
 		4A5619D313866B5B002A904C /* libfreetype.6.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A5619CE13866622002A904C /* libfreetype.6.dylib */; };
 		4A5619D513867033002A904C /* libvorbisfile.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5619D413867033002A904C /* libvorbisfile.3.dylib */; };
 		4A5619D813867661002A904C /* libvorbisfile.3.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A5619D413867033002A904C /* libvorbisfile.3.dylib */; };
+		4A61E15E13978F1000193E43 /* Background.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A61E15C13978F1000193E43 /* Background.cpp */; };
+		4A61E16113978FA900193E43 /* libpng14.14.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A61E16013978FA900193E43 /* libpng14.14.dylib */; };
 		4A62EF2C136979E000919EBB /* DeadVideoLink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A62EF27136979E000919EBB /* DeadVideoLink.cpp */; };
 		4A62EF2D136979E000919EBB /* FaceVideoLink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A62EF29136979E000919EBB /* FaceVideoLink.cpp */; };
 		4A671B8A1388C08500657F38 /* libogg.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4A671B861388C07700657F38 /* libogg.0.dylib */; };
@@ -109,7 +128,6 @@
 		4A6C4DE513532FC300FDD53F /* GalacticView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C2813532FC300FDD53F /* GalacticView.cpp */; };
 		4A6C4DE613532FC300FDD53F /* Galaxy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C2A13532FC300FDD53F /* Galaxy.cpp */; };
 		4A6C4DE713532FC300FDD53F /* GameMenuView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C2D13532FC300FDD53F /* GameMenuView.cpp */; };
-		4A6C4DE813532FC300FDD53F /* GenericChatForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C2F13532FC300FDD53F /* GenericChatForm.cpp */; };
 		4A6C4DE913532FC300FDD53F /* GeoSphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C3113532FC300FDD53F /* GeoSphere.cpp */; };
 		4A6C4DEA13532FC300FDD53F /* GeoSphereStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C3313532FC300FDD53F /* GeoSphereStyle.cpp */; };
 		4A6C4E0413532FC300FDD53F /* HyperspaceCloud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C6A13532FC300FDD53F /* HyperspaceCloud.cpp */; };
@@ -131,7 +149,6 @@
 		4A6C4E7413532FC300FDD53F /* PiLuaClasses.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D3313532FC300FDD53F /* PiLuaClasses.cpp */; };
 		4A6C4E7713532FC300FDD53F /* Planet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D3913532FC300FDD53F /* Planet.cpp */; };
 		4A6C4E7813532FC300FDD53F /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D3B13532FC300FDD53F /* Player.cpp */; };
-		4A6C4E7913532FC300FDD53F /* PoliceChatForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D3D13532FC300FDD53F /* PoliceChatForm.cpp */; };
 		4A6C4E7A13532FC300FDD53F /* Polit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D3F13532FC300FDD53F /* Polit.cpp */; };
 		4A6C4E7B13532FC300FDD53F /* Projectile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D4113532FC300FDD53F /* Projectile.cpp */; };
 		4A6C4E7C13532FC300FDD53F /* Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D4413532FC300FDD53F /* Render.cpp */; };
@@ -152,7 +169,6 @@
 		4A6C4E8B13532FC300FDD53F /* SpaceStationView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6113532FC300FDD53F /* SpaceStationView.cpp */; };
 		4A6C4E8C13532FC300FDD53F /* Star.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6313532FC300FDD53F /* Star.cpp */; };
 		4A6C4E8D13532FC300FDD53F /* StarSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6513532FC300FDD53F /* StarSystem.cpp */; };
-		4A6C4E8E13532FC300FDD53F /* SysLoc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6713532FC300FDD53F /* SysLoc.cpp */; };
 		4A6C4E8F13532FC300FDD53F /* SystemInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6913532FC300FDD53F /* SystemInfoView.cpp */; };
 		4A6C4E9013532FC300FDD53F /* SystemView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6B13532FC300FDD53F /* SystemView.cpp */; };
 		4A6C4E9213532FC300FDD53F /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6E13532FC300FDD53F /* utils.cpp */; };
@@ -165,7 +181,9 @@
 		4A82AA861386969B0028CCED /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA7D1386969B0028CCED /* GameConfig.cpp */; };
 		4A82AA871386969B0028CCED /* TextureFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA801386969B0028CCED /* TextureFont.cpp */; };
 		4A82AA881386969B0028CCED /* VectorFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA821386969B0028CCED /* VectorFont.cpp */; };
-		4A9937501368355500EA0EE5 /* BBAdvertChatForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937181368355400EA0EE5 /* BBAdvertChatForm.cpp */; };
+		4A85A86A13C4631D00C2B986 /* LuaMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86313C4631D00C2B986 /* LuaMusic.cpp */; };
+		4A85A86B13C4631D00C2B986 /* LuaSystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */; };
+		4A85A86C13C4631D00C2B986 /* SoundMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86713C4631D00C2B986 /* SoundMusic.cpp */; };
 		4A9937511368355500EA0EE5 /* LuaBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371B1368355400EA0EE5 /* LuaBody.cpp */; };
 		4A9937521368355500EA0EE5 /* LuaCargoBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371D1368355400EA0EE5 /* LuaCargoBody.cpp */; };
 		4A9937531368355500EA0EE5 /* LuaConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371F1368355500EA0EE5 /* LuaConstants.cpp */; };
@@ -181,7 +199,6 @@
 		4A99375D1368355500EA0EE5 /* LuaPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937321368355500EA0EE5 /* LuaPlayer.cpp */; };
 		4A99375E1368355500EA0EE5 /* LuaRand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937341368355500EA0EE5 /* LuaRand.cpp */; };
 		4A99375F1368355500EA0EE5 /* LuaSBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937361368355500EA0EE5 /* LuaSBody.cpp */; };
-		4A9937601368355500EA0EE5 /* LuaSBodyPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937381368355500EA0EE5 /* LuaSBodyPath.cpp */; };
 		4A9937611368355500EA0EE5 /* LuaSerializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99373A1368355500EA0EE5 /* LuaSerializer.cpp */; };
 		4A9937621368355500EA0EE5 /* LuaShip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99373C1368355500EA0EE5 /* LuaShip.cpp */; };
 		4A9937631368355500EA0EE5 /* LuaShipType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99373E1368355500EA0EE5 /* LuaShipType.cpp */; };
@@ -428,8 +445,46 @@
 		4A20B11713531CD10020F43E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = pioneer/en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		4A20B11913531CD10020F43E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = pioneer/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4A20B11F13531E950020F43E /* SDLMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SDLMain.nib; sourceTree = "<group>"; };
+		4A24075513F5240F002A5C12 /* ChatForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatForm.cpp; sourceTree = "<group>"; };
+		4A24075613F5240F002A5C12 /* ChatForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatForm.h; sourceTree = "<group>"; };
+		4A24075713F5240F002A5C12 /* Form.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Form.h; sourceTree = "<group>"; };
+		4A24075813F5240F002A5C12 /* FormController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FormController.cpp; sourceTree = "<group>"; };
+		4A24075913F5240F002A5C12 /* FormController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormController.h; sourceTree = "<group>"; };
+		4A24075A13F5240F002A5C12 /* Lang.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Lang.cpp; sourceTree = "<group>"; };
+		4A24075B13F5240F002A5C12 /* Lang.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lang.h; sourceTree = "<group>"; };
+		4A24075C13F5240F002A5C12 /* ShipSpinnerWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShipSpinnerWidget.cpp; sourceTree = "<group>"; };
+		4A24075D13F5240F002A5C12 /* ShipSpinnerWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShipSpinnerWidget.h; sourceTree = "<group>"; };
+		4A24075E13F5240F002A5C12 /* StationAdvertForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StationAdvertForm.cpp; sourceTree = "<group>"; };
+		4A24075F13F5240F002A5C12 /* StationAdvertForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationAdvertForm.h; sourceTree = "<group>"; };
+		4A24076013F5240F002A5C12 /* StationBulletinBoardForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StationBulletinBoardForm.cpp; sourceTree = "<group>"; };
+		4A24076113F5240F002A5C12 /* StationBulletinBoardForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationBulletinBoardForm.h; sourceTree = "<group>"; };
+		4A24076213F5240F002A5C12 /* StationCommodityMarketForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StationCommodityMarketForm.cpp; sourceTree = "<group>"; };
+		4A24076313F5240F002A5C12 /* StationCommodityMarketForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationCommodityMarketForm.h; sourceTree = "<group>"; };
+		4A24076413F5240F002A5C12 /* StationPoliceForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StationPoliceForm.cpp; sourceTree = "<group>"; };
+		4A24076513F5240F002A5C12 /* StationPoliceForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationPoliceForm.h; sourceTree = "<group>"; };
+		4A24076613F5240F002A5C12 /* StationServicesForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StationServicesForm.cpp; sourceTree = "<group>"; };
+		4A24076713F5240F002A5C12 /* StationServicesForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationServicesForm.h; sourceTree = "<group>"; };
+		4A24076813F5240F002A5C12 /* StationShipEquipmentForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StationShipEquipmentForm.cpp; sourceTree = "<group>"; };
+		4A24076913F5240F002A5C12 /* StationShipEquipmentForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationShipEquipmentForm.h; sourceTree = "<group>"; };
+		4A24076A13F5240F002A5C12 /* StationShipMarketForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StationShipMarketForm.cpp; sourceTree = "<group>"; };
+		4A24076B13F5240F002A5C12 /* StationShipMarketForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationShipMarketForm.h; sourceTree = "<group>"; };
+		4A24076C13F5240F002A5C12 /* StationShipRepairForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StationShipRepairForm.cpp; sourceTree = "<group>"; };
+		4A24076D13F5240F002A5C12 /* StationShipRepairForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationShipRepairForm.h; sourceTree = "<group>"; };
+		4A24076E13F5240F002A5C12 /* StationShipViewForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StationShipViewForm.cpp; sourceTree = "<group>"; };
+		4A24076F13F5240F002A5C12 /* StationShipViewForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationShipViewForm.h; sourceTree = "<group>"; };
+		4A24077013F5240F002A5C12 /* StationShipyardForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StationShipyardForm.cpp; sourceTree = "<group>"; };
+		4A24077113F5240F002A5C12 /* StationShipyardForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationShipyardForm.h; sourceTree = "<group>"; };
+		4A24078013F524E6002A5C12 /* GuiGradient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiGradient.cpp; sourceTree = "<group>"; };
+		4A24078113F524E6002A5C12 /* GuiGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiGradient.h; sourceTree = "<group>"; };
+		4A24078213F524E6002A5C12 /* GuiStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiStack.cpp; sourceTree = "<group>"; };
+		4A24078313F524E6002A5C12 /* GuiStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiStack.h; sourceTree = "<group>"; };
+		4A30F3C513D463DC00DB17D9 /* TextureManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureManager.cpp; sourceTree = "<group>"; };
+		4A30F3C613D463DC00DB17D9 /* TextureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureManager.h; sourceTree = "<group>"; };
 		4A5619CE13866622002A904C /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.6.dylib; path = /opt/local/lib/libfreetype.6.dylib; sourceTree = "<absolute>"; };
 		4A5619D413867033002A904C /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = /opt/local/lib/libvorbisfile.3.dylib; sourceTree = "<absolute>"; };
+		4A61E15C13978F1000193E43 /* Background.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Background.cpp; sourceTree = "<group>"; };
+		4A61E15D13978F1000193E43 /* Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Background.h; sourceTree = "<group>"; };
+		4A61E16013978FA900193E43 /* libpng14.14.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpng14.14.dylib; path = /opt/local/lib/libpng14.14.dylib; sourceTree = "<absolute>"; };
 		4A62EF27136979E000919EBB /* DeadVideoLink.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeadVideoLink.cpp; sourceTree = "<group>"; };
 		4A62EF28136979E000919EBB /* DeadVideoLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeadVideoLink.h; sourceTree = "<group>"; };
 		4A62EF29136979E000919EBB /* FaceVideoLink.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FaceVideoLink.cpp; sourceTree = "<group>"; };
@@ -486,8 +541,6 @@
 		4A6C4C2C13532FC300FDD53F /* gameconsts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gameconsts.h; sourceTree = "<group>"; };
 		4A6C4C2D13532FC300FDD53F /* GameMenuView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameMenuView.cpp; sourceTree = "<group>"; };
 		4A6C4C2E13532FC300FDD53F /* GameMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMenuView.h; sourceTree = "<group>"; };
-		4A6C4C2F13532FC300FDD53F /* GenericChatForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GenericChatForm.cpp; sourceTree = "<group>"; };
-		4A6C4C3013532FC300FDD53F /* GenericChatForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericChatForm.h; sourceTree = "<group>"; };
 		4A6C4C3113532FC300FDD53F /* GeoSphere.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeoSphere.cpp; sourceTree = "<group>"; };
 		4A6C4C3213532FC300FDD53F /* GeoSphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoSphere.h; sourceTree = "<group>"; };
 		4A6C4C3313532FC300FDD53F /* GeoSphereStyle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeoSphereStyle.cpp; sourceTree = "<group>"; };
@@ -534,8 +587,6 @@
 		4A6C4D3A13532FC300FDD53F /* Planet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Planet.h; sourceTree = "<group>"; };
 		4A6C4D3B13532FC300FDD53F /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
 		4A6C4D3C13532FC300FDD53F /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
-		4A6C4D3D13532FC300FDD53F /* PoliceChatForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PoliceChatForm.cpp; sourceTree = "<group>"; };
-		4A6C4D3E13532FC300FDD53F /* PoliceChatForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PoliceChatForm.h; sourceTree = "<group>"; };
 		4A6C4D3F13532FC300FDD53F /* Polit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Polit.cpp; sourceTree = "<group>"; };
 		4A6C4D4013532FC300FDD53F /* Polit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Polit.h; sourceTree = "<group>"; };
 		4A6C4D4113532FC300FDD53F /* Projectile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Projectile.cpp; sourceTree = "<group>"; };
@@ -576,8 +627,6 @@
 		4A6C4D6413532FC300FDD53F /* Star.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Star.h; sourceTree = "<group>"; };
 		4A6C4D6513532FC300FDD53F /* StarSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StarSystem.cpp; sourceTree = "<group>"; };
 		4A6C4D6613532FC300FDD53F /* StarSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarSystem.h; sourceTree = "<group>"; };
-		4A6C4D6713532FC300FDD53F /* SysLoc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SysLoc.cpp; sourceTree = "<group>"; };
-		4A6C4D6813532FC300FDD53F /* SysLoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SysLoc.h; sourceTree = "<group>"; };
 		4A6C4D6913532FC300FDD53F /* SystemInfoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemInfoView.cpp; sourceTree = "<group>"; };
 		4A6C4D6A13532FC300FDD53F /* SystemInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemInfoView.h; sourceTree = "<group>"; };
 		4A6C4D6B13532FC300FDD53F /* SystemView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemView.cpp; sourceTree = "<group>"; };
@@ -603,8 +652,13 @@
 		4A82AA811386969B0028CCED /* TextureFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureFont.h; sourceTree = "<group>"; };
 		4A82AA821386969B0028CCED /* VectorFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VectorFont.cpp; sourceTree = "<group>"; };
 		4A82AA831386969B0028CCED /* VectorFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VectorFont.h; sourceTree = "<group>"; };
-		4A9937181368355400EA0EE5 /* BBAdvertChatForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BBAdvertChatForm.cpp; sourceTree = "<group>"; };
-		4A9937191368355400EA0EE5 /* BBAdvertChatForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAdvertChatForm.h; sourceTree = "<group>"; };
+		4A85A86313C4631D00C2B986 /* LuaMusic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaMusic.cpp; sourceTree = "<group>"; };
+		4A85A86413C4631D00C2B986 /* LuaMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaMusic.h; sourceTree = "<group>"; };
+		4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSystemPath.cpp; sourceTree = "<group>"; };
+		4A85A86613C4631D00C2B986 /* LuaSystemPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaSystemPath.h; sourceTree = "<group>"; };
+		4A85A86713C4631D00C2B986 /* SoundMusic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundMusic.cpp; sourceTree = "<group>"; };
+		4A85A86813C4631D00C2B986 /* SoundMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundMusic.h; sourceTree = "<group>"; };
+		4A85A86913C4631D00C2B986 /* SystemPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemPath.h; sourceTree = "<group>"; };
 		4A99371A1368355400EA0EE5 /* DeleteEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteEmitter.h; sourceTree = "<group>"; };
 		4A99371B1368355400EA0EE5 /* LuaBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaBody.cpp; sourceTree = "<group>"; };
 		4A99371C1368355400EA0EE5 /* LuaBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaBody.h; sourceTree = "<group>"; };
@@ -635,8 +689,6 @@
 		4A9937351368355500EA0EE5 /* LuaRand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaRand.h; sourceTree = "<group>"; };
 		4A9937361368355500EA0EE5 /* LuaSBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSBody.cpp; sourceTree = "<group>"; };
 		4A9937371368355500EA0EE5 /* LuaSBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaSBody.h; sourceTree = "<group>"; };
-		4A9937381368355500EA0EE5 /* LuaSBodyPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSBodyPath.cpp; sourceTree = "<group>"; };
-		4A9937391368355500EA0EE5 /* LuaSBodyPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaSBodyPath.h; sourceTree = "<group>"; };
 		4A99373A1368355500EA0EE5 /* LuaSerializer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSerializer.cpp; sourceTree = "<group>"; };
 		4A99373B1368355500EA0EE5 /* LuaSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaSerializer.h; sourceTree = "<group>"; };
 		4A99373C1368355500EA0EE5 /* LuaShip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaShip.cpp; sourceTree = "<group>"; };
@@ -673,6 +725,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A61E16113978FA900193E43 /* libpng14.14.dylib in Frameworks */,
 				4A5619D513867033002A904C /* libvorbisfile.3.dylib in Frameworks */,
 				4A5619CF13866622002A904C /* libfreetype.6.dylib in Frameworks */,
 				4AE5CA401383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in Frameworks */,
@@ -691,6 +744,10 @@
 		4A19030B138AA33300E0229C /* gui */ = {
 			isa = PBXGroup;
 			children = (
+				4A24078013F524E6002A5C12 /* GuiGradient.cpp */,
+				4A24078113F524E6002A5C12 /* GuiGradient.h */,
+				4A24078213F524E6002A5C12 /* GuiStack.cpp */,
+				4A24078313F524E6002A5C12 /* GuiStack.h */,
 				4A190325138AA33300E0229C /* Gui.cpp */,
 				4A190326138AA33300E0229C /* Gui.h */,
 				4A190328138AA33300E0229C /* GuiAdjustment.h */,
@@ -901,6 +958,7 @@
 				4A5619D413867033002A904C /* libvorbisfile.3.dylib */,
 				4A5619CE13866622002A904C /* libfreetype.6.dylib */,
 				4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */,
+				4A61E16013978FA900193E43 /* libpng14.14.dylib */,
 				4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */,
 				4AE5CA371383220E00B55DEB /* libGLEW.1.6.0.dylib */,
 				4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */,
@@ -960,6 +1018,46 @@
 			children = (
 				4A1903C1138AA39C00E0229C /* contrib */,
 				4A19030B138AA33300E0229C /* gui */,
+				4A24075513F5240F002A5C12 /* ChatForm.cpp */,
+				4A24075613F5240F002A5C12 /* ChatForm.h */,
+				4A24075713F5240F002A5C12 /* Form.h */,
+				4A24075813F5240F002A5C12 /* FormController.cpp */,
+				4A24075913F5240F002A5C12 /* FormController.h */,
+				4A24075A13F5240F002A5C12 /* Lang.cpp */,
+				4A24075B13F5240F002A5C12 /* Lang.h */,
+				4A24075C13F5240F002A5C12 /* ShipSpinnerWidget.cpp */,
+				4A24075D13F5240F002A5C12 /* ShipSpinnerWidget.h */,
+				4A24075E13F5240F002A5C12 /* StationAdvertForm.cpp */,
+				4A24075F13F5240F002A5C12 /* StationAdvertForm.h */,
+				4A24076013F5240F002A5C12 /* StationBulletinBoardForm.cpp */,
+				4A24076113F5240F002A5C12 /* StationBulletinBoardForm.h */,
+				4A24076213F5240F002A5C12 /* StationCommodityMarketForm.cpp */,
+				4A24076313F5240F002A5C12 /* StationCommodityMarketForm.h */,
+				4A24076413F5240F002A5C12 /* StationPoliceForm.cpp */,
+				4A24076513F5240F002A5C12 /* StationPoliceForm.h */,
+				4A24076613F5240F002A5C12 /* StationServicesForm.cpp */,
+				4A24076713F5240F002A5C12 /* StationServicesForm.h */,
+				4A24076813F5240F002A5C12 /* StationShipEquipmentForm.cpp */,
+				4A24076913F5240F002A5C12 /* StationShipEquipmentForm.h */,
+				4A24076A13F5240F002A5C12 /* StationShipMarketForm.cpp */,
+				4A24076B13F5240F002A5C12 /* StationShipMarketForm.h */,
+				4A24076C13F5240F002A5C12 /* StationShipRepairForm.cpp */,
+				4A24076D13F5240F002A5C12 /* StationShipRepairForm.h */,
+				4A24076E13F5240F002A5C12 /* StationShipViewForm.cpp */,
+				4A24076F13F5240F002A5C12 /* StationShipViewForm.h */,
+				4A24077013F5240F002A5C12 /* StationShipyardForm.cpp */,
+				4A24077113F5240F002A5C12 /* StationShipyardForm.h */,
+				4A85A86313C4631D00C2B986 /* LuaMusic.cpp */,
+				4A85A86413C4631D00C2B986 /* LuaMusic.h */,
+				4A30F3C513D463DC00DB17D9 /* TextureManager.cpp */,
+				4A30F3C613D463DC00DB17D9 /* TextureManager.h */,
+				4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */,
+				4A85A86613C4631D00C2B986 /* LuaSystemPath.h */,
+				4A85A86713C4631D00C2B986 /* SoundMusic.cpp */,
+				4A85A86813C4631D00C2B986 /* SoundMusic.h */,
+				4A85A86913C4631D00C2B986 /* SystemPath.h */,
+				4A61E15D13978F1000193E43 /* Background.h */,
+				4A61E15C13978F1000193E43 /* Background.cpp */,
 				4A006D62138FB6ED000C6DFC /* RenderShader.h */,
 				4A006D61138FB6ED000C6DFC /* RenderShader.cpp */,
 				4A99893C1388BCD900647BA9 /* FontConfig.cpp */,
@@ -981,8 +1079,6 @@
 				4A62EF29136979E000919EBB /* FaceVideoLink.cpp */,
 				4A62EF2A136979E000919EBB /* FaceVideoLink.h */,
 				4A62EF2B136979E000919EBB /* VideoLink.h */,
-				4A9937181368355400EA0EE5 /* BBAdvertChatForm.cpp */,
-				4A9937191368355400EA0EE5 /* BBAdvertChatForm.h */,
 				4A99371A1368355400EA0EE5 /* DeleteEmitter.h */,
 				4A99371B1368355400EA0EE5 /* LuaBody.cpp */,
 				4A99371C1368355400EA0EE5 /* LuaBody.h */,
@@ -1013,8 +1109,6 @@
 				4A9937351368355500EA0EE5 /* LuaRand.h */,
 				4A9937361368355500EA0EE5 /* LuaSBody.cpp */,
 				4A9937371368355500EA0EE5 /* LuaSBody.h */,
-				4A9937381368355500EA0EE5 /* LuaSBodyPath.cpp */,
-				4A9937391368355500EA0EE5 /* LuaSBodyPath.h */,
 				4A99373A1368355500EA0EE5 /* LuaSerializer.cpp */,
 				4A99373B1368355500EA0EE5 /* LuaSerializer.h */,
 				4A99373C1368355500EA0EE5 /* LuaShip.cpp */,
@@ -1068,8 +1162,6 @@
 				4A6C4C2C13532FC300FDD53F /* gameconsts.h */,
 				4A6C4C2D13532FC300FDD53F /* GameMenuView.cpp */,
 				4A6C4C2E13532FC300FDD53F /* GameMenuView.h */,
-				4A6C4C2F13532FC300FDD53F /* GenericChatForm.cpp */,
-				4A6C4C3013532FC300FDD53F /* GenericChatForm.h */,
 				4A6C4C3113532FC300FDD53F /* GeoSphere.cpp */,
 				4A6C4C3213532FC300FDD53F /* GeoSphere.h */,
 				4A6C4C3313532FC300FDD53F /* GeoSphereStyle.cpp */,
@@ -1116,8 +1208,6 @@
 				4A6C4D3A13532FC300FDD53F /* Planet.h */,
 				4A6C4D3B13532FC300FDD53F /* Player.cpp */,
 				4A6C4D3C13532FC300FDD53F /* Player.h */,
-				4A6C4D3D13532FC300FDD53F /* PoliceChatForm.cpp */,
-				4A6C4D3E13532FC300FDD53F /* PoliceChatForm.h */,
 				4A6C4D3F13532FC300FDD53F /* Polit.cpp */,
 				4A6C4D4013532FC300FDD53F /* Polit.h */,
 				4A6C4D4113532FC300FDD53F /* Projectile.cpp */,
@@ -1158,8 +1248,6 @@
 				4A6C4D6413532FC300FDD53F /* Star.h */,
 				4A6C4D6513532FC300FDD53F /* StarSystem.cpp */,
 				4A6C4D6613532FC300FDD53F /* StarSystem.h */,
-				4A6C4D6713532FC300FDD53F /* SysLoc.cpp */,
-				4A6C4D6813532FC300FDD53F /* SysLoc.h */,
 				4A6C4D6913532FC300FDD53F /* SystemInfoView.cpp */,
 				4A6C4D6A13532FC300FDD53F /* SystemInfoView.h */,
 				4A6C4D6B13532FC300FDD53F /* SystemView.cpp */,
@@ -1222,7 +1310,7 @@
 /* Begin PBXProject section */
 		4A20B0D01353194B0020F43E /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */;
+			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "Pioneer" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1266,7 +1354,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "function relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -f $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\nrelocateLibInApp /opt/local/lib/ libfreetype.6.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libz.1.dylib\n\n# GLEW dylibs\nrelocateLibInApp /opt/local/lib/ libGLEW.1.6.0.dylib\n\n# sigcxx\nrelocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n# SDL\nrelocateLibInApp /opt/local/lib/ libSDL-1.2.0.dylib\n\n# SDL_image\nrelocateLibInApp /opt/local/lib/ libSDL_image-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libpng14.14.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libSDL-1.2.0.dylib\n\n# SDL_sound\nrelocateLibInApp /opt/local/lib/ libSDL_sound-1.0.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libmodplug.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libFLAC.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libogg.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libspeex.1.dylib\nlnk libSDL_sound-1.0.1.0.2.dylib libSDL_sound-1.0.1.dylib\n\n# vorbisfile\nrelocateLibInApp /opt/local/lib/ libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libogg.0.dylib\n\n#\n# EXTRA LIBS\n#\n\n# vorbis\nidLib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbis.0.dylib libogg.0.dylib\n\n# ogg\nidLib libogg.0.dylib\n\n# png\nidLib libpng14.14.dylib\nrelocateSubLib /opt/local/lib/ libpng14.14.dylib libz.1.dylib\n\n# zlib\nidLib libz.1.2.5.dylib\nlnk libz.1.2.5.dylib libz.1.dylib\n\n# tiff\nidLib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libz.1.dylib\n\n# jpeg\nidLib libjpeg.8.dylib\n\n# smpeg\nidLib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libsmpeg-0.4.0.dylib libSDL-1.2.0.dylib\n\n# modplug\nidLib libmodplug.1.dylib\n\n# FLAC\nidLib libFLAC.8.2.0.dylib\nrelocateSubLib /opt/local/lib/ libFLAC.8.2.0.dylib libogg.0.dylib\nlnk libFLAC.8.2.0.dylib libFLAC.8.dylib\n\n#speex\nidLib libspeex.1.dylib\nlnk libspeex.1.5.0.dylib libspeex.1.dylib\n";
+			shellScript = "function relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -f $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\nrelocateLibInApp /opt/local/lib/ libfreetype.6.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libz.1.dylib\n\n# GLEW dylibs\nrelocateLibInApp /opt/local/lib/ libGLEW.1.6.0.dylib\n\n# sigcxx\nrelocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n# SDL\nrelocateLibInApp /opt/local/lib/ libSDL-1.2.0.dylib\n\n# SDL_image\nrelocateLibInApp /opt/local/lib/ libSDL_image-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libpng14.14.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libSDL-1.2.0.dylib\n\n# SDL_sound\nrelocateLibInApp /opt/local/lib/ libSDL_sound-1.0.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libmodplug.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libFLAC.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libogg.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libspeex.1.dylib\nlnk libSDL_sound-1.0.1.0.2.dylib libSDL_sound-1.0.1.dylib\n\n# vorbisfile\nrelocateLibInApp /opt/local/lib/ libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libogg.0.dylib\n\n#\n# EXTRA LIBS\n#\n\n# vorbis\nidLib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbis.0.dylib libogg.0.dylib\n\n# ogg\nidLib libogg.0.dylib\n\n# png\nidLib libpng14.14.dylib\nrelocateSubLib /opt/local/lib/ libpng14.14.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libpng14.14.dylib\n\n# zlib\nidLib libz.1.2.5.dylib\nlnk libz.1.2.5.dylib libz.1.dylib\n\n# tiff\nidLib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libz.1.dylib\n\n# jpeg\nidLib libjpeg.8.dylib\n\n# smpeg\nidLib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libsmpeg-0.4.0.dylib libSDL-1.2.0.dylib\n\n# modplug\nidLib libmodplug.1.dylib\n\n# FLAC\nidLib libFLAC.8.2.0.dylib\nrelocateSubLib /opt/local/lib/ libFLAC.8.2.0.dylib libogg.0.dylib\nlnk libFLAC.8.2.0.dylib libFLAC.8.dylib\n\n#speex\nidLib libspeex.1.dylib\nlnk libspeex.1.5.0.dylib libspeex.1.dylib\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1292,7 +1380,6 @@
 				4A6C4DE513532FC300FDD53F /* GalacticView.cpp in Sources */,
 				4A6C4DE613532FC300FDD53F /* Galaxy.cpp in Sources */,
 				4A6C4DE713532FC300FDD53F /* GameMenuView.cpp in Sources */,
-				4A6C4DE813532FC300FDD53F /* GenericChatForm.cpp in Sources */,
 				4A6C4DE913532FC300FDD53F /* GeoSphere.cpp in Sources */,
 				4A6C4DEA13532FC300FDD53F /* GeoSphereStyle.cpp in Sources */,
 				4A6C4E0413532FC300FDD53F /* HyperspaceCloud.cpp in Sources */,
@@ -1314,7 +1401,6 @@
 				4A6C4E7413532FC300FDD53F /* PiLuaClasses.cpp in Sources */,
 				4A6C4E7713532FC300FDD53F /* Planet.cpp in Sources */,
 				4A6C4E7813532FC300FDD53F /* Player.cpp in Sources */,
-				4A6C4E7913532FC300FDD53F /* PoliceChatForm.cpp in Sources */,
 				4A6C4E7A13532FC300FDD53F /* Polit.cpp in Sources */,
 				4A6C4E7B13532FC300FDD53F /* Projectile.cpp in Sources */,
 				4A6C4E7C13532FC300FDD53F /* Render.cpp in Sources */,
@@ -1335,12 +1421,10 @@
 				4A6C4E8B13532FC300FDD53F /* SpaceStationView.cpp in Sources */,
 				4A6C4E8C13532FC300FDD53F /* Star.cpp in Sources */,
 				4A6C4E8D13532FC300FDD53F /* StarSystem.cpp in Sources */,
-				4A6C4E8E13532FC300FDD53F /* SysLoc.cpp in Sources */,
 				4A6C4E8F13532FC300FDD53F /* SystemInfoView.cpp in Sources */,
 				4A6C4E9013532FC300FDD53F /* SystemView.cpp in Sources */,
 				4A6C4E9213532FC300FDD53F /* utils.cpp in Sources */,
 				4A6C4E9313532FC300FDD53F /* WorldView.cpp in Sources */,
-				4A9937501368355500EA0EE5 /* BBAdvertChatForm.cpp in Sources */,
 				4A9937511368355500EA0EE5 /* LuaBody.cpp in Sources */,
 				4A9937521368355500EA0EE5 /* LuaCargoBody.cpp in Sources */,
 				4A9937531368355500EA0EE5 /* LuaConstants.cpp in Sources */,
@@ -1356,7 +1440,6 @@
 				4A99375D1368355500EA0EE5 /* LuaPlayer.cpp in Sources */,
 				4A99375E1368355500EA0EE5 /* LuaRand.cpp in Sources */,
 				4A99375F1368355500EA0EE5 /* LuaSBody.cpp in Sources */,
-				4A9937601368355500EA0EE5 /* LuaSBodyPath.cpp in Sources */,
 				4A9937611368355500EA0EE5 /* LuaSerializer.cpp in Sources */,
 				4A9937621368355500EA0EE5 /* LuaShip.cpp in Sources */,
 				4A9937631368355500EA0EE5 /* LuaShipType.cpp in Sources */,
@@ -1440,6 +1523,27 @@
 				4A19050B138AA39C00E0229C /* oolua_storage.cpp in Sources */,
 				4A19050D138AA39C00E0229C /* push_pointer_internal.cpp in Sources */,
 				4A006D63138FB6ED000C6DFC /* RenderShader.cpp in Sources */,
+				4A61E15E13978F1000193E43 /* Background.cpp in Sources */,
+				4A85A86A13C4631D00C2B986 /* LuaMusic.cpp in Sources */,
+				4A85A86B13C4631D00C2B986 /* LuaSystemPath.cpp in Sources */,
+				4A85A86C13C4631D00C2B986 /* SoundMusic.cpp in Sources */,
+				4A30F3C713D463DC00DB17D9 /* TextureManager.cpp in Sources */,
+				4A24077213F5240F002A5C12 /* ChatForm.cpp in Sources */,
+				4A24077313F5240F002A5C12 /* FormController.cpp in Sources */,
+				4A24077413F5240F002A5C12 /* Lang.cpp in Sources */,
+				4A24077513F5240F002A5C12 /* ShipSpinnerWidget.cpp in Sources */,
+				4A24077613F5240F002A5C12 /* StationAdvertForm.cpp in Sources */,
+				4A24077713F5240F002A5C12 /* StationBulletinBoardForm.cpp in Sources */,
+				4A24077813F5240F002A5C12 /* StationCommodityMarketForm.cpp in Sources */,
+				4A24077913F5240F002A5C12 /* StationPoliceForm.cpp in Sources */,
+				4A24077A13F5240F002A5C12 /* StationServicesForm.cpp in Sources */,
+				4A24077B13F5240F002A5C12 /* StationShipEquipmentForm.cpp in Sources */,
+				4A24077C13F5240F002A5C12 /* StationShipMarketForm.cpp in Sources */,
+				4A24077D13F5240F002A5C12 /* StationShipRepairForm.cpp in Sources */,
+				4A24077E13F5240F002A5C12 /* StationShipViewForm.cpp in Sources */,
+				4A24077F13F5240F002A5C12 /* StationShipyardForm.cpp in Sources */,
+				4A24078413F524E6002A5C12 /* GuiGradient.cpp in Sources */,
+				4A24078513F524E6002A5C12 /* GuiStack.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1523,7 +1627,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.6;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1571,7 +1675,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.6;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1580,7 +1684,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */ = {
+		4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "Pioneer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4A20B0D51353194B0020F43E /* Debug */,

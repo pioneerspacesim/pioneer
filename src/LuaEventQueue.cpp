@@ -231,6 +231,29 @@ void LuaEventQueueBase::Emit()
  *   stable
  *
  *
+ * Event: onFrameChanged
+ *
+ * Triggered as a dynamic <Body> moves between frames of reference.
+ *
+ * > local onFrameChanged = function (body) ... end
+ * > EventQueue.onFrameChanged:Connect(onFrameChanged)
+ *
+ * Details of the new frame itself can be obtained from the body's
+ * <Body.frameBody> and <Body.frameRotating> attributes.
+ *
+ * Parameters:
+ *
+ *   body - the dynamic <Body> that changed frames
+ *
+ * Availability:
+ *
+ *   alpha 12
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
  * Event: onShipDestroyed
  *
  * Triggered when a ship is destroyed.
@@ -351,6 +374,52 @@ void LuaEventQueueBase::Emit()
  * Status:
  *
  *   stable
+ *
+ *
+ * Event: onShipLanded
+ *
+ * Triggered when a ship performs a surface landing
+ * (not on a spaceport).
+ *
+ * > local onShipLanded = function (ship, body) ... end
+ * > EventQueue.onShipLanded:Connect(onShipLanded)
+ *
+ * Parameters:
+ *
+ *   ship - the <Ship> that landed
+ *
+ *   body - the <Body> the ship landed on
+ *
+ * Availability:
+ *
+ *   alpha 13
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
+ * Event: onShipTakeOff
+ *
+ * Triggered when a ship takes off from a surface
+ * (not from a spaceport).
+ *
+ * > local onBlastOff = function (ship, body) ... end
+ * > EventQueue.onShipTakeOff:Connect(onBlastOff)
+ *
+ * Parameters:
+ *
+ *   ship - the <Ship> that took off
+ *
+ *   body - the <Body> the ship took off from
+ *
+ * Availability:
+ *
+ *   alpha 13
+ *
+ * Status:
+ *
+ *   experimental
  *
  *
  * Event: onShipAlertChanged

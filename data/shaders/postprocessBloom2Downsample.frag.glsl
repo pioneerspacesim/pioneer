@@ -1,4 +1,3 @@
-#extension GL_ARB_texture_rectangle : enable
 uniform sampler2DRect fboTex;
 // 2nd downscale stage of making the bloom texture
 // simple downscale

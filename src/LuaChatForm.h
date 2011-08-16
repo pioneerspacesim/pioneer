@@ -1,45 +1,49 @@
 #ifndef _LUACHATFORM_H
 #define _LUACHATFORM_H
 
-#include "BBAdvertChatForm.h"
+#include "StationAdvertForm.h"
 #include "MarketAgent.h"
 #include "DeleteEmitter.h"
 #include "LuaManager.h"
 
-class BBAdvert;
+struct BBAdvert;
 class CommodityTradeWidget;
 
-class LuaChatForm: public BBAdvertChatForm, public MarketAgent, public DeleteEmitter {
+class LuaChatForm: public StationAdvertForm, public MarketAgent, public DeleteEmitter {
 	friend class LuaObject<LuaChatForm>;
 
 public:
-    LuaChatForm(SpaceStation *station, const BBAdvert *ad) : BBAdvertChatForm(station, ad), m_adTaken(false) {}
-    virtual ~LuaChatForm();
+    LuaChatForm(FormController *controller, SpaceStation *station, const BBAdvert &ad);
+	~LuaChatForm();
 
-	virtual void CallDialogHandler(int optionClicked);
-	virtual void RemoveAdvert();
-	void RemoveAdvertOnClose() { m_adTaken = true; }
+	virtual void OnOptionClicked(int option);
 
 	/* MarketAgent stuff */
-	Sint64 GetPrice(Equip::Type t) const;
-	bool CanBuy(Equip::Type t, bool verbose) const;
-	bool CanSell(Equip::Type t, bool verbose) const;
-	bool DoesSell(Equip::Type t) const;
-	int GetStock(Equip::Type t) const;
+	virtual Sint64 GetPrice(Equip::Type t) const;
+	virtual bool CanBuy(Equip::Type t, bool verbose) const;
+	virtual bool CanSell(Equip::Type t, bool verbose) const;
+	virtual bool DoesSell(Equip::Type t) const;
+	virtual int GetStock(Equip::Type t) const;
 
 protected:
 	/* MarketAgent stuff */
-	void Bought(Equip::Type t);
-	void Sold(Equip::Type t);
+	virtual void Bought(Equip::Type t);
+	virtual void Sold(Equip::Type t);
 
 private:
 	CommodityTradeWidget *m_commodityTradeWidget;
 	void OnClickBuy(int equipType);
 	void OnClickSell(int equipType);
 
+	static int l_luachatform_set_message(lua_State *l);
+	static int l_luachatform_add_option(lua_State *l);
+	static int l_luachatform_clear(lua_State *l);
+	static int l_luachatform_close(lua_State *l);
 	static int l_luachatform_add_goods_trader(lua_State *l);
+	static int l_luachatform_goto_police(lua_State *l);
 
-	bool m_adTaken;
+	void OnClose(Form *form);
+	sigc::connection m_formClosedConnection;
 };
 
 #endif /* _LUACHATFORM_H */

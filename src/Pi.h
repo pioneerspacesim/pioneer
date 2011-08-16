@@ -28,9 +28,9 @@ class InfoView;
 class SpaceStation;
 class GalacticView;
 class Ship;
-class SBodyPath;
 class GameMenuView;
 struct lua_State;
+namespace Sound { class MusicPlayer; }
 
 #if OBJECTVIEWER
 class ObjectViewerView;
@@ -100,7 +100,6 @@ public:
 	static sigc::signal<void, int, int, int> onMouseButtonUp;
 	static sigc::signal<void, int, int, int> onMouseButtonDown;
 	static sigc::signal<void> onPlayerChangeTarget; // navigation or combat
-	static sigc::signal<void> onPlayerChangeHyperspaceTarget;
 	static sigc::signal<void> onPlayerChangeFlightControlState;
 	static sigc::signal<void> onPlayerChangeEquipment;
 	static sigc::signal<void, const SpaceStation*> onDockingClearanceExpired;
@@ -114,16 +113,20 @@ public:
 	static LuaEventQueue<> luaOnGameEnd;
 	static LuaEventQueue<Ship> luaOnEnterSystem;
 	static LuaEventQueue<Ship> luaOnLeaveSystem;
+	static LuaEventQueue<Body> luaOnFrameChanged;
 	static LuaEventQueue<Ship,Body> luaOnShipDestroyed;
 	static LuaEventQueue<Ship,Body> luaOnShipHit;
 	static LuaEventQueue<Ship,Body> luaOnShipCollided;
 	static LuaEventQueue<Ship,SpaceStation> luaOnShipDocked;
 	static LuaEventQueue<Ship,SpaceStation> luaOnShipUndocked;
-	static LuaEventQueue<Ship> luaOnShipAlertChanged;
+	static LuaEventQueue<Ship,Body> luaOnShipLanded;
+	static LuaEventQueue<Ship,Body> luaOnShipTakeOff;
+	static LuaEventQueue<Ship,const char *> luaOnShipAlertChanged;
 	static LuaEventQueue<Ship,CargoBody> luaOnJettison;
 	static LuaEventQueue<Ship> luaOnAICompleted;
 	static LuaEventQueue<SpaceStation> luaOnCreateBB;
 	static LuaEventQueue<SpaceStation> luaOnUpdateBB;
+	static LuaEventQueue<> luaOnSongFinished;
 
 	static MTRand rng;
 	static int statSceneTris;
@@ -148,6 +151,7 @@ public:
 	static GLUquadric *gluQuadric;
 	static StarSystem *currentSystem;
 	static lua_State *luaPersistent;
+	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
 
 #if OBJECTVIEWER
 	static ObjectViewerView *objectViewerView;
@@ -195,6 +199,7 @@ private:
 		std::vector<float> axes;
 	};
 	static std::vector<JoystickState> joysticks;
+	static Sound::MusicPlayer musicPlayer;
 };
 
 #endif /* _PI_H */

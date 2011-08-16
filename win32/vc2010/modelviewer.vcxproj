@@ -54,7 +54,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>..\..\src;..\..\win32\src;..\..\win32\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
       <StructMemberAlignment>4Bytes</StructMemberAlignment>
       <BufferSecurityCheck>true</BufferSecurityCheck>
     </ClCompile>
@@ -62,7 +62,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -76,7 +76,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>..\..\src;..\..\win32\src;..\..\win32\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
       <StructMemberAlignment>4Bytes</StructMemberAlignment>
       <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
@@ -86,7 +86,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_release.lib;libvorbis_static_vc2010_release.lib;libvorbisfile_static_vc2010_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-2_2_8.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_release.lib;libvorbis_static_vc2010_release.lib;libvorbisfile_static_vc2010_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-2_2_8.lib;libpng15.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -94,38 +94,44 @@
     <ClCompile Include="..\..\src\collider\CollisionSpace.cpp" />
     <ClCompile Include="..\..\src\collider\Geom.cpp" />
     <ClCompile Include="..\..\src\collider\GeomTree.cpp" />
-    <ClCompile Include="..\..\src\glfreetype.cpp" />
-    <ClCompile Include="..\..\src\Gui.cpp" />
-    <ClCompile Include="..\..\src\GuiBox.cpp" />
-    <ClCompile Include="..\..\src\GuiButton.cpp" />
-    <ClCompile Include="..\..\src\GuiContainer.cpp" />
-    <ClCompile Include="..\..\src\GuiFixed.cpp" />
-    <ClCompile Include="..\..\src\GuiImage.cpp" />
-    <ClCompile Include="..\..\src\GuiImageButton.cpp" />
-    <ClCompile Include="..\..\src\GuiImageRadioButton.cpp" />
-    <ClCompile Include="..\..\src\GuiLabel.cpp" />
-    <ClCompile Include="..\..\src\GuiLabelSet.cpp" />
-    <ClCompile Include="..\..\src\GuiMeterBar.cpp" />
-    <ClCompile Include="..\..\src\GuiMultiStateImageButton.cpp" />
-    <ClCompile Include="..\..\src\GuiRadioButton.cpp" />
-    <ClCompile Include="..\..\src\GuiRadioGroup.cpp" />
-    <ClCompile Include="..\..\src\GuiRepeaterButton.cpp" />
-    <ClCompile Include="..\..\src\GuiScreen.cpp" />
-    <ClCompile Include="..\..\src\GuiTabbed.cpp" />
-    <ClCompile Include="..\..\src\GuiTextEntry.cpp" />
-    <ClCompile Include="..\..\src\GuiTextLayout.cpp" />
-    <ClCompile Include="..\..\src\GuiToggleButton.cpp" />
-    <ClCompile Include="..\..\src\GuiToolTip.cpp" />
-    <ClCompile Include="..\..\src\GuiVScrollBar.cpp" />
-    <ClCompile Include="..\..\src\GuiVScrollPortal.cpp" />
-    <ClCompile Include="..\..\src\GuiWidget.cpp" />
+    <ClCompile Include="..\..\src\FontConfig.cpp" />
+    <ClCompile Include="..\..\src\FontManager.cpp" />
+    <ClCompile Include="..\..\src\gui\Gui.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiBox.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiContainer.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiFixed.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiImage.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiImageButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiImageRadioButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiLabel.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiLabelSet.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiMeterBar.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiMultiStateImageButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiRadioButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiRadioGroup.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiRepeaterButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiScreen.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiTabbed.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiTextEntry.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiTextLayout.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiToggleButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiToolTip.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiVScrollBar.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiVScrollPortal.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiWidget.cpp" />
+    <ClCompile Include="..\..\src\IniConfig.cpp" />
     <ClCompile Include="..\..\src\LmrModel.cpp" />
     <ClCompile Include="..\..\src\LuaModelViewer.cpp" />
     <ClCompile Include="..\..\src\LuaUtils.cpp" />
     <ClCompile Include="..\..\src\MyLuaMathTypes.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\Render.cpp" />
+    <ClCompile Include="..\..\src\RenderShader.cpp" />
+    <ClCompile Include="..\..\src\TextureFont.cpp" />
+    <ClCompile Include="..\..\src\TextureManager.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
+    <ClCompile Include="..\..\src\VectorFont.cpp" />
     <ClCompile Include="..\src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -139,34 +145,36 @@
     <ClInclude Include="..\..\src\collider\CollisionSpace.h" />
     <ClInclude Include="..\..\src\collider\Geom.h" />
     <ClInclude Include="..\..\src\collider\GeomTree.h" />
-    <ClInclude Include="..\..\src\glfreetype.h" />
-    <ClInclude Include="..\..\src\Gui.h" />
-    <ClInclude Include="..\..\src\GuiAdjustment.h" />
-    <ClInclude Include="..\..\src\GuiBox.h" />
-    <ClInclude Include="..\..\src\GuiButton.h" />
-    <ClInclude Include="..\..\src\GuiContainer.h" />
-    <ClInclude Include="..\..\src\GuiEvents.h" />
-    <ClInclude Include="..\..\src\GuiFixed.h" />
-    <ClInclude Include="..\..\src\GuiImage.h" />
-    <ClInclude Include="..\..\src\GuiImageButton.h" />
-    <ClInclude Include="..\..\src\GuiImageRadioButton.h" />
-    <ClInclude Include="..\..\src\GuiISelectable.h" />
-    <ClInclude Include="..\..\src\GuiLabel.h" />
-    <ClInclude Include="..\..\src\GuiLabelSet.h" />
-    <ClInclude Include="..\..\src\GuiMeterBar.h" />
-    <ClInclude Include="..\..\src\GuiMultiStateImageButton.h" />
-    <ClInclude Include="..\..\src\GuiRadioButton.h" />
-    <ClInclude Include="..\..\src\GuiRadioGroup.h" />
-    <ClInclude Include="..\..\src\GuiRepeaterButton.h" />
-    <ClInclude Include="..\..\src\GuiScreen.h" />
-    <ClInclude Include="..\..\src\GuiTabbed.h" />
-    <ClInclude Include="..\..\src\GuiTextEntry.h" />
-    <ClInclude Include="..\..\src\GuiTextLayout.h" />
-    <ClInclude Include="..\..\src\GuiToggleButton.h" />
-    <ClInclude Include="..\..\src\GuiToolTip.h" />
-    <ClInclude Include="..\..\src\GuiVScrollBar.h" />
-    <ClInclude Include="..\..\src\GuiVScrollPortal.h" />
-    <ClInclude Include="..\..\src\GuiWidget.h" />
+    <ClInclude Include="..\..\src\FontConfig.h" />
+    <ClInclude Include="..\..\src\FontManager.h" />
+    <ClInclude Include="..\..\src\gui\Gui.h" />
+    <ClInclude Include="..\..\src\gui\GuiAdjustment.h" />
+    <ClInclude Include="..\..\src\gui\GuiBox.h" />
+    <ClInclude Include="..\..\src\gui\GuiButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiContainer.h" />
+    <ClInclude Include="..\..\src\gui\GuiEvents.h" />
+    <ClInclude Include="..\..\src\gui\GuiFixed.h" />
+    <ClInclude Include="..\..\src\gui\GuiImage.h" />
+    <ClInclude Include="..\..\src\gui\GuiImageButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiImageRadioButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiISelectable.h" />
+    <ClInclude Include="..\..\src\gui\GuiLabel.h" />
+    <ClInclude Include="..\..\src\gui\GuiLabelSet.h" />
+    <ClInclude Include="..\..\src\gui\GuiMeterBar.h" />
+    <ClInclude Include="..\..\src\gui\GuiMultiStateImageButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiRadioButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiRadioGroup.h" />
+    <ClInclude Include="..\..\src\gui\GuiRepeaterButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiScreen.h" />
+    <ClInclude Include="..\..\src\gui\GuiTabbed.h" />
+    <ClInclude Include="..\..\src\gui\GuiTextEntry.h" />
+    <ClInclude Include="..\..\src\gui\GuiTextLayout.h" />
+    <ClInclude Include="..\..\src\gui\GuiToggleButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiToolTip.h" />
+    <ClInclude Include="..\..\src\gui\GuiVScrollBar.h" />
+    <ClInclude Include="..\..\src\gui\GuiVScrollPortal.h" />
+    <ClInclude Include="..\..\src\gui\GuiWidget.h" />
+    <ClInclude Include="..\..\src\IniConfig.h" />
     <ClInclude Include="..\..\src\libs.h" />
     <ClInclude Include="..\..\src\LmrModel.h" />
     <ClInclude Include="..\..\src\LuaUtils.h" />
@@ -174,8 +182,12 @@
     <ClInclude Include="..\..\src\MyLuaMathTypes.h" />
     <ClInclude Include="..\..\src\perlin.h" />
     <ClInclude Include="..\..\src\Render.h" />
+    <ClInclude Include="..\..\src\RenderShader.h" />
+    <ClInclude Include="..\..\src\TextureFont.h" />
+    <ClInclude Include="..\..\src\TextureManager.h" />
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\vector3.h" />
+    <ClInclude Include="..\..\src\VectorFont.h" />
     <ClInclude Include="..\src\pch.h" />
     <ClInclude Include="..\src\win32-dirent.h" />
   </ItemGroup>

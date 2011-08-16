@@ -1,8 +1,8 @@
-					pioneer Quickstart Guide
+					Pioneer Quickstart Guide
 					~~~~~~~~~~~~~~~~~~~~~~~~
-				  http://pioneerspacesim.net/
+				   http://pioneerspacesim.net/
 
-Note: pioneer is still considered alpha. If you find any bugs or have an idea
+Note: Pioneer is still considered alpha. If you find any bugs or have an idea
 feel free to log them at http://github.com/pioneerspacesim/pioneer/issues
 
 Game Controls
@@ -60,11 +60,18 @@ You can rotate your craft either with the cursor keys or by holding down the
 right mouse button and moving the mouse. Only mouse rotation is available
 in the external view.
 
+Time Acceleration:
+~~~~~~~~~~~~~~~~~~
+
+shift-F1..F5   - controls time acceleration
+
+
 External view:
 ~~~~~~~~~~~~~~
 
 Cursor keys - Rotate view, pitch and yaw
 - and =     - Zoom in and out
+Home        - reset distance from ship
 
 Other things:
 ~~~~~~~~~~~~~

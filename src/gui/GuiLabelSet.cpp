@@ -2,6 +2,15 @@
 
 namespace Gui {
 
+LabelSet::LabelSet() : Widget()
+{
+	m_eventMask = EVENT_MOUSEDOWN;
+	m_labelsVisible = true;
+	m_labelsClickable = true;
+	m_labelColor = Color(1.0f,1.0f,1.0f,1.0f);
+	m_font = Screen::GetFont();
+}
+
 bool LabelSet::OnMouseDown(Gui::MouseButtonEvent *e)
 {
 	if ((e->button == 1) && (m_labelsClickable)) {
@@ -43,7 +52,7 @@ void LabelSet::Draw()
 	glColor4fv(m_labelColor);
 	if (m_labelColor.a != 1.0f) glEnable(GL_BLEND);
 	for (std::vector<LabelSetItem>::iterator i = m_items.begin(); i != m_items.end(); ++i) {
-		Gui::Screen::RenderString((*i).text, (*i).screenx, (*i).screeny - Gui::Screen::GetFontHeight()*0.5f);
+		Gui::Screen::RenderString((*i).text, (*i).screenx, (*i).screeny - Gui::Screen::GetFontHeight()*0.5f, m_font);
 	}
 	glDisable(GL_BLEND);
 }

@@ -1,37 +1,5 @@
-#ifdef __MINGW32__
-#define WINVER 0x0500
-#include <w32api.h>
-#define _WIN32_IE IE5
-#endif
-
-#include <stdlib.h>
-#include <math.h>
 #include "libs.h"
-#include "utils.h"
 #include "gui/Gui.h"
-#include <string>
-#include <map>
-
-#ifdef _WIN32
-
-#ifdef __MINGW32__
-#include <dirent.h>
-#include <sys/stat.h>
-#include <stdexcept>
-#define WINSHLWAPI
-#else /* !__MINGW32__ */
-#include "win32-dirent.h"
-#endif
-
-#include <shlobj.h>
-#include <shlwapi.h>
-
-#else /* !_WIN32 */
-#include <dirent.h>
-#include <errno.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#endif
 
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
@@ -135,6 +103,10 @@ private:
 	static const unsigned char days[2][12];
 };
 
+// This string of months needs to be made translatable.
+// It can always be an array of char with 37 elements,
+// as all languages can use just the first three letters
+// of the name of each month.
 const char timedate::months[37] = "JanFebMarAprMayJunJulAugSepOctNovDec";
 const unsigned char timedate::days[2][12] = {
 	{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
@@ -486,7 +458,7 @@ void Screendump(const char* destFile, const int W, const int H)
 		return;
 	}
 
-	FILE *out = fopen(fname.c_str(), "w");
+	FILE *out = fopen(fname.c_str(), "wb");
 	if (!out) {
 		png_destroy_write_struct(&png_ptr, &info_ptr);
 		fprintf(stderr, "Couldn't open %s for writing\n", fname.c_str());
@@ -499,7 +471,7 @@ void Screendump(const char* destFile, const int W, const int H)
 		PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
 		PNG_FILTER_TYPE_DEFAULT);
 
-	png_bytep rows[H];
+	png_bytepp rows = new png_bytep[H];
 
 	for (unsigned int i = 0; i < H; ++i) {
 		rows[i] = reinterpret_cast<png_bytep>(&pixel_data[(H-i-1) * W * 3]);
@@ -508,6 +480,38 @@ void Screendump(const char* destFile, const int W, const int H)
 	png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, 0);
 
 	png_destroy_write_struct(&png_ptr, &info_ptr);
+
+	delete[] rows;
+
 	fclose(out);
 	printf("Screenshot %s saved\n", fname.c_str());
+}
+
+// returns num bytes consumed, or 0 for end/bogus
+int conv_mb_to_wc(Uint32 *chr, const char *src)
+{
+	unsigned int c = *(reinterpret_cast<const unsigned char*>(src));
+	if (!c) { *chr = c; return 0; }
+	if (!(c & 0x80)) { *chr = c; return 1; }
+	else if (c >= 0xf0) {
+		if (!src[1] || !src[2] || !src[3]) return 0;
+		c = (c & 0x7) << 18;
+		c |= (src[1] & 0x3f) << 12;
+		c |= (src[2] & 0x3f) << 6;
+		c |= src[3] & 0x3f;
+		*chr = c; return 4;
+	}
+	else if (c >= 0xe0) {
+		if (!src[1] || !src[2]) return 0;
+		c = (c & 0xf) << 12;
+		c |= (src[1] & 0x3f) << 6;
+		c |= src[2] & 0x3f;
+		*chr = c; return 3;
+	}
+	else {
+		if (!src[1]) return 0;
+		c = (c & 0x1f) << 6;
+		c |= src[1] & 0x3f;
+		*chr = c; return 2;
+	}
 }

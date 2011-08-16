@@ -39,8 +39,10 @@ static bool line_clip_test(float topy, float bottomy)
 	return false;
 }
 
-TextLayout::TextLayout(const char *_str)
+TextLayout::TextLayout(const char *_str, TextureFont *font)
 {
+	m_font = font ? font : Gui::Screen::GetFont();
+
 	str = reinterpret_cast<char *>(malloc(strlen(_str)+1));
 	strcpy(str, _str);
 
@@ -48,25 +50,38 @@ TextLayout::TextLayout(const char *_str)
 	float wordWidth = 0;
 	char *wordstart = str;
 
-	for (unsigned int i=0; i<strlen(_str);) {
+	int i = 0;
+	while (str[i]) {
 		wordWidth = 0;
-		wordstart = str+i;
+		wordstart = &str[i];
+
 		while (str[i] && !isspace(str[i])) {
 			/* skip color control code things! */
 			if (str[i] == '#') {
 				unsigned int hexcol;
-				if (sscanf(str+i, "#%3x", &hexcol)==1) {
+				if (sscanf(&str[i], "#%3x", &hexcol)==1) {
 					i+=4;
 					continue;
 				}
 			}
-			const TextureFont::glfglyph_t &glyph = Gui::Screen::GetFont()->GetGlyph(str[i]);
+
+			Uint32 chr;
+			int n = conv_mb_to_wc(&chr, &str[i]);
+			assert(n);
+			i += n;
+
+			const TextureFont::glfglyph_t &glyph = m_font->GetGlyph(chr);
 			wordWidth += glyph.advx;
-			i++;
+
+			// XXX this should do kerning
 		}
+
 		words.push_back(word_t(wordstart, wordWidth));
-		if (str[i] == '\n') words.push_back(word_t(0,0));
-		str[i++] = 0;
+
+		if (str[i]) {
+			if (str[i] == '\n') words.push_back(word_t(0,0));
+			str[i++] = 0;
+		}
 	}
 }
 
@@ -98,13 +113,12 @@ void TextLayout::Render(const float width) const
 
 void TextLayout::_RenderRaw(float maxWidth) const
 {
-	TextureFont *font = Gui::Screen::GetFont();
 	float py = 0;
 	init_clip_test();
 
 	glPushMatrix();
 
-	const float spaceWidth = font->GetGlyph(' ').advx;
+	const float spaceWidth = m_font->GetGlyph(' ').advx;
 
 	std::list<word_t>::const_iterator wpos = this->words.begin();
 	// build lines of text
@@ -140,28 +154,27 @@ void TextLayout::_RenderRaw(float maxWidth) const
 			_spaceWidth = spaceWidth;
 		}
 
-		if (line_clip_test(py, py+font->GetHeight()*2.0)) {
+		if (line_clip_test(py, py+m_font->GetHeight()*2.0)) {
 			float px = 0;
 			for (int j=0; j<num; j++) {
-				if ((*wpos).word) font->RenderMarkup((*wpos).word, round(px), round(py));
+				if ((*wpos).word) m_font->RenderMarkup((*wpos).word, round(px), round(py));
 				px += (*wpos).advx + _spaceWidth;
 				wpos++;
 			}
 		} else {
 			for (int j=0; j<num; j++) wpos++;
 		}
-		py += font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : LINE_SPACING);
+		py += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : LINE_SPACING);
 	}
 	glPopMatrix();
 }
 
 void TextLayout::_MeasureSizeRaw(const float layoutWidth, float outSize[2]) const
 {
-	TextureFont *font = Gui::Screen::GetFont();
 	outSize[0] = 0;
 	outSize[1] = 0;
 
-	const float spaceWidth = font->GetGlyph(' ').advx;
+	const float spaceWidth = m_font->GetGlyph(' ').advx;
 
 	// build lines of text
 	for (std::list<word_t>::const_iterator wpos = words.begin(); wpos != words.end(); ) {
@@ -204,9 +217,9 @@ void TextLayout::_MeasureSizeRaw(const float layoutWidth, float outSize[2]) cons
 			wpos++;
 		}
 		if (lineLen > outSize[0]) outSize[0] = lineLen;
-		outSize[1] += font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : LINE_SPACING);
+		outSize[1] += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : LINE_SPACING);
 	}
-	if (outSize[1]) outSize[1] += font->GetDescender();
+	if (outSize[1]) outSize[1] += m_font->GetDescender();
 }
 
 }

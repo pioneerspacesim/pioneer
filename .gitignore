@@ -12,6 +12,8 @@ debian/*.substvars
 debian/pioneer*/
 autom4te.cache/
 *.vcxproj.user
+*.user
+*.ncb
 *.suo
 *.sdf
 *.opensdf

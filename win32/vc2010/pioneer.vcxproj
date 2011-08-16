@@ -51,7 +51,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\src;..\..\win32\src;..\..\win32\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -61,7 +61,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -73,7 +73,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\src;..\..\win32\src;..\..\win32\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -85,15 +85,16 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_release.lib;libvorbis_static_vc2010_release.lib;libvorbisfile_static_vc2010_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-2_2_8.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_release.lib;libvorbis_static_vc2010_release.lib;libvorbisfile_static_vc2010_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-2_2_8.lib;libpng15.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\AmbientSounds.cpp" />
-    <ClCompile Include="..\..\src\BBAdvertChatForm.cpp" />
+    <ClCompile Include="..\..\src\Background.cpp" />
     <ClCompile Include="..\..\src\Body.cpp" />
     <ClCompile Include="..\..\src\CargoBody.cpp" />
+    <ClCompile Include="..\..\src\ChatForm.cpp" />
     <ClCompile Include="..\..\src\CityOnPlanet.cpp" />
     <ClCompile Include="..\..\src\collider\BVHTree.cpp" />
     <ClCompile Include="..\..\src\collider\CollisionSpace.cpp" />
@@ -105,42 +106,48 @@
     <ClCompile Include="..\..\src\DynamicBody.cpp" />
     <ClCompile Include="..\..\src\EquipType.cpp" />
     <ClCompile Include="..\..\src\FaceVideoLink.cpp" />
+    <ClCompile Include="..\..\src\Font.cpp" />
+    <ClCompile Include="..\..\src\FontConfig.cpp" />
+    <ClCompile Include="..\..\src\FontManager.cpp" />
+    <ClCompile Include="..\..\src\FormController.cpp" />
     <ClCompile Include="..\..\src\Frame.cpp" />
     <ClCompile Include="..\..\src\GalacticView.cpp" />
     <ClCompile Include="..\..\src\Galaxy.cpp" />
+    <ClCompile Include="..\..\src\GameConfig.cpp" />
     <ClCompile Include="..\..\src\GameMenuView.cpp" />
-    <ClCompile Include="..\..\src\GenericChatForm.cpp" />
     <ClCompile Include="..\..\src\GeoSphere.cpp" />
     <ClCompile Include="..\..\src\GeoSphereStyle.cpp" />
-    <ClCompile Include="..\..\src\glfreetype.cpp" />
-    <ClCompile Include="..\..\src\Gui.cpp" />
-    <ClCompile Include="..\..\src\GuiBox.cpp" />
-    <ClCompile Include="..\..\src\GuiButton.cpp" />
-    <ClCompile Include="..\..\src\GuiContainer.cpp" />
-    <ClCompile Include="..\..\src\GuiFixed.cpp" />
-    <ClCompile Include="..\..\src\GuiImage.cpp" />
-    <ClCompile Include="..\..\src\GuiImageButton.cpp" />
-    <ClCompile Include="..\..\src\GuiImageRadioButton.cpp" />
-    <ClCompile Include="..\..\src\GuiLabel.cpp" />
-    <ClCompile Include="..\..\src\GuiLabelSet.cpp" />
-    <ClCompile Include="..\..\src\GuiMeterBar.cpp" />
-    <ClCompile Include="..\..\src\GuiMultiStateImageButton.cpp" />
-    <ClCompile Include="..\..\src\GuiRadioButton.cpp" />
-    <ClCompile Include="..\..\src\GuiRadioGroup.cpp" />
-    <ClCompile Include="..\..\src\GuiRepeaterButton.cpp" />
-    <ClCompile Include="..\..\src\GuiScreen.cpp" />
-    <ClCompile Include="..\..\src\GuiTabbed.cpp" />
-    <ClCompile Include="..\..\src\GuiTextEntry.cpp" />
-    <ClCompile Include="..\..\src\GuiTextLayout.cpp" />
-    <ClCompile Include="..\..\src\GuiToggleButton.cpp" />
-    <ClCompile Include="..\..\src\GuiToolTip.cpp" />
-    <ClCompile Include="..\..\src\GuiVScrollBar.cpp" />
-    <ClCompile Include="..\..\src\GuiVScrollPortal.cpp" />
-    <ClCompile Include="..\..\src\GuiWidget.cpp" />
+    <ClCompile Include="..\..\src\gui\Gui.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiBox.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiContainer.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiFixed.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiGradient.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiImage.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiImageButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiImageRadioButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiLabel.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiLabelSet.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiMeterBar.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiMultiStateImageButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiRadioButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiRadioGroup.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiRepeaterButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiScreen.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiStack.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiTabbed.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiTextEntry.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiTextLayout.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiToggleButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiToolTip.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiVScrollBar.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiVScrollPortal.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiWidget.cpp" />
     <ClCompile Include="..\..\src\HyperspaceCloud.cpp" />
     <ClCompile Include="..\..\src\InfoView.cpp" />
     <ClCompile Include="..\..\src\IniConfig.cpp" />
     <ClCompile Include="..\..\src\KeyBindings.cpp" />
+    <ClCompile Include="..\..\src\Lang.cpp" />
     <ClCompile Include="..\..\src\LmrModel.cpp" />
     <ClCompile Include="..\..\src\LuaBody.cpp" />
     <ClCompile Include="..\..\src\LuaCargoBody.cpp" />
@@ -152,13 +159,13 @@
     <ClCompile Include="..\..\src\LuaFormat.cpp" />
     <ClCompile Include="..\..\src\LuaGame.cpp" />
     <ClCompile Include="..\..\src\LuaManager.cpp" />
+    <ClCompile Include="..\..\src\LuaMusic.cpp" />
     <ClCompile Include="..\..\src\LuaNameGen.cpp" />
     <ClCompile Include="..\..\src\LuaObject.cpp" />
     <ClCompile Include="..\..\src\LuaPlanet.cpp" />
     <ClCompile Include="..\..\src\LuaPlayer.cpp" />
     <ClCompile Include="..\..\src\LuaRand.cpp" />
     <ClCompile Include="..\..\src\LuaSBody.cpp" />
-    <ClCompile Include="..\..\src\LuaSBodyPath.cpp" />
     <ClCompile Include="..\..\src\LuaSerializer.cpp" />
     <ClCompile Include="..\..\src\LuaShip.cpp" />
     <ClCompile Include="..\..\src\LuaShipType.cpp" />
@@ -166,6 +173,7 @@
     <ClCompile Include="..\..\src\LuaSpaceStation.cpp" />
     <ClCompile Include="..\..\src\LuaStar.cpp" />
     <ClCompile Include="..\..\src\LuaStarSystem.cpp" />
+    <ClCompile Include="..\..\src\LuaSystemPath.cpp" />
     <ClCompile Include="..\..\src\LuaTimer.cpp" />
     <ClCompile Include="..\..\src\LuaUI.cpp" />
     <ClCompile Include="..\..\src\LuaUtils.cpp" />
@@ -182,10 +190,10 @@
     <ClCompile Include="..\..\src\PiLuaClasses.cpp" />
     <ClCompile Include="..\..\src\Planet.cpp" />
     <ClCompile Include="..\..\src\Player.cpp" />
-    <ClCompile Include="..\..\src\PoliceChatForm.cpp" />
     <ClCompile Include="..\..\src\Polit.cpp" />
     <ClCompile Include="..\..\src\Projectile.cpp" />
     <ClCompile Include="..\..\src\Render.cpp" />
+    <ClCompile Include="..\..\src\RenderShader.cpp" />
     <ClCompile Include="..\..\src\Sector.cpp" />
     <ClCompile Include="..\..\src\SectorView.cpp" />
     <ClCompile Include="..\..\src\Serializer.cpp" />
@@ -196,17 +204,31 @@
     <ClCompile Include="..\..\src\ShipCpanel.cpp" />
     <ClCompile Include="..\..\src\ShipCpanelMultiFuncDisplays.cpp" />
     <ClCompile Include="..\..\src\ShipFlavour.cpp" />
+    <ClCompile Include="..\..\src\ShipSpinnerWidget.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
     <ClCompile Include="..\..\src\Sound.cpp" />
+    <ClCompile Include="..\..\src\SoundMusic.cpp" />
     <ClCompile Include="..\..\src\Space.cpp" />
     <ClCompile Include="..\..\src\SpaceStation.cpp" />
     <ClCompile Include="..\..\src\SpaceStationView.cpp" />
     <ClCompile Include="..\..\src\Star.cpp" />
     <ClCompile Include="..\..\src\StarSystem.cpp" />
-    <ClCompile Include="..\..\src\SysLoc.cpp" />
+    <ClCompile Include="..\..\src\StationAdvertForm.cpp" />
+    <ClCompile Include="..\..\src\StationBulletinBoardForm.cpp" />
+    <ClCompile Include="..\..\src\StationCommodityMarketForm.cpp" />
+    <ClCompile Include="..\..\src\StationPoliceForm.cpp" />
+    <ClCompile Include="..\..\src\StationServicesForm.cpp" />
+    <ClCompile Include="..\..\src\StationShipEquipmentForm.cpp" />
+    <ClCompile Include="..\..\src\StationShipMarketForm.cpp" />
+    <ClCompile Include="..\..\src\StationShipRepairForm.cpp" />
+    <ClCompile Include="..\..\src\StationShipViewForm.cpp" />
+    <ClCompile Include="..\..\src\StationShipyardForm.cpp" />
     <ClCompile Include="..\..\src\SystemInfoView.cpp" />
     <ClCompile Include="..\..\src\SystemView.cpp" />
+    <ClCompile Include="..\..\src\TextureFont.cpp" />
+    <ClCompile Include="..\..\src\TextureManager.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
+    <ClCompile Include="..\..\src\VectorFont.cpp" />
     <ClCompile Include="..\..\src\WorldView.cpp" />
     <ClCompile Include="..\src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -217,12 +239,13 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h" />
     <ClInclude Include="..\..\src\AmbientSounds.h" />
-    <ClInclude Include="..\..\src\BBAdvertChatForm.h" />
+    <ClInclude Include="..\..\src\Background.h" />
     <ClInclude Include="..\..\src\BezierCurve.h" />
     <ClInclude Include="..\..\src\Body.h" />
     <ClInclude Include="..\..\src\BufferObject.h" />
     <ClInclude Include="..\..\src\buildopts.h" />
     <ClInclude Include="..\..\src\CargoBody.h" />
+    <ClInclude Include="..\..\src\ChatForm.h" />
     <ClInclude Include="..\..\src\CityOnPlanet.h" />
     <ClInclude Include="..\..\src\collider\BVHTree.h" />
     <ClInclude Include="..\..\src\collider\collider.h" />
@@ -239,42 +262,47 @@
     <ClInclude Include="..\..\src\EquipType.h" />
     <ClInclude Include="..\..\src\FaceVideoLink.h" />
     <ClInclude Include="..\..\src\fixed.h" />
+    <ClInclude Include="..\..\src\Font.h" />
+    <ClInclude Include="..\..\src\FontConfig.h" />
+    <ClInclude Include="..\..\src\FontManager.h" />
+    <ClInclude Include="..\..\src\FormController.h" />
     <ClInclude Include="..\..\src\Frame.h" />
     <ClInclude Include="..\..\src\GalacticView.h" />
     <ClInclude Include="..\..\src\Galaxy.h" />
+    <ClInclude Include="..\..\src\GameConfig.h" />
     <ClInclude Include="..\..\src\gameconsts.h" />
     <ClInclude Include="..\..\src\GameMenuView.h" />
-    <ClInclude Include="..\..\src\GenericChatForm.h" />
     <ClInclude Include="..\..\src\GeoSphere.h" />
     <ClInclude Include="..\..\src\GeoSphereStyle.h" />
-    <ClInclude Include="..\..\src\glfreetype.h" />
-    <ClInclude Include="..\..\src\Gui.h" />
-    <ClInclude Include="..\..\src\GuiAdjustment.h" />
-    <ClInclude Include="..\..\src\GuiBox.h" />
-    <ClInclude Include="..\..\src\GuiButton.h" />
-    <ClInclude Include="..\..\src\GuiContainer.h" />
-    <ClInclude Include="..\..\src\GuiEvents.h" />
-    <ClInclude Include="..\..\src\GuiFixed.h" />
-    <ClInclude Include="..\..\src\GuiImage.h" />
-    <ClInclude Include="..\..\src\GuiImageButton.h" />
-    <ClInclude Include="..\..\src\GuiImageRadioButton.h" />
-    <ClInclude Include="..\..\src\GuiISelectable.h" />
-    <ClInclude Include="..\..\src\GuiLabel.h" />
-    <ClInclude Include="..\..\src\GuiLabelSet.h" />
-    <ClInclude Include="..\..\src\GuiMeterBar.h" />
-    <ClInclude Include="..\..\src\GuiMultiStateImageButton.h" />
-    <ClInclude Include="..\..\src\GuiRadioButton.h" />
-    <ClInclude Include="..\..\src\GuiRadioGroup.h" />
-    <ClInclude Include="..\..\src\GuiRepeaterButton.h" />
-    <ClInclude Include="..\..\src\GuiScreen.h" />
-    <ClInclude Include="..\..\src\GuiTabbed.h" />
-    <ClInclude Include="..\..\src\GuiTextEntry.h" />
-    <ClInclude Include="..\..\src\GuiTextLayout.h" />
-    <ClInclude Include="..\..\src\GuiToggleButton.h" />
-    <ClInclude Include="..\..\src\GuiToolTip.h" />
-    <ClInclude Include="..\..\src\GuiVScrollBar.h" />
-    <ClInclude Include="..\..\src\GuiVScrollPortal.h" />
-    <ClInclude Include="..\..\src\GuiWidget.h" />
+    <ClInclude Include="..\..\src\gui\Gui.h" />
+    <ClInclude Include="..\..\src\gui\GuiAdjustment.h" />
+    <ClInclude Include="..\..\src\gui\GuiBox.h" />
+    <ClInclude Include="..\..\src\gui\GuiButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiContainer.h" />
+    <ClInclude Include="..\..\src\gui\GuiEvents.h" />
+    <ClInclude Include="..\..\src\gui\GuiFixed.h" />
+    <ClInclude Include="..\..\src\gui\GuiGradient.h" />
+    <ClInclude Include="..\..\src\gui\GuiImage.h" />
+    <ClInclude Include="..\..\src\gui\GuiImageButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiImageRadioButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiISelectable.h" />
+    <ClInclude Include="..\..\src\gui\GuiLabel.h" />
+    <ClInclude Include="..\..\src\gui\GuiLabelSet.h" />
+    <ClInclude Include="..\..\src\gui\GuiMeterBar.h" />
+    <ClInclude Include="..\..\src\gui\GuiMultiStateImageButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiRadioButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiRadioGroup.h" />
+    <ClInclude Include="..\..\src\gui\GuiRepeaterButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiScreen.h" />
+    <ClInclude Include="..\..\src\gui\GuiStack.h" />
+    <ClInclude Include="..\..\src\gui\GuiTabbed.h" />
+    <ClInclude Include="..\..\src\gui\GuiTextEntry.h" />
+    <ClInclude Include="..\..\src\gui\GuiTextLayout.h" />
+    <ClInclude Include="..\..\src\gui\GuiToggleButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiToolTip.h" />
+    <ClInclude Include="..\..\src\gui\GuiVScrollBar.h" />
+    <ClInclude Include="..\..\src\gui\GuiVScrollPortal.h" />
+    <ClInclude Include="..\..\src\gui\GuiWidget.h" />
     <ClInclude Include="..\..\src\HyperspaceCloud.h" />
     <ClInclude Include="..\..\src\InfoView.h" />
     <ClInclude Include="..\..\src\IniConfig.h" />
@@ -291,13 +319,13 @@
     <ClInclude Include="..\..\src\LuaFormat.h" />
     <ClInclude Include="..\..\src\LuaGame.h" />
     <ClInclude Include="..\..\src\LuaManager.h" />
+    <ClInclude Include="..\..\src\LuaMusic.h" />
     <ClInclude Include="..\..\src\LuaNameGen.h" />
     <ClInclude Include="..\..\src\LuaObject.h" />
     <ClInclude Include="..\..\src\LuaPlanet.h" />
     <ClInclude Include="..\..\src\LuaPlayer.h" />
     <ClInclude Include="..\..\src\LuaRand.h" />
     <ClInclude Include="..\..\src\LuaSBody.h" />
-    <ClInclude Include="..\..\src\LuaSBodyPath.h" />
     <ClInclude Include="..\..\src\LuaSerializer.h" />
     <ClInclude Include="..\..\src\LuaShip.h" />
     <ClInclude Include="..\..\src\LuaShipType.h" />
@@ -305,6 +333,7 @@
     <ClInclude Include="..\..\src\LuaSpaceStation.h" />
     <ClInclude Include="..\..\src\LuaStar.h" />
     <ClInclude Include="..\..\src\LuaStarSystem.h" />
+    <ClInclude Include="..\..\src\LuaSystemPath.h" />
     <ClInclude Include="..\..\src\LuaTimer.h" />
     <ClInclude Include="..\..\src\LuaUI.h" />
     <ClInclude Include="..\..\src\LuaUtils.h" />
@@ -323,13 +352,13 @@
     <ClInclude Include="..\..\src\PiLuaClasses.h" />
     <ClInclude Include="..\..\src\Planet.h" />
     <ClInclude Include="..\..\src\Player.h" />
-    <ClInclude Include="..\..\src\PoliceChatForm.h" />
     <ClInclude Include="..\..\src\Polit.h" />
     <ClInclude Include="..\..\src\Projectile.h" />
     <ClInclude Include="..\..\src\Quaternion.h" />
     <ClInclude Include="..\..\src\RefCounted.h" />
     <ClInclude Include="..\..\src\RefList.h" />
     <ClInclude Include="..\..\src\Render.h" />
+    <ClInclude Include="..\..\src\RenderShader.h" />
     <ClInclude Include="..\..\src\Sector.h" />
     <ClInclude Include="..\..\src\SectorView.h" />
     <ClInclude Include="..\..\src\Serializer.h" />
@@ -339,18 +368,32 @@
     <ClInclude Include="..\..\src\ShipCpanel.h" />
     <ClInclude Include="..\..\src\ShipCpanelMultiFuncDisplays.h" />
     <ClInclude Include="..\..\src\ShipFlavour.h" />
+    <ClInclude Include="..\..\src\ShipSpinnerWidget.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
     <ClInclude Include="..\..\src\Sound.h" />
+    <ClInclude Include="..\..\src\SoundMusic.h" />
     <ClInclude Include="..\..\src\Space.h" />
     <ClInclude Include="..\..\src\SpaceStation.h" />
     <ClInclude Include="..\..\src\SpaceStationView.h" />
     <ClInclude Include="..\..\src\Star.h" />
     <ClInclude Include="..\..\src\StarSystem.h" />
-    <ClInclude Include="..\..\src\SysLoc.h" />
+    <ClInclude Include="..\..\src\StationAdvertForm.h" />
+    <ClInclude Include="..\..\src\StationBulletinBoardForm.h" />
+    <ClInclude Include="..\..\src\StationCommodityMarketForm.h" />
+    <ClInclude Include="..\..\src\StationPoliceForm.h" />
+    <ClInclude Include="..\..\src\StationServicesForm.h" />
+    <ClInclude Include="..\..\src\StationShipEquipmentForm.h" />
+    <ClInclude Include="..\..\src\StationShipMarketForm.h" />
+    <ClInclude Include="..\..\src\StationShipRepairForm.h" />
+    <ClInclude Include="..\..\src\StationShipViewForm.h" />
+    <ClInclude Include="..\..\src\StationShipyardForm.h" />
     <ClInclude Include="..\..\src\SystemInfoView.h" />
     <ClInclude Include="..\..\src\SystemView.h" />
+    <ClInclude Include="..\..\src\TextureFont.h" />
+    <ClInclude Include="..\..\src\TextureManager.h" />
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\vector3.h" />
+    <ClInclude Include="..\..\src\VectorFont.h" />
     <ClInclude Include="..\..\src\VideoLink.h" />
     <ClInclude Include="..\..\src\View.h" />
     <ClInclude Include="..\..\src\WorldView.h" />

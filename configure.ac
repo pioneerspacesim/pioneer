@@ -5,7 +5,7 @@ dnl Setup
 dnl ###########################################################################
 AC_PREREQ(2.59)
 
-AC_INIT([pioneer], [alpha-11-dev], [pioneer-dev@pioneerspacesim.net])
+AC_INIT([pioneer], [alpha-14-dev], [pioneer-dev@pioneerspacesim.net])
 dnl AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 dist-xz dist-zip])
@@ -28,6 +28,14 @@ EXTRA_CFLAGS=
 EXTRA_CXXFLAGS=
 EXTRA_CPPFLAGS=
 
+dnl Check for ccache if they want it
+AC_ARG_WITH([ccache], AS_HELP_STRING([--with-ccache], [Compile using ccache]), [AC_PATH_PROG([CCACHE], [ccache])])
+if test "x$with_ccache" = xyes; then
+	if test "x$CCACHE" = x; then
+		AC_MSG_WARN([ccache was requested but was not found. Build will proceed as normal])
+	fi
+fi
+
 dnl Add a flag, if supported by the compiler or preprocessor
 dnl Assumes that -Werror works
 AC_DEFUN([_PIONEER_COMPILER_FLAG], dnl Language, flags variable 'foo' (EXTRA_fooFLAGS), flag, $CC/$CXX/$CPP/similar, if yes, if no
@@ -46,6 +54,7 @@ AC_DEFUN([PIONEER_CPPFLAG], [_PIONEER_COMPILER_FLAG([CPP], [CPP], [$1], [$CPP], 
 
 AC_DEFUN([PIONEER_C_CXX_FLAG],
 	[_PIONEER_COMPILER_FLAG([C], [C], [$1], [$CC/$CXX], [EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $1"])])
+
 
 dnl Always add -Wall, where supported
 PIONEER_C_CXX_FLAG([-Wall])
@@ -200,6 +209,13 @@ AC_SUBST([MINGW_LIBS])
 dnl ###########################################################################
 dnl Finished :-)
 dnl ###########################################################################
+
+dnl if ccache was wanted, update the compiler vars to match
+dnl this is done late so that configure tests aren't run under ccache
+if test "x$CCACHE" != x; then
+    CC="$CCACHE $CC"
+    CXX="$CCACHE $CXX"
+fi
 
 AC_SUBST([EXTRA_CFLAGS])
 AC_SUBST([EXTRA_CXXFLAGS])

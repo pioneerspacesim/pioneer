@@ -8,6 +8,7 @@
 #include "GeoSphere.h"
 #include "Render.h"
 #include "perlin.h"
+#include "Lang.h"
 
 struct ColRangeObj_t {
 	float baseCol[4]; float modCol[4]; float modAll;
@@ -158,42 +159,42 @@ static GasGiantDef_t ggdefs[] = {
     { { 0.0f,0.0f,0.0f,0 }, { 0,0.0f,0.0f,0}, 0.0f}
 }, {
 	/* saturnish */
-	10, 15, 0.0,
+	10, 25, 0.05f,
 	8, 20, // blob range
 	0.2f, 0.2f, // pole size
 	0.5,
 	{ { .61f,.48f,.384f,.75f }, {0,0,0,.2}, 0.3f },
-	{ { .87f, .68f, .39f, 1 }, { 0,0,0,0 }, 0.1f },
-	{ { .87f, .68f, .39f, 1 }, { 0,0,0,0 }, 0.1f },
-	{ { .87f, .68f, .39f, 1 }, { 0,0,0,0 }, 0.1f },
-	{ { .77f, .58f, .29f, 1 }, { 0,0,0,0 }, 0.1f },
+	{ { .87f, .68f, .39f, 1 }, { .2,0,0,.3 }, 0.1f },
+	{ { .87f, .68f, .39f, 1 }, { 0,0,.2,.1 }, 0.1f },
+	{ { .87f, .68f, .39f, 1 }, { .1,0,0,.1 }, 0.1f },
+	{ { .77f, .58f, .29f, 1 }, { .1,.1,0,.2 }, 0.2f },
 }, {
 	/* neptunish */
-	3, 6, 0.0,
+	3, 6, 0.25f,
 	2, 6,
 	0, 0,
 	0.5,
-	{ { .61f,.48f,.384f,.4f }, {0,0,0,.2f}, 0.3f },
+	{ { .71f,.68f,.684f,.4f }, {0,0,0,.2f}, 0.3f },
 	{ { .31f,.44f,.73f,1 }, {0,0,0,0}, .05f}, // body col
-	{ { .31f,.44f,.73f,0.5f }, {0,0,0,0}, .1f},// hoop col
+	{ { .31f,.74f,.73f,0.5f }, {0,0,0,0}, .1f},// hoop col
 	{ { .21f,.34f,.54f,1 }, {0,0,0,0}, .05f},// blob col
     { { 0.0f,0.0f,0.0f,0 }, { 0,0.0f,0.0f,0}, 0.0f}
 }, {
 	/* uranus-like *wink* */
-	0, 0, 0.0,
-	0, 0,
+	2, 3, 0.1f,
+	1, 2,
 	0, 0,
 	0.5,
-	{ { .61f,.48f,.384f,.4f }, {0,0,0,.3f}, 0.3f },
-	{ { .70f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 },
-	{ { .70f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 },
-	{ { .70f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 },
-	{ { .70f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 }
+	{ { .51f,.48f,.384f,.4f }, {0,0,0,.3f}, 0.3f },
+	{ { .60f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 },
+	{ { .60f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 },
+	{ { .60f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 },
+	{ { .60f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 }
 }, {
 	/* brown dwarf-like */
 	0, 0, 0.05f,
 	10, 20,
-	0, 0,
+	0.2f, 0.2f,
 	0.5,
 	{ { .81f,.48f,.384f,.5f }, {0,0,0,.3f}, 0.3f },
 	{ { .4f,.1f,0,1 }, {0,0,0,0}, 0.1f },
@@ -252,7 +253,7 @@ void Planet::DrawGasGiantRings()
 	float baseCol[4];
 	
 	// just use a random gas giant flavour for the moment
-	GasGiantDef_t &ggdef = ggdefs[rng.Int32(0,3)];
+	GasGiantDef_t &ggdef = ggdefs[rng.Int32(0,4)];
 	ggdef.ringCol.GenCol(baseCol, rng);
 	
 	const double maxRingWidth = 0.1 / double(2*(Pi::detail.planets + 1));
@@ -370,7 +371,6 @@ void Planet::DrawAtmosphere(vector3d &apos)
 
 void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-
 	matrix4x4d ftran = viewTransform;
 	vector3d fpos = viewCoords;
 	double rad = sbody->GetRadius();
@@ -399,84 +399,27 @@ void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	}
 	//if (GetLabel() == "Earth") printf("Horizon %fkm, shrink %d\n", dist_to_horizon*0.001, shrink);
 
-	glPushMatrix();
-	glTranslatef(float(fpos.x), float(fpos.y), float(fpos.z));
+	glPushMatrix();		// initial matrix is actually identity after a long chain of wtf
+//	glTranslatef(float(fpos.x), float(fpos.y), float(fpos.z));
 	glColor3f(1,1,1);
 
-	if (apparent_size < 0.001) {
-		Render::State::UseProgram(0);
-		/* XXX WRONG. need to pick light from appropriate turd. */
-		GLfloat col[4];
-		glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
-		// face the camera dammit
-		vector3d zaxis = fpos.Normalized();
-		vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
-		vector3d yaxis = zaxis.Cross(xaxis);
-		matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
-		glMultMatrixd(&rot[0]);
-
-		glDisable(GL_LIGHTING);
-		glDisable(GL_DEPTH_TEST);
-		
-		glEnable(GL_BLEND);
-		glColor4f(col[0], col[1], col[2], 1);
-		glBegin(GL_TRIANGLE_FAN);
-		glVertex3f(0,0,0);
-		glColor4f(col[0],col[1],col[2],0);
-		
-		const float spikerad = float(0.005*len +  1e1*(1.0*sbody->GetRadius()*len)/origLen);
-		{
-			/* bezier with (0,0,0) control points */
-			vector3f p0(0,spikerad,0), p1(spikerad,0,0);
-			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-		{
-			vector3f p0(spikerad,0,0), p1(0,-spikerad,0);
-			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-		{
-			vector3f p0(0,-spikerad,0), p1(-spikerad,0,0);
-			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-		{
-			vector3f p0(-spikerad,0,0), p1(0,spikerad,0);
-			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-		glEnd();
-		glDisable(GL_BLEND);
-
-		glEnable(GL_LIGHTING);
-		glEnable(GL_DEPTH_TEST);
-	} else {
-		vector3d campos = -fpos;
+	{
+		vector3d campos = fpos;
 		ftran.ClearToRotOnly();
 		campos = ftran.InverseOf() * campos;
 		glMultMatrixd(&ftran[0]);
 		glEnable(GL_NORMALIZE);
-		glPushMatrix();
-		glScaled(rad, rad, rad);
-		campos = campos * (1.0/rad);
-		m_geosphere->Render(campos, sbody->GetRadius(), scale);
-		
+		glScaled(rad, rad, rad);			// rad = real_rad / scale
+		campos = campos * (1.0/rad);		// position of camera relative to planet "model"
+
+		// translation not applied until patch render to fix jitter
+		m_geosphere->Render(-campos, sbody->GetRadius(), scale);
+		glTranslated(campos.x, campos.y, campos.z);
+
 		if (sbody->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings();
 		
-		fpos = ftran.InverseOf() * fpos;
-		fpos *= (1.0/rad);
-		if (!Render::AreShadersEnabled()) DrawAtmosphere(fpos);
+		if (!Render::AreShadersEnabled()) DrawAtmosphere(campos);
 		
-		glPopMatrix();
 		glDisable(GL_NORMALIZE);
 		
 		// if not using shader then z-buffer precision is hopeless and

@@ -106,10 +106,10 @@ double ModelBody::GetBoundingRadius() const
 
 void ModelBody::SetLmrTimeParams()
 {
-	m_params.argFloats[1] = float(Pi::GetGameTime());
-	m_params.argFloats[2] = float(Pi::GetGameTime() / 60.0);
-	m_params.argFloats[3] = float(Pi::GetGameTime() / 3600.0);
-	m_params.argFloats[4] = float(Pi::GetGameTime() / (24*3600.0));
+	m_params.argDoubles[1] = Pi::GetGameTime();
+	m_params.argDoubles[2] = Pi::GetGameTime() / 60.0;
+	m_params.argDoubles[3] = Pi::GetGameTime() / 3600.0;
+	m_params.argDoubles[4] = Pi::GetGameTime() / (24*3600.0);
 }
 
 void ModelBody::SetRotMatrix(const matrix4x4d &r)

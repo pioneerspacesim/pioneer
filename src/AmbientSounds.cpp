@@ -28,9 +28,9 @@ void AmbientSounds::Uninit()
 void AmbientSounds::Update()
 {
 	WorldView::CamType cam = Pi::worldView->GetCamType();
-	float v_env = (cam == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f);
+	float v_env = (cam == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 
-	if (Pi::player->GetDockedWith()) {
+	if (Pi::player->GetFlightState() == Ship::DOCKED) {
 		if (starNoise.IsPlaying()) {
 			float target[2] = {0.0f,0.0f};
 			float dv_dt[2] = {1.0f,1.0f};
@@ -214,7 +214,7 @@ void AmbientSounds::Update()
 void AmbientSounds::UpdateForCamType()
 {
 	const WorldView::CamType cam = Pi::worldView->GetCamType();
-	float v_env = (cam == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f);
+	float v_env = (cam == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 
 	if (stationNoise.IsPlaying())
 		stationNoise.SetVolume(0.3f*v_env, 0.3f*v_env);

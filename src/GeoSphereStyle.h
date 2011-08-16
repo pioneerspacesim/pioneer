@@ -17,6 +17,7 @@ class GeoSphereStyle {
 	enum TerrainFractal {
 		TERRAIN_NONE,
 		TERRAIN_HILLS_NORMAL,
+		TERRAIN_HILLS_DUNES,
 		TERRAIN_HILLS_RIDGED,
 		TERRAIN_HILLS_RIVERS,
 		TERRAIN_HILLS_CRATERS,
@@ -39,10 +40,12 @@ class GeoSphereStyle {
 
 	enum ColorFractal {
 		COLOR_NONE,
-		COLOR_GG_SATURN,
 		COLOR_GG_JUPITER,
+		COLOR_GG_SATURN,
+		COLOR_GG_SATURN2,
 		COLOR_GG_URANUS,
 		COLOR_GG_NEPTUNE,
+		COLOR_GG_NEPTUNE2,
 		COLOR_EARTHLIKE,
 		COLOR_DEAD_WITH_H2O,
 		COLOR_ICEWORLD,
@@ -113,6 +116,12 @@ class GeoSphereStyle {
 	vector3d m_rockColor[8];
 	vector3d m_darkrockColor[8];
 	vector3d m_greyrockColor[8];
+	vector3d m_plantColor[8];
+	vector3d m_darkplantColor[8];
+	vector3d m_sandColor[8];
+	vector3d m_darksandColor[8];
+	vector3d m_dirtColor[8];
+	vector3d m_darkdirtColor[8];
 	vector3d m_gglightColor[8];
 	vector3d m_ggdarkColor[8];
 

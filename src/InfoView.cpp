@@ -6,6 +6,7 @@
 #include "ShipCpanel.h"
 #include "LmrModel.h"
 #include "Render.h"
+#include "Lang.h"
 
 class InfoViewPage: public Gui::Fixed {
 public:
@@ -21,6 +22,7 @@ public:
 	virtual void Show() {
 		UpdateInfo();
 		InfoViewPage::Show();
+		if (Pi::infoView) Pi::infoView->HideSpinner();
 	}
 
 	virtual ~MissionPage() {
@@ -30,31 +32,31 @@ public:
 		const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
 		DeleteAllChildren();
 
-		Gui::Label *l = new Gui::Label("Missions:");
+		Gui::Label *l = new Gui::Label(Lang::MISSIONS);
 		Add(l, 20, 20);
 
-		l = new Gui::Label("Type");
+		l = new Gui::Label(Lang::TYPE);
 		Add(l, 20, 20+YSEP*2);
 		
-		l = new Gui::Label("Client");
+		l = new Gui::Label(Lang::CLIENT);
 		Add(l, 100, 20+YSEP*2);
 		
-		l = new Gui::Label("Location");
+		l = new Gui::Label(Lang::LOCATION);
 		Add(l, 260, 20+YSEP*2);
 		
-		l = new Gui::Label("Due");
-		Add(l, 440, 20+YSEP*2);
+		l = new Gui::Label(Lang::DUE);
+		Add(l, 420, 20+YSEP*2);
 		
-		l = new Gui::Label("Reward");
-		Add(l, 560, 20+YSEP*2);
+		l = new Gui::Label(Lang::REWARD);
+		Add(l, 580, 20+YSEP*2);
 
-		l = new Gui::Label("Status");
-		Add(l, 660, 20+YSEP*2);
+		l = new Gui::Label(Lang::STATUS);
+		Add(l, 680, 20+YSEP*2);
 
 		ShowChildren();
 
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
-		Gui::VScrollPortal *portal = new Gui::VScrollPortal(760, 500);
+		Gui::VScrollPortal *portal = new Gui::VScrollPortal(760);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
 
 		const std::list<const Mission*> &missions = Pi::player->missions.GetAll();
@@ -62,9 +64,9 @@ public:
 
 		float ypos = 0;
 		for (std::list<const Mission*>::const_iterator i = missions.begin(); i != missions.end(); ++i) {
-			SBodyPath sbp = (*i)->location;
-			StarSystem *s = StarSystem::GetCached(sbp);
-			SBody *sbody = s->GetBodyByPath(&sbp);
+			SystemPath path = (*i)->location;
+			StarSystem *s = StarSystem::GetCached(path);
+			SBody *sbody = s->GetBodyByPath(&path);
 
 			l = new Gui::Label((*i)->type);
 			innerbox->Add(l, 0, ypos);
@@ -72,22 +74,22 @@ public:
 			l = new Gui::Label((*i)->client);
 			innerbox->Add(l, 80, ypos);
 			
-			l = new Gui::Label(stringf(256, "%s,\n%s (%d, %d)", sbody->name.c_str(), s->GetName().c_str(), sbp.sectorX, sbp.sectorY));
+			l = new Gui::Label(stringf(256, "%s,\n%s (%d, %d)", sbody->name.c_str(), s->GetName().c_str(), path.sectorX, path.sectorY));
 			innerbox->Add(l, 240, ypos);
 			
 			l = new Gui::Label(format_date((*i)->due));
-			innerbox->Add(l, 420, ypos);
+			innerbox->Add(l, 400, ypos);
 
 			l = new Gui::Label(format_money((*i)->reward));
-			innerbox->Add(l, 540, ypos);
+			innerbox->Add(l, 560, ypos);
 
 			switch ((*i)->status) {
-				case Mission::FAILED: l = new Gui::Label("#f00Failed"); break;
-				case Mission::COMPLETED: l = new Gui::Label("#ff0Completed"); break;
+                case Mission::FAILED: l = new Gui::Label(std::string("#f00")+std::string(Lang::FAILED)); break;
+                case Mission::COMPLETED: l = new Gui::Label(std::string("#ff0")+std::string(Lang::COMPLETED)); break;
 				default:
-				case Mission::ACTIVE: l = new Gui::Label("#0f0Active"); break;
+                case Mission::ACTIVE: l = new Gui::Label(std::string("#0f0")+std::string(Lang::ACTIVE)); break;
 			}
-			innerbox->Add(l, 640, ypos);
+			innerbox->Add(l, 660, ypos);
 
 			ypos += YSEP*3;
 		}
@@ -104,11 +106,16 @@ public:
 	CargoPage() {
 	};
 
+	virtual void Show() {
+		InfoViewPage::Show();
+		if (Pi::infoView) Pi::infoView->ShowSpinner();
+	}
+
 	virtual void UpdateInfo() {
 		const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
 		DeleteAllChildren();
-		Add(new Gui::Label("Cargo Inventory:"), 40, 40);
-		Add(new Gui::Label("Jettison"), 40, 40+YSEP*2);
+		Add(new Gui::Label(Lang::CARGO_INVENTORY), 40, 40);
+		Add(new Gui::Label(Lang::JETTISON), 40, 40+YSEP*2);
 		float ypos = 40 + 3*YSEP;
 		for (int i=1; i<Equip::TYPE_MAX; i++) {
 			if (EquipType::types[i].slot != Equip::SLOT_CARGO) continue;
@@ -128,7 +135,7 @@ public:
 private:
 	void JettisonCargo(Equip::Type t) {
 		if (Pi::player->Jettison(t)) {
-			Pi::cpan->MsgLog()->Message("", std::string("Jettisonned 1 tonne of ")+EquipType::types[t].name);
+			Pi::cpan->MsgLog()->Message("", std::string(Lang::JETTISONED)+EquipType::types[t].name);
 			Pi::infoView->UpdateInfo();
 		}
 	}
@@ -139,6 +146,11 @@ public:
 	PersonalPage() {
 	};
 
+	virtual void Show() {
+		InfoViewPage::Show();
+		if (Pi::infoView) Pi::infoView->ShowSpinner();
+	}
+
 	virtual void UpdateInfo() {
 		Sint64 crime, fine;
 		Polit::GetCrime(&crime, &fine);
@@ -146,11 +158,11 @@ public:
 		DeleteAllChildren();
 
 		float ypos = 40.0f;
-		Add((new Gui::Label("COMBAT RATING:"))->Shadow(true), 40, ypos);
+		Add((new Gui::Label(Lang::COMBAT_RATING))->Shadow(true), 40, ypos);
 		Add(new Gui::Label(Pi::combatRating[ Pi::CombatRating(Pi::player->GetKillCount()) ]), 40, ypos+YSEP);
 
 		ypos = 160.0f;
-		Add((new Gui::Label("CRIMINAL RECORD:"))->Shadow(true), 40, ypos);
+		Add((new Gui::Label(Lang::CRIMINAL_RECORD))->Shadow(true), 40, ypos);
 		for (int i=0; i<64; i++) {
 			if (!(crime & (Uint64(1)<<i))) continue;
 			if (!Polit::crimeNames[i]) continue;
@@ -171,19 +183,33 @@ public:
 		ShowAll();
 	};
 
+	virtual void Show() {
+		InfoViewPage::Show();
+		if (Pi::infoView) Pi::infoView->ShowSpinner();
+	}
+
 	virtual void UpdateInfo() {
 		char buf[512];
 		std::string col1, col2;
 		const ShipType &stype = Pi::player->GetShipType();
-		col1 = "SHIP INFORMATION:  "+std::string(stype.name);
-		col1 += "\n\nHyperdrive:"
-			"\n\nCapacity:"
-			"\nFree:"
-			"\nUsed:"
-			"\nAll-up weight:"
-			"\n\nFront weapon:"
-			"\nRear weapon:"
-			"\n\nHyperspace range:\n\n";
+		col1 = std::string(Lang::SHIP_INFORMATION_HEADER)+std::string(stype.name);
+		col1 += "\n\n";
+        col1 += std::string(Lang::HYPERDRIVE);
+		col1 += ":\n\n";
+        col1 += std::string(Lang::CAPACITY);
+		col1 += ":\n";
+        col1 += std::string(Lang::FREE);
+		col1 += ":\n";
+        col1 += std::string(Lang::USED);
+		col1 += ":\n";
+        col1 += std::string(Lang::TOTAL_WEIGHT);
+		col1 += ":\n\n";
+        col1 += std::string(Lang::FRONT_WEAPON);
+		col1 += ":\n";
+        col1 += std::string(Lang::REAR_WEAPON);
+		col1 += ":\n\n";
+        col1 += std::string(Lang::HYPERSPACE_RANGE);
+        col1 += ":\n\n";
 		
 		col2 = "\n\n";
 
@@ -204,16 +230,18 @@ public:
 			e = Pi::player->m_equipment.Get(Equip::SLOT_LASER, 0);
 			col2 += std::string("\n\n")+EquipType::types[e].name;
 		} else {
-			col2 += "\n\nno mounting";
+			col2 += "\n\n";
+            col2 += std::string(Lang::NO_MOUNTING);
 		}
 		if (numLasers >= 2) {
 			e = Pi::player->m_equipment.Get(Equip::SLOT_LASER, 1);
 			col2 += std::string("\n")+EquipType::types[e].name;
 		} else {
-			col2 += "\nno mounting";
+			col2 += "\n";
+            col2 += std::string(Lang::NO_MOUNTING);
 		}
 
-		snprintf(buf, sizeof(buf), "\n\n%.1f light years (%.1f max)", stats->hyperspace_range, stats->hyperspace_range_max);
+		snprintf(buf, sizeof(buf), std::string(std::string("\n\n")+std::string(Lang::N_LIGHT_YEARS_N_MAX)).c_str(), stats->hyperspace_range, stats->hyperspace_range_max);
 		col2 += std::string(buf);
 
 		for (int i=Equip::FIRST_SHIPEQUIP; i<=Equip::LAST_SHIPEQUIP; i++) {
@@ -236,7 +264,8 @@ private:
 	Gui::Label *info1, *info2;
 };
 
-InfoView::InfoView(): View()
+InfoView::InfoView(): View(),
+	m_spinner(0)
 {
 	SetTransparency(true);
 
@@ -244,22 +273,22 @@ InfoView::InfoView(): View()
 
 	InfoViewPage *page = new ShipInfoPage();
 	m_pages.push_back(page);
-	m_tabs->AddPage(new Gui::Label("Ship Information"), page);
+	m_tabs->AddPage(new Gui::Label(Lang::SHIP_INFORMATION), page);
 
 	page = new PersonalPage();
 	m_pages.push_back(page);
-	m_tabs->AddPage(new Gui::Label("Reputation"), page);
+	m_tabs->AddPage(new Gui::Label(Lang::REPUTATION), page);
 	
 	page = new CargoPage();
 	m_pages.push_back(page);
-	m_tabs->AddPage(new Gui::Label("Cargo"), page);
+	m_tabs->AddPage(new Gui::Label(Lang::CARGO), page);
 	
 	page = new MissionPage();
 	m_pages.push_back(page);
-	m_tabs->AddPage(new Gui::Label("Missions"), page);
+	m_tabs->AddPage(new Gui::Label(Lang::MISSIONS), page);
 	
 	Add(m_tabs, 0, 0);
-//	m_tabs->SetShortcut(SDLK_F3, KMOD_NONE);
+
 	m_doUpdate = true;
 }
 
@@ -270,74 +299,10 @@ void InfoView::UpdateInfo()
 
 void InfoView::Draw3D()
 {
-	/* XXX duplicated code in SpaceStationView.cpp */
-	LmrObjParams params = {
-		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{},
-		{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
-
-		{	// pColor[3]
-		{ { 1.0f, 0.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-	};
-
-	Pi::player->GetFlavour()->ApplyTo(&params);
-
-	float guiscale[2];
-	Gui::Screen::GetCoords2Pixels(guiscale);
-	static float rot1, rot2;
-	rot1 += .5*Pi::GetFrameTime();
-	rot2 += Pi::GetFrameTime();
-	glClearColor(0,.2,.4,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	
-	if (m_tabs->GetCurrentPage() != 0) return;
-	
-	const float bx = 450;
-	const float by = 50;
-	Gui::Screen::EnterOrtho();
-	glColor3f(0,0,0);
-	glBegin(GL_QUADS); {
-		glVertex2f(bx,by);
-		glVertex2f(bx,by+320);
-		glVertex2f(bx+320,by+320);
-		glVertex2f(bx+320,by);
-	} glEnd();
-	Gui::Screen::LeaveOrtho();
-	
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glFrustum(-.5, .5, -.5, .5, 1.0f, 10000.0f);
-	glDepthRange (0.0, 1.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	
-	Render::State::SetZnearZfar(1.0f, 10000.0f);
-	
-	float lightCol[] = { .5,.5,.5,0 };
-	float lightDir[] = { 1,1,0,0 };
-
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-	glLightfv(GL_LIGHT0, GL_POSITION, lightDir);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, lightCol);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
-	glEnable(GL_LIGHT0);
-	glViewport(bx/guiscale[0], (Gui::Screen::GetHeight() - by - 320)/guiscale[1],
-			320/guiscale[0], 320/guiscale[1]);
-	
-	matrix4x4f rot = matrix4x4f::RotateXMatrix(rot1);
-	rot.RotateY(rot2);
-	LmrModel *lmr_model = Pi::player->GetLmrModel();
-	rot[14] = -1.5f * lmr_model->GetDrawClipRadius();
-
-	lmr_model->Render(rot, &params);
-	Render::State::UseProgram(0);
-	Render::UnbindAllBuffers();
-	glPopAttrib();
+	glClearColor(0.0f,0.2f,0.4f,0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void InfoView::Update()
@@ -348,9 +313,25 @@ void InfoView::Update()
 		}
 		m_doUpdate = false;
 	}
+
+	if (m_spinner) {
+		if (m_showSpinner)
+			m_spinner->Show();
+		else
+			m_spinner->Hide();
+	}
 }
 
 void InfoView::NextPage()
 {
 	m_tabs->OnActivate();
+}
+
+void InfoView::OnSwitchTo()
+{
+	if (m_spinner)
+		Remove(m_spinner);
+
+	m_spinner = new ShipSpinnerWidget(*Pi::player->GetFlavour(), 320, 320);
+	Add(m_spinner, 450, 50);
 }

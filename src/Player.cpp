@@ -7,8 +7,10 @@
 #include "Sound.h"
 #include "ShipCpanel.h"
 #include "KeyBindings.h"
+#include "Lang.h"
 
-Player::Player(ShipType::Type shipType): Ship(shipType)
+Player::Player(ShipType::Type shipType): Ship(shipType),
+	m_followCloud(0)
 {
 	m_mouseActive = false;
 	m_flightControlState = CONTROL_MANUAL;
@@ -32,6 +34,7 @@ void Player::Save(Serializer::Writer &wr)
 	wr.Double(m_setSpeed);
 	wr.Int32(m_killCount);
 	wr.Int32(m_knownKillCount);
+	wr.Int32(Serializer::LookupBody(m_followCloud));
 }
 
 void Player::Load(Serializer::Reader &rd)
@@ -42,6 +45,13 @@ void Player::Load(Serializer::Reader &rd)
 	m_setSpeed = rd.Double();
 	m_killCount = rd.Int32();
 	m_knownKillCount = rd.Int32();
+	m_followCloudIndex = rd.Int32();
+}
+
+void Player::PostLoadFixup()
+{
+	Ship::PostLoadFixup();
+	m_followCloud = dynamic_cast<HyperspaceCloud*>(Serializer::LookupBody(m_followCloudIndex));
 }
 
 void Player::OnHaveKilled(Body *guyWeKilled)
@@ -85,7 +95,7 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 	Ship::SetDockedWith(s, port);
 	if (s) {
 		if (Pi::CombatRating(m_killCount) > Pi::CombatRating(m_knownKillCount)) {
-			Pi::cpan->MsgLog()->ImportantMessage("Pioneering Pilot's Guild", "Well done commander! Your combat rating has improved!");
+			Pi::cpan->MsgLog()->ImportantMessage(Lang::PIONEERING_PILOTS_GUILD, Lang::RIGHT_ON_COMMANDER);
 		}
 		m_knownKillCount = m_killCount;
 
@@ -133,7 +143,7 @@ void Player::StaticUpdate(const float timeStep)
 	
 	/* This wank probably shouldn't be in Player... */
 	/* Ship engine noise. less loud inside */
-	float v_env = (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f);
+	float v_env = (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 	static Sound::Event sndev;
 	float volBoth = 0.0f;
 	volBoth += 0.5f*fabs(GetThrusterState().y);
@@ -175,10 +185,8 @@ void Player::PollControls(const float timeStep)
 	double invTimeAccel = 1.0 / time_accel;
 	static bool stickySpeedKey = false;
 
-	if ((time_accel == 0) || GetDockedWith() || Pi::player->IsDead() ||
-	    (GetFlightState() != FLYING)) {
+	if (time_accel == 0 || Pi::player->IsDead() || GetFlightState() != FLYING)
 		return;
-	}
 
 	// if flying 
 	{
@@ -301,20 +309,20 @@ void Player::SetAlertState(Ship::AlertState as)
 	switch (as) {
 		case ALERT_NONE:
 			if (prev != ALERT_NONE)
-				Pi::cpan->MsgLog()->Message("", "Alert cancelled.");
+				Pi::cpan->MsgLog()->Message("", Lang::ALERT_CANCELLED);
 			break;
 
 		case ALERT_SHIP_NEARBY:
 			if (prev == ALERT_NONE)
-				Pi::cpan->MsgLog()->ImportantMessage("", "Ship detected nearby.");
+				Pi::cpan->MsgLog()->ImportantMessage("", Lang::SHIP_DETECTED_NEARBY);
 			else
-				Pi::cpan->MsgLog()->ImportantMessage("", "No fire detected for 60 seconds, downgrading alert status.");
+				Pi::cpan->MsgLog()->ImportantMessage("", Lang::DOWNGRADING_ALERT_STATUS);
 			Sound::PlaySfx("OK");
 			break;
 
 		case ALERT_SHIP_FIRING:
-			Pi::cpan->MsgLog()->ImportantMessage("", "Laser fire detected.");
-			Sound::PlaySfx("warning");
+			Pi::cpan->MsgLog()->ImportantMessage("", Lang::LASER_FIRE_DETECTED);
+			Sound::PlaySfx("warning", 0.2f, 0.2f, 0);
 			break;
 	}
 

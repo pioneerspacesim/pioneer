@@ -122,6 +122,26 @@ static int l_sbody_attr_seed(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: parent
+ *
+ * The parent of the body, as a <SystemBody>. A body orbits its parent.
+ *
+ * Availability:
+ *
+ *   alpha 14
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_sbody_attr_parent(lua_State *l)
+{
+	SBody *sbody = LuaSBody::GetFromLua(1);
+	LuaSBody::PushToLua(sbody->parent);
+	return 1;
+}
+
 template <> const char *LuaObject<LuaUncopyable<SBody> >::s_type = "SystemBody";
 
 template <> void LuaObject<LuaUncopyable<SBody> >::RegisterClass()
@@ -132,6 +152,7 @@ template <> void LuaObject<LuaUncopyable<SBody> >::RegisterClass()
 		{ "type",      l_sbody_attr_type       },
 		{ "superType", l_sbody_attr_super_type },
 		{ "seed",      l_sbody_attr_seed       },
+		{ "parent",    l_sbody_attr_parent     },
 		{ 0, 0 }
 	};
 

@@ -1,3 +1,124 @@
+Alpha 14
+
+  * New features
+    * Lua attribute SBody.parent to find the parent of a system body (#359, #368)
+
+  * Fixes
+    * Remove a couple of hardcoded references to the data directory (#363)
+
+Alpha 13
+
+  * New features
+    * New song 'spacegroove' (#267)
+    * Caching of models and textures on startup, reduces loading times (#271)
+    * Separate hyperspace target from selected system in sector view (#269)
+    * Charon a moon of pluto (#276)
+    * Gas giants overhaul, 5 new gas giant colours/terrains implemented (#276)
+    * Atmosphere selection changed, planets can have a more varied atmospheric
+      composition (#276)
+    * Planetary rings are more varied and come in various colours (#276)
+    * Fractal texture to increase terrain detail and simulate planet surface
+      materials (#291)
+    * Mute buttons for each volume setting that actually stop the sounds
+      instead of just playing them quietly (#284, #270)
+    * New Lua events onShipLanded and onShipTakeOff to inform scripts when a
+      ship lands and takes off from a planet's surface (rough landing) (#295, #297)
+    * New Lua method StarSystem.GetBodyPaths to get paths to all bodies in a
+      system (#313)
+    * Outline overlay text (eg world labels) for improved visibility (#325,
+      #314, #258, #39, #349)
+    * Make the "video link established" text disappear after a few seconds
+      instead of flashing constantly (#319, #326)
+    * Support for translated strings; first language is German (#332)
+    * Name & title/occupation overlaid on station faces (#346)
+    * Added 'Inconsolata' font for debug and (later) console text (#343)
+
+  * Fixes
+    * Move sector view to current system on first open (#262)
+    * Check hyperspace validity at hyperspace time, fixes erroneous jumps to
+      Sol (#269)
+    * All sounds effects now honour the sound effects volume slider (#256, #280)
+    * Don't play ambient sounds if sound is disabled (#286)
+    * Fix supermassive black hole mass & radius (#303, #112)
+    * Reorder the star type list such that white dwarf stars will only ever be
+      paired with white and brown dwarfs (#304)
+    * Lua methods Ship.GetEquip and Ship.CanHyperspaceTo now return string
+      constants as documented (#305)
+    * Lua method Ship.AddEquip now adds as many items as possible if there is
+      not enough room for the requested amount, as documented (#309)
+    * Use of Lua method SystemPath.GetSystemBody would result in a crash on
+      exit (#311, #312)
+    * Fix occasional crash when station menus are still live in memory after
+      launch (#259)
+    * Enable GL extensions earlier in shader compilation to conform to shader
+      spec (#329, #330)
+    * Fix occasional crash on game load (#331)
+    * Fix terrain jitter (#179)
+    * Support extended ASCII characters in texture fonts (#338)
+    * Make sure all bodies have a minimum radius of at least 10km (#321, #301)
+    * All city models checked and proper collision meshes added, drastically
+      improving city rendering performance (#348)
+    * Fix crash when music changes while in hyperspace (#345)
+
+  * Internal changes
+    * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
+    * Refactored SectorView to use SystemPath internally (#262)
+    * Tweaks and improvements to several terrains (#276, #291)
+    * GUI widgets now have a minimum size, used for better dynamic layout with
+      variable-size containers and widgets (#279)
+    * Rewrote station menus and refactored several GUI elements to have better
+      abstraction and consistency (306)
+    * Debug output now shows terrain vertices and font glyphs per second
+
+Alpha 12
+
+  * New features
+    * Music! 17 songs and scriptable music engine and control script
+      (#233, #250, #171, #267)
+    * New star and planet images in system info view (#167)
+    * 'Home' key resets camera in external view (#199)
+    * Re-implemented and re-enabled old hill, mountain, volcano, desert and
+      river terrains for Earth and Mars-like worlds (#211)
+    * New "dunes" terrain for Mars-like worlds (#211)
+    * Earth terrain tweaks: more noise variations and reduced mountain
+      height (#211)
+    * System information (F7) button cycles through info tabs in system info
+      view (#212)
+    * Pause buttons now toggles game settings if game is already
+      paused (#217, #221)
+    * Can now set navigation target by clicking on bodies in the system info
+      view. Navigation target will be highlighted in the info view. Body info
+      is displayed on mouse hover (#220, #255)
+    * Lots of new and updated parts for facegen (#213)
+    * User configurable FOV support in the config file (#219)
+    * Distance and fuel required text in sector view now colourised to
+      indicate if jump is possible (#227)
+    * Highlight populated systems in sector view (#242)
+    * Mouse can now control ship rotation in ship info and shipyard (#243)
+    * New Lua event onFrameChanged and dynamic body frame attributes to help
+      determine which planet/station/etc a ship is near (#249)
+
+  * Fixes
+    * Lua model args passed as doubles to avoid loss of precision (eg
+      time) (#174, #176)
+    * Removed misleading F7/F8 text from zoom icons (#201)
+    * Pass alert state to Lua onShipAlertChanged event (#191, #195)
+    * Avoid loss of precision when calculating radius of very tiny bodies (#189)
+    * Hyperspace range is displayed correctly again (#222)
+    * Occasional crash in system cache pruning (#230, #237)
+    * Crash due to buffer overrun in sound player (#253)
+    * Fixed HDR lighting on Radeon (#87, #263)
+    * Replace broken hill/dune terrain with something that works
+    * Adjust Saturn, Uranus and Neptune so they have rings as appropriate
+
+  * Internal changes
+    * All model timing now based of game time (#175, #178)
+    * City models are now loaded at startup (#71)
+    * All terrains optimised (octave count reduced) (#211)
+    * Optionally use ccache to speed up builds (#235)
+    * New HYPERSPACE and DOCKED flight states to explicitly describe some
+      conditions instead of having to infer from other data (#89, #252)
+
 Alpha 11
 
   * New features
@@ -26,6 +147,7 @@ Alpha 11
     * Remove duplicate system 'EI Cancri' [2,0]
     * Crash on call to Lua method Player.AddCrime
     * Crash on any mission failure (#144)
+    * Mission status screen layout tweaks (#145)
 
   * Internal changes
     * Lots of code cleanups, warnings silenced, etc
