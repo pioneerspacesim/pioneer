@@ -246,11 +246,11 @@ void GeoSphereStyle::InitHeightMap(const SBody *body)
 		f = fopen_or_die(body->heightMapFilename, "r");
 		// read size!
 		Uint16 v;
-		fread(&v, 2, 1, f); m_heightMapSizeX = v;
-		fread(&v, 2, 1, f); m_heightMapSizeY = v;
+		fread_or_die(&v, 2, 1, f); m_heightMapSizeX = v;
+		fread_or_die(&v, 2, 1, f); m_heightMapSizeY = v;
 		m_heightMap = new Sint16[m_heightMapSizeX * m_heightMapSizeY];
 		// XXX TODO XXX what about bigendian archs...
-		fread(m_heightMap, sizeof(Sint16), m_heightMapSizeX * m_heightMapSizeY, f);
+		fread_or_die(m_heightMap, sizeof(Sint16), m_heightMapSizeX * m_heightMapSizeY, f);
 		fclose(f);
 	} else {
 		m_heightMap = 0;
