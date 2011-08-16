@@ -658,11 +658,11 @@ SECTOR_X_Y_Z
 CURRENT_SYSTEM
     Aktuelle System
 QUADRUPLE_SYSTEM
-    "VierfachSternsystem. "
+    VierfachSternsystem
 TRIPLE_SYSTEM
-    "DreifachSternsystem. "
+    DreifachSternsystem
 BINARY_SYSTEM
-    "DoppelSternsystem. "
+    DoppelSternsystem
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
     Kraftstoffschaufel aktiv. Sie haben nun %d Tonnen Wasserstoff.
 CARGO_BAY_LIFE_SUPPORT_LOST

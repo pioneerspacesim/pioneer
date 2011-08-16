@@ -372,11 +372,11 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 
 	std::string desc;
 	if (sys->GetNumStars() == 4) {
-		desc = "Quadruple system. ";
+		desc = Lang::QUADRUPLE_SYSTEM;
 	} else if (sys->GetNumStars() == 3) {
-		desc = "Triple system. ";
+		desc = Lang::TRIPLE_SYSTEM;
 	} else if (sys->GetNumStars() == 2) {
-		desc = "Binary system. ";
+		desc = Lang::BINARY_SYSTEM;
 	} else {
 		desc = sys->rootBody->GetAstroDescription();
 	}

@@ -668,11 +668,11 @@ LOCKED
 NUMBER_HOURS
     %.2f hrs
 QUADRUPLE_SYSTEM
-    "Quadruple system. "
+    Quadruple system
 TRIPLE_SYSTEM
-    "Triple system. "
+    Triple system
 BINARY_SYSTEM
-    "Binary system. "
+    Binary system
 ENABLED_AUTOMATIC_SYSTEM_SELECTION
     Enabled automatic system selection.
 DISABLED_AUTOMATIC_SYSTEM_SELECTION
