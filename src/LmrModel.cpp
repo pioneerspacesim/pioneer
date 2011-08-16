@@ -274,16 +274,16 @@ void UseProgram(LmrShader *shader, bool Textured = false) {
 static void _fwrite_string(const std::string &str, FILE *f)
 {
 	int len = str.size()+1;
-	fwrite(&len, 1, 4, f);
-	fwrite(str.c_str(), 1, len, f);
+	fwrite(&len, sizeof(int), 1, f);
+	fwrite(str.c_str(), sizeof(char), len, f);
 }
 
 static std::string _fread_string(FILE *f)
 {
 	int len = 0;
-	fread(&len, 1, 4, f);
+	fread(&len, sizeof(int), 1, f);
 	char *buf = new char[len];
-	fread(buf, 1, len, f);
+	fread(buf, sizeof(char), len, f);
 	std::string str = std::string(buf);
 	delete buf;
 	return str;
@@ -791,11 +791,11 @@ public:
 		int numTriflags = m_triflags.size();
 		int numThrusters = m_thrusters.size();
 		int numOps = m_ops.size();
-		fwrite(&numVertices, 1, 4, f);
-		fwrite(&numIndices, 1, 4, f);
-		fwrite(&numTriflags, 1, 4, f);
-		fwrite(&numThrusters, 1, 4, f);
-		fwrite(&numOps, 1, 4, f);
+		fwrite(&numVertices, sizeof(int), 1, f);
+		fwrite(&numIndices, sizeof(int), 1, f);
+		fwrite(&numTriflags, sizeof(int), 1, f);
+		fwrite(&numThrusters, sizeof(int), 1, f);
+		fwrite(&numOps, sizeof(int), 1, f);
 		if (numVertices) fwrite(&m_vertices[0], sizeof(Vertex), numVertices, f);
 		if (numIndices) fwrite(&m_indices[0], sizeof(Uint16), numIndices, f);
 		if (numTriflags) fwrite(&m_triflags[0], sizeof(Uint16), numTriflags, f);
@@ -817,11 +817,11 @@ public:
 	}
 	void LoadFromCache(FILE *f) {
 		int numVertices, numIndices, numTriflags, numOps, numThrusters;
-		fread(&numVertices, 1, 4, f);
-		fread(&numIndices, 1, 4, f);
-		fread(&numTriflags, 1, 4, f);
-		fread(&numThrusters, 1, 4, f);
-		fread(&numOps, 1, 4, f);
+		fread(&numVertices, sizeof(int), 1, f);
+		fread(&numIndices, sizeof(int), 1, f);
+		fread(&numTriflags, sizeof(int), 1, f);
+		fread(&numThrusters, sizeof(int), 1, f);
+		fread(&numOps, sizeof(int), 1, f);
 		assert(numVertices <= 65536);
 		assert(numIndices < 1000000);
 		assert(numTriflags < 1000000);
@@ -845,7 +845,7 @@ public:
 		}
 		m_ops.resize(numOps);
 		for (int i=0; i<numOps; i++) {
-			fread(&m_ops[i], sizeof(Op), 1, f);
+			fread(&m_ops[i], 1, sizeof(Op), f);
 			if (m_ops[i].type == OP_CALL_MODEL) {
 				m_ops[i].callmodel.model = s_models[_fread_string(f)];
 			}
@@ -950,7 +950,7 @@ LmrModel::LmrModel(const char *model_name)
 			m_staticGeometry[i]->PostBuild();
 		}
 		int numMaterials;
-		fread(&numMaterials, 1, 4, f);
+		fread(&numMaterials, sizeof(int), 1, f);
 		if (numMaterials != m_materials.size()) {
 			fclose(f);
 			goto rebuild_model;
@@ -958,7 +958,7 @@ LmrModel::LmrModel(const char *model_name)
 		if (numMaterials) fread(&m_materials[0], sizeof(LmrMaterial), numMaterials, f);
 
 		int numLights;
-		fread(&numLights, 1, 4, f);
+		fread(&numLights, sizeof(int), 1, f);
 		if (numLights != m_lights.size()) {
 			fclose(f);
 			goto rebuild_model;
@@ -987,10 +987,10 @@ rebuild_model:
 		}
 		
 		const int numMaterials = m_materials.size();
-		fwrite(&numMaterials, 1, 4, f);
+		fwrite(&numMaterials, sizeof(int), 1, f);
 		if (numMaterials) fwrite(&m_materials[0], sizeof(LmrMaterial), numMaterials, f);
 		const int numLights = m_lights.size();
-		fwrite(&numLights, 1, 4, f);
+		fwrite(&numLights, sizeof(int), 1, f);
 		if (numLights) fwrite(&m_lights[0], sizeof(LmrLight), numLights, f);
 		
 		fclose(f);
@@ -2870,7 +2870,7 @@ static void _detect_model_changes()
 		if ((_fread_string(cache_sum_file) == PIONEER_VERSION) &&
 		    (_fread_string(cache_sum_file) == PIONEER_EXTRAVERSION)) {
 			int crc;
-			fread(&crc, 1, 4, cache_sum_file);
+			fread(&crc, sizeof(int), 1, cache_sum_file);
 			if (crc == s_allModelFilesCRC) {
 				s_recompileAllModels = false;
 			}
@@ -2883,7 +2883,7 @@ static void _detect_model_changes()
 		if (cache_sum_file) {
 			_fwrite_string(PIONEER_VERSION, cache_sum_file);
 			_fwrite_string(PIONEER_EXTRAVERSION, cache_sum_file);
-			fwrite(&s_allModelFilesCRC, 1, 4, cache_sum_file);
+			fwrite(&s_allModelFilesCRC, sizeof(int), 1, cache_sum_file);
 			fclose(cache_sum_file);
 		}
 	}
