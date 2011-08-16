@@ -53,7 +53,7 @@ inline void pi_lua_settable(lua_State *l, const char *key, const char *value)
 
 void pi_lua_table_ro(lua_State *l);
 
-int  pi_lua_panic(lua_State *l);
+int  pi_lua_panic(lua_State *l) __attribute((noreturn));
 void pi_lua_dofile_recursive(lua_State *l, std::string basepath);
 int  pi_load_lua(lua_State *l);
 	
