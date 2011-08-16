@@ -1168,7 +1168,7 @@ int LmrCollMesh::GetTrisWithGeomflag(unsigned int flags, int num, vector3d *outV
 {
 	int found = 0;
 	for (int i=0; (i<m_numTris) && (found<num); i++) {
-		if (pFlag[i] == int(flags)) {
+		if (pFlag[i] == flags) {
 			*(outVtx++) = vector3d(&pVertex[3*pIndex[3*i]]);
 			*(outVtx++) = vector3d(&pVertex[3*pIndex[3*i+1]]);
 			*(outVtx++) = vector3d(&pVertex[3*pIndex[3*i+2]]);

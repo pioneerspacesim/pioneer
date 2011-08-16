@@ -483,7 +483,7 @@ void Screendump(const char* destFile, const int W, const int H)
 
 	png_bytepp rows = new png_bytep[H];
 
-	for (unsigned int i = 0; i < H; ++i) {
+	for (int i = 0; i < H; ++i) {
 		rows[i] = reinterpret_cast<png_bytep>(&pixel_data[(H-i-1) * W * 3]);
 	}
 	png_set_rows(png_ptr, info_ptr, rows);
