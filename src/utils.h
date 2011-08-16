@@ -20,23 +20,8 @@
 #define glError() 
 #endif
 
-#ifdef __GNUC__
-
-// use this to test GLEW features
-// it avoids old-style-cast warnings
-#define GLEW_TEST(__a) ({ \
-	_Pragma("GCC diagnostic push") \
-	_Pragma("GCC diagnostic ignored \"-Wold-style-cast\"") \
-	bool __r = __a; \
-	_Pragma("GCC diagnostic pop") \
-	__r; \
-})
-
-#else
-
+#ifndef __GNUC__
 #define __attribute(x)
-#define GLEW_TEST(x) x
-
 #endif /* __GNUC__ */
 
 void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribute((noreturn));

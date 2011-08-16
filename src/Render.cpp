@@ -353,14 +353,11 @@ static struct postprocessBuffers_t {
 void Init(int screen_width, int screen_height)
 {
 	if (initted) return;
-	shadersAvailable = (GLEW_TEST(GLEW_VERSION_2_0) ? true : false);
+	shadersAvailable = (GLEW_VERSION_2_0 ? true : false);
 	shadersEnabled = shadersAvailable;
 	printf("GLSL shaders %s.\n", shadersEnabled ? "on" : "off");
 	// Framebuffers for HDR
-	if (
-		GLEW_TEST(GLEW_EXT_framebuffer_object) &&
-		GLEW_TEST(GLEW_ARB_color_buffer_float) &&
-		GLEW_TEST(GLEW_ARB_texture_rectangle)) {
+	if (GLEW_EXT_framebuffer_object && GLEW_ARB_color_buffer_float && GLEW_ARB_texture_rectangle) { // && GLEW_ARB_depth_buffer_float) {
 		s_hdrBufs.CreateBuffers(screen_width, screen_height);
 	}
 	
@@ -385,7 +382,7 @@ void PrepareFrame()
 	if (IsHDREnabled()) {
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, s_hdrBufs.fb);
 	} else {
-		if (GLEW_TEST(GLEW_EXT_framebuffer_object)) glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+		if (GLEW_EXT_framebuffer_object) glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	}
 }
 
