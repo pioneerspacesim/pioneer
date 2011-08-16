@@ -63,7 +63,7 @@ SectorView::SectorView() :
 	
 	m_infoBox = new Gui::VBox();
 	m_infoBox->SetTransparency(false);
-	m_infoBox->SetBgColor(0.0f, 0.0f, 0.0f, 0.8f);
+	m_infoBox->SetBgColor(0.05f, 0.05f, 0.12f, 0.5f);
 	m_infoBox->SetSpacing(5.0f);
 	Add(m_infoBox, 5, 5);
 
