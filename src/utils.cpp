@@ -76,8 +76,8 @@ FILE *fopen_or_die(const char *filename, const char *mode)
 {
 	FILE *f = fopen(filename, mode);
 	if (!f) {
-		printf("Error: could not open file '%s'\n", filename);
-		throw MissingFileException();
+		fprintf(stderr, "Error: could not open file '%s'\n", filename);
+		abort();
 	}
 	return f;
 }
