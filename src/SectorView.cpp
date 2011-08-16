@@ -613,9 +613,11 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 	}
 
 	// fast move selection to current player system or hyperspace target
-	if (Pi::KeyState(SDLK_c) || Pi::KeyState(SDLK_h)) {
+	if (Pi::KeyState(SDLK_c) || Pi::KeyState(SDLK_g) || Pi::KeyState(SDLK_h)) {
 		if (Pi::KeyState(SDLK_c))
 			GotoSystem(m_current);
+		else if (Pi::KeyState(SDLK_g))
+			GotoSystem(m_selected);
 		else
 			GotoSystem(m_hyperspaceTarget);
 
