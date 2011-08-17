@@ -114,7 +114,7 @@ local makeAdvert = function (station)
 	local dist = Game.player:DistanceTo(locdist)
 	if dist < 1000 then return end -- Bail if it selects the station we're docked at
 
-	local isfemale = Engine.rand:Integer(0,1)
+	local isfemale = Engine.rand:Integer(1) == 1
 	local client = NameGen.FullName(isfemale)
 
 	local flavour = Engine.rand:Integer(1,#localdelivery_flavours)
