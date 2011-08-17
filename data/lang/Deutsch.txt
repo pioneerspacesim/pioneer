@@ -276,7 +276,7 @@ WATER
 MEDICINES
     Arzneimittel
 CONSUMER_GOODS
-    Consumer goods
+    Verbrauchsgüter
 COMPUTERS
     Computer
 ROBOTS
@@ -657,12 +657,26 @@ SECTOR_X_Y_Z
     Sektor: %d,%d,%d
 CURRENT_SYSTEM
     Aktuelle System
+SELECTED_SYSTEM
+    Ausgewählter System
+HYPERSPACE_TARGET
+    Hyperraum Ziel
+FOLLOWING_SELECTION
+    Auswahl folgende
+LOCKED
+    verschlossen
+NUMBER_HOURS
+    %.2f St.
 QUADRUPLE_SYSTEM
     VierfachSternsystem
 TRIPLE_SYSTEM
     DreifachSternsystem
 BINARY_SYSTEM
     DoppelSternsystem
+ENABLED_AUTOMATIC_SYSTEM_SELECTION
+    Automatische Systemauswahl aktiviert.
+DISABLED_AUTOMATIC_SYSTEM_SELECTION
+    Automatische Systemauswahl unaktiviert.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
     Kraftstoffschaufel aktiv. Sie haben nun %d Tonnen Wasserstoff.
 CARGO_BAY_LIFE_SUPPORT_LOST
@@ -1101,3 +1115,5 @@ COMPLETED
     Fertig
 ACTIVE
     Aktuell
+DISTANCE_LY
+    Entfernung: %0.2f Lj
