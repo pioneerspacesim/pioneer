@@ -16,9 +16,8 @@ LuaManager::LuaManager() : m_lua(NULL) {
 
 	lua_atpanic(m_lua, pi_lua_panic);
 
-	int ret = 0;
-
-	if (ret = luaL_loadfile(m_lua, PIONEER_DATA_DIR "/pidebug.lua")) {
+	int ret = luaL_loadfile(m_lua, PIONEER_DATA_DIR "/pidebug.lua");
+	if (ret) {
 		if (ret == LUA_ERRFILE)
 			fprintf(stderr, "Can't load '" PIONEER_DATA_DIR "/pidebug.lua'");
 		else if (ret == LUA_ERRSYNTAX) {
