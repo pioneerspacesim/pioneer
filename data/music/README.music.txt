@@ -1,7 +1,7 @@
 Drop music files here. They must be in .ogg format, 44100 or 22050 Hz.
 
 Music in core/ will be played by the default player script,
-data/modules/MusicPlayer.lua. Mission or per-system scripts should add their
+modules/MusicPlayer.lua. Mission or per-system scripts should add their
 own music to a separate subdir.
 
 Music in core/ is selected based on game events. When a particular game event

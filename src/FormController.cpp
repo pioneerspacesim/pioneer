@@ -8,16 +8,22 @@ void FormController::ActivateForm(Form *form)
 
 void FormController::JumpToForm(Form *form)
 {
-	if (m_formStack->Size() > 0)
-		onClose.emit(static_cast<Form*>(m_formStack->Top()));
+	if (m_formStack->Size() > 0) {
+		Form *old_form = static_cast<Form*>(m_formStack->Top());
+		old_form->OnClose();
+		onClose.emit(old_form);
+	}
 	m_formStack->JumpTo(form);
 	Refresh();
 }
 
 void FormController::CloseForm()
 {
-	if (m_formStack->Size() > 0)
-		onClose.emit(static_cast<Form*>(m_formStack->Top()));
+	if (m_formStack->Size() > 0) {
+		Form *form = static_cast<Form*>(m_formStack->Top());
+		form->OnClose();
+		onClose.emit(form);
+	}
 	m_formStack->Pop();
 	Refresh();
 }

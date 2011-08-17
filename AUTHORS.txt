@@ -17,6 +17,7 @@ Programming:
   Andrew Copland
   Paul Mahol
   John Bartholomew
+  Benjamin Hodgetts
 
 Art:
   Gernot

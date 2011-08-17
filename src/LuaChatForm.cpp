@@ -12,17 +12,6 @@
 #include "FaceVideoLink.h"
 #include "StationPoliceForm.h"
 
-LuaChatForm::LuaChatForm(FormController *controller, SpaceStation *station, const BBAdvert &ad) :
-	StationAdvertForm(controller, station, ad), m_commodityTradeWidget(0)
-{
-	m_formClosedConnection = m_formController->onClose.connect(sigc::mem_fun(this, &LuaChatForm::OnClose));
-}
-
-LuaChatForm::~LuaChatForm()
-{
-	m_formClosedConnection.disconnect();
-}
-
 void LuaChatForm::OnOptionClicked(int option)
 {
     SetMoney(1000000000);
@@ -51,7 +40,9 @@ void LuaChatForm::OnOptionClicked(int option)
 	LUA_DEBUG_END(l, 0);
 }
 
-void LuaChatForm::OnClose(Form *form) {
+void LuaChatForm::OnClose() {
+	StationAdvertForm::OnClose();
+
 	lua_State *l = Pi::luaManager.GetLuaState();
 	int ref = GetAdvert()->ref;
 
