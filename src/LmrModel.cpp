@@ -951,7 +951,7 @@ LmrModel::LmrModel(const char *model_name)
 		}
 		int numMaterials;
 		fread_or_die(&numMaterials, sizeof(numMaterials), 1, f);
-		if (numMaterials != m_materials.size()) {
+		if (size_t(numMaterials) != m_materials.size()) {
 			fclose(f);
 			goto rebuild_model;
 		}
@@ -959,7 +959,7 @@ LmrModel::LmrModel(const char *model_name)
 
 		int numLights;
 		fread_or_die(&numLights, sizeof(numLights), 1, f);
-		if (numLights != m_lights.size()) {
+		if (size_t(numLights) != m_lights.size()) {
 			fclose(f);
 			goto rebuild_model;
 		}
@@ -2869,7 +2869,7 @@ static void _detect_model_changes()
 	if (cache_sum_file) {
 		if ((_fread_string(cache_sum_file) == PIONEER_VERSION) &&
 		    (_fread_string(cache_sum_file) == PIONEER_EXTRAVERSION)) {
-			int crc;
+			Uint32 crc;
 			fread_or_die(&crc, sizeof(crc), 1, cache_sum_file);
 			if (crc == s_allModelFilesCRC) {
 				s_recompileAllModels = false;
