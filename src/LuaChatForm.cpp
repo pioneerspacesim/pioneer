@@ -41,6 +41,8 @@ void LuaChatForm::OnOptionClicked(int option)
 }
 
 void LuaChatForm::OnClose() {
+	StationAdvertForm::OnClose();
+
 	lua_State *l = Pi::luaManager.GetLuaState();
 	int ref = GetAdvert()->ref;
 
