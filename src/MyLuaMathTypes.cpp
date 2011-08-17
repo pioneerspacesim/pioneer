@@ -335,7 +335,7 @@ namespace MyLuaVec {
 	{
 		printf("Fuckme\n");
 		vector3f *v = checkVec(L, 1);
-		unsigned int i = luaL_checkint(L, 2);
+		unsigned int i = luaL_checkinteger(L, 2);
 		if (i>i) {
 			luaL_error(L, "vector index must be in range 0-2");
 		}

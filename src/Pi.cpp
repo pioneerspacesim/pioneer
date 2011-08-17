@@ -349,7 +349,7 @@ void Pi::Init()
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
 	Gui::Init(scrWidth, scrHeight, 800, 600);
-	if (!GLEW_ARB_vertex_buffer_object) {
+	if (!glewIsSupported("GL_ARB_vertex_buffer_object")) {
 		Error("OpenGL extension ARB_vertex_buffer_object not supported. Pioneer can not run on your graphics card.");
 	}
 	Render::Init(width, height);
@@ -463,7 +463,7 @@ void Pi::InitOpenGL()
 
 	gluQuadric = gluNewQuadric ();
 	
-	fprintf(stderr, "GL_ARB_point_sprite: %s\n", GLEW_ARB_point_sprite ? "Yes" : "No");
+	fprintf(stderr, "GL_ARB_point_sprite: %s\n", glewIsSupported("GLEW_ARB_point_sprite") ? "Yes" : "No");
 }
 
 void Pi::Quit()
