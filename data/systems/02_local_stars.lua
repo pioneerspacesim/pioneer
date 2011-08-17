@@ -343,7 +343,35 @@ CustomSystem:new('Gliese 695',{'STAR_M','STAR_M'}):add_to_sector(-4,-1,1,v(0.974
 CustomSystem:new('Gliese 275.2',{'STAR_M','WHITE_DWARF'}):add_to_sector(2,-2,3,v(0.897,0.789,0.515))
 CustomSystem:new('NN 3233',{'STAR_G'}):add_to_sector(3,2,3,v(0.948,0.966,0.867))
 CustomSystem:new('HD 265866',{'STAR_K'}):add_to_sector(1,-1,1,v(0.826,0.555,0.233))
-CustomSystem:new('Barnard\'s Star',{'STAR_M'}):add_to_sector(-1,-1,0,v(0.260,0.993,0.060))
+
+-- Barnard's Star --
+local s = CustomSystem:new('Barnard\'s star',{ 'STAR_M' })
+    :govtype('EARTHCOLONIAL')
+    :short_desc('Earth Federation prison colony')
+    :long_desc([[Barnard's Star is a very low-mass red dwarf star.  Somewhere between 7 and 12 billion years old, it is probably one of the most ancient stars in the galaxy.  Despite that, it is still fairly active.  Pilots entering the system are warned that there might be consideral stellar activity, including flares and massive coronal ejections.
+
+One of the first stars to be visited after the introduction of interstellar travel, Barnard's Star was found to be solitary, with no planets.  Despite this, habitats were built here to serve as Federal prison colonies.
+            
+A permit is normally required in order to enter this system whilst carrying weapons.]])
+
+local barnard = CustomSBody:new('Barnard\'s Star', 'STAR_M')
+    :radius(f(17,100))
+    :mass(f(16,100))
+    :temp(3134)
+
+local barnard_starports = {
+    CustomSBody:new('High Security Prison Tranquility', 'STARPORT_ORBITAL')
+        :semi_major_axis(f(32,10))
+        :rotation_period(f(1,24*60*3)),
+    CustomSBody:new('High Security Prison Serenity', 'STARPORT_ORBITAL')
+        :semi_major_axis(f(32,10))
+        :orbital_offset(f(1,3))
+        :rotation_period(f(1,24*60*4)),
+}
+s:bodies(barnard, barnard_starports)
+s:add_to_sector(-1,-1,0,v(0.260,0.993,0.060))
+-- / Barnard's Star --
+
 CustomSystem:new('Gliese 880',{'STAR_M'}):add_to_sector(-1,2,0,v(0.265,0.588,0.800))
 CustomSystem:new('Gliese 884',{'STAR_K'}):add_to_sector(-1,2,-2,v(0.210,0.963,0.728))
 CustomSystem:new('NN 3421',{'STAR_M'}):add_to_sector(2,-1,2,v(0.176,0.377,0.973))
