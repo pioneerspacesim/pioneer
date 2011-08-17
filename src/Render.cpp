@@ -382,10 +382,8 @@ bool IsHDRAvailable() { return hdrAvailable; }
 
 void PrepareFrame()
 {
-	if (IsHDREnabled())
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, s_hdrBufs.fb);
-    else if (IsHDRAvailable())
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	if (IsHDRAvailable())
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, IsHDREnabled() ? s_hdrBufs.fb : 0);
 }
 
 void PostProcess()
