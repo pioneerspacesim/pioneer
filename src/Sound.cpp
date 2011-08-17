@@ -402,10 +402,10 @@ static void load_sound(const std::string &basename, const std::string &path)
 			}
 		}
 
-		//music keyed by pathname minus data/music/ minus ogg
+		//music keyed by pathname minus (datapath)/music/ and extension
 		if (m_loadingMusic) {
 			sample.isMusic = true;
-			const std::string prefix = "data/music/";
+			const std::string prefix = PIONEER_DATA_DIR "/music/";
 			const std::string key = path.substr(prefix.size(), path.size()-prefix.size()-4);
 			sfx_samples[key] = sample;
 		} else {

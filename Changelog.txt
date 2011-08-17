@@ -1,3 +1,15 @@
+Alpha 14
+
+  * New features
+    * Lua attribute SBody.parent to find the parent of a system body (#359, #368)
+
+  * Fixes
+    * Remove a couple of hardcoded references to the data directory (#363)
+    * Fix crash when closing police form triggered from inside a advert (#371, #372)
+
+  * Internal changes
+    * Removed remaining old-style casts (#373)
+
 Alpha 13
 
   * New features
