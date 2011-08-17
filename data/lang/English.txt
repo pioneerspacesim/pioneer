@@ -1090,7 +1090,7 @@ FINE_PAID_N_BUT_N_REMAINING
 FINE_PAID_N
     You have paid the fine of %s.
 SET_HYPERSPACE_DESTINATION_TO
-    "Set hyperspace destination to "
+    "Set hyperspace destination to %s"
 NO_TARGET_SELECTED
     Ship Computer: No target selected
 REQUEST_DOCKING_CLEARANCE

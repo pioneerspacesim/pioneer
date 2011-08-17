@@ -1090,7 +1090,7 @@ FINE_PAID_N_BUT_N_REMAINING
 FINE_PAID_N
     Sie haben die Geldstrafe von %s bezahlt.
 SET_HYPERSPACE_DESTINATION_TO
-    "Set Hyperraum Ziel nach "
+    "Hyperraum Ziel nach %s angesetzt"
 NO_TARGET_SELECTED
     Schiffsrechner: Kein Ziel ausgewählt
 REQUEST_DOCKING_CLEARANCE

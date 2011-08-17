@@ -935,7 +935,7 @@ void WorldView::OnHyperspaceTargetChanged()
 	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
 
 	StarSystem *system = StarSystem::GetCached(path);
-	Pi::cpan->MsgLog()->Message("", std::string(Lang::SET_HYPERSPACE_DESTINATION_TO+system->GetName()));
+	Pi::cpan->MsgLog()->Message("", std::string(stringf(256,Lang::SET_HYPERSPACE_DESTINATION_TO,system->GetName().c_str())));
 	system->Release();
 
 	int fuelReqd;
