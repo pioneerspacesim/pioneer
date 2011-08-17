@@ -845,7 +845,7 @@ public:
 		}
 		m_ops.resize(numOps);
 		for (int i=0; i<numOps; i++) {
-			fread(&m_ops[i], 1, sizeof(Op), f);
+			fread(&m_ops[i], sizeof(Op), 1, f);
 			if (m_ops[i].type == OP_CALL_MODEL) {
 				m_ops[i].callmodel.model = s_models[_fread_string(f)];
 			}
