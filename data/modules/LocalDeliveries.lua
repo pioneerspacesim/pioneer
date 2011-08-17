@@ -51,7 +51,7 @@ local onChat = function (form, ref, option)
 	end
 
 	if option == 0 then
-		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.client })
+		form:SetFace({female = ad.isfemale, seed = ad.faceseed, name = ad.client})
 
 		local sbody = ad.location:GetSystemBody()
 
@@ -113,6 +113,8 @@ local makeAdvert = function (station)
 	local locdist = Space.GetBody(location.bodyIndex)
 	local dist = Game.player:DistanceTo(locdist)
 	if dist < 1000 then return end -- Bail if it selects the station we're docked at
+
+	local isfemale = Engine.rand:Integer(0,1)
 	local client = NameGen.FullName(isfemale)
 
 	local flavour = Engine.rand:Integer(1,#localdelivery_flavours)
@@ -126,6 +128,7 @@ local makeAdvert = function (station)
 		flavour  = flavour,
 		client   = client,
 		location = location,
+		isfemale = isfemale,
 		due      = due,
 		reward   = reward,
 		faceseed = Engine.rand:Integer(),
