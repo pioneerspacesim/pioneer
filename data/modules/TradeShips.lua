@@ -127,7 +127,7 @@ local spawnInitialShips = function ()
 	local import_score, export_score = 0, 0
 	imports, exports = {}, {}
 	for k,v in pairs(prices) do
-		if Game.system:IsCommodityLegal(k) then
+		if k ~= 'RUBBISH' and k ~= 'RADIOACTIVES' and Game.system:IsCommodityLegal(k) then
 			if		v > 10	then
 				import_score = import_score + 2
 			elseif	v > 2	then
@@ -624,7 +624,7 @@ local onGameStart = function ()
 		else
 			local prices = Game.system:GetCommodityBasePriceAlterations()
 			for k,v in pairs(prices) do
-				if Game.system:IsCommodityLegal(k) then
+				if k ~= 'RUBBISH' and k ~= 'RADIOACTIVES' and Game.system:IsCommodityLegal(k) then
 					if v > 2 then
 						table.insert(imports, k)
 					elseif v < -2 then
