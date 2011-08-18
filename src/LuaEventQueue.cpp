@@ -561,7 +561,7 @@ void LuaEventQueueBase::Emit()
  * Example:
  *
  * > EventQueue.onEnterSystem:Connect(function (ship)
- * >     print("welcome to "..Game.system:GetName()..", "..ship:GetLabel())
+ * >     print("welcome to "..Game.system.name..", "..ship.label)
  * > end)
  *
  * Availability:
@@ -601,7 +601,7 @@ int LuaEventQueueBase::l_connect(lua_State *l)
  * Disconnects a function from an event queue. The function will no long
  * receive events emitted by the queue.
  *
- * If the function is not connected to the queue this method does nothihg.
+ * If the function is not connected to the queue this method does nothing.
  *
  * > onEvent:Disconnect(function)
  *

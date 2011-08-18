@@ -12,6 +12,7 @@ Alpha 14
     * Removed remaining old-style casts (#373)
     * Lots of internal cleanups; silences most remaining warnings (#375)
     * Dump Lua engine state to file on exception in Lua module (#370)
+    * Lua documentation fixes (#380)
 
 Alpha 13
 
