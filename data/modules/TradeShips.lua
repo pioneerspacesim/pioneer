@@ -424,16 +424,14 @@ local onShipDocked = function (ship)
 end
 EventQueue.onShipDocked:Connect(onShipDocked)
 
-local onShipUndocked = function (ship)
+local onShipUndocked = function (ship, starport)
 	if trade_ships[ship.label] == nil then return end
 
-	local trader = trade_ships[ship.label]
+	print(ship.label..' undocked from '..starport.label)
 
-	print(ship.label..' undocked from '..trader.starport.label)
+	ship:AIFlyTo(starport)
 
-	ship:AIFlyTo(trader.starport)
-
-	trader['status'] = 'outbound'
+	trader[ship.label]['status'] = 'outbound'
 end
 EventQueue.onShipUndocked:Connect(onShipUndocked)
 
