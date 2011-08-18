@@ -2,6 +2,7 @@
 #define _FLOATCOMPARISON_H
 
 #include <stdint.h>
+#include <limits>
 
 // Fuzzy floating point comparisons based on:
 //   http://realtimecollisiondetection.net/blog/?p=89
@@ -40,6 +41,20 @@ template <typename T> struct IEEEFloatTraits;
 // in the following code, IEEEFloatTraits<T>::bool_type is used to limit
 // the application of the functions by SFINAE
 
+// --- float function helpers
+
+template <typename T>
+inline typename IEEEFloatTraits<T>::float_type float_abs(T x)
+{ return (x < T(0)) ? (-x) : x; }
+
+template <typename T>
+inline typename IEEEFloatTraits<T>::float_type float_max(T x, T y)
+{ return (y > x) ? y : x; }
+
+template <typename T>
+inline typename IEEEFloatTraits<T>::float_type float_max(T x, T y, T z)
+{ return float_max(x, float_max(y, z)); }
+
 // --- float property helpers
 
 template <typename T>
@@ -77,7 +92,7 @@ inline typename IEEEFloatTraits<T>::bool_type float_is_denorm_bits
 	return (bits & ~top) && !(bits & ebits);
 }
 
-// ---- float properties (nan, finite, denormal
+// ---- float properties (nan, finite, denormal)
 
 template <typename T>
 inline typename IEEEFloatTraits<T>::bool_type float_is_nan(T x) {
@@ -103,12 +118,10 @@ inline typename IEEEFloatTraits<T>::bool_type float_is_denorm(T x) {
 	return float_is_denorm_bits(fi.ui);
 }
 
-#pragma GCC diagnostic ignored "-Wfloat-equal"
 template <typename T>
 inline typename IEEEFloatTraits<T>::bool_type float_is_zero_or_denorm(T x) {
-	return (x == T(0)) || float_is_denorm(x);
+	return (float_abs(x) < IEEEFloatTraits<T>::SmallestNormalisedValue());
 }
-#pragma GCC diagnostic warning "-Wfloat-equal"
 
 // --- exact comparisons
 
@@ -121,18 +134,6 @@ inline bool float_is_zero_exact(double x) { return (x == 0.0); }
 #pragma GCC diagnostic warning "-Wfloat-equal"
 
 // --- relative & absolute error comparisons
-
-template <typename T>
-inline typename IEEEFloatTraits<T>::float_type float_abs(T x)
-{ return (x < T(0)) ? (-x) : x; }
-
-template <typename T>
-inline typename IEEEFloatTraits<T>::float_type float_max(T x, T y)
-{ return (y > x) ? y : x; }
-
-template <typename T>
-inline typename IEEEFloatTraits<T>::float_type float_max(T x, T y, T z)
-{ return float_max(x, float_max(y, z)); }
 
 template <typename T>
 inline typename IEEEFloatTraits<T>::bool_type float_equal_relative
@@ -248,6 +249,7 @@ struct IEEEFloatTraits<double>
 	static double DefaultAbsTolerance() { return 1e-12; }
 	static double DefaultRelTolerance() { return 1e-6; }
 	static double DefaultTolerance() { return 1e-8; }
+	static double SmallestNormalisedValue() { return std::numeric_limits<double>::min(); }
 };
 
 template <>
@@ -278,6 +280,7 @@ struct IEEEFloatTraits<float>
 	static float DefaultAbsTolerance() { return 1e-6f; }
 	static float DefaultRelTolerance() { return 1e-5f; }
 	static float DefaultTolerance() { return 1e-5f; }
+	static float SmallestNormalisedValue() { return std::numeric_limits<float>::min(); }
 };
 
 #endif
