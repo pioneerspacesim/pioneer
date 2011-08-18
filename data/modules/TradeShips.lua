@@ -431,7 +431,7 @@ local onShipUndocked = function (ship, starport)
 
 	ship:AIFlyTo(starport)
 
-	trader[ship.label]['status'] = 'outbound'
+	trade_ships[ship.label]['status'] = 'outbound'
 end
 EventQueue.onShipUndocked:Connect(onShipUndocked)
 
