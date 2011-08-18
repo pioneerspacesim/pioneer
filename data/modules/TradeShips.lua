@@ -357,11 +357,6 @@ local onLeaveSystem = function (ship)
 						-- remove ships that are in hyperspace to here
 						trade_ships[label] = nil
 						removed = removed + 1
-					elseif trader.arrival < Game.time then
-						-- remove ships that are past their arrival time
-						-- XXX this could be an issue with carried over clouds
-						trade_ships[label] = nil
-						removed = removed + 1
 					end
 				else
 					-- remove all ships that are not in hyperspace
