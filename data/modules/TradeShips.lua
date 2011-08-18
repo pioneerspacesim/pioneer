@@ -537,11 +537,8 @@ local onShipHit = function (ship, attacker)
 	trader['chance'] = trader.chance or 0
 	trader['chance'] = trader.chance + 0.1
 
-	-- XXX this broken, no action until 60 secs after first hit
-	-- set last_flee if not already set
-	trader['last_flee'] = trader.last_flee or Game.time
 	-- don't spam actions
-	if Game.time - trader.last_flee < 60 then return end
+	if trader.last_flee and Game.time - trader.last_flee < 60 then return end
 
 	-- if outbound jump now
 	if trader.status == 'outbound' then getSystemAndJump(ship) end
