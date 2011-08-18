@@ -296,8 +296,6 @@ local updateTradeShipsTable = function ()
 end
 
 local cleanTradeShipsTable = function ()
-	if stop_clean == true then return true end
-
 	local total, removed = 0, 0
 	for label, trader in pairs(trade_ships) do
 		if label ~= 'attacker' and label ~= 'interval' then
@@ -312,7 +310,6 @@ local cleanTradeShipsTable = function ()
 		end
 	end
 	print('cleanTSTable:total:'..total..',removed:'..removed)
-	return stop_clean
 end
 
 local onEnterSystem = function (ship)
@@ -338,17 +335,12 @@ local onEnterSystem = function (ship)
 	end
 
 	updateTradeShipsTable()
-	if spawnInitialShips() then
-		-- the system was fit for trading, schedule housekeeping
-		stop_clean = false
-		Timer:CallEvery(86400, cleanTradeShipsTable) -- 24 hours
-	end
+	spawnInitialShips()
 end
 EventQueue.onEnterSystem:Connect(onEnterSystem)
 
 local onLeaveSystem = function (ship)
 	if ship:IsPlayer() then
-		stop_clean = true
 		trade_ships['interval'] = nil
 		trade_ships['attacker'] = nil
 		local total, removed = 0, 0
@@ -371,6 +363,7 @@ local onLeaveSystem = function (ship)
 		print('onLeaveSystem:total:'..total..',removed:'..removed)
 	elseif trade_ships[ship.label] ~= nil then
 		print(ship.label..' left '..Game.system.name)
+		cleanTradeShipsTable()
 		spawnReplacement()
 	end
 end
