@@ -208,8 +208,8 @@ local spawnInitialShips = function ()
 			}
 		else
 			-- spawn the last quarter in hyperspace
-			local max_time = trade_ships.interval * (i - num_trade_ships / 4 * 3)
-			local min_time = max_time - trade_ships.interval
+			local min_time = trade_ships.interval * (i - num_trade_ships / 4 * 3)
+			local max_time = min_time + trade_ships.interval
 
 			print('time min:'..min_time..' max:'..max_time)
 
