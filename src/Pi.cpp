@@ -1268,7 +1268,6 @@ void Pi::MainLoop()
 
 		if (SDL_GetTicks() - last_stats > 1000) {
 			Pi::statSceneTris += LmrModelGetStatsTris();
-			int vtxGenPerSec = GeoSphere::GetVtxGenCount();
 			snprintf(
 				fps_readout, sizeof(fps_readout),
 				"%d fps, %d phys updates, %d triangles, %.3f M tris/sec, %d terrain vtx/sec, %d glyphs/sec",

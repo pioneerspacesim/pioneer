@@ -390,7 +390,7 @@ static int l_player_add_money(lua_State *l)
  */
 static int l_player_add_crime(lua_State *l)
 {
-	Player *p = LuaPlayer::GetFromLua(1);
+	LuaPlayer::GetFromLua(1); // check that the method is being called on a Player object
 	Sint64 crimeBitset = LuaConstants::GetConstant(l, "PolitCrime", luaL_checkstring(l, 2));
 	double fine = Sint64(luaL_checknumber(l, 3) * 100.0);
 	Polit::AddCrime(crimeBitset, fine);

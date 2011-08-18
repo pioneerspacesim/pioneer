@@ -9,6 +9,7 @@ Alpha 14
 
   * Internal changes
     * Removed remaining old-style casts (#373)
+    * Lots of internal cleanups; silences most remaining warnings (#375)
 
 Alpha 13
 

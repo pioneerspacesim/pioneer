@@ -206,10 +206,10 @@ void FaceVideoLink::DrawMessage() {
 CharacterInfoText::CharacterInfoText(float w, float h,
 	const std::string &name, const std::string &title) :
 	Gui::Fixed(w, h),
-	m_width(w),
-	m_height(h),
 	m_characterName(name),
-	m_characterTitle(title)
+	m_characterTitle(title),
+	m_width(w),
+	m_height(h)
 {
 	if (m_characterTitle.empty())
 		h = h/1.5f;

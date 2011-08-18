@@ -47,7 +47,7 @@ int pi_lua_panic(lua_State *L)
 	errorMsg += lua_tostring(L, -1);
 	errorMsg += "\n";
 	Error("%s", errorMsg.c_str());
-	return 0;
+	// Error() is noreturn
 }
 
 void pi_lua_dofile_recursive(lua_State *l, std::string basepath)

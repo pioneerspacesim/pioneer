@@ -552,9 +552,13 @@ int LuaChatForm::l_luachatform_clear(lua_State *l)
 	return 0;
 }
 
-static inline void _bad_trade_function(lua_State *l, const char *name) {
-	luaL_where(l, 0);
-	luaL_error(l, "%s bad argument '%s' to 'AddGoodsTrader' (function expected, got %s)", lua_tostring(l, -1), name, luaL_typename(l, -2));
+static inline void _check_trade_function(lua_State *l, int tableidx, const char *name) {
+	lua_getfield(l, tableidx, name);
+	if (!lua_isfunction(l, -1)) {
+		luaL_where(l, 0);
+		luaL_error(l, "%s bad argument '%s' to 'AddGoodsTrader' (function expected, got %s)",
+			lua_tostring(l, -1), name, luaL_typename(l, -2));
+	}
 }
 
 /*
@@ -628,39 +632,21 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 {
 	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
 
+	LUA_DEBUG_START(l);
+
 	if(!lua_istable(l, 2))
 		luaL_typerror(l, 2, lua_typename(l, LUA_TTABLE));
-	
-	// XXX verbose but what can you do?
-	lua_getfield(l, 2, "canTrade");
-	if (!lua_isfunction(l, -1))
-		_bad_trade_function(l, "canTrade");
 
-	lua_getfield(l, 2, "getStock");
-	if (!lua_isfunction(l, -1))
-		_bad_trade_function(l, "getStock");
-
-	lua_getfield(l, 2, "getPrice");
-	if (!lua_isfunction(l, -1))
-		_bad_trade_function(l, "getPrice");
-
-	lua_getfield(l, 2, "onClickBuy");
-	if(!lua_isfunction(l, -1) && !lua_isnil(l, -1))
-		_bad_trade_function(l, "onClickBuy");
-
-	lua_getfield(l, 2, "onClickSell");
-	if(!lua_isfunction(l, -1) && !lua_isnil(l, -1))
-		_bad_trade_function(l, "onClickSell");
-
-	lua_getfield(l, 2, "bought");
-	if(!lua_isfunction(l, -1) && !lua_isnil(l, -1))
-		_bad_trade_function(l, "bought");
-
-	lua_getfield(l, 2, "sold");
-	if(!lua_isfunction(l, -1) && !lua_isnil(l, -1))
-		_bad_trade_function(l, "sold");
-
-	lua_pop(l, 6);
+	// check that the provided table contains all the functions we need
+	int old_top = lua_gettop(l);
+	_check_trade_function(l, 2, "canTrade");
+	_check_trade_function(l, 2, "getStock");
+	_check_trade_function(l, 2, "getPrice");
+	_check_trade_function(l, 2, "onClickBuy");
+	_check_trade_function(l, 2, "onClickSell");
+	_check_trade_function(l, 2, "bought");
+	_check_trade_function(l, 2, "sold");
+	lua_settop(l, old_top);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 	assert(lua_istable(l, -1));
@@ -674,6 +660,8 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 	lua_settable(l, -3);
 
 	lua_pop(l, 2);
+
+	LUA_DEBUG_END(l, 0);
 
 	CommodityTradeWidget *w = new CommodityTradeWidget(form);
 	w->onClickBuy.connect(sigc::mem_fun(form, &LuaChatForm::OnClickBuy));

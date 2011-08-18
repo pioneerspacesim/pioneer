@@ -314,7 +314,7 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
 	std::string pickled = rd.String();
 	const char *start = pickled.c_str();
 	const char *end = unpickle(l, start);
-	if ((end - start) != pickled.length()) throw SavedGameCorruptException();
+	if (size_t(end - start) != pickled.length()) throw SavedGameCorruptException();
 	if (!lua_istable(l, -1)) throw SavedGameCorruptException();
 	int savetable = lua_gettop(l);
 
