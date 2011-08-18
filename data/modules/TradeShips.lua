@@ -113,102 +113,14 @@ local getSystemAndJump = function (ship)
 	return jumpToSystem(ship, getSystem(ship))
 end
 
-local spawnReplacement = function ()
-	-- spawn new ship in hyperspace
-	if #starports > 0 and Game.system.population > 0 and #imports > 0 and #exports > 0 then
-		local ship_names = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= 100 end)
-		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
-		local arrival = Game.time + Engine.rand:Number(trade_ships.interval, trade_ships.interval * 2)
-		local local_systems = Game.system:GetNearbySystems(20)
-		local from_system = local_systems[Engine.rand:Integer(1, #local_systems)]
-		local ship = Space.SpawnShip(ship_name, 9, 11, {from_system.path, arrival})
-		trade_ships[ship.label] = {
-			status			= 'hyperspace',
-			arrival			= arrival,
-			arrival_system	= Game.system.path,
-			from_system		= from_system.path,
-			ship_name		= ship_name,
-			cargo 			= imports[Engine.rand:Integer(1, #imports)],
-		}
-		addShipContents(ship)
-		ship:RemoveEquip(trade_ships[ship.label]['cargo'], 8)
-	end
-end
-
-local updateTradeShipsTable = function ()
-	local total, removed = 0, 0
-	for label, trader in pairs(trade_ships) do
-		if label ~= 'attacker' and label ~= 'interval' then
-			total = total + 1
-			if trader.status == 'hyperspace' then
-				-- remove ships not coming here
-				if trader.arrival_system ~= Game.system.path then
-					trade_ships[label] = nil
-					removed = removed + 1
-				end
-			else
-				-- remove ships that are not in hyperspace
-				trade_ships[label] = nil
-				removed = removed + 1
-			end
-		end
-	end
-	print('updateTSTable:total:'..total..',removed:'..removed)
-end
-
-local cleanTradeShipsTable = function ()
-	if stop_clean == true then return true end
-
-	local total, removed = 0, 0
-	for label, trader in pairs(trade_ships) do
-		if label ~= 'attacker' and label ~= 'interval' then
-			total = total + 1
-			if trader.status == 'hyperspace' then
-				-- remove well past due ships as the player can not catch them
-				if trader.arrival + 86400 < Game.time then
-					trade_ships[label] = nil
-					removed = removed + 1
-				end
-			end
-		end
-	end
-	print('cleanTSTable:total:'..total..',removed:'..removed)
-	return stop_clean
-end
-
-local onEnterSystem = function (ship)
-	if not ship:IsPlayer() then
-		if trade_ships[ship.label] ~= nil then
-			print(ship.label..' entered '..Game.system.name)
-			if #starports == 0 then
-				-- this only happens if player has followed ship to empty system
-				local target_system = getSystem(ship)
-				if target_system ~= nil then
-					jumpToSystem(ship, target_system)
-				end
-				-- if we couldn't reach any systems we're fucked
-				-- wait for player to attack and let onShipHit take over
-			else
-				local starport = getNearestStarport(ship)
-				ship:AIDockWith(starport)
-				trade_ships[ship.label]['status'] = 'inbound'
-				trade_ships[ship.label]['starport'] = starport
-			end
-		end
-		return
-	end
-
-	updateTradeShipsTable()
-
-	-- XXX make the rest of this a function for onGameStart
-
-	-- check if the system can be traded in
+local spawnInitialShips = function ()
+	-- check if the current system can be traded in
 	starports = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
-	if #starports == 0 then return end
+	if #starports == 0 then return nil end
 	local population = Game.system.population
-	if population == 0 then return end
+	if population == 0 then return nil end
 	local ship_names = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= 100 end)
-	if #ship_names == 0 then return end
+	if #ship_names == 0 then return nil end
 
 	-- get a measure of the market size and build lists of imports and exports
 	local prices = Game.system:GetCommodityBasePriceAlterations()
@@ -230,11 +142,7 @@ local onEnterSystem = function (ship)
 		end
 	end
 	-- if there is no market then there is no trade
-	if #imports == 0 or #exports == 0 then return end
-
-	-- nothing else to stop us from trading, set up housekeeping
-	stop_clean = false
-	Timer:CallEvery(86400, cleanTradeShipsTable) -- 24 hours
+	if #imports == 0 or #exports == 0 then return nil end
 
 	-- determine how many trade ships to spawn
 	local lawlessness = Game.system.lawlessness
@@ -339,6 +247,101 @@ local onEnterSystem = function (ship)
 		elseif trader.status == 'inbound' then
 			ship:AIDockWith(trader.starport)
 		end
+	end
+
+	return num_trade_ships
+end
+
+local spawnReplacement = function ()
+	-- spawn new ship in hyperspace
+	if #starports > 0 and Game.system.population > 0 and #imports > 0 and #exports > 0 then
+		local ship_names = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= 100 end)
+		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
+		local arrival = Game.time + Engine.rand:Number(trade_ships.interval, trade_ships.interval * 2)
+		local local_systems = Game.system:GetNearbySystems(20)
+		local from_system = local_systems[Engine.rand:Integer(1, #local_systems)]
+		local ship = Space.SpawnShip(ship_name, 9, 11, {from_system.path, arrival})
+		trade_ships[ship.label] = {
+			status			= 'hyperspace',
+			arrival			= arrival,
+			arrival_system	= Game.system.path,
+			from_system		= from_system.path,
+			ship_name		= ship_name,
+			cargo 			= imports[Engine.rand:Integer(1, #imports)],
+		}
+		addShipContents(ship)
+		ship:RemoveEquip(trade_ships[ship.label]['cargo'], 8)
+	end
+end
+
+local updateTradeShipsTable = function ()
+	local total, removed = 0, 0
+	for label, trader in pairs(trade_ships) do
+		if label ~= 'attacker' and label ~= 'interval' then
+			total = total + 1
+			if trader.status == 'hyperspace' then
+				-- remove ships not coming here
+				if trader.arrival_system ~= Game.system.path then
+					trade_ships[label] = nil
+					removed = removed + 1
+				end
+			else
+				-- remove ships that are not in hyperspace
+				trade_ships[label] = nil
+				removed = removed + 1
+			end
+		end
+	end
+	print('updateTSTable:total:'..total..',removed:'..removed)
+end
+
+local cleanTradeShipsTable = function ()
+	if stop_clean == true then return true end
+
+	local total, removed = 0, 0
+	for label, trader in pairs(trade_ships) do
+		if label ~= 'attacker' and label ~= 'interval' then
+			total = total + 1
+			if trader.status == 'hyperspace' then
+				-- remove well past due ships as the player can not catch them
+				if trader.arrival + 86400 < Game.time then
+					trade_ships[label] = nil
+					removed = removed + 1
+				end
+			end
+		end
+	end
+	print('cleanTSTable:total:'..total..',removed:'..removed)
+	return stop_clean
+end
+
+local onEnterSystem = function (ship)
+	if not ship:IsPlayer() then
+		if trade_ships[ship.label] ~= nil then
+			print(ship.label..' entered '..Game.system.name)
+			if #starports == 0 then
+				-- this only happens if player has followed ship to empty system
+				local target_system = getSystem(ship)
+				if target_system ~= nil then
+					jumpToSystem(ship, target_system)
+				end
+				-- if we couldn't reach any systems we're fucked
+				-- wait for player to attack and let onShipHit take over
+			else
+				local starport = getNearestStarport(ship)
+				ship:AIDockWith(starport)
+				trade_ships[ship.label]['status'] = 'inbound'
+				trade_ships[ship.label]['starport'] = starport
+			end
+		end
+		return
+	end
+
+	updateTradeShipsTable()
+	if spawnInitialShips() then
+		-- the system was fit for trading, schedule housekeeping
+		stop_clean = false
+		Timer:CallEvery(86400, cleanTradeShipsTable) -- 24 hours
 	end
 end
 EventQueue.onEnterSystem:Connect(onEnterSystem)
@@ -617,6 +620,7 @@ local onGameStart = function ()
 	if trade_ships == nil then
 		-- create table to hold ships, keyed by label (ex. OD-7764)
 		trade_ships = {}
+		spawnInitialShips()
 	else
 		-- trade_ships was loaded by unserialize
 		-- rebuild starports, imports and exports tables
