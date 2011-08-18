@@ -225,7 +225,7 @@ static int dispatch_index(lua_State *l)
 			// method call we have to do the call ourselves
 			if (lua_isfunction(l, -1)) {
 				lua_pushvalue(l, 1);
-				lua_call(l, 1, 1);
+				pi_lua_protected_call(l, 1, 1);
 				return 1;
 			}
 

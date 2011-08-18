@@ -67,7 +67,7 @@ void LuaEventQueueBase::EmitSingleEvent(LuaEventBase *e)
 	while (lua_next(l, -2) != 0) {
 		int top = lua_gettop(l);
 		PrepareLuaStack(l, e);
-		lua_call(l, lua_gettop(l) - top, 0);
+		pi_lua_protected_call(l, lua_gettop(l) - top, 0);
 	}
 
 	lua_pop(l, 2);
@@ -98,7 +98,7 @@ void LuaEventQueueBase::Emit()
 		while (lua_next(l, -2) != 0) {
 			int top = lua_gettop(l);
 			PrepareLuaStack(l, e);
-			lua_call(l, lua_gettop(l) - top, 0);
+			pi_lua_protected_call(l, lua_gettop(l) - top, 0);
 		}
 
 		delete e;

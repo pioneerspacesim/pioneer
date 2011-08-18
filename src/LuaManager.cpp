@@ -16,6 +16,34 @@ LuaManager::LuaManager() : m_lua(NULL) {
 
 	lua_atpanic(m_lua, pi_lua_panic);
 
+	int ret = luaL_loadfile(m_lua, PIONEER_DATA_DIR "/pidebug.lua");
+	if (ret) {
+		if (ret == LUA_ERRFILE)
+			fprintf(stderr, "Can't load '" PIONEER_DATA_DIR "/pidebug.lua'");
+		else if (ret == LUA_ERRSYNTAX) {
+			const char* message = lua_tostring(m_lua, -1);
+			fprintf(stderr, "Syntax error in '" PIONEER_DATA_DIR "/pidebug.lua':\n%s\n", message);
+		}
+		else
+			fprintf(stderr, "Error while loading '" PIONEER_DATA_DIR "/pidebug.lua'");
+		abort();
+	}
+	if (lua_pcall(m_lua, 0, 1, 0)) {
+		fprintf(stderr, "Fatal Lua error: pidebug.lua failed to initialise.");
+		abort();
+	}
+	if (lua_type(m_lua, -1) != LUA_TTABLE) {
+		fprintf(stderr, "Fatal Lua error: pidebug.lua did not return module table.");
+		abort();
+	}
+	lua_getfield(m_lua, -1, "error_handler");
+	if (lua_type(m_lua, -1) != LUA_TFUNCTION) {
+		fprintf(stderr, "Fatal Lua error: pidebug.lua did not define error_handler function.");
+		abort();
+	}
+	lua_pop(m_lua, 1);
+	lua_setfield(m_lua, LUA_REGISTRYINDEX, "PiDebug");
+
 	// XXX remove once oolua is gone
 	OOLUA::setup_user_lua_state(m_lua);
 
