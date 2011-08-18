@@ -1,26 +1,26 @@
 local addFuel = function (ship)
-	-- the fuel needed for max range is the square of the drive class
-	-- the last character of the fitted drive is the class
 	local drive = ship:GetEquip('ENGINE', 0)
 
 	-- a drive must be installed
-	assert(drive ~= 'NONE', trade_ships[ship.label]['ship_name'] .. ' ' .. ship.label .. ' has no drive!')
+	assert(drive ~= 'NONE', trade_ships[ship.label]['ship_name']..' '..ship.label..' has no drive!')
 
+	-- the last character of the fitted drive is the class
+	-- the fuel needed for max range is the square of the drive class
 	local count = tonumber(string.sub(drive, -1)) ^ 2
 	local added = ship:AddEquip('HYDROGEN', count)
 
-	print(ship.label .. ' added ' .. added .. ' of ' .. count .. ' fuel')
+	print(ship.label..' added '..added..' of '..count..' fuel')
 
 	return added
 end
 
 local addShipContents = function (ship)
-	-- XXX could add more, like defenses, based on current or arg system
 	local trader = trade_ships[ship.label]
 	-- add equipment
 	local ship_type = ShipType.GetShipType(trader.ship_name)
 	ship:AddEquip(ship_type.defaultHyperdrive)
 	ship:AddEquip('ATMOSPHERIC_SHIELDING')
+	-- XXX could add more, like defenses, based on current or arg system
 	-- add cargo
 	if trader.cargo == 'LIVE_ANIMALS' or trader.cargo == 'SLAVES' then
 		ship:AddEquip('CARGO_LIFE_SUPPORT')
@@ -28,7 +28,7 @@ local addShipContents = function (ship)
 	-- let AddEquip add as many as it can
 	local added = ship:AddEquip(trader.cargo, 1000000)
 
-	print(ship.label .. ' added ' .. added .. ' cargo of ' .. trader.cargo)
+	print(ship.label..' added '..added..' cargo of '..trader.cargo)
 
 	return added
 end
@@ -86,7 +86,7 @@ local getSystem = function (ship, cargo)
 		end
 	end
 
-	assert(target_system.path ~= nil, 'getSystem:target_system.path is nil,system:' .. target_system.name)
+	assert(target_system.path ~= nil, 'getSystem:target_system.path is nil,system:'..target_system.name)
 
 	-- XXX maybe pick a random starport, if there are any, and return path to it
 	return target_system.path
@@ -114,6 +114,7 @@ local getSystemAndJump = function (ship)
 end
 
 local spawnReplacement = function ()
+	-- spawn new ship in hyperspace
 	if #starports > 0 and Game.system.population > 0 and #imports > 0 and #exports > 0 then
 		local ship_names = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= 100 end)
 		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
@@ -152,7 +153,7 @@ local updateTradeShipsTable = function ()
 			end
 		end
 	end
-	print('updateTSTable:total:' .. total .. ',removed:' .. removed)
+	print('updateTSTable:total:'..total..',removed:'..removed)
 end
 
 local cleanTradeShipsTable = function ()
@@ -171,14 +172,14 @@ local cleanTradeShipsTable = function ()
 			end
 		end
 	end
-	print('cleanTSTable:total:' .. total .. ',removed:' .. removed)
+	print('cleanTSTable:total:'..total..',removed:'..removed)
 	return stop_clean
 end
 
 local onEnterSystem = function (ship)
 	if not ship:IsPlayer() then
 		if trade_ships[ship.label] ~= nil then
-			print(ship.label .. ' entered ' .. Game.system.name)
+			print(ship.label..' entered '..Game.system.name)
 			if #starports == 0 then
 				-- this only happens if player has followed ship to empty system
 				local target_system = getSystem(ship)
@@ -199,8 +200,10 @@ local onEnterSystem = function (ship)
 
 	updateTradeShipsTable()
 
+	-- XXX make the rest of this a function for onGameStart
+
 	-- check if the system can be traded in
-	starports = Space.GetBodies(function (body) return body.superType == 'STARPORT' end) -- some functions use this
+	starports = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
 	if #starports == 0 then return end
 	local population = Game.system.population
 	if population == 0 then return end
@@ -231,7 +234,7 @@ local onEnterSystem = function (ship)
 
 	-- nothing else to stop us from trading, set up housekeeping
 	stop_clean = false
-	Timer:CallEvery(86400, cleanTradeShipsTable) -- 12 hours
+	Timer:CallEvery(86400, cleanTradeShipsTable) -- 24 hours
 
 	-- determine how many trade ships to spawn
 	local lawlessness = Game.system.lawlessness
@@ -285,6 +288,9 @@ local onEnterSystem = function (ship)
 			-- spawn the middle half in space
 			local max_distance = range * (i - num_trade_ships / 4) + 2
 			local min_distance = max_distance - range
+
+			print('distance min:'..min_distance..' max:'..max_distance)
+
 			ship = Space.SpawnShip(ship_name, min_distance, max_distance)
 			trade_ships[ship.label] = {
 				status		= 'inbound',
@@ -296,6 +302,9 @@ local onEnterSystem = function (ship)
 			-- spawn the last quarter in hyperspace
 			local max_time = trade_ships.interval * (i - num_trade_ships / 4)
 			local min_time = max_time - trade_ships.interval
+
+			print('time min:'..min_distance..' max:'..max_distance)
+
 			local arrival = Game.time + Engine.rand:Integer(min_time, max_time)
 			local local_systems = Game.system:GetNearbySystems(20)
 			local from_system = local_systems[Engine.rand:Integer(1, #local_systems)]
@@ -350,7 +359,7 @@ local onLeaveSystem = function (ship)
 						removed = removed + 1
 					elseif trader.arrival < Game.time then
 						-- remove ships that are past their arrival time
-						-- XXX this could be an issue
+						-- XXX this could be an issue with carried over clouds
 						trade_ships[label] = nil
 						removed = removed + 1
 					end
@@ -361,10 +370,9 @@ local onLeaveSystem = function (ship)
 				end
 			end
 		end
-		print('onLeaveSystem:total:' .. total .. ',removed:' .. removed)
+		print('onLeaveSystem:total:'..total..',removed:'..removed)
 	elseif trade_ships[ship.label] ~= nil then
-		print(ship.label .. ' left ' .. Game.system.name)
-		-- spawn new ship in hyperspace
+		print(ship.label..' left '..Game.system.name)
 		spawnReplacement()
 	end
 end
@@ -374,10 +382,11 @@ local onFrameChanged = function (ship)
 	if not ship:isa("Ship") or trade_ships[ship.label] == nil then return end
 	local trader = trade_ships[ship.label]
 	if trader.status == 'outbound' then
+		-- a problem with this is that the cloud inherits the ship velocity and vector
 		ship:CancelAI()
 		getSystemAndJump(ship)
 	elseif trader.status == 'inbound' then
-		-- no need to cancel, issuing a new order does that 
+		-- no need to cancel, issuing a new AI order does that 
 		ship:AIDockWith(trader.starport)
 	end
 end
@@ -401,8 +410,6 @@ local onShipDocked = function (ship)
 
 	trader['cargo'] = exports[Engine.rand:Integer(1, #exports)]
 	
-	-- XXX could update equip based on export system
-	
 	if trader.cargo == 'LIVE_ANIMALS' or trader.cargo == 'SLAVES' then
 		ship:AddEquip('CARGO_LIFE_SUPPORT')
 	end
@@ -412,7 +419,7 @@ local onShipDocked = function (ship)
 	-- delay undocking by 30-45 seconds for every unit of cargo transfered
 	trader['delay'] = Game.time + (cargo_count * 30 * Engine.rand:Number(1, 1.5))
 	if trader.status == 'docked' then
-		print(ship.label .. ' will undock at ' .. Format.Date(trader.delay))
+		print(ship.label..' will undock at '..Format.Date(trader.delay))
 		Timer:CallAt(trader.delay, function ()
 			if ship:exists() and ship:GetDockedWith() ~= nil then -- player may have left system in meantime
 				ship:Undock()
@@ -427,7 +434,7 @@ local onShipUndocked = function (ship)
 
 	local trader = trade_ships[ship.label]
 
-	print(ship.label .. ' undocked from ' .. trader.starport.label)
+	print(ship.label..' undocked from '..trader.starport.label)
 
 	ship:AIFlyTo(trader.starport)
 
@@ -437,7 +444,7 @@ EventQueue.onShipUndocked:Connect(onShipUndocked)
 
 local onAICompleted = function (ship)
 	if trade_ships[ship.label] == nil then return end
-	print(ship.label .. ' AICompleted')
+	print(ship.label..' AICompleted')
 	-- XXX if police that we spawned then attack ship that attacked trader
 
 	local trader = trade_ships[ship.label]
@@ -472,6 +479,7 @@ local onAICompleted = function (ship)
 		else
 			-- there are none nearby
 			-- get parent body of starport and orbit
+			-- XXX this should use the new SystemBody.parent
 			local bodies = Space.GetBodies(function (body) return body.isa == 'Planet' end)
 			local closest, parent = 100000000
 			for _, body in ipairs(bodies) do
@@ -491,21 +499,27 @@ EventQueue.onAICompleted:Connect(onAICompleted)
 
 local onShipAlertChanged = function (ship, alert)
 	if trade_ships[ship.label] == nil then return end
-	print(ship.label .. ' alert changed to ' .. alert)
+	print(ship.label..' alert changed to '..alert)
 	local trader = trade_ships[ship.label]
 
 	if alert == 'NONE' then
 		if trader.status == 'fleeing' then
+			-- had not reached starport yet
 			trader['status'] = 'inbound'
 		elseif trader.status == 'cowering' then
+			-- already reached starport and docked
 			trader['status'] = 'docked'
 			if trader.delay > Game.time then
-				Timer:CallAt(trader.delay, function ()
+				--[[ not ready to undock, so schedule it
+				there is a slight chance that the status was changed while onShipDocked
+				was in progress so fire a bit later and check if already undocked ]]
+				Timer:CallAt(trader.delay + 120, function ()
 					if ship:exists() and ship:GetDockedWith() ~= nil then
 						ship:Undock()
 					end
 				end)
 			else
+				-- ready to undock
 				if ship:GetDockedWith() ~= nil then
 					ship:Undock()
 				end
@@ -523,8 +537,10 @@ local onShipHit = function (ship, attacker)
 	trader['chance'] = trader.chance or 0
 	trader['chance'] = trader.chance + 0.1
 
-	-- don't spam actions
+	-- XXX this broken, no action until 60 secs after first hit
+	-- set last_flee if not already set
 	trader['last_flee'] = trader.last_flee or Game.time
+	-- don't spam actions
 	if Game.time - trader.last_flee < 60 then return end
 
 	-- if outbound jump now
@@ -533,7 +549,6 @@ local onShipHit = function (ship, attacker)
 	trader['status'] = 'fleeing'
 	trade_ships['attacker'] = attacker
 
-	-- XXX since traders are now getting a random starport we should get closest
 	-- if distance to starport is far attempt to hyperspace
 	if trader.no_jump ~= true then
 		local attempt_jump = false
@@ -554,14 +569,15 @@ local onShipHit = function (ship, attacker)
 		end
 	end
 
-	-- close or jump failed, call for help until answered
+	-- update last_flee
 	trader['last_flee'] = Game.time
+	-- close or jump failed, call for help until answered
 	if #starports > 0 and trader.answered ~= true then
 		UI.ImportantMessage('MAYDAY! MAYDAY! MAYDAY! We are under attack and require assistance!', ship.label)
 		-- the closer to the starport the better the chance of being answered
 		if Engine.rand:Number(1) > trader.starport / 1196784000 * trader.chance then -- 8AU
 			trader['answered'] = true
-			UI.ImportantMessage('Roger ' .. ship.label .. ', assistance is on the way!', trader.starport.label)
+			UI.ImportantMessage('Roger '..ship.label..', assistance is on the way!', trader.starport.label)
 			trader['chance'] = 0
 			-- XXX spawn some sort of police and fly to trader
 			return
@@ -571,7 +587,7 @@ local onShipHit = function (ship, attacker)
 	-- maybe jettison a bit of cargo
 	if Engine.rand:Number(1) < trader.chance then
 		if ship:Jettison(trader.cargo) then
-			UI.ImportantMessage(attacker.label .. ', take this and leave us be, you filthy pirate!', ship.label)
+			UI.ImportantMessage(attacker.label..', take this and leave us be, you filthy pirate!', ship.label)
 			trader['chance'] = trader.chance - 0.1
 		end
 	end
@@ -580,25 +596,26 @@ EventQueue.onShipHit:Connect(onShipHit)
 
 local onShipCollided = function (ship, other)
 	if trade_ships[ship.label] == nil then return end
-	print(ship.label .. ' collided with ' .. other.label)
 	if other:isa('CargoBody') then return end
+	print(ship.label..' collided with '..other.label)
 	
-	if other:isa('Ship') and ship:IsPlayer() then
+	if other:isa('Ship') and other:IsPlayer() then
 		--onShipHit(ship, other)
 		return
 	end
 
 	-- try to get away from body, onAICompleted will take over if we succeed
-	-- XXX could find closest non-starport body and orbit
 	ship:AIFlyTo(other)
+
+	-- XXX could find closest non-starport body and orbit
 end
 EventQueue.onShipCollided:Connect(onShipCollided)
 
-local onShipDestroyed = function (ship)
+local onShipDestroyed = function (ship, attacker)
 	if trade_ships[ship.label] ~= nil then
+		-- XXX consider spawning some CargoBodies
 		trade_ships[ship.label] = nil
-		print(ship.label .. ' destroyed')
-		-- spawn new ship in hyperspace
+		print(ship.label..' destroyed by '..attacker.label)
 		spawnReplacement()
 	end
 end
@@ -641,6 +658,7 @@ end
 EventQueue.onGameEnd:Connect(onGameEnd)
 
 local serialize = function ()
+	-- all we need to save is trade_ships, the rest can be rebuilt on load
 	return trade_ships
 end
 
