@@ -33,7 +33,7 @@ void LuaChatForm::OnOptionClicked(int option)
 	LuaObject<LuaChatForm>::PushToLua(this);
 	lua_pushinteger(l, GetAdvert()->ref);
 	lua_pushinteger(l, option);
-	lua_call(l, 3, 0);
+	pi_lua_protected_call(l, 3, 0);
 
 	lua_pop(l, 2);
 
@@ -75,7 +75,7 @@ void LuaChatForm::OnClose() {
 	lua_getfield(l, -1, "onDelete");
 	if (!lua_isnil(l, -1)) {
 		lua_pushinteger(l, ref);
-		lua_call(l, 1, 0);
+		pi_lua_protected_call(l, 1, 0);
 	}
 	else
 		lua_pop(l, 1);
@@ -129,7 +129,7 @@ bool LuaChatForm::DoesSell(Equip::Type t) const {
 
 	lua_pushinteger(l, GetAdvert()->ref);
 	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", t));
-	lua_call(l, 2, 1);
+	pi_lua_protected_call(l, 2, 1);
 
 	bool can_trade = lua_toboolean(l, -1) != 0;
 	lua_pop(l, 1);
@@ -148,7 +148,7 @@ int LuaChatForm::GetStock(Equip::Type t) const {
 
 	lua_pushinteger(l, GetAdvert()->ref);
 	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", t));
-	lua_call(l, 2, 1);
+	pi_lua_protected_call(l, 2, 1);
 
 	int stock = lua_tointeger(l, -1);
 	lua_pop(l, 1);
@@ -167,7 +167,7 @@ Sint64 LuaChatForm::GetPrice(Equip::Type t) const {
 
 	lua_pushinteger(l, GetAdvert()->ref);
 	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", t));
-	lua_call(l, 2, 1);
+	pi_lua_protected_call(l, 2, 1);
 
 	Sint64 price = Sint64(lua_tonumber(l, -1) * 100.0);
 	lua_pop(l, 1);
@@ -186,7 +186,7 @@ void LuaChatForm::OnClickBuy(int t) {
 
 	lua_pushinteger(l, GetAdvert()->ref);
 	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", t));
-	lua_call(l, 2, 1);
+	pi_lua_protected_call(l, 2, 1);
 
 	bool allow_buy = lua_toboolean(l, -1) != 0;
 	lua_pop(l, 1);
@@ -210,7 +210,7 @@ void LuaChatForm::OnClickSell(int t) {
 
 	lua_pushinteger(l, GetAdvert()->ref);
 	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", t));
-	lua_call(l, 2, 1);
+	pi_lua_protected_call(l, 2, 1);
 
 	bool allow_sell = lua_toboolean(l, -1) != 0;
 	lua_pop(l, 1);
@@ -234,7 +234,7 @@ void LuaChatForm::Bought(Equip::Type t) {
 
 	lua_pushinteger(l, GetAdvert()->ref);
 	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", t));
-	lua_call(l, 2, 0);
+	pi_lua_protected_call(l, 2, 0);
 
 	LUA_DEBUG_END(l, 0);
 }
@@ -248,7 +248,7 @@ void LuaChatForm::Sold(Equip::Type t) {
 
 	lua_pushinteger(l, GetAdvert()->ref);
 	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", t));
-	lua_call(l, 2, 0);
+	pi_lua_protected_call(l, 2, 0);
 
 	LUA_DEBUG_END(l, 0);
 }
@@ -552,9 +552,13 @@ int LuaChatForm::l_luachatform_clear(lua_State *l)
 	return 0;
 }
 
-static inline void _bad_trade_function(lua_State *l, const char *name) {
-	luaL_where(l, 0);
-	luaL_error(l, "%s bad argument '%s' to 'AddGoodsTrader' (function expected, got %s)", lua_tostring(l, -1), name, luaL_typename(l, -2));
+static inline void _check_trade_function(lua_State *l, int tableidx, const char *name) {
+	lua_getfield(l, tableidx, name);
+	if (!lua_isfunction(l, -1)) {
+		luaL_where(l, 0);
+		luaL_error(l, "%s bad argument '%s' to 'AddGoodsTrader' (function expected, got %s)",
+			lua_tostring(l, -1), name, luaL_typename(l, -2));
+	}
 }
 
 /*
@@ -628,39 +632,21 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 {
 	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
 
+	LUA_DEBUG_START(l);
+
 	if(!lua_istable(l, 2))
 		luaL_typerror(l, 2, lua_typename(l, LUA_TTABLE));
-	
-	// XXX verbose but what can you do?
-	lua_getfield(l, 2, "canTrade");
-	if (!lua_isfunction(l, -1))
-		_bad_trade_function(l, "canTrade");
 
-	lua_getfield(l, 2, "getStock");
-	if (!lua_isfunction(l, -1))
-		_bad_trade_function(l, "getStock");
-
-	lua_getfield(l, 2, "getPrice");
-	if (!lua_isfunction(l, -1))
-		_bad_trade_function(l, "getPrice");
-
-	lua_getfield(l, 2, "onClickBuy");
-	if(!lua_isfunction(l, -1) && !lua_isnil(l, -1))
-		_bad_trade_function(l, "onClickBuy");
-
-	lua_getfield(l, 2, "onClickSell");
-	if(!lua_isfunction(l, -1) && !lua_isnil(l, -1))
-		_bad_trade_function(l, "onClickSell");
-
-	lua_getfield(l, 2, "bought");
-	if(!lua_isfunction(l, -1) && !lua_isnil(l, -1))
-		_bad_trade_function(l, "bought");
-
-	lua_getfield(l, 2, "sold");
-	if(!lua_isfunction(l, -1) && !lua_isnil(l, -1))
-		_bad_trade_function(l, "sold");
-
-	lua_pop(l, 6);
+	// check that the provided table contains all the functions we need
+	int old_top = lua_gettop(l);
+	_check_trade_function(l, 2, "canTrade");
+	_check_trade_function(l, 2, "getStock");
+	_check_trade_function(l, 2, "getPrice");
+	_check_trade_function(l, 2, "onClickBuy");
+	_check_trade_function(l, 2, "onClickSell");
+	_check_trade_function(l, 2, "bought");
+	_check_trade_function(l, 2, "sold");
+	lua_settop(l, old_top);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 	assert(lua_istable(l, -1));
@@ -674,6 +660,8 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 	lua_settable(l, -3);
 
 	lua_pop(l, 2);
+
+	LUA_DEBUG_END(l, 0);
 
 	CommodityTradeWidget *w = new CommodityTradeWidget(form);
 	w->onClickBuy.connect(sigc::mem_fun(form, &LuaChatForm::OnClickBuy));

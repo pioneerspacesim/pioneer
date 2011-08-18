@@ -21,10 +21,7 @@ static void PollEvents();
 extern void LmrModelCompilerInit();
 
 static int g_wheelMoveDir = -1;
-static float g_wheelPos = 0;
 static int g_renderType = 0;
-static float lightCol[4] = { 1,1,1,0 };
-static float lightDir[4] = { 0,1,0,0 };
 static float g_frameTime;
 static LmrObjParams params = {
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
