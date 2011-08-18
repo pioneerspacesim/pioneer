@@ -18,6 +18,7 @@ Programming:
   Paul Mahol
   John Bartholomew
   Benjamin Hodgetts
+  Sean Bailey
 
 Art:
   Gernot
