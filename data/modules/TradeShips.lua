@@ -72,7 +72,7 @@ local getSystem = function (ship, cargo)
 				target_system = next_system
 			end
 		end
-		-- XXX should only use this if can get back out of system
+		-- XXX should only use this if can get back out of target system
 		-- which means checking for fuel or starports to buy it from
 	else
 		-- find best system for cargo
@@ -303,7 +303,7 @@ local onEnterSystem = function (ship)
 			local max_time = trade_ships.interval * (i - num_trade_ships / 4)
 			local min_time = max_time - trade_ships.interval
 
-			print('time min:'..min_distance..' max:'..max_distance)
+			print('time min:'..min_time..' max:'..max_time)
 
 			local arrival = Game.time + Engine.rand:Integer(min_time, max_time)
 			local local_systems = Game.system:GetNearbySystems(20)
