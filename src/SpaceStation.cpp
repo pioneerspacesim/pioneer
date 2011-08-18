@@ -428,7 +428,6 @@ void SpaceStation::DoLawAndOrder()
 {
 	Sint64 fine, crimeBitset;
 	Polit::GetCrime(&crimeBitset, &fine);
-	bool isDocked = static_cast<Ship*>(Pi::player)->GetDockedWith() ? true : false;
 	if (Pi::player->GetFlightState() != Ship::DOCKED
 			&& m_numPoliceDocked
 			&& (fine > 1000)

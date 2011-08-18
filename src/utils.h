@@ -31,8 +31,6 @@ void SilentWarning(const char *format, ...) __attribute((format(printf,1,2)));
 std::string GetPiUserDir(const std::string &subdir = "");
 std::string GetPiDataDir();
 
-struct MissingFileException {};
-
 // joinpath("data","models","some.def") = "data/models/some.def"
 std::string join_path(const char *firstbit, ...);
 std::string string_join(std::vector<std::string> &v, std::string sep);
@@ -46,6 +44,7 @@ void strip_cr_lf(char *string);
 GLuint util_load_tex_rgba(const char *filename);
 
 FILE *fopen_or_die(const char *filename, const char *mode);
+size_t fread_or_die(void* ptr, size_t size, size_t nmemb, FILE* stream, bool allow_truncated = false);
 
 static inline std::string stringf(int maxlen, const char *format, ...)
 		__attribute((format(printf,2,3)));

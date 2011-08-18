@@ -100,8 +100,8 @@ GLuint Gradient::GenerateTexture()
 	const Color end = m_stops[1.f];
 
 	const GLfloat buf[width][4] = {
-		beg.r, beg.g, beg.b, beg.a,
-		end.r, end.g, end.b, end.a,
+		{ beg.r, beg.g, beg.b, beg.a },
+		{ end.r, end.g, end.b, end.a },
 	};
 
 	glGenTextures(1, &tex);

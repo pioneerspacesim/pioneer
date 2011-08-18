@@ -291,7 +291,7 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 	while (lua_next(l, -2) != 0) {
 		lua_pushinteger(l, 1);
 		lua_gettable(l, -2);
-		lua_call(l, 0, 1);
+		pi_lua_protected_call(l, 0, 1);
 		lua_pushvalue(l, -3);
 		lua_insert(l, -2);
 		lua_settable(l, savetable);
@@ -319,7 +319,7 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
 	std::string pickled = rd.String();
 	const char *start = pickled.c_str();
 	const char *end = unpickle(l, start);
-	if ((end - start) != pickled.length()) throw SavedGameCorruptException();
+	if (size_t(end - start) != pickled.length()) throw SavedGameCorruptException();
 	if (!lua_istable(l, -1)) throw SavedGameCorruptException();
 	int savetable = lua_gettop(l);
 
@@ -341,7 +341,7 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
 			lua_pop(l, 1);
 			lua_newtable(l);
 		}
-		lua_call(l, 1, 0);
+		pi_lua_protected_call(l, 1, 0);
 		lua_pop(l, 2);
 	}
 
