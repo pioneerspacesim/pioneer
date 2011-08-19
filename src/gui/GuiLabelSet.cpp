@@ -60,7 +60,7 @@ void LabelSet::Draw()
 	if (m_labelColor.a < 1.0f) glEnable(GL_BLEND);
 	for (std::vector<LabelSetItem>::iterator i = m_items.begin(); i != m_items.end(); ++i) {
 		if ((*i).hasOwnColor) {
-			if ((*i).color.a != 1.0f) glEnable(GL_BLEND);
+			if ((*i).color.a < 1.0f) glEnable(GL_BLEND);
 			glColor4fv((*i).color);
 		}
 		Gui::Screen::RenderString((*i).text, (*i).screenx, (*i).screeny - Gui::Screen::GetFontHeight()*0.5f, m_font);

@@ -45,7 +45,7 @@ Uint8 GetSectorDensity(int sx, int sy, int sz)
 	val = val * (256 - std::min(abs(sz),256)) >> 8;
 	// reduce density somewhat to match real (gliese) density
 	val >>= 1;
-	return (Uint8)val;
+	return Uint8(val);
 }
 
 } /* namespace Galaxy */
