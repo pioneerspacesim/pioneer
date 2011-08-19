@@ -95,11 +95,6 @@ void Planet::SetPosition(vector3d p)
 	pos = p;
 }
 
-void Planet::SetRadius(double radius)
-{
-	assert(0);
-}
-
 /*
  * dist = distance from centre
  * returns pressure in earth atmospheres
@@ -205,17 +200,6 @@ static GasGiantDef_t ggdefs[] = {
 };
 
 #define PLANET_AMBIENT	0.1f
-
-static void SetMaterialColor(const float col[4])
-{
-	float mambient[4];
-	mambient[0] = col[0]*PLANET_AMBIENT;
-	mambient[1] = col[1]*PLANET_AMBIENT;
-	mambient[2] = col[2]*PLANET_AMBIENT;
-	mambient[3] = col[3];
-	glMaterialfv (GL_FRONT, GL_AMBIENT, mambient);
-	glMaterialfv (GL_FRONT, GL_DIFFUSE, col);
-}
 
 static void DrawRing(double inner, double outer, const float color[4])
 {
@@ -378,9 +362,7 @@ void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	float znear, zfar;
 	Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
 
-	double apparent_size = rad / fpos.Length();
 	double len = fpos.Length();
-	double origLen = len;
 	int shrink = 0;
 	double scale = 1.0f;
 
