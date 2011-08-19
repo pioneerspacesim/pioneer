@@ -49,11 +49,12 @@ private:
 
 	void UpdateSystemLabels(SystemLabels &labels, const SystemPath &path);
 
-	void MouseButtonDown(int button, int x, int y);
 	Sector* GetCached(int sectorX, int sectorY, int sectorZ);
-	void OnKeyPress(SDL_keysym *keysym);
-	void OnSearchBoxValueChanged();
 	void ShrinkCache();
+
+	void MouseButtonDown(int button, int x, int y);
+	void OnKeyPress(SDL_keysym *keysym);
+	void OnSearchBoxKeyPress(const SDL_keysym *keysym);
 
 	bool m_firstTime;
 

@@ -53,7 +53,7 @@ SectorView::SectorView() :
 
 	Add(new Gui::Label("Search:"), 650, 500);
 	m_searchBox = new Gui::TextEntry();
-	m_searchBox->onValueChanged.connect(sigc::mem_fun(this, &SectorView::OnSearchBoxValueChanged));
+	m_searchBox->onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnSearchBoxKeyPress));
 	Add(m_searchBox, 700, 500);
 
 	m_gluDiskDlist = glGenLists(1);
@@ -179,24 +179,74 @@ void SectorView::Load(Serializer::Reader &rd)
 	m_firstTime = false;
 }
 
-void SectorView::OnSearchBoxValueChanged()
+void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 {
+	if (keysym->sym != SDLK_RETURN)
+		return;
+
 	const std::string search = m_searchBox->GetText();
 	
-	int results = 0;
-	const SystemPath *lastResult = 0;
+	bool gotMatch = false, gotStartMatch = false;
+	SystemPath bestMatch;
+	const std::string *bestMatchName;
 
-	for (std::map<SystemPath,Sector*>::iterator i = m_sectorCache.begin(); i != m_sectorCache.end(); i++) {
-		
-	       for (std::vector<Sector::System>::iterator j = (*i).second->m_systems.begin(); j != (*i).second->m_systems.end(); j++) {
-			if ((*j).name.find(search) != std::string::npos) {
-				results++;
-				lastResult = &(*i).first;
+	for (std::map<SystemPath,Sector*>::iterator i = m_sectorCache.begin(); i != m_sectorCache.end(); i++)
+
+		for (unsigned int systemIndex = 0; systemIndex < (*i).second->m_systems.size(); systemIndex++) {
+			const Sector::System *ss = &((*i).second->m_systems[systemIndex]);
+
+			// compare with the start of the current system
+			if (strncasecmp(search.c_str(), ss->name.c_str(), search.size()) == 0) {
+
+				// matched, see if they're the same size
+				if (search.size() == ss->name.size()) {
+
+					// exact match, take it and go
+					SystemPath path = (*i).first;
+					path.systemIndex = systemIndex;
+					Pi::cpan->MsgLog()->Message("", stringf(256, "Exact match: %s", ss->name.c_str()));
+					GotoSystem(path);
+					return;
+				}
+
+				// partial match at start of name
+				if (!gotMatch || !gotStartMatch || bestMatchName->size() > ss->name.size()) {
+					
+					// don't already have one or its shorter than the previous
+					// one, take it
+					bestMatch = (*i).first;
+					bestMatch.systemIndex = systemIndex;
+					bestMatchName = &(ss->name);
+					gotMatch = gotStartMatch = true;
+				}
+
+				continue;
 			}
-	       }
+
+			// look for the search term somewhere within the current system
+			if (pi_strcasestr(ss->name.c_str(), search.c_str())) {
+
+				// found it
+				if (!gotMatch || !gotStartMatch || bestMatchName->size() > ss->name.size()) {
+
+					// best we've found so far, take it
+					bestMatch = (*i).first;
+					bestMatch.systemIndex = systemIndex;
+					bestMatchName = &(ss->name);
+					gotMatch = true;
+				}
+			}
+		}
+	
+	if (gotMatch) {
+		Pi::cpan->MsgLog()->Message("", stringf(256, "Not found, best match: %s", bestMatchName->c_str()));
+		GotoSystem(bestMatch);
 	}
-	if (results == 1) GotoSystem(lastResult);
+
+	else
+		Pi::cpan->MsgLog()->Message("", "Not found.");
 }
+
 
 #define DRAW_RAD	3
 
@@ -588,6 +638,9 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 		return;
 	}
 
+	if (m_searchBox->IsFocused())
+		return;
+
 	// space "locks" (or unlocks) the hyperspace target to the selected system
 	if (keysym->sym == SDLK_SPACE) {
 		if ((m_matchTargetToSelection || m_hyperspaceTarget != m_selected) && !m_selected.IsSameSystem(m_current))
@@ -655,28 +708,31 @@ void SectorView::Update()
 	rot.RotateX(DEG2RAD(-m_rotX));
 	rot.RotateZ(DEG2RAD(-m_rotZ));
 
-	float moveSpeed = 1.0;
-	if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
-	if (Pi::KeyState(SDLK_RSHIFT)) moveSpeed = 10.0;
+	// don't check raw keypresses if the search box is active
+	if (!m_searchBox->IsFocused()) {
+		float moveSpeed = 1.0;
+		if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
+		if (Pi::KeyState(SDLK_RSHIFT)) moveSpeed = 10.0;
 	
-	float move = moveSpeed*frameTime;
-	if (Pi::KeyState(SDLK_LEFT) || Pi::KeyState(SDLK_RIGHT))
-		m_posMovingTo += vector3f(Pi::KeyState(SDLK_LEFT) ? -move : move, 0,0) * rot;
-	if (Pi::KeyState(SDLK_UP) || Pi::KeyState(SDLK_DOWN))
-		m_posMovingTo += vector3f(0, Pi::KeyState(SDLK_DOWN) ? -move : move, 0) * rot;
-	if (Pi::KeyState(SDLK_PAGEUP) || Pi::KeyState(SDLK_PAGEDOWN))
-		m_posMovingTo += vector3f(0,0, Pi::KeyState(SDLK_PAGEUP) ? -move : move) * rot;
+		float move = moveSpeed*frameTime;
+		if (Pi::KeyState(SDLK_LEFT) || Pi::KeyState(SDLK_RIGHT))
+			m_posMovingTo += vector3f(Pi::KeyState(SDLK_LEFT) ? -move : move, 0,0) * rot;
+		if (Pi::KeyState(SDLK_UP) || Pi::KeyState(SDLK_DOWN))
+			m_posMovingTo += vector3f(0, Pi::KeyState(SDLK_DOWN) ? -move : move, 0) * rot;
+		if (Pi::KeyState(SDLK_PAGEUP) || Pi::KeyState(SDLK_PAGEDOWN))
+			m_posMovingTo += vector3f(0,0, Pi::KeyState(SDLK_PAGEUP) ? -move : move) * rot;
 
-	if (Pi::KeyState(SDLK_EQUALS)) m_zoomMovingTo -= move;
-	if (Pi::KeyState(SDLK_MINUS)) m_zoomMovingTo += move;
-	if (m_zoomInButton->IsPressed()) m_zoomMovingTo -= move;
-	if (m_zoomOutButton->IsPressed()) m_zoomMovingTo += move;
-	m_zoomMovingTo = Clamp(m_zoomMovingTo, 0.1f, 5.0f);
+		if (Pi::KeyState(SDLK_EQUALS)) m_zoomMovingTo -= move;
+		if (Pi::KeyState(SDLK_MINUS)) m_zoomMovingTo += move;
+		if (m_zoomInButton->IsPressed()) m_zoomMovingTo -= move;
+		if (m_zoomOutButton->IsPressed()) m_zoomMovingTo += move;
+		m_zoomMovingTo = Clamp(m_zoomMovingTo, 0.1f, 5.0f);
 	
-	if (Pi::KeyState(SDLK_a) || Pi::KeyState(SDLK_d))
-		m_rotZMovingTo += (Pi::KeyState(SDLK_a) ? -0.5f : 0.5f) * moveSpeed;
-	if (Pi::KeyState(SDLK_w) || Pi::KeyState(SDLK_s))
-		m_rotXMovingTo += (Pi::KeyState(SDLK_w) ? -0.5f : 0.5f) * moveSpeed;
+		if (Pi::KeyState(SDLK_a) || Pi::KeyState(SDLK_d))
+			m_rotZMovingTo += (Pi::KeyState(SDLK_a) ? -0.5f : 0.5f) * moveSpeed;
+		if (Pi::KeyState(SDLK_w) || Pi::KeyState(SDLK_s))
+			m_rotXMovingTo += (Pi::KeyState(SDLK_w) ? -0.5f : 0.5f) * moveSpeed;
+	}
 
 	if (Pi::MouseButtonState(3)) {
 		int motion[2];
