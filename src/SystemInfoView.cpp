@@ -76,9 +76,10 @@ void SystemInfoView::OnBodyViewed(SBody *b)
 		_add_label_and_value(Lang::APOAPSIS_DISTANCE, stringf(64, "%.3f AU", b->orbMax.ToDouble()));
 		_add_label_and_value(Lang::ECCENTRICITY, stringf(64, "%.2f", b->orbit.eccentricity));
 		_add_label_and_value(Lang::AXIAL_TILE, stringf(64, Lang::N_DEGREES, b->axialTilt.ToDouble() * (180.0/M_PI) ));
-		const float dayLen = float(b->GetRotationPeriod());
-		if (dayLen) {
-			_add_label_and_value(std::string(Lang::DAY_LENGTH)+std::string(Lang::ROTATIONAL_PERIOD), stringf(64, Lang::N_EARTH_DAYS, dayLen/(60*60*24)));
+		if (b->rotationPeriod != 0) {
+			_add_label_and_value(
+				std::string(Lang::DAY_LENGTH)+std::string(Lang::ROTATIONAL_PERIOD),
+				stringf(64, Lang::N_EARTH_DAYS, b->rotationPeriod.ToDouble()));
 		}
 		int numSurfaceStarports = 0;
 		std::string nameList;
