@@ -215,7 +215,7 @@ void Player::PollControls(const float timeStep)
 			double mody = clipmouse(objDir.y, m_mouseY);
 			m_mouseY -= mody;
 
-			if(modx != 0.0 || mody != 0.0) {
+			if(!float_is_zero_general(modx) || !float_is_zero_general(mody)) {
 				matrix4x4d mrot = matrix4x4d::RotateYMatrix(modx); mrot.RotateX(mody);
 				m_mouseDir = (rot * (mrot * objDir)).Normalized();
 			}
