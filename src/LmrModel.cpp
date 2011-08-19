@@ -398,7 +398,7 @@ public:
 				}
 				break;
 			case OP_ZBIAS:
-				if (op.zbias.amount == 0) {
+				if (float_is_zero_general(op.zbias.amount)) {
 					glDepthRange(0.0, 1.0);
 				} else {
 					vector3f tv = cameraPos - vector3f(op.zbias.pos);
@@ -1263,7 +1263,7 @@ namespace ModelFuncs {
 
 	static int lathe(lua_State *L)
 	{
-		const int steps = luaL_checknumber(L, 1);
+		const int steps = luaL_checkinteger(L, 1);
 		const vector3f *start = MyLuaVec::checkVec(L, 2);
 		const vector3f *end = MyLuaVec::checkVec(L, 3);
 		const vector3f *updir = MyLuaVec::checkVec(L, 4);
@@ -1298,7 +1298,7 @@ namespace ModelFuncs {
 			const float rad2 = jizz[i+3];
 			const vector3d _start = *start + (*end-*start)*jizz[i];
 			const vector3d _end = *start + (*end-*start)*jizz[i+2];
-			bool shitty_normal = (jizz[i] == jizz[i+2]);
+			bool shitty_normal = float_equal_absolute(jizz[i], jizz[i+2], 1e-4f);
 
 			const int basevtx = vtxStart + steps*i;
 			float ang = 0;
@@ -1911,8 +1911,8 @@ namespace ModelFuncs {
 
 	static int zbias(lua_State *L)
 	{
-		float amount = luaL_checknumber(L, 1);
-		if (amount == 0) {
+		int amount = luaL_checkinteger(L, 1);
+		if (! amount) {
 			s_curBuf->PushZBias(0, vector3f(0.0), vector3f(0.0));
 		} else {
 			vector3f *pos = MyLuaVec::checkVec(L, 2);
