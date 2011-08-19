@@ -94,6 +94,7 @@ public:
 
 	Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
+	bool IsHyperspaceActive() const { return (m_hyperspace.countdown > 0.0); }
 	void ResetHyperspaceCountdown();
 
 	Equip::Type GetHyperdriveFuelType() const;
@@ -196,7 +197,7 @@ private:
 	bool m_testLanded;
 	float m_launchLockTimeout;
 	float m_wheelState;
-	float m_wheelTransition;
+	int m_wheelTransition;
 
 	vector3d m_thrusters;
 	vector3d m_angThrusters;

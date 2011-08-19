@@ -33,7 +33,7 @@ void Ship::Save(Serializer::Writer &wr)
 	wr.Int32(Serializer::LookupBody(m_navTarget));
 	wr.Vector3d(m_angThrusters);
 	wr.Vector3d(m_thrusters);
-	wr.Float(m_wheelTransition);
+	wr.Int32(m_wheelTransition);
 	wr.Float(m_wheelState);
 	wr.Float(m_launchLockTimeout);
 	wr.Bool(m_testLanded);
@@ -69,7 +69,7 @@ void Ship::Load(Serializer::Reader &rd)
 	m_navTargetIndex = rd.Int32();
 	m_angThrusters = rd.Vector3d();
 	m_thrusters = rd.Vector3d();
-	m_wheelTransition = rd.Float();
+	m_wheelTransition = rd.Int32();
 	m_wheelState = rd.Float();
 	m_launchLockTimeout = rd.Float();
 	m_testLanded = rd.Bool();
@@ -154,7 +154,7 @@ float Ship::GetPercentHull() const
 
 float Ship::GetPercentShields() const
 {
-	if (m_stats.shield_mass == 0) return 100.0f;
+	if (m_stats.shield_mass <= 0) return 100.0f;
 	else return 100.0f * (m_stats.shield_mass_left / m_stats.shield_mass);
 }
 
@@ -285,7 +285,7 @@ vector3d Ship::GetMaxThrust(const vector3d &dir)
 void Ship::ClearThrusterState()
 {
 	m_angThrusters = vector3d(0,0,0);
-	if (m_launchLockTimeout == 0) m_thrusters = vector3d(0,0,0);
+	if (m_launchLockTimeout <= 0.0f) m_thrusters = vector3d(0,0,0);
 }
 
 Equip::Type Ship::GetHyperdriveFuelType() const
@@ -444,7 +444,7 @@ float Ship::GetECMRechargeTime()
 void Ship::UseECM()
 {
 	const Equip::Type t = m_equipment.Get(Equip::SLOT_ECM);
-	if (m_ecmRecharge) return;
+	if (m_ecmRecharge > 0.0f) return;
 	if (t != Equip::NONE) {
 		Sound::BodyMakeNoise(this, "ECM", 1.0f);
 		m_ecmRecharge = GetECMRechargeTime();
@@ -517,8 +517,8 @@ void Ship::Blastoff()
 void Ship::TestLanded()
 {
 	m_testLanded = false;
-	if (m_launchLockTimeout != 0) return;
-	if (m_wheelState != 1.0) return;
+	if (m_launchLockTimeout > 0.0f) return;
+	if (m_wheelState < 1.0f) return;
 	if (GetFrame()->GetBodyFor()->IsType(Object::PLANET)) {
 		double speed = GetVelocity().Length();
 		vector3d up = GetPosition().Normalized();
@@ -784,17 +784,17 @@ void Ship::StaticUpdate(const float timeStep)
 			rateCooling *= float(EquipType::types[ m_equipment.Get(Equip::SLOT_LASERCOOLER) ].pval);
 		}
 		m_gunTemperature[i] -= rateCooling*timeStep;
-		if (m_gunTemperature[i] < 0) m_gunTemperature[i] = 0;
-		if (m_gunRecharge[i] < 0) m_gunRecharge[i] = 0;
+		if (m_gunTemperature[i] < 0.0f) m_gunTemperature[i] = 0;
+		if (m_gunRecharge[i] < 0.0f) m_gunRecharge[i] = 0;
 
 		if (!m_gunState[i]) continue;
-		if (m_gunRecharge[i] != 0) continue;
+		if (m_gunRecharge[i] > 0.0f) continue;
 		if (m_gunTemperature[i] > 1.0) continue;
 
 		FireWeapon(i);
 	}
 
-	if (m_ecmRecharge) {
+	if (m_ecmRecharge > 0.0f) {
 		m_ecmRecharge = std::max(0.0f, m_ecmRecharge - timeStep);
 	}
 
@@ -808,10 +808,11 @@ void Ship::StaticUpdate(const float timeStep)
 	}
 	m_stats.shield_mass_left = Clamp(m_stats.shield_mass_left, 0.0f, m_stats.shield_mass);
 
-	if (m_wheelTransition != 0.0f) {
+	if (m_wheelTransition) {
 		m_wheelState += m_wheelTransition*0.3f*timeStep;
 		m_wheelState = Clamp(m_wheelState, 0.0f, 1.0f);
-		if ((m_wheelState == 0) || (m_wheelState == 1)) m_wheelTransition = 0;
+		if (float_equal_exact(m_wheelState, 0.0f) || float_equal_exact(m_wheelState, 1.0f))
+			m_wheelTransition = 0;
 	}
 
 	if (m_testLanded) TestLanded();
@@ -825,9 +826,10 @@ void Ship::StaticUpdate(const float timeStep)
 	// holding references to it (eg missiles), as StartHyperspaceTo
 	// removes the ship from Space::bodies and so the missile will not
 	// have references to this cleared by NotifyDeleted()
-	if (m_hyperspace.countdown) {
-		m_hyperspace.countdown = std::max(m_hyperspace.countdown - timeStep, 0.0f);
-		if (m_hyperspace.countdown == 0) {
+	if (m_hyperspace.countdown > 0.0f) {
+		m_hyperspace.countdown = m_hyperspace.countdown - timeStep;
+		if (m_hyperspace.countdown <= 0.0f) {
+			m_hyperspace.countdown = 0.0f;
 			Space::StartHyperspaceTo(this, &m_hyperspace.dest);
 		}
 	}
@@ -888,9 +890,8 @@ void Ship::SetGunState(int idx, int state)
 bool Ship::SetWheelState(bool down)
 {
 	if (m_flightState != FLYING) return false;
-	if (m_wheelState == (down ? 1.0f : 0.0f)) return false;
-	if (down) m_wheelTransition = 1;
-	else m_wheelTransition = -1;
+	if (float_equal_exact(m_wheelState, down ? 1.0f : 0.0f)) return false;
+	m_wheelTransition = (down ? 1 : -1);
 	return true;
 }
 
@@ -992,7 +993,7 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 			glDisable(GL_BLEND);
 		}
 	}
-	if (m_ecmRecharge) {
+	if (m_ecmRecharge > 0.0f) {
 		// pish effect
 		vector3f v[100];
 		for (int i=0; i<100; i++) {
@@ -1007,7 +1008,7 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		}
 		Color c(0.5,0.5,1.0,1.0);
 		float totalRechargeTime = GetECMRechargeTime();
-		if (totalRechargeTime) {
+		if (totalRechargeTime >= 0.0f) {
 			c.a = m_ecmRecharge / totalRechargeTime;
 		}
 		GLuint tex = util_load_tex_rgba(PIONEER_DATA_DIR"/textures/ecm.png");

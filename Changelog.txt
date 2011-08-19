@@ -7,10 +7,12 @@ Alpha 14
     * Remove a couple of hardcoded references to the data directory (#363)
     * Fix crash when closing police form triggered from inside a advert (#371, #372)
     * Fix occasional crash in DeliverPackage when cleaning up old ads (#123, #379)
+    * Fix inverted mouse control (#389)
 
   * Internal changes
     * Removed remaining old-style casts (#373)
-    * Lots of internal cleanups; silences most remaining warnings (#375)
+    * Lots of internal cleanups; silences most remaining warnings (#375, #389)
+    * New utility functions for floating-point comparisons (#389)
     * Dump Lua engine state to file on exception in Lua module (#370)
     * Lua documentation fixes (#380)
 

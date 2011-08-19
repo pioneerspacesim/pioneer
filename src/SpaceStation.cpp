@@ -685,7 +685,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 
 				// check player is sortof sensibly oriented for landing
 				const double dot = vector3d(invShipRot[1], invShipRot[5], invShipRot[9]).Dot(dockingNormal);
-				if ((dot < 0.99) || (s->GetWheelState() != 1.0)) return false;
+				if ((dot < 0.99) || (s->GetWheelState() < 1.0)) return false;
 			}
 			
 			if ((speed < MAX_LANDING_SPEED) &&

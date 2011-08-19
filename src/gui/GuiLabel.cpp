@@ -95,7 +95,7 @@ void Label::Draw()
 		m_layout->Render(size[0]);
 		glTranslatef(-1,-1,0);
 	}
-	if (m_color.a != 1.0f) glEnable(GL_BLEND);
+	if (m_color.a < 1.0f) glEnable(GL_BLEND);
 	glColor4fv(m_color);
 	m_layout->Render(size[0]);
 	glDisable(GL_BLEND);

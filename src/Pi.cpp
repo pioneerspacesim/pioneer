@@ -1143,7 +1143,7 @@ void Pi::MainLoop()
 		accumulator += Pi::frameTime * GetTimeAccel();
 		
 		const float step = Pi::GetTimeStep();
-		if (step) {
+		if (step > 0.0f) {
 			while (accumulator >= step) {
 				Space::TimeStep(step);
 				gameTime += step;
@@ -1243,7 +1243,7 @@ void Pi::MainLoop()
 
 		// fuckadoodledoo, did the player die?
 		if (Pi::player->IsDead()) {
-			if (time_player_died) {
+			if (time_player_died > 0.0) {
 				if (Pi::GetGameTime() - time_player_died > 8.0) {
 					Sound::DestroyAllEvents();
 					isGameStarted = false;

@@ -70,6 +70,9 @@ public:
 	static void RequestTimeAccel(int v);
 	static int GetRequestedTimeAccelIdx() { return requestedTimeAccelIdx; }
 	static int GetTimeAccelIdx() { return timeAccelIdx; }
+	static bool IsTimeAccelPause() { return (timeAccelIdx == 0); }
+	static bool IsTimeAccelNormal() { return (timeAccelIdx == 1); }
+	static bool IsTimeAccelFast() { return (timeAccelIdx > 1); }
 	static float GetTimeAccel() { return timeAccelRates[timeAccelIdx]; }
 	static float GetTimeStep() { return timeAccelRates[timeAccelIdx]*(1.0f/PHYSICS_HZ); }
 	static float GetGameTickAlpha() { return gameTickAlpha; }

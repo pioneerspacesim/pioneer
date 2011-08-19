@@ -10,7 +10,7 @@ static int g_mouseMotion[2];
 static char g_keyState[SDLK_LAST];
 static int g_mouseButton[5];
 static float g_zbias;
-static float g_doBenchmark = false;
+static bool g_doBenchmark = false;
 
 static GLuint mytexture;
 
