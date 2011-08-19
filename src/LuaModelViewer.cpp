@@ -392,11 +392,10 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 
 void Viewer::MainLoop()
 {
-	const bool DISPLAY_FPS = false;
 	Uint32 lastTurd = SDL_GetTicks();
 
 	Uint32 t = SDL_GetTicks();
-	int numFrames = 0, fps = 0;
+	int numFrames = 0, fps = 0, numTris = 0;
 	Uint32 lastFpsReadout = SDL_GetTicks();
 	g_campos = vector3f(0.0f, 0.0f, m_cmesh->GetBoundingRadius());
 	g_camorient = matrix4x4f::Identity();
@@ -490,10 +489,12 @@ void Viewer::MainLoop()
 		{
 			char buf[128];
 			Aabb aabb = m_cmesh->GetAabb();
-			snprintf(buf, sizeof(buf), "%d triangles, %d fps\ncollision mesh size: %.1fx%.1fx%.1f (radius %.1f)\nClipping radius %.1f",
+			snprintf(buf, sizeof(buf), "%d triangles, %d fps, %.3fm tris/sec\ncollision mesh size: %.1fx%.1fx%.1f (radius %.1f)\nClipping radius %.1f",
 					(g_renderType == 0 ? 
 						LmrModelGetStatsTris() - beforeDrawTriStats :
-						m_cmesh->m_numTris), fps,
+						m_cmesh->m_numTris),
+					fps,
+					numTris/1000000.0f,
 					aabb.max.x-aabb.min.x,
 					aabb.max.y-aabb.min.y,
 					aabb.max.z-aabb.min.z,
@@ -511,14 +512,13 @@ void Viewer::MainLoop()
 		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;
 		lastTurd = SDL_GetTicks();
 
-		if (DISPLAY_FPS && (SDL_GetTicks() - lastFpsReadout > 1000)) {
-			int numTris = LmrModelGetStatsTris();
-			printf("%d fps, %.3f Million tris/sec\n", numFrames, numTris/1000000.0f);
+		if (SDL_GetTicks() - lastFpsReadout > 1000) {
+			numTris = LmrModelGetStatsTris();
 			fps = numFrames;
 			numFrames = 0;
 			lastFpsReadout = SDL_GetTicks();
+			LmrModelClearStatsTris();
 		}
-		LmrModelClearStatsTris();
 
 		//space->Collide(onCollision);
 	}
