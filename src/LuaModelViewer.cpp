@@ -390,14 +390,9 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 	glDisable(GL_TEXTURE_2D);
 }
 
-static void onCollision(CollisionContact *c)
-{
-	printf("depth %f\n", c->depth);
-//	printf("%d: %d\n", SDL_GetTicks(), c->triIdx);
-}
-
 void Viewer::MainLoop()
 {
+	const bool DISPLAY_FPS = false;
 	Uint32 lastTurd = SDL_GetTicks();
 
 	Uint32 t = SDL_GetTicks();
@@ -515,16 +510,15 @@ void Viewer::MainLoop()
 		numFrames++;
 		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;
 		lastTurd = SDL_GetTicks();
-	
-		if (SDL_GetTicks() - lastFpsReadout > 1000) {
+
+		if (DISPLAY_FPS && (SDL_GetTicks() - lastFpsReadout > 1000)) {
 			int numTris = LmrModelGetStatsTris();
-			LmrModelClearStatsTris();
-			//printf("%d fps, %.3f Million tris/sec\n", numFrames, numTris/1000000.0f);
+			printf("%d fps, %.3f Million tris/sec\n", numFrames, numTris/1000000.0f);
 			fps = numFrames;
 			numFrames = 0;
 			lastFpsReadout = SDL_GetTicks();
-			
 		}
+		LmrModelClearStatsTris();
 
 		//space->Collide(onCollision);
 	}
