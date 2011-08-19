@@ -52,9 +52,13 @@ public:
 	T LengthSqr() const { return x*x + y*y + z*z; }
 	vector3 Normalized() const { const T l = 1.0f / sqrt(x*x + y*y + z*z); return vector3(x*l, y*l, z*l); }
 	vector3 NormalizedSafe() const {
-		T l = sqrt(x*x + y*y + z*z);
-		if (l==0.0) return vector3(1,0,0);
-		return vector3(x/l, y/l, z/l);
+		const T lenSqr = x*x + y*y + z*z;
+		if (lenSqr < 1e-18) // sqrt(lenSqr) < 1e-9
+			return vector3(1,0,0);
+		else {
+			const T l = sqrt(lenSqr);
+			return vector3(x/l, y/l, z/l);
+		}
 	}
 
 	void Print() const { printf("v(%f,%f,%f)\n", x, y, z); }
