@@ -196,7 +196,7 @@ private:
 	bool m_testLanded;
 	float m_launchLockTimeout;
 	float m_wheelState;
-	float m_wheelTransition;
+	int m_wheelTransition;
 
 	vector3d m_thrusters;
 	vector3d m_angThrusters;

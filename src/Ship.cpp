@@ -33,7 +33,7 @@ void Ship::Save(Serializer::Writer &wr)
 	wr.Int32(Serializer::LookupBody(m_navTarget));
 	wr.Vector3d(m_angThrusters);
 	wr.Vector3d(m_thrusters);
-	wr.Float(m_wheelTransition);
+	wr.Int32(m_wheelTransition);
 	wr.Float(m_wheelState);
 	wr.Float(m_launchLockTimeout);
 	wr.Bool(m_testLanded);
@@ -69,7 +69,7 @@ void Ship::Load(Serializer::Reader &rd)
 	m_navTargetIndex = rd.Int32();
 	m_angThrusters = rd.Vector3d();
 	m_thrusters = rd.Vector3d();
-	m_wheelTransition = rd.Float();
+	m_wheelTransition = rd.Int32();
 	m_wheelState = rd.Float();
 	m_launchLockTimeout = rd.Float();
 	m_testLanded = rd.Bool();
@@ -518,7 +518,7 @@ void Ship::TestLanded()
 {
 	m_testLanded = false;
 	if (m_launchLockTimeout != 0) return;
-	if (m_wheelState != 1.0) return;
+	if (m_wheelState < 1.0f) return;
 	if (GetFrame()->GetBodyFor()->IsType(Object::PLANET)) {
 		double speed = GetVelocity().Length();
 		vector3d up = GetPosition().Normalized();
@@ -808,10 +808,11 @@ void Ship::StaticUpdate(const float timeStep)
 	}
 	m_stats.shield_mass_left = Clamp(m_stats.shield_mass_left, 0.0f, m_stats.shield_mass);
 
-	if (m_wheelTransition != 0.0f) {
+	if (m_wheelTransition) {
 		m_wheelState += m_wheelTransition*0.3f*timeStep;
 		m_wheelState = Clamp(m_wheelState, 0.0f, 1.0f);
-		if ((m_wheelState == 0) || (m_wheelState == 1)) m_wheelTransition = 0;
+		if (float_equal_exact(m_wheelState, 0.0f) || float_equal_exact(m_wheelState, 1.0f))
+			m_wheelTransition = 0;
 	}
 
 	if (m_testLanded) TestLanded();
@@ -888,9 +889,8 @@ void Ship::SetGunState(int idx, int state)
 bool Ship::SetWheelState(bool down)
 {
 	if (m_flightState != FLYING) return false;
-	if (m_wheelState == (down ? 1.0f : 0.0f)) return false;
-	if (down) m_wheelTransition = 1;
-	else m_wheelTransition = -1;
+	if (float_equal_exact(m_wheelState, down ? 1.0f : 0.0f)) return false;
+	m_wheelTransition = (down ? 1 : -1);
 	return true;
 }
 
