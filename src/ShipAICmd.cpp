@@ -592,14 +592,7 @@ static double GetGravityAtPos(Ship *ship, Frame *targframe, vector3d &posoff)
 	double rsqr = posoff.LengthSqr();
 	double m1m2 = ship->GetMass() * body->GetMass();
 	return G * m1m2 / rsqr;
-}
-
-static double GetAltForGravity(Ship *ship, Frame *targframe, double thrust)
-{
-	Body *body = targframe->GetBodyFor();
-	if (!body || body->IsType(Object::SPACESTATION)) return 0;
-	double m1m2 = ship->GetMass() * body->GetMass();
-	return sqrt(G * m1m2 / thrust);
+	// inverse is: sqrt(G * m1m2 / thrust)
 }
 
 // gets position of (target + offset in target's frame) in frame
