@@ -1392,8 +1392,7 @@ void WorldView::DrawCombatTargetIndicator(const Ship* const target)
 	vector3d pos1 = target->GetProjectedPos();
 	vector3d pos2 = m_targLeadPos;
 	vector3d dir = (pos2 - pos1); dir.z = 0.0;
-	if (dir.Length() == 0.0 || !m_targLeadOnscreen) dir = vector3d(1,0,0);
-	else dir = dir.Normalized();
+	dir = m_targLeadOnscreen ? dir.NormalizedSafe() : vector3d(1,0,0);
 
 	float x1 = float(pos1.x), y1 = float(pos1.y);
 	float x2 = float(pos2.x), y2 = float(pos2.y);
