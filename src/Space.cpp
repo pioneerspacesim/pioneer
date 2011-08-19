@@ -23,10 +23,8 @@ namespace Space {
 
 std::list<Body*> bodies;
 Frame *rootFrame;
-static void UpdateFramesOfReference();
 static void CollideFrame(Frame *f);
 static void PruneCorpses();
-static void ApplyGravity();
 static std::list<Body*> corpses;
 static SystemPath *hyperspacingTo;
 static float hyperspaceAnim;
@@ -244,12 +242,12 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		frameRadius = std::max(4.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.05);
 		orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->m_sbody = sbody;
-		orbFrame->SetRadius(frameRadius ? frameRadius : 10*sbody->GetRadius());
+		orbFrame->SetRadius(frameRadius);
 		//printf("\t\t\t%s has frame size %.0fkm, body radius %.0fkm\n", sbody->name.c_str(),
 		//	(frameRadius ? frameRadius : 10*sbody->GetRadius())*0.001f,
 		//	sbody->GetRadius()*0.001f);
 	
-		assert(sbody->GetRotationPeriod() != 0);
+		assert(sbody->rotationPeriod != 0);
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
 		// rotating frame has size of GeoSphere terrain bounding sphere
 		rotFrame->SetRadius(b->GetBoundingRadius());
@@ -275,9 +273,9 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->m_sbody = sbody;
 //		orbFrame->SetRadius(10*sbody->GetRadius());
-		orbFrame->SetRadius(frameRadius ? frameRadius : 10*sbody->GetRadius());
+		orbFrame->SetRadius(frameRadius);
 	
-		assert(sbody->GetRotationPeriod() != 0);
+		assert(sbody->rotationPeriod != 0);
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
 		rotFrame->SetRadius(1000.0);
 //		rotFrame->SetRadius(1.1*sbody->GetRadius());		// enough for collisions?
@@ -302,7 +300,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		// first try suggested position
 		rot = sbody->orbit.rotMatrix;
 		pos = rot * vector3d(0,1,0);
-		if (planet->GetTerrainHeight(pos) - planet->GetSBody()->GetRadius() == 0.0) {
+		if (planet->GetTerrainHeight(pos) - planet->GetSBody()->GetRadius() <= 0.0) {
 			MTRand r(sbody->seed);
 			// position is under water. try some random ones
 			for (tries=0; tries<100; tries++) {

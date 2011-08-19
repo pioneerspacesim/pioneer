@@ -172,16 +172,16 @@ void SystemView::PutBody(SBody *b, vector3d offset)
 
 	if (b->children.size()) for(std::vector<SBody*>::iterator kid = b->children.begin(); kid != b->children.end(); ++kid) {
 
-		if ((*kid)->orbit.semiMajorAxis == 0) continue;
+		if ((*kid)->semiMajorAxis == 0) continue;
 		if ((*kid)->orbit.semiMajorAxis * m_zoom < ROUGH_SIZE_OF_TURD) {
 			PutOrbit(*kid, offset);
 		}
-		
+
 		// not using current time yet
 		vector3d pos = (*kid)->orbit.OrbitalPosAtTime(m_time);
 		pos *= double(m_zoom);
 		//glTranslatef(pos.x, pos.y, pos.z);
-		
+
 		PutBody(*kid, offset + pos);
 	}
 }

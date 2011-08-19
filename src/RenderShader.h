@@ -12,7 +12,9 @@
 	} \
 	void set_##name(float a, float b, float c, float d) { \
 		if (!loc_##name) { loc_##name = glGetUniformLocation(m_program, #name); } \
-		if ((val_##name[0] != a) || (val_##name[1] != b) || (val_##name[2] != c) || (val_##name[3] != d)) { glUniform4f(loc_##name, a,b,c,d); val_##name[0]=a; val_##name[1]=b;val_##name[2]=c;val_##name[3]=d; } \
+		if (!float_equal_exact(val_##name[0], a) || !float_equal_exact(val_##name[1], b) || \
+			!float_equal_exact(val_##name[2], c) || !float_equal_exact(val_##name[3], d)) \
+		{ glUniform4f(loc_##name, a,b,c,d); val_##name[0]=a; val_##name[1]=b;val_##name[2]=c;val_##name[3]=d; } \
 	}
 #define SHADER_UNIFORM_VEC3(name) \
 	private: \
@@ -23,7 +25,9 @@
 	} \
 	void set_##name(float a, float b, float c) { \
 		if (!loc_##name) { loc_##name = glGetUniformLocation(m_program, #name); } \
-		if ((val_##name[0] != a) || (val_##name[1] != b) || (val_##name[2] != c)) { glUniform3f(loc_##name, a,b,c); val_##name[0]=a; val_##name[1]=b;val_##name[2]=c; } \
+		if (!float_equal_exact(val_##name[0], a) || !float_equal_exact(val_##name[1], b) || \
+			!float_equal_exact(val_##name[2], c)) \
+		{ glUniform3f(loc_##name, a,b,c); val_##name[0]=a; val_##name[1]=b;val_##name[2]=c; } \
 	}
 #define SHADER_UNIFORM_FLOAT(name) \
 	private: \
@@ -31,7 +35,7 @@
 	public: \
 	void set_##name(float v) { \
 		if (!loc_##name) { loc_##name = glGetUniformLocation(m_program, #name); } \
-		if (val_##name != v) { glUniform1f(loc_##name, v); val_##name = v; } \
+		if (!float_equal_exact(val_##name, v)) { glUniform1f(loc_##name, v); val_##name = v; } \
 	}
 #define SHADER_UNIFORM_INT(name) \
 	private: \

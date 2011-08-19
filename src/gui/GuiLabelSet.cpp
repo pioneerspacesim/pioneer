@@ -57,7 +57,7 @@ void LabelSet::Draw()
 {
 	if (!m_labelsVisible) return;
 	glColor4fv(m_labelColor);
-	if (m_labelColor.a != 1.0f) glEnable(GL_BLEND);
+	if (m_labelColor.a < 1.0f) glEnable(GL_BLEND);
 	for (std::vector<LabelSetItem>::iterator i = m_items.begin(); i != m_items.end(); ++i) {
 		if ((*i).hasOwnColor) {
 			if ((*i).color.a != 1.0f) glEnable(GL_BLEND);

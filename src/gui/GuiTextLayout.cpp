@@ -219,7 +219,8 @@ void TextLayout::_MeasureSizeRaw(const float layoutWidth, float outSize[2]) cons
 		if (lineLen > outSize[0]) outSize[0] = lineLen;
 		outSize[1] += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : LINE_SPACING);
 	}
-	if (outSize[1]) outSize[1] += m_font->GetDescender();
+	if (outSize[1] > 0.0f)
+		outSize[1] += m_font->GetDescender();
 }
 
 }

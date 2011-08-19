@@ -564,16 +564,6 @@ void Pi::HandleEvents()
                         case SDLK_i: // Toggle Debug info
                             Pi::showDebugInfo = !Pi::showDebugInfo;
                             break;
-                        case SDLK_p: // Increase Crime
-                        {
-                            Sint64 crime, fine;
-                            Polit::GetCrime(&crime, &fine);
-                            printf("Criminal record: %llx, $%lld\n", crime, fine);
-                            Polit::AddCrime(0x1, 100);
-                            Polit::GetCrime(&crime, &fine);
-                            printf("Criminal record now: %llx, $%lld\n", crime, fine);
-                            break;
-                        }
                         case SDLK_m:  // Gimme money!
                             Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
                             break;
@@ -1143,7 +1133,7 @@ void Pi::MainLoop()
 		accumulator += Pi::frameTime * GetTimeAccel();
 		
 		const float step = Pi::GetTimeStep();
-		if (step) {
+		if (step > 0.0f) {
 			while (accumulator >= step) {
 				Space::TimeStep(step);
 				gameTime += step;
@@ -1243,7 +1233,7 @@ void Pi::MainLoop()
 
 		// fuckadoodledoo, did the player die?
 		if (Pi::player->IsDead()) {
-			if (time_player_died) {
+			if (time_player_died > 0.0) {
 				if (Pi::GetGameTime() - time_player_died > 8.0) {
 					Sound::DestroyAllEvents();
 					isGameStarted = false;

@@ -30,7 +30,7 @@ void Box::SetSizeRequest(float size[2])
 
 void Box::GetSizeRequestedOrMinimum(float size[2], bool minimum)
 {
-	if (m_wantedSize[0] && m_wantedSize[1]) {
+	if (m_wantedSize[0] > 0.0f && m_wantedSize[1] > 0.0f) {
 		size[0] = m_wantedSize[0];
 		size[1] = m_wantedSize[1];
 	} else {
@@ -101,7 +101,7 @@ void Box::UpdateAllChildSizes()
 			(*i).w->GetMinimumSize(msize);
 			(*i).w->GetSizeRequested(bsize);
 
-			(*i).flags = (msize[1] != bsize[1]) ? 1 : 0;
+			(*i).flags = (msize[1] < bsize[1]) ? 1 : 0;
 
 			if (msize[0] > size[0]) msize[0] = size[0];
 			if (msize[1] > space) msize[1] = space;
@@ -116,7 +116,7 @@ void Box::UpdateAllChildSizes()
 			(*i).w->GetMinimumSize(msize);
 			(*i).w->GetSizeRequested(bsize);
 
-			(*i).flags = (msize[0] != bsize[0]) ? 1 : 0;
+			(*i).flags = (msize[0] < bsize[0]) ? 1 : 0;
 
 			if (msize[0] > space) msize[0] = space;
 			if (msize[1] > size[1]) msize[1] = size[1];

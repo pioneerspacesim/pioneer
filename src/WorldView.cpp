@@ -263,7 +263,7 @@ void WorldView::OnClickBlastoff()
 
 void WorldView::OnClickHyperspace()
 {
-	if (Pi::player->GetHyperspaceCountdown() > 0.0) {
+	if (Pi::player->IsHyperspaceActive()) {
 		// Hyperspace countdown in effect.. abort!
 		Pi::player->ResetHyperspaceCountdown();
 		Pi::cpan->MsgLog()->Message("", Lang::HYPERSPACE_JUMP_ABORTED);
@@ -650,7 +650,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 
 	const float activeWeaponTemp = Pi::player->GetGunTemperature(GetActiveWeapon());
-	if (activeWeaponTemp != 0) {
+	if (activeWeaponTemp > 0.0f) {
 		m_hudWeaponTemp->SetValue(activeWeaponTemp);
 		m_hudWeaponTemp->Show();
 	} else {
@@ -761,7 +761,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_hudTargetInfo->Hide();
 	}
 
-	if (Pi::player->GetHyperspaceCountdown() != 0) {
+	if (Pi::player->IsHyperspaceActive()) {
 		float val = Pi::player->GetHyperspaceCountdown();
 
 		if (!(int(ceil(val*2.0)) % 2)) {
@@ -927,7 +927,7 @@ static void PlayerPayFine()
 
 void WorldView::OnHyperspaceTargetChanged()
 {
-	if (Pi::player->GetHyperspaceCountdown() > 0.0) {
+	if (Pi::player->IsHyperspaceActive()) {
 		Pi::player->ResetHyperspaceCountdown();
 		Pi::cpan->MsgLog()->Message("", Lang::HYPERSPACE_JUMP_ABORTED);
 	}
@@ -957,11 +957,6 @@ static void autopilot_flyto(Body *b)
 {
 	Pi::player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
 	Pi::player->AIFlyTo(b);
-}
-static void autopilot_attack(Body *b)
-{
-	Pi::player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
-	Pi::player->AIKill(static_cast<Ship*>(b));
 }
 static void autopilot_dock(Body *b)
 {
@@ -1058,11 +1053,6 @@ void WorldView::UpdateCommsOptions()
 		button = AddCommsOption(stringf(256, Lang::AUTOPILOT_FLY_TO_VICINITY_OF, comtarget->GetLabel().c_str()), ypos, optnum++);
 		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget));
 		ypos += 32;
-        /*
-		button = AddCommsOption("Autopilot: Attack "+comtarget->GetLabel(), ypos, optnum++);
-		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_attack), comtarget));
-		ypos += 32;
-        */
 	}
 }
 
@@ -1392,8 +1382,7 @@ void WorldView::DrawCombatTargetIndicator(const Ship* const target)
 	vector3d pos1 = target->GetProjectedPos();
 	vector3d pos2 = m_targLeadPos;
 	vector3d dir = (pos2 - pos1); dir.z = 0.0;
-	if (dir.Length() == 0.0 || !m_targLeadOnscreen) dir = vector3d(1,0,0);
-	else dir = dir.Normalized();
+	dir = m_targLeadOnscreen ? dir.NormalizedSafe() : vector3d(1,0,0);
 
 	float x1 = float(pos1.x), y1 = float(pos1.y);
 	float x2 = float(pos2.x), y2 = float(pos2.y);

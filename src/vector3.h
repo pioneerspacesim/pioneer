@@ -35,10 +35,9 @@ public:
 	vector3 operator-(const vector3 &a) const { return vector3(x-a.x, y-a.y, z-a.z); }
 	vector3 operator-() const { return vector3(-x, -y, -z); }
 
-#pragma GCC diagnostic ignored "-Wfloat-equal"
-	bool ExactlyEqual(const vector3 &a) const { return ((a.x==x)&&(a.y==y)&&(a.z==z)); }
-	//bool operator!=(const vector3 &a) const { return ((a.x!=x)||(a.y!=y)||(a.z!=z)); }
-#pragma GCC diagnostic warning "-Wfloat-equal"
+	bool ExactlyEqual(const vector3 &a) const {
+		return float_equal_exact(a.x, x) && float_equal_exact(a.y, y) && float_equal_exact(a.z, z);
+	}
 
 	friend vector3 operator*(const vector3 &a, const float  scalar) { return vector3(T(a.x*scalar), T(a.y*scalar), T(a.z*scalar)); }
 	friend vector3 operator*(const vector3 &a, const double scalar) { return vector3(T(a.x*scalar), T(a.y*scalar), T(a.z*scalar)); }
@@ -53,9 +52,13 @@ public:
 	T LengthSqr() const { return x*x + y*y + z*z; }
 	vector3 Normalized() const { const T l = 1.0f / sqrt(x*x + y*y + z*z); return vector3(x*l, y*l, z*l); }
 	vector3 NormalizedSafe() const {
-		T l = sqrt(x*x + y*y + z*z);
-		if (l==0.0) return vector3(1,0,0);
-		return vector3(x/l, y/l, z/l);
+		const T lenSqr = x*x + y*y + z*z;
+		if (lenSqr < 1e-18) // sqrt(lenSqr) < 1e-9
+			return vector3(1,0,0);
+		else {
+			const T l = sqrt(lenSqr);
+			return vector3(x/l, y/l, z/l);
+		}
 	}
 
 	void Print() const { printf("v(%f,%f,%f)\n", x, y, z); }
