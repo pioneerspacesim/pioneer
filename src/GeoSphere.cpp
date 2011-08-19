@@ -953,7 +953,7 @@ static std::list<GeoSphere*> s_allGeospheres;
 SDL_mutex *s_allGeospheresLock;
 
 /* Thread that updates geosphere level of detail thingies */
-int GeoSphere::UpdateLODThread(void *data)
+void GeoSphere::UpdateLODThread(void *data)
 {
 	for(;;) {
 		SDL_mutexP(s_allGeospheresLock);
@@ -965,7 +965,6 @@ int GeoSphere::UpdateLODThread(void *data)
 
 		SDL_Delay(10);
 	}
-	return 0;
 }
 
 void GeoSphere::_UpdateLODs()
