@@ -70,7 +70,7 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 bool Ship::AITimeStep(float timeStep)
 {
 	// allow the launch thruster thing to happen
-	if (m_launchLockTimeout != 0) return false;
+	if (m_launchLockTimeout > 0.0) return false;
 
 	if (!m_curAICmd) {
 		if (this == Pi::player) return true;
@@ -299,7 +299,7 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 	double timeStep = Pi::GetTimeStep();
 
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
-	if (!maxAccel)
+	if (maxAccel <= 0.0)
 		// happens if no angular thrust is set for the model eg MISSILE_UNGUIDED
 		return 0.0;
 	double frameAccel = maxAccel * timeStep;
