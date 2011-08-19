@@ -93,10 +93,13 @@ static lid next_id = 0;
 static std::map<lid, LuaObjectBase*> *registry;
 static std::map< std::string, std::map<std::string,PromotionTest> > *promotions;
 
+/* XXX uncomment this when it can be hooked up to atexit() without crashing
+ * (see note _instantiate)
 static void _teardown() {
 	delete registry;
 	delete promotions;
 }
+*/
 
 static inline void _instantiate() {
 	if (!instantiated) {
