@@ -181,11 +181,9 @@ static double clipmouse(double cur, double inp)
 
 void Player::PollControls(const float timeStep)
 {
-	double time_accel = Pi::GetTimeAccel();
-	double invTimeAccel = 1.0 / time_accel;
 	static bool stickySpeedKey = false;
 
-	if (time_accel == 0 || Pi::player->IsDead() || GetFlightState() != FLYING)
+	if (Pi::IsTimeAccelPause() || Pi::player->IsDead() || GetFlightState() != FLYING)
 		return;
 
 	// if flying 
@@ -272,6 +270,7 @@ void Player::PollControls(const float timeStep)
 		wantAngVel.y += 2 * KeyBindings::yawAxis.GetValue();
 		wantAngVel.z += 2 * KeyBindings::rollAxis.GetValue();
 
+		double invTimeAccel = 1.0 / Pi::GetTimeAccel();
 		for (int axis=0; axis<3; axis++)
 			wantAngVel[axis] = Clamp(wantAngVel[axis], -invTimeAccel, invTimeAccel);
 
