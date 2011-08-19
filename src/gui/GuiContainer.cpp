@@ -159,7 +159,7 @@ void Container::Draw()
 	float size[2];
 	GetSize(size);
 	if (!m_transparent) {
-		if (m_bgcol[3] != 1.0) glEnable(GL_BLEND);
+		if (m_bgcol[3] < 1.0) glEnable(GL_BLEND);
 		glBegin(GL_QUADS);
 			glColor4fv(m_bgcol);
 			glVertex2f(0, size[1]);

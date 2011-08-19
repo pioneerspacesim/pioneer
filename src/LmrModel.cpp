@@ -390,7 +390,7 @@ public:
 					glMaterialfv (GL_FRONT, GL_SPECULAR, m.specular);
 					glMaterialfv (GL_FRONT, GL_EMISSION, m.emissive);
 					glMaterialf (GL_FRONT, GL_SHININESS, m.shininess);
-					if (m.diffuse[3] == 1.0) {
+					if (m.diffuse[3] >= 1.0) {
 						glDisable(GL_BLEND);
 					} else {
 						glEnable(GL_BLEND);
