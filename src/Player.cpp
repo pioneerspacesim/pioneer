@@ -181,11 +181,9 @@ static double clipmouse(double cur, double inp)
 
 void Player::PollControls(const float timeStep)
 {
-	double time_accel = Pi::GetTimeAccel();
-	double invTimeAccel = 1.0 / time_accel;
 	static bool stickySpeedKey = false;
 
-	if (time_accel == 0 || Pi::player->IsDead() || GetFlightState() != FLYING)
+	if (Pi::IsTimeAccelPause() || Pi::player->IsDead() || GetFlightState() != FLYING)
 		return;
 
 	// if flying 
@@ -207,19 +205,17 @@ void Player::PollControls(const float timeStep)
 			}
 			vector3d objDir = m_mouseDir * rot;
 
-			m_mouseX += mouseMotion[0] * 0.002;
+			const double radiansPerPixel = 0.002;
+
+			m_mouseX += mouseMotion[0] * radiansPerPixel;
 			double modx = clipmouse(objDir.x, m_mouseX);			
 			m_mouseX -= modx;
 
-			if (!Pi::IsMouseYInvert()) {
-				m_mouseY += mouseMotion[1] * 0.002;		// factor pixels => radians
-			} else {
-				m_mouseY =+ mouseMotion[1] * 0.002 * -1;
-			}
+			m_mouseY += mouseMotion[1] * radiansPerPixel * (Pi::IsMouseYInvert() ? -1 : 1);
 			double mody = clipmouse(objDir.y, m_mouseY);
 			m_mouseY -= mody;
 
-			if(modx != 0.0 || mody != 0.0) {
+			if(!float_is_zero_general(modx) || !float_is_zero_general(mody)) {
 				matrix4x4d mrot = matrix4x4d::RotateYMatrix(modx); mrot.RotateX(mody);
 				m_mouseDir = (rot * (mrot * objDir)).Normalized();
 			}
@@ -272,6 +268,7 @@ void Player::PollControls(const float timeStep)
 		wantAngVel.y += 2 * KeyBindings::yawAxis.GetValue();
 		wantAngVel.z += 2 * KeyBindings::rollAxis.GetValue();
 
+		double invTimeAccel = 1.0 / Pi::GetTimeAccel();
 		for (int axis=0; axis<3; axis++)
 			wantAngVel[axis] = Clamp(wantAngVel[axis], -invTimeAccel, invTimeAccel);
 

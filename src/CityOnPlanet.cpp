@@ -93,7 +93,7 @@ always_divide:
 		cent = cent.Normalized();
 		double height = m_planet->GetTerrainHeight(cent);
 		/* don't position below sealevel! */
-		if (height - m_planet->GetSBody()->GetRadius() == 0.0) return;
+		if (height - m_planet->GetSBody()->GetRadius() <= 0.0) return;
 		cent = cent * height;
 
 		Geom *geom = new Geom(cmesh->geomTree);
