@@ -826,9 +826,10 @@ void Ship::StaticUpdate(const float timeStep)
 	// holding references to it (eg missiles), as StartHyperspaceTo
 	// removes the ship from Space::bodies and so the missile will not
 	// have references to this cleared by NotifyDeleted()
-	if (m_hyperspace.countdown) {
-		m_hyperspace.countdown = std::max(m_hyperspace.countdown - timeStep, 0.0f);
-		if (m_hyperspace.countdown == 0) {
+	if (m_hyperspace.countdown > 0.0f) {
+		m_hyperspace.countdown = m_hyperspace.countdown - timeStep;
+		if (m_hyperspace.countdown <= 0.0f) {
+			m_hyperspace.countdown = 0.0f;
 			Space::StartHyperspaceTo(this, &m_hyperspace.dest);
 		}
 	}

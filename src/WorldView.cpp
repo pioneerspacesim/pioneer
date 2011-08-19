@@ -263,7 +263,7 @@ void WorldView::OnClickBlastoff()
 
 void WorldView::OnClickHyperspace()
 {
-	if (Pi::player->GetHyperspaceCountdown() > 0.0) {
+	if (Pi::player->IsHyperspaceActive()) {
 		// Hyperspace countdown in effect.. abort!
 		Pi::player->ResetHyperspaceCountdown();
 		Pi::cpan->MsgLog()->Message("", Lang::HYPERSPACE_JUMP_ABORTED);
@@ -761,7 +761,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_hudTargetInfo->Hide();
 	}
 
-	if (Pi::player->GetHyperspaceCountdown() != 0) {
+	if (Pi::player->IsHyperspaceActive()) {
 		float val = Pi::player->GetHyperspaceCountdown();
 
 		if (!(int(ceil(val*2.0)) % 2)) {
@@ -927,7 +927,7 @@ static void PlayerPayFine()
 
 void WorldView::OnHyperspaceTargetChanged()
 {
-	if (Pi::player->GetHyperspaceCountdown() > 0.0) {
+	if (Pi::player->IsHyperspaceActive()) {
 		Pi::player->ResetHyperspaceCountdown();
 		Pi::cpan->MsgLog()->Message("", Lang::HYPERSPACE_JUMP_ABORTED);
 	}

@@ -94,6 +94,7 @@ public:
 
 	Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
+	bool IsHyperspaceActive() const { return (m_hyperspace.countdown > 0.0); }
 	void ResetHyperspaceCountdown();
 
 	Equip::Type GetHyperdriveFuelType() const;
