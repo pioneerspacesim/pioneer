@@ -10,8 +10,7 @@ Alpha 14
     * Fix inverted mouse control (#389)
 
   * Internal changes
-    * Removed remaining old-style casts (#373)
-    * Lots of internal cleanups; silences most remaining warnings (#375, #389)
+    * Lots of internal cleanups; silences most remaining warnings (#373, #375, #389, #392)
     * New utility functions for floating-point comparisons (#389)
     * Dump Lua engine state to file on exception in Lua module (#370)
     * Lua documentation fixes (#380)

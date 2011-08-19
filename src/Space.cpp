@@ -23,10 +23,8 @@ namespace Space {
 
 std::list<Body*> bodies;
 Frame *rootFrame;
-static void UpdateFramesOfReference();
 static void CollideFrame(Frame *f);
 static void PruneCorpses();
-static void ApplyGravity();
 static std::list<Body*> corpses;
 static SystemPath *hyperspacingTo;
 static float hyperspaceAnim;

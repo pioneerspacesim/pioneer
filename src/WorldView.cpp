@@ -958,11 +958,6 @@ static void autopilot_flyto(Body *b)
 	Pi::player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
 	Pi::player->AIFlyTo(b);
 }
-static void autopilot_attack(Body *b)
-{
-	Pi::player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
-	Pi::player->AIKill(static_cast<Ship*>(b));
-}
 static void autopilot_dock(Body *b)
 {
 	Pi::player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
@@ -1058,11 +1053,6 @@ void WorldView::UpdateCommsOptions()
 		button = AddCommsOption(stringf(256, Lang::AUTOPILOT_FLY_TO_VICINITY_OF, comtarget->GetLabel().c_str()), ypos, optnum++);
 		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget));
 		ypos += 32;
-        /*
-		button = AddCommsOption("Autopilot: Attack "+comtarget->GetLabel(), ypos, optnum++);
-		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_attack), comtarget));
-		ypos += 32;
-        */
 	}
 }
 
