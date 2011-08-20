@@ -144,9 +144,11 @@ void UnbindAllBuffers()
 }
 
 static struct postprocessBuffers_t {
-	GLuint fb, bloomFb1, bloomFb2, tex, bloomTex1, bloomTex2, depthbuffer;
+	GLuint fb, tex, depthbuffer;
 	RectangleTarget *halfSizeRT;
 	LuminanceTarget *luminanceRT;
+	RectangleTarget *bloom1RT;
+	RectangleTarget *bloom2RT;
 	int width, height;
 	postprocessBuffers_t() {
 		//memset(this, 0, sizeof(postprocessBuffers_t));
@@ -167,38 +169,8 @@ static struct postprocessBuffers_t {
 
 		halfSizeRT = new RectangleTarget(width>>1, height>>1, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
 		luminanceRT = new LuminanceTarget(128, 128);
-
-		glGenFramebuffersEXT(1, &bloomFb1);
-		glGenTextures(1, &bloomTex1);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, bloomTex1);
-		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGB16F_ARB, width>>2, height>>2, 0, GL_RGB, GL_HALF_FLOAT_ARB, NULL);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_ARB, bloomTex1, 0);
-		if (!CheckFBO()) {
-			DeleteBuffers();
-			return;
-		}
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-
-		glGenFramebuffersEXT(1, &bloomFb2);
-		glGenTextures(1, &bloomTex2);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb2);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, bloomTex2);
-		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGB16F_ARB, width>>2, height>>2, 0, GL_RGB, GL_HALF_FLOAT_ARB, NULL);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_ARB, bloomTex2, 0);
-		if (!CheckFBO()) {
-			DeleteBuffers();
-			return;
-		}
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+		bloom1RT = new RectangleTarget(width>>2, height>>2, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
+		bloom2RT = new RectangleTarget(width>>2, height>>2, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
 
 		glGenFramebuffersEXT(1, &fb);
 		glGenTextures(1, &tex);
@@ -234,11 +206,11 @@ static struct postprocessBuffers_t {
 	}
 	void DeleteBuffers() {
 		if (fb) glDeleteFramebuffersEXT(1, &fb);
-		if (bloomFb1) glDeleteFramebuffersEXT(1, &bloomFb1);
-		if (bloomFb2) glDeleteFramebuffersEXT(1, &bloomFb2);
-		fb = bloomFb1 = bloomFb2 = 0;
+		fb = 0;
 		delete halfSizeRT;
 		delete luminanceRT;
+		delete bloom1RT;
+		delete bloom2RT;
 	}
 	void DoPostprocess() {
 		glMatrixMode(GL_PROJECTION);
@@ -297,9 +269,8 @@ static struct postprocessBuffers_t {
 		glEnd();
 		halfSizeRT->EndRTT();
 
-		glViewport(0,0,width>>2,height>>2);
+		bloom1RT->BeginRTT();
 		State::UseProgram(postprocessBloom2Downsample);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);
 		halfSizeRT->BindTexture();
 		glBegin(GL_TRIANGLE_STRIP);
@@ -309,10 +280,11 @@ static struct postprocessBuffers_t {
 			glVertex2f(1.0, 1.0);
 		glEnd();
 		halfSizeRT->UnbindTexture();
+		bloom1RT->EndRTT();
 		
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb2);
+		bloom2RT->BeginRTT();
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, bloomTex1);
+		bloom1RT->BindTexture();
 		State::UseProgram(postprocessBloom3VBlur);
 		postprocessBloom3VBlur->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
@@ -321,9 +293,10 @@ static struct postprocessBuffers_t {
 			glVertex2f(0.0, 1.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
+		bloom2RT->EndRTT();
 
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, bloomTex2);
+		bloom1RT->BeginRTT();
+		bloom2RT->BindTexture();
 		State::UseProgram(postprocessBloom4HBlur);
 		postprocessBloom4HBlur->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
@@ -336,6 +309,7 @@ static struct postprocessBuffers_t {
 			glTexCoord2f(1.0, 1.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
+		bloom1RT->EndRTT();
 		
 		glViewport(0,0,width,height);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
@@ -343,7 +317,7 @@ static struct postprocessBuffers_t {
 		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
 		glActiveTexture(GL_TEXTURE1);
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, bloomTex1);
+		bloom1RT->BindTexture();
 		State::UseProgram(postprocessCompose);
 		postprocessCompose->set_fboTex(0);
 		postprocessCompose->set_bloomTex(1);
