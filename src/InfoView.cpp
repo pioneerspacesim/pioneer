@@ -5,7 +5,7 @@
 #include "Ship.h"
 #include "ShipCpanel.h"
 #include "LmrModel.h"
-#include "Render.h"
+#include "render/Render.h"
 #include "Lang.h"
 
 class InfoViewPage: public Gui::Fixed {

@@ -16,6 +16,9 @@
     <Filter Include="src\gui">
       <UniqueIdentifier>{5f9ae661-2520-48e2-b510-4db78c61e4e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\render">
+      <UniqueIdentifier>{d9c0c67d-08a9-40e3-a726-2441396eae67}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\collider\BVHTree.cpp">
@@ -234,9 +237,6 @@
     <ClCompile Include="..\..\src\Projectile.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Render.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\RenderShader.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -443,6 +443,15 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Lang.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\RenderTarget.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\RenderTexture.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\Render.cpp">
+      <Filter>src\render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -713,9 +722,6 @@
     <ClInclude Include="..\..\src\RefList.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Render.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\RenderShader.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -931,6 +937,15 @@
     </ClInclude>
     <ClInclude Include="..\..\src\gui\GuiGradient.h">
       <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\RenderTarget.h">
+      <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\RenderTexture.h">
+      <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\Render.h">
+      <Filter>src\render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
