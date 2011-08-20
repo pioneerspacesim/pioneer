@@ -1049,8 +1049,8 @@ M_S_RELATIVE_TO
     %.0f m/s bez-auf %s
 N_DISTANCE_TO_TARGET
     %s nach Ziel
-IN_TRANSIT_TO_N_X_X
-    Auf dem Weg nach %s [%d,%d]
+IN_TRANSIT_TO_N_X_X_X
+    Auf dem Weg nach %s [%d,%d,%d]
 ALT_IN_METRES
     Höhe: %.0fm
 PRESSURE_N_BAR

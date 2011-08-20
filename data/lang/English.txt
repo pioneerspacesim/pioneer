@@ -1055,8 +1055,8 @@ M_S_RELATIVE_TO
     %.0f m/s rel-to %s
 N_DISTANCE_TO_TARGET
     %s to target
-IN_TRANSIT_TO_N_X_X
-    In transit to %s [%d,%d]
+IN_TRANSIT_TO_N_X_X_X
+    In transit to %s [%d,%d,%d]
 ALT_IN_METRES
     Alt: %.0fm
 PRESSURE_N_BAR

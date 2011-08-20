@@ -221,8 +221,8 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 bool IsCommodityLegal(const StarSystem *s, Equip::Type t)
 {
 	SystemPath path = s->GetPath();
-	const unsigned long _init[4] = { path.sectorX, path.sectorY, path.systemIndex, POLIT_SALT };
-	MTRand rand(_init, 4);
+	const unsigned long _init[5] = { path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, POLIT_SALT };
+	MTRand rand(_init, 5);
 
 	Polit::GovType a = s->GetSysPolit().govType;
 	const Bloc b = s_govDesc[a].bloc;

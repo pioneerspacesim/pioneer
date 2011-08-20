@@ -569,7 +569,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	if (const SystemPath *dest = Space::GetHyperspaceDest()) {
 		StarSystem *s = StarSystem::GetCached(*dest);
 		char buf[128];
-		snprintf(buf, sizeof(buf), Lang::IN_TRANSIT_TO_N_X_X, s->GetName().c_str(), dest->sectorX, dest->sectorY);
+		snprintf(buf, sizeof(buf), Lang::IN_TRANSIT_TO_N_X_X_X, s->GetName().c_str(), dest->sectorX, dest->sectorY, dest->sectorZ);
 		m_hudVelocity->SetText(buf);
 		m_hudVelocity->Show();
 
