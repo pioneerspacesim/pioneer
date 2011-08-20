@@ -204,7 +204,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 					// exact match, take it and go
 					SystemPath path = (*i).first;
 					path.systemIndex = systemIndex;
-					Pi::cpan->MsgLog()->Message("", stringf(256, "Exact match: %s", ss->name.c_str()));
+					Pi::cpan->MsgLog()->Message("", stringf(256, Lang::EXACT_MATCH_X, ss->name.c_str()));
 					GotoSystem(path);
 					return;
 				}
@@ -239,12 +239,12 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 		}
 	
 	if (gotMatch) {
-		Pi::cpan->MsgLog()->Message("", stringf(256, "Not found, best match: %s", bestMatchName->c_str()));
+		Pi::cpan->MsgLog()->Message("", stringf(256, Lang::NOT_FOUND_BEST_MATCH_X, bestMatchName->c_str()));
 		GotoSystem(bestMatch);
 	}
 
 	else
-		Pi::cpan->MsgLog()->Message("", "Not found.");
+		Pi::cpan->MsgLog()->Message("", Lang::NOT_FOUND);
 }
 
 

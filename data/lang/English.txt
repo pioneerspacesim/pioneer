@@ -665,6 +665,12 @@ FOLLOWING_SELECTION
     following selection
 LOCKED
     locked
+EXACT_MATCH_X
+    Exact match: %s
+NOT_FOUND_BEST_MATCH_X
+    Not found, best match: %s
+NOT_FOUND
+    Not found
 NUMBER_HOURS
     %.2f hrs
 QUADRUPLE_SYSTEM
