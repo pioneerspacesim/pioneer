@@ -41,9 +41,6 @@ void TextEntry::OnKeyPress(const SDL_keysym *sym)
 		changed = true;
 	}
 
-	if (sym->sym == SDLK_RETURN)
-		Unfocus();
-
 	onKeyPress.emit(sym);
 	if (changed) onValueChanged.emit();
 }
