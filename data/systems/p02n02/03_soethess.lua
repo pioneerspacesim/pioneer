@@ -1,1 +1,0 @@
-CustomSystem:new("Soethess",{'STAR_M'}):add_to_sector(2,-2,v(0.237,0.162,0.662))

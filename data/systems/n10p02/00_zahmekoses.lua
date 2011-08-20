@@ -1,1 +1,0 @@
-CustomSystem:new("Zahmekoses",{'STAR_G'}):add_to_sector(-10,2,v(0.789,0.465,-0.080))

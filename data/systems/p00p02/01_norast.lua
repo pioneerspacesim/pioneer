@@ -1,1 +1,0 @@
-CustomSystem:new("Norast",{'STAR_M'}):add_to_sector(0,2,v(0.870,0.004,-0.337))

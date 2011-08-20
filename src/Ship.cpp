@@ -335,8 +335,8 @@ static float distance_to_system(const SystemPath *dest)
 {
 	SystemPath here = Pi::currentSystem->GetPath();
 	
-	Sector sec1(here.sectorX, here.sectorY);
-	Sector sec2(dest->sectorX, dest->sectorY);
+	Sector sec1(here.sectorX, here.sectorY, here.sectorZ);
+	Sector sec2(dest->sectorX, dest->sectorY, dest->sectorZ);
 
 	return Sector::DistanceBetween(&sec1, here.systemIndex, &sec2, dest->systemIndex);
 }

@@ -1,1 +1,0 @@
-CustomSystem:new("Kroger",{'STAR_M'}):add_to_sector(6,1,v(0.158,0.276,0.181))

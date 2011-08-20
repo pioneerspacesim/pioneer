@@ -1,1 +1,0 @@
-CustomSystem:new("Hoioack",{'STAR_M'}):add_to_sector(6,-7,v(0.148,0.454,0.960))

@@ -1,1 +1,0 @@
-CustomSystem:new("Eta Draconis",{'STAR_G', 'STAR_K'}):add_to_sector(0,-8,v(0.929,0.817,0.322))

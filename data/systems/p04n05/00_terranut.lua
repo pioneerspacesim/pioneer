@@ -1,1 +1,0 @@
-CustomSystem:new("Terranut",{'STAR_K'}):add_to_sector(4,-5,v(0.990,0.983,0.839))

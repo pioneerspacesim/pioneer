@@ -1,1 +1,0 @@
-CustomSystem:new("Sohalius",{'STAR_M', 'WHITE_DWARF'}):add_to_sector(-5,3,v(0.804,0.732,-0.783))

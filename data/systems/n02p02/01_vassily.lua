@@ -1,1 +1,0 @@
-CustomSystem:new("Vassily",{'STAR_K'}):add_to_sector(-2,2,v(0.738,0.447,-0.164))

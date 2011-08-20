@@ -1,1 +1,0 @@
-CustomSystem:new("Liaedin",{'WHITE_DWARF'}):add_to_sector(8,-2,v(0.563,0.986,1.201))

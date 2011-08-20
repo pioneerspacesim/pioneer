@@ -1,1 +1,0 @@
-CustomSystem:new("Fire's mark",{'STAR_K'}):add_to_sector(5,-9,v(0.077,0.250,0.414))

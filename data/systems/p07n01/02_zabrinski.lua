@@ -1,1 +1,0 @@
-CustomSystem:new("Zabrinski",{'STAR_K', 'STAR_K'}):add_to_sector(7,-1,v(0.356,0.674,0.213))

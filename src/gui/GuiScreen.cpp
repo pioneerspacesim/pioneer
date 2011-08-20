@@ -54,11 +54,16 @@ void Screen::OnDeleteFocusedWidget()
 
 void Screen::SetFocused(Widget *w)
 {
-	if (focusedWidget) {
-		_focusedWidgetOnDelete.disconnect();
-	}
+	ClearFocus();
 	_focusedWidgetOnDelete = w->onDelete.connect(sigc::ptr_fun(&Screen::OnDeleteFocusedWidget));
 	focusedWidget = w;
+}
+
+void Screen::ClearFocus()
+{
+	if (!focusedWidget) return;
+	_focusedWidgetOnDelete.disconnect();
+	focusedWidget = 0;
 }
 
 void Screen::ShowBadError(const char *msg)

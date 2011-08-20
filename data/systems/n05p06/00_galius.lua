@@ -1,1 +1,0 @@
-CustomSystem:new("Galius",{'WHITE_DWARF'}):add_to_sector(-5,6,v(0.318,0.753,-0.497))

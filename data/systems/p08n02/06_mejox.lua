@@ -1,1 +1,0 @@
-CustomSystem:new("Mejox",{'WHITE_DWARF'}):add_to_sector(8,-2,v(0.002,0.914,0.632))

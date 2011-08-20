@@ -276,7 +276,7 @@ WATER
 MEDICINES
     Arzneimittel
 CONSUMER_GOODS
-    Consumer goods
+    Verbrauchsgüter
 COMPUTERS
     Computer
 ROBOTS
@@ -653,24 +653,30 @@ VIOLENT_ANARCHY
     Störung - Insgesamt Governance durch bewaffnete Gruppierungen bestritten
 X_CANNOT_BE_TOLERATED_HERE
     %s kann hier nicht geduldet werden.
-SECTOR_X_Y
-    Sektor: %d,%d
-DISTANCE_FUEL_TIME
-    Abst. %.2f Lichtjahre (Kraftstoff benötigt: %dt | Zeitverlust: %.1fst.)
+SECTOR_X_Y_Z
+    Sektor: %d,%d,%d
 CURRENT_SYSTEM
     Aktuelle System
-DISTANCE_FUEL_REQUIRED
-    Abst. %.2f Lichtjahre (unzureichende Kraftstoff; benötigt: %dt)
-DISTANCE_OUT_OF_RANGE
-    Abst. %.2f Lichtjahre (Außerhalb der Reichweite)
-CANNOT_HYPERJUMP_WITHOUT_WORKING_DRIVE
-    Sie können nicht durchführen Hypersprung weil Sie nicht ein funktionierende Hyperlaufwerk haben
+SELECTED_SYSTEM
+    Ausgewählter System
+HYPERSPACE_TARGET
+    Hyperraum Ziel
+FOLLOWING_SELECTION
+    Auswahl folgende
+LOCKED
+    verschlossen
+NUMBER_HOURS
+    %.2f St.
 QUADRUPLE_SYSTEM
-    "VierfachSternsystem. "
+    VierfachSternsystem
 TRIPLE_SYSTEM
-    "DreifachSternsystem. "
+    DreifachSternsystem
 BINARY_SYSTEM
-    "DoppelSternsystem. "
+    DoppelSternsystem
+ENABLED_AUTOMATIC_SYSTEM_SELECTION
+    Automatische Systemauswahl aktiviert.
+DISABLED_AUTOMATIC_SYSTEM_SELECTION
+    Automatische Systemauswahl unaktiviert.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
     Kraftstoffschaufel aktiv. Sie haben nun %d Tonnen Wasserstoff.
 CARGO_BAY_LIFE_SUPPORT_LOST
@@ -1043,8 +1049,8 @@ M_S_RELATIVE_TO
     %.0f m/s bez-auf %s
 N_DISTANCE_TO_TARGET
     %s nach Ziel
-IN_TRANSIT_TO_N_X_X
-    Auf dem Weg nach %s [%d,%d]
+IN_TRANSIT_TO_N_X_X_X
+    Auf dem Weg nach %s [%d,%d,%d]
 ALT_IN_METRES
     Höhe: %.0fm
 PRESSURE_N_BAR
@@ -1084,7 +1090,7 @@ FINE_PAID_N_BUT_N_REMAINING
 FINE_PAID_N
     Sie haben die Geldstrafe von %s bezahlt.
 SET_HYPERSPACE_DESTINATION_TO
-    "Set Hyperraum Ziel nach "
+    "Hyperraum Ziel nach %s angesetzt"
 NO_TARGET_SELECTED
     Schiffsrechner: Kein Ziel ausgewählt
 REQUEST_DOCKING_CLEARANCE
@@ -1109,3 +1115,5 @@ COMPLETED
     Fertig
 ACTIVE
     Aktuell
+DISTANCE_LY
+    Entfernung: %0.2f Lj

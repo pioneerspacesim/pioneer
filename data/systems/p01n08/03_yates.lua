@@ -1,1 +1,0 @@
-CustomSystem:new("Yates",{'STAR_K'}):add_to_sector(1,-8,v(0.650,0.263,1.011))

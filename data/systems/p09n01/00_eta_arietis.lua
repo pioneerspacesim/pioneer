@@ -1,1 +1,0 @@
-CustomSystem:new("Eta Arietis",{'STAR_F'}):add_to_sector(9,-1,v(0.914,0.754,0.884))

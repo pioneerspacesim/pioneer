@@ -1,1 +1,0 @@
-CustomSystem:new("Zorba",{'STAR_M'}):add_to_sector(8,3,v(0.158,0.720,-0.804))

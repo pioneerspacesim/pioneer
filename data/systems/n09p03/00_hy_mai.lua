@@ -1,1 +1,0 @@
-CustomSystem:new("Hy Mai",{'STAR_G'}):add_to_sector(-9,3,v(0.888,0.034,-0.140))
