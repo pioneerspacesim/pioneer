@@ -221,5 +221,5 @@ AC_SUBST([EXTRA_CFLAGS])
 AC_SUBST([EXTRA_CXXFLAGS])
 AC_SUBST([EXTRA_CPPFLAGS])
 
-AC_CONFIG_FILES([Makefile data/Makefile src/Makefile src/collider/Makefile src/gui/Makefile contrib/Makefile contrib/lua/Makefile contrib/oolua/Makefile osx/Makefile win32/Makefile])
+AC_CONFIG_FILES([Makefile data/Makefile src/Makefile src/collider/Makefile src/gui/Makefile src/render/Makefile contrib/Makefile contrib/lua/Makefile contrib/oolua/Makefile osx/Makefile win32/Makefile])
 AC_OUTPUT

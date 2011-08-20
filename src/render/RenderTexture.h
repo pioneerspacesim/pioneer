@@ -1,6 +1,8 @@
 #ifndef _RENDERTEXTURE_H
 #define _RENDERTEXTURE_H
 
+#include "libs.h"
+
 namespace Render {
 
 	/*
