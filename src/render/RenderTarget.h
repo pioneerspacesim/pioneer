@@ -8,6 +8,7 @@ namespace Render {
 	 */
 	class RenderTarget : public Texture {
 	public:
+		RenderTarget();
 		RenderTarget(int w, int h, GLint format,
 			GLint internalFormat, GLenum type);
 		~RenderTarget();

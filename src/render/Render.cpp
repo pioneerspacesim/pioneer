@@ -1,4 +1,5 @@
 #include "Render.h"
+#include "RenderTarget.h"
 
 static GLuint boundArrayBufferObject = 0;
 static GLuint boundElementArrayBufferObject = 0;
@@ -46,6 +47,43 @@ float State::m_zfar = 1e6f;
 float State::m_invLogZfarPlus1;
 Shader *State::m_currentShader = 0;
 
+// 2D Rectangle texture RT
+class RectangleTarget : public RenderTarget {
+public:
+	RectangleTarget() : RenderTarget() { }
+	RectangleTarget(int w, int h, GLint format,
+		GLint internalFormat, GLenum type) {
+		m_w = w;
+		m_h = h;
+
+		glGenFramebuffers(1, &m_fbo);
+		glGenTextures(1, &m_texture);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+		glBindTexture(GL_TEXTURE_RECTANGLE, m_texture);
+		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, internalFormat, w, h, 0,
+			format, type, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+			GL_TEXTURE_RECTANGLE, m_texture, 0);
+
+		CheckCompleteness();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	void Bind() {
+		glEnable(GL_TEXTURE_RECTANGLE);
+		glBindTexture(GL_TEXTURE_RECTANGLE, m_texture);
+	}
+
+	void Unbind() {
+		glBindTexture(GL_TEXTURE_RECTANGLE, 0);
+		glDisable(GL_TEXTURE_RECTANGLE_ARB);
+	}
+};
+
 void BindArrayBuffer(GLuint bo)
 {
 	if (boundArrayBufferObject != bo) {
@@ -79,10 +117,12 @@ void UnbindAllBuffers()
 }
 
 static struct postprocessBuffers_t {
-	GLuint fb, halfsizeFb, bloomFb1, bloomFb2, tex, halfsizeTex, bloomTex1, bloomTex2, depthbuffer, luminanceFb, luminanceTex;
+	GLuint fb, bloomFb1, bloomFb2, tex, bloomTex1, bloomTex2, depthbuffer, luminanceFb, luminanceTex;
+	GLuint halfsizeFb, halfsizeTex;
+	RectangleTarget *halfSizeRT;
 	int width, height;
 	postprocessBuffers_t() {
-		memset(this, 0, sizeof(postprocessBuffers_t));
+		//memset(this, 0, sizeof(postprocessBuffers_t));
 	}
 	bool CheckFBO()
 	{
@@ -112,6 +152,7 @@ static struct postprocessBuffers_t {
 			return;
 		}
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+		halfSizeRT = new RectangleTarget(width>>1, height>>1, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
 
 		glGenFramebuffersEXT(1, &luminanceFb);
 		glGenTextures(1, &luminanceTex);
@@ -197,11 +238,11 @@ static struct postprocessBuffers_t {
 	}
 	void DeleteBuffers() {
 		if (fb) glDeleteFramebuffersEXT(1, &fb);
-		if (halfsizeFb) glDeleteFramebuffersEXT(1, &halfsizeFb);
+		//if (halfsizeFb) glDeleteFramebuffersEXT(1, &halfsizeFb);
 		if (bloomFb1) glDeleteFramebuffersEXT(1, &bloomFb1);
 		if (bloomFb2) glDeleteFramebuffersEXT(1, &bloomFb2);
 		if (luminanceFb) glDeleteFramebuffersEXT(1, &luminanceFb);
-		fb = halfsizeFb = bloomFb1 = bloomFb2 = luminanceFb = 0;
+		fb = bloomFb1 = bloomFb2 = luminanceFb = 0;
 	}
 	void DoPostprocess() {
 		glMatrixMode(GL_PROJECTION);
@@ -248,7 +289,8 @@ static struct postprocessBuffers_t {
 		
 		glDisable(GL_TEXTURE_2D);
 		glViewport(0,0,width>>1,height>>1);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
+		//glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
+		halfSizeRT->BeginRTT();
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);
 		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
 		State::UseProgram(postprocessBloom1Downsample);
@@ -261,12 +303,15 @@ static struct postprocessBuffers_t {
 			glVertex2f(0.0, 1.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
+		//halfSizeRT.EndRTT();
 
 		glViewport(0,0,width>>2,height>>2);
 		State::UseProgram(postprocessBloom2Downsample);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, halfsizeTex);
+		//glBindTexture(GL_TEXTURE_RECTANGLE_ARB, halfsizeTex);
+		//glBindTexture(GL_TEXTURE_RECTANGLE, halfSizeRT->GetGLTexture());
+		halfSizeRT->BindTexture();
 		glBegin(GL_TRIANGLE_STRIP);
 			glVertex2f(0.0, 0.0);
 			glVertex2f(1.0, 0.0);
