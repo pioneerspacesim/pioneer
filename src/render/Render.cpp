@@ -111,6 +111,45 @@ public:
 	}
 };
 
+// Render target with 24-bit depth attachment
+class SceneTarget : public RectangleTarget {
+public:
+	SceneTarget(int w, int h, GLint format,
+		GLint internalFormat, GLenum type) {
+		m_w = w;
+		m_h = h;
+
+		glGenFramebuffers(1, &m_fbo);
+		glGenTextures(1, &m_texture);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+		glBindTexture(GL_TEXTURE_RECTANGLE, m_texture);
+		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, internalFormat, w, h, 0,
+			format, type, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+			GL_TEXTURE_RECTANGLE, m_texture, 0);
+
+		glGenRenderbuffers(1, &m_depth);
+		glBindRenderbuffer(GL_RENDERBUFFER, m_depth);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, w, h);
+		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+			GL_RENDERBUFFER, m_depth);
+
+		CheckCompleteness();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	~SceneTarget() {
+		glDeleteRenderbuffers(1, &m_depth);
+	}
+private:
+	GLuint m_depth;
+};
+
 void BindArrayBuffer(GLuint bo)
 {
 	if (boundArrayBufferObject != bo) {
@@ -144,13 +183,16 @@ void UnbindAllBuffers()
 }
 
 static struct postprocessBuffers_t {
-	GLuint fb, tex, depthbuffer;
+	//~ GLuint fb, tex, depthbuffer;
 	RectangleTarget *halfSizeRT;
 	LuminanceTarget *luminanceRT;
 	RectangleTarget *bloom1RT;
 	RectangleTarget *bloom2RT;
+	SceneTarget     *sceneRT;
 	int width, height;
+	bool complete;
 	postprocessBuffers_t() {
+		complete = false;
 		//memset(this, 0, sizeof(postprocessBuffers_t));
 	}
 	bool CheckFBO()
@@ -167,12 +209,13 @@ static struct postprocessBuffers_t {
 		width = screen_width;
 		height = screen_height;
 
-		halfSizeRT = new RectangleTarget(width>>1, height>>1, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
+		halfSizeRT  = new RectangleTarget(width>>1, height>>1, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
 		luminanceRT = new LuminanceTarget(128, 128);
 		bloom1RT = new RectangleTarget(width>>2, height>>2, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
 		bloom2RT = new RectangleTarget(width>>2, height>>2, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
+		sceneRT = new SceneTarget(width, height, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
 
-		glGenFramebuffersEXT(1, &fb);
+		/*glGenFramebuffersEXT(1, &fb);
 		glGenTextures(1, &tex);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
 		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
@@ -193,7 +236,8 @@ static struct postprocessBuffers_t {
 		if (!CheckFBO()) {
 			DeleteBuffers();
 			return;
-		}
+		}*/
+		complete = true;
 
 		postprocessBloom1Downsample = new PostprocessDownsampleShader("postprocessBloom1Downsample", "#extension GL_ARB_texture_rectangle : enable\n");
 		postprocessBloom2Downsample = new PostprocessShader("postprocessBloom2Downsample", "#extension GL_ARB_texture_rectangle : enable\n");
@@ -205,12 +249,13 @@ static struct postprocessBuffers_t {
 		glError();
 	}
 	void DeleteBuffers() {
-		if (fb) glDeleteFramebuffersEXT(1, &fb);
-		fb = 0;
+		//~ if (fb) glDeleteFramebuffersEXT(1, &fb);
+		//~ fb = 0;
 		delete halfSizeRT;
 		delete luminanceRT;
 		delete bloom1RT;
 		delete bloom2RT;
+		delete sceneRT;
 	}
 	void DoPostprocess() {
 		glMatrixMode(GL_PROJECTION);
@@ -227,7 +272,8 @@ static struct postprocessBuffers_t {
 		// generating mipmaps for it, and grabbing the luminance at the smallest mipmap level
 		luminanceRT->BeginRTT();
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
+		sceneRT->BindTexture();
+		//~ glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
 		State::UseProgram(postprocessLuminance);
 		postprocessLuminance->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
@@ -256,7 +302,8 @@ static struct postprocessBuffers_t {
 		glDisable(GL_TEXTURE_2D);
 		halfSizeRT->BeginRTT();
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
+		sceneRT->BindTexture();
+		//~ glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
 		State::UseProgram(postprocessBloom1Downsample);
 		postprocessBloom1Downsample->set_avgLum(avgLum[0]);
 		postprocessBloom1Downsample->set_middleGrey(midGrey);
@@ -314,7 +361,8 @@ static struct postprocessBuffers_t {
 		glViewport(0,0,width,height);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
+		sceneRT->BindTexture();
+		//~ glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
 		glActiveTexture(GL_TEXTURE1);
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);
 		bloom1RT->BindTexture();
@@ -338,7 +386,7 @@ static struct postprocessBuffers_t {
 		glDisable(GL_TEXTURE_RECTANGLE_ARB);
 		glError();
 	}
-	bool Initted() { return fb ? true : false; }
+	bool Initted() { return complete; }
 } s_hdrBufs;
 
 void Init(int screen_width, int screen_height)
@@ -371,12 +419,16 @@ bool IsHDRAvailable() { return hdrAvailable; }
 void PrepareFrame()
 {
 	if (IsHDRAvailable())
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, IsHDREnabled() ? s_hdrBufs.fb : 0);
+		if (IsHDREnabled())
+			s_hdrBufs.sceneRT->BeginRTT();
+		else
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void PostProcess()
 {
 	if (IsHDREnabled()) {
+		s_hdrBufs.sceneRT->EndRTT();
 		s_hdrBufs.DoPostprocess();
 	}
 }
