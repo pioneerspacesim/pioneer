@@ -397,7 +397,7 @@ static int l_starsystem_attr_lawlessness(lua_State *l)
 /*
  * Attribute: population
  *
- * The population of this system
+ * The population of this system, in billions of people
  *
  * Availability:
  *
