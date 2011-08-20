@@ -487,7 +487,6 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		SystemPath current = SystemPath(sx, sy, sz, num);
 
 		const vector3f sysAbsPos = Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + (*i).p;
-		const vector3f toPlayer = playerAbsPos - sysAbsPos;
 		const vector3f toCentreOfView = m_pos*Sector::SIZE - sysAbsPos;
 
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
@@ -519,35 +518,22 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		glPushMatrix();
 		glTranslatef((*i).p.x, (*i).p.y, (*i).p.z);
 
-		const float* col = StarSystem::starColors[(*i).starType[0]];
-		/* only do coloured depth indicator lines linked to current system
-		   if inhabited, and quite near */
-		if ((toPlayer.Length() <= INNER_RADIUS) &&
-		    ((*i).IsSetInhabited() && (*i).IsInhabited()) ) {
-			glColor4f(col[0], col[1], col[2], 0.5f);
-			glBegin(GL_LINE_STRIP);
-				glVertex3f(toPlayer.x, toPlayer.y, toPlayer.z);
-				glVertex3f(0, 0, toPlayer.z);
-				glVertex3f(0, 0, 0);
-			glEnd();
-		} else {
-			glColor4f(0.5f, 0.5f, 0.5f, 0.2f);
-			glBegin(GL_LINES);
-				float z = -(*i).p.z;
-				if (sz <= cz)
-					z = z+abs(cz-sz)*Sector::SIZE;
-				else
-					z = z-abs(cz-sz)*Sector::SIZE;
+		glColor4f(0.5f, 0.5f, 0.5f, 0.2f);
+		glBegin(GL_LINES);
+			float z = -(*i).p.z;
+			if (sz <= cz)
+				z = z+abs(cz-sz)*Sector::SIZE;
+			else
+				z = z-abs(cz-sz)*Sector::SIZE;
 
-				glVertex3f(0, 0, z);
-				glVertex3f(0, 0, 0);
+			glVertex3f(0, 0, z);
+			glVertex3f(0, 0, 0);
 
-				glVertex3f(-0.1f, -0.1f, z);
-				glVertex3f(0.1f, 0.1f, z);
-				glVertex3f(-0.1f, 0.1f, z);
-				glVertex3f(0.1f, -0.1f, z);
-			glEnd();
-		}
+			glVertex3f(-0.1f, -0.1f, z);
+			glVertex3f(0.1f, 0.1f, z);
+			glVertex3f(-0.1f, 0.1f, z);
+			glVertex3f(0.1f, -0.1f, z);
+		glEnd();
 
 		if (current == m_selected && current != SystemPath(0,0,0,0)) {
 			glColor4f(0, 0.8f, 0, 1.0f);
@@ -555,7 +541,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		}
 
 		// draw star blob itself
-		glColor4f(col[0], col[1], col[2], 1.0f);
+		glColor3fv(StarSystem::starColors[(*i).starType[0]]);
 		glPushMatrix();
 		glRotatef(-m_rotZ, 0, 0, 1);
 		glRotatef(-m_rotX, 1, 0, 0);
