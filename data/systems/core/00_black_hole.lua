@@ -64,4 +64,4 @@ local terminus = CustomSBody:new('Terminus', 'PLANET_TERRESTRIAL')
 		melon,
 	})
 
-s:add_to_sector(-3125,0,v(0.5,0.5,0.0))
+s:add_to_sector(-3125,0,0,v(0.5,0.5,0.0))
