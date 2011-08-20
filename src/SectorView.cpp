@@ -185,6 +185,8 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 		return;
 
 	const std::string search = m_searchBox->GetText();
+	if (!search.size())
+		return;
 	
 	bool gotMatch = false, gotStartMatch = false;
 	SystemPath bestMatch;
