@@ -215,28 +215,6 @@ static struct postprocessBuffers_t {
 		bloom2RT = new RectangleTarget(width>>2, height>>2, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
 		sceneRT = new SceneTarget(width, height, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
 
-		/*glGenFramebuffersEXT(1, &fb);
-		glGenTextures(1, &tex);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
-		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGB16F_ARB, width, height, 0, GL_RGB, GL_HALF_FLOAT_ARB, NULL);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_ARB, tex, 0);
-		glError();
-		
-		glGenRenderbuffersEXT(1, &depthbuffer);
-		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, depthbuffer);
-		glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24, width, height);
-		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
-		glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, depthbuffer);
-		glError();
-		if (!CheckFBO()) {
-			DeleteBuffers();
-			return;
-		}*/
 		complete = true;
 
 		postprocessBloom1Downsample = new PostprocessDownsampleShader("postprocessBloom1Downsample", "#extension GL_ARB_texture_rectangle : enable\n");
@@ -249,8 +227,6 @@ static struct postprocessBuffers_t {
 		glError();
 	}
 	void DeleteBuffers() {
-		//~ if (fb) glDeleteFramebuffersEXT(1, &fb);
-		//~ fb = 0;
 		delete halfSizeRT;
 		delete luminanceRT;
 		delete bloom1RT;
@@ -271,9 +247,7 @@ static struct postprocessBuffers_t {
 		// of the scene. We do this by rendering the scene's luminance to a smaller texture,
 		// generating mipmaps for it, and grabbing the luminance at the smallest mipmap level
 		luminanceRT->BeginRTT();
-		glEnable(GL_TEXTURE_RECTANGLE_ARB);
 		sceneRT->BindTexture();
-		//~ glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
 		State::UseProgram(postprocessLuminance);
 		postprocessLuminance->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
@@ -287,7 +261,8 @@ static struct postprocessBuffers_t {
 			glVertex2f(1.0, 1.0);
 		glEnd();
 		luminanceRT->EndRTT();
-		glDisable(GL_TEXTURE_RECTANGLE_ARB);
+		sceneRT->UnbindTexture();
+
 		luminanceRT->BindTexture();
 		luminanceRT->UpdateMipmaps();
 		float avgLum[4];
@@ -301,7 +276,6 @@ static struct postprocessBuffers_t {
 		
 		glDisable(GL_TEXTURE_2D);
 		halfSizeRT->BeginRTT();
-		glEnable(GL_TEXTURE_RECTANGLE_ARB);
 		sceneRT->BindTexture();
 		//~ glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
 		State::UseProgram(postprocessBloom1Downsample);
@@ -318,7 +292,6 @@ static struct postprocessBuffers_t {
 
 		bloom1RT->BeginRTT();
 		State::UseProgram(postprocessBloom2Downsample);
-		glEnable(GL_TEXTURE_RECTANGLE_ARB);
 		halfSizeRT->BindTexture();
 		glBegin(GL_TRIANGLE_STRIP);
 			glVertex2f(0.0, 0.0);
@@ -330,7 +303,6 @@ static struct postprocessBuffers_t {
 		bloom1RT->EndRTT();
 		
 		bloom2RT->BeginRTT();
-		glEnable(GL_TEXTURE_RECTANGLE_ARB);
 		bloom1RT->BindTexture();
 		State::UseProgram(postprocessBloom3VBlur);
 		postprocessBloom3VBlur->set_fboTex(0);
@@ -360,11 +332,8 @@ static struct postprocessBuffers_t {
 		
 		glViewport(0,0,width,height);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-		glEnable(GL_TEXTURE_RECTANGLE_ARB);
 		sceneRT->BindTexture();
-		//~ glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
 		glActiveTexture(GL_TEXTURE1);
-		glEnable(GL_TEXTURE_RECTANGLE_ARB);
 		bloom1RT->BindTexture();
 		State::UseProgram(postprocessCompose);
 		postprocessCompose->set_fboTex(0);
@@ -381,9 +350,9 @@ static struct postprocessBuffers_t {
 		State::UseProgram(0);
 
 		glEnable(GL_DEPTH_TEST);
-		glDisable(GL_TEXTURE_RECTANGLE_ARB);
+		bloom1RT->UnbindTexture();
 		glActiveTexture(GL_TEXTURE0);
-		glDisable(GL_TEXTURE_RECTANGLE_ARB);
+		sceneRT->UnbindTexture();
 		glError();
 	}
 	bool Initted() { return complete; }
