@@ -468,6 +468,7 @@ void Pi::InitOpenGL()
 
 void Pi::Quit()
 {
+	Render::Uninit();
 	SDL_Quit();
 	exit(0);
 }

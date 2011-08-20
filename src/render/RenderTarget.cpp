@@ -1,5 +1,6 @@
 #include "RenderTarget.h"
 #include <stdexcept>
+#include <sstream>
 
 namespace Render {
 
@@ -41,8 +42,11 @@ RenderTarget::~RenderTarget()
 void RenderTarget::CheckCompleteness() const
 {
 	const GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-	if (status != GL_FRAMEBUFFER_COMPLETE)
-		throw std::runtime_error("Incomplete FBO.");
+	if (status != GL_FRAMEBUFFER_COMPLETE) {
+		std::ostringstream ss;
+		ss << "FBO incomplete, status 0x" << int(status);
+		throw std::runtime_error(ss.str());
+	}
 }
 
 void RenderTarget::BeginRTT()
@@ -51,8 +55,6 @@ void RenderTarget::BeginRTT()
 	glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
 	glPushAttrib(GL_VIEWPORT_BIT);
 	glViewport(0, 0, m_w, m_h);
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glClearColor(0.f, 0.f, 0.f, 1.f);
 }
 
 void RenderTarget::EndRTT()

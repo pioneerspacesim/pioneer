@@ -1,5 +1,6 @@
 #include "Render.h"
 #include "RenderTarget.h"
+#include <stdexcept>
 
 static GLuint boundArrayBufferObject = 0;
 static GLuint boundElementArrayBufferObject = 0;
@@ -183,28 +184,14 @@ void UnbindAllBuffers()
 }
 
 static struct postprocessBuffers_t {
-	//~ GLuint fb, tex, depthbuffer;
+	bool complete;
 	RectangleTarget *halfSizeRT;
 	LuminanceTarget *luminanceRT;
 	RectangleTarget *bloom1RT;
 	RectangleTarget *bloom2RT;
 	SceneTarget     *sceneRT;
 	int width, height;
-	bool complete;
-	postprocessBuffers_t() {
-		complete = false;
-		//memset(this, 0, sizeof(postprocessBuffers_t));
-	}
-	bool CheckFBO()
-	{
-		GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-		if (status != GL_FRAMEBUFFER_COMPLETE_EXT) {
-			fprintf(stderr, "Hm. Framebuffer status 0x%x. No HDR for you pal.\n", int(status));
-			return false;
-		} else {
-			return true;
-		}
-	}
+
 	void CreateBuffers(int screen_width, int screen_height) {
 		width = screen_width;
 		height = screen_height;
@@ -214,8 +201,6 @@ static struct postprocessBuffers_t {
 		bloom1RT = new RectangleTarget(width>>2, height>>2, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
 		bloom2RT = new RectangleTarget(width>>2, height>>2, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
 		sceneRT = new SceneTarget(width, height, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
-
-		complete = true;
 
 		postprocessBloom1Downsample = new PostprocessDownsampleShader("postprocessBloom1Downsample", "#extension GL_ARB_texture_rectangle : enable\n");
 		postprocessBloom2Downsample = new PostprocessShader("postprocessBloom2Downsample", "#extension GL_ARB_texture_rectangle : enable\n");
@@ -277,7 +262,6 @@ static struct postprocessBuffers_t {
 		glDisable(GL_TEXTURE_2D);
 		halfSizeRT->BeginRTT();
 		sceneRT->BindTexture();
-		//~ glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
 		State::UseProgram(postprocessBloom1Downsample);
 		postprocessBloom1Downsample->set_avgLum(avgLum[0]);
 		postprocessBloom1Downsample->set_middleGrey(midGrey);
@@ -355,7 +339,6 @@ static struct postprocessBuffers_t {
 		sceneRT->UnbindTexture();
 		glError();
 	}
-	bool Initted() { return complete; }
 } s_hdrBufs;
 
 void Init(int screen_width, int screen_height)
@@ -367,8 +350,16 @@ void Init(int screen_width, int screen_height)
 
 	// Framebuffers for HDR
 	hdrAvailable = glewIsSupported("GL_EXT_framebuffer_object GL_ARB_color_buffer_float GL_ARB_texture_rectangle");
-	if (hdrAvailable)
-		s_hdrBufs.CreateBuffers(screen_width, screen_height);
+	if (hdrAvailable) {
+		try {
+			s_hdrBufs.CreateBuffers(screen_width, screen_height);
+		} catch (std::runtime_error &ex) {
+			fprintf(stderr, "HDR initialization error: %s\n", ex.what());
+			s_hdrBufs.DeleteBuffers();
+			hdrAvailable = false;
+			hdrEnabled = false;
+		}
+	}
 	
 	initted = true;
 
@@ -382,16 +373,28 @@ void Init(int screen_width, int screen_height)
 	}
 }
 
+void Uninit()
+{
+	s_hdrBufs.DeleteBuffers();
+	delete simpleShader;
+	delete billboardShader;
+	delete planetRingsShader[0];
+	delete planetRingsShader[1];
+	delete planetRingsShader[2];
+	delete planetRingsShader[3];
+}
+
 bool IsHDREnabled() { return shadersEnabled && hdrEnabled; }
 bool IsHDRAvailable() { return hdrAvailable; }
 
 void PrepareFrame()
 {
-	if (IsHDRAvailable())
+	if (IsHDRAvailable()) {
 		if (IsHDREnabled())
 			s_hdrBufs.sceneRT->BeginRTT();
 		else
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
 }
 
 void PostProcess()
