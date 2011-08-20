@@ -1,1 +1,0 @@
-CustomSystem:new("Urweider",{'STAR_K'}):add_to_sector(-5,6,v(0.717,0.381,-0.446))

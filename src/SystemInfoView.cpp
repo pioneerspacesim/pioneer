@@ -358,7 +358,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 
 		SystemPath path = m_system->GetPath();
 		col1->Add((new Gui::Label(Lang::SECTOR_COORDINATES))->Color(1,1,0), 0, 5*YSEP);
-		col2->Add(new Gui::Label(stringf(128, "%d, %d", path.sectorX, path.sectorY)), 0, 5*YSEP);
+		col2->Add(new Gui::Label(stringf(128, "%d, %d, %d", path.sectorX, path.sectorY, path.sectorZ)), 0, 5*YSEP);
 		col1->Add((new Gui::Label(Lang::SYSTEM_NUMBER))->Color(1,1,0), 0, 6*YSEP);
 		col2->Add(new Gui::Label(stringf(128, "%d", path.systemIndex)), 0, 6*YSEP);
 	}

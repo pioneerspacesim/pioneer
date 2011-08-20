@@ -116,7 +116,8 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			// methods to deal with this
 			if (lo->Isa("SystemPath")) {
 				SystemPath *sbp = dynamic_cast<SystemPath*>(lo->m_object);
-				snprintf(buf, sizeof(buf), "SystemPath\n%d\n%d\n%d\n%d\n", sbp->sectorX, sbp->sectorY, sbp->systemIndex, sbp->bodyIndex);
+				snprintf(buf, sizeof(buf), "SystemPath\n%d\n%d\n%d\n%d\n%d\n",
+					sbp->sectorX, sbp->sectorY, sbp->sectorZ, sbp->systemIndex, sbp->bodyIndex);
 				out += buf;
 				break;
 			}
@@ -195,23 +196,27 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 			if (len == 10 && strncmp(pos, "SystemPath", 10) == 0) {
 				pos = end;
 
-				int sectorX = strtol(pos, const_cast<char**>(&end), 0);
+				Sint32 sectorX = strtol(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
-				int sectorY = strtol(pos, const_cast<char**>(&end), 0);
+				Sint32 sectorY = strtol(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
-				int systemNum = strtol(pos, const_cast<char**>(&end), 0);
+				Sint32 sectorZ = strtol(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
-				int sbodyId = strtol(pos, const_cast<char**>(&end), 0);
+				Sint32 systemNum = strtol(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
-				SystemPath *sbp = new SystemPath(sectorX, sectorY, systemNum, sbodyId);
+				Sint32 sbodyId = strtol(pos, const_cast<char**>(&end), 0);
+				if (pos == end) throw SavedGameCorruptException();
+				pos = end+1; // skip newline
+
+				SystemPath *sbp = new SystemPath(sectorX, sectorY, sectorZ, systemNum, sbodyId);
 				LuaSystemPath::PushToLuaGC(sbp);
 
 				break;

@@ -1,1 +1,0 @@
-CustomSystem:new("Azgoth",{'STAR_K'}):add_to_sector(-10,-2,v(0.165,0.938,0.151))

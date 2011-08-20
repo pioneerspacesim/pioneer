@@ -1,1 +1,0 @@
-CustomSystem:new("Tovey",{'STAR_K'}):add_to_sector(-4,2,v(0.237,0.566,-0.519))

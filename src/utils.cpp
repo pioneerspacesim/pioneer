@@ -525,3 +525,40 @@ int conv_mb_to_wc(Uint32 *chr, const char *src)
 		*chr = c; return 2;
 	}
 }
+
+
+// strcasestr() adapted from gnulib
+// (c) 2005 FSF. GPL2+
+
+#define TOLOWER(c) (isupper(c) ? tolower(c) : (c))
+
+const char *pi_strcasestr (const char *haystack, const char *needle)
+{
+	if (!*needle)
+		return haystack;
+
+	// cache the first character for speed
+	char b = TOLOWER(*needle);
+
+	needle++;
+	for (;; haystack++) {
+		if (!*haystack)
+			return 0;
+
+		if (TOLOWER(*haystack) == b) {
+			const char *rhaystack = haystack + 1;
+			const char *rneedle = needle;
+
+			for (;; rhaystack++, rneedle++) {
+				if (!*rneedle)
+					return haystack;
+
+				if (!*rhaystack)
+					return NULL;
+
+				if (TOLOWER(*rhaystack) != TOLOWER(*rneedle))
+					break;
+			}
+		}
+	}
+}

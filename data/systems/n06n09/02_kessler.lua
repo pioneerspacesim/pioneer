@@ -1,1 +1,0 @@
-CustomSystem:new("Kessler",{'STAR_G'}):add_to_sector(-6,-9,v(0.639,0.802,1.073))

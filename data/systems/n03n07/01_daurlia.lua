@@ -1,1 +1,0 @@
-CustomSystem:new("Daurlia",{'STAR_M'}):add_to_sector(-3,-7,v(0.399,0.074,0.719))

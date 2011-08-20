@@ -1,1 +1,0 @@
-CustomSystem:new("Jay Miner",{'STAR_M'}):add_to_sector(5,-2,v(0.292,0.605,0.315))

@@ -1,1 +1,0 @@
-CustomSystem:new("Ziggoreth",{'STAR_M'}):add_to_sector(-6,-3,v(0.629,0.280,0.764))

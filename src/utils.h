@@ -101,6 +101,9 @@ void Screendump(const char* destFile, const int w, const int h);
 //  returns: number of bytes swallowed, or 0 if end of string
 int conv_mb_to_wc(Uint32 *chr, const char *src);
 
+// find string in bigger string, ignoring case
+const char *pi_strcasestr(const char *haystack, const char *needle);
+
 // add a few things that MSVC is missing
 #ifdef _MSC_VER
 

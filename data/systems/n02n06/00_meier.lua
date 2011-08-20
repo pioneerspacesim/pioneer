@@ -1,1 +1,0 @@
-CustomSystem:new("Meier",{'STAR_K', 'STAR_K'}):add_to_sector(-2,-6,v(0.957,0.402,0.403))

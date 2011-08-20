@@ -34,6 +34,7 @@ namespace Gui {
 		}
 		static const float* GetCoords2Pixels() { return fontScale; }
 		static void SetFocused(Widget *w);
+		static void ClearFocus();
 		static bool IsFocused(Widget *w) {
 			return w == focusedWidget;
 		}

@@ -1,1 +1,0 @@
-CustomSystem:new("Neuvo Azul",{'STAR_K'}):add_to_sector(-5,3,v(0.528,0.058,-0.672))

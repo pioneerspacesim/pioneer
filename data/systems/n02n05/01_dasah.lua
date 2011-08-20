@@ -1,1 +1,0 @@
-CustomSystem:new("Dasah",{'STAR_M', 'STAR_M'}):add_to_sector(-2,-5,v(0.019,0.434,0.191))

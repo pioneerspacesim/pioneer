@@ -569,7 +569,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	if (const SystemPath *dest = Space::GetHyperspaceDest()) {
 		StarSystem *s = StarSystem::GetCached(*dest);
 		char buf[128];
-		snprintf(buf, sizeof(buf), Lang::IN_TRANSIT_TO_N_X_X, s->GetName().c_str(), dest->sectorX, dest->sectorY);
+		snprintf(buf, sizeof(buf), Lang::IN_TRANSIT_TO_N_X_X_X, s->GetName().c_str(), dest->sectorX, dest->sectorY, dest->sectorZ);
 		m_hudVelocity->SetText(buf);
 		m_hudVelocity->Show();
 
@@ -730,7 +730,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			}
 			else {
 				const SystemPath dest = ship->GetHyperspaceDest();
-				Sector s(dest.sectorX, dest.sectorY);
+				Sector s(dest.sectorX, dest.sectorY, dest.sectorZ);
 				text += stringf(512,
 					std::string(
                         std::string(Lang::HYPERSPACE_X_CLOUD)+std::string("\n")+
@@ -935,7 +935,7 @@ void WorldView::OnHyperspaceTargetChanged()
 	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
 
 	StarSystem *system = StarSystem::GetCached(path);
-	Pi::cpan->MsgLog()->Message("", std::string(Lang::SET_HYPERSPACE_DESTINATION_TO+system->GetName()));
+	Pi::cpan->MsgLog()->Message("", std::string(stringf(256,Lang::SET_HYPERSPACE_DESTINATION_TO,system->GetName().c_str())));
 	system->Release();
 
 	int fuelReqd;

@@ -1,1 +1,0 @@
-CustomSystem:new("Ferris",{'WHITE_DWARF', 'STAR_M'}):add_to_sector(3,6,v(0.731,0.286,-0.528))

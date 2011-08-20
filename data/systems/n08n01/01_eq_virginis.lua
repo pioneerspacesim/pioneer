@@ -1,1 +1,0 @@
-CustomSystem:new("EQ Virginis",{'STAR_K'}):add_to_sector(-8,-1,v(0.777,0.148,0.100))

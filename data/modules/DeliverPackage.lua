@@ -13,7 +13,7 @@ local delivery_flavours = {
 		adtext = "GOING TO the {system} system? Money paid for delivery of a small package.",
 
 		-- introductory text when the advert is selected (and "Could you repeat request?")
-		introtext = "Hi, I'm {name}. I'll pay you {cash} if you will deliver a small package to {starport} in the {system} ({sectorx}, {sectory}) system.",
+		introtext = "Hi, I'm {name}. I'll pay you {cash} if you will deliver a small package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system.",
 
 		-- response to "Why so much?"
 		whysomuchtext = "When a friend visited me she left behind some clothes and antique paper books. I'd like to have them returned to her.",
@@ -32,7 +32,7 @@ local delivery_flavours = {
 
 	}, {
 		adtext = "WANTED. Delivery of a package to the {system} system.",
-		introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}) system.",
+		introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system.",
 		whysomuchtext = "It is nothing special.",
 		successmsg = "The package has been received and you have been paid in full.",
 		failuremsg = "I'm frustrated by the late delivery of my package, and I refuse to pay you.",
@@ -40,7 +40,7 @@ local delivery_flavours = {
 		risk = 0,
 	}, {
 		adtext = "URGENT. Fast ship needed to deliver a package to the {system} system.",
-		introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}) system.",
+		introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system.",
 		whysomuchtext = "It is a research proposal and must be delivered by the deadline or we may not get funding.",
 		successmsg = "You have been paid in full for the delivery. Thank you.",
 		failuremsg = "I was quite clear about the deadline and am very disappointed by the late delivery. You will not be paid.",
@@ -48,7 +48,7 @@ local delivery_flavours = {
 		risk = 0,
 	}, {
 		adtext = "DELIVERY. Documents to the {system} system. {cash} to an experienced pilot.",
-		introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}) system.",
+		introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system.",
 		whysomuchtext = "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me.",
 		successmsg = "Your timely and discrete service is much appreciated. You have been paid in full.",
 		failuremsg = "Useless! I will never depend on you again! Needless to say, you will not be paid for this.",
@@ -56,7 +56,7 @@ local delivery_flavours = {
 		risk = 0.75,
 	}, {
 		adtext = "POSTAL SERVICE. We require a ship for the delivery run to {system} system.",
-		introtext = "Greetings. This is an automated message from Bedford and {name} Courier Services. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}) system.",
+		introtext = "Greetings. This is an automated message from Bedford and {name} Courier Services. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system.",
 		whysomuchtext = "We would be happy to pay you less money.",
 		successmsg = "Your timely and discrete service is much appreciated. You have been paid in full.",
 		failuremsg = "Your ship registration has been noted, we will reject all further applications for work from you.",
@@ -91,6 +91,7 @@ local onChat = function (form, ref, option)
 			system   = sys.name,
 			sectorx  = ad.location.sectorX,
 			sectory  = ad.location.sectorY,
+			sectorz  = ad.location.sectorZ,
 		})
 
 		form:SetMessage(introtext)

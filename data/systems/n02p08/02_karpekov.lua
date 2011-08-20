@@ -1,1 +1,0 @@
-CustomSystem:new("Karpekov",{'WHITE_DWARF'}):add_to_sector(-2,8,v(0.006,0.444,-0.543))
