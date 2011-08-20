@@ -645,6 +645,7 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 			SetHyperspaceTarget(m_selected);
 		else
 			ResetHyperspaceTarget();
+		return;
 	}
 
 	// toggle the info box
@@ -654,6 +655,7 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 			m_infoBox->ShowAll();
 		else
 			m_infoBox->HideAll();
+		return;
 	}
 
 	// toggle selection mode
@@ -663,13 +665,14 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 			Pi::cpan->MsgLog()->Message("", Lang::ENABLED_AUTOMATIC_SYSTEM_SELECTION);
 		else
 			Pi::cpan->MsgLog()->Message("", Lang::DISABLED_AUTOMATIC_SYSTEM_SELECTION);
+		return;
 	}
 
 	// fast move selection to current player system or hyperspace target
-	if (Pi::KeyState(SDLK_c) || Pi::KeyState(SDLK_g) || Pi::KeyState(SDLK_h)) {
-		if (Pi::KeyState(SDLK_c))
+	if (keysym->sym == SDLK_c || keysym->sym == SDLK_g || keysym->sym == SDLK_h) {
+		if (keysym->sym == SDLK_c)
 			GotoSystem(m_current);
-		else if (Pi::KeyState(SDLK_g))
+		else if (keysym->sym == SDLK_g)
 			GotoSystem(m_selected);
 		else
 			GotoSystem(m_hyperspaceTarget);
@@ -681,15 +684,17 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 			m_rotZMovingTo = m_rotZDefault;
 			m_zoomMovingTo = m_zoomDefault;
 		}
+		return;
 	}
 
 	// reset rotation and zoom
-	if (Pi::KeyState(SDLK_r)) {
+	if (keysym->sym == SDLK_r) {
 		while (m_rotZ < -180.0f) m_rotZ += 360.0f;
 		while (m_rotZ > 180.0f)  m_rotZ -= 360.0f;
 		m_rotXMovingTo = m_rotXDefault;
 		m_rotZMovingTo = m_rotZDefault;
 		m_zoomMovingTo = m_zoomDefault;
+		return;
 	}
 }
 
