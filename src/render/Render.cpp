@@ -84,6 +84,33 @@ public:
 	}
 };
 
+//2D target with mipmaps for capturing scene luminance
+class LuminanceTarget : public RenderTarget {
+public:
+	LuminanceTarget(int w, int h) {
+		m_w = w;
+		m_h = h;
+		glGenFramebuffers(1, &m_fbo);
+		glGenTextures(1, &m_texture);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+		glBindTexture(GL_TEXTURE_2D, m_texture);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+		glGenerateMipmap(GL_TEXTURE_2D);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+			GL_TEXTURE_2D, m_texture, 0);
+		CheckCompleteness();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	void UpdateMipmaps() {
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+};
+
 void BindArrayBuffer(GLuint bo)
 {
 	if (boundArrayBufferObject != bo) {
@@ -117,9 +144,9 @@ void UnbindAllBuffers()
 }
 
 static struct postprocessBuffers_t {
-	GLuint fb, bloomFb1, bloomFb2, tex, bloomTex1, bloomTex2, depthbuffer, luminanceFb, luminanceTex;
-	GLuint halfsizeFb, halfsizeTex;
+	GLuint fb, bloomFb1, bloomFb2, tex, bloomTex1, bloomTex2, depthbuffer;
 	RectangleTarget *halfSizeRT;
+	LuminanceTarget *luminanceRT;
 	int width, height;
 	postprocessBuffers_t() {
 		//memset(this, 0, sizeof(postprocessBuffers_t));
@@ -137,40 +164,9 @@ static struct postprocessBuffers_t {
 	void CreateBuffers(int screen_width, int screen_height) {
 		width = screen_width;
 		height = screen_height;
-		glGenFramebuffersEXT(1, &halfsizeFb);
-		glGenTextures(1, &halfsizeTex);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, halfsizeTex);
-		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGB16F_ARB, width>>1, height>>1, 0, GL_RGB, GL_HALF_FLOAT_ARB, NULL);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_ARB, halfsizeTex, 0);
-		if (!CheckFBO()) {
-			DeleteBuffers();
-			return;
-		}
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-		halfSizeRT = new RectangleTarget(width>>1, height>>1, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
 
-		glGenFramebuffersEXT(1, &luminanceFb);
-		glGenTextures(1, &luminanceTex);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, luminanceFb);
-		glBindTexture(GL_TEXTURE_2D, luminanceTex);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F_ARB, 128, 128, 0, GL_RGB, GL_FLOAT, NULL);
-		glGenerateMipmapEXT(GL_TEXTURE_2D);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, luminanceTex, 0);
-		if (!CheckFBO()) {
-			DeleteBuffers();
-			return;
-		}
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-		glError();
+		halfSizeRT = new RectangleTarget(width>>1, height>>1, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
+		luminanceRT = new LuminanceTarget(128, 128);
 
 		glGenFramebuffersEXT(1, &bloomFb1);
 		glGenTextures(1, &bloomTex1);
@@ -238,11 +234,11 @@ static struct postprocessBuffers_t {
 	}
 	void DeleteBuffers() {
 		if (fb) glDeleteFramebuffersEXT(1, &fb);
-		//if (halfsizeFb) glDeleteFramebuffersEXT(1, &halfsizeFb);
 		if (bloomFb1) glDeleteFramebuffersEXT(1, &bloomFb1);
 		if (bloomFb2) glDeleteFramebuffersEXT(1, &bloomFb2);
-		if (luminanceFb) glDeleteFramebuffersEXT(1, &luminanceFb);
-		fb = bloomFb1 = bloomFb2 = luminanceFb = 0;
+		fb = bloomFb1 = bloomFb2 = 0;
+		delete halfSizeRT;
+		delete luminanceRT;
 	}
 	void DoPostprocess() {
 		glMatrixMode(GL_PROJECTION);
@@ -257,8 +253,7 @@ static struct postprocessBuffers_t {
 		// So, to do proper tone mapping of HDR to LDR we need to know the average luminance
 		// of the scene. We do this by rendering the scene's luminance to a smaller texture,
 		// generating mipmaps for it, and grabbing the luminance at the smallest mipmap level
-		glViewport(0,0,128,128);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, luminanceFb);
+		luminanceRT->BeginRTT();
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);
 		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
 		State::UseProgram(postprocessLuminance);
@@ -273,11 +268,10 @@ static struct postprocessBuffers_t {
 			glTexCoord2f(width, height);
 			glVertex2f(1.0, 1.0);
 		glEnd();
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+		luminanceRT->EndRTT();
 		glDisable(GL_TEXTURE_RECTANGLE_ARB);
-		glBindTexture(GL_TEXTURE_2D, luminanceTex);
-		glEnable(GL_TEXTURE_2D);
-		glGenerateMipmapEXT(GL_TEXTURE_2D);
+		luminanceRT->BindTexture();
+		luminanceRT->UpdateMipmaps();
 		float avgLum[4];
 		glGetTexImage(GL_TEXTURE_2D, 7, GL_RGB, GL_FLOAT, avgLum);
 
@@ -288,8 +282,6 @@ static struct postprocessBuffers_t {
 		const float midGrey = 1.03f - 2.0f/(2.0f+log10(avgLum[0] + 1.0f));
 		
 		glDisable(GL_TEXTURE_2D);
-		//~ glViewport(0,0,width>>1,height>>1);
-		//~ glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
 		halfSizeRT->BeginRTT();
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);
 		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
@@ -309,8 +301,6 @@ static struct postprocessBuffers_t {
 		State::UseProgram(postprocessBloom2Downsample);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);
-		//~ glBindTexture(GL_TEXTURE_RECTANGLE_ARB, halfsizeTex);
-		//~ glBindTexture(GL_TEXTURE_RECTANGLE, halfSizeRT->GetGLTexture());
 		halfSizeRT->BindTexture();
 		glBegin(GL_TRIANGLE_STRIP);
 			glVertex2f(0.0, 0.0);
@@ -367,29 +357,7 @@ static struct postprocessBuffers_t {
 			glVertex2f(1.0, 1.0);
 		glEnd();
 		State::UseProgram(0);
-#if 0
-		glViewport(0,0,width,height);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-		glEnable(GL_TEXTURE_2D);
-		glDisable(GL_TEXTURE_RECTANGLE_ARB);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0);
-		glColor3f(1.0,1.0,1.0);
-		glBindTexture(GL_TEXTURE_2D, luminanceTex);
-		State::UseProgram(0);
-		glBegin(GL_TRIANGLE_STRIP);
-			glTexCoord2f(0.0, 0.0);
-			glVertex2f(0.0, 0.0);
-			glTexCoord2f(1.0, 0.0);
-			glVertex2f(1.0, 0.0);
-			glTexCoord2f(0.0, 1.0);
-			glVertex2f(0.0, 1.0);
-			glTexCoord2f(1.0, 1.0);
-			glVertex2f(1.0, 1.0);
-		glEnd();
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0);
-		glDisable(GL_TEXTURE_2D);
-#endif
+
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_TEXTURE_RECTANGLE_ARB);
 		glActiveTexture(GL_TEXTURE0);
