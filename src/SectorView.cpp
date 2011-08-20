@@ -632,6 +632,13 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 		return;
 	}
 
+	// '/' focuses the search box
+	if (keysym->sym == SDLK_SLASH) {
+		m_searchBox->SetText("");
+		m_searchBox->GrabFocus();
+		return;
+	}
+
 	// space "locks" (or unlocks) the hyperspace target to the selected system
 	if (keysym->sym == SDLK_SPACE) {
 		if ((m_matchTargetToSelection || m_hyperspaceTarget != m_selected) && !m_selected.IsSameSystem(m_current))
