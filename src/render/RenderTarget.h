@@ -16,8 +16,8 @@ namespace Render {
 		virtual void EndRTT();
 
 		//more readable this way with rendertargets
-		inline void BindTexture() { Texture::Bind(); }
-		inline void UnbindTexture() { Texture::Unbind(); }
+		inline void BindTexture() { Bind(); }
+		inline void UnbindTexture() { Unbind(); }
 
 	protected:
 		/*

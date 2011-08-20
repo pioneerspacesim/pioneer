@@ -80,7 +80,7 @@ public:
 
 	void Unbind() {
 		glBindTexture(GL_TEXTURE_RECTANGLE, 0);
-		glDisable(GL_TEXTURE_RECTANGLE_ARB);
+		glDisable(GL_TEXTURE_RECTANGLE);
 	}
 };
 
@@ -288,8 +288,8 @@ static struct postprocessBuffers_t {
 		const float midGrey = 1.03f - 2.0f/(2.0f+log10(avgLum[0] + 1.0f));
 		
 		glDisable(GL_TEXTURE_2D);
-		glViewport(0,0,width>>1,height>>1);
-		//glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
+		//~ glViewport(0,0,width>>1,height>>1);
+		//~ glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
 		halfSizeRT->BeginRTT();
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);
 		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
@@ -303,14 +303,14 @@ static struct postprocessBuffers_t {
 			glVertex2f(0.0, 1.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
-		//halfSizeRT.EndRTT();
+		halfSizeRT->EndRTT();
 
 		glViewport(0,0,width>>2,height>>2);
 		State::UseProgram(postprocessBloom2Downsample);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);
-		//glBindTexture(GL_TEXTURE_RECTANGLE_ARB, halfsizeTex);
-		//glBindTexture(GL_TEXTURE_RECTANGLE, halfSizeRT->GetGLTexture());
+		//~ glBindTexture(GL_TEXTURE_RECTANGLE_ARB, halfsizeTex);
+		//~ glBindTexture(GL_TEXTURE_RECTANGLE, halfSizeRT->GetGLTexture());
 		halfSizeRT->BindTexture();
 		glBegin(GL_TRIANGLE_STRIP);
 			glVertex2f(0.0, 0.0);
@@ -318,6 +318,7 @@ static struct postprocessBuffers_t {
 			glVertex2f(0.0, 1.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
+		halfSizeRT->UnbindTexture();
 		
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb2);
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);

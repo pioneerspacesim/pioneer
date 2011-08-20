@@ -49,8 +49,8 @@ void RenderTarget::BeginRTT()
 {
 	//save current viewport and bind fbo
 	glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
-	//glPushAttrib(GL_VIEWPORT_BIT);
-	//glViewport(0, 0, m_w, m_h);
+	glPushAttrib(GL_VIEWPORT_BIT);
+	glViewport(0, 0, m_w, m_h);
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glClearColor(0.f, 0.f, 0.f, 1.f);
 }
@@ -58,7 +58,7 @@ void RenderTarget::BeginRTT()
 void RenderTarget::EndRTT()
 {
 	//restore viewport and unbind fbo
-	//glPopAttrib();
+	glPopAttrib();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
