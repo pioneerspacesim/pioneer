@@ -13,7 +13,7 @@
  * Describes the location of a system within the galaxy and optionally, a body
  * within that system.
  *
- * A <SystemPath> consists of four components
+ * A <SystemPath> consists of five components
  *  - the X coordinate of the sector
  *  - the Y coordinate of the sector
  *  - the Z coordinate of the sector
@@ -24,7 +24,7 @@
  * system, space station or other body when specifying hyperspace or other
  * destinations.
  *
- * <SystemPath> objects will compare equal if and only if all four of their
+ * <SystemPath> objects will compare equal if and only if all five of their
  * components are the same. If you want to see if two paths correspond to the
  * same system without reference to their body indexes, use <IsSameSystem>.
  */
