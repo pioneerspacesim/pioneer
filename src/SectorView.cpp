@@ -518,7 +518,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		glPushMatrix();
 		glTranslatef((*i).p.x, (*i).p.y, (*i).p.z);
 
-		glColor4f(0.5f, 0.5f, 0.5f, 0.2f);
+		glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
 		glBegin(GL_LINES);
 			float z = -(*i).p.z;
 			if (sz <= cz)
