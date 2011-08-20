@@ -624,8 +624,13 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 		return;
 	}
 
-	if (m_searchBox->IsFocused())
+	// ignore keypresses if they're typing
+	if (m_searchBox->IsFocused()) {
+		// but if they press enter then we want future keys
+		if (keysym->sym == SDLK_RETURN)
+			m_searchBox->Unfocus();
 		return;
+	}
 
 	// space "locks" (or unlocks) the hyperspace target to the selected system
 	if (keysym->sym == SDLK_SPACE) {
