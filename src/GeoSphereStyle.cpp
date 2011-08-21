@@ -242,7 +242,7 @@ void GeoSphereStyle::InitHeightMap(const SBody *body)
 	/* Height map? */
 	if (body->heightMapFilename) {
 		FILE *f;
-		f = fopen_or_die(body->heightMapFilename, "r");
+		f = fopen_or_die(body->heightMapFilename, "rb");
 		// read size!
 		Uint16 v;
 		fread_or_die(&v, 2, 1, f); m_heightMapSizeX = v;
