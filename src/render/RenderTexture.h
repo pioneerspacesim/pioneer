@@ -22,9 +22,9 @@ namespace Render {
 		 */
 		void Show(float x=0.f, float y=0.f, float w=100.f, float h=100.f);
 	protected:
-		GLuint m_texture;
 		int m_w;
 		int m_h;
+		GLuint m_texture;
 	};
 }
 
