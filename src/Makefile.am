@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider gui
+SUBDIRS = collider gui render
 
 include $(top_srcdir)/Makefile.common
 
@@ -85,8 +85,6 @@ noinst_HEADERS = \
 	Quaternion.h \
 	RefCounted.h \
 	RefList.h \
-	Render.h \
-	RenderShader.h \
 	Sector.h \
 	SectorView.h \
 	Serializer.h \
@@ -204,8 +202,6 @@ pioneer_SOURCES	= \
 	Player.cpp \
 	Polit.cpp \
 	Projectile.cpp \
-	Render.cpp \
-	RenderShader.cpp \
 	Sector.cpp \
 	SectorView.cpp \
 	Serializer.cpp \
@@ -246,7 +242,7 @@ pioneer_SOURCES	= \
 	perlin.cpp \
 	utils.cpp
 
-pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a gui/libgui.a \
+pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a gui/libgui.a render/librender.a \
 		$(MINGW_LIBS) \
 		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
@@ -264,14 +260,12 @@ modelviewer_SOURCES = \
 	LuaModelViewer.cpp \
 	LuaUtils.cpp \
 	MyLuaMathTypes.cpp \
-	Render.cpp \
-	RenderShader.cpp \
 	TextureFont.cpp \
 	TextureManager.cpp \
 	VectorFont.cpp \
 	perlin.cpp \
 	utils.cpp
-modelviewer_LDADD = collider/libcollider.a gui/libgui.a \
+modelviewer_LDADD = collider/libcollider.a gui/libgui.a render/librender.a \
 		    $(MINGW_LIBS) \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
@@ -317,7 +311,7 @@ tests_SOURCES = \
 	tests.cpp \
 	utils.cpp
  
-tests_LDADD = collider/libcollider.a libgui.a
+tests_LDADD = collider/libcollider.a libgui.a librender.a
 
 INCLUDES = -I@top_srcdir@/contrib
 if !HAVE_LUA

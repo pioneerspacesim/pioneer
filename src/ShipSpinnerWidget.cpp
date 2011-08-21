@@ -1,5 +1,5 @@
 #include "ShipSpinnerWidget.h"
-#include "Render.h"
+#include "render/Render.h"
 #include "Pi.h"
 
 ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, float height) :

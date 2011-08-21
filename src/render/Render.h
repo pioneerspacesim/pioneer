@@ -31,6 +31,7 @@ namespace Render {
 	extern Shader *planetRingsShader[4];
 
 	void Init(int screen_width, int screen_height);
+	void Uninit();
 	bool AreShadersEnabled();
 	void ToggleShaders();
 	void ToggleHDR();

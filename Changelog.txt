@@ -17,6 +17,7 @@ Alpha 14
     * New utility functions for floating-point comparisons (#389)
     * Dump Lua engine state to file on exception in Lua module (#370)
     * Lua documentation fixes (#380)
+    * Abstracted the HDR rendering pipeline into discrete components (#396)
 
 Alpha 13
 
