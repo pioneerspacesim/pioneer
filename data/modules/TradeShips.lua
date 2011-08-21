@@ -331,7 +331,7 @@ end
 local updateTradeShipsTable = function ()
 	local total, removed = 0, 0
 	for label, trader in pairs(trade_ships) do
-		if label ~= 'attacker' and label ~= 'interval' then
+		if label ~= 'interval' then
 			total = total + 1
 			if trader.status == 'hyperspace' then
 				-- remove ships not coming here
@@ -352,7 +352,7 @@ end
 local cleanTradeShipsTable = function ()
 	local total, removed = 0, 0
 	for label, trader in pairs(trade_ships) do
-		if label ~= 'attacker' and label ~= 'interval' then
+		if label ~= 'interval' then
 			total = total + 1
 			if trader.status == 'hyperspace' then
 				-- remove well past due ships as the player can not catch them
@@ -396,10 +396,9 @@ EventQueue.onEnterSystem:Connect(onEnterSystem)
 local onLeaveSystem = function (ship)
 	if ship:IsPlayer() then
 		trade_ships['interval'] = nil
-		trade_ships['attacker'] = nil
 		local total, removed = 0, 0
 		for label, trader in pairs(trade_ships) do
-			if label ~= 'attacker' and label ~= 'interval' then
+			if label ~= 'interval' then
 				total = total + 1
 				if trader.status == 'hyperspace' then
 					if trader.arrival_system == Game.system.path then
@@ -589,7 +588,7 @@ local onShipHit = function (ship, attacker)
 	if trader.status == 'outbound' then getSystemAndJump(ship) end
 
 	trader['status'] = 'fleeing'
-	trade_ships['attacker'] = attacker
+	trader['attacker'] = attacker
 
 	-- if distance to starport is far attempt to hyperspace
 	if trader.no_jump ~= true then
