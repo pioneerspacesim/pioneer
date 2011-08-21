@@ -27,6 +27,7 @@ end
 
 local addShipCargo = function (ship)
 	-- XXX rewrite for multiple cargo types
+	local trader = trade_ships[ship.label]
 	if trader.cargo == 'LIVE_ANIMALS' or trader.cargo == 'SLAVES' then
 		ship:AddEquip('CARGO_LIFE_SUPPORT')
 	end
@@ -185,10 +186,6 @@ local spawnInitialShips = function ()
 					-- XXX remove after addShipCargo rewrite
 					cargo 		= exports[Engine.rand:Integer(1, #exports)],
 				}
-				local ship_type = ShipType.GetShipType(ship_name)
-				-- XXX remove after addShipEquip changes complete
-				ship:AddEquip(ship_type.defaultHyperdrive)
-				addFuel(ship)
 			else
 				-- the starport must have been full
 				ship = Space.SpawnShipNear(ship_name, starport, 10000000, 149598000) -- 10mkm - 1AU
