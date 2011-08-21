@@ -70,9 +70,9 @@ local getNearestStarport = function (ship)
 	return starport
 end
 
-local getSystem = function (ship, cargo)
+local getSystem = function (ship, fleeing)
 	-- XXX fix after addShipCargo rewrite
-	-- cargo is optional and will use cargo value in trade_ships table if not given
+	-- fleeing is optional
 	local stats = ship:GetStats()
 	local systems_in_range = Game.system:GetNearbySystems(stats.hyperspaceRange)
 	if #systems_in_range == 0 then return nil end
@@ -80,13 +80,8 @@ local getSystem = function (ship, cargo)
 		return systems_in_range[1].path
 	end
 
-	cargo =	cargo or trade_ships[ship.label]['cargo']
-
-	assert(cargo ~= nil, 'getSystem:cargo is nil')
-	assert(cargo ~= '', 'getSystem:cargo is null')
-
 	local target_system = nil
-	if cargo == 'emergency' then
+	if fleeing == 'fleeing' then
 		-- find the closest system
 		local distance = 1000000
 		for _, next_system in ipairs(systems_in_range) do
@@ -94,18 +89,25 @@ local getSystem = function (ship, cargo)
 				target_system = next_system
 			end
 		end
-		-- XXX should only use this if can get back out of target system
-		-- which means checking for fuel or starports to buy it from
+		-- XXX should maybe only use this if can get back out of target system
+		-- XXX which means checking for fuel or starports to buy it from
 	else
 		-- find best system for cargo
-		local best_price = 0
+		local best_prices = -1000000
+		local cargo_list = ship:GetEquip('CARGO')
 		for _, next_system in ipairs(systems_in_range) do
 			local prices = next_system:GetCommodityBasePriceAlterations()
-			if prices[cargo] >= best_price then
-				best_price = prices[cargo]
-				target_system = next_system
+			local next_prices = 0
+			for _, cargo in ipairs(cargo_list) do
+				next_prices = next_prices + prices[cargo]
+			end
+			if next_prices >= best_prices then
+				target_system, best_prices = next_system, next_prices
 			end
 		end
+--[[	if target_system == nil then
+			target_system = getSystem(ship, 'fleeing')
+		end -- XXX ]] 
 	end
 
 	assert(target_system.path ~= nil, 'getSystem:target_system.path is nil,system:'..target_system.name)
@@ -566,7 +568,7 @@ local onShipHit = function (ship, attacker)
 		elseif Engine.rand:Number(1) < trader.chance then
 			local distance = ship:DistanceTo(trader.starport)
 			if distance > 149598000 * (2 - trader.chance) then -- 149,598,000km = 1AU
-				local target_system = getSystem(ship, 'emergency')
+				local target_system = getSystem(ship, 'fleeing')
 				if target_system ~= nil then
 					jumpToSystem(ship, target_system)
 					return
