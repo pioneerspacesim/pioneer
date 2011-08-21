@@ -965,7 +965,8 @@ int GeoSphere::UpdateLODThread(void *data)
 
 		SDL_Delay(10);
 	}
-	RETURN_NONGNU_ONLY(0);
+
+	RETURN_ZERO_NONGNU_ONLY;
 }
 
 void GeoSphere::_UpdateLODs()

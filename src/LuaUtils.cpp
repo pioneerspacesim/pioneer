@@ -49,7 +49,9 @@ int pi_lua_panic(lua_State *L)
 	Error("%s", errorMsg.c_str());
 	// Error() is noreturn
 
-	RETURN_NONGNU_ONLY(0);
+	// XXX when Lua management is good enough, we can probably remove panic
+	//     entirely in favour of pcall and a nicer error handling system
+	RETURN_ZERO_NONGNU_ONLY;
 }
 
 void pi_lua_protected_call(lua_State* L, int nargs, int nresults) {
