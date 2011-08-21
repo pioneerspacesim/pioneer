@@ -412,10 +412,12 @@ local onShipDocked = function (ship)
 	end
 
 	-- 'sell' trade cargo
+	-- XXX fix after addShipcargo rewrite
 	local cargo_count = ship:RemoveEquip(trader.cargo, 1000000)
 
 	addFuel(ship)
 
+	-- XXX remove after addShipCargo rewrite
 	trader['cargo'] = exports[Engine.rand:Integer(1, #exports)]
 	
 	-- XXX change to addCargo
@@ -589,6 +591,7 @@ local onShipHit = function (ship, attacker)
 	end
 
 	-- maybe jettison a bit of cargo
+	-- XXX fix after addShipCargo rewrite
 	if Engine.rand:Number(1) < trader.chance then
 		if ship:Jettison(trader.cargo) then
 			UI.ImportantMessage(attacker.label..', take this and leave us be, you filthy pirate!', ship.label)
