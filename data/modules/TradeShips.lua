@@ -7,6 +7,7 @@ local addFuel = function (ship)
 	-- the last character of the fitted drive is the class
 	-- the fuel needed for max range is the square of the drive class
 	local count = tonumber(string.sub(drive, -1)) ^ 2
+	-- XXX check how much it already has
 	local added = ship:AddEquip('HYDROGEN', count)
 
 	print(ship.label..' added '..added..' of '..count..' fuel')
@@ -15,12 +16,15 @@ local addFuel = function (ship)
 end
 
 local addShipContents = function (ship)
+	-- XXX retool as addShipEquip
 	local trader = trade_ships[ship.label]
 	-- add equipment
 	local ship_type = ShipType.GetShipType(trader.ship_name)
 	ship:AddEquip(ship_type.defaultHyperdrive)
 	ship:AddEquip('ATMOSPHERIC_SHIELDING')
 	-- XXX could add more, like defenses, based on current or arg system
+
+	-- XXX move into new addShipCargo
 	-- add cargo
 	if trader.cargo == 'LIVE_ANIMALS' or trader.cargo == 'SLAVES' then
 		ship:AddEquip('CARGO_LIFE_SUPPORT')
@@ -177,9 +181,11 @@ local spawnInitialShips = function ()
 					status		= 'docked',
 					starport	= starport,
 					ship_name	= ship_name,
+					-- XXX replace with addShipCargo
 					cargo 		= exports[Engine.rand:Integer(1, #exports)],
 				}
 				local ship_type = ShipType.GetShipType(ship_name)
+				-- XXX remove after addShipEquip changes complete
 				ship:AddEquip(ship_type.defaultHyperdrive)
 				addFuel(ship)
 			else
@@ -189,6 +195,7 @@ local spawnInitialShips = function ()
 					status		= 'inbound',
 					starport	= starport,
 					ship_name	= ship_name,
+					-- XXX replace with addShipCargo
 					cargo 		= imports[Engine.rand:Integer(1, #imports)],
 				}
 			end
@@ -204,6 +211,7 @@ local spawnInitialShips = function ()
 				status		= 'inbound',
 				starport	= getNearestStarport(ship),
 				ship_name	= ship_name,
+				-- XXX replace with addShipCargo
 				cargo 		= imports[Engine.rand:Integer(1, #imports)],
 			}
 		else
@@ -223,13 +231,16 @@ local spawnInitialShips = function ()
 				arrival_system	= Game.system.path,
 				from_system		= from_system.path,
 				ship_name		= ship_name,
+				-- XXX replace with addShipCargo
 				cargo 			= imports[Engine.rand:Integer(1, #imports)],
 			}
 		end
 		local trader = trade_ships[ship.label]
 
 		-- add equipment and cargo
+		-- XXX change to addShipEquip and addFuel
 		addShipContents(ship)
+		-- XXX change to remove fuel after other changes
 		if trader.status ~= 'docked' then
 			-- make space for fuel used to get here
 			ship:RemoveEquip(trader.cargo, 8)
@@ -238,6 +249,7 @@ local spawnInitialShips = function ()
 		-- give orders
 		if trader.status == 'docked' then
 			-- have ship wait 30-45 seconds per unit of cargo
+			-- XXX this will need to be updated once multiple cargo
 			local cargo_count = ship:GetEquipCount('CARGO', trader.cargo)
 			Timer:CallAt(Game.time + (cargo_count * 30 * Engine.rand:Number(1, 1.5)), function ()
 				if ship:exists() then -- player may have left system in meantime
@@ -267,9 +279,12 @@ local spawnReplacement = function ()
 			arrival_system	= Game.system.path,
 			from_system		= from_system.path,
 			ship_name		= ship_name,
+			-- XXX replace with addShipCargo
 			cargo 			= imports[Engine.rand:Integer(1, #imports)],
 		}
+		-- XXX change to addShipEquip and addFuel
 		addShipContents(ship)
+		-- XXX change to fuel
 		ship:RemoveEquip(trade_ships[ship.label]['cargo'], 8)
 	end
 end
@@ -373,7 +388,7 @@ local onFrameChanged = function (ship)
 	if not ship:isa("Ship") or trade_ships[ship.label] == nil then return end
 	local trader = trade_ships[ship.label]
 	if trader.status == 'outbound' then
-		-- a problem with this is that the cloud inherits the ship velocity and vector
+		-- XXX consider that the cloud inherits the ship velocity and vector
 		ship:CancelAI()
 		getSystemAndJump(ship)
 	elseif trader.status == 'inbound' then
@@ -401,6 +416,7 @@ local onShipDocked = function (ship)
 
 	trader['cargo'] = exports[Engine.rand:Integer(1, #exports)]
 	
+	-- XXX change to addCargo
 	if trader.cargo == 'LIVE_ANIMALS' or trader.cargo == 'SLAVES' then
 		ship:AddEquip('CARGO_LIFE_SUPPORT')
 	end
@@ -602,6 +618,7 @@ local onShipDestroyed = function (ship, attacker)
 		-- XXX consider spawning some CargoBodies
 		trade_ships[ship.label] = nil
 		print(ship.label..' destroyed by '..attacker.label)
+		-- XXX consider not spawning replacement
 		spawnReplacement()
 	end
 end
