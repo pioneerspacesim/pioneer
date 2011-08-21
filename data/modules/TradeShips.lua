@@ -26,15 +26,30 @@ local addShipEquip = function (ship)
 end
 
 local addShipCargo = function (ship, direction)
-	-- XXX rewrite for multiple cargo types
-	local trader = trade_ships[ship.label]
-	if trader.cargo == 'LIVE_ANIMALS' or trader.cargo == 'SLAVES' then
-		ship:AddEquip('CARGO_LIFE_SUPPORT')
-	end
-	-- let AddEquip add as many as it can
-	local added = ship:AddEquip(trader.cargo, 1000000)
+	local prices = Game.system:GetCommodityBasePriceAlterations()
+	local added
+	while ship:GetEquipFree('CARGO') > 0 do
+		local cargo
+		-- get random for direction
+		if direction == 'import' then
+			cargo = imports[Engine.rand:Integer(1, #imports)]
+		else
+			cargo = exports[Engine.rand:Integer(1, #exports)]
+		end
+		-- check if requires life support
+		if cargo == 'LIVE_ANIMALS' or cargo == 'SLAVES' then
+			ship:AddEquip('CARGO_LIFE_SUPPORT')
+		end
+		-- add amount based on price
+		local num = math.abs(prices[cargo])
+		num = Engine.rand:Integer(num / 2, num * 2)
 
-	print(ship.label..' added '..added..' cargo of '..trader.cargo)
+		print(ship.label..' adding '..num..'t of '..cargo)
+
+		added = added + ship:AddEquip(cargo, num)
+
+		print(ship.label..' now has '..added..'t of cargo')
+	end
 
 	return added
 end
@@ -184,8 +199,6 @@ local spawnInitialShips = function ()
 					status		= 'docked',
 					starport	= starport,
 					ship_name	= ship_name,
-					-- XXX remove after addShipCargo rewrite
-					cargo 		= exports[Engine.rand:Integer(1, #exports)],
 				}
 			else
 				-- the starport must have been full
@@ -194,8 +207,6 @@ local spawnInitialShips = function ()
 					status		= 'inbound',
 					starport	= starport,
 					ship_name	= ship_name,
-					-- XXX remove after addShipCargo rewrite
-					cargo 		= imports[Engine.rand:Integer(1, #imports)],
 				}
 			end
 		elseif i < num_trade_ships / 4 * 3 then
@@ -210,8 +221,6 @@ local spawnInitialShips = function ()
 				status		= 'inbound',
 				starport	= getNearestStarport(ship),
 				ship_name	= ship_name,
-				-- XXX remove after addShipCargo rewrite
-				cargo 		= imports[Engine.rand:Integer(1, #imports)],
 			}
 		else
 			-- spawn the last quarter in hyperspace
@@ -230,8 +239,6 @@ local spawnInitialShips = function ()
 				arrival_system	= Game.system.path,
 				from_system		= from_system.path,
 				ship_name		= ship_name,
-				-- XXX remove after addShipCargo rewrite
-				cargo 			= imports[Engine.rand:Integer(1, #imports)],
 			}
 		end
 		local trader = trade_ships[ship.label]
@@ -280,8 +287,6 @@ local spawnReplacement = function ()
 			arrival_system	= Game.system.path,
 			from_system		= from_system.path,
 			ship_name		= ship_name,
-			-- XXX remove after addShipCargo rewrite
-			cargo 			= imports[Engine.rand:Integer(1, #imports)],
 		}
 
 		addShipEquip(ship)
@@ -412,14 +417,17 @@ local onShipDocked = function (ship)
 	end
 
 	-- 'sell' trade cargo
-	-- XXX fix after addShipCargo rewrite
-	local cargo_count = ship:RemoveEquip(trader.cargo, 1000000)
+	local cargo_count = 0
+	local cargo_list = ship:GetEquip('CARGO')
+	for i = 1, #cargo_list do
+		local cargo = cargo_list[i]
+		if cargo ~= 'HYDROGEN' and cargo ~= 'SHIELD_GENERATOR' then
+			cargo_count = cargo_count + ship:RemoveEquip(cargo, 1000000)
+		end
+	end
 
+	-- add fuel and new cargo
 	addFuel(ship)
-
-	-- XXX remove after addShipCargo rewrite
-	trader['cargo'] = exports[Engine.rand:Integer(1, #exports)]
-	
 	cargo_count = cargo_count + addShipCargo(ship, 'export')
 
 	-- delay undocking by 30-45 seconds for every unit of cargo transfered
@@ -586,9 +594,11 @@ local onShipHit = function (ship, attacker)
 	end
 
 	-- maybe jettison a bit of cargo
-	-- XXX fix after addShipCargo rewrite
 	if Engine.rand:Number(1) < trader.chance then
-		if ship:Jettison(trader.cargo) then
+		local cargo_list = ship:GetEquip('CARGO')
+		if #cargo_list == 0 then return end
+		local cargo = cargo_list[Engine.rand:Integer(1, #cargo_list)]
+		if cargo ~= 'HYDROGEN' and cargo ~= 'SHIELD_GENERATOR' and ship:Jettison(cargo) then
 			UI.ImportantMessage(attacker.label..', take this and leave us be, you filthy pirate!', ship.label)
 			trader['chance'] = trader.chance - 0.1
 		end
