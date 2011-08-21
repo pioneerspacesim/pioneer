@@ -545,8 +545,10 @@ local onShipAlertChanged = function (ship, alert)
 	if trade_ships[ship.label] == nil then return end
 	print(ship.label..' alert changed to '..alert)
 	local trader = trade_ships[ship.label]
+	if trader.attacker == nil then return end
 
-	if alert == 'NONE' then
+	if alert == 'NONE' or not trader.attacker:exists() or
+	(alert == 'SHIP_NEARBY' and ship:DistanceTo(trader.attacker) > 100) then
 		if trader.status == 'fleeing' then
 			-- had not reached starport yet
 			trader['status'] = 'inbound'
