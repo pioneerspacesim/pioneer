@@ -24,9 +24,10 @@ local addShipContents = function (ship)
 	ship:AddEquip(ship_type.defaultHyperdrive)
 	ship:AddEquip('ATMOSPHERIC_SHIELDING')
 	-- XXX could add more, like defenses, based on current or arg system
+end
 
-	-- XXX move into new addShipCargo
-	-- add cargo
+local addShipCargo = function (ship)
+	-- XXX rewrite for multiple cargo types
 	if trader.cargo == 'LIVE_ANIMALS' or trader.cargo == 'SLAVES' then
 		ship:AddEquip('CARGO_LIFE_SUPPORT')
 	end
