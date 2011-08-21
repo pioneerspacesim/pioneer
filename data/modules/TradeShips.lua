@@ -16,8 +16,7 @@ local addFuel = function (ship)
 	return added
 end
 
-local addShipContents = function (ship)
-	-- XXX retool as addShipEquip
+local addShipEquip = function (ship)
 	local trader = trade_ships[ship.label]
 	-- add equipment
 	local ship_type = ShipType.GetShipType(trader.ship_name)
@@ -241,7 +240,7 @@ local spawnInitialShips = function ()
 
 		-- add equipment and cargo
 		-- XXX change to addShipEquip and addFuel
-		addShipContents(ship)
+		addShipEquip(ship)
 		-- XXX change to remove fuel after other changes
 		if trader.status ~= 'docked' then
 			-- make space for fuel used to get here
@@ -284,7 +283,7 @@ local spawnReplacement = function ()
 			cargo 			= imports[Engine.rand:Integer(1, #imports)],
 		}
 		-- XXX change to addShipEquip and addFuel
-		addShipContents(ship)
+		addShipEquip(ship)
 		-- XXX change to fuel
 		ship:RemoveEquip(trade_ships[ship.label]['cargo'], 8)
 		addShipCargo(ship)
