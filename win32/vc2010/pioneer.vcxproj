@@ -192,8 +192,10 @@
     <ClCompile Include="..\..\src\Player.cpp" />
     <ClCompile Include="..\..\src\Polit.cpp" />
     <ClCompile Include="..\..\src\Projectile.cpp" />
-    <ClCompile Include="..\..\src\Render.cpp" />
-    <ClCompile Include="..\..\src\RenderShader.cpp" />
+    <ClCompile Include="..\..\src\render\Render.cpp" />
+    <ClCompile Include="..\..\src\render\RenderShader.cpp" />
+    <ClCompile Include="..\..\src\render\RenderTarget.cpp" />
+    <ClCompile Include="..\..\src\render\RenderTexture.cpp" />
     <ClCompile Include="..\..\src\Sector.cpp" />
     <ClCompile Include="..\..\src\SectorView.cpp" />
     <ClCompile Include="..\..\src\Serializer.cpp" />
@@ -357,8 +359,10 @@
     <ClInclude Include="..\..\src\Quaternion.h" />
     <ClInclude Include="..\..\src\RefCounted.h" />
     <ClInclude Include="..\..\src\RefList.h" />
-    <ClInclude Include="..\..\src\Render.h" />
-    <ClInclude Include="..\..\src\RenderShader.h" />
+    <ClInclude Include="..\..\src\render\Render.h" />
+    <ClInclude Include="..\..\src\render\RenderShader.h" />
+    <ClInclude Include="..\..\src\render\RenderTarget.h" />
+    <ClInclude Include="..\..\src\render\RenderTexture.h" />
     <ClInclude Include="..\..\src\Sector.h" />
     <ClInclude Include="..\..\src\SectorView.h" />
     <ClInclude Include="..\..\src\Serializer.h" />

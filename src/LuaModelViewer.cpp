@@ -2,7 +2,7 @@
 #include "gui/Gui.h"
 #include "collider/collider.h"
 #include "LmrModel.h"
-#include "Render.h"
+#include "render/Render.h"
 
 static SDL_Surface *g_screen;
 static int g_width, g_height;

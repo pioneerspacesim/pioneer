@@ -1,4 +1,6 @@
 #include "Render.h"
+#include "RenderTarget.h"
+#include <stdexcept>
 
 static GLuint boundArrayBufferObject = 0;
 static GLuint boundElementArrayBufferObject = 0;
@@ -46,6 +48,109 @@ float State::m_zfar = 1e6f;
 float State::m_invLogZfarPlus1;
 Shader *State::m_currentShader = 0;
 
+// 2D Rectangle texture RT
+class RectangleTarget : public RenderTarget {
+public:
+	RectangleTarget() : RenderTarget() { }
+	RectangleTarget(int w, int h, GLint format,
+		GLint internalFormat, GLenum type) {
+		m_w = w;
+		m_h = h;
+
+		glGenFramebuffers(1, &m_fbo);
+		glGenTextures(1, &m_texture);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+		glBindTexture(GL_TEXTURE_RECTANGLE, m_texture);
+		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, internalFormat, w, h, 0,
+			format, type, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+			GL_TEXTURE_RECTANGLE, m_texture, 0);
+
+		CheckCompleteness();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	void Bind() {
+		glEnable(GL_TEXTURE_RECTANGLE);
+		glBindTexture(GL_TEXTURE_RECTANGLE, m_texture);
+	}
+
+	void Unbind() {
+		glBindTexture(GL_TEXTURE_RECTANGLE, 0);
+		glDisable(GL_TEXTURE_RECTANGLE);
+	}
+};
+
+//2D target with mipmaps for capturing scene luminance
+class LuminanceTarget : public RenderTarget {
+public:
+	LuminanceTarget(int w, int h) {
+		m_w = w;
+		m_h = h;
+		glGenFramebuffers(1, &m_fbo);
+		glGenTextures(1, &m_texture);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+		glBindTexture(GL_TEXTURE_2D, m_texture);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+		glGenerateMipmap(GL_TEXTURE_2D);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+			GL_TEXTURE_2D, m_texture, 0);
+		CheckCompleteness();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	void UpdateMipmaps() {
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+};
+
+// Render target with 24-bit depth attachment
+class SceneTarget : public RectangleTarget {
+public:
+	SceneTarget(int w, int h, GLint format,
+		GLint internalFormat, GLenum type) {
+		m_w = w;
+		m_h = h;
+
+		glGenFramebuffers(1, &m_fbo);
+		glGenTextures(1, &m_texture);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+		glBindTexture(GL_TEXTURE_RECTANGLE, m_texture);
+		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, internalFormat, w, h, 0,
+			format, type, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+			GL_TEXTURE_RECTANGLE, m_texture, 0);
+
+		glGenRenderbuffers(1, &m_depth);
+		glBindRenderbuffer(GL_RENDERBUFFER, m_depth);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, w, h);
+		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+			GL_RENDERBUFFER, m_depth);
+
+		CheckCompleteness();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	~SceneTarget() {
+		glDeleteRenderbuffers(1, &m_depth);
+	}
+private:
+	GLuint m_depth;
+};
+
 void BindArrayBuffer(GLuint bo)
 {
 	if (boundArrayBufferObject != bo) {
@@ -79,112 +184,23 @@ void UnbindAllBuffers()
 }
 
 static struct postprocessBuffers_t {
-	GLuint fb, halfsizeFb, bloomFb1, bloomFb2, tex, halfsizeTex, bloomTex1, bloomTex2, depthbuffer, luminanceFb, luminanceTex;
+	bool complete;
+	RectangleTarget *halfSizeRT;
+	LuminanceTarget *luminanceRT;
+	RectangleTarget *bloom1RT;
+	RectangleTarget *bloom2RT;
+	SceneTarget     *sceneRT;
 	int width, height;
-	postprocessBuffers_t() {
-		memset(this, 0, sizeof(postprocessBuffers_t));
-	}
-	bool CheckFBO()
-	{
-		GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-		if (status != GL_FRAMEBUFFER_COMPLETE_EXT) {
-			fprintf(stderr, "Hm. Framebuffer status 0x%x. No HDR for you pal.\n", int(status));
-			return false;
-		} else {
-			return true;
-		}
-	}
+
 	void CreateBuffers(int screen_width, int screen_height) {
 		width = screen_width;
 		height = screen_height;
-		glGenFramebuffersEXT(1, &halfsizeFb);
-		glGenTextures(1, &halfsizeTex);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, halfsizeTex);
-		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGB16F_ARB, width>>1, height>>1, 0, GL_RGB, GL_HALF_FLOAT_ARB, NULL);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_ARB, halfsizeTex, 0);
-		if (!CheckFBO()) {
-			DeleteBuffers();
-			return;
-		}
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
-		glGenFramebuffersEXT(1, &luminanceFb);
-		glGenTextures(1, &luminanceTex);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, luminanceFb);
-		glBindTexture(GL_TEXTURE_2D, luminanceTex);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F_ARB, 128, 128, 0, GL_RGB, GL_FLOAT, NULL);
-		glGenerateMipmapEXT(GL_TEXTURE_2D);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, luminanceTex, 0);
-		if (!CheckFBO()) {
-			DeleteBuffers();
-			return;
-		}
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-		glError();
-
-		glGenFramebuffersEXT(1, &bloomFb1);
-		glGenTextures(1, &bloomTex1);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, bloomTex1);
-		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGB16F_ARB, width>>2, height>>2, 0, GL_RGB, GL_HALF_FLOAT_ARB, NULL);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_ARB, bloomTex1, 0);
-		if (!CheckFBO()) {
-			DeleteBuffers();
-			return;
-		}
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-
-		glGenFramebuffersEXT(1, &bloomFb2);
-		glGenTextures(1, &bloomTex2);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb2);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, bloomTex2);
-		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGB16F_ARB, width>>2, height>>2, 0, GL_RGB, GL_HALF_FLOAT_ARB, NULL);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_ARB, bloomTex2, 0);
-		if (!CheckFBO()) {
-			DeleteBuffers();
-			return;
-		}
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-
-		glGenFramebuffersEXT(1, &fb);
-		glGenTextures(1, &tex);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
-		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGB16F_ARB, width, height, 0, GL_RGB, GL_HALF_FLOAT_ARB, NULL);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_ARB, tex, 0);
-		glError();
-		
-		glGenRenderbuffersEXT(1, &depthbuffer);
-		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, depthbuffer);
-		glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24, width, height);
-		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
-		glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, depthbuffer);
-		glError();
-		if (!CheckFBO()) {
-			DeleteBuffers();
-			return;
-		}
+		halfSizeRT  = new RectangleTarget(width>>1, height>>1, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
+		luminanceRT = new LuminanceTarget(128, 128);
+		bloom1RT = new RectangleTarget(width>>2, height>>2, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
+		bloom2RT = new RectangleTarget(width>>2, height>>2, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
+		sceneRT = new SceneTarget(width, height, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
 
 		postprocessBloom1Downsample = new PostprocessDownsampleShader("postprocessBloom1Downsample", "#extension GL_ARB_texture_rectangle : enable\n");
 		postprocessBloom2Downsample = new PostprocessShader("postprocessBloom2Downsample", "#extension GL_ARB_texture_rectangle : enable\n");
@@ -196,12 +212,11 @@ static struct postprocessBuffers_t {
 		glError();
 	}
 	void DeleteBuffers() {
-		if (fb) glDeleteFramebuffersEXT(1, &fb);
-		if (halfsizeFb) glDeleteFramebuffersEXT(1, &halfsizeFb);
-		if (bloomFb1) glDeleteFramebuffersEXT(1, &bloomFb1);
-		if (bloomFb2) glDeleteFramebuffersEXT(1, &bloomFb2);
-		if (luminanceFb) glDeleteFramebuffersEXT(1, &luminanceFb);
-		fb = halfsizeFb = bloomFb1 = bloomFb2 = luminanceFb = 0;
+		delete halfSizeRT;
+		delete luminanceRT;
+		delete bloom1RT;
+		delete bloom2RT;
+		delete sceneRT;
 	}
 	void DoPostprocess() {
 		glMatrixMode(GL_PROJECTION);
@@ -216,10 +231,8 @@ static struct postprocessBuffers_t {
 		// So, to do proper tone mapping of HDR to LDR we need to know the average luminance
 		// of the scene. We do this by rendering the scene's luminance to a smaller texture,
 		// generating mipmaps for it, and grabbing the luminance at the smallest mipmap level
-		glViewport(0,0,128,128);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, luminanceFb);
-		glEnable(GL_TEXTURE_RECTANGLE_ARB);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
+		luminanceRT->BeginRTT();
+		sceneRT->BindTexture();
 		State::UseProgram(postprocessLuminance);
 		postprocessLuminance->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
@@ -232,11 +245,11 @@ static struct postprocessBuffers_t {
 			glTexCoord2f(width, height);
 			glVertex2f(1.0, 1.0);
 		glEnd();
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-		glDisable(GL_TEXTURE_RECTANGLE_ARB);
-		glBindTexture(GL_TEXTURE_2D, luminanceTex);
-		glEnable(GL_TEXTURE_2D);
-		glGenerateMipmapEXT(GL_TEXTURE_2D);
+		luminanceRT->EndRTT();
+		sceneRT->UnbindTexture();
+
+		luminanceRT->BindTexture();
+		luminanceRT->UpdateMipmaps();
 		float avgLum[4];
 		glGetTexImage(GL_TEXTURE_2D, 7, GL_RGB, GL_FLOAT, avgLum);
 
@@ -247,10 +260,8 @@ static struct postprocessBuffers_t {
 		const float midGrey = 1.03f - 2.0f/(2.0f+log10(avgLum[0] + 1.0f));
 		
 		glDisable(GL_TEXTURE_2D);
-		glViewport(0,0,width>>1,height>>1);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
-		glEnable(GL_TEXTURE_RECTANGLE_ARB);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
+		halfSizeRT->BeginRTT();
+		sceneRT->BindTexture();
 		State::UseProgram(postprocessBloom1Downsample);
 		postprocessBloom1Downsample->set_avgLum(avgLum[0]);
 		postprocessBloom1Downsample->set_middleGrey(midGrey);
@@ -261,22 +272,22 @@ static struct postprocessBuffers_t {
 			glVertex2f(0.0, 1.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
+		halfSizeRT->EndRTT();
 
-		glViewport(0,0,width>>2,height>>2);
+		bloom1RT->BeginRTT();
 		State::UseProgram(postprocessBloom2Downsample);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
-		glEnable(GL_TEXTURE_RECTANGLE_ARB);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, halfsizeTex);
+		halfSizeRT->BindTexture();
 		glBegin(GL_TRIANGLE_STRIP);
 			glVertex2f(0.0, 0.0);
 			glVertex2f(1.0, 0.0);
 			glVertex2f(0.0, 1.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
+		halfSizeRT->UnbindTexture();
+		bloom1RT->EndRTT();
 		
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb2);
-		glEnable(GL_TEXTURE_RECTANGLE_ARB);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, bloomTex1);
+		bloom2RT->BeginRTT();
+		bloom1RT->BindTexture();
 		State::UseProgram(postprocessBloom3VBlur);
 		postprocessBloom3VBlur->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
@@ -285,9 +296,10 @@ static struct postprocessBuffers_t {
 			glVertex2f(0.0, 1.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
+		bloom2RT->EndRTT();
 
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, bloomTex2);
+		bloom1RT->BeginRTT();
+		bloom2RT->BindTexture();
 		State::UseProgram(postprocessBloom4HBlur);
 		postprocessBloom4HBlur->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
@@ -300,14 +312,13 @@ static struct postprocessBuffers_t {
 			glTexCoord2f(1.0, 1.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
+		bloom1RT->EndRTT();
 		
 		glViewport(0,0,width,height);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-		glEnable(GL_TEXTURE_RECTANGLE_ARB);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
+		sceneRT->BindTexture();
 		glActiveTexture(GL_TEXTURE1);
-		glEnable(GL_TEXTURE_RECTANGLE_ARB);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, bloomTex1);
+		bloom1RT->BindTexture();
 		State::UseProgram(postprocessCompose);
 		postprocessCompose->set_fboTex(0);
 		postprocessCompose->set_bloomTex(1);
@@ -321,36 +332,13 @@ static struct postprocessBuffers_t {
 			glVertex2f(1.0, 1.0);
 		glEnd();
 		State::UseProgram(0);
-#if 0
-		glViewport(0,0,width,height);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-		glEnable(GL_TEXTURE_2D);
-		glDisable(GL_TEXTURE_RECTANGLE_ARB);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0);
-		glColor3f(1.0,1.0,1.0);
-		glBindTexture(GL_TEXTURE_2D, luminanceTex);
-		State::UseProgram(0);
-		glBegin(GL_TRIANGLE_STRIP);
-			glTexCoord2f(0.0, 0.0);
-			glVertex2f(0.0, 0.0);
-			glTexCoord2f(1.0, 0.0);
-			glVertex2f(1.0, 0.0);
-			glTexCoord2f(0.0, 1.0);
-			glVertex2f(0.0, 1.0);
-			glTexCoord2f(1.0, 1.0);
-			glVertex2f(1.0, 1.0);
-		glEnd();
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0);
-		glDisable(GL_TEXTURE_2D);
-#endif
+
 		glEnable(GL_DEPTH_TEST);
-		glDisable(GL_TEXTURE_RECTANGLE_ARB);
+		bloom1RT->UnbindTexture();
 		glActiveTexture(GL_TEXTURE0);
-		glDisable(GL_TEXTURE_RECTANGLE_ARB);
+		sceneRT->UnbindTexture();
 		glError();
 	}
-	bool Initted() { return fb ? true : false; }
 } s_hdrBufs;
 
 void Init(int screen_width, int screen_height)
@@ -362,8 +350,16 @@ void Init(int screen_width, int screen_height)
 
 	// Framebuffers for HDR
 	hdrAvailable = glewIsSupported("GL_EXT_framebuffer_object GL_ARB_color_buffer_float GL_ARB_texture_rectangle");
-	if (hdrAvailable)
-		s_hdrBufs.CreateBuffers(screen_width, screen_height);
+	if (hdrAvailable) {
+		try {
+			s_hdrBufs.CreateBuffers(screen_width, screen_height);
+		} catch (std::runtime_error &ex) {
+			fprintf(stderr, "HDR initialization error: %s\n", ex.what());
+			s_hdrBufs.DeleteBuffers();
+			hdrAvailable = false;
+			hdrEnabled = false;
+		}
+	}
 	
 	initted = true;
 
@@ -377,18 +373,34 @@ void Init(int screen_width, int screen_height)
 	}
 }
 
+void Uninit()
+{
+	s_hdrBufs.DeleteBuffers();
+	delete simpleShader;
+	delete billboardShader;
+	delete planetRingsShader[0];
+	delete planetRingsShader[1];
+	delete planetRingsShader[2];
+	delete planetRingsShader[3];
+}
+
 bool IsHDREnabled() { return shadersEnabled && hdrEnabled; }
 bool IsHDRAvailable() { return hdrAvailable; }
 
 void PrepareFrame()
 {
-	if (IsHDRAvailable())
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, IsHDREnabled() ? s_hdrBufs.fb : 0);
+	if (IsHDRAvailable()) {
+		if (IsHDREnabled())
+			s_hdrBufs.sceneRT->BeginRTT();
+		else
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
 }
 
 void PostProcess()
 {
 	if (IsHDREnabled()) {
+		s_hdrBufs.sceneRT->EndRTT();
 		s_hdrBufs.DoPostprocess();
 	}
 }

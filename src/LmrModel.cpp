@@ -5,7 +5,7 @@
 #include "LmrModel.h"
 #include "collider/collider.h"
 #include "perlin.h"
-#include "Render.h"
+#include "render/Render.h"
 #include "BufferObject.h"
 #include "LuaUtils.h"
 #include "TextureManager.h"
