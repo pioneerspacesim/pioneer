@@ -3,7 +3,7 @@
 #include "perlin.h"
 #include "Pi.h"
 #include "StarSystem.h"
-#include "Render.h"
+#include "render/Render.h"
 
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0

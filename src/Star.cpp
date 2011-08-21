@@ -3,7 +3,7 @@
 #include "Pi.h"
 #include "WorldView.h"
 #include "Serializer.h"
-#include "Render.h"
+#include "render/Render.h"
 
 Star::Star(SBody *sbody): Body()
 {

@@ -15,7 +15,7 @@
 #include "Sfx.h"
 #include "Missile.h"
 #include "HyperspaceCloud.h"
-#include "Render.h"
+#include "render/Render.h"
 #include "WorldView.h"
 #include "SectorView.h"
 
