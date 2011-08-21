@@ -44,7 +44,33 @@ void RenderTarget::CheckCompleteness() const
 	const GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (status != GL_FRAMEBUFFER_COMPLETE) {
 		std::ostringstream ss;
-		ss << "FBO incomplete, status 0x" << int(status);
+		ss << "FBO error, ";
+		switch (status) {
+		case GL_FRAMEBUFFER_UNSUPPORTED:
+			ss << "Unsupported formats";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+			ss << "Incomplete attachment";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+			ss << "Missing attachment";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
+			ss << "Incomplete dimensions";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT:
+			ss << "Incomplete formats";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+			ss << "Incomplete draw buffer";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+			ss << "Incomplete read buffer";
+			break;
+		default:
+			ss << "Unknown status " << status;
+			break;
+		}
 		throw std::runtime_error(ss.str());
 	}
 }
