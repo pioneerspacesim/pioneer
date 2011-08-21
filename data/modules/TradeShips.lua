@@ -247,12 +247,11 @@ local spawnInitialShips = function ()
 			-- make space for fuel used to get here
 			ship:RemoveEquip(trader.cargo, 8)
 		end
+		local cargo_count = addShipCargo(ship)
 
 		-- give orders
 		if trader.status == 'docked' then
 			-- have ship wait 30-45 seconds per unit of cargo
-			-- XXX this will need to be updated once multiple cargo
-			local cargo_count = ship:GetEquipCount('CARGO', trader.cargo)
 			Timer:CallAt(Game.time + (cargo_count * 30 * Engine.rand:Number(1, 1.5)), function ()
 				if ship:exists() then -- player may have left system in meantime
 					ship:Undock()
@@ -288,6 +287,7 @@ local spawnReplacement = function ()
 		addShipContents(ship)
 		-- XXX change to fuel
 		ship:RemoveEquip(trade_ships[ship.label]['cargo'], 8)
+		addShipCargo(ship)
 	end
 end
 
