@@ -420,12 +420,7 @@ local onShipDocked = function (ship)
 	-- XXX remove after addShipCargo rewrite
 	trader['cargo'] = exports[Engine.rand:Integer(1, #exports)]
 	
-	-- XXX change to addCargo
-	if trader.cargo == 'LIVE_ANIMALS' or trader.cargo == 'SLAVES' then
-		ship:AddEquip('CARGO_LIFE_SUPPORT')
-	end
-	-- let AddEquip add as many as it can
-	cargo_count = cargo_count + ship:AddEquip(trader.cargo, 1000000)
+	cargo_count = cargo_count + addShipCargo(ship)
 
 	-- delay undocking by 30-45 seconds for every unit of cargo transfered
 	trader['delay'] = Game.time + (cargo_count * 30 * Engine.rand:Number(1, 1.5))
