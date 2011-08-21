@@ -42,7 +42,7 @@ local addShipCargo = function (ship, direction)
 		end
 		-- add amount based on price
 		local num = math.abs(prices[cargo])
-		num = Engine.rand:Integer(num / 2, num * 2)
+		num = Engine.rand:Integer(num, num * 3)
 
 		print(ship.label..' adding '..num..'t of '..cargo)
 
