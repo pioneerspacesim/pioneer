@@ -100,6 +100,7 @@ noinst_HEADERS = \
 	StationShipRepairForm.h \
 	StationShipViewForm.h \
 	StationShipyardForm.h \
+	StringF.h \
 	Sfx.h \
 	Ship.h \
 	ShipAICmd.h \
@@ -219,6 +220,7 @@ pioneer_SOURCES	= \
 	StationShipRepairForm.cpp \
 	StationShipViewForm.cpp \
 	StationShipyardForm.cpp \
+	StringF.cpp \
 	Sfx.cpp \
 	Ship-AI.cpp \
 	Ship.cpp \
@@ -266,6 +268,7 @@ modelviewer_SOURCES = \
 	MyLuaMathTypes.cpp \
 	Render.cpp \
 	RenderShader.cpp \
+	StringF.cpp \
 	TextureFont.cpp \
 	TextureManager.cpp \
 	VectorFont.cpp \
@@ -308,6 +311,7 @@ tests_SOURCES = \
 	SpaceStationView.cpp \
 	Star.cpp \
 	StarSystem.cpp \
+	StringF.cpp \
 	SystemInfoView.cpp \
 	SystemView.cpp \
 	WorldView.cpp \
