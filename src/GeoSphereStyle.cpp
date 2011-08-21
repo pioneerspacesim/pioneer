@@ -1035,7 +1035,8 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			// cliffs at shore
 			if (continents < 0.001) n += m * continents * 1000.0f;
 			else n += m;
-			n -= 0.001*ridged_octavenoise(m_fracdef[6], 0.5*distrib, p);
+			// was n -= 0.001*ridged_octavenoise(m_fracdef[6], 0.5*distrib, p);
+			n += 0.001*ridged_octavenoise(m_fracdef[6], 0.5*distrib, p);
 			return m_maxHeight * n;
 		}
 		case TERRAIN_HILLS_DUNES:
@@ -1069,7 +1070,8 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			// cliffs at shore
 			if (continents < 0.01) n += m * continents * 100.0f;
 			else n += m;
-			n -= 0.001*ridged_octavenoise(m_fracdef[6], 0.55*distrib*m, p);
+			// was n -= 0.001*ridged_octavenoise(m_fracdef[6], 0.55*distrib*m, p);
+			n += 0.001*ridged_octavenoise(m_fracdef[6], 0.55*distrib*m, p);
 			return m_maxHeight * n;
 		}
 		case TERRAIN_HILLS_RIVERS:
