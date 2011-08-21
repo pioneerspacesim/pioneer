@@ -18,11 +18,39 @@ end
 
 local addShipEquip = function (ship)
 	local trader = trade_ships[ship.label]
-	-- add equipment
 	local ship_type = ShipType.GetShipType(trader.ship_name)
+
+	-- add standard equipment
 	ship:AddEquip(ship_type.defaultHyperdrive)
 	ship:AddEquip('ATMOSPHERIC_SHIELDING')
-	-- XXX could add more, like defenses, based on current or arg system
+	ship:AddEquip('SCANNER')
+	ship:AddEquip('AUTOPILOT')
+
+	-- add defensive equipment based on lawlessness, luck and size
+	local lawlessness = Game.system.lawlessness
+	local size_factor = ship:GetEquipFree('CARGO') ^ 2 / 2000000
+
+	if Engine.rand:Number(1) - 0.1 < lawlessness then
+		local num = math.floor(math.sqrt(ship:GetEquipFree('CARGO') / 50))
+		ship:AddEquip('SHIELD_GENERATOR', num)
+		if ship_type:GetEquipSlotCapacity('ENERGYBOOSTER') > 0 and
+		Engine.rand:Number(1) + 0.5 - size_factor < lawlessness then
+			ship:AddEquip('SHIELD_ENERGY_BOOSTER')
+		end
+	end
+
+	-- we can't use these yet
+	if Engine.rand:Number(1) + 0.2 < lawlessness then
+		ship:AddEquip('ECM_ADVANCED')
+	elseif Engine.rand:Number(1) < lawlessness then
+		ship:AddEquip('ECM_BASIC')
+	end
+
+	-- this should be rare
+	if ship_type:GetEquipSlotCapacity('HULLAUTOREPAIR') > 0 and
+	Engine.rand:Number(1) + 0.75 - size_factor < lawlessness then
+		ship:AddEquip('HULL_AUTOREPAIR')
+	end
 end
 
 local addShipCargo = function (ship, direction)
