@@ -126,8 +126,10 @@
     <ClCompile Include="..\..\src\LuaUtils.cpp" />
     <ClCompile Include="..\..\src\MyLuaMathTypes.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
-    <ClCompile Include="..\..\src\RenderShader.cpp" />
     <ClCompile Include="..\..\src\render\Render.cpp" />
+    <ClCompile Include="..\..\src\render\RenderShader.cpp" />
+    <ClCompile Include="..\..\src\render\RenderTarget.cpp" />
+    <ClCompile Include="..\..\src\render\RenderTexture.cpp" />
     <ClCompile Include="..\..\src\TextureFont.cpp" />
     <ClCompile Include="..\..\src\TextureManager.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
@@ -181,8 +183,10 @@
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\MyLuaMathTypes.h" />
     <ClInclude Include="..\..\src\perlin.h" />
-    <ClInclude Include="..\..\src\RenderShader.h" />
     <ClInclude Include="..\..\src\render\Render.h" />
+    <ClInclude Include="..\..\src\render\RenderShader.h" />
+    <ClInclude Include="..\..\src\render\RenderTarget.h" />
+    <ClInclude Include="..\..\src\render\RenderTexture.h" />
     <ClInclude Include="..\..\src\TextureFont.h" />
     <ClInclude Include="..\..\src\TextureManager.h" />
     <ClInclude Include="..\..\src\utils.h" />

@@ -237,9 +237,6 @@
     <ClCompile Include="..\..\src\Projectile.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\RenderShader.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Sector.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -451,6 +448,9 @@
       <Filter>src\render</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\render\Render.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\RenderShader.cpp">
       <Filter>src\render</Filter>
     </ClCompile>
   </ItemGroup>
@@ -722,9 +722,6 @@
     <ClInclude Include="..\..\src\RefList.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\RenderShader.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Sector.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -945,6 +942,9 @@
       <Filter>src\render</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\render\Render.h">
+      <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\RenderShader.h">
       <Filter>src\render</Filter>
     </ClInclude>
   </ItemGroup>

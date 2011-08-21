@@ -57,9 +57,6 @@
     <ClCompile Include="..\..\src\LuaUtils.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\RenderShader.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\TextureFont.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -153,6 +150,15 @@
     <ClCompile Include="..\..\src\render\Render.cpp">
       <Filter>src\render</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\render\RenderShader.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\RenderTarget.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\RenderTexture.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\pch.h">
@@ -201,9 +207,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaUtils.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\RenderShader.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\TextureFont.h">
@@ -306,6 +309,15 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\render\Render.h">
+      <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\RenderShader.h">
+      <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\RenderTarget.h">
+      <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\RenderTexture.h">
       <Filter>src\render</Filter>
     </ClInclude>
   </ItemGroup>
