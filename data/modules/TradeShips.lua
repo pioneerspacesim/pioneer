@@ -27,7 +27,7 @@ end
 
 local addShipCargo = function (ship, direction)
 	local prices = Game.system:GetCommodityBasePriceAlterations()
-	local added
+	local added = 0
 	while ship:GetEquipFree('CARGO') > 0 do
 		local cargo
 		-- get random for direction
