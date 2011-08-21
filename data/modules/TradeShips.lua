@@ -7,7 +7,8 @@ local addFuel = function (ship)
 	-- the last character of the fitted drive is the class
 	-- the fuel needed for max range is the square of the drive class
 	local count = tonumber(string.sub(drive, -1)) ^ 2
-	-- XXX check how much it already has
+	-- account for fuel it already has
+	count = count - ship:GetEquipCount('CARGO', 'HYDROGEN')
 	local added = ship:AddEquip('HYDROGEN', count)
 
 	print(ship.label..' added '..added..' of '..count..' fuel')
