@@ -127,7 +127,9 @@ local getSystem = function (ship, fleeing)
 			local prices = next_system:GetCommodityBasePriceAlterations()
 			local next_prices = 0
 			for _, cargo in ipairs(cargo_list) do
-				next_prices = next_prices + prices[cargo]
+				if cargo ~= 'HYDROGEN' and cargo ~= 'SHIELD_GENERATOR' then
+					next_prices = next_prices + prices[cargo]
+				end
 			end
 			if next_prices >= best_prices then
 				target_system, best_prices = next_system, next_prices
