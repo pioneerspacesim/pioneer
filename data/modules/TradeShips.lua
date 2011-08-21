@@ -25,7 +25,7 @@ local addShipEquip = function (ship)
 	-- XXX could add more, like defenses, based on current or arg system
 end
 
-local addShipCargo = function (ship)
+local addShipCargo = function (ship, direction)
 	-- XXX rewrite for multiple cargo types
 	local trader = trade_ships[ship.label]
 	if trader.cargo == 'LIVE_ANIMALS' or trader.cargo == 'SLAVES' then
@@ -56,6 +56,7 @@ local getNearestStarport = function (ship)
 end
 
 local getSystem = function (ship, cargo)
+	-- XXX fix after addShipCargo rewrite
 	-- cargo is optional and will use cargo value in trade_ships table if not given
 	local stats = ship:GetStats()
 	local systems_in_range = Game.system:GetNearbySystems(stats.hyperspaceRange)
@@ -238,11 +239,13 @@ local spawnInitialShips = function ()
 		-- add equipment and cargo
 		addShipEquip(ship)
 		local fuel_added = addFuel(ship)
+		local direction = 'export'
 		if trader.status ~= 'docked' then
+			direction = 'import'
 			-- remove fuel used to get here
 			ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
 		end
-		local cargo_count = addShipCargo(ship)
+		local cargo_count = addShipCargo(ship, direction)
 
 		-- give orders
 		if trader.status == 'docked' then
@@ -284,7 +287,7 @@ local spawnReplacement = function ()
 		addShipEquip(ship)
 		local fuel_added = addFuel(ship)
 		ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
-		addShipCargo(ship)
+		addShipCargo(ship, 'import')
 	end
 end
 
@@ -417,7 +420,7 @@ local onShipDocked = function (ship)
 	-- XXX remove after addShipCargo rewrite
 	trader['cargo'] = exports[Engine.rand:Integer(1, #exports)]
 	
-	cargo_count = cargo_count + addShipCargo(ship)
+	cargo_count = cargo_count + addShipCargo(ship, 'export')
 
 	-- delay undocking by 30-45 seconds for every unit of cargo transfered
 	trader['delay'] = Game.time + (cargo_count * 30 * Engine.rand:Number(1, 1.5))
