@@ -28,7 +28,7 @@ end
 local addShipCargo = function (ship, direction)
 	local prices = Game.system:GetCommodityBasePriceAlterations()
 	local added = 0
-	local factor = ship:GetEquipFree('CARGO') / 50
+	local size_factor = ship:GetEquipFree('CARGO') / 50
 	while ship:GetEquipFree('CARGO') > 0 do
 		local cargo
 		-- get random for direction
@@ -41,9 +41,9 @@ local addShipCargo = function (ship, direction)
 		if cargo == 'LIVE_ANIMALS' or cargo == 'SLAVES' then
 			ship:AddEquip('CARGO_LIFE_SUPPORT')
 		end
-		-- add amount based on price
+		-- add amount based on price and size of ship
 		local num = math.abs(prices[cargo])
-		num = Engine.rand:Integer(num, num * factor)
+		num = Engine.rand:Integer(num * size_factor, num * size_factor ^ 2)
 
 		print(ship.label..' adding '..num..'t of '..cargo)
 
