@@ -182,7 +182,7 @@ local spawnInitialShips = function ()
 					status		= 'docked',
 					starport	= starport,
 					ship_name	= ship_name,
-					-- XXX replace with addShipCargo
+					-- XXX remove after addShipCargo rewrite
 					cargo 		= exports[Engine.rand:Integer(1, #exports)],
 				}
 				local ship_type = ShipType.GetShipType(ship_name)
@@ -196,7 +196,7 @@ local spawnInitialShips = function ()
 					status		= 'inbound',
 					starport	= starport,
 					ship_name	= ship_name,
-					-- XXX replace with addShipCargo
+					-- XXX remove after addShipCargo rewrite
 					cargo 		= imports[Engine.rand:Integer(1, #imports)],
 				}
 			end
@@ -212,7 +212,7 @@ local spawnInitialShips = function ()
 				status		= 'inbound',
 				starport	= getNearestStarport(ship),
 				ship_name	= ship_name,
-				-- XXX replace with addShipCargo
+				-- XXX remove after addShipCargo rewrite
 				cargo 		= imports[Engine.rand:Integer(1, #imports)],
 			}
 		else
@@ -232,19 +232,18 @@ local spawnInitialShips = function ()
 				arrival_system	= Game.system.path,
 				from_system		= from_system.path,
 				ship_name		= ship_name,
-				-- XXX replace with addShipCargo
+				-- XXX remove after addShipCargo rewrite
 				cargo 			= imports[Engine.rand:Integer(1, #imports)],
 			}
 		end
 		local trader = trade_ships[ship.label]
 
 		-- add equipment and cargo
-		-- XXX change to addShipEquip and addFuel
 		addShipEquip(ship)
-		-- XXX change to remove fuel after other changes
+		local fuel_added = addFuel(ship)
 		if trader.status ~= 'docked' then
-			-- make space for fuel used to get here
-			ship:RemoveEquip(trader.cargo, 8)
+			-- remove fuel used to get here
+			ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
 		end
 		local cargo_count = addShipCargo(ship)
 
@@ -269,9 +268,11 @@ local spawnReplacement = function ()
 	if #starports > 0 and Game.system.population > 0 and #imports > 0 and #exports > 0 then
 		local ship_names = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= 100 end)
 		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
+
 		local arrival = Game.time + Engine.rand:Number(trade_ships.interval, trade_ships.interval * 2)
 		local local_systems = Game.system:GetNearbySystems(20)
 		local from_system = local_systems[Engine.rand:Integer(1, #local_systems)]
+
 		local ship = Space.SpawnShip(ship_name, 9, 11, {from_system.path, arrival})
 		trade_ships[ship.label] = {
 			status			= 'hyperspace',
@@ -279,13 +280,13 @@ local spawnReplacement = function ()
 			arrival_system	= Game.system.path,
 			from_system		= from_system.path,
 			ship_name		= ship_name,
-			-- XXX replace with addShipCargo
+			-- XXX remove after addShipCargo rewrite
 			cargo 			= imports[Engine.rand:Integer(1, #imports)],
 		}
-		-- XXX change to addShipEquip and addFuel
+
 		addShipEquip(ship)
-		-- XXX change to fuel
-		ship:RemoveEquip(trade_ships[ship.label]['cargo'], 8)
+		local fuel_added = addFuel(ship)
+		ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
 		addShipCargo(ship)
 	end
 end
@@ -411,7 +412,7 @@ local onShipDocked = function (ship)
 	end
 
 	-- 'sell' trade cargo
-	-- XXX fix after addShipcargo rewrite
+	-- XXX fix after addShipCargo rewrite
 	local cargo_count = ship:RemoveEquip(trader.cargo, 1000000)
 
 	addFuel(ship)
