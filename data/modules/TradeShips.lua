@@ -72,7 +72,6 @@ local getNearestStarport = function (ship)
 end
 
 local getSystem = function (ship, fleeing)
-	-- XXX fix after addShipCargo rewrite
 	-- fleeing is optional
 	local stats = ship:GetStats()
 	local systems_in_range = Game.system:GetNearbySystems(stats.hyperspaceRange)
@@ -398,11 +397,12 @@ local onFrameChanged = function (ship)
 	if not ship:isa("Ship") or trade_ships[ship.label] == nil then return end
 	local trader = trade_ships[ship.label]
 	if trader.status == 'outbound' then
-		-- XXX consider that the cloud inherits the ship velocity and vector
+		-- the cloud inherits the ship velocity and vector
 		ship:CancelAI()
 		getSystemAndJump(ship)
 	elseif trader.status == 'inbound' then
-		-- no need to cancel, issuing a new AI order does that 
+		-- no need to cancel, issuing a new AI order does that
+		-- XXX orbit might work better
 		ship:AIDockWith(trader.starport)
 	end
 end
