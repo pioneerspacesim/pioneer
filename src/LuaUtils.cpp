@@ -48,6 +48,8 @@ int pi_lua_panic(lua_State *L)
 	errorMsg += "\n";
 	Error("%s", errorMsg.c_str());
 	// Error() is noreturn
+
+	RETURN_NONGNU_ONLY(0);
 }
 
 void pi_lua_protected_call(lua_State* L, int nargs, int nresults) {
