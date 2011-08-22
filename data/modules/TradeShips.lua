@@ -444,6 +444,10 @@ local onShipDocked = function (ship)
 	else
 		trader['status'] = 'docked'
 	end
+	if trader.chance then
+		trader['chance'] = trader.chance / 2
+		trader['last_flee'], trader['no_jump'], trader['answered'] = nil, nil, nil
+	end
 
 	-- 'sell' trade cargo
 	local cargo_count = 0
@@ -543,6 +547,7 @@ local onShipAlertChanged = function (ship, alert)
 
 	if alert == 'NONE' or not trader.attacker:exists() or
 	(alert == 'SHIP_NEARBY' and ship:DistanceTo(trader.attacker) > 100) then
+		trader['attacker'] = nil
 		if trader.status == 'fleeing' then
 			-- had not reached starport yet
 			trader['status'] = 'inbound'
