@@ -13,7 +13,7 @@ Alpha 14
     * Tweak to texture scaling to make edges sharper (#391)
 
   * Internal changes
-    * Lots of internal cleanups; silences most remaining warnings (#373, #375, #389, #392)
+    * Lots of internal cleanups; silences most remaining warnings (#373, #375, #389, #392, #383, #399)
     * New utility functions for floating-point comparisons (#389)
     * Dump Lua engine state to file on exception in Lua module (#370)
     * Lua documentation fixes (#380)
