@@ -48,7 +48,6 @@ local onChat = function (form, ref, option)
 			UI.Message("Thank you. All donations are welcome.")
 		end
 		Game.player:AddMoney(-option)
-		form:Refresh()
 	end
 end
 
