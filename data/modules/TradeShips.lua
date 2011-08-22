@@ -660,10 +660,13 @@ EventQueue.onShipCollided:Connect(onShipCollided)
 local onShipDestroyed = function (ship, attacker)
 	if trade_ships[ship.label] ~= nil then
 		-- XXX consider spawning some CargoBodies
+
 		trade_ships[ship.label] = nil
 		print(ship.label..' destroyed by '..attacker.label)
-		-- XXX consider not spawning replacement
-		spawnReplacement()
+
+		if not attacker:isa("Ship") then
+			spawnReplacement()
+		end
 	end
 end
 EventQueue.onShipDestroyed:Connect(onShipDestroyed)
