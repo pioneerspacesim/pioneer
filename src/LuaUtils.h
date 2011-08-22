@@ -9,6 +9,8 @@ extern "C" {
 #include "lua/lualib.h"
 }
 
+#include "utils.h"
+
 inline void pi_lua_settable(lua_State *l, const char *key, int value)
 {
 	lua_pushstring(l, key);
