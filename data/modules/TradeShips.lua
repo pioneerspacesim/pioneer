@@ -147,6 +147,8 @@ local getSystem = function (ship, fleeing)
 end
 
 local jumpToSystem = function (ship, target_path)
+	if target_path == nil then return nil end
+
 	local status, fuel, duration = ship:CanHyperspaceTo(target_path)
 	-- make it so
 	status = ship:HyperspaceTo(target_path)
@@ -163,7 +165,6 @@ local jumpToSystem = function (ship, target_path)
 end
 
 local getSystemAndJump = function (ship)
-	-- must only be used if can't fail
 	return jumpToSystem(ship, getSystem(ship))
 end
 
@@ -367,12 +368,9 @@ local onEnterSystem = function (ship)
 			print(ship.label..' entered '..Game.system.name)
 			if #starports == 0 then
 				-- this only happens if player has followed ship to empty system
-				local target_system = getSystem(ship)
-				if target_system ~= nil then
-					jumpToSystem(ship, target_system)
-				end
-				-- if we couldn't reach any systems we're fucked
-				-- wait for player to attack and let onShipHit take over
+
+				getSystemAndJump(ship)
+				-- if we couldn't reach any systems wait for player to attack
 			else
 				local starport = getNearestStarport(ship)
 				ship:AIDockWith(starport)
