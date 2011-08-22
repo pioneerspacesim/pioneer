@@ -328,19 +328,17 @@ end
 local updateTradeShipsTable = function ()
 	local total, removed = 0, 0
 	for label, trader in pairs(trade_ships) do
-		if label ~= 'interval' then
-			total = total + 1
-			if trader.status == 'hyperspace' then
-				-- remove ships not coming here
-				if trader.arrival_system ~= Game.system.path then
-					trade_ships[label] = nil
-					removed = removed + 1
-				end
-			else
-				-- remove ships that are not in hyperspace
+		total = total + 1
+		if trader.status == 'hyperspace' then
+			-- remove ships not coming here
+			if trader.arrival_system ~= Game.system.path then
 				trade_ships[label] = nil
 				removed = removed + 1
 			end
+		else
+			-- remove ships that are not in hyperspace
+			trade_ships[label] = nil
+			removed = removed + 1
 		end
 	end
 	print('updateTSTable:total:'..total..',removed:'..removed)
@@ -395,19 +393,17 @@ local onLeaveSystem = function (ship)
 		trade_ships['interval'] = nil
 		local total, removed = 0, 0
 		for label, trader in pairs(trade_ships) do
-			if label ~= 'interval' then
-				total = total + 1
-				if trader.status == 'hyperspace' then
-					if trader.arrival_system == Game.system.path then
-						-- remove ships that are in hyperspace to here
-						trade_ships[label] = nil
-						removed = removed + 1
-					end
-				else
-					-- remove all ships that are not in hyperspace
+			total = total + 1
+			if trader.status == 'hyperspace' then
+				if trader.arrival_system == Game.system.path then
+					-- remove ships that are in hyperspace to here
 					trade_ships[label] = nil
 					removed = removed + 1
 				end
+			else
+				-- remove all ships that are not in hyperspace
+				trade_ships[label] = nil
+				removed = removed + 1
 			end
 		end
 		print('onLeaveSystem:total:'..total..',removed:'..removed)
