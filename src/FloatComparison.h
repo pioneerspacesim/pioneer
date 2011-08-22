@@ -1,7 +1,7 @@
 #ifndef _FLOATCOMPARISON_H
 #define _FLOATCOMPARISON_H
 
-#include <stdint.h>
+#include <SDL_stdinc.h>
 #include <limits>
 
 // Fuzzy floating point comparisons based on:
