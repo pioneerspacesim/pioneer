@@ -28,9 +28,9 @@
 // but other compilers which don't see the noreturn attribute of course require that
 // a function with a non-void return type should return something.
 #ifndef __GNUC__
-#define RETURN_NONGNU_ONLY(x) return(x)
+#define RETURN_ZERO_NONGNU_ONLY return 0;
 #else
-#define RETURN_NONGNU_ONLY(x) (void)(x)
+#define RETURN_ZERO_NONGNU_ONLY
 #endif
 
 void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribute((noreturn));
