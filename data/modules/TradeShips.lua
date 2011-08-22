@@ -7,11 +7,11 @@ local addFuel = function (ship)
 	-- the last character of the fitted drive is the class
 	-- the fuel needed for max range is the square of the drive class
 	local count = tonumber(string.sub(drive, -1)) ^ 2
+
 	-- account for fuel it already has
 	count = count - ship:GetEquipCount('CARGO', 'HYDROGEN')
-	local added = ship:AddEquip('HYDROGEN', count)
 
-	print(ship.label..' added '..added..' of '..count..' fuel')
+	local added = ship:AddEquip('HYDROGEN', count)
 
 	return added
 end
@@ -57,27 +57,27 @@ local addShipCargo = function (ship, direction)
 	local prices = Game.system:GetCommodityBasePriceAlterations()
 	local added = 0
 	local size_factor = ship:GetEquipFree('CARGO') / 50
+
 	while ship:GetEquipFree('CARGO') > 0 do
 		local cargo
+
 		-- get random for direction
 		if direction == 'import' then
 			cargo = imports[Engine.rand:Integer(1, #imports)]
 		else
 			cargo = exports[Engine.rand:Integer(1, #exports)]
 		end
+
 		-- check if requires life support
 		if cargo == 'LIVE_ANIMALS' or cargo == 'SLAVES' then
 			ship:AddEquip('CARGO_LIFE_SUPPORT')
 		end
-		-- add amount based on price and size of ship
+
+		-- amount based on price and size of ship
 		local num = math.abs(prices[cargo])
 		num = Engine.rand:Integer(num * size_factor + 10, num * size_factor ^ 1.5 + 20)
 
-		print(ship.label..' adding '..num..'t of '..cargo)
-
 		added = added + ship:AddEquip(cargo, num)
-
-		print(ship.label..' now has '..added..'t of cargo')
 	end
 
 	return added
@@ -225,6 +225,7 @@ local spawnInitialShips = function ()
 		if i < num_trade_ships / 4 then
 			-- spawn the first quarter in port
 			local starport = starports[Engine.rand:Integer(1, #starports)]
+
 			ship = Space.SpawnShipDocked(ship_name, starport)
 			if ship ~= nil then
 				trade_ships[ship.label] = {
@@ -246,8 +247,6 @@ local spawnInitialShips = function ()
 			local max_distance = range * (i - num_trade_ships / 4) + 2
 			local min_distance = max_distance - range
 
-			print('distance min:'..min_distance..' max:'..max_distance)
-
 			ship = Space.SpawnShip(ship_name, min_distance, max_distance)
 			trade_ships[ship.label] = {
 				status		= 'inbound',
@@ -258,12 +257,10 @@ local spawnInitialShips = function ()
 			-- spawn the last quarter in hyperspace
 			local min_time = trade_ships.interval * (i - num_trade_ships / 4 * 3)
 			local max_time = min_time + trade_ships.interval
-
-			print('time min:'..min_time..' max:'..max_time)
-
 			local arrival = Game.time + Engine.rand:Integer(min_time, max_time)
 			local local_systems = Game.system:GetNearbySystems(20)
 			local from_system = local_systems[Engine.rand:Integer(1, #local_systems)]
+
 			ship = Space.SpawnShip(ship_name, 9, 11, {from_system.path, arrival})
 			trade_ships[ship.label] = {
 				status			= 'hyperspace',
@@ -425,6 +422,7 @@ EventQueue.onLeaveSystem:Connect(onLeaveSystem)
 local onFrameChanged = function (ship)
 	if not ship:isa("Ship") or trade_ships[ship.label] == nil then return end
 	local trader = trade_ships[ship.label]
+
 	if trader.status == 'outbound' then
 		-- the cloud inherits the ship velocity and vector
 		ship:CancelAI()
@@ -439,7 +437,6 @@ EventQueue.onFrameChanged:Connect(onFrameChanged)
 
 local onShipDocked = function (ship)
 	if trade_ships[ship.label] == nil then return end
-
 	local trader = trade_ships[ship.label]
 
 	if trader.status == 'fleeing' then
@@ -458,7 +455,6 @@ local onShipDocked = function (ship)
 		end
 	end
 
-	-- add fuel and new cargo
 	addFuel(ship)
 	cargo_count = cargo_count + addShipCargo(ship, 'export')
 
@@ -477,8 +473,6 @@ EventQueue.onShipDocked:Connect(onShipDocked)
 
 local onShipUndocked = function (ship, starport)
 	if trade_ships[ship.label] == nil then return end
-
-	print(ship.label..' undocked from '..starport.label)
 
 	ship:AIFlyTo(starport)
 
@@ -594,7 +588,6 @@ local onShipHit = function (ship, attacker)
 
 	-- if distance to starport is far attempt to hyperspace
 	if trader.no_jump ~= true then
-		local attempt_jump = false
 		if #starports == 0 then
 			trader['no_jump'] = true -- it already tried in onEnterSystem
 		elseif Engine.rand:Number(1) < trader.chance then
@@ -631,6 +624,7 @@ local onShipHit = function (ship, attacker)
 	if Engine.rand:Number(1) < trader.chance then
 		local cargo_list = ship:GetEquip('CARGO')
 		if #cargo_list == 0 then return end
+
 		local cargo = cargo_list[Engine.rand:Integer(1, #cargo_list)]
 		if cargo ~= 'HYDROGEN' and cargo ~= 'SHIELD_GENERATOR' and ship:Jettison(cargo) then
 			UI.ImportantMessage(attacker.label..', take this and leave us be, you filthy pirate!', ship.label)
@@ -652,8 +646,6 @@ local onShipCollided = function (ship, other)
 
 	-- try to get away from body, onAICompleted will take over if we succeed
 	ship:AIFlyTo(other)
-
-	-- XXX could find closest non-starport body and orbit
 end
 EventQueue.onShipCollided:Connect(onShipCollided)
 
@@ -674,6 +666,7 @@ EventQueue.onShipDestroyed:Connect(onShipDestroyed)
 local onGameStart = function ()
 	-- create tables for data on the current system
 	starports, imports, exports = {}, {}, {}
+
 	if trade_ships == nil then
 		-- create table to hold ships, keyed by label (ex. OD-7764)
 		trade_ships = {}
