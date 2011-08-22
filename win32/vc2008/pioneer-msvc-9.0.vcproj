@@ -205,10 +205,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\BBAdvertChatForm.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Body.cpp"
 				>
 			</File>
@@ -218,6 +214,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\CargoBody.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ChatForm.cpp"
 				>
 			</File>
 			<File
@@ -261,6 +261,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\FormController.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Frame.cpp"
 				>
 			</File>
@@ -278,10 +282,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\GameMenuView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\GenericChatForm.cpp"
 				>
 			</File>
 			<File
@@ -362,6 +362,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\gui\GuiScreen.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiStack.cpp"
 				>
 			</File>
 			<File
@@ -633,10 +637,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\PoliceChatForm.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Polit.cpp"
 				>
 			</File>
@@ -697,6 +697,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ShipSpinnerWidget.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ShipType.cpp"
 				>
 			</File>
@@ -726,6 +730,46 @@
 			</File>
 			<File
 				RelativePath="..\..\src\StarSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationAdvertForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationBulletinBoardForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationCommodityMarketForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationPoliceForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationServicesForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipEquipmentForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipMarketForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipRepairForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipViewForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipyardForm.cpp"
 				>
 			</File>
 			<File
@@ -792,6 +836,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\CargoBody.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ChatForm.h"
 				>
 			</File>
 			<File
@@ -876,6 +924,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\FontManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Form.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\FormController.h"
 				>
 			</File>
 			<File
@@ -1008,6 +1064,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\gui\GuiScreen.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiStack.h"
 				>
 			</File>
 			<File
@@ -1439,6 +1499,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ShipSpinnerWidget.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ShipType.h"
 				>
 			</File>
@@ -1468,6 +1532,46 @@
 			</File>
 			<File
 				RelativePath="..\..\src\StarSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationAdvertForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationBulletinBoardForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationCommodityMarketForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationPoliceForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationServicesForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipEquipmentForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipMarketForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipRepairForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipViewForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipyardForm.h"
 				>
 			</File>
 			<File
