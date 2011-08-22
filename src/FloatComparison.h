@@ -125,13 +125,17 @@ inline typename IEEEFloatTraits<T>::bool_type float_is_zero_or_denorm(T x) {
 
 // --- exact comparisons
 
+#ifdef __GNUC__
 #pragma GCC diagnostic ignored "-Wfloat-equal"
+#endif
 inline bool float_equal_exact(float a, float b) { return (a == b); }
 inline bool float_equal_exact(double a, double b) { return (a == b); }
 
 inline bool float_is_zero_exact(float x) { return (x == 0.0f); }
 inline bool float_is_zero_exact(double x) { return (x == 0.0); }
+#ifdef __GNUC__
 #pragma GCC diagnostic warning "-Wfloat-equal"
+#endif
 
 // --- relative & absolute error comparisons
 
