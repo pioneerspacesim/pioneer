@@ -205,10 +205,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\BBAdvertChatForm.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Body.cpp"
 				>
 			</File>
@@ -218,6 +214,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\CargoBody.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ChatForm.cpp"
 				>
 			</File>
 			<File
@@ -261,6 +261,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\FormController.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Frame.cpp"
 				>
 			</File>
@@ -278,10 +282,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\GameMenuView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\GenericChatForm.cpp"
 				>
 			</File>
 			<File
@@ -318,6 +318,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\gui\GuiFixed.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiGradient.cpp"
 				>
 			</File>
 			<File
@@ -362,6 +366,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\gui\GuiScreen.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiStack.cpp"
 				>
 			</File>
 			<File
@@ -410,6 +418,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\KeyBindings.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Lang.cpp"
 				>
 			</File>
 			<File
@@ -633,10 +645,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\PoliceChatForm.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Polit.cpp"
 				>
 			</File>
@@ -649,11 +657,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Render.cpp"
+				RelativePath="..\..\src\render\Render.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\RenderShader.cpp"
+				RelativePath="..\..\src\render\RenderShader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\render\RenderTarget.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\render\RenderTexture.cpp"
 				>
 			</File>
 			<File
@@ -697,6 +713,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ShipSpinnerWidget.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ShipType.cpp"
 				>
 			</File>
@@ -726,6 +746,46 @@
 			</File>
 			<File
 				RelativePath="..\..\src\StarSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationAdvertForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationBulletinBoardForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationCommodityMarketForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationPoliceForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationServicesForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipEquipmentForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipMarketForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipRepairForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipViewForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipyardForm.cpp"
 				>
 			</File>
 			<File
@@ -792,6 +852,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\CargoBody.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ChatForm.h"
 				>
 			</File>
 			<File
@@ -879,6 +943,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Form.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\FormController.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Frame.h"
 				>
 			</File>
@@ -963,6 +1035,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\gui\GuiGradient.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\gui\GuiImage.h"
 				>
 			</File>
@@ -1011,6 +1087,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\gui\GuiStack.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\gui\GuiTabbed.h"
 				>
 			</File>
@@ -1056,6 +1136,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\KeyBindings.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Lang.h"
 				>
 			</File>
 			<File
@@ -1399,7 +1483,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\render\Render.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\render\RenderShader.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\RenderShader.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\render\RenderTarget.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\render\RenderTexture.h"
 				>
 			</File>
 			<File
@@ -1439,6 +1539,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ShipSpinnerWidget.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ShipType.h"
 				>
 			</File>
@@ -1468,6 +1572,46 @@
 			</File>
 			<File
 				RelativePath="..\..\src\StarSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationAdvertForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationBulletinBoardForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationCommodityMarketForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationPoliceForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationServicesForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipEquipmentForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipMarketForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipRepairForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipViewForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipyardForm.h"
 				>
 			</File>
 			<File
