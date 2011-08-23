@@ -133,7 +133,7 @@ local getSystem = function (ship)
 				next_prices = next_prices + prices[cargo]
 			end
 		end
-		if next_prices >= best_prices then
+		if next_prices > best_prices then
 			target_system, best_prices = next_system, next_prices
 		end
 	end
