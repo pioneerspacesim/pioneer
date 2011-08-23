@@ -494,7 +494,8 @@ local onAICompleted = function (ship)
 		-- assuming here that the starport is full
 		-- get parent body of starport and orbit
 		local sbody = trader.starport.path:GetSystemBody()
-		ship:AIEnterHighOrbit(sbody.parent)
+		local body = Space.GetBody(sbody.parent.index)
+		ship:AIEnterHighOrbit(body)
 		trader['status'] = 'orbit'
 	end
 end
