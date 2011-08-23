@@ -411,7 +411,7 @@ local onLeaveSystem = function (ship)
 		end
 		print('onLeaveSystem:total:'..total..',removed:'..removed)
 	elseif trade_ships[ship.label] ~= nil then
-		print(ship.label..' left '..Game.system.name)
+		print(ship.label..' left '..Game.system.name..' for '..trade_ships[ship.label]['arrival_system'])
 		cleanTradeShipsTable()
 		spawnReplacement()
 	end
