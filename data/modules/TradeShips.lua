@@ -99,8 +99,7 @@ local getNearestStarport = function (ship)
 	return starport
 end
 
-local getSystem = function (ship, fleeing)
-	-- fleeing is optional
+local getSystem = function (ship)
 	local stats = ship:GetStats()
 	local systems_in_range = Game.system:GetNearbySystems(stats.hyperspaceRange)
 	if #systems_in_range == 0 then return nil end
@@ -109,7 +108,24 @@ local getSystem = function (ship, fleeing)
 	end
 
 	local target_system = nil
-	if fleeing == 'fleeing' then
+	local cargo_list = ship:GetEquip('CARGO')
+	local best_prices = 0
+
+	-- find best system for cargo
+	for _, next_system in ipairs(systems_in_range) do
+		local prices = next_system:GetCommodityBasePriceAlterations()
+		local next_prices = 0
+		for _, cargo in ipairs(cargo_list) do
+			if cargo ~= 'HYDROGEN' and cargo ~= 'SHIELD_GENERATOR' then
+				next_prices = next_prices + prices[cargo]
+			end
+		end
+		if next_prices >= best_prices then
+			target_system, best_prices = next_system, next_prices
+		end
+	end
+
+	if target_system == nil then
 		-- find the closest system
 		local distance = 1000000
 		for _, next_system in ipairs(systems_in_range) do
@@ -117,30 +133,7 @@ local getSystem = function (ship, fleeing)
 				target_system = next_system
 			end
 		end
-		-- XXX should maybe only use this if can get back out of target system
-		-- XXX which means checking for fuel or starports to buy it from
-	else
-		-- find best system for cargo
-		local best_prices = -1000000
-		local cargo_list = ship:GetEquip('CARGO')
-		for _, next_system in ipairs(systems_in_range) do
-			local prices = next_system:GetCommodityBasePriceAlterations()
-			local next_prices = 0
-			for _, cargo in ipairs(cargo_list) do
-				if cargo ~= 'HYDROGEN' and cargo ~= 'SHIELD_GENERATOR' then
-					next_prices = next_prices + prices[cargo]
-				end
-			end
-			if next_prices >= best_prices then
-				target_system, best_prices = next_system, next_prices
-			end
-		end
---[[	if target_system == nil then
-			target_system = getSystem(ship, 'fleeing')
-		end -- XXX ]] 
 	end
-
-	assert(target_system.path ~= nil, 'getSystem:target_system.path is nil,system:'..target_system.name)
 
 	-- XXX maybe pick a random starport, if there are any, and return path to it
 	return target_system.path
