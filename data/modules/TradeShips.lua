@@ -480,7 +480,7 @@ EventQueue.onShipUndocked:Connect(onShipUndocked)
 local onAICompleted = function (ship)
 	if trade_ships[ship.label] == nil then return end
 	local trader = trade_ships[ship.label]
-	print(ship.label..' AICompleted: '..'trader.status)
+	print(ship.label..' AICompleted: '..trader.status)
 	-- XXX if police that we spawned then attack ship that attacked trader
 
 	if trader.status == 'outbound' then
