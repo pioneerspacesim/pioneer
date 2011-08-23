@@ -601,7 +601,7 @@ local onShipCollided = function (ship, other)
 	print(ship.label..' collided with '..other.label)
 	
 	if other:isa('Ship') and other:IsPlayer() then
-		--onShipHit(ship, other)
+		onShipHit(ship, other)
 		return
 	end
 
