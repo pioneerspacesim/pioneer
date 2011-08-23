@@ -83,6 +83,18 @@ local addShipCargo = function (ship, direction)
 	return added
 end
 
+local doUndock = function (ship)
+	-- the player may have left the system or the ship may have already undocked
+	if ship:exists() and ship:GetDockedWith() then
+		if not ship:Undock() then
+			-- unable to undock, try again in ten minutes
+			Timer:CallAt(600, function ()
+				doUndock(ship)
+			end)
+		end
+	end
+end
+
 local getNearestStarport = function (ship)
 	if #starports == 0 then return nil end
 	if #starports == 1 then return starports[1] end
@@ -280,10 +292,9 @@ local spawnInitialShips = function ()
 		-- give orders
 		if trader.status == 'docked' then
 			-- have ship wait 30-45 seconds per unit of cargo
-			Timer:CallAt(Game.time + (cargo_count * 30 * Engine.rand:Number(1, 1.5)), function ()
-				if ship:exists() then -- player may have left system in meantime
-					ship:Undock()
-				end
+			trader['delay'] = Game.time + (cargo_count * 30 * Engine.rand:Number(1, 1.5))
+			Timer:CallAt(trader.delay, function ()
+				doUndock(ship)
 			end)
 		elseif trader.status == 'inbound' then
 			ship:AIDockWith(trader.starport)
@@ -454,9 +465,7 @@ local onShipDocked = function (ship)
 	if trader.status == 'docked' then
 		print(ship.label..' will undock at '..Format.Date(trader.delay))
 		Timer:CallAt(trader.delay, function ()
-			if ship:exists() and ship:GetDockedWith() ~= nil then -- player may have left system in meantime
-				ship:Undock()
-			end
+			doUndock(ship)
 		end)
 	end
 end
@@ -510,18 +519,14 @@ local onShipAlertChanged = function (ship, alert)
 			trader['status'] = 'docked'
 			if trader.delay > Game.time then
 				--[[ not ready to undock, so schedule it
-				there is a slight chance that the status was changed while onShipDocked
-				was in progress so fire a bit later and check if already undocked ]]
+				there is a slight chance that the status was changed while
+				onShipDocked was in progress so fire a bit later ]]
 				Timer:CallAt(trader.delay + 120, function ()
-					if ship:exists() and ship:GetDockedWith() ~= nil then
-						ship:Undock()
-					end
+					doUndock(ship)
 				end)
 			else
 				-- ready to undock
-				if ship:GetDockedWith() ~= nil then
-					ship:Undock()
-				end
+				doUndock(ship)
 			end
 		end
 	end
