@@ -585,8 +585,6 @@ static int l_ship_get_equip_free(lua_State *l)
  *
  * On sucessful jettison, the <EventQueue.onJettison> event is triggered.
  *
- * Calli
- *
  * Parameters:
  *
  *   item - the item to jettison
@@ -646,9 +644,14 @@ static int l_ship_get_docked_with(lua_State *l)
  *
  * Undock from the station currently docked with
  *
- * > ship:Undock()
+ * > success = ship:Undock()
  *
  * <EventQueue.onShipUndocked> will be triggered once undocking is complete
+ *
+ * Return:
+ *
+ *   success - true if ship is undocking, false if the ship is unable to undock,
+ *             probably because another ship is currently undocking
  *
  * Availability:
  *
