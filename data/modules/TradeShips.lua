@@ -614,8 +614,8 @@ local onShipDestroyed = function (ship, attacker)
 	if trade_ships[ship.label] ~= nil then
 		-- XXX consider spawning some CargoBodies
 
+		print(ship.label..' destroyed by '..attacker.label..', status:'..trade_ships[ship.label]['status'])
 		trade_ships[ship.label] = nil
-		print(ship.label..' destroyed by '..attacker.label)
 
 		if not attacker:isa("Ship") then
 			spawnReplacement()
