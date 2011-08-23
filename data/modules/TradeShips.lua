@@ -480,48 +480,15 @@ local onAICompleted = function (ship)
 	if trader.status == 'outbound' then
 		getSystemAndJump(ship)
 	elseif trader.status == 'orbit' then
-		-- wait 6 hours and try docking again
+		trader['starport'] = getNearestStarport(ship)
+		ship:AIDockWith(trader.starport)
 		trader['status'] = 'inbound'
-		Timer:CallAt(Game.time + 21600, function ()
-			if ship:exists() then -- player may have left system in meantime
-				ship:AIDockWith(trader.starport)
-			end
-		end)
 	elseif trader.status == 'inbound' then
 		-- assuming here that the starport is full
-		-- find nearby starports
-		local nearby = {}
-		for _, starport in ipairs(starports) do
-			if trader.starport ~= starport then
-				if trader.starport:DistanceTo(starport) < 1000000 then
-					table.insert(nearby, starport)
-				end
-			end
-		end
-		-- pick one and try to dock with it
-		if #nearby > 1 then
-			trader['starport'] = nearby[Engine.rand:Integer(1, #nearby)]
-			ship:AIDockWith(trader.starport)
-		elseif #nearby == 1 then
-			trader['starport'] = nearby[1]
-			ship:AIDockWith(trader.starport)
-		else
-			-- there are none nearby
-			-- get parent body of starport and orbit
-			-- XXX this should use the new SystemBody.parent
-			local bodies = Space.GetBodies(function (body) return body.isa == 'Planet' end)
-			local closest, parent = 100000000
-			for _, body in ipairs(bodies) do
-				local current = trader.starport:DistanceTo(body)
-				if current < closest then
-					parent, closest = body, current
-				end
-			end
-			if parent ~= nil then -- if it is nil let the poor bastard crash for now
-				ship:AIEnterMediumOrbit(parent)
-				trader['status'] = 'orbit'
-			end
-		end
+		-- get parent body of starport and orbit
+		local sbody = trader.starport.path:GetSystemBody()
+		ship:AIEnterHighOrbit(sbody.parent)
+		trader['status'] = 'orbit'
 	end
 end
 EventQueue.onAICompleted:Connect(onAICompleted)
