@@ -30,7 +30,8 @@ local addShipEquip = function (ship)
 	local lawlessness = Game.system.lawlessness
 	local size_factor = ship:GetEquipFree('CARGO') ^ 2 / 2000000
 
-	if Engine.rand:Number(1) - 0.1 < lawlessness then
+	if ship:GetEquipCount('CARGO', 'SHIELD_GENERATOR') == 0 and
+	Engine.rand:Number(1) - 0.1 < lawlessness then
 		local num = math.floor(math.sqrt(ship:GetEquipFree('CARGO') / 50))
 		ship:AddEquip('SHIELD_GENERATOR', num)
 		if ship_type:GetEquipSlotCapacity('ENERGYBOOSTER') > 0 and
