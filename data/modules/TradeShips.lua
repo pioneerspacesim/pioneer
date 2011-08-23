@@ -426,10 +426,6 @@ local onFrameChanged = function (ship)
 		-- the cloud inherits the ship velocity and vector
 		ship:CancelAI()
 		getSystemAndJump(ship)
-	elseif trader.status == 'inbound' then
-		-- no need to cancel, issuing a new AI order does that
-		-- XXX orbit might work better
-		ship:AIDockWith(trader.starport)
 	end
 end
 EventQueue.onFrameChanged:Connect(onFrameChanged)
