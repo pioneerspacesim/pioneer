@@ -139,12 +139,14 @@ local getSystem = function (ship)
 	end
 
 	if target_system == nil then
-		-- find the closest system
-		local distance = 1000000
-		for _, next_system in ipairs(systems_in_range) do
-			if Game.system:DistanceTo(next_system) < distance then
-				target_system = next_system
-			end
+		-- pick a random system as fallback
+		target_system = systems_in_range[Engine.rand:Integer(1, #systems_in_range)]
+
+		-- get closer systems
+		local systems_half_range = Game.system:GetNearbySystems(stats.hyperspaceRange / 2)
+
+		if #systems_half_range > 1 then
+			target_system = systems_half_range[Engine.rand:Integer(1, #systems_half_range)]
 		end
 	end
 
