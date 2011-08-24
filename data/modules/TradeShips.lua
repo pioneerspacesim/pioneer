@@ -560,7 +560,7 @@ local onShipHit = function (ship, attacker)
 	trader['chance'] = trader.chance + 0.1
 
 	-- don't spam actions
-	if trader.last_flee and Game.time - trader.last_flee < 60 then return end
+	if trader.last_flee and Game.time - trader.last_flee < 6 then return end
 
 	-- if outbound jump now
 	if trader.status == 'outbound' then
