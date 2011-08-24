@@ -563,7 +563,10 @@ local onShipHit = function (ship, attacker)
 	if trader.last_flee and Game.time - trader.last_flee < 60 then return end
 
 	-- if outbound jump now
-	if trader.status == 'outbound' then getSystemAndJump(ship) end
+	if trader.status == 'outbound' then
+		getSystemAndJump(ship)
+		return
+	end
 
 	trader['status'] = 'fleeing'
 	trader['attacker'] = attacker
