@@ -44,6 +44,7 @@ inline int isfinite(double x) { return _finite(x); }
 #endif
 
 #ifdef __MINGW32__
+#undef WINVER
 #define WINVER 0x0500
 #include <w32api.h>
 #define _WIN32_IE IE5
