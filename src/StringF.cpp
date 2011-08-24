@@ -135,7 +135,7 @@ struct PrintfSpec {
 	int precision;
 	int flags;
 
-	PrintfSpec(): width(0), precision(0), flags(0) {}
+	PrintfSpec(): width(-1), precision(-1), flags(0) {}
 };
 
 static const char* parse_printfspec(PrintfSpec& spec, const char* fmt, const char* end = 0) {
@@ -206,6 +206,37 @@ at_precision:
 	return c;
 }
 
+void init_iosflags(std::ostream& ss, const PrintfSpec& spec) {
+	if (spec.width != -1)
+		ss.width(spec.width);
+	if (spec.precision != -1)
+		ss.precision(spec.precision);
+
+	if (spec.flags & PrintfSpec::AlignLeft) {
+		if (spec.flags & PrintfSpec::PadZero)
+			ss.setf(std::ios::internal, std::ios::adjustfield);
+		else
+			ss.setf(std::ios::left, std::ios::adjustfield);
+	} else
+		ss.setf(std::ios::right, std::ios::adjustfield);
+	if (spec.flags & PrintfSpec::PadZero) ss.fill('0');
+	if (spec.flags & PrintfSpec::ForceSign) ss.setf(std::ios::showpos);
+	if (spec.flags & PrintfSpec::ShowType) {
+		ss.setf(std::ios::showpoint);
+		ss.setf(std::ios::showbase);
+	}
+}
+
+/*
+	if (spec.flags & PrintfSpec::AlignLeft) { ss << '-'; }
+	if (spec.flags & PrintfSpec::PadZero)   { ss << '0'; }
+	if (spec.flags & PrintfSpec::ForceSign) { ss << '+'; }
+	if (spec.flags & PrintfSpec::PadSign)   { ss << ' '; }
+	if (spec.flags & PrintfSpec::ShowType)  { ss << '#'; }
+	if (spec.width != -1) { ss << spec.width; }
+	if (spec.precision != -1) { ss << '.' << spec.precision; }
+*/
+
 std::string to_string(int64_t value, const FormatSpec& fmt) {
 	std::ostringstream ss;
 	PrintfSpec spec;
@@ -222,18 +253,7 @@ std::string to_string(int64_t value, const FormatSpec& fmt) {
 			parse_printfspec(spec, fmtbegin, fmtend);
 	}
 
-	if (spec.width) ss.width(spec.width);
-	if (spec.precision) ss.precision(spec.precision);
-	if (spec.flags & PrintfSpec::AlignLeft) {
-		if (spec.flags & PrintfSpec::PadZero)
-			ss.setf(std::ios::internal, std::ios::adjustfield);
-		else
-			ss.setf(std::ios::left, std::ios::adjustfield);
-	} else
-		ss.setf(std::ios::right, std::ios::adjustfield);
-	if (spec.flags & PrintfSpec::PadZero) ss.fill('0');
-	if (spec.flags & PrintfSpec::ForceSign) ss.setf(std::ios::showpos);
-	if (spec.flags & PrintfSpec::ShowType) ss.setf(std::ios::showbase);
+	init_iosflags(ss, spec);
 
 	ss << value;
 	return ss.str();
@@ -262,18 +282,8 @@ std::string to_string(uint64_t value, const FormatSpec& fmt) {
 			parse_printfspec(spec, fmtbegin, fmtend);
 	}
 
-	if (spec.width) ss.width(spec.width);
-	if (spec.precision) ss.precision(spec.precision);
-	if (spec.flags & PrintfSpec::AlignLeft) {
-		if (spec.flags & PrintfSpec::PadZero)
-			ss.setf(std::ios::internal, std::ios::adjustfield);
-		else
-			ss.setf(std::ios::left, std::ios::adjustfield);
-	} else
-		ss.setf(std::ios::right, std::ios::adjustfield);
-	if (spec.flags & PrintfSpec::PadZero) ss.fill('0');
-	if (spec.flags & PrintfSpec::ForceSign) ss.setf(std::ios::showpos);
-	if (spec.flags & PrintfSpec::ShowType) ss.setf(std::ios::showbase);
+
+	init_iosflags(ss, spec);
 
 	ss << value;
 	return ss.str();
@@ -299,23 +309,11 @@ std::string to_string(double value, const FormatSpec& fmt) {
 
 		const char *fmtbegin, *fmtend;
 		fmt.paramPtr(0, fmtbegin, fmtend);
-		if (fmtend != fmtbegin) {
+		if (fmtend != fmtbegin)
 			parse_printfspec(spec, fmtbegin, fmtend);
-		}
 	}
 
-	if (spec.width) ss.width(spec.width);
-	if (spec.precision) ss.precision(spec.precision);
-	if (spec.flags & PrintfSpec::AlignLeft) {
-		if (spec.flags & PrintfSpec::PadZero)
-			ss.setf(std::ios::internal, std::ios::adjustfield);
-		else
-			ss.setf(std::ios::left, std::ios::adjustfield);
-	} else
-		ss.setf(std::ios::right, std::ios::adjustfield);
-	if (spec.flags & PrintfSpec::PadZero) ss.fill('0');
-	if (spec.flags & PrintfSpec::ForceSign) ss.setf(std::ios::showpos);
-	if (spec.flags & PrintfSpec::ShowType) ss.setf(std::ios::showpoint);
+	init_iosflags(ss, spec);
 
 	ss << value;
 	return ss.str();
