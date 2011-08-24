@@ -118,38 +118,24 @@ private:
 	const T value;
 };
 
-// this version is safer (doesn't rely on the value out-living the FormatArgT object)
-// but performs a string copy
-/*
-FormatArgT<std::string> formatarg(const char* name, const char* value) {
-	return FormatArgT<std::string>(name, std::string(value));
-}
-*/
-
-inline FormatArgT<const char*> formatarg(const char* name, const char* value, const char* defaultformat = 0) {
-	return FormatArgT<const char*>(name, value, defaultformat);
-}
-
-template <typename T>
-inline FormatArgT<T> formatarg(const char* name, const T& value, const char* defaultformat = 0) {
-	return FormatArgT<T>(name, value, defaultformat);
-}
-
-// underlying formatting function
-
-std::string string_format(const char* fmt, int numargs, FormatArg const * const args[]);
-
 // ---------------------------------------------------------------------------
 
 template <typename T> struct FormatArgWrapper;
 
 template <typename T> struct FormatArgWrapper {
 	typedef FormatArgT<T> type;
-	static type wrap(const T& arg) { return FormatArgT<T>(arg); }
+	static type wrap(const T& arg, const char* name = 0, const char* defaultformat = 0)
+	{ return FormatArgT<T>(name, arg, defaultformat); }
 };
 template <int N> struct FormatArgWrapper<char[N]> {
 	typedef FormatArgT<const char*> type;
-	static type wrap(const char (&arg)[N]) { return FormatArgT<const char*>(arg); }
+	static type wrap(const char (&arg)[N], const char* name = 0, const char* defaultformat = 0)
+	{ return FormatArgT<const char*>(name, arg, defaultformat); }
+};
+template <> struct FormatArgWrapper<char[]> {
+	typedef FormatArgT<const char*> type;
+	static type wrap(const char *arg, const char* name = 0, const char* defaultformat = 0)
+	{ return FormatArgT<const char*>(name, arg, defaultformat); }
 };
 template <> struct FormatArgWrapper<FormatArg> {
 	typedef FormatArg type;
@@ -159,6 +145,28 @@ template <typename T> struct FormatArgWrapper< FormatArgT<T> > {
 	typedef FormatArgT<T> type;
 	static const type& wrap(const FormatArgT<T>& arg) { return arg; }
 };
+
+// ---------------------------------------------------------------------------
+
+// this version is safer (doesn't rely on the value out-living the FormatArgT object)
+// but performs a string copy
+/*
+FormatArgT<std::string> formatarg(const char* name, const char* value) {
+	return FormatArgT<std::string>(name, std::string(value));
+}
+*/
+
+template <typename T>
+inline typename FormatArgWrapper<T>::type
+formatarg(const char* name, const T& value, const char* defaultformat = 0) {
+	return FormatArgWrapper<T>::wrap(value, name, defaultformat);
+}
+
+// underlying formatting function
+
+std::string string_format(const char* fmt, int numargs, FormatArg const * const args[]);
+
+// ---------------------------------------------------------------------------
 
 // ---- stringf(format, args...) for 0 to 7 arguments ----
 
