@@ -413,6 +413,11 @@ std::string string_format(const char* fmt, int numargs, FormatArg const * const 
 						goto bad_reference;
 					}
 
+					if (identBegin == identEnd) {
+						out.append("%(err: blank reference)");
+						goto bad_reference;
+					}
+
 					for (int i = 0; i < numargs; ++i) {
 						if (args[i]->name && (strncmp(args[i]->name, identBegin, (identEnd - identBegin)) == 0)) {
 							argid = i;
