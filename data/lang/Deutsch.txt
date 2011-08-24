@@ -954,7 +954,7 @@ ECONOMIC_INFO
 DEMOGRAPHICS
     Demografie
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
-    Stabiles System mit %d großen %s and %d %s.\n\n%s
+    Stabiles System mit %bodycount großen %{body(s)} and %portcount %{starport(s)}.
 BODY
     Körpern
 BODIES

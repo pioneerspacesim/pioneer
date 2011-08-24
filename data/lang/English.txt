@@ -960,7 +960,7 @@ ECONOMIC_INFO
 DEMOGRAPHICS
     Demographics
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
-    Stable system with %d major %s and %d %s.\n\n%s
+    Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}.
 BODY
     body
 BODIES
