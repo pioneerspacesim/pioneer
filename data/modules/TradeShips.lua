@@ -364,11 +364,12 @@ local updateTradeShipsTable = function ()
 end
 
 local cleanTradeShipsTable = function ()
-	local total, removed = 0, 0
+	local total, hyperspace, removed = 0, 0, 0
 	for label, trader in pairs(trade_ships) do
 		if label ~= 'interval' then
 			total = total + 1
 			if trader.status == 'hyperspace' then
+				hyperspace = hyperspace + 1
 				-- remove well past due ships as the player can not catch them
 				if trader.arrival + 86400 < Game.time then
 					trade_ships[label] = nil
@@ -377,7 +378,7 @@ local cleanTradeShipsTable = function ()
 			end
 		end
 	end
-	print('cleanTSTable:total:'..total..',removed:'..removed)
+	print('cleanTSTable:total:'..total..', active'..total - hyperspace..',removed:'..removed)
 end
 
 local onEnterSystem = function (ship)
