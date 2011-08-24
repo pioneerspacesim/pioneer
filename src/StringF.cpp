@@ -428,6 +428,8 @@ std::string string_format(const char* fmt, int numargs, FormatArg const * const 
 
 				if (argid >= 0 && argid < numargs) {
 					const FormatArg& arg = *args[argid];
+					const char* fmtBegin = 0;
+					const char* fmtEnd = 0;
 					// scan format specifier, if provided
 					if (*c == '{') {
 						++c;
@@ -436,15 +438,21 @@ std::string string_format(const char* fmt, int numargs, FormatArg const * const 
 							goto bad_reference;
 						}
 
-						const char* fmtBegin = c;
-						const char* fmtEnd = (c = scan_bracetext(c));
+						c = fmtEnd = scan_bracetext(fmtBegin = c);
+
+						if (fmtBegin == fmtEnd) {
+							fmtBegin = fmtEnd = 0;
+						}
 
 						if (!*c) {
 							out.append("%(err: unfinished format)");
 							goto bad_reference;
 						} else
 							++c;
+					}
 
+					if (fmtBegin) {
+						assert(fmtEnd > fmtBegin);
 						FormatSpec fspec(fmtBegin, fmtEnd - fmtBegin);
 						out.append(arg.format(fspec));
 					} else if (arg.defaultformat) {
@@ -452,6 +460,7 @@ std::string string_format(const char* fmt, int numargs, FormatArg const * const 
 						out.append(arg.format(fspec));
 					} else
 						out.append(arg.format(FormatSpec()));
+
 				} else {
 					out.append("%(err: unknown arg {");
 					out.append(identBegin, identEnd - identBegin);
