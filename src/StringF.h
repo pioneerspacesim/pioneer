@@ -10,11 +10,9 @@
 // Basic value -> string functions:
 //   std::string to_string(T value);
 //   std::string to_string(T value, const FormatSpec& format);
-//   void to_string(std::string& buf, T value);
-//   void to_string(std::string& buf, T value, const FormatSpec& format);
 //
 // You may extend the system by providing your own overloads for
-// to_string(std::string& buf, T value, const FormatSpec& format)
+// std::string to_string(T value, const FormatSpec& format)
 //
 // String formatter:
 //   std::string stringf(const char* fmt, ...);
@@ -34,8 +32,59 @@
 // stringf(), along with FormatArg and formatarg() is a wrapper around
 // string_format(const char* fmt, int numargs, const FormatArg * const args[])
 //
-// which can be used if for some reason you need to pass more than 7 arguments
-// (but if you need that then you're probably doing something wrong somewhere)
+// Syntax for argument references:
+//   ref = '%' ( ident | int | '{' [^}]+ '}' ) ( '{' formatspec '}' )?
+//   int = [0-9]+
+//   ident = [a-zA-Z_] [a-zA-Z0-9_]*
+//   alpha = [a-zA-Z]
+//   formatspec = alpha+ ( ':'? fmtparam ( '|' fmtparam)* )
+//   fmtparam = ( [^}\] | '\' any )*
+//
+// To insert a literal % character, use %% (as in printf)
+//
+// References are either an integer argument index (0-based),
+// or a text string, which can follow C identifier rules, or be any string
+// enclosed in braces.
+//
+// The format specifier, if provided, consists of a style name, followed by
+// a series of parameters. Style names are alphabetic only (no underscore,
+// digits or puncutation). Parameters may immediately follow the style name,
+// or be separated from the style name by a colon.
+// Parameters are separated from each other by a pipe character.
+// Backslash may be used within format parameters to escape '|' and '}',
+// more generally, backslash within a format parameter causes the next
+// character to be taken as a literal, regardless of what that character is
+//
+// Examples of references:
+//  stringf("Hello, %0.", "Jameson") -> "Hello, Jameson."
+//  stringf("Hello, %0.", formatarg("name", "Jameson")) -> "Hello, Jameson."
+//  stringf("Hello, %name.", formatarg("name", "Jameson")) -> "Hello, Jameson."
+//  stringf("That's %{mood}tastic!", formatarg("mood", "funky")) -> "That's funkytastic!"
+//
+//  stringf("I've already wasted %count %{trip(s)} on this fooling endeavour!",
+//      formatarg("count", 3), formatarg("trip(s)", "trips"))
+//      -> "I've already wasted 3 trips on this fooling endeavour!"
+//
+//  stringf("I've already wasted %count %{trip(s)} on this fooling endeavour!",
+//      formatarg("count", 1), formatarg("trip(s)", "trip"))
+//      -> "I've already wasted 1 trip on this fooling endeavour!"
+//
+//  stringf("That'll be %0 credits, Mr. %1.", 50, "Jameson")
+//      -> "That'll be 50 credits, Mr. Jameson."
+//  stringf("Excellent choice, Mr. %1! That'll be %0 credits, please.", 50, "Jameson")
+//      -> "Excellent choice, Mr. Jameson! That'll be 50 credits, please."
+//
+// Currently implemented format styles are designed to mostly match printf()
+// specifiers, except to follow the general syntax described above, the
+// specifier itself comes first, then any flags as a parameter. Only numeric
+// types currently interpret these format specifiers. So:
+//
+//   printf("%s", "Hello") =~= stringf("%0", "Hello")
+//   printf("%f", 42.125) =~= stringf("%0{f}", 42.125)
+//   printf("%.2f", 42.125) =~= stringf("%0{f.2}", 42.125)
+//   printf("%+2.3f", 42.125) =~= stringf("%0{f+2.3}", 42.125)
+//   printf("%08d", 42) =~= stringf("%0{d08}", 42)
+//
 
 class FormatSpec {
 public:
