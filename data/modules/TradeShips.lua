@@ -441,9 +441,11 @@ local onFrameChanged = function (ship)
 end
 EventQueue.onFrameChanged:Connect(onFrameChanged)
 
-local onShipDocked = function (ship)
+local onShipDocked = function (ship, starport)
 	if trade_ships[ship.label] == nil then return end
 	local trader = trade_ships[ship.label]
+
+	print(ship.label..' docked with '..starport.label..' ship:'..trader.ship_name)
 
 	if trader.status == 'fleeing' then
 		trader['status'] = 'cowering'
@@ -624,9 +626,10 @@ EventQueue.onShipCollided:Connect(onShipCollided)
 
 local onShipDestroyed = function (ship, attacker)
 	if trade_ships[ship.label] ~= nil then
+		local trader = trade_ships[ship.label]
 		-- XXX consider spawning some CargoBodies
 
-		print(ship.label..' destroyed by '..attacker.label..', status:'..trade_ships[ship.label]['status'])
+		print(ship.label..' destroyed by '..attacker.label..', status:'..trader.status..' ship:'..trader.ship_name..', starport:'..trader.starport.label)
 		trade_ships[ship.label] = nil
 
 		if not attacker:isa("Ship") then
