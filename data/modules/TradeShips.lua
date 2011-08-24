@@ -150,7 +150,13 @@ local getSystem = function (ship)
 		end
 	end
 
-	-- XXX maybe pick a random starport, if there are any, and return path to it
+	-- pick a random starport, if there are any, so the game can simulate
+	-- travel to it if player arrives after (see Space::DoHyperspaceTo)
+	local target_starport_paths = target_system:GetStationPaths()
+	if #target_starport_paths > 0 then
+		return target_starport_paths[Engine.rand:Integer(1, #target_starport_paths)]
+	end
+
 	return target_system.path
 end
 
