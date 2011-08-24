@@ -24,6 +24,15 @@
 #define __attribute(x)
 #endif /* __GNUC__ */
 
+// GCC warns when a function marked __attribute((noreturn)) actually returns a value
+// but other compilers which don't see the noreturn attribute of course require that
+// a function with a non-void return type should return something.
+#ifndef __GNUC__
+#define RETURN_ZERO_NONGNU_ONLY return 0;
+#else
+#define RETURN_ZERO_NONGNU_ONLY
+#endif
+
 void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribute((noreturn));
 void Warning(const char *format, ...) __attribute((format(printf,1,2)));
 void SilentWarning(const char *format, ...) __attribute((format(printf,1,2)));

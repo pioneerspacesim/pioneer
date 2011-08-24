@@ -302,7 +302,6 @@ CustomSystem:new('Proxima Centauri',{'STAR_M'}):add_to_sector(-1,-1,-1,v(0.853,0
 CustomSystem:new('Gliese 628',{'STAR_M'}):add_to_sector(-2,-1,-1,v(0.432,0.353,0.619))
 CustomSystem:new('Gliese 625',{'STAR_M'}):add_to_sector(-2,-1,2,v(0.566,0.372,0.179))
 CustomSystem:new('Gliese 791.2',{'STAR_M'}):add_to_sector(-3,2,0,v(0.206,0.139,0.601))
-CustomSystem:new('Epsilon Eridani',{'STAR_K'}):add_to_sector(1,0,-1,v(0.037,0.775,0.784))
 CustomSystem:new('Gliese 623',{'STAR_M'}):add_to_sector(-2,-1,2,v(0.009,0.115,0.450))
 CustomSystem:new('GJ 1125',{'STAR_K'}):add_to_sector(2,-4,0,v(0.386,0.869,0.022))
 CustomSystem:new('82 G. Eri',{'STAR_G'}):add_to_sector(1,1,-2,v(0.382,0.161,0.313))

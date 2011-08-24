@@ -1031,10 +1031,13 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double distrib = octavenoise(m_fracdef[4], 0.5, p);
 			double m = 0.5*m_fracdef[3].amplitude * octavenoise(m_fracdef[4], 0.55*distrib, p);
 			m += 0.25*billow_octavenoise(m_fracdef[5], 0.55*distrib, p);
+			// Note.. investigate this next line further
+			m += 0.001*ridged_octavenoise(m_fracdef[6], 0.5*distrib, p);
 			// cliffs at shore
 			if (continents < 0.001) n += m * continents * 1000.0f;
 			else n += m;
-			n -= 0.001*ridged_octavenoise(m_fracdef[6], 0.5*distrib, p);
+			// was n -= 0.001*ridged_octavenoise(m_fracdef[6], 0.5*distrib, p);
+			//n += 0.001*ridged_octavenoise(m_fracdef[6], 0.5*distrib, p);
 			return m_maxHeight * n;
 		}
 		case TERRAIN_HILLS_DUNES:
@@ -1065,10 +1068,13 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double distrib = river_octavenoise(m_fracdef[4], 0.5, p);
 			double m = 0.5* ridged_octavenoise(m_fracdef[4], 0.55*distrib, p);
 			m += continents*0.25*ridged_octavenoise(m_fracdef[5], 0.58*distrib, p);
+			// **
+			m += 0.001*ridged_octavenoise(m_fracdef[6], 0.55*distrib*m, p);
 			// cliffs at shore
 			if (continents < 0.01) n += m * continents * 100.0f;
 			else n += m;
-			n -= 0.001*ridged_octavenoise(m_fracdef[6], 0.55*distrib*m, p);
+			// was n -= 0.001*ridged_octavenoise(m_fracdef[6], 0.55*distrib*m, p);
+			//n += 0.001*ridged_octavenoise(m_fracdef[6], 0.55*distrib*m, p);
 			return m_maxHeight * n;
 		}
 		case TERRAIN_HILLS_RIVERS:

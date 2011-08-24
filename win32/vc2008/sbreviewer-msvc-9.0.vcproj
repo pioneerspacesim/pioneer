@@ -67,7 +67,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib glew32.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib"
+				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib glew32.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib libpng15.lib"
 				OutputFile="$(OutDir)\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\lib"
@@ -703,15 +703,35 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\Render.cpp"
+			RelativePath="..\..\src\render\Render.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\RenderShader.cpp"
+			RelativePath="..\..\src\render\Render.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\RenderShader.h"
+			RelativePath="..\..\src\render\RenderShader.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\render\RenderShader.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\render\RenderTarget.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\render\RenderTarget.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\render\RenderTexture.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\render\RenderTexture.h"
 			>
 		</File>
 		<File
@@ -720,6 +740,14 @@
 		</File>
 		<File
 			RelativePath="..\..\src\TextureFont.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\TextureManager.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\TextureManager.h"
 			>
 		</File>
 		<File
