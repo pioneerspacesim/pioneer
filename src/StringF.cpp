@@ -1,323 +1,465 @@
 #include "StringF.h"
+
+// XXX maybe replace use of iostreams with something else
 #include <iostream>
 #include <sstream>
+
 #include <cstring>
 #include <cassert>
+#include <climits>
 
-const FormatSpec FormatSpec::DEFAULT_FORMAT_SPEC;
+// ---------------------------------------------------------------------------
+// ## FormatSpec
 
-void init_iosflags(const FormatSpec& fmt, std::ostream& ss) {
-	ss.width(fmt.minwidth);
-	ss.precision(fmt.precision);
+FormatSpec::FormatSpec(): format("") {
+	for (int i = 0; i <= MAX_PARAMS; ++i)
+		params[i] = 0;
+}
 
-	if (fmt.flags & FormatSpec::ShowType) {
-		ss.setf(std::ios::showbase);
-		ss.setf(std::ios::showpoint);
+FormatSpec::FormatSpec(const char* format_): format(format_) {
+	assert(format_);
+	parseFormat(strlen(format));
+}
+
+FormatSpec::FormatSpec(const char* format_, int formatlen_): format(format_) {
+	assert(format_ && (formatlen_ >= 0));
+	parseFormat(formatlen_);
+}
+
+bool FormatSpec::empty() const {
+	return (params[MAX_PARAMS] == 0);
+}
+
+bool FormatSpec::specifierIs(const char* specifier) const {
+	int len = params[0];
+	if (len && (format[len-1] == ':'))
+		--len;
+	return (strncmp(specifier, format, len) == 0);
+}
+
+int FormatSpec::paramCount() const {
+	int i = 0;
+	while ((i < MAX_PARAMS) && (params[i] < params[i+1]))
+		++i;
+	return i;
+}
+
+std::string FormatSpec::param(int idx) const {
+	const char *beg, *end;
+	paramPtr(idx, beg, end);
+
+	std::string str;
+	str.reserve(end - beg);
+
+	const char* c = beg;
+	while (c != end) {
+		// scan to the next escape character or the end of the segment
+		while ((c != end) && (*c != '\\')) ++c;
+		// append this run of unescaped characters
+		str.append(beg, (c - beg));
+		// if we're not at the end, we must have hit a backslash
+		if (c != end) {
+			++c; // skip the backslash
+			if (c != end) {
+				beg = c; // start the next run from the escaped character (whatever it is)
+				++c; // skip the escaped character (important so we don't interpret a second '\\' as another escape char)
+			} else {
+				// XXX warning here? or even assert that the format spec doesn't have backslash as the last character?
+				str += '\\';
+			}
+		}
 	}
-	if (fmt.flags & FormatSpec::AlignLeft)
-		ss.setf(std::ios::left, std::ios::adjustfield);
-	if (fmt.flags & FormatSpec::ForceSign)
-		ss.setf(std::ios::showpos);
 
-	if (fmt.flags & FormatSpec::PadLeftZero)
-		ss.fill('0');
-	else
-		ss.fill(' ');
-
-	if (fmt.form == FormatSpec::HexUpper) {
-		ss.setf(std::ios::hex, std::ios::basefield);
-		ss.setf(std::ios::uppercase);
-	} else if (fmt.form == FormatSpec::HexLower) {
-		ss.setf(std::ios::hex, std::ios::basefield);
-		ss.unsetf(std::ios::uppercase);
-	} else if (fmt.form == FormatSpec::Oct)
-		ss.setf(std::ios::oct, std::ios::basefield);
-	else 
-		ss.setf(std::ios::dec, std::ios::basefield);
-
-	if (fmt.form == FormatSpec::Sci)
-		ss.setf(std::ios::scientific, std::ios::floatfield);
-	else if (fmt.form == FormatSpec::Fix)
-		ss.setf(std::ios::fixed, std::ios::floatfield);
-	else
-		ss.unsetf(std::ios::floatfield);
+	return str;
 }
 
-void to_string(std::string& buf, int64_t value, const FormatSpec& fmt) {
-	(void)(fmt);
-	std::ostringstream ss;
-	init_iosflags(fmt, ss);
-	ss << value;
-	buf.append(ss.str());
+void FormatSpec::paramPtr(int idx, const char*& begin, const char*& end) const {
+	assert(idx >= 0 && idx < MAX_PARAMS);
+	begin = &format[ params[idx] ];
+	end = &format[ params[idx+1] ];
+	// if it's not the last parameter, then we need to shift end back one,
+	// to account for the '|' character that separates parameters
+	// note: the last character of a parameter may legitimately be a '|', e.g.
+	//  in   %foo{bar:qux\|}
+	//  param 0 (before escape processing) is exactly ``qux\|''
+	if ((idx+1 < MAX_PARAMS) && (params[idx+2] > params[idx+1]))
+		--end;
 }
 
-void to_string(std::string& buf, uint64_t value, const FormatSpec& fmt) {
-	(void)(fmt);
-	std::ostringstream ss;
-	init_iosflags(fmt, ss);
-	ss << value;
-	buf.append(ss.str());
+void FormatSpec::parseFormat(int length) {
+	// length limit due to the type used for the params[] array
+	assert((length >= 0) && (length <= USHRT_MAX));
+	assert(format); // format should already have been set
+
+	const char* c = format;
+	const char* end = &format[length];
+
+	// scan the specifier
+	while ((c != end) && isalpha(*c)) ++c;
+
+	// skip the optional ':' separating the specifier and the first parameter
+	if (*c == ':') ++c;
+
+	for (int i = 0; i < MAX_PARAMS; ++i) {
+		params[i] = (c - format);
+		// scan to the beginning of the next parameter
+		while (c != end) {
+			if (*c == '\\') {
+				++c;
+				if (c != end) ++c;
+			} else if (*c == '|') {
+				++c;
+				break;
+			} else
+				++c;
+		}
+	}
+	params[MAX_PARAMS] = (c - format);
+
+	assert((c == end) && "FormatSpec::MAX_PARAMS isn't big enough");
 }
 
-void to_string(std::string& buf, double value, const FormatSpec& fmt) {
-	(void)(fmt);
-	std::ostringstream ss;
-	init_iosflags(fmt, ss);
-	ss << value;
-	buf.append(ss.str());
-}
+// ---------------------------------------------------------------------------
+// ## to_string() implementations and helpers
 
-void to_string(std::string& buf, const char* value, const FormatSpec& fmt) {
-	(void)(fmt);
-	size_t len = strlen(value);
-	bool pad = (len < size_t(fmt.minwidth));
-	if (pad && ((fmt.flags & FormatSpec::AlignLeft) == 0))
-		buf.append(fmt.minwidth - len, (fmt.flags & FormatSpec::PadLeftZero) ? '0' : ' ');
-	buf.append(value, len);
-	if (pad && ((fmt.flags & FormatSpec::AlignLeft) != 0))
-		buf.append(fmt.minwidth - len, ' ');
-}
+struct PrintfSpec {
+	enum Flags {
+		AlignLeft, // corresponds with '-' flag
+		ForceSign, // corresponds with '+' flag
+		PadSign,   // corresponds with ' ' flag
+		PadZero,   // corresponds with '0' flag
+		ShowType   // corresponds with '#' flag
+	};
 
-void to_string(std::string& buf, const std::string& value, const FormatSpec& fmt) {
-	(void)(fmt);
-	size_t len = value.size();
-	bool pad = (len < size_t(fmt.minwidth));
-	if (pad && ((fmt.flags & FormatSpec::AlignLeft) == 0))
-		buf.append(fmt.minwidth - len, (fmt.flags & FormatSpec::PadLeftZero) ? '0' : ' ');
-	buf.append(value);
-	if (pad && ((fmt.flags & FormatSpec::AlignLeft) != 0))
-		buf.append(fmt.minwidth - len, ' ');
-}
+	int width;
+	int precision;
+	int flags;
 
-/*
- *   template = ( plain ( percentfmt | bracefmt )* )+
- *   plain = [^%{]*
- *
- *   percentfmt = '%' flags width? precision? ( 'h' | 'l' | 'll' | 'L' )? [cdieEfgGosuxXpn]
- *   flags = [-+ #0]+ // but no repeats
- *   width = number | '*'
- *   precision = '.' ( number | '*' )
- *
- *   bracefmt = '{' argid ( ':' fmtspec )? '}'
- *   argid = number | id
- *
- *   id = ( alpha | '_' ) ( alpha | decimal | '_' )*
- *
- *   fmtspec = ( flags? number? ( '.' number )? ) | fmtfunc
- *   fmtfunc = ( id ( ':' [^|}]+ ( '|' [^|}]+ )* )? )
- *
- *   number = decimal+
- *
- *   decimal = [0123456789]
- *   alpha = // characters for which isalpha() returns true
- */
+	PrintfSpec(): width(0), precision(0), flags(0) {}
+};
 
-const char* parse_fmtspec(FormatSpec& spec, const char* fmt) {
+static const char* parse_printfspec(PrintfSpec& spec, const char* fmt, const char* end = 0) {
 	const char* c = fmt;
 //at_flags:
-	while (*c) {
+	while ((c != end) && *c) {
+		// skip backslash
+		if (*c == '\\') ++c;
+		if (c == end) return c;
+		int addflag = 0;
 		switch (*c) {
-			case '-':
-				assert(((spec.flags & FormatSpec::AlignLeft) == 0) &&
-					"Bad format spec (duplicate flag)");
-				spec.flags |= FormatSpec::AlignLeft;
-				break;
-			case '+':
-				assert(((spec.flags & FormatSpec::ForceSign) == 0) &&
-					"Bad format spec (duplicate flag)");
-				spec.flags |= FormatSpec::ForceSign;
-				break;
-			case ' ':
-				assert(((spec.flags & FormatSpec::PadSign) == 0) &&
-					"Bad format spec (duplicate flag)");
-				spec.flags |= FormatSpec::PadSign;
-				break;
-			case '0':
-				assert(((spec.flags & FormatSpec::PadLeftZero) == 0) &&
-					"Bad format spec (duplicate flag)");
-				spec.flags |= FormatSpec::PadLeftZero;
-				break;
-			case '#':
-				assert(((spec.flags & FormatSpec::ShowType) == 0) &&
-					"Bad format spec (duplicate flag)");
-				spec.flags |= FormatSpec::ShowType;
-				break;
+			// printf flags
+			case '-': addflag = PrintfSpec::AlignLeft; break;
+			case '+': addflag = PrintfSpec::ForceSign; break;
+			case ' ': addflag = PrintfSpec::PadSign; break;
+			case '0': addflag = PrintfSpec::PadZero; break;
+			case '#': addflag = PrintfSpec::ShowType; break;
+
+			// valid characters for the width specifier
 			case '*':
 			case '1': case '2': case '3': case '4': case '5':
 			case '6': case '7': case '8': case '9':
 				goto at_width;
+
+			// valid characters for the precision specifier
 			case '.':
 				goto at_precision;
+
+			// unknown char
 			default:
 				return c;
 		}
+		if (addflag && !(spec.flags & addflag)) {
+			spec.flags |= addflag;
+		} else {
+			// duplicate flag
+			return c;
+		}
 		++c;
 	}
+
 at_width:
-	if ((*c == '*') || isdigit(*c)) {
-		assert((*c != '*') && "Variable-width precision specifier not supported.");
+	// variable-width specifier not supported
+	if ((c == end) || (*c == '*')) return c;
+	if (isdigit(*c)) {
 		int width = 0;
-		while (*c) {
-			switch (*c) {
-			case '0': case '1': case '2': case '3': case '4':
-			case '5': case '6': case '7': case '8': case '9':
-				width *= 10;
-				width += (*c - '0');
-				break;
-			case '.':
-				spec.minwidth = width;
-				goto at_precision;
-			default:
-				spec.minwidth = width;
-				return c;
-			}
+		while ((c != end) && isdigit(*c)) {
+			width *= 10;
+			width += (*c - '0');
 			++c;
 		}
-		spec.minwidth = width;
+		spec.width = width;
 	}
+
 at_precision:
-	if (*c == '.') {
+	if ((c != end) && (*c == '.')) {
 		++c;
-		assert((*c != '*') && "Variable-width precision specifier not supported.");
-		assert(isdigit(*c) && "Bad precision specifier");
+		// variable-precision specifier not supported
+		if ((c == end) || (*c == '*')) return c;
 		int prec = 0;
-		while (*c) {
-			if (isdigit(*c)) {
-				prec *= 10;
-				prec += (*c - '0');
-			} else {
-				spec.precision = prec;
-				return c;
-			}
+		while ((c != end) && isdigit(*c)) {
+			prec *= 10;
+			prec += (*c - '0');
 			++c;
 		}
+		spec.precision = prec;
 	}
 	return c;
 }
 
-const char* parse_printfspec(FormatSpec& spec, const char* fmt) {
-	const char* c = parse_fmtspec(spec, fmt);
-	switch (*c) {
-		case 'h':
-			++c;
-			break;
-		case 'l':
-			++c;
-			if (*c == 'l') ++c;
-			break;
-		case 'L':
-			++c;
-			if (*c == 'L') ++c;
-			break;
-		default: break;
+std::string to_string(int64_t value, const FormatSpec& fmt) {
+	std::ostringstream ss;
+	PrintfSpec spec;
+
+	if (! fmt.empty()) {
+		if (fmt.specifierIs("d") || fmt.specifierIs("i")) {
+			ss.setf(std::ios::dec, std::ios::basefield);
+		} else
+			return std::string("%(err: bad format)");
+
+		const char *fmtbegin, *fmtend;
+		fmt.paramPtr(0, fmtbegin, fmtend);
+		if (fmtend != fmtbegin)
+			parse_printfspec(spec, fmtbegin, fmtend);
 	}
-	switch (*c) {
-	case 's': case 'c': case 'd': case 'i': case 'u': case 'g': case 'G':
-		++c;
-		spec.form = FormatSpec::Gen;
-		break;
-	case 'o':
-		++c;
-		spec.form = FormatSpec::Oct;
-		break;
-	case 'x':
-		++c;
-		spec.form = FormatSpec::HexLower;
-		break;
-	case 'X':
-		++c;
-		spec.form = FormatSpec::HexUpper;
-		break;
-	case 'e': case 'E':
-		++c;
-		spec.form = FormatSpec::Sci;
-		break;
-	case 'f':
-		++c;
-		spec.form = FormatSpec::Fix;
-		break;
-	case 'p': case 'n':
-		++c;
-		assert(0 && "Pointer and character-count specifiers are not supported.");
-		break;
-	default:
-		assert(0 && "Bad format specifier.");
-		break;
+
+	if (spec.width) ss.width(spec.width);
+	if (spec.precision) ss.precision(spec.precision);
+	if (spec.flags & PrintfSpec::AlignLeft) {
+		if (spec.flags & PrintfSpec::PadZero)
+			ss.setf(std::ios::internal, std::ios::adjustfield);
+		else
+			ss.setf(std::ios::left, std::ios::adjustfield);
+	} else
+		ss.setf(std::ios::right, std::ios::adjustfield);
+	if (spec.flags & PrintfSpec::PadZero) ss.fill('0');
+	if (spec.flags & PrintfSpec::ForceSign) ss.setf(std::ios::showpos);
+	if (spec.flags & PrintfSpec::ShowType) ss.setf(std::ios::showbase);
+
+	ss << value;
+	return ss.str();
+}
+
+std::string to_string(uint64_t value, const FormatSpec& fmt) {
+	std::ostringstream ss;
+	PrintfSpec spec;
+
+	if (! fmt.empty()) {
+		if (fmt.specifierIs("u")) {
+			ss.setf(std::ios::dec, std::ios::basefield);
+		} else if (fmt.specifierIs("x")) {
+			ss.setf(std::ios::hex, std::ios::basefield);
+		} else if (fmt.specifierIs("X")) {
+			ss.setf(std::ios::hex, std::ios::basefield);
+			ss.setf(std::ios::uppercase);
+		} else if (fmt.specifierIs("o")) {
+			ss.setf(std::ios::oct, std::ios::basefield);
+		} else
+			return std::string("%(err: bad format)");
+
+		const char *fmtbegin, *fmtend;
+		fmt.paramPtr(0, fmtbegin, fmtend);
+		if (fmtend != fmtbegin)
+			parse_printfspec(spec, fmtbegin, fmtend);
 	}
-//at_end:
+
+	if (spec.width) ss.width(spec.width);
+	if (spec.precision) ss.precision(spec.precision);
+	if (spec.flags & PrintfSpec::AlignLeft) {
+		if (spec.flags & PrintfSpec::PadZero)
+			ss.setf(std::ios::internal, std::ios::adjustfield);
+		else
+			ss.setf(std::ios::left, std::ios::adjustfield);
+	} else
+		ss.setf(std::ios::right, std::ios::adjustfield);
+	if (spec.flags & PrintfSpec::PadZero) ss.fill('0');
+	if (spec.flags & PrintfSpec::ForceSign) ss.setf(std::ios::showpos);
+	if (spec.flags & PrintfSpec::ShowType) ss.setf(std::ios::showbase);
+
+	ss << value;
+	return ss.str();
+}
+
+std::string to_string(double value, const FormatSpec& fmt) {
+	std::ostringstream ss;
+	PrintfSpec spec;
+
+	if (! fmt.empty()) {
+		if (fmt.specifierIs("f")) {
+			ss.setf(std::ios::fixed, std::ios::floatfield);
+		} else if (fmt.specifierIs("g")) {
+		} else if (fmt.specifierIs("G")) {
+			ss.setf(std::ios::uppercase);
+		} else if (fmt.specifierIs("e")) {
+			ss.setf(std::ios::scientific, std::ios::floatfield);
+		} else if (fmt.specifierIs("E")) {
+			ss.setf(std::ios::scientific, std::ios::floatfield);
+			ss.setf(std::ios::uppercase);
+		} else
+			return std::string("%(err: bad format)");
+
+		const char *fmtbegin, *fmtend;
+		fmt.paramPtr(0, fmtbegin, fmtend);
+		if (fmtend != fmtbegin) {
+			parse_printfspec(spec, fmtbegin, fmtend);
+		}
+	}
+
+	if (spec.width) ss.width(spec.width);
+	if (spec.precision) ss.precision(spec.precision);
+	if (spec.flags & PrintfSpec::AlignLeft) {
+		if (spec.flags & PrintfSpec::PadZero)
+			ss.setf(std::ios::internal, std::ios::adjustfield);
+		else
+			ss.setf(std::ios::left, std::ios::adjustfield);
+	} else
+		ss.setf(std::ios::right, std::ios::adjustfield);
+	if (spec.flags & PrintfSpec::PadZero) ss.fill('0');
+	if (spec.flags & PrintfSpec::ForceSign) ss.setf(std::ios::showpos);
+	if (spec.flags & PrintfSpec::ShowType) ss.setf(std::ios::showpoint);
+
+	ss << value;
+	return ss.str();
+}
+
+std::string to_string(const char* value, const FormatSpec& fmt) {
+	if (fmt.empty()) {
+		return std::string(value);
+	} else {
+		return std::string("%(err: bad format)");
+	}
+}
+
+std::string to_string(const std::string& value, const FormatSpec& fmt) {
+	if (fmt.empty()) {
+		return value;
+	} else {
+		return std::string("%(err: bad format)");
+	}
+}
+
+// ---------------------------------------------------------------------------
+// ## string_format() and helpers
+
+static inline const char* scan_unformatted(const char* fmt) {
+	const char *c = fmt;
 	return c;
 }
 
-const char* parse_bracespec(FormatSpec& spec, const char* fmt) {
-	const char* c = parse_fmtspec(spec, fmt);
-	assert((*c == '}') && "Bad brace format specifier");
+static inline const char* scan_int(const char* fmt, int& value) {
+	value = 0;
+	const char *c = fmt;
+	while (isdigit(*c)) {
+		value *= 10;
+		value += (*c - '0');
+		++c;
+	}
+	return c;
+}
+
+static inline const char* scan_ident(const char* fmt) {
+	const char *c = fmt;
+	if (isalpha(*c) || (*c == '_')) {
+		++c;
+		while (isalnum(*c) || (*c == '_')) ++c;
+	}
+	return c;
+}
+
+static inline const char* scan_bracetext(const char* fmt) {
+	const char* c = fmt;
+	while (*c && (*c != '}')) {
+		if (*c == '\\') {
+			++c;
+			if (*c) ++c;
+		} else
+			++c;
+	}
 	return c;
 }
 
 std::string string_format(const char* fmt, int numargs, FormatArg const * const args[]) {
 	std::string out;
-
-	const char *mark = fmt, *c = fmt;
-	int nextarg = 0;
+	const char *c = fmt;
 	while (*c) {
+		while (*c && *c != '%') ++c;
+		if (c != fmt) out.append(fmt, c - fmt);
+
 		if (*c == '%') {
-			out.append(mark, size_t(c - mark));
 			++c;
 			if (*c == '%') {
+				fmt = c;
 				++c;
-				out += '%';
 			} else {
-				int arg = nextarg++;
-				assert((arg >= 0) && (arg < numargs) && "Invalid format string: reference to out-of-bounds argument.");
-				FormatSpec spec;
-				c = parse_printfspec(spec, c);
-				out.append(args[arg]->format(spec));
-			}
-			mark = c;
-		} else if (*c == '{') {
-			out.append(mark, size_t(c - mark));
-			++c;
-			if (*c == '{') {
-				++c;
-				out += '{';
-			} else {
-				const char* namebegin = c;
-				while (*c && (isalnum(*c) || ((*c == '-') || (*c == '_') || (*c == '.'))))
-					++c;
-				const char* nameend = c;
+				int argid = -1;
+				const char* identBegin = c;
+				const char* identEnd = c;
 
-				int arg = -1;
-				if (isdigit(*namebegin)) {
-					arg = 0;
-					const char* cc = namebegin;
-					while ((arg < numargs) && (*cc >= '0' && *cc <= '9')) {
-						arg *= 10;
-						arg += (*cc - '0');
-						++cc;
-					}
-					assert((cc == nameend) && "Invalid format string: bad argument index.");
+				// parse and match reference
+				if (isdigit(*c)) {
+					c = identEnd = scan_int(identBegin = c, argid);
 				} else {
-					for (arg = 0; arg < numargs; ++arg) {
-						if (args[arg]->name && (strncmp(args[arg]->name, namebegin, size_t(nameend - namebegin)) == 0))
+					if (*c == '{') {
+						identBegin = ++c;
+						while (*c && (*c != '}')) ++c;
+						identEnd = c;
+						if (*c == '}')
+							++c;
+						else {
+							out.append("%(err: unfinished reference)");
+							goto bad_reference;
+						}
+					} else if (isalpha(*c) || (*c == '_')) {
+						c = identEnd = scan_ident(identBegin = c);
+					} else {
+						out.append("%(err: unfinished reference)");
+						goto bad_reference;
+					}
+
+					for (int i = 0; i < numargs; ++i) {
+						if (args[i]->name && (strncmp(args[i]->name, identBegin, (identEnd - identBegin)) == 0)) {
+							argid = i;
 							break;
+						}
 					}
 				}
-				assert((arg >= 0) && (arg < numargs) && "Invalid format string: reference to unknown named argument.");
 
-				FormatSpec spec;
-				if (*c == ':') {
-					++c;
-					c = parse_bracespec(spec, c);
+				if (argid >= 0 && argid < numargs) {
+					const FormatArg& arg = *args[argid];
+					// scan format specifier, if provided
+					if (*c == '{') {
+						++c;
+						if (!*c) {
+							out.append("%(err: unfinished format)");
+							goto bad_reference;
+						}
+
+						const char* fmtBegin = c;
+						const char* fmtEnd = (c = scan_bracetext(c));
+
+						if (!*c) {
+							out.append("%(err: unfinished format)");
+							goto bad_reference;
+						} else
+							++c;
+
+						FormatSpec fspec(fmtBegin, fmtEnd - fmtBegin);
+						out.append(arg.format(fspec));
+					} else if (arg.defaultformat) {
+						FormatSpec fspec(arg.defaultformat);
+						out.append(arg.format(fspec));
+					} else
+						out.append(arg.format(FormatSpec()));
+				} else {
+					out.append("%(err: unknown arg {");
+					out.append(identBegin, identEnd - identBegin);
+					out.append("})");
+					goto bad_reference;
 				}
-				assert((*c == '}') && "Invalid format string: un-finished argument reference");
-				++c;
 
-				out.append(args[arg]->format(spec));
+bad_reference:
+				fmt = c;
 			}
-			mark = c;
-		} else
-			++c;
+		}
 	}
-	out.append(mark, size_t(c - mark));
 	return out;
 }

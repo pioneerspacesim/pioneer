@@ -1,8 +1,9 @@
 #ifndef _STRINGF_H
 #define _STRINGF_H
 
+#include "libs.h"
 #include <string>
-#include <stdint.h>
+#include <SDL_stdinc.h>
 
 //   provides (for integer types, floating point types, const char* and std::string):
 //
@@ -23,112 +24,94 @@
 // - Or, the result of a call to formatarg(name, value)
 // - Or, a value of a type that can be converted to a string with to_string
 //
+// formatarg() allows you to give a name and optionally a default format
+// for an argument to stringf()
+// e.g., formatarg("distance", 42.5, "f.2")
+//
+// That argument can then be referenced in the format template as %distance,
+// and will be formatted as a fixed-point number with 2 decimal places.
+//
 // stringf(), along with FormatArg and formatarg() is a wrapper around
-// format_string(const char* fmt, int numargs, const FormatArg * const args[])
+// string_format(const char* fmt, int numargs, const FormatArg * const args[])
 //
 // which can be used if for some reason you need to pass more than 7 arguments
 // (but if you need that then you're probably doing something wrong somewhere)
 
-struct FormatSpec {
-	FormatSpec(): minwidth(0), precision(0), flags(0), form(Gen) {}
-	static const FormatSpec DEFAULT_FORMAT_SPEC;
+class FormatSpec {
+public:
+	FormatSpec();
+	FormatSpec(const char* format);
+	FormatSpec(const char* format, int formatlen);
 
-	enum Form {
-		Gen, // general
+	bool empty() const;
 
-		Dec, // decimal
-		Oct, // octal
-		HexLower, // lower-case hexadecimal
-		HexUpper, // upper-case hexadecimal
+	// access to components of the formatspec
+	bool specifierIs(const char* specifier) const;
+	int paramCount() const;
+	std::string param(int idx) const;
+	void paramPtr(int idx, const char*& begin, const char*& end) const;
 
-		Sci, // scientific notation (e.g., 1.8e-2)
-		Fix  // decimal with floating point
-	};
+private:
+	static const int MAX_PARAMS = 3;
 
-	enum Flags {
-		ShowType     = 1 << 0, // prefix octal with '0', HexLower with '0x', HexUpper with '0X',
-		                       // and always include a decimal point for floating point numbers
-		PadLeftZero  = 1 << 1, // pad with zeros instead of spaces
-		AlignLeft    = 1 << 2, // align output to the left of its width block
-		ForceSign    = 1 << 3, // prefix positive values with a +
-		PadSign      = 1 << 4  // prefix positive values with a space
-	};
+	void parseFormat(int length);
 
-	int minwidth;
-	int precision;
-	int flags;
-	Form form;
+	const char * const format;
+	// each entry in the params array specifies the index within format[]
+	// of the first byte in the parameter
+	uint16_t params[MAX_PARAMS+1];
 };
 
-void to_string(std::string& buf, int32_t value, const FormatSpec& fmt);
-void to_string(std::string& buf, int64_t value, const FormatSpec& fmt);
-void to_string(std::string& buf, uint32_t value, const FormatSpec& fmt);
-void to_string(std::string& buf, uint64_t value, const FormatSpec& fmt);
-void to_string(std::string& buf, float value, const FormatSpec& fmt);
-void to_string(std::string& buf, double value, const FormatSpec& fmt);
-//void to_string(std::string& buf, fixed value, const FormatSpec& fmt);
-void to_string(std::string& buf, const char* value, const FormatSpec& fmt);
-void to_string(std::string& buf, const std::string& value, const FormatSpec& fmt);
+std::string to_string(int32_t value, const FormatSpec& fmt);
+std::string to_string(int64_t value, const FormatSpec& fmt);
+std::string to_string(uint32_t value, const FormatSpec& fmt);
+std::string to_string(uint64_t value, const FormatSpec& fmt);
+std::string to_string(float value, const FormatSpec& fmt);
+std::string to_string(double value, const FormatSpec& fmt);
+std::string to_string(fixed value, const FormatSpec& fmt);
+std::string to_string(const char* value, const FormatSpec& fmt);
+std::string to_string(const std::string& value, const FormatSpec& fmt);
 
-inline void to_string(std::string& buf, int32_t value, const FormatSpec& fmt) {
-	to_string(buf, int64_t(value), fmt);
+inline std::string to_string(int32_t value, const FormatSpec& fmt) {
+	return to_string(int64_t(value), fmt);
 }
 
-inline void to_string(std::string& buf, uint32_t value, const FormatSpec& fmt) {
-	to_string(buf, uint64_t(value), fmt);
+inline std::string to_string(uint32_t value, const FormatSpec& fmt) {
+	return to_string(uint64_t(value), fmt);
 }
 
-inline void to_string(std::string& buf, float value, const FormatSpec& fmt) {
-	to_string(buf, double(value), fmt);
+inline std::string to_string(float value, const FormatSpec& fmt) {
+	return to_string(double(value), fmt);
 }
 
-/*
-inline void to_string(std::string& buf, fixed value, const FormatSpec& fmt) {
-	to_string(buf, value.ToDouble(), fmt);
-}
-*/
-
-template <typename T>
-inline void to_string(std::string& buf, const T& value) {
-	to_string(buf, value, FormatSpec::DEFAULT_FORMAT_SPEC);
+inline std::string to_string(fixed value, const FormatSpec& fmt) {
+	return to_string(value.ToDouble(), fmt);
 }
 
 template <typename T>
 inline std::string to_string(const T& value) {
-	std::string s;
-	to_string(s, value);
-	return s;
-}
-
-template <typename T>
-inline std::string to_string(const T& value, const FormatSpec& fmt) {
-	std::string s;
-	to_string(s, value, fmt);
-	return s;
+	return to_string(value, FormatSpec());
 }
 
 class FormatArg {
 public:
-	FormatArg(): name(0) {}
-	explicit FormatArg(const char* name_): name(name_) {}
+	explicit FormatArg(const char* name_ = 0, const char* defaultformat_ = 0):
+		name(name_), defaultformat(defaultformat_) {}
 
 	char const * const name;
-	virtual void format(std::string& buf, const FormatSpec& spec) const = 0;
-	virtual std::string format(const FormatSpec& spec) const {
-		std::string s;
-		format(s, spec);
-		return s;
-	}
+	char const * const defaultformat;
+
+	virtual std::string format(const FormatSpec& spec) const = 0;
 };
 
 template <typename T>
 class FormatArgT : public FormatArg {
 public:
-	FormatArgT(const T& value_): value(value_) {}
-	FormatArgT(const char* name_, const T& value_): FormatArg(name_), value(value_) {}
+	FormatArgT(const char* name_, const T& value_, const char* defaultformat_):
+		FormatArg(name_, defaultformat_), value(value_) {}
 
-	virtual void format(std::string& buf, const FormatSpec& spec) const {
-		to_string(buf, value, spec);
+	virtual std::string format(const FormatSpec& spec) const {
+		return to_string(value, spec);
 	}
 
 private:
@@ -143,13 +126,13 @@ FormatArgT<std::string> formatarg(const char* name, const char* value) {
 }
 */
 
-FormatArgT<const char*> formatarg(const char* name, const char* value) {
-	return FormatArgT<const char*>(name, value);
+inline FormatArgT<const char*> formatarg(const char* name, const char* value, const char* defaultformat = 0) {
+	return FormatArgT<const char*>(name, value, defaultformat);
 }
 
 template <typename T>
-FormatArgT<T> formatarg(const char* name, const T& value) {
-	return FormatArgT<T>(name, value);
+inline FormatArgT<T> formatarg(const char* name, const T& value, const char* defaultformat = 0) {
+	return FormatArgT<T>(name, value, defaultformat);
 }
 
 // underlying formatting function
