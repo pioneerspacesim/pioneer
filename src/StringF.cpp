@@ -124,11 +124,11 @@ void FormatSpec::parseFormat(int length) {
 
 struct PrintfSpec {
 	enum Flags {
-		AlignLeft, // corresponds with '-' flag
-		ForceSign, // corresponds with '+' flag
-		PadSign,   // corresponds with ' ' flag
-		PadZero,   // corresponds with '0' flag
-		ShowType   // corresponds with '#' flag
+		AlignLeft = 1 << 0, // corresponds with '-' flag
+		ForceSign = 1 << 1, // corresponds with '+' flag
+		PadSign   = 1 << 2, // corresponds with ' ' flag
+		PadZero   = 1 << 3, // corresponds with '0' flag
+		ShowType  = 1 << 4  // corresponds with '#' flag
 	};
 
 	int width;
@@ -212,13 +212,14 @@ void init_iosflags(std::ostream& ss, const PrintfSpec& spec) {
 	if (spec.precision != -1)
 		ss.precision(spec.precision);
 
-	if (spec.flags & PrintfSpec::AlignLeft) {
+	if (spec.flags & PrintfSpec::AlignLeft)
+		ss.setf(std::ios::left, std::ios::adjustfield);
+	else {
 		if (spec.flags & PrintfSpec::PadZero)
 			ss.setf(std::ios::internal, std::ios::adjustfield);
 		else
-			ss.setf(std::ios::left, std::ios::adjustfield);
-	} else
-		ss.setf(std::ios::right, std::ios::adjustfield);
+			ss.setf(std::ios::right, std::ios::adjustfield);
+	}
 	if (spec.flags & PrintfSpec::PadZero) ss.fill('0');
 	if (spec.flags & PrintfSpec::ForceSign) ss.setf(std::ios::showpos);
 	if (spec.flags & PrintfSpec::ShowType) {
@@ -253,6 +254,14 @@ std::string to_string(int64_t value, const FormatSpec& fmt) {
 			parse_printfspec(spec, fmtbegin, fmtend);
 	}
 
+	// sign padding is not supported
+	if (spec.flags & PrintfSpec::PadSign)
+		return std::string("%(err: bad format)");
+
+	// precision is ignore for integer arguments
+	if (spec.precision != -1)
+		return std::string("%(err: bad format)");
+
 	init_iosflags(ss, spec);
 
 	ss << value;
@@ -282,6 +291,13 @@ std::string to_string(uint64_t value, const FormatSpec& fmt) {
 			parse_printfspec(spec, fmtbegin, fmtend);
 	}
 
+	// sign padding is not supported
+	if (spec.flags & PrintfSpec::PadSign)
+		return std::string("%(err: bad format)");
+
+	// precision is ignore for integer arguments
+	if (spec.precision != -1)
+		return std::string("%(err: bad format)");
 
 	init_iosflags(ss, spec);
 
@@ -312,6 +328,10 @@ std::string to_string(double value, const FormatSpec& fmt) {
 		if (fmtend != fmtbegin)
 			parse_printfspec(spec, fmtbegin, fmtend);
 	}
+
+	// sign padding is not supported
+	if (spec.flags & PrintfSpec::PadSign)
+		return std::string("%(err: bad format)");
 
 	init_iosflags(ss, spec);
 
@@ -381,6 +401,7 @@ std::string string_format(const char* fmt, int numargs, FormatArg const * const 
 	while (*c) {
 		while (*c && *c != '%') ++c;
 		if (c != fmt) out.append(fmt, c - fmt);
+		fmt = c;
 
 		if (*c == '%') {
 			++c;
@@ -419,7 +440,10 @@ std::string string_format(const char* fmt, int numargs, FormatArg const * const 
 					}
 
 					for (int i = 0; i < numargs; ++i) {
-						if (args[i]->name && (strncmp(args[i]->name, identBegin, (identEnd - identBegin)) == 0)) {
+						size_t identLen = (identEnd - identBegin);
+						if (args[i]->name
+							&& (strncmp(args[i]->name, identBegin, identLen) == 0)
+							&& (args[i]->name[identLen] == '\0')) {
 							argid = i;
 							break;
 						}
@@ -462,9 +486,9 @@ std::string string_format(const char* fmt, int numargs, FormatArg const * const 
 						out.append(arg.format(FormatSpec()));
 
 				} else {
-					out.append("%(err: unknown arg {");
+					out.append("%(err: unknown arg '");
 					out.append(identBegin, identEnd - identBegin);
-					out.append("})");
+					out.append("')");
 					goto bad_reference;
 				}
 
@@ -473,5 +497,8 @@ bad_reference:
 			}
 		}
 	}
+	// append the final range
+	if (c != fmt)
+		out.append(fmt, c - fmt);
 	return out;
 }
