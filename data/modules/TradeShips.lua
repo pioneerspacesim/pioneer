@@ -258,7 +258,7 @@ local spawnInitialShips = function ()
 
 			ship = Space.SpawnShip(ship_name, min_distance, max_distance)
 			trade_ships[ship.label] = {
-				status		= 'inbound',
+				status		= 'orbit',
 				starport	= getNearestStarport(ship),
 				ship_name	= ship_name,
 			}
@@ -301,6 +301,11 @@ local spawnInitialShips = function ()
 			end)
 		elseif trader.status == 'inbound' then
 			ship:AIDockWith(trader.starport)
+		elseif trader.status == 'orbit' then
+			-- get parent body of starport and orbit
+			local sbody = trader.starport.path:GetSystemBody()
+			local body = Space.GetBody(sbody.parent.index)
+			ship:AIEnterHighOrbit(body)
 		end
 	end
 
@@ -380,9 +385,12 @@ local onEnterSystem = function (ship)
 				-- if we couldn't reach any systems wait for player to attack
 			else
 				local starport = getNearestStarport(ship)
-				ship:AIDockWith(starport)
-				trade_ships[ship.label]['status'] = 'inbound'
 				trade_ships[ship.label]['starport'] = starport
+				-- get parent body of starport and orbit
+				local sbody = starport.path:GetSystemBody()
+				local body = Space.GetBody(sbody.parent.index)
+				ship:AIEnterHighOrbit(body)
+				trade_ships[ship.label]['status'] = 'orbit'
 			end
 		end
 		return
