@@ -76,7 +76,7 @@ void SystemInfoView::OnBodyViewed(SBody *b)
 		_add_label_and_value(Lang::PERIAPSIS_DISTANCE, stringf_old(64, "%.3f AU", b->orbMin.ToDouble()));
 		_add_label_and_value(Lang::APOAPSIS_DISTANCE, stringf_old(64, "%.3f AU", b->orbMax.ToDouble()));
 		_add_label_and_value(Lang::ECCENTRICITY, stringf_old(64, "%.2f", b->orbit.eccentricity));
-		_add_label_and_value(Lang::AXIAL_TILE, stringf(Lang::N_DEGREES, formatarg("angle", b->axialTilt.ToDouble() * (180.0/M_PI))));
+		_add_label_and_value(Lang::AXIAL_TILT, stringf(Lang::N_DEGREES, formatarg("angle", b->axialTilt.ToDouble() * (180.0/M_PI))));
 		if (b->rotationPeriod != 0) {
 			_add_label_and_value(
 				std::string(Lang::DAY_LENGTH)+std::string(Lang::ROTATIONAL_PERIOD),

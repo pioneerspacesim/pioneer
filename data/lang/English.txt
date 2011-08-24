@@ -931,7 +931,7 @@ APOAPSIS_DISTANCE
     Apoapsis distance
 ECCENTRICITY
     Eccentricity
-AXIAL_TILE
+AXIAL_TILT
     Axial tilt
 N_DEGREES
     %angle{f.1} degrees
