@@ -89,7 +89,7 @@ local doUndock = function (ship)
 	if ship:exists() and ship:GetDockedWith() then
 		if not ship:Undock() then
 			-- unable to undock, try again in ten minutes
-			Timer:CallAt(600, function ()
+			Timer:CallAt(Game.time + 600, function ()
 				doUndock(ship)
 			end)
 		end
