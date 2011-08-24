@@ -28,11 +28,11 @@ VID_LINK_ESTABLISHED
 VID_CONNECTING
     Verbinden...
 BOUGHT_1T_OF
-    Sie haben 1t %s gekauft.
+    Sie haben 1t %commodity gekauft.
 SOLD_1T_OF
-    Sie haben 1t %s verkauft.
+    Sie haben 1t %commodity verkauft.
 WELCOME_TO_MARKET
-    Willkommen auf dem Rohstoffmarkt von %s
+    Willkommen auf dem Rohstoffmarkt von %station
 GO_BACK
     Zurückgehen
 FITTING
@@ -50,11 +50,11 @@ TRADER_NOT_ENOUGH_MONEY
 NO_SPACE_ON_SHIP
     Es gibt keinen Raum in Ihrem Schiff
 SOMEWHERE_SERVICES
-    %s Dienst
+    %station Dienst
 SOMEWHERE_SHIPYARD
-    %s Werft
+    %station Werft
 SOMEWHERE_SHIP_REPAIRS
-    %s Reparaturdienst
+    %station Reparaturdienst
 PRICE_TO_FIT
     $ zu installieren
 PRICE_TO_REMOVE
@@ -74,7 +74,7 @@ REGISTRATION_ID
 WEIGHT_EMPTY
     Leergewicht
 NUMBER_TONNES
-    %dt
+    %{mass}t
 WEIGHT_FULLY_LADEN
     Gesamtgewicht
 CAPACITY
@@ -82,7 +82,7 @@ CAPACITY
 FORWARD_ACCEL_EMPTY
     Vorwärts-Beschleunigung (unbeladen)
 NUMBER_G
-    %.1f G
+    %acceleration{f.1} G
 FORWARD_ACCEL_LADEN
     Vorwärts-Beschleunigung (beladen)
 REVERSE_ACCEL_EMPTY
@@ -96,15 +96,15 @@ HYPERSPACE_RANGE_LADEN
 THANKS_AND_REMEMBER_TO_BUY_FUEL
     Vielen Dank für Ihren Einkauf. Denken Sie daran, Schiffsausrüstung und Kraftstoff zu kaufen, bevor Sie abdocken.
 CLASS_NUMBER
-    Klasse %d
+    Klasse %class
 NUMBER_LY
-    %.2f Lj
+    %distance{f.2} Lj
 SHIP_IS_ALREADY_FULLY_REPAIRED
     Ihr Schiff ist ganz in Ordnung.
 REPAIR_1_PERCENT_HULL
     1.0% den Rumpf reparieren
 REPAIR_ENTIRE_HULL
-    Den ganzen Rumpf reparieren (%.1f%%)
+    Den ganzen Rumpf reparieren (%repairpercent{f.1}%%)
 REPAIR
     Reparieren
 PART_EX
@@ -114,7 +114,7 @@ VIEW
 SHIP_EQUIPMENT
     Schiffsausrüstung
 SOMEWHERE_SHIP_EQUIPMENT
-    %s Schiffsausrüstung
+    %station Schiffsausrüstung
 REPAIRS_AND_SERVICING
     Reparaturen und Service
 NEW_AND_RECONDITIONED_SHIPS
@@ -122,7 +122,7 @@ NEW_AND_RECONDITIONED_SHIPS
 BULLETIN_BOARD
     Nachrichten und Missionen
 WELCOME_TO_SOMEWHERE
-    Wilkommen bei %s
+    Wilkommen bei %station
 SPACESTATION_LONG_WELCOME_MESSAGE
     Wilkommen am bord.  Heute ist das Luft ganz kostenlos.  Bitte nutzen Sie unsere zahlreichen Dienstleistungen.
 REQUEST_LAUNCH
@@ -132,9 +132,9 @@ SHIPYARD
 COMMODITIES_MARKET
     Rohstoffmarkt
 SOMEWHERE_COMMODITIES_MARKET
-    %s Rohstoffmarkt
+    %station Rohstoffmarkt
 SOMEWHERE_SHIP_MARKET
-    %s Raumschiffmarkt
+    %station Raumschiffmarkt
 CONTACT_LOCAL_POLICE
     Um den örtliche Polizei
 COMMS_LINK
@@ -154,7 +154,7 @@ SAGITTARIUS_ARM
 SCUTUM_CENTAURUS_ARM
     Scutum-Crux-arm
 INT_LY
-    %d Lj
+    %scale Lj
 
 # Config / game control
 PRESS_BUTTON_WANTED_FOR
@@ -174,7 +174,7 @@ GAME_SAVED_TO
 SELECT_FILENAME_TO_LOAD
     Wählen Sie eine Datei zu laden
 COULD_NOT_OPEN_FILENAME
-    %s konnte nicht geöffnet
+    %path konnte nicht geöffnet
 GAME_LOAD_CORRUPT
     Konnte nicht Spiel geladen werden, weil die Datei beschädigt wurde.
 GAME_LOAD_CANNOT_OPEN
@@ -220,7 +220,7 @@ VOL_MUSIC
 VIDEO_RESOLUTION
     Video-Auflösung (Programm muss neu gestartet werden)
 X_BY_X
-    %dx%d
+    %{x}x%{y}
 PLANET_DETAIL_LEVEL
     Planet Detailebene:
 CITY_DETAIL_LEVEL
@@ -464,7 +464,7 @@ HYPERSPACE_RANGE
 NO_MOUNTING
     Kein Mountpunkt
 N_LIGHT_YEARS_N_MAX
-    %.1f Lichtjahre (%.1f Max)
+    %distance{f.1} Lichtjahre (%maxdistance{f.1} Max)
 SHIP_INFORMATION
     Raumschiff Information
 REPUTATION
@@ -566,7 +566,7 @@ DEADLY
 ELITE
     ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
-    Simulation Evolution des Universums: %.1f Milliarde Jahre ;-)
+    Simulation Evolution des Universums: %age{f.1} Milliarde Jahre ;-)
 TOMBSTONE_EPITAPH
     Ruhe in Frieden, Kumpel
 MM_START_NEW_GAME_EARTH
@@ -580,7 +580,7 @@ MM_LOAD_SAVED_GAME
 MM_QUIT
     Pioneer beenden
 SCREENSHOT_FILENAME_TEMPLATE
-    Spielbild%08d.png
+    Spielbild%index{d08}.png
 PIONEERING_PILOTS_GUILD
     Pionierarbeit Piloten Gilde
 RIGHT_ON_COMMANDER
@@ -594,11 +594,11 @@ DOWNGRADING_ALERT_STATUS
 LASER_FIRE_DETECTED
     Waffenschießen entdeckt.
 SOMEWHERE_POLICE
-    %s Polizei
+    %station Polizei
 WE_HAVE_NO_BUSINESS_WITH_YOU
     Wir haben keine Geschäfte mit Ihnen jetzt.
 YOU_MUST_PAY_FINE_OF_N_CREDITS
-    Wir tolerieren keine Verbrechen. Sie müssen eine Geldbuße von %s zahlen.
+    Wir tolerieren keine Verbrechen. Sie müssen eine Geldbuße von %fine zahlen.
 PAY_THE_FINE_NOW
     Die Geldbuße zahlen jetzt.
 HANG_UP
@@ -652,9 +652,9 @@ PLUTOCRATIC_DICTATORSHIP
 VIOLENT_ANARCHY
     Störung - Insgesamt Governance durch bewaffnete Gruppierungen bestritten
 X_CANNOT_BE_TOLERATED_HERE
-    %s kann hier nicht geduldet werden.
+    %crime kann hier nicht geduldet werden.
 SECTOR_X_Y_Z
-    Sektor: %d,%d,%d
+    Sektor: %x,%y,%z
 CURRENT_SYSTEM
     Aktuelle System
 SELECTED_SYSTEM
@@ -666,7 +666,7 @@ FOLLOWING_SELECTION
 LOCKED
     verschlossen
 NUMBER_HOURS
-    %.2f St.
+    %hours{f.2} St.
 QUADRUPLE_SYSTEM
     VierfachSternsystem
 TRIPLE_SYSTEM
@@ -678,7 +678,7 @@ ENABLED_AUTOMATIC_SYSTEM_SELECTION
 DISABLED_AUTOMATIC_SYSTEM_SELECTION
     Automatische Systemauswahl unaktiviert.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
-    Kraftstoffschaufel aktiv. Sie haben nun %d Tonnen Wasserstoff.
+    Kraftstoffschaufel aktiv. Sie haben nun %quantity Tonnen Wasserstoff.
 CARGO_BAY_LIFE_SUPPORT_LOST
     Problem entdeckt: Leben Unterstützung den Frachtraum funktioniert nicht.
 NO_FREE_SPACE_FOR_ITEM
@@ -686,7 +686,7 @@ NO_FREE_SPACE_FOR_ITEM
 SHIP_IS_FULLY_LADEN
     Ihr Schiff voll beladen ist.
 YOU_DO_NOT_HAVE_ANY_X
-    Sie haben keine %s.
+    Sie haben keine %item.
 REAR_VIEW
     Rückansicht
 EXTERNAL_VIEW
@@ -710,7 +710,7 @@ SHIP_NEARBY
 DOCKING_CLEARANCE_EXPIRED
     Andocken Erlaubnis ist abgelaufen. Wenn Sie andocken möchten, müssen Sie wiederholen Sie Ihre Anfrage.
 MESSAGE_FROM_X
-    Nachricht von %s:
+    Nachricht von %sender:
 SELECT_A_TARGET
     Wählen Sie ein Ziel
 FRONT
@@ -720,9 +720,9 @@ REAR
 POLICE_SHIP_REGISTRATION
     POLIZEI
 CLEARANCE_ALREADY_GRANTED_BAY_N
-    Andocken Erlaubnis bereits gewährt. Fliegen zur Andockbuchten %d.
+    Andocken Erlaubnis bereits gewährt. Fliegen zur Andockbuchten %bay.
 CLEARANCE_GRANTED_BAY_N
-    Andocken Erlaubnis gewährt. Fliegen zur Andockbuchten %d.
+    Andocken Erlaubnis gewährt. Fliegen zur Andockbuchten %bay.
 CLEARANCE_DENIED_NO_BAYS
     Andocken Erlaubnis verweigert. Es gibt keine freien Andockbuchten.
 ITEM_IS_OUT_OF_STOCK
@@ -904,7 +904,7 @@ SOMEWHERE_STARPORT
 MASS
     Masse
 N_WHATEVER_MASSES
-    %.3f %smassen
+    %mass{f.3} %{units}massen
 SOLAR
     Sonnen
 EARTH
@@ -912,11 +912,11 @@ EARTH
 SURFACE_TEMPERATURE
     Oberflächentemperatur
 N_CELSIUS
-    %d C
+    %temperature C
 N_YEARS
-    %.1f Jahre
+    %years{f.1} Jahre
 N_DAYS
-    %.1f Tage
+    %days{f.1} Tage
 ORBITAL_PERIOD
     Umlaufzeit
 PERIAPSIS_DISTANCE
@@ -928,11 +928,11 @@ ECCENTRICITY
 AXIAL_TILE
     Neigung der Rotationsachse
 N_DEGREES
-    %.1f grad
+    %angle{f.1} grad
 DAY_LENGTH
     Tageslänge
 N_EARTH_DAYS
-    %.1f Erdentage
+    %days{f.1} Erdentage
 STARPORTS
     Raumschiffhäfen
 MAJOR_IMPORTS
@@ -970,9 +970,9 @@ ALLEGIANCE
 POPULATION
     Einwohnerzahl:
 OVER_N_BILLION
-    Mehr als %d Milliarden
+    Mehr als %population Milliarden
 OVER_N_MILLION
-    Mehr als %d Millionen
+    Mehr als %population Millionen
 A_FEW_THOUSAND
     Nur einige Tausend
 NO_REGISTERED_INHABITANTS
@@ -1040,37 +1040,37 @@ DOCKED
 HYPERSPACE
     Hyperraum
 SET_SPEED_KM_S
-    Geschwindigkeit angesetzt: %.2f km/s
+    Geschwindigkeit angesetzt: %speed{f.2} km/s
 SET_SPEED_M_S
-    Geschwindigkeit angesetzt: %.0f m/s
+    Geschwindigkeit angesetzt: %speed{f.0} m/s
 KM_S_RELATIVE_TO
-    %.2f km/s bez-auf %s
+    %speed{f.2} km/s bez-auf %frame
 M_S_RELATIVE_TO
-    %.0f m/s bez-auf %s
+    %speed{f.0} m/s bez-auf %frame
 N_DISTANCE_TO_TARGET
-    %s nach Ziel
+    %distance nach Ziel
 IN_TRANSIT_TO_N_X_X_X
-    Auf dem Weg nach %s [%d,%d,%d]
+    Auf dem Weg nach %system [%x,%y,%z]
 ALT_IN_METRES
-    Höhe: %.0fm
+    Höhe: %altitude{f.0}m
 PRESSURE_N_BAR
-    Druck: %.2f bar
+    Druck: %pressure{f.2} bar
 NO_HYPERDRIVE
     Kein Hyperlaufwerk
 MASS_N_TONNES
-    Masse: %dt
+    Masse: %{mass}t
 SHIELD_STRENGTH_N
-    Schild-Stärke: %.2f
+    Schild-Stärke: %shields{f.2}
 CARGO_N
-    Ladung: %dt
+    Ladung: %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
     Hyperraum Anflug Wolke Rest
 HYPERSPACE_X_CLOUD
-    Hyperraum %s Wolke
+    Hyperraum %direction Wolke
 SHIP_MASS_N_TONNES
-    Schiff Masse: %dt
+    Schiff Masse: %{mass}t
 DATE_DUE_N
-    Fälligkeitsdatum: %s
+    Fälligkeitsdatum: %date
 ARRIVAL
     Anflug
 DEPARTURE
@@ -1080,17 +1080,17 @@ SOURCE
 DESTINATION
     Reiseziel
 HYPERSPACING_IN_N_SECONDS
-    Hyperraumsprung in %.0f Sekunden
+    Hyperraumsprung in %countdown{f.0} Sekunden
 NAVIGATION_TARGETS_IN_THIS_SYSTEM
     Navigation Ziele innerhalb dieses Systems
 YOU_NO_MONEY
     Sie haben kein Geld.
 FINE_PAID_N_BUT_N_REMAINING
-    Sie haben %s bezahlt, aber Sie müssen noch eine herausragende Geldstrafe von %s zu bezahlen.
+    Sie haben %paid bezahlt, aber Sie müssen noch eine herausragende Geldstrafe von %fine zu bezahlen.
 FINE_PAID_N
-    Sie haben die Geldstrafe von %s bezahlt.
+    Sie haben die Geldstrafe von %fine bezahlt.
 SET_HYPERSPACE_DESTINATION_TO
-    "Hyperraum Ziel nach %s angesetzt"
+    "Hyperraum Ziel nach %system angesetzt"
 NO_TARGET_SELECTED
     Schiffsrechner: Kein Ziel ausgewählt
 REQUEST_DOCKING_CLEARANCE
@@ -1098,15 +1098,15 @@ REQUEST_DOCKING_CLEARANCE
 AUTOPILOT_DOCK_WITH_STATION
     Autopilot: mit Raumstation andocken
 PAY_FINE_REMOTELY
-    Geldstrafe bezahlen durch Fernübertragung (%s)
+    Geldstrafe bezahlen durch Fernübertragung (%amount)
 AUTOPILOT_FLY_TO_VICINITY_OF
-    Autopilot: Fliegen nach der Nähe von %s
+    Autopilot: Fliegen nach der Nähe von %target
 AUTOPILOT_ENTER_LOW_ORBIT_AROUND
-    Autopilot: Flieg nach niedriger Umlaufbahn um %s
+    Autopilot: Flieg nach niedriger Umlaufbahn um %target
 AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
-    Autopilot: Flieg nach mittlerer Umlaufbahn um %s
+    Autopilot: Flieg nach mittlerer Umlaufbahn um %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
-    Autopilot: Flieg nach hoher Umlaufbahn um %s
+    Autopilot: Flieg nach hoher Umlaufbahn um %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Hyperraumwolke Analysator: Set Hyperraum Ziel um dieser Abfahrt zu folgen
 FAILED
@@ -1116,4 +1116,4 @@ COMPLETED
 ACTIVE
     Aktuell
 DISTANCE_LY
-    Entfernung: %0.2f Lj
+    Entfernung: %distance{f.2} Lj

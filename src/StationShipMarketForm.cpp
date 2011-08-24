@@ -5,12 +5,13 @@
 #include "SpaceStationView.h"
 #include "StationShipViewForm.h"
 #include "Lang.h"
+#include "StringF.h"
 
 StationShipMarketForm::StationShipMarketForm(FormController *controller) : FaceForm(controller)
 {
 	m_station = Pi::player->GetDockedWith();
 
-	SetTitle(stringf_old(256, Lang::SOMEWHERE_SHIP_MARKET, m_station->GetLabel().c_str()));
+	SetTitle(stringf(Lang::SOMEWHERE_SHIP_MARKET, formatarg("station", m_station->GetLabel())));
 
 	Gui::VScrollBar *scroll = new Gui::VScrollBar();
 	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450);
@@ -76,7 +77,7 @@ void StationShipMarketForm::UpdateShipList()
 		f->Add(l,0,0);
 		f->Add(new Gui::Label(format_money((*i).price)), 200, 0);
 		f->Add(new Gui::Label(format_money((*i).price - Pi::player->GetFlavour()->price) ), 275, 0);
-		f->Add(new Gui::Label(stringf_old(16, Lang::NUMBER_TONNES, ShipType::types[(*i).type].capacity)), 370, 0);
+		f->Add(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", ShipType::types[(*i).type].capacity))), 370, 0);
 		
 		Gui::SolidButton *sb = new Gui::SolidButton();
 		sb->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipMarketForm::ViewShip), num));

@@ -6,6 +6,7 @@
 #include "ShipCpanel.h"
 #include "SpaceStationView.h"
 #include "Lang.h"
+#include "StringF.h"
 
 void StationPoliceForm::OnOptionClicked(int option)
 {
@@ -13,7 +14,7 @@ void StationPoliceForm::OnOptionClicked(int option)
 		case 0: {
 			SpaceStation *station = Pi::player->GetDockedWith();
 
-			SetTitle(stringf_old(256, Lang::SOMEWHERE_POLICE, station->GetLabel().c_str()).c_str());
+			SetTitle(stringf(Lang::SOMEWHERE_POLICE, formatarg("station", station->GetLabel())));
 
 			SetFaceFlags(FaceVideoLink::ARMOUR);
 			SetFaceSeed(MTRand(station->GetSBody()->seed).Int32());
@@ -25,7 +26,7 @@ void StationPoliceForm::OnOptionClicked(int option)
 				SetMessage(Lang::WE_HAVE_NO_BUSINESS_WITH_YOU);
 			}
 			else {
-				SetMessage(stringf_old(256, Lang::YOU_MUST_PAY_FINE_OF_N_CREDITS, format_money(fine).c_str()).c_str());
+				SetMessage(stringf(Lang::YOU_MUST_PAY_FINE_OF_N_CREDITS, formatarg("fine", format_money(fine))));
 				AddOption(Lang::PAY_THE_FINE_NOW, 1);
 			}
 

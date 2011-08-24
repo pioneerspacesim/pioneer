@@ -9,6 +9,7 @@
 #include "StarSystem.h"
 #include "GalacticView.h"
 #include "Lang.h"
+#include "StringF.h"
 #include "ShipCpanel.h"
 
 #define INNER_RADIUS (Sector::SIZE*1.5f)
@@ -190,7 +191,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 	
 	bool gotMatch = false, gotStartMatch = false;
 	SystemPath bestMatch;
-	const std::string *bestMatchName;
+	const std::string *bestMatchName = 0;
 
 	for (std::map<SystemPath,Sector*>::iterator i = m_sectorCache.begin(); i != m_sectorCache.end(); i++)
 
@@ -206,7 +207,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 					// exact match, take it and go
 					SystemPath path = (*i).first;
 					path.systemIndex = systemIndex;
-					Pi::cpan->MsgLog()->Message("", stringf_old(256, Lang::EXACT_MATCH_X, ss->name.c_str()));
+					Pi::cpan->MsgLog()->Message("", stringf(Lang::EXACT_MATCH_X, formatarg("system", ss->name)));
 					GotoSystem(path);
 					return;
 				}
@@ -241,7 +242,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 		}
 	
 	if (gotMatch) {
-		Pi::cpan->MsgLog()->Message("", stringf_old(256, Lang::NOT_FOUND_BEST_MATCH_X, bestMatchName->c_str()));
+		Pi::cpan->MsgLog()->Message("", stringf(Lang::NOT_FOUND_BEST_MATCH_X, formatarg("system", *bestMatchName)));
 		GotoSystem(bestMatch);
 	}
 
@@ -267,10 +268,13 @@ void SectorView::Draw3D()
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	m_sectorLabel->SetText(stringf_old(128, Lang::SECTOR_X_Y_Z, int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z))));
+	m_sectorLabel->SetText(stringf(Lang::SECTOR_X_Y_Z,
+		formatarg("x", int(floorf(m_pos.x))),
+		formatarg("y", int(floorf(m_pos.y))),
+		formatarg("z", int(floorf(m_pos.z)))));
 
 	vector3f dv = vector3f(floorf(m_pos.x)-m_current.sectorX, floorf(m_pos.y)-m_current.sectorY, floorf(m_pos.z)-m_current.sectorZ) * Sector::SIZE;
-	m_distanceLabel->SetText(stringf_old(128, Lang::DISTANCE_LY, dv.Length()));
+	m_distanceLabel->SetText(stringf(Lang::DISTANCE_LY, formatarg("distance", dv.Length())));
 
 	glDisable(GL_LIGHTING);
 
@@ -401,17 +405,20 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 		switch (jumpStatus) {
 			case Ship::HYPERJUMP_OK:
 				snprintf(format, sizeof(format), "[ %s | %s | %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES, Lang::NUMBER_HOURS);
-				labels.distance->SetText(stringf_old(256, format, dist, fuelRequired, dur*0.0002778));
+				labels.distance->SetText(stringf(format,
+					formatarg("distance", dist), formatarg("mass", fuelRequired), formatarg("hours", dur*0.0002778)));
 				labels.distance->Color(0.0f, 1.0f, 0.2f);
 				break;
 			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
 				snprintf(format, sizeof(format), "[ %s | %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES);
-				labels.distance->SetText(stringf_old(256, format, dist, fuelRequired));
+				labels.distance->SetText(stringf(format,
+					formatarg("distance", dist), formatarg("mass", fuelRequired)));
 				labels.distance->Color(1.0f, 1.0f, 0.0f);
 				break;
 			case Ship::HYPERJUMP_OUT_OF_RANGE:
 				snprintf(format, sizeof(format), "[ %s ]", Lang::NUMBER_LY);
-				labels.distance->SetText(stringf_old(256, format, dist));
+				labels.distance->SetText(stringf(format,
+					formatarg("distance", dist)));
 				labels.distance->Color(1.0f, 0.0f, 0.0f);
 				break;
 			default:

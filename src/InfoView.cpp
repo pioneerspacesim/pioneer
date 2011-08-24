@@ -7,6 +7,7 @@
 #include "LmrModel.h"
 #include "render/Render.h"
 #include "Lang.h"
+#include "StringF.h"
 
 class InfoViewPage: public Gui::Fixed {
 public:
@@ -241,8 +242,10 @@ public:
             col2 += std::string(Lang::NO_MOUNTING);
 		}
 
-		snprintf(buf, sizeof(buf), std::string(std::string("\n\n")+std::string(Lang::N_LIGHT_YEARS_N_MAX)).c_str(), stats->hyperspace_range, stats->hyperspace_range_max);
-		col2 += std::string(buf);
+		col2 += "\n\n";
+		col2 += stringf(Lang::N_LIGHT_YEARS_N_MAX,
+			formatarg("distance", stats->hyperspace_range),
+			formatarg("maxdistance", stats->hyperspace_range_max));
 
 		for (int i=Equip::FIRST_SHIPEQUIP; i<=Equip::LAST_SHIPEQUIP; i++) {
 			Equip::Type t = Equip::Type(i) ;

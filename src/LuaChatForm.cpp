@@ -195,6 +195,7 @@ void LuaChatForm::OnClickBuy(int t) {
 
 	if (allow_buy) {
 		if (SellTo(Pi::player, static_cast<Equip::Type>(t), true)) {
+			// XXX this should use Lang::BOUGHT_1T_OF or be removed
 			Pi::Message(stringf_old(512, "You have bought 1t of %s.", EquipType::types[t].name));
 		}
 		m_commodityTradeWidget->UpdateStock(t);
@@ -219,6 +220,7 @@ void LuaChatForm::OnClickSell(int t) {
 
 	if (allow_sell) {
 		if (BuyFrom(Pi::player, static_cast<Equip::Type>(t), true)) {
+			// XXX this should use Lang::SOLD_1T_OF or be removed
 			Pi::Message(stringf_old(512, "You have sold 1t of %s.", EquipType::types[t].name));
 		}
 		m_commodityTradeWidget->UpdateStock(t);

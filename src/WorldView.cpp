@@ -14,6 +14,7 @@
 #include "perlin.h"
 #include "SectorView.h"
 #include "Lang.h"
+#include "StringF.h"
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
@@ -512,9 +513,9 @@ void WorldView::RefreshButtonStateAndVisibility()
 					case Player::CONTROL_FIXSPEED: {
 						std::string msg;
 						if (Pi::player->GetSetSpeed() > 1000) {
-							msg = stringf_old(256, Lang::SET_SPEED_KM_S, Pi::player->GetSetSpeed()*0.001);
+							msg = stringf(Lang::SET_SPEED_KM_S, formatarg("speed", Pi::player->GetSetSpeed()*0.001));
 						} else {
-							msg = stringf_old(256, Lang::SET_SPEED_M_S, Pi::player->GetSetSpeed());
+							msg = stringf(Lang::SET_SPEED_M_S, formatarg("speed", Pi::player->GetSetSpeed()));
 						}
 						m_flightStatus->SetText(msg);
 						break;
@@ -568,9 +569,11 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 	if (const SystemPath *dest = Space::GetHyperspaceDest()) {
 		StarSystem *s = StarSystem::GetCached(*dest);
-		char buf[128];
-		snprintf(buf, sizeof(buf), Lang::IN_TRANSIT_TO_N_X_X_X, s->GetName().c_str(), dest->sectorX, dest->sectorY, dest->sectorZ);
-		m_hudVelocity->SetText(buf);
+		m_hudVelocity->SetText(stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
+			formatarg("system", s->GetName()),
+			formatarg("x", dest->sectorX),
+			formatarg("y", dest->sectorY),
+			formatarg("z", dest->sectorZ)));
 		m_hudVelocity->Show();
 
 		m_hudTargetDist->Hide();
@@ -581,22 +584,21 @@ void WorldView::RefreshButtonStateAndVisibility()
 	else {
 		{
 			double _vel = vel.Length();
-			char buf[128];
+			std::string str;
 			const char *rel_to = Pi::player->GetFrame()->GetLabel();
 			vector3d pos = Pi::player->GetPosition();
 			if (_vel > 1000) {
-				snprintf(buf,sizeof(buf), Lang::KM_S_RELATIVE_TO, _vel*0.001, rel_to);
+				str = stringf(Lang::KM_S_RELATIVE_TO, formatarg("speed", _vel*0.001), formatarg("frame", rel_to));
 			} else {
-				snprintf(buf,sizeof(buf), Lang::M_S_RELATIVE_TO, _vel, rel_to);
+				str = stringf(Lang::M_S_RELATIVE_TO, formatarg("speed", _vel), formatarg("frame", rel_to));
 			}
-			m_hudVelocity->SetText(buf);
+			m_hudVelocity->SetText(str);
 		}
 
 		if (Body *navtarget = Pi::player->GetNavTarget()) {
 			double dist = Pi::player->GetPositionRelTo(navtarget).Length();
-			char buf[128];
-			snprintf(buf, sizeof(buf), Lang::N_DISTANCE_TO_TARGET, format_distance(dist).c_str());
-			m_hudTargetDist->SetText(buf);
+			m_hudTargetDist->SetText(stringf(Lang::N_DISTANCE_TO_TARGET,
+				formatarg("distance", format_distance(dist))));
 			m_hudTargetDist->Show();
 		}
 		else
@@ -620,9 +622,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				m_hudAltitude->Hide();
 			} else {
 				if (altitude < 0) altitude = 0;
-				char buf[128];
-				snprintf(buf, sizeof(buf), Lang::ALT_IN_METRES, altitude);
-				m_hudAltitude->SetText(buf);
+				m_hudAltitude->SetText(stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude)));
 				m_hudAltitude->Show();
 			}
 
@@ -630,10 +630,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 				double dist = Pi::player->GetPosition().Length();
 				double pressure, density;
 				reinterpret_cast<Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);
-				char buf[128];
-				snprintf(buf, sizeof(buf), Lang::PRESSURE_N_BAR, pressure);
 
-				m_hudPressure->SetText(buf);
+				m_hudPressure->SetText(stringf(Lang::PRESSURE_N_BAR, formatarg("pressure", pressure)));
 				m_hudPressure->Show();
 
 				m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
@@ -697,8 +695,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_hudTargetShieldIntegrity->Show();
 
 			std::string text;
-			text += stringf_old(256, "%s\n", ShipType::types[flavour->type].name.c_str());
-			text += stringf_old(256, "%s\n", flavour->regid);
+			text += ShipType::types[flavour->type].name;
+			text += "\n";
+			text += flavour->regid;
+			text += "\n";
 
 			if (s->m_equipment.Get(Equip::SLOT_ENGINE) == Equip::NONE) {
 				text += Lang::NO_HYPERDRIVE;
@@ -706,10 +706,14 @@ void WorldView::RefreshButtonStateAndVisibility()
 				text += EquipType::types[s->m_equipment.Get(Equip::SLOT_ENGINE)].name;
 			}
 
-			text += stringf_old(256, std::string(std::string("\n")+std::string(Lang::MASS_N_TONNES)+std::string("\n")).c_str(), stats->total_mass);
-			text += stringf_old(256, std::string(std::string(Lang::SHIELD_STRENGTH_N)+std::string("\n")).c_str(),
-				(sShields*0.01f) * float(s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR)));
-			text += stringf_old(256, std::string(std::string(Lang::CARGO_N)+std::string("\n")).c_str(), stats->used_cargo);
+			text += "\n";
+			text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats->total_mass));
+			text += "\n";
+			text += stringf(Lang::SHIELD_STRENGTH_N, formatarg("shields",
+				(sShields*0.01f) * float(s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR))));
+			text += "\n";
+			text += stringf(Lang::CARGO_N, formatarg("mass", stats->used_cargo));
+			text += "\n";
 
 			m_hudTargetInfo->SetText(text);
 			MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 150.0f, 85.0f);
@@ -731,19 +735,17 @@ void WorldView::RefreshButtonStateAndVisibility()
 			else {
 				const SystemPath dest = ship->GetHyperspaceDest();
 				Sector s(dest.sectorX, dest.sectorY, dest.sectorZ);
-				text += stringf_old(512,
-					std::string(
-                        std::string(Lang::HYPERSPACE_X_CLOUD)+std::string("\n")+
-					    std::string(Lang::SHIP_MASS_N_TONNES)+std::string("\n")+
-					    std::string("%s: %s\n")+
-					    std::string(Lang::DATE_DUE_N)+std::string("\n")
-                    ).c_str(),
-					cloud->IsArrival() ? Lang::ARRIVAL : Lang::DEPARTURE,
-					ship->CalcStats()->total_mass,
-                    cloud->IsArrival() ? Lang::SOURCE : Lang::DESTINATION,
-					s.m_systems[dest.systemIndex].name.c_str(),
-					format_date(cloud->GetDueDate()).c_str()
-				);
+				text += stringf(Lang::HYPERSPACE_X_CLOUD, formatarg("direction",
+					(cloud->IsArrival() ? Lang::ARRIVAL : Lang::DEPARTURE)));
+				text += "\n";
+				text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->CalcStats()->total_mass));
+				text += "\n";
+				text += (cloud->IsArrival() ? Lang::SOURCE : Lang::DESTINATION);
+				text += ": ";
+				text += s.m_systems[dest.systemIndex].name;
+				text += "\n";
+				text += stringf(Lang::DATE_DUE_N, formatarg("date", format_date(cloud->GetDueDate())));
+				text += "\n";
 			}
 
 			m_hudTargetInfo->SetText(text);
@@ -765,9 +767,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		float val = Pi::player->GetHyperspaceCountdown();
 
 		if (!(int(ceil(val*2.0)) % 2)) {
-			char buf[128];
-			snprintf(buf, sizeof(buf), Lang::HYPERSPACING_IN_N_SECONDS, ceil(val));
-			m_hudHyperspaceInfo->SetText(buf);
+			m_hudHyperspaceInfo->SetText(stringf(Lang::HYPERSPACING_IN_N_SECONDS, formatarg("countdown", ceil(val))));
 			m_hudHyperspaceInfo->Show();
 		} else {
 			m_hudHyperspaceInfo->Hide();
@@ -913,14 +913,15 @@ static void PlayerPayFine()
 	} else if (fine > Pi::player->GetMoney()) {
 		Polit::AddCrime(0, -Pi::player->GetMoney());
 		Polit::GetCrime(&crime, &fine);
-		Pi::cpan->MsgLog()->Message("", stringf_old(512, Lang::FINE_PAID_N_BUT_N_REMAINING,
-				format_money(Pi::player->GetMoney()).c_str(),
-				format_money(fine).c_str()));
+		Pi::cpan->MsgLog()->Message("", stringf(
+			Lang::FINE_PAID_N_BUT_N_REMAINING,
+				formatarg("paid", format_money(Pi::player->GetMoney())),
+				formatarg("fine", format_money(fine))));
 		Pi::player->SetMoney(0);
 	} else {
 		Pi::player->SetMoney(Pi::player->GetMoney() - fine);
-		Pi::cpan->MsgLog()->Message("", stringf_old(512, Lang::FINE_PAID_N,
-				format_money(fine).c_str()));
+		Pi::cpan->MsgLog()->Message("", stringf(Lang::FINE_PAID_N,
+				formatarg("fine", format_money(fine))));
 		Polit::AddCrime(0, -fine);
 	}
 }
@@ -935,7 +936,7 @@ void WorldView::OnHyperspaceTargetChanged()
 	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
 
 	StarSystem *system = StarSystem::GetCached(path);
-	Pi::cpan->MsgLog()->Message("", std::string(stringf_old(256,Lang::SET_HYPERSPACE_DESTINATION_TO,system->GetName().c_str())));
+	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", system->GetName())));
 	system->Release();
 
 	int fuelReqd;
@@ -1012,27 +1013,27 @@ void WorldView::UpdateCommsOptions()
 			Sint64 crime, fine;
 			Polit::GetCrime(&crime, &fine);
 			if (fine) {
-				button = AddCommsOption(stringf_old(512, Lang::PAY_FINE_REMOTELY,
-							format_money(fine).c_str()).c_str(), ypos, optnum++);
+				button = AddCommsOption(stringf(Lang::PAY_FINE_REMOTELY,
+							formatarg("fine", format_money(fine))), ypos, optnum++);
 				button->onClick.connect(sigc::ptr_fun(&PlayerPayFine));
 				ypos += 32;
 			}
 		}
 		if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
-			button = AddCommsOption(stringf_old(256, Lang::AUTOPILOT_FLY_TO_VICINITY_OF, navtarget->GetLabel().c_str()), ypos, optnum++);
+			button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
 			button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_flyto), navtarget));
 			ypos += 32;
 
 			if (navtarget->IsType(Object::PLANET) || navtarget->IsType(Object::STAR)) {
-				button = AddCommsOption(stringf_old(256, Lang::AUTOPILOT_ENTER_LOW_ORBIT_AROUND, navtarget->GetLabel().c_str()), ypos, optnum++);
+				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_LOW_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 1.1));
 				ypos += 32;
 
-				button = AddCommsOption(stringf_old(256, Lang::AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND, navtarget->GetLabel().c_str()), ypos, optnum++);
+				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 2.0));
 				ypos += 32;
 
-				button = AddCommsOption(stringf_old(256, Lang::AUTOPILOT_ENTER_HIGH_ORBIT_AROUND, navtarget->GetLabel().c_str()), ypos, optnum++);
+				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_HIGH_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 5.0));
 				ypos += 32;
 			}
@@ -1050,7 +1051,7 @@ void WorldView::UpdateCommsOptions()
 	if (comtarget) {
 		m_commsOptions->Add(new Gui::Label("#f00"+comtarget->GetLabel()), 16, float(ypos));
 		ypos += 32;
-		button = AddCommsOption(stringf_old(256, Lang::AUTOPILOT_FLY_TO_VICINITY_OF, comtarget->GetLabel().c_str()), ypos, optnum++);
+		button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", comtarget->GetLabel())), ypos, optnum++);
 		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget));
 		ypos += 32;
 	}

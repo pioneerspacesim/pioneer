@@ -24,6 +24,7 @@ public:
 	static void Serialize(Serializer::Writer &wr, Frame *);
 	static void PostUnserializeFixup(Frame *f);
 	static Frame *Unserialize(Serializer::Reader &rd, Frame *parent);
+	// XXX this should return a std::string
 	const char *GetLabel() const { return m_label.c_str(); }
 	void SetLabel(const char *label) { m_label = label; }
 	void SetPosition(const vector3d &pos) { m_orient.SetTranslate(pos); }

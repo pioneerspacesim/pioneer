@@ -7,10 +7,11 @@
 #include "StationShipMarketForm.h"
 #include "StationShipRepairForm.h"
 #include "Lang.h"
+#include "StringF.h"
 
 StationShipyardForm::StationShipyardForm(FormController *controller) : FaceForm(controller)
 {
-	SetTitle(stringf_old(256, Lang::SOMEWHERE_SHIPYARD, Pi::player->GetDockedWith()->GetLabel().c_str()));
+	SetTitle(stringf(Lang::SOMEWHERE_SHIPYARD, formatarg("station", Pi::player->GetDockedWith()->GetLabel())));
 
 	Gui::SolidButton *b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_1, KMOD_NONE);

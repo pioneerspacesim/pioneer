@@ -7,6 +7,7 @@
 #include "SoundMusic.h"
 #include "KeyBindings.h"
 #include "Lang.h"
+#include "StringF.h"
 
 #if _GNU_SOURCE
 #include <sys/types.h>
@@ -159,7 +160,7 @@ static void GetDirectoryContents(const char *name, std::list<std::string> &files
 	DIR *dir = opendir(name);
 	if (!dir) {
 		//if (-1 == mkdir(name, 0770)
-		Gui::Screen::ShowBadError(stringf_old(128, Lang::COULD_NOT_OPEN_FILENAME, name).c_str());
+		Gui::Screen::ShowBadError(stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", name)).c_str());
 		return;
 	}
 	struct dirent *entry;
@@ -463,7 +464,7 @@ GameMenuView::GameMenuView(): View()
 			Gui::HBox *hbox = new Gui::HBox();
 			hbox->SetSpacing(5.0f);
 			hbox->PackEnd(temp);
-			hbox->PackEnd(new Gui::Label(stringf_old(256, Lang::X_BY_X, modes[i]->w, modes[i]->h)));
+			hbox->PackEnd(new Gui::Label(stringf(Lang::X_BY_X, formatarg("x", int(modes[i]->w)), formatarg("y", int(modes[i]->h)))));
 			vbox2->PackEnd(hbox);
 			if ((Pi::GetScrWidth() == modes[i]->w) && (Pi::GetScrHeight() == modes[i]->h)) {
 				temp->SetSelected(true);
