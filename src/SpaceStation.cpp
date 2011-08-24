@@ -595,7 +595,7 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		if (i >= m_type->numDockingPorts) break;
 		if ((m_shipDocking[i].ship == s) && (m_shipDocking[i].stage > 0)) {
-			outMsg = stringf(256, Lang::CLEARANCE_ALREADY_GRANTED_BAY_N, i+1);
+			outMsg = stringf_old(256, Lang::CLEARANCE_ALREADY_GRANTED_BAY_N, i+1);
 			return true;
 		}
 	}
@@ -606,7 +606,7 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 		sd.ship = s;
 		sd.stage = 1;
 		sd.stagePos = 0;
-		outMsg = stringf(256, Lang::CLEARANCE_GRANTED_BAY_N, i+1);
+		outMsg = stringf_old(256, Lang::CLEARANCE_GRANTED_BAY_N, i+1);
 		return true;
 	}
 	outMsg = Lang::CLEARANCE_DENIED_NO_BAYS;

@@ -74,7 +74,7 @@ public:
 			l = new Gui::Label((*i)->client);
 			innerbox->Add(l, 80, ypos);
 			
-			l = new Gui::Label(stringf(256, "%s,\n%s [%d,%d,%d]", sbody->name.c_str(), s->GetName().c_str(), path.sectorX, path.sectorY, path.sectorZ));
+			l = new Gui::Label(stringf_old(256, "%s,\n%s [%d,%d,%d]", sbody->name.c_str(), s->GetName().c_str(), path.sectorX, path.sectorY, path.sectorZ));
 			innerbox->Add(l, 240, ypos);
 			
 			l = new Gui::Label(format_date((*i)->due));
@@ -250,9 +250,9 @@ public:
 			if ((s == Equip::SLOT_MISSILE) || (s == Equip::SLOT_ENGINE) || (s == Equip::SLOT_LASER)) continue;
 			int num = Pi::player->m_equipment.Count(s, t);
 			if (num == 1) {
-				col1 += stringf(128, "%s\n", EquipType::types[t].name);
+				col1 += stringf_old(128, "%s\n", EquipType::types[t].name);
 			} else if (num > 1) {
-				col1 += stringf(128, "%d %ss\n", num, EquipType::types[t].name);
+				col1 += stringf_old(128, "%d %ss\n", num, EquipType::types[t].name);
 			}
 		}
 

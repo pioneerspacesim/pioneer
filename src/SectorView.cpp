@@ -174,7 +174,7 @@ void SectorView::Load(Serializer::Reader &rd)
 	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 
-	m_hyperspaceLockLabel->SetText(stringf(64, "[%s]", m_matchTargetToSelection ? Lang::FOLLOWING_SELECTION : Lang::LOCKED));
+	m_hyperspaceLockLabel->SetText(stringf_old(64, "[%s]", m_matchTargetToSelection ? Lang::FOLLOWING_SELECTION : Lang::LOCKED));
 
 	m_firstTime = false;
 }
@@ -206,7 +206,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 					// exact match, take it and go
 					SystemPath path = (*i).first;
 					path.systemIndex = systemIndex;
-					Pi::cpan->MsgLog()->Message("", stringf(256, Lang::EXACT_MATCH_X, ss->name.c_str()));
+					Pi::cpan->MsgLog()->Message("", stringf_old(256, Lang::EXACT_MATCH_X, ss->name.c_str()));
 					GotoSystem(path);
 					return;
 				}
@@ -241,7 +241,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 		}
 	
 	if (gotMatch) {
-		Pi::cpan->MsgLog()->Message("", stringf(256, Lang::NOT_FOUND_BEST_MATCH_X, bestMatchName->c_str()));
+		Pi::cpan->MsgLog()->Message("", stringf_old(256, Lang::NOT_FOUND_BEST_MATCH_X, bestMatchName->c_str()));
 		GotoSystem(bestMatch);
 	}
 
@@ -267,10 +267,10 @@ void SectorView::Draw3D()
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	m_sectorLabel->SetText(stringf(128, Lang::SECTOR_X_Y_Z, int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z))));
+	m_sectorLabel->SetText(stringf_old(128, Lang::SECTOR_X_Y_Z, int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z))));
 
 	vector3f dv = vector3f(floorf(m_pos.x)-m_current.sectorX, floorf(m_pos.y)-m_current.sectorY, floorf(m_pos.z)-m_current.sectorZ) * Sector::SIZE;
-	m_distanceLabel->SetText(stringf(128, Lang::DISTANCE_LY, dv.Length()));
+	m_distanceLabel->SetText(stringf_old(128, Lang::DISTANCE_LY, dv.Length()));
 
 	glDisable(GL_LIGHTING);
 
@@ -317,13 +317,13 @@ void SectorView::SetHyperspaceTarget(const SystemPath &path)
 
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 
-	m_hyperspaceLockLabel->SetText(stringf(64, "[%s]", Lang::LOCKED));
+	m_hyperspaceLockLabel->SetText(stringf_old(64, "[%s]", Lang::LOCKED));
 }
 
 void SectorView::FloatHyperspaceTarget()
 {
 	m_matchTargetToSelection = true;
-	m_hyperspaceLockLabel->SetText(stringf(64, "[%s]", Lang::FOLLOWING_SELECTION));
+	m_hyperspaceLockLabel->SetText(stringf_old(64, "[%s]", Lang::FOLLOWING_SELECTION));
 }
 
 void SectorView::ResetHyperspaceTarget()
@@ -401,17 +401,17 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 		switch (jumpStatus) {
 			case Ship::HYPERJUMP_OK:
 				snprintf(format, sizeof(format), "[ %s | %s | %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES, Lang::NUMBER_HOURS);
-				labels.distance->SetText(stringf(256, format, dist, fuelRequired, dur*0.0002778));
+				labels.distance->SetText(stringf_old(256, format, dist, fuelRequired, dur*0.0002778));
 				labels.distance->Color(0.0f, 1.0f, 0.2f);
 				break;
 			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
 				snprintf(format, sizeof(format), "[ %s | %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES);
-				labels.distance->SetText(stringf(256, format, dist, fuelRequired));
+				labels.distance->SetText(stringf_old(256, format, dist, fuelRequired));
 				labels.distance->Color(1.0f, 1.0f, 0.0f);
 				break;
 			case Ship::HYPERJUMP_OUT_OF_RANGE:
 				snprintf(format, sizeof(format), "[ %s ]", Lang::NUMBER_LY);
-				labels.distance->SetText(stringf(256, format, dist));
+				labels.distance->SetText(stringf_old(256, format, dist));
 				labels.distance->Color(1.0f, 0.0f, 0.0f);
 				break;
 			default:

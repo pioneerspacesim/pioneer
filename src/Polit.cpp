@@ -125,7 +125,7 @@ void NotifyOfCrime(Ship *s, enum Crime crime)
 		if (dist > 100000.0) return;
 		const int crimeIdx = GetCrimeIdxFromEnum(crime);
 		Pi::cpan->MsgLog()->ImportantMessage(station->GetLabel(),
-				stringf(512, Lang::X_CANNOT_BE_TOLERATED_HERE, crimeNames[crimeIdx]));
+				stringf_old(512, Lang::X_CANNOT_BE_TOLERATED_HERE, crimeNames[crimeIdx]));
 
 		float lawlessness = Pi::currentSystem->GetSysPolit().lawlessness.ToFloat();
 		Sint64 oldCrimes, oldFine;

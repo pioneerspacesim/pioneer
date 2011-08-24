@@ -165,7 +165,7 @@ void GalacticView::Update()
 	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(0.25f, frameTime);
 	m_zoom = Clamp(m_zoom, 0.5f, 100.0f);
 
-	m_scaleReadout->SetText(stringf(128, Lang::INT_LY, int(0.5*Galaxy::GALAXY_RADIUS/m_zoom)));
+	m_scaleReadout->SetText(stringf_old(128, Lang::INT_LY, int(0.5*Galaxy::GALAXY_RADIUS/m_zoom)));
 }
 
 void GalacticView::MouseButtonDown(int button, int x, int y)

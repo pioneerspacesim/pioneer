@@ -8,7 +8,7 @@ StationShipRepairForm::StationShipRepairForm(FormController *controller) : FaceF
 {
 	m_station = Pi::player->GetDockedWith();
 
-	SetTitle(stringf(256, Lang::SOMEWHERE_SHIP_REPAIRS, m_station->GetLabel().c_str()));
+	SetTitle(stringf_old(256, Lang::SOMEWHERE_SHIP_REPAIRS, m_station->GetLabel().c_str()));
 
 	m_working = new Gui::Label(Lang::SHIP_IS_ALREADY_FULLY_REPAIRED);
 	Add(m_working, 0, 0);
@@ -84,7 +84,7 @@ void StationShipRepairForm::UpdateLabels()
 	}
 
 	else {
-		m_repairAllDesc->SetText(stringf(128, Lang::REPAIR_ENTIRE_HULL, 100.0f - hullPercent));
+		m_repairAllDesc->SetText(stringf_old(128, Lang::REPAIR_ENTIRE_HULL, 100.0f - hullPercent));
 		m_repairOneCost->SetText(format_money(GetRepairCost(1.0f)));
 		m_repairAllCost->SetText(format_money(GetRepairCost(100.f - hullPercent)));
 

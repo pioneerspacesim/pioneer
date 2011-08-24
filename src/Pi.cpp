@@ -171,7 +171,7 @@ static void draw_progress(float progress)
 	Gui::Screen::EnterOrtho();
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	std::string msg = stringf(256, Lang::SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS, progress * 15.0f);
+	std::string msg = stringf_old(256, Lang::SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS, progress * 15.0f);
 	Gui::Screen::MeasureString(msg, w, h);
 	glColor3f(1.0f,1.0f,1.0f);
 	Gui::Screen::RenderString(msg, 0.5f*(Gui::Screen::GetWidth()-w), 0.5f*(Gui::Screen::GetHeight()-h));

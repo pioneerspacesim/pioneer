@@ -12,7 +12,7 @@
 
 StationServicesForm::StationServicesForm(FormController *controller) : FaceForm(controller)
 {
-	SetTitle(stringf(256, Lang::SOMEWHERE_SERVICES, Pi::player->GetDockedWith()->GetLabel().c_str()));
+	SetTitle(stringf_old(256, Lang::SOMEWHERE_SERVICES, Pi::player->GetDockedWith()->GetLabel().c_str()));
 
 	Gui::Label *l = new Gui::Label(Lang::SPACESTATION_LONG_WELCOME_MESSAGE);
 	Add(l,0,0);

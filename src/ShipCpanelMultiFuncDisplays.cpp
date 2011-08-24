@@ -63,7 +63,7 @@ void MsgLogWidget::ShowNext()
 		if (msg.sender == "") {
 			msgLabel->SetText("#0f0"+msg.message);
 		} else {
-			msgLabel->SetText(stringf(1024, std::string(std::string("#ca0")+std::string(Lang::MESSAGE_FROM_X)+std::string("\n#0f0%s")).c_str(), msg.sender.c_str(), msg.message.c_str()));
+			msgLabel->SetText(stringf_old(1024, std::string(std::string("#ca0")+std::string(Lang::MESSAGE_FROM_X)+std::string("\n#0f0%s")).c_str(), msg.sender.c_str(), msg.message.c_str()));
 		}
 		msgAge = float(Pi::GetGameTime());
 		curMsgType = msg.type;

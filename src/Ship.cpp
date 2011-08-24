@@ -742,7 +742,7 @@ void Ship::StaticUpdate(const float timeStep)
 					double rate = speed*density*0.00001f;
 					if (Pi::rng.Double() < rate) {
 						m_equipment.Add(Equip::HYDROGEN);
-						Pi::Message(stringf(512, Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
+						Pi::Message(stringf_old(512, Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
 									m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN)));
 						UpdateMass();
 					}
@@ -1109,7 +1109,7 @@ bool Ship::CanSell(Equip::Type t, bool verbose) const {
 	bool cansell = (m_equipment.Count(slot, t) > 0);
 	if (verbose && (this == reinterpret_cast<Ship*>(Pi::player))) {
 		if (!cansell) {
-			Pi::Message(stringf(512, Lang::YOU_DO_NOT_HAVE_ANY_X, EquipType::types[int(t)].name));
+			Pi::Message(stringf_old(512, Lang::YOU_DO_NOT_HAVE_ANY_X, EquipType::types[int(t)].name));
 		}
 	}
 	return cansell;
