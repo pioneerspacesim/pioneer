@@ -593,7 +593,8 @@ local onShipHit = function (ship, attacker)
 	if #starports > 0 and trader.answered ~= true then
 		UI.ImportantMessage('MAYDAY! MAYDAY! MAYDAY! We are under attack and require assistance!', ship.label)
 		-- the closer to the starport the better the chance of being answered
-		if Engine.rand:Number(1) > trader.starport / 1196784000 * trader.chance then -- 8AU
+		local distance = ship:DistanceTo(trader.starport)
+		if Engine.rand:Number(1) > distance / 1196784000 * trader.chance then -- 8AU
 			trader['answered'] = true
 			UI.ImportantMessage('Roger '..ship.label..', assistance is on the way!', trader.starport.label)
 			trader['chance'] = 0
