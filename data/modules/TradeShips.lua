@@ -226,8 +226,8 @@ local spawnInitialShips = function ()
 	else
 		num_trade_ships = num_trade_ships + export_score
 	end
-	-- vary by up to 50% more or fewer
-	num_trade_ships = num_trade_ships * Engine.rand:Number(0.5, 1.5)
+	-- vary by up to twice as many
+	num_trade_ships = num_trade_ships * Engine.rand:Number(1, 2)
 	-- reduce based on lawlessness
 	num_trade_ships = num_trade_ships * (1 - lawlessness)
 	-- compute distance and interval between ships
