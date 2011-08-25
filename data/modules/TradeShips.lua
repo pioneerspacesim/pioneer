@@ -446,7 +446,10 @@ local onFrameChanged = function (ship)
 	if trader.status == 'outbound' then
 		-- the cloud inherits the ship velocity and vector
 		ship:CancelAI()
-		getSystemAndJump(ship)
+		if getSystemAndJump(ship) ~= 'OK' then
+			ship:AIDockWith(trader.starport)
+			trader['status'] = 'inbound'
+		end
 	end
 end
 EventQueue.onFrameChanged:Connect(onFrameChanged)
@@ -506,7 +509,10 @@ local onAICompleted = function (ship)
 	print(ship.label..' AICompleted: '..trader.status)
 
 	if trader.status == 'outbound' then
-		getSystemAndJump(ship)
+		if getSystemAndJump(ship) ~= 'OK' then
+			ship:AIDockWith(trader.starport)
+			trader['status'] = 'inbound'
+		end
 	elseif trader.status == 'orbit' then
 		trader['starport'] = getNearestStarport(ship)
 		ship:AIDockWith(trader.starport)
@@ -566,8 +572,9 @@ local onShipHit = function (ship, attacker)
 
 	-- if outbound jump now
 	if trader.status == 'outbound' then
-		getSystemAndJump(ship)
-		return
+		if getSystemAndJump(ship) == 'OK' then
+			return
+		end
 	end
 
 	trader['status'] = 'fleeing'
