@@ -502,7 +502,6 @@ local onAICompleted = function (ship)
 	if trade_ships[ship.label] == nil then return end
 	local trader = trade_ships[ship.label]
 	print(ship.label..' AICompleted: '..trader.status)
-	-- XXX if police that we spawned then attack ship that attacked trader
 
 	if trader.status == 'outbound' then
 		getSystemAndJump(ship)
@@ -591,19 +590,6 @@ local onShipHit = function (ship, attacker)
 
 	-- update last_flee
 	trader['last_flee'] = Game.time
-	-- close or jump failed, call for help until answered
-	if #starports > 0 and trader.answered ~= true then
-		UI.ImportantMessage('MAYDAY! MAYDAY! MAYDAY! We are under attack and require assistance!', ship.label)
-		-- the closer to the starport the better the chance of being answered
-		local distance = ship:DistanceTo(trader.starport)
-		if Engine.rand:Number(1) > distance / 1196784000 * trader.chance then -- 8AU
-			trader['answered'] = true
-			UI.ImportantMessage('Roger '..ship.label..', assistance is on the way!', trader.starport.label)
-			trader['chance'] = 0
-			-- XXX spawn some sort of police and fly to trader
-			return
-		end
-	end
 
 	-- maybe jettison a bit of cargo
 	if Engine.rand:Number(1) < trader.chance then
@@ -637,7 +623,6 @@ EventQueue.onShipCollided:Connect(onShipCollided)
 local onShipDestroyed = function (ship, attacker)
 	if trade_ships[ship.label] ~= nil then
 		local trader = trade_ships[ship.label]
-		-- XXX consider spawning some CargoBodies
 
 		print(ship.label..' destroyed by '..attacker.label..', status:'..trader.status..' ship:'..trader.ship_name..', starport:'..trader.starport.label)
 		trade_ships[ship.label] = nil
@@ -645,6 +630,7 @@ local onShipDestroyed = function (ship, attacker)
 		if not attacker:isa("Ship") then
 			spawnReplacement()
 		end
+		-- XXX consider spawning some CargoBodies if killed by a ship
 	end
 end
 EventQueue.onShipDestroyed:Connect(onShipDestroyed)
