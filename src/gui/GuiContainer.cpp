@@ -109,6 +109,9 @@ void Container::DeleteAllChildren()
 
 void Container::RemoveAllChildren()
 {
+	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+		i->w->SetParent(0);
+	}
 	m_children.clear();
 }
 
@@ -147,6 +150,7 @@ void Container::RemoveChild(Widget *child)
 {
 	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 		if ((*i).w == child) {
+			child->SetParent(0);
 			m_children.erase(i);
 			return;
 		}
