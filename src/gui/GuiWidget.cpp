@@ -121,6 +121,8 @@ void Widget::UpdateOverriddenTooltip()
 
 void Widget::OnToolTip()
 {
+	if (! IsVisible()) return;
+
 	if (!m_tooltipWidget) {
 		std::string text = GetOverrideTooltip();
 		if (text == "") text = m_tooltip;
@@ -147,6 +149,7 @@ void Widget::Hide()
 		delete m_tooltipWidget;
 		m_tooltipWidget = 0;
 	}
+	m_tooltipTimerConnection.disconnect();
 }
 
 void Widget::ResizeRequest()
