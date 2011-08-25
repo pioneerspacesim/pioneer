@@ -3,6 +3,7 @@
 #include "SectorView.h"
 #include "StarSystem.h"
 #include "Lang.h"
+#include "StringF.h"
 
 SystemView::SystemView()
 {
@@ -112,7 +113,7 @@ void SystemView::OnClickObject(SBody *b)
 	desc += std::string(Lang::DAY_LENGTH);
 	desc += std::string(Lang::ROTATIONAL_PERIOD);
     desc += ":\n";
-	data += stringf(128, std::string(std::string(Lang::N_DAYS)+std::string("\n")).c_str(), b->rotationPeriod.ToFloat());
+	data += stringf(Lang::N_DAYS, formatarg("days", b->rotationPeriod.ToFloat())) + "\n";
 	
 	desc += std::string(Lang::RADIUS);
     desc += ":\n";
@@ -125,7 +126,7 @@ void SystemView::OnClickObject(SBody *b)
 
 		desc += std::string(Lang::ORBITAL_PERIOD);
         desc += ":\n";
-		data += stringf(128, std::string(std::string(Lang::N_DAYS)+std::string("\n")).c_str(), b->orbit.period / (24*60*60));
+		data += stringf(Lang::N_DAYS, formatarg("days", b->orbit.period / (24*60*60))) + "\n";
 	}
 	m_infoLabel->SetText(desc);
 	m_infoText->SetText(data);

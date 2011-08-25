@@ -11,10 +11,10 @@ public:
 	bool Save();
 
 	void SetInt(const char *key, int val) {
-		(*this)[key] = stringf(64, "%d", val);
+		(*this)[key] = stringf_old(64, "%d", val);
 	}
 	void SetFloat(const char *key, float val) {
-		(*this)[key] = stringf(64, "%f", val);
+		(*this)[key] = stringf_old(64, "%f", val);
 	}
 	void SetString(const char *key, const char *val) {
 		(*this)[key] = val;

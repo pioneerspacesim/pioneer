@@ -8,6 +8,7 @@
 #include "Space.h"
 #include "SystemPath.h"
 #include "Lang.h"
+#include "StringF.h"
 
 SystemInfoView::SystemInfoView()
 {
@@ -59,27 +60,27 @@ void SystemInfoView::OnBodyViewed(SBody *b)
 		m_infoBox->PackStart(l);
 	}
 
-	_add_label_and_value(Lang::MASS, stringf(64, Lang::N_WHATEVER_MASSES, b->mass.ToDouble(), 
-		(b->GetSuperType() == SBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH)));
+	_add_label_and_value(Lang::MASS, stringf(Lang::N_WHATEVER_MASSES, formatarg("mass", b->mass.ToDouble()), 
+		formatarg("units", std::string(b->GetSuperType() == SBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH))));
 
-	_add_label_and_value(Lang::SURFACE_TEMPERATURE, stringf(64, Lang::N_CELSIUS, b->averageTemp-273));
+	_add_label_and_value(Lang::SURFACE_TEMPERATURE, stringf(Lang::N_CELSIUS, formatarg("temperature", b->averageTemp-273)));
 
 	if (b->parent) {
 		float days = float(b->orbit.period) / float(60*60*24);
 		if (days > 1000) {
-			data = stringf(64, Lang::N_YEARS, days/365);
+			data = stringf(Lang::N_YEARS, formatarg("years", days/365));
 		} else {
-			data = stringf(64, Lang::N_DAYS, b->orbit.period / (60*60*24));
+			data = stringf(Lang::N_DAYS, formatarg("days", b->orbit.period / (60*60*24)));
 		}
 		_add_label_and_value(Lang::ORBITAL_PERIOD, data);
-		_add_label_and_value(Lang::PERIAPSIS_DISTANCE, stringf(64, "%.3f AU", b->orbMin.ToDouble()));
-		_add_label_and_value(Lang::APOAPSIS_DISTANCE, stringf(64, "%.3f AU", b->orbMax.ToDouble()));
-		_add_label_and_value(Lang::ECCENTRICITY, stringf(64, "%.2f", b->orbit.eccentricity));
-		_add_label_and_value(Lang::AXIAL_TILE, stringf(64, Lang::N_DEGREES, b->axialTilt.ToDouble() * (180.0/M_PI) ));
+		_add_label_and_value(Lang::PERIAPSIS_DISTANCE, stringf_old(64, "%.3f AU", b->orbMin.ToDouble()));
+		_add_label_and_value(Lang::APOAPSIS_DISTANCE, stringf_old(64, "%.3f AU", b->orbMax.ToDouble()));
+		_add_label_and_value(Lang::ECCENTRICITY, stringf_old(64, "%.2f", b->orbit.eccentricity));
+		_add_label_and_value(Lang::AXIAL_TILT, stringf(Lang::N_DEGREES, formatarg("angle", b->axialTilt.ToDouble() * (180.0/M_PI))));
 		if (b->rotationPeriod != 0) {
 			_add_label_and_value(
 				std::string(Lang::DAY_LENGTH)+std::string(Lang::ROTATIONAL_PERIOD),
-				stringf(64, Lang::N_EARTH_DAYS, b->rotationPeriod.ToDouble()));
+				stringf(Lang::N_EARTH_DAYS, formatarg("days", b->rotationPeriod.ToDouble())));
 		}
 		int numSurfaceStarports = 0;
 		std::string nameList;
@@ -267,12 +268,16 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		psize = -1;
 		PutBodies(s->rootBody, demographicsTab, 1, pos, majorBodies, starports, psize);
 	}
-	
-	std::string _info = stringf(2048, Lang::STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS,
-		majorBodies, majorBodies == 1 ? Lang::BODY : Lang::BODIES,
-		starports, starports == 1 ? Lang::STARPORT : Lang::STARPORTS,
-		std::string(s->GetLongDescription()).c_str());
-	
+
+	std::string _info = stringf(
+		Lang::STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS,
+		formatarg("bodycount", majorBodies),
+		formatarg("body(s)", majorBodies == 1 ? Lang::BODY : Lang::BODIES),
+		formatarg("portcount", starports),
+		formatarg("starport(s)", starports == 1 ? Lang::STARPORT : Lang::STARPORTS));
+	_info += "\n\n";
+	_info += s->GetLongDescription();
+
 	{
 		// astronomical body info tab
 		m_infoBox = new Gui::VBox();
@@ -350,17 +355,17 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		col1->Add((new Gui::Label(Lang::POPULATION))->Color(1,1,0), 0, 4*YSEP);
 		std::string popmsg;
 		fixed pop = m_system->m_totalPop;
-		if (pop >= fixed(1,1)) { popmsg = stringf(256, Lang::OVER_N_BILLION, pop.ToInt32()); }
-		else if (pop >= fixed(1,1000)) { popmsg = stringf(256, Lang::OVER_N_MILLION, (pop*1000).ToInt32()); }
+		if (pop >= fixed(1,1)) { popmsg = stringf(Lang::OVER_N_BILLION, formatarg("population", pop.ToInt32())); }
+		else if (pop >= fixed(1,1000)) { popmsg = stringf(Lang::OVER_N_MILLION, formatarg("population", (pop*1000).ToInt32())); }
 		else if (pop != fixed(0)) { popmsg = Lang::A_FEW_THOUSAND; }
 		else { popmsg = Lang::NO_REGISTERED_INHABITANTS; }
 		col2->Add(new Gui::Label(popmsg), 0, 4*YSEP);
 
 		SystemPath path = m_system->GetPath();
 		col1->Add((new Gui::Label(Lang::SECTOR_COORDINATES))->Color(1,1,0), 0, 5*YSEP);
-		col2->Add(new Gui::Label(stringf(128, "%d, %d, %d", path.sectorX, path.sectorY, path.sectorZ)), 0, 5*YSEP);
+		col2->Add(new Gui::Label(stringf_old(128, "%d, %d, %d", path.sectorX, path.sectorY, path.sectorZ)), 0, 5*YSEP);
 		col1->Add((new Gui::Label(Lang::SYSTEM_NUMBER))->Color(1,1,0), 0, 6*YSEP);
-		col2->Add(new Gui::Label(stringf(128, "%d", path.systemIndex)), 0, 6*YSEP);
+		col2->Add(new Gui::Label(stringf_old(128, "%d", path.systemIndex)), 0, 6*YSEP);
 	}
 
 	UpdateIconSelections();

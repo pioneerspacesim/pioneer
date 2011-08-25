@@ -9,10 +9,11 @@
 #include "StationBulletinBoardForm.h"
 #include "StationPoliceForm.h"
 #include "Lang.h"
+#include "StringF.h"
 
 StationServicesForm::StationServicesForm(FormController *controller) : FaceForm(controller)
 {
-	SetTitle(stringf(256, Lang::SOMEWHERE_SERVICES, Pi::player->GetDockedWith()->GetLabel().c_str()));
+	SetTitle(stringf(Lang::SOMEWHERE_SERVICES, formatarg("station", Pi::player->GetDockedWith()->GetLabel())));
 
 	Gui::Label *l = new Gui::Label(Lang::SPACESTATION_LONG_WELCOME_MESSAGE);
 	Add(l,0,0);

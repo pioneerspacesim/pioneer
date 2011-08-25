@@ -253,11 +253,11 @@ void strip_cr_lf(char *string)
 std::string format_distance(double dist)
 {
 	if (dist < 1000) {
-		return stringf(128, "%.0f m", dist);
+		return stringf_old(128, "%.0f m", dist);
 	} else if (dist < AU*0.1) {
-		return stringf(128, "%.2f km", dist*0.001);
+		return stringf_old(128, "%.2f km", dist*0.001);
 	} else {
-		return stringf(128, "%.2f AU", dist/AU);
+		return stringf_old(128, "%.2f AU", dist/AU);
 	}
 }
 

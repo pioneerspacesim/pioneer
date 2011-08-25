@@ -10,6 +10,7 @@
 #include "EquipType.h"
 #include "PersistSystemData.h"
 #include "Lang.h"
+#include "StringF.h"
 
 namespace Polit {
 
@@ -125,7 +126,7 @@ void NotifyOfCrime(Ship *s, enum Crime crime)
 		if (dist > 100000.0) return;
 		const int crimeIdx = GetCrimeIdxFromEnum(crime);
 		Pi::cpan->MsgLog()->ImportantMessage(station->GetLabel(),
-				stringf(512, Lang::X_CANNOT_BE_TOLERATED_HERE, crimeNames[crimeIdx]));
+				stringf(Lang::X_CANNOT_BE_TOLERATED_HERE, formatarg("crime", crimeNames[crimeIdx])));
 
 		float lawlessness = Pi::currentSystem->GetSysPolit().lawlessness.ToFloat();
 		Sint64 oldCrimes, oldFine;
