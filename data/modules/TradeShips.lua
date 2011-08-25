@@ -25,6 +25,7 @@ local addShipEquip = function (ship)
 	ship:AddEquip('ATMOSPHERIC_SHIELDING')
 	ship:AddEquip('SCANNER')
 	ship:AddEquip('AUTOPILOT')
+	ship:AddEquip('CARGO_LIFE_SUPPORT')
 
 	-- add defensive equipment based on lawlessness, luck and size
 	local lawlessness = Game.system.lawlessness
@@ -67,11 +68,6 @@ local addShipCargo = function (ship, direction)
 			cargo = imports[Engine.rand:Integer(1, #imports)]
 		else
 			cargo = exports[Engine.rand:Integer(1, #exports)]
-		end
-
-		-- check if requires life support
-		if cargo == 'LIVE_ANIMALS' or cargo == 'SLAVES' then
-			ship:AddEquip('CARGO_LIFE_SUPPORT')
 		end
 
 		-- amount based on price and size of ship
