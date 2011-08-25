@@ -379,7 +379,7 @@ local cleanTradeShipsTable = function ()
 			end
 		end
 	end
-	print('cleanTSTable:total:'..total..', active'..total - hyperspace..',removed:'..removed)
+	print('cleanTSTable:total:'..total..',active:'..total - hyperspace..',removed:'..removed)
 end
 
 local onEnterSystem = function (ship)
@@ -481,7 +481,6 @@ local onShipDocked = function (ship, starport)
 	-- delay undocking by 30-45 seconds for every unit of cargo transfered
 	trader['delay'] = Game.time + (cargo_count * 30 * Engine.rand:Number(1, 1.5))
 	if trader.status == 'docked' then
-		print(ship.label..' will undock at '..Format.Date(trader.delay))
 		Timer:CallAt(trader.delay, function ()
 			doUndock(ship)
 		end)
@@ -608,7 +607,6 @@ EventQueue.onShipHit:Connect(onShipHit)
 local onShipCollided = function (ship, other)
 	if trade_ships[ship.label] == nil then return end
 	if other:isa('CargoBody') then return end
-	print(ship.label..' collided with '..other.label)
 	
 	if other:isa('Ship') and other:IsPlayer() then
 		onShipHit(ship, other)
