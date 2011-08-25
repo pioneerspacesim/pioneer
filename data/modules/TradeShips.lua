@@ -560,7 +560,7 @@ local onShipHit = function (ship, attacker)
 	trader['chance'] = trader.chance + 0.1
 
 	-- don't spam actions
-	if trader.last_flee and Game.time - trader.last_flee < 6 then return end
+	if trader.last_flee and Game.time - trader.last_flee < Engine.rand:Integer(5, 7) then return end
 
 	-- if outbound jump now
 	if trader.status == 'outbound' then
@@ -570,6 +570,9 @@ local onShipHit = function (ship, attacker)
 
 	trader['status'] = 'fleeing'
 	trader['attacker'] = attacker
+
+	-- update last_flee
+	trader['last_flee'] = Game.time
 
 	-- if distance to starport is far attempt to hyperspace
 	if trader.no_jump ~= true then
@@ -587,9 +590,6 @@ local onShipHit = function (ship, attacker)
 			end
 		end
 	end
-
-	-- update last_flee
-	trader['last_flee'] = Game.time
 
 	-- maybe jettison a bit of cargo
 	if Engine.rand:Number(1) < trader.chance then
