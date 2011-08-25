@@ -84,7 +84,8 @@ local addShipCargo = function (ship, direction)
 	return added
 end
 
-local doUndock = function (ship)
+local doUndock
+doUndock = function (ship)
 	-- the player may have left the system or the ship may have already undocked
 	if ship:exists() and ship:GetDockedWith() then
 		if not ship:Undock() then
