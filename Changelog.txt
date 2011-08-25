@@ -12,6 +12,7 @@ Alpha 14
     * Fix inverted mouse control (#389)
     * Tweak to texture scaling to make edges sharper (#391)
     * Fix occasional crash when rendering certain hill terrains (#364)
+    * Fix flickering when HDR enabled (#266, #401)
 
   * Internal changes
     * Lots of internal cleanups; silences most remaining warnings (#373, #375, #389, #392, #383, #399)
