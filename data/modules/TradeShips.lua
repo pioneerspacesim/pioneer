@@ -2,7 +2,10 @@ local addFuel = function (ship)
 	local drive = ship:GetEquip('ENGINE', 0)
 
 	-- a drive must be installed
-	assert(drive ~= 'NONE', trade_ships[ship.label]['ship_name']..' '..ship.label..' has no drive!')
+	if drive == 'NONE' then
+		print(trade_ships[ship.label]['ship_name']..' has no drive!')
+		return nil
+	end
 
 	-- the last character of the fitted drive is the class
 	-- the fuel needed for max range is the square of the drive class
@@ -164,7 +167,10 @@ local jumpToSystem = function (ship, target_path)
 	-- make it so
 	status = ship:HyperspaceTo(target_path)
 
-	assert(status == 'OK', 'jumpToSystem:status is not OK')
+	if status ~= 'OK' then
+		print(trade_ships[ship.label]['ship_name']..' jump status is not OK')
+		return status
+	end
 
 	-- update table for ship
 	trade_ships[ship.label]['status'] = 'hyperspace'
@@ -487,6 +493,7 @@ EventQueue.onShipDocked:Connect(onShipDocked)
 local onShipUndocked = function (ship, starport)
 	if trade_ships[ship.label] == nil then return end
 
+	-- fly to the limit of the starport frame
 	ship:AIFlyTo(starport)
 
 	trade_ships[ship.label]['status'] = 'outbound'
