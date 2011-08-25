@@ -5,6 +5,7 @@
 #include "ShipCpanel.h"
 #include "FormController.h"
 #include "Lang.h"
+#include "StringF.h"
 
 StationShipViewForm::StationShipViewForm(FormController *controller, int marketIndex) :
 	BlankForm(controller),
@@ -16,7 +17,7 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 
 	const ShipType &type = ShipType::types[m_flavour.type];
 
-	SetTitle(stringf(256, Lang::SOMEWHERE_SHIP_MARKET, m_station->GetLabel().c_str()));
+	SetTitle(stringf(Lang::SOMEWHERE_SHIP_MARKET, formatarg("station", m_station->GetLabel())));
 
 	Add(new ShipSpinnerWidget(m_flavour, 400, 400), 0, 0);
 
@@ -58,14 +59,14 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 	dataBox->PackEnd(new Gui::Label(format_money(m_flavour.price - Pi::player->GetFlavour()->price)));
 	dataBox->PackEnd(new Gui::Label(m_flavour.regid));
 	dataBox->PackEnd(new Gui::Label(" "));
-	dataBox->PackEnd(new Gui::Label(stringf(64, Lang::NUMBER_TONNES, type.hullMass)));
-	dataBox->PackEnd(new Gui::Label(stringf(64, Lang::NUMBER_TONNES, type.hullMass + type.capacity)));
-	dataBox->PackEnd(new Gui::Label(stringf(64, Lang::NUMBER_TONNES, type.capacity)));
+	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.hullMass))));
+	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.hullMass + type.capacity))));
+	dataBox->PackEnd(new Gui::Label(stringf( Lang::NUMBER_TONNES, formatarg("mass", type.capacity))));
 	dataBox->PackEnd(new Gui::Label(" "));
-	dataBox->PackEnd(new Gui::Label(stringf(64, Lang::NUMBER_G, forward_accel_empty)));
-	dataBox->PackEnd(new Gui::Label(stringf(64, Lang::NUMBER_G, forward_accel_laden)));
-	dataBox->PackEnd(new Gui::Label(stringf(64, Lang::NUMBER_G, reverse_accel_empty)));
-	dataBox->PackEnd(new Gui::Label(stringf(64, Lang::NUMBER_G, reverse_accel_laden)));
+	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_G, formatarg("acceleration", forward_accel_empty))));
+	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_G, formatarg("acceleration", forward_accel_laden))));
+	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_G, formatarg("acceleration", reverse_accel_empty))));
+	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_G, formatarg("acceleration", reverse_accel_laden))));
 	dataBox->PackEnd(new Gui::Label(" "));
 	dataBox->PackEnd(new Gui::Label(EquipType::types[type.hyperdrive].name));
 	statsBox->PackEnd(dataBox);
@@ -86,11 +87,11 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 		Gui::VBox *cell = new Gui::VBox();
 		row->PackEnd(cell);
 
-		cell->PackEnd(new Gui::Label(stringf(128, Lang::CLASS_NUMBER, hyperclass)));
+		cell->PackEnd(new Gui::Label(stringf(Lang::CLASS_NUMBER, formatarg("class", hyperclass))));
 		if (type.capacity < EquipType::types[drivetype].mass)
 			cell->PackEnd(new Gui::Label("---"));
 		else
-			cell->PackEnd(new Gui::Label(stringf(128, Lang::NUMBER_LY, range)));
+			cell->PackEnd(new Gui::Label(stringf(Lang::NUMBER_LY, formatarg("distance", range))));
 
 		if (++pos == row_size) {
 			layoutBox->PackEnd(row);

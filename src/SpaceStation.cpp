@@ -12,8 +12,9 @@
 #include "LmrModel.h"
 #include "Polit.h"
 #include "Space.h"
-#include <algorithm>
 #include "Lang.h"
+#include "StringF.h"
+#include <algorithm>
 
 #define ARG_STATION_BAY1_STAGE 6
 #define ARG_STATION_BAY1_POS   10
@@ -595,7 +596,7 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		if (i >= m_type->numDockingPorts) break;
 		if ((m_shipDocking[i].ship == s) && (m_shipDocking[i].stage > 0)) {
-			outMsg = stringf(256, Lang::CLEARANCE_ALREADY_GRANTED_BAY_N, i+1);
+			outMsg = stringf(Lang::CLEARANCE_ALREADY_GRANTED_BAY_N, formatarg("bay", i+1));
 			return true;
 		}
 	}
@@ -606,7 +607,7 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 		sd.ship = s;
 		sd.stage = 1;
 		sd.stagePos = 0;
-		outMsg = stringf(256, Lang::CLEARANCE_GRANTED_BAY_N, i+1);
+		outMsg = stringf(Lang::CLEARANCE_GRANTED_BAY_N, formatarg("bay", i+1));
 		return true;
 	}
 	outMsg = Lang::CLEARANCE_DENIED_NO_BAYS;

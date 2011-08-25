@@ -118,15 +118,15 @@ void ObjectViewerView::Update()
 		if (body->IsType(Object::PLANET)) {
 			Planet *planet = static_cast<Planet*>(body);
 			const SBody *sbody = planet->GetSBody();
-			m_sbodyVolatileGas->SetText(stringf(64, "%.3f", sbody->m_volatileGas.ToFloat()));
-			m_sbodyVolatileLiquid->SetText(stringf(64, "%.3f", sbody->m_volatileLiquid.ToFloat()));
-			m_sbodyVolatileIces->SetText(stringf(64, "%.3f", sbody->m_volatileIces.ToFloat()));
-			m_sbodyLife->SetText(stringf(64, "%.3f", sbody->m_life.ToFloat()));
-			m_sbodyVolcanicity->SetText(stringf(64, "%.3f", sbody->m_volcanicity.ToFloat()));
-			m_sbodyMetallicity->SetText(stringf(64, "%.3f", sbody->m_metallicity.ToFloat()));
-			m_sbodySeed->SetText(stringf(64, "%d", sbody->seed));
-			m_sbodyMass->SetText(stringf(64, "%f", sbody->mass.ToFloat()));
-			m_sbodyRadius->SetText(stringf(64, "%f", sbody->radius.ToFloat()));
+			m_sbodyVolatileGas->SetText(stringf_old(64, "%.3f", sbody->m_volatileGas.ToFloat()));
+			m_sbodyVolatileLiquid->SetText(stringf_old(64, "%.3f", sbody->m_volatileLiquid.ToFloat()));
+			m_sbodyVolatileIces->SetText(stringf_old(64, "%.3f", sbody->m_volatileIces.ToFloat()));
+			m_sbodyLife->SetText(stringf_old(64, "%.3f", sbody->m_life.ToFloat()));
+			m_sbodyVolcanicity->SetText(stringf_old(64, "%.3f", sbody->m_volcanicity.ToFloat()));
+			m_sbodyMetallicity->SetText(stringf_old(64, "%.3f", sbody->m_metallicity.ToFloat()));
+			m_sbodySeed->SetText(stringf_old(64, "%d", sbody->seed));
+			m_sbodyMass->SetText(stringf_old(64, "%f", sbody->mass.ToFloat()));
+			m_sbodyRadius->SetText(stringf_old(64, "%f", sbody->radius.ToFloat()));
 		}
 	}
 	snprintf(buf, sizeof(buf), "View dist: %s     Object: %s", format_distance(viewingDist).c_str(), (body ? body->GetLabel().c_str() : "<none>"));

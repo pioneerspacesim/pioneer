@@ -6,6 +6,7 @@
 #include "StationShipViewForm.h"
 #include "ShipCpanel.h"
 #include "Lang.h"
+#include "StringF.h"
 
 #define REMOVAL_VALUE_PERCENT 90
 
@@ -27,7 +28,7 @@ StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) :
 {
 	m_station = Pi::player->GetDockedWith();
 
-	SetTitle(stringf(256, Lang::SOMEWHERE_SHIP_EQUIPMENT, m_station->GetLabel().c_str()));
+	SetTitle(stringf(Lang::SOMEWHERE_SHIP_EQUIPMENT, formatarg("station", m_station->GetLabel())));
 
 	Gui::VScrollBar *scroll = new Gui::VScrollBar();
 	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450);
@@ -60,7 +61,7 @@ StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) :
 		innerbox->Add(new Gui::Label(format_money(REMOVAL_VALUE_PERCENT * m_station->GetPrice(type) / 100)),
 				275, num*YSEP);
 		
-		innerbox->Add(new Gui::Label(stringf(64, Lang::NUMBER_TONNES, EquipType::types[i].mass)), 360, num*YSEP);
+		innerbox->Add(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", EquipType::types[i].mass))), 360, num*YSEP);
 
 		ButtonPair pair;
 		pair.type = type;

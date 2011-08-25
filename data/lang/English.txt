@@ -28,11 +28,11 @@ VID_LINK_ESTABLISHED
 VID_CONNECTING
     Connecting...
 BOUGHT_1T_OF
-    You have bought 1t of %s.
+    You have bought 1t of %commodity.
 SOLD_1T_OF
-    You have sold 1t of %s.
+    You have sold 1t of %commodity.
 WELCOME_TO_MARKET
-    Welcome to %s commodities market
+    Welcome to %station commodities market
 GO_BACK
     Go back
 FITTING
@@ -50,11 +50,11 @@ TRADER_NOT_ENOUGH_MONEY
 NO_SPACE_ON_SHIP
     There is no space on your ship
 SOMEWHERE_SERVICES
-    %s services
+    %station services
 SOMEWHERE_SHIPYARD
-    %s shipyard
+    %station shipyard
 SOMEWHERE_SHIP_REPAIRS
-    %s ship repairs
+    %station ship repairs
 PRICE_TO_FIT
     $ to fit
 PRICE_TO_REMOVE
@@ -74,7 +74,7 @@ REGISTRATION_ID
 WEIGHT_EMPTY
     Weight empty
 NUMBER_TONNES
-    %dt
+    %{mass}t
 WEIGHT_FULLY_LADEN
     Weight fully loaded
 CAPACITY
@@ -82,7 +82,7 @@ CAPACITY
 FORWARD_ACCEL_EMPTY
     Forward accel (empty)
 NUMBER_G
-    %.1f G
+    %acceleration{f.1} G
 FORWARD_ACCEL_LADEN
     Forward accel (laden)
 REVERSE_ACCEL_EMPTY
@@ -96,15 +96,15 @@ HYPERSPACE_RANGE_LADEN
 THANKS_AND_REMEMBER_TO_BUY_FUEL
     Thank you for your purchase. Remember to fit equipment and buy fuel before you depart.
 CLASS_NUMBER
-    Class %d
+    Class %class
 NUMBER_LY
-    %.2f ly
+    %distance{f.2} ly
 SHIP_IS_ALREADY_FULLY_REPAIRED
     Your ship is in perfect working condition.
 REPAIR_1_PERCENT_HULL
     Repair 1.0% of hull damage
 REPAIR_ENTIRE_HULL
-    Repair all hull damage (%.1f%%)
+    Repair all hull damage (%repairpercent{f.1}%%)
 REPAIR
     Repair
 PART_EX
@@ -114,7 +114,7 @@ VIEW
 SHIP_EQUIPMENT
     Ship equipment
 SOMEWHERE_SHIP_EQUIPMENT
-    %s ship equipment
+    %station ship equipment
 REPAIRS_AND_SERVICING
     Repairs and servicing
 NEW_AND_RECONDITIONED_SHIPS
@@ -122,7 +122,7 @@ NEW_AND_RECONDITIONED_SHIPS
 BULLETIN_BOARD
     Bulletin Board
 WELCOME_TO_SOMEWHERE
-    Welcome to %s
+    Welcome to %station
 SPACESTATION_LONG_WELCOME_MESSAGE
     Hello, traveller.  Welcome to this space station.  We have reports of vandalism and graffiti on board.  If you see that any of our signage is misleading, mis-spelled or just missing, please inform a member of staff.\n\nOxygen is currently free of charge.
 REQUEST_LAUNCH
@@ -132,9 +132,9 @@ SHIPYARD
 COMMODITIES_MARKET
     Commodities market
 SOMEWHERE_COMMODITIES_MARKET
-    %s commodities market
+    %station commodities market
 SOMEWHERE_SHIP_MARKET
-    %s ship market
+    %station ship market
 CONTACT_LOCAL_POLICE
     Contact local police
 COMMS_LINK
@@ -154,7 +154,7 @@ SAGITTARIUS_ARM
 SCUTUM_CENTAURUS_ARM
     Scutum-Centaurus arm
 INT_LY
-    %d ly
+    %scale ly
 
 # Config / game control
 PRESS_BUTTON_WANTED_FOR
@@ -174,7 +174,7 @@ GAME_SAVED_TO
 SELECT_FILENAME_TO_LOAD
     Select a file to load
 COULD_NOT_OPEN_FILENAME
-    Could not open %s
+    Could not open %path
 GAME_LOAD_CORRUPT
     This saved game cannot be loaded because it contains errors.
 GAME_LOAD_CANNOT_OPEN
@@ -220,7 +220,7 @@ VOL_MUSIC
 VIDEO_RESOLUTION
     Video resolution (restart game to apply)
 X_BY_X
-    %dx%d
+    %{x}x%{y}
 PLANET_DETAIL_LEVEL
     Planet detail level:
 CITY_DETAIL_LEVEL
@@ -464,7 +464,7 @@ HYPERSPACE_RANGE
 NO_MOUNTING
     no mounting
 N_LIGHT_YEARS_N_MAX
-    %.1f light years (%.1f max)
+    %distance{f.1} light years (%maxdistance{f.1} max)
 SHIP_INFORMATION
     Ship information
 REPUTATION
@@ -566,7 +566,7 @@ DEADLY
 ELITE
     ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
-    Simulating evolution of the universe: %.1f billion years ;-)
+    Simulating evolution of the universe: %age{f.1} billion years ;-)
 TOMBSTONE_EPITAPH
     RIP OLD BEAN
 MM_START_NEW_GAME_EARTH
@@ -580,7 +580,7 @@ MM_LOAD_SAVED_GAME
 MM_QUIT
     Quit
 SCREENSHOT_FILENAME_TEMPLATE
-    screenshot%08d.png
+    screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD
     Pioneering Pilots' Guild
 RIGHT_ON_COMMANDER
@@ -594,11 +594,11 @@ DOWNGRADING_ALERT_STATUS
 LASER_FIRE_DETECTED
     Laser fire detected.
 SOMEWHERE_POLICE
-    %s Police
+    %station Police
 WE_HAVE_NO_BUSINESS_WITH_YOU
     We have no business with you at the moment.
 YOU_MUST_PAY_FINE_OF_N_CREDITS
-    We do not tolerate crime. You must pay a fine of %s.
+    We do not tolerate crime. You must pay a fine of %fine.
 PAY_THE_FINE_NOW
     Pay the fine now.
 HANG_UP
@@ -652,9 +652,9 @@ PLUTOCRATIC_DICTATORSHIP
 VIOLENT_ANARCHY
     Disorder - Overall governance contested by armed factions
 X_CANNOT_BE_TOLERATED_HERE
-    %s cannot be tolerated here.
+    %crime cannot be tolerated here.
 SECTOR_X_Y_Z
-    Sector: %d,%d,%d
+    Sector: %x,%y,%z
 CURRENT_SYSTEM
     Current system
 SELECTED_SYSTEM
@@ -666,13 +666,13 @@ FOLLOWING_SELECTION
 LOCKED
     locked
 EXACT_MATCH_X
-    Exact match: %s
+    Exact match: %system
 NOT_FOUND_BEST_MATCH_X
-    Not found, best match: %s
+    Not found, best match: %system
 NOT_FOUND
     Not found
 NUMBER_HOURS
-    %.2f hrs
+    %hours{f.2} hrs
 QUADRUPLE_SYSTEM
     Quadruple system
 TRIPLE_SYSTEM
@@ -684,7 +684,7 @@ ENABLED_AUTOMATIC_SYSTEM_SELECTION
 DISABLED_AUTOMATIC_SYSTEM_SELECTION
     Disabled automatic system selection.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
-    Fuel scoop active. You now have %d tonnes of hydrogen.
+    Fuel scoop active. You now have %quantity tonnes of hydrogen.
 CARGO_BAY_LIFE_SUPPORT_LOST
     Sensors report critical cargo bay life-support conditions.
 NO_FREE_SPACE_FOR_ITEM
@@ -692,7 +692,7 @@ NO_FREE_SPACE_FOR_ITEM
 SHIP_IS_FULLY_LADEN
     Your ship is fully laden.
 YOU_DO_NOT_HAVE_ANY_X
-    You do not have any %s.
+    You do not have any %item.
 REAR_VIEW
     Rear view
 EXTERNAL_VIEW
@@ -716,7 +716,7 @@ SHIP_NEARBY
 DOCKING_CLEARANCE_EXPIRED
     Docking clearance expired. If you wish to dock you must repeat your request.
 MESSAGE_FROM_X
-    Message from %s:
+    Message from %sender:
 SELECT_A_TARGET
     Select a target
 FRONT
@@ -726,9 +726,9 @@ REAR
 POLICE_SHIP_REGISTRATION
     POLICE
 CLEARANCE_ALREADY_GRANTED_BAY_N
-    Clearance already granted. Proceed to docking bay %d.
+    Clearance already granted. Proceed to docking bay %bay.
 CLEARANCE_GRANTED_BAY_N
-    Clearance granted. Proceed to docking bay %d.
+    Clearance granted. Proceed to docking bay %bay.
 CLEARANCE_DENIED_NO_BAYS
     Clearance denied. There are no free docking bays.
 ITEM_IS_OUT_OF_STOCK
@@ -910,7 +910,7 @@ SOMEWHERE_STARPORT
 MASS
     Mass
 N_WHATEVER_MASSES
-    %.3f %s masses
+    %mass{f.3} %units masses
 SOLAR
     Solar
 EARTH
@@ -918,11 +918,11 @@ EARTH
 SURFACE_TEMPERATURE
     Surface temperature
 N_CELSIUS
-    %d C
+    %temperature C
 N_YEARS
-    %.1f years
+    %years{f.1} years
 N_DAYS
-    %.1f days
+    %days{f.1} days
 ORBITAL_PERIOD
     Orbital period
 PERIAPSIS_DISTANCE
@@ -931,14 +931,14 @@ APOAPSIS_DISTANCE
     Apoapsis distance
 ECCENTRICITY
     Eccentricity
-AXIAL_TILE
+AXIAL_TILT
     Axial tilt
 N_DEGREES
-    %.1f degrees
+    %angle{f.1} degrees
 DAY_LENGTH
     Day length
 N_EARTH_DAYS
-    %.1f earth days
+    %days{f.1} earth days
 STARPORTS
     Starports
 MAJOR_IMPORTS
@@ -960,7 +960,7 @@ ECONOMIC_INFO
 DEMOGRAPHICS
     Demographics
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
-    Stable system with %d major %s and %d %s.\n\n%s
+    Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}.
 BODY
     body
 BODIES
@@ -976,9 +976,9 @@ ALLEGIANCE
 POPULATION
     Population:
 OVER_N_BILLION
-    Over %d billion
+    Over %population billion
 OVER_N_MILLION
-    Over %d million
+    Over %population million
 A_FEW_THOUSAND
     Only a few thousand
 NO_REGISTERED_INHABITANTS
@@ -1046,37 +1046,37 @@ DOCKED
 HYPERSPACE
     Hyperspace
 SET_SPEED_KM_S
-    Set speed: %.2f km/s
+    Set speed: %speed{f.2} km/s
 SET_SPEED_M_S
-    Set speed: %.0f m/s
+    Set speed: %speed{f.0} m/s
 KM_S_RELATIVE_TO
-    %.2f km/s rel-to %s
+    %speed{f.2} km/s rel-to %frame
 M_S_RELATIVE_TO
-    %.0f m/s rel-to %s
+    %speed{f.0} m/s rel-to %frame
 N_DISTANCE_TO_TARGET
-    %s to target
+    %distance to target
 IN_TRANSIT_TO_N_X_X_X
-    In transit to %s [%d,%d,%d]
+    In transit to %system [%x,%y,%z]
 ALT_IN_METRES
-    Alt: %.0fm
+    Alt: %altitude{f.0}m
 PRESSURE_N_BAR
-    P: %.2f bar
+    P: %pressure{f.2} bar
 NO_HYPERDRIVE
     No hyperdrive
 MASS_N_TONNES
-    Mass: %dt
+    Mass: %{mass}t
 SHIELD_STRENGTH_N
-    Shield strength: %.2f
+    Shield strength: %shields{f.2}
 CARGO_N
-    Cargo: %dt
+    Cargo: %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
     Hyperspace arrival cloud remnant
 HYPERSPACE_X_CLOUD
-    Hyperspace %s cloud
+    Hyperspace %direction cloud
 SHIP_MASS_N_TONNES
-    Ship mass: %dt
+    Ship mass: %{mass}t
 DATE_DUE_N
-    Date due: %s
+    Date due: %date
 ARRIVAL
     arrival
 DEPARTURE
@@ -1086,17 +1086,17 @@ SOURCE
 DESTINATION
     Destination
 HYPERSPACING_IN_N_SECONDS
-    Hyperspacing in %.0f seconds
+    Hyperspacing in %countdown{f.0} seconds
 NAVIGATION_TARGETS_IN_THIS_SYSTEM
     Navigation targets in this system
 YOU_NO_MONEY
     You do not have any money.
 FINE_PAID_N_BUT_N_REMAINING
-    You have paid %s but still have an outstanding fine of %s.
+    You have paid %paid but still have an outstanding fine of %fine.
 FINE_PAID_N
-    You have paid the fine of %s.
+    You have paid the fine of %fine.
 SET_HYPERSPACE_DESTINATION_TO
-    "Set hyperspace destination to %s"
+    "Set hyperspace destination to %system"
 NO_TARGET_SELECTED
     Ship Computer: No target selected
 REQUEST_DOCKING_CLEARANCE
@@ -1104,15 +1104,15 @@ REQUEST_DOCKING_CLEARANCE
 AUTOPILOT_DOCK_WITH_STATION
     Autopilot: Dock with space station
 PAY_FINE_REMOTELY
-    Pay fine by remote transfer (%s)
+    Pay fine by remote transfer (%amount)
 AUTOPILOT_FLY_TO_VICINITY_OF
-    Autopilot: Fly to vicinity of %s
+    Autopilot: Fly to vicinity of %target
 AUTOPILOT_ENTER_LOW_ORBIT_AROUND
-    Autopilot: Enter low orbit around %s
+    Autopilot: Enter low orbit around %target
 AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
-    Autopilot: Enter medium orbit around %s
+    Autopilot: Enter medium orbit around %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
-    Autopilot: Enter high orbit around %s
+    Autopilot: Enter high orbit around %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Hyperspace cloud analyzer: Set hyperspace target to follow this departure
 FAILED
@@ -1122,4 +1122,4 @@ COMPLETED
 ACTIVE
     Active
 DISTANCE_LY
-    Distance: %0.2f ly
+    Distance: %distance{f.2} ly

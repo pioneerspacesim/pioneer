@@ -80,7 +80,7 @@ namespace NameGenerator {
 	std::string PlanetName(MTRand &rng)
 	{
 		const char *format = planet_names[rng.Int32(planet_names.size())].c_str();
-		return stringf(256, format, Surname(rng).c_str());
+		return stringf_old(256, format, Surname(rng).c_str());
 	}
 }
 
