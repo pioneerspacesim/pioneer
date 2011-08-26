@@ -301,6 +301,7 @@ local onEnterSystem = function (player)
 	for ref,mission in pairs(missions) do
 		if not mission.status and mission.location:IsSameSystem(syspath) then
 			local risk = delivery_flavours[mission.flavour].risk
+			local ships = 0
 
 			local riskmargin = Engine.rand:Number(-0.3,0.3) -- Add some random luck
 			if risk >= (0.5 + riskmargin) then ships = 1
