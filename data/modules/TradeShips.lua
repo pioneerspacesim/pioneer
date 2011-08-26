@@ -1,3 +1,5 @@
+local trade_ships, starports, imports, exports
+
 local addFuel = function (ship)
 	local drive = ship:GetEquip('ENGINE', 0)
 
