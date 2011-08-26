@@ -80,7 +80,8 @@ public:
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
 
-	SystemPath GetHyperspaceDest() const { return &m_hyperspace.dest; }
+	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
+	SystemPath GetHyperspaceDest() const { return m_hyperspace.dest; }
 
 	enum HyperjumpStatus {
 		HYPERJUMP_OK,
