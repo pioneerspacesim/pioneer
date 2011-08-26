@@ -218,18 +218,14 @@ local spawnInitialShips = function ()
 
 	-- determine how many trade ships to spawn
 	local lawlessness = Game.system.lawlessness
-	-- start with one ship per billion population
-	local num_trade_ships = population
-	-- add the lesser of import_score and export_score
-	if import_score < export_score then
-		num_trade_ships = num_trade_ships + import_score
-	else
-		num_trade_ships = num_trade_ships + export_score
-	end
-	-- vary by up to twice as many
-	num_trade_ships = num_trade_ships * Engine.rand:Number(1, 2)
+	-- start with three ships per two billion population
+	local num_trade_ships = population * 1.5
+	-- add the average of import_score and export_score
+	num_trade_ships = num_trade_ships + (import_score + export_score) / 2
 	-- reduce based on lawlessness
 	num_trade_ships = num_trade_ships * (1 - lawlessness)
+	-- vary by up to twice as many with a bell curve probability
+	num_trade_ships = num_trade_ships * (Engine.rand:Number(1) + Engine.rand:Number(1))
 	-- compute distance and interval between ships
 	local range = (9 / (num_trade_ships / 2))
 	trade_ships['interval'] = (864000 / (num_trade_ships / 4))
