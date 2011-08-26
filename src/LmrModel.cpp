@@ -4209,10 +4209,6 @@ void LmrModelCompilerInit()
 
 	LUA_DEBUG_START(sLua);
 
-	lua_pushinteger(L, 1234);
-	lua_setglobal(L, "x");
-
-
 	MyLuaVec::Vec_register(L);
 	lua_pop(L, 1); // why again?
 	MyLuaMatrix::Matrix_register(L);
