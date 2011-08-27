@@ -300,7 +300,7 @@ void ShipCpanel::OnClickTimeaccel(int val)
 		else
 			Pi::SetView(Pi::worldView);
 	} else
-		Pi::RequestTimeAccel(val);
+		Pi::RequestTimeAccel(val, Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL));
 }
 
 void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
