@@ -704,6 +704,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					s->GetRotMatrix(temp);
 					sd.fromRot = Quaterniond::FromMatrix4x4(temp);
 					s->Disable();
+					s->ClearThrusterState();
 					s->SetFlightState(Ship::DOCKING);
 				} else {
 					s->SetDockedWith(this, port);
