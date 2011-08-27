@@ -63,7 +63,7 @@ end
 local addShipCargo = function (ship, direction)
 	local prices = Game.system:GetCommodityBasePriceAlterations()
 	local added = 0
-	local size_factor = ship:GetEquipFree('CARGO') / 50
+	local size_factor = ship:GetEquipFree('CARGO') / 20
 
 	while ship:GetEquipFree('CARGO') > 0 do
 		local cargo
@@ -76,8 +76,8 @@ local addShipCargo = function (ship, direction)
 		end
 
 		-- amount based on price and size of ship
-		local num = math.abs(prices[cargo])
-		num = Engine.rand:Integer(num * size_factor + 10, num * size_factor ^ 1.5 + 20)
+		local num = math.abs(prices[cargo]) * size_factor
+		num = Engine.rand:Integer(num, num * 2)
 
 		added = added + ship:AddEquip(cargo, num)
 	end
