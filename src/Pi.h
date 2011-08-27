@@ -67,7 +67,7 @@ public:
 	static float GetFrameTime() { return frameTime; }
 	static double GetGameTime() { return gameTime; }
 	static void SetTimeAccel(int v);
-	static void RequestTimeAccel(int v);
+	static void RequestTimeAccel(int v, bool force = false);
 	static int GetRequestedTimeAccelIdx() { return requestedTimeAccelIdx; }
 	static int GetTimeAccelIdx() { return timeAccelIdx; }
 	static bool IsTimeAccelPause() { return (timeAccelIdx == 0); }
@@ -181,6 +181,7 @@ private:
 	static StarSystem *selectedSystem;
 	static int timeAccelIdx;
 	static int requestedTimeAccelIdx;
+	static bool forceTimeAccel;
 	static float frameTime;
 	static int scrWidth, scrHeight;
 	static float scrAspect;
