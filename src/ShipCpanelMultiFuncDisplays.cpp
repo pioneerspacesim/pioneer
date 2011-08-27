@@ -26,7 +26,7 @@ void MsgLogWidget::Update()
 {
 	if (curMsgType != NONE) {
 		// has it expired?
-		bool expired = (Pi::GetGameTime() - msgAge > 5.0);
+		bool expired = (SDL_GetTicks() - msgAge > 5000);
 
 		if (expired || ((curMsgType == NOT_IMPORTANT) && !m_msgQueue.empty())) {
 			ShowNext();
@@ -70,7 +70,7 @@ void MsgLogWidget::ShowNext()
 				std::string("#ca0") + stringf(Lang::MESSAGE_FROM_X, formatarg("sender", msg.sender)) +
 				std::string("\n#0f0") + msg.message);
 		}
-		msgAge = float(Pi::GetGameTime());
+		msgAge = SDL_GetTicks();
 		curMsgType = msg.type;
 		onGrabFocus.emit();
 	}
