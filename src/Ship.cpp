@@ -874,6 +874,7 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 		SetVelocity(vector3d(0,0,0));
 		SetAngVelocity(vector3d(0,0,0));
 		Disable();
+		ClearThrusterState();
 		m_dockedWith->SetDocked(this, port);
 		onDock.emit();
 	} else {
