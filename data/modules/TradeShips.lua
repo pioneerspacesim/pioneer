@@ -227,7 +227,7 @@ local spawnInitialShips = function ()
 	-- reduce based on lawlessness
 	num_trade_ships = num_trade_ships * (1 - lawlessness)
 	-- vary by up to twice as many with a bell curve probability
-	num_trade_ships = num_trade_ships * (Engine.rand:Number(1) + Engine.rand:Number(1))
+	num_trade_ships = num_trade_ships * (Engine.rand:Number(0.25, 1) + Engine.rand:Number(0.25, 1))
 	-- compute distance and interval between ships
 	local range = (9 / (num_trade_ships / 2))
 	trade_ships['interval'] = (864000 / (num_trade_ships / 4))
