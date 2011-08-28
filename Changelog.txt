@@ -6,6 +6,8 @@ Alpha 14
     * 3D galaxy (#394)
     * Press CTRL while clicking time acceleration buttons to override the
       lockout due to nearby bodies (#417)
+    * Trade ships AI. Ships now dock, undock, hyperspace and buy and sell
+      things (#412, #11)
 
   * Fixes
     * Remove a couple of hardcoded references to the data directory (#363)
