@@ -736,7 +736,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				const SystemPath dest = ship->GetHyperspaceDest();
 				Sector s(dest.sectorX, dest.sectorY, dest.sectorZ);
 				text += stringf(Lang::HYPERSPACE_X_CLOUD, formatarg("direction",
-					(cloud->IsArrival() ? Lang::ARRIVAL : Lang::DEPARTURE)));
+					std::string(cloud->IsArrival() ? Lang::ARRIVAL : Lang::DEPARTURE)));
 				text += "\n";
 				text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->CalcStats()->total_mass));
 				text += "\n";
