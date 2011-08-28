@@ -663,9 +663,7 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 		cloud->SetFrame(ship->GetFrame());
 		cloud->SetPosition(ship->GetPosition());
 		ship->SetFrame(0);
-#if 0
-		ship->SetHyperspaceTarget(dest);
-#endif
+
 		// need to swap ship out of bodies list, replacing it with
 		// cloud
 		for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
@@ -766,14 +764,11 @@ void DoHyperspaceTo(const SystemPath *dest)
 			ship->Enable();
 			ship->SetFlightState(Ship::FLYING);
 
-#if 0
-			const SystemPath *sdest = ship->GetHyperspaceTarget();
-			if (sdest->bodyIndex == 0) {
+			SystemPath sdest = ship->GetHyperspaceDest();
+			if (sdest.bodyIndex == 0) {
 				// travelling to the system as a whole, so just dump them on
 				// the cloud - we can't do any better in this case
-#endif
 				ship->SetPosition(cloud->GetPosition());
-#if 0
 			}
 
 			else {
@@ -781,7 +776,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 				// want to simulate some travel to their destination. we
 				// naively assume full accel for half the distance, flip and
 				// full brake for the rest.
-				Body *target_body = FindBodyForPath(sdest);
+				Body *target_body = FindBodyForPath(&sdest);
 				double dist_to_target = cloud->GetPositionRelTo(target_body).Length();
 				double half_dist_to_target = dist_to_target / 2.0;
 				double accel = -(ship->GetShipType().linThrust[ShipType::THRUSTER_FORWARD] / ship->GetMass());
@@ -814,7 +809,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 					// flyto command in onEnterSystem so it should sort it
 					// itself out long before the player can get near
 					
-					SBody *sbody = Pi::currentSystem->GetBodyByPath(sdest);
+					SBody *sbody = Pi::currentSystem->GetBodyByPath(&sdest);
 					if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
 						ship->SetFrame(target_body->GetFrame());
 						ship->SetPosition(_get_random_pos(1000.0,1000.0)*1000.0); // somewhere 1000km out
@@ -834,7 +829,6 @@ void DoHyperspaceTo(const SystemPath *dest)
 					}
 				}
 			}
-#endif
 
 			Space::AddBody(ship);
 
