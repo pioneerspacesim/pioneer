@@ -52,9 +52,7 @@ static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SystemPath *path, double du
 	if (!path) return ship;
 
 	HyperspaceCloud *cloud = new HyperspaceCloud(ship, due, true);
-#if 0
-	ship->SetHyperspaceTarget(path);
-#endif
+	ship->SetHyperspaceDest(path);
 
 	return cloud;
 }
