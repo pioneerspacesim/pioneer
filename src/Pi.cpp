@@ -65,6 +65,7 @@
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
 int Pi::requestedTimeAccelIdx = 1;
+bool Pi::forceTimeAccel = false;
 int Pi::scrWidth;
 int Pi::scrHeight;
 float Pi::scrAspect;
@@ -494,12 +495,13 @@ void Pi::SetTimeAccel(int s)
 	timeAccelIdx = s;
 }
 
-void Pi::RequestTimeAccel(int s)
+void Pi::RequestTimeAccel(int s, bool force)
 {
 	if (currentView == gameMenuView) {
 		SetView(worldView);
 	}
 	requestedTimeAccelIdx = s;
+	forceTimeAccel = force;
 }
 
 void Pi::SetView(View *v)
@@ -804,6 +806,7 @@ void Pi::InitGame()
 	// games
 	Pi::timeAccelIdx = 1;
 	Pi::requestedTimeAccelIdx = 1;
+	Pi::forceTimeAccel = false;
 	Pi::gameTime = 0;
 	Pi::currentView = 0;
 	Pi::isGameStarted = false;
@@ -1197,7 +1200,7 @@ void Pi::MainLoop()
 			else if (Pi::player->GetAlertState() == Ship::ALERT_SHIP_FIRING)
 				timeAccel = std::min(timeAccel, 1);
 
-			else {
+			else if (!Pi::forceTimeAccel) {
 				// check we aren't too near to objects for timeaccel //
 				for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 					if ((*i) == Pi::player) continue;
@@ -1339,6 +1342,7 @@ void Pi::Unserialize(Serializer::Reader &rd)
 	
 	SetTimeAccel(0);
 	requestedTimeAccelIdx = 0;
+	forceTimeAccel = false;
 	Space::Clear();
 	if (Pi::player) {
 		Pi::player->MarkDead();

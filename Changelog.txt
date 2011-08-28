@@ -4,6 +4,8 @@ Alpha 14
     * Lua attribute SBody.parent to find the parent of a system body (#359, #368)
     * Delivery missions to other starports in the same system (#388)
     * 3D galaxy (#394)
+    * Press CTRL while clicking time acceleration buttons to override the
+      lockout due to nearby bodies (#417)
 
   * Fixes
     * Remove a couple of hardcoded references to the data directory (#363)
