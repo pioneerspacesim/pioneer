@@ -272,9 +272,9 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	std::string _info = stringf(
 		Lang::STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS,
 		formatarg("bodycount", majorBodies),
-		formatarg("body(s)", majorBodies == 1 ? Lang::BODY : Lang::BODIES),
+		formatarg("body(s)", std::string(majorBodies == 1 ? Lang::BODY : Lang::BODIES)),
 		formatarg("portcount", starports),
-		formatarg("starport(s)", starports == 1 ? Lang::STARPORT : Lang::STARPORTS));
+		formatarg("starport(s)", std::string(starports == 1 ? Lang::STARPORT : Lang::STARPORTS)));
 	_info += "\n\n";
 	_info += s->GetLongDescription();
 

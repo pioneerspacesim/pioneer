@@ -225,6 +225,7 @@
     <ClCompile Include="..\..\src\StationShipRepairForm.cpp" />
     <ClCompile Include="..\..\src\StationShipViewForm.cpp" />
     <ClCompile Include="..\..\src\StationShipyardForm.cpp" />
+    <ClCompile Include="..\..\src\StringF.cpp" />
     <ClCompile Include="..\..\src\SystemInfoView.cpp" />
     <ClCompile Include="..\..\src\SystemView.cpp" />
     <ClCompile Include="..\..\src\TextureFont.cpp" />
