@@ -1008,8 +1008,13 @@ void GeoSphere::OnChangeDetailLevel()
 	SDL_mutexP(s_allGeospheresLock);
 	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
 			i != s_allGeospheres.end(); ++i) {
-		for (int p=0; p<6; p++) if ((*i)->m_patches[p]) delete (*i)->m_patches[p];
-		(*i)->m_style.ChangeDetailLevel();
+		for (int p=0; p<6; p++) {
+			if ((*i)->m_patches[p]) {
+				delete (*i)->m_patches[p];
+				(*i)->m_patches[p] = 0;
+			}
+			(*i)->m_style.ChangeDetailLevel();
+		}
 	}
 	switch (Pi::detail.planets) {
 		case 0: GEOPATCH_EDGELEN = 7; break;
@@ -1021,10 +1026,6 @@ void GeoSphere::OnChangeDetailLevel()
 	}
 	assert(GEOPATCH_EDGELEN <= GEOPATCH_MAX_EDGELEN);
 	GeoPatch::Init();
-	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
-			i != s_allGeospheres.end(); ++i) {
-		(*i)->BuildFirstPatches();
-	}
 	SDL_mutexV(s_allGeospheresLock);
 }
 
