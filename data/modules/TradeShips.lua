@@ -351,7 +351,7 @@ local updateTradeShipsTable = function ()
 		total = total + 1
 		if trader.status == 'hyperspace' then
 			-- remove ships not coming here
-			if trader.arrival_system ~= Game.system.path then
+			if not trader.arrival_system:IsSameSystem(Game.system.path) then
 				trade_ships[label] = nil
 				removed = removed + 1
 			end
