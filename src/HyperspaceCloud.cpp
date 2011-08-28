@@ -84,9 +84,13 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 
 	if (m_isArrival && m_ship && (m_due < Pi::GetGameTime())) {
 		// spawn ship
+		// XXX some overlap with Space::DoHyperspaceTo(). should probably all
+		// be moved into EvictShip()
 		m_ship->SetPosition(m_pos);
 		m_ship->SetVelocity(m_vel);
+		m_ship->SetRotMatrix(matrix4x4d::Identity());
 		m_ship->SetFrame(GetFrame());
+		m_ship->SetFlightState(Ship::FLYING);
 		Space::AddBody(m_ship);
 		m_ship->Enable();
 
