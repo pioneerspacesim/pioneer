@@ -361,6 +361,10 @@ static const char *planet_textures_desc[2] = {
 	"Off", "On"
 };
 
+static const char *planet_fractal_desc[5] = {
+	"Very low", "Low", "Normal", "High", "Very high"
+};
+
 GameMenuView::GameMenuView(): View()
 {
 	m_subview = 0;
@@ -533,6 +537,22 @@ GameMenuView::GameMenuView(): View()
 	}
 
 	vbox->PackEnd(new Gui::Fixed(10,20));
+
+	vbox->PackEnd((new Gui::Label("Fractal detail (restart req.) :"))->Color(1.0f,1.0f,0.0f));
+	m_planetFractalGroup = new Gui::RadioGroup();
+
+	for (int i=0; i<5; i++) {
+		Gui::RadioButton *rb = new Gui::RadioButton(m_planetFractalGroup);
+		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeFractalMultiple), i));
+		Gui::HBox *hbox = new Gui::HBox();
+		hbox->SetSpacing(5.0f);
+		hbox->PackEnd(rb);
+		hbox->PackEnd(new Gui::Label(planet_fractal_desc[i]));
+		vbox->PackEnd(hbox);
+	}
+	
+	vbox->PackEnd(new Gui::Fixed(10,20));
+
 
 	// language
 	
@@ -715,6 +735,14 @@ void GameMenuView::OnChangePlanetTextures(int level)
 	Pi::config.SetInt("Textures", level);
 	Pi::config.Save();
 }
+void GameMenuView::OnChangeFractalMultiple(int level)
+{
+	if (level == Pi::detail.fracmult) return;
+	m_changedDetailLevel = true;
+	Pi::detail.fracmult = level;
+	Pi::config.SetInt("FractalMultiple", level);
+	Pi::config.Save();
+}
 
 void GameMenuView::OnChangeCityDetail(int level)
 {
@@ -811,6 +839,7 @@ void GameMenuView::OnSwitchTo() {
 	} else {
 		m_planetDetailGroup->SetSelected(Pi::detail.planets);
 		m_planetTextureGroup->SetSelected(Pi::detail.textures);
+		m_planetFractalGroup->SetSelected(Pi::detail.fracmult);
 		m_cityDetailGroup->SetSelected(Pi::detail.cities);
 		m_toggleShaders->SetPressed(Render::AreShadersEnabled());
 		m_toggleHDR->SetPressed(Render::IsHDREnabled());

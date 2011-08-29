@@ -40,8 +40,7 @@ int GeoSphereStyle::GetRawHeightMapVal(int x, int y)
 /*
  * Bicubic interpolation!!!
  */
-bool textures;
-int m_fracnum;
+
 
 double GeoSphereStyle::GetHeightMapVal(const vector3d &pt)
 {     // This is all used for Earth and Earth alone
@@ -112,7 +111,7 @@ double GeoSphereStyle::GetHeightMapVal(const vector3d &pt)
 		*/
 		//Here's where we add some noise over the heightmap so it doesnt look so boring, we scale by height so values are greater high up
 		//large mountainous shapes
-		Textures();
+		Detail();
 		v += h*h*0.0005*m_fracdef[5-m_fracnum].amplitude*ridged_octavenoise(m_fracdef[3-m_fracnum], 0.5, pt);
 		//smaller ridged mountains
 		v += h*h*0.0002*m_fracdef[5-m_fracnum].amplitude*m_fracdef[2-m_fracnum].amplitude*octavenoise(m_fracdef[4-m_fracnum], 0.5, pt);
@@ -150,7 +149,7 @@ static inline vector3d interpolate_color(double n, vector3d start, vector3d end)
 	return start*(1.0-n) + end*n;
 }
 
-void GeoSphereStyle::Textures()
+void GeoSphereStyle::Detail()
 {
 
 	switch (Pi::detail.textures) {
@@ -160,6 +159,16 @@ void GeoSphereStyle::Textures()
 		case 1: textures = true;
 			m_fracnum = 0;break;
 	}
+
+	switch (Pi::detail.fracmult) {
+		case 0: m_fracmult = 100;break;
+		case 1: m_fracmult = 10;break;
+		case 2: m_fracmult = 1;break;
+		case 3: m_fracmult = 0.5;break;
+		default:
+		case 4: m_fracmult = 0.1;break;
+	}
+	printf("multiple: %f \n", m_fracmult);
 }
 
 void GeoSphereStyle::PickAtmosphere(const SBody *sbody)
@@ -616,23 +625,24 @@ void GeoSphereStyle::SetFracDef(struct fracdef_t *def, double featureHeightMeter
 // Fracdef is used to define the fractals width/area, height and detail
 void GeoSphereStyle::InitFractalType(MTRand &rand)
 {
-	Textures();
+	Detail();
 	//Earth uses these fracdef settings
 	if (m_heightMap) {	
-		printf("%d \n", m_fracnum);
+		printf("fracnum:  %d \n", m_fracnum);
+		printf("multfrdef:%f \n", m_fracmult);
 		//textures
 		if (textures == true) {
-		SetFracDef(&m_fracdef[0], m_maxHeightInMeters, 10, rand, 10);
-		SetFracDef(&m_fracdef[1], m_maxHeightInMeters, 25, rand, 10);
+		SetFracDef(&m_fracdef[0], m_maxHeightInMeters, 10, rand, 10*m_fracmult);
+		SetFracDef(&m_fracdef[1], m_maxHeightInMeters, 25, rand, 10*m_fracmult);
 		}
 		//small fractal/high detail
-		SetFracDef(&m_fracdef[2-m_fracnum], m_maxHeightInMeters*0.05, 50, rand, 10);//[2]
+		SetFracDef(&m_fracdef[2-m_fracnum], m_maxHeightInMeters*0.05, 50, rand, 10*m_fracmult);//[2]
 		//continental/large type fractal
-		SetFracDef(&m_fracdef[3-m_fracnum], m_maxHeightInMeters, 1e6, rand, 200);//[0]
-		SetFracDef(&m_fracdef[4-m_fracnum], m_maxHeightInMeters, 1e4, rand, 100);//[4]
+		SetFracDef(&m_fracdef[3-m_fracnum], m_maxHeightInMeters, 1e6, rand, 200*m_fracmult);//[0]
+		SetFracDef(&m_fracdef[4-m_fracnum], m_maxHeightInMeters, 1e4, rand, 100*m_fracmult);//[4]
 		//medium fractal
-		SetFracDef(&m_fracdef[5-m_fracnum], m_maxHeightInMeters, 1500.0, rand, 500);//[5]
-		SetFracDef(&m_fracdef[6-m_fracnum], m_maxHeightInMeters*0.2, 500.0, rand, 100);//[3]
+		SetFracDef(&m_fracdef[5-m_fracnum], m_maxHeightInMeters, 1500.0, rand, 500*m_fracmult);//[5]
+		SetFracDef(&m_fracdef[6-m_fracnum], m_maxHeightInMeters*0.2, 500.0, rand, 100*m_fracmult);//[3]
 		return;
 	}
 
@@ -643,71 +653,71 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			//m_invMaxHeight = 1.0 / m_maxHeight;
 			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, m_planetRadius, rand);
 			// craters
-			SetFracDef(&m_fracdef[1], 5000.0, 1000000.0, rand, 1000.0);
+			SetFracDef(&m_fracdef[1], 5000.0, 1000000.0, rand, 1000.0*m_fracmult);
 			break;
 		}
 		case TERRAIN_HILLS_NORMAL:
 		{
 			//textures
-			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(5, 15), rand, 10);
-			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(20, 40), rand, 10);
+			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(5, 15), rand, 10*m_fracmult);
+			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(20, 40), rand, 10*m_fracmult);
 			//small fractal/high detail
-			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.000000005, rand.Double(40, 80), rand, 10);
+			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.000000005, rand.Double(40, 80), rand, 10*m_fracmult);
 			//continental:
-			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.00001, rand.Double(1e6, 2e7), rand, 1000);
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.00001, rand.Double(1e6, 2e7), rand, 1000*m_fracmult);
 			//large fractal:
-			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(1e5, 5e6), rand, 200);
+			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(1e5, 5e6), rand, 200*m_fracmult);
 			//medium fractal:
-			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.00005, rand.Double(1e3, 5e4), rand, 200);
-			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.00000002, rand.Double(250, 1e3), rand, 100);
+			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.00005, rand.Double(1e3, 5e4), rand, 200*m_fracmult);
+			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.00000002, rand.Double(250, 1e3), rand, 100*m_fracmult);
 			break;
 		}
 		case TERRAIN_HILLS_DUNES:
 		{
 			//textures
-			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(5, 15), rand, 10);
-			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(20, 40), rand, 10);
+			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(5, 15), rand, 10*m_fracmult);
+			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(20, 40), rand, 10*m_fracmult);
 			//small fractal/high detail
-			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.000000008, rand.Double(5, 70), rand, 10);
+			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.000000008, rand.Double(5, 70), rand, 10*m_fracmult);
 			//continental:
-			SetFracDef(&m_fracdef[3], m_maxHeightInMeters, rand.Double(1e6, 2e7), rand, 10000); 
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters, rand.Double(1e6, 2e7), rand, 10000*m_fracmult); 
 			//large fractal:
-			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.00001, 1e5, rand, 1000); 
-			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.000001, rand.Double(1e5, 1e6), rand, 100); 
+			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.00001, 1e5, rand, 1000*m_fracmult); 
+			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.000001, rand.Double(1e5, 1e6), rand, 100*m_fracmult); 
 			//medium fractal:
-			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.0000002, rand.Double(500, 2e4), rand, 50); 
+			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.0000002, rand.Double(500, 2e4), rand, 50*m_fracmult); 
 			break;
 		}
 		case TERRAIN_HILLS_RIDGED:
 		{
 			//textures:
-			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(5, 15), rand, 10);
-			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(20, 40), rand, 10);
+			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(5, 15), rand, 10*m_fracmult);
+			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(20, 40), rand, 10*m_fracmult);
 			//small fractal/high detail:
-			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.000000005, rand.Double(40, 80), rand, 10);
+			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.000000005, rand.Double(40, 80), rand, 10*m_fracmult);
 			//continental:
-			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.00001, rand.Double(1e6, 2e7), rand, 1000);
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.00001, rand.Double(1e6, 2e7), rand, 1000*m_fracmult);
 			//large fractal:
-			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(1e5, 5e6), rand, 200);
+			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(1e5, 5e6), rand, 200*m_fracmult);
 			//medium fractal:
-			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.00005, rand.Double(1e3, 5e4), rand, 100);
-			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.00000002, rand.Double(250, 1e3), rand, 50);
+			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.00005, rand.Double(1e3, 5e4), rand, 100*m_fracmult);
+			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.00000002, rand.Double(250, 1e3), rand, 50*m_fracmult);
 			break;
 		}
 		case TERRAIN_HILLS_RIVERS:
 		{
 			//textures
-			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(5, 15), rand, 10);
-			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(20, 40), rand, 10);
+			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(5, 15), rand, 10*m_fracmult);
+			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(20, 40), rand, 10*m_fracmult);
 			//small fractal/high detail
-			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.000000008, rand.Double(5, 70), rand, 10);
+			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.000000008, rand.Double(5, 70), rand, 10*m_fracmult);
 			//continental:
-			SetFracDef(&m_fracdef[3], m_maxHeightInMeters, rand.Double(1e6, 2e7), rand, 10000); 
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters, rand.Double(1e6, 2e7), rand, 10000*m_fracmult); 
 			//large fractal:
-			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.00001, 1e5, rand, 1000); 
-			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.000001, rand.Double(1e5, 1e6), rand, 100); 
+			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.00001, 1e5, rand, 1000*m_fracmult); 
+			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.000001, rand.Double(1e5, 1e6), rand, 100*m_fracmult); 
 			//medium fractal:
-			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.0000002, rand.Double(500, 2e4), rand, 50); 
+			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.0000002, rand.Double(500, 2e4), rand, 50*m_fracmult); 
 			break;
 		}
 		case TERRAIN_HILLS_CRATERS:
@@ -716,8 +726,8 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			double height = m_maxHeightInMeters*0.3;
 			SetFracDef(&m_fracdef[1], height, rand.Double(4.0, 20.0)*height, rand);
 			SetFracDef(&m_fracdef[2], m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand);
-			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.07, 1e6, rand, 100.0);
-			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.05, 8e5, rand, 100.0);
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.07, 1e6, rand, 100.0*m_fracmult);
+			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.05, 8e5, rand, 100.0*m_fracmult);
 			break;
 		}
 		case TERRAIN_HILLS_CRATERS2:
@@ -726,57 +736,57 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			double height = m_maxHeightInMeters*0.6;
 			SetFracDef(&m_fracdef[1], height, rand.Double(4.0, 20.0)*height, rand);
 			SetFracDef(&m_fracdef[2], m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand);
-			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.07, 11e5, rand, 1000.0);
-			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.05, 98e4, rand, 800.0);
-			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.05, 1e6, rand, 400.0);
-			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.04, 99e4, rand, 200.0);
-			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.05, 12e5, rand, 100.0);
-			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.04, 9e5, rand, 100.0);
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.07, 11e5, rand, 1000.0*m_fracmult);
+			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.05, 98e4, rand, 800.0*m_fracmult);
+			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.05, 1e6, rand, 400.0*m_fracmult);
+			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.04, 99e4, rand, 200.0*m_fracmult);
+			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.05, 12e5, rand, 100.0*m_fracmult);
+			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.04, 9e5, rand, 100.0*m_fracmult);
 			break;
 		}
 		case TERRAIN_MOUNTAINS_NORMAL:
 		{
-			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6, 1e7), rand, 10000);
-			SetFracDef(&m_fracdef[1], m_maxHeightInMeters*0.00000000001, 100.0, rand, 10);
-			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.0000001, rand.Double(500, 2e3), rand, 1000);
-			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.00002, rand.Double(1500, 1e4), rand, 100);
-			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.08, 1e4, rand, 100);
-			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.2, 1e5, rand, 100);
-			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.5, 1e6, rand, 1000);
-			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.5, rand.Double(1e6,1e7), rand, 1000);
-			SetFracDef(&m_fracdef[8], m_maxHeightInMeters, rand.Double(3e6, 1e7), rand, 1000);
+			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6, 1e7), rand, 10000*m_fracmult);
+			SetFracDef(&m_fracdef[1], m_maxHeightInMeters*0.00000000001, 100.0, rand, 10*m_fracmult);
+			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.0000001, rand.Double(500, 2e3), rand, 1000*m_fracmult);
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.00002, rand.Double(1500, 1e4), rand, 100*m_fracmult);
+			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.08, 1e4, rand, 100*m_fracmult);
+			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.2, 1e5, rand, 100*m_fracmult);
+			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.5, 1e6, rand, 1000*m_fracmult);
+			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.5, rand.Double(1e6,1e7), rand, 1000*m_fracmult);
+			SetFracDef(&m_fracdef[8], m_maxHeightInMeters, rand.Double(3e6, 1e7), rand, 1000*m_fracmult);
 			break;
 		}
 		case TERRAIN_MOUNTAINS_RIDGED:
 		{
 			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6,1e7), rand);
 			double height = m_maxHeightInMeters*0.9;
-			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand, 8);
-			SetFracDef(&m_fracdef[2], height, rand.Double(4.0, 200.0)*height, rand, 10);
-			SetFracDef(&m_fracdef[3], m_maxHeightInMeters, rand.Double(120.0, 2000.0)*m_maxHeightInMeters, rand, 1000);
+			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand, 8*m_fracmult);
+			SetFracDef(&m_fracdef[2], height, rand.Double(4.0, 200.0)*height, rand, 10*m_fracmult);
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters, rand.Double(120.0, 2000.0)*m_maxHeightInMeters, rand, 1000*m_fracmult);
 
 			height = m_maxHeightInMeters*0.4;
 			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand);
 			SetFracDef(&m_fracdef[5], height*0.4, rand.Double(2.5,30.5)*height, rand);
-			SetFracDef(&m_fracdef[6], height*0.2, rand.Double(20.5,350.5)*height, rand, 10000);
+			SetFracDef(&m_fracdef[6], height*0.2, rand.Double(20.5,350.5)*height, rand, 10000*m_fracmult);
 
-			SetFracDef(&m_fracdef[7], m_maxHeightInMeters, rand.Double(100.0, 2000.0)*m_maxHeightInMeters, rand, 100);
-			SetFracDef(&m_fracdef[8], height*0.3, rand.Double(2.5,300.5)*height, rand, 500);
-			SetFracDef(&m_fracdef[9], height*0.2, rand.Double(2.5,300.5)*height, rand, 20);
+			SetFracDef(&m_fracdef[7], m_maxHeightInMeters, rand.Double(100.0, 2000.0)*m_maxHeightInMeters, rand, 100*m_fracmult);
+			SetFracDef(&m_fracdef[8], height*0.3, rand.Double(2.5,300.5)*height, rand, 500*m_fracmult);
+			SetFracDef(&m_fracdef[9], height*0.2, rand.Double(2.5,300.5)*height, rand, 20*m_fracmult);
 			break;
 		}
 		case TERRAIN_MOUNTAINS_RIVERS:
 		{
-			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6, 2e6), rand, 10);
-			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, 15e6, rand, 100.0);
-			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.0000001, rand.Double(500, 2e3), rand, 10);
-			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.00002, rand.Double(1500, 1e4), rand, 10);
-			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.08, 1e4, rand, 10);
-			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.2, 1e5, rand, 10);
-			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.5, 1e6, rand, 100);
-			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.5, rand.Double(1e6,5e6), rand, 100);
-			SetFracDef(&m_fracdef[8], m_maxHeightInMeters, rand.Double(12e5, 22e5), rand, 10);
-			SetFracDef(&m_fracdef[9], m_maxHeightInMeters, 1e7, rand, 100.0);
+			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6, 2e6), rand, 10*m_fracmult);
+			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, 15e6, rand, 100.0*m_fracmult);
+			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.0000001, rand.Double(500, 2e3), rand, 10*m_fracmult);
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.00002, rand.Double(1500, 1e4), rand, 10*m_fracmult);
+			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.08, 1e4, rand, 10*m_fracmult);
+			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.2, 1e5, rand, 10*m_fracmult);
+			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.5, 1e6, rand, 100*m_fracmult);
+			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.5, rand.Double(1e6,5e6), rand, 100*m_fracmult);
+			SetFracDef(&m_fracdef[8], m_maxHeightInMeters, rand.Double(12e5, 22e5), rand, 10*m_fracmult);
+			SetFracDef(&m_fracdef[9], m_maxHeightInMeters, 1e7, rand, 100.0*m_fracmult);
 			break;
 		}
 		case TERRAIN_MOUNTAINS_CRATERS:
@@ -790,25 +800,25 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand);
 			SetFracDef(&m_fracdef[3], height, rand.Double(2.5,3.5)*height, rand);
 
-			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.05, 8e5, rand, 1000.0);
-			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.05, 1e6, rand, 10000.0);
+			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.05, 8e5, rand, 1000.0*m_fracmult);
+			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.05, 1e6, rand, 10000.0*m_fracmult);
 			break;
 		}
 		case TERRAIN_MOUNTAINS_CRATERS2:
 		{
 			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6,1e7), rand);
 			double height = m_maxHeightInMeters*0.5;
-			SetFracDef(&m_fracdef[1], height, rand.Double(50.0, 200.0)*height, rand, 10);
+			SetFracDef(&m_fracdef[1], height, rand.Double(50.0, 200.0)*height, rand, 10*m_fracmult);
 			SetFracDef(&m_fracdef[2], m_maxHeightInMeters, rand.Double(500.0, 5000.0)*m_maxHeightInMeters, rand);
 
 			height = m_maxHeightInMeters*0.4;
 			SetFracDef(&m_fracdef[3], height, rand.Double(2.5,3.5)*height, rand);
 			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand);
-			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.05, 1e6, rand, 10000.0);
-			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.04, 9e5, rand, 10000.0);
-			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.05, 8e5, rand, 10000.0);
-			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.04, 11e5, rand, 10000.0);
-			SetFracDef(&m_fracdef[9], m_maxHeightInMeters*0.07, 12e5, rand, 10000.0);
+			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.05, 1e6, rand, 10000.0*m_fracmult);
+			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.04, 9e5, rand, 10000.0*m_fracmult);
+			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.05, 8e5, rand, 10000.0*m_fracmult);
+			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.04, 11e5, rand, 10000.0*m_fracmult);
+			SetFracDef(&m_fracdef[9], m_maxHeightInMeters*0.07, 12e5, rand, 10000.0*m_fracmult);
 			break;
 		}
 		case TERRAIN_MOUNTAINS_VOLCANO:  
@@ -824,12 +834,12 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			SetFracDef(&m_fracdef[5], height, rand.Double(2.5,3.5)*height, rand);
 			SetFracDef(&m_fracdef[6], height, rand.Double(2.5,3.5)*height, rand);
 			// volcano
-			SetFracDef(&m_fracdef[7], 20000.0, 5000000.0, rand, 1000.0);
+			SetFracDef(&m_fracdef[7], 20000.0, 5000000.0, rand, 1000.0*m_fracmult);
 
 			// canyons 
-			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.5, 2e6, rand, 100.0);
-			//SetFracDef(&m_fracdef[9], m_maxHeightInMeters*0.1, 1.5e6, rand, 100.0);
-			//SetFracDef(&m_fracdef[10], m_maxHeightInMeters*0.1, 2e6, rand, 100.0);
+			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.5, 2e6, rand, 100.0*m_fracmult);
+			//SetFracDef(&m_fracdef[9], m_maxHeightInMeters*0.1, 1.5e6, rand, 100.0*m_fracmult);
+			//SetFracDef(&m_fracdef[10], m_maxHeightInMeters*0.1, 2e6, rand, 100.0*m_fracmult);
 			break;
 		}
 		case TERRAIN_MOUNTAINS_RIVERS_VOLCANO:  //old terraformed mars terrain 
@@ -838,18 +848,18 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			double height = m_maxHeightInMeters*0.6;
 			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand);
 			SetFracDef(&m_fracdef[2], height, rand.Double(4.0, 20.0)*height, rand);
-			SetFracDef(&m_fracdef[3], m_maxHeightInMeters, rand.Double(120.0, 2000.0)*m_maxHeightInMeters, rand, 20);
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters, rand.Double(120.0, 2000.0)*m_maxHeightInMeters, rand, 20*m_fracmult);
 
 			height = m_maxHeightInMeters*0.3;
 			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand);
 			SetFracDef(&m_fracdef[5], height, rand.Double(2.5,3.5)*height, rand);
 			SetFracDef(&m_fracdef[6], height, rand.Double(2.5,3.5)*height, rand);
 			// volcano
-			SetFracDef(&m_fracdef[7], 20000.0, 5000000.0, rand, 100.0);
+			SetFracDef(&m_fracdef[7], 20000.0, 5000000.0, rand, 100.0*m_fracmult);
 
 			// canyons and rivers
-			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*1.0, 4e6, rand, 100.0);
-			SetFracDef(&m_fracdef[9], m_maxHeightInMeters*1.0, 5e6, rand, 100.0);
+			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*1.0, 4e6, rand, 100.0*m_fracmult);
+			SetFracDef(&m_fracdef[9], m_maxHeightInMeters*1.0, 5e6, rand, 100.0*m_fracmult);
 			//SetFracDef(&m_fracdef[10], m_maxHeightInMeters*0.5, 2e6, rand, 100.0);
 			break;
 		}
@@ -866,13 +876,13 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			SetFracDef(&m_fracdef[5], height, rand.Double(2.5,3.5)*height, rand);
 
 			// volcanoes
-			SetFracDef(&m_fracdef[6], height, 6e6, rand, 100000.0);
-			SetFracDef(&m_fracdef[7], height, 3e6, rand, 1000.0);
+			SetFracDef(&m_fracdef[6], height, 6e6, rand, 100000.0*m_fracmult);
+			SetFracDef(&m_fracdef[7], height, 3e6, rand, 1000.0*m_fracmult);
 
 			// canyon
-			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.4, 4e6, rand, 100.0);
+			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.4, 4e6, rand, 100.0*m_fracmult);
 			// bumps/rocks
-			SetFracDef(&m_fracdef[9], height*0.001, rand.Double(10,100), rand, 2.0);
+			SetFracDef(&m_fracdef[9], height*0.001, rand.Double(10,100), rand, 2.0*m_fracmult);
 			break;
 		}
 		case TERRAIN_H2O_SOLID:
@@ -886,7 +896,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.4, 4e6, rand);
 			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.4, 5e6, rand);
 			//crater
-			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.4, 1.5e7, rand, 50000.0);
+			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.4, 1.5e7, rand, 50000.0*m_fracmult);
 			break;
 			break;
 		}
@@ -901,7 +911,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.4, 4e6, rand);
 			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.4, 5e6, rand);
 			//crater
-			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.4, 15e6, rand, 50000.0);
+			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.4, 15e6, rand, 50000.0*m_fracmult);
 			//canyons
 			//SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.4, 12e6, rand, 50000.0);
 			//SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.4, 9e6, rand, 50000.0);
@@ -909,9 +919,9 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 		}
 		case TERRAIN_RUGGED_DESERT:
 		{
-			SetFracDef(&m_fracdef[0], 0.1*m_maxHeightInMeters, 2e6, rand, 180e3);
+			SetFracDef(&m_fracdef[0], 0.1*m_maxHeightInMeters, 2e6, rand, 180e3*m_fracmult);
 			double height = m_maxHeightInMeters*0.9;
-			SetFracDef(&m_fracdef[1], height, rand.Double(120.0, 10000.0)*height, rand, 100);
+			SetFracDef(&m_fracdef[1], height, rand.Double(120.0, 10000.0)*height, rand, 100*m_fracmult);
 			SetFracDef(&m_fracdef[2], m_maxHeightInMeters, rand.Double(1.0, 2.0)*m_maxHeightInMeters, rand);
 
 			height = m_maxHeightInMeters*0.3;
@@ -919,15 +929,15 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(1.0, 2.0)*m_maxHeightInMeters, rand);
 			// dunes
 			height = m_maxHeightInMeters*0.2;
-			SetFracDef(&m_fracdef[5], height*0.1, rand.Double(5,75)*height, rand, 10000.0);
+			SetFracDef(&m_fracdef[5], height*0.1, rand.Double(5,75)*height, rand, 10000.0*m_fracmult);
 			// canyon
-			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.2, 1e6, rand, 200.0);
-			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.35, 1.5e6, rand, 100.0);
-			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.2, 3e6, rand, 100.0);
+			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.2, 1e6, rand, 200.0*m_fracmult);
+			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.35, 1.5e6, rand, 100.0*m_fracmult);
+			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.2, 3e6, rand, 100.0*m_fracmult);
 
 			//SetFracDef(&m_fracdef[9], m_maxHeightInMeters*0.1, 100, rand, 10.0);
 			// adds bumps to the landscape
-			SetFracDef(&m_fracdef[9], height*0.0025, rand.Double(1,100), rand, 100.0);
+			SetFracDef(&m_fracdef[9], height*0.0025, rand.Double(1,100), rand, 100.0*m_fracmult);
             break;
 		}
         case TERRAIN_GASGIANT:
@@ -943,62 +953,62 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			{
 				// spots
 				double height = m_maxHeightInMeters*0.1;
-				SetFracDef(&m_fracdef[0], height, 1e8, rand, 1000.0);
-				SetFracDef(&m_fracdef[1], height, 8e7, rand, 1000.0);
-				SetFracDef(&m_fracdef[2], height, 4e7, rand, 1000.0);
-				SetFracDef(&m_fracdef[3], height, 1e7, rand, 100.0);
+				SetFracDef(&m_fracdef[0], height, 1e8, rand, 1000.0*m_fracmult);
+				SetFracDef(&m_fracdef[1], height, 8e7, rand, 1000.0*m_fracmult);
+				SetFracDef(&m_fracdef[2], height, 4e7, rand, 1000.0*m_fracmult);
+				SetFracDef(&m_fracdef[3], height, 1e7, rand, 100.0*m_fracmult);
 				break;
 			}
 		case COLOR_GG_SATURN:
 			{
 				double height = m_maxHeightInMeters*0.1;
 				//spot + clouds
-				SetFracDef(&m_fracdef[0], height, 3e7, rand, 10.0);
-				SetFracDef(&m_fracdef[1], height, 9e7, rand, 1000.0);
-				SetFracDef(&m_fracdef[2], height, 8e7, rand, 100.0);
+				SetFracDef(&m_fracdef[0], height, 3e7, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[1], height, 9e7, rand, 1000.0*m_fracmult);
+				SetFracDef(&m_fracdef[2], height, 8e7, rand, 100.0*m_fracmult);
 				//spot boundary
-				SetFracDef(&m_fracdef[3], height, 3e7, rand, 10000000.0);
+				SetFracDef(&m_fracdef[3], height, 3e7, rand, 10000000.0*m_fracmult);
 				break;
 			}
 		case COLOR_GG_SATURN2:
 			{
 				double height = m_maxHeightInMeters*0.1;
 				//spot + clouds
-				SetFracDef(&m_fracdef[0], height, 3e7, rand, 10.0);
-				SetFracDef(&m_fracdef[1], height, 9e7, rand, 1000.0);
-				SetFracDef(&m_fracdef[2], height, 8e7, rand, 100.0);
+				SetFracDef(&m_fracdef[0], height, 3e7, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[1], height, 9e7, rand, 1000.0*m_fracmult);
+				SetFracDef(&m_fracdef[2], height, 8e7, rand, 100.0*m_fracmult);
 				//spot boundary
-				SetFracDef(&m_fracdef[3], height, 3e7, rand, 10000000.0);
+				SetFracDef(&m_fracdef[3], height, 3e7, rand, 10000000.0*m_fracmult);
 				break;
 			}
 		case COLOR_GG_URANUS: 
 			{
 				double height = m_maxHeightInMeters*0.1;
-				SetFracDef(&m_fracdef[0], height, 3e7, rand, 1000.0);
-				SetFracDef(&m_fracdef[1], height, 9e7, rand, 1000.0);
-				SetFracDef(&m_fracdef[2], height, 8e7, rand, 1000.0);
+				SetFracDef(&m_fracdef[0], height, 3e7, rand, 1000.0*m_fracmult);
+				SetFracDef(&m_fracdef[1], height, 9e7, rand, 1000.0*m_fracmult);
+				SetFracDef(&m_fracdef[2], height, 8e7, rand, 1000.0*m_fracmult);
 				break;
 			}
 		case COLOR_GG_NEPTUNE:
 			{
 				double height = m_maxHeightInMeters*0.1;
 				//spot boundary
-				SetFracDef(&m_fracdef[0], height, 3e7, rand, 10000000.0);
+				SetFracDef(&m_fracdef[0], height, 3e7, rand, 10000000.0*m_fracmult);
 				//spot
-				SetFracDef(&m_fracdef[1], height, 9e7, rand, 100.0);
+				SetFracDef(&m_fracdef[1], height, 9e7, rand, 100.0*m_fracmult);
 				//bands
-				SetFracDef(&m_fracdef[2], height, 8e7, rand, 1000.0);
-				SetFracDef(&m_fracdef[3], height, 1e8, rand, 1000.0);
+				SetFracDef(&m_fracdef[2], height, 8e7, rand, 1000.0*m_fracmult);
+				SetFracDef(&m_fracdef[3], height, 1e8, rand, 1000.0*m_fracmult);
 				break;
 			}
 		case COLOR_GG_NEPTUNE2:
 			{
 				// spots
 				double height = m_maxHeightInMeters*0.1;
-				SetFracDef(&m_fracdef[0], height, 2e8, rand, 1000.0);
-				SetFracDef(&m_fracdef[1], height, 9e7, rand, 1000.0);
-				SetFracDef(&m_fracdef[2], height, 6e7, rand, 1000.0);
-				SetFracDef(&m_fracdef[3], height, 1e8, rand, 100.0);
+				SetFracDef(&m_fracdef[0], height, 2e8, rand, 1000.0*m_fracmult);
+				SetFracDef(&m_fracdef[1], height, 9e7, rand, 1000.0*m_fracmult);
+				SetFracDef(&m_fracdef[2], height, 6e7, rand, 1000.0*m_fracmult);
+				SetFracDef(&m_fracdef[3], height, 1e8, rand, 100.0*m_fracmult);
 				break;
 			}
 		case COLOR_EARTHLIKE: 
@@ -1936,7 +1946,7 @@ static inline double voronoiscam_octavenoise(int octaves, double roughness, doub
  */
 vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector3d &norm)
 {
-	Textures();
+	Detail();
 	switch (m_colorType) {
 	case COLOR_NONE:
 		return vector3d(1.0);
@@ -2224,7 +2234,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		SetFracDef(&m_fracdef[5], m_maxHeightInMeters, 1500.0, rand, 500);//[5]
 		SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.2, 500.0, rand, 100);//[3]
 		*/
-		//Textures();
+		//Detail();
 		//textures = false;
 		double n = m_invMaxHeight*height;
 		double flatness = pow(p.Dot(norm), 8.0);

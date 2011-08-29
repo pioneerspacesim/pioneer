@@ -61,6 +61,10 @@ class GeoSphereStyle {
 		COLOR_MAX = COLOR_BANDED_ROCK
 	};
 
+	bool textures;
+	int m_fracnum;
+	double m_fracmult;
+
 	GeoSphereStyle(const SBody *body);
 	~GeoSphereStyle() {
 		if (m_heightMap) delete [] m_heightMap;
@@ -79,6 +83,7 @@ class GeoSphereStyle {
 
 	private:
 	void Textures();
+	void Detail();
 	void PickAtmosphere(const SBody *sbody);
 	void InitFractalType(MTRand &rand);
 	int GetRawHeightMapVal(int x, int y);

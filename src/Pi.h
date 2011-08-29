@@ -39,6 +39,7 @@ class ObjectViewerView;
 struct DetailLevel {
 	int planets;
 	int textures;
+	int fracmult;
 	int cities;
 };
 
