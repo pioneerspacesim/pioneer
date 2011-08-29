@@ -168,7 +168,6 @@ void GeoSphereStyle::Detail()
 		default:
 		case 4: m_fracmult = 0.1;break;
 	}
-	printf("multiple: %f \n", m_fracmult);
 }
 
 void GeoSphereStyle::PickAtmosphere(const SBody *sbody)
@@ -628,8 +627,6 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 	Detail();
 	//Earth uses these fracdef settings
 	if (m_heightMap) {	
-		printf("fracnum:  %d \n", m_fracnum);
-		printf("multfrdef:%f \n", m_fracmult);
 		//textures
 		if (textures == true) {
 		SetFracDef(&m_fracdef[0], m_maxHeightInMeters, 10, rand, 10*m_fracmult);
