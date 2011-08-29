@@ -23,6 +23,7 @@ Alpha 14
     * Restore NPC (Lua) hyperspace functions (#414, #362, #269)
     * Fix bug where NPC flight state was not reset upon exiting hyperspace
     * Nereid now has a radius and can be found
+    * Don't allow scripts to jettison non-existent cargo (#430)
 
   * Internal changes
     * Lots of internal cleanups; silences most remaining warnings (#373, #375,
