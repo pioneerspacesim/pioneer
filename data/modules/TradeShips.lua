@@ -609,7 +609,8 @@ local onShipHit = function (ship, attacker)
 		if #cargo_list == 0 then return end
 
 		local cargo = cargo_list[Engine.rand:Integer(1, #cargo_list)]
-		if cargo ~= 'HYDROGEN' and cargo ~= 'SHIELD_GENERATOR' and ship:Jettison(cargo) then
+		if cargo ~= 'NONE' and cargo ~= 'HYDROGEN' and cargo ~= 'SHIELD_GENERATOR'
+		and ship:Jettison(cargo) then
 			UI.ImportantMessage(attacker.label..', take this and leave us be, you filthy pirate!', ship.label)
 			trader['chance'] = trader.chance - 0.1
 		end
