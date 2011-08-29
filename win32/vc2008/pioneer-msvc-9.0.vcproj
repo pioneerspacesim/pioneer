@@ -789,6 +789,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\StringF.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\SystemInfoView.cpp"
 				>
 			</File>
@@ -1479,11 +1483,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Render.h"
+				RelativePath="..\..\src\render\Render.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\render\Render.h"
+				RelativePath="..\..\src\Render.h"
 				>
 			</File>
 			<File
@@ -1612,6 +1616,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\StationShipyardForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StringF.h"
 				>
 			</File>
 			<File
