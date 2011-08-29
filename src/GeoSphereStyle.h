@@ -78,6 +78,7 @@ class GeoSphereStyle {
 	double GetMaxHeight() const { return m_maxHeight; }
 
 	private:
+	void Textures();
 	void PickAtmosphere(const SBody *sbody);
 	void InitFractalType(MTRand &rand);
 	int GetRawHeightMapVal(int x, int y);
