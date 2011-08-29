@@ -947,10 +947,12 @@ void WorldView::OnHyperspaceTargetChanged()
 void WorldView::OnPlayerChangeTarget()
 {
 	Body *b = Pi::player->GetNavTarget();
-	if (b &&
-		(!b->IsType(Object::HYPERSPACECLOUD) ||
-		 Pi::sectorView->GetHyperspaceTarget() != static_cast<HyperspaceCloud*>(b)->GetShip()->GetHyperspaceDest()))
-		Pi::sectorView->FloatHyperspaceTarget();
+	if (b) {
+		Ship *s = b->IsType(Object::HYPERSPACECLOUD) ? static_cast<HyperspaceCloud*>(b)->GetShip() : 0;
+		if (!s || Pi::sectorView->GetHyperspaceTarget() != s->GetHyperspaceDest())
+			Pi::sectorView->FloatHyperspaceTarget();
+	}
+
 	UpdateCommsOptions();
 }
 
