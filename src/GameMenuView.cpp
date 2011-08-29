@@ -489,7 +489,7 @@ GameMenuView::GameMenuView(): View()
 	vbox->SetSpacing(5.0f);
 	detailBox->PackEnd(vbox);
 
-	vbox->PackEnd((new Gui::Label(Lang::PLANET_DETAIL_LEVEL))->Color(1.0f,1.0f,0.0f));
+	vbox->PackEnd((new Gui::Label(Lang::PLANET_DETAIL_DISTANCE))->Color(1.0f,1.0f,0.0f));
 	m_planetDetailGroup = new Gui::RadioGroup();
 
 	for (int i=0; i<5; i++) {

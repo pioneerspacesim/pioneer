@@ -7,7 +7,7 @@
 
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
-#define GEOPATCH_MAX_DEPTH	15
+#define GEOPATCH_MAX_DEPTH	17 + (Pi::detail.fracmult) //15
 // must be an odd number
 //#define GEOPATCH_EDGELEN	15
 #define GEOPATCH_NUMVERTICES	(GEOPATCH_EDGELEN*GEOPATCH_EDGELEN)
