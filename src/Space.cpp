@@ -652,6 +652,7 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 		hyperspaceDuration = duration;
 		hyperspaceEndTime = Pi::GetGameTime() + duration;
 
+		ship->ClearThrusterState();
 		Pi::player->SetFlightState(Ship::HYPERSPACE);
 
 		printf("Started hyperspacing...\n");
