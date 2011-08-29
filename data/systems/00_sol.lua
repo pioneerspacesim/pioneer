@@ -387,6 +387,7 @@ local neptune_moons = {
 			:rotation_period(f(11,7)),
 	},
 	CustomSBody:new('Nereid', 'PLANET_ASTEROID')
+		:radius(f(2668,100000))
 		:mass(f(519,1000))
 		:temp(50)
 		:semi_major_axis(f(3685,100000))
