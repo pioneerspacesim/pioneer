@@ -131,7 +131,7 @@ local getSystem = function (ship)
 		local prices = next_system:GetCommodityBasePriceAlterations()
 		local next_prices = 0
 		for _, cargo in ipairs(cargo_list) do
-			if cargo ~= 'HYDROGEN' and cargo ~= 'SHIELD_GENERATOR' then
+			if cargo ~= 'HYDROGEN' and cargo ~= 'SHIELD_GENERATOR' and cargo ~= 'NONE' then
 				next_prices = next_prices + prices[cargo]
 			end
 		end
