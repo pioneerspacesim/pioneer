@@ -1,4 +1,4 @@
-local trade_ships, starports, imports, exports
+local trade_ships, starports, imports, exports, system_updated
 
 local addFuel = function (ship)
 	local drive = ship:GetEquip('ENGINE', 0)
@@ -131,7 +131,7 @@ local getSystem = function (ship)
 		local prices = next_system:GetCommodityBasePriceAlterations()
 		local next_prices = 0
 		for _, cargo in ipairs(cargo_list) do
-			if cargo ~= 'HYDROGEN' and cargo ~= 'SHIELD_GENERATOR' then
+			if cargo ~= 'HYDROGEN' and cargo ~= 'SHIELD_GENERATOR' and cargo ~= 'NONE' then
 				next_prices = next_prices + prices[cargo]
 			end
 		end
@@ -383,34 +383,39 @@ local cleanTradeShipsTable = function ()
 end
 
 local onEnterSystem = function (ship)
-	if not ship:IsPlayer() then
-		if trade_ships[ship.label] ~= nil then
-			print(ship.label..' entered '..Game.system.name)
-			if #starports == 0 then
-				-- this only happens if player has followed ship to empty system
-
-				getSystemAndJump(ship)
-				-- if we couldn't reach any systems wait for player to attack
-			else
-				local starport = getNearestStarport(ship)
-				trade_ships[ship.label]['starport'] = starport
-				-- get parent body of starport and orbit
-				local sbody = starport.path:GetSystemBody()
-				local body = Space.GetBody(sbody.parent.index)
-				ship:AIEnterHighOrbit(body)
-				trade_ships[ship.label]['status'] = 'orbit'
-			end
-		end
-		return
+	-- if the player is following a ship through hyperspace that ship may enter first
+	-- so update the system when the first ship enters
+	if not system_updated then
+		updateTradeShipsTable()
+		spawnInitialShips()
+		system_updated = true
 	end
 
-	updateTradeShipsTable()
-	spawnInitialShips()
+	if trade_ships[ship.label] ~= nil then
+		print(ship.label..' entered '..Game.system.name)
+		if #starports == 0 then
+			-- this only happens if player has followed ship to empty system
+
+			getSystemAndJump(ship)
+			-- if we couldn't reach any systems wait for player to attack
+		else
+			local starport = getNearestStarport(ship)
+			trade_ships[ship.label]['starport'] = starport
+			-- get parent body of starport and orbit
+			local sbody = starport.path:GetSystemBody()
+			local body = Space.GetBody(sbody.parent.index)
+			ship:AIEnterHighOrbit(body)
+			trade_ships[ship.label]['status'] = 'orbit'
+		end
+	end
 end
 EventQueue.onEnterSystem:Connect(onEnterSystem)
 
 local onLeaveSystem = function (ship)
 	if ship:IsPlayer() then
+		-- the next onEnterSystem will be in a new system
+		system_updated = false
+
 		trade_ships['interval'] = nil
 		local total, removed = 0, 0
 		for label, trader in pairs(trade_ships) do
@@ -669,13 +674,15 @@ local onGameStart = function ()
 			end
 		end
 	end
+
+	system_updated = true
 end
 EventQueue.onGameStart:Connect(onGameStart)
 
 local onGameEnd = function ()
 	-- drop the references for our data so Lua can free them
 	-- and so we can start fresh if the player starts another game
-	trade_ships, starports, imports, exports = nil, nil, nil, nil
+	trade_ships, starports, imports, exports, system_updated = nil, nil, nil, nil, nil
 end
 EventQueue.onGameEnd:Connect(onGameEnd)
 
