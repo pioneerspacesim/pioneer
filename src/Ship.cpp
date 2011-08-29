@@ -1052,6 +1052,7 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 bool Ship::Jettison(Equip::Type t)
 {
 	if (m_flightState != FLYING) return false;
+	if (t == Equip::NONE) return false;
 	Equip::Slot slot = EquipType::types[int(t)].slot;
 	if (m_equipment.Count(slot, t) > 0) {
 		m_equipment.Remove(t, 1);
