@@ -1,7 +1,7 @@
 Alpha 14
 
   * New features
-    * 3D galaxy (#394)
+    * 3D galaxy (#394, #429)
     * Trade ships AI. Ships now dock, undock, hyperspace and buy and sell
       things (#412, #11)
     * Delivery missions to other starports in the same system (#388)
