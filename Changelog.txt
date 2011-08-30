@@ -33,6 +33,7 @@ Alpha 14
     * Lua documentation fixes (#380, #403)
     * Abstracted the HDR rendering pipeline into discrete components (#396)
     * New string formatting system for translations and other strings (#405)
+    * Gracefully handle attempts to load old savefiles (#428)
 
 Alpha 13
 
