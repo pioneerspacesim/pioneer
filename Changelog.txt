@@ -19,7 +19,7 @@ Alpha 14
     * Fix flickering when HDR enabled (#266, #401)
     * Fix crash when trying to display tooltips when their parent UI element
       is no long on screen (#59, #410)
-    * Disable thrusters when docking (#409, #418)
+    * Disable thrusters when docking (#409, #418) and in hyperspace (#431)
     * Restore NPC (Lua) hyperspace functions (#414, #362, #269)
     * Fix bug where NPC flight state was not reset upon exiting hyperspace
     * Nereid now has a radius and can be found
