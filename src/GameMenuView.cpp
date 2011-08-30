@@ -482,8 +482,8 @@ GameMenuView::GameMenuView(): View()
 
 
 	Gui::HBox *detailBox = new Gui::HBox();
-	detailBox->SetSpacing(60.0f);
-	mainTab->Add(detailBox, 400, 60);
+	detailBox->SetSpacing(20.0f);
+	mainTab->Add(detailBox, 350, 60);
 
 	vbox = new Gui::VBox();
 	vbox->SetSpacing(5.0f);
@@ -523,7 +523,7 @@ GameMenuView::GameMenuView(): View()
 	vbox->SetSpacing(5.0f);
 	detailBox->PackEnd(vbox);
 
-	vbox->PackEnd((new Gui::Label("Planet textures (restart req.) :"))->Color(1.0f,1.0f,0.0f));
+	vbox->PackEnd((new Gui::Label("Planet textures:"))->Color(1.0f,1.0f,0.0f));
 	m_planetTextureGroup = new Gui::RadioGroup();
 
 	for (int i=0; i<2; i++) {
@@ -536,9 +536,11 @@ GameMenuView::GameMenuView(): View()
 		vbox->PackEnd(hbox);
 	}
 
-	vbox->PackEnd(new Gui::Fixed(10,20));
+	vbox = new Gui::VBox();
+	vbox->SetSpacing(5.0f);
+	detailBox->PackEnd(vbox);
 
-	vbox->PackEnd((new Gui::Label("Fractal detail (restart req.) :"))->Color(1.0f,1.0f,0.0f));
+	vbox->PackEnd((new Gui::Label("Fractal detail:"))->Color(1.0f,1.0f,0.0f));
 	m_planetFractalGroup = new Gui::RadioGroup();
 
 	for (int i=0; i<5; i++) {
@@ -551,8 +553,6 @@ GameMenuView::GameMenuView(): View()
 		vbox->PackEnd(hbox);
 	}
 	
-	vbox->PackEnd(new Gui::Fixed(10,20));
-
 
 	// language
 	
