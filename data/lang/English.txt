@@ -179,6 +179,8 @@ GAME_LOAD_CORRUPT
     This saved game cannot be loaded because it contains errors.
 GAME_LOAD_CANNOT_OPEN
     This saved game file could not be opened due to permissions or something...
+VERY_LOW
+    Very low
 LOW
     Low
 MEDIUM
@@ -189,6 +191,10 @@ VERY_HIGH
     Very high
 VERY_VERY_HIGH
     Very very high
+ON
+    On
+OFF
+    Off
 SIGHTS_SOUNDS_SAVES
     Sights, sounds & saving games
 PIONEER
@@ -225,6 +231,10 @@ PLANET_DETAIL_LEVEL
     Planet detail level:
 CITY_DETAIL_LEVEL
     City detail level:
+PLANET_TEXTURES
+    Planet textures:
+FRACTAL_DETAIL
+    Fractal detail:
 CONTROLS
     Controls
 ENABLE_JOYSTICK

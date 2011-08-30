@@ -358,11 +358,11 @@ static const char *planet_detail_desc[5] = {
 };
 
 static const char *planet_textures_desc[2] = {
-	"Off", "On"
+	Lang::ON, Lang::OFF
 };
 
 static const char *planet_fractal_desc[5] = {
-	"Very low", "Low", "Normal", "High", "Very high"
+	Lang::VERY_LOW, Lang::LOW, Lang::MEDIUM, Lang::HIGH, Lang::VERY_HIGH
 };
 
 GameMenuView::GameMenuView(): View()
@@ -523,7 +523,7 @@ GameMenuView::GameMenuView(): View()
 	vbox->SetSpacing(5.0f);
 	detailBox->PackEnd(vbox);
 
-	vbox->PackEnd((new Gui::Label("Planet textures:"))->Color(1.0f,1.0f,0.0f));
+	vbox->PackEnd((new Gui::Label(Lang::PLANET_TEXTURES))->Color(1.0f,1.0f,0.0f));
 	m_planetTextureGroup = new Gui::RadioGroup();
 
 	for (int i=0; i<2; i++) {
@@ -540,7 +540,7 @@ GameMenuView::GameMenuView(): View()
 	vbox->SetSpacing(5.0f);
 	detailBox->PackEnd(vbox);
 
-	vbox->PackEnd((new Gui::Label("Fractal detail:"))->Color(1.0f,1.0f,0.0f));
+	vbox->PackEnd((new Gui::Label(Lang::FRACTAL_DETAIL))->Color(1.0f,1.0f,0.0f));
 	m_planetFractalGroup = new Gui::RadioGroup();
 
 	for (int i=0; i<5; i++) {
