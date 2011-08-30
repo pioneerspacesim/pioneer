@@ -611,14 +611,16 @@ void SectorView::OnSwitchTo() {
 	if (m_firstTime) {
 		m_current = Pi::currentSystem->GetPath();
 
-		UpdateSystemLabels(m_currentSystemLabels, m_current);
-
 		WarpToSystem(m_current);
 		OnClickSystem(m_current);
 
 		m_firstTime = false;
 	}
 	
+	UpdateSystemLabels(m_currentSystemLabels, m_current);
+	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
+	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
+
 	if (!m_onKeyPressConnection.connected())
 		m_onKeyPressConnection =
 			Pi::onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPress));
