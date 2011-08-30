@@ -489,23 +489,6 @@ GameMenuView::GameMenuView(): View()
 	vbox->SetSpacing(5.0f);
 	detailBox->PackEnd(vbox);
 
-	vbox->PackEnd((new Gui::Label(Lang::PLANET_DETAIL_DISTANCE))->Color(1.0f,1.0f,0.0f));
-	m_planetDetailGroup = new Gui::RadioGroup();
-
-	for (int i=0; i<5; i++) {
-		Gui::RadioButton *rb = new Gui::RadioButton(m_planetDetailGroup);
-		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangePlanetDetail), i));
-		Gui::HBox *hbox = new Gui::HBox();
-		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(rb);
-		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
-		vbox->PackEnd(hbox);
-	}
-	
-	vbox = new Gui::VBox();
-	vbox->SetSpacing(5.0f);
-	detailBox->PackEnd(vbox);
-
 	vbox->PackEnd((new Gui::Label(Lang::CITY_DETAIL_LEVEL))->Color(1.0f,1.0f,0.0f));
 	m_cityDetailGroup = new Gui::RadioGroup();
 
@@ -519,6 +502,23 @@ GameMenuView::GameMenuView(): View()
 		vbox->PackEnd(hbox);
 	}
 
+	vbox = new Gui::VBox();
+	vbox->SetSpacing(5.0f);
+	detailBox->PackEnd(vbox);
+
+	vbox->PackEnd((new Gui::Label(Lang::PLANET_DETAIL_DISTANCE))->Color(1.0f,1.0f,0.0f));
+	m_planetDetailGroup = new Gui::RadioGroup();
+
+	for (int i=0; i<5; i++) {
+		Gui::RadioButton *rb = new Gui::RadioButton(m_planetDetailGroup);
+		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangePlanetDetail), i));
+		Gui::HBox *hbox = new Gui::HBox();
+		hbox->SetSpacing(5.0f);
+		hbox->PackEnd(rb);
+		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
+		vbox->PackEnd(hbox);
+	}
+	
 	vbox = new Gui::VBox();
 	vbox->SetSpacing(5.0f);
 	detailBox->PackEnd(vbox);
