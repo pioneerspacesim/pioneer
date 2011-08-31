@@ -18,6 +18,7 @@
 static const int GEOPATCH_MAX_EDGELEN = 55;
 //static double GEOPATCH_FRAC;
 int GeoSphere::s_vtxGenCount = 0;
+GeoPatchContext *GeoSphere::s_patchContext = 0;
 
 static const int detail_edgeLen[5] = {
 	7, 15, 25, 35, 55
@@ -1029,6 +1030,10 @@ void GeoSphere::Init()
 	s_geosphereSkyShader[2] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 3\n");
 	s_geosphereSkyShader[3] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 4\n");
 	s_allGeospheresLock = SDL_CreateMutex();
+
+	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
+	s_patchContext->IncRefCount();
+
 #ifdef GEOSPHERE_USE_THREADING
 	SDL_CreateThread(&GeoSphere::UpdateLODThread, 0);
 #endif /* GEOSPHERE_USE_THREADING */
@@ -1037,10 +1042,6 @@ void GeoSphere::Init()
 
 void GeoSphere::OnChangeDetailLevel()
 {
-	// XXX hack of astronomical proportions while we get GeoPatchContext
-	// working properly
-	GeoPatchContext *ctx = 0;
-
 	SDL_mutexP(s_allGeospheresLock);
 	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
 			i != s_allGeospheres.end(); ++i) {
@@ -1051,15 +1052,11 @@ void GeoSphere::OnChangeDetailLevel()
 			}
 			(*i)->m_style.ChangeDetailLevel();
 		}
-		ctx = (*i)->m_patchContext;
 	}
 
-	if (ctx) {
-		ctx->edgeLen = detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets];
-		assert(ctx->edgeLen <= GEOPATCH_MAX_EDGELEN);
-
-		ctx->Refresh();
-	}
+	s_patchContext->edgeLen = detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets];
+	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
+	s_patchContext->Refresh();
 
 	SDL_mutexV(s_allGeospheresLock);
 }
@@ -1068,9 +1065,6 @@ void GeoSphere::OnChangeDetailLevel()
 
 GeoSphere::GeoSphere(const SBody *body): m_style(body)
 {
-	m_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
-	m_patchContext->IncRefCount();
-
 	m_vbosToDestroyLock = SDL_CreateMutex();
 	m_runUpdateThread = 0;
 	m_sbody = body;
@@ -1090,8 +1084,6 @@ GeoSphere::~GeoSphere()
 	for (int i=0; i<6; i++) if (m_patches[i]) delete m_patches[i];
 	DestroyVBOs();
 	SDL_DestroyMutex(m_vbosToDestroyLock);
-
-	delete m_patchContext;
 }
 
 void GeoSphere::AddVBOToDestroy(GLuint vbo)
@@ -1132,12 +1124,12 @@ void GeoSphere::BuildFirstPatches()
 	p7 = p7.Normalized();
 	p8 = p8.Normalized();
 
-	m_patches[0] = new GeoPatch(m_patchContext, p1, p2, p3, p4, 0);
-	m_patches[1] = new GeoPatch(m_patchContext, p4, p3, p7, p8, 0);
-	m_patches[2] = new GeoPatch(m_patchContext, p1, p4, p8, p5, 0);
-	m_patches[3] = new GeoPatch(m_patchContext, p2, p1, p5, p6, 0);
-	m_patches[4] = new GeoPatch(m_patchContext, p3, p2, p6, p7, 0);
-	m_patches[5] = new GeoPatch(m_patchContext, p8, p7, p6, p5, 0);
+	m_patches[0] = new GeoPatch(s_patchContext, p1, p2, p3, p4, 0);
+	m_patches[1] = new GeoPatch(s_patchContext, p4, p3, p7, p8, 0);
+	m_patches[2] = new GeoPatch(s_patchContext, p1, p4, p8, p5, 0);
+	m_patches[3] = new GeoPatch(s_patchContext, p2, p1, p5, p6, 0);
+	m_patches[4] = new GeoPatch(s_patchContext, p3, p2, p6, p7, 0);
+	m_patches[5] = new GeoPatch(s_patchContext, p8, p7, p6, p5, 0);
 	for (int i=0; i<6; i++) {
 		m_patches[i]->geosphere = this;
 		for (int j=0; j<4; j++) {

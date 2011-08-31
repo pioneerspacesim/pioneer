@@ -50,8 +50,6 @@ private:
 	float m_diffColor[4], m_ambColor[4];
 	const SBody *m_sbody;
 
-	GeoPatchContext *m_patchContext;
-
 	/* all variables for GetHeight(), GetColor() */
 	GeoSphereStyle m_style;
 
@@ -73,6 +71,8 @@ private:
 	}
 
 	static int s_vtxGenCount;
+
+	static GeoPatchContext *s_patchContext;
 };
 
 #endif /* _GEOSPHERE_H */
