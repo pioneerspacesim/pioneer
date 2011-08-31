@@ -53,6 +53,7 @@ class Frame;
 class Pi {
 public:
 	static void Init();
+	static void RedirectStdio();
 	static void InitGame();
 	static void StartGame();
 	static void UninitGame();

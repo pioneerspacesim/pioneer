@@ -34,6 +34,8 @@ Alpha 14
     * Abstracted the HDR rendering pipeline into discrete components (#396)
     * New string formatting system for translations and other strings (#405)
     * Gracefully handle attempts to load old savefiles (#428)
+    * Redirect stdio output streams to files in user dir. Do this by default
+      on Windows builds.
 
 Alpha 13
 
