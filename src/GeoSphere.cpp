@@ -1032,6 +1032,7 @@ void GeoSphere::Init()
 	s_allGeospheresLock = SDL_CreateMutex();
 
 	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
+	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
 	s_patchContext->IncRefCount();
 
 #ifdef GEOSPHERE_USE_THREADING
@@ -1042,6 +1043,12 @@ void GeoSphere::Init()
 
 void GeoSphere::OnChangeDetailLevel()
 {
+	s_patchContext->DecRefCount();
+
+	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
+	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
+	s_patchContext->IncRefCount();
+
 	SDL_mutexP(s_allGeospheresLock);
 	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
 			i != s_allGeospheres.end(); ++i) {
@@ -1053,11 +1060,6 @@ void GeoSphere::OnChangeDetailLevel()
 			(*i)->m_style.ChangeDetailLevel();
 		}
 	}
-
-	s_patchContext->edgeLen = detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets];
-	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
-	s_patchContext->Refresh();
-
 	SDL_mutexV(s_allGeospheresLock);
 }
 
