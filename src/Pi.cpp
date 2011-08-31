@@ -276,7 +276,7 @@ void Pi::RedirectStdio()
 		fprintf(stderr, "ERROR: Couldn't redirect stdout to '%s': %s\n", stdout_file.c_str(), strerror(errno));
 	else {
 		setvbuf(f, 0, _IOLBF, 0);
-		stdout = f;
+		*stdout = *f;
 	}
 
 	f = freopen(stderr_file.c_str(), "w", stderr);
@@ -286,7 +286,7 @@ void Pi::RedirectStdio()
 		fprintf(stderr, "ERROR: Couldn't redirect stderr to '%s': %s\n", stderr_file.c_str(), strerror(errno));
 	else {
 		setvbuf(f, 0, _IOLBF, 0);
-		stderr = f;
+		*stderr = *f;
 	}
 }
 
