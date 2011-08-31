@@ -19,6 +19,7 @@ Programming:
   John Bartholomew
   Benjamin Hodgetts
   Sean Bailey
+  Brian Ronald
 
 Art:
   Gernot
