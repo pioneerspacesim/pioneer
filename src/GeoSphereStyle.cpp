@@ -608,10 +608,10 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body) : m_body(body)
 {
 	m_seed = m_body->seed;
 
-	ChangeDetailLevel();
-
 	PickAtmosphere();
 	InitHeightMap();
+
+	ChangeDetailLevel();
 }
 
 /**
