@@ -420,9 +420,10 @@ static int l_player_add_crime(lua_State *l)
 
 static int l_set_nav_target(lua_State *l)
 {
+	Player *p = LuaPlayer::GetFromLua(1);
 	Body *target = LuaBody::GetFromLua(2);
-    Pi::player->SetNavTarget(target); // I'd push the result, but it's void
-    return(0);
+    p->SetNavTarget(target);
+    return 0;
 }
 
 /*
@@ -447,9 +448,10 @@ static int l_set_nav_target(lua_State *l)
 
 static int l_set_combat_target(lua_State *l)
 {
+	Player *p = LuaPlayer::GetFromLua(1);
 	Body *target = LuaBody::GetFromLua(2);
-    Pi::player->SetCombatTarget(target); // I'd push the result, but it's void
-    return(0);
+    p->SetCombatTarget(target);
+    return 0;
 }
 
 static bool promotion_test(DeleteEmitter *o)
@@ -475,9 +477,10 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "SetMoney", l_player_set_money },
 		{ "AddMoney", l_player_add_money },
 
-		{ "AddCrime",      l_player_add_crime      },
-		{ "SetNavTarget",  l_set_nav_target        },
-		{ "SetCombatTarget",  l_set_combat_target        },
+		{ "AddCrime",      l_player_add_crime },
+
+		{ "SetNavTarget",    l_set_nav_target    },
+		{ "SetCombatTarget", l_set_combat_target },
 		{ 0, 0 }
 	};
 
