@@ -3,6 +3,7 @@
 #include "perlin.h"
 #include "Pi.h"
 #include "StarSystem.h"
+#include "RefCounted.h"
 #include "render/Render.h"
 
 // tri edge lengths
@@ -49,7 +50,7 @@ struct VBOVertex
 static int s_loMinIdx[4], s_loMaxIdx[4];
 static int s_hiMinIdx[4], s_hiMaxIdx[4];
 
-class GeoPatchContext {
+class GeoPatchContext : public RefCounted {
 public:
 	int edgeLen;
 
@@ -333,7 +334,10 @@ public:
 	
 	GeoPatch(GeoPatchContext *_ctx, vector3d v0, vector3d v1, vector3d v2, vector3d v3, int depth) {
 		memset(this, 0, sizeof(GeoPatch));
+
 		ctx = _ctx;
+		ctx->IncRefCount();
+
 		m_kidsLock = SDL_CreateMutex();
 		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
 		m_depth = depth;
@@ -359,7 +363,11 @@ public:
 		delete normals;
 		delete colors;
 		geosphere->AddVBOToDestroy(m_vbo);
+
+		ctx->DecRefCount();
+		if (ctx->GetRefCount() == 0) delete ctx;
 	}
+
 	void UpdateVBOs() {
 		m_needUpdateVBOs = true;
 	}
@@ -1061,6 +1069,7 @@ void GeoSphere::OnChangeDetailLevel()
 GeoSphere::GeoSphere(const SBody *body): m_style(body)
 {
 	m_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
+	m_patchContext->IncRefCount();
 
 	m_vbosToDestroyLock = SDL_CreateMutex();
 	m_runUpdateThread = 0;
