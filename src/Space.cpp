@@ -632,6 +632,7 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 				const SystemPath cloudDest = cloud->GetShip()->GetHyperspaceDest();
 				if (cloudDest.IsSameSystem(*dest)) {
 					Pi::player->NotifyDeleted(cloud);
+					cloud->GetShip()->SetHyperspaceDest(Pi::currentSystem->GetPath());
 					cloud->SetIsArrival(true);
 					cloud->SetFrame(0);
 					storedArrivalClouds.push_back(cloud);
