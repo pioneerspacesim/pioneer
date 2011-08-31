@@ -12,6 +12,7 @@ extern int GEOPATCH_EDGELEN;
 
 class SBody;
 class GeoPatch;
+class GeoPatchContext;
 class GeoSphere {
 public:
 	GeoSphere(const SBody *body);
@@ -48,6 +49,8 @@ private:
 	GeoPatch *m_patches[6];
 	float m_diffColor[4], m_ambColor[4];
 	const SBody *m_sbody;
+
+	GeoPatchContext *m_patchContext;
 
 	/* all variables for GetHeight(), GetColor() */
 	GeoSphereStyle m_style;
