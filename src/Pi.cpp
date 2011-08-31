@@ -268,14 +268,14 @@ void Pi::RedirectStdio()
 	std::string stderr_file = GetPiUserDir() + "stderr.txt";
 
 	FILE *f;
-	
+
 	f = freopen(stdout_file.c_str(), "w", stdout);
 	if (!f)
 		f = fopen(stdout_file.c_str(), "w");
 	if (!f)
 		fprintf(stderr, "ERROR: Couldn't redirect stdout to '%s': %s\n", stdout_file.c_str(), strerror(errno));
 	else {
-		setvbuf(f, 0, _IOLBF, 0);
+		setvbuf(f, 0, _IOLBF, BUFSIZ);
 		*stdout = *f;
 	}
 
@@ -285,7 +285,7 @@ void Pi::RedirectStdio()
 	if (!f)
 		fprintf(stderr, "ERROR: Couldn't redirect stderr to '%s': %s\n", stderr_file.c_str(), strerror(errno));
 	else {
-		setvbuf(f, 0, _IOLBF, 0);
+		setvbuf(f, 0, _IOLBF, BUFSIZ);
 		*stderr = *f;
 	}
 }
