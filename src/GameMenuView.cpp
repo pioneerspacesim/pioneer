@@ -358,7 +358,7 @@ static const char *planet_detail_desc[5] = {
 };
 
 static const char *planet_textures_desc[2] = {
-	Lang::ON, Lang::OFF
+	Lang::OFF, Lang::ON
 };
 
 static const char *planet_fractal_desc[5] = {
