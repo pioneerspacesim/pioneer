@@ -63,9 +63,10 @@ end
 local addShipCargo = function (ship, direction)
 	local prices = Game.system:GetCommodityBasePriceAlterations()
 	local added = 0
-	local size_factor = ship:GetEquipFree('CARGO') / 20
+	local empty_space = ship:GetEquipFree('CARGO')
+	local size_factor = empty_space / 20
 
-	while ship:GetEquipFree('CARGO') > 0 do
+	while added < empty_space do
 		local cargo
 
 		-- get random for direction
