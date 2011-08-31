@@ -27,8 +27,8 @@ Alpha 14
     * Fix crash when selecting own hyperspace cloud remnant (#427)
 
   * Internal changes
-    * Lots of internal cleanups; silences most remaining warnings (#373, #375,
-      #389, #392, #383, #399)
+    * Lots of internal cleanups; silences many warnings under GCC (#373, #375,
+      #389, #392, #383, #399) and MSVC (#434, #435, #436)
     * New utility functions for floating-point comparisons (#389)
     * Dump Lua engine state to file on exception in Lua module (#370)
     * Lua documentation fixes (#380, #403)
