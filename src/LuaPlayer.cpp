@@ -1,5 +1,6 @@
 #include "LuaPlayer.h"
 #include "LuaSystemPath.h"
+#include "LuaBody.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "Player.h"
@@ -397,6 +398,60 @@ static int l_player_add_crime(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: SetNavTarget
+ *
+ * Set the player's navigation target
+ *
+ * > player:SetNavTarget(target)
+ *
+ * Parameters:
+ *
+ *   target - a <Body> to which to set the navigation target
+ * 
+ * Availability:
+ * 
+ *   alpha 14
+ *
+ * StatusL
+ *
+ *   experimental
+ */
+
+static int l_set_nav_target(lua_State *l)
+{
+	Body *target = LuaBody::GetFromLua(2);
+    Pi::player->SetNavTarget(target); // I'd push the result, but it's void
+    return(0);
+}
+
+/*
+ * Method: SetCombatTarget
+ *
+ * Set the player's combat target
+ *
+ * > player:SetCombatTarget(target)
+ *
+ * Parameters:
+ *
+ *   target - a <Body> to which to set the combat target
+ * 
+ * Availability:
+ * 
+ *   alpha 14
+ *
+ * StatusL
+ *
+ *   experimental
+ */
+
+static int l_set_combat_target(lua_State *l)
+{
+	Body *target = LuaBody::GetFromLua(2);
+    Pi::player->SetCombatTarget(target); // I'd push the result, but it's void
+    return(0);
+}
+
 static bool promotion_test(DeleteEmitter *o)
 {
 	return dynamic_cast<Player*>(o);
@@ -421,6 +476,8 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "AddMoney", l_player_add_money },
 
 		{ "AddCrime",      l_player_add_crime      },
+		{ "SetNavTarget",  l_set_nav_target        },
+		{ "SetCombatTarget",  l_set_combat_target        },
 		{ 0, 0 }
 	};
 
