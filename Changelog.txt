@@ -24,6 +24,7 @@ Alpha 14
     * Fix bug where NPC flight state was not reset upon exiting hyperspace
     * Nereid now has a radius and can be found
     * Don't allow scripts to jettison non-existent cargo (#430)
+    * Fix crash when selecting own hyperspace cloud remnant (#427)
 
   * Internal changes
     * Lots of internal cleanups; silences most remaining warnings (#373, #375,
