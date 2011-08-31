@@ -62,7 +62,7 @@ local onChat = function (form, ref, option)
 		local sys = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
 
-		form:SetMessage(string.format("%s will be leaving %s in the %s system (%s, %s) at %s. The ship is %s and has registration id %s.", ad.target, sbody.name, sys.name, ad.location.sectorX, ad.location.sectorY, Format.Date(ad.due), ad.shipname, ad.shipregid) )
+		form:SetMessage(string.format("%s will be leaving %s in the %s system (%s, %s, %s) at %s. The ship is %s and has registration id %s.", ad.target, sbody.name, sys.name, ad.location.sectorX, ad.location.sectorY, ad.location.sectorZ, Format.Date(ad.due), ad.shipname, ad.shipregid) )
 
 	elseif option == 2 then
 		local sbody = ad.location:GetSystemBody()
