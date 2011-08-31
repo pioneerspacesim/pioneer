@@ -221,8 +221,6 @@ VIDEO_RESOLUTION
     Video-Auflösung (Programm muss neu gestartet werden)
 X_BY_X
     %{x}x%{y}
-PLANET_DETAIL_LEVEL
-    Planet Detailebene:
 CITY_DETAIL_LEVEL
     Stadt Detailebene:
 CONTROLS
