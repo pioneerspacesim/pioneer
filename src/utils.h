@@ -55,19 +55,6 @@ GLuint util_load_tex_rgba(const char *filename);
 FILE *fopen_or_die(const char *filename, const char *mode);
 size_t fread_or_die(void* ptr, size_t size, size_t nmemb, FILE* stream, bool allow_truncated = false);
 
-static inline std::string stringf_old(int maxlen, const char *format, ...)
-		__attribute((format(printf,2,3)));
-
-static inline std::string stringf_old(int maxlen, const char *format, ...)
-{
-	char *buf = reinterpret_cast<char*>(alloca(maxlen));
-	va_list argptr;
-	va_start(argptr, format);
-	vsnprintf(buf, maxlen, format, argptr);
-	va_end(argptr);
-	return std::string(buf);
-}
-
 static inline Sint64 isqrt(Sint64 a)
 {
 	Sint64 ret=0;

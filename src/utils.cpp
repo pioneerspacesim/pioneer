@@ -1,4 +1,5 @@
 #include "libs.h"
+#include "StringF.h"
 #include "gui/Gui.h"
 
 #define PNG_SKIP_SETJMP_CHECK
@@ -253,11 +254,11 @@ void strip_cr_lf(char *string)
 std::string format_distance(double dist)
 {
 	if (dist < 1000) {
-		return stringf_old(128, "%.0f m", dist);
+		return stringf("%0{f.0} m", dist);
 	} else if (dist < AU*0.1) {
-		return stringf_old(128, "%.2f km", dist*0.001);
+		return stringf("%0{f.2} km", dist*0.001);
 	} else {
-		return stringf_old(128, "%.2f AU", dist/AU);
+		return stringf("%0{f.2} AU", dist/AU);
 	}
 }
 

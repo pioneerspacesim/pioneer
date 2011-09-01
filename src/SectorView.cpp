@@ -175,7 +175,7 @@ void SectorView::Load(Serializer::Reader &rd)
 	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 
-	m_hyperspaceLockLabel->SetText(stringf_old(64, "[%s]", m_matchTargetToSelection ? Lang::FOLLOWING_SELECTION : Lang::LOCKED));
+	m_hyperspaceLockLabel->SetText(stringf("[%0]", m_matchTargetToSelection ? Lang::FOLLOWING_SELECTION : Lang::LOCKED));
 
 	m_firstTime = false;
 }
@@ -321,13 +321,13 @@ void SectorView::SetHyperspaceTarget(const SystemPath &path)
 
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 
-	m_hyperspaceLockLabel->SetText(stringf_old(64, "[%s]", Lang::LOCKED));
+	m_hyperspaceLockLabel->SetText(stringf("[%0]", Lang::LOCKED));
 }
 
 void SectorView::FloatHyperspaceTarget()
 {
 	m_matchTargetToSelection = true;
-	m_hyperspaceLockLabel->SetText(stringf_old(64, "[%s]", Lang::FOLLOWING_SELECTION));
+	m_hyperspaceLockLabel->SetText(stringf("[%0]", Lang::FOLLOWING_SELECTION));
 }
 
 void SectorView::ResetHyperspaceTarget()
