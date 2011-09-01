@@ -3,7 +3,7 @@ Alpha 14
   * New features
     * 3D galaxy (#394, #429)
     * Trade ships AI. Ships now dock, undock, hyperspace and buy and sell
-      things (#412, #11)
+      things (#412, #11, #448)
     * Delivery missions to other starports in the same system (#388)
     * Press CTRL while clicking time acceleration buttons to override the
       lockout due to nearby bodies (#417, #358)
