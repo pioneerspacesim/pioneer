@@ -11,6 +11,8 @@ Alpha 14
     * Lua attribute SBody.parent to find the parent of a system body (#359, #368)
     * Lua methods Player.SetNavTarget and Player.SetCombatTarget to let
       script control player targets (#422, #444)
+    * Overdue deliveries will now be checked and reported as "failed"
+      immediately after hyperspace (#445)
 
   * Fixes
     * Remove a couple of hardcoded references to the data directory (#363)

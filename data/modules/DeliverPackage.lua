@@ -347,6 +347,11 @@ local onEnterSystem = function (player)
 				UI.ImportantMessage(pirate_greeting, ship.label)
 			end
 		end
+
+		if not mission.status and Game.time > mission.due then
+			mission.status = 'FAILED'
+			player:UpdateMission(ref, mission)
+		end
 	end
 end
 
@@ -367,7 +372,7 @@ local onShipDocked = function (player, station)
 			player:RemoveMission(ref)
 			missions[ref] = nil
 
-		elseif Game.time > mission.due then
+		elseif not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
 			player:UpdateMission(ref, mission)
 		end
