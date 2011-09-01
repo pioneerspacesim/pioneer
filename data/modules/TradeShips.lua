@@ -275,7 +275,11 @@ local spawnInitialShips = function ()
 			local min_time = trade_ships.interval * (i - num_trade_ships / 4 * 3)
 			local max_time = min_time + trade_ships.interval
 			local arrival = Game.time + Engine.rand:Integer(min_time, max_time)
-			local local_systems = Game.system:GetNearbySystems(20)
+			local local_systems, dist = {}, 0
+			while #local_systems == 0 do
+				dist = dist + 5
+				local_systems = Game.system:GetNearbySystems(dist)
+			end
 			local from_system = local_systems[Engine.rand:Integer(1, #local_systems)]
 
 			ship = Space.SpawnShip(ship_name, 9, 11, {from_system.path, arrival})
@@ -327,7 +331,11 @@ local spawnReplacement = function ()
 		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
 
 		local arrival = Game.time + Engine.rand:Number(trade_ships.interval, trade_ships.interval * 2)
-		local local_systems = Game.system:GetNearbySystems(20)
+		local local_systems, dist = {}, 0
+		while #local_systems == 0 do
+			dist = dist + 5
+			local_systems = Game.system:GetNearbySystems(dist)
+		end
 		local from_system = local_systems[Engine.rand:Integer(1, #local_systems)]
 
 		local ship = Space.SpawnShip(ship_name, 9, 11, {from_system.path, arrival})
