@@ -1,10 +1,10 @@
-%s's World
-%s's Mine
-%s's Claim
-%s's Folly
-%s's Grave
-%s's Misery
-%s's Colony
-%s's Rock
-%sworld
-%s Colony
+%0's World
+%0's Mine
+%0's Claim
+%0's Folly
+%0's Grave
+%0's Misery
+%0's Colony
+%0's Rock
+%0world
+%0 Colony
