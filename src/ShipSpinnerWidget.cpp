@@ -26,7 +26,7 @@ void ShipSpinnerWidget::Draw()
 	float guiscale[2];
 	Gui::Screen::GetCoords2Pixels(guiscale);
 	static float rot1, rot2;
-	if (Pi::MouseButtonState(3)) {
+	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int m[2];
 		Pi::GetMouseMotion(m);
 		rot1 += -0.002*m[1];
