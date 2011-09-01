@@ -300,7 +300,9 @@ local spawnInitialShips = function ()
 		if trader.status ~= 'docked' then
 			direction = 'import'
 			-- remove fuel used to get here
-			ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
+			if fuel_added and fuel_added > 0 then
+				ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
+			end
 		end
 		local cargo_count = addShipCargo(ship, direction)
 
@@ -349,7 +351,9 @@ local spawnReplacement = function ()
 
 		addShipEquip(ship)
 		local fuel_added = addFuel(ship)
-		ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
+		if fuel_added and fuel_added > 0 then
+			ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
+		end
 		addShipCargo(ship, 'import')
 	end
 end
