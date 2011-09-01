@@ -61,6 +61,10 @@ class GeoSphereStyle {
 		COLOR_MAX = COLOR_BANDED_ROCK
 	};
 
+	bool textures;
+	int m_fracnum;
+	double m_fracmult;
+
 	GeoSphereStyle(const SBody *body);
 	~GeoSphereStyle() {
 		if (m_heightMap) delete [] m_heightMap;
@@ -77,13 +81,18 @@ class GeoSphereStyle {
 	}
 	double GetMaxHeight() const { return m_maxHeight; }
 
+	void ChangeDetailLevel();
+
 	private:
-	void PickAtmosphere(const SBody *sbody);
+	void PickTerrain(MTRand &rand);
+	void PickAtmosphere();
 	void InitFractalType(MTRand &rand);
 	int GetRawHeightMapVal(int x, int y);
 	double GetHeightMapVal(const vector3d &pt);
-	void InitHeightMap(const SBody *sbody);
+	void InitHeightMap();
 	void SetFracDef(struct fracdef_t *def, double featureHeightMeters, double featureWidthMeters, MTRand &rand, double smallestOctaveMeters = 20.0);
+
+	const SBody *m_body;
 
 	TerrainFractal m_terrainType;
 	ColorFractal m_colorType;

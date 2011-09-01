@@ -7,7 +7,7 @@
 
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
-#define GEOPATCH_MAX_DEPTH	15
+#define GEOPATCH_MAX_DEPTH  15 + (2*Pi::detail.fracmult) //15 
 // must be an odd number
 //#define GEOPATCH_EDGELEN	15
 #define GEOPATCH_NUMVERTICES	(GEOPATCH_EDGELEN*GEOPATCH_EDGELEN)
@@ -1009,6 +1009,7 @@ void GeoSphere::OnChangeDetailLevel()
 	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
 			i != s_allGeospheres.end(); ++i) {
 		for (int p=0; p<6; p++) if ((*i)->m_patches[p]) delete (*i)->m_patches[p];
+		(*i)->m_style.ChangeDetailLevel();
 	}
 	switch (Pi::detail.planets) {
 		case 0: GEOPATCH_EDGELEN = 7; break;

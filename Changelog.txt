@@ -7,6 +7,7 @@ Alpha 14
     * Delivery missions to other starports in the same system (#388)
     * Press CTRL while clicking time acceleration buttons to override the
       lockout due to nearby bodies (#417, #358)
+    * Settings to adjust terrain textures and fractal detail (#442, #416)
     * Lua attribute SBody.parent to find the parent of a system body (#359, #368)
     * Lua methods Player.SetNavTarget and Player.SetCombatTarget to let
       script control player targets (#422, #444)
