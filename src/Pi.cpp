@@ -496,8 +496,6 @@ void Pi::InitOpenGL()
 	glViewport(0, 0, scrWidth, scrHeight);
 
 	gluQuadric = gluNewQuadric ();
-	
-	fprintf(stderr, "GL_ARB_point_sprite: %s\n", glewIsSupported("GLEW_ARB_point_sprite") ? "Yes" : "No");
 }
 
 void Pi::Quit()
