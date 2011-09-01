@@ -266,7 +266,7 @@ local spawnInitialShips = function ()
 
 			ship = Space.SpawnShip(ship_name, min_distance, max_distance)
 			trade_ships[ship.label] = {
-				status		= 'orbit',
+				status		= 'inbound',
 				starport	= getNearestStarport(ship),
 				ship_name	= ship_name,
 			}
@@ -315,11 +315,6 @@ local spawnInitialShips = function ()
 			end)
 		elseif trader.status == 'inbound' then
 			ship:AIDockWith(trader.starport)
-		elseif trader.status == 'orbit' then
-			-- get parent body of starport and orbit
-			local sbody = trader.starport.path:GetSystemBody()
-			local body = Space.GetBody(sbody.parent.index)
-			ship:AIEnterHighOrbit(body)
 		end
 	end
 
@@ -413,12 +408,9 @@ local onEnterSystem = function (ship)
 			-- if we couldn't reach any systems wait for player to attack
 		else
 			local starport = getNearestStarport(ship)
+			ship:AIDockWith(starport)
 			trade_ships[ship.label]['starport'] = starport
-			-- get parent body of starport and orbit
-			local sbody = starport.path:GetSystemBody()
-			local body = Space.GetBody(sbody.parent.index)
-			ship:AIEnterHighOrbit(body)
-			trade_ships[ship.label]['status'] = 'orbit'
+			trade_ships[ship.label]['status'] = 'inbound'
 		end
 	end
 end
@@ -534,12 +526,18 @@ local onAICompleted = function (ship)
 		ship:AIDockWith(trader.starport)
 		trader['status'] = 'inbound'
 	elseif trader.status == 'inbound' then
-		-- assuming here that the starport is full
-		-- get parent body of starport and orbit
+		-- AIDockWith emits AICompleted before the ship has finish docking
+		-- or the starport may have been full or maybe the docking port was busy
+		-- get parent body of starport and orbit if not docked after 3 minutes
 		local sbody = trader.starport.path:GetSystemBody()
 		local body = Space.GetBody(sbody.parent.index)
-		ship:AIEnterHighOrbit(body)
-		trader['status'] = 'orbit'
+		Timer:CallAt(Game.time + 180, function ()
+			if ship:exists() and trader.status == 'inbound' then
+				ship:AIEnterLowOrbit(body)
+				trader['status'] = 'orbit'
+				print(ship.label..' ordering orbit')
+			end
+		end)
 	end
 end
 EventQueue.onAICompleted:Connect(onAICompleted)
