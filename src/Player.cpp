@@ -195,7 +195,7 @@ void Player::PollControls(const float timeStep)
 		// have to use this function. SDL mouse position event is bugged in windows
 		int mouseMotion[2];
 		SDL_GetRelativeMouseState (mouseMotion+0, mouseMotion+1);	// call to flush
-		if (Pi::MouseButtonState(3))
+		if (Pi::MouseButtonState(SDL_BUTTON_RIGHT))
 		{
 			matrix4x4d rot; GetRotMatrix(rot);
 			if (!m_mouseActive) {
@@ -253,7 +253,7 @@ void Player::PollControls(const float timeStep)
 		
 		SetGunState(0,0);
 		SetGunState(1,0);
-		if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) {
+		if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(SDL_BUTTON_LEFT) && Pi::MouseButtonState(SDL_BUTTON_RIGHT))) {
 				SetGunState(Pi::worldView->GetActiveWeapon(), 1);
 		}
 

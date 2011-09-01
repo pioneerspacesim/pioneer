@@ -40,6 +40,7 @@ Alpha 14
     * Gracefully handle attempts to load old savefiles (#428)
     * Redirect stdio output streams to files in user dir. Do this by default
       on Windows builds.
+    * Use SDL mouse button defines instead of hardcoded numbers (#446)
 
 Alpha 13
 

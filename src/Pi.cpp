@@ -830,7 +830,7 @@ void Pi::TombStoneLoop()
 		Pi::frameTime = 0.001*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
-	} while (!((_time > 2.0) && ((Pi::MouseButtonState(1)) || Pi::KeyState(SDLK_SPACE)) ));
+	} while (!((_time > 2.0) && ((Pi::MouseButtonState(SDL_BUTTON_LEFT)) || Pi::KeyState(SDLK_SPACE)) ));
 }
 
 void Pi::InitGame()
@@ -1204,7 +1204,7 @@ void Pi::MainLoop()
 		Pi::HandleEvents();
 		// hide cursor for ship control.
 
-		SetMouseGrab(Pi::MouseButtonState(3));
+		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT));
 
 		Render::PostProcess();
 		Gui::Draw();

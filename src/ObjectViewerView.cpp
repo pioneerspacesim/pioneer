@@ -81,7 +81,7 @@ void ObjectViewerView::Draw3D()
 
 	Render::State::SetZnearZfar(znear, zfar);
 
-	if (Pi::MouseButtonState(3)) {
+	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int m[2];
 		Pi::GetMouseMotion(m);
 		m_camRot = matrix4x4d::RotateXMatrix(-0.002*m[1]) *

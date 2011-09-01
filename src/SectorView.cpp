@@ -748,7 +748,7 @@ void SectorView::Update()
 			m_rotXMovingTo += (Pi::KeyState(SDLK_w) ? -0.5f : 0.5f) * moveSpeed;
 	}
 
-	if (Pi::MouseButtonState(3)) {
+	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int motion[2];
 		Pi::GetMouseMotion(motion);
 
