@@ -1053,16 +1053,13 @@ void GeoSphere::OnChangeDetailLevel()
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
 	s_patchContext->IncRefCount();
 
-	SDL_mutexP(s_allGeospheresLock);
 	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
 			i != s_allGeospheres.end(); ++i) {
 		SDL_mutexP((*i)->m_abortLock);
 		(*i)->m_abort = true;
 		SDL_mutexV((*i)->m_abortLock);
 	}
-	SDL_mutexV(s_allGeospheresLock);
 
-	SDL_mutexP(s_allGeospheresLock);
 	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
 			i != s_allGeospheres.end(); ++i) {
 		SDL_mutexP((*i)->m_updateLock);
@@ -1076,7 +1073,6 @@ void GeoSphere::OnChangeDetailLevel()
 		(*i)->m_abort = false;
 		SDL_mutexV((*i)->m_updateLock);
 	}
-	SDL_mutexV(s_allGeospheresLock);
 }
 
 #define GEOSPHERE_TYPE	(m_sbody->type)
