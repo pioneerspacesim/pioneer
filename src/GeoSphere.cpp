@@ -895,6 +895,9 @@ public:
 	}
 
 	void LODUpdate(vector3d &campos) {
+		// if we've been asked to abort then get out as quickly as possible
+		// this function is recursive so we might be very deep. this is about
+		// as fast as we can go
 		SDL_mutexP(geosphere->m_abortLock);
 		bool abort = geosphere->m_abort;
 		SDL_mutexV(geosphere->m_abortLock);
@@ -990,6 +993,8 @@ SDL_mutex *s_allGeospheresLock;
 int GeoSphere::UpdateLODThread(void *data)
 {
 	for(;;) {
+		// make a copy of the list of geospheres for this iteration. we don't
+		// want to stop the main thread from updating
 		SDL_mutexP(s_allGeospheresLock);
 		std::list<GeoSphere*> geospheres = s_allGeospheres;
 		SDL_mutexV(s_allGeospheresLock);
@@ -1007,6 +1012,8 @@ int GeoSphere::UpdateLODThread(void *data)
 
 void GeoSphere::_UpdateLODs()
 {
+	// lock the geosphere for update. this will stop the main thread from
+	// trying to destroy it while we're using it
 	SDL_mutexP(m_updateLock);
 	for (int i=0; i<6; i++) {
 		m_patches[i]->LODUpdate(m_tempCampos);
@@ -1053,6 +1060,9 @@ void GeoSphere::OnChangeDetailLevel()
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
 	s_patchContext->IncRefCount();
 
+	// flag all terrain gen for abort. this will cause the recursive
+	// _UpdateLODs to exit as fast as it can and get the thread back to its
+	// mainloop
 	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
 			i != s_allGeospheres.end(); ++i) {
 		SDL_mutexP((*i)->m_abortLock);
@@ -1060,17 +1070,30 @@ void GeoSphere::OnChangeDetailLevel()
 		SDL_mutexV((*i)->m_abortLock);
 	}
 
+	// reinit the geosphere terrain data
 	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
 			i != s_allGeospheres.end(); ++i) {
+
+		// we need the update lock so we don't delete working data out from
+		// under the thread. it should finish very quickly since we told it to
+		// abort quickly
 		SDL_mutexP((*i)->m_updateLock);
+
 		for (int p=0; p<6; p++) {
+			// delete patches
 			if ((*i)->m_patches[p]) {
 				delete (*i)->m_patches[p];
 				(*i)->m_patches[p] = 0;
 			}
+
+			// reinit the styles with the new settings
 			(*i)->m_style.ChangeDetailLevel();
 		}
+
+		// clear the abort for the next run (with the new settings)
 		(*i)->m_abort = false;
+
+		// finished update
 		SDL_mutexV((*i)->m_updateLock);
 	}
 }
@@ -1095,10 +1118,12 @@ GeoSphere::GeoSphere(const SBody *body): m_style(body)
 
 GeoSphere::~GeoSphere()
 {
+	// tell the thread to finish up with this geosphere
 	SDL_mutexP(m_abortLock);
 	m_abort = true;
 	SDL_mutexV(m_abortLock);
 
+	// wait until it completes update
 	SDL_mutexP(m_updateLock);
 	SDL_mutexV(m_updateLock);
 
