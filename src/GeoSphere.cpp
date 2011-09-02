@@ -9,17 +9,13 @@
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
 #define GEOPATCH_MAX_DEPTH  15 + (2*Pi::detail.fracmult) //15 
-// must be an odd number
-//#define GEOPATCH_EDGELEN	15
-//#define GEOPATCH_NUMVERTICES	(GEOPATCH_EDGELEN*GEOPATCH_EDGELEN)
 #define GEOSPHERE_USE_THREADING
 
-//int GEOPATCH_EDGELEN = 15;
 static const int GEOPATCH_MAX_EDGELEN = 55;
-//static double GEOPATCH_FRAC;
 int GeoSphere::s_vtxGenCount = 0;
 GeoPatchContext *GeoSphere::s_patchContext = 0;
 
+// must be odd numbers
 static const int detail_edgeLen[5] = {
 	7, 15, 25, 35, 55
 };
@@ -987,7 +983,6 @@ static const int geo_sphere_edge_friends[6][4] = {
 	{ 1, 4, 3, 2 }
 };
 
-#define PLANET_AMBIENT	0.0
 static std::list<GeoSphere*> s_allGeospheres;
 SDL_mutex *s_allGeospheresLock;
 
