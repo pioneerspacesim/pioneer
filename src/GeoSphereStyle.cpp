@@ -672,14 +672,14 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 				SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(20, 40), rand, 10*m_fracmult);
 			}
 			//small fractal/high detail
-			SetFracDef(&m_fracdef[2-m_fracnum], m_maxHeightInMeters*0.000000005, rand.Double(400, 800), rand, 20*m_fracmult);
+			SetFracDef(&m_fracdef[2-m_fracnum], m_maxHeightInMeters*0.000000005, 500, rand, 20*m_fracmult);
 			//continental:
-			SetFracDef(&m_fracdef[3-m_fracnum], m_maxHeightInMeters*0.00001, rand.Double(1e6, 2e7), rand, 1000*m_fracmult);
+			SetFracDef(&m_fracdef[3-m_fracnum], m_maxHeightInMeters*0.00001, 1e7, rand, 1000*m_fracmult);
 			//large fractal:
-			SetFracDef(&m_fracdef[4-m_fracnum], m_maxHeightInMeters, rand.Double(1e5, 5e6), rand, 200*m_fracmult);
+			SetFracDef(&m_fracdef[4-m_fracnum], m_maxHeightInMeters, 1e5, rand, 200*m_fracmult);
 			//medium fractal:
-			SetFracDef(&m_fracdef[5-m_fracnum], m_maxHeightInMeters*0.00005, rand.Double(1e3, 5e4), rand, 200*m_fracmult);
-			SetFracDef(&m_fracdef[6-m_fracnum], m_maxHeightInMeters*0.000000005, rand.Double(1500, 5e3), rand, 20*m_fracmult);
+			SetFracDef(&m_fracdef[5-m_fracnum], m_maxHeightInMeters*0.00005, 2e4, rand, 200*m_fracmult);
+			SetFracDef(&m_fracdef[6-m_fracnum], m_maxHeightInMeters*0.000000005, 1000, rand, 20*m_fracmult);
 			break;
 		}
 		case TERRAIN_HILLS_DUNES: //2
@@ -1066,32 +1066,20 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		}
 		case TERRAIN_HILLS_NORMAL:
 		{
-			/*//textures
-			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(5, 15), rand, 10*m_fracmult);
-			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(20, 40), rand, 10*m_fracmult);
-			//small fractal/high detail
-			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.000000005, rand.Double(40, 80), rand, 10*m_fracmult);
-			//continental:
-			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.00001, rand.Double(1e6, 2e7), rand, 1000*m_fracmult);
-			//large fractal:
-			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(1e5, 5e6), rand, 200*m_fracmult);
-			//medium fractal:
-			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.00005, rand.Double(1e3, 5e4), rand, 200*m_fracmult);
-			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.00000002, rand.Double(250, 1e3), rand, 100*m_fracmult);
-			*/
 			double continents = octavenoise(m_fracdef[3-m_fracnum], 0.65, p) * (1.0-m_sealevel) - (m_sealevel*0.1);
 			if (continents < 0) return 0;
 			double n = continents;
 			double distrib = octavenoise(m_fracdef[4-m_fracnum], 0.5, p);
+			distrib *= distrib;
 			double m = 0.5*m_fracdef[3-m_fracnum].amplitude * octavenoise(m_fracdef[4-m_fracnum], 0.55*distrib, p) 
 				* m_fracdef[5-m_fracnum].amplitude;
 			m += 0.25*billow_octavenoise(m_fracdef[5-m_fracnum], 0.55*distrib, p);
 			//hill footings
-			m -= octavenoise(m_fracdef[2-m_fracnum], 0.7*distrib, p) 
-				* Clamp(0.1-m, 0.0, 0.1) * Clamp(0.1-m, 0.0, 0.1);
+			m -= octavenoise(m_fracdef[2-m_fracnum], 0.6*(1.0-distrib), p) 
+				* Clamp(0.05-m, 0.0, 0.05) * Clamp(0.05-m, 0.0, 0.05);
 			//hill footings
-			m += billow_octavenoise(m_fracdef[6-m_fracnum], 0.5*distrib, p) 
-				* Clamp(0.1-m, 0.0, 0.1) * Clamp(0.1-m, 0.0, 0.1);
+			m += voronoiscam_octavenoise(m_fracdef[6-m_fracnum], 0.765*distrib, p) 
+				* Clamp(0.025-m, 0.0, 0.025) * Clamp(0.025-m, 0.0, 0.025);
 			// cliffs at shore
 			if (continents < 0.01) n += m * continents * 100.0f;
 			else n += m;
