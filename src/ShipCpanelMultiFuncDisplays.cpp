@@ -316,10 +316,6 @@ void UseEquipWidget::UpdateEquip()
 		
 }
 
-void UseEquipWidget::Update()
-{
-}
-
 ///////////////////////////////////////////////
 
 MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(144, 17)

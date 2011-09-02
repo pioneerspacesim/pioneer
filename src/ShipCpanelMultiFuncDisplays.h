@@ -68,7 +68,7 @@ public:
 	UseEquipWidget();
 	virtual ~UseEquipWidget();
 	void GetSizeRequested(float size[2]);
-	virtual void Update();
+	virtual void Update() {}
 private:
 	void UpdateEquip();
 	void UseRadarMapper();
