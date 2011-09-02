@@ -171,7 +171,7 @@ const EquipType Equip::types[Equip::TYPE_MAX] = {
 	},{
 	  Lang::SHIELD_GENERATOR,
 	  Lang::SHIELD_GENERATOR_DESCRIPTION,
-	  Equip::SLOT_CARGO, -1, {},
+	  Equip::SLOT_SHIELD, -1, {},
 	  250000, 4, 1, 0, 4, 5.0
 	},{
 	  Lang::LASER_COOLING_BOOSTER,

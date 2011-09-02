@@ -314,7 +314,7 @@ const shipstats_t *Ship::CalcStats()
 	m_stats.free_capacity = m_stats.max_capacity - m_stats.used_capacity;
 	m_stats.total_mass = m_stats.used_capacity + stype.hullMass;
 
-	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR));
+	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR));
 
 	if (stype.equipSlotCapacity[Equip::SLOT_ENGINE]) {
 		Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
