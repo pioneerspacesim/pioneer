@@ -1,7 +1,7 @@
 define_model('lx_bulk', {
 	info = {
             lod_pixels = { .1, 100, 200, 0 },
-			bounding_radius = 50,
+			bounding_radius = 100,
    			materials = {'n_cv', 'bulk'},
 			},
 	static = function(lod)
@@ -25,7 +25,7 @@ define_model('lynx', {
 	info = {
 			scale = 4.0,
 			lod_pixels = { .1, 100, 200, 0 },
-   			bounding_radius = 200,
+			bounding_radius = 840,
 			materials = {'chrome', 'matte', 'n_cv', 'cv0', 'cv1', 'win', 'text', 'e_glow', 'cutout'},
 			tags = {'static_ship'},
 			ship_defs = {

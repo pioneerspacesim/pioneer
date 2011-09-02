@@ -733,7 +733,7 @@ define_model('rattlesnake', {
  	info = 	{
 			scale = .75,
 			lod_pixels = {.1,10,100,0},
-			bounding_radius = 15,
+			bounding_radius = 32,
    			materials = {'chrome', 'cabin', 'metal', 'no_shade', 'text', 'glow', 'e_glow', 'v_glow', 'win', 'black'},
 			tags = {'ship'},
 			ship_defs = {

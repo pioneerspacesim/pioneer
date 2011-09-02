@@ -51,7 +51,7 @@ define_model('stardust', {
 	info = {
 	        scale = 0.9,
 			lod_pixels = {.1,20,100,0},
-			bounding_radius = 35,
+			bounding_radius = 33,
    			materials = {'steel', 'scoop', 'e_glow', 'win', 'thrusters'},
 			tags = {'ship'},
             ship_defs = {

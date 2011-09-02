@@ -64,7 +64,7 @@ define_model('courier_tip', {     -- engine tips
 define_model('courier_top_v1', {    -- courier top v1
 	info =	{
             lod_pixels = { 50, 100, 200, 0 },
-			bounding_radius = 60,
+			bounding_radius = 32,
 			},
 	static = function(lod)
             if lod > 2 then
@@ -79,7 +79,7 @@ define_model('courier_top_v1', {    -- courier top v1
 define_model('courier_top_v2', {    -- courier top v2
 	info =	{
             lod_pixels = { 50, 100, 200, 0 },
-			bounding_radius = 60,
+			bounding_radius = 32,
 			},
 	static = function(lod)
             if lod > 2 then
@@ -94,7 +94,7 @@ define_model('courier_top_v2', {    -- courier top v2
 define_model('trader_top_v1', {    -- trader top v1
 	info =	{
             lod_pixels = { 50, 100, 200, 0 },
-			bounding_radius = 60,
+			bounding_radius = 32,
 			},
 	static = function(lod)
         	if lod > 2 then
@@ -109,7 +109,7 @@ define_model('trader_top_v1', {    -- trader top v1
 define_model('trader_top_v2', {    -- trader top v2
 	info =	{
             lod_pixels = { 50, 100, 200, 0 },
-			bounding_radius = 60,
+			bounding_radius = 32,
 			},
 	static = function(lod)
             if lod > 2 then
@@ -364,7 +364,7 @@ define_model('mercury_rwp_top2', {  -- mercury rightwing top-part 2
 define_model('courier_body', {    -- courier shell
 	info =	{
             lod_pixels = { 50, 100, 200, 0 },
-			bounding_radius = 60,
+			bounding_radius = 32,
 			materials = {'courier', 'mercury', 'text1', 'text2'},
 			},
 	static = function(lod)
@@ -435,7 +435,7 @@ define_model('courier_body', {    -- courier shell
 define_model('trader_body', {    --trader shell
 	info =	{
             lod_pixels = { 50, 100, 200, 0 },
-			bounding_radius = 60,
+			bounding_radius = 32,
 			materials = {'courier', 'mercury', 'text1', 'text2'},
 			},
 	static = function(lod)
@@ -925,8 +925,8 @@ define_model('courier_wheels_r', {    -- wheels right all models
 
 define_model('courier_eng_l', {      -- engine part left all models
 	info = {
-            lod_pixels = { 50, 100, 200, 0 },
-			bounding_radius = 50,
+            lod_pixels = { 20, 50, 100, 0 },
+			bounding_radius = 45,
 			materials={'courier', 'e_glow1', 'e_glow2', 'iron', 'nazzle'},
 			},
 	static = function(lod)
@@ -977,19 +977,19 @@ define_model('courier_eng_l', {      -- engine part left all models
 
 	dynamic = function(lod)
 
-		set_material('e_glow1', lerp_materials(get_arg(1)*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
-        set_material('e_glow2', lerp_materials(get_arg(1)*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
+		set_material('e_glow1', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
+        set_material('e_glow2', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
 
         if lod > 1 then
          	call_model('posl_red', v(-34,-11.16,7), v(0,0,1), v(-1,0.0),2.5)
        		call_model('coll_warn', v(-31.58,-13.6,7), v(1,0,0), v(0,-1,0),2.5)
       	end
 
-		local rot = 1.7*math.pi*math.clamp(get_arg(0), 0, .3)
+		local rot = 1.7*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, .3)
 		call_model('courier_flap_ll', v(-32.394, -13.175,13.134), v(math.cos(-rot),math.sin(-rot),0), v(-0.024*rot,0.034*rot,1),1)
 		call_model('courier_flap_lr', v(-30.756, -13.175,13.134), v(math.cos(rot),math.sin(rot),0), v(-0.024*rot,-0.034*rot,-1),1)
 
-		local factor = get_arg(1)*math.pi
+		local factor = get_arg(ARG_ALL_TIME_SECONDS)*math.pi
 		call_model('courier_tip', v(-31.58, -11.16, 6.1), v(math.sin(factor*1.5),math.cos(factor*1.5),0), v(0,0,-1),1)
 	end
 })
@@ -997,7 +997,7 @@ define_model('courier_eng_l', {      -- engine part left all models
 define_model('courier_eng_r', {      -- engine part right all models
 	info = {
             lod_pixels = { 20, 50, 100, 0 },
-			bounding_radius = 50,
+			bounding_radius = 45,
 			materials={'courier', 'e_glow1', 'e_glow2', 'iron', 'nazzle'},
 		},
 	static = function(lod)
@@ -1049,19 +1049,19 @@ define_model('courier_eng_r', {      -- engine part right all models
 
 	dynamic = function(lod)
 
-		set_material('e_glow1', lerp_materials(get_arg(1)*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
-		set_material('e_glow2', lerp_materials(get_arg(1)*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
+		set_material('e_glow1', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
+		set_material('e_glow2', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
 
 		if lod > 1 then
         	call_model('posl_green', v(34,-11.16,7), v(0,0,1), v(1,0.0),2.5)
        		call_model('coll_warn', v(31.58,-13.6,7), v(1,0,0), v(0,-1,0),2.5)
    		end
 
-		local rot = 1.7*math.pi*math.clamp(get_arg(0), 0, .3)
+		local rot = 1.7*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, .3)
 		call_model('courier_flap_rl', v(30.756, -13.175,13.134), v(math.cos(-rot),math.sin(-rot),0), v(-0.024*rot,0.034*rot,1),1)
 		call_model('courier_flap_rr', v(32.394, -13.175,13.134), v(math.cos(rot),math.sin(rot),0), v(-0.024*rot,-0.034*rot,-1),1)
 
-		local factor = get_arg(1)*math.pi
+		local factor = get_arg(ARG_ALL_TIME_SECONDS)*math.pi
 		call_model('courier_tip', v(31.58, -11.16, 6.1), v(math.cos(factor*1.5),math.sin(factor*1.5),0), v(0,0,-1),1)
 	end
 })
@@ -1069,7 +1069,7 @@ define_model('courier_eng_r', {      -- engine part right all models
 define_model('trader_eng', {   -- trader middle engine part
 	info = {
 	        lod_pixels = { 20, 50, 100, 0 },
-	        bounding_radius = 50,
+	        bounding_radius = 35,
          	materials = {'courier', 'e_glow1', 'e_glow2'},
          	},
          	
@@ -1096,8 +1096,8 @@ define_model('trader_eng', {   -- trader middle engine part
   	end,
          	
     dynamic = function(lod)
-	    set_material('e_glow1', lerp_materials(get_arg(1)*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
-		set_material('e_glow2', lerp_materials(get_arg(1)*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
+	    set_material('e_glow1', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
+		set_material('e_glow2', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
          	
 	end
 })
@@ -1105,7 +1105,7 @@ define_model('trader_eng', {   -- trader middle engine part
 define_model('courier_sub', {     -- courier sub-model, all models
 	info = {
 			lod_pixels = { 20, 50, 100, 0 },
-			bounding_radius = 100,
+			bounding_radius = 46,
 			materials = {'courier', 'matte', 'win', 'nazzle'},
 			},
 
@@ -1162,9 +1162,9 @@ define_model('courier_sub', {     -- courier sub-model, all models
 
 	dynamic = function(lod)
 
-      	local trans1 = math.clamp(get_arg(0), 0, 1)
-		local trans2 = math.clamp(get_arg(0), .5, 1)
-		local trans3 = math.clamp(get_arg(0), 0, .5)
+      	local trans1 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, 1)
+		local trans2 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), .5, 1)
+		local trans3 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, .5)
 
 		call_model('courier_eng_l', v(trans1*9.5,trans1*8,trans1*-5), v(1,0,0), v(0,1,0),1)
      	call_model('courier_lwp5', v(trans1*9.5,trans1*7.7,trans1*-4.5), v(1,0,0), v(0,1,0),1)
@@ -1201,7 +1201,7 @@ define_model('courier', {
 	info = {
 			scale = 1.2,   --1.5 = ffed3d export scale, mentioned for trader?
 			lod_pixels = {1, 50, 300, 0},
-			bounding_radius = 45,
+			bounding_radius = 56,
 			tags = {'ship'},
 			ship_defs = {
 				{
@@ -1269,9 +1269,9 @@ define_model('courier', {
    	end,
 	dynamic = function(lod)
 			if lod == 1 then
-				local trans1 = math.clamp(get_arg(0), 0, 1)
-				local trans2 = math.clamp(get_arg(0), .5, 1)
-				local trans3 = math.clamp(get_arg(0), 0, .5)
+				local trans1 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, 1)
+				local trans2 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), .5, 1)
+				local trans3 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, .5)
     		
 				local v20 = v(16,1,1)
     			local v21 = v(16,1,7)
@@ -1304,7 +1304,7 @@ define_model('trader', {
 	info = {
 			scale = 1.1,
 			lod_pixels = { 1, 50, 300, 0 },
-			bounding_radius = 70,
+			bounding_radius = 55,
 			tags = {'ship'},
 			ship_defs = {
 				{
@@ -1383,9 +1383,9 @@ define_model('trader', {
 
 	dynamic = function(lod)
             if lod == 1 then
-    			local trans1 = math.clamp(get_arg(0), 0, 1)
-				local trans2 = math.clamp(get_arg(0), .5, 1)
-				local trans3 = math.clamp(get_arg(0), 0, .5)
+    			local trans1 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, 1)
+				local trans2 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), .5, 1)
+				local trans3 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, .5)
     		
 				local v20 = v(16,1,1)
     			local v21 = v(16,1,7)

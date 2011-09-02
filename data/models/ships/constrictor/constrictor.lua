@@ -1,7 +1,7 @@
 define_model('conny_flap_fr', {
 	info = {
 			lod_pixels={.1,10,30,0},
-			bounding_radius = 10,
+			bounding_radius = 11,
 		},
 	static = function(lod)		
 		if lod > 3 then
@@ -16,7 +16,7 @@ define_model('conny_flap_fr', {
 define_model('conny_flap_fl', {
 	info = {
 			lod_pixels={.1,10,30,0},
-			bounding_radius = 10,
+			bounding_radius = 11,
 		},
 	static = function(lod)		
 		if lod > 3 then
@@ -31,7 +31,7 @@ define_model('conny_flap_fl', {
 define_model('conny_flap_rr_r', {
 	info = {
 			lod_pixels={.1,10,30,0},
-			bounding_radius = 10,
+			bounding_radius = 11,
 		},
 	static = function(lod)		
 		if lod > 3 then
@@ -46,7 +46,7 @@ define_model('conny_flap_rr_r', {
 define_model('conny_flap_rr_l', {
 	info = {
 			lod_pixels={.1,10,30,0},
-			bounding_radius = 10,
+			bounding_radius = 11,
 		},
 	static = function(lod)		
 		if lod > 3 then
@@ -61,7 +61,7 @@ define_model('conny_flap_rr_l', {
 define_model('conny_flap_rl_r', {
 	info = {
 			lod_pixels={.1,10,30,0},
-			bounding_radius = 10,
+			bounding_radius = 11,
 		},
 	static = function(lod)		
 		if lod > 3 then
@@ -76,7 +76,7 @@ define_model('conny_flap_rl_r', {
 define_model('conny_flap_rl_l', {
 	info = {
 			lod_pixels={.1,10,30,0},
-			bounding_radius = 10,
+			bounding_radius = 11,
 		},
 	static = function(lod)		
 		if lod > 3 then
@@ -91,14 +91,14 @@ define_model('conny_flap_rl_l', {
 define_model('conny_piston_f', {
 	info = {
 			lod_pixels={.1,10,30,0},
-			bounding_radius = 7,
+			bounding_radius = 11,
 			materials={'chrome'},
 		},
 	static = function(lod)
 		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
     end,
 	dynamic = function(lod)
-        local trans = 0.5*math.pi*math.clamp(1.5*(get_arg(0)-0.3), 0, 1)
+        local trans = 0.5*math.pi*math.clamp(1.5*(get_arg(ARG_SHIP_WHEEL_STATE)-0.3), 0, 1)
 		if lod > 1 then
 			texture('models/ships/constrictor/metal.png')
 			use_material('chrome')
@@ -112,7 +112,7 @@ define_model('conny_piston_f', {
 define_model('conny_w_front_0', {
 	info = {
 			lod_pixels={.1,10,30,0},
-			bounding_radius = 10,
+			bounding_radius = 13,
 			materials={'chrome'}
 		},
 	static = function(lod)
@@ -136,7 +136,7 @@ define_model('conny_w_front_0', {
 define_model('conny_w_front', {
 	info = {
 	        lod_pixels = {.1,10,30,0},
-			bounding_radius = 10,
+			bounding_radius = 15,
 			materials={'chrome', 'inside', 'hole', 'ncv'},
 		},
 	static = function(lod)
@@ -146,7 +146,7 @@ define_model('conny_w_front', {
      	set_material('ncv', .33,.35,.3,1,.63,.7,.83,30)
 	end,
 	dynamic = function(lod)
-		if get_arg(0) ~= 0 then
+		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
 		    local v0 = v(3.5,-4,10)
 			local v1 = v(-3.5,-4,10)
 			local v2 = v(3.5,0,10)
@@ -157,8 +157,8 @@ define_model('conny_w_front', {
 			local v8 = v(0,0,10)
 			local v9 = v(0,0,-10)
 
-	        local frot = math.pi*math.clamp(get_arg(0),0,.5)
-			local wrot = 0.5*math.pi*math.clamp(1.5*(get_arg(0)-0.3), 0, 1)
+	        local frot = math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
+			local wrot = 0.5*math.pi*math.clamp(1.5*(get_arg(ARG_SHIP_WHEEL_STATE)-0.3), 0, 1)
 
    			if lod > 1 then
 				use_material('inside')
@@ -179,8 +179,8 @@ define_model('conny_w_front', {
 			end
 			call_model('conny_flap_fr',v(-3.5,0,0),v(-math.cos(frot),-math.sin(frot),0),v(0,0,-1),1)
             call_model('conny_flap_fl',v(3.5,0,0),v(-math.cos(frot),math.sin(frot),0),v(0,0,-1),1)
-            
-			-- cutout	        
+
+			-- cutout
 	  		if lod > 1 then
 				use_material('hole')
 				zbias(1, v(0,0,0), v(0,1,0))
@@ -194,7 +194,7 @@ define_model('conny_w_front', {
 define_model('conny_w_rear_0', {
 	info = {
    			lod_pixels = {.1,10,30,0},
-			bounding_radius = 10,
+			bounding_radius = 9,
 			materials = {'metal', 'chrome'},
 			},
 	static = function(lod)
@@ -222,7 +222,7 @@ define_model('conny_w_rear_0', {
 define_model('conny_w_rear_r', {
 	info = {
 	        lod_pixels = {.1,10,30,0},
-			bounding_radius = 10,
+			bounding_radius = 14,
 			materials={'chrome', 'inside', 'hole', 'ncv'},
 		},
 	static = function(lod)
@@ -232,7 +232,7 @@ define_model('conny_w_rear_r', {
     	set_material('ncv', .33,.35,.3,1,.63,.7,.83,30)
 	end,
 	dynamic = function(lod)
-	    if get_arg(0) ~= 0 then
+	    if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
 			local v0 = v(3.5,-4,10)
 			local v1 = v(-3.5,-4,10)
 			local v2 = v(3.5,0,10)
@@ -243,9 +243,9 @@ define_model('conny_w_rear_r', {
 			local v8 = v(0,0,10)
 			local v9 = v(0,0,-10)
 
-	        local frot = math.pi*math.clamp(get_arg(0),0,.5)
-			local rot = 0.5*math.pi*math.clamp(get_arg(0)-.3 ,0,1)
-			local trans = math.clamp(get_arg(0)-.3 ,0,1)
+	        local frot = math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
+			local rot = 0.5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE)-.3 ,0,1)
+			local trans = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE)-.3 ,0,1)
 
    			if lod > 1 then
 				use_material('inside')
@@ -283,7 +283,7 @@ define_model('conny_w_rear_r', {
 define_model('conny_w_rear_l', {
 	info = {
 	        lod_pixels = {.1,10,30,0},
-			bounding_radius = 10,
+			bounding_radius = 14,
 			materials={'chrome', 'inside', 'hole', 'ncv'},
 		},
 	static = function(lod)
@@ -293,7 +293,7 @@ define_model('conny_w_rear_l', {
      	set_material('ncv', .33,.35,.3,1,.63,.7,.83,30)
 	end,
 	dynamic = function(lod)
-	    if get_arg(0) ~= 0 then
+	    if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
 			local v0 = v(3.5,-4,10)
 			local v1 = v(-3.5,-4,10)
 			local v2 = v(3.5,0,10)
@@ -304,9 +304,9 @@ define_model('conny_w_rear_l', {
 			local v8 = v(0,0,10)
 			local v9 = v(0,0,-10)
 
-	        local frot = math.pi*math.clamp(get_arg(0),0,.5)
-			local rot = 0.5*math.pi*math.clamp(get_arg(0)-.3 ,0,1)
-			local trans = math.clamp(get_arg(0)-.3 ,0,1)
+	        local frot = math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
+			local rot = 0.5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE)-.3 ,0,1)
+			local trans = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE)-.3 ,0,1)
 
    			if lod > 1 then
 				use_material('inside')
@@ -344,7 +344,7 @@ define_model('conny_w_rear_l', {
 define_model('conny_pyl', {
 	info = {
 	        lod_pixels = {.1,10,30,0},
-			bounding_radius = 10,
+			bounding_radius = 3,
 			materials={'inside'},
 		},
 	static = function(lod)
@@ -357,7 +357,7 @@ define_model('conny_pyl', {
 define_model('conny_gun', {
 	info = {
 	        lod_pixels = {.1,10,30,0},
-			bounding_radius = 10,
+			bounding_radius = 5,
 			materials={'chrome', 'matte', 'black'},
 		},
 	static = function(lod)
@@ -431,7 +431,7 @@ define_model('conny_equipment', {
 	end,
 	dynamic = function(lod)
    		
-		if get_arg(5) == 45 then
+		if get_arg(ARG_SHIP_EQUIP_SCOOP) == Equip.FUEL_SCOOP then
             set_material('ncv', .33,.35,.3,1,.63,.7,.83,30)
 			set_material('scoop', lerp_materials(get_arg(1)*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 },
                                                                 {0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 2.5 }))
@@ -443,7 +443,7 @@ define_model('conny_equipment', {
 				texture('models/ships/constrictor/con_sc_bs.png')
 			end
 			load_obj('models/ships/constrictor/con_scoop.obj')
-		    
+
 			texture('models/ships/constrictor/scoop.png')
 			use_material('scoop')
 			load_obj('models/ships/constrictor/con_sc_glow.obj')
@@ -453,49 +453,49 @@ define_model('conny_equipment', {
 		    local v1 = v(3,4,8.8) -- ecm
 			local v2 = v(0,4,6.5) -- scanner
 			
-			if get_arg(7) == 37 then				
+			if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then				
 				use_material('matte')
 				call_model('ecm_1',v1,v(1,0,0),v(0,1,0),.8)
 			else
-				if get_arg(7) == 39 then
+				if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
 					use_material('matte')
 					call_model('ecm_2',v1,v(1,0,0),v(0,1,0),.8)
 				end
 			end			 	 
 			
-			if get_arg(8) == 38 then
+			if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
 				use_material('matte')
 				call_model('scanner_-',v2,v(1,0,0),v(0,1,0),1)
 				call_model('antenna_1',v(-2,-1.8,-22),v(1,0,0),v(0,1,0),.8)
 			end		
 				
-			if get_arg(10) >= 62 then
-    			local scale = (get_arg(10)-61)*.1				
+			if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
+ 	   			local scale = (get_arg(ARG_SHIP_EQUIP_LASER0)-Equip.PULSECANNON_DUAL_1MW)*.1
 				use_material('chrome')
-	        	if get_arg(10) == 63 then
+			       	if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
 					texture('models/ships/constrictor/iron.png')
 					call_model('conny_gun',v(7,-2,-15),v(1,0,0),v(0,1,0),.8)
 					call_model('conny_gun',v(-7,-2,-15),v(1,0,0),v(0,1,0),.8)
-	            else
+		        	else
 					texture('models/ships/constrictor/iron.png')
 					call_model('conny_gun',v(0,-2,-22),v(1,0,0),v(0,1,0),.7+scale)
-	            end
+	        		end
 			end
 			
-   			if get_arg(11) >= 62 then
-    			local scale = (get_arg(11)-61)*.1
+   			if get_arg(ARG_SHIP_EQUIP_LASER1) > 0 then
+    				local scale = (get_arg(ARG_SHIP_EQUIP_LASER1)-Equip.PULSECANNON_DUAL_1MW)*.1
 				use_material('chrome')
-	        	if get_arg(11) == 63 then
+		        	if get_arg(ARG_SHIP_EQUIP_LASER1) == Equip.PULSECANNON_DUAL_1MW then
 					texture('models/ships/constrictor/iron.png')
 					call_model('conny_gun',v(7,-2,13),v(-1,0,0),v(0,1,0),.8)
 					call_model('conny_gun',v(-7,-2,13),v(-1,0,0),v(0,1,0),.8)
-	            else
+	        		else
 					texture('models/ships/constrictor/iron.png')
 					call_model('conny_gun',v(0,-2,15.5),v(-1,0,0),v(0,1,0),.7+scale)
-	            end
+			        end
 			end			
-	        
-			if get_arg(12) == 32 then
+
+			if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_UNGUIDED then
 				call_model('conny_pyl',v(-3.935,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 		    	call_model('d_unguided',v(-3.935,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 				
@@ -504,7 +504,7 @@ define_model('conny_equipment', {
 				circle(3*lod,v(-3.935,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 				zbias(0)
 			else
-				if get_arg(12) == 33 then
+				if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_GUIDED then
 					call_model('conny_pyl',v(-3.935,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 			    	call_model('d_guided',v(-3.935,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 					use_material('hole')
@@ -512,7 +512,7 @@ define_model('conny_equipment', {
 					circle(3*lod,v(-3.935,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 					zbias(0)
 				else
-					if get_arg(12) == 34 then
+					if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_SMART then
 						call_model('conny_pyl',v(-3.935,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 				    	call_model('d_smart',v(-3.935,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 						use_material('hole')
@@ -520,7 +520,7 @@ define_model('conny_equipment', {
 						circle(3*lod,v(-3.935,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 						zbias(0)
 					else    	
-						if get_arg(12) == 35 then
+						if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_NAVAL then
 							call_model('conny_pyl',v(-3.935,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 					    	call_model('d_naval',v(-3.935,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 							use_material('hole')
@@ -532,7 +532,7 @@ define_model('conny_equipment', {
 				end
 			end
 			
-		    if get_arg(13) == 32 then
+		    if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_UNGUIDED then
 		    	call_model('conny_pyl',v(-5.506,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 		    	call_model('d_unguided',v(-5.506,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 				use_material('hole')
@@ -540,7 +540,7 @@ define_model('conny_equipment', {
 				circle(3*lod,v(-5.506,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 				zbias(0)
 			else
-				if get_arg(13) == 33 then
+				if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_GUIDED then
 					call_model('conny_pyl',v(-5.506,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 			    	call_model('d_guided',v(-5.506,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 					use_material('hole')
@@ -548,7 +548,7 @@ define_model('conny_equipment', {
 					circle(3*lod,v(-5.506,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 					zbias(0)
 				else
-					if get_arg(13) == 34 then
+					if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_SMART then
 						call_model('conny_pyl',v(-5.506,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 				    	call_model('d_smart',v(-5.506,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 						use_material('hole')
@@ -556,7 +556,7 @@ define_model('conny_equipment', {
 						circle(3*lod,v(-5.506,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 						zbias(0)
 					else    	
-						if get_arg(13) == 35 then
+						if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_NAVAL then
 							call_model('conny_pyl',v(-5.506,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 					    	call_model('d_naval',v(-5.506,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 							use_material('hole')
@@ -573,7 +573,7 @@ define_model('conny_equipment', {
 
 define_model('conny_extra_0', {
 	info = {
-			bounding_radius = 5,
+			bounding_radius = 22,
 			materials={'glow'},
 		},
 	static = function(lod)
@@ -612,7 +612,7 @@ define_model('conny_extra_0', {
 	    local v23 = v(.459,-2,-1.218)
 	    local v24 = v(2.678,-2,-.582)
 	    local v25 = v(1.093,-2,-.582)
-	    
+
 		local v26 = v(2.678,-2,1.06)
 	    local v27 = v(1.093,-2,1.06)
 	    local v28 = v(3.336,-2,1.685)
@@ -622,7 +622,7 @@ define_model('conny_extra_0', {
 	    local v31 = v(9.158,-2,-8.297)
 	    local v32 = v(10.268,-2,-3.693)
 	    local v33 = v(9.158,-2,-3.693)
-	    
+
 		local v34 = v(7.963,-2,-8.297)
 	    local v35 = v(6.853,-2,-8.297)
 		local v36 = v(7.963,-2,-3.693)
@@ -633,11 +633,11 @@ define_model('conny_extra_0', {
 	    local v40 = v(4.44,-1.118,17)
 	    local v41 = v(0,2.9,17)
 	    local v42 = v(0,-1.118,17)
-	    
+
 		local v44 = v(-11.077,-1.118,11.69)
 	    local v45 = v(-6.45,2.9,17)
 	    local v46 = v(-4.44,-1.118,17)
-		    
+
 		local trans = get_arg(1)*.05
 
 		set_material('glow',0, 0, 0, 1, 0, 0, 0, 1, 1, 1.5, 0)
@@ -681,7 +681,7 @@ define_model('conny_extra_0', {
 
 define_model('conny_teeth', {
 	info = {
-			bounding_radius = 10,
+			bounding_radius = 26,
 			materials = {'teeth'},
 		},
 	static = function(lod)
@@ -701,7 +701,7 @@ define_model('conny_teeth', {
 define_model('conny_ver0', {
 	info = {
 			lod_pixels = { .1, 30, 120, 0 },
-			bounding_radius = 35,
+			bounding_radius = 28,
 			materials = {'ncv'},
 		},
 	static = function(lod)
@@ -725,14 +725,14 @@ define_model('conny_ver0', {
 			texture('con_back_s.png')
 		end
 	    load_obj('con_back.obj')
-	    
+
 	end
 })
 
 define_model('conny_ver1', {
 	info = {
 			lod_pixels = { .1, 30, 120, 0 },
-			bounding_radius = 35,
+			bounding_radius = 28,
 			materials = {'cv0'},
 		},
 	static = function(lod)
@@ -756,7 +756,7 @@ define_model('conny_ver1', {
 			texture('con_back_s.png')
 		end
 	    load_obj('con_back.obj')
-	    
+
 	end,
 	dynamic = function(lod)
 		set_material('cv0', get_arg_material(0))
@@ -766,7 +766,7 @@ define_model('conny_ver1', {
 define_model('conny_ver2', {
 	info = {
 			lod_pixels = { .1, 30, 50, 0 },
-			bounding_radius = 35,
+			bounding_radius = 28,
 			materials = {'cv0', 'cv1'},
 		},
 	static = function(lod)
@@ -805,7 +805,7 @@ define_model('conny_ver2', {
 define_model('conny_ver3', {
 	info = {
 			lod_pixels = { .1, 30, 120, 0 },
-			bounding_radius = 35,
+			bounding_radius = 28,
 			materials = {'cv0', 'cv1'},
 		},
 	static = function(lod)
@@ -843,7 +843,7 @@ define_model('conny_ver3', {
 
 define_model('conny_top', {
 	info = {
-			bounding_radius = 35,
+			bounding_radius = 28,
 		},
 	static = function(lod)
 	end,
@@ -875,7 +875,7 @@ define_model('conny', {
 	info = {
 			scale = 1.4, --1.5, -- should be 2.08, but didn't fits?
 			lod_pixels = { .1, 30, 120, 0 },
-			bounding_radius = 35,
+			bounding_radius = 45,
 			materials = {'text', 'cv0', 'cv1', 'ncv', 'chrome', 'matte', 'pit', 'pit_0', 'layer',
 						'radio', 'glass', 'win', 'black', 'glow', 'e_glow', 'null'},
 			tags = {'ship'},
@@ -938,7 +938,7 @@ define_model('conny', {
 
 			set_local_lighting(true)
             use_light(1)
-            
+
 			zbias(0)
 			use_material('pit')
             if lod > 3 then
@@ -1040,17 +1040,17 @@ define_model('conny', {
 			else
 			   	texture('con_bot_s.png')
 			end			
-			load_obj('con_bot.obj') 		    
+			load_obj('con_bot.obj')
 
             call_model('posl_green',v(13.5,-2,0),v(1,0,0),v(0,-1,0),1.5)
 			call_model('posl_red',v(-13.5,-2,0),v(1,0,0),v(0,-1,0),1.5)			
 			call_model('headlight',v(0,-2,-19),v(1,0,0),v(0,-1,0),1.5)			
 			call_model('blank',v(0,0,0),v(1,0,0),v(0,1,0),0)			
-					    
+
 			texture('scoop.png')
 			use_material('black')
 			load_obj('con_engine.obj')
-			            
+
             zbias(3,v(0,0,0),v(0,0,1))
             use_material('e_glow')
 			load_obj('con_e_glow.obj')
@@ -1060,14 +1060,14 @@ define_model('conny', {
 			zbias(5,v(0,0,0),v(0,0,1))
 			load_obj('con_e_cut.obj')
 			zbias(0)
-            		    
+
    			texture(nil)
 			zbias(4,v(0,0,0),v(0,1,0))
 			use_material('win')
 			load_obj('con_win_0.obj')
 
             call_model('conny_top',v(0,0,0),v(1,0,0),v(0,1,0),1)
-            
+
             if lod > 2 then
 				call_model('conny_extra_0',v(0,0,0),v(1,0,0),v(0,1,0),1)
 			end
@@ -1125,7 +1125,7 @@ define_model('conny', {
 				zbias(0)
 			end
 		end
-		texture(nil)        
+		texture(nil)
 	end,
 
 	dynamic = function(lod)
@@ -1142,7 +1142,7 @@ define_model('conny', {
 			text(reg,v(11.667,0,4), v(.85,1,0), v(0,0,-1),2, {center = true})
 	        zbias(5,v(-11.667,0,4.3), v(-.85,1,0))
 			text(reg,v(-11.667,0,4.3), v(-.85,1,0), v(0,0,1),2, {center = true})
-	        zbias(0)	        
+	        zbias(0)
 		end
 	end
 })

@@ -21,7 +21,7 @@ end
 define_model('asps_flap_r_0', {
 	info = {
    			lod_pixels = {.1,10,20,0},
-			bounding_radius = 5,
+			bounding_radius = 1,
    		},
 	static = function(lod)
 		if lod > 1 then
@@ -36,7 +36,7 @@ define_model('asps_flap_r_0', {
 define_model('asps_flap_l_0', {
 	info = {
    			lod_pixels = {.1,10,20,0},
-			bounding_radius = 5,
+			bounding_radius = 1,
    		},
 	static = function(lod)
 		if lod > 1 then
@@ -50,7 +50,7 @@ define_model('asps_flap_l_0', {
 
 define_model('asps_flap_r', {
 	info = {
-			bounding_radius = 5,
+			bounding_radius = 1,
    		},
 	static = function(lod)
 	end,
@@ -75,7 +75,7 @@ define_model('asps_flap_l', {
 define_model('asps_wheel_f', {
 	info = {
    			lod_pixels = {.1,10,20,0},
-			bounding_radius = 5,
+			bounding_radius = 1,
    		},
 	static = function(lod)
 		if lod == 1 then
@@ -94,7 +94,7 @@ define_model('asps_wheel_f', {
 define_model('asps_wheel_r_r', {
 	info = {
    			lod_pixels = {.1,10,20,0},
-			bounding_radius = 5,
+			bounding_radius = 1,
 			materials = {'non_cv', 'cv_0'},
    		},
 	static = function(lod)
@@ -129,7 +129,7 @@ define_model('asps_wheel_r_r', {
 define_model('asps_wheel_r_l', {
 	info = {
    			lod_pixels = {.1,10,20,0},
-			bounding_radius = 5,
+			bounding_radius = 1,
 			materials = {'non_cv', 'cv_0'},
    		},
 	static = function(lod)
@@ -163,7 +163,7 @@ define_model('asps_wheel_r_l', {
 
 define_model('asps_pyl_open', {
 	info = {
-			bounding_radius = 5,
+			bounding_radius = 2,
 			materials = {'cut', 'metal'},
    		},
 	static = function(lod)
@@ -299,7 +299,7 @@ define_model('asp_sparks', {
 	info = {
 			scale = 8.5,
 			lod_pixels = {.1,20,50,0},
-			bounding_radius = 41,
+			bounding_radius = 38,
 			materials = {'chrome', 'non_cv', 'metal', 'layer', 'win', 'glow_0', 'e_glow', 'scoop', 'text'},
 			tags = {'ship'},
 			ship_defs = {

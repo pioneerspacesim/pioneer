@@ -1,7 +1,7 @@
 define_model('eagle_gun', {
 	info = {
 			lod_pixels = {5,10,100,0},
-			bounding_radius = 15,
+			bounding_radius = 11,
 			materials = {'d_red', 'black', 'chrome'},
 			},
 	static = function(lod)
@@ -27,7 +27,7 @@ define_model('eagle_gun', {
 define_model('eagle_lrf_v0', {
 	info = {
 			lod_pixels = {5,10,100,0},
-			bounding_radius = 15,
+			bounding_radius = 51,
 			materials = {'top'},
 			},
 	static = function(lod)
@@ -49,7 +49,7 @@ define_model('eagle_lrf_v0', {
 define_model('eagle_lrf_v1', {
 	info = {
 			lod_pixels = {5,10,100,0},
-			bounding_radius = 15,
+			bounding_radius = 51,
 			materials = {'top'},
 			},
 	static = function(lod)
@@ -71,7 +71,7 @@ define_model('eagle_lrf_v1', {
 define_model('eagle_lrf_body', {
 	info = {
 			lod_pixels = {5,10,100,0},
-			bounding_radius = 15,
+			bounding_radius = 51,
 			materials = {'top', 'bot', 'black', 'steel'},
 			},
 
@@ -91,7 +91,7 @@ define_model('eagle_lrf_body', {
 
 		set_material('black', 0,0,0,1,0,0,0,0)
         set_material('steel', .2,.23,.25,1,.35,.38,.4,10)
-        
+
   		if lod > 1 then
 			use_material('bot')
 			texture('tex8.png', v(0,0,0), v(0,.2,0), v(0,0,1))
@@ -104,7 +104,7 @@ define_model('eagle_lrf_body', {
             xref_circle(3*lod, v32+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
             xref_circle(3*lod, v36+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
         end
-		  
+
 		if lod > 2 then
 		    texture('tex0.png', v(.5,.655,0), v(.0165,0,0), v(0,0,1.05))
 		else
@@ -112,7 +112,7 @@ define_model('eagle_lrf_body', {
 		end
 		use_material('bot')
         xref_flat(6*lod, v(0,-1,0), {v4}, {v25}, {v7}, {v9, v11, v0}) -- bottom
-	    	 	 
+
 	end,
 
 	dynamic = function(lod)
@@ -149,18 +149,18 @@ define_model('eagle_lrf_body', {
 			use_material('steel')
 			selector3()
 			if select3 < 51 then
-				if get_arg(8) == 38 then
+				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
 					call_model('scanner_-', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
 					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
 				
 				if lod > 2 then
-					if get_arg(7) == 37 then
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
 						call_model('ecm_1', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 					
-					if get_arg(7) == 39 then
-				       	call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+						call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 											
 					zbias(1,v(-6,.407,-20), v(0,1,0))
@@ -168,33 +168,33 @@ define_model('eagle_lrf_body', {
 					zbias(0)
 				end	
 			else
-				if get_arg(8) == 38 then	
+				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then	
 					call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
 					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
 				
 				if lod > 2 then
-					if get_arg(7) == 37 then
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
 						call_model('ecm_1', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 					
-					if get_arg(7) == 39 then
-					    call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
-					end    
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+						call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
+					end
 					
 					zbias(1,v(6,.407,-20), v(0,1,0))
 					call_model('decal', v(6,.407,-20), v(0,1,-.07), v(-1,.349,0), 3)
 					zbias(0)
 				end
 			end
-		end	  
-		  		
+		end
+
 		local  R_T = v(31,0,-25.6)
-        local RF_T = v(10.1,0,-14)
+		local RF_T = v(10.1,0,-14)
 		local LF_T = v(-10.1,0,-14)
 		local TF_T = v(8.5,1.6,-14)
 		local BF_T = v(8.5,-1.6,-14)
-        local RB_T = v(32.5,0,16)
+		local RB_T = v(32.5,0,16)
 		local LB_T = v(-32.5,0,16)
 		local TB_T = v(31,1.8,16)
 		local BB_T = v(31,-1.8,16)
@@ -214,48 +214,48 @@ define_model('eagle_lrf_body', {
 
 define_model('eagle_mk2_body', {
 	info = {
-   			lod_pixels = {5,10,100,0},
-			bounding_radius = 20,
-			materials = {'top', 'bot', 'black', 'steel'},
-			},
+ 		lod_pixels = {5,10,100,0},
+		bounding_radius = 51,
+		materials = {'top', 'bot', 'black', 'steel'},
+	},
 	static = function(lod)
-	    local v0 = v(0,0,-40)
-        local v4 = v(0,-6,25)
-        local v7 = v(-31,0,-9)
-        local v9 = v(-3,0,12)
-        local v11 = v(-9,0,-37)
-		local v14 = v(31,1,9)
-	    local v25 = v(-31,-1,9)
-	    local v26 = v(14,1.5,5)
-		local v28 = v(14,3,9)
-		local v30 = v(17,1.5,4)
-		local v32 = v(17,2.7,8)
-		local v34 = v(20,1.8,3)
-		local v36 = v(20,2.3,7)
+	local v0 = v(0,0,-40)
+	local v4 = v(0,-6,25)
+	local v7 = v(-31,0,-9)
+	local v9 = v(-3,0,12)
+	local v11 = v(-9,0,-37)
+	local v14 = v(31,1,9)
+	local v25 = v(-31,-1,9)
+	local v26 = v(14,1.5,5)
+	local v28 = v(14,3,9)
+	local v30 = v(17,1.5,4)
+	local v32 = v(17,2.7,8)
+	local v34 = v(20,1.8,3)
+	local v36 = v(20,2.3,7)
 
-        set_material('black', 0,0,0,1,0,0,0,0)
-        set_material('steel', .2,.23,.25,1,.35,.38,.4,10)
-        
-  		if lod > 1 then
-			use_material('bot')
-			texture('tex8.png', v(0,0,0), v(0,.2,0), v(0,0,1))
-        	xref_tapered_cylinder(3*lod, v26, v28, v(0,1,-.1), 0.2, 1)
-        	xref_tapered_cylinder(3*lod, v30, v32, v(0,1,-.1), 0.2, 1)
-            xref_tapered_cylinder(3*lod, v34, v36, v(0,1,-.1), 0.2, 1)
-            use_material('black')
-            texture(nil)
-			xref_circle(3*lod, v28+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
-            xref_circle(3*lod, v32+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
-            xref_circle(3*lod, v36+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
-        end
+	set_material('black', 0,0,0,1,0,0,0,0)
+	set_material('steel', .2,.23,.25,1,.35,.38,.4,10)
 
-		if lod > 2 then
-		    texture('tex0.png', v(.5,.655,0), v(.0165,0,0), v(0,0,1.05))
-		else
-		    texture('tex0_s.png', v(.5,.655,0), v(.0165,0,0), v(0,0,1.05))
-		end
+	if lod > 1 then
 		use_material('bot')
-        xref_flat(6*lod, v(0,-1,0), {v4}, {v25}, {v7}, {v9, v11, v0}) -- bottom
+		texture('tex8.png', v(0,0,0), v(0,.2,0), v(0,0,1))
+		xref_tapered_cylinder(3*lod, v26, v28, v(0,1,-.1), 0.2, 1)
+		xref_tapered_cylinder(3*lod, v30, v32, v(0,1,-.1), 0.2, 1)
+		xref_tapered_cylinder(3*lod, v34, v36, v(0,1,-.1), 0.2, 1)
+		use_material('black')
+		texture(nil)
+		xref_circle(3*lod, v28+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
+		xref_circle(3*lod, v32+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
+		xref_circle(3*lod, v36+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
+	end
+
+	if lod > 2 then
+		texture('tex0.png', v(.5,.655,0), v(.0165,0,0), v(0,0,1.05))
+	else
+		texture('tex0_s.png', v(.5,.655,0), v(.0165,0,0), v(0,0,1.05))
+	end
+	use_material('bot')
+	xref_flat(6*lod, v(0,-1,0), {v4}, {v25}, {v7}, {v9, v11, v0}) -- bottom
 	end,
 
 	dynamic = function(lod)
@@ -286,17 +286,17 @@ define_model('eagle_mk2_body', {
 			use_material('steel')
 			selector3()
 			if select3 < 51 then
-				if get_arg(8) == 38 then
+				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
 					call_model('scanner_-', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
 					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
 				
 				if lod > 2 then
-					if get_arg(7) == 37 then
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
 						call_model('ecm_1', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 					
-					if get_arg(7) == 39 then
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
 				       	call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 											
@@ -305,19 +305,19 @@ define_model('eagle_mk2_body', {
 					zbias(0)
 				end	
 			else
-				if get_arg(8) == 38 then	
+				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then	
 					call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
 					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
 				
 				if lod > 2 then
-					if get_arg(7) == 37 then
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
 						call_model('ecm_1', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 					
-					if get_arg(7) == 39 then
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
 					    call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
-					end    
+					end
 					
 					zbias(1,v(6,.407,-20), v(0,1,0))
 					call_model('decal', v(6,.407,-20), v(0,1,-.07), v(-1,.349,0), 3)
@@ -335,7 +335,7 @@ define_model('eagle_mk2_body', {
 		local LB_T = v(-33.8,0,8)
 		local TB_T = v(32,1.8,8)
 		local BB_T = v(32,-1.8,8)
-                
+
 		xref_thruster(R_T, v(0,0,-1), 8, true)
 		thruster(RF_T, v(1,0,0), 8)
 		thruster(LF_T, v(-1,0,0), 8)
@@ -351,7 +351,7 @@ define_model('eagle_mk2_body', {
 define_model('eagle_mk3_body', {
 	info = {
    			lod_pixels = {5,10,100,0},
-			bounding_radius = 20,
+			bounding_radius = 51,
 			materials = {'top', 'black', 'steel'},
 			},
 	static = function(lod)
@@ -371,7 +371,7 @@ define_model('eagle_mk3_body', {
 		
         set_material('black', 0,0,0,1,0,0,0,0)
         set_material('steel', .2,.23,.25,1,.35,.38,.4,10)
-        
+
         use_material('top')
   		if lod > 1 then
 			texture('tex8.png', v(0,0,0), v(0,.2,0), v(0,0,1))
@@ -419,17 +419,17 @@ define_model('eagle_mk3_body', {
 			use_material('steel')
 			selector3()
 			if select3 < 51 then
-				if get_arg(8) == 38 then
+				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
 					call_model('scanner_-', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
 					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
 				
 				if lod > 2 then
-					if get_arg(7) == 37 then
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
 						call_model('ecm_1', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 					
-					if get_arg(7) == 39 then
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
 				       	call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 											
@@ -438,19 +438,19 @@ define_model('eagle_mk3_body', {
 					zbias(0)
 				end	
 			else
-				if get_arg(8) == 38 then	
+				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then	
 					call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
 					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
 				
 				if lod > 2 then
-					if get_arg(7) == 37 then
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
 						call_model('ecm_1', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 					
-					if get_arg(7) == 39 then
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
 					    call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
-					end    
+					end
 					
 					zbias(1,v(6,.407,-20), v(0,1,0))
 					call_model('decal', v(6,.407,-20), v(0,1,-.07), v(-1,.349,0), 3)
@@ -487,7 +487,7 @@ define_model('eagle_mk3_body', {
 define_model('emk4_extras_v0', {
 	info = {
    			lod_pixels = {5,10,100,0},
-			bounding_radius = 20,
+			bounding_radius = 46,
 			materials = {'top'},
    			},
 	static = function(lod)
@@ -532,7 +532,7 @@ define_model('emk4_extras_v0', {
 define_model('emk4_extras_v1', {
 	info = {
    			lod_pixels = {5,10,100,0},
-			bounding_radius = 20,
+			bounding_radius = 46,
 			materials = {'top'},
    			},
 	static = function(lod)
@@ -577,7 +577,7 @@ define_model('emk4_extras_v1', {
 define_model('eagle_mk4_body', {
 	info = {
    			lod_pixels = {5,10,100,0},
-			bounding_radius = 20,
+			bounding_radius = 57,
 			materials = {'top', 'bot', 'tank', 'black', 'steel'},
 			},
 	static = function(lod)
@@ -596,10 +596,10 @@ define_model('eagle_mk4_body', {
 		local v36 = v(20,2.3,7)
 		local v81 = v(34.9,0,-16)
         local v83 = v(34.9,0,16)
-        
+
         set_material('black', 0,0,0,1,0,0,0,0)
         set_material('steel', .2,.23,.25,1,.35,.38,.4,10)
-        
+
         use_material('tank')
   		if lod > 1 then
 			texture('tex8.png', v(0,0,0), v(0,.2,0), v(0,0,1))
@@ -645,7 +645,7 @@ define_model('eagle_mk4_body', {
 		else
 			texture('tex0_s.png', v(.5,.655,0), v(.0165,0,0), v(0,0,1.05))
 		end
-		use_material('bot')	  
+		use_material('bot')
 		xref_flat(6*lod, v(0,-1,0), {v4}, {v25}, {v7}, {v9, v11, v0}) -- bottom
 	end,
 
@@ -710,17 +710,17 @@ define_model('eagle_mk4_body', {
 			use_material('steel')
 			selector3()
 			if select3 < 51 then
-				if get_arg(8) == 38 then
+				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
 					call_model('scanner_-', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
 					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
 				
 				if lod > 2 then
-					if get_arg(7) == 37 then
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
 						call_model('ecm_1', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 					
-					if get_arg(7) == 39 then
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
 				       	call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 											
@@ -729,19 +729,19 @@ define_model('eagle_mk4_body', {
 					zbias(0)
 				end	
 			else
-				if get_arg(8) == 38 then	
+				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then	
 					call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
 					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
 				
 				if lod > 2 then
-					if get_arg(7) == 37 then
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
 						call_model('ecm_1', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 					
-					if get_arg(7) == 39 then
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
 					    call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
-					end    
+					end
 					
 					zbias(1,v(6,.407,-20), v(0,1,0))
 					call_model('decal', v(6,.407,-20), v(0,1,-.07), v(-1,.349,0), 3)
@@ -776,7 +776,7 @@ define_model('eagle_mk4_body', {
 define_model('eagle_cyl', {
 	info = {
 			lod_pixels = { 10, 30 ,100, 0 },
-			bounding_radius = 5,
+			bounding_radius = 14,
 			materials = {'chrome'},
 			},
 	static = function(lod)
@@ -789,7 +789,7 @@ define_model('eagle_cyl', {
 	dynamic = function(lod)
 		use_material('chrome')
             texture('models/ships/4_eagles/tex8.png', v(0,0,0), v(0,1,0), v(1,0,0))
-			local uc_trans = math.clamp(get_arg(0), 0.3, 1)
+			local uc_trans = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.3, 1)
        		xref_ring(3*lod, v(9,0,0), v(9,(7*-uc_trans)+1.7,0), v(0,0,1), .25)
        		xref_ring(3*lod, v(9,0,0), v(9,(9*-uc_trans)+1.7,0), v(0,0,1), .2)
 			xref_ring(3*lod, v(9,0,0), v(9,(11*-uc_trans)+1.7,0), v(0,0,1), .15)
@@ -799,7 +799,7 @@ define_model('eagle_cyl', {
 define_model('eagle_wheels', {
 	info = {
 			lod_pixels = {10,30,100,0},
-			bounding_radius = 10,
+			bounding_radius = 12,
 			materials = {'metal', 'wheels'},
 			},
 	static = function(lod)
@@ -825,7 +825,7 @@ define_model('eagle_wheels', {
 define_model('eagle_all', {
  	info = {
 			lod_pixels = {.1,10,100,0},
-			bounding_radius = 15,
+			bounding_radius = 52,
 			materials = {'d_grey', 'steel', 'chrome', 'e_glow', 'cutout', 'win', 'd_red', 'text', 'null', 'grey', 'desk', 'black'},
 			},
     static = function(lod)
@@ -882,7 +882,7 @@ define_model('eagle_all', {
 		local v111 = v(-1.5,.7,-25.75)
         		
 		-- collision mesh
-		if lod == 1 then  
+		if lod == 1 then
             xref_flat(4, v(0,1,0), {v2}, {v14}, {v6}, {v8, v10, v0})
             xref_flat(4, v(0,-1,0), {v4}, {v25}, {v7}, {v9, v11, v0})
    			xref_quad(v2,v4,v24,v14)
@@ -900,7 +900,7 @@ define_model('eagle_all', {
 			
 			-- back right
 			use_material('steel')
-  	    	if lod > 2 then  
+  	    	if lod > 2 then
            		texture('tex2.png', v(0,.55,0), v(.03,0,0), v(0,.085,0))
 			else
 			    texture('tex2_s.png', v(0,.55,0), v(.03,0,0), v(0,.085,0))
@@ -909,9 +909,9 @@ define_model('eagle_all', {
 			quad(v4,v24,v36,v40)
 			tri(v24,v14,v36)
 			quad(v14,v2,v38,v36)
-            
+
 			-- back left
-			if lod > 2 then  
+			if lod > 2 then
 				texture('tex2.png', v(0,.55,0), v(-.03,0,0), v(0,.085,0))
 			else
 			    texture('tex2_s.png', v(0,.55,0), v(-.03,0,0), v(0,.085,0))
@@ -920,7 +920,7 @@ define_model('eagle_all', {
 			quad(v4,v41,v37,v25)
 			tri(v25,v37,v15)
 			quad(v15,v37,v39,v2)
-            
+
 			-- engine inside
         	use_material('e_glow')
 			if lod > 2 then
@@ -935,9 +935,9 @@ define_model('eagle_all', {
 			    texture('tex10_s.png', v(.25,.5,0), v(.04,0,0), v(0,.08,0))
 			end
 			tri(v43,v47,v45)
-            
+
 			-- main thruster "nazzle"
-  			use_material('chrome') 
+  			use_material('chrome')
         	texture('tex4.png', v(0,.55,0), v(.045,0,0), v(0,-.11,0))
 			xref_quad(v36,v40,v56,v52)
 			xref_quad(v36,v52,v54,v38)
@@ -948,7 +948,7 @@ define_model('eagle_all', {
         	xref_quad(v38,v40,v46,v44)
 			xref_quad(v40,v36,v42,v46)
 			xref_quad(v36,v38,v44,v42)
-                        
+
 			-- top cooler
 			use_material('d_grey')
 			texture('tex7.png', v(0,.07,0), v(.1,.04,0), v(0,0,-1))
@@ -956,7 +956,7 @@ define_model('eagle_all', {
 			texture('tex7.png', v(0,.07,0), v(.1,-.04,0), v(0,0,-1))
 			quad(v29,v33,v35,v31)
 		end
-        
+
         if lod > 2 then
             -- pilot
 			call_model('pilot2', v(0,1.3,-23), v(1,0,0), v(0,1,0), .6)
@@ -981,17 +981,17 @@ define_model('eagle_all', {
 	end,
 
 	dynamic = function(lod)
-        local trans1 = 6.667*math.clamp(get_arg(0),0,.3)
-		local trans2 = 12*math.clamp(get_arg(0),.3,1)
-		local rot = 2.4*math.clamp(get_arg(0),.3,1)
+        local trans1 = 6.667*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.3)
+		local trans2 = 12*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.3,1)
+		local rot = 2.4*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.3,1)
 
         if lod > 1 then
 			
-        	set_material('e_glow', lerp_materials(get_arg(1)*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
+        	set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
         		
-        	if get_arg(0) ~= 0 then
+        	if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
     			local v64 = v(9-trans1,-1.55-(trans1/5),1)
-				local v66 = v(9+trans1,-1.55+(trans1/8),1)       -- 
+				local v66 = v(9+trans1,-1.55+(trans1/8),1)
 				local v68 = v(9+trans1,-3.53-(trans1/6),13)
 				local v70 = v(9-trans1,-3.53,13)
 				local v72 = v(7,-1.94,1)
@@ -1016,14 +1016,14 @@ define_model('eagle_all', {
 				xref_quad(v64, v66, v68, v70)				
 			end
 		end
-        
+
 		texture(nil)
 		if lod == 1 then
-			if get_arg(0) ~= 0 then
+			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
             	xref_cylinder(4, v(9,3.6-trans2,1), v(9,3.6-trans2,13), v(0,1,0), 2)
 	        end
 		end
-                
+
 		if lod > 1 then
 			local vTXT1 = v(19,2.759,12)
 			local vTXT2 = v(-19,-2.759,12)
@@ -1035,41 +1035,41 @@ define_model('eagle_all', {
 			text(reg, vTXT2, v(0,-1,.0105), v(-1,.1604,-.5), 5, {center = true})
 		    zbias(0)
 			
-			if get_arg(10) >= 62 then
-				if get_arg(10) == 63 then
+			if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
+				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
 				   call_model('eagle_gun',v(20,-.5,0),v(1,0,0),v(0,1,0),1)
 				   call_model('eagle_gun',v(-20,-.5,0),v(1,0,0),v(0,1,0),1)
 				else
-				   call_model('eagle_gun',v(0,-.7,-30),v(1,0,0),v(0,1,0),1) 				   
-				end		
+				   call_model('eagle_gun',v(0,-.7,-30),v(1,0,0),v(0,1,0),1)
+				end
 			end
 			
-			if get_arg(11) >= 62 then
-				if get_arg(11) == 63 then
+			if get_arg(ARG_SHIP_EQUIP_LASER1) > 0 then
+				if get_arg(ARG_SHIP_EQUIP_LASER1) == Equip.PULSECANNON_DUAL_1MW then
 				   call_model('eagle_gun',v(20,-.5,0),v(1,0,0),v(0,1,0),1)
 				   call_model('eagle_gun',v(-20,-.5,0),v(1,0,0),v(0,1,0),1)
 				else
-				   call_model('eagle_gun',v(0,-.7,-30),v(1,0,0),v(0,1,0),1) 				   
-				end		
+				   call_model('eagle_gun',v(0,-.7,-30),v(1,0,0),v(0,1,0),1)
+				end
 			end
 			
 			-- missiles
 			local M_0 = v(24,-3.5,3)
 			local M_1 = v(-24,-3.5,3)
 	
-			if get_arg(12) == 32 then
+			if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_UNGUIDED then
 	            call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 	            call_model('d_unguided',M_0,v(1,0,0),v(0,1,0),3.5)
 	        else
-				if get_arg(12) == 33 then
+				if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_GUIDED then
 	                call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 					call_model('d_guided',M_0,v(1,0,0),v(0,1,0),3.5)
 	            else
-					if get_arg(12) == 34 then
+					if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_SMART then
 	                    call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 						call_model('d_smart',M_0,v(1,0,0),v(0,1,0),3.5)
 					else
-						if get_arg(12) == 35 then
+						if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_NAVAL then
 	                        call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 							call_model('d_naval',M_0,v(1,0,0),v(0,1,0),3.5)
 						end
@@ -1077,19 +1077,19 @@ define_model('eagle_all', {
 				end
 			end
 	
-			if get_arg(13) == 32 then
+			if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_UNGUIDED then
 	            call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 				call_model('d_unguided',M_1,v(1,0,0),v(0,1,0),3.5)
 	        else
-				if get_arg(13) == 33 then
+				if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_GUIDED then
 	                call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 					call_model('d_guided',M_1,v(1,0,0),v(0,1,0),3.831)
 	           	else
-					if get_arg(13) == 34 then
+					if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_SMART then
 	                    call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 						call_model('d_smart',M_1,v(1,0,0),v(0,1,0),3.5)
 	           		else
-						if get_arg(13) == 35 then
+						if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_NAVAL then
 	                        call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 							call_model('d_naval',M_1,v(1,0,0),v(0,1,0),3.5)
 						end
@@ -1109,7 +1109,7 @@ define_model('eagle_lrf', {
 --			scale = 0.261, -- FE2 to Pioneer vector spacing scale for the eagle, each ship is different!
 			scale = 0.45,
 			lod_pixels = {.1,10,50,0},
-			bounding_radius = 15,
+			bounding_radius = 30,
    			materials={'steel', 'cutout', 'win'},
 			tags = {'ship'},
 			ship_defs = {
@@ -1122,7 +1122,7 @@ define_model('eagle_lrf', {
 					left_thrust = -8e5,
 					right_thrust = 8e5,
 					angular_thrust = 64e5,
-					gun_mounts = 
+					gun_mounts =
 					{
 					{ v(0,-.7,-40), v(0,0,-1) },
 					{ v(0,-.7,25), v(0,0,1) },
@@ -1160,11 +1160,11 @@ define_model('eagle_lrf', {
 			xref_tri(v80,v83,v84)
 			xref_tri(v80,v84,v81)
 		    xref_quad(v84,v83,v82,v81)
-		end		 
+		end
 		-- lrf side tanks outside
 		if lod > 1 then
 			use_material('steel')
-        		if lod > 2 then    
+        		if lod > 2 then
            			texture('tex2.png', v(.5,.55,0), v(0,0,.3), v(0,.085,0))
         		else
         			texture('tex2_s.png', v(.5,.55,0), v(0,0,.3), v(0,.085,0))
@@ -1199,11 +1199,11 @@ define_model('eagle_lrf', {
 			call_model('posl_red', v(-33.5,.7,-.5), v(0,1,0), v(-1,.6,0), 6)
 			call_model('coll_warn', v(-33.5,-.7,-.5), v(0,1,0), v(-1,-.6,0), 6)
   		end
-        
+
 		-- lrf side tanks inside
         if lod > 1 then
 			use_material('steel')
-        	if lod > 2 then    
+        	if lod > 2 then
             	texture('tex2.png', v(.5,.55,0), v(0,0,.3), v(0,.085,0))
 			else
 		    	texture('tex2_s.png', v(.5,.55,0), v(0,0,.3), v(0,.085,0))
@@ -1213,9 +1213,9 @@ define_model('eagle_lrf', {
 		texture(nil)   		
 		-- eagle mainpart
 		call_model('eagle_all', v(0,0,0), v(1,0,0), v(0,1,0), 1)
-        
+
 		-- eagle cv body
-		if lod > 1 then  
+		if lod > 1 then
    			call_model('eagle_lrf_body', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 	        -- details
 	        zbias(1,v(-15,3.4,14), v(-.13,1,0))
@@ -1224,7 +1224,7 @@ define_model('eagle_lrf', {
             call_model('squadsign_1', v(15,-3.4,14), v(.13,-1,0), v(0,.0555,-1), 4)
             zbias(0)
        	end
-        
+
 		-- rostrum
   		if lod > 3 then
 			use_material('cutout')
@@ -1266,7 +1266,7 @@ define_model('eagle_mk2', {
  info = {
 			scale = 0.45,
 			lod_pixels = {.1,10,50,0},
-			bounding_radius = 15,
+			bounding_radius = 30,
    			materials={'chrome', 'cutout', 'win'},
 			tags = {'ship'},
 			ship_defs = {
@@ -1279,7 +1279,7 @@ define_model('eagle_mk2', {
 					left_thrust = -8e5,
 					right_thrust = 8e5,
 					angular_thrust = 64e5,
-					gun_mounts = 
+					gun_mounts =
 					{
 					{ v(0,-.7,-40), v(0,0,-1) },
 					{ v(0,-.7,25), v(0,0,1) },
@@ -1301,8 +1301,8 @@ define_model('eagle_mk2', {
         local v85 = v(-31,0,-25)
         local v86 = v(-31,0,9)
         local v50 = v(0,-3,-14)
-        local v51 = v(0,3,-14) 
-        
+        local v51 = v(0,3,-14)
+
         set_material('cutout', .6,.6,.6,.9,.3,.3,.3,50)
         set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
         -- collision mesh mk2 wingtips
@@ -1334,12 +1334,12 @@ define_model('eagle_mk2', {
 			call_model('nazzle_n', v51, v(1,0,0), v(0,1,0), .6)  -- tft
         	
 		end
-        
+
 		-- eagle mainpart
 		call_model('eagle_all', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 
         --eagle cv body
-		if lod > 1 then   
+		if lod > 1 then
 			call_model('eagle_mk2_body', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 		end
 
@@ -1385,7 +1385,7 @@ define_model('eagle_mk2', {
 	end,
 
 	dynamic = function(lod)
-   
+
         if lod > 2 then
             set_material('win', .5,.5,5,.2,1,1,1,100)
         else
@@ -1398,7 +1398,7 @@ define_model('eagle_mk3', {
  info = {
 			scale = 0.45,
 			lod_pixels = {.1,10,50,0},
-			bounding_radius = 15,
+			bounding_radius = 30,
    			materials={'chrome', 'e_glow', 'win', 'cutout'},
 			tags = {'ship'},
 			ship_defs = {
@@ -1411,7 +1411,7 @@ define_model('eagle_mk3', {
 					left_thrust = -8e5,
 					right_thrust = 8e5,
 					angular_thrust = 64e5,
-					gun_mounts = 
+					gun_mounts =
 					{
 					{ v(0,-.7,-40), v(0,0,-1) },
 					{ v(0,-.7,25), v(0,0,1) },
@@ -1435,7 +1435,7 @@ define_model('eagle_mk3', {
 
         set_material('cutout', .6,.6,.6,.9,.3,.3,.3,50)
         set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
-        -- collision mesh mk3 side engines    
+        -- collision mesh mk3 side engines
 		if lod == 1 then
 			xref_cylinder(3,v83+v(2,0,0), v81+v(2,0,0), v(0,1,0), 2)	
 		end
@@ -1466,7 +1466,7 @@ define_model('eagle_mk3', {
             circle(3*lod, v86+v(-2,0,-2), v(0,0,1), v(0,1,0), 1.9)
             circle(3*lod, v85+v(-2,0,2), v(0,0,-1), v(0,1,0), 1.9)
 		end
-        
+
         texture(nil)
 		if lod > 2 then
 			-- nazzles
@@ -1489,7 +1489,7 @@ define_model('eagle_mk3', {
 		call_model('eagle_all', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 
 		-- eagle cv body
-		if lod > 1 then   
+		if lod > 1 then
 			call_model('eagle_mk3_body', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 		end
 
@@ -1535,7 +1535,7 @@ define_model('eagle_mk3', {
 	end,
 
 	dynamic = function(lod)
-        set_material('e_glow', lerp_materials(get_arg(1)*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
+        set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
   		if lod > 2 then
             set_material('win', .5,.5,5,.2,1,1,1,100)
         else
@@ -1548,7 +1548,7 @@ define_model('eagle_mk4', {
  info = {
 			scale = 0.45,
 			lod_pixels = {.1,10,50,0},
-			bounding_radius = 15,
+			bounding_radius = 30,
    			materials={'chrome', 'cv2', 'e_glow', 'win', 'cutout'},
 			tags = {'ship'},
 			ship_defs = {
@@ -1561,7 +1561,7 @@ define_model('eagle_mk4', {
 					left_thrust = -12e5,
 					right_thrust = 12e5,
 					angular_thrust = 90e5,
-					gun_mounts = 
+					gun_mounts =
 					{
 					{ v(0,-.7,-40), v(0,0,-1) },
 					{ v(0,-.7,25), v(0,0,1) },
@@ -1591,7 +1591,7 @@ define_model('eagle_mk4', {
         local v83 = v(34.9,0,16)
         local v85 = v(-34.9,0,-16)
         local v86 = v(-34.9,0,16)
-        
+
 		set_material('cutout', .6,.6,.6,.9,.3,.3,.3,50)
 		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 		
@@ -1626,7 +1626,7 @@ define_model('eagle_mk4', {
 				end
 			flat(3*lod, v(0,0,-1), {v(4.5,-2,-6)}, {v(4,-6.2,-6), v(-4,-6.2,-6), v(-4.5,-2,-6)})
 		end
-        
+
 		texture(nil)
 		if lod > 2 then
 			-- nazzles
@@ -1695,31 +1695,31 @@ define_model('eagle_mk4', {
 
 	dynamic = function(lod)
         set_material('cv2', get_arg_material(1))
-  		set_material('e_glow', lerp_materials(get_arg(1)*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
+  		set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
 		if lod > 2 then
             set_material('win', .5,.5,5,.2,1,1,1,100)
         else
 		    set_material('win', .2,.2,.5,1,1,1,1,100)
         end
-        
+
         if lod > 1 then
         	-- missiles
 			local M_0 = v(28,-3,3)
 			local M_1 = v(-28,-3,3)
 	
-			if get_arg(14) == 32 then
+			if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_UNGUIDED then
 	            call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 	            call_model('d_unguided',M_0,v(1,0,0),v(0,1,0),3.5)
 	        else
-				if get_arg(14) == 33 then
+				if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_GUIDED then
 	                call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 					call_model('d_guided',M_0,v(1,0,0),v(0,1,0),3.5)
 	            else
-					if get_arg(14) == 34 then
+					if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_SMART then
 	                    call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 						call_model('d_smart',M_0,v(1,0,0),v(0,1,0),3.5)
 					else
-						if get_arg(14) == 35 then
+						if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_NAVAL then
 	                        call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 							call_model('d_naval',M_0,v(1,0,0),v(0,1,0),3.5)
 						end
@@ -1727,19 +1727,19 @@ define_model('eagle_mk4', {
 				end
 			end
 	
-			if get_arg(15) == 32 then
+			if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_UNGUIDED then
 	            call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 				call_model('d_unguided',M_1,v(1,0,0),v(0,1,0),3.5)
 	        else
-				if get_arg(15) == 33 then
+				if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_GUIDED then
 	                call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 					call_model('d_guided',M_1,v(1,0,0),v(0,1,0),3.831)
 	           	else
-					if get_arg(15) == 34 then
+					if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_SMART then
 	                    call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 						call_model('d_smart',M_1,v(1,0,0),v(0,1,0),3.5)
 	           		else
-						if get_arg(15) == 35 then
+						if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_NAVAL then
 	                        call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 							call_model('d_naval',M_1,v(1,0,0),v(0,1,0),3.5)
 						end

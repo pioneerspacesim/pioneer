@@ -114,7 +114,7 @@ define_model('peye', {
 	info = {
 			scale = 1,
 			lod_pixels = { 1, 20, 100, 0 },
-			bounding_radius = 25,
+			bounding_radius = 30,
 			tags = {'ship'},
 			ship_defs = {
 				{

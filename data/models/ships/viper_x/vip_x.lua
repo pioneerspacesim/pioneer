@@ -377,7 +377,7 @@ define_model('viper_x', {
 	info = {
 			scale = 1.0,
 			lod_pixels = { .1, 50, 100, 0 },
-   			bounding_radius = 20,
+			bounding_radius = 35,
 			materials = {'win', 'cv0', 'ncv', 'chrome', 'black', 'layer', 'glow1', 'glow2a',
 						'glow2b', 'glow2c', 'glow2d', 'glow2e', 'glow2f', 'e_glow', 'sc_glow', 'glow', 'pit_0', 'pit_1', 'light'},
 			tags = {'ship'},

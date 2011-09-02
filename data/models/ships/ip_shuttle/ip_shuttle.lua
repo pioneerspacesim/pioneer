@@ -112,7 +112,7 @@ define_model('ip_shuttle', {
 	info = 	{
         	scale = 1.8,
 	        lod_pixels = {5, 10, 50, 0},
-			bounding_radius = 8,
+			bounding_radius = 25,
 			materials = {'grey', 'win', 'alu', 'anth', 'matvar0', 'text', 'hole', 'dash_lit', 'projector'},
 			tags = {'ship'},
 			ship_defs = {

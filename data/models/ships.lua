@@ -69,7 +69,7 @@ define_model('nosewheel', {
 
 define_model('nosewheelunit', {
 	info = {
-			bounding_radius = 7,
+			bounding_radius = 9,
 			materials={'inside', 'matvar2'}
 		},
 	static = function(lod)
@@ -129,7 +129,7 @@ define_model('mainwheel', {
 
 define_model('mainwheelunit', {
 	info = {
-			bounding_radius = 7,
+			bounding_radius = 9,
 			materials={'inside','matvar2'}
 		},
 	static = function(lod)
@@ -165,7 +165,7 @@ define_model('ladybird', {
 	info = {
 	        scale = 0.8,
 			lod_pixels = {50,100,200,0},
-			bounding_radius = 26, --35
+			bounding_radius = 35,
 			materials={'white','engines','matvar0', 'matvar2',
 			'engine_inside','text'},
 			tags = {'ship'},
@@ -549,7 +549,7 @@ define_model('flowerfairy', {
 	info = {
 			scale=1.3,
 			lod_pixels = {25,50,0},
-			bounding_radius = 100,
+			bounding_radius = 60,
 			materials = {'matvar0','gray','text','engine_inside'},
 			tags = {'ship'},
 			ship_defs = {
@@ -701,7 +701,7 @@ define_model('interdictor', {
 	info = {
 			scale = 1.2,
 			lod_pixels = { 50, 100, 200, 0 },
-			bounding_radius = 50,
+			bounding_radius = 54,
 			materials = {'matvar0', 'matvar2', 'engine', 'engine_inside', 'cockpit', 'text'},
 			tags = {'ship'},
 			ship_defs = {

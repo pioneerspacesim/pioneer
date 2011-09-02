@@ -1,6 +1,6 @@
 define_model('boa_plate', {     
    	info = {
-			bounding_radius = 10,
+			bounding_radius = 14,
 			materials={'bsteel'},
         	},
 
@@ -23,7 +23,7 @@ define_model('boanosewheel', {
 			lod_pixels = {5,50,0},
 			this will be lod 3 = max. - max factor = 3 when used for div i.e.
    			--]]
-			bounding_radius = 7,
+			bounding_radius = 10,
 			materials={'leg','tyre'}
 		},
 	static = function(lod)
@@ -48,7 +48,7 @@ define_model('boanosewheel', {
 define_model('boamainwheel', {
 	info = {
 			lod_pixels = {5,10,20,0},
-			bounding_radius = 8,
+			bounding_radius = 7,
 			materials = {'leg', 'tyre'}
 		},
 	static = function(lod)
@@ -79,7 +79,7 @@ define_model('boamainwheel', {
 
 define_model('boa_recess', {     
 	info = {
-			bounding_radius = 10,
+			bounding_radius = 30,
         	},
     static = function(lod)
 		texture('boa.png')
@@ -89,7 +89,7 @@ define_model('boa_recess', {
 
 define_model('boa_bkflap', {     
    	info = {
-			bounding_radius = 10,
+			bounding_radius = 18,
         	},
    	static = function(lod)
 		texture('boa.png')
@@ -99,7 +99,7 @@ define_model('boa_bkflap', {
 
 define_model('boa_frflap', {     
    	info = {
-			bounding_radius = 10,
+			bounding_radius = 28,
         	},
   	static = function(lod)
 		texture('boa.png')
@@ -111,7 +111,7 @@ define_model('boa', {
 		info = {
                 scale = 1.34,
 				lod_pixels={.1,50,200,0},
-				bounding_radius = 70, -- "scale" for lod calculation, bounding box in preview and closest zoom limit
+				bounding_radius = 72, -- "scale" for lod calculation, bounding box in preview and closest zoom limit
                 materials={'steel', 'body', 'glow', 'wing', 'darksteel', 'glass', 'inside', 'text1'},
 				tags = { 'ship' },
                 ship_defs = {

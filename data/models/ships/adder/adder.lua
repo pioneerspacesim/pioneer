@@ -1,7 +1,7 @@
 define_model('adder_uc_cage', {
 	info = {
 			lod_pixels = {1,10,100,0},
-			bounding_radius = 3,
+			bounding_radius = 14.2,
 			materials = {'metal'},
 			},
 	static = function(lod)
@@ -19,7 +19,7 @@ define_model('adder_uc_cage', {
 define_model('adder_piston_f', {
 	info = {
 			lod_pixels = {1,5,10,0},
-			bounding_radius = 2,
+			bounding_radius = 8,
 			materials = {'chrome'}
             },
 	static = function(lod)
@@ -41,7 +41,7 @@ define_model('adder_piston_f', {
 define_model('adder_piston_r', {
 	info = {
 			lod_pixels = {1,5,10,0},
-			bounding_radius = 2,
+			bounding_radius = 8,
 			materials = {'chrome'}
             },
 	static = function(lod)
@@ -63,7 +63,7 @@ define_model('adder_piston_r', {
 define_model('adder_f_wheel', {
 	info = {
 			lod_pixels = {1,10,100,0},
-			bounding_radius = 3,
+			bounding_radius = 1,
 			materials = {'tire'},
 			},
 	static = function(lod)
@@ -79,7 +79,7 @@ define_model('adder_f_wheel', {
 define_model('adder_uc_f', {
 	info = {
 			lod_pixels = {1,10,100,0},
-			bounding_radius = 3,
+			bounding_radius = 3.3,
 			materials = {'non_cv'},
 			},
 	static = function(lod)
@@ -97,7 +97,7 @@ define_model('adder_uc_f', {
 define_model('adder_r_wheel', {
 	info = {
 			lod_pixels = {1,10,100,0},
-			bounding_radius = 3,
+			bounding_radius = 5,
 			materials = {'tire'},
 			},
 	static = function(lod)
@@ -114,7 +114,7 @@ define_model('adder_r_wheel', {
 define_model('adder_uc_r', {
 	info = {
 			lod_pixels = {1,10,100,0},
-			bounding_radius = 3,
+			bounding_radius = 6.1,
 			materials = {'non_cv'},
 			},
 	static = function(lod)
@@ -133,7 +133,7 @@ define_model('adder_uc_r', {
 define_model('adder_f_flap', {
 	info = {
 			lod_pixels = {1,10,100,0},
-			bounding_radius = 3,
+			bounding_radius = 2.2,
 			},
 	static = function(lod)
     	if lod > 3 then
@@ -148,7 +148,7 @@ define_model('adder_f_flap', {
 define_model('adder_rl_flap1', {
 	info = {
 			lod_pixels = {1,10,100,0},
-			bounding_radius = 3,
+			bounding_radius = 2.2,
 			},
 	static = function(lod)
     	if lod > 3 then
@@ -163,7 +163,7 @@ define_model('adder_rl_flap1', {
 define_model('adder_rl_flap2', {
 	info = {
 			lod_pixels = {1,10,100,0},
-			bounding_radius = 3,
+			bounding_radius = 2.2,
 			},
 	static = function(lod)
     	if lod > 3 then
@@ -178,7 +178,7 @@ define_model('adder_rl_flap2', {
 define_model('adder_rr_flap1', {
 	info = {
 			lod_pixels = {1,10,100,0},
-			bounding_radius = 3,
+			bounding_radius = 2.2,
 			},
 	static = function(lod)
     	if lod > 3 then
@@ -193,7 +193,7 @@ define_model('adder_rr_flap1', {
 define_model('adder_rr_flap2', {
 	info = {
 			lod_pixels = {1,10,100,0},
-			bounding_radius = 3,
+			bounding_radius = 2.2,
 			},
 	static = function(lod)
     	if lod > 3 then
@@ -230,7 +230,7 @@ define_model('adder_gun', {
 define_model('adder_sub', {
 	info = {
 	        lod_pixels = {5,30,200,0},
-			bounding_radius = 30,
+			bounding_radius = 34,
 			materials = {'text', 'head', 'body', 'non_cv', 'metal', 'chrome', 'matte', 'glow1', 'e_glow', 'wins', 'black', 'scoop'},
 			},
 			
@@ -518,11 +518,11 @@ define_model('adder_sub', {
 		end
 	
 		if lod > 2 then
-            selector3()
-            use_material('head')
+			selector3()
+			use_material('head')
 			if select3 < 51 then
 				if get_arg(7) == 37 then
-                	call_model('ecm_1',v(4.5,-2.43,-16), v(-1,0,0),v(0,-1,0),1)
+					call_model('ecm_1',v(4.5,-2.43,-16), v(-1,0,0),v(0,-1,0),1)
 				end
 				if get_arg(7) == 39 then
 					call_model('ecm_2',v(4.5,-2.43,-16), v(-1,0,0),v(0,-1,0),1)
@@ -547,21 +547,12 @@ define_model('adder_sub', {
 			zbias(0)
 		end
 		
-		if get_arg(10) >= 62 then
-			if get_arg(10) == 63 then
+		if get_arg(10) >= 60 then
+			if get_arg(10) == Equip.PULSECANNON_DUAL_1MW then
 			   call_model('adder_gun',v(3.5,0,0),v(1,0,0),v(0,1,0),1)
 			   call_model('adder_gun',v(-3.5,0,0),v(1,0,0),v(0,1,0),1)
 			else
 			   call_model('adder_gun',v(0,0,0),v(1,0,0),v(0,1,0),1) 				   
-			end		
-		end
-		
-		if get_arg(11) >= 62 then
-			if get_arg(11) == 63 then
-			   call_model('adder_gun',v(3.5,0,0),v(1,0,0),v(0,1,0),1)
-			   call_model('adder_gun',v(-3.5,0,0),v(1,0,0),v(0,1,0),1)
-			else
-			   call_model('adder_gun',v(0,0,0),v(1,0,0),v(0,1,0),1) 							   
 			end		
 		end
 	end
@@ -571,7 +562,7 @@ define_model('adder', {
 	info = {
 			scale = 1.3,
 			lod_pixels = {.1,30,100,0},
-			bounding_radius = 27,
+			bounding_radius = 36,
             tags = {'ship'},
    			ship_defs = {
 				{
@@ -589,7 +580,7 @@ define_model('adder', {
 					{ v(0,-2,9), v(0,0,1) },
 					},
 					max_cargo = 50,
-					max_laser = 2,
+					max_laser = 1,
 					max_missile = 2,
 					capacity = 50,
 					hull_mass = 40,
