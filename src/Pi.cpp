@@ -599,10 +599,13 @@ void Pi::HandleEvents()
                             Pi::showDebugInfo = !Pi::showDebugInfo;
                             break;
                         case SDLK_m:  // Gimme money!
-                            Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
+                            if(Pi::IsGameStarted()) {
+                            	Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
+			    }
                             break;
                         case SDLK_F12:
                         {
+                            if(Pi::IsGameStarted()) {
                             matrix4x4d m; Pi::player->GetRotMatrix(m);
                             vector3d dir = m*vector3d(0,0,-1);
                             /* add test object */
@@ -647,6 +650,7 @@ void Pi::HandleEvents()
                                 ship->UpdateMass();
                                 Space::AddBody(ship);
                             }
+			    }
                             break;
                         }
 #endif /* DEVKEYS */
