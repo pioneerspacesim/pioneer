@@ -63,7 +63,12 @@ private:
 	void DestroyVBOs();
 	
 	vector3d m_tempCampos;
+
+	SDL_mutex *m_updateLock;
 	int m_runUpdateThread;
+
+	SDL_mutex *m_abortLock;
+	bool m_abort;
 	//////////////////////////////
 
 	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) {

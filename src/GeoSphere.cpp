@@ -899,6 +899,11 @@ public:
 	}
 
 	void LODUpdate(vector3d &campos) {
+		SDL_mutexP(geosphere->m_abortLock);
+		bool abort = geosphere->m_abort;
+		SDL_mutexV(geosphere->m_abortLock);
+		if (abort)
+			return;
 				
 		vector3d centroid = (v[0]+v[1]+v[2]+v[3]).Normalized();
 		centroid = (1.0 + geosphere->GetHeight(centroid)) * centroid;
@@ -991,11 +996,13 @@ int GeoSphere::UpdateLODThread(void *data)
 {
 	for(;;) {
 		SDL_mutexP(s_allGeospheresLock);
-		for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
-				i != s_allGeospheres.end(); ++i) {
+		std::list<GeoSphere*> geospheres = s_allGeospheres;
+		SDL_mutexV(s_allGeospheresLock);
+
+		for(std::list<GeoSphere*>::iterator i = geospheres.begin();
+				i != geospheres.end(); ++i) {
 			if ((*i)->m_runUpdateThread) (*i)->_UpdateLODs();
 		}
-		SDL_mutexV(s_allGeospheresLock);
 
 		SDL_Delay(10);
 	}
@@ -1005,10 +1012,12 @@ int GeoSphere::UpdateLODThread(void *data)
 
 void GeoSphere::_UpdateLODs()
 {
+	SDL_mutexP(m_updateLock);
 	for (int i=0; i<6; i++) {
 		m_patches[i]->LODUpdate(m_tempCampos);
 	}
 	m_runUpdateThread = 0;
+	SDL_mutexV(m_updateLock);
 }
 
 /* This is to stop threads keeping on iterating over the s_allGeospheres list,
@@ -1052,6 +1061,16 @@ void GeoSphere::OnChangeDetailLevel()
 	SDL_mutexP(s_allGeospheresLock);
 	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
 			i != s_allGeospheres.end(); ++i) {
+		SDL_mutexP((*i)->m_abortLock);
+		(*i)->m_abort = true;
+		SDL_mutexV((*i)->m_abortLock);
+	}
+	SDL_mutexV(s_allGeospheresLock);
+
+	SDL_mutexP(s_allGeospheresLock);
+	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
+			i != s_allGeospheres.end(); ++i) {
+		SDL_mutexP((*i)->m_updateLock);
 		for (int p=0; p<6; p++) {
 			if ((*i)->m_patches[p]) {
 				delete (*i)->m_patches[p];
@@ -1059,6 +1078,8 @@ void GeoSphere::OnChangeDetailLevel()
 			}
 			(*i)->m_style.ChangeDetailLevel();
 		}
+		(*i)->m_abort = false;
+		SDL_mutexV((*i)->m_updateLock);
 	}
 	SDL_mutexV(s_allGeospheresLock);
 }
@@ -1072,6 +1093,10 @@ GeoSphere::GeoSphere(const SBody *body): m_style(body)
 	m_sbody = body;
 	memset(m_patches, 0, 6*sizeof(GeoPatch*));
 
+	m_updateLock = SDL_CreateMutex();
+	m_abortLock = SDL_CreateMutex();
+	m_abort = false;
+
 	SDL_mutexP(s_allGeospheresLock);
 	s_allGeospheres.push_back(this);
 	SDL_mutexV(s_allGeospheresLock);
@@ -1079,9 +1104,19 @@ GeoSphere::GeoSphere(const SBody *body): m_style(body)
 
 GeoSphere::~GeoSphere()
 {
+	SDL_mutexP(m_abortLock);
+	m_abort = true;
+	SDL_mutexV(m_abortLock);
+
+	SDL_mutexP(m_updateLock);
+	SDL_mutexV(m_updateLock);
+
 	SDL_mutexP(s_allGeospheresLock);
 	s_allGeospheres.remove(this);
 	SDL_mutexV(s_allGeospheresLock);
+
+	SDL_DestroyMutex(m_abortLock);
+	SDL_DestroyMutex(m_updateLock);
 
 	for (int i=0; i<6; i++) if (m_patches[i]) delete m_patches[i];
 	DestroyVBOs();
