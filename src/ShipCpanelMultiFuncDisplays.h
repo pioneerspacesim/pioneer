@@ -55,8 +55,12 @@ public:
 	void Draw();
 	virtual void Update() {}
 private:
+	void UpdateContactsAndScale();
 	void DrawBlobs(bool below);
 	void DrawDistanceRings();
+
+	std::list<Body*> m_contacts;
+	float m_scale;
 };
 
 class UseEquipWidget: public IMultiFunc, public Gui::Fixed {

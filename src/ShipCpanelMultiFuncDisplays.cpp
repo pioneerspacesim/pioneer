@@ -11,7 +11,8 @@
 #include "Lang.h"
 #include "StringF.h"
 
-#define SCANNER_SCALE	0.01f
+#define SCANNER_RANGE	100000.0
+#define SCANNER_SCALE	0.00027f
 #define SCANNER_YSHRINK 0.75f
 
 MsgLogWidget::MsgLogWidget()
@@ -94,6 +95,8 @@ void ScannerWidget::Draw()
 {
 	if (Pi::player->m_equipment.Get(Equip::SLOT_SCANNER) != Equip::SCANNER) return;
 
+	UpdateContactsAndScale();
+
 	float size[2];
 	GetSize(size);
 	const float mx = size[0]*0.5f;
@@ -103,8 +106,9 @@ void ScannerWidget::Draw()
 	Gui::Screen::GetCoords2Pixels(c2p);
 	
 	// draw objects below player (and below scanner)
-	DrawBlobs(true);
-	/* disc */
+	if (!m_contacts.empty()) DrawBlobs(true);
+
+	// disc
 	glEnable(GL_BLEND);
 	glColor4f(0,1,0,0.1);
 	glBegin(GL_TRIANGLE_FAN);
@@ -115,7 +119,8 @@ void ScannerWidget::Draw()
 	glVertex2f(mx, my + SCANNER_YSHRINK*my);
 	glEnd();
 	glDisable(GL_BLEND);
-	
+
+	// circles and spokes
 	glLineWidth(1);
 	glColor3f(0,.4,0);
 	DrawDistanceRings();
@@ -132,10 +137,42 @@ void ScannerWidget::Draw()
 	DrawDistanceRings();
 	glPopMatrix();
 	glDisable(GL_BLEND);
-	DrawBlobs(false);
+
+	// objects above
+	if (!m_contacts.empty()) DrawBlobs(false);
+
 	Widget::EndClipping();
 	glLineWidth(1.0f);
 	glPointSize(1.0f);
+
+	m_contacts.clear();
+}
+
+void ScannerWidget::UpdateContactsAndScale()
+{
+	// collect the bodies to be displayed
+	double farthest = 0.0;
+	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+		if ((*i) == Pi::player ||
+			((!(*i)->IsType(Object::SHIP)) &&
+		    (!(*i)->IsType(Object::CARGOBODY)))) continue;
+			// XXX could add missiles and maybe orbital stations
+
+		double dist = (*i)->GetPositionRelTo(Pi::player).Length();
+		if (dist > SCANNER_RANGE) continue;
+
+		m_contacts.push_back(*i);
+
+		// the farthest ship in scanner range is used to set the scale
+		if ((*i)->IsType(Object::SHIP) && dist > farthest) farthest = dist;
+	}
+
+	// set the scale - smaller means drawn closer together
+	// XXX if a longer range scanner is implemented this will need work
+	if (farthest < SCANNER_RANGE / 27.0) m_scale = SCANNER_SCALE;
+	else if (farthest < SCANNER_RANGE / 9.0) m_scale = SCANNER_SCALE / 3.0f;
+	else if (farthest < SCANNER_RANGE / 3.0) m_scale = SCANNER_SCALE / 9.0f;
+	else m_scale = SCANNER_SCALE / 27.0f;
 }
 
 void ScannerWidget::DrawBlobs(bool below)
@@ -146,12 +183,10 @@ void ScannerWidget::DrawBlobs(bool below)
 	float my = size[1]*0.5f;
 	glLineWidth(2);
 	glPointSize(4);
-	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
-		if ((*i) == Pi::player) continue;
-		if ((!(*i)->IsType(Object::SHIP)) &&
-		    (!(*i)->IsType(Object::CARGOBODY))) continue;
+	for (std::list<Body*>::iterator i = m_contacts.begin(); i != m_contacts.end(); ++i) {
 		switch ((*i)->GetType()) {
-			case Object::SHIP: glColor3f(1,0,0); break;
+			case Object::SHIP:
+				glColor3f(1,0,0); break;
 			case Object::CARGOBODY:
 				glColor3f(.5,.5,1); break;
 			default: continue;
@@ -166,16 +201,17 @@ void ScannerWidget::DrawBlobs(bool below)
 			if ((pos.y<0)&&(!below)) continue;
 
 			glBegin(GL_LINES);
-			glVertex2f(mx + float(pos.x)*SCANNER_SCALE, my + SCANNER_YSHRINK*float(pos.z)*SCANNER_SCALE);
-			glVertex2f(mx + float(pos.x)*SCANNER_SCALE, my + SCANNER_YSHRINK*float(pos.z)*SCANNER_SCALE - SCANNER_YSHRINK*float(pos.y)*SCANNER_SCALE);
+			glVertex2f(mx + mx*float(pos.x)*m_scale, my + my*SCANNER_YSHRINK*float(pos.z)*m_scale);
+			glVertex2f(mx + mx*float(pos.x)*m_scale, my + my*SCANNER_YSHRINK*float(pos.z)*m_scale - my*SCANNER_YSHRINK*float(pos.y)*m_scale);
 			glEnd();
 			
 			glBegin(GL_POINTS);
-			glVertex2f(mx + float(pos.x)*SCANNER_SCALE, my + SCANNER_YSHRINK*float(pos.z)*SCANNER_SCALE - SCANNER_YSHRINK*float(pos.y)*SCANNER_SCALE);
+			glVertex2f(mx + mx*float(pos.x)*m_scale, my + my*SCANNER_YSHRINK*float(pos.z)*m_scale - my*SCANNER_YSHRINK*float(pos.y)*m_scale);
 			glEnd();
 		}
 	}
 }
+
 void ScannerWidget::DrawDistanceRings()
 {
 	float size[2];
@@ -236,7 +272,7 @@ void UseEquipWidget::UpdateEquip()
 	int numSlots = Pi::player->m_equipment.GetSlotSize(Equip::SLOT_MISSILE);
 
 	if (numSlots) {
-		float spacing = 380.0 / numSlots;
+		float spacing = 380.0f / numSlots;
 
 		for (int i=0; i<numSlots; i++) {
 			const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_MISSILE, i);
@@ -320,6 +356,7 @@ void MultiFuncSelectorWidget::OnClickButton(multifuncfunc_t f)
 	UpdateButtons();
 	onSelect.emit(f);
 }
+
 void MultiFuncSelectorWidget::UpdateButtons()
 {
 	RemoveAllChildren();
@@ -328,4 +365,3 @@ void MultiFuncSelectorWidget::UpdateButtons()
 		Add(m_buttons[i], 36.0f+36.0f*float(i), 0.0);
 	}
 }
-
