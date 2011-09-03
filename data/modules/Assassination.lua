@@ -141,6 +141,7 @@ local makeAdvert = function (station)
 		"Lawyer",
 		"Lieutenant",
 		"Marshal",
+		"Merchant",
 		"Officer",
 		"Private",
 		"Professor",
