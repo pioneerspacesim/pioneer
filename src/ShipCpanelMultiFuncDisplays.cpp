@@ -206,15 +206,17 @@ void ScannerWidget::DrawBlobs(bool below)
 		if ((pos.y>0)&&(below)) continue;
 		if ((pos.y<0)&&(!below)) continue;
 
+		float x = mx + mx*float(pos.x)*m_scale;
+		float y_base = my + my*SCANNER_YSHRINK*float(pos.z)*m_scale;
+		float y_blob = y_base - my*SCANNER_YSHRINK*float(pos.y)*m_scale;
+
 		glBegin(GL_LINES);
-		glVertex2f(mx + mx*float(pos.x)*m_scale, my + my*SCANNER_YSHRINK*float(pos.z)*m_scale);
-		glVertex2f(mx + mx*float(pos.x)*m_scale,
-			my + my*SCANNER_YSHRINK*float(pos.z)*m_scale - my*SCANNER_YSHRINK*float(pos.y)*m_scale);
+		glVertex2f(x, y_base);
+		glVertex2f(x, y_blob);
 		glEnd();
 
 		glBegin(GL_POINTS);
-		glVertex2f(mx + mx*float(pos.x)*m_scale,
-			my + my*SCANNER_YSHRINK*float(pos.z)*m_scale - my*SCANNER_YSHRINK*float(pos.y)*m_scale);
+		glVertex2f(x, y_blob);
 		glEnd();
 	}
 }
