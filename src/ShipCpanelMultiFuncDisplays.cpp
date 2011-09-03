@@ -151,7 +151,7 @@ void ScannerWidget::Draw()
 void ScannerWidget::UpdateContactsAndScale()
 {
 	// collect the bodies to be displayed
-	double farthest = 0.0;
+	double farthest_ship, farthest_other = 0.0;
 	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 		if ((*i) == Pi::player ||
 			((!(*i)->IsType(Object::SHIP)) &&
@@ -163,10 +163,16 @@ void ScannerWidget::UpdateContactsAndScale()
 
 		m_contacts.push_back(*i);
 
-		// the farthest ship in scanner range is used to set the scale
-		if ((*i)->IsType(Object::SHIP) && dist > farthest) farthest = dist;
+		if ((*i)->IsType(Object::SHIP)) {
+			if (dist > farthest_ship) farthest_ship = dist;
+		} else {
+			if (dist > farthest_other) farthest_other = dist;
+		}
 	}
 
+	// the farthest ship in scanner range is used to set the scale
+	// unless there are none in which case the farthest contact
+	double farthest = farthest_ship > 0 ? farthest_ship : farthest_other
 	// set the scale - smaller means drawn closer together
 	// XXX if a longer range scanner is implemented this will need work
 	if (farthest < SCANNER_RANGE / 27.0) m_scale = SCANNER_SCALE;
@@ -202,11 +208,13 @@ void ScannerWidget::DrawBlobs(bool below)
 
 			glBegin(GL_LINES);
 			glVertex2f(mx + mx*float(pos.x)*m_scale, my + my*SCANNER_YSHRINK*float(pos.z)*m_scale);
-			glVertex2f(mx + mx*float(pos.x)*m_scale, my + my*SCANNER_YSHRINK*float(pos.z)*m_scale - my*SCANNER_YSHRINK*float(pos.y)*m_scale);
+			glVertex2f(mx + mx*float(pos.x)*m_scale,
+				my + my*SCANNER_YSHRINK*float(pos.z)*m_scale - my*SCANNER_YSHRINK*float(pos.y)*m_scale);
 			glEnd();
 			
 			glBegin(GL_POINTS);
-			glVertex2f(mx + mx*float(pos.x)*m_scale, my + my*SCANNER_YSHRINK*float(pos.z)*m_scale - my*SCANNER_YSHRINK*float(pos.y)*m_scale);
+			glVertex2f(mx + mx*float(pos.x)*m_scale,
+				my + my*SCANNER_YSHRINK*float(pos.z)*m_scale - my*SCANNER_YSHRINK*float(pos.y)*m_scale);
 			glEnd();
 		}
 	}
