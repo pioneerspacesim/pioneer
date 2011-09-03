@@ -197,26 +197,25 @@ void ScannerWidget::DrawBlobs(bool below)
 				glColor3f(.5,.5,1); break;
 			default: continue;
 		}
-		if ((*i)->GetFrame() == Pi::player->GetFrame()) {
-			vector3d pos = (*i)->GetPosition() - Pi::player->GetPosition();
-			matrix4x4d rot;
-			Pi::player->GetRotMatrix(rot);
-			pos = rot.InverseOf() * pos;
 
-			if ((pos.y>0)&&(below)) continue;
-			if ((pos.y<0)&&(!below)) continue;
+		vector3d pos = (*i)->GetPositionRelTo(Pi::player);
+		matrix4x4d rot;
+		Pi::player->GetRotMatrix(rot);
+		pos = rot.InverseOf() * pos;
 
-			glBegin(GL_LINES);
-			glVertex2f(mx + mx*float(pos.x)*m_scale, my + my*SCANNER_YSHRINK*float(pos.z)*m_scale);
-			glVertex2f(mx + mx*float(pos.x)*m_scale,
-				my + my*SCANNER_YSHRINK*float(pos.z)*m_scale - my*SCANNER_YSHRINK*float(pos.y)*m_scale);
-			glEnd();
-			
-			glBegin(GL_POINTS);
-			glVertex2f(mx + mx*float(pos.x)*m_scale,
-				my + my*SCANNER_YSHRINK*float(pos.z)*m_scale - my*SCANNER_YSHRINK*float(pos.y)*m_scale);
-			glEnd();
-		}
+		if ((pos.y>0)&&(below)) continue;
+		if ((pos.y<0)&&(!below)) continue;
+
+		glBegin(GL_LINES);
+		glVertex2f(mx + mx*float(pos.x)*m_scale, my + my*SCANNER_YSHRINK*float(pos.z)*m_scale);
+		glVertex2f(mx + mx*float(pos.x)*m_scale,
+			my + my*SCANNER_YSHRINK*float(pos.z)*m_scale - my*SCANNER_YSHRINK*float(pos.y)*m_scale);
+		glEnd();
+
+		glBegin(GL_POINTS);
+		glVertex2f(mx + mx*float(pos.x)*m_scale,
+			my + my*SCANNER_YSHRINK*float(pos.z)*m_scale - my*SCANNER_YSHRINK*float(pos.y)*m_scale);
+		glEnd();
 	}
 }
 
