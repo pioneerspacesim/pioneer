@@ -151,7 +151,7 @@ void ScannerWidget::Draw()
 void ScannerWidget::UpdateContactsAndScale()
 {
 	// collect the bodies to be displayed
-	double farthest_ship, farthest_other = 0.0;
+	double farthest_ship = 0.0, farthest_other = 0.0;
 	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 		if ((*i) == Pi::player ||
 			((!(*i)->IsType(Object::SHIP)) &&
@@ -172,7 +172,7 @@ void ScannerWidget::UpdateContactsAndScale()
 
 	// the farthest ship in scanner range is used to set the scale
 	// unless there are none in which case the farthest contact
-	double farthest = farthest_ship > 0 ? farthest_ship : farthest_other
+	double farthest = farthest_ship > 0 ? farthest_ship : farthest_other;
 	// set the scale - smaller means drawn closer together
 	// XXX if a longer range scanner is implemented this will need work
 	if (farthest < SCANNER_RANGE / 27.0) m_scale = SCANNER_SCALE;
