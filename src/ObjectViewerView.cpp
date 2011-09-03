@@ -165,7 +165,7 @@ void ObjectViewerView::OnChangeGeoSphereStyle()
 	Body *body = Pi::player->GetNavTarget();
 	if (body->IsType(Object::PLANET)) {
 		Planet *planet = static_cast<Planet*>(body);
-		GeoSphere *gs = planet->m_geosphere;
+		GeoSphere *gs = planet->GetGeoSphere();
 		gs->m_style = GeoSphereStyle(&sbody);
 		// force rebuild
 		gs->OnChangeDetailLevel();

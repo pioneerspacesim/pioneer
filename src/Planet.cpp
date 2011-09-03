@@ -30,70 +30,11 @@ float white[4] = { 1, 1, 1, 1 };
 
 Planet::Planet(): TerrainBody()
 {
-	pos = vector3d(0,0,0);
-	this->sbody = 0;
-	this->m_geosphere = 0;
 }
 
-Planet::Planet(SBody *sbody_): TerrainBody(sbody_)
+Planet::Planet(SBody *sbody): TerrainBody(sbody)
 {
-	pos = vector3d(0,0,0);
-	this->sbody = sbody_;
-	this->m_geosphere = 0;
-	Init();
 	m_hasDoubleFrame = true;
-}
-
-void Planet::Init()
-{
-	InitTerrainBody();
-	m_mass = sbody->GetMass();
-	if (!m_geosphere) {
-		m_geosphere = new GeoSphere(sbody);
-	}
-}
-
-bool Planet::IsSuperType(SBody::BodySuperType t) const
-{
-	if (!sbody) return false;
-	else return sbody->GetSuperType() == t;
-}
-	
-void Planet::Save(Serializer::Writer &wr)
-{
-	Body::Save(wr);
-	wr.Vector3d(pos);
-	wr.Int32(Serializer::LookupSystemBody(sbody));
-}
-
-void Planet::Load(Serializer::Reader &rd)
-{
-	Body::Load(rd);
-	pos = rd.Vector3d();
-	sbody = Serializer::LookupSystemBody(rd.Int32());
-	Init();
-}
-
-Planet::~Planet()
-{
-	if (m_geosphere) delete m_geosphere;
-}
-
-double Planet::GetBoundingRadius() const
-{
-	// needs to include all terrain so culling works {in the future},
-	// and size of rotating frame is correct
-	return sbody->GetRadius() * (1.1+m_geosphere->GetMaxFeatureHeight());
-}
-
-vector3d Planet::GetPosition() const
-{
-	return pos;
-}
-
-void Planet::SetPosition(vector3d p)
-{
-	pos = p;
 }
 
 /*
@@ -104,9 +45,9 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 {
 	Color c;
 	double surfaceDensity;
-	double atmosDist = dist/(sbody->GetRadius()*ATMOSPHERE_RADIUS);
+	double atmosDist = dist/(GetSBody()->GetRadius()*ATMOSPHERE_RADIUS);
 	
-	m_geosphere->GetAtmosphereFlavor(&c, &surfaceDensity);
+	GetGeoSphere()->GetAtmosphereFlavor(&c, &surfaceDensity);
 	// kg / m^3
 	// exp term should be the same as in AtmosLengthDensityProduct GLSL function
 	*outDensity = 1.15*surfaceDensity * exp(-500.0 * (atmosDist - (2.0 - ATMOSPHERE_RADIUS)));
@@ -115,18 +56,7 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	const double GAS_CONSTANT = 8.314;
 	const double KPA_2_ATMOS = 1.0 / 101.325;
 	// atmospheres
-	*outPressure = KPA_2_ATMOS*(*outDensity/GAS_MOLAR_MASS)*GAS_CONSTANT*double(sbody->averageTemp);
-}
-
-double Planet::GetTerrainHeight(const vector3d pos_) const
-{
-	double radius = sbody->GetRadius();
-	if (m_geosphere) {
-		return radius * (1.0 + m_geosphere->GetHeight(pos_));
-	} else {
-		assert(0);
-		return radius;
-	}
+	*outPressure = KPA_2_ATMOS*(*outDensity/GAS_MOLAR_MASS)*GAS_CONSTANT*double(GetSBody()->averageTemp);
 }
 
 struct GasGiantDef_t {
@@ -231,7 +161,7 @@ void Planet::DrawGasGiantRings()
 	glDisable(GL_CULL_FACE);
 
 //	MTRand rng((int)Pi::GetGameTime());
-	MTRand rng(sbody->seed+965467);
+	MTRand rng(GetSBody()->seed+965467);
 	float col[4];
 
 	double noiseOffset = 256.0*rng.Double();
@@ -349,79 +279,7 @@ void Planet::DrawAtmosphere(vector3d &apos)
 {
 	Color c;
 	double density;
-	m_geosphere->GetAtmosphereFlavor(&c, &density);
+	GetGeoSphere()->GetAtmosphereFlavor(&c, &density);
 	
 	_DrawAtmosphere(0.999, 1.05, apos, c);
 }
-
-void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
-{
-	matrix4x4d ftran = viewTransform;
-	vector3d fpos = viewCoords;
-	double rad = sbody->GetRadius();
-
-	float znear, zfar;
-	Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
-
-	double len = fpos.Length();
-	int shrink = 0;
-	double scale = 1.0f;
-
-	double dist_to_horizon;
-	for (;;) {
-		if (len < rad) break;		// player inside radius case
-		dist_to_horizon = sqrt(len*len - rad*rad);
-
-		if (dist_to_horizon < zfar*0.5) break;
-
-		rad *= 0.25;
-		fpos = 0.25*fpos;
-		len *= 0.25;
-		scale *= 4.0f;
-		shrink++;
-	}
-	//if (GetLabel() == "Earth") printf("Horizon %fkm, shrink %d\n", dist_to_horizon*0.001, shrink);
-
-	glPushMatrix();		// initial matrix is actually identity after a long chain of wtf
-//	glTranslatef(float(fpos.x), float(fpos.y), float(fpos.z));
-	glColor3f(1,1,1);
-
-	{
-		vector3d campos = fpos;
-		ftran.ClearToRotOnly();
-		campos = ftran.InverseOf() * campos;
-		glMultMatrixd(&ftran[0]);
-		glEnable(GL_NORMALIZE);
-		glScaled(rad, rad, rad);			// rad = real_rad / scale
-		campos = campos * (1.0/rad);		// position of camera relative to planet "model"
-
-		// translation not applied until patch render to fix jitter
-		m_geosphere->Render(-campos, sbody->GetRadius(), scale);
-		glTranslated(campos.x, campos.y, campos.z);
-
-		if (sbody->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings();
-		
-		if (!Render::AreShadersEnabled()) DrawAtmosphere(campos);
-		
-		glDisable(GL_NORMALIZE);
-		
-		// if not using shader then z-buffer precision is hopeless and
-		// we can't place objects on the terrain without awful z artifacts
-		if (shrink || !Render::AreShadersEnabled()) {
-			glClear(GL_DEPTH_BUFFER_BIT);
-		}
-	}
-	glPopMatrix();
-}
-
-void Planet::SetFrame(Frame *f)
-{
-	if (GetFrame()) {
-		GetFrame()->SetPlanetGeom(0, 0);
-	}
-	Body::SetFrame(f);
-	if (f) {
-		GetFrame()->SetPlanetGeom(0, 0);
-	}
-}
-
