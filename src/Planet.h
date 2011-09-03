@@ -1,7 +1,7 @@
 #ifndef _PLANET_H
 #define _PLANET_H
 
-#include "Body.h"
+#include "TerrainBody.h"
 // only for SBody::BodySuperType enum...
 #include "StarSystem.h"
 
@@ -9,9 +9,9 @@ class Frame;
 class SBody;
 class GeoSphere;
 
-class Planet: public Body {
+class Planet: public TerrainBody {
 public:
-	OBJDEF(Planet, Body, PLANET);
+	OBJDEF(Planet, TerrainBody, PLANET);
 	Planet(SBody*);
 	Planet();
 	virtual ~Planet();

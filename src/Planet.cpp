@@ -28,14 +28,14 @@ float blue[4] = { .2f, .2f, 1, 1 };
 float green[4] = { .2f, .8f, .2f, 1 };
 float white[4] = { 1, 1, 1, 1 };
 
-Planet::Planet(): Body()
+Planet::Planet(): TerrainBody()
 {
 	pos = vector3d(0,0,0);
 	this->sbody = 0;
 	this->m_geosphere = 0;
 }
 
-Planet::Planet(SBody *sbody_): Body()
+Planet::Planet(SBody *sbody_): TerrainBody(sbody_)
 {
 	pos = vector3d(0,0,0);
 	this->sbody = sbody_;
@@ -46,6 +46,7 @@ Planet::Planet(SBody *sbody_): Body()
 
 void Planet::Init()
 {
+	InitTerrainBody();
 	m_mass = sbody->GetMass();
 	if (!m_geosphere) {
 		m_geosphere = new GeoSphere(sbody);

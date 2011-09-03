@@ -1,16 +1,16 @@
 #ifndef _STAR_H
 #define _STAR_H
 
-#include "Body.h"
+#include "TerrainBody.h"
 #include "StarSystem.h"
 
 class Frame;
 
-class Star: public Body {
+class Star: public TerrainBody {
 public:
-	OBJDEF(Star, Body, STAR);
+	OBJDEF(Star, TerrainBody, STAR);
 	Star(SBody *sbody);
-	Star() {}
+	Star();
 	virtual ~Star() {};
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition() const;

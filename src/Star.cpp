@@ -5,11 +5,18 @@
 #include "Serializer.h"
 #include "render/Render.h"
 
-Star::Star(SBody *sbody): Body()
+Star::Star(SBody *sbody): TerrainBody(sbody)
 {
 	m_sbody = sbody;
 	radius = sbody->GetRadius();
 	mass = sbody->GetMass();
+	pos = vector3d(0,0,0);
+}
+
+Star::Star() : TerrainBody()
+{
+	radius = 0;
+	mass = 0;
 	pos = vector3d(0,0,0);
 }
 

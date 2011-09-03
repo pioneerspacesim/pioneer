@@ -117,6 +117,7 @@ noinst_HEADERS = \
 	SystemInfoView.h \
 	SystemPath.h \
 	SystemView.h \
+	TerrainBody.h \
 	TextureFont.h \
 	TextureManager.h \
 	VectorFont.h \
@@ -235,6 +236,7 @@ pioneer_SOURCES	= \
 	StarSystem.cpp \
 	SystemInfoView.cpp \
 	SystemView.cpp \
+	TerrainBody.cpp \
 	TextureFont.cpp \
 	TextureManager.cpp \
 	VectorFont.cpp \
