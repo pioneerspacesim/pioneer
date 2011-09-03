@@ -99,10 +99,10 @@ void ScannerWidget::Draw()
 
 	float size[2];
 	GetSize(size);
-	const float mx = size[0]*0.5f;
-	const float my = size[1]*0.5f;
-	float c2p[2];
+	m_x = size[0]*0.5f;
+	m_y = size[1]*0.5f;
 	Widget::SetClipping(size[0], size[1]);
+	float c2p[2];
 	Gui::Screen::GetCoords2Pixels(c2p);
 	
 	// draw objects below player (and below scanner)
@@ -112,11 +112,11 @@ void ScannerWidget::Draw()
 	glEnable(GL_BLEND);
 	glColor4f(0,1,0,0.1);
 	glBegin(GL_TRIANGLE_FAN);
-	glVertex2f(mx, my);
+	glVertex2f(m_x, m_y);
 	for (float a=0; a<2*M_PI; a+=M_PI*0.02) {
-		glVertex2f(mx + mx*sin(a), my + SCANNER_YSHRINK*my*cos(a));
+		glVertex2f(m_x + m_x*sin(a), m_y + SCANNER_YSHRINK*m_y*cos(a));
 	}
-	glVertex2f(mx, my + SCANNER_YSHRINK*my);
+	glVertex2f(m_x, m_y + SCANNER_YSHRINK*m_y);
 	glEnd();
 	glDisable(GL_BLEND);
 
@@ -183,10 +183,6 @@ void ScannerWidget::UpdateContactsAndScale()
 
 void ScannerWidget::DrawBlobs(bool below)
 {
-	float size[2];
-	GetSize(size);
-	float mx = size[0]*0.5f;
-	float my = size[1]*0.5f;
 	glLineWidth(2);
 	glPointSize(4);
 	for (std::list<Body*>::iterator i = m_contacts.begin(); i != m_contacts.end(); ++i) {
@@ -206,9 +202,9 @@ void ScannerWidget::DrawBlobs(bool below)
 		if ((pos.y>0)&&(below)) continue;
 		if ((pos.y<0)&&(!below)) continue;
 
-		float x = mx + mx*float(pos.x)*m_scale;
-		float y_base = my + my*SCANNER_YSHRINK*float(pos.z)*m_scale;
-		float y_blob = y_base - my*SCANNER_YSHRINK*float(pos.y)*m_scale;
+		float x = m_x + m_x*float(pos.x)*m_scale;
+		float y_base = m_y + m_y*SCANNER_YSHRINK*float(pos.z)*m_scale;
+		float y_blob = y_base - m_y*SCANNER_YSHRINK*float(pos.y)*m_scale;
 
 		glBegin(GL_LINES);
 		glVertex2f(x, y_base);
@@ -223,24 +219,19 @@ void ScannerWidget::DrawBlobs(bool below)
 
 void ScannerWidget::DrawDistanceRings()
 {
-	float size[2];
-	GetSize(size);
-	float mx = size[0]*0.5f;
-	float my = size[1]*0.5f;
-
 	/* soicles */
 	for (float sz=1.0f; sz>0.1f; sz-=0.33f) {
 		glBegin(GL_LINE_LOOP);
 		for (float a=0; a<2*M_PI; a+=float(M_PI*0.02)) {
-			glVertex2f(mx + sz*mx*sin(a), my + SCANNER_YSHRINK*sz*my*cos(a));
+			glVertex2f(m_x + sz*m_x*sin(a), m_y + SCANNER_YSHRINK*sz*m_y*cos(a));
 		}
 		glEnd();
 	}
 	/* schpokes */
 	glBegin(GL_LINES);
 	for (float a=0; a<2*M_PI; a+=float(M_PI*0.25)) {
-		glVertex2f(mx, my);
-		glVertex2f(mx + mx*sin(a), my + SCANNER_YSHRINK*my*cos(a));
+		glVertex2f(m_x, m_y);
+		glVertex2f(m_x + m_x*sin(a), m_y + SCANNER_YSHRINK*m_y*cos(a));
 	}
 	glEnd();
 

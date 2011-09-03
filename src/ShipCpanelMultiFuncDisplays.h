@@ -61,6 +61,8 @@ private:
 
 	std::list<Body*> m_contacts;
 	float m_scale;
+	float m_x;
+	float m_y;
 };
 
 class UseEquipWidget: public IMultiFunc, public Gui::Fixed {
