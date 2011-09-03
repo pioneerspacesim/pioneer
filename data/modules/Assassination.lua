@@ -263,6 +263,7 @@ local onEnterSystem = function (ship)
 						mission.ship:AddEquip(laser)
 						mission.ship:AddEquip('HYDROGEN', mission.danger * 3)
 						_setupHooksForMission(mission)
+						mission.shipstate = 'docked'
 					end
 				else	-- too late
 					mission.status = 'FAILED'
@@ -289,29 +290,38 @@ local onShipDocked = function (ship, station)
 	if not ship:IsPlayer() then return end
 
 	for ref,mission in pairs(missions) do
-		if mission.status == 'COMPLETED' and
-		   mission.backstation == station.path then
-			local text = string.interp(ass_flavours[mission.flavour].successmsg, {
-				target	= mission.target,
-			})
-			UI.ImportantMessage(text, mission.boss)
-			ship:AddMoney(mission.reward)
-			ship:RemoveMission(ref)
-			missions[ref] = nil
-		elseif mission.status == 'FAILED' then
-			if mission.notplayer == 'TRUE' then
-				local text = string.interp(ass_flavours[mission.flavour].failuremsg2, {
+		if ship:IsPlayer then
+			if mission.status == 'COMPLETED' and
+			   mission.backstation == station.path then
+				local text = string.interp(ass_flavours[mission.flavour].successmsg, {
 					target	= mission.target,
 				})
-			else
-				local text = string.interp(ass_flavours[mission.flavour].failuremsg, {
-					target	= mission.target,
-				})
+				UI.ImportantMessage(text, mission.boss)
+				ship:AddMoney(mission.reward)
+				ship:RemoveMission(ref)
+				missions[ref] = nil
+			elseif ship:IsPlayer and
+			       mission.status == 'FAILED' then
+				if mission.notplayer == 'TRUE' then
+					local text = string.interp(ass_flavours[mission.flavour].failuremsg2, {
+						target	= mission.target,
+					})
+				else
+					local text = string.interp(ass_flavours[mission.flavour].failuremsg, {
+						target	= mission.target,
+					})
+				end
+				UI.ImportantMessage(text, mission.boss)
+				ship:RemoveMission(ref)
+				missions[ref] = nil
 			end
-			UI.ImportantMessage(text, mission.boss)
-			ship:RemoveMission(ref)
-			missions[ref] = nil
+		else
+			if mission.ship == ship then
+				mission.status == 'FAILED'
+				Player:UpdateMission(ref, mission)
+			end
 		end
+		return
 	end
 end
 	
@@ -325,6 +335,22 @@ local onShipUndocked = function (ship, station)
 			local planet = planets[Engine.rand:Integer(1,#planets)]
 
 			mission.ship:AIEnterHighOrbit(planet)
+			mission.shipstate = 'flying'
+		end
+	end
+end
+
+local onAICompleted = function (ship)
+	for ref,mission in pairs(missions) do
+		if mission.status == 'ACTIVE' and
+		   mission.ship == ship and
+		   mission.shipstate == 'flying' then
+			local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
+			if #stations == 0 then return end
+			local station = stations[Engine.rand:Integer(1,#stations)]
+
+			mission.ship:AIDockWith(station)
+			return
 		end
 	end
 end
@@ -381,6 +407,7 @@ EventQueue.onGameStart:Connect(onGameStart)
 EventQueue.onEnterSystem:Connect(onEnterSystem)
 EventQueue.onShipDestroyed:Connect(onShipDestroyed)
 EventQueue.onShipUndocked:Connect(onShipUndocked)
+EventQueue.onAICompleted:Connect(onAICompleted)
 EventQueue.onShipDocked:Connect(onShipDocked)
 EventQueue.onShipHit:Connect(onShipHit)
 EventQueue.onUpdateBB:Connect(onUpdateBB)
