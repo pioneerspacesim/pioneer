@@ -65,7 +65,7 @@ void MsgLogWidget::ShowNext()
 		}
 
 		if (msg.sender == "") {
-			msgLabel->SetText("#0f0"+msg.message);
+			msgLabel->SetText("#0f0" + msg.message);
 		} else {
 			msgLabel->SetText(
 				std::string("#ca0") + stringf(Lang::MESSAGE_FROM_X, formatarg("sender", msg.sender)) +
@@ -99,8 +99,8 @@ void ScannerWidget::Draw()
 
 	float size[2];
 	GetSize(size);
-	m_x = size[0]*0.5f;
-	m_y = size[1]*0.5f;
+	m_x = size[0] * 0.5f;
+	m_y = size[1] * 0.5f;
 	Widget::SetClipping(size[0], size[1]);
 	float c2p[2];
 	Gui::Screen::GetCoords2Pixels(c2p);
@@ -110,30 +110,30 @@ void ScannerWidget::Draw()
 
 	// disc
 	glEnable(GL_BLEND);
-	glColor4f(0,1,0,0.1);
+	glColor4f(0, 1.0f, 0, 0.1f);
 	glBegin(GL_TRIANGLE_FAN);
 	glVertex2f(m_x, m_y);
-	for (float a=0; a<2*M_PI; a+=M_PI*0.02) {
-		glVertex2f(m_x + m_x*sin(a), m_y + SCANNER_YSHRINK*m_y*cos(a));
+	for (float a = 0; a < 2 * M_PI; a += M_PI * 0.02) {
+		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 	}
-	glVertex2f(m_x, m_y + SCANNER_YSHRINK*m_y);
+	glVertex2f(m_x, m_y + SCANNER_YSHRINK * m_y);
 	glEnd();
 	glDisable(GL_BLEND);
 
 	// circles and spokes
 	glLineWidth(1);
-	glColor3f(0,.4,0);
+	glColor3f(0, 0.4f, 0);
 	DrawDistanceRings();
 	glPushMatrix();
 	glEnable(GL_BLEND);
-	glColor4f(0,.4,0,0.25);
-	glTranslatef(0.5f*c2p[0],0.5f*c2p[1],0);
+	glColor4f(0, 0.4f, 0, 0.25f);
+	glTranslatef(0.5f * c2p[0], 0.5f * c2p[1], 0);
 	DrawDistanceRings();
-	glTranslatef(0,-c2p[1],0);
+	glTranslatef(0, -c2p[1], 0);
 	DrawDistanceRings();
-	glTranslatef(-c2p[0],0,0);
+	glTranslatef(-c2p[0], 0, 0);
 	DrawDistanceRings();
-	glTranslatef(0,c2p[1],0);
+	glTranslatef(0, c2p[1], 0);
 	DrawDistanceRings();
 	glPopMatrix();
 	glDisable(GL_BLEND);
@@ -190,19 +190,19 @@ void ScannerWidget::DrawBlobs(bool below)
 	for (std::list<Body*>::iterator i = m_contacts.begin(); i != m_contacts.end(); ++i) {
 		switch ((*i)->GetType()) {
 			case Object::SHIP:
-				if ((*i) == Pi::player->GetCombatTarget()) glColor3f(0.941,0.149,0.196);
-				else glColor3f(0.953,0.929,0.114);
+				if ((*i) == Pi::player->GetCombatTarget()) glColor3f(0.941f, 0.149f, 0.196f);
+				else glColor3f(0.953f, 0.929f, 0.114f);
 				glLineWidth(2);
 				glPointSize(4);
 				break;
 			case Object::MISSILE:
-				glColor3f(0.941,0.149,0.196);
+				glColor3f(0.941f, 0.149f, 0.196f);
 				glLineWidth(1);
 				glPointSize(3);
 				break;
 			case Object::CARGOBODY:
-				if ((*i) == Pi::player->GetNavTarget()) glColor3f(0.0,1.0,0.0);
-				else glColor3f(0.65,0.65,0.65);
+				if ((*i) == Pi::player->GetNavTarget()) glColor3f(0, 1.0f, 0);
+				else glColor3f(0.65f, 0.65f, 0.65f);
 				glLineWidth(1);
 				glPointSize(3);
 				break;
@@ -214,12 +214,12 @@ void ScannerWidget::DrawBlobs(bool below)
 		Pi::player->GetRotMatrix(rot);
 		pos = rot.InverseOf() * pos;
 
-		if ((pos.y>0)&&(below)) continue;
-		if ((pos.y<0)&&(!below)) continue;
+		if ((pos.y > 0) && (below)) continue;
+		if ((pos.y < 0) && (!below)) continue;
 
-		float x = m_x + m_x*float(pos.x)*m_scale;
-		float y_base = m_y + m_y*SCANNER_YSHRINK*float(pos.z)*m_scale;
-		float y_blob = y_base - m_y*SCANNER_YSHRINK*float(pos.y)*m_scale;
+		float x = m_x + m_x * float(pos.x) * m_scale;
+		float y_base = m_y + m_y * SCANNER_YSHRINK * float(pos.z) * m_scale;
+		float y_blob = y_base - m_y * SCANNER_YSHRINK * float(pos.y) * m_scale;
 
 		glBegin(GL_LINES);
 		glVertex2f(x, y_base);
@@ -235,18 +235,18 @@ void ScannerWidget::DrawBlobs(bool below)
 void ScannerWidget::DrawDistanceRings()
 {
 	/* soicles */
-	for (float sz=1.0f; sz>0.1f; sz-=0.33f) {
+	for (float sz = 1.0f; sz > 0.1f; sz -= 0.33f) {
 		glBegin(GL_LINE_LOOP);
-		for (float a=0; a<2*M_PI; a+=float(M_PI*0.02)) {
-			glVertex2f(m_x + sz*m_x*sin(a), m_y + SCANNER_YSHRINK*sz*m_y*cos(a));
+		for (float a = 0; a < 2 * M_PI; a += float(M_PI * 0.02)) {
+			glVertex2f(m_x + sz * m_x * sin(a), m_y + SCANNER_YSHRINK * sz * m_y * cos(a));
 		}
 		glEnd();
 	}
 	/* schpokes */
 	glBegin(GL_LINES);
-	for (float a=0; a<2*M_PI; a+=float(M_PI*0.25)) {
+	for (float a = 0; a < 2 * M_PI; a += float(M_PI * 0.25)) {
 		glVertex2f(m_x, m_y);
-		glVertex2f(m_x + m_x*sin(a), m_y + SCANNER_YSHRINK*m_y*cos(a));
+		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 	}
 	glEnd();
 
@@ -289,7 +289,7 @@ void UseEquipWidget::UpdateEquip()
 	if (numSlots) {
 		float spacing = 380.0f / numSlots;
 
-		for (int i=0; i<numSlots; i++) {
+		for (int i = 0; i < numSlots; ++i) {
 			const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_MISSILE, i);
 			if (t == Equip::NONE) continue;
 
@@ -309,7 +309,7 @@ void UseEquipWidget::UpdateEquip()
 					b = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/missile_naval.png");
 					break;
 			}
-			Add(b, spacing*i, 40);
+			Add(b, spacing * i, 40);
 			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &UseEquipWidget::FireMissile), i));
 			b->SetToolTip(Equip::types[t].name);
 		}
@@ -372,7 +372,7 @@ void MultiFuncSelectorWidget::UpdateButtons()
 {
 	RemoveAllChildren();
 
-	for (int i=0; i<MFUNC_MAX; i++) {
-		Add(m_buttons[i], 36.0f+36.0f*float(i), 0.0);
+	for (int i = 0; i < MFUNC_MAX; ++i) {
+		Add(m_buttons[i], 36.0f + 36.0f * float(i), 0.0);
 	}
 }
