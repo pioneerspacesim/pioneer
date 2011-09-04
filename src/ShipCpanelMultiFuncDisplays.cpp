@@ -187,18 +187,22 @@ void ScannerWidget::UpdateContactsAndScale()
 
 void ScannerWidget::DrawBlobs(bool below)
 {
-	glLineWidth(2);
-	glPointSize(4);
 	for (std::list<Body*>::iterator i = m_contacts.begin(); i != m_contacts.end(); ++i) {
 		switch ((*i)->GetType()) {
 			case Object::SHIP:
 				glColor3f(0.953,0.929,0.114);
+				glLineWidth(2);
+				glPointSize(4);
 				break;
 			case Object::MISSILE:
 				glColor3f(0.941,0.149,0.196);
+				glLineWidth(1);
+				glPointSize(3);
 				break;
 			case Object::CARGOBODY:
 				glColor3f(0.65,0.65,0.65);
+				glLineWidth(1);
+				glPointSize(3);
 				break;
 			default: continue;
 		}
