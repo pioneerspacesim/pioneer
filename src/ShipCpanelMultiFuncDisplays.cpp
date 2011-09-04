@@ -17,19 +17,19 @@
 
 MsgLogWidget::MsgLogWidget()
 {
-	msgAge = 0;
-	msgLabel = new Gui::Label("");
-	curMsgType = NONE;
-	Add(msgLabel, 0, 4);
+	m_msgAge = 0;
+	m_msgLabel = new Gui::Label("");
+	m_curMsgType = NONE;
+	Add(m_msgLabel, 0, 4);
 }
 
 void MsgLogWidget::Update()
 {
-	if (curMsgType != NONE) {
+	if (m_curMsgType != NONE) {
 		// has it expired?
-		bool expired = (SDL_GetTicks() - msgAge > 5000);
+		bool expired = (SDL_GetTicks() - m_msgAge > 5000);
 
-		if (expired || ((curMsgType == NOT_IMPORTANT) && !m_msgQueue.empty())) {
+		if (expired || ((m_curMsgType == NOT_IMPORTANT) && !m_msgQueue.empty())) {
 			ShowNext();
 		}
 	} else {
@@ -41,8 +41,8 @@ void MsgLogWidget::ShowNext()
 {
     if (m_msgQueue.empty()) {
 		// current message expired and queue empty
-		msgLabel->SetText("");
-		msgAge = 0;
+		m_msgLabel->SetText("");
+		m_msgAge = 0;
 		onUngrabFocus.emit();
 	} else {
 		// current message expired and more in queue
@@ -65,14 +65,14 @@ void MsgLogWidget::ShowNext()
 		}
 
 		if (msg.sender == "") {
-			msgLabel->SetText("#0f0" + msg.message);
+			m_msgLabel->SetText("#0f0" + msg.message);
 		} else {
-			msgLabel->SetText(
+			m_msgLabel->SetText(
 				std::string("#ca0") + stringf(Lang::MESSAGE_FROM_X, formatarg("sender", msg.sender)) +
 				std::string("\n#0f0") + msg.message);
 		}
-		msgAge = SDL_GetTicks();
-		curMsgType = msg.type;
+		m_msgAge = SDL_GetTicks();
+		m_curMsgType = msg.type;
 		onGrabFocus.emit();
 	}
 }

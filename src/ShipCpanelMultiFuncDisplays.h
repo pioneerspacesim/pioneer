@@ -44,9 +44,9 @@ private:
 		Type type;
 	};
 	std::list<message_t> m_msgQueue;
-	Uint32 msgAge;
-	Gui::Label *msgLabel;
-	Type curMsgType;
+	Uint32 m_msgAge;
+	Gui::Label *m_msgLabel;
+	Type m_curMsgType;
 };
 
 class ScannerWidget: public IMultiFunc, public Gui::Widget {
