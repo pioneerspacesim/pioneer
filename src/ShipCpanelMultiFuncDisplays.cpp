@@ -151,32 +151,38 @@ void ScannerWidget::Draw()
 void ScannerWidget::UpdateContactsAndScale()
 {
 	// collect the bodies to be displayed
-	double farthest_ship = 0.0, farthest_other = 0.0;
+	double far_ship_dist = 0, far_missile_dist = 0, far_other_dist = 0;
 	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 		if ((*i) == Pi::player) continue;
-		switch ((*i)->GetType()) {
-			case Object::SHIP: break;
-			case Object::MISSILE: break;
-			case Object::CARGOBODY: break;
-			// XXX could maybe add orbital stations and/or clouds
-			default: continue;
-		}
 
 		double dist = (*i)->GetPositionRelTo(Pi::player).Length();
 		if (dist > SCANNER_RANGE) continue;
 
-		m_contacts.push_back(*i);
-
-		if ((*i)->IsType(Object::SHIP)) {
-			if (dist > farthest_ship) farthest_ship = dist;
-		} else {
-			if (dist > farthest_other) farthest_other = dist;
+		switch ((*i)->GetType()) {
+			case Object::SHIP:
+				// XXX maybe targetted ship should set range
+				if (dist > far_ship_dist) far_ship_dist = dist;
+				break;
+			case Object::MISSILE:
+				// XXX maybe nearest or targetted missile should set range
+				if (dist > far_missile_dist) far_missile_dist = dist;
+				break;
+			case Object::CARGOBODY:
+				// XXX maybe targetted other should set range
+				if (dist > far_other_dist) far_other_dist = dist;
+				break;
+			// XXX could maybe add orbital stations and/or clouds
+			default: continue;
 		}
+
+		m_contacts.push_back(*i);
 	}
 
-	// the farthest ship in scanner range is used to set the scale
-	// unless there are none in which case the farthest contact
-	double farthest = farthest_ship > 0 ? farthest_ship : farthest_other;
+	// scale prioity is ship > missile > other
+	double farthest = far_other_dist;
+	if (far_ship_dist) farthest = far_ship_dist;
+	else if (far_missile_dist) farthest = far_missile_dist;
+
 	// set the scale - smaller means drawn closer together
 	// XXX if a longer range scanner is implemented this will need work
 	if (farthest < SCANNER_RANGE / 27.0) m_scale = SCANNER_SCALE;
