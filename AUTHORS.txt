@@ -38,6 +38,7 @@ Music:
 
 Translations:
   Brian Ronald
+  Piotr Gredka
 
 Thanks to those that have moved on (we hope to see you back!)
 
