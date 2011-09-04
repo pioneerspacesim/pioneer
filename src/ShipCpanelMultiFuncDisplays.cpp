@@ -190,7 +190,8 @@ void ScannerWidget::DrawBlobs(bool below)
 	for (std::list<Body*>::iterator i = m_contacts.begin(); i != m_contacts.end(); ++i) {
 		switch ((*i)->GetType()) {
 			case Object::SHIP:
-				glColor3f(0.953,0.929,0.114);
+				if ((*i) == Pi::player->GetCombatTarget()) glColor3f(0.941,0.149,0.196);
+				else glColor3f(0.953,0.929,0.114);
 				glLineWidth(2);
 				glPointSize(4);
 				break;
