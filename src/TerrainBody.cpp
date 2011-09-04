@@ -107,10 +107,8 @@ void TerrainBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTrans
 		m_geosphere->Render(-campos, m_sbody->GetRadius(), scale);
 		glTranslated(campos.x, campos.y, campos.z);
 
-		//if (m_sbody->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings();
-		
-		//if (!Render::AreShadersEnabled()) DrawAtmosphere(campos);
-		
+		SubRender(campos);
+
 		glDisable(GL_NORMALIZE);
 		
 		// if not using shader then z-buffer precision is hopeless and

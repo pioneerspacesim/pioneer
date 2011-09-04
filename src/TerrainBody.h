@@ -15,6 +15,7 @@ public:
 	virtual vector3d GetPosition() const { return m_pos; }
 	virtual double GetBoundingRadius() const;
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void SubRender(const vector3d &camPos) {}
 	virtual void SetFrame(Frame *f);
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel) { return true; }
 	virtual double GetMass() const { return m_mass; }
