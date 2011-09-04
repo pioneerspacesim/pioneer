@@ -130,7 +130,7 @@ static int l_ship_get_stats(lua_State *l)
  * Parameters:
  *
  *   percent - optional. A number from 0 to 100. Less then 0 will use 0 and
- *             greater than 100 will use 100.
+ *             greater than 100 will use 100. Defaults to 100.
  *
  * Example:
  *
