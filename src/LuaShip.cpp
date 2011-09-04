@@ -118,6 +118,50 @@ static int l_ship_get_stats(lua_State *l)
 }
 
 /*
+ * Method: SetHullPercent
+ *
+ * Sets the hull mass of the ship to the given precentage of it's maximum.
+ *
+ * > ship:SetHullPercent(percent)
+ *
+ * Setting the hull percentage to 0 will not destroy the ship until it takes
+ * damage.
+ *
+ * Parameters:
+ *
+ *   percent - optional. A number from 0 to 100. Less then 0 will use 0 and
+ *             greater than 100 will use 100.
+ *
+ * Example:
+ *
+ * > ship:SetHullPercent(3.14)
+ *
+ * Availability:
+ *
+ *  alpha 15
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_set_hull_percent(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	Ship *s = LuaShip::GetFromLua(1);
+
+	float percent = 100;
+	if (lua_isnumber(l, 2))
+		percent = float(luaL_checknumber(l, 2));
+
+	s->SetPercentHull(percent);
+
+	LUA_DEBUG_END(l, 1);
+
+	return 0;
+}
+
+/*
  * Method: SetLabel
  *
  * Changes the ship's label text. This is the text that appears beside the
@@ -1083,6 +1127,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "IsPlayer", l_ship_is_player },
 
 		{ "GetStats", l_ship_get_stats },
+		{ "SetHullPercent", l_ship_set_hull_percent },
 
 		{ "SetLabel",           l_ship_set_label            },
 		{ "SetPrimaryColour",   l_ship_set_primary_colour   },
