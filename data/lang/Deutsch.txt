@@ -179,6 +179,8 @@ GAME_LOAD_CORRUPT
     Konnte nicht Spiel geladen werden, weil die Datei beschädigt wurde.
 GAME_LOAD_CANNOT_OPEN
     Die Spieldatei konnte nicht geöffnet werden.
+VERY_LOW
+    Sehr niedrig
 LOW
     Niedrig
 MEDIUM
@@ -189,6 +191,10 @@ VERY_HIGH
     Sehr hohe
 VERY_VERY_HIGH
     Extrem hohe
+ON
+    Auf
+OFF
+    Aus
 SIGHTS_SOUNDS_SAVES
     Anblicke, Geräusche, Speichern von Spielen
 PIONEER
@@ -221,8 +227,14 @@ VIDEO_RESOLUTION
     Video-Auflösung (Programm muss neu gestartet werden)
 X_BY_X
     %{x}x%{y}
+PLANET_DETAIL_DISTANCE
+    Distanz der Details die Planeten:
 CITY_DETAIL_LEVEL
     Stadt Detailebene:
+PLANET_TEXTURES
+    Planet Texturen:
+FRACTAL_DETAIL
+    Detailstufe der Fraktale
 CONTROLS
     Steuerung
 ENABLE_JOYSTICK
@@ -663,6 +675,12 @@ FOLLOWING_SELECTION
     Auswahl folgende
 LOCKED
     verschlossen
+EXACT_MATCH_X
+    Übereinstimmung: %system
+NOT_FOUND_BEST_MATCH_X
+    Nicht gefunden; beste Ergebnis: %system
+NOT_FOUND
+    Nicht gefunden
 NUMBER_HOURS
     %hours{f.2} St.
 QUADRUPLE_SYSTEM
