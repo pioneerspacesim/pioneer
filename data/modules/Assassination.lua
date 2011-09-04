@@ -298,7 +298,7 @@ local onShipDocked = function (ship, station)
 	if not ship:IsPlayer() then return end
 
 	for ref,mission in pairs(missions) do
-		if ship:IsPlayer then
+		if ship:IsPlayer() then
 			if mission.status == 'COMPLETED' and
 			   mission.backstation == station.path then
 				local text = string.interp(ass_flavours[mission.flavour].successmsg, {
@@ -308,7 +308,7 @@ local onShipDocked = function (ship, station)
 				ship:AddMoney(mission.reward)
 				ship:RemoveMission(ref)
 				missions[ref] = nil
-			elseif ship:IsPlayer and
+			elseif ship:IsPlayer() and
 			       mission.status == 'FAILED' then
 				if mission.notplayer == 'TRUE' then
 					local text = string.interp(ass_flavours[mission.flavour].failuremsg2, {
@@ -325,7 +325,7 @@ local onShipDocked = function (ship, station)
 			end
 		else
 			if mission.ship == ship then
-				mission.status == 'FAILED'
+				mission.status = 'FAILED'
 				Player:UpdateMission(ref, mission)
 			end
 		end
