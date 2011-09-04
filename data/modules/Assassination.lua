@@ -15,7 +15,7 @@ local ass_flavours = {
 		introtext = "I need {target} taken out of the picture. I'll pay you {cash} to do this.",
 		successmsg = "I am most sad to hear of {target}'s demise. You have been paid in full.",
 		failuremsg = "I hear that {target} is in good health. This pains me.",
-		failuremsg2 = "{target}'s demise was not caused by you, so do not ask for payement.",
+		failuremsg2 = "{target}'s demise was not caused by you, so do not ask for payment.",
 	},
 	{
 		adtext = "REMOVAL: {target} is no longer wanted in the {system} system.",
@@ -30,6 +30,13 @@ local ass_flavours = {
 		successmsg = "{target} is dead. Here is your award.",
 		failuremsg = "You will pay for not eliminating {target}!",
 		failuremsg2 = "Are you asking money for job done by someone else? Get lost.",
+	},
+	{
+		adtext = "RETIREMENT: Someone to retire {target}.",
+		introtext = "For {cash} we wish to encourage {target} to stop work permanently.",
+		successmsg = "News of {target}'s retirement delightfully obtained. Here is your money.",
+		failuremsg = "{target} is still breathing and I'm not giving money to you.",
+		failuremsg2 = "Retirement of {target} was done by someone else.",
 	}
 }
 
