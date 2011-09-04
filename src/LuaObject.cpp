@@ -93,10 +93,13 @@ static lid next_id = 0;
 static std::map<lid, LuaObjectBase*> *registry;
 static std::map< std::string, std::map<std::string,PromotionTest> > *promotions;
 
+/* XXX uncomment this when it can be hooked up to atexit() without crashing
+ * (see note _instantiate)
 static void _teardown() {
 	delete registry;
 	delete promotions;
 }
+*/
 
 static inline void _instantiate() {
 	if (!instantiated) {
@@ -225,7 +228,7 @@ static int dispatch_index(lua_State *l)
 			// method call we have to do the call ourselves
 			if (lua_isfunction(l, -1)) {
 				lua_pushvalue(l, 1);
-				lua_call(l, 1, 1);
+				pi_lua_protected_call(l, 1, 1);
 				return 1;
 			}
 

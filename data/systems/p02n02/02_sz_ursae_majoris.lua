@@ -1,1 +1,0 @@
-CustomSystem:new("SZ Ursae Majoris",{'STAR_M'}):add_to_sector(2,-2,v(0.465,0.088,1.782))

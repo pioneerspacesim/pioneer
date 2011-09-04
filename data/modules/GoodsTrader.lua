@@ -82,8 +82,6 @@ local onChat = function (form, ref, option)
 		end,
 	})
 
-	form:AddOption("Hang up.", -1)
-
 end
 
 local onDelete = function (ref)

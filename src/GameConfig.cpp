@@ -4,6 +4,7 @@
 GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
 {
 	// set defaults
+	(*this)["Lang"] = "English";
 	(*this)["EnableHDR"] = "0";
 	(*this)["DisableShaders"] = "0";
 	(*this)["DisableSound"] = "0";
@@ -21,6 +22,15 @@ GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
 	(*this)["MasterMuted"] = "0";
 	(*this)["SfxMuted"] = "0";
 	(*this)["MusicMuted"] = "0";
+	(*this)["SectorViewXRotation"] = "-10.0";
+	(*this)["SectorViewZRotation"] = "0";
+	(*this)["SectorViewZoom"] = "2.0";
+
+#ifdef _WIN32
+	(*this)["RedirectStdio"] = "1";
+#else
+	(*this)["RedirectStdio"] = "0";
+#endif
 
 	KeyBindings::SetDefaults();
 

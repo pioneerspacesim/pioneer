@@ -38,6 +38,8 @@ class ObjectViewerView;
 
 struct DetailLevel {
 	int planets;
+	int textures;
+	int fracmult;
 	int cities;
 };
 
@@ -53,6 +55,7 @@ class Frame;
 class Pi {
 public:
 	static void Init();
+	static void RedirectStdio();
 	static void InitGame();
 	static void StartGame();
 	static void UninitGame();
@@ -67,9 +70,12 @@ public:
 	static float GetFrameTime() { return frameTime; }
 	static double GetGameTime() { return gameTime; }
 	static void SetTimeAccel(int v);
-	static void RequestTimeAccel(int v);
+	static void RequestTimeAccel(int v, bool force = false);
 	static int GetRequestedTimeAccelIdx() { return requestedTimeAccelIdx; }
 	static int GetTimeAccelIdx() { return timeAccelIdx; }
+	static bool IsTimeAccelPause() { return (timeAccelIdx == 0); }
+	static bool IsTimeAccelNormal() { return (timeAccelIdx == 1); }
+	static bool IsTimeAccelFast() { return (timeAccelIdx > 1); }
 	static float GetTimeAccel() { return timeAccelRates[timeAccelIdx]; }
 	static float GetTimeStep() { return timeAccelRates[timeAccelIdx]*(1.0f/PHYSICS_HZ); }
 	static float GetGameTickAlpha() { return gameTickAlpha; }
@@ -178,6 +184,7 @@ private:
 	static StarSystem *selectedSystem;
 	static int timeAccelIdx;
 	static int requestedTimeAccelIdx;
+	static bool forceTimeAccel;
 	static float frameTime;
 	static int scrWidth, scrHeight;
 	static float scrAspect;

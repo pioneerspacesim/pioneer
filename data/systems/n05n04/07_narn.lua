@@ -1,1 +1,0 @@
-CustomSystem:new("Narn",{'STAR_K'}):add_to_sector(-5,-4,v(0.066,0.732,1.179))

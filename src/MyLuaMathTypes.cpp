@@ -331,18 +331,6 @@ namespace MyLuaVec {
 		return 1;
 	}
 
-	static int Vec_index (lua_State *L)
-	{
-		printf("Fuckme\n");
-		vector3f *v = checkVec(L, 1);
-		unsigned int i = luaL_checkint(L, 2);
-		if (i>i) {
-			luaL_error(L, "vector index must be in range 0-2");
-		}
-		lua_pushnumber(L, (*v)[i]);
-		return 1;
-	}
-
 	static int Vec_div (lua_State *L)
 	{
 		vector3f *v1 = checkVec(L, 1);

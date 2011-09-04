@@ -2,7 +2,7 @@
 #include "gui/Gui.h"
 #include "collider/collider.h"
 #include "LmrModel.h"
-#include "Render.h"
+#include "render/Render.h"
 
 static SDL_Surface *g_screen;
 static int g_width, g_height;
@@ -10,7 +10,7 @@ static int g_mouseMotion[2];
 static char g_keyState[SDLK_LAST];
 static int g_mouseButton[5];
 static float g_zbias;
-static float g_doBenchmark = false;
+static bool g_doBenchmark = false;
 
 static GLuint mytexture;
 
@@ -21,10 +21,7 @@ static void PollEvents();
 extern void LmrModelCompilerInit();
 
 static int g_wheelMoveDir = -1;
-static float g_wheelPos = 0;
 static int g_renderType = 0;
-static float lightCol[4] = { 1,1,1,0 };
-static float lightDir[4] = { 0,1,0,0 };
 static float g_frameTime;
 static LmrObjParams params = {
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -63,6 +60,7 @@ public:
 		m_cmesh = 0;
 		m_geom = 0;
 		m_space = new CollisionSpace();
+		m_showBoundingRadius = false;
 		Gui::Screen::AddBaseWidget(this, 0, 0);
 		SetTransparency(true);
 
@@ -95,7 +93,14 @@ public:
 			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickToggleBenchmark));
 			Add(b, 10, 70);
 			Add(new Gui::Label("[p] Toggle performance test (renders models 1000 times per frame)"), 30, 70);
-		} 
+		}
+		{
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_b, KMOD_LSHIFT);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius));
+			Add(b, 10, 90);
+			Add(new Gui::Label("[shift-b] Visualize bounding radius"), 30, 90);
+		}
 #if 0
 		{
 			Gui::Button *b = new Gui::SolidButton();
@@ -187,10 +192,16 @@ public:
 		if (g_renderType > 1) g_renderType = 0;
 	}
 
+	void OnToggleBoundingRadius() {
+		m_showBoundingRadius = !m_showBoundingRadius;
+	}
+
 	void MainLoop() __attribute((noreturn));
 	void SetSbreParams();
 private:
 	void TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg);
+	void VisualizeBoundingRadius(matrix4x4f& trans, double radius);
+	bool m_showBoundingRadius;
 };
 
 void Viewer::SetModel(LmrModel *model)
@@ -379,18 +390,12 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 	glDisable(GL_TEXTURE_2D);
 }
 
-static void onCollision(CollisionContact *c)
-{
-	printf("depth %f\n", c->depth);
-//	printf("%d: %d\n", SDL_GetTicks(), c->triIdx);
-}
-
 void Viewer::MainLoop()
 {
 	Uint32 lastTurd = SDL_GetTicks();
 
 	Uint32 t = SDL_GetTicks();
-	int numFrames = 0, fps = 0;
+	int numFrames = 0, fps = 0, numTris = 0;
 	Uint32 lastFpsReadout = SDL_GetTicks();
 	g_campos = vector3f(0.0f, 0.0f, m_cmesh->GetBoundingRadius());
 	g_camorient = matrix4x4f::Identity();
@@ -431,8 +436,10 @@ void Viewer::MainLoop()
 				modelRot = modelRot * matrix4x4f::RotateYMatrix(ry);
 			}
 		}
-		if (g_keyState[SDLK_EQUALS]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,0.5f);
-		if (g_keyState[SDLK_MINUS]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,0.5f);
+		float rate = 1.f;
+		if (g_keyState[SDLK_LSHIFT]) rate = 10.f;
+		if (g_keyState[SDLK_EQUALS] || g_keyState[SDLK_KP_PLUS]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,1.f) * rate;
+		if (g_keyState[SDLK_MINUS] || g_keyState[SDLK_KP_MINUS]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,1.f) * rate;
 		if (g_keyState[SDLK_PAGEUP]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,0.5f);
 		if (g_keyState[SDLK_PAGEDOWN]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,0.5f);
 
@@ -473,19 +480,26 @@ void Viewer::MainLoop()
 			raytraceCollMesh(modelRot * g_campos, up, forward, m_space);
 		}
 		Render::State::UseProgram(0);
+		if (m_showBoundingRadius) {
+			matrix4x4f mo = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos);// * modelRot.InverseOf();
+			VisualizeBoundingRadius(mo, m_model->GetDrawClipRadius());
+		}
 		Render::UnbindAllBuffers();
 
 		{
 			char buf[128];
 			Aabb aabb = m_cmesh->GetAabb();
-			snprintf(buf, sizeof(buf), "%d triangles, %d fps\ncollision mesh size: %.1fx%.1fx%.1f (radius %.1f)",
+			snprintf(buf, sizeof(buf), "%d triangles, %d fps, %.3fm tris/sec\ncollision mesh size: %.1fx%.1fx%.1f (radius %.1f)\nClipping radius %.1f",
 					(g_renderType == 0 ? 
 						LmrModelGetStatsTris() - beforeDrawTriStats :
-						m_cmesh->m_numTris), fps,
+						m_cmesh->m_numTris),
+					fps,
+					numTris/1000000.0f,
 					aabb.max.x-aabb.min.x,
 					aabb.max.y-aabb.min.y,
 					aabb.max.z-aabb.min.z,
-					aabb.GetBoundingRadius());
+					aabb.GetBoundingRadius(),
+					m_model->GetDrawClipRadius());
 			m_trisReadout->SetText(buf);
 		}
 		
@@ -497,15 +511,13 @@ void Viewer::MainLoop()
 		numFrames++;
 		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;
 		lastTurd = SDL_GetTicks();
-	
+
 		if (SDL_GetTicks() - lastFpsReadout > 1000) {
-			int numTris = LmrModelGetStatsTris();
-			LmrModelClearStatsTris();
-			printf("%d fps, %.3f Million tris/sec\n", numFrames, numTris/1000000.0f);
+			numTris = LmrModelGetStatsTris();
 			fps = numFrames;
 			numFrames = 0;
 			lastFpsReadout = SDL_GetTicks();
-			
+			LmrModelClearStatsTris();
 		}
 
 		//space->Collide(onCollision);
@@ -558,6 +570,24 @@ static void PollEvents()
 				break;
 		}
 	}
+}
+
+void Viewer::VisualizeBoundingRadius(matrix4x4f& trans, double radius)
+{
+	glPushMatrix();
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	glDisable(GL_LIGHTING);
+	glDisable(GL_CULL_FACE);
+	glMultMatrixf(&trans[0]);
+	glColor4f(0.5f, 0.9f, 0.9f, 1.0f);
+	glColor3f(0,0,1);
+	glBegin(GL_LINE_LOOP);
+	for (float theta=0; theta < 2*M_PI; theta += 0.05*M_PI) {
+		glVertex3f(radius*sin(theta), radius*cos(theta), 0);
+	}
+	glEnd();
+	glPopAttrib();
+	glPopMatrix();
 }
 
 

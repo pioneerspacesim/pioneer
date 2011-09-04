@@ -59,7 +59,7 @@ eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 
 	float len = pos.Length();
 	float v[2];
-	if (len != 0) {
+	if (! float_is_zero_general(len)) {
 		vol = vol / (0.002*len);
 		double dot = pos.Normalized().Dot(vector3d(vol, 0, 0));
 
@@ -305,16 +305,13 @@ static void fill_audio(void *udata, Uint8 *dsp_buf, int len)
 
 	for (int i=0; i<MAX_WAVSTREAMS; i++) {
 		if (wavstream[i].sample == NULL) continue;
-		for (int chan=0; chan<2; chan++) {
-			if (wavstream[i].targetVolume[chan] > wavstream[i].volume[chan]) {
-				wavstream[i].ascend[chan] = true;
-			} else {
-				wavstream[i].ascend[chan] = false;
-			}
-		}
+
+		wavstream[i].ascend[0] = (wavstream[i].targetVolume[0] > wavstream[i].volume[0]);
+		wavstream[i].ascend[1] = (wavstream[i].targetVolume[1] > wavstream[i].volume[1]);
+
 		if (wavstream[i].op & OP_STOP_AT_TARGET_VOLUME) {
-			if ((wavstream[i].targetVolume[0] == wavstream[i].volume[0]) &&
-			    (wavstream[i].targetVolume[1] == wavstream[i].volume[1])) {
+			if ((wavstream[i].targetVolume[0] <= wavstream[i].volume[0]) &&
+			    (wavstream[i].targetVolume[1] <= wavstream[i].volume[1])) {
 				DestroyEvent(&wavstream[i]);
 				continue;
 			}
@@ -402,10 +399,10 @@ static void load_sound(const std::string &basename, const std::string &path)
 			}
 		}
 
-		//music keyed by pathname minus data/music/ minus ogg
+		//music keyed by pathname minus (datapath)/music/ and extension
 		if (m_loadingMusic) {
 			sample.isMusic = true;
-			const std::string prefix = "data/music/";
+			const std::string prefix = PIONEER_DATA_DIR "/music/";
 			const std::string key = path.substr(prefix.size(), path.size()-prefix.size()-4);
 			sfx_samples[key] = sample;
 		} else {

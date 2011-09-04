@@ -1,1 +1,0 @@
-CustomSystem:new("Zeus",{'STAR_G'}):add_to_sector(-1,7,v(0.566,0.330,-0.535))

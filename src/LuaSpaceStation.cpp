@@ -31,7 +31,7 @@ static void _delete_station_ads(SpaceStation *s)
 			lua_pop(l, 1);
 		else {
 			lua_pushinteger(l, (*i)->ref);
-			lua_call(l, 1, 0);
+			pi_lua_protected_call(l, 1, 0);
 		}
 
 		lua_pop(l, 1);
@@ -50,9 +50,9 @@ static void _register_for_station_delete(SpaceStation *s)
 	_station_delete_conns.insert( std::make_pair(s, s->onBulletinBoardDeleted.connect(sigc::bind(sigc::ptr_fun(&_delete_station_ads), s))) );
 }
 
-static BBAdvertChatForm *_create_chat_form(SpaceStation *station, const BBAdvert *ad)
+static StationAdvertForm *_create_chat_form(FormController *controller, SpaceStation *station, const BBAdvert &ad)
 {
-	return new LuaChatForm(station, ad);
+	return new LuaChatForm(controller, station, ad);
 }
 
 /*
@@ -212,7 +212,7 @@ static int l_spacestation_remove_advert(lua_State *l)
 		lua_pop(l, 1);
 	else {
 		lua_pushinteger(l, ref);
-		lua_call(l, 1, 0);
+		pi_lua_protected_call(l, 1, 0);
 	}
 
 	lua_pop(l, 1);

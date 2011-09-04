@@ -1,4 +1,5 @@
 #include "libs.h"
+#include "StringF.h"
 #include "gui/Gui.h"
 
 #define PNG_SKIP_SETJMP_CHECK
@@ -76,10 +77,20 @@ FILE *fopen_or_die(const char *filename, const char *mode)
 {
 	FILE *f = fopen(filename, mode);
 	if (!f) {
-		printf("Error: could not open file '%s'\n", filename);
-		throw MissingFileException();
+		fprintf(stderr, "Error: could not open file '%s'\n", filename);
+		abort();
 	}
 	return f;
+}
+
+size_t fread_or_die(void* ptr, size_t size, size_t nmemb, FILE* stream, bool allow_truncated)
+{
+	size_t read_count = fread(ptr, size, nmemb, stream);
+	if ((read_count < nmemb) && (!allow_truncated || ferror(stream))) {
+		fprintf(stderr, "Error: failed to read file (%s)\n", (feof(stream) ? "truncated" : "read error"));
+		abort();
+	}
+	return read_count;
 }
 
 std::string format_money(Sint64 money)
@@ -103,6 +114,10 @@ private:
 	static const unsigned char days[2][12];
 };
 
+// This string of months needs to be made translatable.
+// It can always be an array of char with 37 elements,
+// as all languages can use just the first three letters
+// of the name of each month.
 const char timedate::months[37] = "JanFebMarAprMayJunJulAugSepOctNovDec";
 const unsigned char timedate::days[2][12] = {
 	{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
@@ -239,11 +254,11 @@ void strip_cr_lf(char *string)
 std::string format_distance(double dist)
 {
 	if (dist < 1000) {
-		return stringf(128, "%.0f m", dist);
+		return stringf("%0{f.0} m", dist);
 	} else if (dist < AU*0.1) {
-		return stringf(128, "%.2f km", dist*0.001);
+		return stringf("%0{f.2} km", dist*0.001);
 	} else {
-		return stringf(128, "%.2f AU", dist/AU);
+		return stringf("%0{f.2} AU", dist/AU);
 	}
 }
 
@@ -469,7 +484,7 @@ void Screendump(const char* destFile, const int W, const int H)
 
 	png_bytepp rows = new png_bytep[H];
 
-	for (unsigned int i = 0; i < H; ++i) {
+	for (int i = 0; i < H; ++i) {
 		rows[i] = reinterpret_cast<png_bytep>(&pixel_data[(H-i-1) * W * 3]);
 	}
 	png_set_rows(png_ptr, info_ptr, rows);
@@ -481,4 +496,70 @@ void Screendump(const char* destFile, const int W, const int H)
 
 	fclose(out);
 	printf("Screenshot %s saved\n", fname.c_str());
+}
+
+// returns num bytes consumed, or 0 for end/bogus
+int conv_mb_to_wc(Uint32 *chr, const char *src)
+{
+	unsigned int c = *(reinterpret_cast<const unsigned char*>(src));
+	if (!c) { *chr = c; return 0; }
+	if (!(c & 0x80)) { *chr = c; return 1; }
+	else if (c >= 0xf0) {
+		if (!src[1] || !src[2] || !src[3]) return 0;
+		c = (c & 0x7) << 18;
+		c |= (src[1] & 0x3f) << 12;
+		c |= (src[2] & 0x3f) << 6;
+		c |= src[3] & 0x3f;
+		*chr = c; return 4;
+	}
+	else if (c >= 0xe0) {
+		if (!src[1] || !src[2]) return 0;
+		c = (c & 0xf) << 12;
+		c |= (src[1] & 0x3f) << 6;
+		c |= src[2] & 0x3f;
+		*chr = c; return 3;
+	}
+	else {
+		if (!src[1]) return 0;
+		c = (c & 0x1f) << 6;
+		c |= src[1] & 0x3f;
+		*chr = c; return 2;
+	}
+}
+
+
+// strcasestr() adapted from gnulib
+// (c) 2005 FSF. GPL2+
+
+#define TOLOWER(c) (isupper(c) ? tolower(c) : (c))
+
+const char *pi_strcasestr (const char *haystack, const char *needle)
+{
+	if (!*needle)
+		return haystack;
+
+	// cache the first character for speed
+	char b = TOLOWER(*needle);
+
+	needle++;
+	for (;; haystack++) {
+		if (!*haystack)
+			return 0;
+
+		if (TOLOWER(*haystack) == b) {
+			const char *rhaystack = haystack + 1;
+			const char *rneedle = needle;
+
+			for (;; rhaystack++, rneedle++) {
+				if (!*rneedle)
+					return haystack;
+
+				if (!*rhaystack)
+					return NULL;
+
+				if (TOLOWER(*rhaystack) != TOLOWER(*rneedle))
+					break;
+			}
+		}
+	}
 }

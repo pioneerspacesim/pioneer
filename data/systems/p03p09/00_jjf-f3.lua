@@ -1,1 +1,0 @@
-CustomSystem:new("JJf-F3",{'STAR_G'}):add_to_sector(3,9,v(0.282,0.084,-0.824))

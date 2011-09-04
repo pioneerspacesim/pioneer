@@ -1,1 +1,0 @@
-CustomSystem:new("Pariaz",{'STAR_M'}):add_to_sector(5,-5,v(0.665,0.731,0.920))

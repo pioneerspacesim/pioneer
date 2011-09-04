@@ -3,7 +3,6 @@
 
 namespace Gui {
 
-TextureFont *Screen::font;
 bool Screen::initted = false;
 int Screen::width;
 int Screen::height;
@@ -20,6 +19,9 @@ GLdouble Screen::projMatrix[16];
 GLint Screen::viewport[4];
 
 FontManager Screen::s_fontManager;
+std::stack<TextureFont*> Screen::s_fontStack;
+TextureFont *Screen::s_defaultFont;
+
 
 void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 {
@@ -35,7 +37,8 @@ void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 	// coords must be scaled.
 	Screen::fontScale[0] = ui_width / float(real_width);
 	Screen::fontScale[1] = ui_height / float(real_height);
-	Screen::font = s_fontManager.GetTextureFont("GuiFont");
+    s_defaultFont = s_fontManager.GetTextureFont("GuiFont");
+    PushFont(s_defaultFont);
 	Screen::baseContainer = new Gui::Fixed();
 	Screen::baseContainer->SetSize(float(Screen::width), float(Screen::height));
 	Screen::baseContainer->Show();
@@ -51,11 +54,16 @@ void Screen::OnDeleteFocusedWidget()
 
 void Screen::SetFocused(Widget *w)
 {
-	if (focusedWidget) {
-		_focusedWidgetOnDelete.disconnect();
-	}
+	ClearFocus();
 	_focusedWidgetOnDelete = w->onDelete.connect(sigc::ptr_fun(&Screen::OnDeleteFocusedWidget));
 	focusedWidget = w;
+}
+
+void Screen::ClearFocus()
+{
+	if (!focusedWidget) return;
+	_focusedWidgetOnDelete.disconnect();
+	focusedWidget = 0;
 }
 
 void Screen::ShowBadError(const char *msg)
@@ -197,20 +205,26 @@ void Screen::OnKeyUp(const SDL_keysym *sym)
 {
 }
 
-float Screen::GetFontHeight()
+float Screen::GetFontHeight(TextureFont *font)
 {
+    if (!font) font = GetFont();
+
 	return font->GetHeight() * fontScale[1];
 }
 
-void Screen::MeasureString(const std::string &s, float &w, float &h)
+void Screen::MeasureString(const std::string &s, float &w, float &h, TextureFont *font)
 {
+    if (!font) font = GetFont();
+
 	font->MeasureString(s.c_str(), w, h);
 	w *= fontScale[0];
 	h *= fontScale[1];
 }
 
-void Screen::RenderString(const std::string &s, float xoff, float yoff)
+void Screen::RenderString(const std::string &s, float xoff, float yoff, TextureFont *font)
 {
+    if (!font) font = GetFont();
+
 	GLdouble modelMatrix_[16];
 	glPushMatrix();
 	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix_);
@@ -224,8 +238,10 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff)
 	glPopMatrix();
 }
 
-void Screen::RenderMarkup(const std::string &s)
+void Screen::RenderMarkup(const std::string &s, TextureFont *font)
 {
+    if (!font) font = GetFont();
+
 	GLdouble modelMatrix_[16];
 	glPushMatrix();
 	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix_);

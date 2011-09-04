@@ -14,7 +14,7 @@ const float Sector::SIZE = 8;
 
 void Sector::GetCustomSystems()
 {
-	const std::list<const CustomSystem*> systems = CustomSystem::GetCustomSystemsForSector(sx, sy);
+	const std::list<const CustomSystem*> systems = CustomSystem::GetCustomSystemsForSector(sx, sy, sz);
 	if (systems.size() == 0) return;
 
 	for (std::list<const CustomSystem*>::const_iterator i = systems.begin(); i != systems.end(); i++) {
@@ -32,21 +32,23 @@ void Sector::GetCustomSystems()
 	}
 }
 
+#define CUSTOM_ONLY_RADIUS	4
+
 //////////////////////// Sector
-Sector::Sector(int x, int y)
+Sector::Sector(int x, int y, int z)
 {
-	unsigned long _init[3] = { x, y, UNIVERSE_SEED };
-	sx = x; sy = y;
-	MTRand rng(_init, 3);
+	unsigned long _init[4] = { x, y, z, UNIVERSE_SEED };
+	sx = x; sy = y; sz = z;
+	MTRand rng(_init, 4);
 	MTRand rand(UNIVERSE_SEED);
 
 	GetCustomSystems();
 
-	if (m_systems.size() != 0) {
-		// custom sector
-
-	} else {
-		int numSystems = (rng.Int32(4,20) * Galaxy::GetSectorDensity(x, y)) >> 8;
+	/* Always place random systems outside the core custom-only region */
+	if ((x < -CUSTOM_ONLY_RADIUS) || (x > CUSTOM_ONLY_RADIUS-1) ||
+	    (y < -CUSTOM_ONLY_RADIUS) || (y > CUSTOM_ONLY_RADIUS-1) ||
+	    (z < -CUSTOM_ONLY_RADIUS) || (z > CUSTOM_ONLY_RADIUS-1)) {
+		int numSystems = (rng.Int32(4,20) * Galaxy::GetSectorDensity(x, y, z)) >> 8;
 
 		for (int i=0; i<numSystems; i++) {
 			System s;
@@ -63,7 +65,7 @@ Sector::Sector(int x, int y)
 
 			s.p.x = rng.Double(SIZE);
 			s.p.y = rng.Double(SIZE);
-			s.p.z = rng.Double(2*SIZE)-SIZE;
+			s.p.z = rng.Double(SIZE);
 			s.seed = 0;
 			s.customSys = 0;
 			
@@ -237,14 +239,14 @@ Sector::Sector(int x, int y)
 float Sector::DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int sysIdxB)
 {
 	vector3f dv = a->m_systems[sysIdxA].p - b->m_systems[sysIdxB].p;
-	dv += Sector::SIZE*vector3f(a->sx - b->sx, a->sy - b->sy, 0);
+	dv += Sector::SIZE*vector3f(a->sx - b->sx, a->sy - b->sy, a->sz - b->sz);
 	return dv.Length();
 }
 
 std::string Sector::GenName(System &sys, MTRand &rng)
 {
 	std::string name;
-	const int dist = std::max(abs(sx),abs(sy));
+	const int dist = std::max(std::max(abs(sx),abs(sy)),abs(sz));
 
 	int chance = 100;
 	switch (sys.starType[0]) {
@@ -300,10 +302,12 @@ std::string Sector::GenName(System &sys, MTRand &rng)
 	}
 }
 
-bool Sector::WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax) const {
+bool Sector::WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) const {
 	if(sx >= Xmin && sx <= Xmax) {
 		if(sy >= Ymin && sy <= Ymax) {
-			return true;
+			if(sz >= Zmin && sz <= Zmax) {
+				return true;
+			}
 		}
 	}
 	return false;

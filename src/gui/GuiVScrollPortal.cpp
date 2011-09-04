@@ -28,7 +28,7 @@ void VScrollPortal::GetSizeRequested(float size[2])
 	else
 		size[0] = size[1] = 0;
 
-	if (m_forceWidth) size[0] = m_forceWidth;
+	if (m_forceWidth > 0.0f) size[0] = m_forceWidth;
 }
 
 void VScrollPortal::GetMinimumSize(float size[2])
@@ -39,8 +39,8 @@ void VScrollPortal::GetMinimumSize(float size[2])
 	}
 	else
 		size[0] = size[1] = 0;
-	
-	if (m_forceWidth) size[0] = m_forceWidth;
+
+	if (m_forceWidth > 0.0f) size[0] = m_forceWidth;
 }
 
 void VScrollPortal::OnChildResizeRequest(Widget *child)

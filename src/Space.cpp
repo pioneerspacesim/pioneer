@@ -15,7 +15,7 @@
 #include "Sfx.h"
 #include "Missile.h"
 #include "HyperspaceCloud.h"
-#include "Render.h"
+#include "render/Render.h"
 #include "WorldView.h"
 #include "SectorView.h"
 
@@ -23,10 +23,8 @@ namespace Space {
 
 std::list<Body*> bodies;
 Frame *rootFrame;
-static void UpdateFramesOfReference();
 static void CollideFrame(Frame *f);
 static void PruneCorpses();
-static void ApplyGravity();
 static std::list<Body*> corpses;
 static SystemPath *hyperspacingTo;
 static float hyperspaceAnim;
@@ -244,12 +242,12 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		frameRadius = std::max(4.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.05);
 		orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->m_sbody = sbody;
-		orbFrame->SetRadius(frameRadius ? frameRadius : 10*sbody->GetRadius());
+		orbFrame->SetRadius(frameRadius);
 		//printf("\t\t\t%s has frame size %.0fkm, body radius %.0fkm\n", sbody->name.c_str(),
 		//	(frameRadius ? frameRadius : 10*sbody->GetRadius())*0.001f,
 		//	sbody->GetRadius()*0.001f);
 	
-		assert(sbody->GetRotationPeriod() != 0);
+		assert(sbody->rotationPeriod != 0);
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
 		// rotating frame has size of GeoSphere terrain bounding sphere
 		rotFrame->SetRadius(b->GetBoundingRadius());
@@ -275,9 +273,9 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->m_sbody = sbody;
 //		orbFrame->SetRadius(10*sbody->GetRadius());
-		orbFrame->SetRadius(frameRadius ? frameRadius : 10*sbody->GetRadius());
+		orbFrame->SetRadius(frameRadius);
 	
-		assert(sbody->GetRotationPeriod() != 0);
+		assert(sbody->rotationPeriod != 0);
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
 		rotFrame->SetRadius(1000.0);
 //		rotFrame->SetRadius(1.1*sbody->GetRadius());		// enough for collisions?
@@ -302,7 +300,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		// first try suggested position
 		rot = sbody->orbit.rotMatrix;
 		pos = rot * vector3d(0,1,0);
-		if (planet->GetTerrainHeight(pos) - planet->GetSBody()->GetRadius() == 0.0) {
+		if (planet->GetTerrainHeight(pos) - planet->GetSBody()->GetRadius() <= 0.0) {
 			MTRand r(sbody->seed);
 			// position is under water. try some random ones
 			for (tries=0; tries<100; tries++) {
@@ -634,6 +632,7 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 				const SystemPath cloudDest = cloud->GetShip()->GetHyperspaceDest();
 				if (cloudDest.IsSameSystem(*dest)) {
 					Pi::player->NotifyDeleted(cloud);
+					cloud->GetShip()->SetHyperspaceDest(Pi::currentSystem->GetPath());
 					cloud->SetIsArrival(true);
 					cloud->SetFrame(0);
 					storedArrivalClouds.push_back(cloud);
@@ -654,6 +653,7 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 		hyperspaceDuration = duration;
 		hyperspaceEndTime = Pi::GetGameTime() + duration;
 
+		Pi::player->ClearThrusterState();
 		Pi::player->SetFlightState(Ship::HYPERSPACE);
 
 		printf("Started hyperspacing...\n");
@@ -665,9 +665,7 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 		cloud->SetFrame(ship->GetFrame());
 		cloud->SetPosition(ship->GetPosition());
 		ship->SetFrame(0);
-#if 0
-		ship->SetHyperspaceTarget(dest);
-#endif
+
 		// need to swap ship out of bodies list, replacing it with
 		// cloud
 		for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
@@ -768,14 +766,11 @@ void DoHyperspaceTo(const SystemPath *dest)
 			ship->Enable();
 			ship->SetFlightState(Ship::FLYING);
 
-#if 0
-			const SystemPath *sdest = ship->GetHyperspaceTarget();
-			if (sdest->bodyIndex == 0) {
+			SystemPath sdest = ship->GetHyperspaceDest();
+			if (sdest.bodyIndex == 0) {
 				// travelling to the system as a whole, so just dump them on
 				// the cloud - we can't do any better in this case
-#endif
 				ship->SetPosition(cloud->GetPosition());
-#if 0
 			}
 
 			else {
@@ -783,7 +778,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 				// want to simulate some travel to their destination. we
 				// naively assume full accel for half the distance, flip and
 				// full brake for the rest.
-				Body *target_body = FindBodyForPath(sdest);
+				Body *target_body = FindBodyForPath(&sdest);
 				double dist_to_target = cloud->GetPositionRelTo(target_body).Length();
 				double half_dist_to_target = dist_to_target / 2.0;
 				double accel = -(ship->GetShipType().linThrust[ShipType::THRUSTER_FORWARD] / ship->GetMass());
@@ -816,7 +811,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 					// flyto command in onEnterSystem so it should sort it
 					// itself out long before the player can get near
 					
-					SBody *sbody = Pi::currentSystem->GetBodyByPath(sdest);
+					SBody *sbody = Pi::currentSystem->GetBodyByPath(&sdest);
 					if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
 						ship->SetFrame(target_body->GetFrame());
 						ship->SetPosition(_get_random_pos(1000.0,1000.0)*1000.0); // somewhere 1000km out
@@ -836,7 +831,6 @@ void DoHyperspaceTo(const SystemPath *dest)
 					}
 				}
 			}
-#endif
 
 			Space::AddBody(ship);
 

@@ -52,9 +52,7 @@ static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SystemPath *path, double du
 	if (!path) return ship;
 
 	HyperspaceCloud *cloud = new HyperspaceCloud(ship, due, true);
-#if 0
-	ship->SetHyperspaceTarget(path);
-#endif
+	ship->SetHyperspaceDest(path);
 
 	return cloud;
 }
@@ -425,7 +423,7 @@ static int l_space_get_body(lua_State *l)
  *
  *   filter - an option function. If specificed the function will be called
  *            once for each body with the <Body> object as the only parameter.
- *            If the filter function returns true then the ship name will be
+ *            If the filter function returns true then the <Body> will be
  *            included in the array returned by <GetBodies>, otherwise it will
  *            be omitted. If no filter function is specified then all bodies
  *            are returned.
@@ -470,7 +468,7 @@ static int l_space_get_bodies(lua_State *l)
 		if (filter) {
 			lua_pushvalue(l, 1);
 			LuaBody::PushToLua(b);
-			lua_call(l, 1, 1);
+			pi_lua_protected_call(l, 1, 1);
 			if (!lua_toboolean(l, -1)) {
 				lua_pop(l, 1);
 				continue;

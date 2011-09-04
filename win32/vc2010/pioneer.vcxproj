@@ -82,7 +82,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_release.lib;libvorbis_static_vc2010_release.lib;libvorbisfile_static_vc2010_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-2_2_8.lib;libpng15.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -92,9 +92,9 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\AmbientSounds.cpp" />
     <ClCompile Include="..\..\src\Background.cpp" />
-    <ClCompile Include="..\..\src\BBAdvertChatForm.cpp" />
     <ClCompile Include="..\..\src\Body.cpp" />
     <ClCompile Include="..\..\src\CargoBody.cpp" />
+    <ClCompile Include="..\..\src\ChatForm.cpp" />
     <ClCompile Include="..\..\src\CityOnPlanet.cpp" />
     <ClCompile Include="..\..\src\collider\BVHTree.cpp" />
     <ClCompile Include="..\..\src\collider\CollisionSpace.cpp" />
@@ -109,12 +109,12 @@
     <ClCompile Include="..\..\src\Font.cpp" />
     <ClCompile Include="..\..\src\FontConfig.cpp" />
     <ClCompile Include="..\..\src\FontManager.cpp" />
+    <ClCompile Include="..\..\src\FormController.cpp" />
     <ClCompile Include="..\..\src\Frame.cpp" />
     <ClCompile Include="..\..\src\GalacticView.cpp" />
     <ClCompile Include="..\..\src\Galaxy.cpp" />
     <ClCompile Include="..\..\src\GameConfig.cpp" />
     <ClCompile Include="..\..\src\GameMenuView.cpp" />
-    <ClCompile Include="..\..\src\GenericChatForm.cpp" />
     <ClCompile Include="..\..\src\GeoSphere.cpp" />
     <ClCompile Include="..\..\src\GeoSphereStyle.cpp" />
     <ClCompile Include="..\..\src\gui\Gui.cpp" />
@@ -122,6 +122,7 @@
     <ClCompile Include="..\..\src\gui\GuiButton.cpp" />
     <ClCompile Include="..\..\src\gui\GuiContainer.cpp" />
     <ClCompile Include="..\..\src\gui\GuiFixed.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiGradient.cpp" />
     <ClCompile Include="..\..\src\gui\GuiImage.cpp" />
     <ClCompile Include="..\..\src\gui\GuiImageButton.cpp" />
     <ClCompile Include="..\..\src\gui\GuiImageRadioButton.cpp" />
@@ -133,6 +134,7 @@
     <ClCompile Include="..\..\src\gui\GuiRadioGroup.cpp" />
     <ClCompile Include="..\..\src\gui\GuiRepeaterButton.cpp" />
     <ClCompile Include="..\..\src\gui\GuiScreen.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiStack.cpp" />
     <ClCompile Include="..\..\src\gui\GuiTabbed.cpp" />
     <ClCompile Include="..\..\src\gui\GuiTextEntry.cpp" />
     <ClCompile Include="..\..\src\gui\GuiTextLayout.cpp" />
@@ -145,6 +147,7 @@
     <ClCompile Include="..\..\src\InfoView.cpp" />
     <ClCompile Include="..\..\src\IniConfig.cpp" />
     <ClCompile Include="..\..\src\KeyBindings.cpp" />
+    <ClCompile Include="..\..\src\Lang.cpp" />
     <ClCompile Include="..\..\src\LmrModel.cpp" />
     <ClCompile Include="..\..\src\LuaBody.cpp" />
     <ClCompile Include="..\..\src\LuaCargoBody.cpp" />
@@ -187,11 +190,12 @@
     <ClCompile Include="..\..\src\PiLuaClasses.cpp" />
     <ClCompile Include="..\..\src\Planet.cpp" />
     <ClCompile Include="..\..\src\Player.cpp" />
-    <ClCompile Include="..\..\src\PoliceChatForm.cpp" />
     <ClCompile Include="..\..\src\Polit.cpp" />
     <ClCompile Include="..\..\src\Projectile.cpp" />
-    <ClCompile Include="..\..\src\Render.cpp" />
-    <ClCompile Include="..\..\src\RenderShader.cpp" />
+    <ClCompile Include="..\..\src\render\Render.cpp" />
+    <ClCompile Include="..\..\src\render\RenderShader.cpp" />
+    <ClCompile Include="..\..\src\render\RenderTarget.cpp" />
+    <ClCompile Include="..\..\src\render\RenderTexture.cpp" />
     <ClCompile Include="..\..\src\Sector.cpp" />
     <ClCompile Include="..\..\src\SectorView.cpp" />
     <ClCompile Include="..\..\src\Serializer.cpp" />
@@ -202,6 +206,7 @@
     <ClCompile Include="..\..\src\ShipCpanel.cpp" />
     <ClCompile Include="..\..\src\ShipCpanelMultiFuncDisplays.cpp" />
     <ClCompile Include="..\..\src\ShipFlavour.cpp" />
+    <ClCompile Include="..\..\src\ShipSpinnerWidget.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
     <ClCompile Include="..\..\src\Sound.cpp" />
     <ClCompile Include="..\..\src\SoundMusic.cpp" />
@@ -210,6 +215,17 @@
     <ClCompile Include="..\..\src\SpaceStationView.cpp" />
     <ClCompile Include="..\..\src\Star.cpp" />
     <ClCompile Include="..\..\src\StarSystem.cpp" />
+    <ClCompile Include="..\..\src\StationAdvertForm.cpp" />
+    <ClCompile Include="..\..\src\StationBulletinBoardForm.cpp" />
+    <ClCompile Include="..\..\src\StationCommodityMarketForm.cpp" />
+    <ClCompile Include="..\..\src\StationPoliceForm.cpp" />
+    <ClCompile Include="..\..\src\StationServicesForm.cpp" />
+    <ClCompile Include="..\..\src\StationShipEquipmentForm.cpp" />
+    <ClCompile Include="..\..\src\StationShipMarketForm.cpp" />
+    <ClCompile Include="..\..\src\StationShipRepairForm.cpp" />
+    <ClCompile Include="..\..\src\StationShipViewForm.cpp" />
+    <ClCompile Include="..\..\src\StationShipyardForm.cpp" />
+    <ClCompile Include="..\..\src\StringF.cpp" />
     <ClCompile Include="..\..\src\SystemInfoView.cpp" />
     <ClCompile Include="..\..\src\SystemView.cpp" />
     <ClCompile Include="..\..\src\TextureFont.cpp" />
@@ -227,12 +243,12 @@
     <ClInclude Include="..\..\src\Aabb.h" />
     <ClInclude Include="..\..\src\AmbientSounds.h" />
     <ClInclude Include="..\..\src\Background.h" />
-    <ClInclude Include="..\..\src\BBAdvertChatForm.h" />
     <ClInclude Include="..\..\src\BezierCurve.h" />
     <ClInclude Include="..\..\src\Body.h" />
     <ClInclude Include="..\..\src\BufferObject.h" />
     <ClInclude Include="..\..\src\buildopts.h" />
     <ClInclude Include="..\..\src\CargoBody.h" />
+    <ClInclude Include="..\..\src\ChatForm.h" />
     <ClInclude Include="..\..\src\CityOnPlanet.h" />
     <ClInclude Include="..\..\src\collider\BVHTree.h" />
     <ClInclude Include="..\..\src\collider\collider.h" />
@@ -252,13 +268,13 @@
     <ClInclude Include="..\..\src\Font.h" />
     <ClInclude Include="..\..\src\FontConfig.h" />
     <ClInclude Include="..\..\src\FontManager.h" />
+    <ClInclude Include="..\..\src\FormController.h" />
     <ClInclude Include="..\..\src\Frame.h" />
     <ClInclude Include="..\..\src\GalacticView.h" />
     <ClInclude Include="..\..\src\Galaxy.h" />
     <ClInclude Include="..\..\src\GameConfig.h" />
     <ClInclude Include="..\..\src\gameconsts.h" />
     <ClInclude Include="..\..\src\GameMenuView.h" />
-    <ClInclude Include="..\..\src\GenericChatForm.h" />
     <ClInclude Include="..\..\src\GeoSphere.h" />
     <ClInclude Include="..\..\src\GeoSphereStyle.h" />
     <ClInclude Include="..\..\src\gui\Gui.h" />
@@ -268,6 +284,7 @@
     <ClInclude Include="..\..\src\gui\GuiContainer.h" />
     <ClInclude Include="..\..\src\gui\GuiEvents.h" />
     <ClInclude Include="..\..\src\gui\GuiFixed.h" />
+    <ClInclude Include="..\..\src\gui\GuiGradient.h" />
     <ClInclude Include="..\..\src\gui\GuiImage.h" />
     <ClInclude Include="..\..\src\gui\GuiImageButton.h" />
     <ClInclude Include="..\..\src\gui\GuiImageRadioButton.h" />
@@ -280,6 +297,7 @@
     <ClInclude Include="..\..\src\gui\GuiRadioGroup.h" />
     <ClInclude Include="..\..\src\gui\GuiRepeaterButton.h" />
     <ClInclude Include="..\..\src\gui\GuiScreen.h" />
+    <ClInclude Include="..\..\src\gui\GuiStack.h" />
     <ClInclude Include="..\..\src\gui\GuiTabbed.h" />
     <ClInclude Include="..\..\src\gui\GuiTextEntry.h" />
     <ClInclude Include="..\..\src\gui\GuiTextLayout.h" />
@@ -337,14 +355,15 @@
     <ClInclude Include="..\..\src\PiLuaClasses.h" />
     <ClInclude Include="..\..\src\Planet.h" />
     <ClInclude Include="..\..\src\Player.h" />
-    <ClInclude Include="..\..\src\PoliceChatForm.h" />
     <ClInclude Include="..\..\src\Polit.h" />
     <ClInclude Include="..\..\src\Projectile.h" />
     <ClInclude Include="..\..\src\Quaternion.h" />
     <ClInclude Include="..\..\src\RefCounted.h" />
     <ClInclude Include="..\..\src\RefList.h" />
-    <ClInclude Include="..\..\src\Render.h" />
-    <ClInclude Include="..\..\src\RenderShader.h" />
+    <ClInclude Include="..\..\src\render\Render.h" />
+    <ClInclude Include="..\..\src\render\RenderShader.h" />
+    <ClInclude Include="..\..\src\render\RenderTarget.h" />
+    <ClInclude Include="..\..\src\render\RenderTexture.h" />
     <ClInclude Include="..\..\src\Sector.h" />
     <ClInclude Include="..\..\src\SectorView.h" />
     <ClInclude Include="..\..\src\Serializer.h" />
@@ -354,6 +373,7 @@
     <ClInclude Include="..\..\src\ShipCpanel.h" />
     <ClInclude Include="..\..\src\ShipCpanelMultiFuncDisplays.h" />
     <ClInclude Include="..\..\src\ShipFlavour.h" />
+    <ClInclude Include="..\..\src\ShipSpinnerWidget.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
     <ClInclude Include="..\..\src\Sound.h" />
     <ClInclude Include="..\..\src\SoundMusic.h" />
@@ -362,6 +382,16 @@
     <ClInclude Include="..\..\src\SpaceStationView.h" />
     <ClInclude Include="..\..\src\Star.h" />
     <ClInclude Include="..\..\src\StarSystem.h" />
+    <ClInclude Include="..\..\src\StationAdvertForm.h" />
+    <ClInclude Include="..\..\src\StationBulletinBoardForm.h" />
+    <ClInclude Include="..\..\src\StationCommodityMarketForm.h" />
+    <ClInclude Include="..\..\src\StationPoliceForm.h" />
+    <ClInclude Include="..\..\src\StationServicesForm.h" />
+    <ClInclude Include="..\..\src\StationShipEquipmentForm.h" />
+    <ClInclude Include="..\..\src\StationShipMarketForm.h" />
+    <ClInclude Include="..\..\src\StationShipRepairForm.h" />
+    <ClInclude Include="..\..\src\StationShipViewForm.h" />
+    <ClInclude Include="..\..\src\StationShipyardForm.h" />
     <ClInclude Include="..\..\src\SystemInfoView.h" />
     <ClInclude Include="..\..\src\SystemView.h" />
     <ClInclude Include="..\..\src\TextureFont.h" />

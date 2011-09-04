@@ -1,1 +1,0 @@
-CustomSystem:new("Oskar",{'STAR_M'}):add_to_sector(-2,4,v(0.526,0.840,-0.365))

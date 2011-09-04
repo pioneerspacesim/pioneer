@@ -12,6 +12,8 @@
 #include "LmrModel.h"
 #include "Polit.h"
 #include "Space.h"
+#include "Lang.h"
+#include "StringF.h"
 #include <algorithm>
 
 #define ARG_STATION_BAY1_STAGE 6
@@ -427,7 +429,6 @@ void SpaceStation::DoLawAndOrder()
 {
 	Sint64 fine, crimeBitset;
 	Polit::GetCrime(&crimeBitset, &fine);
-	bool isDocked = static_cast<Ship*>(Pi::player)->GetDockedWith() ? true : false;
 	if (Pi::player->GetFlightState() != Ship::DOCKED
 			&& m_numPoliceDocked
 			&& (fine > 1000)
@@ -444,7 +445,7 @@ void SpaceStation::DoLawAndOrder()
 			{ // blue and white thang
 				ShipFlavour f;
 				f.type = ShipType::LADYBIRD;
-				strncpy(f.regid, "POLICE", 16);
+				strncpy(f.regid, Lang::POLICE_SHIP_REGISTRATION, 16);
 				f.price = ship->GetFlavour()->price;
 				LmrMaterial m;
 				m.diffuse[0] = 0.0f; m.diffuse[1] = 0.0f; m.diffuse[2] = 1.0f; m.diffuse[3] = 1.0f;
@@ -595,7 +596,7 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		if (i >= m_type->numDockingPorts) break;
 		if ((m_shipDocking[i].ship == s) && (m_shipDocking[i].stage > 0)) {
-			outMsg = stringf(256, "Clearance already granted. Proceed to docking bay %d.", i+1);
+			outMsg = stringf(Lang::CLEARANCE_ALREADY_GRANTED_BAY_N, formatarg("bay", i+1));
 			return true;
 		}
 	}
@@ -606,10 +607,10 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 		sd.ship = s;
 		sd.stage = 1;
 		sd.stagePos = 0;
-		outMsg = stringf(256, "Clearance granted. Proceed to docking bay %d.", i+1);
+		outMsg = stringf(Lang::CLEARANCE_GRANTED_BAY_N, formatarg("bay", i+1));
 		return true;
 	}
-	outMsg = "Clearance denied. There are no free docking bays.";
+	outMsg = Lang::CLEARANCE_DENIED_NO_BAYS;
 	return false;
 }
 
@@ -626,7 +627,7 @@ bool SpaceStation::CanBuy(Equip::Type t, bool verbose) const {
 bool SpaceStation::CanSell(Equip::Type t, bool verbose) const {
 	bool result = (m_equipmentStock[int(t)] > 0);
 	if (verbose && !result) {
-		Pi::Message("This item is out of stock.");
+		Pi::Message(Lang::ITEM_IS_OUT_OF_STOCK);
 	}
 	return result;
 }
@@ -685,7 +686,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 
 				// check player is sortof sensibly oriented for landing
 				const double dot = vector3d(invShipRot[1], invShipRot[5], invShipRot[9]).Dot(dockingNormal);
-				if ((dot < 0.99) || (s->GetWheelState() != 1.0)) return false;
+				if ((dot < 0.99) || (s->GetWheelState() < 1.0)) return false;
 			}
 			
 			if ((speed < MAX_LANDING_SPEED) &&
@@ -703,6 +704,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					s->GetRotMatrix(temp);
 					sd.fromRot = Quaterniond::FromMatrix4x4(temp);
 					s->Disable();
+					s->ClearThrusterState();
 					s->SetFlightState(Ship::DOCKING);
 				} else {
 					s->SetDockedWith(this, port);
@@ -805,7 +807,7 @@ void SpaceStation::CreateBB()
 
 
 static int next_ref = 0;
-int SpaceStation::AddBBAdvert(std::string description, ChatFormBuilder builder)
+int SpaceStation::AddBBAdvert(std::string description, AdvertFormBuilder builder)
 {
 	int ref = ++next_ref;
 	assert(ref);
@@ -834,8 +836,8 @@ bool SpaceStation::RemoveBBAdvert(int ref)
 {
 	for (std::vector<BBAdvert>::iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
 		if (i->ref == ref) {
-			onBulletinBoardAdvertDeleted.emit(&(*i));
 			m_bbAdverts.erase(i);
+			onBulletinBoardAdvertDeleted.emit(*i);
 			return true;
 		}
 	return false;

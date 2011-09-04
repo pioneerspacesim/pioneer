@@ -1,3 +1,52 @@
+Alpha 14
+
+  * New features
+    * 3D galaxy (#394, #429)
+    * Trade ships AI. Ships now dock, undock, hyperspace and buy and sell
+      things (#412, #11, #448)
+    * Delivery missions to other starports in the same system (#388)
+    * Press CTRL while clicking time acceleration buttons to override the
+      lockout due to nearby bodies (#417, #358)
+    * Settings to adjust terrain textures and fractal detail (#442, #416)
+    * Polish translation (#443)
+    * Lua attribute SBody.parent to find the parent of a system body (#359, #368)
+    * Lua methods Player.SetNavTarget and Player.SetCombatTarget to let
+      script control player targets (#422, #444)
+    * Overdue deliveries will now be checked and reported as "failed"
+      immediately after hyperspace (#445)
+
+  * Fixes
+    * Remove a couple of hardcoded references to the data directory (#363)
+    * Fix crash when closing police form triggered from inside a advert (#371, #372)
+    * Fix occasional crash in DeliverPackage when cleaning up old ads (#123, #379)
+    * Fix inverted mouse control (#389)
+    * Tweak to texture scaling to make edges sharper (#391)
+    * Fix occasional crash when rendering certain hill terrains (#364)
+    * Fix flickering when HDR enabled (#266, #401)
+    * Fix crash when trying to display tooltips when their parent UI element
+      is no long on screen (#59, #410)
+    * Disable thrusters when docking (#409, #418) and in hyperspace (#431)
+    * Restore NPC (Lua) hyperspace functions (#414, #362, #269, #426)
+    * Fix bug where NPC flight state was not reset upon exiting hyperspace
+    * Nereid now has a radius and can be found
+    * Don't allow scripts to jettison non-existent cargo (#430)
+    * Fix crash when selecting own hyperspace cloud remnant (#427)
+    * Fix occasional autopilot crash into planet (#424)
+    * Fix buy/sell message output (#452, #288)
+
+  * Internal changes
+    * Lots of internal cleanups; silences many warnings under GCC (#373, #375,
+      #389, #392, #383, #399) and MSVC (#434, #435, #436)
+    * New utility functions for floating-point comparisons (#389)
+    * Dump Lua engine state to file on exception in Lua module (#370)
+    * Lua documentation fixes (#380, #403)
+    * Abstracted the HDR rendering pipeline into discrete components (#396)
+    * New string formatting system for translations and other strings (#405, #449)
+    * Gracefully handle attempts to load old savefiles (#428)
+    * Redirect stdio output streams to files in user dir. Do this by default
+      on Windows builds.
+    * Use SDL mouse button defines instead of hardcoded numbers (#446)
+
 Alpha 13
 
   * New features
@@ -15,6 +64,15 @@ Alpha 13
       instead of just playing them quietly (#284, #270)
     * New Lua events onShipLanded and onShipTakeOff to inform scripts when a
       ship lands and takes off from a planet's surface (rough landing) (#295, #297)
+    * New Lua method StarSystem.GetBodyPaths to get paths to all bodies in a
+      system (#313)
+    * Outline overlay text (eg world labels) for improved visibility (#325,
+      #314, #258, #39, #349)
+    * Make the "video link established" text disappear after a few seconds
+      instead of flashing constantly (#319, #326)
+    * Support for translated strings; first language is German (#332)
+    * Name & title/occupation overlaid on station faces (#346)
+    * Added 'Inconsolata' font for debug and (later) console text (#343)
 
   * Fixes
     * Move sector view to current system on first open (#262)
@@ -29,6 +87,19 @@ Alpha 13
       constants as documented (#305)
     * Lua method Ship.AddEquip now adds as many items as possible if there is
       not enough room for the requested amount, as documented (#309)
+    * Use of Lua method SystemPath.GetSystemBody would result in a crash on
+      exit (#311, #312)
+    * Fix occasional crash when station menus are still live in memory after
+      launch (#259)
+    * Enable GL extensions earlier in shader compilation to conform to shader
+      spec (#329, #330)
+    * Fix occasional crash on game load (#331)
+    * Fix terrain jitter (#179)
+    * Support extended ASCII characters in texture fonts (#338)
+    * Make sure all bodies have a minimum radius of at least 10km (#321, #301)
+    * All city models checked and proper collision meshes added, drastically
+      improving city rendering performance (#348)
+    * Fix crash when music changes while in hyperspace (#345)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
@@ -36,6 +107,9 @@ Alpha 13
     * Tweaks and improvements to several terrains (#276, #291)
     * GUI widgets now have a minimum size, used for better dynamic layout with
       variable-size containers and widgets (#279)
+    * Rewrote station menus and refactored several GUI elements to have better
+      abstraction and consistency (306)
+    * Debug output now shows terrain vertices and font glyphs per second
 
 Alpha 12
 
@@ -114,7 +188,7 @@ Alpha 11
     * Remove duplicate system 'EI Cancri' [2,0]
     * Crash on call to Lua method Player.AddCrime
     * Crash on any mission failure (#144)
-	* Mission status screen layout tweaks (#145)
+    * Mission status screen layout tweaks (#145)
 
   * Internal changes
     * Lots of code cleanups, warnings silenced, etc

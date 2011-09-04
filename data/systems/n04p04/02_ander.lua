@@ -1,1 +1,0 @@
-CustomSystem:new("Ander",{'STAR_M'}):add_to_sector(-4,4,v(0.767,0.378,-0.357))

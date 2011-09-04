@@ -1,1 +1,0 @@
-CustomSystem:new("Heintz",{'STAR_M'}):add_to_sector(5,-7,v(0.331,0.776,0.710))

@@ -3,11 +3,11 @@
 #include "perlin.h"
 #include "Pi.h"
 #include "StarSystem.h"
-#include "Render.h"
+#include "render/Render.h"
 
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
-#define GEOPATCH_MAX_DEPTH	15
+#define GEOPATCH_MAX_DEPTH  15 + (2*Pi::detail.fracmult) //15 
 // must be an odd number
 //#define GEOPATCH_EDGELEN	15
 #define GEOPATCH_NUMVERTICES	(GEOPATCH_EDGELEN*GEOPATCH_EDGELEN)
@@ -16,6 +16,8 @@
 int GEOPATCH_EDGELEN = 15;
 static const int GEOPATCH_MAX_EDGELEN = 55;
 static double GEOPATCH_FRAC;
+int GeoSphere::s_vtxGenCount = 0;
+
 
 #define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
@@ -315,16 +317,16 @@ public:
 			{
 				clipRadius = std::max(clipRadius, (vertices[i]-clipCentroid).Length());
 				VBOVertex *pData = vbotemp + i;
-				pData->x = float(vertices[i].x);
-				pData->y = float(vertices[i].y);
-				pData->z = float(vertices[i].z);
+				pData->x = float(vertices[i].x - clipCentroid.x);
+				pData->y = float(vertices[i].y - clipCentroid.y);
+				pData->z = float(vertices[i].z - clipCentroid.z);
 				pData->nx = float(normals[i].x);
 				pData->ny = float(normals[i].y);
 				pData->nz = float(normals[i].z);
 				pData->col[0] = static_cast<unsigned char>(Clamp(colors[i].x*255.0, 0.0, 255.0));
 				pData->col[1] = static_cast<unsigned char>(Clamp(colors[i].y*255.0, 0.0, 255.0));
 				pData->col[2] = static_cast<unsigned char>(Clamp(colors[i].z*255.0, 0.0, 255.0));
-				pData->col[3] = 1.0;
+				pData->col[3] = 255;
 			}
 			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*GEOPATCH_NUMVERTICES, vbotemp, GL_DYNAMIC_DRAW);
 			glBindBufferARB(GL_ARRAY_BUFFER, 0);
@@ -696,6 +698,7 @@ public:
 				col_r = geosphere->GetColor(p, height, norm);
 			}
 		}
+		
 	}
 	void OnEdgeFriendChanged(int edge, GeoPatch *e) {
 		edgeFriend[edge] = e;
@@ -822,6 +825,11 @@ public:
 					return;
 				}
 			}
+
+			vector3d relpos = clipCentroid - campos;
+			glPushMatrix();
+			glTranslated(relpos.x, relpos.y, relpos.z);
+
 			Pi::statSceneTris += 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1);
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glEnableClientState(GL_NORMAL_ARRAY);
@@ -846,6 +854,7 @@ public:
 			glDisableClientState(GL_VERTEX_ARRAY);
 			glDisableClientState(GL_NORMAL_ARRAY);
 			glDisableClientState(GL_COLOR_ARRAY);
+			glPopMatrix();
 		}
 	}
 
@@ -956,7 +965,8 @@ int GeoSphere::UpdateLODThread(void *data)
 
 		SDL_Delay(10);
 	}
-	return 0;
+
+	RETURN_ZERO_NONGNU_ONLY;
 }
 
 void GeoSphere::_UpdateLODs()
@@ -999,6 +1009,7 @@ void GeoSphere::OnChangeDetailLevel()
 	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
 			i != s_allGeospheres.end(); ++i) {
 		for (int p=0; p<6; p++) if ((*i)->m_patches[p]) delete (*i)->m_patches[p];
+		(*i)->m_style.ChangeDetailLevel();
 	}
 	switch (Pi::detail.planets) {
 		case 0: GEOPATCH_EDGELEN = 7; break;
@@ -1154,6 +1165,8 @@ static void DrawAtmosphereSurface(const vector3d &campos, float rad)
 
 void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	Plane planes[6];
+	glPushMatrix();
+	glTranslated(-campos.x, -campos.y, -campos.z);
 	GetFrustum(planes);
 	const float atmosRadius = ATMOSPHERE_RADIUS;
 	
@@ -1170,7 +1183,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		GetAtmosphereFlavor(&atmosCol, &atmosDensity);
 		atmosDensity *= 0.00005;
 
-		if (atmosDensity != 0.0) {
+		if (atmosDensity > 0.0) {
 			GeosphereShader *shader = s_geosphereSkyShader[Render::State::GetNumLights()-1];
 			Render::State::UseProgram(shader);
 			shader->set_geosphereScale(scale);
@@ -1196,6 +1209,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
 		shader->set_geosphereCenter(center.x, center.y, center.z);
 	}
+	glPopMatrix();
 
 	if (!m_patches[0]) BuildFirstPatches();
 
@@ -1211,6 +1225,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		double camdist = campos.Length();
 		camdist = 0.1 / (camdist*camdist);
 		// why the fuck is this returning 0.1 when we are sat on the planet??
+		// JJ: Because campos is relative to a unit-radius planet - 1.0 at the surface
 		// XXX oh well, it is the value we want anyway...
 		ambient[0] = ambient[1] = ambient[2] = float(camdist);
 		ambient[3] = 1.0f;

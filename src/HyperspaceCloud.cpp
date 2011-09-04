@@ -3,10 +3,11 @@
 #include "Pi.h"
 #include "Ship.h"
 #include "Serializer.h"
-#include "Render.h"
+#include "render/Render.h"
 #include "Space.h"
 #include "Player.h"
 #include "perlin.h"
+#include "Lang.h"
 
 HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 {
@@ -34,7 +35,7 @@ HyperspaceCloud::~HyperspaceCloud()
 void HyperspaceCloud::SetIsArrival(bool isArrival)
 {
 	m_isArrival = isArrival;
-	SetLabel(isArrival ? "Hyperspace arrival cloud" : "Hyperspace departure cloud");
+	SetLabel(isArrival ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 }
 
 vector3d HyperspaceCloud::GetPosition() const
@@ -83,9 +84,13 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 
 	if (m_isArrival && m_ship && (m_due < Pi::GetGameTime())) {
 		// spawn ship
+		// XXX some overlap with Space::DoHyperspaceTo(). should probably all
+		// be moved into EvictShip()
 		m_ship->SetPosition(m_pos);
 		m_ship->SetVelocity(m_vel);
+		m_ship->SetRotMatrix(matrix4x4d::Identity());
 		m_ship->SetFrame(GetFrame());
+		m_ship->SetFlightState(Ship::FLYING);
 		Space::AddBody(m_ship);
 		m_ship->Enable();
 

@@ -1,1 +1,0 @@
-CustomSystem:new("Eta Ophiuchi",{'STAR_A', 'STAR_A'}):add_to_sector(-8,-2,v(0.713,0.930,0.832))

@@ -8,7 +8,9 @@
 #include "SectorView.h"
 #include "Sector.h"
 #include "Galaxy.h"
-		
+#include "Lang.h"
+#include "StringF.h"
+
 GalacticView::GalacticView()
 {
 	const SDL_Surface *s = Galaxy::GetGalaxyBitmap();
@@ -16,8 +18,8 @@ GalacticView::GalacticView()
 	glGenTextures (1, &m_texture);
 	glBindTexture (GL_TEXTURE_2D, m_texture);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, s->w, s->h, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, s->pixels);
-	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glDisable(GL_TEXTURE_2D);
@@ -26,18 +28,20 @@ GalacticView::GalacticView()
 	m_zoom = 1.0f;
 
 	m_zoomInButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_in.png");
-	m_zoomInButton->SetToolTip("Zoom in");
+	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
 	Add(m_zoomInButton, 700, 5);
 	
 	m_zoomOutButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_out.png");
-	m_zoomOutButton->SetToolTip("Zoom out");
+	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	Add(m_zoomOutButton, 732, 5);
 	
 	m_scaleReadout = new Gui::Label("");
 	Add(m_scaleReadout, 500.0f, 10.0f);
 
+	Gui::Screen::PushFont("OverlayFont");
 	m_labels = new Gui::LabelSet();
 	Add(m_labels, 0, 0);
+	Gui::Screen::PopFont();
 
 	m_onMouseButtonDown = 
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &GalacticView::MouseButtonDown));
@@ -62,11 +66,11 @@ struct galaclabel_t {
 	const char *label;
 	vector3d pos;
 } s_labels[] = {
-	{ "Norma arm", vector3d(0.0,-0.3,0.0) },
-	{ "Persius arm", vector3d(0.57,0.0,0.0) },
-	{ "Outer arm", vector3d(0.65,0.4,0.0) },
-	{ "Sagittarius arm", vector3d(-.3,0.2,0.0) },
-	{ "Scutum-Centaurus arm", vector3d(-.45,-0.45,0.0) },
+	{ Lang::NORMA_ARM, vector3d(0.0,-0.3,0.0) },
+	{ Lang::PERSEUS_ARM, vector3d(0.57,0.0,0.0) },
+	{ Lang::OUTER_ARM, vector3d(0.65,0.4,0.0) },
+	{ Lang::SAGITTARIUS_ARM, vector3d(-.3,0.2,0.0) },
+	{ Lang::SCUTUM_CENTAURUS_ARM, vector3d(-.45,-0.45,0.0) },
 	{ 0, vector3d(0.0, 0.0, 0.0) }
 };
 
@@ -92,9 +96,9 @@ void GalacticView::PutLabels(vector3d offset)
 
 void GalacticView::Draw3D()
 {
-	SystemPath path = Pi::sectorView->GetSelectedSystem();
-	float offset_x = (path.sectorX*Sector::SIZE + Galaxy::SOL_OFFSET_X)/Galaxy::GALAXY_RADIUS;
-	float offset_y = (-path.sectorY*Sector::SIZE + Galaxy::SOL_OFFSET_Y)/Galaxy::GALAXY_RADIUS;
+	vector3f pos = Pi::sectorView->GetPosition();
+	float offset_x = (pos.x*Sector::SIZE + Galaxy::SOL_OFFSET_X)/Galaxy::GALAXY_RADIUS;
+	float offset_y = (-pos.y*Sector::SIZE + Galaxy::SOL_OFFSET_Y)/Galaxy::GALAXY_RADIUS;
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -162,7 +166,7 @@ void GalacticView::Update()
 	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(0.25f, frameTime);
 	m_zoom = Clamp(m_zoom, 0.5f, 100.0f);
 
-	m_scaleReadout->SetText(stringf(128, "%d ly", int(0.5*Galaxy::GALAXY_RADIUS/m_zoom)));
+	m_scaleReadout->SetText(stringf(Lang::INT_LY, formatarg("scale", int(0.5*Galaxy::GALAXY_RADIUS/m_zoom))));
 }
 
 void GalacticView::MouseButtonDown(int button, int x, int y)

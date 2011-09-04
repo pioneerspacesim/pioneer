@@ -1,1 +1,0 @@
-CustomSystem:new("Viti",{'STAR_K'}):add_to_sector(9,3,v(0.392,0.377,-0.529))

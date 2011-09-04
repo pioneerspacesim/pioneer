@@ -1,1 +1,0 @@
-CustomSystem:new("Hopkin",{'STAR_M'}):add_to_sector(1,4,v(0.183,0.180,-0.654))

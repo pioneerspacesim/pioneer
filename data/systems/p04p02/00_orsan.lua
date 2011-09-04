@@ -1,1 +1,0 @@
-CustomSystem:new("Orsan",{'STAR_M'}):add_to_sector(4,2,v(0.277,0.765,-0.880))

@@ -7,6 +7,7 @@
 #include "Sound.h"
 #include "ShipCpanel.h"
 #include "KeyBindings.h"
+#include "Lang.h"
 
 Player::Player(ShipType::Type shipType): Ship(shipType),
 	m_followCloud(0)
@@ -49,6 +50,7 @@ void Player::Load(Serializer::Reader &rd)
 
 void Player::PostLoadFixup()
 {
+	Ship::PostLoadFixup();
 	m_followCloud = dynamic_cast<HyperspaceCloud*>(Serializer::LookupBody(m_followCloudIndex));
 }
 
@@ -93,7 +95,7 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 	Ship::SetDockedWith(s, port);
 	if (s) {
 		if (Pi::CombatRating(m_killCount) > Pi::CombatRating(m_knownKillCount)) {
-			Pi::cpan->MsgLog()->ImportantMessage("Pioneering Pilot's Guild", "Well done commander! Your combat rating has improved!");
+			Pi::cpan->MsgLog()->ImportantMessage(Lang::PIONEERING_PILOTS_GUILD, Lang::RIGHT_ON_COMMANDER);
 		}
 		m_knownKillCount = m_killCount;
 
@@ -179,11 +181,9 @@ static double clipmouse(double cur, double inp)
 
 void Player::PollControls(const float timeStep)
 {
-	double time_accel = Pi::GetTimeAccel();
-	double invTimeAccel = 1.0 / time_accel;
 	static bool stickySpeedKey = false;
 
-	if (time_accel == 0 || Pi::player->IsDead() || GetFlightState() != FLYING)
+	if (Pi::IsTimeAccelPause() || Pi::player->IsDead() || GetFlightState() != FLYING)
 		return;
 
 	// if flying 
@@ -195,7 +195,7 @@ void Player::PollControls(const float timeStep)
 		// have to use this function. SDL mouse position event is bugged in windows
 		int mouseMotion[2];
 		SDL_GetRelativeMouseState (mouseMotion+0, mouseMotion+1);	// call to flush
-		if (Pi::MouseButtonState(3))
+		if (Pi::MouseButtonState(SDL_BUTTON_RIGHT))
 		{
 			matrix4x4d rot; GetRotMatrix(rot);
 			if (!m_mouseActive) {
@@ -205,19 +205,17 @@ void Player::PollControls(const float timeStep)
 			}
 			vector3d objDir = m_mouseDir * rot;
 
-			m_mouseX += mouseMotion[0] * 0.002;
+			const double radiansPerPixel = 0.002;
+
+			m_mouseX += mouseMotion[0] * radiansPerPixel;
 			double modx = clipmouse(objDir.x, m_mouseX);			
 			m_mouseX -= modx;
 
-			if (!Pi::IsMouseYInvert()) {
-				m_mouseY += mouseMotion[1] * 0.002;		// factor pixels => radians
-			} else {
-				m_mouseY =+ mouseMotion[1] * 0.002 * -1;
-			}
+			m_mouseY += mouseMotion[1] * radiansPerPixel * (Pi::IsMouseYInvert() ? -1 : 1);
 			double mody = clipmouse(objDir.y, m_mouseY);
 			m_mouseY -= mody;
 
-			if(modx != 0.0 || mody != 0.0) {
+			if(!float_is_zero_general(modx) || !float_is_zero_general(mody)) {
 				matrix4x4d mrot = matrix4x4d::RotateYMatrix(modx); mrot.RotateX(mody);
 				m_mouseDir = (rot * (mrot * objDir)).Normalized();
 			}
@@ -255,7 +253,7 @@ void Player::PollControls(const float timeStep)
 		
 		SetGunState(0,0);
 		SetGunState(1,0);
-		if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) {
+		if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(SDL_BUTTON_LEFT) && Pi::MouseButtonState(SDL_BUTTON_RIGHT))) {
 				SetGunState(Pi::worldView->GetActiveWeapon(), 1);
 		}
 
@@ -270,6 +268,7 @@ void Player::PollControls(const float timeStep)
 		wantAngVel.y += 2 * KeyBindings::yawAxis.GetValue();
 		wantAngVel.z += 2 * KeyBindings::rollAxis.GetValue();
 
+		double invTimeAccel = 1.0 / Pi::GetTimeAccel();
 		for (int axis=0; axis<3; axis++)
 			wantAngVel[axis] = Clamp(wantAngVel[axis], -invTimeAccel, invTimeAccel);
 
@@ -307,19 +306,19 @@ void Player::SetAlertState(Ship::AlertState as)
 	switch (as) {
 		case ALERT_NONE:
 			if (prev != ALERT_NONE)
-				Pi::cpan->MsgLog()->Message("", "Alert cancelled.");
+				Pi::cpan->MsgLog()->Message("", Lang::ALERT_CANCELLED);
 			break;
 
 		case ALERT_SHIP_NEARBY:
 			if (prev == ALERT_NONE)
-				Pi::cpan->MsgLog()->ImportantMessage("", "Ship detected nearby.");
+				Pi::cpan->MsgLog()->ImportantMessage("", Lang::SHIP_DETECTED_NEARBY);
 			else
-				Pi::cpan->MsgLog()->ImportantMessage("", "No fire detected for 60 seconds, downgrading alert status.");
+				Pi::cpan->MsgLog()->ImportantMessage("", Lang::DOWNGRADING_ALERT_STATUS);
 			Sound::PlaySfx("OK");
 			break;
 
 		case ALERT_SHIP_FIRING:
-			Pi::cpan->MsgLog()->ImportantMessage("", "Laser fire detected.");
+			Pi::cpan->MsgLog()->ImportantMessage("", Lang::LASER_FIRE_DETECTED);
 			Sound::PlaySfx("warning", 0.2f, 0.2f, 0);
 			break;
 	}

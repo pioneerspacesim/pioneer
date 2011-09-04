@@ -1,1 +1,0 @@
-CustomSystem:new("Brehl",{'STAR_G', 'STAR_G'}):add_to_sector(-10,3,v(0.811,0.756,-0.633))

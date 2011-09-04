@@ -34,7 +34,7 @@ void Fixed::SetSizeRequest(float size[2])
 
 void Fixed::GetSizeRequested(float size[2])
 {
-	if (m_userWantedSize[0] && m_userWantedSize[1]) {
+	if (m_userWantedSize[0] > 0.0f && m_userWantedSize[1] > 0.0f) {
 		size[0] = m_userWantedSize[0];
 		size[1] = m_userWantedSize[1];
 	} else {

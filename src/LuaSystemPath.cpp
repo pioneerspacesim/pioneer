@@ -13,9 +13,10 @@
  * Describes the location of a system within the galaxy and optionally, a body
  * within that system.
  *
- * A <SystemPath> consists of four components
+ * A <SystemPath> consists of five components
  *  - the X coordinate of the sector
  *  - the Y coordinate of the sector
+ *  - the Z coordinate of the sector
  *  - the system number within that sector
  *  - optionally, the index of a body within that system
  *
@@ -23,7 +24,7 @@
  * system, space station or other body when specifying hyperspace or other
  * destinations.
  *
- * <SystemPath> objects will compare equal if and only if all four of their
+ * <SystemPath> objects will compare equal if and only if all five of their
  * components are the same. If you want to see if two paths correspond to the
  * same system without reference to their body indexes, use <IsSameSystem>.
  */
@@ -33,13 +34,15 @@
  *
  * Creates a new <SystemPath> object
  *
- * > path = SystemPath.New(sectorX, sectorY, systemIndex, bodyIndex)
+ * > path = SystemPath.New(sectorX, sectorY, sectorZ, systemIndex, bodyIndex)
  *
  * Parameters:
  *
  *   sectorX - galactic sector X coordinate
  *
  *   sectorY - galactic sector Y coordinate
+ *
+ *   sectorZ - galactic sector Z coordinate
  *
  *   systemIndex - the numeric index of the system within the sector
  *
@@ -49,7 +52,7 @@
  *
  * Availability:
  *
- *   alpha 10
+ *   alpha 10, alpha 13 (updated)
  *
  * Status:
  *
@@ -59,19 +62,20 @@ static int l_sbodypath_new(lua_State *l)
 {
 	int sector_x = luaL_checkinteger(l, 1);
 	int sector_y = luaL_checkinteger(l, 2);
-	int system_idx = luaL_checkinteger(l, 3);
+	int sector_z = luaL_checkinteger(l, 3);
+	int system_idx = luaL_checkinteger(l, 4);
 
 	int sbody_id = 0;
-	if (!lua_isnone(l, 4))
-		sbody_id = luaL_checkinteger(l, 4);
+	if (!lua_isnone(l, 5))
+		sbody_id = luaL_checkinteger(l, 5);
 	
-	Sector s(sector_x, sector_y);
+	Sector s(sector_x, sector_y, sector_z);
 	if (size_t(system_idx) >= s.m_systems.size())
-		luaL_error(l, "System %d in sector [%d,%d] does not exist", system_idx, sector_x, sector_y);
+		luaL_error(l, "System %d in sector [%d,%d,%d] does not exist", system_idx, sector_x, sector_y, sector_z);
 
 	// XXX explode if sbody_id doesn't exist in the target system?
 	
-	SystemPath *path = new SystemPath(sector_x, sector_y, system_idx, sbody_id);
+	SystemPath *path = new SystemPath(sector_x, sector_y, sector_z, system_idx, sbody_id);
 
 	LuaSystemPath::PushToLuaGC(path);
 
@@ -146,8 +150,8 @@ static int l_sbodypath_distance_to(lua_State *l)
 		loc2 = &(s2->GetPath());
 	}
 
-	Sector sec1(loc1->sectorX, loc1->sectorY);
-	Sector sec2(loc2->sectorX, loc2->sectorY);
+	Sector sec1(loc1->sectorX, loc1->sectorY, loc1->sectorZ);
+	Sector sec2(loc2->sectorX, loc2->sectorY, loc1->sectorZ);
 	
 	double dist = Sector::DistanceBetween(&sec1, loc1->systemIndex, &sec2, loc2->systemIndex);
 
@@ -257,6 +261,27 @@ static int l_sbodypath_attr_sector_y(lua_State *l)
 }
 
 /*
+ * Attribute: sectorZ
+ *
+ * The Z component of the path
+ *
+ * Availability:
+ *
+ *   alpha 13
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_sbodypath_attr_sector_z(lua_State *l)
+{
+	SystemPath *path = LuaSystemPath::GetFromLua(1);
+	lua_pushinteger(l, path->sectorZ);
+	return 1;
+}
+
+/*
  * Attribute: systemIndex
  *
  * The system index component of the path
@@ -325,6 +350,7 @@ template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
 	static const luaL_reg l_attrs[] = {
 		{ "sectorX",     l_sbodypath_attr_sector_x     },
 		{ "sectorY",     l_sbodypath_attr_sector_y     },
+		{ "sectorZ",     l_sbodypath_attr_sector_z     },
 		{ "systemIndex", l_sbodypath_attr_system_index },
 		{ "bodyIndex",   l_sbodypath_attr_body_index   },
 		{ 0, 0 }

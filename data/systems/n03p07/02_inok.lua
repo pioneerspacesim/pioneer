@@ -1,1 +1,0 @@
-CustomSystem:new("Inok",{'STAR_M'}):add_to_sector(-3,7,v(0.223,0.744,-1.063))

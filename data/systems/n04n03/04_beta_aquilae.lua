@@ -1,1 +1,0 @@
-CustomSystem:new("Beta Aquilae",{'STAR_G', 'STAR_M'}):add_to_sector(-4,-3,v(0.071,0.592,0.419))

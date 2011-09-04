@@ -65,7 +65,10 @@ private:
 	void OnChangeAxisBinding(const KeyBindings::AxisBinding &ab, const char *function);
 	void OnChangeVolume();
 	void OnChangePlanetDetail(int level);
+	void OnChangePlanetTextures(int level);
+	void OnChangeFractalMultiple(int level);
 	void OnChangeCityDetail(int level);
+	void OnChangeLanguage(std::string &lang);
 	void OnChangeVideoResolution(int res);
 	void OnToggleShaders(Gui::ToggleButton *b, bool state);
 	void OnToggleHDR(Gui::ToggleButton *b, bool state);
@@ -78,6 +81,8 @@ private:
 	VolumeControl *m_sfxVolume;
 	VolumeControl *m_musicVolume;
 	Gui::RadioGroup *m_planetDetailGroup;
+	Gui::RadioGroup *m_planetTextureGroup;
+	Gui::RadioGroup *m_planetFractalGroup;
 	Gui::RadioGroup *m_cityDetailGroup;
 	Gui::ToggleButton *m_toggleShaders;
 	Gui::ToggleButton *m_toggleHDR;

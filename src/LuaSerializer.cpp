@@ -116,7 +116,8 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			// methods to deal with this
 			if (lo->Isa("SystemPath")) {
 				SystemPath *sbp = dynamic_cast<SystemPath*>(lo->m_object);
-				snprintf(buf, sizeof(buf), "SystemPath\n%d\n%d\n%d\n%d\n", sbp->sectorX, sbp->sectorY, sbp->systemIndex, sbp->bodyIndex);
+				snprintf(buf, sizeof(buf), "SystemPath\n%d\n%d\n%d\n%d\n%d\n",
+					sbp->sectorX, sbp->sectorY, sbp->sectorZ, sbp->systemIndex, sbp->bodyIndex);
 				out += buf;
 				break;
 			}
@@ -195,23 +196,27 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 			if (len == 10 && strncmp(pos, "SystemPath", 10) == 0) {
 				pos = end;
 
-				int sectorX = strtol(pos, const_cast<char**>(&end), 0);
+				Sint32 sectorX = strtol(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
-				int sectorY = strtol(pos, const_cast<char**>(&end), 0);
+				Sint32 sectorY = strtol(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
-				int systemNum = strtol(pos, const_cast<char**>(&end), 0);
+				Sint32 sectorZ = strtol(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
-				int sbodyId = strtol(pos, const_cast<char**>(&end), 0);
+				Sint32 systemNum = strtol(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
-				SystemPath *sbp = new SystemPath(sectorX, sectorY, systemNum, sbodyId);
+				Sint32 sbodyId = strtol(pos, const_cast<char**>(&end), 0);
+				if (pos == end) throw SavedGameCorruptException();
+				pos = end+1; // skip newline
+
+				SystemPath *sbp = new SystemPath(sectorX, sectorY, sectorZ, systemNum, sbodyId);
 				LuaSystemPath::PushToLuaGC(sbp);
 
 				break;
@@ -286,7 +291,7 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 	while (lua_next(l, -2) != 0) {
 		lua_pushinteger(l, 1);
 		lua_gettable(l, -2);
-		lua_call(l, 0, 1);
+		pi_lua_protected_call(l, 0, 1);
 		lua_pushvalue(l, -3);
 		lua_insert(l, -2);
 		lua_settable(l, savetable);
@@ -314,7 +319,7 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
 	std::string pickled = rd.String();
 	const char *start = pickled.c_str();
 	const char *end = unpickle(l, start);
-	if ((end - start) != pickled.length()) throw SavedGameCorruptException();
+	if (size_t(end - start) != pickled.length()) throw SavedGameCorruptException();
 	if (!lua_istable(l, -1)) throw SavedGameCorruptException();
 	int savetable = lua_gettop(l);
 
@@ -336,7 +341,7 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
 			lua_pop(l, 1);
 			lua_newtable(l);
 		}
-		lua_call(l, 1, 0);
+		pi_lua_protected_call(l, 1, 0);
 		lua_pop(l, 2);
 	}
 

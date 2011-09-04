@@ -60,7 +60,7 @@ static int l_ship_is_player(lua_State *l)
  *
  * Returns statistics for the ship
  *
- * > stats - ship:GetStats()
+ * > stats = ship:GetStats()
  *
  * Returns:
  *
@@ -585,8 +585,6 @@ static int l_ship_get_equip_free(lua_State *l)
  *
  * On sucessful jettison, the <EventQueue.onJettison> event is triggered.
  *
- * Calli
- *
  * Parameters:
  *
  *   item - the item to jettison
@@ -618,7 +616,7 @@ static int l_ship_jettison(lua_State *l)
  *
  * Get the station that the ship is currently docked with
  *
- * > station = ship:GetDockedWidth()
+ * > station = ship:GetDockedWith()
  *
  * Return:
  *
@@ -646,9 +644,14 @@ static int l_ship_get_docked_with(lua_State *l)
  *
  * Undock from the station currently docked with
  *
- * > ship:Undock()
+ * > success = ship:Undock()
  *
  * <EventQueue.onShipUndocked> will be triggered once undocking is complete
+ *
+ * Return:
+ *
+ *   success - true if ship is undocking, false if the ship is unable to undock,
+ *             probably because another ship is currently undocking
  *
  * Availability:
  *
@@ -815,7 +818,7 @@ static int l_ship_hyperspace_to(lua_State *l)
 		return 1;
 	}
 
-	Space::StartHyperspaceTo(s, dest);
+	s->Hyperspace(dest);
 
 	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", Ship::HYPERJUMP_OK));
 	return 1;
@@ -849,7 +852,7 @@ static int l_ship_attr_alert_status(lua_State *l)
  * Group: AI methods
  *
  * The AI methods are the script's equivalent of the autopilot. They are
- * high-level commands instruct the ship to fly somewhere and possibly take
+ * high-level commands to instruct the ship to fly somewhere and possibly take
  * some action when it arrives (like dock or attack).
  *
  * When an AI completes the <EventQueue.onAICompleted> event is triggered, and

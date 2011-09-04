@@ -304,7 +304,7 @@ static int l_shiptype_get_ship_types(lua_State *l)
 			if (filter) {
 				lua_pushvalue(l, 2);
 				LuaShipType::PushToLua(st);
-				lua_call(l, 1, 1);
+				pi_lua_protected_call(l, 1, 1);
 				if (!lua_toboolean(l, -1)) {
 					lua_pop(l, 1);
 					continue;

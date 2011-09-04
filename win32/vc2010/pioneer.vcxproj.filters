@@ -16,6 +16,9 @@
     <Filter Include="src\gui">
       <UniqueIdentifier>{5f9ae661-2520-48e2-b510-4db78c61e4e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\render">
+      <UniqueIdentifier>{d9c0c67d-08a9-40e3-a726-2441396eae67}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\collider\BVHTree.cpp">
@@ -37,9 +40,6 @@
       <Filter>win32\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\AmbientSounds.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\BBAdvertChatForm.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Body.cpp">
@@ -91,9 +91,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GameMenuView.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GenericChatForm.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GeoSphere.cpp">
@@ -234,19 +231,10 @@
     <ClCompile Include="..\..\src\Player.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\PoliceChatForm.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Polit.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Projectile.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Render.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\RenderShader.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Sector.cpp">
@@ -405,6 +393,69 @@
     <ClCompile Include="..\..\src\LuaSystemPath.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\ShipSpinnerWidget.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ChatForm.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\StationAdvertForm.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\FormController.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiStack.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\StationPoliceForm.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\StationServicesForm.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\StationBulletinBoardForm.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\StationCommodityMarketForm.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\StationShipEquipmentForm.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\StationShipMarketForm.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\StationShipRepairForm.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\StationShipViewForm.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\StationShipyardForm.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiGradient.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Lang.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\RenderTarget.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\RenderTexture.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\Render.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\RenderShader.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\StringF.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -438,9 +489,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\AmbientSounds.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\BBAdvertChatForm.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\BezierCurve.h">
@@ -513,9 +561,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GameMenuView.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GenericChatForm.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GeoSphere.h">
@@ -665,9 +710,6 @@
     <ClInclude Include="..\..\src\Player.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\PoliceChatForm.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Polit.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -681,12 +723,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\RefList.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Render.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\RenderShader.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Sector.h">
@@ -856,6 +892,63 @@
     </ClInclude>
     <ClInclude Include="..\..\src\LuaSystemPath.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ShipSpinnerWidget.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ChatForm.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\StationAdvertForm.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FormController.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiStack.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\StationPoliceForm.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\StationServicesForm.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\StationBulletinBoardForm.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\StationCommodityMarketForm.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\StationShipEquipmentForm.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\StationShipMarketForm.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\StationShipRepairForm.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\StationShipViewForm.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\StationShipyardForm.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiGradient.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\RenderTarget.h">
+      <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\RenderTexture.h">
+      <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\Render.h">
+      <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\RenderShader.h">
+      <Filter>src\render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

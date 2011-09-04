@@ -1,1 +1,0 @@
-CustomSystem:new("Canquia",{'STAR_A'}):add_to_sector(5,-19,v(0.574,0.852,0.608))
