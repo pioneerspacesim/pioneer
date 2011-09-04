@@ -153,10 +153,14 @@ void ScannerWidget::UpdateContactsAndScale()
 	// collect the bodies to be displayed
 	double farthest_ship = 0.0, farthest_other = 0.0;
 	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
-		if ((*i) == Pi::player ||
-			((!(*i)->IsType(Object::SHIP)) &&
-		    (!(*i)->IsType(Object::CARGOBODY)))) continue;
-			// XXX could add missiles and maybe orbital stations
+		if ((*i) == Pi::player) continue;
+		switch ((*i)->GetType()) {
+			case Object::SHIP: break;
+			case Object::MISSILE: break;
+			case Object::CARGOBODY: break;
+			// XXX could maybe add orbital stations and/or clouds
+			default: continue;
+		}
 
 		double dist = (*i)->GetPositionRelTo(Pi::player).Length();
 		if (dist > SCANNER_RANGE) continue;
@@ -188,9 +192,14 @@ void ScannerWidget::DrawBlobs(bool below)
 	for (std::list<Body*>::iterator i = m_contacts.begin(); i != m_contacts.end(); ++i) {
 		switch ((*i)->GetType()) {
 			case Object::SHIP:
-				glColor3f(1,0,0); break;
+				glColor3f(0.953,0.929,0.114);
+				break;
+			case Object::MISSILE:
+				glColor3f(0.941,0.149,0.196);
+				break;
 			case Object::CARGOBODY:
-				glColor3f(.5,.5,1); break;
+				glColor3f(0.65,0.65,0.65);
+				break;
 			default: continue;
 		}
 
