@@ -201,7 +201,8 @@ void ScannerWidget::DrawBlobs(bool below)
 				glPointSize(3);
 				break;
 			case Object::CARGOBODY:
-				glColor3f(0.65,0.65,0.65);
+				if ((*i) == Pi::player->GetNavTarget()) glColor3f(0.0,1.0,0.0);
+				else glColor3f(0.65,0.65,0.65);
 				glLineWidth(1);
 				glPointSize(3);
 				break;
