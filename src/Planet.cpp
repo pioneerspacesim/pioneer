@@ -1,14 +1,9 @@
-#include "libs.h"
 #include "Planet.h"
-#include "Frame.h"
 #include "Pi.h"
 #include "WorldView.h"
-#include "Serializer.h"
-#include "StarSystem.h"
 #include "GeoSphere.h"
 #include "render/Render.h"
 #include "perlin.h"
-#include "Lang.h"
 
 struct ColRangeObj_t {
 	float baseCol[4]; float modCol[4]; float modAll;

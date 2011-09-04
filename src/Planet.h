@@ -2,12 +2,6 @@
 #define _PLANET_H
 
 #include "TerrainBody.h"
-// only for SBody::BodySuperType enum...
-#include "StarSystem.h"
-
-class Frame;
-class SBody;
-class GeoSphere;
 
 class Planet: public TerrainBody {
 public:
