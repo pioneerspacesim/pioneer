@@ -1215,13 +1215,24 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 
 	const float black[4] = { 0,0,0,0 };
 	float ambient[4];// = { 0.1, 0.1, 0.1, 1.0 };
+	float emission[4] = { 0,0,0,0 };
 
 	// save old global ambient
 	float oldAmbient[4];
 	glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
 
-	// give planet some ambient lighting if the viewer is close to it
-	{
+	if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) {
+		// stars should emit light and terrain should be visible from distance
+		ambient[0] = ambient[1] = ambient[2] = 0.2f;
+		ambient[3] = 1.0f;
+		emission[0] = StarSystem::starRealColors[m_sbody->type][0] * 0.5f;
+		emission[1] = StarSystem::starRealColors[m_sbody->type][1] * 0.5f;
+		emission[2] = StarSystem::starRealColors[m_sbody->type][2] * 0.5f;
+		emission[3] = 0.5f;
+	}
+	
+	else {
+		// give planet some ambient lighting if the viewer is close to it
 		double camdist = campos.Length();
 		camdist = 0.1 / (camdist*camdist);
 		// why the fuck is this returning 0.1 when we are sat on the planet??
@@ -1230,11 +1241,11 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		ambient[0] = ambient[1] = ambient[2] = float(camdist);
 		ambient[3] = 1.0f;
 	}
-	
+
 	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, ambient);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	glMaterialfv (GL_FRONT, GL_SPECULAR, black);
-	glMaterialfv (GL_FRONT, GL_EMISSION, black);
+	glMaterialfv (GL_FRONT, GL_EMISSION, emission);
 	glEnable(GL_COLOR_MATERIAL);
 
 //	glLineWidth(1.0);
