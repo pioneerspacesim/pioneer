@@ -8,6 +8,12 @@ local crank_flavours = {
 	},{
 		title = "FEELING GENEROUS? War Orphan's Support needs your help to keep up its essential work.",
 		message = "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy.\n"
+	},{
+		title = "CONTRIBUTE. The Friends of the Galaxy 'Ban Military Drives' campaign needs your money.",
+		message = "Please select an amount to donate to the GreenWatch, and end the pollution of our galaxy.\n"
+	},{
+		title = "DONATE! Save our species. Stop the carnage of newly settled worlds.",
+		message = "Please select an amount to donate.\n"
 	}
 }
 
