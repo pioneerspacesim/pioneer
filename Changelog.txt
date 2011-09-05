@@ -1,6 +1,7 @@
 Alpha 15
 
   * New features
+    * Lua method Ship.SetHullPercent to set a ship's damage level (#420, #472)
 
   * Fixes
 
