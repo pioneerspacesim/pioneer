@@ -351,11 +351,13 @@ local onAICompleted = function (ship)
 		if mission.status == 'ACTIVE' and
 		   mission.ship == ship and
 		   mission.shipstate == 'flying' then
-			local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
-			if #stations == 0 then return end
-			local station = stations[Engine.rand:Integer(1,#stations)]
+			Timer:CallAt(Game.time + 60 * 60 * 8, function () if mission.ship:exists() then
+				local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
+				if #stations == 0 then return end
+				local station = stations[Engine.rand:Integer(1,#stations)]
 
-			mission.ship:AIDockWith(station)
+				mission.ship:AIDockWith(station)
+				end end)
 			return
 		end
 	end
