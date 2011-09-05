@@ -87,7 +87,7 @@ public:
 		for (int i=0; i<4; i++) {
 			clipRadius = std::max(clipRadius, (v[i]-clipCentroid).Length());
 		}
-		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth);
+		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth) * (10 / Clamp(depth, 1, 9));
 		m_needUpdateVBOs = false;
 		normals = new vector3d[GEOPATCH_NUMVERTICES];
 		vertices = new vector3d[GEOPATCH_NUMVERTICES];
@@ -877,6 +877,7 @@ public:
 			canSplit = false;
 		// always split at first level
 		if (!parent) canSplit = true;
+		//printf(campos.Length());
 
 		bool canMerge = true;
 
