@@ -96,10 +96,36 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		}
 		glEnd();
 		
+		Render::State::UseProgram(0);
 		Gui::Screen::LeaveOrtho();
 		glDisable(GL_BLEND);
 
-		TerrainBody::Render(viewCoords, viewTransform);
+		
+		if (Render::AreShadersEnabled())
+			// shaders get you pretty spots and things
+			TerrainBody::Render(viewCoords, viewTransform);
+
+		else {
+			// just the plain old disc
+
+			// face the camera dammit
+			vector3d zaxis = fpos.Normalized();
+			vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
+			vector3d yaxis = zaxis.Cross(xaxis);
+			matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
+			glMultMatrixd(&rot[0]);
+
+			glDisable(GL_LIGHTING);
+			glDisable(GL_DEPTH_TEST);
+			glBegin(GL_TRIANGLE_FAN);
+			glColor4f(b*col[0],b*col[1],b*col[2],1);
+			glVertex3f(0, 0, 0);
+			for (float ang=0; ang<2*M_PI; ang+=0.1) {
+				glVertex3f(float(rad*sin(ang)), float(rad*cos(ang)), 0);
+			}
+			glVertex3f(0, float(rad), 0);
+			glEnd();
+		}
 	}
 
 	glPopMatrix();
