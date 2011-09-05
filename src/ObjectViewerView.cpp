@@ -88,11 +88,17 @@ void ObjectViewerView::Draw3D()
 				matrix4x4d::RotateYMatrix(-0.002*m[0]) * m_camRot;
 	}
 		
-	float lightPos[4] = { .577, .577, .577, 0 };
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-	
 	Body *body = Pi::player->GetNavTarget();
 	if (body) {
+		float lightPos[4];
+		if (body->IsType(Object::STAR))
+			lightPos[0] = lightPos[1] = lightPos[2] = lightPos[3] = 0;
+		else {
+			lightPos[0] = lightPos[1] = lightPos[2] = 0.577f;
+			lightPos[3] = 0;
+		}
+		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+	
 		body->Render(vector3d(0,0,-viewingDist), m_camRot);
 	}
 }
