@@ -295,8 +295,6 @@ local onEnterSystem = function (ship)
 end
 
 local onShipDocked = function (ship, station)
-	if not ship:IsPlayer() then return end
-
 	for ref,mission in pairs(missions) do
 		if ship:IsPlayer() then
 			if mission.status == 'COMPLETED' and
