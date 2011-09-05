@@ -1315,13 +1315,15 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	float oldAmbient[4];
 	glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
 
+	const float b = (Render::IsHDREnabled() ? 100.0f : 1.0f);
+
 	if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) {
 		// stars should emit light and terrain should be visible from distance
 		ambient[0] = ambient[1] = ambient[2] = 0.2f;
 		ambient[3] = 1.0f;
-		emission[0] = StarSystem::starRealColors[m_sbody->type][0] * 0.5f;
-		emission[1] = StarSystem::starRealColors[m_sbody->type][1] * 0.5f;
-		emission[2] = StarSystem::starRealColors[m_sbody->type][2] * 0.5f;
+		emission[0] = StarSystem::starRealColors[m_sbody->type][0] * 0.5f * b;
+		emission[1] = StarSystem::starRealColors[m_sbody->type][1] * 0.5f * b;
+		emission[2] = StarSystem::starRealColors[m_sbody->type][2] * 0.5f * b;
 		emission[3] = 0.5f;
 	}
 	
