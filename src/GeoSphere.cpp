@@ -31,7 +31,7 @@ SHADER_CLASS_BEGIN(GeosphereShader)
 	SHADER_UNIFORM_FLOAT(geosphereAtmosFogDensity)
 SHADER_CLASS_END()
 
-static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4], *s_geosphereStarShader[4];
+static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4], *s_geosphereStarShader;
 
 #pragma pack(4)
 struct VBOVertex
@@ -1041,10 +1041,7 @@ void GeoSphere::Init()
 	s_geosphereSkyShader[1] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 2\n");
 	s_geosphereSkyShader[2] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 3\n");
 	s_geosphereSkyShader[3] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 4\n");
-	s_geosphereStarShader[0] = new GeosphereShader("geosphere_star", "#define NUM_LIGHTS 1\n");
-	s_geosphereStarShader[1] = new GeosphereShader("geosphere_star", "#define NUM_LIGHTS 2\n");
-	s_geosphereStarShader[2] = new GeosphereShader("geosphere_star", "#define NUM_LIGHTS 3\n");
-	s_geosphereStarShader[3] = new GeosphereShader("geosphere_star", "#define NUM_LIGHTS 4\n");
+	s_geosphereStarShader = new GeosphereShader("geosphere_star");
 	s_allGeospheresLock = SDL_CreateMutex();
 
 	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
@@ -1291,18 +1288,19 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			DrawAtmosphereSurface(campos, atmosRadius*1.01);
 			glDisable(GL_BLEND);
 		}
-		GeosphereShader *shader;
+
 		if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) {
-			shader = s_geosphereStarShader[Render::State::GetNumLights()-1];
-		} else {
-			shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
+			Render::State::UseProgram(s_geosphereStarShader);
 		}
-		Render::State::UseProgram(shader);
-		shader->set_geosphereScale(scale);
-		shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
-		shader->set_geosphereAtmosFogDensity(atmosDensity);
-		shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
-		shader->set_geosphereCenter(center.x, center.y, center.z);
+		else {
+			GeosphereShader *shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
+			Render::State::UseProgram(shader);
+			shader->set_geosphereScale(scale);
+			shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
+			shader->set_geosphereAtmosFogDensity(atmosDensity);
+			shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
+			shader->set_geosphereCenter(center.x, center.y, center.z);
+		}
 	}
 	glPopMatrix();
 
