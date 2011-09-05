@@ -197,11 +197,19 @@ void Planet::DrawGasGiantRings()
 	glPopAttrib();
 }
 
-static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float col[4])
+void Planet::DrawAtmosphere(const vector3d &camPos)
 {
+	Color col;
+	double density;
+	GetGeoSphere()->GetAtmosphereFlavor(&col, &density);
+	
+	const double rad1 = 0.999;
+	const double rad2 = 1.05;
+
 	glPushMatrix();
+
 	// face the camera dammit
-	vector3d zaxis = (-pos).Normalized();
+	vector3d zaxis = (-camPos).Normalized();
 	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
 	vector3d yaxis = zaxis.Cross(xaxis);
 	matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
@@ -227,7 +235,7 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 	const double angStep = M_PI/32;
 	// find angle player -> centre -> tangent point
 	// tangent is from player to surface of sphere
-	float tanAng = float(acos(rad1 / pos.Length()));
+	float tanAng = float(acos(rad1 / camPos.Length()));
 
 	// then we can put the fucking atmosphere on the horizon
 	vector3d r1(0.0, 0.0, rad1);
@@ -270,11 +278,9 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 	glPopMatrix();
 }
 
-void Planet::DrawAtmosphere(vector3d &apos)
+void Planet::SubRender(const vector3d &camPos)
 {
-	Color c;
-	double density;
-	GetGeoSphere()->GetAtmosphereFlavor(&c, &density);
+	if (GetSBody()->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings();
 	
-	_DrawAtmosphere(0.999, 1.05, apos, c);
+	if (!Render::AreShadersEnabled()) DrawAtmosphere(camPos);
 }
