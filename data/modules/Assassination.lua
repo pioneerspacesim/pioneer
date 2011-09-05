@@ -306,8 +306,7 @@ local onShipDocked = function (ship, station)
 				ship:AddMoney(mission.reward)
 				ship:RemoveMission(ref)
 				missions[ref] = nil
-			elseif ship:IsPlayer() and
-			       mission.status == 'FAILED' then
+			elseif mission.status == 'FAILED' then
 				if mission.notplayer == 'TRUE' then
 					local text = string.interp(ass_flavours[mission.flavour].failuremsg2, {
 						target	= mission.target,
