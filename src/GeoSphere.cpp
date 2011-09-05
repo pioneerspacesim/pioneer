@@ -29,7 +29,7 @@ SHADER_CLASS_BEGIN(GeosphereShader)
 	SHADER_UNIFORM_FLOAT(geosphereAtmosFogDensity)
 SHADER_CLASS_END()
 
-static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4];
+static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4], *s_geosphereStarShader[4];
 
 #pragma pack(4)
 struct VBOVertex
@@ -80,6 +80,7 @@ public:
 		memset(this, 0, sizeof(GeoPatch));
 		m_kidsLock = SDL_CreateMutex();
 		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
+		//depth -= Pi::detail.fracmult;
 		m_depth = depth;
 		clipCentroid = (v0+v1+v2+v3) * 0.25;
 		clipRadius = 0;
@@ -995,6 +996,10 @@ void GeoSphere::Init()
 	s_geosphereSkyShader[1] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 2\n");
 	s_geosphereSkyShader[2] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 3\n");
 	s_geosphereSkyShader[3] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 4\n");
+	s_geosphereStarShader[0] = new GeosphereShader("star", "#define NUM_LIGHTS 1\n");
+	s_geosphereStarShader[1] = new GeosphereShader("star", "#define NUM_LIGHTS 2\n");
+	s_geosphereStarShader[2] = new GeosphereShader("star", "#define NUM_LIGHTS 3\n");
+	s_geosphereStarShader[3] = new GeosphereShader("star", "#define NUM_LIGHTS 4\n");
 	s_allGeospheresLock = SDL_CreateMutex();
 	OnChangeDetailLevel();
 #ifdef GEOSPHERE_USE_THREADING
@@ -1200,8 +1205,12 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			DrawAtmosphereSurface(campos, atmosRadius*1.01);
 			glDisable(GL_BLEND);
 		}
-
-		GeosphereShader *shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
+		GeosphereShader *shader;
+		if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) {
+			shader = s_geosphereStarShader[Render::State::GetNumLights()-1];
+		} else {
+			shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
+		}
 		Render::State::UseProgram(shader);
 		shader->set_geosphereScale(scale);
 		shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
