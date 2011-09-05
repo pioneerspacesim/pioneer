@@ -179,7 +179,10 @@ void GeoSphereStyle::ChangeDetailLevel()
 void GeoSphereStyle::PickTerrain(MTRand &rand)
 {
 	/* Pick terrain and color fractals to use */
-	if (m_body->type == SBody::TYPE_PLANET_GAS_GIANT) {
+	if ((m_body->type < SBody::TYPE_PLANET_GAS_GIANT) && (m_body->type > SBody::TYPE_GRAVPOINT)){
+		m_terrainType = TERRAIN_GASGIANT;
+		m_colorType = COLOR_STAR_M;
+	} else if (m_body->type == SBody::TYPE_PLANET_GAS_GIANT) {
 		m_terrainType = TERRAIN_GASGIANT;
 		switch (rand.Int32(5)) {
 			case 0: m_colorType = COLOR_GG_SATURN; break;
@@ -952,6 +955,12 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 // We set some fracdefs here for colours if we need them:
 	switch (m_colorType) {
 		case COLOR_NONE:
+		case COLOR_STAR_M:
+			{
+				double height = m_maxHeightInMeters*0.1;
+				SetFracDef(&m_fracdef[0], height, 2e8, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[1], height, 9e7, rand, 10.0*m_fracmult);
+			}
 		case COLOR_GG_JUPITER: 
 			{
 				// spots
@@ -1952,6 +1961,22 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 	switch (m_colorType) {
 	case COLOR_NONE:
 		return vector3d(1.0);
+	case COLOR_STAR_M: {
+		double n;
+		vector3d col;
+			n = ridged_octavenoise(m_fracdef[0], 0.6, p) * octavenoise(m_fracdef[0], 0.6, p);
+			n += ridged_octavenoise(m_fracdef[1], 0.7, p);
+			n *= n * n;
+			if (n > 0.5) {
+				n -= 0.5; n *= 2.0;
+				col = interpolate_color(n, vector3d(.25, .0, .0), vector3d(.75, .4, .0) );
+				return col;
+			} else {
+				n *= 2.0;
+				col = interpolate_color(n, vector3d(.95, .8, .5), vector3d(.25, .0, .0) );
+				return col;
+			}
+		}
 	case COLOR_GG_JUPITER: {
 		double n;
 		double h = river_octavenoise(m_fracdef[0], 0.5*m_entropy[0] + 

@@ -40,6 +40,7 @@ class GeoSphereStyle {
 
 	enum ColorFractal {
 		COLOR_NONE,
+		COLOR_STAR_M,
 		COLOR_GG_JUPITER,
 		COLOR_GG_SATURN,
 		COLOR_GG_SATURN2,
