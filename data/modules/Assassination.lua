@@ -138,7 +138,6 @@ local makeAdvert = function (station)
 		"Captain",
 		"Cardinal",
 		"Colonel",
-		"Corporal",
 		"Commandant",
 		"Commodore",
 		"Corporal",
@@ -152,11 +151,11 @@ local makeAdvert = function (station)
 		"Officer",
 		"Private",
 		"Professor",
+		"Prosecutor",
 		"Provost",
 		"Seaman",
 		"Senator",
 		"Sergeant",
-		"Prosecutor",
 	}
 	local target = title[Engine.rand:Integer(1, #title)] .. " " .. NameGen.FullName(targetIsfemale)
 	local flavour = Engine.rand:Integer(1, #ass_flavours)
