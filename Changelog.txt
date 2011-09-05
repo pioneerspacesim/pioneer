@@ -39,7 +39,7 @@ Alpha 14
       #389, #392, #383, #399) and MSVC (#434, #435, #436)
     * New utility functions for floating-point comparisons (#389)
     * Dump Lua engine state to file on exception in Lua module (#370)
-    * Lua documentation fixes (#380, #403)
+    * Lua documentation fixes (#380, #403, #475)
     * Abstracted the HDR rendering pipeline into discrete components (#396)
     * New string formatting system for translations and other strings (#405, #449)
     * Gracefully handle attempts to load old savefiles (#428)
