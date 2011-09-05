@@ -120,7 +120,7 @@ static int l_ship_get_stats(lua_State *l)
 /*
  * Method: SetHullPercent
  *
- * Sets the hull mass of the ship to the given precentage of it's maximum.
+ * Sets the hull mass of the ship to the given precentage of its maximum.
  *
  * > ship:SetHullPercent(percent)
  *
