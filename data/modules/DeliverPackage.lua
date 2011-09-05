@@ -83,7 +83,7 @@ local delivery_flavours = {
 	},
 	{
 		adtext = "INTER-PLANETARY CARGO. Freight of local cargo to {starport}.",
-		introtext = "Hello. We need these crates delivered to {starport} as soon as possible. Standard rate for this is shipment is {cash}.",
+		introtext = "Hello. We need these crates delivered to {starport} as soon as possible. Standard payment for this shipment is {cash}.",
 		whysomuchtext = "Standard rates, we work with the market.",
 		successmsg = "Excellent, we've credited the funds into your account.",
 		failuremsg = "Our customers are not going to be happy with this. Do not expect to be paid.",
