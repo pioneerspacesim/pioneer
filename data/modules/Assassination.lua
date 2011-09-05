@@ -19,7 +19,7 @@ local ass_flavours = {
 	},
 	{
 		adtext = "REMOVAL: {target} is no longer wanted in the {system} system.",
-		introtext = "I am {name}, and I will pay you {cash} to terminate {target}",
+		introtext = "I am {name}, and I will pay you {cash} to terminate {target}.",
 		successmsg = "You have been paid in full for the completion of that important contract.",
 		failuremsg = "It is most regrettable that {target} is still live and well. You will receive no payment as you did not complete your contract.",
 		failuremsg2 = "Contract was completed by someone else. Be faster next time!",
