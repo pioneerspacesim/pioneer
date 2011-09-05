@@ -37,6 +37,13 @@ local ass_flavours = {
 		successmsg = "News of {target}'s retirement delightfully obtained. Here is your money.",
 		failuremsg = "{target} is still breathing and I'm not giving money to you.",
 		failuremsg2 = "Retirement of {target} was done by someone else.",
+	},
+	{
+		adtext = "BIOGRAPHICAL: Some admirers wish {target} dead.",
+		introtext = "We wish {target} to have a fitting career end in the {system} for {cash}.",
+		successmsg = "Message of {target}'s ending career happily acquired. Here is your {cash}.",
+		failuremsg = "We found out that {target} is nonetheless operative. This sadness us.",
+		failuremsg2 = "{target} was neutralized by someone else.",
 	}
 }
 
@@ -57,11 +64,13 @@ local onChat = function (form, ref, option)
 		return
 	elseif option == 0 then
 		form:SetFace({ female = ad.isfemale, seed = ad.faceseed })
+		local sys = ad.location:GetStarSystem()
 
 		local introtext = string.interp(ass_flavours[ad.flavour].introtext, {
 			name	= ad.client,
 			cash	= Format.Money(ad.reward),
 			target	= ad.target,
+			system	= sys.name,
 		})
 		form:SetMessage(introtext)
 
@@ -300,6 +309,7 @@ local onShipDocked = function (ship, station)
 			   mission.backstation == station.path then
 				local text = string.interp(ass_flavours[mission.flavour].successmsg, {
 					target	= mission.target,
+					cash	= Format.Money(ad.reward),
 				})
 				UI.ImportantMessage(text, mission.boss)
 				ship:AddMoney(mission.reward)
