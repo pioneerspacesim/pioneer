@@ -959,7 +959,9 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			{
 				double height = m_maxHeightInMeters*0.1;
 				SetFracDef(&m_fracdef[0], height, 2e8, rand, 10.0*m_fracmult);
-				SetFracDef(&m_fracdef[1], height, 9e7, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[1], height, 7e7, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[2], height, 1e6, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[3], height, 1e3, rand, 10.0*m_fracmult);
 			}
 		case COLOR_GG_JUPITER: 
 			{
@@ -1964,16 +1966,25 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 	case COLOR_STAR_M: {
 		double n;
 		vector3d col;
-			n = ridged_octavenoise(m_fracdef[0], 0.6, p) * octavenoise(m_fracdef[0], 0.6, p);
-			n += ridged_octavenoise(m_fracdef[1], 0.7, p);
+			n = ridged_octavenoise(m_fracdef[0], 0.6, p) * 0.5;
+			n += ridged_octavenoise(m_fracdef[1], 0.7, p) * 0.5;
+			n += ridged_octavenoise(m_fracdef[0], 0.8, p) * ridged_octavenoise(m_fracdef[1], 0.8, p);
 			n *= n * n;
-			if (n > 0.5) {
-				n -= 0.5; n *= 2.0;
-				col = interpolate_color(n, vector3d(.25, .0, .0), vector3d(.75, .4, .0) );
+			n += ridged_octavenoise(m_fracdef[2], 0.6, p) * 0.5;
+			n += ridged_octavenoise(m_fracdef[3], 0.6, p) * 0.5;
+			n += 0.8*billow_octavenoise(m_fracdef[0], 0.8, noise(p*3.142)*p)*
+			 megavolcano_function(m_fracdef[1], p);
+			if (n > 0.666) {
+				n -= 0.666; n *= 3.0;
+				col = interpolate_color(n, vector3d(.65, .5, .25), vector3d(1.0, 1.0, 1.0) );
+				return col;
+			} else if (n > 0.333) {
+				n -= 0.333; n *= 3.0;
+				col = interpolate_color(n, vector3d(.3, .1, .0), vector3d(.65, .5, .25) );
 				return col;
 			} else {
-				n *= 2.0;
-				col = interpolate_color(n, vector3d(.95, .8, .5), vector3d(.25, .0, .0) );
+				n *= 3.0;
+				col = interpolate_color(n, vector3d(.2, .0, .0), vector3d(.3, .1, .0) );
 				return col;
 			}
 		}
