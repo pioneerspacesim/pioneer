@@ -1,3 +1,13 @@
+Alpha 15
+
+  * New features
+
+  * Fixes
+
+  * Internal changes
+    * Allow terrain generation to be aborted when the current set of terrains
+      become unusable (eg after hyperspace or detail settings change) (#457)
+
 Alpha 14
 
   * New features
