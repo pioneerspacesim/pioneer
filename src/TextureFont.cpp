@@ -196,8 +196,8 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 	float scale[2];
 	Gui::Screen::GetCoords2Pixels(scale);
 
-	int a_width = GetConfig().Int("PixelWidth") / scale[0];
-	int a_height = GetConfig().Int("PixelHeight") / scale[1];
+	int a_width = int(GetConfig().Int("PixelWidth") / scale[0]);
+	int a_height = int(GetConfig().Int("PixelHeight") / scale[1]);
 
 	float advx_adjust = GetConfig().Float("AdvanceXAdjustment");
 
