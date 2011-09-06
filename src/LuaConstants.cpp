@@ -449,7 +449,7 @@ void LuaConstants::Register(lua_State *l)
 		{ "HYPERCLOUD",       Equip::SLOT_HYPERCLOUD },
 		{ "HULLAUTOREPAIR",   Equip::SLOT_HULLAUTOREPAIR },
 		{ "ENERGYBOOSTER",    Equip::SLOT_ENERGYBOOSTER },
-		{ "SHIELD_GENERATOR", Equip::SLOT_SHIELD },
+		{ "SHIELD",           Equip::SLOT_SHIELD },
 		{ "ATMOSHIELD",       Equip::SLOT_ATMOSHIELD },
 		{ "FUELSCOOP",        Equip::SLOT_FUELSCOOP },
 		{ "LASERCOOLER",      Equip::SLOT_LASERCOOLER },
