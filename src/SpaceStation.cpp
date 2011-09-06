@@ -655,7 +655,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 		if (m_type->dockOneAtATimePlease) {
 			for (int i=0; i<m_type->numDockingPorts; i++) {
 				if (m_shipDocking[i].ship && m_shipDocking[i].stage != 1 &&
-				    (m_shipDocking[i].stage != m_type->numDockingStages+1)) {
+					(m_shipDocking[i].stage != m_type->numDockingStages+1)) {
 					canDock = false;
 					break;
 				}
@@ -686,12 +686,12 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 
 				// check player is sortof sensibly oriented for landing
 				const double dot = vector3d(invShipRot[1], invShipRot[5], invShipRot[9]).Dot(dockingNormal);
-				if ((dot < 0.99) || (s->GetWheelState() < 1.0)) return false;
+				if ((dot < 0.99) || (s->GetWheelState() < 1.0)) return true;
 			}
 			
 			if ((speed < MAX_LANDING_SPEED) &&
-			    (!s->GetDockedWith()) &&
-			    (m_shipDocking[port].stage == 1)) {
+				(!s->GetDockedWith()) &&
+				(m_shipDocking[port].stage == 1)) {
 				// if there is more docking port anim to do,
 				// don't set docked yet
 				if (m_type->numDockingStages >= 2) {
@@ -711,12 +711,11 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					CreateBB();
 					Pi::luaOnShipDocked.Queue(s, this);
 				}
+				return false;
 			}
 		}
-		return false;
-	} else {
-		return true;
 	}
+	return true;
 }
 
 void SpaceStation::NotifyDeleted(const Body* const deletedBody)
