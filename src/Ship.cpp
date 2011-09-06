@@ -996,6 +996,8 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		for (int i=0; i<8; i++) {
 			params.argDoubles[12+i] = double(m_equipment.Get(Equip::SLOT_MISSILE, i));
 		}
+		params.argDoubles[20] = m_flightState;
+
 		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 		RenderLmrModel(viewCoords, viewTransform);
 
