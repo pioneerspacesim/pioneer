@@ -669,6 +669,8 @@ void Ship::UpdateAlertState()
 
 		Ship *ship = static_cast<Ship*>(*i);
 
+		if (ship->GetFlightState() == LANDED || ship->GetFlightState() == DOCKED) continue;
+
 		if (GetPositionRelTo(ship).LengthSqr() < 100000.0*100000.0) {
 			ship_is_near = true;
 
