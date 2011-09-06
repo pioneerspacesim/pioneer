@@ -11,6 +11,8 @@ Alpha 15
     * Lots of internal cleanups; silences many warnings under GCC (#477)
     * Allow terrain generation to be aborted when the current set of terrains
       become unusable (eg after hyperspace or detail settings change) (#457)
+    * Shield generators now occupy their own equipment slot to remove the
+      for special-case checks with dealing with cargo (#308, #459)
 
 Alpha 14
 
