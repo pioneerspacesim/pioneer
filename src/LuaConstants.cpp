@@ -449,6 +449,7 @@ void LuaConstants::Register(lua_State *l)
 		{ "HYPERCLOUD",       Equip::SLOT_HYPERCLOUD },
 		{ "HULLAUTOREPAIR",   Equip::SLOT_HULLAUTOREPAIR },
 		{ "ENERGYBOOSTER",    Equip::SLOT_ENERGYBOOSTER },
+		{ "SHIELD_GENERATOR", Equip::SLOT_SHIELD },
 		{ "ATMOSHIELD",       Equip::SLOT_ATMOSHIELD },
 		{ "FUELSCOOP",        Equip::SLOT_FUELSCOOP },
 		{ "LASERCOOLER",      Equip::SLOT_LASERCOOLER },
@@ -505,7 +506,7 @@ void LuaConstants::Register(lua_State *l)
 	 * ECM_BASIC - basic ECM system (ECM)
 	 * SCANNER - scanner (SCANNER)
 	 * ECM_ADVANCED - advanced ECM system (ECM)
-	 * SHIELD_GENERATOR - shield generator (CARGO)
+	 * SHIELD_GENERATOR - shield generator (SHIELD)
 	 * LASER_COOLING_BOOSTER - laser cooling booster (LASERCOOLER)
 	 * CARGO_LIFE_SUPPORT - cargo bay life support (CARGOLIFESUPPORT)
 	 * AUTOPILOT - autopilot (AUTOPILOT)
