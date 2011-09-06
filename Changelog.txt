@@ -6,6 +6,7 @@ Alpha 15
   * Fixes
 
   * Internal changes
+    * Lots of internal cleanups; silences many warnings under GCC (#477)
     * Allow terrain generation to be aborted when the current set of terrains
       become unusable (eg after hyperspace or detail settings change) (#457)
 

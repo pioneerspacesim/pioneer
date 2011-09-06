@@ -644,7 +644,7 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 				++i;
 			}
 		}
-		printf("%lu clouds brought over\n", storedArrivalClouds.size());
+		printf("%zu clouds brought over\n", storedArrivalClouds.size());
 
 		Space::Clear();
 
