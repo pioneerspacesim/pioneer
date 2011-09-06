@@ -75,7 +75,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 		case LUA_TSTRING: {
 			lua_pushvalue(l, idx);
 			const char *str = lua_tostring(l, -1);
-			snprintf(buf, sizeof(buf), "s%lu\n", strlen(str));
+			snprintf(buf, sizeof(buf), "s%zu\n", strlen(str));
 			out += buf;
 			out += str;
 			lua_pop(l, 1);
