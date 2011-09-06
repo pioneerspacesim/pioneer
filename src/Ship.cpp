@@ -225,10 +225,10 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 #define KINETIC_ENERGY_MULT	0.01
 bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 {
-	// hitting space station docking surfaces shouldn't do damage
-	if (b->IsType(Object::SPACESTATION) && (flags & 0x10)) {
-		return true;
-	}
+	// hitting space station docking surfaces while docking shouldn't do damage
+	if (b->IsType(Object::SPACESTATION) && (flags & 0x10) &&
+		(GetVelocity().Length() < MAX_LANDING_SPEED))
+			return true;
 
 	if (b->IsType(Object::PLANET)) {
 		// geoms still enabled when landed
