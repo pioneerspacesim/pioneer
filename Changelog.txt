@@ -1,6 +1,7 @@
 Alpha 15
 
   * New features
+    * Assassination missions (#290)
     * Lua method Ship.SetHullPercent to set a ship's damage level (#420, #472)
     * Landed and docked ships will no longer cause alerts (#454, #466)
 
