@@ -232,8 +232,10 @@ void Player::PollControls(const float timeStep)
 			}
 			
 			if (!stickySpeedKey) {
-				if (KeyBindings::increaseSpeed.IsActive()) m_setSpeed += std::max(m_setSpeed*0.05, 1.0);
-				if (KeyBindings::decreaseSpeed.IsActive()) m_setSpeed -= std::max(m_setSpeed*0.05, 1.0);
+				if (KeyBindings::increaseSpeed.IsActive())
+					m_setSpeed += std::max(fabs(m_setSpeed)*0.05, 1.0);
+				if (KeyBindings::decreaseSpeed.IsActive())
+					m_setSpeed -= std::max(fabs(m_setSpeed)*0.05, 1.0);
 				if ( ((oldSpeed < 0.0) && (m_setSpeed >= 0.0)) ||
 				     ((oldSpeed > 0.0) && (m_setSpeed <= 0.0)) ) {
 					// flipped from going forward to backwards. make the speed 'stick' at zero
