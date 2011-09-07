@@ -37,6 +37,8 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		const float *col = StarSystem::starRealColors[GetSBody()->type];
 		const float b = (Render::IsHDREnabled() ? 100.0f : 1.0f);
 
+#if 0
+
 		/* Draw star spikes and halo to 2d ortho screen */
 		
 		Gui::Screen::EnterOrtho();
@@ -102,9 +104,12 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 
 		
 		if (Render::AreShadersEnabled())
+#endif
+
 			// shaders get you pretty spots and things
 			TerrainBody::Render(viewCoords, viewTransform);
 
+#if 0
 		else {
 			// just the plain old disc
 
@@ -126,6 +131,7 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 			glVertex3f(0, float(rad), 0);
 			glEnd();
 		}
+#endif
 	}
 
 	glPopMatrix();
