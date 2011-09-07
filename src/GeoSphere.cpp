@@ -330,11 +330,13 @@ public:
 	bool m_needUpdateVBOs;
 	double m_distMult;
 	
-	GeoPatch(GeoPatchContext *_ctx, vector3d v0, vector3d v1, vector3d v2, vector3d v3, int depth) {
+	GeoPatch(GeoPatchContext *_ctx, GeoSphere *gs, vector3d v0, vector3d v1, vector3d v2, vector3d v3, int depth) {
 		memset(this, 0, sizeof(GeoPatch));
 
 		ctx = _ctx;
 		ctx->IncRefCount();
+
+		geosphere = gs;
 
 		m_kidsLock = SDL_CreateMutex();
 		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
@@ -943,10 +945,10 @@ public:
 				v23 = (v[2]+v[3]).Normalized();
 				v30 = (v[3]+v[0]).Normalized();
 				GeoPatch *_kids[4];
-				_kids[0] = new GeoPatch(ctx, v[0], v01, cn, v30, m_depth+1);
-				_kids[1] = new GeoPatch(ctx, v01, v[1], v12, cn, m_depth+1);
-				_kids[2] = new GeoPatch(ctx, cn, v12, v[2], v23, m_depth+1);
-				_kids[3] = new GeoPatch(ctx, v30, cn, v23, v[3], m_depth+1);
+				_kids[0] = new GeoPatch(ctx, geosphere, v[0], v01, cn, v30, m_depth+1);
+				_kids[1] = new GeoPatch(ctx, geosphere, v01, v[1], v12, cn, m_depth+1);
+				_kids[2] = new GeoPatch(ctx, geosphere, cn, v12, v[2], v23, m_depth+1);
+				_kids[3] = new GeoPatch(ctx, geosphere, v30, cn, v23, v[3], m_depth+1);
 				// hm.. edges. Not right to pass this
 				// edgeFriend...
 				_kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);
@@ -966,7 +968,6 @@ public:
 				_kids[3]->edgeFriend[2] = GetEdgeFriendForKid(3, 2);
 				_kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);
 				_kids[0]->parent = _kids[1]->parent = _kids[2]->parent = _kids[3]->parent = this;
-				_kids[0]->geosphere = _kids[1]->geosphere = _kids[2]->geosphere = _kids[3]->geosphere = geosphere;
 				for (int i=0; i<4; i++) _kids[i]->GenerateMesh();
 				PiVerify(SDL_mutexP(m_kidsLock)==0);
 				for (int i=0; i<4; i++) kids[i] = _kids[i];
@@ -1189,14 +1190,13 @@ void GeoSphere::BuildFirstPatches()
 	p7 = p7.Normalized();
 	p8 = p8.Normalized();
 
-	m_patches[0] = new GeoPatch(s_patchContext, p1, p2, p3, p4, 0);
-	m_patches[1] = new GeoPatch(s_patchContext, p4, p3, p7, p8, 0);
-	m_patches[2] = new GeoPatch(s_patchContext, p1, p4, p8, p5, 0);
-	m_patches[3] = new GeoPatch(s_patchContext, p2, p1, p5, p6, 0);
-	m_patches[4] = new GeoPatch(s_patchContext, p3, p2, p6, p7, 0);
-	m_patches[5] = new GeoPatch(s_patchContext, p8, p7, p6, p5, 0);
+	m_patches[0] = new GeoPatch(s_patchContext, this, p1, p2, p3, p4, 0);
+	m_patches[1] = new GeoPatch(s_patchContext, this, p4, p3, p7, p8, 0);
+	m_patches[2] = new GeoPatch(s_patchContext, this, p1, p4, p8, p5, 0);
+	m_patches[3] = new GeoPatch(s_patchContext, this, p2, p1, p5, p6, 0);
+	m_patches[4] = new GeoPatch(s_patchContext, this, p3, p2, p6, p7, 0);
+	m_patches[5] = new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0);
 	for (int i=0; i<6; i++) {
-		m_patches[i]->geosphere = this;
 		for (int j=0; j<4; j++) {
 			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]];
 		}
