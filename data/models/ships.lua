@@ -186,7 +186,7 @@ define_model('ladybird', {
 					capacity = 60,
 					hull_mass = 60,
 					price = 87000,
-					hyperdrive_class = 1,
+					hyperdrive_class = 3,
 				}
 			},
 		},

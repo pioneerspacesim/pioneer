@@ -599,55 +599,59 @@ void Pi::HandleEvents()
                             Pi::showDebugInfo = !Pi::showDebugInfo;
                             break;
                         case SDLK_m:  // Gimme money!
-                            Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
+							if(Pi::IsGameStarted()) {
+								Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
+							}
                             break;
                         case SDLK_F12:
                         {
-                            matrix4x4d m; Pi::player->GetRotMatrix(m);
-                            vector3d dir = m*vector3d(0,0,-1);
-                            /* add test object */
-                            if (KeyState(SDLK_RSHIFT)) {
-                                Missile *missile = new Missile(ShipType::MISSILE_GUIDED, Pi::player, 
-                                                               Pi::player->GetCombatTarget());
-                                missile->SetRotMatrix(m);
-                                missile->SetFrame(Pi::player->GetFrame());
-                                missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
-                                missile->SetVelocity(Pi::player->GetVelocity());
-                                Space::AddBody(missile);
-                            } else if (KeyState(SDLK_LSHIFT)) {
-                                SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
-                                if (s) {
-                                    int port = s->GetFreeDockingPort();
-                                    if (port != -1) {
-                                        printf("Putting ship into station\n");
-                                        // Make police ship intent on killing the player
-                                        Ship *ship = new Ship(ShipType::LADYBIRD);
-                                        ship->AIKill(Pi::player);
-                                        ship->SetFrame(Pi::player->GetFrame());
-                                        ship->SetDockedWith(s, port);
-                                        Space::AddBody(ship);
-                                    } else {
-                                        printf("No docking ports free dude\n");
-                                    }
-                                } else {
-                                        printf("Select a space station...\n");
-                                }
-                            } else {
-                                Ship *ship = new Ship(ShipType::LADYBIRD);
-                                ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
-                                ship->AIKill(Pi::player);
-                                ship->SetFrame(Pi::player->GetFrame());
-                                ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
-                                ship->SetVelocity(Pi::player->GetVelocity());
-                                ship->m_equipment.Add(Equip::DRIVE_CLASS2);
-                                ship->m_equipment.Add(Equip::RADAR_MAPPER);
-                                ship->m_equipment.Add(Equip::SCANNER);
-                                ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
-                                ship->m_equipment.Add(Equip::HYDROGEN, 10);
-                                ship->UpdateMass();
-                                Space::AddBody(ship);
-                            }
-                            break;
+							if(Pi::IsGameStarted()) {
+								matrix4x4d m; Pi::player->GetRotMatrix(m);
+								vector3d dir = m*vector3d(0,0,-1);
+								/* add test object */
+								if (KeyState(SDLK_RSHIFT)) {
+									Missile *missile =
+										new Missile(ShipType::MISSILE_GUIDED, Pi::player, Pi::player->GetCombatTarget());
+									missile->SetRotMatrix(m);
+									missile->SetFrame(Pi::player->GetFrame());
+									missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
+									missile->SetVelocity(Pi::player->GetVelocity());
+									Space::AddBody(missile);
+								} else if (KeyState(SDLK_LSHIFT)) {
+									SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
+									if (s) {
+										int port = s->GetFreeDockingPort();
+										if (port != -1) {
+											printf("Putting ship into station\n");
+											// Make police ship intent on killing the player
+											Ship *ship = new Ship(ShipType::LADYBIRD);
+											ship->AIKill(Pi::player);
+											ship->SetFrame(Pi::player->GetFrame());
+											ship->SetDockedWith(s, port);
+											Space::AddBody(ship);
+										} else {
+											printf("No docking ports free dude\n");
+										}
+									} else {
+											printf("Select a space station...\n");
+									}
+								} else {
+									Ship *ship = new Ship(ShipType::LADYBIRD);
+									ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+									ship->AIKill(Pi::player);
+									ship->SetFrame(Pi::player->GetFrame());
+									ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
+									ship->SetVelocity(Pi::player->GetVelocity());
+									ship->m_equipment.Add(Equip::DRIVE_CLASS2);
+									ship->m_equipment.Add(Equip::RADAR_MAPPER);
+									ship->m_equipment.Add(Equip::SCANNER);
+									ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
+									ship->m_equipment.Add(Equip::HYDROGEN, 10);
+									ship->UpdateMass();
+									Space::AddBody(ship);
+								}
+							}
+							break;
                         }
 #endif /* DEVKEYS */
 #if OBJECTVIEWER

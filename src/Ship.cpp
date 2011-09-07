@@ -314,7 +314,7 @@ const shipstats_t *Ship::CalcStats()
 	m_stats.free_capacity = m_stats.max_capacity - m_stats.used_capacity;
 	m_stats.total_mass = m_stats.used_capacity + stype.hullMass;
 
-	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR));
+	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR));
 
 	if (stype.equipSlotCapacity[Equip::SLOT_ENGINE]) {
 		Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
@@ -669,6 +669,8 @@ void Ship::UpdateAlertState()
 
 		Ship *ship = static_cast<Ship*>(*i);
 
+		if (ship->GetFlightState() == LANDED || ship->GetFlightState() == DOCKED) continue;
+
 		if (GetPositionRelTo(ship).LengthSqr() < 100000.0*100000.0) {
 			ship_is_near = true;
 
@@ -996,6 +998,8 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		for (int i=0; i<8; i++) {
 			params.argDoubles[12+i] = double(m_equipment.Get(Equip::SLOT_MISSILE, i));
 		}
+		params.argDoubles[20] = m_flightState;
+
 		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 		RenderLmrModel(viewCoords, viewTransform);
 
