@@ -11,5 +11,5 @@ void main(void)
 	col += texture2DRect(fboTex, vec2(gl_FragCoord.x+3.0, gl_FragCoord.y)) * 0.015625;
 	col += texture2DRect(fboTex, vec2(gl_FragCoord.x+2.0, gl_FragCoord.y)) * 0.0625;
 	col += texture2DRect(fboTex, vec2(gl_FragCoord.x+1.0, gl_FragCoord.y)) * 0.25;
-	gl_FragColor = col;
+	gl_FragColor = col * col * 0.0001;
 }
