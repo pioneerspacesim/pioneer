@@ -328,6 +328,7 @@ public:
 	int m_depth;
 	SDL_mutex *m_kidsLock;
 	bool m_needUpdateVBOs;
+	double m_distMult;
 	
 	GeoPatch(GeoPatchContext *_ctx, vector3d v0, vector3d v1, vector3d v2, vector3d v3, int depth) {
 		memset(this, 0, sizeof(GeoPatch));
@@ -344,7 +345,15 @@ public:
 		for (int i=0; i<4; i++) {
 			clipRadius = std::max(clipRadius, (v[i]-clipCentroid).Length());
 		}
-		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth) * (10 / Clamp(depth, 1, 5));
+		//if (SBody::BodySuperType type > SBody::BodySuperType) {
+		//if (SBody::BodyType type > (SBody::TYPE_GRAVPOINT)) {
+		//if (SBody::SUPERTYPE_STAR) {
+			//m_distMult = 10 / Clamp(depth, 1, 10);
+		//	m_distMult = 7 / Clamp(depth, 1, 7);
+		//} else {
+			m_distMult = 7 / Clamp(depth, 1, 7);
+		//}
+		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth) * m_distMult;
 		m_needUpdateVBOs = false;
 		normals = new vector3d[ctx->NUMVERTICES()];
 		vertices = new vector3d[ctx->NUMVERTICES()];
