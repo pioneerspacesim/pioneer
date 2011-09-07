@@ -381,7 +381,7 @@ void GeoSphereStyle::PickTerrain(MTRand &rand)
 	}
 	// XXX override the above so you can test particular fractals XXX
 
-	m_terrainType = TERRAIN_HILLS_DUNES;
+	//m_terrainType = TERRAIN_HILLS_DUNES;
 	//m_colorType = COLOR_DESERT;
 	printf("%s: \n", m_body->name.c_str());
 	printf("|   Terrain: [%d]\n", m_terrainType);
@@ -536,7 +536,7 @@ void GeoSphereStyle::PickAtmosphere()
 	  for some variation to atmosphere colours
 	 */
 	switch (m_body->type) {
-		case SBody::SUPERTYPE_STAR:
+		//case SBody::SUPERTYPE_STAR:
 		case SBody::TYPE_PLANET_GAS_GIANT:
 			m_atmosColor = Color(1.0f, 1.0f, 1.0f, 0.005f);
 			m_atmosDensity = 14.0;
@@ -2056,13 +2056,14 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 	case COLOR_STAR_BROWN_DWARF: {
 		double n;
 		vector3d col;
-			n = billow_octavenoise(m_fracdef[0], 0.6, p) * 0.5;
-			n += ridged_octavenoise(m_fracdef[1], 0.7, p) * 0.5;
-			n += voronoiscam_octavenoise(m_fracdef[0], 0.8, p) * ridged_octavenoise(m_fracdef[1], 0.8, p);
-			n *= n * n;
-			n += voronoiscam_octavenoise(m_fracdef[2], 0.6, p) * 0.5;
-			n += ridged_octavenoise(m_fracdef[3], 0.6, p) * 0.5;
-			n += 0.8*billow_octavenoise(m_fracdef[0], 0.8, noise(p*3.142)*p);
+			n = voronoiscam_octavenoise(m_fracdef[0], 0.6, p) * 0.5;
+			//n += ridged_octavenoise(m_fracdef[1], 0.7, p) * 0.5;
+			//n += voronoiscam_octavenoise(m_fracdef[0], 0.8, p) * ridged_octavenoise(m_fracdef[1], 0.8, p);
+			//n *= n * n;
+			//n += voronoiscam_octavenoise(m_fracdef[2], 0.6, p) * 0.5;
+			//n += ridged_octavenoise(m_fracdef[3], 0.6, p) * 0.5;
+			//n += 0.8*billow_octavenoise(m_fracdef[0], 0.8, noise(p*3.142)*p);
+			//n *= n;
 			if (n > 0.666) {
 				n -= 0.666; n *= 3.0;
 				col = interpolate_color(n, vector3d(.25, .2, .2), vector3d(.1, .0, .0) );
@@ -2073,7 +2074,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 				return col;
 			} else {
 				n *= 3.0;
-				col = interpolate_color(n, vector3d(.4, .0, .0), vector3d(.2, .25, .1) );
+				col = interpolate_color(n, vector3d(1.5, 1.0, 1.0), vector3d(.2, .25, .1) );
 				return col;
 			}
 		}

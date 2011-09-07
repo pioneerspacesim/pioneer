@@ -347,14 +347,11 @@ public:
 		for (int i=0; i<4; i++) {
 			clipRadius = std::max(clipRadius, (v[i]-clipCentroid).Length());
 		}
-		//if (SBody::BodySuperType type > SBody::BodySuperType) {
-		//if (SBody::BodyType type > (SBody::TYPE_GRAVPOINT)) {
-		//if (SBody::SUPERTYPE_STAR) {
-			//m_distMult = 10 / Clamp(depth, 1, 10);
-		//	m_distMult = 7 / Clamp(depth, 1, 7);
-		//} else {
-			m_distMult = 7 / Clamp(depth, 1, 7);
-		//}
+		if (geosphere->m_sbody->type < SBody::TYPE_PLANET_ASTEROID) {
+ 			m_distMult = 10 / Clamp(depth, 1, 10);
+ 		} else {
+ 			m_distMult = 5 / Clamp(depth, 1, 5);
+ 		}
 		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth) * m_distMult;
 		m_needUpdateVBOs = false;
 		normals = new vector3d[ctx->NUMVERTICES()];
@@ -1299,7 +1296,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			glDisable(GL_BLEND);
 		}
 
-		if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) {
+		if ((m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) || (m_sbody->type == SBody::TYPE_BROWN_DWARF)) {
 			Render::State::UseProgram(s_geosphereStarShader);
 		}
 		else {
@@ -1326,7 +1323,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 
 	const float b = (Render::IsHDREnabled() ? 100.0f : 1.0f);
 
-	if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) {
+	if ((m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) || (m_sbody->type == SBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
 		ambient[0] = ambient[1] = ambient[2] = 0.2f;
 		ambient[3] = 1.0f;
