@@ -36,7 +36,7 @@ local addShipEquip = function (ship)
 	local lawlessness = Game.system.lawlessness
 	local size_factor = ship:GetEquipFree('CARGO') ^ 2 / 2000000
 
-	if ship:GetEquipCount('CARGO', 'SHIELD_GENERATOR') == 0 and
+	if ship:GetEquipCount('SHIELD', 'SHIELD_GENERATOR') == 0 and
 	Engine.rand:Number(1) - 0.1 < lawlessness then
 		local num = math.floor(math.sqrt(ship:GetEquipFree('CARGO') / 50))
 		ship:AddEquip('SHIELD_GENERATOR', num)
@@ -132,7 +132,7 @@ local getSystem = function (ship)
 		local prices = next_system:GetCommodityBasePriceAlterations()
 		local next_prices = 0
 		for _, cargo in ipairs(cargo_list) do
-			if cargo ~= 'HYDROGEN' and cargo ~= 'SHIELD_GENERATOR' and cargo ~= 'NONE' then
+			if cargo ~= 'HYDROGEN' and cargo ~= 'NONE' then
 				next_prices = next_prices + prices[cargo]
 			end
 		end
@@ -483,7 +483,7 @@ local onShipDocked = function (ship, starport)
 	local cargo_list = ship:GetEquip('CARGO')
 	for i = 1, #cargo_list do
 		local cargo = cargo_list[i]
-		if cargo ~= 'HYDROGEN' and cargo ~= 'SHIELD_GENERATOR' then
+		if cargo ~= 'HYDROGEN' then
 			cargo_count = cargo_count + ship:RemoveEquip(cargo, 1000000)
 		end
 	end
@@ -620,7 +620,7 @@ local onShipHit = function (ship, attacker)
 		if #cargo_list == 0 then return end
 
 		local cargo = cargo_list[Engine.rand:Integer(1, #cargo_list)]
-		if cargo ~= 'NONE' and cargo ~= 'HYDROGEN' and cargo ~= 'SHIELD_GENERATOR'
+		if cargo ~= 'NONE' and cargo ~= 'HYDROGEN'
 		and ship:Jettison(cargo) then
 			UI.ImportantMessage(attacker.label..', take this and leave us be, you filthy pirate!', ship.label)
 			trader['chance'] = trader.chance - 0.1

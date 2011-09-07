@@ -687,7 +687,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_hudTargetHullIntegrity->Show();
 
 			float sShields = 0;
-			if (s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR) > 0) {
+			if (s->m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR) > 0) {
 				sShields = s->GetPercentShields();
 			}
 			m_hudTargetShieldIntegrity->SetColor(get_color_for_warning_meter_bar(sShields));
@@ -710,7 +710,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats->total_mass));
 			text += "\n";
 			text += stringf(Lang::SHIELD_STRENGTH_N, formatarg("shields",
-				(sShields*0.01f) * float(s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR))));
+				(sShields*0.01f) * float(s->m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR))));
 			text += "\n";
 			text += stringf(Lang::CARGO_N, formatarg("mass", stats->used_cargo));
 			text += "\n";
