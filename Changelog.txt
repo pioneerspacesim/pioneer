@@ -7,6 +7,7 @@ Alpha 15
   * Fixes
     * Landing lights now only flash when landing gear is down or ship is
       docking (#236, #478)
+    * Certain in-game keys will no longer crash when used in the menu (#453, #463)
 
   * Internal changes
     * Lots of internal cleanups; silences many warnings under GCC (#477)
