@@ -419,7 +419,7 @@ Ship::HyperjumpStatus Ship::StartHyperspaceCountdown(const SystemPath &dest)
 		return status;
 	
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-	m_hyperspace.countdown = 1 + EquipType::types[t].pval;
+	m_hyperspace.countdown = 1.0f + EquipType::types[t].pval;
 	m_hyperspace.now = false;
 
 	return Ship::HYPERJUMP_OK;
