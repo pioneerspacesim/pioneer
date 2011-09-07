@@ -425,6 +425,7 @@ void LuaConstants::Register(lua_State *l)
 	 * HULLAUTOREPAIR - hull auto-repair system
 	 * ENERGYBOOSTER - shield energy booster unit
 	 * ATMOSHIELD - atmospheric shielding
+	 * SHIELD - shield
 	 * FUELSCOOP - fuel scoop
 	 * LASERCOOLER - laser cooling booster
 	 * CARGOLIFESUPPORT - cargo bay life support
