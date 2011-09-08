@@ -23,6 +23,20 @@ KeyBinding decreaseSpeed;
 KeyBinding fireLaser;
 KeyBinding fastRotate;
 KeyBinding targetObject;
+KeyBinding lockHyperspaceTarget;
+KeyBinding toggleInfoBox;
+KeyBinding toggleSelectionMode;
+KeyBinding resetRotationAndZoom;
+KeyBinding moveLeft;
+KeyBinding moveRight;
+KeyBinding moveForward;
+KeyBinding moveBackward;
+KeyBinding moveUp;
+KeyBinding moveDown;
+KeyBinding turnLeft;
+KeyBinding turnRight;
+KeyBinding turnUp;
+KeyBinding turnDown;
 
 AxisBinding pitchAxis;
 AxisBinding rollAxis;
@@ -142,6 +156,21 @@ const BindingPrototype bindingProtos[] = {
 	{ Lang::SPEED_CONTROL_MODE, 0 },
 	{ Lang::INCREASE_SET_SPEED, "BindIncreaseSpeed" },
 	{ Lang::DECREASE_SET_SPEED, "BindDecreaseSpeed" },
+	{ Lang::GALAXY_SECTOR_VIEW, 0},
+	{ Lang::LOCK_HYPERSPACE_TARGET, "BindLockHyperspaceTarget" },
+	{ Lang::TOGGLE_INFO_BOX, "BindToggleInfoBox" },
+	{ Lang::TOGGLE_SELECTION_MODE, "BindToggleSelectionMode" },
+	{ Lang::RESET_ROTATION_AND_ZOOM, "BindResetRotationAndZoom" },
+	{ Lang::MOVE_LEFT, "BindMoveLeft" },
+	{ Lang::MOVE_RIGHT, "BindMoveRight" },
+	{ Lang::MOVE_FORWARD, "BindMoveForward" },
+	{ Lang::MOVE_BACKWARD, "BindMoveBackward" },
+	{ Lang::MOVE_UP, "BindMoveUp" },
+	{ Lang::MOVE_DOWN, "BindMoveDown" },
+	{ Lang::TURN_LEFT, "BindTurnLeft" },
+	{ Lang::TURN_RIGHT, "BindTurnRight" },
+	{ Lang::TURN_UP, "BindTurnUp" },
+	{ Lang::TURN_DOWN, "BindTurnDown" },
 	{ 0, 0 },
 };
 
@@ -316,6 +345,20 @@ void OnKeyBindingsChanged()
 	SET_KEY_BINDING(fireLaser, "BindFireLaser");
 	SET_KEY_BINDING(fastRotate, "BindFastRotate");
 	SET_KEY_BINDING(targetObject, "BindTargetObject");
+	SET_KEY_BINDING(lockHyperspaceTarget, "BindLockHyperspaceTarget");
+	SET_KEY_BINDING(toggleInfoBox, "BindToggleInfoBox");
+	SET_KEY_BINDING(toggleSelectionMode, "BindToggleSelectionMode");
+	SET_KEY_BINDING(resetRotationAndZoom, "BindResetRotationAndZoom");
+	SET_KEY_BINDING(moveLeft, "BindMoveLeft");
+	SET_KEY_BINDING(moveRight, "BindMoveRight");
+	SET_KEY_BINDING(moveForward, "BindMoveForward");
+	SET_KEY_BINDING(moveBackward, "BindMoveBackward");
+	SET_KEY_BINDING(moveUp, "BindMoveUp");
+	SET_KEY_BINDING(moveDown, "BindMoveDown");
+	SET_KEY_BINDING(turnLeft, "BindTurnLeft");
+	SET_KEY_BINDING(turnRight, "BindTurnRight");
+	SET_KEY_BINDING(turnUp, "BindTurnUp");
+	SET_KEY_BINDING(turnDown, "BindTurnDown");
 	//SET_KEY_BINDING(key, "Bind");
 
 	SET_AXIS_BINDING(pitchAxis, "BindAxisPitch");
@@ -336,6 +379,20 @@ static void SetAxisBinding(const char *function, const AxisBinding &ab) {
 void SetDefaults() 
 {
 	SetSDLKeyboardBinding("BindTargetObject", SDLK_TAB);
+	SetSDLKeyboardBinding("BindLockHyperspaceTarget", SDLK_SPACE);
+	SetSDLKeyboardBinding("BindToggleInfoBox", SDLK_TAB);
+	SetSDLKeyboardBinding("BindToggleSelectionMode", SDLK_RETURN);
+	SetSDLKeyboardBinding("BindResetRotationAndZoom", SDLK_r);
+	SetSDLKeyboardBinding("BindMoveLeft", SDLK_LEFT);
+	SetSDLKeyboardBinding("BindMoveRight", SDLK_RIGHT);
+	SetSDLKeyboardBinding("BindMoveForward", SDLK_PAGEDOWN);
+	SetSDLKeyboardBinding("BindMoveBackward", SDLK_PAGEUP);
+	SetSDLKeyboardBinding("BindMoveUp", SDLK_UP);
+	SetSDLKeyboardBinding("BindMoveDown", SDLK_DOWN);
+	SetSDLKeyboardBinding("BindTurnLeft", SDLK_a);
+	SetSDLKeyboardBinding("BindTurnRight", SDLK_d);
+	SetSDLKeyboardBinding("BindTurnUp", SDLK_w);
+	SetSDLKeyboardBinding("BindTurnDown", SDLK_s);
 	SetSDLKeyboardBinding("BindFireLaser", SDLK_SPACE);
 	SetSDLKeyboardBinding("BindFastRotate", SDLK_LSHIFT);
 	SetSDLKeyboardBinding("BindPitchUp", SDLK_s);

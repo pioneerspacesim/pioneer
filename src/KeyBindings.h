@@ -87,6 +87,20 @@ namespace KeyBindings {
 	extern KeyBinding fireLaser;
 	extern KeyBinding fastRotate;
 	extern KeyBinding targetObject;
+	extern KeyBinding lockHyperspaceTarget;
+	extern KeyBinding toggleInfoBox;
+	extern KeyBinding toggleSelectionMode;
+	extern KeyBinding resetRotationAndZoom;
+	extern KeyBinding moveLeft;
+	extern KeyBinding moveRight;
+	extern KeyBinding moveForward;
+	extern KeyBinding moveBackward;
+	extern KeyBinding moveUp;
+	extern KeyBinding moveDown;
+	extern KeyBinding turnLeft;
+	extern KeyBinding turnRight;
+	extern KeyBinding turnUp;
+	extern KeyBinding turnDown;
 
 	extern AxisBinding pitchAxis;
 	extern AxisBinding rollAxis;

@@ -1133,3 +1133,31 @@ ACTIVE
     Active
 DISTANCE_LY
     Distance: %distance{f.2} ly
+LOCK_HYPERSPACE_TARGET
+    Lock hyperspace target
+TOGGLE_INFO_BOX
+    Toggle the info box
+TOGGLE_SELECTION_MODE
+    Toggle selection mode
+RESET_ROTATION_AND_ZOOM
+    Reset rotation and zoom
+MOVE_LEFT
+    Move left
+MOVE_RIGHT
+    Move right
+MOVE_FORWARD
+    Move forward
+MOVE_BACKWARD
+    Move backward
+MOVE_UP
+    Move up
+MOVE_DOWN
+    Move down
+TURN_LEFT
+    Turn left
+TURN_RIGHT
+    Turn right
+TURN_UP
+    Turn up
+TURN_DOWN
+    Turn down
