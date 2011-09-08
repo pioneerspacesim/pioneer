@@ -749,8 +749,10 @@ void Ship::StaticUpdate(const float timeStep)
 					double rate = speed*density*0.00001f;
 					if (Pi::rng.Double() < rate) {
 						m_equipment.Add(Equip::HYDROGEN);
-						Pi::Message(stringf(Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
+						if (this == reinterpret_cast<Ship*>(Pi::player)) {
+							Pi::Message(stringf(Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
 									formatarg("quantity", m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN))));
+						}
 						UpdateMass();
 					}
 				}
@@ -769,7 +771,9 @@ void Ship::StaticUpdate(const float timeStep)
 			
 			if (m_equipment.Remove(t, 1)) {
 				m_equipment.Add(Equip::FERTILIZER);
-				Pi::Message(Lang::CARGO_BAY_LIFE_SUPPORT_LOST);
+				if (this == reinterpret_cast<Ship*>(Pi::player)) {
+					Pi::Message(Lang::CARGO_BAY_LIFE_SUPPORT_LOST);
+				}
 			}
 		}
 	}
