@@ -277,6 +277,7 @@ public:
 	virtual void OnSwitchTo() {}
 private:
 	void OnClickSave(std::string filename) {
+		if (filename.empty()) return;
 		std::string fullname = join_path(GetFullSavefileDirPath().c_str(), filename.c_str(), 0);
 		Serializer::SaveGame(fullname.c_str());
 		Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+fullname);
@@ -318,6 +319,7 @@ private:
     // state after a load fails, so we just throw them back to the menu
     
 	void OnClickLoad(std::string filename) {
+		if (filename.empty()) return;
 		std::string fullname = join_path(GetFullSavefileDirPath().c_str(), filename.c_str(), 0);
 
         if (Pi::IsGameStarted())
