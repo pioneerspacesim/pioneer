@@ -4,7 +4,6 @@
 #include "Pi.h"
 #include "WorldView.h"
 #include "Space.h"
-#include "SpaceStation.h"
 #include "Serializer.h"
 #include "collider/collider.h"
 #include "Sfx.h"
@@ -29,9 +28,6 @@
 void Ship::Save(Serializer::Writer &wr)
 {
 	DynamicBody::Save(wr);
-	MarketAgent::Save(wr);
-	wr.Int32(Serializer::LookupBody(m_combatTarget));
-	wr.Int32(Serializer::LookupBody(m_navTarget));
 	wr.Vector3d(m_angThrusters);
 	wr.Vector3d(m_thrusters);
 	wr.Int32(m_wheelTransition);
@@ -64,10 +60,7 @@ void Ship::Save(Serializer::Writer &wr)
 void Ship::Load(Serializer::Reader &rd)
 {
 	DynamicBody::Load(rd);
-	MarketAgent::Load(rd);
 	// needs fixups
-	m_combatTargetIndex = rd.Int32();
-	m_navTargetIndex = rd.Int32();
 	m_angThrusters = rd.Vector3d();
 	m_thrusters = rd.Vector3d();
 	m_wheelTransition = rd.Int32();
@@ -111,8 +104,6 @@ void Ship::Init()
 
 void Ship::PostLoadFixup()
 {
-	m_combatTarget = Serializer::LookupBody(m_combatTargetIndex);
-	m_navTarget = Serializer::LookupBody(m_navTargetIndex);
 	m_dockedWith = reinterpret_cast<SpaceStation*>(Serializer::LookupBody(m_dockedWithIndex));
 	if (m_curAICmd) m_curAICmd->PostLoadFixup();
 }
@@ -128,8 +119,6 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_wheelState = 0;
 	m_dockedWith = 0;
 	m_dockedWithPort = 0;
-	m_navTarget = 0;
-	m_combatTarget = 0;
 	m_shipFlavour = ShipFlavour(shipType);
 	m_thrusters.x = m_thrusters.y = m_thrusters.z = 0;
 	m_angThrusters.x = m_angThrusters.y = m_angThrusters.z = 0;
@@ -760,8 +749,10 @@ void Ship::StaticUpdate(const float timeStep)
 					double rate = speed*density*0.00001f;
 					if (Pi::rng.Double() < rate) {
 						m_equipment.Add(Equip::HYDROGEN);
-						Pi::Message(stringf(Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
+						if (this == reinterpret_cast<Ship*>(Pi::player)) {
+							Pi::Message(stringf(Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
 									formatarg("quantity", m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN))));
+						}
 						UpdateMass();
 					}
 				}
@@ -780,7 +771,9 @@ void Ship::StaticUpdate(const float timeStep)
 			
 			if (m_equipment.Remove(t, 1)) {
 				m_equipment.Add(Equip::FERTILIZER);
-				Pi::Message(Lang::CARGO_BAY_LIFE_SUPPORT_LOST);
+				if (this == reinterpret_cast<Ship*>(Pi::player)) {
+					Pi::Message(Lang::CARGO_BAY_LIFE_SUPPORT_LOST);
+				}
 			}
 		}
 	}
@@ -860,10 +853,6 @@ void Ship::StaticUpdate(const float timeStep)
 
 void Ship::NotifyDeleted(const Body* const deletedBody)
 {
-	if(GetNavTarget() == deletedBody)
-		SetNavTarget(0);
-	if(GetCombatTarget() == deletedBody)
-		SetCombatTarget(0);
 	if (m_curAICmd) m_curAICmd->OnDeleted(deletedBody);
 }
 
@@ -917,20 +906,6 @@ bool Ship::SetWheelState(bool down)
 	if (float_equal_exact(m_wheelState, down ? 1.0f : 0.0f)) return false;
 	m_wheelTransition = (down ? 1 : -1);
 	return true;
-}
-
-void Ship::SetNavTarget(Body* const target)
-{
-	m_navTarget = target;
-	Pi::onPlayerChangeTarget.emit();
-	Sound::PlaySfx("OK");
-}
-
-void Ship::SetCombatTarget(Body* const target)
-{
-	m_combatTarget = target;
-	Pi::onPlayerChangeTarget.emit();
-	Sound::PlaySfx("OK");
 }
 
 #if 0
@@ -1106,46 +1081,4 @@ float Ship::GetWeakestThrustersForce() const
 		val = std::min(val, fabsf(type.linThrust[i]));
 	}
 	return val;
-}
-
-/* MarketAgent shite */
-void Ship::Bought(Equip::Type t) {
-	m_equipment.Add(t);
-	UpdateMass();
-}
-void Ship::Sold(Equip::Type t) {
-	m_equipment.Remove(t, 1);
-	UpdateMass();
-}
-bool Ship::CanBuy(Equip::Type t, bool verbose) const {
-	Equip::Slot slot = EquipType::types[int(t)].slot;
-	bool freespace = (m_equipment.FreeSpace(slot)!=0);
-	bool freecapacity = (m_stats.free_capacity >= EquipType::types[int(t)].mass);
-	if (verbose && (this == reinterpret_cast<Ship*>(Pi::player))) {
-		if (!freespace) {
-			Pi::Message(Lang::NO_FREE_SPACE_FOR_ITEM);
-		}
-		else if (!freecapacity) {
-			Pi::Message(Lang::SHIP_IS_FULLY_LADEN);
-		}
-	}
-	return (freespace && freecapacity);
-}
-bool Ship::CanSell(Equip::Type t, bool verbose) const {
-	Equip::Slot slot = EquipType::types[int(t)].slot;
-	bool cansell = (m_equipment.Count(slot, t) > 0);
-	if (verbose && (this == reinterpret_cast<Ship*>(Pi::player))) {
-		if (!cansell) {
-			Pi::Message(stringf(Lang::YOU_DO_NOT_HAVE_ANY_X, formatarg("item", EquipType::types[int(t)].name)));
-		}
-	}
-	return cansell;
-}
-Sint64 Ship::GetPrice(Equip::Type t) const {
-	if (m_dockedWith) {
-		return m_dockedWith->GetPrice(t);
-	} else {
-		assert(0);
-		return 0;
-	}
 }
