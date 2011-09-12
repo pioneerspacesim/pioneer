@@ -156,7 +156,7 @@ static int l_ship_set_hull_percent(lua_State *l)
 
 	s->SetPercentHull(percent);
 
-	LUA_DEBUG_END(l, 1);
+	LUA_DEBUG_END(l, 0);
 
 	return 0;
 }
