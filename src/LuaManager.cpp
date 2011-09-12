@@ -16,16 +16,16 @@ LuaManager::LuaManager() : m_lua(NULL) {
 
 	lua_atpanic(m_lua, pi_lua_panic);
 
-	int ret = luaL_loadfile(m_lua, PIONEER_DATA_DIR "/pidebug.lua");
+	int ret = luaL_loadfile(m_lua, INIT_DATA_DIR "/pidebug.lua");
 	if (ret) {
 		if (ret == LUA_ERRFILE)
-			fprintf(stderr, "Can't load '" PIONEER_DATA_DIR "/pidebug.lua'");
+			fprintf(stderr, "Can't load '" INIT_DATA_DIR "/pidebug.lua'");
 		else if (ret == LUA_ERRSYNTAX) {
 			const char* message = lua_tostring(m_lua, -1);
-			fprintf(stderr, "Syntax error in '" PIONEER_DATA_DIR "/pidebug.lua':\n%s\n", message);
+			fprintf(stderr, "Syntax error in '" INIT_DATA_DIR "/pidebug.lua':\n%s\n", message);
 		}
 		else
-			fprintf(stderr, "Error while loading '" PIONEER_DATA_DIR "/pidebug.lua'");
+			fprintf(stderr, "Error while loading '" INIT_DATA_DIR "/pidebug.lua'");
 		abort();
 	}
 	if (lua_pcall(m_lua, 0, 1, 0)) {

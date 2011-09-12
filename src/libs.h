@@ -21,6 +21,14 @@
 #define PIONEER_DATA_DIR "data"
 #endif /* PIONEER_DATA_DIR */
 
+#ifndef INIT_DATA_DIR
+#ifdef _XCODE // Hack because of LuaManager initialises in the constructor, which breaks on OSX - Philbywhizz
+#define INIT_DATA_DIR "pioneer.app/Contents/Resources/data"
+#else
+#define INIT_DATA_DIR "data"
+#endif
+#endif /* INIT_DATA_DIR */
+
 #ifdef _WIN32
 #include <malloc.h>
 #ifndef __MINGW32__
