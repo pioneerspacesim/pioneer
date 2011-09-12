@@ -100,6 +100,7 @@ namespace KeyBindings {
 	extern KeyAction fireLaser;
 	extern KeyAction fastRotate;
 	extern KeyAction targetObject;
+	extern KeyAction toggleLuaConsole;
 
 	extern AxisBinding pitchAxis;
 	extern AxisBinding rollAxis;
