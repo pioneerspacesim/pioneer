@@ -34,7 +34,7 @@ static int l_rand_new(lua_State *l)
 {
 	int seed = int(time(NULL));
 	if (lua_isnumber(l, 1))
-		seed = int(lua_tonumber(l, 1));
+		seed = lua_tointeger(l, 1);
 	LuaObject<MTRand>::PushToLuaGC(new MTRand(seed));
 	return 1;
 }
