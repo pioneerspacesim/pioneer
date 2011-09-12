@@ -36,10 +36,10 @@ local addShipEquip = function (ship)
 	local lawlessness = Game.system.lawlessness
 	local size_factor = ship:GetEquipFree('CARGO') ^ 2 / 2000000
 
-	if ship:GetEquipCount('SHIELD', 'SHIELD_GENERATOR') == 0 and
-	Engine.rand:Number(1) - 0.1 < lawlessness then
-		local num = math.floor(math.sqrt(ship:GetEquipFree('CARGO') / 50))
-		ship:AddEquip('SHIELD_GENERATOR', num)
+	if Engine.rand:Number(1) - 0.1 < lawlessness then
+		local num = math.floor(math.sqrt(ship:GetEquipFree('CARGO') / 50)) -
+					 ship:GetEquipCount('SHIELD', 'SHIELD_GENERATOR')
+		if num > 0 then ship:AddEquip('SHIELD_GENERATOR', num) end
 		if ship_type:GetEquipSlotCapacity('ENERGYBOOSTER') > 0 and
 		Engine.rand:Number(1) + 0.5 - size_factor < lawlessness then
 			ship:AddEquip('SHIELD_ENERGY_BOOSTER')
@@ -47,10 +47,12 @@ local addShipEquip = function (ship)
 	end
 
 	-- we can't use these yet
-	if Engine.rand:Number(1) + 0.2 < lawlessness then
-		ship:AddEquip('ECM_ADVANCED')
-	elseif Engine.rand:Number(1) < lawlessness then
-		ship:AddEquip('ECM_BASIC')
+	if ship_type:GetEquipSlotCapacity('ECM') > 0 then
+		if Engine.rand:Number(1) + 0.2 < lawlessness then
+			ship:AddEquip('ECM_ADVANCED')
+		elseif Engine.rand:Number(1) < lawlessness then
+			ship:AddEquip('ECM_BASIC')
+		end
 	end
 
 	-- this should be rare
@@ -304,12 +306,12 @@ local spawnInitialShips = function ()
 				ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
 			end
 		end
-		local cargo_count = addShipCargo(ship, direction)
+		local delay = addShipCargo(ship, direction)
 
 		-- give orders
 		if trader.status == 'docked' then
 			-- have ship wait 30-45 seconds per unit of cargo
-			trader['delay'] = Game.time + (cargo_count * 30 * Engine.rand:Number(1, 1.5))
+			trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
 			Timer:CallAt(trader.delay, function ()
 				doUndock(ship)
 			end)
@@ -479,20 +481,29 @@ local onShipDocked = function (ship, starport)
 	end
 
 	-- 'sell' trade cargo
-	local cargo_count = 0
+	local delay = 0
 	local cargo_list = ship:GetEquip('CARGO')
 	for i = 1, #cargo_list do
 		local cargo = cargo_list[i]
 		if cargo ~= 'HYDROGEN' then
-			cargo_count = cargo_count + ship:RemoveEquip(cargo, 1000000)
+			delay = delay + ship:RemoveEquip(cargo, 1000000)
 		end
 	end
 
+	local damage = ShipType.GetShipType(trader.ship_name).hullMass -
+					ship:GetStats().hullMassLeft
+	if damage > 0 then
+		ship:SetHullPercent()
+		addShipEquip(ship)
+		damage = damage * 4
+	end
 	addFuel(ship)
-	cargo_count = cargo_count + addShipCargo(ship, 'export')
+	delay = delay + addShipCargo(ship, 'export')
+	if damage > delay then delay = damage end
 
 	-- delay undocking by 30-45 seconds for every unit of cargo transfered
-	trader['delay'] = Game.time + (cargo_count * 30 * Engine.rand:Number(1, 1.5))
+	-- or 2-3 minutes for every unit of hull repaired
+	trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
 	if trader.status == 'docked' then
 		Timer:CallAt(trader.delay, function ()
 			doUndock(ship)
