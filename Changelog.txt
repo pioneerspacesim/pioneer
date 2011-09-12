@@ -22,8 +22,8 @@ Alpha 15
       become unusable (eg after hyperspace or detail settings change) (#457)
     * Shield generators now occupy their own equipment slot to remove the
       for special-case checks with dealing with cargo (#308, #459)
-    * Targeting and trade functions moved from Ship to Player since the aren't
-      really meaningful for NPCs (#38, #307)
+    * Targeting and trade functions moved from Ship to Player since they aren't
+      really meaningful for NPCs (#38, #307, #485)
 
 Alpha 14
 
