@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Frame.h"
 #include "WorldView.h"
+#include "SpaceStation.h"
 #include "SpaceStationView.h"
 #include "Serializer.h"
 #include "Sound.h"
@@ -16,6 +17,8 @@ Player::Player(ShipType::Type shipType): Ship(shipType),
 	m_flightControlState = CONTROL_MANUAL;
 	m_killCount = 0;
 	m_knownKillCount = 0;
+	m_navTarget = 0;
+	m_combatTarget = 0;
 	UpdateMass();
 
 	m_accumTorque = vector3d(0,0,0);
@@ -30,28 +33,36 @@ Player::~Player()
 void Player::Save(Serializer::Writer &wr)
 {
 	Ship::Save(wr);
+	MarketAgent::Save(wr);
 	wr.Int32(static_cast<int>(m_flightControlState));
 	wr.Double(m_setSpeed);
 	wr.Int32(m_killCount);
 	wr.Int32(m_knownKillCount);
 	wr.Int32(Serializer::LookupBody(m_followCloud));
+	wr.Int32(Serializer::LookupBody(m_combatTarget));
+	wr.Int32(Serializer::LookupBody(m_navTarget));
 }
 
 void Player::Load(Serializer::Reader &rd)
 {
 	Pi::player = this;
 	Ship::Load(rd);
+	MarketAgent::Load(rd);
 	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
 	m_setSpeed = rd.Double();
 	m_killCount = rd.Int32();
 	m_knownKillCount = rd.Int32();
 	m_followCloudIndex = rd.Int32();
+	m_combatTargetIndex = rd.Int32();
+	m_navTargetIndex = rd.Int32();
 }
 
 void Player::PostLoadFixup()
 {
 	Ship::PostLoadFixup();
 	m_followCloud = dynamic_cast<HyperspaceCloud*>(Serializer::LookupBody(m_followCloudIndex));
+	m_combatTarget = Serializer::LookupBody(m_combatTargetIndex);
+	m_navTarget = Serializer::LookupBody(m_navTargetIndex);
 }
 
 void Player::OnHaveKilled(Body *guyWeKilled)
@@ -338,4 +349,78 @@ bool Player::IsAnyThrusterKeyDown()
 		KeyBindings::thrustLeft.IsActive()		||
 		KeyBindings::thrustRight.IsActive()
 	);
+}
+
+void Player::SetNavTarget(Body* const target)
+{
+	m_navTarget = target;
+	Pi::onPlayerChangeTarget.emit();
+	Sound::PlaySfx("OK");
+}
+
+void Player::SetCombatTarget(Body* const target)
+{
+	m_combatTarget = target;
+	Pi::onPlayerChangeTarget.emit();
+	Sound::PlaySfx("OK");
+}
+
+void Player::NotifyDeleted(const Body* const deletedBody)
+{
+	if(GetNavTarget() == deletedBody)
+		SetNavTarget(0);
+	if(GetCombatTarget() == deletedBody)
+		SetCombatTarget(0);
+	Ship::NotifyDeleted(deletedBody);
+}
+
+/* MarketAgent shite */
+void Player::Bought(Equip::Type t)
+{
+	m_equipment.Add(t);
+	UpdateMass();
+}
+
+void Player::Sold(Equip::Type t)
+{
+	m_equipment.Remove(t, 1);
+	UpdateMass();
+}
+
+bool Player::CanBuy(Equip::Type t, bool verbose) const
+{
+	Equip::Slot slot = EquipType::types[int(t)].slot;
+	bool freespace = (m_equipment.FreeSpace(slot)!=0);
+	bool freecapacity = (m_stats.free_capacity >= EquipType::types[int(t)].mass);
+	if (verbose && (this == reinterpret_cast<Ship*>(Pi::player))) {
+		if (!freespace) {
+			Pi::Message(Lang::NO_FREE_SPACE_FOR_ITEM);
+		}
+		else if (!freecapacity) {
+			Pi::Message(Lang::SHIP_IS_FULLY_LADEN);
+		}
+	}
+	return (freespace && freecapacity);
+}
+
+bool Player::CanSell(Equip::Type t, bool verbose) const
+{
+	Equip::Slot slot = EquipType::types[int(t)].slot;
+	bool cansell = (m_equipment.Count(slot, t) > 0);
+	if (verbose && (this == reinterpret_cast<Ship*>(Pi::player))) {
+		if (!cansell) {
+			Pi::Message(stringf(Lang::YOU_DO_NOT_HAVE_ANY_X, formatarg("item", EquipType::types[int(t)].name)));
+		}
+	}
+	return cansell;
+}
+
+Sint64 Player::GetPrice(Equip::Type t) const
+{
+	if (Ship::GetDockedWith()) {
+		return Ship::GetDockedWith()->GetPrice(t);
+	} else {
+		assert(0);
+		return 0;
+	}
 }
