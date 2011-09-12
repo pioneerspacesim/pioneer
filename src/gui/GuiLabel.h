@@ -5,22 +5,25 @@
 #include <string>
 
 class TextLayout;
+class TextureFont;
 
 namespace Gui {
 	class Label: public Widget {
 	public:
+		Label(TextureFont *font);
 		Label(const char *text);
 		Label(const std::string &text);
 		virtual void Draw();
 		virtual ~Label();
 		virtual void GetSizeRequested(float size[2]);
 		void SetText(const char *text);
-		void SetText(const std::string text);
+		void SetText(const std::string &text);
 		Label *Shadow(bool isOn) { m_shadow = isOn; return this; }
 		Label *Color(const float rgb[3]);
 		Label *Color(float r, float g, float b);
 		Label *Color(const ::Color &);
 	private:
+		void Init(const std::string &text, TextureFont *font = 0);
 		void UpdateLayout();
 		void RecalcSize();
 		std::string m_text;
