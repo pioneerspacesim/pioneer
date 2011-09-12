@@ -2240,7 +2240,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		double n = m_invMaxHeight*height;
 		double flatness = pow(p.Dot(norm), 8.0);
 		//textures:
-		double rock, rock2, mud, sand, sand2, grass, grass2, water = 0;
+		double rock = 0, rock2 = 0, mud = 0, sand = 0, sand2 = 0, grass = 0, grass2 = 0, water = 0;
 		if (textures == true) {
 			rock = 0.5*ridged_octavenoise(m_fracdef[0], 0.5, p)*voronoiscam_octavenoise(m_fracdef[0], 0.5, p)*
 					ridged_octavenoise(m_fracdef[1], 0.5, p);
