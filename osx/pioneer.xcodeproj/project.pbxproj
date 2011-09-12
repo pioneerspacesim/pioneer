@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4A006D63138FB6ED000C6DFC /* RenderShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A006D61138FB6ED000C6DFC /* RenderShader.cpp */; };
 		4A19038C138AA33300E0229C /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A190325138AA33300E0229C /* Gui.cpp */; };
 		4A19038E138AA33300E0229C /* GuiBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A190329138AA33300E0229C /* GuiBox.cpp */; };
 		4A190390138AA33300E0229C /* GuiButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A19032C138AA33300E0229C /* GuiButton.cpp */; };
@@ -98,6 +97,7 @@
 		4A5619D313866B5B002A904C /* libfreetype.6.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A5619CE13866622002A904C /* libfreetype.6.dylib */; };
 		4A5619D513867033002A904C /* libvorbisfile.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5619D413867033002A904C /* libvorbisfile.3.dylib */; };
 		4A5619D813867661002A904C /* libvorbisfile.3.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A5619D413867033002A904C /* libvorbisfile.3.dylib */; };
+		4A57969E141E30EC00F41D6D /* StringF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A57969C141E30EC00F41D6D /* StringF.cpp */; };
 		4A61E15E13978F1000193E43 /* Background.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A61E15C13978F1000193E43 /* Background.cpp */; };
 		4A61E16113978FA900193E43 /* libpng14.14.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A61E16013978FA900193E43 /* libpng14.14.dylib */; };
 		4A62EF2C136979E000919EBB /* DeadVideoLink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A62EF27136979E000919EBB /* DeadVideoLink.cpp */; };
@@ -151,7 +151,6 @@
 		4A6C4E7813532FC300FDD53F /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D3B13532FC300FDD53F /* Player.cpp */; };
 		4A6C4E7A13532FC300FDD53F /* Polit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D3F13532FC300FDD53F /* Polit.cpp */; };
 		4A6C4E7B13532FC300FDD53F /* Projectile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D4113532FC300FDD53F /* Projectile.cpp */; };
-		4A6C4E7C13532FC300FDD53F /* Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D4413532FC300FDD53F /* Render.cpp */; };
 		4A6C4E7D13532FC300FDD53F /* Sector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D4613532FC300FDD53F /* Sector.cpp */; };
 		4A6C4E7E13532FC300FDD53F /* SectorView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D4813532FC300FDD53F /* SectorView.cpp */; };
 		4A6C4E7F13532FC300FDD53F /* Serializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D4A13532FC300FDD53F /* Serializer.cpp */; };
@@ -220,6 +219,10 @@
 		4AE5CA411383E6AA00B55DEB /* libSDL_image-1.2.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */; };
 		4AE5CA421383E6AA00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */; };
 		4AE5CA441383E6AA00B55DEB /* libsigc-2.0.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
+		4AF207B514026F740091956F /* Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF207AD14026F740091956F /* Render.cpp */; };
+		4AF207B614026F740091956F /* RenderShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF207AF14026F740091956F /* RenderShader.cpp */; };
+		4AF207B714026F740091956F /* RenderTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF207B114026F740091956F /* RenderTarget.cpp */; };
+		4AF207B814026F740091956F /* RenderTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF207B314026F740091956F /* RenderTexture.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -274,8 +277,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4A006D61138FB6ED000C6DFC /* RenderShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderShader.cpp; sourceTree = "<group>"; };
-		4A006D62138FB6ED000C6DFC /* RenderShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderShader.h; sourceTree = "<group>"; };
 		4A190325138AA33300E0229C /* Gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gui.cpp; sourceTree = "<group>"; };
 		4A190326138AA33300E0229C /* Gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gui.h; sourceTree = "<group>"; };
 		4A190328138AA33300E0229C /* GuiAdjustment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiAdjustment.h; sourceTree = "<group>"; };
@@ -437,7 +438,6 @@
 		4A20B0E5135319770020F43E /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		4A20B0E6135319770020F43E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		4A20B0E7135319770020F43E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		4A20B10D13531C040020F43E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		4A20B10E13531C040020F43E /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMain.h; sourceTree = "<group>"; };
 		4A20B10F13531C040020F43E /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMain.m; sourceTree = "<group>"; };
 		4A20B11313531CC40020F43E /* pioneer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "pioneer-Info.plist"; path = "pioneer/pioneer-Info.plist"; sourceTree = "<group>"; };
@@ -482,6 +482,8 @@
 		4A30F3C613D463DC00DB17D9 /* TextureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureManager.h; sourceTree = "<group>"; };
 		4A5619CE13866622002A904C /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.6.dylib; path = /opt/local/lib/libfreetype.6.dylib; sourceTree = "<absolute>"; };
 		4A5619D413867033002A904C /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = /opt/local/lib/libvorbisfile.3.dylib; sourceTree = "<absolute>"; };
+		4A57969C141E30EC00F41D6D /* StringF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringF.cpp; sourceTree = "<group>"; };
+		4A57969D141E30EC00F41D6D /* StringF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringF.h; sourceTree = "<group>"; };
 		4A61E15C13978F1000193E43 /* Background.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Background.cpp; sourceTree = "<group>"; };
 		4A61E15D13978F1000193E43 /* Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Background.h; sourceTree = "<group>"; };
 		4A61E16013978FA900193E43 /* libpng14.14.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpng14.14.dylib; path = /opt/local/lib/libpng14.14.dylib; sourceTree = "<absolute>"; };
@@ -592,8 +594,6 @@
 		4A6C4D4113532FC300FDD53F /* Projectile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Projectile.cpp; sourceTree = "<group>"; };
 		4A6C4D4213532FC300FDD53F /* Projectile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projectile.h; sourceTree = "<group>"; };
 		4A6C4D4313532FC300FDD53F /* Quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quaternion.h; sourceTree = "<group>"; };
-		4A6C4D4413532FC300FDD53F /* Render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Render.cpp; sourceTree = "<group>"; };
-		4A6C4D4513532FC300FDD53F /* Render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Render.h; sourceTree = "<group>"; };
 		4A6C4D4613532FC300FDD53F /* Sector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sector.cpp; sourceTree = "<group>"; };
 		4A6C4D4713532FC300FDD53F /* Sector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sector.h; sourceTree = "<group>"; };
 		4A6C4D4813532FC300FDD53F /* SectorView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SectorView.cpp; sourceTree = "<group>"; };
@@ -631,7 +631,6 @@
 		4A6C4D6A13532FC300FDD53F /* SystemInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemInfoView.h; sourceTree = "<group>"; };
 		4A6C4D6B13532FC300FDD53F /* SystemView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemView.cpp; sourceTree = "<group>"; };
 		4A6C4D6C13532FC300FDD53F /* SystemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemView.h; sourceTree = "<group>"; };
-		4A6C4D6D13532FC300FDD53F /* tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tests.cpp; sourceTree = "<group>"; };
 		4A6C4D6E13532FC300FDD53F /* utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = utils.cpp; sourceTree = "<group>"; };
 		4A6C4D6F13532FC300FDD53F /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		4A6C4D7013532FC300FDD53F /* vector3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector3.h; sourceTree = "<group>"; };
@@ -718,6 +717,14 @@
 		4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL-1.2.0.dylib"; path = "/opt/local/lib/libSDL-1.2.0.dylib"; sourceTree = "<absolute>"; };
 		4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_image-1.2.0.dylib"; path = "/opt/local/lib/libSDL_image-1.2.0.dylib"; sourceTree = "<absolute>"; };
 		4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_sound-1.0.1.0.2.dylib"; path = "/opt/local/lib/libSDL_sound-1.0.1.0.2.dylib"; sourceTree = "<absolute>"; };
+		4AF207AD14026F740091956F /* Render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Render.cpp; sourceTree = "<group>"; };
+		4AF207AE14026F740091956F /* Render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Render.h; sourceTree = "<group>"; };
+		4AF207AF14026F740091956F /* RenderShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderShader.cpp; sourceTree = "<group>"; };
+		4AF207B014026F740091956F /* RenderShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderShader.h; sourceTree = "<group>"; };
+		4AF207B114026F740091956F /* RenderTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderTarget.cpp; sourceTree = "<group>"; };
+		4AF207B214026F740091956F /* RenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderTarget.h; sourceTree = "<group>"; };
+		4AF207B314026F740091956F /* RenderTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderTexture.cpp; sourceTree = "<group>"; };
+		4AF207B414026F740091956F /* RenderTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderTexture.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -984,7 +991,6 @@
 			isa = PBXGroup;
 			children = (
 				4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */,
-				4A20B10D13531C040020F43E /* main.cpp */,
 				4A20B11F13531E950020F43E /* SDLMain.nib */,
 				4A20B10E13531C040020F43E /* SDLMain.h */,
 				4A20B10F13531C040020F43E /* SDLMain.m */,
@@ -1016,8 +1022,11 @@
 		4A6C4B9F13532FC300FDD53F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				4AF207AC14026F0A0091956F /* render */,
 				4A1903C1138AA39C00E0229C /* contrib */,
 				4A19030B138AA33300E0229C /* gui */,
+				4A57969C141E30EC00F41D6D /* StringF.cpp */,
+				4A57969D141E30EC00F41D6D /* StringF.h */,
 				4A24075513F5240F002A5C12 /* ChatForm.cpp */,
 				4A24075613F5240F002A5C12 /* ChatForm.h */,
 				4A24075713F5240F002A5C12 /* Form.h */,
@@ -1058,8 +1067,6 @@
 				4A85A86913C4631D00C2B986 /* SystemPath.h */,
 				4A61E15D13978F1000193E43 /* Background.h */,
 				4A61E15C13978F1000193E43 /* Background.cpp */,
-				4A006D62138FB6ED000C6DFC /* RenderShader.h */,
-				4A006D61138FB6ED000C6DFC /* RenderShader.cpp */,
 				4A99893C1388BCD900647BA9 /* FontConfig.cpp */,
 				4A99893D1388BCD900647BA9 /* FontConfig.h */,
 				4A82AA791386969B0028CCED /* Font.cpp */,
@@ -1213,8 +1220,6 @@
 				4A6C4D4113532FC300FDD53F /* Projectile.cpp */,
 				4A6C4D4213532FC300FDD53F /* Projectile.h */,
 				4A6C4D4313532FC300FDD53F /* Quaternion.h */,
-				4A6C4D4413532FC300FDD53F /* Render.cpp */,
-				4A6C4D4513532FC300FDD53F /* Render.h */,
 				4A6C4D4613532FC300FDD53F /* Sector.cpp */,
 				4A6C4D4713532FC300FDD53F /* Sector.h */,
 				4A6C4D4813532FC300FDD53F /* SectorView.cpp */,
@@ -1252,7 +1257,6 @@
 				4A6C4D6A13532FC300FDD53F /* SystemInfoView.h */,
 				4A6C4D6B13532FC300FDD53F /* SystemView.cpp */,
 				4A6C4D6C13532FC300FDD53F /* SystemView.h */,
-				4A6C4D6D13532FC300FDD53F /* tests.cpp */,
 				4A6C4D6E13532FC300FDD53F /* utils.cpp */,
 				4A6C4D6F13532FC300FDD53F /* utils.h */,
 				4A6C4D7013532FC300FDD53F /* vector3.h */,
@@ -1279,6 +1283,21 @@
 				4A6C4C1813532FC300FDD53F /* GeomTree.h */,
 			);
 			path = collider;
+			sourceTree = "<group>";
+		};
+		4AF207AC14026F0A0091956F /* render */ = {
+			isa = PBXGroup;
+			children = (
+				4AF207AD14026F740091956F /* Render.cpp */,
+				4AF207AE14026F740091956F /* Render.h */,
+				4AF207AF14026F740091956F /* RenderShader.cpp */,
+				4AF207B014026F740091956F /* RenderShader.h */,
+				4AF207B114026F740091956F /* RenderTarget.cpp */,
+				4AF207B214026F740091956F /* RenderTarget.h */,
+				4AF207B314026F740091956F /* RenderTexture.cpp */,
+				4AF207B414026F740091956F /* RenderTexture.h */,
+			);
+			path = render;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1310,7 +1329,7 @@
 /* Begin PBXProject section */
 		4A20B0D01353194B0020F43E /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "Pioneer" */;
+			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1403,7 +1422,6 @@
 				4A6C4E7813532FC300FDD53F /* Player.cpp in Sources */,
 				4A6C4E7A13532FC300FDD53F /* Polit.cpp in Sources */,
 				4A6C4E7B13532FC300FDD53F /* Projectile.cpp in Sources */,
-				4A6C4E7C13532FC300FDD53F /* Render.cpp in Sources */,
 				4A6C4E7D13532FC300FDD53F /* Sector.cpp in Sources */,
 				4A6C4E7E13532FC300FDD53F /* SectorView.cpp in Sources */,
 				4A6C4E7F13532FC300FDD53F /* Serializer.cpp in Sources */,
@@ -1522,7 +1540,6 @@
 				4A190509138AA39C00E0229C /* oolua_push_pull.cpp in Sources */,
 				4A19050B138AA39C00E0229C /* oolua_storage.cpp in Sources */,
 				4A19050D138AA39C00E0229C /* push_pointer_internal.cpp in Sources */,
-				4A006D63138FB6ED000C6DFC /* RenderShader.cpp in Sources */,
 				4A61E15E13978F1000193E43 /* Background.cpp in Sources */,
 				4A85A86A13C4631D00C2B986 /* LuaMusic.cpp in Sources */,
 				4A85A86B13C4631D00C2B986 /* LuaSystemPath.cpp in Sources */,
@@ -1544,6 +1561,11 @@
 				4A24077F13F5240F002A5C12 /* StationShipyardForm.cpp in Sources */,
 				4A24078413F524E6002A5C12 /* GuiGradient.cpp in Sources */,
 				4A24078513F524E6002A5C12 /* GuiStack.cpp in Sources */,
+				4AF207B514026F740091956F /* Render.cpp in Sources */,
+				4AF207B614026F740091956F /* RenderShader.cpp in Sources */,
+				4AF207B714026F740091956F /* RenderTarget.cpp in Sources */,
+				4AF207B814026F740091956F /* RenderTexture.cpp in Sources */,
+				4A57969E141E30EC00F41D6D /* StringF.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1573,6 +1595,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = "";
+				SDKROOT = macosx10.5;
 			};
 			name = Debug;
 		};
@@ -1580,6 +1603,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = "";
+				SDKROOT = macosx10.5;
 			};
 			name = Release;
 		};
@@ -1591,7 +1615,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -1608,6 +1632,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../src\"/**",
 					../contrib,
 					"/opt/local/include/sigc++-2.0",
 					"/opt/local/lib/sigc++-2.0/include",
@@ -1623,12 +1648,11 @@
 					"\"$(SRCROOT)/../contrib/lua\"",
 					"\"$(SRCROOT)/../contrib/oolua\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.6;
-				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1641,7 +1665,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -1655,6 +1679,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../src\"/**",
 					../contrib,
 					"/opt/local/include/sigc++-2.0",
 					"/opt/local/lib/sigc++-2.0/include",
@@ -1671,12 +1696,11 @@
 					"\"$(SRCROOT)/../contrib/oolua\"",
 				);
 				LLVM_LTO = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.6;
-				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1684,7 +1708,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "Pioneer" */ = {
+		4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4A20B0D51353194B0020F43E /* Debug */,
