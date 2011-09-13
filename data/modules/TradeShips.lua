@@ -233,7 +233,7 @@ local spawnInitialShips = function (game_start)
 	num_trade_ships = num_trade_ships * (Engine.rand:Number(0.25, 1) + Engine.rand:Number(0.25, 1))
 	-- compute distance and interval between ships
 	-- the base number of AU between ships spawned in space
-	local range = (10 / (num_trade_ships * 0.75))
+	local range = (9 / (num_trade_ships * 0.75))
 	if game_start then
 		range = range * 1.5
 	end
