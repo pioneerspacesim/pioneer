@@ -555,6 +555,8 @@ void Pi::HandleEvents()
 	Pi::mouseMotion[0] = Pi::mouseMotion[1] = 0;
 	while (SDL_PollEvent(&event)) {
 		Gui::HandleSDLEvent(&event);
+		KeyBindings::DispatchSDLEvent(&event);
+
 		switch (event.type) {
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_ESCAPE) {
