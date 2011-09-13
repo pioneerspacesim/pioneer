@@ -882,7 +882,7 @@ AND_INDIGENOUS_MICROBIAL_LIFE
 ORBITAL_STARPORT
     Stacja orbitalna
 STARPORT
-    Stacja kosmiczna
+    Port kosmiczny
 UNKNOWN
     <nieznany>
 UNEXPLORED_SYSTEM_NO_DATA
@@ -914,9 +914,9 @@ VAST_STRIP_MINE
 HIGH_POPULATION_OUTDOOR_WORLD
     Zewnetrzny swiat o wysokim zaludnieniu.
 SOMEWHERE_SPACEPORT
-     " Port kosmiczny"
+     ", portu kosmicznego"
 SOMEWHERE_STARPORT
-     " Port gwiezdny"
+     ", stacji kosmicznej"
 MASS
     Masa
 N_WHATEVER_MASSES
@@ -1006,7 +1006,7 @@ RADIUS
 SEMI_MAJOR_AXIS
     Duza polos
 TIME_POINT
-    Punkt czasowy: 
+     "czas: " 
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
     System nie zbadany. Dane systemu niedostepne.
 WHEELS_ARE_UP
