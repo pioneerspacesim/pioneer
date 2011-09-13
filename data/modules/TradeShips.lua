@@ -247,7 +247,7 @@ local spawnInitialShips = function (game_start)
 		local ship = nil
 
 		if game_start and i < num_trade_ships / 4 then
-			-- spawn the first quarter in port
+			-- spawn the first quarter in port if at game start
 			local starport = starports[Engine.rand:Integer(1, #starports)]
 
 			ship = Space.SpawnShipDocked(ship_name, starport)
@@ -267,11 +267,13 @@ local spawnInitialShips = function (game_start)
 				}
 			end
 		elseif i < num_trade_ships * 0.75 then
-			-- spawn the middle half in space, or first three quarters if not game start
-			local max_distance = range * (i - num_trade_ships / 4) + 1
-			local min_distance = max_distance - range
+			-- spawn the first three quarters in space, or middle half if game start
+			local min_dist = range * i + 1
+			if game_start then
+				min_dist = min_dist - (range * (num_trade_ships / 4))
+			end
 
-			ship = Space.SpawnShip(ship_name, min_distance, max_distance)
+			ship = Space.SpawnShip(ship_name, min_dist, min_dist + range)
 			trade_ships[ship.label] = {
 				status		= 'inbound',
 				starport	= getNearestStarport(ship),
