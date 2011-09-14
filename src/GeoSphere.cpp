@@ -1075,11 +1075,18 @@ void GeoSphere::OnChangeDetailLevel()
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
 	s_patchContext->IncRefCount();
 
-	// flag all terrain gen for abort. this will cause the recursive
-	// _UpdateLODs to exit as fast as it can and get the thread back to its
-	// mainloop
 	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
 			i != s_allGeospheres.end(); ++i) {
+
+		// we're about to force the thread back to its main loop. make sure it
+		// stops once it gets there
+		SDL_mutexP((*i)->m_needUpdateLock);
+		(*i)->m_needUpdate = false;
+		SDL_mutexV((*i)->m_needUpdateLock);
+
+		// flag all terrain gen for abort. this will cause the recursive
+		// _UpdateLODs to exit as fast as it can and get the thread back to its
+		// mainloop
 		SDL_mutexP((*i)->m_abortLock);
 		(*i)->m_abort = true;
 		SDL_mutexV((*i)->m_abortLock);
