@@ -4,6 +4,8 @@
 #include "StarSystem.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "Space.h"
+#include "Player.h"
 
 SystemView::SystemView()
 {
@@ -107,29 +109,38 @@ void SystemView::OnClickObject(SBody *b)
 	std::string data;
 
 	desc += std::string(Lang::NAME);
-    desc += ":\n";
+	desc += ":\n";
 	data += b->name+"\n";
 	
 	desc += std::string(Lang::DAY_LENGTH);
 	desc += std::string(Lang::ROTATIONAL_PERIOD);
-    desc += ":\n";
+	desc += ":\n";
 	data += stringf(Lang::N_DAYS, formatarg("days", b->rotationPeriod.ToFloat())) + "\n";
 	
 	desc += std::string(Lang::RADIUS);
-    desc += ":\n";
+	desc += ":\n";
 	data += format_distance(b->GetRadius())+"\n";
 
 	if (b->parent) {
 		desc += std::string(Lang::SEMI_MAJOR_AXIS);
-        desc += ":\n";
+	desc += ":\n";
 		data += format_distance(b->orbit.semiMajorAxis)+"\n";
 
 		desc += std::string(Lang::ORBITAL_PERIOD);
-        desc += ":\n";
+	desc += ":\n";
 		data += stringf(Lang::N_DAYS, formatarg("days", b->orbit.period / (24*60*60))) + "\n";
 	}
 	m_infoLabel->SetText(desc);
 	m_infoText->SetText(data);
+
+	if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
+		SystemPath path = m_system->GetPathOf(b);
+		if (Pi::currentSystem->GetPath() == m_system->GetPath()) {
+			Body* body = Space::FindBodyForPath(&path);
+			if (body != 0)
+				Pi::player->SetNavTarget(body);
+		}
+	}
 }
 
 void SystemView::PutLabel(SBody *b, vector3d offset)
