@@ -1434,12 +1434,12 @@ void WorldView::DrawTargetSquare(const Body* const target)
 
 void WorldView::MouseButtonDown(int button, int x, int y)
 {
-	if (GetCamType() == CAM_EXTERNAL)
-	{
+	if (GetCamType() == CAM_EXTERNAL) {
 		const float ft = Pi::GetFrameTime();
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
+
+		if (button == SDL_BUTTON_WHEELDOWN)
 				m_externalViewDist += 400*ft;
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
+		if (button == SDL_BUTTON_WHEELUP)
 				m_externalViewDist -= 400*ft;
 	}
 }
