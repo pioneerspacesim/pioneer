@@ -159,7 +159,7 @@ static int l_set_ship_type(lua_State *l)
         s->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[f.type].hyperdrive);
         s->UpdateMass();
 
-        LUA_DEBUG_END(l, 1);
+        LUA_DEBUG_END(l, 0);
     }
     else
         luaL_error(l, "Cannot change ship type unless docked");
