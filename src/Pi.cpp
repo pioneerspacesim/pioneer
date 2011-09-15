@@ -207,6 +207,9 @@ static void LuaInit()
 	LuaObject<LuaChatForm>::RegisterClass();
 	LuaObject<LuaEventQueueBase>::RegisterClass();
 
+	Pi::luaSerializer = new LuaSerializer();
+	Pi::luaTimer = new LuaTimer();
+
 	LuaObject<LuaSerializer>::RegisterClass();
 	LuaObject<LuaTimer>::RegisterClass();
 
