@@ -331,7 +331,7 @@ define_model('ladybird', {
 		set_material('engine_inside', lerp_materials(get_arg(2)*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
 					{0, 0, 0, 1, 0, 0, 0, 10, 0, 0, .5 }))
         set_material('text', 0,0,0,1,0.3,0.3,0.3,5)
-       if lod >0 then
+       if lod > 1 then
             use_material('text')
             local label = get_arg_string(0)
 			zbias(1,v(8.9,3.6,.07),v(1.8,1,1))
