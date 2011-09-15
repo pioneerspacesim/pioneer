@@ -117,6 +117,30 @@ static int l_ship_get_stats(lua_State *l)
 	return 1;
 }
 
+/* Method: SetShipType
+ *
+ * Replaces the ship with a new ship of the specified type
+ * (internal: Resets the ship flavour)
+ *
+ * > ship:SetShipType(newtype)
+ *
+ * Parameters:
+ *
+ *   newtype - mandatory. A ShipType.
+ *
+ * Example:
+ *
+ * > ship:SetShipType('Lanner')
+ *
+ * Availability:
+ * 
+ *   alpha 15
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
 /*
  * Method: SetHullPercent
  *
