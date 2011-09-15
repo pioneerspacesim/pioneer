@@ -267,6 +267,32 @@ static void LuaInit()
 	pi_lua_dofile_recursive(l, std::string(PIONEER_DATA_DIR) + "/modules");
 }
 
+static void LuaUninit() {
+	delete Pi::luaOnGameStart;
+	delete Pi::luaOnGameEnd;
+	delete Pi::luaOnEnterSystem;
+	delete Pi::luaOnLeaveSystem;
+	delete Pi::luaOnFrameChanged;
+	delete Pi::luaOnShipDestroyed;
+	delete Pi::luaOnShipHit;
+	delete Pi::luaOnShipCollided;
+	delete Pi::luaOnShipDocked;
+	delete Pi::luaOnShipUndocked;
+	delete Pi::luaOnShipLanded;
+	delete Pi::luaOnShipTakeOff;
+	delete Pi::luaOnShipAlertChanged;
+	delete Pi::luaOnJettison;
+	delete Pi::luaOnAICompleted;
+	delete Pi::luaOnCreateBB;
+	delete Pi::luaOnUpdateBB;
+	delete Pi::luaOnSongFinished;
+
+	delete Pi::luaSerializer;
+	delete Pi::luaTimer;
+
+	delete Pi::luaManager;
+}
+
 static void LuaInitGame() {
 	Pi::luaOnGameStart->ClearEvents();
 	Pi::luaOnGameEnd->ClearEvents();
@@ -525,6 +551,7 @@ void Pi::InitOpenGL()
 void Pi::Quit()
 {
 	Render::Uninit();
+	LuaUninit();
 	SDL_Quit();
 	exit(0);
 }
