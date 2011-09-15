@@ -152,8 +152,7 @@ static int l_set_ship_type(lua_State *l)
 
     if (s->GetFlightState() == Ship::DOCKED)
     {
-    	ShipFlavour f;
-        f.type = type;
+    	ShipFlavour f(type);
 
         s->ResetFlavour(&f);
         s->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[f.type].hyperdrive);
