@@ -435,7 +435,7 @@ local onLeaveSystem = function (ship)
 		for label, trader in pairs(trade_ships) do
 			total = total + 1
 			if trader.status == 'hyperspace' then
-				if trader.arrival_system == Game.system.path then
+				if trader.arrival_system:IsSameSystem(Game.system.path) then
 					-- remove ships that are in hyperspace to here
 					trade_ships[label] = nil
 					removed = removed + 1
