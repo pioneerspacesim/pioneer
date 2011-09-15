@@ -119,7 +119,7 @@ static int l_ship_get_stats(lua_State *l)
 
 /* Method: SetShipType
  *
- * Replaces the ship with a new ship of the specified type
+ * Replaces the ship with a new ship of the specified type.
  * (internal: Resets the ship flavour)
  *
  * > ship:SetShipType(newtype)
@@ -130,7 +130,7 @@ static int l_ship_get_stats(lua_State *l)
  *
  * Example:
  *
- * > ship:SetShipType('Lanner')
+ * > ship:SetShipType('Sirius Interdictor')
  *
  * Availability:
  * 
@@ -140,6 +140,27 @@ static int l_ship_get_stats(lua_State *l)
  *
  *   experimental
  */
+static int l_set_ship_type(lua_State *l)
+{
+    LUA_DEBUG_START(l);
+
+	Ship *s = LuaShip::GetFromLua(1);
+
+    const char *type = luaL_checkstring(l, 2);
+    if (! ShipType::Get(type))
+        luaL_error(l, "Unknown ship type '%s'", type);
+
+	ShipFlavour f;
+    f.type = type;
+
+    s->ResetFlavour(&f);
+    s->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[f.type].hyperdrive);
+    s->UpdateMass();
+
+    LUA_DEBUG_END(l, 1);
+
+	return 0;
+}
 
 /*
  * Method: SetHullPercent
@@ -1151,6 +1172,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "IsPlayer", l_ship_is_player },
 
 		{ "GetStats", l_ship_get_stats },
+        { "SetShipType", l_set_ship_type },
 		{ "SetHullPercent", l_ship_set_hull_percent },
 
 		{ "SetLabel",           l_ship_set_label            },
