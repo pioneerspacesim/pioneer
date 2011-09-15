@@ -27,6 +27,8 @@ Alpha 15
       for special-case checks with dealing with cargo (#308, #459)
     * Targeting and trade functions moved from Ship to Player since they aren't
       really meaningful for NPCs (#38, #307, #485)
+    * Separated key bindings from individual key actions and added onPress and
+      onRelease signals to the bindings (for key repeat) (#398, #493)
 
 Alpha 14
 
