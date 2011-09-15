@@ -6,7 +6,7 @@ Alpha 15
     * Lua method Ship.SetHullPercent to set a ship's damage level (#420, #472)
     * Landed and docked ships will no longer cause alerts (#454, #466)
     * Station landing lights now coloured to indicate occupied (red), free
-      (orange) and cleared for docking (green) (#4, #489)
+      (orange) and cleared for docking (green) (#4, #489, #498)
     * Trade ships will now repair damage and replace destroyed equipment (#481)
 
   * Fixes

@@ -572,10 +572,12 @@ function simple_lift_docking_port(baynum, pos)
 
 	if (math.fmod(get_arg(1), 2) > 1) then
 		local color
-		if stage ~= 0 then
-			color = v(1,0.5,0)
+		if stage > 1 or stage < 0 then
+			color = v(1,0,0) -- red
+		elseif stage == 1 then
+			color = v(0,1,0) -- green
 		else
-			color = v(0,1,0)
+			color = v(1,0.5,0) -- orange
 		end
 		billboard('smoke.png', 50, color, { pos+v(-50,1,50), pos+v(50,1,50), pos+v(-50,1,-50), pos+v(50,1,-50) })
 	end
