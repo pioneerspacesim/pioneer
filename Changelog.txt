@@ -15,6 +15,7 @@ Alpha 15
     * Don't try to save or load game with no filename (#487, #488)
     * Fix set speed scaling when setting a negative set speed (#482)
     * Spawn bulk ships on game start (#500)
+    * Don't spawn docked trade ships on game start (#495)
 
   * Internal changes
     * Lots of internal cleanups; silences many warnings under GCC (#477,
