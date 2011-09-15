@@ -78,27 +78,27 @@ sigc::signal<void> Pi::onPlayerChangeTarget;
 sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 sigc::signal<void> Pi::onPlayerChangeEquipment;
 sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
-LuaManager Pi::luaManager;
-LuaSerializer Pi::luaSerializer;
-LuaTimer Pi::luaTimer;
-LuaEventQueue<> Pi::luaOnGameStart("onGameStart");
-LuaEventQueue<> Pi::luaOnGameEnd("onGameEnd");
-LuaEventQueue<Ship> Pi::luaOnEnterSystem("onEnterSystem");
-LuaEventQueue<Ship> Pi::luaOnLeaveSystem("onLeaveSystem");
-LuaEventQueue<Body> Pi::luaOnFrameChanged("onFrameChanged");
-LuaEventQueue<Ship,Body> Pi::luaOnShipDestroyed("onShipDestroyed");
-LuaEventQueue<Ship,Body> Pi::luaOnShipHit("onShipHit");
-LuaEventQueue<Ship,Body> Pi::luaOnShipCollided("onShipCollided");
-LuaEventQueue<Ship,SpaceStation> Pi::luaOnShipDocked("onShipDocked");
-LuaEventQueue<Ship,SpaceStation> Pi::luaOnShipUndocked("onShipUndocked");
-LuaEventQueue<Ship, Body> Pi::luaOnShipLanded("onShipLanded");
-LuaEventQueue<Ship, Body> Pi::luaOnShipTakeOff("onShipTakeOff");
-LuaEventQueue<Ship,const char *> Pi::luaOnShipAlertChanged("onShipAlertChanged");
-LuaEventQueue<Ship,CargoBody> Pi::luaOnJettison("onJettison");
-LuaEventQueue<Ship> Pi::luaOnAICompleted("onAICompleted");
-LuaEventQueue<SpaceStation> Pi::luaOnCreateBB("onCreateBB");
-LuaEventQueue<SpaceStation> Pi::luaOnUpdateBB("onUpdateBB");
-LuaEventQueue<> Pi::luaOnSongFinished("onSongFinished");
+LuaManager *Pi::luaManager;
+LuaSerializer *Pi::luaSerializer;
+LuaTimer *Pi::luaTimer;
+LuaEventQueue<> *Pi::luaOnGameStart;
+LuaEventQueue<> *Pi::luaOnGameEnd;
+LuaEventQueue<Ship> *Pi::luaOnEnterSystem;
+LuaEventQueue<Ship> *Pi::luaOnLeaveSystem;
+LuaEventQueue<Body> *Pi::luaOnFrameChanged;
+LuaEventQueue<Ship,Body> *Pi::luaOnShipDestroyed;
+LuaEventQueue<Ship,Body> *Pi::luaOnShipHit;
+LuaEventQueue<Ship,Body> *Pi::luaOnShipCollided;
+LuaEventQueue<Ship,SpaceStation> *Pi::luaOnShipDocked;
+LuaEventQueue<Ship,SpaceStation> *Pi::luaOnShipUndocked;
+LuaEventQueue<Ship,Body> *Pi::luaOnShipLanded;
+LuaEventQueue<Ship,Body> *Pi::luaOnShipTakeOff;
+LuaEventQueue<Ship,const char *> *Pi::luaOnShipAlertChanged;
+LuaEventQueue<Ship,CargoBody> *Pi::luaOnJettison;
+LuaEventQueue<Ship> *Pi::luaOnAICompleted;
+LuaEventQueue<SpaceStation> *Pi::luaOnCreateBB;
+LuaEventQueue<SpaceStation> *Pi::luaOnUpdateBB;
+LuaEventQueue<> *Pi::luaOnSongFinished;
 int Pi::keyModState;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[6];
@@ -182,7 +182,9 @@ static void draw_progress(float progress)
 
 static void LuaInit()
 {
-	lua_State *l = Pi::luaManager.GetLuaState();
+	Pi::luaManager = new LuaManager();
+
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	// XXX kill CurrentDirectory
 	lua_pushstring(l, PIONEER_DATA_DIR);
@@ -208,24 +210,43 @@ static void LuaInit()
 	LuaObject<LuaSerializer>::RegisterClass();
 	LuaObject<LuaTimer>::RegisterClass();
 
-	Pi::luaOnGameStart.RegisterEventQueue();
-	Pi::luaOnGameEnd.RegisterEventQueue();
-	Pi::luaOnEnterSystem.RegisterEventQueue();
-	Pi::luaOnLeaveSystem.RegisterEventQueue();
-	Pi::luaOnFrameChanged.RegisterEventQueue();
-	Pi::luaOnShipDestroyed.RegisterEventQueue();
-	Pi::luaOnShipHit.RegisterEventQueue();
-	Pi::luaOnShipCollided.RegisterEventQueue();
-	Pi::luaOnShipDocked.RegisterEventQueue();
-	Pi::luaOnShipLanded.RegisterEventQueue();
-	Pi::luaOnShipTakeOff.RegisterEventQueue();
-	Pi::luaOnShipUndocked.RegisterEventQueue();
-	Pi::luaOnShipAlertChanged.RegisterEventQueue();
-	Pi::luaOnJettison.RegisterEventQueue();
-	Pi::luaOnAICompleted.RegisterEventQueue();
-	Pi::luaOnCreateBB.RegisterEventQueue();
-	Pi::luaOnUpdateBB.RegisterEventQueue();
-	Pi::luaOnSongFinished.RegisterEventQueue();
+	Pi::luaOnGameStart = new LuaEventQueue<>("onGameStart");
+	Pi::luaOnGameEnd = new LuaEventQueue<>("onGameEnd");
+	Pi::luaOnEnterSystem = new LuaEventQueue<Ship>("onEnterSystem");
+	Pi::luaOnLeaveSystem = new LuaEventQueue<Ship>("onLeaveSystem");
+	Pi::luaOnFrameChanged = new LuaEventQueue<Body>("onFrameChanged");
+	Pi::luaOnShipDestroyed = new LuaEventQueue<Ship,Body>("onShipDestroyed");
+	Pi::luaOnShipHit = new LuaEventQueue<Ship,Body>("onShipHit");
+	Pi::luaOnShipCollided = new LuaEventQueue<Ship,Body>("onShipCollided");
+	Pi::luaOnShipDocked = new LuaEventQueue<Ship,SpaceStation>("onShipDocked");
+	Pi::luaOnShipUndocked = new LuaEventQueue<Ship,SpaceStation>("onShipUndocked");
+	Pi::luaOnShipLanded = new LuaEventQueue<Ship,Body>("onShipLanded");
+	Pi::luaOnShipTakeOff = new LuaEventQueue<Ship,Body>("onShipTakeOff");
+	Pi::luaOnShipAlertChanged = new LuaEventQueue<Ship,const char *>("onShipAlertChanged");
+	Pi::luaOnJettison = new LuaEventQueue<Ship,CargoBody>("onJettison");
+	Pi::luaOnAICompleted = new LuaEventQueue<Ship>("onAICompleted");
+	Pi::luaOnCreateBB = new LuaEventQueue<SpaceStation>("onCreateBB");
+	Pi::luaOnUpdateBB = new LuaEventQueue<SpaceStation>("onUpdateBB");
+	Pi::luaOnSongFinished = new LuaEventQueue<>("onSongFinished");
+
+	Pi::luaOnGameStart->RegisterEventQueue();
+	Pi::luaOnGameEnd->RegisterEventQueue();
+	Pi::luaOnEnterSystem->RegisterEventQueue();
+	Pi::luaOnLeaveSystem->RegisterEventQueue();
+	Pi::luaOnFrameChanged->RegisterEventQueue();
+	Pi::luaOnShipDestroyed->RegisterEventQueue();
+	Pi::luaOnShipHit->RegisterEventQueue();
+	Pi::luaOnShipCollided->RegisterEventQueue();
+	Pi::luaOnShipDocked->RegisterEventQueue();
+	Pi::luaOnShipLanded->RegisterEventQueue();
+	Pi::luaOnShipTakeOff->RegisterEventQueue();
+	Pi::luaOnShipUndocked->RegisterEventQueue();
+	Pi::luaOnShipAlertChanged->RegisterEventQueue();
+	Pi::luaOnJettison->RegisterEventQueue();
+	Pi::luaOnAICompleted->RegisterEventQueue();
+	Pi::luaOnCreateBB->RegisterEventQueue();
+	Pi::luaOnUpdateBB->RegisterEventQueue();
+	Pi::luaOnSongFinished->RegisterEventQueue();
 
 	LuaConstants::Register();
 	LuaEngine::Register();
@@ -244,22 +265,22 @@ static void LuaInit()
 }
 
 static void LuaInitGame() {
-	Pi::luaOnGameStart.ClearEvents();
-	Pi::luaOnGameEnd.ClearEvents();
-	Pi::luaOnFrameChanged.ClearEvents();
-	Pi::luaOnShipDestroyed.ClearEvents();
-	Pi::luaOnShipHit.ClearEvents();
-	Pi::luaOnShipCollided.ClearEvents();
-	Pi::luaOnShipDocked.ClearEvents();
-	Pi::luaOnShipUndocked.ClearEvents();
-	Pi::luaOnShipLanded.ClearEvents();
-	Pi::luaOnShipTakeOff.ClearEvents();
-	Pi::luaOnShipAlertChanged.ClearEvents();
-	Pi::luaOnJettison.ClearEvents();
-	Pi::luaOnAICompleted.ClearEvents();
-	Pi::luaOnCreateBB.ClearEvents();
-	Pi::luaOnUpdateBB.ClearEvents();
-	Pi::luaOnSongFinished.ClearEvents();
+	Pi::luaOnGameStart->ClearEvents();
+	Pi::luaOnGameEnd->ClearEvents();
+	Pi::luaOnFrameChanged->ClearEvents();
+	Pi::luaOnShipDestroyed->ClearEvents();
+	Pi::luaOnShipHit->ClearEvents();
+	Pi::luaOnShipCollided->ClearEvents();
+	Pi::luaOnShipDocked->ClearEvents();
+	Pi::luaOnShipUndocked->ClearEvents();
+	Pi::luaOnShipLanded->ClearEvents();
+	Pi::luaOnShipTakeOff->ClearEvents();
+	Pi::luaOnShipAlertChanged->ClearEvents();
+	Pi::luaOnJettison->ClearEvents();
+	Pi::luaOnAICompleted->ClearEvents();
+	Pi::luaOnCreateBB->ClearEvents();
+	Pi::luaOnUpdateBB->ClearEvents();
+	Pi::luaOnSongFinished->ClearEvents();
 }
 
 void Pi::RedirectStdio()
@@ -903,7 +924,7 @@ void Pi::StartGame()
 	OnPlayerChangeEquipment();
 	Pi::isGameStarted = true;
 	SetView(worldView);
-	Pi::luaOnGameStart.Signal();
+	Pi::luaOnGameStart->Signal();
 }
 
 void Pi::UninitGame()
@@ -1143,7 +1164,7 @@ void Pi::Start()
 
 void Pi::EndGame()
 {
-	Pi::luaOnGameEnd.Signal();
+	Pi::luaOnGameEnd->Signal();
 	Pi::isGameStarted = false;
 }
 
@@ -1188,7 +1209,7 @@ void Pi::MainLoop()
 		}
 
 		if (frame_stat == 0)
-            Pi::luaTimer.Tick();
+            Pi::luaTimer->Tick();
 		frame_stat++;
 
 		Render::PrepareFrame();
@@ -1369,7 +1390,7 @@ void Pi::Serialize(Serializer::Writer &wr)
 	wr.WrSection("WorldView", section.GetData());
 
 	section = Serializer::Writer();
-	luaSerializer.Serialize(section);
+	luaSerializer->Serialize(section);
 	wr.WrSection("LuaModules", section.GetData());
 }
 
@@ -1406,7 +1427,7 @@ void Pi::Unserialize(Serializer::Reader &rd)
 	worldView->Load(section);
 
 	section = rd.RdSection("LuaModules");
-	luaSerializer.Unserialize(section);
+	luaSerializer->Unserialize(section);
 }
 
 float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)

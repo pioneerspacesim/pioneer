@@ -7,7 +7,7 @@
 
 void LuaEventQueueBase::RegisterEventQueue()
 {
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -54,7 +54,7 @@ void LuaEventQueueBase::ClearEvents()
 
 void LuaEventQueueBase::EmitSingleEvent(LuaEventBase *e)
 {
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -81,7 +81,7 @@ void LuaEventQueueBase::Emit()
 {
 	if (!m_events.size()) return;
 
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
