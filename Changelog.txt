@@ -21,7 +21,7 @@ Alpha 15
     * Lots of internal cleanups; silences many warnings under GCC (#477,
       #484) and MSVC (#483)
     * Allow terrain generation to be aborted when the current set of terrains
-      become unusable (eg after hyperspace or detail settings change) (#457)
+      become unusable (eg after hyperspace or detail settings change) (#457, #490)
     * Shield generators now occupy their own equipment slot to remove the
       for special-case checks with dealing with cargo (#308, #459)
     * Targeting and trade functions moved from Ship to Player since they aren't
