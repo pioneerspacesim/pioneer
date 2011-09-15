@@ -121,7 +121,7 @@ void LuaObjectBase::Deregister(LuaObjectBase *lo)
 	lo->m_deleteConnection.disconnect();
 	registry->erase(lo->m_id);
 
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -265,7 +265,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 {
 	assert(type);
 
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	_instantiate();
 
@@ -354,7 +354,7 @@ bool LuaObjectBase::PushRegistered(DeleteEmitter *o)
 {
 	assert(instantiated);
 
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -426,7 +426,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 
 	registry->insert(std::make_pair(lo->m_id, lo));
 
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -453,7 +453,7 @@ DeleteEmitter *LuaObjectBase::CheckFromLua(int index, const char *type)
 {
 	assert(instantiated);
 
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -481,7 +481,7 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 {
 	assert(instantiated);
 
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -512,7 +512,7 @@ bool LuaObjectBase::Isa(const char *base) const
 
 	assert(instantiated);
 
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
