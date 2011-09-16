@@ -92,11 +92,13 @@ local doUndock
 doUndock = function (ship)
 	-- the player may have left the system or the ship may have already undocked
 	if ship:exists() and ship:GetDockedWith() then
+		local trader = trade_ships[ship.label]
 		if not ship:Undock() then
 			-- unable to undock, try again in ten minutes
-			Timer:CallAt(Game.time + 600, function ()
-				doUndock(ship)
-			end)
+			trader['delay'] = Game.time + 600
+			Timer:CallAt(trader.delay, function () doUndock(ship) end)
+		else
+			trader['delay'] = nil
 		end
 	end
 end
@@ -180,9 +182,9 @@ local jumpToSystem = function (ship, target_path)
 	-- update table for ship
 	trade_ships[ship.label]['status'] = 'hyperspace'
 	trade_ships[ship.label]['starport'] = nil
-	trade_ships[ship.label]['arrival'] = Game.time + duration
-	trade_ships[ship.label]['arrival_system'] = target_path
-	trade_ships[ship.label]['from_system'] = Game.system.path
+	trade_ships[ship.label]['dest_time'] = Game.time + duration
+	trade_ships[ship.label]['dest_path'] = target_path
+	trade_ships[ship.label]['from_path'] = Game.system.path
 	return status
 end
 
@@ -283,7 +285,7 @@ local spawnInitialShips = function (game_start)
 			-- spawn the last quarter in hyperspace
 			local min_time = trade_ships.interval * (i - num_trade_ships * 0.75)
 			local max_time = min_time + trade_ships.interval
-			local arrival = Game.time + Engine.rand:Integer(min_time, max_time)
+			local dest_time = Game.time + Engine.rand:Integer(min_time, max_time)
 			local local_systems, dist = {}, 0
 			while #local_systems == 0 do
 				dist = dist + 5
@@ -291,13 +293,13 @@ local spawnInitialShips = function (game_start)
 			end
 			local from_system = local_systems[Engine.rand:Integer(1, #local_systems)]
 
-			ship = Space.SpawnShip(ship_name, 9, 11, {from_system.path, arrival})
+			ship = Space.SpawnShip(ship_name, 9, 11, {from_system.path, dest_time})
 			trade_ships[ship.label] = {
-				status			= 'hyperspace',
-				arrival			= arrival,
-				arrival_system	= Game.system.path,
-				from_system		= from_system.path,
-				ship_name		= ship_name,
+				status		= 'hyperspace',
+				dest_time	= dest_time,
+				dest_path	= Game.system.path,
+				from_path	= from_system.path,
+				ship_name	= ship_name,
 			}
 		end
 		local trader = trade_ships[ship.label]
@@ -319,9 +321,7 @@ local spawnInitialShips = function (game_start)
 		if trader.status == 'docked' then
 			-- have ship wait 30-45 seconds per unit of cargo
 			trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
-			Timer:CallAt(trader.delay, function ()
-				doUndock(ship)
-			end)
+			Timer:CallAt(trader.delay, function () doUndock(ship) end)
 		elseif trader.status == 'inbound' then
 			ship:AIDockWith(trader.starport)
 		end
@@ -336,7 +336,7 @@ local spawnReplacement = function ()
 		local ship_names = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= 100 end)
 		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
 
-		local arrival = Game.time + Engine.rand:Number(trade_ships.interval, trade_ships.interval * 2)
+		local dest_time = Game.time + Engine.rand:Number(trade_ships.interval, trade_ships.interval * 2)
 		local local_systems, dist = {}, 0
 		while #local_systems == 0 do
 			dist = dist + 5
@@ -344,13 +344,13 @@ local spawnReplacement = function ()
 		end
 		local from_system = local_systems[Engine.rand:Integer(1, #local_systems)]
 
-		local ship = Space.SpawnShip(ship_name, 9, 11, {from_system.path, arrival})
+		local ship = Space.SpawnShip(ship_name, 9, 11, {from_system.path, dest_time})
 		trade_ships[ship.label] = {
-			status			= 'hyperspace',
-			arrival			= arrival,
-			arrival_system	= Game.system.path,
-			from_system		= from_system.path,
-			ship_name		= ship_name,
+			status		= 'hyperspace',
+			dest_time	= dest_time,
+			dest_path	= Game.system.path,
+			from_path	= from_system.path,
+			ship_name	= ship_name,
 		}
 
 		addShipEquip(ship)
@@ -368,7 +368,7 @@ local updateTradeShipsTable = function ()
 		total = total + 1
 		if trader.status == 'hyperspace' then
 			-- remove ships not coming here
-			if not trader.arrival_system:IsSameSystem(Game.system.path) then
+			if not trader.dest_path:IsSameSystem(Game.system.path) then
 				trade_ships[label] = nil
 				removed = removed + 1
 			end
@@ -389,7 +389,7 @@ local cleanTradeShipsTable = function ()
 			if trader.status == 'hyperspace' then
 				hyperspace = hyperspace + 1
 				-- remove well past due ships as the player can not catch them
-				if trader.arrival + 86400 < Game.time then
+				if trader.dest_time + 86400 < Game.time then
 					trade_ships[label] = nil
 					removed = removed + 1
 				end
@@ -435,7 +435,7 @@ local onLeaveSystem = function (ship)
 		for label, trader in pairs(trade_ships) do
 			total = total + 1
 			if trader.status == 'hyperspace' then
-				if trader.arrival_system == Game.system.path then
+				if trader.dest_path:IsSameSystem(Game.system.path) then
 					-- remove ships that are in hyperspace to here
 					trade_ships[label] = nil
 					removed = removed + 1
@@ -448,7 +448,7 @@ local onLeaveSystem = function (ship)
 		end
 		print('onLeaveSystem:total:'..total..',removed:'..removed)
 	elseif trade_ships[ship.label] ~= nil then
-		local system = trade_ships[ship.label]['arrival_system']:GetStarSystem()
+		local system = trade_ships[ship.label]['dest_path']:GetStarSystem()
 		print(ship.label..' left '..Game.system.name..' for '..system.name)
 		cleanTradeShipsTable()
 		spawnReplacement()
@@ -512,9 +512,7 @@ local onShipDocked = function (ship, starport)
 	-- or 2-3 minutes for every unit of hull repaired
 	trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
 	if trader.status == 'docked' then
-		Timer:CallAt(trader.delay, function ()
-			doUndock(ship)
-		end)
+		Timer:CallAt(trader.delay, function () doUndock(ship) end)
 	end
 end
 EventQueue.onShipDocked:Connect(onShipDocked)
@@ -549,10 +547,12 @@ local onAICompleted = function (ship)
 		-- get parent body of starport and orbit if not docked after 3 minutes
 		local sbody = trader.starport.path:GetSystemBody()
 		local body = Space.GetBody(sbody.parent.index)
-		Timer:CallAt(Game.time + 180, function ()
+		trader['delay'] = Game.time + 180
+		Timer:CallAt(trader.delay, function ()
 			if ship:exists() and trader.status == 'inbound' then
 				ship:AIEnterLowOrbit(body)
 				trader['status'] = 'orbit'
+				trader['delay'] = nil
 				print(ship.label..' ordering orbit')
 			end
 		end)
@@ -579,9 +579,7 @@ local onShipAlertChanged = function (ship, alert)
 				--[[ not ready to undock, so schedule it
 				there is a slight chance that the status was changed while
 				onShipDocked was in progress so fire a bit later ]]
-				Timer:CallAt(trader.delay + 120, function ()
-					doUndock(ship)
-				end)
+				Timer:CallAt(trader.delay + 120, function () doUndock(ship) end)
 			else
 				-- ready to undock
 				doUndock(ship)
@@ -638,8 +636,7 @@ local onShipHit = function (ship, attacker)
 		if #cargo_list == 0 then return end
 
 		local cargo = cargo_list[Engine.rand:Integer(1, #cargo_list)]
-		if cargo ~= 'NONE' and cargo ~= 'HYDROGEN'
-		and ship:Jettison(cargo) then
+		if cargo ~= 'NONE' and cargo ~= 'HYDROGEN' and ship:Jettison(cargo) then
 			UI.ImportantMessage(attacker.label..', take this and leave us be, you filthy pirate!', ship.label)
 			trader['chance'] = trader.chance - 0.1
 		end
@@ -699,6 +696,26 @@ local onGameStart = function ()
 						table.insert(imports, k)
 					elseif v < -2 then
 						table.insert(exports, k)
+					end
+				end
+			end
+		end
+
+		-- check if any trade ships were waiting on a timer
+		local ships = Space.GetBodies(function (body)
+			return body:isa("Ship")
+				and trade_ships[body.label] ~= nil
+				and trade_ships[body.label]['delay'] ~= nil
+		end)
+		if #ships > 0 then
+			for i, ship in ipairs(ships) do
+				local trader = trade_ships[ship.label]
+				if trader.delay > Game.time then
+					if trader.status == 'docked' then
+						Timer:CallAt(trader.delay, function () doUndock(ship) end)
+					elseif trader.status == 'inbound' then
+						-- was waiting to see if docking succeeded
+						ship:AIDockWith(trader.starport)
 					end
 				end
 			end
