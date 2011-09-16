@@ -996,7 +996,7 @@ void WorldView::UpdateCommsOptions()
 	int ypos = 0;
 	int optnum = 1;
 	if (!(navtarget || comtarget)) {
-		m_commsOptions->Add(new Gui::Label("#0f0Ship Computer: No target selected"), 16, float(ypos));
+		m_commsOptions->Add(new Gui::Label("#0f0"+std::string(Lang::NO_TARGET_SELECTED)), 16, float(ypos));
 	}
 	if (navtarget) {
 		m_commsOptions->Add(new Gui::Label("#0f0"+navtarget->GetLabel()), 16, float(ypos));
