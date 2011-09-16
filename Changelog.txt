@@ -3,19 +3,21 @@ Alpha 15
   * New features
     * Assassination missions (#290, #500)
     * Restored "hoop" orbital station (#499)
-    * Lua method Ship.SetHullPercent to set a ship's damage level (#420, #472)
-    * Landed and docked ships will no longer cause alerts (#454, #466)
+    * Ship landing lights now only flash when landing gear is down or ship is
+      docking (#236, #478)
     * Station landing lights now coloured to indicate occupied (red), free
       (orange) and cleared for docking (green) (#4, #489, #498)
+
+  * Minor changes and tweaks
+    * Lua method Ship.SetHullPercent to set a ship's damage level (#420, #472)
+    * Landed and docked ships will no longer cause alerts (#454, #466)
+    * Bulk ships are now spawned on game start (#500)
     * Trade ships will now repair damage and replace destroyed equipment (#481)
 
   * Fixes
-    * Landing lights now only flash when landing gear is down or ship is
-      docking (#236, #478)
     * Certain in-game keys will no longer crash when used in the menu (#453, #463)
     * Don't try to save or load game with no filename (#487, #488)
     * Fix set speed scaling when setting a negative set speed (#482)
-    * Spawn bulk ships on game start (#500)
     * Don't spawn docked trade ships on game start (#495)
 
   * Internal changes
