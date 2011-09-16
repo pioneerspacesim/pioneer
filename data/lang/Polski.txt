@@ -155,6 +155,8 @@ SCUTUM_CENTAURUS_ARM
     Ramie Tarczy Centaura
 INT_LY
     %scale ls
+SEARCH
+    Szukaj
 
 # Config / game control
 PRESS_BUTTON_WANTED_FOR
@@ -703,6 +705,8 @@ SHIP_IS_FULLY_LADEN
     Ladownia jest pelna.
 YOU_DO_NOT_HAVE_ANY_X
     Nie masz %item.
+FRONT_VIEW
+    Widok z przodu
 REAR_VIEW
     Widok z tylu
 EXTERNAL_VIEW
