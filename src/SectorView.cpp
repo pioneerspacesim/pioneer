@@ -815,9 +815,9 @@ void SectorView::Update()
 void SectorView::MouseButtonDown(int button, int x, int y)
 {
 	const float ft = Pi::GetFrameTime();
-	if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN)) 
+	if (button == SDL_BUTTON_WHEELDOWN)
 			m_zoomMovingTo += 10.0*ft;
-	if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP)) 
+	if (button == SDL_BUTTON_WHEELUP)
 			m_zoomMovingTo -= 10.0*ft;
 }
 
