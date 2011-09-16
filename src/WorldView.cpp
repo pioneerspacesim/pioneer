@@ -1215,7 +1215,7 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 
 		m_targetSpeed->Color(0.0f, 1.0f, 0.0f);
 
-		MoveChild(m_targetSpeed, m_navVelocityIndicatorPos[0]-26, m_navVelocityIndicatorPos[1]+26);
+		MoveChild(m_targetSpeed, m_navVelocityIndicatorPos[0]-26.0f, m_navVelocityIndicatorPos[1]+26.0f);
 
 		m_targetSpeed->Show();
 	}

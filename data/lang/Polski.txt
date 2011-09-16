@@ -449,8 +449,8 @@ CARGO_INVENTORY
     Towary:
 JETTISON
     Wystrzel
-JETTISONED
-    "Wystrzelono 1 tone: "
+JETTISONED_1T_OF_X
+    Wystrzelono 1 tone: %commodity
 COMBAT_RATING
     RANGA BOJOWA:
 CRIMINAL_RECORD

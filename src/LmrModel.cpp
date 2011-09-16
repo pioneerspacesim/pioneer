@@ -1917,7 +1917,7 @@ namespace ModelFuncs {
 		} else {
 			vector3f *pos = MyLuaVec::checkVec(L, 2);
 			vector3f *norm = MyLuaVec::checkVec(L, 3);
-			s_curBuf->PushZBias(amount, *pos, *norm);
+			s_curBuf->PushZBias(float(amount), *pos, *norm);
 		}
 		return 0;
 	}

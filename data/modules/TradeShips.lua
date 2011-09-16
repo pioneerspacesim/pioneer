@@ -36,10 +36,10 @@ local addShipEquip = function (ship)
 	local lawlessness = Game.system.lawlessness
 	local size_factor = ship:GetEquipFree('CARGO') ^ 2 / 2000000
 
-	if ship:GetEquipCount('SHIELD', 'SHIELD_GENERATOR') == 0 and
-	Engine.rand:Number(1) - 0.1 < lawlessness then
-		local num = math.floor(math.sqrt(ship:GetEquipFree('CARGO') / 50))
-		ship:AddEquip('SHIELD_GENERATOR', num)
+	if Engine.rand:Number(1) - 0.1 < lawlessness then
+		local num = math.floor(math.sqrt(ship:GetEquipFree('CARGO') / 50)) -
+					 ship:GetEquipCount('SHIELD', 'SHIELD_GENERATOR')
+		if num > 0 then ship:AddEquip('SHIELD_GENERATOR', num) end
 		if ship_type:GetEquipSlotCapacity('ENERGYBOOSTER') > 0 and
 		Engine.rand:Number(1) + 0.5 - size_factor < lawlessness then
 			ship:AddEquip('SHIELD_ENERGY_BOOSTER')
@@ -47,10 +47,12 @@ local addShipEquip = function (ship)
 	end
 
 	-- we can't use these yet
-	if Engine.rand:Number(1) + 0.2 < lawlessness then
-		ship:AddEquip('ECM_ADVANCED')
-	elseif Engine.rand:Number(1) < lawlessness then
-		ship:AddEquip('ECM_BASIC')
+	if ship_type:GetEquipSlotCapacity('ECM') > 0 then
+		if Engine.rand:Number(1) + 0.2 < lawlessness then
+			ship:AddEquip('ECM_ADVANCED')
+		elseif Engine.rand:Number(1) < lawlessness then
+			ship:AddEquip('ECM_BASIC')
+		end
 	end
 
 	-- this should be rare
@@ -188,7 +190,7 @@ local getSystemAndJump = function (ship)
 	return jumpToSystem(ship, getSystem(ship))
 end
 
-local spawnInitialShips = function ()
+local spawnInitialShips = function (game_start)
 	-- check if the current system can be traded in
 	starports = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
 	if #starports == 0 then return nil end
@@ -230,7 +232,12 @@ local spawnInitialShips = function ()
 	-- vary by up to twice as many with a bell curve probability
 	num_trade_ships = num_trade_ships * (Engine.rand:Number(0.25, 1) + Engine.rand:Number(0.25, 1))
 	-- compute distance and interval between ships
-	local range = (9 / (num_trade_ships / 2))
+	-- the base number of AU between ships spawned in space
+	local range = (9 / (num_trade_ships * 0.75))
+	if game_start then
+		range = range * 1.5
+	end
+	-- the base number of seconds between ships spawned in hyperspace
 	trade_ships['interval'] = (864000 / (num_trade_ships / 4))
 
 	-- spawn the initial trade ships
@@ -239,8 +246,8 @@ local spawnInitialShips = function ()
 		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
 		local ship = nil
 
-		if i < num_trade_ships / 4 then
-			-- spawn the first quarter in port
+		if game_start and i < num_trade_ships / 4 then
+			-- spawn the first quarter in port if at game start
 			local starport = starports[Engine.rand:Integer(1, #starports)]
 
 			ship = Space.SpawnShipDocked(ship_name, starport)
@@ -259,12 +266,14 @@ local spawnInitialShips = function ()
 					ship_name	= ship_name,
 				}
 			end
-		elseif i < num_trade_ships / 4 * 3 then
-			-- spawn the middle half in space
-			local max_distance = range * (i - num_trade_ships / 4) + 2
-			local min_distance = max_distance - range
+		elseif i < num_trade_ships * 0.75 then
+			-- spawn the first three quarters in space, or middle half if game start
+			local min_dist = range * i + 1
+			if game_start then
+				min_dist = min_dist - (range * (num_trade_ships / 4))
+			end
 
-			ship = Space.SpawnShip(ship_name, min_distance, max_distance)
+			ship = Space.SpawnShip(ship_name, min_dist, min_dist + range)
 			trade_ships[ship.label] = {
 				status		= 'inbound',
 				starport	= getNearestStarport(ship),
@@ -272,7 +281,7 @@ local spawnInitialShips = function ()
 			}
 		else
 			-- spawn the last quarter in hyperspace
-			local min_time = trade_ships.interval * (i - num_trade_ships / 4 * 3)
+			local min_time = trade_ships.interval * (i - num_trade_ships * 0.75)
 			local max_time = min_time + trade_ships.interval
 			local arrival = Game.time + Engine.rand:Integer(min_time, max_time)
 			local local_systems, dist = {}, 0
@@ -304,12 +313,12 @@ local spawnInitialShips = function ()
 				ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
 			end
 		end
-		local cargo_count = addShipCargo(ship, direction)
+		local delay = addShipCargo(ship, direction)
 
 		-- give orders
 		if trader.status == 'docked' then
 			-- have ship wait 30-45 seconds per unit of cargo
-			trader['delay'] = Game.time + (cargo_count * 30 * Engine.rand:Number(1, 1.5))
+			trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
 			Timer:CallAt(trader.delay, function ()
 				doUndock(ship)
 			end)
@@ -395,7 +404,7 @@ local onEnterSystem = function (ship)
 	-- so update the system when the first ship enters
 	if not system_updated then
 		updateTradeShipsTable()
-		spawnInitialShips()
+		spawnInitialShips(false)
 		system_updated = true
 	end
 
@@ -479,20 +488,29 @@ local onShipDocked = function (ship, starport)
 	end
 
 	-- 'sell' trade cargo
-	local cargo_count = 0
+	local delay = 0
 	local cargo_list = ship:GetEquip('CARGO')
 	for i = 1, #cargo_list do
 		local cargo = cargo_list[i]
 		if cargo ~= 'HYDROGEN' then
-			cargo_count = cargo_count + ship:RemoveEquip(cargo, 1000000)
+			delay = delay + ship:RemoveEquip(cargo, 1000000)
 		end
 	end
 
+	local damage = ShipType.GetShipType(trader.ship_name).hullMass -
+					ship:GetStats().hullMassLeft
+	if damage > 0 then
+		ship:SetHullPercent()
+		addShipEquip(ship)
+		damage = damage * 4
+	end
 	addFuel(ship)
-	cargo_count = cargo_count + addShipCargo(ship, 'export')
+	delay = delay + addShipCargo(ship, 'export')
+	if damage > delay then delay = damage end
 
 	-- delay undocking by 30-45 seconds for every unit of cargo transfered
-	trader['delay'] = Game.time + (cargo_count * 30 * Engine.rand:Number(1, 1.5))
+	-- or 2-3 minutes for every unit of hull repaired
+	trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
 	if trader.status == 'docked' then
 		Timer:CallAt(trader.delay, function ()
 			doUndock(ship)
@@ -665,7 +683,7 @@ local onGameStart = function ()
 	if trade_ships == nil then
 		-- create table to hold ships, keyed by label (ex. OD-7764)
 		trade_ships = {}
-		spawnInitialShips()
+		spawnInitialShips(true)
 	else
 		-- trade_ships was loaded by unserialize
 		-- rebuild starports, imports and exports tables

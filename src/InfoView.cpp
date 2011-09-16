@@ -30,7 +30,7 @@ public:
 	}
 
 	virtual void UpdateInfo() {
-		const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
+		const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
 		DeleteAllChildren();
 
 		Gui::Label *l = new Gui::Label(Lang::MISSIONS);
@@ -113,7 +113,7 @@ public:
 	}
 
 	virtual void UpdateInfo() {
-		const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
+		const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
 		DeleteAllChildren();
 		Add(new Gui::Label(Lang::CARGO_INVENTORY), 40, 40);
 		Add(new Gui::Label(Lang::JETTISON), 40, 40+YSEP*2);
@@ -136,7 +136,7 @@ public:
 private:
 	void JettisonCargo(Equip::Type t) {
 		if (Pi::player->Jettison(t)) {
-			Pi::cpan->MsgLog()->Message("", std::string(Lang::JETTISONED)+EquipType::types[t].name);
+			Pi::cpan->MsgLog()->Message("", stringf(Lang::JETTISONED_1T_OF_X, formatarg("commodity", EquipType::types[t].name)));
 			Pi::infoView->UpdateInfo();
 		}
 	}
@@ -155,7 +155,7 @@ public:
 	virtual void UpdateInfo() {
 		Sint64 crime, fine;
 		Polit::GetCrime(&crime, &fine);
-		const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
+		const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
 		DeleteAllChildren();
 
 		float ypos = 40.0f;

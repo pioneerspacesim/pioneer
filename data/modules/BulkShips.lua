@@ -1,6 +1,4 @@
-local onEnterSystem = function (player)
-	if not player:IsPlayer() then return end
-
+local spawnShips = function ()
 	local population = Game.system.population
 
 	if population == 0 then
@@ -38,9 +36,21 @@ local onEnterSystem = function (player)
 	end
 
 	for i=1, num_bulk_ships do
-        local station = stations[Engine.rand:Integer(1,#stations)]
-        Space.SpawnShipParked(shiptypes[Engine.rand:Integer(1,#shiptypes)], station)
+	local station = stations[Engine.rand:Integer(1,#stations)]
+
+		Space.SpawnShipParked(shiptypes[Engine.rand:Integer(1,#shiptypes)], station)
 	end
 end
 
+local onEnterSystem = function (player)
+	if not player:IsPlayer() then return end
+
+	spawnShips()
+end
+
+local onGameStart = function ()
+	spawnShips()
+end
+
 EventQueue.onEnterSystem:Connect(onEnterSystem)
+EventQueue.onGameStart:Connect(onGameStart)
