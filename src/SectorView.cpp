@@ -52,7 +52,7 @@ SectorView::SectorView() :
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	Add(m_zoomOutButton, 732, 5);
 
-	Add(new Gui::Label("Search:"), 650, 500);
+	Add(new Gui::Label(Lang::SEARCH), 650, 500);
 	m_searchBox = new Gui::TextEntry();
 	m_searchBox->onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnSearchBoxKeyPress));
 	Add(m_searchBox, 700, 500);

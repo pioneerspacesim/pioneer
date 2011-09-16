@@ -155,6 +155,8 @@ SCUTUM_CENTAURUS_ARM
     Scutum-Centaurus arm
 INT_LY
     %scale ly
+SEARCH
+    Search
 
 # Config / game control
 PRESS_BUTTON_WANTED_FOR
@@ -703,6 +705,8 @@ SHIP_IS_FULLY_LADEN
     Your ship is fully laden.
 YOU_DO_NOT_HAVE_ANY_X
     You do not have any %item.
+FRONT_VIEW
+    Front view
 REAR_VIEW
     Rear view
 EXTERNAL_VIEW

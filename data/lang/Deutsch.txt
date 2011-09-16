@@ -155,6 +155,8 @@ SCUTUM_CENTAURUS_ARM
     Scutum-Crux-arm
 INT_LY
     %scale Lj
+SEARCH
+    Search
 
 # Config / game control
 PRESS_BUTTON_WANTED_FOR
@@ -703,6 +705,8 @@ SHIP_IS_FULLY_LADEN
     Ihr Schiff voll beladen ist.
 YOU_DO_NOT_HAVE_ANY_X
     Sie haben keine %item.
+FRONT_VIEW
+    Front view
 REAR_VIEW
     Rückansicht
 EXTERNAL_VIEW
