@@ -449,8 +449,8 @@ CARGO_INVENTORY
     Cargo Inventory:
 JETTISON
     Jettison
-JETTISONED
-    "Jettisoned 1 tonne of "
+JETTISONED_1T_OF_X
+    Jettisoned 1 tonne of %commodity
 COMBAT_RATING
     COMBAT RATING:
 CRIMINAL_RECORD
