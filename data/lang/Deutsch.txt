@@ -449,8 +449,8 @@ CARGO_INVENTORY
     Laderaum Inventar:
 JETTISON
     Abwerfen
-JETTISONED
-    "Abwerfen 1t: "
+JETTISONED_1T_OF_X
+    Abwerfen 1t: %commodity
 COMBAT_RATING
     KAMPFWERTUNG:
 CRIMINAL_RECORD
