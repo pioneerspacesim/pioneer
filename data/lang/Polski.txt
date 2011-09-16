@@ -46,7 +46,7 @@ REMOVE_FROM_WHICH_MOUNT
 YOU_NOT_ENOUGH_MONEY
     Nie masz dosc pieniedzy
 TRADER_NOT_ENOUGH_MONEY
-    Handlarz nie ma dosc pieniedzy
+    Kupiec nie ma dosc pieniedzy
 NO_SPACE_ON_SHIP
     Nie masz wolnego miejsca na statku
 SOMEWHERE_SERVICES
@@ -364,7 +364,7 @@ RADAR_MAPPER
 RADAR_MAPPER_DESCRIPTION
     Przydatne do zdalnego podgladu wyposazenia, ladunku i stanu innych statkow.
 FUEL_SCOOP
-    Rozproszona Wiazka Trakcyjna
+    Dren paliwowy
 FUEL_SCOOP_DESCRIPTION
     Pozwala czerpac paliwo wodorowe z gazowych olbrzymow.
 HYPERCLOUD_ANALYZER
@@ -450,7 +450,7 @@ CARGO_INVENTORY
 JETTISON
     Wystrzel
 JETTISONED_1T_OF_X
-    Wystrzelono 1 tone: %commodity
+    %commodity: 1 tona wyrzucona za burte
 COMBAT_RATING
     RANGA BOJOWA:
 CRIMINAL_RECORD
@@ -600,9 +600,9 @@ ALERT_CANCELLED
 SHIP_DETECTED_NEARBY
     Wykryto statek w poblizu.
 DOWNGRADING_ALERT_STATUS
-    Nie wykryto ostrzalu przez 60 sekund, odwoluje alarm.
+    Brak zagrozenia przez 60 sekund, odwoluje alarm.
 LASER_FIRE_DETECTED
-    Wykryto ostrzal z broni laserowej.
+    Statek pod ostrzalem!
 SOMEWHERE_POLICE
     Policja %station
 WE_HAVE_NO_BUSINESS_WITH_YOU
@@ -610,7 +610,7 @@ WE_HAVE_NO_BUSINESS_WITH_YOU
 YOU_MUST_PAY_FINE_OF_N_CREDITS
     Nie tolerujemy przestepstwa. Musisz zaplacic mandat %fine.
 PAY_THE_FINE_NOW
-    Zaplac mandat teraz.
+    Zaplac mandat.
 HANG_UP
     Rozlacz sie.
 TRADING_ILLEGAL_GOODS
@@ -674,7 +674,7 @@ HYPERSPACE_TARGET
 FOLLOWING_SELECTION
     podazanie za celem
 LOCKED
-    locked -- namierzony(?)
+    niedostepny
 EXACT_MATCH_X
     Znaleziono: %system
 NOT_FOUND_BEST_MATCH_X
@@ -694,7 +694,7 @@ ENABLED_AUTOMATIC_SYSTEM_SELECTION
 DISABLED_AUTOMATIC_SYSTEM_SELECTION
     Wylacz automatyczny wybor systemu.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
-    Wiazka Trakcyjna aktywna. Teraz masz %quantity ton wodoru.
+    Dren paliwowy wlaczony. Masz %quantity ton wodoru.
 CARGO_BAY_LIFE_SUPPORT_LOST
     Sensory wykryly krytyczny poziom podtrzymywania zycia w ladowni.
 NO_FREE_SPACE_FOR_ITEM
@@ -800,9 +800,9 @@ STAR_O_HYPER_GIANT
 STAR_M_WF
     Gwiazda Wolfa-Rayeta - Niestabilna
 STAR_B_WF
-    Gwiazda Wolfa-Rayeta - Ryzyko zapasci
+    Gwiazda Wolfa-Rayeta - Ryzyko wybuchu
 STAR_O_WF
-    Gwiazda Wolfa-Rayeta - Oczekiwana zapasc
+    Gwiazda Wolfa-Rayeta - Oczekiwany wybuch
 STAR_S_BH
     Czarna dziura o masie gwiazdowej
 STAR_IM_BH
@@ -836,7 +836,7 @@ ICE_WORLD
 ROCKY_PLANET
      " skalista planeta"
 OCEANICWORLD
-     " wodny swiat"
+     " wodna planeta"
 PLANET_CONTAINING_LIQUID_WATER
      " planeta posiadajaca wode w stanie cieklym"
 PLANET_WITH_SOME_ICE
@@ -882,7 +882,7 @@ AND_INDIGENOUS_MICROBIAL_LIFE
 ORBITAL_STARPORT
     Stacja orbitalna
 STARPORT
-    Stacja kosmiczna
+    Port kosmiczny
 UNKNOWN
     <nieznany>
 UNEXPLORED_SYSTEM_NO_DATA
@@ -914,9 +914,9 @@ VAST_STRIP_MINE
 HIGH_POPULATION_OUTDOOR_WORLD
     Zewnetrzny swiat o wysokim zaludnieniu.
 SOMEWHERE_SPACEPORT
-     " Port kosmiczny"
+     ", portu kosmicznego"
 SOMEWHERE_STARPORT
-     " Port gwiezdny"
+     ", stacji kosmicznej"
 MASS
     Masa
 N_WHATEVER_MASSES
@@ -950,7 +950,7 @@ DAY_LENGTH
 N_EARTH_DAYS
     %days{f.1} ziemskich dni
 STARPORTS
-    Stacjami kosmicznymi
+    Stacje kosmiczne
 MAJOR_IMPORTS
     Glowny Import:
 MINOR_IMPORTS
@@ -970,7 +970,7 @@ ECONOMIC_INFO
 DEMOGRAPHICS
     Demografia
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
-    Stabilny system z %bodycount glownymi %{body(s)} i %portcount %{starport(s)}.
+    Stabilny system z %bodycount glownymi %{body(s)}, posiadajacy %portcount %{starport(s)}.
 BODY
     cialem
 BODIES
@@ -1006,7 +1006,7 @@ RADIUS
 SEMI_MAJOR_AXIS
     Duza polos
 TIME_POINT
-    Punkt czasowy: 
+    czas: 
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
     System nie zbadany. Dane systemu niedostepne.
 WHEELS_ARE_UP
@@ -1082,21 +1082,21 @@ CARGO_N
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
     Slad wyjsciowej chmury nadprzestrzennej
 HYPERSPACE_X_CLOUD
-    Korytarz nadprzestrzenny %direction
+    %direction tunelu nadprzestrzennego
 SHIP_MASS_N_TONNES
     Masa statku: %{mass}t
 DATE_DUE_N
     Data przybycia: %date
 ARRIVAL
-    przylot
+    Wylot
 DEPARTURE
-    odlot
+    Wlot
 SOURCE
     Punkt wyjsciowy
 DESTINATION
     Punkt docelowy
 HYPERSPACING_IN_N_SECONDS
-    Skok w nadprzestrzen za %countdown{f.0} sekund
+    Skok w nadprzestrzen za %countdown{f.0}
 NAVIGATION_TARGETS_IN_THIS_SYSTEM
     Cele nawigacyjne w systemie
 YOU_NO_MONEY
@@ -1110,7 +1110,7 @@ SET_HYPERSPACE_DESTINATION_TO
 NO_TARGET_SELECTED
     Komputer pokladowy: Nie wybrano celu
 REQUEST_DOCKING_CLEARANCE
-    Prosba ladowania
+    Pozwolenie na ladowanie
 AUTOPILOT_DOCK_WITH_STATION
     Autopilot: Dokuj na stacji
 PAY_FINE_REMOTELY
