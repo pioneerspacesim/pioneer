@@ -190,7 +190,7 @@ local getSystemAndJump = function (ship)
 	return jumpToSystem(ship, getSystem(ship))
 end
 
-local spawnInitialShips = function ()
+local spawnInitialShips = function (game_start)
 	-- check if the current system can be traded in
 	starports = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
 	if #starports == 0 then return nil end
@@ -232,7 +232,12 @@ local spawnInitialShips = function ()
 	-- vary by up to twice as many with a bell curve probability
 	num_trade_ships = num_trade_ships * (Engine.rand:Number(0.25, 1) + Engine.rand:Number(0.25, 1))
 	-- compute distance and interval between ships
-	local range = (9 / (num_trade_ships / 2))
+	-- the base number of AU between ships spawned in space
+	local range = (9 / (num_trade_ships * 0.75))
+	if game_start then
+		range = range * 1.5
+	end
+	-- the base number of seconds between ships spawned in hyperspace
 	trade_ships['interval'] = (864000 / (num_trade_ships / 4))
 
 	-- spawn the initial trade ships
@@ -241,8 +246,8 @@ local spawnInitialShips = function ()
 		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
 		local ship = nil
 
-		if i < num_trade_ships / 4 then
-			-- spawn the first quarter in port
+		if game_start and i < num_trade_ships / 4 then
+			-- spawn the first quarter in port if at game start
 			local starport = starports[Engine.rand:Integer(1, #starports)]
 
 			ship = Space.SpawnShipDocked(ship_name, starport)
@@ -261,12 +266,14 @@ local spawnInitialShips = function ()
 					ship_name	= ship_name,
 				}
 			end
-		elseif i < num_trade_ships / 4 * 3 then
-			-- spawn the middle half in space
-			local max_distance = range * (i - num_trade_ships / 4) + 2
-			local min_distance = max_distance - range
+		elseif i < num_trade_ships * 0.75 then
+			-- spawn the first three quarters in space, or middle half if game start
+			local min_dist = range * i + 1
+			if game_start then
+				min_dist = min_dist - (range * (num_trade_ships / 4))
+			end
 
-			ship = Space.SpawnShip(ship_name, min_distance, max_distance)
+			ship = Space.SpawnShip(ship_name, min_dist, min_dist + range)
 			trade_ships[ship.label] = {
 				status		= 'inbound',
 				starport	= getNearestStarport(ship),
@@ -274,7 +281,7 @@ local spawnInitialShips = function ()
 			}
 		else
 			-- spawn the last quarter in hyperspace
-			local min_time = trade_ships.interval * (i - num_trade_ships / 4 * 3)
+			local min_time = trade_ships.interval * (i - num_trade_ships * 0.75)
 			local max_time = min_time + trade_ships.interval
 			local arrival = Game.time + Engine.rand:Integer(min_time, max_time)
 			local local_systems, dist = {}, 0
@@ -397,7 +404,7 @@ local onEnterSystem = function (ship)
 	-- so update the system when the first ship enters
 	if not system_updated then
 		updateTradeShipsTable()
-		spawnInitialShips()
+		spawnInitialShips(false)
 		system_updated = true
 	end
 
@@ -676,7 +683,7 @@ local onGameStart = function ()
 	if trade_ships == nil then
 		-- create table to hold ships, keyed by label (ex. OD-7764)
 		trade_ships = {}
-		spawnInitialShips()
+		spawnInitialShips(true)
 	else
 		-- trade_ships was loaded by unserialize
 		-- rebuild starports, imports and exports tables

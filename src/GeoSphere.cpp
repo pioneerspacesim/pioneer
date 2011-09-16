@@ -1001,7 +1001,17 @@ int GeoSphere::UpdateLODThread(void *data)
 
 		for(std::list<GeoSphere*>::iterator i = geospheres.begin();
 				i != geospheres.end(); ++i) {
-			if ((*i)->m_runUpdateThread) (*i)->_UpdateLODs();
+
+			// yes, holding the flag lock as we call into _UpdateLODs(). it
+			// will release it after taking the update lock. needed to avoid
+			// the scenario where we decide we want the update, and the root
+			// patches get deleted while we're waiting for the update lock
+			SDL_mutexP((*i)->m_needUpdateLock);
+			if ((*i)->m_needUpdate) {
+				(*i)->_UpdateLODs();
+				(*i)->m_needUpdate = false;
+			}
+			SDL_mutexV((*i)->m_needUpdateLock);
 		}
 
 		SDL_Delay(10);
@@ -1015,10 +1025,15 @@ void GeoSphere::_UpdateLODs()
 	// lock the geosphere for update. this will stop the main thread from
 	// trying to destroy it while we're using it
 	SDL_mutexP(m_updateLock);
+
+	// release the flag lock before doing the update proper so the main thread
+	// can check it without waiting for us to finish
+	SDL_mutexV(m_needUpdateLock);
 	for (int i=0; i<6; i++) {
 		m_patches[i]->LODUpdate(m_tempCampos);
 	}
-	m_runUpdateThread = 0;
+	SDL_mutexP(m_needUpdateLock);
+
 	SDL_mutexV(m_updateLock);
 }
 
@@ -1060,11 +1075,18 @@ void GeoSphere::OnChangeDetailLevel()
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
 	s_patchContext->IncRefCount();
 
-	// flag all terrain gen for abort. this will cause the recursive
-	// _UpdateLODs to exit as fast as it can and get the thread back to its
-	// mainloop
 	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
 			i != s_allGeospheres.end(); ++i) {
+
+		// we're about to force the thread back to its main loop. make sure it
+		// stops once it gets there
+		SDL_mutexP((*i)->m_needUpdateLock);
+		(*i)->m_needUpdate = false;
+		SDL_mutexV((*i)->m_needUpdateLock);
+
+		// flag all terrain gen for abort. this will cause the recursive
+		// _UpdateLODs to exit as fast as it can and get the thread back to its
+		// mainloop
 		SDL_mutexP((*i)->m_abortLock);
 		(*i)->m_abort = true;
 		SDL_mutexV((*i)->m_abortLock);
@@ -1103,11 +1125,12 @@ void GeoSphere::OnChangeDetailLevel()
 GeoSphere::GeoSphere(const SBody *body): m_style(body)
 {
 	m_vbosToDestroyLock = SDL_CreateMutex();
-	m_runUpdateThread = 0;
 	m_sbody = body;
 	memset(m_patches, 0, 6*sizeof(GeoPatch*));
 
 	m_updateLock = SDL_CreateMutex();
+	m_needUpdateLock = SDL_CreateMutex();
+	m_needUpdate = false;
 	m_abortLock = SDL_CreateMutex();
 	m_abort = false;
 
@@ -1340,10 +1363,13 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		UpdateLODThread(this);
 		return;*/
 	
-	if (!m_runUpdateThread) {
+	SDL_mutexP(m_needUpdateLock);
+	if (!m_needUpdate) {
 		this->m_tempCampos = campos;
-		m_runUpdateThread = 1;
+		m_needUpdate = true;
 	}
+	SDL_mutexV(m_needUpdateLock);
+
 #ifndef GEOSPHERE_USE_THREADING
 	m_tempCampos = campos;
 	_UpdateLODs();
