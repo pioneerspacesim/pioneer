@@ -6,7 +6,7 @@ local building = function(name, modelname, bradius, lodpixels)
 			 bounding_radius = bradius,
 			 lod_pixels = lodpixels,
 			 materials = {'wall'},
-			 tags = {'city_building', 'city_power', 'city_starport'},
+			 tags = {'city_building'},
 		},
 		static = function(lod)
 			set_material('wall', 1,1,1,1,.3,.3,.3,5)
@@ -25,7 +25,7 @@ local building = function(name, modelname, bradius, lodpixels)
 	})
 end
 
---define eight buildings
+--define ten buildings
 building('vbuilding01', 'newbuilding1', 320, {12, 40, 100})
 building('vbuilding02', 'newbuilding2', 250, {10, 40, 100})
 building('vbuilding03', 'newbuilding3', 230, {8, 40, 100})
@@ -34,3 +34,5 @@ building('vbuilding05', 'newbuilding5', 130, {6, 30, 100})
 building('vbuilding06', 'newbuilding6', 120, {6, 30, 100})
 building('vbuilding07', 'newbuilding7', 100, {5, 20, 100})
 building('vbuilding08', 'newbuilding8', 70,  {4, 10, 100})
+building('vbuilding09', 'newbuilding9', 100, {5, 15, 100})
+building('vbuilding10', 'newbuilding10', 40, {2, 5, 100})
