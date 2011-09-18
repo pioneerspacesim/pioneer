@@ -84,6 +84,47 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 	h += m_descender;
 }
 
+void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &charX, float &charY) const
+{
+	assert(str && (charIndex >= 0));
+
+	const float lineSpacing = GetHeight()*PARAGRAPH_SPACING;
+	float x = 0.0f, y = GetHeight();
+	int i = 0;
+	Uint32 chr;
+	int len = conv_mb_to_wc(&chr, &str[i]);
+	while (str[i] && (i < charIndex)) {
+		Uint32 nextChar;
+		i += len;
+		len = conv_mb_to_wc(&nextChar, &str[i]);
+		assert(!str[i] || len); // assert valid encoding
+
+		if (chr == '\n') {
+			x = 0.0f;
+			y += lineSpacing;
+		} else {
+			std::map<Uint32,glfglyph_t>::const_iterator it = m_glyphs.find(chr);
+			assert(it != m_glyphs.end());
+			float advance = it->second.advx;
+
+			if (nextChar != '\n' && nextChar != '\0') {
+				FT_UInt a = FT_Get_Char_Index(m_face, chr);
+				FT_UInt b = FT_Get_Char_Index(m_face, nextChar);
+				FT_Vector kern;
+				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
+				advance += float(kern.x) / 64.0f;
+			}
+
+			x += advance;
+		}
+
+		chr = nextChar;
+	}
+
+	charX = x;
+	charY = y;
+}
+
 int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) const
 {
 	assert(str && mouseX >= 0.0f && mouseY >= 0.0f);

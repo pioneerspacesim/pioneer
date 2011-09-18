@@ -221,6 +221,18 @@ void Screen::MeasureString(const std::string &s, float &w, float &h, TextureFont
 	h *= fontScale[1];
 }
 
+void Screen::MeasureCharacterPos(const std::string &s, int charIndex, float &x, float &y, TextureFont *font)
+{
+	assert((charIndex >= 0) && (charIndex <= int(s.size())));
+
+	if (!font) font = GetFont();
+	assert(font);
+
+	font->MeasureCharacterPos(s.c_str(), charIndex, x, y);
+	x *= fontScale[0];
+	y *= fontScale[1];
+}
+
 int Screen::PickCharacterInString(const std::string &s, float x, float y, TextureFont *font)
 {
 	if (!font) font = GetFont();
