@@ -1,3 +1,4 @@
+--[[
 define_model('f3k_top_1', {
 	info = {
 		lod_pixels = {5,20,50,0},
@@ -201,7 +202,6 @@ define_model('f3k_thang', {
 			bounding_radius = 5,
 	   		},
 	static = function(lod)
-		---[[
 		if lod > 1 then
 			if lod < 4 then
 	  			texture('wtr.png',v(.5,.5,0), v(0,0,1),v(.2,0,0))
@@ -222,19 +222,6 @@ define_model('f3k_thang', {
 			texture('models/buildings/city3k/wtr.png',v(math.cos(trans),math.sin(trans),0), v(.2,0,0),v(0,.2,0))
 			ring(3*lod,v(-6,-.5,5.5), v(-6,3.5,5.5),v(0,0,1), .9)
 		end
-	--]]
-	--[[
-		if lod > 1 then
-			if lod < 4 then
-	  			texture('wtr_s.png',v(.5,.5,0), v(0,0,1),v(.2,0,0))
-	  		else
-	  			texture('wtr.png',v(.5,.5,0), v(0,0,1),v(.2,0,0))
-	  		end
-			ring(3*lod,v(-7.5,-.5,4.5), v(-7.5,3.5,4.5),v(0,0,1), .9)
-			ring(3*lod,v(-6,-.5,5.5), v(-6,3.5,5.5),v(0,0,1), .9)
-		end
-	--]]
-
 	end
 })
 
@@ -366,16 +353,6 @@ define_model('factory_3k_2', {
 		zbias(0)
 
   		if lod > 1 then
-			--[[
-			if lod > 3 then
-				texture('wtr.png',v(.5,.5,0), v(.5,0,0),v(0,0,1))
-			else
-				texture('wtr_s.png',v(.5,.5,0), v(.5,0,0),v(0,0,1))
-			end
-			use_material('glow2')
-			sphere_slice(3*lod,2*lod,0,math.pi,Matrix.translate(v(3.5,4.8,-6))*Matrix.scale(v(.6,.2,.6)))
-			sphere_slice(3*lod,2*lod,0,math.pi,Matrix.translate(v(-3.5,4.8,-6))*Matrix.scale(v(.6,.2,.6)))
-			--]]
 			-- advert
 			texture('wtr.png',v(.3,.5,0), v(.5,0,0),v(0,.3,0))
 			use_material('glow2')
@@ -412,6 +389,7 @@ define_model('factory_3k_2', {
 		end
 	end,
 })
+--]]
 
 --Unfinished models?
 --[[

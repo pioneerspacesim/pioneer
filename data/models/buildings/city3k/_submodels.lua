@@ -1,3 +1,4 @@
+--[[
 --vertical base with a glowing fence
 function bld_base_1(lod,scale)
 	if lod == 1 then return end
@@ -127,3 +128,4 @@ function bld_base_2(lod,scale)
 		xref_quad(v4,v6,v26,v24)
 	end
 end
+--]]

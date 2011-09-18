@@ -3,6 +3,7 @@ Alpha 15
   * New features
     * Assassination missions (#290, #500)
     * Restored "hoop" orbital station (#499)
+    * New futuristic city buildings (#518)
     * Ship landing lights now only flash when landing gear is down or ship is
       docking (#236, #478)
     * Station landing lights now coloured to indicate occupied (red), free
