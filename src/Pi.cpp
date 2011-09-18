@@ -496,7 +496,7 @@ void Pi::ToggleLuaConsole()
 {
 	if (luaConsole->IsVisible()) {
 		luaConsole->Hide();
-		if (luaConsole->textEntryField()->IsFocused())
+		if (luaConsole->GetTextEntryField()->IsFocused())
 			Gui::Screen::ClearFocus();
 		Gui::Screen::RemoveBaseWidget(luaConsole);
 	} else {
@@ -505,7 +505,7 @@ void Pi::ToggleLuaConsole()
 		// so that it's forced in front of any other base widgets when it opens
 		Gui::Screen::AddBaseWidget(luaConsole, 0, 0);
 		luaConsole->Show();
-		luaConsole->textEntryField()->Show();
+		luaConsole->GetTextEntryField()->Show();
 	}
 }
 

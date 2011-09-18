@@ -39,7 +39,7 @@ LuaConsole::~LuaConsole() {
 	m_outputLines.clear();
 }
 
-bool LuaConsole::isActive() const {
+bool LuaConsole::IsActive() const {
 	return IsVisible() && m_entryField->IsFocused();
 }
 
@@ -56,7 +56,7 @@ void LuaConsole::onKeyPressed(const SDL_keysym *sym) {
 	}
 }
 
-void LuaConsole::addOutput(const std::string &line) {
+void LuaConsole::AddOutput(const std::string &line) {
 	Gui::Label *label = 0;
 	if (int(m_outputLines.size()) > m_nextOutputLine) {
 		label = m_outputLines[m_nextOutputLine];
@@ -105,7 +105,7 @@ void LuaConsole::execOrContinue() {
 	if (result == LUA_ERRSYNTAX) {
 		size_t msglen;
 		const char *msg = lua_tolstring(L, -1, &msglen);
-		addOutput(std::string(msg, msglen));
+		AddOutput(std::string(msg, msglen));
 		lua_pop(L, 1);
 		return;
 	}
@@ -113,7 +113,7 @@ void LuaConsole::execOrContinue() {
 	if (result == LUA_ERRMEM) {
 		// this will probably fail too, since we've apparently
 		// just had a memory allocation failure...
-		addOutput("memory allocation failure");
+		AddOutput("memory allocation failure");
 		return;
 	}
 
@@ -124,13 +124,13 @@ void LuaConsole::execOrContinue() {
 	if (result == LUA_ERRRUN) {
 		size_t len;
 		const char *s = lua_tolstring(L, -1, &len);
-		addOutput(std::string(s, len));
+		AddOutput(std::string(s, len));
 	} else if (result == LUA_ERRERR) {
 		size_t len;
 		const char *s = lua_tolstring(L, -1, &len);
-		addOutput("error in error handler: " + std::string(s, len));
+		AddOutput("error in error handler: " + std::string(s, len));
 	} else if (result == LUA_ERRMEM) {
-		addOutput("memory allocation failure");
+		AddOutput("memory allocation failure");
 	} else {
 		int nresults = lua_gettop(L) - top;
 		if (nresults) {
@@ -151,7 +151,7 @@ void LuaConsole::execOrContinue() {
 					ss << std::string(s, len);
 				}
 
-				addOutput(ss.str());
+				AddOutput(ss.str());
 			}
 		}
 	}
@@ -188,7 +188,7 @@ static int l_console_addline(lua_State *L) {
 	if (Pi::luaConsole) {
 		size_t len;
 		const char *s = luaL_checklstring(L, 1, &len);
-		Pi::luaConsole->addOutput(std::string(s, len));
+		Pi::luaConsole->AddOutput(std::string(s, len));
 	}
 	return 0;
 }
