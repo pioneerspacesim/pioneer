@@ -1,5 +1,6 @@
 #include "libs.h"
 #include "Gui.h"
+#include "TextureFont.h"
 
 namespace Gui {
 
@@ -8,6 +9,14 @@ TextEntry::TextEntry()
 	m_eventMask = EVENT_MOUSEDOWN;
 	m_cursPos = 0;
 	m_scroll = 0;
+	m_font = 0;
+}
+
+TextEntry::TextEntry(TextureFont *font) {
+	m_eventMask = EVENT_MOUSEDOWN;
+	m_cursPos = 0;
+	m_scroll = 0;
+	m_font = font;
 }
 
 TextEntry::~TextEntry()
@@ -47,7 +56,8 @@ void TextEntry::OnKeyPress(const SDL_keysym *sym)
 
 void TextEntry::GetSizeRequested(float size[2])
 {
-	size[1] = 1.5*Gui::Screen::GetFontHeight() + 2.0;
+	// XXX this 1.5 should be PARAGRAPH_SPACING (currently #define'd in TextureFont.h)
+	size[1] = 1.5*Gui::Screen::GetFontHeight(m_font) + 2.0;
 }
 
 bool TextEntry::OnMouseDown(MouseButtonEvent *e)
@@ -61,7 +71,7 @@ bool TextEntry::OnMouseDown(MouseButtonEvent *e)
 
 	for (; i<len; i++) {
 		float x,y;
-		Gui::Screen::MeasureString(m_text.substr(0, i), x, y);
+		Gui::Screen::MeasureString(m_text.substr(0, i), x, y, m_font);
 		if (x-m_scroll > e->x) {
 			SetCursorPos(i-1);
 			break;
@@ -97,7 +107,7 @@ void TextEntry::Draw()
 	// find cursor position
 	float curs_x, curs_y;
 	glColor3f(1,0,0);
-	Gui::Screen::MeasureString(m_text.substr(0, m_cursPos), curs_x, curs_y);
+	Gui::Screen::MeasureString(m_text.substr(0, m_cursPos), curs_x, curs_y, m_font);
 	if (curs_x - m_scroll > size[0]*0.75f) {
 		m_scroll += size[0]*0.25f;
 	} else if (curs_x - m_scroll < size[0]*0.25f) {
@@ -123,7 +133,7 @@ void TextEntry::Draw()
 
 
 	SetClipping(size[0], size[1]);
-	Gui::Screen::RenderString(m_text, 1.0f - m_scroll, 1.0f);
+	Gui::Screen::RenderString(m_text, 1.0f - m_scroll, 1.0f, m_font);
 
 	/* Cursor */
 	glColor3f(0.5,0.5,0.5);

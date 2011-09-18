@@ -4,10 +4,13 @@
 #include "GuiWidget.h"
 #include <string>
 
+class TextureFont;
+
 namespace Gui {
 	class TextEntry: public Widget {
 	public:
 		TextEntry();
+		explicit TextEntry(TextureFont *font);
 		virtual ~TextEntry();
 		virtual void GetSizeRequested(float size[2]);
 		virtual void Draw();
@@ -31,6 +34,7 @@ namespace Gui {
 		std::string m_text;
 		int m_cursPos;
 		int m_scroll;
+		TextureFont *m_font;
 
 		bool m_justFocused;
 		sigc::connection m_clickout;
