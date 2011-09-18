@@ -156,7 +156,7 @@ SCUTUM_CENTAURUS_ARM
 INT_LY
     %scale Lj
 SEARCH
-    Search
+    Suche
 
 # Config / game control
 PRESS_BUTTON_WANTED_FOR
@@ -706,7 +706,7 @@ SHIP_IS_FULLY_LADEN
 YOU_DO_NOT_HAVE_ANY_X
     Sie haben keine Waren des Artikels %item.
 FRONT_VIEW
-    Front view
+    Sicht nach vorn
 REAR_VIEW
     Sicht nach hinten
 EXTERNAL_VIEW
