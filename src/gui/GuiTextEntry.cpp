@@ -85,6 +85,23 @@ bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 		accepted = true;
 	}
 
+	if (sym->sym == SDLK_HOME) {
+		size_t pos = m_text.rfind('\n', std::max(m_cursPos-1, 0));
+		if (pos == std::string::npos)
+			pos = 0;
+		else
+			++pos;
+		m_cursPos = int(pos);
+		accepted = true;
+	}
+	if (sym->sym == SDLK_END) {
+		size_t pos = m_text.find('\n', m_cursPos);
+		if (pos == std::string::npos)
+			pos = m_text.size();
+		m_cursPos = int(pos);
+		accepted = true;
+	}
+
 	if ((unicode == '\n') || (unicode == '\r')) {
 		switch (m_newlineMode) {
 		case IgnoreNewline:
