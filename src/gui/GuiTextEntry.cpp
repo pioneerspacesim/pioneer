@@ -62,22 +62,12 @@ void TextEntry::GetSizeRequested(float size[2])
 
 bool TextEntry::OnMouseDown(MouseButtonEvent *e)
 {
-	unsigned int len = m_text.size();
-	unsigned int i = 0;
-
 	m_clickout = RawEvents::onMouseDown.connect(sigc::mem_fun(this, &TextEntry::OnRawMouseDown));
 	GrabFocus();
 	m_justFocused = true;
 
-	for (; i<len; i++) {
-		float x,y;
-		Gui::Screen::MeasureString(m_text.substr(0, i), x, y, m_font);
-		if (x-m_scroll > e->x) {
-			SetCursorPos(i-1);
-			break;
-		}
-	}
-	if (i == len) SetCursorPos(len);
+	int i = Gui::Screen::PickCharacterInString(m_text, e->x - m_scroll, e->y, m_font);
+	SetCursorPos(i);
 
 	return false;
 }
