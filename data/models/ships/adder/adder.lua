@@ -500,7 +500,7 @@ define_model('adder', {
 	info = {
 		scale = 1.3,
 		lod_pixels = {.1,30,100,0},
-		bounding_radius = 36,
+		bounding_radius = 44,
 		tags = {'ship'},
 		ship_defs = {
 			{
