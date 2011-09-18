@@ -129,14 +129,14 @@ void Player::StaticUpdate(const float timeStep)
 	if (GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
-			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
+			if (Pi::GetView() == Pi::worldView && !Pi::IsConsoleActive()) PollControls(timeStep);
 			if (IsAnyThrusterKeyDown()) break;
 			GetRotMatrix(m);
 			v = m * vector3d(0, 0, -m_setSpeed);
 			AIMatchVel(v);
 			break;
 		case CONTROL_MANUAL:
-			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
+			if (Pi::GetView() == Pi::worldView && !Pi::IsConsoleActive()) PollControls(timeStep);
 			break;
 		case CONTROL_AUTOPILOT:
 			if (AIIsActive()) break;
