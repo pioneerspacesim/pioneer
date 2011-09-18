@@ -635,9 +635,12 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 		return;
 	}
 
+	if (Pi::IsConsoleActive())
+		return;
+
 	// ignore keypresses if they're typing
 	// XXX ugly hack checking for Lua console here
-	if (m_searchBox->IsFocused() || Pi::IsConsoleActive()) {
+	if (m_searchBox->IsFocused()) {
 		// but if they press enter then we want future keys
 		if (keysym->sym == SDLK_RETURN)
 			m_searchBox->Unfocus();
