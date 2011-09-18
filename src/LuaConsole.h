@@ -17,10 +17,14 @@ public:
 	virtual ~LuaConsole();
 
 	Gui::TextEntry *textEntryField() const { return m_entryField; }
+	void addOutput(const std::string &line);
+
+	static void Register();
 private:
 	bool onFilterKeys(const SDL_keysym*);
 	void onKeyPressed(const SDL_keysym*);
-	void addOutput(const std::string &line);
+
+	void execOrContinue();
 
 	std::vector<std::string> m_statementHistory;
 	Gui::TextEntry *m_entryField;
