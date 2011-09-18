@@ -30,6 +30,7 @@ class GalacticView;
 class Ship;
 class GameMenuView;
 struct lua_State;
+class LuaConsole;
 namespace Sound { class MusicPlayer; }
 
 #if OBJECTVIEWER
@@ -64,6 +65,7 @@ public:
 	static void MainLoop();
 	static void TombStoneLoop();
 	static void OnChangeDetailLevel();
+	static void ToggleLuaConsole();
 	static void Quit() __attribute((noreturn));
 	static void Serialize(Serializer::Writer &wr);
 	static void Unserialize(Serializer::Reader &rd);
@@ -153,6 +155,7 @@ public:
 	static WorldView *worldView;
 	static SpaceStationView *spaceStationView;
 	static InfoView *infoView;
+	static LuaConsole *luaConsole;
 	static ShipCpanel *cpan;
 	static GLUquadric *gluQuadric;
 	static StarSystem *currentSystem;
