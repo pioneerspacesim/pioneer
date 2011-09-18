@@ -8,7 +8,7 @@
 class AICommand {
 public:
 	// This enum is solely to make the serialization work
-	enum CmdName { CMD_NONE, CMD_JOURNEY, CMD_DOCK, CMD_FLYTO, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION };
+	enum CmdName { CMD_NONE, CMD_JOURNEY, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION };
 
 	AICommand(Ship *ship, CmdName name) { m_ship = ship; m_cmdName = name; m_child = 0; }
 	virtual ~AICommand() { if (m_child) delete m_child; }
@@ -141,6 +141,50 @@ private:
 
 	Frame *m_origframe;		// original target frame, used for tangent heading 
 	vector3d m_origpos;		// original target offset, used for tangent heading
+};
+
+
+class AICmdFlyAround : public AICommand {
+public:
+	virtual bool TimeStepUpdate();
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel);
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, vector3d &posoff);
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, vector3d &posoff);
+	
+	virtual void Save(Serializer::Writer &wr) {
+		AICommand::Save(wr);
+		wr.Int32(Serializer::LookupBody(m_obstructor));
+		wr.Double(m_vel); wr.Double(m_alt);
+		wr.Int32(m_targmode);
+		if (m_targmode == 2) wr.Int32(Serializer::LookupFrame(m_targframe));
+		else wr.Int32(Serializer::LookupBody(m_target));
+		wr.Vector3d(m_posoff);
+	}
+	AICmdFlyAround(Serializer::Reader &rd) : AICommand(rd, CMD_FLYAROUND) {
+		m_obstructorIndex = rd.Int32();
+		m_vel = rd.Double(); m_alt = rd.Double();
+		m_targmode = rd.Int32();
+		m_targetIndex = rd.Int32();
+		m_posoff = rd.Vector3d();
+	}
+	virtual void PostLoadFixup() {
+		AICommand::PostLoadFixup();
+		m_obstructor = Serializer::LookupBody(m_obstructorIndex);
+		if (m_targmode == 2) m_target = Serializer::LookupBody(m_targetIndex);
+		else m_targframe = Serializer::LookupFrame(m_targetIndex);
+	}
+
+protected:
+private:
+	Body *m_obstructor;		// body to fly around 
+	int m_obstructorIndex;	// deserialisation
+	double m_alt, m_vel;
+
+	int m_targmode;			// 0 = no target, 1 = target body, 2 = target waypoint
+	Body *m_target;			// target body
+	Frame *m_targframe;		// target frame
+	int m_targetIndex;		// deserialisation
+	vector3d m_posoff;		// target offset from body or frame
 };
 
 class AICmdKill : public AICommand {
