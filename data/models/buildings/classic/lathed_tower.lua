@@ -1,3 +1,4 @@
+--[[
 define_model('lathed_tower', {
 	info = {
 		lod_pixels = {5, 20, 100},
@@ -25,3 +26,4 @@ define_model('lathed_tower', {
 		billboard('smoke.png', 8, v(1,1,1), { v(0, 111, 0) })
 	end,
 })
+--]]

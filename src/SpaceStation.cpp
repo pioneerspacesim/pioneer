@@ -175,7 +175,7 @@ void SpaceStation::Init()
 			else surfaceStationTypes.push_back(t);
 		}
 	}
-	printf("%zu orbital station types and %zu surface station types.\n", orbitalStationTypes.size(), surfaceStationTypes.size());
+	printf("%lu orbital station types and %lu surface station types.\n", orbitalStationTypes.size(), surfaceStationTypes.size());
 }
 
 float SpaceStation::GetDesiredAngVel() const

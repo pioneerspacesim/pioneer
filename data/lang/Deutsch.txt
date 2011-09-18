@@ -155,6 +155,8 @@ SCUTUM_CENTAURUS_ARM
     Scutum-Crux-Arm
 INT_LY
     %scale Lj
+SEARCH
+    Search
 
 # Config / game control
 PRESS_BUTTON_WANTED_FOR
@@ -449,8 +451,8 @@ CARGO_INVENTORY
     Laderaum Inventar:
 JETTISON
     Abwerfen
-JETTISONED
-    "Abgeworfen: 1t "
+JETTISONED_1T_OF_X
+    Abwerfen 1t: %commodity
 COMBAT_RATING
     GEFECHTSEINSTUFUNG:
 CRIMINAL_RECORD
@@ -703,6 +705,8 @@ SHIP_IS_FULLY_LADEN
     Ihr Schiff ist voll.
 YOU_DO_NOT_HAVE_ANY_X
     Sie haben keine Waren des Artikels %item.
+FRONT_VIEW
+    Front view
 REAR_VIEW
     Sicht nach hinten
 EXTERNAL_VIEW

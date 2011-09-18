@@ -7,7 +7,7 @@
 #include "Ship.h"
 #include "HyperspaceCloud.h"
 
-#define SAVEFILE_VERSION	31
+#define SAVEFILE_VERSION	32
 
 namespace Serializer {
 
@@ -197,7 +197,7 @@ Reader::Reader(FILE *fptr): m_pos(0) {
 	m_streamVersion = stream_version_context;
 	m_data = "";
 	while (!feof(fptr)) m_data.push_back(fgetc(fptr));
-	printf("%zu characters in savefile\n", m_data.size());
+	printf("%lu characters in savefile\n", m_data.size());
 }
 bool Reader::AtEnd() { return m_pos >= m_data.size(); }
 void Reader::Seek(int pos) { m_pos = pos; }

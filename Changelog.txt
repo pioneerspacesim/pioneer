@@ -1,29 +1,39 @@
 Alpha 15
 
   * New features
-    * Assassination missions (#290)
+    * Assassination missions (#290, #500)
+    * Restored "hoop" orbital station (#499, #516)
+    * New futuristic city buildings (#518)
+    * Ship landing lights now only flash when landing gear is down or ship is
+      docking (#236, #478)
+    * Station landing lights now coloured to indicate occupied (red), free
+      (orange) and cleared for docking (green) (#4, #489, #498)
+
+  * Minor changes and tweaks
     * Lua method Ship.SetHullPercent to set a ship's damage level (#420, #472)
     * Landed and docked ships will no longer cause alerts (#454, #466)
-    * Station landing lights now coloured to indicate occupied (red), free
-      (orange) and cleared for docking (green) (#4, #489)
+    * Bulk ships are now spawned on game start (#500)
     * Trade ships will now repair damage and replace destroyed equipment (#481)
 
   * Fixes
-    * Landing lights now only flash when landing gear is down or ship is
-      docking (#236, #478)
     * Certain in-game keys will no longer crash when used in the menu (#453, #463)
     * Don't try to save or load game with no filename (#487, #488)
     * Fix set speed scaling when setting a negative set speed (#482)
+    * Don't spawn docked trade ships on game start (#495)
+    * Ensure docked trade ships take off after game load (#517)
 
   * Internal changes
     * Lots of internal cleanups; silences many warnings under GCC (#477,
       #484) and MSVC (#483)
+    * String and language updates (#509, #510)
     * Allow terrain generation to be aborted when the current set of terrains
-      become unusable (eg after hyperspace or detail settings change) (#457)
+      become unusable (eg after hyperspace or detail settings change) (#457, #490)
     * Shield generators now occupy their own equipment slot to remove the
       for special-case checks with dealing with cargo (#308, #459)
     * Targeting and trade functions moved from Ship to Player since they aren't
       really meaningful for NPCs (#38, #307, #485)
+    * Separated key bindings from individual key actions and added onPress and
+      onRelease signals to the bindings (for key repeat) (#398, #493)
 
 Alpha 14
 
