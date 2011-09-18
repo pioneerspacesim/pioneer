@@ -9,21 +9,26 @@ class TextureFont;
 namespace Gui {
 	class TextEntry: public Widget {
 	public:
+		enum NewlineMode {
+			IgnoreNewline,
+			AcceptNewline,
+			AcceptCtrlNewline
+		};
+
 		TextEntry();
 		explicit TextEntry(TextureFont *font);
 		virtual ~TextEntry();
 		virtual void GetSizeRequested(float size[2]);
 		virtual void Draw();
 		virtual bool OnMouseDown(MouseButtonEvent *e);
-		void SetText(const std::string &text) {
-			m_text = text;
-			SetCursorPos(m_text.size());
-		}
+		void SetText(const std::string &text);
 		std::string GetText() const { return m_text; }
 		void SetCursorPos(int pos) { m_cursPos = Clamp(pos, 0, signed(m_text.size())); }
 		virtual void OnKeyPress(const SDL_keysym *);
 		virtual void Show() { GrabFocus(); Widget::Show(); }
 		void Unfocus();
+		NewlineMode GetNewlineMode() const { return m_newlineMode; }
+		void SetNewlineMode(NewlineMode mode) { m_newlineMode = mode; }
 
 		sigc::signal<void, const SDL_keysym*> onKeyPress;
 		sigc::signal<void> onValueChanged;
@@ -35,6 +40,8 @@ namespace Gui {
 		int m_cursPos;
 		int m_scroll;
 		TextureFont *m_font;
+		NewlineMode m_newlineMode;
+		int m_newlineCount;
 
 		bool m_justFocused;
 		sigc::connection m_clickout;

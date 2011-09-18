@@ -10,6 +10,8 @@ TextEntry::TextEntry()
 	m_cursPos = 0;
 	m_scroll = 0;
 	m_font = 0;
+	m_newlineMode = IgnoreNewline;
+	m_newlineCount = 0;
 }
 
 TextEntry::TextEntry(TextureFont *font) {
@@ -17,6 +19,8 @@ TextEntry::TextEntry(TextureFont *font) {
 	m_cursPos = 0;
 	m_scroll = 0;
 	m_font = font;
+	m_newlineMode = IgnoreNewline;
+	m_newlineCount = 0;
 }
 
 TextEntry::~TextEntry()
@@ -24,14 +28,36 @@ TextEntry::~TextEntry()
 	m_clickout.disconnect();
 }
 
+void TextEntry::SetText(const std::string &text)
+{
+	m_text = text;
+	SetCursorPos(m_text.size());
+
+	int count = 0;
+	for (int i = 0; i < int(text.size()); ++i) {
+		if (text[i] == '\n')
+			++count;
+	}
+	m_newlineCount = count;
+	ResizeRequest();
+}
+
 void TextEntry::OnKeyPress(const SDL_keysym *sym)
 {
 	bool changed = false;
 	Uint16 unicode = sym->unicode;
+
+	int oldNewlineCount = m_newlineCount;
+
+	// XXX moving the cursor is not UTF-8 safe
 	if (sym->sym == SDLK_LEFT) SetCursorPos(m_cursPos-1);
 	if (sym->sym == SDLK_RIGHT) SetCursorPos(m_cursPos+1);
+
+	// XXX deleting characters is not UTF-8 safe
 	if (sym->sym == SDLK_BACKSPACE) {
 		if (m_cursPos > 0) {
+			if (m_text[m_cursPos-1] == '\n')
+				--m_newlineCount;
 			m_text = m_text.substr(0, m_cursPos-1) + m_text.substr(m_cursPos);
 			SetCursorPos(m_cursPos-1);
 			changed = true;
@@ -39,16 +65,39 @@ void TextEntry::OnKeyPress(const SDL_keysym *sym)
 	}
 	if (sym->sym == SDLK_DELETE) {
 		if (m_cursPos < signed(m_text.size())) {
+			if (m_text[m_cursPos] == '\n')
+				--m_newlineCount;
 			m_text = m_text.substr(0, m_cursPos) + m_text.substr(m_cursPos+1);
 			changed = true;
 		}
 	}
-	if (isalnum(unicode) || (unicode == ' ') || (isgraph(unicode))) {
-		char buf[2] = { char(unicode), 0 };
-		m_text.insert(m_cursPos, std::string(buf));
-		SetCursorPos(m_cursPos+1);
+
+	if ((unicode == '\n') || (unicode == '\r')) {
+		switch (m_newlineMode) {
+		case IgnoreNewline:
+			unicode = '\0';
+			break;
+		case AcceptNewline:
+			unicode = '\n';
+			break;
+		case AcceptCtrlNewline:
+			unicode = (sym->mod & KMOD_CTRL) ? '\n' : '\0';
+			break;
+		}
+	}
+
+	if (isgraph(unicode) || (unicode == ' ') || (unicode == '\n')) {
+		if (unicode == '\n')
+			++m_newlineCount;
+		char buf[4];
+		int len = conv_wc_to_mb(unicode, buf);
+		m_text.insert(m_cursPos, buf, len);
+		SetCursorPos(m_cursPos+len);
 		changed = true;
 	}
+
+	if (oldNewlineCount != m_newlineCount)
+		ResizeRequest();
 
 	onKeyPress.emit(sym);
 	if (changed) onValueChanged.emit();
@@ -56,8 +105,8 @@ void TextEntry::OnKeyPress(const SDL_keysym *sym)
 
 void TextEntry::GetSizeRequested(float size[2])
 {
-	// XXX this 1.5 should be PARAGRAPH_SPACING (currently #define'd in TextureFont.h)
-	size[1] = 1.5*Gui::Screen::GetFontHeight(m_font) + 2.0;
+	// XXX this 1.5f should be PARAGRAPH_SPACING (currently #define'd in TextureFont.h)
+	size[1] = (m_newlineCount*1.5f+1.0f)*Gui::Screen::GetFontHeight(m_font) + 2.0;
 }
 
 bool TextEntry::OnMouseDown(MouseButtonEvent *e)
@@ -96,8 +145,9 @@ void TextEntry::Draw()
 
 	// find cursor position
 	float curs_x, curs_y;
+	Gui::Screen::MeasureCharacterPos(m_text, m_cursPos, curs_x, curs_y, m_font);
+
 	glColor3f(1,0,0);
-	Gui::Screen::MeasureString(m_text.substr(0, m_cursPos), curs_x, curs_y, m_font);
 	if (curs_x - m_scroll > size[0]*0.75f) {
 		m_scroll += size[0]*0.25f;
 	} else if (curs_x - m_scroll < size[0]*0.25f) {
@@ -128,8 +178,8 @@ void TextEntry::Draw()
 	/* Cursor */
 	glColor3f(0.5,0.5,0.5);
 	glBegin(GL_LINES);
-		glVertex2f(curs_x, 0);
-		glVertex2f(curs_x, size[1]);
+		glVertex2f(curs_x, curs_y - Gui::Screen::GetFontHeight(m_font) - 1.0);
+		glVertex2f(curs_x, curs_y + 1.0);
 	glEnd();
 	
 	EndClipping();
