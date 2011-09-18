@@ -727,7 +727,7 @@ void SectorView::Update()
 	rot.RotateZ(DEG2RAD(-m_rotZ));
 
 	// don't check raw keypresses if the search box is active
-	if (!m_searchBox->IsFocused()) {
+	if (!m_searchBox->IsFocused() && !Pi::IsConsoleActive()) {
 		float moveSpeed = 1.0;
 		if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
 		if (Pi::KeyState(SDLK_RSHIFT)) moveSpeed = 10.0;
