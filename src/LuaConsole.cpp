@@ -96,6 +96,8 @@ void LuaConsole::execOrContinue() {
 			if (strcmp(tail, eofstring) == 0) {
 				// statement is incomplete -- allow the user to continue on the next line
 				m_entryField->SetText(stmt + "\n");
+				m_entryField->ResizeRequest();
+				ResizeRequest();
 				lua_pop(L, 1);
 				return;
 			}
