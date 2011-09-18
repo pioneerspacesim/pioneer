@@ -12,6 +12,8 @@ public:
 	void RenderString(const char *str, float x, float y);
 	void RenderMarkup(const char *str, float x, float y);
 	void MeasureString(const char *str, float &w, float &h);
+	int PickCharacter(const char *str, float mouseX, float mouseY) const;
+
 	// of Ms
 	float GetHeight() const { return m_height; }
 	float GetWidth() const { return m_width; }

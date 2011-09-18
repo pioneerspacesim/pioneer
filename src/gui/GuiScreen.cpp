@@ -221,6 +221,16 @@ void Screen::MeasureString(const std::string &s, float &w, float &h, TextureFont
 	h *= fontScale[1];
 }
 
+int Screen::PickCharacterInString(const std::string &s, float x, float y, TextureFont *font)
+{
+	if (!font) font = GetFont();
+
+	x /= fontScale[0];
+	y /= fontScale[1];
+
+	return font->PickCharacter(s.c_str(), x, y);
+}
+
 void Screen::RenderString(const std::string &s, float xoff, float yoff, TextureFont *font)
 {
     if (!font) font = GetFont();

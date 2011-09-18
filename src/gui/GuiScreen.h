@@ -50,6 +50,7 @@ namespace Gui {
 		static float GetFontHeight(TextureFont *font = 0);
 		static void RenderString(const std::string &s, float xoff, float yoff, TextureFont *font = 0);
 		static void MeasureString(const std::string &s, float &w, float &h, TextureFont *font = 0);
+		static int PickCharacterInString(const std::string &s, float x, float y, TextureFont *font = 0);
 		static void RenderMarkup(const std::string &s, TextureFont *font = 0);
 
 	private:
