@@ -33,7 +33,7 @@ namespace Gui {
 			scale[1] = fontScale[1];
 		}
 		static const float* GetCoords2Pixels() { return fontScale; }
-		static void SetFocused(Widget *w);
+		static void SetFocused(Widget *w, bool enableKeyRepeat = false);
 		static void ClearFocus();
 		static bool IsFocused(Widget *w) {
 			return w == focusedWidget;

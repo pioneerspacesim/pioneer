@@ -50,11 +50,14 @@ void Screen::OnDeleteFocusedWidget()
 {
 	_focusedWidgetOnDelete.disconnect();
 	focusedWidget = 0;
+	SDL_EnableKeyRepeat(0, 0); // disable key repeat
 }
 
-void Screen::SetFocused(Widget *w)
+void Screen::SetFocused(Widget *w, bool enableKeyRepeat)
 {
 	ClearFocus();
+	if (enableKeyRepeat)
+		SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 	_focusedWidgetOnDelete = w->onDelete.connect(sigc::ptr_fun(&Screen::OnDeleteFocusedWidget));
 	focusedWidget = w;
 }
@@ -64,6 +67,7 @@ void Screen::ClearFocus()
 	if (!focusedWidget) return;
 	_focusedWidgetOnDelete.disconnect();
 	focusedWidget = 0;
+	SDL_EnableKeyRepeat(0, 0); // disable key repeat
 }
 
 void Screen::ShowBadError(const char *msg)

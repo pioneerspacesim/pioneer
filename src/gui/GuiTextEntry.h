@@ -26,6 +26,7 @@ namespace Gui {
 		void SetCursorPos(int pos) { m_cursPos = Clamp(pos, 0, signed(m_text.size())); }
 		virtual bool OnKeyPress(const SDL_keysym *);
 		virtual void Show() { GrabFocus(); Widget::Show(); }
+		virtual void GrabFocus();
 		void Unfocus();
 		NewlineMode GetNewlineMode() const { return m_newlineMode; }
 		void SetNewlineMode(NewlineMode mode) { m_newlineMode = mode; }

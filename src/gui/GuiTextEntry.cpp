@@ -160,6 +160,11 @@ void TextEntry::OnRawMouseDown(MouseButtonEvent *e)
 		Unfocus();
 }
 
+void TextEntry::GrabFocus()
+{
+	Screen::SetFocused(this, true);
+}
+
 void TextEntry::Unfocus()
 {
 	if (!Screen::IsFocused(this))
