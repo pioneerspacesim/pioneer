@@ -29,7 +29,6 @@ class SpaceStation;
 class GalacticView;
 class Ship;
 class GameMenuView;
-struct lua_State;
 class LuaConsole;
 namespace Sound { class MusicPlayer; }
 
@@ -159,7 +158,6 @@ public:
 	static ShipCpanel *cpan;
 	static GLUquadric *gluQuadric;
 	static StarSystem *currentSystem;
-	static lua_State *luaPersistent;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
 
 #if OBJECTVIEWER

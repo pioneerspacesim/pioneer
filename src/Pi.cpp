@@ -958,7 +958,7 @@ void Pi::Start()
 {
 	Background::Starfield *starfield = new Background::Starfield();
 	Background::MilkyWay *milkyway = new Background::MilkyWay();
-	
+
 	Gui::Fixed *splash = new Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight());
 	Gui::Screen::AddBaseWidget(splash, 0, 0);
 	splash->SetTransparency(true);
