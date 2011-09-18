@@ -161,7 +161,26 @@ void LuaConsole::execOrContinue() {
 	}
 }
 
-static int l_console_print(lua_State *L) {
+/*
+ * Interface: Console
+ *
+ * Functions to control or interact with the Lua console.
+ */
+
+/*
+ * Function: AddLine
+ *
+ * Add a line of output to the Lua console.
+ *
+ * Availability:
+ *
+ *  not yet
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_console_addline(lua_State *L) {
 	if (Pi::luaConsole) {
 		size_t len;
 		const char *s = luaL_checklstring(L, 1, &len);
@@ -177,7 +196,7 @@ void LuaConsole::Register()
 	LUA_DEBUG_START(l);
 
 	static const luaL_reg methods[] = {
-		{ "AddLine", l_console_print },
+		{ "AddLine", l_console_addline },
 		{ 0, 0 }
 	};
 
