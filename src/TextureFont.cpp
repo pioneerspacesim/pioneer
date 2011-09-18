@@ -139,8 +139,9 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 	// chr1: the Unicode value of the character being tested
 	// chr2: the Unicode value of the next character
 
+	const float lineSpacing = GetHeight()*PARAGRAPH_SPACING;
 	Uint32 chr2 = '\n'; // pretend we've just had a new line
-	float bottom = 0.0f, x = 0.0f;
+	float bottom = GetHeight() - lineSpacing, x = 0.0f;
 	int i2 = 0, charBytes = 0;
 	do {
 		int i1 = i2;
@@ -176,7 +177,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 			return i1;
 
 		if (chr1 == '\n')
-			bottom += GetHeight()*PARAGRAPH_SPACING;
+			bottom += lineSpacing;
 	} while (charBytes);
 
 	return i2;
