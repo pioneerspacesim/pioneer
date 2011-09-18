@@ -1039,7 +1039,7 @@ define_model('nice_spacestation', {
 define_model('hoop_spacestation', {
 	info = {
 			bounding_radius=500.0,
-			materials = {'text', 'body'},
+			materials = {'text', 'body', 'green_lens'},
 			tags = {'orbital_station'},
 			angular_velocity = 0.08,
 			lod_pixels = { 50, 0 },
@@ -1116,6 +1116,7 @@ define_model('hoop_spacestation', {
 		local f4b = v(-400,-400,0)
 		
 		set_material('text', 1.0,0.5,1.0,1)
+		set_material('green_lens',0,1,0,.9,0,0,1,1)
 		set_material('body', .5,.5,.5,1)
 		use_material('body')
 		--front face
@@ -1179,6 +1180,23 @@ define_model('hoop_spacestation', {
 		extrusion(v(0,0,1300), v(0,0,400), v(1,0,0), 100.0,
 			v(-1,-1,0), v(1,-1,0), v(1,1,0), v(-1,1,0))
 		call_model('spacestation_entry1', v(0,400,0), v(1,0,0), v(0,1,0), 1.0)
+		--lights
+		--lamp housings
+		use_material('text')
+		cylinder(8,v(-150,401,0),v(-150,401.5,0),v(0,0,1),5)
+		cylinder(8,v(-175,401,0),v(-175,401.5,0),v(0,0,1),5)
+		cylinder(8,v(-200,401,0),v(-200,401.5,0),v(0,0,1),5)
+		cylinder(8,v(150,401,0),v(150,401.5,0),v(0,0,1),5)
+		cylinder(8,v(175,401,0),v(175,401.5,0),v(0,0,1),5)
+		cylinder(8,v(200,401,0),v(200,401.5,0),v(0,0,1),5)
+		--lamp lens
+		use_material('green_lens')
+		cylinder(8,v(-150,401.5,0),v(-150,402.5,0),v(0,0,1),4.5)
+		cylinder(8,v(-175,401.5,0),v(-175,402.5,0),v(0,0,1),4.5)
+		cylinder(8,v(-200,401.5,0),v(-200,402.5,0),v(0,0,1),4.5)
+		cylinder(8,v(150,401.5,0),v(150,402.5,0),v(0,0,1),4.5)
+		cylinder(8,v(175,401.5,0),v(175,402.5,0),v(0,0,1),4.5)
+		cylinder(8,v(200,401.5,0),v(200,402.5,0),v(0,0,1),4.5)
 	end,
 	dynamic = function(lod)
 		if lod > 1 then
