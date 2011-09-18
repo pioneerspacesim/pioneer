@@ -230,7 +230,7 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 		FT_Stroker_Set(stroker, 1*64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
 	}
 
-	for (Uint32 chr=32; chr<255; chr++) {
+	for (Uint32 chr=0x20; chr<0x1ff; chr++) {
 		memset(pixBuf, 0, 2*sz*sz);
 	
 		glfglyph_t glfglyph;

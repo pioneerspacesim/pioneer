@@ -35,6 +35,7 @@ Alpha 15
       really meaningful for NPCs (#38, #307, #485)
     * Separated key bindings from individual key actions and added onPress and
       onRelease signals to the bindings (for key repeat) (#398, #493)
+    * Load glyphs up to 0x1ff to better support certain European translations (#415)
 
 Alpha 14
 
