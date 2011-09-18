@@ -29,6 +29,13 @@ AxisBinding pitchAxis;
 AxisBinding rollAxis;
 AxisBinding yawAxis;
 
+bool KeyBinding::Matches(const SDL_keysym *sym) const {
+	if (type == KEYBOARD_KEY) {
+		return (sym->sym == u.keyboard.key) && ((sym->mod & 0xfff) == u.keyboard.mod);
+	} else
+		return false;
+}
+
 KeyBinding KeyBinding::keyboardBinding(SDLKey key, SDLMod mod) {
 	KeyBinding kb;
 

@@ -32,6 +32,7 @@ namespace KeyBindings {
 		} u;
 
 		std::string Description() const;
+		bool Matches(const SDL_keysym *sym) const;
 
 		static KeyBinding keyboardBinding(SDLKey key, SDLMod mod);
 	};
