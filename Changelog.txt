@@ -14,6 +14,7 @@ Alpha 15
     * Landed and docked ships will no longer cause alerts (#454, #466)
     * Bulk ships are now spawned on game start (#500)
     * Trade ships will now repair damage and replace destroyed equipment (#481)
+    * Mushroom station now has ads in bay 2 (#524)
 
   * Fixes
     * Certain in-game keys will no longer crash when used in the menu (#453, #463)
