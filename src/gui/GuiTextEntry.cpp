@@ -44,6 +44,10 @@ void TextEntry::SetText(const std::string &text)
 
 void TextEntry::OnKeyPress(const SDL_keysym *sym)
 {
+	bool acceptKey = onFilterKeys.emit(sym);
+	if (! acceptKey)
+		return;
+
 	bool changed = false;
 	Uint16 unicode = sym->unicode;
 

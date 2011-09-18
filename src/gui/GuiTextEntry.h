@@ -30,6 +30,12 @@ namespace Gui {
 		NewlineMode GetNewlineMode() const { return m_newlineMode; }
 		void SetNewlineMode(NewlineMode mode) { m_newlineMode = mode; }
 
+		// XXX probably a bad idea to use a signal with a return type
+		// (by default, the return value will be whatever is returned by the
+		//  last functor that's called when emitting the signal...
+		//  you can provide your own 'accumulator' type though, to combine
+		//  return values in different ways)
+		sigc::signal<bool, const SDL_keysym*> onFilterKeys;
 		sigc::signal<void, const SDL_keysym*> onKeyPress;
 		sigc::signal<void> onValueChanged;
 	private:
