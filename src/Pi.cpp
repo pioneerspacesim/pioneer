@@ -487,6 +487,11 @@ void Pi::Init()
 	config.Save();
 }
 
+bool Pi::IsConsoleActive()
+{
+	return luaConsole && luaConsole->IsActive();
+}
+
 void Pi::ToggleLuaConsole()
 {
 	if (luaConsole->IsVisible()) {

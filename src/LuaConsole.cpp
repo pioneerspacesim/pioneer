@@ -39,6 +39,10 @@ LuaConsole::~LuaConsole() {
 	m_outputLines.clear();
 }
 
+bool LuaConsole::isActive() const {
+	return IsVisible() && m_entryField->IsFocused();
+}
+
 bool LuaConsole::onFilterKeys(const SDL_keysym *sym) {
 	return !KeyBindings::toggleLuaConsole.binding.Matches(sym);
 }

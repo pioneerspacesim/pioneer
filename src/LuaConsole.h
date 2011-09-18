@@ -16,6 +16,7 @@ public:
 	explicit LuaConsole(int displayedOutputLines);
 	virtual ~LuaConsole();
 
+	bool isActive() const;
 	Gui::TextEntry *textEntryField() const { return m_entryField; }
 	void addOutput(const std::string &line);
 
