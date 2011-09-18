@@ -136,22 +136,29 @@ void LuaConsole::execOrContinue() {
 	} else {
 		int nresults = lua_gettop(L) - top;
 		if (nresults) {
-			lua_getglobal(L, "tostring");
 			std::ostringstream ss;
-			for (int i = 0; i < nresults; ++i) {
+
+			// call tostring() on each value and display it
+			lua_getglobal(L, "tostring");
+			// i starts at 1 because Lua stack uses 1-based indexing
+			for (int i = 1; i <= nresults; ++i) {
 				ss.str(std::string());
 				if (nresults > 1)
 					ss << "[" << i << "] ";
 
-				lua_pushvalue(L, -1); // duplicate the tostring function
+				// duplicate the tostring function for the call
+				lua_pushvalue(L, -1);
 				lua_pushvalue(L, top+i);
-				if (lua_pcall(L, 1, 1, 0)) {
-					ss << "<internal error when converting result to string>";
-				} else {
-					size_t len;
-					const char *s = lua_tolstring(L, -1, &len);
-					ss << std::string(s, len);
-				}
+
+				result = lua_pcall(L, 1, 1, 0);
+				size_t len = 0;
+				const char *s = 0;
+				if (result == 0)
+					s = lua_tolstring(L, -1, &len);
+				ss << s ? std::string(s, len) : "<internal error when converting result to string>";
+
+				// pop the result
+				lua_pop(L, 1);
 
 				AddOutput(ss.str());
 			}
