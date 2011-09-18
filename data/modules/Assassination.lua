@@ -340,7 +340,7 @@ local onShipDocked = function (ship, station)
 		else
 			if mission.ship == ship then
 				mission.status = 'FAILED'
-				Player:UpdateMission(ref, mission)
+				Game.player:UpdateMission(ref, mission)
 			end
 		end
 		return
