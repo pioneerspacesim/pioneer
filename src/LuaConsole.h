@@ -3,6 +3,7 @@
 
 #include "LuaManager.h"
 #include "gui/GuiBox.h"
+#include <deque>
 
 namespace Gui {
 	class Label;
@@ -27,7 +28,9 @@ private:
 
 	void execOrContinue();
 
-	std::vector<std::string> m_statementHistory;
+	std::deque<std::string> m_statementHistory;
+	std::string m_stashedStatement;
+	int m_historyPosition;
 	Gui::TextEntry *m_entryField;
 	std::vector<Gui::Label*> m_outputLines;
 	int m_nextOutputLine;

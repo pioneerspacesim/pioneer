@@ -13,6 +13,8 @@
 LuaConsole::LuaConsole(int displayedOutputLines):
 	m_maxOutputLines(displayedOutputLines) {
 
+	m_historyPosition = -1;
+
 	this->SetTransparency(false);
 	this->SetBgColor(0.6f, 0.1f, 0.0f, 0.6f);
 
@@ -50,6 +52,42 @@ bool LuaConsole::onFilterKeys(const SDL_keysym *sym) {
 void LuaConsole::onKeyPressed(const SDL_keysym *sym) {
 	// XXX totally horrible doing this on every key press
 	ResizeRequest();
+
+	if ((sym->sym == SDLK_UP) || (sym->sym == SDLK_DOWN)) {
+		if (m_historyPosition == -1) {
+			if (sym->sym == SDLK_DOWN) {
+				m_stashedStatement = "";
+				m_entryField->SetText("");
+				ResizeRequest();
+			} else {
+				m_historyPosition = (m_statementHistory.size() - 1);
+				if (m_historyPosition != -1) {
+					m_stashedStatement = m_entryField->GetText();
+					m_entryField->SetText(m_statementHistory[m_historyPosition]);
+					ResizeRequest();
+				}
+			}
+		} else {
+			if (sym->sym == SDLK_DOWN) {
+				++m_historyPosition;
+				if (m_historyPosition >= int(m_statementHistory.size())) {
+					m_historyPosition = -1;
+					m_entryField->SetText(m_stashedStatement);
+					m_stashedStatement.clear();
+					ResizeRequest();
+				} else {
+					m_entryField->SetText(m_statementHistory[m_historyPosition]);
+					ResizeRequest();
+				}
+			} else {
+				if (m_historyPosition > 0) {
+					--m_historyPosition;
+					m_entryField->SetText(m_statementHistory[m_historyPosition]);
+					ResizeRequest();
+				}
+			}
+		}
+	}
 
 	if (((sym->unicode == '\n') || (sym->unicode == '\r')) && ((sym->mod & KMOD_CTRL) == 0)) {
 		execOrContinue();
@@ -169,6 +207,8 @@ void LuaConsole::execOrContinue() {
 	lua_settop(L, top);
 
 	if (! result) {
+		m_historyPosition = -1;
+		m_statementHistory.push_back(stmt);
 		m_entryField->SetText("");
 		ResizeRequest();
 	}
