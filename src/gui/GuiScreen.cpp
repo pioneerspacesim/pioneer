@@ -193,12 +193,17 @@ void Screen::OnClick(SDL_MouseButtonEvent *e)
 
 void Screen::OnKeyDown(const SDL_keysym *sym)
 {
+	if (focusedWidget) {
+		bool accepted = focusedWidget->OnKeyPress(sym);
+		// don't check shortcuts if the focused widget accepted the key-press
+		if (accepted)
+			return;
+	}
 	for (std::list<Widget*>::iterator i = kbshortcut_widgets.begin(); i != kbshortcut_widgets.end(); ++i) {
 		if (!(*i)->IsVisible()) continue;
 		if (!(*i)->GetEnabled()) continue;
 		(*i)->OnPreShortcut(sym);
 	}
-	if (focusedWidget) focusedWidget->OnKeyPress(sym);
 }
 
 void Screen::OnKeyUp(const SDL_keysym *sym)

@@ -42,11 +42,12 @@ void TextEntry::SetText(const std::string &text)
 	ResizeRequest();
 }
 
-void TextEntry::OnKeyPress(const SDL_keysym *sym)
+bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 {
-	bool acceptKey = onFilterKeys.emit(sym);
-	if (! acceptKey)
-		return;
+	bool accepted = onFilterKeys.emit(sym);
+	if (! accepted)
+		return false;
+	accepted = false;
 
 	bool changed = false;
 	Uint16 unicode = sym->unicode;
@@ -54,8 +55,14 @@ void TextEntry::OnKeyPress(const SDL_keysym *sym)
 	int oldNewlineCount = m_newlineCount;
 
 	// XXX moving the cursor is not UTF-8 safe
-	if (sym->sym == SDLK_LEFT) SetCursorPos(m_cursPos-1);
-	if (sym->sym == SDLK_RIGHT) SetCursorPos(m_cursPos+1);
+	if (sym->sym == SDLK_LEFT) {
+		SetCursorPos(m_cursPos-1);
+		accepted = true;
+	}
+	if (sym->sym == SDLK_RIGHT) {
+		SetCursorPos(m_cursPos+1);
+		accepted = true;
+	}
 
 	// XXX deleting characters is not UTF-8 safe
 	if (sym->sym == SDLK_BACKSPACE) {
@@ -66,6 +73,7 @@ void TextEntry::OnKeyPress(const SDL_keysym *sym)
 			SetCursorPos(m_cursPos-1);
 			changed = true;
 		}
+		accepted = true;
 	}
 	if (sym->sym == SDLK_DELETE) {
 		if (m_cursPos < signed(m_text.size())) {
@@ -74,6 +82,7 @@ void TextEntry::OnKeyPress(const SDL_keysym *sym)
 			m_text = m_text.substr(0, m_cursPos) + m_text.substr(m_cursPos+1);
 			changed = true;
 		}
+		accepted = true;
 	}
 
 	if ((unicode == '\n') || (unicode == '\r')) {
@@ -98,6 +107,7 @@ void TextEntry::OnKeyPress(const SDL_keysym *sym)
 		m_text.insert(m_cursPos, buf, len);
 		SetCursorPos(m_cursPos+len);
 		changed = true;
+		accepted = true;
 	}
 
 	if (oldNewlineCount != m_newlineCount)
@@ -105,6 +115,8 @@ void TextEntry::OnKeyPress(const SDL_keysym *sym)
 
 	onKeyPress.emit(sym);
 	if (changed) onValueChanged.emit();
+
+	return accepted;
 }
 
 void TextEntry::GetSizeRequested(float size[2])
