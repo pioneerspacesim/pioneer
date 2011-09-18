@@ -635,11 +635,11 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 		return;
 	}
 
+	// XXX ugly hack checking for Lua console here
 	if (Pi::IsConsoleActive())
 		return;
 
 	// ignore keypresses if they're typing
-	// XXX ugly hack checking for Lua console here
 	if (m_searchBox->IsFocused()) {
 		// but if they press enter then we want future keys
 		if (keysym->sym == SDLK_RETURN)
@@ -727,6 +727,7 @@ void SectorView::Update()
 	rot.RotateZ(DEG2RAD(-m_rotZ));
 
 	// don't check raw keypresses if the search box is active
+	// XXX ugly hack checking for Lua console here
 	if (!m_searchBox->IsFocused() && !Pi::IsConsoleActive()) {
 		float moveSpeed = 1.0;
 		if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
