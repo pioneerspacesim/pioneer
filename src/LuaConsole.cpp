@@ -225,6 +225,12 @@ void LuaConsole::execOrContinue() {
  *
  * Add a line of output to the Lua console.
  *
+ * > Console.AddLine(text)
+ *
+ * Parameters:
+ *
+ *   text - the line of text to add (without a terminating newline character)
+ *
  * Availability:
  *
  *  not yet
