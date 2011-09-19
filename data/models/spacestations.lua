@@ -649,22 +649,25 @@ define_model('mushroom_station', {
 		--zbias(0)
 
 	if lod == 4 then
-		local pos1 = v(-100,100,0)
-			zbias(1,pos1+v(0,-50,-50),v(0,0,1))
-			call_model('ad_pioneer_0',pos1+v(0,-65,-50),v(1,0,0),v(0,1,0),20)
+		function addAdverts(pos)
+			zbias(1,pos+v(0,-50,-50),v(0,0,1))
+			call_model('ad_pioneer_0',pos+v(0,-65,-50),v(1,0,0),v(0,1,0),20)
 			zbias(0)
 
-			zbias(1,pos1+v(0,-65,50),v(0,0,-1))
-			call_model('ad_acme_1',pos1+v(0,-65,50),v(-1,0,0),v(0,1,0),20)
+			zbias(1,pos+v(0,-65,50),v(0,0,-1))
+			call_model('ad_acme_1',pos+v(0,-65,50),v(-1,0,0),v(0,1,0),20)
 			zbias(0)
 
-			zbias(1,pos1+v(50,-65,0),v(-1,0,0))
-			call_model('ad_cola_1',pos1+v(50,-65,0),v(0,0,1),v(0,1,0),20)
+			zbias(1,pos+v(50,-65,0),v(-1,0,0))
+			call_model('ad_cola_1',pos+v(50,-65,0),v(0,0,1),v(0,1,0),20)
 			zbias(0)
 
-			zbias(1,pos1+v(-49.999,-65,0),v(1,0,0))
-			call_model('ad_sirius_1',pos1+v(-49.999,-65,0),v(0,0,-1),v(0,1,0),20)
+			zbias(1,pos+v(-49.999,-65,0),v(1,0,0))
+			call_model('ad_sirius_1',pos+v(-49.999,-65,0),v(0,0,-1),v(0,1,0),20)
 			zbias(0)
+		end
+		addAdverts(port_pos[1])
+		addAdverts(port_pos[2])
 		end
 	end,
 		dynamic = function(lod)
