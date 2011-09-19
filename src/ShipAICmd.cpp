@@ -612,7 +612,7 @@ static vector3d GetVelInFrame(Frame *frame, Frame *target, vector3d &offset)
 }
 
 // targpos in frame of obj1
-static bool CheckCollision(Ship *obj1, Body *obj2, vector3d &targpos)
+static bool CheckCollision(Ship *obj1, Body *obj2, vector3d &targpos, bool)
 {
 	vector3d p = obj2->GetPositionRelTo(obj1->GetFrame());
 	vector3d p1 = obj1->GetPosition() - p;
@@ -628,9 +628,9 @@ static bool CheckCollision(Ship *obj1, Body *obj2, vector3d &targpos)
 	// check if direct escape is safe (30 degree limit)
 	if (p2p1dir.Dot(p1n) > 0.5) return false;
 
-	// check if direct entry is safe (30 degree limit)
-	if ((p2-p1).LengthSqr() < p1.LengthSqr()
-		&& p2p1dir.Dot(p1n) < -0.5) return false;
+	// check if direct entry is safe (30 degree & close)
+	if ((p2-p1).LengthSqr() < p2.LengthSqr()
+		&& p2p1dir.Dot(p2) < -0.5*p2.Length()) return false;
 
 	// add velocity / distance modifier to radius if body is ahead
 	if (p2p1dir.Dot(p1n) < -0.5) {
@@ -1064,31 +1064,35 @@ bool AICmdHoldPosition::TimeStepUpdate()
 	return false;
 }
 
+
+// altitude always passed?
+// sooo...
+
+
+AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int targmode, Body *target, Frame *targframe, vector3d &posoff)
+{
+	m_obstructor = obstructor; m_alt = alt; m_vel = vel;
+	m_targmode = targmode; m_target = target; m_targframe = targframe; m_posoff = posoff;
+
+	
+}
+
 AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel)
 	: AICommand (ship, CMD_FLYAROUND)
 {
-	m_obstructor = obstructor;
-	m_targmode = 0;
-	m_alt = alt; m_vel = vel;
-	m_target = 0; m_targframe = 0; m_posoff = vector3d(0.0);
+	Setup(obstructor, alt, vel, 0, 0, 0, vector3d(0.0));
 }
 
 AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, vector3d &posoff)
 	: AICommand (ship, CMD_FLYAROUND)
 {
-	m_obstructor = obstructor;
-	m_targmode = 1;
-	m_alt = alt; m_vel = vel;
-	m_target = target; m_targframe = 0; m_posoff = posoff;
+	Setup(obstructor, alt, vel, 1, target, 0, posoff);
 }
 
 AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, vector3d &posoff)
 	: AICommand (ship, CMD_FLYAROUND)
 {
-	m_obstructor = obstructor;
-	m_targmode = 2;
-	m_alt = alt; m_vel = vel;
-	m_target = 0; m_targframe = targframe; m_posoff = posoff;
+	Setup(obstructor, alt, vel, 2, 0, targframe, posoff);
 }
 
 bool AICmdFlyAround::TimeStepUpdate()
@@ -1132,7 +1136,17 @@ bool AICmdFlyAround::TimeStepUpdate()
 
 	vector3d finalvel = tanvel + ivel * obsdir;
 	m_ship->AIMatchVel(finalvel);
-	m_ship->AIFaceDirection(fwddir);
+
+// ok, different heading choices
+// below altitude? start at about 45 degrees at sea level
+// above altitude? face tangent instead
+// could just fudge the tangent function...
+
+	vector3d newhead = GenerateTangent(m_ship, m_obstructor->GetFrame(), fwddir);
+	newhead = GetPosInFrame(shipframe, m_obstructor->GetFrame(), newhead);
+	m_ship->AIFaceDirection(newhead-m_ship->GetPosition());
+
+//	m_ship->AIFaceDirection(fwddir);
 
 //if(m_ship->IsType(Object::PLAYER)) {
 //	printf("Autopilot dist = %f, speed = %f, term = %f, state = 0x%x\n", targdist, relvel.Length(),
