@@ -216,8 +216,8 @@ void TextEntry::Draw()
 	/* Cursor */
 	glColor3f(0.5,0.5,0.5);
 	glBegin(GL_LINES);
-		glVertex2f(curs_x, curs_y - Gui::Screen::GetFontHeight(m_font) - 1.0);
-		glVertex2f(curs_x, curs_y + 1.0);
+		glVertex2f(curs_x + 1.0f - m_scroll, curs_y - Gui::Screen::GetFontHeight(m_font) - 1.0);
+		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + 1.0);
 	glEnd();
 	
 	EndClipping();
