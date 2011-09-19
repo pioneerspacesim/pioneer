@@ -290,7 +290,7 @@ static std::string _fread_string(FILE *f)
 	char *buf = new char[len];
 	fread_or_die(buf, sizeof(char), len, f);
 	std::string str = std::string(buf);
-	delete buf;
+	delete[] buf;
 	return str;
 }
 	

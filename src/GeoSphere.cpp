@@ -365,9 +365,9 @@ public:
 			if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendDeleted(this);
 		}
 		for (int i=0; i<4; i++) if (kids[i]) delete kids[i];
-		delete vertices;
-		delete normals;
-		delete colors;
+		delete[] vertices;
+		delete[] normals;
+		delete[] colors;
 		geosphere->AddVBOToDestroy(m_vbo);
 
 		ctx->DecRefCount();
