@@ -119,14 +119,14 @@ static int l_ship_get_stats(lua_State *l)
 
 /* Method: SetShipType
  *
- * Replaces the ship with a new ship of the specified type.
- * (internal: Resets the ship flavour)
+ * Replaces the ship with a new ship of the specified type. Can only be done
+ * while docked.
  *
  * > ship:SetShipType(newtype)
  *
  * Parameters:
  *
- *   newtype - mandatory. A ShipType.
+ *   newtype - the name of the ship
  *
  * Example:
  *
@@ -142,26 +142,24 @@ static int l_ship_get_stats(lua_State *l)
  */
 static int l_set_ship_type(lua_State *l)
 {
-    LUA_DEBUG_START(l);
+	LUA_DEBUG_START(l);
 
 	Ship *s = LuaShip::GetFromLua(1);
 
-    const char *type = luaL_checkstring(l, 2);
-    if (! ShipType::Get(type))
-        luaL_error(l, "Unknown ship type '%s'", type);
+	const char *type = luaL_checkstring(l, 2);
+	if (! ShipType::Get(type))
+		luaL_error(l, "Unknown ship type '%s'", type);
 
-    if (s->GetFlightState() == Ship::DOCKED)
-    {
-    	ShipFlavour f(type);
+	if (s->GetFlightState() != Ship::DOCKED)
+		luaL_error(l, "Cannot change ship type unless docked");
 
-        s->ResetFlavour(&f);
-        s->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[f.type].hyperdrive);
-        s->UpdateMass();
+	ShipFlavour f(type);
 
-        LUA_DEBUG_END(l, 0);
-    }
-    else
-        luaL_error(l, "Cannot change ship type unless docked");
+	s->ResetFlavour(&f);
+	s->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[f.type].hyperdrive);
+	s->UpdateMass();
+
+	LUA_DEBUG_END(l, 0);
 
 	return 0;
 }
