@@ -428,14 +428,15 @@ void Pi::Init()
 
 	InitOpenGL();
 
-	LuaInit();
-
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
 	Gui::Init(scrWidth, scrHeight, 800, 600);
 	if (!glewIsSupported("GL_ARB_vertex_buffer_object")) {
 		Error("OpenGL extension ARB_vertex_buffer_object not supported. Pioneer can not run on your graphics card.");
 	}
+
+	LuaInit();
+
 	Render::Init(width, height);
 	draw_progress(0.1f);
 
