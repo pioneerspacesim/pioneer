@@ -12,6 +12,7 @@ Alpha 15
 
   * Minor changes and tweaks
     * Lua method Ship.SetHullPercent to set a ship's damage level (#420, #472)
+    * Lua method Ship.SetShipType to change the type of a ship (#404, #507)
     * Landed and docked ships will no longer cause alerts (#454, #466)
     * Bulk ships are now spawned on game start (#500)
     * Trade ships will now repair damage and replace destroyed equipment (#481)
