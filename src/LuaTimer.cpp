@@ -4,7 +4,7 @@
 
 void LuaTimer::Tick()
 {
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

@@ -181,7 +181,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 				if (attacker->IsType(Object::BODY)) {
 					// XXX remove this call. kill stuff (including elite rating) should be in a script
 					static_cast<Body*>(attacker)->OnHaveKilled(this);
-					Pi::luaOnShipDestroyed.Queue(this, dynamic_cast<Body*>(attacker));
+					Pi::luaOnShipDestroyed->Queue(this, dynamic_cast<Body*>(attacker));
 				}
 
 				if (attacker->IsType(Object::SHIP))
@@ -239,7 +239,7 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 		b->IsType(Object::STAR) ||
 		b->IsType(Object::CARGOBODY))
 	{
-		Pi::luaOnShipCollided.Queue(this,
+		Pi::luaOnShipCollided->Queue(this,
 			b->IsType(Object::CITYONPLANET) ? dynamic_cast<CityOnPlanet*>(b)->GetPlanet() : dynamic_cast<Body*>(b));
 	}
 
@@ -516,7 +516,7 @@ void Ship::Blastoff()
 	SetPosition(up*planetRadius - aabb.min.y*up);
 	SetThrusterState(1, 1.0);		// thrust upwards
 
-	Pi::luaOnShipTakeOff.Queue(this, GetFrame()->m_astroBody);
+	Pi::luaOnShipTakeOff->Queue(this, GetFrame()->m_astroBody);
 }
 
 void Ship::TestLanded()
@@ -564,7 +564,7 @@ void Ship::TestLanded()
 				ClearThrusterState();
 				m_flightState = LANDED;
 				Sound::PlaySfx("Rough_Landing", 1.0f, 1.0f, 0);
-				Pi::luaOnShipLanded.Queue(this, GetFrame()->GetBodyFor());
+				Pi::luaOnShipLanded->Queue(this, GetFrame()->GetBodyFor());
 			}
 		}
 	}
@@ -645,7 +645,7 @@ void Ship::UpdateAlertState()
 		// clear existing alert state if there was one
 		if (GetAlertState() != ALERT_NONE) {
 			SetAlertState(ALERT_NONE);
-			Pi::luaOnShipAlertChanged.Queue(this, LuaConstants::GetConstantString(Pi::luaManager.GetLuaState(), "ShipAlertStatus", ALERT_NONE));
+			Pi::luaOnShipAlertChanged->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipAlertStatus", ALERT_NONE));
 		}
 		return;
 	}
@@ -716,7 +716,7 @@ void Ship::UpdateAlertState()
 	}
 
 	if (changed)
-		Pi::luaOnShipAlertChanged.Queue(this, LuaConstants::GetConstantString(Pi::luaManager.GetLuaState(), "ShipAlertStatus", GetAlertState()));
+		Pi::luaOnShipAlertChanged->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipAlertStatus", GetAlertState()));
 }
 
 void Ship::StaticUpdate(const float timeStep)
@@ -1048,7 +1048,7 @@ bool Ship::Jettison(Equip::Type t)
 		cargo->SetVelocity(GetVelocity()+rot*vector3d(0,-10,0));
 		Space::AddBody(cargo);
 
-		Pi::luaOnJettison.Queue(this, cargo);
+		Pi::luaOnJettison->Queue(this, cargo);
 
 		return true;
 	} else {

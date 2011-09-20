@@ -395,7 +395,7 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 				// set docked
 				dt.ship->SetDockedWith(this, i);
 				CreateBB();
-				Pi::luaOnShipDocked.Queue(dt.ship, this);
+				Pi::luaOnShipDocked->Queue(dt.ship, this);
 			} else {
 				if (!dt.ship->IsEnabled()) {
 					// launch ship
@@ -410,7 +410,7 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 						dt.ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(dt.ship->GetPosition()));
 						dt.ship->SetThrusterState(2, -1.0);		// forward
 					}
-					Pi::luaOnShipUndocked.Queue(dt.ship, this);
+					Pi::luaOnShipUndocked->Queue(dt.ship, this);
 				}
 			}
 		}
@@ -470,7 +470,7 @@ void SpaceStation::DoLawAndOrder()
 void SpaceStation::TimeStepUpdate(const float timeStep)
 {
 	if (Pi::GetGameTime() > m_lastUpdatedShipyard) {
-        if (m_bbCreated) Pi::luaOnUpdateBB.Queue(this);
+        if (m_bbCreated) Pi::luaOnUpdateBB->Queue(this);
 		UpdateShipyard();
 		// update again in an hour or two
 		m_lastUpdatedShipyard = Pi::GetGameTime() + 3600.0 + 3600.0*Pi::rng.Double();
@@ -709,7 +709,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 				} else {
 					s->SetDockedWith(this, port);
 					CreateBB();
-					Pi::luaOnShipDocked.Queue(s, this);
+					Pi::luaOnShipDocked->Queue(s, this);
 				}
 			}
 		}
@@ -801,7 +801,7 @@ bool SpaceStation::AllocateStaticSlot(int& slot)
 void SpaceStation::CreateBB()
 {
 	if (m_bbCreated) return;
-	Pi::luaOnCreateBB.Queue(this);
+	Pi::luaOnCreateBB->Queue(this);
 	m_bbCreated = true;
 }
 
