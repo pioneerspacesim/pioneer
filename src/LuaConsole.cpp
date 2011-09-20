@@ -119,7 +119,7 @@ void LuaConsole::AddOutput(const std::string &line) {
 void LuaConsole::execOrContinue() {
 	const std::string stmt = m_entryField->GetText();
 	int result;
-	lua_State *L = Pi::luaManager.GetLuaState();
+	lua_State *L = Pi::luaManager->GetLuaState();
 
 	result = luaL_loadbuffer(L, stmt.c_str(), stmt.size(), "console");
 
@@ -250,7 +250,7 @@ static int l_console_addline(lua_State *L) {
 
 void LuaConsole::Register()
 {
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

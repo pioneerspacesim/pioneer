@@ -1017,7 +1017,7 @@ void WorldView::UpdateCommsOptions()
 			Polit::GetCrime(&crime, &fine);
 			if (fine) {
 				button = AddCommsOption(stringf(Lang::PAY_FINE_REMOTELY,
-							formatarg("fine", format_money(fine))), ypos, optnum++);
+							formatarg("amount", format_money(fine))), ypos, optnum++);
 				button->onClick.connect(sigc::ptr_fun(&PlayerPayFine));
 				ypos += 32;
 			}

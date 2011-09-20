@@ -3,6 +3,7 @@ Alpha 15
   * New features
     * Assassination missions (#290, #500)
     * Restored "hoop" orbital station (#499, #516)
+    * Big mushroom station with four bays (#530)
     * New futuristic city buildings (#518)
     * Ship landing lights now only flash when landing gear is down or ship is
       docking (#236, #478)
@@ -11,9 +12,11 @@ Alpha 15
 
   * Minor changes and tweaks
     * Lua method Ship.SetHullPercent to set a ship's damage level (#420, #472)
+    * Lua method Ship.SetShipType to change the type of a ship (#404, #507)
     * Landed and docked ships will no longer cause alerts (#454, #466)
     * Bulk ships are now spawned on game start (#500)
     * Trade ships will now repair damage and replace destroyed equipment (#481)
+    * Mushroom station now has ads in bay 2 (#524)
 
   * Fixes
     * Certain in-game keys will no longer crash when used in the menu (#453, #463)
@@ -21,11 +24,12 @@ Alpha 15
     * Fix set speed scaling when setting a negative set speed (#482)
     * Don't spawn docked trade ships on game start (#495)
     * Ensure docked trade ships take off after game load (#517)
+    * Fix crash on docking after failing assassination mission (#527)
 
   * Internal changes
     * Lots of internal cleanups; silences many warnings under GCC (#477,
       #484) and MSVC (#483)
-    * String and language updates (#509, #510)
+    * String and language updates (#509, #510, #514, #525, #528)
     * Allow terrain generation to be aborted when the current set of terrains
       become unusable (eg after hyperspace or detail settings change) (#457, #490)
     * Shield generators now occupy their own equipment slot to remove the
@@ -34,6 +38,9 @@ Alpha 15
       really meaningful for NPCs (#38, #307, #485)
     * Separated key bindings from individual key actions and added onPress and
       onRelease signals to the bindings (for key repeat) (#398, #493)
+    * Load glyphs up to 0x1ff to better support certain European translations (#415)
+    * LuaManager now allocated from the heap to avoid some startup/shutdown
+      problems (#535)
 
 Alpha 14
 

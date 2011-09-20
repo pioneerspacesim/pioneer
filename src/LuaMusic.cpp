@@ -232,7 +232,7 @@ static int l_music_is_playing(lua_State *l)
 
 void LuaMusic::Register()
 {
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

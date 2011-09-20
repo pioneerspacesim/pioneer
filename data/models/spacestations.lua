@@ -583,7 +583,7 @@ function simple_lift_docking_port(baynum, pos)
 	end
 end
 
-define_model('mushroom_station', {
+define_model('mushroom_station_2', {
 	info = {
 		lod_pixels = {10,100,300,0},
 		bounding_radius=200.0,
@@ -661,22 +661,25 @@ define_model('mushroom_station', {
 		--zbias(0)
 
 	if lod == 4 then
-		local pos1 = v(-100,100,0)
-			zbias(1,pos1+v(0,-50,-50),v(0,0,1))
-			call_model('ad_pioneer_0',pos1+v(0,-65,-50),v(1,0,0),v(0,1,0),20)
+		function addAdverts(pos)
+			zbias(1,pos+v(0,-50,-50),v(0,0,1))
+			call_model('ad_pioneer_0',pos+v(0,-65,-50),v(1,0,0),v(0,1,0),20)
 			zbias(0)
 
-			zbias(1,pos1+v(0,-65,50),v(0,0,-1))
-			call_model('ad_acme_1',pos1+v(0,-65,50),v(-1,0,0),v(0,1,0),20)
+			zbias(1,pos+v(0,-65,50),v(0,0,-1))
+			call_model('ad_acme_1',pos+v(0,-65,50),v(-1,0,0),v(0,1,0),20)
 			zbias(0)
 
-			zbias(1,pos1+v(50,-65,0),v(-1,0,0))
-			call_model('ad_cola_1',pos1+v(50,-65,0),v(0,0,1),v(0,1,0),20)
+			zbias(1,pos+v(50,-65,0),v(-1,0,0))
+			call_model('ad_cola_1',pos+v(50,-65,0),v(0,0,1),v(0,1,0),20)
 			zbias(0)
 
-			zbias(1,pos1+v(-49.999,-65,0),v(1,0,0))
-			call_model('ad_sirius_1',pos1+v(-49.999,-65,0),v(0,0,-1),v(0,1,0),20)
+			zbias(1,pos+v(-49.999,-65,0),v(1,0,0))
+			call_model('ad_sirius_1',pos+v(-49.999,-65,0),v(0,0,-1),v(0,1,0),20)
 			zbias(0)
+		end
+		addAdverts(port_pos[1])
+		addAdverts(port_pos[2])
 		end
 	end,
 		dynamic = function(lod)
@@ -689,6 +692,120 @@ define_model('mushroom_station', {
 	end
 })
 
+define_model('mushroom_station_4', {
+	info = {
+		lod_pixels = {10,100,300,0},
+		bounding_radius=400.0,
+		materials = {'body', 'text', 'markings', 'lift_floor', 'tower_base', 'inside'},
+		tags = {'surface_station'},
+		num_docking_ports = 4,
+		-- 1 - permission granted
+		-- 2 - position docked ship
+		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 2, 4, 4 },
+		undock_anim_stage_duration = { 4, 4 },
+		-- this stuff doesn't work right with the new docking
+		-- code
+		ship_dock_anim = function(port, stage, t, from, ship_aabb)
+			local port_pos = { v(-100,100,0), v(100,100,0), v(-100,100,200), v(100,100,200)}
+			if stage == 2 then
+				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+			elseif stage == 3 then
+				return { vlerp(t, from, port_pos[port] + v(0,-75,0) - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+			elseif stage == 4 or stage == -1 then
+				return { port_pos[port] + v(0,-75,0) - v(0,ship_aabb.min:y(),0), v(1,0,0), v(0,1,0) }
+			elseif stage == -2 then
+				return { vlerp(t, from, port_pos[port] + v(0,1,0) - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+			end
+		end,
+		ship_approach_waypoints = function(port, stage)
+			local port_pos = { v(-100,100,0), v(100,100,0), v(-100,100,200), v(100,100,200)}
+			if stage == 1 then
+				return { v(port_pos[port]:x(), port_pos[port]:y()+10000, port_pos[port]:z()), v(1,0,0), v(0,1,0) }
+			elseif stage == 2 then
+				return { v(port_pos[port]:x(), port_pos[port]:y(), port_pos[port]:z()), v(1,0,0), v(0,1,0) }
+			end
+		end,
+	},
+	static = function(lod)
+		set_material('inside',.35,.4,.4,1,.2,.35,.35,30)
+		set_material('markings', 1,0,0,1)
+		set_material('text', 1,1,1,1)
+		set_material('body', .5,.5,.5,1)
+		set_material('lift_floor', .6,.6,.6,1)
+		set_material('tower_base', .2,.2,.5,1)
+		use_material('tower_base')
+		tapered_cylinder(16, v(0,0,-350), v(0,120,-350), v(0,0,1), 200, 60)
+		use_material('body')
+		--if lod>2 then
+		--texture('ships/4_eagles/tex11.png', v(.5,.5,0), v(10,0,0), v(0,.5,0))
+		--else 	texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0))
+		--end
+		cylinder(8, v(0,120,-350), v(0,210,-350), v(0,0,1), 20)
+		--texture(nil)
+		tapered_cylinder(8, v(0,210,-350), v(0,225,-350), v(0,0,1), 20, 30)
+		local port_pos = { v(-100,100,0), v(100,100,0), v(-100,100,200), v(100,100,200)}
+		function makePortTop(pos)
+			local a = pos + v(-100,0,-100)
+			local b = pos + v(100,0,-100)
+			local c = pos + v(100,0,100)
+			local d = pos + v(-100,0,100)
+			local e = pos + v(-50,0,-50)
+			local f = pos + v(50,0,-50)
+			local g = pos + v(50,0,50)
+			local h = pos + v(-50,0,50)
+			-- top bits around docking lift
+			quad(a,e,f,b)
+			xref_quad(b,f,g,c)
+			quad(d,c,g,h)
+		end
+		makePortTop(port_pos[1])
+		makePortTop(port_pos[2])
+		makePortTop(port_pos[3])
+		makePortTop(port_pos[4])
+
+		quad(v(200,100,300), v(-200,100,300), v(-250,0,350), v(250,0,350))
+		quad(v(-200,100,-100), v(200,100,-100), v(250,0,-150), v(-250,0,-150))
+		xref_quad(v(200,100,-100), v(200,100,300), v(250,0,350), v(250,0,-150))
+
+		--zbias(1,v(0,100.01,20),v(0,1,0))
+		--call_model('ad_pioneer_0',v(0,100.01,20),v(0,0,1),v(.001,0,-1),40)
+		--zbias(0)
+
+	if lod == 4 then
+		function addAdverts(pos)
+			zbias(1,pos+v(0,-50,-50),v(0,0,1))
+			call_model('ad_pioneer_0',pos+v(0,-65,-50),v(1,0,0),v(0,1,0),20)
+			zbias(0)
+
+			zbias(1,pos+v(0,-65,50),v(0,0,-1))
+			call_model('ad_acme_1',pos+v(0,-65,50),v(-1,0,0),v(0,1,0),20)
+			zbias(0)
+
+			zbias(1,pos+v(50,-65,0),v(-1,0,0))
+			call_model('inteloutside',pos+v(50,-65,0),v(0,0,1),v(0,1,0),20)
+			zbias(0)
+
+			zbias(1,pos+v(-49.999,-65,0),v(1,0,0))
+			call_model('ad_cola_1',pos+v(-49.999,-65,0),v(0,0,-1),v(0,1,0),20)
+			zbias(0)
+		end
+		addAdverts(port_pos[1])
+		addAdverts(port_pos[2])
+		addAdverts(port_pos[3])
+		addAdverts(port_pos[4])
+		end
+	end,
+		dynamic = function(lod)
+		local port_pos = { v(-100,100,0), v(100,100,0), v(-100,100,200), v(100,100,200)}
+		simple_lift_docking_port(0, port_pos[1])
+		simple_lift_docking_port(1, port_pos[2])
+		simple_lift_docking_port(2, port_pos[3])
+		simple_lift_docking_port(3, port_pos[4])
+		-- light on tower
+		local lightphase = math.fmod(get_arg(1)+0.46956, 1)
+		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 228, -350) })
+	end
+})
 
 define_model('big_crappy_spacestation', {
 	info = {
