@@ -278,63 +278,63 @@ define_model('fi', {
 
 
 			if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_UNGUIDED  then
-				call_model('m_unguided',M_1,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_unguided',M_1,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_GUIDED  then
-				call_model('m_guided',M_1,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_guided',M_1,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_SMART  then
-				call_model('m_smart',M_1,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_smart',M_1,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_NAVAL  then
-				call_model('m_naval',M_1,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_naval',M_1,v(1,0,0), v(0,.95,.05),1)
 			end
 
 			if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_UNGUIDED  then
-				call_model('m_unguided',M_2,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_unguided',M_2,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_GUIDED  then
-				call_model('m_guided',M_2,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_guided',M_2,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_SMART  then
-				call_model('m_smart',M_2,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_smart',M_2,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_NAVAL  then
-				call_model('m_naval',M_2,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_naval',M_2,v(1,0,0), v(0,.95,.05),1)
 			end
 
 			if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_UNGUIDED  then
-				call_model('m_unguided',M_3,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_unguided',M_3,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_GUIDED  then
-				call_model('m_guided',M_3,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_guided',M_3,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_SMART  then
-				call_model('m_smart',M_3,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_smart',M_3,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_NAVAL  then
-				call_model('m_naval',M_3,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_naval',M_3,v(1,0,0), v(0,.95,.05),1)
 			end
 
 			if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_UNGUIDED  then
-				call_model('m_unguided',M_4,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_unguided',M_4,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_GUIDED  then
-				call_model('m_guided',M_4,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_guided',M_4,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_SMART  then
-				call_model('m_smart',M_4,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_smart',M_4,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_NAVAL  then
-				call_model('m_naval',M_4,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_naval',M_4,v(1,0,0), v(0,.95,.05),1)
 			end
 
 			if get_arg(ARG_SHIP_EQUIP_MISSILE4) == Equip.MISSILE_UNGUIDED  then
-				call_model('m_unguided',M_5,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_unguided',M_5,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE4) == Equip.MISSILE_GUIDED  then
-				call_model('m_guided',M_5,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_guided',M_5,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE4) == Equip.MISSILE_SMART  then
-				call_model('m_smart',M_5,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_smart',M_5,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE4) == Equip.MISSILE_NAVAL  then
-				call_model('m_naval',M_5,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_naval',M_5,v(1,0,0), v(0,.95,.05),1)
 			end
 
 			if get_arg(ARG_SHIP_EQUIP_MISSILE5) == Equip.MISSILE_UNGUIDED  then
-				call_model('m_unguided',M_6,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_unguided',M_6,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE5) == Equip.MISSILE_GUIDED  then
-				call_model('m_guided',M_6,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_guided',M_6,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE5) == Equip.MISSILE_SMART  then
-				call_model('m_smart',M_6,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_smart',M_6,v(1,0,0), v(0,.95,.05),1)
 			elseif get_arg(ARG_SHIP_EQUIP_MISSILE5) == Equip.MISSILE_NAVAL  then
-				call_model('m_naval',M_6,v(1,0,0), v(0,.95,.05),1)
+				call_model('d_naval',M_6,v(1,0,0), v(0,.95,.05),1)
 			end
 
 			if get_arg(ARG_SHIP_EQUIP_ENGINE) > 0 then
