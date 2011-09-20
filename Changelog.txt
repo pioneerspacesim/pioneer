@@ -39,6 +39,8 @@ Alpha 15
     * Separated key bindings from individual key actions and added onPress and
       onRelease signals to the bindings (for key repeat) (#398, #493)
     * Load glyphs up to 0x1ff to better support certain European translations (#415)
+    * LuaManager now allocated from the heap to avoid some startup/shutdown
+      problems (#535)
 
 Alpha 14
 
