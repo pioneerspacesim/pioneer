@@ -1,3 +1,5 @@
+local num_bulk_ships
+
 local spawnShips = function ()
 	local population = Game.system.population
 
@@ -22,7 +24,7 @@ local spawnShips = function ()
 	- one ship per 5 billion after that
 	]]
 
-	local num_bulk_ships = 1
+	num_bulk_ships = 1
 	while population > 1 do
 		if num_bulk_ships < 4 then
 			population = population-1
@@ -37,7 +39,6 @@ local spawnShips = function ()
 
 	for i=1, num_bulk_ships do
 	local station = stations[Engine.rand:Integer(1,#stations)]
-
 		Space.SpawnShipParked(shiptypes[Engine.rand:Integer(1,#shiptypes)], station)
 	end
 end
@@ -49,8 +50,20 @@ local onEnterSystem = function (player)
 end
 
 local onGameStart = function ()
-	spawnShips()
+	if num_bulk_ships == nil then
+		spawnShips()
+	end
+end
+
+local serialize = function ()
+	return num_bulk_ships
+end
+
+local unserialize = function (data)
+	num_bulk_ships = data
 end
 
 EventQueue.onEnterSystem:Connect(onEnterSystem)
 EventQueue.onGameStart:Connect(onGameStart)
+
+Serializer:Register("BulkShips", serialize, unserialize)
