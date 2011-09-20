@@ -2,19 +2,19 @@
 
 namespace Gui {
 
-Label::Label(TextureFont *font)
+Label::Label(TextureFont *font, TextLayout::ColourMarkupMode colourMarkupMode)
 {
-	Init(std::string(), font);
+	Init(std::string(), font, colourMarkupMode);
 }
 
-Label::Label(const char *text)
+Label::Label(const char *text, TextLayout::ColourMarkupMode colourMarkupMode)
 {
-	Init(std::string(text));
+	Init(std::string(text), 0, colourMarkupMode);
 }
 
-Label::Label(const std::string &text)
+Label::Label(const std::string &text, TextLayout::ColourMarkupMode colourMarkupMode)
 {
-	Init(text);
+	Init(text, 0, colourMarkupMode);
 }
 
 Label::~Label()
@@ -22,8 +22,9 @@ Label::~Label()
 	if (m_layout) delete m_layout;
 }
 
-void Label::Init(const std::string &text, TextureFont *font)
+void Label::Init(const std::string &text, TextureFont *font, TextLayout::ColourMarkupMode colourMarkupMode)
 {
+	m_colourMarkupMode = colourMarkupMode;
 	m_shadow = false;
 	m_layout = 0;
 	m_dlist = 0;
@@ -35,7 +36,7 @@ void Label::Init(const std::string &text, TextureFont *font)
 void Label::UpdateLayout()
 {
 	if (m_layout) delete m_layout;
-	m_layout = new TextLayout(m_text.c_str(), m_font);
+	m_layout = new TextLayout(m_text.c_str(), m_font, m_colourMarkupMode);
 }
 
 void Label::RecalcSize()

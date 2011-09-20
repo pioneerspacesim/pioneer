@@ -2,17 +2,17 @@
 #define _GUILABEL_H
 
 #include "GuiWidget.h"
+#include "GuiTextLayout.h"
 #include <string>
 
-class TextLayout;
 class TextureFont;
 
 namespace Gui {
 	class Label: public Widget {
 	public:
-		Label(TextureFont *font);
-		Label(const char *text);
-		Label(const std::string &text);
+		Label(TextureFont *font, TextLayout::ColourMarkupMode colourMarkupMode = TextLayout::ColourMarkupUse);
+		Label(const char *text, TextLayout::ColourMarkupMode colourMarkupMode = TextLayout::ColourMarkupUse);
+		Label(const std::string &text, TextLayout::ColourMarkupMode colourMarkupMode = TextLayout::ColourMarkupUse);
 		virtual void Draw();
 		virtual ~Label();
 		virtual void GetSizeRequested(float size[2]);
@@ -23,7 +23,7 @@ namespace Gui {
 		Label *Color(float r, float g, float b);
 		Label *Color(const ::Color &);
 	private:
-		void Init(const std::string &text, TextureFont *font = 0);
+		void Init(const std::string &text, TextureFont *font, TextLayout::ColourMarkupMode colourMarkupMode);
 		void UpdateLayout();
 		void RecalcSize();
 		std::string m_text;
@@ -32,6 +32,7 @@ namespace Gui {
 		GLuint m_dlist;
 		TextureFont *m_font;
 		TextLayout *m_layout;
+		TextLayout::ColourMarkupMode m_colourMarkupMode;
 	};
 }
 

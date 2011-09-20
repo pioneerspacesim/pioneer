@@ -39,8 +39,12 @@ static bool line_clip_test(float topy, float bottomy)
 	return false;
 }
 
-TextLayout::TextLayout(const char *_str, TextureFont *font)
+TextLayout::TextLayout(const char *_str, TextureFont *font, ColourMarkupMode markup)
 {
+	// XXX ColourMarkupSkip not correctly implemented yet
+	assert(markup != ColourMarkupSkip);
+
+	m_colourMarkup = markup;
 	m_font = font ? font : Gui::Screen::GetFont();
 
 	str = reinterpret_cast<char *>(malloc(strlen(_str)+1));
@@ -57,7 +61,7 @@ TextLayout::TextLayout(const char *_str, TextureFont *font)
 
 		while (str[i] && !isspace(str[i])) {
 			/* skip color control code things! */
-			if (str[i] == '#') {
+			if ((markup != ColourMarkupNone) && (str[i] == '#')) {
 				unsigned int hexcol;
 				if (sscanf(&str[i], "#%3x", &hexcol)==1) {
 					i+=4;
@@ -157,7 +161,12 @@ void TextLayout::_RenderRaw(float maxWidth) const
 		if (line_clip_test(py, py+m_font->GetHeight()*2.0)) {
 			float px = 0;
 			for (int j=0; j<num; j++) {
-				if ((*wpos).word) m_font->RenderMarkup((*wpos).word, round(px), round(py));
+				if ((*wpos).word) {
+					if (m_colourMarkup == ColourMarkupUse)
+						m_font->RenderMarkup((*wpos).word, round(px), round(py));
+					else
+						m_font->RenderString((*wpos).word, round(px), round(py));
+				}
 				px += (*wpos).advx + _spaceWidth;
 				wpos++;
 			}
