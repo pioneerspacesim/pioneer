@@ -87,7 +87,7 @@ define_model('cobra1', {
 			zbias(0)
 		end
 
-		if get_arg(0) == 0 then
+		if get_arg(ARG_SHIP_WHEEL_STATE) == 0 then
 			if lod > 2 then
 				-- posl
 				local lightphase = math.fmod(get_arg(1), 1)
@@ -103,7 +103,7 @@ define_model('cobra1', {
 			end
 		end
 
-		if get_arg(0) ~= 0 then
+		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
 			-- wheels
 			zbias(1,v(0, -.77, -5), v(0,-1,-.18))
 			call_model('nosewheelunit', v(0, -.71, -5.5), v(-1,0,0), v(0,-1,-.18), .9)

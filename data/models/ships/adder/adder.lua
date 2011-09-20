@@ -25,7 +25,7 @@ define_model('adder_piston_f', {
 		sphere_slice(3*lod,lod, 0, .75*math.pi,Matrix.rotate(math.pi,v(1,0,0))*Matrix.translate(v(0,-.3,0)))
 	end,
 	dynamic = function(lod)
-		local trans = 3*math.clamp((get_arg(0)),.2,1)
+		local trans = 3*math.clamp((get_arg(ARG_SHIP_WHEEL_STATE)),.2,1)
 		use_material('chrome')
 		--texture('models/ships/adder/steel.png')
 		ring(3*lod,v(0,0,0),v(0,-.3-trans,0),v(1,0,0),.3)
@@ -47,7 +47,7 @@ define_model('adder_piston_r', {
 		sphere_slice(3*lod,lod, 0, .75*math.pi,Matrix.rotate(math.pi,v(1,0,0))*Matrix.translate(v(0,-.3,0)))
 	end,
 	dynamic = function(lod)
-		local trans = 2.45*math.clamp((get_arg(0)),.2,1)
+		local trans = 2.45*math.clamp((get_arg(ARG_SHIP_WHEEL_STATE)),.2,1)
 		use_material('chrome')
 		--texture('models/ships/adder/steel.png')
 		ring(3*lod,v(0,0,0),v(0,-.3-trans,0),v(1,0,0),.3)
@@ -85,7 +85,7 @@ define_model('adder_uc_f', {
 		load_obj('f_leg.obj')
 	end,
 	dynamic = function(lod)
-		local w_rot = 0.5*math.pi*math.clamp(get_arg(0), 0.2, 1)
+		local w_rot = 0.5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.2, 1)
 		call_model('adder_f_wheel',v(-0.35,0,2.693),v(1,0,0),v(0,math.sin(w_rot),math.cos(w_rot)-0.3),1)
 	end
 })
@@ -120,7 +120,7 @@ define_model('adder_uc_r', {
 		load_obj('r_leg.obj')
 	end,
 	dynamic = function(lod)
-		local w_rot = 0.525*math.pi*math.clamp(get_arg(0), 0.2, 1)
+		local w_rot = 0.525*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.2, 1)
 		call_model('adder_r_wheel',v(0,.227,2.353),v(1,0,0),v(0,math.cos(w_rot),-math.sin(w_rot)+0.3),1)
 	end
 })
@@ -326,7 +326,7 @@ define_model('adder_sub', {
 			end
 		end
 
-		local flap = math.pi*math.clamp(get_arg(0),0,.5)
+		local flap = math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
 		use_material('head')
 		call_model('adder_f_flap',v(-.598,-3.349,-11.163),v(0,0,1), v(math.sin(flap),math.cos(flap),0), 1)
 		use_material('body')
@@ -335,10 +335,10 @@ define_model('adder_sub', {
 		call_model('adder_rl_flap2',v(-3.353,-3.351,5.087),v(0,0,1), v(-math.sin(flap),math.cos(flap*1.1),0), 1)
 		call_model('adder_rr_flap2',v(4.79,-3.351,5.088),v(0,0,1), v(-math.sin(flap),math.cos(flap*1.1),0), 1)
 
-		if get_arg(0) ~= 0 then
+		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
 			call_model('adder_uc_cage',v(0,0,0),v(1,0,0),v(0,1,0),1)
 
-			local uc_rot = 0.5*math.pi*math.clamp(get_arg(0), 0.2, 1)
+			local uc_rot = 0.5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.2, 1)
 
 			call_model('adder_uc_f',v(.336,-2.686,-12.788),v(1,0,0), v(0,math.cos(uc_rot),math.sin(uc_rot)-.3),1)
 			call_model('adder_piston_f',v(.24,-2.1,-11.21),v(1,0,0), v(0,math.cos(uc_rot/1.82),math.sin(uc_rot/1.82)-.3),.3)
@@ -597,7 +597,7 @@ define_model('adder', {
 	end,
 	dynamic = function(lod)
 		if lod == 1 then
-			if get_arg(0) ~= 0 then
+			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
 				cylinder(4,v(0,-5.5,-11.5),v(0,-5.5,-13.5),v(0,1,0),.5)
 				xref_cylinder(4,v(4.5,-5.5,4.5),v(4.5,-5.5,1.5),v(0,1,0),.5)
 			end

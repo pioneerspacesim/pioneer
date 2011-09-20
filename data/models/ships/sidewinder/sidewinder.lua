@@ -567,10 +567,10 @@ define_model('rattle_uc', {
 	end,
 	dynamic = function(lod)
 
-		if get_arg(0) ~= 0 then
+		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
 			call_model('rattle_uc_cage',v(0,0,0),v(1,0,0),v(0,1,0),1)
 
-			local trans = math.clamp(get_arg(0),0,1)
+			local trans = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,1)
 			use_material('chrome')
 			texture('models/ships/sidewinder/alu_tiled.png', v(0,.4+2*trans,0), v(.5,0,0),v(0,-.5,0))
 			xref_tapered_cylinder(3*lod,v(13.04,-.274,-2.09), v(13.04+trans,-1.2-5*trans,-2.09-2*trans), v(0,0,1), .3,.2)
@@ -932,8 +932,8 @@ define_model('rattlesnake', {
 		-- collision mesh uc
 		if lod == 1 then
 			texture(nil)
-			if get_arg(0) ~=0 then
-				local trans = math.clamp(get_arg(0),0,1)
+			if get_arg(ARG_SHIP_WHEEL_STATE) ~=0 then
+				local trans = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,1)
 				xref_cylinder(4, v(13.04+trans,-1.251-5*trans,-2.09-2*trans), v(13.04+trans,-.951-5*trans,-2.09-2*trans), v(0,0,1),1)
 				xref_cylinder(4, v(17.92+2*trans,-1.251-5*trans,7.67+trans), v(17.92+2*trans,-.951-5*trans,7.67+trans), v(0,0,1),1)
 				xref_ring(3,v(13.04,-.274,-2.09), v(13.04+trans,-1.2-5*trans,-2.09-2*trans), v(0,0,1), .15)

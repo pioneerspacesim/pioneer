@@ -35,12 +35,12 @@ define_model('vipx_uc_f', {
 	end,
 	dynamic = function(lod)
 		local divs = 3*lod
-		local trans = 6.6*(math.clamp(get_arg(0),.4,1)-.4)   -- 3*1.43*
-		--local rot_x = 9.55*(math.pi/180)*(math.clamp(get_arg(0),.5,1)-.5) -- for rotation when call a function instead of a model, math.pi/360 = 1°!
-		--local rot_z = 9.55*(math.pi/180)*(math.clamp(get_arg(0),.5,1)-.5) -- (math.clamp(get_arg(0),.5,1)-.5) subtracts .5 from clamp value to start at 0
+		local trans = 6.6*(math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.4,1)-.4)   -- 3*1.43*
+		--local rot_x = 9.55*(math.pi/180)*(math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.5,1)-.5) -- for rotation when call a function instead of a model, math.pi/360 = 1°!
+		--local rot_z = 9.55*(math.pi/180)*(math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.5,1)-.5) -- (math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.5,1)-.5) subtracts .5 from clamp value to start at 0
 		-- start time = .5, duration = .5, initial value = 0!
 
-		local rot = 2*(1/45*9.55)*(math.clamp(get_arg(0),.5,1)-.5)          -- 1:1 = 45°. 1/45 = 1°
+		local rot = 2*(1/45*9.55)*(math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.5,1)-.5)          -- 1:1 = 45°. 1/45 = 1°
 
 		call_model('vipx_pad',v(0,.2-trans,0),v(0,-1,0),v(0,rot,1),1)
 
@@ -73,10 +73,10 @@ define_model('vipx_uc_r', {
 	end,
 	dynamic = function(lod)
 		local divs = 3*lod
-		local trans = 5*(math.clamp(get_arg(0),.4,1)-.4)
+		local trans = 5*(math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.4,1)-.4)
 
-		local rot_x = 2*(1/45*16.5)*(math.clamp(get_arg(0),.5,1)-.5)
-		local rot_z = math.clamp(get_arg(0),.5,1)-.5
+		local rot_x = 2*(1/45*16.5)*(math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.5,1)-.5)
+		local rot_z = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.5,1)-.5
 
 		call_model('vipx_pad',v(0,.1-trans,0),v(-rot_z,-1,0),v(0,-rot_x,1),1)
 
@@ -108,10 +108,10 @@ define_model('vipx_uc_l', {
 	end,
 	dynamic = function(lod)
 		local divs = 3*lod
-		local trans = 5*(math.clamp(get_arg(0),.4,1)-.4)
+		local trans = 5*(math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.4,1)-.4)
 
-		local rot_x = 2*(1/45*16.5)*(math.clamp(get_arg(0),.5,1)-.5)
-		local rot_z = math.clamp(get_arg(0),.5,1)-.5
+		local rot_x = 2*(1/45*16.5)*(math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.5,1)-.5)
+		local rot_z = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.5,1)-.5
 
 		call_model('vipx_pad',v(0,.1-trans,0),v(rot_z,-1,0),v(0,-rot_x,1),1)
 
@@ -225,10 +225,10 @@ define_model('vipx_uc_all', {
 	end,
 	dynamic = function(lod)
 		if lod > 2 then
-			if get_arg(0) ~= 0 then
+			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
 				set_material('cv0',get_arg_material(0))
 
-				local trans = 2*math.clamp(get_arg(0),0,.5)
+				local trans = 2*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
 
 				texture('models/ships/viper_x/body2.png')
 				use_material('black')
