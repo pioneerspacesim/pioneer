@@ -1158,7 +1158,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			else n += m;
 			// was n -= 0.001*ridged_octavenoise(m_fracdef[6], 0.55*distrib*m, p);
 			//n += 0.001*ridged_octavenoise(m_fracdef[6], 0.55*distrib*m, p);
-			return m_maxHeight * n;
+			return (n > 0.0 ? n*m_maxHeight : 0.0);
 		}
 		case TERRAIN_HILLS_RIVERS:
 		{
@@ -1178,7 +1178,8 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			else n += m;
 			n += continents*Clamp(0.5-m, 0.0, 0.5)*0.2*river_octavenoise(m_fracdef[6], 0.6*distrib, p);
 			n += continents*Clamp(0.05-n, 0.0, 0.01)*0.2*dunes_octavenoise(m_fracdef[2], Clamp(0.5-n, 0.0, 0.5), p);
-			return n*m_maxHeight; 
+			n *= m_maxHeight;
+			return (n > 0.0 ? n : 0.0);
 		}
 		case TERRAIN_HILLS_CRATERS:
 		{
@@ -1193,7 +1194,8 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			else n += m;
 			n += crater_function(m_fracdef[3], p);
 			n += crater_function(m_fracdef[4], p);
-			return m_maxHeight * n;
+			n *= m_maxHeight;
+			return (n > 0.0 ? n : 0.0);
 		}
 		case TERRAIN_HILLS_CRATERS2:
 		{
@@ -1212,7 +1214,8 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n += crater_function(m_fracdef[6], p);
 			n += crater_function(m_fracdef[7], p);
 			n += crater_function(m_fracdef[8], p);
-			return m_maxHeight * n;
+			n *= m_maxHeight;
+			return (n > 0.0 ? n : 0.0);
 		}
 		case TERRAIN_MOUNTAINS_NORMAL:
 			//This is among the most complex of terrains, so I'll use this as an example:
@@ -1583,7 +1586,8 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			else n += m;
 			n += crater_function(m_fracdef[5], p);
 			n += crater_function(m_fracdef[6], p);
-			return m_maxHeight * n;
+			n *= m_maxHeight;
+			return (n > 0.0 ? n : 0.0);
 		}
 		case TERRAIN_MOUNTAINS_CRATERS2:
 		{
@@ -1604,7 +1608,8 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n += crater_function(m_fracdef[7], p);
 			n += crater_function(m_fracdef[8], p);
 			n += crater_function(m_fracdef[9], p);
-			return m_maxHeight * n;
+			n *= m_maxHeight;
+			return (n > 0.0 ? n : 0.0);
 		}
 		case TERRAIN_MOUNTAINS_VOLCANO:
 		{
