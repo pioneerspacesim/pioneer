@@ -100,7 +100,7 @@ void LuaConsole::AddOutput(const std::string &line) {
 		label = m_outputLines[m_nextOutputLine];
 		this->Remove(label);
 	} else {
-		label = new Gui::Label(m_font);
+		label = new Gui::Label(m_font, Gui::TextLayout::ColourMarkupNone);
 		m_outputLines.push_back(label);
 	}
 	m_nextOutputLine = (m_nextOutputLine + 1) % m_maxOutputLines;
