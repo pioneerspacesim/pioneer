@@ -438,7 +438,6 @@
 		4A20B0E5135319770020F43E /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		4A20B0E6135319770020F43E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		4A20B0E7135319770020F43E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		4A20B10D13531C040020F43E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		4A20B10E13531C040020F43E /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMain.h; sourceTree = "<group>"; };
 		4A20B10F13531C040020F43E /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMain.m; sourceTree = "<group>"; };
 		4A20B11313531CC40020F43E /* pioneer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "pioneer-Info.plist"; path = "pioneer/pioneer-Info.plist"; sourceTree = "<group>"; };
@@ -993,7 +992,6 @@
 			isa = PBXGroup;
 			children = (
 				4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */,
-				4A20B10D13531C040020F43E /* main.cpp */,
 				4A20B11F13531E950020F43E /* SDLMain.nib */,
 				4A20B10E13531C040020F43E /* SDLMain.h */,
 				4A20B10F13531C040020F43E /* SDLMain.m */,
