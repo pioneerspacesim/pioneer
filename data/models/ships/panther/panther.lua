@@ -1,6 +1,6 @@
 define_model('pantengl', {
 	info = {
-		lod_pixels = { .1, 10 ,100, 0 },
+		lod_pixels = { .1, 10, 100, 0 },
 		bounding_radius = 20,
 	},
 
@@ -14,7 +14,7 @@ define_model('pantengl', {
 
 define_model('pantengr', {
 	info = {
-		lod_pixels = { .1, 10 ,100, 0 },
+		lod_pixels = { .1, 10, 100, 0 },
 		bounding_radius = 20,
 	},
 
@@ -26,59 +26,27 @@ define_model('pantengr', {
 	end
 })
 
-
---	you had once used the selector for skin variation, why not?
---	if you still like to have two models
---	all what is dynamic here will be static in the main model
-
 define_model('pant_sub', {
 	info = {
-		lod_pixels = { .1, 50 ,400, 0 },
+		lod_pixels = { .1, 30, 400, 0 },
 		bounding_radius = 70,
 		materials={'top', 'bot', 'steel', 'glass', 'inside'},
 	},
 
 	static = function(lod)
-		if lod == 1 then
-			load_obj('pant_coll.obj')
-		end
-
-		-- i added this because lod 1 represents the collision mesh
-		-- if the collision mesh is large (>1000 polys) the program can get slow
-		-- further textures and materials aren't needed for a collision mesh (textures slow down to)
-		-- the "pant_coll.obj" is rebuild using ~50 polys
-		-- you can script or rebuild a very low poly mesh based on the main vectors of your ship to make it as low as possible
-		-- but leave lod 1 or add a collision mesh for the UC, else the docking can't be released proper and the ship is levelled wrong.
-		-- this could be a very simple one, maybe a box that appears only "if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0" to represent the UC.
-		-- even a single quad where the lowest part of the UC is would be enough
-		-- if the lod is set "if lod == 1 then" and lod_pixels is ".1" for lod 1, the mesh won't appear, it's used for collision detection only.
-		-- you can use the low poly mesh also for a real body at next lod if you map the texture to it
-		-- set lod 2 to 50 instead 100 if you don't like the lowpoly mesh appear so early
-
-	end,
-	dynamic = function(lod)
 		if lod > 1 then
-			selector2()
-			--select2 = 10
-			if select2 < 65 then
-				texture('models/ships/panther/panthernew.png')
-				set_material('top', get_arg_material(0))
-				set_material('bot', .6,.65,.7,1,.7,.8,.9,30)
-				set_material('glass', .6,.6,.6,.7,.7,.8,.9,250)
-				set_material('inside', .6,.65,.7,1,.7,.8,.9,10)
-			else
-				texture('models/ships/panther/pantherold.png')
-				set_material('top', .5,.5,.5,1,.35,.38,.4,30)
-				set_material('bot', .5,.5,.5,1,.35,.38,.4,30)
-				set_material('glass', .6,.6,.6,.7,.7,.8,.9,100)
-				set_material('inside', .6,.65,.7,1,.7,.8,.9,10)
-			end
+
+			texture('pantherold.png')
+			set_material('top', .5,.5,.5,1,.35,.38,.4,30)
+			set_material('bot', .5,.5,.5,1,.35,.38,.4,30)
+			set_material('glass', .6,.6,.6,.7,.7,.8,.9,100)
+			set_material('inside', .6,.65,.7,1,.7,.8,.9,10)
 
 			if lod > 2 then
 				use_material('bot')
-				load_obj('models/ships/panther/panther_bot.obj')
+				load_obj('panther_bot.obj')
 				use_material('top')
-				load_obj('models/ships/panther/panther_top.obj')
+				load_obj('panther_top.obj')
 
 				texture(nil)
 				use_material('inside')
@@ -89,7 +57,8 @@ define_model('pant_sub', {
 				use_light(1)
 				use_light(2)
 				use_light(3)
-				load_obj('models/ships/panther/panther_inside.obj')
+				texture('panther_inside.png')
+				load_obj('panther_inside.obj')
 
 				if lod > 3 then
 					call_model('pilot1', v(-.8,1.57,-12.5), v(1,0,0), v(0,1,0), .06)
@@ -100,26 +69,21 @@ define_model('pant_sub', {
 					call_model('console1', v(.2,1.4,-13.1), v(1,0,0), v(0,1,0), .3)
 				end
 
-
 				set_local_lighting(false)
-				texture('models/ships/panther/panthernew.png')
 				use_material('glass')
-				load_obj('models/ships/panther/panther_glass.obj')
+				load_obj('panther_glass.obj')
 				use_material('top')
 			else
-				texture(nil)
 				use_material('bot')
-				load_obj('models/ships/panther/pant_coll_bot.obj')
+				load_obj('pant_coll_bot.obj')
 				use_material('top')
-				load_obj('models/ships/panther/pant_coll_top.obj')
+				load_obj('pant_coll_top.obj')
 			end
+		else
+			load_obj('pant_coll.obj')
 		end
-
-		--		i call them here to make use of colorvariable material
-		--		they have no special collision mesh so they are excludet and used in all lod
-		--		therefore texture is limited to "lod > 1"
-		--		the material "top" is taken from the last command above, so it don't need to be repeatet here
-
+	end,
+	dynamic = function(lod)
 		local rot = get_arg(ARG_SHIP_WHEEL_STATE)
 		local v1 = v(-6,-3.627+3*rot,-7.017+2*rot)
 		local v2 = v(6,-3.627+3*rot,-7.017+2*rot)
@@ -135,7 +99,7 @@ define_model('pant_sub', {
 define_model('panther', {
 	info = {
 		scale = 2.8,
-		lod_pixels = { .1, 100 ,500, 0 },
+		lod_pixels = { .1, 50, 500, 0 },
 		bounding_radius = 70,
 		materials={'top', 'bot', 'steel', 'text1', 'text2', 'glow'},
 		tags = { 'ship' },
@@ -175,17 +139,12 @@ define_model('panther', {
 
 				use_material('steel')
 				load_obj('panther_steel.obj')
-
 				texture('panthernew.png')
 				use_material('glow')
 				load_obj('panther_glow.obj')
 			end
-
-			-- possibly i will change the posl to a function that accepts a color argument
-
 		end
 	end,
-
 	dynamic = function(lod)
 		if lod > 1 then
 			if lod > 2 then
@@ -230,7 +189,6 @@ define_model('panther', {
 				local M_6 = v(3,-4.75,-12.4)
 				local M_7 = v(-2,-4.75,-12.8)
 				local M_8 = v(2,-4.75,-12.8)
-
 
 				if get_arg(12) == Equip.MISSILE_UNGUIDED  then
 					call_model('d_unguided',M_1,v(1,0,0), v(0,.95,.05),1)
@@ -311,8 +269,6 @@ define_model('panther', {
 				elseif get_arg(19) == Equip.MISSILE_NAVAL  then
 					call_model('d_naval',M_8,v(1,0,0), v(0,.95,.05),1)
 				end
-
-
 			end
 
 			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
@@ -337,35 +293,3 @@ define_model('panther', {
 		end
 	end
 })
-
---[[
-useful abbreviations for thruster vectors
-
-M_T(n) 		= main thruster(n)
-R_T(n)		= retro thruster
-
-RF_T(n)		= right front thruster
-LF_T(n)		= left front thruster
-RR_T(n)		= right rear thruster
-LR_T(n)		= left rear thruster
-
-RFT_T(n)	= right front top thruster
-LFT_T(n)	= left front top thruster
-or
-FT_T(n)		= front top thruster, uses xref_thruster for r and l
-
-RRT_T(n)	= right rear top thruster
-LRT_T(n)	= left rear top thruster
-or
-RT_T(n)		= rear top thruster
-
-RFB_T(n)	= right front bottom thruster
-LFB_T(n)	= left front bottom thruster
-or
-FB_T(n)		= front bottom thruster
-
-RRB_T(n)	= right rear bottom thruster
-LRB_T(n)	= left rear bottom thruster
-or
-RB_T(n)		= rear botom thruster
---]]
