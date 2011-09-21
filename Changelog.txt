@@ -3,6 +3,7 @@ Alpha 15
   * New features
     * Assassination missions (#290, #500)
     * Restored "hoop" orbital station (#499, #516)
+    * Restored "Panther" ship (#497)
     * Big mushroom station with four bays (#530)
     * New futuristic city buildings (#518)
     * Ship landing lights now only flash when landing gear is down or ship is
@@ -17,6 +18,8 @@ Alpha 15
     * Bulk ships are now spawned on game start (#500)
     * Trade ships will now repair damage and replace destroyed equipment (#481)
     * Mushroom station now has ads in bay 2 (#524)
+    * Model fixes: Ship bounding radii, LOD checked and fixed, adverts cleaned
+      up and other minor fixes (#530)
 
   * Fixes
     * Certain in-game keys will no longer crash when used in the menu (#453, #463)

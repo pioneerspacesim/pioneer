@@ -49,7 +49,7 @@ define_model('cobra_mk3', {
 			zbias(0)	
 		end
 		
-		if get_arg(0) ~= 0 then
+		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
       		-- wheels
 			local v73 = v(0.0, -1.4, -5.5)
 			local v74 = v(-4.5, -4.05, 7)
@@ -74,7 +74,7 @@ define_model('cobra_mk3', {
 			end
 		end
 		
-		if get_arg(0) == 0 then
+		if get_arg(ARG_SHIP_WHEEL_STATE) == 0 then
 			local lightphase = math.fmod(get_arg(1), 1)
 			if lightphase > .9 then
 				billboard('smoke.png', 10, v(0,1,0), { v(-25.35,-.95,11.375) })

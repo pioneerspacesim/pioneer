@@ -395,20 +395,11 @@ define_model('spacestation_entry1_stage1', {
 		set_material('wall1', .5,.5,.5,1)
 		set_material('text', 0,0,0,1,0.3,0.3,0.3,5)
 		use_material('wall1')
-		if lod > 1 then
 		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(0,0,1), v(0,.005,0)) --l/rv(.5,.5,0), v(0,0,.6), v(0,.005,0))
-		else texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(0,0,.6), v(0,.005,0))
-		end
 		xref_quad(b,c,c2,b2)
-		if lod > 1 then
 		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0)) --bottom
-		else	texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0))
-		end
 		quad(a,b,b2,a2)
-		if lod > 1 then
 		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0)) --top
-		else texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0))
-		end
 		quad(c,d,d2,c2)
 		--struts and girders---------------
 			texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.01,0,0), v(0,.005,0))
@@ -570,7 +561,7 @@ function simple_lift_docking_port(baynum, pos)
 	quad(pos+v(50,-75,50), pos+v(-50,-75,50), pos+v(-50,0,50), pos+v(50,0,50))
 	texture(nil)
 
-	if (math.fmod(get_arg(1), 2) > 1) then
+	if (math.fmod(get_arg(ARG_ALL_TIME_SECONDS), 2) > 1) then
 		local color
 		if stage > 1 or stage < 0 then
 			color = v(1,0,0) -- red
@@ -627,10 +618,7 @@ define_model('mushroom_station_2', {
 		use_material('tower_base')
 		tapered_cylinder(16, v(0,0,-350), v(0,120,-350), v(0,0,1), 200, 60)
 		use_material('body')
-		--if lod>2 then
 		--texture('ships/4_eagles/tex11.png', v(.5,.5,0), v(10,0,0), v(0,.5,0))
-		--else 	texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0))
-		--end
 		cylinder(8, v(0,120,-350), v(0,210,-350), v(0,0,1), 20)
 		--texture(nil)
 		tapered_cylinder(8, v(0,210,-350), v(0,225,-350), v(0,0,1), 20, 30)
@@ -687,7 +675,7 @@ define_model('mushroom_station_2', {
 		simple_lift_docking_port(0, port_pos[1])
 		simple_lift_docking_port(1, port_pos[2])
 		-- light on tower
-		local lightphase = math.fmod(get_arg(1)+0.46956, 1)
+		local lightphase = math.fmod(get_arg(ARG_ALL_TIME_SECONDS)+0.46956, 1)
 		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 228, -350) })
 	end
 })
@@ -802,7 +790,7 @@ define_model('mushroom_station_4', {
 		simple_lift_docking_port(2, port_pos[3])
 		simple_lift_docking_port(3, port_pos[4])
 		-- light on tower
-		local lightphase = math.fmod(get_arg(1)+0.46956, 1)
+		local lightphase = math.fmod(get_arg(ARG_ALL_TIME_SECONDS)+0.46956, 1)
 		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 228, -350) })
 	end
 })
@@ -849,65 +837,33 @@ define_model('big_crappy_spacestation', {
 		
 		set_material('body0', 1,1,1,1, 1,1,1,100)
 		use_material('body0')
-		if lod<2 then
 		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.033,0,0), v(0,.033,0))
-		else
-		texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.033,0,0), v(0,.033,0))
-		end
 		lathe(16, v(0,500,0), v(0,-500,0), v(1,0,0), {0,100, 0,150, 0.1,200, 0.2,149, 0.4,149, 0.45,300,0.55,300, 0.6,149, 0.7,149, 0.75,300, 0.95,300, 1.0,150, 1.0,0.0})
 		--alt tex body
-		if lod<2 then
 		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.01,0,0), v(0,.01,0))
-		else
-		texture('ships/4_eagles/tex2_s.png', v(.6,.5,0), v(.01,0,0), v(0,.01,0))
-		end
 		lathe(16, v(0,300,0), v(0,-250,0), v(1,0,0), {0,150, 1.0,150})
 		-- front cap
-		if lod<2 then
 		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.03,0,0), v(0,0,1))
-		else
-		texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.03,0,0), v(0,0,1))
-		end
 		lathe(16, v(0,501,0), v(0,-501,0), v(1,0,0), {0,100, 0,150, 0.1,199, 0.2,149, 0.4,149, 0.45,299,0.55,299, 0.6,149, 0.7,149, 0.75,299, 0.95,299, 1.0,150, 1.0,0.0})		
 		-- struts to outer ring
-		if lod<2 then
 		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.033,0,0), v(0,0,.33))
-		else
-		texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.033,0,0), v(0,0,.33))
-		end
 		ring(8, v(0,0,290), v(0,0,1500), v(1,0,0), 20)
 		ring(8, v(0,0,-290), v(0,0,-1500), v(1,0,0), 20)
 		-- outer ring
-		if lod<2 then
 		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.005,0,0), v(0,0,.5))
-		else
-		texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.005,0,0), v(0,0,.5))
-		end	
 		tube(32, v(0,-100,0), v(0,100,0), v(0,0,1), 1500, 1600)
-		if lod<2 then
 		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,.005,0))
-		else
-		texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.01,0,0), v(0,.005,0))
-		end	
 		tube(32, v(0,-99,0), v(0,99,0), v(0,0,1), 1499, 1601)
 		-- the inside!
 		set_insideout(true)
 		set_local_lighting(true)
 		use_light(1)
 		use_light(2)
-	if lod<2 then
 		texture('ships/4_eagles/tex2.png', v(.6,.5,0), v(.003,0,0), v(0,.003,0))
-		else
-		texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(.003,0,0), v(0,.003,0))
-		end	
 		lathe(16, v(0,500,0), v(0,-500,0), v(1,0,0), {0,100, 0.7,100, 0.75,250, 0.95,250, 0.95,0})
 		set_insideout(false)
 		--floor
-		if lod<2 then
 		texture('ships/4_eagles/tex2.png', v(.6,.5,0), v(.01,0,0), v(0,0,.5))
-		else
-		texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(.003,0,0), v(0,.003,0))
-		end
 		lathe(16, v(0,-449,0), v(0,-450,0), v(1,0,0), {0,0, 0,249, 1,249, 1,0})
 		set_local_lighting(false)
 		billboard('smoke.png', 50.0, v(0,0,1), {v(0,200,0)})
@@ -942,9 +898,9 @@ define_model('big_crappy_spacestation', {
 			zbias(0)
 		end
 		 billboard('smoke.png', 20.0, v(1,1,0), {
-			vlerp(get_arg(1),v(0,12,419),v(0,12,1500)),
-			vlerp(get_arg(1),v(0,12,-419),v(0,12,-1500))})
-		set_light(1, 0.00005, v(0,0+1000*math.fmod(get_arg(1),1.0),0), v(0,0,0.5))
+			vlerp(get_arg(ARG_ALL_TIME_SECONDS),v(0,12,419),v(0,12,1500)),
+			vlerp(get_arg(ARG_ALL_TIME_SECONDS),v(0,12,-419),v(0,12,-1500))})
+		set_light(1, 0.00005, v(0,0+1000*math.fmod(get_arg(ARG_ALL_TIME_SECONDS),1.0),0), v(0,0,0.5))
 		set_light(2, 0.00001, v(0,-300,0), v(0.5,1.0,0))
 	end,
 })
@@ -1057,28 +1013,16 @@ define_model('nice_spacestation', {
 		use_material('body')
 		--front face
 		--door frame outside
-		if lod > 1 then
-			texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
-		else
-			texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
-		end
+		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
 		cuboid(v(-110,380.1,-59.5),v(220,25,10))--top
 		cuboid(v(-110,380.1,49.5),v(220,25,10))--bottom
 		cuboid(v(-110,380.1,-50),v(10.5,25,100))--left
 		cuboid(v(99.5,380.1,-50),v(10.5,25,100))--right
 		--door frame inside
-		if lod > 1 then
-			texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0))
-		else
-			texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0))
-		end
+		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0))
 		cuboid(v(-100,380.1,-49.5),v(200,24,.5))--top
 		cuboid(v(-100,380.1,49),v(200,24,.5))--bottom
-		if lod > 1 then
-			texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(0,0,1), v(0,0.005,0))
-		else
-			texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
-		end
+		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(0,0,1), v(0,0.005,0))
 		cuboid(v(-99.5,380.1,-50),v(.5,24,100))--left
 		cuboid(v(99.4,380.1,-50),v(.5,24,100))--right
 		texture(nil)
@@ -1099,11 +1043,7 @@ define_model('nice_spacestation', {
 		cylinder(8,v(150,401.5,0),v(150,402.5,0),v(0,0,1),4.5)
 		cylinder(8,v(175,401.5,0),v(175,402.5,0),v(0,0,1),4.5)
 		cylinder(8,v(200,401.5,0),v(200,402.5,0),v(0,0,1),4.5)
-		if lod > 1 then
-			texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))--tex12.png
-		else
-			texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))--tex12_s
-		end
+		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))--tex12.png
 		use_material('body')
 		tri(f1,d,c)
 		xref_tri(f1,c,f2)
@@ -1115,24 +1055,12 @@ define_model('nice_spacestation', {
 		xref_tri(f5,f1,f2)
 		xref_tri(f6,f3b,f2b)
 		xref_tri(f5,f2b,f1b)
-		if lod > 1 then
-			texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(0,0,.9), v(0,.01,0))
-		else
-			texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(0,0,.9), v(0,.01,0))
-		end
+		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(0,0,.9), v(0,.01,0))
 		xref_quad(f2,f6,f2b,f5) -- sides
-		if lod > 1 then
-			texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,.01,0))
-		else
-			texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.01,0,0), v(0,.01,0))
-		end
+		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,.01,0))
 		quad(f3,f7,f3b,f6) -- top
 		quad(f5,f1b,f8,f1) -- bottom
-		if lod > 1 then
-			texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
-		else
-			texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
-		end
+		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
 		quad(f1b,f2b,f3b,f4b) -- rear
 		call_model('spacestation_entry1', v(0,400,0), v(1,0,0), v(0,1,0), 1.0)
 	end,
@@ -1145,7 +1073,7 @@ define_model('nice_spacestation', {
 			zbias(0)
 			call_model('ad_acme_2', v(0,-400.1,20), v(-1,0,0), v(0,0,-1), 40.0)
 		end
-		if (math.fmod(get_arg(1), 2) > 1) then
+		if (math.fmod(get_arg(ARG_ALL_TIME_SECONDS), 2) > 1) then
 			billboard('smoke.png', 50, v(0,1,0), { v(-150,405.5,0), v(-175,405.5,0), v(-200,405.5,0) })
 		else
 			billboard('smoke.png', 50, v(0,1,0), { v(150,405.5,0), v(175,405.5,0), v(200,405.5,0) })
@@ -1238,28 +1166,16 @@ define_model('hoop_spacestation', {
 		use_material('body')
 		--front face
 		--door frame outside
-		if lod > 1 then
-			texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
-		else
-			texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
-		end
+		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
 		cuboid(v(-110,380.1,-59.5),v(220,25,10))--top
 		cuboid(v(-110,380.1,49.5),v(220,25,10))--bottom
 		cuboid(v(-110,380.1,-50),v(10.5,25,100))--left
 		cuboid(v(99.5,380.1,-50),v(10.5,25,100))--right
 		--door frame inside
-		if lod > 1 then
-			texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0))
-		else
-			texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0))
-		end
+		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0))
 		cuboid(v(-100,380.1,-49.5),v(200,24,.5))--top
 		cuboid(v(-100,380.1,49),v(200,24,.5))--bottom
-		if lod > 1 then
-			texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(0,0,1), v(0,0.005,0))
-		else
-			texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
-		end
+		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(0,0,1), v(0,0.005,0))
 		cuboid(v(-99.5,380.1,-50),v(.5,24,100))--left
 		cuboid(v(99.4,380.1,-50),v(.5,24,100))--right
 		tri(f1,d,c)
@@ -1272,24 +1188,12 @@ define_model('hoop_spacestation', {
 		xref_tri(f5,f1,f2)
 		xref_tri(f6,f3b,f2b)
 		xref_tri(f5,f2b,f1b)
-		if lod > 1 then
-			texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(0,0,.9), v(0,.01,0))
-		else
-			texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(0,0,.9), v(0,.01,0))
-		end
+		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(0,0,.9), v(0,.01,0))
 		xref_quad(f2,f6,f2b,f5) -- sides
-		if lod > 1 then
-			texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,.01,0))
-		else
-			texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.01,0,0), v(0,.01,0))
-		end
+		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,.01,0))
 		quad(f3,f7,f3b,f6) -- top
 		quad(f5,f1b,f8,f1) -- bottom
-		if lod > 1 then
-			texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
-		else
-			texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
-		end
+		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
 		quad(f1b,f2b,f3b,f4b) -- rear
 		tube(16, v(0,200,0), v(0,-200,0), v(0,0,1), 1300.0, 1500.0)
 		extrusion(v(0,0,-400), v(0,0,-1300), v(1,0,0), 100.0,
@@ -1323,7 +1227,7 @@ define_model('hoop_spacestation', {
 			text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 11.0, {center=true})
 			zbias(0)
 		end
-		if (math.fmod(get_arg(1), 2) > 1) then
+		if (math.fmod(get_arg(ARG_ALL_TIME_SECONDS), 2) > 1) then
 			billboard('smoke.png', 50, v(0,1,0), { v(-150,405.5,0), v(-175,405.5,0), v(-200,405.5,0) })
 		else
 			billboard('smoke.png', 50, v(0,1,0), { v(150,405.5,0), v(175,405.5,0), v(200,405.5,0) })
@@ -1377,7 +1281,7 @@ define_model('basic_groundstation', {
 	end,
 	dynamic = function(lod)
 		-- light on tower
-		local lightphase = math.fmod(get_arg(1)+0.620486, 1)
+		local lightphase = math.fmod(get_arg(ARG_ALL_TIME_SECONDS)+0.620486, 1)
 		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 88, -150) })
 	end
 })
