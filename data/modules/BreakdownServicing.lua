@@ -77,6 +77,7 @@ local ads = {}
 local service_history = {
     lastdate = 0, -- Default will be overwritten on game start
     company = default_service_name,
+    shiplabel = "" -- Keep track of ship purchases
 }
 
 local lastServiceMessage = function ()
@@ -133,6 +134,13 @@ local onChat = function (form, ref, option)
         drive = EquipType.GetEquipType(hyperdrive).name,
         price = Format.Money(price),
     })
+
+    if not (Game.player.label == service_history.shiplabel) then
+        -- Not the same ship; reset to defaults
+        service_history.company = default_service_name
+        service_history.lastdate = Game.time
+        service_history.shiplabel = Game.player.label
+    end
 
 	if option == -1 then
         -- Hang up
