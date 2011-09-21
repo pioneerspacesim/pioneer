@@ -1,4 +1,12 @@
 local service_flavours = {
+    -- title: Name of company, can contain a {name} for the station's name,
+    --        or a {proprietor} for the company's owner
+    -- intro: The initial blurb on the ad.  In additoin to {name} and
+    --        {proprietor}, {drive} is the player's current hyperdrive,
+    --        {price} is the price of a 12 month service and {lasttime} inserts
+    --        the time and company name of the last service.
+    -- yesplease: The prompt for the player to click on to get a service.
+    -- response: What the company says when the player clicks yesplease.
     {
         title = "{name} Engine Servicing Company",
         intro = [[Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.
@@ -46,9 +54,14 @@ Servicing your {drive} will cost {price}.  Would you like to proceed?]],
 
 -- Other translatable strings used --
 -------------------------------------
+-- Hang up
 local hangup = "Hang up"
+-- Arbitrary string; it was in case I *needed* a name for the last service.
+-- It's little more than a flag at the moment.
 local default_service_name = "Manufacturer's warranty"
+-- How to describe the last service, if (and only if) there was one.
 local last_service_message = "Your drive was last serviced on {date} by {company}"
+-- How to describe the last service after a game start or ship purchase.
 local first_service_message = "Your drive has not been serviced since it was installed on {date}"
 
 -- Default numeric values --
@@ -60,11 +73,12 @@ local seedbump = 10
 
 local ads = {}
 local service_history = {
-    lastdate = 0,
+    lastdate = 0, -- Default will be overwritten on game start
     company = default_service_name,
 }
 
 local lastServiceMessage = function ()
+    -- Fill in the blanks tokens on the {lasttime} string from service_history
     local message
     if service_history.company == default_service_name then
         message = first_service_message
@@ -112,18 +126,23 @@ local onChat = function (form, ref, option)
     -- Now make it bigger (-:
     price = price * 100
 
+    -- Replace those tokens into ad's intro text that can change during play
     message = string.interp(ad.intro, {
         drive = EquipType.GetEquipType(hyperdrive).name,
         price = Format.Money(price),
     })
 
 	if option == -1 then
+        -- Hang up
 		form:Close()
 		return
 	end
 
 	if option == 0 then
+        -- Initial proposal
 		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.name })
+        -- Replace token with details of last service (which might have
+        -- been seconds ago)
 		form:SetMessage(string.interp(message, {
             lasttime = lastServiceMessage(),
         }))
@@ -132,8 +151,10 @@ local onChat = function (form, ref, option)
     end
 
     if option == 1 then
+        -- Yes please, service my engine
         form:Clear()
 		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.name })
+        -- Say thanks
 		form:SetMessage(ad.response)
 		form:AddOption(hangup, -1)
         service_history.lastdate = Game.time
@@ -154,6 +175,7 @@ local onCreateBB = function (station)
 	local ad = {
         name = name,
         isfemale = isfemale,
+        -- Only replace tokens which are not subject to further change
 		title = string.interp(service_flavours[n].title, {
             name = station.label,
             proprietor = name,
