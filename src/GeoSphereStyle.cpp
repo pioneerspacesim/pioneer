@@ -2292,7 +2292,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		*/
 		//textures = false;
 		double n = m_invMaxHeight*height;
-		double flatness = pow(p.Dot(norm), 1.0);
+		double flatness = pow(p.Dot(norm), 8.0);
 		//textures:
 		double rock, mud, sand, grass, forest, water = 0;
 		if (textures == true) {
@@ -2324,14 +2324,35 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 				1.0*(2.0-m_icyness)*(1.0-p.y*p.y);
 		vector3d color_cliffs = m_darkrockColor[5];
 		vector3d col, tex1, tex2;
-		// ice on mountains and poles
-		if (fabs(m_icyness*p.y) + m_icyness*n > 1){
+		// ice on mountains
+		//printf("flatness : %d", flatness);
+		if (flatness > 0.6/Clamp(n*m_icyness+(m_icyness*0.5), 0.1, 1.0)) {
 			if (textures == true) {
-				col = interpolate_color(rock, color_cliffs, vector3d(.9,.9,.9));
+				col = interpolate_color(rock, color_cliffs, m_rockColor[5]);
 				col = interpolate_color(flatness, col, vector3d(1,1,1));
 			} else col = interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
 			return col;
 		}
+		// polar ice-caps
+			/*if (flatness > 0.5/Clamp(fabs(p.y*m_icyness), 0.1, 1.0)) {
+				if (textures == true) {
+					col = interpolate_color(rock, color_cliffs, m_rockColor[5]);
+					col = interpolate_color(flatness, col, vector3d(1,1,1));
+				} else col = interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
+				return col;
+			}*/
+
+		if (fabs(p.y) > (1.5-m_icyness)) {	
+		//if (fabs(m_icyness*p.y) > 0.7) { 
+				if (flatness > 0.7) {
+				if (textures == true) {
+					col = interpolate_color(rock, color_cliffs, m_rockColor[5]);
+					col = interpolate_color(flatness, col, vector3d(1,1,1));
+				} else col = interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
+				return col;
+			}
+			}
+		
 
 		// This is for fake ocean depth by the coast.
 			if (m_heightMap) {
