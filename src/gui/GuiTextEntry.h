@@ -16,7 +16,6 @@ namespace Gui {
 		};
 
 		TextEntry();
-		explicit TextEntry(TextureFont *font);
 		virtual ~TextEntry();
 		virtual void GetSizeRequested(float size[2]);
 		virtual void Draw();

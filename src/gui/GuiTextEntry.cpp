@@ -9,16 +9,7 @@ TextEntry::TextEntry()
 	m_eventMask = EVENT_MOUSEDOWN;
 	m_cursPos = 0;
 	m_scroll = 0;
-	m_font = 0;
-	m_newlineMode = IgnoreNewline;
-	m_newlineCount = 0;
-}
-
-TextEntry::TextEntry(TextureFont *font) {
-	m_eventMask = EVENT_MOUSEDOWN;
-	m_cursPos = 0;
-	m_scroll = 0;
-	m_font = font;
+	m_font = Gui::Screen::GetFont();
 	m_newlineMode = IgnoreNewline;
 	m_newlineCount = 0;
 }
