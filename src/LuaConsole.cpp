@@ -27,8 +27,8 @@ LuaConsole::LuaConsole(int displayedOutputLines):
 
 	// XXX HACK: bypassing TextEntry::Show, because it grabs focus
 	m_entryField->Gui::Widget::Show();
-	m_entryField->onFilterKeys.connect(sigc::mem_fun(this, &LuaConsole::onFilterKeys));
-	m_entryField->onKeyPress.connect(sigc::mem_fun(this, &LuaConsole::onKeyPressed));
+	m_entryField->onFilterKeys.connect(sigc::mem_fun(this, &LuaConsole::OnFilterKeys));
+	m_entryField->onKeyPress.connect(sigc::mem_fun(this, &LuaConsole::OnKeyPressed));
 
 	PackEnd(m_entryField);
 }
@@ -46,11 +46,11 @@ bool LuaConsole::IsActive() const {
 	return IsVisible() && m_entryField->IsFocused();
 }
 
-bool LuaConsole::onFilterKeys(const SDL_keysym *sym) {
+bool LuaConsole::OnFilterKeys(const SDL_keysym *sym) {
 	return !KeyBindings::toggleLuaConsole.binding.Matches(sym);
 }
 
-void LuaConsole::onKeyPressed(const SDL_keysym *sym) {
+void LuaConsole::OnKeyPressed(const SDL_keysym *sym) {
 	// XXX totally horrible doing this on every key press
 	ResizeRequest();
 
@@ -91,7 +91,7 @@ void LuaConsole::onKeyPressed(const SDL_keysym *sym) {
 	}
 
 	if (((sym->unicode == '\n') || (sym->unicode == '\r')) && ((sym->mod & KMOD_CTRL) == 0)) {
-		execOrContinue();
+		ExecOrContinue();
 	}
 }
 
@@ -119,7 +119,7 @@ void LuaConsole::AddOutput(const std::string &line) {
 	PackEnd(m_entryField);
 }
 
-void LuaConsole::execOrContinue() {
+void LuaConsole::ExecOrContinue() {
 	const std::string stmt = m_entryField->GetText();
 	int result;
 	lua_State *L = Pi::luaManager->GetLuaState();

@@ -23,10 +23,9 @@ public:
 
 	static void Register();
 private:
-	bool onFilterKeys(const SDL_keysym*);
-	void onKeyPressed(const SDL_keysym*);
-
-	void execOrContinue();
+	bool OnFilterKeys(const SDL_keysym*);
+	void OnKeyPressed(const SDL_keysym*);
+	void ExecOrContinue();
 
 	std::deque<std::string> m_statementHistory;
 	std::string m_stashedStatement;
