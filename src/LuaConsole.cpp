@@ -15,8 +15,8 @@ LuaConsole::LuaConsole(int displayedOutputLines):
 
 	m_historyPosition = -1;
 
-	this->SetTransparency(false);
-	this->SetBgColor(0.6f, 0.1f, 0.0f, 0.6f);
+	SetTransparency(false);
+	SetBgColor(0.6f, 0.1f, 0.0f, 0.6f);
 
 	Gui::Screen::PushFont("ConsoleFont");
 	m_entryField = new Gui::TextEntry();
@@ -30,7 +30,7 @@ LuaConsole::LuaConsole(int displayedOutputLines):
 	m_entryField->onFilterKeys.connect(sigc::mem_fun(this, &LuaConsole::onFilterKeys));
 	m_entryField->onKeyPress.connect(sigc::mem_fun(this, &LuaConsole::onKeyPressed));
 
-	this->PackEnd(m_entryField);
+	PackEnd(m_entryField);
 }
 
 LuaConsole::~LuaConsole() {
@@ -99,7 +99,7 @@ void LuaConsole::AddOutput(const std::string &line) {
 	Gui::Label *label = 0;
 	if (int(m_outputLines.size()) > m_nextOutputLine) {
 		label = m_outputLines[m_nextOutputLine];
-		this->Remove(label);
+		Remove(label);
 	} else {
 		Gui::Screen::PushFont("ConsoleFont");
 		label = new Gui::Label("", Gui::TextLayout::ColourMarkupNone);
@@ -114,9 +114,9 @@ void LuaConsole::AddOutput(const std::string &line) {
 	label->SetSize(float(Gui::Screen::GetWidth()), size[1]);
 	label->Show();
 
-	this->Remove(m_entryField);
-	this->PackEnd(label);
-	this->PackEnd(m_entryField);
+	Remove(m_entryField);
+	PackEnd(label);
+	PackEnd(m_entryField);
 }
 
 void LuaConsole::execOrContinue() {
