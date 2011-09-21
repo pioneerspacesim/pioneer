@@ -10,7 +10,6 @@ class TextureFont;
 namespace Gui {
 	class Label: public Widget {
 	public:
-		Label(TextureFont *font, TextLayout::ColourMarkupMode colourMarkupMode = TextLayout::ColourMarkupUse);
 		Label(const char *text, TextLayout::ColourMarkupMode colourMarkupMode = TextLayout::ColourMarkupUse);
 		Label(const std::string &text, TextLayout::ColourMarkupMode colourMarkupMode = TextLayout::ColourMarkupUse);
 		virtual void Draw();
@@ -23,7 +22,7 @@ namespace Gui {
 		Label *Color(float r, float g, float b);
 		Label *Color(const ::Color &);
 	private:
-		void Init(const std::string &text, TextureFont *font, TextLayout::ColourMarkupMode colourMarkupMode);
+		void Init(const std::string &text, TextLayout::ColourMarkupMode colourMarkupMode);
 		void UpdateLayout();
 		void RecalcSize();
 		std::string m_text;

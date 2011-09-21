@@ -2,19 +2,14 @@
 
 namespace Gui {
 
-Label::Label(TextureFont *font, TextLayout::ColourMarkupMode colourMarkupMode)
-{
-	Init(std::string(), font, colourMarkupMode);
-}
-
 Label::Label(const char *text, TextLayout::ColourMarkupMode colourMarkupMode)
 {
-	Init(std::string(text), 0, colourMarkupMode);
+	Init(std::string(text), colourMarkupMode);
 }
 
 Label::Label(const std::string &text, TextLayout::ColourMarkupMode colourMarkupMode)
 {
-	Init(text, 0, colourMarkupMode);
+	Init(text, colourMarkupMode);
 }
 
 Label::~Label()
@@ -22,13 +17,13 @@ Label::~Label()
 	if (m_layout) delete m_layout;
 }
 
-void Label::Init(const std::string &text, TextureFont *font, TextLayout::ColourMarkupMode colourMarkupMode)
+void Label::Init(const std::string &text, TextLayout::ColourMarkupMode colourMarkupMode)
 {
 	m_colourMarkupMode = colourMarkupMode;
 	m_shadow = false;
 	m_layout = 0;
 	m_dlist = 0;
-	m_font = font ? font : Gui::Screen::GetFont();
+	m_font = Gui::Screen::GetFont();
 	m_color = ::Color(1.0f, 1.0f, 1.0f, 1.0f);
 	SetText(text);
 }
