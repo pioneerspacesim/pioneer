@@ -34,7 +34,6 @@ private:
 	Gui::TextEntry *m_entryField;
 	std::vector<Gui::Label*> m_outputLines;
 	int m_nextOutputLine;
-	TextureFont *m_font;
 	const int m_maxOutputLines;
 };
 
