@@ -23,10 +23,18 @@ KeyAction decreaseSpeed;
 KeyAction fireLaser;
 KeyAction fastRotate;
 KeyAction targetObject;
+KeyAction toggleLuaConsole;
 
 AxisBinding pitchAxis;
 AxisBinding rollAxis;
 AxisBinding yawAxis;
+
+bool KeyBinding::Matches(const SDL_keysym *sym) const {
+	if (type == KEYBOARD_KEY) {
+		return (sym->sym == u.keyboard.key) && ((sym->mod & 0xfff) == u.keyboard.mod);
+	} else
+		return false;
+}
 
 KeyBinding KeyBinding::keyboardBinding(SDLKey key, SDLMod mod) {
 	KeyBinding kb;
@@ -195,6 +203,7 @@ const BindingPrototype bindingProtos[] = {
 	{ Lang::SPEED_CONTROL_MODE, 0, 0, 0 },
 	{ Lang::INCREASE_SET_SPEED, "BindIncreaseSpeed", &increaseSpeed, 0 },
 	{ Lang::DECREASE_SET_SPEED, "BindDecreaseSpeed", &decreaseSpeed, 0 },
+	{ Lang::TOGGLE_LUA_CONSOLE, "BindToggleLuaConsole", &toggleLuaConsole, 0 },
 	{ 0, 0, 0, 0 },
 };
 
@@ -388,6 +397,7 @@ void OnKeyBindingsChanged()
 	SET_KEY_BINDING(fireLaser, "BindFireLaser");
 	SET_KEY_BINDING(fastRotate, "BindFastRotate");
 	SET_KEY_BINDING(targetObject, "BindTargetObject");
+	SET_KEY_BINDING(toggleLuaConsole, "BindToggleLuaConsole");
 	//SET_KEY_BINDING(key, "Bind");
 
 	SET_AXIS_BINDING(pitchAxis, "BindAxisPitch");
@@ -424,6 +434,7 @@ void SetDefaults()
 	SetSDLKeyboardBinding("BindThrustRight", SDLK_l);
 	SetSDLKeyboardBinding("BindIncreaseSpeed", SDLK_RETURN);
 	SetSDLKeyboardBinding("BindDecreaseSpeed", SDLK_RSHIFT);
+	SetSDLKeyboardBinding("BindToggleLuaConsole", SDLK_BACKQUOTE);
 
 	SetAxisBinding("BindAxisPitch", AxisBindingFromString("-Joy0Axis1"));
 	SetAxisBinding("BindAxisRoll", AxisBindingFromString("Joy0Axis2"));

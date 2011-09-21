@@ -2,35 +2,36 @@
 
 namespace Gui {
 
-Label::Label(const char *text)
+Label::Label(const char *text, TextLayout::ColourMarkupMode colourMarkupMode)
 {
-	m_shadow = false;
-	m_layout = 0;
-	m_dlist = 0;
-	m_font = Gui::Screen::GetFont();
-	m_color = ::Color(1.0f, 1.0f, 1.0f, 1.0f);
-	SetText(text);
+	Init(std::string(text), colourMarkupMode);
 }
 
-Label::Label(const std::string &text)
+Label::Label(const std::string &text, TextLayout::ColourMarkupMode colourMarkupMode)
 {
-	m_shadow = false;
-	m_layout = 0;
-	m_dlist = 0;
-	m_font = Gui::Screen::GetFont();
-	m_color = ::Color(1.0f, 1.0f, 1.0f, 1.0f);
-	SetText(text);
+	Init(text, colourMarkupMode);
 }
 
 Label::~Label()
 {
-	if (m_layout) delete m_layout;
+	delete m_layout;
+}
+
+void Label::Init(const std::string &text, TextLayout::ColourMarkupMode colourMarkupMode)
+{
+	m_colourMarkupMode = colourMarkupMode;
+	m_shadow = false;
+	m_layout = 0;
+	m_dlist = 0;
+	m_font = Gui::Screen::GetFont();
+	m_color = ::Color(1.0f, 1.0f, 1.0f, 1.0f);
+	SetText(text);
 }
 
 void Label::UpdateLayout()
 {
 	if (m_layout) delete m_layout;
-	m_layout = new TextLayout(m_text.c_str(), m_font);
+	m_layout = new TextLayout(m_text.c_str(), m_font, m_colourMarkupMode);
 }
 
 void Label::RecalcSize()
@@ -66,12 +67,10 @@ Label *Label::Color(const ::Color &c)
 
 void Label::SetText(const char *text)
 {
-	m_text = text;
-	UpdateLayout();
-	RecalcSize();
+	SetText(std::string(text));
 }
 
-void Label::SetText(const std::string text)
+void Label::SetText(const std::string &text)
 {
 	m_text = text;
 	UpdateLayout();
