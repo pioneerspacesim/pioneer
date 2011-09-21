@@ -35,7 +35,7 @@ void TextEntry::SetText(const std::string &text)
 
 bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 {
-	bool accepted = onFilterKeys.emit(sym);
+	bool accepted = onFilterKeys.empty() ? true : onFilterKeys.emit(sym);
 	if (! accepted)
 		return false;
 	accepted = false;
