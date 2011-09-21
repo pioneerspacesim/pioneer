@@ -14,7 +14,7 @@ Label::Label(const std::string &text, TextLayout::ColourMarkupMode colourMarkupM
 
 Label::~Label()
 {
-	if (m_layout) delete m_layout;
+	delete m_layout;
 }
 
 void Label::Init(const std::string &text, TextLayout::ColourMarkupMode colourMarkupMode)
