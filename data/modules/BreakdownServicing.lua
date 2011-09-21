@@ -56,6 +56,8 @@ Servicing your {drive} will cost {price}.  Would you like to proceed?]],
 -------------------------------------
 -- Hang up
 local hangup = "Hang up"
+-- I don't have enough money
+local notenoughmoney = "I don't have enough money"
 -- Arbitrary string; it was in case I *needed* a name for the last service.
 -- It's little more than a flag at the moment.
 local default_service_name = "Manufacturer's warranty"
@@ -146,7 +148,11 @@ local onChat = function (form, ref, option)
 		form:SetMessage(string.interp(message, {
             lasttime = lastServiceMessage(),
         }))
-		form:AddOption(ad.yesplease, 1)
+        if Game.player:GetMoney() < price then
+            form:AddOption(notenoughmoney, -1)
+        else
+		    form:AddOption(ad.yesplease, 1)
+        end
 		form:AddOption(hangup, -1)
     end
 
@@ -154,11 +160,14 @@ local onChat = function (form, ref, option)
         -- Yes please, service my engine
         form:Clear()
 		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.name })
-        -- Say thanks
-		form:SetMessage(ad.response)
-		form:AddOption(hangup, -1)
-        service_history.lastdate = Game.time
-        service_history.company = ad.title
+        if Game.player:GetMoney() >= price then -- We did check earlier, but...
+            -- Say thanks
+		    form:SetMessage(ad.response)
+		    form:AddOption(hangup, -1)
+            Game.player:AddMoney(-price)
+            service_history.lastdate = Game.time
+            service_history.company = ad.title
+        end
     end
 end
 
