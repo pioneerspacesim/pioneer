@@ -950,7 +950,7 @@ static void OnPlayerDockOrUndock()
 	Pi::SetTimeAccel(1);
 }
 
-static void OnPlayerChangeEquipment()
+static void OnPlayerChangeEquipment(Equip::Type e)
 {
 	Pi::onPlayerChangeEquipment.emit();
 }
@@ -962,7 +962,7 @@ void Pi::StartGame()
 	Pi::player->m_equipment.onChange.connect(sigc::ptr_fun(&OnPlayerChangeEquipment));
 	cpan->ShowAll();
 	cpan->SetAlertState(Ship::ALERT_NONE);
-	OnPlayerChangeEquipment();
+	OnPlayerChangeEquipment(Equip::NONE);
 	Pi::isGameStarted = true;
 	SetView(worldView);
 	Pi::luaOnGameStart->Signal();
