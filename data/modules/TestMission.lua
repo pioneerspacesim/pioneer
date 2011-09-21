@@ -13,7 +13,10 @@ local test_flavours = {
         intro = "Time for your annual tune-up? We can SuperFix up your engine!",
     },{
         title = "Time and Space Engines, Inc.",
-        intro = "We specialise in interstellar engines. All maintenance work guaranteed for a year.",
+        intro = [[Welcome to Time and Space.
+        
+We specialise in interstellar engines. All maintenance work guaranteed for a year.
+Servicing your {drive} will cost {price}.  Would you like to proceed?]]
     }
 }
 
@@ -22,6 +25,46 @@ local ads = {}
 local onChat = function (form, ref, option)
     local ad = ads[ref]
 
+    local hyperdrive = Game.player:GetEquip('ENGINE',0)
+
+    -- Tariff!  ad.baseprice is from 1 to 100
+    local price = ad.baseprice
+    if hyperdrive == 'NONE' then
+        price = 0
+    elseif hyperdrive == 'DRIVE_CLASS2' then
+        price = price * 1.2
+    elseif hyperdrive == 'DRIVE_CLASS3' then
+        price = price * 1.4
+    elseif hyperdrive == 'DRIVE_CLASS4' then
+        price = price * 1.8
+    elseif hyperdrive == 'DRIVE_CLASS5' then
+        price = price * 2.6
+    elseif hyperdrive == 'DRIVE_CLASS6' then
+        price = price * 3.8
+    elseif hyperdrive == 'DRIVE_CLASS7' then
+        price = price * 5.4
+    elseif hyperdrive == 'DRIVE_CLASS8' then
+        price = price * 7.0
+    elseif hyperdrive == 'DRIVE_MIL1' then
+        price = price * 1.2
+    elseif hyperdrive == 'DRIVE_MIL2' then
+        price = price * 1.6
+    elseif hyperdrive == 'DRIVE_MIL3' then
+        price = price * 2.8
+    elseif hyperdrive == 'DRIVE_MIL4' then
+        price = price * 4.0
+    else -- 
+        price = price * 10
+    end
+
+    -- Now make it bigger (-:
+    price = price * 100
+
+    message = string.interp(ad.intro, {
+        drive = EquipType.GetEquipType(hyperdrive).name,
+        price = Format.Money(price),
+    })
+
 	if option == -1 then
 		form:Close()
 		return
@@ -29,7 +72,7 @@ local onChat = function (form, ref, option)
 
 	if option == 0 then
 		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.name })
-		form:SetMessage(ad.intro)
+		form:SetMessage(message)
 		form:AddOption("Fix my ship!", 1)
 		form:AddOption("Hang up.", -1)
     end
@@ -58,9 +101,13 @@ local onCreateBB = function (station)
             name = station.label,
             proprietor = name,
         }),
-		intro = test_flavours[n].intro,
+		intro = string.interp(test_flavours[n].intro, {
+            name = station.label,
+            proprietor = name,
+        }),
 		station = station,
 		faceseed = rand:Integer(),
+        baseprice = rand:Number(10),
 	}
 
 	local ref = station:AddAdvert(ad.title, onChat, onDelete)
