@@ -121,7 +121,7 @@ local onChat = function (form, ref, option)
         price = price * 2.8
     elseif hyperdrive == 'DRIVE_MIL4' then
         price = price * 4.0
-    else -- 
+    else -- Something weird!
         price = price * 10
     end
 
