@@ -90,6 +90,8 @@ void Ship::Load(Serializer::Reader &rd)
 	m_stats.shield_mass_left = rd.Float();
 	if(rd.Int32()) m_curAICmd = AICommand::Load(rd);
 	else m_curAICmd = 0;
+
+	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
 
 void Ship::Init()
@@ -133,6 +135,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_ecmRecharge = 0;
 	SetLabel(m_shipFlavour.regid);
 	m_curAICmd = 0;
+	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
 	Init();	
 }
@@ -1054,6 +1057,11 @@ bool Ship::Jettison(Equip::Type t)
 	} else {
 		return false;
 	}
+}
+
+void Ship::OnEquipmentChange(Equip::Type e)
+{
+	Pi::luaOnShipEquipmentChanged->Queue(this, LuaConstants::GetConstantString("EquipType", e));
 }
 
 void Ship::UpdateFlavour(const ShipFlavour *f)

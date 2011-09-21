@@ -181,6 +181,7 @@ private:
 	bool IsFiringLasers();
 	void TestLanded();
 	void UpdateAlertState();
+	void OnEquipmentChange(Equip::Type e);
 
 	FlightState m_flightState;
 	bool m_testLanded;
