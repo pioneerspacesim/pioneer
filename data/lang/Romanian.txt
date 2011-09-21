@@ -90,7 +90,7 @@ REVERSE_ACCEL_EMPTY
 REVERSE_ACCEL_LADEN
     Acceleraţie înapoi (încărcată)
 HYPERDRIVE_FITTED
-    Hyperdrive instalat:
+    Motor superluminic instalat:
 HYPERSPACE_RANGE_LADEN
     Raza de acţiune hiperspaţiu (încărcată la maxim):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
@@ -250,239 +250,239 @@ LANGUAGE_SELECTION
  
 # Wares
 NONE
-    None
+    Nimic
 HYDROGEN
-    Hydrogen
+    Hidrogen
 HYDROGEN_DESCRIPTION
-    Hydrogen is primarily used as a fusion fuel
+    Hidrogenul este folosit în principal drept combustibil de fuziune
 LIQUID_OXYGEN
-    Liquid Oxygen
+    Oxigen Lichid
 LIQUID_OXYGEN_DESCRIPTION
-    Oxygen is required for life support systems and some industrial processes
+    Oxigenul este necesar sistemelor de menţinere a vieţii şi câtorva procesări industriale
 METAL_ORE
-    Metal ore
+    Minereu din metal
 CARBON_ORE
-    Carbon ore
+    Minereu din cărbune
 CARBON_ORE_DESCRIPTION
-    Carbon ores (coal and oil) are required for the synthesis of many useful chemicals, including plastics, synthetic foodstuffs, medicines and textiles
+    Minereurile din cărbune (cărbuni şi petrol) sunt necesare pentru sintetizarea multor chimicale folositoare, inclusiv plastice, mâncare sintetică, doctorii şi textile
 METAL_ALLOYS
-    Metal alloys
+    Aliaje din metal
 PLASTICS
-    Plastics
+    Plastice
 FRUIT_AND_VEG
-    Fruit and Veg
+    Fructe şi Vegetale
 ANIMAL_MEAT
-    Animal Meat
+    Carne Animală
 LIVE_ANIMALS
-    Live Animals
+    Animale Vii
 LIQUOR
-    Liquor
+    Lichior
 GRAIN
-    Grain
+    Grâne
 TEXTILES
-    Textiles
+    Textile
 FERTILIZER
-    Fertilizer
+    Îngrăşământ
 WATER
-    Water
+    Apă
 MEDICINES
-    Medicines
+    Doctorii
 CONSUMER_GOODS
-    Consumer goods
+    Bunuri de consum
 COMPUTERS
-    Computers
+    Calculatoare
 ROBOTS
-    Robots
+    Roboţi
 PRECIOUS_METALS
-    Precious metals
+    Metale preţioase
 INDUSTRIAL_MACHINERY
-    Industrial machinery
+    Utilaje industriale
 FARM_MACHINERY
-    Farm machinery
+    Utilaje fermiere
 MINING_MACHINERY
-    Mining machinery
+    Utilaje de minerit
 AIR_PROCESSORS
-    Air processors
+    Filtre de aer
 SLAVES
-    Slaves
+    Sclavi
 HAND_WEAPONS
-    Hand weapons
+    Arme de mână
 BATTLE_WEAPONS
-    Battle weapons
+    Arme de luptă
 NERVE_GAS
-    Nerve Gas
+    Gaz Paralizant
 NARCOTICS
-    Narcotics
+    Narcotice
 MILITARY_FUEL
-    Military fuel
+    Combustibil militar
 RUBBISH
-    Rubbish
+    Gunoi
 RADIOACTIVES
-    Radioactive waste
+    Deşeuri radioactive
  
 # Hardware
 MISSILE_UNGUIDED
-    R40 Unguided Rocket
+    Racheta nedirijată R40
 MISSILE_GUIDED
-    Guided Missile                                                     
+    Rachetă Teleghidată
 MISSILE_SMART
-    Smart Missile                                                   
+    Rachetă Inteligentă
 MISSILE_NAVAL
-    Naval Missile
+    Rachetă Navală
 ATMOSPHERIC_SHIELDING
-    Atmospheric Shielding
+    Scut Atmosferic
 ATMOSPHERIC_SHIELDING_DESCRIPTION
-    Shields your spaceship from the heat of atmospheric re-entry.
+    Protejează nava de căldura intrării în atmosferă.
 ECM_BASIC
-    ECM system
+    Sistem ECM
 ECM_BASIC_DESCRIPTION
-    An electronic countermeasure missile defence system, capable of destroying some homing missiles.
+    Un sistem de contramăsuri electronice defensive împotriva rachetelor, capabile să distrugă câteva rachete autoghidate.
 SCANNER
-    Scanner
+    Scaner
 SCANNER_DESCRIPTION
-    Provides a 3D map of nearby ships.
+    Oferă o hartă 3D a navelor apropiate.
 ECM_ADVANCED
-    Advanced ECM system
+    Sistem avansat ECM
 ECM_ADVANCED_DESCRIPTION
-    An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles.
+    Un sistem de contramăsuri electronice defensive împotriva rachetelor, capabile să distrugă câteva tipuri mai avansate de rachete autoghidate.
 SHIELD_GENERATOR
-    Shield Generator
+    Generator de scut
 SHIELD_GENERATOR_DESCRIPTION
-    Provides additional hull defences with each unit fitted.
+    Oferă apărare adiţională fuzelajului navei per unitate instalată.
 LASER_COOLING_BOOSTER
-    Laser Cooling Booster
+    Amplificator Sistem de Răcire Laser
 LASER_COOLING_BOOSTER_DESCRIPTION
-    An improved cooling system for your weapons.
+    Un sistem îmbunătăţit de răcire pentru armele dumneavoastră.
 CARGO_LIFE_SUPPORT
-    Cargo Bay Life Support
+    Sistem de Susţinere a Vieţii al Halei de Mărfuri
 CARGO_LIFE_SUPPORT_DESCRIPTION
-    Allows the transport of live cargo.
+    Permite transportul de marfă vie.
 AUTOPILOT
     Autopilot
 AUTOPILOT_DESCRIPTION
-    An on-board flight computer.
+    Un calculator de zbor de bord.
 RADAR_MAPPER
-    Radar Mapper
+    Cartograf Radar
 RADAR_MAPPER_DESCRIPTION
-    Used to remotely inspect the equipment, cargo and state of other ships.
+    Folosit pentru a inspecta de la distanţă echipamentul, încărcătura şi starea altor nave.
 FUEL_SCOOP
-    Fuel Scoop
+    Excavator Combustibil
 FUEL_SCOOP_DESCRIPTION
-    Permits scooping hydrogen fuel from gas giant planets.
+    Permite excavarea combustibilului de hidrogen de pe planetele gigantice de gaz.
 HYPERCLOUD_ANALYZER
-    Hypercloud Analyzer
+    Analizator Hipernor
 HYPERCLOUD_ANALYZER_DESCRIPTION
-    Analyze hyperspace clouds to determine destination and time of arrival or departure.
+    Analizează norii unui salt în hiperspaţiu pentru a determina destinaţia si timpul sosirii sau plecării.
 HULL_AUTOREPAIR
-    Hull Auto-Repair System
+    Sistem de Autoreparare Fuzelaj
 HULL_AUTOREPAIR_DESCRIPTION
-    Automatically repairs the ship's hull in the event of damage.
+    Repară automat fuzelajul navei în caz de avarii.
 SHIELD_ENERGY_BOOSTER
-    Shield Energy Booster
+    Amplificator Energie Scut
 SHIELD_ENERGY_BOOSTER_DESCRIPTION
-    Increases the rate at which shields recharge.
+    Creşte rata reîncărcării scuturilor.
 DRIVE_CLASS1
-    Class 1 Hyperdrive
+    Motor Superluminic Clasa 1
 DRIVE_CLASS2
-    Class 2 Hyperdrive
+    Motor Superluminic Clasa 2
 DRIVE_CLASS3
-    Class 3 Hyperdrive
+    Motor Superluminic Clasa 3
 DRIVE_CLASS4
-    Class 4 Hyperdrive
+    Motor Superluminic Clasa 4
 DRIVE_CLASS5
-    Class 5 Hyperdrive
+    Motor Superluminic Clasa 5
 DRIVE_CLASS6
-    Class 6 Hyperdrive
+    Motor Superluminic Clasa 6
 DRIVE_CLASS7
-    Class 7 Hyperdrive
+    Motor Superluminic Clasa 7
 DRIVE_CLASS8
-    Class 8 Hyperdrive
+    Motor Superluminic Clasa 8
 DRIVE_CLASS9
-    Class 9 Hyperdrive
+    Motor Superluminic Clasa 9
 DRIVE_MIL1
-    Class 1 Military drive
+    Motor Militar Clasa 1
 DRIVE_MIL2
-    Class 2 Military drive
+    Motor Militar Clasa 2
 DRIVE_MIL3
-    Class 3 Military drive
+    Motor Militar Clasa 3
 DRIVE_MIL4
-    Class 4 Military drive
+    Motor Militar Clasa 4
 PULSECANNON_1MW
-    1MW pulse cannon
+    Tun intermitent 1MW
 PULSECANNON_DUAL_1MW
-    1MW dual-fire pulse cannon
+    Tun dual intermitent 1MW
 PULSECANNON_2MW
-    2MW pulse cannon
+    Tun intermitent 2MW
 PULSECANNON_RAPID_2MW
-    2MW rapid-fire pulse cannon
+    Tun intermitent cu foc rapid 2MW
 PULSECANNON_4MW
-    4MW pulse cannon
+    Tun intermitent 4MW
 PULSECANNON_10MW
-    10MW pulse cannon
+    Tun intermitent 10MW
 PULSECANNON_20MW
-    20MW pulse cannon
+    Tun intermitent 20MW
 MININGCANNON_17MW
-    17MW blast-mining cannon
+    Tun forjare 17MW
 MININGCANNON_17MW_DESCRIPTION
-    Used to blast-mine mineral rich asteroids.
+    Folosit pentru a forja asteroizi bogaţi în minerale.
 SMALL_PLASMA_ACCEL
-    Small plasma accelerator
+    Accelerator plasmă mic
 LARGE_PLASMA_ACCEL
-    Large plasma accelerator
+    Accelerator plasmă mare
 CLEAN
-    Clean
+    Curat
 HYPERSPACE_ARRIVAL_CLOUD
-    Hyperspace arrival cloud
+    Nor de sosire din hiperspaţiu
 HYPERSPACE_DEPARTURE_CLOUD
-    Hyperspace departure cloud
+    Nor de plecare în hiperspaţiu
 TYPE
-    Type
+    Tip
 CLIENT
     Client
 LOCATION
-    Location
+    Locaţie
 DUE
-    Due
+    Scadenţă
 REWARD
-    Reward
+    Recompensă
 STATUS
     Status
 CARGO_INVENTORY
-    Cargo Inventory:
+    Inventar hală:
 JETTISON
-    Jettison
+    Aruncă în spaţiu
 JETTISONED_1T_OF_X
-    Jettisoned 1 tonne of %commodity
+    Aţi aruncat în spaţiu 1 tonă de %commodity
 COMBAT_RATING
-    COMBAT RATING:
+    CLASIFICARE NIVEL DE LUPTĂ:
 CRIMINAL_RECORD
-    CRIMINAL RECORD:
+    CAZIER INFRACŢIUNI:
 SHIP_INFORMATION_HEADER
-    "SHIP INFORMATION: "
+    "INFORMAŢII DESPRE NAVĂ: "
 HYPERDRIVE
-    Hyperdrive
+    Motor superluminic
 FREE
-    Free
+    Gratis
 USED
-    Used
+    Folosit
 TOTAL_WEIGHT
-    All-up weight
+    Greutate totală
 FRONT_WEAPON
-    Front weapon
+    Arma frontală
 REAR_WEAPON
-    Rear weapon
+    Arma dorsală
 HYPERSPACE_RANGE
-    Hyperspace range
+    Arie hiperspaţiu
 NO_MOUNTING
-    no mounting
+    fără montare
 N_LIGHT_YEARS_N_MAX
-    %distance{f.1} light years (%maxdistance{f.1} max)
+    %distance{f.1} ani lumină (%maxdistance{f.1} max)
 SHIP_INFORMATION
-    Ship information
+    Informaţii navă
 REPUTATION
-    Reputation
+    Reputaţie
 MISSIONS
-    Missions
+    Misiuni
 SHIFT
     "shift "
 CTRL
@@ -494,7 +494,7 @@ META
 JOY
     Joy
 BUTTON
-     " Button "
+     " Buton "
 HAT
      " Hat"
 DIRECTION
@@ -506,91 +506,91 @@ Y
 Z
     Z
 AXIS
-     " Axis"
+     " Axa"
 WEAPONS
-    Weapons
+    Arme
 TARGET_OBJECT_IN_SIGHTS
-    Target object in cross-hairs
+    Ţinteşte obiectul din vizor
 FIRE_LASER
-    Fire laser
+    Trage cu laser-ul
 SHIP_ORIENTATION
-    Ship orientation
+    Orientare navă
 FAST_ROTATION_CONTROL
-    Fast rotational control
+    Control rotaţional rapid
 PITCH_UP
-    Pitch up
+    Înclinare în sus
 PITCH_DOWN
-    Pitch down
+    Înclinare în jos
 YAW_LEFT
-    Yaw left
+    Girare la stânga
 YAW_RIGHT
-    Yaw right
+    Girare la dreapta
 ROLL_LEFT
-    Roll left
+    Rostogolire stânga
 ROLL_RIGHT
-    Roll right
+    Rostogolire dreapta
 MANUAL_CONTROL_MODE
-    Manual control mode
+    Mod control manual
 THRUSTER_MAIN
-    Thrust forward
+    Propulsare înainte
 THRUSTER_RETRO
-    Thrust backwards
+    Propulsare înapoi
 THRUSTER_VENTRAL
-    Thrust up
+    Propulsare în sus
 THRUSTER_DORSAL
-    Thrust down
+    Propulsare în jos
 THRUSTER_PORT
-    Thrust left
+    Propulsare la stânga
 THRUSTER_STARBOARD
-    Thrust right
+    Propulsare la dreapta
 SPEED_CONTROL_MODE
-    Speed control mode
+    Mod de control al vitezei
 INCREASE_SET_SPEED
-    Increase set speed
+    Creşte viteza setată
 DECREASE_SET_SPEED
-    Decrease set speed
+    Scade viteza setată
 JOYSTICK_INPUT
-    Joystick input
+    Intrare joystick
 PITCH
-    Pitch
+    Înclinare
 ROLL
-    Roll
+    Rostogolire
 YAW
-    Yaw
+    Girare
 MISSILE
-    missile
+    rachetă
 HARMLESS
-    Harmless
+    Inofensiv
 MOSTLY_HARMLESS
-    Mostly harmless
+    Aproape inofensiv
 POOR
-    Poor
+    Slabuţ
 AVERAGE
-    Average
+    Mediocru
 ABOVE_AVERAGE 
-    Above Average
+    Peste medie
 COMPETENT
     Competent
 DANGEROUS
-    Dangerous
+    Periculos
 DEADLY
-    Deadly
+    Mortal
 ELITE
-    ELITE
+    DE ELITĂ
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
-    Simulating evolution of the universe: %age{f.1} billion years ;-)
+    Se simulează evoluţia universului: %age{f.1} mii de milioane de ani ;-)
 TOMBSTONE_EPITAPH
-    RIP OLD BEAN
+    ETERNE REGRETE
 MM_START_NEW_GAME_EARTH
-    New game starting on Earth
+    Joc nou pornind de pe Pamânt
 MM_START_NEW_GAME_E_ERIDANI
-    New game starting on Epsilon Eridani
+    Joc nou pornind pe Epsilon Eridani
 MM_START_NEW_GAME_DEBUG
-    New game starting on debug point
+    Joc nou pornind la punctul de test
 MM_LOAD_SAVED_GAME
-    Load a saved game
+    Încarcă un joc salvat
 MM_QUIT
-    Quit
+    Ieşire din joc
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD
