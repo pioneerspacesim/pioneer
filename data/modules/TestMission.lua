@@ -1,24 +1,45 @@
 local test_flavours = {
     {
         title = "{name} Engine Servicing Company",
-        intro = "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today.",
+        intro = [[Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.
+
+Engine: {drive}
+Service: {price}
+Guarantee: 1 year]],
+        yesplease = "Service hyperspace engine",
+        response = "Your engine has been serviced.",
     },{
         title = "{proprietor}: Hyperdrive maintenance specialist",
-        intro = "I can service your hyperdrive, guaranteeing at least a year of trouble-free performance.",
+        intro = "I'm {proprietor}.  I can service your {drive}, guaranteeing at least a year of trouble-free performance.  The cost for this service will be {price}",
+        yesplease = "Service my drive",
+        response = "I have serviced your hyperdrive.",
     },{
         title = "{proprietor} & Co HyperMechanics",
-        intro = "You've come to the right place if you'd like us to take a look at your hyperdrive.",
+        intro = [[Hi there.  We at {proprietor} & Co stake our reputation on our work.
+
+We can tune your ship's {drive}, ensuring 12 months of trouble-free operation, for the sum of {price}.  I'll be supervising the work myself, so you can be sure that a good job will be done.]],
+        yesplease = "Please tune my drive at the quoted price",
+        response = "Service complete.  Thanks for your custom.",
     },{
         title = "SuperFix Maintenance ({name} branch)",
-        intro = "Time for your annual tune-up? We can SuperFix up your engine!",
+        intro = [[Welcome SuperFix Maintenance.
+
+Time for your annual maintenance? Let us SuperFix your hyperdrive!
+We can tune your {drive} for just {price}.  There's nobody cheaper on this station!]],
+        yesplease = "SuperFix me!",
+        response = "Your SuperFix service is complete, with SuperFix guarantee!",
     },{
         title = "Time and Space Engines, Inc.",
         intro = [[Welcome to Time and Space.
         
 We specialise in interstellar engines. All maintenance work guaranteed for a year.
-Servicing your {drive} will cost {price}.  Would you like to proceed?]]
+Servicing your {drive} will cost {price}.  Would you like to proceed?]],
+        yesplease = "Yes, please proceed",
+        response = "We have completed the work on your hyperdrive.",
     }
 }
+
+local hangup = "Hang up"
 
 local ads = {}
 
@@ -73,12 +94,15 @@ local onChat = function (form, ref, option)
 	if option == 0 then
 		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.name })
 		form:SetMessage(message)
-		form:AddOption("Fix my ship!", 1)
-		form:AddOption("Hang up.", -1)
+		form:AddOption(ad.yesplease, 1)
+		form:AddOption(hangup, -1)
     end
 
     if option == 1 then
-        UI.Message("You got it.")
+        form:Clear()
+		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.name })
+		form:SetMessage(ad.response)
+		form:AddOption(hangup, -1)
     end
 end
 
@@ -87,11 +111,11 @@ local onDelete = function (ref)
 end
 
 local onCreateBB = function (station)
-    local rand = Rand.New(station.seed)
+    -- 10, guaranteed random by D16 dice roll.
+    -- This is to make the name different from the station welcome character.
+    local rand = Rand.New(station.seed + 10)
 	local n = rand:Integer(1,#test_flavours)
     local isfemale = rand:Integer(1) == 1
-    local name = NameGen.FullName(isfemale,rand)
-    -- And again - otherwise we get the same name as the dude in the main station menu!
     local name = NameGen.FullName(isfemale,rand)
 
 	local ad = {
@@ -105,6 +129,8 @@ local onCreateBB = function (station)
             name = station.label,
             proprietor = name,
         }),
+        yesplease = test_flavours[n].yesplease,
+        response = test_flavours[n].response,
 		station = station,
 		faceseed = rand:Integer(),
         baseprice = rand:Number(10),
