@@ -63,7 +63,8 @@ class GeoSphereStyle {
 		COLOR_TFGOOD,
 		COLOR_TFPOOR,
 		COLOR_BANDED_ROCK,
-		COLOR_MAX = COLOR_BANDED_ROCK
+		COLOR_SOLID,
+		COLOR_MAX = COLOR_SOLID
 	};
 
 	bool textures;

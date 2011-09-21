@@ -214,6 +214,9 @@ void GeoSphereStyle::PickTerrain(MTRand &rand)
 	(m_body->type == SBody::TYPE_STAR_G_SUPER_GIANT) || (m_body->type == SBody::TYPE_STAR_G_SUPER_GIANT)){ 
 		m_terrainType = TERRAIN_FLAT;
 		m_colorType = COLOR_STAR_G;
+	} else if (m_body->type < SBody::TYPE_PLANET_GAS_GIANT) {
+		m_terrainType = TERRAIN_FLAT;
+		m_colorType = COLOR_SOLID;
 	} else if (m_body->type == SBody::TYPE_PLANET_GAS_GIANT) {
 		m_terrainType = TERRAIN_FLAT;
 		switch (rand.Int32(5)) {
@@ -2059,6 +2062,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 {
 	switch (m_colorType) {
 	case COLOR_NONE:
+	case COLOR_SOLID: 
 		return vector3d(1.0);
 	case COLOR_STAR_BROWN_DWARF: {
 		double n;
