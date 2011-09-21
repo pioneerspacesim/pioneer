@@ -50,11 +50,14 @@ void Screen::OnDeleteFocusedWidget()
 {
 	_focusedWidgetOnDelete.disconnect();
 	focusedWidget = 0;
+	SDL_EnableKeyRepeat(0, 0); // disable key repeat
 }
 
-void Screen::SetFocused(Widget *w)
+void Screen::SetFocused(Widget *w, bool enableKeyRepeat)
 {
 	ClearFocus();
+	if (enableKeyRepeat)
+		SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 	_focusedWidgetOnDelete = w->onDelete.connect(sigc::ptr_fun(&Screen::OnDeleteFocusedWidget));
 	focusedWidget = w;
 }
@@ -64,6 +67,7 @@ void Screen::ClearFocus()
 	if (!focusedWidget) return;
 	_focusedWidgetOnDelete.disconnect();
 	focusedWidget = 0;
+	SDL_EnableKeyRepeat(0, 0); // disable key repeat
 }
 
 void Screen::ShowBadError(const char *msg)
@@ -193,12 +197,17 @@ void Screen::OnClick(SDL_MouseButtonEvent *e)
 
 void Screen::OnKeyDown(const SDL_keysym *sym)
 {
+	if (focusedWidget) {
+		bool accepted = focusedWidget->OnKeyPress(sym);
+		// don't check shortcuts if the focused widget accepted the key-press
+		if (accepted)
+			return;
+	}
 	for (std::list<Widget*>::iterator i = kbshortcut_widgets.begin(); i != kbshortcut_widgets.end(); ++i) {
 		if (!(*i)->IsVisible()) continue;
 		if (!(*i)->GetEnabled()) continue;
 		(*i)->OnPreShortcut(sym);
 	}
-	if (focusedWidget) focusedWidget->OnKeyPress(sym);
 }
 
 void Screen::OnKeyUp(const SDL_keysym *sym)
@@ -214,11 +223,35 @@ float Screen::GetFontHeight(TextureFont *font)
 
 void Screen::MeasureString(const std::string &s, float &w, float &h, TextureFont *font)
 {
-    if (!font) font = GetFont();
+	if (!font) font = GetFont();
+	assert(font);
 
 	font->MeasureString(s.c_str(), w, h);
 	w *= fontScale[0];
 	h *= fontScale[1];
+}
+
+void Screen::MeasureCharacterPos(const std::string &s, int charIndex, float &x, float &y, TextureFont *font)
+{
+	assert((charIndex >= 0) && (charIndex <= int(s.size())));
+
+	if (!font) font = GetFont();
+	assert(font);
+
+	font->MeasureCharacterPos(s.c_str(), charIndex, x, y);
+	x *= fontScale[0];
+	y *= fontScale[1];
+}
+
+int Screen::PickCharacterInString(const std::string &s, float x, float y, TextureFont *font)
+{
+	if (!font) font = GetFont();
+	assert(font);
+
+	x /= fontScale[0];
+	y /= fontScale[1];
+
+	return font->PickCharacter(s.c_str(), x, y);
 }
 
 void Screen::RenderString(const std::string &s, float xoff, float yoff, TextureFont *font)

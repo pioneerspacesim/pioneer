@@ -57,6 +57,7 @@
 #include "LuaRand.h"
 #include "LuaNameGen.h"
 #include "LuaMusic.h"
+#include "LuaConsole.h"
 #include "SoundMusic.h"
 #include "Background.h"
 #include "Lang.h"
@@ -115,6 +116,7 @@ GameMenuView *Pi::gameMenuView;
 SystemView *Pi::systemView;
 SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
+LuaConsole *Pi::luaConsole;
 StarSystem *Pi::selectedSystem;
 StarSystem *Pi::currentSystem;
 MTRand Pi::rng;
@@ -260,11 +262,13 @@ static void LuaInit()
 	LuaNameGen::Register();
 	LuaMusic::Register();
 
-	luaL_dofile(l, (std::string(PIONEER_DATA_DIR) + "/pistartup.lua").c_str());
+	LuaConsole::Register();
+
+	luaL_dofile(l, PIONEER_DATA_DIR "/pistartup.lua");
 
 	// XXX load everything. for now, just modules
-	pi_lua_dofile_recursive(l, std::string(PIONEER_DATA_DIR) + "/libs");
-	pi_lua_dofile_recursive(l, std::string(PIONEER_DATA_DIR) + "/modules");
+	pi_lua_dofile_recursive(l, PIONEER_DATA_DIR "/libs");
+	pi_lua_dofile_recursive(l, PIONEER_DATA_DIR "/modules");
 }
 
 static void LuaUninit() {
@@ -527,8 +531,33 @@ void Pi::Init()
 	}
 #endif
 
+	luaConsole = new LuaConsole(10);
+	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
+
 	gameMenuView = new GameMenuView();
 	config.Save();
+}
+
+bool Pi::IsConsoleActive()
+{
+	return luaConsole && luaConsole->IsActive();
+}
+
+void Pi::ToggleLuaConsole()
+{
+	if (luaConsole->IsVisible()) {
+		luaConsole->Hide();
+		if (luaConsole->GetTextEntryField()->IsFocused())
+			Gui::Screen::ClearFocus();
+		Gui::Screen::RemoveBaseWidget(luaConsole);
+	} else {
+		// luaConsole is added and removed from the base widget set
+		// (rather than just using Show()/Hide())
+		// so that it's forced in front of any other base widgets when it opens
+		Gui::Screen::AddBaseWidget(luaConsole, 0, 0);
+		luaConsole->Show();
+		luaConsole->GetTextEntryField()->Show();
+	}
 }
 
 void Pi::InitOpenGL()
@@ -988,7 +1017,7 @@ void Pi::Start()
 {
 	Background::Starfield *starfield = new Background::Starfield();
 	Background::MilkyWay *milkyway = new Background::MilkyWay();
-	
+
 	Gui::Fixed *splash = new Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight());
 	Gui::Screen::AddBaseWidget(splash, 0, 0);
 	splash->SetTransparency(true);

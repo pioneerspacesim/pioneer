@@ -6,6 +6,7 @@ Alpha 15
     * Restored "Panther" ship (#497)
     * Big mushroom station with four bays (#530)
     * New futuristic city buildings (#518)
+    * Experimental Lua console (#537)
     * Ship landing lights now only flash when landing gear is down or ship is
       docking (#236, #478)
     * Station landing lights now coloured to indicate occupied (red), free
