@@ -1068,6 +1068,7 @@ void Ship::UpdateFlavour(const ShipFlavour *f)
 {
 	assert(f->type == m_shipFlavour.type);
 	m_shipFlavour = *f;
+	Pi::luaOnShipFlavourChanged->Queue(this);
 }
 
 /*
@@ -1079,6 +1080,7 @@ void Ship::ResetFlavour(const ShipFlavour *f)
 	m_equipment.InitSlotSizes(f->type);
 	SetLabel(f->regid);
 	Init();
+	Pi::luaOnShipFlavourChanged->Queue(this);
 }
 
 float Ship::GetWeakestThrustersForce() const
