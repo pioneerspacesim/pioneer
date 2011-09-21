@@ -8,7 +8,6 @@
 -- rename wrapper classes
 fixed  = pi_fixed
 vector = pi_vector
-matrix = pi_matrix
 
 -- convenience constructors
 -- XXX do these belong in eg picompat.lua?
