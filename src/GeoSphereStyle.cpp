@@ -154,7 +154,13 @@ double GeoSphereStyle::GetHeightMapVal(const vector3d &pt)
 		//	* Clamp(h*0.0002, 0.1, 0.5);
 		v += h*0.2*voronoiscam_octavenoise(m_fracdef[5-m_fracnum], Clamp(1.0-(h*0.0002), 0.0, 0.6), pt) 
 			* Clamp(1.0-(h*0.0006), 0.0, 1.0);
-
+		//polar ice caps with cracks
+		if ((m_icyness*0.5)+(fabs(pt.y*pt.y*pt.y*0.38)) > 0.6) {
+			h = Clamp(1.0-(v*10.0), 0.0, 1.0)*voronoiscam_octavenoise(m_fracdef[5-m_fracnum], 0.5, pt);
+			h *= h*h*2.0;
+			h -= 3.0;
+			v += h;
+		}
 		return (v<0 ? 0 : v);
 	}
 }
@@ -2324,34 +2330,47 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 				1.0*(2.0-m_icyness)*(1.0-p.y*p.y);
 		vector3d color_cliffs = m_darkrockColor[5];
 		vector3d col, tex1, tex2;
-		// ice on mountains
-		//printf("flatness : %d", flatness);
-		if (flatness > 0.6/Clamp(n*m_icyness+(m_icyness*0.5), 0.1, 1.0)) {
-			if (textures == true) {
-				col = interpolate_color(rock, color_cliffs, m_rockColor[5]);
-				col = interpolate_color(flatness, col, vector3d(1,1,1));
-			} else col = interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
-			return col;
+		
+		if (m_heightMap) {
+			if (n > 0) {
+				// ice on mountains
+				if (flatness > 0.6/Clamp(n*m_icyness+(m_icyness*0.5)+(fabs(p.y*p.y*p.y*0.38)), 0.1, 1.0)) {
+					if (textures == true) {
+						col = interpolate_color(rock, color_cliffs, m_rockColor[5]);
+						col = interpolate_color(flatness, col, vector3d(1,1,1));
+					} else col = interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
+					return col;
+				}
+				//polar ice-caps
+				if ((m_icyness*0.5)+(fabs(p.y*p.y*p.y*0.38)) > 0.6) {
+					//if (flatness > 0.5/Clamp(fabs(p.y*m_icyness), 0.1, 1.0)) {
+					if (textures == true) {
+						col = interpolate_color(rock, color_cliffs, m_rockColor[5]);
+						col = interpolate_color(flatness, col, vector3d(1,1,1));
+					} else col = interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
+					return col;
+				}
+			}
+		} else {
+			// ice on mountains
+			//printf("flatness : %d", flatness);
+			if (flatness > 0.6/Clamp(n*m_icyness+(m_icyness*0.5)+(fabs(p.y*p.y*p.y*0.38)), 0.1, 1.0)) {
+				if (textures == true) {
+					col = interpolate_color(rock, color_cliffs, m_rockColor[5]);
+					col = interpolate_color(flatness, col, vector3d(1,1,1));
+				} else col = interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
+				return col;
+			}
+			//polar ice-caps
+			if ((m_icyness*0.5)+(fabs(p.y*p.y*p.y*0.38)) > 0.6) {
+				//if (flatness > 0.5/Clamp(fabs(p.y*m_icyness), 0.1, 1.0)) {
+				if (textures == true) {
+					col = interpolate_color(rock, color_cliffs, m_rockColor[5]);
+					col = interpolate_color(flatness, col, vector3d(1,1,1));
+				} else col = interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
+				return col;
+			}
 		}
-		// polar ice-caps
-			/*if (flatness > 0.5/Clamp(fabs(p.y*m_icyness), 0.1, 1.0)) {
-				if (textures == true) {
-					col = interpolate_color(rock, color_cliffs, m_rockColor[5]);
-					col = interpolate_color(flatness, col, vector3d(1,1,1));
-				} else col = interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
-				return col;
-			}*/
-
-		if (fabs(p.y) > (1.5-m_icyness)) {	
-		//if (fabs(m_icyness*p.y) > 0.7) { 
-				if (flatness > 0.7) {
-				if (textures == true) {
-					col = interpolate_color(rock, color_cliffs, m_rockColor[5]);
-					col = interpolate_color(flatness, col, vector3d(1,1,1));
-				} else col = interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
-				return col;
-			}
-			}
 		
 
 		// This is for fake ocean depth by the coast.
