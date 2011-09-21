@@ -133,6 +133,8 @@ public:
 	static LuaEventQueue<SpaceStation> *luaOnCreateBB;
 	static LuaEventQueue<SpaceStation> *luaOnUpdateBB;
 	static LuaEventQueue<> *luaOnSongFinished;
+	static LuaEventQueue<Ship> *luaOnShipFlavourChanged;
+	static LuaEventQueue<Ship,const char *> *luaOnShipEquipmentChanged;
 
 	static MTRand rng;
 	static int statSceneTris;
