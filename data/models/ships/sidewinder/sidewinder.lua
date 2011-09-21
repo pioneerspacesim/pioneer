@@ -16,7 +16,7 @@ define_model('rattle_s_gun', {
 			if lod > 2 then
 				texture('gun.png',v(.5,0,0),v(2.2,0,0),v(0,0,-.08))
 			else
-				texture('alu_s.png')
+				texture('alu.png')
 			end
 			use_material('chrome')
 		end
@@ -43,7 +43,7 @@ define_model('rattle_l_gun', {
 			if lod > 2 then
 				texture('gun.png',v(.5,0,0),v(2.2,0,0),v(0,0,-.08))
 			else
-				texture('alu_s.png')
+				texture('alu.png')
 			end
 			use_material('chrome')
 		end
