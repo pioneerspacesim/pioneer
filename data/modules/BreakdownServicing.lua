@@ -65,13 +65,14 @@ local default_service_name = "Manufacturer's warranty"
 local last_service_message = "Your drive was last serviced on {date} by {company}"
 -- How to describe the last service after a game start or ship purchase.
 local first_service_message = "Your drive has not been serviced since it was installed on {date}"
+-- How to describe the last service when there's no drive
+local no_drive_to_service = "You do not have a drive to service!"
 -- Hyperdrive broke down
 local broken_hyperdrive = "The ship's hyperdrive has been destroyed by a malfunction"
 
 -- Default numeric values --
 ----------------------------
 local service_period = 31557600 -- One standard Julian year
-local service_period = 24*60*60*10 -- Test.
 -- 10, guaranteed random by D16 dice roll.
 -- This is to make the BBS name different from the station welcome character.
 local seedbump = 10
@@ -87,10 +88,12 @@ local service_history = {
     jumpcount = 0, -- Number of jumps made after the service_period
 }
 
-local lastServiceMessage = function ()
+local lastServiceMessage = function (hyperdrive)
     -- Fill in the blanks tokens on the {lasttime} string from service_history
     local message
-    if service_history.company == default_service_name then
+    if hyperdrive == 'NONE' then
+        message = no_drive_to_service
+    elseif service_history.company == default_service_name then
         message = first_service_message
     else
         message = last_service_message
@@ -154,9 +157,11 @@ local onChat = function (form, ref, option)
         -- Replace token with details of last service (which might have
         -- been seconds ago)
 		form:SetMessage(string.interp(message, {
-            lasttime = lastServiceMessage(),
+            lasttime = lastServiceMessage(hyperdrive),
         }))
-        if Game.player:GetMoney() < price then
+        if hyperdrive == 'NONE' then
+            -- er, do nothing, I suppose.
+        elseif Game.player:GetMoney() < price then
             form:AddOption(notenoughmoney, -1)
         else
 		    form:AddOption(ad.yesplease, 1)
@@ -231,7 +236,6 @@ local loaded_data
 
 local onGameStart = function ()
 	ads = {}
-    service_history.lastdate = Game.time
 
 	if not loaded_data then return end
 
@@ -246,7 +250,6 @@ local onGameStart = function ()
 end
 
 local onEnterSystem = function (ship)
-    UI.Message(service_history.jumpcount .. "/" .. max_jumps_unserviced .. "\n" .. service_history.lastdate + service_period .. " " .. Game.time)
     if ship:IsPlayer() and (service_history.lastdate + service_period < Game.time) then
         service_history.jumpcount = service_history.jumpcount + 1
         if (service_history.jumpcount > max_jumps_unserviced) or (Engine.rand:Integer(max_jumps_unserviced - service_history.jumpcount) == 0) then
@@ -254,7 +257,6 @@ local onEnterSystem = function (ship)
             local engine = ship:GetEquip('ENGINE',0)
             ship:RemoveEquip(engine)
             ship:AddEquip('RUBBISH',EquipType.GetEquipType(engine).mass)
-            print(engine.name)
             UI.Message(broken_hyperdrive)
         end
     end
