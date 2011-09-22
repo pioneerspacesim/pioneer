@@ -75,7 +75,7 @@
 		4A20B11113531C040020F43E /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A20B10F13531C040020F43E /* SDLMain.m */; };
 		4A20B11C13531CD10020F43E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11613531CD10020F43E /* Credits.rtf */; };
 		4A20B11D13531CD10020F43E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11813531CD10020F43E /* InfoPlist.strings */; };
-		4A20B12013531E950020F43E /* SDLMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11F13531E950020F43E /* SDLMain.nib */; };
+		4A20B12013531E950020F43E /* pioneerApp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11F13531E950020F43E /* pioneerApp.xib */; };
 		4A24077213F5240F002A5C12 /* ChatForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24075513F5240F002A5C12 /* ChatForm.cpp */; };
 		4A24077313F5240F002A5C12 /* FormController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24075813F5240F002A5C12 /* FormController.cpp */; };
 		4A24077413F5240F002A5C12 /* Lang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24075A13F5240F002A5C12 /* Lang.cpp */; };
@@ -444,7 +444,7 @@
 		4A20B11413531CC40020F43E /* pioneer-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "pioneer-Prefix.pch"; path = "pioneer/pioneer-Prefix.pch"; sourceTree = "<group>"; };
 		4A20B11713531CD10020F43E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = pioneer/en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		4A20B11913531CD10020F43E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = pioneer/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		4A20B11F13531E950020F43E /* SDLMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SDLMain.nib; sourceTree = "<group>"; };
+		4A20B11F13531E950020F43E /* pioneerApp.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = pioneerApp.xib; sourceTree = "<group>"; };
 		4A24075513F5240F002A5C12 /* ChatForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatForm.cpp; sourceTree = "<group>"; };
 		4A24075613F5240F002A5C12 /* ChatForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatForm.h; sourceTree = "<group>"; };
 		4A24075713F5240F002A5C12 /* Form.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Form.h; sourceTree = "<group>"; };
@@ -992,7 +992,7 @@
 			isa = PBXGroup;
 			children = (
 				4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */,
-				4A20B11F13531E950020F43E /* SDLMain.nib */,
+				4A20B11F13531E950020F43E /* pioneerApp.xib */,
 				4A20B10E13531C040020F43E /* SDLMain.h */,
 				4A20B10F13531C040020F43E /* SDLMain.m */,
 				4A20B11613531CD10020F43E /* Credits.rtf */,
@@ -1355,7 +1355,7 @@
 			files = (
 				4A20B11C13531CD10020F43E /* Credits.rtf in Resources */,
 				4A20B11D13531CD10020F43E /* InfoPlist.strings in Resources */,
-				4A20B12013531E950020F43E /* SDLMain.nib in Resources */,
+				4A20B12013531E950020F43E /* pioneerApp.xib in Resources */,
 				4AD68C8D1359C3CE0048A93F /* pioneer-logo.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
