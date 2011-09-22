@@ -27,15 +27,6 @@ static NSString *getApplicationName(void)
     return appName;
 }
 
-/* A helper category for NSString */
-@interface NSString (ReplaceSubString)
-- (NSString *)stringByReplacingRange:(NSRange)aRange with:(NSString *)aString;
-@end
-
-@interface SDLApplication : NSApplication
-- (void) terminate:(id)sender;
-@end
-
 @implementation SDLApplication
 /* Invoked from the Quit menu item */
 - (void)terminate:(id)sender
@@ -86,54 +77,13 @@ static NSString *getApplicationName(void)
 }
 @end
 
-
-@implementation NSString (ReplaceSubString)
-
-- (NSString *)stringByReplacingRange:(NSRange)aRange with:(NSString *)aString
-{
-    unsigned int bufferSize;
-    unsigned int selfLen = [self length];
-    unsigned int aStringLen = [aString length];
-    unichar *buffer;
-    NSRange localRange;
-    NSString *result;
-
-    bufferSize = selfLen + aStringLen - aRange.length;
-    buffer = (unichar *)NSAllocateMemoryPages(bufferSize*sizeof(unichar));
-    
-    /* Get first part into buffer */
-    localRange.location = 0;
-    localRange.length = aRange.location;
-    [self getCharacters:buffer range:localRange];
-    
-    /* Get middle part into buffer */
-    localRange.location = 0;
-    localRange.length = aStringLen;
-    [aString getCharacters:(buffer+aRange.location) range:localRange];
-     
-    /* Get last part into buffer */
-    localRange.location = aRange.location + aRange.length;
-    localRange.length = selfLen - localRange.location;
-    [self getCharacters:(buffer+aRange.location+aStringLen) range:localRange];
-    
-    /* Build output string */
-    result = [NSString stringWithCharacters:buffer length:bufferSize];
-    
-    NSDeallocateMemoryPages(buffer, bufferSize);
-    
-    return result;
-}
-
-@end
-
-
-
 #ifdef main
 #  undef main
 #endif
 
-
-/* Main entry point to executable - should *not* be SDL_main! */
+//
+// Main application entry point
+//
 int main (int argc, char * argv[])
 {
     /* Copy the arguments into a global variable */
