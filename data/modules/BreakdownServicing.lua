@@ -108,35 +108,22 @@ local onChat = function (form, ref, option)
 
     -- Tariff!  ad.baseprice is from 2 to 10
     local price = ad.baseprice
-    if hyperdrive == 'NONE' then
-        price = 0
-    elseif hyperdrive == 'DRIVE_CLASS1' then
-        price = price * 1.0
-    elseif hyperdrive == 'DRIVE_CLASS2' then
-        price = price * 1.2
-    elseif hyperdrive == 'DRIVE_CLASS3' then
-        price = price * 1.4
-    elseif hyperdrive == 'DRIVE_CLASS4' then
-        price = price * 1.8
-    elseif hyperdrive == 'DRIVE_CLASS5' then
-        price = price * 2.6
-    elseif hyperdrive == 'DRIVE_CLASS6' then
-        price = price * 3.8
-    elseif hyperdrive == 'DRIVE_CLASS7' then
-        price = price * 5.4
-    elseif hyperdrive == 'DRIVE_CLASS8' then
-        price = price * 7.0
-    elseif hyperdrive == 'DRIVE_MIL1' then
-        price = price * 1.2
-    elseif hyperdrive == 'DRIVE_MIL2' then
-        price = price * 1.6
-    elseif hyperdrive == 'DRIVE_MIL3' then
-        price = price * 2.8
-    elseif hyperdrive == 'DRIVE_MIL4' then
-        price = price * 4.0
-    else -- Something weird!
-        price = price * 10
-    end
+    local pricemod = {
+        NONE = 0,
+        DRIVE_CLASS1 = 1.0,
+        DRIVE_CLASS2 = 1.2,
+        DRIVE_CLASS3 = 1.4,
+        DRIVE_CLASS4 = 1.8,
+        DRIVE_CLASS5 = 2.6,
+        DRIVE_CLASS6 = 3.8,
+        DRIVE_CLASS7 = 5.4,
+        DRIVE_CLASS8 = 7.0,
+        DRIVE_MIL1 = 1.2,
+        DRIVE_MIL2 = 1.6,
+        DRIVE_MIL3 = 2.8,
+        DRIVE_MIL4 = 4.0,
+    }
+    price = price * pricemod[hyperdrive]
 
     -- Now make it bigger (-:
     price = price * 10
