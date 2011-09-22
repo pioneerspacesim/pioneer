@@ -460,7 +460,7 @@ void LuaEventQueueBase::Emit()
  *
  * Availability:
  *
- *   not yet
+ *   alpha 15
  *
  * Status:
  *
@@ -480,7 +480,7 @@ void LuaEventQueueBase::Emit()
  *
  * Availability:
  *
- *   not yet
+ *   alpha 15
  *
  * Status:
  *

@@ -236,11 +236,11 @@ void LuaConsole::ExecOrContinue() {
  *
  * Availability:
  *
- *  not yet
+ *   alpha 15
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 static int l_console_addline(lua_State *L) {
 	if (Pi::luaConsole) {
