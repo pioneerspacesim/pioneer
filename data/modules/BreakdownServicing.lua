@@ -106,7 +106,7 @@ local onChat = function (form, ref, option)
 
     local hyperdrive = Game.player:GetEquip('ENGINE',0)
 
-    -- Tariff!  ad.baseprice is from 1 to 100
+    -- Tariff!  ad.baseprice is from 2 to 10
     local price = ad.baseprice
     if hyperdrive == 'NONE' then
         price = 0
@@ -227,7 +227,7 @@ local onCreateBB = function (station)
         response = service_flavours[n].response,
 		station = station,
 		faceseed = rand:Integer(),
-        baseprice = rand:Number(10),
+        baseprice = rand:Number(2,10),
 	}
 
 	local ref = station:AddAdvert(ad.title, onChat, onDelete)
