@@ -283,9 +283,11 @@ end
 
 local onUpdateBB = function (station)
 	for ref,ad in pairs(ads) do
-		if (ad.localdelivery == 0 and ad.due < Game.time + 5*60*60*24) then -- five day timeout for inter-system
+		if delivery_flavours[ad.flavour].localdelivery == 0
+			and ad.due < Game.time + 5*60*60*24 then -- five day timeout for inter-system
 			ad.station:RemoveAdvert(ref)
-		elseif (ad.localdelivery == 1 and ad.due < Game.time + 2*60*60*24) then -- two day timeout for locals
+		elseif delivery_flavours[ad.flavour].localdelivery == 1
+			and ad.due < Game.time + 2*60*60*24 then -- two day timeout for locals
 			ad.station:RemoveAdvert(ref)
 		end
 	end
