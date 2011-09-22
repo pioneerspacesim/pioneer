@@ -110,6 +110,8 @@ local onChat = function (form, ref, option)
     local price = ad.baseprice
     if hyperdrive == 'NONE' then
         price = 0
+    elseif hyperdrive == 'DRIVE_CLASS1' then
+        price = price * 1.0
     elseif hyperdrive == 'DRIVE_CLASS2' then
         price = price * 1.2
     elseif hyperdrive == 'DRIVE_CLASS3' then
