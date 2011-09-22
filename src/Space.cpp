@@ -578,6 +578,8 @@ void TimeStep(float step)
 	Pi::luaOnAICompleted->Emit();
 	Pi::luaOnCreateBB->Emit();
 	Pi::luaOnUpdateBB->Emit();
+	Pi::luaOnShipFlavourChanged->Emit();
+	Pi::luaOnShipEquipmentChanged->Emit();
 
 	PruneCorpses();
 }

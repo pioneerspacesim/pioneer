@@ -100,6 +100,8 @@ LuaEventQueue<Ship> *Pi::luaOnAICompleted;
 LuaEventQueue<SpaceStation> *Pi::luaOnCreateBB;
 LuaEventQueue<SpaceStation> *Pi::luaOnUpdateBB;
 LuaEventQueue<> *Pi::luaOnSongFinished;
+LuaEventQueue<Ship> *Pi::luaOnShipFlavourChanged;
+LuaEventQueue<Ship,const char *> *Pi::luaOnShipEquipmentChanged;
 int Pi::keyModState;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[6];
@@ -233,6 +235,8 @@ static void LuaInit()
 	Pi::luaOnCreateBB = new LuaEventQueue<SpaceStation>("onCreateBB");
 	Pi::luaOnUpdateBB = new LuaEventQueue<SpaceStation>("onUpdateBB");
 	Pi::luaOnSongFinished = new LuaEventQueue<>("onSongFinished");
+	Pi::luaOnShipFlavourChanged = new LuaEventQueue<Ship>("onShipFlavourChanged");
+	Pi::luaOnShipEquipmentChanged = new LuaEventQueue<Ship,const char *>("onShipEquipmentChanged");
 
 	Pi::luaOnGameStart->RegisterEventQueue();
 	Pi::luaOnGameEnd->RegisterEventQueue();
@@ -252,6 +256,8 @@ static void LuaInit()
 	Pi::luaOnCreateBB->RegisterEventQueue();
 	Pi::luaOnUpdateBB->RegisterEventQueue();
 	Pi::luaOnSongFinished->RegisterEventQueue();
+	Pi::luaOnShipFlavourChanged->RegisterEventQueue();
+	Pi::luaOnShipEquipmentChanged->RegisterEventQueue();
 
 	LuaConstants::Register();
 	LuaEngine::Register();
@@ -290,6 +296,8 @@ static void LuaUninit() {
 	delete Pi::luaOnCreateBB;
 	delete Pi::luaOnUpdateBB;
 	delete Pi::luaOnSongFinished;
+	delete Pi::luaOnShipFlavourChanged;
+	delete Pi::luaOnShipEquipmentChanged;
 
 	delete Pi::luaSerializer;
 	delete Pi::luaTimer;
@@ -314,6 +322,8 @@ static void LuaInitGame() {
 	Pi::luaOnCreateBB->ClearEvents();
 	Pi::luaOnUpdateBB->ClearEvents();
 	Pi::luaOnSongFinished->ClearEvents();
+	Pi::luaOnShipFlavourChanged->ClearEvents();
+	Pi::luaOnShipEquipmentChanged->ClearEvents();
 }
 
 void Pi::RedirectStdio()
@@ -969,7 +979,7 @@ static void OnPlayerDockOrUndock()
 	Pi::SetTimeAccel(1);
 }
 
-static void OnPlayerChangeEquipment()
+static void OnPlayerChangeEquipment(Equip::Type e)
 {
 	Pi::onPlayerChangeEquipment.emit();
 }
@@ -981,7 +991,7 @@ void Pi::StartGame()
 	Pi::player->m_equipment.onChange.connect(sigc::ptr_fun(&OnPlayerChangeEquipment));
 	cpan->ShowAll();
 	cpan->SetAlertState(Ship::ALERT_NONE);
-	OnPlayerChangeEquipment();
+	OnPlayerChangeEquipment(Equip::NONE);
 	Pi::isGameStarted = true;
 	SetView(worldView);
 	Pi::luaOnGameStart->Signal();
