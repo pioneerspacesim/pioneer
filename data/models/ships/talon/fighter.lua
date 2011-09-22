@@ -177,7 +177,7 @@ define_model('fi', {
 				use_material('glass')
 				load_obj('fighter_cockpit.obj')
 			else
-				texture('fighterv.png')
+				texture('fighter.png')
 				use_material('rand1')
 				load_obj('fighter_topLQ.obj')
 				use_material('medsteel')
@@ -185,7 +185,7 @@ define_model('fi', {
 
 
 				use_material('rand1')
-				texture('fighter2v.png')
+				texture('fighter2.png')
 				load_obj('fighter_sidesLQ.obj')
 				use_material('glow')
 				load_obj('fighter_glowLQ.obj')
@@ -194,7 +194,7 @@ define_model('fi', {
 				texture(nil)
 				load_obj('fighter_restLQ.obj')
 
-				texture('fighterv.png')
+				texture('fighter.png')
 				use_material('inside')
 				load_obj('fighter_cockpitLQ.obj')
 			end

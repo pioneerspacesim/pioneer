@@ -57,6 +57,7 @@
 #include "LuaRand.h"
 #include "LuaNameGen.h"
 #include "LuaMusic.h"
+#include "LuaConsole.h"
 #include "SoundMusic.h"
 #include "Background.h"
 #include "Lang.h"
@@ -99,6 +100,8 @@ LuaEventQueue<Ship> *Pi::luaOnAICompleted;
 LuaEventQueue<SpaceStation> *Pi::luaOnCreateBB;
 LuaEventQueue<SpaceStation> *Pi::luaOnUpdateBB;
 LuaEventQueue<> *Pi::luaOnSongFinished;
+LuaEventQueue<Ship> *Pi::luaOnShipFlavourChanged;
+LuaEventQueue<Ship,const char *> *Pi::luaOnShipEquipmentChanged;
 int Pi::keyModState;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[6];
@@ -115,6 +118,7 @@ GameMenuView *Pi::gameMenuView;
 SystemView *Pi::systemView;
 SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
+LuaConsole *Pi::luaConsole;
 StarSystem *Pi::selectedSystem;
 StarSystem *Pi::currentSystem;
 MTRand Pi::rng;
@@ -231,6 +235,8 @@ static void LuaInit()
 	Pi::luaOnCreateBB = new LuaEventQueue<SpaceStation>("onCreateBB");
 	Pi::luaOnUpdateBB = new LuaEventQueue<SpaceStation>("onUpdateBB");
 	Pi::luaOnSongFinished = new LuaEventQueue<>("onSongFinished");
+	Pi::luaOnShipFlavourChanged = new LuaEventQueue<Ship>("onShipFlavourChanged");
+	Pi::luaOnShipEquipmentChanged = new LuaEventQueue<Ship,const char *>("onShipEquipmentChanged");
 
 	Pi::luaOnGameStart->RegisterEventQueue();
 	Pi::luaOnGameEnd->RegisterEventQueue();
@@ -250,6 +256,8 @@ static void LuaInit()
 	Pi::luaOnCreateBB->RegisterEventQueue();
 	Pi::luaOnUpdateBB->RegisterEventQueue();
 	Pi::luaOnSongFinished->RegisterEventQueue();
+	Pi::luaOnShipFlavourChanged->RegisterEventQueue();
+	Pi::luaOnShipEquipmentChanged->RegisterEventQueue();
 
 	LuaConstants::Register();
 	LuaEngine::Register();
@@ -260,11 +268,13 @@ static void LuaInit()
 	LuaNameGen::Register();
 	LuaMusic::Register();
 
-	luaL_dofile(l, (std::string(PIONEER_DATA_DIR) + "/pistartup.lua").c_str());
+	LuaConsole::Register();
+
+	luaL_dofile(l, PIONEER_DATA_DIR "/pistartup.lua");
 
 	// XXX load everything. for now, just modules
-	pi_lua_dofile_recursive(l, std::string(PIONEER_DATA_DIR) + "/libs");
-	pi_lua_dofile_recursive(l, std::string(PIONEER_DATA_DIR) + "/modules");
+	pi_lua_dofile_recursive(l, PIONEER_DATA_DIR "/libs");
+	pi_lua_dofile_recursive(l, PIONEER_DATA_DIR "/modules");
 }
 
 static void LuaUninit() {
@@ -286,6 +296,8 @@ static void LuaUninit() {
 	delete Pi::luaOnCreateBB;
 	delete Pi::luaOnUpdateBB;
 	delete Pi::luaOnSongFinished;
+	delete Pi::luaOnShipFlavourChanged;
+	delete Pi::luaOnShipEquipmentChanged;
 
 	delete Pi::luaSerializer;
 	delete Pi::luaTimer;
@@ -310,6 +322,8 @@ static void LuaInitGame() {
 	Pi::luaOnCreateBB->ClearEvents();
 	Pi::luaOnUpdateBB->ClearEvents();
 	Pi::luaOnSongFinished->ClearEvents();
+	Pi::luaOnShipFlavourChanged->ClearEvents();
+	Pi::luaOnShipEquipmentChanged->ClearEvents();
 }
 
 void Pi::RedirectStdio()
@@ -527,8 +541,33 @@ void Pi::Init()
 	}
 #endif
 
+	luaConsole = new LuaConsole(10);
+	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
+
 	gameMenuView = new GameMenuView();
 	config.Save();
+}
+
+bool Pi::IsConsoleActive()
+{
+	return luaConsole && luaConsole->IsActive();
+}
+
+void Pi::ToggleLuaConsole()
+{
+	if (luaConsole->IsVisible()) {
+		luaConsole->Hide();
+		if (luaConsole->GetTextEntryField()->IsFocused())
+			Gui::Screen::ClearFocus();
+		Gui::Screen::RemoveBaseWidget(luaConsole);
+	} else {
+		// luaConsole is added and removed from the base widget set
+		// (rather than just using Show()/Hide())
+		// so that it's forced in front of any other base widgets when it opens
+		Gui::Screen::AddBaseWidget(luaConsole, 0, 0);
+		luaConsole->Show();
+		luaConsole->GetTextEntryField()->Show();
+	}
 }
 
 void Pi::InitOpenGL()
@@ -940,7 +979,7 @@ static void OnPlayerDockOrUndock()
 	Pi::SetTimeAccel(1);
 }
 
-static void OnPlayerChangeEquipment()
+static void OnPlayerChangeEquipment(Equip::Type e)
 {
 	Pi::onPlayerChangeEquipment.emit();
 }
@@ -952,7 +991,7 @@ void Pi::StartGame()
 	Pi::player->m_equipment.onChange.connect(sigc::ptr_fun(&OnPlayerChangeEquipment));
 	cpan->ShowAll();
 	cpan->SetAlertState(Ship::ALERT_NONE);
-	OnPlayerChangeEquipment();
+	OnPlayerChangeEquipment(Equip::NONE);
 	Pi::isGameStarted = true;
 	SetView(worldView);
 	Pi::luaOnGameStart->Signal();
@@ -988,7 +1027,7 @@ void Pi::Start()
 {
 	Background::Starfield *starfield = new Background::Starfield();
 	Background::MilkyWay *milkyway = new Background::MilkyWay();
-	
+
 	Gui::Fixed *splash = new Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight());
 	Gui::Screen::AddBaseWidget(splash, 0, 0);
 	splash->SetTransparency(true);

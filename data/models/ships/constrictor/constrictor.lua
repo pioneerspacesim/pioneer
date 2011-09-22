@@ -405,11 +405,7 @@ define_model('conny_equipment', {
 			{0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 2.5 }))
 			use_material('ncv')
 
-			if lod > 3 then
-				texture('models/ships/constrictor/con_sc_b.png')
-			else
-				texture('models/ships/constrictor/con_sc_bs.png')
-			end
+			texture('models/ships/constrictor/con_sc_b.png')
 			load_obj('models/ships/constrictor/con_scoop.obj')
 
 			texture('models/ships/constrictor/scoop.png')
@@ -884,19 +880,11 @@ define_model('conny', {
 			use_light(1)
 
 			use_material('pit_0')
-			if lod > 3 then
-				texture('con_pit_d0.png')
-			else
-				texture('con_pit_d0s.png')
-			end
+			texture('con_pit_d0.png')
 			load_obj('con_pit_d.obj')
 
 			use_material('glow')
-			if lod > 3 then
-				texture('con_pit_d1.png')
-			else
-				texture('con_pit_d1s.png')
-			end
+			texture('con_pit_d1.png')
 			zbias(1,v(0,0,0),v(0,1,0))
 			load_obj('con_pit_d.obj')
 			zbias(0)

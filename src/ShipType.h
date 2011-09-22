@@ -66,7 +66,7 @@ public:
 		for (int i=0; i<Equip::SLOT_MAX; i++) {
 			equip[i] = std::vector<Equip::Type>(ShipType::types[t].equipSlotCapacity[i]);
 		}
-		onChange.emit();
+		onChange.emit(Equip::NONE);
 	}
 	int GetSlotSize(Equip::Slot s) const {
 		return equip[s].size();
@@ -81,7 +81,7 @@ public:
 	}
 	void Set(Equip::Slot s, int idx, Equip::Type e) {
 		equip[s][idx] = e;
-		onChange.emit();
+		onChange.emit(e);
 	}
 	int Add(Equip::Type e, int num) {
 		Equip::Slot s = Equip::types[e].slot;
@@ -93,7 +93,7 @@ public:
 				numDone++;
 			}
 		}
-		if (numDone) onChange.emit();
+		if (numDone) onChange.emit(e);
 		return numDone;
 	}
 	int Add(Equip::Type e) {
@@ -111,7 +111,7 @@ public:
 				numDone++;
 			}
 		}
-		if (numDone) onChange.emit();
+		if (numDone) onChange.emit(e);
 		return numDone;
 	}
 	int Count(Equip::Slot s, Equip::Type e) const {
@@ -131,7 +131,7 @@ public:
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
 
-	sigc::signal<void> onChange;
+	sigc::signal<void,Equip::Type> onChange;
 private:
 	std::vector<Equip::Type> equip[Equip::SLOT_MAX];
 };
