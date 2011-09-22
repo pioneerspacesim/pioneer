@@ -65,18 +65,26 @@ local default_service_name = "Manufacturer's warranty"
 local last_service_message = "Your drive was last serviced on {date} by {company}"
 -- How to describe the last service after a game start or ship purchase.
 local first_service_message = "Your drive has not been serviced since it was installed on {date}"
+-- Hyperdrive broke down
+local broken_hyperdrive = "The ship's hyperdrive has been destroyed by a malfunction"
 
 -- Default numeric values --
 ----------------------------
 local service_period = 31557600 -- One standard Julian year
+local service_period = 24*60*60*10 -- Test.
 -- 10, guaranteed random by D16 dice roll.
 -- This is to make the BBS name different from the station welcome character.
 local seedbump = 10
+-- How many jumps might you get after your service_period is finished?
+-- Failure is increasingly likely with each jump, this being the limit
+-- where probability = 1
+local max_jumps_unserviced = 255
 
 local ads = {}
 local service_history = {
     lastdate = 0, -- Default will be overwritten on game start
     company = default_service_name,
+    jumpcount = 0, -- Number of jumps made after the service_period
 }
 
 local lastServiceMessage = function ()
@@ -167,6 +175,7 @@ local onChat = function (form, ref, option)
             Game.player:AddMoney(-price)
             service_history.lastdate = Game.time
             service_history.company = ad.title
+            service_history.jumpcount = 0
         end
     end
 end
@@ -236,6 +245,21 @@ local onGameStart = function ()
 	loaded_data = nil
 end
 
+local onEnterSystem = function (ship)
+    UI.Message(service_history.jumpcount .. "/" .. max_jumps_unserviced .. "\n" .. service_history.lastdate + service_period .. " " .. Game.time)
+    if ship:IsPlayer() and (service_history.lastdate + service_period < Game.time) then
+        service_history.jumpcount = service_history.jumpcount + 1
+        if (service_history.jumpcount > max_jumps_unserviced) or (Engine.rand:Integer(max_jumps_unserviced - service_history.jumpcount) == 0) then
+            -- Destroy the engine
+            local engine = ship:GetEquip('ENGINE',0)
+            ship:RemoveEquip(engine)
+            ship:AddEquip('RUBBISH',EquipType.GetEquipType(engine).mass)
+            print(engine.name)
+            UI.Message(broken_hyperdrive)
+        end
+    end
+end
+
 local serialize = function ()
 	return { ads = ads, service_history = service_history }
 end
@@ -248,5 +272,6 @@ EventQueue.onCreateBB:Connect(onCreateBB)
 EventQueue.onGameStart:Connect(onGameStart)
 EventQueue.onShipFlavourChanged:Connect(onShipFlavourChanged)
 EventQueue.onShipEquipmentChanged:Connect(onShipEquipmentChanged)
+EventQueue.onEnterSystem:Connect(onEnterSystem)
 
 Serializer:Register("BreakdownServicing", serialize, unserialize)
