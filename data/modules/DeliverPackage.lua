@@ -237,7 +237,7 @@ local makeAdvert = function (station)
 		local dist = station:DistanceTo(locdist)
 		if dist < 1000 then return end
 		reward = 25 + (math.sqrt(dist) / 15000) * (1+urgency)
-		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(0.8,3.5) - urgency))
+		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(1.5,3.5) - urgency))
 	else
 		local nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
 		if #nearbysystems == 0 then return end
