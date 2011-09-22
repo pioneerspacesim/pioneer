@@ -137,7 +137,7 @@ local onChat = function (form, ref, option)
     end
 
     -- Now make it bigger (-:
-    price = price * 100
+    price = price * 10
 
     -- Replace those tokens into ad's intro text that can change during play
     message = string.interp(ad.intro, {
