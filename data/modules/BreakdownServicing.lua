@@ -118,6 +118,7 @@ local onChat = function (form, ref, option)
         DRIVE_CLASS6 = 3.8,
         DRIVE_CLASS7 = 5.4,
         DRIVE_CLASS8 = 7.0,
+        DRIVE_CLASS9 = 9.6,
         DRIVE_MIL1 = 1.2,
         DRIVE_MIL2 = 1.6,
         DRIVE_MIL3 = 2.8,
