@@ -33,7 +33,7 @@ namespace Gui {
 			scale[1] = fontScale[1];
 		}
 		static const float* GetCoords2Pixels() { return fontScale; }
-		static void SetFocused(Widget *w);
+		static void SetFocused(Widget *w, bool enableKeyRepeat = false);
 		static void ClearFocus();
 		static bool IsFocused(Widget *w) {
 			return w == focusedWidget;
@@ -50,6 +50,8 @@ namespace Gui {
 		static float GetFontHeight(TextureFont *font = 0);
 		static void RenderString(const std::string &s, float xoff, float yoff, TextureFont *font = 0);
 		static void MeasureString(const std::string &s, float &w, float &h, TextureFont *font = 0);
+		static int PickCharacterInString(const std::string &s, float x, float y, TextureFont *font = 0);
+		static void MeasureCharacterPos(const std::string &s, int charIndex, float &x, float &y, TextureFont *font = 0);
 		static void RenderMarkup(const std::string &s, TextureFont *font = 0);
 
 	private:

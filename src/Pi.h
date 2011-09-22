@@ -29,7 +29,7 @@ class SpaceStation;
 class GalacticView;
 class Ship;
 class GameMenuView;
-struct lua_State;
+class LuaConsole;
 namespace Sound { class MusicPlayer; }
 
 #if OBJECTVIEWER
@@ -64,6 +64,7 @@ public:
 	static void MainLoop();
 	static void TombStoneLoop();
 	static void OnChangeDetailLevel();
+	static void ToggleLuaConsole();
 	static void Quit() __attribute((noreturn));
 	static void Serialize(Serializer::Writer &wr);
 	static void Unserialize(Serializer::Reader &rd);
@@ -84,6 +85,7 @@ public:
 	static float GetScrAspect() { return scrAspect; }
 	static int KeyState(SDLKey k) { return keyState[k]; }
 	static int KeyModState() { return keyModState; }
+	static bool IsConsoleActive();
 	static int JoystickButtonState(int joystick, int button);
 	static int JoystickHatState(int joystick, int hat);
 	static float JoystickAxisState(int joystick, int axis);
@@ -155,10 +157,10 @@ public:
 	static WorldView *worldView;
 	static SpaceStationView *spaceStationView;
 	static InfoView *infoView;
+	static LuaConsole *luaConsole;
 	static ShipCpanel *cpan;
 	static GLUquadric *gluQuadric;
 	static StarSystem *currentSystem;
-	static lua_State *luaPersistent;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
 
 #if OBJECTVIEWER
