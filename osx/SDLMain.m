@@ -1,15 +1,14 @@
 //
 // Objective-C cocoa wrapper for pioneer
 
-#include <SDL/SDL.h>
-#include "SDLMain.h"
-#include <sys/param.h> /* for MAXPATHLEN */
-#include <unistd.h>
+#import <SDL/SDL.h>
+#import "SDLMain.h"
+#import <sys/param.h> /* for MAXPATHLEN */
+#import <unistd.h>
 
 static int    gArgc;
 static char  **gArgv;
 static BOOL   gFinderLaunch;
-static BOOL   gCalledAppMainline = FALSE;
 
 static NSString *getApplicationName(void)
 {
@@ -69,7 +68,6 @@ static NSString *getApplicationName(void)
     [self setupWorkingDirectory:gFinderLaunch];
 
     /* Hand off to main application code */
-    gCalledAppMainline = TRUE;
     status = SDL_main (gArgc, gArgv);
 
     /* We're done, thank you for playing */
