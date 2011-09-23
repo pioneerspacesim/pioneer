@@ -37,7 +37,7 @@ local Languages = {
 -- Returns:
 --
 -- t - a function which takes a single token in string form, and returns the
---     translated string
+--     translated string.  If the token isn't defined, it returns the token.
 --
 -- Example:
 --
@@ -81,7 +81,7 @@ Translate = {
             self.dictionary[token] = definition
         end
         return function (token)
-            return self.dictionary[token] or Languages['English'][token] or ''
+            return self.dictionary[token] or Languages['English'][token] or token
         end
     end,
 
