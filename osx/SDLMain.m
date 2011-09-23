@@ -10,30 +10,16 @@ static int    gArgc;
 static char  **gArgv;
 static BOOL   gFinderLaunch;
 
-static NSString *getApplicationName(void)
-{
-    const NSDictionary *dict;
-    NSString *appName = 0;
-
-    /* Determine the application name */
-    dict = (const NSDictionary *)CFBundleGetInfoDictionary(CFBundleGetMainBundle());
-    if (dict)
-        appName = [dict objectForKey: @"CFBundleName"];
-    
-    if (![appName length])
-        appName = [[NSProcessInfo processInfo] processName];
-
-    return appName;
-}
-
 @implementation SDLApplication
-/* Invoked from the Quit menu item */
+
+// Invoked from the Quit menu item
 - (void)terminate:(id)sender
 {
-    /* Post a SDL_QUIT event */
+    // Posts a SDL_QUIT event so SDL shutsdown
     SDL_Event event;
     event.type = SDL_QUIT;
     SDL_PushEvent(&event);
+    [super terminate:sender];
 }
 @end
 
