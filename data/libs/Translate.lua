@@ -17,6 +17,9 @@ local Languages = {
 --
 -- Class: Translate
 --
+Translate = {
+    language = 'English', -- Default
+    dictionary = Languages['English'],
 
 --
 -- Group: Methods
@@ -48,6 +51,15 @@ local Languages = {
 --
 -- experimental
 --
+    getLanguage = function (self, language)
+        self.language = language or self.language
+        for token, definition in pairs(Languages[self.language]) do
+            self.dictionary[token] = definition
+        end
+        return function (token)
+            return self.dictionary[token] or Languages['English'][token] or token
+        end
+    end,
 
 --
 -- Method: add
@@ -71,20 +83,6 @@ local Languages = {
 -- >     }
 -- > })
 --
-Translate = {
-    language = 'English', -- Default
-    dictionary = Languages['English'],
-
-    getLanguage = function (self, language)
-        self.language = language or self.language
-        for token, definition in pairs(Languages[self.language]) do
-            self.dictionary[token] = definition
-        end
-        return function (token)
-            return self.dictionary[token] or Languages['English'][token] or token
-        end
-    end,
-
     add = function (self, dictionary)
         for token, definition in pairs(dictionary[self.language]) do
             self.dictionary[token] = definition
