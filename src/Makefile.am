@@ -250,7 +250,10 @@ pioneer_SOURCES	= \
 	perlin.cpp \
 	utils.cpp
 
-pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a gui/libgui.a render/librender.a \
+pioneer_LDADD = \
+		../contrib/rocket/src/Core/librocketcore.a ../contrib/rocket/src/Controls/librocketcontrols.a \
+		../contrib/oolua/liboolua.a \
+		collider/libcollider.a gui/libgui.a render/librender.a \
 		$(MINGW_LIBS) \
 		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
@@ -293,7 +296,7 @@ TESTS = tests
  
 tests_LDADD = collider/libcollider.a gui/libgui.a render/librender.a
 
-INCLUDES = -isystem @top_srcdir@/contrib
+INCLUDES = -isystem @top_srcdir@/contrib -isystem @top_srcdir@/contrib/rocket/include
 if !HAVE_LUA
 INCLUDES += -isystem @top_srcdir@/contrib/lua
 endif

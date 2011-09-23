@@ -235,5 +235,20 @@ AC_SUBST([WARN_CFLAGS])
 AC_SUBST([WARN_CXXFLAGS])
 AC_SUBST([WARN_CPPFLAGS])
 
-AC_CONFIG_FILES([Makefile data/Makefile src/Makefile src/collider/Makefile src/gui/Makefile src/render/Makefile contrib/Makefile contrib/lua/Makefile contrib/oolua/Makefile osx/Makefile win32/Makefile])
+AC_CONFIG_FILES([
+	Makefile 
+	data/Makefile
+	src/Makefile
+	src/collider/Makefile
+	src/gui/Makefile
+	src/render/Makefile
+	contrib/Makefile
+	contrib/lua/Makefile
+	contrib/oolua/Makefile
+	contrib/rocket/Makefile
+	contrib/rocket/src/Makefile
+	contrib/rocket/src/Core/Makefile
+	contrib/rocket/src/Controls/Makefile
+	osx/Makefile
+	win32/Makefile])
 AC_OUTPUT

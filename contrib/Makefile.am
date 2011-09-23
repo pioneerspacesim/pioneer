@@ -1,1 +1,1 @@
-SUBDIRS = lua oolua
+SUBDIRS = lua oolua rocket
