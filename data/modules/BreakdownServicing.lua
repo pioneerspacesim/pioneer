@@ -108,7 +108,7 @@ local onChat = function (form, ref, option)
 
     -- Tariff!  ad.baseprice is from 2 to 10
     local price = ad.baseprice
-    price = price * ({
+    price = price * (({
         NONE = 0,
         DRIVE_CLASS1 = 1.0,
         DRIVE_CLASS2 = 1.2,
@@ -123,7 +123,7 @@ local onChat = function (form, ref, option)
         DRIVE_MIL2 = 1.6,
         DRIVE_MIL3 = 2.8,
         DRIVE_MIL4 = 4.0,
-    })[hyperdrive] or 10
+    })[hyperdrive] or 10)
 
     -- Now make it bigger (-:
     price = price * 10
