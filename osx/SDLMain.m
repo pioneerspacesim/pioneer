@@ -73,7 +73,13 @@ static NSString *getApplicationName(void)
     /* We're done, thank you for playing */
     exit(status);
 }
-@end
+
+- (void) help:(id)sender
+{
+    NSLog(@"Help currently not implemented");
+}
+
+@end // SDLMain
 
 #ifdef main
 #  undef main
