@@ -1,25 +1,36 @@
-local Languages = {
-    English = {
-        FAIL = 'Failure',
-        YES = 'Yes',
-        NO = 'No',
-    },
-    Deutsch = {
-        YES = 'Ja',
-        NO = 'Nein',
-    },
-    Francais = {
-        YES = 'Oui',
-        NO = 'Non',
-    },
-}
+--
+-- This will be replaced with an API function that returns a similar value
+-- Issue number #553
+--
+local defaultLanguage = function ()
+    return 'English'
+end
+
+--
+-- Populate default dictionaries from system languages
+-- Warning: Hairy parsing code.  Proceed with caution.
+--
+local defaultDictionary = function (language)
+    local dictionary = {}
+    local languagefile = assert(io.open("data/lang/" .. language .. ".txt", 'r'))
+    while true do
+        local token = languagefile:read('*line')
+        if not token then break end
+        if not ((token == '') or (token:match("^%s*#"))) then
+            token = token:match("^%s*(.-)%s*$")
+            local translation = languagefile:read('*line')
+            dictionary[token] = translation:match("^%s*(.-)%s*$")
+        end
+    end
+    return dictionary
+end
 
 --
 -- Class: Translate
 --
 Translate = {
-    language = 'English', -- Default
-    dictionary = Languages['English'],
+    language = defaultLanguage(), -- Default
+    dictionary = defaultDictionary(defaultLanguage()),
 
 --
 -- Group: Methods
@@ -53,11 +64,9 @@ Translate = {
 --
     getLanguage = function (self, language)
         self.language = language or self.language
-        for token, definition in pairs(Languages[self.language]) do
-            self.dictionary[token] = definition
-        end
+        dictionary = defaultDictionary(self.language)
         return function (token)
-            return self.dictionary[token] or Languages['English'][token] or token
+            return self.dictionary[token] or token
         end
     end,
 
