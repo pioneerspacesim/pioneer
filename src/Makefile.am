@@ -90,6 +90,8 @@ noinst_HEADERS = \
 	Quaternion.h \
 	RefCounted.h \
 	RefList.h \
+	RocketRender.h \
+	RocketSystem.h \
 	Sector.h \
 	SectorView.h \
 	Serializer.h \
@@ -209,6 +211,7 @@ pioneer_SOURCES	= \
 	Player.cpp \
 	Polit.cpp \
 	Projectile.cpp \
+	RocketRender.cpp \
 	Sector.cpp \
 	SectorView.cpp \
 	Serializer.cpp \

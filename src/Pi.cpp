@@ -62,6 +62,8 @@
 #include "Background.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "RocketSystem.h"
+#include "RocketRender.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -153,6 +155,9 @@ ObjectViewerView *Pi::objectViewerView;
 #endif
 
 Sound::MusicPlayer Pi::musicPlayer;
+
+RocketSystem *Pi::rocketSystem;
+RocketRender *Pi::rocketRender;
 
 int Pi::CombatRating(int kills)
 {
