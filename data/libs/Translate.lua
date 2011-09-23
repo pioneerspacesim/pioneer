@@ -19,7 +19,7 @@ local defaultDictionary = function (language)
         if not ((token == '') or (token:match("^%s*#"))) then
             token = token:match("^%s*(.-)%s*$")
             local translation = languagefile:read('*line')
-            dictionary[token] = translation:match("^%s*(.-)%s*$")
+            dictionary[token] = translation:match('^%s*"?(.-)"?%s*$')
         end
     end
     return dictionary
