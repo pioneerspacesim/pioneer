@@ -3,7 +3,7 @@
 -- Issue number #553
 --
 local defaultLanguage = function ()
-    return 'Deutsch'
+    return 'English'
 end
 
 --
