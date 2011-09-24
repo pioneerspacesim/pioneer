@@ -227,6 +227,6 @@ void EquipSet::Load(Serializer::Reader &rd)
 			}
 		}
 	}
-	onChange.emit();
+	onChange.emit(Equip::NONE);
 }
 

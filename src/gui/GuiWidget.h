@@ -26,7 +26,7 @@ namespace Gui {
 		void EndClipping();
 		bool GetEnabled() { return m_enabled; }
 		void SetEnabled(bool v) { m_enabled = v; }
-		void GrabFocus();
+		virtual void GrabFocus();
 		bool IsFocused();
 		virtual void ShowAll() { m_visible = true; }
 		virtual void Show() { m_visible = true; }
@@ -44,7 +44,7 @@ namespace Gui {
 		virtual void OnActivate() {}
 		virtual void OnMouseEnter();
 		virtual void OnMouseLeave();
-		virtual void OnKeyPress(const SDL_keysym *sym) {}
+		virtual bool OnKeyPress(const SDL_keysym *sym) { return false; }
 		bool IsMouseOver() { return m_mouseOver; }
 		// only to be called by Screen::OnKeyDown
 		void OnPreShortcut(const SDL_keysym *sym);

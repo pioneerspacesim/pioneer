@@ -200,8 +200,11 @@ void Player::PollControls(const float timeStep)
 	// if flying 
 	{
 		ClearThrusterState();
-		
+		SetGunState(0,0);
+		SetGunState(1,0);
+
 		vector3d wantAngVel(0.0);
+		double angThrustSoftness = 50.0;
 
 		// have to use this function. SDL mouse position event is bugged in windows
 		int mouseMotion[2];
@@ -232,50 +235,53 @@ void Player::PollControls(const float timeStep)
 			}
 		}
 		else m_mouseActive = false;
-		
-	
-		if (m_flightControlState == CONTROL_FIXSPEED) {
-			double oldSpeed = m_setSpeed;
-			if (stickySpeedKey) {
-				if (!(KeyBindings::increaseSpeed.IsActive() || KeyBindings::decreaseSpeed.IsActive())) {
-					stickySpeedKey = false;
+
+		// disable all keyboard controls while the console is active
+		if (!Pi::IsConsoleActive()) {
+			if (m_flightControlState == CONTROL_FIXSPEED) {
+				double oldSpeed = m_setSpeed;
+				if (stickySpeedKey) {
+					if (!(KeyBindings::increaseSpeed.IsActive() || KeyBindings::decreaseSpeed.IsActive())) {
+						stickySpeedKey = false;
+					}
+				}
+				
+				if (!stickySpeedKey) {
+					if (KeyBindings::increaseSpeed.IsActive())
+						m_setSpeed += std::max(fabs(m_setSpeed)*0.05, 1.0);
+					if (KeyBindings::decreaseSpeed.IsActive())
+						m_setSpeed -= std::max(fabs(m_setSpeed)*0.05, 1.0);
+					if ( ((oldSpeed < 0.0) && (m_setSpeed >= 0.0)) ||
+						 ((oldSpeed > 0.0) && (m_setSpeed <= 0.0)) ) {
+						// flipped from going forward to backwards. make the speed 'stick' at zero
+						// until the player lets go of the key and presses it again
+						stickySpeedKey = true;
+						m_setSpeed = 0;
+					}
 				}
 			}
-			
-			if (!stickySpeedKey) {
-				if (KeyBindings::increaseSpeed.IsActive())
-					m_setSpeed += std::max(fabs(m_setSpeed)*0.05, 1.0);
-				if (KeyBindings::decreaseSpeed.IsActive())
-					m_setSpeed -= std::max(fabs(m_setSpeed)*0.05, 1.0);
-				if ( ((oldSpeed < 0.0) && (m_setSpeed >= 0.0)) ||
-				     ((oldSpeed > 0.0) && (m_setSpeed <= 0.0)) ) {
-					// flipped from going forward to backwards. make the speed 'stick' at zero
-					// until the player lets go of the key and presses it again
-					stickySpeedKey = true;
-					m_setSpeed = 0;
-				}
+
+			if (KeyBindings::thrustForward.IsActive()) SetThrusterState(2, -1.0);
+			if (KeyBindings::thrustBackwards.IsActive()) SetThrusterState(2, 1.0);
+			if (KeyBindings::thrustUp.IsActive()) SetThrusterState(1, 1.0);
+			if (KeyBindings::thrustDown.IsActive()) SetThrusterState(1, -1.0);
+			if (KeyBindings::thrustLeft.IsActive()) SetThrusterState(0, -1.0);
+			if (KeyBindings::thrustRight.IsActive()) SetThrusterState(0, 1.0);
+
+			if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(SDL_BUTTON_LEFT) && Pi::MouseButtonState(SDL_BUTTON_RIGHT))) {
+					SetGunState(Pi::worldView->GetActiveWeapon(), 1);
 			}
-		}
 
-		if (KeyBindings::thrustForward.IsActive()) SetThrusterState(2, -1.0);
-		if (KeyBindings::thrustBackwards.IsActive()) SetThrusterState(2, 1.0);
-		if (KeyBindings::thrustUp.IsActive()) SetThrusterState(1, 1.0);
-		if (KeyBindings::thrustDown.IsActive()) SetThrusterState(1, -1.0);
-		if (KeyBindings::thrustLeft.IsActive()) SetThrusterState(0, -1.0);
-		if (KeyBindings::thrustRight.IsActive()) SetThrusterState(0, 1.0);
-		
-		SetGunState(0,0);
-		SetGunState(1,0);
-		if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(SDL_BUTTON_LEFT) && Pi::MouseButtonState(SDL_BUTTON_RIGHT))) {
-				SetGunState(Pi::worldView->GetActiveWeapon(), 1);
-		}
+			if (KeyBindings::yawLeft.IsActive()) wantAngVel.y += 1.0;
+			if (KeyBindings::yawRight.IsActive()) wantAngVel.y += -1.0;
+			if (KeyBindings::pitchDown.IsActive()) wantAngVel.x += -1.0;
+			if (KeyBindings::pitchUp.IsActive()) wantAngVel.x += 1.0;
+			if (KeyBindings::rollLeft.IsActive()) wantAngVel.z += 1.0;
+			if (KeyBindings::rollRight.IsActive()) wantAngVel.z -= 1.0;
 
-		if (KeyBindings::yawLeft.IsActive()) wantAngVel.y += 1.0;
-		if (KeyBindings::yawRight.IsActive()) wantAngVel.y += -1.0;
-		if (KeyBindings::pitchDown.IsActive()) wantAngVel.x += -1.0;
-		if (KeyBindings::pitchUp.IsActive()) wantAngVel.x += 1.0;
-		if (KeyBindings::rollLeft.IsActive()) wantAngVel.z += 1.0;
-		if (KeyBindings::rollRight.IsActive()) wantAngVel.z -= 1.0;
+			if (KeyBindings::fastRotate.IsActive())
+				angThrustSoftness = 10.0;
+		}
 
 		wantAngVel.x += 2 * KeyBindings::pitchAxis.GetValue();
 		wantAngVel.y += 2 * KeyBindings::yawAxis.GetValue();
@@ -284,9 +290,6 @@ void Player::PollControls(const float timeStep)
 		double invTimeAccel = 1.0 / Pi::GetTimeAccel();
 		for (int axis=0; axis<3; axis++)
 			wantAngVel[axis] = Clamp(wantAngVel[axis], -invTimeAccel, invTimeAccel);
-
-//		matrix4x4d rot; GetRotMatrix(rot);
-		const double angThrustSoftness = KeyBindings::fastRotate.IsActive() ? 10.0 : 50.0;
 		
 		if (m_mouseActive) AIFaceDirection(m_mouseDir);
 		else AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
@@ -343,7 +346,7 @@ void Player::SetAlertState(Ship::AlertState as)
 
 bool Player::IsAnyThrusterKeyDown()
 {
-	return (
+	return !Pi::IsConsoleActive() && (
 		KeyBindings::thrustForward.IsActive()	||
 		KeyBindings::thrustBackwards.IsActive()	||
 		KeyBindings::thrustUp.IsActive()		||
