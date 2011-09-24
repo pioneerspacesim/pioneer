@@ -45,6 +45,8 @@ void SpaceStationType::_ReadStageDurations(const char *key, int *outNumStages, d
 				modelName);
 	}
 
+	lua_pop(L, 1);
+
 	LUA_DEBUG_END(L, 0);
 }
 // read from lua model definition
@@ -91,7 +93,7 @@ bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOri
 	} else {
 		gotOrient = false;
 	}
-	lua_pop(L, 1);
+	lua_pop(L, 2);
 
 	LUA_DEBUG_END(L, 0);
 
@@ -156,7 +158,7 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 	} else {
 		gotOrient = false;
 	}
-	lua_pop(L, 1);
+	lua_pop(L, 2);
 
 	LUA_DEBUG_END(L, 0);
 
