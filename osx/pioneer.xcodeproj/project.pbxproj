@@ -187,6 +187,7 @@
 		4A85A86A13C4631D00C2B986 /* LuaMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86313C4631D00C2B986 /* LuaMusic.cpp */; };
 		4A85A86B13C4631D00C2B986 /* LuaSystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */; };
 		4A85A86C13C4631D00C2B986 /* SoundMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86713C4631D00C2B986 /* SoundMusic.cpp */; };
+		4A8DD53B142E19B6006DD821 /* LuaConsole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A8DD539142E19B6006DD821 /* LuaConsole.cpp */; };
 		4A9822A8142DF4B100B423F1 /* libpng14.14.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A671B8C1388C23200657F38 /* libpng14.14.dylib */; };
 		4A9822AB142DF93D00B423F1 /* AUTHORS.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822AA142DF93D00B423F1 /* AUTHORS.txt */; };
 		4A9822AC142DF97E00B423F1 /* AUTHORS.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822AA142DF93D00B423F1 /* AUTHORS.txt */; };
@@ -687,6 +688,8 @@
 		4A85A86713C4631D00C2B986 /* SoundMusic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundMusic.cpp; sourceTree = "<group>"; };
 		4A85A86813C4631D00C2B986 /* SoundMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundMusic.h; sourceTree = "<group>"; };
 		4A85A86913C4631D00C2B986 /* SystemPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemPath.h; sourceTree = "<group>"; };
+		4A8DD539142E19B6006DD821 /* LuaConsole.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaConsole.cpp; sourceTree = "<group>"; };
+		4A8DD53A142E19B6006DD821 /* LuaConsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaConsole.h; sourceTree = "<group>"; };
 		4A9822AA142DF93D00B423F1 /* AUTHORS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AUTHORS.txt; path = ../AUTHORS.txt; sourceTree = "<group>"; };
 		4A9822AD142E00B100B423F1 /* Quickstart.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Quickstart.txt; path = ../Quickstart.txt; sourceTree = "<group>"; };
 		4A9822AE142E00B100B423F1 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.txt; path = ../README.txt; sourceTree = "<group>"; };
@@ -1067,6 +1070,8 @@
 		4A6C4B9F13532FC300FDD53F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				4A8DD539142E19B6006DD821 /* LuaConsole.cpp */,
+				4A8DD53A142E19B6006DD821 /* LuaConsole.h */,
 				4A6B59CD1429F16E00ADC7C8 /* render */,
 				4A6B59CA1429F14500ADC7C8 /* StringF.cpp */,
 				4A6B59CB1429F14500ADC7C8 /* StringF.h */,
@@ -1623,6 +1628,7 @@
 				4A6B59ED1429F16E00ADC7C8 /* RenderShader.cpp in Sources */,
 				4A6B59EF1429F16E00ADC7C8 /* RenderTarget.cpp in Sources */,
 				4A6B59F11429F16E00ADC7C8 /* RenderTexture.cpp in Sources */,
+				4A8DD53B142E19B6006DD821 /* LuaConsole.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
