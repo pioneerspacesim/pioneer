@@ -58,6 +58,34 @@ static BOOL   gFinderLaunch;
     exit(status);
 }
 
+- (IBAction)wwwHome:(id)sender {
+    if (![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pioneerspacesim.net/"]])
+    {
+        NSLog(@"ERROR: Unable to open URL http://pioneerspacesim.net/\n");
+    }
+}
+
+- (IBAction)wwwIssueTracker:(id)sender {
+    if (![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/pioneerspacesim/pioneer/issues"]])
+    {
+        NSLog(@"ERROR: Unable to open URL https://github.com/pioneerspacesim/pioneer/issues\n");
+    }
+}
+
+- (IBAction)wwwForums:(id)sender {
+    if (![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.spacesimcentral.com/forum/viewforum.php?f=35"]])
+    {
+        NSLog(@"ERROR: Unable to open URL http://www.spacesimcentral.com/forum/viewforum.php?f=35\n");
+    }
+}
+
+- (IBAction)wwwChat:(id)sender {
+    if (![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pioneerspacesim.net/irc"]])
+    {
+        NSLog(@"ERROR: Unable to open URL http://pioneerspacesim.net/irc\n");
+    }
+}
+
 - (IBAction)authors:(id)sender {
     if (![[NSWorkspace sharedWorkspace] openFile:@"AUTHORS.txt"])
     {

@@ -163,6 +163,48 @@
 								<characters key="NS.bytes">Help</characters>
 							</object>
 							<array class="NSMutableArray" key="NSMenuItems">
+								<object class="NSMenuItem" id="829417994">
+									<reference key="NSMenu" ref="837849758"/>
+									<string key="NSTitle">Homepage</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="575155727"/>
+									<reference key="NSMixedImage" ref="299182213"/>
+								</object>
+								<object class="NSMenuItem" id="166706951">
+									<reference key="NSMenu" ref="837849758"/>
+									<string key="NSTitle">Issue Tracker</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="575155727"/>
+									<reference key="NSMixedImage" ref="299182213"/>
+								</object>
+								<object class="NSMenuItem" id="352840796">
+									<reference key="NSMenu" ref="837849758"/>
+									<string key="NSTitle">pioneer Forums</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="575155727"/>
+									<reference key="NSMixedImage" ref="299182213"/>
+								</object>
+								<object class="NSMenuItem" id="844876529">
+									<reference key="NSMenu" ref="837849758"/>
+									<string key="NSTitle">Chat with the dev Team</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="575155727"/>
+									<reference key="NSMixedImage" ref="299182213"/>
+								</object>
+								<object class="NSMenuItem" id="351092842">
+									<reference key="NSMenu" ref="837849758"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<bool key="NSIsSeparator">YES</bool>
+									<string key="NSTitle"/>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="575155727"/>
+									<reference key="NSMixedImage" ref="299182213"/>
+								</object>
 								<object class="NSMenuItem" id="963819125">
 									<reference key="NSMenu" ref="837849758"/>
 									<string key="NSTitle">AUTHORS</string>
@@ -394,6 +436,38 @@
 					</object>
 					<int key="connectionID">354</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">wwwHome:</string>
+						<reference key="source" ref="448461463"/>
+						<reference key="destination" ref="829417994"/>
+					</object>
+					<int key="connectionID">362</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">wwwIssueTracker:</string>
+						<reference key="source" ref="448461463"/>
+						<reference key="destination" ref="166706951"/>
+					</object>
+					<int key="connectionID">363</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">wwwForums:</string>
+						<reference key="source" ref="448461463"/>
+						<reference key="destination" ref="352840796"/>
+					</object>
+					<int key="connectionID">364</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">wwwChat:</string>
+						<reference key="source" ref="448461463"/>
+						<reference key="destination" ref="844876529"/>
+					</object>
+					<int key="connectionID">365</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -501,6 +575,11 @@
 							<reference ref="405237757"/>
 							<reference ref="963819125"/>
 							<reference ref="182575716"/>
+							<reference ref="351092842"/>
+							<reference ref="829417994"/>
+							<reference ref="166706951"/>
+							<reference ref="352840796"/>
+							<reference ref="844876529"/>
 						</array>
 						<reference key="parent" ref="25921972"/>
 					</object>
@@ -607,6 +686,31 @@
 						<reference key="object" ref="438413845"/>
 						<reference key="parent" ref="252624639"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">357</int>
+						<reference key="object" ref="351092842"/>
+						<reference key="parent" ref="837849758"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">358</int>
+						<reference key="object" ref="829417994"/>
+						<reference key="parent" ref="837849758"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">359</int>
+						<reference key="object" ref="166706951"/>
+						<reference key="parent" ref="837849758"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">360</int>
+						<reference key="object" ref="352840796"/>
+						<reference key="parent" ref="837849758"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">361</int>
+						<reference key="object" ref="844876529"/>
+						<reference key="parent" ref="837849758"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -638,6 +742,11 @@
 				<string key="349.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="350.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="351.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="357.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="358.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="359.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="360.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="361.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="57.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="58.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -646,7 +755,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">354</int>
+			<int key="maxID">365</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -681,6 +790,10 @@
 						<string key="musicCopying:">id</string>
 						<string key="quickstart:">id</string>
 						<string key="readme:">id</string>
+						<string key="wwwChat:">id</string>
+						<string key="wwwForums:">id</string>
+						<string key="wwwHome:">id</string>
+						<string key="wwwIssueTracker:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="authors:">
@@ -713,6 +826,22 @@
 						</object>
 						<object class="IBActionInfo" key="readme:">
 							<string key="name">readme:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="wwwChat:">
+							<string key="name">wwwChat:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="wwwForums:">
+							<string key="name">wwwForums:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="wwwHome:">
+							<string key="name">wwwHome:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="wwwIssueTracker:">
+							<string key="name">wwwIssueTracker:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

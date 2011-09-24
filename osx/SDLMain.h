@@ -5,6 +5,10 @@
 
 @interface SDLMain : NSObject {
 }
+- (IBAction)wwwHome:(id)sender;
+- (IBAction)wwwIssueTracker:(id)sender;
+- (IBAction)wwwForums:(id)sender;
+- (IBAction)wwwChat:(id)sender;
 
 - (IBAction)authors:(id)sender;
 - (IBAction)readme:(id)sender;
