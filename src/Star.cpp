@@ -37,7 +37,6 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		const float *col = StarSystem::starRealColors[GetSBody()->type];
 		const float b = (Render::IsHDREnabled() ? 100.0f : 1.0f);
 
-#if 0
 
 		/* Draw star spikes and halo to 2d ortho screen */
 		
@@ -65,7 +64,8 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		glBegin(GL_TRIANGLE_FAN);
 		glVertex3f(pp.x,pp.y,0);
 		glColor4f(0,0,0,0);
-		
+
+#if 0
 		const float spikerad = std::min<float>(10.0f+20000.0f*radius/viewCoords.Length(), 0.5f*float(Gui::Screen::GetHeight()));
 		{
 			/* cubic bezier with 2 (0,0,0) control points */
@@ -96,6 +96,7 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 				glVertex3fv(&p[0]);
 			}
 		}
+#endif
 		glEnd();
 		
 		Render::State::UseProgram(0);
@@ -103,8 +104,8 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		glDisable(GL_BLEND);
 
 		
-		if (Render::AreShadersEnabled())
-#endif
+		//if (Render::AreShadersEnabled())
+
 
 			// shaders get you pretty spots and things
 			TerrainBody::Render(viewCoords, viewTransform);
