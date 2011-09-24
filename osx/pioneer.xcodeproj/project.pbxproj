@@ -187,6 +187,7 @@
 		4A85A86A13C4631D00C2B986 /* LuaMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86313C4631D00C2B986 /* LuaMusic.cpp */; };
 		4A85A86B13C4631D00C2B986 /* LuaSystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */; };
 		4A85A86C13C4631D00C2B986 /* SoundMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86713C4631D00C2B986 /* SoundMusic.cpp */; };
+		4A9822A8142DF4B100B423F1 /* libpng14.14.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A671B8C1388C23200657F38 /* libpng14.14.dylib */; };
 		4A9937511368355500EA0EE5 /* LuaBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371B1368355400EA0EE5 /* LuaBody.cpp */; };
 		4A9937521368355500EA0EE5 /* LuaCargoBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371D1368355400EA0EE5 /* LuaCargoBody.cpp */; };
 		4A9937531368355500EA0EE5 /* LuaConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371F1368355500EA0EE5 /* LuaConstants.cpp */; };
@@ -263,6 +264,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				4A9822A8142DF4B100B423F1 /* libpng14.14.dylib in Copy Libraries */,
 				4A5619D813867661002A904C /* libvorbisfile.3.dylib in Copy Libraries */,
 				4A5619D313866B5B002A904C /* libfreetype.6.dylib in Copy Libraries */,
 				4AE5CA411383E6AA00B55DEB /* libSDL_image-1.2.0.dylib in Copy Libraries */,
@@ -733,6 +735,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A20B0E3135319770020F43E /* Cocoa.framework in Frameworks */,
+				4A6C4EA8135453E400FDD53F /* OpenGL.framework in Frameworks */,
 				4A61E16113978FA900193E43 /* libpng14.14.dylib in Frameworks */,
 				4A5619D513867033002A904C /* libvorbisfile.3.dylib in Frameworks */,
 				4A5619CF13866622002A904C /* libfreetype.6.dylib in Frameworks */,
@@ -740,9 +744,7 @@
 				4AE5CA3E1383E63C00B55DEB /* libSDL_image-1.2.0.dylib in Frameworks */,
 				4AE5CA3B1383E2D000B55DEB /* libSDL-1.2.0.dylib in Frameworks */,
 				4AE5CA381383220E00B55DEB /* libGLEW.1.6.0.dylib in Frameworks */,
-				4A6C4EA8135453E400FDD53F /* OpenGL.framework in Frameworks */,
 				4A6C4EA2135452FF00FDD53F /* libsigc-2.0.0.dylib in Frameworks */,
-				4A20B0E3135319770020F43E /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
