@@ -3,10 +3,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface SDLMain : NSObject
-- (void) help:(id)sender;
+@interface SDLMain : NSObject {
+}
+
+- (IBAction)authors:(id)sender;
+
 @end
 
 @interface SDLApplication : NSApplication
-- (void) terminate:(id)sender;
+- (IBAction) terminate:(id)sender;
 @end

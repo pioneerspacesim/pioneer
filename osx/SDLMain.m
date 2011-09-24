@@ -23,10 +23,9 @@ static BOOL   gFinderLaunch;
 }
 @end
 
-/* The main class of the application, the application's delegate */
 @implementation SDLMain
 
-/* Set the working directory to the .app's parent directory */
+// Set the working directory to the Resources folder in the app bundle
 - (void) setupWorkingDirectory:(BOOL)shouldChdir
 {
     if (shouldChdir)
@@ -45,24 +44,26 @@ static BOOL   gFinderLaunch;
     [[NSFileManager defaultManager] changeCurrentDirectoryPath:resourcePath];
 }
 
-/* Called when the internal event loop has just started running */
+// Called when the internal event loop has just started running
 - (void) applicationDidFinishLaunching: (NSNotification *) note
 {
     int status;
 
-    /* Set the working directory to the .app's parent directory */
     [self setupWorkingDirectory:gFinderLaunch];
 
-    /* Hand off to main application code */
+    // Hand off to main application code
     status = SDL_main (gArgc, gArgv);
 
-    /* We're done, thank you for playing */
+    // We're done, thank you for playing
     exit(status);
 }
 
-- (void) help:(id)sender
+- (IBAction)authors:(id)sender 
 {
-    NSLog(@"Help currently not implemented");
+    if (![[NSWorkspace sharedWorkspace] openFile:@"AUTHORS.txt"]) 
+    {
+        NSLog(@"ERROR: Unable to open AUTHORS.TXT file\n");
+    }
 }
 
 @end // SDLMain
@@ -76,8 +77,8 @@ static BOOL   gFinderLaunch;
 //
 int main (int argc, char * argv[])
 {
-    /* Copy the arguments into a global variable */
-    /* This is passed if we are launched by double-clicking */
+    // Copy the arguments into a global variable
+    // This is passed if we are launched by double-clicking
     if ( argc >= 2 && strncmp (argv[1], "-psn", 4) == 0 ) {
         gArgv = (char **) SDL_malloc(sizeof (char *) * 2);
         gArgv[0] = argv[0];

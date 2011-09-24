@@ -178,7 +178,7 @@
 		4A6C4E9313532FC300FDD53F /* WorldView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D7213532FC300FDD53F /* WorldView.cpp */; };
 		4A6C4EA2135452FF00FDD53F /* libsigc-2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
 		4A6C4EA8135453E400FDD53F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EA7135453E400FDD53F /* OpenGL.framework */; };
-		4A6C55151354655000FDD53F /* data in Copy Data folder */ = {isa = PBXBuildFile; fileRef = 4A6C55141354655000FDD53F /* data */; };
+		4A6C55151354655000FDD53F /* data in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A6C55141354655000FDD53F /* data */; };
 		4A82AA841386969B0028CCED /* Font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA791386969B0028CCED /* Font.cpp */; };
 		4A82AA851386969B0028CCED /* FontManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA7B1386969B0028CCED /* FontManager.cpp */; };
 		4A82AA861386969B0028CCED /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA7D1386969B0028CCED /* GameConfig.cpp */; };
@@ -188,6 +188,8 @@
 		4A85A86B13C4631D00C2B986 /* LuaSystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */; };
 		4A85A86C13C4631D00C2B986 /* SoundMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86713C4631D00C2B986 /* SoundMusic.cpp */; };
 		4A9822A8142DF4B100B423F1 /* libpng14.14.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A671B8C1388C23200657F38 /* libpng14.14.dylib */; };
+		4A9822AB142DF93D00B423F1 /* AUTHORS.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822AA142DF93D00B423F1 /* AUTHORS.txt */; };
+		4A9822AC142DF97E00B423F1 /* AUTHORS.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822AA142DF93D00B423F1 /* AUTHORS.txt */; };
 		4A9937511368355500EA0EE5 /* LuaBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371B1368355400EA0EE5 /* LuaBody.cpp */; };
 		4A9937521368355500EA0EE5 /* LuaCargoBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371D1368355400EA0EE5 /* LuaCargoBody.cpp */; };
 		4A9937531368355500EA0EE5 /* LuaConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371F1368355500EA0EE5 /* LuaConstants.cpp */; };
@@ -247,15 +249,16 @@
 			name = "Copy SubLibraries";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4A6C4EB71354649D00FDD53F /* Copy Data folder */ = {
+		4A6C4EB71354649D00FDD53F /* Copy Data files and folders */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				4A6C55151354655000FDD53F /* data in Copy Data folder */,
+				4A9822AC142DF97E00B423F1 /* AUTHORS.txt in Copy Data files and folders */,
+				4A6C55151354655000FDD53F /* data in Copy Data files and folders */,
 			);
-			name = "Copy Data folder";
+			name = "Copy Data files and folders";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4AD68C6C1359B19E0048A93F /* Copy Libraries */ = {
@@ -669,6 +672,7 @@
 		4A85A86713C4631D00C2B986 /* SoundMusic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundMusic.cpp; sourceTree = "<group>"; };
 		4A85A86813C4631D00C2B986 /* SoundMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundMusic.h; sourceTree = "<group>"; };
 		4A85A86913C4631D00C2B986 /* SystemPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemPath.h; sourceTree = "<group>"; };
+		4A9822AA142DF93D00B423F1 /* AUTHORS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AUTHORS.txt; path = ../AUTHORS.txt; sourceTree = "<group>"; };
 		4A99371A1368355400EA0EE5 /* DeleteEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteEmitter.h; sourceTree = "<group>"; };
 		4A99371B1368355400EA0EE5 /* LuaBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaBody.cpp; sourceTree = "<group>"; };
 		4A99371C1368355400EA0EE5 /* LuaBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaBody.h; sourceTree = "<group>"; };
@@ -948,6 +952,7 @@
 				4A6C55141354655000FDD53F /* data */,
 				4A6C4B9F13532FC300FDD53F /* src */,
 				4A20B11213531CAF0020F43E /* Cocoa Support Files */,
+				4A9822A9142DF91B00B423F1 /* Misc TXT files */,
 				4A20B0E1135319770020F43E /* Frameworks */,
 				4A20B0DF135319770020F43E /* Products */,
 			);
@@ -1304,6 +1309,14 @@
 			path = collider;
 			sourceTree = "<group>";
 		};
+		4A9822A9142DF91B00B423F1 /* Misc TXT files */ = {
+			isa = PBXGroup;
+			children = (
+				4A9822AA142DF93D00B423F1 /* AUTHORS.txt */,
+			);
+			name = "Misc TXT files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1314,7 +1327,7 @@
 				4A20B0DA135319770020F43E /* Sources */,
 				4A20B0DB135319770020F43E /* Frameworks */,
 				4A20B0DC135319770020F43E /* Resources */,
-				4A6C4EB71354649D00FDD53F /* Copy Data folder */,
+				4A6C4EB71354649D00FDD53F /* Copy Data files and folders */,
 				4AD68C6C1359B19E0048A93F /* Copy Libraries */,
 				4A671B841388C02400657F38 /* Copy SubLibraries */,
 				4AD68C7F1359B5D40048A93F /* Do Dynamic Linking install names */,
@@ -1362,6 +1375,7 @@
 				4A20B11D13531CD10020F43E /* InfoPlist.strings in Resources */,
 				4A20B12013531E950020F43E /* pioneerApp.xib in Resources */,
 				4AD68C8D1359C3CE0048A93F /* pioneer-logo.icns in Resources */,
+				4A9822AB142DF93D00B423F1 /* AUTHORS.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
