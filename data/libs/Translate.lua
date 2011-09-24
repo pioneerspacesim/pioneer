@@ -3,7 +3,7 @@
 -- Issue number #553
 --
 local defaultLanguage = function ()
-    return 'English'
+    return 'Deutsch'
 end
 
 --
@@ -93,7 +93,7 @@ Translate = {
 -- > })
 --
     add = function (self, dictionary)
-        if (dictionary[self.dictionary]) then
+        if (dictionary[self.language]) then
             for token, definition in pairs(dictionary[self.language]) do
                 self.dictionary[token] = definition
             end
