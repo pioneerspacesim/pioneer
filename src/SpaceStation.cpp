@@ -21,6 +21,9 @@
 
 void SpaceStationType::_ReadStageDurations(const char *key, int *outNumStages, double **durationArray) {
 	lua_State *L = LmrGetLuaState();
+
+	LUA_DEBUG_START(L);
+
 	model->PushAttributeToLuaStack(key);
 	assert(lua_istable(L, -1));
 
@@ -41,6 +44,8 @@ void SpaceStationType::_ReadStageDurations(const char *key, int *outNumStages, d
 		Error("Space station %s must have atleast 1 docking and 1 undocking animation stage.",
 				modelName);
 	}
+
+	LUA_DEBUG_END(L, 0);
 }
 // read from lua model definition
 void SpaceStationType::ReadStageDurations() {
@@ -51,13 +56,18 @@ void SpaceStationType::ReadStageDurations() {
 bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const
 {
 	lua_State *L = LmrGetLuaState();
+
+	LUA_DEBUG_START(L);
+
 	lua_pushcfunction(L, pi_lua_panic);
 	model->PushAttributeToLuaStack("ship_approach_waypoints");
 	if (!lua_isfunction(L, -1)) {
 		printf("no function\n");
 		lua_pop(L, 2);
+		LUA_DEBUG_END(L, 0);
 		return false;
 	}
+
 	lua_pushinteger(L, port+1);
 	lua_pushinteger(L, stage);
 	lua_pcall(L, 2, 1, -4);
@@ -82,6 +92,9 @@ bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOri
 		gotOrient = false;
 	}
 	lua_pop(L, 1);
+
+	LUA_DEBUG_END(L, 0);
+
 	return gotOrient;
 }
 
@@ -93,7 +106,11 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 {
 	if ((stage < 0) && ((-stage) > numUndockStages)) return false;
 	if ((stage > 0) && (stage > numDockingStages)) return false;
+
 	lua_State *L = LmrGetLuaState();
+
+	LUA_DEBUG_START(L);
+
 	lua_pushcfunction(L, pi_lua_panic);
 	// It's a function of form function(stage, t, from)
 	model->PushAttributeToLuaStack("ship_dock_anim");
@@ -140,6 +157,9 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 		gotOrient = false;
 	}
 	lua_pop(L, 1);
+
+	LUA_DEBUG_END(L, 0);
+
 	return gotOrient;
 }
 
