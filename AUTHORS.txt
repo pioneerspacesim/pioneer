@@ -32,6 +32,7 @@ Art:
   Konrad Mruk
   Marcel Tulloh
   Michele Botticelli
+  Gareth Allnutt
 
 Music:
   Dan Bennett
