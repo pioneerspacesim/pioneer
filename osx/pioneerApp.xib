@@ -268,7 +268,7 @@
 											</object>
 											<object class="NSMenuItem" id="1001393508">
 												<reference key="NSMenu" ref="252624639"/>
-												<string key="NSTitle">Fonts COPYING</string>
+												<string key="NSTitle">fonts COPYING</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="575155727"/>
@@ -366,99 +366,99 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">authors:</string>
-						<reference key="source" ref="448461463"/>
-						<reference key="destination" ref="963819125"/>
-					</object>
-					<int key="connectionID">335</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">readme:</string>
-						<reference key="source" ref="448461463"/>
-						<reference key="destination" ref="400270675"/>
-					</object>
-					<int key="connectionID">338</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">quickstart:</string>
-						<reference key="source" ref="448461463"/>
-						<reference key="destination" ref="729458988"/>
-					</object>
-					<int key="connectionID">340</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">changelog:</string>
-						<reference key="source" ref="448461463"/>
-						<reference key="destination" ref="182575716"/>
-					</object>
-					<int key="connectionID">343</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">copying:</string>
-						<reference key="source" ref="448461463"/>
-						<reference key="destination" ref="248366196"/>
-					</object>
-					<int key="connectionID">344</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">fontCopying:</string>
-						<reference key="source" ref="448461463"/>
-						<reference key="destination" ref="1001393508"/>
-					</object>
-					<int key="connectionID">352</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">luaCopying:</string>
-						<reference key="source" ref="448461463"/>
-						<reference key="destination" ref="534079004"/>
-					</object>
-					<int key="connectionID">353</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">musicCopying:</string>
-						<reference key="source" ref="448461463"/>
-						<reference key="destination" ref="438413845"/>
-					</object>
-					<int key="connectionID">354</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">wwwHome:</string>
+						<string key="label">openURL:</string>
 						<reference key="source" ref="448461463"/>
 						<reference key="destination" ref="515163849"/>
 					</object>
-					<int key="connectionID">362</int>
+					<int key="connectionID">366</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">wwwIssueTracker:</string>
+						<string key="label">openURL:</string>
 						<reference key="source" ref="448461463"/>
 						<reference key="destination" ref="1068333157"/>
 					</object>
-					<int key="connectionID">363</int>
+					<int key="connectionID">367</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">wwwForums:</string>
+						<string key="label">openURL:</string>
 						<reference key="source" ref="448461463"/>
 						<reference key="destination" ref="579302047"/>
 					</object>
-					<int key="connectionID">364</int>
+					<int key="connectionID">368</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">wwwChat:</string>
+						<string key="label">openFile:</string>
+						<reference key="source" ref="448461463"/>
+						<reference key="destination" ref="963819125"/>
+					</object>
+					<int key="connectionID">369</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openFile:</string>
+						<reference key="source" ref="448461463"/>
+						<reference key="destination" ref="182575716"/>
+					</object>
+					<int key="connectionID">370</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openFile:</string>
+						<reference key="source" ref="448461463"/>
+						<reference key="destination" ref="400270675"/>
+					</object>
+					<int key="connectionID">371</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openFile:</string>
+						<reference key="source" ref="448461463"/>
+						<reference key="destination" ref="729458988"/>
+					</object>
+					<int key="connectionID">372</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openURL:</string>
 						<reference key="source" ref="448461463"/>
 						<reference key="destination" ref="686928768"/>
 					</object>
-					<int key="connectionID">365</int>
+					<int key="connectionID">374</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openFile:</string>
+						<reference key="source" ref="448461463"/>
+						<reference key="destination" ref="248366196"/>
+					</object>
+					<int key="connectionID">375</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openFile:</string>
+						<reference key="source" ref="448461463"/>
+						<reference key="destination" ref="1001393508"/>
+					</object>
+					<int key="connectionID">376</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openFile:</string>
+						<reference key="source" ref="448461463"/>
+						<reference key="destination" ref="534079004"/>
+					</object>
+					<int key="connectionID">377</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openFile:</string>
+						<reference key="source" ref="448461463"/>
+						<reference key="destination" ref="438413845"/>
+					</object>
+					<int key="connectionID">378</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -747,7 +747,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">365</int>
+			<int key="maxID">378</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -774,66 +774,16 @@
 					<string key="className">SDLMain</string>
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="authors:">id</string>
-						<string key="changelog:">id</string>
-						<string key="copying:">id</string>
-						<string key="fontCopying:">id</string>
-						<string key="luaCopying:">id</string>
-						<string key="musicCopying:">id</string>
-						<string key="quickstart:">id</string>
-						<string key="readme:">id</string>
-						<string key="wwwChat:">id</string>
-						<string key="wwwForums:">id</string>
-						<string key="wwwHome:">id</string>
-						<string key="wwwIssueTracker:">id</string>
+						<string key="openFile:">id</string>
+						<string key="openURL:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="authors:">
-							<string key="name">authors:</string>
+						<object class="IBActionInfo" key="openFile:">
+							<string key="name">openFile:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="changelog:">
-							<string key="name">changelog:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="copying:">
-							<string key="name">copying:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="fontCopying:">
-							<string key="name">fontCopying:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="luaCopying:">
-							<string key="name">luaCopying:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="musicCopying:">
-							<string key="name">musicCopying:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="quickstart:">
-							<string key="name">quickstart:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="readme:">
-							<string key="name">readme:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="wwwChat:">
-							<string key="name">wwwChat:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="wwwForums:">
-							<string key="name">wwwForums:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="wwwHome:">
-							<string key="name">wwwHome:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="wwwIssueTracker:">
-							<string key="name">wwwIssueTracker:</string>
+						<object class="IBActionInfo" key="openURL:">
+							<string key="name">openURL:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

@@ -59,52 +59,61 @@ static BOOL   gFinderLaunch;
 }
 
 // menuItem Actions
-- (IBAction)wwwHome:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pioneerspacesim.net/"]];
+
+- (IBAction)openURL:(id)sender
+{
+    if ([[sender title] isEqualToString:@"Homepage"])
+    {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pioneerspacesim.net/"]];
+    }
+    else if ([[sender title] isEqualToString:@"Issue Tracker"])
+    {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/pioneerspacesim/pioneer/issues"]];
+    }
+    else if ([[sender title] isEqualToString:@"pioneer Forums"])
+    {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.spacesimcentral.com/forum/viewforum.php?f=35"]];
+    }
+    else if ([[sender title] isEqualToString:@"Chat with the dev team"])
+    {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pioneerspacesim.net/irc"]];
+    }
 }
 
-- (IBAction)wwwIssueTracker:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/pioneerspacesim/pioneer/issues"]];
-}
-
-- (IBAction)wwwForums:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.spacesimcentral.com/forum/viewforum.php?f=35"]];
-}
-
-- (IBAction)wwwChat:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pioneerspacesim.net/irc"]];
-}
-
-- (IBAction)authors:(id)sender {
-    [[NSWorkspace sharedWorkspace] openFile:@"AUTHORS.txt"];
-}
-
-- (IBAction)readme:(id)sender {
-    [[NSWorkspace sharedWorkspace] openFile:@"README.txt"];
-}
-
-- (IBAction)quickstart:(id)sender {
-    [[NSWorkspace sharedWorkspace] openFile:@"Quickstart.txt"];
-}
-
-- (IBAction)changelog:(id)sender {
-    [[NSWorkspace sharedWorkspace] openFile:@"Changelog.txt"];
-}
-
-- (IBAction)copying:(id)sender {
-    [[NSWorkspace sharedWorkspace] openFile:@"COPYING.txt"];
-}
-
-- (IBAction)fontCopying:(id)sender {
-    [[NSWorkspace sharedWorkspace] openFile:@"fonts.COPYING.txt"];
-}
-
-- (IBAction)luaCopying:(id)sender {
-    [[NSWorkspace sharedWorkspace] openFile:@"lua.COPYING.txt"];
-}
-
-- (IBAction)musicCopying:(id)sender {
-    [[NSWorkspace sharedWorkspace] openFile:@"music.COPYING.txt"];
+- (IBAction)openFile:(id)sender
+{
+    if ([[sender title] isEqualToString:@"AUTHORS"])
+    {
+        [[NSWorkspace sharedWorkspace] openFile:@"AUTHORS.txt"];
+    }
+    else if ([[sender title] isEqualToString:@"Changelog"])
+    {
+        [[NSWorkspace sharedWorkspace] openFile:@"Changelog.txt"];
+    }
+    else if ([[sender title] isEqualToString:@"README"])
+    {
+        [[NSWorkspace sharedWorkspace] openFile:@"README.txt"];
+    }
+    else if ([[sender title] isEqualToString:@"Quickstart"])
+    {
+        [[NSWorkspace sharedWorkspace] openFile:@"Quickstart.txt"];
+    }
+    else if ([[sender title] isEqualToString:@"COPYING"])
+    {
+        [[NSWorkspace sharedWorkspace] openFile:@"COPYING.txt"];
+    }
+    else if ([[sender title] isEqualToString:@"fonts COPYING"])
+    {
+        [[NSWorkspace sharedWorkspace] openFile:@"fonts.COPYING.txt"];
+    }
+    else if ([[sender title] isEqualToString:@"lua COPYING"])
+    {
+        [[NSWorkspace sharedWorkspace] openFile:@"lua.COPYING.txt"];
+    }
+    else if ([[sender title] isEqualToString:@"music COPYING"])
+    {
+        [[NSWorkspace sharedWorkspace] openFile:@"music.COPYING.txt"];
+    }
 }
 
 @end // SDLMain
