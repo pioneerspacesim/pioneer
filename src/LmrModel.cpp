@@ -1101,6 +1101,7 @@ void LmrModel::PushAttributeToLuaStack(const char *attr_name) const
 	snprintf(buf, sizeof(buf), "%s_info", m_name.c_str());
 	lua_getglobal(sLua, buf);
 	lua_getfield(sLua, -1, attr_name);
+	lua_remove(sLua, -2);
 	LUA_DEBUG_END(sLua, 1);
 }
 
