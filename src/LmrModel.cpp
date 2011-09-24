@@ -865,6 +865,9 @@ LmrModel::LmrModel(const char *model_name)
 	m_drawClipRadius = 1.0f;
 	m_scale = 1.0f;
 
+	{
+	LUA_DEBUG_START(sLua);
+
 	char buf[256];
 	snprintf(buf, sizeof(buf), "%s_info", model_name);
 	lua_getglobal(sLua, buf);
@@ -932,6 +935,9 @@ LmrModel::LmrModel(const char *model_name)
 	m_hasDynamicFunc = lua_isfunction(sLua, -1);
 	lua_pop(sLua, 1);
 
+	LUA_DEBUG_END(sLua, 0);
+	}
+
 	for (int i=0; i<m_numLods; i++) {
 		m_staticGeometry[i] = new LmrGeomBuffer(this, true);
 		m_dynamicGeometry[i] = new LmrGeomBuffer(this, false);
@@ -972,6 +978,7 @@ rebuild_model:
 		FILE *f = fopen(cache_file.c_str(), "wb");
 		
 		for (int i=0; i<m_numLods; i++) {
+			LUA_DEBUG_START(sLua);
 			m_staticGeometry[i]->PreBuild();
 			s_curBuf = m_staticGeometry[i];
 			lua_pushcfunction(sLua, pi_lua_panic);
@@ -984,6 +991,7 @@ rebuild_model:
 			s_curBuf = 0;
 			m_staticGeometry[i]->PostBuild();
 			m_staticGeometry[i]->SaveToCache(f);
+			LUA_DEBUG_END(sLua, 0);
 		}
 		
 		const int numMaterials = m_materials.size();
@@ -1011,6 +1019,8 @@ void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels)
 	for (std::map<std::string, LmrModel*>::iterator i = s_models.begin();
 			i != s_models.end(); ++i) {
 		LmrModel *model = (*i).second;
+
+		LUA_DEBUG_START(sLua);
 		
 		char buf[256];
 		snprintf(buf, sizeof(buf), "%s_info", model->GetName());
@@ -1035,34 +1045,41 @@ void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels)
 			}
 		}
 		lua_pop(sLua, 2);
+
+		LUA_DEBUG_END(sLua, 0);
 	}
 }
 
 float LmrModel::GetFloatAttribute(const char *attr_name) const
 {
+	LUA_DEBUG_START(sLua);
 	char buf[256];
 	snprintf(buf, sizeof(buf), "%s_info", m_name.c_str());
 	lua_getglobal(sLua, buf);
 	lua_getfield(sLua, -1, attr_name);
 	float result = luaL_checknumber(sLua, -1);
 	lua_pop(sLua, 2);
+	LUA_DEBUG_END(sLua, 0);
 	return result;
 }
 
 int LmrModel::GetIntAttribute(const char *attr_name) const
 {
+	LUA_DEBUG_START(sLua);
 	char buf[256];
 	snprintf(buf, sizeof(buf), "%s_info", m_name.c_str());
 	lua_getglobal(sLua, buf);
 	lua_getfield(sLua, -1, attr_name);
 	int result = luaL_checkinteger(sLua, -1);
 	lua_pop(sLua, 2);
+	LUA_DEBUG_END(sLua, 0);
 	return result;
 }
 
 bool LmrModel::GetBoolAttribute(const char *attr_name) const
 {
 	char buf[256];
+	LUA_DEBUG_START(sLua);
 	snprintf(buf, sizeof(buf), "%s_info", m_name.c_str());
 	lua_getglobal(sLua, buf);
 	lua_getfield(sLua, -1, attr_name);
@@ -1073,15 +1090,18 @@ bool LmrModel::GetBoolAttribute(const char *attr_name) const
 		result = lua_toboolean(sLua, -1) != 0;
 	}	
 	lua_pop(sLua, 2);
+	LUA_DEBUG_END(sLua, 0);
 	return result;
 }
 
 void LmrModel::PushAttributeToLuaStack(const char *attr_name) const
 {
+	LUA_DEBUG_START(sLua);
 	char buf[256];
 	snprintf(buf, sizeof(buf), "%s_info", m_name.c_str());
 	lua_getglobal(sLua, buf);
 	lua_getfield(sLua, -1, attr_name);
+	LUA_DEBUG_END(sLua, 1);
 }
 
 void LmrModel::Render(const matrix4x4f &trans, const LmrObjParams *params)
@@ -1128,6 +1148,7 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 void LmrModel::Build(int lod, const LmrObjParams *params)
 {
 	if (m_hasDynamicFunc) {
+		LUA_DEBUG_START(sLua);
 		m_dynamicGeometry[lod]->PreBuild();
 		s_curBuf = m_dynamicGeometry[lod];
 		s_curParams = params;
@@ -1141,6 +1162,7 @@ void LmrModel::Build(int lod, const LmrObjParams *params)
 		s_curBuf = 0;
 		s_curParams = 0;
 		m_dynamicGeometry[lod]->PostBuild();
+		LUA_DEBUG_END(sLua, 0);
 	}
 }
 
@@ -2910,6 +2932,7 @@ void LmrModelCompilerInit()
 	sLua = L;
 	luaL_openlibs(L);
 
+	LUA_DEBUG_START(sLua);
 
 	lua_pushinteger(L, 1234);
 	lua_setglobal(L, "x");
@@ -2985,6 +3008,8 @@ void LmrModelCompilerInit()
 		lua_pcall(L, 0, LUA_MULTRET, -2);
 	}
 	lua_pop(sLua, 1);  // remove panic func
+
+	LUA_DEBUG_END(sLua, 0);
 	
 	s_buildDynamic = true;
 }
