@@ -93,7 +93,7 @@ Translate = {
 -- > })
 --
     add = function (self, dictionary)
-        if (disctionary[self.dictionary]) then
+        if (dictionary[self.dictionary]) then
             for token, definition in pairs(dictionary[self.language]) do
                 self.dictionary[token] = definition
             end
