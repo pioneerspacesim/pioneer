@@ -205,15 +205,31 @@ void GeoSphereStyle::PickTerrain(MTRand &rand)
 	} else if ((m_body->type == SBody::TYPE_STAR_M) || (m_body->type == SBody::TYPE_STAR_M_GIANT) ||
 	(m_body->type == SBody::TYPE_STAR_M_SUPER_GIANT) || (m_body->type == SBody::TYPE_STAR_M_SUPER_GIANT)){ 
 		m_terrainType = TERRAIN_FLAT;
-		m_colorType = COLOR_STAR_M;
+		const enum ColorFractal choices[] = {
+				COLOR_STAR_M,
+				COLOR_STAR_M,
+				COLOR_STAR_K,
+				COLOR_STAR_G,
+			};
+			m_colorType = choices[rand.Int32(4)];
 	} else if ((m_body->type == SBody::TYPE_STAR_K) || (m_body->type == SBody::TYPE_STAR_K_GIANT) ||
 	(m_body->type == SBody::TYPE_STAR_K_SUPER_GIANT) || (m_body->type == SBody::TYPE_STAR_K_SUPER_GIANT)){ 
 		m_terrainType = TERRAIN_FLAT;
-		m_colorType = COLOR_STAR_K;
+		const enum ColorFractal choices[] = {
+				COLOR_STAR_M,
+				COLOR_STAR_K,
+				COLOR_STAR_K,
+				COLOR_STAR_G,
+			};
+			m_colorType = choices[rand.Int32(3)];
 	} else if ((m_body->type == SBody::TYPE_STAR_G) || (m_body->type == SBody::TYPE_STAR_G_GIANT) ||
 	(m_body->type == SBody::TYPE_STAR_G_SUPER_GIANT) || (m_body->type == SBody::TYPE_STAR_G_SUPER_GIANT)){ 
 		m_terrainType = TERRAIN_FLAT;
-		m_colorType = COLOR_STAR_G;
+		const enum ColorFractal choices[] = {
+				COLOR_STAR_WHITE_DWARF,
+				COLOR_STAR_G,
+			};
+			m_colorType = choices[rand.Int32(2)];
 	} else if (m_body->type < SBody::TYPE_PLANET_GAS_GIANT) {
 		m_terrainType = TERRAIN_FLAT;
 		m_colorType = COLOR_SOLID;
