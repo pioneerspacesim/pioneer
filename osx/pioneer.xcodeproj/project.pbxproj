@@ -190,6 +190,17 @@
 		4A9822A8142DF4B100B423F1 /* libpng14.14.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A671B8C1388C23200657F38 /* libpng14.14.dylib */; };
 		4A9822AB142DF93D00B423F1 /* AUTHORS.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822AA142DF93D00B423F1 /* AUTHORS.txt */; };
 		4A9822AC142DF97E00B423F1 /* AUTHORS.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822AA142DF93D00B423F1 /* AUTHORS.txt */; };
+		4A9822AF142E00B100B423F1 /* Quickstart.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822AD142E00B100B423F1 /* Quickstart.txt */; };
+		4A9822B0142E00B100B423F1 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822AE142E00B100B423F1 /* README.txt */; };
+		4A9822B1142E00C900B423F1 /* Quickstart.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822AD142E00B100B423F1 /* Quickstart.txt */; };
+		4A9822B2142E00C900B423F1 /* README.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822AE142E00B100B423F1 /* README.txt */; };
+		4A9822B5142E02AF00B423F1 /* Changelog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822B3142E02AF00B423F1 /* Changelog.txt */; };
+		4A9822B6142E02AF00B423F1 /* COPYING.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822B4142E02AF00B423F1 /* COPYING.txt */; };
+		4A9822B7142E02BD00B423F1 /* Changelog.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822B3142E02AF00B423F1 /* Changelog.txt */; };
+		4A9822B8142E02BD00B423F1 /* COPYING.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822B4142E02AF00B423F1 /* COPYING.txt */; };
+		4A9822BC142E042700B423F1 /* fonts.COPYING.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822B9142E042700B423F1 /* fonts.COPYING.txt */; };
+		4A9822BD142E042700B423F1 /* lua.COPYING.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822BA142E042700B423F1 /* lua.COPYING.txt */; };
+		4A9822BE142E042700B423F1 /* music.COPYING.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822BB142E042700B423F1 /* music.COPYING.txt */; };
 		4A9937511368355500EA0EE5 /* LuaBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371B1368355400EA0EE5 /* LuaBody.cpp */; };
 		4A9937521368355500EA0EE5 /* LuaCargoBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371D1368355400EA0EE5 /* LuaCargoBody.cpp */; };
 		4A9937531368355500EA0EE5 /* LuaConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371F1368355500EA0EE5 /* LuaConstants.cpp */; };
@@ -255,6 +266,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
+				4A9822B7142E02BD00B423F1 /* Changelog.txt in Copy Data files and folders */,
+				4A9822B8142E02BD00B423F1 /* COPYING.txt in Copy Data files and folders */,
+				4A9822B1142E00C900B423F1 /* Quickstart.txt in Copy Data files and folders */,
+				4A9822B2142E00C900B423F1 /* README.txt in Copy Data files and folders */,
 				4A9822AC142DF97E00B423F1 /* AUTHORS.txt in Copy Data files and folders */,
 				4A6C55151354655000FDD53F /* data in Copy Data files and folders */,
 			);
@@ -673,6 +688,13 @@
 		4A85A86813C4631D00C2B986 /* SoundMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundMusic.h; sourceTree = "<group>"; };
 		4A85A86913C4631D00C2B986 /* SystemPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemPath.h; sourceTree = "<group>"; };
 		4A9822AA142DF93D00B423F1 /* AUTHORS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AUTHORS.txt; path = ../AUTHORS.txt; sourceTree = "<group>"; };
+		4A9822AD142E00B100B423F1 /* Quickstart.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Quickstart.txt; path = ../Quickstart.txt; sourceTree = "<group>"; };
+		4A9822AE142E00B100B423F1 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.txt; path = ../README.txt; sourceTree = "<group>"; };
+		4A9822B3142E02AF00B423F1 /* Changelog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Changelog.txt; path = ../Changelog.txt; sourceTree = "<group>"; };
+		4A9822B4142E02AF00B423F1 /* COPYING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = COPYING.txt; path = ../COPYING.txt; sourceTree = "<group>"; };
+		4A9822B9142E042700B423F1 /* fonts.COPYING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = fonts.COPYING.txt; path = ../fonts.COPYING.txt; sourceTree = "<group>"; };
+		4A9822BA142E042700B423F1 /* lua.COPYING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = lua.COPYING.txt; path = ../lua.COPYING.txt; sourceTree = "<group>"; };
+		4A9822BB142E042700B423F1 /* music.COPYING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = music.COPYING.txt; path = ../music.COPYING.txt; sourceTree = "<group>"; };
 		4A99371A1368355400EA0EE5 /* DeleteEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteEmitter.h; sourceTree = "<group>"; };
 		4A99371B1368355400EA0EE5 /* LuaBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaBody.cpp; sourceTree = "<group>"; };
 		4A99371C1368355400EA0EE5 /* LuaBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaBody.h; sourceTree = "<group>"; };
@@ -1312,6 +1334,13 @@
 		4A9822A9142DF91B00B423F1 /* Misc TXT files */ = {
 			isa = PBXGroup;
 			children = (
+				4A9822B9142E042700B423F1 /* fonts.COPYING.txt */,
+				4A9822BA142E042700B423F1 /* lua.COPYING.txt */,
+				4A9822BB142E042700B423F1 /* music.COPYING.txt */,
+				4A9822B3142E02AF00B423F1 /* Changelog.txt */,
+				4A9822B4142E02AF00B423F1 /* COPYING.txt */,
+				4A9822AD142E00B100B423F1 /* Quickstart.txt */,
+				4A9822AE142E00B100B423F1 /* README.txt */,
 				4A9822AA142DF93D00B423F1 /* AUTHORS.txt */,
 			);
 			name = "Misc TXT files";
@@ -1376,6 +1405,13 @@
 				4A20B12013531E950020F43E /* pioneerApp.xib in Resources */,
 				4AD68C8D1359C3CE0048A93F /* pioneer-logo.icns in Resources */,
 				4A9822AB142DF93D00B423F1 /* AUTHORS.txt in Resources */,
+				4A9822AF142E00B100B423F1 /* Quickstart.txt in Resources */,
+				4A9822B0142E00B100B423F1 /* README.txt in Resources */,
+				4A9822B5142E02AF00B423F1 /* Changelog.txt in Resources */,
+				4A9822B6142E02AF00B423F1 /* COPYING.txt in Resources */,
+				4A9822BC142E042700B423F1 /* fonts.COPYING.txt in Resources */,
+				4A9822BD142E042700B423F1 /* lua.COPYING.txt in Resources */,
+				4A9822BE142E042700B423F1 /* music.COPYING.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

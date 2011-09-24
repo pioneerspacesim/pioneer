@@ -58,11 +58,59 @@ static BOOL   gFinderLaunch;
     exit(status);
 }
 
-- (IBAction)authors:(id)sender 
-{
-    if (![[NSWorkspace sharedWorkspace] openFile:@"AUTHORS.txt"]) 
+- (IBAction)authors:(id)sender {
+    if (![[NSWorkspace sharedWorkspace] openFile:@"AUTHORS.txt"])
     {
         NSLog(@"ERROR: Unable to open AUTHORS.TXT file\n");
+    }
+}
+
+- (IBAction)readme:(id)sender {
+    if (![[NSWorkspace sharedWorkspace] openFile:@"README.txt"])
+    {
+        NSLog(@"ERROR: Unable to open README.TXT file\n");
+    }
+}
+
+- (IBAction)quickstart:(id)sender {
+    if (![[NSWorkspace sharedWorkspace] openFile:@"Quickstart.txt"])
+    {
+        NSLog(@"ERROR: Unable to open Quickstart.TXT file\n");
+    }
+}
+
+- (IBAction)changelog:(id)sender {
+    if (![[NSWorkspace sharedWorkspace] openFile:@"Changelog.txt"])
+    {
+        NSLog(@"ERROR: Unable to open Changelog.TXT file\n");
+    }
+}
+
+- (IBAction)copying:(id)sender {
+    if (![[NSWorkspace sharedWorkspace] openFile:@"COPYING.txt"])
+    {
+        NSLog(@"ERROR: Unable to open COPYING.TXT file\n");
+    }
+}
+
+- (IBAction)fontCopying:(id)sender {
+    if (![[NSWorkspace sharedWorkspace] openFile:@"fonts.COPYING.txt"])
+    {
+        NSLog(@"ERROR: Unable to open fonts.COPYING.TXT file\n");
+    }
+}
+
+- (IBAction)luaCopying:(id)sender {
+    if (![[NSWorkspace sharedWorkspace] openFile:@"lua.COPYING.txt"])
+    {
+        NSLog(@"ERROR: Unable to open lua.COPYING.TXT file\n");
+    }
+}
+
+- (IBAction)musicCopying:(id)sender {
+    if (![[NSWorkspace sharedWorkspace] openFile:@"music.COPYING.txt"])
+    {
+        NSLog(@"ERROR: Unable to open music.COPYING.TXT file\n");
     }
 }
 
