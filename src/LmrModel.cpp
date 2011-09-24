@@ -20,7 +20,6 @@
  * This documentation is incomplete!
  */
 
-#define MODEL "Model"
 struct RenderState {
 	/* For the root model this will be identity matrix.
 	 * For sub-models called with call_model() then this will be the
