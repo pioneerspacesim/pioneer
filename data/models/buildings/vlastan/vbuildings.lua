@@ -9,8 +9,10 @@ local building = function(name, modelname, bradius, lodpixels)
 			 tags = {'city_building'},
 		},
 		static = function(lod)
-			set_material('wall', 1,1,1,1,.3,.3,.3,5)
+			--name, diffuse rgba, spec rgb+intensity, emit rgb
+			set_material('wall', 1,1,1,1, .3,.3,.3,5, 0,0,0)
 			texture('newbuilding.png')
+			texture_glow('glowmap.png')
 			use_material('wall')
 			--uncomment this to identify buildings
 			--text(modelname, v(0, bradius, 0), v(0,0,1), v(1,0,0), 8)
