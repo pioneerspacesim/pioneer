@@ -58,88 +58,53 @@ static BOOL   gFinderLaunch;
     exit(status);
 }
 
+// menuItem Actions
 - (IBAction)wwwHome:(id)sender {
-    if (![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pioneerspacesim.net/"]])
-    {
-        NSLog(@"ERROR: Unable to open URL http://pioneerspacesim.net/\n");
-    }
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pioneerspacesim.net/"]];
 }
 
 - (IBAction)wwwIssueTracker:(id)sender {
-    if (![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/pioneerspacesim/pioneer/issues"]])
-    {
-        NSLog(@"ERROR: Unable to open URL https://github.com/pioneerspacesim/pioneer/issues\n");
-    }
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/pioneerspacesim/pioneer/issues"]];
 }
 
 - (IBAction)wwwForums:(id)sender {
-    if (![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.spacesimcentral.com/forum/viewforum.php?f=35"]])
-    {
-        NSLog(@"ERROR: Unable to open URL http://www.spacesimcentral.com/forum/viewforum.php?f=35\n");
-    }
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.spacesimcentral.com/forum/viewforum.php?f=35"]];
 }
 
 - (IBAction)wwwChat:(id)sender {
-    if (![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pioneerspacesim.net/irc"]])
-    {
-        NSLog(@"ERROR: Unable to open URL http://pioneerspacesim.net/irc\n");
-    }
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pioneerspacesim.net/irc"]];
 }
 
 - (IBAction)authors:(id)sender {
-    if (![[NSWorkspace sharedWorkspace] openFile:@"AUTHORS.txt"])
-    {
-        NSLog(@"ERROR: Unable to open AUTHORS.TXT file\n");
-    }
+    [[NSWorkspace sharedWorkspace] openFile:@"AUTHORS.txt"];
 }
 
 - (IBAction)readme:(id)sender {
-    if (![[NSWorkspace sharedWorkspace] openFile:@"README.txt"])
-    {
-        NSLog(@"ERROR: Unable to open README.TXT file\n");
-    }
+    [[NSWorkspace sharedWorkspace] openFile:@"README.txt"];
 }
 
 - (IBAction)quickstart:(id)sender {
-    if (![[NSWorkspace sharedWorkspace] openFile:@"Quickstart.txt"])
-    {
-        NSLog(@"ERROR: Unable to open Quickstart.TXT file\n");
-    }
+    [[NSWorkspace sharedWorkspace] openFile:@"Quickstart.txt"];
 }
 
 - (IBAction)changelog:(id)sender {
-    if (![[NSWorkspace sharedWorkspace] openFile:@"Changelog.txt"])
-    {
-        NSLog(@"ERROR: Unable to open Changelog.TXT file\n");
-    }
+    [[NSWorkspace sharedWorkspace] openFile:@"Changelog.txt"];
 }
 
 - (IBAction)copying:(id)sender {
-    if (![[NSWorkspace sharedWorkspace] openFile:@"COPYING.txt"])
-    {
-        NSLog(@"ERROR: Unable to open COPYING.TXT file\n");
-    }
+    [[NSWorkspace sharedWorkspace] openFile:@"COPYING.txt"];
 }
 
 - (IBAction)fontCopying:(id)sender {
-    if (![[NSWorkspace sharedWorkspace] openFile:@"fonts.COPYING.txt"])
-    {
-        NSLog(@"ERROR: Unable to open fonts.COPYING.TXT file\n");
-    }
+    [[NSWorkspace sharedWorkspace] openFile:@"fonts.COPYING.txt"];
 }
 
 - (IBAction)luaCopying:(id)sender {
-    if (![[NSWorkspace sharedWorkspace] openFile:@"lua.COPYING.txt"])
-    {
-        NSLog(@"ERROR: Unable to open lua.COPYING.TXT file\n");
-    }
+    [[NSWorkspace sharedWorkspace] openFile:@"lua.COPYING.txt"];
 }
 
 - (IBAction)musicCopying:(id)sender {
-    if (![[NSWorkspace sharedWorkspace] openFile:@"music.COPYING.txt"])
-    {
-        NSLog(@"ERROR: Unable to open music.COPYING.TXT file\n");
-    }
+    [[NSWorkspace sharedWorkspace] openFile:@"music.COPYING.txt"];
 }
 
 @end // SDLMain

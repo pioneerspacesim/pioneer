@@ -163,7 +163,7 @@
 								<characters key="NS.bytes">Help</characters>
 							</object>
 							<array class="NSMutableArray" key="NSMenuItems">
-								<object class="NSMenuItem" id="829417994">
+								<object class="NSMenuItem" id="515163849">
 									<reference key="NSMenu" ref="837849758"/>
 									<string key="NSTitle">Homepage</string>
 									<string key="NSKeyEquiv"/>
@@ -171,7 +171,7 @@
 									<reference key="NSOnImage" ref="575155727"/>
 									<reference key="NSMixedImage" ref="299182213"/>
 								</object>
-								<object class="NSMenuItem" id="166706951">
+								<object class="NSMenuItem" id="1068333157">
 									<reference key="NSMenu" ref="837849758"/>
 									<string key="NSTitle">Issue Tracker</string>
 									<string key="NSKeyEquiv"/>
@@ -179,7 +179,7 @@
 									<reference key="NSOnImage" ref="575155727"/>
 									<reference key="NSMixedImage" ref="299182213"/>
 								</object>
-								<object class="NSMenuItem" id="352840796">
+								<object class="NSMenuItem" id="579302047">
 									<reference key="NSMenu" ref="837849758"/>
 									<string key="NSTitle">pioneer Forums</string>
 									<string key="NSKeyEquiv"/>
@@ -187,7 +187,7 @@
 									<reference key="NSOnImage" ref="575155727"/>
 									<reference key="NSMixedImage" ref="299182213"/>
 								</object>
-								<object class="NSMenuItem" id="844876529">
+								<object class="NSMenuItem" id="686928768">
 									<reference key="NSMenu" ref="837849758"/>
 									<string key="NSTitle">Chat with the dev Team</string>
 									<string key="NSKeyEquiv"/>
@@ -195,7 +195,7 @@
 									<reference key="NSOnImage" ref="575155727"/>
 									<reference key="NSMixedImage" ref="299182213"/>
 								</object>
-								<object class="NSMenuItem" id="351092842">
+								<object class="NSMenuItem" id="215651114">
 									<reference key="NSMenu" ref="837849758"/>
 									<bool key="NSIsDisabled">YES</bool>
 									<bool key="NSIsSeparator">YES</bool>
@@ -381,14 +381,6 @@
 					<int key="connectionID">338</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">quickstart</string>
-						<reference key="source" ref="448461463"/>
-						<reference key="destination" ref="729458988"/>
-					</object>
-					<int key="connectionID">339</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">quickstart:</string>
 						<reference key="source" ref="448461463"/>
@@ -440,7 +432,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">wwwHome:</string>
 						<reference key="source" ref="448461463"/>
-						<reference key="destination" ref="829417994"/>
+						<reference key="destination" ref="515163849"/>
 					</object>
 					<int key="connectionID">362</int>
 				</object>
@@ -448,7 +440,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">wwwIssueTracker:</string>
 						<reference key="source" ref="448461463"/>
-						<reference key="destination" ref="166706951"/>
+						<reference key="destination" ref="1068333157"/>
 					</object>
 					<int key="connectionID">363</int>
 				</object>
@@ -456,7 +448,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">wwwForums:</string>
 						<reference key="source" ref="448461463"/>
-						<reference key="destination" ref="352840796"/>
+						<reference key="destination" ref="579302047"/>
 					</object>
 					<int key="connectionID">364</int>
 				</object>
@@ -464,7 +456,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">wwwChat:</string>
 						<reference key="source" ref="448461463"/>
-						<reference key="destination" ref="844876529"/>
+						<reference key="destination" ref="686928768"/>
 					</object>
 					<int key="connectionID">365</int>
 				</object>
@@ -575,11 +567,11 @@
 							<reference ref="405237757"/>
 							<reference ref="963819125"/>
 							<reference ref="182575716"/>
-							<reference ref="351092842"/>
-							<reference ref="829417994"/>
-							<reference ref="166706951"/>
-							<reference ref="352840796"/>
-							<reference ref="844876529"/>
+							<reference ref="215651114"/>
+							<reference ref="515163849"/>
+							<reference ref="1068333157"/>
+							<reference ref="579302047"/>
+							<reference ref="686928768"/>
 						</array>
 						<reference key="parent" ref="25921972"/>
 					</object>
@@ -688,27 +680,27 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">357</int>
-						<reference key="object" ref="351092842"/>
+						<reference key="object" ref="215651114"/>
 						<reference key="parent" ref="837849758"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">358</int>
-						<reference key="object" ref="829417994"/>
+						<reference key="object" ref="515163849"/>
 						<reference key="parent" ref="837849758"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">359</int>
-						<reference key="object" ref="166706951"/>
+						<reference key="object" ref="1068333157"/>
 						<reference key="parent" ref="837849758"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">360</int>
-						<reference key="object" ref="352840796"/>
+						<reference key="object" ref="579302047"/>
 						<reference key="parent" ref="837849758"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">361</int>
-						<reference key="object" ref="844876529"/>
+						<reference key="object" ref="686928768"/>
 						<reference key="parent" ref="837849758"/>
 					</object>
 				</array>
