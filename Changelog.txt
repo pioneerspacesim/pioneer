@@ -55,6 +55,8 @@ Alpha 15
     * Load glyphs up to 0x1ff to better support certain European translations (#415)
     * LuaManager now allocated from the heap to avoid some startup/shutdown
       problems (#535)
+    * (OSX Only) Refactored and Restructured ObjectiveC code to be more
+      manageable (#559)
 
 Alpha 14
 
