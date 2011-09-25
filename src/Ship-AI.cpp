@@ -153,7 +153,7 @@ void Ship::AIHoldPosition()
 // sometimes endvel is too low to catch moving objects
 // worked around with half-accel hack in dynamicbody & pi.cpp
 
-static double calc_ivel(double dist, double vel, double acc)
+double calc_ivel(double dist, double vel, double acc)
 {
 	bool inv = false;
 	if (dist < 0) { dist = -dist; vel = -vel; inv = true; }

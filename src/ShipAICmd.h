@@ -120,27 +120,20 @@ public:
 	}
 
 protected:
-	void NavigateAroundBody(Body *body, vector3d &targpos);
-	void CheckCollisions();
-	void CheckSuicide();
+	void FrameSwitchSetup();
 	bool OrbitCorrection();
-	void SetOrigTarg(Frame *origframe, vector3d &origpos)
-		{ m_origframe = origframe; m_origpos = origpos; }
 
 private:
 	Frame *m_targframe;	// target frame for waypoint
+	int m_targframeIndex;	// used during deserialisation
 	vector3d m_posoff;	// offset in target frame
 	double m_endvel;	// target speed in direction of motion at end of path, positive only
 	double m_orbitrad;	// orbital radius in metres
 	int m_state;		// see TimeStepUpdate()
-	int m_targframeIndex;	// used during deserialisation
 	bool m_coll;		// whether to bother checking for collisions
 
 	Frame *m_frame;		// current frame of ship, used to check for changes	
 	vector3d m_reldir;	// target direction relative to ship at last frame change
-
-	Frame *m_origframe;		// original target frame, used for tangent heading 
-	vector3d m_origpos;		// original target offset, used for tangent heading
 };
 
 
@@ -175,6 +168,9 @@ public:
 	}
 
 protected:
+	void Setup(Body *obstructor, double alt, double vel, int targmode, Body *target, Frame *targframe, vector3d &posoff);
+	vector3d Targpos();
+
 private:
 	Body *m_obstructor;		// body to fly around 
 	int m_obstructorIndex;	// deserialisation
