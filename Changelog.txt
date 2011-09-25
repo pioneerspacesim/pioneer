@@ -17,7 +17,7 @@ Alpha 15
     * Trade ships will now repair damage and replace destroyed equipment (#481)
     * Mushroom station now has ads in bay 2 (#524)
     * Model fixes: Ship bounding radii, LOD checked and fixed, adverts cleaned
-      up and other minor fixes (#530, #542)
+      up and other minor fixes (#530, #542, #556, #515, #72)
     * Support for glowmaps (#557)
 
   * Fixes
