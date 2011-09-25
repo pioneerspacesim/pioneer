@@ -453,6 +453,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaConsole.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaConstants.cpp"
 				>
 			</File>
