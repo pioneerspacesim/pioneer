@@ -287,7 +287,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 
 		Gui::HBox *scrollBox = new Gui::HBox();
 		scrollBox->SetSpacing(5);
-		m_sbodyInfoTab->Add(scrollBox, 35, 300);
+		m_sbodyInfoTab->Add(scrollBox, 35, 250);
 
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
 		Gui::VScrollPortal *portal = new Gui::VScrollPortal(730);
