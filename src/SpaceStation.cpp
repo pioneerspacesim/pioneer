@@ -416,7 +416,9 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 			if (dt.stage >= 0) {
 				// set docked
 				dt.ship->SetDockedWith(this, i);
-				CreateBB();
+				if (dt.ship->IsType(Object::PLAYER)) {
+					CreateBB();
+				}
 				Pi::luaOnShipDocked->Queue(dt.ship, this);
 			} else {
 				if (!dt.ship->IsEnabled()) {
@@ -730,7 +732,9 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					s->SetFlightState(Ship::DOCKING);
 				} else {
 					s->SetDockedWith(this, port);
-					CreateBB();
+					if (s->IsType(Object::PLAYER)) {
+						CreateBB();
+					}
 					Pi::luaOnShipDocked->Queue(s, this);
 				}
 			}
