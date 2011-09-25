@@ -27,6 +27,7 @@ Alpha 15
     * Ensure docked trade ships take off after game load (#517)
     * Fix crash on docking after failing assassination mission (#527)
     * Old package delivery missions are now removed from the board (#534, #548)
+    * Fix LMR stack leaks that could cause heap corruption (#555, #342, #470)
 
   * Script changes
     * Experimental Lua console (#537)
