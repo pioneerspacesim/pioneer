@@ -1,4 +1,4 @@
-local num_bulk_ships
+local loaded
 
 local spawnShips = function ()
 	local population = Game.system.population
@@ -24,7 +24,7 @@ local spawnShips = function ()
 	- one ship per 5 billion after that
 	]]
 
-	num_bulk_ships = 1
+	local num_bulk_ships = 1
 	while population > 1 do
 		if num_bulk_ships < 4 then
 			population = population-1
@@ -50,17 +50,18 @@ local onEnterSystem = function (player)
 end
 
 local onGameStart = function ()
-	if num_bulk_ships == nil then
+	if loaded == nil then
 		spawnShips()
 	end
+	loaded = nil
 end
 
 local serialize = function ()
-	return num_bulk_ships
+	return true
 end
 
 local unserialize = function (data)
-	num_bulk_ships = data
+	loaded = true
 end
 
 EventQueue.onEnterSystem:Connect(onEnterSystem)
