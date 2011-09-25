@@ -1,6 +1,7 @@
 //
 // Objective-C cocoa wrapper for pioneer
 
+#include "buildopts.h"
 #import <SDL/SDL.h>
 #import "SDLMain.h"
 #import <sys/param.h> /* for MAXPATHLEN */
@@ -114,6 +115,22 @@ static BOOL   gFinderLaunch;
     {
         [[NSWorkspace sharedWorkspace] openFile:@"music.COPYING.txt"];
     }
+}
+
+- (IBAction)openAboutPanel:(id)sender
+{
+    NSDictionary *options;
+    NSImage *img;
+
+    img = [NSImage imageNamed: @"pioneer-logo.icns"];
+    options = [NSDictionary dictionaryWithObjectsAndKeys:
+               @PIONEER_VERSION, @"Version",
+               img, @"ApplicationIcon",
+               @"pioneer", @"ApplicationVersion",
+               @"Copyright (C) 2011 - See AUTHORS.txt", @"Copyright",
+               nil];
+
+    [[NSApplication sharedApplication] orderFrontStandardAboutPanelWithOptions:options];
 }
 
 @end // SDLMain
