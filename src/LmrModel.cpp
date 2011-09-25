@@ -12,6 +12,14 @@
 #include <set>
 #include <algorithm>
 
+/*
+ * Interface: LMR
+ *
+ * Script interface to the model system.
+ *
+ * This documentation is incomplete!
+ */
+
 #define MODEL "Model"
 struct RenderState {
 	/* For the root model this will be identity matrix.
@@ -1890,7 +1898,7 @@ namespace ModelFuncs {
 		return 0;
 	}
 
-	/*
+/*
  * Function: texture_glow
  *
  * Set the glow map. Meant to be used alongside a texture(). The glow
