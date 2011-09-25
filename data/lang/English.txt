@@ -931,6 +931,8 @@ SOLAR
     Solar
 EARTH
     Earth
+SURFACE_GRAVITY
+    Surface gravity
 SURFACE_TEMPERATURE
     Surface temperature
 N_CELSIUS
