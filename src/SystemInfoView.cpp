@@ -63,7 +63,10 @@ void SystemInfoView::OnBodyViewed(SBody *b)
 	_add_label_and_value(Lang::MASS, stringf(Lang::N_WHATEVER_MASSES, formatarg("mass", b->mass.ToDouble()), 
 		formatarg("units", std::string(b->GetSuperType() == SBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH))));
 
-	_add_label_and_value(Lang::SURFACE_TEMPERATURE, stringf(Lang::N_CELSIUS, formatarg("temperature", b->averageTemp-273)));
+	if (b->type != SBody::TYPE_STARPORT_ORBITAL) {
+		_add_label_and_value(Lang::SURFACE_TEMPERATURE, stringf(Lang::N_CELSIUS, formatarg("temperature", b->averageTemp-273)));
+		_add_label_and_value(Lang::SURFACE_GRAVITY, stringf("%0{f.3} m/s^2", G * b->GetMass()/pow(b->GetRadius(), 2)));
+	}
 
 	if (b->parent) {
 		float days = float(b->orbit.period) / float(60*60*24);
@@ -76,11 +79,13 @@ void SystemInfoView::OnBodyViewed(SBody *b)
 		_add_label_and_value(Lang::PERIAPSIS_DISTANCE, stringf("%0{f.3} AU", b->orbMin.ToDouble()));
 		_add_label_and_value(Lang::APOAPSIS_DISTANCE, stringf("%0{f.3} AU", b->orbMax.ToDouble()));
 		_add_label_and_value(Lang::ECCENTRICITY, stringf("%0{f.2}", b->orbit.eccentricity));
-		_add_label_and_value(Lang::AXIAL_TILT, stringf(Lang::N_DEGREES, formatarg("angle", b->axialTilt.ToDouble() * (180.0/M_PI))));
-		if (b->rotationPeriod != 0) {
-			_add_label_and_value(
-				std::string(Lang::DAY_LENGTH)+std::string(Lang::ROTATIONAL_PERIOD),
-				stringf(Lang::N_EARTH_DAYS, formatarg("days", b->rotationPeriod.ToDouble())));
+		if (b->type != SBody::TYPE_STARPORT_ORBITAL) {
+			_add_label_and_value(Lang::AXIAL_TILT, stringf(Lang::N_DEGREES, formatarg("angle", b->axialTilt.ToDouble() * (180.0/M_PI))));
+			if (b->rotationPeriod != 0) {
+				_add_label_and_value(
+					std::string(Lang::DAY_LENGTH)+std::string(Lang::ROTATIONAL_PERIOD),
+					stringf(Lang::N_EARTH_DAYS, formatarg("days", b->rotationPeriod.ToDouble())));
+			}
 		}
 		int numSurfaceStarports = 0;
 		std::string nameList;
@@ -284,7 +289,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 
 		Gui::HBox *scrollBox = new Gui::HBox();
 		scrollBox->SetSpacing(5);
-		m_sbodyInfoTab->Add(scrollBox, 35, 300);
+		m_sbodyInfoTab->Add(scrollBox, 35, 250);
 
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
 		Gui::VScrollPortal *portal = new Gui::VScrollPortal(730);
