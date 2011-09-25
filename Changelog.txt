@@ -31,6 +31,7 @@ Alpha 15
     * Old package delivery missions are now removed from the board (#534, #548)
     * Fix LMR stack leaks that could cause heap corruption (#555, #342, #470)
     * Fix display of co-orbital bodies in system view (#551)
+    * Don't respawn bulk ships on game load (#539)
 
   * Script changes
     * Experimental Lua console (#537)

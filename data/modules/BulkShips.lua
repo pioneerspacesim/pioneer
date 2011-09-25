@@ -1,3 +1,5 @@
+local loaded
+
 local spawnShips = function ()
 	local population = Game.system.population
 
@@ -37,7 +39,6 @@ local spawnShips = function ()
 
 	for i=1, num_bulk_ships do
 	local station = stations[Engine.rand:Integer(1,#stations)]
-
 		Space.SpawnShipParked(shiptypes[Engine.rand:Integer(1,#shiptypes)], station)
 	end
 end
@@ -49,8 +50,21 @@ local onEnterSystem = function (player)
 end
 
 local onGameStart = function ()
-	spawnShips()
+	if loaded == nil then
+		spawnShips()
+	end
+	loaded = nil
+end
+
+local serialize = function ()
+	return true
+end
+
+local unserialize = function (data)
+	loaded = true
 end
 
 EventQueue.onEnterSystem:Connect(onEnterSystem)
 EventQueue.onGameStart:Connect(onGameStart)
+
+Serializer:Register("BulkShips", serialize, unserialize)
