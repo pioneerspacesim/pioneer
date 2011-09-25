@@ -453,6 +453,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaConsole.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaConstants.cpp"
 				>
 			</File>
@@ -1251,6 +1255,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaBody.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaCargoBody.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaChatForm.h"
 				>
 			</File>
@@ -1259,7 +1271,39 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaConsole.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaConstants.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaEngine.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaEquipType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaEventQueue.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaFormat.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaGame.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\contrib\lua\lualib.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaManager.h"
 				>
 			</File>
 			<File
@@ -1267,11 +1311,71 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaNameGen.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaObject.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaPlanet.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaPlayer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaRand.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaSBody.h"
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaSerializer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaShip.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaShipType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaSpace.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaSpaceStation.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaStar.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaStarSystem.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaSystemPath.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaTimer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaUI.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaUtils.h"
 				>
 			</File>
 			<File

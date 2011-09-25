@@ -152,6 +152,7 @@
     <ClCompile Include="..\..\src\LuaBody.cpp" />
     <ClCompile Include="..\..\src\LuaCargoBody.cpp" />
     <ClCompile Include="..\..\src\LuaChatForm.cpp" />
+    <ClCompile Include="..\..\src\LuaConsole.cpp" />
     <ClCompile Include="..\..\src\LuaConstants.cpp" />
     <ClCompile Include="..\..\src\LuaEngine.cpp" />
     <ClCompile Include="..\..\src\LuaEquipType.cpp" />
@@ -315,6 +316,7 @@
     <ClInclude Include="..\..\src\LuaBody.h" />
     <ClInclude Include="..\..\src\LuaCargoBody.h" />
     <ClInclude Include="..\..\src\LuaChatForm.h" />
+    <ClInclude Include="..\..\src\LuaConsole.h" />
     <ClInclude Include="..\..\src\LuaConstants.h" />
     <ClInclude Include="..\..\src\LuaEngine.h" />
     <ClInclude Include="..\..\src\LuaEquipType.h" />
@@ -392,6 +394,7 @@
     <ClInclude Include="..\..\src\StationShipRepairForm.h" />
     <ClInclude Include="..\..\src\StationShipViewForm.h" />
     <ClInclude Include="..\..\src\StationShipyardForm.h" />
+    <ClInclude Include="..\..\src\StringF.h" />
     <ClInclude Include="..\..\src\SystemInfoView.h" />
     <ClInclude Include="..\..\src\SystemView.h" />
     <ClInclude Include="..\..\src\TextureFont.h" />

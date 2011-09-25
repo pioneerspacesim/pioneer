@@ -130,6 +130,7 @@
     <ClCompile Include="..\..\src\render\RenderShader.cpp" />
     <ClCompile Include="..\..\src\render\RenderTarget.cpp" />
     <ClCompile Include="..\..\src\render\RenderTexture.cpp" />
+    <ClCompile Include="..\..\src\StringF.cpp" />
     <ClCompile Include="..\..\src\TextureFont.cpp" />
     <ClCompile Include="..\..\src\TextureManager.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="..\..\src\render\RenderShader.h" />
     <ClInclude Include="..\..\src\render\RenderTarget.h" />
     <ClInclude Include="..\..\src\render\RenderTexture.h" />
+    <ClInclude Include="..\..\src\StringF.h" />
     <ClInclude Include="..\..\src\TextureFont.h" />
     <ClInclude Include="..\..\src\TextureManager.h" />
     <ClInclude Include="..\..\src\utils.h" />
