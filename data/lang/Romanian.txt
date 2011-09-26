@@ -354,7 +354,7 @@ LASER_COOLING_BOOSTER
 LASER_COOLING_BOOSTER_DESCRIPTION
     Un sistem îmbunătăţit de răcire pentru armele dumneavoastră.
 CARGO_LIFE_SUPPORT
-    Sistem de Susţinere a Vieţii al Halei de Mărfuri
+    Sistem de Susţinere a Vieţii Hală
 CARGO_LIFE_SUPPORT_DESCRIPTION
     Permite transportul de marfă vie.
 AUTOPILOT
@@ -366,9 +366,9 @@ RADAR_MAPPER
 RADAR_MAPPER_DESCRIPTION
     Folosit pentru a inspecta de la distanţă echipamentul, încărcătura şi starea altor nave.
 FUEL_SCOOP
-    Excavator Combustibil
+    Colector Combustibil
 FUEL_SCOOP_DESCRIPTION
-    Permite excavarea combustibilului de hidrogen de pe planetele gigantice de gaz.
+    Permite colectarea combustibilului de hidrogen de pe planetele gigantice de gaz.
 HYPERCLOUD_ANALYZER
     Analizator Hipernor
 HYPERCLOUD_ANALYZER_DESCRIPTION
@@ -448,7 +448,7 @@ REWARD
 STATUS
     Status
 CARGO_INVENTORY
-    Inventar hală:
+    Inventar depozit:
 JETTISON
     Aruncă în spaţiu
 JETTISONED_1T_OF_X
@@ -462,7 +462,7 @@ SHIP_INFORMATION_HEADER
 HYPERDRIVE
     Motor superluminic
 FREE
-    Gratis
+    Liber
 USED
     Folosit
 TOTAL_WEIGHT
@@ -474,7 +474,7 @@ REAR_WEAPON
 HYPERSPACE_RANGE
     Arie hiperspaţiu
 NO_MOUNTING
-    fără montare
+    nicio montură
 N_LIGHT_YEARS_N_MAX
     %distance{f.1} ani lumină (%maxdistance{f.1} max)
 SHIP_INFORMATION
@@ -592,317 +592,317 @@ MM_LOAD_SAVED_GAME
 MM_QUIT
     Ieşire din joc
 SCREENSHOT_FILENAME_TEMPLATE
-    screenshot%index{d08}.png
+    captura%index{d08}.png
 PIONEERING_PILOTS_GUILD
-    Pioneering Pilots' Guild
+    Asociaţia Piloţilor Pionieri
 RIGHT_ON_COMMANDER
-    Well done commander! Your combat rating has improved!
+    Felicitări comandante! Clasificarea nivelului dumneavoastră de luptă a crescut!
 ALERT_CANCELLED
-    Alert cancelled.
+    Alertă anulată.
 SHIP_DETECTED_NEARBY
-    Ship detected nearby.
+    Navă detectată în apropiere.
 DOWNGRADING_ALERT_STATUS
-    No fire detected for 60 seconds, downgrading alert status.
+    Nici un foc detectat timp de 60 de secunde, se retrogradează nivelul alertei.
 LASER_FIRE_DETECTED
-    Laser fire detected.
+    Foc laser detectat.
 SOMEWHERE_POLICE
-    %station Police
+    Poliţia %station
 WE_HAVE_NO_BUSINESS_WITH_YOU
-    We have no business with you at the moment.
+    Nu avem nici o treabă cu dumneavoastră pentru moment.
 YOU_MUST_PAY_FINE_OF_N_CREDITS
-    We do not tolerate crime. You must pay a fine of %fine.
+    Noi nu tolerăm infracţionalitatea. Va trebui să plătiţi o amendă de %fine.
 PAY_THE_FINE_NOW
-    Pay the fine now.
+    Plătiţi amenda acum.
 HANG_UP
-    Hang up.
+    Închide.
 TRADING_ILLEGAL_GOODS
-    Trading illegal goods
+    Se negociază bunurile ilegale
 UNLAWFUL_WEAPONS_DISCHARGE
-    Unlawful weapons discharge
+    Foc de armă nepermis
 PIRACY
-    Piracy
+    Piraterie
 MURDER
-    Murder
+    Crimă
 INDEPENDENT
     Independent
 EARTH_FEDERATION
-    Earth Federation
+    Federaţia Pământeană
 INDEPENDENT_CONFEDERATION
-    Confederation of Independent Systems
+    Confederaţia Sistemelor Independente
 EMPIRE
-    The Empire
+    Imperiul
 NO_ESTABLISHED_ORDER
-    No established order
+    Nicio formă de guvenare stabilită
 HARD_CAPITALIST
-    Entirely Capitalist - no government welfare provision
+    Complet Capitalist - nici o dispoziţie pentru prosperitatea guvernului
 CAPITALIST
     Capitalist
 MIXED_ECONOMY
-    Mixed economy
+    Economie mixtă
 PLANNED_ECONOMY
-    Centrally planned economy
+    Economie planificată central
 NO_CENTRAL_GOVERNANCE
-    No central governance
+    Fără guvernământ central
 EARTH_FEDERATION_COLONIAL_RULE
-    Earth Federation Colonial Rule
+    Conducere Colonială a Federaţiei Pământului
 EARTH_FEDERATION_DEMOCRACY
-    Earth Federation Democracy
+    Democraţie Federală a Pământului
 IMPERIAL_RULE
-    Imperial Rule
+    Conducere Imperială
 LIBERAL_DEMOCRACY
-    Liberal democracy
+    Democraţie liberală
 SOCIAL_DEMOCRACY
-    Social democracy
+    Democraţie socială
 CORPORATE_SYSTEM
-    Corporate system
+    Sistem corporativ
 MILITARY_DICTATORSHIP
-    Military dictatorship
+    Dictatură militară
 COMMUNIST
-    Communist
+    Comunism
 PLUTOCRATIC_DICTATORSHIP
-    Plutocratic dictatorship
+    Dictatură plutocratică
 VIOLENT_ANARCHY
-    Disorder - Overall governance contested by armed factions
+    Fără ordine interioară - Guvernamântul general contestat de facţiuni înarmate
 X_CANNOT_BE_TOLERATED_HERE
-    %crime cannot be tolerated here.
+    Nu este tolerat(ă) %crime aici.
 SECTOR_X_Y_Z
     Sector: %x,%y,%z
 CURRENT_SYSTEM
-    Current system
+    Sistemul curent
 SELECTED_SYSTEM
-    Selected system
+    Sistemul selectat
 HYPERSPACE_TARGET
-    Hyperspace target
+    Ţintă hiperspaţiu
 FOLLOWING_SELECTION
-    following selection
+    selecţia următoare
 LOCKED
-    locked
+    blocat
 EXACT_MATCH_X
-    Exact match: %system
+    Potrivire exactă: %system
 NOT_FOUND_BEST_MATCH_X
-    Not found, best match: %system
+    Nu a fost găsit, cel mai potrivit: %system
 NOT_FOUND
-    Not found
+    Nu a fost găsit
 NUMBER_HOURS
-    %hours{f.2} hrs
+    %hours{f.2} ore
 QUADRUPLE_SYSTEM
-    Quadruple system
+    Sistem cuadruplu
 TRIPLE_SYSTEM
-    Triple system
+    Sistem terţiar
 BINARY_SYSTEM
-    Binary system
+    Sistem binar
 ENABLED_AUTOMATIC_SYSTEM_SELECTION
-    Enabled automatic system selection.
+    S-a activat selecţia automată a sistemelor.
 DISABLED_AUTOMATIC_SYSTEM_SELECTION
-    Disabled automatic system selection.
+    S-a dezactivat selecţia automată a sistemelor.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
-    Fuel scoop active. You now have %quantity tonnes of hydrogen.
+    Colector combustibil activ. Acum aveţi %quantity tone de hidrogen.
 CARGO_BAY_LIFE_SUPPORT_LOST
-    Sensors report critical cargo bay life-support conditions.
+    Senzorii raportează condiţii critice la sistemele de susţinere a vieţii in depozit.
 NO_FREE_SPACE_FOR_ITEM
-    You have no free space for this item.
+    Nu aveţi destul spaţiu pentru acest obiect.
 SHIP_IS_FULLY_LADEN
-    Your ship is fully laden.
+    Nava dumneavoastră e încărcată la maxim.
 YOU_DO_NOT_HAVE_ANY_X
-    You do not have any %item.
+    Nu aveţi %item.
 FRONT_VIEW
-    Front view
+    Vedere frontală
 REAR_VIEW
-    Rear view
+    Vedere posterioară
 EXTERNAL_VIEW
-    External view
+    Vedere exterioară
 NAVIGATION_STAR_MAPS
-    Navigation and star maps
+    Navigare şi hărţi stelare
 COMMS
-    Comms
+    Comunicaţii
 GALAXY_SECTOR_VIEW
-    Galaxy sector view
+    Vizualizare sector de galaxie
 SYSTEM_ORBIT_VIEW
-    System orbit view
+    Vizualizare orbită sistem
 STAR_SYSTEM_INFORMATION
-    Star system information
+    Informaţii sistem stelar
 GALACTIC_VIEW
-    Galactic view
+    Vizualizare galaxie
 NO_ALERT
-    No alert
+    Nicio alertă
 SHIP_NEARBY
-    Ship nearby
+    Navă în apropiere
 DOCKING_CLEARANCE_EXPIRED
-    Docking clearance expired. If you wish to dock you must repeat your request.
+    Permisia de andocare a expirat. Dacă doriţi sa andocaţi trebuie să repetaţi cererea.
 MESSAGE_FROM_X
-    Message from %sender:
+    Mesaj de la %sender:
 SELECT_A_TARGET
-    Select a target
+    Selectaţi o ţintă
 FRONT
-    Front
+    Faţă
 REAR
-    Rear
+    Spate
 POLICE_SHIP_REGISTRATION
-    POLICE
+    POLIŢIA
 CLEARANCE_ALREADY_GRANTED_BAY_N
-    Clearance already granted. Proceed to docking bay %bay.
+    Autorizaţia v-a fost deja acordată. Continuaţi către staţia de andocare %bay.
 CLEARANCE_GRANTED_BAY_N
-    Clearance granted. Proceed to docking bay %bay.
+    Autorizaţie acordată. Continuaţi către staţia de andocare %bay.
 CLEARANCE_DENIED_NO_BAYS
-    Clearance denied. There are no free docking bays.
+    Autorizaţie respinsă. Nu există staţii de andocare libere.
 ITEM_IS_OUT_OF_STOCK
-    This item is out of stock.
+    Nu mai există acest obiect în stoc.
 BROWN_DWARF
-    Brown dwarf sub-stellar object
+    Obiect sub-stelar pitică cenuşie
 WHITE_DWARF
-    White dwarf stellar remnant
+    Ramăşiţa stelară a unei pitice albe
 STAR_M
-    Type 'M' red star
+    Stea roşie tipul 'M'
 STAR_K
-    Type 'K' orange star
+    Stea portocalie tipul 'K'
 STAR_G
-    Type 'G' yellow star
+    Stea galbenă tipul 'G'
 STAR_F
-    Type 'F' white star
+    Stea albă tipul 'F'
 STAR_A
-    Type 'A' hot white star
+    Stea albă fierbinte de tip 'A'
 STAR_B
-    Bright type 'B' blue star
+    Stea luminoasă albastră de tip 'B'
 STAR_O
-    Hot, massive type 'O' star
+    Stea fuerbinte, masivă de tip 'O'
 STAR_M_GIANT
-    Red giant star
+    Stea gigantă roşie
 STAR_K_GIANT
-    Orange giant star - Unstable
+    Stea gigantă portocalie - Instabilă
 STAR_G_GIANT
-    Yellow giant star - Unstable
+    Stea gigantică galbenă - Instabilă
 STAR_AF_GIANT
-    White giant star
+    Stea gigantică albă
 STAR_B_GIANT
-    Blue giant star
+    Stea gigantică albastră
 STAR_O_GIANT
-    Hot Blue giant star
+    Stea gigantică albastră fierbinte
 STAR_M_SUPER_GIANT
-    Red super giant star
+    Stea supergigantică roşie
 STAR_K_SUPER_GIANT
-    Orange super giant star
+    Stea supergigantică portocalie
 STAR_G_SUPER_GIANT
-    Yellow super giant star
+    Stea supergigantică galbenă
 STAR_AF_SUPER_GIANT
-    White super giant star
+    Stea supergigantică albă
 STAR_B_SUPER_GIANT
-    Blue super giant star
+    Stea supergigantică albastră
 STAR_O_SUPER_GIANT
-    Hot Blue super giant star
+    Stea supergigantică albastră fierbinte
 STAR_M_HYPER_GIANT
-    Red hyper giant star
+    Stea hipergigantică roşie
 STAR_K_HYPER_GIANT
-    Orange hyper giant star - Unstable
+    Stea hipergigantică portocalie - Instabilă
 STAR_G_HYPER_GIANT
-    Yellow hyper giant star - Unstable
+    Stea hipergigantică galbenă - Instabilă
 STAR_AF_HYPER_GIANT
-    White hyper giant star
+    Stea hipergigantică albă
 STAR_B_HYPER_GIANT
-    Blue hyper giant star
+    Stea hipergigantică albastră
 STAR_O_HYPER_GIANT
-    Hot Blue hyper giant star
+    Stea hipergigantică albastră fierbinte
 STAR_M_WF
-    Wolf-Rayet star - Unstable
+    Stea Wolf-Rayet - Instabilă
 STAR_B_WF
-    Wolf-Rayet star - Risk of collapse
+    Stea Wolf-Rayet - Risc de colaps
 STAR_O_WF
-    Wolf-Rayet star - Imminent collapse
+    Stea Wolf-Rayet - Colaps iminent
 STAR_S_BH
-    A stellar black hole
+    O gaură neagră stelară
 STAR_IM_BH
-    An intermediate-mass black hole
+    O gaură neagră cu masă intermediară
 STAR_SM_BH
-    Our galactic anchor
+    Ancora noastră galactică
 VERY_LARGE_GAS_GIANT
-    Very large gas giant
+    Gigantică gazoasă foarte mare
 LARGE_GAS_GIANT
-    Large gas giant
+    Gigantică gazoasa mare
 MEDIUM_GAS_GIANT
-    Medium gas giant
+    Gigantică gazoasa medie
 SMALL_GAS_GIANT
-    Small gas giant
+    Gigantică gazoasa mică
 ASTEROID
     Asteroid
 MASSIVE
-    Massive
+    Masiv(ă)
 LARGE
-    Large
+    Mare
 TINY
-    Tiny
+    Micuţ(ă)
 SMALL
-    Small
+    Mic(ă)
 COMMA_HIGHLY_VOLCANIC
-    , highly volcanic
+    , majoritar vulcanic
 HIGHLY_VOLCANIC
-    Highly volcanic
+    Majoritar vulcanic
 ICE_WORLD
-     " ice world"
+     " planetă de gheaţă"
 ROCKY_PLANET
-     " rocky planet"
+     " planetă stâncoasă"
 OCEANICWORLD
-     " oceanic world"
+     " lume oceanică"
 PLANET_CONTAINING_LIQUID_WATER
-     " planet containing liquid water"
+     " planetă ce conţine apă lichidă"
 PLANET_WITH_SOME_ICE
-     " planet with some ice"
+     " planetă cu ceva gheaţă"
 ROCKY_PLANET_CONTAINING_COME_LIQUIDS
-     " rocky planet containing some liquids,"
+     " planetă stâncoasă ce conţine câteva lichide,"
 WITH_NO_SIGNIFICANT_ATMOSPHERE
-     " with no significant atmosphere"
+     " fără atmosferă semnificativă"
 TENUOUS
-    tenuous
+    diluat
 THIN
-    thin
+    subţire
 THICK
-    thick
+    gros
 VERY_DENSE
-    very dense
+    foarte dens
 WITH_A
-     " with a "
+     " cu o "
 O2_ATMOSPHERE
-     " Oxygen atmosphere"
+     " Atmosferă de oxigen"
 CO2_ATMOSPHERE
-     " Carbon Dioxide atmosphere"
+     " Atmosferă de Dioxid de Carbon"
 CO_ATMOSPHERE
-     " Carbon Monoxide atmosphere"
+     " Atmosferă de Monoxid de Carbon"
 CH4_ATMOSPHERE
-     " Methane atmosphere"
+     " Atmosferă de Metan"
 H_ATMOSPHERE
-     " Hydrogen atmosphere"
+     " Atmosferă de Hidrogen"
 HE_ATMOSPHERE
-     " Helium atmosphere"
+     " Atmosferă de Heliu"
 AR_ATMOSPHERE
-     " Argon atmosphere"
+     " Atmosferă de Argon"
 S_ATMOSPHERE
-     " Sulfuric atmosphere"
+     " Atmosferă Sulfuroasă"
 N_ATMOSPHERE
-     " Nitrogen atmosphere"
+     " Atmosferă de Nitrogen"
 AND_HIGHLY_COMPLEX_ECOSYSTEM
-     " and a highly complex ecosystem."
+     " şi un ecosistem foarte complex."
 AND_INDIGENOUS_PLANT_LIFE
-     " and indigenous plant life."
+     " şi viaţă vegetală indigenă."
 AND_INDIGENOUS_MICROBIAL_LIFE
-     " and indigenous microbial life."
+     " şi viaţă microbiană indigenă."
 ORBITAL_STARPORT
-    Orbital starport
+    Port stelar orbital
 STARPORT
-    Starport
+    Port stelar
 UNKNOWN
-    <unknown>
+    <necunoscut>
 UNEXPLORED_SYSTEM_NO_DATA
-    Unexplored system. No more data available.
+    Sistem neexporat. Nicio altă informaţie valabilăd.
 SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS
-    Small-scale prospecting. No registered settlements.
+    Prospectare la scară redusă. Nicio aşezare înregistrată.
 SMALL_INDUSTRIAL_OUTPOST
-    Small industrial outpost.
+    Mic avanpost industrial.
 SOME_ESTABLISHED_MINING
-    Some established mining.
+    Câtva minerit stabilit.
 YOUNG_FARMING_COLONY
-    Young farming colony.
+    Colonie proaspătă de agricultură.
 INDUSTRIAL_COLONY
-    Industrial colony.
+    Colonie industrială.
 MINING_COLONY
-    Mining colony.
+    Colonie minieră.
 OUTDOOR_AGRICULTURAL_WORLD
     Outdoor agricultural world.
 HEAVY_INDUSTRY
@@ -922,218 +922,218 @@ SOMEWHERE_SPACEPORT
 SOMEWHERE_STARPORT
      " Starport"
 MASS
-    Mass
+    Masă
 N_WHATEVER_MASSES
-    %mass{f.3} %units masses
+    %mass{f.3} %units mase
 SOLAR
     Solar
 EARTH
-    Earth
+    Pământ
 SURFACE_TEMPERATURE
-    Surface temperature
+    Temperatura la suprafaţă
 N_CELSIUS
     %temperature C
 N_YEARS
-    %years{f.1} years
+    %years{f.1} ani
 N_DAYS
-    %days{f.1} days
+    %days{f.1} zile
 ORBITAL_PERIOD
-    Orbital period
+    Perioada orbitală
 PERIAPSIS_DISTANCE
-    Periapsis distance
+    Distanţa pericentrică
 APOAPSIS_DISTANCE
-    Apoapsis distance
+    Distanţa apocentrică
 ECCENTRICITY
-    Eccentricity
+    Excentritate
 AXIAL_TILT
-    Axial tilt
+    Înclinaţie axială
 N_DEGREES
-    %angle{f.1} degrees
+    %angle{f.1} grade
 DAY_LENGTH
-    Day length
+    Durata unei zile
 N_EARTH_DAYS
-    %days{f.1} earth days
+    %days{f.1} zile pământene
 STARPORTS
-    Starports
+    Porturi stelare
 MAJOR_IMPORTS
-    Major Imports:
+    Importuri Majore:
 MINOR_IMPORTS
-    Minor Imports:
+    Importuri Minore:
 MAJOR_EXPORTS
-    Major Exports:
+    Exporturi Majore:
 MINOR_EXPORTS
-    Minor Exports:
+    Exporturi Minore:
 ILLEGAL_GOODS
-    Illegal Goods:
+    Bunuri Ilegale:
 UNEXPLORED_SYSTEM_STAR_INFO_ONLY
-    Unexplored System. Star information has been gathered by remote telescope, but no planetary information is available.
+    Sistem Neexplorat. Informaţii despre stea au fost adunate prin intermediul telescopului, dar nu sunt disponibile informaţii despre planete.
 PLANETARY_INFO
-    Planetary info
+    Informaţii despre planetă
 ECONOMIC_INFO
-    Economic info
+    Informaţii economice
 DEMOGRAPHICS
-    Demographics
+    Demografice
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
-    Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}.
+    Sistem stabil cu %bodycount %{body(s)} majore şi %portcount %{starport(s)}.
 BODY
-    body
+    corp
 BODIES
-    bodies
+    corpuri
 SYSTEM_TYPE
-    System type:
+    Tipul sistemului:
 GOVERNMENT_TYPE
-    Government type:
+    Tipul de guvernare:
 ECONOMY_TYPE
-    Economy type:
+    Tipul economiei:
 ALLEGIANCE
-    Allegiance:
+    Alegianţă:
 POPULATION
-    Population:
+    Populaţie:
 OVER_N_BILLION
-    Over %population billion
+    Peste %population mii de milioane
 OVER_N_MILLION
-    Over %population million
+    Peste %population milioane
 A_FEW_THOUSAND
-    Only a few thousand
+    Doar câteva mii
 NO_REGISTERED_INHABITANTS
-    No registered inhabitants
+    Niciun inhabitant inregistrat
 SECTOR_COORDINATES
-    Sector coordinates:
+    Coordonate sector:
 SYSTEM_NUMBER
-    System number:
+    Număr sistem:
 NAME
-    Name
+    Nume
 ROTATIONAL_PERIOD
-     " (rotational period)"
+     " (perioada de revoluţie)"
 RADIUS
-    Radius
+    Rază
 SEMI_MAJOR_AXIS
-    Semi-major axis
+    Axă semi-majoră
 TIME_POINT
-    Time point: 
+    Punctul în timp: 
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
-    Unexplored system. System view unavailable.
+    Sistem neexplorat. Vizualizarea sistemului indisponibilă.
 WHEELS_ARE_UP
-    Wheels are up
+    Terenul de aterizare retras
 WHEELS_ARE_DOWN
-    Wheels are down
+    Terenul de aterizare coborât
 OBJECT_LABELS_ARE_ON
-    Object labels are on
+    Capturile obiectelor activate
 OBJECT_LABELS_ARE_OFF
-    Object labels are off
+    Capturile obiectelor dezactivate
 HYPERSPACE_JUMP
-    Hyperspace Jump
+    Salt în hiperstaţiu
 TAKEOFF
-    Takeoff
+    Decolare
 MANUAL_CONTROL
-    Manual control
+    Control manual
 COMPUTER_SPEED_CONTROL
-    Computer speed control
+    Viteză controlată de calculator
 AUTOPILOT_ON
-    Autopilot on
+    Autopilot activ
 SHIP_VELOCITY_BY_REFERENCE_OBJECT
-    Ship velocity by reference object
+    Viteza navei relativ la obiect
 DISTANCE_FROM_SHIP_TO_NAV_TARGET
-    Distance from ship to navigation target
+    Distanţa de la navă la ţinta navigaţiei
 SHIP_ALTITUDE_ABOVE_TERRAIN
-    Ship altitude above terrain
+    Altitudinea navei faţă de pământ
 EXTERNAL_ATMOSPHERIC_PRESSURE
-    External atmospheric pressure
+    Presiune atmosferică externă
 HULL_TEMP
-    Hull temp
+    Temperatura fuzelaj
 WEAPON_TEMP
-    Weapon temp
+    Temperatura armei
 HULL_INTEGRITY
-    Hull integrity
+    Consistenţă fuzelaj
 SHIELD_INTEGRITY
-    Shield integrity
+    Consistenţă scut
 LAUNCH_PERMISSION_DENIED_BUSY
-    Permission to launch denied: docking bay busy.
+    Nu vi se acordă permisiunea de a decola: staţiile sunt aglomerate.
 HYPERSPACE_JUMP_ABORTED
-    Hyperspace jump aborted.
+    Salt în hiperspaţiu anulat.
 LANDED
-    Landed
+    Aterizat
 DOCKING
-    Docking
+    Se andochează
 DOCKED
-    Docked
+    Andocat
 HYPERSPACE
-    Hyperspace
+    Hiperspaţiu
 SET_SPEED_KM_S
-    Set speed: %speed{f.2} km/s
+    Viteza setată: %speed{f.2} km/s
 SET_SPEED_M_S
-    Set speed: %speed{f.0} m/s
+    Viteza setată: %speed{f.0} m/s
 KM_S_RELATIVE_TO
-    %speed{f.2} km/s rel-to %frame
+    %speed{f.2} km/s relativ la %frame
 M_S_RELATIVE_TO
-    %speed{f.0} m/s rel-to %frame
+    %speed{f.0} m/s relativ la %frame
 N_DISTANCE_TO_TARGET
-    %distance to target
+    %distance până la ţintă
 IN_TRANSIT_TO_N_X_X_X
-    In transit to %system [%x,%y,%z]
+    În tranzit către %system [%x,%y,%z]
 ALT_IN_METRES
     Alt: %altitude{f.0}m
 PRESSURE_N_BAR
     P: %pressure{f.2} bar
 NO_HYPERDRIVE
-    No hyperdrive
+    Niciun motor superluminic
 MASS_N_TONNES
-    Mass: %{mass}t
+    Masă: %{mass}t
 SHIELD_STRENGTH_N
-    Shield strength: %shields{f.2}
+    Rezistenţa scutului: %shields{f.2}
 CARGO_N
-    Cargo: %{mass}t
+    Depozit: %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
-    Hyperspace arrival cloud remnant
+    Rămăşiţa unui nor de sosire din hiperspaţiu
 HYPERSPACE_X_CLOUD
-    Hyperspace %direction cloud
+    Nor hiperspaţiu %direction
 SHIP_MASS_N_TONNES
-    Ship mass: %{mass}t
+    Masa navei: %{mass}t
 DATE_DUE_N
-    Date due: %date
+    Data scadentă: %date
 ARRIVAL
-    arrival
+    sosire
 DEPARTURE
-    departure
+    plecare
 SOURCE
-    Origin
+    Origine
 DESTINATION
-    Destination
+    Destinaţie
 HYPERSPACING_IN_N_SECONDS
-    Hyperspacing in %countdown{f.0} seconds
+    Hiperspaţiu în %countdown{f.0} secunde
 NAVIGATION_TARGETS_IN_THIS_SYSTEM
-    Navigation targets in this system
+    Ţinte navigaţie în acest sistem
 YOU_NO_MONEY
-    You do not have any money.
+    Nu aveţi niciun ban.
 FINE_PAID_N_BUT_N_REMAINING
-    You have paid %paid but still have an outstanding fine of %fine.
+    Aţi plătit %paid dar v-a mai rămas de platit din amendă %fine.
 FINE_PAID_N
-    You have paid the fine of %fine.
+    Aţi plătit amenda de %fine.
 SET_HYPERSPACE_DESTINATION_TO
-    "Set hyperspace destination to %system"
+    "Setaţi destinaţia hiperspaţiului către %system"
 NO_TARGET_SELECTED
-    Ship Computer: No target selected
+    Computer navă: Nicio ţintă selectată
 REQUEST_DOCKING_CLEARANCE
-    Request docking clearance
+    Cereţi permisiunea de a andoca
 AUTOPILOT_DOCK_WITH_STATION
-    Autopilot: Dock with space station
+    Autopilot: Andochează în staţia spaţială
 PAY_FINE_REMOTELY
-    Pay fine by remote transfer (%amount)
+    Plătiţi amenda de (%amount) prin transfer de la distanţă
 AUTOPILOT_FLY_TO_VICINITY_OF
-    Autopilot: Fly to vicinity of %target
+    Autopilot: Zboară în apropierea %target
 AUTOPILOT_ENTER_LOW_ORBIT_AROUND
-    Autopilot: Enter low orbit around %target
+    Autopilot: Intră în orbita inferioară în jurul %target
 AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
-    Autopilot: Enter medium orbit around %target
+    Autopilot: Intră în orbita medie în jurul %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
-    Autopilot: Enter high orbit around %target
+    Autopilot: Intră în orbita superioară în jurul %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
-    Hyperspace cloud analyzer: Set hyperspace target to follow this departure
+    Analizator hipernor: Setează ţinta hiperspaţiului să urmărească plecarea aceasta
 FAILED
-    Failed
+    Eşuare
 COMPLETED
-    Completed
+    Completat
 ACTIVE
-    Active
+    Activ
 DISTANCE_LY
-    Distance: %distance{f.2} ly
+    Distanţa: %distance{f.2} al
