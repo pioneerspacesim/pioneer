@@ -1,10 +1,9 @@
-
 define_model('diet_steakette', {
 	info = {
-			bounding_radius = 1.0,
-			materials = { 'bg', 'text' },
-			tags = {'advert'}
-		},
+		bounding_radius = 1.0,
+		materials = { 'bg', 'text' },
+		tags = {'advert'}
+	},
 	static = function(lod)
 		set_material('bg', .8,.8,.8,1)
 		use_material('bg')
@@ -21,10 +20,10 @@ define_model('diet_steakette', {
 		
 define_model('ad_sirius', {
 	info = {
-			bounding_radius = 1.0,
-			materials = { 'bg', 'text' },
-			tags = {'advert'}
-		},
+		bounding_radius = 1.0,
+		materials = { 'bg', 'text' },
+		tags = {'advert'}
+	},
 	static = function(lod)
 		set_material('bg', .4,.4,.8,1, .4,.4,.8)
 		use_material('bg')
@@ -37,4 +36,3 @@ define_model('ad_sirius', {
 		zbias(0)
 	end
 })
-		

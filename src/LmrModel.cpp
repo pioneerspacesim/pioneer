@@ -12,6 +12,14 @@
 #include <set>
 #include <algorithm>
 
+/*
+ * Interface: LMR
+ *
+ * Script interface to the model system.
+ *
+ * This documentation is incomplete!
+ */
+
 #define MODEL "Model"
 struct RenderState {
 	/* For the root model this will be identity matrix.
@@ -224,7 +232,9 @@ class LmrGeomBuffer;
 
 SHADER_CLASS_BEGIN(LmrShader)
 	SHADER_UNIFORM_INT(usetex)
+	SHADER_UNIFORM_INT(useglow)
 	SHADER_UNIFORM_SAMPLER(tex)
+	SHADER_UNIFORM_SAMPLER(texGlow)
 SHADER_CLASS_END()
 
 static LmrShader *s_sunlightShader[4];
@@ -261,11 +271,13 @@ void LmrNotifyScreenWidth(float width)
 int LmrModelGetStatsTris() { return s_numTrisRendered; }
 void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
 	
-void UseProgram(LmrShader *shader, bool Textured = false) {
+void UseProgram(LmrShader *shader, bool Textured = false, bool Glowmap = false) {
 	if (Render::AreShadersEnabled()) {
 		Render::State::UseProgram(shader);
 		if (Textured) shader->set_tex(0);
 		shader->set_usetex(Textured ? 1 : 0);
+		if (Glowmap) shader->set_texGlow(1);
+		shader->set_useglow(Glowmap ? 1 : 0);
 	}
 }
 
@@ -295,6 +307,7 @@ public:
 		curOp.type = OP_NONE;
 		curTriFlag = 0;
 		curTexture = 0;
+		curGlowmap = 0;
 		curTexMatrix = matrix4x4f::Identity();
 		m_model = model;
 		m_isStatic = isStatic;
@@ -351,9 +364,14 @@ public:
 			switch (op.type) {
 			case OP_DRAW_ELEMENTS:
 				if (op.elems.texture != 0 ) {
-					UseProgram(curShader, true);
+					UseProgram(curShader, true, op.elems.glowmap != 0);
+					glActiveTexture(GL_TEXTURE0);
 					glEnable(GL_TEXTURE_2D);
 					op.elems.texture->BindTexture();
+					if (op.elems.glowmap != 0) {
+						glActiveTexture(GL_TEXTURE1);
+						op.elems.glowmap->BindTexture();
+					}
 				} else {
 					UseProgram(curShader, false);
 				}
@@ -372,6 +390,7 @@ public:
 					glDrawElements(GL_TRIANGLES, op.elems.count, GL_UNSIGNED_SHORT, &m_indices[op.elems.start]);
 				}
 				if ( op.elems.texture != 0 ) {
+					glActiveTexture(GL_TEXTURE0);
 					glDisable(GL_TEXTURE_2D);
 				}
 				break;
@@ -537,6 +556,14 @@ public:
 			curTexture = TextureManager::GetTexture(tex);
 		} else {
 			curTexture = 0;
+			curGlowmap = 0; //won't have these without textures
+		}
+	}
+	void SetGlowMap(const char *tex) {
+		if (tex) {
+			curGlowmap = TextureManager::GetTexture(tex);
+		} else {
+			curGlowmap = 0;
 		}
 	}
 	void SetTexMatrix(const matrix4x4f &texMatrix) { curTexMatrix = texMatrix; } 
@@ -740,6 +767,7 @@ private:
 			curOp.elems.elemMin = 1<<30;
 			curOp.elems.elemMax = 0;
 			curOp.elems.texture = curTexture;
+			curOp.elems.glowmap = curGlowmap;
 		}
 		curOp.elems.count += numIndices;
 	}
@@ -758,7 +786,7 @@ private:
 	struct Op {
 		enum OpType type;
 		union {
-			struct { Texture *texture; int start, count, elemMin, elemMax; } elems;
+			struct { Texture *texture; Texture *glowmap; int start, count, elemMin, elemMax; } elems;
 			struct { int material_idx; } col;
 			struct { float amount; float pos[3]; float norm[3]; } zbias;
 			struct { LmrModel *model; float transform[16]; float scale; } callmodel;
@@ -771,6 +799,7 @@ private:
 	Op curOp;
 	Uint16 curTriFlag;
 	Texture *curTexture;
+	Texture *curGlowmap;
 	matrix4x4f curTexMatrix;
 	// 
 	std::vector<Vertex> m_vertices;
@@ -808,6 +837,8 @@ public:
 				}
 				else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
 					_fwrite_string(m_ops[i].elems.texture->GetFilename(), f);
+					if (m_ops[i].elems.glowmap)
+						_fwrite_string(m_ops[i].elems.glowmap->GetFilename(), f);
 				}
 				else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
 					_fwrite_string(m_ops[i].billboards.texture->GetFilename(), f);
@@ -851,6 +882,8 @@ public:
 			}
 			else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
 				m_ops[i].elems.texture = TextureManager::GetTexture(_fread_string(f));
+				if (m_ops[i].elems.glowmap)
+					m_ops[i].elems.glowmap = TextureManager::GetTexture(_fread_string(f));
 			}
 			else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
 				m_ops[i].billboards.texture = TextureManager::GetTexture(_fread_string(f));
@@ -864,6 +897,9 @@ LmrModel::LmrModel(const char *model_name)
 	m_name = model_name;
 	m_drawClipRadius = 1.0f;
 	m_scale = 1.0f;
+
+	{
+	LUA_DEBUG_START(sLua);
 
 	char buf[256];
 	snprintf(buf, sizeof(buf), "%s_info", model_name);
@@ -932,6 +968,9 @@ LmrModel::LmrModel(const char *model_name)
 	m_hasDynamicFunc = lua_isfunction(sLua, -1);
 	lua_pop(sLua, 1);
 
+	LUA_DEBUG_END(sLua, 0);
+	}
+
 	for (int i=0; i<m_numLods; i++) {
 		m_staticGeometry[i] = new LmrGeomBuffer(this, true);
 		m_dynamicGeometry[i] = new LmrGeomBuffer(this, false);
@@ -972,6 +1011,7 @@ rebuild_model:
 		FILE *f = fopen(cache_file.c_str(), "wb");
 		
 		for (int i=0; i<m_numLods; i++) {
+			LUA_DEBUG_START(sLua);
 			m_staticGeometry[i]->PreBuild();
 			s_curBuf = m_staticGeometry[i];
 			lua_pushcfunction(sLua, pi_lua_panic);
@@ -984,6 +1024,7 @@ rebuild_model:
 			s_curBuf = 0;
 			m_staticGeometry[i]->PostBuild();
 			m_staticGeometry[i]->SaveToCache(f);
+			LUA_DEBUG_END(sLua, 0);
 		}
 		
 		const int numMaterials = m_materials.size();
@@ -1011,6 +1052,8 @@ void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels)
 	for (std::map<std::string, LmrModel*>::iterator i = s_models.begin();
 			i != s_models.end(); ++i) {
 		LmrModel *model = (*i).second;
+
+		LUA_DEBUG_START(sLua);
 		
 		char buf[256];
 		snprintf(buf, sizeof(buf), "%s_info", model->GetName());
@@ -1035,34 +1078,41 @@ void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels)
 			}
 		}
 		lua_pop(sLua, 2);
+
+		LUA_DEBUG_END(sLua, 0);
 	}
 }
 
 float LmrModel::GetFloatAttribute(const char *attr_name) const
 {
+	LUA_DEBUG_START(sLua);
 	char buf[256];
 	snprintf(buf, sizeof(buf), "%s_info", m_name.c_str());
 	lua_getglobal(sLua, buf);
 	lua_getfield(sLua, -1, attr_name);
 	float result = luaL_checknumber(sLua, -1);
 	lua_pop(sLua, 2);
+	LUA_DEBUG_END(sLua, 0);
 	return result;
 }
 
 int LmrModel::GetIntAttribute(const char *attr_name) const
 {
+	LUA_DEBUG_START(sLua);
 	char buf[256];
 	snprintf(buf, sizeof(buf), "%s_info", m_name.c_str());
 	lua_getglobal(sLua, buf);
 	lua_getfield(sLua, -1, attr_name);
 	int result = luaL_checkinteger(sLua, -1);
 	lua_pop(sLua, 2);
+	LUA_DEBUG_END(sLua, 0);
 	return result;
 }
 
 bool LmrModel::GetBoolAttribute(const char *attr_name) const
 {
 	char buf[256];
+	LUA_DEBUG_START(sLua);
 	snprintf(buf, sizeof(buf), "%s_info", m_name.c_str());
 	lua_getglobal(sLua, buf);
 	lua_getfield(sLua, -1, attr_name);
@@ -1073,15 +1123,19 @@ bool LmrModel::GetBoolAttribute(const char *attr_name) const
 		result = lua_toboolean(sLua, -1) != 0;
 	}	
 	lua_pop(sLua, 2);
+	LUA_DEBUG_END(sLua, 0);
 	return result;
 }
 
 void LmrModel::PushAttributeToLuaStack(const char *attr_name) const
 {
+	LUA_DEBUG_START(sLua);
 	char buf[256];
 	snprintf(buf, sizeof(buf), "%s_info", m_name.c_str());
 	lua_getglobal(sLua, buf);
 	lua_getfield(sLua, -1, attr_name);
+	lua_remove(sLua, -2);
+	LUA_DEBUG_END(sLua, 1);
 }
 
 void LmrModel::Render(const matrix4x4f &trans, const LmrObjParams *params)
@@ -1128,6 +1182,7 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 void LmrModel::Build(int lod, const LmrObjParams *params)
 {
 	if (m_hasDynamicFunc) {
+		LUA_DEBUG_START(sLua);
 		m_dynamicGeometry[lod]->PreBuild();
 		s_curBuf = m_dynamicGeometry[lod];
 		s_curParams = params;
@@ -1141,6 +1196,7 @@ void LmrModel::Build(int lod, const LmrObjParams *params)
 		s_curBuf = 0;
 		s_curParams = 0;
 		m_dynamicGeometry[lod]->PostBuild();
+		LUA_DEBUG_END(sLua, 0);
 	}
 }
 
@@ -1838,6 +1894,43 @@ namespace ModelFuncs {
 			}
 
 			s_curBuf->SetTexture(t.c_str());
+		}
+		return 0;
+	}
+
+/*
+ * Function: texture_glow
+ *
+ * Set the glow map. Meant to be used alongside a texture(). The glow
+ * map will override the material's emissive value. The glow texture will
+ * be additively blended.
+ *
+ * > texture_glow('glowmap.png')
+ *
+ * Parameters:
+ *
+ *   name - RGB texture file name
+ *
+ * Availability:
+ *
+ *   alpha 15
+ *
+ * Status:
+ *
+ *   experimental
+ */
+	static int texture_glow(lua_State *L)
+	{
+		if (lua_isnil(L, 1)) {
+			s_curBuf->SetGlowMap(0);
+		} else {
+			lua_getglobal(L, "CurrentDirectory");
+			std::string dir = luaL_checkstring(L, -1);
+			lua_pop(L, 1);
+
+			const char *texfile = luaL_checkstring(L, 1);
+			std::string t = dir + std::string("/") + texfile;
+			s_curBuf->SetGlowMap(t.c_str());
 		}
 		return 0;
 	}
@@ -2910,6 +3003,7 @@ void LmrModelCompilerInit()
 	sLua = L;
 	luaL_openlibs(L);
 
+	LUA_DEBUG_START(sLua);
 
 	lua_pushinteger(L, 1234);
 	lua_setglobal(L, "x");
@@ -2946,6 +3040,7 @@ void LmrModelCompilerInit()
 	lua_register(L, "xref_circle", ModelFuncs::xref_circle);
 	lua_register(L, "text", ModelFuncs::text);
 	lua_register(L, "texture", ModelFuncs::texture);
+	lua_register(L, "texture_glow", ModelFuncs::texture_glow);
 	lua_register(L, "quadric_bezier_quad", ModelFuncs::quadric_bezier_quad);
 	lua_register(L, "xref_quadric_bezier_quad", ModelFuncs::xref_quadric_bezier_quad);
 	lua_register(L, "cubic_bezier_quad", ModelFuncs::cubic_bezier_quad);
@@ -2985,6 +3080,8 @@ void LmrModelCompilerInit()
 		lua_pcall(L, 0, LUA_MULTRET, -2);
 	}
 	lua_pop(sLua, 1);  // remove panic func
+
+	LUA_DEBUG_END(sLua, 0);
 	
 	s_buildDynamic = true;
 }

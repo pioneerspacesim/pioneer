@@ -92,7 +92,7 @@ void MusicPlayer::Update()
 {
 	if (m_playing) { //expecting report
 		if ((m_eventOnePlaying && !m_eventOne.IsPlaying()) || (!m_eventOnePlaying && !m_eventTwo.IsPlaying())) {
-			Pi::luaOnSongFinished.Signal();
+			Pi::luaOnSongFinished->Signal();
 			m_playing = false;
 		}
 	}

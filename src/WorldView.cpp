@@ -799,7 +799,8 @@ void WorldView::Update()
 		m_labelsOn = false;
 		return;
 	}
-	if (GetCamType() == CAM_EXTERNAL) {
+	// XXX ugly hack checking for console here
+	if (GetCamType() == CAM_EXTERNAL && !Pi::IsConsoleActive()) {
 		if (Pi::KeyState(SDLK_UP)) m_externalViewRotX -= 45*frameTime;
 		if (Pi::KeyState(SDLK_DOWN)) m_externalViewRotX += 45*frameTime;
 		if (Pi::KeyState(SDLK_LEFT)) m_externalViewRotY -= 45*frameTime;
@@ -813,7 +814,7 @@ void WorldView::Update()
 		if (Pi::player->GetFlightState() == Ship::LANDED || Pi::player->GetFlightState() == Ship::DOCKED)
 			m_externalViewRotX = Clamp(m_externalViewRotX, -170.0, -10.0);
 	}
-	if (KeyBindings::targetObject.IsActive()) {
+	if (KeyBindings::targetObject.IsActive() && !Pi::IsConsoleActive()) {
 		/* Hitting tab causes objects in the crosshairs to be selected */
 		Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
 		SelectBody(target, false);
@@ -1016,7 +1017,7 @@ void WorldView::UpdateCommsOptions()
 			Polit::GetCrime(&crime, &fine);
 			if (fine) {
 				button = AddCommsOption(stringf(Lang::PAY_FINE_REMOTELY,
-							formatarg("fine", format_money(fine))), ypos, optnum++);
+							formatarg("amount", format_money(fine))), ypos, optnum++);
 				button->onClick.connect(sigc::ptr_fun(&PlayerPayFine));
 				ypos += 32;
 			}

@@ -106,7 +106,7 @@ static int l_format_money(lua_State *l)
 
 void LuaFormat::Register()
 {
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

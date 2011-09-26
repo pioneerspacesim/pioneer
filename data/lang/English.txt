@@ -549,6 +549,8 @@ INCREASE_SET_SPEED
     Increase set speed
 DECREASE_SET_SPEED
     Decrease set speed
+TOGGLE_LUA_CONSOLE
+    Toggle Lua console
 JOYSTICK_INPUT
     Joystick input
 PITCH
@@ -929,6 +931,8 @@ SOLAR
     Solar
 EARTH
     Earth
+SURFACE_GRAVITY
+    Surface gravity
 SURFACE_TEMPERATURE
     Surface temperature
 N_CELSIUS

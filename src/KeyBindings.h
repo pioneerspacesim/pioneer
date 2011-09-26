@@ -32,6 +32,7 @@ namespace KeyBindings {
 		} u;
 
 		std::string Description() const;
+		bool Matches(const SDL_keysym *sym) const;
 
 		static KeyBinding keyboardBinding(SDLKey key, SDLMod mod);
 	};
@@ -100,6 +101,7 @@ namespace KeyBindings {
 	extern KeyAction fireLaser;
 	extern KeyAction fastRotate;
 	extern KeyAction targetObject;
+	extern KeyAction toggleLuaConsole;
 
 	extern AxisBinding pitchAxis;
 	extern AxisBinding rollAxis;
