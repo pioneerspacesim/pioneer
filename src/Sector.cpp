@@ -101,9 +101,9 @@ Sector::Sector(int x, int y, int z)
 				} else if (spec < 3) {
 					s.starType[0] = SBody::TYPE_STAR_S_BH; 
 				} else if (spec < 5) {
-					s.starType[0] = SBody::TYPE_STAR_O_WR; 
+					s.starType[0] = SBody::TYPE_STAR_O_WF; 
 				} else if (spec < 8) {
-					s.starType[0] = SBody::TYPE_STAR_B_WR; 
+					s.starType[0] = SBody::TYPE_STAR_B_WF; 
 				} else if (spec < 12) {
 					s.starType[0] = SBody::TYPE_STAR_M_WF; 
 				} else if (spec < 15) {

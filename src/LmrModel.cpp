@@ -184,10 +184,10 @@ namespace ShipThruster {
 		glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, s_alpha);
 		glMaterialfv (GL_FRONT, GL_SPECULAR, s_black);
 		if (Render::IsHDREnabled()) {
-			float col[4] = { 0.0f, 4.0f, 10.0f, 1.0f };
+			float col[4] = { 0.0f, 40.0f, 100.0f, 0.9f };
 			glMaterialfv (GL_FRONT, GL_EMISSION, col);
 		} else {
-			float col[4] = { 0.0f, 0.4f, 1.0f, 1.0f };
+			float col[4] = { 0.0f, 0.4f, 1.0f, 0.9f };
 			glMaterialfv (GL_FRONT, GL_EMISSION, col);
 		}
 
@@ -196,10 +196,10 @@ namespace ShipThruster {
 
 		glScalef (2.0f, 2.0f, 1.5f);
 		if (Render::IsHDREnabled()) {
-			float col[4] = { 4.0f, 0.0f, 10.0f, 1.0f };
+			float col[4] = { 100.0f, 100.0f, 100.0f, 0.9f };
 			glMaterialfv (GL_FRONT, GL_EMISSION, col);
 		} else {
-			float col[4] = { 0.4f, 0.0f, 1.0f, 1.0f };
+			float col[4] = { 0.4f, 0.0f, 1.0f, 0.9f };
 			glMaterialfv (GL_FRONT, GL_EMISSION, col);
 		}
 		glVertexPointer (3, GL_FLOAT, sizeof(vector3f), pTVertex8pt);
