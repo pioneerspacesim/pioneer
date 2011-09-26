@@ -96,13 +96,13 @@ define_model('wave', {
 		end
 		-- landing gear
 		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
-			local F = v(0.0, -3.0, 0.3)
-			local RL = v(-1.5, -3.0, 4.2)
-			local RR = v(1.5, -3.0, 4.2)
+			local trans2 = 2.6*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.3,1)
+			local rot = 2.4*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.3,1)
+			local F = v(0,-2-trans2, 3.4)
 
-			call_model('nosewheelunit', F, v(-1,0,0), v(0,-1,0), 0.3)
-			call_model('mainwheelunit', RL, v(-1,0,0), v(0,-1,0), 0.3)
-			call_model('mainwheelunit', RR, v(-1,0,0), v(0,-1,0), 0.3)
+			call_model('eagle_wheels', F, v(1,0,0), v(0,1,0), 0.3)
+			call_model('eagle_cyl', v(0,-2,2.7), v(1,0,0), v(0,1.7-math.cos(rot),.3-math.sin(rot)), 0.3)
+			call_model('eagle_cyl', v(0,-2,4.5), v(1,0,0), v(0,1.5-math.cos(rot),.3+math.sin(rot)), 0.3)
 		end
 		-- missiles
 		-- missile bays L2 L1 R1 L2 1 inside 2 outside
