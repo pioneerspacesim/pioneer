@@ -679,14 +679,21 @@ local onShipDestroyed = function (ship, attacker)
 				elseif trader.status == 'cowering' then
 					-- already reached starport and docked
 					trader['status'] = 'docked'
+
+					-- need the ship object for the trader
+					local ships = Space.GetBodies(function (body)
+						return body:isa("Ship") and body.label == label
+					end)
+					assert(#ships == 1, 'got '..#ships..' entries, expected 1')
+
 					if trader.delay > Game.time then
 						--[[ not ready to undock, so schedule it
 						there is a slight chance that the status was changed while
 						onShipDocked was in progress so fire a bit later ]]
-						Timer:CallAt(trader.delay + 120, function () doUndock(ship) end)
+						Timer:CallAt(trader.delay + 120, function () doUndock(ships[1]) end)
 					else
 						-- ready to undock
-						doUndock(ship)
+						doUndock(ships[1])
 					end
 				end
 				return
