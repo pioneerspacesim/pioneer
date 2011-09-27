@@ -36,8 +36,9 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	if (IsOnscreen()) {
 		const float *col = StarSystem::starRealColors[GetSBody()->type];
 		const float b = (Render::IsHDREnabled() ? 100.0f : 1.0f);
-
-#if 0
+		// if star is wolf-rayet it gets a very large halo effect
+		const float wf = ((GetSBody()->type < SBody::TYPE_STAR_S_BH && 
+			GetSBody()->type > SBody::TYPE_STAR_O_HYPER_GIANT) ? 100.0f : 1.0f);
 
 		/* Draw star spikes and halo to 2d ortho screen */
 		
@@ -45,14 +46,16 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		vector3d pp;
 		Gui::Screen::Project(fpos, pp);
 
-		const float glowrad = float(20.0f+20000.0f*radius/viewCoords.Length());
+		MTRand(rand);
+
+		const float glowrad = float(20.0f+1000.0f*wf*radius/viewCoords.Length());
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
 		glEnable(GL_BLEND);
 		glBegin(GL_TRIANGLE_FAN);
-		glColor4f(0.5f*col[0], 0.5f*col[1], 0.5f*col[2], 1);
+		glColor4f(col[0], col[1], col[2], 1);
 		glVertex3f(pp.x, pp.y, 0);
 		glColor4f(0,0,0,0);
-		for (float ang=0; ang<2*M_PI; ang+=0.2) {
+		for (float ang=0; ang<2*M_PI; ang+=0.26183+rand.Double(0,0.4)) {
 			glVertex3f(pp.x+glowrad*sin(ang), pp.y+glowrad*cos(ang), 0);
 		}
 		glVertex3f(pp.x, pp.y+glowrad, 0);
@@ -61,11 +64,12 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		
 		Render::State::UseProgram(Render::simpleShader);
 		glEnable(GL_BLEND);
-		glColor4f(0.5f*b*col[0],0.5f*b*col[1],0.5f*b*col[2],1);
+		glColor4f(b*col[0],b*col[1],b*col[2],1);
 		glBegin(GL_TRIANGLE_FAN);
 		glVertex3f(pp.x,pp.y,0);
 		glColor4f(0,0,0,0);
-		
+
+#if 0
 		const float spikerad = std::min<float>(10.0f+20000.0f*radius/viewCoords.Length(), 0.5f*float(Gui::Screen::GetHeight()));
 		{
 			/* cubic bezier with 2 (0,0,0) control points */
@@ -96,15 +100,16 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 				glVertex3fv(&p[0]);
 			}
 		}
+#endif
 		glEnd();
 		
 		Render::State::UseProgram(0);
 		Gui::Screen::LeaveOrtho();
 		glDisable(GL_BLEND);
 
-		
-		if (Render::AreShadersEnabled())
-#endif
+		//We can just leave this check disabled as shader-less looks pretty good
+		//if (Render::AreShadersEnabled())
+
 
 			// shaders get you pretty spots and things
 			TerrainBody::Render(viewCoords, viewTransform);
