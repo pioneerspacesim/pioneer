@@ -1254,6 +1254,34 @@ LmrModel *LmrLookupModelByName(const char *name) throw (LmrModelNotFoundExceptio
 }	
 
 namespace ModelFuncs {
+	/*
+	 * Function: call_model
+	 *
+	 * Use another model as a submodel
+	 *
+	 * > call_model(modelname, pos, xaxis, yaxis, scale)
+	 *
+	 * Parameters:
+	 *
+	 *   modelname - submodel to call, must be already loaded
+	 *   pos - position to load the submodel at
+	 *   xaxis - submodel orientation along x axis
+	 *   yaxis - submodel orientation along y axis
+	 *   scale - submodel scale
+	 *
+	 * Example:
+	 *
+	 * > call_model('front_wheel',v(0,0,-50),v(0,0,1),v(1,0,0),1.0)
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int call_model(lua_State *L)
 	{
 		const char *obj_name = luaL_checkstring(L, 1);
@@ -1283,6 +1311,35 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: set_light
+	 *
+	 * Set parameters for a local light. Up to four lights are available.
+	 * You can use it by calling use_light after set_local_lighting(true)
+	 * has been called.
+	 *
+	 * > set_light(number, attenuation, position, color)
+	 *
+	 * Parameters:
+	 *
+	 *   number - number of the light to modify, 1 to 4
+	 *   attenuation - quadratic attenuation
+	 *   position - xyz position
+	 *   color - rgb
+	 *
+	 * Example:
+	 *
+	 * > set_light(1, 0.00005, v(0,0,0), v(1,0.2,0))
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int set_light(lua_State *L)
 	{
 		int num = luaL_checkinteger(L, 1)-1;
@@ -1296,6 +1353,30 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: use_light
+	 *
+	 * Use one of the local lights.
+	 *
+	 * > use_light(number)
+	 *
+	 * Parameters:
+	 *
+	 *   number - local light number, 1 to 4
+	 *
+	 * Example:
+	 *
+	 * > use_light(1)
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int use_light(lua_State *L)
 	{
 		int num = luaL_checkinteger(L, 1)-1;
@@ -1303,6 +1384,27 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: set_local_lighting
+	 *
+	 * Enable use of lights local to the model. They do not affect
+	 * the surroundings, and are meant for lighting structure interiors.
+	 *
+	 * > set_local_lighting(state)
+	 *
+	 * Parameters:
+	 *
+	 *   state - true or false
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int set_local_lighting(lua_State *L)
 	{
 		const bool doIt = lua_toboolean(L, 1) != 0;
@@ -1310,6 +1412,27 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: set_insideout
+	 *
+	 * When enabled, subsequent drawing will be inside-out (reversed triangle
+	 * winding and normals)
+	 *
+	 * >  set_insideout(state)
+	 *
+	 * Parameters:
+	 *
+	 *   state - true or false
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int insideout(lua_State *L)
 	{
 		const bool doIt = lua_toboolean(L, 1) != 0;
@@ -1317,6 +1440,36 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: lathe
+	 *
+	 * Cylindrical shape that can be tapered at different lengths
+	 *
+	 * >  lathe(sides, start, end, up, steps)
+	 *
+	 * Parameters:
+	 *
+	 *   sides - number of sides, at least 3
+	 *   start - position vector to start at
+	 *   end - position vector to finish at
+	 *   up - up direction vector, can be used to rotate shape
+	 *   steps - table of position, radius pairs. Positions are from 0.0
+	 *           (start of the cylinder) to 1.0 (end). If you want a closed
+	 *           cylinder have a zero-radius positions at the start and the end.
+	 *
+	 * Example:
+	 *
+	 * > lathe(8, v(0,0,0), v(0,10,0), v(1,0,0), {0.0,0.0, 0.0,1.0, 0.4,1.2, 0.6,1.2, 1.0,1.0, 1.0,0.0})
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int lathe(lua_State *L)
 	{
 		const int steps = luaL_checkinteger(L, 1);
@@ -1382,6 +1535,34 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: extrusion
+	 *
+	 * Extrude an outline/cross-section. Ends will be closed.
+	 *
+	 * >  extrusion(start, end, up, radius, shape)
+	 *
+	 * Parameters:
+	 *
+	 *   start - position vector to start at
+	 *   end - position vector to end at
+	 *   up - up vector, can be used to rotate shape
+	 *   radius - scale of the extrusion
+	 *   shape - table of position vectors to define the outline, maximum 32
+	 *
+	 * Example:
+	 *
+	 * > extrusion(v(0,0,20), v(0,0,-20), v(0,1,0), 1.0, v(-20,0,0), v(20,0,0), v(20,200,0), v(-20,200,0))
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int extrusion(lua_State *L)
 	{
 		const vector3f *start = MyLuaVec::checkVec(L, 1);
@@ -1749,7 +1930,24 @@ namespace ModelFuncs {
 		}
 	}
 	
+	// DO ME
 	static int quadric_bezier_quad(lua_State *L) { _quadric_bezier_quad(L, false); return 0; }
+
+	/*
+	 * Function: xref_quadric_bezier_quad
+	 *
+	 * Same as <quadric_bezier_quad>, except result will be duplicated and mirrored
+	 * along the X axis.
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int xref_quadric_bezier_quad(lua_State *L) { _quadric_bezier_quad(L, true); return 0; }
 
 	static vector3f eval_cubic_bezier_u_v(const vector3f p[16], float u, float v)
@@ -1832,9 +2030,63 @@ namespace ModelFuncs {
 		}
 	}
 
+	//DO ME
 	static int cubic_bezier_quad(lua_State *L) { _cubic_bezier_quad(L, false); return 0; }
+
+	/*
+	 * Function: xref_cubic_bezier_quad
+	 *
+	 * Same as <cubic_bezier_quad>, except result will be duplicated and mirrored
+	 * along the X axis.
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int xref_cubic_bezier_quad(lua_State *L) { _cubic_bezier_quad(L, true); return 0; }
 
+	/*
+	 * Function: set_material
+	 *
+	 * Set or update material properties. Materials are activated with <use_material>.
+	 * Pioneer materials use the phong lighting model.
+	 *
+	 * >  set_material(name, red, green, blue, alpha, specular_red, specular_green, specular_blue, shininess, emissive_red, emissive_gree, emissive_blue)
+	 *
+	 * Parameters:
+	 *
+	 *   name - one of the names defined in model's materials table
+	 *   red - diffuse color, red component
+	 *   green - diffuse color, green component
+	 *   blue - diffuse color, blue component
+	 *   alpha - amount of material's translucency
+	 *   specular_red - specular highlight color, red component
+	 *   specular_green - specular highlight color, green component
+	 *   specular_blue - specular highlight color, blue component
+	 *   shininess - strength of specular highlights
+	 *   emissive_red - self illumination, red component
+	 *   emissive_green - self illumination, green component
+	 *   emissive_blue - self illumination, blue component
+	 *
+	 * Example:
+	 *
+	 * > set_material('wall', 1.0,1.0,1.0,1.0, 0.3,0.3,0.3,5.0, 0.0,0.0,0.0)
+	 * > set_material('windows', 0,0,0,1, 1,1,1,50, .5,.5,0)
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int set_material(lua_State *L)
 	{
 		const char *mat_name = luaL_checkstring(L, 1);
@@ -1856,6 +2108,30 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: use_material
+	 *
+	 * Activate a material to be used with subsequent drawing commands
+	 *
+	 * >  use_material(name)
+	 *
+	 * Parameters:
+	 *
+	 *   name - material defined in model's materials table
+	 *
+	 * Example:
+	 *
+	 *   use_material('wall')
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int use_material(lua_State *L)
 	{
 		const char *mat_name = luaL_checkstring(L, 1);
@@ -2710,6 +2986,7 @@ namespace ObjLoader {
 		return mtl_map;
 	}
 
+	//load_obj
 	static int load_obj_file(lua_State *L)
 	{
 		const char *obj_name = luaL_checkstring(L, 1);
