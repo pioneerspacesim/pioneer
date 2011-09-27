@@ -3,6 +3,10 @@ SUBDIRS = collider gui render
 
 include $(top_srcdir)/Makefile.common
 
+AM_CFLAGS += $(WARN_CFLAGS)
+AM_CPPFLAGS += $(WARN_CPPFLAGS)
+AM_CXXFLAGS += $(WARN_CXXFLAGS)
+
 bin_PROGRAMS = pioneer modelviewer
 noinst_HEADERS = \
 	Aabb.h \
