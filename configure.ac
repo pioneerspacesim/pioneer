@@ -28,6 +28,10 @@ EXTRA_CFLAGS=
 EXTRA_CXXFLAGS=
 EXTRA_CPPFLAGS=
 
+WARN_CFLAGS=
+WARN_CXXFLAGS=
+WARN_CPPFLAGS=
+
 dnl Check for ccache if they want it
 AC_ARG_WITH([ccache], AS_HELP_STRING([--with-ccache], [Compile using ccache]), [AC_PATH_PROG([CCACHE], [ccache])])
 if test "x$with_ccache" = xyes; then
@@ -55,9 +59,15 @@ AC_DEFUN([PIONEER_CPPFLAG], [_PIONEER_COMPILER_FLAG([CPP], [EXTRA], [CPP], [$1],
 AC_DEFUN([PIONEER_C_CXX_FLAG],
 	[_PIONEER_COMPILER_FLAG([C], [EXTRA], [C], [$1], [$CC/$CXX], [EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $1"])])
 
+AC_DEFUN([PIONEER_WARN_CFLAG], [_PIONEER_COMPILER_FLAG([C], [WARN], [C], [$1], [$CC], [$2], [$3])])
+AC_DEFUN([PIONEER_WARN_CXXFLAG], [_PIONEER_COMPILER_FLAG([C++], [WARN], [CXX], [$1], [$CXX], [$2], [$3])])
+AC_DEFUN([PIONEER_WARN_CPPFLAG], [_PIONEER_COMPILER_FLAG([CPP], [WARN], [CPP], [$1], [$CPP], [$2], [$3])])
+
+AC_DEFUN([PIONEER_WARN_C_CXX_FLAG],
+	[_PIONEER_COMPILER_FLAG([C], [WARN], [C], [$1], [$CC/$CXX], [WARN_CXXFLAGS="$WARN_CXXFLAGS $1"])])
 
 dnl Always add -Wall, where supported
-PIONEER_C_CXX_FLAG([-Wall])
+PIONEER_WARN_C_CXX_FLAG([-Wall])
 
 dnl Add -O0 if requested
 OPTIMISE=
@@ -87,20 +97,20 @@ if test "x$with_extra_warnings" != xno; then
 -Wcast-qual				\
 -Wcast-align				\
   ; do
-    PIONEER_C_CXX_FLAG([$warn_opt])
+    PIONEER_WARN_C_CXX_FLAG([$warn_opt])
   done
   for warn_opt in \
 -Wno-format-zero-length			\
 -Werror-implicit-function-declaration	\
   ; do
-    PIONEER_CFLAG([$warn_opt])
+    PIONEER_WARN_CFLAG([$warn_opt])
   done
   for warn_opt in \
 -Wstrict-null-sentinel			\
 -Wold-style-cast			\
 -Wsign-promo				\
   ; do
-    PIONEER_CXXFLAG([$warn_opt])
+    PIONEER_WARN_CXXFLAG([$warn_opt])
   done
 fi
 
@@ -220,6 +230,10 @@ fi
 AC_SUBST([EXTRA_CFLAGS])
 AC_SUBST([EXTRA_CXXFLAGS])
 AC_SUBST([EXTRA_CPPFLAGS])
+
+AC_SUBST([WARN_CFLAGS])
+AC_SUBST([WARN_CXXFLAGS])
+AC_SUBST([WARN_CPPFLAGS])
 
 AC_CONFIG_FILES([Makefile data/Makefile src/Makefile src/collider/Makefile src/gui/Makefile src/render/Makefile contrib/Makefile contrib/lua/Makefile contrib/oolua/Makefile osx/Makefile win32/Makefile])
 AC_OUTPUT
