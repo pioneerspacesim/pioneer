@@ -3,6 +3,10 @@ SUBDIRS = collider gui render
 
 include $(top_srcdir)/Makefile.common
 
+AM_CFLAGS += $(WARN_CFLAGS)
+AM_CPPFLAGS += $(WARN_CPPFLAGS)
+AM_CXXFLAGS += $(WARN_CXXFLAGS)
+
 bin_PROGRAMS = pioneer modelviewer
 noinst_HEADERS = \
 	Aabb.h \
@@ -289,7 +293,7 @@ TESTS = tests
  
 tests_LDADD = collider/libcollider.a gui/libgui.a render/librender.a
 
-INCLUDES = -I@top_srcdir@/contrib
+INCLUDES = -isystem @top_srcdir@/contrib
 if !HAVE_LUA
-INCLUDES += -I@top_srcdir@/contrib/lua
+INCLUDES += -isystem @top_srcdir@/contrib/lua
 endif
