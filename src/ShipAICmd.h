@@ -15,6 +15,10 @@ public:
 
 	virtual bool TimeStepUpdate() = 0;
 	bool ProcessChild();				// returns false if child is active
+	virtual void GetStatusText(char *str) { 
+		if (m_child) m_child->GetStatusText(str);
+		else strcpy(str, "AI state unknown");
+	}
 
 	// Serialisation functions
 	static AICommand *Load(Serializer::Reader &rd);
@@ -61,6 +65,10 @@ public:
 		m_target = target;
 		m_state = 0;
 	}
+	virtual void GetStatusText(char *str) { 
+		if (m_child) m_child->GetStatusText(str);
+		else snprintf(str, 255, "Dock: target %s, state %i", m_target->GetLabel().c_str(), m_state);
+	}
 	virtual void Save(Serializer::Writer &wr) {
 		AICommand::Save(wr);
 		wr.Int32(Serializer::LookupBody(m_target));
@@ -93,10 +101,14 @@ private:
 class AICmdFlyTo : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdFlyTo(Ship *ship, Body *target);					// fly to vicinity
+	AICmdFlyTo(Ship *ship, Body *target, bool coll=true);					// fly to vicinity
 	AICmdFlyTo(Ship *ship, Body *target, double alt);		// orbit
 	AICmdFlyTo(Ship *ship, Frame *targframe, vector3d &posoff, double endvel, int headmode, bool coll);
 
+	virtual void GetStatusText(char *str) { 
+		if (m_child) m_child->GetStatusText(str);
+		else snprintf(str, 255, "FlyTo: endvel %.1f, state %i", m_endvel/1000.0, m_state);
+	}
 	virtual void Save(Serializer::Writer &wr) {
 		if(m_child) { 
 			delete m_child;				// can regen children anyway
@@ -143,7 +155,11 @@ public:
 	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel);
 	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, vector3d &posoff);
 	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, vector3d &posoff);
-	
+
+	virtual void GetStatusText(char *str) { 
+		if (m_child) m_child->GetStatusText(str);
+		else snprintf(str, 255, "FlyAround: alt %.1f, targmode %i", m_alt/1000.0, m_targmode);
+	}	
 	virtual void Save(Serializer::Writer &wr) {
 		AICommand::Save(wr);
 		wr.Int32(Serializer::LookupBody(m_obstructor));

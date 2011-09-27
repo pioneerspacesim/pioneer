@@ -99,6 +99,12 @@ void Ship::AIClearInstructions()
 	m_curAICmd = 0;
 }
 
+void Ship::AIGetStatusText(char *str)
+{
+	if (!m_curAICmd) strcpy(str, "AI inactive");
+	else m_curAICmd->GetStatusText(str);
+}
+
 void Ship::AIKamikaze(Body *target)
 {
 	AIClearInstructions();

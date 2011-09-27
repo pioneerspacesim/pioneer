@@ -690,7 +690,7 @@ static AICommand *CheckCollisions(Ship *ship, Frame *targframe, vector3d &posoff
 {
 	// check collisions
 	Frame *shipframe = ship->GetFrame();
-	vector3d targpos = GetPosInFrame(ship->GetFrame(), targframe, posoff);
+	vector3d targpos = GetPosInFrame(shipframe, targframe, posoff);
 	Body *body = FindNearestObstructor(ship, shipframe->GetBodyFor(), targpos);
 	if (!body) body = FindNearestObstructor(ship, targframe->GetBodyFor(), targpos);
 	if (!body) return 0;
@@ -698,21 +698,21 @@ static AICommand *CheckCollisions(Ship *ship, Frame *targframe, vector3d &posoff
 	double rad = body->GetBoundingRadius();
 
 	// if obstructor is distant, just fly to its vicinity
-	if (rad*VICINITY_MUL*1.1 < dist)		// obstructor is nearby
-		return new AICmdFlyTo(ship, body);
+	if (rad*VICINITY_MUL*1.1 < dist)
+		return new AICmdFlyTo(ship, body, false);
 
 	// if target not in obstructor's root frame, flyaround with larger radius
 	if (targframe != body->GetFrame())
 		return new AICmdFlyAround(ship, body, rad*1.2, 0.0, targframe, posoff);
 
 	// if target on opposite side of obstructor, flyaround
-	if (targpos.LengthSqr() > dist)
+	if ((targpos - ship->GetPosition()).LengthSqr() > dist*dist)
 		return new AICmdFlyAround(ship, body, rad*1.02, 0.0, targframe, posoff);
 	
 	// otherwise fly to position above target
 	vector3d newtarg = posoff*rad*1.02 / posoff.Length();
 	int flipmode = GetFlipMode(ship, targframe, newtarg);
-	return new AICmdFlyTo(ship, targframe, newtarg, 0.0, flipmode, false);
+	return new AICmdFlyTo(ship, targframe, newtarg, 100.0, flipmode, false);		// TODO: unfudge?
 }
 
 // Check for the player doing bad things
@@ -766,13 +766,13 @@ void AICmdFlyTo::FrameSwitchSetup()
 	m_reldir = (targpos - m_ship->GetPosition()).NormalizedSafe();
 
 	if (!m_coll) return;
-	m_child = CheckCollisions(m_ship, m_targframe, targpos);
+	m_child = CheckCollisions(m_ship, m_targframe, m_posoff);
 	if (!m_child) m_child = CheckSuicide(m_ship, m_endvel, m_targframe, m_posoff);
 	if (m_child) m_frame = 0;
 }
 
 // Fly to "vicinity" of body
-AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO)
+AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, bool coll) : AICommand (ship, CMD_FLYTO)
 {
 	double dist = std::max(VICINITY_MIN, VICINITY_MUL*target->GetBoundingRadius());
 	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation *>(target)->IsGroundStation()) {
@@ -789,7 +789,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO)
 
 	m_endvel = 0;
 	m_orbitrad = 0;
-	m_coll = true; m_frame = 0;
+	m_coll = coll; m_frame = 0;
 
 	// check if we're already close enough
 	if (dist > m_ship->GetPositionRelTo(target).Length()) m_state = 6;
@@ -1022,23 +1022,24 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int targmod
 {
 	m_obstructor = obstructor; m_alt = alt; m_vel = vel;
 	m_targmode = targmode; m_target = target; m_targframe = targframe; m_posoff = posoff;
+	
 
 	// generate suitable velocity if none provided
 	double minthrust = m_ship->GetMaxThrust(vector3d(0.0)).x;
-	if (vel < 1e-30) m_vel = sqrt((target->GetMass()*G + 0.8*minthrust) / m_alt);
+	if (vel < 1e-30) m_vel = sqrt((obstructor->GetMass()*G + 0.8*minthrust) / m_alt);
 
 	// check if too far away or velocity too high
-	vector3d pos = m_ship->GetPositionRelTo(obstructor);
-	vector3d cvel = m_ship->GetVelocityRelTo(obstructor);
+	Frame *obsframe = obstructor->GetFrame();
+	if (obstructor->HasDoubleFrame()) obsframe = obsframe->m_parent;
+	vector3d pos = m_ship->GetPositionRelTo(obsframe);
+	vector3d cvel = m_ship->GetVelocityRelTo(obsframe);
 	if (pos.Dot(pos) < 1.21*m_alt*m_alt && cvel.Dot(cvel) < 1.21*m_vel*m_vel) return;
 
 	// make tangent in non-rotating frame
-	Frame *obsframe = obstructor->GetFrame();
-	if (obstructor->HasDoubleFrame()) obsframe = obsframe->m_parent;
 	vector3d tangent = GenerateTangent(m_ship, obsframe, Targpos());
 	tangent *= m_alt / m_obstructor->GetBoundingRadius();
 
-	// still do collision/suicide checks
+	// still do collision/suicide checks?
 	int newmode = GetFlipMode(m_ship, obsframe, tangent);
 	m_child = new AICmdFlyTo(m_ship, obsframe, tangent, m_vel, newmode, false);
 }
@@ -1065,6 +1066,8 @@ extern double calc_ivel(double dist, double vel, double acc);
 
 bool AICmdFlyAround::TimeStepUpdate()
 {
+	if (!ProcessChild()) return false;
+
 	// Not necessary unless it's a tier 1 AI
 	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
 	else { LaunchShip(m_ship); return false; }
@@ -1074,7 +1077,9 @@ bool AICmdFlyAround::TimeStepUpdate()
 	vector3d targpos = Targpos();		// target position in ship's frame
 
 	// check whether path to target is clear
-	if (m_targmode && !CheckCollision(m_ship, m_obstructor, targpos)) return true;
+	if (m_targmode && !CheckCollision(m_ship, m_obstructor, targpos)) {
+		 return true;
+	}
 
 	// all calculations in ship's frame
 	vector3d obspos = m_obstructor->GetPositionRelTo(m_ship);
