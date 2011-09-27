@@ -57,6 +57,7 @@
 #include "LuaRand.h"
 #include "LuaNameGen.h"
 #include "LuaMusic.h"
+#include "LuaConsole.h"
 #include "SoundMusic.h"
 #include "Background.h"
 #include "Lang.h"
@@ -78,27 +79,29 @@ sigc::signal<void> Pi::onPlayerChangeTarget;
 sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 sigc::signal<void> Pi::onPlayerChangeEquipment;
 sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
-LuaManager Pi::luaManager;
-LuaSerializer Pi::luaSerializer;
-LuaTimer Pi::luaTimer;
-LuaEventQueue<> Pi::luaOnGameStart("onGameStart");
-LuaEventQueue<> Pi::luaOnGameEnd("onGameEnd");
-LuaEventQueue<Ship> Pi::luaOnEnterSystem("onEnterSystem");
-LuaEventQueue<Ship> Pi::luaOnLeaveSystem("onLeaveSystem");
-LuaEventQueue<Body> Pi::luaOnFrameChanged("onFrameChanged");
-LuaEventQueue<Ship,Body> Pi::luaOnShipDestroyed("onShipDestroyed");
-LuaEventQueue<Ship,Body> Pi::luaOnShipHit("onShipHit");
-LuaEventQueue<Ship,Body> Pi::luaOnShipCollided("onShipCollided");
-LuaEventQueue<Ship,SpaceStation> Pi::luaOnShipDocked("onShipDocked");
-LuaEventQueue<Ship,SpaceStation> Pi::luaOnShipUndocked("onShipUndocked");
-LuaEventQueue<Ship, Body> Pi::luaOnShipLanded("onShipLanded");
-LuaEventQueue<Ship, Body> Pi::luaOnShipTakeOff("onShipTakeOff");
-LuaEventQueue<Ship,const char *> Pi::luaOnShipAlertChanged("onShipAlertChanged");
-LuaEventQueue<Ship,CargoBody> Pi::luaOnJettison("onJettison");
-LuaEventQueue<Ship> Pi::luaOnAICompleted("onAICompleted");
-LuaEventQueue<SpaceStation> Pi::luaOnCreateBB("onCreateBB");
-LuaEventQueue<SpaceStation> Pi::luaOnUpdateBB("onUpdateBB");
-LuaEventQueue<> Pi::luaOnSongFinished("onSongFinished");
+LuaManager *Pi::luaManager;
+LuaSerializer *Pi::luaSerializer;
+LuaTimer *Pi::luaTimer;
+LuaEventQueue<> *Pi::luaOnGameStart;
+LuaEventQueue<> *Pi::luaOnGameEnd;
+LuaEventQueue<Ship> *Pi::luaOnEnterSystem;
+LuaEventQueue<Ship> *Pi::luaOnLeaveSystem;
+LuaEventQueue<Body> *Pi::luaOnFrameChanged;
+LuaEventQueue<Ship,Body> *Pi::luaOnShipDestroyed;
+LuaEventQueue<Ship,Body> *Pi::luaOnShipHit;
+LuaEventQueue<Ship,Body> *Pi::luaOnShipCollided;
+LuaEventQueue<Ship,SpaceStation> *Pi::luaOnShipDocked;
+LuaEventQueue<Ship,SpaceStation> *Pi::luaOnShipUndocked;
+LuaEventQueue<Ship,Body> *Pi::luaOnShipLanded;
+LuaEventQueue<Ship,Body> *Pi::luaOnShipTakeOff;
+LuaEventQueue<Ship,const char *> *Pi::luaOnShipAlertChanged;
+LuaEventQueue<Ship,CargoBody> *Pi::luaOnJettison;
+LuaEventQueue<Ship> *Pi::luaOnAICompleted;
+LuaEventQueue<SpaceStation> *Pi::luaOnCreateBB;
+LuaEventQueue<SpaceStation> *Pi::luaOnUpdateBB;
+LuaEventQueue<> *Pi::luaOnSongFinished;
+LuaEventQueue<Ship> *Pi::luaOnShipFlavourChanged;
+LuaEventQueue<Ship,const char *> *Pi::luaOnShipEquipmentChanged;
 int Pi::keyModState;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[6];
@@ -115,6 +118,7 @@ GameMenuView *Pi::gameMenuView;
 SystemView *Pi::systemView;
 SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
+LuaConsole *Pi::luaConsole;
 StarSystem *Pi::selectedSystem;
 StarSystem *Pi::currentSystem;
 MTRand Pi::rng;
@@ -182,7 +186,9 @@ static void draw_progress(float progress)
 
 static void LuaInit()
 {
-	lua_State *l = Pi::luaManager.GetLuaState();
+	Pi::luaManager = new LuaManager();
+
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	// XXX kill CurrentDirectory
 	lua_pushstring(l, PIONEER_DATA_DIR);
@@ -205,27 +211,53 @@ static void LuaInit()
 	LuaObject<LuaChatForm>::RegisterClass();
 	LuaObject<LuaEventQueueBase>::RegisterClass();
 
+	Pi::luaSerializer = new LuaSerializer();
+	Pi::luaTimer = new LuaTimer();
+
 	LuaObject<LuaSerializer>::RegisterClass();
 	LuaObject<LuaTimer>::RegisterClass();
 
-	Pi::luaOnGameStart.RegisterEventQueue();
-	Pi::luaOnGameEnd.RegisterEventQueue();
-	Pi::luaOnEnterSystem.RegisterEventQueue();
-	Pi::luaOnLeaveSystem.RegisterEventQueue();
-	Pi::luaOnFrameChanged.RegisterEventQueue();
-	Pi::luaOnShipDestroyed.RegisterEventQueue();
-	Pi::luaOnShipHit.RegisterEventQueue();
-	Pi::luaOnShipCollided.RegisterEventQueue();
-	Pi::luaOnShipDocked.RegisterEventQueue();
-	Pi::luaOnShipLanded.RegisterEventQueue();
-	Pi::luaOnShipTakeOff.RegisterEventQueue();
-	Pi::luaOnShipUndocked.RegisterEventQueue();
-	Pi::luaOnShipAlertChanged.RegisterEventQueue();
-	Pi::luaOnJettison.RegisterEventQueue();
-	Pi::luaOnAICompleted.RegisterEventQueue();
-	Pi::luaOnCreateBB.RegisterEventQueue();
-	Pi::luaOnUpdateBB.RegisterEventQueue();
-	Pi::luaOnSongFinished.RegisterEventQueue();
+	Pi::luaOnGameStart = new LuaEventQueue<>("onGameStart");
+	Pi::luaOnGameEnd = new LuaEventQueue<>("onGameEnd");
+	Pi::luaOnEnterSystem = new LuaEventQueue<Ship>("onEnterSystem");
+	Pi::luaOnLeaveSystem = new LuaEventQueue<Ship>("onLeaveSystem");
+	Pi::luaOnFrameChanged = new LuaEventQueue<Body>("onFrameChanged");
+	Pi::luaOnShipDestroyed = new LuaEventQueue<Ship,Body>("onShipDestroyed");
+	Pi::luaOnShipHit = new LuaEventQueue<Ship,Body>("onShipHit");
+	Pi::luaOnShipCollided = new LuaEventQueue<Ship,Body>("onShipCollided");
+	Pi::luaOnShipDocked = new LuaEventQueue<Ship,SpaceStation>("onShipDocked");
+	Pi::luaOnShipUndocked = new LuaEventQueue<Ship,SpaceStation>("onShipUndocked");
+	Pi::luaOnShipLanded = new LuaEventQueue<Ship,Body>("onShipLanded");
+	Pi::luaOnShipTakeOff = new LuaEventQueue<Ship,Body>("onShipTakeOff");
+	Pi::luaOnShipAlertChanged = new LuaEventQueue<Ship,const char *>("onShipAlertChanged");
+	Pi::luaOnJettison = new LuaEventQueue<Ship,CargoBody>("onJettison");
+	Pi::luaOnAICompleted = new LuaEventQueue<Ship>("onAICompleted");
+	Pi::luaOnCreateBB = new LuaEventQueue<SpaceStation>("onCreateBB");
+	Pi::luaOnUpdateBB = new LuaEventQueue<SpaceStation>("onUpdateBB");
+	Pi::luaOnSongFinished = new LuaEventQueue<>("onSongFinished");
+	Pi::luaOnShipFlavourChanged = new LuaEventQueue<Ship>("onShipFlavourChanged");
+	Pi::luaOnShipEquipmentChanged = new LuaEventQueue<Ship,const char *>("onShipEquipmentChanged");
+
+	Pi::luaOnGameStart->RegisterEventQueue();
+	Pi::luaOnGameEnd->RegisterEventQueue();
+	Pi::luaOnEnterSystem->RegisterEventQueue();
+	Pi::luaOnLeaveSystem->RegisterEventQueue();
+	Pi::luaOnFrameChanged->RegisterEventQueue();
+	Pi::luaOnShipDestroyed->RegisterEventQueue();
+	Pi::luaOnShipHit->RegisterEventQueue();
+	Pi::luaOnShipCollided->RegisterEventQueue();
+	Pi::luaOnShipDocked->RegisterEventQueue();
+	Pi::luaOnShipLanded->RegisterEventQueue();
+	Pi::luaOnShipTakeOff->RegisterEventQueue();
+	Pi::luaOnShipUndocked->RegisterEventQueue();
+	Pi::luaOnShipAlertChanged->RegisterEventQueue();
+	Pi::luaOnJettison->RegisterEventQueue();
+	Pi::luaOnAICompleted->RegisterEventQueue();
+	Pi::luaOnCreateBB->RegisterEventQueue();
+	Pi::luaOnUpdateBB->RegisterEventQueue();
+	Pi::luaOnSongFinished->RegisterEventQueue();
+	Pi::luaOnShipFlavourChanged->RegisterEventQueue();
+	Pi::luaOnShipEquipmentChanged->RegisterEventQueue();
 
 	LuaConstants::Register();
 	LuaEngine::Register();
@@ -236,30 +268,62 @@ static void LuaInit()
 	LuaNameGen::Register();
 	LuaMusic::Register();
 
-	luaL_dofile(l, (std::string(PIONEER_DATA_DIR) + "/pistartup.lua").c_str());
+	LuaConsole::Register();
+
+	luaL_dofile(l, PIONEER_DATA_DIR "/pistartup.lua");
 
 	// XXX load everything. for now, just modules
-	pi_lua_dofile_recursive(l, std::string(PIONEER_DATA_DIR) + "/libs");
-	pi_lua_dofile_recursive(l, std::string(PIONEER_DATA_DIR) + "/modules");
+	pi_lua_dofile_recursive(l, PIONEER_DATA_DIR "/libs");
+	pi_lua_dofile_recursive(l, PIONEER_DATA_DIR "/modules");
+}
+
+static void LuaUninit() {
+	delete Pi::luaOnGameStart;
+	delete Pi::luaOnGameEnd;
+	delete Pi::luaOnEnterSystem;
+	delete Pi::luaOnLeaveSystem;
+	delete Pi::luaOnFrameChanged;
+	delete Pi::luaOnShipDestroyed;
+	delete Pi::luaOnShipHit;
+	delete Pi::luaOnShipCollided;
+	delete Pi::luaOnShipDocked;
+	delete Pi::luaOnShipUndocked;
+	delete Pi::luaOnShipLanded;
+	delete Pi::luaOnShipTakeOff;
+	delete Pi::luaOnShipAlertChanged;
+	delete Pi::luaOnJettison;
+	delete Pi::luaOnAICompleted;
+	delete Pi::luaOnCreateBB;
+	delete Pi::luaOnUpdateBB;
+	delete Pi::luaOnSongFinished;
+	delete Pi::luaOnShipFlavourChanged;
+	delete Pi::luaOnShipEquipmentChanged;
+
+	delete Pi::luaSerializer;
+	delete Pi::luaTimer;
+
+	delete Pi::luaManager;
 }
 
 static void LuaInitGame() {
-	Pi::luaOnGameStart.ClearEvents();
-	Pi::luaOnGameEnd.ClearEvents();
-	Pi::luaOnFrameChanged.ClearEvents();
-	Pi::luaOnShipDestroyed.ClearEvents();
-	Pi::luaOnShipHit.ClearEvents();
-	Pi::luaOnShipCollided.ClearEvents();
-	Pi::luaOnShipDocked.ClearEvents();
-	Pi::luaOnShipUndocked.ClearEvents();
-	Pi::luaOnShipLanded.ClearEvents();
-	Pi::luaOnShipTakeOff.ClearEvents();
-	Pi::luaOnShipAlertChanged.ClearEvents();
-	Pi::luaOnJettison.ClearEvents();
-	Pi::luaOnAICompleted.ClearEvents();
-	Pi::luaOnCreateBB.ClearEvents();
-	Pi::luaOnUpdateBB.ClearEvents();
-	Pi::luaOnSongFinished.ClearEvents();
+	Pi::luaOnGameStart->ClearEvents();
+	Pi::luaOnGameEnd->ClearEvents();
+	Pi::luaOnFrameChanged->ClearEvents();
+	Pi::luaOnShipDestroyed->ClearEvents();
+	Pi::luaOnShipHit->ClearEvents();
+	Pi::luaOnShipCollided->ClearEvents();
+	Pi::luaOnShipDocked->ClearEvents();
+	Pi::luaOnShipUndocked->ClearEvents();
+	Pi::luaOnShipLanded->ClearEvents();
+	Pi::luaOnShipTakeOff->ClearEvents();
+	Pi::luaOnShipAlertChanged->ClearEvents();
+	Pi::luaOnJettison->ClearEvents();
+	Pi::luaOnAICompleted->ClearEvents();
+	Pi::luaOnCreateBB->ClearEvents();
+	Pi::luaOnUpdateBB->ClearEvents();
+	Pi::luaOnSongFinished->ClearEvents();
+	Pi::luaOnShipFlavourChanged->ClearEvents();
+	Pi::luaOnShipEquipmentChanged->ClearEvents();
 }
 
 void Pi::RedirectStdio()
@@ -378,14 +442,15 @@ void Pi::Init()
 
 	InitOpenGL();
 
-	LuaInit();
-
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
 	Gui::Init(scrWidth, scrHeight, 800, 600);
 	if (!glewIsSupported("GL_ARB_vertex_buffer_object")) {
 		Error("OpenGL extension ARB_vertex_buffer_object not supported. Pioneer can not run on your graphics card.");
 	}
+
+	LuaInit();
+
 	Render::Init(width, height);
 	draw_progress(0.1f);
 
@@ -476,8 +541,33 @@ void Pi::Init()
 	}
 #endif
 
+	luaConsole = new LuaConsole(10);
+	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
+
 	gameMenuView = new GameMenuView();
 	config.Save();
+}
+
+bool Pi::IsConsoleActive()
+{
+	return luaConsole && luaConsole->IsActive();
+}
+
+void Pi::ToggleLuaConsole()
+{
+	if (luaConsole->IsVisible()) {
+		luaConsole->Hide();
+		if (luaConsole->GetTextEntryField()->IsFocused())
+			Gui::Screen::ClearFocus();
+		Gui::Screen::RemoveBaseWidget(luaConsole);
+	} else {
+		// luaConsole is added and removed from the base widget set
+		// (rather than just using Show()/Hide())
+		// so that it's forced in front of any other base widgets when it opens
+		Gui::Screen::AddBaseWidget(luaConsole, 0, 0);
+		luaConsole->Show();
+		luaConsole->GetTextEntryField()->Show();
+	}
 }
 
 void Pi::InitOpenGL()
@@ -501,6 +591,7 @@ void Pi::InitOpenGL()
 void Pi::Quit()
 {
 	Render::Uninit();
+	LuaUninit();
 	SDL_Quit();
 	exit(0);
 }
@@ -555,6 +646,8 @@ void Pi::HandleEvents()
 	Pi::mouseMotion[0] = Pi::mouseMotion[1] = 0;
 	while (SDL_PollEvent(&event)) {
 		Gui::HandleSDLEvent(&event);
+		KeyBindings::DispatchSDLEvent(&event);
+
 		switch (event.type) {
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_ESCAPE) {
@@ -599,55 +692,59 @@ void Pi::HandleEvents()
                             Pi::showDebugInfo = !Pi::showDebugInfo;
                             break;
                         case SDLK_m:  // Gimme money!
-                            Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
+							if(Pi::IsGameStarted()) {
+								Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
+							}
                             break;
                         case SDLK_F12:
                         {
-                            matrix4x4d m; Pi::player->GetRotMatrix(m);
-                            vector3d dir = m*vector3d(0,0,-1);
-                            /* add test object */
-                            if (KeyState(SDLK_RSHIFT)) {
-                                Missile *missile = new Missile(ShipType::MISSILE_GUIDED, Pi::player, 
-                                                               Pi::player->GetCombatTarget());
-                                missile->SetRotMatrix(m);
-                                missile->SetFrame(Pi::player->GetFrame());
-                                missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
-                                missile->SetVelocity(Pi::player->GetVelocity());
-                                Space::AddBody(missile);
-                            } else if (KeyState(SDLK_LSHIFT)) {
-                                SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
-                                if (s) {
-                                    int port = s->GetFreeDockingPort();
-                                    if (port != -1) {
-                                        printf("Putting ship into station\n");
-                                        // Make police ship intent on killing the player
-                                        Ship *ship = new Ship(ShipType::LADYBIRD);
-                                        ship->AIKill(Pi::player);
-                                        ship->SetFrame(Pi::player->GetFrame());
-                                        ship->SetDockedWith(s, port);
-                                        Space::AddBody(ship);
-                                    } else {
-                                        printf("No docking ports free dude\n");
-                                    }
-                                } else {
-                                        printf("Select a space station...\n");
-                                }
-                            } else {
-                                Ship *ship = new Ship(ShipType::LADYBIRD);
-                                ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
-                                ship->AIKill(Pi::player);
-                                ship->SetFrame(Pi::player->GetFrame());
-                                ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
-                                ship->SetVelocity(Pi::player->GetVelocity());
-                                ship->m_equipment.Add(Equip::DRIVE_CLASS2);
-                                ship->m_equipment.Add(Equip::RADAR_MAPPER);
-                                ship->m_equipment.Add(Equip::SCANNER);
-                                ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
-                                ship->m_equipment.Add(Equip::HYDROGEN, 10);
-                                ship->UpdateMass();
-                                Space::AddBody(ship);
-                            }
-                            break;
+							if(Pi::IsGameStarted()) {
+								matrix4x4d m; Pi::player->GetRotMatrix(m);
+								vector3d dir = m*vector3d(0,0,-1);
+								/* add test object */
+								if (KeyState(SDLK_RSHIFT)) {
+									Missile *missile =
+										new Missile(ShipType::MISSILE_GUIDED, Pi::player, Pi::player->GetCombatTarget());
+									missile->SetRotMatrix(m);
+									missile->SetFrame(Pi::player->GetFrame());
+									missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
+									missile->SetVelocity(Pi::player->GetVelocity());
+									Space::AddBody(missile);
+								} else if (KeyState(SDLK_LSHIFT)) {
+									SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
+									if (s) {
+										int port = s->GetFreeDockingPort();
+										if (port != -1) {
+											printf("Putting ship into station\n");
+											// Make police ship intent on killing the player
+											Ship *ship = new Ship(ShipType::LADYBIRD);
+											ship->AIKill(Pi::player);
+											ship->SetFrame(Pi::player->GetFrame());
+											ship->SetDockedWith(s, port);
+											Space::AddBody(ship);
+										} else {
+											printf("No docking ports free dude\n");
+										}
+									} else {
+											printf("Select a space station...\n");
+									}
+								} else {
+									Ship *ship = new Ship(ShipType::LADYBIRD);
+									ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+									ship->AIKill(Pi::player);
+									ship->SetFrame(Pi::player->GetFrame());
+									ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
+									ship->SetVelocity(Pi::player->GetVelocity());
+									ship->m_equipment.Add(Equip::DRIVE_CLASS2);
+									ship->m_equipment.Add(Equip::RADAR_MAPPER);
+									ship->m_equipment.Add(Equip::SCANNER);
+									ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
+									ship->m_equipment.Add(Equip::HYDROGEN, 10);
+									ship->UpdateMass();
+									Space::AddBody(ship);
+								}
+							}
+							break;
                         }
 #endif /* DEVKEYS */
 #if OBJECTVIEWER
@@ -882,7 +979,7 @@ static void OnPlayerDockOrUndock()
 	Pi::SetTimeAccel(1);
 }
 
-static void OnPlayerChangeEquipment()
+static void OnPlayerChangeEquipment(Equip::Type e)
 {
 	Pi::onPlayerChangeEquipment.emit();
 }
@@ -894,10 +991,10 @@ void Pi::StartGame()
 	Pi::player->m_equipment.onChange.connect(sigc::ptr_fun(&OnPlayerChangeEquipment));
 	cpan->ShowAll();
 	cpan->SetAlertState(Ship::ALERT_NONE);
-	OnPlayerChangeEquipment();
+	OnPlayerChangeEquipment(Equip::NONE);
 	Pi::isGameStarted = true;
 	SetView(worldView);
-	Pi::luaOnGameStart.Signal();
+	Pi::luaOnGameStart->Signal();
 }
 
 void Pi::UninitGame()
@@ -930,7 +1027,7 @@ void Pi::Start()
 {
 	Background::Starfield *starfield = new Background::Starfield();
 	Background::MilkyWay *milkyway = new Background::MilkyWay();
-	
+
 	Gui::Fixed *splash = new Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight());
 	Gui::Screen::AddBaseWidget(splash, 0, 0);
 	splash->SetTransparency(true);
@@ -1137,7 +1234,7 @@ void Pi::Start()
 
 void Pi::EndGame()
 {
-	Pi::luaOnGameEnd.Signal();
+	Pi::luaOnGameEnd->Signal();
 	Pi::isGameStarted = false;
 }
 
@@ -1182,7 +1279,7 @@ void Pi::MainLoop()
 		}
 
 		if (frame_stat == 0)
-            Pi::luaTimer.Tick();
+            Pi::luaTimer->Tick();
 		frame_stat++;
 
 		Render::PrepareFrame();
@@ -1363,7 +1460,7 @@ void Pi::Serialize(Serializer::Writer &wr)
 	wr.WrSection("WorldView", section.GetData());
 
 	section = Serializer::Writer();
-	luaSerializer.Serialize(section);
+	luaSerializer->Serialize(section);
 	wr.WrSection("LuaModules", section.GetData());
 }
 
@@ -1400,7 +1497,7 @@ void Pi::Unserialize(Serializer::Reader &rd)
 	worldView->Load(section);
 
 	section = rd.RdSection("LuaModules");
-	luaSerializer.Unserialize(section);
+	luaSerializer->Unserialize(section);
 }
 
 float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)

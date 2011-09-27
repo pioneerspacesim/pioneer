@@ -162,8 +162,11 @@ void GalacticView::Update()
 	
 	if (m_zoomInButton->IsPressed()) m_zoom *= pow(4.0f, frameTime);
 	if (m_zoomOutButton->IsPressed()) m_zoom *= pow(0.25f, frameTime);
-	if (Pi::KeyState(SDLK_EQUALS)) m_zoom *= pow(4.0f, frameTime);
-	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(0.25f, frameTime);
+	// XXX ugly hack checking for console here
+	if (!Pi::IsConsoleActive()) {
+		if (Pi::KeyState(SDLK_EQUALS)) m_zoom *= pow(4.0f, frameTime);
+		if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(0.25f, frameTime);
+	}
 	m_zoom = Clamp(m_zoom, 0.5f, 100.0f);
 
 	m_scaleReadout->SetText(stringf(Lang::INT_LY, formatarg("scale", int(0.5*Galaxy::GALAXY_RADIUS/m_zoom))));

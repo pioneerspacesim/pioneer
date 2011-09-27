@@ -43,6 +43,7 @@ noinst_HEADERS = \
 	LuaBody.h \
 	LuaCargoBody.h \
 	LuaChatForm.h \
+	LuaConsole.h \
 	LuaConstants.h \
 	LuaEngine.h \
 	LuaEquipType.h \
@@ -167,6 +168,7 @@ pioneer_SOURCES	= \
 	LuaBody.cpp \
 	LuaCargoBody.cpp \
 	LuaChatForm.cpp \
+	LuaConsole.cpp \
 	LuaConstants.cpp \
 	LuaEngine.cpp \
 	LuaEquipType.cpp \

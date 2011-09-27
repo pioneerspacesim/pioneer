@@ -4,7 +4,6 @@
 #include "libs.h"
 #include "DynamicBody.h"
 #include "ShipType.h"
-#include "MarketAgent.h"
 #include "ShipFlavour.h"
 #include "SystemPath.h"
 #include "BezierCurve.h"
@@ -29,19 +28,15 @@ struct shipstats_t {
 
 
 
-class Ship: public DynamicBody, public MarketAgent {
+class Ship: public DynamicBody {
 public:
 	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Type shipType);
 	Ship() {}
 	virtual void SetDockedWith(SpaceStation *, int port);
 	/** Use GetDockedWith() to determine if docked */
-	SpaceStation *GetDockedWith() { return m_dockedWith; }
+	SpaceStation *GetDockedWith() const { return m_dockedWith; }
 	int GetDockingPort() const { return m_dockedWithPort; }
-	void SetNavTarget(Body* const target);
-	Body *GetNavTarget() const { return m_navTarget; }
-	void SetCombatTarget(Body* const target);
-	Body *GetCombatTarget() const { return m_combatTarget; }
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 	void SetThrusterState(int axis, double level) { m_thrusters[axis] = Clamp(level, -1.0, 1.0); }
@@ -144,14 +139,9 @@ public:
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
 
 	EquipSet m_equipment;			// shouldn't be public?...
+	shipstats_t m_stats;
 
 	virtual void PostLoadFixup();
-	/* MarketAgent stuff */
-	int GetStock(Equip::Type t) const { assert(0); return 0; }
-	bool CanBuy(Equip::Type t, bool verbose) const;
-	bool CanSell(Equip::Type t, bool verbose) const;
-	bool DoesSell(Equip::Type t) const { return true; }
-	Sint64 GetPrice(Equip::Type t) const;
 
 	const ShipFlavour *GetFlavour() const { return &m_shipFlavour; }
 	// used to change ship label or colour. asserts if you try to change type
@@ -183,9 +173,6 @@ protected:
 	float m_gunRecharge[ShipType::GUNMOUNT_MAX];
 	float m_gunTemperature[ShipType::GUNMOUNT_MAX];
 	float m_ecmRecharge;
-	/* MarketAgent stuff */
-	void Bought(Equip::Type t);
-	void Sold(Equip::Type t);
 
 private:
 	float GetECMRechargeTime();
@@ -194,6 +181,7 @@ private:
 	bool IsFiringLasers();
 	void TestLanded();
 	void UpdateAlertState();
+	void OnEquipmentChange(Equip::Type e);
 
 	FlightState m_flightState;
 	bool m_testLanded;
@@ -203,9 +191,6 @@ private:
 
 	vector3d m_thrusters;
 	vector3d m_angThrusters;
-	Body* m_navTarget;
-	Body* m_combatTarget;
-	shipstats_t m_stats;
 
 	AlertState m_alertState;
 	float m_lastFiringAlert;
@@ -220,7 +205,7 @@ private:
 	AICommand *m_curAICmd;
 	AIError m_aiMessage;
 
-	int m_combatTargetIndex, m_navTargetIndex, m_dockedWithIndex; // deserialisation
+	int m_dockedWithIndex; // deserialisation
 };
 
 

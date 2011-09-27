@@ -6,7 +6,12 @@
 namespace Gui {
 class TextLayout {
 public:
-	TextLayout(const char *_str, TextureFont *font = 0);
+	enum ColourMarkupMode {
+		ColourMarkupNone, // treats markup as normal text
+		ColourMarkupSkip, // skips markup tags
+		ColourMarkupUse   // interprets markup tags
+	};
+	explicit TextLayout(const char *_str, TextureFont *font = 0, ColourMarkupMode markup = ColourMarkupUse);
 	void Render(float layoutWidth) const;
 	void MeasureSize(const float layoutWidth, float outSize[2]) const;
 	void _RenderRaw(float layoutWidth) const;
@@ -22,6 +27,7 @@ private:
 	std::list<word_t> words;
 	char *str;
 	bool m_justify;
+	ColourMarkupMode m_colourMarkup;
 
 	TextureFont *m_font;
 };

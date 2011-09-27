@@ -7,6 +7,7 @@
 #include "StarSystem.h"
 #include "RefList.h"
 #include "HyperspaceCloud.h"
+#include "MarketAgent.h"
 
 struct Mission : RefItem<Mission> {
 	enum MissionState { ACTIVE, COMPLETED, FAILED };
@@ -19,7 +20,7 @@ struct Mission : RefItem<Mission> {
 	MissionState status;
 };
 
-class Player: public Ship {
+class Player: public Ship, public MarketAgent {
 public:
 	OBJDEF(Player, Ship, PLAYER);
 	Player(ShipType::Type shipType);
@@ -32,7 +33,7 @@ public:
 	enum FlightControlState { CONTROL_MANUAL, CONTROL_FIXSPEED, CONTROL_AUTOPILOT };
 	FlightControlState GetFlightControlState() const { return m_flightControlState; }
 	void SetFlightControlState(FlightControlState s);
-	float GetSetSpeed() const { return m_setSpeed; }
+	double GetSetSpeed() const { return m_setSpeed; }
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 	virtual void OnHaveKilled(Body *guyWeKilled);
 	int GetKillCount() const { return m_knownKillCount; }
@@ -40,6 +41,11 @@ public:
 	virtual bool FireMissile(int idx, Ship *target);
 	virtual void SetAlertState(Ship::AlertState as);
 	bool IsAnyThrusterKeyDown();
+	void SetNavTarget(Body* const target);
+	Body *GetNavTarget() const { return m_navTarget; }
+	void SetCombatTarget(Body* const target);
+	Body *GetCombatTarget() const { return m_combatTarget; }
+	virtual void NotifyDeleted(const Body* const deletedBody);
 
 	// test code
 	virtual void TimeStepUpdate(const float timeStep);
@@ -47,7 +53,7 @@ public:
 	vector3d m_accumTorque;
 	vector3d GetMouseDir() { return m_mouseDir; }
 
-double m_mouseAcc;
+	double m_mouseAcc;
 
 	RefList<Mission> missions;
 
@@ -57,9 +63,18 @@ double m_mouseAcc;
 
 	virtual void PostLoadFixup();
 
+	/* MarketAgent stuff */
+	int GetStock(Equip::Type t) const { assert(0); return 0; }
+	bool CanBuy(Equip::Type t, bool verbose) const;
+	bool CanSell(Equip::Type t, bool verbose) const;
+	bool DoesSell(Equip::Type t) const { return true; }
+	Sint64 GetPrice(Equip::Type t) const;
 protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
+	/* MarketAgent stuff */
+	void Bought(Equip::Type t);
+	void Sold(Equip::Type t);
 private:
 	vector3d m_mouseDir;
 	double m_mouseX, m_mouseY;
@@ -69,10 +84,12 @@ private:
 	double m_setSpeed;
 	int m_killCount;
 	int m_knownKillCount; // updated on docking
+	Body* m_navTarget;
+	Body* m_combatTarget;
 
 	HyperspaceCloud *m_followCloud;
 
-	int m_followCloudIndex; // deserialisation
+	int m_combatTargetIndex, m_navTargetIndex, m_followCloudIndex; // deserialisation
 };
 
 #endif /* _PLAYER_H */

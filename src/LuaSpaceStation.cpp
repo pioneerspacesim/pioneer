@@ -9,7 +9,7 @@ static std::map<SpaceStation*,sigc::connection> _station_delete_conns;
 
 static void _delete_station_ads(SpaceStation *s)
 {
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

@@ -77,8 +77,6 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, uns
 	}
 	m_radius = sqrt(m_radius);
 	
-	Aabb aabb = m_aabb;
-	
 	Aabb *aabbs = new Aabb[activeTris.size()];
 	for (unsigned int i=0; i<activeTris.size(); i++) {
 		vector3d v1 = vector3d(&m_vertices[3*m_indices[activeTris[i]]]);

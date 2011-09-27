@@ -6,139 +6,149 @@
 
 define_model('posl_green', {
 	info = 	{
-        	lod_pixels = {2, 5, 10, 0},
-			bounding_radius = 1,
-			materials = {'green'},
-			},
+		lod_pixels = {2, 5, 10, 0},
+		bounding_radius = 1,
+		materials = {'green'},
+	},
 	static = function(lod)
 		if lod > 1 then
 			use_material('green')
 			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
 		end
-    end,
+	end,
 	dynamic = function(lod)
-	    if lod > 1 then
-			set_material('green', 0, .85, 0, .5, 1, 1, 1, 100, 0, 0, 0)
-		end
-		local lightphase = math.fmod((get_arg(1)*0.75),1)
-		if lightphase > .1 then
-			if lightphase  < .3 then
-				if lod > 1 then
-					set_material('green', 0, .85, 0, 1, 0, 0, 0, 0, 0, .85, 0)
-				end
-   				billboard('smoke.png', 2,  v(0,.85,0), { v(0, 0.12, 0) })
+		if ((get_arg(ARG_SHIP_FLIGHT_STATE) == 1) or (get_arg(ARG_SHIP_FLIGHT_STATE) == 0 and get_arg(ARG_SHIP_WHEEL_STATE) ~= 0)) then
+			if lod > 1 then
+				set_material('green', 0, .85, 0, .5, 1, 1, 1, 100, 0, 0, 0)
 			end
-        end
+			local lightphase = math.fmod((get_arg(1)*0.75),1)
+			if lightphase > .1 then
+				if lightphase  < .3 then
+					if lod > 1 then
+						set_material('green', 0, .85, 0, 1, 0, 0, 0, 0, 0, .85, 0)
+					end
+					billboard('smoke.png', 2,  v(0,.85,0), { v(0, 0.12, 0) })
+				end
+			end
+		end
 	end
 })
 
 define_model('posl_red', {
 	info = 	{
-        	lod_pixels = {2, 5, 10, 0},
-			bounding_radius = 1,
-			materials = {'red'},
-			},
+		lod_pixels = {2, 5, 10, 0},
+		bounding_radius = 1,
+		materials = {'red'},
+	},
 	static = function(lod)
 		if lod > 1 then
 			use_material('red')
 			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
 		end
-    end,
+	end,
 	dynamic = function(lod)
-		if lod > 1 then
-			set_material('red', .9, 0, 0, .6, 1, 1, 1, 100, 0, 0, 0)
-		end
-	    local lightphase = math.fmod((get_arg(1)*0.75),1)
-	    if lightphase  > .3 then
-			if lightphase < .5 then
-				if lod > 1 then
-					set_material('red', .9, 0, 0, 1, 0, 0, 0, 0, .9, 0, 0)
+		if ((get_arg(ARG_SHIP_FLIGHT_STATE) == 1) or (get_arg(ARG_SHIP_FLIGHT_STATE) == 0 and get_arg(ARG_SHIP_WHEEL_STATE) ~= 0)) then
+			if lod > 1 then
+				set_material('red', .9, 0, 0, .6, 1, 1, 1, 100, 0, 0, 0)
+			end
+			local lightphase = math.fmod((get_arg(1)*0.75),1)
+			if lightphase  > .3 then
+				if lightphase < .5 then
+					if lod > 1 then
+						set_material('red', .9, 0, 0, 1, 0, 0, 0, 0, .9, 0, 0)
+					end
+					billboard('smoke.png', 2,  v(1,0,0), { v(0, 0.12, 0) })
 				end
-   				billboard('smoke.png', 2,  v(1,0,0), { v(0, 0.12, 0) })
 			end
 		end
 	end
-})	
+})
 
 define_model('posl_white', {
 	info = 	{
-        	lod_pixels = {2, 5, 10, 0},
-			bounding_radius = 1,
-			materials = {'blue_white'},
-			},
-	static = function(lod)
-	    if lod > 1 then
-			use_material('blue_white')
-			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
-		end
-    end,
-	dynamic = function(lod)
-	    if lod > 1 then
-	    	set_material('blue_white', .8, .85, 1, .5, 1, 1, 1, 100, 0, 0, 0)
-	    end
-		local lightphase = math.fmod((get_arg(1)*0.75),1)
-	    if lightphase  > .5 then
-       		if lightphase < .7 then
-       		    if lod > 1 then
-					set_material('blue_white', .8, .85, 1, 1, 0, 0, 0, 0, .7, .75, 1)
-				end
-   				billboard('smoke.png', 2,  v(.7,.75,1), { v(0, 0.12, 0) })
-			end
-		end
-	end
-})		
-		
-define_model('coll_warn', {
-	info = 	{
-        	lod_pixels = {2, 5, 10, 0},
-			bounding_radius = 1,
-			materials = {'blue_white'},
-			},
+		lod_pixels = {2, 5, 10, 0},
+		bounding_radius = 1,
+		materials = {'blue_white'},
+	},
 	static = function(lod)
 		if lod > 1 then
 			use_material('blue_white')
 			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
 		end
-    end,
+	end,
 	dynamic = function(lod)
-	    if lod > 1 then
-	    	set_material('blue_white', .8, .85, 1, .5, 1, 1, 1, 100, 0, 0, 0)
-	    end
-        if get_arg(0) ~= 0 then
+		if ((get_arg(ARG_SHIP_FLIGHT_STATE) == 1) or (get_arg(ARG_SHIP_FLIGHT_STATE) == 0 and get_arg(ARG_SHIP_WHEEL_STATE) ~= 0)) then
+			if lod > 1 then
+				set_material('blue_white', .8, .85, 1, .5, 1, 1, 1, 100, 0, 0, 0)
+			end
 			local lightphase = math.fmod((get_arg(1)*0.75),1)
-            if lightphase  > .7 then
-        		if lightphase < .9 then
-        			if lod > 1 then
-        				set_material('blue_white', .8, .85, 1, 1, 0, 0, 0, 0, .7, .75, 1)
-        			end
-       				billboard('smoke.png', 2,  v(.7,.75,1), { v(0, 0.12, 0) })
-       			end
+			if lightphase  > .5 then
+				if lightphase < .7 then
+					if lod > 1 then
+						set_material('blue_white', .8, .85, 1, 1, 0, 0, 0, 0, .7, .75, 1)
+					end
+					billboard('smoke.png', 2,  v(.7,.75,1), { v(0, 0.12, 0) })
+				end
 			end
 		end
 	end
-})	
+})
+
+define_model('coll_warn', {
+	info = 	{
+		lod_pixels = {2, 5, 10, 0},
+		bounding_radius = 1,
+		materials = {'blue_white'},
+	},
+	static = function(lod)
+		if lod > 1 then
+			use_material('blue_white')
+			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
+		end
+	end,
+	dynamic = function(lod)
+		if ((get_arg(ARG_SHIP_FLIGHT_STATE) == 1) or (get_arg(ARG_SHIP_FLIGHT_STATE) == 0 and get_arg(ARG_SHIP_WHEEL_STATE) ~= 0)) then
+			if lod > 1 then
+				set_material('blue_white', .8, .85, 1, .5, 1, 1, 1, 100, 0, 0, 0)
+			end
+			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+				local lightphase = math.fmod((get_arg(1)*0.75),1)
+				if lightphase  > .7 then
+					if lightphase < .9 then
+						if lod > 1 then
+							set_material('blue_white', .8, .85, 1, 1, 0, 0, 0, 0, .7, .75, 1)
+						end
+						billboard('smoke.png', 2,  v(.7,.75,1), { v(0, 0.12, 0) })
+					end
+				end
+			end
+		end
+	end
+})
 
 define_model('headlight', {
 	info = 	{
-        	lod_pixels = {2, 5, 10, 0},
-			bounding_radius = 1,
-			materials = {'white'},
-			},
+		lod_pixels = {2, 5, 10, 0},
+		bounding_radius = 1,
+		materials = {'white'},
+	},
 	static = function(lod)
 		if lod > 1 then
 			use_material('white')
 			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
 		end
-    end,
+	end,
 	dynamic = function(lod)
-	    if lod > 1 then
-			set_material('white', .9, .95, 1, .5, 1, 1, 1, 100, 0, 0, 0)
-		end
-        if get_arg(0) ~= 0 then
-        	if lod > 1 then
-				set_material('white', .9, .95, 1, 1, 0, 0, 0, 0, .8, .85, 1)
+		if ((get_arg(ARG_SHIP_FLIGHT_STATE) == 1) or (get_arg(ARG_SHIP_FLIGHT_STATE) == 0 and get_arg(ARG_SHIP_WHEEL_STATE) ~= 0)) then
+			if lod > 1 then
+				set_material('white', .9, .95, 1, .5, 1, 1, 1, 100, 0, 0, 0)
 			end
-        	billboard('smoke.png', 2,  v(.8,.85,1), { v(0, 0.12, 0) })
-   		end
+			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+				if lod > 1 then
+					set_material('white', .9, .95, 1, 1, 0, 0, 0, 0, .8, .85, 1)
+				end
+				billboard('smoke.png', 2,  v(.8,.85,1), { v(0, 0.12, 0) })
+			end
+		end
 	end
-})							
+})

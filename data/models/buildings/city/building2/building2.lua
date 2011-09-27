@@ -1,4 +1,4 @@
-
+--[[
 define_model('octaeder1', {
 	info = {
 			bounding_radius = 20,
@@ -90,3 +90,4 @@ end
 })
 
 -- merci descartez
+--]]

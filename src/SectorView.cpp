@@ -52,7 +52,7 @@ SectorView::SectorView() :
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	Add(m_zoomOutButton, 732, 5);
 
-	Add(new Gui::Label("Search:"), 650, 500);
+	Add(new Gui::Label(Lang::SEARCH), 650, 500);
 	m_searchBox = new Gui::TextEntry();
 	m_searchBox->onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnSearchBoxKeyPress));
 	Add(m_searchBox, 700, 500);
@@ -635,6 +635,10 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 		return;
 	}
 
+	// XXX ugly hack checking for Lua console here
+	if (Pi::IsConsoleActive())
+		return;
+
 	// ignore keypresses if they're typing
 	if (m_searchBox->IsFocused()) {
 		// but if they press enter then we want future keys
@@ -723,7 +727,8 @@ void SectorView::Update()
 	rot.RotateZ(DEG2RAD(-m_rotZ));
 
 	// don't check raw keypresses if the search box is active
-	if (!m_searchBox->IsFocused()) {
+	// XXX ugly hack checking for Lua console here
+	if (!m_searchBox->IsFocused() && !Pi::IsConsoleActive()) {
 		float moveSpeed = 1.0;
 		if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
 		if (Pi::KeyState(SDLK_RSHIFT)) moveSpeed = 10.0;

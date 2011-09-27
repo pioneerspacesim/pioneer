@@ -1,3 +1,4 @@
+--[[
 define_model('towerOfShit', {
 	info = {
 		lod_pixels = {10, 50},
@@ -21,3 +22,4 @@ define_model('towerOfShit', {
 		end
 	end
 })
+--]]

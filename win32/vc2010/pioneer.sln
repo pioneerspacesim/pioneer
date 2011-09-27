@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C++ Express 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pioneer", "pioneer.vcxproj", "{65A1BBFB-7A42-497C-BF65-A0A06664A204}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5085B12D-F9AC-4878-9672-1FD4EB0EFB67} = {5085B12D-F9AC-4878-9672-1FD4EB0EFB67}
@@ -16,19 +16,26 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
+		PreRelease|Win32 = PreRelease|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{65A1BBFB-7A42-497C-BF65-A0A06664A204}.Debug|Win32.ActiveCfg = Debug|Win32
 		{65A1BBFB-7A42-497C-BF65-A0A06664A204}.Debug|Win32.Build.0 = Debug|Win32
+		{65A1BBFB-7A42-497C-BF65-A0A06664A204}.PreRelease|Win32.ActiveCfg = PreRelease|Win32
+		{65A1BBFB-7A42-497C-BF65-A0A06664A204}.PreRelease|Win32.Build.0 = PreRelease|Win32
 		{65A1BBFB-7A42-497C-BF65-A0A06664A204}.Release|Win32.ActiveCfg = Release|Win32
 		{65A1BBFB-7A42-497C-BF65-A0A06664A204}.Release|Win32.Build.0 = Release|Win32
 		{5085B12D-F9AC-4878-9672-1FD4EB0EFB67}.Debug|Win32.ActiveCfg = Debug|Win32
 		{5085B12D-F9AC-4878-9672-1FD4EB0EFB67}.Debug|Win32.Build.0 = Debug|Win32
+		{5085B12D-F9AC-4878-9672-1FD4EB0EFB67}.PreRelease|Win32.ActiveCfg = PreRelease|Win32
+		{5085B12D-F9AC-4878-9672-1FD4EB0EFB67}.PreRelease|Win32.Build.0 = PreRelease|Win32
 		{5085B12D-F9AC-4878-9672-1FD4EB0EFB67}.Release|Win32.ActiveCfg = Release|Win32
 		{5085B12D-F9AC-4878-9672-1FD4EB0EFB67}.Release|Win32.Build.0 = Release|Win32
 		{BD7B420B-07C1-43F2-A987-F9A4915005E5}.Debug|Win32.ActiveCfg = Debug|Win32
 		{BD7B420B-07C1-43F2-A987-F9A4915005E5}.Debug|Win32.Build.0 = Debug|Win32
+		{BD7B420B-07C1-43F2-A987-F9A4915005E5}.PreRelease|Win32.ActiveCfg = PreRelease|Win32
+		{BD7B420B-07C1-43F2-A987-F9A4915005E5}.PreRelease|Win32.Build.0 = PreRelease|Win32
 		{BD7B420B-07C1-43F2-A987-F9A4915005E5}.Release|Win32.ActiveCfg = Release|Win32
 		{BD7B420B-07C1-43F2-A987-F9A4915005E5}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection

@@ -21,6 +21,9 @@
 
 void SpaceStationType::_ReadStageDurations(const char *key, int *outNumStages, double **durationArray) {
 	lua_State *L = LmrGetLuaState();
+
+	LUA_DEBUG_START(L);
+
 	model->PushAttributeToLuaStack(key);
 	assert(lua_istable(L, -1));
 
@@ -41,6 +44,10 @@ void SpaceStationType::_ReadStageDurations(const char *key, int *outNumStages, d
 		Error("Space station %s must have atleast 1 docking and 1 undocking animation stage.",
 				modelName);
 	}
+
+	lua_pop(L, 1);
+
+	LUA_DEBUG_END(L, 0);
 }
 // read from lua model definition
 void SpaceStationType::ReadStageDurations() {
@@ -51,13 +58,18 @@ void SpaceStationType::ReadStageDurations() {
 bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const
 {
 	lua_State *L = LmrGetLuaState();
+
+	LUA_DEBUG_START(L);
+
 	lua_pushcfunction(L, pi_lua_panic);
 	model->PushAttributeToLuaStack("ship_approach_waypoints");
 	if (!lua_isfunction(L, -1)) {
 		printf("no function\n");
 		lua_pop(L, 2);
+		LUA_DEBUG_END(L, 0);
 		return false;
 	}
+
 	lua_pushinteger(L, port+1);
 	lua_pushinteger(L, stage);
 	lua_pcall(L, 2, 1, -4);
@@ -81,7 +93,10 @@ bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOri
 	} else {
 		gotOrient = false;
 	}
-	lua_pop(L, 1);
+	lua_pop(L, 2);
+
+	LUA_DEBUG_END(L, 0);
+
 	return gotOrient;
 }
 
@@ -93,7 +108,11 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 {
 	if ((stage < 0) && ((-stage) > numUndockStages)) return false;
 	if ((stage > 0) && (stage > numDockingStages)) return false;
+
 	lua_State *L = LmrGetLuaState();
+
+	LUA_DEBUG_START(L);
+
 	lua_pushcfunction(L, pi_lua_panic);
 	// It's a function of form function(stage, t, from)
 	model->PushAttributeToLuaStack("ship_dock_anim");
@@ -139,7 +158,10 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 	} else {
 		gotOrient = false;
 	}
-	lua_pop(L, 1);
+	lua_pop(L, 2);
+
+	LUA_DEBUG_END(L, 0);
+
 	return gotOrient;
 }
 
@@ -395,7 +417,7 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 				// set docked
 				dt.ship->SetDockedWith(this, i);
 				CreateBB();
-				Pi::luaOnShipDocked.Queue(dt.ship, this);
+				Pi::luaOnShipDocked->Queue(dt.ship, this);
 			} else {
 				if (!dt.ship->IsEnabled()) {
 					// launch ship
@@ -410,7 +432,7 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 						dt.ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(dt.ship->GetPosition()));
 						dt.ship->SetThrusterState(2, -1.0);		// forward
 					}
-					Pi::luaOnShipUndocked.Queue(dt.ship, this);
+					Pi::luaOnShipUndocked->Queue(dt.ship, this);
 				}
 			}
 		}
@@ -470,7 +492,7 @@ void SpaceStation::DoLawAndOrder()
 void SpaceStation::TimeStepUpdate(const float timeStep)
 {
 	if (Pi::GetGameTime() > m_lastUpdatedShipyard) {
-        if (m_bbCreated) Pi::luaOnUpdateBB.Queue(this);
+        if (m_bbCreated) Pi::luaOnUpdateBB->Queue(this);
 		UpdateShipyard();
 		// update again in an hour or two
 		m_lastUpdatedShipyard = Pi::GetGameTime() + 3600.0 + 3600.0*Pi::rng.Double();
@@ -709,7 +731,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 				} else {
 					s->SetDockedWith(this, port);
 					CreateBB();
-					Pi::luaOnShipDocked.Queue(s, this);
+					Pi::luaOnShipDocked->Queue(s, this);
 				}
 			}
 		}
@@ -801,7 +823,7 @@ bool SpaceStation::AllocateStaticSlot(int& slot)
 void SpaceStation::CreateBB()
 {
 	if (m_bbCreated) return;
-	Pi::luaOnCreateBB.Queue(this);
+	Pi::luaOnCreateBB->Queue(this);
 	m_bbCreated = true;
 }
 
@@ -836,8 +858,9 @@ bool SpaceStation::RemoveBBAdvert(int ref)
 {
 	for (std::vector<BBAdvert>::iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
 		if (i->ref == ref) {
+			BBAdvert ad = (*i);
 			m_bbAdverts.erase(i);
-			onBulletinBoardAdvertDeleted.emit(*i);
+			onBulletinBoardAdvertDeleted.emit(ad);
 			return true;
 		}
 	return false;

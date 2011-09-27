@@ -1,12 +1,64 @@
 Alpha 15
 
   * New features
+    * Assassination missions (#290, #500)
+    * Restored "hoop" orbital station (#499, #516)
+    * Restored "Panther" ship (#497)
+    * Big mushroom station with four bays (#530)
+    * New futuristic city buildings (#518, #557)
+    * Four new ambient music tracks (#543)
+    * Ship landing lights now only flash when landing gear is down or ship is
+      docking (#236, #478)
+    * Station landing lights now coloured to indicate occupied (red), free
+      (orange) and cleared for docking (green) (#4, #489, #498)
+
+  * Minor changes and tweaks
+    * Landed and docked ships will no longer cause alerts (#454, #466)
+    * Bulk ships are now spawned on game start (#500)
+    * Trade ships will now repair damage and replace destroyed equipment (#481)
+    * Mushroom station now has ads in bay 2 (#524)
+    * Display surface gravity of bodies in system info view (#533)
+    * Model fixes: Ship bounding radii, LOD checked and fixed, adverts cleaned
+      up and other minor fixes (#530, #542, #556, #515, #72)
+    * Support for glowmaps (#557)
+    * Terrains. Snow on mountains and polar ice caps. Various optimisations
+    * and fixes (#440, #566)
 
   * Fixes
+    * Certain in-game keys will no longer crash when used in the menu (#453, #463)
+    * Don't try to save or load game with no filename (#487, #488)
+    * Fix set speed scaling when setting a negative set speed (#482)
+    * Don't spawn docked trade ships on game start (#495)
+    * Ensure docked trade ships take off after game load (#517)
+    * Fix crash on docking after failing assassination mission (#527)
+    * Old package delivery missions are now removed from the board (#534, #548)
+    * Fix LMR stack leaks that could cause heap corruption (#555, #342, #470)
+    * Fix display of co-orbital bodies in system view (#551)
+    * Don't respawn bulk ships on game load (#539)
 
+  * Script changes
+    * Experimental Lua console (#537)
+    * Lua events onShipEquipmentChanged and onShipFlavourChanged (#544, #547)
+    * Lua method Ship.SetHullPercent to set a ship's damage level (#420, #472)
+    * Lua method Ship.SetShipType to change the type of a ship (#404, #507)
+ 
   * Internal changes
+    * Lots of internal cleanups; silences many warnings under GCC (#477,
+      #484) and MSVC (#483)
+    * String and language updates (#509, #510, #514, #525, #528)
     * Allow terrain generation to be aborted when the current set of terrains
-      become unusable (eg after hyperspace or detail settings change) (#457)
+      become unusable (eg after hyperspace or detail settings change) (#457, #490)
+    * Shield generators now occupy their own equipment slot to remove the
+      for special-case checks with dealing with cargo (#308, #459)
+    * Targeting and trade functions moved from Ship to Player since they aren't
+      really meaningful for NPCs (#38, #307, #485)
+    * Separated key bindings from individual key actions and added onPress and
+      onRelease signals to the bindings (for key repeat) (#398, #493)
+    * Load glyphs up to 0x1ff to better support certain European translations (#415)
+    * LuaManager now allocated from the heap to avoid some startup/shutdown
+      problems (#535)
+    * (OSX Only) Refactored and Restructured ObjectiveC code to be more
+      manageable (#559)
 
 Alpha 14
 
@@ -49,7 +101,7 @@ Alpha 14
       #389, #392, #383, #399) and MSVC (#434, #435, #436)
     * New utility functions for floating-point comparisons (#389)
     * Dump Lua engine state to file on exception in Lua module (#370)
-    * Lua documentation fixes (#380, #403)
+    * Lua documentation fixes (#380, #403, #475)
     * Abstracted the HDR rendering pipeline into discrete components (#396)
     * New string formatting system for translations and other strings (#405, #449)
     * Gracefully handle attempts to load old savefiles (#428)

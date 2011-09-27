@@ -1,10 +1,10 @@
 # General
 SUGGESTED_RESPONSES
-    vorgeschlagen Antworten:
+    Vorgeschlagene Antworten:
 CASH
     Geld
 LEGAL_STATUS
-    Rechtlichen Status
+    Rechtlicher Status
 CARGO_SPACE
     Laderaum
 ITEM
@@ -26,39 +26,39 @@ VID_LINK_DOWN
 VID_LINK_ESTABLISHED
     Video-Link verbunden
 VID_CONNECTING
-    Verbinden...
+    Verbinde...
 BOUGHT_1T_OF
     Sie haben 1t %commodity gekauft.
 SOLD_1T_OF
     Sie haben 1t %commodity verkauft.
 WELCOME_TO_MARKET
-    Willkommen auf dem Rohstoffmarkt von %station
+    Willkommen bei der Warenbörse von %station
 GO_BACK
-    Zurückgehen
+    Zurück
 FITTING
-    "Installieren: "
+    "Einbauen: "
 REMOVING
-    "Entfernen: "
+    "Ausbauen: "
 FIT_TO_WHICH_MOUNT
-    Welche Position zu diesem Laserkanone zu installieren?
+    An welcher Position soll die Waffe eingebaut werden?
 REMOVE_FROM_WHICH_MOUNT
-    Welche Position zu diesem Laserkanone aus zu entfernen?
+    An welcher Position soll die Waffe ausgebaut werden?
 YOU_NOT_ENOUGH_MONEY
-    Sie haben nicht genug Geld
+    Sie haben nicht genügend Geld.
 TRADER_NOT_ENOUGH_MONEY
-    Der Händler hat nicht genug Geld
+    Ihr Handelspartner hat nicht genügend Geld.
 NO_SPACE_ON_SHIP
-    Es gibt keinen Raum in Ihrem Schiff
+    Es gibt keinen Platz in Ihrem Schiff.
 SOMEWHERE_SERVICES
-    %station Dienst
+    %station Service
 SOMEWHERE_SHIPYARD
     %station Werft
 SOMEWHERE_SHIP_REPAIRS
-    %station Reparaturdienst
+    %station Reparaturservice
 PRICE_TO_FIT
-    $ zu installieren
+    $ bei Einbau
 PRICE_TO_REMOVE
-    $ zu entfernen
+    $ bei Ausbau
 WT
     Gw
 FIT
@@ -66,9 +66,9 @@ FIT
 REMOVE
     Entf.
 BUY_THIS_SHIP
-    Diese Raumschiff kaufen
+    Dieses Schiff kaufen
 SHIP_TYPE
-    Schiff Art
+    Schiffstyp
 REGISTRATION_ID
     Registrierungs-ID
 WEIGHT_EMPTY
@@ -78,39 +78,39 @@ NUMBER_TONNES
 WEIGHT_FULLY_LADEN
     Gesamtgewicht
 CAPACITY
-    Hubraum
+    Kapazität
 FORWARD_ACCEL_EMPTY
-    Vorwärts-Beschleunigung (unbeladen)
+    Vorwärts Beschleunigung (unbeladen)
 NUMBER_G
     %acceleration{f.1} G
 FORWARD_ACCEL_LADEN
-    Vorwärts-Beschleunigung (beladen)
+    Vorwärts Beschleunigung (beladen)
 REVERSE_ACCEL_EMPTY
-    Rückwärts-Beschleunigung (unbeladen)
+    Rückwärts Beschleunigung (unbeladen)
 REVERSE_ACCEL_LADEN
-    Rückwärts-Beschleunigung (beladen)
+    Rückwärts Beschleunigung (beladen)
 HYPERDRIVE_FITTED
-    Hyperlaufwerk installiert:
+    Hyperraumantrieb installiert:
 HYPERSPACE_RANGE_LADEN
-    Fahrbereich im Hyperraum (voll beladen):
+    Hyperraum Reichweite (voll beladen):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
-    Vielen Dank für Ihren Einkauf. Denken Sie daran, Schiffsausrüstung und Kraftstoff zu kaufen, bevor Sie abdocken.
+    Vielen Dank für Ihren Einkauf. Bitte denken Sie an die notwendige Ausrüstung für Ihr Schiff und ausreichend Treibstoff, bevor Sie abdocken.
 CLASS_NUMBER
     Klasse %class
 NUMBER_LY
     %distance{f.2} Lj
 SHIP_IS_ALREADY_FULLY_REPAIRED
-    Ihr Schiff ist ganz in Ordnung.
+    Ihr Schiff ist in voll funktionsfähigem Zustand.
 REPAIR_1_PERCENT_HULL
-    1.0% den Rumpf reparieren
+    1.0% des Rumpfschadens reparieren
 REPAIR_ENTIRE_HULL
-    Den ganzen Rumpf reparieren (%repairpercent{f.1}%%)
+    Den Rumpf komplett instand setzen (%repairpercent{f.1}%%)
 REPAIR
     Reparieren
 PART_EX
-    Teil Börsenpreis
+    Bauteilbörse
 VIEW
-    Ansehen
+    Ansicht
 SHIP_EQUIPMENT
     Schiffsausrüstung
 SOMEWHERE_SHIP_EQUIPMENT
@@ -118,25 +118,25 @@ SOMEWHERE_SHIP_EQUIPMENT
 REPAIRS_AND_SERVICING
     Reparaturen und Service
 NEW_AND_RECONDITIONED_SHIPS
-    Neue und überholte Raumschiffe
+    Schiffe - Neu und Gebraucht
 BULLETIN_BOARD
     Nachrichten und Missionen
 WELCOME_TO_SOMEWHERE
-    Wilkommen bei %station
+    Willkommen auf %station
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Wilkommen am bord.  Heute ist das Luft ganz kostenlos.  Bitte nutzen Sie unsere zahlreichen Dienstleistungen.
+    Willkommen Reisende. Es gibt Vorfälle von Vandalismus und Schmierereien an Bord unserer Station. Falls die Beschilderung irreführend oder fehlerhaft beschriftet ist oder schlicht fehlt, wenden Sie sich bitte an das Stationspersonal. Wir halten zahlreiche Dienstleistungsangebote für Sie bereit.\n\nDie Atemluft ist zurzeit kostenlos.
 REQUEST_LAUNCH
-    Ansuchen Erlaubnis um zu abdocken
+    Starterlaubnis anfordern
 SHIPYARD
     Werft
 COMMODITIES_MARKET
-    Rohstoffmarkt
+    Warenbörse
 SOMEWHERE_COMMODITIES_MARKET
-    %station Rohstoffmarkt
+    %station Warenbörse
 SOMEWHERE_SHIP_MARKET
-    %station Raumschiffmarkt
+    %station Schiffsmarkt
 CONTACT_LOCAL_POLICE
-    Um den örtliche Polizei
+    Lokale Polizei kontaktieren
 COMMS_LINK
     Kommunikationsverbindung
 ZOOM_IN
@@ -144,23 +144,25 @@ ZOOM_IN
 ZOOM_OUT
     Verkleinern
 NORMA_ARM
-    Norma-arm
+    Norma-Arm
 PERSEUS_ARM
-    Perseus-arm
+    Perseus-Arm
 OUTER_ARM
-    Cygnus-arm
+    Cygnus-Arm
 SAGITTARIUS_ARM
-    Sagittarius-arm
+    Sagittarius-Arm
 SCUTUM_CENTAURUS_ARM
-    Scutum-Crux-arm
+    Scutum-Crux-Arm
 INT_LY
     %scale Lj
+SEARCH
+    Suche
 
 # Config / game control
 PRESS_BUTTON_WANTED_FOR
-    "Tastedrücken, die Sie wollen um zuweisen nach "
+    "Drücken Sie die Taste, der Sie folgende Aktion zuweisen wollen: "
 MOVE_AXIS_WANTED_FOR
-    "Joystick Achsebewegen, die Sie wollen um zuweisen nach "
+    "Drücken Sie den Joystick in die Richtung, der Sie folgende Aktion zuweisen wollen: "
 SAVE
     Speichern
 LOAD
@@ -168,15 +170,15 @@ LOAD
 CANCEL
     Abbrechen
 SELECT_FILENAME_TO_SAVE
-    Wählen Sie den Namen der Datei
+    Wählen Sie den Dateinamen
 GAME_SAVED_TO
-    "Spiel gespeichert im "
+    "Spiel gespeichert in "
 SELECT_FILENAME_TO_LOAD
-    Wählen Sie eine Datei zu laden
+    Wählen Sie den Dateinamen
 COULD_NOT_OPEN_FILENAME
-    %path konnte nicht geöffnet
+    %path konnte nicht geöffnet werden.
 GAME_LOAD_CORRUPT
-    Konnte nicht Spiel geladen werden, weil die Datei beschädigt wurde.
+    Das Spiel konnte nicht geladen werden, da die Datei beschädigt ist.
 GAME_LOAD_CANNOT_OPEN
     Die Spieldatei konnte nicht geöffnet werden.
 VERY_LOW
@@ -186,17 +188,17 @@ LOW
 MEDIUM
     Mittel
 HIGH
-    Hohe
+    Hoch
 VERY_HIGH
-    Sehr hohe
+    Sehr hoch
 VERY_VERY_HIGH
-    Extrem hohe
+    Extrem hoch
 ON
-    Auf
+    An
 OFF
     Aus
 SIGHTS_SOUNDS_SAVES
-    Anblicke, Geräusche, Speichern von Spielen
+    Darstellung, Ton & Speichern
 PIONEER
     PIONEER
 SAVE_THE_GAME
@@ -206,11 +208,11 @@ LOAD_A_GAME
 EXIT_THIS_GAME
     Spiel beenden
 WINDOW_OR_FULLSCREEN
-    Fenstermodus oder im Vollbildmodus  (Programm muss neu gestartet werden)
+    Fenstermodus oder Vollbildmodus (Programm muss neu gestartet werden)
 FULL_SCREEN
     Vollbildmodus
 OTHER_GRAPHICS_SETTINGS
-    Andere Grafikeinstellungen
+    Weitere Grafikeinstellungen
 USE_SHADERS
     Pixel-Shader aktivieren
 USE_HDR
@@ -224,45 +226,45 @@ VOL_EFFECTS
 VOL_MUSIC
     Musik:
 VIDEO_RESOLUTION
-    Video-Auflösung (Programm muss neu gestartet werden)
+    Grafikauflösung (Programm muss neu gestartet werden)
 X_BY_X
     %{x}x%{y}
 PLANET_DETAIL_DISTANCE
-    Distanz der Details die Planeten:
+    Detailentfernung für Planeten:
 CITY_DETAIL_LEVEL
-    Stadt Detailebene:
+    Detailstufe für Städte:
 PLANET_TEXTURES
-    Planet Texturen:
+    Planeten Texturen:
 FRACTAL_DETAIL
-    Detailstufe der Fraktale
+    Detailstufe für Fraktale
 CONTROLS
     Steuerung
 ENABLE_JOYSTICK
-    Joystick-Steuerung ermöglichen
+    Joystick-Steuerung aktivieren
 MOUSE_INPUT
     Mauseingabe
 INVERT_MOUSE_Y
     Maus Y-Achse invertieren
 LANGUAGE_SELECTION
-    Sprache (Programm muss neu gestartet werden)
- 
+    Sprachauswahl (Programm muss neu gestartet werden)
+
 # Wares
 NONE
     Nichts
 HYDROGEN
     Wasserstoff
 HYDROGEN_DESCRIPTION
-    Wasserstoff ist meistens als eine Fusion Brennstoff verwendet
+    Wasserstoff wird vor allem als Fusionsbrennstoff verwendet.
 LIQUID_OXYGEN
-    Flüssigen Sauerstoff
+    Flüssiger Sauerstoff
 LIQUID_OXYGEN_DESCRIPTION
-    Sauerstoff ist für die lebenserhaltenden Systeme und einige industrielle Prozesse benötigt
+    Sauerstoff wird für die Lebenserhaltungssysteme und einige industrielle Prozesse benötigt.
 METAL_ORE
-    Metallerz
+    Metall Erz
 CARBON_ORE
-    Carbon-Erz
+    Kohlenstoff Erz
 CARBON_ORE_DESCRIPTION
-    Carbon-Erze (Kohle und Öl) sind für die Synthese von vielen nützlichen Chemikalien, darunter Kunststoffe, synthetische Lebensmittel, Arzneimittel und Textilien erforderlich
+    Kohlenstoff Erze (Kohle und Öl) sind für die Synthese von vielen nützlichen Chemikalien, darunter Kunststoffe, synthetische Lebensmittel, Pharmazeutika und Textilien erforderlich.
 METAL_ALLOYS
     Legierungen
 PLASTICS
@@ -270,9 +272,9 @@ PLASTICS
 FRUIT_AND_VEG
     Obst und Gemüse
 ANIMAL_MEAT
-    Tierfleisch
+    Fleisch
 LIVE_ANIMALS
-    Lebenden Tieren
+    Lebende Tiere
 LIQUOR
     Alkoholische Getränke
 GRAIN
@@ -284,9 +286,9 @@ FERTILIZER
 WATER
     Wasser
 MEDICINES
-    Arzneimittel
+    Pharmazeutika
 CONSUMER_GOODS
-    Verbrauchsgüter
+    Konsumgüter
 COMPUTERS
     Computer
 ROBOTS
@@ -296,141 +298,141 @@ PRECIOUS_METALS
 INDUSTRIAL_MACHINERY
     Industriemaschinen
 FARM_MACHINERY
-    Landmaschinen
+    Agrarmaschinen
 MINING_MACHINERY
     Bergbaumaschinen
 AIR_PROCESSORS
-    Luft-Prozessoren
+    Luftaufbereiter
 SLAVES
     Sklaven
 HAND_WEAPONS
     Handwaffen
 BATTLE_WEAPONS
-    Kriegwaffen
+    Kriegswaffen
 NERVE_GAS
-    Nervengift
+    Chemische Kampfstoffe
 NARCOTICS
     Narkotika
 MILITARY_FUEL
-    Militär Kraftstoff
+    Militär-Treibstoff
 RUBBISH
-    Abfallstoffe
+    Abfälle
 RADIOACTIVES
-    Radioaktiver Abfälle
- 
+    Radioaktive Abfälle
+
 # Hardware
 MISSILE_UNGUIDED
     R40 Ungelenkte Rakete
 MISSILE_GUIDED
-    Geführte Rakete
+    Gelenkte Rakete
 MISSILE_SMART
-    Smart-Rakete
+    Smart Rakete
 MISSILE_NAVAL
-    Marine-Rakete
+    Marine Rakete
 ATMOSPHERIC_SHIELDING
-    Atmosphärischen Hitzeschild
+    Atmosphären Hitzeschild
 ATMOSPHERIC_SHIELDING_DESCRIPTION
-    Schützt Ihr Raumschiff von der Hitze der Eintritt in die Atmosphäre.
+    Schützt Ihr Schiff vor der Hitze beim Wiedereintritt in die Atmosphäre.
 ECM_BASIC
-    EloGM-System
+    EGM System
 ECM_BASIC_DESCRIPTION
-    Eine elektronische Gegenmaßnahme Raketenabwehrsystem, zerstören können einige geführte Raketen.
+    Ein elektronisches Gegenmaßnahmesystem zur Raketenabwehr; kann gelenkte Raketen zerstören.
 SCANNER
     Scanner
 SCANNER_DESCRIPTION
-    Bietet eine 3D-Karte von Schiffen in der Nähe.
+    Erstellt eine 3D-Kartenansicht von Schiffen in der Nähe.
 ECM_ADVANCED
-    Fortgeschritten EloGM-System
+    Erweitertes EGM System
 ECM_ADVANCED_DESCRIPTION
-    Eine elektronische Gegenmaßnahme Raketenabwehrsystem, zerstören können fortgeschrittene Arten von geführte Raketen.
+    Ein elektronisches Gegenmaßnahmesystem zur Raketenabwehr; kann auch modernere Raketen zerstören.
 SHIELD_GENERATOR
     Schild-Generator
 SHIELD_GENERATOR_DESCRIPTION
-    Bietet zusätzlichen Schutz Rumpf mit jedem Gerät eingebaut.
+    Jeder installierte Generator bietet zusätzlichen Schutz für den Rumpf.
 LASER_COOLING_BOOSTER
     Laserkühlung Booster
 LASER_COOLING_BOOSTER_DESCRIPTION
-    Eine verbesserte Waffen Kühlsystem.
+    Ein verbessertes Waffenkühlsystem.
 CARGO_LIFE_SUPPORT
-    Leben Unterstützung für Frachtraum
+    Frachtraum Lebensterhaltung
 CARGO_LIFE_SUPPORT_DESCRIPTION
-    Ermöglicht den Transport von lebenden Fracht.
+    Ermöglicht den Transport von lebender Fracht.
 AUTOPILOT
     Autopilot
 AUTOPILOT_DESCRIPTION
-    Ein an-bord Flugcomputer.
+    Ein on-board Flugcomputer.
 RADAR_MAPPER
-    Radar Kartierungsmaschine
+    Radar Scanner
 RADAR_MAPPER_DESCRIPTION
-    Aus der Ferne überprüfen die Ausrüstung, Fracht und den Zustand der anderen Schiffe.
+    Kann aus der Ferne die Ausrüstung, Fracht und den Status anderer Schiffe ermitteln.
 FUEL_SCOOP
-    Kraftstoffschaufel
+    Treibstoffschaufel
 FUEL_SCOOP_DESCRIPTION
-    Erlaubt Schöpfen Wasserstoff aus Gasriesen..
+    Erlaubt es Wasserstofftreibstoff von Gasriesen zu sammeln.
 HYPERCLOUD_ANALYZER
-    Hyperraumwolke Analysator
+    Hyperraumwolken Analysator
 HYPERCLOUD_ANALYZER_DESCRIPTION
-    Analysieren Hyperraumwolken zum Ziel und Zeitpunkt der Ankunft oder Abreise zu bestimmen.
+    Analysiert Hyperraumwolken um den Zeitpunkt der Ankunft oder des Abfluges zu bestimmen.
 HULL_AUTOREPAIR
-    System der Rumpf selbst-reparieren
+    Rumpf Auto-Reparatur
 HULL_AUTOREPAIR_DESCRIPTION
-    Repariert automatisch den Schiffsrumpf im Falle eines Schadens.
+    Repariert den Schiffsrumpf bei Beschädigungen automatisch.
 SHIELD_ENERGY_BOOSTER
-    Schild Energie Booster
+    Schildenergie Booster
 SHIELD_ENERGY_BOOSTER_DESCRIPTION
-    Erhöht die Wiederaufladerrate der Schilde.
+    Verbessert die Regeneration der Schilde.
 DRIVE_CLASS1
-    Klasse 1 Hyperlaufwerk
+    Klasse 1 Sprungtriebwerk
 DRIVE_CLASS2
-    Klasse 2 Hyperlaufwerk
+    Klasse 2 Sprungtriebwerk
 DRIVE_CLASS3
-    Klasse 3 Hyperlaufwerk
+    Klasse 3 Sprungtriebwerk
 DRIVE_CLASS4
-    Klasse 4 Hyperlaufwerk
+    Klasse 4 Sprungtriebwerk
 DRIVE_CLASS5
-    Klasse 5 Hyperlaufwerk
+    Klasse 5 Sprungtriebwerk
 DRIVE_CLASS6
-    Klasse 6 Hyperlaufwerk
+    Klasse 6 Sprungtriebwerk
 DRIVE_CLASS7
-    Klasse 7 Hyperlaufwerk
+    Klasse 7 Sprungtriebwerk
 DRIVE_CLASS8
-    Klasse 8 Hyperlaufwerk
+    Klasse 8 Sprungtriebwerk
 DRIVE_CLASS9
-    Klasse 9 Hyperlaufwerk
+    Klasse 9 Sprungtriebwerk
 DRIVE_MIL1
-    Klasse 1 Militärlaufwerk
+    Klasse 1 Militär-Hyperraumantrieb
 DRIVE_MIL2
-    Klasse 2 Militärlaufwerk
+    Klasse 2 Militär-Hyperraumantrieb
 DRIVE_MIL3
-    Klasse 3 Militärlaufwerk
+    Klasse 3 Militär-Hyperraumantrieb
 DRIVE_MIL4
-    Klasse 4 Militärlaufwerk
+    Klasse 4 Militär-Hyperraumantrieb
 PULSECANNON_1MW
-    1MW Pulskanone
+    1MW Pulslaser
 PULSECANNON_DUAL_1MW
-    1MW doppelläufigen Pulskanone
+    1MW Doppel-Pulslaser
 PULSECANNON_2MW
-    2MW Pulskanone
+    2MW Pulslaser
 PULSECANNON_RAPID_2MW
-    2MW doppelläufigen Pulskanone
+    2MW Doppel-Pulslaser
 PULSECANNON_4MW
-    4MW Pulskanone
+    4MW Pulslaser
 PULSECANNON_10MW
-    10MW Pulskanone
+    10MW Pulslaser
 PULSECANNON_20MW
-    20MW Pulskanone
+    20MW Pulslaser
 MININGCANNON_17MW
-    17Mg Bergbaukanone
+    17MW Bergbaulaser
 MININGCANNON_17MW_DESCRIPTION
-    Dient zum Hochofen-Mine mineralreichen Asteroiden.
+    Dient zum Abbau mineralienreicher Asteroiden.
 SMALL_PLASMA_ACCEL
-    Kleines Plasmawerfer
+    Kleiner Plasmawerfer
 LARGE_PLASMA_ACCEL
-    Großes Plasmawerfer
+    Großer Plasmawerfer
 CLEAN
     Sauber
 HYPERSPACE_ARRIVAL_CLOUD
-    Hyperraum Anflug Wolke
+    Hyperraum Ankuft Wolke
 HYPERSPACE_DEPARTURE_CLOUD
     Hyperraum Abflug Wolke
 TYPE
@@ -438,57 +440,57 @@ TYPE
 CLIENT
     Auftraggeber
 LOCATION
-    Ansiedlung
+    Ort
 DUE
-    Fälligkeit
+    Fällig
 REWARD
-    Entgelt
+    Belohnung
 STATUS
     Status
 CARGO_INVENTORY
     Laderaum Inventar:
 JETTISON
     Abwerfen
-JETTISONED
-    "Abwerfen 1t: "
+JETTISONED_1T_OF_X
+    Abwerfen 1t: %commodity
 COMBAT_RATING
-    KAMPFWERTUNG:
+    GEFECHTSEINSTUFUNG:
 CRIMINAL_RECORD
     VORSTRAFENREGISTER:
 SHIP_INFORMATION_HEADER
-    "RAUMSCHIFF INFORMATION:  "
+    "RAUMSCHIFF INFORMATION: "
 HYPERDRIVE
-    Hyperlaufwerk
+    Hyperraumantrieb
 FREE
-    Frei
+    Verfügbar
 USED
     Benutzt
 TOTAL_WEIGHT
     Gesamtgewicht
 FRONT_WEAPON
-    Vor Waffe
+    Vorne
 REAR_WEAPON
-    Hinten Waffe
+    Achtern
 HYPERSPACE_RANGE
-    Fahrbereich im Hyperraum
+    Hyperraum Reichweite
 NO_MOUNTING
-    Kein Mountpunkt
+    Keine Haltekopplung
 N_LIGHT_YEARS_N_MAX
-    %distance{f.1} Lichtjahre (%maxdistance{f.1} Max)
+    %distance{f.1} Lichtjahr(e) (%maxdistance{f.1} Max)
 SHIP_INFORMATION
     Raumschiff Information
 REPUTATION
-    Ruf
+    Reputation
 MISSIONS
     Missionen
 SHIFT
-    "shift "
+    "Shift "
 CTRL
-    "strg "
+    "Strg "
 ALT
-    "alt "
+    "Alt "
 META
-    "meta "
+    "Meta "
 JOY
     Joy
 BUTTON
@@ -508,45 +510,45 @@ AXIS
 WEAPONS
     Waffen
 TARGET_OBJECT_IN_SIGHTS
-    Ziel des Objekts in ein Fadenkreuz
+    Objekt im Fadenkreuz anvisieren
 FIRE_LASER
-    Laserkanone schießen
+    Feuer
 SHIP_ORIENTATION
-    Schiff Orientierung
+    Schiffsausrichtung
 FAST_ROTATION_CONTROL
-    schnelle Rotation Kontrolle
+    schnelle Rotationskontrolle
 PITCH_UP
-    Kippen oben
+    Kippen nach oben
 PITCH_DOWN
-    Kippen unten
+    Kippen nach unten
 YAW_LEFT
-    Gieren links
+    Gieren nach links
 YAW_RIGHT
-    Gieren rechts
+    Gieren nach rechts
 ROLL_LEFT
-    Rollen links
+    Rollen nach links
 ROLL_RIGHT
-    Rollen rechts
+    Rollen nach rechts
 MANUAL_CONTROL_MODE
-    Handbetrieb
+    Manuelle Steuerung
 THRUSTER_MAIN
-    Haupt-Raketenschub
+    Schub Haupttriebwerk
 THRUSTER_RETRO
-    Brems-Raketenschub
+    Schub Bremsraketen
 THRUSTER_VENTRAL
-    Unten-Raketenschub
+    Manövrierdüsen Unten
 THRUSTER_DORSAL
-    Oben-Raketenschub
+    Manövrierdüsen Oben
 THRUSTER_PORT
-    Backbord-Raketenschub
+    Manövrierdüsen Backbord
 THRUSTER_STARBOARD
-    Steuerbord-Raketenschub
+    Manövrierdüsen Steuerbord
 SPEED_CONTROL_MODE
-    Geschwindigkeitsregelung Betrieb
+    Geschwindigkeitsregelung
 INCREASE_SET_SPEED
-    Steigern eingestellten Geschwindigkeit
+    Gesetzten Geschwindigkeit steigern
 DECREASE_SET_SPEED
-    Abnahme eingestellten Geschwindigkeit
+    Gesetzten Geschwindigkeit verringern
 JOYSTICK_INPUT
     Joystickeingabe
 PITCH
@@ -560,12 +562,12 @@ MISSILE
 HARMLESS
     Harmlos
 MOSTLY_HARMLESS
-    Meistens harmlos
+    Eher harmlos
 POOR
-    Mies
+    Unterdurchschnittlich
 AVERAGE
     Durchschnittlich
-ABOVE_AVERAGE 
+ABOVE_AVERAGE
     Überdurchschnittlich
 COMPETENT
     Kompetent
@@ -576,155 +578,157 @@ DEADLY
 ELITE
     ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
-    Simulation Evolution des Universums: %age{f.1} Milliarde Jahre ;-)
+    Simulierte Evolution des Universums: %age{f.1} Milliarde(n) Jahre ;-)
 TOMBSTONE_EPITAPH
     Ruhe in Frieden, Kumpel
 MM_START_NEW_GAME_EARTH
-    Neues Spiel, beginnt auf Erde
+    Neues Spiel, beginnend auf der Erde
 MM_START_NEW_GAME_E_ERIDANI
-    Neues Spiel, beginnt auf Epsilon Eridani
+    Neues Spiel, beginnend auf Epsilon Eridani
 MM_START_NEW_GAME_DEBUG
-    Neues Spiel zu Debugging Punkt
+    Neues Spiel, beginnend an Debugging Punkt
 MM_LOAD_SAVED_GAME
-    Laden von gespeicherten Spiel
+    Gespeicherten Spielstand laden
 MM_QUIT
     Pioneer beenden
 SCREENSHOT_FILENAME_TEMPLATE
-    Spielbild%index{d08}.png
+    Pioneer Screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD
-    Pionierarbeit Piloten Gilde
+    Pioneer Piloten Gilde
 RIGHT_ON_COMMANDER
-    Well done Kommandant! Ihre Bekämpfung Bewertung hat sich verbessert!
+    Sehr gut Commander! Ihre Gefechtseinstufung hat sich verbessert!
 ALERT_CANCELLED
     Alarm aufgehoben.
 SHIP_DETECTED_NEARBY
-    Schiff entdeckt in der Nähe.
+    Nahes Schiff detektiert.
 DOWNGRADING_ALERT_STATUS
-    Keine schießen für 60 Sekunden erkannt; herabstufung die Alarmbereitschaft.
+    Für 60 Sekunden kein Waffenfeuer detektiert; Alarmstufe wird gesenkt.
 LASER_FIRE_DETECTED
-    Waffenschießen entdeckt.
+    Waffenfeuer detektiert.
 SOMEWHERE_POLICE
     %station Polizei
 WE_HAVE_NO_BUSINESS_WITH_YOU
-    Wir haben keine Geschäfte mit Ihnen jetzt.
+    Im Moment haben wir mit Ihnen keine offenen Angelegenheiten.
 YOU_MUST_PAY_FINE_OF_N_CREDITS
-    Wir tolerieren keine Verbrechen. Sie müssen eine Geldbuße von %fine zahlen.
+    Wir tolerieren keine Verbrechen. Sie müssen eine Geldstrafe von %fine zahlen.
 PAY_THE_FINE_NOW
-    Die Geldbuße zahlen jetzt.
+    Die Geldstrafe jetzt zahlen.
 HANG_UP
     Auflegen.
 TRADING_ILLEGAL_GOODS
-    Der Handel mit illegalen Waren
+    Handel mit illegalen Waren
 UNLAWFUL_WEAPONS_DISCHARGE
-    Rechtswidrige Waffen schießen
+    Illegales Waffenfeuer
 PIRACY
-    Piraterei
+    Piraterie
 MURDER
     Mord
 INDEPENDENT
     Unabhängig
 EARTH_FEDERATION
-    Erde Föderation
+    Erd-Föderation
 INDEPENDENT_CONFEDERATION
-    Gemeinschaft Unabhängiger Sternensystemen
+    Gemeinschaft Unabhängiger Sternensysteme
 EMPIRE
     Das Imperium
 NO_ESTABLISHED_ORDER
-    Zügellosigkeit
+    Keine etablierte Ordnung
 HARD_CAPITALIST
-    Völlig Kapitalist - keine Regierung Sozialleistungen
+    Völlig Kapitalistisch - kein staatliches Sozialsystem
 CAPITALIST
-    Kapitalist
+    Kapitalistisch
 MIXED_ECONOMY
     Gemischte Wirtschaftsform
 PLANNED_ECONOMY
     Planwirtschaft
 NO_CENTRAL_GOVERNANCE
-    Ohne zentrale Verwaltung
+    Ohne zentrale Regierung
 EARTH_FEDERATION_COLONIAL_RULE
-    Erde Föderation Kolonialherrschaft
+    Kolonialherrschaft durch die Erd-Föderation
 EARTH_FEDERATION_DEMOCRACY
-    Erde Föderation Demokratie
+    Erd-Föderation Demokratie
 IMPERIAL_RULE
-    Imperialer Herrschaft
+    Imperiale Herrschaft
 LIBERAL_DEMOCRACY
     Liberale Demokratie
 SOCIAL_DEMOCRACY
     Sozialdemokratie
 CORPORATE_SYSTEM
-    Herrschaft der Konzerne
+    Korporatokratie
 MILITARY_DICTATORSHIP
     Militärdiktatur
 COMMUNIST
-    Kommunist
+    Kommunistisch
 PLUTOCRATIC_DICTATORSHIP
-    Plutokratischen Diktatur
+    Plutokratische Diktatur
 VIOLENT_ANARCHY
-    Störung - Insgesamt Governance durch bewaffnete Gruppierungen bestritten
+    Anarchie - Verschiedene bewaffnete Gruppierungen kämpfen um die hoheitliche Kontrolle.
 X_CANNOT_BE_TOLERATED_HERE
-    %crime kann hier nicht geduldet werden.
+    %crime wird hier nicht geduldet.
 SECTOR_X_Y_Z
     Sektor: %x,%y,%z
 CURRENT_SYSTEM
-    Aktuelle System
+    Aktuelles System
 SELECTED_SYSTEM
-    Ausgewählter System
+    Ausgewähltes System
 HYPERSPACE_TARGET
-    Hyperraum Ziel
+    Hyperraumsprung Ziel
 FOLLOWING_SELECTION
-    Auswahl folgende
+    Auswahl folgen
 LOCKED
-    verschlossen
+    Eingerastet
 EXACT_MATCH_X
-    Übereinstimmung: %system
+    Gefunden: %system
 NOT_FOUND_BEST_MATCH_X
-    Nicht gefunden; beste Ergebnis: %system
+    Nicht gefunden; bestes Ergebnis: %system
 NOT_FOUND
     Nicht gefunden
 NUMBER_HOURS
     %hours{f.2} St.
 QUADRUPLE_SYSTEM
-    VierfachSternsystem
+    Vierer-Sternsystem
 TRIPLE_SYSTEM
-    DreifachSternsystem
+    Dreier-Sternsystem
 BINARY_SYSTEM
-    DoppelSternsystem
+    Doppel-Sternsystem
 ENABLED_AUTOMATIC_SYSTEM_SELECTION
     Automatische Systemauswahl aktiviert.
 DISABLED_AUTOMATIC_SYSTEM_SELECTION
-    Automatische Systemauswahl unaktiviert.
+    Automatische Systemauswahl deaktiviert.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
-    Kraftstoffschaufel aktiv. Sie haben nun %quantity Tonnen Wasserstoff.
+    Treibstoffschaufel aktiv. Sie haben jetzt %quantity to Wasserstoff.
 CARGO_BAY_LIFE_SUPPORT_LOST
-    Problem entdeckt: Leben Unterstützung den Frachtraum funktioniert nicht.
+    Die internen Sensoren melden den Ausfall des Lebenserhaltungssystems im Frachtraum.
 NO_FREE_SPACE_FOR_ITEM
-    Sie haben keinen freien Raum für diesen Artikel.
+    Sie haben keinen freien Platz für diesen Artikel.
 SHIP_IS_FULLY_LADEN
-    Ihr Schiff voll beladen ist.
+    Ihr Schiff ist voll.
 YOU_DO_NOT_HAVE_ANY_X
-    Sie haben keine %item.
+    Sie haben keine Waren des Artikels %item.
+FRONT_VIEW
+    Sicht nach vorn
 REAR_VIEW
-    Rückansicht
+    Sicht nach hinten
 EXTERNAL_VIEW
     Außenansicht
 NAVIGATION_STAR_MAPS
     Navigation und Sternkarten
 COMMS
-    Kommunication
+    Kommunikation
 GALAXY_SECTOR_VIEW
-    Galaktische Sektor Blick
+    Sektoren Ansicht
 SYSTEM_ORBIT_VIEW
-    System Umkreisung Blick
+    Orbital Ansicht
 STAR_SYSTEM_INFORMATION
-    Sternsystem Information
+    System Informationen
 GALACTIC_VIEW
-    Milchstraße Blick
+    Galaxie Ansicht
 NO_ALERT
     kein Alarm
 SHIP_NEARBY
-    Raumschiff in der Nähe
+    Schiff in der Nähe
 DOCKING_CLEARANCE_EXPIRED
-    Andocken Erlaubnis ist abgelaufen. Wenn Sie andocken möchten, müssen Sie wiederholen Sie Ihre Anfrage.
+    Ihre Andockerlaubnis ist abgelaufen. Für eine neue Erlaubnis müssen Sie Ihre Anfrage wiederholen.
 MESSAGE_FROM_X
     Nachricht von %sender:
 SELECT_A_TARGET
@@ -736,73 +740,73 @@ REAR
 POLICE_SHIP_REGISTRATION
     POLIZEI
 CLEARANCE_ALREADY_GRANTED_BAY_N
-    Andocken Erlaubnis bereits gewährt. Fliegen zur Andockbuchten %bay.
+    Andockerlaubnis wurde bereits gewährt. Fliegen Sie zu Dock %bay.
 CLEARANCE_GRANTED_BAY_N
-    Andocken Erlaubnis gewährt. Fliegen zur Andockbuchten %bay.
+    Andockerlaubnis gewährt. Fliegen Sie zu Dock %bay.
 CLEARANCE_DENIED_NO_BAYS
-    Andocken Erlaubnis verweigert. Es gibt keine freien Andockbuchten.
+    Andockerlaubnis verweigert. Alle Andockbuchten sind momentan belegt.
 ITEM_IS_OUT_OF_STOCK
     Dieser Artikel ist ausverkauft.
 BROWN_DWARF
-    Brauner Zwerg substellares Objekt
+    Brauner Zwerg (substellares Objekt)
 WHITE_DWARF
-    Weißer Zwerg Sternrest
+    Weißer Zwerg (Sternrest)
 STAR_M
-    Klasse 'M' roter Stern
+    Roter Klasse 'M' Stern
 STAR_K
-    Klasse 'K' oranger Stern
+    Orangfarbener Klasse 'K' Stern
 STAR_G
-    Klasse 'G' gelbe Stern
+    Gelber Klasse 'G' Stern
 STAR_F
-    Klasse 'F' weiße Stern
+    Weißer Klasse 'F' Stern
 STAR_A
-    Klasse 'A' heiße weiße Stern
+    Heißer, weißer Klasse 'A' Stern
 STAR_B
-    Hellen Klasse 'B' blaue Stern
+    Heller, blauer Klasse 'B' Stern
 STAR_O
-    Heiße, massive Klasse 'O' Stern
+    Heißer, großer Klasse 'O' Stern
 STAR_M_GIANT
     Roter Riesenstern
 STAR_K_GIANT
-    Oranger Riesenstern - Instabil
+    Orangfarbener Riesenstern - Instabil
 STAR_G_GIANT
-    Gelbe Riesenstern - Instabil
+    Gelber Riesenstern - Instabil
 STAR_AF_GIANT
-    Weiße Riesenstern
+    Weißer Riesenstern
 STAR_B_GIANT
-    Blaue Riesenstern
+    Blauer Riesenstern
 STAR_O_GIANT
-    Heiße blaue Riesenstern
+    Heißer, blauer Riesenstern
 STAR_M_SUPER_GIANT
-    Roter Überriesen
+    Roter Überriese
 STAR_K_SUPER_GIANT
-    Oranger Überriesen
+    Orangfarbeneer Überriese
 STAR_G_SUPER_GIANT
-    Gelbe Überriesen
+    Gelber Überriese
 STAR_AF_SUPER_GIANT
-    Weiße Überriesen
+    Weißer Überriese
 STAR_B_SUPER_GIANT
-    Blaue Überriesen
+    Blauer Überriese
 STAR_O_SUPER_GIANT
-    Heiße blaue Überriesen
+    Heißer, blauer Überriese
 STAR_M_HYPER_GIANT
-    Roter Hyperriesen
+    Roter Hyperriese
 STAR_K_HYPER_GIANT
-    Oranger Hyperriesen - Instabil
+    Orangfarbener Hyperriese - Instabil
 STAR_G_HYPER_GIANT
-    Gelbe Hyperriesen - Instabil
+    Gelber Hyperriese - Instabil
 STAR_AF_HYPER_GIANT
-    Weiße Hyperriesen
+    Weißer Hyperriese
 STAR_B_HYPER_GIANT
-    Blaue Hyperriesen
+    Blauer Hyperriese
 STAR_O_HYPER_GIANT
-    Heiße blaue Hyperriesen
+    Heißer, blauer Hyperriese
 STAR_M_WF
     Wolf-Rayet-Stern - Instabil
 STAR_B_WF
-    Wolf-Rayet-Stern - bei Gefahr des Zusammenbruchs
+    Wolf-Rayet-Stern - Kollapsrisiko
 STAR_O_WF
-    Wolf-Rayet-Stern - Zusammenbruch bevorstand
+    Wolf-Rayet-Stern - Kollaps steht unmittelbar bevor
 STAR_S_BH
     Stellares Schwarzes Loch
 STAR_IM_BH
@@ -814,23 +818,23 @@ VERY_LARGE_GAS_GIANT
 LARGE_GAS_GIANT
     Großer Gasriese
 MEDIUM_GAS_GIANT
-    Mittelschwere Gasriese
+    Mittelgroßer Gasriese
 SMALL_GAS_GIANT
     Kleiner Gasriese
 ASTEROID
     Asteroid
 MASSIVE
-    Massiver
+    Sehr großer
 LARGE
     Großer
 TINY
-    Weniger
+    Winziger
 SMALL
     Kleiner
 COMMA_HIGHLY_VOLCANIC
-    , hoch vulkanischer
+    , stark vulkanischer
 HIGHLY_VOLCANIC
-    Hoch vulkanischer
+    Stark vulkanischer
 ICE_WORLD
     " Eisplanet"
 ROCKY_PLANET
@@ -840,79 +844,79 @@ OCEANICWORLD
 PLANET_CONTAINING_LIQUID_WATER
     " Planet mit flüssigem Wasser"
 PLANET_WITH_SOME_ICE
-    " Planet mit ein wenig Eis"
+    " Planet mit etwas Eis"
 ROCKY_PLANET_CONTAINING_COME_LIQUIDS
-    " felsiger Planet mit einigen Flüssigkeiten"
+    " felsiger Planet mit wenigen Flüssigkeiten"
 WITH_NO_SIGNIFICANT_ATMOSPHERE
-    " mit keinen signifikanten Atmosphäre"
+    " ohne signifikante Atmosphäre"
 TENUOUS
-    sehr dünner
+    sehr dünnen
 THIN
-    dünner
+    dünnen
 THICK
-    dicker
+    dichten
 VERY_DENSE
-    sehr dichter
+    sehr dichten
 WITH_A
     " mit einer "
 O2_ATMOSPHERE
     " Sauerstoffatmosphäre"
 CO2_ATMOSPHERE
-    " Kohlendioxid-Atmosphäre"
+    " Kohlendioxidatmosphäre"
 CO_ATMOSPHERE
-    " Kohlenmonoxid-Atmosphäre"
+    " Kohlenmonoxidatmosphäre"
 CH4_ATMOSPHERE
-    " Methan-Atmosphäre"
+    " Methanatmosphäre"
 H_ATMOSPHERE
-    " Wasserstoff-Atmosphäre"
+    " Wasserstoffatmosphäre"
 HE_ATMOSPHERE
-    " Helium-Atmosphäre"
+    " Heliumatmosphäre"
 AR_ATMOSPHERE
-    " Argon-Atmosphäre"
+    " Argonatmosphäre"
 S_ATMOSPHERE
-    " Schwefel-Atmosphäre"
+    " Schwefelatmosphäre"
 N_ATMOSPHERE
-    " Stickstoff-Atmosphäre"
+    " Stickstoffatmosphäre"
 AND_HIGHLY_COMPLEX_ECOSYSTEM
-    " und ein sehr komplexes Ökosystem."
+    " und einem sehr komplexen Ökosystem."
 AND_INDIGENOUS_PLANT_LIFE
     " und einheimischen Pflanzen."
 AND_INDIGENOUS_MICROBIAL_LIFE
-    " und einheimischen mikrobiellen Lebens."
+    " und einheimischem mikrobiellen Leben."
 ORBITAL_STARPORT
-    Umkreisiger Raumschiff Hafen
+    Orbitaler Raumhafen
 STARPORT
-    Raumschiffhafen
+    Raumhafen
 UNKNOWN
-    <unknown>
+    <unbekannt>
 UNEXPLORED_SYSTEM_NO_DATA
-    Unerforschtes Sternsystem. Keine weiteren Daten verfügbar.
+    Unerforschtes System. Keine weiteren Daten verfügbar.
 SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS
-    Kleine Prospektion. Keine registrierten Siedlungen.
+    Einzelne Schürfaktivitäten. Keine registrierten Siedlungen.
 SMALL_INDUSTRIAL_OUTPOST
-    Kleiner Industrie-Außenpost.
+    Kleiner, industrieller Außenposten.
 SOME_ESTABLISHED_MINING
-    Einige etablierte Bergbau.
+    Ein wenig Bergbau.
 YOUNG_FARMING_COLONY
-    Neu gegründeter landwirtschaftlicher Kolonie.
+    Neu gegründete landwirtschaftliche Kolonie.
 INDUSTRIAL_COLONY
-    Industrieller Kolonie.
+    Industrielle Kolonie.
 MINING_COLONY
-    Bergbauer Kolonie.
+    Bergbaue Kolonie.
 OUTDOOR_AGRICULTURAL_WORLD
-    Im Freien landwirtschaftlicher Planet.
+    Planet mit Agrarwirtschaft unter freiem Himmel.
 HEAVY_INDUSTRY
     Schwerindustrie.
 EXTENSIVE_MINING
-    Schwere Bergbau.
+    Intensiver Bergbau.
 THRIVING_OUTDOOR_WORLD
-    Gut gehendlicher Planet mit Kolonien im Freien.
+    Floriende Kolonie unter freien Himmel.
 INDUSTRIAL_HUB_SYSTEM
-    Industrielles Knotenpunktsystem.
+    Industrieller Handelsknotenpunkt.
 VAST_STRIP_MINE
-    Riesigen Tagebau-Kolonie.
+    Riesige Tagebau Kolonie.
 HIGH_POPULATION_OUTDOOR_WORLD
-    Hohe Bevölkerung Planet mit Städte im Freien.
+    Planet mit hoher Bevölkerungsdichte und Städten unter freiem Himmel.
 SOMEWHERE_SPACEPORT
     " Raumhafen"
 SOMEWHERE_STARPORT
@@ -920,7 +924,7 @@ SOMEWHERE_STARPORT
 MASS
     Masse
 N_WHATEVER_MASSES
-    %mass{f.3} %{units}massen
+    %mass{f.3} %{units}Massen
 SOLAR
     Sonnen
 EARTH
@@ -928,7 +932,7 @@ EARTH
 SURFACE_TEMPERATURE
     Oberflächentemperatur
 N_CELSIUS
-    %temperature C
+    %temperature °C
 N_YEARS
     %years{f.1} Jahre
 N_DAYS
@@ -944,45 +948,45 @@ ECCENTRICITY
 AXIAL_TILT
     Neigung der Rotationsachse
 N_DEGREES
-    %angle{f.1} grad
+    %angle{f.1} Grad
 DAY_LENGTH
     Tageslänge
 N_EARTH_DAYS
     %days{f.1} Erdentage
 STARPORTS
-    Raumschiffhäfen
+    Raumhäfen
 MAJOR_IMPORTS
-    Bedeutende Einfuhren:
+    Wichtige Importe:
 MINOR_IMPORTS
-    Andere Einfuhren:
+    Sonstige Importe:
 MAJOR_EXPORTS
-    Bedeutende Ausfuhren:
+    Wichtige Exporte:
 MINOR_EXPORTS
-    Andere Ausfuhren:
+    Sonstige Exporte:
 ILLEGAL_GOODS
     Illegale Waren:
 UNEXPLORED_SYSTEM_STAR_INFO_ONLY
-    Unerforschtes Sternsystem. Stern-information war per Fernbedienung Teleskop gesammelt worden, aber keine Information auf Planeten ist Verfügbar.
+    Unerforschtes System. Informationen über den Zentralstern wurden per Teleskop gesammelt, aber es sind keine Informationen über Planeten verfügbar.
 PLANETARY_INFO
-    Planeten-information
+    Planeteninformation
 ECONOMIC_INFO
-    Wirtschaft-information
+    Wirtschaftsinformation
 DEMOGRAPHICS
     Demografie
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
-    Stabiles System mit %bodycount großen %{body(s)} and %portcount %{starport(s)}.
+    Stabiles System mit %bodycount großen %{body(s)} und %portcount %{starport(s)}.
 BODY
-    Körpern
-BODIES
     Körper
+BODIES
+    Körpern
 SYSTEM_TYPE
     Systemtyp:
 GOVERNMENT_TYPE
-    Regierung Typ:
+    Regierungstyp:
 ECONOMY_TYPE
-    Wirtschaft Typ:
+    Wirtschaftstyp:
 ALLEGIANCE
-    Gefolgschaft:
+    Zugehörigkeit:
 POPULATION
     Einwohnerzahl:
 OVER_N_BILLION
@@ -994,7 +998,7 @@ A_FEW_THOUSAND
 NO_REGISTERED_INHABITANTS
     Keine registrierten Einwohner
 SECTOR_COORDINATES
-    Koordinaten des Sektors:
+    Sektor-Koordinaten:
 SYSTEM_NUMBER
     System-Nummer:
 NAME
@@ -1006,35 +1010,35 @@ RADIUS
 SEMI_MAJOR_AXIS
     Große Halbachse
 TIME_POINT
-    Zeitpunkt: 
+    Zeitpunkt:
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
-    Unerforschtes Sternsystem. Sternsystem Blick unverfügbar.
+    Unerforschtes Sternsystem. Keine Systemansicht verfügbar.
 WHEELS_ARE_UP
-    Fahrwerk angehoben
+    Fahrwerk eingefahren
 WHEELS_ARE_DOWN
-    Fahrwerk abgesenkt
+    Fahrwerk ausgefahren
 OBJECT_LABELS_ARE_ON
-    Bezeichnungsschilder sichtbar
+    Objektkennzeichnung EIN
 OBJECT_LABELS_ARE_OFF
-    Bezeichnungsschilder unsichtbar
+    Objektkennzeichnung AUS
 HYPERSPACE_JUMP
     Hyperraumsprung
 TAKEOFF
-    Abflug
+    Start
 MANUAL_CONTROL
     Manuelle Steuerung
 COMPUTER_SPEED_CONTROL
-    Rechner Geschwindigkeitsregelung
+    Computergestützte Geschwindigkeitskontrolle
 AUTOPILOT_ON
     Autopilot aktiviert
 SHIP_VELOCITY_BY_REFERENCE_OBJECT
-    Schiff Geschwindigkeit von Referenzobjekt
+    Geschwindigkeit zum Referenzobjekt
 DISTANCE_FROM_SHIP_TO_NAV_TARGET
-    Entfernung vom Schiff auf die Navigationsziel
+    Entfernung zum Navigationsziel
 SHIP_ALTITUDE_ABOVE_TERRAIN
-    Schiff Höhe über Gelände
+    Höhe über Bodenniveau
 EXTERNAL_ATMOSPHERIC_PRESSURE
-    Externe Atmosphärendruck
+    Externer Atmosphärendruck
 HULL_TEMP
     Rumpftemperatur
 WEAPON_TEMP
@@ -1044,7 +1048,7 @@ HULL_INTEGRITY
 SHIELD_INTEGRITY
     Schildintegrität
 LAUNCH_PERMISSION_DENIED_BUSY
-    Startberechtigung verweigert: Andockbucht beschäftigt.
+    Starterlaubnis verweigert: Das Dockingsystem ist belegt.
 HYPERSPACE_JUMP_ABORTED
     Hyperraumsprung abgebrochen.
 LANDED
@@ -1056,15 +1060,15 @@ DOCKED
 HYPERSPACE
     Hyperraum
 SET_SPEED_KM_S
-    Geschwindigkeit angesetzt: %speed{f.2} km/s
+    Geschwindigkeit gesetzt: %speed{f.2} km/s
 SET_SPEED_M_S
-    Geschwindigkeit angesetzt: %speed{f.0} m/s
+    Geschwindigkeit gesetzt: %speed{f.0} m/s
 KM_S_RELATIVE_TO
-    %speed{f.2} km/s bez-auf %frame
+    %speed{f.2} km/s relativ zu %frame
 M_S_RELATIVE_TO
-    %speed{f.0} m/s bez-auf %frame
+    %speed{f.0} m/s relativ zu %frame
 N_DISTANCE_TO_TARGET
-    %distance nach Ziel
+    %distance bis zum Ziel
 IN_TRANSIT_TO_N_X_X_X
     Auf dem Weg nach %system [%x,%y,%z]
 ALT_IN_METRES
@@ -1072,15 +1076,15 @@ ALT_IN_METRES
 PRESSURE_N_BAR
     Druck: %pressure{f.2} bar
 NO_HYPERDRIVE
-    Kein Hyperlaufwerk
+    Kein Hyperraumantrieb
 MASS_N_TONNES
     Masse: %{mass}t
 SHIELD_STRENGTH_N
-    Schild-Stärke: %shields{f.2}
+    Schildstärke: %shields{f.2}
 CARGO_N
     Ladung: %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
-    Hyperraum Anflug Wolke Rest
+    Hyperraum Anflugwolkenrest
 HYPERSPACE_X_CLOUD
     Hyperraum %direction Wolke
 SHIP_MASS_N_TONNES
@@ -1098,38 +1102,38 @@ DESTINATION
 HYPERSPACING_IN_N_SECONDS
     Hyperraumsprung in %countdown{f.0} Sekunden
 NAVIGATION_TARGETS_IN_THIS_SYSTEM
-    Navigation Ziele innerhalb dieses Systems
+    Navigationsziele innerhalb dieses Systems
 YOU_NO_MONEY
     Sie haben kein Geld.
 FINE_PAID_N_BUT_N_REMAINING
-    Sie haben %paid bezahlt, aber Sie müssen noch eine herausragende Geldstrafe von %fine zu bezahlen.
+    Sie haben %paid bezahlt, aber Sie müssen noch eine weitere Geldstrafe von %fine bezahlen.
 FINE_PAID_N
     Sie haben die Geldstrafe von %fine bezahlt.
 SET_HYPERSPACE_DESTINATION_TO
-    "Hyperraum Ziel nach %system angesetzt"
+    "Hyperraumsprungziel auf %system gesetzt"
 NO_TARGET_SELECTED
-    Schiffsrechner: Kein Ziel ausgewählt
+    Computer: Kein Ziel ausgewählt.
 REQUEST_DOCKING_CLEARANCE
-    Erlaubnis Ansuchen um zu andocken
+    Andockerlaubnis anfordern
 AUTOPILOT_DOCK_WITH_STATION
-    Autopilot: mit Raumstation andocken
+    Autopilot: Docke an Raumstation an.
 PAY_FINE_REMOTELY
-    Geldstrafe bezahlen durch Fernübertragung (%amount)
+    Geldstrafe per Fernübertragung bezahlen (%amount).
 AUTOPILOT_FLY_TO_VICINITY_OF
-    Autopilot: Fliegen nach der Nähe von %target
+    Autopilot: Fliege in die Nähe von %target
 AUTOPILOT_ENTER_LOW_ORBIT_AROUND
-    Autopilot: Flieg nach niedriger Umlaufbahn um %target
+    Autopilot: Fliege in eine niedrige Umlaufbahn um %target.
 AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
-    Autopilot: Flieg nach mittlerer Umlaufbahn um %target
+    Autopilot: Fliege in eine mittlere Umlaufbahn um %target.
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
-    Autopilot: Flieg nach hoher Umlaufbahn um %target
+    Autopilot: Fliege in eine hohe Umlaufbahn um %target.
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
-    Hyperraumwolke Analysator: Set Hyperraum Ziel um dieser Abfahrt zu folgen
+    Hyperraumwolken Analysator: Setzen Sie das Hyperraumsprungziel, um diesem Abflug zu folgen.
 FAILED
-    Durchgefallen
+    Gescheitert
 COMPLETED
-    Fertig
+    Abgeschlossen
 ACTIVE
-    Aktuell
+    Offen
 DISTANCE_LY
     Entfernung: %distance{f.2} Lj
