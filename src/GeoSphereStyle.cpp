@@ -30,7 +30,7 @@ static double impact_crater_function(const fracdef_t &def, const vector3d &p);
 static double volcano_function(const fracdef_t &def, const vector3d &p);
 static double megavolcano_function(const fracdef_t &def, const vector3d &p);
 static double river_function(const fracdef_t &def, const vector3d &p, int style = 0);
-static double cliff_function(const fracdef_t &def, const vector3d &p);
+//static double cliff_function(const fracdef_t &def, const vector3d &p);
 
 int GeoSphereStyle::GetRawHeightMapVal(int x, int y)
 {
@@ -3593,6 +3593,7 @@ double river_function(const fracdef_t &def, const vector3d &p, int style)
 }
 
 // Original canyon function, But really it generates cliffs.
+#if 0
 double cliff_function(const fracdef_t &def, const vector3d &p)
 {
 	double h;
@@ -3608,5 +3609,4 @@ double cliff_function(const fracdef_t &def, const vector3d &p)
 	}
 	return h;
 }
-
-
+#endif
