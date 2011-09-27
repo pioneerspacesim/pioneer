@@ -918,9 +918,9 @@ VAST_STRIP_MINE
 HIGH_POPULATION_OUTDOOR_WORLD
     Zewnętrzny świat o wysokim zaludnieniu.
 SOMEWHERE_SPACEPORT
-     "-port kosmiczny"
+    stacja kosmiczna %spaceport
 SOMEWHERE_STARPORT
-     "-stacja kosmiczna"
+    port kosmiczny %starport
 MASS
     Masa
 N_WHATEVER_MASSES
