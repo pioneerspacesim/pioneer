@@ -38,22 +38,22 @@ fi
 
 dnl Add a flag, if supported by the compiler or preprocessor
 dnl Assumes that -Werror works
-AC_DEFUN([_PIONEER_COMPILER_FLAG], dnl Language, flags variable 'foo' (EXTRA_fooFLAGS), flag, $CC/$CXX/$CPP/similar, if yes, if no
+AC_DEFUN([_PIONEER_COMPILER_FLAG], dnl Language, prefix (EXTRA), flags variable 'foo' (EXTRA_fooFLAGS), flag, $CC/$CXX/$CPP/similar, if yes, if no
     [AC_LANG_PUSH([$1])
-     saved_flags="$EXTRA_][$2][FLAGS"
-     ][$2][FLAGS="$EXTRA_][$2][FLAGS $3 -Werror $][$2][FLAGS"
-     AC_MSG_CHECKING([to see if $4 supports $3])
-     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[return 0;]])], [EXTRA_][$2][FLAGS="$EXTRA_][$2][FLAGS $3"; AC_MSG_RESULT([yes])]m4_default([; $5], []), [AC_MSG_RESULT([no])]m4_default([; $6], []))
-     EXTRA_][$2][FLAGS="$saved_flags"
+     saved_flags="$][$2][_][$3][FLAGS"
+     ][$2][FLAGS="$][$2][_][$3][FLAGS $4 -Werror $][$3][FLAGS"
+     AC_MSG_CHECKING([to see if $5 supports $4])
+     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[return 0;]])], [][$2][_][$3][FLAGS="$][$2][_][$3][FLAGS $4"; AC_MSG_RESULT([yes])]m4_default([; $6], []), [AC_MSG_RESULT([no])]m4_default([; $7], []))
+     ][$2][_][$3][FLAGS="$saved_flags"
      AC_LANG_POP([$1])
     ])
 
-AC_DEFUN([PIONEER_CFLAG], [_PIONEER_COMPILER_FLAG([C], [C], [$1], [$CC], [$2], [$3])])
-AC_DEFUN([PIONEER_CXXFLAG], [_PIONEER_COMPILER_FLAG([C++], [CXX], [$1], [$CXX], [$2], [$3])])
-AC_DEFUN([PIONEER_CPPFLAG], [_PIONEER_COMPILER_FLAG([CPP], [CPP], [$1], [$CPP], [$2], [$3])])
+AC_DEFUN([PIONEER_CFLAG], [_PIONEER_COMPILER_FLAG([C], [EXTRA], [C], [$1], [$CC], [$2], [$3])])
+AC_DEFUN([PIONEER_CXXFLAG], [_PIONEER_COMPILER_FLAG([C++], [EXTRA], [CXX], [$1], [$CXX], [$2], [$3])])
+AC_DEFUN([PIONEER_CPPFLAG], [_PIONEER_COMPILER_FLAG([CPP], [EXTRA], [CPP], [$1], [$CPP], [$2], [$3])])
 
 AC_DEFUN([PIONEER_C_CXX_FLAG],
-	[_PIONEER_COMPILER_FLAG([C], [C], [$1], [$CC/$CXX], [EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $1"])])
+	[_PIONEER_COMPILER_FLAG([C], [EXTRA], [C], [$1], [$CC/$CXX], [EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $1"])])
 
 
 dnl Always add -Wall, where supported
