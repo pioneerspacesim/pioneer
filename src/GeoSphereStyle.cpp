@@ -2299,15 +2299,13 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		double n = m_invMaxHeight*height;
 		double flatness = pow(p.Dot(norm), 8.0);
 		//textures:
-		double tex_rock, tex_mud, tex_sand, tex_grass, tex_forest, tex_water;
+		double tex_rock, tex_sand, tex_grass, tex_forest;
 
 		if (textures) {
 			tex_rock   =   rock;
-			tex_mud    =    mud;
 			tex_sand   =   sand;
 			tex_grass  =  grass;
 			tex_forest = forest;
-			tex_water  =  water;
 		}
 		//textures end
 		double continents = 0;
@@ -2837,7 +2835,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		double n = m_invMaxHeight*height;
 		double flatness = pow(p.Dot(norm), 8.0);
 		//textures:
-		double tex_rock, tex_rock2, tex_mud, tex_sand, tex_sand2, tex_grass, tex_grass2, tex_water;
+		double tex_rock, tex_rock2, tex_mud, tex_sand, tex_sand2, tex_grass, tex_grass2;
 		if (textures) {
 			tex_rock   = rock;
 			tex_rock2  = rock2;
@@ -2846,7 +2844,6 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			tex_sand2  = sand2;
 			tex_grass  = grass;
 			tex_grass2 = grass2;
-			tex_water  = water;
 		}
 		//textures end
 		double continents = 0;
