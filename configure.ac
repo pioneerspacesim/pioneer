@@ -44,7 +44,7 @@ AC_DEFUN([_PIONEER_COMPILER_FLAG], dnl Language, prefix (EXTRA), flags variable 
      ][$2][FLAGS="$][$2][_][$3][FLAGS $4 -Werror $][$3][FLAGS"
      AC_MSG_CHECKING([to see if $5 supports $4])
      AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[return 0;]])], [][$2][_][$3][FLAGS="$][$2][_][$3][FLAGS $4"; AC_MSG_RESULT([yes])]m4_default([; $6], []), [AC_MSG_RESULT([no])]m4_default([; $7], []))
-     ][$2][_][$3][FLAGS="$saved_flags"
+     ][$2][_][$3][FLAGS="$saved_flags $4"
      AC_LANG_POP([$1])
     ])
 
