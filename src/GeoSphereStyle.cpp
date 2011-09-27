@@ -376,7 +376,7 @@ void GeoSphereStyle::PickTerrain(MTRand &rand)
 	}
 	// XXX override the above so you can test particular fractals XXX
 
-	m_terrainType = TERRAIN_HILLS_DUNES;
+	//m_terrainType = TERRAIN_HILLS_DUNES;
 	//m_colorType = COLOR_DESERT;
 	printf("%s: \n", m_body->name.c_str());
 	printf("|   Terrain: [%d]\n", m_terrainType);
