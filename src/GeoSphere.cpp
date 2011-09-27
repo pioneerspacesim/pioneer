@@ -31,7 +31,7 @@ SHADER_CLASS_BEGIN(GeosphereShader)
 	SHADER_UNIFORM_FLOAT(geosphereAtmosFogDensity)
 SHADER_CLASS_END()
 
-static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4], *s_geosphereStarShader;
+static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4], *s_geosphereStarShader, *s_geosphereDimStarShader[4];
 
 #pragma pack(4)
 struct VBOVertex
@@ -1050,6 +1050,10 @@ void GeoSphere::Init()
 	s_geosphereSkyShader[2] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 3\n");
 	s_geosphereSkyShader[3] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 4\n");
 	s_geosphereStarShader = new GeosphereShader("geosphere_star");
+	s_geosphereDimStarShader[0] = new GeosphereShader("geosphere_star_dim", "#define NUM_LIGHTS 1\n");
+	s_geosphereDimStarShader[1] = new GeosphereShader("geosphere_star_dim", "#define NUM_LIGHTS 2\n");
+	s_geosphereDimStarShader[2] = new GeosphereShader("geosphere_star_dim", "#define NUM_LIGHTS 3\n");
+	s_geosphereDimStarShader[3] = new GeosphereShader("geosphere_star_dim", "#define NUM_LIGHTS 4\n");
 	s_allGeospheresLock = SDL_CreateMutex();
 
 	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
@@ -1296,9 +1300,10 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			glDisable(GL_BLEND);
 		}
 
-		if ((m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) || (m_sbody->type == SBody::TYPE_BROWN_DWARF)) {
-			Render::State::UseProgram(s_geosphereStarShader);
-		}
+		if (m_sbody->type == SBody::TYPE_BROWN_DWARF) {
+			GeosphereShader *shader = s_geosphereDimStarShader[Render::State::GetNumLights()-1];
+			Render::State::UseProgram(shader);
+		} else if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) Render::State::UseProgram(s_geosphereStarShader);
 		else {
 			GeosphereShader *shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
 			Render::State::UseProgram(shader);

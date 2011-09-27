@@ -562,11 +562,11 @@ void GeoSphereStyle::PickAtmosphere()
 	  for some variation to atmosphere colours
 	 */
 	switch (m_body->type) {
-		//case SBody::SUPERTYPE_STAR:
 		case SBody::TYPE_PLANET_GAS_GIANT:
 			m_atmosColor = Color(1.0f, 1.0f, 1.0f, 0.005f);
 			m_atmosDensity = 14.0;
 			break;
+		case SBody::SUPERTYPE_STAR:
 		case SBody::TYPE_PLANET_ASTEROID:
 			m_atmosColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
 			m_atmosDensity = 0.0;
