@@ -669,6 +669,29 @@ local onShipDestroyed = function (ship, attacker)
 			spawnReplacement()
 		end
 		-- XXX consider spawning some CargoBodies if killed by a ship
+	else
+		for label, trader in pairs(trade_ships) do
+			if label ~= 'interval' and trader.attacker and trader.attacker == ship then
+				trader['attacker'] = nil
+				if trader.status == 'fleeing' then
+					-- had not reached starport yet
+					trader['status'] = 'inbound'
+				elseif trader.status == 'cowering' then
+					-- already reached starport and docked
+					trader['status'] = 'docked'
+					if trader.delay > Game.time then
+						--[[ not ready to undock, so schedule it
+						there is a slight chance that the status was changed while
+						onShipDocked was in progress so fire a bit later ]]
+						Timer:CallAt(trader.delay + 120, function () doUndock(ship) end)
+					else
+						-- ready to undock
+						doUndock(ship)
+					end
+				end
+				return
+			end
+		end
 	end
 end
 EventQueue.onShipDestroyed:Connect(onShipDestroyed)
