@@ -97,7 +97,7 @@ double GeoSphereStyle::GetHeightMapVal(const vector3d &pt)
 		v = (v<0 ? 0 : v);
 		double h = v;
 		/*
-		if (textures == true) {
+		if (textures) {
 			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, 10, rand, 10*m_fracmult);
 			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, 25, rand, 10*m_fracmult);
 		}
@@ -662,7 +662,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 	//Earth uses these fracdef settings
 	if (m_heightMap) {	
 		//textures
-		if (textures == true) {
+		if (textures) {
 			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, 10, rand, 10*m_fracmult);
 			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, 25, rand, 10*m_fracmult);
 		}
@@ -690,7 +690,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 		case TERRAIN_HILLS_NORMAL: //1
 		{
 			//textures
-			if (textures == true) {
+			if (textures) {
 				SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(5, 15), rand, 10*m_fracmult);
 				SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(20, 40), rand, 10*m_fracmult);
 			}
@@ -1952,7 +1952,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			if (continents < 0) return 0;
 			double mountain_distrib = octavenoise(m_fracdef[2], 0.5, p);
 			double mountains = ridged_octavenoise(m_fracdef[1], 0.5, p);
-			double rocks = octavenoise(m_fracdef[9], 0.5, p);
+			//double rocks = octavenoise(m_fracdef[9], 0.5, p);
 			double hill_distrib = octavenoise(m_fracdef[4], 0.5, p);
 			double hills = hill_distrib * m_fracdef[3].amplitude * billow_octavenoise(m_fracdef[3], 0.5, p);
 			double dunes = hill_distrib * m_fracdef[5].amplitude * dunes_octavenoise(m_fracdef[5], 0.5, p);
@@ -2299,9 +2299,9 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		double n = m_invMaxHeight*height;
 		double flatness = pow(p.Dot(norm), 8.0);
 		//textures:
-		double tex_rock = 0, tex_mud = 0, tex_sand = 0, tex_grass = 0, tex_forest = 0, tex_water = 0;
+		double tex_rock, tex_mud, tex_sand, tex_grass, tex_forest, tex_water;
 
-		if (textures == true) {
+		if (textures) {
 			tex_rock   =   rock;
 			tex_mud    =    mud;
 			tex_sand   =   sand;
@@ -2320,7 +2320,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			if (n > 0) {
 				// ice on mountains
 				if (flatness > 0.6/Clamp(n*m_icyness+(m_icyness*0.5)+(fabs(p.y*p.y*p.y*0.38)), 0.1, 1.0)) {
-					if (textures == true) {
+					if (textures) {
 						col = interpolate_color(tex_rock, color_cliffs, m_rockColor[5]);
 						col = interpolate_color(flatness, col, vector3d(1,1,1));
 					} else col = interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
@@ -2329,7 +2329,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 				//polar ice-caps
 				if ((m_icyness*0.5)+(fabs(p.y*p.y*p.y*0.38)) > 0.6) {
 					//if (flatness > 0.5/Clamp(fabs(p.y*m_icyness), 0.1, 1.0)) {
-					if (textures == true) {
+					if (textures) {
 						col = interpolate_color(tex_rock, color_cliffs, m_rockColor[5]);
 						col = interpolate_color(flatness, col, vector3d(1,1,1));
 					} else col = interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
@@ -2340,7 +2340,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			// ice on mountains
 			//printf("flatness : %d", flatness);
 			if (flatness > 0.6/Clamp(n*m_icyness+(m_icyness*0.5)+(fabs(p.y*p.y*p.y*0.38)), 0.1, 1.0)) {
-				if (textures == true) {
+				if (textures) {
 					col = interpolate_color(tex_rock, color_cliffs, m_rockColor[5]);
 					col = interpolate_color(flatness, col, vector3d(1,1,1));
 				} else col = interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
@@ -2349,7 +2349,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			//polar ice-caps
 			if ((m_icyness*0.5)+(fabs(p.y*p.y*p.y*0.38)) > 0.6) {
 				//if (flatness > 0.5/Clamp(fabs(p.y*m_icyness), 0.1, 1.0)) {
-				if (textures == true) {
+				if (textures) {
 					col = interpolate_color(tex_rock, color_cliffs, m_rockColor[5]);
 					col = interpolate_color(flatness, col, vector3d(1,1,1));
 				} else col = interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
@@ -2368,7 +2368,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		if (n <= 0) {
 			if (m_heightMap) {	
 				// waves
-				if (textures == true) {
+				if (textures) {
 					n += water;
 					n *= 0.1;
 				}
@@ -2389,7 +2389,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			color_cliffs = interpolate_color(n, m_darkrockColor[2], m_rockColor[4]);
 			col = interpolate_color(equatorial_desert, m_rockColor[2], m_rockColor[4]);
 			col = interpolate_color(n, col, m_darkrockColor[6]);
-			if (textures == true) {
+			if (textures) {
 				tex1 = interpolate_color(tex_rock, col, color_cliffs);
 				tex2 = interpolate_color(tex_sand, col, m_darkdirtColor[3]);
 				col = interpolate_color(flatness, tex1, tex2);
@@ -2401,7 +2401,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			color_cliffs = interpolate_color(n, m_rockColor[3], m_darkplantColor[4]);
 			col = interpolate_color(equatorial_desert, m_darkrockColor[3], m_darksandColor[1]);
 			col = interpolate_color(n, col, m_rockColor[2]);
-			if (textures == true) {
+			if (textures) {
 				tex1 = interpolate_color(tex_rock, col, color_cliffs);
 				tex2 = interpolate_color(tex_sand, col, m_darkdirtColor[3]);
 				col = interpolate_color(flatness, tex1, tex2);
@@ -2413,7 +2413,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			color_cliffs = interpolate_color(equatorial_desert, m_darkrockColor[5], m_darksandColor[7]);			
 			col = interpolate_color(equatorial_desert, m_darkplantColor[2], m_sandColor[2]);
 			col = interpolate_color(n, col, m_darkrockColor[3]);
-			if (textures == true) {
+			if (textures) {
 				tex1 = interpolate_color(tex_rock, col, color_cliffs);
 				tex2 = interpolate_color(tex_forest, col, color_cliffs);
 				col = interpolate_color(flatness, tex1, tex2);
@@ -2425,7 +2425,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			color_cliffs = m_darkdirtColor[7];
 			col = interpolate_color(equatorial_desert, m_plantColor[1], m_plantColor[0]);
 			col = interpolate_color(n, col, m_darkplantColor[2]);
-			if (textures == true) {
+			if (textures) {
 				tex1 = interpolate_color(tex_rock, col, color_cliffs);
 				tex2 = interpolate_color(tex_grass, color_cliffs, col);
 				col = interpolate_color(flatness, tex1, tex2);
@@ -2437,7 +2437,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			color_cliffs = m_dirtColor[2];
 			col = interpolate_color(equatorial_desert, m_darkplantColor[0], m_sandColor[1]);
 			col = interpolate_color(n, col, m_plantColor[0]);
-			if (textures == true) {
+			if (textures) {
 				tex1 = interpolate_color(tex_rock, col, color_cliffs);
 				tex2 = interpolate_color(tex_grass, color_cliffs, col);
 				col = interpolate_color(flatness, tex1, tex2);
@@ -2449,7 +2449,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			color_cliffs = m_darksandColor[0];
 			col = interpolate_color(equatorial_desert, m_sandColor[0], m_sandColor[1]);
 			col = interpolate_color(n, col, m_darkplantColor[0]);
-			if (textures == true) {
+			if (textures) {
 				tex1 = interpolate_color(tex_rock, col, color_cliffs);
 				tex2 = interpolate_color(tex_sand, col, color_cliffs);
 				return col = interpolate_color(flatness, tex1, tex2);
@@ -2837,8 +2837,8 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		double n = m_invMaxHeight*height;
 		double flatness = pow(p.Dot(norm), 8.0);
 		//textures:
-		double tex_rock, tex_rock2, tex_mud, tex_sand, tex_sand2, tex_grass, tex_grass2, tex_water = 0;
-		if (textures == true) {
+		double tex_rock, tex_rock2, tex_mud, tex_sand, tex_sand2, tex_grass, tex_grass2, tex_water;
+		if (textures) {
 			tex_rock   = rock;
 			tex_rock2  = rock2;
 			tex_mud    = mud;
@@ -2856,7 +2856,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		vector3d col, tex1, tex2;
 		// ice on mountains and poles
 		if (fabs(m_icyness*p.y) + m_icyness*n > 1) {
-			if (textures == true) {
+			if (textures) {
 				col = interpolate_color(tex_rock2, color_cliffs, vector3d(.9,.9,.9));
 				col = interpolate_color(flatness, col, vector3d(1,1,1));
 			} else col = interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
@@ -2878,7 +2878,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		if (n <= 0) {
 			if (m_heightMap) {	
 				// waves
-				if (textures == true) {
+				if (textures) {
 					n += water;
 					n *= 0.1;
 				}
@@ -2897,7 +2897,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			//color_cliffs = m_rockColor[1];
 			col = interpolate_color(equatorial_desert, m_rockColor[2], m_rockColor[6]);
 			col = interpolate_color(n, col, m_darkrockColor[6]);
-			if (textures == true) {
+			if (textures) {
 				tex1 = interpolate_color(tex_rock, col, color_cliffs);
 				tex2 = interpolate_color(tex_rock2, col, color_cliffs);
 				col = interpolate_color(flatness, tex1, tex2);
@@ -2909,7 +2909,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			color_cliffs = m_rockColor[3];
 			col = interpolate_color(equatorial_desert, m_darkrockColor[4], m_darksandColor[6]);
 			col = interpolate_color(n, col, m_rockColor[2]);
-			if (textures == true) {
+			if (textures) {
 				tex1 = interpolate_color(tex_rock, col, color_cliffs);
 				tex2 = interpolate_color(tex_mud, col, color_cliffs);
 				col = interpolate_color(flatness, tex1, tex2);
@@ -2922,7 +2922,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			color_cliffs = col;
 			col = interpolate_color(equatorial_desert, m_darksandColor[2], m_sandColor[2]);
 			col = interpolate_color(n, col, m_darkrockColor[3]);
-			if (textures == true) {
+			if (textures) {
 				tex1 = interpolate_color(tex_mud, col, color_cliffs);
 				tex2 = interpolate_color(tex_grass, col, color_cliffs);
 				col = interpolate_color(flatness, tex1, tex2);
@@ -2934,7 +2934,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			color_cliffs = m_darkplantColor[0];
 			col = interpolate_color(equatorial_desert, m_sandColor[1], m_sandColor[0]);
 			col = interpolate_color(n, col, m_darksandColor[2]);
-			if (textures == true) {
+			if (textures) {
 				tex1 = interpolate_color(tex_grass, col, color_cliffs);
 				tex2 = interpolate_color(tex_grass2, col, color_cliffs);
 				col = interpolate_color(flatness, tex1, tex2);
@@ -2946,7 +2946,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			color_cliffs = m_plantColor[0];
 			col = interpolate_color(equatorial_desert, m_darkplantColor[0], m_sandColor[1]);
 			col = interpolate_color(n, col, m_plantColor[0]);
-			if (textures == true) {
+			if (textures) {
 				tex1 = interpolate_color(tex_sand2, col, color_cliffs);
 				tex2 = interpolate_color(tex_grass, col, color_cliffs);
 				col = interpolate_color(flatness, tex1, tex2);
@@ -2958,7 +2958,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			color_cliffs = m_darksandColor[0];
 			col = interpolate_color(equatorial_desert, m_sandColor[0], m_sandColor[1]);
 			col = interpolate_color(n, col, m_darkplantColor[0]);
-			if (textures == true) {
+			if (textures) {
 				tex1 = interpolate_color(tex_sand, col, color_cliffs);
 				//tex2 = interpolate_color(sand2, col, color_cliffs);
 				col = interpolate_color(flatness, tex1, col);
