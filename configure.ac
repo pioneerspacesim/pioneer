@@ -40,11 +40,11 @@ dnl Add a flag, if supported by the compiler or preprocessor
 dnl Assumes that -Werror works
 AC_DEFUN([_PIONEER_COMPILER_FLAG], dnl Language, flags variable 'foo' (EXTRA_fooFLAGS), flag, $CC/$CXX/$CPP/similar, if yes, if no
     [AC_LANG_PUSH([$1])
-     saved_flags="$][$2][FLAGS"
+     saved_flags="$EXTRA_][$2][FLAGS"
      ][$2][FLAGS="$EXTRA_][$2][FLAGS $3 -Werror $][$2][FLAGS"
      AC_MSG_CHECKING([to see if $4 supports $3])
      AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[return 0;]])], [EXTRA_][$2][FLAGS="$EXTRA_][$2][FLAGS $3"; AC_MSG_RESULT([yes])]m4_default([; $5], []), [AC_MSG_RESULT([no])]m4_default([; $6], []))
-     ][$2][FLAGS="$saved_flags"
+     EXTRA_][$2][FLAGS="$saved_flags"
      AC_LANG_POP([$1])
     ])
 
