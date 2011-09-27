@@ -1300,7 +1300,8 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			glDisable(GL_BLEND);
 		}
 
-		if (m_sbody->type == SBody::TYPE_BROWN_DWARF) {
+		if ((m_sbody->type == SBody::TYPE_BROWN_DWARF) || 
+			(m_sbody->type == SBody::TYPE_STAR_M)){
 			GeosphereShader *shader = s_geosphereDimStarShader[Render::State::GetNumLights()-1];
 			Render::State::UseProgram(shader);
 		} else if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) Render::State::UseProgram(s_geosphereStarShader);
