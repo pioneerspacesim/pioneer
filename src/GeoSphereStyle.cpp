@@ -1040,10 +1040,10 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 		case COLOR_STAR_M:
 			{
 				double height = m_maxHeightInMeters*0.1;
-				SetFracDef(&m_fracdef[0], height, 2e8, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[0], height, 1e8, rand, 10.0*m_fracmult);
 				SetFracDef(&m_fracdef[1], height, 7e7, rand, 10.0*m_fracmult);
-				SetFracDef(&m_fracdef[2], height, 1e6, rand, 10.0*m_fracmult);
-				SetFracDef(&m_fracdef[3], height, 1e3, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[2], height, 3e6, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[3], height, 2e5, rand, 10.0*m_fracmult);
 			}
 		case COLOR_STAR_K:
 			{
@@ -2161,6 +2161,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			n += ridged_octavenoise(m_fracdef[3], 0.6, p) * 0.5;
 			n += 0.8*billow_octavenoise(m_fracdef[0], 0.8, noise(p*3.142)*p)*
 			 megavolcano_function(m_fracdef[1], p);
+			n *= 0.5;
 			if (n > 0.666) {
 				n -= 0.666; n *= 3.0;
 				col = interpolate_color(n, vector3d(.65, .5, .25), vector3d(1.0, 1.0, 1.0) );
