@@ -31,7 +31,7 @@ SHADER_CLASS_BEGIN(GeosphereShader)
 	SHADER_UNIFORM_FLOAT(geosphereAtmosFogDensity)
 SHADER_CLASS_END()
 
-static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4];
+static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4], *s_geosphereStarShader, *s_geosphereDimStarShader[4];
 
 #pragma pack(4)
 struct VBOVertex
@@ -328,22 +328,31 @@ public:
 	int m_depth;
 	SDL_mutex *m_kidsLock;
 	bool m_needUpdateVBOs;
+	double m_distMult;
 	
-	GeoPatch(GeoPatchContext *_ctx, vector3d v0, vector3d v1, vector3d v2, vector3d v3, int depth) {
+	GeoPatch(GeoPatchContext *_ctx, GeoSphere *gs, vector3d v0, vector3d v1, vector3d v2, vector3d v3, int depth) {
 		memset(this, 0, sizeof(GeoPatch));
 
 		ctx = _ctx;
 		ctx->IncRefCount();
 
+		geosphere = gs;
+
 		m_kidsLock = SDL_CreateMutex();
 		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
+		//depth -= Pi::detail.fracmult;
 		m_depth = depth;
 		clipCentroid = (v0+v1+v2+v3) * 0.25;
 		clipRadius = 0;
 		for (int i=0; i<4; i++) {
 			clipRadius = std::max(clipRadius, (v[i]-clipCentroid).Length());
 		}
-		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth);
+		if (geosphere->m_sbody->type < SBody::TYPE_PLANET_ASTEROID) {
+ 			m_distMult = 10 / Clamp(depth, 1, 10);
+ 		} else {
+ 			m_distMult = 5 / Clamp(depth, 1, 5);
+ 		}
+		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth) * m_distMult;
 		m_needUpdateVBOs = false;
 		normals = new vector3d[ctx->NUMVERTICES()];
 		vertices = new vector3d[ctx->NUMVERTICES()];
@@ -920,6 +929,7 @@ public:
 			canSplit = false;
 		// always split at first level
 		if (!parent) canSplit = true;
+		//printf(campos.Length());
 
 		bool canMerge = true;
 
@@ -932,10 +942,10 @@ public:
 				v23 = (v[2]+v[3]).Normalized();
 				v30 = (v[3]+v[0]).Normalized();
 				GeoPatch *_kids[4];
-				_kids[0] = new GeoPatch(ctx, v[0], v01, cn, v30, m_depth+1);
-				_kids[1] = new GeoPatch(ctx, v01, v[1], v12, cn, m_depth+1);
-				_kids[2] = new GeoPatch(ctx, cn, v12, v[2], v23, m_depth+1);
-				_kids[3] = new GeoPatch(ctx, v30, cn, v23, v[3], m_depth+1);
+				_kids[0] = new GeoPatch(ctx, geosphere, v[0], v01, cn, v30, m_depth+1);
+				_kids[1] = new GeoPatch(ctx, geosphere, v01, v[1], v12, cn, m_depth+1);
+				_kids[2] = new GeoPatch(ctx, geosphere, cn, v12, v[2], v23, m_depth+1);
+				_kids[3] = new GeoPatch(ctx, geosphere, v30, cn, v23, v[3], m_depth+1);
 				// hm.. edges. Not right to pass this
 				// edgeFriend...
 				_kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);
@@ -955,7 +965,6 @@ public:
 				_kids[3]->edgeFriend[2] = GetEdgeFriendForKid(3, 2);
 				_kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);
 				_kids[0]->parent = _kids[1]->parent = _kids[2]->parent = _kids[3]->parent = this;
-				_kids[0]->geosphere = _kids[1]->geosphere = _kids[2]->geosphere = _kids[3]->geosphere = geosphere;
 				for (int i=0; i<4; i++) _kids[i]->GenerateMesh();
 				PiVerify(SDL_mutexP(m_kidsLock)==0);
 				for (int i=0; i<4; i++) kids[i] = _kids[i];
@@ -1055,6 +1064,11 @@ void GeoSphere::Init()
 	s_geosphereSkyShader[1] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 2\n");
 	s_geosphereSkyShader[2] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 3\n");
 	s_geosphereSkyShader[3] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 4\n");
+	s_geosphereStarShader = new GeosphereShader("geosphere_star");
+	s_geosphereDimStarShader[0] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 1\n");
+	s_geosphereDimStarShader[1] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 2\n");
+	s_geosphereDimStarShader[2] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 3\n");
+	s_geosphereDimStarShader[3] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 4\n");
 	s_allGeospheresLock = SDL_CreateMutex();
 
 	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
@@ -1200,14 +1214,13 @@ void GeoSphere::BuildFirstPatches()
 	p7 = p7.Normalized();
 	p8 = p8.Normalized();
 
-	m_patches[0] = new GeoPatch(s_patchContext, p1, p2, p3, p4, 0);
-	m_patches[1] = new GeoPatch(s_patchContext, p4, p3, p7, p8, 0);
-	m_patches[2] = new GeoPatch(s_patchContext, p1, p4, p8, p5, 0);
-	m_patches[3] = new GeoPatch(s_patchContext, p2, p1, p5, p6, 0);
-	m_patches[4] = new GeoPatch(s_patchContext, p3, p2, p6, p7, 0);
-	m_patches[5] = new GeoPatch(s_patchContext, p8, p7, p6, p5, 0);
+	m_patches[0] = new GeoPatch(s_patchContext, this, p1, p2, p3, p4, 0);
+	m_patches[1] = new GeoPatch(s_patchContext, this, p4, p3, p7, p8, 0);
+	m_patches[2] = new GeoPatch(s_patchContext, this, p1, p4, p8, p5, 0);
+	m_patches[3] = new GeoPatch(s_patchContext, this, p2, p1, p5, p6, 0);
+	m_patches[4] = new GeoPatch(s_patchContext, this, p3, p2, p6, p7, 0);
+	m_patches[5] = new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0);
 	for (int i=0; i<6; i++) {
-		m_patches[i]->geosphere = this;
 		for (int j=0; j<4; j++) {
 			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]];
 		}
@@ -1310,13 +1323,20 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			glDisable(GL_BLEND);
 		}
 
-		GeosphereShader *shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
-		Render::State::UseProgram(shader);
-		shader->set_geosphereScale(scale);
-		shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
-		shader->set_geosphereAtmosFogDensity(atmosDensity);
-		shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
-		shader->set_geosphereCenter(center.x, center.y, center.z);
+		if ((m_sbody->type == SBody::TYPE_BROWN_DWARF) || 
+			(m_sbody->type == SBody::TYPE_STAR_M)){
+			GeosphereShader *shader = s_geosphereDimStarShader[Render::State::GetNumLights()-1];
+			Render::State::UseProgram(shader);
+		} else if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) Render::State::UseProgram(s_geosphereStarShader);
+		else {
+			GeosphereShader *shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
+			Render::State::UseProgram(shader);
+			shader->set_geosphereScale(scale);
+			shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
+			shader->set_geosphereAtmosFogDensity(atmosDensity);
+			shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
+			shader->set_geosphereCenter(center.x, center.y, center.z);
+		}
 	}
 	glPopMatrix();
 
@@ -1324,13 +1344,26 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 
 	const float black[4] = { 0,0,0,0 };
 	float ambient[4];// = { 0.1, 0.1, 0.1, 1.0 };
+	float emission[4] = { 0,0,0,0 };
 
 	// save old global ambient
 	float oldAmbient[4];
 	glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
 
-	// give planet some ambient lighting if the viewer is close to it
-	{
+	float b = (Render::IsHDREnabled() ? (m_sbody->type == SBody::TYPE_BROWN_DWARF ? 2.0f : 100.0f) : (Render::AreShadersEnabled() ? 2.0f : 1.5f));
+
+	if ((m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) || (m_sbody->type == SBody::TYPE_BROWN_DWARF)) {
+		// stars should emit light and terrain should be visible from distance
+		ambient[0] = ambient[1] = ambient[2] = 0.2f;
+		ambient[3] = 1.0f;
+		emission[0] = StarSystem::starRealColors[m_sbody->type][0] * 0.5f * b;
+		emission[1] = StarSystem::starRealColors[m_sbody->type][1] * 0.5f * b;
+		emission[2] = StarSystem::starRealColors[m_sbody->type][2] * 0.5f * b;
+		emission[3] = 0.5f;
+	}
+	
+	else {
+		// give planet some ambient lighting if the viewer is close to it
 		double camdist = campos.Length();
 		camdist = 0.1 / (camdist*camdist);
 		// why the fuck is this returning 0.1 when we are sat on the planet??
@@ -1339,11 +1372,11 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		ambient[0] = ambient[1] = ambient[2] = float(camdist);
 		ambient[3] = 1.0f;
 	}
-	
+
 	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, ambient);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	glMaterialfv (GL_FRONT, GL_SPECULAR, black);
-	glMaterialfv (GL_FRONT, GL_EMISSION, black);
+	glMaterialfv (GL_FRONT, GL_EMISSION, emission);
 	glEnable(GL_COLOR_MATERIAL);
 
 //	glLineWidth(1.0);
