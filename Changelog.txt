@@ -37,6 +37,8 @@ Alpha 15
     * Fix LMR stack leaks that could cause heap corruption (#555, #342, #470)
     * Fix display of co-orbital bodies in system view (#551)
     * Don't respawn bulk ships on game load (#539)
+    * Fix rare crash when NPC ship is destroyed that previously attacked the
+      player (#568)
 
   * Script changes
     * Experimental Lua console (#537)
