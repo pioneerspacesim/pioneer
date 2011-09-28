@@ -7,7 +7,7 @@ Alpha 15
     * Big mushroom station with four bays (#530)
     * New futuristic city buildings (#518, #557)
     * Four new ambient music tracks (#543)
-	* Ship drives now break down over time and require repairs (#552)
+    * Ship drives now break down over time and require repairs (#552)
     * Ship landing lights now only flash when landing gear is down or ship is
       docking (#236, #478)
     * Station landing lights now coloured to indicate occupied (red), free
