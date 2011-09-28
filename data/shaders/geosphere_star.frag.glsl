@@ -1,17 +1,14 @@
 void main(void)
 {
-	vec3 tnorm; // = normalize(vec3(gl_TexCoord[1]));
-	vec4 diff = 1.0; // = vec4(0.0);
-	
 #ifdef DIM
-	tnorm = normalize(vec3(gl_TexCoord[1]));
-	diff = vec4(0.0);
+	vec3 tnorm = normalize(vec3(gl_TexCoord[1]));
+	vec4 diff = vec4(0.0);
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		float nDotVP = max(0.0, dot(tnorm, normalize(vec3(gl_LightSource[i].position))));
 		diff += gl_LightSource[i].diffuse * nDotVP;
 	}
-//#else
-//	diff = 1.0;
+#else
+	vec4 diff = 1.0;
 #endif
 
 	gl_FragColor = diff*gl_Color + gl_LightModel.ambient*gl_Color;
