@@ -2121,7 +2121,7 @@ namespace ModelFuncs {
 	 *
 	 * Example:
 	 *
-	 *   use_material('wall')
+	 * > use_material('wall')
 	 *
 	 * Availability:
 	 *
@@ -2144,6 +2144,35 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: texture
+	 *
+	 * Apply a texture map to subsequent geometry. Additionally define
+	 * texture UV coordinates by projection.
+	 *
+	 * > texture(name, pos, uaxis, vaxis)
+	 *
+	 * Parameters:
+	 *
+	 *   name - texture file name. texture(nil) disables texture.
+	 *   pos  - vector position
+	 *   uaxis - U vector
+	 *   vaxis - V vector
+	 *
+	 * Example:
+	 *
+	 * > texture("hull.png")
+	 * > texture("wall.png", v(0,0,0), v(1,0,0), v(0,0,1))
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int texture(lua_State *L)
 	{
 		const int nargs = lua_gettop(L);
@@ -2271,6 +2300,40 @@ namespace ModelFuncs {
 		return 0;
 	}
 	
+	/*
+	 * Function: geomflag
+	 *
+	 * Set flags for subsequent geometry to affect collision detection, mostly
+	 * for space station docking bays.
+	 *
+	 * Model collision should not be disabled entirely or crashes can happen.
+	 *
+	 * > geomflag(flag)
+	 *
+	 * Parameters:
+	 *
+	 *   flag - 0x0:  remove special flag
+	 *          0x10: first docking bay
+	 *          0x11: second docking bay
+	 *          0x12: third docking bay
+	 *          0x14: fourth docking bay
+	 *          0x8000:  disable collision detection
+	 *
+	 * Example:
+	 *
+	 * > geomflag(0x14)
+	 * > extrusion(v(-100,0,0), v(-100,0,100), v(0,1,0), 1.0, v(-50,0,0), v(50,0,0), v(50,10,0), v(-50,10,0))
+	 * > geomflag(0)
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int geomflag(lua_State *L)
 	{
 		Uint16 flag = luaL_checkinteger(L, 1);
@@ -2278,6 +2341,36 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: zbias
+	 *
+	 * Fine-tune depth range. Overlapping geometry can be rendered without 
+	 * z-fighting using this parameter.
+	 *
+	 * > zbias(amount, position, normal)
+	 *
+	 * Parameters:
+	 *
+	 *   amount - adjustment value, use 0 to restore normal operation
+	 *   position - unused
+	 *   normal - unused
+	 *
+	 * Example:
+	 *
+	 * > quad(v(-1,-0.5,0),v(1,-0.5,0),v(1,0.5,0),v(-1,0.5,0))
+	 * > zbias(1.0, v(0,0,0),v(0,0,1))
+	 * > text("Some text", v(0,0,0), v(0,0,1), v(1,0,0), .2, {center=true})
+   * > zbias(0)
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int zbias(lua_State *L)
 	{
 		int amount = luaL_checkinteger(L, 1);
@@ -2311,6 +2404,34 @@ namespace ModelFuncs {
 		}
 	}
 
+	/*
+	 * Function: circle
+	 *
+	 * Circle (disc)
+	 *
+	 * > circle(steps, center, normal, up, radius)
+	 *
+	 * Parameters:
+	 *
+	 *   steps - number of vertices
+	 *   center - vector position of the center
+	 *   normal - face normal vector
+	 *   up - up direction vector
+	 *   radius - circle radius
+	 *
+	 * Example:
+	 *
+	 * > circle(8, v(0,0,0), v(0,1,0), v(0,0,1), .3)
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int circle(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
@@ -2322,6 +2443,23 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: xref_circle
+	 *
+	 * Same as <circle>, except result will be duplicated and mirrored along
+	 * the X axis.
+	 *
+	 * > xref_circle(steps, center, normal, up, radius)
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int xref_circle(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
@@ -2395,6 +2533,35 @@ namespace ModelFuncs {
 		s_curBuf->PushTri(vtxStart+5*steps, vtxStart+7*steps, vtxStart+8*steps-1);
 	}
 	
+	/*
+	 * Function: tube
+	 *
+	 * Hollow cylinder with definable wall thickness
+	 *
+	 * > tube(steps, start, end, up, innerradius, outerradius)
+	 *
+	 * Parameters:
+	 *
+	 *   steps - number of cross-section vertices
+	 *   start - start position vector
+	 *   end - end position vector
+	 *   up - up vector to affect rotation
+	 *   innerradius - inner radius
+	 *   outerradius - outer radius, must be more than inner
+	 *
+	 * Example:
+	 *
+	 * > tube(5, vec(0,0,0), vec(0,20,0), vec(0,1,0), 5.0, 8.0)
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int tube(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
@@ -2407,6 +2574,23 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: xref_tuble
+	 *
+	 * Same as <tube>, except result will be duplicated and mirrored along
+	 * the X axis.
+	 *
+	 * > xref_tube(steps, start, end, up, innerradius, outerradius)
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int xref_tube(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
