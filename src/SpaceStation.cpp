@@ -858,8 +858,9 @@ bool SpaceStation::RemoveBBAdvert(int ref)
 {
 	for (std::vector<BBAdvert>::iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
 		if (i->ref == ref) {
+			BBAdvert ad = (*i);
 			m_bbAdverts.erase(i);
-			onBulletinBoardAdvertDeleted.emit(*i);
+			onBulletinBoardAdvertDeleted.emit(ad);
 			return true;
 		}
 	return false;

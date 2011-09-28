@@ -37,10 +37,12 @@ Art:
 Music:
   Dan Bennett
   Aaron Lewis
+  Leonardo Manna
 
 Translations:
   Brian Ronald
   Piotr Gredka
+  Blaga Cosmin
 
 Thanks to those that have moved on (we hope to see you back!)
 
