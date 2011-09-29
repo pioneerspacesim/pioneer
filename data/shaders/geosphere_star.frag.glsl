@@ -8,7 +8,7 @@ void main(void)
 		diff += gl_LightSource[i].diffuse * nDotVP;
 	}
 #else
-	float diff = 1.0;
+	vec4 diff = vec4(1.0);
 #endif
 
 	gl_FragColor = diff*gl_Color + gl_LightModel.ambient*gl_Color;

@@ -11,19 +11,21 @@
 
 class InfoViewPage: public Gui::Fixed {
 public:
-	InfoViewPage(): Gui::Fixed(800, 500) {}
+	InfoViewPage(InfoView *v): Gui::Fixed(800, 500), m_infoView(v) {}
 	virtual void UpdateInfo() = 0;
+
+protected:
+	InfoView *m_infoView;
 };
 
 class MissionPage: public InfoViewPage {
 public:
-	MissionPage() {
-	};
+	MissionPage(InfoView *v) : InfoViewPage(v) {};
 
 	virtual void Show() {
 		UpdateInfo();
 		InfoViewPage::Show();
-		if (Pi::infoView) Pi::infoView->HideSpinner();
+		m_infoView->HideSpinner();
 	}
 
 	virtual ~MissionPage() {
@@ -104,12 +106,11 @@ public:
 
 class CargoPage: public InfoViewPage {
 public:
-	CargoPage() {
-	};
+	CargoPage(InfoView *v) : InfoViewPage(v) {};
 
 	virtual void Show() {
 		InfoViewPage::Show();
-		if (Pi::infoView) Pi::infoView->ShowSpinner();
+		m_infoView->ShowSpinner();
 	}
 
 	virtual void UpdateInfo() {
@@ -137,19 +138,18 @@ private:
 	void JettisonCargo(Equip::Type t) {
 		if (Pi::player->Jettison(t)) {
 			Pi::cpan->MsgLog()->Message("", stringf(Lang::JETTISONED_1T_OF_X, formatarg("commodity", EquipType::types[t].name)));
-			Pi::infoView->UpdateInfo();
+			m_infoView->UpdateInfo();
 		}
 	}
 };
 
 class PersonalPage: public InfoViewPage {
 public:
-	PersonalPage() {
-	};
+	PersonalPage(InfoView *v) : InfoViewPage(v) {};
 
 	virtual void Show() {
 		InfoViewPage::Show();
-		if (Pi::infoView) Pi::infoView->ShowSpinner();
+		m_infoView->ShowSpinner();
 	}
 
 	virtual void UpdateInfo() {
@@ -176,7 +176,7 @@ public:
 
 class ShipInfoPage: public InfoViewPage {
 public:
-	ShipInfoPage() {
+	ShipInfoPage(InfoView *v) : InfoViewPage(v) {
 		info1 = new Gui::Label("");
 		info2 = new Gui::Label("");
 		Add(info1, 40, 40);
@@ -186,7 +186,7 @@ public:
 
 	virtual void Show() {
 		InfoViewPage::Show();
-		if (Pi::infoView) Pi::infoView->ShowSpinner();
+		m_infoView->ShowSpinner();
 	}
 
 	virtual void UpdateInfo() {
@@ -274,19 +274,19 @@ InfoView::InfoView(): View(),
 
 	m_tabs = new Gui::Tabbed();
 
-	InfoViewPage *page = new ShipInfoPage();
+	InfoViewPage *page = new ShipInfoPage(this);
 	m_pages.push_back(page);
 	m_tabs->AddPage(new Gui::Label(Lang::SHIP_INFORMATION), page);
 
-	page = new PersonalPage();
+	page = new PersonalPage(this);
 	m_pages.push_back(page);
 	m_tabs->AddPage(new Gui::Label(Lang::REPUTATION), page);
 	
-	page = new CargoPage();
+	page = new CargoPage(this);
 	m_pages.push_back(page);
 	m_tabs->AddPage(new Gui::Label(Lang::CARGO), page);
 	
-	page = new MissionPage();
+	page = new MissionPage(this);
 	m_pages.push_back(page);
 	m_tabs->AddPage(new Gui::Label(Lang::MISSIONS), page);
 	
