@@ -1085,16 +1085,10 @@ CARGO_N
     Ładownia: %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
     Ślad wyjściowej chmury nadprzestrzennej
-HYPERSPACE_X_CLOUD
-    %direction tunelu nadprzestrzennego
 SHIP_MASS_N_TONNES
     Masa statku: %{mass}t
 DATE_DUE_N
     Data przybycia: %date
-ARRIVAL
-    Wylot
-DEPARTURE
-    Wlot
 SOURCE
     Punkt wyjściowy
 DESTINATION
