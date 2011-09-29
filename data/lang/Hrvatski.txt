@@ -264,7 +264,7 @@ METAL_ORE
 CARBON_ORE
     Ugljikova rudača
 CARBON_ORE_DESCRIPTION
-    Uglikova rudača (ugljen i nafta) su potrebni za sintezu mnogih korisnih kemikalija, uključujući plastiku, sintetičku hranu, ljekove i tekstil
+    Ugljikova rudača (ugljen i nafta) su potrebni za sintezu mnogih korisnih kemikalija, uključujući plastiku, sintetičku hranu, ljekove i tekstil
 METAL_ALLOYS
     Metalne legure
 PLASTICS
@@ -442,7 +442,7 @@ CLIENT
 LOCATION
     Lokacija
 DUE
-    Datum dospijeća
+    Rok
 REWARD
     Plaća
 STATUS
@@ -700,7 +700,7 @@ DISABLED_AUTOMATIC_SYSTEM_SELECTION
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
     Crpka za gorivo je aktivna. Imate sada %quantity tona vodika.
 CARGO_BAY_LIFE_SUPPORT_LOST
-    Sensors report critical cargo bay life-support conditions.
+    Senzori javljaju kritično po život opasne uvjete u prostoru za teret.
 NO_FREE_SPACE_FOR_ITEM
     Nemate slobodnog prostora za tu stavku.
 SHIP_IS_FULLY_LADEN
@@ -812,7 +812,7 @@ STAR_O_WF
 STAR_S_BH
     Zvijezdana crna rupa
 STAR_IM_BH
-    An intermediate-mass crna rupa
+    Srednje velika crna rupa
 STAR_SM_BH
     Sidrište ove galaksije
 VERY_LARGE_GAS_GIANT
@@ -970,7 +970,7 @@ MINOR_EXPORTS
 ILLEGAL_GOODS
     Ilegalna roba:
 UNEXPLORED_SYSTEM_STAR_INFO_ONLY
-    Neistražen sustav. Informacije o zvijezdi dobivene promatranjem sa teleskom, nema dostupnih informacija o planetima.
+    Neistražen sustav. Informacije o zvijezdi dobivene promatranjem teleskopom, nema dostupnih informacija o planetima.
 PLANETARY_INFO
     Podaci o planetu
 ECONOMIC_INFO
@@ -1116,7 +1116,7 @@ FINE_PAID_N
 SET_HYPERSPACE_DESTINATION_TO
     "Postavi hiperprostornu destinaciju na %system"
 NO_TARGET_SELECTED
-    Brodsko računalo: No target selected
+    Brodsko računalo: nema odabranog odredišta
 REQUEST_DOCKING_CLEARANCE
     Zatraži dopuštenje za spajanje
 AUTOPILOT_DOCK_WITH_STATION
