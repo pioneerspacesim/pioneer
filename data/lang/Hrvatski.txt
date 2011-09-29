@@ -60,7 +60,7 @@ PRICE_TO_FIT
 PRICE_TO_REMOVE
     $ za uklanjanje
 WT
-    Wt
+    Težina
 FIT
     Montiraj
 REMOVE
@@ -232,11 +232,11 @@ X_BY_X
 PLANET_DETAIL_DISTANCE
     Detalji planeta:
 CITY_DETAIL_LEVEL
-    Razina detalja grada:
+    Detalji grada:
 PLANET_TEXTURES
     Planetne teksture:
 FRACTAL_DETAIL
-    Detaljni fractala:
+    Detalji fraktala:
 CONTROLS
     Kontrole
 ENABLE_JOYSTICK
@@ -432,9 +432,9 @@ LARGE_PLASMA_ACCEL
 CLEAN
     Čist
 HYPERSPACE_ARRIVAL_CLOUD
-    Hiperprostorni dolazeći oblak
+    Dolazni hiperprostorni oblak
 HYPERSPACE_DEPARTURE_CLOUD
-    Hiperprostorni polazni oblak
+    Odlazni hiperprostorni oblak
 TYPE
     Tip
 CLIENT
@@ -1080,7 +1080,7 @@ ALT_IN_METRES
 PRESSURE_N_BAR
     P: %pressure{f.2} bar
 NO_HYPERDRIVE
-    Bez hyperdrive
+    Bez hiperpogona
 MASS_N_TONNES
     Masa: %{mass}t
 SHIELD_STRENGTH_N
@@ -1088,7 +1088,7 @@ SHIELD_STRENGTH_N
 CARGO_N
     Teret: %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
-    Trag dolazećeg hiperprostornog oblaka
+    Ostatak dolaznog hiperprostornog oblaka
 SHIP_MASS_N_TONNES
     Masa broda: %{mass}t
 DATE_DUE_N
