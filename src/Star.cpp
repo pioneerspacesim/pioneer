@@ -68,75 +68,13 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		glBegin(GL_TRIANGLE_FAN);
 		glVertex3f(pp.x,pp.y,0);
 		glColor4f(0,0,0,0);
-
-#if 0
-		const float spikerad = std::min<float>(10.0f+20000.0f*radius/viewCoords.Length(), 0.5f*float(Gui::Screen::GetHeight()));
-		{
-			/* cubic bezier with 2 (0,0,0) control points */
-			vector3f p0(0,spikerad,0), p1(spikerad,0,0);
-			float t=0.1; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = pp + (1-t)*(1-t)*(1-t)*(1-t)*p0 + t*t*t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-		{
-			vector3f p0(spikerad,0,0), p1(0,-spikerad,0);
-			float t=0.1; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = pp + (1-t)*(1-t)*(1-t)*(1-t)*p0 + t*t*t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-		{
-			vector3f p0(0,-spikerad,0), p1(-spikerad,0,0);
-			float t=0.1; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = pp + (1-t)*(1-t)*(1-t)*(1-t)*p0 + t*t*t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-		{
-			vector3f p0(-spikerad,0,0), p1(0,spikerad,0);
-			float t=0.1; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = pp + (1-t)*(1-t)*(1-t)*(1-t)*p0 + t*t*t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-#endif
 		glEnd();
 		
 		Render::State::UseProgram(0);
 		Gui::Screen::LeaveOrtho();
 		glDisable(GL_BLEND);
 
-		//We can just leave this check disabled as shader-less looks pretty good
-		//if (Render::AreShadersEnabled())
-
-
-			// shaders get you pretty spots and things
-			TerrainBody::Render(viewCoords, viewTransform);
-
-#if 0
-		else {
-			// just the plain old disc
-
-			// face the camera dammit
-			vector3d zaxis = fpos.Normalized();
-			vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
-			vector3d yaxis = zaxis.Cross(xaxis);
-			matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
-			glMultMatrixd(&rot[0]);
-
-			glDisable(GL_LIGHTING);
-			glDisable(GL_DEPTH_TEST);
-			glBegin(GL_TRIANGLE_FAN);
-			glColor4f(b*col[0],b*col[1],b*col[2],1);
-			glVertex3f(0, 0, 0);
-			for (float ang=0; ang<2*M_PI; ang+=0.1) {
-				glVertex3f(float(rad*sin(ang)), float(rad*cos(ang)), 0);
-			}
-			glVertex3f(0, float(rad), 0);
-			glEnd();
-		}
-#endif
+		TerrainBody::Render(viewCoords, viewTransform);
 	}
 
 	glPopMatrix();
