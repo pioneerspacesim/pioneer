@@ -1089,16 +1089,10 @@ CARGO_N
     Teret: %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
     Trag dolazećeg hiperprostornog oblaka
-HYPERSPACE_X_CLOUD
-    Hiperprostoring %direction oblak
 SHIP_MASS_N_TONNES
     Masa broda: %{mass}t
 DATE_DUE_N
     Datum dospiječa: %date
-ARRIVAL
-    dolazak
-DEPARTURE
-    polazak
 SOURCE
     Ishodište
 DESTINATION

@@ -1085,16 +1085,10 @@ CARGO_N
     Depozit: %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
     Rămăşiţa unui nor de sosire din hiperspaţiu
-HYPERSPACE_X_CLOUD
-    Nor hiperspaţiu %direction
 SHIP_MASS_N_TONNES
     Masa navei: %{mass}t
 DATE_DUE_N
     Data scadentă: %date
-ARRIVAL
-    sosire
-DEPARTURE
-    plecare
 SOURCE
     Origine
 DESTINATION
