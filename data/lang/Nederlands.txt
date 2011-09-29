@@ -90,7 +90,7 @@ REVERSE_ACCEL_EMPTY
 REVERSE_ACCEL_LADEN
     Achterwaartse acceleratie (beladen)
 HYPERDRIVE_FITTED
-    Hyperdrive geinstalleerd:
+    Hyperaandrijving geinstalleerd:
 HYPERSPACE_RANGE_LADEN
     Hyperspace actieradius (volledig beladen):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
@@ -382,31 +382,31 @@ SHIELD_ENERGY_BOOSTER
 SHIELD_ENERGY_BOOSTER_DESCRIPTION
     Verhoogt de ratio waarmee schilden opladen.
 DRIVE_CLASS1
-    Klasse 1 Hyperdrive
+    Klasse 1 Hyperaandrijving
 DRIVE_CLASS2
-    Klasse 2 Hyperdrive
+    Klasse 2 Hyperaandrijving
 DRIVE_CLASS3
-    Klasse 3 Hyperdrive
+    Klasse 3 Hyperaandrijving
 DRIVE_CLASS4
-    Klasse 4 Hyperdrive
+    Klasse 4 Hyperaandrijving
 DRIVE_CLASS5
-    Klasse 5 Hyperdrive
+    Klasse 5 Hyperaandrijving
 DRIVE_CLASS6
-    Klasse 6 Hyperdrive
+    Klasse 6 Hyperaandrijving
 DRIVE_CLASS7
-    Klasse 7 Hyperdrive
+    Klasse 7 Hyperaandrijving
 DRIVE_CLASS8
-    Klasse 8 Hyperdrive
+    Klasse 8 Hyperaandrijving
 DRIVE_CLASS9
-    Klasse 9 Hyperdrive
+    Klasse 9 Hyperaandrijving
 DRIVE_MIL1
-    Klasse 1 Military drive
+    Klasse 1 Militaire aandrijving
 DRIVE_MIL2
-    Klasse 2 Military drive
+    Klasse 2 Militaire aandrijving
 DRIVE_MIL3
-    Klasse 3 Military drive
+    Klasse 3 Militaire aandrijving
 DRIVE_MIL4
-    Klasse 4 Military drive
+    Klasse 4 Militaire aandrijving
 PULSECANNON_1MW
     1MW puls kanon
 PULSECANNON_DUAL_1MW
@@ -460,7 +460,7 @@ CRIMINAL_RECORD
 SHIP_INFORMATION_HEADER
     "SCHIP INFORMATIE: "
 HYPERDRIVE
-    Hyperdrive
+    Hyperaandrijving
 FREE
     Vrij
 USED
@@ -580,7 +580,7 @@ DEADLY
 ELITE
     ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
-    Bezig met simuleren evolutie universum: %age{f.1} biljoen jaar ;-)
+    Bezig met simuleren evolutie van het universum: %age{f.1} biljoen jaar ;-)
 TOMBSTONE_EPITAPH
     RIP OUDE KNAR
 MM_START_NEW_GAME_EARTH
@@ -670,7 +670,7 @@ X_CANNOT_BE_TOLERATED_HERE
 SECTOR_X_Y_Z
     Sector: %x,%y,%z
 CURRENT_SYSTEM
-    Huidige systeem
+    Huidig systeem
 SELECTED_SYSTEM
     Geselecteerd systeem
 HYPERSPACE_TARGET
@@ -718,19 +718,19 @@ NAVIGATION_STAR_MAPS
 COMMS
     Communicatie
 GALAXY_SECTOR_VIEW
-    Overzicht Sector (melkweg)
+    Sector-overzicht (melkwegstelsels)
 SYSTEM_ORBIT_VIEW
-    Overzicht Omloopbaan (systeem)
+    Systeem-overzicht (omloopbanen)
 STAR_SYSTEM_INFORMATION
-    Sterrenstelsel informatie
+    Sterrenstelsel-overzicht
 GALACTIC_VIEW
-    Galacticsh overzicht
+    Galactisch overzicht
 NO_ALERT
     Geen alarm
 SHIP_NEARBY
     Schip nabij
 DOCKING_CLEARANCE_EXPIRED
-    Dok-permissie verlopen. Als u wil dokken moet u uw verzoek opnieuw indienen.
+    Aanmeer-permissie verlopen. Als u wil aanmeren moet u uw verzoek opnieuw indienen.
 MESSAGE_FROM_X
     Boodschap van %sender:
 SELECT_A_TARGET
@@ -792,7 +792,7 @@ STAR_B_SUPER_GIANT
 STAR_O_SUPER_GIANT
     Hete Blauwe reus, super gigant
 STAR_M_HYPER_GIANT
-    Rode reus, hyper gigantr
+    Rode reus, hyper gigant
 STAR_K_HYPER_GIANT
     Oranje reus, hyper gigant - Onstabiel
 STAR_G_HYPER_GIANT
@@ -830,9 +830,9 @@ MASSIVE
 LARGE
     Grote
 TINY
-    Kleine
-SMALL
     Miniscule
+SMALL
+    Kleine
 COMMA_HIGHLY_VOLCANIC
     , hoog vulcanisch
 HIGHLY_VOLCANIC
@@ -1008,7 +1008,7 @@ SYSTEM_NUMBER
 NAME
     Naam
 ROTATIONAL_PERIOD
-     " (rotatie periode)"
+     " (rotatie-periode)"
 RADIUS
     Radius
 SEMI_MAJOR_AXIS
@@ -1080,7 +1080,7 @@ ALT_IN_METRES
 PRESSURE_N_BAR
     P: %pressure{f.2} bar
 NO_HYPERDRIVE
-    Geen hyperdrive
+    Geen hyperaandrijving
 MASS_N_TONNES
     Massa: %{mass}t
 SHIELD_STRENGTH_N
