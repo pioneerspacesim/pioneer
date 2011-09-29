@@ -13,7 +13,7 @@ Alpha 15
       docking (#236, #478)
     * Station landing lights now coloured to indicate occupied (red), free
       (orange) and cleared for docking (green) (#4, #489, #498)
-    * Romanian translation (#565)
+    * Romanian, Dutch and Italian translation (#565, #571)
 
   * Minor changes and tweaks
     * Landed and docked ships will no longer cause alerts (#454, #466)
