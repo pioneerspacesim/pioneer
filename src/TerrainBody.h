@@ -22,6 +22,9 @@ public:
 	double GetTerrainHeight(const vector3d pos) const;
 	bool IsSuperType(SBody::BodySuperType t) const;
 	virtual const SBody *GetSBody() const { return m_sbody; }
+	double GetMaxFeatureRadius() {			// returns value in metres
+		return (m_geosphere->GetMaxFeatureHeight() + 1.0) * m_sbody->GetRadius();
+	}	
 
 protected:
 	TerrainBody(SBody*);

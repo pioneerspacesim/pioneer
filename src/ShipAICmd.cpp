@@ -589,9 +589,8 @@ bool AICmdKill::TimeStepUpdate()
 static double MaxFeatureRad(Body *body)
 {
 	if(!body) return 0.0;
-	if(!body->IsType(Object::PLANET)) return body->GetBoundingRadius();
-	double maxfeat = static_cast<Planet *>(body)->GetGeosphere()->GetMaxFeatureHeight();
-	return (maxfeat + 1.0) * static_cast<Planet *>(body)->GetSBody()->GetRadius();
+	if(!body->IsType(Object::TERRAINBODY)) return body->GetBoundingRadius();
+	return static_cast<TerrainBody *>(body)->GetMaxFeatureRadius();
 }
 
 static double MaxEffectRad(Body *body)
@@ -661,6 +660,7 @@ static bool CheckCollision(Ship *obj1, Body *obj2, vector3d &targpos)
 		double time = sqrt(2 * p1.Length() / acc);
 		r += perpvel * 2 * time;
 	}
+	if (p2.LengthSqr() < r*r) return true;				// end point within expanded radius
 	return (tan.LengthSqr() < r*r) ? true : false;		// closest point within radius?
 }
 
@@ -711,7 +711,7 @@ static AICommand *CheckCollisions(Ship *ship, Frame *targframe, vector3d &posoff
 		double dist = ship->GetPosition().Length();
 		if (maxfeat > dist) {
 			vector3d newtarg = ship->GetPosition() * (maxfeat+100.0) / dist;
-			return new AICmdFlyTo(ship, shipframe, newtarg, 10.0, 0, false);
+			return new AICmdFlyTo(ship, shipframe, newtarg, 1000.0, 0, false);
 		}
 	}
 
@@ -1055,12 +1055,21 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int targmod
 	double minthrust = m_ship->GetMaxThrust(vector3d(0.0)).x;
 	if (vel < 1e-30) m_vel = sqrt((obstructor->GetMass()*G + 0.8*minthrust) / m_alt);
 
-	// check if too far away or velocity too high
 	Frame *obsframe = obstructor->GetFrame();
 	if (obstructor->HasDoubleFrame()) obsframe = obsframe->m_parent;
 	vector3d pos = m_ship->GetPositionRelTo(obsframe);
-	vector3d cvel = m_ship->GetVelocityRelTo(obsframe);
-	if (pos.Dot(pos) < 1.21*m_alt*m_alt && cvel.Dot(cvel) < 1.21*m_vel*m_vel) return;
+
+	// planet suicide check
+	vector3d maxacc = m_ship->GetMaxThrust(vector3d(1,1,-1)) / m_ship->GetMass();
+	double curalt = pos.Length() - MaxFeatureRad(m_obstructor);
+	double dirvel = pos.Normalized().Dot(m_ship->GetVelocityRelTo(obsframe));
+	if (dirvel < 0 && dirvel*dirvel > 2*maxacc.x*curalt) {
+		m_child = new AICmdFlyTo(m_ship, obsframe, pos, 0.0, 5, false);
+		return;
+	}
+
+	// if close, just use flyaround to reach alt
+	if (pos.Dot(pos) < 1.21*m_alt*m_alt) return;
 
 	// make tangent in non-rotating frame
 	vector3d tangent = GenerateTangent(m_ship, obsframe, Targpos());
