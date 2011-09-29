@@ -1142,6 +1142,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 		case COLOR_TFGOOD:
 		case COLOR_TFPOOR:
 		case COLOR_BANDED_ROCK:
+		default:
 			{
 				break;
 			}
