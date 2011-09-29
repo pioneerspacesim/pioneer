@@ -44,6 +44,7 @@ Translations:
   Blaga Cosmin
   Vincent Teerling
   Alessandro Giachi
+  Paul Mahol
 
 Thanks to those that have moved on (we hope to see you back!)
 
