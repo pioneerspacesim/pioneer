@@ -4,7 +4,6 @@
 #include "Pi.h"
 #include "WorldView.h"
 #include "Space.h"
-#include "SpaceStation.h"
 #include "Serializer.h"
 #include "collider/collider.h"
 #include "Sfx.h"
@@ -29,9 +28,6 @@
 void Ship::Save(Serializer::Writer &wr)
 {
 	DynamicBody::Save(wr);
-	MarketAgent::Save(wr);
-	wr.Int32(Serializer::LookupBody(m_combatTarget));
-	wr.Int32(Serializer::LookupBody(m_navTarget));
 	wr.Vector3d(m_angThrusters);
 	wr.Vector3d(m_thrusters);
 	wr.Int32(m_wheelTransition);
@@ -64,10 +60,7 @@ void Ship::Save(Serializer::Writer &wr)
 void Ship::Load(Serializer::Reader &rd)
 {
 	DynamicBody::Load(rd);
-	MarketAgent::Load(rd);
 	// needs fixups
-	m_combatTargetIndex = rd.Int32();
-	m_navTargetIndex = rd.Int32();
 	m_angThrusters = rd.Vector3d();
 	m_thrusters = rd.Vector3d();
 	m_wheelTransition = rd.Int32();
@@ -97,6 +90,8 @@ void Ship::Load(Serializer::Reader &rd)
 	m_stats.shield_mass_left = rd.Float();
 	if(rd.Int32()) m_curAICmd = AICommand::Load(rd);
 	else m_curAICmd = 0;
+
+	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
 
 void Ship::Init()
@@ -111,8 +106,6 @@ void Ship::Init()
 
 void Ship::PostLoadFixup()
 {
-	m_combatTarget = Serializer::LookupBody(m_combatTargetIndex);
-	m_navTarget = Serializer::LookupBody(m_navTargetIndex);
 	m_dockedWith = reinterpret_cast<SpaceStation*>(Serializer::LookupBody(m_dockedWithIndex));
 	if (m_curAICmd) m_curAICmd->PostLoadFixup();
 }
@@ -128,8 +121,6 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_wheelState = 0;
 	m_dockedWith = 0;
 	m_dockedWithPort = 0;
-	m_navTarget = 0;
-	m_combatTarget = 0;
 	m_shipFlavour = ShipFlavour(shipType);
 	m_thrusters.x = m_thrusters.y = m_thrusters.z = 0;
 	m_angThrusters.x = m_angThrusters.y = m_angThrusters.z = 0;
@@ -144,6 +135,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_ecmRecharge = 0;
 	SetLabel(m_shipFlavour.regid);
 	m_curAICmd = 0;
+	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
 	Init();	
 }
@@ -192,7 +184,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 				if (attacker->IsType(Object::BODY)) {
 					// XXX remove this call. kill stuff (including elite rating) should be in a script
 					static_cast<Body*>(attacker)->OnHaveKilled(this);
-					Pi::luaOnShipDestroyed.Queue(this, dynamic_cast<Body*>(attacker));
+					Pi::luaOnShipDestroyed->Queue(this, dynamic_cast<Body*>(attacker));
 				}
 
 				if (attacker->IsType(Object::SHIP))
@@ -250,7 +242,7 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 		b->IsType(Object::STAR) ||
 		b->IsType(Object::CARGOBODY))
 	{
-		Pi::luaOnShipCollided.Queue(this,
+		Pi::luaOnShipCollided->Queue(this,
 			b->IsType(Object::CITYONPLANET) ? dynamic_cast<CityOnPlanet*>(b)->GetPlanet() : dynamic_cast<Body*>(b));
 	}
 
@@ -314,7 +306,7 @@ const shipstats_t *Ship::CalcStats()
 	m_stats.free_capacity = m_stats.max_capacity - m_stats.used_capacity;
 	m_stats.total_mass = m_stats.used_capacity + stype.hullMass;
 
-	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR));
+	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR));
 
 	if (stype.equipSlotCapacity[Equip::SLOT_ENGINE]) {
 		Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
@@ -419,7 +411,7 @@ Ship::HyperjumpStatus Ship::StartHyperspaceCountdown(const SystemPath &dest)
 		return status;
 	
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-	m_hyperspace.countdown = 1 + EquipType::types[t].pval;
+	m_hyperspace.countdown = 1.0f + EquipType::types[t].pval;
 	m_hyperspace.now = false;
 
 	return Ship::HYPERJUMP_OK;
@@ -527,7 +519,7 @@ void Ship::Blastoff()
 	SetPosition(up*planetRadius - aabb.min.y*up);
 	SetThrusterState(1, 1.0);		// thrust upwards
 
-	Pi::luaOnShipTakeOff.Queue(this, GetFrame()->m_astroBody);
+	Pi::luaOnShipTakeOff->Queue(this, GetFrame()->m_astroBody);
 }
 
 void Ship::TestLanded()
@@ -575,7 +567,7 @@ void Ship::TestLanded()
 				ClearThrusterState();
 				m_flightState = LANDED;
 				Sound::PlaySfx("Rough_Landing", 1.0f, 1.0f, 0);
-				Pi::luaOnShipLanded.Queue(this, GetFrame()->GetBodyFor());
+				Pi::luaOnShipLanded->Queue(this, GetFrame()->GetBodyFor());
 			}
 		}
 	}
@@ -656,7 +648,7 @@ void Ship::UpdateAlertState()
 		// clear existing alert state if there was one
 		if (GetAlertState() != ALERT_NONE) {
 			SetAlertState(ALERT_NONE);
-			Pi::luaOnShipAlertChanged.Queue(this, LuaConstants::GetConstantString(Pi::luaManager.GetLuaState(), "ShipAlertStatus", ALERT_NONE));
+			Pi::luaOnShipAlertChanged->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipAlertStatus", ALERT_NONE));
 		}
 		return;
 	}
@@ -668,6 +660,8 @@ void Ship::UpdateAlertState()
 		if (!(*i)->IsType(Object::SHIP) || (*i)->IsType(Object::MISSILE)) continue;
 
 		Ship *ship = static_cast<Ship*>(*i);
+
+		if (ship->GetFlightState() == LANDED || ship->GetFlightState() == DOCKED) continue;
 
 		if (GetPositionRelTo(ship).LengthSqr() < 100000.0*100000.0) {
 			ship_is_near = true;
@@ -725,7 +719,7 @@ void Ship::UpdateAlertState()
 	}
 
 	if (changed)
-		Pi::luaOnShipAlertChanged.Queue(this, LuaConstants::GetConstantString(Pi::luaManager.GetLuaState(), "ShipAlertStatus", GetAlertState()));
+		Pi::luaOnShipAlertChanged->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipAlertStatus", GetAlertState()));
 }
 
 void Ship::StaticUpdate(const float timeStep)
@@ -758,8 +752,10 @@ void Ship::StaticUpdate(const float timeStep)
 					double rate = speed*density*0.00001f;
 					if (Pi::rng.Double() < rate) {
 						m_equipment.Add(Equip::HYDROGEN);
-						Pi::Message(stringf(Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
+						if (this == reinterpret_cast<Ship*>(Pi::player)) {
+							Pi::Message(stringf(Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
 									formatarg("quantity", m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN))));
+						}
 						UpdateMass();
 					}
 				}
@@ -778,7 +774,9 @@ void Ship::StaticUpdate(const float timeStep)
 			
 			if (m_equipment.Remove(t, 1)) {
 				m_equipment.Add(Equip::FERTILIZER);
-				Pi::Message(Lang::CARGO_BAY_LIFE_SUPPORT_LOST);
+				if (this == reinterpret_cast<Ship*>(Pi::player)) {
+					Pi::Message(Lang::CARGO_BAY_LIFE_SUPPORT_LOST);
+				}
 			}
 		}
 	}
@@ -858,10 +856,6 @@ void Ship::StaticUpdate(const float timeStep)
 
 void Ship::NotifyDeleted(const Body* const deletedBody)
 {
-	if(GetNavTarget() == deletedBody)
-		SetNavTarget(0);
-	if(GetCombatTarget() == deletedBody)
-		SetCombatTarget(0);
 	if (m_curAICmd) m_curAICmd->OnDeleted(deletedBody);
 }
 
@@ -915,20 +909,6 @@ bool Ship::SetWheelState(bool down)
 	if (float_equal_exact(m_wheelState, down ? 1.0f : 0.0f)) return false;
 	m_wheelTransition = (down ? 1 : -1);
 	return true;
-}
-
-void Ship::SetNavTarget(Body* const target)
-{
-	m_navTarget = target;
-	Pi::onPlayerChangeTarget.emit();
-	Sound::PlaySfx("OK");
-}
-
-void Ship::SetCombatTarget(Body* const target)
-{
-	m_combatTarget = target;
-	Pi::onPlayerChangeTarget.emit();
-	Sound::PlaySfx("OK");
 }
 
 #if 0
@@ -996,6 +976,8 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		for (int i=0; i<8; i++) {
 			params.argDoubles[12+i] = double(m_equipment.Get(Equip::SLOT_MISSILE, i));
 		}
+		params.argDoubles[20] = m_flightState;
+
 		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 		RenderLmrModel(viewCoords, viewTransform);
 
@@ -1052,6 +1034,7 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 bool Ship::Jettison(Equip::Type t)
 {
 	if (m_flightState != FLYING) return false;
+	if (t == Equip::NONE) return false;
 	Equip::Slot slot = EquipType::types[int(t)].slot;
 	if (m_equipment.Count(slot, t) > 0) {
 		m_equipment.Remove(t, 1);
@@ -1068,7 +1051,7 @@ bool Ship::Jettison(Equip::Type t)
 		cargo->SetVelocity(GetVelocity()+rot*vector3d(0,-10,0));
 		Space::AddBody(cargo);
 
-		Pi::luaOnJettison.Queue(this, cargo);
+		Pi::luaOnJettison->Queue(this, cargo);
 
 		return true;
 	} else {
@@ -1076,10 +1059,16 @@ bool Ship::Jettison(Equip::Type t)
 	}
 }
 
+void Ship::OnEquipmentChange(Equip::Type e)
+{
+	Pi::luaOnShipEquipmentChanged->Queue(this, LuaConstants::GetConstantString("EquipType", e));
+}
+
 void Ship::UpdateFlavour(const ShipFlavour *f)
 {
 	assert(f->type == m_shipFlavour.type);
 	m_shipFlavour = *f;
+	Pi::luaOnShipFlavourChanged->Queue(this);
 }
 
 /*
@@ -1091,6 +1080,7 @@ void Ship::ResetFlavour(const ShipFlavour *f)
 	m_equipment.InitSlotSizes(f->type);
 	SetLabel(f->regid);
 	Init();
+	Pi::luaOnShipFlavourChanged->Queue(this);
 }
 
 float Ship::GetWeakestThrustersForce() const
@@ -1101,46 +1091,4 @@ float Ship::GetWeakestThrustersForce() const
 		val = std::min(val, fabsf(type.linThrust[i]));
 	}
 	return val;
-}
-
-/* MarketAgent shite */
-void Ship::Bought(Equip::Type t) {
-	m_equipment.Add(t);
-	UpdateMass();
-}
-void Ship::Sold(Equip::Type t) {
-	m_equipment.Remove(t, 1);
-	UpdateMass();
-}
-bool Ship::CanBuy(Equip::Type t, bool verbose) const {
-	Equip::Slot slot = EquipType::types[int(t)].slot;
-	bool freespace = (m_equipment.FreeSpace(slot)!=0);
-	bool freecapacity = (m_stats.free_capacity >= EquipType::types[int(t)].mass);
-	if (verbose && (this == reinterpret_cast<Ship*>(Pi::player))) {
-		if (!freespace) {
-			Pi::Message(Lang::NO_FREE_SPACE_FOR_ITEM);
-		}
-		else if (!freecapacity) {
-			Pi::Message(Lang::SHIP_IS_FULLY_LADEN);
-		}
-	}
-	return (freespace && freecapacity);
-}
-bool Ship::CanSell(Equip::Type t, bool verbose) const {
-	Equip::Slot slot = EquipType::types[int(t)].slot;
-	bool cansell = (m_equipment.Count(slot, t) > 0);
-	if (verbose && (this == reinterpret_cast<Ship*>(Pi::player))) {
-		if (!cansell) {
-			Pi::Message(stringf(Lang::YOU_DO_NOT_HAVE_ANY_X, formatarg("item", EquipType::types[int(t)].name)));
-		}
-	}
-	return cansell;
-}
-Sint64 Ship::GetPrice(Equip::Type t) const {
-	if (m_dockedWith) {
-		return m_dockedWith->GetPrice(t);
-	} else {
-		assert(0);
-		return 0;
-	}
 }

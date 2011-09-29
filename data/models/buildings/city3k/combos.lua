@@ -1,3 +1,4 @@
+--[[
 function combo_sub(lod,type,r,g,b,a,sr,sg,sb,sl)
 	set_material('default',r,g,b,a,sr,sg,sb,sl)
 	set_material('fce_glow', 0,0,0,.9,0,0,0,0,1.5,2,.7)
@@ -192,3 +193,4 @@ define_model('combo_tri_i', {
 			call_model('combo_g_i', v(0,0,-14),v(-1,0,0),v(0,1,0),1)
 	end
 })
+--]]

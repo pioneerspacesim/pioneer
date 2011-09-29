@@ -28,7 +28,7 @@ ARG_SHIP_EQUIP_MISSILE4 = 16
 ARG_SHIP_EQUIP_MISSILE5 = 17
 ARG_SHIP_EQUIP_MISSILE6 = 18
 ARG_SHIP_EQUIP_MISSILE7 = 19
-ARG_SHIP_EQUIP_MISSILE8 = 20
+ARG_SHIP_FLIGHT_STATE = 20
 
 
 -- First some useful utility functions! :D
@@ -179,7 +179,7 @@ define_model('test', {
 		xref_cylinder(16, v(-8,0,0), v(-8,5,0), v(1,0,0), math.abs(math.sin(poo)))
 		circle(9, v(5*math.sin(poo),5*math.cos(poo),0), v(0,0,1), v(1,0,0), 1.0)
 
-		local ang = 2*math.pi*get_arg(0)
+		local ang = 2*math.pi*get_arg(ARG_SHIP_WHEEL_STATE)
 		--call_model("blob", v(0,0,-20), v(1,0,0), v(1,1,0),1.0)
 		billboard('smoke.png', 5, v(.5,.5,1), { v(0,0,0), v(10,3,0) })
 	end

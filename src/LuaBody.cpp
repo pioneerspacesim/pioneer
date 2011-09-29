@@ -267,7 +267,7 @@ static int l_body_is_dynamic(lua_State *l)
  *
  * Returns:
  *
- *   dist - distance between the two bodies in km
+ *   dist - distance between the two bodies in meters
  *
  * Availability:
  *

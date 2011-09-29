@@ -1,3 +1,4 @@
+--[[
 define_model('boringHighrise', {
 	info = {
 		bounding_radius=200,
@@ -57,3 +58,4 @@ define_model('boringHighrise', {
 		end
 	end
 })
+--]]

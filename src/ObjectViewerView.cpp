@@ -81,18 +81,24 @@ void ObjectViewerView::Draw3D()
 
 	Render::State::SetZnearZfar(znear, zfar);
 
-	if (Pi::MouseButtonState(3)) {
+	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int m[2];
 		Pi::GetMouseMotion(m);
 		m_camRot = matrix4x4d::RotateXMatrix(-0.002*m[1]) *
 				matrix4x4d::RotateYMatrix(-0.002*m[0]) * m_camRot;
 	}
 		
-	float lightPos[4] = { .577, .577, .577, 0 };
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-	
 	Body *body = Pi::player->GetNavTarget();
 	if (body) {
+		float lightPos[4];
+		if (body->IsType(Object::STAR))
+			lightPos[0] = lightPos[1] = lightPos[2] = lightPos[3] = 0;
+		else {
+			lightPos[0] = lightPos[1] = lightPos[2] = 0.577f;
+			lightPos[3] = 0;
+		}
+		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+	
 		body->Render(vector3d(0,0,-viewingDist), m_camRot);
 	}
 }
@@ -118,15 +124,15 @@ void ObjectViewerView::Update()
 		if (body->IsType(Object::PLANET)) {
 			Planet *planet = static_cast<Planet*>(body);
 			const SBody *sbody = planet->GetSBody();
-			m_sbodyVolatileGas->SetText(stringf_old(64, "%.3f", sbody->m_volatileGas.ToFloat()));
-			m_sbodyVolatileLiquid->SetText(stringf_old(64, "%.3f", sbody->m_volatileLiquid.ToFloat()));
-			m_sbodyVolatileIces->SetText(stringf_old(64, "%.3f", sbody->m_volatileIces.ToFloat()));
-			m_sbodyLife->SetText(stringf_old(64, "%.3f", sbody->m_life.ToFloat()));
-			m_sbodyVolcanicity->SetText(stringf_old(64, "%.3f", sbody->m_volcanicity.ToFloat()));
-			m_sbodyMetallicity->SetText(stringf_old(64, "%.3f", sbody->m_metallicity.ToFloat()));
-			m_sbodySeed->SetText(stringf_old(64, "%d", sbody->seed));
-			m_sbodyMass->SetText(stringf_old(64, "%f", sbody->mass.ToFloat()));
-			m_sbodyRadius->SetText(stringf_old(64, "%f", sbody->radius.ToFloat()));
+			m_sbodyVolatileGas->SetText(stringf("%0{f.3}", sbody->m_volatileGas.ToFloat()));
+			m_sbodyVolatileLiquid->SetText(stringf("%0{f.3}", sbody->m_volatileLiquid.ToFloat()));
+			m_sbodyVolatileIces->SetText(stringf("%0{f.3}", sbody->m_volatileIces.ToFloat()));
+			m_sbodyLife->SetText(stringf("%0{f.3}", sbody->m_life.ToFloat()));
+			m_sbodyVolcanicity->SetText(stringf("%0{f.3}", sbody->m_volcanicity.ToFloat()));
+			m_sbodyMetallicity->SetText(stringf("%0{f.3}", sbody->m_metallicity.ToFloat()));
+			m_sbodySeed->SetText(stringf("%0{d}", sbody->seed));
+			m_sbodyMass->SetText(stringf("%0{f}", sbody->mass.ToFloat()));
+			m_sbodyRadius->SetText(stringf("%0{f}", sbody->radius.ToFloat()));
 		}
 	}
 	snprintf(buf, sizeof(buf), "View dist: %s     Object: %s", format_distance(viewingDist).c_str(), (body ? body->GetLabel().c_str() : "<none>"));
@@ -165,7 +171,7 @@ void ObjectViewerView::OnChangeGeoSphereStyle()
 	Body *body = Pi::player->GetNavTarget();
 	if (body->IsType(Object::PLANET)) {
 		Planet *planet = static_cast<Planet*>(body);
-		GeoSphere *gs = planet->m_geosphere;
+		GeoSphere *gs = planet->GetGeoSphere();
 		gs->m_style = GeoSphereStyle(&sbody);
 		// force rebuild
 		gs->OnChangeDetailLevel();

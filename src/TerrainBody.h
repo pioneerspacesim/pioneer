@@ -1,0 +1,45 @@
+#ifndef _TERRAINBODY_H
+#define _TERRAINBODY_H
+
+#include "Body.h"
+#include "StarSystem.h"
+
+class Frame;
+class GeoSphere;
+
+class TerrainBody : public Body {
+public:
+	OBJDEF(TerrainBody, Body, TERRAINBODY);
+
+	virtual void SetPosition(vector3d pos) { m_pos = pos; }
+	virtual vector3d GetPosition() const { return m_pos; }
+	virtual double GetBoundingRadius() const;
+	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void SubRender(const vector3d &camPos) {}
+	virtual void SetFrame(Frame *f);
+	virtual bool OnCollision(Object *b, Uint32 flags, double relVel) { return true; }
+	virtual double GetMass() const { return m_mass; }
+	double GetTerrainHeight(const vector3d pos) const;
+	bool IsSuperType(SBody::BodySuperType t) const;
+	virtual const SBody *GetSBody() const { return m_sbody; }
+
+protected:
+	TerrainBody(SBody*);
+	TerrainBody();
+	virtual ~TerrainBody();
+
+	void InitTerrainBody(SBody *);
+
+	GeoSphere *GetGeoSphere() const { return m_geosphere; }
+
+	virtual void Save(Serializer::Writer &wr);
+	virtual void Load(Serializer::Reader &rd);
+
+private:
+	SBody *m_sbody;
+	vector3d m_pos;
+	double m_mass;
+	GeoSphere *m_geosphere;
+};
+
+#endif

@@ -82,7 +82,7 @@ inline int isfinite(double x) { return _finite(x); }
 #include "FloatComparison.h"
 
 #ifdef NDEBUG 
-#define	PiVerify(x) x
+#define	PiVerify(x) ((void)(x))
 #else
 #define PiVerify(x) assert(x)
 #endif

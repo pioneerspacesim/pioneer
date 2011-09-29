@@ -2,6 +2,7 @@
 #define _INICONFIG_H
 
 #include "libs.h"
+#include "StringF.h"
 #include <map>
 #include <string>
 
@@ -11,10 +12,10 @@ public:
 	bool Save();
 
 	void SetInt(const char *key, int val) {
-		(*this)[key] = stringf_old(64, "%d", val);
+		(*this)[key] = stringf("%0{d}", val);
 	}
 	void SetFloat(const char *key, float val) {
-		(*this)[key] = stringf_old(64, "%f", val);
+		(*this)[key] = stringf("%0{f}", val);
 	}
 	void SetString(const char *key, const char *val) {
 		(*this)[key] = val;

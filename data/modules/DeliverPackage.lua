@@ -83,7 +83,7 @@ local delivery_flavours = {
 	},
 	{
 		adtext = "INTER-PLANETARY CARGO. Freight of local cargo to {starport}.",
-		introtext = "Hello. We need these crates delivered to {starport} as soon as possible. Standard rate for this is shipment is {cash}.",
+		introtext = "Hello. We need these crates delivered to {starport} as soon as possible. Standard payment for this shipment is {cash}.",
 		whysomuchtext = "Standard rates, we work with the market.",
 		successmsg = "Excellent, we've credited the funds into your account.",
 		failuremsg = "Our customers are not going to be happy with this. Do not expect to be paid.",
@@ -232,11 +232,12 @@ local makeAdvert = function (station)
 		nearbysystem = Game.system
 		local nearbystations = Game.system:GetStationPaths()
 		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
+		if location ==  station.path then return end
 		local locdist = Space.GetBody(location.bodyIndex)
-		local dist = Game.player:DistanceTo(locdist)
+		local dist = station:DistanceTo(locdist)
 		if dist < 1000 then return end
 		reward = 25 + (math.sqrt(dist) / 15000) * (1+urgency)
-		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(0.8,3.5) - urgency))
+		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(1.5,3.5) - urgency))
 	else
 		local nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
 		if #nearbysystems == 0 then return end
@@ -282,9 +283,11 @@ end
 
 local onUpdateBB = function (station)
 	for ref,ad in pairs(ads) do
-		if (ad.localdelivery == 0 and ad.due < Game.time + 5*60*60*24) then -- five day timeout for inter-system
+		if delivery_flavours[ad.flavour].localdelivery == 0
+			and ad.due < Game.time + 5*60*60*24 then -- five day timeout for inter-system
 			ad.station:RemoveAdvert(ref)
-		elseif (ad.localdelivery == 1 and ad.due < Game.time + 2*60*60*24) then -- two day timeout for locals
+		elseif delivery_flavours[ad.flavour].localdelivery == 1
+			and ad.due < Game.time + 2*60*60*24 then -- two day timeout for locals
 			ad.station:RemoveAdvert(ref)
 		end
 	end
@@ -347,6 +350,11 @@ local onEnterSystem = function (player)
 				UI.ImportantMessage(pirate_greeting, ship.label)
 			end
 		end
+
+		if not mission.status and Game.time > mission.due then
+			mission.status = 'FAILED'
+			player:UpdateMission(ref, mission)
+		end
 	end
 end
 
@@ -367,7 +375,7 @@ local onShipDocked = function (player, station)
 			player:RemoveMission(ref)
 			missions[ref] = nil
 
-		elseif Game.time > mission.due then
+		elseif not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
 			player:UpdateMission(ref, mission)
 		end

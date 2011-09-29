@@ -611,8 +611,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 			//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
 			double radius;
 			vector3d surface_pos = Pi::player->GetPosition().Normalized();
-			if (astro->IsType(Object::PLANET)) {
-				radius = static_cast<Planet*>(astro)->GetTerrainHeight(surface_pos);
+			if (astro->IsType(Object::TERRAINBODY)) {
+				radius = static_cast<TerrainBody*>(astro)->GetTerrainHeight(surface_pos);
 			} else {
 				// XXX this is an improper use of GetBoundingRadius
 				// since it is not a surface radius
@@ -688,7 +688,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_hudTargetHullIntegrity->Show();
 
 			float sShields = 0;
-			if (s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR) > 0) {
+			if (s->m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR) > 0) {
 				sShields = s->GetPercentShields();
 			}
 			m_hudTargetShieldIntegrity->SetColor(get_color_for_warning_meter_bar(sShields));
@@ -711,7 +711,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats->total_mass));
 			text += "\n";
 			text += stringf(Lang::SHIELD_STRENGTH_N, formatarg("shields",
-				(sShields*0.01f) * float(s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR))));
+				(sShields*0.01f) * float(s->m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR))));
 			text += "\n";
 			text += stringf(Lang::CARGO_N, formatarg("mass", stats->used_cargo));
 			text += "\n";
@@ -784,7 +784,7 @@ void WorldView::Update()
 	// show state-appropriate buttons
 	RefreshButtonStateAndVisibility();
 
-	if (Pi::MouseButtonState(3)) {
+	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
 		// when controlling your ship with the mouse you don't want to pick targets
 		m_bodyLabels->SetLabelsClickable(false);
 	} else {
@@ -800,7 +800,8 @@ void WorldView::Update()
 		m_labelsOn = false;
 		return;
 	}
-	if (GetCamType() == CAM_EXTERNAL) {
+	// XXX ugly hack checking for console here
+	if (GetCamType() == CAM_EXTERNAL && !Pi::IsConsoleActive()) {
 		if (Pi::KeyState(SDLK_UP)) m_externalViewRotX -= 45*frameTime;
 		if (Pi::KeyState(SDLK_DOWN)) m_externalViewRotX += 45*frameTime;
 		if (Pi::KeyState(SDLK_LEFT)) m_externalViewRotY -= 45*frameTime;
@@ -814,7 +815,7 @@ void WorldView::Update()
 		if (Pi::player->GetFlightState() == Ship::LANDED || Pi::player->GetFlightState() == Ship::DOCKED)
 			m_externalViewRotX = Clamp(m_externalViewRotX, -170.0, -10.0);
 	}
-	if (KeyBindings::targetObject.IsActive()) {
+	if (KeyBindings::targetObject.IsActive() && !Pi::IsConsoleActive()) {
 		/* Hitting tab causes objects in the crosshairs to be selected */
 		Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
 		SelectBody(target, false);
@@ -948,10 +949,12 @@ void WorldView::OnHyperspaceTargetChanged()
 void WorldView::OnPlayerChangeTarget()
 {
 	Body *b = Pi::player->GetNavTarget();
-	if (b &&
-		(!b->IsType(Object::HYPERSPACECLOUD) ||
-		 Pi::sectorView->GetHyperspaceTarget() != static_cast<HyperspaceCloud*>(b)->GetShip()->GetHyperspaceDest()))
-		Pi::sectorView->FloatHyperspaceTarget();
+	if (b) {
+		Ship *s = b->IsType(Object::HYPERSPACECLOUD) ? static_cast<HyperspaceCloud*>(b)->GetShip() : 0;
+		if (!s || Pi::sectorView->GetHyperspaceTarget() != s->GetHyperspaceDest())
+			Pi::sectorView->FloatHyperspaceTarget();
+	}
+
 	UpdateCommsOptions();
 }
 
@@ -995,7 +998,7 @@ void WorldView::UpdateCommsOptions()
 	int ypos = 0;
 	int optnum = 1;
 	if (!(navtarget || comtarget)) {
-		m_commsOptions->Add(new Gui::Label("#0f0Ship Computer: No target selected"), 16, float(ypos));
+		m_commsOptions->Add(new Gui::Label("#0f0"+std::string(Lang::NO_TARGET_SELECTED)), 16, float(ypos));
 	}
 	if (navtarget) {
 		m_commsOptions->Add(new Gui::Label("#0f0"+navtarget->GetLabel()), 16, float(ypos));
@@ -1015,7 +1018,7 @@ void WorldView::UpdateCommsOptions()
 			Polit::GetCrime(&crime, &fine);
 			if (fine) {
 				button = AddCommsOption(stringf(Lang::PAY_FINE_REMOTELY,
-							formatarg("fine", format_money(fine))), ypos, optnum++);
+							formatarg("amount", format_money(fine))), ypos, optnum++);
 				button->onClick.connect(sigc::ptr_fun(&PlayerPayFine));
 				ypos += 32;
 			}
@@ -1214,7 +1217,7 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 
 		m_targetSpeed->Color(0.0f, 1.0f, 0.0f);
 
-		MoveChild(m_targetSpeed, m_navVelocityIndicatorPos[0]-26, m_navVelocityIndicatorPos[1]+26);
+		MoveChild(m_targetSpeed, m_navVelocityIndicatorPos[0]-26.0f, m_navVelocityIndicatorPos[1]+26.0f);
 
 		m_targetSpeed->Show();
 	}

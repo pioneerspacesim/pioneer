@@ -34,12 +34,17 @@ class GeoSphereStyle {
 		TERRAIN_H2O_SOLID_CANYONS,
 		TERRAIN_RUGGED_DESERT,
 		TERRAIN_ASTEROID,
-		TERRAIN_GASGIANT,
-		TERRAIN_MAX = TERRAIN_GASGIANT
+		TERRAIN_FLAT,
+		TERRAIN_MAX = TERRAIN_FLAT
 	};
 
 	enum ColorFractal {
 		COLOR_NONE,
+		COLOR_STAR_BROWN_DWARF,
+		COLOR_STAR_WHITE_DWARF,
+		COLOR_STAR_M,
+		COLOR_STAR_K,
+		COLOR_STAR_G,
 		COLOR_GG_JUPITER,
 		COLOR_GG_SATURN,
 		COLOR_GG_SATURN2,
@@ -58,8 +63,13 @@ class GeoSphereStyle {
 		COLOR_TFGOOD,
 		COLOR_TFPOOR,
 		COLOR_BANDED_ROCK,
-		COLOR_MAX = COLOR_BANDED_ROCK
+		COLOR_SOLID,
+		COLOR_MAX = COLOR_SOLID
 	};
+
+	bool textures;
+	int m_fracnum;
+	double m_fracmult;
 
 	GeoSphereStyle(const SBody *body);
 	~GeoSphereStyle() {
@@ -77,13 +87,18 @@ class GeoSphereStyle {
 	}
 	double GetMaxHeight() const { return m_maxHeight; }
 
+	void ChangeDetailLevel();
+
 	private:
-	void PickAtmosphere(const SBody *sbody);
+	void PickTerrain(MTRand &rand);
+	void PickAtmosphere();
 	void InitFractalType(MTRand &rand);
 	int GetRawHeightMapVal(int x, int y);
 	double GetHeightMapVal(const vector3d &pt);
-	void InitHeightMap(const SBody *sbody);
+	void InitHeightMap();
 	void SetFracDef(struct fracdef_t *def, double featureHeightMeters, double featureWidthMeters, MTRand &rand, double smallestOctaveMeters = 20.0);
+
+	const SBody *m_body;
 
 	TerrainFractal m_terrainType;
 	ColorFractal m_colorType;

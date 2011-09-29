@@ -26,6 +26,12 @@ GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
 	(*this)["SectorViewZRotation"] = "0";
 	(*this)["SectorViewZoom"] = "2.0";
 
+#ifdef _WIN32
+	(*this)["RedirectStdio"] = "1";
+#else
+	(*this)["RedirectStdio"] = "0";
+#endif
+
 	KeyBindings::SetDefaults();
 
 	Load();

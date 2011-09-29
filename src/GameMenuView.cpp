@@ -277,6 +277,7 @@ public:
 	virtual void OnSwitchTo() {}
 private:
 	void OnClickSave(std::string filename) {
+		if (filename.empty()) return;
 		std::string fullname = join_path(GetFullSavefileDirPath().c_str(), filename.c_str(), 0);
 		Serializer::SaveGame(fullname.c_str());
 		Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+fullname);
@@ -318,6 +319,7 @@ private:
     // state after a load fails, so we just throw them back to the menu
     
 	void OnClickLoad(std::string filename) {
+		if (filename.empty()) return;
 		std::string fullname = join_path(GetFullSavefileDirPath().c_str(), filename.c_str(), 0);
 
         if (Pi::IsGameStarted())
@@ -355,6 +357,14 @@ private:
 
 static const char *planet_detail_desc[5] = {
 	Lang::LOW, Lang::MEDIUM, Lang::HIGH, Lang::VERY_HIGH, Lang::VERY_VERY_HIGH
+};
+
+static const char *planet_textures_desc[2] = {
+	Lang::OFF, Lang::ON
+};
+
+static const char *planet_fractal_desc[5] = {
+	Lang::VERY_LOW, Lang::LOW, Lang::MEDIUM, Lang::HIGH, Lang::VERY_HIGH
 };
 
 GameMenuView::GameMenuView(): View()
@@ -474,26 +484,9 @@ GameMenuView::GameMenuView(): View()
 
 
 	Gui::HBox *detailBox = new Gui::HBox();
-	detailBox->SetSpacing(60.0f);
-	mainTab->Add(detailBox, 400, 60);
+	detailBox->SetSpacing(20.0f);
+	mainTab->Add(detailBox, 350, 60);
 
-	vbox = new Gui::VBox();
-	vbox->SetSpacing(5.0f);
-	detailBox->PackEnd(vbox);
-
-	vbox->PackEnd((new Gui::Label(Lang::PLANET_DETAIL_LEVEL))->Color(1.0f,1.0f,0.0f));
-	m_planetDetailGroup = new Gui::RadioGroup();
-
-	for (int i=0; i<5; i++) {
-		Gui::RadioButton *rb = new Gui::RadioButton(m_planetDetailGroup);
-		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangePlanetDetail), i));
-		Gui::HBox *hbox = new Gui::HBox();
-		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(rb);
-		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
-		vbox->PackEnd(hbox);
-	}
-	
 	vbox = new Gui::VBox();
 	vbox->SetSpacing(5.0f);
 	detailBox->PackEnd(vbox);
@@ -511,6 +504,57 @@ GameMenuView::GameMenuView(): View()
 		vbox->PackEnd(hbox);
 	}
 
+	vbox = new Gui::VBox();
+	vbox->SetSpacing(5.0f);
+	detailBox->PackEnd(vbox);
+
+	vbox->PackEnd((new Gui::Label(Lang::PLANET_DETAIL_DISTANCE))->Color(1.0f,1.0f,0.0f));
+	m_planetDetailGroup = new Gui::RadioGroup();
+
+	for (int i=0; i<5; i++) {
+		Gui::RadioButton *rb = new Gui::RadioButton(m_planetDetailGroup);
+		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangePlanetDetail), i));
+		Gui::HBox *hbox = new Gui::HBox();
+		hbox->SetSpacing(5.0f);
+		hbox->PackEnd(rb);
+		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
+		vbox->PackEnd(hbox);
+	}
+	
+	vbox = new Gui::VBox();
+	vbox->SetSpacing(5.0f);
+	detailBox->PackEnd(vbox);
+
+	vbox->PackEnd((new Gui::Label(Lang::PLANET_TEXTURES))->Color(1.0f,1.0f,0.0f));
+	m_planetTextureGroup = new Gui::RadioGroup();
+
+	for (int i=0; i<2; i++) {
+		Gui::RadioButton *rb = new Gui::RadioButton(m_planetTextureGroup);
+		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangePlanetTextures), i));
+		Gui::HBox *hbox = new Gui::HBox();
+		hbox->SetSpacing(5.0f);
+		hbox->PackEnd(rb);
+		hbox->PackEnd(new Gui::Label(planet_textures_desc[i]));
+		vbox->PackEnd(hbox);
+	}
+
+	vbox = new Gui::VBox();
+	vbox->SetSpacing(5.0f);
+	detailBox->PackEnd(vbox);
+
+	vbox->PackEnd((new Gui::Label(Lang::FRACTAL_DETAIL))->Color(1.0f,1.0f,0.0f));
+	m_planetFractalGroup = new Gui::RadioGroup();
+
+	for (int i=0; i<5; i++) {
+		Gui::RadioButton *rb = new Gui::RadioButton(m_planetFractalGroup);
+		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeFractalMultiple), i));
+		Gui::HBox *hbox = new Gui::HBox();
+		hbox->SetSpacing(5.0f);
+		hbox->PackEnd(rb);
+		hbox->PackEnd(new Gui::Label(planet_fractal_desc[i]));
+		vbox->PackEnd(hbox);
+	}
+	
 
 	// language
 	
@@ -685,6 +729,23 @@ void GameMenuView::OnChangePlanetDetail(int level)
 	Pi::config.Save();
 }
 
+void GameMenuView::OnChangePlanetTextures(int level)
+{
+	if (level == Pi::detail.textures) return;
+	m_changedDetailLevel = true;
+	Pi::detail.textures = level;
+	Pi::config.SetInt("Textures", level);
+	Pi::config.Save();
+}
+void GameMenuView::OnChangeFractalMultiple(int level)
+{
+	if (level == Pi::detail.fracmult) return;
+	m_changedDetailLevel = true;
+	Pi::detail.fracmult = level;
+	Pi::config.SetInt("FractalMultiple", level);
+	Pi::config.Save();
+}
+
 void GameMenuView::OnChangeCityDetail(int level)
 {
 	if (level == Pi::detail.cities) return;
@@ -779,6 +840,8 @@ void GameMenuView::OnSwitchTo() {
 		Pi::SetView(Pi::worldView);
 	} else {
 		m_planetDetailGroup->SetSelected(Pi::detail.planets);
+		m_planetTextureGroup->SetSelected(Pi::detail.textures);
+		m_planetFractalGroup->SetSelected(Pi::detail.fracmult);
 		m_cityDetailGroup->SetSelected(Pi::detail.cities);
 		m_toggleShaders->SetPressed(Render::AreShadersEnabled());
 		m_toggleHDR->SetPressed(Render::IsHDREnabled());

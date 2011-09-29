@@ -1,4 +1,5 @@
 #include "libs.h"
+#include "StringF.h"
 #include "gui/Gui.h"
 
 #define PNG_SKIP_SETJMP_CHECK
@@ -253,11 +254,11 @@ void strip_cr_lf(char *string)
 std::string format_distance(double dist)
 {
 	if (dist < 1000) {
-		return stringf_old(128, "%.0f m", dist);
+		return stringf("%0{f.0} m", dist);
 	} else if (dist < AU*0.1) {
-		return stringf_old(128, "%.2f km", dist*0.001);
+		return stringf("%0{f.2} km", dist*0.001);
 	} else {
-		return stringf_old(128, "%.2f AU", dist/AU);
+		return stringf("%0{f.2} AU", dist/AU);
 	}
 }
 
@@ -526,6 +527,37 @@ int conv_mb_to_wc(Uint32 *chr, const char *src)
 	}
 }
 
+// encode one Unicode code-point as UTF-8
+//  chr: the Unicode code-point
+//  buf: a character buffer, which must have space for at least 4 bytes
+//       (i.e., assigning to buf[3] must be a valid operation)
+//  returns: number of bytes in the encoded character
+int conv_wc_to_mb(Uint32 chr, char buf[4])
+{
+	unsigned char *ubuf = reinterpret_cast<unsigned char*>(buf);
+	if (chr <= 0x7f) {
+		ubuf[0] = chr;
+		return 1;
+	} else if (chr <= 0x7ff) {
+		ubuf[0] = 0xc0 | (chr >> 6);
+		ubuf[1] = 0x80 | (chr & 0x3f);
+		return 2;
+	} else if (chr <= 0xffff) {
+		ubuf[0] = 0xe0 | (chr >> 12);
+		ubuf[1] = 0x80 | ((chr >> 6) & 0x3f);
+		ubuf[2] = 0x80 | (chr & 0x3f);
+		return 3;
+	} else if (chr <= 0x10fff) {
+		ubuf[0] = 0xf0 | (chr >> 18);
+		ubuf[1] = 0x80 | ((chr >> 12) & 0x3f);
+		ubuf[2] = 0x80 | ((chr >> 6) & 0x3f);
+		ubuf[3] = 0x80 | (chr & 0x3f);
+		return 4;
+	} else {
+		assert(0 && "Invalid Unicode code-point.");
+		return 0;
+	}
+}
 
 // strcasestr() adapted from gnulib
 // (c) 2005 FSF. GPL2+

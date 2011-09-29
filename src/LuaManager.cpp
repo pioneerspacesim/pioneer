@@ -1,5 +1,4 @@
 #include "LuaManager.h"
-#include "oolua/oolua.h"
 #include <stdlib.h> // for abort
 
 bool instantiated = false;
@@ -43,9 +42,6 @@ LuaManager::LuaManager() : m_lua(NULL) {
 	}
 	lua_pop(m_lua, 1);
 	lua_setfield(m_lua, LUA_REGISTRYINDEX, "PiDebug");
-
-	// XXX remove once oolua is gone
-	OOLUA::setup_user_lua_state(m_lua);
 
 	instantiated = true;
 }

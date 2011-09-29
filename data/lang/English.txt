@@ -155,6 +155,8 @@ SCUTUM_CENTAURUS_ARM
     Scutum-Centaurus arm
 INT_LY
     %scale ly
+SEARCH
+    Search
 
 # Config / game control
 PRESS_BUTTON_WANTED_FOR
@@ -179,6 +181,8 @@ GAME_LOAD_CORRUPT
     This saved game cannot be loaded because it contains errors.
 GAME_LOAD_CANNOT_OPEN
     This saved game file could not be opened due to permissions or something...
+VERY_LOW
+    Very low
 LOW
     Low
 MEDIUM
@@ -189,6 +193,10 @@ VERY_HIGH
     Very high
 VERY_VERY_HIGH
     Very very high
+ON
+    On
+OFF
+    Off
 SIGHTS_SOUNDS_SAVES
     Sights, sounds & saving games
 PIONEER
@@ -221,10 +229,14 @@ VIDEO_RESOLUTION
     Video resolution (restart game to apply)
 X_BY_X
     %{x}x%{y}
-PLANET_DETAIL_LEVEL
-    Planet detail level:
+PLANET_DETAIL_DISTANCE
+    Planet detail distance:
 CITY_DETAIL_LEVEL
     City detail level:
+PLANET_TEXTURES
+    Planet textures:
+FRACTAL_DETAIL
+    Fractal detail:
 CONTROLS
     Controls
 ENABLE_JOYSTICK
@@ -439,8 +451,8 @@ CARGO_INVENTORY
     Cargo Inventory:
 JETTISON
     Jettison
-JETTISONED
-    "Jettisoned 1 tonne of "
+JETTISONED_1T_OF_X
+    Jettisoned 1 tonne of %commodity
 COMBAT_RATING
     COMBAT RATING:
 CRIMINAL_RECORD
@@ -537,6 +549,8 @@ INCREASE_SET_SPEED
     Increase set speed
 DECREASE_SET_SPEED
     Decrease set speed
+TOGGLE_LUA_CONSOLE
+    Toggle Lua console
 JOYSTICK_INPUT
     Joystick input
 PITCH
@@ -693,6 +707,8 @@ SHIP_IS_FULLY_LADEN
     Your ship is fully laden.
 YOU_DO_NOT_HAVE_ANY_X
     You do not have any %item.
+FRONT_VIEW
+    Front view
 REAR_VIEW
     Rear view
 EXTERNAL_VIEW
@@ -915,6 +931,8 @@ SOLAR
     Solar
 EARTH
     Earth
+SURFACE_GRAVITY
+    Surface gravity
 SURFACE_TEMPERATURE
     Surface temperature
 N_CELSIUS

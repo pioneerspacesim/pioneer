@@ -30,7 +30,7 @@ public:
 	}
 
 	virtual void UpdateInfo() {
-		const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
+		const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
 		DeleteAllChildren();
 
 		Gui::Label *l = new Gui::Label(Lang::MISSIONS);
@@ -75,7 +75,7 @@ public:
 			l = new Gui::Label((*i)->client);
 			innerbox->Add(l, 80, ypos);
 			
-			l = new Gui::Label(stringf_old(256, "%s,\n%s [%d,%d,%d]", sbody->name.c_str(), s->GetName().c_str(), path.sectorX, path.sectorY, path.sectorZ));
+			l = new Gui::Label(stringf("%0,\n%1 [%2{d},%3{d},%4{d}]", sbody->name.c_str(), s->GetName().c_str(), path.sectorX, path.sectorY, path.sectorZ));
 			innerbox->Add(l, 240, ypos);
 			
 			l = new Gui::Label(format_date((*i)->due));
@@ -113,7 +113,7 @@ public:
 	}
 
 	virtual void UpdateInfo() {
-		const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
+		const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
 		DeleteAllChildren();
 		Add(new Gui::Label(Lang::CARGO_INVENTORY), 40, 40);
 		Add(new Gui::Label(Lang::JETTISON), 40, 40+YSEP*2);
@@ -136,7 +136,7 @@ public:
 private:
 	void JettisonCargo(Equip::Type t) {
 		if (Pi::player->Jettison(t)) {
-			Pi::cpan->MsgLog()->Message("", std::string(Lang::JETTISONED)+EquipType::types[t].name);
+			Pi::cpan->MsgLog()->Message("", stringf(Lang::JETTISONED_1T_OF_X, formatarg("commodity", EquipType::types[t].name)));
 			Pi::infoView->UpdateInfo();
 		}
 	}
@@ -155,7 +155,7 @@ public:
 	virtual void UpdateInfo() {
 		Sint64 crime, fine;
 		Polit::GetCrime(&crime, &fine);
-		const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
+		const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
 		DeleteAllChildren();
 
 		float ypos = 40.0f;
@@ -253,9 +253,9 @@ public:
 			if ((s == Equip::SLOT_MISSILE) || (s == Equip::SLOT_ENGINE) || (s == Equip::SLOT_LASER)) continue;
 			int num = Pi::player->m_equipment.Count(s, t);
 			if (num == 1) {
-				col1 += stringf_old(128, "%s\n", EquipType::types[t].name);
+				col1 += stringf("%0\n", EquipType::types[t].name);
 			} else if (num > 1) {
-				col1 += stringf_old(128, "%d %ss\n", num, EquipType::types[t].name);
+				col1 += stringf("%0{d} %1s\n", num, EquipType::types[t].name);
 			}
 		}
 

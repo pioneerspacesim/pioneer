@@ -85,7 +85,7 @@ bool Ship::AITimeStep(float timeStep)
 	if (m_curAICmd->TimeStepUpdate()) {
 		AIClearInstructions();
 //		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
-		Pi::luaOnAICompleted.Queue(this);
+		Pi::luaOnAICompleted->Queue(this);
 		return true;
 	}
 	else return false;

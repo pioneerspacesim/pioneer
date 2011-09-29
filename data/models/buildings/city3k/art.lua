@@ -1,3 +1,4 @@
+--[[
 -- Mysterious objects
 
 define_model('green_bubble', {
@@ -57,6 +58,7 @@ define_model('green_bubble', {
 		end
 	end
 })
+--]]
 
 --[[
 define_model('blue_bubble', {
@@ -173,6 +175,7 @@ define_model('advert_0', {
 })
 --]]
 
+--[[
 define_model('pink_obelisk', {
 	info = {
 		scale = .7,
@@ -235,3 +238,4 @@ define_model('pink_obelisk', {
 		end
 	end
 })
+--]]

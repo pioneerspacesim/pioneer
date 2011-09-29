@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Frame.h"
 #include "WorldView.h"
+#include "SpaceStation.h"
 #include "SpaceStationView.h"
 #include "Serializer.h"
 #include "Sound.h"
@@ -16,6 +17,8 @@ Player::Player(ShipType::Type shipType): Ship(shipType),
 	m_flightControlState = CONTROL_MANUAL;
 	m_killCount = 0;
 	m_knownKillCount = 0;
+	m_navTarget = 0;
+	m_combatTarget = 0;
 	UpdateMass();
 
 	m_accumTorque = vector3d(0,0,0);
@@ -30,28 +33,36 @@ Player::~Player()
 void Player::Save(Serializer::Writer &wr)
 {
 	Ship::Save(wr);
+	MarketAgent::Save(wr);
 	wr.Int32(static_cast<int>(m_flightControlState));
 	wr.Double(m_setSpeed);
 	wr.Int32(m_killCount);
 	wr.Int32(m_knownKillCount);
 	wr.Int32(Serializer::LookupBody(m_followCloud));
+	wr.Int32(Serializer::LookupBody(m_combatTarget));
+	wr.Int32(Serializer::LookupBody(m_navTarget));
 }
 
 void Player::Load(Serializer::Reader &rd)
 {
 	Pi::player = this;
 	Ship::Load(rd);
+	MarketAgent::Load(rd);
 	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
 	m_setSpeed = rd.Double();
 	m_killCount = rd.Int32();
 	m_knownKillCount = rd.Int32();
 	m_followCloudIndex = rd.Int32();
+	m_combatTargetIndex = rd.Int32();
+	m_navTargetIndex = rd.Int32();
 }
 
 void Player::PostLoadFixup()
 {
 	Ship::PostLoadFixup();
 	m_followCloud = dynamic_cast<HyperspaceCloud*>(Serializer::LookupBody(m_followCloudIndex));
+	m_combatTarget = Serializer::LookupBody(m_combatTargetIndex);
+	m_navTarget = Serializer::LookupBody(m_navTargetIndex);
 }
 
 void Player::OnHaveKilled(Body *guyWeKilled)
@@ -189,13 +200,16 @@ void Player::PollControls(const float timeStep)
 	// if flying 
 	{
 		ClearThrusterState();
-		
+		SetGunState(0,0);
+		SetGunState(1,0);
+
 		vector3d wantAngVel(0.0);
+		double angThrustSoftness = 50.0;
 
 		// have to use this function. SDL mouse position event is bugged in windows
 		int mouseMotion[2];
 		SDL_GetRelativeMouseState (mouseMotion+0, mouseMotion+1);	// call to flush
-		if (Pi::MouseButtonState(3))
+		if (Pi::MouseButtonState(SDL_BUTTON_RIGHT))
 		{
 			matrix4x4d rot; GetRotMatrix(rot);
 			if (!m_mouseActive) {
@@ -221,48 +235,53 @@ void Player::PollControls(const float timeStep)
 			}
 		}
 		else m_mouseActive = false;
-		
-	
-		if (m_flightControlState == CONTROL_FIXSPEED) {
-			double oldSpeed = m_setSpeed;
-			if (stickySpeedKey) {
-				if (!(KeyBindings::increaseSpeed.IsActive() || KeyBindings::decreaseSpeed.IsActive())) {
-					stickySpeedKey = false;
+
+		// disable all keyboard controls while the console is active
+		if (!Pi::IsConsoleActive()) {
+			if (m_flightControlState == CONTROL_FIXSPEED) {
+				double oldSpeed = m_setSpeed;
+				if (stickySpeedKey) {
+					if (!(KeyBindings::increaseSpeed.IsActive() || KeyBindings::decreaseSpeed.IsActive())) {
+						stickySpeedKey = false;
+					}
+				}
+				
+				if (!stickySpeedKey) {
+					if (KeyBindings::increaseSpeed.IsActive())
+						m_setSpeed += std::max(fabs(m_setSpeed)*0.05, 1.0);
+					if (KeyBindings::decreaseSpeed.IsActive())
+						m_setSpeed -= std::max(fabs(m_setSpeed)*0.05, 1.0);
+					if ( ((oldSpeed < 0.0) && (m_setSpeed >= 0.0)) ||
+						 ((oldSpeed > 0.0) && (m_setSpeed <= 0.0)) ) {
+						// flipped from going forward to backwards. make the speed 'stick' at zero
+						// until the player lets go of the key and presses it again
+						stickySpeedKey = true;
+						m_setSpeed = 0;
+					}
 				}
 			}
-			
-			if (!stickySpeedKey) {
-				if (KeyBindings::increaseSpeed.IsActive()) m_setSpeed += std::max(m_setSpeed*0.05, 1.0);
-				if (KeyBindings::decreaseSpeed.IsActive()) m_setSpeed -= std::max(m_setSpeed*0.05, 1.0);
-				if ( ((oldSpeed < 0.0) && (m_setSpeed >= 0.0)) ||
-				     ((oldSpeed > 0.0) && (m_setSpeed <= 0.0)) ) {
-					// flipped from going forward to backwards. make the speed 'stick' at zero
-					// until the player lets go of the key and presses it again
-					stickySpeedKey = true;
-					m_setSpeed = 0;
-				}
+
+			if (KeyBindings::thrustForward.IsActive()) SetThrusterState(2, -1.0);
+			if (KeyBindings::thrustBackwards.IsActive()) SetThrusterState(2, 1.0);
+			if (KeyBindings::thrustUp.IsActive()) SetThrusterState(1, 1.0);
+			if (KeyBindings::thrustDown.IsActive()) SetThrusterState(1, -1.0);
+			if (KeyBindings::thrustLeft.IsActive()) SetThrusterState(0, -1.0);
+			if (KeyBindings::thrustRight.IsActive()) SetThrusterState(0, 1.0);
+
+			if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(SDL_BUTTON_LEFT) && Pi::MouseButtonState(SDL_BUTTON_RIGHT))) {
+					SetGunState(Pi::worldView->GetActiveWeapon(), 1);
 			}
-		}
 
-		if (KeyBindings::thrustForward.IsActive()) SetThrusterState(2, -1.0);
-		if (KeyBindings::thrustBackwards.IsActive()) SetThrusterState(2, 1.0);
-		if (KeyBindings::thrustUp.IsActive()) SetThrusterState(1, 1.0);
-		if (KeyBindings::thrustDown.IsActive()) SetThrusterState(1, -1.0);
-		if (KeyBindings::thrustLeft.IsActive()) SetThrusterState(0, -1.0);
-		if (KeyBindings::thrustRight.IsActive()) SetThrusterState(0, 1.0);
-		
-		SetGunState(0,0);
-		SetGunState(1,0);
-		if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) {
-				SetGunState(Pi::worldView->GetActiveWeapon(), 1);
-		}
+			if (KeyBindings::yawLeft.IsActive()) wantAngVel.y += 1.0;
+			if (KeyBindings::yawRight.IsActive()) wantAngVel.y += -1.0;
+			if (KeyBindings::pitchDown.IsActive()) wantAngVel.x += -1.0;
+			if (KeyBindings::pitchUp.IsActive()) wantAngVel.x += 1.0;
+			if (KeyBindings::rollLeft.IsActive()) wantAngVel.z += 1.0;
+			if (KeyBindings::rollRight.IsActive()) wantAngVel.z -= 1.0;
 
-		if (KeyBindings::yawLeft.IsActive()) wantAngVel.y += 1.0;
-		if (KeyBindings::yawRight.IsActive()) wantAngVel.y += -1.0;
-		if (KeyBindings::pitchDown.IsActive()) wantAngVel.x += -1.0;
-		if (KeyBindings::pitchUp.IsActive()) wantAngVel.x += 1.0;
-		if (KeyBindings::rollLeft.IsActive()) wantAngVel.z += 1.0;
-		if (KeyBindings::rollRight.IsActive()) wantAngVel.z -= 1.0;
+			if (KeyBindings::fastRotate.IsActive())
+				angThrustSoftness = 10.0;
+		}
 
 		wantAngVel.x += 2 * KeyBindings::pitchAxis.GetValue();
 		wantAngVel.y += 2 * KeyBindings::yawAxis.GetValue();
@@ -271,9 +290,6 @@ void Player::PollControls(const float timeStep)
 		double invTimeAccel = 1.0 / Pi::GetTimeAccel();
 		for (int axis=0; axis<3; axis++)
 			wantAngVel[axis] = Clamp(wantAngVel[axis], -invTimeAccel, invTimeAccel);
-
-//		matrix4x4d rot; GetRotMatrix(rot);
-		const double angThrustSoftness = KeyBindings::fastRotate.IsActive() ? 10.0 : 50.0;
 		
 		if (m_mouseActive) AIFaceDirection(m_mouseDir);
 		else AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
@@ -330,7 +346,7 @@ void Player::SetAlertState(Ship::AlertState as)
 
 bool Player::IsAnyThrusterKeyDown()
 {
-	return (
+	return !Pi::IsConsoleActive() && (
 		KeyBindings::thrustForward.IsActive()	||
 		KeyBindings::thrustBackwards.IsActive()	||
 		KeyBindings::thrustUp.IsActive()		||
@@ -338,4 +354,78 @@ bool Player::IsAnyThrusterKeyDown()
 		KeyBindings::thrustLeft.IsActive()		||
 		KeyBindings::thrustRight.IsActive()
 	);
+}
+
+void Player::SetNavTarget(Body* const target)
+{
+	m_navTarget = target;
+	Pi::onPlayerChangeTarget.emit();
+	Sound::PlaySfx("OK");
+}
+
+void Player::SetCombatTarget(Body* const target)
+{
+	m_combatTarget = target;
+	Pi::onPlayerChangeTarget.emit();
+	Sound::PlaySfx("OK");
+}
+
+void Player::NotifyDeleted(const Body* const deletedBody)
+{
+	if(GetNavTarget() == deletedBody)
+		SetNavTarget(0);
+	if(GetCombatTarget() == deletedBody)
+		SetCombatTarget(0);
+	Ship::NotifyDeleted(deletedBody);
+}
+
+/* MarketAgent shite */
+void Player::Bought(Equip::Type t)
+{
+	m_equipment.Add(t);
+	UpdateMass();
+}
+
+void Player::Sold(Equip::Type t)
+{
+	m_equipment.Remove(t, 1);
+	UpdateMass();
+}
+
+bool Player::CanBuy(Equip::Type t, bool verbose) const
+{
+	Equip::Slot slot = EquipType::types[int(t)].slot;
+	bool freespace = (m_equipment.FreeSpace(slot)!=0);
+	bool freecapacity = (m_stats.free_capacity >= EquipType::types[int(t)].mass);
+	if (verbose && (this == reinterpret_cast<Ship*>(Pi::player))) {
+		if (!freespace) {
+			Pi::Message(Lang::NO_FREE_SPACE_FOR_ITEM);
+		}
+		else if (!freecapacity) {
+			Pi::Message(Lang::SHIP_IS_FULLY_LADEN);
+		}
+	}
+	return (freespace && freecapacity);
+}
+
+bool Player::CanSell(Equip::Type t, bool verbose) const
+{
+	Equip::Slot slot = EquipType::types[int(t)].slot;
+	bool cansell = (m_equipment.Count(slot, t) > 0);
+	if (verbose && (this == reinterpret_cast<Ship*>(Pi::player))) {
+		if (!cansell) {
+			Pi::Message(stringf(Lang::YOU_DO_NOT_HAVE_ANY_X, formatarg("item", EquipType::types[int(t)].name)));
+		}
+	}
+	return cansell;
+}
+
+Sint64 Player::GetPrice(Equip::Type t) const
+{
+	if (Ship::GetDockedWith()) {
+		return Ship::GetDockedWith()->GetPrice(t);
+	} else {
+		assert(0);
+		return 0;
+	}
 }

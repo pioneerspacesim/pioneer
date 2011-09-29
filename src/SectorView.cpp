@@ -52,7 +52,7 @@ SectorView::SectorView() :
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	Add(m_zoomOutButton, 732, 5);
 
-	Add(new Gui::Label("Search:"), 650, 500);
+	Add(new Gui::Label(Lang::SEARCH), 650, 500);
 	m_searchBox = new Gui::TextEntry();
 	m_searchBox->onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnSearchBoxKeyPress));
 	Add(m_searchBox, 700, 500);
@@ -175,7 +175,7 @@ void SectorView::Load(Serializer::Reader &rd)
 	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 
-	m_hyperspaceLockLabel->SetText(stringf_old(64, "[%s]", m_matchTargetToSelection ? Lang::FOLLOWING_SELECTION : Lang::LOCKED));
+	m_hyperspaceLockLabel->SetText(stringf("[%0]", std::string(m_matchTargetToSelection ? Lang::FOLLOWING_SELECTION : Lang::LOCKED)));
 
 	m_firstTime = false;
 }
@@ -321,13 +321,13 @@ void SectorView::SetHyperspaceTarget(const SystemPath &path)
 
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 
-	m_hyperspaceLockLabel->SetText(stringf_old(64, "[%s]", Lang::LOCKED));
+	m_hyperspaceLockLabel->SetText(stringf("[%0]", std::string(Lang::LOCKED)));
 }
 
 void SectorView::FloatHyperspaceTarget()
 {
 	m_matchTargetToSelection = true;
-	m_hyperspaceLockLabel->SetText(stringf_old(64, "[%s]", Lang::FOLLOWING_SELECTION));
+	m_hyperspaceLockLabel->SetText(stringf("[%0]", std::string(Lang::FOLLOWING_SELECTION)));
 }
 
 void SectorView::ResetHyperspaceTarget()
@@ -611,14 +611,16 @@ void SectorView::OnSwitchTo() {
 	if (m_firstTime) {
 		m_current = Pi::currentSystem->GetPath();
 
-		UpdateSystemLabels(m_currentSystemLabels, m_current);
-
 		WarpToSystem(m_current);
 		OnClickSystem(m_current);
 
 		m_firstTime = false;
 	}
 	
+	UpdateSystemLabels(m_currentSystemLabels, m_current);
+	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
+	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
+
 	if (!m_onKeyPressConnection.connected())
 		m_onKeyPressConnection =
 			Pi::onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPress));
@@ -632,6 +634,10 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 		m_onKeyPressConnection.disconnect();
 		return;
 	}
+
+	// XXX ugly hack checking for Lua console here
+	if (Pi::IsConsoleActive())
+		return;
 
 	// ignore keypresses if they're typing
 	if (m_searchBox->IsFocused()) {
@@ -721,7 +727,8 @@ void SectorView::Update()
 	rot.RotateZ(DEG2RAD(-m_rotZ));
 
 	// don't check raw keypresses if the search box is active
-	if (!m_searchBox->IsFocused()) {
+	// XXX ugly hack checking for Lua console here
+	if (!m_searchBox->IsFocused() && !Pi::IsConsoleActive()) {
 		float moveSpeed = 1.0;
 		if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
 		if (Pi::KeyState(SDLK_RSHIFT)) moveSpeed = 10.0;
@@ -746,7 +753,7 @@ void SectorView::Update()
 			m_rotXMovingTo += (Pi::KeyState(SDLK_w) ? -0.5f : 0.5f) * moveSpeed;
 	}
 
-	if (Pi::MouseButtonState(3)) {
+	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int motion[2];
 		Pi::GetMouseMotion(motion);
 

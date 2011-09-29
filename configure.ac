@@ -5,7 +5,7 @@ dnl Setup
 dnl ###########################################################################
 AC_PREREQ(2.59)
 
-AC_INIT([pioneer], [alpha-14-dev], [pioneer-dev@pioneerspacesim.net])
+AC_INIT([pioneer], [alpha-15-dev], [pioneer-dev@pioneerspacesim.net])
 dnl AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 dist-xz dist-zip])
@@ -28,6 +28,10 @@ EXTRA_CFLAGS=
 EXTRA_CXXFLAGS=
 EXTRA_CPPFLAGS=
 
+WARN_CFLAGS=
+WARN_CXXFLAGS=
+WARN_CPPFLAGS=
+
 dnl Check for ccache if they want it
 AC_ARG_WITH([ccache], AS_HELP_STRING([--with-ccache], [Compile using ccache]), [AC_PATH_PROG([CCACHE], [ccache])])
 if test "x$with_ccache" = xyes; then
@@ -38,26 +42,32 @@ fi
 
 dnl Add a flag, if supported by the compiler or preprocessor
 dnl Assumes that -Werror works
-AC_DEFUN([_PIONEER_COMPILER_FLAG], dnl Language, flags variable 'foo' (EXTRA_fooFLAGS), flag, $CC/$CXX/$CPP/similar, if yes, if no
+AC_DEFUN([_PIONEER_COMPILER_FLAG], dnl Language, prefix (EXTRA), flags variable 'foo' (EXTRA_fooFLAGS), flag, $CC/$CXX/$CPP/similar, if yes, if no
     [AC_LANG_PUSH([$1])
-     saved_flags="$][$2][FLAGS"
-     ][$2][FLAGS="$EXTRA_][$2][FLAGS $3 -Werror $][$2][FLAGS"
-     AC_MSG_CHECKING([to see if $4 supports $3])
-     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[return 0;]])], [EXTRA_][$2][FLAGS="$EXTRA_][$2][FLAGS $3"; AC_MSG_RESULT([yes])]m4_default([; $5], []), [AC_MSG_RESULT([no])]m4_default([; $6], []))
-     ][$2][FLAGS="$saved_flags"
+     saved_flags="$][$2][_][$3][FLAGS"
+     ][$2][FLAGS="$][$2][_][$3][FLAGS $4 -Werror $][$3][FLAGS"
+     AC_MSG_CHECKING([to see if $5 supports $4])
+     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[return 0;]])], [][$2][_][$3][FLAGS="$][$2][_][$3][FLAGS $4"; AC_MSG_RESULT([yes])]m4_default([; $6], []), [AC_MSG_RESULT([no])]m4_default([; $7], []))
+     ][$2][_][$3][FLAGS="$saved_flags $4"
      AC_LANG_POP([$1])
     ])
 
-AC_DEFUN([PIONEER_CFLAG], [_PIONEER_COMPILER_FLAG([C], [C], [$1], [$CC], [$2], [$3])])
-AC_DEFUN([PIONEER_CXXFLAG], [_PIONEER_COMPILER_FLAG([C++], [CXX], [$1], [$CXX], [$2], [$3])])
-AC_DEFUN([PIONEER_CPPFLAG], [_PIONEER_COMPILER_FLAG([CPP], [CPP], [$1], [$CPP], [$2], [$3])])
+AC_DEFUN([PIONEER_CFLAG], [_PIONEER_COMPILER_FLAG([C], [EXTRA], [C], [$1], [$CC], [$2], [$3])])
+AC_DEFUN([PIONEER_CXXFLAG], [_PIONEER_COMPILER_FLAG([C++], [EXTRA], [CXX], [$1], [$CXX], [$2], [$3])])
+AC_DEFUN([PIONEER_CPPFLAG], [_PIONEER_COMPILER_FLAG([CPP], [EXTRA], [CPP], [$1], [$CPP], [$2], [$3])])
 
 AC_DEFUN([PIONEER_C_CXX_FLAG],
-	[_PIONEER_COMPILER_FLAG([C], [C], [$1], [$CC/$CXX], [EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $1"])])
+	[_PIONEER_COMPILER_FLAG([C], [EXTRA], [C], [$1], [$CC/$CXX], [EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $1"])])
 
+AC_DEFUN([PIONEER_WARN_CFLAG], [_PIONEER_COMPILER_FLAG([C], [WARN], [C], [$1], [$CC], [$2], [$3])])
+AC_DEFUN([PIONEER_WARN_CXXFLAG], [_PIONEER_COMPILER_FLAG([C++], [WARN], [CXX], [$1], [$CXX], [$2], [$3])])
+AC_DEFUN([PIONEER_WARN_CPPFLAG], [_PIONEER_COMPILER_FLAG([CPP], [WARN], [CPP], [$1], [$CPP], [$2], [$3])])
+
+AC_DEFUN([PIONEER_WARN_C_CXX_FLAG],
+	[_PIONEER_COMPILER_FLAG([C], [WARN], [C], [$1], [$CC/$CXX], [WARN_CXXFLAGS="$WARN_CXXFLAGS $1"])])
 
 dnl Always add -Wall, where supported
-PIONEER_C_CXX_FLAG([-Wall])
+PIONEER_WARN_C_CXX_FLAG([-Wall])
 
 dnl Add -O0 if requested
 OPTIMISE=
@@ -87,20 +97,20 @@ if test "x$with_extra_warnings" != xno; then
 -Wcast-qual				\
 -Wcast-align				\
   ; do
-    PIONEER_C_CXX_FLAG([$warn_opt])
+    PIONEER_WARN_C_CXX_FLAG([$warn_opt])
   done
   for warn_opt in \
 -Wno-format-zero-length			\
 -Werror-implicit-function-declaration	\
   ; do
-    PIONEER_CFLAG([$warn_opt])
+    PIONEER_WARN_CFLAG([$warn_opt])
   done
   for warn_opt in \
 -Wstrict-null-sentinel			\
 -Wold-style-cast			\
 -Wsign-promo				\
   ; do
-    PIONEER_CXXFLAG([$warn_opt])
+    PIONEER_WARN_CXXFLAG([$warn_opt])
   done
 fi
 
@@ -220,6 +230,10 @@ fi
 AC_SUBST([EXTRA_CFLAGS])
 AC_SUBST([EXTRA_CXXFLAGS])
 AC_SUBST([EXTRA_CPPFLAGS])
+
+AC_SUBST([WARN_CFLAGS])
+AC_SUBST([WARN_CXXFLAGS])
+AC_SUBST([WARN_CPPFLAGS])
 
 AC_CONFIG_FILES([Makefile data/Makefile src/Makefile src/collider/Makefile src/gui/Makefile src/render/Makefile contrib/Makefile contrib/lua/Makefile contrib/oolua/Makefile osx/Makefile win32/Makefile])
 AC_OUTPUT

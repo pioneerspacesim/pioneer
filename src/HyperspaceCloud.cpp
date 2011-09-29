@@ -97,7 +97,7 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 		if (Pi::player->GetNavTarget() == this && !Pi::player->GetCombatTarget())
 			Pi::player->SetCombatTarget(m_ship);
 
-		Pi::luaOnEnterSystem.Queue(m_ship);
+		Pi::luaOnEnterSystem->Queue(m_ship);
 
 		m_ship = 0;
 	}
@@ -151,7 +151,7 @@ void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewT
 	// precise to the rendered frame (better than PHYSICS_HZ granularity)
 	double preciseTime = Pi::GetGameTime() + Pi::GetGameTickAlpha()*Pi::GetTimeStep();
 
-	float radius = 1000.0f + 200.0f*noise(10.0*preciseTime, 0, 0);
+	float radius = 1000.0f + 200.0f*float(noise(10.0*preciseTime, 0, 0));
 	if (m_isArrival) {
 		make_circle_thing(radius, Color(1.0,1.0,1.0,1.0), Color(0.0,0.0,1.0,0.0));
 	} else {

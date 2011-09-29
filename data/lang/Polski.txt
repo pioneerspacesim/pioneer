@@ -1,0 +1,1139 @@
+# General
+SUGGESTED_RESPONSES
+    Sugerowane odpowiedzi:
+CASH
+    Pieniądze
+LEGAL_STATUS
+    Status prawny
+CARGO_SPACE
+    Miejsce w ładowni
+ITEM
+    Przedmiot
+SHIP
+    Statek
+PRICE
+    Cena
+BUY
+    Kup
+SELL
+    Sprzedaj
+STOCK
+    Magazyn
+CARGO
+    Ładownia
+VID_LINK_DOWN
+    Połączenie wideo zerwane.
+VID_LINK_ESTABLISHED
+    Połączenie wideo.
+VID_CONNECTING
+    Łączenie...
+BOUGHT_1T_OF
+    Kupiłeś 1t: %commodity.
+SOLD_1T_OF
+    Sprzedałeś 1t: %commodity.
+WELCOME_TO_MARKET
+    Witamy w sklepie %station
+GO_BACK
+    Powrót
+FITTING
+    "Montuje "
+REMOVING
+    "Usuwam "
+FIT_TO_WHICH_MOUNT
+    Na której wieżyczce zamontować laser?
+REMOVE_FROM_WHICH_MOUNT
+    Z której wieżyczki usunąć laser?
+YOU_NOT_ENOUGH_MONEY
+    Nie masz dość pieniędzy
+TRADER_NOT_ENOUGH_MONEY
+    Kupiec nie ma dość pieniędzy
+NO_SPACE_ON_SHIP
+    Nie masz wolnego miejsca na statku
+SOMEWHERE_SERVICES
+    Usługi dostępne w %station
+SOMEWHERE_SHIPYARD
+    Stocznia %station
+SOMEWHERE_SHIP_REPAIRS
+    Usługi remontowe %station
+PRICE_TO_FIT
+    $ za montaż
+PRICE_TO_REMOVE
+    $ za usuniecie
+WT
+    Waga
+FIT
+    Zm.
+REMOVE
+    Usuń
+BUY_THIS_SHIP
+    Kup ten statek
+SHIP_TYPE
+    Typ statku
+REGISTRATION_ID
+    Identyfikator
+WEIGHT_EMPTY
+    Masa własna
+NUMBER_TONNES
+    %{mass}t
+WEIGHT_FULLY_LADEN
+    Masa w pełnym załadunku
+CAPACITY
+    Ładowność
+FORWARD_ACCEL_EMPTY
+    Ciąg główny (pusty)
+NUMBER_G
+    %acceleration{f.1} G
+FORWARD_ACCEL_LADEN
+    Ciąg główny (pełny)
+REVERSE_ACCEL_EMPTY
+    Ciąg wsteczny (pusty)
+REVERSE_ACCEL_LADEN
+    Ciąg wsteczny (pełny)
+HYPERDRIVE_FITTED
+    Napęd nadprzestrzenny:
+HYPERSPACE_RANGE_LADEN
+    Zasięg w nadprzestrzeni (w pełni obciążony):
+THANKS_AND_REMEMBER_TO_BUY_FUEL
+    Dziękujemy za zakupy. Pamiętaj o dopasowaniu wyposażenia i zakupie paliwa przed odlotem.
+CLASS_NUMBER
+    Klasa %class
+NUMBER_LY
+    %distance{f.2} lś
+SHIP_IS_ALREADY_FULLY_REPAIRED
+    Twój statek jest w doskonałym stanie.
+REPAIR_1_PERCENT_HULL
+    Naprawa 1.0% uszkodzonego kadłuba
+REPAIR_ENTIRE_HULL
+    Naprawa całego kadłuba (%repairpercent{f.1}%%)
+REPAIR
+    Naprawa
+PART_EX
+    Wymiana
+VIEW
+    Widok
+SHIP_EQUIPMENT
+    Wyposażenie statku
+SOMEWHERE_SHIP_EQUIPMENT
+    Wyposażenie statku dostępne w %station
+REPAIRS_AND_SERVICING
+    Naprawy i serwis
+NEW_AND_RECONDITIONED_SHIPS
+    Statki nowe i używane
+BULLETIN_BOARD
+    Ogłoszenia
+WELCOME_TO_SOMEWHERE
+    Witamy w %station
+SPACESTATION_LONG_WELCOME_MESSAGE
+    Witaj, podróżniku.  Witamy w stacji kosmicznej.  Mamy doniesienia o aktach wandalizmu i problemach graffiti.  Jeśli zauważysz oznakowanie wprowadzające w błąd, niepoprawne lub po prostu brakujące, prosimy o poinformowanie członka personelu.\n\nTlen jest obecnie bezpłatny.
+REQUEST_LAUNCH
+    Pozwolenie na start
+SHIPYARD
+    Stocznia
+COMMODITIES_MARKET
+    Giełda towarów
+SOMEWHERE_COMMODITIES_MARKET
+    Towary dostępne w %station
+SOMEWHERE_SHIP_MARKET
+    Statki dostępne w %station
+CONTACT_LOCAL_POLICE
+    Kontakt z lokalną policją
+COMMS_LINK
+    Status
+ZOOM_IN
+    Zbliż
+ZOOM_OUT
+    Oddal
+NORMA_ARM
+    Ramię Normy
+PERSEUS_ARM
+    Ramię Perseusza
+OUTER_ARM
+    Zewnętrzne ramię
+SAGITTARIUS_ARM
+    Ramię Strzelca
+SCUTUM_CENTAURUS_ARM
+    Ramię Tarczy Centaura
+INT_LY
+    %scale lś
+SEARCH
+    Szukaj
+
+# Config / game control
+PRESS_BUTTON_WANTED_FOR
+    "Naciśnij wybrany klawisz "
+MOVE_AXIS_WANTED_FOR
+    "Przechyl joystick w wybranym kierunku "
+SAVE
+    Zapisz
+LOAD
+    Wczytaj
+CANCEL
+    Wróć
+SELECT_FILENAME_TO_SAVE
+    Wybierz plik do zapisu lub podaj nowa nazwę pliku
+GAME_SAVED_TO
+    "Gra zapisana do "
+SELECT_FILENAME_TO_LOAD
+    Wybierz plik do wczytania
+COULD_NOT_OPEN_FILENAME
+    Nie mogę odczytać %path
+GAME_LOAD_CORRUPT
+    Ten zapis nie może zostać wczytany ponieważ zawiera błędy.
+GAME_LOAD_CANNOT_OPEN
+    Ten zapis nie może być wczytany z powodu braku uprawnień bądź z innej przyczyny...
+VERY_LOW
+    Bardzo mała
+LOW
+    Mała
+MEDIUM
+    Średnia
+HIGH
+    Duża
+VERY_HIGH
+    Bardzo duża
+VERY_VERY_HIGH
+    Najwyższa
+ON
+    Włączone
+OFF
+    Wyłączone
+SIGHTS_SOUNDS_SAVES
+    Opcje, dźwięk i zapis gry
+PIONEER
+    PIONEER
+SAVE_THE_GAME
+    [S] Zapisz grę
+LOAD_A_GAME
+    [L] Wczytaj grę
+EXIT_THIS_GAME
+    Wyjdź z gry
+WINDOW_OR_FULLSCREEN
+    Okno lub pełny ekran (wymagany restart)
+FULL_SCREEN
+    Pełny ekran
+OTHER_GRAPHICS_SETTINGS
+    Inne ustawienia graficzne
+USE_SHADERS
+    Użyj cieniowania
+USE_HDR
+    Użyj HDR Lighting (fajnie wygląda)
+SOUND_SETTINGS
+    Ustawienia dźwięku
+VOL_MASTER
+    Głośność:
+VOL_EFFECTS
+    Efekty:
+VOL_MUSIC
+    Muzyka:
+VIDEO_RESOLUTION
+    Rozdzielczość ekranu (wymagany restart)
+X_BY_X
+    %{x}x%{y}
+PLANET_DETAIL_DISTANCE
+    Szczeg. planet:
+CITY_DETAIL_LEVEL
+    Szczeg. miast:
+PLANET_TEXTURES
+    Tekstury planet:
+FRACTAL_DETAIL
+    Dokł. fraktali:
+CONTROLS
+    Sterowanie
+ENABLE_JOYSTICK
+    Włącz sterowanie joystickiem
+MOUSE_INPUT
+    Opcje myszy
+INVERT_MOUSE_Y
+    Odwróć Oś Y
+LANGUAGE_SELECTION
+    Język (wymagany restart)
+ 
+# Wares
+NONE
+    Brak
+HYDROGEN
+    Wodór
+HYDROGEN_DESCRIPTION
+    Wodór jest podstawowym składnikiem paliwa
+LIQUID_OXYGEN
+    Ciekły tlen
+LIQUID_OXYGEN_DESCRIPTION
+    Tlen jest wymagany dla systemów podtrzymywania życia i niektórych procesów przemysłowych
+METAL_ORE
+    Rudy metali
+CARBON_ORE
+    Paliwa kopalne
+CARBON_ORE_DESCRIPTION
+    Paliwa kopalne (węgiel i ropa naftowa) są wymagane do syntezy wielu użytecznych substancji chemicznych, włączając, tworzywa sztuczne, syntetyczne środki spożywcze, lekarstwa i tekstylia
+METAL_ALLOYS
+    Stopy metali
+PLASTICS
+    Tworzywa sztuczne
+FRUIT_AND_VEG
+    Warzywa i owoce
+ANIMAL_MEAT
+    Świeże mięso
+LIVE_ANIMALS
+    Żywe zwierzęta
+LIQUOR
+    Trunki
+GRAIN
+    Zboże
+TEXTILES
+    Tekstylia
+FERTILIZER
+    Nawozy
+WATER
+    Woda
+MEDICINES
+    Lekarstwa
+CONSUMER_GOODS
+    Towary konsumpcyjne
+COMPUTERS
+    Komputery
+ROBOTS
+    Roboty
+PRECIOUS_METALS
+    Metale szlachetne
+INDUSTRIAL_MACHINERY
+    Maszyny przemysłowe
+FARM_MACHINERY
+    Maszyny rolnicze
+MINING_MACHINERY
+    Maszyny górnicze
+AIR_PROCESSORS
+    Klimatyzacja
+SLAVES
+    Niewolnicy
+HAND_WEAPONS
+    Broń ręczna
+BATTLE_WEAPONS
+    Broń ciężka
+NERVE_GAS
+    Gaz paraliżujący
+NARCOTICS
+    Narkotyki
+MILITARY_FUEL
+    Paliwo wojskowe
+RUBBISH
+    Odpady
+RADIOACTIVES
+    Odpady radioaktywne
+ 
+# Hardware
+MISSILE_UNGUIDED
+    Pocisk Niekierowany R40
+MISSILE_GUIDED
+    Pocisk Kierowany                                                     
+MISSILE_SMART
+    Pocisk Samonaprowadzający                                                   
+MISSILE_NAVAL
+    Pocisk Bojowy
+ATMOSPHERIC_SHIELDING
+    Tarcze Atmosferyczne
+ATMOSPHERIC_SHIELDING_DESCRIPTION
+    Osłaniają statek przy wejściu w atmosferę.
+ECM_BASIC
+    System ECM
+ECM_BASIC_DESCRIPTION
+    Elektroniczny system obrony przeciwrakietowej, zdolny do zniszczenia niektórych pocisków naprowadzanych.
+SCANNER
+    Skaner
+SCANNER_DESCRIPTION
+    Dostarcza trójwymiarową mapę pobliskiej przestrzeni.
+ECM_ADVANCED
+    Zaawansowany System ECM
+ECM_ADVANCED_DESCRIPTION
+    Elektroniczny system obrony przeciwrakietowej, zdolny do zniszczenia bardziej zaawansowanych pocisków naprowadzanych.
+SHIELD_GENERATOR
+    Generator Osłon
+SHIELD_GENERATOR_DESCRIPTION
+    Zapewnia dodatkowa osłonę kadłuba wraz z dodawaniem kolejnych jednostek.
+LASER_COOLING_BOOSTER
+    Wspomaganie Chłodzenia Lasera
+LASER_COOLING_BOOSTER_DESCRIPTION
+    Poprawia system chłodzenia twojej broni.
+CARGO_LIFE_SUPPORT
+    System Podtrzymywania Życia
+CARGO_LIFE_SUPPORT_DESCRIPTION
+    Umożliwia transport ludzi i zwierząt.
+AUTOPILOT
+    Autopilot
+AUTOPILOT_DESCRIPTION
+    Komputer nawigacyjny
+RADAR_MAPPER
+    Mapowanie Radarowe
+RADAR_MAPPER_DESCRIPTION
+    Przydatne do zdalnego podglądu wyposażenia, ładunku i stanu innych statków.
+FUEL_SCOOP
+    Dren paliwowy
+FUEL_SCOOP_DESCRIPTION
+    Pozwala czerpać paliwo wodorowe z gazowych olbrzymów.
+HYPERCLOUD_ANALYZER
+    Analizator Hiperskoku
+HYPERCLOUD_ANALYZER_DESCRIPTION
+    Analizator chmur nadprzestrzennych do obliczania czasu i celu, przylotu lub odlotu.
+HULL_AUTOREPAIR
+    System Autonaprawy Kadłuba
+HULL_AUTOREPAIR_DESCRIPTION
+    Automatycznie naprawia kadłub statku w przypadku uszkodzenia.
+SHIELD_ENERGY_BOOSTER
+    Wzmacniacz Osłon
+SHIELD_ENERGY_BOOSTER_DESCRIPTION
+    Zwiększa szybkość regeneracji osłon.
+DRIVE_CLASS1
+    Hipernapęd Klasy 1
+DRIVE_CLASS2
+    Hipernapęd Klasy 2
+DRIVE_CLASS3
+    Hipernapęd Klasy 3
+DRIVE_CLASS4
+    Hipernapęd Klasy 4
+DRIVE_CLASS5
+    Hipernapęd Klasy 5
+DRIVE_CLASS6
+    Hipernapęd Klasy 6
+DRIVE_CLASS7
+    Hipernapęd Klasy 7
+DRIVE_CLASS8
+    Hipernapęd Klasy 8
+DRIVE_CLASS9
+    Hipernapęd Klasy 9
+DRIVE_MIL1
+    Napęd Wojskowy Klasy 1
+DRIVE_MIL2
+    Napęd Wojskowy Klasy 2
+DRIVE_MIL3
+    Napęd Wojskowy Klasy 3
+DRIVE_MIL4
+    Napęd Wojskowy Klasy 4
+PULSECANNON_1MW
+    1MW Działo Impulsowe
+PULSECANNON_DUAL_1MW
+    1MW Działo Imp. - podwójny ogień
+PULSECANNON_2MW
+    2MW Działo Impulsowe
+PULSECANNON_RAPID_2MW
+    2MW Szybkostrzelne Działo Imp.
+PULSECANNON_4MW
+    4MW Działo Impulsowe
+PULSECANNON_10MW
+    10MW Działo Impulsowe
+PULSECANNON_20MW
+    20MW Działo Impulsowe
+MININGCANNON_17MW
+    17MW Działo Górnicze
+MININGCANNON_17MW_DESCRIPTION
+    Służy do kruszenia planetoid bogatych w minerały.
+SMALL_PLASMA_ACCEL
+    Mały Akcelerator Plazmy
+LARGE_PLASMA_ACCEL
+    Duży Akcelerator Plazmy
+CLEAN
+    Czysty
+HYPERSPACE_ARRIVAL_CLOUD
+    Wyjściowa chmura nadprzestrzenna
+HYPERSPACE_DEPARTURE_CLOUD
+    Wejściowa chmura nadprzestrzenna
+TYPE
+    Typ
+CLIENT
+    Klient
+LOCATION
+    Lokalizacja
+DUE
+    Termin
+REWARD
+    Zapłata
+STATUS
+    Status
+CARGO_INVENTORY
+    Towary:
+JETTISON
+    Wystrzel
+JETTISONED_1T_OF_X
+    %commodity: 1 tona wyrzucona za burtę
+COMBAT_RATING
+    RANGA BOJOWA:
+CRIMINAL_RECORD
+    WYKROCZENIA:
+SHIP_INFORMATION_HEADER
+    "INFORMACJE O STATKU: "
+HYPERDRIVE
+    Napęd nadprzestrzenny
+FREE
+    Wolne
+USED
+    Użyte
+TOTAL_WEIGHT
+    Masa całkowita
+FRONT_WEAPON
+    Przednia broń
+REAR_WEAPON
+    Tylna broń
+HYPERSPACE_RANGE
+    Zasięg w nadprzestrzeni
+NO_MOUNTING
+    nie montowana
+N_LIGHT_YEARS_N_MAX
+    %distance{f.1} lat świetlnych (%maxdistance{f.1} maks.)
+SHIP_INFORMATION
+    Informacje o statku
+REPUTATION
+    Reputacja
+MISSIONS
+    Misje
+SHIFT
+    "shift "
+CTRL
+    "ctrl "
+ALT
+    "alt "
+META
+    "meta "
+JOY
+    Joy
+BUTTON
+     " Button "
+HAT
+     " Hat"
+DIRECTION
+     " Dir "
+X
+    X
+Y
+    Y
+Z
+    Z
+AXIS
+     " Axis"
+WEAPONS
+    Bronie
+TARGET_OBJECT_IN_SIGHTS
+    Namierzenie nacelowanego obiektu
+FIRE_LASER
+    Strzał lasera
+SHIP_ORIENTATION
+    Orientacja statku
+FAST_ROTATION_CONTROL
+    Szybka rotacja
+PITCH_UP
+    Ruch w górę
+PITCH_DOWN
+    Ruch w dól
+YAW_LEFT
+    Odchylenie w lewo
+YAW_RIGHT
+    Odchylenie w prawo
+ROLL_LEFT
+    Obrót w lewo
+ROLL_RIGHT
+    Obrót w prawo
+MANUAL_CONTROL_MODE
+    Tryb sterowania ręcznego
+THRUSTER_MAIN
+    Ciąg do przodu
+THRUSTER_RETRO
+    Ciąg do tylu
+THRUSTER_VENTRAL
+    Ciąg w górę
+THRUSTER_DORSAL
+    Ciąg w dól
+THRUSTER_PORT
+    Ciąg w lewo
+THRUSTER_STARBOARD
+    Ciąg w prawo
+SPEED_CONTROL_MODE
+    Tryb sterowania prędkością
+INCREASE_SET_SPEED
+    Zwiększ ustawiona prędkość
+DECREASE_SET_SPEED
+    Zmniejsz ustawiona prędkość
+JOYSTICK_INPUT
+    Ustawienia Joysticka
+PITCH
+    Pułap
+ROLL
+    Obrót
+YAW
+    Odchylenie
+MISSILE
+    pocisk
+HARMLESS
+    Nieszkodliwy
+MOSTLY_HARMLESS
+    Przeważnie nieszkodliwy
+POOR
+    Żółtodziób
+AVERAGE
+    Przeciętny
+ABOVE_AVERAGE 
+    Ponadprzeciętny
+COMPETENT
+    Fachowiec
+DANGEROUS
+    Groźny
+DEADLY
+    Zabójczy
+ELITE
+    ELITA
+SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
+    Symulacja ewolucji wszechświata: %age{f.1} miliardów lat ;-)
+TOMBSTONE_EPITAPH
+    ŚWIĘTEJ PAMIĘCI
+MM_START_NEW_GAME_EARTH
+    Nowa gra: start z Ziemi
+MM_START_NEW_GAME_E_ERIDANI
+    Nowa gra: start z Epsilon Eridani
+MM_START_NEW_GAME_DEBUG
+    Nowa gra: start z debug point
+MM_LOAD_SAVED_GAME
+    Wczytaj grę
+MM_QUIT
+    Wyjdź
+SCREENSHOT_FILENAME_TEMPLATE
+    screenshot%index{d08}.png
+PIONEERING_PILOTS_GUILD
+    Gildia Pilotów Pioniera
+RIGHT_ON_COMMANDER
+    Dobra robota komandorze! Twoja ranga bojowa została podniesiona!
+ALERT_CANCELLED
+    Alarm odwołany.
+SHIP_DETECTED_NEARBY
+    Wykryto statek w pobliżu.
+DOWNGRADING_ALERT_STATUS
+    Brak zagrożenia przez 60 sekund, odwołuje alarm.
+LASER_FIRE_DETECTED
+    Statek pod ostrzałem!
+SOMEWHERE_POLICE
+    Policja %station
+WE_HAVE_NO_BUSINESS_WITH_YOU
+    W tej chwili nie mamy do ciebie żadnych spraw.
+YOU_MUST_PAY_FINE_OF_N_CREDITS
+    Nie tolerujemy przestępstwa. Musisz zapłacić mandat %fine.
+PAY_THE_FINE_NOW
+    Zapłać mandat.
+HANG_UP
+    Rozłącz się.
+TRADING_ILLEGAL_GOODS
+    Przemyt
+UNLAWFUL_WEAPONS_DISCHARGE
+    Bezprawne użycie broni
+PIRACY
+    Piractwo
+MURDER
+    Morderstwo
+INDEPENDENT
+    Niezależny
+EARTH_FEDERATION
+    Federacja Ziemska
+INDEPENDENT_CONFEDERATION
+    Konfederacja Niepodległych Systemów
+EMPIRE
+    Imperium
+NO_ESTABLISHED_ORDER
+    Brak znanej władzy
+HARD_CAPITALIST
+    Całkowity Kapitalizm - bez opieki społecznej
+CAPITALIST
+    Kapitalizm
+MIXED_ECONOMY
+    Mieszana ekonomia
+PLANNED_ECONOMY
+    Gospodarka centralnie planowana
+NO_CENTRAL_GOVERNANCE
+    Brak centralnego zarządzania
+EARTH_FEDERATION_COLONIAL_RULE
+    Ziemska Federacja rządy kolonialne
+EARTH_FEDERATION_DEMOCRACY
+    Federacja Ziemskich Demokracji
+IMPERIAL_RULE
+    Rządy Imperium
+LIBERAL_DEMOCRACY
+    Liberalna demokracja
+SOCIAL_DEMOCRACY
+    Socjaldemokracja
+CORPORATE_SYSTEM
+    System korporacyjny
+MILITARY_DICTATORSHIP
+    Dyktatora wojskowa
+COMMUNIST
+    Komunizm
+PLUTOCRATIC_DICTATORSHIP
+    Dyktatura
+VIOLENT_ANARCHY
+    Bezprawie - Władzę sprawują ugrupowania zbrojne
+X_CANNOT_BE_TOLERATED_HERE
+    %crime nie będzie tu tolerowane.
+SECTOR_X_Y_Z
+    Sektor: %x,%y,%z
+CURRENT_SYSTEM
+    Aktualny system
+SELECTED_SYSTEM
+    Wybrany system
+HYPERSPACE_TARGET
+    Cel nadprzestrzenny
+FOLLOWING_SELECTION
+    podążanie za celem
+LOCKED
+    zablokowany
+EXACT_MATCH_X
+    Znaleziono: %system
+NOT_FOUND_BEST_MATCH_X
+    Nie znaleziono, najlepszy wynik: %system
+NOT_FOUND
+    Nie znaleziono
+NUMBER_HOURS
+    %hours{f.2} godz.
+QUADRUPLE_SYSTEM
+    System poczwórny.
+TRIPLE_SYSTEM
+    System potrójny.
+BINARY_SYSTEM
+    System podwójny
+ENABLED_AUTOMATIC_SYSTEM_SELECTION
+    Włącz automatyczny wybór systemu.
+DISABLED_AUTOMATIC_SYSTEM_SELECTION
+    Wyłącz automatyczny wybór systemu.
+FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
+    Dren paliwowy włączony. Masz %quantity ton wodoru.
+CARGO_BAY_LIFE_SUPPORT_LOST
+    Sensory wykryły krytyczny poziom podtrzymywania życia w ładowni.
+NO_FREE_SPACE_FOR_ITEM
+    Nie masz na to dość miejsca.
+SHIP_IS_FULLY_LADEN
+    Ładownia jest pełna.
+YOU_DO_NOT_HAVE_ANY_X
+    Nie masz %item.
+FRONT_VIEW
+    Widok z przodu
+REAR_VIEW
+    Widok z tylu
+EXTERNAL_VIEW
+    Widok zewnętrzny
+NAVIGATION_STAR_MAPS
+    Nawigacja i mapy gwiezdne
+COMMS
+    Komunikacja
+GALAXY_SECTOR_VIEW
+    Widok sektora galaktyki
+SYSTEM_ORBIT_VIEW
+    Widok systemu orbitalnego
+STAR_SYSTEM_INFORMATION
+    Informacja o systemie słonecznym
+GALACTIC_VIEW
+    Widok galaktyki
+NO_ALERT
+    Brak alarmu
+SHIP_NEARBY
+    Statek w pobliżu
+DOCKING_CLEARANCE_EXPIRED
+    Pozwolenie na lądowanie wygasło. jeśli chcesz dokować musisz ponowić prośbę.
+MESSAGE_FROM_X
+    Wiadomość od %sender:
+SELECT_A_TARGET
+    Wybierz cel
+FRONT
+    Przód
+REAR
+    Tył
+POLICE_SHIP_REGISTRATION
+    POLICJA
+CLEARANCE_ALREADY_GRANTED_BAY_N
+    Już udzielono zgodę na lądowanie. Kontynuuj do doku %bay.
+CLEARANCE_GRANTED_BAY_N
+    Pozwolenie na lądowanie. Kontynuuj do doku %bay.
+CLEARANCE_DENIED_NO_BAYS
+    Brak zgody. Brak wolnych miejsc w dokach.
+ITEM_IS_OUT_OF_STOCK
+    Ta pozycja jest obecnie niedostępna.
+BROWN_DWARF
+    Brązowy karzeł
+WHITE_DWARF
+    Biały karzeł
+STAR_M
+    Czerwona gwiazda typu 'M'
+STAR_K
+    Pomarańczowa gwiazda typu 'K'
+STAR_G
+    Żółta gwiazda typu 'G'
+STAR_F
+    Biała gwiazda typu 'F'
+STAR_A
+    Gorąca biała gwiazda typu 'A'
+STAR_B
+    Jasna niebieska gwiazda typu 'B'
+STAR_O
+    Gorącą, masywna gwiazda typu 'O'
+STAR_M_GIANT
+    Czerwony podolbrzym
+STAR_K_GIANT
+    Pomarańczowy podolbrzym - Niestabilna
+STAR_G_GIANT
+    Żółty podolbrzym - Niestabilna
+STAR_AF_GIANT
+    Biały podolbrzym
+STAR_B_GIANT
+    Niebieski podolbrzym
+STAR_O_GIANT
+    Gorący niebieski podolbrzym
+STAR_M_SUPER_GIANT
+    Czerwony olbrzym
+STAR_K_SUPER_GIANT
+    Pomarańczowy olbrzym
+STAR_G_SUPER_GIANT
+    Żółty olbrzym
+STAR_AF_SUPER_GIANT
+    Biały olbrzym
+STAR_B_SUPER_GIANT
+    Niebieski olbrzym
+STAR_O_SUPER_GIANT
+    Gorący niebieski olbrzym
+STAR_M_HYPER_GIANT
+    Czerwony nadolbrzym
+STAR_K_HYPER_GIANT
+    Pomarańczowy nadolbrzym - Niestabilna
+STAR_G_HYPER_GIANT
+    Żółty nadolbrzym - Niestabilna
+STAR_AF_HYPER_GIANT
+    Biały nadolbrzym
+STAR_B_HYPER_GIANT
+    Niebieski nadolbrzym
+STAR_O_HYPER_GIANT
+    Gorący niebieski nadolbrzym
+STAR_M_WF
+    Gwiazda Wolfa-Rayeta - Niestabilna
+STAR_B_WF
+    Gwiazda Wolfa-Rayeta - Ryzyko wybuchu
+STAR_O_WF
+    Gwiazda Wolfa-Rayeta - Oczekiwany wybuch
+STAR_S_BH
+    Czarna dziura o masie gwiazdowej
+STAR_IM_BH
+    Masywna czarna dziura
+STAR_SM_BH
+    Nasza galaktyczna kotwica
+VERY_LARGE_GAS_GIANT
+    Bardzo duży gazowy olbrzym
+LARGE_GAS_GIANT
+    Duży gazowy olbrzym
+MEDIUM_GAS_GIANT
+    Średni gazowy olbrzym
+SMALL_GAS_GIANT
+    Mały gazowy olbrzym
+ASTEROID
+    Planetoida
+MASSIVE
+    Masywna
+LARGE
+    Duża
+TINY
+    Średnia
+SMALL
+    Mała
+COMMA_HIGHLY_VOLCANIC
+    , silnie wulkaniczna
+HIGHLY_VOLCANIC
+    Silnie wulkaniczna
+ICE_WORLD
+     " lodowa planeta"
+ROCKY_PLANET
+     " skalista planeta"
+OCEANICWORLD
+     " wodna planeta"
+PLANET_CONTAINING_LIQUID_WATER
+     " planeta posiadająca wodę w stanie ciekłym"
+PLANET_WITH_SOME_ICE
+     " planeta pokryta lodem"
+ROCKY_PLANET_CONTAINING_COME_LIQUIDS
+     " skalista planeta pokryta zbiornikami cieczy,"
+WITH_NO_SIGNIFICANT_ATMOSPHERE
+     " bez znaczącej atmosfery"
+TENUOUS
+    śladową
+THIN
+    rozrzedzona
+THICK
+    gęstą
+VERY_DENSE
+    bardzo gęstą
+WITH_A
+     " z "
+O2_ATMOSPHERE
+     " atmosfera oparta na tlenie"
+CO2_ATMOSPHERE
+     " atmosfera oparta na dwutlenku węgla"
+CO_ATMOSPHERE
+     " atmosfera oparta na tlenku węgla"
+CH4_ATMOSPHERE
+     " atmosfera oparta na metanie"
+H_ATMOSPHERE
+     " atmosfera oparta na wodorze"
+HE_ATMOSPHERE
+     " atmosfera oparta na helu"
+AR_ATMOSPHERE
+     " atmosfera oparta na argonie"
+S_ATMOSPHERE
+     " atmosfera przepełnioną siarka"
+N_ATMOSPHERE
+     " atmosfera oparta na azocie"
+AND_HIGHLY_COMPLEX_ECOSYSTEM
+     " i bardzo złożonym ekosystemem."
+AND_INDIGENOUS_PLANT_LIFE
+     " i lokalna roślinnością."
+AND_INDIGENOUS_MICROBIAL_LIFE
+     " i lokalnymi mikroorganizmami."
+ORBITAL_STARPORT
+    Stacja orbitalna
+STARPORT
+    Port kosmiczny
+UNKNOWN
+    <nieznany>
+UNEXPLORED_SYSTEM_NO_DATA
+    System niezbadany. Brak danych.
+SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS
+    Prace badawcze na małą skale. Brak zarejestrowanych mieszkańców.
+SMALL_INDUSTRIAL_OUTPOST
+    Male placówki przemysłowe.
+SOME_ESTABLISHED_MINING
+    Kilka kopalni.
+YOUNG_FARMING_COLONY
+    Młoda kolonia rolnicza.
+INDUSTRIAL_COLONY
+    Kolonia przemysłowa.
+MINING_COLONY
+    Kolonia górnicza.
+OUTDOOR_AGRICULTURAL_WORLD
+    Zewnętrzny rolniczy świat.
+HEAVY_INDUSTRY
+    Przemysł ciężki.
+EXTENSIVE_MINING
+    Rozlegle działania górnicze.
+THRIVING_OUTDOOR_WORLD
+    Zewnętrzny świat tętniący życiem.
+INDUSTRIAL_HUB_SYSTEM
+    Układ ze skoncentrowanym przemysłem.
+VAST_STRIP_MINE
+    Ogromne kolonie górnicze.
+HIGH_POPULATION_OUTDOOR_WORLD
+    Zewnętrzny świat o wysokim zaludnieniu.
+SOMEWHERE_SPACEPORT
+     "-port kosmiczny"
+SOMEWHERE_STARPORT
+     "-stacja kosmiczna"
+MASS
+    Masa
+N_WHATEVER_MASSES
+    %mass{f.3} %units mas
+SOLAR
+    Słonecznych
+EARTH
+    Ziemskich
+SURFACE_TEMPERATURE
+    Temp. powierzchni
+N_CELSIUS
+    %temperature C
+N_YEARS
+    %years{f.1} lat
+N_DAYS
+    %days{f.1} dni
+ORBITAL_PERIOD
+    Okres obiegu
+PERIAPSIS_DISTANCE
+    Perycentrum
+APOAPSIS_DISTANCE
+    Apocentrum
+ECCENTRICITY
+    Mimośród
+AXIAL_TILT
+    Nachylenie osi
+N_DEGREES
+    %angle{f.1} stopni
+DAY_LENGTH
+    Długość dnia
+N_EARTH_DAYS
+    %days{f.1} ziemskich dni
+STARPORTS
+    Stacje kosmiczne
+MAJOR_IMPORTS
+    Główny Import:
+MINOR_IMPORTS
+    Drugorzędny Import:
+MAJOR_EXPORTS
+    Główny Eksport:
+MINOR_EXPORTS
+    Drugorzędny Eksport:
+ILLEGAL_GOODS
+    Towary nielegalne:
+UNEXPLORED_SYSTEM_STAR_INFO_ONLY
+    System niezbadany. Informacje o gwieździe uzyskano przez teleskop, ale brak danych o planetach.
+PLANETARY_INFO
+    Informacje o planecie
+ECONOMIC_INFO
+    Ekonomia
+DEMOGRAPHICS
+    Demografia
+STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
+    Stabilny system z %bodycount głównymi %{body(s)}, posiadający %portcount %{starport(s)}.
+BODY
+    ciałem
+BODIES
+    ciałami
+SYSTEM_TYPE
+    Typ systemu:
+GOVERNMENT_TYPE
+    Rząd:
+ECONOMY_TYPE
+    Ekonomia:
+ALLEGIANCE
+    Przynależność:
+POPULATION
+    Populacja:
+OVER_N_BILLION
+    Ponad %population miliardów
+OVER_N_MILLION
+    Ponad %population milionów
+A_FEW_THOUSAND
+    Tylko kilka tysięcy
+NO_REGISTERED_INHABITANTS
+    Brak zarejestrowanych mieszkańców
+SECTOR_COORDINATES
+    Koordynaty sektora:
+SYSTEM_NUMBER
+    Numer systemu:
+NAME
+    Nazwa
+ROTATIONAL_PERIOD
+     " (Okres obrotu)"
+RADIUS
+    Promień
+SEMI_MAJOR_AXIS
+    Duża półoś
+TIME_POINT
+    czas: 
+UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
+    System nie zbadany. Dane systemu niedostępne.
+WHEELS_ARE_UP
+    Podwozie schowane
+WHEELS_ARE_DOWN
+    Podwozie opuszczone
+OBJECT_LABELS_ARE_ON
+    Oznaczenia obiektów włączone
+OBJECT_LABELS_ARE_OFF
+    Oznaczenia obiektów wyłączone
+HYPERSPACE_JUMP
+    Skok w nadprzestrzeń
+TAKEOFF
+    Start
+MANUAL_CONTROL
+    Kontrola manualna
+COMPUTER_SPEED_CONTROL
+    Automatyczna kontrola prędkości
+AUTOPILOT_ON
+    Autopilot włączony
+SHIP_VELOCITY_BY_REFERENCE_OBJECT
+    Prędkość statku względem punktu odniesienia
+DISTANCE_FROM_SHIP_TO_NAV_TARGET
+    Odległość statku od celu
+SHIP_ALTITUDE_ABOVE_TERRAIN
+    Wysokość statku nad powierzchnia
+EXTERNAL_ATMOSPHERIC_PRESSURE
+    Zewnętrzne ciśnienie atmosferyczne
+HULL_TEMP
+    Temp. kadłuba
+WEAPON_TEMP
+    Temp. broni
+HULL_INTEGRITY
+    Integr. kadłuba
+SHIELD_INTEGRITY
+    Integr. osłon
+LAUNCH_PERMISSION_DENIED_BUSY
+    Brak pozwolenia na lądowanie: doki zajęte.
+HYPERSPACE_JUMP_ABORTED
+    Skok w nadprzestrzeń przerwany.
+LANDED
+    Ląduje
+DOCKING
+    Dokuje
+DOCKED
+    Zacumowany
+HYPERSPACE
+    Skok w nadprzestrzeń
+SET_SPEED_KM_S
+    Prędkość: %speed{f.2} km/s
+SET_SPEED_M_S
+    Prędkość: %speed{f.0} m/s
+KM_S_RELATIVE_TO
+    %speed{f.2} km/s względem %frame
+M_S_RELATIVE_TO
+    %speed{f.0} m/s względem %frame
+N_DISTANCE_TO_TARGET
+    %distance do celu
+IN_TRANSIT_TO_N_X_X_X
+    Przelot do %system [%x,%y,%z]
+ALT_IN_METRES
+    Wys: %altitude{f.0}m
+PRESSURE_N_BAR
+    C: %pressure{f.2} bar
+NO_HYPERDRIVE
+    Brak hipernapędu
+MASS_N_TONNES
+    Masa: %{mass}t
+SHIELD_STRENGTH_N
+    Siła osłon: %shields{f.2}
+CARGO_N
+    Ładownia: %{mass}t
+HYPERSPACE_ARRIVAL_CLOUD_REMNANT
+    Ślad wyjściowej chmury nadprzestrzennej
+HYPERSPACE_X_CLOUD
+    %direction tunelu nadprzestrzennego
+SHIP_MASS_N_TONNES
+    Masa statku: %{mass}t
+DATE_DUE_N
+    Data przybycia: %date
+ARRIVAL
+    Wylot
+DEPARTURE
+    Wlot
+SOURCE
+    Punkt wyjściowy
+DESTINATION
+    Punkt docelowy
+HYPERSPACING_IN_N_SECONDS
+    Skok w nadprzestrzeń za %countdown{f.0}
+NAVIGATION_TARGETS_IN_THIS_SYSTEM
+    Cele nawigacyjne w systemie
+YOU_NO_MONEY
+    Nie masz pieniędzy.
+FINE_PAID_N_BUT_N_REMAINING
+    Zapłaciłeś %paid lecz wciąż jesteś winien %fine.
+FINE_PAID_N
+    Zapłaciłeś mandat %fine.
+SET_HYPERSPACE_DESTINATION_TO
+    "Ustawiono cel skoku na %system"
+NO_TARGET_SELECTED
+    Komputer pokładowy: Nie wybrano celu
+REQUEST_DOCKING_CLEARANCE
+    Pozwolenie na lądowanie
+AUTOPILOT_DOCK_WITH_STATION
+    Autopilot: Dokuj na stacji
+PAY_FINE_REMOTELY
+    Zapłać mandat (%amount)
+AUTOPILOT_FLY_TO_VICINITY_OF
+    Autopilot: Leć w pobliże %target
+AUTOPILOT_ENTER_LOW_ORBIT_AROUND
+    Autopilot: Wejdź na niską orbitę do okoła %target
+AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
+    Autopilot: Wejdź na średnią orbitę do okoła %target
+AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
+    Autopilot: Wejdź na wysoką orbitę do okoła %target
+SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
+    Analizator chmury nadprzestrzennej: Ustaw cel skoku na miejsce docelowe chmury nadprzestrzennej
+FAILED
+    Nieukończona
+COMPLETED
+    Ukończona
+ACTIVE
+    Aktywna
+DISTANCE_LY
+    Dystans: %distance{f.2} lś

@@ -12,6 +12,7 @@ extern int GEOPATCH_EDGELEN;
 
 class SBody;
 class GeoPatch;
+class GeoPatchContext;
 class GeoSphere {
 public:
 	GeoSphere(const SBody *body);
@@ -62,7 +63,14 @@ private:
 	void DestroyVBOs();
 	
 	vector3d m_tempCampos;
-	int m_runUpdateThread;
+
+	SDL_mutex *m_updateLock;
+
+	SDL_mutex *m_needUpdateLock;
+	bool m_needUpdate;
+
+	SDL_mutex *m_abortLock;
+	bool m_abort;
 	//////////////////////////////
 
 	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) {
@@ -70,6 +78,8 @@ private:
 	}
 
 	static int s_vtxGenCount;
+
+	static GeoPatchContext *s_patchContext;
 };
 
 #endif /* _GEOSPHERE_H */
