@@ -26,6 +26,7 @@ public:
 	void GetAtmosphericState(double dist, double *outPressure, double *outDensity);
 	bool IsSuperType(SBody::BodySuperType t) const;
 	virtual const SBody *GetSBody() const { return sbody; }
+	GeoSphere *GetGeosphere() { return m_geosphere; }
 #if OBJECTVIEWER
 	friend class ObjectViewerView;
 #endif

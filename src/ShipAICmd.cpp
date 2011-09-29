@@ -586,6 +586,19 @@ bool AICmdKill::TimeStepUpdate()
 */
 
 
+static double MaxFeatureRad(Body *body)
+{
+	if(!body) return 0.0;
+	if(!body->IsType(Object::PLANET)) return body->GetBoundingRadius();
+	double maxfeat = static_cast<Planet *>(body)->GetGeosphere()->GetMaxFeatureHeight();
+	return (maxfeat + 1.0) * static_cast<Planet *>(body)->GetSBody()->GetRadius();
+}
+
+static double MaxEffectRad(Body *body)
+{
+	return MaxFeatureRad(body) * 1.1;		// temporary hack
+}
+
 static double GetGravityAtPos(Ship *ship, Frame *targframe, vector3d &posoff)
 {
 	Body *body = targframe->GetBodyFor();
@@ -620,7 +633,7 @@ static bool CheckCollision(Ship *obj1, Body *obj2, vector3d &targpos)
 	vector3d p1 = obj1->GetPosition() - p;
 	vector3d p2 = targpos - p;
 	vector3d p2p1dir = (p2-p1).Normalized();
-	double r = obj1->GetBoundingRadius() + obj2->GetBoundingRadius();
+	double r = MaxEffectRad(obj2);		// ignore ship radius - much safer
 
 	// if p2 inside, check if direct entry is safe (30 degree & close)
 	if (p2.LengthSqr() < r*r) {
@@ -662,7 +675,7 @@ static vector3d GenerateTangent(Ship *ship, Frame *targframe, vector3d &shiptarg
 	vector3d spos = tran * ship->GetPosition();
 	vector3d targ = tran * shiptarg;
 	double a = spos.Length();
-	double b = targframe->GetBodyFor()->GetBoundingRadius();
+	double b = MaxEffectRad(targframe->GetBodyFor());
 	if (b*1.02 > a) { spos *= b*1.02/a; a = b*1.02; }		// fudge if ship gets under radius
 	double c = sqrt(a*a - b*b);
 	return spos.Normalized()*b*b/a + spos.Cross(targ).Cross(spos).Normalized()*b*c/a;
@@ -686,16 +699,28 @@ static int GetFlipMode(Ship *ship, Frame *targframe, vector3d &posoff)
 	return (targpos.Length() > 100000000.0) ? 1 : 0;		// arbitrary
 }
 
-static AICommand *CheckCollisions(Ship *ship, Frame *targframe, vector3d &posoff)
+
+static AICommand *CheckCollisions(Ship *ship, Frame *targframe, vector3d &posoff, bool localfeature)
 {
-	// check collisions
 	Frame *shipframe = ship->GetFrame();
 	vector3d targpos = GetPosInFrame(shipframe, targframe, posoff);
+
+	if (localfeature) {
+		// if inside obstructor's max feature radius, head out
+		double maxfeat = MaxFeatureRad(shipframe->GetBodyFor());
+		double dist = ship->GetPosition().Length();
+		if (maxfeat > dist) {
+			vector3d newtarg = ship->GetPosition() * (maxfeat+100.0) / dist;
+			return new AICmdFlyTo(ship, shipframe, newtarg, 10.0, 0, false);
+		}
+	}
+
+	// check collisions
 	Body *body = FindNearestObstructor(ship, shipframe->GetBodyFor(), targpos);
 	if (!body) body = FindNearestObstructor(ship, targframe->GetBodyFor(), targpos);
 	if (!body) return 0;
 	double dist = ship->GetPositionRelTo(body).Length();
-	double rad = body->GetBoundingRadius();
+	double rad = MaxEffectRad(body);
 
 	// if obstructor is distant, just fly to its vicinity
 	if (rad*VICINITY_MUL*1.1 < dist)
@@ -703,7 +728,7 @@ static AICommand *CheckCollisions(Ship *ship, Frame *targframe, vector3d &posoff
 
 	// if target not in obstructor's root frame, flyaround with larger radius
 	if (targframe != body->GetFrame())
-		return new AICmdFlyAround(ship, body, rad*1.2, 0.0, targframe, posoff);
+		return new AICmdFlyAround(ship, body, rad*1.1, 0.0, targframe, posoff);
 
 	// if target on opposite side of obstructor, flyaround
 	if ((targpos - ship->GetPosition()).LengthSqr() > dist*dist)
@@ -712,7 +737,7 @@ static AICommand *CheckCollisions(Ship *ship, Frame *targframe, vector3d &posoff
 	// otherwise fly to position above target
 	vector3d newtarg = posoff*rad*1.02 / posoff.Length();
 	int flipmode = GetFlipMode(ship, targframe, newtarg);
-	return new AICmdFlyTo(ship, targframe, newtarg, 100.0, flipmode, false);		// TODO: unfudge?
+	return new AICmdFlyTo(ship, targframe, newtarg, 10.0, flipmode, false);		// TODO: unfudge?
 }
 
 // Check for the player doing bad things
@@ -728,10 +753,8 @@ static AICommand *CheckSuicide(Ship *ship, double endvel, Frame *targframe, vect
 
 	// 1. on collision course with frame body
 	// how to detect? altitude, sideacc & velocity towards planet
-	SBody *sbody = frame->GetSBodyFor();
-	if (sbody && frame != targframe) {
-		// TODO: fuck knows what sbody->GetRadius is - CHECK
-		double alt = ship->GetPosition().Length() - sbody->GetRadius();
+	if (frame->GetSBodyFor() && frame != targframe) {
+		double alt = ship->GetPosition().Length() - MaxFeatureRad(frame->GetBodyFor());
 		double dirvel = plandir.Dot(ship->GetVelocity());
 
 		if (dirvel < 0 && dirvel*dirvel > 2*maxacc.x*alt) {
@@ -766,7 +789,7 @@ void AICmdFlyTo::FrameSwitchSetup()
 	m_reldir = (targpos - m_ship->GetPosition()).NormalizedSafe();
 
 	if (!m_coll) return;
-	m_child = CheckCollisions(m_ship, m_targframe, m_posoff);
+	m_child = CheckCollisions(m_ship, m_targframe, m_posoff, true);
 	if (!m_child) m_child = CheckSuicide(m_ship, m_endvel, m_targframe, m_posoff);
 	if (m_child) m_frame = 0;
 }
@@ -774,7 +797,7 @@ void AICmdFlyTo::FrameSwitchSetup()
 // Fly to "vicinity" of body
 AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, bool coll) : AICommand (ship, CMD_FLYTO)
 {
-	double dist = std::max(VICINITY_MIN, VICINITY_MUL*target->GetBoundingRadius());
+	double dist = std::max(VICINITY_MIN, VICINITY_MUL*MaxEffectRad(target));
 	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation *>(target)->IsGroundStation()) {
 		matrix4x4d rot; target->GetRotMatrix(rot);
 		m_posoff = target->GetPosition() + dist * vector3d(rot[4], rot[5], rot[6]);		// up vector for starport
@@ -894,6 +917,11 @@ bool AICmdFlyTo::TimeStepUpdate()
 	vector3d reldir = relpos.NormalizedSafe();
 	double targdist = relpos.Length();
 	double sideacc = m_ship->GetMaxThrust(vector3d(0.0)).x / m_ship->GetMass();
+
+	// if dangerously close to local body, pretend target isn't moving
+	double localdist = m_ship->GetPosition().Length();
+	if (targdist > localdist && localdist < 1.5*MaxEffectRad(m_frame->GetBodyFor()))
+		relvel += targvel;
 
 //if(m_ship->IsType(Object::PLAYER)) {
 //	printf("Autopilot dist = %f, speed = %f, term = %f, state = 0x%x\n", targdist, relvel.Length(),
@@ -1023,7 +1051,6 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int targmod
 	m_obstructor = obstructor; m_alt = alt; m_vel = vel;
 	m_targmode = targmode; m_target = target; m_targframe = targframe; m_posoff = posoff;
 	
-
 	// generate suitable velocity if none provided
 	double minthrust = m_ship->GetMaxThrust(vector3d(0.0)).x;
 	if (vel < 1e-30) m_vel = sqrt((obstructor->GetMass()*G + 0.8*minthrust) / m_alt);
