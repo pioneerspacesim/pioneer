@@ -2077,6 +2077,7 @@ namespace ModelFuncs {
 	 *
 	 * > set_material('wall', 1.0,1.0,1.0,1.0, 0.3,0.3,0.3,5.0, 0.0,0.0,0.0)
 	 * > set_material('windows', 0,0,0,1, 1,1,1,50, .5,.5,0)
+	 * > set_material('blue', 0.0,0.0,0.8,1.0) --just rgba
 	 *
 	 * Availability:
 	 *
@@ -2906,6 +2907,60 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: get_arg
+	 *
+	 * Return numerical arguments passed from C++ code. Required for making
+	 * docking bay animations or altering ship appearance based on actual equipment.
+	 *
+	 * > get_arg(index)
+	 *
+	 * Parameters:
+	 *
+	 *   index - argument number or name. Used numbers and their names are:
+	 *           (some numbers are reused)
+	 *           1, ARG_ALL_TIME_SECONDS, seconds of in-game time
+	 *           2, ARG_ALL_TIME_MINUTES, minutes of in-game time
+	 *           3, ARG_ALL_TIME_HOURS, hours of in-game time
+	 *           4, ARG_ALL_TIME_DAYS, days of in-game time
+	 *           6, ARG_STATION_BAY1_STAGE, station docking bay 1 stage
+	 *           (0 dock empty, 1 clearance granted, 2-n docking animation stage,
+	 *           number of docking stages+1 means docked, -1 to -n undocking stage)
+	 *           7, station bay 2 stage
+	 *           8, station bay 3 stage
+	 *           9, station bay 4 stage
+	 *           10, ARG_STATION_BAY1_POS
+	 *           0, ARG_SHIP_WHEEL_STATE, landing gear state (0.0=up, 1.0=down)
+	 *           5, ARG_SHIP_EQUIP_SCOOP, 1 if fuel scoop equipped
+	 *           6, ARG_SHIP_EQUIP_ENGINE
+	 *           7, ARG_SHIP_EQUIP_ECM
+	 *           8, ARG_SHIP_EQUIP_SCANNER
+	 *           9, ARG_SHIP_EQUIP_ATMOSHIELD
+	 *           10, ARG_SHIP_EQUIP_LASER0
+	 *           11, ARG_SHIP_EQUIP_LASER1
+	 *           12, ARG_SHIP_EQUIP_MISSILE0
+	 *           13, ARG_SHIP_EQUIP_MISSILE1
+	 *           14, ARG_SHIP_EQUIP_MISSILE2
+	 *           15, ARG_SHIP_EQUIP_MISSILE3
+	 *           16, ARG_SHIP_EQUIP_MISSILE4
+	 *           17, ARG_SHIP_EQUIP_MISSILE5
+	 *           18, ARG_SHIP_EQUIP_MISSILE6
+	 *           19, ARG_SHIP_EQUIP_MISSILE7
+	 *           20, ARG_SHIP_FLIGHT_STATE
+	 *
+	 * Example:
+	 *
+	 * > local down = get_arg(0) --check if landing gear is down
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int get_arg(lua_State *L)
 	{
 		assert(s_curParams != 0);
@@ -2924,7 +2979,7 @@ namespace ModelFuncs {
 			lua_pushstring(L, "");
 		return 1;
 	}
-	
+
 	static int get_arg_material(lua_State *L)
 	{
 		assert(s_curParams != 0);
@@ -2954,6 +3009,36 @@ namespace ModelFuncs {
 		return 1;
 	}
 
+	/*
+	 * Function: billboard
+	 *
+	 * Textured plane that always faces the camera.
+	 * 
+	 * Does not use materials, will not affect collisions.
+	 *
+	 * > billboard(texture, size, color, points)
+	 *
+	 * Parameters:
+	 *
+	 *   texture - texture file to use
+	 *   size - billboard size
+	 *   color - rgba vector
+	 *   points - table of vertices to define several billboards and their
+	 *            positions, supply at least one e.g. { v(0,0,0) }
+	 *
+	 * Example:
+	 *
+	 * > billboard('halo.png', 10, v(0,1,0), { v(0,0,0) }) --greenish light sprite
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int billboard(lua_State *L)
 	{
 //		billboard('texname', size, color, { p1, p2, p3, p4 })
@@ -3024,6 +3109,32 @@ namespace ModelFuncs {
 	}
 
 
+	/*
+	 * Function: sphere
+	 *
+	 * Icosahedron style sphere.
+	 *
+	 * > sphere(subdivisions, transform)
+	 *
+	 * Parameters:
+	 *
+	 *   subdivisions - times to subdivide the model, icosahedron has twenty sides
+	 *   transform - optional transform matrix
+	 *
+	 * Example:
+	 *
+	 * > sphere(0) --standard 20 triangles
+	 * > sphere(3) --a lot smoother (1280 triangles)
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int sphere (lua_State *l)
 	{
 		int i, subdivs;
@@ -3052,7 +3163,38 @@ namespace ModelFuncs {
 		return 0;
 	}
 
-	//////////////////////////////////////////
+
+	/*
+	 * Function: sphere_slice
+	 *
+	 * Partially sliced sphere for domes and such.
+	 * 
+	 * The resulting shape will be capped (closed).
+	 *
+	 * > sphere_slice(lat_segs, long_segs, angle1, angle2, transform)
+	 *
+	 * Parameters:
+	 *
+	 *   lat_segs - latitudinal subdivisions
+	 *   long_segs - longitudinal subdivisions
+	 *   angle1 - angle, or amount to slice from bottom, 0.5*pi would be halfway
+	 *   angle2 - slice angle from top
+	 *   transform - matrix transform to translate, rotate or scale the result
+	 *
+	 * Example:
+	 *
+	 * > sphere_slice(6,6,0.5*math.pi,0.0, Matrix.scale(v(2,2,2))) --slice off bottom half
+	 * > sphere_slice(6,6,0.5*math.pi,0.2*math.pi, Matrix.scale(v(2,2,2))) --take off a bit from top as well
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int sphere_slice(lua_State *l)
 	{
 		int LAT_SEGS;
@@ -3170,7 +3312,37 @@ namespace ObjLoader {
 		return mtl_map;
 	}
 
-	//load_obj
+	/*
+	 * Function: load_obj
+	 *
+	 * Load a Wavefront OBJ model file.
+	 * 
+	 * If an associated .mtl material definition file is found, Pioneer will
+	 * attempt to interpret it the best it can, including texture usage. Note that
+	 * Pioneer supports only one texture per .obj file.
+	 *
+	 * > load_obj(modelname, transform)
+	 *
+	 * Parameters:
+	 *
+	 *   modelname - .obj file name to load
+	 *   transform - optional transform matrix, for example Matrix.scale(v(2,2,2))
+	 *               will double the model scale along all three axes
+	 *
+	 * Example:
+	 *
+	 * > load_obj_file('wing.obj')
+   * > load_obj_file('wing.obj', Matrix.translate(v(-5,0,0)) --shift left
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int load_obj_file(lua_State *L)
 	{
 		const char *obj_name = luaL_checkstring(L, 1);
