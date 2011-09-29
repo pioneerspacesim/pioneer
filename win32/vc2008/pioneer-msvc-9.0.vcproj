@@ -901,6 +901,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\TerrainBody.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\TextureFont.cpp"
 				>
 			</File>
@@ -1828,6 +1832,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\SystemView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\TerrainBody.h"
 				>
 			</File>
 			<File

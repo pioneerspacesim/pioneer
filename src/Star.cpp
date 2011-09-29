@@ -1,44 +1,14 @@
-#include "libs.h"
 #include "Star.h"
-#include "Pi.h"
-#include "WorldView.h"
-#include "Serializer.h"
 #include "render/Render.h"
+#include "gui/Gui.h"
 
-Star::Star(SBody *sbody): Body()
+Star::Star() : TerrainBody()
 {
-	m_sbody = sbody;
-	radius = sbody->GetRadius();
-	mass = sbody->GetMass();
-	pos = vector3d(0,0,0);
 }
 
-vector3d Star::GetPosition() const
+Star::Star(SBody *sbody): TerrainBody(sbody)
 {
-	return pos;
-}
-
-void Star::SetPosition(vector3d p)
-{
-	pos = p;
-}
-
-void Star::Save(Serializer::Writer &wr)
-{
-	Body::Save(wr);
-	wr.Int32(Serializer::LookupSystemBody(m_sbody));
-	wr.Vector3d(pos);
-	wr.Double(radius);
-	wr.Double(mass);
-}
-
-void Star::Load(Serializer::Reader &rd)
-{
-	Body::Load(rd);
-	m_sbody = Serializer::LookupSystemBody(rd.Int32());
-	pos = rd.Vector3d();
-	radius = rd.Double();
-	mass = rd.Double();
+	m_hasDoubleFrame = false;
 }
 
 void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
@@ -48,6 +18,8 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	glPushMatrix();
 
 	Render::State::UseProgram(0);
+
+	double radius = GetSBody()->GetRadius();
 	
 	double rad = radius;
 	vector3d fpos = viewCoords;
@@ -62,8 +34,11 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	glTranslatef(float(fpos.x), float(fpos.y), float(fpos.z));
 	
 	if (IsOnscreen()) {
-		const float *col = StarSystem::starRealColors[m_sbody->type];
+		const float *col = StarSystem::starRealColors[GetSBody()->type];
 		const float b = (Render::IsHDREnabled() ? 100.0f : 1.0f);
+		// if star is wolf-rayet it gets a very large halo effect
+		const float wf = ((GetSBody()->type < SBody::TYPE_STAR_S_BH && 
+			GetSBody()->type > SBody::TYPE_STAR_O_HYPER_GIANT) ? 100.0f : 1.0f);
 
 		/* Draw star spikes and halo to 2d ortho screen */
 		
@@ -71,14 +46,16 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		vector3d pp;
 		Gui::Screen::Project(fpos, pp);
 
-		const float glowrad = float(20.0f+20000.0f*radius/viewCoords.Length());
+		MTRand(rand);
+
+		const float glowrad = float(20.0f+1000.0f*wf*radius/viewCoords.Length());
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
 		glEnable(GL_BLEND);
 		glBegin(GL_TRIANGLE_FAN);
-		glColor4f(0.5f*col[0], 0.5f*col[1], 0.5f*col[2], 1);
+		glColor4f(col[0], col[1], col[2], 1);
 		glVertex3f(pp.x, pp.y, 0);
 		glColor4f(0,0,0,0);
-		for (float ang=0; ang<2*M_PI; ang+=0.2) {
+		for (float ang=0; ang<2*M_PI; ang+=0.26183+rand.Double(0,0.4)) {
 			glVertex3f(pp.x+glowrad*sin(ang), pp.y+glowrad*cos(ang), 0);
 		}
 		glVertex3f(pp.x, pp.y+glowrad, 0);
@@ -87,65 +64,19 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		
 		Render::State::UseProgram(Render::simpleShader);
 		glEnable(GL_BLEND);
-		glColor4f(0.5f*b*col[0],0.5f*b*col[1],0.5f*b*col[2],1);
+		glColor4f(b*col[0],b*col[1],b*col[2],1);
 		glBegin(GL_TRIANGLE_FAN);
 		glVertex3f(pp.x,pp.y,0);
 		glColor4f(0,0,0,0);
-		
-		const float spikerad = std::min<float>(10.0f+20000.0f*radius/viewCoords.Length(), 0.5f*float(Gui::Screen::GetHeight()));
-		{
-			/* cubic bezier with 2 (0,0,0) control points */
-			vector3f p0(0,spikerad,0), p1(spikerad,0,0);
-			float t=0.1; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = pp + (1-t)*(1-t)*(1-t)*(1-t)*p0 + t*t*t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-		{
-			vector3f p0(spikerad,0,0), p1(0,-spikerad,0);
-			float t=0.1; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = pp + (1-t)*(1-t)*(1-t)*(1-t)*p0 + t*t*t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-		{
-			vector3f p0(0,-spikerad,0), p1(-spikerad,0,0);
-			float t=0.1; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = pp + (1-t)*(1-t)*(1-t)*(1-t)*p0 + t*t*t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-		{
-			vector3f p0(-spikerad,0,0), p1(0,spikerad,0);
-			float t=0.1; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = pp + (1-t)*(1-t)*(1-t)*(1-t)*p0 + t*t*t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
 		glEnd();
 		
+		Render::State::UseProgram(0);
 		Gui::Screen::LeaveOrtho();
 		glDisable(GL_BLEND);
-		// face the camera dammit
-		vector3d zaxis = fpos.Normalized();
-		vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
-		vector3d yaxis = zaxis.Cross(xaxis);
-		matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
-		glMultMatrixd(&rot[0]);
 
-		glDisable(GL_LIGHTING);
-		glDisable(GL_DEPTH_TEST);
-		glBegin(GL_TRIANGLE_FAN);
-		glColor4f(b*col[0],b*col[1],b*col[2],1);
-		glVertex3f(0, 0, 0);
-		for (float ang=0; ang<2*M_PI; ang+=0.1) {
-			glVertex3f(float(rad*sin(ang)), float(rad*cos(ang)), 0);
-		}
-		glVertex3f(0, float(rad), 0);
-		glEnd();
-		Render::State::UseProgram(0);
+		TerrainBody::Render(viewCoords, viewTransform);
 	}
-	
+
 	glPopMatrix();
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);

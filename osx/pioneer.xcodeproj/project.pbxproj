@@ -228,6 +228,7 @@
 		4A9937691368355500EA0EE5 /* LuaUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99374A1368355500EA0EE5 /* LuaUI.cpp */; };
 		4A99376A1368355500EA0EE5 /* LuaUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99374C1368355500EA0EE5 /* LuaUtils.cpp */; };
 		4A99893E1388BCD900647BA9 /* FontConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99893C1388BCD900647BA9 /* FontConfig.cpp */; };
+		4AB3DF8914346952001B783A /* TerrainBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB3DF8714346952001B783A /* TerrainBody.cpp */; };
 		4AD68C8D1359C3CE0048A93F /* pioneer-logo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */; };
 		4AE5CA381383220E00B55DEB /* libGLEW.1.6.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA371383220E00B55DEB /* libGLEW.1.6.0.dylib */; };
 		4AE5CA391383223700B55DEB /* libGLEW.1.6.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4AE5CA371383220E00B55DEB /* libGLEW.1.6.0.dylib */; };
@@ -752,6 +753,8 @@
 		4A99374F1368355500EA0EE5 /* RefList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefList.h; sourceTree = "<group>"; };
 		4A99893C1388BCD900647BA9 /* FontConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FontConfig.cpp; sourceTree = "<group>"; };
 		4A99893D1388BCD900647BA9 /* FontConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontConfig.h; sourceTree = "<group>"; };
+		4AB3DF8714346952001B783A /* TerrainBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainBody.cpp; sourceTree = "<group>"; };
+		4AB3DF8814346952001B783A /* TerrainBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerrainBody.h; sourceTree = "<group>"; };
 		4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "pioneer-logo.icns"; sourceTree = "<group>"; };
 		4AE5CA371383220E00B55DEB /* libGLEW.1.6.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.6.0.dylib; path = /opt/local/lib/libGLEW.1.6.0.dylib; sourceTree = "<absolute>"; };
 		4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL-1.2.0.dylib"; path = "/opt/local/lib/libSDL-1.2.0.dylib"; sourceTree = "<absolute>"; };
@@ -1070,6 +1073,8 @@
 		4A6C4B9F13532FC300FDD53F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				4AB3DF8714346952001B783A /* TerrainBody.cpp */,
+				4AB3DF8814346952001B783A /* TerrainBody.h */,
 				4A8DD539142E19B6006DD821 /* LuaConsole.cpp */,
 				4A8DD53A142E19B6006DD821 /* LuaConsole.h */,
 				4A6B59CD1429F16E00ADC7C8 /* render */,
@@ -1629,6 +1634,7 @@
 				4A6B59EF1429F16E00ADC7C8 /* RenderTarget.cpp in Sources */,
 				4A6B59F11429F16E00ADC7C8 /* RenderTexture.cpp in Sources */,
 				4A8DD53B142E19B6006DD821 /* LuaConsole.cpp in Sources */,
+				4AB3DF8914346952001B783A /* TerrainBody.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

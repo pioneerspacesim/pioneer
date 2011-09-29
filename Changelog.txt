@@ -1,17 +1,19 @@
 Alpha 15
 
   * New features
+    * Star "terrains". Stars now have complex surface colours and patterns (#567)
     * Assassination missions (#290, #500)
     * Restored "hoop" orbital station (#499, #516)
     * Restored "Panther" ship (#497)
     * Big mushroom station with four bays (#530)
     * New futuristic city buildings (#518, #557)
     * Four new ambient music tracks (#543)
+    * Ship drives now break down over time and require repairs (#552)
     * Ship landing lights now only flash when landing gear is down or ship is
       docking (#236, #478)
     * Station landing lights now coloured to indicate occupied (red), free
       (orange) and cleared for docking (green) (#4, #489, #498)
-    * Romanian translation (#565)
+    * Romanian, Dutch, Italian and Croatian translations (#565, #571, #573)
 
   * Minor changes and tweaks
     * Landed and docked ships will no longer cause alerts (#454, #466)
@@ -36,6 +38,9 @@ Alpha 15
     * Fix LMR stack leaks that could cause heap corruption (#555, #342, #470)
     * Fix display of co-orbital bodies in system view (#551)
     * Don't respawn bulk ships on game load (#539)
+    * Fix rare crash when NPC ship is destroyed that previously attacked the
+      player (#568)
+    * Fix a case where we try to access an object after its been freed (#342, #470)
 
   * Script changes
     * Experimental Lua console (#537)
