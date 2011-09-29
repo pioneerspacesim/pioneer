@@ -1088,16 +1088,10 @@ CARGO_N
     Carico: %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
     Residuo di nube iperspaziale di arrivo
-HYPERSPACE_X_CLOUD
-    Nube iperspaziale verso %direction
 SHIP_MASS_N_TONNES
     Massa astronave: %{mass}t
 DATE_DUE_N
     Attesa per: %date
-ARRIVAL
-    in arrivo
-DEPARTURE
-    in partenza
 SOURCE
     Origine
 DESTINATION

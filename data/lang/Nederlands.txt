@@ -1089,16 +1089,10 @@ CARGO_N
     Lading: %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
     Hyperspace aankomst-wolk overblijfsel
-HYPERSPACE_X_CLOUD
-    Hyperspace %direction wolk
 SHIP_MASS_N_TONNES
     Scheepsmassa: %{mass}t
 DATE_DUE_N
     Datum verwacht: %date
-ARRIVAL
-    aankomst
-DEPARTURE
-    vertrek
 SOURCE
     Oorsprong
 DESTINATION
