@@ -40,6 +40,7 @@ Alpha 15
     * Don't respawn bulk ships on game load (#539)
     * Fix rare crash when NPC ship is destroyed that previously attacked the
       player (#568)
+    * Fix a case where we try to access an object after its been freed (#342, #470)
 
   * Script changes
     * Experimental Lua console (#537)
