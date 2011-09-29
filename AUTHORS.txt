@@ -42,6 +42,8 @@ Translations:
   Brian Ronald
   Piotr Gredka
   Blaga Cosmin
+  Vincent Teerling
+  Alessandro Giachi
 
 Thanks to those that have moved on (we hope to see you back!)
 

@@ -549,6 +549,8 @@ INCREASE_SET_SPEED
     Gesetzten Geschwindigkeit steigern
 DECREASE_SET_SPEED
     Gesetzten Geschwindigkeit verringern
+TOGGLE_LUA_CONSOLE
+    Lua-console schalten
 JOYSTICK_INPUT
     Joystickeingabe
 PITCH
@@ -929,6 +931,8 @@ SOLAR
     Sonnen
 EARTH
     Erd
+SURFACE_GRAVITY
+    Oberfläche die Schwerkraft
 SURFACE_TEMPERATURE
     Oberflächentemperatur
 N_CELSIUS
