@@ -202,8 +202,45 @@ void GeoSphereStyle::ChangeDetailLevel()
 void GeoSphereStyle::PickTerrain(MTRand &rand)
 {
 	/* Pick terrain and color fractals to use */
-	if (m_body->type == SBody::TYPE_PLANET_GAS_GIANT) {
-		m_terrainType = TERRAIN_GASGIANT;
+	if (m_body->type == SBody::TYPE_BROWN_DWARF) {
+		m_terrainType = TERRAIN_FLAT;
+		m_colorType = COLOR_STAR_BROWN_DWARF;
+	} else if (m_body->type == SBody::TYPE_WHITE_DWARF) {
+		m_terrainType = TERRAIN_FLAT;
+		m_colorType = COLOR_STAR_WHITE_DWARF;
+	} else if ((m_body->type == SBody::TYPE_STAR_M) || (m_body->type == SBody::TYPE_STAR_M_GIANT) ||
+	(m_body->type == SBody::TYPE_STAR_M_SUPER_GIANT) || (m_body->type == SBody::TYPE_STAR_M_SUPER_GIANT)){ 
+		m_terrainType = TERRAIN_FLAT;
+		const enum ColorFractal choices[] = {
+				COLOR_STAR_M,
+				COLOR_STAR_M,
+				COLOR_STAR_K,
+				COLOR_STAR_G,
+			};
+			m_colorType = choices[rand.Int32(4)];
+	} else if ((m_body->type == SBody::TYPE_STAR_K) || (m_body->type == SBody::TYPE_STAR_K_GIANT) ||
+	(m_body->type == SBody::TYPE_STAR_K_SUPER_GIANT) || (m_body->type == SBody::TYPE_STAR_K_SUPER_GIANT)){ 
+		m_terrainType = TERRAIN_FLAT;
+		const enum ColorFractal choices[] = {
+				COLOR_STAR_M,
+				COLOR_STAR_K,
+				COLOR_STAR_K,
+				COLOR_STAR_G,
+			};
+			m_colorType = choices[rand.Int32(3)];
+	} else if ((m_body->type == SBody::TYPE_STAR_G) || (m_body->type == SBody::TYPE_STAR_G_GIANT) ||
+	(m_body->type == SBody::TYPE_STAR_G_SUPER_GIANT) || (m_body->type == SBody::TYPE_STAR_G_SUPER_GIANT)){ 
+		m_terrainType = TERRAIN_FLAT;
+		const enum ColorFractal choices[] = {
+				COLOR_STAR_WHITE_DWARF,
+				COLOR_STAR_G,
+			};
+			m_colorType = choices[rand.Int32(2)];
+	} else if (m_body->type < SBody::TYPE_PLANET_GAS_GIANT) {
+		m_terrainType = TERRAIN_FLAT;
+		m_colorType = COLOR_SOLID;
+	} else if (m_body->type == SBody::TYPE_PLANET_GAS_GIANT) {
+		m_terrainType = TERRAIN_FLAT;
 		switch (rand.Int32(5)) {
 			case 0: m_colorType = COLOR_GG_SATURN; break;
 			case 1: m_colorType = COLOR_GG_SATURN2; break;
@@ -535,6 +572,7 @@ void GeoSphereStyle::PickAtmosphere()
 			m_atmosColor = Color(1.0f, 1.0f, 1.0f, 0.005f);
 			m_atmosDensity = 14.0;
 			break;
+		case SBody::SUPERTYPE_STAR:
 		case SBody::TYPE_PLANET_ASTEROID:
 			m_atmosColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
 			m_atmosDensity = 0.0;
@@ -974,7 +1012,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			SetFracDef(&m_fracdef[9], height*0.0025, rand.Double(1,100), rand, 100.0*m_fracmult);
             break;
 		}
-        case TERRAIN_GASGIANT:
+        case TERRAIN_FLAT:
         case TERRAIN_NONE:
             // Added in to prevent compiler warnings
             break;
@@ -983,6 +1021,46 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 // We set some fracdefs here for colours if we need them:
 	switch (m_colorType) {
 		case COLOR_NONE:
+		case COLOR_STAR_BROWN_DWARF:
+			{
+				double height = m_maxHeightInMeters*0.1;
+				SetFracDef(&m_fracdef[0], height, 5e6, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[1], height, 3e6, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[2], height, 1e5, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[3], height, 1e2, rand, 10.0*m_fracmult);
+			}
+		case COLOR_STAR_WHITE_DWARF:
+			{
+				double height = m_maxHeightInMeters*0.1;
+				SetFracDef(&m_fracdef[0], height, 3e5, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[1], height, 1e5, rand, 10.0*m_fracmult);
+				//SetFracDef(&m_fracdef[2], height, 1e6, rand, 10.0*m_fracmult);
+				//SetFracDef(&m_fracdef[3], height, 1e2, rand, 10.0*m_fracmult);
+			}
+		case COLOR_STAR_M:
+			{
+				double height = m_maxHeightInMeters*0.1;
+				SetFracDef(&m_fracdef[0], height, 1e8, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[1], height, 7e7, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[2], height, 3e6, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[3], height, 2e5, rand, 10.0*m_fracmult);
+			}
+		case COLOR_STAR_K:
+			{
+				double height = m_maxHeightInMeters*0.1;
+				SetFracDef(&m_fracdef[0], height, 2e8, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[1], height, 7e7, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[2], height, 1e6, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[3], height, 1e3, rand, 10.0*m_fracmult);
+			}
+		case COLOR_STAR_G:
+			{
+				double height = m_maxHeightInMeters*0.1;
+				SetFracDef(&m_fracdef[0], height, 8e8, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[1], height, 7e6, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[2], height, 4e6, rand, 10.0*m_fracmult);
+				SetFracDef(&m_fracdef[3], height, 2e6, rand, 10.0*m_fracmult);
+			}
 		case COLOR_GG_JUPITER: 
 			{
 				// spots
@@ -1064,6 +1142,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 		case COLOR_TFGOOD:
 		case COLOR_TFPOOR:
 		case COLOR_BANDED_ROCK:
+		default:
 			{
 				break;
 			}
@@ -1081,7 +1160,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 
 	switch (m_terrainType) {
 		case TERRAIN_NONE:
-		case TERRAIN_GASGIANT:
+		case TERRAIN_FLAT:
 			return 0;
 		case TERRAIN_ASTEROID:
 		{
@@ -2024,7 +2103,126 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 {
 	switch (m_colorType) {
 	case COLOR_NONE:
+	case COLOR_SOLID: 
 		return vector3d(1.0);
+	case COLOR_STAR_BROWN_DWARF: {
+		double n;
+		vector3d col;
+			n = voronoiscam_octavenoise(m_fracdef[0], 0.6, p) * 0.5;
+			//n += ridged_octavenoise(m_fracdef[1], 0.7, p) * 0.5;
+			//n += voronoiscam_octavenoise(m_fracdef[0], 0.8, p) * ridged_octavenoise(m_fracdef[1], 0.8, p);
+			//n *= n * n;
+			//n += voronoiscam_octavenoise(m_fracdef[2], 0.6, p) * 0.5;
+			//n += ridged_octavenoise(m_fracdef[3], 0.6, p) * 0.5;
+			//n += 0.8*billow_octavenoise(m_fracdef[0], 0.8, noise(p*3.142)*p);
+			//n *= n;
+			if (n > 0.666) {
+				n -= 0.666; n *= 3.0;
+				col = interpolate_color(n, vector3d(.25, .2, .2), vector3d(.1, .0, .0) );
+				return col;
+			} else if (n > 0.333) {
+				n -= 0.333; n *= 3.0;
+				col = interpolate_color(n, vector3d(.2, .25, .1), vector3d(.25, .2, .2) );
+				return col;
+			} else {
+				n *= 3.0;
+				col = interpolate_color(n, vector3d(1.5, 1.0, 1.0), vector3d(.2, .25, .1) );
+				return col;
+			}
+		}
+	case COLOR_STAR_WHITE_DWARF: {
+		double n;
+		vector3d col;
+			n = ridged_octavenoise(m_fracdef[0], 0.8, p*p.x);
+			n += ridged_octavenoise(m_fracdef[1], 0.8, p);
+			n += voronoiscam_octavenoise(m_fracdef[0], 0.8 * octavenoise(m_fracdef[1], 0.6, p), p);
+			n *= n*n;
+			if (n > 0.666) {
+				n -= 0.666; n *= 3.0;
+				col = interpolate_color(n, vector3d(.8, .8, 1.0), vector3d(1.0, 1.0, 1.0));
+				return col;
+			} else if (n > 0.333) {
+				n -= 0.333; n *= 3.0;
+				col = interpolate_color(n, vector3d(.6, .8, .8), vector3d(.8, .8, 1.0));
+				return col;
+			} else {
+				n *= 3.0;
+				col = interpolate_color(n, vector3d(.0, .0, .9), vector3d(.6, .8, .8));
+				return col;
+			}
+		}
+	case COLOR_STAR_M: {
+		double n;
+		vector3d col;
+			n = ridged_octavenoise(m_fracdef[0], 0.6, p) * 0.5;
+			n += ridged_octavenoise(m_fracdef[1], 0.7, p) * 0.5;
+			n += ridged_octavenoise(m_fracdef[0], 0.8, p) * ridged_octavenoise(m_fracdef[1], 0.8, p);
+			n *= n * n;
+			n += ridged_octavenoise(m_fracdef[2], 0.6, p) * 0.5;
+			n += ridged_octavenoise(m_fracdef[3], 0.6, p) * 0.5;
+			n += 0.8*billow_octavenoise(m_fracdef[0], 0.8, noise(p*3.142)*p)*
+			 megavolcano_function(m_fracdef[1], p);
+			n *= 0.5;
+			if (n > 0.666) {
+				n -= 0.666; n *= 3.0;
+				col = interpolate_color(n, vector3d(.65, .5, .25), vector3d(1.0, 1.0, 1.0) );
+				return col;
+			} else if (n > 0.333) {
+				n -= 0.333; n *= 3.0;
+				col = interpolate_color(n, vector3d(.3, .1, .0), vector3d(.65, .5, .25) );
+				return col;
+			} else {
+				n *= 3.0;
+				col = interpolate_color(n, vector3d(.2, .0, .0), vector3d(.3, .1, .0) );
+				return col;
+			}
+		}
+	case COLOR_STAR_K: {
+		double n;
+		vector3d col;
+			n = octavenoise(m_fracdef[0], 0.6, p) * 0.5;
+			n += ridged_octavenoise(m_fracdef[1], 0.7, p) * 0.5;
+			n += billow_octavenoise(m_fracdef[0], 0.8, p) * octavenoise(m_fracdef[1], 0.8, p);
+			n -= dunes_octavenoise(m_fracdef[2], 0.6, p) * 0.5;
+			n += octavenoise(m_fracdef[3], 0.6, p) * 0.5;
+			n *= n * 0.2;
+			if (n > 0.666) {
+				n -= 0.666; n *= 3.0;
+				col = interpolate_color(n, vector3d(.95, .7, .25), vector3d(1.0, 1.0, 1.0) );
+				return col;
+			} else if (n > 0.333) {
+				n -= 0.333; n *= 3.0;
+				col = interpolate_color(n, vector3d(.4, .25, .0), vector3d(.95, .7, .25) );
+				return col;
+			} else {
+				n *= 3.0;
+				col = interpolate_color(n, vector3d(.2, .05, .0), vector3d(.4, .25, .0) );
+				return col;
+			}
+		}
+   case COLOR_STAR_G: {
+		double n;
+		vector3d col;
+			n = voronoiscam_octavenoise(m_fracdef[0], 0.5, p) * 0.5;
+			n += voronoiscam_octavenoise(m_fracdef[1], 0.5, p) * 0.5;
+			n += river_octavenoise(m_fracdef[0], 0.5, p) * voronoiscam_octavenoise(m_fracdef[1], 0.5, p);
+			n += river_octavenoise(m_fracdef[2], 0.5, p) * 0.5;
+			n += voronoiscam_octavenoise(m_fracdef[3], 0.5, p) * 0.5;
+			n *= n * n * n * 0.1;
+			if (n > 0.666) {
+				n -= 0.666; n *= 3.0;
+				col = interpolate_color(n, vector3d(.9, .9, .05), vector3d(1.0, 1.0, 1.0) );
+				return col;
+			} else if (n > 0.333) {
+				n -= 0.333; n *= 3.0;
+				col = interpolate_color(n, vector3d(.6, .6, .0), vector3d(.9, .9, .05) );
+				return col;
+			} else {
+				n *= 3.0;
+				col = interpolate_color(n, vector3d(.8, .8, .0), vector3d(.6, .6, .0) );
+				return col;
+			}
+		}
 	case COLOR_GG_JUPITER: {
 		double n;
 		double h = river_octavenoise(m_fracdef[0], 0.5*m_entropy[0] + 

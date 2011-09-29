@@ -1,6 +1,7 @@
 Alpha 15
 
   * New features
+    * Star "terrains". Stars now have complex surface colours and patterns (#567)
     * Assassination missions (#290, #500)
     * Restored "hoop" orbital station (#499, #516)
     * Restored "Panther" ship (#497)
