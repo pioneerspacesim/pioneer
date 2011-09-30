@@ -222,6 +222,14 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 		return true;
 	}
 
+	// hitting cargo scoop surface shouldn't do damage
+	if (b->IsType(Object::CARGOBODY) && (flags & 0x100)) {
+		m_equipment.Add(dynamic_cast<CargoBody*>(b)->GetCargoType(), 1);
+		Space::KillBody(dynamic_cast<Body*>(b));
+		// XXX Sfx::Add(this, Sfx::TYPE_SCOOP);
+		return true;
+	}
+
 	if (b->IsType(Object::PLANET)) {
 		// geoms still enabled when landed
 		if (m_flightState != FLYING) return false;
