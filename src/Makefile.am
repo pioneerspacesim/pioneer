@@ -54,6 +54,7 @@ noinst_HEADERS = \
 	LuaEventQueue.h \
 	LuaFormat.h \
 	LuaGame.h \
+	LuaLang.h \
 	LuaManager.h \
 	LuaMusic.h \
 	LuaNameGen.h \
@@ -179,6 +180,7 @@ pioneer_SOURCES	= \
 	LuaEventQueue.cpp \
 	LuaFormat.cpp \
 	LuaGame.cpp \
+	LuaLang.cpp \
 	LuaManager.cpp \
 	LuaMusic.cpp \
 	LuaNameGen.cpp \
