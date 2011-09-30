@@ -3,7 +3,7 @@ t = Translate:getLanguage()
 
 -- Default numeric values --
 ----------------------------
-local service_period = 31557600 -- One standard Julian year
+local oneyear = 31557600 -- One standard Julian year
 -- 10, guaranteed random by D16 dice roll.
 -- This is to make the BBS name different from the station welcome character.
 local seedbump = 10
@@ -18,6 +18,7 @@ local service_history = {
 	-- Arbitrary string; it was in case I *needed* a name for the last service.
 	-- It's little more than a flag at the moment.
 	company = t("Manufacturer's warranty"),
+	service_period = oneyear, -- default
 	jumpcount = 0, -- Number of jumps made after the service_period
 }
 
@@ -89,6 +90,7 @@ local onChat = function (form, ref, option)
 			form:AddOption(ad.yesplease, 1)
 		end
 		form:AddOption(t('HANG_UP'), -1)
+		print(('DEBUG: %.2f years / %.2f price = %.2f'):format(ad.strength, ad.baseprice, ad.strength/ad.baseprice))
 	end
 
 	if option == 1 then
@@ -101,6 +103,7 @@ local onChat = function (form, ref, option)
 			form:AddOption(t('HANG_UP'), -1)
 			Game.player:AddMoney(-price)
 			service_history.lastdate = Game.time
+			service_history.service_period = ad.strength
 			service_history.company = ad.title
 			service_history.jumpcount = 0
 		end
@@ -122,6 +125,7 @@ local onShipEquipmentChanged = function (ship, equipment)
 	if ship:IsPlayer() and (EquipType.GetEquipType(equipment).slot == 'ENGINE') then
 		service_history.company = t("Manufacturer's warranty")
 		service_history.lastdate = Game.time
+		service_history.service_period = oneyear
 	end
 end
 
@@ -148,7 +152,8 @@ local onCreateBB = function (station)
 		response = service_flavours[n].response,
 		station = station,
 		faceseed = rand:Integer(),
-		baseprice = rand:Number(2,10),
+		strength = service_flavours[n].strength,
+		baseprice = service_flavours[n].baseprice *rand:Number(0.8,1.2), -- A little per-station flavouring
 	}
 
 	local ref = station:AddAdvert(ad.title, onChat, onDelete)
@@ -173,7 +178,8 @@ local onGameStart = function ()
 end
 
 local onEnterSystem = function (ship)
-	if ship:IsPlayer() and (service_history.lastdate + service_period < Game.time) then
+	if ship:IsPlayer() then print(('DEBUG: Jumps since warranty: %d, chance of failure (if > 0): 1/%d\nWarranty expires: %s'):format(service_history.jumpcount,max_jumps_unserviced-service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period))) end
+	if ship:IsPlayer() and (service_history.lastdate + service_history.service_period < Game.time) then
 		service_history.jumpcount = service_history.jumpcount + 1
 		if (service_history.jumpcount > max_jumps_unserviced) or (Engine.rand:Integer(max_jumps_unserviced - service_history.jumpcount) == 0) then
 			-- Destroy the engine
