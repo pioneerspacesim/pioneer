@@ -1,36 +1,9 @@
 --
--- This will be replaced with an API function that returns a similar value
--- Issue number #553
---
-local defaultLanguage = function ()
-    return 'English'
-end
-
---
--- Populate default dictionaries from system languages
--- Warning: Hairy parsing code.  Proceed with caution.
---
-local defaultDictionary = function (language)
-    local dictionary = {}
-    local languagefile = assert(io.open("data/lang/" .. language .. ".txt", 'r'))
-    while true do
-        local token = languagefile:read('*line')
-        if not token then break end
-        if not ((token == '') or (token:match("^%s*#"))) then
-            token = token:match("^%s*(.-)%s*$")
-            local translation = languagefile:read('*line')
-            dictionary[token] = translation:match('^%s*"?(.-)"?%s*$')
-        end
-    end
-    return dictionary
-end
-
---
 -- Class: Translate
 --
 Translate = {
-    language = defaultLanguage(), -- Default
-    dictionary = defaultDictionary(defaultLanguage()),
+    language = Lang.GetCurrentLanguage(), -- Default
+    dictionary = {},
 
 --
 -- Group: Methods
@@ -64,7 +37,6 @@ Translate = {
 --
     getLanguage = function (self, language)
         self.language = language or self.language
-        dictionary = defaultDictionary(self.language)
         return function (token)
             return self.dictionary[token] or token
         end
@@ -100,3 +72,8 @@ Translate = {
         end
     end,
 }
+
+-- Copy, don't use, the system dictionary, which is read-only
+for token, definition in pairs(Lang.GetDictionary()) do
+    Translate.dictionary[token] = definition
+end
