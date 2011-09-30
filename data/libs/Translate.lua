@@ -10,7 +10,7 @@ Translate = {
 --
 
 --
--- Method: getLanguage
+-- Method: GetTranslationFunction
 --
 -- Selects or changes the language used by the translator
 --
@@ -19,7 +19,7 @@ Translate = {
 -- language - optional. A string which represents the language to be used.
 --            Defaults to either the last selected language, or 'English'.
 --
--- > Translate:getLanguage()
+-- > Translate:GetTranslationFunction()
 --
 -- Returns:
 --
@@ -28,14 +28,14 @@ Translate = {
 --
 -- Example:
 --
--- > local t = Translate:getLanguage('Deutsch')
+-- > local t = Translate:GetTranslationFunction('Deutsch')
 -- > UI.Message(t('YOU_ARE_LATE'))
 --
 -- Status:
 --
 -- experimental
 --
-    getLanguage = function (self, language)
+    GetTranslationFunction = function (self, language)
         self.language = language or self.language
         return function (token)
             return self.dictionary[token] or token
