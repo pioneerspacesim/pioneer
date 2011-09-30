@@ -1092,7 +1092,7 @@ HYPERSPACE_ARRIVAL_CLOUD_REMNANT
 SHIP_MASS_N_TONNES
     Masa broda: %{mass}t
 DATE_DUE_N
-    Datum dospiječa: %date
+    Datum dospijeća: %date
 SOURCE
     Ishodište
 DESTINATION
