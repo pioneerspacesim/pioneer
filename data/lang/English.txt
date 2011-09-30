@@ -923,9 +923,9 @@ VAST_STRIP_MINE
 HIGH_POPULATION_OUTDOOR_WORLD
     High population outdoor world.
 SOMEWHERE_SPACEPORT
-     " Spaceport"
+    %spaceport Spaceport
 SOMEWHERE_STARPORT
-     " Starport"
+    %starport Starport
 MASS
     Mass
 N_WHATEVER_MASSES
