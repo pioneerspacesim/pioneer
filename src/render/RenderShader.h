@@ -69,11 +69,16 @@ namespace Render {
 	class Shader {
 	public:
 		GLuint GetProgram() const { return m_program; }
-		Shader() { m_program = 0; }
+		Shader() {
+			memset(this, 0, sizeof(Shader));
+			m_program = 0;
+		}
 		Shader(const char *shaderFilename) {
+			memset(this, 0, sizeof(Shader));
 			Compile(shaderFilename, 0);
 		}
 		Shader(const char *shaderFilename, const char *additional_defines) {
+			memset(this, 0, sizeof(Shader));
 			Compile(shaderFilename, additional_defines);
 		}
 		bool Compile(const char *shader_name, const char *additional_defines = 0);

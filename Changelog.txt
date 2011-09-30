@@ -41,6 +41,7 @@ Alpha 15
     * Fix rare crash when NPC ship is destroyed that previously attacked the
       player (#568)
     * Fix a case where we try to access an object after its been freed (#342, #470)
+    * Fix various depth bugs when shaders are enabled (#24, #234)
 
   * Script changes
     * Experimental Lua console (#537)
