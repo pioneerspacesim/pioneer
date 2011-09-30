@@ -920,9 +920,9 @@ VAST_STRIP_MINE
 HIGH_POPULATION_OUTDOOR_WORLD
     Vanjski svijet ogromne populacije.
 SOMEWHERE_SPACEPORT
-     " svemirska luka"
+    %spaceport svemirska luka
 SOMEWHERE_STARPORT
-     " zvijedana luka"
+    %starport zvijedana luka
 MASS
     Masa
 N_WHATEVER_MASSES
