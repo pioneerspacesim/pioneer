@@ -1089,16 +1089,10 @@ CARGO_N
     Ladung: %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
     Hyperraum Anflugwolkenrest
-HYPERSPACE_X_CLOUD
-    Hyperraum %direction Wolke
 SHIP_MASS_N_TONNES
     Schiff Masse: %{mass}t
 DATE_DUE_N
     Fälligkeitsdatum: %date
-ARRIVAL
-    Anflug
-DEPARTURE
-    Abflug
 SOURCE
     Ursprung
 DESTINATION
