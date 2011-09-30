@@ -3,6 +3,7 @@
 
 #include <list>
 #include <string>
+#include <map>
 
 namespace Lang {
 
@@ -12,6 +13,7 @@ namespace Lang {
 
 bool LoadStrings(const std::string &lang);
 const std::list<std::string> &GetAvailableLanguages();
+const std::map<std::string, const char*> &GetDictionary();
 
 DECLARE_STRING(SUGGESTED_RESPONSES);
 DECLARE_STRING(CASH);
