@@ -28,7 +28,7 @@ static void _build_dictionary_table(lua_State *l)
  *
  * Retrieve a Lua table for the current language.
  *
- * > dict = Lang:GetDictionary()
+ * > dict = Lang.GetDictionary()
  * > print(dict['WE_HAVE_NO_BUSINESS_WITH_YOU'])
  *
  * Return:
@@ -64,7 +64,7 @@ static int l_lang_get_dictionary(lua_State *l)
  *
  * Retrieve a Lua table listing the languages for which core translations are available.
  *
- * > langs = Lang:GetCoreLanguages()
+ * > langs = Lang.GetCoreLanguages()
  * > for k,v in ipairs(langs) do print('Core language: ' .. v); end
  *
  * Return:
@@ -103,7 +103,7 @@ static int l_lang_get_core_languages(lua_State *l)
  *
  * Retrieve the currently selected language.
  *
- * > lang = Lang:GetCurrentLanguage()
+ * > lang = Lang.GetCurrentLanguage()
  * > print('Currently using ' .. lang .. ' language.')
  *
  * Return:
