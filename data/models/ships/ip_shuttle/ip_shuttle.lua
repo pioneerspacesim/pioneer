@@ -134,6 +134,7 @@ define_model('ip_shuttle', {
 				max_laser = 1,
 				max_missile = 0,
 				max_fuelscoop = 0,
+				max_cargoscoop = 0,
 				max_ecm = 0,
 				capacity = 12,
 				hull_mass = 12,

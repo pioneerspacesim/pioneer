@@ -223,10 +223,14 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 	}
 
 	// hitting cargo scoop surface shouldn't do damage
-	if (b->IsType(Object::CARGOBODY) && (flags & 0x100)) {
-		m_equipment.Add(dynamic_cast<CargoBody*>(b)->GetCargoType(), 1);
+	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) && b->IsType(Object::CARGOBODY) && (flags & 0x100) && m_stats.free_capacity) {
+		Equip::Type item = dynamic_cast<CargoBody*>(b)->GetCargoType();
+		m_equipment.Add(item);
 		Space::KillBody(dynamic_cast<Body*>(b));
+		if (this->IsType(Object::PLAYER))
+			Pi::Message(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", EquipType::types[item].name)));
 		// XXX Sfx::Add(this, Sfx::TYPE_SCOOP);
+		UpdateMass();
 		return true;
 	}
 

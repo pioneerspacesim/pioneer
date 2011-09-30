@@ -427,6 +427,7 @@ void LuaConstants::Register(lua_State *l)
 	 * ATMOSHIELD - atmospheric shielding
 	 * SHIELD - shield
 	 * FUELSCOOP - fuel scoop
+	 * CARGOSCOOP - cargo scoop
 	 * LASERCOOLER - laser cooling booster
 	 * CARGOLIFESUPPORT - cargo bay life support
 	 * AUTOPILOT - autopilot
@@ -453,6 +454,7 @@ void LuaConstants::Register(lua_State *l)
 		{ "SHIELD",           Equip::SLOT_SHIELD },
 		{ "ATMOSHIELD",       Equip::SLOT_ATMOSHIELD },
 		{ "FUELSCOOP",        Equip::SLOT_FUELSCOOP },
+		{ "CARGOSCOOP",       Equip::SLOT_CARGOSCOOP },
 		{ "LASERCOOLER",      Equip::SLOT_LASERCOOLER },
 		{ "CARGOLIFESUPPORT", Equip::SLOT_CARGOLIFESUPPORT },
 		{ "AUTOPILOT",        Equip::SLOT_AUTOPILOT },
@@ -513,6 +515,7 @@ void LuaConstants::Register(lua_State *l)
 	 * AUTOPILOT - autopilot (AUTOPILOT)
 	 * RADAR_MAPPER - radar mapper (RADARMAPPER)
 	 * FUEL_SCOOP - fuel scoop (FUELSCOOP)
+	 * CARGO_SCOOP - cargo scoop (CARGOSCOOP)
 	 * HYPERCLOUD_ANALYZER - hyperspace cloud analyser (HYPERCLOUD)
 	 * HULL_AUTOREPAIR - hull auto-repair system (HULLAUTOREPAIR)
 	 * SHIELD_ENERGY_BOOSTER - shield energy booster unit (ENERGYBOOSTER)
@@ -596,6 +599,7 @@ void LuaConstants::Register(lua_State *l)
 		{ "AUTOPILOT",             Equip::AUTOPILOT },
 		{ "RADAR_MAPPER",          Equip::RADAR_MAPPER },
 		{ "FUEL_SCOOP",            Equip::FUEL_SCOOP },
+		{ "CARGO_SCOOP",           Equip::CARGO_SCOOP },
 		{ "HYPERCLOUD_ANALYZER",   Equip::HYPERCLOUD_ANALYZER },
 		{ "HULL_AUTOREPAIR",       Equip::HULL_AUTOREPAIR },
 		{ "SHIELD_ENERGY_BOOSTER", Equip::SHIELD_ENERGY_BOOSTER },

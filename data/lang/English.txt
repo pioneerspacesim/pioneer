@@ -369,6 +369,10 @@ FUEL_SCOOP
     Fuel Scoop
 FUEL_SCOOP_DESCRIPTION
     Permits scooping hydrogen fuel from gas giant planets.
+CARGO_SCOOP
+    Cargo Scoop
+CARGO_SCOOP_DESCRIPTION
+    Permits scooping cargo pods from space.
 HYPERCLOUD_ANALYZER
     Hypercloud Analyzer
 HYPERCLOUD_ANALYZER_DESCRIPTION
@@ -699,6 +703,8 @@ DISABLED_AUTOMATIC_SYSTEM_SELECTION
     Disabled automatic system selection.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
     Fuel scoop active. You now have %quantity tonnes of hydrogen.
+CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED
+    Cargo scoop active. Collected 1 tonne of %item.
 CARGO_BAY_LIFE_SUPPORT_LOST
     Sensors report critical cargo bay life-support conditions.
 NO_FREE_SPACE_FOR_ITEM
