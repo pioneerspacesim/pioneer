@@ -49,9 +49,8 @@ static int l_lang_get_dictionary(lua_State *l)
 	lua_getfield(l, LUA_REGISTRYINDEX, "LangCoreDictionary");
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
-		// XXX should add a metatable to prevent alterations to the dictionary table
-		//     (since such alterations wouldn't go through to the game anyway, it'd be confusing)
 		_build_dictionary_table(l);
+		pi_lua_table_ro(l);
 		lua_pushvalue(l, -1);
 		lua_setfield(l, LUA_REGISTRYINDEX, "LangCoreDictionary");
 	}
