@@ -10,7 +10,7 @@ Translate = {
 --
 
 --
--- Method: getLanguage
+-- Method: GetTranslationFunction
 --
 -- Selects or changes the language used by the translator
 --
@@ -19,7 +19,7 @@ Translate = {
 -- language - optional. A string which represents the language to be used.
 --            Defaults to either the last selected language, or 'English'.
 --
--- > Translate:getLanguage()
+-- > Translate:GetTranslationFunction()
 --
 -- Returns:
 --
@@ -28,14 +28,14 @@ Translate = {
 --
 -- Example:
 --
--- > local t = Translate:getLanguage('Deutsch')
+-- > local t = Translate:GetTranslationFunction('Deutsch')
 -- > UI.Message(t('YOU_ARE_LATE'))
 --
 -- Status:
 --
 -- experimental
 --
-    getLanguage = function (self, language)
+    GetTranslationFunction = function (self, language)
         self.language = language or self.language
         return function (token)
             return self.dictionary[token] or token
@@ -43,7 +43,7 @@ Translate = {
     end,
 
 --
--- Method: add
+-- Method: Add
 --
 -- Adds a dictionary to the selected language only.
 --
@@ -53,7 +53,7 @@ Translate = {
 --
 -- Example:
 --
--- > Translate:add({
+-- > Translate:Add({
 -- >     English = {
 -- >         WELCOME = 'Welcome',
 -- >         THATSBEAUT = "That's beautiful",
@@ -64,7 +64,7 @@ Translate = {
 -- >     }
 -- > })
 --
-    add = function (self, dictionary)
+    Add = function (self, dictionary)
         if (dictionary[self.language]) then
             for token, definition in pairs(dictionary[self.language]) do
                 self.dictionary[token] = definition
