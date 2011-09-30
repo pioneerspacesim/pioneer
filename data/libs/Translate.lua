@@ -43,7 +43,7 @@ Translate = {
     end,
 
 --
--- Method: add
+-- Method: Add
 --
 -- Adds a dictionary to the selected language only.
 --
@@ -53,7 +53,7 @@ Translate = {
 --
 -- Example:
 --
--- > Translate:add({
+-- > Translate:Add({
 -- >     English = {
 -- >         WELCOME = 'Welcome',
 -- >         THATSBEAUT = "That's beautiful",
@@ -64,7 +64,7 @@ Translate = {
 -- >     }
 -- > })
 --
-    add = function (self, dictionary)
+    Add = function (self, dictionary)
         if (dictionary[self.language]) then
             for token, definition in pairs(dictionary[self.language]) do
                 self.dictionary[token] = definition
