@@ -3,6 +3,10 @@ SUBDIRS = collider gui render
 
 include $(top_srcdir)/Makefile.common
 
+AM_CFLAGS += $(WARN_CFLAGS)
+AM_CPPFLAGS += $(WARN_CPPFLAGS)
+AM_CXXFLAGS += $(WARN_CXXFLAGS)
+
 bin_PROGRAMS = pioneer modelviewer
 noinst_HEADERS = \
 	Aabb.h \
@@ -50,6 +54,7 @@ noinst_HEADERS = \
 	LuaEventQueue.h \
 	LuaFormat.h \
 	LuaGame.h \
+	LuaLang.h \
 	LuaManager.h \
 	LuaMusic.h \
 	LuaNameGen.h \
@@ -118,6 +123,7 @@ noinst_HEADERS = \
 	SystemInfoView.h \
 	SystemPath.h \
 	SystemView.h \
+	TerrainBody.h \
 	TextureFont.h \
 	TextureManager.h \
 	VectorFont.h \
@@ -174,6 +180,7 @@ pioneer_SOURCES	= \
 	LuaEventQueue.cpp \
 	LuaFormat.cpp \
 	LuaGame.cpp \
+	LuaLang.cpp \
 	LuaManager.cpp \
 	LuaMusic.cpp \
 	LuaNameGen.cpp \
@@ -237,6 +244,7 @@ pioneer_SOURCES	= \
 	StarSystem.cpp \
 	SystemInfoView.cpp \
 	SystemView.cpp \
+	TerrainBody.cpp \
 	TextureFont.cpp \
 	TextureManager.cpp \
 	VectorFont.cpp \
@@ -289,7 +297,7 @@ TESTS = tests
  
 tests_LDADD = collider/libcollider.a gui/libgui.a render/librender.a
 
-INCLUDES = -I@top_srcdir@/contrib
+INCLUDES = -isystem @top_srcdir@/contrib
 if !HAVE_LUA
-INCLUDES += -I@top_srcdir@/contrib/lua
+INCLUDES += -isystem @top_srcdir@/contrib/lua
 endif

@@ -47,7 +47,7 @@ define_model('missile', {
 
 define_model('nosewheel', {
 	info = {
-		lod_pixels={5,50,0},
+		lod_pixels={5,15,30,0},
 		bounding_radius = 7,
 		materials={'leg','tyre'}
 	},
@@ -102,7 +102,7 @@ define_model('nosewheelunit', {
 
 define_model('mainwheel', {
 	info = {
-		lod_pixels = {5,50,0},
+		lod_pixels = {5,15,30,0},
 		bounding_radius = 8,
 		materials = {'leg', 'tyre'}
 	},

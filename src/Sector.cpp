@@ -100,35 +100,41 @@ Sector::Sector(int x, int y, int z)
 					s.starType[0] = SBody::TYPE_STAR_IM_BH;  // These frequencies are made up
 				} else if (spec < 3) {
 					s.starType[0] = SBody::TYPE_STAR_S_BH; 
-				} else if (spec < 6) {
-					s.starType[0] = SBody::TYPE_STAR_K_HYPER_GIANT; 
-				} else if (spec < 10) {
-					s.starType[0] = SBody::TYPE_STAR_G_HYPER_GIANT;
+				} else if (spec < 5) {
+					s.starType[0] = SBody::TYPE_STAR_O_WF; 
+				} else if (spec < 8) {
+					s.starType[0] = SBody::TYPE_STAR_B_WF; 
+				} else if (spec < 12) {
+					s.starType[0] = SBody::TYPE_STAR_M_WF; 
 				} else if (spec < 15) {
+					s.starType[0] = SBody::TYPE_STAR_K_HYPER_GIANT; 
+				} else if (spec < 18) {
+					s.starType[0] = SBody::TYPE_STAR_G_HYPER_GIANT;
+				} else if (spec < 23) {
 					s.starType[0] = SBody::TYPE_STAR_O_HYPER_GIANT; 
-				} else if (spec < 20) {
+				} else if (spec < 28) {
 					s.starType[0] = SBody::TYPE_STAR_A_HYPER_GIANT;
-				} else if (spec < 25) {
+				} else if (spec < 33) {
 					s.starType[0] = SBody::TYPE_STAR_F_HYPER_GIANT;
-				} else if (spec < 30) {
+				} else if (spec < 41) {
 					s.starType[0] = SBody::TYPE_STAR_B_HYPER_GIANT; 
-				} else if (spec < 40) {
+				} else if (spec < 48) {
 					s.starType[0] = SBody::TYPE_STAR_M_HYPER_GIANT; 
-				} else if (spec < 50) {
+				} else if (spec < 58) {
 					s.starType[0] = SBody::TYPE_STAR_K_SUPER_GIANT; 
-				} else if (spec < 60) {
+				} else if (spec < 68) {
 					s.starType[0] = SBody::TYPE_STAR_G_SUPER_GIANT;
-				} else if (spec < 70) {
+				} else if (spec < 78) {
 					s.starType[0] = SBody::TYPE_STAR_O_SUPER_GIANT; 
-				} else if (spec < 80) {
+				} else if (spec < 88) {
 					s.starType[0] = SBody::TYPE_STAR_A_SUPER_GIANT;
-				} else if (spec < 90) {
+				} else if (spec < 98) {
 					s.starType[0] = SBody::TYPE_STAR_F_SUPER_GIANT;
-				} else if (spec < 100) {
+				} else if (spec < 108) {
 					s.starType[0] = SBody::TYPE_STAR_B_SUPER_GIANT; 
-				} else if (spec < 150) {
+				} else if (spec < 158) {
 					s.starType[0] = SBody::TYPE_STAR_M_SUPER_GIANT; 
-				} else if (spec < 200) {
+				} else if (spec < 208) {
 					s.starType[0] = SBody::TYPE_STAR_K_GIANT; 
 				} else if (spec < 250) {
 					s.starType[0] = SBody::TYPE_STAR_G_GIANT;

@@ -549,6 +549,8 @@ INCREASE_SET_SPEED
     Gesetzten Geschwindigkeit steigern
 DECREASE_SET_SPEED
     Gesetzten Geschwindigkeit verringern
+TOGGLE_LUA_CONSOLE
+    Lua-console schalten
 JOYSTICK_INPUT
     Joystickeingabe
 PITCH
@@ -929,6 +931,8 @@ SOLAR
     Sonnen
 EARTH
     Erd
+SURFACE_GRAVITY
+    Oberfläche die Schwerkraft
 SURFACE_TEMPERATURE
     Oberflächentemperatur
 N_CELSIUS
@@ -1085,16 +1089,10 @@ CARGO_N
     Ladung: %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
     Hyperraum Anflugwolkenrest
-HYPERSPACE_X_CLOUD
-    Hyperraum %direction Wolke
 SHIP_MASS_N_TONNES
     Schiff Masse: %{mass}t
 DATE_DUE_N
     Fälligkeitsdatum: %date
-ARRIVAL
-    Anflug
-DEPARTURE
-    Abflug
 SOURCE
     Ursprung
 DESTINATION

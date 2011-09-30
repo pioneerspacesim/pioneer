@@ -931,6 +931,8 @@ SOLAR
     Solar
 EARTH
     Earth
+SURFACE_GRAVITY
+    Surface gravity
 SURFACE_TEMPERATURE
     Surface temperature
 N_CELSIUS
@@ -1087,16 +1089,10 @@ CARGO_N
     Cargo: %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
     Hyperspace arrival cloud remnant
-HYPERSPACE_X_CLOUD
-    Hyperspace %direction cloud
 SHIP_MASS_N_TONNES
     Ship mass: %{mass}t
 DATE_DUE_N
     Date due: %date
-ARRIVAL
-    arrival
-DEPARTURE
-    departure
 SOURCE
     Origin
 DESTINATION

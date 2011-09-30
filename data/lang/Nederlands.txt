@@ -1,0 +1,1137 @@
+# General
+SUGGESTED_RESPONSES
+    Aanbevolen reacties:
+CASH
+    Geld
+LEGAL_STATUS
+    Juridische status
+CARGO_SPACE
+    Vrachtruimte
+ITEM
+    Artikel
+SHIP
+    Schip
+PRICE
+    Prijs
+BUY
+    Koop
+SELL
+    Verkoop
+STOCK
+    Voorraad
+CARGO
+    Lading
+VID_LINK_DOWN
+    Video link verbroken
+VID_LINK_ESTABLISHED
+    Video link geinitialiseerd
+VID_CONNECTING
+    Verbinden...
+BOUGHT_1T_OF
+    U heeft 1t %commodity gekocht.
+SOLD_1T_OF
+    U heeft 1t %commodity verkocht.
+WELCOME_TO_MARKET
+    Welkom bij de goederenmarkt van %station
+GO_BACK
+    Ga terug
+FITTING
+    "Bezig met installeren "
+REMOVING
+    "Bezig met verwijderen "
+FIT_TO_WHICH_MOUNT
+    Installeer laser op welk aanknooppunt?
+REMOVE_FROM_WHICH_MOUNT
+    Verwijder laser van welk aanknooppunt?
+YOU_NOT_ENOUGH_MONEY
+    U heeft niet genoeg geld
+TRADER_NOT_ENOUGH_MONEY
+    Handelaar heeft niet genoeg geld
+NO_SPACE_ON_SHIP
+    Er is niet genoeg plaats op uw schip
+SOMEWHERE_SERVICES
+    %station diensten
+SOMEWHERE_SHIPYARD
+    %station scheepswerf
+SOMEWHERE_SHIP_REPAIRS
+    %station scheepsreparaties
+PRICE_TO_FIT
+    $ installatie
+PRICE_TO_REMOVE
+    $ verwijderen
+WT
+    Gt
+FIT
+    [+]
+REMOVE
+    [-]
+BUY_THIS_SHIP
+    Koop schip
+SHIP_TYPE
+    Schip type
+REGISTRATION_ID
+    Registratie nr.
+WEIGHT_EMPTY
+    Gewicht onbeladen
+NUMBER_TONNES
+    %{mass}t
+WEIGHT_FULLY_LADEN
+    Gewicht volledig beladen
+CAPACITY
+    Capaciteit
+FORWARD_ACCEL_EMPTY
+    Voorwaartse acceleratie (leeg)
+NUMBER_G
+    %acceleration{f.1} G
+FORWARD_ACCEL_LADEN
+    Voorwaartse acceleratie (beladen)
+REVERSE_ACCEL_EMPTY
+    Achterwaartse acceleratie (leeg)
+REVERSE_ACCEL_LADEN
+    Achterwaartse acceleratie (beladen)
+HYPERDRIVE_FITTED
+    Hyperaandrijving geinstalleerd:
+HYPERSPACE_RANGE_LADEN
+    Hyperspace actieradius (volledig beladen):
+THANKS_AND_REMEMBER_TO_BUY_FUEL
+    Dank u voor uw aankoop. Denk aan de installatie van uitrusting en het kopen van brandstof voor u vertrekt.
+CLASS_NUMBER
+    Klasse %class
+NUMBER_LY
+    %distance{f.2} lj
+SHIP_IS_ALREADY_FULLY_REPAIRED
+    U schip is in een perfecte staat van dienst.
+REPAIR_1_PERCENT_HULL
+    Repareer 1.0% van schade aan de scheepsromp
+REPAIR_ENTIRE_HULL
+    Repareer alle schade aan de scheepsromp (%repairpercent{f.1}%%)
+REPAIR
+    Repareer
+PART_EX
+    Ruil onderdelen
+VIEW
+    Bekijk
+SHIP_EQUIPMENT
+    Scheepsuitrusting
+SOMEWHERE_SHIP_EQUIPMENT
+    %station scheepsuitrusting
+REPAIRS_AND_SERVICING
+    Reparaties en diensten
+NEW_AND_RECONDITIONED_SHIPS
+    Nieuwe en gereviseerde schepen
+BULLETIN_BOARD
+    Prikbord
+WELCOME_TO_SOMEWHERE
+    Welkom op %station
+SPACESTATION_LONG_WELCOME_MESSAGE
+    Hallo reiziger, welkom op dit station. We hebben berichten over vandalisme en graffiti ontvangen. Als u in de bewegwijzering fouten of omissies ontdekt, informeert u dan alstublieft een medewerker.\n\nZuurstof is momenteel gratis.
+REQUEST_LAUNCH
+    Verzoek om toestemming om te vertrekken
+SHIPYARD
+    Scheepswerf
+COMMODITIES_MARKET
+    Goederenmarkt
+SOMEWHERE_COMMODITIES_MARKET
+    goederenmarkt van %station 
+SOMEWHERE_SHIP_MARKET
+    scheepswerf van %station 
+CONTACT_LOCAL_POLICE
+    Bezoek plaatselijke politie
+COMMS_LINK
+    Communicatie link
+ZOOM_IN
+    Zoom in
+ZOOM_OUT
+    Zoom uit
+NORMA_ARM
+    Norma arm
+PERSEUS_ARM
+    Perseus arm
+OUTER_ARM
+    Buitenste arm
+SAGITTARIUS_ARM
+    Sagittarius arm
+SCUTUM_CENTAURUS_ARM
+    Scutum-Centaurus arm
+INT_LY
+    %scale lj
+SEARCH
+    Zoek
+
+# Config / game control
+PRESS_BUTTON_WANTED_FOR
+    "Kies de knop dit u wilt gebruiken voor "
+MOVE_AXIS_WANTED_FOR
+    "Beweeg de joystick-as die u wilt gebruiken voor "
+SAVE
+    Opslaan
+LOAD
+    Laden
+CANCEL
+    Annuleren
+SELECT_FILENAME_TO_SAVE
+    Selecteer een bestand of geef een nieuwe bestandsnaam op
+GAME_SAVED_TO
+    "Spel opgeslagen in "
+SELECT_FILENAME_TO_LOAD
+    Selecteer een bestand om te laden
+COULD_NOT_OPEN_FILENAME
+    Kon %path niet openen
+GAME_LOAD_CORRUPT
+    Dit bestand kon niet worden geladen. Het bevat mogelijk fouten of is corrupt.
+GAME_LOAD_CANNOT_OPEN
+    Dit bestand kon niet worden geladen vanwege foutief toegwezen bestandspermissies. 
+VERY_LOW
+    Zeer laag
+LOW
+    Laag
+MEDIUM
+    Gemiddeld
+HIGH
+    Hoog
+VERY_HIGH
+    Zeer hoog
+VERY_VERY_HIGH
+    Ultra hoog
+ON
+    Aan
+OFF
+    Uit
+SIGHTS_SOUNDS_SAVES
+    Graphics, geluiden & save-games
+PIONEER
+    PIONEER
+SAVE_THE_GAME
+    [S] Sla spel op
+LOAD_A_GAME
+    [L] Laad spel in
+EXIT_THIS_GAME
+    Beeindig spel
+WINDOW_OR_FULLSCREEN
+    Venster of volledige schermweergave (herstart nodig)
+FULL_SCREEN
+    Volledige schermweergave
+OTHER_GRAPHICS_SETTINGS
+    Andere grafische instellingen
+USE_SHADERS
+    Gebruik shaders
+USE_HDR
+    Gebruik HDR-effecten (cool)
+SOUND_SETTINGS
+    Geluidsinstellingen
+VOL_MASTER
+    Hoofd:
+VOL_EFFECTS
+    Effecten:
+VOL_MUSIC
+    Muziek:
+VIDEO_RESOLUTION
+    Video resolutie (herstart nodig)
+X_BY_X
+    %{x}x%{y}
+PLANET_DETAIL_DISTANCE
+    Planeet-detail afstand:
+CITY_DETAIL_LEVEL
+    Stad-detail afstand:
+PLANET_TEXTURES
+    Planeet texturen:
+FRACTAL_DETAIL
+    Fractal detail:
+CONTROLS
+    Besturing
+ENABLE_JOYSTICK
+    Gebruik joystick
+MOUSE_INPUT
+    Muis Input
+INVERT_MOUSE_Y
+    Keer y-as van muis om
+LANGUAGE_SELECTION
+    Taal (herstart nodig)
+ 
+# Wares
+NONE
+    Geen
+HYDROGEN
+    Waterstof
+HYDROGEN_DESCRIPTION
+    Waterstof wordt voornamelijk gebruikt als brandstof voor fusie
+LIQUID_OXYGEN
+    Vloeibare Zuurstof
+LIQUID_OXYGEN_DESCRIPTION
+    Zuurstof wordt gebruikt voor levensinstandhoudingssystemen en een aantal industriele processen
+METAL_ORE
+    Erts
+CARBON_ORE
+    Koolstof
+CARBON_ORE_DESCRIPTION
+    Fossiele brandstoffen (kolen en olie) zijn nodig voor de synthese van veel nuttige chemicalien, zoals: kunststoffen, synthetisch voedsel, medicijnen en textiel
+METAL_ALLOYS
+    Metaal legeringen
+PLASTICS
+    Kunststoffen
+FRUIT_AND_VEG
+    Fruit en groente
+ANIMAL_MEAT
+    Vlees
+LIVE_ANIMALS
+    Levende dieren
+LIQUOR
+    Drank
+GRAIN
+    Graan
+TEXTILES
+    Textiel
+FERTILIZER
+    Kunstmest
+WATER
+    Water
+MEDICINES
+    Medicijnen
+CONSUMER_GOODS
+    Consumptiegoederen
+COMPUTERS
+    Computers
+ROBOTS
+    Robots
+PRECIOUS_METALS
+    Edelmetalen
+INDUSTRIAL_MACHINERY
+    Industriele apparatuur
+FARM_MACHINERY
+    Landbouw apparatuur
+MINING_MACHINERY
+    Mijnbouw apparatuur
+AIR_PROCESSORS
+    Luchtverwerkinginstallaties
+SLAVES
+    Slaven
+HAND_WEAPONS
+    Handwapens
+BATTLE_WEAPONS
+    Strijdwapens
+NERVE_GAS
+    Zenuwgas
+NARCOTICS
+    Narcotica
+MILITARY_FUEL
+    Militaire brandstof
+RUBBISH
+    Afval
+RADIOACTIVES
+    Radioactief afval
+ 
+# Hardware
+MISSILE_UNGUIDED
+    R40 Ongeleide Raket
+MISSILE_GUIDED
+    Geleide Raket                                                     
+MISSILE_SMART
+    Intelligente Raket                                                   
+MISSILE_NAVAL
+    Marine Raket
+ATMOSPHERIC_SHIELDING
+    Atmosferisch schild
+ATMOSPHERIC_SHIELDING_DESCRIPTION
+    Beschermt schip tegen de hitte bij terugkeer in atmosfeer.
+ECM_BASIC
+    ECM systeem
+ECM_BASIC_DESCRIPTION
+    'Electronic Countermeasure Missile'-verdedigingssysteem. In staat om doelzoekende raketten te vernietigen.
+SCANNER
+    Scanner
+SCANNER_DESCRIPTION
+    Projecteert een 3D-kaart van nabije schepen.
+ECM_ADVANCED
+    Geavanceerd ECM systeem
+ECM_ADVANCED_DESCRIPTION
+   'Electronic Countermeasure Missile'-verdedigingssysteem. In staat om geavanceerde varianten van doelzoekende raketten te vernietigen.    
+SHIELD_GENERATOR
+    Schild Generator
+SHIELD_GENERATOR_DESCRIPTION
+    Biedt per geinstalleerde eenheid aanvullende bescherming van de scheepsromp.
+LASER_COOLING_BOOSTER
+    Laser koelsysteem
+LASER_COOLING_BOOSTER_DESCRIPTION
+    Een verbeterd koelsysteem voor uw wapens.
+CARGO_LIFE_SUPPORT
+    Vrachtruimte levens-systeem
+CARGO_LIFE_SUPPORT_DESCRIPTION
+    Maakt vervoer van levende vracht mogelijk.
+AUTOPILOT
+    Automatische piloot
+AUTOPILOT_DESCRIPTION
+    Een ingebouwde stuurcomputer.
+RADAR_MAPPER
+    Radar Mapper
+RADAR_MAPPER_DESCRIPTION
+    Maakt het mogelijk om de uitrusting, lading of status van andere schepen van een afstand te bekijken.
+FUEL_SCOOP
+    Brandstofschep
+FUEL_SCOOP_DESCRIPTION
+    Maakt het mogelijk om waterstof te scheppen van gas giganten.
+HYPERCLOUD_ANALYZER
+    Hyperspace-wolk Analysator
+HYPERCLOUD_ANALYZER_DESCRIPTION
+    Analyseert hyperspace-wolken om bestemming en aankomst- of vertrektijd te bepalen.
+HULL_AUTOREPAIR
+    Romp Auto-reparatie systeem
+HULL_AUTOREPAIR_DESCRIPTION
+    Repareert automatisch de scheepsromp in het geval van schade.
+SHIELD_ENERGY_BOOSTER
+    Schild-energie Aanjager
+SHIELD_ENERGY_BOOSTER_DESCRIPTION
+    Verhoogt de ratio waarmee schilden opladen.
+DRIVE_CLASS1
+    Klasse 1 Hyperaandrijving
+DRIVE_CLASS2
+    Klasse 2 Hyperaandrijving
+DRIVE_CLASS3
+    Klasse 3 Hyperaandrijving
+DRIVE_CLASS4
+    Klasse 4 Hyperaandrijving
+DRIVE_CLASS5
+    Klasse 5 Hyperaandrijving
+DRIVE_CLASS6
+    Klasse 6 Hyperaandrijving
+DRIVE_CLASS7
+    Klasse 7 Hyperaandrijving
+DRIVE_CLASS8
+    Klasse 8 Hyperaandrijving
+DRIVE_CLASS9
+    Klasse 9 Hyperaandrijving
+DRIVE_MIL1
+    Klasse 1 Militaire aandrijving
+DRIVE_MIL2
+    Klasse 2 Militaire aandrijving
+DRIVE_MIL3
+    Klasse 3 Militaire aandrijving
+DRIVE_MIL4
+    Klasse 4 Militaire aandrijving
+PULSECANNON_1MW
+    1MW puls kanon
+PULSECANNON_DUAL_1MW
+    1MW dubbelloops puls kanon
+PULSECANNON_2MW
+    2MW puls kanon
+PULSECANNON_RAPID_2MW
+    2MW snelvuur puls kanon
+PULSECANNON_4MW
+    4MW puls kanon
+PULSECANNON_10MW
+    10MW puls kanon
+PULSECANNON_20MW
+    20MW puls kanon
+MININGCANNON_17MW
+    17MW mijnbouw kanon
+MININGCANNON_17MW_DESCRIPTION
+    Wordt gebruikt om mineraal-rijke asteroïden te mijnen.
+SMALL_PLASMA_ACCEL
+    Kleine plasma accelerator
+LARGE_PLASMA_ACCEL
+    Grote plasma accelerator
+CLEAN
+    Geen strafblad
+HYPERSPACE_ARRIVAL_CLOUD
+    Hyperspace aankomst-wolk
+HYPERSPACE_DEPARTURE_CLOUD
+    Hyperspace vertrek-wolk
+TYPE
+    Type
+CLIENT
+    Klant
+LOCATION
+    Locatie
+DUE
+    Verwacht
+REWARD
+    Beloning
+STATUS
+    Status
+CARGO_INVENTORY
+    Inventaris vrachtruimte:
+JETTISON
+    Lozen
+JETTISONED_1T_OF_X
+    1 ton van %commodity geloosd
+COMBAT_RATING
+    Gevechtswaardering:
+CRIMINAL_RECORD
+    Strafblad:
+SHIP_INFORMATION_HEADER
+    "SCHIP INFORMATIE: "
+HYPERDRIVE
+    Hyperaandrijving
+FREE
+    Vrij
+USED
+    Gebruikt
+TOTAL_WEIGHT
+    Totaal gewicht
+FRONT_WEAPON
+    Wapen voorkant
+REAR_WEAPON
+    Wapen achterkant
+HYPERSPACE_RANGE
+    Hyperspace actieradius
+NO_MOUNTING
+    geen aanknooppunt
+N_LIGHT_YEARS_N_MAX
+    %distance{f.1} lichtjaren (%maxdistance{f.1} max)
+SHIP_INFORMATION
+    Scheepsinformatie
+REPUTATION
+    Reputatie
+MISSIONS
+    Missies
+SHIFT
+    "shift "
+CTRL
+    "ctrl "
+ALT
+    "alt "
+META
+    "meta "
+JOY
+    Joy
+BUTTON
+     " Knop "
+HAT
+     " Hoed"
+DIRECTION
+     " Richting "
+X
+    X
+Y
+    Y
+Z
+    Z
+AXIS
+     " As"
+WEAPONS
+    Wapens
+TARGET_OBJECT_IN_SIGHTS
+    Maak object in vizier tot doelwit
+FIRE_LASER
+    Vuur laser
+SHIP_ORIENTATION
+    Orienteer Schip
+FAST_ROTATION_CONTROL
+    Snelle rotationele besturing
+PITCH_UP
+    Beweeg neus omhoog
+PITCH_DOWN
+    Beweeg neus omlaag
+YAW_LEFT
+    Gier links
+YAW_RIGHT
+    Gier rechts
+ROLL_LEFT
+    Rol links
+ROLL_RIGHT
+    Rol rechts
+MANUAL_CONTROL_MODE
+    Handmatige besturingsmode
+THRUSTER_MAIN
+    Stuw voorwaarts
+THRUSTER_RETRO
+    Stuw achterwaarts
+THRUSTER_VENTRAL
+    Stuw omhoog
+THRUSTER_DORSAL
+    Stuw omlaag
+THRUSTER_PORT
+    Stuw links
+THRUSTER_STARBOARD
+    Stuw rechts
+SPEED_CONTROL_MODE
+    Snelheid-bedieningsmodus
+INCREASE_SET_SPEED
+    Accelereer snelheid
+DECREASE_SET_SPEED
+    Decelereer snelheid
+TOGGLE_LUA_CONSOLE
+    Schakel Lua console
+JOYSTICK_INPUT
+    Joystick invoer
+PITCH
+    Hel
+ROLL
+    Rol
+YAW
+    Gier
+MISSILE
+    raket
+HARMLESS
+    Ongevaarlijk
+MOSTLY_HARMLESS
+    Grotendeels Ongevaarlijk
+POOR
+    Armzalig
+AVERAGE
+    Gemiddeld
+ABOVE_AVERAGE 
+    Bovengemiddeld
+COMPETENT
+    Competent
+DANGEROUS
+    Gevaarlijk
+DEADLY
+    Dodelijk
+ELITE
+    ELITE
+SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
+    Bezig met simuleren evolutie van het universum: %age{f.1} biljoen jaar ;-)
+TOMBSTONE_EPITAPH
+    RIP OUDE KNAR
+MM_START_NEW_GAME_EARTH
+    Nieuw spel, start op Aarde
+MM_START_NEW_GAME_E_ERIDANI
+    Nieuw spel, start op Epsilon Eridani
+MM_START_NEW_GAME_DEBUG
+    Nieuw spel, start op debug punt
+MM_LOAD_SAVED_GAME
+    Laad een save-game
+MM_QUIT
+    Beeindig spel
+SCREENSHOT_FILENAME_TEMPLATE
+    screenshot%index{d08}.png
+PIONEERING_PILOTS_GUILD
+    Pionerend Piloten Gilde
+RIGHT_ON_COMMANDER
+    Goed gedaan commandant! Uw gevechtswaardering is verhoogd!
+ALERT_CANCELLED
+    Alarm geannuleerd.
+SHIP_DETECTED_NEARBY
+    Nabij schip gedetecteerd.
+DOWNGRADING_ALERT_STATUS
+    Geen schoten gedetecteerd gedurende 60 seconden. Alarm-status wordt verlaagd.
+LASER_FIRE_DETECTED
+    Laser-schoten gedetecteerd.
+SOMEWHERE_POLICE
+    %station Politie
+WE_HAVE_NO_BUSINESS_WITH_YOU
+    We hebben op dit moment geen zaken met u af te handelen.
+YOU_MUST_PAY_FINE_OF_N_CREDITS
+    Criminaliteit wordt niet gewaardeerd. U moet een boete betalen van  %fine.
+PAY_THE_FINE_NOW
+    Betaal de boete nu.
+HANG_UP
+    Hang op.
+TRADING_ILLEGAL_GOODS
+    Handel in illegale goederen
+UNLAWFUL_WEAPONS_DISCHARGE
+    Ongeoorloofd gebruik van wapens
+PIRACY
+    Piraterij
+MURDER
+    Moord
+INDEPENDENT
+    Onafhankelijk
+EARTH_FEDERATION
+    Aardse Federatie
+INDEPENDENT_CONFEDERATION
+    Confederatie van Onafhankelijke Systemen
+EMPIRE
+    Het Imperium
+NO_ESTABLISHED_ORDER
+    Geen gevestigde orde
+HARD_CAPITALIST
+    Volkomen kapitalistisch - geen overheids-gesubsidieerde welzijnsvoorzieningen
+CAPITALIST
+    Kapitalistisch
+MIXED_ECONOMY
+    Gemixte economie
+PLANNED_ECONOMY
+    Centraal geplande economie
+NO_CENTRAL_GOVERNANCE
+    Geen centrale regering
+EARTH_FEDERATION_COLONIAL_RULE
+    Coloniaal bewind onder Aardse Federatie 
+EARTH_FEDERATION_DEMOCRACY
+    Democratie onder Aardse Federatie
+IMPERIAL_RULE
+    Imperiaal regime
+LIBERAL_DEMOCRACY
+    Liberale democratie
+SOCIAL_DEMOCRACY
+    Sociale democratie
+CORPORATE_SYSTEM
+    Corporate systeem
+MILITARY_DICTATORSHIP
+    Militair dictatorschap
+COMMUNIST
+    Communistisch
+PLUTOCRATIC_DICTATORSHIP
+    Plutocratisch dictatorshap
+VIOLENT_ANARCHY
+    Wanorde - Heerschappij betwist door gewapende fracties
+X_CANNOT_BE_TOLERATED_HERE
+    %crime wordt hier niet getolereerd.
+SECTOR_X_Y_Z
+    Sector: %x,%y,%z
+CURRENT_SYSTEM
+    Huidig systeem
+SELECTED_SYSTEM
+    Geselecteerd systeem
+HYPERSPACE_TARGET
+    Hyperspace doel
+FOLLOWING_SELECTION
+    Volgende selectie
+LOCKED
+    gesloten
+EXACT_MATCH_X
+    Exacte match: %system
+NOT_FOUND_BEST_MATCH_X
+    Niet gevonden, beste match: %system
+NOT_FOUND
+    Niet gevonden
+NUMBER_HOURS
+    %hours{f.2} uur
+QUADRUPLE_SYSTEM
+    Viervoudig systeem
+TRIPLE_SYSTEM
+    Drietallig system
+BINARY_SYSTEM
+    Binair system
+ENABLED_AUTOMATIC_SYSTEM_SELECTION
+    Automatische systeem selectie ingeschakeld.
+DISABLED_AUTOMATIC_SYSTEM_SELECTION
+    Automatische systeem selectie uitgeschakeld.
+FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
+    Brandstofschep actief. U heeft nu %quantity ton waterstof.
+CARGO_BAY_LIFE_SUPPORT_LOST
+    Sensoren rapporteren kritische condities m.b.t. levenssignalen in vrachtruimte.
+NO_FREE_SPACE_FOR_ITEM
+    U heeft geen ruimte beschikbaar voor dit onderdeel.
+SHIP_IS_FULLY_LADEN
+    Uw schip is volledig beladen.
+YOU_DO_NOT_HAVE_ANY_X
+    U heeft geen %item.
+FRONT_VIEW
+    Zicht voorzijde
+REAR_VIEW
+    Zicht achterzijde
+EXTERNAL_VIEW
+    Extern zicht
+NAVIGATION_STAR_MAPS
+    Navigatie- en sterrekaarten
+COMMS
+    Communicatie
+GALAXY_SECTOR_VIEW
+    Sector-overzicht (melkwegstelsels)
+SYSTEM_ORBIT_VIEW
+    Systeem-overzicht (omloopbanen)
+STAR_SYSTEM_INFORMATION
+    Sterrenstelsel-overzicht
+GALACTIC_VIEW
+    Galactisch overzicht
+NO_ALERT
+    Geen alarm
+SHIP_NEARBY
+    Schip nabij
+DOCKING_CLEARANCE_EXPIRED
+    Aanmeer-permissie verlopen. Als u wil aanmeren moet u uw verzoek opnieuw indienen.
+MESSAGE_FROM_X
+    Boodschap van %sender:
+SELECT_A_TARGET
+    Selecteer doelwit
+FRONT
+    Voorkant
+REAR
+    Achterkant
+POLICE_SHIP_REGISTRATION
+    POLITIE
+CLEARANCE_ALREADY_GRANTED_BAY_N
+    Permissie al gegeven. Vervolg naar baai %bay.
+CLEARANCE_GRANTED_BAY_N
+    Permissie gegeven. Vervolg naar baai %bay.
+CLEARANCE_DENIED_NO_BAYS
+    Permissie geweigerd. Er zijn geen vrije baaien beschikbaar.
+ITEM_IS_OUT_OF_STOCK
+    Dit artikel is niet op voorraad.
+BROWN_DWARF
+    Bruine dwerg, sub-stellair object
+WHITE_DWARF
+    Witte dwerg, stellair overblijfsel
+STAR_M
+    Type 'M' rode ster
+STAR_K
+    Type 'K' oranje ster
+STAR_G
+    Type 'G' gele ster
+STAR_F
+    Type 'F' witte ster
+STAR_A
+    Type 'A' hete witte ster
+STAR_B
+    Helder type 'B' blauwe ster
+STAR_O
+    Heet, massief type 'O' ster
+STAR_M_GIANT
+    Rode reus
+STAR_K_GIANT
+    Oranje reus - onstabiel
+STAR_G_GIANT
+    Gele reus - onstabiel
+STAR_AF_GIANT
+    Witte reus
+STAR_B_GIANT
+    Blauwe reus
+STAR_O_GIANT
+    Hete Blauwe reus
+STAR_M_SUPER_GIANT
+    Rode reus, super gigant
+STAR_K_SUPER_GIANT
+    Oranje reus, super gigant
+STAR_G_SUPER_GIANT
+    Gele reus, super gigant
+STAR_AF_SUPER_GIANT
+    Witte reus, super gigant
+STAR_B_SUPER_GIANT
+    Blauwe reus, super gigant
+STAR_O_SUPER_GIANT
+    Hete Blauwe reus, super gigant
+STAR_M_HYPER_GIANT
+    Rode reus, hyper gigant
+STAR_K_HYPER_GIANT
+    Oranje reus, hyper gigant - Onstabiel
+STAR_G_HYPER_GIANT
+    Gele reus, hyper gigant - Onstabiel
+STAR_AF_HYPER_GIANT
+    Witte reus, hyper gigant
+STAR_B_HYPER_GIANT
+    Blauwe reus, hyper gigant
+STAR_O_HYPER_GIANT
+    Hete Blauwe reus, hyper gigant
+STAR_M_WF
+    Wolf-Rayet ster - Onstabiel
+STAR_B_WF
+    Wolf-Rayet star - Risico op ineenstorting
+STAR_O_WF
+    Wolf-Rayet star - Ineenstorting op handen
+STAR_S_BH
+    Een stellair zwart gat
+STAR_IM_BH
+    Een middelzwaar zwart gat
+STAR_SM_BH
+    Ons galactische anker
+VERY_LARGE_GAS_GIANT
+    Zeer grote gas gigant
+LARGE_GAS_GIANT
+    Grote gas gigant
+MEDIUM_GAS_GIANT
+    Middelgrote gas gigant
+SMALL_GAS_GIANT
+    Kleine gas gigant
+ASTEROID
+    Astroide
+MASSIVE
+    Massieve
+LARGE
+    Grote
+TINY
+    Miniscule
+SMALL
+    Kleine
+COMMA_HIGHLY_VOLCANIC
+    , hoog vulcanisch
+HIGHLY_VOLCANIC
+    Hoog vulcanisch
+ICE_WORLD
+     " ijswereld"
+ROCKY_PLANET
+     " terrestrische planeet"
+OCEANICWORLD
+     " oceanische wereld"
+PLANET_CONTAINING_LIQUID_WATER
+     " planeet met enig vloeibaar water"
+PLANET_WITH_SOME_ICE
+     " planeet met enig ijs"
+ROCKY_PLANET_CONTAINING_COME_LIQUIDS
+     " terrestrische planeet met enige vloeistoffen,"
+WITH_NO_SIGNIFICANT_ATMOSPHERE
+     " zonder significante atmosfeer"
+TENUOUS
+    onbeduidende
+THIN
+    dunne
+THICK
+    dikke
+VERY_DENSE
+    zeer dikke
+WITH_A
+     " met een "
+O2_ATMOSPHERE
+     " zuurstof atmosfeer"
+CO2_ATMOSPHERE
+     " koolstofdioxide atmosfeer"
+CO_ATMOSPHERE
+     " koolstofmonoxide atmosfeer"
+CH4_ATMOSPHERE
+     " methaan atmosfeer"
+H_ATMOSPHERE
+     " waterstof atmosfeer"
+HE_ATMOSPHERE
+     " helium atmosfeer"
+AR_ATMOSPHERE
+     " argon atmosfeer"
+S_ATMOSPHERE
+     " zwavelzuur atmosfeer"
+N_ATMOSPHERE
+     " stikstof atmosfeer"
+AND_HIGHLY_COMPLEX_ECOSYSTEM
+     " en een hoog-complex ecosysteem."
+AND_INDIGENOUS_PLANT_LIFE
+     " en inheemse fauna."
+AND_INDIGENOUS_MICROBIAL_LIFE
+     " en inheems microbacterieel leven."
+ORBITAL_STARPORT
+    Sterrehaven in omloopbaan
+STARPORT
+    Sterrehaven
+UNKNOWN
+    <onbekend>
+UNEXPLORED_SYSTEM_NO_DATA
+    Onverkend systeem. Geen gegevens beschikbaar.
+SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS
+    Grondstofwinning op kleine schaal. Geen geregistreerde nederzettingen.
+SMALL_INDUSTRIAL_OUTPOST
+    Kleine industriele buitenpost.
+SOME_ESTABLISHED_MINING
+    Enige mijnbouw.
+YOUNG_FARMING_COLONY
+    Jonge agrarische kolonie.
+INDUSTRIAL_COLONY
+    Industriele kolonie.
+MINING_COLONY
+    Mijnbouw kolonie.
+OUTDOOR_AGRICULTURAL_WORLD
+    Openlucht-agriculturele wereld.
+HEAVY_INDUSTRY
+    Zware industrie.
+EXTENSIVE_MINING
+    Extensieve mijnbouw.
+THRIVING_OUTDOOR_WORLD
+    Bloeiende openluchtwereld.
+INDUSTRIAL_HUB_SYSTEM
+    Industrieel knooppunt-systeem.
+VAST_STRIP_MINE
+    Enorme mijnbouw-kolonie (dagbouw).
+HIGH_POPULATION_OUTDOOR_WORLD
+    Openlucht-wereld met hoge populatie.
+SOMEWHERE_SPACEPORT
+     " Ruimtehaven"
+SOMEWHERE_STARPORT
+     " Sterrehaven"
+MASS
+    Massa
+N_WHATEVER_MASSES
+    %mass{f.3} %units massa
+SOLAR
+    Zonne-
+EARTH
+    Aardse
+SURFACE_GRAVITY
+    Oppervlakte zwaartekracht
+SURFACE_TEMPERATURE
+    Oppervlakte temperatuur
+N_CELSIUS
+    %temperature C
+N_YEARS
+    %years{f.1} jaren
+N_DAYS
+    %days{f.1} dagen
+ORBITAL_PERIOD
+    Omloopbaan
+PERIAPSIS_DISTANCE
+    Periapsis afstand
+APOAPSIS_DISTANCE
+    Apoapsis afstand
+ECCENTRICITY
+    Afwijking
+AXIAL_TILT
+    Axiale tilt
+N_DEGREES
+    %angle{f.1} graden
+DAY_LENGTH
+    Daglengte
+N_EARTH_DAYS
+    %days{f.1} aardse dagen
+STARPORTS
+    sterrehavens
+MAJOR_IMPORTS
+    Voornaamste import:
+MINOR_IMPORTS
+    Secundaire import:
+MAJOR_EXPORTS
+    Voornaamste export:
+MINOR_EXPORTS
+    Secundaire export:
+ILLEGAL_GOODS
+    Illegale Goederen:
+UNEXPLORED_SYSTEM_STAR_INFO_ONLY
+    Onverkend systeem. Sterre-informatie vergaard via telescopie, maar geen planetaire informatie aanwezig.
+PLANETARY_INFO
+    Planetaire info
+ECONOMIC_INFO
+    Economische info
+DEMOGRAPHICS
+    Demografie
+STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
+    Stabiel systeem met %bodycount grote %{body(s)} en %portcount %{starport(s)}.
+BODY
+    lichaam
+BODIES
+    lichamen
+SYSTEM_TYPE
+    Type systeem:
+GOVERNMENT_TYPE
+    Type regering:
+ECONOMY_TYPE
+    Type economie:
+ALLEGIANCE
+    Trouw aan:
+POPULATION
+    Populatie:
+OVER_N_BILLION
+    Groter dan %population biljoen
+OVER_N_MILLION
+    Groter dan %population miljoen
+A_FEW_THOUSAND
+    Slechts enkele duizenden
+NO_REGISTERED_INHABITANTS
+    Geen geregistreerde inwoners
+SECTOR_COORDINATES
+    Sector coordinaten:
+SYSTEM_NUMBER
+    Systeem nummer:
+NAME
+    Naam
+ROTATIONAL_PERIOD
+     " (rotatie-periode)"
+RADIUS
+    Radius
+SEMI_MAJOR_AXIS
+    Semi-majore as
+TIME_POINT
+    Tijdspoint: 
+UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
+    Onverkend systeem. Systeem-overzicht niet beschikbaar.
+WHEELS_ARE_UP
+    Landingsgestel is omhoog
+WHEELS_ARE_DOWN
+    Landingsgestel is omlaag
+OBJECT_LABELS_ARE_ON
+    Object labels aan
+OBJECT_LABELS_ARE_OFF
+    Object labels uit
+HYPERSPACE_JUMP
+    Hyperspace-sprong
+TAKEOFF
+    Stijg op
+MANUAL_CONTROL
+    Handmatige besturing
+COMPUTER_SPEED_CONTROL
+    Computer snelheidsbeheer
+AUTOPILOT_ON
+    Autopiloot aan
+SHIP_VELOCITY_BY_REFERENCE_OBJECT
+    Snelheid van schip t.o.v. referentieobject
+DISTANCE_FROM_SHIP_TO_NAV_TARGET
+    Afstand van schip t.o.v. navigatie-doelwit
+SHIP_ALTITUDE_ABOVE_TERRAIN
+    Hoogte van schip t.o.v. terrein
+EXTERNAL_ATMOSPHERIC_PRESSURE
+    Externe atmosferische druk
+HULL_TEMP
+    Romp temp
+WEAPON_TEMP
+    Wapen temp
+HULL_INTEGRITY
+    Romp integriteit
+SHIELD_INTEGRITY
+    Schild integrteit
+LAUNCH_PERMISSION_DENIED_BUSY
+    Permissie om op te stijgen geweigerd: drukte in baai.
+HYPERSPACE_JUMP_ABORTED
+    Hyperspace-sprong afgebroken.
+LANDED
+    Geland
+DOCKING
+    Aanmerend
+DOCKED
+    Aangemeerd
+HYPERSPACE
+    Hyperspace
+SET_SPEED_KM_S
+    Gezette snelheid: %speed{f.2} km/s
+SET_SPEED_M_S
+    Gezette snelheid: %speed{f.0} m/s
+KM_S_RELATIVE_TO
+    %speed{f.2} km/s relatief tot %frame
+M_S_RELATIVE_TO
+    %speed{f.0} m/s relatief tot %frame
+N_DISTANCE_TO_TARGET
+    %distance tot doelwit
+IN_TRANSIT_TO_N_X_X_X
+    Onderweg naar %system [%x,%y,%z]
+ALT_IN_METRES
+    Alt: %altitude{f.0}m
+PRESSURE_N_BAR
+    P: %pressure{f.2} bar
+NO_HYPERDRIVE
+    Geen hyperaandrijving
+MASS_N_TONNES
+    Massa: %{mass}t
+SHIELD_STRENGTH_N
+    Schild kracht: %shields{f.2}
+CARGO_N
+    Lading: %{mass}t
+HYPERSPACE_ARRIVAL_CLOUD_REMNANT
+    Hyperspace aankomst-wolk overblijfsel
+SHIP_MASS_N_TONNES
+    Scheepsmassa: %{mass}t
+DATE_DUE_N
+    Datum verwacht: %date
+SOURCE
+    Oorsprong
+DESTINATION
+    Bestemming
+HYPERSPACING_IN_N_SECONDS
+    Hyperspace-sprong in %countdown{f.0} seconden
+NAVIGATION_TARGETS_IN_THIS_SYSTEM
+    Navigatiedoelen in dit systeem
+YOU_NO_MONEY
+    U heeft geen geld.
+FINE_PAID_N_BUT_N_REMAINING
+    U heeft %paid betaald, maar hebt nog steeds een boete uitstaan van %fine.
+FINE_PAID_N
+    U heeft een boete betaald van %fine.
+SET_HYPERSPACE_DESTINATION_TO
+    "Kies hyperspace-bestemming naar %system"
+NO_TARGET_SELECTED
+    Scheepscomputer: geen doelwit geselecteerd
+REQUEST_DOCKING_CLEARANCE
+    Vraag permissie om aan te meren
+AUTOPILOT_DOCK_WITH_STATION
+    Autopiloot: Meer aan bij ruimtestation
+PAY_FINE_REMOTELY
+    Betaal boete via overschrijven op afstand (%amount)
+AUTOPILOT_FLY_TO_VICINITY_OF
+    Autopiloot: Vlieg naar nabijheid van %target
+AUTOPILOT_ENTER_LOW_ORBIT_AROUND
+    Autopiloot: Kies lage omloopbaan rond %target
+AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
+    Autopiloot: Kies gemiddelde omloopbaan rond %target
+AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
+    Autopiloot: Kies hoge omloopbaan rond %target
+SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
+    Hyperspace-wolk Analysator: Kies hyperspace-doelwit om dit vertrek te volgen
+FAILED
+    Gefaald
+COMPLETED
+    Voltooid
+ACTIVE
+    Actief
+DISTANCE_LY
+    Afstand: %distance{f.2} lj

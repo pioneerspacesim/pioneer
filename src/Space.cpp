@@ -483,7 +483,7 @@ static void hitCallback(CollisionContact *c)
 
 void CollideFrame(Frame *f)
 {
-	if (f->m_astroBody && (f->m_astroBody->IsType(Object::PLANET))) {
+	if (f->m_astroBody && (f->m_astroBody->IsType(Object::TERRAINBODY))) {
 		// this is pretty retarded
 		for (bodiesIter_t i = bodies.begin(); i!=bodies.end(); ++i) {
 			if ((*i)->GetFrame() != f) continue;

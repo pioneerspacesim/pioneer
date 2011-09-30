@@ -59,7 +59,7 @@ TextLayout::TextLayout(const char *_str, TextureFont *font, ColourMarkupMode mar
 		wordWidth = 0;
 		wordstart = &str[i];
 
-		while (str[i] && !isspace(str[i])) {
+		while (str[i] && str[i] != ' ' && str[i] != '\r' && str[i] != '\n') {
 			/* skip color control code things! */
 			if ((markup != ColourMarkupNone) && (str[i] == '#')) {
 				unsigned int hexcol;
