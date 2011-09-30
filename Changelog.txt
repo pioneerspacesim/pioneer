@@ -22,7 +22,7 @@ Alpha 15
     * Mushroom station now has ads in bay 2 (#524)
     * Display surface gravity of bodies in system info view (#533)
     * Model fixes: Ship bounding radii, LOD checked and fixed, adverts cleaned
-      up and other minor fixes (#530, #542, #556, #515, #72)
+      up and other minor fixes (#530, #542, #556, #515, #72, #582))
     * Support for glowmaps (#557)
     * Terrains. Snow on mountains and polar ice caps. Various optimisations
     * and fixes (#440, #566)

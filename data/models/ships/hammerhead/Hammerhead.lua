@@ -400,27 +400,27 @@ define_model('hh', {
 			use_material('medsteel')
 			call_model('hhmaingear',v(0,0,0),v(1,0,0),v(0,1,0),1)
 
-			set_material('glow', lerp_materials(get_arg(1)*0.4,	{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, .5 },
+			set_material('glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.4,	{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, .5 },
 			{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, .1 }))
 
-			if get_arg(8) > 0 then
+			if get_arg(ARG_SHIP_EQUIP_SCANNER) > 0 then
 				call_model('scanner', v(5.467,14.299,(-74.73 + (36*get_arg(ARG_SHIP_WHEEL_STATE)))), v(-1,0,0), v(0,1,0), 3)
 				call_model('scanner', v(-5.467,14.299,(-74.73 + (36*get_arg(ARG_SHIP_WHEEL_STATE)))), v(1,0,0), v(0,1,0), 3)
 				call_model('antenna_1', v(32.212,1.994,(-91 + (36*get_arg(ARG_SHIP_WHEEL_STATE)))), v(1,0,0), v(0,1,0), 4)
 			end
 
-			if get_arg(7) > 0 then
+			if get_arg(ARG_SHIP_EQUIP_ECM) > 0 then
 				call_model('ecm_1', v(-38.044,0.565,(-78.316 + (36*get_arg(ARG_SHIP_WHEEL_STATE)))), v(0,1,0), v(-1,0,0), 3.5)
 				call_model('ecm_1', v(38.044,0.565,(-78.316 + (36*get_arg(ARG_SHIP_WHEEL_STATE)))), v(0,-1,0), v(1,0,0), 3.5)
 			end
 
-			if get_arg(10) > 0 then
+			if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
 				use_material('darksteel')
 				texture(nil)
 				call_model('hhfgun',v(0,0,36*get_arg(ARG_SHIP_WHEEL_STATE)),v(1,0,0),v(0,1,0),1)
 			end
 
-			if get_arg(11) > 0 then
+			if get_arg(ARG_SHIP_EQUIP_LASER1) > 0 then
 				use_material('darksteel')
 				texture(nil)
 				call_model('hhrgun',v(0,0,0),v(1,0,0),v(0,1,0),1)
