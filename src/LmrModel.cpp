@@ -2256,6 +2256,39 @@ namespace ModelFuncs {
 				s_curBuf->PushVertex(p, _textNorm);
 			}
 		}
+
+	/*
+	 * Function: text
+	 *
+	 * Draw three-dimensional text (ship registration ID, landing bay numbers...)
+	 * 
+	 * Long strings can create a large number of triangles so try to be
+	 * economical.
+	 *
+	 * > text(text, pos, normal, textdir, scale, centering)
+	 *
+	 * Parameters:
+	 *
+	 *   text - string of text
+	 *   pos - vector position of lower left corner (if centering is off)
+	 *   normal - face normal
+	 *   textdir - text rotation
+	 *   scale - text scale
+	 *   centering - optional table with a named boolean, {center=true/false}, default off
+	 *
+	 * Example:
+	 *
+	 * > text("BLOB", v(0,0,0), v(0,0,1), v(1,0,0), 10.0, { center=true }) --horizontal text
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int text(lua_State *L)
 	{
 		const char *str = luaL_checkstring(L, 1);
@@ -2710,6 +2743,35 @@ namespace ModelFuncs {
 		}
 	}
 	
+	/*
+	 * Function: cylinder
+	 *
+	 * A cylinder (ends will be closed)
+	 *
+	 * > cylinder(steps, start, end, up, radius)
+	 *
+	 * Parameters:
+	 *
+	 *   steps - number of cross-section vertices
+	 *   start - vector starting position
+	 *   end - vector ending position
+	 *   up - orientation of the start and end caps, default (0,0,1). Does not
+	 *        rotate the entire shape
+	 *   radius - cylinder radius
+	 *
+	 * Example:
+	 *
+	 * > cylinder(8, v(-5,0,0), v(5,0,0), v(0,0,1), 3) --horizontal cylinder
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int cylinder(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
@@ -2721,6 +2783,21 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: xref_cylinder
+	 *
+	 * Same as <cylinder>, except result will be duplicated and mirrored along
+	 * the X-axis.
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int xref_cylinder(lua_State *L)
 	{
 		/* could optimise for x-reflection but fuck it */
@@ -2764,7 +2841,35 @@ namespace ModelFuncs {
 		s_curBuf->PushTri(vtxStart, vtxStart+steps, vtxStart+2*steps-1);
 	}
 
-	/* Cylinder with no top or bottom caps */
+	/*
+	 * Function: ring
+	 *
+	 * Uncapped cylinder
+	 *
+	 * > ring(steps, start, end, up, radius)
+	 *
+	 * Parameters:
+	 *
+	 *   steps - number of cross-section vertices
+	 *   start - vector starting position
+	 *   end - vector ending position
+	 *   up - orientation of the start and the end, default (0,0,1). Does not
+	 *        rotate the entire shape
+	 *   radius - cylinder radius
+	 *
+	 * Example:
+	 *
+	 * > ring(8, v(5,0,0), v(5,10,0), v(0,0,1), 3) --10m tall tube
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int ring(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
@@ -2776,6 +2881,21 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: xref_ring
+	 *
+	 * Same as <ring>, except result will be duplicated and mirrored along
+	 * the X-axis.
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int xref_ring(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
@@ -2791,6 +2911,32 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: invisible_tri
+	 *
+	 * Invisible triangle useful for defining collision surfaces.
+	 *
+	 * > invisible_tri(v1, v2, v3)
+	 *
+	 * Parameters:
+	 *
+	 *   v1 - vector position of the first vertex
+	 *   v2 - vector position of the second vertex
+	 *   v3 - vector position of the third vertex
+	 *
+	 * Example:
+	 *
+	 * > invisible_tri(v(-100,600,-100),v(100,600,100),v(100,600,-100))
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int invisible_tri(lua_State *L)
 	{
 		const vector3f *v1 = MyLuaVec::checkVec(L, 1);
@@ -2805,6 +2951,32 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: tri
+	 *
+	 * Define one triangle.
+	 *
+	 * > tri(v1, v2, v3)
+	 *
+	 * Parameters:
+	 *
+	 *   v1 - vector position of the first vertex
+	 *   v2 - vector position of the second vertex
+	 *   v3 - vector position of the third vertex
+	 *
+	 * Example:
+	 *
+	 * > tri(v(-4,-4,0), v(4,-4,0), v(4,4,0))
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int tri(lua_State *L)
 	{
 		const vector3f *v1 = MyLuaVec::checkVec(L, 1);
@@ -2819,6 +2991,21 @@ namespace ModelFuncs {
 		return 0;
 	}
 	
+	/*
+	 * Function: xref_tri
+	 *
+	 * Same as <tri>, except result will be duplicated and mirrored along
+	 * the X-axis.
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int xref_tri(lua_State *L)
 	{
 		vector3f v1 = *MyLuaVec::checkVec(L, 1);
@@ -2838,6 +3025,33 @@ namespace ModelFuncs {
 		return 0;
 	}
 	
+	/*
+	 * Function: quad
+	 *
+	 * Define a quad (plane, one sided).
+	 *
+	 * > quad(v1, v2, v3, v4)
+	 *
+	 * Parameters:
+	 *
+	 *   v1 - vector location of first vertex
+	 *   v2 - vector location of second vertex
+	 *   v3 - vector location of third vertex
+	 *   v4 - vector location of fourth vertex
+	 *
+	 * Example:
+	 *
+	 * > quad(v(-4,-4,0), v(4,-4,0), v(4,4,0), v(-4,4,0))
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int quad(lua_State *L)
 	{
 		const vector3f *v1 = MyLuaVec::checkVec(L, 1);
@@ -2855,6 +3069,21 @@ namespace ModelFuncs {
 		return 0;
 	}
 	
+	/*
+	 * Function: xref_quad
+	 *
+	 * Same as <quad>, except result will be duplicated and mirrored along
+	 * the X-axis.
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int xref_quad(lua_State *L)
 	{
 		vector3f v1 = *MyLuaVec::checkVec(L, 1);
@@ -2879,6 +3108,37 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: thruster
+	 *
+	 * Define a position for a ship thruster.
+	 * 
+	 * Thrusters are purely a visual effect and do not affect handling characteristics.
+	 *
+	 * > thruster(position, direction, size, linear_only)
+	 *
+	 * Parameters:
+	 *
+	 *   position - position vector
+	 *   direction - direction vector, pointing "away" from the ship, 
+	 *               determines also when the thruster is actually animated
+	 *   size - scale of the thruster flame
+	 *   linear_only - only appear for linear (back, forward) thrust
+	 *
+	 * Example:
+	 *
+	 * > thruster(v(0,5,-10), v(0,1,0), 10) --top thruster
+	 * > thruster(v(0,0,5), v(0,0,1), 30, true) --back thruster
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int thruster(lua_State *L)
 	{
 		const vector3f *pos = MyLuaVec::checkVec(L, 1);
@@ -2892,6 +3152,21 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: xref_thruster
+	 *
+	 * Same as <thruster>, except result will be duplicated and mirrored along
+	 * the X-axis
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int xref_thruster(lua_State *L)
 	{
 		vector3f pos = *MyLuaVec::checkVec(L, 1);
