@@ -48,7 +48,7 @@ We can tune your ship's {drive}, ensuring 12 months of trouble-free operation, f
 		intro = [[Welcome SuperFix Maintenance.
 
 {lasttime}
-Time for your annual maintenance? Let us SuperFix your hyperdrive!
+Time for your biannual maintenance? Let us SuperFix your hyperdrive!
 We can tune your {drive} for just {price}.  There's nobody cheaper!]],
 		yesplease = "SuperFix me!",
 		response = "Your SuperFix service is complete, with SuperFix guarantee!",
