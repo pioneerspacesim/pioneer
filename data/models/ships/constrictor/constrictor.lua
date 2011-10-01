@@ -401,7 +401,7 @@ define_model('conny_equipment', {
 
 		if get_arg(ARG_SHIP_EQUIP_SCOOP) == Equip.FUEL_SCOOP then
 			set_material('ncv', .33,.35,.3,1,.63,.7,.83,30)
-			set_material('scoop', lerp_materials(get_arg(1)*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 },
+			set_material('scoop', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 },
 			{0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 2.5 }))
 			use_material('ncv')
 
@@ -602,7 +602,7 @@ define_model('conny_extra_0', {
 		local v45 = v(-6.45,2.9,17)
 		local v46 = v(-4.44,-1.118,17)
 
-		local trans = get_arg(1)*.05
+		local trans = get_arg(ARG_ALL_TIME_SECONDS)*.05
 
 		set_material('glow',0, 0, 0, 1, 0, 0, 0, 1, 1, 1.5, 0)
 
@@ -982,7 +982,7 @@ define_model('conny', {
 	dynamic = function(lod)
 		set_material('cv0', get_arg_material(0))
 		set_material('cv1', get_arg_material(1))
-		set_material('e_glow', lerp_materials(get_arg(1)*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 },
+		set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 },
 		{0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 2.5 }))
 
 		if lod > 2 then

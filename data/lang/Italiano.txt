@@ -940,6 +940,8 @@ N_YEARS
     %years{f.1} anni
 N_DAYS
     %days{f.1} giorni
+SURFACE_GRAVITY
+    Gravità alla superficie
 ORBITAL_PERIOD
     Periodo orbitale
 PERIAPSIS_DISTANCE
