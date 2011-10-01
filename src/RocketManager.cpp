@@ -8,6 +8,24 @@
 #include "Rocket/Core/RenderInterface.h"
 
 
+// RGBA pixel format for converting textures
+// XXX little-endian. if we ever have a port to a big-endian arch, invert
+//     shift and mask
+// XXX texture conversion is theoretically needed anywhere where IMG_Load is
+//     used. this structure and the conversion stuff in LoadTexture need to be
+//     generalised out
+static SDL_PixelFormat rgba_pixfmt = {
+	0,                                  // palette
+	32,                                 // bits per pixel
+	4,                                  // bytes per pixel
+	0, 0, 0, 0,                         // RGBA loss
+	24, 16, 8, 0,                       // RGBA shift
+	0xff, 0xff00, 0xff0000, 0xff000000, // RGBA mask
+	0,                                  // colour key
+	0                                   // alpha
+};
+
+
 class RocketSystem : public Rocket::Core::SystemInterface {
 public:
 	virtual float GetElapsedTime() { return float(SDL_GetTicks()) * 0.001; }
@@ -77,6 +95,16 @@ public:
 		if (!s) {
 			fprintf(stderr, "RocketRender: couldn't load '%s'\n", source.CString());
 			return false;
+		}
+
+		// convert if necessary. 
+		SDL_PixelFormat *pixfmt = s->format;
+		if (pixfmt->BytesPerPixel != rgba_pixfmt.BytesPerPixel || pixfmt->Rmask != rgba_pixfmt.Rmask || pixfmt->Gmask != rgba_pixfmt.Gmask || pixfmt->Bmask != rgba_pixfmt.Bmask)
+		{
+			printf("converting\n");
+			SDL_Surface *converted = SDL_ConvertSurface(s, &rgba_pixfmt, SDL_SWSURFACE);
+			SDL_FreeSurface(s);
+			s = converted;
 		}
 
 		texture_dimensions.x = s->w;
