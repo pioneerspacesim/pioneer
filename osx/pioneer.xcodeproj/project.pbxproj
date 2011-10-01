@@ -1786,7 +1786,7 @@
 				4A20B0D61353194B0020F43E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		4A20B0FA135319780020F43E /* Build configuration list for PBXNativeTarget "pioneer" */ = {
 			isa = XCConfigurationList;
@@ -1795,7 +1795,7 @@
 				4A20B0FC135319780020F43E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
