@@ -426,6 +426,7 @@ void foreach_file_in(const std::string &directory, void (*callback)(const std::s
 			(*callback)(entry->d_name, filename);
 		}
 	}
+	closedir(dir);
 }
 
 Uint32 ceil_pow2(Uint32 v) {

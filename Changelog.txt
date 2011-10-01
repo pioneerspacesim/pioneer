@@ -45,6 +45,7 @@ Alpha 15
       hyperspace clouds, etc (#24, #234, #504)
     * Fix black halo around gas giant atmospheres when rings are visible (#595)
     * Update hyperspace button after cargo/equipment change (#550, #602, #609)
+	* Fix directory handle leak (#618)
 
   * Script changes
     * Experimental Lua console (#537, #597)
