@@ -36,8 +36,7 @@ namespace Sound { class MusicPlayer; }
 class ObjectViewerView;
 #endif
 
-class RocketSystem;
-class RocketRender;
+class RocketManager;
 
 struct DetailLevel {
 	int planets;
@@ -215,8 +214,7 @@ private:
 	static std::vector<JoystickState> joysticks;
 	static Sound::MusicPlayer musicPlayer;
 
-	static RocketSystem *rocketSystem;
-	static RocketRender *rocketRender;
+	static RocketManager *rocketManager;
 };
 
 #endif /* _PI_H */

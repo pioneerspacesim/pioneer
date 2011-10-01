@@ -63,8 +63,7 @@
 #include "Background.h"
 #include "Lang.h"
 #include "StringF.h"
-#include "RocketSystem.h"
-#include "RocketRender.h"
+#include "RocketManager.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -157,8 +156,7 @@ ObjectViewerView *Pi::objectViewerView;
 
 Sound::MusicPlayer Pi::musicPlayer;
 
-RocketSystem *Pi::rocketSystem;
-RocketRender *Pi::rocketRender;
+RocketManager *Pi::rocketManager;
 
 int Pi::CombatRating(int kills)
 {
@@ -449,6 +447,8 @@ void Pi::Init()
 
 	InitOpenGL();
 
+	rocketManager = new RocketManager(800, 600);  // XXX use physical size
+
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
 	Gui::Init(scrWidth, scrHeight, 800, 600);
@@ -597,6 +597,7 @@ void Pi::InitOpenGL()
 
 void Pi::Quit()
 {
+	delete rocketManager;
 	Render::Uninit();
 	LuaUninit();
 	SDL_Quit();
@@ -1076,6 +1077,8 @@ void Pi::Start()
 	do {
 		Pi::HandleEvents();
 
+		SDL_GL_SwapBuffers();
+
 		Render::PrepareFrame();
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
@@ -1090,7 +1093,13 @@ void Pi::Start()
 
 		draw_intro(starfield, milkyway, _time);
 		Render::PostProcess();
-		Gui::Draw();
+
+		//Gui::Draw();
+		
+
+		rocketManager->Draw();
+
+
 		Render::SwapBuffers();
 		
 		Pi::frameTime = 0.001*(SDL_GetTicks() - last_time);
