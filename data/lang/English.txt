@@ -1138,3 +1138,5 @@ ACTIVE
     Active
 DISTANCE_LY
     Distance: %distance{f.2} ly
+SYSTEM
+    System
