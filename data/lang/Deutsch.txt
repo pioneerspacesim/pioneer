@@ -920,9 +920,9 @@ VAST_STRIP_MINE
 HIGH_POPULATION_OUTDOOR_WORLD
     Planet mit hoher Bevölkerungsdichte und Städten unter freiem Himmel.
 SOMEWHERE_SPACEPORT
-    " Raumhafen"
+    %spaceport Raumhafen
 SOMEWHERE_STARPORT
-    " Sternhafen"
+    %starport Sternhafen
 MASS
     Masse
 N_WHATEVER_MASSES

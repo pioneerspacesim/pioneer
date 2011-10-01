@@ -338,7 +338,7 @@ define_model('fi', {
 			end
 
 			if get_arg(ARG_SHIP_EQUIP_ENGINE) > 0 then
-				set_material('glow', lerp_materials(get_arg(1)*0.25, {0, 0, 0, 1, 0, 0, 0, 0, 1.7, 2.2, 2.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .1, .2, 0.5 }))
+				set_material('glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.25, {0, 0, 0, 1, 0, 0, 0, 0, 1.7, 2.2, 2.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .1, .2, 0.5 }))
 			else
 				set_material('glow', .03,.03,.03,1,.65,.68,.72,10)
 			end

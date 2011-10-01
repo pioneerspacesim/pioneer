@@ -48,6 +48,7 @@
 #include "LuaChatForm.h"
 #include "LuaSpace.h"
 #include "LuaConstants.h"
+#include "LuaLang.h"
 #include "LuaGame.h"
 #include "LuaEngine.h"
 #include "LuaUI.h"
@@ -265,6 +266,7 @@ static void LuaInit()
 	Pi::luaOnShipEquipmentChanged->RegisterEventQueue();
 
 	LuaConstants::Register();
+	LuaLang::Register();
 	LuaEngine::Register();
 	LuaGame::Register();
 	LuaUI::Register();

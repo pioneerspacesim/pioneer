@@ -172,9 +172,8 @@ define_model('boa', {
 		if lod > 1 then
 			set_material('body', get_arg_material(0))
 			set_material('wing', get_arg_material(1))
-			set_material('glow', lerp_materials(get_arg(3)*.1,	{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1.5 },
+			set_material('glow', lerp_materials(get_arg(ARG_ALL_TIME_HOURS)*.1,	{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1.5 },
 			{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1 }))
-			-- just to show a different possibility get_arg(1)-(4) are game time days/hours/mins/secs
 
 			use_material('darksteel')
 
@@ -190,24 +189,24 @@ define_model('boa', {
 
 				use_material('darksteel')
 
-				if get_arg(7) > 0 then
+				if get_arg(ARG_SHIP_EQUIP_ECM) > 0 then
 					call_model('ecm_1', v(-7.7,1,-10.5), v(0,1,0), v(-1,0,0), 1.4)
 					call_model('ecm_1', v(7.7,1,-10.5), v(0,-1,0), v(1,0,0), 1.4)
 				end
 
-				if get_arg(8) > 0 then
+				if get_arg(ARG_SHIP_EQUIP_SCANNER) > 0 then
 					call_model('scanner', v(0,-1.22,-31.124), v(1,0,0), v(0,-1,0), 1)
 					call_model('scanner', v(0,5.95,8.026), v(1,0,0), v(0,1,0), 1.4)
 					call_model('antenna_1', v(0,-1.882,-44.7), v(1,0,0), v(0,1,0), 1)
 				end
 
 
-				if get_arg(10) > 0 then
+				if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
 					use_material('darksteel')
 					call_model('largegun2',v(0,-.2,-39),v(-1,0,0),v(0,1,0),.2)
 				end
 
-				if get_arg(11) > 0 then
+				if get_arg(ARG_SHIP_EQUIP_LASER1) > 0 then
 					use_material('darksteel')
 					call_model('largegun2',v(0,6.97,22.44),v(1,0,0),v(0,1,0),.4)
 					call_model('largegun2',v(0,-2.945,23),v(-1,0,0),v(0,-1,0),.4)
@@ -221,63 +220,63 @@ define_model('boa', {
 				local M_6 = v(7,-1.89,-24.9)
 
 
-				if get_arg(12) == Equip.MISSILE_UNGUIDED  then
+				if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_UNGUIDED  then
 					call_model('d_unguided',M_1,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(12) == Equip.MISSILE_GUIDED  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_GUIDED  then
 					call_model('d_guided',M_1,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(12) == Equip.MISSILE_SMART  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_SMART  then
 					call_model('d_smart',M_1,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(12) == Equip.MISSILE_NAVAL  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_NAVAL  then
 					call_model('d_naval',M_1,v(1,0,0), v(0,.95,.05),1)
 				end
 
-				if get_arg(13) == Equip.MISSILE_UNGUIDED  then
+				if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_UNGUIDED  then
 					call_model('d_unguided',M_2,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(13) == Equip.MISSILE_GUIDED  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_GUIDED  then
 					call_model('d_guided',M_2,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(13) == Equip.MISSILE_SMART  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_SMART  then
 					call_model('d_smart',M_2,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(13) == Equip.MISSILE_NAVAL  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_NAVAL  then
 					call_model('d_naval',M_2,v(1,0,0), v(0,.95,.05),1)
 				end
 
-				if get_arg(14) == Equip.MISSILE_UNGUIDED  then
+				if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_UNGUIDED  then
 					call_model('d_unguided',M_3,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(14) == Equip.MISSILE_GUIDED  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_GUIDED  then
 					call_model('d_guided',M_3,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(14) == Equip.MISSILE_SMART  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_SMART  then
 					call_model('d_smart',M_3,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(14) == Equip.MISSILE_NAVAL  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_NAVAL  then
 					call_model('d_naval',M_3,v(1,0,0), v(0,.95,.05),1)
 				end
 
-				if get_arg(15) == Equip.MISSILE_UNGUIDED  then
+				if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_UNGUIDED  then
 					call_model('d_unguided',M_4,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(15) == Equip.MISSILE_GUIDED  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_GUIDED  then
 					call_model('d_guided',M_4,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(15) == Equip.MISSILE_SMART  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_SMART  then
 					call_model('d_smart',M_4,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(15) == Equip.MISSILE_NAVAL  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_NAVAL  then
 					call_model('d_naval',M_4,v(1,0,0), v(0,.95,.05),1)
 				end
 
-				if get_arg(16) == Equip.MISSILE_UNGUIDED  then
+				if get_arg(ARG_SHIP_EQUIP_MISSILE4) == Equip.MISSILE_UNGUIDED  then
 					call_model('d_unguided',M_5,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(16) == Equip.MISSILE_GUIDED  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE4) == Equip.MISSILE_GUIDED  then
 					call_model('d_guided',M_5,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(16) == Equip.MISSILE_SMART  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE4) == Equip.MISSILE_SMART  then
 					call_model('d_smart',M_5,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(16) == Equip.MISSILE_NAVAL  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE4) == Equip.MISSILE_NAVAL  then
 					call_model('d_naval',M_5,v(1,0,0), v(0,.95,.05),1)
 				end
 
-				if get_arg(17) == Equip.MISSILE_UNGUIDED  then
+				if get_arg(ARG_SHIP_EQUIP_MISSILE5) == Equip.MISSILE_UNGUIDED  then
 					call_model('d_unguided',M_6,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(17) == Equip.MISSILE_GUIDED  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE5) == Equip.MISSILE_GUIDED  then
 					call_model('d_guided',M_6,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(17) == Equip.MISSILE_SMART  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE5) == Equip.MISSILE_SMART  then
 					call_model('d_smart',M_6,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(17) == Equip.MISSILE_NAVAL  then
+				elseif get_arg(ARG_SHIP_EQUIP_MISSILE5) == Equip.MISSILE_NAVAL  then
 					call_model('d_naval',M_6,v(1,0,0), v(0,.95,.05),1)
 				end
 
