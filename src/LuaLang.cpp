@@ -37,7 +37,7 @@ static void _build_dictionary_table(lua_State *l)
  *
  * Availability:
  *
- *   not yet
+ *   alpha 15
  *
  * Status:
  *
@@ -72,7 +72,7 @@ static int l_lang_get_dictionary(lua_State *l)
  *
  * Availability:
  *
- *   not yet
+ *   alpha 15
  *
  * Status:
  *
@@ -111,7 +111,7 @@ static int l_lang_get_core_languages(lua_State *l)
  *
  * Availability:
  *
- *   not yet
+ *   alpha 15
  *
  * Status:
  *

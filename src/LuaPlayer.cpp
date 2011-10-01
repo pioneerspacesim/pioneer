@@ -411,7 +411,7 @@ static int l_player_add_crime(lua_State *l)
  * 
  * Availability:
  * 
- *   not yet
+ *   alpha 15
  *
  * Status:
  *
@@ -466,7 +466,7 @@ static int l_set_nav_target(lua_State *l)
  * 
  * Availability:
  * 
- *   not yet
+ *   alpha 15
  *
  * Status:
  *
