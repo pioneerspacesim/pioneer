@@ -447,7 +447,7 @@ void Pi::Init()
 
 	InitOpenGL();
 
-	rocketManager = new RocketManager(800, 600);  // XXX use physical size
+	rocketManager = new RocketManager(width, height);
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
