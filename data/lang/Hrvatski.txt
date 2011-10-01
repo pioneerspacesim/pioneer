@@ -1135,3 +1135,5 @@ ACTIVE
     Aktivan
 DISTANCE_LY
     Udaljenost: %distance{f.2} sg
+SYSTEM
+    sustavu
