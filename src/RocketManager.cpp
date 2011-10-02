@@ -26,6 +26,248 @@ static SDL_PixelFormat rgba_pixfmt = {
 };
 
 
+// map of SDL SDLKey -> Rocket KeyIdentifier
+struct Keymap {
+	SDLKey                             sdl;
+	Rocket::Core::Input::KeyIdentifier rocket;
+};
+static const Keymap keymap[] = {
+	{ SDLK_BACKSPACE,    Rocket::Core::Input::KI_BACK },
+	{ SDLK_TAB,          Rocket::Core::Input::KI_TAB },
+	{ SDLK_CLEAR,        Rocket::Core::Input::KI_CLEAR },
+	{ SDLK_RETURN,       Rocket::Core::Input::KI_RETURN },
+	{ SDLK_PAUSE,        Rocket::Core::Input::KI_PAUSE },
+	{ SDLK_ESCAPE,       Rocket::Core::Input::KI_ESCAPE },
+	{ SDLK_SPACE,        Rocket::Core::Input::KI_SPACE },
+	{ SDLK_EXCLAIM,      Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_QUOTEDBL,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_HASH,         Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_DOLLAR,       Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_AMPERSAND,    Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_QUOTE,        Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_LEFTPAREN,    Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_RIGHTPAREN,   Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_ASTERISK,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_PLUS,         Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_COMMA,        Rocket::Core::Input::KI_OEM_COMMA },
+	{ SDLK_MINUS,        Rocket::Core::Input::KI_OEM_MINUS },
+	{ SDLK_PERIOD,       Rocket::Core::Input::KI_OEM_PERIOD },
+	{ SDLK_SLASH,        Rocket::Core::Input::KI_OEM_2 },
+	{ SDLK_0,            Rocket::Core::Input::KI_0 },
+	{ SDLK_1,            Rocket::Core::Input::KI_1 },
+	{ SDLK_2,            Rocket::Core::Input::KI_2 },
+	{ SDLK_3,            Rocket::Core::Input::KI_3 },
+	{ SDLK_4,            Rocket::Core::Input::KI_4 },
+	{ SDLK_5,            Rocket::Core::Input::KI_5 },
+	{ SDLK_6,            Rocket::Core::Input::KI_6 },
+	{ SDLK_7,            Rocket::Core::Input::KI_7 },
+	{ SDLK_8,            Rocket::Core::Input::KI_8 },
+	{ SDLK_9,            Rocket::Core::Input::KI_9 },
+	{ SDLK_COLON,        Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_SEMICOLON,    Rocket::Core::Input::KI_OEM_1 },
+	{ SDLK_LESS,         Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_EQUALS,       Rocket::Core::Input::KI_OEM_PLUS },
+	{ SDLK_GREATER,      Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_QUESTION,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_AT,           Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_LEFTBRACKET,  Rocket::Core::Input::KI_OEM_4 },
+	{ SDLK_BACKSLASH,    Rocket::Core::Input::KI_OEM_5 },
+	{ SDLK_RIGHTBRACKET, Rocket::Core::Input::KI_OEM_6 },
+	{ SDLK_CARET,        Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_UNDERSCORE,   Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_BACKQUOTE,    Rocket::Core::Input::KI_OEM_3 },
+	{ SDLK_a,            Rocket::Core::Input::KI_A },
+	{ SDLK_b,            Rocket::Core::Input::KI_B },
+	{ SDLK_c,            Rocket::Core::Input::KI_C },
+	{ SDLK_d,            Rocket::Core::Input::KI_D },
+	{ SDLK_e,            Rocket::Core::Input::KI_E },
+	{ SDLK_f,            Rocket::Core::Input::KI_F },
+	{ SDLK_g,            Rocket::Core::Input::KI_G },
+	{ SDLK_h,            Rocket::Core::Input::KI_H },
+	{ SDLK_i,            Rocket::Core::Input::KI_I },
+	{ SDLK_j,            Rocket::Core::Input::KI_J },
+	{ SDLK_k,            Rocket::Core::Input::KI_K },
+	{ SDLK_l,            Rocket::Core::Input::KI_L },
+	{ SDLK_m,            Rocket::Core::Input::KI_M },
+	{ SDLK_n,            Rocket::Core::Input::KI_N },
+	{ SDLK_o,            Rocket::Core::Input::KI_O },
+	{ SDLK_p,            Rocket::Core::Input::KI_P },
+	{ SDLK_q,            Rocket::Core::Input::KI_Q },
+	{ SDLK_r,            Rocket::Core::Input::KI_R },
+	{ SDLK_s,            Rocket::Core::Input::KI_S },
+	{ SDLK_t,            Rocket::Core::Input::KI_T },
+	{ SDLK_u,            Rocket::Core::Input::KI_U },
+	{ SDLK_v,            Rocket::Core::Input::KI_V },
+	{ SDLK_w,            Rocket::Core::Input::KI_W },
+	{ SDLK_x,            Rocket::Core::Input::KI_X },
+	{ SDLK_y,            Rocket::Core::Input::KI_Y },
+	{ SDLK_z,            Rocket::Core::Input::KI_Z },
+	{ SDLK_DELETE,       Rocket::Core::Input::KI_DELETE },
+	{ SDLK_WORLD_0,      Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_1,      Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_2,      Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_3,      Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_4,      Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_5,      Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_6,      Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_7,      Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_8,      Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_9,      Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_10,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_11,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_12,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_13,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_14,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_15,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_16,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_17,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_18,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_19,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_20,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_21,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_22,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_23,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_24,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_25,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_26,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_27,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_28,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_29,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_30,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_31,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_32,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_33,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_34,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_35,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_36,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_37,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_38,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_39,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_40,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_41,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_42,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_43,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_44,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_45,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_46,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_47,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_48,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_49,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_50,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_51,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_52,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_53,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_54,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_55,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_56,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_57,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_58,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_59,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_60,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_61,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_62,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_63,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_64,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_65,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_66,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_67,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_68,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_69,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_70,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_71,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_72,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_73,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_74,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_75,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_76,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_77,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_78,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_79,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_80,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_81,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_82,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_83,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_84,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_85,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_86,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_87,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_88,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_89,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_90,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_91,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_92,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_93,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_94,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_WORLD_95,     Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_KP0,          Rocket::Core::Input::KI_NUMPAD0 },
+	{ SDLK_KP1,          Rocket::Core::Input::KI_NUMPAD1 },
+	{ SDLK_KP2,          Rocket::Core::Input::KI_NUMPAD2 },
+	{ SDLK_KP3,          Rocket::Core::Input::KI_NUMPAD3 },
+	{ SDLK_KP4,          Rocket::Core::Input::KI_NUMPAD4 },
+	{ SDLK_KP5,          Rocket::Core::Input::KI_NUMPAD5 },
+	{ SDLK_KP6,          Rocket::Core::Input::KI_NUMPAD6 },
+	{ SDLK_KP7,          Rocket::Core::Input::KI_NUMPAD7 },
+	{ SDLK_KP8,          Rocket::Core::Input::KI_NUMPAD8 },
+	{ SDLK_KP9,          Rocket::Core::Input::KI_NUMPAD9 },
+	{ SDLK_KP_PERIOD,    Rocket::Core::Input::KI_DECIMAL },
+	{ SDLK_KP_DIVIDE,    Rocket::Core::Input::KI_DIVIDE },
+	{ SDLK_KP_MULTIPLY,  Rocket::Core::Input::KI_MULTIPLY },
+	{ SDLK_KP_MINUS,     Rocket::Core::Input::KI_SUBTRACT },
+	{ SDLK_KP_PLUS,      Rocket::Core::Input::KI_ADD },
+	{ SDLK_KP_ENTER,     Rocket::Core::Input::KI_NUMPADENTER },
+	{ SDLK_KP_EQUALS,    Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_UP,           Rocket::Core::Input::KI_UP },
+	{ SDLK_DOWN,         Rocket::Core::Input::KI_DOWN },
+	{ SDLK_RIGHT,        Rocket::Core::Input::KI_RIGHT },
+	{ SDLK_LEFT,         Rocket::Core::Input::KI_LEFT },
+	{ SDLK_INSERT,       Rocket::Core::Input::KI_INSERT },
+	{ SDLK_HOME,         Rocket::Core::Input::KI_HOME },
+	{ SDLK_END,          Rocket::Core::Input::KI_END },
+	{ SDLK_PAGEUP,       Rocket::Core::Input::KI_PRIOR },
+	{ SDLK_PAGEDOWN,     Rocket::Core::Input::KI_NEXT },
+	{ SDLK_F1,           Rocket::Core::Input::KI_F1 },
+	{ SDLK_F2,           Rocket::Core::Input::KI_F2 },
+	{ SDLK_F3,           Rocket::Core::Input::KI_F3 },
+	{ SDLK_F4,           Rocket::Core::Input::KI_F4 },
+	{ SDLK_F5,           Rocket::Core::Input::KI_F5 },
+	{ SDLK_F6,           Rocket::Core::Input::KI_F6 },
+	{ SDLK_F7,           Rocket::Core::Input::KI_F7 },
+	{ SDLK_F8,           Rocket::Core::Input::KI_F8 },
+	{ SDLK_F9,           Rocket::Core::Input::KI_F9 },
+	{ SDLK_F10,          Rocket::Core::Input::KI_F10 },
+	{ SDLK_F11,          Rocket::Core::Input::KI_F11 },
+	{ SDLK_F12,          Rocket::Core::Input::KI_F12 },
+	{ SDLK_F13,          Rocket::Core::Input::KI_F13 },
+	{ SDLK_F14,          Rocket::Core::Input::KI_F14 },
+	{ SDLK_F15,          Rocket::Core::Input::KI_F15 },
+	{ SDLK_NUMLOCK,      Rocket::Core::Input::KI_NUMLOCK },
+	{ SDLK_CAPSLOCK,     Rocket::Core::Input::KI_CAPITAL },
+	{ SDLK_SCROLLOCK,    Rocket::Core::Input::KI_SCROLL },
+	{ SDLK_RSHIFT,       Rocket::Core::Input::KI_RSHIFT },
+	{ SDLK_LSHIFT,       Rocket::Core::Input::KI_LSHIFT },
+	{ SDLK_RCTRL,        Rocket::Core::Input::KI_RCONTROL },
+	{ SDLK_LCTRL,        Rocket::Core::Input::KI_LCONTROL },
+	{ SDLK_RALT,         Rocket::Core::Input::KI_RMENU },
+	{ SDLK_LALT,         Rocket::Core::Input::KI_LMENU },
+	{ SDLK_RMETA,        Rocket::Core::Input::KI_RMETA },
+	{ SDLK_LMETA,        Rocket::Core::Input::KI_LMETA },
+	{ SDLK_LSUPER,       Rocket::Core::Input::KI_LWIN },
+	{ SDLK_RSUPER,       Rocket::Core::Input::KI_RWIN },
+	{ SDLK_MODE,         Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_COMPOSE,      Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_HELP,         Rocket::Core::Input::KI_HELP },
+	{ SDLK_PRINT,        Rocket::Core::Input::KI_SNAPSHOT },
+	{ SDLK_SYSREQ,       Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_BREAK,        Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_MENU,         Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_POWER,        Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_EURO,         Rocket::Core::Input::KI_UNKNOWN },
+	{ SDLK_UNDO,         Rocket::Core::Input::KI_UNKNOWN },
+
+	{ SDLK_LAST, Rocket::Core::Input::KI_UNKNOWN }
+};
+
+
 class RocketSystem : public Rocket::Core::SystemInterface {
 public:
 	virtual float GetElapsedTime() { return float(SDL_GetTicks()) * 0.001; }
@@ -149,12 +391,18 @@ private:
 };
 
 
-bool RocketManager::s_initted = false;
+static Rocket::Core::Input::KeyIdentifier sdlkey_to_ki[SDLK_LAST];
 
+static bool s_initted = false;
 RocketManager::RocketManager(int width, int height) : m_width(width), m_height(height)
 {
 	assert(!s_initted);
 	s_initted = true;
+
+	memset(sdlkey_to_ki, Rocket::Core::Input::KI_UNKNOWN, SDLK_LAST);
+
+	for (const Keymap *km = keymap; km->sdl != SDLK_LAST; km++)
+		sdlkey_to_ki[km->sdl] = km->rocket;
 
 	m_rocketSystem = new RocketSystem();
 	m_rocketRender = new RocketRender(m_width, m_height);
@@ -218,10 +466,25 @@ void RocketManager::HandleEvent(const SDL_Event *e)
 				                                      e->button.button, rmod);
 			break;
 
-		case SDL_KEYDOWN:
-		case SDL_KEYUP:
-			// XXX keydown/keyup/textinput
+		case SDL_KEYDOWN: {
+			// XXX textinput
+			Rocket::Core::Input::KeyIdentifier ki = sdlkey_to_ki[e->key.keysym.sym];
+			if (ki == Rocket::Core::Input::KI_UNKNOWN)
+				fprintf(stderr, "RocketInput: No keymap for SDL key %d\n", e->key.keysym.sym);
+			else
+				m_rocketContext->ProcessMouseButtonDown(sdlkey_to_ki[e->key.keysym.sym], rmod);
 			break;
+		}
+
+		case SDL_KEYUP: {
+			// XXX textinput
+			Rocket::Core::Input::KeyIdentifier ki = sdlkey_to_ki[e->key.keysym.sym];
+			if (ki == Rocket::Core::Input::KI_UNKNOWN)
+				fprintf(stderr, "RocketInput: No keymap for SDL key %d\n", e->key.keysym.sym);
+			else
+				m_rocketContext->ProcessMouseButtonUp(sdlkey_to_ki[e->key.keysym.sym], rmod);
+			break;
+		}
 
 		default:
 			break;

@@ -20,8 +20,6 @@ public:
 	void Draw();
 
 private:
-	static bool s_initted;
-
 	int m_width, m_height;
 
 	RocketSystem *m_rocketSystem;
