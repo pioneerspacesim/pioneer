@@ -394,7 +394,7 @@ private:
 static Rocket::Core::Input::KeyIdentifier sdlkey_to_ki[SDLK_LAST];
 
 static bool s_initted = false;
-RocketManager::RocketManager(int width, int height) : m_width(width), m_height(height)
+RocketManager::RocketManager(int width, int height) : m_width(width), m_height(height), m_currentDocument(0)
 {
 	assert(!s_initted);
 	s_initted = true;
@@ -417,20 +417,39 @@ RocketManager::RocketManager(int width, int height) : m_width(width), m_height(h
 	Rocket::Core::FontDatabase::LoadFontFace(PIONEER_DATA_DIR "/fonts/TitilliumText22L004.otf");
 
 	m_rocketContext = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(m_width, m_height));
-
-	// XXX blah blah
-	Rocket::Core::ElementDocument *document = m_rocketContext->LoadDocument(PIONEER_DATA_DIR "/ui/main_menu.rml");
-	assert(document);
-	document->Show();
-	document->RemoveReference();
 }
 
 RocketManager::~RocketManager()
 {
+	for (std::map<std::string,Rocket::Core::ElementDocument*>::iterator i = m_documents.begin(); i != m_documents.end(); i++)
+		(*i).second->RemoveReference();
+
 	m_rocketContext->RemoveReference();
+
 	Rocket::Core::Shutdown();
 
 	s_initted = false;
+}
+
+Rocket::Core::ElementDocument *RocketManager::OpenDocument(const std::string &name)
+{
+	std::map<std::string,Rocket::Core::ElementDocument*>::iterator i = m_documents.find(name);
+	if (i != m_documents.end()) {
+		// XXX check file timestamp and invalidate if changed
+		(*i).second->Show();
+		return (*i).second;
+	}
+	
+	Rocket::Core::ElementDocument *document = m_rocketContext->LoadDocument((PIONEER_DATA_DIR "/ui/" + name + ".rml").c_str());
+	if (!document) {
+		fprintf(stderr, "RocketManager: couldn't load document '%s'\n", name.c_str());
+		return 0;
+	}
+
+	m_documents[name] = document;
+
+	document->Show();
+	return document;
 }
 
 void RocketManager::HandleEvent(const SDL_Event *e)

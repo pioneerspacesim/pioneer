@@ -1072,6 +1072,8 @@ void Pi::Start()
 
 	splash->ShowAll();
 
+	rocketManager->OpenDocument("main_menu");
+
 	int choice = 0;
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
