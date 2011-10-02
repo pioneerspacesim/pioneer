@@ -44,6 +44,12 @@ button.text:hover {
 	background-right-image: button_hover.png 154px 0px 186px 52px;
 }
 
+button.text:active {
+	background-left-image: button_click.png 0px 0px 52px 52px;
+    background-center-image: button_click.png stretch 52px 0px 52px 52px;
+	background-right-image: button_click.png 154px 0px 186px 52px;
+}
+
 button.point {
     display: inline-block;
 
@@ -62,4 +68,8 @@ button.point {
 
 button.point:hover {
     background-image: pointbutton_hover.png;
+}
+
+button.point:active {
+    background-image: pointbutton_click.png;
 }
