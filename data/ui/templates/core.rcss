@@ -38,6 +38,12 @@ button.text {
 	background-right-image: button_static.png 154px 0px 186px 52px;
 }
 
+button.text:hover {
+	background-left-image: button_hover.png 0px 0px 52px 52px;
+    background-center-image: button_hover.png stretch 52px 0px 52px 52px;
+	background-right-image: button_hover.png 154px 0px 186px 52px;
+}
+
 button.point {
     display: inline-block;
 
@@ -52,4 +58,8 @@ button.point {
 
 	background-decorator: image;
 	background-image: pointbutton_static.png;
+}
+
+button.point:hover {
+    background-image: pointbutton_hover.png;
 }
