@@ -101,7 +101,6 @@ public:
 		SDL_PixelFormat *pixfmt = s->format;
 		if (pixfmt->BytesPerPixel != rgba_pixfmt.BytesPerPixel || pixfmt->Rmask != rgba_pixfmt.Rmask || pixfmt->Gmask != rgba_pixfmt.Gmask || pixfmt->Bmask != rgba_pixfmt.Bmask)
 		{
-			printf("converting\n");
 			SDL_Surface *converted = SDL_ConvertSurface(s, &rgba_pixfmt, SDL_SWSURFACE);
 			SDL_FreeSurface(s);
 			s = converted;
