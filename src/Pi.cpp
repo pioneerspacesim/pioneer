@@ -653,6 +653,7 @@ void Pi::HandleEvents()
 
 	Pi::mouseMotion[0] = Pi::mouseMotion[1] = 0;
 	while (SDL_PollEvent(&event)) {
+		rocketManager->HandleEvent(&event);
 		Gui::HandleSDLEvent(&event);
 		KeyBindings::DispatchSDLEvent(&event);
 

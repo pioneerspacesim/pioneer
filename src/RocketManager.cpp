@@ -185,6 +185,49 @@ RocketManager::~RocketManager()
 	s_initted = false;
 }
 
+void RocketManager::HandleEvent(const SDL_Event *e)
+{
+	SDLMod sdlmod = SDL_GetModState();
+	Rocket::Core::Input::KeyModifier rmod = Rocket::Core::Input::KeyModifier(
+		(sdlmod & KMOD_CTRL  ? Rocket::Core::Input::KM_CTRL      : 0) |
+		(sdlmod & KMOD_SHIFT ? Rocket::Core::Input::KM_SHIFT     : 0) |
+		(sdlmod & KMOD_ALT   ? Rocket::Core::Input::KM_ALT       : 0) |
+		(sdlmod & KMOD_META  ? Rocket::Core::Input::KM_META      : 0) |
+		(sdlmod & KMOD_CAPS  ? Rocket::Core::Input::KM_CAPSLOCK  : 0) |
+		(sdlmod & KMOD_NUM   ? Rocket::Core::Input::KM_NUMLOCK   : 0)
+	);
+	
+	switch (e->type) {
+		case SDL_MOUSEMOTION:
+			m_rocketContext->ProcessMouseMove(e->motion.x, e->motion.y, rmod);
+			break;
+
+		case SDL_MOUSEBUTTONDOWN:
+			// XXX special handling for wheelup/wheeldown
+			m_rocketContext->ProcessMouseButtonDown(
+				e->button.button & SDL_BUTTON_LEFT  ? 0 :
+				e->button.button & SDL_BUTTON_RIGHT ? 1 :
+				                                      e->button.button, rmod);
+			break;
+
+		case SDL_MOUSEBUTTONUP:
+			// XXX special handling for wheelup/wheeldown
+			m_rocketContext->ProcessMouseButtonUp(
+				e->button.button & SDL_BUTTON_LEFT  ? 0 :
+				e->button.button & SDL_BUTTON_RIGHT ? 1 :
+				                                      e->button.button, rmod);
+			break;
+
+		case SDL_KEYDOWN:
+		case SDL_KEYUP:
+			// XXX keydown/keyup/textinput
+			break;
+
+		default:
+			break;
+	}
+}
+
 void RocketManager::Draw()
 {
 	glMatrixMode(GL_PROJECTION);

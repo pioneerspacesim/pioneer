@@ -3,6 +3,7 @@
 
 class RocketSystem;
 class RocketRender;
+union SDL_Event;
 
 namespace Rocket {
 	namespace Core {
@@ -15,6 +16,7 @@ public:
 	RocketManager(int width, int height);
 	~RocketManager();
 
+	void HandleEvent(const SDL_Event *e);
 	void Draw();
 
 private:
