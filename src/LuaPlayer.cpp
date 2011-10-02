@@ -399,6 +399,33 @@ static int l_player_add_crime(lua_State *l)
 }
 
 /*
+ * Method: GetNavTarget
+ *
+ * Get the player's navigation target
+ *
+ * > target = player:GetNavTarget()
+ *
+ * Return:
+ *
+ *   target - nil, or a <Body>
+ * 
+ * Availability:
+ * 
+ *   alpha 15
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+static int l_get_nav_target(lua_State *l)
+{
+	Player *p = LuaPlayer::GetFromLua(1);
+	LuaBody::PushToLua(p->GetNavTarget());
+	return 1;
+}
+
+/*
  * Method: SetNavTarget
  *
  * Set the player's navigation target
@@ -424,6 +451,33 @@ static int l_set_nav_target(lua_State *l)
 	Body *target = LuaBody::GetFromLua(2);
     p->SetNavTarget(target);
     return 0;
+}
+
+/*
+ * Method: GetCombatTarget
+ *
+ * Get the player's combat target
+ *
+ * > target = player:GetCombatTarget()
+ *
+ * Return:
+ *
+ *   target - nil, or a <Body>
+ * 
+ * Availability:
+ * 
+ *   alpha 15
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+static int l_get_combat_target(lua_State *l)
+{
+	Player *p = LuaPlayer::GetFromLua(1);
+	LuaBody::PushToLua(p->GetCombatTarget());
+	return 1;
 }
 
 /*
@@ -479,7 +533,9 @@ template <> void LuaObject<Player>::RegisterClass()
 
 		{ "AddCrime",      l_player_add_crime },
 
+		{ "GetNavTarget",    l_get_nav_target    },
 		{ "SetNavTarget",    l_set_nav_target    },
+		{ "GetCombatTarget", l_get_combat_target },
 		{ "SetCombatTarget", l_set_combat_target },
 		{ 0, 0 }
 	};
