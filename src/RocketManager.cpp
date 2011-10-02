@@ -172,7 +172,7 @@ RocketManager::RocketManager(int width, int height) : m_width(width), m_height(h
 	m_rocketContext = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(m_width, m_height));
 
 	// XXX blah blah
-	Rocket::Core::ElementDocument *document = m_rocketContext->LoadDocument("demo.rml");
+	Rocket::Core::ElementDocument *document = m_rocketContext->LoadDocument(PIONEER_DATA_DIR "/ui/main_menu.rml");
 	assert(document);
 	document->Show();
 	document->RemoveReference();

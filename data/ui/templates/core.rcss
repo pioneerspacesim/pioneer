@@ -1,0 +1,18 @@
+/* core styles */
+
+body {
+	font-family: TitilliumText22L;
+	font-size: 24pt;
+}
+
+div, p, h1, h2, h3, h4, h5, h6 {
+	display: block;
+}
+
+em {
+	font-style: italic;
+}
+
+strong {
+	font-weight: bold;
+}
