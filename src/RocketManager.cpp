@@ -121,7 +121,7 @@ public:
 		GLuint texture_id = 0;
 		glGenTextures(1, &texture_id);
 		if (texture_id == 0) {
-			printf("RocketRender: couldn't generate texture\n");
+			fprintf(stderr, "RocketRender: couldn't generate texture\n");
 			return false;
 		}
 
