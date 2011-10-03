@@ -5,7 +5,7 @@ include $(top_srcdir)/Makefile.common
 
 .PHONY: codedoc
 codedoc:
-	@naturaldocs -i src/ -o HTML codedoc/ -p nd/ -do -s Default Local
+	@naturaldocs -i src/ -i data/libs/ -xi src/data/ -o HTML codedoc/ -p nd/ -do -ro -s Default Local
 
 EXTRA_DIST = \
 	AUTHORS.txt \
