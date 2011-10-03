@@ -174,6 +174,9 @@ public:
 
 	static struct DetailLevel detail;
 	static GameConfig config;
+
+	static RocketManager *rocketManager;
+
 private:
 	static void InitOpenGL();
 	static void HandleEvents();
@@ -213,8 +216,6 @@ private:
 	};
 	static std::vector<JoystickState> joysticks;
 	static Sound::MusicPlayer musicPlayer;
-
-	static RocketManager *rocketManager;
 };
 
 #endif /* _PI_H */

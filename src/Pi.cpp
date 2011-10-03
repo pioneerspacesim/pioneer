@@ -1291,7 +1291,10 @@ void Pi::MainLoop()
 		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT));
 
 		Render::PostProcess();
+
 		Gui::Draw();
+
+		rocketManager->Draw();
 
 #if DEVKEYS
 		if (Pi::showDebugInfo) {
