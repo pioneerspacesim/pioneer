@@ -184,6 +184,9 @@ void WorldView::Load(Serializer::Reader &rd)
 	m_externalViewRotY = rd.Float();
 	m_externalViewDist = rd.Float();
 	m_camType = CamType(rd.Int32());
+
+	m_onPlayerEquipmentChangeCon =
+		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
 }
 
 void WorldView::GetNearFarClipPlane(float *outNear, float *outFar) const
