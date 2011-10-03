@@ -13,6 +13,7 @@
 #include "GalacticView.h"
 #include "GameMenuView.h"
 #include "Lang.h"
+#include "rocket/RocketManager.h"
 
 ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 {
@@ -306,7 +307,7 @@ void ShipCpanel::OnClickTimeaccel(int val)
 void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
-	if (Pi::player->GetFlightState() == Ship::DOCKED) Pi::SetView(Pi::spaceStationView);
+	if (Pi::player->GetFlightState() == Ship::DOCKED) Pi::rocketManager->OpenDocument("station_services");//Pi::SetView(Pi::spaceStationView);
 	else {
 		Pi::SetView(Pi::worldView);
 		Pi::worldView->ToggleTargetActions();
