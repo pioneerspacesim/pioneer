@@ -1,5 +1,5 @@
 -- Get the translator function
-t = Translate:getLanguage()
+t = Translate:GetTranslator()
 
 -- Default numeric values --
 ----------------------------

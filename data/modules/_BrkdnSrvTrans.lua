@@ -1,4 +1,4 @@
-Translate:add({
+Translate:Add({
 English = {
 
 -- Just add the entire flavour table as a key here
