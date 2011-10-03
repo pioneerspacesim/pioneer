@@ -57,9 +57,9 @@ public:
 		m_w = w;
 		m_h = h;
 
-		glGenFramebuffers(1, &m_fbo);
+		glGenFramebuffersEXT(1, &m_fbo);
 		glGenTextures(1, &m_texture);
-		glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_fbo);
 		glBindTexture(GL_TEXTURE_RECTANGLE, m_texture);
 		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -67,11 +67,11 @@ public:
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, internalFormat, w, h, 0,
 			format, type, 0);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
 			GL_TEXTURE_RECTANGLE, m_texture, 0);
 
 		CheckCompleteness();
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	}
 
 	void Bind() {
@@ -91,24 +91,24 @@ public:
 	LuminanceTarget(int w, int h) {
 		m_w = w;
 		m_h = h;
-		glGenFramebuffers(1, &m_fbo);
+		glGenFramebuffersEXT(1, &m_fbo);
 		glGenTextures(1, &m_texture);
-		glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_fbo);
 		glBindTexture(GL_TEXTURE_2D, m_texture);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
-		glGenerateMipmap(GL_TEXTURE_2D);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+		glGenerateMipmapEXT(GL_TEXTURE_2D);
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
 			GL_TEXTURE_2D, m_texture, 0);
 		CheckCompleteness();
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	}
 
 	void UpdateMipmaps() {
-		glGenerateMipmap(GL_TEXTURE_2D);
+		glGenerateMipmapEXT(GL_TEXTURE_2D);
 	}
 };
 
@@ -120,9 +120,9 @@ public:
 		m_w = w;
 		m_h = h;
 
-		glGenFramebuffers(1, &m_fbo);
+		glGenFramebuffersEXT(1, &m_fbo);
 		glGenTextures(1, &m_texture);
-		glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_fbo);
 		glBindTexture(GL_TEXTURE_RECTANGLE, m_texture);
 		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -130,22 +130,22 @@ public:
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, internalFormat, w, h, 0,
 			format, type, 0);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
 			GL_TEXTURE_RECTANGLE, m_texture, 0);
 
-		glGenRenderbuffers(1, &m_depth);
-		glBindRenderbuffer(GL_RENDERBUFFER, m_depth);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, w, h);
-		glBindRenderbuffer(GL_RENDERBUFFER, 0);
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-			GL_RENDERBUFFER, m_depth);
+		glGenRenderbuffersEXT(1, &m_depth);
+		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, m_depth);
+		glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24, w, h);
+		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
+		glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT,
+			GL_RENDERBUFFER_EXT, m_depth);
 
 		CheckCompleteness();
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	}
 
 	~SceneTarget() {
-		glDeleteRenderbuffers(1, &m_depth);
+		glDeleteRenderbuffersEXT(1, &m_depth);
 	}
 private:
 	GLuint m_depth;
@@ -196,11 +196,11 @@ static struct postprocessBuffers_t {
 		width = screen_width;
 		height = screen_height;
 
-		halfSizeRT  = new RectangleTarget(width>>1, height>>1, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
+		halfSizeRT  = new RectangleTarget(width>>1, height>>1, GL_RGB, GL_RGB16F_ARB, GL_HALF_FLOAT_ARB);
 		luminanceRT = new LuminanceTarget(128, 128);
-		bloom1RT = new RectangleTarget(width>>2, height>>2, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
-		bloom2RT = new RectangleTarget(width>>2, height>>2, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
-		sceneRT = new SceneTarget(width, height, GL_RGB, GL_RGB16F, GL_HALF_FLOAT);
+		bloom1RT = new RectangleTarget(width>>2, height>>2, GL_RGB, GL_RGB16F_ARB, GL_HALF_FLOAT_ARB);
+		bloom2RT = new RectangleTarget(width>>2, height>>2, GL_RGB, GL_RGB16F_ARB, GL_HALF_FLOAT_ARB);
+		sceneRT = new SceneTarget(width, height, GL_RGB, GL_RGB16F_ARB, GL_HALF_FLOAT_ARB);
 
 		postprocessBloom1Downsample = new PostprocessDownsampleShader("postprocessBloom1Downsample", "#extension GL_ARB_texture_rectangle : enable\n");
 		postprocessBloom2Downsample = new PostprocessShader("postprocessBloom2Downsample", "#extension GL_ARB_texture_rectangle : enable\n");
@@ -393,7 +393,7 @@ void PrepareFrame()
 		if (IsHDREnabled())
 			s_hdrBufs.sceneRT->BeginRTT();
 		else
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	}
 }
 
