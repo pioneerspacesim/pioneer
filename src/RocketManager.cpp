@@ -1,9 +1,6 @@
 #include "RocketManager.h"
 #include "libs.h"
 
-#include "Rocket/Core.h"
-#include "Rocket/Controls.h"
-
 #include "Rocket/Core/SystemInterface.h"
 #include "Rocket/Core/RenderInterface.h"
 
@@ -391,6 +388,47 @@ private:
 };
 
 
+class RocketEventListener : public Rocket::Core::EventListener {
+public:
+	RocketEventListener(const std::string &eventName) : Rocket::Core::EventListener(), m_eventName(eventName) {}
+
+	virtual void ProcessEvent(Rocket::Core::Event &e)
+	{
+		if (m_handler) m_handler(&e);
+	}
+
+	void SetHandler(sigc::slot<void,Rocket::Core::Event*> handler) { m_handler = handler; }
+
+private:
+	std::string m_eventName;
+	sigc::slot<void,Rocket::Core::Event*> m_handler;
+};
+
+
+class RocketEventListenerInstancer : public Rocket::Core::EventListenerInstancer {
+public:
+	virtual Rocket::Core::EventListener *InstanceEventListener(const Rocket::Core::String &value)
+	{
+		std::string eventName(value.CString());
+
+		std::map<std::string,RocketEventListener*>::iterator i = m_listeners.find(eventName);
+		if (i != m_listeners.end())
+			return (*i).second;
+
+		RocketEventListener *listener = new RocketEventListener(eventName);
+		m_listeners.insert(make_pair(eventName, listener));
+
+		return listener;
+	}
+
+	virtual void Release() {}
+
+private:
+	std::map<std::string,RocketEventListener*> m_listeners;
+};
+
+
+
 static Rocket::Core::Input::KeyIdentifier sdlkey_to_ki[SDLK_LAST];
 
 static bool s_initted = false;
@@ -413,6 +451,10 @@ RocketManager::RocketManager(int width, int height) : m_width(width), m_height(h
 	Rocket::Core::Initialise();
 	Rocket::Controls::Initialise();
 
+	m_rocketEventListenerInstancer = new RocketEventListenerInstancer();
+	Rocket::Core::Factory::RegisterEventListenerInstancer(m_rocketEventListenerInstancer);
+	m_rocketEventListenerInstancer->RemoveReference();
+
 	// XXX hook up to fontmanager or something
 	Rocket::Core::FontDatabase::LoadFontFace(PIONEER_DATA_DIR "/fonts/TitilliumText22L004.otf");
 
@@ -427,6 +469,11 @@ RocketManager::~RocketManager()
 	m_rocketContext->RemoveReference();
 
 	Rocket::Core::Shutdown();
+
+	delete m_rocketEventListenerInstancer;
+
+	delete m_rocketSystem;
+	delete m_rocketRender;
 
 	s_initted = false;
 }
@@ -450,6 +497,11 @@ Rocket::Core::ElementDocument *RocketManager::OpenDocument(const std::string &na
 
 	document->Show();
 	return document;
+}
+
+void RocketManager::RegisterEventHandler(const std::string &eventName, sigc::slot<void,Rocket::Core::Event*> handler)
+{
+	static_cast<RocketEventListener*>(m_rocketEventListenerInstancer->InstanceEventListener(Rocket::Core::String(eventName.c_str())))->SetHandler(handler);
 }
 
 void RocketManager::HandleEvent(const SDL_Event *e)

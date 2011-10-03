@@ -1032,6 +1032,10 @@ void Pi::UninitGame()
 	}
 }
 
+void _click(Rocket::Core::Event *e, int n) {
+	printf("click: %d\n", n);
+}
+
 void Pi::Start()
 {
 	Background::Starfield *starfield = new Background::Starfield();
@@ -1073,6 +1077,11 @@ void Pi::Start()
 	splash->ShowAll();
 
 	rocketManager->OpenDocument("main_menu");
+	rocketManager->RegisterEventHandler("newgame-earth",   sigc::bind(sigc::ptr_fun(&_click), 1));
+	rocketManager->RegisterEventHandler("newgame-eridani", sigc::bind(sigc::ptr_fun(&_click), 2));
+	rocketManager->RegisterEventHandler("newgame-debug",   sigc::bind(sigc::ptr_fun(&_click), 3));
+	rocketManager->RegisterEventHandler("loadgame",        sigc::bind(sigc::ptr_fun(&_click), 4));
+	rocketManager->RegisterEventHandler("quit",            sigc::bind(sigc::ptr_fun(&_click), 5));
 
 	int choice = 0;
 	Uint32 last_time = SDL_GetTicks();

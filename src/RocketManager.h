@@ -1,19 +1,16 @@
 #ifndef _ROCKETMANAGER_H
 #define _ROCKETMANAGER_H
 
-#include <string>
+#include "libs.h"
 #include <map>
+
+#include "Rocket/Core.h"
+#include "Rocket/Controls.h"
 
 class RocketSystem;
 class RocketRender;
+class RocketEventListenerInstancer;
 union SDL_Event;
-
-namespace Rocket {
-	namespace Core {
-		class Context;
-		class ElementDocument;
-	}
-}
 
 class RocketManager {
 public:
@@ -23,6 +20,8 @@ public:
 	Rocket::Core::ElementDocument *OpenDocument(const std::string &name);
 	Rocket::Core::ElementDocument *GetCurrentDocument() { return m_currentDocument; }
 
+	void RegisterEventHandler(const std::string &eventName, sigc::slot<void,Rocket::Core::Event*> handler);
+
 	void HandleEvent(const SDL_Event *e);
 	void Draw();
 
@@ -31,6 +30,8 @@ private:
 
 	RocketSystem *m_rocketSystem;
 	RocketRender *m_rocketRender;
+
+	RocketEventListenerInstancer *m_rocketEventListenerInstancer;
 
 	Rocket::Core::Context *m_rocketContext;
 

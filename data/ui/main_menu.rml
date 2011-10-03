@@ -3,10 +3,10 @@
 		<link type="text/template" href="templates/screen.rml"/>
 	</head>
 	<body template="screen">
-	  <p><button class="point"/>New game starting on Earth</p>
-	  <p><button class="point"/>New game starting on Epsilon Eridani</p>
-	  <p><button class="point"/>New game starting on debug point</p>
-	  <p><button class="point"/>Load a saved game</p>
-	  <p><button class="point"/>Quit</p>
+		<p><button class="point" onclick="newgame-earth"/>New game starting on Earth</p>
+		<p><button class="point" onclick="newgame-eridani"/>New game starting on Epsilon Eridani</p>
+		<p><button class="point" onclick="newgame-debug"/>New game starting on debug point</p>
+		<p><button class="point" onclick="loadgame"/>Load a saved game</p>
+		<p><button class="point" onclick="quit"/>Quit</p>
 	</body>
 </rml>
