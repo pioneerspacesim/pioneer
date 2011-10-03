@@ -483,8 +483,12 @@ Rocket::Core::ElementDocument *RocketManager::OpenDocument(const std::string &na
 	std::map<std::string,Rocket::Core::ElementDocument*>::iterator i = m_documents.find(name);
 	if (i != m_documents.end()) {
 		// XXX check file timestamp and invalidate if changed
-		(*i).second->Show();
-		return (*i).second;
+		if (m_currentDocument)
+			m_currentDocument->Hide();
+		m_currentDocument = (*i).second;
+
+		m_currentDocument->Show();
+		return m_currentDocument;
 	}
 	
 	Rocket::Core::ElementDocument *document = m_rocketContext->LoadDocument((PIONEER_DATA_DIR "/ui/" + name + ".rml").c_str());
@@ -494,9 +498,10 @@ Rocket::Core::ElementDocument *RocketManager::OpenDocument(const std::string &na
 	}
 
 	m_documents[name] = document;
+	m_currentDocument = document;
 
-	document->Show();
-	return document;
+	m_currentDocument->Show();
+	return m_currentDocument;
 }
 
 void RocketManager::RegisterEventHandler(const std::string &eventName, sigc::slot<void,Rocket::Core::Event*> handler)
