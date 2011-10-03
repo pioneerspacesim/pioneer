@@ -3,5 +3,5 @@ body.dialog {
 	height: 50%;
 	margin: auto;
 	padding: 1em;
-	background: #fff1;
+	background: #0008;
 }
