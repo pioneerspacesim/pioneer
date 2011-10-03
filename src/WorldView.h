@@ -7,6 +7,7 @@
 #include "render/Render.h"
 #include "Serializer.h"
 #include "Background.h"
+#include "EquipType.h"
 
 class Body;
 class Frame;
