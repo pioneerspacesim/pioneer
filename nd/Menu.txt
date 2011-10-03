@@ -43,36 +43,46 @@ Format: 1.51
 # time it is run.  When working with groups, just deal with the braces and
 # forget about the indentation and comments.
 # 
+# You can use this file on other computers even if they use different
+# directories.  As long as the command line points to the same source files,
+# Natural Docs will be able to correct the locations automatically.
+# 
 # --------------------------------------------------------------------------
 
 
-File: Body  (LuaBody.cpp)
-File: CargoBody  (LuaCargoBody.cpp)
-File: ChatForm  (LuaChatForm.cpp)
-File: Console  (LuaConsole.cpp)
-File: Constants  (LuaConstants.cpp)
-File: Engine  (LuaEngine.cpp)
-File: EquipType  (LuaEquipType.cpp)
-File: EventQueue  (LuaEventQueue.cpp)
-File: Format  (LuaFormat.cpp)
-File: Game  (LuaGame.cpp)
-File: LMR  (LmrModel.cpp)
-File: Music  (LuaMusic.cpp)
-File: NameGen  (LuaNameGen.cpp)
-File: Object  (LuaObject.cpp)
-File: Planet  (LuaPlanet.cpp)
-File: Player  (LuaPlayer.cpp)
-File: Rand  (LuaRand.cpp)
-File: Ship  (LuaShip.cpp)
-File: ShipType  (LuaShipType.cpp)
-File: Space  (LuaSpace.cpp)
-File: SpaceStation  (LuaSpaceStation.cpp)
-File: Star  (LuaStar.cpp)
-File: StarSystem  (LuaStarSystem.cpp)
-File: SystemBody  (LuaSBody.cpp)
-File: SystemPath  (LuaSystemPath.cpp)
-File: Timer  (LuaTimer.cpp)
-File: UI  (LuaUI.cpp)
+Group: Src  {
+
+   File: Body  (/home/rob/code/pioneer/src/LuaBody.cpp)
+   File: CargoBody  (/home/rob/code/pioneer/src/LuaCargoBody.cpp)
+   File: ChatForm  (/home/rob/code/pioneer/src/LuaChatForm.cpp)
+   File: Console  (/home/rob/code/pioneer/src/LuaConsole.cpp)
+   File: Constants  (/home/rob/code/pioneer/src/LuaConstants.cpp)
+   File: Engine  (/home/rob/code/pioneer/src/LuaEngine.cpp)
+   File: EquipType  (/home/rob/code/pioneer/src/LuaEquipType.cpp)
+   File: EventQueue  (/home/rob/code/pioneer/src/LuaEventQueue.cpp)
+   File: Format  (/home/rob/code/pioneer/src/LuaFormat.cpp)
+   File: Game  (/home/rob/code/pioneer/src/LuaGame.cpp)
+   File: Lang  (/home/rob/code/pioneer/src/LuaLang.cpp)
+   File: LMR  (/home/rob/code/pioneer/src/LmrModel.cpp)
+   File: Music  (/home/rob/code/pioneer/src/LuaMusic.cpp)
+   File: NameGen  (/home/rob/code/pioneer/src/LuaNameGen.cpp)
+   File: Object  (/home/rob/code/pioneer/src/LuaObject.cpp)
+   File: Planet  (/home/rob/code/pioneer/src/LuaPlanet.cpp)
+   File: Player  (/home/rob/code/pioneer/src/LuaPlayer.cpp)
+   File: Rand  (/home/rob/code/pioneer/src/LuaRand.cpp)
+   File: Ship  (/home/rob/code/pioneer/src/LuaShip.cpp)
+   File: ShipType  (/home/rob/code/pioneer/src/LuaShipType.cpp)
+   File: Space  (/home/rob/code/pioneer/src/LuaSpace.cpp)
+   File: SpaceStation  (/home/rob/code/pioneer/src/LuaSpaceStation.cpp)
+   File: Star  (/home/rob/code/pioneer/src/LuaStar.cpp)
+   File: StarSystem  (/home/rob/code/pioneer/src/LuaStarSystem.cpp)
+   File: SystemBody  (/home/rob/code/pioneer/src/LuaSBody.cpp)
+   File: SystemPath  (/home/rob/code/pioneer/src/LuaSystemPath.cpp)
+   File: Timer  (/home/rob/code/pioneer/src/LuaTimer.cpp)
+   File: UI  (/home/rob/code/pioneer/src/LuaUI.cpp)
+   }  # Group: Src
+
+File: Translate  (/home/rob/code/pioneer/data/libs/Translate.lua)
 
 Group: Index  {
 
@@ -86,3 +96,8 @@ Group: Index  {
    Constant Index: Constants
    }  # Group: Index
 
+
+
+##### Do not change or remove these lines. #####
+Data: 1(D3333RuEG3HuY39ufG3I8u\GGH36H9)
+Data: 1(h3333RuEG3HuY39ufG3I8u\GGH3fptp3o8Y6)

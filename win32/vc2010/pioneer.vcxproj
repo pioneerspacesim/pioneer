@@ -201,6 +201,7 @@
     <ClCompile Include="..\..\src\LuaEventQueue.cpp" />
     <ClCompile Include="..\..\src\LuaFormat.cpp" />
     <ClCompile Include="..\..\src\LuaGame.cpp" />
+    <ClCompile Include="..\..\src\LuaLang.cpp" />
     <ClCompile Include="..\..\src\LuaManager.cpp" />
     <ClCompile Include="..\..\src\LuaMusic.cpp" />
     <ClCompile Include="..\..\src\LuaNameGen.cpp" />
@@ -271,6 +272,7 @@
     <ClCompile Include="..\..\src\StringF.cpp" />
     <ClCompile Include="..\..\src\SystemInfoView.cpp" />
     <ClCompile Include="..\..\src\SystemView.cpp" />
+    <ClCompile Include="..\..\src\TerrainBody.cpp" />
     <ClCompile Include="..\..\src\TextureFont.cpp" />
     <ClCompile Include="..\..\src\TextureManager.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
@@ -366,6 +368,7 @@
     <ClInclude Include="..\..\src\LuaEventQueue.h" />
     <ClInclude Include="..\..\src\LuaFormat.h" />
     <ClInclude Include="..\..\src\LuaGame.h" />
+    <ClInclude Include="..\..\src\LuaLang.h" />
     <ClInclude Include="..\..\src\LuaManager.h" />
     <ClInclude Include="..\..\src\LuaMusic.h" />
     <ClInclude Include="..\..\src\LuaNameGen.h" />
@@ -440,6 +443,7 @@
     <ClInclude Include="..\..\src\StringF.h" />
     <ClInclude Include="..\..\src\SystemInfoView.h" />
     <ClInclude Include="..\..\src\SystemView.h" />
+    <ClInclude Include="..\..\src\TerrainBody.h" />
     <ClInclude Include="..\..\src\TextureFont.h" />
     <ClInclude Include="..\..\src\TextureManager.h" />
     <ClInclude Include="..\..\src\utils.h" />

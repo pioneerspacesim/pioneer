@@ -199,13 +199,13 @@ define_model('asps_sub0', {
 		end
 
 		if lod > 2 then
-			if get_arg(10) >= 62 then
-				local scale = (get_arg(10)-61)/7.5
+			if get_arg(ARG_SHIP_EQUIP_LASER0) >= Equip.PULSECANNON_1MW then
+				local scale = (get_arg(ARG_SHIP_EQUIP_LASER0)-Equip.PULSECANNON_1MW + 1)/7.5
 				local pos = v(.003,.246,-1.681)
 				asps_gun_f(pos,scale)
 			end
-			if get_arg(11) >= 62 then
-				local scale = (get_arg(11)-61)/7.5
+			if get_arg(ARG_SHIP_EQUIP_LASER1) >= Equip.PULSECANNON_1MW then
+				local scale = (get_arg(ARG_SHIP_EQUIP_LASER1)-Equip.PULSECANNON_1MW + 1)/7.5
 				local pos = v(.001,-.431,1.964)
 				asps_gun_r(pos,scale)
 			end
@@ -213,19 +213,19 @@ define_model('asps_sub0', {
 
 		if lod > 3 then
 			local M_0 = v(.34,.08,-1.4)
-			if get_arg(12) == 32 then
+			if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_UNGUIDED then
 				call_model('d_unguided',M_0,v(1,0,0),v(0,1,0),.1)
 				call_model('asps_pyl_open',v(0,0,0),v(1,0,0),v(0,1,0),1)
 			else
-				if get_arg(12) == 33 then
+				if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_GUIDED then
 					call_model('d_guided',M_0,v(1,0,0),v(0,1,0),.1)
 					call_model('asps_pyl_open',v(0,0,0),v(1,0,0),v(0,1,0),1)
 				else
-					if get_arg(12) == 34 then
+					if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_SMART then
 						call_model('d_smart',M_0,v(1,0,0),v(0,1,0),.1)
 						call_model('asps_pyl_open',v(0,0,0),v(1,0,0),v(0,1,0),1)
 					else
-						if get_arg(12) == 35 then
+						if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_NAVAL then
 							call_model('d_naval',M_0,v(1,0,0),v(0,1,0),.1)
 							call_model('asps_pyl_open',v(0,0,0),v(1,0,0),v(0,1,0),1)
 						end
@@ -237,28 +237,28 @@ define_model('asps_sub0', {
 			if select2 < 51 then
 				set_material('cv_0', .63,.7,.83,1,.83,.9,1.03,30)
 				use_material('cv_0')
-				if get_arg(8) == 38 then
+				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
 					call_model('scanner_-',v(1,.57,.38),v(1,0,0),v(0,1,0),.15)
 					call_model('antenna_1',v(-.83,.272,-1.94),v(1,0,0),v(0,1,0),.15)
 				end
-				if get_arg(7) == 37 then
+				if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
 					call_model('ecm_1',v(-1,.57,.38),v(1,0,0),v(0,1,0),.1)
 				else
-					if get_arg(7) == 39 then
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
 						call_model('ecm_2',v(-1,.57,.38),v(1,0,0),v(0,1,0),.1)
 					end
 				end
 			else
 				set_material('cv_0', get_arg_material(0))
 				use_material('cv_0')
-				if get_arg(8) == 38 then
+				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
 					call_model('scanner_+',v(-1,.57,.38),v(1,0,0),v(0,1,0),.15)
 					call_model('antenna_1',v(.83,.272,-1.94),v(1,0,0),v(0,1,0),.15)
 				end
-				if get_arg(7) == 37 then
+				if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
 					call_model('ecm_1',v(1,.57,.38),v(1,0,0),v(0,1,0),.1)
 				else
-					if get_arg(7) == 39 then
+					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
 						call_model('ecm_2',v(1,.57,.38),v(1,0,0),v(0,1,0),.1)
 					end
 				end
@@ -393,11 +393,11 @@ define_model('asp_sparks', {
 		local rot = .5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.3,1)-.46
 
 		if lod > 1 then
-			set_material('e_glow', lerp_materials(get_arg(1)*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
+			set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
 			{0, 0, 0, 1, 0, 0, 0, 1, 1, 2.5, 2.5 }))
 
-			if get_arg(5) == 45 then
-				set_material('scoop', lerp_materials(get_arg(1)*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
+			if get_arg(ARG_SHIP_EQUIP_SCOOP) == Equip.FUEL_SCOOP then
+				set_material('scoop', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
 				{0, 0, 0, 1, 0, 0, 0, 1, 1, 2.5, 2.5 }))
 			else
 				set_material('scoop', .15,.16,.18,1,.22,.25,.25,10)

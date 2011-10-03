@@ -18,6 +18,7 @@
 #include "render/Render.h"
 #include "WorldView.h"
 #include "SectorView.h"
+#include "Lang.h"
 
 namespace Space {
 
@@ -34,7 +35,7 @@ static std::list<HyperspaceCloud*> storedArrivalClouds;
 
 void Init()
 {
-	rootFrame = new Frame(NULL, "System");
+	rootFrame = new Frame(NULL, Lang::SYSTEM);
 	rootFrame->SetRadius(FLT_MAX);
 }
 

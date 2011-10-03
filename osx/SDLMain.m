@@ -124,9 +124,7 @@ static BOOL   gFinderLaunch;
 
     img = [NSImage imageNamed: @"pioneer-logo.icns"];
     options = [NSDictionary dictionaryWithObjectsAndKeys:
-               @PIONEER_VERSION, @"Version",
                img, @"ApplicationIcon",
-               @"pioneer", @"ApplicationVersion",
                @"Copyright (C) 2011 - See AUTHORS.txt", @"Copyright",
                nil];
 

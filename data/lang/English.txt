@@ -123,8 +123,11 @@ BULLETIN_BOARD
     Bulletin Board
 WELCOME_TO_SOMEWHERE
     Welcome to %station
+# This next translation does not have to be a real translation.  You can
+# write anything you like here.  It will appear in every space station
+# in the whole galaxy.
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Hello, traveller.  Welcome to this space station.  We have reports of vandalism and graffiti on board.  If you see that any of our signage is misleading, mis-spelled or just missing, please inform a member of staff.\n\nOxygen is currently free of charge.
+    Hello, traveller.  Welcome to our little blue play-pen.  If it's your first time here, feel free to get acquainted with the residents.  We hope you enjoy your stay.\n\nPlease remember that renovations are under way, and that scenery may change between visits.
 REQUEST_LAUNCH
     Request Launch
 SHIPYARD
@@ -920,9 +923,9 @@ VAST_STRIP_MINE
 HIGH_POPULATION_OUTDOOR_WORLD
     High population outdoor world.
 SOMEWHERE_SPACEPORT
-     " Spaceport"
+    %spaceport Spaceport
 SOMEWHERE_STARPORT
-     " Starport"
+    %starport Starport
 MASS
     Mass
 N_WHATEVER_MASSES
@@ -1135,3 +1138,5 @@ ACTIVE
     Active
 DISTANCE_LY
     Distance: %distance{f.2} ly
+SYSTEM
+    System

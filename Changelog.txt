@@ -22,7 +22,7 @@ Alpha 15
     * Mushroom station now has ads in bay 2 (#524)
     * Display surface gravity of bodies in system info view (#533)
     * Model fixes: Ship bounding radii, LOD checked and fixed, adverts cleaned
-      up and other minor fixes (#530, #542, #556, #515, #72)
+      up and other minor fixes (#530, #542, #556, #515, #72, #582))
     * Support for glowmaps (#557)
     * Terrains. Snow on mountains and polar ice caps. Various optimisations
     * and fixes (#440, #566)
@@ -41,16 +41,24 @@ Alpha 15
     * Fix rare crash when NPC ship is destroyed that previously attacked the
       player (#568)
     * Fix a case where we try to access an object after its been freed (#342, #470)
+    * Fix various depth bugs when shaders are enabled. Fixes gas giant rings,
+      hyperspace clouds, etc (#24, #234, #504)
+    * Fix black halo around gas giant atmospheres when rings are visible (#595)
+    * Update hyperspace button after cargo/equipment change (#550, #602)
 
   * Script changes
-    * Experimental Lua console (#537)
+    * Experimental Lua console (#537, #597)
     * Lua events onShipEquipmentChanged and onShipFlavourChanged (#544, #547)
     * Lua method Ship.SetHullPercent to set a ship's damage level (#420, #472)
     * Lua method Ship.SetShipType to change the type of a ship (#404, #507)
+    * Lua methods Player.GetNavTarget and Player.GetCombatTarget to get the
+      currently-targetted bodies (#588, #583)
+    * Lua Lang interface to access core translated strings (#579, #575, #553)
+    * Lua Translate interface to let modules provide translations (#580)
  
   * Internal changes
     * Lots of internal cleanups; silences many warnings under GCC (#477,
-      #484) and MSVC (#483)
+      #484, #604) and MSVC (#483)
     * String and language updates (#509, #510, #514, #525, #528)
     * Allow terrain generation to be aborted when the current set of terrains
       become unusable (eg after hyperspace or detail settings change) (#457, #490)
@@ -65,6 +73,7 @@ Alpha 15
       problems (#535)
     * (OSX Only) Refactored and Restructured ObjectiveC code to be more
       manageable (#559)
+    * Use FBO extension functions (GL2) instead of core (GL3) (#608, #605)
 
 Alpha 14
 

@@ -920,9 +920,9 @@ VAST_STRIP_MINE
 HIGH_POPULATION_OUTDOOR_WORLD
     Vanjski svijet ogromne populacije.
 SOMEWHERE_SPACEPORT
-     " svemirska luka"
+    Svemirska luka %spaceport
 SOMEWHERE_STARPORT
-     " zvijedana luka"
+    Zvijezdana luka %starport
 MASS
     Masa
 N_WHATEVER_MASSES
@@ -1050,7 +1050,7 @@ WEAPON_TEMP
 HULL_INTEGRITY
     Integritet trupa
 SHIELD_INTEGRITY
-    Integritet štitova
+    Integritet štita
 LAUNCH_PERMISSION_DENIED_BUSY
     Dozvola za poljetanje odbijena: spojni vezovi zauzeti.
 HYPERSPACE_JUMP_ABORTED
@@ -1092,7 +1092,7 @@ HYPERSPACE_ARRIVAL_CLOUD_REMNANT
 SHIP_MASS_N_TONNES
     Masa broda: %{mass}t
 DATE_DUE_N
-    Datum dospiječa: %date
+    Datum dospijeća: %date
 SOURCE
     Ishodište
 DESTINATION
@@ -1135,3 +1135,5 @@ ACTIVE
     Aktivan
 DISTANCE_LY
     Udaljenost: %distance{f.2} sg
+SYSTEM
+    sustavu

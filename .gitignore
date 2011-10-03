@@ -2,6 +2,7 @@ build/
 bin/
 lib/
 Debug/
+PreRelease/
 Release/
 ipch/
 src/data
