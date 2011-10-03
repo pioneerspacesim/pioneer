@@ -12,28 +12,32 @@ Translate = {
 --
 -- Method: GetTranslationFunction
 --
--- Selects or changes the language used by the translator
---
--- Parameters:
---
--- language - optional. A string which represents the language to be used.
---            Defaults to either the last selected language, or 'English'.
+-- Changes the current language and returns a translation function
 --
 -- > Translate:GetTranslationFunction()
 --
+-- Parameters:
+--
+--   language - optional. A string which represents the language to be used.
+--              Defaults to either the last selected language, or 'English'.
+--
 -- Returns:
 --
--- t - a function which takes a single token in string form, and returns the
---     translated string.  If the token isn't defined, it returns the token.
+--   t - a function which takes a single token in string form, and returns the
+--       translated string.  If the token isn't defined, it returns the token.
 --
 -- Example:
 --
 -- > local t = Translate:GetTranslationFunction('Deutsch')
 -- > UI.Message(t('YOU_ARE_LATE'))
 --
+-- Availability:
+--
+--   alpha 15
+--
 -- Status:
 --
--- experimental
+--   experimental
 --
     GetTranslationFunction = function (self, language)
         self.language = language or self.language
@@ -49,7 +53,7 @@ Translate = {
 --
 -- Parameters:
 --
--- dictionary - a table of tables of tokens, by language
+--   dictionary - a table of tables of tokens, by language
 --
 -- Example:
 --
@@ -63,6 +67,14 @@ Translate = {
 -- >         THATSBEAUT = 'Das ist wunderschön',
 -- >     }
 -- > })
+--
+-- Availability:
+--
+--   alpha 15
+--
+-- Status:
+--
+--   experimental
 --
     Add = function (self, dictionary)
         if (dictionary[self.language]) then
