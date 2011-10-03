@@ -2,6 +2,6 @@ body.screen {
 	width: 50%;
 	height: 50%;
 	margin: auto;
-    padding: 1em;
+	padding: 1em;
 	background: #fff1;
 }

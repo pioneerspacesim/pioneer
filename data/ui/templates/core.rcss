@@ -20,56 +20,56 @@ strong {
 button.text {
 	display: inline-block;
 
-    min-width: 64px;
-    height: 32px;
+	min-width: 64px;
+	height: 32px;
 
-    padding: 0 32px;
-    margin-bottom: 0.1em;
+	padding: 0 32px;
+	margin-bottom: 0.1em;
 
-    text-align: center;
+	text-align: center;
 
-    outline-font-effect: outline;
-    outline-width: 1px;
-    outline-color: black;
+	outline-font-effect: outline;
+	outline-width: 1px;
+	outline-color: black;
 
 	background-decorator: tiled-horizontal;
 	background-left-image: button_static.png 0px 0px 52px 52px;
-    background-center-image: button_static.png stretch 52px 0px 52px 52px;
+	background-center-image: button_static.png stretch 52px 0px 52px 52px;
 	background-right-image: button_static.png 154px 0px 186px 52px;
 }
 
 button.text:hover {
 	background-left-image: button_hover.png 0px 0px 52px 52px;
-    background-center-image: button_hover.png stretch 52px 0px 52px 52px;
+	background-center-image: button_hover.png stretch 52px 0px 52px 52px;
 	background-right-image: button_hover.png 154px 0px 186px 52px;
 }
 
 button.text:active {
 	background-left-image: button_click.png 0px 0px 52px 52px;
-    background-center-image: button_click.png stretch 52px 0px 52px 52px;
+	background-center-image: button_click.png stretch 52px 0px 52px 52px;
 	background-right-image: button_click.png 154px 0px 186px 52px;
 }
 
 button.point {
-    display: inline-block;
+	display: inline-block;
 
-    width: 24px;
-    height: 24px;
+	width: 24px;
+	height: 24px;
 
-    margin: 0 0.3em 0.1em 0;
+	margin: 0 0.3em 0.1em 0;
 
-    overflow: hidden;
+	overflow: hidden;
 
-    vertical-align: top;
+	vertical-align: top;
 
 	background-decorator: image;
 	background-image: pointbutton_static.png;
 }
 
 button.point:hover {
-    background-image: pointbutton_hover.png;
+	background-image: pointbutton_hover.png;
 }
 
 button.point:active {
-    background-image: pointbutton_click.png;
+	background-image: pointbutton_click.png;
 }
