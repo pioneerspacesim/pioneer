@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider gui render
+SUBDIRS = collider gui render rocket
 
 include $(top_srcdir)/Makefile.common
 
@@ -91,7 +91,6 @@ noinst_HEADERS = \
 	Quaternion.h \
 	RefCounted.h \
 	RefList.h \
-	RocketManager.h \
 	Sector.h \
 	SectorView.h \
 	Serializer.h \
@@ -213,7 +212,6 @@ pioneer_SOURCES	= \
 	Player.cpp \
 	Polit.cpp \
 	Projectile.cpp \
-	RocketManager.cpp \
 	Sector.cpp \
 	SectorView.cpp \
 	Serializer.cpp \
@@ -257,9 +255,9 @@ pioneer_SOURCES	= \
 	utils.cpp
 
 pioneer_LDADD = \
+		collider/libcollider.a gui/libgui.a render/librender.a rocket/librocket.a \
 		../contrib/rocket/src/Core/librocketcore.a ../contrib/rocket/src/Controls/librocketcontrols.a \
 		../contrib/oolua/liboolua.a \
-		collider/libcollider.a gui/libgui.a render/librender.a \
 		$(MINGW_LIBS) \
 		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \

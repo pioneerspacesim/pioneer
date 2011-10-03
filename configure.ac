@@ -242,6 +242,7 @@ AC_CONFIG_FILES([
 	src/collider/Makefile
 	src/gui/Makefile
 	src/render/Makefile
+	src/rocket/Makefile
 	contrib/Makefile
 	contrib/lua/Makefile
 	contrib/oolua/Makefile

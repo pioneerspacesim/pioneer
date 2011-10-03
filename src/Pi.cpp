@@ -63,7 +63,7 @@
 #include "Background.h"
 #include "Lang.h"
 #include "StringF.h"
-#include "RocketManager.h"
+#include "rocket/RocketManager.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
