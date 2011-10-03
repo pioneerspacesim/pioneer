@@ -149,6 +149,8 @@ WorldView::WorldView(): View(),
 
 	m_onHyperspaceTargetChangedCon =
 		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
+	m_onPlayerEquipmentChangeCon =
+		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
 
 	m_onPlayerChangeTargetCon =
 		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
@@ -161,6 +163,7 @@ WorldView::WorldView(): View(),
 WorldView::~WorldView()
 {
 	m_onHyperspaceTargetChangedCon.disconnect();
+	m_onPlayerEquipmentChangeCon.disconnect();
 
 	m_onPlayerChangeTargetCon.disconnect();
 	m_onChangeFlightControlStateCon.disconnect();
@@ -939,6 +942,14 @@ void WorldView::OnHyperspaceTargetChanged()
 	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", system->GetName())));
 	system->Release();
 
+	int fuelReqd;
+	double dur;
+	m_showHyperspaceButton = Pi::player->CanHyperspaceTo(&path, fuelReqd, dur);
+}
+
+void WorldView::OnPlayerEquipmentChange(Equip::Type e)
+{
+	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
 	int fuelReqd;
 	double dur;
 	m_showHyperspaceButton = Pi::player->CanHyperspaceTo(&path, fuelReqd, dur);
