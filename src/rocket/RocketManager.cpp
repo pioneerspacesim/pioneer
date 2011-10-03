@@ -480,11 +480,12 @@ RocketManager::~RocketManager()
 
 Rocket::Core::ElementDocument *RocketManager::OpenDocument(const std::string &name)
 {
+	if (m_currentDocument)
+		m_currentDocument->Hide();
+
 	std::map<std::string,Rocket::Core::ElementDocument*>::iterator i = m_documents.find(name);
 	if (i != m_documents.end()) {
 		// XXX check file timestamp and invalidate if changed
-		if (m_currentDocument)
-			m_currentDocument->Hide();
 		m_currentDocument = (*i).second;
 
 		m_currentDocument->Show();
