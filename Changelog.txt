@@ -73,6 +73,7 @@ Alpha 15
       problems (#535)
     * (OSX Only) Refactored and Restructured ObjectiveC code to be more
       manageable (#559)
+    * Use FBO extension functions (GL2) instead of core (GL3) (#608, #605)
 
 Alpha 14
 
