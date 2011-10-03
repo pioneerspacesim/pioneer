@@ -43,6 +43,7 @@ Alpha 15
     * Fix a case where we try to access an object after its been freed (#342, #470)
     * Fix various depth bugs when shaders are enabled. Fixes gas giant rings,
       hyperspace clouds, etc (#24, #234, #504)
+    * Fix black halo around gas giant atmospheres when rings are visible (#595)
 
   * Script changes
     * Experimental Lua console (#537, #597)
