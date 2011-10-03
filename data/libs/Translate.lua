@@ -10,16 +10,11 @@ Translate = {
 --
 
 --
--- Method: GetTranslationFunction
+-- Method: GetTranslator
 --
--- Changes the current language and returns a translation function
+-- Get a function that can translate strings for the current language
 --
--- > Translate:GetTranslationFunction()
---
--- Parameters:
---
---   language - optional. A string which represents the language to be used.
---              Defaults to either the last selected language, or 'English'.
+-- > Translate:GetTranslator()
 --
 -- Returns:
 --
@@ -28,7 +23,7 @@ Translate = {
 --
 -- Example:
 --
--- > local t = Translate:GetTranslationFunction('Deutsch')
+-- > local t = Translate:GetTranslator()
 -- > UI.Message(t('YOU_ARE_LATE'))
 --
 -- Availability:
@@ -39,8 +34,7 @@ Translate = {
 --
 --   experimental
 --
-    GetTranslationFunction = function (self, language)
-        self.language = language or self.language
+    GetTranslator = function (self)
         return function (token)
             return self.dictionary[token] or token
         end
@@ -83,6 +77,34 @@ Translate = {
             end
         end
     end,
+
+--
+-- Method: SetLanguage
+--
+-- Changes the current language used by the transltor
+--
+-- > Translate:SetLanguage(lang)
+--
+-- Parameters:
+--
+--   lang - language to use
+--
+-- Example:
+--
+-- > Translate:SetLanguage('Deutsch')
+--
+-- Availability:
+--
+--   alpha 15
+--
+-- Status:
+--
+--   experimental
+--
+	SetLanguage = function (self, language)
+        self.language = language or self.language
+	end,
+
 }
 
 -- Copy, don't use, the system dictionary, which is read-only
