@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		4AE9706A1436A64000424F91 /* GenGitVersion */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 4AE9706B1436A64000424F91 /* Build configuration list for PBXAggregateTarget "GenGitVersion" */;
+			buildPhases = (
+				4AE970701436A65D00424F91 /* GenGitVersion */,
+			);
+			dependencies = (
+			);
+			name = GenGitVersion;
+			productName = GitGenVersion;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		4A19038C138AA33300E0229C /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A190325138AA33300E0229C /* Gui.cpp */; };
 		4A19038E138AA33300E0229C /* GuiBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A190329138AA33300E0229C /* GuiBox.cpp */; };
@@ -93,6 +107,8 @@
 		4A24078413F524E6002A5C12 /* GuiGradient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24078013F524E6002A5C12 /* GuiGradient.cpp */; };
 		4A24078513F524E6002A5C12 /* GuiStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24078213F524E6002A5C12 /* GuiStack.cpp */; };
 		4A30F3C713D463DC00DB17D9 /* TextureManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A30F3C513D463DC00DB17D9 /* TextureManager.cpp */; };
+		4A4007A41436015D004691A8 /* libGLEW.1.7.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4007A31436015D004691A8 /* libGLEW.1.7.0.dylib */; };
+		4A4007A614360180004691A8 /* libGLEW.1.7.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A4007A31436015D004691A8 /* libGLEW.1.7.0.dylib */; };
 		4A5619CF13866622002A904C /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5619CE13866622002A904C /* libfreetype.6.dylib */; };
 		4A5619D313866B5B002A904C /* libfreetype.6.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A5619CE13866622002A904C /* libfreetype.6.dylib */; };
 		4A5619D513867033002A904C /* libvorbisfile.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5619D413867033002A904C /* libvorbisfile.3.dylib */; };
@@ -230,8 +246,6 @@
 		4A99893E1388BCD900647BA9 /* FontConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99893C1388BCD900647BA9 /* FontConfig.cpp */; };
 		4AB3DF8914346952001B783A /* TerrainBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB3DF8714346952001B783A /* TerrainBody.cpp */; };
 		4AD68C8D1359C3CE0048A93F /* pioneer-logo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */; };
-		4AE5CA381383220E00B55DEB /* libGLEW.1.6.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA371383220E00B55DEB /* libGLEW.1.6.0.dylib */; };
-		4AE5CA391383223700B55DEB /* libGLEW.1.6.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4AE5CA371383220E00B55DEB /* libGLEW.1.6.0.dylib */; };
 		4AE5CA3B1383E2D000B55DEB /* libSDL-1.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */; };
 		4AE5CA3C1383E2EC00B55DEB /* libSDL-1.2.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */; };
 		4AE5CA3E1383E63C00B55DEB /* libSDL_image-1.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */; };
@@ -239,7 +253,18 @@
 		4AE5CA411383E6AA00B55DEB /* libSDL_image-1.2.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */; };
 		4AE5CA421383E6AA00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */; };
 		4AE5CA441383E6AA00B55DEB /* libsigc-2.0.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
+		4AE9706714369D7500424F91 /* LuaLang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AE9706514369D7500424F91 /* LuaLang.cpp */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4AE9706E1436A64C00424F91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4A20B0D01353194B0020F43E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4AE9706A1436A64000424F91;
+			remoteInfo = GitGenVersion;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		4A671B841388C02400657F38 /* Copy SubLibraries */ = {
@@ -284,6 +309,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				4A4007A614360180004691A8 /* libGLEW.1.7.0.dylib in Copy Libraries */,
 				4A9822A8142DF4B100B423F1 /* libpng14.14.dylib in Copy Libraries */,
 				4A5619D813867661002A904C /* libvorbisfile.3.dylib in Copy Libraries */,
 				4A5619D313866B5B002A904C /* libfreetype.6.dylib in Copy Libraries */,
@@ -291,7 +317,6 @@
 				4AE5CA421383E6AA00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in Copy Libraries */,
 				4AE5CA441383E6AA00B55DEB /* libsigc-2.0.0.dylib in Copy Libraries */,
 				4AE5CA3C1383E2EC00B55DEB /* libSDL-1.2.0.dylib in Copy Libraries */,
-				4AE5CA391383223700B55DEB /* libGLEW.1.6.0.dylib in Copy Libraries */,
 			);
 			name = "Copy Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -502,6 +527,7 @@
 		4A24078313F524E6002A5C12 /* GuiStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiStack.h; sourceTree = "<group>"; };
 		4A30F3C513D463DC00DB17D9 /* TextureManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureManager.cpp; sourceTree = "<group>"; };
 		4A30F3C613D463DC00DB17D9 /* TextureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureManager.h; sourceTree = "<group>"; };
+		4A4007A31436015D004691A8 /* libGLEW.1.7.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.7.0.dylib; path = ../../../../../opt/local/lib/libGLEW.1.7.0.dylib; sourceTree = "<group>"; };
 		4A5619CE13866622002A904C /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.6.dylib; path = /opt/local/lib/libfreetype.6.dylib; sourceTree = "<absolute>"; };
 		4A5619D413867033002A904C /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = /opt/local/lib/libvorbisfile.3.dylib; sourceTree = "<absolute>"; };
 		4A61E15C13978F1000193E43 /* Background.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Background.cpp; sourceTree = "<group>"; };
@@ -756,10 +782,11 @@
 		4AB3DF8714346952001B783A /* TerrainBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainBody.cpp; sourceTree = "<group>"; };
 		4AB3DF8814346952001B783A /* TerrainBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerrainBody.h; sourceTree = "<group>"; };
 		4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "pioneer-logo.icns"; sourceTree = "<group>"; };
-		4AE5CA371383220E00B55DEB /* libGLEW.1.6.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.6.0.dylib; path = /opt/local/lib/libGLEW.1.6.0.dylib; sourceTree = "<absolute>"; };
 		4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL-1.2.0.dylib"; path = "/opt/local/lib/libSDL-1.2.0.dylib"; sourceTree = "<absolute>"; };
 		4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_image-1.2.0.dylib"; path = "/opt/local/lib/libSDL_image-1.2.0.dylib"; sourceTree = "<absolute>"; };
 		4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_sound-1.0.1.0.2.dylib"; path = "/opt/local/lib/libSDL_sound-1.0.1.0.2.dylib"; sourceTree = "<absolute>"; };
+		4AE9706514369D7500424F91 /* LuaLang.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaLang.cpp; sourceTree = "<group>"; };
+		4AE9706614369D7500424F91 /* LuaLang.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaLang.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -775,8 +802,8 @@
 				4AE5CA401383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in Frameworks */,
 				4AE5CA3E1383E63C00B55DEB /* libSDL_image-1.2.0.dylib in Frameworks */,
 				4AE5CA3B1383E2D000B55DEB /* libSDL-1.2.0.dylib in Frameworks */,
-				4AE5CA381383220E00B55DEB /* libGLEW.1.6.0.dylib in Frameworks */,
 				4A6C4EA2135452FF00FDD53F /* libsigc-2.0.0.dylib in Frameworks */,
+				4A4007A41436015D004691A8 /* libGLEW.1.7.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -997,13 +1024,13 @@
 		4A20B0E1135319770020F43E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4A4007A31436015D004691A8 /* libGLEW.1.7.0.dylib */,
 				4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */,
 				4A5619D413867033002A904C /* libvorbisfile.3.dylib */,
 				4A5619CE13866622002A904C /* libfreetype.6.dylib */,
 				4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */,
 				4A61E16013978FA900193E43 /* libpng14.14.dylib */,
 				4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */,
-				4AE5CA371383220E00B55DEB /* libGLEW.1.6.0.dylib */,
 				4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */,
 				4A671B851388C04700657F38 /* SubLibraries */,
 				4A20B0E4135319770020F43E /* Other Frameworks */,
@@ -1073,6 +1100,8 @@
 		4A6C4B9F13532FC300FDD53F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				4AE9706514369D7500424F91 /* LuaLang.cpp */,
+				4AE9706614369D7500424F91 /* LuaLang.h */,
 				4AB3DF8714346952001B783A /* TerrainBody.cpp */,
 				4AB3DF8814346952001B783A /* TerrainBody.h */,
 				4A8DD539142E19B6006DD821 /* LuaConsole.cpp */,
@@ -1374,6 +1403,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				4AE9706F1436A64C00424F91 /* PBXTargetDependency */,
 			);
 			name = pioneer;
 			productName = pioneer;
@@ -1401,6 +1431,7 @@
 			projectRoot = "";
 			targets = (
 				4A20B0DD135319770020F43E /* pioneer */,
+				4AE9706A1436A64000424F91 /* GenGitVersion */,
 			);
 		};
 /* End PBXProject section */
@@ -1440,7 +1471,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "function relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -f $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\nrelocateLibInApp /opt/local/lib/ libfreetype.6.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libz.1.dylib\n\n# GLEW dylibs\nrelocateLibInApp /opt/local/lib/ libGLEW.1.6.0.dylib\n\n# sigcxx\nrelocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n# SDL\nrelocateLibInApp /opt/local/lib/ libSDL-1.2.0.dylib\n\n# SDL_image\nrelocateLibInApp /opt/local/lib/ libSDL_image-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libpng14.14.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libSDL-1.2.0.dylib\n\n# SDL_sound\nrelocateLibInApp /opt/local/lib/ libSDL_sound-1.0.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libmodplug.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libFLAC.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libogg.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libspeex.1.dylib\nlnk libSDL_sound-1.0.1.0.2.dylib libSDL_sound-1.0.1.dylib\n\n# vorbisfile\nrelocateLibInApp /opt/local/lib/ libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libogg.0.dylib\n\n#\n# EXTRA LIBS\n#\n\n# vorbis\nidLib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbis.0.dylib libogg.0.dylib\n\n# ogg\nidLib libogg.0.dylib\n\n# png\nidLib libpng14.14.dylib\nrelocateSubLib /opt/local/lib/ libpng14.14.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libpng14.14.dylib\n\n# zlib\nidLib libz.1.2.5.dylib\nlnk libz.1.2.5.dylib libz.1.dylib\n\n# tiff\nidLib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libz.1.dylib\n\n# jpeg\nidLib libjpeg.8.dylib\n\n# smpeg\nidLib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libsmpeg-0.4.0.dylib libSDL-1.2.0.dylib\n\n# modplug\nidLib libmodplug.1.dylib\n\n# FLAC\nidLib libFLAC.8.2.0.dylib\nrelocateSubLib /opt/local/lib/ libFLAC.8.2.0.dylib libogg.0.dylib\nlnk libFLAC.8.2.0.dylib libFLAC.8.dylib\n\n#speex\nidLib libspeex.1.dylib\nlnk libspeex.1.5.0.dylib libspeex.1.dylib\n";
+			shellScript = "function relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -f $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\nrelocateLibInApp /opt/local/lib/ libfreetype.6.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libz.1.dylib\n\n# GLEW dylibs\nrelocateLibInApp /opt/local/lib/ libGLEW.1.7.0.dylib\n\n# sigcxx\nrelocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n# SDL\nrelocateLibInApp /opt/local/lib/ libSDL-1.2.0.dylib\n\n# SDL_image\nrelocateLibInApp /opt/local/lib/ libSDL_image-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libpng14.14.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libSDL-1.2.0.dylib\n\n# SDL_sound\nrelocateLibInApp /opt/local/lib/ libSDL_sound-1.0.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libmodplug.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libFLAC.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libogg.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libspeex.1.dylib\nlnk libSDL_sound-1.0.1.0.2.dylib libSDL_sound-1.0.1.dylib\n\n# vorbisfile\nrelocateLibInApp /opt/local/lib/ libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libogg.0.dylib\n\n#\n# EXTRA LIBS\n#\n\n# vorbis\nidLib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbis.0.dylib libogg.0.dylib\n\n# ogg\nidLib libogg.0.dylib\n\n# png\nidLib libpng14.14.dylib\nrelocateSubLib /opt/local/lib/ libpng14.14.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libpng14.14.dylib\n\n# zlib\nidLib libz.1.2.5.dylib\nlnk libz.1.2.5.dylib libz.1.dylib\n\n# tiff\nidLib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libz.1.dylib\n\n# jpeg\nidLib libjpeg.8.dylib\n\n# smpeg\nidLib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libsmpeg-0.4.0.dylib libSDL-1.2.0.dylib\n\n# modplug\nidLib libmodplug.1.dylib\n\n# FLAC\nidLib libFLAC.8.2.0.dylib\nrelocateSubLib /opt/local/lib/ libFLAC.8.2.0.dylib libogg.0.dylib\nlnk libFLAC.8.2.0.dylib libFLAC.8.dylib\n\n#speex\nidLib libspeex.1.dylib\nlnk libspeex.1.5.0.dylib libspeex.1.dylib\n";
+		};
+		4AE970701436A65D00424F91 /* GenGitVersion */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = GenGitVersion;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "git=/usr/bin/git\nversion=`$git log -n1 --pretty=%h`\necho \"#define GIT_VERSION $version\" > InfoPlist.h\ncat ../src/buildopts.h | grep \"#define PIONEER_VERSION\" >> InfoPlist.h\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1635,10 +1680,19 @@
 				4A6B59F11429F16E00ADC7C8 /* RenderTexture.cpp in Sources */,
 				4A8DD53B142E19B6006DD821 /* LuaConsole.cpp in Sources */,
 				4AB3DF8914346952001B783A /* TerrainBody.cpp in Sources */,
+				4AE9706714369D7500424F91 /* LuaLang.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4AE9706F1436A64C00424F91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4AE9706A1436A64000424F91 /* GenGitVersion */;
+			targetProxy = 4AE9706E1436A64C00424F91 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		4A20B11613531CD10020F43E /* Credits.rtf */ = {
@@ -1679,12 +1733,12 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				COPY_PHASE_STRIP = YES;
+				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1698,6 +1752,7 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_PROFILING_CODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../src/**",
 					../contrib,
@@ -1708,6 +1763,8 @@
 					/opt/local/include/SDL,
 				);
 				INFOPLIST_FILE = "pioneer/pioneer-Info.plist";
+				INFOPLIST_PREFIX_HEADER = InfoPlist.h;
+				INFOPLIST_PREPROCESS = YES;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/lib,
@@ -1747,6 +1804,7 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_PROFILING_CODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"../src/**",
 					../contrib,
@@ -1757,6 +1815,8 @@
 					/opt/local/include/SDL,
 				);
 				INFOPLIST_FILE = "pioneer/pioneer-Info.plist";
+				INFOPLIST_PREFIX_HEADER = InfoPlist.h;
+				INFOPLIST_PREPROCESS = YES;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/lib,
@@ -1776,6 +1836,20 @@
 			};
 			name = Release;
 		};
+		4AE9706C1436A64000424F91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		4AE9706D1436A64000424F91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1786,7 +1860,7 @@
 				4A20B0D61353194B0020F43E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		4A20B0FA135319780020F43E /* Build configuration list for PBXNativeTarget "pioneer" */ = {
 			isa = XCConfigurationList;
@@ -1795,7 +1869,15 @@
 				4A20B0FC135319780020F43E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
+		};
+		4AE9706B1436A64000424F91 /* Build configuration list for PBXAggregateTarget "GenGitVersion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4AE9706C1436A64000424F91 /* Debug */,
+				4AE9706D1436A64000424F91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
