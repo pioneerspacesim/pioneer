@@ -44,6 +44,7 @@ Alpha 15
     * Fix various depth bugs when shaders are enabled. Fixes gas giant rings,
       hyperspace clouds, etc (#24, #234, #504)
     * Fix black halo around gas giant atmospheres when rings are visible (#595)
+    * Update hyperspace button after cargo/equipment change (#550, #602)
 
   * Script changes
     * Experimental Lua console (#537, #597)
