@@ -45,7 +45,7 @@ Alpha 15
       hyperspace clouds, etc (#24, #234, #504)
 
   * Script changes
-    * Experimental Lua console (#537)
+    * Experimental Lua console (#537, #597)
     * Lua events onShipEquipmentChanged and onShipFlavourChanged (#544, #547)
     * Lua method Ship.SetHullPercent to set a ship's damage level (#420, #472)
     * Lua method Ship.SetShipType to change the type of a ship (#404, #507)
