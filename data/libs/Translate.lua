@@ -36,7 +36,7 @@ Translate = {
 --
     GetTranslator = function (self)
         return function (token)
-            return self.dictionary[token] or token
+            return (self.dictionary[self.language] and self.dictionary[self.language][token]) or token
         end
     end,
 
@@ -70,10 +70,11 @@ Translate = {
 --
 --   experimental
 --
-    Add = function (self, dictionary)
-        if (dictionary[self.language]) then
-            for token, definition in pairs(dictionary[self.language]) do
-                self.dictionary[token] = definition
+    Add = function (self, dictionaries)
+		for lang, dictionary in pairs(dictionaries) do
+			if self.dictionary[lang] == nil then self.dictionary[lang] = {} end
+            for token, definition in pairs(dictionary) do
+                self.dictionary[lang][token] = definition
             end
         end
     end,
@@ -108,6 +109,7 @@ Translate = {
 }
 
 -- Copy, don't use, the system dictionary, which is read-only
+Translate.dictionary[Translate.language] = {}
 for token, definition in pairs(Lang.GetDictionary()) do
     Translate.dictionary[token] = definition
 end
