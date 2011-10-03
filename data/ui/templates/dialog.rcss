@@ -1,6 +1,6 @@
-body.screen {
-	width: 95%;
-	height: 95%;
+body.dialog {
+	width: 50%;
+	height: 50%;
 	margin: auto;
 	padding: 1em;
 	background: #fff1;

@@ -1,8 +1,8 @@
 <rml>
 	<head>
-		<link type="text/template" href="templates/screen.rml"/>
+		<link type="text/template" href="templates/dialog.rml"/>
 	</head>
-	<body template="screen">
+	<body template="dialog">
 		<p><button class="point" onclick="newgame-earth"/>New game starting on Earth</p>
 		<p><button class="point" onclick="newgame-eridani"/>New game starting on Epsilon Eridani</p>
 		<p><button class="point" onclick="newgame-debug"/>New game starting on debug point</p>

@@ -1,0 +1,8 @@
+<template name="dialog" content="content">
+<head>
+	<link type="text/rcss" href="core.rcss"/>
+	<link type="text/rcss" href="dialog.rcss"/>
+</head>
+<body class="dialog">
+</body>
+</template>
