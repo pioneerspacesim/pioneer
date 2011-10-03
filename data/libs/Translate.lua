@@ -111,5 +111,5 @@ Translate = {
 -- Copy, don't use, the system dictionary, which is read-only
 Translate.dictionary[Translate.language] = {}
 for token, definition in pairs(Lang.GetDictionary()) do
-    Translate.dictionary[token] = definition
+    Translate.dictionary[Translate.language][token] = definition
 end
