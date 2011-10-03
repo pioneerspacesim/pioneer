@@ -1032,8 +1032,9 @@ void Pi::UninitGame()
 	}
 }
 
-void _click(Rocket::Core::Event *e, int n) {
-	printf("click: %d\n", n);
+static int _main_menu_selected = 0;
+static void _main_menu_click(Rocket::Core::Event *e, int n) {
+	_main_menu_selected = n;
 }
 
 void Pi::Start()
@@ -1041,49 +1042,19 @@ void Pi::Start()
 	Background::Starfield *starfield = new Background::Starfield();
 	Background::MilkyWay *milkyway = new Background::MilkyWay();
 
-	Gui::Fixed *splash = new Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight());
-	Gui::Screen::AddBaseWidget(splash, 0, 0);
-	splash->SetTransparency(true);
-
-	Gui::Screen::PushFont("OverlayFont");
-
-	const float w = Gui::Screen::GetWidth() / 2;
-	const float h = Gui::Screen::GetHeight() / 2;
-	const int OPTS = 5;
-	Gui::ToggleButton *opts[OPTS];
-	opts[0] = new Gui::ToggleButton(); opts[0]->SetShortcut(SDLK_1, KMOD_NONE);
-	opts[1] = new Gui::ToggleButton(); opts[1]->SetShortcut(SDLK_2, KMOD_NONE);
-	opts[2] = new Gui::ToggleButton(); opts[2]->SetShortcut(SDLK_3, KMOD_NONE);
-	opts[3] = new Gui::ToggleButton(); opts[3]->SetShortcut(SDLK_4, KMOD_NONE);
-	opts[4] = new Gui::ToggleButton(); opts[4]->SetShortcut(SDLK_5, KMOD_NONE);
-	splash->Add(opts[0], w, h-64);
-	splash->Add(new Gui::Label(Lang::MM_START_NEW_GAME_EARTH), w+32, h-64);
-	splash->Add(opts[1], w, h-32);
-	splash->Add(new Gui::Label(Lang::MM_START_NEW_GAME_E_ERIDANI), w+32, h-32);
-	splash->Add(opts[2], w, h);
-	splash->Add(new Gui::Label(Lang::MM_START_NEW_GAME_DEBUG), w+32, h);
-	splash->Add(opts[3], w, h+32);
-	splash->Add(new Gui::Label(Lang::MM_LOAD_SAVED_GAME), w+32, h+32);
-	splash->Add(opts[4], w, h+64);
-	splash->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+64);
-
+	/*
     std::string version("Pioneer " PIONEER_VERSION);
     if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
-
-    splash->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200, Gui::Screen::GetHeight()-32);
-
-	Gui::Screen::PopFont();
-
-	splash->ShowAll();
+	*/
 
 	rocketManager->OpenDocument("main_menu");
-	rocketManager->RegisterEventHandler("newgame-earth",   sigc::bind(sigc::ptr_fun(&_click), 1));
-	rocketManager->RegisterEventHandler("newgame-eridani", sigc::bind(sigc::ptr_fun(&_click), 2));
-	rocketManager->RegisterEventHandler("newgame-debug",   sigc::bind(sigc::ptr_fun(&_click), 3));
-	rocketManager->RegisterEventHandler("loadgame",        sigc::bind(sigc::ptr_fun(&_click), 4));
-	rocketManager->RegisterEventHandler("quit",            sigc::bind(sigc::ptr_fun(&_click), 5));
+	rocketManager->RegisterEventHandler("newgame-earth",   sigc::bind(sigc::ptr_fun(&_main_menu_click), 1));
+	rocketManager->RegisterEventHandler("newgame-eridani", sigc::bind(sigc::ptr_fun(&_main_menu_click), 2));
+	rocketManager->RegisterEventHandler("newgame-debug",   sigc::bind(sigc::ptr_fun(&_main_menu_click), 3));
+	rocketManager->RegisterEventHandler("loadgame",        sigc::bind(sigc::ptr_fun(&_main_menu_click), 4));
+	rocketManager->RegisterEventHandler("quit",            sigc::bind(sigc::ptr_fun(&_main_menu_click), 5));
 
-	int choice = 0;
+	_main_menu_selected = 0;
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
 	do {
@@ -1106,31 +1077,21 @@ void Pi::Start()
 		draw_intro(starfield, milkyway, _time);
 		Render::PostProcess();
 
-		//Gui::Draw();
-		
-
 		rocketManager->Draw();
-
 
 		Render::SwapBuffers();
 		
 		Pi::frameTime = 0.001*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
-
-		// poll ui instead of using callbacks :-J
-		for (int i=0; i<OPTS; i++) if (opts[i]->GetPressed()) choice = i+1;
-	} while (!choice);
-	splash->HideAll();
+	} while (!_main_menu_selected);
 	
-	Gui::Screen::RemoveBaseWidget(splash);
-	delete splash;
 	delete starfield;
 	delete milkyway;
 	
 	InitGame();
 
-    switch (choice) {
+    switch (_main_menu_selected) {
         case 1: // Earth start point
         {
             SystemPath path(0,0,0, 0);
