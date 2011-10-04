@@ -488,6 +488,8 @@ Rocket::Core::ElementDocument *RocketManager::OpenDocument(const std::string &na
 		// XXX check file timestamp and invalidate if changed
 		m_currentDocument = (*i).second;
 
+		UpdateDocumentFromStash();
+
 		m_currentDocument->Show();
 		return m_currentDocument;
 	}
@@ -500,6 +502,8 @@ Rocket::Core::ElementDocument *RocketManager::OpenDocument(const std::string &na
 
 	m_documents[name] = document;
 	m_currentDocument = document;
+
+	UpdateDocumentFromStash();
 
 	m_currentDocument->Show();
 	return m_currentDocument;
@@ -585,12 +589,6 @@ void RocketManager::Draw()
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 
-	for (std::map<std::string,std::string>::iterator i = m_stash.begin(); i != m_stash.end(); i++) {
-		Rocket::Core::Element *e = m_currentDocument->GetElementById((*i).first.c_str());
-		if (e)
-			e->SetInnerRML((*i).second.c_str());
-	}
-
 	m_rocketContext->Update();
 	m_rocketContext->Render();
 }
@@ -608,4 +606,15 @@ void RocketManager::ClearStashItem(const std::string &id)
 void RocketManager::ClearStash()
 {
 	m_stash.clear();
+	UpdateDocumentFromStash();
+}
+
+void RocketManager::UpdateDocumentFromStash()
+{
+	for (std::map<std::string,std::string>::iterator i = m_stash.begin(); i != m_stash.end(); i++) {
+		Rocket::Core::Element *e = m_currentDocument->GetElementById((*i).first.c_str());
+		if (e)
+			e->SetInnerRML((*i).second.c_str());
+	}
+
 }

@@ -30,6 +30,8 @@ public:
 	void ClearStash();
 
 private:
+	void UpdateDocumentFromStash();
+
 	int m_width, m_height;
 
 	RocketSystem *m_rocketSystem;
