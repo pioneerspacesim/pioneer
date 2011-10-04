@@ -1042,10 +1042,10 @@ void Pi::Start()
 	Background::Starfield *starfield = new Background::Starfield();
 	Background::MilkyWay *milkyway = new Background::MilkyWay();
 
-	/*
-    std::string version("Pioneer " PIONEER_VERSION);
-    if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
-	*/
+	std::string version(PIONEER_VERSION);
+	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
+
+	rocketManager->SetStashItem("engine.version", version);
 
 	rocketManager->OpenDocument("main_menu");
 	rocketManager->RegisterEventHandler("newgame-earth",   sigc::bind(sigc::ptr_fun(&_main_menu_click), 1));
