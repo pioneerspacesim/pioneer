@@ -3434,34 +3434,34 @@ namespace ModelFuncs {
 	 *
 	 *   index - argument number or name. Used numbers and their names are:
 	 *           (some numbers are reused)
-	 *           1, ARG_ALL_TIME_SECONDS, seconds of in-game time
-	 *           2, ARG_ALL_TIME_MINUTES, minutes of in-game time
-	 *           3, ARG_ALL_TIME_HOURS, hours of in-game time
-	 *           4, ARG_ALL_TIME_DAYS, days of in-game time
-	 *           6, ARG_STATION_BAY1_STAGE, station docking bay 1 stage
-	 *           (0 dock empty, 1 clearance granted, 2-n docking animation stage,
+	 *           - 1, ARG_ALL_TIME_SECONDS, seconds of in-game time
+	 *           - 2, ARG_ALL_TIME_MINUTES, minutes of in-game time
+	 *           - 3, ARG_ALL_TIME_HOURS, hours of in-game time
+	 *           - 4, ARG_ALL_TIME_DAYS, days of in-game time
+	 *           - 6, ARG_STATION_BAY1_STAGE, station docking bay 1 stage
+	 *           - (0 dock empty, 1 clearance granted, 2-n docking animation stage,
 	 *           number of docking stages+1 means docked, -1 to -n undocking stage)
-	 *           7, station bay 2 stage
-	 *           8, station bay 3 stage
-	 *           9, station bay 4 stage
-	 *           10, ARG_STATION_BAY1_POS
-	 *           0, ARG_SHIP_WHEEL_STATE, landing gear state (0.0=up, 1.0=down)
-	 *           5, ARG_SHIP_EQUIP_SCOOP, 1 if fuel scoop equipped
-	 *           6, ARG_SHIP_EQUIP_ENGINE
-	 *           7, ARG_SHIP_EQUIP_ECM
-	 *           8, ARG_SHIP_EQUIP_SCANNER
-	 *           9, ARG_SHIP_EQUIP_ATMOSHIELD
-	 *           10, ARG_SHIP_EQUIP_LASER0
-	 *           11, ARG_SHIP_EQUIP_LASER1
-	 *           12, ARG_SHIP_EQUIP_MISSILE0
-	 *           13, ARG_SHIP_EQUIP_MISSILE1
-	 *           14, ARG_SHIP_EQUIP_MISSILE2
-	 *           15, ARG_SHIP_EQUIP_MISSILE3
-	 *           16, ARG_SHIP_EQUIP_MISSILE4
-	 *           17, ARG_SHIP_EQUIP_MISSILE5
-	 *           18, ARG_SHIP_EQUIP_MISSILE6
-	 *           19, ARG_SHIP_EQUIP_MISSILE7
-	 *           20, ARG_SHIP_FLIGHT_STATE
+	 *           - 7, station bay 2 stage
+	 *           - 8, station bay 3 stage
+	 *           - 9, station bay 4 stage
+	 *           - 10, ARG_STATION_BAY1_POS
+	 *           - 0, ARG_SHIP_WHEEL_STATE, landing gear state (0.0=up, 1.0=down)
+	 *           - 5, ARG_SHIP_EQUIP_SCOOP, 1 if fuel scoop equipped
+	 *           - 6, ARG_SHIP_EQUIP_ENGINE
+	 *           - 7, ARG_SHIP_EQUIP_ECM
+	 *           - 8, ARG_SHIP_EQUIP_SCANNER
+	 *           - 9, ARG_SHIP_EQUIP_ATMOSHIELD
+	 *           - 10, ARG_SHIP_EQUIP_LASER0
+	 *           - 11, ARG_SHIP_EQUIP_LASER1
+	 *           - 12, ARG_SHIP_EQUIP_MISSILE0
+	 *           - 13, ARG_SHIP_EQUIP_MISSILE1
+	 *           - 14, ARG_SHIP_EQUIP_MISSILE2
+	 *           - 15, ARG_SHIP_EQUIP_MISSILE3
+	 *           - 16, ARG_SHIP_EQUIP_MISSILE4
+	 *           - 17, ARG_SHIP_EQUIP_MISSILE5
+	 *           - 18, ARG_SHIP_EQUIP_MISSILE6
+	 *           - 19, ARG_SHIP_EQUIP_MISSILE7
+	 *           - 20, ARG_SHIP_FLIGHT_STATE
 	 *
 	 * Example:
 	 *
@@ -3494,12 +3494,12 @@ namespace ModelFuncs {
 	 * Parameters:
 	 *
 	 *   index - argument number. Used arguments are:
-	 *           0, ship registration id or station name
-	 *           0, cargo pod contents
-	 *           4, randomly picked station advertisement model name
-	 *           5, randomly picked station advertisement model name
-	 *           6, randomly picked station advertisement model name
-	 *           7, randomly picked station advertisement model name
+	 *           - 0, ship registration id or station name
+	 *           - 0, cargo pod contents
+	 *           - 4, randomly picked station advertisement model name
+	 *           - 5, randomly picked station advertisement model name
+	 *           - 6, randomly picked station advertisement model name
+	 *           - 7, randomly picked station advertisement model name
 	 *
 	 * Example:
 	 *
@@ -3536,9 +3536,9 @@ namespace ModelFuncs {
 	 * Parameters:
 	 *
 	 *   index - argument number. Used arguments are:
-	 *           0, primary ship flavour material (shinyness is somewhat random)
-	 *           1, secondary ship flavour material (shinyness is somewhat random)
-	 *           2, completely white, shine-less material
+	 *           - 0, primary ship flavour material (shinyness is somewhat random)
+	 *           - 1, secondary ship flavour material (shinyness is somewhat random)
+	 *           - 2, completely white, shine-less material
 	 *
 	 * Example:
 	 *
