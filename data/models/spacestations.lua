@@ -881,7 +881,7 @@ define_model('big_crappy_spacestation', {
 	end,
 	dynamic = function(lod)
 		set_material('text', 0,0,0,1,0.3,0.3,0.3,5)
-		 if lod<2 then
+		 if lod > 1 then
 			local textpos = v(0,500,-115) --0,500,-110
 			use_material('text')
 			zbias(1, textpos, v(0,100,0))
