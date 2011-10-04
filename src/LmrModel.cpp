@@ -1766,7 +1766,53 @@ namespace ModelFuncs {
 		return 0;
 	}
 	
+	/*
+	 * Function: flat
+	 *
+	 * Multi-point patch shape
+	 *
+	 * > flat(divs, normal, points)
+	 *
+	 * Parameters:
+	 *
+	 *   divs - number of subdivisions
+	 *   normal - face direction vector
+	 *   points - path segments as subsequent vector tables. Number of table elements
+	 *            determines the segment type (linear, quadratic, cubic). Points can be mixed.
+	 *
+	 * Example:
+	 *
+	 * > --rectangle of four linear points
+	 * > flat(16, v(0,1,0), {v(-2,0,0)}, {v(2,0,0)}, {v(2,2,0)}, {v(-2,2,0)})
+	 * > --top replaced with a curve
+	 * > flat(16, v(0,1,0),{v(-2,0,0)}, {v(2,0,0)}, {v(2,2,0)}, {v(2,2,0), v(0,4,0), v(-2,2,0)})
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int flat(lua_State *L) { return _flat(L, false); }
+
+	/*
+	 * Function: xref_flat
+	 *
+	 * Same as <flat>, except result will be duplicated and mirrored
+	 * along the X axis.
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int xref_flat(lua_State *L) { return _flat(L, true); }
 
 	static vector3f eval_quadric_bezier_triangle(const vector3f p[6], float s, float t, float u)
@@ -1860,9 +1906,97 @@ namespace ModelFuncs {
 		}
 	}
 
+	/*
+	 * Function: cubic_bezier_tri
+	 *
+	 * Bezier triangle, cubic interpolation
+	 *
+	 * > cubic_bezier_tri(divs, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10)
+	 *
+	 * Parameters:
+	 *
+	 *   divs - number of subdivisions
+	 *   v1-v10 - ten control points. v1, v4 and v10 are the triangle corners. v6 is the triangle center.
+	 *
+	 * Example:
+	 *
+	 * > --triangle with curved sides and depressed center
+	 * > cubic_bezier_tri(16, v(-4,0,0), v(-1,0,0), v(1,0,0), v(4,0,0),
+	 * >    v(-2,1,0), v(0,1,10), v(2,1,0),
+	 * >    v(-1,2,0), v(1,2,0),
+	 * >    v(0,5,0))
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int cubic_bezier_triangle(lua_State *L) { _bezier_triangle<3>(L, false); return 0; }
+
+	/*
+	 * Function: xref_cubic_bezier_tri
+	 *
+	 * Same as <cubic_bezier_tri>, except result will be duplicated and mirrored
+	 * along the X axis.
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int xref_cubic_bezier_triangle(lua_State *L) { _bezier_triangle<3>(L, true); return 0; }
+
+	/*
+	 * Function: quadric_bezier_triangle
+	 *
+	 * Bezier triangle, quadratic interpolation
+	 *
+	 * > quadric_bezier_triangle(divs, v1, v2, v3, v4, v5, v6)
+	 *
+	 * Parameters:
+	 *
+	 *   divs - number of subdivisions
+	 *   v1-v6 - six control points, v1, v3 and v6 form the corners
+	 *
+	 * Example:
+	 *
+	 * > --triangle with concave sides
+	 * > quadric_bezier_tri(16, v(-4,0,0), v(0,1,0), v(4,0,0), v(-1,2,0), v(1,2,0), v(0,4,0))
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int quadric_bezier_triangle(lua_State *L) { _bezier_triangle<2>(L, false); return 0; }
+
+	/*
+	 * Function: xref_quadric_bezier_tri
+	 *
+	 * Same as <quadric_bezier_tri>, except result will be duplicated and mirrored
+	 * along the X axis.
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int xref_quadric_bezier_triangle(lua_State *L) { _bezier_triangle<2>(L, true); return 0; }
 
 
@@ -1936,7 +2070,7 @@ namespace ModelFuncs {
 	 *
 	 * Smoothly interpolated patch shape (quadratic interpolation)
 	 *
-	 * > quardric_bezier_quad(u, v, v1, v2, v3, v4, v5, v6, v7, v8, v9)
+	 * > quadric_bezier_quad(u, v, v1, v2, v3, v4, v5, v6, v7, v8, v9)
 	 *
 	 * Parameters:
 	 *
