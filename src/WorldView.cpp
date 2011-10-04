@@ -176,6 +176,7 @@ void WorldView::Save(Serializer::Writer &wr)
 	wr.Float(float(m_externalViewRotY));
 	wr.Float(float(m_externalViewDist));
 	wr.Int32(int(m_camType));
+	wr.Bool(bool(m_showHyperspaceButton));
 }
 
 void WorldView::Load(Serializer::Reader &rd)
@@ -184,6 +185,7 @@ void WorldView::Load(Serializer::Reader &rd)
 	m_externalViewRotY = rd.Float();
 	m_externalViewDist = rd.Float();
 	m_camType = CamType(rd.Int32());
+	m_showHyperspaceButton = rd.Bool();
 
 	m_onPlayerEquipmentChangeCon =
 		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
