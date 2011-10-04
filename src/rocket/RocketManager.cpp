@@ -283,11 +283,7 @@ public:
 		glVertexPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), &vertices[0].position);
 		glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Rocket::Core::Vertex), &vertices[0].colour);
 
-		if (!texture) {
-			glDisable(GL_TEXTURE_2D);
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		}
-		else {
+		if (texture) {
 			glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, GLuint(texture));
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -295,6 +291,12 @@ public:
 		}
 
 		glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, indices);
+
+		if (texture) {
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glDisable(GL_TEXTURE_2D);
+		}
 
 		glPopMatrix();
 	}
@@ -591,6 +593,9 @@ void RocketManager::Draw()
 
 	m_rocketContext->Update();
 	m_rocketContext->Render();
+
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void RocketManager::SetStashItem(const std::string &id, const std::string &value)
