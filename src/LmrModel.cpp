@@ -1257,7 +1257,7 @@ namespace ModelFuncs {
 	/*
 	 * Function: call_model
 	 *
-	 * Use another model as a submodel
+	 * Use another model as a submodel.
 	 *
 	 * > call_model(modelname, pos, xaxis, yaxis, scale)
 	 *
@@ -1415,7 +1415,7 @@ namespace ModelFuncs {
 	/*
 	 * Function: set_insideout
 	 *
-	 * When enabled, subsequent drawing will be inside-out (reversed triangle
+	 * Flip faces. When enabled, subsequent drawing will be inside-out (reversed triangle
 	 * winding and normals)
 	 *
 	 * >  set_insideout(state)
@@ -1769,7 +1769,7 @@ namespace ModelFuncs {
 	/*
 	 * Function: flat
 	 *
-	 * Multi-point patch shape
+	 * Multi-point patch shape.
 	 *
 	 * > flat(divs, normal, points)
 	 *
@@ -1777,14 +1777,15 @@ namespace ModelFuncs {
 	 *
 	 *   divs - number of subdivisions
 	 *   normal - face direction vector
-	 *   points - path segments as subsequent vector tables. Number of table elements
+	 *   points - outline path segments as separate vector tables. Number of table elements
 	 *            determines the segment type (linear, quadratic, cubic). Points can be mixed.
+	 *            32 point maximum.
 	 *
 	 * Example:
 	 *
 	 * > --rectangle of four linear points
-	 * > flat(16, v(0,1,0), {v(-2,0,0)}, {v(2,0,0)}, {v(2,2,0)}, {v(-2,2,0)})
-	 * > --top replaced with a curve
+	 * > flat(6, v(0,1,0), {v(-2,0,0)}, {v(2,0,0)}, {v(2,2,0)}, {v(-2,2,0)})
+	 * > --smoother, and top replaced with a curve
 	 * > flat(16, v(0,1,0),{v(-2,0,0)}, {v(2,0,0)}, {v(2,2,0)}, {v(2,2,0), v(0,4,0), v(-2,2,0)})
 	 *
 	 * Availability:
@@ -1801,7 +1802,7 @@ namespace ModelFuncs {
 	/*
 	 * Function: xref_flat
 	 *
-	 * Same as <flat>, except result will be duplicated and mirrored
+	 * Symmetry version of <flat>. Result will be duplicated and mirrored
 	 * along the X axis.
 	 *
 	 * Availability:
@@ -1940,7 +1941,7 @@ namespace ModelFuncs {
 	/*
 	 * Function: xref_cubic_bezier_tri
 	 *
-	 * Same as <cubic_bezier_tri>, except result will be duplicated and mirrored
+	 * Symmetry version of <cubic_bezier_tri>. Result will be duplicated and mirrored
 	 * along the X axis.
 	 *
 	 * Availability:
@@ -1955,11 +1956,11 @@ namespace ModelFuncs {
 	static int xref_cubic_bezier_triangle(lua_State *L) { _bezier_triangle<3>(L, true); return 0; }
 
 	/*
-	 * Function: quadric_bezier_triangle
+	 * Function: quadric_bezier_tri
 	 *
 	 * Bezier triangle, quadratic interpolation
 	 *
-	 * > quadric_bezier_triangle(divs, v1, v2, v3, v4, v5, v6)
+	 * > quadric_bezier_tri(divs, v1, v2, v3, v4, v5, v6)
 	 *
 	 * Parameters:
 	 *
@@ -1985,7 +1986,7 @@ namespace ModelFuncs {
 	/*
 	 * Function: xref_quadric_bezier_tri
 	 *
-	 * Same as <quadric_bezier_tri>, except result will be duplicated and mirrored
+	 * Symmetry version of <quadric_bezier_tri>. Result will be duplicated and mirrored
 	 * along the X axis.
 	 *
 	 * Availability:
@@ -2100,7 +2101,7 @@ namespace ModelFuncs {
 	/*
 	 * Function: xref_quadric_bezier_quad
 	 *
-	 * Same as <quadric_bezier_quad>, except result will be duplicated and mirrored
+	 * Symmetry version of <quadric_bezier_quad>. Result will be duplicated and mirrored
 	 * along the X axis.
 	 *
 	 * Availability:
@@ -2230,7 +2231,7 @@ namespace ModelFuncs {
 	/*
 	 * Function: xref_cubic_bezier_quad
 	 *
-	 * Same as <cubic_bezier_quad>, except result will be duplicated and mirrored
+	 * Symmetry version of <cubic_bezier_quad>. Result will be duplicated and mirrored
 	 * along the X axis.
 	 *
 	 * Availability:
@@ -2401,7 +2402,7 @@ namespace ModelFuncs {
 /*
  * Function: texture_glow
  *
- * Set the glow map. Meant to be used alongside a texture(). The glow
+ * Set a glow map. Meant to be used alongside a texture(). The glow
  * map will override the material's emissive value. The glow texture will
  * be additively blended.
  *
@@ -2454,7 +2455,7 @@ namespace ModelFuncs {
 	/*
 	 * Function: text
 	 *
-	 * Draw three-dimensional text (ship registration ID, landing bay numbers...)
+	 * Draw three-dimensional text. For ship registration ID, landing bay numbers...
 	 * 
 	 * Long strings can create a large number of triangles so try to be
 	 * economical.
@@ -2531,8 +2532,8 @@ namespace ModelFuncs {
 	/*
 	 * Function: geomflag
 	 *
-	 * Set flags for subsequent geometry to affect collision detection, mostly
-	 * for space station docking bays.
+	 * Set flags for subsequent geometry. Used for collision detection special
+	 * cases, such as space station docking bays.
 	 *
 	 * Model collision should not be disabled entirely or crashes can happen.
 	 *
@@ -2674,8 +2675,8 @@ namespace ModelFuncs {
 	/*
 	 * Function: xref_circle
 	 *
-	 * Same as <circle>, except result will be duplicated and mirrored along
-	 * the X axis.
+	 * Symmetry version of <circle>. Result will be duplicated and mirrored
+	 * along the X axis.
 	 *
 	 * > xref_circle(steps, center, normal, up, radius)
 	 *
@@ -2805,8 +2806,8 @@ namespace ModelFuncs {
 	/*
 	 * Function: xref_tuble
 	 *
-	 * Same as <tube>, except result will be duplicated and mirrored along
-	 * the X axis.
+	 * Symmetry version of <tube>. Result will be duplicated and mirrored
+	 * along the X axis.
 	 *
 	 * > xref_tube(steps, start, end, up, innerradius, outerradius)
 	 *
@@ -2918,8 +2919,8 @@ namespace ModelFuncs {
 	/*
 	 * Function: xref_tapered_cylinder
 	 *
-	 * Same as <tapered_cylinder>, except result will be duplicated and mirrored along
-	 * the X-axis.
+	 * Symmetry version of <tapered_cylinder>. Result will be duplicated and mirrored
+	 * along the X axis.
 	 *
 	 * Availability:
 	 *
@@ -3025,8 +3026,8 @@ namespace ModelFuncs {
 	/*
 	 * Function: xref_cylinder
 	 *
-	 * Same as <cylinder>, except result will be duplicated and mirrored along
-	 * the X-axis.
+	 * Symmetry version of <cylinder>. Result will be duplicated and mirrored
+	 * along the X axis.
 	 *
 	 * Availability:
 	 *
@@ -3083,7 +3084,7 @@ namespace ModelFuncs {
 	/*
 	 * Function: ring
 	 *
-	 * Uncapped cylinder
+	 * Uncapped cylinder.
 	 *
 	 * > ring(steps, start, end, up, radius)
 	 *
@@ -3123,8 +3124,8 @@ namespace ModelFuncs {
 	/*
 	 * Function: xref_ring
 	 *
-	 * Same as <ring>, except result will be duplicated and mirrored along
-	 * the X-axis.
+	 * Symmetry version of <ring>. Result will be duplicated and mirrored
+	 * along the X axis.
 	 *
 	 * Availability:
 	 *
@@ -3233,8 +3234,8 @@ namespace ModelFuncs {
 	/*
 	 * Function: xref_tri
 	 *
-	 * Same as <tri>, except result will be duplicated and mirrored along
-	 * the X-axis.
+	 * Symmetry version of <tri>. Result will be duplicated and mirrored
+	 * along the X axis.
 	 *
 	 * Availability:
 	 *
@@ -3311,8 +3312,8 @@ namespace ModelFuncs {
 	/*
 	 * Function: xref_quad
 	 *
-	 * Same as <quad>, except result will be duplicated and mirrored along
-	 * the X-axis.
+	 * Symmetry version of <quad>. Result will be duplicated and mirrored
+	 * along the X axis.
 	 *
 	 * Availability:
 	 *
@@ -3394,8 +3395,8 @@ namespace ModelFuncs {
 	/*
 	 * Function: xref_thruster
 	 *
-	 * Same as <thruster>, except result will be duplicated and mirrored along
-	 * the X-axis
+	 * Symmetry version of <thruster>. Result will be duplicated and mirrored
+	 * along the X axis.
 	 *
 	 * Availability:
 	 *
@@ -3741,7 +3742,7 @@ namespace ModelFuncs {
 	/*
 	 * Function: sphere_slice
 	 *
-	 * Partially sliced sphere for domes and such.
+	 * Partially sliced sphere. For domes and such.
 	 * 
 	 * The resulting shape will be capped (closed).
 	 *
