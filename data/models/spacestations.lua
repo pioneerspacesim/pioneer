@@ -801,7 +801,7 @@ define_model('big_crappy_spacestation', {
 		materials = {'text', 'body0'},
 		tags = {'orbital_station'},
 		angular_velocity = 0.1,
-		lod_pixels = {0},
+		lod_pixels = {50, 0},
 		num_docking_ports = 4,
 		-- for stations where each docking port shares the
 		-- same front door, set dock_one_at_a_time_please = true,
