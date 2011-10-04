@@ -1930,7 +1930,37 @@ namespace ModelFuncs {
 		}
 	}
 	
-	// DO ME
+
+	/*
+	 * Function: quadric_bezier_quad
+	 *
+	 * Smoothly interpolated patch shape (quadratic interpolation)
+	 *
+	 * > quardric_bezier_quad(u, v, v1, v2, v3, v4, v5, v6, v7, v8, v9)
+	 *
+	 * Parameters:
+	 *
+	 *   u - 'horizontal' subdivisions
+	 *   v - 'vertical' subdivisions
+	 *   v1-v9 - nine control points. v1, v3, v7 and v9 form the corners.
+	 *
+	 * Example:
+	 *
+	 * > --patch with a sunken center
+	 * > quadric_bezier_quad(8, 8,
+	 *      v(0,0,0), v(1,0,0), v(2,0,0),
+	 *      v(0,0,1), v(1,-3,1), v(2,0,1),
+	 *      v(0,0,2), v(1,0,2), v(2,0,2))
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int quadric_bezier_quad(lua_State *L) { _quadric_bezier_quad(L, false); return 0; }
 
 	/*
@@ -2030,7 +2060,37 @@ namespace ModelFuncs {
 		}
 	}
 
-	//DO ME
+	/*
+	 * Function: cubic_bezier_quad
+	 *
+	 * Smoothly interpolated patch shape (cubic interpolation)
+	 *
+	 * > cubic_bezier_quad(u, v, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16)
+	 *
+	 * Parameters:
+	 *
+	 *   u - 'horizontal' subdivisions
+	 *   v - 'vertical' subdivisions
+	 *   v1-v16 - sixteen control points. v1, v4, 13 and v16 form the corners.
+	 *
+	 * Example:
+	 *
+	 * > --patch with a raised center
+	 * > cubic_bezier_quad(8, 8,
+	 * >   v(0,0,0), v(1,0,0), v(2,0,0), v(3,0,0),
+	 * >   v(0,1,0), v(1,1,3), v(2,1,3), v(3,1,0),
+	 * >   v(0,2,0), v(1,2,3), v(2,2,3), v(3,2,0),
+	 * >   v(0,3,0), v(1,3,0), v(2,3,0), v(3,3,0))
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int cubic_bezier_quad(lua_State *L) { _cubic_bezier_quad(L, false); return 0; }
 
 	/*
@@ -2678,7 +2738,37 @@ namespace ModelFuncs {
 			s_curBuf->PushTri(vtxStart+3*steps, vtxStart+3*steps+i-1, vtxStart+3*steps+i);
 		}
 	}
-	
+
+
+	/*
+	 * Function: tapered_cylinder
+	 *
+	 * A cylinder with one end wider than the other
+	 *
+	 * > tapered_cylinder(steps, start, end, up, radius, end_radius)
+	 *
+	 * Parameters:
+	 *
+	 *   steps - number of cross-section points
+	 *   start - vector start position
+	 *   end - vector end position
+	 *   up - orientation of the ends (does not rotate the entire shape)
+	 *   radius - start radius
+	 *   end_radius - end radius
+	 *
+	 * Example:
+	 *
+	 * > tapered_cylinder(16*lod,v(0,-200,0),v(0,400,0),v(1,0,0),100,50)
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int tapered_cylinder(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
@@ -2691,6 +2781,21 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	/*
+	 * Function: xref_tapered_cylinder
+	 *
+	 * Same as <tapered_cylinder>, except result will be duplicated and mirrored along
+	 * the X-axis.
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int xref_tapered_cylinder(lua_State *L)
 	{
 		/* could optimise for x-reflection but fuck it */
@@ -3243,7 +3348,38 @@ namespace ModelFuncs {
 		lua_pushnumber(L, s_curParams->argDoubles[i]);
 		return 1;
 	}
-	
+
+	/*
+	 * Function: get_arg_string
+	 *
+	 * Return string arguments passed from C++ code
+	 *
+	 * > get_arg_string(index)
+	 *
+	 * Parameters:
+	 *
+	 *   index - argument number. Used arguments are:
+	 *           0, ship registration id or station name
+	 *           0, cargo pod contents
+	 *           4, randomly picked station advertisement model name
+	 *           5, randomly picked station advertisement model name
+	 *           6, randomly picked station advertisement model name
+	 *           7, randomly picked station advertisement model name
+	 *
+	 * Example:
+	 *
+	 * > local regid = get_arg_string(0)
+	 * > text(regid, v(0,0,0), v(0,0,1), v(1,0,0), 10.0)
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int get_arg_string(lua_State *L)
 	{
 		assert(s_curParams != 0);
@@ -3255,6 +3391,35 @@ namespace ModelFuncs {
 		return 1;
 	}
 
+	/*
+	 * Function: get_arg_material
+	 *
+	 * Return material parameters passed from C++ code
+	 *
+	 * > get_arg_material(index)
+	 *
+	 * Parameters:
+	 *
+	 *   index - argument number. Used arguments are:
+	 *           0, primary ship flavour material (shinyness is somewhat random)
+	 *           1, secondary ship flavour material (shinyness is somewhat random)
+	 *           2, completely white, shine-less material
+	 *
+	 * Example:
+	 *
+	 * > set_material('body', get_arg_material(0))
+	 * > use_material('body')
+	 * > load_obj('hull.obj')
+	 *
+	 * Availability:
+	 *
+	 *   pre-alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
 	static int get_arg_material(lua_State *L)
 	{
 		assert(s_curParams != 0);
