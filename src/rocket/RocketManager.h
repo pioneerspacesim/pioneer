@@ -25,6 +25,10 @@ public:
 	void HandleEvent(const SDL_Event *e);
 	void Draw();
 
+	void SetStashItem(const std::string &id, const std::string &value);
+	void ClearStashItem(const std::string &id);
+	void ClearStash();
+
 private:
 	int m_width, m_height;
 
@@ -37,6 +41,8 @@ private:
 
 	std::map<std::string,Rocket::Core::ElementDocument*> m_documents;
 	Rocket::Core::ElementDocument *m_currentDocument;
+
+	std::map<std::string,std::string> m_stash;
 };
 
 #endif

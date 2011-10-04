@@ -585,6 +585,27 @@ void RocketManager::Draw()
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 
+	for (std::map<std::string,std::string>::iterator i = m_stash.begin(); i != m_stash.end(); i++) {
+		Rocket::Core::Element *e = m_currentDocument->GetElementById((*i).first.c_str());
+		if (e)
+			e->SetInnerRML((*i).second.c_str());
+	}
+
 	m_rocketContext->Update();
 	m_rocketContext->Render();
+}
+
+void RocketManager::SetStashItem(const std::string &id, const std::string &value)
+{
+	m_stash[id] = value;
+}
+
+void RocketManager::ClearStashItem(const std::string &id)
+{
+	m_stash.erase(id);
+}
+
+void RocketManager::ClearStash()
+{
+	m_stash.clear();
 }
