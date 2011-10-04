@@ -103,7 +103,7 @@ local onChat = function (form, ref, option)
 			form:AddOption(t('HANG_UP'), -1)
 			Game.player:AddMoney(-price)
 			service_history.lastdate = Game.time
-			service_history.service_period = ad.strength
+			service_history.service_period = ad.strength * oneyear
 			service_history.company = ad.title
 			service_history.jumpcount = 0
 		end
