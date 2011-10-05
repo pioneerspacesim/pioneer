@@ -47,6 +47,7 @@ Alpha 15
     * Update hyperspace button after cargo/equipment change (#550, #602, #609)
 	* Fix directory handle leak (#618)
     * Don't allow scripts to add more equipment than a ship has room for (#617, #616)
+    * Interplanetary Shuttle can no longer take a hyperdrive (#613)
 
   * Script changes
     * Experimental Lua console (#537, #597)
