@@ -36,7 +36,10 @@ Translate = {
 --
     GetTranslator = function (self)
         return function (token)
-            return (self.dictionary[self.language] and self.dictionary[self.language][token]) or token
+            return
+				(self.dictionary[self.language] and self.dictionary[self.language][token]) or
+				(self.dictionary.English and self.dictionary.English[token]) or
+				token
         end
     end,
 
