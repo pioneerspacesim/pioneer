@@ -8,12 +8,12 @@ Alpha 15
     * Big mushroom station with four bays (#530)
     * New futuristic city buildings (#518, #557)
     * Four new ambient music tracks (#543)
-    * Ship drives now break down over time and require repairs (#552)
+    * Ship drives now break down over time and require repairs (#552, #570, #610)
     * Ship landing lights now only flash when landing gear is down or ship is
       docking (#236, #478)
     * Station landing lights now coloured to indicate occupied (red), free
       (orange) and cleared for docking (green) (#4, #489, #498)
-    * Romanian, Dutch, Italian and Croatian translations (#565, #571, #573)
+    * Romanian, Dutch, Italian and Croatian translations (#565, #571, #573, #593)
 
   * Minor changes and tweaks
     * Landed and docked ships will no longer cause alerts (#454, #466)
@@ -44,7 +44,11 @@ Alpha 15
     * Fix various depth bugs when shaders are enabled. Fixes gas giant rings,
       hyperspace clouds, etc (#24, #234, #504)
     * Fix black halo around gas giant atmospheres when rings are visible (#595)
-    * Update hyperspace button after cargo/equipment change (#550, #602, #609)
+    * Update hyperspace button after cargo/equipment change (#550, #602, #609,
+      #611, #612)
+    * Fix directory handle leak (#618)
+    * Don't allow scripts to add more equipment than a ship has room for (#617, #616)
+    * Interplanetary Shuttle can no longer take a hyperdrive (#613)
 
   * Script changes
     * Experimental Lua console (#537, #597)
