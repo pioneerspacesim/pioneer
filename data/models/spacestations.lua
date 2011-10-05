@@ -797,11 +797,11 @@ define_model('mushroom_station_4', {
 
 define_model('big_crappy_spacestation', {
 	info = {
-		bounding_radius=500.0,
+		bounding_radius=490000.0,
 		materials = {'text', 'body0'},
 		tags = {'orbital_station'},
 		angular_velocity = 0.1,
-		lod_pixels = {0},
+		lod_pixels = {50, 0},
 		num_docking_ports = 4,
 		-- for stations where each docking port shares the
 		-- same front door, set dock_one_at_a_time_please = true,
@@ -881,7 +881,7 @@ define_model('big_crappy_spacestation', {
 	end,
 	dynamic = function(lod)
 		set_material('text', 0,0,0,1,0.3,0.3,0.3,5)
-		 if lod<2 then
+		 if lod > 1 then
 			local textpos = v(0,500,-115) --0,500,-110
 			use_material('text')
 			zbias(1, textpos, v(0,100,0))
@@ -907,7 +907,7 @@ define_model('big_crappy_spacestation', {
 
 define_model('nice_spacestation', {
 	info = {
-			bounding_radius=500.0,
+			bounding_radius=670.0,
 			materials = {'text', 'body', 'green_lens'},
 			tags = {'orbital_station'},
 			angular_velocity = 0.15,
@@ -1083,7 +1083,7 @@ define_model('nice_spacestation', {
 
 define_model('hoop_spacestation', {
 	info = {
-			bounding_radius=500.0,
+			bounding_radius=2200.0,
 			materials = {'text', 'body', 'green_lens'},
 			tags = {'orbital_station'},
 			angular_velocity = 0.08,
