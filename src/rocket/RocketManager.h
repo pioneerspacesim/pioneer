@@ -45,6 +45,7 @@ private:
 	Rocket::Core::ElementDocument *m_currentDocument;
 
 	std::map<std::string,std::string> m_stash;
+	bool m_needsStashUpdate;
 };
 
 #endif

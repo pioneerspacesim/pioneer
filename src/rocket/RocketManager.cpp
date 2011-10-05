@@ -436,7 +436,7 @@ private:
 static Rocket::Core::Input::KeyIdentifier sdlkey_to_ki[SDLK_LAST];
 
 static bool s_initted = false;
-RocketManager::RocketManager(int width, int height) : m_width(width), m_height(height), m_currentDocument(0)
+RocketManager::RocketManager(int width, int height) : m_width(width), m_height(height), m_currentDocument(0), m_needsStashUpdate(false)
 {
 	assert(!s_initted);
 	s_initted = true;
@@ -580,6 +580,11 @@ void RocketManager::HandleEvent(const SDL_Event *e)
 
 void RocketManager::Draw()
 {
+	if (m_needsStashUpdate)
+		UpdateDocumentFromStash();
+
+	m_rocketContext->Update();
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, m_width, m_height, 0, -1, 1);
@@ -595,7 +600,6 @@ void RocketManager::Draw()
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 
-	m_rocketContext->Update();
 	m_rocketContext->Render();
 
 	glDisableClientState(GL_COLOR_ARRAY);
@@ -605,6 +609,7 @@ void RocketManager::Draw()
 void RocketManager::SetStashItem(const std::string &id, const std::string &value)
 {
 	m_stash[id] = value;
+	m_needsStashUpdate = true;
 }
 
 void RocketManager::ClearStashItem(const std::string &id)
@@ -615,7 +620,6 @@ void RocketManager::ClearStashItem(const std::string &id)
 void RocketManager::ClearStash()
 {
 	m_stash.clear();
-	UpdateDocumentFromStash();
 }
 
 void RocketManager::UpdateDocumentFromStash()
@@ -625,5 +629,5 @@ void RocketManager::UpdateDocumentFromStash()
 		if (e)
 			e->SetInnerRML((*i).second.c_str());
 	}
-
+	m_needsStashUpdate = false;
 }
