@@ -46,6 +46,7 @@ Alpha 15
     * Fix black halo around gas giant atmospheres when rings are visible (#595)
     * Update hyperspace button after cargo/equipment change (#550, #602, #609)
 	* Fix directory handle leak (#618)
+    * Don't allow scripts to add more equipment than a ship has room for (#617, #616)
 
   * Script changes
     * Experimental Lua console (#537, #597)
