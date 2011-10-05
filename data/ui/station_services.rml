@@ -1,10 +1,18 @@
 <rml>
 	<head>
 		<link type="text/template" href="templates/screen.rml"/>
+		<style>
+			face {
+				width: 400px;
+				height: 400px;
+				float: right;
+			}
+		</style>
 	</head>
 	<body template="screen">
 		<p>Hello, traveller.  Welcome to our little blue play-pen.  If it's your first time here, feel free to get acquainted with the residents.  We hope you enjoy your stay.</p>
 		<p>Please remember that renovations are under way, and that scenery may change between visits.</p>
+		<face/>
 		<p><button class="point" onclick="station-launch"/>Request launch</p>
 		<p><button class="point" onclick="station-shipyard"/>Shipyard</p>
 		<p><button class="point" onclick="station-commodities"/>Commodities market</p>
