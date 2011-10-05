@@ -24,7 +24,7 @@ CARGO
 VID_LINK_DOWN
     Video link verbroken
 VID_LINK_ESTABLISHED
-    Video link geinitialiseerd
+    Video link geïnitialiseerd
 VID_CONNECTING
     Verbinden...
 BOUGHT_1T_OF
@@ -100,7 +100,7 @@ CLASS_NUMBER
 NUMBER_LY
     %distance{f.2} lj
 SHIP_IS_ALREADY_FULLY_REPAIRED
-    U schip is in een perfecte staat van dienst.
+    Uw schip is in een perfecte staat van dienst.
 REPAIR_1_PERCENT_HULL
     Repareer 1.0% van schade aan de scheepsromp
 REPAIR_ENTIRE_HULL
@@ -120,7 +120,7 @@ REPAIRS_AND_SERVICING
 NEW_AND_RECONDITIONED_SHIPS
     Nieuwe en gereviseerde schepen
 BULLETIN_BOARD
-    Prikbord
+    Bekijk prikbord
 WELCOME_TO_SOMEWHERE
     Welkom op %station
 SPACESTATION_LONG_WELCOME_MESSAGE
@@ -128,9 +128,9 @@ SPACESTATION_LONG_WELCOME_MESSAGE
 REQUEST_LAUNCH
     Verzoek om toestemming om te vertrekken
 SHIPYARD
-    Scheepswerf
+    Bezoek scheepswerf
 COMMODITIES_MARKET
-    Goederenmarkt
+    Bezoek goederenmarkt
 SOMEWHERE_COMMODITIES_MARKET
     goederenmarkt van %station 
 SOMEWHERE_SHIP_MARKET
@@ -206,7 +206,7 @@ SAVE_THE_GAME
 LOAD_A_GAME
     [L] Laad spel in
 EXIT_THIS_GAME
-    Beeindig spel
+    Beëindig spel
 WINDOW_OR_FULLSCREEN
     Venster of volledige schermweergave (herstart nodig)
 FULL_SCREEN
@@ -258,13 +258,13 @@ HYDROGEN_DESCRIPTION
 LIQUID_OXYGEN
     Vloeibare Zuurstof
 LIQUID_OXYGEN_DESCRIPTION
-    Zuurstof wordt gebruikt voor levensinstandhoudingssystemen en een aantal industriele processen
+    Zuurstof wordt gebruikt voor levensinstandhoudingssystemen en een aantal industriële processen
 METAL_ORE
     Erts
 CARBON_ORE
     Koolstof
 CARBON_ORE_DESCRIPTION
-    Fossiele brandstoffen (kolen en olie) zijn nodig voor de synthese van veel nuttige chemicalien, zoals: kunststoffen, synthetisch voedsel, medicijnen en textiel
+    Fossiele brandstoffen (kolen en olie) zijn nodig voor de synthese van veel nuttige chemicaliën, zoals: kunststoffen, synthetisch voedsel, medicijnen en textiel
 METAL_ALLOYS
     Metaal legeringen
 PLASTICS
@@ -296,7 +296,7 @@ ROBOTS
 PRECIOUS_METALS
     Edelmetalen
 INDUSTRIAL_MACHINERY
-    Industriele apparatuur
+    Industriële apparatuur
 FARM_MACHINERY
     Landbouw apparatuur
 MINING_MACHINERY
@@ -348,7 +348,7 @@ ECM_ADVANCED_DESCRIPTION
 SHIELD_GENERATOR
     Schild Generator
 SHIELD_GENERATOR_DESCRIPTION
-    Biedt per geinstalleerde eenheid aanvullende bescherming van de scheepsromp.
+    Biedt per geïnstalleerde eenheid aanvullende bescherming van de scheepsromp.
 LASER_COOLING_BOOSTER
     Laser koelsysteem
 LASER_COOLING_BOOSTER_DESCRIPTION
@@ -424,7 +424,7 @@ PULSECANNON_20MW
 MININGCANNON_17MW
     17MW mijnbouw kanon
 MININGCANNON_17MW_DESCRIPTION
-    Wordt gebruikt om mineraal-rijke astero�den te mijnen.
+    Wordt gebruikt om mineraal-rijke asteroïden te mijnen.
 SMALL_PLASMA_ACCEL
     Kleine plasma accelerator
 LARGE_PLASMA_ACCEL
@@ -514,7 +514,7 @@ TARGET_OBJECT_IN_SIGHTS
 FIRE_LASER
     Vuur laser
 SHIP_ORIENTATION
-    Orienteer Schip
+    Oriënteer Schip
 FAST_ROTATION_CONTROL
     Snelle rotationele besturing
 PITCH_UP
@@ -580,7 +580,7 @@ DEADLY
 ELITE
     ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
-    Bezig met simuleren evolutie van het universum: %age{f.1} biljoen jaar ;-)
+    Bezig met simuleren: evolutie van het universum - %age{f.1} biljoen jaar ;-)
 TOMBSTONE_EPITAPH
     RIP OUDE KNAR
 MM_START_NEW_GAME_EARTH
@@ -592,7 +592,7 @@ MM_START_NEW_GAME_DEBUG
 MM_LOAD_SAVED_GAME
     Laad een save-game
 MM_QUIT
-    Beeindig spel
+    Beëindig spel
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD
@@ -690,9 +690,9 @@ NUMBER_HOURS
 QUADRUPLE_SYSTEM
     Viervoudig systeem
 TRIPLE_SYSTEM
-    Drietallig system
+    Drietallig systeem
 BINARY_SYSTEM
-    Binair system
+    Binair systeem
 ENABLED_AUTOMATIC_SYSTEM_SELECTION
     Automatische systeem selectie ingeschakeld.
 DISABLED_AUTOMATIC_SYSTEM_SELECTION
@@ -806,9 +806,9 @@ STAR_O_HYPER_GIANT
 STAR_M_WF
     Wolf-Rayet ster - Onstabiel
 STAR_B_WF
-    Wolf-Rayet star - Risico op ineenstorting
+    Wolf-Rayet ster - Risico op ineenstorting
 STAR_O_WF
-    Wolf-Rayet star - Ineenstorting op handen
+    Wolf-Rayet ster - Ineenstorting op handen
 STAR_S_BH
     Een stellair zwart gat
 STAR_IM_BH
@@ -824,7 +824,7 @@ MEDIUM_GAS_GIANT
 SMALL_GAS_GIANT
     Kleine gas gigant
 ASTEROID
-    Astroide
+    Astroïde
 MASSIVE
     Massieve
 LARGE
@@ -884,7 +884,7 @@ AND_HIGHLY_COMPLEX_ECOSYSTEM
 AND_INDIGENOUS_PLANT_LIFE
      " en inheemse fauna."
 AND_INDIGENOUS_MICROBIAL_LIFE
-     " en inheems microbacterieel leven."
+     " en inheems microbacteriëel leven."
 ORBITAL_STARPORT
     Sterrehaven in omloopbaan
 STARPORT
@@ -896,13 +896,13 @@ UNEXPLORED_SYSTEM_NO_DATA
 SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS
     Grondstofwinning op kleine schaal. Geen geregistreerde nederzettingen.
 SMALL_INDUSTRIAL_OUTPOST
-    Kleine industriele buitenpost.
+    Kleine industriële buitenpost.
 SOME_ESTABLISHED_MINING
     Enige mijnbouw.
 YOUNG_FARMING_COLONY
     Jonge agrarische kolonie.
 INDUSTRIAL_COLONY
-    Industriele kolonie.
+    Industriële kolonie.
 MINING_COLONY
     Mijnbouw kolonie.
 OUTDOOR_AGRICULTURAL_WORLD
@@ -914,7 +914,7 @@ EXTENSIVE_MINING
 THRIVING_OUTDOOR_WORLD
     Bloeiende openluchtwereld.
 INDUSTRIAL_HUB_SYSTEM
-    Industrieel knooppunt-systeem.
+    Industrieël knooppunt-systeem.
 VAST_STRIP_MINE
     Enorme mijnbouw-kolonie (dagbouw).
 HIGH_POPULATION_OUTDOOR_WORLD
@@ -1002,7 +1002,7 @@ A_FEW_THOUSAND
 NO_REGISTERED_INHABITANTS
     Geen geregistreerde inwoners
 SECTOR_COORDINATES
-    Sector coordinaten:
+    Sector coördinaten:
 SYSTEM_NUMBER
     Systeem nummer:
 NAME
@@ -1032,7 +1032,7 @@ TAKEOFF
 MANUAL_CONTROL
     Handmatige besturing
 COMPUTER_SPEED_CONTROL
-    Computer snelheidsbeheer
+    Cruise-control
 AUTOPILOT_ON
     Autopiloot aan
 SHIP_VELOCITY_BY_REFERENCE_OBJECT
@@ -1116,7 +1116,7 @@ REQUEST_DOCKING_CLEARANCE
 AUTOPILOT_DOCK_WITH_STATION
     Autopiloot: Meer aan bij ruimtestation
 PAY_FINE_REMOTELY
-    Betaal boete via overschrijven op afstand (%amount)
+    Betaal boete via overschrijving op afstand (%amount)
 AUTOPILOT_FLY_TO_VICINITY_OF
     Autopiloot: Vlieg naar nabijheid van %target
 AUTOPILOT_ENTER_LOW_ORBIT_AROUND
