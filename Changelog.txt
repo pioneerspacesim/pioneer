@@ -58,7 +58,7 @@ Alpha 15
     * Lua methods Player.GetNavTarget and Player.GetCombatTarget to get the
       currently-targetted bodies (#588, #583)
     * Lua Lang interface to access core translated strings (#579, #575, #553)
-    * Lua Translate interface to let modules provide translations (#580)
+    * Lua Translate interface to let modules provide translations (#580, #625)
  
   * Internal changes
     * Lots of internal cleanups; silences many warnings under GCC (#477,
