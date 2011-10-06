@@ -66,7 +66,7 @@ FIT
 REMOVE
     Usuń
 BUY_THIS_SHIP
-    Kup ten statek
+    Kup statek
 SHIP_TYPE
     Typ statku
 REGISTRATION_ID
@@ -76,7 +76,7 @@ WEIGHT_EMPTY
 NUMBER_TONNES
     %{mass}t
 WEIGHT_FULLY_LADEN
-    Masa w pełnym załadunku
+    Masa całkowita
 CAPACITY
     Ładowność
 FORWARD_ACCEL_EMPTY
@@ -123,6 +123,9 @@ BULLETIN_BOARD
     Ogłoszenia
 WELCOME_TO_SOMEWHERE
     Witamy w %station
+# This next translation does not have to be a real translation.  You can
+# write anything you like here.  It will appear in every space station
+# in the whole galaxy.
 SPACESTATION_LONG_WELCOME_MESSAGE
     Witaj, podróżniku.  Witamy w stacji kosmicznej.  Mamy doniesienia o aktach wandalizmu i problemach graffiti.  Jeśli zauważysz oznakowanie wprowadzające w błąd, niepoprawne lub po prostu brakujące, prosimy o poinformowanie członka personelu.\n\nTlen jest obecnie bezpłatny.
 REQUEST_LAUNCH
@@ -474,7 +477,7 @@ REAR_WEAPON
 HYPERSPACE_RANGE
     Zasięg w nadprzestrzeni
 NO_MOUNTING
-    nie montowana
+    nie montowalna
 N_LIGHT_YEARS_N_MAX
     %distance{f.1} lat świetlnych (%maxdistance{f.1} maks.)
 SHIP_INFORMATION
@@ -532,9 +535,9 @@ ROLL_RIGHT
 MANUAL_CONTROL_MODE
     Tryb sterowania ręcznego
 THRUSTER_MAIN
-    Ciąg do przodu
+    Ciąg główny
 THRUSTER_RETRO
-    Ciąg do tylu
+    Ciąg wsteczny
 THRUSTER_VENTRAL
     Ciąg w górę
 THRUSTER_DORSAL
@@ -546,9 +549,11 @@ THRUSTER_STARBOARD
 SPEED_CONTROL_MODE
     Tryb sterowania prędkością
 INCREASE_SET_SPEED
-    Zwiększ ustawiona prędkość
+    Zwiększ ustawioną prędkość
 DECREASE_SET_SPEED
-    Zmniejsz ustawiona prędkość
+    Zmniejsz ustawioną prędkość
+TOGGLE_LUA_CONSOLE
+    Aktywacja konsoli
 JOYSTICK_INPUT
     Ustawienia Joysticka
 PITCH
@@ -582,11 +587,11 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
 TOMBSTONE_EPITAPH
     ŚWIĘTEJ PAMIĘCI
 MM_START_NEW_GAME_EARTH
-    Nowa gra: start z Ziemi
+    Nowa gra: rozpocznij na Ziemi
 MM_START_NEW_GAME_E_ERIDANI
-    Nowa gra: start z Epsilon Eridani
+    Nowa gra: rozpocznij na Epsilon Eridani
 MM_START_NEW_GAME_DEBUG
-    Nowa gra: start z debug point
+    Nowa gra: rozpocznij z debug point
 MM_LOAD_SAVED_GAME
     Wczytaj grę
 MM_QUIT
@@ -610,9 +615,9 @@ SOMEWHERE_POLICE
 WE_HAVE_NO_BUSINESS_WITH_YOU
     W tej chwili nie mamy do ciebie żadnych spraw.
 YOU_MUST_PAY_FINE_OF_N_CREDITS
-    Nie tolerujemy przestępstwa. Musisz zapłacić mandat %fine.
+    Nie tolerujemy przestępstwa. Musisz zapłacić %fine kary.
 PAY_THE_FINE_NOW
-    Zapłać mandat.
+    Zapłać.
 HANG_UP
     Rozłącz się.
 TRADING_ILLEGAL_GOODS
@@ -929,6 +934,8 @@ SOLAR
     Słonecznych
 EARTH
     Ziemskich
+SURFACE_GRAVITY
+    Grawitacja na powierzchni
 SURFACE_TEMPERATURE
     Temp. powierzchni
 N_CELSIUS
@@ -1010,7 +1017,7 @@ RADIUS
 SEMI_MAJOR_AXIS
     Duża półoś
 TIME_POINT
-    czas: 
+     "czas: " 
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
     System nie zbadany. Dane systemu niedostępne.
 WHEELS_ARE_UP
@@ -1102,7 +1109,7 @@ YOU_NO_MONEY
 FINE_PAID_N_BUT_N_REMAINING
     Zapłaciłeś %paid lecz wciąż jesteś winien %fine.
 FINE_PAID_N
-    Zapłaciłeś mandat %fine.
+    Przelełeś na konto policji %fine.
 SET_HYPERSPACE_DESTINATION_TO
     "Ustawiono cel skoku na %system"
 NO_TARGET_SELECTED
@@ -1112,7 +1119,7 @@ REQUEST_DOCKING_CLEARANCE
 AUTOPILOT_DOCK_WITH_STATION
     Autopilot: Dokuj na stacji
 PAY_FINE_REMOTELY
-    Zapłać mandat (%amount)
+    Zapłać przelewem (%amount)
 AUTOPILOT_FLY_TO_VICINITY_OF
     Autopilot: Leć w pobliże %target
 AUTOPILOT_ENTER_LOW_ORBIT_AROUND
@@ -1131,3 +1138,5 @@ ACTIVE
     Aktywna
 DISTANCE_LY
     Dystans: %distance{f.2} lś
+SYSTEM
+    całego systemu
