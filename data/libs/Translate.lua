@@ -170,32 +170,35 @@ Translate = {
 --   experimental
 --
 
-	AddFlavour = function (self, lang, flavour)
+	AddFlavour = function (self, modname, lang, flavour)
 		if not self.flavours[lang] then
 			self.flavours[lang] = {} -- Initialise a table
-			local newFlavour = {}
-			-- "first" is a flag, that this is the first English flavour.
-			-- We're going to compare non-first flavours with that first
-			-- one.  The purpose here is ensuring that all flavours have
-			-- the same keys, so that we can flag up translation mistakes
-			-- as early as possible.
-			first = ( (lang == 'English') and #self.flavours.English > 0)
-			for key,value in pairs(flavour) do
-				if (not first) and (self.flavours.English[1][key] == nil) then
-					error(("Key mis-match: {key} is not defined in first flavour"):interp({key = key}))
-				end
-				newFlavour[key] = value
-			end
-			-- now check that all keys were specified
-			if not first then
-				for key,value in pairs(self.flavours.English[1]) do
-					if (newFlavour[key] == nil) then
-						error(("Key mismatch: {key} is not defined in {lang}, flavour {num}"):interp({key = key,lang = lang,num = #self.flavours[lang] + 1}))
-					end
-				end
-			end
-			table.insert(self.flavours[lang],newFlavour)
 		end
+		if not self.flavours[lang][modname] then
+			self.flavours[lang][modname] = {} -- Initialise a table
+		end
+		local newFlavour = {}
+		-- "first" is a flag, that this is the first English flavour.
+		-- We're going to compare non-first flavours with that first
+		-- one.  The purpose here is ensuring that all flavours have
+		-- the same keys, so that we can flag up translation mistakes
+		-- as early as possible.
+		first = ( (lang == 'English') and #self.flavours.English[modname] > 0)
+		for key,value in pairs(flavour) do
+			if (not first) and (self.flavours.English[modname][1][key] == nil) then
+				error(("Key mis-match: {key} is not defined in first flavour of {modname]"):interp({key = key,modname = modname}))
+			end
+			newFlavour[key] = value
+		end
+		-- now check that all keys were specified
+		if not first then
+			for key,value in pairs(self.flavours.English[modname][1]) do
+				if (newFlavour[key] == nil) then
+					error(("Key mismatch: {key} is not defined in {lang}, flavour #{num} of {modname}"):interp({key = key,lang = lang,num = #self.flavours[lang][modname] + 1,modname = modname}))
+				end
+			end
+		end
+		table.insert(self.flavours[lang][modname],newFlavour)
 	end,
 
 }
