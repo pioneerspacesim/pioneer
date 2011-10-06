@@ -15,9 +15,7 @@ local max_jumps_unserviced = 255
 local ads = {}
 local service_history = {
 	lastdate = 0, -- Default will be overwritten on game start
-	-- Arbitrary string; it was in case I *needed* a name for the last service.
-	-- It's little more than a flag at the moment.
-	company = t("Manufacturer's warranty"),
+	company = nil, -- Name of company that did the last service
 	service_period = oneyear, -- default
 	jumpcount = 0, -- Number of jumps made after the service_period
 }
@@ -27,7 +25,7 @@ local lastServiceMessage = function (hyperdrive)
 	local message
 	if hyperdrive == 'NONE' then
 		message = t("You do not have a drive to service!")
-	elseif service_history.company == t("Manufacturer's warranty") then
+	elseif not service_history.company then
 		message = t("Your drive has not been serviced since it was installed on {date}")
 	else
 		message = t("Your drive was last serviced on {date} by {company}")
@@ -116,14 +114,14 @@ end
 
 local onShipFlavourChanged = function (ship)
 	if ship:IsPlayer() then
-		service_history.company = t("Manufacturer's warranty")
+		service_history.company = nil
 		service_history.lastdate = Game.time
 	end
 end
 
 local onShipEquipmentChanged = function (ship, equipment)
 	if ship:IsPlayer() and (EquipType.GetEquipType(equipment).slot == 'ENGINE') then
-		service_history.company = t("Manufacturer's warranty")
+		service_history.company = nil
 		service_history.lastdate = Game.time
 		service_history.service_period = oneyear
 	end

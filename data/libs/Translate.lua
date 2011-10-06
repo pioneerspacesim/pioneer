@@ -39,7 +39,7 @@ Translate = {
             return
 				(self.dictionary[self.language] and self.dictionary[self.language][token]) or
 				(self.dictionary.English and self.dictionary.English[token]) or
-				token
+                error("Translation token not found: "..token)
         end
     end,
 
