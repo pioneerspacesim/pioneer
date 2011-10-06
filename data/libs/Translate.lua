@@ -172,28 +172,33 @@ Translate = {
 
 	AddFlavour = function (self, lang, modname, flavour)
 		if self.flavours[lang] == nil then
-			self.flavours[lang] = {} -- Initialise the flavours table
+			self.flavours[lang] = {} -- Initialise the flavours table for the specified language
 		end
 		if self.flavours.English[modname] == nil then
-			self.flavours.English[modname] = {} -- Initialise a table
+			self.flavours.English[modname] = {} -- Explicitly initialise English flavour table
 		end
 		if self.flavours[lang][modname] == nil then
-			self.flavours[lang][modname] = {} -- Initialise a table
+			self.flavours[lang][modname] = {} -- Initialise specified language flavour table
 		end
 		local newFlavour = {}
+		----------------------------------------------------------------
 		-- "first" is a flag, that this is the first English flavour.
 		-- We're going to compare non-first flavours with that first
 		-- one.  The purpose here is ensuring that all flavours have
 		-- the same keys, so that we can flag up translation mistakes
 		-- as early as possible.
+		----------------------------------------------------------------
 		local first = ((lang == 'English') and (#self.flavours.English[modname] == 0))
+		-- First, iterate over the new flavour, and reject those keys
+		-- that aren't in the first flavour.
 		for key,value in pairs(flavour) do
 			if (not first) and (self.flavours.English[modname][1][key] == nil) then
 				error(("Key mis-match: {key} is not defined in first English flavour, flavour {num} of {modname} in {lang}"):interp({key = key,lang = lang,num = #self.flavours[lang][modname] + 1,modname = modname}))
 			end
 			newFlavour[key] = value
 		end
-		-- now check that all keys were specified
+		-- Second, check that all keys that were specified in the
+		-- first flavour are also in this new one.
 		if not first then
 			for key,value in pairs(self.flavours.English[modname][1]) do
 				if (newFlavour[key] == nil) then
