@@ -63,7 +63,7 @@ Alpha 15
   * Internal changes
     * Lots of internal cleanups; silences many warnings under GCC (#477,
       #484, #604) and MSVC (#483)
-    * String and language updates (#509, #510, #514, #525, #528, #622)
+    * String and language updates (#509, #510, #514, #525, #528, #622, #623)
     * Allow terrain generation to be aborted when the current set of terrains
       become unusable (eg after hyperspace or detail settings change) (#457, #490)
     * Shield generators now occupy their own equipment slot to remove the
