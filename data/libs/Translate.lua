@@ -3,8 +3,8 @@
 --
 Translate = {
 	language = Lang.GetCurrentLanguage(), -- Default
-	dictionary = {},
-	flavours = {},
+	dictionary = {}, -- Initialise the dictionary table
+	flavours = {English = {}}, -- Explicitly initialise the English flavours table
 
 --
 -- Group: Methods
@@ -170,11 +170,14 @@ Translate = {
 --   experimental
 --
 
-	AddFlavour = function (self, modname, lang, flavour)
-		if not self.flavours[lang] then
-			self.flavours[lang] = {} -- Initialise a table
+	AddFlavour = function (self, lang, modname, flavour)
+		if self.flavours[lang] == nil then
+			self.flavours[lang] = {} -- Initialise the flavours table
 		end
-		if not self.flavours[lang][modname] then
+		if self.flavours.English[modname] == nil then
+			self.flavours.English[modname] = {} -- Initialise a table
+		end
+		if self.flavours[lang][modname] == nil then
 			self.flavours[lang][modname] = {} -- Initialise a table
 		end
 		local newFlavour = {}
@@ -183,10 +186,11 @@ Translate = {
 		-- one.  The purpose here is ensuring that all flavours have
 		-- the same keys, so that we can flag up translation mistakes
 		-- as early as possible.
-		first = ( (lang == 'English') and #self.flavours.English[modname] > 0)
+		local first = ((lang == 'English') and (#self.flavours.English[modname] == 0))
+		print(lang,#self.flavours.English[modname],first)
 		for key,value in pairs(flavour) do
 			if (not first) and (self.flavours.English[modname][1][key] == nil) then
-				error(("Key mis-match: {key} is not defined in first flavour of {modname]"):interp({key = key,modname = modname}))
+				error(("Key mis-match: {key} is not defined in first flavour of {modname}"):interp({key = key,modname = modname}))
 			end
 			newFlavour[key] = value
 		end
