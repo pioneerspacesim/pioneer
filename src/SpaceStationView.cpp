@@ -14,30 +14,14 @@ SpaceStationView::SpaceStationView(): View()
 
 	m_formController = new FormController();
 	m_formController->onRefresh.connect(sigc::mem_fun(this, &SpaceStationView::RefreshForForm));
+
+	// XXX hack
+	Pi::rocketManager->SetStashItem("player.legalStatus", Lang::CLEAN);
 }
 
 SpaceStationView::~SpaceStationView()
 {
 	delete m_formController;
-}
-
-void SpaceStationView::Update()
-{
-	Pi::rocketManager->SetStashItem("player.cash", format_money(Pi::player->GetMoney()));
-
-	Pi::rocketManager->SetStashItem("player.legalStatus", Lang::CLEAN);
-
-	char buf[64];
-	const shipstats_t *stats = Pi::player->CalcStats();
-
-	snprintf(buf, sizeof(buf), "%dt", stats->used_capacity - stats->used_cargo);
-	Pi::rocketManager->SetStashItem("player.equipmentMass", buf);
-	
-	snprintf(buf, sizeof(buf), "%dt", stats->used_cargo);
-	Pi::rocketManager->SetStashItem("player.cargoSpaceUsed", buf);
-		
-	snprintf(buf, sizeof(buf), "%dt", stats->free_capacity);
-	Pi::rocketManager->SetStashItem("player.cargoSpaceFree", buf);
 }
 
 void SpaceStationView::OnSwitchTo()

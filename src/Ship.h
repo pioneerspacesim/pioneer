@@ -50,7 +50,7 @@ public:
 	vector3d GetMaxThrust(const vector3d &dir);
 	void SetGunState(int idx, int state);
 	const ShipType &GetShipType() const;
-	const shipstats_t *CalcStats();
+	virtual const shipstats_t *CalcStats();
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	void Blastoff();

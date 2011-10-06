@@ -41,7 +41,7 @@
 			Ship equipment
 		</div>
 		<div class="table-values">
-			<span id="player.cash"/><br/>
+			<span id="player.money"/><br/>
 			<br/>
 			<span id="player.legalStatus"/><br/>
 			<br/>

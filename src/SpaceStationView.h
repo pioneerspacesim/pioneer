@@ -12,7 +12,7 @@ class SpaceStationView: public View {
 public:
 	SpaceStationView();
 	virtual ~SpaceStationView();
-	virtual void Update();
+	virtual void Update() {}
 	virtual void Draw3D() {}
 	virtual void OnSwitchTo();
 

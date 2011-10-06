@@ -9,6 +9,7 @@
 #include "ShipCpanel.h"
 #include "KeyBindings.h"
 #include "Lang.h"
+#include "rocket/RocketManager.h"
 
 Player::Player(ShipType::Type shipType): Ship(shipType),
 	m_followCloud(0)
@@ -63,6 +64,26 @@ void Player::PostLoadFixup()
 	m_followCloud = dynamic_cast<HyperspaceCloud*>(Serializer::LookupBody(m_followCloudIndex));
 	m_combatTarget = Serializer::LookupBody(m_combatTargetIndex);
 	m_navTarget = Serializer::LookupBody(m_navTargetIndex);
+
+	Pi::rocketManager->SetStashItem("player.money", format_money(GetMoney()));
+}
+
+const shipstats_t *Player::CalcStats()
+{
+	const shipstats_t *stats = Ship::CalcStats();
+
+	char buf[64];
+
+	snprintf(buf, sizeof(buf), "%dt", stats->used_capacity - stats->used_cargo);
+	Pi::rocketManager->SetStashItem("player.equipmentMass", buf);
+	
+	snprintf(buf, sizeof(buf), "%dt", stats->used_cargo);
+	Pi::rocketManager->SetStashItem("player.cargoSpaceUsed", buf);
+		
+	snprintf(buf, sizeof(buf), "%dt", stats->free_capacity);
+	Pi::rocketManager->SetStashItem("player.cargoSpaceFree", buf);
+
+	return stats;
 }
 
 void Player::OnHaveKilled(Body *guyWeKilled)
@@ -390,6 +411,11 @@ void Player::Sold(Equip::Type t)
 {
 	m_equipment.Remove(t, 1);
 	UpdateMass();
+}
+
+void Player::SetMoney(Sint64 m) {
+	MarketAgent::SetMoney(m);
+	Pi::rocketManager->SetStashItem("player.money", format_money(GetMoney()));
 }
 
 bool Player::CanBuy(Equip::Type t, bool verbose) const
