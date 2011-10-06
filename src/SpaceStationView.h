@@ -19,25 +19,7 @@ public:
 private:
 	void RefreshForForm(Form *);
 
-	sigc::connection m_undockConnection;
-
-	Gui::Label *m_title;
-
-	Gui::Fixed *m_statusBox;
-
-	Gui::Label *m_money;
-	Gui::Label *m_cargoSpaceUsed;
-	Gui::Label *m_cargoSpaceFree;
-	Gui::Label *m_equipmentMass;
-	Gui::Label *m_titleLabel;
-	Gui::Label *m_legalstatus;
-
-	Gui::Stack *m_formStack;
     FormController *m_formController;
-
-	Gui::HBox *m_backButtonBox;
-
-	FaceVideoLink *m_videoLink;
 };
 
 #endif /* _SPACESTATIONVIEW_H */

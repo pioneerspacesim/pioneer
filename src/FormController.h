@@ -2,12 +2,10 @@
 #define _FORMCONTROLLER_H
 
 #include "Form.h"
-#include "gui/Gui.h"
+#include <stack>
 
 class FormController {
 public:
-	FormController(Gui::Stack *formStack) : m_formStack(formStack) {}
-
 	void ActivateForm(Form *form);
 	void JumpToForm(Form *form);
 	void CloseForm();
@@ -17,7 +15,7 @@ public:
 	sigc::signal<void,Form*> onClose;
 
 private:
-	Gui::Stack *m_formStack;
+	std::stack<Form*> m_formStack;
 };
 
 #endif

@@ -10,11 +10,15 @@
 #include "StationPoliceForm.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "rocket/RocketManager.h"
 
 StationServicesForm::StationServicesForm(FormController *controller) : FaceForm(controller)
 {
 	SetTitle(stringf(Lang::SOMEWHERE_SERVICES, formatarg("station", Pi::player->GetDockedWith()->GetLabel())));
 
+	Pi::rocketManager->OpenDocument("station_services");
+
+/*
 	Gui::Label *l = new Gui::Label(Lang::SPACESTATION_LONG_WELCOME_MESSAGE);
 	Add(l,0,0);
 
@@ -52,6 +56,7 @@ StationServicesForm::StationServicesForm(FormController *controller) : FaceForm(
 	Add(b, 30, 380);
 	l = new Gui::Label(Lang::CONTACT_LOCAL_POLICE);
 	Add(l, 55, 380);
+*/
 }
 
 void StationServicesForm::RequestLaunch()

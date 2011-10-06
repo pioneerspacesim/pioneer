@@ -7,16 +7,47 @@
 				height: 400px;
 				float: right;
 			}
+			div.table-keys {
+				display: inline-block;
+				margin: 1em 0;
+				width: 20%;
+			}
+			div.table-values {
+				display: inline-block;
+				margin: 1em 0;
+				width: 20%;
+			}
 		</style>
 	</head>
 	<body template="screen">
+        <h1 id="form.title"/>
 		<p>Hello, traveller.  Welcome to our little blue play-pen.  If it's your first time here, feel free to get acquainted with the residents.  We hope you enjoy your stay.</p>
 		<p>Please remember that renovations are under way, and that scenery may change between visits.</p>
 		<face/>
-		<p><button class="point" onclick="station-launch"/>Request launch</p>
-		<p><button class="point" onclick="station-shipyard"/>Shipyard</p>
-		<p><button class="point" onclick="station-commodities"/>Commodities market</p>
-		<p><button class="point" onclick="station-board"/>Bulletin board</p>
-		<p><button class="point" onclick="station-police"/>Contact police</p>
+		<p>
+			<button class="point" onclick="station-launch"/>Request launch<br/>
+			<button class="point" onclick="station-shipyard"/>Shipyard<br/>
+			<button class="point" onclick="station-commodities"/>Commodities market<br/>
+			<button class="point" onclick="station-board"/>Bulletin board<br/>
+			<button class="point" onclick="station-police"/>Contact police
+		</p>
+		<div class="table-keys">
+			Cash<br/>
+			<br/>
+			Legal status<br/>
+			<br/>
+			Cargo space (used)<br/>
+			Cargo space (free)<br/>
+			Ship equipment
+		</div>
+		<div class="table-values">
+			<span id="player.cash"/><br/>
+			<br/>
+			<span id="player.legalStatus"/><br/>
+			<br/>
+			<span id="player.cargoSpaceUsed"/><br/>
+			<span id="player.cargoSpaceFree"/><br/>
+			<span id="player.equipmentMass"/>
+		</div>
 	</body>
 </rml>
