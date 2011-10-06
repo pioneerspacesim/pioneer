@@ -263,7 +263,7 @@ void Ship::SetAngThrusterState(const vector3d &levels)
 	m_angThrusters.z = Clamp(levels.z, -1.0, 1.0);
 }
 
-vector3d Ship::GetMaxThrust(const vector3d &dir)
+vector3d Ship::GetMaxThrust(const vector3d &dir) const
 {
 	const ShipType &stype = GetShipType();
 	vector3d maxThrust;
@@ -274,6 +274,15 @@ vector3d Ship::GetMaxThrust(const vector3d &dir)
 	maxThrust.z = (dir.z > 0) ? stype.linThrust[ShipType::THRUSTER_REVERSE]
 		: -stype.linThrust[ShipType::THRUSTER_FORWARD];
 	return maxThrust;
+}
+
+double Ship::GetAccelMin() const
+{
+	const ShipType &stype = GetShipType();
+	float val = stype.linThrust[ShipType::THRUSTER_UP];
+	val = std::min(val, stype.linThrust[ShipType::THRUSTER_RIGHT]);
+	val = std::min(val, -stype.linThrust[ShipType::THRUSTER_LEFT]);
+	return val / GetMass();
 }
 
 void Ship::ClearThrusterState()
@@ -1081,14 +1090,4 @@ void Ship::ResetFlavour(const ShipFlavour *f)
 	SetLabel(f->regid);
 	Init();
 	Pi::luaOnShipFlavourChanged->Queue(this);
-}
-
-float Ship::GetWeakestThrustersForce() const
-{
-	const ShipType &type = GetShipType();
-	float val = FLT_MAX;
-	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
-		val = std::min(val, fabsf(type.linThrust[i]));
-	}
-	return val;
 }

@@ -37,6 +37,7 @@ public:
 	const matrix4x4d &GetTransform() const { return m_orient; }
 	void SetRotationOnly(const matrix4x4d &m) { for (int i=0; i<12; i++) m_orient[i] = m[i]; }
 	void SetRadius(double radius) { m_radius = radius; }
+	double GetRadius() const { return m_radius; }
 	void RemoveChild(Frame *f);
 	void AddGeom(Geom *);
 	void RemoveGeom(Geom *);

@@ -363,33 +363,31 @@ vector3d Ship::AIGetLeadDir(const Body *target, const vector3d& targaccel, int g
 	return leadpos.Normalized();
 }
 
-/* Don't actually need this
 // same inputs as matchposvel, returns approximate travel time instead
+// underestimates if targspeed isn't reachable
 double Ship::AITravelTime(const vector3d &relpos, const vector3d &relvel, double targspeed, bool flip)
 {
 	matrix4x4d rot; GetRotMatrix(rot);
 	double dist = relpos.Length();
 	double speed = -(relvel * rot).z;		// speed >0 is towards
 
-	double faccel = -GetShipType().linThrust[ShipType::THRUSTER_FORWARD] / GetMass();
-	double raccel = GetShipType().linThrust[ShipType::THRUSTER_REVERSE] / GetMass();
+	double faccel = GetAccelFwd();
+	double raccel = GetAccelRev();
 	if (flip) raccel = faccel;
-
-	// first part is time necessary to change speed to zero
 	double time1, time2, time3;
-	time1 = (targspeed-speed) / faccel;
-	dist += 0.5 * time1 * (targspeed-speed);
 
-	// now time to cover the remaining distance		
+	// time to reduce speed to zero:
+	time1 = -speed / faccel;
+	dist += 0.5 * time1 * -speed;
 
-	time2 = sqrt(2 * naccel)
+	// time to reduce speed to zero after target reached:
+	time3 = -targspeed / raccel;
+	dist += 0.5 * time3 * -targspeed;
+	
+	// now time to cover distance between zero-vel points
+	// midpoint = intercept of two gradients
+	double m = dist*raccel / (faccel+raccel);
+	time2 = sqrt(2*m/faccel) + sqrt(2*(dist-m)/raccel);
 
-	// find ideal velocities at current time given reverse thrust level
-	double ispeed = 0.9 * sqrt(targspeed*targspeed + 2.0*paccel*dist);
-
-	vector3d diffvel = ivel - objvel;		// required change in velocity
-	AIChangeVelBy(diffvel);
-
-	return diffvel.Dot(reldir);
+	return time1+time2+time3;
 }
-*/

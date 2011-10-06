@@ -47,7 +47,12 @@ public:
 	vector3d GetAngThrusterState() const { return m_angThrusters; }
 	void ClearThrusterState();
 
-	vector3d GetMaxThrust(const vector3d &dir);
+	vector3d GetMaxThrust(const vector3d &dir) const;
+	double GetAccelFwd() const { return -GetShipType().linThrust[ShipType::THRUSTER_FORWARD] / GetMass(); }
+	double GetAccelRev() const { return GetShipType().linThrust[ShipType::THRUSTER_REVERSE] / GetMass(); }
+	double GetAccelUp() const { return GetShipType().linThrust[ShipType::THRUSTER_UP] / GetMass(); }
+	double GetAccelMin() const;
+
 	void SetGunState(int idx, int state);
 	const ShipType &GetShipType() const;
 	const shipstats_t *CalcStats();
@@ -70,7 +75,7 @@ public:
 		HYPERSPACE  // in hyperspace
 	};
 
-       	FlightState GetFlightState() const { return m_flightState; }
+	FlightState GetFlightState() const { return m_flightState; }
 	void SetFlightState(FlightState s) { m_flightState = s; }
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
@@ -95,7 +100,6 @@ public:
 	void ResetHyperspaceCountdown();
 
 	Equip::Type GetHyperdriveFuelType() const;
-	float GetWeakestThrustersForce() const;
 	// 0 to 1.0 is alive, > 1.0 = death
 	double GetHullTemperature() const;
 	void UseECM();
@@ -117,6 +121,7 @@ public:
 	double AIFaceDirection(const vector3d &dir, double av=0);
 	vector3d AIGetNextFramePos();
 	vector3d AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex=0);
+	double AITravelTime(const vector3d &relpos, const vector3d &relvel, double targspeed, bool flip);
 
 	// old stuff, deprecated
 	void AIAccelToModelRelativeVelocity(const vector3d v);
@@ -194,7 +199,7 @@ private:
 	vector3d m_angThrusters;
 
 	AlertState m_alertState;
-	float m_lastFiringAlert;
+	double m_lastFiringAlert;
 
 	struct HyperspacingOut {
 		SystemPath dest;
