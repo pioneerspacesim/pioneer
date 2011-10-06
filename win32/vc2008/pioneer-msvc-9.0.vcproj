@@ -569,6 +569,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaLang.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaManager.cpp"
 				>
 			</File>
@@ -1396,6 +1400,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaGame.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaLang.h"
 				>
 			</File>
 			<File
