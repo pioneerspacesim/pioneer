@@ -128,7 +128,7 @@ local onShipEquipmentChanged = function (ship, equipment)
 end
 
 local onCreateBB = function (station)
-	local service_flavours = t('BreakdownServicing_flavours')
+	local service_flavours = Translate:GetFlavours('BreakdownServicing')
 	local rand = Rand.New(station.seed + seedbump)
 	local n = rand:Integer(1,#service_flavours)
 	local isfemale = rand:Integer(1) == 1
