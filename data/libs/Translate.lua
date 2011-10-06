@@ -109,6 +109,59 @@ Translate = {
         self.language = language or self.language
 	end,
 
+--
+-- Method: GetFlavours
+--
+-- Returns a table of flavours, in the current language, or English
+-- if that language has no defined flavours.
+--
+-- > Translate:GetFlavours()
+--
+-- Example:
+--
+-- > local flavours = Translate:GetFlavours()
+-- > flavour = flavours[rand:Integer(1,#flavours)]
+--
+-- Availability:
+--
+--   alpha 15
+--
+-- Status:
+--
+--   experimental
+--
+
+--
+-- Method: AddFlavour
+--
+-- Adds a flavour to the table of flavours for the specified language
+--
+-- > Translate:AddFlavour(lang,flavour)
+--
+-- Parameters:
+--
+--   lang - language to use
+--
+--   flavour - single table of flavour texts, for one flavour
+--
+-- Example:
+--
+-- > Translate:AddFlavour('English',{
+-- >      title = "Shill bidder wanted for auction",
+-- >      greeting = "Hi there.  Want to earn some quick cash?",
+-- >      yesplease = "Sure.  What do you need me to do?",
+-- >      nothanks = "No, ta - this looks a bit shady.",
+-- > })
+--
+-- Availability:
+--
+--   alpha 15
+--
+-- Status:
+--
+--   experimental
+--
+
 }
 
 -- Copy, don't use, the system dictionary, which is read-only
