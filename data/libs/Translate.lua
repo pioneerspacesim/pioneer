@@ -116,11 +116,15 @@ Translate = {
 -- Returns a table of flavours, in the current language, or English
 -- if that language has no defined flavours.
 --
--- > Translate:GetFlavours()
+-- > Translate:GetFlavours(modname)
+--
+-- Parameters:
+--
+--   modname - string; a unique identifier for the module
 --
 -- Example:
 --
--- > local flavours = Translate:GetFlavours()
+-- > local flavours = Translate:GetFlavours('ThisMod')
 -- > flavour = flavours[rand:Integer(1,#flavours)]
 --
 -- Availability:
@@ -144,17 +148,19 @@ Translate = {
 --
 -- Adds a flavour to the table of flavours for the specified language
 --
--- > Translate:AddFlavour(lang,flavour)
+-- > Translate:AddFlavour(lang, modname, flavour)
 --
 -- Parameters:
 --
 --   lang - language to use
 --
+--   modname - string; a unique identifier for the module
+--
 --   flavour - single table of flavour texts, for one flavour
 --
 -- Example:
 --
--- > Translate:AddFlavour('English',{
+-- > Translate:AddFlavour('English','ThisMod',{
 -- >      title = "Shill bidder wanted for auction",
 -- >      greeting = "Hi there.  Want to earn some quick cash?",
 -- >      yesplease = "Sure.  What do you need me to do?",
