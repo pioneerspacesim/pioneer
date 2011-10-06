@@ -5,6 +5,7 @@ Alpha 15
     * Assassination missions (#290, #500)
     * Restored "hoop" orbital station (#499, #516)
     * Restored "Panther" ship (#497)
+    * "Long Range Cruiser" bulk ship (#626)
     * Big mushroom station with four bays (#530)
     * New futuristic city buildings (#518, #557)
     * Four new ambient music tracks (#543)
