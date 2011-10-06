@@ -7,10 +7,12 @@ AM_CXXFLAGS += $(WARN_CXXFLAGS)
 noinst_LIBRARIES = librocket.a
 noinst_HEADERS = \
 	RocketFaceElement.h \
+	RocketShipSpinnerElement.h \
 	RocketManager.h
 
 librocket_a_SOURCES = \
 	RocketFaceElement.cpp \
+	RocketShipSpinnerElement.cpp \
 	RocketManager.cpp
 
 INCLUDES = -I$(srcdir)/..

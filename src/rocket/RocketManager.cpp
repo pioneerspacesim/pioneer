@@ -2,6 +2,7 @@
 #include "libs.h"
 
 #include "RocketFaceElement.h"
+#include "RocketShipSpinnerElement.h"
 
 #include "Rocket/Core/SystemInterface.h"
 #include "Rocket/Core/RenderInterface.h"
@@ -456,6 +457,7 @@ RocketManager::RocketManager(int width, int height) : m_width(width), m_height(h
 	Rocket::Controls::Initialise();
 
 	RocketFaceElement::Register();
+	RocketShipSpinnerElement::Register();
 
 	m_rocketEventListenerInstancer = new RocketEventListenerInstancer();
 	Rocket::Core::Factory::RegisterEventListenerInstancer(m_rocketEventListenerInstancer);
