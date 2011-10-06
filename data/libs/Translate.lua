@@ -187,10 +187,9 @@ Translate = {
 		-- the same keys, so that we can flag up translation mistakes
 		-- as early as possible.
 		local first = ((lang == 'English') and (#self.flavours.English[modname] == 0))
-		print(lang,#self.flavours.English[modname],first)
 		for key,value in pairs(flavour) do
 			if (not first) and (self.flavours.English[modname][1][key] == nil) then
-				error(("Key mis-match: {key} is not defined in first flavour of {modname}"):interp({key = key,modname = modname}))
+				error(("Key mis-match: {key} is not defined in first English flavour, flavour {num} of {modname} in {lang}"):interp({key = key,lang = lang,num = #self.flavours[lang][modname] + 1,modname = modname}))
 			end
 			newFlavour[key] = value
 		end
@@ -198,7 +197,7 @@ Translate = {
 		if not first then
 			for key,value in pairs(self.flavours.English[modname][1]) do
 				if (newFlavour[key] == nil) then
-					error(("Key mismatch: {key} is not defined in {lang}, flavour #{num} of {modname}"):interp({key = key,lang = lang,num = #self.flavours[lang][modname] + 1,modname = modname}))
+					error(("Key mismatch: {key} is not defined in {lang}, flavour {num} of {modname}"):interp({key = key,lang = lang,num = #self.flavours[lang][modname] + 1,modname = modname}))
 				end
 			end
 		end
