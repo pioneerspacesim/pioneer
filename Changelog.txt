@@ -59,6 +59,7 @@ Alpha 15
       currently-targetted bodies (#588, #583)
     * Lua Lang interface to access core translated strings (#579, #575, #553)
     * Lua Translate interface to let modules provide translations (#580, #625)
+    * LMR methods fully documented (#615)
  
   * Internal changes
     * Lots of internal cleanups; silences many warnings under GCC (#477,
