@@ -1403,6 +1403,7 @@ void Pi::MainLoop()
 			TextureFont::ClearGlyphCount();
 			GeoSphere::ClearVtxGenCount();
 			last_stats += 1000;
+			GeoSphere::ClearVtxGenCount();
 		}
 		Pi::statSceneTris = 0;
 		LmrModelClearStatsTris();

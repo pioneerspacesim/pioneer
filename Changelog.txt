@@ -1,3 +1,17 @@
+Alpha 16
+
+  * New features
+
+  * Minor changes and tweaks
+
+  * Fixes
+  
+  * Script changes
+
+  * Internal changes
+    * Improve terrain generation performance
+
+
 Alpha 15
 
   * New features
