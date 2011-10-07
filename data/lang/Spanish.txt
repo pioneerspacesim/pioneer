@@ -670,6 +670,7 @@ VIOLENT_ANARCHY
     Desorden - Revoluciones armadas contra el gobierno
 X_CANNOT_BE_TOLERATED_HERE
     %crime no se tolera aquí
+SECTOR_X_Y_Z
     Sector: %x,%y,%z
 CURRENT_SYSTEM
     Sistema actual
