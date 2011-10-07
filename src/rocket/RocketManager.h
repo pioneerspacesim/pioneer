@@ -18,6 +18,8 @@ public:
 
 	Rocket::Core::ElementDocument *GetDocument() const { return m_document; }
 
+	void ProcessKeyboardShortcut(Rocket::Core::Input::KeyIdentifier key);
+
 private:
 	Rocket::Core::ElementDocument *m_document;
 };

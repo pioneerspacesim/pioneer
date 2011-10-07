@@ -433,6 +433,11 @@ private:
 };
 
 
+void RocketScreen::ProcessKeyboardShortcut(Rocket::Core::Input::KeyIdentifier key)
+{
+	printf("shortcut: %d\n", key);
+}
+
 
 static Rocket::Core::Input::KeyIdentifier sdlkey_to_ki[SDLK_LAST];
 
@@ -529,7 +534,7 @@ void RocketManager::ProcessEvent(Rocket::Core::Event &e)
 		m_currentKey = key;
 	
 	else if (m_currentKey == key)
-		printf("press: %d\n", key);
+		m_currentScreen->ProcessKeyboardShortcut(key);
 }
 
 void RocketManager::RegisterEventHandler(const std::string &eventName, sigc::slot<void,Rocket::Core::Event*> handler)
