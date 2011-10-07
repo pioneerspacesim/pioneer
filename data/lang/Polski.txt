@@ -372,6 +372,10 @@ FUEL_SCOOP
     Dren paliwowy
 FUEL_SCOOP_DESCRIPTION
     Pozwala czerpać paliwo wodorowe z gazowych olbrzymów.
+CARGO_SCOOP
+    Harpun towarowy
+CARGO_SCOOP_DESCRIPTION
+    Umożliwia przejęcie kontenerów towarowych dryfujących w przestrzeni.
 HYPERCLOUD_ANALYZER
     Analizator Hiperskoku
 HYPERCLOUD_ANALYZER_DESCRIPTION
@@ -702,6 +706,8 @@ DISABLED_AUTOMATIC_SYSTEM_SELECTION
     Wyłącz automatyczny wybór systemu.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
     Dren paliwowy włączony. Masz %quantity ton wodoru.
+CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED
+    Wystrzelono harpun towarowy. Pozyskano 1 tonę: %item.
 CARGO_BAY_LIFE_SUPPORT_LOST
     Sensory wykryły krytyczny poziom podtrzymywania życia w ładowni.
 NO_FREE_SPACE_FOR_ITEM
