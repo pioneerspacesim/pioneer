@@ -1138,5 +1138,33 @@ ACTIVE
     Aktywna
 DISTANCE_LY
     Dystans: %distance{f.2} lś
+LOCK_HYPERSPACE_TARGET
+    Blokada celu
+TOGGLE_INFO_BOX
+    Aktywacja okna informacyjnego
+TOGGLE_SELECTION_MODE
+    Zmiana trybu zaznaczania
+RESET_ROTATION_AND_ZOOM
+    Przywróć pozycję i powiększenie
+MOVE_LEFT
+    Przesuń w lewo
+MOVE_RIGHT
+    Przesuń w prawo
+MOVE_FORWARD
+    Przesuń w przód
+MOVE_BACKWARD
+    Przesuń w tył
+MOVE_UP
+    Przesuń w górę
+MOVE_DOWN
+    Przesuń w dół
+TURN_LEFT
+    Obróć w lewo
+TURN_RIGHT
+    Obróć w prawo
+TURN_UP
+    Obróć w górę
+TURN_DOWN
+    Obróć w dół
 SYSTEM
     całego systemu
