@@ -5,7 +5,7 @@ dnl Setup
 dnl ###########################################################################
 AC_PREREQ(2.59)
 
-AC_INIT([pioneer], [alpha-15-dev], [pioneer-dev@pioneerspacesim.net])
+AC_INIT([pioneer], [alpha-16-dev], [pioneer-dev@pioneerspacesim.net])
 dnl AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 dist-xz dist-zip])

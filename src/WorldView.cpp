@@ -149,6 +149,8 @@ WorldView::WorldView(): View(),
 
 	m_onHyperspaceTargetChangedCon =
 		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
+	m_onPlayerEquipmentChangeCon =
+		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
 
 	m_onPlayerChangeTargetCon =
 		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
@@ -161,6 +163,7 @@ WorldView::WorldView(): View(),
 WorldView::~WorldView()
 {
 	m_onHyperspaceTargetChangedCon.disconnect();
+	m_onPlayerEquipmentChangeCon.disconnect();
 
 	m_onPlayerChangeTargetCon.disconnect();
 	m_onChangeFlightControlStateCon.disconnect();
@@ -173,6 +176,7 @@ void WorldView::Save(Serializer::Writer &wr)
 	wr.Float(float(m_externalViewRotY));
 	wr.Float(float(m_externalViewDist));
 	wr.Int32(int(m_camType));
+	wr.Bool(bool(m_showHyperspaceButton));
 }
 
 void WorldView::Load(Serializer::Reader &rd)
@@ -181,6 +185,10 @@ void WorldView::Load(Serializer::Reader &rd)
 	m_externalViewRotY = rd.Float();
 	m_externalViewDist = rd.Float();
 	m_camType = CamType(rd.Int32());
+	m_showHyperspaceButton = rd.Bool();
+
+	m_onPlayerEquipmentChangeCon =
+		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
 }
 
 void WorldView::GetNearFarClipPlane(float *outNear, float *outFar) const
@@ -939,6 +947,14 @@ void WorldView::OnHyperspaceTargetChanged()
 	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", system->GetName())));
 	system->Release();
 
+	int fuelReqd;
+	double dur;
+	m_showHyperspaceButton = Pi::player->CanHyperspaceTo(&path, fuelReqd, dur);
+}
+
+void WorldView::OnPlayerEquipmentChange(Equip::Type e)
+{
+	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
 	int fuelReqd;
 	double dur;
 	m_showHyperspaceButton = Pi::player->CanHyperspaceTo(&path, fuelReqd, dur);

@@ -349,6 +349,7 @@ define_model('walrus', {
 		scale = 0.5,
 		bounding_radius = 70,
 		materials = {'matvar0', 'text'},
+		lod_pixels = {25, 50, 0},
 		tags = { 'ship' },
 		ship_defs = {
 			{
@@ -482,13 +483,13 @@ define_model('walrus', {
 		set_material('matvar0', get_arg_material(0))
 		set_material('text', .2,.2,.2,1)
 		use_material('text')
-		geomflag(0x8000)
-		local reg = get_arg_string(0)
-		zbias(1, v16, v54)
-		text(reg, v16, v54, v(0,0,-1), 10.0, {xoffset=1, yoffset=.3})
-		zbias(1, v10, v55)
-		text(reg, v10, v55, v(0,0,1), 10.0, {xoffset=.8, yoffset=.3})
-		geomflag(0)
+		if lod > 1 then
+			local reg = get_arg_string(0)
+			zbias(1, v16, v54)
+			text(reg, v16, v54, v(0,0,-1), 10.0, {xoffset=1, yoffset=.3})
+			zbias(1, v10, v55)
+			text(reg, v10, v55, v(0,0,1), 10.0, {xoffset=.8, yoffset=.3})
+		end
 		if get_arg(ARG_SHIP_WHEEL_STATE) > 0 then
 			zbias(1, v40, v(0,-1,0))
 			call_model('nosewheelunit', v40, v(-1,0,0), v(0,-1,0), 2.0)
@@ -625,17 +626,16 @@ define_model('flowerfairy', {
 		local v39 = v(11.5, -8.0, 13.0)
 		-- 40, dish pos
 		local v40 = v(-0.05, 8.0, 15.0)
-		local leftText = v(-10.0, 0, -6.4)
-		local rightText = v(10.0, 0, -6.4)
-		local reg = get_arg_string(0)
-		-- this means ignore in collision mesh
-		geomflag(0x8000)
-		use_material('text')
-		zbias(1, leftText, v(-1,0,0))
-		text(reg, leftText, v(-1,0,0), v(0,0,1), 4, {center=true})
-		zbias(1, rightText, v(1,0,0))
-		text(reg, rightText, v(1,0,0), v(0,0,-1), 4, {center=true})
-		geomflag(0)
+		if lod > 1 then
+			local leftText = v(-10.0, 0, -6.4)
+			local rightText = v(10.0, 0, -6.4)
+			local reg = get_arg_string(0)
+			use_material('text')
+			zbias(1, leftText, v(-1,0,0))
+			text(reg, leftText, v(-1,0,0), v(0,0,1), 4, {center=true})
+			zbias(1, rightText, v(1,0,0))
+			text(reg, rightText, v(1,0,0), v(0,0,-1), 4, {center=true})
+		end
 
 		if get_arg(ARG_SHIP_WHEEL_STATE) > 0 then
 			zbias(1, v34, v(0,-1,0))
@@ -646,12 +646,6 @@ define_model('flowerfairy', {
 			call_model('mainwheelunit', v38, v(-1,0,0), v(0,-1,0), .5)
 			call_model('mainwheelunit', v39, v(-1,0,0), v(0,-1,0), .5)
 		end
-		--[[
-		PTYPE_ZBIAS, 40, 1, 1,
-		PTYPE_SUBOBJECT, 0x8000, SUB_DISH, 40, 1, 100, 200,
-
-		PTYPE_ZBIAS, 0x8000, 0, 0,
-		--]]
 		zbias(0)
 	end
 })
