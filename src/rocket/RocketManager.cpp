@@ -563,7 +563,7 @@ void RocketManager::HandleEvent(const SDL_Event *e)
 			if (ki == Rocket::Core::Input::KI_UNKNOWN)
 				fprintf(stderr, "RocketInput: No keymap for SDL key %d\n", e->key.keysym.sym);
 			else
-				m_rocketContext->ProcessMouseButtonDown(sdlkey_to_ki[e->key.keysym.sym], rmod);
+				m_rocketContext->ProcessKeyDown(sdlkey_to_ki[e->key.keysym.sym], rmod);
 			break;
 		}
 
@@ -573,7 +573,7 @@ void RocketManager::HandleEvent(const SDL_Event *e)
 			if (ki == Rocket::Core::Input::KI_UNKNOWN)
 				fprintf(stderr, "RocketInput: No keymap for SDL key %d\n", e->key.keysym.sym);
 			else
-				m_rocketContext->ProcessMouseButtonUp(sdlkey_to_ki[e->key.keysym.sym], rmod);
+				m_rocketContext->ProcessKeyUp(sdlkey_to_ki[e->key.keysym.sym], rmod);
 			break;
 		}
 
