@@ -16,7 +16,7 @@ StationServicesForm::StationServicesForm(FormController *controller) : FaceForm(
 {
 	SetTitle(stringf(Lang::SOMEWHERE_SERVICES, formatarg("station", Pi::player->GetDockedWith()->GetLabel())));
 
-	Pi::rocketManager->OpenDocument("station_services");
+	Pi::rocketManager->OpenScreen("station_services");
 
 /*
 	Gui::Label *l = new Gui::Label(Lang::SPACESTATION_LONG_WELCOME_MESSAGE);

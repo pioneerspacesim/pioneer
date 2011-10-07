@@ -1047,7 +1047,7 @@ void Pi::Start()
 
 	rocketManager->SetStashItem("engine.version", version);
 
-	rocketManager->OpenDocument("main_menu");
+	rocketManager->OpenScreen("main_menu");
 	rocketManager->RegisterEventHandler("newgame-earth",   sigc::bind(sigc::ptr_fun(&_main_menu_click), 1));
 	rocketManager->RegisterEventHandler("newgame-eridani", sigc::bind(sigc::ptr_fun(&_main_menu_click), 2));
 	rocketManager->RegisterEventHandler("newgame-debug",   sigc::bind(sigc::ptr_fun(&_main_menu_click), 3));

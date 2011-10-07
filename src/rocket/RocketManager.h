@@ -12,13 +12,23 @@ class RocketRender;
 class RocketEventListenerInstancer;
 union SDL_Event;
 
+class RocketScreen {
+public:
+	RocketScreen(Rocket::Core::ElementDocument *document) : m_document(document) {}
+
+	Rocket::Core::ElementDocument *GetDocument() const { return m_document; }
+
+private:
+	Rocket::Core::ElementDocument *m_document;
+};
+
 class RocketManager {
 public:
 	RocketManager(int width, int height);
 	~RocketManager();
 
-	Rocket::Core::ElementDocument *OpenDocument(const std::string &name);
-	Rocket::Core::ElementDocument *GetCurrentDocument() { return m_currentDocument; }
+	RocketScreen *OpenScreen(const std::string &name);
+	RocketScreen *GetCurrentScreen() const { return m_currentScreen; }
 
 	void RegisterEventHandler(const std::string &eventName, sigc::slot<void,Rocket::Core::Event*> handler);
 
@@ -30,7 +40,7 @@ public:
 	void ClearStash();
 
 private:
-	void UpdateDocumentFromStash();
+	void UpdateScreenFromStash();
 
 	int m_width, m_height;
 
@@ -41,8 +51,8 @@ private:
 
 	Rocket::Core::Context *m_rocketContext;
 
-	std::map<std::string,Rocket::Core::ElementDocument*> m_documents;
-	Rocket::Core::ElementDocument *m_currentDocument;
+	std::map<std::string,RocketScreen*> m_screens;
+	RocketScreen *m_currentScreen;
 
 	std::map<std::string,std::string> m_stash;
 	bool m_needsStashUpdate;

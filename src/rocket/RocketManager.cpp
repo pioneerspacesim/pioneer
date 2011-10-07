@@ -437,7 +437,7 @@ private:
 static Rocket::Core::Input::KeyIdentifier sdlkey_to_ki[SDLK_LAST];
 
 static bool s_initted = false;
-RocketManager::RocketManager(int width, int height) : m_width(width), m_height(height), m_currentDocument(0), m_needsStashUpdate(false)
+RocketManager::RocketManager(int width, int height) : m_width(width), m_height(height), m_currentScreen(0), m_needsStashUpdate(false)
 {
 	assert(!s_initted);
 	s_initted = true;
@@ -471,8 +471,10 @@ RocketManager::RocketManager(int width, int height) : m_width(width), m_height(h
 
 RocketManager::~RocketManager()
 {
-	for (std::map<std::string,Rocket::Core::ElementDocument*>::iterator i = m_documents.begin(); i != m_documents.end(); i++)
-		(*i).second->RemoveReference();
+	for (std::map<std::string,RocketScreen*>::iterator i = m_screens.begin(); i != m_screens.end(); i++) {
+		(*i).second->GetDocument()->RemoveReference();
+		delete (*i).second;
+	}
 
 	m_rocketContext->RemoveReference();
 
@@ -486,20 +488,20 @@ RocketManager::~RocketManager()
 	s_initted = false;
 }
 
-Rocket::Core::ElementDocument *RocketManager::OpenDocument(const std::string &name)
+RocketScreen *RocketManager::OpenScreen(const std::string &name)
 {
-	if (m_currentDocument)
-		m_currentDocument->Hide();
+	if (m_currentScreen)
+		m_currentScreen->GetDocument()->Hide();
 
-	std::map<std::string,Rocket::Core::ElementDocument*>::iterator i = m_documents.find(name);
-	if (i != m_documents.end()) {
+	std::map<std::string,RocketScreen*>::iterator i = m_screens.find(name);
+	if (i != m_screens.end()) {
 		// XXX check file timestamp and invalidate if changed
-		m_currentDocument = (*i).second;
+		m_currentScreen = (*i).second;
 
-		UpdateDocumentFromStash();
+		UpdateScreenFromStash();
 
-		m_currentDocument->Show();
-		return m_currentDocument;
+		m_currentScreen->GetDocument()->Show();
+		return m_currentScreen;
 	}
 	
 	Rocket::Core::ElementDocument *document = m_rocketContext->LoadDocument((PIONEER_DATA_DIR "/ui/" + name + ".rml").c_str());
@@ -508,13 +510,13 @@ Rocket::Core::ElementDocument *RocketManager::OpenDocument(const std::string &na
 		return 0;
 	}
 
-	m_documents[name] = document;
-	m_currentDocument = document;
+	m_screens[name] = m_currentScreen = new RocketScreen(document);
 
-	UpdateDocumentFromStash();
+	UpdateScreenFromStash();
 
-	m_currentDocument->Show();
-	return m_currentDocument;
+	document->Show();
+
+	return m_currentScreen;
 }
 
 void RocketManager::RegisterEventHandler(const std::string &eventName, sigc::slot<void,Rocket::Core::Event*> handler)
@@ -583,7 +585,7 @@ void RocketManager::HandleEvent(const SDL_Event *e)
 void RocketManager::Draw()
 {
 	if (m_needsStashUpdate)
-		UpdateDocumentFromStash();
+		UpdateScreenFromStash();
 
 	m_rocketContext->Update();
 
@@ -624,10 +626,11 @@ void RocketManager::ClearStash()
 	m_stash.clear();
 }
 
-void RocketManager::UpdateDocumentFromStash()
+void RocketManager::UpdateScreenFromStash()
 {
+	Rocket::Core::ElementDocument *document = m_currentScreen->GetDocument();
 	for (std::map<std::string,std::string>::iterator i = m_stash.begin(); i != m_stash.end(); i++) {
-		Rocket::Core::Element *e = m_currentDocument->GetElementById((*i).first.c_str());
+		Rocket::Core::Element *e = document->GetElementById((*i).first.c_str());
 		if (e)
 			e->SetInnerRML((*i).second.c_str());
 	}
