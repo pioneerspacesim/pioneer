@@ -437,7 +437,7 @@ private:
 static Rocket::Core::Input::KeyIdentifier sdlkey_to_ki[SDLK_LAST];
 
 static bool s_initted = false;
-RocketManager::RocketManager(int width, int height) : m_width(width), m_height(height), m_currentScreen(0), m_needsStashUpdate(false)
+RocketManager::RocketManager(int width, int height) : m_width(width), m_height(height), m_currentScreen(0), m_currentKey(Rocket::Core::Input::KI_UNKNOWN), m_needsStashUpdate(false)
 {
 	assert(!s_initted);
 	s_initted = true;
@@ -467,6 +467,8 @@ RocketManager::RocketManager(int width, int height) : m_width(width), m_height(h
 	Rocket::Core::FontDatabase::LoadFontFace(PIONEER_DATA_DIR "/fonts/TitilliumText22L004.otf");
 
 	m_rocketContext = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(m_width, m_height));
+	m_rocketContext->AddEventListener("keyup", this, true);
+	m_rocketContext->AddEventListener("keydown", this, true);
 }
 
 RocketManager::~RocketManager()
@@ -517,6 +519,17 @@ RocketScreen *RocketManager::OpenScreen(const std::string &name)
 	document->Show();
 
 	return m_currentScreen;
+}
+
+void RocketManager::ProcessEvent(Rocket::Core::Event &e)
+{
+	Rocket::Core::Input::KeyIdentifier key = Rocket::Core::Input::KeyIdentifier(e.GetParameter<int>("key_identifier", int(Rocket::Core::Input::KI_UNKNOWN)));
+	
+	if (e.GetType() == "keydown")
+		m_currentKey = key;
+	
+	else if (m_currentKey == key)
+		printf("press: %d\n", key);
 }
 
 void RocketManager::RegisterEventHandler(const std::string &eventName, sigc::slot<void,Rocket::Core::Event*> handler)

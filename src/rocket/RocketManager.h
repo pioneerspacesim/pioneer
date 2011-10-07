@@ -22,7 +22,7 @@ private:
 	Rocket::Core::ElementDocument *m_document;
 };
 
-class RocketManager {
+class RocketManager : public Rocket::Core::EventListener {
 public:
 	RocketManager(int width, int height);
 	~RocketManager();
@@ -30,9 +30,12 @@ public:
 	RocketScreen *OpenScreen(const std::string &name);
 	RocketScreen *GetCurrentScreen() const { return m_currentScreen; }
 
-	void RegisterEventHandler(const std::string &eventName, sigc::slot<void,Rocket::Core::Event*> handler);
+	virtual void ProcessEvent(Rocket::Core::Event &e);
 
+	// XXX make these per-screen
+	void RegisterEventHandler(const std::string &eventName, sigc::slot<void,Rocket::Core::Event*> handler);
 	void HandleEvent(const SDL_Event *e);
+
 	void Draw();
 
 	void SetStashItem(const std::string &id, const std::string &value);
@@ -53,6 +56,8 @@ private:
 
 	std::map<std::string,RocketScreen*> m_screens;
 	RocketScreen *m_currentScreen;
+
+	Rocket::Core::Input::KeyIdentifier m_currentKey;
 
 	std::map<std::string,std::string> m_stash;
 	bool m_needsStashUpdate;
