@@ -138,7 +138,7 @@ Translate = {
 
 	GetFlavours = function (self,modname)
 		return
-			self.flavours[self.language][modname] or
+			(self.flavours[self.language] and self.flavours[self.language][modname]) or
 				self.flavours.English[modname] or
 				error(("No flavours defined for {modname}"):interp({modname = modname}))
 	end,
