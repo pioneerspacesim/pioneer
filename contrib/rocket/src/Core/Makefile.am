@@ -93,7 +93,6 @@ librocketcore_a_SOURCES = \
 	StreamMemory.cpp \
 	StringCache.cpp \
 	String.cpp \
-	StringStorage.cpp \
 	StringUtilities.cpp \
 	StyleSheet.cpp \
 	StyleSheetFactory.cpp \
