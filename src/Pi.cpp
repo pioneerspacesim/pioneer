@@ -592,6 +592,10 @@ void Pi::InitOpenGL()
 
 void Pi::Quit()
 {
+	// TODO: still loads of stuff to clean up
+	Pi::UninitGame();
+	delete Pi::gameMenuView;
+	delete Pi::luaConsole;
 	Sound::Uninit();
 	LmrModelCompilerUninit();
 	Render::Uninit();
@@ -1026,6 +1030,7 @@ void Pi::UninitGame()
 		Pi::player = 0;
 	}
 }
+
 
 void Pi::Start()
 {
