@@ -346,7 +346,7 @@ local onEnterSystem = function (player)
 
 			if ship then
 				local pirate_greeting = string.interp(pirate_taunts[Engine.rand:Integer(1,#pirate_taunts)], {
-					client = mission.client, location = mission.location,})
+					client = mission.client, location = mission.location:GetSystemBody().name,})
 				UI.ImportantMessage(pirate_greeting, ship.label)
 			end
 		end
