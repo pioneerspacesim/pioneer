@@ -592,6 +592,8 @@ void Pi::InitOpenGL()
 
 void Pi::Quit()
 {
+	Sound::Uninit();
+	LmrModelCompilerUninit();
 	Render::Uninit();
 	LuaUninit();
 	SDL_Quit();
