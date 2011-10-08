@@ -140,6 +140,12 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	Init();	
 }
 
+Ship::~Ship()
+{
+	if (m_curAICmd) delete m_curAICmd;
+}
+
+
 float Ship::GetPercentHull() const
 {
 	const ShipType &stype = GetShipType();

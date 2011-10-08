@@ -14,6 +14,14 @@ FontManager::FontManager()
 
 FontManager::~FontManager()
 {
+	std::map<std::string, TextureFont*>::iterator i;
+	for (i=m_textureFonts.begin(); i != m_textureFonts.end(); ++i)	{
+		delete (*i).second;
+	}
+	std::map<std::string, VectorFont*>::iterator i2;
+	for (i2=m_vectorFonts.begin(); i2 != m_vectorFonts.end(); ++i2)	{
+		delete (*i2).second;
+	}
 	FT_Done_FreeType(m_library);
 }
 

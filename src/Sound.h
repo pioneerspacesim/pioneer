@@ -50,11 +50,11 @@ protected:
 typedef Uint32 eventid;
 
 bool Init ();
+void Uninit ();
 /**
  * Silence all active sound events.
  */
 void DestroyAllEvents();
-void Close ();
 void Pause (int on);
 eventid PlaySfx (const char *fx, const float volume_left, const float volume_right, const Op op);
 eventid PlayMusic (const char *fx, const float volume_left, const float volume_right, const Op op);

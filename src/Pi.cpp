@@ -63,6 +63,7 @@
 #include "Background.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "TextureManager.h"
 #include "rocket/RocketManager.h"
 
 float Pi::gameTickAlpha;
@@ -597,9 +598,17 @@ void Pi::InitOpenGL()
 
 void Pi::Quit()
 {
+	// TODO: still loads of stuff to clean up
+	Pi::UninitGame();
+	delete Pi::gameMenuView;
+	delete Pi::luaConsole;
 	delete rocketManager;
+	Sound::Uninit();
+	LmrModelCompilerUninit();
+	TextureManager::Clear();
 	Render::Uninit();
 	LuaUninit();
+	Gui::Uninit();
 	SDL_Quit();
 	exit(0);
 }
@@ -1266,9 +1275,6 @@ void Pi::MainLoop()
 		} else {
 			// paused
 		}
-
-		if (frame_stat == 0)
-            Pi::luaTimer->Tick();
 		frame_stat++;
 
 		Render::PrepareFrame();
@@ -1393,6 +1399,7 @@ void Pi::MainLoop()
 			TextureFont::ClearGlyphCount();
 			GeoSphere::ClearVtxGenCount();
 			last_stats += 1000;
+			GeoSphere::ClearVtxGenCount();
 		}
 		Pi::statSceneTris = 0;
 		LmrModelClearStatsTris();
