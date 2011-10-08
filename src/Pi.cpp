@@ -600,6 +600,7 @@ void Pi::Quit()
 	LmrModelCompilerUninit();
 	Render::Uninit();
 	LuaUninit();
+	Gui::Uninit();
 	SDL_Quit();
 	exit(0);
 }
