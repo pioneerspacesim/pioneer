@@ -325,12 +325,13 @@ local onShipDocked = function (ship, station)
 				ship:RemoveMission(ref)
 				missions[ref] = nil
 			elseif mission.status == 'FAILED' then
+				local text
 				if mission.notplayer == 'TRUE' then
-					local text = string.interp(ass_flavours[mission.flavour].failuremsg2, {
+					text = string.interp(ass_flavours[mission.flavour].failuremsg2, {
 						target	= mission.target,
 					})
 				else
-					local text = string.interp(ass_flavours[mission.flavour].failuremsg, {
+					text = string.interp(ass_flavours[mission.flavour].failuremsg, {
 						target	= mission.target,
 					})
 				end
