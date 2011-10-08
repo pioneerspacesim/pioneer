@@ -396,7 +396,7 @@ local onUpdateBB = function (station)
 			ad.station:RemoveAdvert(ref)
 		end
 	end
-	if Engine.rand:Integer(12*60*60) < 60*60 then -- roughly once every twelve hours
+	if Engine.rand:Integer(4*24*60*60) < 60*60 then -- roughly once every four days
 		makeAdvert(station)
 	end
 end
