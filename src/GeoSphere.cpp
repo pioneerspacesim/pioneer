@@ -1170,6 +1170,7 @@ GeoSphere::~GeoSphere()
 
 	SDL_DestroyMutex(m_abortLock);
 	SDL_DestroyMutex(m_updateLock);
+	SDL_DestroyMutex(m_needUpdateLock);
 
 	for (int i=0; i<6; i++) if (m_patches[i]) delete m_patches[i];
 	DestroyVBOs();
