@@ -63,6 +63,7 @@
 #include "Background.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "TextureManager.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -598,6 +599,7 @@ void Pi::Quit()
 	delete Pi::luaConsole;
 	Sound::Uninit();
 	LmrModelCompilerUninit();
+	TextureManager::Clear();
 	Render::Uninit();
 	LuaUninit();
 	Gui::Uninit();
