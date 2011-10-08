@@ -4289,3 +4289,22 @@ void LmrModelCompilerInit()
 	
 	s_buildDynamic = true;
 }
+
+
+void LmrModelCompilerUninit()
+{
+	for (int i=0; i<4; i++) {
+		delete s_sunlightShader[i];
+		delete s_pointlightShader[i];
+	}
+	// FontManager should be ok...
+
+	std::map<std::string, LmrModel*>::iterator it_model;
+	for (it_model=s_models.begin(); it_model != s_models.end(); ++it_model)	{
+		delete (*it_model).second;
+	}
+	
+	lua_close(sLua); sLua = 0;
+
+	delete s_staticBufferPool;
+}
