@@ -1057,7 +1057,7 @@ void Pi::UninitGame()
 		delete Pi::player;
 		Pi::player = 0;
 	}
-	if (Pi::selectedSystem) Pi::selectedSystem->Release();
+	if (Pi::selectedSystem) Pi::selectedSystem->DecRefCount();
 	StarSystem::ShrinkCache();
 }
 
@@ -1488,7 +1488,7 @@ StarSystem *Pi::GetSelectedSystem()
 	if (selectedSystem) {
 		if (selectedSystem->GetPath().IsSameSystem(selectedPath))
 			return selectedSystem;
-		selectedSystem->Release();
+		selectedSystem->DecRefCount();
 	}
 
 	selectedSystem = StarSystem::GetCached(selectedPath);

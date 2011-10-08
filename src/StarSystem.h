@@ -185,7 +185,6 @@ public:
 	friend class SBody;
 
 	static StarSystem *GetCached(const SystemPath &path);
-	inline void Release() { DecRefCount(); }
 	static void ShrinkCache();
 
 	const std::string &GetName() const { return m_name; }

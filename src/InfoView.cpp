@@ -98,7 +98,7 @@ public:
 
 			ypos += YSEP*3;
 
-			s->Release();
+			s->DecRefCount();
 		}
 		Add(portal, 20, 20 + YSEP*3);
 		Add(scroll, 780, 20 + YSEP*3);

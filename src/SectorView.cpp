@@ -458,7 +458,7 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	labels.systemName->SetText(sys->GetName());
 	labels.shortDesc->SetText(sys->GetShortDescription());
 
-	sys->Release();
+	sys->DecRefCount();
 
 	if (m_infoBoxVisible)
 		m_infoBox->ShowAll();
@@ -534,7 +534,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				{
 					(*i).SetInhabited(false);
 				}
-				pSS->Release();
+				pSS->DecRefCount();
 			}
 		}
 		

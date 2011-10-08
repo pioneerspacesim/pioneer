@@ -43,7 +43,7 @@ void Init()
 void Uninit()
 {
 	delete rootFrame;
-	if (Pi::currentSystem) Pi::currentSystem->Release();
+	if (Pi::currentSystem) Pi::currentSystem->DecRefCount();
 }
 
 void Clear()
@@ -739,7 +739,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 
 	const SystemPath psource = Pi::currentSystem ? Pi::currentSystem->GetPath() : SystemPath(0,0,0,0);
 	const SystemPath pdest = dest->SystemOnly();
-	if (Pi::currentSystem) Pi::currentSystem->Release();
+	if (Pi::currentSystem) Pi::currentSystem->DecRefCount();
 	Pi::currentSystem = StarSystem::GetCached(dest);
 	Space::Clear();
 	Space::BuildSystem();
@@ -867,7 +867,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 /* called at game start to load the system and put the player in a starport */
 void SetupSystemForGameStart(const SystemPath *dest, int starport, int port)
 {
-	if (Pi::currentSystem) Pi::currentSystem->Release();
+	if (Pi::currentSystem) Pi::currentSystem->DecRefCount();
 	Pi::currentSystem = StarSystem::GetCached(dest);
 	Space::Clear();
 	Space::BuildSystem();

@@ -268,7 +268,7 @@ static int l_sbodypath_get_star_system(lua_State *l)
 	SystemPath *path = LuaSystemPath::GetFromLua(1);
 	StarSystem *s = StarSystem::GetCached(path);
 	LuaStarSystem::PushToLua(s);
-	s->Release();
+	s->DecRefCount();
 	return 1;
 }
 
@@ -297,7 +297,7 @@ static int l_sbodypath_get_system_body(lua_State *l)
 	StarSystem *s = StarSystem::GetCached(path);
 	SBody *sbody = s->GetBodyByPath(path);
 	LuaSBody::PushToLua(sbody);
-	s->Release();
+	s->DecRefCount();
 	return 1;
 }
 

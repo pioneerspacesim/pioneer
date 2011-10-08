@@ -144,7 +144,7 @@ static int l_sbody_attr_parent(lua_State *l)
 	StarSystem *s = StarSystem::GetCached(sbody->path);
 	SBody *live_sbody = s->GetBodyByPath(sbody->path);
 	LuaSBody::PushToLua(live_sbody->parent);
-	s->Release();
+	s->DecRefCount();
 	return 1;
 }
 

@@ -75,7 +75,7 @@ SystemView::SystemView()
 
 SystemView::~SystemView()
 {
-	if (m_system) m_system->Release();
+	if (m_system) m_system->DecRefCount();
 	m_onMouseButtonDown.disconnect();
 }
 
@@ -273,7 +273,7 @@ void SystemView::Draw3D()
 	SystemPath path = Pi::sectorView->GetSelectedSystem();
 	if (m_system) {
 		if (!m_system->GetPath().IsSameSystem(path)) {
-			m_system->Release();
+			m_system->DecRefCount();
 			m_system = 0;
 			ResetViewpoint();
 		}

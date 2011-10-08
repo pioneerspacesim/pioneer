@@ -261,7 +261,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 						lua_call(l, 1, 1);
 						if (!lua_toboolean(l, -1)) {
 							lua_pop(l, 1);
-							sys->Release();
+							sys->DecRefCount();
 							continue;
 						}
 						lua_pop(l, 1);
@@ -271,7 +271,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 					LuaStarSystem::PushToLua(sys);
 					lua_rawset(l, -3);
 
-					sys->Release();
+					sys->DecRefCount();
 				}
 			}
 		}
