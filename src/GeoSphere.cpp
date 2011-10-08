@@ -1083,6 +1083,7 @@ void GeoSphere::Init()
 void GeoSphere::OnChangeDetailLevel()
 {
 	s_patchContext->DecRefCount();
+	if (! s_patchContext->GetRefCount()) delete s_patchContext;
 
 	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
