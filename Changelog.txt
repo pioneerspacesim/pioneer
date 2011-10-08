@@ -11,6 +11,8 @@ Alpha 16
 
   * Internal changes
     * Improve terrain generation performance
+    * Run Lua timers from the physics loop, which should help to make frame
+      times a little more consistent
 
 
 Alpha 15

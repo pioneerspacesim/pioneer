@@ -1279,9 +1279,6 @@ void Pi::MainLoop()
 		} else {
 			// paused
 		}
-
-		if (frame_stat == 0)
-            Pi::luaTimer->Tick();
 		frame_stat++;
 
 		Render::PrepareFrame();
