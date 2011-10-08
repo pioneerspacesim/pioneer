@@ -217,6 +217,13 @@ static struct postprocessBuffers_t {
 		delete bloom1RT;
 		delete bloom2RT;
 		delete sceneRT;
+
+		delete postprocessBloom1Downsample;
+		delete postprocessBloom2Downsample;
+		delete postprocessBloom3VBlur;
+		delete postprocessBloom4HBlur;
+		delete postprocessCompose;
+		delete postprocessLuminance;
 	}
 	void DoPostprocess() {
 		glMatrixMode(GL_PROJECTION);
