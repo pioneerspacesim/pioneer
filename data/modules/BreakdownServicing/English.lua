@@ -86,17 +86,11 @@ Service: {price}
 	baseprice = 1.8,
 })
 
-Translate:Add({
-
-English = {
+Translate:Add({ English = {
 	["I don't have enough money"] = "I don't have enough money",
 	["Manufacturer's warranty"] = "Manufacturer's warranty",
 	["Your drive was last serviced on {date} by {company}"] = "Your drive was last serviced on {date} by {company}",
 	["Your drive has not been serviced since it was installed on {date}"] = "Your drive has not been serviced since it was installed on {date}",
 	["You do not have a drive to service!"] = "You do not have a drive to service!",
 	["The ship's hyperdrive has been destroyed by a malfunction"] = "The ship's hyperdrive has been destroyed by a malfunction",
--- /English
-},
-
--- /Translate:add
-})
+}, })
