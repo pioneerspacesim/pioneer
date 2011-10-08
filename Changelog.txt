@@ -50,6 +50,7 @@ Alpha 15
     * Fix directory handle leak (#618)
     * Don't allow scripts to add more equipment than a ship has room for (#617, #616)
     * Interplanetary Shuttle can no longer take a hyperdrive (#613)
+    * Fix crash on attack after high-risk delivery (#631)
 
   * Script changes
     * Experimental Lua console (#537, #597)
