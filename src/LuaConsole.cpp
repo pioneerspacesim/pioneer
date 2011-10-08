@@ -34,12 +34,14 @@ LuaConsole::LuaConsole(int displayedOutputLines):
 }
 
 LuaConsole::~LuaConsole() {
-	delete m_entryField;
+// JJ: Anything added to a GUI container will be automatically deleted. I think.
+/*	delete m_entryField;
 	for (std::vector<Gui::Label*>::const_iterator
 		it = m_outputLines.begin(); it != m_outputLines.end(); ++it) {
 		delete (*it);
 	}
 	m_outputLines.clear();
+*/
 }
 
 bool LuaConsole::IsActive() const {
