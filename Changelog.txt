@@ -6,6 +6,7 @@ Alpha 16
   * Minor changes and tweaks
 
   * Fixes
+    * Fix memory leak in GeoSphere destructor
   
   * Script changes
 
