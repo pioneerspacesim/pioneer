@@ -84,6 +84,7 @@ public:
 		onChange.emit(e);
 	}
 	int Add(Equip::Type e, int num) {
+		if (e == Equip::NONE) return 0;
 		Equip::Slot s = Equip::types[e].slot;
 		int numDone = 0;
 		for (unsigned int i=0; i<equip[s].size(); i++) {
@@ -101,6 +102,7 @@ public:
 	}
 	// returns number removed
 	int Remove(Equip::Type e, int num) {
+		if (e == Equip::NONE) return 0;
 		Equip::Slot s = Equip::types[e].slot;
 		int numDone = 0;
 		for (unsigned int i=0; i<equip[s].size(); i++) {
