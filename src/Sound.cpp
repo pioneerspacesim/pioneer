@@ -458,8 +458,9 @@ bool Init ()
 	return true;
 }
 
-void Close ()
+void Uninit ()
 {
+	DestroyAllEvents();
 	SDL_CloseAudio ();
 }
 
