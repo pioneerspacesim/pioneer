@@ -294,12 +294,7 @@ local onEnterSystem = function (ship)
 					ship:UpdateMission(ref, mission)
 				end
 			else
-				if mission.ship:exists() then
-					local planets = Space.GetBodies(function (body) return body:isa("Planet") end)
-					if #planets == 0 then return end
-					local planet = planets[Engine.rand:Integer(1,#planets)]
-					mission.ship:AIEnterHighOrbit(planet)
-				else
+				if not mission.ship:exists() then
 					mission.ship = nil
 					if mission.due < Game.time then
 						mission.status = 'FAILED'
@@ -380,6 +375,7 @@ local onAICompleted = function (ship)
 				if #systems == 0 then return end
 				local system = systems[Engine.rand:Integer(1,#systems)]
 
+				mission.shipstate = 'inbound'
 				ship:HyperspaceTo(system.path)
 			elseif mission.shipstate == 'flying' then
 				Timer:CallAt(Game.time + 60 * 60 * 8, function () if mission.ship:exists() then
