@@ -561,12 +561,20 @@ void WorldView::RefreshButtonStateAndVisibility()
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Space::rootFrame);
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
+
+		size_t lua_mem = Pi::luaManager->GetMemoryUsage();
+		int lua_memB = int(lua_mem & ((1u << 10) - 1));
+		int lua_memKB = int(lua_mem >> 10) % 1024;
+		int lua_memMB = int(lua_mem >> 20);
+
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
-			"Rel-to: %s (%.0f km), rotating: %s\n",
+			"Rel-to: %s (%.0f km), rotating: %s\n"
+			"Lua mem usage: %d MB + %d KB + %d bytes\n",
 			pos.x, pos.y, pos.z,
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
-			rel_to, pos.Length()/1000, rot_frame);
+			rel_to, pos.Length()/1000, rot_frame,
+			lua_memMB, lua_memKB, lua_memB);
 
 		m_debugInfo->SetText(buf);
 		m_debugInfo->Show();
