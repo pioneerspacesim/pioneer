@@ -2,7 +2,6 @@
 #include "LmrModel.h"
 #include "Serializer.h"
 #include "MyLuaMathTypes.h"
-#include "Pi.h"
 #include "LuaUtils.h"
 #include "utils.h"
 #include "Lang.h"
@@ -191,14 +190,6 @@ void ShipType::Init()
 	_define_ships("ship", ShipType::TAG_SHIP, player_ships);
 	_define_ships("static_ship", ShipType::TAG_STATIC_SHIP, static_ships);
 	_define_ships("missile", ShipType::TAG_MISSILE, missile_ships);
-}
-
-ShipType::Type ShipType::GetRandomType() {
-	return player_ships[Pi::rng.Int32(player_ships.size())];
-}
-
-ShipType::Type ShipType::GetRandomStaticType() {
-	return static_ships[Pi::rng.Int32(static_ships.size())];
 }
 
 void EquipSet::Save(Serializer::Writer &wr)

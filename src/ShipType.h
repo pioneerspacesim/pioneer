@@ -47,8 +47,6 @@ struct ShipType {
 	static std::vector<Type> static_ships;
 	static std::vector<Type> missile_ships;
 
-	static Type GetRandomType();
-	static Type GetRandomStaticType();
 	static const char *gunmountNames[GUNMOUNT_MAX];
 	static void Init();
 	static const ShipType *Get(const char *name) {
