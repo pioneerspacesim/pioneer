@@ -33,6 +33,9 @@ class VolumeControl : public Gui::HBox
 			m_muteButton->onClick.connect(sigc::mem_fun(this, &VolumeControl::propagateMute));
 			m_adjustment->onValueChanged.connect(sigc::mem_fun(this, &VolumeControl::propagateSlider));
 		}
+		virtual ~VolumeControl() {
+			delete m_adjustment;
+		}
 		float GetValue() const {
 			return m_adjustment->GetValue();
 		}
