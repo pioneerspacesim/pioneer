@@ -554,8 +554,8 @@ static int l_ship_add_equip(lua_State *l)
 		num = lua_tointeger(l, 3);
 
 	const shipstats_t *stats = s->CalcStats();
-	if (EquipType::types[e].mass != 0)
-		num = std::min(stats->free_capacity / (EquipType::types[e].mass), num);
+	if (Equip::types[e].mass != 0)
+		num = std::min(stats->free_capacity / (Equip::types[e].mass), num);
 
 	lua_pushinteger(l, s->m_equipment.Add(e, num));
 	s->UpdateMass();
