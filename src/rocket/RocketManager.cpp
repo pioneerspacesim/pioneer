@@ -393,49 +393,55 @@ private:
 };
 
 
-class RocketEventListener : public Rocket::Core::EventListener {
-public:
-	RocketEventListener(const std::string &eventName) : Rocket::Core::EventListener(), m_eventName(eventName) {}
-
-	virtual void ProcessEvent(Rocket::Core::Event &e)
-	{
-		if (m_handler) m_handler(&e);
-	}
-
-	void SetHandler(sigc::slot<void,Rocket::Core::Event*> handler) { m_handler = handler; }
-
-private:
-	std::string m_eventName;
-	sigc::slot<void,Rocket::Core::Event*> m_handler;
-};
-
-
 class RocketEventListenerInstancer : public Rocket::Core::EventListenerInstancer {
 public:
+	RocketEventListenerInstancer(RocketManager *rocketManager) : Rocket::Core::EventListenerInstancer(), m_rocketManager(rocketManager) {}
+
 	virtual Rocket::Core::EventListener *InstanceEventListener(const Rocket::Core::String &value)
 	{
 		std::string eventName(value.CString());
 
-		std::map<std::string,RocketEventListener*>::iterator i = m_listeners.find(eventName);
-		if (i != m_listeners.end())
-			return (*i).second;
+		RocketScreen *screen = m_rocketManager->GetCurrentScreen();
+		if (!screen) return 0;
 
-		RocketEventListener *listener = new RocketEventListener(eventName);
-		m_listeners.insert(make_pair(eventName, listener));
-
+		RocketEventListener *listener = screen->GetEventListener(eventName);
 		return listener;
 	}
 
 	virtual void Release() {}
 
 private:
-	std::map<std::string,RocketEventListener*> m_listeners;
+	RocketManager *m_rocketManager;
 };
 
+
+RocketScreen::~RocketScreen()
+{
+	for (std::map<std::string,RocketEventListener*>::iterator i = m_eventListeners.begin(); i != m_eventListeners.end(); i++)
+		delete (*i).second;
+}
+
+void RocketScreen::SetDocument(Rocket::Core::ElementDocument *document)
+{
+	assert(!m_document);
+	m_document = document;
+}
 
 void RocketScreen::ProcessKeyboardShortcut(Rocket::Core::Input::KeyIdentifier key)
 {
 	printf("shortcut: %d\n", key);
+}
+
+RocketEventListener *RocketScreen::GetEventListener(const std::string &eventName)
+{
+	std::map<std::string,RocketEventListener*>::iterator i = m_eventListeners.find(eventName);
+	if (i != m_eventListeners.end())
+		return (*i).second;
+
+	RocketEventListener *listener = new RocketEventListener(eventName);
+	m_eventListeners.insert(make_pair(eventName, listener));
+
+	return listener;
 }
 
 
@@ -464,7 +470,7 @@ RocketManager::RocketManager(int width, int height) : m_width(width), m_height(h
 	RocketFaceElement::Register();
 	RocketShipSpinnerElement::Register();
 
-	m_rocketEventListenerInstancer = new RocketEventListenerInstancer();
+	m_rocketEventListenerInstancer = new RocketEventListenerInstancer(this);
 	Rocket::Core::Factory::RegisterEventListenerInstancer(m_rocketEventListenerInstancer);
 	m_rocketEventListenerInstancer->RemoveReference();
 
@@ -478,15 +484,19 @@ RocketManager::RocketManager(int width, int height) : m_width(width), m_height(h
 
 RocketManager::~RocketManager()
 {
-	for (std::map<std::string,RocketScreen*>::iterator i = m_screens.begin(); i != m_screens.end(); i++) {
+	for (std::map<std::string,RocketScreen*>::iterator i = m_screens.begin(); i != m_screens.end(); i++)
 		(*i).second->GetDocument()->RemoveReference();
-		delete (*i).second;
-	}
 
 	m_rocketContext->RemoveReference();
 
 	Rocket::Core::Shutdown();
 
+	for (std::map<std::string,RocketScreen*>::iterator i = m_screens.begin(); i != m_screens.end(); i++)
+		delete (*i).second;
+
+	// XXX no way to clear the event listener instancer registered with
+	// rocket, so it will retain this pointer. future document builds will
+	// crash
 	delete m_rocketEventListenerInstancer;
 
 	delete m_rocketSystem;
@@ -510,14 +520,20 @@ RocketScreen *RocketManager::OpenScreen(const std::string &name)
 		m_currentScreen->GetDocument()->Show();
 		return m_currentScreen;
 	}
+
+	m_currentScreen = new RocketScreen();
 	
 	Rocket::Core::ElementDocument *document = m_rocketContext->LoadDocument((PIONEER_DATA_DIR "/ui/" + name + ".rml").c_str());
 	if (!document) {
 		fprintf(stderr, "RocketManager: couldn't load document '%s'\n", name.c_str());
+		delete m_currentScreen;
+		m_currentScreen = 0;
 		return 0;
 	}
 
-	m_screens[name] = m_currentScreen = new RocketScreen(document);
+	m_currentScreen->SetDocument(document);
+
+	m_screens[name] = m_currentScreen;
 
 	UpdateScreenFromStash();
 
@@ -535,11 +551,6 @@ void RocketManager::ProcessEvent(Rocket::Core::Event &e)
 	
 	else if (m_currentKey == key)
 		m_currentScreen->ProcessKeyboardShortcut(key);
-}
-
-void RocketManager::RegisterEventHandler(const std::string &eventName, sigc::slot<void,Rocket::Core::Event*> handler)
-{
-	static_cast<RocketEventListener*>(m_rocketEventListenerInstancer->InstanceEventListener(Rocket::Core::String(eventName.c_str())))->SetHandler(handler);
 }
 
 void RocketManager::HandleEvent(const SDL_Event *e)

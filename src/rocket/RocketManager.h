@@ -12,16 +12,37 @@ class RocketRender;
 class RocketEventListenerInstancer;
 union SDL_Event;
 
+
+class RocketEventListener : public Rocket::Core::EventListener {
+public:
+	RocketEventListener(const std::string &eventName) : Rocket::Core::EventListener(), m_eventName(eventName) {}
+
+	virtual void ProcessEvent(Rocket::Core::Event &e) {
+		if (m_handler) m_handler(&e);
+	}
+
+	void SetHandler(sigc::slot<void,Rocket::Core::Event*> handler) { m_handler = handler; }
+
+private:
+	std::string m_eventName;
+	sigc::slot<void,Rocket::Core::Event*> m_handler;
+};
+
+
 class RocketScreen {
 public:
-	RocketScreen(Rocket::Core::ElementDocument *document) : m_document(document) {}
+	virtual ~RocketScreen();
 
+	void SetDocument(Rocket::Core::ElementDocument *document);
 	Rocket::Core::ElementDocument *GetDocument() const { return m_document; }
 
 	void ProcessKeyboardShortcut(Rocket::Core::Input::KeyIdentifier key);
 
+	RocketEventListener *GetEventListener(const std::string &eventName);
+
 private:
 	Rocket::Core::ElementDocument *m_document;
+	std::map<std::string,RocketEventListener*> m_eventListeners;
 };
 
 class RocketManager : public Rocket::Core::EventListener {
@@ -34,8 +55,6 @@ public:
 
 	virtual void ProcessEvent(Rocket::Core::Event &e);
 
-	// XXX make these per-screen
-	void RegisterEventHandler(const std::string &eventName, sigc::slot<void,Rocket::Core::Event*> handler);
 	void HandleEvent(const SDL_Event *e);
 
 	void Draw();

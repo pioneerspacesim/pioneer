@@ -1060,12 +1060,12 @@ void Pi::Start()
 
 	rocketManager->SetStashItem("engine.version", version);
 
-	rocketManager->OpenScreen("main_menu");
-	rocketManager->RegisterEventHandler("newgame-earth",   sigc::bind(sigc::ptr_fun(&_main_menu_click), 1));
-	rocketManager->RegisterEventHandler("newgame-eridani", sigc::bind(sigc::ptr_fun(&_main_menu_click), 2));
-	rocketManager->RegisterEventHandler("newgame-debug",   sigc::bind(sigc::ptr_fun(&_main_menu_click), 3));
-	rocketManager->RegisterEventHandler("loadgame",        sigc::bind(sigc::ptr_fun(&_main_menu_click), 4));
-	rocketManager->RegisterEventHandler("quit",            sigc::bind(sigc::ptr_fun(&_main_menu_click), 5));
+	RocketScreen *screen = rocketManager->OpenScreen("main_menu");
+	screen->GetEventListener("newgame-earth"  )->SetHandler(sigc::bind(sigc::ptr_fun(&_main_menu_click), 1));
+	screen->GetEventListener("newgame-eridani")->SetHandler(sigc::bind(sigc::ptr_fun(&_main_menu_click), 2));
+	screen->GetEventListener("newgame-debug"  )->SetHandler(sigc::bind(sigc::ptr_fun(&_main_menu_click), 3));
+	screen->GetEventListener("loadgame"       )->SetHandler(sigc::bind(sigc::ptr_fun(&_main_menu_click), 4));
+	screen->GetEventListener("quit"           )->SetHandler(sigc::bind(sigc::ptr_fun(&_main_menu_click), 5));
 
 	_main_menu_selected = 0;
 	Uint32 last_time = SDL_GetTicks();
