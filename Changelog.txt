@@ -12,7 +12,7 @@ Alpha 16
   * Script changes
 
   * Internal changes
-    * Lots of cleanups, leaks fixed and general code improvements (#635)
+    * Lots of cleanups, leaks fixed and general code improvements (#635, #637)
     * Improve terrain generation performance
     * Run Lua timers from the physics loop, which should help to make frame
       times a little more consistent
