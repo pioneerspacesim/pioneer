@@ -24,7 +24,7 @@ void CargoBody::Load(Serializer::Reader &rd)
 void CargoBody::Init()
 {
 	m_hitpoints = 1.0f;
-	SetLabel(EquipType::types[m_type].name);
+	SetLabel(Equip::types[m_type].name);
 	SetModel("cargo");
 	SetMassDistributionFromModel();
 }
@@ -49,7 +49,7 @@ bool CargoBody::OnDamage(Object *attacker, float kgDamage)
 void CargoBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if (!IsEnabled()) return;
-	GetLmrObjParams().argStrings[0] = EquipType::types[m_type].name;
+	GetLmrObjParams().argStrings[0] = Equip::types[m_type].name;
 	RenderLmrModel(viewCoords, viewTransform);
 }
 

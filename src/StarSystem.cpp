@@ -1671,7 +1671,7 @@ void StarSystem::Populate(bool addSpaceStations)
 // Unused?
 //	for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
 //		Equip::Type t = (Equip::Type)i;
-//		const EquipType &type = EquipType::types[t];
+//		const EquipType &type = Equip::types[t];
 //		printf("%s: %d%%\n", type.name, m_tradeLevel[t]);
 //	}
 //	printf("System total population %.3f billion, tech level %d\n", m_totalPop.ToFloat(), m_techlevel);
@@ -1750,7 +1750,7 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	/* Commodities we produce (mining and agriculture) */
 	for (int i=Equip::FIRST_COMMODITY; i<Equip::LAST_COMMODITY; i++) {
 		Equip::Type t = Equip::Type(i);
-		const EquipType &itype = EquipType::types[t];
+		const EquipType &itype = Equip::types[t];
 		if (itype.techLevel > system->m_techlevel) continue;
 
 		fixed affinity = fixed(1,1);

@@ -711,7 +711,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			if (s->m_equipment.Get(Equip::SLOT_ENGINE) == Equip::NONE) {
 				text += Lang::NO_HYPERDRIVE;
 			} else {
-				text += EquipType::types[s->m_equipment.Get(Equip::SLOT_ENGINE)].name;
+				text += Equip::types[s->m_equipment.Get(Equip::SLOT_ENGINE)].name;
 			}
 
 			text += "\n";

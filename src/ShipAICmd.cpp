@@ -120,7 +120,7 @@ bool AICmdJourney::TimeStepUpdate()
 					MarketAgent *trader = m_ship->GetDockedWith();
 					// need to lose some equipment and see if we get light enough
 					Equip::Type t = (Equip::Type)Pi::rng.Int32(Equip::TYPE_MAX);
-					if ((EquipType::types[t].slot == Equip::SLOT_ENGINE) && trader->CanSell(t)) {
+					if ((Equip::types[t].slot == Equip::SLOT_ENGINE) && trader->CanSell(t)) {
 						// try a different hyperdrive
 						m_ship->SellTo(trader, driveType);
 						if (!m_ship->BuyFrom(trader, t)) {
