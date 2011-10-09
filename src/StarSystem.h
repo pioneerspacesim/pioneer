@@ -195,10 +195,6 @@ public:
 	static float starScale[];
 	static fixed starMetallicities[];
 
-	struct BodyStats {
-
-	};
-
 	SBody *rootBody;
 	std::vector<SBody*> m_spaceStations;
 	// index into this will be the SBody ID used by SystemPath

@@ -365,9 +365,9 @@ public:
 			if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendDeleted(this);
 		}
 		for (int i=0; i<4; i++) if (kids[i]) delete kids[i];
-		delete vertices;
-		delete normals;
-		delete colors;
+		delete[] vertices;
+		delete[] normals;
+		delete[] colors;
 		geosphere->AddVBOToDestroy(m_vbo);
 
 		ctx->DecRefCount();
@@ -1083,6 +1083,7 @@ void GeoSphere::Init()
 void GeoSphere::OnChangeDetailLevel()
 {
 	s_patchContext->DecRefCount();
+	if (! s_patchContext->GetRefCount()) delete s_patchContext;
 
 	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);

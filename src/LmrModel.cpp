@@ -20,7 +20,6 @@
  * This documentation is incomplete!
  */
 
-#define MODEL "Model"
 struct RenderState {
 	/* For the root model this will be identity matrix.
 	 * For sub-models called with call_model() then this will be the
@@ -291,7 +290,7 @@ static std::string _fread_string(FILE *f)
 	char *buf = new char[len];
 	fread_or_die(buf, sizeof(char), len, f);
 	std::string str = std::string(buf);
-	delete buf;
+	delete[] buf;
 	return str;
 }
 	
@@ -4208,10 +4207,6 @@ void LmrModelCompilerInit()
 	luaL_openlibs(L);
 
 	LUA_DEBUG_START(sLua);
-
-	lua_pushinteger(L, 1234);
-	lua_setglobal(L, "x");
-
 
 	MyLuaVec::Vec_register(L);
 	lua_pop(L, 1); // why again?
