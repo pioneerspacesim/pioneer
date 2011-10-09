@@ -8,7 +8,7 @@ namespace Gui {
 	class RadioGroup {
 	public:
 		RadioGroup() {};
-		virtual ~RadioGroup();
+		virtual ~RadioGroup() {};
 		void Add(ISelectable *b);
 		void SetSelected(int member_idx);
 	private:
