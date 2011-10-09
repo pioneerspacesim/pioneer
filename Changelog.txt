@@ -4,6 +4,7 @@ Alpha 16
     * Spanish translation (#628)
 
   * Minor changes and tweaks
+    * New assassination missions appear more often (#634)
 
   * Fixes
     * Fix various memory leaks
