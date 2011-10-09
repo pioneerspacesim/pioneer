@@ -561,6 +561,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Space::rootFrame);
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
+
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
 			"Rel-to: %s (%.0f km), rotating: %s\n",

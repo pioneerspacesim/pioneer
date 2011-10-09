@@ -16,7 +16,7 @@ Alpha 16
     * Improve terrain generation performance
     * Run Lua timers from the physics loop, which should help to make frame
       times a little more consistent
-
+    * Show Lua memory usage in debug info (#638)
 
 Alpha 15
 

@@ -1257,21 +1257,23 @@ void Pi::EndGame()
 
 void Pi::MainLoop()
 {
-	Uint32 last_stats = SDL_GetTicks();
-	int frame_stat = 0;
-	int phys_stat = 0;
-	char fps_readout[128];
 	double time_player_died = 0;
 #ifdef MAKING_VIDEO
 	Uint32 last_screendump = SDL_GetTicks();
 	int dumpnum = 0;
 #endif /* MAKING_VIDEO */
 
+#ifdef DEVKEYS
+	Uint32 last_stats = SDL_GetTicks();
+	int frame_stat = 0;
+	int phys_stat = 0;
+	char fps_readout[256];
+	memset(fps_readout, 0, sizeof(fps_readout));
+#endif
+
 	double currentTime = 0.001 * double(SDL_GetTicks());
 	double accumulator = Pi::GetTimeStep();
 	Pi::gameTickAlpha = 0;
-
-	memset(fps_readout, 0, sizeof(fps_readout));
 
 	while (isGameStarted) {
 		double newTime = 0.001 * double(SDL_GetTicks());
@@ -1401,13 +1403,22 @@ void Pi::MainLoop()
 		currentView->Update();
 		musicPlayer.Update();
 
-		if (SDL_GetTicks() - last_stats > 1000) {
+#ifdef DEVKEYS
+		if (Pi::showDebugInfo && SDL_GetTicks() - last_stats > 1000) {
+			size_t lua_mem = Pi::luaManager->GetMemoryUsage();
+			int lua_memB = int(lua_mem & ((1u << 10) - 1));
+			int lua_memKB = int(lua_mem >> 10) % 1024;
+			int lua_memMB = int(lua_mem >> 20);
+
 			Pi::statSceneTris += LmrModelGetStatsTris();
+			
 			snprintf(
 				fps_readout, sizeof(fps_readout),
-				"%d fps, %d phys updates, %d triangles, %.3f M tris/sec, %d terrain vtx/sec, %d glyphs/sec",
+				"%d fps, %d phys updates, %d triangles, %.3f M tris/sec, %d terrain vtx/sec, %d glyphs/sec\n"
+				"Lua mem usage: %d MB + %d KB + %d bytes",
 				frame_stat, phys_stat, Pi::statSceneTris, Pi::statSceneTris*frame_stat*1e-6,
-				GeoSphere::GetVtxGenCount(), TextureFont::GetGlyphCount()
+				GeoSphere::GetVtxGenCount(), TextureFont::GetGlyphCount(),
+				lua_memMB, lua_memKB, lua_memB
 			);
 			frame_stat = 0;
 			phys_stat = 0;
@@ -1418,6 +1429,7 @@ void Pi::MainLoop()
 		}
 		Pi::statSceneTris = 0;
 		LmrModelClearStatsTris();
+#endif
 
 #ifdef MAKING_VIDEO
 		if (SDL_GetTicks() - last_screendump > 50) {
