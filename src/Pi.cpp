@@ -598,6 +598,8 @@ void Pi::Quit()
 	delete Pi::gameMenuView;
 	delete Pi::luaConsole;
 	Sound::Uninit();
+	SpaceStation::Uninit();
+	Space::Uninit();
 	LmrModelCompilerUninit();
 	TextureManager::Clear();
 	Render::Uninit();

@@ -66,6 +66,7 @@ class SpaceStation: public ModelBody, public MarketAgent {
 public:
 	OBJDEF(SpaceStation, ModelBody, SPACESTATION);
 	static void Init();
+	static void Uninit();
 	enum TYPE { JJHOOP, GROUND_FLAVOURED, TYPE_MAX };
 	// Should point to SBody in Pi::currentSystem
 	SpaceStation(const SBody *);

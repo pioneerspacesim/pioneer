@@ -89,6 +89,7 @@ namespace Render {
 		void PrintGLSLCompileError(const char* filename, GLuint obj);
 	};
 
+	void FreeLibs();
 }
 
 #endif
