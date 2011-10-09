@@ -313,7 +313,7 @@ local onShipDocked = function (ship, station)
 			   mission.backstation == station.path then
 				local text = string.interp(ass_flavours[mission.flavour].successmsg, {
 					target	= mission.target,
-					cash	= Format.Money(ad.reward),
+					cash	= Format.Money(mission.reward),
 				})
 				UI.ImportantMessage(text, mission.boss)
 				ship:AddMoney(mission.reward)
