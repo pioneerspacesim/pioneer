@@ -413,7 +413,7 @@ public:
 				if (float_is_zero_general(op.zbias.amount)) {
 					glDepthRange(0.0, 1.0);
 				} else {
-					vector3f tv = cameraPos - vector3f(op.zbias.pos);
+				//	vector3f tv = cameraPos - vector3f(op.zbias.pos);
 				//	if (vector3f::Dot(tv, vector3f(op.zbias.norm)) < 0.0f) {
 						glDepthRange(0.0, 1.0 - op.zbias.amount*NEWMODEL_ZBIAS);
 				//	} else {

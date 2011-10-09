@@ -86,16 +86,16 @@ public:
 			int *outIndexBase, BufferObject<VERTEX_SIZE> **outBufferObject)
 	{
 		BufferObject<VERTEX_SIZE> *bo = 0;
-		int boIdx = -1;
+		//int boIdx = -1;
 		for (unsigned int i=0; i<m_bos.size(); i++) {
 			if (m_bos[i]->GetVertexSpaceLeft() >= numVertices) {
 				bo = m_bos[i];
-				boIdx = i;
+		//		boIdx = i;
 			}
 		}
 		if (bo == 0) {
 			bo = new BufferObject<VERTEX_SIZE>();
-			boIdx = m_bos.size();
+		//	boIdx = m_bos.size();
 			m_bos.push_back(bo);
 		}
 

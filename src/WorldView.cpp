@@ -595,7 +595,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 			double _vel = vel.Length();
 			std::string str;
 			const char *rel_to = Pi::player->GetFrame()->GetLabel();
-			vector3d pos = Pi::player->GetPosition();
 			if (_vel > 1000) {
 				str = stringf(Lang::KM_S_RELATIVE_TO, formatarg("speed", _vel*0.001), formatarg("frame", rel_to));
 			} else {

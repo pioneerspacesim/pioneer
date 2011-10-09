@@ -266,7 +266,6 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 				break;
 		}
 
-		vector3d center = (p1+p2+p3+p4)*0.25;
 		PutCityBit(rand, m, p1, p2, p3, p4);
 	}
 	AddStaticGeomsToCollisionSpace();

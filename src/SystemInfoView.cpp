@@ -40,12 +40,12 @@ void SystemInfoView::OnBodyViewed(SBody *b)
 
 	m_infoBox->DeleteAllChildren();
 	
-	Gui::Fixed *fixed = new Gui::Fixed(600, 200);
-	m_infoBox->PackStart(fixed);
+	Gui::Fixed *outer = new Gui::Fixed(600, 200);
+	m_infoBox->PackStart(outer);
 	Gui::VBox *col1 = new Gui::VBox();
 	Gui::VBox *col2 = new Gui::VBox();
-	fixed->Add(col1, 0, 0);
-	fixed->Add(col2, 300, 0);
+	outer->Add(col1, 0, 0);
+	outer->Add(col2, 300, 0);
 
 #define _add_label_and_value(label, value) { \
 	Gui::Label *l = (new Gui::Label(label))->Color(1.0f,1.0f,0.0f); \
