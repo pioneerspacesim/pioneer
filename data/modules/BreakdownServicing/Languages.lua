@@ -189,7 +189,7 @@ Translate:AddFlavour('Deutsch','BreakdownServicing', {
 
 Antrieb: {drive}
 Dienst: {price}
-Garantie: 18 months
+Garantie: 18 Monate
 {lasttime}]],
 	yesplease = "Den Hyperraumantrieb pflegen",
 	response = "Ihr Hyperraumantrieb gewartet worden ist.",
@@ -212,7 +212,7 @@ Translate:AddFlavour('Deutsch','BreakdownServicing', {
 	intro = [[Guten Tag.  Wir bei {proprietor} & Co verbürgen für unsere Arbeit mit unser Ruf.
 
 {lasttime}
-Wir können Ihr {drive}, so dass er mindestens noch 12 Monat Betrieb hat, für {price} einstellen.  Ich werde die Überwachung der Arbeit selbst, so können Sie sicher sein, dass eine gute Arbeit geleistet wird.]],
+Wir können Ihr {drive}, so dass er mindestens noch 12 Monate Betrieb hat, für {price} einstellen.  Ich werde die Überwachung der Arbeit selbst, so können Sie sicher sein, dass eine gute Arbeit geleistet wird.]],
 	yesplease = "Bitte stellen sie mein Hyperraumantrieb ein",
 	response = "Einstellen fertig.  Danke schön für Ihre Kundschaft.",
 	strength = 1.0,
