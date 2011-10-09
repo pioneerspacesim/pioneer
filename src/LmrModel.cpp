@@ -3508,6 +3508,15 @@ namespace ModelFuncs {
 	 *           the specified units. Otherwise, all four units are returned.
 	 *           available units are: 'seconds', 'minutes', 'hours', 'days'
 	 *
+	 * Returns:
+	 *
+	 *   seconds - the time in seconds
+	 *   hours   - the time in hours
+	 *   minutes - the time in minutes
+	 *   days    - the time in days
+	 *
+	 *   The above values include fractional components.
+	 *
 	 * Example:
 	 *
 	 * > local seconds = get_time('seconds')
