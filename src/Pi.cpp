@@ -843,8 +843,9 @@ static void draw_intro(Background::Starfield *starfield, Background::MilkyWay *m
 	// defaults are dandy
 	Render::State::SetZnearZfar(1.0f, 10000.0f);
 	LmrObjParams params = {
-		{ },
-		{ Lang::PIONEER },
+		0.0, // time
+		{ }, // argDoubles
+		{ Lang::PIONEER }, // argStrings
 		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
 		{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
@@ -886,8 +887,9 @@ static void draw_tombstone(float _time)
 	float ambient[4] = { 0.1,0.1,0.1,1 };
 
 	LmrObjParams params = {
-		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ Lang::TOMBSTONE_EPITAPH },
+		0.0, // time
+		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // argDoubles
+		{ Lang::TOMBSTONE_EPITAPH }, // argStrings
 		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
 		{ { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },

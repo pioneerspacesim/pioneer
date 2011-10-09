@@ -3475,7 +3475,15 @@ namespace ModelFuncs {
 	{
 		assert(s_curParams != 0);
 		int i = luaL_checkinteger(L, 1);
-		lua_pushnumber(L, s_curParams->argDoubles[i]);
+		double value = 0.0;
+		switch (i) {
+			case 1: value = s_curParams->time; break;
+			case 2: value = s_curParams->time/60.0; break;
+			case 3: value = s_curParams->time/3600.0; break;
+			case 4: value = s_curParams->time/(24*3600.0); break;
+			default: value = s_curParams->argDoubles[i]; break;
+		}
+		lua_pushnumber(L, value);
 		return 1;
 	}
 
@@ -3516,23 +3524,24 @@ namespace ModelFuncs {
 	static int get_time(lua_State *L)
 	{
 		assert(s_curParams != 0);
+		double t = s_curParams->time;
 		int nparams = lua_gettop(L);
 		if (nparams == 0) {
-			lua_pushnumber(L, s_curParams->argDoubles[1]);
-			lua_pushnumber(L, s_curParams->argDoubles[2]);
-			lua_pushnumber(L, s_curParams->argDoubles[3]);
-			lua_pushnumber(L, s_curParams->argDoubles[4]);
+			lua_pushnumber(L, t);
+			lua_pushnumber(L, t / 60.0);
+			lua_pushnumber(L, t / 3600.0);
+			lua_pushnumber(L, t / (24*3600.0));
 			return 4;
 		} else if (nparams == 1) {
 			const char *units = luaL_checkstring(L, 1);
 			if (strcmp(units, "seconds") == 0)
-				lua_pushnumber(L, s_curParams->argDoubles[1]);
+				lua_pushnumber(L, t);
 			else if (strcmp(units, "minutes") == 0)
-				lua_pushnumber(L, s_curParams->argDoubles[2]);
+				lua_pushnumber(L, t / 60.0);
 			else if (strcmp(units, "hours") == 0)
-				lua_pushnumber(L, s_curParams->argDoubles[3]);
+				lua_pushnumber(L, t / 3600.0);
 			else if (strcmp(units, "days") == 0)
-				lua_pushnumber(L, s_curParams->argDoubles[4]);
+				lua_pushnumber(L, t / (24 * 3600.0));
 			else
 				return luaL_error(L,
 					"Unknown unit type '%s' specified for get_time "

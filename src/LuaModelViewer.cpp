@@ -24,8 +24,9 @@ static int g_wheelMoveDir = -1;
 static int g_renderType = 0;
 static float g_frameTime;
 static LmrObjParams params = {
-	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ "IR-L33T", "ME TOO" },
+	0.0, // time
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // argDoubles
+	{ "IR-L33T", "ME TOO" }, // argStrings
 	{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 
 	{	// pColor[3]
@@ -274,10 +275,7 @@ void Viewer::SetSbreParams()
 		params.argDoubles[i] = GetAnimValue(i);
 	}
 
-	params.argDoubles[1] = gameTime;
-	params.argDoubles[2] = gameTime / 60;
-	params.argDoubles[3] = gameTime / 3600.0f;
-	params.argDoubles[4] = gameTime / (24*3600.0f);
+	params.time = gameTime;
 	
 	params.linthrust[0] = 2.0f * (m_linthrust[0]->GetValue() - 0.5f);
 	params.linthrust[1] = 2.0f * (m_linthrust[1]->GetValue() - 0.5f);

@@ -31,6 +31,7 @@ struct LmrLight {
 
 struct LmrObjParams
 {
+	double time;
 	double argDoubles[LMR_ARG_MAX];
 	const char *argStrings[LMR_ARG_MAX];
 

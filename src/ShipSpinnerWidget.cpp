@@ -18,10 +18,7 @@ void ShipSpinnerWidget::Draw()
 	float pos[2];
 	GetAbsolutePosition(pos);
 
-	m_params.argDoubles[1] = Pi::GetGameTime();
-	m_params.argDoubles[2] = Pi::GetGameTime() / 60.0;
-	m_params.argDoubles[3] = Pi::GetGameTime() / 3600.0;
-	m_params.argDoubles[4] = Pi::GetGameTime() / (24*3600.0);
+	m_params.time = Pi::GetGameTime();
 
 	float guiscale[2];
 	Gui::Screen::GetCoords2Pixels(guiscale);
