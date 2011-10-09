@@ -9,13 +9,13 @@ namespace LuaConstants {
 		Register(Pi::luaManager->GetLuaState());
 	}
 
-    int GetConstant(lua_State *l, const char *ns, const char *name);
-    inline int GetConstant(const char *ns, const char *name) {
+	int GetConstant(lua_State *l, const char *ns, const char *name);
+	inline int GetConstant(const char *ns, const char *name) {
 		return GetConstant(Pi::luaManager->GetLuaState(), ns, name);
 	}
 
-    const char *GetConstantString(lua_State *l, const char *ns, int value);
-    inline const char *GetConstantString(const char *ns, int value) {
+	const char *GetConstantString(lua_State *l, const char *ns, int value);
+	inline const char *GetConstantString(const char *ns, int value) {
 		return GetConstantString(Pi::luaManager->GetLuaState(), ns, value);
 	}
 }
