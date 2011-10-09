@@ -1,52 +1,6 @@
 -- don't produce missions for further than this many light years away
 local max_ass_dist = 30
 
--- ass flavours indeed ;-)
-local ass_flavours = {
-	{
-		adtext = "WANTED: Removal of {target} from the {system} system.",
-		introtext = "Hi, I'm {name}. I'll pay you {cash} to get rid of {target}.",
-		successmsg = "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment.",
-		failuremsg = "I am most displeased to find that {target} is still alive. Needless to say you will receive no payment.",
-		failuremsg2 = "{target}'s removal was not done by you. No payment this time.",
-	},
-	{
-		adtext = "WANTED: Someone to kill {target} from the {system} system.",
-		introtext = "I need {target} taken out of the picture. I'll pay you {cash} to do this.",
-		successmsg = "I am most sad to hear of {target}'s demise. You have been paid in full.",
-		failuremsg = "I hear that {target} is in good health. This pains me.",
-		failuremsg2 = "{target}'s demise was not caused by you, so do not ask for payment.",
-	},
-	{
-		adtext = "REMOVAL: {target} is no longer wanted in the {system} system.",
-		introtext = "I am {name}, and I will pay you {cash} to terminate {target}.",
-		successmsg = "You have been paid in full for the completion of that important contract.",
-		failuremsg = "It is most regrettable that {target} is still live and well. You will receive no payment as you did not complete your contract.",
-		failuremsg2 = "Contract was completed by someone else. Be faster next time!",
-	},
-	{
-		adtext = "TERMINATION: Someone to eliminate {target}.",
-		introtext = "The {target} must be reduced to space dust. I'll award you {cash} to do this.",
-		successmsg = "{target} is dead. Here is your award.",
-		failuremsg = "You will pay for not eliminating {target}!",
-		failuremsg2 = "Are you asking money for job done by someone else? Get lost.",
-	},
-	{
-		adtext = "RETIREMENT: Someone to retire {target}.",
-		introtext = "For {cash} we wish to encourage {target} to stop work permanently.",
-		successmsg = "News of {target}'s retirement delightfully obtained. Here is your money.",
-		failuremsg = "{target} is still breathing and I'm not giving money to you.",
-		failuremsg2 = "Retirement of {target} was done by someone else.",
-	},
-	{
-		adtext = "BIOGRAPHICAL: Some admirers wish {target} dead.",
-		introtext = "We wish {target} to have a fitting career end in the {system} system for {cash}.",
-		successmsg = "Message of {target}'s ending career happily acquired. Here is your {cash}.",
-		failuremsg = "We found out that {target} is nonetheless operative. This sadness us.",
-		failuremsg2 = "{target} was neutralized by someone else.",
-	}
-}
-
 local title = { -- just for fun
 	"Admiral",
 	"Ambassador",
@@ -83,6 +37,7 @@ local onDelete = function (ref)
 end
 
 local onChat = function (form, ref, option)
+	local ass_flavours = Translate:GetFlavours('Assassination')
 	local ad = ads[ref]
 
 	form:Clear()
@@ -106,12 +61,12 @@ local onChat = function (form, ref, option)
 		local sys = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
 
-		form:SetMessage(string.format("%s will be leaving %s in the %s system (%s, %s, %s) at %s. The ship is %s and has registration id %s.", ad.target, sbody.name, sys.name, ad.location.sectorX, ad.location.sectorY, ad.location.sectorZ, Format.Date(ad.due), ad.shipname, ad.shipregid) )
+		form:SetMessage(string.format(t("%s will be leaving %s in the %s system (%s, %s, %s) at %s. The ship is %s and has registration id %s."), ad.target, sbody.name, sys.name, ad.location.sectorX, ad.location.sectorY, ad.location.sectorZ, Format.Date(ad.due), ad.shipname, ad.shipregid) )
 
 	elseif option == 2 then
 		local sbody = ad.location:GetSystemBody()
 
-		form:SetMessage(string.format('It must be done after %s leaves %s. Do not miss this opportunity.', ad.target, sbody.name) )
+		form:SetMessage(string.format(t("It must be done after %s leaves %s. Do not miss this opportunity."), ad.target, sbody.name) )
 
 	elseif option == 3 then
 		local backstation = Game.player:GetDockedWith().path
@@ -121,7 +76,7 @@ local onChat = function (form, ref, option)
 		ads[ref] = nil
 
 		local mission = {
-			type		= "Assassination",
+			type		= t("Assassination"),
 			backstation	= backstation,
 			boss		= ad.client,
 			client		= ad.shipname .. "\n(" .. ad.shipregid .. ")",
@@ -139,19 +94,19 @@ local onChat = function (form, ref, option)
 		local mref = Game.player:AddMission(mission)
 		missions[mref] = mission
 
-		form:SetMessage("Excellent.")
-		form:AddOption("Hang up.", -1)
+		form:SetMessage(t("Excellent."))
+		form:AddOption(t('HANG_UP'), -1)
 
 		return
 	elseif option == 4 then
-		form:SetMessage("Return here on the completion of the contract and you will be paid.")
+		form:SetMessage(t("Return here on the completion of the contract and you will be paid."))
 	end
-	form:AddOption(string.format("Where can I find %s?", ad.target), 1);
-	form:AddOption("Could you repeat the original request?", 0);
-	form:AddOption("How soon must it be done?", 2);
-	form:AddOption("How will I be paid?", 4);
-	form:AddOption("Ok, agreed.", 3);
-	form:AddOption("Hang up.", -1);
+	form:AddOption(string.format(t("Where can I find %s?"), ad.target), 1);
+	form:AddOption(t("Could you repeat the original request?"), 0);
+	form:AddOption(t("How soon must it be done?"), 2);
+	form:AddOption(t("How will I be paid?"), 4);
+	form:AddOption(t("Ok, agreed."), 3);
+	form:AddOption(t('HANG_UP'), -1);
 end
 
 local RandomShipRegId = function ()
@@ -162,12 +117,13 @@ local RandomShipRegId = function ()
 end
 
 local makeAdvert = function (station)
+	local ass_flavours = Translate:GetFlavours('Assassination')
 	local nearbysystems = Game.system:GetNearbySystems(max_ass_dist, function (s) return #s:GetStationPaths() > 0 end)
 	if #nearbysystems == 0 then return end
 	local isfemale = Engine.rand:Integer(1) == 1
 	local client = NameGen.FullName(isfemale)
 	local targetIsfemale = Engine.rand:Integer(1) == 1
-	local target = title[Engine.rand:Integer(1, #title)] .. " " .. NameGen.FullName(targetIsfemale)
+	local target = t('TITLE')[Engine.rand:Integer(1, #t('TITLE'))] .. " " .. NameGen.FullName(targetIsfemale)
 	local flavour = Engine.rand:Integer(1, #ass_flavours)
 	local nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 	local nearbystations = nearbysystem:GetStationPaths()
