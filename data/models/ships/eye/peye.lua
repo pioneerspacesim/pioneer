@@ -61,14 +61,14 @@ define_model('eye_0', {
 
 	end,
 	dynamic = function(lod)
-		set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5,   {.5,.5,.5,1,0,0,0,0,.5,1,1},
+		set_material('e_glow', lerp_materials(get_time('seconds')*0.5,   {.5,.5,.5,1,0,0,0,0,.5,1,1},
 		{.5,.5,.5,1,0,0,0,0,2.5,.5,1}))
 		set_material('matvar0', get_arg_material(0))
 
 		if lod > 1 then
 			texture(nil)
 			use_material('text')
-			local reg = get_arg_string(ARGSTR_ALL_LABEL)
+			local reg = get_label()
 			zbias(1,v(15.9431,6.2,0), v(1,.19891,0))
 			text(reg, v(15.9431,6.2,0), v(1,.19891,0), v(0,0,-1), 1.3, {center=true})
 			zbias(1,v(-15.9431,6.2,0), v(-1,.19891,0))

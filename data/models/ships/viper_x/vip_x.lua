@@ -290,7 +290,7 @@ define_model('vipx_galmap', {
 		zbias(0)
 	end,
 	dynamic = function(lod)
-		local rot = math.pi*get_arg(ARG_ALL_TIME_SECONDS)*.1
+		local rot = math.pi*get_time('seconds')*.1
 
 		texture('models/ships/viper_x/galmap.png')
 		use_material('glow')
@@ -517,17 +517,17 @@ define_model('viper_x', {
 
 	dynamic = function(lod)
 		if lod > 1 then
-			local time = math.fmod(get_arg(ARG_ALL_TIME_SECONDS)*.5,1)
+			local time = math.fmod(get_time('seconds')*.5,1)
 			local g2off = {.3,.4,.5,1,1,1,1,100,0,0,0}
-			local g2on = lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.1, {0,0,0,1,1,1,1,100,.85,.8,1.5},
+			local g2on = lerp_materials(get_time('seconds')*0.1, {0,0,0,1,1,1,1,100,.85,.8,1.5},
 			{0,0,0,1,1,1,1,100,.5,.5,2})
 
 			set_material('cv0', get_arg_material(0))
-			set_material('glow1',lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.3, {0,0,0,1,1,1,1,100,1,2,.5}, {0,0,0,1,1,1,1,100,1.4,1.8,.5}))
-			set_material('e_glow',lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.3, {0,0,0,1,.1,.1,.1,1,.5,.5,2}, {0,0,0,1,.1,.1,.1,1,.85,.8,1.5}))
+			set_material('glow1',lerp_materials(get_time('seconds')*0.3, {0,0,0,1,1,1,1,100,1,2,.5}, {0,0,0,1,1,1,1,100,1.4,1.8,.5}))
+			set_material('e_glow',lerp_materials(get_time('seconds')*0.3, {0,0,0,1,.1,.1,.1,1,.5,.5,2}, {0,0,0,1,.1,.1,.1,1,.85,.8,1.5}))
 
 			if get_arg(ARG_SHIP_EQUIP_SCOOP) == Equip.FUEL_SCOOP then
-				set_material('sc_glow',lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.3, {0,0,0,1,.1,.1,.1,1,.5,.5,2}, {0,0,0,1,.1,.1,.1,1,.85,.8,1.5}))
+				set_material('sc_glow',lerp_materials(get_time('seconds')*0.3, {0,0,0,1,.1,.1,.1,1,.5,.5,2}, {0,0,0,1,.1,.1,.1,1,.85,.8,1.5}))
 			else
 				set_material('sc_glow', .1,.12,.12,1,.1,.15,.15,5)
 			end

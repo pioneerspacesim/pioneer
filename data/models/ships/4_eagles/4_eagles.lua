@@ -922,7 +922,7 @@ define_model('eagle_all', {
 
 		if lod > 1 then
 
-			set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
+			set_material('e_glow', lerp_materials(get_time('seconds')*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
 
 			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
 				local v64 = v(9-trans1,-1.55-(trans1/5),1)
@@ -962,7 +962,7 @@ define_model('eagle_all', {
 		if lod > 1 then
 			local vTXT1 = v(19,2.759,12)
 			local vTXT2 = v(-19,-2.759,12)
-			local reg = get_arg_string(ARGSTR_ALL_LABEL)
+			local reg = get_label()
 			use_material('text')
 			zbias(1,v(19,2.759,12),v(0,1,.0105))
 			text(reg, vTXT1, v(0,1,.0105), v(1,-.1604,-.5), 5, {center = true})
@@ -1454,7 +1454,7 @@ define_model('eagle_mk3', {
 	end,
 
 	dynamic = function(lod)
-		set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
+		set_material('e_glow', lerp_materials(get_time('seconds')*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
 		if lod > 2 then
 			set_material('win', .5,.5,5,.2,1,1,1,100)
 		else
@@ -1609,7 +1609,7 @@ define_model('eagle_mk4', {
 
 	dynamic = function(lod)
 		set_material('cv2', get_arg_material(1))
-		set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
+		set_material('e_glow', lerp_materials(get_time('seconds')*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
 		if lod > 2 then
 			set_material('win', .5,.5,5,.2,1,1,1,100)
 		else

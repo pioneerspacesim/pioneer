@@ -176,7 +176,7 @@ define_model('spacestation_entry1_stage3', {
 			use_material('text')
 			zbias(1, v(0,200,0), v(0,-1,0))
 			-- starport name
-			text(get_arg_string(ARGSTR_ALL_LABEL), v(60,200,-35), v(0,-1,0), v(-1,0,0), 5.0, {center=true})
+			text(get_label(), v(60,200,-35), v(0,-1,0), v(-1,0,0), 5.0, {center=true})
 			-- docking bay number
 			text("DOCKING BAY 1", v(-60,200,-35), v(0,-1,0), v(-1,0,0), 7.0, {center=true})
 			zbias(0)
@@ -561,7 +561,7 @@ function simple_lift_docking_port(baynum, pos)
 	quad(pos+v(50,-75,50), pos+v(-50,-75,50), pos+v(-50,0,50), pos+v(50,0,50))
 	texture(nil)
 
-	if (math.fmod(get_arg(ARG_ALL_TIME_SECONDS), 2) > 1) then
+	if (math.fmod(get_time('seconds'), 2) > 1) then
 		local color
 		if stage > 1 or stage < 0 then
 			color = v(1,0,0) -- red
@@ -675,7 +675,7 @@ define_model('mushroom_station_2', {
 		simple_lift_docking_port(0, port_pos[1])
 		simple_lift_docking_port(1, port_pos[2])
 		-- light on tower
-		local lightphase = math.fmod(get_arg(ARG_ALL_TIME_SECONDS)+0.46956, 1)
+		local lightphase = math.fmod(get_time('seconds')+0.46956, 1)
 		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 228, -350) })
 	end
 })
@@ -790,7 +790,7 @@ define_model('mushroom_station_4', {
 		simple_lift_docking_port(2, port_pos[3])
 		simple_lift_docking_port(3, port_pos[4])
 		-- light on tower
-		local lightphase = math.fmod(get_arg(ARG_ALL_TIME_SECONDS)+0.46956, 1)
+		local lightphase = math.fmod(get_time('seconds')+0.46956, 1)
 		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 228, -350) })
 	end
 })
@@ -885,8 +885,8 @@ define_model('big_crappy_spacestation', {
 			local textpos = v(0,500,-115) --0,500,-110
 			use_material('text')
 			zbias(1, textpos, v(0,100,0))
-			text(get_arg_string(ARGSTR_ALL_LABEL), textpos, v(0,1,0), v(1,0,0), 10.0, {center=true})
-			--text(get_arg_string(ARGSTR_ALL_LABEL), textpos, v(0,1,0), v(1,0,0), 10.0, {center=true})
+			text(get_label(), textpos, v(0,1,0), v(1,0,0), 10.0, {center=true})
+			--text(get_label(), textpos, v(0,1,0), v(1,0,0), 10.0, {center=true})
 			local textpos = v(0,-500,-10) --0,500,-110
 			use_material('text')
 			zbias(1, textpos, v(0,100,0))
@@ -898,9 +898,9 @@ define_model('big_crappy_spacestation', {
 			zbias(0)
 		end
 		 billboard('smoke.png', 20.0, v(1,1,0), {
-			vlerp(get_arg(ARG_ALL_TIME_SECONDS),v(0,12,419),v(0,12,1500)),
-			vlerp(get_arg(ARG_ALL_TIME_SECONDS),v(0,12,-419),v(0,12,-1500))})
-		set_light(1, 0.00005, v(0,0+1000*math.fmod(get_arg(ARG_ALL_TIME_SECONDS),1.0),0), v(0,0,0.5))
+			vlerp(get_time('seconds'),v(0,12,419),v(0,12,1500)),
+			vlerp(get_time('seconds'),v(0,12,-419),v(0,12,-1500))})
+		set_light(1, 0.00005, v(0,0+1000*math.fmod(get_time('seconds'),1.0),0), v(0,0,0.5))
 		set_light(2, 0.00001, v(0,-300,0), v(0.5,1.0,0))
 	end,
 })
@@ -1069,11 +1069,11 @@ define_model('nice_spacestation', {
 			local textpos = v(0,400,-80)
 			use_material('text')
 			zbias(1, textpos, v(0,1,0))
-			text(get_arg_string(ARGSTR_ALL_LABEL), textpos, v(0,1,0), v(1,0,0), 11, {center=true})
+			text(get_label(), textpos, v(0,1,0), v(1,0,0), 11, {center=true})
 			zbias(0)
 			call_model('ad_acme_2', v(0,-400.1,20), v(-1,0,0), v(0,0,-1), 40.0)
 		end
-		if (math.fmod(get_arg(ARG_ALL_TIME_SECONDS), 2) > 1) then
+		if (math.fmod(get_time('seconds'), 2) > 1) then
 			billboard('smoke.png', 50, v(0,1,0), { v(-150,405.5,0), v(-175,405.5,0), v(-200,405.5,0) })
 		else
 			billboard('smoke.png', 50, v(0,1,0), { v(150,405.5,0), v(175,405.5,0), v(200,405.5,0) })
@@ -1224,10 +1224,10 @@ define_model('hoop_spacestation', {
 			local textpos = v(0,400,-80)
 			use_material('text')
 			zbias(1, textpos, v(0,1,0))
-			text(get_arg_string(ARGSTR_ALL_LABEL), textpos, v(0,1,0), v(1,0,0), 11.0, {center=true})
+			text(get_label(), textpos, v(0,1,0), v(1,0,0), 11.0, {center=true})
 			zbias(0)
 		end
-		if (math.fmod(get_arg(ARG_ALL_TIME_SECONDS), 2) > 1) then
+		if (math.fmod(get_time('seconds'), 2) > 1) then
 			billboard('smoke.png', 50, v(0,1,0), { v(-150,405.5,0), v(-175,405.5,0), v(-200,405.5,0) })
 		else
 			billboard('smoke.png', 50, v(0,1,0), { v(150,405.5,0), v(175,405.5,0), v(200,405.5,0) })
@@ -1281,7 +1281,7 @@ define_model('basic_groundstation', {
 	end,
 	dynamic = function(lod)
 		-- light on tower
-		local lightphase = math.fmod(get_arg(ARG_ALL_TIME_SECONDS)+0.620486, 1)
+		local lightphase = math.fmod(get_time('seconds')+0.620486, 1)
 		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 88, -150) })
 	end
 })

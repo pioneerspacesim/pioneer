@@ -66,7 +66,7 @@ define_model('cobra1', {
 
 			if lod > 2 then
 				use_material('bot')
-				local factor = 0.05*math.pi*os.clock() -- get_arg(ARG_ALL_TIME_SECONDS) causes an asset error here.. strange!?!
+				local factor = 0.05*math.pi*os.clock() -- get_time('seconds') causes an asset error here.. strange!?!
 				call_model('scanner_+', v(0.013,3.3,5.641), v(math.cos(factor),0,math.sin(factor)), v(0,1,0),1.4)
 			end
 		end
@@ -76,9 +76,9 @@ define_model('cobra1', {
 
 		set_material('top', get_arg_material(0))
 		set_material('bot', get_arg_material(1))
-		set_material('engine_inside', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.5, {0, 0, 0, 1, 0, 0, 0, 10, .6, .9, 1 }, {0, 0, 0, 1, 0, 0, 0, 10, 1, 0, 1 }))
+		set_material('engine_inside', lerp_materials(get_time('seconds')*.5, {0, 0, 0, 1, 0, 0, 0, 10, .6, .9, 1 }, {0, 0, 0, 1, 0, 0, 0, 10, 1, 0, 1 }))
 		if lod > 2 then
-			local reg = get_arg_string(ARGSTR_ALL_LABEL)
+			local reg = get_label()
 			use_material('text')
 			zbias(1,v(13.26,.5,4), v(.67,1,0))
 			text(reg,v(13.26,.5,4), v(.67,1,0), v(0,0,-1),1.2, {center = true})
@@ -90,7 +90,7 @@ define_model('cobra1', {
 		if get_arg(ARG_SHIP_WHEEL_STATE) == 0 then
 			if lod > 2 then
 				-- posl
-				local lightphase = math.fmod(get_arg(ARG_ALL_TIME_SECONDS), 1)
+				local lightphase = math.fmod(get_time('seconds'), 1)
 				if lightphase < .4 then
 					billboard('smoke.png', 5, v(1,0.8,0), { v(0, -0.8, -7) })
 				elseif lightphase  > .4 then
@@ -116,7 +116,7 @@ define_model('cobra1', {
 
 			if lod > 2 then
 				-- posl
-				local lightphase = math.fmod(get_arg(ARG_ALL_TIME_SECONDS), 1)
+				local lightphase = math.fmod(get_time('seconds'), 1)
 				if lightphase < .4 then
 					billboard('smoke.png', 5, v(1,1,1), { v(0, -0.8, -7) })
 				elseif lightphase  > .4 then

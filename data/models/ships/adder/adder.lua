@@ -289,11 +289,11 @@ define_model('adder_sub', {
 
 	dynamic = function(lod)
 
-		set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.5,{0, 0, 0, 1, 0, 0, 0, 0, .9, 1.4, 1.5 },
+		set_material('e_glow', lerp_materials(get_time('seconds')*.5,{0, 0, 0, 1, 0, 0, 0, 0, .9, 1.4, 1.5 },
 		{0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.7 }))
 
 		if get_arg(ARG_SHIP_EQUIP_SCOOP) == Equip.FUEL_SCOOP then
-			set_material('scoop', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.5,{0, 0, 0, 1, 0, 0, 0, 0, .9, 1.4, 1.5 },
+			set_material('scoop', lerp_materials(get_time('seconds')*.5,{0, 0, 0, 1, 0, 0, 0, 0, .9, 1.4, 1.5 },
 			{0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.7 }))
 		else
 			set_material('scoop', .1,.1,.1,1,0,0,0,1)
@@ -395,7 +395,7 @@ define_model('adder_sub', {
 		local v50 = v(-7.896,-1.072,4.374)
 		local v51 = v(-7.856,-1.072,-4.212)
 
-		local textrans = get_arg(ARG_ALL_TIME_SECONDS)*.1
+		local textrans = get_time('seconds')*.1
 
 		use_material('glow1')
 		if lod > 2 then
@@ -476,7 +476,7 @@ define_model('adder_sub', {
 
 
 
-			local reg = get_arg_string(ARGSTR_ALL_LABEL)
+			local reg = get_label()
 			use_material('text')
 			zbias(1,v(-8.439,.8,-11.2),v(-1,.7945,0))
 			text(reg,v(-8.439,.8,-11.2),v(-1,.7945,0),v(0,0,1),.8, {center = true})

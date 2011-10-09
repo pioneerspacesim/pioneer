@@ -287,12 +287,12 @@ define_model('ladybird', {
 	dynamic = function(lod)
 		set_material('matvar0', get_arg_material(0))
 		set_material('matvar2', get_arg_material(2))
-		set_material('engine_inside', lerp_materials(get_arg(ARG_ALL_TIME_MINUTES)*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
+		set_material('engine_inside', lerp_materials(get_time('minutes')*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
 		{0, 0, 0, 1, 0, 0, 0, 10, 0, 0, .5 }))
 		set_material('text', 0,0,0,1,0.3,0.3,0.3,5)
 		if lod > 1 then
 			use_material('text')
-			local label = get_arg_string(ARGSTR_ALL_LABEL)
+			local label = get_label()
 			zbias(1,v(8.9,3.6,.07),v(1.8,1,1))
 			text(label,v(8.9,3.6,.07),v(1.8,1,1),v(-.25,0,-1),1.5, {center=true})
 			zbias(1,v(-8.9,3.6,.07),v(1.8,1,1))
@@ -484,7 +484,7 @@ define_model('walrus', {
 		set_material('text', .2,.2,.2,1)
 		use_material('text')
 		if lod > 1 then
-			local reg = get_arg_string(ARGSTR_ALL_LABEL)
+			local reg = get_label()
 			zbias(1, v16, v54)
 			text(reg, v16, v54, v(0,0,-1), 10.0, {xoffset=1, yoffset=.3})
 			zbias(1, v10, v55)
@@ -615,7 +615,7 @@ define_model('flowerfairy', {
 	end,
 	dynamic = function(lod)
 		set_material('matvar0', get_arg_material(0))
-		set_material('engine_inside', lerp_materials(get_arg(ARG_ALL_TIME_MINUTES)*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
+		set_material('engine_inside', lerp_materials(get_time('minutes')*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
 		{0, 0, 0, 1, 0, 0, 0, 10, 0, 0, .5 }))
 		-- 34, gear pos
 		local v34 = v(-5.0, -8.0, -13.0)
@@ -629,7 +629,7 @@ define_model('flowerfairy', {
 		if lod > 1 then
 			local leftText = v(-10.0, 0, -6.4)
 			local rightText = v(10.0, 0, -6.4)
-			local reg = get_arg_string(ARGSTR_ALL_LABEL)
+			local reg = get_label()
 			use_material('text')
 			zbias(1, leftText, v(-1,0,0))
 			text(reg, leftText, v(-1,0,0), v(0,0,1), 4, {center=true})
@@ -958,10 +958,10 @@ define_model('interdictor', {
 
 		set_material('matvar0', get_arg_material(0))
 		set_material('matvar2', get_arg_material(2))
-		set_material('engine_inside', lerp_materials(get_arg(ARG_ALL_TIME_MINUTES)*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
+		set_material('engine_inside', lerp_materials(get_time('minutes')*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
 		{0, 0, 0, 1, 0, 0, 0, 10, 0, 0, .5 }))
 		if lod > 1 then
-			local shipname = get_arg_string(ARGSTR_ALL_LABEL)
+			local shipname = get_label()
 			use_material('text')
 			zbias(1, v98, v95)
 			text(shipname, v98, v95, v(0,0,1), 2.5, {center=true, yoffset=0.7})
@@ -972,7 +972,7 @@ define_model('interdictor', {
 
 		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
 			-- lights on wingtips
-			local lightphase = math.fmod(get_arg(ARG_ALL_TIME_SECONDS), 1)
+			local lightphase = math.fmod(get_time('seconds'), 1)
 			if lightphase > .9 then
 				billboard('smoke.png', 10, v(1,1,1), { v(-14.1, 0, 12) })
 			elseif lightphase > .8 then

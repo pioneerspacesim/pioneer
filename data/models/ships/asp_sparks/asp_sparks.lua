@@ -393,11 +393,11 @@ define_model('asp_sparks', {
 		local rot = .5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.3,1)-.46
 
 		if lod > 1 then
-			set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
+			set_material('e_glow', lerp_materials(get_time('seconds')*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
 			{0, 0, 0, 1, 0, 0, 0, 1, 1, 2.5, 2.5 }))
 
 			if get_arg(ARG_SHIP_EQUIP_SCOOP) == Equip.FUEL_SCOOP then
-				set_material('scoop', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
+				set_material('scoop', lerp_materials(get_time('seconds')*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
 				{0, 0, 0, 1, 0, 0, 0, 1, 1, 2.5, 2.5 }))
 			else
 				set_material('scoop', .15,.16,.18,1,.22,.25,.25,10)
@@ -407,7 +407,7 @@ define_model('asp_sparks', {
 			--use_material('text')
 			if lod > 3 then
 				call_model('squad_color',v(0,0,0),v(1,0,0),v(0,1,0),1)
-				local reg = get_arg_string(ARGSTR_ALL_LABEL)
+				local reg = get_label()
 				zbias(1,v(1.764,.448,.453),v(.2,1,0))
 				text(reg,v(1.764,.448,.453),v(.2,1,0),v(-1,.37,-1),.2,{center = true})
 				zbias(1,v(-1.89,-.282,.75),v(-.4,-1,0))

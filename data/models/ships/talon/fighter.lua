@@ -338,12 +338,12 @@ define_model('fi', {
 			end
 
 			if get_arg(ARG_SHIP_EQUIP_ENGINE) > 0 then
-				set_material('glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.25, {0, 0, 0, 1, 0, 0, 0, 0, 1.7, 2.2, 2.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .1, .2, 0.5 }))
+				set_material('glow', lerp_materials(get_time('seconds')*0.25, {0, 0, 0, 1, 0, 0, 0, 0, 1.7, 2.2, 2.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .1, .2, 0.5 }))
 			else
 				set_material('glow', .03,.03,.03,1,.65,.68,.72,10)
 			end
 
-			local reg = get_arg_string(ARGSTR_ALL_LABEL)
+			local reg = get_label()
 			use_material('text1')
 			--zbias(1, v(-5,0.516,0.877), v(0,0.25,1))
 			--text(reg, v(-1,0.63,1.877), v(0,1,0), v(0,0,1), .5, {center=true})

@@ -245,9 +245,9 @@ define_model('tombstone', {
 		local v17 = v(0, 0.5, 0.1)
 		use_material('text')
 		zbias(1, v16, v(0,0,-1))
-		text(get_arg_string(ARGSTR_ALL_LABEL), v16, v(0,0,-1), v(-1,0,0), .1, {center=true})
+		text(get_label(), v16, v(0,0,-1), v(-1,0,0), .1, {center=true})
 		zbias(1, v17, v(0,0,1))
-		text(get_arg_string(ARGSTR_ALL_LABEL), v17, v(0,0,1), v(1,0,0), .1, {center=true})
+		text(get_label(), v17, v(0,0,1), v(1,0,0), .1, {center=true})
 		zbias(0)
 	end
 })
@@ -279,7 +279,7 @@ define_model('cargo', {
 			local textpos = v(0,1,0)
 			use_material('text')
 			zbias(1, textpos, v(0,1,0))
-			text(get_arg_string(ARGSTR_ALL_LABEL), textpos, v(0,1,0), v(1,0,0), 0.1, {center=true})
+			text(get_label(), textpos, v(0,1,0), v(1,0,0), 0.1, {center=true})
 		end
 	end
 })

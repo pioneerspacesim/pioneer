@@ -118,7 +118,7 @@ define_model('lub_body', {
 	end,
 
 	dynamic = function(lod)
-		local reg = get_arg_string(ARGSTR_ALL_LABEL)
+		local reg = get_label()
 		--local select2 = 10
 		selector2()
 		if select2 < 15 then  -- plain color variable
@@ -558,8 +558,8 @@ define_model('lanner_ub', {
 		end
 	end,
 	dynamic = function(lod)
-		set_material('glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.3, {0, 0, 0, 1, 0, 0, 0, 0, 1.6, 1.9, 0 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, 2.5,0 }))
-		set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
+		set_material('glow', lerp_materials(get_time('seconds')*0.3, {0, 0, 0, 1, 0, 0, 0, 0, 1.6, 1.9, 0 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, 2.5,0 }))
+		set_material('e_glow', lerp_materials(get_time('seconds')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
 
 		local flap = 1.25*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, 0.4)
 		local flap_f = 0.5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, 1)

@@ -172,7 +172,7 @@ define_model('boa', {
 		if lod > 1 then
 			set_material('body', get_arg_material(0))
 			set_material('wing', get_arg_material(1))
-			set_material('glow', lerp_materials(get_arg(ARG_ALL_TIME_HOURS)*.1,	{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1.5 },
+			set_material('glow', lerp_materials(get_time('hours')*.1,	{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1.5 },
 			{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1 }))
 
 			use_material('darksteel')
@@ -180,7 +180,7 @@ define_model('boa', {
 			if lod > 2 then
 
 				set_material('text1', .45,.45,.45,1,.1,.1,.1,10)
-				local reg = get_arg_string(ARGSTR_ALL_LABEL)
+				local reg = get_label()
 				texture('models/ships/boa/fade.png')
 				use_material('wing')
 				--zbias(1, v(0, -1.127, 18.783), v(0,0.25,1))
