@@ -79,7 +79,7 @@ public:
 
 	}
 	~BufferObjectPool() {
-		for (int i=0; i<m_bos.size(); i++) delete m_bos[i];
+		for (int i=0; i < int(m_bos.size()); i++) delete m_bos[i];
 	}
 
 	void AddGeometry(int numVertices, void *vtxData, int numIndices, Uint16 *idxData,

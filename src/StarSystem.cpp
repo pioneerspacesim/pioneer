@@ -1922,20 +1922,19 @@ StarSystem *StarSystem::Unserialize(Serializer::Reader &rd)
 	}
 }
 
-static std::map<SystemPath,StarSystem*> s_cachedSystems;
+typedef std::map<SystemPath,StarSystem*> SystemCacheMap;
+static SystemCacheMap s_cachedSystems;
 
 StarSystem *StarSystem::GetCached(const SystemPath &path)
 {
 	StarSystem *s = 0;
 
-	for (std::map<SystemPath,StarSystem*>::iterator i = s_cachedSystems.begin(); i != s_cachedSystems.end(); i++) {
-		if ((*i).first == path)
-			s = (*i).second;
-	}
-
-	if (!s) {
+	SystemCacheMap::const_iterator it = s_cachedSystems.find(path);
+	if (it != s_cachedSystems.end()) {
+		s = it->second;
+	} else {
 		s = new StarSystem(path);
-		s_cachedSystems.insert( std::pair<SystemPath,StarSystem*>(path, s) );
+		s_cachedSystems.insert( SystemCacheMap::value_type(path, s) );
 	}
 
 	s->IncRefCount();

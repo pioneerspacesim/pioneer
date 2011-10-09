@@ -69,7 +69,7 @@ void pi_lua_protected_call(lua_State* L, int nargs, int nresults) {
 	}
 }
 
-void pi_lua_dofile_recursive(lua_State *l, std::string basepath)
+void pi_lua_dofile_recursive(lua_State *l, const std::string &basepath)
 {
 	DIR *dir;
 	struct dirent *entry;

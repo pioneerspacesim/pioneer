@@ -95,6 +95,8 @@ public:
 			innerbox->Add(l, 660, ypos);
 
 			ypos += YSEP*3;
+
+			s->Release();
 		}
 		Add(portal, 20, 20 + YSEP*3);
 		Add(scroll, 780, 20 + YSEP*3);

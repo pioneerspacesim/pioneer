@@ -582,6 +582,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			formatarg("x", dest->sectorX),
 			formatarg("y", dest->sectorY),
 			formatarg("z", dest->sectorZ)));
+		s->Release();
 		m_hudVelocity->Show();
 
 		m_hudTargetDist->Hide();

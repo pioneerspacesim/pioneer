@@ -25,7 +25,7 @@ void BVHTree::MakeLeaf(BVHNode *node, const objPtr_t *objPtrs, std::vector<objPt
 	if (numTris <= 0) Error("MakeLeaf called with no elements in objs.");
 
 	if (numTris > m_objPtrAllocMax - m_objPtrAllocPos) {
-		Error("Out of space in m_objPtrAlloc. Left: %u; required: %u.", m_objPtrAllocMax - m_objPtrAllocPos, numTris);
+		Error("Out of space in m_objPtrAlloc. Left: %lu; required: %lu.", m_objPtrAllocMax - m_objPtrAllocPos, numTris);
 	}
 
 	node->numTris = numTris;

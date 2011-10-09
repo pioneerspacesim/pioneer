@@ -7,12 +7,12 @@ Alpha 16
     * New assassination missions appear more often (#634)
 
   * Fixes
-    * Fix various memory leaks
 	* Optimise trade ship cargo management (#632)
   
   * Script changes
 
   * Internal changes
+    * Lots of cleanups, leaks fixed and general code improvements (#635)
     * Improve terrain generation performance
     * Run Lua timers from the physics loop, which should help to make frame
       times a little more consistent
