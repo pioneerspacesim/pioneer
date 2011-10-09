@@ -3479,6 +3479,70 @@ namespace ModelFuncs {
 		return 1;
 	}
 
+
+	/*
+	 * Function: get_time
+	 *
+	 * Get the game time. Use this to run continuous animations.
+	 * For example, blinking lights, rotating radar dishes and church tower
+	 * clock hands.
+	 *
+	 * > local seconds, minutes, hours, days = get_time()
+	 * > local seconds = get_time()
+	 * > local seconds = get_time('seconds')
+	 * > local minutes = get_time('minutes')
+	 * > local hours = get_time('hours')
+	 * > local days = get_time('days')
+	 *
+	 * Parameters:
+	 *
+	 *   units - optional. If specified, there will be one return value, in
+	 *           the specified units. Otherwise, all four units are returned.
+	 *           available units are: 'seconds', 'minutes', 'hours', 'days'
+	 *
+	 * Example:
+	 *
+	 * > local seconds = get_time('seconds')
+	 *
+	 * Availability:
+	 *
+	 *   not yet
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
+	static int get_time(lua_State *L)
+	{
+		assert(s_curParams != 0);
+		int nparams = lua_gettop(L);
+		if (nparams == 0) {
+			lua_pushnumber(L, s_curParams->argDoubles[1]);
+			lua_pushnumber(L, s_curParams->argDoubles[2]);
+			lua_pushnumber(L, s_curParams->argDoubles[3]);
+			lua_pushnumber(L, s_curParams->argDoubles[4]);
+			return 4;
+		} else if (nparams == 1) {
+			const char *units = luaL_checkstring(L, 1);
+			if (strcmp(units, "seconds") == 0)
+				lua_pushnumber(L, s_curParams->argDoubles[1]);
+			else if (strcmp(units, "minutes") == 0)
+				lua_pushnumber(L, s_curParams->argDoubles[2]);
+			else if (strcmp(units, "hours") == 0)
+				lua_pushnumber(L, s_curParams->argDoubles[3]);
+			else if (strcmp(units, "days") == 0)
+				lua_pushnumber(L, s_curParams->argDoubles[4]);
+			else
+				return luaL_error(L,
+					"Unknown unit type '%s' specified for get_time "
+					"(expected 'seconds', 'minutes', 'hours' or 'days').", units);
+			return 1;
+		} else {
+			return luaL_error(L, "Expected 0 or 1 parameters, but got %d.", nparams);
+		}
+	}
+
 	/*
 	 * Function: get_arg_string
 	 *
@@ -3516,6 +3580,43 @@ namespace ModelFuncs {
 		int i = luaL_checkinteger(L, 1);
 		if (s_curParams->argStrings[i])
 			lua_pushstring(L, s_curParams->argStrings[i]);
+		else
+			lua_pushstring(L, "");
+		return 1;
+	}
+
+	/*
+	 * Function: get_label
+	 *
+	 * Return the main label string to display on an object.
+	 * For ships this is the registration ID, for stations it's the
+	 * station name, for cargo pods it's the contents.
+	 *
+	 * > local label = get_label()
+	 *
+	 * Returns:
+	 *
+	 *   label - the main string to display on the object
+	 *
+	 * Example:
+	 *
+	 * > local regid = get_label()
+	 * > text(regid, v(0,0,0), v(0,0,1), v(1,0,0), 10.0)
+	 *
+	 * Availability:
+	 *
+	 *   not yet
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
+	static int get_label(lua_State *L)
+	{
+		assert(s_curParams != 0);
+		if (s_curParams->argStrings[0])
+			lua_pushstring(L, s_curParams->argStrings[0]);
 		else
 			lua_pushstring(L, "");
 		return 1;
@@ -4252,7 +4353,9 @@ void LmrModelCompilerInit()
 	lua_register(L, "thruster", ModelFuncs::thruster);
 	lua_register(L, "xref_thruster", ModelFuncs::xref_thruster);
 	lua_register(L, "get_arg", ModelFuncs::get_arg);
+	lua_register(L, "get_time", ModelFuncs::get_time);
 	lua_register(L, "get_arg_string", ModelFuncs::get_arg_string);
+	lua_register(L, "get_label", ModelFuncs::get_label);
 	lua_register(L, "flat", ModelFuncs::flat);
 	lua_register(L, "xref_flat", ModelFuncs::xref_flat);
 	lua_register(L, "billboard", ModelFuncs::billboard);
