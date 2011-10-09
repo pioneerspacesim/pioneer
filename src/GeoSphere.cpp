@@ -375,7 +375,6 @@ public:
 		geosphere->AddVBOToDestroy(m_vbo);
 
 		ctx->DecRefCount();
-		if (ctx->GetRefCount() == 0) delete ctx;
 	}
 
 	void UpdateVBOs() {
@@ -1092,9 +1091,8 @@ void GeoSphere::Uninit()
 	SDL_WaitThread(s_updateThread, 0);
 #endif /* GEOSPHERE_USE_THREADING */
 	
+	assert (s_patchContext->GetRefCount() == 1);
 	s_patchContext->DecRefCount();
-	assert (s_patchContext->GetRefCount() == 0);
-	if (s_patchContext->GetRefCount() == 0) delete s_patchContext;
 
 	SDL_DestroyMutex(s_geosphereUpdateQueueLock);
 	for (int i=0; i<4; i++) delete s_geosphereDimStarShader[i];
@@ -1116,8 +1114,6 @@ static void print_info(const SBody *sbody, const Terrain *terrain)
 void GeoSphere::OnChangeDetailLevel()
 {
 	s_patchContext->DecRefCount();
-	if (s_patchContext->GetRefCount() == 0) delete s_patchContext;
-
 	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
 	s_patchContext->IncRefCount();

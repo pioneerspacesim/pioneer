@@ -2038,9 +2038,11 @@ StarSystem *StarSystem::GetCached(const SystemPath &path)
 		s = it->second;
 	} else {
 		s = new StarSystem(sysPath);
+		s->IncRefCount(); // the cache owns one reference
 		s_cachedSystems.insert( SystemCacheMap::value_type(sysPath, s) );
 	}
 
+	// bump up the ref count so that the caller doesn't have to
 	s->IncRefCount();
 	return s;
 }
@@ -2050,7 +2052,8 @@ void StarSystem::ShrinkCache()
 	std::map<SystemPath,StarSystem*>::iterator i = s_cachedSystems.begin();
 	while (i != s_cachedSystems.end()) {
 		StarSystem *s = (*i).second;
-		if (s->GetRefCount() == 0) {
+		// if the cache is the only owner, then delete it
+		if (s->GetRefCount() <= 1) {
 			delete s;
 			s_cachedSystems.erase(i++);
 		}
