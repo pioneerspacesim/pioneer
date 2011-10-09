@@ -26,7 +26,8 @@ static float g_frameTime;
 static LmrObjParams params = {
 	0.0, // time
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // argDoubles
-	{ "IR-L33T", "ME TOO" }, // argStrings
+	"IR-L33T", // label
+	{ 0, "ME TOO" }, // argStrings
 	{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 
 	{	// pColor[3]

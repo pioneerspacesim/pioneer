@@ -787,7 +787,7 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 	params.argStrings[5] = s_advertModels[rand.Int32(s_advertModels.size())]->GetName();
 	params.argStrings[6] = s_advertModels[rand.Int32(s_advertModels.size())]->GetName();
 	params.argStrings[7] = s_advertModels[rand.Int32(s_advertModels.size())]->GetName();
-	params.argStrings[0] = GetLabel().c_str();
+	params.label = GetLabel().c_str();
 	SetLmrTimeParams();
 
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {

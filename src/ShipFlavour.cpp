@@ -63,7 +63,7 @@ void ShipFlavour::MakeTrulyRandom(ShipFlavour &v)
 
 void ShipFlavour::ApplyTo(LmrObjParams *p) const
 {
-	p->argStrings[0] = regid;
+	p->label = regid;
 	p->pMat[0] = primaryColor;
 	p->pMat[1] = secondaryColor;
 	p->pMat[2] = s_white;

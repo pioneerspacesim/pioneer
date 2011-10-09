@@ -3587,10 +3587,12 @@ namespace ModelFuncs {
 	{
 		assert(s_curParams != 0);
 		int i = luaL_checkinteger(L, 1);
-		if (s_curParams->argStrings[i])
-			lua_pushstring(L, s_curParams->argStrings[i]);
-		else
-			lua_pushstring(L, "");
+		const char *str = 0;
+		switch (i) {
+			case 0: str = s_curParams->label; break;
+			default: str = s_curParams->argStrings[i]; break;
+		}
+		lua_pushstring(L, str ? str : "");
 		return 1;
 	}
 
@@ -3624,10 +3626,7 @@ namespace ModelFuncs {
 	static int get_label(lua_State *L)
 	{
 		assert(s_curParams != 0);
-		if (s_curParams->argStrings[0])
-			lua_pushstring(L, s_curParams->argStrings[0]);
-		else
-			lua_pushstring(L, "");
+		lua_pushstring(L, s_curParams->label ? s_curParams->label : "");
 		return 1;
 	}
 

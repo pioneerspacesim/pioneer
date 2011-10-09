@@ -845,7 +845,8 @@ static void draw_intro(Background::Starfield *starfield, Background::MilkyWay *m
 	LmrObjParams params = {
 		0.0, // time
 		{ }, // argDoubles
-		{ Lang::PIONEER }, // argStrings
+		Lang::PIONEER, // label
+		{ }, // argStrings
 		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
 		{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
@@ -889,7 +890,8 @@ static void draw_tombstone(float _time)
 	LmrObjParams params = {
 		0.0, // time
 		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // argDoubles
-		{ Lang::TOMBSTONE_EPITAPH }, // argStrings
+		Lang::TOMBSTONE_EPITAPH, // label
+		{ }, // argStrings
 		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
 		{ { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
