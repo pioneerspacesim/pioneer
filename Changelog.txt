@@ -4,7 +4,7 @@ Alpha 16
     * Spanish translation (#628)
 
   * Minor changes and tweaks
-    * New assassination missions appear more often (#634)
+    * New assassination missions appear less often (#634)
 
   * Fixes
 	* Optimise trade ship cargo management (#632)
