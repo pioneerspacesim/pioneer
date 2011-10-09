@@ -3,6 +3,12 @@
 #include "GuiISelectable.h"
 
 namespace Gui {
+RadioGroup::~RadioGroup()
+{
+	std::list<ISelectable*>::iterator i;
+	for (i=m_members.begin(); i!=m_members.end(); ++i) delete (*i);
+}
+
 void RadioGroup::Add(ISelectable *b)
 {
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(*this, &RadioGroup::OnSelected), b));
