@@ -389,6 +389,7 @@ void Uninit()
 	delete planetRingsShader[1];
 	delete planetRingsShader[2];
 	delete planetRingsShader[3];
+	FreeLibs();
 }
 
 bool IsHDREnabled() { return shadersEnabled && hdrEnabled; }

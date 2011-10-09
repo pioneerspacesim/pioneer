@@ -308,6 +308,12 @@ MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(144, 17)
 
 	ShowAll();
 }
+
+MultiFuncSelectorWidget::~MultiFuncSelectorWidget()
+{
+	delete m_rg;
+}
+
 void MultiFuncSelectorWidget::OnClickButton(multifuncfunc_t f)
 {
 	m_active = int(f);

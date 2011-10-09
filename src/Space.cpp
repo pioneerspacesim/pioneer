@@ -39,6 +39,11 @@ void Init()
 	rootFrame->SetRadius(FLT_MAX);
 }
 
+void Uninit()
+{
+	delete rootFrame;
+}
+
 void Clear()
 {
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {

@@ -604,6 +604,10 @@ void Pi::Quit()
 	delete Pi::luaConsole;
 	delete rocketManager;
 	Sound::Uninit();
+	SpaceStation::Uninit();
+	Space::Uninit();
+	CityOnPlanet::Uninit();
+	GeoSphere::Uninit();
 	LmrModelCompilerUninit();
 	TextureManager::Clear();
 	Render::Uninit();

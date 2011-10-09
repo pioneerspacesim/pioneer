@@ -462,7 +462,7 @@ void Uninit ()
 {
 	DestroyAllEvents();
 	std::map<std::string, Sample>::iterator i;
-	for (i=sfx_samples.begin(); i!=sfx_samples.end(); ++i) delete (*i).second.buf;
+	for (i=sfx_samples.begin(); i!=sfx_samples.end(); ++i) delete[] (*i).second.buf;
 	SDL_CloseAudio ();
 }
 

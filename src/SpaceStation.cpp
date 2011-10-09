@@ -200,6 +200,19 @@ void SpaceStation::Init()
 	printf("%lu orbital station types and %lu surface station types.\n", orbitalStationTypes.size(), surfaceStationTypes.size());
 }
 
+void SpaceStation::Uninit()
+{
+	std::vector<SpaceStationType>::iterator i;
+	for (i=surfaceStationTypes.begin(); i!=surfaceStationTypes.end(); ++i) {
+		delete[] (*i).dockAnimStageDuration;
+		delete[] (*i).undockAnimStageDuration;
+	}
+	for (i=orbitalStationTypes.begin(); i!=orbitalStationTypes.end(); ++i) {
+		delete[] (*i).dockAnimStageDuration;
+		delete[] (*i).undockAnimStageDuration;
+	}
+}
+
 float SpaceStation::GetDesiredAngVel() const
 {
 	return m_type->angVel;
