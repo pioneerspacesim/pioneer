@@ -604,6 +604,7 @@ void Pi::Quit()
 	GeoSphere::Uninit();
 	LmrModelCompilerUninit();
 	TextureManager::Clear();
+	Galaxy::Uninit();
 	Render::Uninit();
 	LuaUninit();
 	Gui::Uninit();
