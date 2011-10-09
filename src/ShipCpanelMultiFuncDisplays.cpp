@@ -311,7 +311,7 @@ MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(144, 17)
 
 MultiFuncSelectorWidget::~MultiFuncSelectorWidget()
 {
-    delete m_rg;
+	delete m_rg;
 }
 
 void MultiFuncSelectorWidget::OnClickButton(multifuncfunc_t f)

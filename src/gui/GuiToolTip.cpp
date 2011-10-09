@@ -21,7 +21,7 @@ ToolTip::ToolTip(std::string &text)
 
 ToolTip::~ToolTip()
 {
-    delete m_layout;
+	delete m_layout;
 }
 
 void ToolTip::CalcSize()

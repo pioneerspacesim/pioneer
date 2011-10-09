@@ -115,7 +115,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 	comms_button->AddState(0, PIONEER_DATA_DIR "/icons/comms_f4.png", PIONEER_DATA_DIR "/icons/comms_f4_on.png", Lang::COMMS);
 	comms_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickComms));
 	Add(comms_button, 98, 56);
-    m_leftButtons1 = g;
+	m_leftButtons1 = g;
 
 	m_clock = (new Gui::Label(""))->Color(1.0f,0.7f,0.0f);
 	Add(m_clock, 4, 18);
@@ -147,7 +147,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 	Add(b, 770, 56);
 	m_mapViewButtons[3] = b;
 
-    m_leftButtons2 = g;
+	m_leftButtons2 = g;
 
 	img = new Gui::Image(PIONEER_DATA_DIR "/icons/alert_green.png");
 	img->SetToolTip(Lang::NO_ALERT);
@@ -171,13 +171,13 @@ ShipCpanel::~ShipCpanel()
 	Remove(m_scanner);
 	Remove(m_useEquipWidget);
 	Remove(m_msglog);
-    Remove(m_mfsel);
+	Remove(m_mfsel);
 	delete m_scanner;
 	delete m_useEquipWidget;
 	delete m_msglog;
-    delete m_mfsel;
-    delete m_leftButtons1;
-    delete m_leftButtons2;
+	delete m_mfsel;
+	delete m_leftButtons1;
+	delete m_leftButtons2;
 	m_connOnDockingClearanceExpired.disconnect();
 }
 
