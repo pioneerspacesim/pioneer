@@ -343,7 +343,7 @@ define_model('fi', {
 				set_material('glow', .03,.03,.03,1,.65,.68,.72,10)
 			end
 
-			local reg = get_arg_string(0)
+			local reg = get_arg_string(ARGSTR_ALL_LABEL)
 			use_material('text1')
 			--zbias(1, v(-5,0.516,0.877), v(0,0.25,1))
 			--text(reg, v(-1,0.63,1.877), v(0,1,0), v(0,0,1), .5, {center=true})

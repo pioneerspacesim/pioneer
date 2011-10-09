@@ -962,7 +962,7 @@ define_model('eagle_all', {
 		if lod > 1 then
 			local vTXT1 = v(19,2.759,12)
 			local vTXT2 = v(-19,-2.759,12)
-			local reg = get_arg_string(0)
+			local reg = get_arg_string(ARGSTR_ALL_LABEL)
 			use_material('text')
 			zbias(1,v(19,2.759,12),v(0,1,.0105))
 			text(reg, vTXT1, v(0,1,.0105), v(1,-.1604,-.5), 5, {center = true})

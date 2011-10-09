@@ -68,7 +68,7 @@ define_model('eye_0', {
 		if lod > 1 then
 			texture(nil)
 			use_material('text')
-			local reg = get_arg_string(0)
+			local reg = get_arg_string(ARGSTR_ALL_LABEL)
 			zbias(1,v(15.9431,6.2,0), v(1,.19891,0))
 			text(reg, v(15.9431,6.2,0), v(1,.19891,0), v(0,0,-1), 1.3, {center=true})
 			zbias(1,v(-15.9431,6.2,0), v(-1,.19891,0))

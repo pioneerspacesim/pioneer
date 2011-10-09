@@ -176,7 +176,7 @@ define_model('spacestation_entry1_stage3', {
 			use_material('text')
 			zbias(1, v(0,200,0), v(0,-1,0))
 			-- starport name
-			text(get_arg_string(0), v(60,200,-35), v(0,-1,0), v(-1,0,0), 5.0, {center=true})
+			text(get_arg_string(ARGSTR_ALL_LABEL), v(60,200,-35), v(0,-1,0), v(-1,0,0), 5.0, {center=true})
 			-- docking bay number
 			text("DOCKING BAY 1", v(-60,200,-35), v(0,-1,0), v(-1,0,0), 7.0, {center=true})
 			zbias(0)
@@ -885,8 +885,8 @@ define_model('big_crappy_spacestation', {
 			local textpos = v(0,500,-115) --0,500,-110
 			use_material('text')
 			zbias(1, textpos, v(0,100,0))
-			text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 10.0, {center=true})
-			--text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 10.0, {center=true})
+			text(get_arg_string(ARGSTR_ALL_LABEL), textpos, v(0,1,0), v(1,0,0), 10.0, {center=true})
+			--text(get_arg_string(ARGSTR_ALL_LABEL), textpos, v(0,1,0), v(1,0,0), 10.0, {center=true})
 			local textpos = v(0,-500,-10) --0,500,-110
 			use_material('text')
 			zbias(1, textpos, v(0,100,0))
@@ -1069,7 +1069,7 @@ define_model('nice_spacestation', {
 			local textpos = v(0,400,-80)
 			use_material('text')
 			zbias(1, textpos, v(0,1,0))
-			text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 11, {center=true})
+			text(get_arg_string(ARGSTR_ALL_LABEL), textpos, v(0,1,0), v(1,0,0), 11, {center=true})
 			zbias(0)
 			call_model('ad_acme_2', v(0,-400.1,20), v(-1,0,0), v(0,0,-1), 40.0)
 		end
@@ -1224,7 +1224,7 @@ define_model('hoop_spacestation', {
 			local textpos = v(0,400,-80)
 			use_material('text')
 			zbias(1, textpos, v(0,1,0))
-			text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 11.0, {center=true})
+			text(get_arg_string(ARGSTR_ALL_LABEL), textpos, v(0,1,0), v(1,0,0), 11.0, {center=true})
 			zbias(0)
 		end
 		if (math.fmod(get_arg(ARG_ALL_TIME_SECONDS), 2) > 1) then

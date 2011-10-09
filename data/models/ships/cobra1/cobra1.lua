@@ -78,7 +78,7 @@ define_model('cobra1', {
 		set_material('bot', get_arg_material(1))
 		set_material('engine_inside', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.5, {0, 0, 0, 1, 0, 0, 0, 10, .6, .9, 1 }, {0, 0, 0, 1, 0, 0, 0, 10, 1, 0, 1 }))
 		if lod > 2 then
-			local reg = get_arg_string(0)
+			local reg = get_arg_string(ARGSTR_ALL_LABEL)
 			use_material('text')
 			zbias(1,v(13.26,.5,4), v(.67,1,0))
 			text(reg,v(13.26,.5,4), v(.67,1,0), v(0,0,-1),1.2, {center = true})

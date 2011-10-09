@@ -294,7 +294,7 @@ define_model('rattle', {
 		if lod > 1 then
 			-- labels
 			use_material('text')
-			local reg = get_arg_string(0)
+			local reg = get_arg_string(ARGSTR_ALL_LABEL)
 			zbias(1, v(18,.693,3),v(0,1,-.57693))
 			text(reg,v(18,.693,3),v(0,1,-.57693),v(-.5,0,-1),3, {center = true})
 			zbias(1, v(-18.5,-.578,3),v(0,-1,-.5769))

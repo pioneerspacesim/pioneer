@@ -407,7 +407,7 @@ define_model('asp_sparks', {
 			--use_material('text')
 			if lod > 3 then
 				call_model('squad_color',v(0,0,0),v(1,0,0),v(0,1,0),1)
-				local reg = get_arg_string(0)
+				local reg = get_arg_string(ARGSTR_ALL_LABEL)
 				zbias(1,v(1.764,.448,.453),v(.2,1,0))
 				text(reg,v(1.764,.448,.453),v(.2,1,0),v(-1,.37,-1),.2,{center = true})
 				zbias(1,v(-1.89,-.282,.75),v(-.4,-1,0))

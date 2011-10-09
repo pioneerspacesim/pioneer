@@ -290,7 +290,7 @@ define_model('courier_body', {    -- courier shell
 		if select2 < 34 then
 			use_material('courier')
 			call_model('courier_top_v1', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			local reg = get_arg_string(0)
+			local reg = get_arg_string(ARGSTR_ALL_LABEL)
 			set_material('text1', .45,.1,.15,1,.1,.1,.1,10)
 			set_material('text2', .15,.1,.55,1,.1,.1,.1,10)
 			use_material('text1')
@@ -305,7 +305,7 @@ define_model('courier_body', {    -- courier shell
 			if select2 < 67 then
 				use_material('courier')
 				call_model('courier_top_v2', v(0,0,0), v(1,0,0), v(0,1,0),1)
-				local reg = get_arg_string(0)
+				local reg = get_arg_string(ARGSTR_ALL_LABEL)
 				set_material('text1', .45,.1,.15,1,.1,.1,.1,10)
 				set_material('text2', .15,.1,.55,1,.1,.1,.1,10)
 				use_material('text1')
@@ -321,7 +321,7 @@ define_model('courier_body', {    -- courier shell
 					set_material('mercury', get_arg_material(0))
 					use_material('mercury')
 					call_model('courier_top_v2', v(0,0,0), v(1,0,0), v(0,1,0),1)
-					local reg = get_arg_string(0)
+					local reg = get_arg_string(ARGSTR_ALL_LABEL)
 					set_material('text1', .63,.7,.83,1,.2,.2,.2,10)
 					set_material('text2', .05,.05,.05,1,.3,.3,.3,10)
 					use_material('text1')
@@ -355,7 +355,7 @@ define_model('trader_body', {    --trader shell
 		if select2 < 34 then
 			use_material('courier')
 			call_model('trader_top_v1', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			local reg = get_arg_string(0)
+			local reg = get_arg_string(ARGSTR_ALL_LABEL)
 			set_material('text1', .45,.1,.15,1,.1,.1,.1,10)
 			set_material('text2', .15,.1,.55,1,.1,.1,.1,10)
 			use_material('text1')
@@ -370,7 +370,7 @@ define_model('trader_body', {    --trader shell
 			if select2 < 67 then
 				use_material('courier')
 				call_model('trader_top_v2', v(0,0,0), v(1,0,0), v(0,1,0),1)
-				local reg = get_arg_string(0)
+				local reg = get_arg_string(ARGSTR_ALL_LABEL)
 				set_material('text1', .45,.1,.15,1,.1,.1,.1,10)
 				set_material('text2', .15,.1,.55,1,.1,.1,.1,10)
 				use_material('text1')
@@ -386,7 +386,7 @@ define_model('trader_body', {    --trader shell
 					set_material('mercury', get_arg_material(0))
 					use_material('mercury')
 					call_model('trader_top_v2', v(0,0,0), v(1,0,0), v(0,1,0),1)
-					local reg = get_arg_string(0)
+					local reg = get_arg_string(ARGSTR_ALL_LABEL)
 					set_material('text1', .63,.7,.83,1,.2,.2,.2,10)
 					set_material('text2', .05,.05,.05,1,.3,.3,.3,10)
 					use_material('text1')

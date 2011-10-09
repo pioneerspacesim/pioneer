@@ -180,7 +180,7 @@ define_model('boa', {
 			if lod > 2 then
 
 				set_material('text1', .45,.45,.45,1,.1,.1,.1,10)
-				local reg = get_arg_string(0)
+				local reg = get_arg_string(ARGSTR_ALL_LABEL)
 				texture('models/ships/boa/fade.png')
 				use_material('wing')
 				--zbias(1, v(0, -1.127, 18.783), v(0,0.25,1))

@@ -118,7 +118,7 @@ define_model('lub_body', {
 	end,
 
 	dynamic = function(lod)
-		local reg = get_arg_string(0)
+		local reg = get_arg_string(ARGSTR_ALL_LABEL)
 		--local select2 = 10
 		selector2()
 		if select2 < 15 then  -- plain color variable

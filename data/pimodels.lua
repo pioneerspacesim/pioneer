@@ -30,6 +30,12 @@ ARG_SHIP_EQUIP_MISSILE6 = 18
 ARG_SHIP_EQUIP_MISSILE7 = 19
 ARG_SHIP_FLIGHT_STATE = 20
 
+-- get_arg_string() indices
+ARGSTR_ALL_LABEL = 0
+ARGSTR_STATION_ADMODEL1 = 4
+ARGSTR_STATION_ADMODEL2 = 5
+ARGSTR_STATION_ADMODEL3 = 6
+ARGSTR_STATION_ADMODEL4 = 7
 
 -- First some useful utility functions! :D
 
@@ -239,9 +245,9 @@ define_model('tombstone', {
 		local v17 = v(0, 0.5, 0.1)
 		use_material('text')
 		zbias(1, v16, v(0,0,-1))
-		text(get_arg_string(0), v16, v(0,0,-1), v(-1,0,0), .1, {center=true})
+		text(get_arg_string(ARGSTR_ALL_LABEL), v16, v(0,0,-1), v(-1,0,0), .1, {center=true})
 		zbias(1, v17, v(0,0,1))
-		text(get_arg_string(0), v17, v(0,0,1), v(1,0,0), .1, {center=true})
+		text(get_arg_string(ARGSTR_ALL_LABEL), v17, v(0,0,1), v(1,0,0), .1, {center=true})
 		zbias(0)
 	end
 })
@@ -273,7 +279,7 @@ define_model('cargo', {
 			local textpos = v(0,1,0)
 			use_material('text')
 			zbias(1, textpos, v(0,1,0))
-			text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 0.1, {center=true})
+			text(get_arg_string(ARGSTR_ALL_LABEL), textpos, v(0,1,0), v(1,0,0), 0.1, {center=true})
 		end
 	end
 })

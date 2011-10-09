@@ -41,7 +41,7 @@ define_model('cobra_mk3', {
 		
 		if lod > 1 then
 			use_material('text')
-			local reg = get_arg_string(0)
+			local reg = get_arg_string(ARGSTR_ALL_LABEL)
 			zbias(1,v(16,0.42,1), v(0,1,-.63))
 			text(reg,v(16,0.42,1), v(0,1,-.63), v(-1,.041,-.95), 3, {center = true})
 			zbias(1,v(-16,0.42,1), v(0,1,-.63))

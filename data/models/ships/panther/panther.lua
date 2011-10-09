@@ -150,7 +150,7 @@ define_model('panther', {
 			if lod > 2 then
 				set_material('glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5,	{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1.5 },
 				{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1 }))
-				local reg = get_arg_string(0)
+				local reg = get_arg_string(ARGSTR_ALL_LABEL)
 				use_material('text1')
 				zbias(1, v(0, -1.127, 18.783), v(0,0.25,1))
 				text(reg, v(0, -1.127, 18.783), v(0,0.25,1), v(1,0,0), 1.2, {center=true})

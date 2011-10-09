@@ -476,7 +476,7 @@ define_model('adder_sub', {
 
 
 
-			local reg = get_arg_string(0)
+			local reg = get_arg_string(ARGSTR_ALL_LABEL)
 			use_material('text')
 			zbias(1,v(-8.439,.8,-11.2),v(-1,.7945,0))
 			text(reg,v(-8.439,.8,-11.2),v(-1,.7945,0),v(0,0,1),.8, {center = true})

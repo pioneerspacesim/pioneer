@@ -1,5 +1,5 @@
 function reg_no(self)
-regn = get_arg_string(0)
+regn = get_arg_string(ARGSTR_ALL_LABEL)
 end
 
 function preselect(self)   -- generates a "random" number as replacement for symbol characters (-,?,!,+, etc)

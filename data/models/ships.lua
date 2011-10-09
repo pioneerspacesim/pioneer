@@ -292,7 +292,7 @@ define_model('ladybird', {
 		set_material('text', 0,0,0,1,0.3,0.3,0.3,5)
 		if lod > 1 then
 			use_material('text')
-			local label = get_arg_string(0)
+			local label = get_arg_string(ARGSTR_ALL_LABEL)
 			zbias(1,v(8.9,3.6,.07),v(1.8,1,1))
 			text(label,v(8.9,3.6,.07),v(1.8,1,1),v(-.25,0,-1),1.5, {center=true})
 			zbias(1,v(-8.9,3.6,.07),v(1.8,1,1))
@@ -484,7 +484,7 @@ define_model('walrus', {
 		set_material('text', .2,.2,.2,1)
 		use_material('text')
 		if lod > 1 then
-			local reg = get_arg_string(0)
+			local reg = get_arg_string(ARGSTR_ALL_LABEL)
 			zbias(1, v16, v54)
 			text(reg, v16, v54, v(0,0,-1), 10.0, {xoffset=1, yoffset=.3})
 			zbias(1, v10, v55)
@@ -629,7 +629,7 @@ define_model('flowerfairy', {
 		if lod > 1 then
 			local leftText = v(-10.0, 0, -6.4)
 			local rightText = v(10.0, 0, -6.4)
-			local reg = get_arg_string(0)
+			local reg = get_arg_string(ARGSTR_ALL_LABEL)
 			use_material('text')
 			zbias(1, leftText, v(-1,0,0))
 			text(reg, leftText, v(-1,0,0), v(0,0,1), 4, {center=true})
@@ -961,7 +961,7 @@ define_model('interdictor', {
 		set_material('engine_inside', lerp_materials(get_arg(ARG_ALL_TIME_MINUTES)*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
 		{0, 0, 0, 1, 0, 0, 0, 10, 0, 0, .5 }))
 		if lod > 1 then
-			local shipname = get_arg_string(0)
+			local shipname = get_arg_string(ARGSTR_ALL_LABEL)
 			use_material('text')
 			zbias(1, v98, v95)
 			text(shipname, v98, v95, v(0,0,1), 2.5, {center=true, yoffset=0.7})

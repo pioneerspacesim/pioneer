@@ -455,7 +455,7 @@ define_model('ip_shuttle', {
 		if lod > 1 then
 			set_material('text', .6,.6,.6, 1)
 			use_material('text')
-			reg = get_arg_string(0)
+			reg = get_arg_string(ARGSTR_ALL_LABEL)
 			texture(nil)
 			zbias(1,v(-1,0.235,0), v(0,0,1))
 			text(reg, v16, v(-1,0.235,0), v(0,0,1), 1.7, {center = true})  -- text label

@@ -986,7 +986,7 @@ define_model('conny', {
 		{0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 2.5 }))
 
 		if lod > 2 then
-			local reg = get_arg_string(0)
+			local reg = get_arg_string(ARGSTR_ALL_LABEL)
 			texture('models/ships/constrictor/washed.png',v(.5,.5,0),v(.5,0,0),v(0,0,.5))
 			use_material('text')
 			zbias(5,v(11.667,0,4), v(.85,1,0))
