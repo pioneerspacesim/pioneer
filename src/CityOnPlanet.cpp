@@ -170,6 +170,16 @@ void CityOnPlanet::Init()
 	}
 }
 
+void CityOnPlanet::Uninit()
+{
+	for (int list=0; list<MAX_BUILDING_LISTS; list++) {
+		for (int build=0; build<s_buildingLists[list].numBuildings; build++) {
+			delete s_buildingLists[list].buildings[build].collMesh;
+		}
+		delete[] s_buildingLists[list].buildings;
+	}
+}
+
 CityOnPlanet::~CityOnPlanet()
 {
 	// frame may be null (already removed from 

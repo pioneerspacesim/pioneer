@@ -600,6 +600,8 @@ void Pi::Quit()
 	Sound::Uninit();
 	SpaceStation::Uninit();
 	Space::Uninit();
+	CityOnPlanet::Uninit();
+	GeoSphere::Uninit();
 	LmrModelCompilerUninit();
 	TextureManager::Clear();
 	Render::Uninit();

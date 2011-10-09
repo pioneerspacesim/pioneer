@@ -36,6 +36,7 @@ public:
 	friend class ObjectViewerView;
 #endif /* DEBUG */
 	static void Init();
+	static void Uninit();
 	static void OnChangeDetailLevel();
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
 		m_style.GetAtmosphereFlavor(outColor, outDensity);
