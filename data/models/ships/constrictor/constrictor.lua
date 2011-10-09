@@ -417,7 +417,7 @@ define_model('conny_equipment', {
 			local v1 = v(3,4,8.8) -- ecm
 			local v2 = v(0,4,6.5) -- scanner
 
-			if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+			if get_equipment('ECM') == 'ECM_BASIC' then
 				use_material('matte')
 				call_model('ecm_1',v1,v(1,0,0),v(0,1,0),.8)
 			else

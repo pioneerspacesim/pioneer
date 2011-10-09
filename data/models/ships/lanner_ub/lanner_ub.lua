@@ -225,7 +225,7 @@ define_model('lub_body', {
 					call_model('lub_gun1', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 				end
 			end
-			if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+			if get_equipment('ECM') == 'ECM_BASIC' then
 				call_model('ecm_1', v(-23.2,-5.09,2), v(-1,0,0), v(.1,-1,0.01), 1.5)
 			end
 			if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then

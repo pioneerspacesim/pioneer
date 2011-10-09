@@ -241,7 +241,7 @@ define_model('asps_sub0', {
 					call_model('scanner_-',v(1,.57,.38),v(1,0,0),v(0,1,0),.15)
 					call_model('antenna_1',v(-.83,.272,-1.94),v(1,0,0),v(0,1,0),.15)
 				end
-				if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+				if get_equipment('ECM') == 'ECM_BASIC' then
 					call_model('ecm_1',v(-1,.57,.38),v(1,0,0),v(0,1,0),.1)
 				else
 					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
@@ -255,7 +255,7 @@ define_model('asps_sub0', {
 					call_model('scanner_+',v(-1,.57,.38),v(1,0,0),v(0,1,0),.15)
 					call_model('antenna_1',v(.83,.272,-1.94),v(1,0,0),v(0,1,0),.15)
 				end
-				if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+				if get_equipment('ECM') == 'ECM_BASIC' then
 					call_model('ecm_1',v(1,.57,.38),v(1,0,0),v(0,1,0),.1)
 				else
 					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then

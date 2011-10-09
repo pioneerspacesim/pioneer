@@ -612,7 +612,7 @@ define_model('viper_x', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+			if get_equipment('ECM') == 'ECM_BASIC' then
 				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
 					-- twin gun, single gun socket for ECM1 if scanner not present
 					texture('models/ships/viper_x/vipx_extra1.png')
