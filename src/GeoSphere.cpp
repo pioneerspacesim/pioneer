@@ -998,6 +998,8 @@ static std::list<GeoSphere*> s_allGeospheres;
 SDL_mutex *s_allGeospheresLock;
 SDL_Thread *s_updateThread;
 
+static bool s_exitFlag = false;
+
 /* Thread that updates geosphere level of detail thingies */
 int GeoSphere::UpdateLODThread(void *data)
 {
@@ -1005,6 +1007,13 @@ int GeoSphere::UpdateLODThread(void *data)
 		// make a copy of the list of geospheres for this iteration. we don't
 		// want to stop the main thread from updating
 		SDL_mutexP(s_allGeospheresLock);
+
+		// check for exit. doing it here to avoid needing another lock
+		if (s_exitFlag) {
+			SDL_mutexV(s_allGeospheresLock);
+			break;
+		}
+
 		std::list<GeoSphere*> geospheres = s_allGeospheres;
 		SDL_mutexV(s_allGeospheresLock);
 
@@ -1026,7 +1035,7 @@ int GeoSphere::UpdateLODThread(void *data)
 		SDL_Delay(10);
 	}
 
-	RETURN_ZERO_NONGNU_ONLY;
+	return 0;
 }
 
 void GeoSphere::_UpdateLODs()
@@ -1044,14 +1053,6 @@ void GeoSphere::_UpdateLODs()
 	SDL_mutexP(m_needUpdateLock);
 
 	SDL_mutexV(m_updateLock);
-}
-
-/* This is to stop threads keeping on iterating over the s_allGeospheres list,
- * which may have been destroyed by exit() (does on lunix anyway...)
- */
-static void _LockoutThreadsBeforeExit()
-{
-	SDL_mutexP(s_allGeospheresLock);
 }
 
 void GeoSphere::Init()
@@ -1078,13 +1079,16 @@ void GeoSphere::Init()
 #ifdef GEOSPHERE_USE_THREADING
 	s_updateThread = SDL_CreateThread(&GeoSphere::UpdateLODThread, 0);
 #endif /* GEOSPHERE_USE_THREADING */
-	atexit(&_LockoutThreadsBeforeExit);
 }
 
 void GeoSphere::Uninit()
 {
 #ifdef GEOSPHERE_USE_THREADING
-	SDL_KillThread(s_updateThread);
+	// instruct the thread to exit
+	SDL_mutexP(s_allGeospheresLock);
+	assert(s_allGeospheres.size() == 0);
+	s_exitFlag = true;
+	SDL_mutexV(s_allGeospheresLock);
 #endif /* GEOSPHERE_USE_THREADING */
 	
 	s_patchContext->DecRefCount();
