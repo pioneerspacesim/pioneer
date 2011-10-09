@@ -996,6 +996,7 @@ static const int geo_sphere_edge_friends[6][4] = {
 
 static std::list<GeoSphere*> s_allGeospheres;
 SDL_mutex *s_allGeospheresLock;
+SDL_Thread *s_updateThread;
 
 /* Thread that updates geosphere level of detail thingies */
 int GeoSphere::UpdateLODThread(void *data)
@@ -1075,14 +1076,32 @@ void GeoSphere::Init()
 	s_patchContext->IncRefCount();
 
 #ifdef GEOSPHERE_USE_THREADING
-	SDL_CreateThread(&GeoSphere::UpdateLODThread, 0);
+	s_updateThread = SDL_CreateThread(&GeoSphere::UpdateLODThread, 0);
 #endif /* GEOSPHERE_USE_THREADING */
 	atexit(&_LockoutThreadsBeforeExit);
+}
+
+void GeoSphere::Uninit()
+{
+#ifdef GEOSPHERE_USE_THREADING
+	SDL_KillThread(s_updateThread);
+#endif /* GEOSPHERE_USE_THREADING */
+	
+	s_patchContext->DecRefCount();
+	assert (s_patchContext->GetRefCount() == 0);
+	if (s_patchContext->GetRefCount() == 0) delete s_patchContext;
+
+	SDL_DestroyMutex(s_allGeospheresLock);
+	for (int i=0; i<4; i++) delete s_geosphereDimStarShader[i];
+	delete s_geosphereStarShader;
+	for (int i=0; i<4; i++) delete s_geosphereSkyShader[i];
+	for (int i=0; i<4; i++) delete s_geosphereSurfaceShader[i];
 }
 
 void GeoSphere::OnChangeDetailLevel()
 {
 	s_patchContext->DecRefCount();
+	if (s_patchContext->GetRefCount() == 0) delete s_patchContext;
 
 	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
