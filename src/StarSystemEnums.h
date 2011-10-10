@@ -1,17 +1,13 @@
 // no include guard because this file must be included more than once per translation unit
 
-#ifndef EconType_ITEM
-#define EconType_ITEM(x,y)
-#endif
+#ifdef EconType_ITEM
 EconType_ITEM(MINING, 1<<0)
 EconType_ITEM(AGRICULTURE, 1<<1)
 EconType_ITEM(INDUSTRY, 1<<2)
 #undef EconType_ITEM
-
-#ifndef BodyType_ITEM
-#define BodyType_ITEM(x,y)
-#define BodyType_ITEM_X(x,y)
 #endif
+
+#ifdef BodyType_ITEM
 BodyType_ITEM(GRAVPOINT, 0)
 BodyType_ITEM(BROWN_DWARF, 1) //  L+T Class Brown Dwarfs
 BodyType_ITEM(WHITE_DWARF, 2)
@@ -61,15 +57,15 @@ BodyType_ITEM_X(STAR_MAX, TYPE_STAR_SM_BH)
 // XXX need larger atmosphereless thing
 #undef BodyType_ITEM
 #undef BodyType_ITEM_X
-
-#ifndef BodySuperType_ITEM
-#define BodySuperType_ITEM(x,y)
 #endif
+
+#ifdef BodySuperType_ITEM
 BodySuperType_ITEM(NONE, 0)
 BodySuperType_ITEM(STAR, 1)
 BodySuperType_ITEM(ROCKY_PLANET, 2)
 BodySuperType_ITEM(GAS_GIANT, 3)
 BodySuperType_ITEM(STARPORT, 4)
 #undef BodySuperType_ITEM
+#endif
 
 // no include guards (see note at top)

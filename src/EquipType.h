@@ -15,18 +15,20 @@ namespace Equip {
 	};
 	enum Type {
 #define CommodityType_ITEM(x) x,
+#define CommodityType_ITEM_X(x,y) // these come later
 #include "EquipTypeEnums.h"
 
 #define EquipType_ITEM(x) x,
+#define EquipType_ITEM_X(x,y) // these come later
 #include "EquipTypeEnums.h"
 
 		TYPE_MAX,
 
-		FIRST_COMMODITY = HYDROGEN,
-		LAST_COMMODITY = RADIOACTIVES,
-
-		FIRST_SHIPEQUIP = MISSILE_UNGUIDED,
-		LAST_SHIPEQUIP = LARGE_PLASMA_ACCEL
+#define CommodityType_ITEM(x)
+#define CommodityType_ITEM_X(x,y) x = y,
+#define EquipType_ITEM(x)
+#define EquipType_ITEM_X(x) x = y,
+#include "EquipTypeEnums.h"
 	};
 
 	const int LASER_MINING = 0x1;

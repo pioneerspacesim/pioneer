@@ -1,8 +1,6 @@
 // no include guard because this file must be included more than once per translation unit
 
-#ifndef Slot_ITEM
-#define Slot_ITEM(x)
-#endif
+#ifdef Slot_ITEM
 Slot_ITEM(CARGO)
 Slot_ITEM(ENGINE)
 Slot_ITEM(LASER)
@@ -20,10 +18,9 @@ Slot_ITEM(LASERCOOLER)
 Slot_ITEM(CARGOLIFESUPPORT)
 Slot_ITEM(AUTOPILOT)
 #undef Slot_ITEM
-
-#ifndef CommodityType_ITEM
-#define CommodityType_ITEM(x)
 #endif
+
+#ifdef CommodityType_ITEM
 CommodityType_ITEM(NONE)
 CommodityType_ITEM(HYDROGEN)
 CommodityType_ITEM(LIQUID_OXYGEN)
@@ -56,11 +53,14 @@ CommodityType_ITEM(NARCOTICS)
 CommodityType_ITEM(MILITARY_FUEL)
 CommodityType_ITEM(RUBBISH)
 CommodityType_ITEM(RADIOACTIVES)
+// markers for the start & end of the list
+CommodityType_ITEM_X(FIRST_COMMODITY, HYDROGEN)
+CommodityType_ITEM_X(LAST_COMMODITY, RADIOACTIVES)
 #undef CommodityType_ITEM
-
-#ifndef EquipType_ITEM
-#define EquipType_ITEM(x)
+#undef CommodityType_ITEM_X
 #endif
+
+#ifdef EquipType_ITEM
 EquipType_ITEM(MISSILE_UNGUIDED)
 EquipType_ITEM(MISSILE_GUIDED)
 EquipType_ITEM(MISSILE_SMART)
@@ -101,6 +101,11 @@ EquipType_ITEM(PULSECANNON_20MW)
 EquipType_ITEM(MININGCANNON_17MW)
 EquipType_ITEM(SMALL_PLASMA_ACCEL)
 EquipType_ITEM(LARGE_PLASMA_ACCEL)
+// markers for the start & end of the list
+EquipType_ITEM_X(FIRST_SHIPEQUIP, MISSILE_UNGUIDED)
+EquipType_ITEM_X(LAST_SHIPEQUIP, LARGE_PLASMA_ACCEL)
 #undef EquipType_ITEM
+#undef EquipType_ITEM_X
+#endif
 
 // no include guards (see note at top)
