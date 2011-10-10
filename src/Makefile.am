@@ -120,6 +120,7 @@ noinst_HEADERS = \
 	SpaceStationView.h \
 	Star.h \
 	StarSystem.h \
+	StarSystemEnums.h \
 	SystemInfoView.h \
 	SystemPath.h \
 	SystemView.h \
