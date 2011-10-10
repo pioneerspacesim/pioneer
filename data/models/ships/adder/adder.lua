@@ -462,14 +462,14 @@ define_model('adder_sub', {
 				if get_equipment('ECM') == 'ECM_BASIC' then
 					call_model('ecm_1',v(4.5,-2.43,-16), v(-1,0,0),v(0,-1,0),1)
 				end
-				if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+				if get_equipment('ECM') == 'ECM_ADVANCED' then
 					call_model('ecm_2',v(4.5,-2.43,-16), v(-1,0,0),v(0,-1,0),1)
 				end
 			else
 				if get_equipment('ECM') == 'ECM_BASIC' then
 					call_model('ecm_1',v(-4.5,-2.43,-16),v(-1,0,0),v(0,-1,0),1)
 				end
-				if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+				if get_equipment('ECM') == 'ECM_ADVANCED' then
 					call_model('ecm_2',v(-4.5,-2.43,-16),v(-1,0,0),v(0,-1,0),1)
 				end
 			end

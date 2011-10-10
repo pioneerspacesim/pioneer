@@ -421,7 +421,7 @@ define_model('conny_equipment', {
 				use_material('matte')
 				call_model('ecm_1',v1,v(1,0,0),v(0,1,0),.8)
 			else
-				if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+				if get_equipment('ECM') == 'ECM_ADVANCED' then
 					use_material('matte')
 					call_model('ecm_2',v1,v(1,0,0),v(0,1,0),.8)
 				end

@@ -327,7 +327,7 @@ define_model('rattle', {
 					call_model('ecm_1',ecmpos_l,v(1,0,0),v(0,1,0),1.5)
 				end
 			else
-				if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+				if get_equipment('ECM') == 'ECM_ADVANCED' then
 					use_material('top')
 					selector4()
 					if select4 < 51 then

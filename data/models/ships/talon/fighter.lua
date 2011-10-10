@@ -258,7 +258,7 @@ define_model('fi', {
 			if get_equipment('ECM') == 'ECM_BASIC' then
 				call_model('ecm_1', v(-1.1,-0.32,-5), v(0,1,0), v(-1,0,0), 0.25)
 			end
-			if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+			if get_equipment('ECM') == 'ECM_ADVANCED' then
 				call_model('ecm_2', v(-1.1,-0.32,-5), v(0,1,0), v(-1,0,0), 0.25)
 			end
 

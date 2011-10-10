@@ -147,7 +147,7 @@ define_model('eagle_lrf_body', {
 						call_model('ecm_1', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
@@ -166,7 +166,7 @@ define_model('eagle_lrf_body', {
 						call_model('ecm_1', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
@@ -280,7 +280,7 @@ define_model('eagle_mk2_body', {
 						call_model('ecm_1', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
@@ -299,7 +299,7 @@ define_model('eagle_mk2_body', {
 						call_model('ecm_1', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
@@ -409,7 +409,7 @@ define_model('eagle_mk3_body', {
 						call_model('ecm_1', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
@@ -428,7 +428,7 @@ define_model('eagle_mk3_body', {
 						call_model('ecm_1', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
@@ -671,7 +671,7 @@ define_model('eagle_mk4_body', {
 						call_model('ecm_1', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
@@ -690,7 +690,7 @@ define_model('eagle_mk4_body', {
 						call_model('ecm_1', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 

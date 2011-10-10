@@ -642,7 +642,7 @@ define_model('viper_x', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+			if get_equipment('ECM') == 'ECM_ADVANCED' then
 				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
 
 					-- twin gun, single gun socket for ECM2
