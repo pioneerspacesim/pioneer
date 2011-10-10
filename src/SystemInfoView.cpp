@@ -127,7 +127,7 @@ void SystemInfoView::UpdateEconomyTab()
 	data = std::string("#ff0")+std::string(Lang::MAJOR_IMPORTS)+std::string("\n");
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if (s->GetCommodityBasePriceModPercent(i) > 10)
-			crud.push_back(std::string("#fff")+EquipType::types[i].name);
+			crud.push_back(std::string("#fff")+Equip::types[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
 	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
@@ -137,7 +137,7 @@ void SystemInfoView::UpdateEconomyTab()
 	data = std::string("#ff0")+std::string(Lang::MINOR_IMPORTS)+std::string("\n");
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if ((s->GetCommodityBasePriceModPercent(i) > 2) && (s->GetCommodityBasePriceModPercent(i) <= 10))
-			crud.push_back(std::string("#777")+EquipType::types[i].name);
+			crud.push_back(std::string("#777")+Equip::types[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
 	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
@@ -147,7 +147,7 @@ void SystemInfoView::UpdateEconomyTab()
 	data = std::string("#ff0")+std::string(Lang::MAJOR_EXPORTS)+std::string("\n");
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if (s->GetCommodityBasePriceModPercent(i) < -10)
-			crud.push_back(std::string("#fff")+EquipType::types[i].name);
+			crud.push_back(std::string("#fff")+Equip::types[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
 	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
@@ -157,7 +157,7 @@ void SystemInfoView::UpdateEconomyTab()
 	data = std::string("#ff0")+std::string(Lang::MINOR_EXPORTS)+std::string("\n");
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if ((s->GetCommodityBasePriceModPercent(i) < -2) && (s->GetCommodityBasePriceModPercent(i) >= -10))
-			crud.push_back(std::string("#777")+EquipType::types[i].name);
+			crud.push_back(std::string("#777")+Equip::types[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
 	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
@@ -167,7 +167,7 @@ void SystemInfoView::UpdateEconomyTab()
 	data = std::string("#ff0")+std::string(Lang::ILLEGAL_GOODS)+std::string("\n");
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if (!Polit::IsCommodityLegal(s, Equip::Type(i)))
-			crud.push_back(std::string("#777")+EquipType::types[i].name);
+			crud.push_back(std::string("#777")+Equip::types[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
 	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");

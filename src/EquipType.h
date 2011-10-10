@@ -52,8 +52,6 @@ struct EquipType {
 	int econType;
 	int techLevel; /* 0-5 */
 	float rechargeTime;			// to be eliminated maybe
-
-	static const EquipType *types;		// deprecated
 };
 
 struct LaserType {

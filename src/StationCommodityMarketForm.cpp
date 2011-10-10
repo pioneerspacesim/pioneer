@@ -22,7 +22,7 @@ StationCommodityMarketForm::StationCommodityMarketForm(FormController *controlle
 void StationCommodityMarketForm::OnClickBuy(int commodity)
 {
 	if (m_station->SellTo(Pi::player, Equip::Type(commodity), true)) {
-		Pi::cpan->MsgLog()->Message("", stringf(Lang::BOUGHT_1T_OF, formatarg("commodity", EquipType::types[commodity].name)));
+		Pi::cpan->MsgLog()->Message("", stringf(Lang::BOUGHT_1T_OF, formatarg("commodity", Equip::types[commodity].name)));
 	}
 	m_trader->UpdateStock(commodity);
 }
@@ -30,7 +30,7 @@ void StationCommodityMarketForm::OnClickBuy(int commodity)
 void StationCommodityMarketForm::OnClickSell(int commodity)
 {
 	if (m_station->BuyFrom(Pi::player, Equip::Type(commodity), true)) {
-		Pi::cpan->MsgLog()->Message("", stringf(Lang::SOLD_1T_OF, formatarg("commodity", EquipType::types[commodity].name)));
+		Pi::cpan->MsgLog()->Message("", stringf(Lang::SOLD_1T_OF, formatarg("commodity", Equip::types[commodity].name)));
 	}
 	m_trader->UpdateStock(commodity);
 }
