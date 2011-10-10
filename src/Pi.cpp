@@ -843,12 +843,15 @@ static void draw_intro(Background::Starfield *starfield, Background::MilkyWay *m
 	// defaults are dandy
 	Render::State::SetZnearZfar(1.0f, 10000.0f);
 	LmrObjParams params = {
+		"ShipAnimation", // animation namespace
 		0.0, // time
-		{ }, // argDoubles
+		{ }, // animation stages
+		{ 0.0, 1.0 }, // animation positions
 		Lang::PIONEER, // label
-		{ }, // argStrings
 		0, // equipment
-		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
+		{ }, // argDoubles
+		{ }, // argStrings
+		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f }, // thrust
 		{	// pColor[3]
 		{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
 		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
@@ -899,11 +902,14 @@ static void draw_tombstone(float _time)
 	float ambient[4] = { 0.1,0.1,0.1,1 };
 
 	LmrObjParams params = {
+		0, // animation namespace
 		0.0, // time
-		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // argDoubles
+		{}, // animation stages
+		{}, // animation positions
 		Lang::TOMBSTONE_EPITAPH, // label
-		{ }, // argStrings
 		0, // equipment
+		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // argDoubles
+		{ }, // argStrings
 		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
 		{ { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },

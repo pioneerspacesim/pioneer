@@ -603,6 +603,56 @@ void LuaConstants::Register(lua_State *l)
 	};
 	_create_constant_table_consecutive(l, "ShipAlertStatus", ship_alert_status_constants);
 
+	/*
+	 * Constants: ShipFlightState
+	 *
+	 * Ship flight state (used by LMR)
+	 *
+	 * FLYING     - open flight (includes autopilot)
+	 * DOCKING    - in docking animation
+	 * DOCKED     - docked with station
+	 * LANDED     - rough landed (not docked)
+	 * HYPERSPACE - in hyperspace
+	 *
+	 * Availability:
+	 *
+	 *   not yet
+	 *
+	 * Status:
+	 *
+	 *   experimental
+	 */
+	static const pi_lua_constant_t ship_flight_state_constants[] = {
+#define FlightState_ITEM(x) { #x, -1 },
+#include "ShipEnums.h"
+		{ 0, 0 }
+	};
+	_create_constant_table_consecutive(l, "ShipFlightState", ship_flight_state_constants);
+
+	/*
+	 * Constants: ShipAnimation
+	 *
+	 * Animation code used by LMR. Pass one of these constants to
+	 * get_animation_stage() or get_animation_position() in a model script.
+	 *
+	 * FLIGHT_STATE - animation state gives ship's flight state; position unused
+	 * WHEEL_STATE  - animation state unused; position gives position of undercarriage
+	 *
+	 * Availability:
+	 *
+	 *   not yet
+	 *
+	 * Status:
+	 *
+	 *   experimental
+	 */
+	static const pi_lua_constant_t ship_animation_constants[] = {
+#define Animation_ITEM(x) { #x, -1 },
+#include "ShipEnums.h"
+		{ 0, 0 }
+	};
+	_create_constant_table_consecutive(l, "ShipAnimation", ship_animation_constants);
+
     /*
      * Constants: MissionStatus
      *

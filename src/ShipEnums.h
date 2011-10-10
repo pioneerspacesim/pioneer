@@ -16,4 +16,19 @@ AlertState_ITEM(SHIP_FIRING)
 #undef AlertState_ITEM
 #endif
 
+#ifdef FlightState_ITEM
+FlightState_ITEM(FLYING)     // open flight (includes autopilot)
+FlightState_ITEM(DOCKING)    // in docking animation
+FlightState_ITEM(DOCKED)     // docked with station
+FlightState_ITEM(LANDED)     // rough landed (not docked)
+FlightState_ITEM(HYPERSPACE) // in hyperspace
+#undef FlightState_ITEM
+#endif
+
+#ifdef Animation_ITEM
+Animation_ITEM(FLIGHT_STATE)
+Animation_ITEM(WHEEL_STATE)
+#undef Animation_ITEM
+#endif
+
 // no include guards (see note at top)

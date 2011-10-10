@@ -33,12 +33,18 @@ struct LmrLight {
 
 struct LmrObjParams
 {
-	double time;
-	double argDoubles[LMR_ARG_MAX];
-	const char *label;
-	const char *argStrings[LMR_ARG_MAX];
+	enum { LMR_ANIMATION_MAX = 10 };
 
+	const char *animationNamespace; // the namespace to look up animation names in, from LuaConstants
+
+	double time;
+	int animStages[LMR_ANIMATION_MAX];
+	double animValues[LMR_ANIMATION_MAX];
+	const char *label;
 	const EquipSet *equipment; // for ships
+
+	double argDoubles[LMR_ARG_MAX];
+	const char *argStrings[LMR_ARG_MAX];
 
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0

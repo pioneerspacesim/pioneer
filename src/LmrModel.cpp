@@ -3635,6 +3635,92 @@ namespace ModelFuncs {
 	}
 
 	/*
+	 * Function: get_animation_stage
+	 *
+	 * Get the stage of an animation. The meaning of this depends on the animation.
+	 *
+	 * > local stage = get_animation_stage(animation)
+	 *
+	 * Parameters:
+	 *
+	 *   animation - an animation name, from <Constants.ShipAnimation> for ships
+	 *
+	 * Returns:
+	 *
+	 *   stage - the stage of the animation (meaning is animation dependent)
+	 *
+	 * Example:
+	 *
+	 * > local flight_state = get_animation_stage('FLIGHT_STATE')
+	 * > if flight_state == 'LANDED' then
+	 * >   -- enable rough landing lights
+	 * > end
+	 *
+	 * Availability:
+	 *
+	 *   not yet
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
+	static int get_animation_stage(lua_State *L)
+	{
+		assert(s_curParams != 0);
+		if (s_curParams->animationNamespace) {
+			const char *animName = luaL_checkstring(L, 1);
+			int anim = LuaConstants::GetConstant(L, s_curParams->animationNamespace, animName);
+			assert(anim >= 0 && anim < LmrObjParams::LMR_ANIMATION_MAX);
+			lua_pushinteger(L, s_curParams->animStages[anim]);
+			return 1;
+		} else
+			return luaL_error(L, "You can only use get_animation_stage for model types that are supposed to have animations.");
+	}
+
+	/*
+	 * Function: get_animation_position
+	 *
+	 * Get the position of an animation.
+	 *
+	 * > local pos = get_animation_position(animation)
+	 *
+	 * Parameters:
+	 *
+	 *   animation - an animation name, from <Constants.ShipAnimation> for ships
+	 *
+	 * Returns:
+	 *
+	 *   pos - the position of the animation (typically from 0 to 1)
+	 *
+	 * Example:
+	 *
+	 * > local pos = get_animation_position('WHEEL_STATE')
+	 * > -- display landing gear in appropriate position
+	 *
+	 * Availability:
+	 *
+	 *   not yet
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
+	static int get_animation_position(lua_State *L)
+	{
+		assert(s_curParams != 0);
+		if (s_curParams->animationNamespace) {
+			const char *animName = luaL_checkstring(L, 1);
+			int anim = LuaConstants::GetConstant(L, s_curParams->animationNamespace, animName);
+			assert(anim >= 0 && anim < LmrObjParams::LMR_ANIMATION_MAX);
+			lua_pushinteger(L, s_curParams->animValues[anim]);
+			return 1;
+		} else
+			return luaL_error(L, "You can only use get_animation_position for model types that are supposed to have animations.");
+	}
+
+	/*
 	 * Function: get_arg_string
 	 *
 	 * Return string arguments passed from C++ code
@@ -4447,6 +4533,8 @@ void LmrModelCompilerInit()
 	lua_register(L, "get_arg", ModelFuncs::get_arg);
 	lua_register(L, "get_time", ModelFuncs::get_time);
 	lua_register(L, "get_equipment", ModelFuncs::get_equipment);
+	lua_register(L, "get_animation_stage", ModelFuncs::get_animation_stage);
+	lua_register(L, "get_animation_position", ModelFuncs::get_animation_position);
 	lua_register(L, "get_arg_string", ModelFuncs::get_arg_string);
 	lua_register(L, "get_label", ModelFuncs::get_label);
 	lua_register(L, "flat", ModelFuncs::flat);

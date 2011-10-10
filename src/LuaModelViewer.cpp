@@ -26,11 +26,16 @@ static int g_wheelMoveDir = -1;
 static int g_renderType = 0;
 static float g_frameTime;
 static LmrObjParams params = {
+	0, // animation namespace
 	0.0, // time
-	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // argDoubles
+	{}, // animation stages
+	{}, // animation positions
 	"IR-L33T", // label
-	{ 0, "ME TOO" }, // argStrings
 	0, // equipment
+
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // argDoubles
+	{ 0, "ME TOO" }, // argStrings
+
 	{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 
 	{	// pColor[3]

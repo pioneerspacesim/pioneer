@@ -35,6 +35,11 @@ public:
 
 class Ship: public DynamicBody {
 public:
+	enum Animation {
+#define Animation_ITEM(x) ANIM_##x,
+#include "ShipEnums.h"
+	};
+
 	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Type shipType);
 	Ship() {}
@@ -69,11 +74,8 @@ public:
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 
 	enum FlightState {
-		FLYING,     // open flight (includes autopilot)
-		DOCKING,    // in docking animation
-		DOCKED,     // docked with station
-		LANDED,     // rough landed (not docked)
-		HYPERSPACE  // in hyperspace
+#define FlightState_ITEM(x) x,
+#include "ShipEnums.h"
 	};
 
        	FlightState GetFlightState() const { return m_flightState; }

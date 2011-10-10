@@ -170,6 +170,9 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_curAICmd = 0;
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
+	// XXX the animation namespace must match that in LuaConstants
+	GetLmrObjParams().animationNamespace = "ShipAnimation";
+
 	Init();	
 }
 
@@ -1017,6 +1020,9 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 			params.argDoubles[12+i] = double(m_equipment.Get(Equip::SLOT_MISSILE, i));
 		}
 		params.argDoubles[20] = m_flightState;
+
+		params.animStages[ANIM_FLIGHT_STATE] = m_flightState;
+		params.animValues[ANIM_WHEEL_STATE] = m_wheelState;
 
 		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 		RenderLmrModel(viewCoords, viewTransform);
