@@ -409,8 +409,18 @@ public:
 		RocketEventListener *listener = screen->GetEventListener(eventName);
 
 		Rocket::Core::String shortcut = element->GetAttribute<Rocket::Core::String>("shortcut", "");
-		if (shortcut.Length() > 0)
+		if (shortcut.Length() > 0) {
 			printf("    shortcut: %s\n", shortcut.CString());
+
+			int start = 0;
+			while (start < int(shortcut.Length())) {
+				int end = shortcut.Find("+", start);
+				if (end < 0)
+					end = shortcut.Length();
+				printf("        shortcut token: %s\n", shortcut.Substring(start, end-start).CString());
+				start = end+1;
+			}
+		}
 
 		return listener;
 	}
