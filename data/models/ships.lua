@@ -94,8 +94,7 @@ define_model('nosewheelunit', {
 		xref_quad(v7, v6, v6+vrot, v7+vrot)
 		xref_quad(v7, v7+vrot, v6+vrot, v6)
 
-		call_model('nosewheel', v(0,0,0), v(1,0,0),
-		v(0,math.sin(wheel_ang),math.cos(wheel_ang)), 1.0)
+		call_model('nosewheel', v(0,-1,0), v(1,0,0), v(0,math.sin(wheel_ang),math.cos(wheel_ang)), 1.0)
 		zbias(0)
 	end
 })
@@ -154,8 +153,7 @@ define_model('mainwheelunit', {
 		xref_quad(v7, v6, v6+vrot, v7+vrot)
 		xref_quad(v7, v7+vrot, v6+vrot, v6)
 
-		call_model('mainwheel', v(0,0,0), v(1,0,0),
-		v(0,math.sin(wheel_ang),math.cos(wheel_ang)), 1.0)
+		call_model('mainwheel', v(0,-2,0), v(1,0,0), v(0,math.sin(wheel_ang),math.cos(wheel_ang)), 1.0)
 		zbias(0)
 	end
 })
