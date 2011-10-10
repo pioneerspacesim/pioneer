@@ -27,7 +27,7 @@ namespace Equip {
 #define CommodityType_ITEM(x)
 #define CommodityType_ITEM_X(x,y) x = y,
 #define EquipType_ITEM(x)
-#define EquipType_ITEM_X(x) x = y,
+#define EquipType_ITEM_X(x,y) x = y,
 #include "EquipTypeEnums.h"
 	};
 

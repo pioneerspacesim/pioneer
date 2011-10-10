@@ -10,51 +10,27 @@ class Ship;
 
 namespace Polit {
 	enum Crime {
-		// XXX MUST BE KEPT IN SYNC WITH data/pimodule.lua
-		CRIME_TRADING_ILLEGAL_GOODS = (1<<0),
-		CRIME_WEAPON_DISCHARGE = (1<<1),
-		CRIME_PIRACY = (1<<2),
-		CRIME_MURDER = (1<<3),
+#define Crime_ITEM(x,y) CRIME_##x = y,
+#include "PolitEnums.h"
 	};
 
 	enum Bloc {
-		BLOC_NONE,
-		BLOC_EARTHFED,
-		BLOC_CIS,
-		BLOC_EMPIRE,
+#define Bloc_ITEM(x) BLOC_##x,
+#include "PolitEnums.h"
 		BLOC_MAX
 	};
 
 	enum EconType {
-		ECON_NONE,
-		ECON_VERY_CAPITALIST,
-		ECON_CAPITALIST,
-		ECON_MIXED,
-		ECON_PLANNED,
+#define EconType_ITEM(x) ECON_##x,
+#include "PolitEnums.h"
 		ECON_MAX
 	};
 
 	enum GovType {
-		GOV_INVALID,
-		GOV_NONE,
-		GOV_EARTHCOLONIAL,
-		GOV_EARTHDEMOC,
-		GOV_EMPIRERULE,
-		GOV_CISLIBDEM,
-		GOV_CISSOCDEM,
-		GOV_LIBDEM,
-		GOV_CORPORATE,
-		GOV_SOCDEM,
-		GOV_EARTHMILDICT,
-		GOV_MILDICT1,
-		GOV_MILDICT2,
-		GOV_EMPIREMILDICT,
-		GOV_COMMUNIST,
-		GOV_PLUTOCRATIC,
-		GOV_DISORDER,
-		GOV_MAX,
-		GOV_RAND_MIN = GOV_NONE+1,
-		GOV_RAND_MAX = GOV_MAX-1
+#define GovType_ITEM(x) GOV_##x,
+#define GovType_ITEM_X(x) GOV_##x,
+#define GovType_ITEM_Y(x,y) GOV_##x = y,
+#include "PolitEnums.h"
 	};
 
 	void NotifyOfCrime(Ship *s, enum Crime c);

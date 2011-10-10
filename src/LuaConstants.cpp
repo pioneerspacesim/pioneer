@@ -2,7 +2,6 @@
 #include "LuaManager.h"
 #include "LuaUtils.h"
 #include "LuaObject.h"
-#include "Polit.h"
 #include "Player.h"
 #include "Ship.h"
 
@@ -260,10 +259,8 @@ void LuaConstants::Register(lua_State *l)
 	 *   experimental
 	 */
 	static const pi_lua_constant_t polit_crime_constants[] = {
-		{ "TRADING_ILLEGAL_GOODS", Polit::CRIME_TRADING_ILLEGAL_GOODS },
-		{ "WEAPON_DISCHARGE",      Polit::CRIME_WEAPON_DISCHARGE },
-		{ "PIRACY",                Polit::CRIME_PIRACY },
-		{ "MURDER",                Polit::CRIME_MURDER },
+#define Crime_ITEM(x,y) { #x, y },
+#include "PolitEnums.h"
 		{ 0, 0 }
 	};
 	_create_constant_table_nonconsecutive(l, "PolitCrime", polit_crime_constants);
@@ -288,13 +285,11 @@ void LuaConstants::Register(lua_State *l)
 	 *   experimental
 	 */
 	static const pi_lua_constant_t polit_bloc_constants[] = {
-		{ "NONE",     Polit::BLOC_NONE },
-		{ "EARTHFED", Polit::BLOC_EARTHFED },
-		{ "CIS",      Polit::BLOC_CIS },
-		{ "EMPIRE",   Polit::BLOC_EMPIRE },
+#define Bloc_ITEM(x) { #x, -1 },
+#include "PolitEnums.h"
 		{ 0, 0 }
 	};
-	_create_constant_table_nonconsecutive(l, "PolitBloc", polit_bloc_constants);
+	_create_constant_table_consecutive(l, "PolitBloc", polit_bloc_constants);
 
 	/*
 	 * Constants: PolitEcon
@@ -316,14 +311,11 @@ void LuaConstants::Register(lua_State *l)
 	 *   experimental
 	 */
 	static const pi_lua_constant_t polit_econ_constants[] = {
-		{ "NONE",            Polit::ECON_NONE },
-		{ "VERY_CAPITALIST", Polit::ECON_VERY_CAPITALIST },
-		{ "CAPITALIST",      Polit::ECON_CAPITALIST },
-		{ "MIXED",           Polit::ECON_MIXED },
-		{ "PLANNED",         Polit::ECON_PLANNED },
+#define EconType_ITEM(x) { #x, -1 },
+#include "PolitEnums.h"
 		{ 0, 0 }
 	};
-	_create_constant_table_nonconsecutive(l, "PolitEcon", polit_econ_constants);
+	_create_constant_table_consecutive(l, "PolitEcon", polit_econ_constants);
 
 	/*
 	 * Constants: PolitGovType
@@ -356,25 +348,13 @@ void LuaConstants::Register(lua_State *l)
 	 *   experimental
 	 */
 	static const pi_lua_constant_t polit_gov_type_constants[] = {
-		{ "NONE",          Polit::GOV_NONE },
-		{ "EARTHCOLONIAL", Polit::GOV_EARTHCOLONIAL },
-		{ "EARTHDEMOC",    Polit::GOV_EARTHDEMOC },
-		{ "EMPIRERULE",    Polit::GOV_EMPIRERULE },
-		{ "CISLIBDEM",     Polit::GOV_CISLIBDEM },
-		{ "CISSOCDEM",     Polit::GOV_CISSOCDEM },
-		{ "LIBDEM",        Polit::GOV_LIBDEM },
-		{ "CORPORATE",     Polit::GOV_CORPORATE },
-		{ "SOCDEM",        Polit::GOV_SOCDEM },
-		{ "EARTHMILDICT",  Polit::GOV_EARTHMILDICT },
-		{ "MILDICT1",      Polit::GOV_MILDICT1 },
-		{ "MILDICT2",      Polit::GOV_MILDICT2 },
-		{ "EMPIREMILDICT", Polit::GOV_EMPIREMILDICT },
-		{ "COMMUNIST",     Polit::GOV_COMMUNIST },
-		{ "PLUTOCRATIC",   Polit::GOV_PLUTOCRATIC },
-		{ "DISORDER",      Polit::GOV_DISORDER },
+#define GovType_ITEM(x) { #x, -1 },
+#define GovType_ITEM_X(x) // marker
+#define GovType_ITEM_Y(x,y) // marker
+#include "PolitEnums.h"
 		{ 0, 0 }
 	};
-	_create_constant_table_nonconsecutive(l, "PolitGovType", polit_gov_type_constants);
+	_create_constant_table_consecutive(l, "PolitGovType", polit_gov_type_constants);
 
 
 	/*
@@ -505,8 +485,10 @@ void LuaConstants::Register(lua_State *l)
 	 */
 	static const pi_lua_constant_t equip_type_constants[] = {
 #define CommodityType_ITEM(x) { #x, -1 },
+#define CommodityType_ITEM_X(x,y)
 #include "EquipTypeEnums.h"
 #define EquipType_ITEM(x) { #x, -1 },
+#define EquipType_ITEM_X(x,y)
 #include "EquipTypeEnums.h"
 		{ 0, 0 }
 	};

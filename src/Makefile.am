@@ -88,6 +88,7 @@ noinst_HEADERS = \
 	Planet.h \
 	Player.h \
 	Polit.h \
+	PolitEnums.h \
 	Projectile.h \
 	Quaternion.h \
 	RefCounted.h \
