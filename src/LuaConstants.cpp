@@ -2,7 +2,6 @@
 #include "LuaManager.h"
 #include "LuaUtils.h"
 #include "LuaObject.h"
-#include "Player.h"
 
 /*
  * Namespace: Constants
@@ -624,12 +623,11 @@ void LuaConstants::Register(lua_State *l)
 	 *   stable
 	 */
 	static const pi_lua_constant_t mission_status_constants[] = {
-		{ "ACTIVE",    Mission::ACTIVE },
-		{ "COMPLETED", Mission::COMPLETED },
-		{ "FAILED",    Mission::FAILED },
+#define MissionState_ITEM(x) { #x, -1 },
+#include "PlayerEnums.h"
 		{ 0, 0 }
 	};
-	_create_constant_table_nonconsecutive(l, "MissionStatus", mission_status_constants);
+	_create_constant_table_consecutive(l, "MissionStatus", mission_status_constants);
 
 
 	LUA_DEBUG_END(l, 0);

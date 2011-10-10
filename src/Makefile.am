@@ -87,6 +87,7 @@ noinst_HEADERS = \
 	PiLuaClasses.h \
 	Planet.h \
 	Player.h \
+	PlayerEnums.h \
 	Polit.h \
 	PolitEnums.h \
 	Projectile.h \
