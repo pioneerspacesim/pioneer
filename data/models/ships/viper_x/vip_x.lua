@@ -677,7 +677,7 @@ define_model('viper_x', {
 				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
 
 					-- if twin gun, single gun socket for antenna if ECM not present
-					if get_arg(ARG_SHIP_EQUIP_ECM) == 0 then
+					if not get_equipment('ECM') then
 						texture('models/ships/viper_x/vipx_extra1.png')
 						use_material('ncv')
 						load_obj('models/ships/viper_x/vipx_gun1_base.obj')
@@ -689,7 +689,7 @@ define_model('viper_x', {
 					-- twin gun antenna pos
 					call_model('antenna_2',v(0,-1.4,-22.213),v(1,0,0),v(0,1,0),1)
 				else
-					if get_arg(ARG_SHIP_EQUIP_ECM) == 0 then
+					if not get_equipment('ECM') then
 
 						-- twin gun socket for antenna if ECM not present
 						texture('models/ships/viper_x/vipx_extra1.png')
@@ -713,14 +713,14 @@ define_model('viper_x', {
 				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
 
 				else
-					if get_arg(ARG_SHIP_EQUIP_ECM) == 0 and get_arg(ARG_SHIP_EQUIP_SCANNER) == 0 then
+					if not get_equipment('ECM') and not get_equipment('SCANNER') then
 						texture('models/ships/viper_x/vipx_extra1.png')
 						use_material('ncv')
 						load_obj('models/ships/viper_x/vipx_singleg.obj')
 					end
 				end
 			else
-				if get_arg(ARG_SHIP_EQUIP_ECM) == 0 and get_arg(ARG_SHIP_EQUIP_SCANNER) == 0 then
+				if not get_equipment('ECM') and not get_equipment('SCANNER') then
 					texture('models/ships/viper_x/vipx_extra1.png')
 					use_material('ncv')
 					load_obj('models/ships/viper_x/vipx_singleg.obj')
