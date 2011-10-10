@@ -1,7 +1,5 @@
 #include "LuaConstants.h"
-#include "LuaManager.h"
 #include "LuaUtils.h"
-#include "LuaObject.h"
 
 /*
  * Namespace: Constants

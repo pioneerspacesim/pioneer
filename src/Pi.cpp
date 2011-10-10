@@ -261,7 +261,7 @@ static void LuaInit()
 	Pi::luaOnShipFlavourChanged->RegisterEventQueue();
 	Pi::luaOnShipEquipmentChanged->RegisterEventQueue();
 
-	LuaConstants::Register();
+	LuaConstants::Register(Pi::luaManager->GetLuaState());
 	LuaLang::Register();
 	LuaEngine::Register();
 	LuaGame::Register();
