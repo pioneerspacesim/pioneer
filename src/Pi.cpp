@@ -847,12 +847,23 @@ static void draw_intro(Background::Starfield *starfield, Background::MilkyWay *m
 		{ }, // argDoubles
 		Lang::PIONEER, // label
 		{ }, // argStrings
+		0, // equipment
 		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
 		{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
 		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
 		{ { 0.8f, 0.8f, 0.8f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 	};
+	EquipSet equipment;
+	// The finest parts that money can buy!
+	params.equipment = &equipment;
+	equipment.Add(Equip::ECM_ADVANCED, 1);
+	equipment.Add(Equip::HYPERCLOUD_ANALYZER, 1);
+	equipment.Add(Equip::ATMOSPHERIC_SHIELDING, 1);
+	equipment.Add(Equip::FUEL_SCOOP, 1);
+	equipment.Add(Equip::SCANNER, 1);
+	equipment.Add(Equip::RADAR_MAPPER, 1);
+	equipment.Add(Equip::MISSILE_NAVAL, 4);
 
 	glPushMatrix();
 	glRotatef(_time*10, 1, 0, 0);
@@ -892,6 +903,7 @@ static void draw_tombstone(float _time)
 		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // argDoubles
 		Lang::TOMBSTONE_EPITAPH, // label
 		{ }, // argStrings
+		0, // equipment
 		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
 		{ { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },

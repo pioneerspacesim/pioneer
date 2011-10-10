@@ -11,6 +11,8 @@ class LmrGeomBuffer;
 class LmrCollMesh;
 class GeomTree;
 
+class EquipSet;
+
 #define LMR_MAX_LOD 4
 
 #define LMR_ARG_MAX 40
@@ -35,6 +37,8 @@ struct LmrObjParams
 	double argDoubles[LMR_ARG_MAX];
 	const char *label;
 	const char *argStrings[LMR_ARG_MAX];
+
+	const EquipSet *equipment; // for ships
 
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0

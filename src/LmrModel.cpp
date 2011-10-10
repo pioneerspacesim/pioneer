@@ -8,6 +8,9 @@
 #include "render/Render.h"
 #include "BufferObject.h"
 #include "LuaUtils.h"
+#include "LuaConstants.h"
+#include "EquipType.h"
+#include "ShipType.h"
 #include "TextureManager.h"
 #include <set>
 #include <algorithm>
@@ -3562,6 +3565,76 @@ namespace ModelFuncs {
 	}
 
 	/*
+	 * Function: get_equipment
+	 *
+	 * Get the type of equipment mounted in a particular slot.
+	 * Only valid for ship models.
+	 *
+	 * > local equip_type = get_equipment(slot, index)
+	 *
+	 * Parameters:
+	 *
+	 *   slot - a slot name, from <Constants.EquipSlot>
+	 *   index - the item index within that slot (optional; 1-based index)
+	 *
+	 * Returns:
+	 *
+	 *   equip_type - a <Constants.EquipType> string, or 'nil' if there is
+	 *                no equipment in that slot.
+	 *
+	 *   If no index is specified, then all equipment in the specified slot
+	 *   is returned (as separate return values)
+	 *
+	 * Example:
+	 *
+	 * > if get_equipment('FUELSCOOP')
+	 * > local missile1, missile2, missile3, missile4 = get_equipment('MISSILE')
+	 * > local missile2 = get_equipment('MISSILE', 2)
+	 *
+	 * Availability:
+	 *
+	 *   not yet
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
+	static int get_equipment(lua_State *L)
+	{
+		assert(s_curParams != 0);
+		if (s_curParams->equipment) {
+			const char *slotName = luaL_checkstring(L, 1);
+			int index = luaL_optinteger(L, 2, 0);
+			Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(L, "EquipSlot", slotName));
+
+			if (index > 0) {
+				// index - 1 because Lua uses 1-based indexing
+				Equip::Type equip = s_curParams->equipment->Get(slot, index - 1);
+				if (equip == Equip::NONE)
+					lua_pushnil(L);
+				else
+					lua_pushstring(L, LuaConstants::GetConstantString(L, "EquipType", equip));
+				return 1;
+			} else {
+				const EquipSet &es = *s_curParams->equipment;
+				const int slotSize = es.GetSlotSize(slot);
+				int i = 0;
+				Equip::Type equip = Equip::NONE;
+				while (i < slotSize) {
+					equip = es.Get(slot, i++);
+					if (equip != Equip::NONE) {
+						PiVerify(lua_checkstack(L, 1));
+						lua_pushstring(L, LuaConstants::GetConstantString(L, "EquipType", equip));
+					}
+				}
+				return i;
+			}
+		} else
+			return luaL_error(L, "Equipment is only valid for ships.");
+	}
+
+	/*
 	 * Function: get_arg_string
 	 *
 	 * Return string arguments passed from C++ code
@@ -4326,6 +4399,8 @@ void LmrModelCompilerInit()
 
 	LUA_DEBUG_START(sLua);
 
+	LuaConstants::Register(L);
+
 	MyLuaVec::Vec_register(L);
 	lua_pop(L, 1); // why again?
 	MyLuaMatrix::Matrix_register(L);
@@ -4371,6 +4446,7 @@ void LmrModelCompilerInit()
 	lua_register(L, "xref_thruster", ModelFuncs::xref_thruster);
 	lua_register(L, "get_arg", ModelFuncs::get_arg);
 	lua_register(L, "get_time", ModelFuncs::get_time);
+	lua_register(L, "get_equipment", ModelFuncs::get_equipment);
 	lua_register(L, "get_arg_string", ModelFuncs::get_arg_string);
 	lua_register(L, "get_label", ModelFuncs::get_label);
 	lua_register(L, "flat", ModelFuncs::flat);

@@ -274,9 +274,13 @@ modelviewer_SOURCES = \
 	IniConfig.cpp \
 	FontConfig.cpp \
 	FontManager.cpp \
+	Lang.cpp \
 	LmrModel.cpp \
 	LuaModelViewer.cpp \
 	LuaUtils.cpp \
+	LuaConstants.cpp \
+	EquipType.cpp \
+	ShipType.cpp \
 	MyLuaMathTypes.cpp \
 	StringF.cpp \
 	TextureFont.cpp \

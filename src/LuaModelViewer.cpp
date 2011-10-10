@@ -2,6 +2,8 @@
 #include "gui/Gui.h"
 #include "collider/collider.h"
 #include "LmrModel.h"
+#include "ShipType.h"
+#include "EquipType.h"
 #include "render/Render.h"
 
 static SDL_Surface *g_screen;
@@ -28,6 +30,7 @@ static LmrObjParams params = {
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // argDoubles
 	"IR-L33T", // label
 	{ 0, "ME TOO" }, // argStrings
+	0, // equipment
 	{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 
 	{	// pColor[3]

@@ -1004,6 +1004,7 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		params.linthrust[0] = float(m_thrusters.x);
 		params.linthrust[1] = float(m_thrusters.y);
 		params.linthrust[2] = float(m_thrusters.z);
+		params.equipment = &m_equipment;
 		params.argDoubles[0] = m_wheelState;
 		params.argDoubles[5] = double(m_equipment.Get(Equip::SLOT_FUELSCOOP));
 		params.argDoubles[6] = double(m_equipment.Get(Equip::SLOT_ENGINE));
