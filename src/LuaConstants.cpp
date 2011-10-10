@@ -3,7 +3,6 @@
 #include "LuaUtils.h"
 #include "LuaObject.h"
 #include "Polit.h"
-#include "EquipType.h"
 #include "Player.h"
 #include "Ship.h"
 
@@ -410,25 +409,11 @@ void LuaConstants::Register(lua_State *l)
 	 *   experimental
 	 */
 	static const pi_lua_constant_t equip_slot_constants[] = {
-		{ "CARGO",            Equip::SLOT_CARGO },
-		{ "ENGINE",           Equip::SLOT_ENGINE },
-		{ "LASER",            Equip::SLOT_LASER },
-		{ "MISSILE",          Equip::SLOT_MISSILE },
-		{ "ECM",              Equip::SLOT_ECM },
-		{ "SCANNER",          Equip::SLOT_SCANNER },
-		{ "RADARMAPPER",      Equip::SLOT_RADARMAPPER },
-		{ "HYPERCLOUD",       Equip::SLOT_HYPERCLOUD },
-		{ "HULLAUTOREPAIR",   Equip::SLOT_HULLAUTOREPAIR },
-		{ "ENERGYBOOSTER",    Equip::SLOT_ENERGYBOOSTER },
-		{ "SHIELD",           Equip::SLOT_SHIELD },
-		{ "ATMOSHIELD",       Equip::SLOT_ATMOSHIELD },
-		{ "FUELSCOOP",        Equip::SLOT_FUELSCOOP },
-		{ "LASERCOOLER",      Equip::SLOT_LASERCOOLER },
-		{ "CARGOLIFESUPPORT", Equip::SLOT_CARGOLIFESUPPORT },
-		{ "AUTOPILOT",        Equip::SLOT_AUTOPILOT },
+#define Slot_ITEM(x) { #x, -1 },
+#include "EquipTypeEnums.h"
 		{ 0, 0 }
 	};
-	_create_constant_table_nonconsecutive(l, "EquipSlot", equip_slot_constants);
+	_create_constant_table_consecutive(l, "EquipSlot", equip_slot_constants);
 
 	/*
 	 * Constants: EquipType
@@ -519,84 +504,13 @@ void LuaConstants::Register(lua_State *l)
 	 *   experimental
 	 */
 	static const pi_lua_constant_t equip_type_constants[] = {
-		{ "NONE",                 Equip::NONE },
-		{ "HYDROGEN",             Equip::HYDROGEN },
-		{ "LIQUID_OXYGEN",        Equip::LIQUID_OXYGEN },
-		{ "METAL_ORE",            Equip::METAL_ORE },
-		{ "CARBON_ORE",           Equip::CARBON_ORE },
-		{ "METAL_ALLOYS",         Equip::METAL_ALLOYS },
-		{ "PLASTICS",             Equip::PLASTICS },
-		{ "FRUIT_AND_VEG",        Equip::FRUIT_AND_VEG },
-		{ "ANIMAL_MEAT",          Equip::ANIMAL_MEAT },
-		{ "LIVE_ANIMALS",         Equip::LIVE_ANIMALS },
-		{ "LIQUOR",               Equip::LIQUOR },
-		{ "GRAIN",                Equip::GRAIN },
-		{ "TEXTILES",             Equip::TEXTILES },
-		{ "FERTILIZER",           Equip::FERTILIZER },
-		{ "WATER",                Equip::WATER },
-		{ "MEDICINES",            Equip::MEDICINES },
-		{ "CONSUMER_GOODS",       Equip::CONSUMER_GOODS },
-		{ "COMPUTERS",            Equip::COMPUTERS },
-		{ "ROBOTS",               Equip::ROBOTS },
-		{ "PRECIOUS_METALS",      Equip::PRECIOUS_METALS },
-		{ "INDUSTRIAL_MACHINERY", Equip::INDUSTRIAL_MACHINERY },
-		{ "FARM_MACHINERY",       Equip::FARM_MACHINERY },
-		{ "MINING_MACHINERY",     Equip::MINING_MACHINERY },
-		{ "AIR_PROCESSORS",       Equip::AIR_PROCESSORS },
-		{ "SLAVES",               Equip::SLAVES },
-		{ "HAND_WEAPONS",         Equip::HAND_WEAPONS },
-		{ "BATTLE_WEAPONS",       Equip::BATTLE_WEAPONS },
-		{ "NERVE_GAS",            Equip::NERVE_GAS },
-		{ "NARCOTICS",            Equip::NARCOTICS },
-		{ "MILITARY_FUEL",        Equip::MILITARY_FUEL },
-		{ "RUBBISH",              Equip::RUBBISH },
-		{ "RADIOACTIVES",         Equip::RADIOACTIVES },
-
-		{ "MISSILE_UNGUIDED",      Equip::MISSILE_UNGUIDED },
-		{ "MISSILE_GUIDED",        Equip::MISSILE_GUIDED },
-		{ "MISSILE_SMART",         Equip::MISSILE_SMART },
-		{ "MISSILE_NAVAL",         Equip::MISSILE_NAVAL },
-		{ "ATMOSPHERIC_SHIELDING", Equip::ATMOSPHERIC_SHIELDING },
-		{ "ECM_BASIC",             Equip::ECM_BASIC },
-		{ "SCANNER",               Equip::SCANNER },
-		{ "ECM_ADVANCED",          Equip::ECM_ADVANCED },
-		{ "SHIELD_GENERATOR",      Equip::SHIELD_GENERATOR },
-		{ "LASER_COOLING_BOOSTER", Equip::LASER_COOLING_BOOSTER },
-		{ "CARGO_LIFE_SUPPORT",    Equip::CARGO_LIFE_SUPPORT },
-		{ "AUTOPILOT",             Equip::AUTOPILOT },
-		{ "RADAR_MAPPER",          Equip::RADAR_MAPPER },
-		{ "FUEL_SCOOP",            Equip::FUEL_SCOOP },
-		{ "HYPERCLOUD_ANALYZER",   Equip::HYPERCLOUD_ANALYZER },
-		{ "HULL_AUTOREPAIR",       Equip::HULL_AUTOREPAIR },
-		{ "SHIELD_ENERGY_BOOSTER", Equip::SHIELD_ENERGY_BOOSTER },
-
-		{ "DRIVE_CLASS1", Equip::DRIVE_CLASS1 },
-		{ "DRIVE_CLASS2", Equip::DRIVE_CLASS2 },
-		{ "DRIVE_CLASS3", Equip::DRIVE_CLASS3 },
-		{ "DRIVE_CLASS4", Equip::DRIVE_CLASS4 },
-		{ "DRIVE_CLASS5", Equip::DRIVE_CLASS5 },
-		{ "DRIVE_CLASS6", Equip::DRIVE_CLASS6 },
-		{ "DRIVE_CLASS7", Equip::DRIVE_CLASS7 },
-		{ "DRIVE_CLASS8", Equip::DRIVE_CLASS8 },
-		{ "DRIVE_CLASS9", Equip::DRIVE_CLASS9 },
-		{ "DRIVE_MIL1",   Equip::DRIVE_MIL1 },
-		{ "DRIVE_MIL2",   Equip::DRIVE_MIL2 },
-		{ "DRIVE_MIL3",   Equip::DRIVE_MIL3 },
-		{ "DRIVE_MIL4",   Equip::DRIVE_MIL4 },
-
-		{ "PULSECANNON_1MW",       Equip::PULSECANNON_1MW },
-		{ "PULSECANNON_DUAL_1MW",  Equip::PULSECANNON_DUAL_1MW },
-		{ "PULSECANNON_2MW",       Equip::PULSECANNON_2MW },
-		{ "PULSECANNON_RAPID_2MW", Equip::PULSECANNON_RAPID_2MW },
-		{ "PULSECANNON_4MW",       Equip::PULSECANNON_4MW },
-		{ "PULSECANNON_10MW",      Equip::PULSECANNON_10MW },
-		{ "PULSECANNON_20MW",      Equip::PULSECANNON_20MW },
-		{ "MININGCANNON_17MW",     Equip::MININGCANNON_17MW },
-		{ "SMALL_PLASMA_ACCEL",    Equip::SMALL_PLASMA_ACCEL },
-		{ "LARGE_PLASMA_ACCEL",    Equip::LARGE_PLASMA_ACCEL },
+#define CommodityType_ITEM(x) { #x, -1 },
+#include "EquipTypeEnums.h"
+#define EquipType_ITEM(x) { #x, -1 },
+#include "EquipTypeEnums.h"
 		{ 0, 0 }
 	};
-	_create_constant_table_nonconsecutive(l, "EquipType", equip_type_constants);
+	_create_constant_table_consecutive(l, "EquipType", equip_type_constants);
 
 
 	/*
@@ -623,7 +537,7 @@ void LuaConstants::Register(lua_State *l)
 	 *   stable
 	 */
 	static const pi_lua_constant_t ship_type_tag_constants[] = {
-#define Tag_ITEM(x) { #x, 0 },
+#define Tag_ITEM(x) { #x, -1 },
 #include "ShipTypeEnums.h"
 		{ 0, 0 }
 	};
@@ -651,7 +565,7 @@ void LuaConstants::Register(lua_State *l)
 	 *   stable
 	 */
 	static const pi_lua_constant_t ship_type_thruster_constants[] = {
-#define Thruster_ITEM(x) { #x, 0 },
+#define Thruster_ITEM(x) { #x, -1 },
 #include "ShipTypeEnums.h"
 		{ 0, 0 }
 	};

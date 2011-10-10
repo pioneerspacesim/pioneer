@@ -25,6 +25,7 @@ noinst_HEADERS = \
 	DeleteEmitter.h \
 	DynamicBody.h \
 	EquipType.h \
+	EquipTypeEnums.h \
 	FaceVideoLink.h \
 	Font.h \
 	FontManager.h \
