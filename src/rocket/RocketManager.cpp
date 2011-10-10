@@ -397,14 +397,21 @@ class RocketEventListenerInstancer : public Rocket::Core::EventListenerInstancer
 public:
 	RocketEventListenerInstancer(RocketManager *rocketManager) : Rocket::Core::EventListenerInstancer(), m_rocketManager(rocketManager) {}
 
-	virtual Rocket::Core::EventListener *InstanceEventListener(const Rocket::Core::String &value)
+	virtual Rocket::Core::EventListener *InstanceEventListener(const Rocket::Core::String &value, Rocket::Core::Element *element)
 	{
+		printf("event '%s' for tag '%s'\n", value.CString(), element->GetTagName().CString());
+
 		std::string eventName(value.CString());
 
 		RocketScreen *screen = m_rocketManager->GetCurrentScreen();
 		if (!screen) return 0;
 
 		RocketEventListener *listener = screen->GetEventListener(eventName);
+
+		Rocket::Core::String shortcut = element->GetAttribute<Rocket::Core::String>("shortcut", "");
+		if (shortcut.Length() > 0)
+			printf("    shortcut: %s\n", shortcut.CString());
+
 		return listener;
 	}
 

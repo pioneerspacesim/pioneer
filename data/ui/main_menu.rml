@@ -6,11 +6,11 @@
 		<h1>Pioneer</h1>
 		<h4 id="engine.version"/>
 		<p>
-			<button class="point" onclick="newgame-earth"/>New game starting on Earth<br/>
-			<button class="point" onclick="newgame-eridani"/>New game starting on Epsilon Eridani<br/>
-			<button class="point" onclick="newgame-debug"/>New game starting on debug point<br/>
-			<button class="point" onclick="loadgame"/>Load a saved game<br/>
-			<button class="point" onclick="quit"/>Quit
+			<button class="point" onclick="newgame-earth" shortcut="1"/>New game starting on Earth<br/>
+			<button class="point" onclick="newgame-eridani" shortcut="2"/>New game starting on Epsilon Eridani<br/>
+			<button class="point" onclick="newgame-debug" shortcut="3"/>New game starting on debug point<br/>
+			<button class="point" onclick="loadgame" shortcut="4"/>Load a saved game<br/>
+			<button class="point" onclick="quit" shortcut="5"/>Quit
 		</p>
 	</body>
 </rml>
