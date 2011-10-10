@@ -262,7 +262,7 @@ define_model('fi', {
 				call_model('ecm_2', v(-1.1,-0.32,-5), v(0,1,0), v(-1,0,0), 0.25)
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
+			if get_equipment('LASER', 1) then
 				use_material('darksteel')
 				texture(nil)
 				load_obj('models/ships/talon/fighter_LGun.obj')

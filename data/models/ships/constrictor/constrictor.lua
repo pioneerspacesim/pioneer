@@ -433,7 +433,7 @@ define_model('conny_equipment', {
 				call_model('antenna_1',v(-2,-1.8,-22),v(1,0,0),v(0,1,0),.8)
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
+			if get_equipment('LASER', 1) then
 				local scale = (get_arg(ARG_SHIP_EQUIP_LASER0)-Equip.PULSECANNON_DUAL_1MW)*.1
 				use_material('chrome')
 				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
@@ -446,7 +446,7 @@ define_model('conny_equipment', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_LASER1) > 0 then
+			if get_equipment('LASER', 2) then
 				local scale = (get_arg(ARG_SHIP_EQUIP_LASER1)-Equip.PULSECANNON_DUAL_1MW)*.1
 				use_material('chrome')
 				if get_arg(ARG_SHIP_EQUIP_LASER1) == Equip.PULSECANNON_DUAL_1MW then

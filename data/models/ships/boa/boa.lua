@@ -201,12 +201,12 @@ define_model('boa', {
 				end
 
 
-				if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
+				if get_equipment('LASER', 1) then
 					use_material('darksteel')
 					call_model('largegun2',v(0,-.2,-39),v(-1,0,0),v(0,1,0),.2)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_LASER1) > 0 then
+				if get_equipment('LASER', 2) then
 					use_material('darksteel')
 					call_model('largegun2',v(0,6.97,22.44),v(1,0,0),v(0,1,0),.4)
 					call_model('largegun2',v(0,-2.945,23),v(-1,0,0),v(0,-1,0),.4)

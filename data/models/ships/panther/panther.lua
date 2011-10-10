@@ -160,12 +160,12 @@ define_model('panther', {
 				text(reg, v(0, -1.527, -18.867), v(0,.2,-1), v(-1,0,0), 1.0, {center=true})
 				zbias(0)
 
-				if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
+				if get_equipment('LASER', 1) then
 					use_material('steel')
 					call_model('largegun1',v(0,-2.56,-19),v(1,0,0),v(0,1,0),.34)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_LASER1) > 0 then
+				if get_equipment('LASER', 2) then
 					use_material('steel')
 					call_model('largegun2',v(0,3.55,15.6),v(1,0,0),v(0,1,0),.34)
 				end

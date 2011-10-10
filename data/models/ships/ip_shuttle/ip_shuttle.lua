@@ -467,7 +467,7 @@ define_model('ip_shuttle', {
 				call_model('scanner_+', v(0,2.5,4), v(1,0,0), v(0,1,0),0.75)
 			end
 			if lod > 2 then
-				if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
+				if get_equipment('LASER', 1) then
 					use_material('alu')
 					cylinder(2*lod, v(0,-0.3,-7), v(0,-0.3,-7.9), v(0,1,0),0.08) -- laser
 					sphere_slice(2*lod,lod, 0, 0.5*math.pi, Matrix.translate(v(0,-0.3,-7.2)) * Matrix.rotate(0.5*math.pi,v(-1,0,0)) * Matrix.scale(v(0.2,0.3,0.2)))

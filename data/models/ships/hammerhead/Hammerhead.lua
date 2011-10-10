@@ -414,13 +414,13 @@ define_model('hh', {
 				call_model('ecm_1', v(38.044,0.565,(-78.316 + (36*get_arg(ARG_SHIP_WHEEL_STATE)))), v(0,-1,0), v(1,0,0), 3.5)
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
+			if get_equipment('LASER', 1) then
 				use_material('darksteel')
 				texture(nil)
 				call_model('hhfgun',v(0,0,36*get_arg(ARG_SHIP_WHEEL_STATE)),v(1,0,0),v(0,1,0),1)
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_LASER1) > 0 then
+			if get_equipment('LASER', 2) then
 				use_material('darksteel')
 				texture(nil)
 				call_model('hhrgun',v(0,0,0),v(1,0,0),v(0,1,0),1)

@@ -970,7 +970,7 @@ define_model('eagle_all', {
 			text(reg, vTXT2, v(0,-1,.0105), v(-1,.1604,-.5), 5, {center = true})
 			zbias(0)
 
-			if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
+			if get_equipment('LASER', 1) then
 				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
 					call_model('eagle_gun',v(20,-.5,0),v(1,0,0),v(0,1,0),1)
 					call_model('eagle_gun',v(-20,-.5,0),v(1,0,0),v(0,1,0),1)
@@ -979,7 +979,7 @@ define_model('eagle_all', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_LASER1) > 0 then
+			if get_equipment('LASER', 2) then
 				if get_arg(ARG_SHIP_EQUIP_LASER1) == Equip.PULSECANNON_DUAL_1MW then
 					call_model('eagle_gun',v(20,-.5,0),v(1,0,0),v(0,1,0),1)
 					call_model('eagle_gun',v(-20,-.5,0),v(1,0,0),v(0,1,0),1)

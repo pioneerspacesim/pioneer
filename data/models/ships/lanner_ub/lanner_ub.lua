@@ -213,7 +213,7 @@ define_model('lub_body', {
 				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('antenna_1', v(0,-.9,-37.98), v(1,0,0), v(0,1,0), 1.5)
 				end
-				if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
+				if get_equipment('LASER', 1) then
 					call_model('lub_gun2', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 				end
 			else
@@ -221,7 +221,7 @@ define_model('lub_body', {
 				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('antenna_1', v(3.15,-1.6,-37.5), v(1,0,0), v(0,1,0), 1.5)
 				end
-				if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
+				if get_equipment('LASER', 1) then
 					call_model('lub_gun1', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 				end
 			end
