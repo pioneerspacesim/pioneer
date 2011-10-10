@@ -176,7 +176,7 @@ define_model('panther', {
 					call_model('antenna_1', v(3,-2.56,-19), v(1,0,0), v(0,1,0), 1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_ECM) > 0 then
+				if get_equipment('ECM') then
 					call_model('ecm_1', v(-9.5,-1.789,-7.958), v(0,1,0), v(-1,0,0), 1)
 					call_model('ecm_1', v(9.5,-1.789,-7.958), v(0,-1,0), v(1,0,0), 1)
 				end

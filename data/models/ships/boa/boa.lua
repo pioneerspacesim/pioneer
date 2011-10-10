@@ -189,7 +189,7 @@ define_model('boa', {
 
 				use_material('darksteel')
 
-				if get_arg(ARG_SHIP_EQUIP_ECM) > 0 then
+				if get_equipment('ECM') then
 					call_model('ecm_1', v(-7.7,1,-10.5), v(0,1,0), v(-1,0,0), 1.4)
 					call_model('ecm_1', v(7.7,1,-10.5), v(0,-1,0), v(1,0,0), 1.4)
 				end
