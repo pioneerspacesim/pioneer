@@ -2,7 +2,6 @@
 #include "LuaManager.h"
 #include "LuaUtils.h"
 #include "LuaObject.h"
-#include "StarSystem.h"
 #include "Polit.h"
 #include "EquipType.h"
 #include "Player.h"
@@ -195,48 +194,9 @@ void LuaConstants::Register(lua_State *l)
 	 *   stable
 	 */
 	static const pi_lua_constant_t body_type_constants[] = {
-		{ "GRAVPOINT",          SBody::TYPE_GRAVPOINT },
-		{ "BROWN_DWARF",        SBody::TYPE_BROWN_DWARF },
-		{ "STAR_M",             SBody::TYPE_STAR_M },
-		{ "STAR_K",             SBody::TYPE_STAR_K },
-		{ "STAR_G",             SBody::TYPE_STAR_G },
-		{ "STAR_F",             SBody::TYPE_STAR_F },
-		{ "STAR_A",             SBody::TYPE_STAR_A },
-		{ "STAR_B",             SBody::TYPE_STAR_B },
-		{ "STAR_O",             SBody::TYPE_STAR_O },
-		{ "WHITE_DWARF",        SBody::TYPE_WHITE_DWARF },
-		{ "STAR_M_GIANT",       SBody::TYPE_STAR_M_GIANT },
-		{ "STAR_K_GIANT",       SBody::TYPE_STAR_K_GIANT },
-		{ "STAR_G_GIANT",       SBody::TYPE_STAR_G_GIANT },
-		{ "STAR_F_GIANT",       SBody::TYPE_STAR_F_GIANT },
-		{ "STAR_A_GIANT",       SBody::TYPE_STAR_A_GIANT },
-		{ "STAR_B_GIANT",       SBody::TYPE_STAR_B_GIANT },
-		{ "STAR_O_GIANT",       SBody::TYPE_STAR_O_GIANT },
-		{ "STAR_M_SUPER_GIANT", SBody::TYPE_STAR_M_SUPER_GIANT },
-		{ "STAR_K_SUPER_GIANT", SBody::TYPE_STAR_K_SUPER_GIANT },
-		{ "STAR_G_SUPER_GIANT", SBody::TYPE_STAR_G_SUPER_GIANT },
-		{ "STAR_F_SUPER_GIANT", SBody::TYPE_STAR_F_SUPER_GIANT },
-		{ "STAR_A_SUPER_GIANT", SBody::TYPE_STAR_A_SUPER_GIANT },
-		{ "STAR_B_SUPER_GIANT", SBody::TYPE_STAR_B_SUPER_GIANT },
-		{ "STAR_O_SUPER_GIANT", SBody::TYPE_STAR_O_SUPER_GIANT },
-		{ "STAR_M_HYPER_GIANT", SBody::TYPE_STAR_M_HYPER_GIANT },
-		{ "STAR_K_HYPER_GIANT", SBody::TYPE_STAR_K_HYPER_GIANT },
-		{ "STAR_G_HYPER_GIANT", SBody::TYPE_STAR_G_HYPER_GIANT },
-		{ "STAR_F_HYPER_GIANT", SBody::TYPE_STAR_F_HYPER_GIANT },
-		{ "STAR_A_HYPER_GIANT", SBody::TYPE_STAR_A_HYPER_GIANT },
-		{ "STAR_B_HYPER_GIANT", SBody::TYPE_STAR_B_HYPER_GIANT },
-		{ "STAR_O_HYPER_GIANT", SBody::TYPE_STAR_O_HYPER_GIANT },
-		{ "STAR_M_WF",          SBody::TYPE_STAR_M_WF },
-		{ "STAR_B_WF",          SBody::TYPE_STAR_B_WF },
-		{ "STAR_O_WF",          SBody::TYPE_STAR_O_WF },
-		{ "STAR_S_BH",          SBody::TYPE_STAR_S_BH },
-		{ "STAR_IM_BH",         SBody::TYPE_STAR_IM_BH },
-		{ "STAR_SM_BH",         SBody::TYPE_STAR_SM_BH },
-		{ "PLANET_GAS_GIANT",   SBody::TYPE_PLANET_GAS_GIANT },
-		{ "PLANET_ASTEROID",    SBody::TYPE_PLANET_ASTEROID },
-		{ "PLANET_TERRESTRIAL", SBody::TYPE_PLANET_TERRESTRIAL },
-		{ "STARPORT_ORBITAL",   SBody::TYPE_STARPORT_ORBITAL },
-		{ "STARPORT_SURFACE",   SBody::TYPE_STARPORT_SURFACE },
+#define BodyType_ITEM(x,y) { #x, y },
+#define BodyType_ITEM_X(x,y)
+#include "StarSystemEnums.h"
 		{ 0, 0 }
 	};
 	_create_constant_table(l, "BodyType", body_type_constants);
@@ -262,11 +222,8 @@ void LuaConstants::Register(lua_State *l)
 	 *   stable
 	 */
 	static const pi_lua_constant_t body_super_type_constants[] = {
-		{ "NONE",         SBody::SUPERTYPE_NONE },
-		{ "STAR",         SBody::SUPERTYPE_STAR },
-		{ "ROCKY_PLANET", SBody::SUPERTYPE_ROCKY_PLANET },
-		{ "GAS_GIANT",    SBody::SUPERTYPE_GAS_GIANT },
-		{ "STARPORT",     SBody::SUPERTYPE_STARPORT },
+#define BodySuperType_ITEM(x,y) { #x, y },
+#include "StarSystemEnums.h"
 		{ 0, 0 }
 	};
 	_create_constant_table(l, "BodySuperType", body_super_type_constants);

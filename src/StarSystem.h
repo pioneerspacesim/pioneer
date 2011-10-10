@@ -48,6 +48,7 @@ public:
 
 	enum BodyType {
 #define BodyType_ITEM(x,y) TYPE_##x = y,
+#define BodyType_ITEM_X(x,y) TYPE_##x = y,
 #include "StarSystemEnums.h"
 	};
 	

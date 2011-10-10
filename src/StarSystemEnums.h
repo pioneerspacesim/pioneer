@@ -10,6 +10,7 @@ EconType_ITEM(INDUSTRY, 1<<2)
 
 #ifndef BodyType_ITEM
 #define BodyType_ITEM(x,y)
+#define BodyType_ITEM_X(x,y)
 #endif
 BodyType_ITEM(GRAVPOINT, 0)
 BodyType_ITEM(BROWN_DWARF, 1) //  L+T Class Brown Dwarfs
@@ -53,12 +54,13 @@ BodyType_ITEM(PLANET_ASTEROID, 38)
 BodyType_ITEM(PLANET_TERRESTRIAL, 39)
 BodyType_ITEM(STARPORT_ORBITAL, 40)
 BodyType_ITEM(STARPORT_SURFACE, 41)
-BodyType_ITEM(MIN, TYPE_BROWN_DWARF)
-BodyType_ITEM(MAX, TYPE_STARPORT_SURFACE)
-BodyType_ITEM(STAR_MIN, TYPE_BROWN_DWARF)
-BodyType_ITEM(STAR_MAX, TYPE_STAR_SM_BH)
+BodyType_ITEM_X(MIN, TYPE_BROWN_DWARF)
+BodyType_ITEM_X(MAX, TYPE_STARPORT_SURFACE)
+BodyType_ITEM_X(STAR_MIN, TYPE_BROWN_DWARF)
+BodyType_ITEM_X(STAR_MAX, TYPE_STAR_SM_BH)
 // XXX need larger atmosphereless thing
 #undef BodyType_ITEM
+#undef BodyType_ITEM_X
 
 #ifndef BodySuperType_ITEM
 #define BodySuperType_ITEM(x,y)
