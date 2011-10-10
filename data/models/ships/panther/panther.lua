@@ -170,7 +170,7 @@ define_model('panther', {
 					call_model('largegun2',v(0,3.55,15.6),v(1,0,0),v(0,1,0),.34)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) > 0 then
+				if get_equipment('SCANNER') then
 					call_model('scanner', v(0,-4.2,-14.546), v(1,0,0), v(0,-1,0), 1)
 					call_model('scanner', v(0,3.45,4.6), v(1,0,0), v(0,1,0), 1)
 					call_model('antenna_1', v(3,-2.56,-19), v(1,0,0), v(0,1,0), 1)

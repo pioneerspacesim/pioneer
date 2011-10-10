@@ -403,7 +403,7 @@ define_model('hh', {
 			set_material('glow', lerp_materials(get_time('seconds')*0.4,	{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, .5 },
 			{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, .1 }))
 
-			if get_arg(ARG_SHIP_EQUIP_SCANNER) > 0 then
+			if get_equipment('SCANNER') then
 				call_model('scanner', v(5.467,14.299,(-74.73 + (36*get_arg(ARG_SHIP_WHEEL_STATE)))), v(-1,0,0), v(0,1,0), 3)
 				call_model('scanner', v(-5.467,14.299,(-74.73 + (36*get_arg(ARG_SHIP_WHEEL_STATE)))), v(1,0,0), v(0,1,0), 3)
 				call_model('antenna_1', v(32.212,1.994,(-91 + (36*get_arg(ARG_SHIP_WHEEL_STATE)))), v(1,0,0), v(0,1,0), 4)
