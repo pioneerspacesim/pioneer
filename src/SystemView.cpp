@@ -71,6 +71,7 @@ SystemView::SystemView()
 
 SystemView::~SystemView()
 {
+	if (m_system) m_system->Release();
 	m_onMouseButtonDown.disconnect();
 }
 
