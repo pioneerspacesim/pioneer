@@ -7,6 +7,7 @@
 #include "ShipFlavour.h"
 #include "SystemPath.h"
 #include "BezierCurve.h"
+#include "Serializer.h"
 #include <list>
 
 class SpaceStation;
@@ -26,7 +27,11 @@ struct shipstats_t {
 	float shield_mass_left;
 };
 
-
+class SerializableEquipSet: public EquipSet {
+public:
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
+};
 
 class Ship: public DynamicBody {
 public:
@@ -135,7 +140,7 @@ public:
 
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
 
-	EquipSet m_equipment;			// shouldn't be public?...
+	SerializableEquipSet m_equipment;			// shouldn't be public?...
 	shipstats_t m_stats;
 
 	virtual void PostLoadFixup();

@@ -4,7 +4,6 @@
 #include "libs.h"
 #include "vector3.h"
 #include "EquipType.h"
-#include "Serializer.h"
 #include <vector>
 #include <map>
 
@@ -140,11 +139,9 @@ public:
 		}
 		return free;
 	}
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
 
 	sigc::signal<void,Equip::Type> onChange;
-private:
+protected:
 	std::vector<Equip::Type> equip[Equip::SLOT_MAX];
 };
 

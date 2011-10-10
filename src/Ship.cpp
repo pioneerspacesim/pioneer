@@ -25,6 +25,39 @@
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
+void SerializableEquipSet::Save(Serializer::Writer &wr)
+{
+	wr.Int32(Equip::SLOT_MAX);
+	for (int i=0; i<Equip::SLOT_MAX; i++) {
+		wr.Int32(equip[i].size());
+		for (unsigned int j=0; j<equip[i].size(); j++) {
+			wr.Int32(static_cast<int>(equip[i][j]));
+		}
+	}
+}
+
+/*
+ * Should have initialised with EquipSet(ShipType::Type) first
+ */
+void SerializableEquipSet::Load(Serializer::Reader &rd)
+{
+	const int numSlots = rd.Int32();
+	assert(numSlots <= Equip::SLOT_MAX);
+	for (int i=0; i<numSlots; i++) {
+		const int numItems = rd.Int32();
+		for (int j=0; j<numItems; j++) {
+			if (j < signed(equip[i].size())) {
+				equip[i][j] = static_cast<Equip::Type>(rd.Int32());
+			} else {
+				// equipment slot sizes have changed. just
+				// dump the difference
+				rd.Int32();
+			}
+		}
+	}
+	onChange.emit(Equip::NONE);
+}
+
 void Ship::Save(Serializer::Writer &wr)
 {
 	DynamicBody::Save(wr);
