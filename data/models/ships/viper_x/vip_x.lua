@@ -578,7 +578,7 @@ define_model('viper_x', {
 			end
 
 			if get_arg(ARG_SHIP_EQUIP_LASER0) >= Equip.PULSECANNON_1MW then
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 
 					-- twin gun socket
 					texture('models/ships/viper_x/vipx_extra1.png')
@@ -613,7 +613,7 @@ define_model('viper_x', {
 			end
 
 			if get_equipment('ECM') == 'ECM_BASIC' then
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 					-- twin gun, single gun socket for ECM1 if scanner not present
 					texture('models/ships/viper_x/vipx_extra1.png')
 					use_material('cv0')
@@ -643,7 +643,7 @@ define_model('viper_x', {
 			end
 
 			if get_equipment('ECM') == 'ECM_ADVANCED' then
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 
 					-- twin gun, single gun socket for ECM2
 					texture('models/ships/viper_x/vipx_extra1.png')
@@ -674,7 +674,7 @@ define_model('viper_x', {
 			end
 
 			if get_equipment('SCANNER') == 'SCANNER' then
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 
 					-- if twin gun, single gun socket for antenna if ECM not present
 					if not get_equipment('ECM') then
@@ -710,7 +710,7 @@ define_model('viper_x', {
 			end
 
 			if get_arg(ARG_SHIP_EQUIP_LASER0) >= Equip.PULSECANNON_1MW then
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 
 				else
 					if not get_equipment('ECM') and not get_equipment('SCANNER') then

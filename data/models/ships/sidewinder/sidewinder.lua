@@ -63,11 +63,11 @@ define_model('rattle_gun', {
 	end,
 	dynamic = function(lod)
 		if get_arg(ARG_SHIP_EQUIP_LASER0) >= Equip.PULSECANNON_1MW then
-			if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+			if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 				call_model('rattle_s_gun',v(9,0,0),v(1,0,0),v(0,1,0),1)
 				call_model('rattle_s_gun',v(-9,0,0),v(1,0,0),v(0,1,0),1)
 			else
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_1MW then
+				if get_equipment('LASER', 1) == 'PULSECANNON_1MW' then
 					call_model('rattle_s_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
 				else
 					if get_arg(ARG_SHIP_EQUIP_LASER0) > Equip.PULSECANNON_DUAL_1MW then
@@ -78,11 +78,11 @@ define_model('rattle_gun', {
 		end
 
 		if get_arg(ARG_SHIP_EQUIP_LASER1) >= Equip.PULSECANNON_1MW then
-			if get_arg(ARG_SHIP_EQUIP_LASER1) == Equip.PULSECANNON_DUAL_1MW then
+			if get_equipment('LASER', 2) == 'PULSECANNON_DUAL_1MW' then
 				call_model('rattle_s_gun',v(9,0,0),v(1,0,0),v(0,1,0),1)
 				call_model('rattle_s_gun',v(-9,0,0),v(1,0,0),v(0,1,0),1)
 			else
-				if get_arg(ARG_SHIP_EQUIP_LASER1) == Equip.PULSECANNON_1MW then
+				if get_equipment('LASER', 2) == 'PULSECANNON_1MW' then
 					call_model('rattle_s_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
 				else
 					if get_arg(ARG_SHIP_EQUIP_LASER1) > Equip.PULSECANNON_DUAL_1MW then
@@ -341,10 +341,10 @@ define_model('rattle', {
 			local mappos_0  = v(0,0,-12.8)
 			local mappos_1  = v(-9,0,-12.8)
 			if get_equipment('SCANNER') == 'SCANNER' then
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 					call_model('antenna_1',mappos_0, v(1,0,0), v(0,1,0), 2)
 				else
-					if get_arg(ARG_SHIP_EQUIP_LASER1) == Equip.PULSECANNON_DUAL_1MW then
+					if get_equipment('LASER', 2) == 'PULSECANNON_DUAL_1MW' then
 						call_model('antenna_1',mappos_0, v(1,0,0), v(0,1,0), 2)
 					else
 						call_model('antenna_1',mappos_1, v(1,0,0), v(0,1,0), 2)

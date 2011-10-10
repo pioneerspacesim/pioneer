@@ -213,19 +213,19 @@ define_model('asps_sub0', {
 
 		if lod > 3 then
 			local M_0 = v(.34,.08,-1.4)
-			if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_UNGUIDED then
+			if get_equipment('MISSILE', 1) == 'MISSILE_UNGUIDED' then
 				call_model('d_unguided',M_0,v(1,0,0),v(0,1,0),.1)
 				call_model('asps_pyl_open',v(0,0,0),v(1,0,0),v(0,1,0),1)
 			else
-				if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 1) == 'MISSILE_GUIDED' then
 					call_model('d_guided',M_0,v(1,0,0),v(0,1,0),.1)
 					call_model('asps_pyl_open',v(0,0,0),v(1,0,0),v(0,1,0),1)
 				else
-					if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_SMART then
+					if get_equipment('MISSILE', 1) == 'MISSILE_SMART' then
 						call_model('d_smart',M_0,v(1,0,0),v(0,1,0),.1)
 						call_model('asps_pyl_open',v(0,0,0),v(1,0,0),v(0,1,0),1)
 					else
-						if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_NAVAL then
+						if get_equipment('MISSILE', 1) == 'MISSILE_NAVAL' then
 							call_model('d_naval',M_0,v(1,0,0),v(0,1,0),.1)
 							call_model('asps_pyl_open',v(0,0,0),v(1,0,0),v(0,1,0),1)
 						end

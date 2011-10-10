@@ -971,7 +971,7 @@ define_model('eagle_all', {
 			zbias(0)
 
 			if get_equipment('LASER', 1) then
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 					call_model('eagle_gun',v(20,-.5,0),v(1,0,0),v(0,1,0),1)
 					call_model('eagle_gun',v(-20,-.5,0),v(1,0,0),v(0,1,0),1)
 				else
@@ -980,7 +980,7 @@ define_model('eagle_all', {
 			end
 
 			if get_equipment('LASER', 2) then
-				if get_arg(ARG_SHIP_EQUIP_LASER1) == Equip.PULSECANNON_DUAL_1MW then
+				if get_equipment('LASER', 2) == 'PULSECANNON_DUAL_1MW' then
 					call_model('eagle_gun',v(20,-.5,0),v(1,0,0),v(0,1,0),1)
 					call_model('eagle_gun',v(-20,-.5,0),v(1,0,0),v(0,1,0),1)
 				else
@@ -992,19 +992,19 @@ define_model('eagle_all', {
 			local M_0 = v(24,-3.5,3)
 			local M_1 = v(-24,-3.5,3)
 
-			if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_UNGUIDED then
+			if get_equipment('MISSILE', 1) == 'MISSILE_UNGUIDED' then
 				call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 				call_model('d_unguided',M_0,v(1,0,0),v(0,1,0),3.5)
 			else
-				if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 1) == 'MISSILE_GUIDED' then
 					call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 					call_model('d_guided',M_0,v(1,0,0),v(0,1,0),3.5)
 				else
-					if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_SMART then
+					if get_equipment('MISSILE', 1) == 'MISSILE_SMART' then
 						call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 						call_model('d_smart',M_0,v(1,0,0),v(0,1,0),3.5)
 					else
-						if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_NAVAL then
+						if get_equipment('MISSILE', 1) == 'MISSILE_NAVAL' then
 							call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 							call_model('d_naval',M_0,v(1,0,0),v(0,1,0),3.5)
 						end
@@ -1012,19 +1012,19 @@ define_model('eagle_all', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_UNGUIDED then
+			if get_equipment('MISSILE', 2) == 'MISSILE_UNGUIDED' then
 				call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 				call_model('d_unguided',M_1,v(1,0,0),v(0,1,0),3.5)
 			else
-				if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 2) == 'MISSILE_GUIDED' then
 					call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 					call_model('d_guided',M_1,v(1,0,0),v(0,1,0),3.831)
 				else
-					if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_SMART then
+					if get_equipment('MISSILE', 2) == 'MISSILE_SMART' then
 						call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 						call_model('d_smart',M_1,v(1,0,0),v(0,1,0),3.5)
 					else
-						if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_NAVAL then
+						if get_equipment('MISSILE', 2) == 'MISSILE_NAVAL' then
 							call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 							call_model('d_naval',M_1,v(1,0,0),v(0,1,0),3.5)
 						end
@@ -1621,19 +1621,19 @@ define_model('eagle_mk4', {
 			local M_0 = v(28,-3,3)
 			local M_1 = v(-28,-3,3)
 
-			if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_UNGUIDED then
+			if get_equipment('MISSILE', 3) == 'MISSILE_UNGUIDED' then
 				call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 				call_model('d_unguided',M_0,v(1,0,0),v(0,1,0),3.5)
 			else
-				if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 3) == 'MISSILE_GUIDED' then
 					call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 					call_model('d_guided',M_0,v(1,0,0),v(0,1,0),3.5)
 				else
-					if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_SMART then
+					if get_equipment('MISSILE', 3) == 'MISSILE_SMART' then
 						call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 						call_model('d_smart',M_0,v(1,0,0),v(0,1,0),3.5)
 					else
-						if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_NAVAL then
+						if get_equipment('MISSILE', 3) == 'MISSILE_NAVAL' then
 							call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 							call_model('d_naval',M_0,v(1,0,0),v(0,1,0),3.5)
 						end
@@ -1641,19 +1641,19 @@ define_model('eagle_mk4', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_UNGUIDED then
+			if get_equipment('MISSILE', 4) == 'MISSILE_UNGUIDED' then
 				call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 				call_model('d_unguided',M_1,v(1,0,0),v(0,1,0),3.5)
 			else
-				if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 4) == 'MISSILE_GUIDED' then
 					call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 					call_model('d_guided',M_1,v(1,0,0),v(0,1,0),3.831)
 				else
-					if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_SMART then
+					if get_equipment('MISSILE', 4) == 'MISSILE_SMART' then
 						call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 						call_model('d_smart',M_1,v(1,0,0),v(0,1,0),3.5)
 					else
-						if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_NAVAL then
+						if get_equipment('MISSILE', 4) == 'MISSILE_NAVAL' then
 							call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 							call_model('d_naval',M_1,v(1,0,0),v(0,1,0),3.5)
 						end

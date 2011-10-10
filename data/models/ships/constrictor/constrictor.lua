@@ -436,7 +436,7 @@ define_model('conny_equipment', {
 			if get_equipment('LASER', 1) then
 				local scale = (get_arg(ARG_SHIP_EQUIP_LASER0)-Equip.PULSECANNON_DUAL_1MW)*.1
 				use_material('chrome')
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 					texture('models/ships/constrictor/iron.png')
 					call_model('conny_gun',v(7,-2,-15),v(1,0,0),v(0,1,0),.8)
 					call_model('conny_gun',v(-7,-2,-15),v(1,0,0),v(0,1,0),.8)
@@ -449,7 +449,7 @@ define_model('conny_equipment', {
 			if get_equipment('LASER', 2) then
 				local scale = (get_arg(ARG_SHIP_EQUIP_LASER1)-Equip.PULSECANNON_DUAL_1MW)*.1
 				use_material('chrome')
-				if get_arg(ARG_SHIP_EQUIP_LASER1) == Equip.PULSECANNON_DUAL_1MW then
+				if get_equipment('LASER', 2) == 'PULSECANNON_DUAL_1MW' then
 					texture('models/ships/constrictor/iron.png')
 					call_model('conny_gun',v(7,-2,13),v(-1,0,0),v(0,1,0),.8)
 					call_model('conny_gun',v(-7,-2,13),v(-1,0,0),v(0,1,0),.8)
@@ -459,7 +459,7 @@ define_model('conny_equipment', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_UNGUIDED then
+			if get_equipment('MISSILE', 1) == 'MISSILE_UNGUIDED' then
 				call_model('conny_pyl',v(-3.935,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 				call_model('d_unguided',v(-3.935,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 
@@ -468,7 +468,7 @@ define_model('conny_equipment', {
 				circle(3*lod,v(-3.935,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 				zbias(0)
 			else
-				if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 1) == 'MISSILE_GUIDED' then
 					call_model('conny_pyl',v(-3.935,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 					call_model('d_guided',v(-3.935,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 					use_material('hole')
@@ -476,7 +476,7 @@ define_model('conny_equipment', {
 					circle(3*lod,v(-3.935,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 					zbias(0)
 				else
-					if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_SMART then
+					if get_equipment('MISSILE', 1) == 'MISSILE_SMART' then
 						call_model('conny_pyl',v(-3.935,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 						call_model('d_smart',v(-3.935,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 						use_material('hole')
@@ -484,7 +484,7 @@ define_model('conny_equipment', {
 						circle(3*lod,v(-3.935,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 						zbias(0)
 					else
-						if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_NAVAL then
+						if get_equipment('MISSILE', 1) == 'MISSILE_NAVAL' then
 							call_model('conny_pyl',v(-3.935,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 							call_model('d_naval',v(-3.935,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 							use_material('hole')
@@ -496,7 +496,7 @@ define_model('conny_equipment', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_UNGUIDED then
+			if get_equipment('MISSILE', 2) == 'MISSILE_UNGUIDED' then
 				call_model('conny_pyl',v(-5.506,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 				call_model('d_unguided',v(-5.506,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 				use_material('hole')
@@ -504,7 +504,7 @@ define_model('conny_equipment', {
 				circle(3*lod,v(-5.506,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 				zbias(0)
 			else
-				if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 2) == 'MISSILE_GUIDED' then
 					call_model('conny_pyl',v(-5.506,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 					call_model('d_guided',v(-5.506,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 					use_material('hole')
@@ -512,7 +512,7 @@ define_model('conny_equipment', {
 					circle(3*lod,v(-5.506,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 					zbias(0)
 				else
-					if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_SMART then
+					if get_equipment('MISSILE', 2) == 'MISSILE_SMART' then
 						call_model('conny_pyl',v(-5.506,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 						call_model('d_smart',v(-5.506,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 						use_material('hole')
@@ -520,7 +520,7 @@ define_model('conny_equipment', {
 						circle(3*lod,v(-5.506,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 						zbias(0)
 					else
-						if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_NAVAL then
+						if get_equipment('MISSILE', 2) == 'MISSILE_NAVAL' then
 							call_model('conny_pyl',v(-5.506,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 							call_model('d_naval',v(-5.506,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 							use_material('hole')
