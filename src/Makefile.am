@@ -113,6 +113,7 @@ noinst_HEADERS = \
 	ShipFlavour.h \
 	ShipSpinnerWidget.h \
 	ShipType.h \
+	ShipTypeEnums.h \
 	Sound.h \
 	SoundMusic.h \
 	Space.h \

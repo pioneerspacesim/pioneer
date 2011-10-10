@@ -5,7 +5,6 @@
 #include "Polit.h"
 #include "EquipType.h"
 #include "Player.h"
-#include "ShipType.h"
 #include "Ship.h"
 
 /*
@@ -79,7 +78,7 @@ const char *LuaConstants::GetConstantString(lua_State *l, const char *ns, int va
 	return name;
 }
 
-static void _create_constant_table(lua_State *l, const char *ns, const pi_lua_constant_t *c)
+static void _create_constant_table(lua_State *l, const char *ns, const pi_lua_constant_t *c, bool consecutive)
 {
 	LUA_DEBUG_START(l);
 
@@ -116,9 +115,13 @@ static void _create_constant_table(lua_State *l, const char *ns, const pi_lua_co
 	lua_pushvalue(l, -2);
 	lua_rawset(l, -4);
 
+	int value = 0;
 	for (; c->name; c++) {
-		pi_lua_settable(l, c->name, c->value);
-		pi_lua_settable(l, c->value, c->name);
+		if (! consecutive)
+			value = c->value;
+		pi_lua_settable(l, c->name, value);
+		pi_lua_settable(l, value, c->name);
+		++value;
 
 		lua_pushinteger(l, lua_objlen(l, -3)+1);
 		lua_pushstring(l, c->name);
@@ -128,6 +131,16 @@ static void _create_constant_table(lua_State *l, const char *ns, const pi_lua_co
 	lua_pop(l, 4);
 
 	LUA_DEBUG_END(l, 0);
+}
+
+static void _create_constant_table_nonconsecutive(lua_State *l, const char *ns, const pi_lua_constant_t *c)
+{
+	_create_constant_table(l, ns, c, false);
+}
+
+static void _create_constant_table_consecutive(lua_State *l, const char *ns, const pi_lua_constant_t *c)
+{
+	_create_constant_table(l, ns, c, true);
 }
 
 void LuaConstants::Register(lua_State *l)
@@ -199,7 +212,7 @@ void LuaConstants::Register(lua_State *l)
 #include "StarSystemEnums.h"
 		{ 0, 0 }
 	};
-	_create_constant_table(l, "BodyType", body_type_constants);
+	_create_constant_table_nonconsecutive(l, "BodyType", body_type_constants);
 
 
 	/*
@@ -226,7 +239,7 @@ void LuaConstants::Register(lua_State *l)
 #include "StarSystemEnums.h"
 		{ 0, 0 }
 	};
-	_create_constant_table(l, "BodySuperType", body_super_type_constants);
+	_create_constant_table_nonconsecutive(l, "BodySuperType", body_super_type_constants);
 
 
 	/*
@@ -254,7 +267,7 @@ void LuaConstants::Register(lua_State *l)
 		{ "MURDER",                Polit::CRIME_MURDER },
 		{ 0, 0 }
 	};
-	_create_constant_table(l, "PolitCrime", polit_crime_constants);
+	_create_constant_table_nonconsecutive(l, "PolitCrime", polit_crime_constants);
 
 
 	/*
@@ -282,7 +295,7 @@ void LuaConstants::Register(lua_State *l)
 		{ "EMPIRE",   Polit::BLOC_EMPIRE },
 		{ 0, 0 }
 	};
-	_create_constant_table(l, "PolitBloc", polit_bloc_constants);
+	_create_constant_table_nonconsecutive(l, "PolitBloc", polit_bloc_constants);
 
 	/*
 	 * Constants: PolitEcon
@@ -311,7 +324,7 @@ void LuaConstants::Register(lua_State *l)
 		{ "PLANNED",         Polit::ECON_PLANNED },
 		{ 0, 0 }
 	};
-	_create_constant_table(l, "PolitEcon", polit_econ_constants);
+	_create_constant_table_nonconsecutive(l, "PolitEcon", polit_econ_constants);
 
 	/*
 	 * Constants: PolitGovType
@@ -362,7 +375,7 @@ void LuaConstants::Register(lua_State *l)
 		{ "DISORDER",      Polit::GOV_DISORDER },
 		{ 0, 0 }
 	};
-	_create_constant_table(l, "PolitGovType", polit_gov_type_constants);
+	_create_constant_table_nonconsecutive(l, "PolitGovType", polit_gov_type_constants);
 
 
 	/*
@@ -415,7 +428,7 @@ void LuaConstants::Register(lua_State *l)
 		{ "AUTOPILOT",        Equip::SLOT_AUTOPILOT },
 		{ 0, 0 }
 	};
-	_create_constant_table(l, "EquipSlot", equip_slot_constants);
+	_create_constant_table_nonconsecutive(l, "EquipSlot", equip_slot_constants);
 
 	/*
 	 * Constants: EquipType
@@ -583,7 +596,7 @@ void LuaConstants::Register(lua_State *l)
 		{ "LARGE_PLASMA_ACCEL",    Equip::LARGE_PLASMA_ACCEL },
 		{ 0, 0 }
 	};
-	_create_constant_table(l, "EquipType", equip_type_constants);
+	_create_constant_table_nonconsecutive(l, "EquipType", equip_type_constants);
 
 
 	/*
@@ -610,13 +623,11 @@ void LuaConstants::Register(lua_State *l)
 	 *   stable
 	 */
 	static const pi_lua_constant_t ship_type_tag_constants[] = {
-		{ "NONE",        ShipType::TAG_NONE },
-		{ "SHIP",        ShipType::TAG_SHIP },
-		{ "STATIC_SHIP", ShipType::TAG_STATIC_SHIP },
-		{ "MISSILE",     ShipType::TAG_MISSILE },
+#define Tag_ITEM(x) { #x, 0 },
+#include "ShipTypeEnums.h"
 		{ 0, 0 }
 	};
-	_create_constant_table(l, "ShipTypeTag", ship_type_tag_constants);
+	_create_constant_table_consecutive(l, "ShipTypeTag", ship_type_tag_constants);
 
 	/*
 	 * Constants: ShipTypeThruster
@@ -640,15 +651,11 @@ void LuaConstants::Register(lua_State *l)
 	 *   stable
 	 */
 	static const pi_lua_constant_t ship_type_thruster_constants[] = {
-		{ "REVERSE", ShipType::THRUSTER_REVERSE },
-		{ "FORWARD", ShipType::THRUSTER_FORWARD },
-		{ "UP",      ShipType::THRUSTER_UP },
-		{ "DOWN",    ShipType::THRUSTER_DOWN },
-		{ "LEFT",    ShipType::THRUSTER_LEFT },
-		{ "RIGHT",   ShipType::THRUSTER_RIGHT },
+#define Thruster_ITEM(x) { #x, 0 },
+#include "ShipTypeEnums.h"
 		{ 0, 0 }
 	};
-	_create_constant_table(l, "ShipTypeThruster", ship_type_thruster_constants);
+	_create_constant_table_consecutive(l, "ShipTypeThruster", ship_type_thruster_constants);
 
 
 	/*
@@ -680,7 +687,7 @@ void LuaConstants::Register(lua_State *l)
 		{ "INSUFFICIENT_FUEL", Ship::HYPERJUMP_INSUFFICIENT_FUEL },
 		{ 0, 0 }
 	};
-	_create_constant_table(l, "ShipJumpStatus", ship_jump_status_constants);
+	_create_constant_table_nonconsecutive(l, "ShipJumpStatus", ship_jump_status_constants);
 
 	/*
 	 * Constants: ShipAlertStatus
@@ -706,7 +713,7 @@ void LuaConstants::Register(lua_State *l)
 		{ "SHIP_FIRING", Ship::ALERT_SHIP_FIRING },
 		{ 0, 0 }
 	};
-	_create_constant_table(l, "ShipAlertStatus", ship_alert_status_constants);
+	_create_constant_table_nonconsecutive(l, "ShipAlertStatus", ship_alert_status_constants);
 
     /*
      * Constants: MissionStatus
@@ -731,7 +738,7 @@ void LuaConstants::Register(lua_State *l)
 		{ "FAILED",    Mission::FAILED },
 		{ 0, 0 }
 	};
-	_create_constant_table(l, "MissionStatus", mission_status_constants);
+	_create_constant_table_nonconsecutive(l, "MissionStatus", mission_status_constants);
 
 
 	LUA_DEBUG_END(l, 0);
