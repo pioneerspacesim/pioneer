@@ -292,7 +292,7 @@ define_model('adder_sub', {
 		set_material('e_glow', lerp_materials(get_time('seconds')*.5,{0, 0, 0, 1, 0, 0, 0, 0, .9, 1.4, 1.5 },
 		{0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.7 }))
 
-		if get_arg(ARG_SHIP_EQUIP_SCOOP) == Equip.FUEL_SCOOP then
+		if get_equipment('FUELSCOOP') == 'FUEL_SCOOP' then
 			set_material('scoop', lerp_materials(get_time('seconds')*.5,{0, 0, 0, 1, 0, 0, 0, 0, .9, 1.4, 1.5 },
 			{0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.7 }))
 		else

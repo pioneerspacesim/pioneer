@@ -526,7 +526,7 @@ define_model('viper_x', {
 			set_material('glow1',lerp_materials(get_time('seconds')*0.3, {0,0,0,1,1,1,1,100,1,2,.5}, {0,0,0,1,1,1,1,100,1.4,1.8,.5}))
 			set_material('e_glow',lerp_materials(get_time('seconds')*0.3, {0,0,0,1,.1,.1,.1,1,.5,.5,2}, {0,0,0,1,.1,.1,.1,1,.85,.8,1.5}))
 
-			if get_arg(ARG_SHIP_EQUIP_SCOOP) == Equip.FUEL_SCOOP then
+			if get_equipment('FUELSCOOP') == 'FUEL_SCOOP' then
 				set_material('sc_glow',lerp_materials(get_time('seconds')*0.3, {0,0,0,1,.1,.1,.1,1,.5,.5,2}, {0,0,0,1,.1,.1,.1,1,.85,.8,1.5}))
 			else
 				set_material('sc_glow', .1,.12,.12,1,.1,.15,.15,5)

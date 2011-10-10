@@ -396,7 +396,7 @@ define_model('asp_sparks', {
 			set_material('e_glow', lerp_materials(get_time('seconds')*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
 			{0, 0, 0, 1, 0, 0, 0, 1, 1, 2.5, 2.5 }))
 
-			if get_arg(ARG_SHIP_EQUIP_SCOOP) == Equip.FUEL_SCOOP then
+			if get_equipment('FUELSCOOP') == 'FUEL_SCOOP' then
 				set_material('scoop', lerp_materials(get_time('seconds')*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
 				{0, 0, 0, 1, 0, 0, 0, 1, 1, 2.5, 2.5 }))
 			else

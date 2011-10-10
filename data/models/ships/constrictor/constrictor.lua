@@ -399,7 +399,7 @@ define_model('conny_equipment', {
 	end,
 	dynamic = function(lod)
 
-		if get_arg(ARG_SHIP_EQUIP_SCOOP) == Equip.FUEL_SCOOP then
+		if get_equipment('FUELSCOOP') == 'FUEL_SCOOP' then
 			set_material('ncv', .33,.35,.3,1,.63,.7,.83,30)
 			set_material('scoop', lerp_materials(get_time('seconds')*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 },
 			{0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 2.5 }))

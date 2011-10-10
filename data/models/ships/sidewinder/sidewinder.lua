@@ -920,7 +920,7 @@ define_model('rattlesnake', {
 
 		-- scoop
 		if lod > 1 then
-			if get_arg(ARG_SHIP_EQUIP_SCOOP) == Equip.FUEL_SCOOP then
+			if get_equipment('FUELSCOOP') == 'FUEL_SCOOP' then
 				use_material('v_glow')
 			else
 				use_material('black')
