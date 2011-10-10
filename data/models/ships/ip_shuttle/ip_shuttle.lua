@@ -462,7 +462,7 @@ define_model('ip_shuttle', {
 			zbias(1,v(1,0.235,0), v(0,0,-1))
 			text(reg, v17, v(1,0.235,0), v(0,0,-1), 1.7, {center = true})
 			zbias(0)
-			if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+			if get_equipment('SCANNER') == 'SCANNER' then
 				use_material('grey')
 				call_model('scanner_+', v(0,2.5,4), v(1,0,0), v(0,1,0),0.75)
 			end

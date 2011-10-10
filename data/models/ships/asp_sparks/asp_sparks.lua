@@ -237,7 +237,7 @@ define_model('asps_sub0', {
 			if select2 < 51 then
 				set_material('cv_0', .63,.7,.83,1,.83,.9,1.03,30)
 				use_material('cv_0')
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_-',v(1,.57,.38),v(1,0,0),v(0,1,0),.15)
 					call_model('antenna_1',v(-.83,.272,-1.94),v(1,0,0),v(0,1,0),.15)
 				end
@@ -251,7 +251,7 @@ define_model('asps_sub0', {
 			else
 				set_material('cv_0', get_arg_material(0))
 				use_material('cv_0')
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_+',v(-1,.57,.38),v(1,0,0),v(0,1,0),.15)
 					call_model('antenna_1',v(.83,.272,-1.94),v(1,0,0),v(0,1,0),.15)
 				end

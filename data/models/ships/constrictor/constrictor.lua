@@ -427,7 +427,7 @@ define_model('conny_equipment', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+			if get_equipment('SCANNER') == 'SCANNER' then
 				use_material('matte')
 				call_model('scanner_-',v2,v(1,0,0),v(0,1,0),1)
 				call_model('antenna_1',v(-2,-1.8,-22),v(1,0,0),v(0,1,0),.8)

@@ -449,7 +449,7 @@ define_model('adder_sub', {
 		texture(nil)
 
 
-		if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+		if get_equipment('SCANNER') == 'SCANNER' then
 			use_material('non_cv')
 			call_model('scanner_+',v(0,3.3,6.2),v(1,0,0),v(0,1,0),1.2)
 			call_model('antenna_1',v(-2,0,-24.55),v(1,0,0),v(0,1,0),1)

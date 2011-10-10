@@ -137,7 +137,7 @@ define_model('eagle_lrf_body', {
 			use_material('steel')
 			selector3()
 			if select3 < 51 then
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_-', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
 					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
@@ -156,7 +156,7 @@ define_model('eagle_lrf_body', {
 					zbias(0)
 				end
 			else
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
 					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
@@ -270,7 +270,7 @@ define_model('eagle_mk2_body', {
 			use_material('steel')
 			selector3()
 			if select3 < 51 then
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_-', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
 					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
@@ -289,7 +289,7 @@ define_model('eagle_mk2_body', {
 					zbias(0)
 				end
 			else
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
 					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
@@ -399,7 +399,7 @@ define_model('eagle_mk3_body', {
 			use_material('steel')
 			selector3()
 			if select3 < 51 then
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_-', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
 					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
@@ -418,7 +418,7 @@ define_model('eagle_mk3_body', {
 					zbias(0)
 				end
 			else
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
 					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
@@ -661,7 +661,7 @@ define_model('eagle_mk4_body', {
 			use_material('steel')
 			selector3()
 			if select3 < 51 then
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_-', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
 					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
@@ -680,7 +680,7 @@ define_model('eagle_mk4_body', {
 					zbias(0)
 				end
 			else
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
 					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end

@@ -210,7 +210,7 @@ define_model('lub_body', {
 			if select4 > 49 then
 				call_model('decal', v(-8.705,1.2,-25.2), v(-1,0,-.475), v(1,.99,.401), 2.5)
 				use_material('matte')
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('antenna_1', v(0,-.9,-37.98), v(1,0,0), v(0,1,0), 1.5)
 				end
 				if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
@@ -218,7 +218,7 @@ define_model('lub_body', {
 				end
 			else
 				use_material('matte')
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('antenna_1', v(3.15,-1.6,-37.5), v(1,0,0), v(0,1,0), 1.5)
 				end
 				if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
@@ -231,7 +231,7 @@ define_model('lub_body', {
 			if get_equipment('ECM') == 'ECM_ADVANCED' then
 				call_model('ecm_2', v(-23.2,-5.09,2), v(-1,0,0), v(.1,-1,0.01), 1.5)
 			end
-			if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+			if get_equipment('SCANNER') == 'SCANNER' then
 				call_model('scanner_-', v(23.2,-4.8,2), v(-1,0,0), v(.1,-1,0.01), 2)
 			end
 		end

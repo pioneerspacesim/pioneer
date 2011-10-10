@@ -250,7 +250,7 @@ define_model('fi', {
 				texture(nil)
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+			if get_equipment('SCANNER') == 'SCANNER' then
 				call_model('scanner', v(-0,0.516,4), v(1,0,0), v(0,1,0), 0.33)
 				call_model('antenna_1', v(0.5,-0.36,-6.524), v(1,0,0), v(0,1,0), 0.3)
 			end

@@ -673,7 +673,7 @@ define_model('viper_x', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+			if get_equipment('SCANNER') == 'SCANNER' then
 				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
 
 					-- if twin gun, single gun socket for antenna if ECM not present

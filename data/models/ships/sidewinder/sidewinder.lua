@@ -308,7 +308,7 @@ define_model('rattle', {
 			local scanpos_l = v(-4.7,4.09,9.9)
 			local ecmpos_r  = v(6.4,2.8,.2)
 			local ecmpos_l  = v(-6.4,2.8,.2)
-			if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+			if get_equipment('SCANNER') == 'SCANNER' then
 				use_material('bot')
 				selector4()
 				if select4 < 51 then
@@ -340,7 +340,7 @@ define_model('rattle', {
 
 			local mappos_0  = v(0,0,-12.8)
 			local mappos_1  = v(-9,0,-12.8)
-			if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+			if get_equipment('SCANNER') == 'SCANNER' then
 				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
 					call_model('antenna_1',mappos_0, v(1,0,0), v(0,1,0), 2)
 				else
