@@ -3,7 +3,6 @@
 #include "LuaUtils.h"
 #include "LuaObject.h"
 #include "Player.h"
-#include "Ship.h"
 
 /*
  * Namespace: Constants
@@ -576,14 +575,11 @@ void LuaConstants::Register(lua_State *l)
 	 *   stable
 	 */
 	static const pi_lua_constant_t ship_jump_status_constants[] = {
-		{ "OK",                Ship::HYPERJUMP_OK },
-		{ "CURRENT_SYSTEM",    Ship::HYPERJUMP_CURRENT_SYSTEM },
-		{ "NO_DRIVE",          Ship::HYPERJUMP_NO_DRIVE },
-		{ "OUT_OF_RANGE",      Ship::HYPERJUMP_OUT_OF_RANGE },
-		{ "INSUFFICIENT_FUEL", Ship::HYPERJUMP_INSUFFICIENT_FUEL },
+#define HyperjumpStatus_ITEM(x) { #x, -1 },
+#include "ShipEnums.h"
 		{ 0, 0 }
 	};
-	_create_constant_table_nonconsecutive(l, "ShipJumpStatus", ship_jump_status_constants);
+	_create_constant_table_consecutive(l, "ShipJumpStatus", ship_jump_status_constants);
 
 	/*
 	 * Constants: ShipAlertStatus
@@ -604,12 +600,11 @@ void LuaConstants::Register(lua_State *l)
 	 *   experimental
 	 */
 	static const pi_lua_constant_t ship_alert_status_constants[] = {
-		{ "NONE",        Ship::ALERT_NONE },
-		{ "SHIP_NEARBY", Ship::ALERT_SHIP_NEARBY },
-		{ "SHIP_FIRING", Ship::ALERT_SHIP_FIRING },
+#define AlertState_ITEM(x) { #x, -1 },
+#include "ShipEnums.h"
 		{ 0, 0 }
 	};
-	_create_constant_table_nonconsecutive(l, "ShipAlertStatus", ship_alert_status_constants);
+	_create_constant_table_consecutive(l, "ShipAlertStatus", ship_alert_status_constants);
 
     /*
      * Constants: MissionStatus

@@ -109,6 +109,7 @@ noinst_HEADERS = \
 	StringF.h \
 	Sfx.h \
 	Ship.h \
+	ShipEnums.h \
 	ShipAICmd.h \
 	ShipCpanel.h \
 	ShipCpanelMultiFuncDisplays.h \

@@ -80,11 +80,8 @@ public:
 	SystemPath GetHyperspaceDest() const { return m_hyperspace.dest; }
 
 	enum HyperjumpStatus {
-		HYPERJUMP_OK,
-		HYPERJUMP_CURRENT_SYSTEM,
-		HYPERJUMP_NO_DRIVE,
-		HYPERJUMP_OUT_OF_RANGE,
-		HYPERJUMP_INSUFFICIENT_FUEL
+#define HyperjumpStatus_ITEM(x) HYPERJUMP_##x,
+#include "ShipEnums.h"
 	};
 	bool CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus = 0);
 	void UseHyperspaceFuel(const SystemPath *dest);
@@ -103,9 +100,8 @@ public:
 	virtual bool FireMissile(int idx, Ship *target);
 
 	enum AlertState {
-		ALERT_NONE,
-		ALERT_SHIP_NEARBY,
-		ALERT_SHIP_FIRING,
+#define AlertState_ITEM(x) ALERT_##x,
+#include "ShipEnums.h"
 	};
 	AlertState GetAlertState() { return m_alertState; }
 
