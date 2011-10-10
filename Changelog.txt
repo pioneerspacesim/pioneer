@@ -4,7 +4,7 @@ Alpha 16
     * Spanish translation (#628)
 
   * Minor changes and tweaks
-    * New assassination missions appear more often (#634)
+    * New assassination missions appear less often (#634)
 
   * Fixes
 	* Optimise trade ship cargo management (#632)
@@ -16,7 +16,8 @@ Alpha 16
     * Improve terrain generation performance
     * Run Lua timers from the physics loop, which should help to make frame
       times a little more consistent
-
+    * Remove deprecated EquipType::types list (#642)
+    * Show Lua memory usage in debug info (#638)
 
 Alpha 15
 
