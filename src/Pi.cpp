@@ -1254,7 +1254,7 @@ void Pi::Start()
 void Pi::EndGame()
 {
 	Pi::luaOnGameEnd->Signal();
-	lua_gc(Pi::luaManager->GetLuaState(), LUA_GCCOLLECT, 0);
+	Pi::luaManager->CollectGarbage();
 	Pi::isGameStarted = false;
 }
 
