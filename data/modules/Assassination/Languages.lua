@@ -55,12 +55,12 @@ Translate:AddFlavour('English','Assassination', {
 })
 
 Translate:Add({ English = {
-  ["%s will be leaving %s in the %s system (%s, %s, %s) at %s. The ship is %s and has registration id %s."] = "%s will be leaving %s in the %s system (%s, %s, %s) at %s. The ship is %s and has registration id %s.",
-  ["It must be done after %s leaves %s. Do not miss this opportunity."] = "It must be done after %s leaves %s. Do not miss this opportunity.",
+  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}) at {date}. The ship is {shipname} and has registration id {shipregid}."] = "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}) at {date}. The ship is {shipname} and has registration id {shipregid}.",
+  ["It must be done after {target} leaves {spaceport}. Do not miss this opportunity."] = "It must be done after {target} leaves {spaceport}. Do not miss this opportunity.",
   ["Assassination"] = "Assassination",
   ["Excellent."] = "Excellent.",
   ["Return here on the completion of the contract and you will be paid."] = "Return here on the completion of the contract and you will be paid.",
-  ["Where can I find %s?"] = "Where can I find %s?",
+  ["Where can I find {target}?"] = "Where can I find {target}?",
   ["Could you repeat the original request?"] = "Could you repeat the original request?",
   ["How soon must it be done?"] = "How soon must it be done?",
   ["How will I be paid?"] = "How will I be paid?",
@@ -145,12 +145,12 @@ Translate:AddFlavour('Polski','Assassination', {
 })
 
 Translate:Add({ Polski = {
-  ["%s will be leaving %s in the %s system (%s, %s, %s) at %s. The ship is %s and has registration id %s."] = "%s będzie opuszczał %s w systemie %s (%s, %s, %s) o %s, na statku %s o identyfikatorze %s.",
-  ["It must be done after %s leaves %s. Do not miss this opportunity."] = "Zrób to po tym jak %s opuści %s. Nie przegap tej okazji.",
+  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}) at {date}. The ship is {shipname} and has registration id {shipregid}."] = "{target} będzie opuszczał {spaceport} w systemie {system} ({sectorX}, {sectorY}, {sectorZ}) o {date}, na statku {shipname} o identyfikatorze {shipregid}.",
+  ["It must be done after {target} leaves {spaceport}. Do not miss this opportunity."] = "Zrób to po tym jak {target} opuści {spaceport}. Nie przegap tej okazji.",
   ["Assassination"] = "Zabójstwo",
   ["Excellent."] = "Wspaniale.",
   ["Return here on the completion of the contract and you will be paid."] = "Wróć tu po wypełnieniu kontraktu, otrzymasz zapłatę.",
-  ["Where can I find %s?"] = "Gdzie mogę znaleźć %s?",
+  ["Where can I find {target}?"] = "Gdzie mogę znaleźć {target}?",
   ["Could you repeat the original request?"] = "Czy możesz powtórzyć swoją ofertę?",
   ["How soon must it be done?"] = "Jak powinienem to zrobić?",
   ["How will I be paid?"] = "Jak będę miał zapłacone?",

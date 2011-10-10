@@ -61,12 +61,27 @@ local onChat = function (form, ref, option)
 		local sys = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
 
-		form:SetMessage(string.format(t("%s will be leaving %s in the %s system (%s, %s, %s) at %s. The ship is %s and has registration id %s."), ad.target, sbody.name, sys.name, ad.location.sectorX, ad.location.sectorY, ad.location.sectorZ, Format.Date(ad.due), ad.shipname, ad.shipregid) )
+		form:SetMessage(string.interp(t("{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}) at {date}. The ship is {shipname} and has registration id {shipregid}."), {
+		  target    = ad.target, 
+		  spaceport = sbody.name,
+		  system    = sys.name, 
+		  sectorX   = ad.location.sectorX, 
+		  sectorY   = ad.location.sectorY, 
+		  sectorZ   = ad.location.sectorZ, 
+		  date      = Format.Date(ad.due), 
+		  shipname  = ad.shipname, 
+		  shipregid = ad.shipregid,
+		  })
+		)
 
 	elseif option == 2 then
 		local sbody = ad.location:GetSystemBody()
 
-		form:SetMessage(string.format(t("It must be done after %s leaves %s. Do not miss this opportunity."), ad.target, sbody.name) )
+		form:SetMessage(string.interp(t("It must be done after {target} leaves {spaceport}. Do not miss this opportunity."), {
+		  target    = ad.target, 
+		  spaceport = sbody.name,
+      })
+    )
 
 	elseif option == 3 then
 		local backstation = Game.player:GetDockedWith().path
@@ -101,7 +116,7 @@ local onChat = function (form, ref, option)
 	elseif option == 4 then
 		form:SetMessage(t("Return here on the completion of the contract and you will be paid."))
 	end
-	form:AddOption(string.format(t("Where can I find %s?"), ad.target), 1);
+	form:AddOption(string.interp(t("Where can I find {target}?"), {target = ad.target}), 1);
 	form:AddOption(t("Could you repeat the original request?"), 0);
 	form:AddOption(t("How soon must it be done?"), 2);
 	form:AddOption(t("How will I be paid?"), 4);
