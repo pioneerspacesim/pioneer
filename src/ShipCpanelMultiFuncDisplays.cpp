@@ -260,7 +260,7 @@ void UseEquipWidget::UpdateEquip()
 			}
 			Add(b, spacing*i, 40);
 			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &UseEquipWidget::FireMissile), i));
-			b->SetToolTip(EquipType::types[t].name);
+			b->SetToolTip(Equip::types[t].name);
 		}
 	}
 
