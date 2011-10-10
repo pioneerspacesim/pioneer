@@ -306,45 +306,45 @@ define_model('viper_pol_gear', {
 	dynamic = function(lod)
 		use_material('col1')
 		--		texture('models/ships/viper/viper_pol1.png')
-		if get_arg(ARG_SHIP_WHEEL_STATE) > 0.95 then
+		if get_animation_position('WHEEL_STATE') > 0.95 then
 			call_model('viperpol_gear20', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.9 then
+		elseif get_animation_position('WHEEL_STATE') > 0.9 then
 			call_model('viperpol_gear19', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.85 then
+		elseif get_animation_position('WHEEL_STATE') > 0.85 then
 			call_model('viperpol_gear18', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.8 then
+		elseif get_animation_position('WHEEL_STATE') > 0.8 then
 			call_model('viperpol_gear17', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.75 then
+		elseif get_animation_position('WHEEL_STATE') > 0.75 then
 			call_model('viperpol_gear16', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.7 then
+		elseif get_animation_position('WHEEL_STATE') > 0.7 then
 			call_model('viperpol_gear15', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.65 then
+		elseif get_animation_position('WHEEL_STATE') > 0.65 then
 			call_model('viperpol_gear14', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.6 then
+		elseif get_animation_position('WHEEL_STATE') > 0.6 then
 			call_model('viperpol_gear13', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.55 then
+		elseif get_animation_position('WHEEL_STATE') > 0.55 then
 			call_model('viperpol_gear12', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.5 then
+		elseif get_animation_position('WHEEL_STATE') > 0.5 then
 			call_model('viperpol_gear11', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.45 then
+		elseif get_animation_position('WHEEL_STATE') > 0.45 then
 			call_model('viperpol_gear10', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.4 then
+		elseif get_animation_position('WHEEL_STATE') > 0.4 then
 			call_model('viperpol_gear09', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.35 then
+		elseif get_animation_position('WHEEL_STATE') > 0.35 then
 			call_model('viperpol_gear08', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.3 then
+		elseif get_animation_position('WHEEL_STATE') > 0.3 then
 			call_model('viperpol_gear07', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.25 then
+		elseif get_animation_position('WHEEL_STATE') > 0.25 then
 			call_model('viperpol_gear06', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.2 then
+		elseif get_animation_position('WHEEL_STATE') > 0.2 then
 			call_model('viperpol_gear05', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.15 then
+		elseif get_animation_position('WHEEL_STATE') > 0.15 then
 			call_model('viperpol_gear04', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.1 then
+		elseif get_animation_position('WHEEL_STATE') > 0.1 then
 			call_model('viperpol_gear03', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.05 then
+		elseif get_animation_position('WHEEL_STATE') > 0.05 then
 			call_model('viperpol_gear02', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0 then
+		elseif get_animation_position('WHEEL_STATE') > 0 then
 			call_model('viperpol_gear01', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		else
 			call_model('viperpol_gear00', v(0,0,0),v(1,0,0),v(0,1,0),1)
@@ -516,45 +516,45 @@ define_model('viper_gear', {
 	dynamic = function(lod)
 		use_material('col1')
 		--		texture('models/ships/viper/viper_a1.png')
-		if get_arg(ARG_SHIP_WHEEL_STATE) > 0.95 then
+		if get_animation_position('WHEEL_STATE') > 0.95 then
 			call_model('viper_gear20', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.9 then
+		elseif get_animation_position('WHEEL_STATE') > 0.9 then
 			call_model('viper_gear19', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.85 then
+		elseif get_animation_position('WHEEL_STATE') > 0.85 then
 			call_model('viper_gear18', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.8 then
+		elseif get_animation_position('WHEEL_STATE') > 0.8 then
 			call_model('viper_gear17', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.75 then
+		elseif get_animation_position('WHEEL_STATE') > 0.75 then
 			call_model('viper_gear16', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.7 then
+		elseif get_animation_position('WHEEL_STATE') > 0.7 then
 			call_model('viper_gear15', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.65 then
+		elseif get_animation_position('WHEEL_STATE') > 0.65 then
 			call_model('viper_gear14', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.6 then
+		elseif get_animation_position('WHEEL_STATE') > 0.6 then
 			call_model('viper_gear13', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.55 then
+		elseif get_animation_position('WHEEL_STATE') > 0.55 then
 			call_model('viper_gear12', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.5 then
+		elseif get_animation_position('WHEEL_STATE') > 0.5 then
 			call_model('viper_gear11', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.45 then
+		elseif get_animation_position('WHEEL_STATE') > 0.45 then
 			call_model('viper_gear10', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.4 then
+		elseif get_animation_position('WHEEL_STATE') > 0.4 then
 			call_model('viper_gear09', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.35 then
+		elseif get_animation_position('WHEEL_STATE') > 0.35 then
 			call_model('viper_gear08', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.3 then
+		elseif get_animation_position('WHEEL_STATE') > 0.3 then
 			call_model('viper_gear07', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.25 then
+		elseif get_animation_position('WHEEL_STATE') > 0.25 then
 			call_model('viper_gear06', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.2 then
+		elseif get_animation_position('WHEEL_STATE') > 0.2 then
 			call_model('viper_gear05', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.15 then
+		elseif get_animation_position('WHEEL_STATE') > 0.15 then
 			call_model('viper_gear04', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.1 then
+		elseif get_animation_position('WHEEL_STATE') > 0.1 then
 			call_model('viper_gear03', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.05 then
+		elseif get_animation_position('WHEEL_STATE') > 0.05 then
 			call_model('viper_gear02', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0 then
+		elseif get_animation_position('WHEEL_STATE') > 0 then
 			call_model('viper_gear01', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		else
 			call_model('viper_gear00', v(0,0,0),v(1,0,0),v(0,1,0),1)

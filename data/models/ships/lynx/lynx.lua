@@ -125,7 +125,7 @@ define_model('lynx', {
 			{0,0,0,1,0,0,0,0,1,1,2}))
 		end
 
-		local rot = .5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,1)
+		local rot = .5*math.pi*math.clamp(get_animation_position('WHEEL_STATE'),0,1)
 		call_model('lx_bulk',v(0,0,0),v(0,0,1),v(math.sin(rot),math.cos(rot),0),1)
 		call_model('lx_bulk',v(0,0,0),v(0,0,1),v(-math.sin(rot),-math.cos(rot),0),1)
 	end

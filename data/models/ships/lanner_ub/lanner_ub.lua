@@ -356,7 +356,7 @@ define_model('lub_fcyl', {
 	dynamic = function(lod)
 		use_material('chrome')
 		texture('models/ships/lanner_ub/iise_g.png', v(0,0,0), v(0,1,0), v(1,0,0))
-		local uc_trans = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.2, 1)
+		local uc_trans = math.clamp(get_animation_position('WHEEL_STATE'), 0.2, 1)
 		ring(3*lod, v(0,0,0), v(0,-4*(uc_trans),0), v(0,0,1), .2)
 		ring(3*lod, v(0,0,0), v(0,-6*(uc_trans),0), v(0,0,1), .15)
 		ring(3*lod, v(0,0,0), v(0,-7.5*(uc_trans-0.05),0), v(0,0,1), .1)
@@ -379,7 +379,7 @@ define_model('lub_bcyl', {
 	dynamic = function(lod)
 		use_material('chrome')
 		texture('models/ships/lanner_ub/iise_g.png', v(0,0,0), v(0,1,0), v(1,0,0))
-		local uc_trans = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.2, 1)
+		local uc_trans = math.clamp(get_animation_position('WHEEL_STATE'), 0.2, 1)
 		xref_ring(3*lod, v(8.7,0,0), v(8.7,-3*(uc_trans),0), v(0,0,1), .2)
 		xref_ring(3*lod, v(8.7,0,0), v(8.7,-4.5*(uc_trans),0), v(0,0,1), .15)
 		xref_ring(3*lod, v(8.7,0,0), v(8.7,-5.9*(uc_trans),0), v(0,0,1), .1)
@@ -413,7 +413,7 @@ define_model('lub_ucf', {
 		load_obj('glengg_v.obj')
 	end,
 	dynamic = function(lod)
-		local w_rot = 0.5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.2, 1)
+		local w_rot = 0.5*math.pi*math.clamp(get_animation_position('WHEEL_STATE'), 0.2, 1)
 		call_model('lub_wf', v(0,0,7.85), v(1,0,0), v(0,math.sin(w_rot),math.cos(w_rot)-0.3),1)
 	end
 })
@@ -449,7 +449,7 @@ define_model('lub_ucb', {
 	end,
 
 	dynamic = function(lod)
-		local w_rot = 0.5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.2, 1)
+		local w_rot = 0.5*math.pi*math.clamp(get_animation_position('WHEEL_STATE'), 0.2, 1)
 		call_model('lub_wb', v(0,0,-5.5), v(1,0,0), v(0,math.cos(w_rot),math.sin(w_rot)-0.3),1)
 	end
 })
@@ -561,11 +561,11 @@ define_model('lanner_ub', {
 		set_material('glow', lerp_materials(get_time('seconds')*0.3, {0, 0, 0, 1, 0, 0, 0, 0, 1.6, 1.9, 0 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, 2.5,0 }))
 		set_material('e_glow', lerp_materials(get_time('seconds')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
 
-		local flap = 1.25*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, 0.4)
-		local flap_f = 0.5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, 1)
-		local flap_re = 1.25*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, 1)
-		local uc_rot = 0.5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.2, 1)  -- uc factor
-		local uc_trans = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.2, 1)
+		local flap = 1.25*math.pi*math.clamp(get_animation_position('WHEEL_STATE'), 0, 0.4)
+		local flap_f = 0.5*math.pi*math.clamp(get_animation_position('WHEEL_STATE'), 0, 1)
+		local flap_re = 1.25*math.pi*math.clamp(get_animation_position('WHEEL_STATE'), 0, 1)
+		local uc_rot = 0.5*math.pi*math.clamp(get_animation_position('WHEEL_STATE'), 0.2, 1)  -- uc factor
+		local uc_trans = math.clamp(get_animation_position('WHEEL_STATE'), 0.2, 1)
 
 		if lod > 1 then
 			call_model('lub_flap_bl_l', v(-10.789,-5.66,2.842), v(0,0,1), v(math.sin(flap),math.cos(flap),0), 1)
@@ -574,13 +574,13 @@ define_model('lanner_ub', {
 			call_model('lub_flap_br_r', v(10.81,-5.66,2.842), v(0,0,1), v(-math.sin(flap),math.cos(flap),0), 1)
 			call_model('lub_flap_ff', v(0,-2.855,-22.949), v(1,0,0), v(0,math.cos(1.1*flap_f),math.sin(1.1*flap_f)), 1)
 
-			if get_arg(ARG_SHIP_WHEEL_STATE) >= 0.6 then
+			if get_animation_position('WHEEL_STATE') >= 0.6 then
 				call_model('lub_flap_fb', v(0,-3.267,-13.22), v(1,0,0), v(0,-math.sin(1.1*flap_re+0.4),math.cos(1.1*flap_re+0.4)), 1)
 			else
 				call_model('lub_flap_fb', v(0,-3.267,-13.22), v(1,0,0), v(0,math.cos(1.1*flap),-math.sin(1.1*flap)), 1)
 			end
 
-			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+			if get_animation_position('WHEEL_STATE') ~= 0 then
 				call_model('lub_cage', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 				call_model('lub_ucf', v(0,-1.5,-22.5), v(1,0,0), v(0,math.cos(uc_rot),math.sin(uc_rot)-0.3), 1)
 				call_model('lub_fcyl', v(-0.4,-.3,-18.1), v(1,0,0), v(0,math.cos(0.57*uc_rot),math.sin(0.57*uc_rot)-0.3), 1)
@@ -601,7 +601,7 @@ define_model('lanner_ub', {
 		end
 
 		if lod == 1 then
-			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+			if get_animation_position('WHEEL_STATE') ~= 0 then
 				cylinder(4, v(0,-2-8*uc_trans,-20), v(0,-2-8*uc_trans,-24), v(0,1,0), 1)
 				xref_cylinder(4, v(9,-2-8*uc_trans,1), v(9,-2-8*uc_trans,9), v(0,1,0), 1)
 			end

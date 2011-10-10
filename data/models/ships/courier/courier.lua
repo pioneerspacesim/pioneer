@@ -829,7 +829,7 @@ define_model('courier_eng_l', {      -- engine part left all models
 			call_model('coll_warn', v(-31.58,-13.6,7), v(1,0,0), v(0,-1,0),2.5)
 		end
 
-		local rot = 1.7*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, .3)
+		local rot = 1.7*math.pi*math.clamp(get_animation_position('WHEEL_STATE'), 0, .3)
 		call_model('courier_flap_ll', v(-32.394, -13.175,13.134), v(math.cos(-rot),math.sin(-rot),0), v(-0.024*rot,0.034*rot,1),1)
 		call_model('courier_flap_lr', v(-30.756, -13.175,13.134), v(math.cos(rot),math.sin(rot),0), v(-0.024*rot,-0.034*rot,-1),1)
 
@@ -893,7 +893,7 @@ define_model('courier_eng_r', {      -- engine part right all models
 			call_model('coll_warn', v(31.58,-13.6,7), v(1,0,0), v(0,-1,0),2.5)
 		end
 
-		local rot = 1.7*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, .3)
+		local rot = 1.7*math.pi*math.clamp(get_animation_position('WHEEL_STATE'), 0, .3)
 		call_model('courier_flap_rl', v(30.756, -13.175,13.134), v(math.cos(-rot),math.sin(-rot),0), v(-0.024*rot,0.034*rot,1),1)
 		call_model('courier_flap_rr', v(32.394, -13.175,13.134), v(math.cos(rot),math.sin(rot),0), v(-0.024*rot,-0.034*rot,-1),1)
 
@@ -991,9 +991,9 @@ define_model('courier_sub', {     -- courier sub-model, all models
 
 	dynamic = function(lod)
 
-		local trans1 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, 1)
-		local trans2 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), .5, 1)
-		local trans3 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, .5)
+		local trans1 = math.clamp(get_animation_position('WHEEL_STATE'), 0, 1)
+		local trans2 = math.clamp(get_animation_position('WHEEL_STATE'), .5, 1)
+		local trans3 = math.clamp(get_animation_position('WHEEL_STATE'), 0, .5)
 
 		call_model('courier_eng_l', v(trans1*9.5,trans1*8,trans1*-5), v(1,0,0), v(0,1,0),1)
 		call_model('courier_lwp5', v(trans1*9.5,trans1*7.7,trans1*-4.5), v(1,0,0), v(0,1,0),1)
@@ -1096,9 +1096,9 @@ define_model('courier', {
 	end,
 	dynamic = function(lod)
 		if lod == 1 then
-			local trans1 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, 1)
-			local trans2 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), .5, 1)
-			local trans3 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, .5)
+			local trans1 = math.clamp(get_animation_position('WHEEL_STATE'), 0, 1)
+			local trans2 = math.clamp(get_animation_position('WHEEL_STATE'), .5, 1)
+			local trans3 = math.clamp(get_animation_position('WHEEL_STATE'), 0, .5)
 
 			local v20 = v(16,1,1)
 			local v21 = v(16,1,7)
@@ -1208,9 +1208,9 @@ define_model('trader', {
 
 	dynamic = function(lod)
 		if lod == 1 then
-			local trans1 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, 1)
-			local trans2 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), .5, 1)
-			local trans3 = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, .5)
+			local trans1 = math.clamp(get_animation_position('WHEEL_STATE'), 0, 1)
+			local trans2 = math.clamp(get_animation_position('WHEEL_STATE'), .5, 1)
+			local trans3 = math.clamp(get_animation_position('WHEEL_STATE'), 0, .5)
 
 			local v20 = v(16,1,1)
 			local v21 = v(16,1,7)

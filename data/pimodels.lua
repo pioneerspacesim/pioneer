@@ -185,7 +185,7 @@ define_model('test', {
 		xref_cylinder(16, v(-8,0,0), v(-8,5,0), v(1,0,0), math.abs(math.sin(poo)))
 		circle(9, v(5*math.sin(poo),5*math.cos(poo),0), v(0,0,1), v(1,0,0), 1.0)
 
-		local ang = 2*math.pi*get_arg(ARG_SHIP_WHEEL_STATE)
+		local ang = 2*math.pi*get_animation_position('WHEEL_STATE')
 		--call_model("blob", v(0,0,-20), v(1,0,0), v(1,1,0),1.0)
 		billboard('smoke.png', 5, v(.5,.5,1), { v(0,0,0), v(10,3,0) })
 	end

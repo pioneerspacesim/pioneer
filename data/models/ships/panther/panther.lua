@@ -84,7 +84,7 @@ define_model('pant_sub', {
 		end
 	end,
 	dynamic = function(lod)
-		local rot = get_arg(ARG_SHIP_WHEEL_STATE)
+		local rot = get_animation_position('WHEEL_STATE')
 		local v1 = v(-6,-3.627+3*rot,-7.017+2*rot)
 		local v2 = v(6,-3.627+3*rot,-7.017+2*rot)
 		local v3 = v(-6,-3.627+3*rot,10.983-2*rot)
@@ -271,7 +271,7 @@ define_model('panther', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+			if get_animation_position('WHEEL_STATE') ~= 0 then
 				call_model('headlight',v(0,-2.78,-18.7),v(1,0,0),v(0,0,-1),3)
 
 				call_model('posl_green', v(9.88,-2.6,-5), v(0,0,1), v(1,-0.27,0),1)
@@ -281,7 +281,7 @@ define_model('panther', {
 			local M_T = v(-7,-1.127,16.017)
 			xref_thruster(M_T, v(0,0,1), 20, true) -- i set thrusters dynamic, else the billboard function (posl.) messes with them
 
-			local rot = get_arg(ARG_SHIP_WHEEL_STATE)
+			local rot = get_animation_position('WHEEL_STATE')
 			local LFB_T = v(-6,-4.7-.8*rot,-6+5*(1-rot))
 			local RFB_T = v(6,-4.7-.8*rot,-6+5*(1-rot))
 			local LRB_T = v(-6,-4.7-.8*rot,10-5*(1-rot))

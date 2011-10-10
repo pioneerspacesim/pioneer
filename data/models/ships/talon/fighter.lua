@@ -67,7 +67,7 @@ define_model('tfrgear', {
 	end,
 
 	dynamic = function(lod)
-		local rot = get_arg(ARG_SHIP_WHEEL_STATE)
+		local rot = get_animation_position('WHEEL_STATE')
 		--texture('fighter.png')
 		call_model('rff', v(.5*rot,0,0),v(1,0,0),v(0,1,0),1)
 		call_model('lff', v(-.5*rot,0,0), v(1,0,0), v(0,1,0), 1)
@@ -230,8 +230,8 @@ define_model('fi', {
 	end,
 	dynamic = function(lod)
 		if lod > 3 then
-			if get_arg(ARG_SHIP_WHEEL_STATE) > 0 then
-				local rot = get_arg(ARG_SHIP_WHEEL_STATE)
+			if get_animation_position('WHEEL_STATE') > 0 then
+				local rot = get_animation_position('WHEEL_STATE')
 				texture('models/ships/talon/fighter.png')
 				use_material('medsteel')
 				load_obj('models/ships/talon/fighter_bot2.obj')

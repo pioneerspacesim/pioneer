@@ -88,8 +88,8 @@ define_model('nosewheelunit', {
 		xref_quad(v8, v6, v7, v9)
 		-- SHould use parameter material(2) here but param materials not done yet
 		use_material('matvar2')
-		local flap_ang = 0.5*math.pi*math.clamp(3*get_arg(ARG_SHIP_WHEEL_STATE),0,1)
-		local wheel_ang = 0.5*math.pi*math.clamp(1.5*(get_arg(ARG_SHIP_WHEEL_STATE)-0.34), 0, 1)
+		local flap_ang = 0.5*math.pi*math.clamp(3*get_animation_position('WHEEL_STATE'),0,1)
+		local wheel_ang = 0.5*math.pi*math.clamp(1.5*(get_animation_position('WHEEL_STATE')-0.34), 0, 1)
 		local vrot = 1.5*v(-math.cos(flap_ang), math.sin(flap_ang), 0)
 		xref_quad(v7, v6, v6+vrot, v7+vrot)
 		xref_quad(v7, v7+vrot, v6+vrot, v6)
@@ -148,8 +148,8 @@ define_model('mainwheelunit', {
 		xref_quad(v8, v6, v7, v9)
 		-- SHould use parameter material(2) here but param materials not done yet
 		use_material('matvar2')
-		local flap_ang = 0.5*math.pi*math.clamp(3*get_arg(ARG_SHIP_WHEEL_STATE),0,1)
-		local wheel_ang = 0.5*math.pi*math.clamp(1.5*(get_arg(ARG_SHIP_WHEEL_STATE)-0.34), 0, 1)
+		local flap_ang = 0.5*math.pi*math.clamp(3*get_animation_position('WHEEL_STATE'),0,1)
+		local wheel_ang = 0.5*math.pi*math.clamp(1.5*(get_animation_position('WHEEL_STATE')-0.34), 0, 1)
 		local vrot = 1.5*v(-math.cos(flap_ang), math.sin(flap_ang), 0)
 		xref_quad(v7, v6, v6+vrot, v7+vrot)
 		xref_quad(v7, v7+vrot, v6+vrot, v6)
@@ -299,7 +299,7 @@ define_model('ladybird', {
 			text(label,v(-8.9,3.6,.07),v(-1.8,1,1),v(-.25,0,1),1.5, {center=true})
 			zbias(0)
 		end
-		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+		if get_animation_position('WHEEL_STATE') ~= 0 then
 			local v35 = v(0.0, -5.0, -13.0);
 			local v36 = v(-15.0, -5.0, 3.0);
 			local v37 = v(15.0, -5.0, 3.0);
@@ -490,16 +490,16 @@ define_model('walrus', {
 			zbias(1, v10, v55)
 			text(reg, v10, v55, v(0,0,1), 10.0, {xoffset=.8, yoffset=.3})
 		end
-		if get_arg(ARG_SHIP_WHEEL_STATE) > 0 then
+		if get_animation_position('WHEEL_STATE') > 0 then
 			zbias(1, v40, v(0,-1,0))
 			call_model('nosewheelunit', v40, v(-1,0,0), v(0,-1,0), 2.0)
 			call_model('mainwheelunit', v41, v(-1,0,0), v(0,-1,0), 2.0)
 		end
 		zbias(0)
-		local ang = math.pi - 0.5 + 0.5*get_arg(ARG_SHIP_WHEEL_STATE)
+		local ang = math.pi - 0.5 + 0.5*get_animation_position('WHEEL_STATE')
 		local xaxis = v(math.sin(ang), math.cos(ang), 0)
 		call_model('__walruswing', v23, xaxis, v(0,0,-1):cross(xaxis), 1.0)
-		ang = 0.5 - 0.5*get_arg(ARG_SHIP_WHEEL_STATE)
+		ang = 0.5 - 0.5*get_animation_position('WHEEL_STATE')
 		local xaxis = v(math.sin(ang), math.cos(ang), 0)
 		call_model('__walruswing', v26, xaxis, v(0,0,-1):cross(xaxis), 1.0)
 	end
@@ -637,7 +637,7 @@ define_model('flowerfairy', {
 			text(reg, rightText, v(1,0,0), v(0,0,-1), 4, {center=true})
 		end
 
-		if get_arg(ARG_SHIP_WHEEL_STATE) > 0 then
+		if get_animation_position('WHEEL_STATE') > 0 then
 			zbias(1, v34, v(0,-1,0))
 			call_model('mainwheelunit', v34, v(-1,0,0), v(0,-1,0), .6)
 			call_model('mainwheelunit', v35, v(-1,0,0), v(0,-1,0), .6)
@@ -970,7 +970,7 @@ define_model('interdictor', {
 			use_material('text')
 		end
 
-		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+		if get_animation_position('WHEEL_STATE') ~= 0 then
 			-- lights on wingtips
 			local lightphase = math.fmod(get_time('seconds'), 1)
 			if lightphase > .9 then

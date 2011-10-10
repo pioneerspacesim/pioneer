@@ -43,7 +43,7 @@ define_model('asps_flap_r', {
 	static = function(lod)
 	end,
 	dynamic = function(lod)
-		local flap = math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
+		local flap = math.pi*math.clamp(get_animation_position('WHEEL_STATE'),0,.5)
 		call_model('asps_flap_r_0',v(0,0,0),v(0,0,1),v(math.sin(flap),math.cos(flap),0),1)
 	end
 })
@@ -55,7 +55,7 @@ define_model('asps_flap_l', {
 	static = function(lod)
 	end,
 	dynamic = function(lod)
-		local flap = math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
+		local flap = math.pi*math.clamp(get_animation_position('WHEEL_STATE'),0,.5)
 		call_model('asps_flap_l_0',v(0,0,0),v(0,0,1),v(-math.sin(flap),math.cos(flap),0),1)
 	end
 })
@@ -389,8 +389,8 @@ define_model('asp_sparks', {
 		end
 	end,
 	dynamic = function(lod)
-		local flap = math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
-		local rot = .5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.3,1)-.46
+		local flap = math.pi*math.clamp(get_animation_position('WHEEL_STATE'),0,.5)
+		local rot = .5*math.pi*math.clamp(get_animation_position('WHEEL_STATE'),.3,1)-.46
 
 		if lod > 1 then
 			set_material('e_glow', lerp_materials(get_time('seconds')*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
@@ -427,7 +427,7 @@ define_model('asp_sparks', {
 		call_model('asps_wheel_r_l',v(-1.607,-.164,1.752),v(0,math.sin(.25*rot),1),v(math.sin(1.7*rot),math.cos(1.7*rot),0),1)
 
 		if lod > 2 then
-			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+			if get_animation_position('WHEEL_STATE') ~= 0 then
 				billboard('smoke.png', .05, v(1,1,1), { v(-.299,.067,-1.687),v(-.416,.067,-1.687) })
 				billboard('smoke.png', .025, v(.6,1.2,1.2), { v(-.202,.045,-1.659) })
 			end

@@ -74,7 +74,7 @@ define_model('conny_piston_f', {
 		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 	end,
 	dynamic = function(lod)
-		local trans = 0.5*math.pi*math.clamp(1.5*(get_arg(ARG_SHIP_WHEEL_STATE)-0.3), 0, 1)
+		local trans = 0.5*math.pi*math.clamp(1.5*(get_animation_position('WHEEL_STATE')-0.3), 0, 1)
 		if lod > 1 then
 			texture('models/ships/constrictor/metal.png')
 			use_material('chrome')
@@ -122,7 +122,7 @@ define_model('conny_w_front', {
 		set_material('ncv', .33,.35,.3,1,.63,.7,.83,30)
 	end,
 	dynamic = function(lod)
-		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+		if get_animation_position('WHEEL_STATE') ~= 0 then
 			local v0 = v(3.5,-4,10)
 			local v1 = v(-3.5,-4,10)
 			local v2 = v(3.5,0,10)
@@ -133,8 +133,8 @@ define_model('conny_w_front', {
 			local v8 = v(0,0,10)
 			local v9 = v(0,0,-10)
 
-			local frot = math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
-			local wrot = 0.5*math.pi*math.clamp(1.5*(get_arg(ARG_SHIP_WHEEL_STATE)-0.3), 0, 1)
+			local frot = math.pi*math.clamp(get_animation_position('WHEEL_STATE'),0,.5)
+			local wrot = 0.5*math.pi*math.clamp(1.5*(get_animation_position('WHEEL_STATE')-0.3), 0, 1)
 
 			if lod > 1 then
 				use_material('inside')
@@ -208,7 +208,7 @@ define_model('conny_w_rear_r', {
 		set_material('ncv', .33,.35,.3,1,.63,.7,.83,30)
 	end,
 	dynamic = function(lod)
-		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+		if get_animation_position('WHEEL_STATE') ~= 0 then
 			local v0 = v(3.5,-4,10)
 			local v1 = v(-3.5,-4,10)
 			local v2 = v(3.5,0,10)
@@ -219,9 +219,9 @@ define_model('conny_w_rear_r', {
 			local v8 = v(0,0,10)
 			local v9 = v(0,0,-10)
 
-			local frot = math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
-			local rot = 0.5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE)-.3 ,0,1)
-			local trans = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE)-.3 ,0,1)
+			local frot = math.pi*math.clamp(get_animation_position('WHEEL_STATE'),0,.5)
+			local rot = 0.5*math.pi*math.clamp(get_animation_position('WHEEL_STATE')-.3 ,0,1)
+			local trans = math.clamp(get_animation_position('WHEEL_STATE')-.3 ,0,1)
 
 			if lod > 1 then
 				use_material('inside')
@@ -269,7 +269,7 @@ define_model('conny_w_rear_l', {
 		set_material('ncv', .33,.35,.3,1,.63,.7,.83,30)
 	end,
 	dynamic = function(lod)
-		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+		if get_animation_position('WHEEL_STATE') ~= 0 then
 			local v0 = v(3.5,-4,10)
 			local v1 = v(-3.5,-4,10)
 			local v2 = v(3.5,0,10)
@@ -280,9 +280,9 @@ define_model('conny_w_rear_l', {
 			local v8 = v(0,0,10)
 			local v9 = v(0,0,-10)
 
-			local frot = math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
-			local rot = 0.5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE)-.3 ,0,1)
-			local trans = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE)-.3 ,0,1)
+			local frot = math.pi*math.clamp(get_animation_position('WHEEL_STATE'),0,.5)
+			local rot = 0.5*math.pi*math.clamp(get_animation_position('WHEEL_STATE')-.3 ,0,1)
+			local trans = math.clamp(get_animation_position('WHEEL_STATE')-.3 ,0,1)
 
 			if lod > 1 then
 				use_material('inside')

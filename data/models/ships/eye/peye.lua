@@ -76,8 +76,8 @@ define_model('eye_0', {
 			zbias(0)
 		end
 
-		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
-			local uc_trans = 2*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, 1)
+		if get_animation_position('WHEEL_STATE') ~= 0 then
+			local uc_trans = 2*math.clamp(get_animation_position('WHEEL_STATE'), 0, 1)
 			use_material('chrome')
 			texture('models/ships/eye/eye8.png')
 			tapered_cylinder(3*lod, v(3.2,-7,-5.3), v(3.2+uc_trans,-7-(2*uc_trans),-5.3-uc_trans), v(0,0,1), .3,.2)

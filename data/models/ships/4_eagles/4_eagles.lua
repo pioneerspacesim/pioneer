@@ -740,7 +740,7 @@ define_model('eagle_cyl', {
 	dynamic = function(lod)
 		use_material('chrome')
 		texture('models/ships/4_eagles/tex8.png', v(0,0,0), v(0,1,0), v(1,0,0))
-		local uc_trans = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.3, 1)
+		local uc_trans = math.clamp(get_animation_position('WHEEL_STATE'), 0.3, 1)
 		xref_ring(3*lod, v(9,0,0), v(9,(7*-uc_trans)+1.7,0), v(0,0,1), .25)
 		xref_ring(3*lod, v(9,0,0), v(9,(9*-uc_trans)+1.7,0), v(0,0,1), .2)
 		xref_ring(3*lod, v(9,0,0), v(9,(11*-uc_trans)+1.7,0), v(0,0,1), .15)
@@ -916,15 +916,15 @@ define_model('eagle_all', {
 	end,
 
 	dynamic = function(lod)
-		local trans1 = 6.667*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.3)
-		local trans2 = 12*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.3,1)
-		local rot = 2.4*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.3,1)
+		local trans1 = 6.667*math.clamp(get_animation_position('WHEEL_STATE'),0,.3)
+		local trans2 = 12*math.clamp(get_animation_position('WHEEL_STATE'),.3,1)
+		local rot = 2.4*math.clamp(get_animation_position('WHEEL_STATE'),.3,1)
 
 		if lod > 1 then
 
 			set_material('e_glow', lerp_materials(get_time('seconds')*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
 
-			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+			if get_animation_position('WHEEL_STATE') ~= 0 then
 				local v64 = v(9-trans1,-1.55-(trans1/5),1)
 				local v66 = v(9+trans1,-1.55+(trans1/8),1)
 				local v68 = v(9+trans1,-3.53-(trans1/6),13)
@@ -954,7 +954,7 @@ define_model('eagle_all', {
 
 		texture(nil)
 		if lod == 1 then
-			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+			if get_animation_position('WHEEL_STATE') ~= 0 then
 				xref_cylinder(4, v(9,3.6-trans2,1), v(9,3.6-trans2,13), v(0,1,0), 2)
 			end
 		end

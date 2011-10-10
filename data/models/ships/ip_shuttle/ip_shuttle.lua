@@ -408,7 +408,7 @@ define_model('ip_shuttle', {
 			if lod > 2 then
 				texture('models/ships/ip_shuttle/ips_bottom.png', v(0.5,0.5,0), v(0.162,0,0), v(0,0,0.455))
 			end
-			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+			if get_animation_position('WHEEL_STATE') ~= 0 then
 
 				quad(v10,v32,v35,v08) -- bottom uc engaged
 				quad(v10,v11,v33,v32)
@@ -418,7 +418,7 @@ define_model('ip_shuttle', {
 				quad(v08,v35,v34,v39)
 				quad(v33,v36,v39,v34)
 
-				local flap = 1.2*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, 0.6)  -- flap factor
+				local flap = 1.2*math.pi*math.clamp(get_animation_position('WHEEL_STATE'), 0, 0.6)  -- flap factor
 
 				call_model('ips_r1_flap', v(1.2,-1.2,0), v(0,-1,0), v(math.sin(flap),math.cos(flap),0), 1)  -- right uc flaps
 				call_model('ips_r2_flap', v(2.3,-1.2,0), v(0,1,0), v(-math.sin(flap),math.cos(flap),0), 1)
@@ -438,8 +438,8 @@ define_model('ip_shuttle', {
 				texture(nil)
 				use_material('alu')
 
-				local uc_rot = 0.5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.14, 1)  -- uc factor
-				local uc_trans = 1.9*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.14, 1)
+				local uc_rot = 0.5*math.pi*math.clamp(get_animation_position('WHEEL_STATE'), 0.14, 1)  -- uc factor
+				local uc_trans = 1.9*math.clamp(get_animation_position('WHEEL_STATE'), 0.14, 1)
 
 				xref_ring(3*lod, v(1.4,-0.6,-2.5), v(1.4+uc_rot,-0.6-uc_trans,-2.5), v(1,1,0),0.08)  -- under carriage
 				xref_ring(3*lod, v(1.4,-0.6,2.5), v(1.4+uc_rot,-0.6-uc_trans,2.5), v(1,1,0),0.08)
