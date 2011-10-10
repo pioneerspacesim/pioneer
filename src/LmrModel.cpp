@@ -3714,7 +3714,7 @@ namespace ModelFuncs {
 			const char *animName = luaL_checkstring(L, 1);
 			int anim = LuaConstants::GetConstant(L, s_curParams->animationNamespace, animName);
 			assert(anim >= 0 && anim < LmrObjParams::LMR_ANIMATION_MAX);
-			lua_pushinteger(L, s_curParams->animValues[anim]);
+			lua_pushnumber(L, s_curParams->animValues[anim]);
 			return 1;
 		} else
 			return luaL_error(L, "You can only use get_animation_position for model types that are supposed to have animations.");
