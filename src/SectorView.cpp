@@ -845,12 +845,12 @@ Sector* SectorView::GetCached(int sectorX, int sectorY, int sectorZ)
 void SectorView::ShrinkCache()
 {
 	// we're going to use these to determine if our sectors are within the range that we'll ever render
-	const int xmin = floorf(m_pos.x)-DRAW_RAD;
-	const int xmax = ceilf(m_pos.x)+DRAW_RAD;
-	const int ymin = floorf(m_pos.y)-DRAW_RAD;
-	const int ymax = ceilf(m_pos.y)+DRAW_RAD;
-	const int zmin = floorf(m_pos.z)-DRAW_RAD;
-	const int zmax = ceilf(m_pos.z)+DRAW_RAD;
+	const int xmin = int(floorf(m_pos.x))-DRAW_RAD;
+	const int xmax = int(ceilf(m_pos.x))+DRAW_RAD;
+	const int ymin = int(floorf(m_pos.y))-DRAW_RAD;
+	const int ymax = int(ceilf(m_pos.y))+DRAW_RAD;
+	const int zmin = int(floorf(m_pos.z))-DRAW_RAD;
+	const int zmax = int(ceilf(m_pos.z))+DRAW_RAD;
 
 	// XXX don't clear the current/selected/target sectors
 
