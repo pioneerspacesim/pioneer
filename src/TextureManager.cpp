@@ -45,5 +45,11 @@ namespace TextureManager {
 		s_textures[filename] = tex;
 		return tex;
 	}
+
+	void Clear()
+	{
+		std::map<std::string, Texture*>::iterator i;
+		for (i=s_textures.begin(); i!=s_textures.end(); ++i) delete (*i).second;		
+	}
 }
 

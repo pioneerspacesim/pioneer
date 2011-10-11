@@ -32,12 +32,14 @@ local addShipEquip = function (ship)
 	ship:AddEquip('AUTOPILOT')
 	ship:AddEquip('CARGO_LIFE_SUPPORT')
 
+	local stats = ship:GetStats()
+
 	-- add defensive equipment based on lawlessness, luck and size
 	local lawlessness = Game.system.lawlessness
-	local size_factor = ship:GetEquipFree('CARGO') ^ 2 / 2000000
+	local size_factor = stats.freeCapacity ^ 2 / 2000000
 
 	if Engine.rand:Number(1) - 0.1 < lawlessness then
-		local num = math.floor(math.sqrt(ship:GetEquipFree('CARGO') / 50)) -
+		local num = math.floor(math.sqrt(stats.freeCapacity / 50)) -
 					 ship:GetEquipCount('SHIELD', 'SHIELD_GENERATOR')
 		if num > 0 then ship:AddEquip('SHIELD_GENERATOR', num) end
 		if ship_type:GetEquipSlotCapacity('ENERGYBOOSTER') > 0 and
@@ -65,8 +67,9 @@ end
 local addShipCargo = function (ship, direction)
 	local prices = Game.system:GetCommodityBasePriceAlterations()
 	local added = 0
-	local empty_space = ship:GetEquipFree('CARGO')
+	local empty_space = ship:GetStats().freeCapacity
 	local size_factor = empty_space / 20
+	trade_ships[ship.label]['cargo'] = {}
 
 	while added < empty_space do
 		local cargo
@@ -83,6 +86,7 @@ local addShipCargo = function (ship, direction)
 		num = Engine.rand:Integer(num, num * 2)
 
 		added = added + ship:AddEquip(cargo, num)
+		trade_ships[ship.label]['cargo'][cargo] = true
 	end
 
 	return added
@@ -489,12 +493,8 @@ local onShipDocked = function (ship, starport)
 
 	-- 'sell' trade cargo
 	local delay = 0
-	local cargo_list = ship:GetEquip('CARGO')
-	for i = 1, #cargo_list do
-		local cargo = cargo_list[i]
-		if cargo ~= 'HYDROGEN' then
-			delay = delay + ship:RemoveEquip(cargo, 1000000)
-		end
+	for cargo, _ in pairs(trader.cargo) do
+		delay = delay + ship:RemoveEquip(cargo, 1000000)
 	end
 
 	local damage = ShipType.GetShipType(trader.ship_name).hullMass -

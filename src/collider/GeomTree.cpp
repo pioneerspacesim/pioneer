@@ -87,7 +87,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, uns
 		aabbs[i].Update(v3);
 	}
 	
-	int t = SDL_GetTicks();
+	//int t = SDL_GetTicks();
 	m_triTree = new BVHTree(activeTris.size(), &activeTris[0], aabbs);
 	delete [] aabbs;
 	//printf("Tri tree of %d tris build in %dms\n", activeTris.size(), SDL_GetTicks() - t);
@@ -120,7 +120,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, uns
 		aabbs[pos].min = aabbs[pos].max = v1;
 		aabbs[pos].Update(v2);
 	}
-	t = SDL_GetTicks();
+	//t = SDL_GetTicks();
 	m_edgeTree = new BVHTree(m_numEdges, edgeIdxs, aabbs);
 	delete [] aabbs;
 	delete [] edgeIdxs;

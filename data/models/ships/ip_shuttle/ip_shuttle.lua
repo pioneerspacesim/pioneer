@@ -136,11 +136,11 @@ define_model('ip_shuttle', {
 				max_fuelscoop = 0,
 				max_cargoscoop = 0,
 				max_ecm = 0,
+				max_engine = 0,
+				hyperdrive_class = 0,
 				capacity = 12,
 				hull_mass = 12,
 				price = 14000,
-				hyperdrive_class = 0,
-
 			}
 		}
 	},

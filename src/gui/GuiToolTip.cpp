@@ -19,6 +19,11 @@ ToolTip::ToolTip(std::string &text)
 	m_createdTime = SDL_GetTicks();
 }
 
+ToolTip::~ToolTip()
+{
+	delete m_layout;
+}
+
 void ToolTip::CalcSize()
 {
 	float size[2];

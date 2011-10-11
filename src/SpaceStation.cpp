@@ -200,6 +200,19 @@ void SpaceStation::Init()
 	printf("%lu orbital station types and %lu surface station types.\n", orbitalStationTypes.size(), surfaceStationTypes.size());
 }
 
+void SpaceStation::Uninit()
+{
+	std::vector<SpaceStationType>::iterator i;
+	for (i=surfaceStationTypes.begin(); i!=surfaceStationTypes.end(); ++i) {
+		delete[] (*i).dockAnimStageDuration;
+		delete[] (*i).undockAnimStageDuration;
+	}
+	for (i=orbitalStationTypes.begin(); i!=orbitalStationTypes.end(); ++i) {
+		delete[] (*i).dockAnimStageDuration;
+		delete[] (*i).undockAnimStageDuration;
+	}
+}
+
 float SpaceStation::GetDesiredAngVel() const
 {
 	return m_type->angVel;
@@ -287,10 +300,10 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 	m_lastUpdatedShipyard = 0;
 	m_numPoliceDocked = Pi::rng.Int32(3,10);
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if (EquipType::types[i].slot == Equip::SLOT_CARGO) {
+		if (Equip::types[i].slot == Equip::SLOT_CARGO) {
 			m_equipmentStock[i] = Pi::rng.Int32(0,100) * Pi::rng.Int32(1,100);
 		} else {
-			if (EquipType::types[i].techLevel <= Pi::currentSystem->m_techlevel)
+			if (Equip::types[i].techLevel <= Pi::currentSystem->m_techlevel)
 				m_equipmentStock[i] = Pi::rng.Int32(0,100);
 		}
 	}
@@ -659,7 +672,7 @@ bool SpaceStation::DoesSell(Equip::Type t) const {
 
 Sint64 SpaceStation::GetPrice(Equip::Type t) const {
 	Sint64 mul = 100 + Pi::currentSystem->GetCommodityBasePriceModPercent(t);
-	return (mul * Sint64(EquipType::types[t].basePrice)) / 100;
+	return (mul * Sint64(Equip::types[t].basePrice)) / 100;
 }
 
 bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)

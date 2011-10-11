@@ -2,8 +2,6 @@
 #include "StarSystem.h"
 #include "Lang.h"
 
-const EquipType *EquipType::types = Equip::types;
-
 const EquipType Equip::types[Equip::TYPE_MAX] = {
 	{ Lang::NONE, 0,
 	  Equip::SLOT_CARGO, -1, {},

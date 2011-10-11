@@ -459,6 +459,12 @@
     <ClCompile Include="..\..\src\LuaConsole.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LuaLang.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\TerrainBody.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -957,6 +963,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\StringF.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaLang.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\TerrainBody.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1050,7 +1050,7 @@ WEAPON_TEMP
 HULL_INTEGRITY
     Integritet trupa
 SHIELD_INTEGRITY
-    Integritet štitova
+    Integritet štita
 LAUNCH_PERMISSION_DENIED_BUSY
     Dozvola za poljetanje odbijena: spojni vezovi zauzeti.
 HYPERSPACE_JUMP_ABORTED
@@ -1135,3 +1135,5 @@ ACTIVE
     Aktivan
 DISTANCE_LY
     Udaljenost: %distance{f.2} sg
+SYSTEM
+    sustavu

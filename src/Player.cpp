@@ -394,10 +394,10 @@ void Player::Sold(Equip::Type t)
 
 bool Player::CanBuy(Equip::Type t, bool verbose) const
 {
-	Equip::Slot slot = EquipType::types[int(t)].slot;
+	Equip::Slot slot = Equip::types[int(t)].slot;
 	bool freespace = (m_equipment.FreeSpace(slot)!=0);
-	bool freecapacity = (m_stats.free_capacity >= EquipType::types[int(t)].mass);
-	if (verbose && (this == reinterpret_cast<Ship*>(Pi::player))) {
+	bool freecapacity = (m_stats.free_capacity >= Equip::types[int(t)].mass);
+	if (verbose) {
 		if (!freespace) {
 			Pi::Message(Lang::NO_FREE_SPACE_FOR_ITEM);
 		}
@@ -410,11 +410,11 @@ bool Player::CanBuy(Equip::Type t, bool verbose) const
 
 bool Player::CanSell(Equip::Type t, bool verbose) const
 {
-	Equip::Slot slot = EquipType::types[int(t)].slot;
+	Equip::Slot slot = Equip::types[int(t)].slot;
 	bool cansell = (m_equipment.Count(slot, t) > 0);
-	if (verbose && (this == reinterpret_cast<Ship*>(Pi::player))) {
+	if (verbose) {
 		if (!cansell) {
-			Pi::Message(stringf(Lang::YOU_DO_NOT_HAVE_ANY_X, formatarg("item", EquipType::types[int(t)].name)));
+			Pi::Message(stringf(Lang::YOU_DO_NOT_HAVE_ANY_X, formatarg("item", Equip::types[int(t)].name)));
 		}
 	}
 	return cansell;

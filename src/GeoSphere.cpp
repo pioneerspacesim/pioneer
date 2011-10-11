@@ -323,7 +323,7 @@ public:
 	GeoPatch *edgeFriend[4]; // [0]=v01, [1]=v12, [2]=v20
 	GeoSphere *geosphere;
 	double m_roughLength;
-	vector3d clipCentroid;
+	vector3d clipCentroid, centroid;
 	double clipRadius;
 	int m_depth;
 	SDL_mutex *m_kidsLock;
@@ -365,9 +365,9 @@ public:
 			if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendDeleted(this);
 		}
 		for (int i=0; i<4; i++) if (kids[i]) delete kids[i];
-		delete vertices;
-		delete normals;
-		delete colors;
+		delete[] vertices;
+		delete[] normals;
+		delete[] colors;
 		geosphere->AddVBOToDestroy(m_vbo);
 
 		ctx->DecRefCount();
@@ -707,6 +707,8 @@ public:
 	/** Generates full-detail vertices, and also non-edge normals and
 	 * colors */
 	void GenerateMesh() {
+		centroid = clipCentroid.Normalized();
+		centroid = (1.0 + geosphere->GetHeight(centroid)) * centroid;
 		vector3d *vts = vertices;
 		vector3d *col = colors;
 		double xfrac;
@@ -913,9 +915,6 @@ public:
 		if (abort)
 			return;
 				
-		vector3d centroid = (v[0]+v[1]+v[2]+v[3]).Normalized();
-		centroid = (1.0 + geosphere->GetHeight(centroid)) * centroid;
-
 		bool canSplit = true;
 		for (int i=0; i<4; i++) {
 			if (!edgeFriend[i]) { canSplit = false; break; }
@@ -997,6 +996,9 @@ static const int geo_sphere_edge_friends[6][4] = {
 
 static std::list<GeoSphere*> s_allGeospheres;
 SDL_mutex *s_allGeospheresLock;
+SDL_Thread *s_updateThread;
+
+static bool s_exitFlag = false;
 
 /* Thread that updates geosphere level of detail thingies */
 int GeoSphere::UpdateLODThread(void *data)
@@ -1005,6 +1007,13 @@ int GeoSphere::UpdateLODThread(void *data)
 		// make a copy of the list of geospheres for this iteration. we don't
 		// want to stop the main thread from updating
 		SDL_mutexP(s_allGeospheresLock);
+
+		// check for exit. doing it here to avoid needing another lock
+		if (s_exitFlag) {
+			SDL_mutexV(s_allGeospheresLock);
+			break;
+		}
+
 		std::list<GeoSphere*> geospheres = s_allGeospheres;
 		SDL_mutexV(s_allGeospheresLock);
 
@@ -1026,7 +1035,7 @@ int GeoSphere::UpdateLODThread(void *data)
 		SDL_Delay(10);
 	}
 
-	RETURN_ZERO_NONGNU_ONLY;
+	return 0;
 }
 
 void GeoSphere::_UpdateLODs()
@@ -1044,14 +1053,6 @@ void GeoSphere::_UpdateLODs()
 	SDL_mutexP(m_needUpdateLock);
 
 	SDL_mutexV(m_updateLock);
-}
-
-/* This is to stop threads keeping on iterating over the s_allGeospheres list,
- * which may have been destroyed by exit() (does on lunix anyway...)
- */
-static void _LockoutThreadsBeforeExit()
-{
-	SDL_mutexP(s_allGeospheresLock);
 }
 
 void GeoSphere::Init()
@@ -1076,14 +1077,35 @@ void GeoSphere::Init()
 	s_patchContext->IncRefCount();
 
 #ifdef GEOSPHERE_USE_THREADING
-	SDL_CreateThread(&GeoSphere::UpdateLODThread, 0);
+	s_updateThread = SDL_CreateThread(&GeoSphere::UpdateLODThread, 0);
 #endif /* GEOSPHERE_USE_THREADING */
-	atexit(&_LockoutThreadsBeforeExit);
+}
+
+void GeoSphere::Uninit()
+{
+#ifdef GEOSPHERE_USE_THREADING
+	// instruct the thread to exit
+	SDL_mutexP(s_allGeospheresLock);
+	assert(s_allGeospheres.size() == 0);
+	s_exitFlag = true;
+	SDL_mutexV(s_allGeospheresLock);
+#endif /* GEOSPHERE_USE_THREADING */
+	
+	s_patchContext->DecRefCount();
+	assert (s_patchContext->GetRefCount() == 0);
+	if (s_patchContext->GetRefCount() == 0) delete s_patchContext;
+
+	SDL_DestroyMutex(s_allGeospheresLock);
+	for (int i=0; i<4; i++) delete s_geosphereDimStarShader[i];
+	delete s_geosphereStarShader;
+	for (int i=0; i<4; i++) delete s_geosphereSkyShader[i];
+	for (int i=0; i<4; i++) delete s_geosphereSurfaceShader[i];
 }
 
 void GeoSphere::OnChangeDetailLevel()
 {
 	s_patchContext->DecRefCount();
+	if (s_patchContext->GetRefCount() == 0) delete s_patchContext;
 
 	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
@@ -1170,6 +1192,7 @@ GeoSphere::~GeoSphere()
 
 	SDL_DestroyMutex(m_abortLock);
 	SDL_DestroyMutex(m_updateLock);
+	SDL_DestroyMutex(m_needUpdateLock);
 
 	for (int i=0; i<6; i++) if (m_patches[i]) delete m_patches[i];
 	DestroyVBOs();

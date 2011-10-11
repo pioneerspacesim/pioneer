@@ -33,6 +33,7 @@ public:
 	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Type shipType);
 	Ship() {}
+	virtual ~Ship();
 	virtual void SetDockedWith(SpaceStation *, int port);
 	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }
