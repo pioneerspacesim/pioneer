@@ -1049,7 +1049,7 @@ void Pi::UninitGame()
 }
 
 static int _main_menu_selected = 0;
-static void _main_menu_click(Rocket::Core::Event *e, int n) {
+static void _main_menu_click(int n) {
 	_main_menu_selected = n;
 }
 

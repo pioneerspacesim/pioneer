@@ -18,14 +18,17 @@ public:
 	RocketEventListener(const std::string &eventName) : Rocket::Core::EventListener(), m_eventName(eventName) {}
 
 	virtual void ProcessEvent(Rocket::Core::Event &e) {
-		if (m_handler) m_handler(&e);
+		CallHandler();
 	}
 
-	void SetHandler(sigc::slot<void,Rocket::Core::Event*> handler) { m_handler = handler; }
+	void SetHandler(sigc::slot<void> handler) { m_handler = handler; }
+	void CallHandler() {
+		if (m_handler) m_handler();
+	}
 
 private:
 	std::string m_eventName;
-	sigc::slot<void,Rocket::Core::Event*> m_handler;
+	sigc::slot<void> m_handler;
 };
 
 
@@ -36,13 +39,26 @@ public:
 	void SetDocument(Rocket::Core::ElementDocument *document);
 	Rocket::Core::ElementDocument *GetDocument() const { return m_document; }
 
-	void ProcessKeyboardShortcut(Rocket::Core::Input::KeyIdentifier key);
+	void RegisterKeyboardShortcut(Rocket::Core::Input::KeyIdentifier key, Rocket::Core::Input::KeyModifier modifier, const std::string &eventName);
+	void ProcessKeyboardShortcut(Rocket::Core::Input::KeyIdentifier key, Rocket::Core::Input::KeyModifier modifier);
 
 	RocketEventListener *GetEventListener(const std::string &eventName);
 
 private:
 	Rocket::Core::ElementDocument *m_document;
 	std::map<std::string,RocketEventListener*> m_eventListeners;
+
+	class ShortcutPair {
+	public:
+		Rocket::Core::Input::KeyIdentifier key;
+		Rocket::Core::Input::KeyModifier modifier;
+
+		friend bool operator<(const ShortcutPair &a, const ShortcutPair &b) {
+			if (a.key != b.key) return a.key < b.key;
+			return a.modifier < b.modifier;
+		}
+	};
+	std::map<ShortcutPair,std::string> m_shortcuts;
 };
 
 class RocketManager : public Rocket::Core::EventListener {
@@ -79,6 +95,7 @@ private:
 	RocketScreen *m_currentScreen;
 
 	Rocket::Core::Input::KeyIdentifier m_currentKey;
+	Rocket::Core::Input::KeyModifier m_currentModifier;
 
 	std::map<std::string,std::string> m_stash;
 	bool m_needsStashUpdate;

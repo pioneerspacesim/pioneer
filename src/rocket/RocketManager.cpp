@@ -415,8 +415,6 @@ public:
 
 		Rocket::Core::String shortcut = element->GetAttribute<Rocket::Core::String>("shortcut", "");
 		if (shortcut.Length() > 0) {
-			printf("    shortcut: %s\n", shortcut.CString());
-
 			Rocket::Core::Input::KeyIdentifier ki = Rocket::Core::Input::KI_UNKNOWN;
 			Uint32 km = 0;
 
@@ -448,7 +446,9 @@ public:
 			}
 
 			if (ki != Rocket::Core::Input::KI_UNKNOWN)
-				printf("    ki %d km 0x%x\n", ki, km);
+				screen->RegisterKeyboardShortcut(ki, Rocket::Core::Input::KeyModifier(km), eventName);
+			else
+				fprintf(stderr, "RocketInput: Couldn't convert shortcut spec '%s'\n", shortcut.CString());
 		}
 
 		return listener;
@@ -473,9 +473,23 @@ void RocketScreen::SetDocument(Rocket::Core::ElementDocument *document)
 	m_document = document;
 }
 
-void RocketScreen::ProcessKeyboardShortcut(Rocket::Core::Input::KeyIdentifier key)
+void RocketScreen::RegisterKeyboardShortcut(Rocket::Core::Input::KeyIdentifier key, Rocket::Core::Input::KeyModifier modifier, const std::string &eventName)
 {
-	printf("shortcut: %d\n", key);
+	ShortcutPair pair = { key, modifier };
+	m_shortcuts[pair] = eventName;
+}
+
+void RocketScreen::ProcessKeyboardShortcut(Rocket::Core::Input::KeyIdentifier key, Rocket::Core::Input::KeyModifier modifier)
+{
+	ShortcutPair pair = { key, modifier };
+	std::map<ShortcutPair,std::string>::iterator i = m_shortcuts.find(pair);
+	if (i == m_shortcuts.end())
+		return;
+
+	std::map<std::string,RocketEventListener*>::iterator j = m_eventListeners.find((*i).second);
+	assert((*j).second);
+
+	(*j).second->CallHandler();
 }
 
 RocketEventListener *RocketScreen::GetEventListener(const std::string &eventName)
@@ -591,12 +605,21 @@ RocketScreen *RocketManager::OpenScreen(const std::string &name)
 void RocketManager::ProcessEvent(Rocket::Core::Event &e)
 {
 	Rocket::Core::Input::KeyIdentifier key = Rocket::Core::Input::KeyIdentifier(e.GetParameter<int>("key_identifier", int(Rocket::Core::Input::KI_UNKNOWN)));
+
+	Rocket::Core::Input::KeyModifier modifier = Rocket::Core::Input::KeyModifier(
+		(e.GetParameter<bool>("ctrl_key", false)  ? Rocket::Core::Input::KM_CTRL  : 0) |
+		(e.GetParameter<bool>("shift_key", false) ? Rocket::Core::Input::KM_SHIFT : 0) |
+		(e.GetParameter<bool>("altl_key", false)  ? Rocket::Core::Input::KM_ALT   : 0) |
+		(e.GetParameter<bool>("meta_key", false)  ? Rocket::Core::Input::KM_META  : 0)
+	);
 	
-	if (e.GetType() == "keydown")
+	if (e.GetType() == "keydown") {
 		m_currentKey = key;
+		m_currentModifier = modifier;
+	}
 	
-	else if (m_currentKey == key)
-		m_currentScreen->ProcessKeyboardShortcut(key);
+	else if (m_currentKey == key && m_currentModifier == modifier)
+		m_currentScreen->ProcessKeyboardShortcut(key, modifier);
 }
 
 void RocketManager::HandleEvent(const SDL_Event *e)
