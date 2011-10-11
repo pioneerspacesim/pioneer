@@ -246,7 +246,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 	Uint32 here_idx = here.systemIndex;
 	Sector here_sec(here_x, here_y, here_z);
 
-	int diff_sec = ceil(dist_ly/Sector::SIZE);
+	int diff_sec = int(ceil(dist_ly/Sector::SIZE));
 
 	for (int x = here_x-diff_sec; x <= here_x+diff_sec; x++) {
 		for (int y = here_y-diff_sec; y <= here_y+diff_sec; y++) {
