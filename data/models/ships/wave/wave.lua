@@ -73,11 +73,9 @@ define_model('gearstatic', {
 	},
 	static = function(lod)
 		set_material('wave', 1,1,1, 1, 0.6,0.6,0.6,100,0,0,0)
-	end,
-	dynamic = function(lod)
 		use_material('wave')
-		texture('models/ships/wave/wave.png')
-		load_obj('models/ships/wave/gear.obj')
+		texture('wave.png')
+		load_obj('gear.obj')
 		texture(nil)
 	end
 })
@@ -121,7 +119,7 @@ define_model('wave', {
 		tags = {'ship'},
 		ship_defs = {
 			{
-				name='Wave: Heavy Hypersonic Fighter',
+				name='Wave Heavy Hypersonic Fighter',
 				forward_thrust = -6e6,
 				reverse_thrust = 2e6,
 				up_thrust = 1e6,
