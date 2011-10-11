@@ -478,7 +478,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 {
 	Sector* ps = GetCached(sx, sy, sz);
 
-	int cz = floor(m_pos.z+0.5f);
+	int cz = int(floor(m_pos.z+0.5f));
 
 	if (cz == sz) {
 		glColor3f(0,0.2f,0);
