@@ -89,7 +89,7 @@ void Screen::ShowBadError(const char *msg)
 
 	Gui::Button *okButton = new Gui::LabelButton(new Gui::Label("Ok"));
 	okButton->SetShortcut(SDLK_RETURN, KMOD_NONE);
-	f->Add(okButton, 10, 6*GetHeight()/8 - 32);
+	f->Add(okButton, 10.0f, 6*GetHeight()/8.0f - 32);
 	f->ShowAll();
 	f->Show();
 
