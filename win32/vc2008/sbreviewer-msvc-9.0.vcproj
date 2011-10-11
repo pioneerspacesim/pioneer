@@ -146,7 +146,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib"
+				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15.lib"
 				OutputFile="$(OutDir)\$(ProjectName)_release.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\lib"
@@ -154,6 +154,93 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="PreRelease|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="0"
+				RuntimeLibrary="3"
+				EnableEnhancedInstructionSet="2"
+				FloatingPointModel="2"
+				UsePrecompiledHeader="0"
+				PrecompiledHeaderThrough="pch.h"
+				PrecompiledHeaderFile="C:\temp\modelviewer.pch"
+				ProgramDataBaseFileName="$(IntDir)\$(ProjectName)D.pdb"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+				ForcedIncludeFiles=""
+				ShowIncludes="false"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib glew32.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib libpng15.lib"
+				OutputFile="$(OutDir)\$(ProjectName)_debug.exe"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="..\lib"
+				IgnoreAllDefaultLibraries="false"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeForWindows98="1"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -732,6 +819,14 @@
 		</File>
 		<File
 			RelativePath="..\..\src\render\RenderTexture.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\StringF.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\StringF.h"
 			>
 		</File>
 		<File

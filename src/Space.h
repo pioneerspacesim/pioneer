@@ -15,6 +15,7 @@ class Ship;
 // The place all the 'Body's exist in
 namespace Space {
 	extern void Init();
+	extern void Uninit();
 	extern void Clear();
 	extern void BuildSystem();
 	extern void Serialize(Serializer::Writer &wr);

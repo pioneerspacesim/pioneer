@@ -198,6 +198,12 @@ CollisionSpace::CollisionSpace()
 	m_dynamicObjectTree = 0;
 }
 
+CollisionSpace::~CollisionSpace()
+{
+	if (m_staticObjectTree) delete m_staticObjectTree;
+	if (m_dynamicObjectTree) delete m_dynamicObjectTree;
+}
+
 void CollisionSpace::AddGeom(Geom *geom)
 {
 	m_geoms.push_back(geom);

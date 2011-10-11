@@ -159,6 +159,9 @@
     <ClCompile Include="..\..\src\render\RenderTexture.cpp">
       <Filter>src\render</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\StringF.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\pch.h">
@@ -319,6 +322,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\render\RenderTexture.h">
       <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\StringF.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

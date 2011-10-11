@@ -1151,8 +1151,9 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 		centGrav1->mass = star[0]->mass + star[1]->mass;
 		centGrav1->children.push_back(star[0]);
 		centGrav1->children.push_back(star[1]);
+		const fixed minDist1 = (star[0]->radius + star[1]->radius) * AU_SOL_RADIUS;
 try_that_again_guvnah:
-		MakeBinaryPair(star[0], star[1], fixed(0), rand);
+		MakeBinaryPair(star[0], star[1], minDist1, rand);
 
 		m_numStars = 2;
 
@@ -1189,7 +1190,8 @@ try_that_again_guvnah:
 				MakeStarOfTypeLighterThan(star[3], s.m_systems[m_path.systemIndex].starType[3],
 					star[2]->mass, rand);
 
-				MakeBinaryPair(star[2], star[3], fixed(0), rand);
+				const fixed minDist2 = (star[2]->radius + star[3]->radius) * AU_SOL_RADIUS;
+				MakeBinaryPair(star[2], star[3], minDist2, rand);
 				centGrav2->mass = star[2]->mass + star[3]->mass;
 				centGrav2->children.push_back(star[2]);
 				centGrav2->children.push_back(star[3]);
@@ -1202,8 +1204,8 @@ try_that_again_guvnah:
 			centGrav1->parent = superCentGrav;
 			centGrav2->parent = superCentGrav;
 			rootBody = superCentGrav;
-			const fixed minDist = star[0]->orbMax + star[2]->orbMax;
-			MakeBinaryPair(centGrav1, centGrav2, 4*minDist, rand);
+			const fixed minDistSuper = star[0]->orbMax + star[2]->orbMax;
+			MakeBinaryPair(centGrav1, centGrav2, 4*minDistSuper, rand);
 			superCentGrav->children.push_back(centGrav1);
 			superCentGrav->children.push_back(centGrav2);
 
@@ -1671,7 +1673,7 @@ void StarSystem::Populate(bool addSpaceStations)
 // Unused?
 //	for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
 //		Equip::Type t = (Equip::Type)i;
-//		const EquipType &type = EquipType::types[t];
+//		const EquipType &type = Equip::types[t];
 //		printf("%s: %d%%\n", type.name, m_tradeLevel[t]);
 //	}
 //	printf("System total population %.3f billion, tech level %d\n", m_totalPop.ToFloat(), m_techlevel);
@@ -1750,7 +1752,7 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	/* Commodities we produce (mining and agriculture) */
 	for (int i=Equip::FIRST_COMMODITY; i<Equip::LAST_COMMODITY; i++) {
 		Equip::Type t = Equip::Type(i);
-		const EquipType &itype = EquipType::types[t];
+		const EquipType &itype = Equip::types[t];
 		if (itype.techLevel > system->m_techlevel) continue;
 
 		fixed affinity = fixed(1,1);
@@ -1836,7 +1838,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 		sp->rotationPeriod = fixed(1,3600);
 		sp->averageTemp = this->averageTemp;
 		sp->mass = 0;
-		sp->name = NameGenerator::Surname(rand) + Lang::SOMEWHERE_SPACEPORT;
+		sp->name = stringf(Lang::SOMEWHERE_SPACEPORT, formatarg("spaceport", NameGenerator::Surname(rand)));
 		/* just always plonk starports in near orbit */
 		sp->semiMajorAxis = orbMinS;
 		sp->eccentricity = fixed(0);
@@ -1857,7 +1859,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 			*sp2 = *sp;
 			sp2->id = id2;
 			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
-			sp2->name = NameGenerator::Surname(rand) + Lang::SOMEWHERE_SPACEPORT;
+			sp2->name = stringf(Lang::SOMEWHERE_SPACEPORT, formatarg("spaceport", NameGenerator::Surname(rand)));
 			children.insert(children.begin(), sp2);
 			system->m_spaceStations.push_back(sp2);
 		}
@@ -1876,7 +1878,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 		sp->parent = this;
 		sp->averageTemp = this->averageTemp;
 		sp->mass = 0;
-		sp->name = NameGenerator::Surname(rand) + Lang::SOMEWHERE_STARPORT;
+		sp->name = stringf(Lang::SOMEWHERE_STARPORT, formatarg("starport", NameGenerator::Surname(rand)));
 		memset(&sp->orbit, 0, sizeof(Orbit));
 		position_settlement_on_planet(sp);
 		children.insert(children.begin(), sp);
@@ -1922,20 +1924,19 @@ StarSystem *StarSystem::Unserialize(Serializer::Reader &rd)
 	}
 }
 
-static std::map<SystemPath,StarSystem*> s_cachedSystems;
+typedef std::map<SystemPath,StarSystem*> SystemCacheMap;
+static SystemCacheMap s_cachedSystems;
 
 StarSystem *StarSystem::GetCached(const SystemPath &path)
 {
 	StarSystem *s = 0;
 
-	for (std::map<SystemPath,StarSystem*>::iterator i = s_cachedSystems.begin(); i != s_cachedSystems.end(); i++) {
-		if ((*i).first == path)
-			s = (*i).second;
-	}
-
-	if (!s) {
+	SystemCacheMap::const_iterator it = s_cachedSystems.find(path);
+	if (it != s_cachedSystems.end()) {
+		s = it->second;
+	} else {
 		s = new StarSystem(path);
-		s_cachedSystems.insert( std::pair<SystemPath,StarSystem*>(path, s) );
+		s_cachedSystems.insert( SystemCacheMap::value_type(path, s) );
 	}
 
 	s->IncRefCount();

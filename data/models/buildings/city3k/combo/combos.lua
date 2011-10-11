@@ -1,3 +1,4 @@
+--[[
 --A bunch of differently coloured combos
 --metallic blue
 define_model('combo', {
@@ -86,3 +87,4 @@ define_model('combo_1_2', {
 		zbias(0)
 	end
 })
+--]]

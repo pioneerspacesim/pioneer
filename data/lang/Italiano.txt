@@ -1,0 +1,1138 @@
+ 
+# General
+SUGGESTED_RESPONSES
+    Risposte possibili:
+CASH
+    Crediti
+LEGAL_STATUS
+    Stato Giuridico
+CARGO_SPACE
+    Capacità di carico
+ITEM
+    Elementi
+SHIP
+    Astronave
+PRICE
+    Prezzo
+BUY
+    Compra
+SELL
+    Vendi
+STOCK
+    Stock
+CARGO
+    Carico
+VID_LINK_DOWN
+    Connessione video persa
+VID_LINK_ESTABLISHED
+    Connessione video stabilita
+VID_CONNECTING
+    Connessione in corso ...
+BOUGHT_1T_OF
+    Ha acquistato 1t di %commodity.
+SOLD_1T_OF
+    Ha venduto 1t di %commodity.
+WELCOME_TO_MARKET
+    Benvenuti al mercato dei beni di scambio di %station
+GO_BACK
+    Indietro
+FITTING
+    "Montaggio in corso "
+REMOVING
+    "Smontaggio in corso "
+FIT_TO_WHICH_MOUNT
+    Montaggio su quale supporto?
+REMOVE_FROM_WHICH_MOUNT
+    Rimozione da quale supporto?
+YOU_NOT_ENOUGH_MONEY
+    Crediti insufficienti
+TRADER_NOT_ENOUGH_MONEY
+    Il commerciante non ha abbastanza crediti
+NO_SPACE_ON_SHIP
+    Spazio a bordo insufficiente
+SOMEWHERE_SERVICES
+    Servizi disponibili di %station
+SOMEWHERE_SHIPYARD
+    Cantieri Astronautici di %station
+SOMEWHERE_SHIP_REPAIRS
+    Officine Astronautiche di %station
+PRICE_TO_FIT
+    $ Compra
+PRICE_TO_REMOVE
+    $ Vendi
+WT
+    P
+FIT
+    +
+REMOVE
+    -
+BUY_THIS_SHIP
+    Acquista
+SHIP_TYPE
+    Tipo di Astronave
+REGISTRATION_ID
+    Codice registrazione
+WEIGHT_EMPTY
+    Peso a vuoto
+NUMBER_TONNES
+    %{mass}t
+WEIGHT_FULLY_LADEN
+    Peso a pieno carico
+CAPACITY
+    Capacità
+FORWARD_ACCEL_EMPTY
+    Accelerazione (vuoto)
+NUMBER_G
+    %acceleration{f.1} G
+FORWARD_ACCEL_LADEN
+    Accelerazione (carico)
+REVERSE_ACCEL_EMPTY
+    Decelerazione (vuoto)
+REVERSE_ACCEL_LADEN
+    Decelerazione (carico)
+HYPERDRIVE_FITTED
+    Ipermotore montato:
+HYPERSPACE_RANGE_LADEN
+    Massima distanza di balzo (carico):
+THANKS_AND_REMEMBER_TO_BUY_FUEL
+    Nel ringraziarLa per il Suo acquisto Le consigliamo di passare al Reparto Equipaggiamento ... e non dimentichi di rifornirsi di carburante PRIMA del lancio.
+CLASS_NUMBER
+    Classe %class
+NUMBER_LY
+    %distance{f.2} AL
+SHIP_IS_ALREADY_FULLY_REPAIRED
+    Al momento la Sua nave non necessita di manutenzione.
+REPAIR_1_PERCENT_HULL
+    Riparazione dell'1.0% dei danni allo scafo
+REPAIR_ENTIRE_HULL
+    Riparazione totale dei danni allo scafo (%repairpercent{f.1}%%)
+REPAIR
+    Riparazione
+PART_EX
+    Permuta
+VIEW
+    Vedi
+SHIP_EQUIPMENT
+    Equipaggiamento
+SOMEWHERE_SHIP_EQUIPMENT
+    Equipaggiamento Astronautico di %station
+REPAIRS_AND_SERVICING
+    Officine Astronautiche
+NEW_AND_RECONDITIONED_SHIPS
+    Astronavi nuove ed usato garantito
+BULLETIN_BOARD
+    Bacheca Elettronica: Offerte di lavoro, Annunci, Occasioni
+WELCOME_TO_SOMEWHERE
+    Benvenuti a %station
+SPACESTATION_LONG_WELCOME_MESSAGE
+    Benvenuto a bordo della nostra Stazione Spaziale. Abbiamo riscontrato episodi di vandalismo e attacchi di "graffitari". Se trova che qualcuno dei nostri annunci pubblicitari sia deviante, errato o semplicemente mancante, La preghiamo di avvertire il personale di sicurezza.\n\nL'aria che respirate è, al momento, fornita gratuitamente.
+REQUEST_LAUNCH
+    Richiesta autorizzazione al lancio
+SHIPYARD
+    Cantieri Astronautici
+COMMODITIES_MARKET
+    Mercato dei beni di scambio
+SOMEWHERE_COMMODITIES_MARKET
+    Mercato dei beni di scambio di %station
+SOMEWHERE_SHIP_MARKET
+    Immobiliare Astronautica di %station. Le migliori offerte ed occasioni.
+CONTACT_LOCAL_POLICE
+    Comando di polizia locale
+COMMS_LINK
+    Comunicazioni
+ZOOM_IN
+    Avvicina
+ZOOM_OUT
+    Allontana
+NORMA_ARM
+    Braccio della "Norma"
+PERSEUS_ARM
+    Braccio del "Perseo"
+OUTER_ARM
+    Braccio Esterno
+SAGITTARIUS_ARM
+    Braccio del "Sagittario"
+SCUTUM_CENTAURUS_ARM
+    Braccio dello "Scudo-Centauro"
+INT_LY
+    %scale AL
+SEARCH
+    Cerca
+
+# Config / game control
+PRESS_BUTTON_WANTED_FOR
+    "Premi il tasto che vuoi assegnare a "
+MOVE_AXIS_WANTED_FOR
+    "Muovi l'asse del joystick che vuoi assegnare a "
+SAVE
+    Salva
+LOAD
+    Apri
+CANCEL
+    Annulla
+SELECT_FILENAME_TO_SAVE
+    Scegli l'archivio su cui salvare o inserisci il nome per un nuovo
+GAME_SAVED_TO
+    "Partita salvata su "
+SELECT_FILENAME_TO_LOAD
+    Scegli l'archivio da aprire
+COULD_NOT_OPEN_FILENAME
+    Impossibile aprire %path
+GAME_LOAD_CORRUPT
+    Questa partita salvata non può essere caricata perché contiene errori.
+GAME_LOAD_CANNOT_OPEN
+    Questa partita salvata non può essere caricata per problemi di autorizzazioni o altro ...
+VERY_LOW
+    Molto basso
+LOW
+    Basso
+MEDIUM
+    Medio
+HIGH
+    Alto
+VERY_HIGH
+    Molto alto
+VERY_VERY_HIGH
+    Altissimo
+ON
+    Acceso
+OFF
+    Spento
+SIGHTS_SOUNDS_SAVES
+    Preferenze & Archivi
+PIONEER
+    PIONEER
+SAVE_THE_GAME
+    [S] Salva la partita
+LOAD_A_GAME
+    [L] Carica la partita
+EXIT_THIS_GAME
+    Esci dal gioco
+WINDOW_OR_FULLSCREEN
+    Su finestra o a tutto schermo (necessita riavvio)
+FULL_SCREEN
+    A tutto schermo
+OTHER_GRAPHICS_SETTINGS
+    Altre opzioni grafiche
+USE_SHADERS
+    Usa "Shaders"
+USE_HDR
+    Usa illuminazione HDR
+SOUND_SETTINGS
+    Preferenze sul suono
+VOL_MASTER
+    Principale:
+VOL_EFFECTS
+    Effetti sonori:
+VOL_MUSIC
+    Colonna sonora:
+VIDEO_RESOLUTION
+    Risoluzione Video (necessita riavvio)
+X_BY_X
+    %{x}x%{y}
+PLANET_DETAIL_DISTANCE
+    Dettaglio Pianeti:
+CITY_DETAIL_LEVEL
+    Dettaglio Città:
+PLANET_TEXTURES
+    Textures:
+FRACTAL_DETAIL
+    Livello Frattali:
+CONTROLS
+    Controlli
+ENABLE_JOYSTICK
+    Abilita controllo tramite joystick
+MOUSE_INPUT
+    Mouse Input
+INVERT_MOUSE_Y
+    Inversione MouseY
+LANGUAGE_SELECTION
+    Lingua (necessita riavvio)
+ 
+# Wares
+NONE
+    Vuoto
+HYDROGEN
+    Idrogeno
+HYDROGEN_DESCRIPTION
+    L'Idrogeno è usato principalmente nei Reattori a Fusione
+LIQUID_OXYGEN
+    Ossigeno Liquido
+LIQUID_OXYGEN_DESCRIPTION
+    Necessario per i sistemi vitali nello spazio, è utilizzato anche in alcuni processi industriali.
+METAL_ORE
+    Metalli comuni
+CARBON_ORE
+    Carbonio minerale
+CARBON_ORE_DESCRIPTION
+    Carbone fossile, Petrolio ed altri idrocarburi naturali sono richiesti dall'Industria Chimica per la sintesi di vari prodotti come plastiche, alimenti sintetici, medicinali, tessuti e molto altro.
+METAL_ALLOYS
+    Leghe metalliche
+PLASTICS
+    Plastiche
+FRUIT_AND_VEG
+    Frutta e Verdura
+ANIMAL_MEAT
+    Carne e Pesce
+LIVE_ANIMALS
+    Animali vivi
+LIQUOR
+    Alcoolici
+GRAIN
+    Grano e altri cereali
+TEXTILES
+    Prodotti tessili
+FERTILIZER
+    Fertilizzanti
+WATER
+    Acqua
+MEDICINES
+    Medicinali
+CONSUMER_GOODS
+    Beni di consumo
+COMPUTERS
+    Elettronica e ICT
+ROBOTS
+    Robot
+PRECIOUS_METALS
+    Metalli preziosi
+INDUSTRIAL_MACHINERY
+    Macchinari industriali
+FARM_MACHINERY
+    Macchinari agricoli
+MINING_MACHINERY
+    Macchinari estrattivi
+AIR_PROCESSORS
+    Purificatori d'aria
+SLAVES
+    Schiavi
+HAND_WEAPONS
+    Armamenti leggeri
+BATTLE_WEAPONS
+    Armamenti da guerra
+NERVE_GAS
+    Gas nervini
+NARCOTICS
+    Droghe naturali e sintetiche
+MILITARY_FUEL
+    Carburante militare
+RUBBISH
+    Rifiuti
+RADIOACTIVES
+    Scorie Radioattive
+ 
+# Hardware
+MISSILE_UNGUIDED
+    Missile R40
+MISSILE_GUIDED
+    Testata a guida laser
+MISSILE_SMART
+    Testata "intelligente"
+MISSILE_NAVAL
+    Testata tattica
+ATMOSPHERIC_SHIELDING
+    Scudi atmosferici
+ATMOSPHERIC_SHIELDING_DESCRIPTION
+    Proteggono l'astronave dal surriscaldamento durante l'ingresso in atmosfera.
+ECM_BASIC
+    ECM
+ECM_BASIC_DESCRIPTION
+    Contromisure elettroniche a difesa da attacchi missilistici. E' in grado di distruggere alcuni missili diretti a bersaglio.
+SCANNER
+    Scanner
+SCANNER_DESCRIPTION
+    Sensore a corto raggio che identifica la posizione in tre dimensioni di astronavi e stazioni spaziali vicine.
+ECM_ADVANCED
+    ECM Avanzato
+ECM_ADVANCED_DESCRIPTION
+    Contromisure elettroniche a difesa da attacchi missilistici. E' in grado di distruggere la maggior parte dei missili diretti a bersaglio.
+SHIELD_GENERATOR
+    Generatore di scudi
+SHIELD_GENERATOR_DESCRIPTION
+    Ogni unità genera un campo di forza attorno all'astronave aumentando la capacità di resistenza agli attacchi.
+LASER_COOLING_BOOSTER
+    Sistema criogenico per laser
+LASER_COOLING_BOOSTER_DESCRIPTION
+    Refrigera il generatore di impulsi laser ritardandone il surriscaldamento.
+CARGO_LIFE_SUPPORT
+    Supporti vitali per la stiva.
+CARGO_LIFE_SUPPORT_DESCRIPTION
+    Permette il trasporto di esseri viventi nella stiva.
+AUTOPILOT
+    Pilota Automatico
+AUTOPILOT_DESCRIPTION
+    Sistema avanzato di navigazione stellare automatica.
+RADAR_MAPPER
+    Identificatore Radar
+RADAR_MAPPER_DESCRIPTION
+    Fornisce dettagli circa l'equipaggiamento, il carico e lo stato dell'astronave bersaglio.
+FUEL_SCOOP
+    Raccoglitore di carburante
+FUEL_SCOOP_DESCRIPTION
+    Permette la raccolta e lo stoccaggio di idrogeno dall'atmosfera dei giganti gassosi.
+HYPERCLOUD_ANALYZER
+    Analizzatore di Nubi Iperspaziali
+HYPERCLOUD_ANALYZER_DESCRIPTION
+    Analizza i residui di un balzo iperspaziale (c.d. nubi iperspaziali) per determinare massa e destinazione dell'astronave che lo ha generato.
+HULL_AUTOREPAIR
+    Autoriparatore dello scafo
+HULL_AUTOREPAIR_DESCRIPTION
+    Sistema avanzato che ripara lentamente lo scafo in caso di danneggiamento.
+SHIELD_ENERGY_BOOSTER
+    Sovralimentatore degli scudi
+SHIELD_ENERGY_BOOSTER_DESCRIPTION
+    Incrementa il tasso di rigenerazione dell'energia degli scudi.
+DRIVE_CLASS1
+    Ipermotore civile di 1^ classe
+DRIVE_CLASS2
+    Ipermotore civile di 2^ classe
+DRIVE_CLASS3
+    Ipermotore civile di 3^ classe
+DRIVE_CLASS4
+    Ipermotore civile di 4^ classe
+DRIVE_CLASS5
+    Ipermotore civile di 5^ classe
+DRIVE_CLASS6
+    Ipermotore civile di 6^ classe
+DRIVE_CLASS7
+    Ipermotore civile di 7^ classe
+DRIVE_CLASS8
+    Ipermotore civile di 8^ classe
+DRIVE_CLASS9
+    Ipermotore civile di 9^ classe
+DRIVE_MIL1
+    Ipermotore militare di 1^ classe
+DRIVE_MIL2
+    Ipermotore militare di 2^ classe
+DRIVE_MIL3
+    Ipermotore militare di 3^ classe
+DRIVE_MIL4
+    Ipermotore militare di 4^ classe
+PULSECANNON_1MW
+    Laser a impulsi da 1MW
+PULSECANNON_DUAL_1MW
+    Laser a impulsi doppio da 1MW
+PULSECANNON_2MW
+    Laser a impulsi da 2MW
+PULSECANNON_RAPID_2MW
+    Laser a impulsi rapidi da 2MW
+PULSECANNON_4MW
+    Laser a impulsi da 4MW
+PULSECANNON_10MW
+    Laser a impulsi da 10MW
+PULSECANNON_20MW
+    Laser a impulsi da 20MW
+MININGCANNON_17MW
+    Laser ablatore da 17MW
+MININGCANNON_17MW_DESCRIPTION
+    Utilizzato per ablare materiale minerario dagli asteroidi.
+SMALL_PLASMA_ACCEL
+    Acceleratore di plasma: piccolo
+LARGE_PLASMA_ACCEL
+    Acceleratore di plasma: grande
+CLEAN
+    Pulito
+HYPERSPACE_ARRIVAL_CLOUD
+    Nube iperspaziale di arrivo
+HYPERSPACE_DEPARTURE_CLOUD
+    Nube iperspaziale di partenza
+TYPE
+    Tipo
+CLIENT
+    Cliente
+LOCATION
+    Luogo
+DUE
+    Ora
+REWARD
+    Ricompensa
+STATUS
+    Stato
+CARGO_INVENTORY
+    Inventario di carico:
+JETTISON
+    Eiettare
+JETTISONED_1T_OF_X
+    Eiettata 1 tonnellata di %commodity
+COMBAT_RATING
+    Classe di combattente:
+CRIMINAL_RECORD
+    Fedina penale:
+SHIP_INFORMATION_HEADER
+    "Scheda Astronave"
+HYPERDRIVE
+    Ipermotore
+FREE
+    Libero
+USED
+    Utilizzato
+TOTAL_WEIGHT
+    Massa totale
+FRONT_WEAPON
+    Armamento frontale
+REAR_WEAPON
+    Armamento caudale
+HYPERSPACE_RANGE
+    Autonomia Iperspaziale
+NO_MOUNTING
+    nessun supporto
+N_LIGHT_YEARS_N_MAX
+    %distance{f.1} AL (%maxdistance{f.1} max)
+SHIP_INFORMATION
+    Scheda Astronave
+REPUTATION
+    Reputazione
+MISSIONS
+    Missioni
+SHIFT
+    "shift "
+CTRL
+    "ctrl "
+ALT
+    "alt "
+META
+    "meta "
+JOY
+    Joy
+BUTTON
+     " Button "
+HAT
+     " Hat"
+DIRECTION
+     " Dir "
+X
+    X
+Y
+    Y
+Z
+    Z
+AXIS
+     " Asse"
+WEAPONS
+    Armamenti
+TARGET_OBJECT_IN_SIGHTS
+    Bersaglio a tiro
+FIRE_LASER
+    Fuoco laser
+SHIP_ORIENTATION
+    Orientamento
+FAST_ROTATION_CONTROL
+    Controlli rotazionali veolci
+PITCH_UP
+    Beccheggio su 
+PITCH_DOWN
+    Beccheggio giù
+YAW_LEFT
+    Imbardata a sinistra
+YAW_RIGHT
+    Imbardata a destra
+ROLL_LEFT
+    Rollio a sinistra
+ROLL_RIGHT
+    Rollio a destra
+MANUAL_CONTROL_MODE
+    Controllo Manuale
+THRUSTER_MAIN
+    Spinta avanti
+THRUSTER_RETRO
+    Spinta indietro
+THRUSTER_VENTRAL
+    Spinta su
+THRUSTER_DORSAL
+    Spinta giù
+THRUSTER_PORT
+    Spinta a manca
+THRUSTER_STARBOARD
+    Spinta a dritta
+SPEED_CONTROL_MODE
+    Controllo velocità
+INCREASE_SET_SPEED
+    Aumento velocità
+DECREASE_SET_SPEED
+    Riduzione velocità
+TOGGLE_LUA_CONSOLE
+    (Dis)Attiva Console LUA
+JOYSTICK_INPUT
+    Joystick input
+PITCH
+    Beccheggio
+ROLL
+    Rollio
+YAW
+    Imbardata
+MISSILE
+    missile
+HARMLESS
+    Innocuo
+MOSTLY_HARMLESS
+    Abbastanza innocuo
+POOR
+    Scarso
+AVERAGE
+    Mediocre
+ABOVE_AVERAGE
+    Sopra la media
+COMPETENT
+    Competente
+DANGEROUS
+    Pericoloso
+DEADLY
+    Mortale
+ELITE
+    ELITE
+SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
+    Sto simulando l'evoluzione dell'Universo: %age{f.1} miliardi di anni ;-)
+TOMBSTONE_EPITAPH
+    Riposa in Pace, Vecchio Mio
+MM_START_NEW_GAME_EARTH
+    Nuova Partita: partenza sulla Terra
+MM_START_NEW_GAME_E_ERIDANI
+    Nuova Partita: partenza su Epsilon Eridani
+MM_START_NEW_GAME_DEBUG
+    Nuova Partita: partenza dal punto di debug
+MM_LOAD_SAVED_GAME
+    Carica una Partita salvata
+MM_QUIT
+    Abbandona
+SCREENSHOT_FILENAME_TEMPLATE
+    screenshot%index{d08}.png
+PIONEERING_PILOTS_GUILD
+    Confederazione Interstellare dei Piloti "PIONEER"
+RIGHT_ON_COMMANDER
+    Ben fatto Comandante! La Sua Classe di Combattimento è aumentata!
+ALERT_CANCELLED
+    Allarme rientrato.
+SHIP_DETECTED_NEARBY
+    Rilevata Astronave nelle vicinanze.
+DOWNGRADING_ALERT_STATUS
+    Nessuna attività ostile rilevata per 60s, livello di allarme ridotto.
+LASER_FIRE_DETECTED
+    Rilevata attività ostile.
+SOMEWHERE_POLICE
+    %station Polizia
+WE_HAVE_NO_BUSINESS_WITH_YOU
+    Al momento non ha pendenze con la Polizia.
+YOU_MUST_PAY_FINE_OF_N_CREDITS
+    Il crimine non è tollerato qui. Le viene comminata una sanzione di %fine.
+PAY_THE_FINE_NOW
+    Concilia.
+HANG_UP
+    Riaggancia.
+TRADING_ILLEGAL_GOODS
+    Commergio Illegale di merci Illegali
+UNLAWFUL_WEAPONS_DISCHARGE
+    Apertura di fuoco non consentita
+PIRACY
+    Pirateria
+MURDER
+    Omicidio
+INDEPENDENT
+    Indipendente
+EARTH_FEDERATION
+    Federazione Terrestre
+INDEPENDENT_CONFEDERATION
+    Confederazione dei Sistemi Indipendenti
+EMPIRE
+    Impero
+NO_ESTABLISHED_ORDER
+    Nessun ordine costituito
+HARD_CAPITALIST
+    Capitalismo perfetto - nessun intervento dello Stato in economia
+CAPITALIST
+    Capitalismo
+MIXED_ECONOMY
+    Economia mista di mercato
+PLANNED_ECONOMY
+    Economia a pianificazione Statale
+NO_CENTRAL_GOVERNANCE
+    Nessun governo centrale
+EARTH_FEDERATION_COLONIAL_RULE
+    Colonia della Federazione Terrestre
+EARTH_FEDERATION_DEMOCRACY
+    Democrazia sotto la Federazione Terrestre
+IMPERIAL_RULE
+    Governo Imperiale
+LIBERAL_DEMOCRACY
+    Liberal-Democrazia
+SOCIAL_DEMOCRACY
+    Social-Democrazia
+CORPORATE_SYSTEM
+    Governo delle Corporazioni
+MILITARY_DICTATORSHIP
+    Dittatura Militare
+COMMUNIST
+    Comunismo
+PLUTOCRATIC_DICTATORSHIP
+    Plutocrazia dittatoriale
+VIOLENT_ANARCHY
+    Stato di anarchia
+X_CANNOT_BE_TOLERATED_HERE
+    %crime non è tollerato qui.
+SECTOR_X_Y_Z
+    Settore: %x,%y,%z
+CURRENT_SYSTEM
+    Sistema attuale
+SELECTED_SYSTEM
+    Sistema selezionato
+HYPERSPACE_TARGET
+    Destinazione Iperspaziale
+FOLLOWING_SELECTION
+    segue la selezione
+LOCKED
+    acquisito
+EXACT_MATCH_X
+    Corrispondenza esatta: %system
+NOT_FOUND_BEST_MATCH_X
+    Non trovato, miglior corrispondenza: %system
+NOT_FOUND
+    Non trovato
+NUMBER_HOURS
+    %hours{f.2} h
+QUADRUPLE_SYSTEM
+    Sistema quaternario
+TRIPLE_SYSTEM
+    Sistema ternario
+BINARY_SYSTEM
+    Sistema binario
+ENABLED_AUTOMATIC_SYSTEM_SELECTION
+    Selezione automatica dei sistemi Abilitata.
+DISABLED_AUTOMATIC_SYSTEM_SELECTION
+    Selezione automatica dei sistemi Disabilitata.
+FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
+    Raccoglitore di carburante attivato: raccolte %quantity t di idrogeno.
+CARGO_BAY_LIFE_SUPPORT_LOST
+    I sensori rilevano danni critici ai sistemi vitali della stiva.
+NO_FREE_SPACE_FOR_ITEM
+    Non c'è più spazio.
+SHIP_IS_FULLY_LADEN
+    L'astronave è a pieno carico.
+YOU_DO_NOT_HAVE_ANY_X
+    Non hai nessun %item.
+FRONT_VIEW
+    Vista di fronte
+REAR_VIEW
+    Vista di dietro
+EXTERNAL_VIEW
+    Visuale esterna
+NAVIGATION_STAR_MAPS
+    Navigazione e carte stellari
+COMMS
+    Comunicazioni
+GALAXY_SECTOR_VIEW
+    Visuale del settore della Galassia
+SYSTEM_ORBIT_VIEW
+    Simulazione del sistema stellare dalla base di dati
+STAR_SYSTEM_INFORMATION
+    Informazioni sul sistema stellare
+GALACTIC_VIEW
+    Visualizzazione della Galassia
+NO_ALERT
+    Nessun allarme
+SHIP_NEARBY
+    Astronave nelle vicinanze
+DOCKING_CLEARANCE_EXPIRED
+    Autorizzazione all'attracco scaduta. Se desidera ancora attraccare deve ripetere la richiesta.
+MESSAGE_FROM_X
+    Messaggio da %sender:
+SELECT_A_TARGET
+    Seleziona il bersaglio
+FRONT
+    Fronte
+REAR
+    Retro
+POLICE_SHIP_REGISTRATION
+    POLIZIA
+CLEARANCE_ALREADY_GRANTED_BAY_N
+    Autorizzazione già concessa. Procedere al ponte %bay.
+CLEARANCE_GRANTED_BAY_N
+    Autorizzazione concessa. Procedere al ponte %bay.
+CLEARANCE_DENIED_NO_BAYS
+    Autorizzazione negata. Non ci sono attracchi liberi.
+ITEM_IS_OUT_OF_STOCK
+    Esaurito.
+BROWN_DWARF
+    Nana Bruna (oggetto substellare)
+WHITE_DWARF
+    Nana Bianca
+STAR_M
+    Stella rossa di classe spettrale 'M'
+STAR_K
+    Stella arancione di classe spettrale 'K'
+STAR_G
+    Stella gialla di classe spettrale 'G'
+STAR_F
+    Stella bianca di classe spettrale 'F'
+STAR_A
+    Stella bianca di classe spettrale 'A'
+STAR_B
+    Stella azzurra di classe spettrale 'B'
+STAR_O
+    Stella blu di classe spettrale 'O'
+STAR_M_GIANT
+    Gigante rossa
+STAR_K_GIANT
+    Gigante arancione - Instabile
+STAR_G_GIANT
+    Gigante gialla - Instabile
+STAR_AF_GIANT
+    Gigante bianca
+STAR_B_GIANT
+    Gigante azzurra
+STAR_O_GIANT
+    Gigante blu
+STAR_M_SUPER_GIANT
+    Supergigante rossa
+STAR_K_SUPER_GIANT
+    Supergigante arancione
+STAR_G_SUPER_GIANT
+    Supergigante gialla
+STAR_AF_SUPER_GIANT
+    Supergigante bianca
+STAR_B_SUPER_GIANT
+    Supergigante azzurra
+STAR_O_SUPER_GIANT
+    Supergigante blu
+STAR_M_HYPER_GIANT
+    Red hyper giant star
+STAR_K_HYPER_GIANT
+    Ipergigante arancione - Instabile
+STAR_G_HYPER_GIANT
+    Ipergigante gialla - Instabile
+STAR_AF_HYPER_GIANT
+    Ipergigante bianca
+STAR_B_HYPER_GIANT
+    Ipergigante azzurra
+STAR_O_HYPER_GIANT
+    Ipergigante blu
+STAR_M_WF
+    Stella di tipo Wolf-Rayet - Instabile
+STAR_B_WF
+    Stella di tipo Wolf-Rayet - Rischio di collasso
+STAR_O_WF
+    Stella di tipo Wolf-Rayet - Collasso imminente
+STAR_S_BH
+    Buco Nero di massa stellare
+STAR_IM_BH
+    Buco Nero di massa intermedia
+STAR_SM_BH
+    Buco Nero Centrale
+VERY_LARGE_GAS_GIANT
+    Gigante gassoso supermassiccio
+LARGE_GAS_GIANT
+    Gigante gassoso massiccio
+MEDIUM_GAS_GIANT
+    Gigante gassoso intermedio
+SMALL_GAS_GIANT
+    Gigante ghiacciato
+ASTEROID
+    Asteroide
+MASSIVE
+    Massiccio
+LARGE
+    Grande
+TINY
+    Minuto
+SMALL
+    Piccolo
+COMMA_HIGHLY_VOLCANIC
+    , altamente vulcanico
+HIGHLY_VOLCANIC
+    Altamente vulcanico
+ICE_WORLD
+     " pianeta ghiacciato"
+ROCKY_PLANET
+     " pianeta roccioso"
+OCEANICWORLD
+     " pianeta oceanico"
+PLANET_CONTAINING_LIQUID_WATER
+     " pianeta con liquidi in superficie"
+PLANET_WITH_SOME_ICE
+     " pianeta con scarsi ghiacci"
+ROCKY_PLANET_CONTAINING_COME_LIQUIDS
+     " pianeta roccioso con liquidi in superficie,"
+WITH_NO_SIGNIFICANT_ATMOSPHERE
+     " con atmosfera insignificante"
+TENUOUS
+    tenue
+THIN
+    sottile
+THICK
+    spessa
+VERY_DENSE
+    molto densa
+WITH_A
+     " con una "
+O2_ATMOSPHERE
+     " atmosfera a prevalenza di ossigeno"
+CO2_ATMOSPHERE
+     " atmosfera a prevalenza di anidride carbonica"
+CO_ATMOSPHERE
+     " atmosfera a prevalenza di monossido di carbonio"
+CH4_ATMOSPHERE
+     " atmosfera a prevalenza di metano"
+H_ATMOSPHERE
+     " atmosfera a prevalenza di idrogeno"
+HE_ATMOSPHERE
+     " atmosfera a prevalenza di elio"
+AR_ATMOSPHERE
+     " atmosfera a prevalenza di argon"
+S_ATMOSPHERE
+     " atmosfera di composti sulfurei"
+N_ATMOSPHERE
+     " atmosfera a prevalenza di azoto"
+AND_HIGHLY_COMPLEX_ECOSYSTEM
+     " ed un ecosistema complesso."
+AND_INDIGENOUS_PLANT_LIFE
+     " e vita vegetale autoctona."
+AND_INDIGENOUS_MICROBIAL_LIFE
+     " e vita microbica autoctona."
+ORBITAL_STARPORT
+    Stazione orbitale
+STARPORT
+    Astroporto
+UNKNOWN
+    <sconosciuto>
+UNEXPLORED_SYSTEM_NO_DATA
+    Sistema inesplorato. Dati non disponibili.
+SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS
+    Ricerche minerarie a piccola scala. Nessun insediamento.
+SMALL_INDUSTRIAL_OUTPOST
+    Piccolo avamposto industriale.
+SOME_ESTABLISHED_MINING
+    Piccole attività estrattive.
+YOUNG_FARMING_COLONY
+    Giovane colonia agricola.
+INDUSTRIAL_COLONY
+    Colonia industriale.
+MINING_COLONY
+    Colonia mineraria ed estrattiva.
+OUTDOOR_AGRICULTURAL_WORLD
+    Mondo esterno agricolo.
+HEAVY_INDUSTRY
+    Industria pesante.
+EXTENSIVE_MINING
+    Attività estrattive estese.
+THRIVING_OUTDOOR_WORLD
+    Fiorente mondo esterno.
+INDUSTRIAL_HUB_SYSTEM
+    Polo industriale.
+VAST_STRIP_MINE
+    Colonia mineraria ed estrattiva di vaste proporzioni.
+HIGH_POPULATION_OUTDOOR_WORLD
+    Mondo esterno altamente popolato.
+SOMEWHERE_SPACEPORT
+     " Stazione spaziale"
+SOMEWHERE_STARPORT
+     " Astroporto"
+MASS
+    Massa
+N_WHATEVER_MASSES
+    %mass{f.3} masse %units
+SOLAR
+    Solari
+EARTH
+    Terrestri
+SURFACE_TEMPERATURE
+    Temperatura alla superficie
+N_CELSIUS
+    %temperature C
+N_YEARS
+    %years{f.1} anni
+N_DAYS
+    %days{f.1} giorni
+SURFACE_GRAVITY
+    Gravità alla superficie
+ORBITAL_PERIOD
+    Periodo orbitale
+PERIAPSIS_DISTANCE
+    Periasse
+APOAPSIS_DISTANCE
+    Apoasse
+ECCENTRICITY
+    Eccentricità
+AXIAL_TILT
+    Inclinazione
+N_DEGREES
+    %angle{f.1} gradi
+DAY_LENGTH
+    Lunghezza del giorno
+N_EARTH_DAYS
+    %days{f.1} Giorni Terrestri
+STARPORTS
+    Astroporti
+MAJOR_IMPORTS
+    Importazioni principali:
+MINOR_IMPORTS
+    Importazioni secondarie:
+MAJOR_EXPORTS
+    Esportazioni principali:
+MINOR_EXPORTS
+    Esportazioni secondarie:
+ILLEGAL_GOODS
+    Merci illegali:
+UNEXPLORED_SYSTEM_STAR_INFO_ONLY
+    Sistema inesplorato. Le informazioni sulla stella sono state raccolte per mezzo di osservazioni telescopiche, ma non sono disponibili informazioni sul sistema planetario.
+PLANETARY_INFO
+    Informazioni planetarie
+ECONOMIC_INFO
+    Informazioni economiche
+DEMOGRAPHICS
+    Demografia
+STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
+    Sistema stabile composto da %bodycount %{body(s)} principali e %portcount %{starport(s)}.
+BODY
+    corpo
+BODIES
+    corpi
+SYSTEM_TYPE
+    Tipo di sistema:
+GOVERNMENT_TYPE
+    Forma di governo:
+ECONOMY_TYPE
+    Forma di economia:
+ALLEGIANCE
+    Alleanze:
+POPULATION
+    Popolazione:
+OVER_N_BILLION
+    Oltre %population miliardi
+OVER_N_MILLION
+    Oltre %population milioni
+A_FEW_THOUSAND
+    Poche migliaia
+NO_REGISTERED_INHABITANTS
+    Nessun residente registrato
+SECTOR_COORDINATES
+    Settore:
+SYSTEM_NUMBER
+    Sistema numero:
+NAME
+    Nome
+ROTATIONAL_PERIOD
+     " (periodo di rotazione)"
+RADIUS
+    Raggio
+SEMI_MAJOR_AXIS
+    Semiasse maggiore
+TIME_POINT
+    Asse del tempo:
+UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
+    Sistema inesplorato. Dati non disponibili.
+WHEELS_ARE_UP
+    Carrello su
+WHEELS_ARE_DOWN
+    Carrello giù
+OBJECT_LABELS_ARE_ON
+    Etichette attive
+OBJECT_LABELS_ARE_OFF
+    Etichette disattivate
+HYPERSPACE_JUMP
+    Balzo Iperspaziale
+TAKEOFF
+    Decollo
+MANUAL_CONTROL
+    Controllo manuale
+COMPUTER_SPEED_CONTROL
+    Navigazione assistita
+AUTOPILOT_ON
+    Pilota automatico
+SHIP_VELOCITY_BY_REFERENCE_OBJECT
+    Vettore di velocità relativo all'oggetto
+DISTANCE_FROM_SHIP_TO_NAV_TARGET
+    Distanza dalla destinazione selezionata
+SHIP_ALTITUDE_ABOVE_TERRAIN
+    Altitudine
+EXTERNAL_ATMOSPHERIC_PRESSURE
+    Pressione atmosferica
+HULL_TEMP
+    Temp. scafo
+WEAPON_TEMP
+    Temp. armi
+HULL_INTEGRITY
+    Integrità scafo
+SHIELD_INTEGRITY
+    Livello scudi
+LAUNCH_PERMISSION_DENIED_BUSY
+    Autorizzazione al lancio negata: attracco impegnato.
+HYPERSPACE_JUMP_ABORTED
+    Balzo annullato.
+LANDED
+    Atterrato
+DOCKING
+    Attracco in corso
+DOCKED
+    Attraccato
+HYPERSPACE
+    Iperspazio
+SET_SPEED_KM_S
+    Veolcità: %speed{f.2} km/s
+SET_SPEED_M_S
+    Velocità: %speed{f.0} m/s
+KM_S_RELATIVE_TO
+    %speed{f.2} km/s relativa a %frame
+M_S_RELATIVE_TO
+    %speed{f.0} m/s relativa a %frame
+N_DISTANCE_TO_TARGET
+    %distance al bersaglio
+IN_TRANSIT_TO_N_X_X_X
+    In transito verso %system [%x,%y,%z]
+ALT_IN_METRES
+    Alt: %altitude{f.0}m
+PRESSURE_N_BAR
+    P: %pressure{f.2} bar
+NO_HYPERDRIVE
+    Ipermotore non montato
+MASS_N_TONNES
+    Massa: %{mass}t
+SHIELD_STRENGTH_N
+    Forza scudi: %shields{f.2}
+CARGO_N
+    Carico: %{mass}t
+HYPERSPACE_ARRIVAL_CLOUD_REMNANT
+    Residuo di nube iperspaziale di arrivo
+SHIP_MASS_N_TONNES
+    Massa astronave: %{mass}t
+DATE_DUE_N
+    Attesa per: %date
+SOURCE
+    Origine
+DESTINATION
+    Destinazione
+HYPERSPACING_IN_N_SECONDS
+    Balzo in %countdown{f.0} secondi
+NAVIGATION_TARGETS_IN_THIS_SYSTEM
+    Destinazioni di navigazione nel sistema
+YOU_NO_MONEY
+    Non ha più crediti.
+FINE_PAID_N_BUT_N_REMAINING
+    Ha pagato %paid ma ha ancora in pendenza sanzioni per %fine.
+FINE_PAID_N
+    Ha pagato la sanzione di %fine.
+SET_HYPERSPACE_DESTINATION_TO
+    "Stabilita destinazione iperspaziale per %system"
+NO_TARGET_SELECTED
+    Navigatore: nessuna destinazione selezionata
+REQUEST_DOCKING_CLEARANCE
+    Richiedo autorizzazione all'attracco
+AUTOPILOT_DOCK_WITH_STATION
+    Pilota automatico: attracca alla stazione spaziale
+PAY_FINE_REMOTELY
+    Paga sanzione via remoto (%amount)
+AUTOPILOT_FLY_TO_VICINITY_OF
+    Pilota automatico: approssimarsi a %target
+AUTOPILOT_ENTER_LOW_ORBIT_AROUND
+    Pilota automatico: stabilire orbita bassa attorno a %target
+AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
+    Pilota automatico: stabilire orbita media attorno a %target
+AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
+    Pilota automatico: stabilire orbita alta attorno a %target
+SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
+    Analizzatore Nubi Iperspaziali: Stabilire destinazione di inseguimento
+FAILED
+    Fallita
+COMPLETED
+    Completata
+ACTIVE
+    Attiva
+DISTANCE_LY
+    Distanza: %distance{f.2} AL

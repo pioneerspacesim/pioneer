@@ -1,3 +1,4 @@
+--[[
 --updated 05/08/2010
 define_model('rotor', {
 	info = {	
@@ -305,3 +306,4 @@ dynamic = function(lod)
 
 end
 })
+--]]

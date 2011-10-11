@@ -7,7 +7,7 @@
 
 void LuaEventQueueBase::RegisterEventQueue()
 {
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -54,7 +54,7 @@ void LuaEventQueueBase::ClearEvents()
 
 void LuaEventQueueBase::EmitSingleEvent(LuaEventBase *e)
 {
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -81,7 +81,7 @@ void LuaEventQueueBase::Emit()
 {
 	if (!m_events.size()) return;
 
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -442,6 +442,49 @@ void LuaEventQueueBase::Emit()
  *  Status:
  *
  *    stable
+ *
+ *
+ * Event: onShipEquipmentChanged
+ *
+ * Triggered when a ship's equipment set changes.
+ *
+ * > local onShipEquipmentChanged = function (ship, equipType) ... end
+ * > EventQueue.onShipEquipmentChanged:Connect(onShipEquipmentChanged)
+ *
+ * Parameters:
+ *
+ *   ship - the <Ship> whose equipment just changed
+ *
+ *   equipType - the string ID of the <EquipType> that was added or removed,
+ *   or 'NONE' if the change involved multiple types of equipment
+ *
+ * Availability:
+ *
+ *   alpha 15
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
+ * Event: onShipFlavourChanged
+ *
+ * Triggered when a ship's type, registration or graphical flavour changes.
+ *
+ * > local onShipFlavourChanged = function (ship) ... end
+ * > EventQueue.onShipFlavourChanged:Connect(onShipFlavourChanged)
+ *
+ * Parameters:
+ *
+ *   ship - the <Ship> whose type or graphical flavour just changed
+ *
+ * Availability:
+ *
+ *   alpha 15
+ *
+ * Status:
+ *
+ *   experimental
  *
  *
  * Event: onJettison
