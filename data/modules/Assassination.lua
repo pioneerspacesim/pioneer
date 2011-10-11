@@ -293,12 +293,7 @@ local onEnterSystem = function (ship)
 					ship:UpdateMission(ref, mission)
 				end
 			else
-				if mission.ship:exists() then
-					local planets = Space.GetBodies(function (body) return body:isa("Planet") end)
-					if #planets == 0 then return end
-					local planet = planets[Engine.rand:Integer(1,#planets)]
-					mission.ship:AIEnterHighOrbit(planet)
-				else
+				if not mission.ship:exists() then
 					mission.ship = nil
 					if mission.due < Game.time then
 						mission.status = 'FAILED'
@@ -317,7 +312,7 @@ local onShipDocked = function (ship, station)
 			   mission.backstation == station.path then
 				local text = string.interp(ass_flavours[mission.flavour].successmsg, {
 					target	= mission.target,
-					cash	= Format.Money(ad.reward),
+					cash	= Format.Money(mission.reward),
 				})
 				UI.ImportantMessage(text, mission.boss)
 				ship:AddMoney(mission.reward)
@@ -355,12 +350,8 @@ local onShipUndocked = function (ship, station)
 		   mission.ship == ship then
 			local planets = Space.GetBodies(function (body) return body:isa("Planet") end)
 			if #planets == 0 then
-				local stats = ship:GetStats()
-				local systems = Game.system:GetNearbySystems(stats.hyperspaceRange, function (s) return #s:GetStationPaths() > 0 end)
-				if #systems == 0 then return end
-				local system = systems[Engine.rand:Integer(1,#systems)]
-
-				ship:HyperspaceTo(system.path)
+				ship:AIFlyTo(station)
+				mission.shipstate = 'outbound'
 			else
 				local planet = planets[Engine.rand:Integer(1,#planets)]
 
@@ -375,15 +366,24 @@ end
 local onAICompleted = function (ship)
 	for ref,mission in pairs(missions) do
 		if mission.status == 'ACTIVE' and
-		   mission.ship == ship and
-		   mission.shipstate == 'flying' then
-			Timer:CallAt(Game.time + 60 * 60 * 8, function () if mission.ship:exists() then
+		   mission.ship == ship then
+			if mission.shipstate == 'outbound' then
+				local stats = ship:GetStats()
+				local systems = Game.system:GetNearbySystems(stats.hyperspaceRange, function (s) return #s:GetStationPaths() > 0 end)
+				if #systems == 0 then return end
+				local system = systems[Engine.rand:Integer(1,#systems)]
+
+				mission.shipstate = 'inbound'
+				ship:HyperspaceTo(system.path)
+			elseif mission.shipstate == 'flying' then
+				Timer:CallAt(Game.time + 60 * 60 * 8, function () if mission.ship:exists() then
 				local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
 				if #stations == 0 then return end
 				local station = stations[Engine.rand:Integer(1,#stations)]
 
 				mission.ship:AIDockWith(station)
 				end end)
+			end
 			return
 		end
 	end
