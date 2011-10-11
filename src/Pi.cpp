@@ -1053,8 +1053,8 @@ void Pi::Start()
 
 	Gui::Screen::PushFont("OverlayFont");
 
-	const float w = Gui::Screen::GetWidth() / 2;
-	const float h = Gui::Screen::GetHeight() / 2;
+	const float w = Gui::Screen::GetWidth() / 2.0f;
+	const float h = Gui::Screen::GetHeight() / 2.0f;
 	const int OPTS = 5;
 	Gui::ToggleButton *opts[OPTS];
 	opts[0] = new Gui::ToggleButton(); opts[0]->SetShortcut(SDLK_1, KMOD_NONE);
@@ -1076,7 +1076,7 @@ void Pi::Start()
     std::string version("Pioneer " PIONEER_VERSION);
     if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
 
-    splash->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200, Gui::Screen::GetHeight()-32);
+    splash->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200.0f, Gui::Screen::GetHeight()-32.0f);
 
 	Gui::Screen::PopFont();
 
