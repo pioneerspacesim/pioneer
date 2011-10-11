@@ -81,7 +81,7 @@ EventQueue.onGameStart:Connect(function ()
 	music = {}
 
 	-- get all the interesting songs by category
-	songs = Music.GetSongList()
+	local songs = Music.GetSongList()
 	for n,key in pairs(songs) do
 		local category = getCategoryForSong(key)
 		if category then

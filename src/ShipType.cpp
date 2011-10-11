@@ -154,6 +154,8 @@ static void _define_ships(const char *tag, ShipType::Tag stag, std::vector<ShipT
 	lua_State *L = LmrGetLuaState();
 	int num = 0;
 
+	LUA_DEBUG_START(L);
+
 	for (std::vector<LmrModel*>::iterator i = ship_models.begin();
 			i != ship_models.end(); ++i) {
 		LmrModel *model = *i;
@@ -176,6 +178,8 @@ static void _define_ships(const char *tag, ShipType::Tag stag, std::vector<ShipT
 		lua_pop(L, 1);
 	}
 	printf("ShipType: %d ships with tag '%s'\n", num, tag);
+
+	LUA_DEBUG_END(L, 0);
 }
 
 void ShipType::Init()
@@ -227,6 +231,6 @@ void EquipSet::Load(Serializer::Reader &rd)
 			}
 		}
 	}
-	onChange.emit();
+	onChange.emit(Equip::NONE);
 }
 

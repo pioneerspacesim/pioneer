@@ -1,3 +1,4 @@
+--[[
 --skyscraper with a slanted triangle roof
 define_model('skyscraper1', {
 	info = {
@@ -89,3 +90,4 @@ define_model('skyscraper1', {
 		tri(ta,tb,tc)
 	end
 })
+--]]

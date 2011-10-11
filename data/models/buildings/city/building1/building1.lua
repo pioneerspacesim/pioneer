@@ -1,3 +1,4 @@
+--[[
 define_model('building1', {
 	info = {
 			scale = 10,
@@ -53,4 +54,4 @@ define_model('building1', {
 		end
 	end
 })
-
+--]]

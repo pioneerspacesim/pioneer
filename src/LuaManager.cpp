@@ -1,5 +1,4 @@
 #include "LuaManager.h"
-#include "oolua/oolua.h"
 #include <stdlib.h> // for abort
 
 bool instantiated = false;
@@ -44,9 +43,6 @@ LuaManager::LuaManager() : m_lua(NULL) {
 	lua_pop(m_lua, 1);
 	lua_setfield(m_lua, LUA_REGISTRYINDEX, "PiDebug");
 
-	// XXX remove once oolua is gone
-	OOLUA::setup_user_lua_state(m_lua);
-
 	instantiated = true;
 }
 
@@ -54,4 +50,14 @@ LuaManager::~LuaManager() {
 	lua_close(m_lua);
 
 	instantiated = false;
+}
+
+size_t LuaManager::GetMemoryUsage() const {
+	int kb = lua_gc(m_lua, LUA_GCCOUNT, 0);
+	int b = lua_gc(m_lua, LUA_GCCOUNTB, 0);
+	return (size_t(kb) * 1024) + b;
+}
+
+void LuaManager::CollectGarbage() {
+	lua_gc(m_lua, LUA_GCCOLLECT, 0);
 }

@@ -31,7 +31,7 @@ SHADER_CLASS_BEGIN(GeosphereShader)
 	SHADER_UNIFORM_FLOAT(geosphereAtmosFogDensity)
 SHADER_CLASS_END()
 
-static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4];
+static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4], *s_geosphereStarShader, *s_geosphereDimStarShader[4];
 
 #pragma pack(4)
 struct VBOVertex
@@ -323,27 +323,36 @@ public:
 	GeoPatch *edgeFriend[4]; // [0]=v01, [1]=v12, [2]=v20
 	GeoSphere *geosphere;
 	double m_roughLength;
-	vector3d clipCentroid;
+	vector3d clipCentroid, centroid;
 	double clipRadius;
 	int m_depth;
 	SDL_mutex *m_kidsLock;
 	bool m_needUpdateVBOs;
+	double m_distMult;
 	
-	GeoPatch(GeoPatchContext *_ctx, vector3d v0, vector3d v1, vector3d v2, vector3d v3, int depth) {
+	GeoPatch(GeoPatchContext *_ctx, GeoSphere *gs, vector3d v0, vector3d v1, vector3d v2, vector3d v3, int depth) {
 		memset(this, 0, sizeof(GeoPatch));
 
 		ctx = _ctx;
 		ctx->IncRefCount();
 
+		geosphere = gs;
+
 		m_kidsLock = SDL_CreateMutex();
 		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
+		//depth -= Pi::detail.fracmult;
 		m_depth = depth;
 		clipCentroid = (v0+v1+v2+v3) * 0.25;
 		clipRadius = 0;
 		for (int i=0; i<4; i++) {
 			clipRadius = std::max(clipRadius, (v[i]-clipCentroid).Length());
 		}
-		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth);
+		if (geosphere->m_sbody->type < SBody::TYPE_PLANET_ASTEROID) {
+ 			m_distMult = 10 / Clamp(depth, 1, 10);
+ 		} else {
+ 			m_distMult = 5 / Clamp(depth, 1, 5);
+ 		}
+		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth) * m_distMult;
 		m_needUpdateVBOs = false;
 		normals = new vector3d[ctx->NUMVERTICES()];
 		vertices = new vector3d[ctx->NUMVERTICES()];
@@ -356,9 +365,9 @@ public:
 			if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendDeleted(this);
 		}
 		for (int i=0; i<4; i++) if (kids[i]) delete kids[i];
-		delete vertices;
-		delete normals;
-		delete colors;
+		delete[] vertices;
+		delete[] normals;
+		delete[] colors;
 		geosphere->AddVBOToDestroy(m_vbo);
 
 		ctx->DecRefCount();
@@ -698,6 +707,8 @@ public:
 	/** Generates full-detail vertices, and also non-edge normals and
 	 * colors */
 	void GenerateMesh() {
+		centroid = clipCentroid.Normalized();
+		centroid = (1.0 + geosphere->GetHeight(centroid)) * centroid;
 		vector3d *vts = vertices;
 		vector3d *col = colors;
 		double xfrac;
@@ -904,9 +915,6 @@ public:
 		if (abort)
 			return;
 				
-		vector3d centroid = (v[0]+v[1]+v[2]+v[3]).Normalized();
-		centroid = (1.0 + geosphere->GetHeight(centroid)) * centroid;
-
 		bool canSplit = true;
 		for (int i=0; i<4; i++) {
 			if (!edgeFriend[i]) { canSplit = false; break; }
@@ -920,6 +928,7 @@ public:
 			canSplit = false;
 		// always split at first level
 		if (!parent) canSplit = true;
+		//printf(campos.Length());
 
 		bool canMerge = true;
 
@@ -932,10 +941,10 @@ public:
 				v23 = (v[2]+v[3]).Normalized();
 				v30 = (v[3]+v[0]).Normalized();
 				GeoPatch *_kids[4];
-				_kids[0] = new GeoPatch(ctx, v[0], v01, cn, v30, m_depth+1);
-				_kids[1] = new GeoPatch(ctx, v01, v[1], v12, cn, m_depth+1);
-				_kids[2] = new GeoPatch(ctx, cn, v12, v[2], v23, m_depth+1);
-				_kids[3] = new GeoPatch(ctx, v30, cn, v23, v[3], m_depth+1);
+				_kids[0] = new GeoPatch(ctx, geosphere, v[0], v01, cn, v30, m_depth+1);
+				_kids[1] = new GeoPatch(ctx, geosphere, v01, v[1], v12, cn, m_depth+1);
+				_kids[2] = new GeoPatch(ctx, geosphere, cn, v12, v[2], v23, m_depth+1);
+				_kids[3] = new GeoPatch(ctx, geosphere, v30, cn, v23, v[3], m_depth+1);
 				// hm.. edges. Not right to pass this
 				// edgeFriend...
 				_kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);
@@ -955,7 +964,6 @@ public:
 				_kids[3]->edgeFriend[2] = GetEdgeFriendForKid(3, 2);
 				_kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);
 				_kids[0]->parent = _kids[1]->parent = _kids[2]->parent = _kids[3]->parent = this;
-				_kids[0]->geosphere = _kids[1]->geosphere = _kids[2]->geosphere = _kids[3]->geosphere = geosphere;
 				for (int i=0; i<4; i++) _kids[i]->GenerateMesh();
 				PiVerify(SDL_mutexP(m_kidsLock)==0);
 				for (int i=0; i<4; i++) kids[i] = _kids[i];
@@ -988,6 +996,9 @@ static const int geo_sphere_edge_friends[6][4] = {
 
 static std::list<GeoSphere*> s_allGeospheres;
 SDL_mutex *s_allGeospheresLock;
+SDL_Thread *s_updateThread;
+
+static bool s_exitFlag = false;
 
 /* Thread that updates geosphere level of detail thingies */
 int GeoSphere::UpdateLODThread(void *data)
@@ -996,18 +1007,35 @@ int GeoSphere::UpdateLODThread(void *data)
 		// make a copy of the list of geospheres for this iteration. we don't
 		// want to stop the main thread from updating
 		SDL_mutexP(s_allGeospheresLock);
+
+		// check for exit. doing it here to avoid needing another lock
+		if (s_exitFlag) {
+			SDL_mutexV(s_allGeospheresLock);
+			break;
+		}
+
 		std::list<GeoSphere*> geospheres = s_allGeospheres;
 		SDL_mutexV(s_allGeospheresLock);
 
 		for(std::list<GeoSphere*>::iterator i = geospheres.begin();
 				i != geospheres.end(); ++i) {
-			if ((*i)->m_runUpdateThread) (*i)->_UpdateLODs();
+
+			// yes, holding the flag lock as we call into _UpdateLODs(). it
+			// will release it after taking the update lock. needed to avoid
+			// the scenario where we decide we want the update, and the root
+			// patches get deleted while we're waiting for the update lock
+			SDL_mutexP((*i)->m_needUpdateLock);
+			if ((*i)->m_needUpdate) {
+				(*i)->_UpdateLODs();
+				(*i)->m_needUpdate = false;
+			}
+			SDL_mutexV((*i)->m_needUpdateLock);
 		}
 
 		SDL_Delay(10);
 	}
 
-	RETURN_ZERO_NONGNU_ONLY;
+	return 0;
 }
 
 void GeoSphere::_UpdateLODs()
@@ -1015,19 +1043,16 @@ void GeoSphere::_UpdateLODs()
 	// lock the geosphere for update. this will stop the main thread from
 	// trying to destroy it while we're using it
 	SDL_mutexP(m_updateLock);
+
+	// release the flag lock before doing the update proper so the main thread
+	// can check it without waiting for us to finish
+	SDL_mutexV(m_needUpdateLock);
 	for (int i=0; i<6; i++) {
 		m_patches[i]->LODUpdate(m_tempCampos);
 	}
-	m_runUpdateThread = 0;
-	SDL_mutexV(m_updateLock);
-}
+	SDL_mutexP(m_needUpdateLock);
 
-/* This is to stop threads keeping on iterating over the s_allGeospheres list,
- * which may have been destroyed by exit() (does on lunix anyway...)
- */
-static void _LockoutThreadsBeforeExit()
-{
-	SDL_mutexP(s_allGeospheresLock);
+	SDL_mutexV(m_updateLock);
 }
 
 void GeoSphere::Init()
@@ -1040,6 +1065,11 @@ void GeoSphere::Init()
 	s_geosphereSkyShader[1] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 2\n");
 	s_geosphereSkyShader[2] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 3\n");
 	s_geosphereSkyShader[3] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 4\n");
+	s_geosphereStarShader = new GeosphereShader("geosphere_star");
+	s_geosphereDimStarShader[0] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 1\n");
+	s_geosphereDimStarShader[1] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 2\n");
+	s_geosphereDimStarShader[2] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 3\n");
+	s_geosphereDimStarShader[3] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 4\n");
 	s_allGeospheresLock = SDL_CreateMutex();
 
 	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
@@ -1047,24 +1077,52 @@ void GeoSphere::Init()
 	s_patchContext->IncRefCount();
 
 #ifdef GEOSPHERE_USE_THREADING
-	SDL_CreateThread(&GeoSphere::UpdateLODThread, 0);
+	s_updateThread = SDL_CreateThread(&GeoSphere::UpdateLODThread, 0);
 #endif /* GEOSPHERE_USE_THREADING */
-	atexit(&_LockoutThreadsBeforeExit);
+}
+
+void GeoSphere::Uninit()
+{
+#ifdef GEOSPHERE_USE_THREADING
+	// instruct the thread to exit
+	SDL_mutexP(s_allGeospheresLock);
+	assert(s_allGeospheres.size() == 0);
+	s_exitFlag = true;
+	SDL_mutexV(s_allGeospheresLock);
+#endif /* GEOSPHERE_USE_THREADING */
+	
+	s_patchContext->DecRefCount();
+	assert (s_patchContext->GetRefCount() == 0);
+	if (s_patchContext->GetRefCount() == 0) delete s_patchContext;
+
+	SDL_DestroyMutex(s_allGeospheresLock);
+	for (int i=0; i<4; i++) delete s_geosphereDimStarShader[i];
+	delete s_geosphereStarShader;
+	for (int i=0; i<4; i++) delete s_geosphereSkyShader[i];
+	for (int i=0; i<4; i++) delete s_geosphereSurfaceShader[i];
 }
 
 void GeoSphere::OnChangeDetailLevel()
 {
 	s_patchContext->DecRefCount();
+	if (s_patchContext->GetRefCount() == 0) delete s_patchContext;
 
 	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
 	s_patchContext->IncRefCount();
 
-	// flag all terrain gen for abort. this will cause the recursive
-	// _UpdateLODs to exit as fast as it can and get the thread back to its
-	// mainloop
 	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
 			i != s_allGeospheres.end(); ++i) {
+
+		// we're about to force the thread back to its main loop. make sure it
+		// stops once it gets there
+		SDL_mutexP((*i)->m_needUpdateLock);
+		(*i)->m_needUpdate = false;
+		SDL_mutexV((*i)->m_needUpdateLock);
+
+		// flag all terrain gen for abort. this will cause the recursive
+		// _UpdateLODs to exit as fast as it can and get the thread back to its
+		// mainloop
 		SDL_mutexP((*i)->m_abortLock);
 		(*i)->m_abort = true;
 		SDL_mutexV((*i)->m_abortLock);
@@ -1103,11 +1161,12 @@ void GeoSphere::OnChangeDetailLevel()
 GeoSphere::GeoSphere(const SBody *body): m_style(body)
 {
 	m_vbosToDestroyLock = SDL_CreateMutex();
-	m_runUpdateThread = 0;
 	m_sbody = body;
 	memset(m_patches, 0, 6*sizeof(GeoPatch*));
 
 	m_updateLock = SDL_CreateMutex();
+	m_needUpdateLock = SDL_CreateMutex();
+	m_needUpdate = false;
 	m_abortLock = SDL_CreateMutex();
 	m_abort = false;
 
@@ -1133,6 +1192,7 @@ GeoSphere::~GeoSphere()
 
 	SDL_DestroyMutex(m_abortLock);
 	SDL_DestroyMutex(m_updateLock);
+	SDL_DestroyMutex(m_needUpdateLock);
 
 	for (int i=0; i<6; i++) if (m_patches[i]) delete m_patches[i];
 	DestroyVBOs();
@@ -1177,14 +1237,13 @@ void GeoSphere::BuildFirstPatches()
 	p7 = p7.Normalized();
 	p8 = p8.Normalized();
 
-	m_patches[0] = new GeoPatch(s_patchContext, p1, p2, p3, p4, 0);
-	m_patches[1] = new GeoPatch(s_patchContext, p4, p3, p7, p8, 0);
-	m_patches[2] = new GeoPatch(s_patchContext, p1, p4, p8, p5, 0);
-	m_patches[3] = new GeoPatch(s_patchContext, p2, p1, p5, p6, 0);
-	m_patches[4] = new GeoPatch(s_patchContext, p3, p2, p6, p7, 0);
-	m_patches[5] = new GeoPatch(s_patchContext, p8, p7, p6, p5, 0);
+	m_patches[0] = new GeoPatch(s_patchContext, this, p1, p2, p3, p4, 0);
+	m_patches[1] = new GeoPatch(s_patchContext, this, p4, p3, p7, p8, 0);
+	m_patches[2] = new GeoPatch(s_patchContext, this, p1, p4, p8, p5, 0);
+	m_patches[3] = new GeoPatch(s_patchContext, this, p2, p1, p5, p6, 0);
+	m_patches[4] = new GeoPatch(s_patchContext, this, p3, p2, p6, p7, 0);
+	m_patches[5] = new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0);
 	for (int i=0; i<6; i++) {
-		m_patches[i]->geosphere = this;
 		for (int j=0; j<4; j++) {
 			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]];
 		}
@@ -1279,21 +1338,30 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			shader->set_geosphereCenter(center.x, center.y, center.z);
 			
 			glEnable(GL_BLEND);
+			glDepthMask(GL_FALSE);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
 			DrawAtmosphereSurface(campos, atmosRadius*1.01);
+			glDepthMask(GL_TRUE);
 			glDisable(GL_BLEND);
 		}
 
-		GeosphereShader *shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
-		Render::State::UseProgram(shader);
-		shader->set_geosphereScale(scale);
-		shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
-		shader->set_geosphereAtmosFogDensity(atmosDensity);
-		shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
-		shader->set_geosphereCenter(center.x, center.y, center.z);
+		if ((m_sbody->type == SBody::TYPE_BROWN_DWARF) || 
+			(m_sbody->type == SBody::TYPE_STAR_M)){
+			GeosphereShader *shader = s_geosphereDimStarShader[Render::State::GetNumLights()-1];
+			Render::State::UseProgram(shader);
+		} else if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) Render::State::UseProgram(s_geosphereStarShader);
+		else {
+			GeosphereShader *shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
+			Render::State::UseProgram(shader);
+			shader->set_geosphereScale(scale);
+			shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
+			shader->set_geosphereAtmosFogDensity(atmosDensity);
+			shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
+			shader->set_geosphereCenter(center.x, center.y, center.z);
+		}
 	}
 	glPopMatrix();
 
@@ -1301,13 +1369,26 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 
 	const float black[4] = { 0,0,0,0 };
 	float ambient[4];// = { 0.1, 0.1, 0.1, 1.0 };
+	float emission[4] = { 0,0,0,0 };
 
 	// save old global ambient
 	float oldAmbient[4];
 	glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
 
-	// give planet some ambient lighting if the viewer is close to it
-	{
+	float b = (Render::IsHDREnabled() ? (m_sbody->type == SBody::TYPE_BROWN_DWARF ? 2.0f : 100.0f) : (Render::AreShadersEnabled() ? 2.0f : 1.5f));
+
+	if ((m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) || (m_sbody->type == SBody::TYPE_BROWN_DWARF)) {
+		// stars should emit light and terrain should be visible from distance
+		ambient[0] = ambient[1] = ambient[2] = 0.2f;
+		ambient[3] = 1.0f;
+		emission[0] = StarSystem::starRealColors[m_sbody->type][0] * 0.5f * b;
+		emission[1] = StarSystem::starRealColors[m_sbody->type][1] * 0.5f * b;
+		emission[2] = StarSystem::starRealColors[m_sbody->type][2] * 0.5f * b;
+		emission[3] = 0.5f;
+	}
+	
+	else {
+		// give planet some ambient lighting if the viewer is close to it
 		double camdist = campos.Length();
 		camdist = 0.1 / (camdist*camdist);
 		// why the fuck is this returning 0.1 when we are sat on the planet??
@@ -1316,11 +1397,11 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		ambient[0] = ambient[1] = ambient[2] = float(camdist);
 		ambient[3] = 1.0f;
 	}
-	
+
 	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, ambient);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	glMaterialfv (GL_FRONT, GL_SPECULAR, black);
-	glMaterialfv (GL_FRONT, GL_EMISSION, black);
+	glMaterialfv (GL_FRONT, GL_EMISSION, emission);
 	glEnable(GL_COLOR_MATERIAL);
 
 //	glLineWidth(1.0);
@@ -1340,10 +1421,13 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		UpdateLODThread(this);
 		return;*/
 	
-	if (!m_runUpdateThread) {
+	SDL_mutexP(m_needUpdateLock);
+	if (!m_needUpdate) {
 		this->m_tempCampos = campos;
-		m_runUpdateThread = 1;
+		m_needUpdate = true;
 	}
+	SDL_mutexV(m_needUpdateLock);
+
 #ifndef GEOSPHERE_USE_THREADING
 	m_tempCampos = campos;
 	_UpdateLODs();

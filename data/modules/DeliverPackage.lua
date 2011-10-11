@@ -237,7 +237,7 @@ local makeAdvert = function (station)
 		local dist = station:DistanceTo(locdist)
 		if dist < 1000 then return end
 		reward = 25 + (math.sqrt(dist) / 15000) * (1+urgency)
-		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(0.8,3.5) - urgency))
+		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(1.5,3.5) - urgency))
 	else
 		local nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
 		if #nearbysystems == 0 then return end
@@ -283,9 +283,11 @@ end
 
 local onUpdateBB = function (station)
 	for ref,ad in pairs(ads) do
-		if (ad.localdelivery == 0 and ad.due < Game.time + 5*60*60*24) then -- five day timeout for inter-system
+		if delivery_flavours[ad.flavour].localdelivery == 0
+			and ad.due < Game.time + 5*60*60*24 then -- five day timeout for inter-system
 			ad.station:RemoveAdvert(ref)
-		elseif (ad.localdelivery == 1 and ad.due < Game.time + 2*60*60*24) then -- two day timeout for locals
+		elseif delivery_flavours[ad.flavour].localdelivery == 1
+			and ad.due < Game.time + 2*60*60*24 then -- two day timeout for locals
 			ad.station:RemoveAdvert(ref)
 		end
 	end
@@ -344,7 +346,7 @@ local onEnterSystem = function (player)
 
 			if ship then
 				local pirate_greeting = string.interp(pirate_taunts[Engine.rand:Integer(1,#pirate_taunts)], {
-					client = mission.client, location = mission.location,})
+					client = mission.client, location = mission.location:GetSystemBody().name,})
 				UI.ImportantMessage(pirate_greeting, ship.label)
 			end
 		end

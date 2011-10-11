@@ -33,6 +33,7 @@ public:
 	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Type shipType);
 	Ship() {}
+	virtual ~Ship();
 	virtual void SetDockedWith(SpaceStation *, int port);
 	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }
@@ -181,6 +182,7 @@ private:
 	bool IsFiringLasers();
 	void TestLanded();
 	void UpdateAlertState();
+	void OnEquipmentChange(Equip::Type e);
 
 	FlightState m_flightState;
 	bool m_testLanded;

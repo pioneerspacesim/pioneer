@@ -1,6 +1,8 @@
 varying vec3 norm;
 uniform sampler2D tex;
+uniform sampler2D texGlow;
 uniform bool usetex;
+uniform bool useglow;
 
 #define APPLY_LIGHT(i) \
 	/* direction of maximum highlights */                         \
@@ -63,12 +65,16 @@ void main(void)
 		#endif
 	}
 
+	vec4 emission = gl_FrontMaterial.emission;
+	if ( useglow )
+		emission = texture2D(texGlow, gl_TexCoord[0].st);
+
 	gl_FragColor =
 		gl_LightModel.ambient * gl_FrontMaterial.ambient +
 		amb * gl_FrontMaterial.ambient +
 		diff * gl_FrontMaterial.diffuse +
 		spec * gl_FrontMaterial.specular +
-		gl_FrontMaterial.emission;
+		emission;
 	gl_FragColor.w = gl_FrontMaterial.diffuse.w;
 
 	if ( usetex )

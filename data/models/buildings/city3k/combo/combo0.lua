@@ -1,3 +1,4 @@
+--[[
 define_model('combo1_wins', {
 	info = {
 			lod_pixels = {1,10,50,0},
@@ -17,39 +18,6 @@ define_model('combo1_wins', {
 		--ceiling window
 		load_obj('combo1_plus_win.obj')
 	end,
-	--[[
-	dynamic = function(lod)
-		local phase = math.fmod((get_arg(3)/6),1)
-
-		if phase < .251 then
-   			set_material('win0', .2,.33,.35,1,1.5,1.8,2,100)
-			set_material('win1', .2,.33,.35,1,1.5,1.8,2,100)
-			set_material('win2', .2,.33,.35,1,1.5,1.8,2,100,1.2,1.4,1.6)
-			set_material('win3', .2,.33,.35,1,1.5,1.8,2,100,1.2,1.4,1.6)
-		else
-			if phase < .501 then
-				set_material('win0', .2,.33,.35,1,1.5,1.8,2,100,1.2,1.4,1.6)
-				set_material('win1', .2,.33,.35,1,1.5,1.8,2,100,1.2,1.4,1.6)
-				set_material('win2', .2,.33,.35,1,1.5,1.8,2,100,1.2,1.4,1.6)
-				set_material('win3', .2,.33,.35,1,1.5,1.8,2,100)
-			else
-				if phase < .751 then
-					set_material('win0', .2,.33,.35,1,1.5,1.8,2,100,1.2,1.4,1.6)
-					set_material('win1', .2,.33,.35,1,1.5,1.8,2,100)
-					set_material('win2', .2,.33,.35,1,1.5,1.8,2,100)
-					set_material('win3', .2,.33,.35,1,1.5,1.8,2,100,1.2,1.4,1.6)
-				else
-					if phase > .750 then
-						set_material('win0', .2,.33,.35,1,1.5,1.8,2,100)
-						set_material('win1', .2,.33,.35,1,1.5,1.8,2,100,1.2,1.4,1.6)
-						set_material('win2', .2,.33,.35,1,1.5,1.8,2,100,1.2,1.4,1.6)
-						set_material('win3', .2,.33,.35,1,1.5,1.8,2,100)
-					end
-				end
-			end
-		end
-	end
-	]]--
 })
 
 define_model('combo0', {
@@ -97,3 +65,4 @@ define_model('combo0', {
 		end
 	end
 })
+--]]

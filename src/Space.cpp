@@ -18,6 +18,7 @@
 #include "render/Render.h"
 #include "WorldView.h"
 #include "SectorView.h"
+#include "Lang.h"
 
 namespace Space {
 
@@ -34,8 +35,14 @@ static std::list<HyperspaceCloud*> storedArrivalClouds;
 
 void Init()
 {
-	rootFrame = new Frame(NULL, "System");
+	rootFrame = new Frame(NULL, Lang::SYSTEM);
 	rootFrame->SetRadius(FLT_MAX);
+}
+
+void Uninit()
+{
+	delete rootFrame;
+	if (Pi::currentSystem) Pi::currentSystem->Release();
 }
 
 void Clear()
@@ -101,7 +108,7 @@ void RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, 
 			// linear damage decay with distance
 			(*i)->OnDamage(attacker, kgDamage * (radius - dist) / radius);
 			if ((*i)->IsType(Object::SHIP))
-				Pi::luaOnShipHit.Queue(dynamic_cast<Ship*>(*i), attacker);
+				Pi::luaOnShipHit->Queue(dynamic_cast<Ship*>(*i), attacker);
 		}
 	}
 }
@@ -483,7 +490,7 @@ static void hitCallback(CollisionContact *c)
 
 void CollideFrame(Frame *f)
 {
-	if (f->m_astroBody && (f->m_astroBody->IsType(Object::PLANET))) {
+	if (f->m_astroBody && (f->m_astroBody->IsType(Object::TERRAINBODY))) {
 		// this is pretty retarded
 		for (bodiesIter_t i = bodies.begin(); i!=bodies.end(); ++i) {
 			if ((*i)->GetFrame() != f) continue;
@@ -563,21 +570,25 @@ void TimeStep(float step)
 
 	Sfx::TimeStepAll(step, rootFrame);
 
-	Pi::luaOnEnterSystem.Emit();
-	Pi::luaOnLeaveSystem.Emit();
-	Pi::luaOnFrameChanged.Emit();
-	Pi::luaOnShipHit.Emit();
-	Pi::luaOnShipCollided.Emit();
-	Pi::luaOnShipDestroyed.Emit();
-	Pi::luaOnShipDocked.Emit();
-	Pi::luaOnShipAlertChanged.Emit();
-	Pi::luaOnShipUndocked.Emit();
-	Pi::luaOnShipLanded.Emit();
-	Pi::luaOnShipTakeOff.Emit();
-	Pi::luaOnJettison.Emit();
-	Pi::luaOnAICompleted.Emit();
-	Pi::luaOnCreateBB.Emit();
-	Pi::luaOnUpdateBB.Emit();
+	Pi::luaOnEnterSystem->Emit();
+	Pi::luaOnLeaveSystem->Emit();
+	Pi::luaOnFrameChanged->Emit();
+	Pi::luaOnShipHit->Emit();
+	Pi::luaOnShipCollided->Emit();
+	Pi::luaOnShipDestroyed->Emit();
+	Pi::luaOnShipDocked->Emit();
+	Pi::luaOnShipAlertChanged->Emit();
+	Pi::luaOnShipUndocked->Emit();
+	Pi::luaOnShipLanded->Emit();
+	Pi::luaOnShipTakeOff->Emit();
+	Pi::luaOnJettison->Emit();
+	Pi::luaOnAICompleted->Emit();
+	Pi::luaOnCreateBB->Emit();
+	Pi::luaOnUpdateBB->Emit();
+	Pi::luaOnShipFlavourChanged->Emit();
+	Pi::luaOnShipEquipmentChanged->Emit();
+
+	Pi::luaTimer->Tick();
 
 	PruneCorpses();
 }
@@ -603,7 +614,7 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 	if (!ship->CanHyperspaceTo(dest, fuelUsage, duration)) return;
 	ship->UseHyperspaceFuel(dest);
 		
-	Pi::luaOnLeaveSystem.Queue(ship);
+	Pi::luaOnLeaveSystem->Queue(ship);
 
 	if (Pi::player == ship) {
 		if (Pi::player->GetFlightControlState() == Player::CONTROL_AUTOPILOT)
@@ -644,7 +655,7 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 				++i;
 			}
 		}
-		printf("%zu clouds brought over\n", storedArrivalClouds.size());
+		printf("%lu clouds brought over\n", storedArrivalClouds.size());
 
 		Space::Clear();
 
@@ -834,7 +845,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 
 			Space::AddBody(ship);
 
-			Pi::luaOnEnterSystem.Queue(ship);
+			Pi::luaOnEnterSystem->Queue(ship);
 		}
 	}
 	storedArrivalClouds.clear();
@@ -842,7 +853,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 	// bit of a hack, this should be only false if DoHyperspaceTo is used at
 	// game startup (eg debug point)
 	if (Pi::IsGameStarted())
-		Pi::luaOnEnterSystem.Queue(Pi::player);
+		Pi::luaOnEnterSystem->Queue(Pi::player);
 	
 	delete hyperspacingTo;
 	hyperspacingTo = 0;

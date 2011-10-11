@@ -36,6 +36,7 @@ public:
 	friend class ObjectViewerView;
 #endif /* DEBUG */
 	static void Init();
+	static void Uninit();
 	static void OnChangeDetailLevel();
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
 		m_style.GetAtmosphereFlavor(outColor, outDensity);
@@ -56,7 +57,7 @@ private:
 	///////////////////////////
 	// threading rubbbbbish
 	// update thread can't do it since only 1 thread can molest opengl
-	static int UpdateLODThread(void *data) __attribute((noreturn));
+	static int UpdateLODThread(void *data);
 	std::list<GLuint> m_vbosToDestroy;
 	SDL_mutex *m_vbosToDestroyLock;
 	void AddVBOToDestroy(GLuint vbo);
@@ -65,7 +66,9 @@ private:
 	vector3d m_tempCampos;
 
 	SDL_mutex *m_updateLock;
-	int m_runUpdateThread;
+
+	SDL_mutex *m_needUpdateLock;
+	bool m_needUpdate;
 
 	SDL_mutex *m_abortLock;
 	bool m_abort;

@@ -117,6 +117,53 @@ static int l_ship_get_stats(lua_State *l)
 	return 1;
 }
 
+/* Method: SetShipType
+ *
+ * Replaces the ship with a new ship of the specified type. Can only be done
+ * while docked.
+ *
+ * > ship:SetShipType(newtype)
+ *
+ * Parameters:
+ *
+ *   newtype - the name of the ship
+ *
+ * Example:
+ *
+ * > ship:SetShipType('Sirius Interdictor')
+ *
+ * Availability:
+ * 
+ *   alpha 15
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_set_ship_type(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	Ship *s = LuaShip::GetFromLua(1);
+
+	const char *type = luaL_checkstring(l, 2);
+	if (! ShipType::Get(type))
+		luaL_error(l, "Unknown ship type '%s'", type);
+
+	if (s->GetFlightState() != Ship::DOCKED)
+		luaL_error(l, "Cannot change ship type unless docked");
+
+	ShipFlavour f(type);
+
+	s->ResetFlavour(&f);
+	s->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[f.type].hyperdrive);
+	s->UpdateMass();
+
+	LUA_DEBUG_END(l, 0);
+
+	return 0;
+}
+
 /*
  * Method: SetHullPercent
  *
@@ -505,6 +552,10 @@ static int l_ship_add_equip(lua_State *l)
 	int num = 1;
 	if (lua_isnumber(l, 3))
 		num = lua_tointeger(l, 3);
+
+	const shipstats_t *stats = s->CalcStats();
+	if (Equip::types[e].mass != 0)
+		num = std::min(stats->free_capacity / (Equip::types[e].mass), num);
 
 	lua_pushinteger(l, s->m_equipment.Add(e, num));
 	s->UpdateMass();
@@ -1127,6 +1178,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "IsPlayer", l_ship_is_player },
 
 		{ "GetStats", l_ship_get_stats },
+        { "SetShipType", l_set_ship_type },
 		{ "SetHullPercent", l_ship_set_hull_percent },
 
 		{ "SetLabel",           l_ship_set_label            },

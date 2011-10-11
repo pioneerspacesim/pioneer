@@ -123,8 +123,11 @@ BULLETIN_BOARD
     Bulletin Board
 WELCOME_TO_SOMEWHERE
     Welcome to %station
+# This next translation does not have to be a real translation.  You can
+# write anything you like here.  It will appear in every space station
+# in the whole galaxy.
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Hello, traveller.  Welcome to this space station.  We have reports of vandalism and graffiti on board.  If you see that any of our signage is misleading, mis-spelled or just missing, please inform a member of staff.\n\nOxygen is currently free of charge.
+    Hello, traveller.  Welcome to our little blue play-pen.  If it's your first time here, feel free to get acquainted with the residents.  We hope you enjoy your stay.\n\nPlease remember that renovations are under way, and that scenery may change between visits.
 REQUEST_LAUNCH
     Request Launch
 SHIPYARD
@@ -155,6 +158,8 @@ SCUTUM_CENTAURUS_ARM
     Scutum-Centaurus arm
 INT_LY
     %scale ly
+SEARCH
+    Search
 
 # Config / game control
 PRESS_BUTTON_WANTED_FOR
@@ -449,8 +454,8 @@ CARGO_INVENTORY
     Cargo Inventory:
 JETTISON
     Jettison
-JETTISONED
-    "Jettisoned 1 tonne of "
+JETTISONED_1T_OF_X
+    Jettisoned 1 tonne of %commodity
 COMBAT_RATING
     COMBAT RATING:
 CRIMINAL_RECORD
@@ -547,6 +552,8 @@ INCREASE_SET_SPEED
     Increase set speed
 DECREASE_SET_SPEED
     Decrease set speed
+TOGGLE_LUA_CONSOLE
+    Toggle Lua console
 JOYSTICK_INPUT
     Joystick input
 PITCH
@@ -703,6 +710,8 @@ SHIP_IS_FULLY_LADEN
     Your ship is fully laden.
 YOU_DO_NOT_HAVE_ANY_X
     You do not have any %item.
+FRONT_VIEW
+    Front view
 REAR_VIEW
     Rear view
 EXTERNAL_VIEW
@@ -914,9 +923,9 @@ VAST_STRIP_MINE
 HIGH_POPULATION_OUTDOOR_WORLD
     High population outdoor world.
 SOMEWHERE_SPACEPORT
-     " Spaceport"
+    %spaceport Spaceport
 SOMEWHERE_STARPORT
-     " Starport"
+    %starport Starport
 MASS
     Mass
 N_WHATEVER_MASSES
@@ -925,6 +934,8 @@ SOLAR
     Solar
 EARTH
     Earth
+SURFACE_GRAVITY
+    Surface gravity
 SURFACE_TEMPERATURE
     Surface temperature
 N_CELSIUS
@@ -1081,16 +1092,10 @@ CARGO_N
     Cargo: %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
     Hyperspace arrival cloud remnant
-HYPERSPACE_X_CLOUD
-    Hyperspace %direction cloud
 SHIP_MASS_N_TONNES
     Ship mass: %{mass}t
 DATE_DUE_N
     Date due: %date
-ARRIVAL
-    arrival
-DEPARTURE
-    departure
 SOURCE
     Origin
 DESTINATION
@@ -1133,3 +1138,5 @@ ACTIVE
     Active
 DISTANCE_LY
     Distance: %distance{f.2} ly
+SYSTEM
+    System

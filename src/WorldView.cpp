@@ -149,6 +149,8 @@ WorldView::WorldView(): View(),
 
 	m_onHyperspaceTargetChangedCon =
 		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
+	m_onPlayerEquipmentChangeCon =
+		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
 
 	m_onPlayerChangeTargetCon =
 		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
@@ -161,6 +163,7 @@ WorldView::WorldView(): View(),
 WorldView::~WorldView()
 {
 	m_onHyperspaceTargetChangedCon.disconnect();
+	m_onPlayerEquipmentChangeCon.disconnect();
 
 	m_onPlayerChangeTargetCon.disconnect();
 	m_onChangeFlightControlStateCon.disconnect();
@@ -173,6 +176,7 @@ void WorldView::Save(Serializer::Writer &wr)
 	wr.Float(float(m_externalViewRotY));
 	wr.Float(float(m_externalViewDist));
 	wr.Int32(int(m_camType));
+	wr.Bool(bool(m_showHyperspaceButton));
 }
 
 void WorldView::Load(Serializer::Reader &rd)
@@ -181,6 +185,10 @@ void WorldView::Load(Serializer::Reader &rd)
 	m_externalViewRotY = rd.Float();
 	m_externalViewDist = rd.Float();
 	m_camType = CamType(rd.Int32());
+	m_showHyperspaceButton = rd.Bool();
+
+	m_onPlayerEquipmentChangeCon =
+		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
 }
 
 void WorldView::GetNearFarClipPlane(float *outNear, float *outFar) const
@@ -553,6 +561,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Space::rootFrame);
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
+
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
 			"Rel-to: %s (%.0f km), rotating: %s\n",
@@ -574,6 +583,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			formatarg("x", dest->sectorX),
 			formatarg("y", dest->sectorY),
 			formatarg("z", dest->sectorZ)));
+		s->Release();
 		m_hudVelocity->Show();
 
 		m_hudTargetDist->Hide();
@@ -586,7 +596,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 			double _vel = vel.Length();
 			std::string str;
 			const char *rel_to = Pi::player->GetFrame()->GetLabel();
-			vector3d pos = Pi::player->GetPosition();
 			if (_vel > 1000) {
 				str = stringf(Lang::KM_S_RELATIVE_TO, formatarg("speed", _vel*0.001), formatarg("frame", rel_to));
 			} else {
@@ -610,8 +619,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 			//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
 			double radius;
 			vector3d surface_pos = Pi::player->GetPosition().Normalized();
-			if (astro->IsType(Object::PLANET)) {
-				radius = static_cast<Planet*>(astro)->GetTerrainHeight(surface_pos);
+			if (astro->IsType(Object::TERRAINBODY)) {
+				radius = static_cast<TerrainBody*>(astro)->GetTerrainHeight(surface_pos);
 			} else {
 				// XXX this is an improper use of GetBoundingRadius
 				// since it is not a surface radius
@@ -703,7 +712,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			if (s->m_equipment.Get(Equip::SLOT_ENGINE) == Equip::NONE) {
 				text += Lang::NO_HYPERDRIVE;
 			} else {
-				text += EquipType::types[s->m_equipment.Get(Equip::SLOT_ENGINE)].name;
+				text += Equip::types[s->m_equipment.Get(Equip::SLOT_ENGINE)].name;
 			}
 
 			text += "\n";
@@ -735,8 +744,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			else {
 				const SystemPath dest = ship->GetHyperspaceDest();
 				Sector s(dest.sectorX, dest.sectorY, dest.sectorZ);
-				text += stringf(Lang::HYPERSPACE_X_CLOUD, formatarg("direction",
-					std::string(cloud->IsArrival() ? Lang::ARRIVAL : Lang::DEPARTURE)));
+				text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 				text += "\n";
 				text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->CalcStats()->total_mass));
 				text += "\n";
@@ -799,7 +807,8 @@ void WorldView::Update()
 		m_labelsOn = false;
 		return;
 	}
-	if (GetCamType() == CAM_EXTERNAL) {
+	// XXX ugly hack checking for console here
+	if (GetCamType() == CAM_EXTERNAL && !Pi::IsConsoleActive()) {
 		if (Pi::KeyState(SDLK_UP)) m_externalViewRotX -= 45*frameTime;
 		if (Pi::KeyState(SDLK_DOWN)) m_externalViewRotX += 45*frameTime;
 		if (Pi::KeyState(SDLK_LEFT)) m_externalViewRotY -= 45*frameTime;
@@ -813,7 +822,7 @@ void WorldView::Update()
 		if (Pi::player->GetFlightState() == Ship::LANDED || Pi::player->GetFlightState() == Ship::DOCKED)
 			m_externalViewRotX = Clamp(m_externalViewRotX, -170.0, -10.0);
 	}
-	if (KeyBindings::targetObject.IsActive()) {
+	if (KeyBindings::targetObject.IsActive() && !Pi::IsConsoleActive()) {
 		/* Hitting tab causes objects in the crosshairs to be selected */
 		Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
 		SelectBody(target, false);
@@ -944,6 +953,14 @@ void WorldView::OnHyperspaceTargetChanged()
 	m_showHyperspaceButton = Pi::player->CanHyperspaceTo(&path, fuelReqd, dur);
 }
 
+void WorldView::OnPlayerEquipmentChange(Equip::Type e)
+{
+	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
+	int fuelReqd;
+	double dur;
+	m_showHyperspaceButton = Pi::player->CanHyperspaceTo(&path, fuelReqd, dur);
+}
+
 void WorldView::OnPlayerChangeTarget()
 {
 	Body *b = Pi::player->GetNavTarget();
@@ -996,7 +1013,7 @@ void WorldView::UpdateCommsOptions()
 	int ypos = 0;
 	int optnum = 1;
 	if (!(navtarget || comtarget)) {
-		m_commsOptions->Add(new Gui::Label("#0f0Ship Computer: No target selected"), 16, float(ypos));
+		m_commsOptions->Add(new Gui::Label("#0f0"+std::string(Lang::NO_TARGET_SELECTED)), 16, float(ypos));
 	}
 	if (navtarget) {
 		m_commsOptions->Add(new Gui::Label("#0f0"+navtarget->GetLabel()), 16, float(ypos));
@@ -1016,7 +1033,7 @@ void WorldView::UpdateCommsOptions()
 			Polit::GetCrime(&crime, &fine);
 			if (fine) {
 				button = AddCommsOption(stringf(Lang::PAY_FINE_REMOTELY,
-							formatarg("fine", format_money(fine))), ypos, optnum++);
+							formatarg("amount", format_money(fine))), ypos, optnum++);
 				button->onClick.connect(sigc::ptr_fun(&PlayerPayFine));
 				ypos += 32;
 			}

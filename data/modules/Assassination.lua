@@ -40,11 +40,39 @@ local ass_flavours = {
 	},
 	{
 		adtext = "BIOGRAPHICAL: Some admirers wish {target} dead.",
-		introtext = "We wish {target} to have a fitting career end in the {system} for {cash}.",
+		introtext = "We wish {target} to have a fitting career end in the {system} system for {cash}.",
 		successmsg = "Message of {target}'s ending career happily acquired. Here is your {cash}.",
 		failuremsg = "We found out that {target} is nonetheless operative. This sadness us.",
 		failuremsg2 = "{target} was neutralized by someone else.",
 	}
+}
+
+local title = { -- just for fun
+	"Admiral",
+	"Ambassador",
+	"Brigadier",
+	"Cadet",
+	"Captain",
+	"Cardinal",
+	"Colonel",
+	"Commandant",
+	"Commodore",
+	"Corporal",
+	"Ensign",
+	"General",
+	"Judge",
+	"Lawyer",
+	"Lieutenant",
+	"Marshal",
+	"Merchant",
+	"Officer",
+	"Private",
+	"Professor",
+	"Prosecutor",
+	"Provost",
+	"Seaman",
+	"Senator",
+	"Sergeant",
 }
 
 local ads = {}
@@ -139,33 +167,6 @@ local makeAdvert = function (station)
 	local isfemale = Engine.rand:Integer(1) == 1
 	local client = NameGen.FullName(isfemale)
 	local targetIsfemale = Engine.rand:Integer(1) == 1
-	local title = { -- just for fun
-		"Admiral",
-		"Ambassador",
-		"Brigadier",
-		"Cadet",
-		"Captain",
-		"Cardinal",
-		"Colonel",
-		"Commandant",
-		"Commodore",
-		"Corporal",
-		"Ensign",
-		"General",
-		"Judge",
-		"Lawyer",
-		"Lieutenant",
-		"Marshal",
-		"Merchant",
-		"Officer",
-		"Private",
-		"Professor",
-		"Prosecutor",
-		"Provost",
-		"Seaman",
-		"Senator",
-		"Sergeant",
-	}
 	local target = title[Engine.rand:Integer(1, #title)] .. " " .. NameGen.FullName(targetIsfemale)
 	local flavour = Engine.rand:Integer(1, #ass_flavours)
 	local nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
@@ -175,7 +176,7 @@ local makeAdvert = function (station)
 	local due = Game.time + Engine.rand:Number(7*60*60*24, time * 31*60*60*24)
 	local danger = Engine.rand:Integer(1,4)
 	local reward = Engine.rand:Number(2100, 7000) * danger
-	local shiptypes = ShipType.GetShipTypes('SHIP')
+	local shiptypes = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= (danger * 17) end)
 	local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
 
 	local ad = {
@@ -267,6 +268,7 @@ local onEnterSystem = function (ship)
 						local shiptype = ShipType.GetShipType(mission.shipname)
 						local default_drive = shiptype.defaultHyperdrive
 						local lasers = EquipType.GetEquipTypes('LASER', function (e,et) return et.slot == "LASER" end)
+						local count = tonumber(string.sub(default_drive, -1)) ^ 2
 						local laser = lasers[mission.danger]
 
 						mission.ship = Space.SpawnShipDocked(mission.shipname, station)
@@ -275,9 +277,15 @@ local onEnterSystem = function (ship)
 						end
 						mission.ship:SetLabel(mission.shipregid)
 						mission.ship:AddEquip(default_drive)
-						mission.ship:AddEquip('SHIELD_GENERATOR', mission.danger)
 						mission.ship:AddEquip(laser)
-						mission.ship:AddEquip('HYDROGEN', mission.danger * 3)
+						mission.ship:AddEquip('SHIELD_GENERATOR', mission.danger)
+						mission.ship:AddEquip('HYDROGEN', count)
+						if mission.danger > 2 then
+							mission.ship:AddEquip('SHIELD_ENERGY_BOOSTER')
+						end
+						if mission.danger > 3 then
+							mission.ship:AddEquip('LASER_COOLING_BOOSTER')
+						end
 						_setupHooksForMission(mission)
 						mission.shipstate = 'docked'
 					end
@@ -286,11 +294,7 @@ local onEnterSystem = function (ship)
 					ship:UpdateMission(ref, mission)
 				end
 			else
-				if mission.ship:exists() then
-					local planets = Space.GetBodies(function (body) return body:isa("Planet") end)
-					local planet = planets[Engine.rand:Integer(1,#planets)]
-					mission.ship:AIEnterHighOrbit(planet)
-				else
+				if not mission.ship:exists() then
 					mission.ship = nil
 					if mission.due < Game.time then
 						mission.status = 'FAILED'
@@ -309,19 +313,20 @@ local onShipDocked = function (ship, station)
 			   mission.backstation == station.path then
 				local text = string.interp(ass_flavours[mission.flavour].successmsg, {
 					target	= mission.target,
-					cash	= Format.Money(ad.reward),
+					cash	= Format.Money(mission.reward),
 				})
 				UI.ImportantMessage(text, mission.boss)
 				ship:AddMoney(mission.reward)
 				ship:RemoveMission(ref)
 				missions[ref] = nil
 			elseif mission.status == 'FAILED' then
+				local text
 				if mission.notplayer == 'TRUE' then
-					local text = string.interp(ass_flavours[mission.flavour].failuremsg2, {
+					text = string.interp(ass_flavours[mission.flavour].failuremsg2, {
 						target	= mission.target,
 					})
 				else
-					local text = string.interp(ass_flavours[mission.flavour].failuremsg, {
+					text = string.interp(ass_flavours[mission.flavour].failuremsg, {
 						target	= mission.target,
 					})
 				end
@@ -332,7 +337,7 @@ local onShipDocked = function (ship, station)
 		else
 			if mission.ship == ship then
 				mission.status = 'FAILED'
-				Player:UpdateMission(ref, mission)
+				Game.player:UpdateMission(ref, mission)
 			end
 		end
 		return
@@ -346,10 +351,16 @@ local onShipUndocked = function (ship, station)
 		if mission.status == 'ACTIVE' and
 		   mission.ship == ship then
 			local planets = Space.GetBodies(function (body) return body:isa("Planet") end)
-			local planet = planets[Engine.rand:Integer(1,#planets)]
+			if #planets == 0 then
+				ship:AIFlyTo(station)
+				mission.shipstate = 'outbound'
+			else
+				local planet = planets[Engine.rand:Integer(1,#planets)]
 
-			mission.ship:AIEnterHighOrbit(planet)
-			mission.shipstate = 'flying'
+				mission.ship:AIEnterHighOrbit(planet)
+				mission.shipstate = 'flying'
+			end
+			return
 		end
 	end
 end
@@ -357,15 +368,24 @@ end
 local onAICompleted = function (ship)
 	for ref,mission in pairs(missions) do
 		if mission.status == 'ACTIVE' and
-		   mission.ship == ship and
-		   mission.shipstate == 'flying' then
-			Timer:CallAt(Game.time + 60 * 60 * 8, function () if mission.ship:exists() then
+		   mission.ship == ship then
+			if mission.shipstate == 'outbound' then
+				local stats = ship:GetStats()
+				local systems = Game.system:GetNearbySystems(stats.hyperspaceRange, function (s) return #s:GetStationPaths() > 0 end)
+				if #systems == 0 then return end
+				local system = systems[Engine.rand:Integer(1,#systems)]
+
+				mission.shipstate = 'inbound'
+				ship:HyperspaceTo(system.path)
+			elseif mission.shipstate == 'flying' then
+				Timer:CallAt(Game.time + 60 * 60 * 8, function () if mission.ship:exists() then
 				local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
 				if #stations == 0 then return end
 				local station = stations[Engine.rand:Integer(1,#stations)]
 
 				mission.ship:AIDockWith(station)
 				end end)
+			end
 			return
 		end
 	end
@@ -377,7 +397,7 @@ local onUpdateBB = function (station)
 			ad.station:RemoveAdvert(ref)
 		end
 	end
-	if Engine.rand:Integer(12*60*60) < 60*60 then -- roughly once every twelve hours
+	if Engine.rand:Integer(4*24*60*60) < 60*60 then -- roughly once every four days
 		makeAdvert(station)
 	end
 end

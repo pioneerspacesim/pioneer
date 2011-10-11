@@ -31,10 +31,20 @@ namespace KeyBindings {
 			} joystickHat;
 		} u;
 
-		bool IsActive();
 		std::string Description() const;
+		bool Matches(const SDL_keysym *sym) const;
 
 		static KeyBinding keyboardBinding(SDLKey key, SDLMod mod);
+	};
+
+	struct KeyAction {
+		KeyBinding binding;
+
+		sigc::signal<void> onPress;
+		sigc::signal<void> onRelease;
+
+		bool IsActive() const;
+		void CheckSDLEventAndDispatch(const SDL_Event *event);
 	};
 
 	enum AxisDirection {
@@ -55,6 +65,8 @@ namespace KeyBindings {
 
 	struct BindingPrototype {
 		const char *label, *function;
+		KeyAction *kb;
+		AxisBinding *ab;
 	};
 
 	extern const BindingPrototype bindingProtos[];
@@ -70,23 +82,26 @@ namespace KeyBindings {
 	AxisBinding AxisBindingFromString(const std::string &str);
 	std::string AxisBindingToString(const AxisBinding &ab);
 
-	extern KeyBinding pitchUp;
-	extern KeyBinding pitchDown;
-	extern KeyBinding yawLeft;
-	extern KeyBinding yawRight;
-	extern KeyBinding rollLeft;
-	extern KeyBinding rollRight;
-	extern KeyBinding thrustForward;
-	extern KeyBinding thrustBackwards;
-	extern KeyBinding thrustUp;
-	extern KeyBinding thrustDown;
-	extern KeyBinding thrustLeft;
-	extern KeyBinding thrustRight;
-	extern KeyBinding increaseSpeed;
-	extern KeyBinding decreaseSpeed;
-	extern KeyBinding fireLaser;
-	extern KeyBinding fastRotate;
-	extern KeyBinding targetObject;
+	void DispatchSDLEvent(const SDL_Event *event);
+
+	extern KeyAction pitchUp;
+	extern KeyAction pitchDown;
+	extern KeyAction yawLeft;
+	extern KeyAction yawRight;
+	extern KeyAction rollLeft;
+	extern KeyAction rollRight;
+	extern KeyAction thrustForward;
+	extern KeyAction thrustBackwards;
+	extern KeyAction thrustUp;
+	extern KeyAction thrustDown;
+	extern KeyAction thrustLeft;
+	extern KeyAction thrustRight;
+	extern KeyAction increaseSpeed;
+	extern KeyAction decreaseSpeed;
+	extern KeyAction fireLaser;
+	extern KeyAction fastRotate;
+	extern KeyAction targetObject;
+	extern KeyAction toggleLuaConsole;
 
 	extern AxisBinding pitchAxis;
 	extern AxisBinding rollAxis;

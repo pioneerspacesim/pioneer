@@ -75,7 +75,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 		case LUA_TSTRING: {
 			lua_pushvalue(l, idx);
 			const char *str = lua_tostring(l, -1);
-			snprintf(buf, sizeof(buf), "s%zu\n", strlen(str));
+			snprintf(buf, sizeof(buf), "s%lu\n", strlen(str));
 			out += buf;
 			out += str;
 			lua_pop(l, 1);
@@ -272,7 +272,7 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 
 void LuaSerializer::Serialize(Serializer::Writer &wr)
 {
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -312,7 +312,7 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 
 void LuaSerializer::Unserialize(Serializer::Reader &rd)
 {
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

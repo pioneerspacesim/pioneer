@@ -92,6 +92,14 @@ void Init(int screen_width, int screen_height, int ui_width, int ui_height)
 	Screen::Init(screen_width, screen_height, ui_width, ui_height);
 }
 
+void Uninit()
+{
+	std::list<TimerSignal*>::iterator i;
+	for (i=g_timeSignals.begin(); i!=g_timeSignals.end(); ++i) delete *i;
+
+	Screen::Uninit();
+}
+
 void MainLoopIteration()
 {
 	Render::PrepareFrame();
