@@ -9,6 +9,7 @@ Alpha 16
 
   * Fixes
 	* Optimise trade ship cargo management (#632)
+    * Ensure that stars in a binary pair do not overlap (#621, #627)
   
   * Script changes
 
