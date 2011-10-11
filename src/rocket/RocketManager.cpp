@@ -571,33 +571,29 @@ RocketScreen *RocketManager::OpenScreen(const std::string &name)
 		m_currentScreen->GetDocument()->Hide();
 
 	std::map<std::string,RocketScreen*>::iterator i = m_screens.find(name);
-	if (i != m_screens.end()) {
+	if (i == m_screens.end()) {
+		m_currentScreen = new RocketScreen();
+
+		Rocket::Core::ElementDocument *document = m_rocketContext->LoadDocument((PIONEER_DATA_DIR "/ui/" + name + ".rml").c_str());
+		if (!document) {
+			fprintf(stderr, "RocketManager: couldn't load document '%s'\n", name.c_str());
+			delete m_currentScreen;
+			m_currentScreen = 0;
+			return 0;
+		}
+
+		m_currentScreen->SetDocument(document);
+
+		m_screens[name] = m_currentScreen;
+	}
+	else {
 		// XXX check file timestamp and invalidate if changed
 		m_currentScreen = (*i).second;
-
-		UpdateScreenFromStash();
-
-		m_currentScreen->GetDocument()->Show();
-		return m_currentScreen;
 	}
-
-	m_currentScreen = new RocketScreen();
-	
-	Rocket::Core::ElementDocument *document = m_rocketContext->LoadDocument((PIONEER_DATA_DIR "/ui/" + name + ".rml").c_str());
-	if (!document) {
-		fprintf(stderr, "RocketManager: couldn't load document '%s'\n", name.c_str());
-		delete m_currentScreen;
-		m_currentScreen = 0;
-		return 0;
-	}
-
-	m_currentScreen->SetDocument(document);
-
-	m_screens[name] = m_currentScreen;
 
 	UpdateScreenFromStash();
 
-	document->Show();
+	m_currentScreen->GetDocument()->Show();
 
 	return m_currentScreen;
 }
