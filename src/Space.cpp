@@ -42,6 +42,7 @@ void Init()
 void Uninit()
 {
 	delete rootFrame;
+	if (Pi::currentSystem) Pi::currentSystem->Release();
 }
 
 void Clear()
