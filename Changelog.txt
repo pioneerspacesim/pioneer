@@ -1,6 +1,7 @@
 Alpha 16
 
   * New features
+    * "Wave Heavy Hypersonic Fighter" ship
     * Spanish translation (#628)
 
   * Minor changes and tweaks
