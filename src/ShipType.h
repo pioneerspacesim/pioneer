@@ -80,6 +80,7 @@ public:
 		else return equip[s][idx];
 	}
 	void Set(Equip::Slot s, int idx, Equip::Type e) {
+		if (equip[s].size() == 0) return;
 		equip[s][idx] = e;
 		onChange.emit(e);
 	}
