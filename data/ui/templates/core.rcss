@@ -112,3 +112,84 @@ button.point:hover {
 button.point:active {
 	background-image: pointbutton_click.png;
 }
+
+
+scrollbarvertical
+{
+	margin-top: -6px;
+	margin-bottom: -6px;
+	margin-right: -11px;
+	width: 27px;
+}
+
+scrollbarvertical slidertrack
+{
+	background-decorator: tiled-vertical;
+	background-top-image: scrollbars.png 70px 48px 97px 50px;
+	background-center-image: scrollbars.png stretch 70px 50px 97px 51px;
+	background-bottom-image: scrollbars.png 70px 52px 97px 53px;
+}
+
+scrollbarvertical sliderbar
+{
+	margin-left: 4px;
+	width: 23px;
+	min-height: 46px;
+
+	background-decorator: tiled-vertical;
+	background-top-image: scrollbars.png 56px 1px 79px 24px;
+	background-center-image: scrollbars.png stretch 56px 24px 79px 24px;
+	background-bottom-image: scrollbars.png 56px 25px 79px 47px;
+}
+
+scrollbarvertical sliderbar:hover
+{
+	background-top-image-s: 80px 103px;
+	background-center-image-s: 80px 103px;
+	background-bottom-image-s: 80px 103px;
+}
+
+scrollbarvertical sliderbar:active
+{
+	background-top-image-s: 104px 127px;
+	background-center-image-s: 104px 127px;
+	background-bottom-image-s: 104px 127px;
+}
+
+scrollbarvertical sliderarrowdec
+{
+	width: 27px;
+	height: 24px;
+	
+	icon-decorator: image;
+	icon-image: scrollbars.png 0px 1px 27px 25px;
+}
+
+scrollbarvertical sliderarrowdec:hover,
+scrollbarvertical sliderarrowinc:hover
+{
+	icon-image-t: 26px 50px;
+}
+
+scrollbarvertical sliderarrowdec:active,
+scrollbarvertical sliderarrowinc:active
+{
+	icon-image-t: 51px 75px;
+}
+
+scrollbarvertical sliderarrowinc
+{
+	width: 27px;
+	height: 24px;
+	
+	icon-decorator: image;
+	icon-image: scrollbars.png 28px 1px 55px 25px;
+}
+
+
+
+scrollbarhorizontal
+{
+	width: 0px;
+	height: 0px;
+}
