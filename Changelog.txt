@@ -52,6 +52,7 @@ Alpha 15
     * Interplanetary Shuttle can no longer take a hyperdrive (#613)
     * Fix crash on attack after high-risk delivery (#631)
     * Fix crash in if player arrives in system before assassination target (#643)
+    * Fix crash when setting equipment in a slot that a ship doesn't have (#647, #648)
 
   * Script changes
     * Experimental Lua console (#537, #597)
