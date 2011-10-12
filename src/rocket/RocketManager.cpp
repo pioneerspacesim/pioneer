@@ -404,8 +404,6 @@ public:
 
 	virtual Rocket::Core::EventListener *InstanceEventListener(const Rocket::Core::String &value, Rocket::Core::Element *element)
 	{
-		printf("event '%s' for tag '%s'\n", value.CString(), element->GetTagName().CString());
-
 		std::string eventName(value.CString());
 
 		RocketScreen *screen = m_rocketManager->GetCurrentScreen();
