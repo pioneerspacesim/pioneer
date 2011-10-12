@@ -45,6 +45,17 @@ p {
 	margin: 0.5em 0;
 }
 
+tooltip {
+    position: absolute;
+    display: inline;
+    font-size: 20pt;
+    background-color: #008a;
+    border-top: 1px white;
+    border-bottom: 1px white;
+    border-left: 1px white;
+    border-right: 1px white;
+}
+
 button.text {
 	display: inline-block;
 

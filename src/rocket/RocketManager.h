@@ -34,6 +34,7 @@ private:
 
 class RocketScreen {
 public:
+	RocketScreen() : m_document(0), m_tooltipActive(false), m_tooltipElement(0) {}
 	virtual ~RocketScreen();
 
 	void SetDocument(Rocket::Core::ElementDocument *document);
@@ -43,6 +44,9 @@ public:
 	void ProcessKeyboardShortcut(Rocket::Core::Input::KeyIdentifier key, Rocket::Core::Input::KeyModifier modifier);
 
 	RocketEventListener *GetEventListener(const std::string &eventName);
+
+	void ShowTooltip(Rocket::Core::Element *sourceElement);
+	void ClearTooltip();
 
 private:
 	Rocket::Core::ElementDocument *m_document;
@@ -59,6 +63,9 @@ private:
 		}
 	};
 	std::map<ShortcutPair,std::string> m_shortcuts;
+
+	bool m_tooltipActive;
+	Rocket::Core::Element *m_tooltipElement;
 };
 
 class RocketManager : public Rocket::Core::EventListener {
@@ -96,6 +103,9 @@ private:
 
 	Rocket::Core::Input::KeyIdentifier m_currentKey;
 	Rocket::Core::Input::KeyModifier m_currentModifier;
+
+	Uint32 m_tooltipDelayStartTick;
+	Rocket::Core::Element *m_tooltipSourceElement;
 
 	std::map<std::string,std::string> m_stash;
 	bool m_needsStashUpdate;

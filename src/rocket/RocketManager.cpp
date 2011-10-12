@@ -504,9 +504,49 @@ RocketEventListener *RocketScreen::GetEventListener(const std::string &eventName
 	return listener;
 }
 
+void RocketScreen::ShowTooltip(Rocket::Core::Element *sourceElement)
+{
+	if (m_tooltipActive) return;
+
+	Rocket::Core::String text = sourceElement->GetAttribute<Rocket::Core::String>("tooltip", "");
+	if (text.Length() == 0) {
+		m_tooltipActive = true;
+		return;
+	}
+
+	m_tooltipElement = m_document->CreateElement("tooltip");
+
+	Rocket::Core::ElementText *textNode = m_document->CreateTextNode(text);
+	m_tooltipElement->AppendChild(textNode);
+
+	m_tooltipElement->SetProperty("left", Rocket::Core::Property(sourceElement->GetAbsoluteLeft()-m_document->GetAbsoluteLeft()+10.0f, Rocket::Core::Property::NUMBER));
+	m_tooltipElement->SetProperty("top", Rocket::Core::Property(sourceElement->GetAbsoluteTop()-m_document->GetAbsoluteTop()+10.0f, Rocket::Core::Property::NUMBER));
+
+	m_document->AppendChild(m_tooltipElement);
+
+	m_tooltipElement->RemoveReference();
+	textNode->RemoveReference();
+
+	m_tooltipActive = true;
+}
+
+void RocketScreen::ClearTooltip()
+{
+	if (m_tooltipElement) m_document->RemoveChild(m_tooltipElement);
+	m_tooltipActive = false;
+	m_tooltipElement = 0;
+}
+
 
 static bool s_initted = false;
-RocketManager::RocketManager(int width, int height) : m_width(width), m_height(height), m_currentScreen(0), m_currentKey(Rocket::Core::Input::KI_UNKNOWN), m_needsStashUpdate(false)
+RocketManager::RocketManager(int width, int height) :
+	m_width(width),
+	m_height(height),
+	m_currentScreen(0),
+	m_currentKey(Rocket::Core::Input::KI_UNKNOWN),
+	m_tooltipDelayStartTick(0),
+	m_tooltipSourceElement(0),
+	m_needsStashUpdate(false)
 {
 	assert(!s_initted);
 	s_initted = true;
@@ -540,6 +580,7 @@ RocketManager::RocketManager(int width, int height) : m_width(width), m_height(h
 	m_rocketContext = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(m_width, m_height));
 	m_rocketContext->AddEventListener("keyup", this, true);
 	m_rocketContext->AddEventListener("keydown", this, true);
+	m_rocketContext->AddEventListener("mousemove", this, false);
 }
 
 RocketManager::~RocketManager()
@@ -591,6 +632,10 @@ RocketScreen *RocketManager::OpenScreen(const std::string &name)
 		m_currentScreen = (*i).second;
 	}
 
+	m_currentScreen->ClearTooltip();
+	m_tooltipDelayStartTick = SDL_GetTicks();
+	m_tooltipSourceElement = 0;
+
 	UpdateScreenFromStash();
 
 	m_currentScreen->GetDocument()->Show();
@@ -600,6 +645,13 @@ RocketScreen *RocketManager::OpenScreen(const std::string &name)
 
 void RocketManager::ProcessEvent(Rocket::Core::Event &e)
 {
+	if (e.GetType() == "mousemove" && e.GetTargetElement() != m_tooltipSourceElement && e.GetTargetElement()->GetTagName() != "tooltip") {
+		m_currentScreen->ClearTooltip();
+		m_tooltipDelayStartTick = SDL_GetTicks();
+		m_tooltipSourceElement = e.GetTargetElement();
+		return;
+	}
+
 	Rocket::Core::Input::KeyIdentifier key = Rocket::Core::Input::KeyIdentifier(e.GetParameter<int>("key_identifier", int(Rocket::Core::Input::KI_UNKNOWN)));
 
 	Rocket::Core::Input::KeyModifier modifier = Rocket::Core::Input::KeyModifier(
@@ -678,6 +730,9 @@ void RocketManager::HandleEvent(const SDL_Event *e)
 
 void RocketManager::Draw()
 {
+	if (m_tooltipSourceElement && m_tooltipDelayStartTick + 2000 <= SDL_GetTicks())   // 2s mouse stop for tooltips
+		m_currentScreen->ShowTooltip(m_tooltipSourceElement);
+
 	if (m_needsStashUpdate)
 		UpdateScreenFromStash();
 
