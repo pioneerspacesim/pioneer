@@ -128,7 +128,6 @@ void LayoutEngine::BuildBox(Box& box, const Vector2f& containing_block, Element*
 	{
 		replaced_element = true;
 
-		// PIONEER: preserve aspect ratio of replaced elements
 		Vector2f original_content_area = content_area;
 
 		// The element has resized itself, so we only resize it if a RCSS width or height was set explicitly. A value of
