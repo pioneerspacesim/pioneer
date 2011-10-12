@@ -57,3 +57,7 @@ size_t LuaManager::GetMemoryUsage() const {
 	int b = lua_gc(m_lua, LUA_GCCOUNTB, 0);
 	return (size_t(kb) * 1024) + b;
 }
+
+void LuaManager::CollectGarbage() {
+	lua_gc(m_lua, LUA_GCCOLLECT, 0);
+}

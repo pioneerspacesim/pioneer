@@ -89,6 +89,7 @@ public:
 		else return equip[s][idx];
 	}
 	void Set(Equip::Slot s, int idx, Equip::Type e) {
+		if (signed(equip[s].size()) <= idx) return;
 		equip[s][idx] = e;
 		onChange.emit(e);
 	}

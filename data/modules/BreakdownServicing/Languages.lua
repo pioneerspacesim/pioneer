@@ -11,6 +11,8 @@
 -- strength: A numeric value, being a multiplier of the 1 year guarantee
 -- cost: A numeric value, being a multiplier of base cost (about 2-10)
 
+---- ENGLISH / ENGLISH ----
+
 Translate:AddFlavour('English','BreakdownServicing', {
 	title = "{name} Engine Servicing Company",
 	intro = [[Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.
@@ -85,6 +87,16 @@ Service: {price}
 	strength = 0.0, -- These guys just reset the jump count.  Shoddy.
 	baseprice = 1.8,
 })
+
+Translate:Add({ English = {
+	["I don't have enough money"] = "I don't have enough money",
+	["Your drive was last serviced on {date} by {company}"] = "Your drive was last serviced on {date} by {company}",
+	["Your drive has not been serviced since it was installed on {date}"] = "Your drive has not been serviced since it was installed on {date}",
+	["You do not have a drive to service!"] = "You do not have a drive to service!",
+	["The ship's hyperdrive has been destroyed by a malfunction"] = "The ship's hyperdrive has been destroyed by a malfunction",
+}, })
+
+---- POLISH / POLSKI ----
 
 Translate:AddFlavour('Polski','BreakdownServicing', {
 	title = "Konserwacja Silników w {name}",
@@ -161,29 +173,96 @@ Usługa: {price}
 	baseprice = 1.8,
 })
 
-Translate:Add({
-
-English = {
-	["I don't have enough money"] = "I don't have enough money",
-	["Manufacturer's warranty"] = "Manufacturer's warranty",
-	["Your drive was last serviced on {date} by {company}"] = "Your drive was last serviced on {date} by {company}",
-	["Your drive has not been serviced since it was installed on {date}"] = "Your drive has not been serviced since it was installed on {date}",
-	["You do not have a drive to service!"] = "You do not have a drive to service!",
-	["The ship's hyperdrive has been destroyed by a malfunction"] = "The ship's hyperdrive has been destroyed by a malfunction",
--- /English
-},
-
-Polski = {
-
+Translate:Add({ Polski = {
 	["I don't have enough money"] = "Nie mam tyle pieniędzy",
-	["Manufacturer's warranty"] = "producenta",
 	["Your drive was last serviced on {date} by {company}"] = "Ostatni przegląd wykonany {date} przez {company}",
 	["Your drive has not been serviced since it was installed on {date}"] = "Twój napęd nie przechodził przeglądu od czasu instalacji - dnia {date}",
 	["You do not have a drive to service!"] = "Nie posiadasz hipernapędu!",
 	["The ship's hyperdrive has been destroyed by a malfunction"] = "Awaria, napęd nadprzestrzenny zniszczony.",
+}, })
 
--- /Polski
-},
+---- GERMAN / DEUTSCH ----
 
--- /Translate:add
+Translate:AddFlavour('Deutsch','BreakdownServicing', {
+	title = "{name} Laufwerk Wartungs",
+	intro = [[Vermeiden Sie die Unannehmlichkeiten eines kaputten Hyperraumantrieb. Erhalten Sie Ihr gewartet heute durch amtlich beglaubigte {name} Laufwerk Wartungs.
+
+Antrieb: {drive}
+Dienst: {price}
+Garantie: 18 Monate
+{lasttime}]],
+	yesplease = "Den Hyperraumantrieb pflegen",
+	response = "Ihr Hyperraumantrieb gewartet worden ist.",
+	strength = 1.5,
+	baseprice = 6,
 })
+
+Translate:AddFlavour('Deutsch','BreakdownServicing', {
+	title = "{proprietor}: Technikerspezialist des Hyperraumantriebs",
+	intro = [[Ich bin {proprietor}.  Ich kann Ihr {drive} pflegen, garantiert für mindestens ein Jahr von störungsfreien Betriebs.  Die Kosten des Dienstes wird {price} sein
+{lasttime}]],
+	yesplease = "Meinen Hyperraumantrieb pflegen",
+	response = "Ich habe Ihren Hyperraumantrieb gepflegt.",
+	strength = 1.2, -- At least a year... hidden bonus!
+	baseprice = 4,
+})
+
+Translate:AddFlavour('Deutsch','BreakdownServicing', {
+	title = "{proprietor} & Co Hyper-Mechaniker",
+	intro = [[Guten Tag.  Wir bei {proprietor} & Co verbürgen für unsere Arbeit mit unser Ruf.
+
+{lasttime}
+Wir können Ihr {drive}, so dass er mindestens noch 12 Monate Betrieb hat, für {price} einstellen.  Ich werde die Überwachung der Arbeit selbst, so können Sie sicher sein, dass eine gute Arbeit geleistet wird.]],
+	yesplease = "Bitte stellen sie mein Hyperraumantrieb ein",
+	response = "Einstellen fertig.  Danke schön für Ihre Kundschaft.",
+	strength = 1.0,
+	baseprice = 3,
+})
+
+Translate:AddFlavour('Deutsch','BreakdownServicing', {
+	title = "SuperFix Maintenance ({name} Filiale)",
+	intro = [[Wilkommen bei SuperFix Maintenance.
+
+{lasttime}
+Zeit für Ihre halbjährliche Wartung?  Lassen Sie uns Ihr Hyperraumantrieb SuperFixen!
+Wir können Ihr {drive} pflegen für nur {price}.  Es gibt niemanden billiger!]],
+	yesplease = "SuperFix me!",
+	response = "Ihr SuperFix Pflege ist fertig, mit SuperFix Garantie!",
+	strength = 0.5,
+	baseprice = 2,
+})
+
+Translate:AddFlavour('Deutsch','BreakdownServicing', {
+	title = "Zeit und Raum Antriebe, Inc.",
+	intro = [[Wilkommen nach Zeit und Raum.
+		
+Wir spezialisieren uns auf interstellaren Antriebe.  Alle Wartungsarbeiten für zwei Jahre garantiert.
+
+{lasttime}
+Wartung Ihr {drive} wird {price} kosten.  Möchten Sie fortfahren?]],
+	yesplease = "Ja, bitte fortfahren",
+	response = "Wir haben die Arbeit an Ihrem hyperdrive abgeschlossen.",
+	strength = 2.1, -- these guys are good.
+	baseprice = 10,
+})
+
+Translate:AddFlavour('Deutsch','BreakdownServicing', {
+	title = "{proprietor} Laufwerk Wartungs",
+	intro = [[[Vermeiden Sie die Unannehmlichkeiten eines kaputten Hyperraumantrieb. Erhalten Sie Ihr gewartet heute.
+
+Antrieb: {drive}
+Dienst: {price}
+{lasttime}]],
+	yesplease = "Den Hyperraumantrieb pflegen",
+	response = "Ihr Hyperraumantrieb gewartet worden ist.",
+	strength = 0.0, -- These guys just reset the jump count.  Shoddy.
+	baseprice = 1.8,
+})
+
+Translate:Add({ Deutsch = {
+	["I don't have enough money"] = "Ich habe zu wenig Geld",
+	["Your drive was last serviced on {date} by {company}"] = "Ihr Antrieb wurde zuletzt gewartet am {date} von {company}",
+	["Your drive has not been serviced since it was installed on {date}"] = "Ihr Antrieb hat nicht gewartet sein, da er am {date} installiert wurde",
+	["You do not have a drive to service!"] = "Sie haben keine Hyperraumantrieb zu pflegen!",
+	["The ship's hyperdrive has been destroyed by a malfunction"] = "Der Hyperraumantrieb des Schiffs hat durch eine Fehlfunktion zerstört worden",
+}, })

@@ -593,7 +593,6 @@ void Pi::InitOpenGL()
 
 void Pi::Quit()
 {
-	// TODO: still loads of stuff to clean up
 	Pi::UninitGame();
 	delete Pi::gameMenuView;
 	delete Pi::luaConsole;
@@ -604,9 +603,11 @@ void Pi::Quit()
 	GeoSphere::Uninit();
 	LmrModelCompilerUninit();
 	TextureManager::Clear();
+	Galaxy::Uninit();
 	Render::Uninit();
 	LuaUninit();
 	Gui::Uninit();
+	StarSystem::ShrinkCache();
 	SDL_Quit();
 	exit(0);
 }
@@ -1058,6 +1059,8 @@ void Pi::UninitGame()
 		delete Pi::player;
 		Pi::player = 0;
 	}
+	if (Pi::selectedSystem) Pi::selectedSystem->Release();
+	StarSystem::ShrinkCache();
 }
 
 
@@ -1273,6 +1276,7 @@ void Pi::Start()
 void Pi::EndGame()
 {
 	Pi::luaOnGameEnd->Signal();
+	Pi::luaManager->CollectGarbage();
 	Pi::isGameStarted = false;
 }
 
