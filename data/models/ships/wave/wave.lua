@@ -95,8 +95,9 @@ define_model('gearactive', {
 		use_material('wave')
 		-- sliding front well covers and front gear
 		-- sliders (seasons 1-2) rules!
-		local sliders1 = 1 * get_arg(ARG_SHIP_WHEEL_STATE)
-		local sliders2 = 0.5*math.pi*math.clamp(1.5*(get_arg(ARG_SHIP_WHEEL_STATE)-0.4), 0, 1)
+		local wheel = get_animation_position('WHEEL_STATE')
+		local sliders1 = 1 * wheel
+		local sliders2 = 0.5*math.pi*math.clamp(1.5*(wheel-0.4), 0, 1)
 
 		texture('models/ships/wave/wave.png')
 		load_obj('models/ships/wave/gear.obj', Matrix.new(v(1,0,0), v(0,1,0), v(0,0,1-sliders1)))
@@ -166,7 +167,7 @@ define_model('wave', {
 		if lod > 1 then
 			-- glowing parts thanks to s2odan
 			-- had to export glowing.obj from blender without mtl file to get it to work
-			set_material('glow',lerp_materials(get_arg(ARG_ALL_TIME_SECONDS),{0,0,0,.8,0,0,0,0,10,10,10},{0,0,0,.4,0,0,0,0,9,9,9}))
+			set_material('glow',lerp_materials(get_time('seconds'),{0,0,0,.8,0,0,0,0,10,10,10},{0,0,0,.4,0,0,0,0,9,9,9}))
 			texture('models/ships/wave/glow.png')
 			use_material('glow')
 			load_obj('models/ships/wave/glow.obj')
@@ -175,8 +176,8 @@ define_model('wave', {
 			-- first number id, then center, then normal, then vector direction
 			set_material('text', .6,.6,.6,1,.3,.3,.3,5)
 			use_material('text')
-			text(get_arg_string(0), v(-4.9,-2.7,4.7), v(-0.2,-1,0), v(0,0,1), 1, {center = true})
-			text(get_arg_string(0), v(4.9,-2.7,4.7), v(0.2,-1,0), v(0,0,-1), 1, {center = true})
+			text(get_label(), v(-4.9,-2.7,4.7), v(-0.2,-1,0), v(0,0,1), 1, {center = true})
+			text(get_label(), v(4.9,-2.7,4.7), v(0.2,-1,0), v(0,0,-1), 1, {center = true})
 			-- lights
 			call_model('posl_red', v(-14.85,-3.05, 13.7), v(0,1,0), v(-1,0,0), 1)
 			call_model('posl_green', v(14.85,-3.05, 13.7), v(0,1,0), v(1,0,0), 1)
@@ -189,7 +190,7 @@ define_model('wave', {
 			call_model('coll_warn', v(3.0,-3.0, 7.3), v(-1,0,0), v(0,-1,0), 1)
 		end
 		-- landing gear
-		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+		if get_animation_position('WHEEL_STATE') ~= 0 then
 			call_model('gearactive', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 		else
 			call_model('gearstatic', v(0,0,0), v(1,0,0), v(0,1,0), 1)
@@ -202,82 +203,82 @@ define_model('wave', {
 		local R2 = v(6.9, -1.3, 5.3)
 
 		-- unguided missiles loading
-		if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_UNGUIDED then
+		if get_equipment('MISSILE', 1) == 'MISSILE_UNGUIDED' then
 			call_model('m_pod',L1+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 			call_model('d_unguided',L1,v(1,0,0),v(0,1,0),1)
 		end
 
-		if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_UNGUIDED then
+		if get_equipment('MISSILE', 2) == 'MISSILE_UNGUIDED' then
 			call_model('m_pod',R1+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 			call_model('d_unguided',R1,v(1,0,0),v(0,1,0),1)
 		end
 
-		if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_UNGUIDED then
+		if get_equipment('MISSILE', 3) == 'MISSILE_UNGUIDED' then
 			call_model('m_pod',L2+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 			call_model('d_unguided',L2,v(1,0,0),v(0,1,0),1)
 		end
 
-		if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_UNGUIDED then
+		if get_equipment('MISSILE', 4) == 'MISSILE_UNGUIDED' then
 			call_model('m_pod',R2+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 			call_model('d_unguided',R2,v(1,0,0),v(0,1,0),1)
 		end
 
 		-- guided missiles loading
-		if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_GUIDED then
+		if get_equipment('MISSILE', 1) == 'MISSILE_GUIDED' then
 			call_model('m_pod',L1+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 			call_model('d_guided',L1,v(1,0,0),v(0,1,0),1)
 		end
 
-		if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_GUIDED then
+		if get_equipment('MISSILE', 2) == 'MISSILE_GUIDED' then
 			call_model('m_pod',R1+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 			call_model('d_guided',R1,v(1,0,0),v(0,1,0),1)
 		end
 
-		if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_GUIDED then
+		if get_equipment('MISSILE', 3) == 'MISSILE_GUIDED' then
 			call_model('m_pod',L2+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 			call_model('d_guided',L2,v(1,0,0),v(0,1,0),1)
 		end
 
-		if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_GUIDED then
+		if get_equipment('MISSILE', 4) == 'MISSILE_GUIDED' then
 			call_model('m_pod',R2+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 			call_model('d_guided',R2,v(1,0,0),v(0,1,0),1)
 		end
 
 		-- smart missiles loading
-		if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_SMART then
+		if get_equipment('MISSILE', 1) == 'MISSILE_SMART' then
 			call_model('m_pod',L1+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 			call_model('d_smart',L1,v(1,0,0),v(0,1,0),1)
 		end
 
-		if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_SMART then
+		if get_equipment('MISSILE', 2) == 'MISSILE_SMART' then
 			call_model('m_pod',R1+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 			call_model('d_smart',R1,v(1,0,0),v(0,1,0),1)
 		end
 
-		if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_SMART then
+		if get_equipment('MISSILE', 3) == 'MISSILE_SMART' then
 			call_model('m_pod',L2+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 			call_model('d_smart',L2,v(1,0,0),v(0,1,0),1)
 		end
 
-		if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_SMART then
+		if get_equipment('MISSILE', 4) == 'MISSILE_SMART' then
 			call_model('m_pod',R2+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 			call_model('d_smart',R2,v(1,0,0),v(0,1,0),1)
 		end
 
 		-- naval missiles loading
-		if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_NAVAL then
+		if get_equipment('MISSILE', 1) == 'MISSILE_NAVAL' then
 			call_model('m_pod',L1+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 			call_model('d_naval',L1,v(1,0,0),v(0,1,0),1)
 		end
-		if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_NAVAL then
+		if get_equipment('MISSILE', 2) == 'MISSILE_NAVAL' then
 			call_model('m_pod',R1+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 			call_model('d_naval',R1,v(1,0,0),v(0,1,0),1)
 		end
-		if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_NAVAL then
+		if get_equipment('MISSILE', 3) == 'MISSILE_NAVAL' then
 			call_model('m_pod',L2+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 			call_model('d_naval',L2,v(1,0,0),v(0,1,0),1)
 		end
-		if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_NAVAL then
+		if get_equipment('MISSILE', 4) == 'MISSILE_NAVAL' then
 			call_model('m_pod',R2+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 			call_model('d_naval',R2,v(1,0,0),v(0,1,0),1)
 		end
