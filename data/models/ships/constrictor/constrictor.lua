@@ -359,6 +359,19 @@ define_model('conny_gun', {
 	end
 })
 
+local LASER_SCALE = {
+	--PULSECANNON_1MW       = ??,
+	--PULSECANNON_DUAL_1MW  = ??,
+	PULSECANNON_2MW       = 0.1,
+	PULSECANNON_RAPID_2MW = 0.2,
+	PULSECANNON_4MW       = 0.3,
+	PULSECANNON_10MW      = 0.4,
+	PULSECANNON_20MW      = 0.5,
+	MININGCANNON_17MW     = 0.6,
+	SMALL_PLASMA_ACCEL    = 0.7,
+	LARGE_PLASMA_ACCEL    = 0.8,
+}
+
 define_model('conny_equipment', {
 	info = {
 		lod_pixels = {.1,10,30,0},
@@ -434,7 +447,7 @@ define_model('conny_equipment', {
 			end
 
 			if get_equipment('LASER', 1) then
-				local scale = (get_arg(ARG_SHIP_EQUIP_LASER0)-Equip.PULSECANNON_DUAL_1MW)*.1
+				local scale = LASER_SCALE[get_equipment('LASER',1)] or 0.1
 				use_material('chrome')
 				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 					texture('models/ships/constrictor/iron.png')
@@ -447,7 +460,7 @@ define_model('conny_equipment', {
 			end
 
 			if get_equipment('LASER', 2) then
-				local scale = (get_arg(ARG_SHIP_EQUIP_LASER1)-Equip.PULSECANNON_DUAL_1MW)*.1
+				local scale = LASER_SCALE[get_equipment('LASER',2)] or 0.1
 				use_material('chrome')
 				if get_equipment('LASER', 2) == 'PULSECANNON_DUAL_1MW' then
 					texture('models/ships/constrictor/iron.png')

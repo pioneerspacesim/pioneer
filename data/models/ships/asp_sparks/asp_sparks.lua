@@ -157,6 +157,19 @@ define_model('asps_pyl_open', {
 	end
 })
 
+local LASER_SCALE = {
+	PULSECANNON_1MW       =  1/7.5,
+	PULSECANNON_DUAL_1MW  =  2/7.5,
+	PULSECANNON_2MW       =  3/7.5,
+	PULSECANNON_RAPID_2MW =  4/7.5,
+	PULSECANNON_4MW       =  5/7.5,
+	PULSECANNON_10MW      =  6/7.5,
+	PULSECANNON_20MW      =  7/7.5,
+	MININGCANNON_17MW     =  8/7.5,
+	SMALL_PLASMA_ACCEL    =  9/7.5,
+	LARGE_PLASMA_ACCEL    = 10/7.5,
+}
+
 define_model('asps_sub0', {
 	info = {
 		lod_pixels = {.1,20,50,0},
@@ -200,12 +213,12 @@ define_model('asps_sub0', {
 
 		if lod > 2 then
 			if get_equipment('LASER',1) then
-				local scale = (get_arg(ARG_SHIP_EQUIP_LASER0)-Equip.PULSECANNON_1MW + 1)/7.5
+				local scale = LASER_SCALE[get_equipment('LASER',1)] or 0.1
 				local pos = v(.003,.246,-1.681)
 				asps_gun_f(pos,scale)
 			end
 			if get_equipment('LASER',2) then
-				local scale = (get_arg(ARG_SHIP_EQUIP_LASER1)-Equip.PULSECANNON_1MW + 1)/7.5
+				local scale = LASER_SCALE[get_equipment('LASER',2)] or 0.1
 				local pos = v(.001,-.431,1.964)
 				asps_gun_r(pos,scale)
 			end

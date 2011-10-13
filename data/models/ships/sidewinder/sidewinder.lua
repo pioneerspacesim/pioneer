@@ -62,33 +62,27 @@ define_model('rattle_gun', {
 	static = function(lod)
 	end,
 	dynamic = function(lod)
-		if get_equipment('LASER',1) then
-			if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
+		local laser1 = get_equipment('LASER', 1)
+		if laser1 then
+			if laser1 == 'PULSECANNON_DUAL_1MW' then
 				call_model('rattle_s_gun',v(9,0,0),v(1,0,0),v(0,1,0),1)
 				call_model('rattle_s_gun',v(-9,0,0),v(1,0,0),v(0,1,0),1)
+			elseif laser1 == 'PULSECANNON_1MW' then
+				call_model('rattle_s_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
 			else
-				if get_equipment('LASER', 1) == 'PULSECANNON_1MW' then
-					call_model('rattle_s_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
-				else
-					if get_arg(ARG_SHIP_EQUIP_LASER0) > Equip.PULSECANNON_DUAL_1MW then
-						call_model('rattle_l_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
-					end
-				end
+				call_model('rattle_l_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
 			end
 		end
 
-		if get_equipment('LASER',2) then
-			if get_equipment('LASER', 2) == 'PULSECANNON_DUAL_1MW' then
+		local laser2 = get_equipment('LASER', 2)
+		if laser2 then
+			if laser2 == 'PULSECANNON_DUAL_1MW' then
 				call_model('rattle_s_gun',v(9,0,0),v(1,0,0),v(0,1,0),1)
 				call_model('rattle_s_gun',v(-9,0,0),v(1,0,0),v(0,1,0),1)
+			elseif laser2 == 'PULSECANNON_1MW' then
+				call_model('rattle_s_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
 			else
-				if get_equipment('LASER', 2) == 'PULSECANNON_1MW' then
-					call_model('rattle_s_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
-				else
-					if get_arg(ARG_SHIP_EQUIP_LASER1) > Equip.PULSECANNON_DUAL_1MW then
-						call_model('rattle_l_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
-					end
-				end
+				call_model('rattle_l_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
 			end
 		end
 	end
