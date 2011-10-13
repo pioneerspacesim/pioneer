@@ -64,7 +64,7 @@ define_model('cobra_mk3', {
 			zbias(0)
 
             -- lights on wingtips
-			local lightphase = math.fmod(get_time('seconds'), 1)
+			local lightphase = math.fmod(get_time('SECONDS'), 1)
 			if lightphase > .9 then
 				billboard('smoke.png', 10, v(1,1,1), { v(-25.35,-.95,11.375) })
 			elseif lightphase > .8 then
@@ -75,7 +75,7 @@ define_model('cobra_mk3', {
 		end
 		
 		if get_animation_position('WHEEL_STATE') == 0 then
-			local lightphase = math.fmod(get_time('seconds'), 1)
+			local lightphase = math.fmod(get_time('SECONDS'), 1)
 			if lightphase > .9 then
 				billboard('smoke.png', 10, v(0,1,0), { v(-25.35,-.95,11.375) })
 			elseif lightphase > .8 then

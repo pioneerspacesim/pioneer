@@ -167,7 +167,7 @@ define_model('wave', {
 		if lod > 1 then
 			-- glowing parts thanks to s2odan
 			-- had to export glowing.obj from blender without mtl file to get it to work
-			set_material('glow',lerp_materials(get_time('seconds'),{0,0,0,.8,0,0,0,0,10,10,10},{0,0,0,.4,0,0,0,0,9,9,9}))
+			set_material('glow',lerp_materials(get_time('SECONDS'),{0,0,0,.8,0,0,0,0,10,10,10},{0,0,0,.4,0,0,0,0,9,9,9}))
 			texture('models/ships/wave/glow.png')
 			use_material('glow')
 			load_obj('models/ships/wave/glow.obj')

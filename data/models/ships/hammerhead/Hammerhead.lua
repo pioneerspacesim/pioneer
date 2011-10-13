@@ -400,7 +400,7 @@ define_model('hh', {
 			use_material('medsteel')
 			call_model('hhmaingear',v(0,0,0),v(1,0,0),v(0,1,0),1)
 
-			set_material('glow', lerp_materials(get_time('seconds')*0.4,	{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, .5 },
+			set_material('glow', lerp_materials(get_time('SECONDS')*0.4,	{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, .5 },
 			{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, .1 }))
 
 			if get_equipment('SCANNER') then

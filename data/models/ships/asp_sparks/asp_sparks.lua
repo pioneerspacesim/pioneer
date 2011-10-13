@@ -406,11 +406,11 @@ define_model('asp_sparks', {
 		local rot = .5*math.pi*math.clamp(get_animation_position('WHEEL_STATE'),.3,1)-.46
 
 		if lod > 1 then
-			set_material('e_glow', lerp_materials(get_time('seconds')*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
+			set_material('e_glow', lerp_materials(get_time('SECONDS')*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
 			{0, 0, 0, 1, 0, 0, 0, 1, 1, 2.5, 2.5 }))
 
 			if get_equipment('FUELSCOOP') == 'FUEL_SCOOP' then
-				set_material('scoop', lerp_materials(get_time('seconds')*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
+				set_material('scoop', lerp_materials(get_time('SECONDS')*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
 				{0, 0, 0, 1, 0, 0, 0, 1, 1, 2.5, 2.5 }))
 			else
 				set_material('scoop', .15,.16,.18,1,.22,.25,.25,10)

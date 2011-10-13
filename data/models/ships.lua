@@ -287,7 +287,7 @@ define_model('ladybird', {
 	dynamic = function(lod)
 		set_material('matvar0', get_arg_material(0))
 		set_material('matvar2', get_arg_material(2))
-		set_material('engine_inside', lerp_materials(get_time('minutes')*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
+		set_material('engine_inside', lerp_materials(get_time('MINUTES')*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
 		{0, 0, 0, 1, 0, 0, 0, 10, 0, 0, .5 }))
 		set_material('text', 0,0,0,1,0.3,0.3,0.3,5)
 		if lod > 1 then
@@ -615,7 +615,7 @@ define_model('flowerfairy', {
 	end,
 	dynamic = function(lod)
 		set_material('matvar0', get_arg_material(0))
-		set_material('engine_inside', lerp_materials(get_time('minutes')*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
+		set_material('engine_inside', lerp_materials(get_time('MINUTES')*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
 		{0, 0, 0, 1, 0, 0, 0, 10, 0, 0, .5 }))
 		-- 34, gear pos
 		local v34 = v(-5.0, -8.0, -13.0)
@@ -958,7 +958,7 @@ define_model('interdictor', {
 
 		set_material('matvar0', get_arg_material(0))
 		set_material('matvar2', get_arg_material(2))
-		set_material('engine_inside', lerp_materials(get_time('minutes')*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
+		set_material('engine_inside', lerp_materials(get_time('MINUTES')*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
 		{0, 0, 0, 1, 0, 0, 0, 10, 0, 0, .5 }))
 		if lod > 1 then
 			local shipname = get_label()
@@ -972,7 +972,7 @@ define_model('interdictor', {
 
 		if get_animation_position('WHEEL_STATE') ~= 0 then
 			-- lights on wingtips
-			local lightphase = math.fmod(get_time('seconds'), 1)
+			local lightphase = math.fmod(get_time('SECONDS'), 1)
 			if lightphase > .9 then
 				billboard('smoke.png', 10, v(1,1,1), { v(-14.1, 0, 12) })
 			elseif lightphase > .8 then

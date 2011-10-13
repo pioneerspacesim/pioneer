@@ -558,8 +558,8 @@ define_model('lanner_ub', {
 		end
 	end,
 	dynamic = function(lod)
-		set_material('glow', lerp_materials(get_time('seconds')*0.3, {0, 0, 0, 1, 0, 0, 0, 0, 1.6, 1.9, 0 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, 2.5,0 }))
-		set_material('e_glow', lerp_materials(get_time('seconds')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
+		set_material('glow', lerp_materials(get_time('SECONDS')*0.3, {0, 0, 0, 1, 0, 0, 0, 0, 1.6, 1.9, 0 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, 2.5,0 }))
+		set_material('e_glow', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
 
 		local flap = 1.25*math.pi*math.clamp(get_animation_position('WHEEL_STATE'), 0, 0.4)
 		local flap_f = 0.5*math.pi*math.clamp(get_animation_position('WHEEL_STATE'), 0, 1)

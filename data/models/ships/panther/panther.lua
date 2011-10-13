@@ -148,7 +148,7 @@ define_model('panther', {
 	dynamic = function(lod)
 		if lod > 1 then
 			if lod > 2 then
-				set_material('glow', lerp_materials(get_time('seconds')*0.5,	{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1.5 },
+				set_material('glow', lerp_materials(get_time('SECONDS')*0.5,	{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1.5 },
 				{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1 }))
 				local reg = get_label()
 				use_material('text1')

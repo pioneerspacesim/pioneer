@@ -821,8 +821,8 @@ define_model('courier_eng_l', {      -- engine part left all models
 
 	end,
 	dynamic = function(lod)
-		set_material('e_glow1', lerp_materials(get_time('seconds')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
-		set_material('e_glow2', lerp_materials(get_time('seconds')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
+		set_material('e_glow1', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
+		set_material('e_glow2', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
 
 		if lod > 1 then
 			call_model('posl_red', v(-34,-11.16,7), v(0,0,1), v(-1,0.0),2.5)
@@ -833,7 +833,7 @@ define_model('courier_eng_l', {      -- engine part left all models
 		call_model('courier_flap_ll', v(-32.394, -13.175,13.134), v(math.cos(-rot),math.sin(-rot),0), v(-0.024*rot,0.034*rot,1),1)
 		call_model('courier_flap_lr', v(-30.756, -13.175,13.134), v(math.cos(rot),math.sin(rot),0), v(-0.024*rot,-0.034*rot,-1),1)
 
-		local factor = get_time('seconds')*math.pi
+		local factor = get_time('SECONDS')*math.pi
 		call_model('courier_tip', v(-31.58, -11.16, 6.1), v(math.sin(factor*1.5),math.cos(factor*1.5),0), v(0,0,-1),1)
 	end
 })
@@ -885,8 +885,8 @@ define_model('courier_eng_r', {      -- engine part right all models
 
 	end,
 	dynamic = function(lod)
-		set_material('e_glow1', lerp_materials(get_time('seconds')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
-		set_material('e_glow2', lerp_materials(get_time('seconds')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
+		set_material('e_glow1', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
+		set_material('e_glow2', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
 
 		if lod > 1 then
 			call_model('posl_green', v(34,-11.16,7), v(0,0,1), v(1,0.0),2.5)
@@ -897,7 +897,7 @@ define_model('courier_eng_r', {      -- engine part right all models
 		call_model('courier_flap_rl', v(30.756, -13.175,13.134), v(math.cos(-rot),math.sin(-rot),0), v(-0.024*rot,0.034*rot,1),1)
 		call_model('courier_flap_rr', v(32.394, -13.175,13.134), v(math.cos(rot),math.sin(rot),0), v(-0.024*rot,-0.034*rot,-1),1)
 
-		local factor = get_time('seconds')*math.pi
+		local factor = get_time('SECONDS')*math.pi
 		call_model('courier_tip', v(31.58, -11.16, 6.1), v(math.cos(factor*1.5),math.sin(factor*1.5),0), v(0,0,-1),1)
 	end
 })
@@ -926,8 +926,8 @@ define_model('trader_eng', {   -- trader middle engine part
 		call_model('courier_tip', v(0,11.466,13.1), v(0,1,0), v(0,0,-1), 1)
 	end,
 	dynamic = function(lod)
-		set_material('e_glow1', lerp_materials(get_time('seconds')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
-		set_material('e_glow2', lerp_materials(get_time('seconds')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
+		set_material('e_glow1', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
+		set_material('e_glow2', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
 	end
 })
 

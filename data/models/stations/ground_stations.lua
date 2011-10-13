@@ -21,7 +21,7 @@ define_model('control_tower', {
 		tapered_cylinder(8, v(0,175,0), v(0,200,0), v(0,0,1), 20, 10)
 	end,
 	dynamic = function(lod)
-	local lightphase = math.fmod(get_time('seconds')+0.620486, 1)
+	local lightphase = math.fmod(get_time('SECONDS')+0.620486, 1)
 	billboard('smoke.png', 50, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 201, 0) })
 	end
 })
@@ -52,7 +52,7 @@ function createLandingPad(padNum, position)
 	use_material('body')
 	tapered_cylinder(10, position + v(0,-10,0), position + v(0,-100,0), v(0,0,1), 10, 20)
 
-	if (math.fmod(get_time('seconds'), 2) > 1) then
+	if (math.fmod(get_time('SECONDS'), 2) > 1) then
 		local color
 		if stage > 1 or stage < 0 then
 			color = v(1,0,0) -- red

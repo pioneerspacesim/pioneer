@@ -338,7 +338,7 @@ define_model('fi', {
 			end
 
 			if get_equipment('ENGINE') then
-				set_material('glow', lerp_materials(get_time('seconds')*0.25, {0, 0, 0, 1, 0, 0, 0, 0, 1.7, 2.2, 2.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .1, .2, 0.5 }))
+				set_material('glow', lerp_materials(get_time('SECONDS')*0.25, {0, 0, 0, 1, 0, 0, 0, 0, 1.7, 2.2, 2.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .1, .2, 0.5 }))
 			else
 				set_material('glow', .03,.03,.03,1,.65,.68,.72,10)
 			end

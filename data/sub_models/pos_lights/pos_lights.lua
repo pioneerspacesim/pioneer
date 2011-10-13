@@ -21,7 +21,7 @@ define_model('posl_green', {
 			if lod > 1 then
 				set_material('green', 0, .85, 0, .5, 1, 1, 1, 100, 0, 0, 0)
 			end
-			local lightphase = math.fmod((get_time('seconds')*0.75),1)
+			local lightphase = math.fmod((get_time('SECONDS')*0.75),1)
 			if lightphase > .1 then
 				if lightphase  < .3 then
 					if lod > 1 then
@@ -51,7 +51,7 @@ define_model('posl_red', {
 			if lod > 1 then
 				set_material('red', .9, 0, 0, .6, 1, 1, 1, 100, 0, 0, 0)
 			end
-			local lightphase = math.fmod((get_time('seconds')*0.75),1)
+			local lightphase = math.fmod((get_time('SECONDS')*0.75),1)
 			if lightphase  > .3 then
 				if lightphase < .5 then
 					if lod > 1 then
@@ -81,7 +81,7 @@ define_model('posl_white', {
 			if lod > 1 then
 				set_material('blue_white', .8, .85, 1, .5, 1, 1, 1, 100, 0, 0, 0)
 			end
-			local lightphase = math.fmod((get_time('seconds')*0.75),1)
+			local lightphase = math.fmod((get_time('SECONDS')*0.75),1)
 			if lightphase  > .5 then
 				if lightphase < .7 then
 					if lod > 1 then
@@ -112,7 +112,7 @@ define_model('coll_warn', {
 				set_material('blue_white', .8, .85, 1, .5, 1, 1, 1, 100, 0, 0, 0)
 			end
 			if get_animation_position('WHEEL_STATE') ~= 0 then
-				local lightphase = math.fmod((get_time('seconds')*0.75),1)
+				local lightphase = math.fmod((get_time('SECONDS')*0.75),1)
 				if lightphase  > .7 then
 					if lightphase < .9 then
 						if lod > 1 then

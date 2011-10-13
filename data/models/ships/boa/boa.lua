@@ -172,7 +172,7 @@ define_model('boa', {
 		if lod > 1 then
 			set_material('body', get_arg_material(0))
 			set_material('wing', get_arg_material(1))
-			set_material('glow', lerp_materials(get_time('hours')*.1,	{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1.5 },
+			set_material('glow', lerp_materials(get_time('HOURS')*.1,	{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1.5 },
 			{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1 }))
 
 			use_material('darksteel')
