@@ -75,6 +75,10 @@ Alpha 15
     * Fix directory handle leak (#618)
     * Don't allow scripts to add more equipment than a ship has room for (#617, #616)
     * Interplanetary Shuttle can no longer take a hyperdrive (#613)
+    * Fix crash on attack after high-risk delivery (#631)
+    * Fix crash in if player arrives in system before assassination target (#643)
+    * Fix crash when setting equipment in a slot that a ship doesn't have (#647, #648)
+    * Fix crash when rendering non-ship models under certain conditions (#646)
 
   * Script changes
     * Experimental Lua console (#537, #597)
