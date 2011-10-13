@@ -4,7 +4,7 @@
 	</head>
 	<body template="dialog">
 		<h1>Pioneer</h1>
-		<h4 id="engine.version"/>
+		<h4 stash="engine.version"/>
 		<p>
 			<button class="point" onclick="newgame-earth" shortcut="1"/>New game starting on Earth<br/>
 			<button class="point" onclick="newgame-eridani" shortcut="2"/>New game starting on Epsilon Eridani<br/>

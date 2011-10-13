@@ -20,7 +20,7 @@
 		</style>
 	</head>
 	<body template="screen">
-        <h1 id="form.title"/>
+        <h1 stash="form.title"/>
 		<p>Hello, traveller.  Welcome to our little blue play-pen.  If it's your first time here, feel free to get acquainted with the residents.  We hope you enjoy your stay.</p>
 		<p>Please remember that renovations are under way, and that scenery may change between visits.</p>
 		<face/>
@@ -41,13 +41,13 @@
 			Ship equipment
 		</div>
 		<div class="table-values">
-			<span id="player.money"/><br/>
+			<span stash="player.money"/><br/>
 			<br/>
-			<span id="player.legalStatus"/><br/>
+			<span stash="player.legalStatus"/><br/>
 			<br/>
-			<span id="player.cargoSpaceUsed"/><br/>
-			<span id="player.cargoSpaceFree"/><br/>
-			<span id="player.equipmentMass"/>
+			<span stash="player.cargoSpaceUsed"/><br/>
+			<span stash="player.cargoSpaceFree"/><br/>
+			<span stash="player.equipmentMass"/>
 		</div>
 	</body>
 </rml>

@@ -775,11 +775,23 @@ void RocketManager::ClearStash()
 
 void RocketManager::UpdateScreenFromStash()
 {
-	Rocket::Core::ElementDocument *document = m_currentScreen->GetDocument();
-	for (std::map<std::string,std::string>::iterator i = m_stash.begin(); i != m_stash.end(); i++) {
-		Rocket::Core::Element *e = document->GetElementById((*i).first.c_str());
-		if (e)
-			e->SetInnerRML((*i).second.c_str());
+	std::queue<Rocket::Core::Element*> searchQueue;
+	searchQueue.push(m_currentScreen->GetDocument());
+
+	while (!searchQueue.empty()) {
+		Rocket::Core::Element *e = searchQueue.front();
+		searchQueue.pop();
+
+		Rocket::Core::String stash = e->GetAttribute<Rocket::Core::String>("stash", "");
+		if (stash.Length() > 0) {
+			std::map<std::string,std::string>::iterator i = m_stash.find(stash.CString());
+			if (i != m_stash.end())
+				e->SetInnerRML((*i).second.c_str());
+		}
+
+		for (int i=0; i < e->GetNumChildren(); i++)
+			searchQueue.push(e->GetChild(i));
 	}
+
 	m_needsStashUpdate = false;
 }
