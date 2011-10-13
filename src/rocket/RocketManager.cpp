@@ -45,7 +45,7 @@ static const Keymap keymap[] = {
 	{ SDLK_HASH,         Rocket::Core::Input::KI_UNKNOWN,     0 },
 	{ SDLK_DOLLAR,       Rocket::Core::Input::KI_UNKNOWN,     0 },
 	{ SDLK_AMPERSAND,    Rocket::Core::Input::KI_UNKNOWN,     0 },
-	{ SDLK_QUOTE,        Rocket::Core::Input::KI_UNKNOWN,     0 },
+	{ SDLK_QUOTE,        Rocket::Core::Input::KI_OEM_7,       "'" },
 	{ SDLK_LEFTPAREN,    Rocket::Core::Input::KI_UNKNOWN,     0 },
 	{ SDLK_RIGHTPAREN,   Rocket::Core::Input::KI_UNKNOWN,     0 },
 	{ SDLK_ASTERISK,     Rocket::Core::Input::KI_UNKNOWN,     0 },
