@@ -1108,7 +1108,7 @@ void Pi::Start()
         case 1: // Earth start point
         {
             SystemPath path(0,0,0, 0);
-            Space::SetupSystemForGameStart(&path, 4, 0);
+            Space::SetupSystemForGameStart(&path, 1, 0);
             StartGame();
             MainLoop();
             break;
