@@ -1,34 +1,6 @@
 -- don't produce missions for further than this many light years away
 local max_ass_dist = 30
 
-local title = { -- just for fun
-	"Admiral",
-	"Ambassador",
-	"Brigadier",
-	"Cadet",
-	"Captain",
-	"Cardinal",
-	"Colonel",
-	"Commandant",
-	"Commodore",
-	"Corporal",
-	"Ensign",
-	"General",
-	"Judge",
-	"Lawyer",
-	"Lieutenant",
-	"Marshal",
-	"Merchant",
-	"Officer",
-	"Private",
-	"Professor",
-	"Prosecutor",
-	"Provost",
-	"Seaman",
-	"Senator",
-	"Sergeant",
-}
-
 local ads = {}
 local missions = {}
 
