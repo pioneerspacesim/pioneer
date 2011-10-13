@@ -3644,17 +3644,11 @@ namespace ModelFuncs {
 	 * Parameters:
 	 *
 	 *   animation - an animation name, from <Constants.ShipAnimation> for ships
+	 *               or from <Constants.SpaceStationAnimation> for space stations
 	 *
 	 * Returns:
 	 *
 	 *   stage - the stage of the animation (meaning is animation dependent)
-	 *
-	 * Example:
-	 *
-	 * > local flight_state = get_animation_stage('FLIGHT_STATE')
-	 * > if flight_state == 'LANDED' then
-	 * >   -- enable rough landing lights
-	 * > end
 	 *
 	 * Availability:
 	 *
@@ -3688,6 +3682,7 @@ namespace ModelFuncs {
 	 * Parameters:
 	 *
 	 *   animation - an animation name, from <Constants.ShipAnimation> for ships
+	 *               or from <Constants.SpaceStationAnimation> for space stations
 	 *
 	 * Returns:
 	 *
