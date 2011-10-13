@@ -14,8 +14,8 @@ ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, fl
 	m_params.equipment = &m_equipment;
 	flavour.ApplyTo(&m_params);
 	m_params.argDoubles[0] = 1.0;
-	m_params.animStages[Ship::ANIM_FLIGHT_STATE] = Ship::FLYING;
 	m_params.animValues[Ship::ANIM_WHEEL_STATE] = 1.0;
+	m_params.flightState = Ship::FLYING;
 }
 
 void ShipSpinnerWidget::Draw()

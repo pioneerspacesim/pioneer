@@ -850,6 +850,7 @@ static void draw_intro(Background::Starfield *starfield, Background::MilkyWay *m
 		{ 0.0, 1.0 }, // animation positions
 		Lang::PIONEER, // label
 		0, // equipment
+		Ship::FLYING, // flightState
 		{ }, // argDoubles
 		{ }, // argStrings
 		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f }, // thrust
@@ -909,6 +910,7 @@ static void draw_tombstone(float _time)
 		{}, // animation positions
 		Lang::TOMBSTONE_EPITAPH, // label
 		0, // equipment
+		0, // flightState
 		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // argDoubles
 		{ }, // argStrings
 		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },

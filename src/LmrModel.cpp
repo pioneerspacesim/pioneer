@@ -3721,6 +3721,44 @@ namespace ModelFuncs {
 	}
 
 	/*
+	 * Function: get_flight_state
+	 *
+	 * Get the flight state of the ship.
+	 *
+	 * > local state = get_flight_state()
+	 *
+	 * Returns:
+	 *
+	 *   state - one of the flight state constants from <Constants.ShipFlightState>
+	 *
+	 * Example:
+	 *
+	 * > local flight_state = get_flight_state()
+	 * > if flight_state == 'LANDED' then
+	 * >   -- enable rough landing lights
+	 * > end
+	 *
+	 * Availability:
+	 *
+	 *   not yet
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
+	static int get_flight_state(lua_State *L)
+	{
+		assert(s_curParams != 0);
+		// if there is equipment then there should also be a flightState
+		if (s_curParams->equipment) {
+			lua_pushstring(L, LuaConstants::GetConstantString(L, "ShipFlightState", s_curParams->flightState));
+			return 1;
+		} else
+			return luaL_error(L, "Flight state is only valid for ships.");
+	}
+
+	/*
 	 * Function: get_arg_string
 	 *
 	 * Return string arguments passed from C++ code
@@ -4535,6 +4573,7 @@ void LmrModelCompilerInit()
 	lua_register(L, "get_equipment", ModelFuncs::get_equipment);
 	lua_register(L, "get_animation_stage", ModelFuncs::get_animation_stage);
 	lua_register(L, "get_animation_position", ModelFuncs::get_animation_position);
+	lua_register(L, "get_flight_state", ModelFuncs::get_flight_state);
 	lua_register(L, "get_arg_string", ModelFuncs::get_arg_string);
 	lua_register(L, "get_label", ModelFuncs::get_label);
 	lua_register(L, "flat", ModelFuncs::flat);

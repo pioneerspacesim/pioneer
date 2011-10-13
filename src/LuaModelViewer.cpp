@@ -6,6 +6,12 @@
 #include "EquipType.h"
 #include "render/Render.h"
 
+// semi-duplicated from Ship.h, because that would be painful to include from here
+enum FlightState {
+#define FlightState_ITEM(x) FLIGHT_STATE_##x,
+#include "ShipEnums.h"
+};
+
 static SDL_Surface *g_screen;
 static int g_width, g_height;
 static int g_mouseMotion[2];
@@ -32,6 +38,7 @@ static LmrObjParams params = {
 	{}, // animation positions
 	"IR-L33T", // label
 	0, // equipment
+	FLIGHT_STATE_FLYING, // flightState
 
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // argDoubles
 	{ 0, "ME TOO" }, // argStrings

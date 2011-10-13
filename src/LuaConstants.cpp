@@ -635,7 +635,6 @@ void LuaConstants::Register(lua_State *l)
 	 * Animation code used by LMR. Pass one of these constants to
 	 * get_animation_stage() or get_animation_position() in a model script.
 	 *
-	 * FLIGHT_STATE - animation state gives ship's flight state; position unused
 	 * WHEEL_STATE  - animation state unused; position gives position of undercarriage
 	 *
 	 * Availability:

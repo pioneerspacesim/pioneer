@@ -26,7 +26,6 @@ FlightState_ITEM(HYPERSPACE) // in hyperspace
 #endif
 
 #ifdef Animation_ITEM
-Animation_ITEM(FLIGHT_STATE)
 Animation_ITEM(WHEEL_STATE)
 #undef Animation_ITEM
 #endif

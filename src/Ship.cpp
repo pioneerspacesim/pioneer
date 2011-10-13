@@ -1008,6 +1008,7 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		params.linthrust[1] = float(m_thrusters.y);
 		params.linthrust[2] = float(m_thrusters.z);
 		params.equipment = &m_equipment;
+
 		params.argDoubles[0] = m_wheelState;
 		params.argDoubles[5] = double(m_equipment.Get(Equip::SLOT_FUELSCOOP));
 		params.argDoubles[6] = double(m_equipment.Get(Equip::SLOT_ENGINE));
@@ -1021,8 +1022,8 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		}
 		params.argDoubles[20] = m_flightState;
 
-		params.animStages[ANIM_FLIGHT_STATE] = m_flightState;
 		params.animValues[ANIM_WHEEL_STATE] = m_wheelState;
+		params.flightState = m_flightState;
 
 		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 		RenderLmrModel(viewCoords, viewTransform);

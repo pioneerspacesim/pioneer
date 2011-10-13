@@ -42,6 +42,7 @@ struct LmrObjParams
 	double animValues[LMR_ANIMATION_MAX];
 	const char *label;
 	const EquipSet *equipment; // for ships
+	int flightState;
 
 	double argDoubles[LMR_ARG_MAX];
 	const char *argStrings[LMR_ARG_MAX];
