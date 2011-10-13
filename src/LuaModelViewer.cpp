@@ -12,6 +12,30 @@ enum FlightState {
 #include "ShipEnums.h"
 };
 
+// semi-duplicated from Ship.h, because that would be painful to include from here
+enum ShipAnimation {
+#define Animation_ITEM(x) SHIP_ANIM_##x,
+#include "ShipEnums.h"
+};
+
+// semi-duplicated from Ship.h, because that would be painful to include from here
+enum SpaceStationAnimation {
+#define Animation_ITEM(x) SPACESTATION_ANIM_##x,
+#include "SpaceStationEnums.h"
+};
+
+enum ModelCategory {
+	MODEL_OTHER,
+	MODEL_SHIP,
+	MODEL_SPACESTATION
+};
+
+static const char *ANIMATION_NAMESPACES[] = {
+	0,
+	"ShipAnimation",
+	"SpaceStationAnimation",
+};
+
 static const int LMR_ARG_MAX = 40;
 
 static SDL_Surface *g_screen;
@@ -33,13 +57,14 @@ extern void LmrModelCompilerInit();
 static int g_wheelMoveDir = -1;
 static int g_renderType = 0;
 static float g_frameTime;
-static LmrObjParams params = {
+static EquipSet g_equipment;
+static LmrObjParams g_params = {
 	0, // animation namespace
 	0.0, // time
 	{}, // animation stages
 	{}, // animation positions
-	"IR-L33T", // label
-	0, // equipment
+	"PIONEER", // label
+	&g_equipment, // equipment
 	FLIGHT_STATE_FLYING, // flightState
 
 	{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
@@ -61,6 +86,7 @@ public:
 	LmrModel *m_model;
 	CollisionSpace *m_space;
 	Geom *m_geom;
+	ModelCategory m_modelCategory;
 
 	void SetModel(LmrModel *);
 
@@ -192,7 +218,7 @@ public:
 		delete m_geom;
 		delete m_cmesh;
 
-		m_cmesh = new LmrCollMesh(m_model, &params);
+		m_cmesh = new LmrCollMesh(m_model, &g_params);
 		m_geom = new Geom(m_cmesh->geomTree);
 		m_space->AddGeom(m_geom);
 	}
@@ -223,12 +249,28 @@ private:
 void Viewer::SetModel(LmrModel *model)
 {
 	m_model = model;
+	// clear old geometry
 	if (m_cmesh) delete m_cmesh;
 	if (m_geom) {
 		m_space->RemoveGeom(m_geom);
 		delete m_geom;
 	}
-	m_cmesh = new LmrCollMesh(m_model, &params);
+
+	// set up model parameters
+	// inefficient (looks up and searches tags table separately for each tag)
+	bool has_ship = m_model->HasTag("ship") || m_model->HasTag("static_ship");
+	bool has_station = m_model->HasTag("surface_station") || m_model->HasTag("orbital_station");
+	if (has_ship && !has_station)
+		m_modelCategory = MODEL_SHIP;
+	else if (has_station && !has_ship)
+		m_modelCategory = MODEL_SPACESTATION;
+	else
+		m_modelCategory = MODEL_OTHER;
+
+	g_params.animationNamespace = ANIMATION_NAMESPACES[m_modelCategory];
+
+	// construct geometry
+	m_cmesh = new LmrCollMesh(m_model, &g_params);
 	m_geom = new Geom(m_cmesh->geomTree);
 	m_space->AddGeom(m_geom);
 }
@@ -243,7 +285,6 @@ void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *
 			errormsg->SetText("Could not find model: " + entry->GetText());
 		}
 		if (m) SetModel(m);
-
 	}
 }
 
@@ -328,14 +369,14 @@ void Viewer::SetSbreParams()
 	}
 */
 
-	params.time = gameTime;
+	g_params.time = gameTime;
 
-	params.linthrust[0] = 2.0f * (m_linthrust[0]->GetValue() - 0.5f);
-	params.linthrust[1] = 2.0f * (m_linthrust[1]->GetValue() - 0.5f);
-	params.linthrust[2] = 2.0f * (m_linthrust[2]->GetValue() - 0.5f);
-	params.angthrust[0] = 2.0f * (m_angthrust[0]->GetValue() - 0.5f);
-	params.angthrust[1] = 2.0f * (m_angthrust[1]->GetValue() - 0.5f);
-	params.angthrust[2] = 2.0f * (m_angthrust[2]->GetValue() - 0.5f);
+	g_params.linthrust[0] = 2.0f * (m_linthrust[0]->GetValue() - 0.5f);
+	g_params.linthrust[1] = 2.0f * (m_linthrust[1]->GetValue() - 0.5f);
+	g_params.linthrust[2] = 2.0f * (m_linthrust[2]->GetValue() - 0.5f);
+	g_params.angthrust[0] = 2.0f * (m_angthrust[0]->GetValue() - 0.5f);
+	g_params.angthrust[1] = 2.0f * (m_angthrust[1]->GetValue() - 0.5f);
+	g_params.angthrust[2] = 2.0f * (m_angthrust[2]->GetValue() - 0.5f);
 }
 
 
@@ -513,9 +554,9 @@ void Viewer::MainLoop()
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
 			if (g_doBenchmark) {
-				for (int i=0; i<1000; i++) m_model->Render(m, &params);
+				for (int i=0; i<1000; i++) m_model->Render(m, &g_params);
 			} else {
-				m_model->Render(m, &params);
+				m_model->Render(m, &g_params);
 			}
 			glPopAttrib();
 		} else if (g_renderType == 1) {
