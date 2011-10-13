@@ -122,6 +122,7 @@ noinst_HEADERS = \
 	SoundMusic.h \
 	Space.h \
 	SpaceStation.h \
+	SpaceStationEnums.h \
 	SpaceStationView.h \
 	Star.h \
 	StarSystem.h \

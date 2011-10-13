@@ -652,6 +652,29 @@ void LuaConstants::Register(lua_State *l)
 	};
 	_create_constant_table_consecutive(l, "ShipAnimation", ship_animation_constants);
 
+	/*
+	 * Constants: SpaceStationAnimation
+	 *
+	 * Animation code used by LMR. Pass one of these constants to
+	 * get_animation_stage() or get_animation_position() in a model script.
+	 *
+	 * WHEEL_STATE  - animation state unused; position gives position of undercarriage
+	 *
+	 * Availability:
+	 *
+	 *   not yet
+	 *
+	 * Status:
+	 *
+	 *   experimental
+	 */
+	static const pi_lua_constant_t space_station_animation_constants[] = {
+#define Animation_ITEM(x) { #x, -1 },
+#include "SpaceStationEnums.h"
+		{ 0, 0 }
+	};
+	_create_constant_table_consecutive(l, "SpaceStationAnimation", space_station_animation_constants);
+
     /*
      * Constants: MissionStatus
      *
