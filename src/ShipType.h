@@ -72,8 +72,10 @@ public:
 	EquipSet() {}
 
 	void InitSlotSizes(const ShipType::Type t) {
+		const ShipType &st = ShipType::types[t];
 		for (int i=0; i<Equip::SLOT_MAX; i++) {
-			equip[i] = std::vector<Equip::Type>(ShipType::types[t].equipSlotCapacity[i]);
+			// vector swap idiom (de-allocates unneeded space)
+			std::vector<Equip::Type>(st.equipSlotCapacity[i]).swap(equip[i]);
 		}
 		onChange.emit(Equip::NONE);
 	}
