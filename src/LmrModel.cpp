@@ -1049,35 +1049,8 @@ void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels)
 {
 	for (std::map<std::string, LmrModel*>::iterator i = s_models.begin();
 			i != s_models.end(); ++i) {
-		LmrModel *model = (*i).second;
-
-		LUA_DEBUG_START(sLua);
-		
-		char buf[256];
-		snprintf(buf, sizeof(buf), "%s_info", model->GetName());
-		lua_getglobal(sLua, buf);
-		lua_getfield(sLua, -1, "tags");
-		if (lua_istable(sLua, -1)) {
-			for(int j=1;; j++) {
-				lua_pushinteger(sLua, j);
-				lua_gettable(sLua, -2);
-				if (lua_isstring(sLua, -1)) {
-					const char *s = luaL_checkstring(sLua, -1);
-					if (0 == strcmp(tag, s)) {
-						outModels.push_back(model);
-						lua_pop(sLua, 1);
-						break;
-					}
-				} else if (lua_isnil(sLua, -1)) {
-					lua_pop(sLua, 1);
-					break;
-				}
-				lua_pop(sLua, 1);
-			}
-		}
-		lua_pop(sLua, 2);
-
-		LUA_DEBUG_END(sLua, 0);
+		if (i->second->HasTag(tag))
+			outModels.push_back(i->second);
 	}
 }
 
@@ -1134,6 +1107,42 @@ void LmrModel::PushAttributeToLuaStack(const char *attr_name) const
 	lua_getfield(sLua, -1, attr_name);
 	lua_remove(sLua, -2);
 	LUA_DEBUG_END(sLua, 1);
+}
+
+bool LmrModel::HasTag(const char *tag) const
+{
+	bool has_tag = false;
+
+	LUA_DEBUG_START(sLua);
+
+	char buf[256];
+	snprintf(buf, sizeof(buf), "%s_info", m_name.c_str());
+
+	lua_getglobal(sLua, buf);
+	lua_getfield(sLua, -1, "tags");
+	if (lua_istable(sLua, -1)) {
+		for(int j=1;; j++) {
+			lua_pushinteger(sLua, j);
+			lua_gettable(sLua, -2);
+			if (lua_isstring(sLua, -1)) {
+				const char *s = luaL_checkstring(sLua, -1);
+				if (0 == strcmp(tag, s)) {
+					has_tag = true;
+					lua_pop(sLua, 1);
+					break;
+				}
+			} else if (lua_isnil(sLua, -1)) {
+				lua_pop(sLua, 1);
+				break;
+			}
+			lua_pop(sLua, 1);
+		}
+	}
+	lua_pop(sLua, 2);
+
+	LUA_DEBUG_END(sLua, 0);
+
+	return has_tag;
 }
 
 void LmrModel::Render(const matrix4x4f &trans, const LmrObjParams *params)
