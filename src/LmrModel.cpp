@@ -485,9 +485,9 @@ public:
 		glDisableClientState (GL_NORMAL_ARRAY);
 		glDisableClientState (GL_TEXTURE_COORD_ARRAY);
 
-		if (m_thrusters.size()) {
-			Render::UnbindAllBuffers();
+		Render::UnbindAllBuffers();
 
+		if (m_thrusters.size()) {
 			glDisable(GL_LIGHTING);
 			Render::State::UseProgram(Render::simpleShader);
 			RenderThrusters(rstate, cameraPos, params);
