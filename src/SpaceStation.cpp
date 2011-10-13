@@ -333,8 +333,8 @@ void SpaceStation::InitStation()
 	} else {
 		m_type = &surfaceStationTypes[ rand.Int32(surfaceStationTypes.size()) ];
 	}
-	GetLmrObjParams().argDoubles[ARG_STATION_BAY1_STAGE] = 1.0;
-	GetLmrObjParams().argDoubles[ARG_STATION_BAY1_POS] = 1.0;
+	GetLmrObjParams().animStages[ANIM_DOCKING_BAY_1] = 1;
+	GetLmrObjParams().animValues[ANIM_DOCKING_BAY_1] = 1.0;
 	SetModel(m_type->modelName, true);
 	m_bbCreated = false;
 }
