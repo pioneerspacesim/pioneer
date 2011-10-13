@@ -1151,8 +1151,9 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 		centGrav1->mass = star[0]->mass + star[1]->mass;
 		centGrav1->children.push_back(star[0]);
 		centGrav1->children.push_back(star[1]);
+		const fixed minDist1 = (star[0]->radius + star[1]->radius) * AU_SOL_RADIUS;
 try_that_again_guvnah:
-		MakeBinaryPair(star[0], star[1], fixed(0), rand);
+		MakeBinaryPair(star[0], star[1], minDist1, rand);
 
 		m_numStars = 2;
 
@@ -1189,7 +1190,8 @@ try_that_again_guvnah:
 				MakeStarOfTypeLighterThan(star[3], s.m_systems[m_path.systemIndex].starType[3],
 					star[2]->mass, rand);
 
-				MakeBinaryPair(star[2], star[3], fixed(0), rand);
+				const fixed minDist2 = (star[2]->radius + star[3]->radius) * AU_SOL_RADIUS;
+				MakeBinaryPair(star[2], star[3], minDist2, rand);
 				centGrav2->mass = star[2]->mass + star[3]->mass;
 				centGrav2->children.push_back(star[2]);
 				centGrav2->children.push_back(star[3]);
@@ -1202,8 +1204,8 @@ try_that_again_guvnah:
 			centGrav1->parent = superCentGrav;
 			centGrav2->parent = superCentGrav;
 			rootBody = superCentGrav;
-			const fixed minDist = star[0]->orbMax + star[2]->orbMax;
-			MakeBinaryPair(centGrav1, centGrav2, 4*minDist, rand);
+			const fixed minDistSuper = star[0]->orbMax + star[2]->orbMax;
+			MakeBinaryPair(centGrav1, centGrav2, 4*minDistSuper, rand);
 			superCentGrav->children.push_back(centGrav1);
 			superCentGrav->children.push_back(centGrav2);
 
