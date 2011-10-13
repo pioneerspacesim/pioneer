@@ -30,7 +30,8 @@ function createLandingPad(padNum, position)
 	-- padNum: The landing pad number (zero based)
 	-- position: vector of the landing pad v(0,0,0) is where the ship lands
 
-	local stage = get_arg(ARG_STATION_BAY1_STAGE + padNum) -- used to determine landing lights
+	local padId = 'DOCKING_BAY_' .. (padNum + 1)
+	local stage = get_animation_stage(padId) -- used to determine landing lights
 
 	-- draw landing pad
 	set_material('pad', .7, .7, .7, 1)

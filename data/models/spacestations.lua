@@ -357,8 +357,8 @@ define_model('spacestation_entry1_stage2', {
 	end,
 	dynamic = function(lod)
 --		material(.8,0,0, 0,0,0, 0, 0,0,0)
-		local stage = get_arg(ARG_STATION_BAY1_STAGE)
-		local pos = get_arg(ARG_STATION_BAY1_POS)
+		local stage = get_animation_stage('DOCKING_BAY_1')
+		local pos = get_animation_position('DOCKING_BAY_1')
 		if stage == 3 or stage == 7 or stage == -1 or stage == -5 then
 			-- good, door is opening
 		elseif stage == 5 or stage == 9 or stage == -3 or stage == -7 then -- door is closing
@@ -482,8 +482,8 @@ define_model('spacestation_entry1', {
 		geomflag(0)
 	end,
 	dynamic = function(lod)
-		local stage = get_arg(ARG_STATION_BAY1_STAGE)
-		local pos = get_arg(ARG_STATION_BAY1_POS)
+		local stage = get_animation_stage('DOCKING_BAY_1')
+		local pos = get_animation_position('DOCKING_BAY_1')
 		if stage == 1 then
 			-- open door at start of docking permission
 			pos = math.min(pos*50, 1.0)
@@ -510,8 +510,9 @@ define_model('spacestation_entry1', {
 })
 
 function simple_lift_docking_port(baynum, pos)
-	local stage = get_arg(ARG_STATION_BAY1_STAGE + baynum)
-	local spos = get_arg(ARG_STATION_BAY1_POS + baynum)
+	local bayid = 'DOCKING_BAY_' .. (baynum + 1)
+	local stage = get_animation_stage(bayid)
+	local pos = get_animation_position(bayid)
 	local baypos = 0
 
 	if stage == 3 then

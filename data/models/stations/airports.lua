@@ -31,7 +31,8 @@ function createRunway(num, position)
 	-- padNum: The landing pad number (zero based)
 	-- position: vector of the landing pad v(0,0,0) is where the ship lands
 
-	local stage = get_arg(ARG_STATION_BAY1_STAGE + num) -- used to determine landing lights
+	local padId = 'DOCKING_BAY_' .. (num + 1)
+	local stage = get_animation_stage(padId) -- used to determine landing lights
 
 	-- draw runway
 	set_material('runway', .7, .7, .7, 1)
