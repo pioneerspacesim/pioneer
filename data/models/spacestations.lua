@@ -512,7 +512,7 @@ define_model('spacestation_entry1', {
 function simple_lift_docking_port(baynum, pos)
 	local bayid = 'DOCKING_BAY_' .. (baynum + 1)
 	local stage = get_animation_stage(bayid)
-	local pos = get_animation_position(bayid)
+	local spos = get_animation_position(bayid)
 	local baypos = 0
 
 	if stage == 3 then
