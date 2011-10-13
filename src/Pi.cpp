@@ -851,8 +851,6 @@ static void draw_intro(Background::Starfield *starfield, Background::MilkyWay *m
 		Lang::PIONEER, // label
 		0, // equipment
 		Ship::FLYING, // flightState
-		{ }, // argDoubles
-		{ }, // argStrings
 		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f }, // thrust
 		{	// pColor[3]
 		{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
@@ -911,8 +909,6 @@ static void draw_tombstone(float _time)
 		Lang::TOMBSTONE_EPITAPH, // label
 		0, // equipment
 		0, // flightState
-		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // argDoubles
-		{ }, // argStrings
 		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
 		{ { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },

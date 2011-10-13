@@ -1008,20 +1008,6 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		params.linthrust[1] = float(m_thrusters.y);
 		params.linthrust[2] = float(m_thrusters.z);
 		params.equipment = &m_equipment;
-
-		params.argDoubles[0] = m_wheelState;
-		params.argDoubles[5] = double(m_equipment.Get(Equip::SLOT_FUELSCOOP));
-		params.argDoubles[6] = double(m_equipment.Get(Equip::SLOT_ENGINE));
-		params.argDoubles[7] = double(m_equipment.Get(Equip::SLOT_ECM));
-		params.argDoubles[8] = double(m_equipment.Get(Equip::SLOT_SCANNER));
-		params.argDoubles[9] = double(m_equipment.Get(Equip::SLOT_ATMOSHIELD));
-		params.argDoubles[10] = double(m_equipment.Get(Equip::SLOT_LASER, 0));
-		params.argDoubles[11] = double(m_equipment.Get(Equip::SLOT_LASER, 1));
-		for (int i=0; i<8; i++) {
-			params.argDoubles[12+i] = double(m_equipment.Get(Equip::SLOT_MISSILE, i));
-		}
-		params.argDoubles[20] = m_flightState;
-
 		params.animValues[ANIM_WHEEL_STATE] = m_wheelState;
 		params.flightState = m_flightState;
 

@@ -15,8 +15,6 @@ class EquipSet;
 
 #define LMR_MAX_LOD 4
 
-#define LMR_ARG_MAX 40
-	
 struct LmrMaterial {
 	float diffuse[4];
 	float specular[4];
@@ -43,9 +41,6 @@ struct LmrObjParams
 	const char *label;
 	const EquipSet *equipment; // for ships
 	int flightState;
-
-	double argDoubles[LMR_ARG_MAX];
-	const char *argStrings[LMR_ARG_MAX];
 
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0

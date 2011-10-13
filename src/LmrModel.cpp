@@ -3421,77 +3421,6 @@ namespace ModelFuncs {
 	}
 
 	/*
-	 * Function: get_arg
-	 *
-	 * Return numerical arguments passed from C++ code. Required for making
-	 * docking bay animations or altering ship appearance based on actual equipment.
-	 *
-	 * > get_arg(index)
-	 *
-	 * Parameters:
-	 *
-	 *   index - argument number or name. Used numbers and their names are:
-	 *           (some numbers are reused)
-	 *           - 1, ARG_ALL_TIME_SECONDS, seconds of in-game time
-	 *           - 2, ARG_ALL_TIME_MINUTES, minutes of in-game time
-	 *           - 3, ARG_ALL_TIME_HOURS, hours of in-game time
-	 *           - 4, ARG_ALL_TIME_DAYS, days of in-game time
-	 *           - 6, ARG_STATION_BAY1_STAGE, station docking bay 1 stage
-	 *           - (0 dock empty, 1 clearance granted, 2-n docking animation stage,
-	 *           number of docking stages+1 means docked, -1 to -n undocking stage)
-	 *           - 7, station bay 2 stage
-	 *           - 8, station bay 3 stage
-	 *           - 9, station bay 4 stage
-	 *           - 10, ARG_STATION_BAY1_POS
-	 *           - 0, ARG_SHIP_WHEEL_STATE, landing gear state (0.0=up, 1.0=down)
-	 *           - 5, ARG_SHIP_EQUIP_SCOOP, 1 if fuel scoop equipped
-	 *           - 6, ARG_SHIP_EQUIP_ENGINE
-	 *           - 7, ARG_SHIP_EQUIP_ECM
-	 *           - 8, ARG_SHIP_EQUIP_SCANNER
-	 *           - 9, ARG_SHIP_EQUIP_ATMOSHIELD
-	 *           - 10, ARG_SHIP_EQUIP_LASER0
-	 *           - 11, ARG_SHIP_EQUIP_LASER1
-	 *           - 12, ARG_SHIP_EQUIP_MISSILE0
-	 *           - 13, ARG_SHIP_EQUIP_MISSILE1
-	 *           - 14, ARG_SHIP_EQUIP_MISSILE2
-	 *           - 15, ARG_SHIP_EQUIP_MISSILE3
-	 *           - 16, ARG_SHIP_EQUIP_MISSILE4
-	 *           - 17, ARG_SHIP_EQUIP_MISSILE5
-	 *           - 18, ARG_SHIP_EQUIP_MISSILE6
-	 *           - 19, ARG_SHIP_EQUIP_MISSILE7
-	 *           - 20, ARG_SHIP_FLIGHT_STATE
-	 *
-	 * Example:
-	 *
-	 * > local down = get_arg(0) --check if landing gear is down
-	 *
-	 * Availability:
-	 *
-	 *   pre-alpha 10
-	 *
-	 * Status:
-	 *
-	 *   stable
-	 *
-	 */
-	static int get_arg(lua_State *L)
-	{
-		assert(s_curParams != 0);
-		int i = luaL_checkinteger(L, 1);
-		double value = 0.0;
-		switch (i) {
-			case 1: value = s_curParams->time; break;
-			case 2: value = s_curParams->time/60.0; break;
-			case 3: value = s_curParams->time/3600.0; break;
-			case 4: value = s_curParams->time/(24*3600.0); break;
-			default: value = s_curParams->argDoubles[i]; break;
-		}
-		lua_pushnumber(L, value);
-		return 1;
-	}
-
-
-	/*
 	 * Function: get_time
 	 *
 	 * Get the game time. Use this to run continuous animations.
@@ -3751,50 +3680,6 @@ namespace ModelFuncs {
 			return 1;
 		} else
 			return luaL_error(L, "Flight state is only valid for ships.");
-	}
-
-	/*
-	 * Function: get_arg_string
-	 *
-	 * Return string arguments passed from C++ code
-	 *
-	 * > get_arg_string(index)
-	 *
-	 * Parameters:
-	 *
-	 *   index - argument number. Used arguments are:
-	 *           - 0, ship registration id or station name
-	 *           - 0, cargo pod contents
-	 *           - 4, randomly picked station advertisement model name
-	 *           - 5, randomly picked station advertisement model name
-	 *           - 6, randomly picked station advertisement model name
-	 *           - 7, randomly picked station advertisement model name
-	 *
-	 * Example:
-	 *
-	 * > local regid = get_arg_string(0)
-	 * > text(regid, v(0,0,0), v(0,0,1), v(1,0,0), 10.0)
-	 *
-	 * Availability:
-	 *
-	 *   pre-alpha 10
-	 *
-	 * Status:
-	 *
-	 *   stable
-	 *
-	 */
-	static int get_arg_string(lua_State *L)
-	{
-		assert(s_curParams != 0);
-		int i = luaL_checkinteger(L, 1);
-		const char *str = 0;
-		switch (i) {
-			case 0: str = s_curParams->label; break;
-			default: str = s_curParams->argStrings[i]; break;
-		}
-		lua_pushstring(L, str ? str : "");
-		return 1;
 	}
 
 	/*
@@ -4563,13 +4448,11 @@ void LmrModelCompilerInit()
 	lua_register(L, "extrusion", ModelFuncs::extrusion);
 	lua_register(L, "thruster", ModelFuncs::thruster);
 	lua_register(L, "xref_thruster", ModelFuncs::xref_thruster);
-	lua_register(L, "get_arg", ModelFuncs::get_arg);
 	lua_register(L, "get_time", ModelFuncs::get_time);
 	lua_register(L, "get_equipment", ModelFuncs::get_equipment);
 	lua_register(L, "get_animation_stage", ModelFuncs::get_animation_stage);
 	lua_register(L, "get_animation_position", ModelFuncs::get_animation_position);
 	lua_register(L, "get_flight_state", ModelFuncs::get_flight_state);
-	lua_register(L, "get_arg_string", ModelFuncs::get_arg_string);
 	lua_register(L, "get_label", ModelFuncs::get_label);
 	lua_register(L, "flat", ModelFuncs::flat);
 	lua_register(L, "xref_flat", ModelFuncs::xref_flat);

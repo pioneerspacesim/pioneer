@@ -12,6 +12,8 @@ enum FlightState {
 #include "ShipEnums.h"
 };
 
+static const int LMR_ARG_MAX = 40;
+
 static SDL_Surface *g_screen;
 static int g_width, g_height;
 static int g_mouseMotion[2];
@@ -39,9 +41,6 @@ static LmrObjParams params = {
 	"IR-L33T", // label
 	0, // equipment
 	FLIGHT_STATE_FLYING, // flightState
-
-	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // argDoubles
-	{ 0, "ME TOO" }, // argStrings
 
 	{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 
@@ -287,9 +286,11 @@ void Viewer::SetSbreParams()
 {
 	float gameTime = SDL_GetTicks() * 0.001f;
 
+/*
 	for (int i=0; i<LMR_ARG_MAX; i++) {
 		params.argDoubles[i] = GetAnimValue(i);
 	}
+*/
 
 	params.time = gameTime;
 	
