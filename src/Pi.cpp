@@ -1059,7 +1059,9 @@ void Pi::Start()
     std::string version("Pioneer " PIONEER_VERSION);
     if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
 
-    splash->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200, Gui::Screen::GetHeight()-32);
+    splash->Add(new Gui::Label(version), 20, Gui::Screen::GetHeight()-32.0f-Gui::Screen::GetFontHeight()*2);
+
+	splash->Add(new Gui::Label("Dedicated to the memory of Dennis Ritchie (1941-2011)"), 20, Gui::Screen::GetHeight()-32.0f-Gui::Screen::GetFontHeight());
 
 	Gui::Screen::PopFont();
 
