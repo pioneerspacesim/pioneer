@@ -286,6 +286,42 @@ void Viewer::SetSbreParams()
 {
 	float gameTime = SDL_GetTicks() * 0.001f;
 
+#if 0
+	-- get_arg() indices
+	ARG_ALL_TIME_SECONDS = 1
+	ARG_ALL_TIME_MINUTES = 2
+	ARG_ALL_TIME_HOURS = 3
+	ARG_ALL_TIME_DAYS = 4
+
+	ARG_STATION_BAY1_STAGE = 6
+	ARG_STATION_BAY1_POS   = 10
+
+	ARG_SHIP_WHEEL_STATE = 0
+	ARG_SHIP_EQUIP_SCOOP = 5
+	ARG_SHIP_EQUIP_ENGINE = 6
+	ARG_SHIP_EQUIP_ECM = 7
+	ARG_SHIP_EQUIP_SCANNER = 8
+	ARG_SHIP_EQUIP_ATMOSHIELD = 9
+	ARG_SHIP_EQUIP_LASER0 = 10
+	ARG_SHIP_EQUIP_LASER1 = 11
+	ARG_SHIP_EQUIP_MISSILE0 = 12
+	ARG_SHIP_EQUIP_MISSILE1 = 13
+	ARG_SHIP_EQUIP_MISSILE2 = 14
+	ARG_SHIP_EQUIP_MISSILE3 = 15
+	ARG_SHIP_EQUIP_MISSILE4 = 16
+	ARG_SHIP_EQUIP_MISSILE5 = 17
+	ARG_SHIP_EQUIP_MISSILE6 = 18
+	ARG_SHIP_EQUIP_MISSILE7 = 19
+	ARG_SHIP_FLIGHT_STATE = 20
+
+	-- get_arg_string() indices
+	ARGSTR_ALL_LABEL = 0
+	ARGSTR_STATION_ADMODEL1 = 4
+	ARGSTR_STATION_ADMODEL2 = 5
+	ARGSTR_STATION_ADMODEL3 = 6
+	ARGSTR_STATION_ADMODEL4 = 7
+#endif
+
 /*
 	for (int i=0; i<LMR_ARG_MAX; i++) {
 		params.argDoubles[i] = GetAnimValue(i);
@@ -293,7 +329,7 @@ void Viewer::SetSbreParams()
 */
 
 	params.time = gameTime;
-	
+
 	params.linthrust[0] = 2.0f * (m_linthrust[0]->GetValue() - 0.5f);
 	params.linthrust[1] = 2.0f * (m_linthrust[1]->GetValue() - 0.5f);
 	params.linthrust[2] = 2.0f * (m_linthrust[2]->GetValue() - 0.5f);
