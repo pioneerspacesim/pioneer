@@ -3428,17 +3428,16 @@ namespace ModelFuncs {
 	 * clock hands.
 	 *
 	 * > local seconds, minutes, hours, days = get_time()
-	 * > local seconds = get_time()
-	 * > local seconds = get_time('seconds')
-	 * > local minutes = get_time('minutes')
-	 * > local hours = get_time('hours')
-	 * > local days = get_time('days')
+	 * > local seconds = get_time('SECONDS')
+	 * > local minutes = get_time('MINUTES')
+	 * > local hours = get_time('HOURS')
+	 * > local days = get_time('DAYS')
 	 *
 	 * Parameters:
 	 *
 	 *   units - optional. If specified, there will be one return value, in
 	 *           the specified units. Otherwise, all four units are returned.
-	 *           available units are: 'seconds', 'minutes', 'hours', 'days'
+	 *           available units are: 'SECONDS', 'MINUTES', 'HOURS', 'DAYS'
 	 *
 	 * Returns:
 	 *
@@ -3451,7 +3450,7 @@ namespace ModelFuncs {
 	 *
 	 * Example:
 	 *
-	 * > local seconds = get_time('seconds')
+	 * > local seconds = get_time('SECONDS')
 	 *
 	 * Availability:
 	 *
@@ -3475,18 +3474,18 @@ namespace ModelFuncs {
 			return 4;
 		} else if (nparams == 1) {
 			const char *units = luaL_checkstring(L, 1);
-			if (strcmp(units, "seconds") == 0)
+			if (strcmp(units, "SECONDS") == 0)
 				lua_pushnumber(L, t);
-			else if (strcmp(units, "minutes") == 0)
+			else if (strcmp(units, "MINUTES") == 0)
 				lua_pushnumber(L, t / 60.0);
-			else if (strcmp(units, "hours") == 0)
+			else if (strcmp(units, "HOURS") == 0)
 				lua_pushnumber(L, t / 3600.0);
-			else if (strcmp(units, "days") == 0)
+			else if (strcmp(units, "DAYS") == 0)
 				lua_pushnumber(L, t / (24 * 3600.0));
 			else
 				return luaL_error(L,
 					"Unknown unit type '%s' specified for get_time "
-					"(expected 'seconds', 'minutes', 'hours' or 'days').", units);
+					"(expected 'SECONDS', 'MINUTES', 'HOURS' or 'DAYS').", units);
 			return 1;
 		} else {
 			return luaL_error(L, "Expected 0 or 1 parameters, but got %d.", nparams);
