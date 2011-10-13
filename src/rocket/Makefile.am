@@ -8,12 +8,14 @@ noinst_LIBRARIES = librocket.a
 noinst_HEADERS = \
 	RocketFaceElement.h \
 	RocketShipSpinnerElement.h \
-	RocketManager.h
+	RocketManager.h \
+	RocketStash.h
 
 librocket_a_SOURCES = \
 	RocketFaceElement.cpp \
 	RocketShipSpinnerElement.cpp \
-	RocketManager.cpp
+	RocketManager.cpp \
+	RocketStash.cpp
 
 INCLUDES = -I$(srcdir)/..
 INCLUDES += -isystem @top_srcdir@/contrib -isystem @top_srcdir@/contrib/rocket/include

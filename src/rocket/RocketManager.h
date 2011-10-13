@@ -4,6 +4,8 @@
 #include "libs.h"
 #include <map>
 
+#include "RocketStash.h"
+
 #include "Rocket/Core.h"
 #include "Rocket/Controls.h"
 
@@ -68,7 +70,8 @@ private:
 	Rocket::Core::Element *m_tooltipElement;
 };
 
-class RocketManager : public Rocket::Core::EventListener {
+
+class RocketManager : public Rocket::Core::EventListener, public RocketStash {
 public:
 	RocketManager(int width, int height);
 	~RocketManager();
@@ -81,10 +84,6 @@ public:
 	void HandleEvent(const SDL_Event *e);
 
 	void Draw();
-
-	void SetStashItem(const std::string &id, const std::string &value);
-	void ClearStashItem(const std::string &id);
-	void ClearStash();
 
 private:
 	void UpdateScreenFromStash();
@@ -106,9 +105,6 @@ private:
 
 	Uint32 m_tooltipDelayStartTick;
 	Rocket::Core::Element *m_tooltipSourceElement;
-
-	std::map<std::string,std::string> m_stash;
-	bool m_needsStashUpdate;
 };
 
 #endif

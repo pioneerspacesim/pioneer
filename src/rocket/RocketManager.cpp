@@ -543,8 +543,7 @@ RocketManager::RocketManager(int width, int height) :
 	m_currentScreen(0),
 	m_currentKey(Rocket::Core::Input::KI_UNKNOWN),
 	m_tooltipDelayStartTick(0),
-	m_tooltipSourceElement(0),
-	m_needsStashUpdate(false)
+	m_tooltipSourceElement(0)
 {
 	assert(!s_initted);
 	s_initted = true;
@@ -634,7 +633,7 @@ RocketScreen *RocketManager::OpenScreen(const std::string &name)
 	m_tooltipDelayStartTick = SDL_GetTicks();
 	m_tooltipSourceElement = 0;
 
-	UpdateScreenFromStash();
+	Update(m_currentScreen->GetDocument());
 
 	m_currentScreen->GetDocument()->Show();
 
@@ -731,8 +730,7 @@ void RocketManager::Draw()
 	if (m_tooltipSourceElement && m_tooltipDelayStartTick + 2000 <= SDL_GetTicks())   // 2s mouse stop for tooltips
 		m_currentScreen->ShowTooltip(m_tooltipSourceElement);
 
-	if (m_needsStashUpdate)
-		UpdateScreenFromStash();
+	Update(m_currentScreen->GetDocument());
 
 	m_rocketContext->Update();
 
@@ -757,41 +755,3 @@ void RocketManager::Draw()
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-void RocketManager::SetStashItem(const std::string &id, const std::string &value)
-{
-	m_stash[id] = value;
-	m_needsStashUpdate = true;
-}
-
-void RocketManager::ClearStashItem(const std::string &id)
-{
-	m_stash.erase(id);
-}
-
-void RocketManager::ClearStash()
-{
-	m_stash.clear();
-}
-
-void RocketManager::UpdateScreenFromStash()
-{
-	std::queue<Rocket::Core::Element*> searchQueue;
-	searchQueue.push(m_currentScreen->GetDocument());
-
-	while (!searchQueue.empty()) {
-		Rocket::Core::Element *e = searchQueue.front();
-		searchQueue.pop();
-
-		Rocket::Core::String stash = e->GetAttribute<Rocket::Core::String>("stash", "");
-		if (stash.Length() > 0) {
-			std::map<std::string,std::string>::iterator i = m_stash.find(stash.CString());
-			if (i != m_stash.end())
-				e->SetInnerRML((*i).second.c_str());
-		}
-
-		for (int i=0; i < e->GetNumChildren(); i++)
-			searchQueue.push(e->GetChild(i));
-	}
-
-	m_needsStashUpdate = false;
-}
