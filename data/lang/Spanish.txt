@@ -14,9 +14,9 @@ SHIP
 PRICE
     Tarifa
 BUY
-    Comprar
+    +
 SELL
-    Vender
+    -
 STOCK
     Stock
 CARGO
@@ -92,7 +92,7 @@ REVERSE_ACCEL_LADEN
 HYPERDRIVE_FITTED
     Motor Hiperespacial ensamblado:
 HYPERSPACE_RANGE_LADEN
-    Autonomía del hiperespacio (Carga completa):
+    Autonomía hiperespacial (Carga completa):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
     Gracias por su adquisición. Recuerde montar equipo y adquirir combustible antes de su partida.
 CLASS_NUMBER
@@ -100,7 +100,7 @@ CLASS_NUMBER
 NUMBER_LY
     %distance{f.2} ly
 SHIP_IS_ALREADY_FULLY_REPAIRED
-    Su nave se encuentra en perfectas condiciones.
+    La nave se encuentra en perfectas condiciones.
 REPAIR_1_PERCENT_HULL
     Reparar 1.0% de daños del casco
 REPAIR_ENTIRE_HULL
@@ -112,9 +112,9 @@ PART_EX
 VIEW
     Vista
 SHIP_EQUIPMENT
-    Equipamiento de la nave
+    Equipamiento
 SOMEWHERE_SHIP_EQUIPMENT
-    Equipamiento de la nave %station 
+    Equipamientos %station 
 REPAIRS_AND_SERVICING
     Reparaciones y servicios
 NEW_AND_RECONDITIONED_SHIPS
@@ -127,7 +127,7 @@ WELCOME_TO_SOMEWHERE
 # write anything you like here. It will appear in every space station
 # in the whole galaxy.
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Saludos, Viajero.Y Bienvenido. Si es su primera visita, no dude en conocer a los residentes. Esperamos que disfrute de su estancia. \n\nPor favor, recuerde que hay reformas en marcha, probablemente percibirá numerosos cambios entre visitas.
+    Saludos viajero.Y Bienvenido. Si es su primera visita no dude en conocer a los residentes. Esperamos que disfrute de su estancia. \n\nRecuerde que hay reformas en marcha, probablemente percibirá cambios entre visitas.
 REQUEST_LAUNCH
     Solicitar permiso para despegar
 SHIPYARD
@@ -141,7 +141,7 @@ SOMEWHERE_SHIP_MARKET
 CONTACT_LOCAL_POLICE
     Contactar con la Policía Local
 COMMS_LINK
-    Enlace de comunicaciones
+    Comm. Link
 ZOOM_IN
     Acercar
 ZOOM_OUT
@@ -159,7 +159,7 @@ SCUTUM_CENTAURUS_ARM
 INT_LY
     %scale ly
 SEARCH
-    Búsqueda
+    Buscar
 
 # Config / game control
 PRESS_BUTTON_WANTED_FOR
@@ -263,7 +263,7 @@ LIQUID_OXYGEN
 LIQUID_OXYGEN_DESCRIPTION
     El Oxígeno se requiere para los sistemas de apoyo vital y algunos procesos industriales.
 METAL_ORE
-    Minerales metálicos (mena)
+    Metales (mena)
 CARBON_ORE
     Carbon mineral (mena)
 CARBON_ORE_DESCRIPTION
@@ -417,7 +417,7 @@ PULSECANNON_DUAL_1MW
 PULSECANNON_2MW
     Cañón de impulsos 2MW 
 PULSECANNON_RAPID_2MW
-    Cañón de impulsos de fuego rápido 2MW 
+    Cañón de impulsos rápido 2MW 
 PULSECANNON_4MW
     Cañón de impulsos 4MW 
 PULSECANNON_10MW
@@ -513,7 +513,7 @@ AXIS
 WEAPONS
     Armamento
 TARGET_OBJECT_IN_SIGHTS
-    Marcar blanco en el punto de mira
+    Adquirir blanco en la mira
 FIRE_LASER
     Disparar laser
 SHIP_ORIENTATION
