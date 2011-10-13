@@ -542,6 +542,7 @@ RocketManager::RocketManager(int width, int height) :
 	m_height(height),
 	m_currentScreen(0),
 	m_currentKey(Rocket::Core::Input::KI_UNKNOWN),
+	m_currentModifier(Rocket::Core::Input::KeyModifier(0)),
 	m_tooltipDelayStartTick(0),
 	m_tooltipSourceElement(0)
 {
