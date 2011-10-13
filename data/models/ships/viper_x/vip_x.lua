@@ -577,7 +577,7 @@ define_model('viper_x', {
 				set_material('glow2f',g2on)
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_LASER0) >= Equip.PULSECANNON_1MW then
+			if get_equipment('LASER',1) then
 				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 
 					-- twin gun socket
@@ -709,7 +709,7 @@ define_model('viper_x', {
 				call_model('scanner',v(0,5.7,6.66),v(1,0,0),v(0,1,0),1)
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_LASER0) >= Equip.PULSECANNON_1MW then
+			if get_equipment('LASER',1) then
 				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 
 				else

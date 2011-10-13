@@ -199,12 +199,12 @@ define_model('asps_sub0', {
 		end
 
 		if lod > 2 then
-			if get_arg(ARG_SHIP_EQUIP_LASER0) >= Equip.PULSECANNON_1MW then
+			if get_equipment('LASER',1) then
 				local scale = (get_arg(ARG_SHIP_EQUIP_LASER0)-Equip.PULSECANNON_1MW + 1)/7.5
 				local pos = v(.003,.246,-1.681)
 				asps_gun_f(pos,scale)
 			end
-			if get_arg(ARG_SHIP_EQUIP_LASER1) >= Equip.PULSECANNON_1MW then
+			if get_equipment('LASER',2) then
 				local scale = (get_arg(ARG_SHIP_EQUIP_LASER1)-Equip.PULSECANNON_1MW + 1)/7.5
 				local pos = v(.001,-.431,1.964)
 				asps_gun_r(pos,scale)

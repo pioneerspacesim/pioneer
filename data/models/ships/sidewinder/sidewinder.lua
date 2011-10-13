@@ -62,7 +62,7 @@ define_model('rattle_gun', {
 	static = function(lod)
 	end,
 	dynamic = function(lod)
-		if get_arg(ARG_SHIP_EQUIP_LASER0) >= Equip.PULSECANNON_1MW then
+		if get_equipment('LASER',1) then
 			if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 				call_model('rattle_s_gun',v(9,0,0),v(1,0,0),v(0,1,0),1)
 				call_model('rattle_s_gun',v(-9,0,0),v(1,0,0),v(0,1,0),1)
@@ -77,7 +77,7 @@ define_model('rattle_gun', {
 			end
 		end
 
-		if get_arg(ARG_SHIP_EQUIP_LASER1) >= Equip.PULSECANNON_1MW then
+		if get_equipment('LASER',2) then
 			if get_equipment('LASER', 2) == 'PULSECANNON_DUAL_1MW' then
 				call_model('rattle_s_gun',v(9,0,0),v(1,0,0),v(0,1,0),1)
 				call_model('rattle_s_gun',v(-9,0,0),v(1,0,0),v(0,1,0),1)

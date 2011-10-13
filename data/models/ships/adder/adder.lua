@@ -485,7 +485,7 @@ define_model('adder_sub', {
 			zbias(0)
 		end
 
-		if get_arg(ARG_SHIP_EQUIP_LASER0) >= Equip.PULSECANNON_1MW then
+		if get_equipment('LASER',1) then
 			if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 				call_model('adder_gun',v(3.5,0,0),v(1,0,0),v(0,1,0),1)
 				call_model('adder_gun',v(-3.5,0,0),v(1,0,0),v(0,1,0),1)
