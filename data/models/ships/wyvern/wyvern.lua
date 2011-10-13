@@ -130,7 +130,9 @@ define_model('wyvern_gear', {
 	end,
 	dynamic = function(lod)
 		use_material('darksteel')
-		if get_arg(ARG_SHIP_WHEEL_STATE) > 0.75 then
+		if get_arg(ARG_SHIP_WHEEL_STATE) == 0 then
+			call_model('wyvern_gear00', v(0,0,0),v(1,0,0),v(0,1,0),1)
+		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.75 then
 			call_model('wyvern_gear16', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.7 then
 			call_model('wyvern_gear15', v(0,0,0),v(1,0,0),v(0,1,0),1)
@@ -160,10 +162,8 @@ define_model('wyvern_gear', {
 			call_model('wyvern_gear03', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.05 then
 			call_model('wyvern_gear02', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0 then
-			call_model('wyvern_gear01', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		else
-			call_model('wyvern_gear00', v(0,0,0),v(1,0,0),v(0,1,0),1)
+			call_model('wyvern_gear01', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		end
 	end
 })
@@ -204,41 +204,44 @@ define_model('wyvern', {
 		if lod == 1 then
 			load_obj('wyvern_collision.obj')
 		else
-			set_material('glass', .1,.1,.1,1,.95,.98,1,80)
 			set_material('darksteel', .08,.08,.1,1,.50,.60,.72,90)
 			use_material('darksteel')
-			load_obj('wyvern_scoop.obj')
 			texture('tex.png')
 			load_obj('wyvern_out.obj')
 			texture(nil)
-			use_material('glass')
-			load_obj('wyvern_window.obj')
-			use_material('e_glow')
-			texture('wyvern_engine.png')
-			load_obj('wyvern_engine.obj')
-			thruster(v(0, -1.71, 7.44), v(0,0,1), 30, true)
-			xref_thruster(v(0.832, -2.561, -7.718), v(0,0,-1), 1, true)
-			xref_thruster(v(0.962, -4.809, 6.208), v(0,-1,0), 5)
-			xref_thruster(v(0.877, -4.308, -1.198), v(0,-1,0), 5)
-			xref_thruster(v(0.895, 1.434, 6.970), v(0,1,0), 5)
-			xref_thruster(v(0.875, 0.492, 0.450), v(0,1,0), 5)
-			thruster(v(3.364, -0.736, 3.316), v(1,0,0), 4)
-			thruster(v(1.647, -1.489, -6.198), v(1,0,0), 4)
-			thruster(v(-3.364, -0.736, 3.316), v(-1,0,0), 4)
-			thruster(v(-1.647, -1.489, -6.198), v(-1,0,0), 4)
-			call_model('coll_warn',v(0,-3.544,-5.918),v(1,0,0),v(0,-1,-.3),1)
-			call_model('coll_warn',v(1.194,-4.291,7.529),v(1,0,0),v(0,-1,-.3),1)
-			call_model('coll_warn',v(-1.194,-4.291,7.529),v(1,0,0),v(0,-1,-.3),1)
+			if lod > 2 then
+				set_material('glass', .1,.1,.1,1,.95,.98,1,80)
+				load_obj('wyvern_scoop.obj')
+				use_material('glass')
+				load_obj('wyvern_window.obj')
+				use_material('e_glow')
+				texture('wyvern_engine.png')
+				load_obj('wyvern_engine.obj')
 
-			call_model('posl_white',v(0,1.265,7.777),v(1,0,0),v(0,0,1),1)
-			call_model('posl_green',v(16.428,-3.589,8.185),v(1,0,0),v(.3,1,-.11),1)
-			call_model('posl_red',v(-16.428,-3.589,8.185),v(1,0,0),v(-.3,1,-.11),1)
+				thruster(v(0, -1.71, 7.44), v(0,0,1), 30, true)
+				xref_thruster(v(0.832, -2.561, -7.718), v(0,0,-1), 1, true)
+				xref_thruster(v(0.962, -4.809, 6.208), v(0,-1,0), 5)
+				xref_thruster(v(0.877, -4.308, -1.198), v(0,-1,0), 5)
+				xref_thruster(v(0.895, 1.434, 6.970), v(0,1,0), 5)
+				xref_thruster(v(0.875, 0.492, 0.450), v(0,1,0), 5)
+				thruster(v(3.364, -0.736, 3.316), v(1,0,0), 4)
+				thruster(v(1.647, -1.489, -6.198), v(1,0,0), 4)
+				thruster(v(-3.364, -0.736, 3.316), v(-1,0,0), 4)
+				thruster(v(-1.647, -1.489, -6.198), v(-1,0,0), 4)
+				call_model('coll_warn',v(0,-3.544,-5.918),v(1,0,0),v(0,-1,-.3),1)
+				call_model('coll_warn',v(1.194,-4.291,7.529),v(1,0,0),v(0,-1,-.3),1)
+				call_model('coll_warn',v(-1.194,-4.291,7.529),v(1,0,0),v(0,-1,-.3),1)
+
+				call_model('posl_white',v(0,1.265,7.777),v(1,0,0),v(0,0,1),1)
+				call_model('posl_green',v(16.428,-3.589,8.185),v(1,0,0),v(.3,1,-.11),1)
+				call_model('posl_red',v(-16.428,-3.589,8.185),v(1,0,0),v(-.3,1,-.11),1)
+			end
 		end
 	end,
 	dynamic = function(lod)
-		if lod > 1 then
+		if lod > 2 then
 			set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5}, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2.5, 2.5 }))
-			call_model('wyvern_gear', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		end
+		call_model('wyvern_gear', v(0,0,0),v(1,0,0),v(0,1,0),1)
 	end
 })
