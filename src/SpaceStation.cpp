@@ -763,30 +763,9 @@ void SpaceStation::NotifyDeleted(const Body* const deletedBody)
 	}
 }
 
-static std::vector<LmrModel*> s_advertModels;
-
 void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	/* Well this is nice... */
-	static int poo=0;
-	if (!poo) {
-		poo = 1;
-		LmrGetModelsWithTag("advert", s_advertModels);
-	}
-	// it is silly to do this every render call
-	//
-	// random advert models in pFlag[16 .. 19]
-	// station name in pText[0]
-	// docking port in pText[1]
-	MTRand rand;
-	rand.seed(m_sbody->seed);
-	
 	LmrObjParams &params = GetLmrObjParams();
-	/* random advert models */
-	params.argStrings[4] = s_advertModels[rand.Int32(s_advertModels.size())]->GetName();
-	params.argStrings[5] = s_advertModels[rand.Int32(s_advertModels.size())]->GetName();
-	params.argStrings[6] = s_advertModels[rand.Int32(s_advertModels.size())]->GetName();
-	params.argStrings[7] = s_advertModels[rand.Int32(s_advertModels.size())]->GetName();
 	params.label = GetLabel().c_str();
 	SetLmrTimeParams();
 
