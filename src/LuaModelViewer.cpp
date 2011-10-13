@@ -260,12 +260,28 @@ void Viewer::SetModel(LmrModel *model)
 	// inefficient (looks up and searches tags table separately for each tag)
 	bool has_ship = m_model->HasTag("ship") || m_model->HasTag("static_ship");
 	bool has_station = m_model->HasTag("surface_station") || m_model->HasTag("orbital_station");
-	if (has_ship && !has_station)
+	if (has_ship && !has_station) {
 		m_modelCategory = MODEL_SHIP;
-	else if (has_station && !has_ship)
+		const std::string name = model->GetName();
+		std::map<std::string,ShipType>::const_iterator it = ShipType::types.begin();
+		while (it != ShipType::types.end()) {
+			if (it->second.lmrModelName == name)
+				break;
+			else
+				++it;
+		}
+		if (it != ShipType::types.end())
+			g_equipment.InitSlotSizes(it->first);
+		else
+			g_equipment.InitSlotSizes(ShipType::EAGLE_LRF);
+		g_params.equipment = &g_equipment;
+	} else if (has_station && !has_ship) {
 		m_modelCategory = MODEL_SPACESTATION;
-	else
+		g_params.equipment = 0;
+	} else {
 		m_modelCategory = MODEL_OTHER;
+		g_params.equipment = 0;
+	}
 
 	g_params.animationNamespace = ANIMATION_NAMESPACES[m_modelCategory];
 
@@ -362,6 +378,35 @@ void Viewer::SetSbreParams()
 	ARGSTR_STATION_ADMODEL3 = 6
 	ARGSTR_STATION_ADMODEL4 = 7
 #endif
+
+	if (m_modelCategory == MODEL_SHIP) {
+		g_params.animValues[SHIP_ANIM_WHEEL_STATE] = GetAnimValue(0);
+
+		g_equipment.Set(Equip::SLOT_FUELSCOOP,  0, (GetAnimValue( 5) > 0.5) ? Equip::FUEL_SCOOP            : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_ENGINE,     0, (GetAnimValue( 6) > 0.5) ? Equip::DRIVE_CLASS4          : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_ECM,        0, (GetAnimValue( 7) > 0.5) ? Equip::ECM_ADVANCED          : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_SCANNER,    0, (GetAnimValue( 8) > 0.5) ? Equip::SCANNER               : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_ATMOSHIELD, 0, (GetAnimValue( 9) > 0.5) ? Equip::ATMOSPHERIC_SHIELDING : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_LASER,      0, (GetAnimValue(10) > 0.5) ? Equip::PULSECANNON_4MW       : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_LASER,      1, (GetAnimValue(11) > 0.5) ? Equip::PULSECANNON_4MW       : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_MISSILE,    0, (GetAnimValue(12) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_MISSILE,    1, (GetAnimValue(13) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_MISSILE,    2, (GetAnimValue(14) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_MISSILE,    3, (GetAnimValue(15) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_MISSILE,    4, (GetAnimValue(16) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_MISSILE,    5, (GetAnimValue(17) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_MISSILE,    6, (GetAnimValue(18) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_MISSILE,    7, (GetAnimValue(19) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
+	} else if (m_modelCategory == MODEL_SPACESTATION) {
+		g_params.animStages[SPACESTATION_ANIM_DOCKING_BAY_1] = int(GetAnimValue(6) * 7.0);
+		g_params.animStages[SPACESTATION_ANIM_DOCKING_BAY_2] = int(GetAnimValue(7) * 7.0);
+		g_params.animStages[SPACESTATION_ANIM_DOCKING_BAY_3] = int(GetAnimValue(8) * 7.0);
+		g_params.animStages[SPACESTATION_ANIM_DOCKING_BAY_4] = int(GetAnimValue(9) * 7.0);
+		g_params.animValues[SPACESTATION_ANIM_DOCKING_BAY_1] = GetAnimValue(10);
+		g_params.animValues[SPACESTATION_ANIM_DOCKING_BAY_2] = GetAnimValue(11);
+		g_params.animValues[SPACESTATION_ANIM_DOCKING_BAY_3] = GetAnimValue(12);
+		g_params.animValues[SPACESTATION_ANIM_DOCKING_BAY_4] = GetAnimValue(13);
+	}
 
 /*
 	for (int i=0; i<LMR_ARG_MAX; i++) {
@@ -747,6 +792,8 @@ int main(int argc, char **argv)
 	Render::Init(g_width, g_height);
 	Gui::Init(g_width, g_height, g_width, g_height);
 	LmrModelCompilerInit();
+
+	ShipType::Init();
 
 	g_viewer = new Viewer();
 	if (argc >= 4) {
