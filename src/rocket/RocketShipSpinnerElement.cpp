@@ -11,21 +11,19 @@ bool RocketShipSpinnerElement::GetIntrinsicDimensions(Rocket::Core::Vector2f &di
 	return true;
 }
 
-void RocketShipSpinnerElement::OnAttributeChange(const Rocket::Core::AttributeNameList &changed_attributes)
+void RocketShipSpinnerElement::UpdateShipFlavour(const ShipFlavour &flavour)
 {
-	ShipFlavour f;
-	ShipFlavour::MakeTrulyRandom(f);
-
-	m_model = LmrLookupModelByName(ShipType::types[f.type].lmrModelName.c_str());
+	m_model = LmrLookupModelByName(ShipType::types[flavour.type].lmrModelName.c_str());
 
 	memset(&m_params, 0, sizeof(LmrObjParams));
-	f.ApplyTo(&m_params);
+	flavour.ApplyTo(&m_params);
 	m_params.argDoubles[0] = 1.0;
-	m_params.argStrings[0] = "PIONEER";
 }
 
 void RocketShipSpinnerElement::OnRender()
 {
+	if (!m_model) return;
+
 	float x1 = GetAbsoluteLeft();
 	float y1 = GetAbsoluteTop();
 	float x2 = x1 + GetClientWidth();

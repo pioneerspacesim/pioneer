@@ -11,7 +11,7 @@
 #include "Lang.h"
 #include "rocket/RocketManager.h"
 
-Player::Player(ShipType::Type shipType): Ship(shipType),
+Player::Player(ShipType::Type shipFlavour): Ship(shipFlavour),
 	m_followCloud(0)
 {
 	m_mouseActive = false;
@@ -23,6 +23,9 @@ Player::Player(ShipType::Type shipType): Ship(shipType),
 	UpdateMass();
 
 	m_accumTorque = vector3d(0,0,0);
+
+	Pi::rocketManager->SetStashItem("player.money", format_money(GetMoney()));
+	Pi::rocketManager->SetStashItem("player.shipFlavour", *GetFlavour());
 }
 
 Player::~Player()
@@ -66,6 +69,19 @@ void Player::PostLoadFixup()
 	m_navTarget = Serializer::LookupBody(m_navTargetIndex);
 
 	Pi::rocketManager->SetStashItem("player.money", format_money(GetMoney()));
+	Pi::rocketManager->SetStashItem("player.shipFlavour", *GetFlavour());
+}
+
+void Player::UpdateFlavour(const ShipFlavour *f)
+{
+	Ship::UpdateFlavour(f);
+	Pi::rocketManager->SetStashItem("player.shipFlavour", *f);
+}
+
+void Player::ResetFlavour(const ShipFlavour *f)
+{
+	Ship::ResetFlavour(f);
+	Pi::rocketManager->SetStashItem("player.shipFlavour", *f);
 }
 
 const shipstats_t *Player::CalcStats()

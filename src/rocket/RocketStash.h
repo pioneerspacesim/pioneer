@@ -26,8 +26,8 @@ public:
 	RocketStash() : m_needsStashUpdate(false) {}
 
 	void SetStashItem(const std::string &id, const std::string &value);
-	//void SetStashItem(const std::string &id, const ShipFlavour &value);
-	//void SetStashItem(const std::string &id, const Body *value);
+	void SetStashItem(const std::string &id, Body *value);
+	void SetStashItem(const std::string &id, const ShipFlavour &value);
 
 	void ClearStashItem(const std::string &id);
 	void ClearStash();

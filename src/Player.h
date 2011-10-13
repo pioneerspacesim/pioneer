@@ -63,6 +63,9 @@ public:
 
 	virtual void PostLoadFixup();
 
+	virtual void UpdateFlavour(const ShipFlavour *f);
+	virtual void ResetFlavour(const ShipFlavour *f);
+
 	virtual const shipstats_t *CalcStats();
 
 	/* MarketAgent stuff */

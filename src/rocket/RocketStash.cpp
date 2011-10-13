@@ -29,6 +29,20 @@ void RocketStash::SetStashItem(const std::string &id, const std::string &value)
 	m_needsStashUpdate = true;
 }
 
+void RocketStash::SetStashItem(const std::string &id, Body *value)
+{
+	StashItemPtr item(new StashBodyItem(value));
+	m_stash[id] = item;
+	m_needsStashUpdate = true;
+}
+
+void RocketStash::SetStashItem(const std::string &id, const ShipFlavour &value)
+{
+	StashItemPtr item(new StashShipFlavourItem(value));
+	m_stash[id] = item;
+	m_needsStashUpdate = true;
+}
+
 void RocketStash::ClearStashItem(const std::string &id)
 {
 	m_stash.erase(id);

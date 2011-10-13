@@ -7,15 +7,16 @@
 
 // <ship/>
 
-class RocketShipSpinnerElement : public Rocket::Core::Element {
+class RocketShipSpinnerElement : public Rocket::Core::Element, public RocketShipFlavourConsumer {
 public:
-	RocketShipSpinnerElement(const Rocket::Core::String &_tag) : Rocket::Core::Element(_tag), m_rotX(0), m_rotY(0) {}
+	RocketShipSpinnerElement(const Rocket::Core::String &_tag) : Rocket::Core::Element(_tag), m_model(0), m_rotX(0), m_rotY(0) {}
 
 	virtual bool GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions);
 	virtual void OnRender();
-	virtual void OnAttributeChange(const Rocket::Core::AttributeNameList& changed_attributes);
 	
 	static void Register();
+
+	virtual void UpdateShipFlavour(const ShipFlavour &flavour);
 	
 private:
 	LmrModel *m_model;

@@ -86,8 +86,6 @@ public:
 	void Draw();
 
 private:
-	void UpdateScreenFromStash();
-
 	int m_width, m_height;
 
 	RocketSystem *m_rocketSystem;

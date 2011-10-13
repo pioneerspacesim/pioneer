@@ -146,10 +146,10 @@ public:
 
 	const ShipFlavour *GetFlavour() const { return &m_shipFlavour; }
 	// used to change ship label or colour. asserts if you try to change type
-	void UpdateFlavour(const ShipFlavour *f);
+	virtual void UpdateFlavour(const ShipFlavour *f);
 	// used when buying a new ship. changes the flavour and resets cargo,
 	// equipment, etc
-	void ResetFlavour(const ShipFlavour *f);
+	virtual void ResetFlavour(const ShipFlavour *f);
 
 	float GetPercentShields() const;
 	float GetPercentHull() const;
