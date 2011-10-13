@@ -314,6 +314,10 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 		m_openAnimState[i] = 0;
 		m_dockAnimState[i] = 0;
 	}
+
+	// XXX the animation namespace must match that in LuaConstants
+	GetLmrObjParams().animationNamespace = "SpaceStationAnimation";
+
 	SetMoney(1000000000);
 	InitStation();
 }
@@ -766,7 +770,6 @@ void SpaceStation::NotifyDeleted(const Body* const deletedBody)
 void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	LmrObjParams &params = GetLmrObjParams();
-	params.animationNamespace = "SpaceStationAnimation";
 	params.label = GetLabel().c_str();
 	SetLmrTimeParams();
 
