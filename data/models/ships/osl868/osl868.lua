@@ -94,7 +94,6 @@ define_model('osl868', {
 		--set_material('osl', .8,.8,.8,1,20,20,20,30,0.2,0.2,0.2)
 		set_material('oslo', 0.5,0.5,0.5,1,3,3,3,10,0.5,0.5,0.5)
 		set_material('glass', 1,1,1,0.2,0.2,0.2,0.2,1,0,0,0)
-		set_material('text', .6,.6,.6,1,.3,.3,.3,5)
 
 		if lod == 1 then
 			use_material('distant')
@@ -103,30 +102,34 @@ define_model('osl868', {
 			use_material('oslo')
 			texture('vthrust.png')
 			load_obj('osl868_vthrust.obj')
-			texture('weapon.png')
-			load_obj('osl868_weapon.obj')
-			texture('smalls.png')
-			load_obj('osl868_smalls.obj')
+			if lod > 2 then
+				texture('weapon.png')
+				load_obj('osl868_weapon.obj')
+				texture('smalls.png')
+				load_obj('osl868_smalls.obj')
+				if lod > 3 then
+					texture('ports.png')
+					load_obj('osl868_ports.obj')
+					texture('chairs.png')
+					load_obj('osl868_chairs.obj')
+					texture('dash.png')
+					load_obj('osl868_dash.obj')
+					texture('floor.png')
+					load_obj('osl868_floor.obj')
+					texture('ins.png')
+					load_obj('osl868_ins.obj')
+					texture('interior.png')
+					load_obj('osl868_interior.obj')
+					texture('panels.png')
+					load_obj('osl868_panels.obj')
+					texture('pitinter.png')
+					load_obj('osl868_pitinter.obj')
+				end
+			end
 			texture('exb.png')
 			load_obj('osl868_exb.obj')
 			texture('wells.png')
 			load_obj('osl868_wells.obj')
-			texture('ports.png')
-			load_obj('osl868_ports.obj')
-			texture('chairs.png')
-			load_obj('osl868_chairs.obj')
-			texture('dash.png')
-			load_obj('osl868_dash.obj')
-			texture('floor.png')
-			load_obj('osl868_floor.obj')
-			texture('ins.png')
-			load_obj('osl868_ins.obj')
-			texture('interior.png')
-			load_obj('osl868_interior.obj')
-			texture('panels.png')
-			load_obj('osl868_panels.obj')
-			texture('pitinter.png')
-			load_obj('osl868_pitinter.obj')
 
 			use_material('glass')
 			texture('glass.png')
@@ -498,7 +501,7 @@ define_model('osl868olympic', {
 					{ v(0,-0.5,0), v(0,0,1) },
 				},
 				max_cargo = 200,
-				max_laser = 10,
+				max_laser = 2,
 				max_missile = 12,
 				max_fuelscoop = 0,
 				capacity = 200,
@@ -568,7 +571,7 @@ define_model('osl868arktisk', {
 					{ v(0,-0.5,0), v(0,0,1) },
 				},
 				max_cargo = 200,
-				max_laser = 10,
+				max_laser = 2,
 				max_missile = 12,
 				max_fuelscoop = 0,
 				capacity = 200,
@@ -638,7 +641,7 @@ define_model('osl868kosmos', {
 					{ v(0,-0.5,0), v(0,0,1) },
 				},
 				max_cargo = 200,
-				max_laser = 10,
+				max_laser = 2,
 				max_missile = 12,
 				max_fuelscoop = 0,
 				capacity = 200,
@@ -708,7 +711,7 @@ define_model('osl868redstar', {
 					{ v(0,-0.5,0), v(0,0,1) },
 				},
 				max_cargo = 200,
-				max_laser = 10,
+				max_laser = 2,
 				max_missile = 12,
 				max_fuelscoop = 0,
 				capacity = 200,
