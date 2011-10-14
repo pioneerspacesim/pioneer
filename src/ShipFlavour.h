@@ -21,6 +21,9 @@ public:
 	void Load(Serializer::Reader &rd);
 	void ApplyTo(LmrObjParams *p) const;
 	static void MakeTrulyRandom(ShipFlavour &v);
+
+	void UIStashUpdate(const std::string &prefix) const;
+
 private:
 	void SaveLmrMaterial(Serializer::Writer &wr, LmrMaterial *m);
 	void LoadLmrMaterial(Serializer::Reader &rd, LmrMaterial *m);

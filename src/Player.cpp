@@ -26,9 +26,7 @@ Player::Player(ShipType::Type shipFlavour): Ship(shipFlavour),
 
 	Pi::rocketManager->SetStashItem("player.money", format_money(GetMoney()));
 
-    const ShipFlavour *f = GetFlavour();
-	Pi::rocketManager->SetStashItem("player.shipFlavour", *f);
-    Pi::rocketManager->SetStashItem("player.shipType", f->type);
+	GetFlavour()->UIStashUpdate("player");
 }
 
 Player::~Player()
@@ -73,23 +71,19 @@ void Player::PostLoadFixup()
 
 	Pi::rocketManager->SetStashItem("player.money", format_money(GetMoney()));
 
-    const ShipFlavour *f = GetFlavour();
-	Pi::rocketManager->SetStashItem("player.shipFlavour", *f);
-    Pi::rocketManager->SetStashItem("player.shipType", f->type);
+	GetFlavour()->UIStashUpdate("player");
 }
 
 void Player::UpdateFlavour(const ShipFlavour *f)
 {
 	Ship::UpdateFlavour(f);
-	Pi::rocketManager->SetStashItem("player.shipFlavour", *f);
-    Pi::rocketManager->SetStashItem("player.shipType", f->type);
+	f->UIStashUpdate("player");
 }
 
 void Player::ResetFlavour(const ShipFlavour *f)
 {
 	Ship::ResetFlavour(f);
-	Pi::rocketManager->SetStashItem("player.shipFlavour", *f);
-    Pi::rocketManager->SetStashItem("player.shipType", f->type);
+	f->UIStashUpdate("player");
 }
 
 const shipstats_t *Player::CalcStats()
