@@ -1003,56 +1003,70 @@ static bool s_exitFlag = false;
 /* Thread that updates geosphere level of detail thingies */
 int GeoSphere::UpdateLODThread(void *data)
 {
-	for(;;) {
-		// make a copy of the list of geospheres for this iteration. we don't
-		// want to stop the main thread from updating
+	bool done = false;
+
+	while (!done) {
+
+		// take the geosphere list lock
 		SDL_mutexP(s_allGeospheresLock);
 
 		// check for exit. doing it here to avoid needing another lock
 		if (s_exitFlag) {
+			done = true;
 			SDL_mutexV(s_allGeospheresLock);
 			break;
 		}
 
-		std::list<GeoSphere*> geospheres = s_allGeospheres;
-		SDL_mutexV(s_allGeospheresLock);
+		for (std::list<GeoSphere*>::iterator i = s_allGeospheres.begin(); i != s_allGeospheres.end(); i++) {
 
-		for(std::list<GeoSphere*>::iterator i = geospheres.begin();
-				i != geospheres.end(); ++i) {
+			GeoSphere *gs = (*i);
 
-			// yes, holding the flag lock as we call into _UpdateLODs(). it
-			// will release it after taking the update lock. needed to avoid
-			// the scenario where we decide we want the update, and the root
-			// patches get deleted while we're waiting for the update lock
-			SDL_mutexP((*i)->m_needUpdateLock);
-			if ((*i)->m_needUpdate) {
-				(*i)->_UpdateLODs();
-				(*i)->m_needUpdate = false;
+			// take the flag lock. we do this while the list is still locked
+			// as we do not want the geosphere to be deleted from under us.
+			SDL_mutexP(gs->m_needUpdateLock);
+
+			if (gs->m_needUpdate) {
+
+				// lock the geosphere for update. this will stop the main
+				// thread from trying to destroy it while we're using it
+				SDL_mutexP(gs->m_updateLock);
+
+				// we have the geosphere update lock, so we can release the
+				// list lock as nothing will try to delete or remove us now
+				SDL_mutexV(s_allGeospheresLock);
+
+				// release the flag lock before doing the update proper so the
+				// main thread can check it without waiting for us to finish
+				SDL_mutexV(gs->m_needUpdateLock);
+
+				// update the patches
+				for (int n=0; n<6; n++)
+					gs->m_patches[n]->LODUpdate(gs->m_tempCampos);
+
+				// retake the flag lock so we can release the update lock
+				SDL_mutexP(gs->m_needUpdateLock);
+				
+				// flag that we're up to date
+				gs->m_needUpdate = false;
+
+				// take the list lock again to make sure we don't get removed
+				SDL_mutexP(s_allGeospheresLock);
+
+				// update is done. patches are safe to delete if necessary
+				SDL_mutexV(gs->m_updateLock);
 			}
-			SDL_mutexV((*i)->m_needUpdateLock);
+
+			// done with this geosphere
+			SDL_mutexV(gs->m_needUpdateLock);
 		}
+
+		// release the list lock before sleeping
+		SDL_mutexV(s_allGeospheresLock);
 
 		SDL_Delay(10);
 	}
 
 	return 0;
-}
-
-void GeoSphere::_UpdateLODs()
-{
-	// lock the geosphere for update. this will stop the main thread from
-	// trying to destroy it while we're using it
-	SDL_mutexP(m_updateLock);
-
-	// release the flag lock before doing the update proper so the main thread
-	// can check it without waiting for us to finish
-	SDL_mutexV(m_needUpdateLock);
-	for (int i=0; i<6; i++) {
-		m_patches[i]->LODUpdate(m_tempCampos);
-	}
-	SDL_mutexP(m_needUpdateLock);
-
-	SDL_mutexV(m_updateLock);
 }
 
 void GeoSphere::Init()

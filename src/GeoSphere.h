@@ -29,8 +29,6 @@ public:
 #endif /* DEBUG */
 		return h;
 	}
-	// only called from fishy thread
-	void _UpdateLODs();
 	friend class GeoPatch;
 #if OBJECTVIEWER
 	friend class ObjectViewerView;
