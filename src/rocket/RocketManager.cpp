@@ -645,6 +645,8 @@ RocketScreen *RocketManager::OpenScreen(const std::string &name)
 
 void RocketManager::ProcessEvent(Rocket::Core::Event &e)
 {
+	if (!m_currentScreen) return;
+
 	if (e.GetType() == "mousemove" && e.GetTargetElement() != m_tooltipSourceElement && e.GetTargetElement()->GetTagName() != "tooltip") {
 		m_currentScreen->ClearTooltip();
 		m_tooltipDelayStartTick = SDL_GetTicks();
@@ -730,6 +732,9 @@ void RocketManager::HandleEvent(const SDL_Event *e)
 
 void RocketManager::Draw()
 {
+	if (!m_currentScreen)
+		return;
+
 	if (m_tooltipSourceElement && m_tooltipDelayStartTick + 2000 <= SDL_GetTicks())   // 2s mouse stop for tooltips
 		m_currentScreen->ShowTooltip(m_tooltipSourceElement);
 
