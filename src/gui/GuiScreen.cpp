@@ -44,6 +44,12 @@ void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 	Screen::baseContainer->Show();
 }
 
+void Screen::Uninit()
+{
+	Screen::baseContainer->RemoveAllChildren();		// children deleted elsewhere?
+	delete Screen::baseContainer;
+}
+
 static sigc::connection _focusedWidgetOnDelete;
 
 void Screen::OnDeleteFocusedWidget()

@@ -69,6 +69,7 @@ local addShipCargo = function (ship, direction)
 	local added = 0
 	local empty_space = ship:GetStats().freeCapacity
 	local size_factor = empty_space / 20
+	trade_ships[ship.label]['cargo'] = {}
 
 	while added < empty_space do
 		local cargo
@@ -85,6 +86,7 @@ local addShipCargo = function (ship, direction)
 		num = Engine.rand:Integer(num, num * 2)
 
 		added = added + ship:AddEquip(cargo, num)
+		trade_ships[ship.label]['cargo'][cargo] = true
 	end
 
 	return added
@@ -491,12 +493,8 @@ local onShipDocked = function (ship, starport)
 
 	-- 'sell' trade cargo
 	local delay = 0
-	local cargo_list = ship:GetEquip('CARGO')
-	for i = 1, #cargo_list do
-		local cargo = cargo_list[i]
-		if cargo ~= 'HYDROGEN' then
-			delay = delay + ship:RemoveEquip(cargo, 1000000)
-		end
+	for cargo, _ in pairs(trader.cargo) do
+		delay = delay + ship:RemoveEquip(cargo, 1000000)
 	end
 
 	local damage = ShipType.GetShipType(trader.ship_name).hullMass -

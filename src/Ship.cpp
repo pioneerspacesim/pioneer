@@ -140,6 +140,12 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	Init();	
 }
 
+Ship::~Ship()
+{
+	if (m_curAICmd) delete m_curAICmd;
+}
+
+
 float Ship::GetPercentHull() const
 {
 	const ShipType &stype = GetShipType();
@@ -285,7 +291,7 @@ void Ship::ClearThrusterState()
 Equip::Type Ship::GetHyperdriveFuelType() const
 {
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-	return EquipType::types[t].inputs[0];
+	return Equip::types[t].inputs[0];
 }
 
 const shipstats_t *Ship::CalcStats()
@@ -299,8 +305,8 @@ const shipstats_t *Ship::CalcStats()
 	for (int i=0; i<Equip::SLOT_MAX; i++) {
 		for (int j=0; j<stype.equipSlotCapacity[i]; j++) {
 			Equip::Type t = m_equipment.Get(Equip::Slot(i), j);
-			if (t) m_stats.used_capacity += EquipType::types[t].mass;
-			if (Equip::Slot(i) == Equip::SLOT_CARGO) m_stats.used_cargo += EquipType::types[t].mass;
+			if (t) m_stats.used_capacity += Equip::types[t].mass;
+			if (Equip::Slot(i) == Equip::SLOT_CARGO) m_stats.used_cargo += Equip::types[t].mass;
 		}
 	}
 	m_stats.free_capacity = m_stats.max_capacity - m_stats.used_capacity;
@@ -310,7 +316,7 @@ const shipstats_t *Ship::CalcStats()
 
 	if (stype.equipSlotCapacity[Equip::SLOT_ENGINE]) {
 		Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-		int hyperclass = EquipType::types[t].pval;
+		int hyperclass = Equip::types[t].pval;
 		if (!hyperclass) { // no drive
 			m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 		} else {
@@ -352,7 +358,7 @@ bool Ship::CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double 
 {
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	Equip::Type fuelType = GetHyperdriveFuelType();
-	int hyperclass = EquipType::types[t].pval;
+	int hyperclass = Equip::types[t].pval;
 	int fuel = m_equipment.Count(Equip::SLOT_CARGO, fuelType);
 	outFuelRequired = 0;
 	if (hyperclass == 0) {
@@ -411,7 +417,7 @@ Ship::HyperjumpStatus Ship::StartHyperspaceCountdown(const SystemPath &dest)
 		return status;
 	
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-	m_hyperspace.countdown = 1.0f + EquipType::types[t].pval;
+	m_hyperspace.countdown = 1.0f + Equip::types[t].pval;
 	m_hyperspace.now = false;
 
 	return Ship::HYPERJUMP_OK;
@@ -443,7 +449,7 @@ float Ship::GetECMRechargeTime()
 {
 	const Equip::Type t = m_equipment.Get(Equip::SLOT_ECM);
 	if (t != Equip::NONE) {
-		return EquipType::types[t].rechargeTime;
+		return Equip::types[t].rechargeTime;
 	} else {
 		return 0;
 	}
@@ -456,7 +462,7 @@ void Ship::UseECM()
 	if (t != Equip::NONE) {
 		Sound::BodyMakeNoise(this, "ECM", 1.0f);
 		m_ecmRecharge = GetECMRechargeTime();
-		Space::DoECM(GetFrame(), GetPosition(), EquipType::types[t].pval);
+		Space::DoECM(GetFrame(), GetPosition(), Equip::types[t].pval);
 	}
 }
 
@@ -795,7 +801,7 @@ void Ship::StaticUpdate(const float timeStep)
 		m_gunRecharge[i] -= timeStep;
 		float rateCooling = 0.01f;
 		if (m_equipment.Get(Equip::SLOT_LASERCOOLER) != Equip::NONE)  {
-			rateCooling *= float(EquipType::types[ m_equipment.Get(Equip::SLOT_LASERCOOLER) ].pval);
+			rateCooling *= float(Equip::types[ m_equipment.Get(Equip::SLOT_LASERCOOLER) ].pval);
 		}
 		m_gunTemperature[i] -= rateCooling*timeStep;
 		if (m_gunTemperature[i] < 0.0f) m_gunTemperature[i] = 0;
@@ -816,7 +822,7 @@ void Ship::StaticUpdate(const float timeStep)
 		// 250 second recharge
 		float recharge_rate = 0.004f;
 		if (m_equipment.Get(Equip::SLOT_ENERGYBOOSTER) != Equip::NONE) {
-			recharge_rate *= float(EquipType::types[ m_equipment.Get(Equip::SLOT_ENERGYBOOSTER) ].pval);
+			recharge_rate *= float(Equip::types[ m_equipment.Get(Equip::SLOT_ENERGYBOOSTER) ].pval);
 		}
 		m_stats.shield_mass_left += m_stats.shield_mass * recharge_rate * timeStep;
 	}
@@ -1035,7 +1041,7 @@ bool Ship::Jettison(Equip::Type t)
 {
 	if (m_flightState != FLYING) return false;
 	if (t == Equip::NONE) return false;
-	Equip::Slot slot = EquipType::types[int(t)].slot;
+	Equip::Slot slot = Equip::types[int(t)].slot;
 	if (m_equipment.Count(slot, t) > 0) {
 		m_equipment.Remove(t, 1);
 		UpdateMass();

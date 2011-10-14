@@ -120,7 +120,7 @@ bool AICmdJourney::TimeStepUpdate()
 					MarketAgent *trader = m_ship->GetDockedWith();
 					// need to lose some equipment and see if we get light enough
 					Equip::Type t = (Equip::Type)Pi::rng.Int32(Equip::TYPE_MAX);
-					if ((EquipType::types[t].slot == Equip::SLOT_ENGINE) && trader->CanSell(t)) {
+					if ((Equip::types[t].slot == Equip::SLOT_ENGINE) && trader->CanSell(t)) {
 						// try a different hyperdrive
 						m_ship->SellTo(trader, driveType);
 						if (!m_ship->BuyFrom(trader, t)) {
@@ -1022,8 +1022,7 @@ bool AICmdDock::TimeStepUpdate()
 	if (m_state == 0 || m_state == 2) {
 		const SpaceStationType *type = m_target->GetSpaceStationType();
 		SpaceStationType::positionOrient_t dockpos;
-		bool good;
-        good = type->GetShipApproachWaypoints(port, (m_state>>1)+1, dockpos);
+        type->GetShipApproachWaypoints(port, (m_state>>1)+1, dockpos);
 		matrix4x4d trot; m_target->GetRotMatrix(trot);
 		m_dockpos = trot * dockpos.pos + m_target->GetPosition();
 		m_dockdir = (trot * dockpos.xaxis.Cross(dockpos.yaxis)).Normalized();

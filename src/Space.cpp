@@ -39,6 +39,12 @@ void Init()
 	rootFrame->SetRadius(FLT_MAX);
 }
 
+void Uninit()
+{
+	delete rootFrame;
+	if (Pi::currentSystem) Pi::currentSystem->Release();
+}
+
 void Clear()
 {
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
@@ -581,6 +587,8 @@ void TimeStep(float step)
 	Pi::luaOnUpdateBB->Emit();
 	Pi::luaOnShipFlavourChanged->Emit();
 	Pi::luaOnShipEquipmentChanged->Emit();
+
+	Pi::luaTimer->Tick();
 
 	PruneCorpses();
 }

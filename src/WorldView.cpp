@@ -561,6 +561,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Space::rootFrame);
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
+
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
 			"Rel-to: %s (%.0f km), rotating: %s\n",
@@ -582,6 +583,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			formatarg("x", dest->sectorX),
 			formatarg("y", dest->sectorY),
 			formatarg("z", dest->sectorZ)));
+		s->Release();
 		m_hudVelocity->Show();
 
 		m_hudTargetDist->Hide();
@@ -594,7 +596,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 			double _vel = vel.Length();
 			std::string str;
 			const char *rel_to = Pi::player->GetFrame()->GetLabel();
-			vector3d pos = Pi::player->GetPosition();
 			if (_vel > 1000) {
 				str = stringf(Lang::KM_S_RELATIVE_TO, formatarg("speed", _vel*0.001), formatarg("frame", rel_to));
 			} else {
@@ -711,7 +712,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			if (s->m_equipment.Get(Equip::SLOT_ENGINE) == Equip::NONE) {
 				text += Lang::NO_HYPERDRIVE;
 			} else {
-				text += EquipType::types[s->m_equipment.Get(Equip::SLOT_ENGINE)].name;
+				text += Equip::types[s->m_equipment.Get(Equip::SLOT_ENGINE)].name;
 			}
 
 			text += "\n";

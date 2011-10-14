@@ -1,3 +1,31 @@
+Alpha 16
+
+  * New features
+    * "Wave Heavy Hypersonic Fighter" ship
+    * Spanish translation (#628)
+
+  * Minor changes and tweaks
+    * New assassination missions appear less often (#634)
+    * Translation infrastructure for Assassinations (#641), DonateToCranks
+      (#658) and GoodsTrader (#659)
+    * Module translated to Polish
+
+  * Fixes
+    * Optimise trade ship cargo management (#632)
+    * Ensure that stars in a binary pair do not overlap (#621, #627)
+  
+  * Script changes
+    * Modules moved into dedicated subdirs with their translation files (#640)
+    * Module translations (#640)
+
+  * Internal changes
+    * Lots of cleanups, leaks fixed and general code improvements (#635, #637)
+    * Improve terrain generation performance
+    * Run Lua timers from the physics loop, which should help to make frame
+      times a little more consistent
+    * Remove deprecated EquipType::types list (#642)
+    * Show Lua memory usage in debug info (#638)
+
 Alpha 15
 
   * New features
@@ -50,6 +78,10 @@ Alpha 15
     * Fix directory handle leak (#618)
     * Don't allow scripts to add more equipment than a ship has room for (#617, #616)
     * Interplanetary Shuttle can no longer take a hyperdrive (#613)
+    * Fix crash on attack after high-risk delivery (#631)
+    * Fix crash in if player arrives in system before assassination target (#643)
+    * Fix crash when setting equipment in a slot that a ship doesn't have (#647, #648)
+    * Fix crash when rendering non-ship models under certain conditions (#646)
 
   * Script changes
     * Experimental Lua console (#537, #597)
@@ -59,7 +91,7 @@ Alpha 15
     * Lua methods Player.GetNavTarget and Player.GetCombatTarget to get the
       currently-targetted bodies (#588, #583)
     * Lua Lang interface to access core translated strings (#579, #575, #553)
-    * Lua Translate interface to let modules provide translations (#580, #625)
+    * Lua Translate interface to let modules provide translations (#580, #625, #629)
     * LMR methods fully documented (#615)
  
   * Internal changes

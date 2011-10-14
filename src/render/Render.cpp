@@ -217,6 +217,13 @@ static struct postprocessBuffers_t {
 		delete bloom1RT;
 		delete bloom2RT;
 		delete sceneRT;
+
+		delete postprocessBloom1Downsample;
+		delete postprocessBloom2Downsample;
+		delete postprocessBloom3VBlur;
+		delete postprocessBloom4HBlur;
+		delete postprocessCompose;
+		delete postprocessLuminance;
 	}
 	void DoPostprocess() {
 		glMatrixMode(GL_PROJECTION);
@@ -382,6 +389,7 @@ void Uninit()
 	delete planetRingsShader[1];
 	delete planetRingsShader[2];
 	delete planetRingsShader[3];
+	FreeLibs();
 }
 
 bool IsHDREnabled() { return shadersEnabled && hdrEnabled; }

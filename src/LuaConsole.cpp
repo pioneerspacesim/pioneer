@@ -33,14 +33,7 @@ LuaConsole::LuaConsole(int displayedOutputLines):
 	PackEnd(m_entryField);
 }
 
-LuaConsole::~LuaConsole() {
-	delete m_entryField;
-	for (std::vector<Gui::Label*>::const_iterator
-		it = m_outputLines.begin(); it != m_outputLines.end(); ++it) {
-		delete (*it);
-	}
-	m_outputLines.clear();
-}
+LuaConsole::~LuaConsole() {}
 
 bool LuaConsole::IsActive() const {
 	return IsVisible() && m_entryField->IsFocused();

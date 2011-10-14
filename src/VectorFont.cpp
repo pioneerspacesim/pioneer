@@ -453,3 +453,12 @@ VectorFont::VectorFont(FontManager &fm, const std::string &config_filename) : Fo
 		m_width = m_glyphs['M'].advx;
 	}
 }
+
+VectorFont::~VectorFont()
+{
+	std::map<int,glfglyph_t>::iterator i;
+	for (i=m_glyphs.begin(); i!=m_glyphs.end(); ++i) {
+		free ((*i).second.varray);
+		free ((*i).second.iarray);
+	}
+}

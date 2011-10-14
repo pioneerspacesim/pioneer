@@ -20,7 +20,6 @@
  * This documentation is incomplete!
  */
 
-#define MODEL "Model"
 struct RenderState {
 	/* For the root model this will be identity matrix.
 	 * For sub-models called with call_model() then this will be the
@@ -291,7 +290,7 @@ static std::string _fread_string(FILE *f)
 	char *buf = new char[len];
 	fread_or_die(buf, sizeof(char), len, f);
 	std::string str = std::string(buf);
-	delete buf;
+	delete[] buf;
 	return str;
 }
 	
@@ -414,7 +413,7 @@ public:
 				if (float_is_zero_general(op.zbias.amount)) {
 					glDepthRange(0.0, 1.0);
 				} else {
-					vector3f tv = cameraPos - vector3f(op.zbias.pos);
+				//	vector3f tv = cameraPos - vector3f(op.zbias.pos);
 				//	if (vector3f::Dot(tv, vector3f(op.zbias.norm)) < 0.0f) {
 						glDepthRange(0.0, 1.0 - op.zbias.amount*NEWMODEL_ZBIAS);
 				//	} else {
@@ -485,9 +484,9 @@ public:
 		glDisableClientState (GL_NORMAL_ARRAY);
 		glDisableClientState (GL_TEXTURE_COORD_ARRAY);
 
-		if (m_thrusters.size()) {
-			Render::UnbindAllBuffers();
+		Render::UnbindAllBuffers();
 
+		if (m_thrusters.size()) {
 			glDisable(GL_LIGHTING);
 			Render::State::UseProgram(Render::simpleShader);
 			RenderThrusters(rstate, cameraPos, params);
@@ -4209,10 +4208,6 @@ void LmrModelCompilerInit()
 
 	LUA_DEBUG_START(sLua);
 
-	lua_pushinteger(L, 1234);
-	lua_setglobal(L, "x");
-
-
 	MyLuaVec::Vec_register(L);
 	lua_pop(L, 1); // why again?
 	MyLuaMatrix::Matrix_register(L);
@@ -4288,4 +4283,23 @@ void LmrModelCompilerInit()
 	LUA_DEBUG_END(sLua, 0);
 	
 	s_buildDynamic = true;
+}
+
+
+void LmrModelCompilerUninit()
+{
+	for (int i=0; i<4; i++) {
+		delete s_sunlightShader[i];
+		delete s_pointlightShader[i];
+	}
+	// FontManager should be ok...
+
+	std::map<std::string, LmrModel*>::iterator it_model;
+	for (it_model=s_models.begin(); it_model != s_models.end(); ++it_model)	{
+		delete (*it_model).second;
+	}
+	
+	lua_close(sLua); sLua = 0;
+
+	delete s_staticBufferPool;
 }

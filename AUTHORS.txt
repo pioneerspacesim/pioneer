@@ -1,4 +1,4 @@
-The Pioneer team are (9 September 2011, alpha 14):
+The Pioneer team are (14 October 2011, alpha 15):
 
 Project leads: Tom Morton, John Jordan
 
@@ -32,6 +32,7 @@ Art:
   Konrad Mruk
   Marcel Tulloh
   Michele Botticelli
+  Gareth Allnutt
 
 Music:
   Dan Bennett

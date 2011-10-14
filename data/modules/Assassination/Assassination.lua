@@ -1,51 +1,8 @@
+-- Get the translator function
+t = Translate:GetTranslator()
+
 -- don't produce missions for further than this many light years away
 local max_ass_dist = 30
-
--- ass flavours indeed ;-)
-local ass_flavours = {
-	{
-		adtext = "WANTED: Removal of {target} from the {system} system.",
-		introtext = "Hi, I'm {name}. I'll pay you {cash} to get rid of {target}.",
-		successmsg = "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment.",
-		failuremsg = "I am most displeased to find that {target} is still alive. Needless to say you will receive no payment.",
-		failuremsg2 = "{target}'s removal was not done by you. No payment this time.",
-	},
-	{
-		adtext = "WANTED: Someone to kill {target} from the {system} system.",
-		introtext = "I need {target} taken out of the picture. I'll pay you {cash} to do this.",
-		successmsg = "I am most sad to hear of {target}'s demise. You have been paid in full.",
-		failuremsg = "I hear that {target} is in good health. This pains me.",
-		failuremsg2 = "{target}'s demise was not caused by you, so do not ask for payment.",
-	},
-	{
-		adtext = "REMOVAL: {target} is no longer wanted in the {system} system.",
-		introtext = "I am {name}, and I will pay you {cash} to terminate {target}.",
-		successmsg = "You have been paid in full for the completion of that important contract.",
-		failuremsg = "It is most regrettable that {target} is still live and well. You will receive no payment as you did not complete your contract.",
-		failuremsg2 = "Contract was completed by someone else. Be faster next time!",
-	},
-	{
-		adtext = "TERMINATION: Someone to eliminate {target}.",
-		introtext = "The {target} must be reduced to space dust. I'll award you {cash} to do this.",
-		successmsg = "{target} is dead. Here is your award.",
-		failuremsg = "You will pay for not eliminating {target}!",
-		failuremsg2 = "Are you asking money for job done by someone else? Get lost.",
-	},
-	{
-		adtext = "RETIREMENT: Someone to retire {target}.",
-		introtext = "For {cash} we wish to encourage {target} to stop work permanently.",
-		successmsg = "News of {target}'s retirement delightfully obtained. Here is your money.",
-		failuremsg = "{target} is still breathing and I'm not giving money to you.",
-		failuremsg2 = "Retirement of {target} was done by someone else.",
-	},
-	{
-		adtext = "BIOGRAPHICAL: Some admirers wish {target} dead.",
-		introtext = "We wish {target} to have a fitting career end in the {system} system for {cash}.",
-		successmsg = "Message of {target}'s ending career happily acquired. Here is your {cash}.",
-		failuremsg = "We found out that {target} is nonetheless operative. This sadness us.",
-		failuremsg2 = "{target} was neutralized by someone else.",
-	}
-}
 
 local ads = {}
 local missions = {}
@@ -55,6 +12,7 @@ local onDelete = function (ref)
 end
 
 local onChat = function (form, ref, option)
+	local ass_flavours = Translate:GetFlavours('Assassination')
 	local ad = ads[ref]
 
 	form:Clear()
@@ -78,12 +36,27 @@ local onChat = function (form, ref, option)
 		local sys = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
 
-		form:SetMessage(string.format("%s will be leaving %s in the %s system (%s, %s, %s) at %s. The ship is %s and has registration id %s.", ad.target, sbody.name, sys.name, ad.location.sectorX, ad.location.sectorY, ad.location.sectorZ, Format.Date(ad.due), ad.shipname, ad.shipregid) )
+		form:SetMessage(string.interp(t("{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}) at {date}. The ship is {shipname} and has registration id {shipregid}."), {
+		  target    = ad.target, 
+		  spaceport = sbody.name,
+		  system    = sys.name, 
+		  sectorX   = ad.location.sectorX, 
+		  sectorY   = ad.location.sectorY, 
+		  sectorZ   = ad.location.sectorZ, 
+		  date      = Format.Date(ad.due), 
+		  shipname  = ad.shipname, 
+		  shipregid = ad.shipregid,
+		  })
+		)
 
 	elseif option == 2 then
 		local sbody = ad.location:GetSystemBody()
 
-		form:SetMessage(string.format('It must be done after %s leaves %s. Do not miss this opportunity.', ad.target, sbody.name) )
+		form:SetMessage(string.interp(t("It must be done after {target} leaves {spaceport}. Do not miss this opportunity."), {
+		  target    = ad.target, 
+		  spaceport = sbody.name,
+      })
+    )
 
 	elseif option == 3 then
 		local backstation = Game.player:GetDockedWith().path
@@ -93,7 +66,7 @@ local onChat = function (form, ref, option)
 		ads[ref] = nil
 
 		local mission = {
-			type		= "Assassination",
+			type		= t("Assassination"),
 			backstation	= backstation,
 			boss		= ad.client,
 			client		= ad.shipname .. "\n(" .. ad.shipregid .. ")",
@@ -111,19 +84,19 @@ local onChat = function (form, ref, option)
 		local mref = Game.player:AddMission(mission)
 		missions[mref] = mission
 
-		form:SetMessage("Excellent.")
-		form:AddOption("Hang up.", -1)
+		form:SetMessage(t("Excellent."))
+		form:AddOption(t('HANG_UP'), -1)
 
 		return
 	elseif option == 4 then
-		form:SetMessage("Return here on the completion of the contract and you will be paid.")
+		form:SetMessage(t("Return here on the completion of the contract and you will be paid."))
 	end
-	form:AddOption(string.format("Where can I find %s?", ad.target), 1);
-	form:AddOption("Could you repeat the original request?", 0);
-	form:AddOption("How soon must it be done?", 2);
-	form:AddOption("How will I be paid?", 4);
-	form:AddOption("Ok, agreed.", 3);
-	form:AddOption("Hang up.", -1);
+	form:AddOption(string.interp(t("Where can I find {target}?"), {target = ad.target}), 1);
+	form:AddOption(t("Could you repeat the original request?"), 0);
+	form:AddOption(t("How soon must it be done?"), 2);
+	form:AddOption(t("How will I be paid?"), 4);
+	form:AddOption(t("Ok, agreed."), 3);
+	form:AddOption(t('HANG_UP'), -1);
 end
 
 local RandomShipRegId = function ()
@@ -134,39 +107,13 @@ local RandomShipRegId = function ()
 end
 
 local makeAdvert = function (station)
+	local ass_flavours = Translate:GetFlavours('Assassination')
 	local nearbysystems = Game.system:GetNearbySystems(max_ass_dist, function (s) return #s:GetStationPaths() > 0 end)
 	if #nearbysystems == 0 then return end
 	local isfemale = Engine.rand:Integer(1) == 1
 	local client = NameGen.FullName(isfemale)
 	local targetIsfemale = Engine.rand:Integer(1) == 1
-	local title = { -- just for fun
-		"Admiral",
-		"Ambassador",
-		"Brigadier",
-		"Cadet",
-		"Captain",
-		"Cardinal",
-		"Colonel",
-		"Commandant",
-		"Commodore",
-		"Corporal",
-		"Ensign",
-		"General",
-		"Judge",
-		"Lawyer",
-		"Lieutenant",
-		"Marshal",
-		"Merchant",
-		"Officer",
-		"Private",
-		"Professor",
-		"Prosecutor",
-		"Provost",
-		"Seaman",
-		"Senator",
-		"Sergeant",
-	}
-	local target = title[Engine.rand:Integer(1, #title)] .. " " .. NameGen.FullName(targetIsfemale)
+	local target = t('TITLE')[Engine.rand:Integer(1, #t('TITLE'))] .. " " .. NameGen.FullName(targetIsfemale)
 	local flavour = Engine.rand:Integer(1, #ass_flavours)
 	local nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 	local nearbystations = nearbysystem:GetStationPaths()
@@ -293,12 +240,7 @@ local onEnterSystem = function (ship)
 					ship:UpdateMission(ref, mission)
 				end
 			else
-				if mission.ship:exists() then
-					local planets = Space.GetBodies(function (body) return body:isa("Planet") end)
-					if #planets == 0 then return end
-					local planet = planets[Engine.rand:Integer(1,#planets)]
-					mission.ship:AIEnterHighOrbit(planet)
-				else
+				if not mission.ship:exists() then
 					mission.ship = nil
 					if mission.due < Game.time then
 						mission.status = 'FAILED'
@@ -317,19 +259,20 @@ local onShipDocked = function (ship, station)
 			   mission.backstation == station.path then
 				local text = string.interp(ass_flavours[mission.flavour].successmsg, {
 					target	= mission.target,
-					cash	= Format.Money(ad.reward),
+					cash	= Format.Money(mission.reward),
 				})
 				UI.ImportantMessage(text, mission.boss)
 				ship:AddMoney(mission.reward)
 				ship:RemoveMission(ref)
 				missions[ref] = nil
 			elseif mission.status == 'FAILED' then
+				local text
 				if mission.notplayer == 'TRUE' then
-					local text = string.interp(ass_flavours[mission.flavour].failuremsg2, {
+					text = string.interp(ass_flavours[mission.flavour].failuremsg2, {
 						target	= mission.target,
 					})
 				else
-					local text = string.interp(ass_flavours[mission.flavour].failuremsg, {
+					text = string.interp(ass_flavours[mission.flavour].failuremsg, {
 						target	= mission.target,
 					})
 				end
@@ -355,12 +298,8 @@ local onShipUndocked = function (ship, station)
 		   mission.ship == ship then
 			local planets = Space.GetBodies(function (body) return body:isa("Planet") end)
 			if #planets == 0 then
-				local stats = ship:GetStats()
-				local systems = Game.system:GetNearbySystems(stats.hyperspaceRange, function (s) return #s:GetStationPaths() > 0 end)
-				if #systems == 0 then return end
-				local system = systems[Engine.rand:Integer(1,#systems)]
-
-				ship:HyperspaceTo(system.path)
+				ship:AIFlyTo(station)
+				mission.shipstate = 'outbound'
 			else
 				local planet = planets[Engine.rand:Integer(1,#planets)]
 
@@ -375,15 +314,24 @@ end
 local onAICompleted = function (ship)
 	for ref,mission in pairs(missions) do
 		if mission.status == 'ACTIVE' and
-		   mission.ship == ship and
-		   mission.shipstate == 'flying' then
-			Timer:CallAt(Game.time + 60 * 60 * 8, function () if mission.ship:exists() then
+		   mission.ship == ship then
+			if mission.shipstate == 'outbound' then
+				local stats = ship:GetStats()
+				local systems = Game.system:GetNearbySystems(stats.hyperspaceRange, function (s) return #s:GetStationPaths() > 0 end)
+				if #systems == 0 then return end
+				local system = systems[Engine.rand:Integer(1,#systems)]
+
+				mission.shipstate = 'inbound'
+				ship:HyperspaceTo(system.path)
+			elseif mission.shipstate == 'flying' then
+				Timer:CallAt(Game.time + 60 * 60 * 8, function () if mission.ship:exists() then
 				local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
 				if #stations == 0 then return end
 				local station = stations[Engine.rand:Integer(1,#stations)]
 
 				mission.ship:AIDockWith(station)
 				end end)
+			end
 			return
 		end
 	end
@@ -395,7 +343,7 @@ local onUpdateBB = function (station)
 			ad.station:RemoveAdvert(ref)
 		end
 	end
-	if Engine.rand:Integer(12*60*60) < 60*60 then -- roughly once every twelve hours
+	if Engine.rand:Integer(4*24*60*60) < 60*60 then -- roughly once every four days
 		makeAdvert(station)
 	end
 end
