@@ -74,6 +74,7 @@ void RocketShipSpinnerElement::OnRender()
 
 	glPopAttrib();
 
+	glDisable(GL_LIGHT0);
 	glDisable(GL_DEPTH_TEST);
 
 	glMatrixMode(GL_PROJECTION);
