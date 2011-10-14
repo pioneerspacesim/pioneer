@@ -1075,7 +1075,7 @@ KM_S_RELATIVE_TO
 M_S_RELATIVE_TO
     %speed{f.0} m/s relativa a %frame
 N_DISTANCE_TO_TARGET
-    %distancia al objetivo
+    %distance al objetivo
 IN_TRANSIT_TO_N_X_X_X
     En tránsito a %system [%x,%y,%z]
 ALT_IN_METRES
