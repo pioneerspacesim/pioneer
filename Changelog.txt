@@ -6,10 +6,11 @@ Alpha 16
 
   * Minor changes and tweaks
     * New assassination missions appear less often (#634)
-    * Translation infrastructure for Assassinations (641)
+    * Translation infrastructure for Assassinations (#641), DonateToCranks
+      (#658)
 
   * Fixes
-	* Optimise trade ship cargo management (#632)
+    * Optimise trade ship cargo management (#632)
     * Ensure that stars in a binary pair do not overlap (#621, #627)
   
   * Script changes
