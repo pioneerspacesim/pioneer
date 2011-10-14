@@ -13,7 +13,6 @@
 #include "GalacticView.h"
 #include "GameMenuView.h"
 #include "Lang.h"
-#include "rocket/RocketManager.h"
 
 
 ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
@@ -263,7 +262,6 @@ void ShipCpanel::OnChangeInfoView(Gui::MultiStateImageButton *b)
 	if (Pi::GetView() == Pi::infoView) {
 		Pi::infoView->NextPage();
 	} else {
-		Pi::infoView->UpdateInfo();
 		Pi::SetView(Pi::infoView);
 	}
 }

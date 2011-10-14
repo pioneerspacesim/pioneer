@@ -25,7 +25,10 @@ Player::Player(ShipType::Type shipFlavour): Ship(shipFlavour),
 	m_accumTorque = vector3d(0,0,0);
 
 	Pi::rocketManager->SetStashItem("player.money", format_money(GetMoney()));
-	Pi::rocketManager->SetStashItem("player.shipFlavour", *GetFlavour());
+
+    const ShipFlavour *f = GetFlavour();
+	Pi::rocketManager->SetStashItem("player.shipFlavour", *f);
+    Pi::rocketManager->SetStashItem("player.shipType", f->type);
 }
 
 Player::~Player()
@@ -69,19 +72,24 @@ void Player::PostLoadFixup()
 	m_navTarget = Serializer::LookupBody(m_navTargetIndex);
 
 	Pi::rocketManager->SetStashItem("player.money", format_money(GetMoney()));
-	Pi::rocketManager->SetStashItem("player.shipFlavour", *GetFlavour());
+
+    const ShipFlavour *f = GetFlavour();
+	Pi::rocketManager->SetStashItem("player.shipFlavour", *f);
+    Pi::rocketManager->SetStashItem("player.shipType", f->type);
 }
 
 void Player::UpdateFlavour(const ShipFlavour *f)
 {
 	Ship::UpdateFlavour(f);
 	Pi::rocketManager->SetStashItem("player.shipFlavour", *f);
+    Pi::rocketManager->SetStashItem("player.shipType", f->type);
 }
 
 void Player::ResetFlavour(const ShipFlavour *f)
 {
 	Ship::ResetFlavour(f);
 	Pi::rocketManager->SetStashItem("player.shipFlavour", *f);
+    Pi::rocketManager->SetStashItem("player.shipType", f->type);
 }
 
 const shipstats_t *Player::CalcStats()
