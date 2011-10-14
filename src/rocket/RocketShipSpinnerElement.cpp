@@ -62,7 +62,7 @@ void RocketShipSpinnerElement::OnRender()
 	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
 	glEnable(GL_LIGHT0);
 
-	glViewport(x1, GLint(900-y2), GLsizei(x2-x1), GLsizei(y2-y1));
+	glViewport(x1, GLint(GetContext()->GetDimensions().y-y2), GLsizei(x2-x1), GLsizei(y2-y1));
 	
 	matrix4x4f rot = matrix4x4f::RotateXMatrix(m_rotX);
 	rot.RotateY(m_rotY);
