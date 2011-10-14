@@ -45,9 +45,9 @@
 			<br/>
 			<span stash="player.legalStatus"/><br/>
 			<br/>
-			<span stash="player.cargoSpaceUsed"/><br/>
-			<span stash="player.cargoSpaceFree"/><br/>
-			<span stash="player.equipmentMass"/>
+			<span stash="player.ship.usedCargoSpace"/><br/>
+			<span stash="player.ship.freeCargoSpace"/><br/>
+			<span stash="player.ship.equipmentMass"/>
 		</div>
 	</body>
 </rml>

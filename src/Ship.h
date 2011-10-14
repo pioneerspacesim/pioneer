@@ -155,7 +155,9 @@ public:
 	float GetPercentHull() const;
 	void SetPercentHull(float);
 	float GetGunTemperature(int idx) const { return m_gunTemperature[idx]; }
-	
+
+	void UIStashUpdate(const std::string &prefix) const;
+
 	sigc::signal<void> onDock;				// JJ: check what these are for
 	sigc::signal<void> onUndock;
 protected:

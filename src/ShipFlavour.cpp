@@ -107,6 +107,6 @@ void ShipFlavour::Load(Serializer::Reader &rd)
 
 void ShipFlavour::UIStashUpdate(const std::string &prefix) const
 {
-	Pi::rocketManager->SetStashItem(prefix + ".shipFlavour", *this);
-    Pi::rocketManager->SetStashItem(prefix + ".shipType", type);
+	Pi::rocketManager->SetStashItem(prefix + ".flavour", *this);
+    Pi::rocketManager->SetStashItem(prefix + ".type", type);
 }

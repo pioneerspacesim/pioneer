@@ -26,7 +26,7 @@ Player::Player(ShipType::Type shipFlavour): Ship(shipFlavour),
 
 	Pi::rocketManager->SetStashItem("player.money", format_money(GetMoney()));
 
-	GetFlavour()->UIStashUpdate("player");
+	GetFlavour()->UIStashUpdate("player.ship");
 }
 
 Player::~Player()
@@ -71,36 +71,25 @@ void Player::PostLoadFixup()
 
 	Pi::rocketManager->SetStashItem("player.money", format_money(GetMoney()));
 
-	GetFlavour()->UIStashUpdate("player");
+	GetFlavour()->UIStashUpdate("player.ship");
 }
 
 void Player::UpdateFlavour(const ShipFlavour *f)
 {
 	Ship::UpdateFlavour(f);
-	f->UIStashUpdate("player");
+	f->UIStashUpdate("player.ship");
 }
 
 void Player::ResetFlavour(const ShipFlavour *f)
 {
 	Ship::ResetFlavour(f);
-	f->UIStashUpdate("player");
+	f->UIStashUpdate("player.ship");
 }
 
 const shipstats_t *Player::CalcStats()
 {
 	const shipstats_t *stats = Ship::CalcStats();
-
-	char buf[64];
-
-	snprintf(buf, sizeof(buf), "%dt", stats->used_capacity - stats->used_cargo);
-	Pi::rocketManager->SetStashItem("player.equipmentMass", buf);
-	
-	snprintf(buf, sizeof(buf), "%dt", stats->used_cargo);
-	Pi::rocketManager->SetStashItem("player.cargoSpaceUsed", buf);
-		
-	snprintf(buf, sizeof(buf), "%dt", stats->free_capacity);
-	Pi::rocketManager->SetStashItem("player.cargoSpaceFree", buf);
-
+	UIStashUpdate("player.ship");
 	return stats;
 }
 
