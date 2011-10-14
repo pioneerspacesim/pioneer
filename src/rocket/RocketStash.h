@@ -32,7 +32,7 @@ public:
 	void ClearStashItem(const std::string &id);
 	void ClearStash();
 
-	void Update(Rocket::Core::Element *e);
+	void Update(Rocket::Core::Element *e, bool force = false);
 
 private:
 	class StashItem {

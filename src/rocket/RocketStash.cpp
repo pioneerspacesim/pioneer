@@ -53,9 +53,9 @@ void RocketStash::ClearStash()
 	m_stash.clear();
 }
 
-void RocketStash::Update(Rocket::Core::Element *rootElement)
+void RocketStash::Update(Rocket::Core::Element *rootElement, bool force)
 {
-	if (!m_needsStashUpdate) return;
+	if (!force && !m_needsStashUpdate) return;
 
 	std::queue<Rocket::Core::Element*> searchQueue;
 	searchQueue.push(rootElement);

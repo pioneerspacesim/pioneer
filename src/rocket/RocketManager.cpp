@@ -636,7 +636,7 @@ RocketScreen *RocketManager::OpenScreen(const std::string &name)
 	m_tooltipDelayStartTick = SDL_GetTicks();
 	m_tooltipSourceElement = 0;
 
-	Update(m_currentScreen->GetDocument());
+	Update(m_currentScreen->GetDocument(), true);
 
 	m_currentScreen->GetDocument()->Show();
 
