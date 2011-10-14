@@ -7,8 +7,8 @@ Alpha 16
   * Minor changes and tweaks
     * New assassination missions appear less often (#634)
     * Translation infrastructure for Assassinations (#641), DonateToCranks
-      (#658) and GoodsTrader (#659)
-    * Module translated to Polish
+      (#658), GoodsTrader (#659) and DeliverPackage (#639)
+    * Modules translated to Polish
 
   * Fixes
     * Optimise trade ship cargo management (#632)
