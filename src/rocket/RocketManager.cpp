@@ -381,6 +381,8 @@ public:
 
 		texture_handle = Rocket::Core::TextureHandle(texture_id);
 
+		glBindTexture(GL_TEXTURE_2D, 0);
+
 		return true;
 	}
 
