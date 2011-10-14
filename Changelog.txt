@@ -6,6 +6,7 @@ Alpha 16
 
   * Minor changes and tweaks
     * New assassination missions appear less often (#634)
+    * Translation infrastructure for Assassinations (641)
 
   * Fixes
 	* Optimise trade ship cargo management (#632)
