@@ -1089,6 +1089,8 @@ void GeoSphere::Uninit()
 	assert(s_allGeospheres.size() == 0);
 	s_exitFlag = true;
 	SDL_mutexV(s_allGeospheresLock);
+
+	SDL_WaitThread(s_updateThread, 0);
 #endif /* GEOSPHERE_USE_THREADING */
 	
 	s_patchContext->DecRefCount();
