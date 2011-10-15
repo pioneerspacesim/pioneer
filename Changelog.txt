@@ -1,15 +1,22 @@
 Alpha 16
 
   * New features
+    * "Wave Heavy Hypersonic Fighter" ship
     * Spanish translation (#628)
 
   * Minor changes and tweaks
     * New assassination missions appear less often (#634)
+    * Translation infrastructure for Assassinations (#641), DonateToCranks
+      (#658), GoodsTrader (#659) and DeliverPackage (#639)
+    * Modules translated to Polish
 
   * Fixes
-	* Optimise trade ship cargo management (#632)
+    * Optimise trade ship cargo management (#632)
+    * Ensure that stars in a binary pair do not overlap (#621, #627)
   
   * Script changes
+    * Modules moved into dedicated subdirs with their translation files (#640)
+    * Module translations (#640)
 
   * Internal changes
     * Lots of cleanups, leaks fixed and general code improvements (#635, #637)
@@ -71,6 +78,10 @@ Alpha 15
     * Fix directory handle leak (#618)
     * Don't allow scripts to add more equipment than a ship has room for (#617, #616)
     * Interplanetary Shuttle can no longer take a hyperdrive (#613)
+    * Fix crash on attack after high-risk delivery (#631)
+    * Fix crash in if player arrives in system before assassination target (#643)
+    * Fix crash when setting equipment in a slot that a ship doesn't have (#647, #648)
+    * Fix crash when rendering non-ship models under certain conditions (#646)
 
   * Script changes
     * Experimental Lua console (#537, #597)
