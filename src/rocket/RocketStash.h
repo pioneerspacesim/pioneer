@@ -2,7 +2,11 @@
 #define _ROCKETSTASH_H
 
 #include <map>
+#ifdef _MSC_VER
+#include <memory>
+#else
 #include <tr1/memory>
+#endif
 
 #include "Rocket/Core/Element.h"
 
