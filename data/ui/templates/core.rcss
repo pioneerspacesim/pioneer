@@ -2,7 +2,7 @@
 
 body {
 	font-family: TitilliumText22L;
-	font-size: 24pt;
+	font-size: 22pt;
 }
 
 div, p, h1, h2, h3, h4, h5, h6 {
@@ -10,23 +10,23 @@ div, p, h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-    font-size: 150%;
+    font-size: 200%;
 }
 
 h2 {
-    font-size: 130%;
+    font-size: 170%;
 }
 
 h3 {
-    font-size: 110%;
+    font-size: 140%;
 }
 
 h4 {
-	font-size: 90%;
+	font-size: 110%;
 }
 
 h5 {
-	font-size: 70%;
+	font-size: 80%;
 }
 
 h6 {
