@@ -234,7 +234,7 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 		m_equipment.Add(item);
 		Space::KillBody(dynamic_cast<Body*>(b));
 		if (this->IsType(Object::PLAYER))
-			Pi::Message(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", EquipType::types[item].name)));
+			Pi::Message(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", Equip::types[item].name)));
 		// XXX Sfx::Add(this, Sfx::TYPE_SCOOP);
 		UpdateMass();
 		return true;
