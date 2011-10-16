@@ -17,7 +17,7 @@
 
 define_model('1bogey', {
 	info = {
-		lod_pixels={5,50,0},
+		lod_pixels = { 5, 15, 30, 0 },
 		bounding_radius = 7,
 		materials={'leg','tyre'}
 	},
@@ -38,7 +38,7 @@ define_model('1bogey', {
 
 define_model('3bogey', {
 	info = {
-		lod_pixels = {5,50,0},
+		lod_pixels = { 5, 15, 30, 0 },
 		bounding_radius = 8,
 		materials = {'leg', 'tyre'}
 	},
