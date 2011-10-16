@@ -9,6 +9,7 @@
 -- strutanim for landing struts/gear, based on sidewinder.lua
 define_model('strutanim', {
 	info = {
+		lod_pixels = { 5, 10, 20, 0},
 		bounding_radius = 5,
 		materials={'strut'}
 	},
@@ -18,7 +19,7 @@ define_model('strutanim', {
 	dynamic = function(lod)
 		use_material('strut')
 		local strut_pos = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,1)
-		cylinder(10*lod,v(0,0,0), v(0+1*strut_pos,0+3*strut_pos,0), v(0,0,1), 1,1)
+		cylinder(4*lod,v(0,0,0), v(0+1*strut_pos,0+3*strut_pos,0), v(0,0,1), 1,1)
 	end
 })
 
