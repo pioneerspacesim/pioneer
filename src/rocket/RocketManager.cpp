@@ -284,6 +284,9 @@ public:
 		glPushMatrix();
 		glTranslatef(translation.x, translation.y, 0);
 
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_COLOR_ARRAY);
+
 		glVertexPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), &vertices[0].position);
 		glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Rocket::Core::Vertex), &vertices[0].colour);
 
@@ -302,23 +305,100 @@ public:
 			glDisable(GL_TEXTURE_2D);
 		}
 
+		glDisableClientState(GL_COLOR_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
+
 		glPopMatrix();
 	}
 
+	struct BufferOffset {
+		void *vertexOffset;
+		void *colourOffset;
+		void *texCoordOffset;
+	};
+	static const BufferOffset s_bufferOffset;
+
+	struct VBO {
+		GLuint id;
+		GLuint indexId;
+		bool hasTexture;
+		int numIndices;
+	};
+
 	virtual Rocket::Core::CompiledGeometryHandle CompileGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture)
 	{
-		// XXX allocate vbo
-		return Rocket::Core::CompiledGeometryHandle(0);
+		// XXX remove this line to enable the non-working vbo code
+		return Rocket::Core::TextureHandle(0);
+
+		VBO *vbo = new VBO;
+		vbo->hasTexture = (texture != 0);
+		vbo->numIndices = num_indices;
+
+		glGenBuffersARB(1, &vbo->id);
+		glBindBufferARB(GL_ARRAY_BUFFER_ARB, vbo->id);
+
+		glBufferDataARB(GL_ARRAY_BUFFER_ARB, sizeof(Rocket::Core::Vertex) * num_vertices, 0, GL_STATIC_DRAW);
+		glBufferSubDataARB(GL_ARRAY_BUFFER_ARB, 0, sizeof(Rocket::Core::Vertex) * num_vertices, vertices);
+
+		if (vbo->hasTexture)
+			glTexCoordPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), s_bufferOffset.texCoordOffset);
+		glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Rocket::Core::Vertex), s_bufferOffset.colourOffset);
+		glVertexPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), s_bufferOffset.vertexOffset);
+
+		glGenBuffersARB(1, &vbo->indexId);
+		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, vbo->indexId);
+
+		glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER_ARB, sizeof(int) * vbo->numIndices, indices, GL_STATIC_DRAW);
+
+		glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, 0);
+
+		return Rocket::Core::CompiledGeometryHandle(vbo);
 	}
 
 	virtual void RenderCompiledGeometry(Rocket::Core::CompiledGeometryHandle geometry, const Rocket::Core::Vector2f& translation)
 	{
-		// XXX draw vbo
+		VBO *vbo = reinterpret_cast<VBO*>(geometry);
+
+		glPushMatrix();
+		glTranslatef(translation.x, translation.y, 0);
+
+		glBindBufferARB(GL_ARRAY_BUFFER_ARB, vbo->id);
+		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, vbo->indexId);
+
+		glEnableClientState(GL_COLOR_ARRAY);
+		glEnableClientState(GL_VERTEX_ARRAY);
+
+		if (vbo->hasTexture) {
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glTexCoordPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), s_bufferOffset.texCoordOffset);
+		}
+
+		glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Rocket::Core::Vertex), s_bufferOffset.colourOffset);
+		glVertexPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), s_bufferOffset.vertexOffset);
+
+		glDrawElements(GL_TRIANGLES, vbo->numIndices, GL_UNSIGNED_INT, s_bufferOffset.vertexOffset);
+
+		glDisableClientState(GL_COLOR_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
+
+		if (vbo->hasTexture)
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+		glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, 0);
+
+		glPopMatrix();
 	}
 
 	virtual void ReleaseCompiledGeometry(Rocket::Core::CompiledGeometryHandle geometry)
 	{
-		// XXX free vbo
+		VBO *vbo = reinterpret_cast<VBO*>(geometry);
+
+		glDeleteBuffersARB(1, &vbo->id);
+		glDeleteBuffersARB(1, &vbo->indexId);
+
+		delete vbo;
 	}
 
 	virtual void EnableScissorRegion(bool enable)
@@ -395,6 +475,11 @@ private:
 	int m_width, m_height;
 };
 
+const RocketRender::BufferOffset RocketRender::s_bufferOffset = {
+	reinterpret_cast<void*>(offsetof(Rocket::Core::Vertex, position)),
+	reinterpret_cast<void*>(offsetof(Rocket::Core::Vertex, colour)),
+	reinterpret_cast<void*>(offsetof(Rocket::Core::Vertex, tex_coord))
+};
 
 static Rocket::Core::Input::KeyIdentifier sdlkey_to_ki[SDLK_LAST];
 static std::map<std::string,Rocket::Core::Input::KeyIdentifier> name_to_ki;
@@ -748,9 +833,6 @@ void RocketManager::Draw()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
@@ -758,8 +840,5 @@ void RocketManager::Draw()
 	glDisable(GL_DEPTH_TEST);
 
 	m_rocketContext->Render();
-
-	glDisableClientState(GL_COLOR_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
