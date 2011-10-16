@@ -1076,8 +1076,6 @@ void Pi::Start()
 	do {
 		Pi::HandleEvents();
 
-		SDL_GL_SwapBuffers();
-
 		Render::PrepareFrame();
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
