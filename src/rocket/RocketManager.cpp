@@ -321,18 +321,15 @@ public:
 	struct VBO {
 		GLuint id;
 		GLuint indexId;
-		bool hasTexture;
 		int numIndices;
+		GLuint texture;
 	};
 
 	virtual Rocket::Core::CompiledGeometryHandle CompileGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture)
 	{
-		// XXX remove this line to enable the non-working vbo code
-		return Rocket::Core::TextureHandle(0);
-
 		VBO *vbo = new VBO;
-		vbo->hasTexture = (texture != 0);
 		vbo->numIndices = num_indices;
+		vbo->texture = GLuint(texture);
 
 		glGenBuffersARB(1, &vbo->id);
 		glBindBufferARB(GL_ARRAY_BUFFER_ARB, vbo->id);
@@ -340,7 +337,7 @@ public:
 		glBufferDataARB(GL_ARRAY_BUFFER_ARB, sizeof(Rocket::Core::Vertex) * num_vertices, 0, GL_STATIC_DRAW);
 		glBufferSubDataARB(GL_ARRAY_BUFFER_ARB, 0, sizeof(Rocket::Core::Vertex) * num_vertices, vertices);
 
-		if (vbo->hasTexture)
+		if (0 != vbo->texture)
 			glTexCoordPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), s_bufferOffset.texCoordOffset);
 		glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Rocket::Core::Vertex), s_bufferOffset.colourOffset);
 		glVertexPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), s_bufferOffset.vertexOffset);
@@ -369,9 +366,11 @@ public:
 		glEnableClientState(GL_COLOR_ARRAY);
 		glEnableClientState(GL_VERTEX_ARRAY);
 
-		if (vbo->hasTexture) {
+		if (0 != vbo->texture) {
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			glTexCoordPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), s_bufferOffset.texCoordOffset);
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, vbo->texture);
 		}
 
 		glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Rocket::Core::Vertex), s_bufferOffset.colourOffset);
@@ -382,8 +381,11 @@ public:
 		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
 
-		if (vbo->hasTexture)
+		if (0 != vbo->texture) {
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glDisable(GL_TEXTURE_2D);
+		}
 
 		glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
 		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, 0);
