@@ -5,6 +5,7 @@
 #include <map>
 #include "utils.h"
 #include "Lang.h"
+#include "StringF.h"
 
 #define CELSIUS	273.15
 //#define DEBUG_DUMP

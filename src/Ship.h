@@ -7,6 +7,7 @@
 #include "ShipFlavour.h"
 #include "SystemPath.h"
 #include "BezierCurve.h"
+#include "Serializer.h"
 #include <list>
 
 class SpaceStation;
@@ -26,10 +27,19 @@ struct shipstats_t {
 	float shield_mass_left;
 };
 
-
+class SerializableEquipSet: public EquipSet {
+public:
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
+};
 
 class Ship: public DynamicBody {
 public:
+	enum Animation {
+#define Animation_ITEM(x) ANIM_##x,
+#include "ShipEnums.h"
+	};
+
 	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Type shipType);
 	Ship() {}
@@ -64,11 +74,8 @@ public:
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 
 	enum FlightState {
-		FLYING,     // open flight (includes autopilot)
-		DOCKING,    // in docking animation
-		DOCKED,     // docked with station
-		LANDED,     // rough landed (not docked)
-		HYPERSPACE  // in hyperspace
+#define FlightState_ITEM(x) x,
+#include "ShipEnums.h"
 	};
 
        	FlightState GetFlightState() const { return m_flightState; }
@@ -80,11 +87,8 @@ public:
 	SystemPath GetHyperspaceDest() const { return m_hyperspace.dest; }
 
 	enum HyperjumpStatus {
-		HYPERJUMP_OK,
-		HYPERJUMP_CURRENT_SYSTEM,
-		HYPERJUMP_NO_DRIVE,
-		HYPERJUMP_OUT_OF_RANGE,
-		HYPERJUMP_INSUFFICIENT_FUEL
+#define HyperjumpStatus_ITEM(x) HYPERJUMP_##x,
+#include "ShipEnums.h"
 	};
 	bool CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus = 0);
 	void UseHyperspaceFuel(const SystemPath *dest);
@@ -103,9 +107,8 @@ public:
 	virtual bool FireMissile(int idx, Ship *target);
 
 	enum AlertState {
-		ALERT_NONE,
-		ALERT_SHIP_NEARBY,
-		ALERT_SHIP_FIRING,
+#define AlertState_ITEM(x) ALERT_##x,
+#include "ShipEnums.h"
 	};
 	AlertState GetAlertState() { return m_alertState; }
 
@@ -139,7 +142,7 @@ public:
 
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
 
-	EquipSet m_equipment;			// shouldn't be public?...
+	SerializableEquipSet m_equipment;			// shouldn't be public?...
 	shipstats_t m_stats;
 
 	virtual void PostLoadFixup();

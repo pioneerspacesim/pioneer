@@ -35,12 +35,12 @@ define_model('vipx_uc_f', {
 	end,
 	dynamic = function(lod)
 		local divs = 3*lod
-		local trans = 6.6*(math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.4,1)-.4)   -- 3*1.43*
-		--local rot_x = 9.55*(math.pi/180)*(math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.5,1)-.5) -- for rotation when call a function instead of a model, math.pi/360 = 1°!
-		--local rot_z = 9.55*(math.pi/180)*(math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.5,1)-.5) -- (math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.5,1)-.5) subtracts .5 from clamp value to start at 0
+		local trans = 6.6*(math.clamp(get_animation_position('WHEEL_STATE'),.4,1)-.4)   -- 3*1.43*
+		--local rot_x = 9.55*(math.pi/180)*(math.clamp(get_animation_position('WHEEL_STATE'),.5,1)-.5) -- for rotation when call a function instead of a model, math.pi/360 = 1°!
+		--local rot_z = 9.55*(math.pi/180)*(math.clamp(get_animation_position('WHEEL_STATE'),.5,1)-.5) -- (math.clamp(get_animation_position('WHEEL_STATE'),.5,1)-.5) subtracts .5 from clamp value to start at 0
 		-- start time = .5, duration = .5, initial value = 0!
 
-		local rot = 2*(1/45*9.55)*(math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.5,1)-.5)          -- 1:1 = 45°. 1/45 = 1°
+		local rot = 2*(1/45*9.55)*(math.clamp(get_animation_position('WHEEL_STATE'),.5,1)-.5)          -- 1:1 = 45°. 1/45 = 1°
 
 		call_model('vipx_pad',v(0,.2-trans,0),v(0,-1,0),v(0,rot,1),1)
 
@@ -73,10 +73,10 @@ define_model('vipx_uc_r', {
 	end,
 	dynamic = function(lod)
 		local divs = 3*lod
-		local trans = 5*(math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.4,1)-.4)
+		local trans = 5*(math.clamp(get_animation_position('WHEEL_STATE'),.4,1)-.4)
 
-		local rot_x = 2*(1/45*16.5)*(math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.5,1)-.5)
-		local rot_z = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.5,1)-.5
+		local rot_x = 2*(1/45*16.5)*(math.clamp(get_animation_position('WHEEL_STATE'),.5,1)-.5)
+		local rot_z = math.clamp(get_animation_position('WHEEL_STATE'),.5,1)-.5
 
 		call_model('vipx_pad',v(0,.1-trans,0),v(-rot_z,-1,0),v(0,-rot_x,1),1)
 
@@ -108,10 +108,10 @@ define_model('vipx_uc_l', {
 	end,
 	dynamic = function(lod)
 		local divs = 3*lod
-		local trans = 5*(math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.4,1)-.4)
+		local trans = 5*(math.clamp(get_animation_position('WHEEL_STATE'),.4,1)-.4)
 
-		local rot_x = 2*(1/45*16.5)*(math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.5,1)-.5)
-		local rot_z = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.5,1)-.5
+		local rot_x = 2*(1/45*16.5)*(math.clamp(get_animation_position('WHEEL_STATE'),.5,1)-.5)
+		local rot_z = math.clamp(get_animation_position('WHEEL_STATE'),.5,1)-.5
 
 		call_model('vipx_pad',v(0,.1-trans,0),v(rot_z,-1,0),v(0,-rot_x,1),1)
 
@@ -225,10 +225,10 @@ define_model('vipx_uc_all', {
 	end,
 	dynamic = function(lod)
 		if lod > 2 then
-			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+			if get_animation_position('WHEEL_STATE') ~= 0 then
 				set_material('cv0',get_arg_material(0))
 
-				local trans = 2*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
+				local trans = 2*math.clamp(get_animation_position('WHEEL_STATE'),0,.5)
 
 				texture('models/ships/viper_x/body2.png')
 				use_material('black')
@@ -290,7 +290,7 @@ define_model('vipx_galmap', {
 		zbias(0)
 	end,
 	dynamic = function(lod)
-		local rot = math.pi*get_arg(ARG_ALL_TIME_SECONDS)*.1
+		local rot = math.pi*get_time('SECONDS')*.1
 
 		texture('models/ships/viper_x/galmap.png')
 		use_material('glow')
@@ -517,17 +517,17 @@ define_model('viper_x', {
 
 	dynamic = function(lod)
 		if lod > 1 then
-			local time = math.fmod(get_arg(ARG_ALL_TIME_SECONDS)*.5,1)
+			local time = math.fmod(get_time('SECONDS')*.5,1)
 			local g2off = {.3,.4,.5,1,1,1,1,100,0,0,0}
-			local g2on = lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.1, {0,0,0,1,1,1,1,100,.85,.8,1.5},
+			local g2on = lerp_materials(get_time('SECONDS')*0.1, {0,0,0,1,1,1,1,100,.85,.8,1.5},
 			{0,0,0,1,1,1,1,100,.5,.5,2})
 
 			set_material('cv0', get_arg_material(0))
-			set_material('glow1',lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.3, {0,0,0,1,1,1,1,100,1,2,.5}, {0,0,0,1,1,1,1,100,1.4,1.8,.5}))
-			set_material('e_glow',lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.3, {0,0,0,1,.1,.1,.1,1,.5,.5,2}, {0,0,0,1,.1,.1,.1,1,.85,.8,1.5}))
+			set_material('glow1',lerp_materials(get_time('SECONDS')*0.3, {0,0,0,1,1,1,1,100,1,2,.5}, {0,0,0,1,1,1,1,100,1.4,1.8,.5}))
+			set_material('e_glow',lerp_materials(get_time('SECONDS')*0.3, {0,0,0,1,.1,.1,.1,1,.5,.5,2}, {0,0,0,1,.1,.1,.1,1,.85,.8,1.5}))
 
-			if get_arg(ARG_SHIP_EQUIP_SCOOP) == Equip.FUEL_SCOOP then
-				set_material('sc_glow',lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.3, {0,0,0,1,.1,.1,.1,1,.5,.5,2}, {0,0,0,1,.1,.1,.1,1,.85,.8,1.5}))
+			if get_equipment('FUELSCOOP') == 'FUEL_SCOOP' then
+				set_material('sc_glow',lerp_materials(get_time('SECONDS')*0.3, {0,0,0,1,.1,.1,.1,1,.5,.5,2}, {0,0,0,1,.1,.1,.1,1,.85,.8,1.5}))
 			else
 				set_material('sc_glow', .1,.12,.12,1,.1,.15,.15,5)
 			end
@@ -577,8 +577,8 @@ define_model('viper_x', {
 				set_material('glow2f',g2on)
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_LASER0) >= Equip.PULSECANNON_1MW then
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+			if get_equipment('LASER',1) then
+				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 
 					-- twin gun socket
 					texture('models/ships/viper_x/vipx_extra1.png')
@@ -612,8 +612,8 @@ define_model('viper_x', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+			if get_equipment('ECM') == 'ECM_BASIC' then
+				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 					-- twin gun, single gun socket for ECM1 if scanner not present
 					texture('models/ships/viper_x/vipx_extra1.png')
 					use_material('cv0')
@@ -642,8 +642,8 @@ define_model('viper_x', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+			if get_equipment('ECM') == 'ECM_ADVANCED' then
+				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 
 					-- twin gun, single gun socket for ECM2
 					texture('models/ships/viper_x/vipx_extra1.png')
@@ -673,11 +673,11 @@ define_model('viper_x', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+			if get_equipment('SCANNER') == 'SCANNER' then
+				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 
 					-- if twin gun, single gun socket for antenna if ECM not present
-					if get_arg(ARG_SHIP_EQUIP_ECM) == 0 then
+					if not get_equipment('ECM') then
 						texture('models/ships/viper_x/vipx_extra1.png')
 						use_material('ncv')
 						load_obj('models/ships/viper_x/vipx_gun1_base.obj')
@@ -689,7 +689,7 @@ define_model('viper_x', {
 					-- twin gun antenna pos
 					call_model('antenna_2',v(0,-1.4,-22.213),v(1,0,0),v(0,1,0),1)
 				else
-					if get_arg(ARG_SHIP_EQUIP_ECM) == 0 then
+					if not get_equipment('ECM') then
 
 						-- twin gun socket for antenna if ECM not present
 						texture('models/ships/viper_x/vipx_extra1.png')
@@ -709,18 +709,18 @@ define_model('viper_x', {
 				call_model('scanner',v(0,5.7,6.66),v(1,0,0),v(0,1,0),1)
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_LASER0) >= Equip.PULSECANNON_1MW then
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+			if get_equipment('LASER',1) then
+				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 
 				else
-					if get_arg(ARG_SHIP_EQUIP_ECM) == 0 and get_arg(ARG_SHIP_EQUIP_SCANNER) == 0 then
+					if not get_equipment('ECM') and not get_equipment('SCANNER') then
 						texture('models/ships/viper_x/vipx_extra1.png')
 						use_material('ncv')
 						load_obj('models/ships/viper_x/vipx_singleg.obj')
 					end
 				end
 			else
-				if get_arg(ARG_SHIP_EQUIP_ECM) == 0 and get_arg(ARG_SHIP_EQUIP_SCANNER) == 0 then
+				if not get_equipment('ECM') and not get_equipment('SCANNER') then
 					texture('models/ships/viper_x/vipx_extra1.png')
 					use_material('ncv')
 					load_obj('models/ships/viper_x/vipx_singleg.obj')
