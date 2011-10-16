@@ -10,7 +10,7 @@
 
 define_model('hammergear', {
 	info = {
-		lod_pixels = { 5, 50, 0 },
+		lod_pixels = { 5, 10, 30, 0 },
 		bounding_radius = 8,
 		materials = {'leg', 'tyre'}
 	},
@@ -41,8 +41,8 @@ define_model('hammergear', {
 define_model('hammerleftgear', {
 	info = {
 		scale = 1,
-		lod_pixels = { 10, 30, 50, 0 },
-		bounding_radius = 130,
+		lod_pixels = { 10, 100, 200, 0 },
+		bounding_radius = 131,
 		materials={'hammer'}
 	},
 	static = function(lod)
@@ -59,8 +59,8 @@ define_model('hammerleftgear', {
 define_model('hammerrightgear', {
 	info = {
 		scale = 1,
-		lod_pixels = { 10, 30, 50, 0 },
-		bounding_radius = 130,
+		lod_pixels = { 10, 100, 200, 0 },
+		bounding_radius = 131,
 		materials={'hammer'}
 	},
 	static = function(lod)
@@ -77,8 +77,8 @@ define_model('hammerrightgear', {
 define_model('hammer', {
 	info = {
 		scale = 1,
-		lod_pixels={ 10, 30, 50, 0},
-		bounding_radius = 130,
+		lod_pixels={ 10, 100, 200, 0},
+		bounding_radius = 131,
 		materials = {'hammer', 'distant', 'text', 'glow'},
 		tags = {'ship'},
 		ship_defs = {
@@ -113,18 +113,17 @@ define_model('hammer', {
 		if lod == 1 then
 			use_material('distant')
 			load_obj('hammerlod1.obj')
-		elseif lod == 2 then
-			use_material('hammer')
-			texture('hammer.png')
-			load_obj('hammerlod2.obj')
-			texture(nil)
 		else
 			use_material('hammer')
 			texture('hammer.png')
-			load_obj('hammer.obj')
-			use_material('glow')
-			texture('glow.png')
-			load_obj('hammerglow.obj')
+			if lod == 2 then
+				load_obj('hammerlod2.obj')
+			else
+				load_obj('hammer.obj')
+				use_material('glow')
+				texture('glow.png')
+				load_obj('hammerglow.obj')
+			end
 			texture(nil)
 		end
 	end,
