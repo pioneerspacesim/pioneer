@@ -325,10 +325,10 @@ define_model('wave', {
 		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
 			-- sliding front well covers and front gear
 			-- sliders (seasons 1-2) rules!
-			local sliders1 = 2 * get_arg(ARG_SHIP_WHEEL_STATE)
-			local sliders2 = 0.5*math.pi*math.clamp(1.5*(get_arg(ARG_SHIP_WHEEL_STATE)-0.4), 0, 1)
+			local sliders1 = 2.3 * get_arg(ARG_SHIP_WHEEL_STATE)
+			local sliders2 = 0.4*math.pi*math.clamp(1.5*(get_arg(ARG_SHIP_WHEEL_STATE)-0.4), 0, 1)
 
-			call_model('gearfront', v(0,0,1.2*sliders1), v(1,0,0), v(0,1,0), 1)
+			call_model('gearfront', v(0,0,sliders1), v(1,0,0), v(0,1,0), 1)
 			call_model('gearleft', v(sliders1,0,0), v(1,0,0), v(0,1,0), 1)
 			call_model('gearright', v(-sliders1,0,0), v(1,0,0), v(0,1,0), 1)
 			call_model('1bogey', v(0,-1.7+2.2*math.cos(sliders2),1.2), v(-1,0,0), v(0,-1,0), 0.3)
