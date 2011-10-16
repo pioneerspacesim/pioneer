@@ -48,7 +48,11 @@ public:
 
 	void SetModel(LmrModel *);
 
-	void PickModel();
+	void PickModel(const std::string &initial_name, const std::string &initial_errormsg);
+
+	void PickModel() {
+		PickModel("", "");
+	}
 
 	float GetAnimValue(int i) {
 		std::string val = m_animEntry[i]->GetText();
@@ -231,7 +235,7 @@ void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *
 	}
 }
 
-void Viewer::PickModel()
+void Viewer::PickModel(const std::string &initial_name, const std::string &initial_errormsg)
 {
 	Gui::Fixed *f = new Gui::Fixed();
 	f->SetSizeRequest(Gui::Screen::GetWidth()*0.5f, Gui::Screen::GetHeight()*0.5);
@@ -239,10 +243,11 @@ void Viewer::PickModel()
 
 	f->Add(new Gui::Label("Enter the name of the model you want to view:"), 0, 0);
 
-	Gui::Label *errormsg = new Gui::Label("");
+	Gui::Label *errormsg = new Gui::Label(initial_errormsg);
 	f->Add(errormsg, 0, 64);
 
 	Gui::TextEntry *entry = new Gui::TextEntry();
+	entry->SetText(initial_name);
 	entry->onKeyPress.connect(sigc::bind(sigc::mem_fun(this, &Viewer::TryModel), entry, errormsg));
 	entry->Show();
 	f->Add(entry, 0, 32);
@@ -658,10 +663,16 @@ int main(int argc, char **argv)
 
 	g_viewer = new Viewer();
 	if (argc >= 4) {
-		g_viewer->SetModel(LmrLookupModelByName(argv[3]));
+		try {
+			LmrModel *m = LmrLookupModelByName(argv[3]);
+			g_viewer->SetModel(m);
+		} catch (LmrModelNotFoundException) {
+			g_viewer->PickModel(argv[3], std::string("Could not find model: ") + argv[3]);
+		}
 	} else {
 		g_viewer->PickModel();
 	}
+
 	g_viewer->MainLoop();
 	return 0;
 }
