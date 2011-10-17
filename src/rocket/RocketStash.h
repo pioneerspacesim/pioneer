@@ -46,7 +46,7 @@ private:
 		StashItem(const T &value) : m_value(value) {}
 		virtual void UpdateElement(Rocket::Core::Element *e) {
 			RocketStashConsumer<T> *c = dynamic_cast<RocketStashConsumer<T>*>(e);
-			if (!e) return;
+			if (!c) return;
 			c->UpdateFromStash(m_value);
 		}
 	
