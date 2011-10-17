@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider gui render
+SUBDIRS = collider gui render terrain
 
 include $(top_srcdir)/Makefile.common
 
@@ -122,7 +122,6 @@ noinst_HEADERS = \
 	SystemInfoView.h \
 	SystemPath.h \
 	SystemView.h \
-	Terrain.h \
 	TerrainBody.h \
 	TextureFont.h \
 	TextureManager.h \
@@ -243,7 +242,6 @@ pioneer_SOURCES	= \
 	StarSystem.cpp \
 	SystemInfoView.cpp \
 	SystemView.cpp \
-	Terrain.cpp \
 	TerrainBody.cpp \
 	TextureFont.cpp \
 	TextureManager.cpp \
@@ -254,7 +252,7 @@ pioneer_SOURCES	= \
 	perlin.cpp \
 	utils.cpp
 
-pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a gui/libgui.a render/librender.a \
+pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a gui/libgui.a render/librender.a terrain/libterrain.a \
 		$(MINGW_LIBS) \
 		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
@@ -278,7 +276,7 @@ modelviewer_SOURCES = \
 	VectorFont.cpp \
 	perlin.cpp \
 	utils.cpp
-modelviewer_LDADD = collider/libcollider.a gui/libgui.a render/librender.a \
+modelviewer_LDADD = collider/libcollider.a gui/libgui.a render/librender.a terrain/libterrain.a \
 		    $(MINGW_LIBS) \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
@@ -295,7 +293,7 @@ tests_SOURCES = \
 
 TESTS = tests
  
-tests_LDADD = collider/libcollider.a gui/libgui.a render/librender.a
+tests_LDADD = collider/libcollider.a gui/libgui.a render/librender.a terrain/libterrain.a
 
 INCLUDES = -isystem @top_srcdir@/contrib
 if !HAVE_LUA

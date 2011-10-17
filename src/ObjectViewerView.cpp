@@ -5,7 +5,7 @@
 #include "Player.h"
 #include "Space.h"
 #include "GeoSphere.h"
-#include "Terrain.h"
+#include "terrain/Terrain.h"
 #include "Planet.h"
 
 #if OBJECTVIEWER

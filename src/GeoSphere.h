@@ -5,7 +5,7 @@
 
 #include "vector3.h"
 #include "mtrand.h"
-#include "Terrain.h"
+#include "terrain/Terrain.h"
 
 extern int GEOPATCH_EDGELEN;
 #define ATMOSPHERE_RADIUS 1.015
