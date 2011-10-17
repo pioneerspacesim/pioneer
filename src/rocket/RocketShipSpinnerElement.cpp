@@ -11,7 +11,7 @@ bool RocketShipSpinnerElement::GetIntrinsicDimensions(Rocket::Core::Vector2f &di
 	return true;
 }
 
-void RocketShipSpinnerElement::UpdateShipFlavour(const ShipFlavour &flavour)
+void RocketShipSpinnerElement::UpdateFromStash(const ShipFlavour &flavour)
 {
 	m_model = LmrLookupModelByName(ShipType::types[flavour.type].lmrModelName.c_str());
 

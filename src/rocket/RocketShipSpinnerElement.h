@@ -3,11 +3,12 @@
 
 #include "RocketManager.h"
 
+#include "ShipFlavour.h"
 #include "LmrModel.h"
 
 // <ship/>
 
-class RocketShipSpinnerElement : public Rocket::Core::Element, public RocketShipFlavourConsumer {
+class RocketShipSpinnerElement : public Rocket::Core::Element, public RocketStashConsumer<ShipFlavour> {
 public:
 	RocketShipSpinnerElement(const Rocket::Core::String &_tag) : Rocket::Core::Element(_tag), m_model(0), m_rotX(0), m_rotY(0) {}
 
@@ -16,7 +17,7 @@ public:
 	
 	static void Register();
 
-	virtual void UpdateShipFlavour(const ShipFlavour &flavour);
+	virtual void UpdateFromStash(const ShipFlavour &flavour);
 	
 private:
 	LmrModel *m_model;

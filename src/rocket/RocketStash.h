@@ -4,20 +4,13 @@
 #include <map>
 #include <tr1/memory>
 
-#include "Body.h"
-#include "ShipFlavour.h"
-
 #include "Rocket/Core/Element.h"
 
 
-class RocketBodyConsumer {
+template <typename T>
+class RocketStashConsumer {
 public:
-	virtual void UpdateBody(const Body *body) = 0;
-};
-
-class RocketShipFlavourConsumer {
-public:
-	virtual void UpdateShipFlavour(const ShipFlavour &flavour) = 0;
+	virtual void UpdateFromStash(const T &value) = 0;
 };
 
 
@@ -25,9 +18,16 @@ class RocketStash {
 public:
 	RocketStash() : m_needsStashUpdate(false) {}
 
-	void SetStashItem(const std::string &id, const std::string &value);
-	void SetStashItem(const std::string &id, Body *value);
-	void SetStashItem(const std::string &id, const ShipFlavour &value);
+	template <typename T>
+	void SetStashItem(const std::string &id, const T &value) {
+		StashItemPtr item(new StashItem<T>(value));
+		m_stash[id] = item;
+		m_needsStashUpdate = true;
+	}
+
+	void SetStashItem(const std::string &id, char value[]) {
+		SetStashItem(id, std::string(value));
+	}
 
 	void ClearStashItem(const std::string &id);
 	void ClearStash();
@@ -35,39 +35,41 @@ public:
 	void Update(Rocket::Core::Element *e, bool force = false);
 
 private:
-	class StashItem {
+	class StashItemBase {
 	public:
-		virtual void Update(Rocket::Core::Element *e) = 0;
+		virtual void UpdateElement(Rocket::Core::Element *e) = 0;
 	};
 
-	class StashStringItem : public StashItem {
+	template <typename T>
+	class StashItem : public StashItemBase {
 	public:
-		StashStringItem(const std::string &value) : m_value(value) {}
-		virtual void Update(Rocket::Core::Element *e);
+		StashItem(const T &value) : m_value(value) {}
+		virtual void UpdateElement(Rocket::Core::Element *e) {
+			RocketStashConsumer<T> *c = dynamic_cast<RocketStashConsumer<T>*>(e);
+			if (!e) return;
+			c->UpdateFromStash(m_value);
+		}
+	
 	private:
-		std::string m_value;
+		T m_value;
 	};
 
-	class StashBodyItem : public StashItem {
-	public:
-		StashBodyItem(const Body *value) : m_value(value) {}
-		virtual void Update(Rocket::Core::Element *e);
-	private:
-		const Body *m_value;
-	};
-
-	class StashShipFlavourItem : public StashItem {
-	public:
-		StashShipFlavourItem(ShipFlavour value) : m_value(value) {}
-		virtual void Update(Rocket::Core::Element *e);
-	private:
-		ShipFlavour m_value;
-	};
-
-	typedef std::tr1::shared_ptr<StashItem> StashItemPtr;
+	typedef std::tr1::shared_ptr<StashItemBase> StashItemPtr;
 	
 	std::map<std::string,StashItemPtr> m_stash;
 	bool m_needsStashUpdate;
 };
+
+	template <>
+	class RocketStash::StashItem<std::string> : public StashItemBase {
+	public:
+		StashItem(const std::string &value) : m_value(value) {}
+		virtual void UpdateElement(Rocket::Core::Element *e) {
+			e->SetInnerRML(m_value.c_str());
+		}
+	
+	private:
+		std::string m_value;
+	};
 
 #endif
