@@ -19,7 +19,7 @@ Alpha 16
     * Module translations (#640)
 
   * Internal changes
-    * Lots of cleanups, leaks fixed and general code improvements (#635, #637)
+    * Cleanups, leaks fixed and general code improvements (#635, #637, #665)
     * Improve terrain generation performance
     * Run Lua timers from the physics loop, which should help to make frame
       times a little more consistent
