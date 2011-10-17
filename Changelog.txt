@@ -14,6 +14,8 @@ Alpha 16
     * Optimise trade ship cargo management (#632)
     * Ensure that stars in a binary pair do not overlap (#621, #627)
     * Model optimisations (#666)
+    * modelviewer no longer crashes if invalid model name is given on command
+      line (#669, #670)
   
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
