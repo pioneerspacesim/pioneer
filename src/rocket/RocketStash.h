@@ -60,16 +60,16 @@ private:
 	bool m_needsStashUpdate;
 };
 
-	template <>
-	class RocketStash::StashItem<std::string> : public StashItemBase {
-	public:
-		StashItem(const std::string &value) : m_value(value) {}
-		virtual void UpdateElement(Rocket::Core::Element *e) {
-			e->SetInnerRML(m_value.c_str());
-		}
-	
-	private:
-		std::string m_value;
-	};
+template <>
+class RocketStash::StashItem<std::string> : public StashItemBase {
+public:
+	StashItem(const std::string &value) : m_value(value) {}
+	virtual void UpdateElement(Rocket::Core::Element *e) {
+		e->SetInnerRML(m_value.c_str());
+	}
+
+private:
+	std::string m_value;
+};
 
 #endif
