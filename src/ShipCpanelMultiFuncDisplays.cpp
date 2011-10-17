@@ -88,6 +88,11 @@ void MsgLogWidget::GetSizeRequested(float size[2])
 
 /////////////////////////////////
 
+ScannerWidget::ScannerWidget()
+{
+	m_mode = SCANNER_MODE_AUTO;
+}
+
 void ScannerWidget::GetSizeRequested(float size[2])
 {
 	size[0] = 400;
@@ -267,7 +272,7 @@ void ScannerWidget::DrawDistanceRings()
 
 }
 
-void NextMode()
+void ScannerWidget::NextMode()
 {
 	if (m_mode == SCANNER_MODE_MIN) m_mode = SCANNER_MODE_AUTO;
 	else m_mode++;
