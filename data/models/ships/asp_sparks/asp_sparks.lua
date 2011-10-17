@@ -1,14 +1,28 @@
-function asps_gun_f(pos,scale)
-	texture('models/ships/asp_sparks/asps_gun.png')
-	use_material('metal')
-	load_obj('models/ships/asp_sparks/asps_gun_f.obj',Matrix.translate(pos)*Matrix.scale(v(1+scale/4,1+scale/4,1+scale)))
-end
+define_model('asps_gun_f', {
+	info = {
+		bounding_radius = 2,
+		materials = { 'metal' }
+	},
+	static = function(lod)
+		set_material('metal', .15,.16,.18,1,.22,.25,.25,10)
+		use_material('metal')
+		texture('asps_gun.png')
+		load_obj('asps_gun_f.obj')
+	end
+})
 
-function asps_gun_r(pos,scale)
-	texture('models/ships/asp_sparks/asps_gun.png')
-	use_material('metal')
-	load_obj('models/ships/asp_sparks/asps_gun_r.obj',Matrix.translate(pos)*Matrix.scale(v(1+scale/4,1+scale/4,1+scale)))
-end
+define_model('asps_gun_r', {
+	info = {
+		bounding_radius = 2,
+		materials = { 'metal' }
+	},
+	static = function(lod)
+		set_material('metal', .15,.16,.18,1,.22,.25,.25,10)
+		use_material('metal')
+		texture('asps_gun.png')
+		load_obj('asps_gun_r.obj')
+	end
+})
 
 define_model('asps_flap_r_0', {
 	info = {
@@ -202,12 +216,12 @@ define_model('asps_sub0', {
 			if get_arg(ARG_SHIP_EQUIP_LASER0) >= Equip.PULSECANNON_1MW then
 				local scale = (get_arg(ARG_SHIP_EQUIP_LASER0)-Equip.PULSECANNON_1MW + 1)/7.5
 				local pos = v(.003,.246,-1.681)
-				asps_gun_f(pos,scale)
+				call_model('asps_gun_f', pos, v(1,0,0), v(0,1,0), 1+scale/4)
 			end
 			if get_arg(ARG_SHIP_EQUIP_LASER1) >= Equip.PULSECANNON_1MW then
 				local scale = (get_arg(ARG_SHIP_EQUIP_LASER1)-Equip.PULSECANNON_1MW + 1)/7.5
 				local pos = v(.001,-.431,1.964)
-				asps_gun_r(pos,scale)
+				call_model('asps_gun_r', pos, v(1,0,0), v(0,1,0), 1+scale/4)
 			end
 		end
 
