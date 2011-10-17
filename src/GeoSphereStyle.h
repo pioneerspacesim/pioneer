@@ -80,7 +80,35 @@ class GeoSphereStyle {
 		m_heightMap = 0;
 	}
 	double GetHeight(const vector3d &p);
+
+
+	vector3d GetColorStarBrownDwarf(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorStarWhiteDwarf(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorStarM(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorStarK(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorStarG(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorGGJupiter(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorGGSaturn(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorGGSaturn2(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorGGUranus(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorGGNeptune(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorGGNeptune2(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorEarthlike(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorDeadWithWater(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorIce(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorDesert(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorRock(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorRock2(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorAsteroid(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorVolcanic(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorMethane(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorTFGood(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorTFPoor(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorBandedRock(const vector3d &p, double height, const vector3d &norm);
+	vector3d GetColorSolid(const vector3d &p, double height, const vector3d &norm);
+
 	vector3d GetColor(const vector3d &p, double height, const vector3d &norm);
+
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
 		*outColor = m_atmosColor;
 		*outDensity = m_atmosDensity;
