@@ -1,4 +1,4 @@
-#include "GeoSphereStyle.h"
+#include "Terrain.h"
 #include "perlin.h"
 #include "Pi.h"
 
@@ -32,7 +32,7 @@ static double megavolcano_function(const fracdef_t &def, const vector3d &p);
 static double river_function(const fracdef_t &def, const vector3d &p, int style = 0);
 //static double cliff_function(const fracdef_t &def, const vector3d &p);
 
-int GeoSphereStyle::GetRawHeightMapVal(int x, int y)
+int Terrain::GetRawHeightMapVal(int x, int y)
 {
 	return m_heightMap[Clamp(y, 0, m_heightMapSizeY-1)*m_heightMapSizeX + Clamp(x, 0, m_heightMapSizeX-1)];
 }
@@ -42,7 +42,7 @@ int GeoSphereStyle::GetRawHeightMapVal(int x, int y)
  */
 
 
-double GeoSphereStyle::GetHeightMapVal(const vector3d &pt)
+double Terrain::GetHeightMapVal(const vector3d &pt)
 {     // This is all used for Earth and Earth alone
 	double latitude = -asin(pt.y);
 	if (pt.y < -1.0) latitude = -0.5*M_PI;
@@ -171,7 +171,7 @@ static inline vector3d interpolate_color(double n, vector3d start, vector3d end)
 	return start*(1.0-n) + end*n;
 }
 
-void GeoSphereStyle::ChangeDetailLevel()
+void Terrain::ChangeDetailLevel()
 {
 
 	switch (Pi::detail.textures) {
@@ -199,7 +199,7 @@ void GeoSphereStyle::ChangeDetailLevel()
 	//fprintf(stderr, "picked terrain %d, colortype %d for %s\n", (int)m_terrainType, (int)m_colorType, body->name.c_str());
 }
 
-void GeoSphereStyle::PickTerrain(MTRand &rand)
+void Terrain::PickTerrain(MTRand &rand)
 {
 	/* Pick terrain and color fractals to use */
 	if (m_body->type == SBody::TYPE_BROWN_DWARF) {
@@ -558,7 +558,7 @@ void GeoSphereStyle::PickTerrain(MTRand &rand)
 	}
 }
 
-void GeoSphereStyle::PickAtmosphere()
+void Terrain::PickAtmosphere()
 {
 	/* Alpha value isn't real alpha. in the shader fog depth is determined
 	 * by density*alpha, so that we can have very dense atmospheres
@@ -651,7 +651,7 @@ void GeoSphereStyle::PickAtmosphere()
 	}
 }
 
-void GeoSphereStyle::InitHeightMap()
+void Terrain::InitHeightMap()
 {
 	/* Height map? */
 	if (m_body->heightMapFilename) {
@@ -670,7 +670,7 @@ void GeoSphereStyle::InitHeightMap()
 	}	
 }
 
-GeoSphereStyle::GeoSphereStyle(const SBody *body) : m_body(body)
+Terrain::Terrain(const SBody *body) : m_body(body)
 {
 	m_seed = m_body->seed;
 
@@ -684,7 +684,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body) : m_body(body)
  * Feature width means roughly one perlin noise blob or grain.
  * This will end up being one hill, mountain or continent, roughly.
  */
-void GeoSphereStyle::SetFracDef(unsigned int index, double featureHeightMeters, double featureWidthMeters, MTRand &rand, double smallestOctaveMeters)
+void Terrain::SetFracDef(unsigned int index, double featureHeightMeters, double featureWidthMeters, MTRand &rand, double smallestOctaveMeters)
 {
 	// feature 
 	m_fracdef[index].amplitude = featureHeightMeters / (m_maxHeight * m_planetRadius);
@@ -695,7 +695,7 @@ void GeoSphereStyle::SetFracDef(unsigned int index, double featureHeightMeters, 
 }
 
 // Fracdef is used to define the fractals width/area, height and detail
-void GeoSphereStyle::InitFractalType(MTRand &rand)
+void Terrain::InitFractalType(MTRand &rand)
 {
 	//Earth uses these fracdef settings
 	if (m_heightMap) {	
@@ -1151,7 +1151,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 }
 
 
-double GeoSphereStyle::GetHeightHillsNormal(const vector3d &p)
+double Terrain::GetHeightHillsNormal(const vector3d &p)
 {
 		{
 			double continents = octavenoise(GetFracDef(3-m_fracnum), 0.65, p) * (1.0-m_sealevel) - (m_sealevel*0.1);
@@ -1175,7 +1175,7 @@ double GeoSphereStyle::GetHeightHillsNormal(const vector3d &p)
 		}
 }
 
-double GeoSphereStyle::GetHeightHillsDunes(const vector3d &p)
+double Terrain::GetHeightHillsDunes(const vector3d &p)
 {
 		{
 			/*
@@ -1218,7 +1218,7 @@ double GeoSphereStyle::GetHeightHillsDunes(const vector3d &p)
 		}
 }
 
-double GeoSphereStyle::GetHeightHillsRidged(const vector3d &p)
+double Terrain::GetHeightHillsRidged(const vector3d &p)
 {
 		{
 			double continents = ridged_octavenoise(GetFracDef(3), 0.65, p) * (1.0-m_sealevel) - (m_sealevel*0.1);
@@ -1238,7 +1238,7 @@ double GeoSphereStyle::GetHeightHillsRidged(const vector3d &p)
 		}
 }
 
-double GeoSphereStyle::GetHeightHillsRivers(const vector3d &p)
+double Terrain::GetHeightHillsRivers(const vector3d &p)
 {
 		{
 			double continents = river_octavenoise(GetFracDef(3), 0.65, p) * (1.0-m_sealevel) - (m_sealevel*0.1);
@@ -1262,7 +1262,7 @@ double GeoSphereStyle::GetHeightHillsRivers(const vector3d &p)
 		}
 }
 
-double GeoSphereStyle::GetHeightHillsCraters(const vector3d &p)
+double Terrain::GetHeightHillsCraters(const vector3d &p)
 {
 		{
 			double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;
@@ -1281,7 +1281,7 @@ double GeoSphereStyle::GetHeightHillsCraters(const vector3d &p)
 		}
 }
 
-double GeoSphereStyle::GetHeightHillsCraters2(const vector3d &p)
+double Terrain::GetHeightHillsCraters2(const vector3d &p)
 {
 		{
 			double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;
@@ -1304,7 +1304,7 @@ double GeoSphereStyle::GetHeightHillsCraters2(const vector3d &p)
 		}
 }
 
-double GeoSphereStyle::GetHeightMountainsNormal(const vector3d &p)
+double Terrain::GetHeightMountainsNormal(const vector3d &p)
 {
 			//This is among the most complex of terrains, so I'll use this as an example:
 		{
@@ -1460,7 +1460,7 @@ double GeoSphereStyle::GetHeightMountainsNormal(const vector3d &p)
 		}
 }
 
-double GeoSphereStyle::GetHeightMountainsRidged(const vector3d &p)
+double Terrain::GetHeightMountainsRidged(const vector3d &p)
 {
 		{
 			double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;
@@ -1505,7 +1505,7 @@ double GeoSphereStyle::GetHeightMountainsRidged(const vector3d &p)
 		}
 }
 
-double GeoSphereStyle::GetHeightMountainsRivers(const vector3d &p)
+double Terrain::GetHeightMountainsRivers(const vector3d &p)
 {
 		{
 			double continents = octavenoise(GetFracDef(0), 0.7*
@@ -1669,7 +1669,7 @@ double GeoSphereStyle::GetHeightMountainsRivers(const vector3d &p)
 		}
 }
 
-double GeoSphereStyle::GetHeightMountainsCraters(const vector3d &p)
+double Terrain::GetHeightMountainsCraters(const vector3d &p)
 {
 		{
 			double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;
@@ -1688,7 +1688,7 @@ double GeoSphereStyle::GetHeightMountainsCraters(const vector3d &p)
 		}
 }
 
-double GeoSphereStyle::GetHeightMountainsCraters2(const vector3d &p)
+double Terrain::GetHeightMountainsCraters2(const vector3d &p)
 {
 		{
 			double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;
@@ -1713,7 +1713,7 @@ double GeoSphereStyle::GetHeightMountainsCraters2(const vector3d &p)
 		}
 }
 
-double GeoSphereStyle::GetHeightMountainsVolcano(const vector3d &p)
+double Terrain::GetHeightMountainsVolcano(const vector3d &p)
 {
 		{
 			double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;
@@ -1775,7 +1775,7 @@ double GeoSphereStyle::GetHeightMountainsVolcano(const vector3d &p)
 		}
 }
 
-double GeoSphereStyle::GetHeightMountainsRiversVolcano(const vector3d &p)
+double Terrain::GetHeightMountainsRiversVolcano(const vector3d &p)
 {
 		{
 			double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;
@@ -1907,7 +1907,7 @@ double GeoSphereStyle::GetHeightMountainsRiversVolcano(const vector3d &p)
 		}
 }
 
-double GeoSphereStyle::GetHeightRuggedLava(const vector3d &p)
+double Terrain::GetHeightRuggedLava(const vector3d &p)
 {
 		{
 			double continents = octavenoise(GetFracDef(0), Clamp(0.725-(m_sealevel/2), 0.1, 0.725), p) - m_sealevel;
@@ -1969,7 +1969,7 @@ double GeoSphereStyle::GetHeightRuggedLava(const vector3d &p)
 		}
 }
 
-double GeoSphereStyle::GetHeightWaterSolid(const vector3d &p)
+double Terrain::GetHeightWaterSolid(const vector3d &p)
 {
 		{
 			double continents = 0.7*river_octavenoise(GetFracDef(2), 0.5, p)-m_sealevel;
@@ -2013,7 +2013,7 @@ double GeoSphereStyle::GetHeightWaterSolid(const vector3d &p)
 		}
 }
 
-double GeoSphereStyle::GetHeightWaterSolidCanyons(const vector3d &p)
+double Terrain::GetHeightWaterSolidCanyons(const vector3d &p)
 {
 		{
 			double continents = 0.7*river_octavenoise(GetFracDef(2), 0.5, p)-m_sealevel;
@@ -2057,7 +2057,7 @@ double GeoSphereStyle::GetHeightWaterSolidCanyons(const vector3d &p)
 		}
 }
 
-double GeoSphereStyle::GetHeightRuggedDesert(const vector3d &p)
+double Terrain::GetHeightRuggedDesert(const vector3d &p)
 {
 		{
 			double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;// + (cliff_function(GetFracDef(7), p)*0.5);
@@ -2106,7 +2106,7 @@ double GeoSphereStyle::GetHeightRuggedDesert(const vector3d &p)
 
 }
 
-double GeoSphereStyle::GetHeightAsteroid(const vector3d &p)
+double Terrain::GetHeightAsteroid(const vector3d &p)
 {
 		{
 			return std::max(0.0, m_maxHeight * (octavenoise(GetFracDef(0), 0.5, p) + 
@@ -2114,7 +2114,7 @@ double GeoSphereStyle::GetHeightAsteroid(const vector3d &p)
 		}
 }
 
-double GeoSphereStyle::GetHeightFlat(const vector3d &p)
+double Terrain::GetHeightFlat(const vector3d &p)
 {
 	return 0.0;
 }
@@ -2125,7 +2125,7 @@ double GeoSphereStyle::GetHeightFlat(const vector3d &p)
  * Must return >= 0.0
   Here we create the noise used to generate the landscape, the noise should use the fracdef[] settings that were defined earlier.
  */
-double GeoSphereStyle::GetHeight(const vector3d &p)
+double Terrain::GetHeight(const vector3d &p)
 {
 	if (m_heightMap) return GetHeightMapVal(p) / m_planetRadius;
 
@@ -2189,10 +2189,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			return GetHeightFlat(p);
 	}
 
-	assert(0 && "unknown geosphere terrain type");
+	assert(0 && "unknown terrain type");
 }
 
-/* These fuctions should not be used by GeoSphereStyle::GetHeight, so don't move these definitions
+/* These fuctions should not be used by Terrain::GetHeight, so don't move these definitions
    to above that function. GetHeight should use the versions of these functions that take const fracdef_t
    objects, ensuring that the resulting terrains have the desired scale */
 static inline double octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p);
@@ -2214,7 +2214,7 @@ static inline double voronoiscam_octavenoise(int octaves, double roughness, doub
 #define forest octavenoise(GetFracDef(1), 0.65, p)*voronoiscam_octavenoise(GetFracDef(2), 0.65, p);
 #define water  dunes_octavenoise(GetFracDef(6), 0.6, p);
 
-vector3d GeoSphereStyle::GetColorStarBrownDwarf(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorStarBrownDwarf(const vector3d &p, double height, const vector3d &norm)
 {
 	double n;
 	vector3d col;
@@ -2241,7 +2241,7 @@ vector3d GeoSphereStyle::GetColorStarBrownDwarf(const vector3d &p, double height
 	}
 }
 
-vector3d GeoSphereStyle::GetColorStarWhiteDwarf(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorStarWhiteDwarf(const vector3d &p, double height, const vector3d &norm)
 {
 	double n;
 	vector3d col;
@@ -2264,7 +2264,7 @@ vector3d GeoSphereStyle::GetColorStarWhiteDwarf(const vector3d &p, double height
 	}
 }
 
-vector3d GeoSphereStyle::GetColorStarM(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorStarM(const vector3d &p, double height, const vector3d &norm)
 {
 	double n;
 	vector3d col;
@@ -2292,7 +2292,7 @@ vector3d GeoSphereStyle::GetColorStarM(const vector3d &p, double height, const v
 	}
 }
 
-vector3d GeoSphereStyle::GetColorStarK(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorStarK(const vector3d &p, double height, const vector3d &norm)
 {
 	double n;
 	vector3d col;
@@ -2317,7 +2317,7 @@ vector3d GeoSphereStyle::GetColorStarK(const vector3d &p, double height, const v
 	}
 }
 
-vector3d GeoSphereStyle::GetColorStarG(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorStarG(const vector3d &p, double height, const vector3d &norm)
 {
 	double n;
 	vector3d col;
@@ -2342,7 +2342,7 @@ vector3d GeoSphereStyle::GetColorStarG(const vector3d &p, double height, const v
 	}
 }
 
-vector3d GeoSphereStyle::GetColorGGJupiter(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorGGJupiter(const vector3d &p, double height, const vector3d &norm)
 {
 	double n;
 	double h = river_octavenoise(GetFracDef(0), 0.5*m_entropy[0] + 
@@ -2483,7 +2483,7 @@ vector3d GeoSphereStyle::GetColorGGJupiter(const vector3d &p, double height, con
 	}
 }
 
-vector3d GeoSphereStyle::GetColorGGSaturn(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorGGSaturn(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = 0.4*ridged_octavenoise(GetFracDef(0), 0.7, 3.142*p.y*p.y);
 	n += 0.4*octavenoise(GetFracDef(1), 0.6, 3.142*p.y*p.y);
@@ -2497,7 +2497,7 @@ vector3d GeoSphereStyle::GetColorGGSaturn(const vector3d &p, double height, cons
 	return interpolate_color(n, vector3d(.69, .53, .43), vector3d(.99, .76, .62));
 }
 
-vector3d GeoSphereStyle::GetColorGGSaturn2(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorGGSaturn2(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = 0.2*billow_octavenoise(GetFracDef(0), 0.8, p*p.y*p.y);
 	n += 0.5*ridged_octavenoise(GetFracDef(1), 0.7, p*p.y*p.y);
@@ -2534,7 +2534,7 @@ vector3d GeoSphereStyle::GetColorGGSaturn2(const vector3d &p, double height, con
 	}
 }
 
-vector3d GeoSphereStyle::GetColorGGUranus(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorGGUranus(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = 0.5*ridged_octavenoise(GetFracDef(0), 0.7, 3.142*p.y*p.y);
 	n += 0.5*octavenoise(GetFracDef(1), 0.6, 3.142*p.y*p.y);
@@ -2544,7 +2544,7 @@ vector3d GeoSphereStyle::GetColorGGUranus(const vector3d &p, double height, cons
 	return interpolate_color(n, vector3d(.4, .5, .55), vector3d(.85,.95,.96));
 }
 
-vector3d GeoSphereStyle::GetColorGGNeptune(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorGGNeptune(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = 0.8*octavenoise(GetFracDef(2), 0.6, 3.142*p.y*p.y);
 	n += 0.25*ridged_octavenoise(GetFracDef(3), 0.55, 3.142*p.y*p.y);
@@ -2557,7 +2557,7 @@ vector3d GeoSphereStyle::GetColorGGNeptune(const vector3d &p, double height, con
 	return interpolate_color(n, vector3d(.04, .05, .15), vector3d(.80,.94,.96));
 }
 
-vector3d GeoSphereStyle::GetColorGGNeptune2(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorGGNeptune2(const vector3d &p, double height, const vector3d &norm)
 {
 	double n;
 	double h = billow_octavenoise(GetFracDef(0), 0.5*m_entropy[0] + 0.25f, noise(vector3d(p.x*8, p.y*32, p.z*8)))*.125;
@@ -2623,7 +2623,7 @@ vector3d GeoSphereStyle::GetColorGGNeptune2(const vector3d &p, double height, co
 	}
 }
 
-vector3d GeoSphereStyle::GetColorEarthlike(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorEarthlike(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = m_invMaxHeight*height;
 	double flatness = pow(p.Dot(norm), 8.0);
@@ -2786,14 +2786,14 @@ vector3d GeoSphereStyle::GetColorEarthlike(const vector3d &p, double height, con
 	}
 }
 
-vector3d GeoSphereStyle::GetColorDeadWithWater(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorDeadWithWater(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = m_invMaxHeight*height;
 	if (n <= 0) return vector3d(0.0,0.0,0.5);
 	else return interpolate_color(n, vector3d(.2,.2,.2), vector3d(.6,.6,.6));
 }
 
-vector3d GeoSphereStyle::GetColorIce(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorIce(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = m_invMaxHeight*height;
 
@@ -2836,7 +2836,7 @@ vector3d GeoSphereStyle::GetColorIce(const vector3d &p, double height, const vec
 	}
 }
 
-vector3d GeoSphereStyle::GetColorDesert(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorDesert(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = m_invMaxHeight*height/2;
 	const double flatness = pow(p.Dot(norm), 6.0);
@@ -2873,7 +2873,7 @@ vector3d GeoSphereStyle::GetColorDesert(const vector3d &p, double height, const 
 	}	
 }
 
-vector3d GeoSphereStyle::GetColorRock(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorRock(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = m_invMaxHeight*height/2;
 	if (n <= 0) return m_rockColor[1];		
@@ -2951,7 +2951,7 @@ vector3d GeoSphereStyle::GetColorRock(const vector3d &p, double height, const ve
 	}
 }
 
-vector3d GeoSphereStyle::GetColorRock2(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorRock2(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = m_invMaxHeight*height/2;
 
@@ -3020,7 +3020,7 @@ vector3d GeoSphereStyle::GetColorRock2(const vector3d &p, double height, const v
 	}
 }
 
-vector3d GeoSphereStyle::GetColorAsteroid(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorAsteroid(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = m_invMaxHeight*height/2;
 
@@ -3051,7 +3051,7 @@ vector3d GeoSphereStyle::GetColorAsteroid(const vector3d &p, double height, cons
 	}
 }
 
-vector3d GeoSphereStyle::GetColorVolcanic(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorVolcanic(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = m_invMaxHeight*height;
 	const double flatness = pow(p.Dot(norm), 6.0);
@@ -3081,14 +3081,14 @@ vector3d GeoSphereStyle::GetColorVolcanic(const vector3d &p, double height, cons
 	return col;
 }
 
-vector3d GeoSphereStyle::GetColorMethane(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorMethane(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = m_invMaxHeight*height;
 	if (n <= 0) return vector3d(.3,.0,.0);
 	else return interpolate_color(n, vector3d(.3,.2,.0), vector3d(.6,.3,.0));
 }
 
-vector3d GeoSphereStyle::GetColorTFGood(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorTFGood(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = m_invMaxHeight*height;
 	const double flatness = pow(p.Dot(norm), 8.0);
@@ -3168,7 +3168,7 @@ vector3d GeoSphereStyle::GetColorTFGood(const vector3d &p, double height, const 
 	}
 }
 
-vector3d GeoSphereStyle::GetColorTFPoor(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorTFPoor(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = m_invMaxHeight*height;
 	double flatness = pow(p.Dot(norm), 8.0);
@@ -3302,7 +3302,7 @@ vector3d GeoSphereStyle::GetColorTFPoor(const vector3d &p, double height, const 
 	}
 }
 
-vector3d GeoSphereStyle::GetColorBandedRock(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorBandedRock(const vector3d &p, double height, const vector3d &norm)
 {
 	const double flatness = pow(p.Dot(norm), 6.0);
 	double n = fabs(noise(vector3d(height*10000.0,0.0,0.0)));
@@ -3310,7 +3310,7 @@ vector3d GeoSphereStyle::GetColorBandedRock(const vector3d &p, double height, co
 	return interpolate_color(flatness, col, m_rockColor[2]);
 }
 
-vector3d GeoSphereStyle::GetColorSolid(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColorSolid(const vector3d &p, double height, const vector3d &norm)
 {
 	return vector3d(1.0);
 }
@@ -3320,7 +3320,7 @@ vector3d GeoSphereStyle::GetColorSolid(const vector3d &p, double height, const v
 /**
  * Height: 0.0 would be sea-level. 1.0 would be an extra elevation of 1 radius (huge)
  */
-vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector3d &norm)
+vector3d Terrain::GetColor(const vector3d &p, double height, const vector3d &norm)
 {
 	switch (m_colorType) {
 		case COLOR_STAR_BROWN_DWARF:
@@ -3397,7 +3397,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			return GetColorSolid(p, height, norm);
 	}
 
-	assert(0 && "unknown geosphere color type");
+	assert(0 && "unknown terrain color type");
 }
 
 static inline double octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p)

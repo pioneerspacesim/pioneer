@@ -1,9 +1,9 @@
-#ifndef GEOSPHERESTYLE_H
-#define GEOSPHERESTYLE_H
+#ifndef TERRAIN_H
+#define TERRAIN_H
 #include "libs.h"
 #include "StarSystem.h"
 
-#define GEOSPHERESTYLE_MAX_OCTAVES 24
+#define TERRAIN_MAX_OCTAVES 24
 
 struct fracdef_t {
 	double amplitude;
@@ -12,7 +12,7 @@ struct fracdef_t {
 	int octaves;
 };
 
-class GeoSphereStyle {
+class Terrain {
 	public:
 	enum TerrainFractal {
 		TERRAIN_NONE,
@@ -71,12 +71,12 @@ class GeoSphereStyle {
 	int m_fracnum;
 	double m_fracmult;
 
-	GeoSphereStyle(const SBody *body);
-	~GeoSphereStyle() {
+	Terrain(const SBody *body);
+	~Terrain() {
 		if (m_heightMap) delete [] m_heightMap;
 		m_heightMap = 0;
 	}
-	GeoSphereStyle(): m_terrainType(TERRAIN_NONE), m_colorType(COLOR_NONE) {
+	Terrain(): m_terrainType(TERRAIN_NONE), m_colorType(COLOR_NONE) {
 		m_heightMap = 0;
 	}
 
@@ -198,4 +198,4 @@ class GeoSphereStyle {
 	fracdef_t m_fracdef[10];
 };
 
-#endif /* GEOSPHERESTYLE_H */
+#endif /* TERRAIN_H */

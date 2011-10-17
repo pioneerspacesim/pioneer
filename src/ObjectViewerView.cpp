@@ -5,7 +5,7 @@
 #include "Player.h"
 #include "Space.h"
 #include "GeoSphere.h"
-#include "GeoSphereStyle.h"
+#include "Terrain.h"
 #include "Planet.h"
 
 #if OBJECTVIEWER
@@ -59,7 +59,7 @@ ObjectViewerView::ObjectViewerView(): View()
 	vbox->PackEnd(m_sbodyMetallicity);
 
 	Gui::LabelButton *b = new Gui::LabelButton(new Gui::Label("Change planet terrain type"));
-	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnChangeGeoSphereStyle));
+	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnChangeTerrain));
 	vbox->PackEnd(b);
 }
 
@@ -139,7 +139,7 @@ void ObjectViewerView::Update()
 	m_infoLabel->SetText(buf);
 }
 
-void ObjectViewerView::OnChangeGeoSphereStyle()
+void ObjectViewerView::OnChangeTerrain()
 {
 	SBody sbody;
 
@@ -154,7 +154,7 @@ void ObjectViewerView::OnChangeGeoSphereStyle()
 
 	sbody.parent = 0;
 	sbody.name = "Test";
-	/* These should be the only SBody attributes GeoSphereStyle uses */
+	/* These should be the only SBody attributes Terrain uses */
 	sbody.type = SBody::TYPE_PLANET_TERRESTRIAL;
 	sbody.seed = atoi(m_sbodySeed->GetText().c_str());
 	sbody.radius = radius;
@@ -172,7 +172,7 @@ void ObjectViewerView::OnChangeGeoSphereStyle()
 	if (body->IsType(Object::PLANET)) {
 		Planet *planet = static_cast<Planet*>(body);
 		GeoSphere *gs = planet->GetGeoSphere();
-		gs->m_style = GeoSphereStyle(&sbody);
+		gs->m_terrain = Terrain(&sbody);
 		// force rebuild
 		gs->OnChangeDetailLevel();
 	}

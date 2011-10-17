@@ -1144,8 +1144,8 @@ void GeoSphere::OnChangeDetailLevel()
 				(*i)->m_patches[p] = 0;
 			}
 
-			// reinit the styles with the new settings
-			(*i)->m_style.ChangeDetailLevel();
+			// reinit the terrain with the new settings
+			(*i)->m_terrain.ChangeDetailLevel();
 		}
 
 		// clear the abort for the next run (with the new settings)
@@ -1158,7 +1158,7 @@ void GeoSphere::OnChangeDetailLevel()
 
 #define GEOSPHERE_TYPE	(m_sbody->type)
 
-GeoSphere::GeoSphere(const SBody *body): m_style(body)
+GeoSphere::GeoSphere(const SBody *body): m_terrain(body)
 {
 	m_vbosToDestroyLock = SDL_CreateMutex();
 	m_sbody = body;

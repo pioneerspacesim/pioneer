@@ -35,7 +35,6 @@ noinst_HEADERS = \
 	Galaxy.h \
 	GameMenuView.h \
 	GeoSphere.h \
-	GeoSphereStyle.h \
 	HyperspaceCloud.h \
 	InfoView.h \
 	IniConfig.h \
@@ -123,6 +122,7 @@ noinst_HEADERS = \
 	SystemInfoView.h \
 	SystemPath.h \
 	SystemView.h \
+	Terrain.h \
 	TerrainBody.h \
 	TextureFont.h \
 	TextureManager.h \
@@ -161,7 +161,6 @@ pioneer_SOURCES	= \
 	Galaxy.cpp \
 	GameMenuView.cpp \
 	GeoSphere.cpp \
-	GeoSphereStyle.cpp \
 	HyperspaceCloud.cpp \
 	InfoView.cpp \
 	IniConfig.cpp \
@@ -244,6 +243,7 @@ pioneer_SOURCES	= \
 	StarSystem.cpp \
 	SystemInfoView.cpp \
 	SystemView.cpp \
+	Terrain.cpp \
 	TerrainBody.cpp \
 	TextureFont.cpp \
 	TextureManager.cpp \
