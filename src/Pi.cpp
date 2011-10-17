@@ -1292,20 +1292,25 @@ void Pi::MainLoop()
 		
 		const float step = Pi::GetTimeStep();
 		if (step > 0.0f) {
-			while (phys_stat < MAX_PHYSICS_TICKS && accumulator >= step) {
+			int phys_ticks = 0;
+			while (phys_ticks < MAX_PHYSICS_TICKS && accumulator >= step) {
 				Space::TimeStep(step);
 				gameTime += step;
-				phys_stat++;
+				phys_ticks++;
 
 				accumulator -= step;
 			}
 			if (accumulator >= step) {
-				assert(phys_stat == MAX_PHYSICS_TICKS);
+				assert(phys_ticks == MAX_PHYSICS_TICKS);
 				accumulator = 0.0;
 				Pi::gameTickAlpha = 0;
 			} else {
 				Pi::gameTickAlpha = accumulator / step;
 			}
+
+#ifdef DEVKEYS
+			phys_stat += phys_ticks;
+#endif
 		} else {
 			// paused
 		}
