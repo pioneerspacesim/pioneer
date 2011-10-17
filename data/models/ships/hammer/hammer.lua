@@ -125,6 +125,47 @@ define_model('hammer', {
 				load_obj('hammerglow.obj')
 			end
 			texture(nil)
+
+			--lights
+			-- xwings
+			call_model('posl_red', v(-93.919,-7.338, 70.732), v(0,1,0), v(-1,0,0), 2)
+			call_model('posl_red', v(-93.919, 6.629, 70.785), v(0,1,0), v(-1,0,0), 2)
+			call_model('posl_white', v(-93.919,-7.338, 76.732), v(0,1,0), v(-1,0,0), 2)
+			call_model('posl_white', v(-93.919, 6.629, 76.785), v(0,1,0), v(-1,0,0), 2)
+
+			call_model('posl_green', v(93.919,-7.763, 70.732), v(0,1,0), v(1,0,0), 2)
+			call_model('posl_green', v(93.919, 6.166, 70.785), v(0,1,0), v(1,0,0), 2)
+			call_model('posl_white', v(93.919,-7.763, 76.732), v(0,1,0), v(1,0,0), 2)
+			call_model('posl_white', v(93.919, 6.166, 76.785), v(0,1,0), v(1,0,0), 2)
+
+			-- front probes
+			call_model('headlight', v(1.308, -4.910, -79.570), v(0,1,0), v(0,0,-1), 2)
+			call_model('headlight', v(2.561, -4.910, -79.570), v(0,1,0), v(0,0,-1), 2)
+			call_model('headlight', v(-2.375, -4.910, -79.570), v(0,1,0), v(0,0,-1), 2)
+			call_model('headlight', v(-1.172, -4.910, -79.573), v(0,1,0), v(0,0,-1), 2)
+
+			-- side doors
+			call_model('posl_red', v(-20.7, -3.8, -28.4), v(0,1,0), v(-1,0,0), 1)
+			call_model('posl_white', v(-25.4, -3.8, 9.0), v(0,1,0), v(-1,0,0), 1)
+			call_model('posl_red', v(-29.2, -3.8, 69.8), v(0,1,0), v(-1,0,0), 1)
+			call_model('posl_green', v(20.7, -3.8, -28.4), v(0,1,0), v(1,0,0), 1)
+			call_model('posl_white', v(25.4, -3.8, 9.0), v(0,1,0), v(1,0,0), 1)
+			call_model('posl_green', v(29.2, -3.8, 69.8), v(0,1,0), v(1,0,0), 1)
+
+			-- landing lights
+			call_model('coll_warn', v(-18.268,-11.000, 39.767), v(-1,0,0), v(0,-1,0), 2)
+			call_model('coll_warn', v(-18.415,-11.000, 37.595), v(-1,0,0), v(0,-1,0), 2)
+			call_model('coll_warn', v(-18.545,-10.600, 3.282), v(-1,0,0), v(0,-1,0), 2)
+			call_model('coll_warn', v(-18.461,-10.600, 0.855), v(-1,0,0), v(0,-1,0), 2)
+			call_model('coll_warn', v(-18.592,-9.820,-30.367), v(-1,0,0), v(0,-1,0), 2)
+			call_model('coll_warn', v(-18.535,-9.760,-33.106), v(-1,0,0), v(0,-1,0), 2)
+
+			call_model('coll_warn', v(18.482,-11.000, 39.783), v(-1,0,0), v(0,-1,0), 2)
+			call_model('coll_warn', v(18.435,-11.000, 37.421), v(-1,0,0), v(0,-1,0), 2)
+			call_model('coll_warn', v(18.330,-10.600, 3.031), v(-1,0,0), v(0,-1,0), 2)
+			call_model('coll_warn', v(18.310,-10.600, 0.773), v(-1,0,0), v(0,-1,0), 2)
+			call_model('coll_warn', v(18.269,-9.820,-30.798), v(-1,0,0), v(0,-1,0), 2)
+			call_model('coll_warn', v(18.183,-9.760,-33.106), v(-1,0,0), v(0,-1,0), 2)
 		end
 	end,
 	dynamic = function(lod)
@@ -185,47 +226,6 @@ define_model('hammer', {
 			thruster(sider2, v(1,0,0), 10)
 			thruster(sider3, v(1,0,0), 10)
 			thruster(sider4, v(1,0,0), 10)
-
-			--lights
-			-- xwings
-			call_model('posl_red', v(-93.919,-7.338, 70.732), v(0,1,0), v(-1,0,0), 2)
-			call_model('posl_red', v(-93.919, 6.629, 70.785), v(0,1,0), v(-1,0,0), 2)
-			call_model('posl_white', v(-93.919,-7.338, 76.732), v(0,1,0), v(-1,0,0), 2)
-			call_model('posl_white', v(-93.919, 6.629, 76.785), v(0,1,0), v(-1,0,0), 2)
-
-			call_model('posl_green', v(93.919,-7.763, 70.732), v(0,1,0), v(1,0,0), 2)
-			call_model('posl_green', v(93.919, 6.166, 70.785), v(0,1,0), v(1,0,0), 2)
-			call_model('posl_white', v(93.919,-7.763, 76.732), v(0,1,0), v(1,0,0), 2)
-			call_model('posl_white', v(93.919, 6.166, 76.785), v(0,1,0), v(1,0,0), 2)
-
-			-- front probes
-			call_model('headlight', v(1.308, -4.910, -79.570), v(0,1,0), v(0,0,-1), 2)
-			call_model('headlight', v(2.561, -4.910, -79.570), v(0,1,0), v(0,0,-1), 2)
-			call_model('headlight', v(-2.375, -4.910, -79.570), v(0,1,0), v(0,0,-1), 2)
-			call_model('headlight', v(-1.172, -4.910, -79.573), v(0,1,0), v(0,0,-1), 2)
-
-			-- side doors
-			call_model('posl_red', v(-20.7, -3.8, -28.4), v(0,1,0), v(-1,0,0), 1)
-			call_model('posl_white', v(-25.4, -3.8, 9.0), v(0,1,0), v(-1,0,0), 1)
-			call_model('posl_red', v(-29.2, -3.8, 69.8), v(0,1,0), v(-1,0,0), 1)
-			call_model('posl_green', v(20.7, -3.8, -28.4), v(0,1,0), v(1,0,0), 1)
-			call_model('posl_white', v(25.4, -3.8, 9.0), v(0,1,0), v(1,0,0), 1)
-			call_model('posl_green', v(29.2, -3.8, 69.8), v(0,1,0), v(1,0,0), 1)
-
-			-- landing lights
-			call_model('coll_warn', v(-18.268,-11.000, 39.767), v(-1,0,0), v(0,-1,0), 2)
-			call_model('coll_warn', v(-18.415,-11.000, 37.595), v(-1,0,0), v(0,-1,0), 2)
-			call_model('coll_warn', v(-18.545,-10.600, 3.282), v(-1,0,0), v(0,-1,0), 2)
-			call_model('coll_warn', v(-18.461,-10.600, 0.855), v(-1,0,0), v(0,-1,0), 2)
-			call_model('coll_warn', v(-18.592,-9.820,-30.367), v(-1,0,0), v(0,-1,0), 2)
-			call_model('coll_warn', v(-18.535,-9.760,-33.106), v(-1,0,0), v(0,-1,0), 2)
-
-			call_model('coll_warn', v(18.482,-11.000, 39.783), v(-1,0,0), v(0,-1,0), 2)
-			call_model('coll_warn', v(18.435,-11.000, 37.421), v(-1,0,0), v(0,-1,0), 2)
-			call_model('coll_warn', v(18.330,-10.600, 3.031), v(-1,0,0), v(0,-1,0), 2)
-			call_model('coll_warn', v(18.310,-10.600, 0.773), v(-1,0,0), v(0,-1,0), 2)
-			call_model('coll_warn', v(18.269,-9.820,-30.798), v(-1,0,0), v(0,-1,0), 2)
-			call_model('coll_warn', v(18.183,-9.760,-33.106), v(-1,0,0), v(0,-1,0), 2)
 
 			if lod > 2 then
 				-- glowing parts thanks to s2odan
