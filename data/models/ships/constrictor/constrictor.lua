@@ -391,32 +391,7 @@ define_model('conny_equipment', {
 		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 		set_material('hole', 0,0,0,0,0,0,0,0)
 
-
-		local M_T = v(0,1.5,17.2)
-		local R_T = v(10.9,-1.7,-11.3)
-
-		local RF_T = v(13.5,-1.5,-7)
-		local RR_T = v(13.5,-1.5,7.5)
-		local LF_T = v(-13.5,-1.5,-7)
-		local LR_T = v(-13.5,-1.5,7.5)
-
-		local TF_T = v(6,4.3,-3)
-		local TR_T = v(6,4.3,12)
-		local BF_T = v(8,-2.3,-10)
-		local BR_T = v(8,-2.3,12)
-
 		call_model('blank',v(0,0,0),v(1,0,0),v(0,1,0),0)
-
-		thruster(M_T,v(0,0,1),20,true)
-		xref_thruster(R_T,v(0,0,-1),5,true)
-		thruster(RF_T,v(1,0,0),5)
-		thruster(RR_T,v(1,0,0),5)
-		thruster(LF_T,v(-1,0,0),5)
-		thruster(LR_T,v(-1,0,0),5)
-		xref_thruster(TF_T,v(0,1,0),5)
-		xref_thruster(TR_T,v(0,1,0),5)
-		xref_thruster(BF_T,v(0,-1,0),5)
-		xref_thruster(BR_T,v(0,-1,0),5)
 	end,
 	dynamic = function(lod)
 
@@ -1004,6 +979,32 @@ define_model('conny', {
 			zbias(5,v(-11.667,0,4.3), v(-.85,1,0))
 			text(reg,v(-11.667,0,4.3), v(-.85,1,0), v(0,0,1),2, {center = true})
 			zbias(0)
+		end
+
+		if lod > 1 then
+			local M_T = v(0,1.5,17.2)
+			local R_T = v(10.9,-1.7,-11.3)
+
+			local RF_T = v(13.5,-1.5,-7)
+			local RR_T = v(13.5,-1.5,7.5)
+			local LF_T = v(-13.5,-1.5,-7)
+			local LR_T = v(-13.5,-1.5,7.5)
+
+			local TF_T = v(6,4.3,-3)
+			local TR_T = v(6,4.3,12)
+			local BF_T = v(8,-2.3,-10)
+			local BR_T = v(8,-2.3,12)
+
+			thruster(M_T,v(0,0,1),20,true)
+			xref_thruster(R_T,v(0,0,-1),5,true)
+			thruster(RF_T,v(1,0,0),5)
+			thruster(RR_T,v(1,0,0),5)
+			thruster(LF_T,v(-1,0,0),5)
+			thruster(LR_T,v(-1,0,0),5)
+			xref_thruster(TF_T,v(0,1,0),5)
+			xref_thruster(TR_T,v(0,1,0),5)
+			xref_thruster(BF_T,v(0,-1,0),5)
+			xref_thruster(BR_T,v(0,-1,0),5)
 		end
 	end
 })
