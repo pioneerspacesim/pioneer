@@ -60,6 +60,7 @@ private:
 	void DrawDistanceRings();
 
 	std::list<Body*> m_contacts;
+	int m_mode;
 	float m_scale;
 	float m_x;
 	float m_y;

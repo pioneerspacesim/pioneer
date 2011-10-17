@@ -11,9 +11,12 @@
 #include "Lang.h"
 #include "StringF.h"
 
-#define SCANNER_RANGE	100000.0
-#define SCANNER_SCALE	0.00027f
-#define SCANNER_YSHRINK 0.75f
+#define SCANNER_RANGE		100000.0
+#define SCANNER_SCALE		0.00027f
+#define SCANNER_YSHRINK		0.75f
+#define SCANNER_MODE_AUTO	0
+#define SCANNER_MODE_MAX	1
+#define SCANNER_MODE_MIN	2
 
 MsgLogWidget::MsgLogWidget()
 {
@@ -162,13 +165,17 @@ void ScannerWidget::UpdateContactsAndScale()
 			case Object::MISSILE:
 				// XXX should ignore player's own missiles for range calc
 			case Object::SHIP:
-				if (dist > far_ship_dist) far_ship_dist = dist;
-				if ((*i) == Pi::player->GetCombatTarget()) combat_dist = dist;
+				if (m_mode == SCANNER_MODE_AUTO) {
+					if (dist > far_ship_dist) far_ship_dist = dist;
+					if ((*i) == Pi::player->GetCombatTarget()) combat_dist = dist;
+				}
 				break;
 			case Object::CARGOBODY:
 				// XXX could maybe add orbital stations and/or clouds
-				if (dist > far_other_dist) far_other_dist = dist;
-				if ((*i) == Pi::player->GetNavTarget()) nav_dist = dist;
+				if (m_mode == SCANNER_MODE_AUTO) {
+					if (dist > far_other_dist) far_other_dist = dist;
+					if ((*i) == Pi::player->GetNavTarget()) nav_dist = dist;
+				}
 				break;
 			default: continue;
 		}
@@ -177,10 +184,13 @@ void ScannerWidget::UpdateContactsAndScale()
 	}
 
 	// range priority is combat target > ship/missile > nav target > other
-	double priority_dist = far_other_dist;
-	if (combat_dist) priority_dist = combat_dist;
-	else if (far_ship_dist) priority_dist = far_ship_dist;
-	else if (nav_dist) priority_dist = nav_dist;
+	double priority_dist = 0;
+	if (m_mode == SCANNER_MODE_AUTO) {
+		if (combat_dist) priority_dist = combat_dist;
+		else if (far_ship_dist) priority_dist = far_ship_dist;
+		else if (nav_dist) priority_dist = nav_dist;
+		else priority_dist = far_other_dist;
+	} else if (m_mode == SCANNER_MODE_MAX) priority_dist = SCANNER_RANGE;
 
 	// set the scale - smaller means drawn closer together
 	// XXX if a longer range scanner is implemented this will need work
