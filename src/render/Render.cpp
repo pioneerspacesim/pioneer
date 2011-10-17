@@ -245,11 +245,11 @@ static struct postprocessBuffers_t {
 		glBegin(GL_TRIANGLE_STRIP);
 			glTexCoord2f(0.0, 0.0);
 			glVertex2f(0.0, 0.0);
-			glTexCoord2f(width, 0.0);
+			glTexCoord2f(float(width), 0.0);
 			glVertex2f(1.0, 0.0);
-			glTexCoord2f(0.0,height);
+			glTexCoord2f(0.0,float(height));
 			glVertex2f(0.0, 1.0);
-			glTexCoord2f(width, height);
+			glTexCoord2f(float(width), float(height));
 			glVertex2f(1.0, 1.0);
 		glEnd();
 		luminanceRT->EndRTT();

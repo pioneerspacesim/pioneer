@@ -54,8 +54,8 @@ double GeoSphereStyle::GetHeightMapVal(const vector3d &pt)
 	double longitude = atan2(pt.x, pt.z);
 	double px = (((m_heightMapSizeX-1) * (longitude + M_PI)) / (2*M_PI));
 	double py = ((m_heightMapSizeY-1)*(latitude + 0.5*M_PI)) / M_PI;
-	int ix = floor(px);
-	int iy = floor(py);
+	int ix = int(floor(px));
+	int iy = int(floor(py));
 	ix = Clamp(ix, 0, m_heightMapSizeX-1);
 	iy = Clamp(iy, 0, m_heightMapSizeY-1);
 	double dx = px-ix;
