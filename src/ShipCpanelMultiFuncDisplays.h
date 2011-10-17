@@ -53,6 +53,7 @@ class ScannerWidget: public IMultiFunc, public Gui::Widget {
 public:
 	void GetSizeRequested(float size[2]);
 	void Draw();
+	void NextMode();
 	virtual void Update() {}
 private:
 	void UpdateContactsAndScale();

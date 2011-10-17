@@ -267,6 +267,12 @@ void ScannerWidget::DrawDistanceRings()
 
 }
 
+void NextMode()
+{
+	if (m_mode == SCANNER_MODE_MIN) m_mode = SCANNER_MODE_AUTO;
+	else m_mode++;
+}
+
 /////////////////////////////////
 
 UseEquipWidget::UseEquipWidget(): Gui::Fixed(400,100)
