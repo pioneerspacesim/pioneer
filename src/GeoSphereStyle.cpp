@@ -1150,24 +1150,9 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 	}
 }
 
-/*
- * Must return >= 0.0
-  Here we create the noise used to generate the landscape, the noise should use the fracdef[] settings that were defined earlier.
- */
-double GeoSphereStyle::GetHeight(const vector3d &p)
-{
-	if (m_heightMap) return GetHeightMapVal(p) / m_planetRadius;
 
-	switch (m_terrainType) {
-		case TERRAIN_NONE:
-		case TERRAIN_FLAT:
-			return 0;
-		case TERRAIN_ASTEROID:
-		{
-			return std::max(0.0, m_maxHeight * (octavenoise(m_fracdef[0], 0.5, p) + 
-					m_fracdef[1].amplitude * crater_function(m_fracdef[1], p)));
-		}
-		case TERRAIN_HILLS_NORMAL:
+double GeoSphereStyle::GetHeightHillsNormal(const vector3d &p)
+{
 		{
 			double continents = octavenoise(m_fracdef[3-m_fracnum], 0.65, p) * (1.0-m_sealevel) - (m_sealevel*0.1);
 			if (continents < 0) return 0;
@@ -1188,7 +1173,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			else n += m;
 			return (n > 0.0 ? n*m_maxHeight : 0.0); 
 		}
-		case TERRAIN_HILLS_DUNES:
+}
+
+double GeoSphereStyle::GetHeightHillsDunes(const vector3d &p)
+{
 		{
 			/*
 			//textures
@@ -1228,7 +1216,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			//n += continents*Clamp(0.05-n, 0.0, 0.01)*0.2*dunes_octavenoise(m_fracdef[2], Clamp(0.5-n, 0.0, 0.5), p);
 			return (n > 0.0 ? n*m_maxHeight : 0.0); 
 		}
-		case TERRAIN_HILLS_RIDGED:
+}
+
+double GeoSphereStyle::GetHeightHillsRidged(const vector3d &p)
+{
 		{
 			double continents = ridged_octavenoise(m_fracdef[3], 0.65, p) * (1.0-m_sealevel) - (m_sealevel*0.1);
 			if (continents < 0) return 0;
@@ -1245,7 +1236,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			//n += 0.001*ridged_octavenoise(m_fracdef[6], 0.55*distrib*m, p);
 			return (n > 0.0 ? n*m_maxHeight : 0.0);
 		}
-		case TERRAIN_HILLS_RIVERS:
+}
+
+double GeoSphereStyle::GetHeightHillsRivers(const vector3d &p)
+{
 		{
 			double continents = river_octavenoise(m_fracdef[3], 0.65, p) * (1.0-m_sealevel) - (m_sealevel*0.1);
 			if (continents < 0) return 0;
@@ -1266,7 +1260,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n *= m_maxHeight;
 			return (n > 0.0 ? n : 0.0);
 		}
-		case TERRAIN_HILLS_CRATERS:
+}
+
+double GeoSphereStyle::GetHeightHillsCraters(const vector3d &p)
+{
 		{
 			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
@@ -1282,7 +1279,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n *= m_maxHeight;
 			return (n > 0.0 ? n : 0.0);
 		}
-		case TERRAIN_HILLS_CRATERS2:
+}
+
+double GeoSphereStyle::GetHeightHillsCraters2(const vector3d &p)
+{
 		{
 			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
@@ -1302,7 +1302,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n *= m_maxHeight;
 			return (n > 0.0 ? n : 0.0);
 		}
-		case TERRAIN_MOUNTAINS_NORMAL:
+}
+
+double GeoSphereStyle::GetHeightMountainsNormal(const vector3d &p)
+{
 			//This is among the most complex of terrains, so I'll use this as an example:
 		{
 			//We need a continental pattern to place our noise onto, the 0.7*ridged_octavnoise..... is important here
@@ -1455,7 +1458,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n = m_maxHeight*n;
 			return (n > 0.0 ? n : 0.0); 
 		}
-		case TERRAIN_MOUNTAINS_RIDGED:
+}
+
+double GeoSphereStyle::GetHeightMountainsRidged(const vector3d &p)
+{
 		{
 			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
@@ -1497,7 +1503,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n = m_maxHeight*n;
 			return (n > 0.0 ? n : 0.0); 
 		}
-		case TERRAIN_MOUNTAINS_RIVERS:
+}
+
+double GeoSphereStyle::GetHeightMountainsRivers(const vector3d &p)
+{
 		{
 			double continents = octavenoise(m_fracdef[0], 0.7*
 				ridged_octavenoise(m_fracdef[8], 0.58, p), p) - m_sealevel*0.65;
@@ -1658,7 +1667,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n = m_maxHeight*n;
 			return (n > 0.0 ? n : 0.0); 
 		}
-		case TERRAIN_MOUNTAINS_CRATERS:
+}
+
+double GeoSphereStyle::GetHeightMountainsCraters(const vector3d &p)
+{
 		{
 			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
@@ -1674,7 +1686,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n *= m_maxHeight;
 			return (n > 0.0 ? n : 0.0);
 		}
-		case TERRAIN_MOUNTAINS_CRATERS2:
+}
+
+double GeoSphereStyle::GetHeightMountainsCraters2(const vector3d &p)
+{
 		{
 			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
@@ -1696,7 +1711,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n *= m_maxHeight;
 			return (n > 0.0 ? n : 0.0);
 		}
-		case TERRAIN_MOUNTAINS_VOLCANO:
+}
+
+double GeoSphereStyle::GetHeightMountainsVolcano(const vector3d &p)
+{
 		{
 			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
@@ -1755,7 +1773,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n = m_maxHeight*n;
 			return (n > 0.0 ? n : 0.0); 
 		}
-		case TERRAIN_MOUNTAINS_RIVERS_VOLCANO:
+}
+
+double GeoSphereStyle::GetHeightMountainsRiversVolcano(const vector3d &p)
+{
 		{
 			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
@@ -1884,7 +1905,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n = m_maxHeight*n;
 			return (n > 0.0 ? n : 0.0); 
 		}
-		case TERRAIN_RUGGED_LAVA:
+}
+
+double GeoSphereStyle::GetHeightRuggedLava(const vector3d &p)
+{
 		{
 			double continents = octavenoise(m_fracdef[0], Clamp(0.725-(m_sealevel/2), 0.1, 0.725), p) - m_sealevel;
 			if (continents < 0) return 0;
@@ -1943,7 +1967,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n = (n<0.0 ? 0.0 : m_maxHeight*n);
 			return n;
 		}
-		case TERRAIN_H2O_SOLID:
+}
+
+double GeoSphereStyle::GetHeightWaterSolid(const vector3d &p)
+{
 		{
 			double continents = 0.7*river_octavenoise(m_fracdef[2], 0.5, p)-m_sealevel;
 			continents = m_fracdef[0].amplitude * ridged_octavenoise(m_fracdef[0], 
@@ -1984,7 +2011,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n = (n>1.0 ? 2.0-n : n);
 			return n;
 		}
-		case TERRAIN_H2O_SOLID_CANYONS:
+}
+
+double GeoSphereStyle::GetHeightWaterSolidCanyons(const vector3d &p)
+{
 		{
 			double continents = 0.7*river_octavenoise(m_fracdef[2], 0.5, p)-m_sealevel;
 			continents = m_fracdef[0].amplitude * ridged_octavenoise(m_fracdef[0], 
@@ -2025,7 +2055,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n = (n>1.0 ? 2.0-n : n);
 			return n;
 		}
-		case TERRAIN_RUGGED_DESERT:
+}
+
+double GeoSphereStyle::GetHeightRuggedDesert(const vector3d &p)
+{
 		{
 			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;// + (cliff_function(m_fracdef[7], p)*0.5);
 			if (continents < 0) return 0;
@@ -2070,8 +2103,93 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n = m_maxHeight*n;
 			return n;
 		}
+
+}
+
+double GeoSphereStyle::GetHeightAsteroid(const vector3d &p)
+{
+		{
+			return std::max(0.0, m_maxHeight * (octavenoise(m_fracdef[0], 0.5, p) + 
+					m_fracdef[1].amplitude * crater_function(m_fracdef[1], p)));
+		}
+}
+
+double GeoSphereStyle::GetHeightFlat(const vector3d &p)
+{
+	return 0.0;
+}
+
+
+
+/*
+ * Must return >= 0.0
+  Here we create the noise used to generate the landscape, the noise should use the fracdef[] settings that were defined earlier.
+ */
+double GeoSphereStyle::GetHeight(const vector3d &p)
+{
+	if (m_heightMap) return GetHeightMapVal(p) / m_planetRadius;
+
+	switch (m_terrainType) {
+		case TERRAIN_HILLS_NORMAL:
+			return GetHeightHillsNormal(p);
+
+		case TERRAIN_HILLS_DUNES:
+			return GetHeightHillsDunes(p);
+
+		case TERRAIN_HILLS_RIDGED:
+			return GetHeightHillsRidged(p);
+
+		case TERRAIN_HILLS_RIVERS:
+			return GetHeightHillsRivers(p);
+
+		case TERRAIN_HILLS_CRATERS:
+			return GetHeightHillsCraters(p);
+
+		case TERRAIN_HILLS_CRATERS2:
+			return GetHeightHillsCraters2(p);
+
+		case TERRAIN_MOUNTAINS_NORMAL:
+			return GetHeightMountainsNormal(p);
+
+		case TERRAIN_MOUNTAINS_RIDGED:
+			return GetHeightMountainsRidged(p);
+
+		case TERRAIN_MOUNTAINS_RIVERS:
+			return GetHeightMountainsRivers(p);
+
+		case TERRAIN_MOUNTAINS_CRATERS:
+			return GetHeightMountainsCraters(p);
+
+		case TERRAIN_MOUNTAINS_CRATERS2:
+			return GetHeightMountainsCraters2(p);
+
+		case TERRAIN_MOUNTAINS_VOLCANO:
+			return GetHeightMountainsVolcano(p);
+
+		case TERRAIN_MOUNTAINS_RIVERS_VOLCANO:
+			return GetHeightMountainsRiversVolcano(p);
+
+		case TERRAIN_RUGGED_LAVA:
+			return GetHeightRuggedLava(p);
+
+		case TERRAIN_H2O_SOLID:
+			return GetHeightWaterSolid(p);
+
+		case TERRAIN_H2O_SOLID_CANYONS:
+			return GetHeightWaterSolidCanyons(p);
+
+		case TERRAIN_RUGGED_DESERT:
+			return GetHeightRuggedDesert(p);
+
+		case TERRAIN_ASTEROID:
+			return GetHeightAsteroid(p);
+
+		case TERRAIN_NONE:
+		case TERRAIN_FLAT:
+			return GetHeightFlat(p);
 	}
-    return 0;
+
+	assert(0 && "unknown geosphere terrain type");
 }
 
 /* These fuctions should not be used by GeoSphereStyle::GetHeight, so don't move these definitions

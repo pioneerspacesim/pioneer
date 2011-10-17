@@ -79,6 +79,28 @@ class GeoSphereStyle {
 	GeoSphereStyle(): m_terrainType(TERRAIN_NONE), m_colorType(COLOR_NONE) {
 		m_heightMap = 0;
 	}
+
+
+	double GetHeightHillsNormal(const vector3d &p);
+	double GetHeightHillsDunes(const vector3d &p);
+	double GetHeightHillsRidged(const vector3d &p);
+	double GetHeightHillsRivers(const vector3d &p);
+	double GetHeightHillsCraters(const vector3d &p);
+	double GetHeightHillsCraters2(const vector3d &p);
+	double GetHeightMountainsNormal(const vector3d &p);
+	double GetHeightMountainsRidged(const vector3d &p);
+	double GetHeightMountainsRivers(const vector3d &p);
+	double GetHeightMountainsCraters(const vector3d &p);
+	double GetHeightMountainsCraters2(const vector3d &p);
+	double GetHeightMountainsVolcano(const vector3d &p);
+	double GetHeightMountainsRiversVolcano(const vector3d &p);
+	double GetHeightRuggedLava(const vector3d &p);
+	double GetHeightWaterSolid(const vector3d &p);
+	double GetHeightWaterSolidCanyons(const vector3d &p);
+	double GetHeightRuggedDesert(const vector3d &p);
+	double GetHeightAsteroid(const vector3d &p);
+	double GetHeightFlat(const vector3d &p);
+	
 	double GetHeight(const vector3d &p);
 
 
@@ -108,6 +130,7 @@ class GeoSphereStyle {
 	vector3d GetColorSolid(const vector3d &p, double height, const vector3d &norm);
 
 	vector3d GetColor(const vector3d &p, double height, const vector3d &norm);
+
 
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
 		*outColor = m_atmosColor;
