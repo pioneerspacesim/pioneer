@@ -1,3 +1,24 @@
+define_model('conny_scoop', {
+	info = {
+		bounding_radius = 11,
+		materials = { 'ncv', 'scoop' }
+	},
+	static = function(lod)
+		set_material('ncv', .33,.35,.3,1,.63,.7,.83,30)
+		use_material('ncv')
+
+		texture('con_sc_b.png')
+		load_obj('con_scoop.obj')
+
+		texture('scoop.png')
+		use_material('scoop')
+		load_obj('con_sc_glow.obj')
+	end,
+	dynamic = function(lod)
+		set_material('scoop', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 }, {0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 2.5 }))
+	end
+})
+
 define_model('conny_flap_fr', {
 	info = {
 		lod_pixels={.1,10,30,0},
@@ -400,17 +421,7 @@ define_model('conny_equipment', {
 	dynamic = function(lod)
 
 		if get_arg(ARG_SHIP_EQUIP_SCOOP) == Equip.FUEL_SCOOP then
-			set_material('ncv', .33,.35,.3,1,.63,.7,.83,30)
-			set_material('scoop', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 },
-			{0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 2.5 }))
-			use_material('ncv')
-
-			texture('models/ships/constrictor/con_sc_b.png')
-			load_obj('models/ships/constrictor/con_scoop.obj')
-
-			texture('models/ships/constrictor/scoop.png')
-			use_material('scoop')
-			load_obj('models/ships/constrictor/con_sc_glow.obj')
+			call_model('conny_scoop', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 		end
 
 		if lod > 2 then
@@ -982,8 +993,7 @@ define_model('conny', {
 	dynamic = function(lod)
 		set_material('cv0', get_arg_material(0))
 		set_material('cv1', get_arg_material(1))
-		set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 },
-		{0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 2.5 }))
+		set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 }, {0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 2.5 }))
 
 		if lod > 2 then
 			local reg = get_arg_string(0)
