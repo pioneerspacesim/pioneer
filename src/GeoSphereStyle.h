@@ -147,7 +147,9 @@ class GeoSphereStyle {
 	int GetRawHeightMapVal(int x, int y);
 	double GetHeightMapVal(const vector3d &pt);
 	void InitHeightMap();
-	void SetFracDef(struct fracdef_t *def, double featureHeightMeters, double featureWidthMeters, MTRand &rand, double smallestOctaveMeters = 20.0);
+
+	void SetFracDef(unsigned int index, double featureHeightMeters, double featureWidthMeters, MTRand &rand, double smallestOctaveMeters = 20.0);
+	inline const fracdef_t &GetFracDef(unsigned int index) { return m_fracdef[index]; }
 
 	const SBody *m_body;
 
