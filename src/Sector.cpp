@@ -69,7 +69,7 @@ Sector::Sector(int x, int y, int z)
 			s.seed = 0;
 			s.customSys = 0;
 			
-			float spec = float(rng.Int32(1000000));
+			double spec = rng.Double(1000000.0);
 			// frequencies from wikipedia
 			/*if (spec < 100) { // should be 1 but that is boring
 				s.starType[0] = SBody::TYPE_STAR_O;
