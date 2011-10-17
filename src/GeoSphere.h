@@ -64,10 +64,6 @@ private:
 	vector3d m_tempCampos;
 
 	SDL_mutex *m_updateLock;
-
-	SDL_mutex *m_needUpdateLock;
-	bool m_needUpdate;
-
 	SDL_mutex *m_abortLock;
 	bool m_abort;
 	//////////////////////////////
