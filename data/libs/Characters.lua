@@ -48,6 +48,15 @@ Character = {
 		self.lawfulness = self.DiceRoll()
 	end,
 
+	-- Save into persistent table of characters as an NPC
+	Save = function (self)
+		for i,NPC in ipairs(PersistentCharacters) do
+			if NPC == self then return end
+		end
+		table.insert(PersistentCharacters,self)
+	end,
+
+
 	PrintStats = function (self)
 		print('Name:',self.name)
 		print('Luck:',self.luck)
