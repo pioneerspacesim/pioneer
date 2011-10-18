@@ -50,6 +50,14 @@ Character = {
 		self.lawfulness = Character.DiceRoll()
 	end,
 
+	TestRoll = function (self,attribute)
+		if self[attribute] then
+			return (Character.DiceRoll() < self[attribute])
+		else
+			return false
+		end
+	end,
+
 	-- Save into persistent table of characters as an NPC
 	Save = function (self)
 		for i,NPC in ipairs(PersistentCharacters) do
