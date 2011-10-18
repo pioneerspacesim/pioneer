@@ -50,9 +50,9 @@ Character = {
 		self.lawfulness = Character.DiceRoll()
 	end,
 
-	TestRoll = function (self,attribute)
+	TestRoll = function (self,attribute,modifier)
 		if self[attribute] then
-			return (Character.DiceRoll() < self[attribute])
+			return (Character.DiceRoll() < (self[attribute] + modifier))
 		else
 			return false
 		end
