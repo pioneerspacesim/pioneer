@@ -112,9 +112,27 @@ class TerrainGenerator : virtual public Terrain, public TerrainHeightFractal<Hei
 };
 
 
-class TerrainHeightFlat {};
+class TerrainHeightAsteroid;
+class TerrainHeightFlat;
+class TerrainHeightHillsCraters2;
+class TerrainHeightHillsCraters;
+class TerrainHeightHillsDunes;
+class TerrainHeightHillsNormal;
+class TerrainHeightHillsRidged;
+class TerrainHeightHillsRivers;
+class TerrainHeightMountainsCraters2;
+class TerrainHeightMountainsCraters;
+class TerrainHeightMountainsNormal;
+class TerrainHeightMountainsRidged;
+class TerrainHeightMountainsRivers;
+class TerrainHeightMountainsRiversVolcano;
+class TerrainHeightMountainsVolcano;
+class TerrainHeightRuggedDesert;
+class TerrainHeightRuggedLava;
+class TerrainHeightWaterSolidCanyons;
+class TerrainHeightWaterSolid;
 
-class TerrainColorSolid {};
+class TerrainColorSolid;
 
 
 	/*
@@ -127,25 +145,6 @@ class TerrainColorSolid {};
 
 
 	/*
-	double GetHeightHillsNormal(const vector3d &p);
-	double GetHeightHillsDunes(const vector3d &p);
-	double GetHeightHillsRidged(const vector3d &p);
-	double GetHeightHillsRivers(const vector3d &p);
-	double GetHeightHillsCraters(const vector3d &p);
-	double GetHeightHillsCraters2(const vector3d &p);
-	double GetHeightMountainsNormal(const vector3d &p);
-	double GetHeightMountainsRidged(const vector3d &p);
-	double GetHeightMountainsRivers(const vector3d &p);
-	double GetHeightMountainsCraters(const vector3d &p);
-	double GetHeightMountainsCraters2(const vector3d &p);
-	double GetHeightMountainsVolcano(const vector3d &p);
-	double GetHeightMountainsRiversVolcano(const vector3d &p);
-	double GetHeightRuggedLava(const vector3d &p);
-	double GetHeightWaterSolid(const vector3d &p);
-	double GetHeightWaterSolidCanyons(const vector3d &p);
-	double GetHeightRuggedDesert(const vector3d &p);
-	double GetHeightAsteroid(const vector3d &p);
-	double GetHeightFlat(const vector3d &p);
 	
 	double GetHeight(const vector3d &p);
 
