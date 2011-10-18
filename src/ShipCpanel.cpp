@@ -177,6 +177,7 @@ ShipCpanel::~ShipCpanel()
 	delete m_msglog;
 	delete m_mfsel;
 	m_connOnDockingClearanceExpired.disconnect();
+	if (m_connOnKeyPress.connected()) m_connOnKeyPress.disconnect();
 }
 
 void ShipCpanel::OnUserChangeMultiFunctionDisplay(multifuncfunc_t f)
@@ -200,6 +201,12 @@ void ShipCpanel::ChangeMultiFunctionDisplay(multifuncfunc_t f)
 		Add(selected, 200, 18);
 		selected->ShowAll();
 	}
+
+	if (f == MFUNC_SCANNER && !m_connOnKeyPress.connected())
+		m_connOnKeyPress =
+			Pi::onKeyPress.connect(sigc::mem_fun(this, &ShipCpanel::OnKeyPress));
+	else if (f != MFUNC_SCANNER && m_connOnKeyPress.connected())
+		m_connOnKeyPress.disconnect();
 }
 
 void ShipCpanel::OnMultiFuncGrabFocus(multifuncfunc_t f)
@@ -215,6 +222,14 @@ void ShipCpanel::OnMultiFuncUngrabFocus(multifuncfunc_t f)
 void ShipCpanel::OnDockingClearanceExpired(const SpaceStation *s)
 {
 	MsgLog()->ImportantMessage(s->GetLabel(), Lang::DOCKING_CLEARANCE_EXPIRED);
+}
+
+void ShipCpanel::OnKeyPress(SDL_keysym *keysym)
+{
+	// XXX ugly hack checking for Lua console here
+	if (Pi::IsConsoleActive()) return;
+
+	if (keysym->sym == SDLK_END) m_scanner->NextMode();
 }
 
 void ShipCpanel::Update()
