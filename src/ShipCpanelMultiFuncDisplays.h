@@ -60,6 +60,7 @@ private:
 	void UpdateContactsAndScale();
 	void DrawBlobs(bool below);
 	void DrawDistanceRings();
+	void DrawRangeRing(bool blend);
 
 	std::list<Body*> m_contacts;
 	int m_mode;

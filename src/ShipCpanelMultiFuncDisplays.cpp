@@ -142,21 +142,37 @@ void ScannerWidget::Draw()
 	glEnd();
 	glDisable(GL_BLEND);
 
+	// draw spokes and inner distance rings
+	// - spokes don't change
+	// - rings change with range
+
+	// draw outer range ring
+	// - green or yellow denotes current range
+	// - rest of ring is grey
+
 	// circles and spokes
 	glLineWidth(1);
 	glColor3f(0, 0.4f, 0);
 	DrawDistanceRings();
+	DrawRangeRing(false);
 	glPushMatrix();
 	glEnable(GL_BLEND);
 	glColor4f(0, 0.4f, 0, 0.25f);
 	glTranslatef(0.5f * c2p[0], 0.5f * c2p[1], 0);
 	DrawDistanceRings();
+	DrawRangeRing(true);
+	glColor4f(0, 0.4f, 0, 0.25f);
 	glTranslatef(0, -c2p[1], 0);
 	DrawDistanceRings();
+	DrawRangeRing(true);
+	glColor4f(0, 0.4f, 0, 0.25f);
 	glTranslatef(-c2p[0], 0, 0);
 	DrawDistanceRings();
+	DrawRangeRing(true);
+	glColor4f(0, 0.4f, 0, 0.25f);
 	glTranslatef(0, c2p[1], 0);
 	DrawDistanceRings();
+	DrawRangeRing(true);
 	glPopMatrix();
 	glDisable(GL_BLEND);
 
@@ -264,7 +280,7 @@ void ScannerWidget::DrawBlobs(bool below)
 void ScannerWidget::DrawDistanceRings()
 {
 	/* soicles */
-	for (float sz = 1.0f; sz > 0.1f; sz -= 0.33f) {
+	for (float sz = 0.67f; sz > 0.1f; sz -= 0.33f) {
 		glBegin(GL_LINE_LOOP);
 		for (float a = 0; a < 2 * M_PI; a += float(M_PI * 0.02)) {
 			glVertex2f(m_x + sz * m_x * sin(a), m_y + SCANNER_YSHRINK * sz * m_y * cos(a));
@@ -279,6 +295,35 @@ void ScannerWidget::DrawDistanceRings()
 	}
 	glEnd();
 
+}
+
+void ScannerWidget::DrawRangeRing(bool blend)
+{
+	static const float circ = float(2 * M_PI);
+	static const float step = float(M_PI * 0.02);
+	float range_percent = m_range / SCANNER_RANGE_MAX;
+	if (m_mode == SCANNER_MODE_AUTO) {
+		if (blend) glColor4f(0, 0.7f, 0, 0.25f);
+		else glColor3f(0, 0.7f, 0);
+	} else {
+		if (blend) glColor4f(0.6f, 0.6f, 0, 0.25f);
+		else glColor3f(0.6f, 0.6f, 0);
+	}
+
+	glBegin(GL_LINE_LOOP);
+	for (float a = 0; a < range_percent * circ; a += step) {
+		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+	}
+	if (range_percent < 1.0f)
+		glVertex2f(m_x + m_x * sin(range_percent * circ),
+			m_y + SCANNER_YSHRINK * m_y * cos(range_percent * circ));
+	if (blend) glColor4f(0.2f, 0.3f, 0.2f, 0.25f);
+	else glColor3f(0.2f, 0.3f, 0.2f);
+	for (float a = range_percent * circ; a < circ; a += step) {
+		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+	}
+	if (range_percent < 1.0f) glVertex2f(m_x, m_y + SCANNER_YSHRINK * m_y);
+	glEnd();
 }
 
 /////////////////////////////////
