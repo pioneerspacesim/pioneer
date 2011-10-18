@@ -25,9 +25,9 @@ enum {  ECON_MINING = (1<<0),
 class StarSystem;
 
 struct Orbit {
-	vector3d OrbitalPosAtTime(double t);
+	vector3d OrbitalPosAtTime(double t) const;
 	// 0.0 <= t <= 1.0. Not for finding orbital pos
-	vector3d EvenSpacedPosAtTime(double t);
+	vector3d EvenSpacedPosAtTime(double t) const;
 	/* duplicated from SBody... should remove probably */
 	double eccentricity;
 	double semiMajorAxis;

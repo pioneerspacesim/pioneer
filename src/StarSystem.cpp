@@ -846,7 +846,7 @@ static int CalcSurfaceTemp(const SBody *primary, fixed distToPrimary, fixed albe
 	return int(isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673)));
 }
 
-vector3d Orbit::OrbitalPosAtTime(double t)
+vector3d Orbit::OrbitalPosAtTime(double t) const
 {
 	const double e = eccentricity;
 	// mean anomaly
@@ -868,7 +868,7 @@ vector3d Orbit::OrbitalPosAtTime(double t)
 	return pos;
 }
 
-vector3d Orbit::EvenSpacedPosAtTime(double t)
+vector3d Orbit::EvenSpacedPosAtTime(double t) const
 {
 	const double e = eccentricity;
 	const double M = 2*M_PI*t;
