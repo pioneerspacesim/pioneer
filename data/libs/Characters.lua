@@ -44,10 +44,10 @@ Character = {
 	end,
 
 	RollNew = function (self)
-		self.luck = self.DiceRoll()
-		self.charisma = self.DiceRoll()
-		self.notoriety = self.DiceRoll()
-		self.lawfulness = self.DiceRoll()
+		self.luck = Character.DiceRoll()
+		self.charisma = Character.DiceRoll()
+		self.notoriety = Character.DiceRoll()
+		self.lawfulness = Character.DiceRoll()
 	end,
 
 	-- Save into persistent table of characters as an NPC
