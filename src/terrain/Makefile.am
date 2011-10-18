@@ -8,10 +8,13 @@ INCLUDES = -I$(srcdir)/..
 
 noinst_LIBRARIES = libterrain.a
 noinst_HEADERS = \
-	Terrain.h
+	Terrain.h \
+	TerrainNoise.h \
+	TerrainComponent.h
 
 libterrain_a_SOURCES = \
 	Terrain.cpp \
+	TerrainComponent.cpp \
 	TerrainHeightFlat.cpp \
 	TerrainColorSolid.cpp
 	
