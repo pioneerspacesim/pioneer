@@ -2,18 +2,18 @@
 
 Character = {
 	-- Persona
-	Player = false, -- Almost always.  One exception. (-:
-	Name = '',
-	Face = 0,
+	player = false, -- Almost always.  One exception. (-:
+	name = '',
+	face = 0,
 
 	-- Attributes
-	Luck = 0,
-	Charisma = 0,
-	Notoriety = 0,
-	Lawfulness = 0,
+	luck = 0,
+	charisma = 0,
+	notoriety = 0,
+	lawfulness = 0,
 
 	-- Experience
-	KillCount = 0,
+	killCount = 0,
 
 	-- Methods
 
@@ -25,14 +25,14 @@ Character = {
 	end,
 
 	SetName = function (self,name)
-		self.Name = name or 'Test'
+		self.name = name or 'Test'
 	end,
 
 	PrintStats = function (self)
-		print('Name:',self.Name)
-		print('Luck:',self.Luck)
-		print('Charisma:',self.Charisma)
-		print('Notoriety:',self.Notoriety)
-		print('Lawfulness:',self.Lawfulness)
+		print('Name:',self.name)
+		print('Luck:',self.luck)
+		print('Charisma:',self.charisma)
+		print('Notoriety:',self.notoriety)
+		print('Lawfulness:',self.lawfulness)
 	end,
 }
