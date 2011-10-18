@@ -642,10 +642,13 @@ void Terrain::InitHeightMap()
 
 Terrain *Terrain::InstanceTerrain(const SBody *body)
 {
-	Terrain *t = new TerrainGenerator<TerrainHeightFlat,TerrainColorSolid>();
+	GeneratorInstancer x = InstanceGenerator<TerrainHeightFlat,TerrainColorSolid>;
+	Terrain *t = x();
 
 	t->m_body = body;
 	t->m_seed = t->m_body->seed;
+
+	return t;
 }
 
 #if 0

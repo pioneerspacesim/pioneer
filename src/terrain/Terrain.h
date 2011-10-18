@@ -11,9 +11,14 @@ struct fracdef_t {
 	int octaves;
 };
 
+
+template <typename,typename> class TerrainGenerator;
+
+
 class Terrain {
 public:
 	static Terrain *InstanceTerrain(const SBody *body);
+
 	virtual ~Terrain() {}
 
 	void SetFracDef(unsigned int index, double featureHeightMeters, double featureWidthMeters, MTRand &rand, double smallestOctaveMeters = 20.0);
@@ -29,6 +34,13 @@ public:
 	double GetMaxHeight() const { return m_maxHeight; }
 
 	void ChangeDetailLevel();
+
+private:
+	template <typename HeightFractal, typename ColorFractal>
+	static Terrain *InstanceGenerator() { return new TerrainGenerator<HeightFractal,ColorFractal>(); }
+
+	typedef Terrain* (*GeneratorInstancer)();
+
 
 protected:
 	Terrain() {}
