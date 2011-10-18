@@ -41,6 +41,13 @@ Character = {
 		)
 	end,
 
+	RollNew = function (self)
+		self.luck = self.DiceRoll()
+		self.charisma = self.DiceRoll()
+		self.notoriety = self.DiceRoll()
+		self.lawfulness = self.DiceRoll()
+	end,
+
 	PrintStats = function (self)
 		print('Name:',self.name)
 		print('Luck:',self.luck)
