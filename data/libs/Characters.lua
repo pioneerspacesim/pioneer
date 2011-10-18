@@ -20,13 +20,11 @@ Character = {
 
 	new = function (self,character)
 		local character = character or {}
-		character.Relationships = {}
+		local name = character.name
 		setmetatable(character,{__index = self})
+		character.name = name or NameGen.FullName(character.isfemale)
+		character.Relationships = {}
 		return character
-	end,
-
-	SetName = function (self,name)
-		self.name = name or 'Test'
 	end,
 
 	PrintStats = function (self)
