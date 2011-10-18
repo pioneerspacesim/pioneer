@@ -266,7 +266,12 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 			break;
 	}
 
-	return gi();
+	return gi(body);
+}
+
+Terrain::Terrain(const SBody *body) {
+	memset(this, sizeof(this), 0);
+	printf("in terrain constructor for %s\n", body->name.c_str());
 }
 
 
