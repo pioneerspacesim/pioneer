@@ -330,7 +330,7 @@ static int l_space_spawn_ship_parked(lua_State *l)
 
 		if (!station->AllocateStaticSlot(slot))
 			return 0;
-		double dist = 300 + ship->GetLmrCollMesh()->GetBoundingRadius();
+		double dist = 300 + 2*ship->GetLmrCollMesh()->GetBoundingRadius();
 		double xpos = (slot == 0 || slot == 3) ? -dist : dist;
 		double zpos = (slot == 0 || slot == 1) ? -dist : dist;
 
@@ -343,7 +343,7 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	else {
 		if (!station->AllocateStaticSlot(slot))
 			return 0;
-		double dist = 100 + ship->GetLmrCollMesh()->GetBoundingRadius();
+		double dist = 100 + 2*ship->GetLmrCollMesh()->GetBoundingRadius();
 		double xpos = (slot == 0 || slot == 3) ? -dist : dist;
 		double zpos = (slot == 0 || slot == 1) ? -dist : dist;
 
