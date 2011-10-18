@@ -51,6 +51,7 @@ Character = {
 	end,
 
 	TestRoll = function (self,attribute,modifier)
+		if not modifier then modifier = 0 end
 		if self[attribute] then
 			return (Character.DiceRoll() < (self[attribute] + modifier))
 		else
