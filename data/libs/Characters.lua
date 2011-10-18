@@ -21,11 +21,13 @@ Character = {
 	new = function (self,newCharacter)
 		-- initialise new character
 		local newCharacter = newCharacter or {}
-		-- preserve default name against randomization
+		-- preserve default name/gender against randomization
 		local name = newCharacter.name
+		local isfemale = newCharacter.isfemale
 		-- set inherited characteristics (inherit from class only, not self)
 		setmetatable(newCharacter,{__index = Character})
 		-- randomize name if it wasn't specified
+		newCharacter.isfemale = (isfemale == nil) and (Engine.rand:Integer(1) ==1)
 		newCharacter.name = name or NameGen.FullName(newCharacter.isfemale)
 		-- allocate a new table for character relationships
 		newCharacter.Relationships = {}
