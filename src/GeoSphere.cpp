@@ -1145,7 +1145,7 @@ void GeoSphere::OnChangeDetailLevel()
 			}
 
 			// reinit the terrain with the new settings
-			(*i)->m_terrain.ChangeDetailLevel();
+			(*i)->m_terrain->ChangeDetailLevel();
 		}
 
 		// clear the abort for the next run (with the new settings)
@@ -1158,8 +1158,10 @@ void GeoSphere::OnChangeDetailLevel()
 
 #define GEOSPHERE_TYPE	(m_sbody->type)
 
-GeoSphere::GeoSphere(const SBody *body): m_terrain(body)
+GeoSphere::GeoSphere(const SBody *body)
 {
+	m_terrain = Terrain::InstanceTerrain(body);
+
 	m_vbosToDestroyLock = SDL_CreateMutex();
 	m_sbody = body;
 	memset(m_patches, 0, 6*sizeof(GeoPatch*));
@@ -1197,6 +1199,8 @@ GeoSphere::~GeoSphere()
 	for (int i=0; i<6; i++) if (m_patches[i]) delete m_patches[i];
 	DestroyVBOs();
 	SDL_DestroyMutex(m_vbosToDestroyLock);
+
+	delete m_terrain;
 }
 
 void GeoSphere::AddVBOToDestroy(GLuint vbo)

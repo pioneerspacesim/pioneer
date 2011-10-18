@@ -172,7 +172,7 @@ void ObjectViewerView::OnChangeTerrain()
 	if (body->IsType(Object::PLANET)) {
 		Planet *planet = static_cast<Planet*>(body);
 		GeoSphere *gs = planet->GetGeoSphere();
-		gs->m_terrain = Terrain(&sbody);
+		gs->m_terrain = Terrain::InstanceTerrain(&sbody);
 		// force rebuild
 		gs->OnChangeDetailLevel();
 	}

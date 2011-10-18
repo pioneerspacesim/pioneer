@@ -6,6 +6,7 @@
 /**
  * All these stinking octavenoise functions return range [0,1] if roughness = 0.5
  */
+#if 0
 static inline double octavenoise(const fracdef_t &def, double roughness, const vector3d &p);
 static inline double river_octavenoise(const fracdef_t &def, double roughness, const vector3d &p);
 static inline double ridged_octavenoise(const fracdef_t &def, double roughness, const vector3d &p);
@@ -31,6 +32,7 @@ static double volcano_function(const fracdef_t &def, const vector3d &p);
 static double megavolcano_function(const fracdef_t &def, const vector3d &p);
 static double river_function(const fracdef_t &def, const vector3d &p, int style = 0);
 //static double cliff_function(const fracdef_t &def, const vector3d &p);
+#endif
 
 int Terrain::GetRawHeightMapVal(int x, int y)
 {
@@ -44,6 +46,7 @@ int Terrain::GetRawHeightMapVal(int x, int y)
 
 double Terrain::GetHeightMapVal(const vector3d &pt)
 {     // This is all used for Earth and Earth alone
+#if 0
 	double latitude = -asin(pt.y);
 	if (pt.y < -1.0) latitude = -0.5*M_PI;
 	if (pt.y > 1.0) latitude = 0.5*M_PI;
@@ -163,6 +166,7 @@ double Terrain::GetHeightMapVal(const vector3d &pt)
 		}
 		return (v<0 ? 0 : v);
 	}
+#endif
 }
 
 static inline vector3d interpolate_color(double n, vector3d start, vector3d end)
@@ -173,7 +177,7 @@ static inline vector3d interpolate_color(double n, vector3d start, vector3d end)
 
 void Terrain::ChangeDetailLevel()
 {
-
+#if 0
 	switch (Pi::detail.textures) {
 		case 0: textures = false;
 			m_fracnum = 2;break;
@@ -197,10 +201,12 @@ void Terrain::ChangeDetailLevel()
 	PickTerrain(rand);
 	InitFractalType(rand);
 	//fprintf(stderr, "picked terrain %d, colortype %d for %s\n", (int)m_terrainType, (int)m_colorType, body->name.c_str());
+#endif
 }
 
 void Terrain::PickTerrain(MTRand &rand)
 {
+#if 0
 	/* Pick terrain and color fractals to use */
 	if (m_body->type == SBody::TYPE_BROWN_DWARF) {
 		m_terrainType = TERRAIN_FLAT;
@@ -556,6 +562,7 @@ void Terrain::PickTerrain(MTRand &rand)
 		b = rand.Double(0.0, std::min(r, g));
 		m_ggdarkColor[i] = vector3d(r, g, b);
 	}
+#endif
 }
 
 void Terrain::PickAtmosphere()
@@ -670,6 +677,15 @@ void Terrain::InitHeightMap()
 	}	
 }
 
+Terrain *Terrain::InstanceTerrain(const SBody *body)
+{
+	Terrain *t = new TerrainGenerator<TerrainHeightFlat,TerrainColorSolid>();
+
+	t->m_body = body;
+	t->m_seed = t->m_body->seed;
+}
+
+#if 0
 Terrain::Terrain(const SBody *body) : m_body(body)
 {
 	m_seed = m_body->seed;
@@ -679,6 +695,7 @@ Terrain::Terrain(const SBody *body) : m_body(body)
 
 	ChangeDetailLevel();
 }
+#endif
 
 /**
  * Feature width means roughly one perlin noise blob or grain.
@@ -697,6 +714,7 @@ void Terrain::SetFracDef(unsigned int index, double featureHeightMeters, double 
 // Fracdef is used to define the fractals width/area, height and detail
 void Terrain::InitFractalType(MTRand &rand)
 {
+#if 0
 	//Earth uses these fracdef settings
 	if (m_heightMap) {	
 		//textures
@@ -1148,9 +1166,11 @@ void Terrain::InitFractalType(MTRand &rand)
 			}
 
 	}
+#endif
 }
 
 
+#if 0
 double Terrain::GetHeightHillsNormal(const vector3d &p)
 {
 		{
@@ -4035,4 +4055,6 @@ double cliff_function(const fracdef_t &def, const vector3d &p)
 	}
 	return h;
 }
+#endif
+
 #endif

@@ -11,7 +11,9 @@ noinst_HEADERS = \
 	Terrain.h
 
 libterrain_a_SOURCES = \
-	Terrain.cpp
+	Terrain.cpp \
+	TerrainHeightFlat.cpp \
+	TerrainColorSolid.cpp
 	
 INCLUDES += -isystem @top_srcdir@/contrib
 if !HAVE_LUA
