@@ -330,22 +330,14 @@ static int l_space_spawn_ship_parked(lua_State *l)
 
 		if (!station->AllocateStaticSlot(slot))
 			return 0;
-		vel = vector3d(0.0);
+		double dist = 300 + ship->GetLmrCollMesh()->GetBoundingRadius();
+		double xpos = (slot == 0 || slot == 3) ? -dist : dist;
+		double zpos = (slot == 0 || slot == 1) ? -dist : dist;
 
 		pos = station->GetPosition() * 1.1;
+		pos = pos + vector3d(xpos,0,zpos);
+		vel = vector3d(0.0);
 		station->GetRotMatrix(rot);
-
-		vector3d axis1, axis2;
-
-		axis1 = pos.Cross(vector3d(0.0,1.0,0.0));
-		axis2 = pos.Cross(axis1);
-
-		double ang = atan((140 + ship->GetLmrCollMesh()->GetBoundingRadius()) / pos.Length());
-		if (slot<2) ang = -ang;
-
-		vector3d axis = (slot == 0 || slot == 3) ? axis1 : axis2;
-
-		pos.ArbRotate(axis, ang);
 	}
 
 	else {
