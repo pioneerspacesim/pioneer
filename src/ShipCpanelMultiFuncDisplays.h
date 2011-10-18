@@ -53,8 +53,8 @@ class ScannerWidget: public IMultiFunc, public Gui::Widget {
 public:
 	ScannerWidget();
 	void GetSizeRequested(float size[2]);
-	void Draw();
 	void NextMode();
+	void Draw();
 	virtual void Update() {}
 private:
 	void UpdateContactsAndScale();
@@ -63,6 +63,7 @@ private:
 
 	std::list<Body*> m_contacts;
 	int m_mode;
+	float m_range;
 	float m_scale;
 	float m_x;
 	float m_y;

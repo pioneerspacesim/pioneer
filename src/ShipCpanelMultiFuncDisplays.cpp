@@ -11,8 +11,9 @@
 #include "Lang.h"
 #include "StringF.h"
 
-#define SCANNER_RANGE		100000.0
-#define SCANNER_SCALE		0.00027f
+#define SCANNER_RANGE_MAX	100000.0f
+#define SCANNER_RANGE_MIN	3000.0f
+#define SCANNER_SCALE		0.00001f
 #define SCANNER_YSHRINK		0.75f
 #define SCANNER_MODE_AUTO	0
 #define SCANNER_MODE_MAX	1
@@ -99,6 +100,19 @@ void ScannerWidget::GetSizeRequested(float size[2])
 	size[1] = 62;
 }
 
+void ScannerWidget::NextMode()
+{
+	if (m_mode == SCANNER_MODE_AUTO) {
+		m_mode = SCANNER_MODE_MAX;
+		m_range = SCANNER_RANGE_MAX;
+		m_scale = SCANNER_SCALE;
+	} else if (m_mode == SCANNER_MODE_MAX) {
+		m_mode = SCANNER_MODE_MIN;
+		m_range = SCANNER_RANGE_MIN;
+		m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / SCANNER_RANGE_MIN);
+	} else m_mode = SCANNER_MODE_AUTO;
+}
+
 void ScannerWidget::Draw()
 {
 	if (Pi::player->m_equipment.Get(Equip::SLOT_SCANNER) != Equip::SCANNER) return;
@@ -158,26 +172,26 @@ void ScannerWidget::Draw()
 
 void ScannerWidget::UpdateContactsAndScale()
 {
-	// collect the bodies to be displayed and distances
-	double combat_dist = 0, far_ship_dist = 0, nav_dist = 0, far_other_dist = 0;
+	// collect the bodies to be displayed, and if AUTO, distances
+	float combat_dist = 0, far_ship_dist = 0, nav_dist = 0, far_other_dist = 0;
 	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 		if ((*i) == Pi::player) continue;
 
-		double dist = (*i)->GetPositionRelTo(Pi::player).Length();
-		if (dist > SCANNER_RANGE) continue;
+		float dist = float((*i)->GetPositionRelTo(Pi::player).Length());
+		if (dist > SCANNER_RANGE_MAX) continue;
 
 		switch ((*i)->GetType()) {
 			case Object::MISSILE:
 				// XXX should ignore player's own missiles for range calc
 			case Object::SHIP:
-				if (m_mode == SCANNER_MODE_AUTO) {
+				if (m_mode == SCANNER_MODE_AUTO && !combat_dist) {
 					if (dist > far_ship_dist) far_ship_dist = dist;
 					if ((*i) == Pi::player->GetCombatTarget()) combat_dist = dist;
 				}
 				break;
 			case Object::CARGOBODY:
 				// XXX could maybe add orbital stations and/or clouds
-				if (m_mode == SCANNER_MODE_AUTO) {
+				if (m_mode == SCANNER_MODE_AUTO && !nav_dist && !combat_dist) {
 					if (dist > far_other_dist) far_other_dist = dist;
 					if ((*i) == Pi::player->GetNavTarget()) nav_dist = dist;
 				}
@@ -189,20 +203,15 @@ void ScannerWidget::UpdateContactsAndScale()
 	}
 
 	// range priority is combat target > ship/missile > nav target > other
-	double priority_dist = 0;
 	if (m_mode == SCANNER_MODE_AUTO) {
-		if (combat_dist) priority_dist = combat_dist;
-		else if (far_ship_dist) priority_dist = far_ship_dist;
-		else if (nav_dist) priority_dist = nav_dist;
-		else priority_dist = far_other_dist;
-	} else if (m_mode == SCANNER_MODE_MAX) priority_dist = SCANNER_RANGE;
+		if (combat_dist) m_range = Clamp(combat_dist * 2, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+		else if (far_ship_dist) m_range = std::max(far_ship_dist, SCANNER_RANGE_MIN);
+		else if (nav_dist) m_range = Clamp(nav_dist * 2, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+		else if (far_other_dist) m_range = std::max(far_other_dist, SCANNER_RANGE_MIN);
+		else m_range = SCANNER_RANGE_MAX;
 
-	// set the scale - smaller means drawn closer together
-	// XXX if a longer range scanner is implemented this will need work
-	if (priority_dist < SCANNER_RANGE / 27.0) m_scale = SCANNER_SCALE;
-	else if (priority_dist < SCANNER_RANGE / 9.0) m_scale = SCANNER_SCALE / 3.0f;
-	else if (priority_dist < SCANNER_RANGE / 3.0) m_scale = SCANNER_SCALE / 9.0f;
-	else m_scale = SCANNER_SCALE / 27.0f;
+		m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
+	}
 }
 
 void ScannerWidget::DrawBlobs(bool below)
@@ -270,12 +279,6 @@ void ScannerWidget::DrawDistanceRings()
 	}
 	glEnd();
 
-}
-
-void ScannerWidget::NextMode()
-{
-	if (m_mode == SCANNER_MODE_MIN) m_mode = SCANNER_MODE_AUTO;
-	else m_mode++;
 }
 
 /////////////////////////////////
