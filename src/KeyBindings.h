@@ -102,6 +102,20 @@ namespace KeyBindings {
 	extern KeyAction fastRotate;
 	extern KeyAction targetObject;
 	extern KeyAction toggleLuaConsole;
+	extern KeyAction lockHyperspaceTarget;
+	extern KeyAction toggleInfoBox;
+	extern KeyAction toggleSelectionMode;
+	extern KeyAction resetRotationAndZoom;
+	extern KeyAction moveLeft;
+	extern KeyAction moveRight;
+	extern KeyAction moveForward;
+	extern KeyAction moveBackward;
+	extern KeyAction moveUp;
+	extern KeyAction moveDown;
+	extern KeyAction turnLeft;
+	extern KeyAction turnRight;
+	extern KeyAction turnUp;
+	extern KeyAction turnDown;
 
 	extern AxisBinding pitchAxis;
 	extern AxisBinding rollAxis;
