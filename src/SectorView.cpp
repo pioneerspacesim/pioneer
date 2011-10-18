@@ -817,6 +817,13 @@ void SectorView::Update()
 	m_playerHyperspaceRange = Pi::player->CalcStats()->hyperspace_range;
 }
 
+void SectorView::ShowAll()
+{
+	View::ShowAll();
+	if (!m_infoBoxVisible)
+		m_infoBox->HideAll();
+}
+
 void SectorView::MouseButtonDown(int button, int x, int y)
 {
 	const float ft = Pi::GetFrameTime();
