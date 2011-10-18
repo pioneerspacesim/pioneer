@@ -155,6 +155,7 @@ void SectorView::Save(Serializer::Writer &wr)
 	wr.Float(m_rotZ);
 	wr.Bool(m_matchTargetToSelection);
 	wr.Bool(m_selectionFollowsMovement);
+	wr.Bool(m_infoBoxVisible);
 }
 
 void SectorView::Load(Serializer::Reader &rd)
@@ -170,6 +171,7 @@ void SectorView::Load(Serializer::Reader &rd)
 	m_rotZ = m_rotZMovingTo = rd.Float();
 	m_matchTargetToSelection = rd.Bool();
 	m_selectionFollowsMovement = rd.Bool();
+	m_infoBoxVisible = rd.Bool();
 
 	UpdateSystemLabels(m_currentSystemLabels, m_current);
 	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
