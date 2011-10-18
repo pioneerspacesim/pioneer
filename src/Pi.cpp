@@ -1253,6 +1253,7 @@ void Pi::Start()
 
 void Pi::EndGame()
 {
+	Sound::DestroyAllEvents();
 	Pi::luaOnGameEnd->Signal();
 	Pi::luaManager->CollectGarbage();
 	Pi::isGameStarted = false;
@@ -1386,8 +1387,7 @@ void Pi::MainLoop()
 		if (Pi::player->IsDead()) {
 			if (time_player_died > 0.0) {
 				if (Pi::GetGameTime() - time_player_died > 8.0) {
-					Sound::DestroyAllEvents();
-					isGameStarted = false;
+					Pi::EndGame();
 					Pi::TombStoneLoop();
 					break;
 				}
