@@ -1,71 +1,7 @@
 #include "TerrainComponent.h"
 #include "TerrainNoise.h"
 
-/// XXX merge these with their fracdef versions
-static inline double octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p)
-{
-	double n = 0;
-	double octaveAmplitude = roughness;
-	double jizm = 1.0;
-	while (octaves--) {
-		n += octaveAmplitude * noise(jizm*p);
-		octaveAmplitude *= roughness;
-		jizm *= lacunarity;
-	}
-	return (n+1.0)*0.5;
-}
-static inline double river_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p)
-{
-	double n = 0;
-	double octaveAmplitude = roughness;
-	double jizm = 1.0;
-	while (octaves--) {
-		n += octaveAmplitude * fabs(noise(jizm*p));
-		octaveAmplitude *= roughness;
-		jizm *= lacunarity;
-	}
-	return n;
-}
-static inline double ridged_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p)
-{
-	double n = 0;
-	double octaveAmplitude = roughness;
-	double jizm = 1.0;
-	while (octaves--) {
-		n += octaveAmplitude * noise(jizm*p);
-		octaveAmplitude *= roughness;
-		jizm *= lacunarity;
-	}
-	n = 1.0 - fabs(n);
-	n *= n;
-	return n;
-}
-
-static inline double billow_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p)
-{
-	double n = 0;
-	double octaveAmplitude = roughness;
-	double jizm = 1.0;
-	while (octaves--) {
-		n += octaveAmplitude * noise(jizm*p);
-		octaveAmplitude *= roughness;
-		jizm *= lacunarity;
-	}
-	return (2.0 * fabs(n) - 1.0)+1.0;
-}
-
-static inline double voronoiscam_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p)
-{
-	double n = 0;
-	double octaveAmplitude = roughness;
-	double jizm = 1.0;
-	while (octaves--) {
-		n += octaveAmplitude * noise(jizm*p);
-		octaveAmplitude *= roughness;
-		jizm *= lacunarity;
-	}
-	return sqrt(10.0 * fabs(n));
-}
+using namespace TerrainNoise;
 
 namespace TerrainComponent {
 

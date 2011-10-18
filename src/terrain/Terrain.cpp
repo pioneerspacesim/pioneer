@@ -3,34 +3,6 @@
 #include "Pi.h"
 
 
-#if 0
-static inline double octavenoise(const fracdef_t &def, double roughness, const vector3d &p);
-static inline double river_octavenoise(const fracdef_t &def, double roughness, const vector3d &p);
-static inline double ridged_octavenoise(const fracdef_t &def, double roughness, const vector3d &p);
-static inline double billow_octavenoise(const fracdef_t &def, double roughness, const vector3d &p);
-static inline double voronoiscam_octavenoise(const fracdef_t &def, double roughness, const vector3d &p);
-static inline double dunes_octavenoise(const fracdef_t &def, double roughness, const vector3d &p);
-//static inline double dunes_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p);
-static double canyon_ridged_function(const fracdef_t &def, const vector3d &p);
-static double canyon2_ridged_function(const fracdef_t &def, const vector3d &p);
-static double canyon3_ridged_function(const fracdef_t &def, const vector3d &p);
-static double canyon_normal_function(const fracdef_t &def, const vector3d &p);
-static double canyon2_normal_function(const fracdef_t &def, const vector3d &p);
-static double canyon3_normal_function(const fracdef_t &def, const vector3d &p);
-static double canyon_voronoi_function(const fracdef_t &def, const vector3d &p);
-static double canyon2_voronoi_function(const fracdef_t &def, const vector3d &p);
-static double canyon3_voronoi_function(const fracdef_t &def, const vector3d &p);
-static double canyon_billow_function(const fracdef_t &def, const vector3d &p);
-static double canyon2_billow_function(const fracdef_t &def, const vector3d &p);
-static double canyon3_billow_function(const fracdef_t &def, const vector3d &p);
-static double crater_function(const fracdef_t &def, const vector3d &p);
-static double impact_crater_function(const fracdef_t &def, const vector3d &p);
-static double volcano_function(const fracdef_t &def, const vector3d &p);
-static double megavolcano_function(const fracdef_t &def, const vector3d &p);
-static double river_function(const fracdef_t &def, const vector3d &p, int style = 0);
-//static double cliff_function(const fracdef_t &def, const vector3d &p);
-#endif
-
 int Terrain::GetRawHeightMapVal(int x, int y)
 {
 	return m_heightMap[Clamp(y, 0, m_heightMapSizeY-1)*m_heightMapSizeX + Clamp(x, 0, m_heightMapSizeX-1)];
@@ -164,12 +136,6 @@ double Terrain::GetHeightMapVal(const vector3d &pt)
 		return (v<0 ? 0 : v);
 	}
 #endif
-}
-
-static inline vector3d interpolate_color(double n, vector3d start, vector3d end)
-{
-	n = Clamp(n, 0.0, 1.0);
-	return start*(1.0-n) + end*n;
 }
 
 void Terrain::ChangeDetailLevel()
@@ -1239,14 +1205,6 @@ double Terrain::GetHeight(const vector3d &p)
 	assert(0 && "unknown terrain type");
 }
 
-/* These fuctions should not be used by Terrain::GetHeight, so don't move these definitions
-   to above that function. GetHeight should use the versions of these functions that take const fracdef_t
-   objects, ensuring that the resulting terrains have the desired scale */
-static inline double octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p);
-static inline double river_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p);
-static inline double ridged_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p);
-static inline double billow_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p);
-static inline double voronoiscam_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p);
 
 #define rock   octavenoise(GetFracDef(0), 0.65, p);
 #define rock2  octavenoise(GetFracDef(1), 0.6, p)*ridged_octavenoise(GetFracDef(0), 0.55, p);
