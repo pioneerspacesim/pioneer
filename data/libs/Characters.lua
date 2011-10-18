@@ -4,6 +4,7 @@ Character = {
 	-- Persona
 	player = false, -- Almost always.  One exception. (-:
 	name = '',
+	isfemale = true,
 	face = 0,
 
 	-- Attributes
@@ -13,7 +14,7 @@ Character = {
 	lawfulness = 0,
 
 	-- Experience
-	killCount = 0,
+	killcount = 0,
 
 	-- Methods
 
