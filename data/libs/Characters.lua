@@ -18,18 +18,18 @@ Character = {
 
 	-- Methods
 
-	new = function (self,character)
+	new = function (self,newCharacter)
 		-- initialise new character
-		local character = character or {}
+		local newCharacter = newCharacter or {}
 		-- preserve default name against randomization
-		local name = character.name
-		-- set inherited characteristics
-		setmetatable(character,{__index = self})
+		local name = newCharacter.name
+		-- set inherited characteristics (inherit from class only, not self)
+		setmetatable(newCharacter,{__index = Character})
 		-- randomize name if it wasn't specified
-		character.name = name or NameGen.FullName(character.isfemale)
+		newCharacter.name = name or NameGen.FullName(newCharacter.isfemale)
 		-- allocate a new table for character relationships
-		character.Relationships = {}
-		return character
+		newCharacter.Relationships = {}
+		return newCharacter
 	end,
 
 	DiceRoll = function ()
@@ -56,3 +56,40 @@ Character = {
 		print('Lawfulness:',self.lawfulness)
 	end,
 }
+
+-- This will be a numerically indexed global table of characters.  There
+-- will also be one non-numerically keyed value - ['player'].
+PersistentCharacters = {}
+
+-- We'll try to save our persistent characters...
+local loaded_data
+
+local onGameStart = function ()
+	if loaded_data then
+		for k,newCharacter in pairs(loaded_data.PersistentCharacters) do
+			setmetatable(newCharacter,{__index = Character})
+			PersistentCharacters[k] = newCharacter
+		end
+	else
+		-- Make a new character sheet for the player, with just
+		-- the average values.  We'll find some way to ask the
+		-- player for a new name in the future.
+		local PlayerCharacter = Character:new({name = 'Peter Jameson'})
+		-- Insert the player character into the persistent character
+		-- table.  Player won't be ennumerated with NPCs, because player
+		-- is not numerically keyed.
+		PersistentCharacters.player = PlayerCharacter
+	end
+	loaded_data = nil
+end
+
+local serialize = function ()
+    return { PersistentCharacters = PersistentCharacters}
+end
+
+local unserialize = function (data)
+    loaded_data = data
+end
+
+EventQueue.onGameStart:Connect(onGameStart)
+Serializer:Register("Characters", serialize, unserialize)
