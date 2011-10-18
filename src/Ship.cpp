@@ -102,6 +102,7 @@ void Ship::Init()
 	UpdateMass();
 	m_stats.hull_mass_left = float(stype.hullMass);
 	m_stats.shield_mass_left = 0;
+	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
 }
 
 void Ship::PostLoadFixup()
