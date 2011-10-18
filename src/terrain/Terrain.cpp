@@ -2,6 +2,273 @@
 #include "perlin.h"
 #include "Pi.h"
 
+// static instancer. selects the best height and color classes for the body
+Terrain *Terrain::InstanceTerrain(const SBody *body)
+{
+	MTRand rand(body->seed);
+
+	GeneratorInstancer gi = 0;
+
+	switch (body->type) {
+
+		case SBody::TYPE_BROWN_DWARF:
+			gi = InstanceGenerator<TerrainHeightFlat,TerrainColorStarBrownDwarf>;
+			break;
+
+		case SBody::TYPE_WHITE_DWARF:
+			gi = InstanceGenerator<TerrainHeightFlat,TerrainColorStarWhiteDwarf>;
+			break;
+
+		case SBody::TYPE_STAR_M:
+		case SBody::TYPE_STAR_M_GIANT:
+		case SBody::TYPE_STAR_M_SUPER_GIANT:
+		case SBody::TYPE_STAR_M_HYPER_GIANT: {
+			const GeneratorInstancer choices[] = {
+				InstanceGenerator<TerrainHeightFlat,TerrainColorStarM>,
+				InstanceGenerator<TerrainHeightFlat,TerrainColorStarM>,
+				InstanceGenerator<TerrainHeightFlat,TerrainColorStarK>,
+				InstanceGenerator<TerrainHeightFlat,TerrainColorStarG>
+			};
+			gi = choices[rand.Int32(4)];
+			break;
+		}
+
+		case SBody::TYPE_STAR_K:
+		case SBody::TYPE_STAR_K_GIANT:
+		case SBody::TYPE_STAR_K_SUPER_GIANT:
+		case SBody::TYPE_STAR_K_HYPER_GIANT: {
+			const GeneratorInstancer choices[] = {
+				InstanceGenerator<TerrainHeightFlat,TerrainColorStarM>,
+				InstanceGenerator<TerrainHeightFlat,TerrainColorStarK>,
+				InstanceGenerator<TerrainHeightFlat,TerrainColorStarK>,
+				InstanceGenerator<TerrainHeightFlat,TerrainColorStarG>
+			};
+			gi = choices[rand.Int32(4)];
+			break;
+		}
+
+		case SBody::TYPE_STAR_G:
+		case SBody::TYPE_STAR_G_GIANT:
+		case SBody::TYPE_STAR_G_SUPER_GIANT:
+		case SBody::TYPE_STAR_G_HYPER_GIANT: {
+			const GeneratorInstancer choices[] = {
+				InstanceGenerator<TerrainHeightFlat,TerrainColorStarWhiteDwarf>,
+				InstanceGenerator<TerrainHeightFlat,TerrainColorStarK>
+			};
+			gi = choices[rand.Int32(2)];
+			break;
+		}
+
+		case SBody::TYPE_PLANET_GAS_GIANT: {
+			const GeneratorInstancer choices[] = {
+				InstanceGenerator<TerrainHeightFlat,TerrainColorGGSaturn>,
+				InstanceGenerator<TerrainHeightFlat,TerrainColorGGSaturn>,
+				InstanceGenerator<TerrainHeightFlat,TerrainColorGGSaturn>,
+				InstanceGenerator<TerrainHeightFlat,TerrainColorGGSaturn>,
+				InstanceGenerator<TerrainHeightFlat,TerrainColorGGSaturn>,
+				InstanceGenerator<TerrainHeightFlat,TerrainColorGGSaturn>
+			};
+			gi = choices[rand.Int32(6)];
+			break;
+		}
+
+		case SBody::TYPE_PLANET_ASTEROID:
+			gi = InstanceGenerator<TerrainHeightAsteroid,TerrainColorAsteroid>;
+			break;
+
+		case SBody::TYPE_PLANET_TERRESTRIAL: {
+
+			// Earth-like world
+			if ((body->m_life > fixed(7,10)) && (body->m_volatileGas > fixed(2,10))) {
+				// There would be no life on the surface without atmosphere
+
+				if (body->averageTemp > 240) {
+					const GeneratorInstancer choices[] = {
+						InstanceGenerator<TerrainHeightHillsRidged,TerrainColorEarthLike>,
+						InstanceGenerator<TerrainHeightHillsRivers,TerrainColorEarthLike>,
+						InstanceGenerator<TerrainHeightHillsDunes,TerrainColorEarthLike>,
+						InstanceGenerator<TerrainHeightMountainsRidged,TerrainColorEarthLike>,
+						InstanceGenerator<TerrainHeightMountainsNormal,TerrainColorEarthLike>,
+						InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorEarthLike>,
+						InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorEarthLike>,
+						InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorEarthLike>
+					};
+					gi = choices[rand.Int32(8)];
+					break;
+				}
+
+				const GeneratorInstancer choices[] = {
+					InstanceGenerator<TerrainHeightHillsRidged,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightHillsRivers,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightHillsDunes,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightMountainsRidged,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightMountainsNormal,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorDesert>
+				};
+				gi = choices[rand.Int32(8)];
+				break;
+			}
+
+			// Harsh, habitable world 
+			if ((body->m_volatileGas > fixed(2,10)) && (body->m_life > fixed(4,10)) ) {
+
+				if (body->averageTemp > 240) {
+					const GeneratorInstancer choices[] = {
+						InstanceGenerator<TerrainHeightHillsRidged,TerrainColorTFGood>,
+						InstanceGenerator<TerrainHeightHillsRivers,TerrainColorTFGood>,
+						InstanceGenerator<TerrainHeightHillsDunes,TerrainColorTFGood>,
+						InstanceGenerator<TerrainHeightHillsNormal,TerrainColorTFGood>,
+						InstanceGenerator<TerrainHeightMountainsNormal,TerrainColorTFGood>,
+						InstanceGenerator<TerrainHeightMountainsRidged,TerrainColorTFGood>,
+						InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorTFGood>,
+						InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorTFGood>,
+						InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorTFGood>,
+						InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorTFGood>
+					};
+					gi = choices[rand.Int32(10)];
+					break;
+				}
+
+				const GeneratorInstancer choices[] = {
+					InstanceGenerator<TerrainHeightHillsRidged,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightHillsRivers,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightHillsDunes,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightHillsNormal,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightMountainsNormal,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightMountainsRidged,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorIce>
+				};
+				gi = choices[rand.Int32(10)];
+				break;
+			}
+			
+			// Marginally habitable world/ verging on mars like :) 
+			else if ((body->m_volatileGas > fixed(1,10)) && (body->m_life > fixed(1,10)) ) {
+
+				if (body->averageTemp > 240) {
+					const GeneratorInstancer choices[] = {
+						InstanceGenerator<TerrainHeightHillsRidged,TerrainColorTFPoor>,
+						InstanceGenerator<TerrainHeightHillsRivers,TerrainColorTFPoor>,
+						InstanceGenerator<TerrainHeightHillsDunes,TerrainColorTFPoor>,
+						InstanceGenerator<TerrainHeightHillsNormal,TerrainColorTFPoor>,
+						InstanceGenerator<TerrainHeightMountainsNormal,TerrainColorTFPoor>,
+						InstanceGenerator<TerrainHeightMountainsRidged,TerrainColorTFPoor>,
+						InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorTFPoor>,
+						InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorTFPoor>,
+						InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorTFPoor>,
+						InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorTFPoor>
+					};
+					gi = choices[rand.Int32(10)];
+					break;
+				}
+
+				const GeneratorInstancer choices[] = {
+					InstanceGenerator<TerrainHeightHillsRidged,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightHillsRivers,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightHillsDunes,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightHillsNormal,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightMountainsNormal,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightMountainsRidged,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorIce>
+				};
+				gi = choices[rand.Int32(10)];
+				break;
+			}
+
+			// Desert-like world, Mars -like.
+			if ((body->m_volatileLiquid < fixed(1,10)) && (body->m_volatileGas > fixed(1,5))) {
+				const GeneratorInstancer choices[] = {
+					InstanceGenerator<TerrainHeightHillsDunes,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightWaterSolid,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightRuggedLava,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorDesert>
+				};
+				gi = choices[rand.Int32(6)];
+				break;
+			}
+
+			// Frozen world
+			if ((body->m_volatileIces > fixed(8,10)) &&  (body->averageTemp < 250)) {
+				const GeneratorInstancer choices[] = {
+					InstanceGenerator<TerrainHeightHillsDunes,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightHillsCraters,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightMountainsCraters,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightWaterSolid,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightWaterSolidCanyons,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorIce>
+				};
+				gi = choices[rand.Int32(6)];
+				break;
+			}
+
+			// Volcanic world
+			if (body->m_volcanicity > fixed(7,10)) {
+
+				if (body->m_life > fixed(5,10))	// life on a volcanic world ;)
+					gi = InstanceGenerator<TerrainHeightRuggedLava,TerrainColorTFGood>;
+				else if (body->m_life > fixed(2,10))
+					gi = InstanceGenerator<TerrainHeightRuggedLava,TerrainColorTFPoor>;
+				else
+					gi = InstanceGenerator<TerrainHeightRuggedLava,TerrainColorVolcanic>;
+				break;
+			}
+
+			//Below might not be needed.
+			//Alien life world:
+			if (body->m_life > fixed(1,10))  {
+				const GeneratorInstancer choices[] = {
+					InstanceGenerator<TerrainHeightHillsDunes,TerrainColorTFPoor>,
+					InstanceGenerator<TerrainHeightHillsRidged,TerrainColorTFPoor>,
+					InstanceGenerator<TerrainHeightHillsRivers,TerrainColorTFPoor>,
+					InstanceGenerator<TerrainHeightMountainsNormal,TerrainColorTFPoor>,
+					InstanceGenerator<TerrainHeightMountainsRidged,TerrainColorTFPoor>,
+					InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorTFPoor>,
+					InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorTFPoor>,
+					InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorTFPoor>,
+					InstanceGenerator<TerrainHeightWaterSolid,TerrainColorTFPoor>,
+					InstanceGenerator<TerrainHeightRuggedLava,TerrainColorTFPoor>,
+					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorTFPoor>
+				};
+				gi = choices[rand.Int32(11)];
+				break;
+			};
+
+			if (body->m_volatileGas > fixed(1,10)) {
+				const GeneratorInstancer choices[] = {
+					InstanceGenerator<TerrainHeightHillsNormal,TerrainColorRock>,
+					InstanceGenerator<TerrainHeightMountainsNormal,TerrainColorRock>,
+					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorRock>
+				};
+				gi = choices[rand.Int32(3)];
+				break;
+			}
+
+			const GeneratorInstancer choices[] = {
+				InstanceGenerator<TerrainHeightHillsCraters2,TerrainColorRock>,
+				InstanceGenerator<TerrainHeightMountainsCraters2,TerrainColorRock>,
+			};
+			gi = choices[rand.Int32(2)];
+			break;
+		}
+
+		default:
+			gi = InstanceGenerator<TerrainHeightFlat,TerrainColorSolid>;
+			break;
+	}
+
+	return gi();
+}
+
 
 int Terrain::GetRawHeightMapVal(int x, int y)
 {
@@ -170,217 +437,6 @@ void Terrain::ChangeDetailLevel()
 void Terrain::PickTerrain(MTRand &rand)
 {
 #if 0
-	/* Pick terrain and color fractals to use */
-	if (m_body->type == SBody::TYPE_BROWN_DWARF) {
-		m_terrainType = TERRAIN_FLAT;
-		m_colorType = COLOR_STAR_BROWN_DWARF;
-	} else if (m_body->type == SBody::TYPE_WHITE_DWARF) {
-		m_terrainType = TERRAIN_FLAT;
-		m_colorType = COLOR_STAR_WHITE_DWARF;
-	} else if ((m_body->type == SBody::TYPE_STAR_M) || (m_body->type == SBody::TYPE_STAR_M_GIANT) ||
-	(m_body->type == SBody::TYPE_STAR_M_SUPER_GIANT) || (m_body->type == SBody::TYPE_STAR_M_SUPER_GIANT)){ 
-		m_terrainType = TERRAIN_FLAT;
-		const enum ColorFractal choices[] = {
-				COLOR_STAR_M,
-				COLOR_STAR_M,
-				COLOR_STAR_K,
-				COLOR_STAR_G,
-			};
-			m_colorType = choices[rand.Int32(4)];
-	} else if ((m_body->type == SBody::TYPE_STAR_K) || (m_body->type == SBody::TYPE_STAR_K_GIANT) ||
-	(m_body->type == SBody::TYPE_STAR_K_SUPER_GIANT) || (m_body->type == SBody::TYPE_STAR_K_SUPER_GIANT)){ 
-		m_terrainType = TERRAIN_FLAT;
-		const enum ColorFractal choices[] = {
-				COLOR_STAR_M,
-				COLOR_STAR_K,
-				COLOR_STAR_K,
-				COLOR_STAR_G,
-			};
-			m_colorType = choices[rand.Int32(3)];
-	} else if ((m_body->type == SBody::TYPE_STAR_G) || (m_body->type == SBody::TYPE_STAR_G_GIANT) ||
-	(m_body->type == SBody::TYPE_STAR_G_SUPER_GIANT) || (m_body->type == SBody::TYPE_STAR_G_SUPER_GIANT)){ 
-		m_terrainType = TERRAIN_FLAT;
-		const enum ColorFractal choices[] = {
-				COLOR_STAR_WHITE_DWARF,
-				COLOR_STAR_G,
-			};
-			m_colorType = choices[rand.Int32(2)];
-	} else if (m_body->type < SBody::TYPE_PLANET_GAS_GIANT) {
-		m_terrainType = TERRAIN_FLAT;
-		m_colorType = COLOR_SOLID;
-	} else if (m_body->type == SBody::TYPE_PLANET_GAS_GIANT) {
-		m_terrainType = TERRAIN_FLAT;
-		switch (rand.Int32(5)) {
-			case 0: m_colorType = COLOR_GG_SATURN; break;
-			case 1: m_colorType = COLOR_GG_SATURN2; break;
-			case 2: m_colorType = COLOR_GG_URANUS; break;
-			case 3: m_colorType = COLOR_GG_JUPITER; break;
-			case 4: m_colorType = COLOR_GG_NEPTUNE; break;
-			default: m_colorType = COLOR_GG_NEPTUNE2; break;
-		}
-	} else if (m_body->type == SBody::TYPE_PLANET_ASTEROID) {
-		m_terrainType = TERRAIN_ASTEROID;
-		m_colorType = COLOR_ASTEROID;
-	} else /* SBody::TYPE_PLANET_TERRESTRIAL */ {
-		/* Pick terrain and color fractals for terrestrial planets */
-		//Earth-like world
-		if ((m_body->m_life > fixed(7,10)) &&  
-		   (m_body->m_volatileGas > fixed(2,10))){
-			   // There would be no life on the surface without atmosphere
-			const enum TerrainFractal choices[] = {
-				TERRAIN_HILLS_RIDGED,
-				TERRAIN_HILLS_RIVERS,
-				TERRAIN_HILLS_DUNES,
-				TERRAIN_MOUNTAINS_RIDGED,
-				TERRAIN_MOUNTAINS_NORMAL,  // HQ terrain
-				TERRAIN_MOUNTAINS_RIVERS,  // HQ terrain
-				TERRAIN_MOUNTAINS_VOLCANO,
-				TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
-			};
-			m_terrainType = choices[rand.Int32(8)];
-			//m_terrainType = TERRAIN_MOUNTAINS_NORMAL;
-			if (m_body->averageTemp > 240) {
-				m_colorType = COLOR_EARTHLIKE;
-			} else {
-				m_colorType = COLOR_DESERT;
-			}
-			printf("| Earth-like world  temp: %d\n", m_body->averageTemp);
-		}//Harsh, habitable world 
-		else if ((m_body->m_volatileGas > fixed(2,10)) &&
-				  (m_body->m_life > fixed(4,10)) ) {
-			const enum TerrainFractal choices[] = {
-				TERRAIN_HILLS_RIDGED,
-				TERRAIN_HILLS_RIVERS,
-				TERRAIN_HILLS_DUNES,
-				TERRAIN_HILLS_NORMAL,
-				TERRAIN_MOUNTAINS_NORMAL,
-				TERRAIN_MOUNTAINS_RIDGED,
-				TERRAIN_MOUNTAINS_VOLCANO,
-				TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
-				TERRAIN_MOUNTAINS_RIVERS,
-				TERRAIN_RUGGED_DESERT,
-			};
-			m_terrainType = choices[rand.Int32(10)];
-			//m_terrainType = TERRAIN_MOUNTAINS_RIVERS;
-			if (m_body->averageTemp > 240) {
-				m_colorType = COLOR_TFGOOD;;
-			} else {
-				m_colorType = COLOR_ICEWORLD;
-			}
-			printf("| Harsh, habitable world temp: %d\n", m_body->averageTemp);
-		}// Marginally habitable world/ verging on mars like :) 
-		else if ((m_body->m_volatileGas > fixed(1,10)) &&
-				  (m_body->m_life > fixed(1,10)) ) {
-			const enum TerrainFractal choices[] = {
-				TERRAIN_HILLS_RIDGED,
-				TERRAIN_HILLS_RIVERS,
-				TERRAIN_HILLS_DUNES,
-				TERRAIN_HILLS_NORMAL,
-				TERRAIN_MOUNTAINS_NORMAL,
-				TERRAIN_MOUNTAINS_RIDGED,
-				TERRAIN_MOUNTAINS_VOLCANO,
-				TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
-				TERRAIN_MOUNTAINS_RIVERS,
-				TERRAIN_RUGGED_DESERT,
-			};
-			m_terrainType = choices[rand.Int32(10)];
-			//m_terrainType = TERRAIN_MOUNTAINS_RIVERS;
-			if (m_body->averageTemp > 240) {
-				m_colorType = COLOR_TFPOOR;;
-			} else {
-				m_colorType = COLOR_ICEWORLD;
-			}
-			printf("| Marginally habitable world temp: %d\n", m_body->averageTemp);
-		} // Desert-like world, Mars -like.
-		else if ((m_body->m_volatileLiquid < fixed(1,10)) &&
-		           (m_body->m_volatileGas > fixed(1,5))) {
-			const enum TerrainFractal choices[] = {
-				TERRAIN_HILLS_DUNES,
-				TERRAIN_H2O_SOLID,
-				TERRAIN_RUGGED_DESERT,
-				TERRAIN_RUGGED_LAVA,
-				TERRAIN_MOUNTAINS_VOLCANO,
-				TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
-			};
-			m_terrainType = choices[rand.Int32(6)];
-			//m_terrainType = TERRAIN_MOUNTAINS_NORMAL;
-			m_colorType = COLOR_DESERT;
-			printf("| Desert-like world. temp: %d\n", m_body->averageTemp);
-		} // Frozen world
-		else if ((m_body->m_volatileIces > fixed(8,10)) &&  
-		           (m_body->averageTemp < 250)) {
-			const enum TerrainFractal choices[] = {
-				TERRAIN_HILLS_DUNES,
-				TERRAIN_HILLS_CRATERS,
-				TERRAIN_MOUNTAINS_CRATERS,
-				TERRAIN_H2O_SOLID,
-				TERRAIN_H2O_SOLID_CANYONS,
-				TERRAIN_RUGGED_DESERT,
-			};
-			m_terrainType = choices[rand.Int32(6)];
-			m_colorType = COLOR_ICEWORLD;
-			printf("| Frozen world. temp: %d\n", m_body->averageTemp);
-		} else if (m_body->m_volcanicity > fixed(7,10)) {
-					   // Volcanic world
-			m_terrainType = TERRAIN_RUGGED_LAVA;
-			if (m_body->m_life > fixed(5,10)) { // life on a volcanic world ;)
-				m_colorType = COLOR_TFGOOD;
-			} else if (m_body->m_life > fixed(2,10)) {
-				m_colorType = COLOR_TFPOOR;
-				printf("| Volcanic world with Life. temp: %d\n", m_body->averageTemp);
-			} else {
-				m_colorType = COLOR_VOLCANIC;
-				printf("| Volcanic world. temp: %d\n", m_body->averageTemp);
-			}
-		//Below might not be needed.
-		//Alien life world:
-		} else if (m_body->m_life > fixed(1,10))  {
-			const enum TerrainFractal choices[] = {
-				TERRAIN_HILLS_DUNES,
-				TERRAIN_HILLS_RIDGED,
-				TERRAIN_HILLS_RIVERS,
-				TERRAIN_MOUNTAINS_NORMAL,
-				TERRAIN_MOUNTAINS_RIDGED,
-				TERRAIN_MOUNTAINS_VOLCANO,
-				TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
-				TERRAIN_MOUNTAINS_RIVERS,
-				TERRAIN_H2O_SOLID,
-				TERRAIN_RUGGED_LAVA,
-				TERRAIN_RUGGED_DESERT,
-			};
-			//m_terrainType = TERRAIN_HILLS_DUNES;
-			m_terrainType = choices[rand.Int32(11)];
-			m_colorType = COLOR_TFPOOR;
-			printf("| Alien life world. temp: %d\n", m_body->averageTemp);
-		} else if (m_body->m_volatileGas > fixed(1,10)) {
-				const enum TerrainFractal choices[] = {
-				TERRAIN_HILLS_NORMAL,
-				TERRAIN_MOUNTAINS_NORMAL,
-				TERRAIN_RUGGED_DESERT,
-			};
-			m_terrainType = choices[rand.Int32(3)];
-			m_colorType = COLOR_ROCK;
-			printf("| Rock ball with atmosphere. temp: %d\n", m_body->averageTemp);
-		} else if (m_body->m_volatileGas > fixed(1,20)) {
-				const enum TerrainFractal choices[] = {
-				TERRAIN_HILLS_CRATERS,
-				TERRAIN_MOUNTAINS_CRATERS,
-				TERRAIN_H2O_SOLID,
-			};
-			m_terrainType = choices[rand.Int32(3)];
-			m_colorType = COLOR_ROCK;
-			printf("| Rock ball marginal atmosphere. temp: %d\n", m_body->averageTemp);
-		} else {
-			const enum TerrainFractal choices[] = {
-				TERRAIN_HILLS_CRATERS2,
-				TERRAIN_MOUNTAINS_CRATERS2,
-			};
-			m_terrainType = choices[rand.Int32(2)];
-			m_colorType = COLOR_ROCK;
-			printf("| Rock ball with craters. temp: %d\n", m_body->averageTemp);
-		}
-	}
-	// XXX override the above so you can test particular fractals XXX
 
 	//m_terrainType = TERRAIN_HILLS_DUNES;
 	//m_colorType = COLOR_DESERT;
@@ -638,17 +694,6 @@ void Terrain::InitHeightMap()
 	} else {
 		m_heightMap = 0;
 	}	
-}
-
-Terrain *Terrain::InstanceTerrain(const SBody *body)
-{
-	GeneratorInstancer x = InstanceGenerator<TerrainHeightFlat,TerrainColorSolid>;
-	Terrain *t = x();
-
-	t->m_body = body;
-	t->m_seed = t->m_body->seed;
-
-	return t;
 }
 
 #if 0
