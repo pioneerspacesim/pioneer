@@ -317,8 +317,6 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	SpaceStation *station = LuaSpaceStation::GetFromLua(2);
 
 	int slot;
-	if (!station->AllocateStaticSlot(slot))
-		return 0;
 
 	Ship *ship = new Ship(type);
 	assert(ship);
@@ -327,10 +325,13 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	matrix4x4d rot = matrix4x4d::Identity();
 
 	if (station->GetSBody()->type == SBody::TYPE_STARPORT_SURFACE) {
+		if (station->GetSBody()->parent->type == SBody::TYPE_PLANET_ASTEROID)
+			return 0;
+
+		if (!station->AllocateStaticSlot(slot))
+			return 0;
 		vel = vector3d(0.0);
 
-		// XXX on tiny planets eg asteroids force this to be larger so the
-		// are out of the docking path
 		pos = station->GetPosition() * 1.1;
 		station->GetRotMatrix(rot);
 
@@ -348,6 +349,8 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	}
 
 	else {
+		if (!station->AllocateStaticSlot(slot))
+			return 0;
 		double dist = 100 + ship->GetLmrCollMesh()->GetBoundingRadius();
 		double xpos = (slot == 0 || slot == 3) ? -dist : dist;
 		double zpos = (slot == 0 || slot == 1) ? -dist : dist;
