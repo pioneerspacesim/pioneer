@@ -44,3 +44,8 @@ double TerrainHeightFractal<TerrainHeightHillsDunes>::GetHeight(const vector3d &
 	//n += continents*Clamp(0.05-n, 0.0, 0.01)*0.2*dunes_octavenoise(GetFracDef(2), Clamp(0.5-n, 0.0, 0.5), p);
 	return (n > 0.0 ? n*m_maxHeight : 0.0); 
 }
+
+template <>
+void TerrainHeightFractal<TerrainHeightHillsDunes>::InitFracDef(MTRand &rand)
+{
+}

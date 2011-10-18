@@ -24,6 +24,8 @@ public:
 	void SetFracDef(unsigned int index, double featureHeightMeters, double featureWidthMeters, MTRand &rand, double smallestOctaveMeters = 20.0);
 	inline const fracdef_t &GetFracDef(unsigned int index) { return m_fracdef[index]; }
 
+	virtual void InitFracDef(MTRand &rand) = 0;
+
 	virtual double GetHeight(const vector3d &p) = 0;
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm) = 0;
 
@@ -111,6 +113,7 @@ class TerrainHeightFractal : virtual public Terrain {
 public:
 	TerrainHeightFractal(const SBody *body) : Terrain(body) {}
 	virtual double GetHeight(const vector3d &p);
+	virtual void InitFracDef(MTRand &rand);
 private:
 	TerrainHeightFractal() {}
 };

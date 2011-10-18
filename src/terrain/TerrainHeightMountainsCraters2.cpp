@@ -28,3 +28,8 @@ double TerrainHeightFractal<TerrainHeightMountainsCraters2>::GetHeight(const vec
 	n *= m_maxHeight;
 	return (n > 0.0 ? n : 0.0);
 }
+
+template <>
+void TerrainHeightFractal<TerrainHeightMountainsCraters2>::InitFracDef(MTRand &rand)
+{
+}

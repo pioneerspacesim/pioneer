@@ -47,3 +47,8 @@ double TerrainHeightFractal<TerrainHeightWaterSolid>::GetHeight(const vector3d &
 	n = (n>1.0 ? 2.0-n : n);
 	return n;
 }
+
+template <>
+void TerrainHeightFractal<TerrainHeightWaterSolid>::InitFracDef(MTRand &rand)
+{
+}

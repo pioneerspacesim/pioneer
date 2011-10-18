@@ -51,3 +51,8 @@ double TerrainHeightFractal<TerrainHeightRuggedDesert>::GetHeight(const vector3d
 	n = m_maxHeight*n;
 	return n;
 }
+
+template <>
+void TerrainHeightFractal<TerrainHeightRuggedDesert>::InitFracDef(MTRand &rand)
+{
+}

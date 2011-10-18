@@ -65,3 +65,8 @@ double TerrainHeightFractal<TerrainHeightRuggedLava>::GetHeight(const vector3d &
 	n = (n<0.0 ? 0.0 : m_maxHeight*n);
 	return n;
 }
+
+template <>
+void TerrainHeightFractal<TerrainHeightRuggedLava>::InitFracDef(MTRand &rand)
+{
+}

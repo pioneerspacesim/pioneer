@@ -135,3 +135,8 @@ double TerrainHeightFractal<TerrainHeightMountainsRiversVolcano>::GetHeight(cons
 	n = m_maxHeight*n;
 	return (n > 0.0 ? n : 0.0); 
 }
+
+template <>
+void TerrainHeightFractal<TerrainHeightMountainsRiversVolcano>::InitFracDef(MTRand &rand)
+{
+}

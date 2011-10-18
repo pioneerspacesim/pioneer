@@ -21,3 +21,8 @@ double TerrainHeightFractal<TerrainHeightHillsRidged>::GetHeight(const vector3d 
 	//n += 0.001*ridged_octavenoise(GetFracDef(6), 0.55*distrib*m, p);
 	return (n > 0.0 ? n*m_maxHeight : 0.0);
 }
+
+template <>
+void TerrainHeightFractal<TerrainHeightHillsRidged>::InitFracDef(MTRand &rand)
+{
+}

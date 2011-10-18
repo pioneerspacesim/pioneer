@@ -47,3 +47,8 @@ double TerrainHeightFractal<TerrainHeightWaterSolidCanyons>::GetHeight(const vec
 	n = (n>1.0 ? 2.0-n : n);
 	return n;
 }
+
+template <>
+void TerrainHeightFractal<TerrainHeightWaterSolidCanyons>::InitFracDef(MTRand &rand)
+{
+}
