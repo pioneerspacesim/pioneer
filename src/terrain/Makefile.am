@@ -34,8 +34,31 @@ libterrain_a_SOURCES = \
 	TerrainHeightRuggedLava.cpp \
 	TerrainHeightWaterSolidCanyons.cpp \
 	TerrainHeightWaterSolid.cpp \
-	TerrainColorSolid.cpp
-	
+	TerrainColorAsteroid.cpp \
+	TerrainColorBandedRock.cpp \
+	TerrainColorDeadWithWater.cpp \
+	TerrainColorDesert.cpp \
+	TerrainColorEarthLike.cpp \
+	TerrainColorGGJupiter.cpp \
+	TerrainColorGGNeptune2.cpp \
+	TerrainColorGGNeptune.cpp \
+	TerrainColorGGSaturn2.cpp \
+	TerrainColorGGSaturn.cpp \
+	TerrainColorGGUranus.cpp \
+	TerrainColorIce.cpp \
+	TerrainColorMethane.cpp \
+	TerrainColorRock2.cpp \
+	TerrainColorRock.cpp \
+	TerrainColorSolid.cpp \
+	TerrainColorStarBrownDwarf.cpp \
+	TerrainColorStarG.cpp \
+	TerrainColorStarK.cpp \
+	TerrainColorStarM.cpp \
+	TerrainColorStarWhiteDwarf.cpp \
+	TerrainColorTFGood.cpp \
+	TerrainColorTFPoor.cpp \
+	TerrainColorVolcanic.cpp
+
 INCLUDES += -isystem @top_srcdir@/contrib
 if !HAVE_LUA
 INCLUDES += -isystem @top_srcdir@/contrib/lua
