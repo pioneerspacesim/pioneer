@@ -1,3 +1,6 @@
+#ifndef _TERRAINNOISE_H
+#define _TERRAINNOISE_H
+
 #include "Terrain.h"
 #include "perlin.h"
 
@@ -164,3 +167,4 @@ namespace TerrainNoise {
 #define forest octavenoise(GetFracDef(1), 0.65, p)*voronoiscam_octavenoise(GetFracDef(2), 0.65, p);
 #define water  dunes_octavenoise(GetFracDef(6), 0.6, p);
 
+#endif

@@ -1,3 +1,6 @@
+#ifndef _TERRAINCOMPONENT_H
+#define _TERRAINCOMPONENT_H
+
 #include "Terrain.h"
 
 namespace TerrainComponent {
@@ -21,3 +24,5 @@ namespace TerrainComponent {
 	double river_function(const fracdef_t &def, const vector3d &p, int style = 0);
 
 };
+
+#endif

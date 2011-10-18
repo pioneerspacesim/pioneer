@@ -1,5 +1,6 @@
-#ifndef TERRAIN_H
-#define TERRAIN_H
+#ifndef _TERRAIN_H
+#define _TERRAIN_H
+
 #include "libs.h"
 #include "StarSystem.h"
 
