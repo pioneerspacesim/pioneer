@@ -61,14 +61,14 @@ define_model('eye_0', {
 
 	end,
 	dynamic = function(lod)
-		set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5,   {.5,.5,.5,1,0,0,0,0,.5,1,1},
+		set_material('e_glow', lerp_materials(get_time('SECONDS')*0.5,   {.5,.5,.5,1,0,0,0,0,.5,1,1},
 		{.5,.5,.5,1,0,0,0,0,2.5,.5,1}))
 		set_material('matvar0', get_arg_material(0))
 
 		if lod > 1 then
 			texture(nil)
 			use_material('text')
-			local reg = get_arg_string(0)
+			local reg = get_label()
 			zbias(1,v(15.9431,6.2,0), v(1,.19891,0))
 			text(reg, v(15.9431,6.2,0), v(1,.19891,0), v(0,0,-1), 1.3, {center=true})
 			zbias(1,v(-15.9431,6.2,0), v(-1,.19891,0))
@@ -76,8 +76,8 @@ define_model('eye_0', {
 			zbias(0)
 		end
 
-		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
-			local uc_trans = 2*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0, 1)
+		if get_animation_position('WHEEL_STATE') ~= 0 then
+			local uc_trans = 2*math.clamp(get_animation_position('WHEEL_STATE'), 0, 1)
 			use_material('chrome')
 			texture('models/ships/eye/eye8.png')
 			tapered_cylinder(3*lod, v(3.2,-7,-5.3), v(3.2+uc_trans,-7-(2*uc_trans),-5.3-uc_trans), v(0,0,1), .3,.2)

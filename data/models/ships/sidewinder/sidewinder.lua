@@ -62,33 +62,27 @@ define_model('rattle_gun', {
 	static = function(lod)
 	end,
 	dynamic = function(lod)
-		if get_arg(ARG_SHIP_EQUIP_LASER0) >= Equip.PULSECANNON_1MW then
-			if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+		local laser1 = get_equipment('LASER', 1)
+		if laser1 then
+			if laser1 == 'PULSECANNON_DUAL_1MW' then
 				call_model('rattle_s_gun',v(9,0,0),v(1,0,0),v(0,1,0),1)
 				call_model('rattle_s_gun',v(-9,0,0),v(1,0,0),v(0,1,0),1)
+			elseif laser1 == 'PULSECANNON_1MW' then
+				call_model('rattle_s_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
 			else
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_1MW then
-					call_model('rattle_s_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
-				else
-					if get_arg(ARG_SHIP_EQUIP_LASER0) > Equip.PULSECANNON_DUAL_1MW then
-						call_model('rattle_l_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
-					end
-				end
+				call_model('rattle_l_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
 			end
 		end
 
-		if get_arg(ARG_SHIP_EQUIP_LASER1) >= Equip.PULSECANNON_1MW then
-			if get_arg(ARG_SHIP_EQUIP_LASER1) == Equip.PULSECANNON_DUAL_1MW then
+		local laser2 = get_equipment('LASER', 2)
+		if laser2 then
+			if laser2 == 'PULSECANNON_DUAL_1MW' then
 				call_model('rattle_s_gun',v(9,0,0),v(1,0,0),v(0,1,0),1)
 				call_model('rattle_s_gun',v(-9,0,0),v(1,0,0),v(0,1,0),1)
+			elseif laser2 == 'PULSECANNON_1MW' then
+				call_model('rattle_s_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
 			else
-				if get_arg(ARG_SHIP_EQUIP_LASER1) == Equip.PULSECANNON_1MW then
-					call_model('rattle_s_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
-				else
-					if get_arg(ARG_SHIP_EQUIP_LASER1) > Equip.PULSECANNON_DUAL_1MW then
-						call_model('rattle_l_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
-					end
-				end
+				call_model('rattle_l_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
 			end
 		end
 	end
@@ -294,7 +288,7 @@ define_model('rattle', {
 		if lod > 1 then
 			-- labels
 			use_material('text')
-			local reg = get_arg_string(0)
+			local reg = get_label()
 			zbias(1, v(18,.693,3),v(0,1,-.57693))
 			text(reg,v(18,.693,3),v(0,1,-.57693),v(-.5,0,-1),3, {center = true})
 			zbias(1, v(-18.5,-.578,3),v(0,-1,-.5769))
@@ -308,7 +302,7 @@ define_model('rattle', {
 			local scanpos_l = v(-4.7,4.09,9.9)
 			local ecmpos_r  = v(6.4,2.8,.2)
 			local ecmpos_l  = v(-6.4,2.8,.2)
-			if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+			if get_equipment('SCANNER') == 'SCANNER' then
 				use_material('bot')
 				selector4()
 				if select4 < 51 then
@@ -318,7 +312,7 @@ define_model('rattle', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+			if get_equipment('ECM') == 'ECM_BASIC' then
 				use_material('top')
 				selector4()
 				if select4 < 51 then
@@ -327,7 +321,7 @@ define_model('rattle', {
 					call_model('ecm_1',ecmpos_l,v(1,0,0),v(0,1,0),1.5)
 				end
 			else
-				if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+				if get_equipment('ECM') == 'ECM_ADVANCED' then
 					use_material('top')
 					selector4()
 					if select4 < 51 then
@@ -340,11 +334,11 @@ define_model('rattle', {
 
 			local mappos_0  = v(0,0,-12.8)
 			local mappos_1  = v(-9,0,-12.8)
-			if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+			if get_equipment('SCANNER') == 'SCANNER' then
+				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 					call_model('antenna_1',mappos_0, v(1,0,0), v(0,1,0), 2)
 				else
-					if get_arg(ARG_SHIP_EQUIP_LASER1) == Equip.PULSECANNON_DUAL_1MW then
+					if get_equipment('LASER', 2) == 'PULSECANNON_DUAL_1MW' then
 						call_model('antenna_1',mappos_0, v(1,0,0), v(0,1,0), 2)
 					else
 						call_model('antenna_1',mappos_1, v(1,0,0), v(0,1,0), 2)
@@ -567,10 +561,10 @@ define_model('rattle_uc', {
 	end,
 	dynamic = function(lod)
 
-		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+		if get_animation_position('WHEEL_STATE') ~= 0 then
 			call_model('rattle_uc_cage',v(0,0,0),v(1,0,0),v(0,1,0),1)
 
-			local trans = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,1)
+			local trans = math.clamp(get_animation_position('WHEEL_STATE'),0,1)
 			use_material('chrome')
 			texture('models/ships/sidewinder/alu_tiled.png', v(0,.4+2*trans,0), v(.5,0,0),v(0,-.5,0))
 			xref_tapered_cylinder(3*lod,v(13.04,-.274,-2.09), v(13.04+trans,-1.2-5*trans,-2.09-2*trans), v(0,0,1), .3,.2)
@@ -600,7 +594,7 @@ define_model('rattle_dash', {
 		local v1 = v(-5,2.999,0)
 		local v2 = v(5,2.001,2)
 		local v3 = v(-5,2.001,2)
-		local timer = math.fmod((get_arg(ARG_ALL_TIME_SECONDS)*0.2),1)
+		local timer = math.fmod((get_time('SECONDS')*0.2),1)
 		use_material('dashlite')
 		if timer < .17 then
 			texture('models/ships/sidewinder/dash_lit_01.png', v(.5,.02,0), v(.11,0,0), v(0,0,-4.5))
@@ -913,14 +907,14 @@ define_model('rattlesnake', {
 
 	dynamic = function(lod)
 
-		set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5, 	{.3, .3, .3, 1, 0, 0, 0, 0, .7, 1, 1.5 },
+		set_material('e_glow', lerp_materials(get_time('SECONDS')*0.5, 	{.3, .3, .3, 1, 0, 0, 0, 0, .7, 1, 1.5 },
 		{.3, .3, .3, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
-		set_material('v_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5, 	{0, 0, 0, 1, 0, 0, 0, 0, 1.2, 1.5, 0 },
+		set_material('v_glow', lerp_materials(get_time('SECONDS')*0.5, 	{0, 0, 0, 1, 0, 0, 0, 0, 1.2, 1.5, 0 },
 		{0, 0, 0, 1, 0, 0, 0, 0, 1, 2, .5 }))
 
 		-- scoop
 		if lod > 1 then
-			if get_arg(ARG_SHIP_EQUIP_SCOOP) == Equip.FUEL_SCOOP then
+			if get_equipment('FUELSCOOP') == 'FUEL_SCOOP' then
 				use_material('v_glow')
 			else
 				use_material('black')
@@ -932,8 +926,8 @@ define_model('rattlesnake', {
 		-- collision mesh uc
 		if lod == 1 then
 			texture(nil)
-			if get_arg(ARG_SHIP_WHEEL_STATE) ~=0 then
-				local trans = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,1)
+			if get_animation_position('WHEEL_STATE') ~=0 then
+				local trans = math.clamp(get_animation_position('WHEEL_STATE'),0,1)
 				xref_cylinder(4, v(13.04+trans,-1.251-5*trans,-2.09-2*trans), v(13.04+trans,-.951-5*trans,-2.09-2*trans), v(0,0,1),1)
 				xref_cylinder(4, v(17.92+2*trans,-1.251-5*trans,7.67+trans), v(17.92+2*trans,-.951-5*trans,7.67+trans), v(0,0,1),1)
 				xref_ring(3,v(13.04,-.274,-2.09), v(13.04+trans,-1.2-5*trans,-2.09-2*trans), v(0,0,1), .15)

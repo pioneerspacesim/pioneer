@@ -29,7 +29,7 @@ define_model('church_new_clock', {
 		load_obj('church_new_win.obj',Matrix.translate(v(0,0,-.5)))
 	end,
 	dynamic = function(lod)
-        local minutePos = -2*math.pi * get_arg(3)
+        local minutePos = -2*math.pi * get_time('HOURS')
 		zbias(1,v(0,34,0),v(0,1,0))
 		use_material('min')
 		call_model('church_new_clockhd', v(0,35,0),v(math.cos(minutePos),0,math.sin(minutePos)),v(math.cos(minutePos+math.pi*0.5),0, math.sin(minutePos+math.pi*0.5)), 1.5)
