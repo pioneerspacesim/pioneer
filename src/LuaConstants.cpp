@@ -307,7 +307,7 @@ void LuaConstants::Register(lua_State *l)
 	 *   experimental
 	 */
 	static const pi_lua_constant_t polit_econ_constants[] = {
-#define EconType_ITEM(x) { #x, -1 },
+#define PolitEcon_ITEM(x) { #x, -1 },
 #include "PolitEnums.h"
 		{ 0, 0 }
 	};

@@ -21,7 +21,7 @@ namespace Polit {
 	};
 
 	enum EconType {
-#define EconType_ITEM(x) ECON_##x,
+#define PolitEcon_ITEM(x) ECON_##x,
 #include "PolitEnums.h"
 		ECON_MAX
 	};
