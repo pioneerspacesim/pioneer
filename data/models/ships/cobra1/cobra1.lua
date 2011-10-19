@@ -23,6 +23,7 @@ define_model('cobra1', {
 				max_cargo = 60,
 				max_laser = 2,
 				max_missile = 2,
+				max_cargoscoop = 0,
 				capacity = 60,
 				hull_mass = 60,
 				price = 97000,

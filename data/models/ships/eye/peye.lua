@@ -133,6 +133,7 @@ define_model('peye', {
 				max_cargo = 80,
 				max_laser = 2,
 				max_missile = 0,
+				max_cargoscoop = 0,
 				capacity = 80,
 				hull_mass = 80,
 				price = 100000,

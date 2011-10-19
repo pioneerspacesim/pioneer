@@ -143,6 +143,8 @@ define_model('wave', {
 				max_cargo = 30,
 				max_laser = 2,
 				max_missile = 4,
+				max_cargoscoop = 0,
+				max_fuelscoop = 0,
 				capacity = 30,
 				hull_mass = 20,
 				price = 93000,

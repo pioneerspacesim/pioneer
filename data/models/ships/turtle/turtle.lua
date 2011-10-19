@@ -424,6 +424,7 @@ define_model('turtle', {
 				max_cargo = 90,
 				max_laser = 2,
 				max_missile = 4,
+				max_cargoscoop = 0,
 				capacity = 90,
 				hull_mass = 55,
 				price = 250000,
