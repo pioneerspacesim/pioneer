@@ -1,11 +1,5 @@
-local goods_trader_flavour = {
-	"Honest %s's Goods Emporium",
-	"%s's Trading House",
-	"%s's Warehouse",
-	"%s's Goods Exchange",
-	"%s Holdings",
-	"%s & Sons"
-}
+-- Get the translator function
+t = Translate:GetTranslator()
 
 local ads = {}
 
@@ -30,7 +24,7 @@ local onChat = function (form, ref, option)
 	form:Clear()
 	form:SetTitle(ad.flavour)
 	form:SetFace({ seed = ad.faceseed })
-	form:SetMessage("Welcome to "..ad.flavour)
+	form:SetMessage(t("Welcome to ")..ad.flavour)
 
 	local onClick = function (ref)
 		if not ads[ref].ispolice then
@@ -102,7 +96,7 @@ local onCreateBB = function (station)
 	for i = 1,num do
 		local ispolice = rand:Integer(1) == 1
 
-		local flavour = string.format(goods_trader_flavour[rand:Integer(1, #goods_trader_flavour)], NameGen.Surname(rand))
+		local flavour = string.interp(t('GOODS_TRADER')[rand:Integer(1, #(t('GOODS_TRADER')))], {name = NameGen.Surname(rand)})
 
 		local ad = {
 			station  = station,

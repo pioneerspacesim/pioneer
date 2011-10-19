@@ -8,6 +8,9 @@
 #include "render/Render.h"
 #include "BufferObject.h"
 #include "LuaUtils.h"
+#include "LuaConstants.h"
+#include "EquipType.h"
+#include "ShipType.h"
 #include "TextureManager.h"
 #include <set>
 #include <algorithm>
@@ -1046,35 +1049,8 @@ void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels)
 {
 	for (std::map<std::string, LmrModel*>::iterator i = s_models.begin();
 			i != s_models.end(); ++i) {
-		LmrModel *model = (*i).second;
-
-		LUA_DEBUG_START(sLua);
-		
-		char buf[256];
-		snprintf(buf, sizeof(buf), "%s_info", model->GetName());
-		lua_getglobal(sLua, buf);
-		lua_getfield(sLua, -1, "tags");
-		if (lua_istable(sLua, -1)) {
-			for(int j=1;; j++) {
-				lua_pushinteger(sLua, j);
-				lua_gettable(sLua, -2);
-				if (lua_isstring(sLua, -1)) {
-					const char *s = luaL_checkstring(sLua, -1);
-					if (0 == strcmp(tag, s)) {
-						outModels.push_back(model);
-						lua_pop(sLua, 1);
-						break;
-					}
-				} else if (lua_isnil(sLua, -1)) {
-					lua_pop(sLua, 1);
-					break;
-				}
-				lua_pop(sLua, 1);
-			}
-		}
-		lua_pop(sLua, 2);
-
-		LUA_DEBUG_END(sLua, 0);
+		if (i->second->HasTag(tag))
+			outModels.push_back(i->second);
 	}
 }
 
@@ -1131,6 +1107,42 @@ void LmrModel::PushAttributeToLuaStack(const char *attr_name) const
 	lua_getfield(sLua, -1, attr_name);
 	lua_remove(sLua, -2);
 	LUA_DEBUG_END(sLua, 1);
+}
+
+bool LmrModel::HasTag(const char *tag) const
+{
+	bool has_tag = false;
+
+	LUA_DEBUG_START(sLua);
+
+	char buf[256];
+	snprintf(buf, sizeof(buf), "%s_info", m_name.c_str());
+
+	lua_getglobal(sLua, buf);
+	lua_getfield(sLua, -1, "tags");
+	if (lua_istable(sLua, -1)) {
+		for(int j=1;; j++) {
+			lua_pushinteger(sLua, j);
+			lua_gettable(sLua, -2);
+			if (lua_isstring(sLua, -1)) {
+				const char *s = luaL_checkstring(sLua, -1);
+				if (0 == strcmp(tag, s)) {
+					has_tag = true;
+					lua_pop(sLua, 1);
+					break;
+				}
+			} else if (lua_isnil(sLua, -1)) {
+				lua_pop(sLua, 1);
+				break;
+			}
+			lua_pop(sLua, 1);
+		}
+	}
+	lua_pop(sLua, 2);
+
+	LUA_DEBUG_END(sLua, 0);
+
+	return has_tag;
 }
 
 void LmrModel::Render(const matrix4x4f &trans, const LmrObjParams *params)
@@ -3418,106 +3430,297 @@ namespace ModelFuncs {
 	}
 
 	/*
-	 * Function: get_arg
+	 * Function: get_time
 	 *
-	 * Return numerical arguments passed from C++ code. Required for making
-	 * docking bay animations or altering ship appearance based on actual equipment.
+	 * Get the game time. Use this to run continuous animations.
+	 * For example, blinking lights, rotating radar dishes and church tower
+	 * clock hands.
 	 *
-	 * > get_arg(index)
+	 * > local seconds, minutes, hours, days = get_time()
+	 * > local seconds = get_time('SECONDS')
+	 * > local minutes = get_time('MINUTES')
+	 * > local hours = get_time('HOURS')
+	 * > local days = get_time('DAYS')
 	 *
 	 * Parameters:
 	 *
-	 *   index - argument number or name. Used numbers and their names are:
-	 *           (some numbers are reused)
-	 *           - 1, ARG_ALL_TIME_SECONDS, seconds of in-game time
-	 *           - 2, ARG_ALL_TIME_MINUTES, minutes of in-game time
-	 *           - 3, ARG_ALL_TIME_HOURS, hours of in-game time
-	 *           - 4, ARG_ALL_TIME_DAYS, days of in-game time
-	 *           - 6, ARG_STATION_BAY1_STAGE, station docking bay 1 stage
-	 *           - (0 dock empty, 1 clearance granted, 2-n docking animation stage,
-	 *           number of docking stages+1 means docked, -1 to -n undocking stage)
-	 *           - 7, station bay 2 stage
-	 *           - 8, station bay 3 stage
-	 *           - 9, station bay 4 stage
-	 *           - 10, ARG_STATION_BAY1_POS
-	 *           - 0, ARG_SHIP_WHEEL_STATE, landing gear state (0.0=up, 1.0=down)
-	 *           - 5, ARG_SHIP_EQUIP_SCOOP, 1 if fuel scoop equipped
-	 *           - 6, ARG_SHIP_EQUIP_ENGINE
-	 *           - 7, ARG_SHIP_EQUIP_ECM
-	 *           - 8, ARG_SHIP_EQUIP_SCANNER
-	 *           - 9, ARG_SHIP_EQUIP_ATMOSHIELD
-	 *           - 10, ARG_SHIP_EQUIP_LASER0
-	 *           - 11, ARG_SHIP_EQUIP_LASER1
-	 *           - 12, ARG_SHIP_EQUIP_MISSILE0
-	 *           - 13, ARG_SHIP_EQUIP_MISSILE1
-	 *           - 14, ARG_SHIP_EQUIP_MISSILE2
-	 *           - 15, ARG_SHIP_EQUIP_MISSILE3
-	 *           - 16, ARG_SHIP_EQUIP_MISSILE4
-	 *           - 17, ARG_SHIP_EQUIP_MISSILE5
-	 *           - 18, ARG_SHIP_EQUIP_MISSILE6
-	 *           - 19, ARG_SHIP_EQUIP_MISSILE7
-	 *           - 20, ARG_SHIP_FLIGHT_STATE
+	 *   units - optional. If specified, there will be one return value, in
+	 *           the specified units. Otherwise, all four units are returned.
+	 *           available units are: 'SECONDS', 'MINUTES', 'HOURS', 'DAYS'
+	 *
+	 * Returns:
+	 *
+	 *   seconds - the time in seconds
+	 *   hours   - the time in hours
+	 *   minutes - the time in minutes
+	 *   days    - the time in days
+	 *
+	 *   The above values include fractional components.
 	 *
 	 * Example:
 	 *
-	 * > local down = get_arg(0) --check if landing gear is down
+	 * > local seconds = get_time('SECONDS')
 	 *
 	 * Availability:
 	 *
-	 *   pre-alpha 10
+	 *   not yet
 	 *
 	 * Status:
 	 *
 	 *   stable
 	 *
 	 */
-	static int get_arg(lua_State *L)
+	static int get_time(lua_State *L)
 	{
 		assert(s_curParams != 0);
-		int i = luaL_checkinteger(L, 1);
-		lua_pushnumber(L, s_curParams->argDoubles[i]);
-		return 1;
+		double t = s_curParams->time;
+		int nparams = lua_gettop(L);
+		if (nparams == 0) {
+			lua_pushnumber(L, t);
+			lua_pushnumber(L, t / 60.0);
+			lua_pushnumber(L, t / 3600.0);
+			lua_pushnumber(L, t / (24*3600.0));
+			return 4;
+		} else if (nparams == 1) {
+			const char *units = luaL_checkstring(L, 1);
+			if (strcmp(units, "SECONDS") == 0)
+				lua_pushnumber(L, t);
+			else if (strcmp(units, "MINUTES") == 0)
+				lua_pushnumber(L, t / 60.0);
+			else if (strcmp(units, "HOURS") == 0)
+				lua_pushnumber(L, t / 3600.0);
+			else if (strcmp(units, "DAYS") == 0)
+				lua_pushnumber(L, t / (24 * 3600.0));
+			else
+				return luaL_error(L,
+					"Unknown unit type '%s' specified for get_time "
+					"(expected 'SECONDS', 'MINUTES', 'HOURS' or 'DAYS').", units);
+			return 1;
+		} else {
+			return luaL_error(L, "Expected 0 or 1 parameters, but got %d.", nparams);
+		}
 	}
 
 	/*
-	 * Function: get_arg_string
+	 * Function: get_equipment
 	 *
-	 * Return string arguments passed from C++ code
+	 * Get the type of equipment mounted in a particular slot.
+	 * Only valid for ship models.
 	 *
-	 * > get_arg_string(index)
+	 * > local equip_type = get_equipment(slot, index)
 	 *
 	 * Parameters:
 	 *
-	 *   index - argument number. Used arguments are:
-	 *           - 0, ship registration id or station name
-	 *           - 0, cargo pod contents
-	 *           - 4, randomly picked station advertisement model name
-	 *           - 5, randomly picked station advertisement model name
-	 *           - 6, randomly picked station advertisement model name
-	 *           - 7, randomly picked station advertisement model name
+	 *   slot - a slot name, from <Constants.EquipSlot>
+	 *   index - the item index within that slot (optional; 1-based index)
+	 *
+	 * Returns:
+	 *
+	 *   equip_type - a <Constants.EquipType> string, or 'nil' if there is
+	 *                no equipment in that slot.
+	 *
+	 *   If no index is specified, then all equipment in the specified slot
+	 *   is returned (as separate return values)
 	 *
 	 * Example:
 	 *
-	 * > local regid = get_arg_string(0)
+	 * > if get_equipment('FUELSCOOP')
+	 * > local missile1, missile2, missile3, missile4 = get_equipment('MISSILE')
+	 * > local missile2 = get_equipment('MISSILE', 2)
+	 *
+	 * Availability:
+	 *
+	 *   not yet
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
+	static int get_equipment(lua_State *L)
+	{
+		assert(s_curParams != 0);
+		if (s_curParams->equipment) {
+			const char *slotName = luaL_checkstring(L, 1);
+			int index = luaL_optinteger(L, 2, 0);
+			Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(L, "EquipSlot", slotName));
+
+			if (index > 0) {
+				// index - 1 because Lua uses 1-based indexing
+				Equip::Type equip = s_curParams->equipment->Get(slot, index - 1);
+				if (equip == Equip::NONE)
+					lua_pushnil(L);
+				else
+					lua_pushstring(L, LuaConstants::GetConstantString(L, "EquipType", equip));
+				return 1;
+			} else {
+				const EquipSet &es = *s_curParams->equipment;
+				const int slotSize = es.GetSlotSize(slot);
+				int i = 0;
+				Equip::Type equip = Equip::NONE;
+				while (i < slotSize) {
+					equip = es.Get(slot, i++);
+					if (equip != Equip::NONE) {
+						PiVerify(lua_checkstack(L, 1));
+						lua_pushstring(L, LuaConstants::GetConstantString(L, "EquipType", equip));
+					}
+				}
+				return i;
+			}
+		} else
+			return luaL_error(L, "Equipment is only valid for ships.");
+	}
+
+	/*
+	 * Function: get_animation_stage
+	 *
+	 * Get the stage of an animation. The meaning of this depends on the animation.
+	 *
+	 * > local stage = get_animation_stage(animation)
+	 *
+	 * Parameters:
+	 *
+	 *   animation - an animation name, from <Constants.ShipAnimation> for ships
+	 *               or from <Constants.SpaceStationAnimation> for space stations
+	 *
+	 * Returns:
+	 *
+	 *   stage - the stage of the animation (meaning is animation dependent)
+	 *
+	 * Availability:
+	 *
+	 *   not yet
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
+	static int get_animation_stage(lua_State *L)
+	{
+		assert(s_curParams != 0);
+		if (s_curParams->animationNamespace) {
+			const char *animName = luaL_checkstring(L, 1);
+			int anim = LuaConstants::GetConstant(L, s_curParams->animationNamespace, animName);
+			assert(anim >= 0 && anim < LmrObjParams::LMR_ANIMATION_MAX);
+			lua_pushinteger(L, s_curParams->animStages[anim]);
+			return 1;
+		} else
+			return luaL_error(L, "You can only use get_animation_stage for model types that are supposed to have animations.");
+	}
+
+	/*
+	 * Function: get_animation_position
+	 *
+	 * Get the position of an animation.
+	 *
+	 * > local pos = get_animation_position(animation)
+	 *
+	 * Parameters:
+	 *
+	 *   animation - an animation name, from <Constants.ShipAnimation> for ships
+	 *               or from <Constants.SpaceStationAnimation> for space stations
+	 *
+	 * Returns:
+	 *
+	 *   pos - the position of the animation (typically from 0 to 1)
+	 *
+	 * Example:
+	 *
+	 * > local pos = get_animation_position('WHEEL_STATE')
+	 * > -- display landing gear in appropriate position
+	 *
+	 * Availability:
+	 *
+	 *   not yet
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
+	static int get_animation_position(lua_State *L)
+	{
+		assert(s_curParams != 0);
+		if (s_curParams->animationNamespace) {
+			const char *animName = luaL_checkstring(L, 1);
+			int anim = LuaConstants::GetConstant(L, s_curParams->animationNamespace, animName);
+			assert(anim >= 0 && anim < LmrObjParams::LMR_ANIMATION_MAX);
+			lua_pushnumber(L, s_curParams->animValues[anim]);
+			return 1;
+		} else
+			return luaL_error(L, "You can only use get_animation_position for model types that are supposed to have animations.");
+	}
+
+	/*
+	 * Function: get_flight_state
+	 *
+	 * Get the flight state of the ship.
+	 *
+	 * > local state = get_flight_state()
+	 *
+	 * Returns:
+	 *
+	 *   state - one of the flight state constants from <Constants.ShipFlightState>
+	 *
+	 * Example:
+	 *
+	 * > local flight_state = get_flight_state()
+	 * > if flight_state == 'LANDED' then
+	 * >   -- enable rough landing lights
+	 * > end
+	 *
+	 * Availability:
+	 *
+	 *   not yet
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 *
+	 */
+	static int get_flight_state(lua_State *L)
+	{
+		assert(s_curParams != 0);
+		// if there is equipment then there should also be a flightState
+		if (s_curParams->equipment) {
+			lua_pushstring(L, LuaConstants::GetConstantString(L, "ShipFlightState", s_curParams->flightState));
+			return 1;
+		} else
+			return luaL_error(L, "Flight state is only valid for ships.");
+	}
+
+	/*
+	 * Function: get_label
+	 *
+	 * Return the main label string to display on an object.
+	 * For ships this is the registration ID, for stations it's the
+	 * station name, for cargo pods it's the contents.
+	 *
+	 * > local label = get_label()
+	 *
+	 * Returns:
+	 *
+	 *   label - the main string to display on the object
+	 *
+	 * Example:
+	 *
+	 * > local regid = get_label()
 	 * > text(regid, v(0,0,0), v(0,0,1), v(1,0,0), 10.0)
 	 *
 	 * Availability:
 	 *
-	 *   pre-alpha 10
+	 *   not yet
 	 *
 	 * Status:
 	 *
 	 *   stable
 	 *
 	 */
-	static int get_arg_string(lua_State *L)
+	static int get_label(lua_State *L)
 	{
 		assert(s_curParams != 0);
-		int i = luaL_checkinteger(L, 1);
-		if (s_curParams->argStrings[i])
-			lua_pushstring(L, s_curParams->argStrings[i]);
-		else
-			lua_pushstring(L, "");
+		lua_pushstring(L, s_curParams->label ? s_curParams->label : "");
 		return 1;
 	}
 
@@ -4208,6 +4411,8 @@ void LmrModelCompilerInit()
 
 	LUA_DEBUG_START(sLua);
 
+	LuaConstants::Register(L);
+
 	MyLuaVec::Vec_register(L);
 	lua_pop(L, 1); // why again?
 	MyLuaMatrix::Matrix_register(L);
@@ -4251,8 +4456,12 @@ void LmrModelCompilerInit()
 	lua_register(L, "extrusion", ModelFuncs::extrusion);
 	lua_register(L, "thruster", ModelFuncs::thruster);
 	lua_register(L, "xref_thruster", ModelFuncs::xref_thruster);
-	lua_register(L, "get_arg", ModelFuncs::get_arg);
-	lua_register(L, "get_arg_string", ModelFuncs::get_arg_string);
+	lua_register(L, "get_time", ModelFuncs::get_time);
+	lua_register(L, "get_equipment", ModelFuncs::get_equipment);
+	lua_register(L, "get_animation_stage", ModelFuncs::get_animation_stage);
+	lua_register(L, "get_animation_position", ModelFuncs::get_animation_position);
+	lua_register(L, "get_flight_state", ModelFuncs::get_flight_state);
+	lua_register(L, "get_label", ModelFuncs::get_label);
 	lua_register(L, "flat", ModelFuncs::flat);
 	lua_register(L, "xref_flat", ModelFuncs::xref_flat);
 	lua_register(L, "billboard", ModelFuncs::billboard);

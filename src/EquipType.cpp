@@ -1,6 +1,12 @@
 #include "EquipType.h"
-#include "StarSystem.h"
 #include "Lang.h"
+
+// star-system economy types
+// (putting this here avoids pulling in StarSystem.h)
+enum {
+#define EconType_ITEM(x,y) ECON_##x = y,
+#include "StarSystemEnums.h"
+};
 
 const EquipType Equip::types[Equip::TYPE_MAX] = {
 	{ Lang::NONE, 0,
