@@ -286,7 +286,7 @@ void ScannerWidget::DrawBlobs(bool below)
 void ScannerWidget::DrawDistanceRings()
 {
 	/* soicles */
-	for (float sz = 0.67f; sz > 0.1f; sz -= 0.33f) {
+	for (float sz = 0.1f; sz <1.0f; sz += 0.3f) {
 		glBegin(GL_LINE_LOOP);
 		for (float a = 0; a < 2 * M_PI; a += float(M_PI * 0.02)) {
 			glVertex2f(m_x + sz * m_x * sin(a), m_y + SCANNER_YSHRINK * sz * m_y * cos(a));
@@ -296,7 +296,7 @@ void ScannerWidget::DrawDistanceRings()
 	/* schpokes */
 	glBegin(GL_LINES);
 	for (float a = 0; a < 2 * M_PI; a += float(M_PI * 0.25)) {
-		glVertex2f(m_x, m_y);
+		glVertex2f(m_x + m_x * 0.1f * sin(a), m_y + 0.1f * SCANNER_YSHRINK * m_y * cos(a));
 		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 	}
 	glEnd();
