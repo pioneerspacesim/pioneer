@@ -62,9 +62,10 @@ Character = {
 	-- Save into persistent table of characters as an NPC
 	Save = function (self)
 		for i,NPC in ipairs(PersistentCharacters) do
-			if NPC == self then return end
+			if NPC == self then return i end
 		end
 		table.insert(PersistentCharacters,self)
+        return #PersistentCharacters
 	end,
 
 
