@@ -11,10 +11,10 @@ class LmrGeomBuffer;
 class LmrCollMesh;
 class GeomTree;
 
+class EquipSet;
+
 #define LMR_MAX_LOD 4
 
-#define LMR_ARG_MAX 40
-	
 struct LmrMaterial {
 	float diffuse[4];
 	float specular[4];
@@ -31,8 +31,16 @@ struct LmrLight {
 
 struct LmrObjParams
 {
-	double argDoubles[LMR_ARG_MAX];
-	const char *argStrings[LMR_ARG_MAX];
+	enum { LMR_ANIMATION_MAX = 10 };
+
+	const char *animationNamespace; // the namespace to look up animation names in, from LuaConstants
+
+	double time;
+	int animStages[LMR_ANIMATION_MAX];
+	double animValues[LMR_ANIMATION_MAX];
+	const char *label;
+	const EquipSet *equipment; // for ships
+	int flightState;
 
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0
@@ -56,6 +64,7 @@ public:
 	bool GetBoolAttribute(const char *attr_name) const;
 	void PushAttributeToLuaStack(const char *attr_name) const;
 	const char *GetName() const { return m_name.c_str(); }
+	bool HasTag(const char *tag) const;
 private:
 	void Build(int lod, const LmrObjParams *params);
 

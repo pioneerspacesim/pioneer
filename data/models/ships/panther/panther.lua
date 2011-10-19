@@ -84,7 +84,7 @@ define_model('pant_sub', {
 		end
 	end,
 	dynamic = function(lod)
-		local rot = get_arg(ARG_SHIP_WHEEL_STATE)
+		local rot = get_animation_position('WHEEL_STATE')
 		local v1 = v(-6,-3.627+3*rot,-7.017+2*rot)
 		local v2 = v(6,-3.627+3*rot,-7.017+2*rot)
 		local v3 = v(-6,-3.627+3*rot,10.983-2*rot)
@@ -148,9 +148,9 @@ define_model('panther', {
 	dynamic = function(lod)
 		if lod > 1 then
 			if lod > 2 then
-				set_material('glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5,	{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1.5 },
+				set_material('glow', lerp_materials(get_time('SECONDS')*0.5,	{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1.5 },
 				{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1 }))
-				local reg = get_arg_string(0)
+				local reg = get_label()
 				use_material('text1')
 				zbias(1, v(0, -1.127, 18.783), v(0,0.25,1))
 				text(reg, v(0, -1.127, 18.783), v(0,0.25,1), v(1,0,0), 1.2, {center=true})
@@ -160,23 +160,23 @@ define_model('panther', {
 				text(reg, v(0, -1.527, -18.867), v(0,.2,-1), v(-1,0,0), 1.0, {center=true})
 				zbias(0)
 
-				if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
+				if get_equipment('LASER', 1) then
 					use_material('steel')
 					call_model('largegun1',v(0,-2.56,-19),v(1,0,0),v(0,1,0),.34)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_LASER1) > 0 then
+				if get_equipment('LASER', 2) then
 					use_material('steel')
 					call_model('largegun2',v(0,3.55,15.6),v(1,0,0),v(0,1,0),.34)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) > 0 then
+				if get_equipment('SCANNER') then
 					call_model('scanner', v(0,-4.2,-14.546), v(1,0,0), v(0,-1,0), 1)
 					call_model('scanner', v(0,3.45,4.6), v(1,0,0), v(0,1,0), 1)
 					call_model('antenna_1', v(3,-2.56,-19), v(1,0,0), v(0,1,0), 1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_ECM) > 0 then
+				if get_equipment('ECM') then
 					call_model('ecm_1', v(-9.5,-1.789,-7.958), v(0,1,0), v(-1,0,0), 1)
 					call_model('ecm_1', v(9.5,-1.789,-7.958), v(0,-1,0), v(1,0,0), 1)
 				end
@@ -190,88 +190,88 @@ define_model('panther', {
 				local M_7 = v(-2,-4.75,-12.8)
 				local M_8 = v(2,-4.75,-12.8)
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_UNGUIDED  then
+				if get_equipment('MISSILE', 1) == 'MISSILE_UNGUIDED'  then
 					call_model('d_unguided',M_1,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_GUIDED  then
+				elseif get_equipment('MISSILE', 1) == 'MISSILE_GUIDED'  then
 					call_model('d_guided',M_1,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_SMART  then
+				elseif get_equipment('MISSILE', 1) == 'MISSILE_SMART'  then
 					call_model('d_smart',M_1,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_NAVAL  then
+				elseif get_equipment('MISSILE', 1) == 'MISSILE_NAVAL'  then
 					call_model('d_naval',M_1,v(1,0,0), v(0,.95,.05),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_UNGUIDED  then
+				if get_equipment('MISSILE', 2) == 'MISSILE_UNGUIDED'  then
 					call_model('d_unguided',M_2,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_GUIDED  then
+				elseif get_equipment('MISSILE', 2) == 'MISSILE_GUIDED'  then
 					call_model('d_guided',M_2,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_SMART  then
+				elseif get_equipment('MISSILE', 2) == 'MISSILE_SMART'  then
 					call_model('d_smart',M_2,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_NAVAL  then
+				elseif get_equipment('MISSILE', 2) == 'MISSILE_NAVAL'  then
 					call_model('d_naval',M_2,v(1,0,0), v(0,.95,.05),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_UNGUIDED  then
+				if get_equipment('MISSILE', 3) == 'MISSILE_UNGUIDED'  then
 					call_model('d_unguided',M_3,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_GUIDED  then
+				elseif get_equipment('MISSILE', 3) == 'MISSILE_GUIDED'  then
 					call_model('d_guided',M_3,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_SMART  then
+				elseif get_equipment('MISSILE', 3) == 'MISSILE_SMART'  then
 					call_model('d_smart',M_3,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_NAVAL  then
+				elseif get_equipment('MISSILE', 3) == 'MISSILE_NAVAL'  then
 					call_model('d_naval',M_3,v(1,0,0), v(0,.95,.05),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_UNGUIDED  then
+				if get_equipment('MISSILE', 4) == 'MISSILE_UNGUIDED'  then
 					call_model('d_unguided',M_4,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_GUIDED  then
+				elseif get_equipment('MISSILE', 4) == 'MISSILE_GUIDED'  then
 					call_model('d_guided',M_4,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_SMART  then
+				elseif get_equipment('MISSILE', 4) == 'MISSILE_SMART'  then
 					call_model('d_smart',M_4,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_NAVAL  then
+				elseif get_equipment('MISSILE', 4) == 'MISSILE_NAVAL'  then
 					call_model('d_naval',M_4,v(1,0,0), v(0,.95,.05),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE4) == Equip.MISSILE_UNGUIDED  then
+				if get_equipment('MISSILE', 5) == 'MISSILE_UNGUIDED'  then
 					call_model('d_unguided',M_5,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE4) == Equip.MISSILE_GUIDED  then
+				elseif get_equipment('MISSILE', 5) == 'MISSILE_GUIDED'  then
 					call_model('d_guided',M_5,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE4) == Equip.MISSILE_SMART  then
+				elseif get_equipment('MISSILE', 5) == 'MISSILE_SMART'  then
 					call_model('d_smart',M_5,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE4) == Equip.MISSILE_NAVAL  then
+				elseif get_equipment('MISSILE', 5) == 'MISSILE_NAVAL'  then
 					call_model('d_naval',M_5,v(1,0,0), v(0,.95,.05),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE5) == Equip.MISSILE_UNGUIDED  then
+				if get_equipment('MISSILE', 6) == 'MISSILE_UNGUIDED'  then
 					call_model('d_unguided',M_6,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE5) == Equip.MISSILE_GUIDED  then
+				elseif get_equipment('MISSILE', 6) == 'MISSILE_GUIDED'  then
 					call_model('d_guided',M_6,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE5) == Equip.MISSILE_SMART  then
+				elseif get_equipment('MISSILE', 6) == 'MISSILE_SMART'  then
 					call_model('d_smart',M_6,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE5) == Equip.MISSILE_NAVAL  then
+				elseif get_equipment('MISSILE', 6) == 'MISSILE_NAVAL'  then
 					call_model('d_naval',M_6,v(1,0,0), v(0,.95,.05),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE6) == Equip.MISSILE_UNGUIDED  then
+				if get_equipment('MISSILE', 7) == 'MISSILE_UNGUIDED'  then
 					call_model('d_unguided',M_7,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE6) == Equip.MISSILE_GUIDED  then
+				elseif get_equipment('MISSILE', 7) == 'MISSILE_GUIDED'  then
 					call_model('d_guided',M_7,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE6) == Equip.MISSILE_SMART  then
+				elseif get_equipment('MISSILE', 7) == 'MISSILE_SMART'  then
 					call_model('d_smart',M_7,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE6) == Equip.MISSILE_NAVAL  then
+				elseif get_equipment('MISSILE', 7) == 'MISSILE_NAVAL'  then
 					call_model('d_naval',M_7,v(1,0,0), v(0,.95,.05),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE7) == Equip.MISSILE_UNGUIDED  then
+				if get_equipment('MISSILE', 8) == 'MISSILE_UNGUIDED'  then
 					call_model('d_unguided',M_8,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE7) == Equip.MISSILE_GUIDED  then
+				elseif get_equipment('MISSILE', 8) == 'MISSILE_GUIDED'  then
 					call_model('d_guided',M_8,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE7) == Equip.MISSILE_SMART  then
+				elseif get_equipment('MISSILE', 8) == 'MISSILE_SMART'  then
 					call_model('d_smart',M_8,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE7) == Equip.MISSILE_NAVAL  then
+				elseif get_equipment('MISSILE', 8) == 'MISSILE_NAVAL'  then
 					call_model('d_naval',M_8,v(1,0,0), v(0,.95,.05),1)
 				end
 			end
 
-			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+			if get_animation_position('WHEEL_STATE') ~= 0 then
 				call_model('headlight',v(0,-2.78,-18.7),v(1,0,0),v(0,0,-1),3)
 
 				call_model('posl_green', v(9.88,-2.6,-5), v(0,0,1), v(1,-0.27,0),1)
@@ -281,7 +281,7 @@ define_model('panther', {
 			local M_T = v(-7,-1.127,16.017)
 			xref_thruster(M_T, v(0,0,1), 20, true) -- i set thrusters dynamic, else the billboard function (posl.) messes with them
 
-			local rot = get_arg(ARG_SHIP_WHEEL_STATE)
+			local rot = get_animation_position('WHEEL_STATE')
 			local LFB_T = v(-6,-4.7-.8*rot,-6+5*(1-rot))
 			local RFB_T = v(6,-4.7-.8*rot,-6+5*(1-rot))
 			local LRB_T = v(-6,-4.7-.8*rot,10-5*(1-rot))
