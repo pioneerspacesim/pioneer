@@ -137,17 +137,17 @@ define_model('eagle_lrf_body', {
 			use_material('steel')
 			selector3()
 			if select3 < 51 then
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_-', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
 					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
 
 				if lod > 2 then
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+					if get_equipment('ECM') == 'ECM_BASIC' then
 						call_model('ecm_1', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
@@ -156,17 +156,17 @@ define_model('eagle_lrf_body', {
 					zbias(0)
 				end
 			else
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
 					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
 
 				if lod > 2 then
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+					if get_equipment('ECM') == 'ECM_BASIC' then
 						call_model('ecm_1', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
@@ -270,17 +270,17 @@ define_model('eagle_mk2_body', {
 			use_material('steel')
 			selector3()
 			if select3 < 51 then
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_-', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
 					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
 
 				if lod > 2 then
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+					if get_equipment('ECM') == 'ECM_BASIC' then
 						call_model('ecm_1', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
@@ -289,17 +289,17 @@ define_model('eagle_mk2_body', {
 					zbias(0)
 				end
 			else
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
 					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
 
 				if lod > 2 then
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+					if get_equipment('ECM') == 'ECM_BASIC' then
 						call_model('ecm_1', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
@@ -399,17 +399,17 @@ define_model('eagle_mk3_body', {
 			use_material('steel')
 			selector3()
 			if select3 < 51 then
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_-', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
 					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
 
 				if lod > 2 then
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+					if get_equipment('ECM') == 'ECM_BASIC' then
 						call_model('ecm_1', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
@@ -418,17 +418,17 @@ define_model('eagle_mk3_body', {
 					zbias(0)
 				end
 			else
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
 					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
 
 				if lod > 2 then
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+					if get_equipment('ECM') == 'ECM_BASIC' then
 						call_model('ecm_1', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
@@ -661,17 +661,17 @@ define_model('eagle_mk4_body', {
 			use_material('steel')
 			selector3()
 			if select3 < 51 then
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_-', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
 					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
 
 				if lod > 2 then
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+					if get_equipment('ECM') == 'ECM_BASIC' then
 						call_model('ecm_1', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
@@ -680,17 +680,17 @@ define_model('eagle_mk4_body', {
 					zbias(0)
 				end
 			else
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
 					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
 				end
 
 				if lod > 2 then
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+					if get_equipment('ECM') == 'ECM_BASIC' then
 						call_model('ecm_1', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					end
 
@@ -740,7 +740,7 @@ define_model('eagle_cyl', {
 	dynamic = function(lod)
 		use_material('chrome')
 		texture('models/ships/4_eagles/tex8.png', v(0,0,0), v(0,1,0), v(1,0,0))
-		local uc_trans = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.3, 1)
+		local uc_trans = math.clamp(get_animation_position('WHEEL_STATE'), 0.3, 1)
 		xref_ring(3*lod, v(9,0,0), v(9,(7*-uc_trans)+1.7,0), v(0,0,1), .25)
 		xref_ring(3*lod, v(9,0,0), v(9,(9*-uc_trans)+1.7,0), v(0,0,1), .2)
 		xref_ring(3*lod, v(9,0,0), v(9,(11*-uc_trans)+1.7,0), v(0,0,1), .15)
@@ -916,15 +916,15 @@ define_model('eagle_all', {
 	end,
 
 	dynamic = function(lod)
-		local trans1 = 6.667*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.3)
-		local trans2 = 12*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.3,1)
-		local rot = 2.4*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.3,1)
+		local trans1 = 6.667*math.clamp(get_animation_position('WHEEL_STATE'),0,.3)
+		local trans2 = 12*math.clamp(get_animation_position('WHEEL_STATE'),.3,1)
+		local rot = 2.4*math.clamp(get_animation_position('WHEEL_STATE'),.3,1)
 
 		if lod > 1 then
 
-			set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
+			set_material('e_glow', lerp_materials(get_time('SECONDS')*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
 
-			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+			if get_animation_position('WHEEL_STATE') ~= 0 then
 				local v64 = v(9-trans1,-1.55-(trans1/5),1)
 				local v66 = v(9+trans1,-1.55+(trans1/8),1)
 				local v68 = v(9+trans1,-3.53-(trans1/6),13)
@@ -954,7 +954,7 @@ define_model('eagle_all', {
 
 		texture(nil)
 		if lod == 1 then
-			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+			if get_animation_position('WHEEL_STATE') ~= 0 then
 				xref_cylinder(4, v(9,3.6-trans2,1), v(9,3.6-trans2,13), v(0,1,0), 2)
 			end
 		end
@@ -962,7 +962,7 @@ define_model('eagle_all', {
 		if lod > 1 then
 			local vTXT1 = v(19,2.759,12)
 			local vTXT2 = v(-19,-2.759,12)
-			local reg = get_arg_string(0)
+			local reg = get_label()
 			use_material('text')
 			zbias(1,v(19,2.759,12),v(0,1,.0105))
 			text(reg, vTXT1, v(0,1,.0105), v(1,-.1604,-.5), 5, {center = true})
@@ -970,8 +970,8 @@ define_model('eagle_all', {
 			text(reg, vTXT2, v(0,-1,.0105), v(-1,.1604,-.5), 5, {center = true})
 			zbias(0)
 
-			if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+			if get_equipment('LASER', 1) then
+				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 					call_model('eagle_gun',v(20,-.5,0),v(1,0,0),v(0,1,0),1)
 					call_model('eagle_gun',v(-20,-.5,0),v(1,0,0),v(0,1,0),1)
 				else
@@ -979,8 +979,8 @@ define_model('eagle_all', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_LASER1) > 0 then
-				if get_arg(ARG_SHIP_EQUIP_LASER1) == Equip.PULSECANNON_DUAL_1MW then
+			if get_equipment('LASER', 2) then
+				if get_equipment('LASER', 2) == 'PULSECANNON_DUAL_1MW' then
 					call_model('eagle_gun',v(20,-.5,0),v(1,0,0),v(0,1,0),1)
 					call_model('eagle_gun',v(-20,-.5,0),v(1,0,0),v(0,1,0),1)
 				else
@@ -992,19 +992,19 @@ define_model('eagle_all', {
 			local M_0 = v(24,-3.5,3)
 			local M_1 = v(-24,-3.5,3)
 
-			if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_UNGUIDED then
+			if get_equipment('MISSILE', 1) == 'MISSILE_UNGUIDED' then
 				call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 				call_model('d_unguided',M_0,v(1,0,0),v(0,1,0),3.5)
 			else
-				if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 1) == 'MISSILE_GUIDED' then
 					call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 					call_model('d_guided',M_0,v(1,0,0),v(0,1,0),3.5)
 				else
-					if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_SMART then
+					if get_equipment('MISSILE', 1) == 'MISSILE_SMART' then
 						call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 						call_model('d_smart',M_0,v(1,0,0),v(0,1,0),3.5)
 					else
-						if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_NAVAL then
+						if get_equipment('MISSILE', 1) == 'MISSILE_NAVAL' then
 							call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 							call_model('d_naval',M_0,v(1,0,0),v(0,1,0),3.5)
 						end
@@ -1012,19 +1012,19 @@ define_model('eagle_all', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_UNGUIDED then
+			if get_equipment('MISSILE', 2) == 'MISSILE_UNGUIDED' then
 				call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 				call_model('d_unguided',M_1,v(1,0,0),v(0,1,0),3.5)
 			else
-				if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 2) == 'MISSILE_GUIDED' then
 					call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 					call_model('d_guided',M_1,v(1,0,0),v(0,1,0),3.831)
 				else
-					if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_SMART then
+					if get_equipment('MISSILE', 2) == 'MISSILE_SMART' then
 						call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 						call_model('d_smart',M_1,v(1,0,0),v(0,1,0),3.5)
 					else
-						if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_NAVAL then
+						if get_equipment('MISSILE', 2) == 'MISSILE_NAVAL' then
 							call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 							call_model('d_naval',M_1,v(1,0,0),v(0,1,0),3.5)
 						end
@@ -1454,7 +1454,7 @@ define_model('eagle_mk3', {
 	end,
 
 	dynamic = function(lod)
-		set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
+		set_material('e_glow', lerp_materials(get_time('SECONDS')*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
 		if lod > 2 then
 			set_material('win', .5,.5,5,.2,1,1,1,100)
 		else
@@ -1609,7 +1609,7 @@ define_model('eagle_mk4', {
 
 	dynamic = function(lod)
 		set_material('cv2', get_arg_material(1))
-		set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
+		set_material('e_glow', lerp_materials(get_time('SECONDS')*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
 		if lod > 2 then
 			set_material('win', .5,.5,5,.2,1,1,1,100)
 		else
@@ -1621,19 +1621,19 @@ define_model('eagle_mk4', {
 			local M_0 = v(28,-3,3)
 			local M_1 = v(-28,-3,3)
 
-			if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_UNGUIDED then
+			if get_equipment('MISSILE', 3) == 'MISSILE_UNGUIDED' then
 				call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 				call_model('d_unguided',M_0,v(1,0,0),v(0,1,0),3.5)
 			else
-				if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 3) == 'MISSILE_GUIDED' then
 					call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 					call_model('d_guided',M_0,v(1,0,0),v(0,1,0),3.5)
 				else
-					if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_SMART then
+					if get_equipment('MISSILE', 3) == 'MISSILE_SMART' then
 						call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 						call_model('d_smart',M_0,v(1,0,0),v(0,1,0),3.5)
 					else
-						if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_NAVAL then
+						if get_equipment('MISSILE', 3) == 'MISSILE_NAVAL' then
 							call_model('m_pod',M_0+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 							call_model('d_naval',M_0,v(1,0,0),v(0,1,0),3.5)
 						end
@@ -1641,19 +1641,19 @@ define_model('eagle_mk4', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_UNGUIDED then
+			if get_equipment('MISSILE', 4) == 'MISSILE_UNGUIDED' then
 				call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 				call_model('d_unguided',M_1,v(1,0,0),v(0,1,0),3.5)
 			else
-				if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 4) == 'MISSILE_GUIDED' then
 					call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 					call_model('d_guided',M_1,v(1,0,0),v(0,1,0),3.831)
 				else
-					if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_SMART then
+					if get_equipment('MISSILE', 4) == 'MISSILE_SMART' then
 						call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 						call_model('d_smart',M_1,v(1,0,0),v(0,1,0),3.5)
 					else
-						if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_NAVAL then
+						if get_equipment('MISSILE', 4) == 'MISSILE_NAVAL' then
 							call_model('m_pod',M_1+v(0,.3,0),v(1,0,0),v(0,1,0),3.5)
 							call_model('d_naval',M_1,v(1,0,0),v(0,1,0),3.5)
 						end

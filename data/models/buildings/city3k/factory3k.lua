@@ -190,7 +190,7 @@ define_model('f3k_thing', {
 		sphere_slice(4*lod,2*lod,0,.5*math.pi, Matrix.rotate(.5*math.pi,v(1,0,0)))
 	end,
 	dynamic = function(lod)
-		local trans = get_arg(1)*.1
+		local trans = get_time('SECONDS')*.1
 		texture('models/buildings/city3k/wtr.png',v(trans,.5,0), v(.2,0,0),v(0,1,0))
 		sphere_slice(4*lod,2*lod,0,.5*math.pi, Matrix.rotate(.5*math.pi,v(1,0,0)))
 	end
@@ -212,13 +212,13 @@ define_model('f3k_thang', {
  	end,
 	dynamic = function(lod)
 		if lod > 3 then
-			local trans = (get_arg(1)*.05)
+			local trans = (get_time('SECONDS')*.05)
 			texture('models/buildings/city3k/wtr.png',v(math.sin(trans),math.cos(trans),0), v(.2,0,0),v(0,.2,0))
 			ring(3*lod,v(-7.5,-.5,4.5), v(-7.5,3.5,4.5),v(0,0,1), .9)
 		end
 
 		if lod > 3 then
-			local trans = (get_arg(1)*.05)
+			local trans = (get_time('SECONDS')*.05)
 			texture('models/buildings/city3k/wtr.png',v(math.cos(trans),math.sin(trans),0), v(.2,0,0),v(0,.2,0))
 			ring(3*lod,v(-6,-.5,5.5), v(-6,3.5,5.5),v(0,0,1), .9)
 		end

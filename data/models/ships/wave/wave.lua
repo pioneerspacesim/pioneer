@@ -178,13 +178,15 @@ define_model('wave', {
 			if lod > 2 then
 				-- glowing parts thanks to s2odan
 				-- had to export glowing.obj from blender without mtl file to get it to work
-				set_material('glow',lerp_materials(get_arg(ARG_ALL_TIME_SECONDS),{0,0,0,.8,0,0,0,0,10,10,10},{0,0,0,.4,0,0,0,0,9,9,9}))
+				set_material('glow',lerp_materials(get_time('SECONDS'),{0,0,0,.8,0,0,0,0,10,10,10},{0,0,0,.4,0,0,0,0,9,9,9}))
 				-- text on ship L first
 				-- first number id, then center, then normal, then vector direction
 				set_material('text', .6,.6,.6,1,.3,.3,.3,5)
 				use_material('text')
-				text(get_arg_string(0), v(-4.9,-2.7,4.7), v(-0.2,-1,0), v(0,0,1), 1, {center = true})
-				text(get_arg_string(0), v(4.9,-2.7,4.7), v(0.2,-1,0), v(0,0,-1), 1, {center = true})
+
+				local reg = get_label()
+				text(reg, v(-4.9,-2.7,4.7), v(-0.2,-1,0), v(0,0,1), 1, {center = true})
+				text(reg, v(4.9,-2.7,4.7), v(0.2,-1,0), v(0,0,-1), 1, {center = true})
 
 				-- missiles
 				-- missile bays L2 L1 R1 L2 1 inside 2 outside
@@ -194,82 +196,82 @@ define_model('wave', {
 				local R2 = v(6.9, -1.3, 5.3)
 
 				-- unguided missiles loading
-				if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_UNGUIDED then
+				if get_equipment('MISSILE', 1) == 'MISSILE_UNGUIDED' then
 					call_model('m_pod',L1+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 					call_model('d_unguided',L1,v(1,0,0),v(0,1,0),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_UNGUIDED then
+				if get_equipment('MISSILE', 2) == 'MISSILE_UNGUIDED' then
 					call_model('m_pod',R1+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 					call_model('d_unguided',R1,v(1,0,0),v(0,1,0),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_UNGUIDED then
+				if get_equipment('MISSILE', 3) == 'MISSILE_UNGUIDED' then
 					call_model('m_pod',L2+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 					call_model('d_unguided',L2,v(1,0,0),v(0,1,0),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_UNGUIDED then
+				if get_equipment('MISSILE', 4) == 'MISSILE_UNGUIDED' then
 					call_model('m_pod',R2+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 					call_model('d_unguided',R2,v(1,0,0),v(0,1,0),1)
 				end
 
 				-- guided missiles loading
-				if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 1) == 'MISSILE_GUIDED' then
 					call_model('m_pod',L1+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 					call_model('d_guided',L1,v(1,0,0),v(0,1,0),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 2) == 'MISSILE_GUIDED' then
 					call_model('m_pod',R1+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 					call_model('d_guided',R1,v(1,0,0),v(0,1,0),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 3) == 'MISSILE_GUIDED' then
 					call_model('m_pod',L2+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 					call_model('d_guided',L2,v(1,0,0),v(0,1,0),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 4) == 'MISSILE_GUIDED' then
 					call_model('m_pod',R2+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 					call_model('d_guided',R2,v(1,0,0),v(0,1,0),1)
 				end
 
 				-- smart missiles loading
-				if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_SMART then
+				if get_equipment('MISSILE', 1) == 'MISSILE_SMART' then
 					call_model('m_pod',L1+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 					call_model('d_smart',L1,v(1,0,0),v(0,1,0),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_SMART then
+				if get_equipment('MISSILE', 2) == 'MISSILE_SMART' then
 					call_model('m_pod',R1+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 					call_model('d_smart',R1,v(1,0,0),v(0,1,0),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_SMART then
+				if get_equipment('MISSILE', 3) == 'MISSILE_SMART' then
 					call_model('m_pod',L2+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 					call_model('d_smart',L2,v(1,0,0),v(0,1,0),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_SMART then
+				if get_equipment('MISSILE', 4) == 'MISSILE_SMART' then
 					call_model('m_pod',R2+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 					call_model('d_smart',R2,v(1,0,0),v(0,1,0),1)
 				end
 
 				-- naval missiles loading
-				if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_NAVAL then
+				if get_equipment('MISSILE', 1) == 'MISSILE_NAVAL' then
 					call_model('m_pod',L1+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 					call_model('d_naval',L1,v(1,0,0),v(0,1,0),1)
 				end
-				if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_NAVAL then
+				if get_equipment('MISSILE', 2) == 'MISSILE_NAVAL' then
 					call_model('m_pod',R1+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 					call_model('d_naval',R1,v(1,0,0),v(0,1,0),1)
 				end
-				if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_NAVAL then
+				if get_equipment('MISSILE', 3) == 'MISSILE_NAVAL' then
 					call_model('m_pod',L2+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 					call_model('d_naval',L2,v(1,0,0),v(0,1,0),1)
 				end
-				if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_NAVAL then
+				if get_equipment('MISSILE', 4) == 'MISSILE_NAVAL' then
 					call_model('m_pod',R2+v(0,.3,0),v(1,0,0),v(0,1,0),1)
 					call_model('d_naval',R2,v(1,0,0),v(0,1,0),1)
 				end
@@ -322,11 +324,12 @@ define_model('wave', {
 		end
 
 		-- landing gear
-		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+		local wheel_state = get_animation_position('WHEEL_STATE')
+		if wheel_state ~= 0 then
 			-- sliding front well covers and front gear
 			-- sliders (seasons 1-2) rules!
-			local sliders1 = 2.3 * get_arg(ARG_SHIP_WHEEL_STATE)
-			local sliders2 = 0.4*math.pi*math.clamp(1.5*(get_arg(ARG_SHIP_WHEEL_STATE)-0.4), 0, 1)
+			local sliders1 = 2.3 * wheel_state
+			local sliders2 = 0.4*math.pi*math.clamp(1.5*(wheel_state-0.4), 0, 1)
 
 			call_model('gearfront', v(0,0,sliders1), v(1,0,0), v(0,1,0), 1)
 			call_model('gearleft', v(sliders1,0,0), v(1,0,0), v(0,1,0), 1)
