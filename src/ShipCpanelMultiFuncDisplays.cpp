@@ -156,6 +156,7 @@ void ScannerWidget::Draw()
 	glColor3f(0, 0.4f, 0);
 	DrawDistanceRings();
 	DrawRangeRing(false);
+	// draw blended in slightly different places to anti-alias
 	glPushMatrix();
 	glEnable(GL_BLEND);
 	glColor4f(0, 0.4f, 0, 0.25f);
@@ -221,10 +222,14 @@ void ScannerWidget::UpdateContactsAndScale()
 
 	// range priority is combat target > ship/missile > nav target > other
 	if (m_mode == SCANNER_MODE_AUTO) {
-		if (combat_dist) m_range = Clamp(combat_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
-		else if (far_ship_dist) m_range = Clamp(far_ship_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
-		else if (nav_dist) m_range = Clamp(nav_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
-		else if (far_other_dist) m_range = Clamp(far_other_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+		if (combat_dist) m_range =
+			Clamp(combat_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+		else if (far_ship_dist) m_range =
+			Clamp(far_ship_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+		else if (nav_dist) m_range =
+			Clamp(nav_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+		else if (far_other_dist) m_range =
+			Clamp(far_other_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 		else m_range = SCANNER_RANGE_MAX;
 
 		m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
