@@ -176,7 +176,7 @@ define_model('spacestation_entry1_stage3', {
 			use_material('text')
 			zbias(1, v(0,200,0), v(0,-1,0))
 			-- starport name
-			text(get_arg_string(0), v(60,200,-35), v(0,-1,0), v(-1,0,0), 5.0, {center=true})
+			text(get_label(), v(60,200,-35), v(0,-1,0), v(-1,0,0), 5.0, {center=true})
 			-- docking bay number
 			text("DOCKING BAY 1", v(-60,200,-35), v(0,-1,0), v(-1,0,0), 7.0, {center=true})
 			zbias(0)
@@ -357,8 +357,8 @@ define_model('spacestation_entry1_stage2', {
 	end,
 	dynamic = function(lod)
 --		material(.8,0,0, 0,0,0, 0, 0,0,0)
-		local stage = get_arg(ARG_STATION_BAY1_STAGE)
-		local pos = get_arg(ARG_STATION_BAY1_POS)
+		local stage = get_animation_stage('DOCKING_BAY_1')
+		local pos = get_animation_position('DOCKING_BAY_1')
 		if stage == 3 or stage == 7 or stage == -1 or stage == -5 then
 			-- good, door is opening
 		elseif stage == 5 or stage == 9 or stage == -3 or stage == -7 then -- door is closing
@@ -482,8 +482,8 @@ define_model('spacestation_entry1', {
 		geomflag(0)
 	end,
 	dynamic = function(lod)
-		local stage = get_arg(ARG_STATION_BAY1_STAGE)
-		local pos = get_arg(ARG_STATION_BAY1_POS)
+		local stage = get_animation_stage('DOCKING_BAY_1')
+		local pos = get_animation_position('DOCKING_BAY_1')
 		if stage == 1 then
 			-- open door at start of docking permission
 			pos = math.min(pos*50, 1.0)
@@ -510,8 +510,9 @@ define_model('spacestation_entry1', {
 })
 
 function simple_lift_docking_port(baynum, pos)
-	local stage = get_arg(ARG_STATION_BAY1_STAGE + baynum)
-	local spos = get_arg(ARG_STATION_BAY1_POS + baynum)
+	local bayid = 'DOCKING_BAY_' .. (baynum + 1)
+	local stage = get_animation_stage(bayid)
+	local spos = get_animation_position(bayid)
 	local baypos = 0
 
 	if stage == 3 then
@@ -561,7 +562,7 @@ function simple_lift_docking_port(baynum, pos)
 	quad(pos+v(50,-75,50), pos+v(-50,-75,50), pos+v(-50,0,50), pos+v(50,0,50))
 	texture(nil)
 
-	if (math.fmod(get_arg(ARG_ALL_TIME_SECONDS), 2) > 1) then
+	if (math.fmod(get_time('SECONDS'), 2) > 1) then
 		local color
 		if stage > 1 or stage < 0 then
 			color = v(1,0,0) -- red
@@ -675,7 +676,7 @@ define_model('mushroom_station_2', {
 		simple_lift_docking_port(0, port_pos[1])
 		simple_lift_docking_port(1, port_pos[2])
 		-- light on tower
-		local lightphase = math.fmod(get_arg(ARG_ALL_TIME_SECONDS)+0.46956, 1)
+		local lightphase = math.fmod(get_time('SECONDS')+0.46956, 1)
 		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 228, -350) })
 	end
 })
@@ -790,7 +791,7 @@ define_model('mushroom_station_4', {
 		simple_lift_docking_port(2, port_pos[3])
 		simple_lift_docking_port(3, port_pos[4])
 		-- light on tower
-		local lightphase = math.fmod(get_arg(ARG_ALL_TIME_SECONDS)+0.46956, 1)
+		local lightphase = math.fmod(get_time('SECONDS')+0.46956, 1)
 		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 228, -350) })
 	end
 })
@@ -885,8 +886,8 @@ define_model('big_crappy_spacestation', {
 			local textpos = v(0,500,-115) --0,500,-110
 			use_material('text')
 			zbias(1, textpos, v(0,100,0))
-			text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 10.0, {center=true})
-			--text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 10.0, {center=true})
+			text(get_label(), textpos, v(0,1,0), v(1,0,0), 10.0, {center=true})
+			--text(get_label(), textpos, v(0,1,0), v(1,0,0), 10.0, {center=true})
 			local textpos = v(0,-500,-10) --0,500,-110
 			use_material('text')
 			zbias(1, textpos, v(0,100,0))
@@ -898,9 +899,9 @@ define_model('big_crappy_spacestation', {
 			zbias(0)
 		end
 		 billboard('smoke.png', 20.0, v(1,1,0), {
-			vlerp(get_arg(ARG_ALL_TIME_SECONDS),v(0,12,419),v(0,12,1500)),
-			vlerp(get_arg(ARG_ALL_TIME_SECONDS),v(0,12,-419),v(0,12,-1500))})
-		set_light(1, 0.00005, v(0,0+1000*math.fmod(get_arg(ARG_ALL_TIME_SECONDS),1.0),0), v(0,0,0.5))
+			vlerp(get_time('SECONDS'),v(0,12,419),v(0,12,1500)),
+			vlerp(get_time('SECONDS'),v(0,12,-419),v(0,12,-1500))})
+		set_light(1, 0.00005, v(0,0+1000*math.fmod(get_time('SECONDS'),1.0),0), v(0,0,0.5))
 		set_light(2, 0.00001, v(0,-300,0), v(0.5,1.0,0))
 	end,
 })
@@ -1069,11 +1070,11 @@ define_model('nice_spacestation', {
 			local textpos = v(0,400,-80)
 			use_material('text')
 			zbias(1, textpos, v(0,1,0))
-			text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 11, {center=true})
+			text(get_label(), textpos, v(0,1,0), v(1,0,0), 11, {center=true})
 			zbias(0)
 			call_model('ad_acme_2', v(0,-400.1,20), v(-1,0,0), v(0,0,-1), 40.0)
 		end
-		if (math.fmod(get_arg(ARG_ALL_TIME_SECONDS), 2) > 1) then
+		if (math.fmod(get_time('SECONDS'), 2) > 1) then
 			billboard('smoke.png', 50, v(0,1,0), { v(-150,405.5,0), v(-175,405.5,0), v(-200,405.5,0) })
 		else
 			billboard('smoke.png', 50, v(0,1,0), { v(150,405.5,0), v(175,405.5,0), v(200,405.5,0) })
@@ -1178,6 +1179,7 @@ define_model('hoop_spacestation', {
 		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(0,0,1), v(0,0.005,0))
 		cuboid(v(-99.5,380.1,-50),v(.5,24,100))--left
 		cuboid(v(99.4,380.1,-50),v(.5,24,100))--right
+		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
 		tri(f1,d,c)
 		xref_tri(f1,c,f2)
 		xref_tri(f2,c,b)
@@ -1196,11 +1198,9 @@ define_model('hoop_spacestation', {
 		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
 		quad(f1b,f2b,f3b,f4b) -- rear
 		tube(16, v(0,200,0), v(0,-200,0), v(0,0,1), 1300.0, 1500.0)
-		extrusion(v(0,0,-400), v(0,0,-1300), v(1,0,0), 100.0,
-			v(-1,-1,0), v(1,-1,0), v(1,1,0), v(-1,1,0))
-		extrusion(v(0,0,1300), v(0,0,400), v(1,0,0), 100.0,
-			v(-1,-1,0), v(1,-1,0), v(1,1,0), v(-1,1,0))
-		call_model('spacestation_entry1', v(0,400,0), v(1,0,0), v(0,1,0), 1.0)
+		extrusion(v(0,0,-400), v(0,0,-1300), v(1,0,0), 100.0, v(-1,-1,0), v(1,-1,0), v(1,1,0), v(-1,1,0))
+		extrusion(v(0,0,1300), v(0,0,400), v(1,0,0), 100.0, v(-1,-1,0), v(1,-1,0), v(1,1,0), v(-1,1,0))
+		texture(nil)
 		--lights
 		--lamp housings
 		use_material('text')
@@ -1218,16 +1218,17 @@ define_model('hoop_spacestation', {
 		cylinder(8,v(150,401.5,0),v(150,402.5,0),v(0,0,1),4.5)
 		cylinder(8,v(175,401.5,0),v(175,402.5,0),v(0,0,1),4.5)
 		cylinder(8,v(200,401.5,0),v(200,402.5,0),v(0,0,1),4.5)
+		call_model('spacestation_entry1', v(0,400,0), v(1,0,0), v(0,1,0), 1.0)
 	end,
 	dynamic = function(lod)
 		if lod > 1 then
 			local textpos = v(0,400,-80)
 			use_material('text')
 			zbias(1, textpos, v(0,1,0))
-			text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 11.0, {center=true})
+			text(get_label(), textpos, v(0,1,0), v(1,0,0), 11.0, {center=true})
 			zbias(0)
 		end
-		if (math.fmod(get_arg(ARG_ALL_TIME_SECONDS), 2) > 1) then
+		if (math.fmod(get_time('SECONDS'), 2) > 1) then
 			billboard('smoke.png', 50, v(0,1,0), { v(-150,405.5,0), v(-175,405.5,0), v(-200,405.5,0) })
 		else
 			billboard('smoke.png', 50, v(0,1,0), { v(150,405.5,0), v(175,405.5,0), v(200,405.5,0) })
@@ -1281,7 +1282,7 @@ define_model('basic_groundstation', {
 	end,
 	dynamic = function(lod)
 		-- light on tower
-		local lightphase = math.fmod(get_arg(ARG_ALL_TIME_SECONDS)+0.620486, 1)
+		local lightphase = math.fmod(get_time('SECONDS')+0.620486, 1)
 		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 88, -150) })
 	end
 })

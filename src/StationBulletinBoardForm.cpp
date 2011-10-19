@@ -60,7 +60,7 @@ void StationBulletinBoardForm::UpdateAdverts()
 
 	m_advertbox->SetSizeRequest(450, adverts.size() * YSEP);
 
-	int y = 0;
+	float y = 0;
 	for (std::list<const BBAdvert*>::const_iterator i = adverts.begin(); i != adverts.end(); i++) {
 		Gui::SolidButton *b = new Gui::SolidButton();
 		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBulletinBoardForm::ActivateAdvertForm), *(*i)));

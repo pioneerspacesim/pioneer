@@ -314,6 +314,10 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 		m_openAnimState[i] = 0;
 		m_dockAnimState[i] = 0;
 	}
+
+	// XXX the animation namespace must match that in LuaConstants
+	GetLmrObjParams().animationNamespace = "SpaceStationAnimation";
+
 	SetMoney(1000000000);
 	InitStation();
 }
@@ -329,8 +333,8 @@ void SpaceStation::InitStation()
 	} else {
 		m_type = &surfaceStationTypes[ rand.Int32(surfaceStationTypes.size()) ];
 	}
-	GetLmrObjParams().argDoubles[ARG_STATION_BAY1_STAGE] = 1.0;
-	GetLmrObjParams().argDoubles[ARG_STATION_BAY1_POS] = 1.0;
+	GetLmrObjParams().animStages[ANIM_DOCKING_BAY_1] = 1;
+	GetLmrObjParams().animValues[ANIM_DOCKING_BAY_1] = 1.0;
 	SetModel(m_type->modelName, true);
 	m_bbCreated = false;
 }
@@ -763,36 +767,15 @@ void SpaceStation::NotifyDeleted(const Body* const deletedBody)
 	}
 }
 
-static std::vector<LmrModel*> s_advertModels;
-
 void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	/* Well this is nice... */
-	static int poo=0;
-	if (!poo) {
-		poo = 1;
-		LmrGetModelsWithTag("advert", s_advertModels);
-	}
-	// it is silly to do this every render call
-	//
-	// random advert models in pFlag[16 .. 19]
-	// station name in pText[0]
-	// docking port in pText[1]
-	MTRand rand;
-	rand.seed(m_sbody->seed);
-	
 	LmrObjParams &params = GetLmrObjParams();
-	/* random advert models */
-	params.argStrings[4] = s_advertModels[rand.Int32(s_advertModels.size())]->GetName();
-	params.argStrings[5] = s_advertModels[rand.Int32(s_advertModels.size())]->GetName();
-	params.argStrings[6] = s_advertModels[rand.Int32(s_advertModels.size())]->GetName();
-	params.argStrings[7] = s_advertModels[rand.Int32(s_advertModels.size())]->GetName();
-	params.argStrings[0] = GetLabel().c_str();
+	params.label = GetLabel().c_str();
 	SetLmrTimeParams();
 
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		params.argDoubles[ARG_STATION_BAY1_STAGE + i] = double(m_shipDocking[i].stage);
-		params.argDoubles[ARG_STATION_BAY1_POS + i] = m_shipDocking[i].stagePos;
+		params.animStages[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stage;
+		params.animValues[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stagePos;
 	}
 
 	RenderLmrModel(viewCoords, viewTransform);

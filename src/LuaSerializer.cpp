@@ -168,7 +168,7 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 
 		case 's': {
 			char *end;
-			int len = strtod(pos, &end);
+			int len = strtol(pos, const_cast<char**>(&end), 0);
 			if (pos == end) throw SavedGameCorruptException();
 			end++; // skip newline
 			lua_pushlstring(l, end, len);
