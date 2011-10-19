@@ -5,7 +5,7 @@ Character = {
 	player = false, -- Almost always.  One exception. (-:
 	name = '',
 	isfemale = true,
-	face = 0,
+	face = {}, -- To-do: Move name into here, and initialize it properly
 
 	-- Attributes
 	luck = 130,
