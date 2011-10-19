@@ -1,21 +1,186 @@
--- Character class
+--
+-- Class: Character
+--
 
 Character = {
-	-- Persona
-	player = false, -- Almost always.  One exception. (-:
-	name = '',
-	isfemale = true,
-	face = {}, -- To-do: Move name into here, and initialize it properly
 
-	-- Attributes
+--
+-- Group: Attributes
+--
+
+--
+-- Attribute: player
+--
+-- Boolean value; true if this instance of the table is for the player.  Only
+-- one character sheet should be that of the player.
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
+	player = false, -- Almost always.  One exception. (-:
+
+--
+-- Attribute: name
+--
+-- Name of the character.
+--
+-- Availability:
+--
+--   temporary
+--
+-- Status:
+--
+--   deprecated
+--
+	name = '',
+
+--
+-- Attribute: isfemale
+--
+-- Boolean value; Gender of the character, used for setting name and face.  True
+-- if gender is female.
+--
+-- Availability:
+--
+--   temporary
+--
+-- Status:
+--
+--   deprecated
+--
+	isfemale = true,
+
+--
+-- Attribute: face
+--
+-- Table, as specified for ChatForm.SetFace
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
+	face = {}, -- To-do: Move name, [is]female into here, and initialize it properly
+
+--
+-- Attribute: luck
+--
+-- Integer attribute for roll-play style dice tests.  Luck is intended to reflect
+-- the character's innate good fortune.
+-- Tested with 4xD64; useful values are 4 (never lucky) to 257 (always lucky).
+-- Modifiers can cause numbers outside this range to become useful (see TestRoll).
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
 	luck = 130,
+
+--
+-- Attribute: charisma
+--
+-- Integer attribute for roll-play style dice tests.  Charisma is intended to reflect
+-- the character's ability to win contracts or favrouable deals.
+-- Tested with 4xD64; useful values are 4 (always hated) to 257 (always liked).
+-- Modifiers can cause numbers outside this range to become useful (see TestRoll).
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
 	charisma = 130,
+
+--
+-- Attribute: notoriety
+--
+-- Integer attribute for roll-play style dice tests.  Notoriety is intended to reflect
+-- how well the character's reputation (good or bad) is known.
+-- Tested against 4xD64; useful values are 4 (complete nobody) to 257 (celebrity).
+-- Modifiers can cause numbers outside this range to become useful (see TestRoll).
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
 	notoriety = 50, -- Few people are notorious, so a low default
+
+--
+-- Attribute: face
+--
+-- Integer attribute for roll-play style dice tests.  Luck is intended to reflect
+-- the character's innate good fortune.
+-- Tested with 4xD64; useful values are 4 (never lucky) to 257 (always lucky).
+-- Modifiers can cause numbers outside this range to become useful (see TestRoll).
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
 	lawfulness = 130,
 
+--
+-- Group: Methods
+--
 
-	-- Methods
-
+--
+-- Method: New
+--
+-- Returns a either the table specified as a parameter, or a new object table,
+-- with that table now inheriting attributes and methods from Character class.
+--
+-- character = Character:New(newCharacter)
+--
+-- Return:
+--
+--   character - a character sheet, which inherits from Character class
+--
+-- Parameters:
+--
+--   newCharacter - (optional) a table containing default values
+--
+-- Example:
+--
+-- > regular_joe = Character:New()
+--
+-- > lucky_guy = Character:New({luck = 180})
+--
+-- > -- How to clone lucky_guy (he'll get a new name and face)
+-- > new_guy = {}
+-- > for k,v in pairs(lucky_guy) do new_guy[k] = v end
+-- > new_guy = Character:New(new_guy)
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
 	New = function (self,newCharacter)
 		-- initialise new character
 		local newCharacter = newCharacter or {}
@@ -32,6 +197,31 @@ Character = {
 		return newCharacter
 	end,
 
+--
+-- Method: DiceRoll
+--
+-- Returns the results of a simulated 4xD64 roll.  Results are random, but
+-- distributed in a bell curve about the value 130.  The minimum result is
+-- 4, and the maximum result is 256.
+--
+-- > roll = Character.DiceRoll()
+--
+-- Return:
+--
+--   roll - Integer value between 4 and 265 (inclusive), most likely 130
+--
+-- Example:
+--
+-- > new_character.charisma = Character.DiceRoll()
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
 	DiceRoll = function ()
 		return ( -- 4xD64, range is 4..256 averaging 130)
 			  Engine.rand:Integer(1,64)
@@ -41,6 +231,27 @@ Character = {
 		)
 	end,
 
+--
+-- Method: RollNew
+--
+-- Uses DiceRoll to initialise the following attributes to random values:
+--   luck
+--   charisma
+--   notoriety
+--   lawfulnes
+--
+-- Example:
+--
+-- > new_character:RollNew()
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
 	RollNew = function (self)
 		self.luck = Character.DiceRoll()
 		self.charisma = Character.DiceRoll()
@@ -48,6 +259,34 @@ Character = {
 		self.lawfulness = Character.DiceRoll()
 	end,
 
+--
+-- Method: TestRoll
+--
+-- Uses DiceRoll to generate a random number, which it compares with the provided
+-- attribute.  If the generated number is less than the sum of the attribute and
+-- the provided modifier, it returns true.
+-- If it is greater, or the attribute does not exist, it returns false.
+--
+-- > success = somebody:TestRoll('notoriety')
+--
+-- Return:
+--
+--   success - Boolean value indicating that the test roll passed or failed
+--
+-- Parameters:
+--
+--   attribute - The key of an attribute in this instance of the character table
+--               (such as luck, charisma, or any arbitrarily added attribute)
+--
+--   modifier - An arbitrary integer used to increase or decrease the odds of
+--              returning true or false.  Positive values increase the odds of
+--              a true result, and negative values increase the odds of false.
+--              Default is zero.
+--
+-- Example:
+--
+-- > if (player:TestRoll('lawfulness',20)) then UI.Message('A fellow criminal!')
+--
 	TestRoll = function (self,attribute,modifier)
 		if not modifier then modifier = 0 end
 		if self[attribute] then
@@ -57,7 +296,30 @@ Character = {
 		end
 	end,
 
-	-- Save into persistent table of characters as an NPC
+--
+-- Method: Save
+--
+-- If the character is not already in the table of persistent characters, inserts
+-- the character into that table.
+--
+-- Return:
+--
+--   Index of this character in PersistentCharacters table
+--
+-- Parameters:
+--
+--   attribute - The key of an attribute in this instance of the character table
+--               (such as luck, charisma, or any arbitrarily added attribute)
+--
+--   modifier - An arbitrary integer used to increase or decrease the odds of
+--              returning true or false.  Positive values increase the odds of
+--              a true result, and negative values increase the odds of false.
+--              Default is zero.
+--
+-- Example:
+--
+--   local BBS_characterID = BBS_character:Save()
+--
 	Save = function (self)
 		for i,NPC in ipairs(PersistentCharacters) do
 			if NPC == self then return i end
