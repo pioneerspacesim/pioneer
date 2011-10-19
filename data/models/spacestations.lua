@@ -1179,6 +1179,7 @@ define_model('hoop_spacestation', {
 		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(0,0,1), v(0,0.005,0))
 		cuboid(v(-99.5,380.1,-50),v(.5,24,100))--left
 		cuboid(v(99.4,380.1,-50),v(.5,24,100))--right
+		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
 		tri(f1,d,c)
 		xref_tri(f1,c,f2)
 		xref_tri(f2,c,b)
@@ -1197,11 +1198,9 @@ define_model('hoop_spacestation', {
 		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
 		quad(f1b,f2b,f3b,f4b) -- rear
 		tube(16, v(0,200,0), v(0,-200,0), v(0,0,1), 1300.0, 1500.0)
-		extrusion(v(0,0,-400), v(0,0,-1300), v(1,0,0), 100.0,
-			v(-1,-1,0), v(1,-1,0), v(1,1,0), v(-1,1,0))
-		extrusion(v(0,0,1300), v(0,0,400), v(1,0,0), 100.0,
-			v(-1,-1,0), v(1,-1,0), v(1,1,0), v(-1,1,0))
-		call_model('spacestation_entry1', v(0,400,0), v(1,0,0), v(0,1,0), 1.0)
+		extrusion(v(0,0,-400), v(0,0,-1300), v(1,0,0), 100.0, v(-1,-1,0), v(1,-1,0), v(1,1,0), v(-1,1,0))
+		extrusion(v(0,0,1300), v(0,0,400), v(1,0,0), 100.0, v(-1,-1,0), v(1,-1,0), v(1,1,0), v(-1,1,0))
+		texture(nil)
 		--lights
 		--lamp housings
 		use_material('text')
@@ -1219,6 +1218,7 @@ define_model('hoop_spacestation', {
 		cylinder(8,v(150,401.5,0),v(150,402.5,0),v(0,0,1),4.5)
 		cylinder(8,v(175,401.5,0),v(175,402.5,0),v(0,0,1),4.5)
 		cylinder(8,v(200,401.5,0),v(200,402.5,0),v(0,0,1),4.5)
+		call_model('spacestation_entry1', v(0,400,0), v(1,0,0), v(0,1,0), 1.0)
 	end,
 	dynamic = function(lod)
 		if lod > 1 then

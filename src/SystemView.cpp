@@ -211,7 +211,6 @@ void SystemView::PutSelectionBox(const SBody *b, const vector3d &rootPos, const 
 	assert(b);
 
 	vector3d pos = rootPos;
-	int i = 0;
 	// while (b->parent), not while (b) because the root SBody is defined to be at (0,0,0)
 	while (b->parent) {
 		pos += b->orbit.OrbitalPosAtTime(m_time) * double(m_zoom);

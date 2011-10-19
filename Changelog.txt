@@ -1,7 +1,7 @@
 Alpha 16
 
   * New features
-    * "Wave Heavy Hypersonic Fighter" ship
+    * New ships: "Wave Heavy Hypersonic Fighter" and "Turtle" (#558, #657)
     * Spanish translation (#628)
 
   * Minor changes and tweaks
@@ -10,6 +10,7 @@ Alpha 16
       (#658), GoodsTrader (#659) and DeliverPackage (#639)
     * Modules translated to Polish
     * Targets can be selected from the system view (#503)
+	* Model cleanups and optimisations (#680, #675, #672, #674)
 
   * Fixes
     * Optimise trade ship cargo management (#632)
