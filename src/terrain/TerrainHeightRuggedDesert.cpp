@@ -55,23 +55,23 @@ double TerrainHeightFractal<TerrainHeightRuggedDesert>::GetHeight(const vector3d
 template <>
 TerrainHeightFractal<TerrainHeightRuggedDesert>::TerrainHeightFractal(const SBody *body) : Terrain(body)
 {
-	SetFracDef(0, 0.1*m_maxHeightInMeters, 2e6, m_rand, 180e3*m_fracmult);
+	SetFracDef(0, 0.1*m_maxHeightInMeters, 2e6, 180e3*m_fracmult);
 	double height = m_maxHeightInMeters*0.9;
-	SetFracDef(1, height, m_rand.Double(120.0, 10000.0)*height, m_rand, 100*m_fracmult);
-	SetFracDef(2, m_maxHeightInMeters, m_rand.Double(1.0, 2.0)*m_maxHeightInMeters, m_rand);
+	SetFracDef(1, height, m_rand.Double(120.0, 10000.0)*height, 100*m_fracmult);
+	SetFracDef(2, m_maxHeightInMeters, m_rand.Double(1.0, 2.0)*m_maxHeightInMeters);
 
 	height = m_maxHeightInMeters*0.3;
-	SetFracDef(3, height, m_rand.Double(20.0,240.0)*height, m_rand);
-	SetFracDef(4, m_maxHeightInMeters, m_rand.Double(1.0, 2.0)*m_maxHeightInMeters, m_rand);
+	SetFracDef(3, height, m_rand.Double(20.0,240.0)*height);
+	SetFracDef(4, m_maxHeightInMeters, m_rand.Double(1.0, 2.0)*m_maxHeightInMeters);
 	// dunes
 	height = m_maxHeightInMeters*0.2;
-	SetFracDef(5, height*0.1, m_rand.Double(5,75)*height, m_rand, 10000.0*m_fracmult);
+	SetFracDef(5, height*0.1, m_rand.Double(5,75)*height, 10000.0*m_fracmult);
 	// canyon
-	SetFracDef(6, m_maxHeightInMeters*0.2, 1e6, m_rand, 200.0*m_fracmult);
-	SetFracDef(7, m_maxHeightInMeters*0.35, 1.5e6, m_rand, 100.0*m_fracmult);
-	SetFracDef(8, m_maxHeightInMeters*0.2, 3e6, m_rand, 100.0*m_fracmult);
+	SetFracDef(6, m_maxHeightInMeters*0.2, 1e6, 200.0*m_fracmult);
+	SetFracDef(7, m_maxHeightInMeters*0.35, 1.5e6, 100.0*m_fracmult);
+	SetFracDef(8, m_maxHeightInMeters*0.2, 3e6, 100.0*m_fracmult);
 
-	//SetFracDef(9, m_maxHeightInMeters*0.1, 100, m_rand, 10.0);
+	//SetFracDef(9, m_maxHeightInMeters*0.1, 100, 10.0);
 	// adds bumps to the landscape
-	SetFracDef(9, height*0.0025, m_rand.Double(1,100), m_rand, 100.0*m_fracmult);
+	SetFracDef(9, height*0.0025, m_rand.Double(1,100), 100.0*m_fracmult);
 }

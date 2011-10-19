@@ -722,7 +722,7 @@ Terrain::Terrain(const SBody *body) : m_body(body)
  * Feature width means roughly one perlin noise blob or grain.
  * This will end up being one hill, mountain or continent, roughly.
  */
-void Terrain::SetFracDef(unsigned int index, double featureHeightMeters, double featureWidthMeters, MTRand &rand, double smallestOctaveMeters)
+void Terrain::SetFracDef(unsigned int index, double featureHeightMeters, double featureWidthMeters, double smallestOctaveMeters)
 {
 	// feature 
 	m_fracdef[index].amplitude = featureHeightMeters / (m_maxHeight * m_planetRadius);

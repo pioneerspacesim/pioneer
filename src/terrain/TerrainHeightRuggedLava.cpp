@@ -69,22 +69,22 @@ double TerrainHeightFractal<TerrainHeightRuggedLava>::GetHeight(const vector3d &
 template <>
 TerrainHeightFractal<TerrainHeightRuggedLava>::TerrainHeightFractal(const SBody *body) : Terrain(body)
 {
-	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6,1e7), m_rand);
+	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6,1e7));
 	double height = m_maxHeightInMeters*1.0;
-	SetFracDef(1, m_maxHeightInMeters, m_rand.Double(50.0, 100.0)*m_maxHeightInMeters, m_rand);
-	SetFracDef(2, height, m_rand.Double(4.0, 20.0)*height, m_rand);
-	SetFracDef(3, height, m_rand.Double(12.0, 200.0)*height, m_rand);
+	SetFracDef(1, m_maxHeightInMeters, m_rand.Double(50.0, 100.0)*m_maxHeightInMeters);
+	SetFracDef(2, height, m_rand.Double(4.0, 20.0)*height);
+	SetFracDef(3, height, m_rand.Double(12.0, 200.0)*height);
 
 	height = m_maxHeightInMeters*0.3;
-	SetFracDef(4, m_maxHeightInMeters, m_rand.Double(100.0, 200.0)*m_maxHeightInMeters, m_rand);
-	SetFracDef(5, height, m_rand.Double(2.5,3.5)*height, m_rand);
+	SetFracDef(4, m_maxHeightInMeters, m_rand.Double(100.0, 200.0)*m_maxHeightInMeters);
+	SetFracDef(5, height, m_rand.Double(2.5,3.5)*height);
 
 	// volcanoes
-	SetFracDef(6, height, 6e6, m_rand, 100000.0*m_fracmult);
-	SetFracDef(7, height, 3e6, m_rand, 1000.0*m_fracmult);
+	SetFracDef(6, height, 6e6, 100000.0*m_fracmult);
+	SetFracDef(7, height, 3e6, 1000.0*m_fracmult);
 
 	// canyon
-	SetFracDef(8, m_maxHeightInMeters*0.4, 4e6, m_rand, 100.0*m_fracmult);
+	SetFracDef(8, m_maxHeightInMeters*0.4, 4e6, 100.0*m_fracmult);
 	// bumps/rocks
-	SetFracDef(9, height*0.001, m_rand.Double(10,100), m_rand, 2.0*m_fracmult);
+	SetFracDef(9, height*0.001, m_rand.Double(10,100), 2.0*m_fracmult);
 }

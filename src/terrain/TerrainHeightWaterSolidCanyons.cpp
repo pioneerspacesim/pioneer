@@ -51,17 +51,17 @@ double TerrainHeightFractal<TerrainHeightWaterSolidCanyons>::GetHeight(const vec
 template <>
 TerrainHeightFractal<TerrainHeightWaterSolidCanyons>::TerrainHeightFractal(const SBody *body) : Terrain(body)
 {
-	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(5e6,1e8), m_rand);
+	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(5e6,1e8));
 	double height = m_maxHeightInMeters*0.3;
-	SetFracDef(1, height, m_rand.Double(4.0, 20.0)*height, m_rand);
-	SetFracDef(2, m_maxHeightInMeters, m_rand.Double(200.0, 1000.0)*m_maxHeightInMeters, m_rand);
+	SetFracDef(1, height, m_rand.Double(4.0, 20.0)*height);
+	SetFracDef(2, m_maxHeightInMeters, m_rand.Double(200.0, 1000.0)*m_maxHeightInMeters);
 
 	// mountains with some canyons
-	SetFracDef(3, m_maxHeightInMeters*0.4, 4e6, m_rand);
-	SetFracDef(4, m_maxHeightInMeters*0.4, 5e6, m_rand);
+	SetFracDef(3, m_maxHeightInMeters*0.4, 4e6);
+	SetFracDef(4, m_maxHeightInMeters*0.4, 5e6);
 	//crater
-	SetFracDef(5, m_maxHeightInMeters*0.4, 15e6, m_rand, 50000.0*m_fracmult);
+	SetFracDef(5, m_maxHeightInMeters*0.4, 15e6, 50000.0*m_fracmult);
 	//canyons
-	//SetFracDef(6, m_maxHeightInMeters*0.4, 12e6, m_rand, 50000.0);
-	//SetFracDef(7, m_maxHeightInMeters*0.4, 9e6, m_rand, 50000.0);
+	//SetFracDef(6, m_maxHeightInMeters*0.4, 12e6, 50000.0);
+	//SetFracDef(7, m_maxHeightInMeters*0.4, 9e6, 50000.0);
 }

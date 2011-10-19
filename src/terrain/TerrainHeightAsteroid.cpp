@@ -15,7 +15,7 @@ double TerrainHeightFractal<TerrainHeightAsteroid>::GetHeight(const vector3d &p)
 template <>
 TerrainHeightFractal<TerrainHeightAsteroid>::TerrainHeightFractal(const SBody *body) : Terrain(body)
 {
-	SetFracDef(0, m_maxHeightInMeters, m_planetRadius, m_rand);
+	SetFracDef(0, m_maxHeightInMeters, m_planetRadius);
 	// craters
-	SetFracDef(1, 5000.0, 1000000.0, m_rand, 1000.0*m_fracmult);
+	SetFracDef(1, 5000.0, 1000000.0, 1000.0*m_fracmult);
 }

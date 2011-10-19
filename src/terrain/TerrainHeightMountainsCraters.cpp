@@ -26,15 +26,15 @@ double TerrainHeightFractal<TerrainHeightMountainsCraters>::GetHeight(const vect
 template <>
 TerrainHeightFractal<TerrainHeightMountainsCraters>::TerrainHeightFractal(const SBody *body) : Terrain(body)
 {
-	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6,1e7), m_rand);
+	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6,1e7));
 	double height = m_maxHeightInMeters*0.3;
-	SetFracDef(1, height, m_rand.Double(4.0, 20.0)*height, m_rand);
-	SetFracDef(2, m_maxHeightInMeters, m_rand.Double(50.0, 100.0)*m_maxHeightInMeters, m_rand);
+	SetFracDef(1, height, m_rand.Double(4.0, 20.0)*height);
+	SetFracDef(2, m_maxHeightInMeters, m_rand.Double(50.0, 100.0)*m_maxHeightInMeters);
 
 	height = m_maxHeightInMeters*0.3;
-	SetFracDef(4, m_maxHeightInMeters, m_rand.Double(100.0, 200.0)*m_maxHeightInMeters, m_rand);
-	SetFracDef(3, height, m_rand.Double(2.5,3.5)*height, m_rand);
+	SetFracDef(4, m_maxHeightInMeters, m_rand.Double(100.0, 200.0)*m_maxHeightInMeters);
+	SetFracDef(3, height, m_rand.Double(2.5,3.5)*height);
 
-	SetFracDef(5, m_maxHeightInMeters*0.05, 8e5, m_rand, 1000.0*m_fracmult);
-	SetFracDef(6, m_maxHeightInMeters*0.05, 1e6, m_rand, 10000.0*m_fracmult);
+	SetFracDef(5, m_maxHeightInMeters*0.05, 8e5, 1000.0*m_fracmult);
+	SetFracDef(6, m_maxHeightInMeters*0.05, 1e6, 10000.0*m_fracmult);
 }
