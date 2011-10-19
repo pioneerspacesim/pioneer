@@ -280,6 +280,9 @@ void SpaceStation::Load(Serializer::Reader &rd)
 	m_sbody = Serializer::LookupSystemBody(rd.Int32());
 	m_numPoliceDocked = rd.Int32();
 	InitStation();
+
+	// XXX the animation namespace must match that in LuaConstants
+	GetLmrObjParams().animationNamespace = "SpaceStationAnimation";
 }
 
 void SpaceStation::PostLoadFixup()

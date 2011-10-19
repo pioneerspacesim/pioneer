@@ -125,6 +125,9 @@ void Ship::Load(Serializer::Reader &rd)
 	else m_curAICmd = 0;
 
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
+
+	// XXX the animation namespace must match that in LuaConstants
+	GetLmrObjParams().animationNamespace = "ShipAnimation";
 }
 
 void Ship::Init()
