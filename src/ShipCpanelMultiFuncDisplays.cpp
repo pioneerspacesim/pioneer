@@ -297,7 +297,7 @@ void ScannerWidget::DrawDistanceRings()
 	}
 	/* schpokes */
 	glBegin(GL_LINES);
-	for (float a = 0; a < circle; a += step) {
+	for (float a = 0; a < circle; a += float(M_PI * 0.25)) {
 		glVertex2f(m_x + m_x * 0.1f * sin(a), m_y + 0.1f * SCANNER_YSHRINK * m_y * cos(a));
 		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 	}
