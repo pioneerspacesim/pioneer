@@ -312,15 +312,15 @@ void ScannerWidget::DrawRangeRing(bool blend)
 
 	glBegin(GL_LINE_LOOP);
 	for (float a = 0; a < range_percent * circ; a += step) {
-		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+		glVertex2f(m_x + m_x * -sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 	}
 	if (range_percent < 1.0f)
-		glVertex2f(m_x + m_x * sin(range_percent * circ),
+		glVertex2f(m_x + m_x * -sin(range_percent * circ),
 			m_y + SCANNER_YSHRINK * m_y * cos(range_percent * circ));
 	if (blend) glColor4f(0.2f, 0.3f, 0.2f, 0.25f);
 	else glColor3f(0.2f, 0.3f, 0.2f);
 	for (float a = range_percent * circ; a < circ; a += step) {
-		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+		glVertex2f(m_x + m_x * -sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 	}
 	if (range_percent < 1.0f) glVertex2f(m_x, m_y + SCANNER_YSHRINK * m_y);
 	glEnd();
