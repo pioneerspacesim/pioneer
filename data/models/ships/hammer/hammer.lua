@@ -229,14 +229,14 @@ define_model('hammer', {
 
 			if lod > 2 then
 				-- glowing parts thanks to s2odan
-				set_material('glow',lerp_materials(get_arg(ARG_ALL_TIME_SECONDS),{0,0,0,.8,0,0,0,0,10,10,10},{0,0,0,.4,0,0,0,0,9,9,9}))
+				set_material('glow',lerp_materials(get_time('SECONDS'),{0,0,0,.8,0,0,0,0,10,10,10},{0,0,0,.4,0,0,0,0,9,9,9}))
 
 				-- text on ship L first
 				-- first number id, then center, then normal, then vector direction
 				set_material('text', .6,.6,.6,1,.3,.3,.3,5)
 				use_material('text')
-				text(get_arg_string(0), v(-22.5,-10.0,23.8), v(-0.3,-1,0), v(-0.1,0,1), 3, {center = true})
-				text(get_arg_string(0), v(22.5,-10.0,23.8), v(0.3,-1,0), v(-0.1,0,-1.1), 3, {center = true})
+				text(get_label(), v(-22.5,-10.0,23.8), v(-0.3,-1,0), v(-0.1,0,1), 3, {center = true})
+				text(get_label(), v(22.5,-10.0,23.8), v(0.3,-1,0), v(-0.1,0,-1.1), 3, {center = true})
 
 				-- missiles
 				-- missile bays LeftTop/LeftBottom and RightTop/RightBottom
@@ -310,119 +310,119 @@ define_model('hammer', {
 				--local RB16 = v(25.2, 0.8, 29.0)
 
 				-- unguided missiles loading
-				if get_arg(12) == 32 then
+				if get_equipment('MISSILE', 1) == 'MISSILE_UNGUIDED' then
 					call_model('d_unguided',LT1,v(0,0,-1),v(0,1,0),1)
 				end
-				if get_arg(13) == 32 then
+				if get_equipment('MISSILE', 2) == 'MISSILE_UNGUIDED' then
 					call_model('d_unguided',RT1,v(0,0,1),v(0,1,0),1)
 				end
-				if get_arg(14) == 32 then
+				if get_equipment('MISSILE', 3) == 'MISSILE_UNGUIDED' then
 					call_model('d_unguided',LT2,v(0,0,-1),v(0,1,0),1)
 				end
-				if get_arg(15) == 32 then
+				if get_equipment('MISSILE', 4) == 'MISSILE_UNGUIDED' then
 					call_model('d_unguided',RT2,v(0,0,1),v(0,1,0),1)
 				end
-				if get_arg(16) == 32 then
+				if get_equipment('MISSILE', 5) == 'MISSILE_UNGUIDED' then
 					call_model('d_unguided',LT3,v(0,0,-1),v(0,1,0),1)
 				end
-				if get_arg(17) == 32 then
+				if get_equipment('MISSILE', 6) == 'MISSILE_UNGUIDED' then
 					call_model('d_unguided',RT3,v(0,0,1),v(0,1,0),1)
 				end
-				if get_arg(18) == 32 then
+				if get_equipment('MISSILE', 7) == 'MISSILE_UNGUIDED' then
 					call_model('d_unguided',LT4,v(0,0,-1),v(0,1,0),1)
 				end
-				if get_arg(19) == 32 then
+				if get_equipment('MISSILE', 8) == 'MISSILE_UNGUIDED' then
 					call_model('d_unguided',RT4,v(0,0,1),v(0,1,0),1)
 				end
 
 				-- guided missiles loading
-				if get_arg(12) == 33 then
+				if get_equipment('MISSILE', 1) == 'MISSILE_GUIDED' then
 					call_model('d_guided',LT1,v(0,0,-1),v(0,1,0),1)
 				end
-				if get_arg(13) == 33 then
+				if get_equipment('MISSILE', 2) == 'MISSILE_GUIDED' then
 					call_model('d_guided',RT1,v(0,0,1),v(0,1,0),1)
 				end
-				if get_arg(14) == 33 then
+				if get_equipment('MISSILE', 3) == 'MISSILE_GUIDED' then
 					call_model('d_guided',LT2,v(0,0,-1),v(0,1,0),1)
 				end
-				if get_arg(15) == 33 then
+				if get_equipment('MISSILE', 4) == 'MISSILE_GUIDED' then
 					call_model('d_guided',RT2,v(0,0,1),v(0,1,0),1)
 				end
-				if get_arg(16) == 33 then
+				if get_equipment('MISSILE', 5) == 'MISSILE_GUIDED' then
 					call_model('d_guided',LT3,v(0,0,-1),v(0,1,0),1)
 				end
-				if get_arg(17) == 33 then
+				if get_equipment('MISSILE', 6) == 'MISSILE_GUIDED' then
 					call_model('d_guided',RT3,v(0,0,1),v(0,1,0),1)
 				end
-				if get_arg(18) == 33 then
+				if get_equipment('MISSILE', 7) == 'MISSILE_GUIDED' then
 					call_model('d_guided',LT4,v(0,0,-1),v(0,1,0),1)
 				end
-				if get_arg(19) == 33 then
+				if get_equipment('MISSILE', 8) == 'MISSILE_GUIDED' then
 					call_model('d_guided',RT4,v(0,0,1),v(0,1,0),1)
 				end
 
 				-- smart missiles loading
-				if get_arg(12) == 34 then
+				if get_equipment('MISSILE', 1) == 'MISSILE_SMART' then
 					call_model('d_smart',LT1,v(0,0,-1),v(0,1,0),1)
 				end
-				if get_arg(13) == 34 then
+				if get_equipment('MISSILE', 2) == 'MISSILE_SMART' then
 					call_model('d_smart',RT1,v(0,0,1),v(0,1,0),1)
 				end
-				if get_arg(14) == 34 then
+				if get_equipment('MISSILE', 3) == 'MISSILE_SMART' then
 					call_model('d_smart',LT2,v(0,0,-1),v(0,1,0),1)
 				end
-				if get_arg(15) == 34 then
+				if get_equipment('MISSILE', 4) == 'MISSILE_SMART' then
 					call_model('d_smart',RT2,v(0,0,1),v(0,1,0),1)
 				end
-				if get_arg(16) == 34 then
+				if get_equipment('MISSILE', 5) == 'MISSILE_SMART' then
 					call_model('d_smart',LT3,v(0,0,-1),v(0,1,0),1)
 				end
-				if get_arg(17) == 34 then
+				if get_equipment('MISSILE', 6) == 'MISSILE_SMART' then
 					call_model('d_smart',RT3,v(0,0,1),v(0,1,0),1)
 				end
-				if get_arg(18) == 34 then
+				if get_equipment('MISSILE', 7) == 'MISSILE_SMART' then
 					call_model('d_smart',LT4,v(0,0,-1),v(0,1,0),1)
 				end
-				if get_arg(19) == 34 then
+				if get_equipment('MISSILE', 8) == 'MISSILE_SMART' then
 					call_model('d_smart',RT4,v(0,0,1),v(0,1,0),1)
 				end
 				-- naval missiles loading
-				if get_arg(12) == 35 then
+				if get_equipment('MISSILE', 1) == 'MISSILE_NAVAL' then
 					call_model('d_naval',LT1,v(0,0,-1),v(0,1,0),1)
 				end
-				if get_arg(13) == 35 then
+				if get_equipment('MISSILE', 2) == 'MISSILE_NAVAL' then
 					call_model('d_naval',RT1,v(0,0,1),v(0,1,0),1)
 				end
-				if get_arg(14) == 35 then
+				if get_equipment('MISSILE', 3) == 'MISSILE_NAVAL' then
 					call_model('d_naval',LT2,v(0,0,-1),v(0,1,0),1)
 				end
-				if get_arg(15) == 35 then
+				if get_equipment('MISSILE', 4) == 'MISSILE_NAVAL' then
 					call_model('d_naval',RT2,v(0,0,1),v(0,1,0),1)
 				end
-				if get_arg(16) == 35 then
+				if get_equipment('MISSILE', 5) == 'MISSILE_NAVAL' then
 					call_model('d_naval',LT3,v(0,0,-1),v(0,1,0),1)
 				end
-				if get_arg(17) == 35 then
+				if get_equipment('MISSILE', 6) == 'MISSILE_NAVAL' then
 					call_model('d_naval',RT3,v(0,0,1),v(0,1,0),1)
 				end
-				if get_arg(18) == 35 then
+				if get_equipment('MISSILE', 7) == 'MISSILE_NAVAL' then
 					call_model('d_naval',LT4,v(0,0,-1),v(0,1,0),1)
 				end
-				if get_arg(19) == 35 then
+				if get_equipment('MISSILE', 8) == 'MISSILE_NAVAL' then
 					call_model('d_naval',RT4,v(0,0,1),v(0,1,0),1)
 				end
 			end
 		end
 
 		-- landing gear & navlights
-		if get_arg(ARG_SHIP_WHEEL_STATE) == 0 then
+		if get_animation_position('WHEEL_STATE') == 0 then
 			call_model('hammerleftgear', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 			call_model('hammerrightgear', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 		else
 			-- sliding front well covers and front gear
 			-- sliders (seasons 1-2) rules!
-			local sliders1 = 4.2 * get_arg(ARG_SHIP_WHEEL_STATE)
-			local sliders2 = 1 * math.pi*math.clamp(1.5*(get_arg(ARG_SHIP_WHEEL_STATE)-0.4), 0, 1)
+			local sliders1 = 4.2 * get_animation_position('WHEEL_STATE')
+			local sliders2 = 1 * math.pi*math.clamp(1.5*(get_animation_position('WHEEL_STATE')-0.4), 0, 1)
 
 			call_model('hammerleftgear', v(sliders1,0,0), v(1,0,0), v(0,1,0), 1)
 			call_model('hammerrightgear', v(-sliders1,0,0), v(1,0,0), v(0,1,0), 1)
