@@ -10,7 +10,7 @@ Character = {
 	-- Attributes
 	luck = 130,
 	charisma = 130,
-	notoriety = 130,
+	notoriety = 50, -- Few people are notorious, so a low default
 	lawfulness = 130,
 
 	-- Experience
