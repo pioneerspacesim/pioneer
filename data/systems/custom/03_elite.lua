@@ -1,0 +1,51 @@
+local s_diso = CustomSystem:new("Diso",{'STAR_G'})
+	:govtype('LIBDEM')
+	:short_desc('This planet is mildly noted for its ancient Ouza tulip plantations but ravaged by frequent earthquakes.')
+	:long_desc([[This planet is mildly noted for its ancient Ouza tulip plantations but ravaged by frequent earthquakes.]])
+
+local lucy = CustomSBody:new("Lucy",'STAR_G')
+   :radius(f(11,10))
+   :mass(f(9,10))
+   :temp(5750)
+
+local diso = CustomSBody:new('Diso', 'PLANET_TERRESTRIAL')
+   :seed(1)
+   :radius(f(6155,6378))
+   :mass(f(980,1000))
+   :temp(280)
+   :semi_major_axis(f(90,100))
+   :eccentricity(f(2,100))
+   :rotation_period(f(9,10))
+
+local diso_station =  CustomSBody:new('Diso High','STARPORT_SURFACE')
+	:semi_major_axis(f(90,100000))
+	:rotation_period(f(1,24*60*4))
+
+s_diso:bodies(lucy, {diso, diso_station})
+s_diso:add_to_sector(0,-2,14,v(0.200,0.517,0.000))
+
+local s_lave = CustomSystem:new("Lave",{'STAR_K'})
+	:govtype('MILDICT1')
+	:short_desc('Lave is most famous for its vast rain forests and the Laveian tree grub.')
+	:long_desc([[Lave is most famous for its vast rain forests and the Laveian tree grub.]])
+
+local eshe = CustomSBody:new("Eshe",'STAR_K')
+   :radius(f(11,10))
+   :mass(f(11,10))
+   :temp(4850)
+
+local lave = CustomSBody:new('Lave', 'PLANET_TERRESTRIAL')
+   :seed(2)
+   :radius(f(4116,6378))
+   :mass(f(900,1000))
+   :temp(290)
+   :semi_major_axis(f(95,100))
+   :eccentricity(f(2,100))
+   :rotation_period(f(1,1))
+
+local lave_station =  CustomSBody:new('Lave Station','STARPORT_SURFACE')
+	:semi_major_axis(f(100,100000))
+	:rotation_period(f(1,24*60*4))
+
+s_lave:bodies(eshe, {lave, lave_station})
+s_lave:add_to_sector(0,-2,14,v(0.425,0.500,0.000))
