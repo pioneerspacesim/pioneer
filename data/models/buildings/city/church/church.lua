@@ -41,7 +41,7 @@ define_model('church', {
 	dynamic = function(lod)
 		set_material('wins', 1,1,1,1,.9,.9,1.5,100)
 		set_material('lamp', .7,.7,.7,1,.9,.9,1.5,100)
-		local switch = math.fmod((get_arg(3)*0.1),1)
+		local switch = math.fmod((get_time('HOURS')*0.1),1)
   		if switch < .51  then
 			set_material('wins', 1,1,1,1,1,1,2,100,1.5,1.4,.5)
 			set_material('lamp', .7,.7,.7,1,1,1,2,100,1.5,1.5,1.4)

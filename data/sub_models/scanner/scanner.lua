@@ -32,7 +32,7 @@ define_model('scanner', {
 	static = function(lod)
 	end,
 	dynamic = function(lod)
-		local factor = (get_arg(1)*0.5)*math.pi
+		local factor = (get_time('SECONDS')*0.5)*math.pi
 		call_model('scanner_sub', v(0,0,0), v(math.cos(factor),0,math.sin(factor)), v(0,1,0),1)
 	end
 })
@@ -47,7 +47,7 @@ define_model('scanner_+', {
 	sphere_slice(5,2, 0, 0.5*math.pi, Matrix.scale(v(.8,0.3,.8)))
 	end,
 	dynamic = function(lod)
-		local factor = (get_arg(1)*0.5)*math.pi
+		local factor = (get_time('SECONDS')*0.5)*math.pi
 		call_model('scanner_sub', v(0,.3,0), v(math.cos(factor),0,math.sin(factor)), v(0,1,0),1)
 	end
 })
@@ -62,7 +62,7 @@ define_model('scanner_-', {
 	sphere_slice(5,2, 0, 0.5*math.pi, Matrix.scale(v(.8,0.3,.8)))
 	end,
 	dynamic = function(lod)
-		local factor = (get_arg(1)*0.5)*math.pi
+		local factor = (get_time('SECONDS')*0.5)*math.pi
 		call_model('scanner_sub', v(0,.3,0), v(math.sin(factor),0,math.cos(factor)), v(0,1,0),1)
 	end
 })

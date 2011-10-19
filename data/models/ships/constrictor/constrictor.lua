@@ -74,7 +74,7 @@ define_model('conny_piston_f', {
 		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 	end,
 	dynamic = function(lod)
-		local trans = 0.5*math.pi*math.clamp(1.5*(get_arg(ARG_SHIP_WHEEL_STATE)-0.3), 0, 1)
+		local trans = 0.5*math.pi*math.clamp(1.5*(get_animation_position('WHEEL_STATE')-0.3), 0, 1)
 		if lod > 1 then
 			texture('models/ships/constrictor/metal.png')
 			use_material('chrome')
@@ -122,7 +122,7 @@ define_model('conny_w_front', {
 		set_material('ncv', .33,.35,.3,1,.63,.7,.83,30)
 	end,
 	dynamic = function(lod)
-		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+		if get_animation_position('WHEEL_STATE') ~= 0 then
 			local v0 = v(3.5,-4,10)
 			local v1 = v(-3.5,-4,10)
 			local v2 = v(3.5,0,10)
@@ -133,8 +133,8 @@ define_model('conny_w_front', {
 			local v8 = v(0,0,10)
 			local v9 = v(0,0,-10)
 
-			local frot = math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
-			local wrot = 0.5*math.pi*math.clamp(1.5*(get_arg(ARG_SHIP_WHEEL_STATE)-0.3), 0, 1)
+			local frot = math.pi*math.clamp(get_animation_position('WHEEL_STATE'),0,.5)
+			local wrot = 0.5*math.pi*math.clamp(1.5*(get_animation_position('WHEEL_STATE')-0.3), 0, 1)
 
 			if lod > 1 then
 				use_material('inside')
@@ -208,7 +208,7 @@ define_model('conny_w_rear_r', {
 		set_material('ncv', .33,.35,.3,1,.63,.7,.83,30)
 	end,
 	dynamic = function(lod)
-		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+		if get_animation_position('WHEEL_STATE') ~= 0 then
 			local v0 = v(3.5,-4,10)
 			local v1 = v(-3.5,-4,10)
 			local v2 = v(3.5,0,10)
@@ -219,9 +219,9 @@ define_model('conny_w_rear_r', {
 			local v8 = v(0,0,10)
 			local v9 = v(0,0,-10)
 
-			local frot = math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
-			local rot = 0.5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE)-.3 ,0,1)
-			local trans = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE)-.3 ,0,1)
+			local frot = math.pi*math.clamp(get_animation_position('WHEEL_STATE'),0,.5)
+			local rot = 0.5*math.pi*math.clamp(get_animation_position('WHEEL_STATE')-.3 ,0,1)
+			local trans = math.clamp(get_animation_position('WHEEL_STATE')-.3 ,0,1)
 
 			if lod > 1 then
 				use_material('inside')
@@ -269,7 +269,7 @@ define_model('conny_w_rear_l', {
 		set_material('ncv', .33,.35,.3,1,.63,.7,.83,30)
 	end,
 	dynamic = function(lod)
-		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+		if get_animation_position('WHEEL_STATE') ~= 0 then
 			local v0 = v(3.5,-4,10)
 			local v1 = v(-3.5,-4,10)
 			local v2 = v(3.5,0,10)
@@ -280,9 +280,9 @@ define_model('conny_w_rear_l', {
 			local v8 = v(0,0,10)
 			local v9 = v(0,0,-10)
 
-			local frot = math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
-			local rot = 0.5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE)-.3 ,0,1)
-			local trans = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE)-.3 ,0,1)
+			local frot = math.pi*math.clamp(get_animation_position('WHEEL_STATE'),0,.5)
+			local rot = 0.5*math.pi*math.clamp(get_animation_position('WHEEL_STATE')-.3 ,0,1)
+			local trans = math.clamp(get_animation_position('WHEEL_STATE')-.3 ,0,1)
 
 			if lod > 1 then
 				use_material('inside')
@@ -359,6 +359,19 @@ define_model('conny_gun', {
 	end
 })
 
+local LASER_SCALE = {
+	--PULSECANNON_1MW       = ??,
+	--PULSECANNON_DUAL_1MW  = ??,
+	PULSECANNON_2MW       = 0.1,
+	PULSECANNON_RAPID_2MW = 0.2,
+	PULSECANNON_4MW       = 0.3,
+	PULSECANNON_10MW      = 0.4,
+	PULSECANNON_20MW      = 0.5,
+	MININGCANNON_17MW     = 0.6,
+	SMALL_PLASMA_ACCEL    = 0.7,
+	LARGE_PLASMA_ACCEL    = 0.8,
+}
+
 define_model('conny_equipment', {
 	info = {
 		lod_pixels = {.1,10,30,0},
@@ -399,9 +412,9 @@ define_model('conny_equipment', {
 	end,
 	dynamic = function(lod)
 
-		if get_arg(ARG_SHIP_EQUIP_SCOOP) == Equip.FUEL_SCOOP then
+		if get_equipment('FUELSCOOP') == 'FUEL_SCOOP' then
 			set_material('ncv', .33,.35,.3,1,.63,.7,.83,30)
-			set_material('scoop', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 },
+			set_material('scoop', lerp_materials(get_time('SECONDS')*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 },
 			{0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 2.5 }))
 			use_material('ncv')
 
@@ -417,26 +430,26 @@ define_model('conny_equipment', {
 			local v1 = v(3,4,8.8) -- ecm
 			local v2 = v(0,4,6.5) -- scanner
 
-			if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+			if get_equipment('ECM') == 'ECM_BASIC' then
 				use_material('matte')
 				call_model('ecm_1',v1,v(1,0,0),v(0,1,0),.8)
 			else
-				if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+				if get_equipment('ECM') == 'ECM_ADVANCED' then
 					use_material('matte')
 					call_model('ecm_2',v1,v(1,0,0),v(0,1,0),.8)
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+			if get_equipment('SCANNER') == 'SCANNER' then
 				use_material('matte')
 				call_model('scanner_-',v2,v(1,0,0),v(0,1,0),1)
 				call_model('antenna_1',v(-2,-1.8,-22),v(1,0,0),v(0,1,0),.8)
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
-				local scale = (get_arg(ARG_SHIP_EQUIP_LASER0)-Equip.PULSECANNON_DUAL_1MW)*.1
+			if get_equipment('LASER', 1) then
+				local scale = LASER_SCALE[get_equipment('LASER',1)] or 0.1
 				use_material('chrome')
-				if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+				if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 					texture('models/ships/constrictor/iron.png')
 					call_model('conny_gun',v(7,-2,-15),v(1,0,0),v(0,1,0),.8)
 					call_model('conny_gun',v(-7,-2,-15),v(1,0,0),v(0,1,0),.8)
@@ -446,10 +459,10 @@ define_model('conny_equipment', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_LASER1) > 0 then
-				local scale = (get_arg(ARG_SHIP_EQUIP_LASER1)-Equip.PULSECANNON_DUAL_1MW)*.1
+			if get_equipment('LASER', 2) then
+				local scale = LASER_SCALE[get_equipment('LASER',2)] or 0.1
 				use_material('chrome')
-				if get_arg(ARG_SHIP_EQUIP_LASER1) == Equip.PULSECANNON_DUAL_1MW then
+				if get_equipment('LASER', 2) == 'PULSECANNON_DUAL_1MW' then
 					texture('models/ships/constrictor/iron.png')
 					call_model('conny_gun',v(7,-2,13),v(-1,0,0),v(0,1,0),.8)
 					call_model('conny_gun',v(-7,-2,13),v(-1,0,0),v(0,1,0),.8)
@@ -459,7 +472,7 @@ define_model('conny_equipment', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_UNGUIDED then
+			if get_equipment('MISSILE', 1) == 'MISSILE_UNGUIDED' then
 				call_model('conny_pyl',v(-3.935,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 				call_model('d_unguided',v(-3.935,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 
@@ -468,7 +481,7 @@ define_model('conny_equipment', {
 				circle(3*lod,v(-3.935,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 				zbias(0)
 			else
-				if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 1) == 'MISSILE_GUIDED' then
 					call_model('conny_pyl',v(-3.935,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 					call_model('d_guided',v(-3.935,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 					use_material('hole')
@@ -476,7 +489,7 @@ define_model('conny_equipment', {
 					circle(3*lod,v(-3.935,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 					zbias(0)
 				else
-					if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_SMART then
+					if get_equipment('MISSILE', 1) == 'MISSILE_SMART' then
 						call_model('conny_pyl',v(-3.935,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 						call_model('d_smart',v(-3.935,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 						use_material('hole')
@@ -484,7 +497,7 @@ define_model('conny_equipment', {
 						circle(3*lod,v(-3.935,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 						zbias(0)
 					else
-						if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_NAVAL then
+						if get_equipment('MISSILE', 1) == 'MISSILE_NAVAL' then
 							call_model('conny_pyl',v(-3.935,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 							call_model('d_naval',v(-3.935,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 							use_material('hole')
@@ -496,7 +509,7 @@ define_model('conny_equipment', {
 				end
 			end
 
-			if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_UNGUIDED then
+			if get_equipment('MISSILE', 2) == 'MISSILE_UNGUIDED' then
 				call_model('conny_pyl',v(-5.506,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 				call_model('d_unguided',v(-5.506,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 				use_material('hole')
@@ -504,7 +517,7 @@ define_model('conny_equipment', {
 				circle(3*lod,v(-5.506,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 				zbias(0)
 			else
-				if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 2) == 'MISSILE_GUIDED' then
 					call_model('conny_pyl',v(-5.506,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 					call_model('d_guided',v(-5.506,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 					use_material('hole')
@@ -512,7 +525,7 @@ define_model('conny_equipment', {
 					circle(3*lod,v(-5.506,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 					zbias(0)
 				else
-					if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_SMART then
+					if get_equipment('MISSILE', 2) == 'MISSILE_SMART' then
 						call_model('conny_pyl',v(-5.506,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 						call_model('d_smart',v(-5.506,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 						use_material('hole')
@@ -520,7 +533,7 @@ define_model('conny_equipment', {
 						circle(3*lod,v(-5.506,-2.5,3.4),v(0,0,-1),v(0,1,0),.4)
 						zbias(0)
 					else
-						if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_NAVAL then
+						if get_equipment('MISSILE', 2) == 'MISSILE_NAVAL' then
 							call_model('conny_pyl',v(-5.506,-2.5,3.4),v(1,0,0),v(0,1,0),-1)
 							call_model('d_naval',v(-5.506,-2.5,4.9),v(1,0,0),v(0,1,0),.6666)
 							use_material('hole')
@@ -602,7 +615,7 @@ define_model('conny_extra_0', {
 		local v45 = v(-6.45,2.9,17)
 		local v46 = v(-4.44,-1.118,17)
 
-		local trans = get_arg(ARG_ALL_TIME_SECONDS)*.05
+		local trans = get_time('SECONDS')*.05
 
 		set_material('glow',0, 0, 0, 1, 0, 0, 0, 1, 1, 1.5, 0)
 
@@ -982,11 +995,11 @@ define_model('conny', {
 	dynamic = function(lod)
 		set_material('cv0', get_arg_material(0))
 		set_material('cv1', get_arg_material(1))
-		set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 },
+		set_material('e_glow', lerp_materials(get_time('SECONDS')*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 },
 		{0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 2.5 }))
 
 		if lod > 2 then
-			local reg = get_arg_string(0)
+			local reg = get_label()
 			texture('models/ships/constrictor/washed.png',v(.5,.5,0),v(.5,0,0),v(0,0,.5))
 			use_material('text')
 			zbias(5,v(11.667,0,4), v(.85,1,0))

@@ -26,7 +26,7 @@ define_model('head1', {
 	
 	dynamic = function(lod)
 
-   		local visor = math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.5, 1)
+   		local visor = math.clamp(get_animation_position('WHEEL_STATE'), 0.5, 1)
 		use_material('glass')
 		cylinder(4*lod, v(0,-1+visor,-0.23), v(0,0,-0.23), v(0,0,1), .93)
 
