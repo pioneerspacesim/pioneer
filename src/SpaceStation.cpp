@@ -315,9 +315,6 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 		m_dockAnimState[i] = 0;
 	}
 
-	// XXX the animation namespace must match that in LuaConstants
-	GetLmrObjParams().animationNamespace = "SpaceStationAnimation";
-
 	SetMoney(1000000000);
 	InitStation();
 }
@@ -335,6 +332,8 @@ void SpaceStation::InitStation()
 	}
 	GetLmrObjParams().animStages[ANIM_DOCKING_BAY_1] = 1;
 	GetLmrObjParams().animValues[ANIM_DOCKING_BAY_1] = 1.0;
+	// XXX the animation namespace must match that in LuaConstants
+	GetLmrObjParams().animationNamespace = "SpaceStationAnimation";
 	SetModel(m_type->modelName, true);
 	m_bbCreated = false;
 }
