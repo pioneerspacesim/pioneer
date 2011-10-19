@@ -18,6 +18,7 @@
 #define SCANNER_MODE_AUTO	0
 #define SCANNER_MODE_MAX	1
 #define SCANNER_MODE_MIN	2
+#define A_BIT				1.1f
 
 MsgLogWidget::MsgLogWidget()
 {
@@ -220,10 +221,10 @@ void ScannerWidget::UpdateContactsAndScale()
 
 	// range priority is combat target > ship/missile > nav target > other
 	if (m_mode == SCANNER_MODE_AUTO) {
-		if (combat_dist) m_range = Clamp(combat_dist * 2, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
-		else if (far_ship_dist) m_range = std::max(far_ship_dist, SCANNER_RANGE_MIN);
-		else if (nav_dist) m_range = Clamp(nav_dist * 2, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
-		else if (far_other_dist) m_range = std::max(far_other_dist, SCANNER_RANGE_MIN);
+		if (combat_dist) m_range = Clamp(combat_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+		else if (far_ship_dist) m_range = Clamp(far_ship_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+		else if (nav_dist) m_range = Clamp(nav_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+		else if (far_other_dist) m_range = Clamp(far_other_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 		else m_range = SCANNER_RANGE_MAX;
 
 		m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
