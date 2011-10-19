@@ -285,17 +285,19 @@ void ScannerWidget::DrawBlobs(bool below)
 
 void ScannerWidget::DrawDistanceRings()
 {
+	static const float circle = float(2 * M_PI);
+	static const float step = float(M_PI * 0.02); // 1/100th
 	/* soicles */
 	for (float sz = 0.1f; sz <1.0f; sz += 0.3f) {
 		glBegin(GL_LINE_LOOP);
-		for (float a = 0; a < 2 * M_PI; a += float(M_PI * 0.02)) {
+		for (float a = 0; a < circle; a += step) {
 			glVertex2f(m_x + sz * m_x * sin(a), m_y + SCANNER_YSHRINK * sz * m_y * cos(a));
 		}
 		glEnd();
 	}
 	/* schpokes */
 	glBegin(GL_LINES);
-	for (float a = 0; a < 2 * M_PI; a += float(M_PI * 0.25)) {
+	for (float a = 0; a < circle; a += step) {
 		glVertex2f(m_x + m_x * 0.1f * sin(a), m_y + 0.1f * SCANNER_YSHRINK * m_y * cos(a));
 		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 	}
@@ -305,8 +307,8 @@ void ScannerWidget::DrawDistanceRings()
 
 void ScannerWidget::DrawRangeRing(bool blend)
 {
-	static const float circ = float(2 * M_PI);
-	static const float step = float(M_PI * 0.02);
+	static const float circle = float(2 * M_PI);
+	static const float step = float(M_PI * 0.02); // 1/100th
 	float range_percent = m_range / SCANNER_RANGE_MAX;
 	if (m_mode == SCANNER_MODE_AUTO) {
 		if (blend) glColor4f(0, 0.7f, 0, 0.25f);
@@ -317,15 +319,15 @@ void ScannerWidget::DrawRangeRing(bool blend)
 	}
 
 	glBegin(GL_LINE_LOOP);
-	for (float a = 0; a < range_percent * circ; a += step) {
+	for (float a = 0; a < range_percent * circle; a += step) {
 		glVertex2f(m_x + m_x * -sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 	}
 	if (range_percent < 1.0f)
-		glVertex2f(m_x + m_x * -sin(range_percent * circ),
-			m_y + SCANNER_YSHRINK * m_y * cos(range_percent * circ));
+		glVertex2f(m_x + m_x * -sin(range_percent * circle),
+			m_y + SCANNER_YSHRINK * m_y * cos(range_percent * circle));
 	if (blend) glColor4f(0.2f, 0.3f, 0.2f, 0.25f);
 	else glColor3f(0.2f, 0.3f, 0.2f);
-	for (float a = range_percent * circ; a < circ; a += step) {
+	for (float a = range_percent * circle; a < circle; a += step) {
 		glVertex2f(m_x + m_x * -sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 	}
 	if (range_percent < 1.0f) glVertex2f(m_x, m_y + SCANNER_YSHRINK * m_y);
