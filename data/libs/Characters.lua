@@ -18,7 +18,7 @@ Character = {
 
 	-- Methods
 
-	new = function (self,newCharacter)
+	New = function (self,newCharacter)
 		-- initialise new character
 		local newCharacter = newCharacter or {}
 		-- preserve default name/gender against randomization
