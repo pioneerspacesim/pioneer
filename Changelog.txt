@@ -10,6 +10,7 @@ Alpha 16
       (#658), GoodsTrader (#659) and DeliverPackage (#639)
     * Modules translated to Polish
     * Targets can be selected from the system view (#503)
+    * Unstretched hoop station textures (#680)
 
   * Fixes
     * Optimise trade ship cargo management (#632)
