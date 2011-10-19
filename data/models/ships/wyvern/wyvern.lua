@@ -130,37 +130,37 @@ define_model('wyvern_gear', {
 	end,
 	dynamic = function(lod)
 		use_material('darksteel')
-		if get_arg(ARG_SHIP_WHEEL_STATE) == 0 then
+		if get_animation_position('WHEEL_STATE') == 0 then
 			call_model('wyvern_gear00', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.75 then
+		elseif get_animation_position('WHEEL_STATE') > 0.75 then
 			call_model('wyvern_gear16', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.7 then
+		elseif get_animation_position('WHEEL_STATE') > 0.7 then
 			call_model('wyvern_gear15', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.65 then
+		elseif get_animation_position('WHEEL_STATE') > 0.65 then
 			call_model('wyvern_gear14', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.6 then
+		elseif get_animation_position('WHEEL_STATE') > 0.6 then
 			call_model('wyvern_gear13', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.55 then
+		elseif get_animation_position('WHEEL_STATE') > 0.55 then
 			call_model('wyvern_gear12', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.5 then
+		elseif get_animation_position('WHEEL_STATE') > 0.5 then
 			call_model('wyvern_gear11', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.45 then
+		elseif get_animation_position('WHEEL_STATE') > 0.45 then
 			call_model('wyvern_gear10', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.4 then
+		elseif get_animation_position('WHEEL_STATE') > 0.4 then
 			call_model('wyvern_gear09', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.35 then
+		elseif get_animation_position('WHEEL_STATE') > 0.35 then
 			call_model('wyvern_gear08', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.3 then
+		elseif get_animation_position('WHEEL_STATE') > 0.3 then
 			call_model('wyvern_gear07', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.25 then
+		elseif get_animation_position('WHEEL_STATE') > 0.25 then
 			call_model('wyvern_gear06', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.2 then
+		elseif get_animation_position('WHEEL_STATE') > 0.2 then
 			call_model('wyvern_gear05', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.15 then
+		elseif get_animation_position('WHEEL_STATE') > 0.15 then
 			call_model('wyvern_gear04', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.1 then
+		elseif get_animation_position('WHEEL_STATE') > 0.1 then
 			call_model('wyvern_gear03', v(0,0,0),v(1,0,0),v(0,1,0),1)
-		elseif get_arg(ARG_SHIP_WHEEL_STATE) > 0.05 then
+		elseif get_animation_position('WHEEL_STATE') > 0.05 then
 			call_model('wyvern_gear02', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		else
 			call_model('wyvern_gear01', v(0,0,0),v(1,0,0),v(0,1,0),1)
@@ -240,7 +240,7 @@ define_model('wyvern', {
 	end,
 	dynamic = function(lod)
 		if lod > 2 then
-			set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5}, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2.5, 2.5 }))
+			set_material('e_glow', lerp_materials(get_time('SECONDS')*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5}, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2.5, 2.5 }))
 		end
 		call_model('wyvern_gear', v(0,0,0),v(1,0,0),v(0,1,0),1)
 	end
