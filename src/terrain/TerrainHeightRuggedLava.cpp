@@ -69,4 +69,22 @@ double TerrainHeightFractal<TerrainHeightRuggedLava>::GetHeight(const vector3d &
 template <>
 void TerrainHeightFractal<TerrainHeightRuggedLava>::InitFracDef(MTRand &rand)
 {
+	SetFracDef(0, m_maxHeightInMeters, rand.Double(1e6,1e7), rand);
+	double height = m_maxHeightInMeters*1.0;
+	SetFracDef(1, m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand);
+	SetFracDef(2, height, rand.Double(4.0, 20.0)*height, rand);
+	SetFracDef(3, height, rand.Double(12.0, 200.0)*height, rand);
+
+	height = m_maxHeightInMeters*0.3;
+	SetFracDef(4, m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand);
+	SetFracDef(5, height, rand.Double(2.5,3.5)*height, rand);
+
+	// volcanoes
+	SetFracDef(6, height, 6e6, rand, 100000.0*m_fracmult);
+	SetFracDef(7, height, 3e6, rand, 1000.0*m_fracmult);
+
+	// canyon
+	SetFracDef(8, m_maxHeightInMeters*0.4, 4e6, rand, 100.0*m_fracmult);
+	// bumps/rocks
+	SetFracDef(9, height*0.001, rand.Double(10,100), rand, 2.0*m_fracmult);
 }

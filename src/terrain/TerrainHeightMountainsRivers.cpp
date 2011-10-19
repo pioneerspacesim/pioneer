@@ -171,4 +171,14 @@ double TerrainHeightFractal<TerrainHeightMountainsRivers>::GetHeight(const vecto
 template <>
 void TerrainHeightFractal<TerrainHeightMountainsRivers>::InitFracDef(MTRand &rand)
 {
+	SetFracDef(0, m_maxHeightInMeters, rand.Double(1e6, 2e6), rand, 10*m_fracmult);
+	SetFracDef(1, m_maxHeightInMeters, 15e6, rand, 100.0*m_fracmult);
+	SetFracDef(2, m_maxHeightInMeters*0.0000001, rand.Double(500, 2e3), rand, 10*m_fracmult);
+	SetFracDef(3, m_maxHeightInMeters*0.00002, rand.Double(1500, 1e4), rand, 10*m_fracmult);
+	SetFracDef(4, m_maxHeightInMeters*0.08, 1e4, rand, 10*m_fracmult);
+	SetFracDef(5, m_maxHeightInMeters*0.2, 1e5, rand, 10*m_fracmult);
+	SetFracDef(6, m_maxHeightInMeters*0.5, 1e6, rand, 100*m_fracmult);
+	SetFracDef(7, m_maxHeightInMeters*0.5, rand.Double(1e6,5e6), rand, 100*m_fracmult);
+	SetFracDef(8, m_maxHeightInMeters, rand.Double(12e5, 22e5), rand, 10*m_fracmult);
+	SetFracDef(9, m_maxHeightInMeters, 1e7, rand, 100.0*m_fracmult);
 }

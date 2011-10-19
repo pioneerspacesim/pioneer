@@ -30,4 +30,18 @@ double TerrainHeightFractal<TerrainHeightHillsNormal>::GetHeight(const vector3d 
 template <>
 void TerrainHeightFractal<TerrainHeightHillsNormal>::InitFracDef(MTRand &rand)
 {
+	//textures
+	if (textures) {
+		SetFracDef(0, m_maxHeightInMeters, rand.Double(5, 15), rand, 10*m_fracmult);
+		SetFracDef(1, m_maxHeightInMeters, rand.Double(20, 40), rand, 10*m_fracmult);
+	}
+	//small fractal/high detail
+	SetFracDef(2-m_fracnum, m_maxHeightInMeters*0.000000005, 500, rand, 20*m_fracmult);
+	//continental:
+	SetFracDef(3-m_fracnum, m_maxHeightInMeters*0.00001, 1e7, rand, 1000*m_fracmult);
+	//large fractal:
+	SetFracDef(4-m_fracnum, m_maxHeightInMeters, 1e5, rand, 200*m_fracmult);
+	//medium fractal:
+	SetFracDef(5-m_fracnum, m_maxHeightInMeters*0.00005, 2e4, rand, 200*m_fracmult);
+	SetFracDef(6-m_fracnum, m_maxHeightInMeters*0.000000005, 1000, rand, 20*m_fracmult);
 }

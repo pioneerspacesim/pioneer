@@ -69,4 +69,21 @@ double TerrainHeightFractal<TerrainHeightMountainsVolcano>::GetHeight(const vect
 template <>
 void TerrainHeightFractal<TerrainHeightMountainsVolcano>::InitFracDef(MTRand &rand)
 {
+	SetFracDef(0, m_maxHeightInMeters, rand.Double(1e6,1e7), rand);
+	double height = m_maxHeightInMeters*0.8;
+	SetFracDef(1, m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand);
+	SetFracDef(2, height, rand.Double(4.0, 20.0)*height, rand);
+	SetFracDef(3, height, rand.Double(12.0, 200.0)*height, rand);
+
+	height = m_maxHeightInMeters*0.7;
+	SetFracDef(4, m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand);
+	SetFracDef(5, height, rand.Double(2.5,3.5)*height, rand);
+	SetFracDef(6, height, rand.Double(2.5,3.5)*height, rand);
+	// volcano
+	SetFracDef(7, 20000.0, 5000000.0, rand, 1000.0*m_fracmult);
+
+	// canyons 
+	SetFracDef(8, m_maxHeightInMeters*0.5, 2e6, rand, 100.0*m_fracmult);
+	//SetFracDef(9, m_maxHeightInMeters*0.1, 1.5e6, rand, 100.0*m_fracmult);
+	//SetFracDef(10, m_maxHeightInMeters*0.1, 2e6, rand, 100.0*m_fracmult);
 }
