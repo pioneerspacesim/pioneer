@@ -1,3 +1,24 @@
+define_model('conny_scoop', {
+	info = {
+		bounding_radius = 11,
+		materials = { 'ncv', 'scoop' }
+	},
+	static = function(lod)
+		set_material('ncv', .33,.35,.3,1,.63,.7,.83,30)
+		use_material('ncv')
+
+		texture('con_sc_b.png')
+		load_obj('con_scoop.obj')
+
+		texture('scoop.png')
+		use_material('scoop')
+		load_obj('con_sc_glow.obj')
+	end,
+	dynamic = function(lod)
+		set_material('scoop', lerp_materials(get_time('SECONDS')*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 }, {0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 2.5 }))
+	end
+})
+
 define_model('conny_flap_fr', {
 	info = {
 		lod_pixels={.1,10,30,0},
@@ -383,47 +404,12 @@ define_model('conny_equipment', {
 		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 		set_material('hole', 0,0,0,0,0,0,0,0)
 
-
-		local M_T = v(0,1.5,17.2)
-		local R_T = v(10.9,-1.7,-11.3)
-
-		local RF_T = v(13.5,-1.5,-7)
-		local RR_T = v(13.5,-1.5,7.5)
-		local LF_T = v(-13.5,-1.5,-7)
-		local LR_T = v(-13.5,-1.5,7.5)
-
-		local TF_T = v(6,4.3,-3)
-		local TR_T = v(6,4.3,12)
-		local BF_T = v(8,-2.3,-10)
-		local BR_T = v(8,-2.3,12)
-
 		call_model('blank',v(0,0,0),v(1,0,0),v(0,1,0),0)
-
-		thruster(M_T,v(0,0,1),20,true)
-		xref_thruster(R_T,v(0,0,-1),5,true)
-		thruster(RF_T,v(1,0,0),5)
-		thruster(RR_T,v(1,0,0),5)
-		thruster(LF_T,v(-1,0,0),5)
-		thruster(LR_T,v(-1,0,0),5)
-		xref_thruster(TF_T,v(0,1,0),5)
-		xref_thruster(TR_T,v(0,1,0),5)
-		xref_thruster(BF_T,v(0,-1,0),5)
-		xref_thruster(BR_T,v(0,-1,0),5)
 	end,
 	dynamic = function(lod)
 
 		if get_equipment('FUELSCOOP') == 'FUEL_SCOOP' then
-			set_material('ncv', .33,.35,.3,1,.63,.7,.83,30)
-			set_material('scoop', lerp_materials(get_time('SECONDS')*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 },
-			{0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 2.5 }))
-			use_material('ncv')
-
-			texture('models/ships/constrictor/con_sc_b.png')
-			load_obj('models/ships/constrictor/con_scoop.obj')
-
-			texture('models/ships/constrictor/scoop.png')
-			use_material('scoop')
-			load_obj('models/ships/constrictor/con_sc_glow.obj')
+			call_model('conny_scoop', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 		end
 
 		if lod > 2 then
@@ -995,8 +981,7 @@ define_model('conny', {
 	dynamic = function(lod)
 		set_material('cv0', get_arg_material(0))
 		set_material('cv1', get_arg_material(1))
-		set_material('e_glow', lerp_materials(get_time('SECONDS')*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 },
-		{0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 2.5 }))
+		set_material('e_glow', lerp_materials(get_time('SECONDS')*.3, {0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.5 }, {0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 2.5 }))
 
 		if lod > 2 then
 			local reg = get_label()
@@ -1007,6 +992,32 @@ define_model('conny', {
 			zbias(5,v(-11.667,0,4.3), v(-.85,1,0))
 			text(reg,v(-11.667,0,4.3), v(-.85,1,0), v(0,0,1),2, {center = true})
 			zbias(0)
+		end
+
+		if lod > 1 then
+			local M_T = v(0,1.5,17.2)
+			local R_T = v(10.9,-1.7,-11.3)
+
+			local RF_T = v(13.5,-1.5,-7)
+			local RR_T = v(13.5,-1.5,7.5)
+			local LF_T = v(-13.5,-1.5,-7)
+			local LR_T = v(-13.5,-1.5,7.5)
+
+			local TF_T = v(6,4.3,-3)
+			local TR_T = v(6,4.3,12)
+			local BF_T = v(8,-2.3,-10)
+			local BR_T = v(8,-2.3,12)
+
+			thruster(M_T,v(0,0,1),20,true)
+			xref_thruster(R_T,v(0,0,-1),5,true)
+			thruster(RF_T,v(1,0,0),5)
+			thruster(RR_T,v(1,0,0),5)
+			thruster(LF_T,v(-1,0,0),5)
+			thruster(LR_T,v(-1,0,0),5)
+			xref_thruster(TF_T,v(0,1,0),5)
+			xref_thruster(TR_T,v(0,1,0),5)
+			xref_thruster(BF_T,v(0,-1,0),5)
+			xref_thruster(BR_T,v(0,-1,0),5)
 		end
 	end
 })
