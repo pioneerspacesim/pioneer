@@ -272,6 +272,11 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 Terrain::Terrain(const SBody *body) : m_body(body) {
 	printf("in terrain constructor for %s\n", body->name.c_str());
 
+	// XXX hardcoded until we get the config/change detail stuff back
+	textures = false;
+	m_fracnum = 2;
+	m_fracmult = 1;
+
 	m_sealevel = Clamp(m_body->m_volatileLiquid.ToDouble(), 0.0, 1.0);
 	m_icyness = Clamp(m_body->m_volatileIces.ToDouble(), 0.0, 1.0);
 	m_volcanic = Clamp(m_body->m_volcanicity.ToDouble(), 0.0, 1.0); // height scales with volcanicity as well

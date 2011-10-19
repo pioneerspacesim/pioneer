@@ -130,7 +130,7 @@ private:
 
 
 template <typename HeightFractal, typename ColorFractal>
-class TerrainGenerator : virtual public Terrain, public TerrainHeightFractal<HeightFractal>, public TerrainColorFractal<ColorFractal> {
+class TerrainGenerator : public TerrainHeightFractal<HeightFractal>, public TerrainColorFractal<ColorFractal> {
 public:
 	TerrainGenerator(const SBody *body) : Terrain(body), TerrainHeightFractal<HeightFractal>(body), TerrainColorFractal<ColorFractal>(body) {}
 
