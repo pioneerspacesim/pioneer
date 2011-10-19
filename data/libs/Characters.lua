@@ -13,8 +13,6 @@ Character = {
 	notoriety = 50, -- Few people are notorious, so a low default
 	lawfulness = 130,
 
-	-- Experience
-	killcount = 0,
 
 	-- Methods
 
