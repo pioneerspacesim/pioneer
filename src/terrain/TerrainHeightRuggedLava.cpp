@@ -6,6 +6,29 @@ using namespace TerrainNoise;
 using namespace TerrainComponent;
 
 template <>
+TerrainHeightFractal<TerrainHeightRuggedLava>::TerrainHeightFractal(const SBody *body) : Terrain(body)
+{
+	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6,1e7));
+	double height = m_maxHeightInMeters*1.0;
+	SetFracDef(1, m_maxHeightInMeters, m_rand.Double(50.0, 100.0)*m_maxHeightInMeters);
+	SetFracDef(2, height, m_rand.Double(4.0, 20.0)*height);
+	SetFracDef(3, height, m_rand.Double(12.0, 200.0)*height);
+
+	height = m_maxHeightInMeters*0.3;
+	SetFracDef(4, m_maxHeightInMeters, m_rand.Double(100.0, 200.0)*m_maxHeightInMeters);
+	SetFracDef(5, height, m_rand.Double(2.5,3.5)*height);
+
+	// volcanoes
+	SetFracDef(6, height, 6e6, 100000.0*m_fracmult);
+	SetFracDef(7, height, 3e6, 1000.0*m_fracmult);
+
+	// canyon
+	SetFracDef(8, m_maxHeightInMeters*0.4, 4e6, 100.0*m_fracmult);
+	// bumps/rocks
+	SetFracDef(9, height*0.001, m_rand.Double(10,100), 2.0*m_fracmult);
+}
+
+template <>
 double TerrainHeightFractal<TerrainHeightRuggedLava>::GetHeight(const vector3d &p)
 {
 	double continents = octavenoise(GetFracDef(0), Clamp(0.725-(m_sealevel/2), 0.1, 0.725), p) - m_sealevel;
@@ -64,27 +87,4 @@ double TerrainHeightFractal<TerrainHeightRuggedLava>::GetHeight(const vector3d &
 
 	n = (n<0.0 ? 0.0 : m_maxHeight*n);
 	return n;
-}
-
-template <>
-TerrainHeightFractal<TerrainHeightRuggedLava>::TerrainHeightFractal(const SBody *body) : Terrain(body)
-{
-	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6,1e7));
-	double height = m_maxHeightInMeters*1.0;
-	SetFracDef(1, m_maxHeightInMeters, m_rand.Double(50.0, 100.0)*m_maxHeightInMeters);
-	SetFracDef(2, height, m_rand.Double(4.0, 20.0)*height);
-	SetFracDef(3, height, m_rand.Double(12.0, 200.0)*height);
-
-	height = m_maxHeightInMeters*0.3;
-	SetFracDef(4, m_maxHeightInMeters, m_rand.Double(100.0, 200.0)*m_maxHeightInMeters);
-	SetFracDef(5, height, m_rand.Double(2.5,3.5)*height);
-
-	// volcanoes
-	SetFracDef(6, height, 6e6, 100000.0*m_fracmult);
-	SetFracDef(7, height, 3e6, 1000.0*m_fracmult);
-
-	// canyon
-	SetFracDef(8, m_maxHeightInMeters*0.4, 4e6, 100.0*m_fracmult);
-	// bumps/rocks
-	SetFracDef(9, height*0.001, m_rand.Double(10,100), 2.0*m_fracmult);
 }

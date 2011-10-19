@@ -4,6 +4,25 @@
 using namespace TerrainNoise;
 
 template <>
+TerrainHeightFractal<TerrainHeightMountainsRidged>::TerrainHeightFractal(const SBody *body) : Terrain(body)
+{
+	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6,1e7));
+	double height = m_maxHeightInMeters*0.9;
+	SetFracDef(1, m_maxHeightInMeters, m_rand.Double(50.0, 100.0)*m_maxHeightInMeters, 8*m_fracmult);
+	SetFracDef(2, height, m_rand.Double(4.0, 200.0)*height, 10*m_fracmult);
+	SetFracDef(3, m_maxHeightInMeters, m_rand.Double(120.0, 2000.0)*m_maxHeightInMeters, 1000*m_fracmult);
+
+	height = m_maxHeightInMeters*0.4;
+	SetFracDef(4, m_maxHeightInMeters, m_rand.Double(100.0, 200.0)*m_maxHeightInMeters);
+	SetFracDef(5, height*0.4, m_rand.Double(2.5,30.5)*height);
+	SetFracDef(6, height*0.2, m_rand.Double(20.5,350.5)*height, 10000*m_fracmult);
+
+	SetFracDef(7, m_maxHeightInMeters, m_rand.Double(100.0, 2000.0)*m_maxHeightInMeters, 100*m_fracmult);
+	SetFracDef(8, height*0.3, m_rand.Double(2.5,300.5)*height, 500*m_fracmult);
+	SetFracDef(9, height*0.2, m_rand.Double(2.5,300.5)*height, 20*m_fracmult);
+}
+
+template <>
 double TerrainHeightFractal<TerrainHeightMountainsRidged>::GetHeight(const vector3d &p)
 {
 	double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;
@@ -45,23 +64,4 @@ double TerrainHeightFractal<TerrainHeightMountainsRidged>::GetHeight(const vecto
 	
 	n = m_maxHeight*n;
 	return (n > 0.0 ? n : 0.0); 
-}
-
-template <>
-TerrainHeightFractal<TerrainHeightMountainsRidged>::TerrainHeightFractal(const SBody *body) : Terrain(body)
-{
-	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6,1e7));
-	double height = m_maxHeightInMeters*0.9;
-	SetFracDef(1, m_maxHeightInMeters, m_rand.Double(50.0, 100.0)*m_maxHeightInMeters, 8*m_fracmult);
-	SetFracDef(2, height, m_rand.Double(4.0, 200.0)*height, 10*m_fracmult);
-	SetFracDef(3, m_maxHeightInMeters, m_rand.Double(120.0, 2000.0)*m_maxHeightInMeters, 1000*m_fracmult);
-
-	height = m_maxHeightInMeters*0.4;
-	SetFracDef(4, m_maxHeightInMeters, m_rand.Double(100.0, 200.0)*m_maxHeightInMeters);
-	SetFracDef(5, height*0.4, m_rand.Double(2.5,30.5)*height);
-	SetFracDef(6, height*0.2, m_rand.Double(20.5,350.5)*height, 10000*m_fracmult);
-
-	SetFracDef(7, m_maxHeightInMeters, m_rand.Double(100.0, 2000.0)*m_maxHeightInMeters, 100*m_fracmult);
-	SetFracDef(8, height*0.3, m_rand.Double(2.5,300.5)*height, 500*m_fracmult);
-	SetFracDef(9, height*0.2, m_rand.Double(2.5,300.5)*height, 20*m_fracmult);
 }

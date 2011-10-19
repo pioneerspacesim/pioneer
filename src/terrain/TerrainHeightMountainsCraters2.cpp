@@ -6,6 +6,24 @@ using namespace TerrainNoise;
 using namespace TerrainComponent;
 
 template <>
+TerrainHeightFractal<TerrainHeightMountainsCraters2>::TerrainHeightFractal(const SBody *body) : Terrain(body)
+{
+	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6,1e7));
+	double height = m_maxHeightInMeters*0.5;
+	SetFracDef(1, height, m_rand.Double(50.0, 200.0)*height, 10*m_fracmult);
+	SetFracDef(2, m_maxHeightInMeters, m_rand.Double(500.0, 5000.0)*m_maxHeightInMeters);
+
+	height = m_maxHeightInMeters*0.4;
+	SetFracDef(3, height, m_rand.Double(2.5,3.5)*height);
+	SetFracDef(4, m_maxHeightInMeters, m_rand.Double(100.0, 200.0)*m_maxHeightInMeters);
+	SetFracDef(5, m_maxHeightInMeters*0.05, 1e6, 10000.0*m_fracmult);
+	SetFracDef(6, m_maxHeightInMeters*0.04, 9e5, 10000.0*m_fracmult);
+	SetFracDef(7, m_maxHeightInMeters*0.05, 8e5, 10000.0*m_fracmult);
+	SetFracDef(8, m_maxHeightInMeters*0.04, 11e5, 10000.0*m_fracmult);
+	SetFracDef(9, m_maxHeightInMeters*0.07, 12e5, 10000.0*m_fracmult);
+}
+
+template <>
 double TerrainHeightFractal<TerrainHeightMountainsCraters2>::GetHeight(const vector3d &p)
 {
 	double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;
@@ -27,22 +45,4 @@ double TerrainHeightFractal<TerrainHeightMountainsCraters2>::GetHeight(const vec
 	n += crater_function(GetFracDef(9), p);
 	n *= m_maxHeight;
 	return (n > 0.0 ? n : 0.0);
-}
-
-template <>
-TerrainHeightFractal<TerrainHeightMountainsCraters2>::TerrainHeightFractal(const SBody *body) : Terrain(body)
-{
-	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6,1e7));
-	double height = m_maxHeightInMeters*0.5;
-	SetFracDef(1, height, m_rand.Double(50.0, 200.0)*height, 10*m_fracmult);
-	SetFracDef(2, m_maxHeightInMeters, m_rand.Double(500.0, 5000.0)*m_maxHeightInMeters);
-
-	height = m_maxHeightInMeters*0.4;
-	SetFracDef(3, height, m_rand.Double(2.5,3.5)*height);
-	SetFracDef(4, m_maxHeightInMeters, m_rand.Double(100.0, 200.0)*m_maxHeightInMeters);
-	SetFracDef(5, m_maxHeightInMeters*0.05, 1e6, 10000.0*m_fracmult);
-	SetFracDef(6, m_maxHeightInMeters*0.04, 9e5, 10000.0*m_fracmult);
-	SetFracDef(7, m_maxHeightInMeters*0.05, 8e5, 10000.0*m_fracmult);
-	SetFracDef(8, m_maxHeightInMeters*0.04, 11e5, 10000.0*m_fracmult);
-	SetFracDef(9, m_maxHeightInMeters*0.07, 12e5, 10000.0*m_fracmult);
 }

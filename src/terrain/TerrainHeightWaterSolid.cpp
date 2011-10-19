@@ -6,6 +6,21 @@ using namespace TerrainNoise;
 using namespace TerrainComponent;
 
 template <>
+TerrainHeightFractal<TerrainHeightWaterSolid>::TerrainHeightFractal(const SBody *body) : Terrain(body)
+{
+	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(5e6,1e8));
+	double height = m_maxHeightInMeters*0.3;
+	SetFracDef(1, height, m_rand.Double(4.0, 20.0)*height);
+	SetFracDef(2, m_maxHeightInMeters, m_rand.Double(200.0, 1000.0)*m_maxHeightInMeters);
+
+	// mountains with some canyons
+	SetFracDef(3, m_maxHeightInMeters*0.4, 4e6);
+	SetFracDef(4, m_maxHeightInMeters*0.4, 5e6);
+	//crater
+	SetFracDef(5, m_maxHeightInMeters*0.4, 1.5e7, 50000.0*m_fracmult);
+}
+
+template <>
 double TerrainHeightFractal<TerrainHeightWaterSolid>::GetHeight(const vector3d &p)
 {
 	double continents = 0.7*river_octavenoise(GetFracDef(2), 0.5, p)-m_sealevel;
@@ -46,19 +61,4 @@ double TerrainHeightFractal<TerrainHeightWaterSolid>::GetHeight(const vector3d &
 	n = (n<0.0 ? -n : n);
 	n = (n>1.0 ? 2.0-n : n);
 	return n;
-}
-
-template <>
-TerrainHeightFractal<TerrainHeightWaterSolid>::TerrainHeightFractal(const SBody *body) : Terrain(body)
-{
-	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(5e6,1e8));
-	double height = m_maxHeightInMeters*0.3;
-	SetFracDef(1, height, m_rand.Double(4.0, 20.0)*height);
-	SetFracDef(2, m_maxHeightInMeters, m_rand.Double(200.0, 1000.0)*m_maxHeightInMeters);
-
-	// mountains with some canyons
-	SetFracDef(3, m_maxHeightInMeters*0.4, 4e6);
-	SetFracDef(4, m_maxHeightInMeters*0.4, 5e6);
-	//crater
-	SetFracDef(5, m_maxHeightInMeters*0.4, 1.5e7, 50000.0*m_fracmult);
 }

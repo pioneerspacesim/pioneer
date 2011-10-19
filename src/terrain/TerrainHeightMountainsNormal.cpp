@@ -4,6 +4,20 @@
 using namespace TerrainNoise;
 
 template <>
+TerrainHeightFractal<TerrainHeightMountainsNormal>::TerrainHeightFractal(const SBody *body) : Terrain(body)
+{
+	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6, 1e7), 10000*m_fracmult);
+	SetFracDef(1, m_maxHeightInMeters*0.00000000001, 100.0, 10*m_fracmult);
+	SetFracDef(2, m_maxHeightInMeters*0.0000001, m_rand.Double(500, 2e3), 1000*m_fracmult);
+	SetFracDef(3, m_maxHeightInMeters*0.00002, m_rand.Double(1500, 1e4), 100*m_fracmult);
+	SetFracDef(4, m_maxHeightInMeters*0.08, 1e4, 100*m_fracmult);
+	SetFracDef(5, m_maxHeightInMeters*0.2, 1e5, 100*m_fracmult);
+	SetFracDef(6, m_maxHeightInMeters*0.5, 1e6, 1000*m_fracmult);
+	SetFracDef(7, m_maxHeightInMeters*0.5, m_rand.Double(1e6,1e7), 1000*m_fracmult);
+	SetFracDef(8, m_maxHeightInMeters, m_rand.Double(3e6, 1e7), 1000*m_fracmult);
+}
+
+template <>
 double TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeight(const vector3d &p)
 	//This is among the most complex of terrains, so I'll use this as an example:
 {
@@ -17,16 +31,6 @@ double TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeight(const vecto
 	double n = continents - (GetFracDef(0).amplitude*m_sealevel*0.5);
 	// we save the height n now as a constant h
 	const double h = n;
-/*  Definitions here for easy referral
-	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6, 1e8), 100);
-	SetFracDef(1, m_maxHeightInMeters*0.00001, 20.0, 100);
-	SetFracDef(2, m_maxHeightInMeters*0.00001, m_rand.Double(500, 2e3), 10);
-	SetFracDef(3, m_maxHeightInMeters*0.00002, m_rand.Double(1500, 1e4), 10);
-	SetFracDef(4, m_maxHeightInMeters*0.08, 1e4, 10);
-	SetFracDef(5, m_maxHeightInMeters*0.3, 1e5, 10);
-	SetFracDef(6, m_maxHeightInMeters*0.8, 1e6, 10);
-	SetFracDef(7, m_maxHeightInMeters, 1e7, 10);
-*/
 	//We don't want to apply noise to sea level n=0
 	if (n > 0.0) {
 		//large mountainous shapes
@@ -156,18 +160,4 @@ double TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeight(const vecto
 	
 	n = m_maxHeight*n;
 	return (n > 0.0 ? n : 0.0); 
-}
-
-template <>
-TerrainHeightFractal<TerrainHeightMountainsNormal>::TerrainHeightFractal(const SBody *body) : Terrain(body)
-{
-	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6, 1e7), 10000*m_fracmult);
-	SetFracDef(1, m_maxHeightInMeters*0.00000000001, 100.0, 10*m_fracmult);
-	SetFracDef(2, m_maxHeightInMeters*0.0000001, m_rand.Double(500, 2e3), 1000*m_fracmult);
-	SetFracDef(3, m_maxHeightInMeters*0.00002, m_rand.Double(1500, 1e4), 100*m_fracmult);
-	SetFracDef(4, m_maxHeightInMeters*0.08, 1e4, 100*m_fracmult);
-	SetFracDef(5, m_maxHeightInMeters*0.2, 1e5, 100*m_fracmult);
-	SetFracDef(6, m_maxHeightInMeters*0.5, 1e6, 1000*m_fracmult);
-	SetFracDef(7, m_maxHeightInMeters*0.5, m_rand.Double(1e6,1e7), 1000*m_fracmult);
-	SetFracDef(8, m_maxHeightInMeters, m_rand.Double(3e6, 1e7), 1000*m_fracmult);
 }
