@@ -1,3 +1,31 @@
+define_model('fighter_bot', {
+	info = {
+		materials={'medsteel'},
+		bounding_radius = 2,
+	},
+	static = function(lod)
+		set_material('medsteel', .4,.4,.4,1,.65,.68,.72,30)
+		use_material('medsteel')
+		texture('fighter.png')
+		load_obj('fighter_bot.obj')
+		texture(nil)
+	end
+})
+
+define_model('fighter_guns', {
+	info = {
+		materials = {'darksteel'},
+		bounding_radius = 2,
+	},
+	static = function(lod)
+		set_material('darksteel', .1,.1,.12,1,.65,.68,.72,60)
+		use_material('darksteel')
+		texture(nil)
+		load_obj('fighter_LGun.obj')
+		load_obj('fighter_RGun.obj')
+	end
+})
+
 define_model('lff', {
 	info = {
 		materials={'medsteel'},
@@ -63,12 +91,15 @@ define_model('tfrgear', {
 	static = function(lod)
 		set_material('medsteel', .4,.4,.4,1,.65,.68,.72,30)
 		use_material('medsteel')
-
+		texture('fighter.png')
+		load_obj('fighter_bot2.obj')
+		load_obj('fighter_frontgearbox.obj')
+		load_obj('fighter_backgearbox.obj')
+		texture(nil)
 	end,
 
 	dynamic = function(lod)
 		local rot = get_arg(ARG_SHIP_WHEEL_STATE)
-		--texture('fighter.png')
 		call_model('rff', v(.5*rot,0,0),v(1,0,0),v(0,1,0),1)
 		call_model('lff', v(-.5*rot,0,0), v(1,0,0), v(0,1,0), 1)
 		call_model('headlight',v(0,-.6-rot,-1.25-rot), v(1,0,0), v(0,1-rot,-rot), 1.5)
@@ -128,8 +159,6 @@ define_model('fi', {
 				texture('fighter.png')
 				use_material('rand1')
 				load_obj('fighter_top.obj')
-				--use_material('medsteel')
-				--load_obj('fighter_bot.obj')
 
 				use_material('inside')
 				texture('fighter_inside.png')
@@ -156,8 +185,6 @@ define_model('fi', {
 				texture('fighter.png')
 				use_material('rand1')
 				load_obj('fighter_top.obj')
-				use_material('medsteel')
-				load_obj('fighter_bot.obj')
 
 				use_material('inside')
 				texture('fighter_inside.png')
@@ -232,22 +259,13 @@ define_model('fi', {
 		if lod > 3 then
 			if get_arg(ARG_SHIP_WHEEL_STATE) > 0 then
 				local rot = get_arg(ARG_SHIP_WHEEL_STATE)
-				texture('models/ships/talon/fighter.png')
-				use_material('medsteel')
-				load_obj('models/ships/talon/fighter_bot2.obj')
-				load_obj('models/ships/talon/fighter_frontgearbox.obj')
-				load_obj('models/ships/talon/fighter_backgearbox.obj')
 				call_model('tfrgear', v(0,0,0), v(1,0,0), v(0,1,0), 1)
-				texture(nil)
 				call_model('posl_green', v(6.128,-1.928,4.85), v(0,0,1), v(1,0,0),1)
 				call_model('posl_red', v(-6.128,-1.928,4.85), v(0,0,1), v(-1,0,0),1)
 				call_model('posl_green', v(3.169,2.009,5.147), v(1,0,0), v(0,1,0),.3)
 				call_model('posl_red', v(-3.169,2.009,5.147), v(1,0,0), v(0,1,0),.3)
 			else
-				texture('models/ships/talon/fighter.png')
-				use_material('medsteel')
-				load_obj('models/ships/talon/fighter_bot.obj')
-				texture(nil)
+				call_model('fighter_bot', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 			end
 
 			if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
@@ -263,10 +281,7 @@ define_model('fi', {
 			end
 
 			if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
-				use_material('darksteel')
-				texture(nil)
-				load_obj('models/ships/talon/fighter_LGun.obj')
-				load_obj('models/ships/talon/fighter_RGun.obj')
+				call_model('fighter_guns', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 			end
 
 			local M_1 = v(3,-1.3,4.1)
