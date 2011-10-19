@@ -25,6 +25,39 @@
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
+void SerializableEquipSet::Save(Serializer::Writer &wr)
+{
+	wr.Int32(Equip::SLOT_MAX);
+	for (int i=0; i<Equip::SLOT_MAX; i++) {
+		wr.Int32(equip[i].size());
+		for (unsigned int j=0; j<equip[i].size(); j++) {
+			wr.Int32(static_cast<int>(equip[i][j]));
+		}
+	}
+}
+
+/*
+ * Should have initialised with EquipSet(ShipType::Type) first
+ */
+void SerializableEquipSet::Load(Serializer::Reader &rd)
+{
+	const int numSlots = rd.Int32();
+	assert(numSlots <= Equip::SLOT_MAX);
+	for (int i=0; i<numSlots; i++) {
+		const int numItems = rd.Int32();
+		for (int j=0; j<numItems; j++) {
+			if (j < signed(equip[i].size())) {
+				equip[i][j] = static_cast<Equip::Type>(rd.Int32());
+			} else {
+				// equipment slot sizes have changed. just
+				// dump the difference
+				rd.Int32();
+			}
+		}
+	}
+	onChange.emit(Equip::NONE);
+}
+
 void Ship::Save(Serializer::Writer &wr)
 {
 	DynamicBody::Save(wr);
@@ -102,6 +135,7 @@ void Ship::Init()
 	UpdateMass();
 	m_stats.hull_mass_left = float(stype.hullMass);
 	m_stats.shield_mass_left = 0;
+	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
 }
 
 void Ship::PostLoadFixup()
@@ -136,6 +170,9 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	SetLabel(m_shipFlavour.regid);
 	m_curAICmd = 0;
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
+
+	// XXX the animation namespace must match that in LuaConstants
+	GetLmrObjParams().animationNamespace = "ShipAnimation";
 
 	Init();	
 }
@@ -983,18 +1020,9 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		params.linthrust[0] = float(m_thrusters.x);
 		params.linthrust[1] = float(m_thrusters.y);
 		params.linthrust[2] = float(m_thrusters.z);
-		params.argDoubles[0] = m_wheelState;
-		params.argDoubles[5] = double(m_equipment.Get(Equip::SLOT_FUELSCOOP));
-		params.argDoubles[6] = double(m_equipment.Get(Equip::SLOT_ENGINE));
-		params.argDoubles[7] = double(m_equipment.Get(Equip::SLOT_ECM));
-		params.argDoubles[8] = double(m_equipment.Get(Equip::SLOT_SCANNER));
-		params.argDoubles[9] = double(m_equipment.Get(Equip::SLOT_ATMOSHIELD));
-		params.argDoubles[10] = double(m_equipment.Get(Equip::SLOT_LASER, 0));
-		params.argDoubles[11] = double(m_equipment.Get(Equip::SLOT_LASER, 1));
-		for (int i=0; i<8; i++) {
-			params.argDoubles[12+i] = double(m_equipment.Get(Equip::SLOT_MISSILE, i));
-		}
-		params.argDoubles[20] = m_flightState;
+		params.equipment = &m_equipment;
+		params.animValues[ANIM_WHEEL_STATE] = m_wheelState;
+		params.flightState = m_flightState;
 
 		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 		RenderLmrModel(viewCoords, viewTransform);
@@ -1079,7 +1107,7 @@ bool Ship::Jettison(Equip::Type t)
 
 void Ship::OnEquipmentChange(Equip::Type e)
 {
-	Pi::luaOnShipEquipmentChanged->Queue(this, LuaConstants::GetConstantString("EquipType", e));
+	Pi::luaOnShipEquipmentChanged->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "EquipType", e));
 }
 
 void Ship::UpdateFlavour(const ShipFlavour *f)

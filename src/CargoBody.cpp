@@ -58,6 +58,6 @@ bool CargoBody::OnCollision(Object *b, Uint32 flags, double relVel)
 void CargoBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if (!IsEnabled()) return;
-	GetLmrObjParams().argStrings[0] = Equip::types[m_type].name;
+	GetLmrObjParams().label = Equip::types[m_type].name;
 	RenderLmrModel(viewCoords, viewTransform);
 }

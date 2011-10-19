@@ -1,7 +1,7 @@
 Alpha 16
 
   * New features
-    * "Wave Heavy Hypersonic Fighter" ship
+    * New ships: "Wave Heavy Hypersonic Fighter" and "Turtle" (#558, #657)
     * Spanish translation (#628)
 
   * Minor changes and tweaks
@@ -9,17 +9,28 @@ Alpha 16
     * Translation infrastructure for Assassinations (#641), DonateToCranks
       (#658), GoodsTrader (#659) and DeliverPackage (#639)
     * Modules translated to Polish
+    * Targets can be selected from the system view (#503)
+	* Model cleanups and optimisations (#680, #675, #672, #674)
 
   * Fixes
     * Optimise trade ship cargo management (#632)
     * Ensure that stars in a binary pair do not overlap (#621, #627)
+    * Model optimisations (#666)
+    * modelviewer no longer crashes if invalid model name is given on command
+      line (#669, #670)
+    * Fix hyperspace behaviour after game load
+    * Lua onGameEnd event now fires when game ends after player destruction (#684)
+    * Remember sectorview info box visbility state across view switches and
+      game saves (#685)
   
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
     * Module translations (#640)
+    * LMR get_arg() and get_arg_string() replaced with several special purpose
+      functions. "Stringy" constants now in use (#650, #586, #582)
 
   * Internal changes
-    * Lots of cleanups, leaks fixed and general code improvements (#635, #637)
+    * Cleanups, leaks fixed and general code improvements (#635, #637, #665)
     * Improve terrain generation performance
     * Run Lua timers from the physics loop, which should help to make frame
       times a little more consistent

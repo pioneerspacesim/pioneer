@@ -260,18 +260,18 @@ dynamic = function(lod)
     end
 
     if lod > 2 then
-		factor = 1.5*math.pi*get_arg(1)
+		factor = 1.5*math.pi*get_time('SECONDS')
 		call_model('rotor', v(11,22.02,12), v(math.cos(factor),0,math.sin(factor)), v(0,1,0),1)
 		call_model('rotor', v(-11,22.02,12), v(math.cos(factor),0,math.sin(factor)), v(0,1,0),1)
 	end
-	local lightphase = math.fmod((get_arg(1)*0.5), 1)
+	local lightphase = math.fmod((get_time('SECONDS')*0.5), 1)
 		if lightphase < .5 then
 			billboard('smoke.png', 2, v(1,0,0), { v(13.5,50.5,-10), v(10.5,50.5,-10), v(-13.5,50.5,-10), v(-10.5,50.5,-10), v(1.5,50.5,-10), v(-1.5,50.5,-10) })
 		else
 			billboard('smoke.png', 2, v(1,0,0), { v(12,50.5,-11.5), v(12,50.5,-8.5), v(-12,50.5,-11.5), v(-12,50.5,-8.5), v(0,50.5,-11.5), v(0,50.5,-8.5) })
         end
 
-	local switch = math.fmod((get_arg(3)*0.2),1)
+	local switch = math.fmod((get_time('HOURS')*0.2),1)
 	if switch < .26 then
 		if lod > 2 then
 	    	set_material('kentucky1', .2, .25, .3, 1, .95, 1, 1.2, 100)

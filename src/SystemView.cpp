@@ -4,7 +4,11 @@
 #include "StarSystem.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "Space.h"
+#include "Player.h"
 #include "FloatComparison.h"
+
+const double SystemView::PICK_OBJECT_RECT_SIZE = 12.0;
 
 SystemView::SystemView()
 {
@@ -109,35 +113,44 @@ void SystemView::OnClickObject(SBody *b)
 	std::string data;
 
 	desc += std::string(Lang::NAME);
-    desc += ":\n";
+	desc += ":\n";
 	data += b->name+"\n";
 	
 	desc += std::string(Lang::DAY_LENGTH);
 	desc += std::string(Lang::ROTATIONAL_PERIOD);
-    desc += ":\n";
+	desc += ":\n";
 	data += stringf(Lang::N_DAYS, formatarg("days", b->rotationPeriod.ToFloat())) + "\n";
 	
 	desc += std::string(Lang::RADIUS);
-    desc += ":\n";
+	desc += ":\n";
 	data += format_distance(b->GetRadius())+"\n";
 
 	if (b->parent) {
 		desc += std::string(Lang::SEMI_MAJOR_AXIS);
-        desc += ":\n";
+	desc += ":\n";
 		data += format_distance(b->orbit.semiMajorAxis)+"\n";
 
 		desc += std::string(Lang::ORBITAL_PERIOD);
-        desc += ":\n";
+	desc += ":\n";
 		data += stringf(Lang::N_DAYS, formatarg("days", b->orbit.period / (24*60*60))) + "\n";
 	}
 	m_infoLabel->SetText(desc);
 	m_infoText->SetText(data);
+
+	if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
+		SystemPath path = m_system->GetPathOf(b);
+		if (Pi::currentSystem->GetPath() == m_system->GetPath()) {
+			Body* body = Space::FindBodyForPath(&path);
+			if (body != 0)
+				Pi::player->SetNavTarget(body);
+		}
+	}
 }
 
 void SystemView::PutLabel(SBody *b, vector3d offset)
 {
 	Gui::Screen::EnterOrtho();
-	
+
 	vector3d pos;
 	if (Gui::Screen::Project(offset, pos)) {
 		// libsigc++ is a beautiful thing
@@ -187,6 +200,52 @@ void SystemView::PutBody(SBody *b, vector3d offset)
 
 		PutBody(*kid, offset + pos);
 	}
+}
+
+void SystemView::PutSelectionBox(const SBody *b, const vector3d &rootPos, const Color &col)
+{
+	// surface starports just show the planet as being selected,
+	// because SystemView doesn't render terrains anyway
+	if (b->type == SBody::TYPE_STARPORT_SURFACE)
+		b = b->parent;
+	assert(b);
+
+	vector3d pos = rootPos;
+	// while (b->parent), not while (b) because the root SBody is defined to be at (0,0,0)
+	while (b->parent) {
+		pos += b->orbit.OrbitalPosAtTime(m_time) * double(m_zoom);
+		b = b->parent;
+	}
+
+	PutSelectionBox(pos, col);
+}
+
+void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
+{
+	Gui::Screen::EnterOrtho();
+
+	vector3d screenPos;
+	if (Gui::Screen::Project(worldPos, screenPos)) {
+		// XXX copied from WorldView::DrawTargetSquare -- these should be unified
+		const float x1 = float(screenPos.x - SystemView::PICK_OBJECT_RECT_SIZE * 0.5);
+		const float x2 = float(x1 + SystemView::PICK_OBJECT_RECT_SIZE);
+		const float y1 = float(screenPos.y - SystemView::PICK_OBJECT_RECT_SIZE * 0.5);
+		const float y2 = float(y1 + SystemView::PICK_OBJECT_RECT_SIZE);
+
+		const GLfloat vtx[8] = {
+			x1, y1,
+			x2, y1,
+			x2, y2,
+			x1, y2
+		};
+		glColor4f(col.r, col.g, col.b, col.a);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(2, GL_FLOAT, 0, vtx);
+		glDrawArrays(GL_LINE_LOOP, 0, 4);
+		glDisableClientState(GL_VERTEX_ARRAY);
+	}
+
+	Gui::Screen::LeaveOrtho();
 }
 
 static const GLfloat fogDensity = 0.1;
@@ -241,9 +300,16 @@ void SystemView::Draw3D()
 	m_objectLabels->Clear();
 	if (m_system->m_unexplored)
 		m_infoLabel->SetText(Lang::UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
-	else if (m_system->rootBody)
+	else if (m_system->rootBody) {
 		PutBody(m_system->rootBody, pos);
-	
+		if (Pi::currentSystem == m_system) {
+			const Body *navTarget = Pi::player->GetNavTarget();
+			const SBody *navTargetSBody = navTarget ? navTarget->GetSBody() : 0;
+			if (navTargetSBody)
+				PutSelectionBox(navTargetSBody, pos, Color(0.0, 1.0, 0.0, 1.0));
+		}
+	}
+
 	glEnable(GL_LIGHTING);
 	glDisable(GL_FOG);
 }
