@@ -7,6 +7,6 @@ double TerrainHeightFractal<TerrainHeightFlat>::GetHeight(const vector3d &p)
 }
 
 template <>
-void TerrainHeightFractal<TerrainHeightFlat>::InitFracDef(MTRand &rand)
+TerrainHeightFractal<TerrainHeightFlat>::TerrainHeightFractal(const SBody *body) : Terrain(body)
 {
 }

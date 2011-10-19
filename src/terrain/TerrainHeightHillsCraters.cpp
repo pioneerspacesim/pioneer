@@ -24,12 +24,12 @@ double TerrainHeightFractal<TerrainHeightHillsCraters>::GetHeight(const vector3d
 }
 
 template <>
-void TerrainHeightFractal<TerrainHeightHillsCraters>::InitFracDef(MTRand &rand)
+TerrainHeightFractal<TerrainHeightHillsCraters>::TerrainHeightFractal(const SBody *body) : Terrain(body)
 {
-	SetFracDef(0, m_maxHeightInMeters, rand.Double(1e6,1e7), rand);
+	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6,1e7), m_rand);
 	double height = m_maxHeightInMeters*0.3;
-	SetFracDef(1, height, rand.Double(4.0, 20.0)*height, rand);
-	SetFracDef(2, m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand);
-	SetFracDef(3, m_maxHeightInMeters*0.07, 1e6, rand, 100.0*m_fracmult);
-	SetFracDef(4, m_maxHeightInMeters*0.05, 8e5, rand, 100.0*m_fracmult);
+	SetFracDef(1, height, m_rand.Double(4.0, 20.0)*height, m_rand);
+	SetFracDef(2, m_maxHeightInMeters, m_rand.Double(50.0, 100.0)*m_maxHeightInMeters, m_rand);
+	SetFracDef(3, m_maxHeightInMeters*0.07, 1e6, m_rand, 100.0*m_fracmult);
+	SetFracDef(4, m_maxHeightInMeters*0.05, 8e5, m_rand, 100.0*m_fracmult);
 }
