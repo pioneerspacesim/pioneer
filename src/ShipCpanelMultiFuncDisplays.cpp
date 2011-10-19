@@ -286,7 +286,7 @@ void ScannerWidget::DrawBlobs(bool below)
 void ScannerWidget::DrawDistanceRings()
 {
 	static const float circle = float(2 * M_PI);
-	static const float step = float(M_PI * 0.02); // 1/100th
+	static const float step = float(M_PI * 0.02); // 1/100th or 3.6 degrees
 	/* soicles */
 	for (float sz = 0.1f; sz <1.0f; sz += 0.3f) {
 		glBegin(GL_LINE_LOOP);
@@ -302,15 +302,16 @@ void ScannerWidget::DrawDistanceRings()
 		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 	}
 	glEnd();
-
 }
 
 void ScannerWidget::DrawRangeRing(bool blend)
 {
 	static const float circle = float(2 * M_PI);
-	static const float step = float(M_PI * 0.02); // 1/100th
+	static const float step = float(M_PI * 0.02); // 1/100th or 3.6 degrees
 	float range_percent = m_range / SCANNER_RANGE_MAX;
+
 	if (m_mode == SCANNER_MODE_AUTO) {
+		// green like the scanner to indicate that the scanner is controlling the range
 		if (blend) glColor4f(0, 0.7f, 0, 0.25f);
 		else glColor3f(0, 0.7f, 0);
 	} else {
@@ -322,15 +323,22 @@ void ScannerWidget::DrawRangeRing(bool blend)
 	for (float a = 0; a < range_percent * circle; a += step) {
 		glVertex2f(m_x + m_x * -sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 	}
-	if (range_percent < 1.0f)
+	if (range_percent < 1.0f) {
+		// this vertex is so the part that indicates range ends at
+		// the exact point rather than a multiple of 3.6 degrees
 		glVertex2f(m_x + m_x * -sin(range_percent * circle),
 			m_y + SCANNER_YSHRINK * m_y * cos(range_percent * circle));
-	if (blend) glColor4f(0.2f, 0.3f, 0.2f, 0.25f);
-	else glColor3f(0.2f, 0.3f, 0.2f);
-	for (float a = range_percent * circle; a < circle; a += step) {
-		glVertex2f(m_x + m_x * -sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+		if (blend) glColor4f(0.2f, 0.3f, 0.2f, 0.25f);
+		else glColor3f(0.2f, 0.3f, 0.2f);
+		// we start the second color at the same point so that it changes
+		// immediately rather than blending over 3.6 degrees
+		for (float a = range_percent * circle; a < circle; a += step) {
+			glVertex2f(m_x + m_x * -sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+		}
+		// this vertex ensures that the end of the second color
+		// doesn't blend with the beginning of the first color
+		glVertex2f(m_x, m_y + SCANNER_YSHRINK * m_y);
 	}
-	if (range_percent < 1.0f) glVertex2f(m_x, m_y + SCANNER_YSHRINK * m_y);
 	glEnd();
 }
 
