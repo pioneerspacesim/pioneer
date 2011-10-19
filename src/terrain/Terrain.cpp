@@ -269,7 +269,7 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 	return gi(body);
 }
 
-Terrain::Terrain(const SBody *body) : m_body(body) {
+Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed) {
 	printf("in terrain constructor for %s\n", body->name.c_str());
 
 	// XXX hardcoded until we get the config/change detail stuff back
@@ -292,48 +292,46 @@ Terrain::Terrain(const SBody *body) : m_body(body) {
 	m_planetRadius = rad;
 	m_planetEarthRadii = rad / EARTH_RADIUS;
 
-	MTRand rand(body->seed);
-
 	// Pick some colors, mainly reds and greens
-	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
+	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
 	for (int i=0; i<8; i++) {
 		double r,g,b;
-		r = rand.Double(0.3, 1.0);
-		g = rand.Double(0.3, r);
-		b = rand.Double(0.3, g);
+		r = m_rand.Double(0.3, 1.0);
+		g = m_rand.Double(0.3, r);
+		b = m_rand.Double(0.3, g);
 		r = std::max(b, r * m_body->m_metallicity.ToFloat());
 		g = std::max(b, g * m_body->m_metallicity.ToFloat());
 		m_rockColor[i] = vector3d(r, g, b);
 	}
 
 	// Pick some darker colours mainly reds and greens
-	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
+	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
 	for (int i=0; i<8; i++) {
 		double r,g,b;
-		r = rand.Double(0.05, 0.3);
-		g = rand.Double(0.05, r);
-		b = rand.Double(0.05, g);
+		r = m_rand.Double(0.05, 0.3);
+		g = m_rand.Double(0.05, r);
+		b = m_rand.Double(0.05, g);
 		r = std::max(b, r * m_body->m_metallicity.ToFloat());
 		g = std::max(b, g * m_body->m_metallicity.ToFloat());
 		m_darkrockColor[i] = vector3d(r, g, b);
 	}
 
 	// grey colours, in case you simply must have a grey colour on a world with high metallicity
-	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
+	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
 	for (int i=0; i<8; i++) {
 		double g;
-		g = rand.Double(0.3, 0.9);
+		g = m_rand.Double(0.3, 0.9);
 		m_greyrockColor[i] = vector3d(g, g, g);
 	}
 
 	// Pick some plant colours, mainly greens
 	// TODO take star class into account
-	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
+	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
 	for (int i=0; i<8; i++) {
 		double r,g,b;
-		g = rand.Double(0.3, 1.0);
-		r = rand.Double(0.3, g);
-		b = rand.Double(0.2, r);
+		g = m_rand.Double(0.3, 1.0);
+		r = m_rand.Double(0.3, g);
+		b = m_rand.Double(0.2, r);
 		g = std::max(r, g * m_body->m_life.ToFloat());
 		b *= (1.0-m_body->m_life.ToFloat());
 		m_plantColor[i] = vector3d(r, g, b);
@@ -341,12 +339,12 @@ Terrain::Terrain(const SBody *body) : m_body(body) {
 
 	// Pick some darker plant colours mainly greens
 	// TODO take star class into account
-	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
+	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
 	for (int i=0; i<8; i++) {
 		double r,g,b;
-		g = rand.Double(0.05, 0.3);
-		r = rand.Double(0.00, g);
-		b = rand.Double(0.00, r);
+		g = m_rand.Double(0.05, 0.3);
+		r = m_rand.Double(0.00, g);
+		b = m_rand.Double(0.00, r);
 		g = std::max(r, g * m_body->m_life.ToFloat());
 		b *= (1.0-m_body->m_life.ToFloat());
 		m_darkplantColor[i] = vector3d(r, g, b);
@@ -354,66 +352,66 @@ Terrain::Terrain(const SBody *body) : m_body(body) {
 
 	// Pick some sand colours, mainly yellow
 	// TODO let some planetary value scale this colour
-	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
+	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
 	for (int i=0; i<8; i++) {
 		double r,g,b;
-		r = rand.Double(0.6, 1.0);
-		g = rand.Double(0.6, r);
-		//b = rand.Double(0.0, g/2.0);
+		r = m_rand.Double(0.6, 1.0);
+		g = m_rand.Double(0.6, r);
+		//b = m_rand.Double(0.0, g/2.0);
 		b = 0;
 		m_sandColor[i] = vector3d(r, g, b);
 	}
 
 	// Pick some darker sand colours mainly yellow
 	// TODO let some planetary value scale this colour
-	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
+	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
 	for (int i=0; i<8; i++) {
 		double r,g,b;
-		r = rand.Double(0.05, 0.6);
-		g = rand.Double(0.00, r);
-		//b = rand.Double(0.00, g/2.0);
+		r = m_rand.Double(0.05, 0.6);
+		g = m_rand.Double(0.00, r);
+		//b = m_rand.Double(0.00, g/2.0);
 		b = 0;
 		m_darksandColor[i] = vector3d(r, g, b);
 	}
 
 	// Pick some dirt colours, mainly red/brown
 	// TODO let some planetary value scale this colour
-	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
+	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
 	for (int i=0; i<8; i++) {
 		double r,g,b;
-		r = rand.Double(0.3, 0.7);
-		g = rand.Double(r-0.1, 0.75);
-		b = rand.Double(0.0, r/2.0);
+		r = m_rand.Double(0.3, 0.7);
+		g = m_rand.Double(r-0.1, 0.75);
+		b = m_rand.Double(0.0, r/2.0);
 		m_dirtColor[i] = vector3d(r, g, b);
 	}
 
 	// Pick some darker dirt colours mainly red/brown
 	// TODO let some planetary value scale this colour
-	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
+	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
 	for (int i=0; i<8; i++) {
 		double r,g,b;
-		r = rand.Double(0.05, 0.3);
-		g = rand.Double(r-0.05, 0.35);
-		b = rand.Double(0.0, r/2.0);
+		r = m_rand.Double(0.05, 0.3);
+		g = m_rand.Double(r-0.05, 0.35);
+		b = m_rand.Double(0.0, r/2.0);
 		m_darkdirtColor[i] = vector3d(r, g, b);
 	}
 
-	// These are used for gas giant colours, they are more random and *should* really use volatileGasses - TODO
-	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
+	// These are used for gas giant colours, they are more m_random and *should* really use volatileGasses - TODO
+	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
 	for (int i=0; i<8; i++) {
 		double r,g,b;
-		r = rand.Double(0.0, 0.5);
-		g = rand.Double(0.0, 0.5);
-		b = rand.Double(0.0, 0.5);
+		r = m_rand.Double(0.0, 0.5);
+		g = m_rand.Double(0.0, 0.5);
+		b = m_rand.Double(0.0, 0.5);
 		m_gglightColor[i] = vector3d(r, g, b);
 	}
 	//darker gas giant colours, more reds and greens
-	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
+	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
 	for (int i=0; i<8; i++) {
 		double r,g,b;
-		r = rand.Double(0.0, 0.3);
-		g = rand.Double(0.0, r);
-		b = rand.Double(0.0, std::min(r, g));
+		r = m_rand.Double(0.0, 0.3);
+		g = m_rand.Double(0.0, r);
+		b = m_rand.Double(0.0, std::min(r, g));
 		m_ggdarkColor[i] = vector3d(r, g, b);
 	}
 }

@@ -66,6 +66,7 @@ protected:
 	ColorFractal m_colorType;
 	*/
 	Uint32 m_seed;
+	MTRand m_rand;
 
 	Color m_atmosColor;
 	double m_atmosDensity;
@@ -112,9 +113,10 @@ protected:
 template <typename HeightFractal>
 class TerrainHeightFractal : virtual public Terrain {
 public:
-	TerrainHeightFractal(const SBody *body) : Terrain(body) {}
 	virtual double GetHeight(const vector3d &p);
 	virtual void InitFracDef(MTRand &rand);
+protected:
+	TerrainHeightFractal(const SBody *body) : Terrain(body) {}
 private:
 	TerrainHeightFractal() {}
 };
@@ -122,8 +124,9 @@ private:
 template <typename ColorFractal>
 class TerrainColorFractal : virtual public Terrain {
 public:
-	TerrainColorFractal(const SBody *body) : Terrain(body) {}
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm);
+protected:
+	TerrainColorFractal(const SBody *body) : Terrain(body) {}
 private:
 	TerrainColorFractal() {}
 };
