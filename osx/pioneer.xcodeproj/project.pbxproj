@@ -119,7 +119,6 @@
 		4A62EF2D136979E000919EBB /* FaceVideoLink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A62EF29136979E000919EBB /* FaceVideoLink.cpp */; };
 		4A671B8A1388C08500657F38 /* libogg.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4A671B861388C07700657F38 /* libogg.0.dylib */; };
 		4A671B8B1388C08500657F38 /* libvorbis.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4A671B871388C07700657F38 /* libvorbis.0.dylib */; };
-		4A671B8E1388C23C00657F38 /* libpng14.14.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4A671B8C1388C23200657F38 /* libpng14.14.dylib */; };
 		4A671B911388C35700657F38 /* libz.1.2.5.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4A671B8F1388C34E00657F38 /* libz.1.2.5.dylib */; };
 		4A671B941388C3E500657F38 /* libtiff.3.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4A671B921388C3DC00657F38 /* libtiff.3.dylib */; };
 		4A671B971388C47A00657F38 /* libjpeg.8.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4A671B951388C47200657F38 /* libjpeg.8.dylib */; };
@@ -205,19 +204,11 @@
 		4A85A86C13C4631D00C2B986 /* SoundMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86713C4631D00C2B986 /* SoundMusic.cpp */; };
 		4A8DD53B142E19B6006DD821 /* LuaConsole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A8DD539142E19B6006DD821 /* LuaConsole.cpp */; };
 		4A9822A8142DF4B100B423F1 /* libpng14.14.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A671B8C1388C23200657F38 /* libpng14.14.dylib */; };
-		4A9822AB142DF93D00B423F1 /* AUTHORS.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822AA142DF93D00B423F1 /* AUTHORS.txt */; };
 		4A9822AC142DF97E00B423F1 /* AUTHORS.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822AA142DF93D00B423F1 /* AUTHORS.txt */; };
-		4A9822AF142E00B100B423F1 /* Quickstart.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822AD142E00B100B423F1 /* Quickstart.txt */; };
-		4A9822B0142E00B100B423F1 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822AE142E00B100B423F1 /* README.txt */; };
 		4A9822B1142E00C900B423F1 /* Quickstart.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822AD142E00B100B423F1 /* Quickstart.txt */; };
 		4A9822B2142E00C900B423F1 /* README.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822AE142E00B100B423F1 /* README.txt */; };
-		4A9822B5142E02AF00B423F1 /* Changelog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822B3142E02AF00B423F1 /* Changelog.txt */; };
-		4A9822B6142E02AF00B423F1 /* COPYING.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822B4142E02AF00B423F1 /* COPYING.txt */; };
 		4A9822B7142E02BD00B423F1 /* Changelog.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822B3142E02AF00B423F1 /* Changelog.txt */; };
 		4A9822B8142E02BD00B423F1 /* COPYING.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822B4142E02AF00B423F1 /* COPYING.txt */; };
-		4A9822BC142E042700B423F1 /* fonts.COPYING.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822B9142E042700B423F1 /* fonts.COPYING.txt */; };
-		4A9822BD142E042700B423F1 /* lua.COPYING.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822BA142E042700B423F1 /* lua.COPYING.txt */; };
-		4A9822BE142E042700B423F1 /* music.COPYING.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A9822BB142E042700B423F1 /* music.COPYING.txt */; };
 		4A9937511368355500EA0EE5 /* LuaBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371B1368355400EA0EE5 /* LuaBody.cpp */; };
 		4A9937521368355500EA0EE5 /* LuaCargoBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371D1368355400EA0EE5 /* LuaCargoBody.cpp */; };
 		4A9937531368355500EA0EE5 /* LuaConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371F1368355500EA0EE5 /* LuaConstants.cpp */; };
@@ -280,7 +271,6 @@
 				4A671B971388C47A00657F38 /* libjpeg.8.dylib in Copy SubLibraries */,
 				4A671B941388C3E500657F38 /* libtiff.3.dylib in Copy SubLibraries */,
 				4A671B911388C35700657F38 /* libz.1.2.5.dylib in Copy SubLibraries */,
-				4A671B8E1388C23C00657F38 /* libpng14.14.dylib in Copy SubLibraries */,
 				4A671B8A1388C08500657F38 /* libogg.0.dylib in Copy SubLibraries */,
 				4A671B8B1388C08500657F38 /* libvorbis.0.dylib in Copy SubLibraries */,
 			);
@@ -1445,14 +1435,6 @@
 				4A20B11D13531CD10020F43E /* InfoPlist.strings in Resources */,
 				4A20B12013531E950020F43E /* pioneerApp.xib in Resources */,
 				4AD68C8D1359C3CE0048A93F /* pioneer-logo.icns in Resources */,
-				4A9822AB142DF93D00B423F1 /* AUTHORS.txt in Resources */,
-				4A9822AF142E00B100B423F1 /* Quickstart.txt in Resources */,
-				4A9822B0142E00B100B423F1 /* README.txt in Resources */,
-				4A9822B5142E02AF00B423F1 /* Changelog.txt in Resources */,
-				4A9822B6142E02AF00B423F1 /* COPYING.txt in Resources */,
-				4A9822BC142E042700B423F1 /* fonts.COPYING.txt in Resources */,
-				4A9822BD142E042700B423F1 /* lua.COPYING.txt in Resources */,
-				4A9822BE142E042700B423F1 /* music.COPYING.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1827,7 +1809,7 @@
 				);
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.6;
@@ -1878,6 +1860,7 @@
 				4AE9706D1436A64000424F91 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

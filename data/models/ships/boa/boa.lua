@@ -29,13 +29,13 @@ define_model('boanosewheel', {
 
 	dynamic = function(lod)
 		local v6 = v(0, 0, 0)
-		local v7 = v(0, 0.1 + (4*(get_arg(ARG_SHIP_WHEEL_STATE)^5)), 0)
-		local v8 = v(0, 0.1 + (8*(get_arg(ARG_SHIP_WHEEL_STATE)^5)), 0)
+		local v7 = v(0, 0.1 + (4*(get_animation_position('WHEEL_STATE')^5)), 0)
+		local v8 = v(0, 0.1 + (8*(get_animation_position('WHEEL_STATE')^5)), 0)
 		local divs = lod*4
 		cylinder(divs, v6, v8, v(0,0,1), .4)
 		cylinder(divs, v7, v8, v(0,0,1), .5)
 		use_material('tyre')
-		xref_cylinder(divs, v(.5,0.1 + (8*(get_arg(ARG_SHIP_WHEEL_STATE)^5)),0), v(1,0.1 + (8*(get_arg(ARG_SHIP_WHEEL_STATE)^5)),0), v(0,0,1), 1.0)
+		xref_cylinder(divs, v(.5,0.1 + (8*(get_animation_position('WHEEL_STATE')^5)),0), v(1,0.1 + (8*(get_animation_position('WHEEL_STATE')^5)),0), v(0,0,1), 1.0)
 	end
 })
 
@@ -54,11 +54,11 @@ define_model('boamainwheel', {
 
 	dynamic = function(lod)
 		local v6 = v(0,0,0)
-		local v7 = v(0,0.1 + (3*(get_arg(ARG_SHIP_WHEEL_STATE)^7)),0)
-		local v8 = v(0,0.1 + (5*(get_arg(ARG_SHIP_WHEEL_STATE)^7)),0)
+		local v7 = v(0,0.1 + (3*(get_animation_position('WHEEL_STATE')^7)),0)
+		local v8 = v(0,0.1 + (5*(get_animation_position('WHEEL_STATE')^7)),0)
 		-- crossbar
-		local v13 = v(0, 0.1 + (5*(get_arg(ARG_SHIP_WHEEL_STATE)^7)), 1.4)
-		local v14 = v(0, 0.1 + (5*(get_arg(ARG_SHIP_WHEEL_STATE)^7)), -1.4)
+		local v13 = v(0, 0.1 + (5*(get_animation_position('WHEEL_STATE')^7)), 1.4)
+		local v14 = v(0, 0.1 + (5*(get_animation_position('WHEEL_STATE')^7)), -1.4)
 		local divs = 4*lod
 
 		cylinder(divs, v6, v8, v(0,0,1), .4)
@@ -66,8 +66,8 @@ define_model('boamainwheel', {
 		cylinder(4, v13, v14, v(1,0,0), .5)
 		set_material('tyre', .3,.3,.3,1, 0,0,0, 1, 0,0,0)
 		use_material('tyre')
-		xref_cylinder(divs, v(.5, 0.1 + (5*(get_arg(ARG_SHIP_WHEEL_STATE)^8)), 1.1), v(1, 0.1 + (5*(get_arg(ARG_SHIP_WHEEL_STATE)^8)), 1.1), v(0,0,1), 1)
-		xref_cylinder(divs, v(.5, 0.1 + (5*(get_arg(ARG_SHIP_WHEEL_STATE)^8)), -1.1), v(1, 0.1 + (5*(get_arg(ARG_SHIP_WHEEL_STATE)^8)), -1.1), v(0,0,1), 1)
+		xref_cylinder(divs, v(.5, 0.1 + (5*(get_animation_position('WHEEL_STATE')^8)), 1.1), v(1, 0.1 + (5*(get_animation_position('WHEEL_STATE')^8)), 1.1), v(0,0,1), 1)
+		xref_cylinder(divs, v(.5, 0.1 + (5*(get_animation_position('WHEEL_STATE')^8)), -1.1), v(1, 0.1 + (5*(get_animation_position('WHEEL_STATE')^8)), -1.1), v(0,0,1), 1)
 	end
 })
 
@@ -172,7 +172,7 @@ define_model('boa', {
 		if lod > 1 then
 			set_material('body', get_arg_material(0))
 			set_material('wing', get_arg_material(1))
-			set_material('glow', lerp_materials(get_arg(ARG_ALL_TIME_HOURS)*.1,	{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1.5 },
+			set_material('glow', lerp_materials(get_time('HOURS')*.1,	{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1.5 },
 			{0, 0, 0, 1, 0, 0, 0, 0, .7, 1.2, 1 }))
 
 			use_material('darksteel')
@@ -180,7 +180,7 @@ define_model('boa', {
 			if lod > 2 then
 
 				set_material('text1', .45,.45,.45,1,.1,.1,.1,10)
-				local reg = get_arg_string(0)
+				local reg = get_label()
 				texture('models/ships/boa/fade.png')
 				use_material('wing')
 				--zbias(1, v(0, -1.127, 18.783), v(0,0.25,1))
@@ -189,24 +189,24 @@ define_model('boa', {
 
 				use_material('darksteel')
 
-				if get_arg(ARG_SHIP_EQUIP_ECM) > 0 then
+				if get_equipment('ECM') then
 					call_model('ecm_1', v(-7.7,1,-10.5), v(0,1,0), v(-1,0,0), 1.4)
 					call_model('ecm_1', v(7.7,1,-10.5), v(0,-1,0), v(1,0,0), 1.4)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) > 0 then
+				if get_equipment('SCANNER') then
 					call_model('scanner', v(0,-1.22,-31.124), v(1,0,0), v(0,-1,0), 1)
 					call_model('scanner', v(0,5.95,8.026), v(1,0,0), v(0,1,0), 1.4)
 					call_model('antenna_1', v(0,-1.882,-44.7), v(1,0,0), v(0,1,0), 1)
 				end
 
 
-				if get_arg(ARG_SHIP_EQUIP_LASER0) > 0 then
+				if get_equipment('LASER', 1) then
 					use_material('darksteel')
 					call_model('largegun2',v(0,-.2,-39),v(-1,0,0),v(0,1,0),.2)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_LASER1) > 0 then
+				if get_equipment('LASER', 2) then
 					use_material('darksteel')
 					call_model('largegun2',v(0,6.97,22.44),v(1,0,0),v(0,1,0),.4)
 					call_model('largegun2',v(0,-2.945,23),v(-1,0,0),v(0,-1,0),.4)
@@ -220,63 +220,63 @@ define_model('boa', {
 				local M_6 = v(7,-1.89,-24.9)
 
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_UNGUIDED  then
+				if get_equipment('MISSILE', 1) == 'MISSILE_UNGUIDED'  then
 					call_model('d_unguided',M_1,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_GUIDED  then
+				elseif get_equipment('MISSILE', 1) == 'MISSILE_GUIDED'  then
 					call_model('d_guided',M_1,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_SMART  then
+				elseif get_equipment('MISSILE', 1) == 'MISSILE_SMART'  then
 					call_model('d_smart',M_1,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_NAVAL  then
+				elseif get_equipment('MISSILE', 1) == 'MISSILE_NAVAL'  then
 					call_model('d_naval',M_1,v(1,0,0), v(0,.95,.05),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_UNGUIDED  then
+				if get_equipment('MISSILE', 2) == 'MISSILE_UNGUIDED'  then
 					call_model('d_unguided',M_2,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_GUIDED  then
+				elseif get_equipment('MISSILE', 2) == 'MISSILE_GUIDED'  then
 					call_model('d_guided',M_2,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_SMART  then
+				elseif get_equipment('MISSILE', 2) == 'MISSILE_SMART'  then
 					call_model('d_smart',M_2,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE1) == Equip.MISSILE_NAVAL  then
+				elseif get_equipment('MISSILE', 2) == 'MISSILE_NAVAL'  then
 					call_model('d_naval',M_2,v(1,0,0), v(0,.95,.05),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_UNGUIDED  then
+				if get_equipment('MISSILE', 3) == 'MISSILE_UNGUIDED'  then
 					call_model('d_unguided',M_3,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_GUIDED  then
+				elseif get_equipment('MISSILE', 3) == 'MISSILE_GUIDED'  then
 					call_model('d_guided',M_3,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_SMART  then
+				elseif get_equipment('MISSILE', 3) == 'MISSILE_SMART'  then
 					call_model('d_smart',M_3,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE2) == Equip.MISSILE_NAVAL  then
+				elseif get_equipment('MISSILE', 3) == 'MISSILE_NAVAL'  then
 					call_model('d_naval',M_3,v(1,0,0), v(0,.95,.05),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_UNGUIDED  then
+				if get_equipment('MISSILE', 4) == 'MISSILE_UNGUIDED'  then
 					call_model('d_unguided',M_4,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_GUIDED  then
+				elseif get_equipment('MISSILE', 4) == 'MISSILE_GUIDED'  then
 					call_model('d_guided',M_4,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_SMART  then
+				elseif get_equipment('MISSILE', 4) == 'MISSILE_SMART'  then
 					call_model('d_smart',M_4,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE3) == Equip.MISSILE_NAVAL  then
+				elseif get_equipment('MISSILE', 4) == 'MISSILE_NAVAL'  then
 					call_model('d_naval',M_4,v(1,0,0), v(0,.95,.05),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE4) == Equip.MISSILE_UNGUIDED  then
+				if get_equipment('MISSILE', 5) == 'MISSILE_UNGUIDED'  then
 					call_model('d_unguided',M_5,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE4) == Equip.MISSILE_GUIDED  then
+				elseif get_equipment('MISSILE', 5) == 'MISSILE_GUIDED'  then
 					call_model('d_guided',M_5,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE4) == Equip.MISSILE_SMART  then
+				elseif get_equipment('MISSILE', 5) == 'MISSILE_SMART'  then
 					call_model('d_smart',M_5,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE4) == Equip.MISSILE_NAVAL  then
+				elseif get_equipment('MISSILE', 5) == 'MISSILE_NAVAL'  then
 					call_model('d_naval',M_5,v(1,0,0), v(0,.95,.05),1)
 				end
 
-				if get_arg(ARG_SHIP_EQUIP_MISSILE5) == Equip.MISSILE_UNGUIDED  then
+				if get_equipment('MISSILE', 6) == 'MISSILE_UNGUIDED'  then
 					call_model('d_unguided',M_6,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE5) == Equip.MISSILE_GUIDED  then
+				elseif get_equipment('MISSILE', 6) == 'MISSILE_GUIDED'  then
 					call_model('d_guided',M_6,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE5) == Equip.MISSILE_SMART  then
+				elseif get_equipment('MISSILE', 6) == 'MISSILE_SMART'  then
 					call_model('d_smart',M_6,v(1,0,0), v(0,.95,.05),1)
-				elseif get_arg(ARG_SHIP_EQUIP_MISSILE5) == Equip.MISSILE_NAVAL  then
+				elseif get_equipment('MISSILE', 6) == 'MISSILE_NAVAL'  then
 					call_model('d_naval',M_6,v(1,0,0), v(0,.95,.05),1)
 				end
 
@@ -288,11 +288,11 @@ define_model('boa', {
 		end
 
 		use_material('steel')
-		call_model('boa_bkflap',v(0,0,8 * get_arg(ARG_SHIP_WHEEL_STATE)),v(1,0,0),v(0,1,0),1)
-		call_model('boa_frflap',v(0,0,3 * get_arg(ARG_SHIP_WHEEL_STATE)),v(1,0,0),v(0,1,0),1)
+		call_model('boa_bkflap',v(0,0,8 * get_animation_position('WHEEL_STATE')),v(1,0,0),v(0,1,0),1)
+		call_model('boa_frflap',v(0,0,3 * get_animation_position('WHEEL_STATE')),v(1,0,0),v(0,1,0),1)
 		call_model('boa_plate',v(0,0,0),v(1,0,0),v(0,1,0),1)
 
-		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+		if get_animation_position('WHEEL_STATE') ~= 0 then
 
 			use_material('steel')
 			call_model('boa_recess',v(0,0,0),v(1,0,0),v(0,1,0),1)

@@ -58,7 +58,7 @@ define_model('old_clock', {
 		circle(8*lod,v(0,0,0),v(0,0,1),v(0,1,0),5.5)
 	end,
 	dynamic = function(lod)
-		local minutePos = -2*math.pi * get_arg(3)
+		local minutePos = -2*math.pi * get_time('HOURS')
 		zbias(3,v(0,0,0),v(0,0,1))
 		call_model('clkmin', v(0,0,0),v(math.cos(minutePos),math.sin(minutePos),0),v(math.cos(minutePos+math.pi*0.5), math.sin(minutePos+math.pi*0.5),0), 1)
 		local hourPos = minutePos / 12

@@ -1,14 +1,28 @@
-function asps_gun_f(pos,scale)
-	texture('models/ships/asp_sparks/asps_gun.png')
-	use_material('metal')
-	load_obj('models/ships/asp_sparks/asps_gun_f.obj',Matrix.translate(pos)*Matrix.scale(v(1+scale/4,1+scale/4,1+scale)))
-end
+define_model('asps_gun_f', {
+	info = {
+		bounding_radius = 2,
+		materials = { 'metal' }
+	},
+	static = function(lod)
+		set_material('metal', .15,.16,.18,1,.22,.25,.25,10)
+		use_material('metal')
+		texture('asps_gun.png')
+		load_obj('asps_gun_f.obj')
+	end
+})
 
-function asps_gun_r(pos,scale)
-	texture('models/ships/asp_sparks/asps_gun.png')
-	use_material('metal')
-	load_obj('models/ships/asp_sparks/asps_gun_r.obj',Matrix.translate(pos)*Matrix.scale(v(1+scale/4,1+scale/4,1+scale)))
-end
+define_model('asps_gun_r', {
+	info = {
+		bounding_radius = 2,
+		materials = { 'metal' }
+	},
+	static = function(lod)
+		set_material('metal', .15,.16,.18,1,.22,.25,.25,10)
+		use_material('metal')
+		texture('asps_gun.png')
+		load_obj('asps_gun_r.obj')
+	end
+})
 
 define_model('asps_flap_r_0', {
 	info = {
@@ -43,7 +57,7 @@ define_model('asps_flap_r', {
 	static = function(lod)
 	end,
 	dynamic = function(lod)
-		local flap = math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
+		local flap = math.pi*math.clamp(get_animation_position('WHEEL_STATE'),0,.5)
 		call_model('asps_flap_r_0',v(0,0,0),v(0,0,1),v(math.sin(flap),math.cos(flap),0),1)
 	end
 })
@@ -55,7 +69,7 @@ define_model('asps_flap_l', {
 	static = function(lod)
 	end,
 	dynamic = function(lod)
-		local flap = math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
+		local flap = math.pi*math.clamp(get_animation_position('WHEEL_STATE'),0,.5)
 		call_model('asps_flap_l_0',v(0,0,0),v(0,0,1),v(-math.sin(flap),math.cos(flap),0),1)
 	end
 })
@@ -157,6 +171,19 @@ define_model('asps_pyl_open', {
 	end
 })
 
+local LASER_SCALE = {
+	PULSECANNON_1MW       =  1/7.5,
+	PULSECANNON_DUAL_1MW  =  2/7.5,
+	PULSECANNON_2MW       =  3/7.5,
+	PULSECANNON_RAPID_2MW =  4/7.5,
+	PULSECANNON_4MW       =  5/7.5,
+	PULSECANNON_10MW      =  6/7.5,
+	PULSECANNON_20MW      =  7/7.5,
+	MININGCANNON_17MW     =  8/7.5,
+	SMALL_PLASMA_ACCEL    =  9/7.5,
+	LARGE_PLASMA_ACCEL    = 10/7.5,
+}
+
 define_model('asps_sub0', {
 	info = {
 		lod_pixels = {.1,20,50,0},
@@ -199,33 +226,33 @@ define_model('asps_sub0', {
 		end
 
 		if lod > 2 then
-			if get_arg(ARG_SHIP_EQUIP_LASER0) >= Equip.PULSECANNON_1MW then
-				local scale = (get_arg(ARG_SHIP_EQUIP_LASER0)-Equip.PULSECANNON_1MW + 1)/7.5
+			if get_equipment('LASER',1) then
+				local scale = LASER_SCALE[get_equipment('LASER',1)] or 0.1
 				local pos = v(.003,.246,-1.681)
-				asps_gun_f(pos,scale)
+				call_model('asps_gun_f', pos, v(1,0,0), v(0,1,0), 1+scale/4)
 			end
-			if get_arg(ARG_SHIP_EQUIP_LASER1) >= Equip.PULSECANNON_1MW then
-				local scale = (get_arg(ARG_SHIP_EQUIP_LASER1)-Equip.PULSECANNON_1MW + 1)/7.5
+			if get_equipment('LASER',2) then
+				local scale = LASER_SCALE[get_equipment('LASER',2)] or 0.1
 				local pos = v(.001,-.431,1.964)
-				asps_gun_r(pos,scale)
+				call_model('asps_gun_r', pos, v(1,0,0), v(0,1,0), 1+scale/4)
 			end
 		end
 
 		if lod > 3 then
 			local M_0 = v(.34,.08,-1.4)
-			if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_UNGUIDED then
+			if get_equipment('MISSILE', 1) == 'MISSILE_UNGUIDED' then
 				call_model('d_unguided',M_0,v(1,0,0),v(0,1,0),.1)
 				call_model('asps_pyl_open',v(0,0,0),v(1,0,0),v(0,1,0),1)
 			else
-				if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_GUIDED then
+				if get_equipment('MISSILE', 1) == 'MISSILE_GUIDED' then
 					call_model('d_guided',M_0,v(1,0,0),v(0,1,0),.1)
 					call_model('asps_pyl_open',v(0,0,0),v(1,0,0),v(0,1,0),1)
 				else
-					if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_SMART then
+					if get_equipment('MISSILE', 1) == 'MISSILE_SMART' then
 						call_model('d_smart',M_0,v(1,0,0),v(0,1,0),.1)
 						call_model('asps_pyl_open',v(0,0,0),v(1,0,0),v(0,1,0),1)
 					else
-						if get_arg(ARG_SHIP_EQUIP_MISSILE0) == Equip.MISSILE_NAVAL then
+						if get_equipment('MISSILE', 1) == 'MISSILE_NAVAL' then
 							call_model('d_naval',M_0,v(1,0,0),v(0,1,0),.1)
 							call_model('asps_pyl_open',v(0,0,0),v(1,0,0),v(0,1,0),1)
 						end
@@ -237,28 +264,28 @@ define_model('asps_sub0', {
 			if select2 < 51 then
 				set_material('cv_0', .63,.7,.83,1,.83,.9,1.03,30)
 				use_material('cv_0')
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_-',v(1,.57,.38),v(1,0,0),v(0,1,0),.15)
 					call_model('antenna_1',v(-.83,.272,-1.94),v(1,0,0),v(0,1,0),.15)
 				end
-				if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+				if get_equipment('ECM') == 'ECM_BASIC' then
 					call_model('ecm_1',v(-1,.57,.38),v(1,0,0),v(0,1,0),.1)
 				else
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2',v(-1,.57,.38),v(1,0,0),v(0,1,0),.1)
 					end
 				end
 			else
 				set_material('cv_0', get_arg_material(0))
 				use_material('cv_0')
-				if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+				if get_equipment('SCANNER') == 'SCANNER' then
 					call_model('scanner_+',v(-1,.57,.38),v(1,0,0),v(0,1,0),.15)
 					call_model('antenna_1',v(.83,.272,-1.94),v(1,0,0),v(0,1,0),.15)
 				end
-				if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+				if get_equipment('ECM') == 'ECM_BASIC' then
 					call_model('ecm_1',v(1,.57,.38),v(1,0,0),v(0,1,0),.1)
 				else
-					if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+					if get_equipment('ECM') == 'ECM_ADVANCED' then
 						call_model('ecm_2',v(1,.57,.38),v(1,0,0),v(0,1,0),.1)
 					end
 				end
@@ -389,15 +416,15 @@ define_model('asp_sparks', {
 		end
 	end,
 	dynamic = function(lod)
-		local flap = math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
-		local rot = .5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),.3,1)-.46
+		local flap = math.pi*math.clamp(get_animation_position('WHEEL_STATE'),0,.5)
+		local rot = .5*math.pi*math.clamp(get_animation_position('WHEEL_STATE'),.3,1)-.46
 
 		if lod > 1 then
-			set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
+			set_material('e_glow', lerp_materials(get_time('SECONDS')*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
 			{0, 0, 0, 1, 0, 0, 0, 1, 1, 2.5, 2.5 }))
 
-			if get_arg(ARG_SHIP_EQUIP_SCOOP) == Equip.FUEL_SCOOP then
-				set_material('scoop', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
+			if get_equipment('FUELSCOOP') == 'FUEL_SCOOP' then
+				set_material('scoop', lerp_materials(get_time('SECONDS')*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
 				{0, 0, 0, 1, 0, 0, 0, 1, 1, 2.5, 2.5 }))
 			else
 				set_material('scoop', .15,.16,.18,1,.22,.25,.25,10)
@@ -407,7 +434,7 @@ define_model('asp_sparks', {
 			--use_material('text')
 			if lod > 3 then
 				call_model('squad_color',v(0,0,0),v(1,0,0),v(0,1,0),1)
-				local reg = get_arg_string(0)
+				local reg = get_label()
 				zbias(1,v(1.764,.448,.453),v(.2,1,0))
 				text(reg,v(1.764,.448,.453),v(.2,1,0),v(-1,.37,-1),.2,{center = true})
 				zbias(1,v(-1.89,-.282,.75),v(-.4,-1,0))
@@ -427,7 +454,7 @@ define_model('asp_sparks', {
 		call_model('asps_wheel_r_l',v(-1.607,-.164,1.752),v(0,math.sin(.25*rot),1),v(math.sin(1.7*rot),math.cos(1.7*rot),0),1)
 
 		if lod > 2 then
-			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+			if get_animation_position('WHEEL_STATE') ~= 0 then
 				billboard('smoke.png', .05, v(1,1,1), { v(-.299,.067,-1.687),v(-.416,.067,-1.687) })
 				billboard('smoke.png', .025, v(.6,1.2,1.2), { v(-.202,.045,-1.659) })
 			end

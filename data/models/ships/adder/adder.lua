@@ -25,7 +25,7 @@ define_model('adder_piston_f', {
 		sphere_slice(3*lod,lod, 0, .75*math.pi,Matrix.rotate(math.pi,v(1,0,0))*Matrix.translate(v(0,-.3,0)))
 	end,
 	dynamic = function(lod)
-		local trans = 3*math.clamp((get_arg(ARG_SHIP_WHEEL_STATE)),.2,1)
+		local trans = 3*math.clamp((get_animation_position('WHEEL_STATE')),.2,1)
 		use_material('chrome')
 		--texture('models/ships/adder/steel.png')
 		ring(3*lod,v(0,0,0),v(0,-.3-trans,0),v(1,0,0),.3)
@@ -47,7 +47,7 @@ define_model('adder_piston_r', {
 		sphere_slice(3*lod,lod, 0, .75*math.pi,Matrix.rotate(math.pi,v(1,0,0))*Matrix.translate(v(0,-.3,0)))
 	end,
 	dynamic = function(lod)
-		local trans = 2.45*math.clamp((get_arg(ARG_SHIP_WHEEL_STATE)),.2,1)
+		local trans = 2.45*math.clamp((get_animation_position('WHEEL_STATE')),.2,1)
 		use_material('chrome')
 		--texture('models/ships/adder/steel.png')
 		ring(3*lod,v(0,0,0),v(0,-.3-trans,0),v(1,0,0),.3)
@@ -85,7 +85,7 @@ define_model('adder_uc_f', {
 		load_obj('f_leg.obj')
 	end,
 	dynamic = function(lod)
-		local w_rot = 0.5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.2, 1)
+		local w_rot = 0.5*math.pi*math.clamp(get_animation_position('WHEEL_STATE'), 0.2, 1)
 		call_model('adder_f_wheel',v(-0.35,0,2.693),v(1,0,0),v(0,math.sin(w_rot),math.cos(w_rot)-0.3),1)
 	end
 })
@@ -120,7 +120,7 @@ define_model('adder_uc_r', {
 		load_obj('r_leg.obj')
 	end,
 	dynamic = function(lod)
-		local w_rot = 0.525*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.2, 1)
+		local w_rot = 0.525*math.pi*math.clamp(get_animation_position('WHEEL_STATE'), 0.2, 1)
 		call_model('adder_r_wheel',v(0,.227,2.353),v(1,0,0),v(0,math.cos(w_rot),-math.sin(w_rot)+0.3),1)
 	end
 })
@@ -289,11 +289,11 @@ define_model('adder_sub', {
 
 	dynamic = function(lod)
 
-		set_material('e_glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.5,{0, 0, 0, 1, 0, 0, 0, 0, .9, 1.4, 1.5 },
+		set_material('e_glow', lerp_materials(get_time('SECONDS')*.5,{0, 0, 0, 1, 0, 0, 0, 0, .9, 1.4, 1.5 },
 		{0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.7 }))
 
-		if get_arg(ARG_SHIP_EQUIP_SCOOP) == Equip.FUEL_SCOOP then
-			set_material('scoop', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*.5,{0, 0, 0, 1, 0, 0, 0, 0, .9, 1.4, 1.5 },
+		if get_equipment('FUELSCOOP') == 'FUEL_SCOOP' then
+			set_material('scoop', lerp_materials(get_time('SECONDS')*.5,{0, 0, 0, 1, 0, 0, 0, 0, .9, 1.4, 1.5 },
 			{0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.7 }))
 		else
 			set_material('scoop', .1,.1,.1,1,0,0,0,1)
@@ -326,7 +326,7 @@ define_model('adder_sub', {
 			end
 		end
 
-		local flap = math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE),0,.5)
+		local flap = math.pi*math.clamp(get_animation_position('WHEEL_STATE'),0,.5)
 		use_material('head')
 		call_model('adder_f_flap',v(-.598,-3.349,-11.163),v(0,0,1), v(math.sin(flap),math.cos(flap),0), 1)
 		use_material('body')
@@ -335,10 +335,10 @@ define_model('adder_sub', {
 		call_model('adder_rl_flap2',v(-3.353,-3.351,5.087),v(0,0,1), v(-math.sin(flap),math.cos(flap*1.1),0), 1)
 		call_model('adder_rr_flap2',v(4.79,-3.351,5.088),v(0,0,1), v(-math.sin(flap),math.cos(flap*1.1),0), 1)
 
-		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+		if get_animation_position('WHEEL_STATE') ~= 0 then
 			call_model('adder_uc_cage',v(0,0,0),v(1,0,0),v(0,1,0),1)
 
-			local uc_rot = 0.5*math.pi*math.clamp(get_arg(ARG_SHIP_WHEEL_STATE), 0.2, 1)
+			local uc_rot = 0.5*math.pi*math.clamp(get_animation_position('WHEEL_STATE'), 0.2, 1)
 
 			call_model('adder_uc_f',v(.336,-2.686,-12.788),v(1,0,0), v(0,math.cos(uc_rot),math.sin(uc_rot)-.3),1)
 			call_model('adder_piston_f',v(.24,-2.1,-11.21),v(1,0,0), v(0,math.cos(uc_rot/1.82),math.sin(uc_rot/1.82)-.3),.3)
@@ -395,7 +395,7 @@ define_model('adder_sub', {
 		local v50 = v(-7.896,-1.072,4.374)
 		local v51 = v(-7.856,-1.072,-4.212)
 
-		local textrans = get_arg(ARG_ALL_TIME_SECONDS)*.1
+		local textrans = get_time('SECONDS')*.1
 
 		use_material('glow1')
 		if lod > 2 then
@@ -449,7 +449,7 @@ define_model('adder_sub', {
 		texture(nil)
 
 
-		if get_arg(ARG_SHIP_EQUIP_SCANNER) == Equip.SCANNER then
+		if get_equipment('SCANNER') == 'SCANNER' then
 			use_material('non_cv')
 			call_model('scanner_+',v(0,3.3,6.2),v(1,0,0),v(0,1,0),1.2)
 			call_model('antenna_1',v(-2,0,-24.55),v(1,0,0),v(0,1,0),1)
@@ -459,24 +459,24 @@ define_model('adder_sub', {
 			selector3()
 			use_material('head')
 			if select3 < 51 then
-				if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+				if get_equipment('ECM') == 'ECM_BASIC' then
 					call_model('ecm_1',v(4.5,-2.43,-16), v(-1,0,0),v(0,-1,0),1)
 				end
-				if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+				if get_equipment('ECM') == 'ECM_ADVANCED' then
 					call_model('ecm_2',v(4.5,-2.43,-16), v(-1,0,0),v(0,-1,0),1)
 				end
 			else
-				if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_BASIC then
+				if get_equipment('ECM') == 'ECM_BASIC' then
 					call_model('ecm_1',v(-4.5,-2.43,-16),v(-1,0,0),v(0,-1,0),1)
 				end
-				if get_arg(ARG_SHIP_EQUIP_ECM) == Equip.ECM_ADVANCED then
+				if get_equipment('ECM') == 'ECM_ADVANCED' then
 					call_model('ecm_2',v(-4.5,-2.43,-16),v(-1,0,0),v(0,-1,0),1)
 				end
 			end
 
 
 
-			local reg = get_arg_string(0)
+			local reg = get_label()
 			use_material('text')
 			zbias(1,v(-8.439,.8,-11.2),v(-1,.7945,0))
 			text(reg,v(-8.439,.8,-11.2),v(-1,.7945,0),v(0,0,1),.8, {center = true})
@@ -485,8 +485,8 @@ define_model('adder_sub', {
 			zbias(0)
 		end
 
-		if get_arg(ARG_SHIP_EQUIP_LASER0) >= Equip.PULSECANNON_1MW then
-			if get_arg(ARG_SHIP_EQUIP_LASER0) == Equip.PULSECANNON_DUAL_1MW then
+		if get_equipment('LASER',1) then
+			if get_equipment('LASER', 1) == 'PULSECANNON_DUAL_1MW' then
 				call_model('adder_gun',v(3.5,0,0),v(1,0,0),v(0,1,0),1)
 				call_model('adder_gun',v(-3.5,0,0),v(1,0,0),v(0,1,0),1)
 			else
@@ -597,7 +597,7 @@ define_model('adder', {
 	end,
 	dynamic = function(lod)
 		if lod == 1 then
-			if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+			if get_animation_position('WHEEL_STATE') ~= 0 then
 				cylinder(4,v(0,-5.5,-11.5),v(0,-5.5,-13.5),v(0,1,0),.5)
 				xref_cylinder(4,v(4.5,-5.5,4.5),v(4.5,-5.5,1.5),v(0,1,0),.5)
 			end
