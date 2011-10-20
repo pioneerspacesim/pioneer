@@ -287,8 +287,17 @@ void ScannerWidget::DrawDistanceRings()
 {
 	static const float circle = float(2 * M_PI);
 	static const float step = float(M_PI * 0.02); // 1/100th or 3.6 degrees
-	/* soicles */
-	for (float sz = 0.1f; sz <1.0f; sz += 0.3f) {
+	/* inner soicle */
+	glBegin(GL_LINE_LOOP);
+	for (float a = 0; a < circle; a += step) {
+		glVertex2f(m_x + 0.1f * m_x * sin(a), m_y + SCANNER_YSHRINK * 0.1f * m_y * cos(a));
+	}
+	glEnd();
+	/* dynamic soicles */
+	for (int p = 0; p < 7; ++p) {
+		float sz = (pow(2.0f, p) * 1000.0f) / m_range;
+		if (sz <= 0.1f) continue;
+		if (sz >= 1.0f) break;
 		glBegin(GL_LINE_LOOP);
 		for (float a = 0; a < circle; a += step) {
 			glVertex2f(m_x + sz * m_x * sin(a), m_y + SCANNER_YSHRINK * sz * m_y * cos(a));
