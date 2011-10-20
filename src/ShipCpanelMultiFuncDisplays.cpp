@@ -102,9 +102,8 @@ void ScannerWidget::GetSizeRequested(float size[2])
 
 void ScannerWidget::NextMode()
 {
-	if (m_mode == SCANNER_MODE_AUTO) {
-		m_mode = SCANNER_MODE_MAN;
-	} else m_mode = SCANNER_MODE_AUTO;
+	if (m_mode == SCANNER_MODE_AUTO) m_mode = SCANNER_MODE_MAN;
+	else m_mode = SCANNER_MODE_AUTO;
 }
 
 void ScannerWidget::Draw()
@@ -313,19 +312,19 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 
 	glBegin(GL_LINE_LOOP);
 	for (float a = 0; a < range_percent * circle; a += step) {
-		glVertex2f(m_x + m_x * -sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+		glVertex2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 	}
 	if (range_percent < 1.0f) {
 		/* this vertex is so the part that indicates range ends at
 		 * the exact point rather than a multiple of 3.6 degrees */
-		glVertex2f(m_x + m_x * -sin(range_percent * circle),
+		glVertex2f(m_x - m_x * sin(range_percent * circle),
 			m_y + SCANNER_YSHRINK * m_y * cos(range_percent * circle));
 		if (blend) glColor4f(0.2f, 0.3f, 0.2f, 0.25f);
 		else glColor3f(0.2f, 0.3f, 0.2f);
 		/* we start the second color at the same point so that it changes
 		 * immediately rather than blending over 3.6 degrees */
 		for (float a = range_percent * circle; a < circle; a += step) {
-			glVertex2f(m_x + m_x * -sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+			glVertex2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 		}
 		/* this vertex ensures that the end of the second color
 		 * doesn't blend with the beginning of the first color */
