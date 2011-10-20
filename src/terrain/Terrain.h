@@ -50,9 +50,7 @@ protected:
 	int m_fracnum;
 	double m_fracmult;
 
-	void PickTerrain(MTRand &rand);
 	void PickAtmosphere();
-	void InitFractalType(MTRand &rand);
 	int GetRawHeightMapVal(int x, int y);
 	double GetHeightMapVal(const vector3d &pt);
 	void InitHeightMap();

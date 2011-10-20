@@ -580,19 +580,17 @@ void Terrain::ChangeDetailLevel()
 #endif
 }
 
+#if 0
 void Terrain::PickTerrain(MTRand &rand)
 {
-#if 0
 
 	//m_terrainType = TERRAIN_HILLS_DUNES;
 	//m_colorType = COLOR_DESERT;
 	printf("%s: \n", m_body->name.c_str());
 	printf("|   Terrain: [%d]\n", m_terrainType);
 	printf("|    Colour: [%d]\n", m_colorType);
-
-
-#endif
 }
+#endif
 
 void Terrain::PickAtmosphere()
 {
@@ -732,10 +730,10 @@ void Terrain::SetFracDef(unsigned int index, double featureHeightMeters, double 
 	//printf("%d octaves\n", m_fracdef[index].octaves); //print
 }
 
+#if 0
 // Fracdef is used to define the fractals width/area, height and detail
 void Terrain::InitFractalType(MTRand &rand)
 {
-#if 0
 	//Earth uses these fracdef settings
 	if (m_heightMap) {	
 		//textures
@@ -753,165 +751,5 @@ void Terrain::InitFractalType(MTRand &rand)
 		SetFracDef(6-m_fracnum, m_maxHeightInMeters*0.0000005, 5e3, rand, 100*m_fracmult);//[3]
 		return;
 	}
-#endif
-}
-
-
-#if 0
-/*
- * Must return >= 0.0
-  Here we create the noise used to generate the landscape, the noise should use the fracdef[] settings that were defined earlier.
- */
-double Terrain::GetHeight(const vector3d &p)
-{
-	if (m_heightMap) return GetHeightMapVal(p) / m_planetRadius;
-
-	switch (m_terrainType) {
-		case TERRAIN_HILLS_NORMAL:
-			return GetHeightHillsNormal(p);
-
-		case TERRAIN_HILLS_DUNES:
-			return GetHeightHillsDunes(p);
-
-		case TERRAIN_HILLS_RIDGED:
-			return GetHeightHillsRidged(p);
-
-		case TERRAIN_HILLS_RIVERS:
-			return GetHeightHillsRivers(p);
-
-		case TERRAIN_HILLS_CRATERS:
-			return GetHeightHillsCraters(p);
-
-		case TERRAIN_HILLS_CRATERS2:
-			return GetHeightHillsCraters2(p);
-
-		case TERRAIN_MOUNTAINS_NORMAL:
-			return GetHeightMountainsNormal(p);
-
-		case TERRAIN_MOUNTAINS_RIDGED:
-			return GetHeightMountainsRidged(p);
-
-		case TERRAIN_MOUNTAINS_RIVERS:
-			return GetHeightMountainsRivers(p);
-
-		case TERRAIN_MOUNTAINS_CRATERS:
-			return GetHeightMountainsCraters(p);
-
-		case TERRAIN_MOUNTAINS_CRATERS2:
-			return GetHeightMountainsCraters2(p);
-
-		case TERRAIN_MOUNTAINS_VOLCANO:
-			return GetHeightMountainsVolcano(p);
-
-		case TERRAIN_MOUNTAINS_RIVERS_VOLCANO:
-			return GetHeightMountainsRiversVolcano(p);
-
-		case TERRAIN_RUGGED_LAVA:
-			return GetHeightRuggedLava(p);
-
-		case TERRAIN_H2O_SOLID:
-			return GetHeightWaterSolid(p);
-
-		case TERRAIN_H2O_SOLID_CANYONS:
-			return GetHeightWaterSolidCanyons(p);
-
-		case TERRAIN_RUGGED_DESERT:
-			return GetHeightRuggedDesert(p);
-
-		case TERRAIN_ASTEROID:
-			return GetHeightAsteroid(p);
-
-		case TERRAIN_NONE:
-		case TERRAIN_FLAT:
-			return GetHeightFlat(p);
-	}
-
-	assert(0 && "unknown terrain type");
-}
-
-
-
-
-/**
- * Height: 0.0 would be sea-level. 1.0 would be an extra elevation of 1 radius (huge)
- */
-vector3d Terrain::GetColor(const vector3d &p, double height, const vector3d &norm)
-{
-	switch (m_colorType) {
-		case COLOR_STAR_BROWN_DWARF:
-			return GetColorStarBrownDwarf(p, height, norm);
-
-		case COLOR_STAR_WHITE_DWARF:
-			return GetColorStarWhiteDwarf(p, height, norm);
-
-		case COLOR_STAR_M:
-			return GetColorStarM(p, height, norm);
-
-		case COLOR_STAR_K:
-			return GetColorStarK(p, height, norm);
-
-		case COLOR_STAR_G:
-			return GetColorStarG(p, height, norm);
-
-		case COLOR_GG_JUPITER:
-			return GetColorGGJupiter(p, height, norm);
-
-		case COLOR_GG_SATURN:
-			return GetColorGGSaturn(p, height, norm);
-
-		case COLOR_GG_SATURN2:
-			return GetColorGGSaturn2(p, height, norm);
-
-		case COLOR_GG_URANUS:
-			return GetColorGGUranus(p, height, norm);
-
-		case COLOR_GG_NEPTUNE:
-			return GetColorGGNeptune(p, height, norm);
-
-		case COLOR_GG_NEPTUNE2:
-			return GetColorGGNeptune2(p, height, norm);
-
-		case COLOR_EARTHLIKE:
-			return GetColorEarthlike(p, height, norm);
-
-		case COLOR_DEAD_WITH_H2O:
-			return GetColorDeadWithWater(p, height, norm);
-
-		case COLOR_ICEWORLD:
-			return GetColorIce(p, height, norm);
-
-		case COLOR_DESERT:
-			return GetColorDesert(p, height, norm);
-
-		case COLOR_ROCK:
-			return GetColorRock(p, height, norm);
-
-		case COLOR_ROCK2:
-			return GetColorRock2(p, height, norm);
-
-		case COLOR_ASTEROID:
-			return GetColorAsteroid(p, height, norm);
-
-		case COLOR_VOLCANIC:
-			return GetColorVolcanic(p, height, norm);
-
-		case COLOR_METHANE:
-			return GetColorMethane(p, height, norm);
-
-		case COLOR_TFGOOD:
-			return GetColorTFGood(p, height, norm);
-
-		case COLOR_TFPOOR:
-			return GetColorTFPoor(p, height, norm);
-
-		case COLOR_BANDED_ROCK:
-			return GetColorBandedRock(p, height, norm);
-
-		case COLOR_NONE:
-		case COLOR_SOLID: 
-			return GetColorSolid(p, height, norm);
-	}
-
-	assert(0 && "unknown terrain color type");
 }
 #endif
