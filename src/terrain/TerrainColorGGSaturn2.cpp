@@ -56,5 +56,7 @@ vector3d TerrainColorFractal<TerrainColorGGSaturn2>::GetColor(const vector3d &p,
 		col = interpolate_color(n, vector3d(.0, .0, .0), vector3d(.0, .0, .1) );
 		return col;
 	}
+	// never happens, just silencing a warning
+	return col;
 }
 
