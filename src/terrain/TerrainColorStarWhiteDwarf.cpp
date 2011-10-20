@@ -4,6 +4,16 @@
 using namespace TerrainNoise;
 
 template <>
+TerrainColorFractal<TerrainColorStarWhiteDwarf>::TerrainColorFractal(const SBody *body) : Terrain(body)
+{
+	double height = m_maxHeightInMeters*0.1;
+	SetFracDef(0, height, 3e5, 10.0*m_fracmult);
+	SetFracDef(1, height, 1e5, 10.0*m_fracmult);
+	//SetFracDef(2, height, 1e6, 10.0*m_fracmult);
+	//SetFracDef(3, height, 1e2, 10.0*m_fracmult);
+}
+
+template <>
 vector3d TerrainColorFractal<TerrainColorStarWhiteDwarf>::GetColor(const vector3d &p, double height, const vector3d &norm)
 {
 	double n;

@@ -3,6 +3,16 @@
 #include "TerrainComponent.h"
 
 using namespace TerrainNoise;
+
+template <>
+TerrainColorFractal<TerrainColorStarM>::TerrainColorFractal(const SBody *body) : Terrain(body)
+{
+	double height = m_maxHeightInMeters*0.1;
+	SetFracDef(0, height, 1e8, 10.0*m_fracmult);
+	SetFracDef(1, height, 7e7, 10.0*m_fracmult);
+	SetFracDef(2, height, 3e6, 10.0*m_fracmult);
+	SetFracDef(3, height, 2e5, 10.0*m_fracmult);
+}
 using namespace TerrainComponent;
 
 template <>

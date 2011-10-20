@@ -4,6 +4,15 @@
 using namespace TerrainNoise;
 
 template <>
+TerrainColorFractal<TerrainColorEarthLike>::TerrainColorFractal(const SBody *body) : Terrain(body)
+{
+	// crappy water
+	//double height = m_maxHeightInMeters*0.5;
+	//SetFracDef(3, m_maxHeightInMeters, 1e8, 50.0);
+	//SetFracDef(2, m_maxHeightInMeters, 10, 10.0);
+}
+
+template <>
 vector3d TerrainColorFractal<TerrainColorEarthLike>::GetColor(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = m_invMaxHeight*height;

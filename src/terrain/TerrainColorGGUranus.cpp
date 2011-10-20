@@ -4,6 +4,15 @@
 using namespace TerrainNoise;
 
 template <>
+TerrainColorFractal<TerrainColorGGUranus>::TerrainColorFractal(const SBody *body) : Terrain(body)
+{
+	double height = m_maxHeightInMeters*0.1;
+	SetFracDef(0, height, 3e7, 1000.0*m_fracmult);
+	SetFracDef(1, height, 9e7, 1000.0*m_fracmult);
+	SetFracDef(2, height, 8e7, 1000.0*m_fracmult);
+}
+
+template <>
 vector3d TerrainColorFractal<TerrainColorGGUranus>::GetColor(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = 0.5*ridged_octavenoise(GetFracDef(0), 0.7, 3.142*p.y*p.y);

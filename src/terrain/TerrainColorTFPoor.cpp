@@ -4,6 +4,11 @@
 using namespace TerrainNoise;
 
 template <>
+TerrainColorFractal<TerrainColorTFPoor>::TerrainColorFractal(const SBody *body) : Terrain(body)
+{
+}
+
+template <>
 vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = m_invMaxHeight*height;

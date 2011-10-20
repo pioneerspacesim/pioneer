@@ -123,7 +123,7 @@ class TerrainColorFractal : virtual public Terrain {
 public:
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm);
 protected:
-	TerrainColorFractal(const SBody *body) : Terrain(body) {}
+	TerrainColorFractal(const SBody *body);
 private:
 	TerrainColorFractal() {}
 };

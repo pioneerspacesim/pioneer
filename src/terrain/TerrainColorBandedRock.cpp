@@ -4,6 +4,11 @@
 using namespace TerrainNoise;
 
 template <>
+TerrainColorFractal<TerrainColorBandedRock>::TerrainColorFractal(const SBody *body) : Terrain(body)
+{
+}
+
+template <>
 vector3d TerrainColorFractal<TerrainColorBandedRock>::GetColor(const vector3d &p, double height, const vector3d &norm)
 {
 	const double flatness = pow(p.Dot(norm), 6.0);

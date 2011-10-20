@@ -6,6 +6,18 @@ using namespace TerrainNoise;
 using namespace TerrainComponent;
 
 template <>
+TerrainColorFractal<TerrainColorGGSaturn2>::TerrainColorFractal(const SBody *body) : Terrain(body)
+{
+	double height = m_maxHeightInMeters*0.1;
+	//spot + clouds
+	SetFracDef(0, height, 3e7, 10.0*m_fracmult);
+	SetFracDef(1, height, 9e7, 1000.0*m_fracmult);
+	SetFracDef(2, height, 8e7, 100.0*m_fracmult);
+	//spot boundary
+	SetFracDef(3, height, 3e7, 10000000.0*m_fracmult);
+}
+
+template <>
 vector3d TerrainColorFractal<TerrainColorGGSaturn2>::GetColor(const vector3d &p, double height, const vector3d &norm)
 {
 	double n = 0.2*billow_octavenoise(GetFracDef(0), 0.8, p*p.y*p.y);
