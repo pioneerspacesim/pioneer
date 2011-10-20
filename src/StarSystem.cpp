@@ -5,6 +5,7 @@
 #include <map>
 #include "utils.h"
 #include "Lang.h"
+#include "StringF.h"
 
 #define CELSIUS	273.15
 //#define DEBUG_DUMP
@@ -739,7 +740,8 @@ const char *SBody::GetIcon()
 			} else {
 				if (averageTemp > 300) return "icons/object_planet_co2_2.png";
 				else if (averageTemp > 250) {
-					if ((m_volatileLiquid > 0.3) && (m_volatileGas > fixed(2,10))) return "icons/object_planet_co2_4.png";
+					if ((m_volatileLiquid > fixed(3,10)) && (m_volatileGas > fixed(2,10)))
+						return "icons/object_planet_co2_4.png";
 					else return "icons/object_planet_co2_3.png";
 				} else return "icons/object_planet_co2.png";
 			}
@@ -846,7 +848,7 @@ static int CalcSurfaceTemp(const SBody *primary, fixed distToPrimary, fixed albe
 	return int(isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673)));
 }
 
-vector3d Orbit::OrbitalPosAtTime(double t)
+vector3d Orbit::OrbitalPosAtTime(double t) const
 {
 	const double e = eccentricity;
 	// mean anomaly
@@ -868,7 +870,7 @@ vector3d Orbit::OrbitalPosAtTime(double t)
 	return pos;
 }
 
-vector3d Orbit::EvenSpacedPosAtTime(double t)
+vector3d Orbit::EvenSpacedPosAtTime(double t) const
 {
 	const double e = eccentricity;
 	const double M = 2*M_PI*t;
@@ -1401,7 +1403,7 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 
 	while (pos < discMax) {
 		// periapsis, apoapsis = closest, farthest distance in orbit
-		fixed periapsis = pos + pos*0.5*rand.NFixed(2);/* + jump */;
+		fixed periapsis = pos + pos*fixed(1,2)*rand.NFixed(2);/* + jump */;
 		fixed ecc = rand.NFixed(3);
 		fixed semiMajorAxis = periapsis / (fixed(1,1) - ecc);
 		fixed apoapsis = 2*semiMajorAxis - periapsis;

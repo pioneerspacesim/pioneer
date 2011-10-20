@@ -24,7 +24,7 @@ define_model('ad_cola_1', {
 		zbias(0)
 	end,
 	dynamic = function(lod)
-		set_material('glow1',lerp_materials(get_arg(1)*0.3, {0,0,0,1,0,0,0,0,.6,1.5,2.5},
+		set_material('glow1',lerp_materials(get_time('SECONDS')*0.3, {0,0,0,1,0,0,0,0,.6,1.5,2.5},
 								{0,0,0,1,0,0,0,0,2,.6,1.5}))
 	end
 })
@@ -60,7 +60,7 @@ define_model('ad_cola_0', {
 			local v1 = v(1,1,0)
 			local v2 = v(-1,1,0)
 			local v3 = v(-1,0,0)
-			local trans = get_arg(1)*.1
+			local trans = get_time('SECONDS')*.1
 
 			use_material('glow1')
 			texture('sub_models/adverts/wtr.png', v(.5,math.sin(trans),0),v(.5,0,0),v(0,math.cos(trans),0))
@@ -106,7 +106,7 @@ define_model('ad_acme_0', {
 			local v1 = v(1,1,0)
 			local v2 = v(-1,1,0)
 			local v3 = v(-1,0,0)
-			local trans = get_arg(1)*.1
+			local trans = get_time('SECONDS')*.1
 
 			use_material('glow1')
 			texture('sub_models/adverts/wtr_x.png', v(.5,trans,0),v(.5,0,0),v(0,1,0))
@@ -148,7 +148,7 @@ define_model('ad_acme_1', {
 		zbias(0)
 	end,
 	dynamic = function(lod)
-		set_material('glow1',lerp_materials(get_arg(1)*0.1, {0,0,0,1,0,0,0,0,2.5,1.2,.6},
+		set_material('glow1',lerp_materials(get_time('SECONDS')*0.1, {0,0,0,1,0,0,0,0,2.5,1.2,.6},
 								{0,0,0,1,0,0,0,0,1.5,1.8,.6}))	
 	end
 })
@@ -204,7 +204,7 @@ define_model('ad_pioneer_0', {
 			local v1 = v(1,1,0)
 			local v2 = v(-1,1,0)
 			local v3 = v(-1,0,0)
-			local trans = get_arg(1)*.1
+			local trans = get_time('SECONDS')*.1
 
 			use_material('glow1')
 			texture('sub_models/adverts/wtr_x.png', v(math.sin(trans),math.cos(trans),0),v(.5,0,0),v(0,1,0))
@@ -249,7 +249,7 @@ define_model('ad_sirius_0', {
 			local v1 = v(1,1,0)
 			local v2 = v(-1,1,0)
 			local v3 = v(-1,0,0)
-			local trans = get_arg(1)*.05
+			local trans = get_time('SECONDS')*.05
 
 			use_material('glow1')
 			texture('sub_models/adverts/tie-d_b.png', v(.5,trans,0),v(.4,0,0),v(0,.05,0))
@@ -288,7 +288,7 @@ define_model('ad_sirius_1', {
 		zbias(0)
 	end,
 	dynamic = function(lod)
-		set_material('glow1',lerp_materials(get_arg(1)*0.2, {0,0,0,1,0,0,0,0,.5,2.5,1.5},
+		set_material('glow1',lerp_materials(get_time('SECONDS')*0.2, {0,0,0,1,0,0,0,0,.5,2.5,1.5},
 								{0,0,0,1,0,0,0,0,.5,1.5,2.5}))
 	end
 })
@@ -339,7 +339,7 @@ define_model('inteloutside', {
 		zbias(0)
 	end,
 	dynamic = function(lod)
-		set_material('glow1',lerp_materials(get_arg(1)*0.1, {0,0,0,1,0,0,0,0,2.5,2,.6},
+		set_material('glow1',lerp_materials(get_time('SECONDS')*0.1, {0,0,0,1,0,0,0,0,2.5,2,.6},
 								{0,0,0,1,0,0,0,0,.6,2,2.5}))
 	end
 })

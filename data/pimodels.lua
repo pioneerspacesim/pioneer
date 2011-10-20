@@ -1,35 +1,6 @@
 --
 -- Don't add models to this! Put them in ./models/
 --
-dofile(CurrentDirectory .. "/pienums.lua")
-
--- get_arg() indices
-ARG_ALL_TIME_SECONDS = 1
-ARG_ALL_TIME_MINUTES = 2
-ARG_ALL_TIME_HOURS = 3
-ARG_ALL_TIME_DAYS = 4
-
-ARG_STATION_BAY1_STAGE = 6
-ARG_STATION_BAY1_POS   = 10
-
-ARG_SHIP_WHEEL_STATE = 0
-ARG_SHIP_EQUIP_SCOOP = 5
-ARG_SHIP_EQUIP_ENGINE = 6
-ARG_SHIP_EQUIP_ECM = 7
-ARG_SHIP_EQUIP_SCANNER = 8
-ARG_SHIP_EQUIP_ATMOSHIELD = 9
-ARG_SHIP_EQUIP_LASER0 = 10
-ARG_SHIP_EQUIP_LASER1 = 11
-ARG_SHIP_EQUIP_MISSILE0 = 12
-ARG_SHIP_EQUIP_MISSILE1 = 13
-ARG_SHIP_EQUIP_MISSILE2 = 14
-ARG_SHIP_EQUIP_MISSILE3 = 15
-ARG_SHIP_EQUIP_MISSILE4 = 16
-ARG_SHIP_EQUIP_MISSILE5 = 17
-ARG_SHIP_EQUIP_MISSILE6 = 18
-ARG_SHIP_EQUIP_MISSILE7 = 19
-ARG_SHIP_FLIGHT_STATE = 20
-
 
 -- First some useful utility functions! :D
 
@@ -179,7 +150,7 @@ define_model('test', {
 		xref_cylinder(16, v(-8,0,0), v(-8,5,0), v(1,0,0), math.abs(math.sin(poo)))
 		circle(9, v(5*math.sin(poo),5*math.cos(poo),0), v(0,0,1), v(1,0,0), 1.0)
 
-		local ang = 2*math.pi*get_arg(ARG_SHIP_WHEEL_STATE)
+		local ang = 2*math.pi*get_animation_position('WHEEL_STATE')
 		--call_model("blob", v(0,0,-20), v(1,0,0), v(1,1,0),1.0)
 		billboard('smoke.png', 5, v(.5,.5,1), { v(0,0,0), v(10,3,0) })
 	end
@@ -239,9 +210,9 @@ define_model('tombstone', {
 		local v17 = v(0, 0.5, 0.1)
 		use_material('text')
 		zbias(1, v16, v(0,0,-1))
-		text(get_arg_string(0), v16, v(0,0,-1), v(-1,0,0), .1, {center=true})
+		text(get_label(), v16, v(0,0,-1), v(-1,0,0), .1, {center=true})
 		zbias(1, v17, v(0,0,1))
-		text(get_arg_string(0), v17, v(0,0,1), v(1,0,0), .1, {center=true})
+		text(get_label(), v17, v(0,0,1), v(1,0,0), .1, {center=true})
 		zbias(0)
 	end
 })
@@ -273,7 +244,7 @@ define_model('cargo', {
 			local textpos = v(0,1,0)
 			use_material('text')
 			zbias(1, textpos, v(0,1,0))
-			text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 0.1, {center=true})
+			text(get_label(), textpos, v(0,1,0), v(1,0,0), 0.1, {center=true})
 		end
 	end
 })
