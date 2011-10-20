@@ -1,6 +1,7 @@
 #include "RocketShipSpinnerElement.h"
 
 #include "ShipFlavour.h"
+#include "Ship.h"
 #include "Pi.h"
 #include "render/Render.h"
 
@@ -16,8 +17,11 @@ void RocketShipSpinnerElement::UpdateFromStash(const ShipFlavour &flavour)
 	m_model = LmrLookupModelByName(ShipType::types[flavour.type].lmrModelName.c_str());
 
 	memset(&m_params, 0, sizeof(LmrObjParams));
+	m_params.animationNamespace = "ShipAnimation";
+	m_params.equipment = &m_equipment;
 	flavour.ApplyTo(&m_params);
-	m_params.argDoubles[0] = 1.0;
+	m_params.animValues[Ship::ANIM_WHEEL_STATE] = 1.0;
+	m_params.flightState = Ship::FLYING;
 }
 
 void RocketShipSpinnerElement::OnRender()
@@ -29,10 +33,7 @@ void RocketShipSpinnerElement::OnRender()
 	float x2 = x1 + GetClientWidth();
 	float y2 = y1 + GetClientHeight();
 
-	m_params.argDoubles[1] = Pi::GetGameTime();
-	m_params.argDoubles[2] = Pi::GetGameTime() / 60.0;
-	m_params.argDoubles[3] = Pi::GetGameTime() / 3600.0;
-	m_params.argDoubles[4] = Pi::GetGameTime() / (24*3600.0);
+	m_params.time = Pi::GetGameTime();
 
 	m_rotX += .5*Pi::GetFrameTime();
 	m_rotY += Pi::GetFrameTime();
