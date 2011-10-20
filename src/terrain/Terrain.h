@@ -5,7 +5,7 @@
 #include "StarSystem.h"
 
 struct fracdef_t {
-	fracdef_t() { amplitude = frequency = lacunarity = 0.0; octaves = 0; }
+	fracdef_t() : amplitude(0.0), frequency(0.0), lacunarity(0.0), octaves(0) {}
 	double amplitude;
 	double frequency;
 	double lacunarity;
