@@ -134,6 +134,12 @@ public:
 	void PopulateStage1(StarSystem *system, fixed &outTotalPop);
 	void PopulateAddStations(StarSystem *system);
 
+	void PickAtmosphere();
+	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
+		*outColor = m_atmosColor;
+		*outDensity = m_atmosDensity;
+	}
+
 	Uint32 id; // index into starsystem->m_bodies
 	int tmp;
 	Orbit orbit;
@@ -167,6 +173,8 @@ public:
 	const char *heightMapFilename;
 
 private:
+	Color m_atmosColor;
+	double m_atmosDensity;
 };
 
 class StarSystem : public DeleteEmitter, public RefCounted {

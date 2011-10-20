@@ -1329,7 +1329,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
 		
-		GetAtmosphereFlavor(&atmosCol, &atmosDensity);
+		m_sbody->GetAtmosphereFlavor(&atmosCol, &atmosDensity);
 		atmosDensity *= 0.00005;
 
 		if (atmosDensity > 0.0) {

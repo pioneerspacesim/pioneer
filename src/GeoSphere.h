@@ -38,9 +38,6 @@ public:
 	static void Init();
 	static void Uninit();
 	static void OnChangeDetailLevel();
-	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
-		m_terrain->GetAtmosphereFlavor(outColor, outDensity);
-	}
 	// in sbody radii
 	double GetMaxFeatureHeight() const { return m_terrain->GetMaxHeight(); }
 	static int GetVtxGenCount() { return s_vtxGenCount; }

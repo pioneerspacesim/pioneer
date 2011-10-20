@@ -28,10 +28,6 @@ public:
 	virtual double GetHeight(const vector3d &p) = 0;
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm) = 0;
 
-	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
-		*outColor = m_atmosColor;
-		*outDensity = m_atmosDensity;
-	}
 	double GetMaxHeight() const { return m_maxHeight; }
 
 	void ChangeDetailLevel();
@@ -50,8 +46,6 @@ protected:
 	int m_fracnum;
 	double m_fracmult;
 
-	void PickAtmosphere();
-
 	const SBody *m_body;
 
 	/*
@@ -61,8 +55,6 @@ protected:
 	Uint32 m_seed;
 	MTRand m_rand;
 
-	Color m_atmosColor;
-	double m_atmosDensity;
 	double m_sealevel; // 0 - no water, 1 - 100% coverage
 	double m_icyness; // 0 - 1 (0% to 100% cover)
 	double m_volcanic;

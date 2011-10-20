@@ -977,6 +977,8 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *ch
 		kid->orbMin = csbody->semiMajorAxis - csbody->eccentricity*csbody->semiMajorAxis;
 		kid->orbMax = 2*csbody->semiMajorAxis - kid->orbMin;
 
+		kid->PickAtmosphere();
+
 		CustomGetKidsOf(kid, &csbody->children, outHumanInfestedness, rand);
 	}
 
@@ -1070,6 +1072,99 @@ void StarSystem::MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand)
 SBody::SBody()
 {
 	heightMapFilename = 0;
+}
+
+void SBody::PickAtmosphere()
+{
+	/* Alpha value isn't real alpha. in the shader fog depth is determined
+	 * by density*alpha, so that we can have very dense atmospheres
+	 * without having them a big stinking solid color obscuring everything
+
+	  These are our atmosphere colours, for terrestrial planets we use m_atmosOxidizing
+	  for some variation to atmosphere colours
+	 */
+	switch (type) {
+		case SBody::TYPE_PLANET_GAS_GIANT:
+			m_atmosColor = Color(1.0f, 1.0f, 1.0f, 0.005f);
+			m_atmosDensity = 14.0;
+			break;
+		case SBody::SUPERTYPE_STAR:
+		case SBody::TYPE_PLANET_ASTEROID:
+			m_atmosColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
+			m_atmosDensity = 0.0;
+			break;
+		default:
+		case SBody::TYPE_PLANET_TERRESTRIAL:
+			double r = 0, g = 0, b = 0;
+			double atmo = m_atmosOxidizing.ToDouble();
+			if (m_volatileGas.ToDouble() > 0.001) {
+				if (atmo > 0.95) {
+					// o2
+					r = 1.0f + ((0.95f-atmo)*15.0f);
+					g = 0.95f + ((0.95f-atmo)*10.0f);
+					b = atmo*atmo*atmo*atmo*atmo;
+					m_atmosColor = Color(r, g, b, 1.0);
+				} else if (atmo > 0.7) {
+					// co2
+					r = atmo+0.05f;
+					g = 1.0f + (0.7f-atmo);
+					b = 0.8f;
+					m_atmosColor = Color(r, g, b, 1.0f);
+				} else if (atmo > 0.65) {
+					// co
+					r = 1.0f + (0.65f-atmo);
+					g = 0.8f;
+					b = atmo + 0.25f;
+					m_atmosColor = Color(r, g, b, 1.0f);
+				} else if (atmo > 0.55) {
+					// ch4
+					r = 1.0f + ((0.55f-atmo)*5.0);
+					g = 0.35f - ((0.55f-atmo)*5.0);
+					b = 0.4f;
+					m_atmosColor = Color(r, g, b, 1.0f);
+				} else if (atmo > 0.3) {
+					// h
+					r = 1.0f;
+					g = 1.0f;
+					b = 1.0f;
+					m_atmosColor = Color(r, g, b, 1.0f);
+				} else if (atmo > 0.2) {
+					// he
+					r = 1.0f;
+					g = 1.0f;
+					b = 1.0f;
+					m_atmosColor = Color(r, g, b, 1.0f);
+				} else if (atmo > 0.15) {
+					// ar
+					r = 0.5f - ((0.15f-atmo)*5.0);
+					g = 0.0f;
+					b = 0.5f + ((0.15f-atmo)*5.0);
+					m_atmosColor = Color(r, g, b, 1.0f);
+				} else if (atmo > 0.1) {
+					// s
+					r = 0.8f - ((0.1f-atmo)*4.0);
+					g = 1.0f;
+					b = 0.5f - ((0.1f-atmo)*10.0);
+					m_atmosColor = Color(r, g, b, 1.0f);
+				} else {
+					// n
+					r = 1.0f;
+					g = 1.0f;
+					b = 1.0f;
+					m_atmosColor = Color(r, g, b, 1.0f);
+				}
+			} else {
+				m_atmosColor = Color(0.0, 0.0, 0.0, 0.0f);
+			}
+			m_atmosDensity = m_volatileGas.ToDouble();
+			//printf("| Atmosphere :\n|      red   : [%f] \n|      green : [%f] \n|      blue  : [%f] \n", r, g, b);
+			//printf("-------------------------------\n");
+			break;
+		/*default:
+			m_atmosColor = Color(0.6f, 0.6f, 0.6f, 1.0f);
+			m_atmosDensity = m_body->m_volatileGas.ToDouble();
+			break;*/
+	}
 }
 
 /*
@@ -1589,6 +1684,8 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 	} else {
 		type = SBody::TYPE_PLANET_ASTEROID;
 	}
+
+    PickAtmosphere();
 }
 
 void StarSystem::MakeShortDescription(MTRand &rand)

@@ -42,7 +42,7 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	double surfaceDensity;
 	double atmosDist = dist/(GetSBody()->GetRadius()*ATMOSPHERE_RADIUS);
 	
-	GetGeoSphere()->GetAtmosphereFlavor(&c, &surfaceDensity);
+	GetSBody()->GetAtmosphereFlavor(&c, &surfaceDensity);
 	// kg / m^3
 	// exp term should be the same as in AtmosLengthDensityProduct GLSL function
 	*outDensity = 1.15*surfaceDensity * exp(-500.0 * (atmosDist - (2.0 - ATMOSPHERE_RADIUS)));
@@ -201,7 +201,7 @@ void Planet::DrawAtmosphere(const vector3d &camPos)
 {
 	Color col;
 	double density;
-	GetGeoSphere()->GetAtmosphereFlavor(&col, &density);
+	GetSBody()->GetAtmosphereFlavor(&col, &density);
 	
 	const double rad1 = 0.999;
 	const double rad2 = 1.05;
