@@ -1,9 +1,9 @@
-#ifndef _TERRAINCOMPONENT_H
-#define _TERRAINCOMPONENT_H
+#ifndef _TERRAINFEATURE_H
+#define _TERRAINFEATURE_H
 
 #include "Terrain.h"
 
-namespace TerrainComponent {
+namespace TerrainFeature {
 
 	double canyon_ridged_function(const fracdef_t &def, const vector3d &p);
 	double canyon2_ridged_function(const fracdef_t &def, const vector3d &p);

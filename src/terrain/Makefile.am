@@ -10,11 +10,11 @@ noinst_LIBRARIES = libterrain.a
 noinst_HEADERS = \
 	Terrain.h \
 	TerrainNoise.h \
-	TerrainComponent.h
+	TerrainFeature.h
 
 libterrain_a_SOURCES = \
 	Terrain.cpp \
-	TerrainComponent.cpp \
+	TerrainFeature.cpp \
 	TerrainHeightAsteroid.cpp \
 	TerrainHeightFlat.cpp \
 	TerrainHeightHillsCraters2.cpp \

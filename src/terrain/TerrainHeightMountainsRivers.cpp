@@ -1,9 +1,9 @@
 #include "Terrain.h"
 #include "TerrainNoise.h"
-#include "TerrainComponent.h"
+#include "TerrainFeature.h"
 
 using namespace TerrainNoise;
-using namespace TerrainComponent;
+using namespace TerrainFeature;
 
 template <>
 const char *TerrainHeightFractal<TerrainHeightMountainsRivers>::GetHeightFractalName() const { return "MountainsRivers"; }

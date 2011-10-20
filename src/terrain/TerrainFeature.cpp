@@ -1,9 +1,9 @@
-#include "TerrainComponent.h"
+#include "TerrainFeature.h"
 #include "TerrainNoise.h"
 
 using namespace TerrainNoise;
 
-namespace TerrainComponent {
+namespace TerrainFeature {
 
 // Creates small canyons.
 double canyon_ridged_function(const fracdef_t &def, const vector3d &p)

@@ -1,6 +1,6 @@
 #include "Terrain.h"
 #include "TerrainNoise.h"
-#include "TerrainComponent.h"
+#include "TerrainFeature.h"
 
 using namespace TerrainNoise;
 
@@ -16,7 +16,7 @@ TerrainColorFractal<TerrainColorStarM>::TerrainColorFractal(const SBody *body) :
 	SetFracDef(2, height, 3e6, 10.0*m_fracmult);
 	SetFracDef(3, height, 2e5, 10.0*m_fracmult);
 }
-using namespace TerrainComponent;
+using namespace TerrainFeature;
 
 template <>
 vector3d TerrainColorFractal<TerrainColorStarM>::GetColor(const vector3d &p, double height, const vector3d &norm)
