@@ -24,6 +24,8 @@ Player::Player(ShipType::Type shipFlavour): Ship(shipFlavour),
 
 	m_accumTorque = vector3d(0,0,0);
 
+	m_equipment.onChange.connect(sigc::mem_fun(this, &Player::OnEquipmentChange));
+
 	Pi::rocketManager->SetStashItem("player.money", format_money(GetMoney()));
 
 	GetFlavour()->UIStashUpdate("player.ship");
@@ -68,6 +70,9 @@ void Player::PostLoadFixup()
 	m_followCloud = dynamic_cast<HyperspaceCloud*>(Serializer::LookupBody(m_followCloudIndex));
 	m_combatTarget = Serializer::LookupBody(m_combatTargetIndex);
 	m_navTarget = Serializer::LookupBody(m_navTargetIndex);
+
+	m_equipment.onChange.connect(sigc::mem_fun(this, &Player::OnEquipmentChange));
+	OnEquipmentChange(Equip::NONE);
 
 	Pi::rocketManager->SetStashItem("player.money", format_money(GetMoney()));
 
@@ -405,6 +410,26 @@ void Player::NotifyDeleted(const Body* const deletedBody)
 	if(GetCombatTarget() == deletedBody)
 		SetCombatTarget(0);
 	Ship::NotifyDeleted(deletedBody);
+}
+
+void Player::OnEquipmentChange(Equip::Type e)
+{
+	std::list<std::string> equipList;
+
+	// XXX this is very bruteforce but I can't think of a better way without
+    //     changes elsewhere
+	for (int i=Equip::FIRST_SHIPEQUIP; i<=Equip::LAST_SHIPEQUIP; i++) {
+		Equip::Type t = Equip::Type(i) ;
+		Equip::Slot s = Equip::types[t].slot;
+		if ((s == Equip::SLOT_MISSILE) || (s == Equip::SLOT_ENGINE) || (s == Equip::SLOT_LASER)) continue;
+		int num = Pi::player->m_equipment.Count(s, t);
+		if (num == 1)
+			equipList.push_back(Equip::types[t].name);
+		else if (num > 1)
+			equipList.push_back(stringf("%0{d} %1s\n", num, Equip::types[t].name));
+	}
+
+	Pi::rocketManager->SetStashItem("player.equipment", equipList);
 }
 
 /* MarketAgent shite */

@@ -84,7 +84,10 @@ protected:
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
+
 private:
+	void OnEquipmentChange(Equip::Type e);
+
 	vector3d m_mouseDir;
 	double m_mouseX, m_mouseY;
 	bool m_mouseActive;
