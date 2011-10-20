@@ -1145,7 +1145,8 @@ void GeoSphere::OnChangeDetailLevel()
 			}
 
 			// reinit the terrain with the new settings
-			(*i)->m_terrain->ChangeDetailLevel();
+			delete (*i)->m_terrain;
+			(*i)->m_terrain = Terrain::InstanceTerrain((*i)->m_sbody);
 		}
 
 		// clear the abort for the next run (with the new settings)

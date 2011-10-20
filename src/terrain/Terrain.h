@@ -30,8 +30,6 @@ public:
 
 	double GetMaxHeight() const { return m_maxHeight; }
 
-	void ChangeDetailLevel();
-
 private:
 	template <typename HeightFractal, typename ColorFractal>
 	static Terrain *InstanceGenerator(const SBody *body) { return new TerrainGenerator<HeightFractal,ColorFractal>(body); }

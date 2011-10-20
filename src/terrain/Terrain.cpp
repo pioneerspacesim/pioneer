@@ -290,10 +290,22 @@ Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed), m_height
 		fclose(f);
 	}
 
-	// XXX hardcoded until we get the config/change detail stuff back
-	textures = false;
-	m_fracnum = 2;
-	m_fracmult = 1;
+	switch (Pi::detail.textures) {
+		case 0: textures = false;
+			m_fracnum = 2;break;
+		default:
+		case 1: textures = true;
+			m_fracnum = 0;break;
+	}
+
+	switch (Pi::detail.fracmult) {
+		case 0: m_fracmult = 100;break;
+		case 1: m_fracmult = 10;break;
+		case 2: m_fracmult = 1;break;
+		case 3: m_fracmult = 0.5;break;
+		default:
+		case 4: m_fracmult = 0.1;break;
+	}
 
 	m_sealevel = Clamp(m_body->m_volatileLiquid.ToDouble(), 0.0, 1.0);
 	m_icyness = Clamp(m_body->m_volatileIces.ToDouble(), 0.0, 1.0);
@@ -440,35 +452,6 @@ Terrain::~Terrain()
 		delete m_heightMap;
 }
 
-
-void Terrain::ChangeDetailLevel()
-{
-#if 0
-	switch (Pi::detail.textures) {
-		case 0: textures = false;
-			m_fracnum = 2;break;
-		default:
-		case 1: textures = true;
-			m_fracnum = 0;break;
-	}
-
-	switch (Pi::detail.fracmult) {
-		case 0: m_fracmult = 100;break;
-		case 1: m_fracmult = 10;break;
-		case 2: m_fracmult = 1;break;
-		case 3: m_fracmult = 0.5;break;
-		default:
-		case 4: m_fracmult = 0.1;break;
-	}
-
-	MTRand rand;
-	rand.seed(m_seed);
-
-	PickTerrain(rand);
-	InitFractalType(rand);
-	//fprintf(stderr, "picked terrain %d, colortype %d for %s\n", (int)m_terrainType, (int)m_colorType, body->name.c_str());
-#endif
-}
 
 #if 0
 void Terrain::PickTerrain(MTRand &rand)
