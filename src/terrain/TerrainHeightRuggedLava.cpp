@@ -6,6 +6,9 @@ using namespace TerrainNoise;
 using namespace TerrainComponent;
 
 template <>
+const char *TerrainHeightFractal<TerrainHeightRuggedLava>::GetHeightFractalName() const { return "RuggedLava"; }
+
+template <>
 TerrainHeightFractal<TerrainHeightRuggedLava>::TerrainHeightFractal(const SBody *body) : Terrain(body)
 {
 	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6,1e7));

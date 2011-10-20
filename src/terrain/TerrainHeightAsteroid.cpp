@@ -6,6 +6,9 @@ using namespace TerrainNoise;
 using namespace TerrainComponent;
 
 template <>
+const char *TerrainHeightFractal<TerrainHeightAsteroid>::GetHeightFractalName() const { return "Asteroid"; }
+
+template <>
 TerrainHeightFractal<TerrainHeightAsteroid>::TerrainHeightFractal(const SBody *body) : Terrain(body)
 {
 	SetFracDef(0, m_maxHeightInMeters, m_planetRadius);

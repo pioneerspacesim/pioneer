@@ -28,6 +28,9 @@ public:
 	virtual double GetHeight(const vector3d &p) = 0;
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm) = 0;
 
+	virtual const char *GetHeightFractalName() const = 0;
+	virtual const char *GetColorFractalName() const = 0;
+
 	double GetMaxHeight() const { return m_maxHeight; }
 
 private:
@@ -46,10 +49,6 @@ protected:
 
 	const SBody *m_body;
 
-	/*
-	TerrainFractal m_terrainType;
-	ColorFractal m_colorType;
-	*/
 	Uint32 m_seed;
 	MTRand m_rand;
 
@@ -97,6 +96,7 @@ template <typename HeightFractal>
 class TerrainHeightFractal : virtual public Terrain {
 public:
 	virtual double GetHeight(const vector3d &p);
+	virtual const char *GetHeightFractalName() const;
 protected:
 	TerrainHeightFractal(const SBody *body);
 private:
@@ -107,6 +107,7 @@ template <typename ColorFractal>
 class TerrainColorFractal : virtual public Terrain {
 public:
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm);
+	virtual const char *GetColorFractalName() const;
 protected:
 	TerrainColorFractal(const SBody *body);
 private:
@@ -169,22 +170,5 @@ class TerrainColorStarWhiteDwarf;
 class TerrainColorTFGood;
 class TerrainColorTFPoor;
 class TerrainColorVolcanic;
-
-	/*
-	Terrain(const SBody *body);
-	virtual ~Terrain() {
-		if (m_heightMap) delete [] m_heightMap;
-		m_heightMap = 0;
-	}
-	*/
-
-
-	/*
-	double GetHeight(const vector3d &p);
-
-	vector3d GetColor(const vector3d &p, double height, const vector3d &norm);
-	*/
-
-
 
 #endif /* TERRAIN_H */

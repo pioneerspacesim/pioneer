@@ -6,6 +6,9 @@ using namespace TerrainNoise;
 using namespace TerrainComponent;
 
 template <>
+const char *TerrainHeightFractal<TerrainHeightWaterSolidCanyons>::GetHeightFractalName() const { return "WaterSolidCanyons"; }
+
+template <>
 TerrainHeightFractal<TerrainHeightWaterSolidCanyons>::TerrainHeightFractal(const SBody *body) : Terrain(body)
 {
 	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(5e6,1e8));

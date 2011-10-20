@@ -1,6 +1,9 @@
 #include "Terrain.h"
 
 template <>
+const char *TerrainColorFractal<TerrainColorSolid>::GetColorFractalName() const { return "Solid"; }
+
+template <>
 TerrainColorFractal<TerrainColorSolid>::TerrainColorFractal(const SBody *body) : Terrain(body)
 {
 }

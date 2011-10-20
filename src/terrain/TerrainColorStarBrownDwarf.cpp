@@ -4,6 +4,9 @@
 using namespace TerrainNoise;
 
 template <>
+const char *TerrainColorFractal<TerrainColorStarBrownDwarf>::GetColorFractalName() const { return "StarBrownDwarf"; }
+
+template <>
 TerrainColorFractal<TerrainColorStarBrownDwarf>::TerrainColorFractal(const SBody *body) : Terrain(body)
 {
 	double height = m_maxHeightInMeters*0.1;

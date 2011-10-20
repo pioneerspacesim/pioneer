@@ -4,6 +4,9 @@
 using namespace TerrainNoise;
 
 template <>
+const char *TerrainColorFractal<TerrainColorGGNeptune2>::GetColorFractalName() const { return "GGNeptune2"; }
+
+template <>
 TerrainColorFractal<TerrainColorGGNeptune2>::TerrainColorFractal(const SBody *body) : Terrain(body)
 {
 	// spots

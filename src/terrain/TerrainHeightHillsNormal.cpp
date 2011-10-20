@@ -4,6 +4,9 @@
 using namespace TerrainNoise;
 
 template <>
+const char *TerrainHeightFractal<TerrainHeightHillsNormal>::GetHeightFractalName() const { return "HillsNormal"; }
+
+template <>
 TerrainHeightFractal<TerrainHeightHillsNormal>::TerrainHeightFractal(const SBody *body) : Terrain(body)
 {
 	//textures

@@ -274,7 +274,6 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 }
 
 Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed), m_heightMap(0) {
-	printf("in terrain constructor for %s\n", body->name.c_str());
 
 	// load the heightmap
 	if (m_body->heightMapFilename) {
@@ -462,18 +461,6 @@ void Terrain::PickTerrain(MTRand &rand)
 	printf("%s: \n", m_body->name.c_str());
 	printf("|   Terrain: [%d]\n", m_terrainType);
 	printf("|    Colour: [%d]\n", m_colorType);
-}
-#endif
-
-#if 0
-Terrain::Terrain(const SBody *body) : m_body(body)
-{
-	m_seed = m_body->seed;
-
-	PickAtmosphere();
-	InitHeightMap();
-
-	ChangeDetailLevel();
 }
 #endif
 

@@ -4,6 +4,9 @@
 using namespace TerrainNoise;
 
 template <>
+const char *TerrainColorFractal<TerrainColorTFGood>::GetColorFractalName() const { return "TFGood"; }
+
+template <>
 TerrainColorFractal<TerrainColorTFGood>::TerrainColorFractal(const SBody *body) : Terrain(body)
 {
 }

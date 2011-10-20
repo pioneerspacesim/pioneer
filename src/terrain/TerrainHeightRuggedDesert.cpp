@@ -6,6 +6,9 @@ using namespace TerrainNoise;
 using namespace TerrainComponent;
 
 template <>
+const char *TerrainHeightFractal<TerrainHeightRuggedDesert>::GetHeightFractalName() const { return "RuggedDesert"; }
+
+template <>
 double TerrainHeightFractal<TerrainHeightRuggedDesert>::GetHeight(const vector3d &p)
 {
 	double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;// + (cliff_function(GetFracDef(7), p)*0.5);
