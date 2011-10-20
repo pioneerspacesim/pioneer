@@ -19,7 +19,6 @@ public:
 	// copy & swap idiom
 	// see http://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom
 	void reset(T *p = 0) { Derived(p).swap(*static_cast<Derived*>(this)); }
-	WARN_UNUSED_RESULT(T*,release()) { T *p = m_ptr; m_ptr = 0; return p; }
 
 	T &operator*() const { assert(m_ptr); return *m_ptr; }
 	T *operator->() const { assert(m_ptr); return m_ptr; }
@@ -40,6 +39,10 @@ protected:
 	SmartPtrBase(): m_ptr(0) {}
 	explicit SmartPtrBase(T *p): m_ptr(p) {}
 
+	// release() doesn't make sense for all smart pointer types
+	// (e.g., RefCountedPtr can't release)
+	WARN_UNUSED_RESULT(T*,release()) { T *p = m_ptr; m_ptr = 0; return p; }
+
 	T *m_ptr;
 
 private:
@@ -56,6 +59,8 @@ public:
 	ScopedPtr() {}
 	explicit ScopedPtr(T *p): base_type(p) {}
 	~ScopedPtr() { delete this->release(); }
+
+	using base_type::release;
 };
 
 template <typename T>
@@ -68,6 +73,8 @@ public:
 	~ScopedArray() { delete[] this->release(); }
 
 	T &operator[](std::ptrdiff_t i) const { return this->m_ptr[i]; }
+
+	using base_type::release;
 };
 
 template <typename T>
@@ -83,6 +90,8 @@ public:
 	void reset(void *p) { base_type::reset(static_cast<T*>(p)); }
 
 	T &operator[](std::ptrdiff_t i) const { return this->m_ptr[i]; }
+
+	using base_type::release;
 };
 
 #endif
