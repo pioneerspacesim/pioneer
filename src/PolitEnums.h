@@ -16,13 +16,13 @@ Bloc_ITEM(EMPIRE)
 #undef Bloc_ITEM
 #endif
 
-#ifdef EconType_ITEM
-EconType_ITEM(NONE)
-EconType_ITEM(VERY_CAPITALIST)
-EconType_ITEM(CAPITALIST)
-EconType_ITEM(MIXED)
-EconType_ITEM(PLANNED)
-#undef EconType_ITEM
+#ifdef PolitEcon_ITEM
+PolitEcon_ITEM(NONE)
+PolitEcon_ITEM(VERY_CAPITALIST)
+PolitEcon_ITEM(CAPITALIST)
+PolitEcon_ITEM(MIXED)
+PolitEcon_ITEM(PLANNED)
+#undef PolitEcon_ITEM
 #endif
 
 #ifdef GovType_ITEM

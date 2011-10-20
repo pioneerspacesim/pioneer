@@ -9,7 +9,7 @@
 -- strutanim for landing struts/gear, based on sidewinder.lua
 define_model('strutanim', {
 	info = {
-		lod_pixels = { 5, 10, 20, 0},
+		lod_pixels = { 5, 10, 20, 40},
 		bounding_radius = 5,
 		materials={'strut'}
 	},
@@ -25,7 +25,7 @@ define_model('strutanim', {
 
 define_model('turtle_c0', {
 	info = {
-		lod_pixels={0.1,82,510,0},
+		lod_pixels={0.1,82,510,1000},
 		bounding_radius = 30,
 		materials={'turtle'}
 	},
@@ -47,7 +47,7 @@ define_model('turtle_c0', {
 
 define_model('turtle_c1', {
 	info = {
-		lod_pixels={0.1,82,510,0},
+		lod_pixels={0.1,82,510,1000},
 		bounding_radius = 30,
 		materials={'turtle'}
 	},
@@ -69,7 +69,7 @@ define_model('turtle_c1', {
 
 define_model('turtle_c2', {
 	info = {
-		lod_pixels={0.1,82,510,0},
+		lod_pixels={0.1,82,510,1000},
 		bounding_radius = 30,
 		materials={'turtle'}
 	},
@@ -90,319 +90,11 @@ define_model('turtle_c2', {
 	end
 })
 
-define_model('turtle_c3', {
-	info = {
-		lod_pixels={0.1,82,510,0},
-		bounding_radius = 30,
-		materials={'turtle'}
-	},
-	static = function(lod)
-		set_material('turtle', 1,1,1, 1, 0.6,0.6,0.6,100,0,0,0)
-		use_material('turtle')
-		if lod == 2 then
-			texture('turtlelod2camo3.png')
-			load_obj('turtlelod2.obj')
-		elseif lod > 2 then
-			texture('bottom3.png')
-			load_obj('bottom.obj')
-			texture('top3.png')
-			load_obj('top.obj')
-		end
-		texture(nil)
-	end
-})
-
-define_model('turtle_c4', {
-	info = {
-		lod_pixels={0.1,82,510,0},
-		bounding_radius = 30,
-		materials={'turtle'}
-	},
-	static = function(lod)
-		set_material('turtle', 1,1,1, 1, 0.6,0.6,0.6,100,0,0,0)
-		use_material('turtle')
-		if lod == 2 then
-			texture('turtlelod2camo4.png')
-			load_obj('turtlelod2.obj')
-		elseif lod > 2 then
-			texture('bottom4.png')
-			load_obj('bottom.obj')
-			texture('top4.png')
-			load_obj('top.obj')
-		end
-		texture(nil)
-	end
-})
-
-define_model('turtle_c5', {
-	info = {
-		lod_pixels={0.1,82,510,0},
-		bounding_radius = 30,
-		materials={'turtle'}
-	},
-	static = function(lod)
-		set_material('turtle', 1,1,1, 1, 0.6,0.6,0.6,100,0,0,0)
-		use_material('turtle')
-		if lod == 2 then
-			texture('turtlelod2camo5.png')
-			load_obj('turtlelod2.obj')
-		elseif lod > 2 then
-			texture('bottom5.png')
-			load_obj('bottom.obj')
-			texture('top5.png')
-			load_obj('top.obj')
-		end
-		texture(nil)
-	end
-})
-
-define_model('turtle_c6', {
-	info = {
-		lod_pixels={0.1,82,510,0},
-		bounding_radius = 30,
-		materials={'turtle'}
-	},
-	static = function(lod)
-		set_material('turtle', 1,1,1, 1, 0.6,0.6,0.6,100,0,0,0)
-		use_material('turtle')
-		if lod == 2 then
-			texture('turtlelod2camo6.png')
-			load_obj('turtlelod2.obj')
-		elseif lod > 2 then
-			texture('bottom6.png')
-			load_obj('bottom.obj')
-			texture('top6.png')
-			load_obj('top.obj')
-		end
-		texture(nil)
-	end
-})
-
-define_model('turtle_c7', {
-	info = {
-		lod_pixels={0.1,82,510,0},
-		bounding_radius = 30,
-		materials={'turtle'}
-	},
-	static = function(lod)
-		set_material('turtle', 1,1,1, 1, 0.6,0.6,0.6,100,0,0,0)
-		use_material('turtle')
-		if lod == 2 then
-			texture('turtlelod2camo7.png')
-			load_obj('turtlelod2.obj')
-		elseif lod > 2 then
-			texture('bottom7.png')
-			load_obj('bottom.obj')
-			texture('top7.png')
-			load_obj('top.obj')
-		end
-		texture(nil)
-	end
-})
-
-define_model('turtle_c8', {
-	info = {
-		lod_pixels={0.1,82,510,0},
-		bounding_radius = 30,
-		materials={'turtle'}
-	},
-	static = function(lod)
-		set_material('turtle', 1,1,1, 1, 0.6,0.6,0.6,100,0,0,0)
-		use_material('turtle')
-		if lod == 2 then
-			texture('turtlelod2camo8.png')
-			load_obj('turtlelod2.obj')
-		elseif lod > 2 then
-			texture('bottom8.png')
-			load_obj('bottom.obj')
-			texture('top8.png')
-			load_obj('top.obj')
-		end
-		texture(nil)
-	end
-})
-
-define_model('turtle_c9', {
-	info = {
-		lod_pixels={0.1,82,510,0},
-		bounding_radius = 30,
-		materials={'turtle'}
-	},
-	static = function(lod)
-		set_material('turtle', 1,1,1, 1, 0.6,0.6,0.6,100,0,0,0)
-		use_material('turtle')
-		if lod == 2 then
-			texture('turtlelod2camo9.png')
-			load_obj('turtlelod2.obj')
-		elseif lod > 2 then
-			texture('bottom9.png')
-			load_obj('bottom.obj')
-			texture('top9.png')
-			load_obj('top.obj')
-		end
-		texture(nil)
-	end
-})
-
-define_model('turtle_c10', {
-	info = {
-		lod_pixels={0.1,82,510,0},
-		bounding_radius = 30,
-		materials={'turtle'}
-	},
-	static = function(lod)
-		set_material('turtle', 1,1,1, 1, 0.6,0.6,0.6,100,0,0,0)
-		use_material('turtle')
-		if lod == 2 then
-			texture('turtlelod2camo10.png')
-			load_obj('turtlelod2.obj')
-		elseif lod > 2 then
-			texture('bottom10.png')
-			load_obj('bottom.obj')
-			texture('top10.png')
-			load_obj('top.obj')
-		end
-		texture(nil)
-	end
-})
-
-define_model('turtle_c11', {
-	info = {
-		lod_pixels={0.1,82,510,0},
-		bounding_radius = 30,
-		materials={'turtle'}
-	},
-	static = function(lod)
-		set_material('turtle', 1,1,1, 1, 0.6,0.6,0.6,100,0,0,0)
-		use_material('turtle')
-		if lod == 2 then
-			texture('turtlelod2camo11.png')
-			load_obj('turtlelod2.obj')
-		elseif lod > 2 then
-			texture('bottom11.png')
-			load_obj('bottom.obj')
-			texture('top11.png')
-			load_obj('top.obj')
-		end
-		texture(nil)
-	end
-})
-
-define_model('turtle_c12', {
-	info = {
-		lod_pixels={0.1,82,510,0},
-		bounding_radius = 30,
-		materials={'turtle'}
-	},
-	static = function(lod)
-		set_material('turtle', 1,1,1, 1, 0.6,0.6,0.6,100,0,0,0)
-		use_material('turtle')
-		if lod == 2 then
-			texture('turtlelod2camo12.png')
-			load_obj('turtlelod2.obj')
-		elseif lod > 2 then
-			texture('bottom12.png')
-			load_obj('bottom.obj')
-			texture('top12.png')
-			load_obj('top.obj')
-		end
-		texture(nil)
-	end
-})
-
-define_model('turtle_c13', {
-	info = {
-		lod_pixels={0.1,82,510,0},
-		bounding_radius = 30,
-		materials={'turtle'}
-	},
-	static = function(lod)
-		set_material('turtle', 1,1,1, 1, 0.6,0.6,0.6,100,0,0,0)
-		use_material('turtle')
-		if lod == 2 then
-			texture('turtlelod2camo13.png')
-			load_obj('turtlelod2.obj')
-		elseif lod > 2 then
-			texture('bottom13.png')
-			load_obj('bottom.obj')
-			texture('top13.png')
-			load_obj('top.obj')
-		end
-		texture(nil)
-	end
-})
-
-define_model('turtle_c14', {
-	info = {
-		lod_pixels={0.1,82,510,0},
-		bounding_radius = 30,
-		materials={'turtle'}
-	},
-	static = function(lod)
-		set_material('turtle', 1,1,1, 1, 0.6,0.6,0.6,100,0,0,0)
-		use_material('turtle')
-		if lod == 2 then
-			texture('turtlelod2camo14.png')
-			load_obj('turtlelod2.obj')
-		elseif lod > 2 then
-			texture('bottom14.png')
-			load_obj('bottom.obj')
-			texture('top14.png')
-			load_obj('top.obj')
-		end
-		texture(nil)
-	end
-})
-
-define_model('turtle_c15', {
-	info = {
-		lod_pixels={0.1,82,510,0},
-		bounding_radius = 30,
-		materials={'turtle'}
-	},
-	static = function(lod)
-		set_material('turtle', 1,1,1, 1, 0.6,0.6,0.6,100,0,0,0)
-		use_material('turtle')
-		if lod == 2 then
-			texture('turtlelod2camo15.png')
-			load_obj('turtlelod2.obj')
-		elseif lod > 2 then
-			texture('bottom15.png')
-			load_obj('bottom.obj')
-			texture('top15.png')
-			load_obj('top.obj')
-		end
-		texture(nil)
-	end
-})
-
-define_model('turtle_c16', {
-	info = {
-		lod_pixels={0.1,82,510,0},
-		bounding_radius = 30,
-		materials={'turtle'}
-	},
-	static = function(lod)
-		set_material('turtle', 1,1,1, 1, 0.6,0.6,0.6,100,0,0,0)
-		use_material('turtle')
-		if lod == 2 then
-			texture('turtlelod2camo16.png')
-			load_obj('turtlelod2.obj')
-		elseif lod > 2 then
-			texture('bottom16.png')
-			load_obj('bottom.obj')
-			texture('top16.png')
-			load_obj('top.obj')
-		end
-		texture(nil)
-	end
-})
-
 -- Turtle high 3d impulse fighter
 define_model('turtle', {
 	info = {
 		scale = 0.9,
-		lod_pixels={0.1,82,510,0},
+		lod_pixels={0.1,82,510,1000},
 		bounding_radius = 30,
 		materials = {'turtle', 'text', 'glow'},
 		tags = {'ship'},
@@ -466,40 +158,12 @@ define_model('turtle', {
 	dynamic = function(lod)
 		if lod > 1 then
 			selector2()
-			if select2 < 6 then
+			if select2 < 34 then
 				call_model('turtle_c0', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			elseif select2 < 12 then
+			elseif select2 < 67 then
 				call_model('turtle_c1', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			elseif select2 < 18 then
-				call_model('turtle_c2', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			elseif select2 < 24 then
-				call_model('turtle_c3', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			elseif select2 < 30 then
-				call_model('turtle_c4', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			elseif select2 < 36 then
-				call_model('turtle_c5', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			elseif select2 < 42 then
-				call_model('turtle_c6', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			elseif select2 < 48 then
-				call_model('turtle_c7', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			elseif select2 < 54 then
-				call_model('turtle_c8', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			elseif select2 < 60 then
-				call_model('turtle_c9', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			elseif select2 < 66 then
-				call_model('turtle_c10', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			elseif select2 < 72 then
-				call_model('turtle_c11', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			elseif select2 < 78 then
-				call_model('turtle_c12', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			elseif select2 < 84 then
-				call_model('turtle_c13', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			elseif select2 < 90 then
-				call_model('turtle_c14', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			elseif select2 < 96 then
-				call_model('turtle_c15', v(0,0,0), v(1,0,0), v(0,1,0),1)
 			else
-				call_model('turtle_c16', v(0,0,0), v(1,0,0), v(0,1,0),1)
+				call_model('turtle_c2', v(0,0,0), v(1,0,0), v(0,1,0),1)
 			end
 		end
 
