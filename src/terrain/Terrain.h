@@ -20,7 +20,7 @@ class Terrain {
 public:
 	static Terrain *InstanceTerrain(const SBody *body);
 
-	virtual ~Terrain() {}
+	virtual ~Terrain();
 
 	void SetFracDef(unsigned int index, double featureHeightMeters, double featureWidthMeters, double smallestOctaveMeters = 20.0);
 	inline const fracdef_t &GetFracDef(unsigned int index) { return m_fracdef[index]; }
@@ -51,9 +51,6 @@ protected:
 	double m_fracmult;
 
 	void PickAtmosphere();
-	int GetRawHeightMapVal(int x, int y);
-	double GetHeightMapVal(const vector3d &pt);
-	void InitHeightMap();
 
 	const SBody *m_body;
 
@@ -145,6 +142,7 @@ class TerrainHeightHillsDunes;
 class TerrainHeightHillsNormal;
 class TerrainHeightHillsRidged;
 class TerrainHeightHillsRivers;
+class TerrainHeightMapped;
 class TerrainHeightMountainsCraters2;
 class TerrainHeightMountainsCraters;
 class TerrainHeightMountainsNormal;

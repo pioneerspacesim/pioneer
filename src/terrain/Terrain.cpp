@@ -5,6 +5,10 @@
 // static instancer. selects the best height and color classes for the body
 Terrain *Terrain::InstanceTerrain(const SBody *body)
 {
+	// special case for heightmaps
+	if (body->heightMapFilename)
+		return new TerrainGenerator<TerrainHeightMapped,TerrainColorEarthLike>(body);
+
 	MTRand rand(body->seed);
 
 	GeneratorInstancer gi = 0;
@@ -269,8 +273,22 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 	return gi(body);
 }
 
-Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed) {
+Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed), m_heightMap(0) {
 	printf("in terrain constructor for %s\n", body->name.c_str());
+
+	// load the heightmap
+	if (m_body->heightMapFilename) {
+		FILE *f;
+		f = fopen_or_die(m_body->heightMapFilename, "rb");
+		// read size!
+		Uint16 v;
+		fread_or_die(&v, 2, 1, f); m_heightMapSizeX = v;
+		fread_or_die(&v, 2, 1, f); m_heightMapSizeY = v;
+		m_heightMap = new Sint16[m_heightMapSizeX * m_heightMapSizeY];
+		// XXX TODO XXX what about bigendian archs...
+		fread_or_die(m_heightMap, sizeof(Sint16), m_heightMapSizeX * m_heightMapSizeY, f);
+		fclose(f);
+	}
 
 	// XXX hardcoded until we get the config/change detail stuff back
 	textures = false;
@@ -416,140 +434,12 @@ Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed) {
 	}
 }
 
-int Terrain::GetRawHeightMapVal(int x, int y)
+Terrain::~Terrain()
 {
-	return m_heightMap[Clamp(y, 0, m_heightMapSizeY-1)*m_heightMapSizeX + Clamp(x, 0, m_heightMapSizeX-1)];
+	if (m_heightMap)
+		delete m_heightMap;
 }
 
-/*
- * Bicubic interpolation!!!
- */
-
-
-double Terrain::GetHeightMapVal(const vector3d &pt)
-{     // This is all used for Earth and Earth alone
-#if 0
-	double latitude = -asin(pt.y);
-	if (pt.y < -1.0) latitude = -0.5*M_PI;
-	if (pt.y > 1.0) latitude = 0.5*M_PI;
-//	if (!isfinite(latitude)) {
-//		// pt.y is just n of asin domain [-1,1]
-//		latitude = (pt.y < 0 ? -0.5*M_PI : M_PI*0.5);
-//	}
-	double longitude = atan2(pt.x, pt.z);
-	double px = (((m_heightMapSizeX-1) * (longitude + M_PI)) / (2*M_PI));
-	double py = ((m_heightMapSizeY-1)*(latitude + 0.5*M_PI)) / M_PI;
-	int ix = int(floor(px));
-	int iy = int(floor(py));
-	ix = Clamp(ix, 0, m_heightMapSizeX-1);
-	iy = Clamp(iy, 0, m_heightMapSizeY-1);
-	double dx = px-ix;
-	double dy = py-iy;
-
-	// p0,3 p1,3 p2,3 p3,3
-	// p0,2 p1,2 p2,2 p3,2
-	// p0,1 p1,1 p2,1 p3,1
-	// p0,0 p1,0 p2,0 p3,0
-	double p[4][4];
-	for (int x=-1; x<3; x++) {
-		for (int y=-1; y<3; y++) {
-			p[1+x][1+y] = GetRawHeightMapVal(ix+x, iy+y);
-		}
-	}
-
-	double c[4];
-	for (int j=0; j<4; j++) {
-		double d0 = p[0][j] - p[1][j];
-		double d2 = p[2][j] - p[1][j];
-		double d3 = p[3][j] - p[1][j];
-		double a0 = p[1][j];
-		double a1 = -(1/3.0)*d0 + d2 - (1/6.0)*d3;
-		double a2 = 0.5*d0 + 0.5*d2;
-		double a3 = -(1/6.0)*d0 - 0.5*d2 + (1/6.0)*d3;
-		c[j] = a0 + a1*dx + a2*dx*dx + a3*dx*dx*dx;
-	}
-
-	{
-		double d0 = c[0] - c[1];
-		double d2 = c[2] - c[1];
-		double d3 = c[3] - c[1];
-		double a0 = c[1];
-		double a1 = -(1/3.0)*d0 + d2 - (1/6.0)*d3;
-		double a2 = 0.5*d0 + 0.5*d2;
-		double a3 = -(1/6.0)*d0 - 0.5*d2 + (1/6.0)*d3;
-		double v = a0 + a1*dy + a2*dy*dy + a3*dy*dy*dy;
-		
-		v = (v<0 ? 0 : v);
-		double h = v;
-		/*
-		if (textures) {
-			SetFracDef(0, m_maxHeightInMeters, 10, rand, 10*m_fracmult);
-			SetFracDef(1, m_maxHeightInMeters, 25, rand, 10*m_fracmult);
-		}
-		//small fractal/high detail
-		SetFracDef(2-m_fracnum, m_maxHeightInMeters*0.05, 50, rand, 10*m_fracmult);//[2]
-		//continental/large type fractal
-		SetFracDef(3-m_fracnum, m_maxHeightInMeters, 1e6, rand, 200*m_fracmult);//[0]
-		SetFracDef(4-m_fracnum, m_maxHeightInMeters, 1e5, rand, 100*m_fracmult);//[4]
-		//medium fractal
-		SetFracDef(5-m_fracnum, m_maxHeightInMeters, 2e4, rand, 500*m_fracmult);//[5]
-		SetFracDef(6-m_fracnum, m_maxHeightInMeters*0.2, 5e3.0, rand, 100*m_fracmult);//[3]
-		*/
-		//Here's where we add some noise over the heightmap so it doesnt look so boring, we scale by height so values are greater high up
-		//large mountainous shapes
-		double mountains = h*h*0.001*octavenoise(GetFracDef(3-m_fracnum), 0.5*octavenoise(GetFracDef(5-m_fracnum), 0.45, pt),
-			pt)*ridged_octavenoise(GetFracDef(4-m_fracnum), 0.475*octavenoise(GetFracDef(6-m_fracnum), 0.4, pt), pt);
-		v += mountains;
-		//smaller ridged mountains
-		if (v < 50.0){
-			v += v*v*0.04*ridged_octavenoise(GetFracDef(5-m_fracnum), 0.5, pt);
-		} else if (v <100.0){
-			v += 100.0*ridged_octavenoise(GetFracDef(5-m_fracnum), 0.5, pt);
-		} else {
-			v += (100.0/v)*(100.0/v)*(100.0/v)*(100.0/v)*(100.0/v)*
-				100.0*ridged_octavenoise(GetFracDef(5-m_fracnum), 0.5, pt);
-		}
-		//high altitude detail/mountains
-		//v += Clamp(h, 0.0, 0.5)*octavenoise(GetFracDef(2-m_fracnum), 0.5, pt);	
-		
-		//low altitude detail/dunes
-		//v += h*0.000003*ridged_octavenoise(GetFracDef(2-m_fracnum), Clamp(1.0-h*0.002, 0.0, 0.5), pt);			
-		if (v < 10.0){
-			v += 2.0*v*dunes_octavenoise(GetFracDef(6-m_fracnum), 0.5, pt)
-				*octavenoise(GetFracDef(6-m_fracnum), 0.5, pt);
-		} else if (v <50.0){
-			v += 20.0*dunes_octavenoise(GetFracDef(6-m_fracnum), 0.5, pt)
-				*octavenoise(GetFracDef(6-m_fracnum), 0.5, pt);
-		} else {
-			v += (50.0/v)*(50.0/v)*(50.0/v)*(50.0/v)*(50.0/v)
-				*20.0*dunes_octavenoise(GetFracDef(6-m_fracnum), 0.5, pt)
-				*octavenoise(GetFracDef(6-m_fracnum), 0.5, pt);
-		}		
-		if (v<40.0) {
-			//v = v;
-		} else if (v <60.0){
-			v += (v-40.0)*billow_octavenoise(GetFracDef(5-m_fracnum), 0.5, pt);
-			//printf("V/height: %f\n", Clamp(v-20.0, 0.0, 1.0));
-		} else {
-			v += (30.0/v)*(30.0/v)*(30.0/v)*20.0*billow_octavenoise(GetFracDef(5-m_fracnum), 0.5, pt);
-		}		
-		
-		//ridges and bumps
-		//v += h*0.1*ridged_octavenoise(GetFracDef(6-m_fracnum), Clamp(h*0.0002, 0.3, 0.5), pt) 
-		//	* Clamp(h*0.0002, 0.1, 0.5);
-		v += h*0.2*voronoiscam_octavenoise(GetFracDef(5-m_fracnum), Clamp(1.0-(h*0.0002), 0.0, 0.6), pt) 
-			* Clamp(1.0-(h*0.0006), 0.0, 1.0);
-		//polar ice caps with cracks
-		if ((m_icyness*0.5)+(fabs(pt.y*pt.y*pt.y*0.38)) > 0.6) {
-			h = Clamp(1.0-(v*10.0), 0.0, 1.0)*voronoiscam_octavenoise(GetFracDef(5-m_fracnum), 0.5, pt);
-			h *= h*h*2.0;
-			h -= 3.0;
-			v += h;
-		}
-		return (v<0 ? 0 : v);
-	}
-#endif
-}
 
 void Terrain::ChangeDetailLevel()
 {
@@ -685,25 +575,6 @@ void Terrain::PickAtmosphere()
 	}
 }
 
-void Terrain::InitHeightMap()
-{
-	/* Height map? */
-	if (m_body->heightMapFilename) {
-		FILE *f;
-		f = fopen_or_die(m_body->heightMapFilename, "rb");
-		// read size!
-		Uint16 v;
-		fread_or_die(&v, 2, 1, f); m_heightMapSizeX = v;
-		fread_or_die(&v, 2, 1, f); m_heightMapSizeY = v;
-		m_heightMap = new Sint16[m_heightMapSizeX * m_heightMapSizeY];
-		// XXX TODO XXX what about bigendian archs...
-		fread_or_die(m_heightMap, sizeof(Sint16), m_heightMapSizeX * m_heightMapSizeY, f);
-		fclose(f);
-	} else {
-		m_heightMap = 0;
-	}	
-}
-
 #if 0
 Terrain::Terrain(const SBody *body) : m_body(body)
 {
@@ -729,27 +600,3 @@ void Terrain::SetFracDef(unsigned int index, double featureHeightMeters, double 
 	m_fracdef[index].lacunarity = 2.0;
 	//printf("%d octaves\n", m_fracdef[index].octaves); //print
 }
-
-#if 0
-// Fracdef is used to define the fractals width/area, height and detail
-void Terrain::InitFractalType(MTRand &rand)
-{
-	//Earth uses these fracdef settings
-	if (m_heightMap) {	
-		//textures
-		if (textures) {
-			SetFracDef(0, m_maxHeightInMeters, 10, rand, 10*m_fracmult);
-			SetFracDef(1, m_maxHeightInMeters, 25, rand, 10*m_fracmult);
-		}
-		//small fractal/high detail
-		SetFracDef(2-m_fracnum, m_maxHeightInMeters*0.0000005, 50, rand, 20*m_fracmult);//[2]
-		//continental/large type fractal
-		SetFracDef(3-m_fracnum, m_maxHeightInMeters*0.00005, 1e6, rand, 800*m_fracmult);//[0]
-		SetFracDef(4-m_fracnum, m_maxHeightInMeters*0.00005, 1e5, rand, 400*m_fracmult);//[4]
-		//medium fractal
-		SetFracDef(5-m_fracnum, m_maxHeightInMeters*0.000005, 2e4, rand, 200*m_fracmult);//[5]
-		SetFracDef(6-m_fracnum, m_maxHeightInMeters*0.0000005, 5e3, rand, 100*m_fracmult);//[3]
-		return;
-	}
-}
-#endif
