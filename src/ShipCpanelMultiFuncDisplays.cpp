@@ -143,38 +143,20 @@ void ScannerWidget::Draw()
 	glEnd();
 	glDisable(GL_BLEND);
 
-	// draw spokes and inner distance rings
-	// - spokes don't change
-	// - rings change with range
-
-	// draw outer range ring
-	// - green or yellow denotes current range
-	// - rest of ring is grey
-
 	// circles and spokes
 	glLineWidth(1);
-	glColor3f(0, 0.4f, 0);
-	DrawDistanceRings();
-	DrawRangeRing(false);
+	DrawRingsAndSpokes(false);
 	// draw blended in slightly different places to anti-alias
 	glPushMatrix();
 	glEnable(GL_BLEND);
-	glColor4f(0, 0.4f, 0, 0.25f);
 	glTranslatef(0.5f * c2p[0], 0.5f * c2p[1], 0);
-	DrawDistanceRings();
-	DrawRangeRing(true);
-	glColor4f(0, 0.4f, 0, 0.25f);
+	DrawRingsAndSpokes(true);
 	glTranslatef(0, -c2p[1], 0);
-	DrawDistanceRings();
-	DrawRangeRing(true);
-	glColor4f(0, 0.4f, 0, 0.25f);
+	DrawRingsAndSpokes(true);
 	glTranslatef(-c2p[0], 0, 0);
-	DrawDistanceRings();
-	DrawRangeRing(true);
-	glColor4f(0, 0.4f, 0, 0.25f);
+	DrawRingsAndSpokes(true);
 	glTranslatef(0, c2p[1], 0);
-	DrawDistanceRings();
-	DrawRangeRing(true);
+	DrawRingsAndSpokes(true);
 	glPopMatrix();
 	glDisable(GL_BLEND);
 
@@ -283,10 +265,14 @@ void ScannerWidget::DrawBlobs(bool below)
 	}
 }
 
-void ScannerWidget::DrawDistanceRings()
+void ScannerWidget::DrawRingsAndSpokes(bool blend)
 {
 	static const float circle = float(2 * M_PI);
 	static const float step = float(M_PI * 0.02); // 1/100th or 3.6 degrees
+
+	/* soicles */
+	if (blend) glColor4f(0, 0.4f, 0, 0.25f);
+	else glColor3f(0, 0.4f, 0);
 	/* inner soicle */
 	glBegin(GL_LINE_LOOP);
 	for (float a = 0; a < circle; a += step) {
@@ -311,16 +297,12 @@ void ScannerWidget::DrawDistanceRings()
 		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 	}
 	glEnd();
-}
 
-void ScannerWidget::DrawRangeRing(bool blend)
-{
-	static const float circle = float(2 * M_PI);
-	static const float step = float(M_PI * 0.02); // 1/100th or 3.6 degrees
+	/* outer range soicle */
 	float range_percent = m_range / SCANNER_RANGE_MAX;
 
 	if (m_mode == SCANNER_MODE_AUTO) {
-		// green like the scanner to indicate that the scanner is controlling the range
+		/* green like the scanner to indicate that the scanner is controlling the range */
 		if (blend) glColor4f(0, 0.7f, 0, 0.25f);
 		else glColor3f(0, 0.7f, 0);
 	} else {
@@ -333,19 +315,19 @@ void ScannerWidget::DrawRangeRing(bool blend)
 		glVertex2f(m_x + m_x * -sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 	}
 	if (range_percent < 1.0f) {
-		// this vertex is so the part that indicates range ends at
-		// the exact point rather than a multiple of 3.6 degrees
+		/* this vertex is so the part that indicates range ends at
+		 * the exact point rather than a multiple of 3.6 degrees */
 		glVertex2f(m_x + m_x * -sin(range_percent * circle),
 			m_y + SCANNER_YSHRINK * m_y * cos(range_percent * circle));
 		if (blend) glColor4f(0.2f, 0.3f, 0.2f, 0.25f);
 		else glColor3f(0.2f, 0.3f, 0.2f);
-		// we start the second color at the same point so that it changes
-		// immediately rather than blending over 3.6 degrees
+		/* we start the second color at the same point so that it changes
+		 * immediately rather than blending over 3.6 degrees */
 		for (float a = range_percent * circle; a < circle; a += step) {
 			glVertex2f(m_x + m_x * -sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 		}
-		// this vertex ensures that the end of the second color
-		// doesn't blend with the beginning of the first color
+		/* this vertex ensures that the end of the second color
+		 * doesn't blend with the beginning of the first color */
 		glVertex2f(m_x, m_y + SCANNER_YSHRINK * m_y);
 	}
 	glEnd();
