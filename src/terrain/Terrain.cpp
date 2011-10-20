@@ -57,7 +57,7 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 		case SBody::TYPE_STAR_G_HYPER_GIANT: {
 			const GeneratorInstancer choices[] = {
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarWhiteDwarf>,
-				InstanceGenerator<TerrainHeightFlat,TerrainColorStarK>
+				InstanceGenerator<TerrainHeightFlat,TerrainColorStarG>
 			};
 			gi = choices[rand.Int32(2)];
 			break;
