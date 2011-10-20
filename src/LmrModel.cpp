@@ -428,7 +428,7 @@ public:
 				{
 				// XXX materials fucked up after this
 				const matrix4x4f trans = matrix4x4f(op.callmodel.transform);
-				vector3f cam_pos = trans.InverseOf() * cameraPos;
+				vector3f cam_pos = trans.InverseOf() * (cameraPos - vector3f(trans[12], trans[13], trans[14]));
 				RenderState rstate2;
 				rstate2.subTransform = rstate->subTransform * trans;
 				rstate2.combinedScale = rstate->combinedScale * op.callmodel.scale * op.callmodel.model->m_scale;
