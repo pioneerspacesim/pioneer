@@ -1,5 +1,7 @@
 local music = {}
 
+local stop_playing = true
+
 local getCategoryForSong = function (name)
 	if not name then return "" end
 	local _, _, category = string.find(name, "^core/([%l-]+)/")
@@ -47,6 +49,7 @@ end
 
 -- handle separate planet/station-specific ambient music
 local playAmbient = function ()
+	if stop_playing == true then return end
 	local category
 
 	-- if we're near a planet or spacestation then choose something specific
@@ -77,6 +80,10 @@ local playAmbient = function ()
 	end
 end
 
+EventQueue.onGameEnd:Connect(function ()
+	stop_playing = true
+end)
+
 EventQueue.onGameStart:Connect(function () 
 	music = {}
 
@@ -89,6 +96,8 @@ EventQueue.onGameStart:Connect(function ()
 			table.insert(music[category], key)
 		end
 	end
+
+	stop_playing = false
 
 	playAmbient()
 end)
