@@ -16,8 +16,7 @@
 #define SCANNER_SCALE		0.00001f
 #define SCANNER_YSHRINK		0.75f
 #define SCANNER_MODE_AUTO	0
-#define SCANNER_MODE_MAX	1
-#define SCANNER_MODE_MIN	2
+#define SCANNER_MODE_MAN	1
 #define A_BIT				1.1f
 
 MsgLogWidget::MsgLogWidget()
@@ -104,13 +103,7 @@ void ScannerWidget::GetSizeRequested(float size[2])
 void ScannerWidget::NextMode()
 {
 	if (m_mode == SCANNER_MODE_AUTO) {
-		m_mode = SCANNER_MODE_MAX;
-		m_range = SCANNER_RANGE_MAX;
-		m_scale = SCANNER_SCALE;
-	} else if (m_mode == SCANNER_MODE_MAX) {
-		m_mode = SCANNER_MODE_MIN;
-		m_range = SCANNER_RANGE_MIN;
-		m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / SCANNER_RANGE_MIN);
+		m_mode = SCANNER_MODE_MAN;
 	} else m_mode = SCANNER_MODE_AUTO;
 }
 
@@ -215,6 +208,14 @@ void ScannerWidget::UpdateContactsAndScale()
 		else m_range = SCANNER_RANGE_MAX;
 
 		m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
+	} else {
+		if (Pi::KeyState(SDLK_RIGHTBRACKET) && m_range < SCANNER_RANGE_MAX) {
+			m_range = Clamp(m_range * 1.05f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+			m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
+		} else if (Pi::KeyState(SDLK_LEFTBRACKET) && m_range > SCANNER_RANGE_MIN) {
+			m_range = Clamp(m_range * 0.95f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+			m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
+		}
 	}
 }
 
