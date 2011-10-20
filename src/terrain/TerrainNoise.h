@@ -153,7 +153,8 @@ namespace TerrainNoise {
 
 };
 
-// XXX here temporarily until I figure out a better approach
+// common colours for earthlike worlds
+// XXX better way to do this?
 #define rock   octavenoise(GetFracDef(0), 0.65, p);
 #define rock2  octavenoise(GetFracDef(1), 0.6, p)*ridged_octavenoise(GetFracDef(0), 0.55, p);
 #define rock3  0.5*ridged_octavenoise(GetFracDef(0), 0.5, p)*voronoiscam_octavenoise(GetFracDef(0), 0.5, p)*ridged_octavenoise(GetFracDef(1), 0.5, p);
