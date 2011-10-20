@@ -1008,6 +1008,7 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 void StarSystem::MakeStarOfType(SBody *sbody, SBody::BodyType type, MTRand &rand)
 {
 	sbody->type = type;
+	sbody->seed = rand.Int32();
 	sbody->radius = fixed(rand.Int32(starTypeInfo[type].radius[0],
 				starTypeInfo[type].radius[1]), 100);
 	sbody->mass = fixed(rand.Int32(starTypeInfo[type].mass[0],
