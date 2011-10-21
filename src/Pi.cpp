@@ -1273,6 +1273,7 @@ void Pi::Start()
 
 void Pi::EndGame()
 {
+	Pi::musicPlayer.Stop();
 	Sound::DestroyAllEvents();
 	Pi::luaOnGameEnd->Signal();
 	Pi::luaManager->CollectGarbage();
