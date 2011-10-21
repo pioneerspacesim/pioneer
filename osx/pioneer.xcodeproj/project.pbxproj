@@ -470,6 +470,14 @@
 		4A190486138AA39C00E0229C /* push_pointer_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = push_pointer_internal.h; sourceTree = "<group>"; };
 		4A190488138AA39C00E0229C /* type_list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = type_list.h; sourceTree = "<group>"; };
 		4A190489138AA39C00E0229C /* typelist_structs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = typelist_structs.h; sourceTree = "<group>"; };
+		4A1E9EBD144EEA8A009243D2 /* EquipTypeEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipTypeEnums.h; sourceTree = "<group>"; };
+		4A1E9EBE144EEA8A009243D2 /* FloatComparison.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatComparison.h; sourceTree = "<group>"; };
+		4A1E9EBF144EEA8A009243D2 /* PlayerEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerEnums.h; sourceTree = "<group>"; };
+		4A1E9EC0144EEA8A009243D2 /* PolitEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolitEnums.h; sourceTree = "<group>"; };
+		4A1E9EC1144EEA8A009243D2 /* ShipEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShipEnums.h; sourceTree = "<group>"; };
+		4A1E9EC2144EEA8A009243D2 /* ShipTypeEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShipTypeEnums.h; sourceTree = "<group>"; };
+		4A1E9EC3144EEA8A009243D2 /* SpaceStationEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpaceStationEnums.h; sourceTree = "<group>"; };
+		4A1E9EC4144EEA8A009243D2 /* StarSystemEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarSystemEnums.h; sourceTree = "<group>"; };
 		4A20B0DE135319770020F43E /* pioneer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pioneer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A20B0E2135319770020F43E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		4A20B0E5135319770020F43E /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -1090,6 +1098,14 @@
 		4A6C4B9F13532FC300FDD53F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				4A1E9EBD144EEA8A009243D2 /* EquipTypeEnums.h */,
+				4A1E9EBE144EEA8A009243D2 /* FloatComparison.h */,
+				4A1E9EBF144EEA8A009243D2 /* PlayerEnums.h */,
+				4A1E9EC0144EEA8A009243D2 /* PolitEnums.h */,
+				4A1E9EC1144EEA8A009243D2 /* ShipEnums.h */,
+				4A1E9EC2144EEA8A009243D2 /* ShipTypeEnums.h */,
+				4A1E9EC3144EEA8A009243D2 /* SpaceStationEnums.h */,
+				4A1E9EC4144EEA8A009243D2 /* StarSystemEnums.h */,
 				4AE9706514369D7500424F91 /* LuaLang.cpp */,
 				4AE9706614369D7500424F91 /* LuaLang.h */,
 				4AB3DF8714346952001B783A /* TerrainBody.cpp */,
