@@ -1146,3 +1146,9 @@ DISTANCE_LY
     Distance: %distance{f.2} ly
 SYSTEM
     System
+UNOCCUPIED_CABIN
+    Extra Passenger Cabin
+UNOCCUPIED_CABIN_DESCRIPTION
+    Required for transport of single passenger
+PASSENGER_CABIN
+    Occupied Passenger Cabin
