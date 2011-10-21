@@ -1162,7 +1162,7 @@ void GeoSphere::OnChangeDetailLevel()
 GeoSphere::GeoSphere(const SBody *body)
 {
 	m_terrain = Terrain::InstanceTerrain(body);
-	printf("%s:\n    height fractal: %s\n    colour fractal: %s\n", body->name.c_str(), m_terrain->GetHeightFractalName(), m_terrain->GetColorFractalName());
+	printf("%s:\n              seed: %u\n    height fractal: %s\n    colour fractal: %s\n", body->name.c_str(), body->seed, m_terrain->GetHeightFractalName(), m_terrain->GetColorFractalName());
 
 	m_vbosToDestroyLock = SDL_CreateMutex();
 	m_sbody = body;
