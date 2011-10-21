@@ -3556,16 +3556,17 @@ namespace ModelFuncs {
 			} else {
 				const EquipSet &es = *s_curParams->equipment;
 				const int slotSize = es.GetSlotSize(slot);
-				int i = 0;
+				int i = 0, count = 0;
 				Equip::Type equip = Equip::NONE;
 				while (i < slotSize) {
 					equip = es.Get(slot, i++);
 					if (equip != Equip::NONE) {
 						PiVerify(lua_checkstack(L, 1));
 						lua_pushstring(L, LuaConstants::GetConstantString(L, "EquipType", equip));
+						++count;
 					}
 				}
-				return i;
+				return count;
 			}
 		} else
 			return luaL_error(L, "Equipment is only valid for ships.");
