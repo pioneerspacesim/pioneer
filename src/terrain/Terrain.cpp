@@ -452,18 +452,6 @@ Terrain::~Terrain()
 }
 
 
-#if 0
-void Terrain::PickTerrain(MTRand &rand)
-{
-
-	//m_terrainType = TERRAIN_HILLS_DUNES;
-	//m_colorType = COLOR_DESERT;
-	printf("%s: \n", m_body->name.c_str());
-	printf("|   Terrain: [%d]\n", m_terrainType);
-	printf("|    Colour: [%d]\n", m_colorType);
-}
-#endif
-
 /**
  * Feature width means roughly one perlin noise blob or grain.
  * This will end up being one hill, mountain or continent, roughly.
