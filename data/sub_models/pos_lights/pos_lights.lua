@@ -1,8 +1,8 @@
 --[[ position lights including bulbs for a four times flashing position lights setting
-	 period; 1st green to set left, 2nd red to set right, 3rd light blue to set at top in back of ship
-	 when LG engaged, light blue flashing lights at period 4 to set at bottom in back, left and right sides as collision warners
-	 and a white headlight to set at front (optional)
-	 ]]--
+period; 1st green to set left, 2nd red to set right, 3rd light blue to set at top in back of ship
+when LG engaged, light blue flashing lights at period 4 to set at bottom in back, left and right sides as collision warners
+and a white headlight to set at front (optional)
+]]--
 
 define_model('posl_green', {
 	info = 	{
