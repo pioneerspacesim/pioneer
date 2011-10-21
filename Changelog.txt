@@ -11,6 +11,7 @@ Alpha 16
     * Modules translated to Polish
     * Targets can be selected from the system view (#503)
 	* Model cleanups and optimisations (#680, #675, #672, #674)
+    * New "temple" building (#664)
 
   * Fixes
     * Optimise trade ship cargo management (#632)
