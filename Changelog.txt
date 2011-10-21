@@ -22,6 +22,7 @@ Alpha 16
     * Lua onGameEnd event now fires when game ends after player destruction (#684)
     * Remember sectorview info box visbility state across view switches and
       game saves (#685)
+    * Don't pollute the global Lua namespace with translation functions (#696)
   
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
