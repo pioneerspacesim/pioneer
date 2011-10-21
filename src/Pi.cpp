@@ -1297,6 +1297,10 @@ void Pi::MainLoop()
 	memset(fps_readout, 0, sizeof(fps_readout));
 #endif
 
+	int MAX_PHYSICS_TICKS = Pi::config.Int("MaxPhysicsCyclesPerRender");
+	if (MAX_PHYSICS_TICKS <= 0)
+		MAX_PHYSICS_TICKS = 4;
+
 	double currentTime = 0.001 * double(SDL_GetTicks());
 	double accumulator = Pi::GetTimeStep();
 	Pi::gameTickAlpha = 0;
@@ -1310,14 +1314,22 @@ void Pi::MainLoop()
 		
 		const float step = Pi::GetTimeStep();
 		if (step > 0.0f) {
+			int phys_ticks = 0;
 			while (accumulator >= step) {
+				if (++phys_ticks >= MAX_PHYSICS_TICKS) {
+					accumulator = 0.0;
+					break;
+				}
 				Space::TimeStep(step);
 				gameTime += step;
-				phys_stat++;
 
 				accumulator -= step;
 			}
 			Pi::gameTickAlpha = accumulator / step;
+
+#ifdef DEVKEYS
+			phys_stat += phys_ticks;
+#endif
 		} else {
 			// paused
 		}
