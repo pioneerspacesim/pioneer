@@ -26,6 +26,7 @@ Alpha 16
       game saves (#685)
     * Don't pollute the global Lua namespace with translation functions (#696)
     * Fix Assassination crash on mission completion/failure (#692, #694)
+    * Model LOD switches now calculated correctly based on screen wdith (#704)
   
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
