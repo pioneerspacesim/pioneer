@@ -520,6 +520,8 @@ define_model('adder', {
 				max_cargo = 50,
 				max_laser = 1,
 				max_missile = 2,
+				max_cargoscoop = 1,
+				max_fuelscoop = 1,
 				capacity = 50,
 				hull_mass = 40,
 				price = 60000,
@@ -564,6 +566,9 @@ define_model('adder', {
 			xref_quad(v10,v12,v18,v16)
 			xref_tri(v8,v10,v16)
 			xref_tri(v12,v14,v18)
+			geomflag(0x100)
+			quad(v(-2.75,-3.307,-8),v(2.75,-3.307,-8),v(1.75,-5,-8),v(-1.75,-5,-8))
+			geomflag(0)
 		end
 
 		if lod > 1 then

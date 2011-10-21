@@ -197,6 +197,11 @@ const EquipType Equip::types[Equip::TYPE_MAX] = {
 	  Equip::SLOT_FUELSCOOP, -1, {},
 	  350000, 6, 1, 0, 1, 0
 	},{
+	  Lang::CARGO_SCOOP,
+	  Lang::CARGO_SCOOP_DESCRIPTION,
+	  Equip::SLOT_CARGOSCOOP, -1, {},
+	  390000, 7, 1, 0, 1, 0
+	},{
 	  Lang::HYPERCLOUD_ANALYZER,
 	  Lang::HYPERCLOUD_ANALYZER_DESCRIPTION,
 	  Equip::SLOT_HYPERCLOUD, -1, {},

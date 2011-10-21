@@ -2,6 +2,7 @@ Alpha 16
 
   * New features
     * New ships: "Wave Heavy Hypersonic Fighter" and "Turtle" (#558, #657)
+    * Cargo scooping (#585)
     * Spanish translation (#628)
 
   * Minor changes and tweaks

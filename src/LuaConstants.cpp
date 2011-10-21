@@ -372,6 +372,7 @@ void LuaConstants::Register(lua_State *l)
 	 * ATMOSHIELD - atmospheric shielding
 	 * SHIELD - shield
 	 * FUELSCOOP - fuel scoop
+	 * CARGOSCOOP - cargo scoop
 	 * LASERCOOLER - laser cooling booster
 	 * CARGOLIFESUPPORT - cargo bay life support
 	 * AUTOPILOT - autopilot
@@ -444,6 +445,7 @@ void LuaConstants::Register(lua_State *l)
 	 * AUTOPILOT - autopilot (AUTOPILOT)
 	 * RADAR_MAPPER - radar mapper (RADARMAPPER)
 	 * FUEL_SCOOP - fuel scoop (FUELSCOOP)
+	 * CARGO_SCOOP - cargo scoop (CARGOSCOOP)
 	 * HYPERCLOUD_ANALYZER - hyperspace cloud analyser (HYPERCLOUD)
 	 * HULL_AUTOREPAIR - hull auto-repair system (HULLAUTOREPAIR)
 	 * SHIELD_ENERGY_BOOSTER - shield energy booster unit (ENERGYBOOSTER)

@@ -46,10 +46,18 @@ bool CargoBody::OnDamage(Object *attacker, float kgDamage)
 	return true;
 }
 
+bool CargoBody::OnCollision(Object *b, Uint32 flags, double relVel)
+{
+	if (b->IsType(Object::SHIP) && (flags & 0x100)) {
+		return true;
+	}
+
+	return DynamicBody::OnCollision(b, flags, relVel);
+}
+
 void CargoBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if (!IsEnabled()) return;
 	GetLmrObjParams().label = Equip::types[m_type].name;
 	RenderLmrModel(viewCoords, viewTransform);
 }
-

@@ -1065,6 +1065,7 @@ define_model('eagle_lrf', {
 				max_cargo = 20,
 				max_missile = 2,
 				max_fuelscoop = 0,
+				max_cargoscoop = 0,
 				capacity = 20,
 				hull_mass = 15,
 				price = 38000,
@@ -1214,6 +1215,7 @@ define_model('eagle_mk2', {
 				max_cargo = 22,
 				max_missile = 2,
 				max_fuelscoop = 0,
+				max_cargoscoop = 0,
 				capacity = 22,
 				hull_mass = 15,
 				price = 41000,
@@ -1346,6 +1348,7 @@ define_model('eagle_mk3', {
 				max_cargo = 22,
 				max_missile = 2,
 				max_fuelscoop = 0,
+				max_cargoscoop = 0,
 				capacity = 22,
 				hull_mass = 15,
 				price = 43000,
@@ -1489,6 +1492,7 @@ define_model('eagle_mk4', {
 				max_laser = 2,
 				max_missile = 6,
 				max_fuelscoop = 1,
+				max_cargoscoop = 1,
 				capacity = 36,
 				hull_mass = 20,
 				price = 56000,
@@ -1528,6 +1532,9 @@ define_model('eagle_mk4', {
 			v(3,-6,-8), v(4,-8,-4), v(2,-8,5), v(0.5,-4,10),
 			v(-3,-6,-8), v(-4,-8,-4), v(-2,-8,5), v(-0.5,-4,10),
 			v(-5,-1.5,-8), v(-5,-2,-4), v(-3,-2,5), v(-1,-4,10))
+			geomflag(0x100)
+			flat(3, v(0,0,-1), {v(4.5,-2,-8)}, {v(4,-6.2,-8), v(-4,-6.2,-8), v(-4.5,-2,-8)})
+			geomflag(0)
 		end
 
 		-- mk4 fin

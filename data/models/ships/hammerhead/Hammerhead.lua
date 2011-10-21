@@ -317,6 +317,7 @@ define_model('hh', {
 				max_cargo = 1220,
 				max_laser = 2,
 				max_missile = 12,
+				max_cargoscoop = 0,
 				capacity = 1220,
 				hull_mass = 1000,
 				price = 3e6,
