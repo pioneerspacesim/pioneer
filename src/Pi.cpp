@@ -468,6 +468,7 @@ void Pi::Init()
 	draw_progress(0.3f);
 
 	LmrModelCompilerInit();
+	LmrNotifyScreenWidth(Pi::scrWidth);
 	draw_progress(0.4f);
 
 //unsigned int control_word;
