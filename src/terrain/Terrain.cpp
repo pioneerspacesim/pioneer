@@ -448,7 +448,7 @@ Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed), m_height
 Terrain::~Terrain()
 {
 	if (m_heightMap)
-		delete m_heightMap;
+		delete [] m_heightMap;
 }
 
 
