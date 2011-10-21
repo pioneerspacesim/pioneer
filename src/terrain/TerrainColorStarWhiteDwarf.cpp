@@ -10,10 +10,11 @@ template <>
 TerrainColorFractal<TerrainColorStarWhiteDwarf>::TerrainColorFractal(const SBody *body) : Terrain(body)
 {
 	double height = m_maxHeightInMeters*0.1;
-	SetFracDef(0, height, 3e5, 10.0*m_fracmult);
-	SetFracDef(1, height, 1e5, 10.0*m_fracmult);
-	//SetFracDef(2, height, 1e6, 10.0*m_fracmult);
-	//SetFracDef(3, height, 1e2, 10.0*m_fracmult);
+	SetFracDef(0, height, 3e9, 100.0*m_fracmult); //why on Earth we need a feature size of 3,000,000 KM (2.2x the sun) I don't know, but we do... :)
+	SetFracDef(1, height, 1e7, 100.0*m_fracmult);
+	//Original settings with correct feature size, does not seem to work anymore:
+	//SetFracDef(0, height, 3e5, 10.0*m_fracmult);
+	//SetFracDef(1, height, 1e5, 10.0*m_fracmult);
 }
 
 template <>
