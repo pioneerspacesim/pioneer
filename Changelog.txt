@@ -38,6 +38,7 @@ Alpha 16
       times a little more consistent
     * Remove deprecated EquipType::types list (#642)
     * Show Lua memory usage in debug info (#638)
+    * Limit number of physics updates between render updates (#671)
 
 Alpha 15
 
