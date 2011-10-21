@@ -131,9 +131,9 @@ void Ship::Init()
 {
 	// XXX the animation namespace must match that in LuaConstants
 	// note: this must be set before generating the collision mesh
-	// (which happens in SetModel())
-	// and before rendering
+	// (which happens in SetModel()) and before rendering
 	GetLmrObjParams().animationNamespace = "ShipAnimation";
+	GetLmrObjParams().equipment = &m_equipment;
 
 	const ShipType &stype = GetShipType();
 	SetModel(stype.lmrModelName.c_str());
@@ -1023,7 +1023,6 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		params.linthrust[0] = float(m_thrusters.x);
 		params.linthrust[1] = float(m_thrusters.y);
 		params.linthrust[2] = float(m_thrusters.z);
-		params.equipment = &m_equipment;
 		params.animValues[ANIM_WHEEL_STATE] = m_wheelState;
 		params.flightState = m_flightState;
 
