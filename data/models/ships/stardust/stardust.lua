@@ -56,6 +56,7 @@ define_model('stardust', {
 				max_cargo = 100,
 				max_laser = 2,
 				max_fuelscoop = 0,
+				max_cargoscoop = 0,
 				capacity = 100,
 				hull_mass = 100,
 				price = 150000,

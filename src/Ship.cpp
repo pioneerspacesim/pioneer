@@ -268,6 +268,18 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 		return true;
 	}
 
+	// hitting cargo scoop surface shouldn't do damage
+	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) && b->IsType(Object::CARGOBODY) && (flags & 0x100) && m_stats.free_capacity) {
+		Equip::Type item = dynamic_cast<CargoBody*>(b)->GetCargoType();
+		m_equipment.Add(item);
+		Space::KillBody(dynamic_cast<Body*>(b));
+		if (this->IsType(Object::PLAYER))
+			Pi::Message(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", Equip::types[item].name)));
+		// XXX Sfx::Add(this, Sfx::TYPE_SCOOP);
+		UpdateMass();
+		return true;
+	}
+
 	if (b->IsType(Object::PLANET)) {
 		// geoms still enabled when landed
 		if (m_flightState != FLYING) return false;

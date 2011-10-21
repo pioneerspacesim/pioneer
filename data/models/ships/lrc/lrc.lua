@@ -23,6 +23,7 @@ define_model('lrc', {
 				max_cargo = 15000,
 				max_laser = 0,
 				max_missile = 0,
+				max_cargoscoop = 0,
 				capacity = 15000,
 				hull_mass = 5000,
 				price = 3.1e8,

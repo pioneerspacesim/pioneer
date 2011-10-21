@@ -136,6 +136,8 @@ define_model('fi', {
 				max_cargo = 10,
 				max_laser = 1,
 				max_missile = 6,
+				max_fuelscoop = 0,
+				max_cargoscoop = 0,
 				capacity = 10,
 				hull_mass = 10,
 				price = 33000,

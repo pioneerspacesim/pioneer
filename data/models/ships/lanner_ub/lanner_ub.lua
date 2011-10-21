@@ -479,6 +479,7 @@ define_model('lanner_ub', {
 				max_cargo = 190,
 				max_laser = 2,
 				max_missile = 4,
+				max_cargoscoop = 0,
 				capacity = 190,
 				hull_mass = 190,
 				price = 280000,
