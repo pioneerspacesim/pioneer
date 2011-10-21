@@ -65,14 +65,15 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 
 		case SBody::TYPE_PLANET_GAS_GIANT: {
 			const GeneratorInstancer choices[] = {
+				InstanceGenerator<TerrainHeightFlat,TerrainColorGGJupiter>,
 				InstanceGenerator<TerrainHeightFlat,TerrainColorGGSaturn>,
-				InstanceGenerator<TerrainHeightFlat,TerrainColorGGSaturn>,
-				InstanceGenerator<TerrainHeightFlat,TerrainColorGGSaturn>,
-				InstanceGenerator<TerrainHeightFlat,TerrainColorGGSaturn>,
-				InstanceGenerator<TerrainHeightFlat,TerrainColorGGSaturn>,
+				InstanceGenerator<TerrainHeightFlat,TerrainColorGGSaturn2>,
+				InstanceGenerator<TerrainHeightFlat,TerrainColorGGNeptune>,
+				InstanceGenerator<TerrainHeightFlat,TerrainColorGGNeptune2>,
+				InstanceGenerator<TerrainHeightFlat,TerrainColorGGUranus>,
 				InstanceGenerator<TerrainHeightFlat,TerrainColorGGSaturn>
 			};
-			gi = choices[rand.Int32(6)];
+			gi = choices[rand.Int32(7)];
 			break;
 		}
 
@@ -84,7 +85,7 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 
 			// Earth-like world
 			if ((body->m_life > fixed(7,10)) && (body->m_volatileGas > fixed(2,10))) {
-				// There would be no life on the surface without atmosphere
+				// There would be no life on the surface without atmosphere 
 
 				if (body->averageTemp > 240) {
 					const GeneratorInstancer choices[] = {
