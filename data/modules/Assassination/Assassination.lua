@@ -1,5 +1,5 @@
 -- Get the translator function
-t = Translate:GetTranslator()
+local t = Translate:GetTranslator()
 
 -- don't produce missions for further than this many light years away
 local max_ass_dist = 30
