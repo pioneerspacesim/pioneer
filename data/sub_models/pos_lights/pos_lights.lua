@@ -6,7 +6,7 @@ and a white headlight to set at front (optional)
 
 define_model('posl_green', {
 	info = 	{
-		lod_pixels = {2, 5, 10, 0},
+		lod_pixels = {1, 3, 6, 9},
 		bounding_radius = 1,
 		materials = {'green'},
 	},
@@ -36,7 +36,7 @@ define_model('posl_green', {
 
 define_model('posl_red', {
 	info = 	{
-		lod_pixels = {2, 5, 10, 0},
+		lod_pixels = {1, 3, 6, 9},
 		bounding_radius = 1,
 		materials = {'red'},
 	},
@@ -66,7 +66,7 @@ define_model('posl_red', {
 
 define_model('posl_white', {
 	info = 	{
-		lod_pixels = {2, 5, 10, 0},
+		lod_pixels = {1, 3, 6, 9},
 		bounding_radius = 1,
 		materials = {'blue_white'},
 	},
@@ -96,7 +96,7 @@ define_model('posl_white', {
 
 define_model('coll_warn', {
 	info = 	{
-		lod_pixels = {2, 5, 10, 0},
+		lod_pixels = {1, 3, 6, 9},
 		bounding_radius = 1,
 		materials = {'blue_white'},
 	},
@@ -128,7 +128,7 @@ define_model('coll_warn', {
 
 define_model('headlight', {
 	info = 	{
-		lod_pixels = {2, 5, 10, 0},
+		lod_pixels = {1, 3, 6, 9},
 		bounding_radius = 1,
 		materials = {'white'},
 	},
