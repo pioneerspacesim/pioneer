@@ -12,6 +12,7 @@ define_model('posl_green', {
 	},
 	static = function(lod)
 		if lod > 1 then
+			set_material('green', 0, .85, 0, .5, 1, 1, 1, 100, 0, 0, 0)
 			use_material('green')
 			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
 		end
@@ -42,6 +43,7 @@ define_model('posl_red', {
 	},
 	static = function(lod)
 		if lod > 1 then
+			set_material('red', .9, 0, 0, .6, 1, 1, 1, 100, 0, 0, 0)
 			use_material('red')
 			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
 		end
@@ -72,6 +74,7 @@ define_model('posl_white', {
 	},
 	static = function(lod)
 		if lod > 1 then
+			set_material('blue_white', .8, .85, 1, .5, 1, 1, 1, 100, 0, 0, 0)
 			use_material('blue_white')
 			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
 		end
@@ -102,6 +105,7 @@ define_model('coll_warn', {
 	},
 	static = function(lod)
 		if lod > 1 then
+			set_material('blue_white', .8, .85, 1, .5, 1, 1, 1, 100, 0, 0, 0)
 			use_material('blue_white')
 			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
 		end
@@ -134,6 +138,7 @@ define_model('headlight', {
 	},
 	static = function(lod)
 		if lod > 1 then
+			set_material('white', .9, .95, 1, .5, 1, 1, 1, 100, 0, 0, 0)
 			use_material('white')
 			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
 		end
