@@ -3,14 +3,16 @@
 		<link type="text/template" href="templates/dialog.rml"/>
 	</head>
 	<body template="dialog">
-		<h1>Pioneer</h1>
-		<h4 stash="engine.version"/>
-		<p>
-			<button class="point" onclick="newgame-earth" shortcut="1"/>New game starting on Earth<br/>
-			<button class="point" onclick="newgame-eridani" shortcut="2"/>New game starting on Epsilon Eridani<br/>
-			<button class="point" onclick="newgame-debug" shortcut="3"/>New game starting on debug point<br/>
-			<button class="point" onclick="loadgame" shortcut="4"/>Load a saved game<br/>
-			<button class="point" onclick="quit" shortcut="5"/>Quit
-		</p>
+		<div class="section">
+			<h1>Pioneer</h1>
+			<h4 stash="engine.version"/>
+			<p>
+				<button class="point" onclick="newgame-earth" shortcut="1"/>New game starting on Earth<br/>
+				<button class="point" onclick="newgame-eridani" shortcut="2"/>New game starting on Epsilon Eridani<br/>
+				<button class="point" onclick="newgame-debug" shortcut="3"/>New game starting on debug point<br/>
+				<button class="point" onclick="loadgame" shortcut="4"/>Load a saved game<br/>
+				<button class="point" onclick="quit" shortcut="5"/>Quit
+			</p>
+		</div>
 	</body>
 </rml>
