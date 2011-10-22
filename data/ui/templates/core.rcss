@@ -193,3 +193,41 @@ scrollbarhorizontal
 	width: 0px;
 	height: 0px;
 }
+
+
+tabset {
+       display: block;
+}
+
+tabset tabs {
+       display: block;
+}
+
+tabset tab {
+    width: 10em;
+    text-align: center;
+    border-top: 1px white;
+    border-left: 1px white;
+    border-right: 1px white;
+}
+
+tabset tab:hover {
+       background-color: #888a;
+}
+
+tabset tab:selected {
+       background-color: #008a;
+}
+
+tabset panels {
+       display: block;
+}
+
+tabset panel {
+    display: block;
+    overflow: scroll;
+    border-top: 1px white;
+    border-bottom: 1px white;
+    border-left: 1px white;
+    border-right: 1px white;
+}
