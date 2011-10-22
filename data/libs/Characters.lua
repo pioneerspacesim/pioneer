@@ -181,7 +181,7 @@ Character = {
 		end
 		-- set inherited characteristics (inherit from class only, not self)
 		setmetatable(newCharacter,{__index = Character, type = "Character"})
-		-- randomize name if it wasn't specified
+		-- initialize face table if it wasn't fully specified
 		newCharacter.face.female = (female == nil) and (Engine.rand:Integer(1) ==1)
 		newCharacter.face.name = name or NameGen.FullName(newCharacter.female)
 		newCharacter.face.seed = seed or Engine.rand:Integer()
