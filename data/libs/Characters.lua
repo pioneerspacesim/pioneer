@@ -25,40 +25,25 @@ Character = {
 	player = false, -- Almost always.  One exception. (-:
 
 --
--- Attribute: name
---
--- Name of the character.
---
--- Availability:
---
---   temporary
---
--- Status:
---
---   deprecated
---
-	name = '',
-
---
--- Attribute: isfemale
---
--- Boolean value; Gender of the character, used for setting name and face.  True
--- if gender is female.
---
--- Availability:
---
---   temporary
---
--- Status:
---
---   deprecated
---
-	isfemale = true,
-
---
 -- Attribute: face
 --
 -- Table, as specified for ChatForm.SetFace
+--
+-- form:SetFace({
+--     female = female,
+--     armour = armour,
+--     seed   = seed,
+--     name   = name,
+--     title  = title,
+-- })
+--
+-- Parameters:
+--
+--	female - if true, the face will be female.  If false, the face will be male.
+--  armour - if true, the face will wear armour, otherwise the face will have clothes and accessories.
+--  seed - the seed for the random number generator.
+--  name - name of the person.
+--  title - (optional) the person’s job or other suitable title.
 --
 -- Availability:
 --
@@ -185,13 +170,23 @@ Character = {
 		-- initialise new character
 		local newCharacter = newCharacter or {}
 		-- preserve default name/gender against randomization
-		local name = newCharacter.name
-		local isfemale = newCharacter.isfemale
+		if newCharacter.face then
+			local female = newCharacter.face.female
+			local armour = newCharacter.face.armor
+			local seed = newCharacter.face.armor
+			local name = newCharacter.face.name
+			local title = newCharacter.face.armor
+		else
+			newCharacter.face = {}
+		end
 		-- set inherited characteristics (inherit from class only, not self)
 		setmetatable(newCharacter,{__index = Character})
 		-- randomize name if it wasn't specified
-		newCharacter.isfemale = (isfemale == nil) and (Engine.rand:Integer(1) ==1)
-		newCharacter.name = name or NameGen.FullName(newCharacter.isfemale)
+		newCharacter.face.female = (female == nil) and (Engine.rand:Integer(1) ==1)
+		newCharacter.face.name = name or NameGen.FullName(newCharacter.female)
+		newCharacter.face.seed = seed or Engine.rand:Integer()
+		newCharacter.face.armour = armour or false
+		newCharacter.face.title = title or nil
 		-- allocate a new table for character relationships
 		newCharacter.Relationships = {}
 		return newCharacter
