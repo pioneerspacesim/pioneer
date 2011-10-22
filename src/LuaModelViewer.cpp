@@ -797,6 +797,7 @@ int main(int argc, char **argv)
 	Render::Init(g_width, g_height);
 	Gui::Init(g_width, g_height, g_width, g_height);
 	LmrModelCompilerInit();
+	LmrNotifyScreenWidth(g_width);
 
 	ShipType::Init();
 

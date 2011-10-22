@@ -237,6 +237,7 @@ local onEnterSystem = function (player)
 end
 
 local onShipDocked = function (player, station)
+	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
 	if not player:IsPlayer() then return end
 
 	for ref,mission in pairs(missions) do

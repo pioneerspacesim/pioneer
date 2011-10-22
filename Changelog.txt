@@ -2,7 +2,7 @@ Alpha 16
 
   * New features
     * New ships: "Wave Heavy Hypersonic Fighter" and "Turtle" (#558, #657)
-    * Cargo scooping (#585)
+    * Cargo scooping (#585, #708)
     * Spanish translation (#628)
 
   * Minor changes and tweaks
@@ -25,13 +25,15 @@ Alpha 16
     * Remember sectorview info box visbility state across view switches and
       game saves (#685)
     * Don't pollute the global Lua namespace with translation functions (#696)
-    * Fix Assassination crash on mission completion/failure (#692, #694)
+    * Fix assassination crash on mission completion/failure (#692, #694)
+    * Fix delivery crash on dock
+    * Model LOD switches now calculated correctly based on screen wdith (#704)
   
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
     * Module translations (#640)
     * LMR get_arg() and get_arg_string() replaced with several special purpose
-      functions. "Stringy" constants now in use (#650, #586, #582, #688, #689, #690)
+      functions. "Stringy" constants now in use (#650, #586, #582, #688, #689, #690, #709)
 
   * Internal changes
     * Cleanups, leaks fixed and general code improvements (#635, #637, #665)
