@@ -125,10 +125,10 @@ Character = {
 	notoriety = 50, -- Few people are notorious, so a low default
 
 --
--- Attribute: face
+-- Attribute: lawfulness
 --
--- Integer attribute for roll-play style dice tests.  Luck is intended to reflect
--- the character's innate good fortune.
+-- Integer attribute for roll-play style dice tests.  Lawfulness is intended to reflect
+-- the character's willingness to break the law.
 -- Tested with 4xD64; useful values are 4 (never lucky) to 257 (always lucky).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
 --
