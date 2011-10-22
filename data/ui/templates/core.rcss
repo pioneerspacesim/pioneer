@@ -10,19 +10,19 @@ div, p, h1, h2, h3, h4, h5, h6 {
 }
 
 div.section {
-    padding: 1em;
+	padding: 1em;
 }
 
 h1 {
-    font-size: 200%;
+	font-size: 200%;
 }
 
 h2 {
-    font-size: 170%;
+	font-size: 170%;
 }
 
 h3 {
-    font-size: 140%;
+	font-size: 140%;
 }
 
 h4 {
@@ -50,14 +50,14 @@ p {
 }
 
 tooltip {
-    position: absolute;
-    display: inline;
-    font-size: 20pt;
-    background-color: #008a;
-    border-top: 1px white;
-    border-bottom: 1px white;
-    border-left: 1px white;
-    border-right: 1px white;
+	position: absolute;
+	display: inline;
+	font-size: 20pt;
+	background-color: #008a;
+	border-top: 1px white;
+	border-bottom: 1px white;
+	border-left: 1px white;
+	border-right: 1px white;
 }
 
 button.text {
@@ -200,38 +200,39 @@ scrollbarhorizontal
 
 
 tabset {
-       display: block;
+	display: block;
 }
 
 tabset tabs {
-       display: block;
+	display: block;
 }
 
 tabset tab {
-    width: 10em;
-    text-align: center;
-    border-top: 1px white;
-    border-left: 1px white;
-    border-right: 1px white;
+	width: 10em;
+	text-align: center;
+	border-top: 1px white;
+	border-left: 1px white;
+	border-right: 1px white;
 }
 
 tabset tab:hover {
-       background-color: #888a;
+	background-color: #888a;
 }
 
 tabset tab:selected {
-       background-color: #008a;
+	background-color: #008a;
 }
 
 tabset panels {
-       display: block;
+	display: block;
 }
 
 tabset panel {
-    display: block;
-    overflow: scroll;
-    border-top: 1px white;
-    border-bottom: 1px white;
-    border-left: 1px white;
-    border-right: 1px white;
+	display: block;
+	overflow: auto;
+	height: 100%;
+	border-top: 1px white;
+	border-bottom: 1px white;
+	border-left: 1px white;
+	border-right: 1px white;
 }
