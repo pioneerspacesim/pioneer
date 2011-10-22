@@ -23,21 +23,23 @@
 
 			<tab>Ship information</tab>
 			<panel>
-				<ship stash="player.ship.flavour"/>
-				<h1>Ship information</h1>
-				<h2 stash="player.ship.type"/>
-				<p>
-					Capacity: <span stash="player.ship.totalCapacity"/><br/>
-					Used: <span stash="player.ship.usedCapacity"/><br/>
-					Free: <span stash="player.ship.freeCargoSpace"/><br/>
-					All-up weight: <span stash="player.ship.totalMass"/>
-				</p>
-				<h3>Equipment</h3>
-				<ul class="horiz-list">
-					<list stash="player.equipment">
-						<li stash="player.equipment"/>
-					</list>
-				</ul>
+				<div class="section">
+					<ship stash="player.ship.flavour"/>
+					<h1>Ship information</h1>
+					<h2 stash="player.ship.type"/>
+					<p>
+						Capacity: <span stash="player.ship.totalCapacity"/><br/>
+						Used: <span stash="player.ship.usedCapacity"/><br/>
+						Free: <span stash="player.ship.freeCargoSpace"/><br/>
+						All-up weight: <span stash="player.ship.totalMass"/>
+					</p>
+					<h3>Equipment</h3>
+					<ul class="horiz-list">
+						<list stash="player.equipment">
+							<li stash="player.equipment"/>
+						</list>
+					</ul>
+				</div>
 			</panel>
 
 			<tab>Reputation</tab>
