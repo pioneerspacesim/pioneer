@@ -180,7 +180,7 @@ Character = {
 			newCharacter.face = {}
 		end
 		-- set inherited characteristics (inherit from class only, not self)
-		setmetatable(newCharacter,{__index = Character, type = "Character"})
+		setmetatable(newCharacter,Character.meta)
 		-- initialize face table if it wasn't fully specified
 		newCharacter.face.female = (female == nil) and (Engine.rand:Integer(1) ==1)
 		newCharacter.face.name = name or NameGen.FullName(newCharacter.female)
@@ -334,15 +334,19 @@ Character = {
 	end,
 
 	Serialize = function (self)
-		return {Character = self, Meta = getmetatable(self)}
+		return self
 	end,
 
-	Deserialize = function (data)
-		local mt = getmetatable(data)
-		if type(mt) == 'table' and mt.type == "Character" then
-			setmetatable(data.Character,data.Meta)
-		end
+	Unserialize = function (data)
+		setmetatable(data,Character.meta)
+		return data
 	end,
+}
+
+-- Meta table to be given to all children
+Character.meta = {
+	__index = Character,
+	class = "Character",
 }
 
 -- This will be a numerically indexed global table of characters.  There
@@ -362,7 +366,7 @@ local onGameStart = function ()
 		-- Make a new character sheet for the player, with just
 		-- the average values.  We'll find some way to ask the
 		-- player for a new name in the future.
-		local PlayerCharacter = Character:New({name = 'Peter Jameson', player = true})
+		local PlayerCharacter = Character:New({face={name = 'Peter Jameson'}, player = true})
 		-- Insert the player character into the persistent character
 		-- table.  Player won't be ennumerated with NPCs, because player
 		-- is not numerically keyed.
