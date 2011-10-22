@@ -5,7 +5,6 @@
 			ship {
 				float: right;
 				width: 50%;
-				background-color: #00000080;
 			}
 			ul.horiz-list {
 				display: block;

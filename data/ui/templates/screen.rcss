@@ -2,5 +2,5 @@ body.screen {
 	width: 90%;
 	height: 90%;
 	margin: auto;
-	background: #0008;
+	background: #000c;
 }
