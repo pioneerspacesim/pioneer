@@ -7,6 +7,7 @@
 #include "render/Render.h"
 #include "Ship.h" // for the flight state and ship animation enums
 #include "SpaceStation.h" // for the space station animation enums
+#include "rocket/RocketManager.h"
 
 enum ModelCategory {
 	MODEL_OTHER,
@@ -32,10 +33,6 @@ static bool g_doBenchmark = false;
 
 static GLuint mytexture;
 
-class Viewer;
-static Viewer *g_viewer;
-
-static void PollEvents();
 extern void LmrModelCompilerInit();
 
 static int g_wheelMoveDir = -1;
@@ -71,6 +68,8 @@ public:
 	CollisionSpace *m_space;
 	Geom *m_geom;
 	ModelCategory m_modelCategory;
+	RocketManager m_rocketManager;
+	RocketScreen *m_ui;
 
 	void SetModel(LmrModel *);
 
@@ -85,7 +84,9 @@ public:
 		return float(atof(val.c_str()));
 	}
 
-	Viewer(): Gui::Fixed(float(g_width), float(g_height)) {
+	Viewer(): Gui::Fixed(float(g_width), float(g_height)),
+		m_quit(false),
+		m_rocketManager(g_width, g_height) {
 		m_model = 0;
 		m_cmesh = 0;
 		m_geom = 0;
@@ -93,6 +94,8 @@ public:
 		m_showBoundingRadius = false;
 		Gui::Screen::AddBaseWidget(this, 0, 0);
 		SetTransparency(true);
+
+		m_ui = m_rocketManager.OpenScreen("modelviewer");
 
 		m_trisReadout = new Gui::Label("");
 		Add(m_trisReadout, 500, 0);
@@ -185,6 +188,10 @@ public:
 		Show();
 	}
 
+	~Viewer();
+
+	void Quit();
+
 	void OnAnimChange(Gui::Adjustment *a, Gui::TextEntry *e) {
 		char buf[128];
 		snprintf(buf, sizeof(buf), "%.2f", a->GetValue());
@@ -231,8 +238,20 @@ public:
 private:
 	void TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg);
 	void VisualizeBoundingRadius(matrix4x4f& trans, double radius);
+	void PollEvents();
 	bool m_showBoundingRadius;
+	bool m_quit;
 };
+
+Viewer::~Viewer()
+{
+	printf("Viewer quitting.\n");
+}
+
+void Viewer::Quit()
+{
+	m_quit = true;
+}
 
 void Viewer::SetModel(LmrModel *model)
 {
@@ -532,6 +551,7 @@ void Viewer::MainLoop()
 	Render::State::SetZnearZfar(1.0f, 10000.0f);
 
 	for (;;) {
+		if (m_quit) return;
 		PollEvents();
 		Render::PrepareFrame();
 
@@ -579,6 +599,7 @@ void Viewer::MainLoop()
 		glLoadIdentity();
 		glClearColor(0,0,0,0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_DEPTH_TEST);
 		
 		SetSbreParams();
 
@@ -631,6 +652,7 @@ void Viewer::MainLoop()
 		
 		Render::PostProcess();
 		Gui::Draw();
+		m_rocketManager.Draw();
 		
 		glError();
 		Render::SwapBuffers();
@@ -650,25 +672,25 @@ void Viewer::MainLoop()
 	}
 }
 
-static void PollEvents()
+void Viewer::PollEvents()
 {
 	SDL_Event event;
 
 	g_mouseMotion[0] = g_mouseMotion[1] = 0;
 	while (SDL_PollEvent(&event)) {
+		m_rocketManager.HandleEvent(&event);
 		Gui::HandleSDLEvent(&event);
 		switch (event.type) {
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_ESCAPE) {
-                    if (g_viewer->m_model) {
-                        g_viewer->PickModel();
+                    if (m_model) {
+                        PickModel();
                     } else {
-                        SDL_Quit();
-                        exit(0);
+                        Quit();
                     }
 				}
 				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(g_screen);
-				if (event.key.keysym.sym == SDLK_s && (g_viewer->m_model)) {
+				if (event.key.keysym.sym == SDLK_s && (m_model)) {
 					Render::ToggleShaders();
 				}
 				g_keyState[event.key.keysym.sym] = 1;
@@ -691,8 +713,7 @@ static void PollEvents()
 				g_mouseMotion[1] += event.motion.yrel;
 				break;
 			case SDL_QUIT:
-				SDL_Quit();
-				exit(0);
+				Quit();
 				break;
 		}
 	}
@@ -785,18 +806,21 @@ int main(int argc, char **argv)
 
 	ShipType::Init();
 
-	g_viewer = new Viewer();
+	Viewer viewer;
 	if (argc >= 4) {
 		try {
 			LmrModel *m = LmrLookupModelByName(argv[3]);
-			g_viewer->SetModel(m);
+			viewer.SetModel(m);
 		} catch (LmrModelNotFoundException) {
-			g_viewer->PickModel(argv[3], std::string("Could not find model: ") + argv[3]);
+			viewer.PickModel(argv[3], std::string("Could not find model: ") + argv[3]);
 		}
 	} else {
-		g_viewer->PickModel();
+		viewer.PickModel();
 	}
 
-	g_viewer->MainLoop();
+	viewer.MainLoop();
+
+	Render::Uninit();
+	LmrModelCompilerUninit();
 	return 0;
 }
