@@ -180,7 +180,7 @@ Character = {
 			newCharacter.face = {}
 		end
 		-- set inherited characteristics (inherit from class only, not self)
-		setmetatable(newCharacter,{__index = Character})
+		setmetatable(newCharacter,{__index = Character, type = "Character"})
 		-- randomize name if it wasn't specified
 		newCharacter.face.female = (female == nil) and (Engine.rand:Integer(1) ==1)
 		newCharacter.face.name = name or NameGen.FullName(newCharacter.female)
@@ -324,12 +324,24 @@ Character = {
 	end,
 
 
+	-- Debug function
 	PrintStats = function (self)
 		print('Name:',self.name)
 		print('Luck:',self.luck)
 		print('Charisma:',self.charisma)
 		print('Notoriety:',self.notoriety)
 		print('Lawfulness:',self.lawfulness)
+	end,
+
+	Serialize = function (self)
+		return self
+	end,
+
+	Deserialize = function (self)
+		local mt = getmetatable(self)
+		if type(mt) == 'table' and mt.type == "Character" then
+			setmetatable(self,{__index = Character, type = "Character"})
+		end
 	end,
 }
 
