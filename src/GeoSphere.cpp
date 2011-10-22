@@ -1102,6 +1102,16 @@ void GeoSphere::Uninit()
 	for (int i=0; i<4; i++) delete s_geosphereSurfaceShader[i];
 }
 
+static void print_info(const SBody *sbody, const Terrain *terrain)
+{
+	printf(
+		"%s:\n"
+		"    height fractal: %s\n"
+		"    colour fractal: %s\n"
+		"    seed: %u\n",
+		sbody->name.c_str(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->seed);
+}
+
 void GeoSphere::OnChangeDetailLevel()
 {
 	s_patchContext->DecRefCount();
@@ -1147,6 +1157,7 @@ void GeoSphere::OnChangeDetailLevel()
 			// reinit the terrain with the new settings
 			delete (*i)->m_terrain;
 			(*i)->m_terrain = Terrain::InstanceTerrain((*i)->m_sbody);
+			print_info((*i)->m_sbody, (*i)->m_terrain);
 		}
 
 		// clear the abort for the next run (with the new settings)
@@ -1162,7 +1173,7 @@ void GeoSphere::OnChangeDetailLevel()
 GeoSphere::GeoSphere(const SBody *body)
 {
 	m_terrain = Terrain::InstanceTerrain(body);
-	printf("%s:\n              seed: %u\n    height fractal: %s\n    colour fractal: %s\n", body->name.c_str(), body->seed, m_terrain->GetHeightFractalName(), m_terrain->GetColorFractalName());
+	print_info(body, m_terrain);
 
 	m_vbosToDestroyLock = SDL_CreateMutex();
 	m_sbody = body;
