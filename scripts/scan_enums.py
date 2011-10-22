@@ -244,7 +244,7 @@ class EnumData:
     def write_c_table(s, fl):
         id = s.ident()
         scope_prefix = '' if s.scope is None else s.scope + '::'
-        fl.write('const EnumItem ENUM_' + id + '[] = {\n')
+        fl.write('const struct EnumItem ENUM_' + id + '[] = {\n')
         for item in s.items:
             if item.skip:
                 continue
@@ -255,7 +255,7 @@ class EnumData:
 
     def write_c_header(s, fl):
         id = s.ident()
-        fl.write('const EnumItem ENUM_' + id + '[];\n')
+        fl.write('extern const struct EnumItem ENUM_' + id + '[];\n')
 
 RX_ENUM_TAG = re.compile(r'<\s*enum((?:\s+[a-zA-Z_]+(?:=(\w+|\'[^\']*\'|"[^"]*"))?)*)\s*>')
 RX_ENUM_ATTR = re.compile(r'([a-zA-Z_]+)(?:=(\w+|\'[^\']*\'|"[^"]*"))?')
@@ -331,7 +331,7 @@ def write_header(enums, fl):
     fl.write('#ifndef HX_GEN_ENUM_TABLES\n')
     fl.write('#define HX_GEN_ENUM_TABLES\n\n')
     write_generation_header(fl)
-    fl.write('struct EnumItem { const char *name, int value };\n\n')
+    fl.write('struct EnumItem { const char *name; int value; };\n\n')
     for e in enums:
         e.write_c_header(fl)
     fl.write('\n')
