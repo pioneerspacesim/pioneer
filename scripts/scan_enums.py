@@ -337,10 +337,31 @@ def write_header(enums, fl):
     fl.write('\n')
     fl.write('#endif\n')
 
-def write_tables(enums, fl):
+def write_tables(enums, headers, hpath, fl):
+    write_generation_header(fl)
+    fl.write('#include "' + hpath + '"\n')
+    for h in headers:
+        fl.write('#include "' + h + '"\n')
+    fl.write('\n')
     for e in enums:
         e.write_c_table(fl)
         fl.write('\n')
+
+def extract_enums(lines):
+    lines = splice_lines(lines)
+    tokens = lex(lines)
+    lastcomment = ''
+    for toktype, toktext in tokens:
+        if toktype == 'comment':
+            lastcomment = toktext
+        elif toktype == 'keyword' and toktext == 'enum':
+            e = parse_enum(toktype, toktext, tokens, lastcomment)
+            if e is not None:
+                yield e
+        else:
+            # comments that don't immediately precede the 'enum' keyword
+            # are discarded
+            lastcomment = ''
 
 def main():
     oparse = OptionParser(usage='%prog [options] inputs')
@@ -351,23 +372,17 @@ def main():
     if options.headerfile is not None and options.outfile is None:
         oparse.error('if you specify --header you must also specify --output')
 
-    lines = splice_lines(fileinput.input(args, inplace=False, mode='rU'))
-    tokens = lex(lines)
-
     enums = []
-
-    lastcomment = ''
-    for toktype, toktext in tokens:
-        if toktype == 'comment':
-            lastcomment = toktext
-        elif toktype == 'keyword' and toktext == 'enum':
-            e = parse_enum(toktype, toktext, tokens, lastcomment)
-            if e is not None:
-                enums.append(e)
+    headers = []
+    for path in args:
+        if path == '-':
+            es = list(extract_enums(sys.stdin))
         else:
-            # comments that don't immediately precede the 'enum' keyword
-            # are discarded
-            lastcomment = ''
+            with open(path, 'rU') as fl:
+                es = list(extract_enums(fl))
+            if len(es) > 0:
+                headers.append(os.path.basename(path))
+        enums += es
 
     if options.outfile is None and options.headerfile is None:
         write_header(sys.stdout)
@@ -386,9 +401,7 @@ def main():
         with open(hpath, 'w') as fl:
             write_header(enums, fl)
         with open(cpath, 'w') as fl:
-            fl.write('#include "' + os.path.basename(hpath) + '"\n')
-            fl.write('\n')
-            write_tables(enums, fl)
+            write_tables(enums, headers, os.path.basename(hpath), fl)
 
 if __name__ == '__main__':
     main()
