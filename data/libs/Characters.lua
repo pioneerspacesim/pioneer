@@ -334,13 +334,13 @@ Character = {
 	end,
 
 	Serialize = function (self)
-		return self
+		return {Character = self, Meta = getmetatable(self)}
 	end,
 
-	Deserialize = function (self)
-		local mt = getmetatable(self)
+	Deserialize = function (data)
+		local mt = getmetatable(data)
 		if type(mt) == 'table' and mt.type == "Character" then
-			setmetatable(self,{__index = Character, type = "Character"})
+			setmetatable(data.Character,data.Meta)
 		end
 	end,
 }
@@ -355,7 +355,7 @@ local loaded_data
 local onGameStart = function ()
 	if loaded_data then
 		for k,newCharacter in pairs(loaded_data.PersistentCharacters) do
-			setmetatable(newCharacter,{__index = Character})
+		--	setmetatable(newCharacter,{__index = Character})
 			PersistentCharacters[k] = newCharacter
 		end
 	else
