@@ -17,9 +17,9 @@ def splice_lines(lines):
             try:
                 f = lines.filename
             except AttributeError:
-                sys.stderr.write('Warning: input file' + err)
+                sys.stderr.write('Warning: input file' + err + '\n')
             else:
-                sys.stderr.write('Warning: ' + f() + err)
+                sys.stderr.write('Warning: ' + f() + err + '\n')
 
         if ln.endswith('\\\n'):
             accum.append(ln[:-2])
@@ -31,11 +31,11 @@ def splice_lines(lines):
 #RX_STRING = re.compile()
 RX_LINE_COMMENT = re.compile(r'//(.*)')
 RX_BLOCK_COMMENT_BEGIN = re.compile(r'/\*')
-RX_BLOCK_COMMENT_END = re.compile(r'\*/')
+RX_BLOCK_COMMENT_END = re.compile(r'\*/\s*') # skip trailing whitespace
 # std: lex.operators (2.12.1)
 RX_PUNCTUATION = re.compile(
     r""" # 3-character puncutation
-         \.\.\.                     # varargs ellipsis
+       (  \.\.\.                     # varargs ellipsis
        | ->\*                       # dereference member function pointer
        | <<= | >>=                  # bit-shift-assignment
          # 2-character puncutation
@@ -51,13 +51,17 @@ RX_PUNCTUATION = re.compile(
        | && | \|\|                  # logical and, logical or
          # 1-character puncutation
        | [{}#();:?+*/%^&|~!=<>,\[\]\.\-]
+       ) \s*                        # skip trailing whitespace
     """, re.VERBOSE)
-RX_IDENTIFIER = re.compile(r'[a-zA-Z_][a-zA-Z0-9_]*')
-RX_INCLUDE_NAME = re.compile(r'(<[^>]+>)|("[^"]+")')
-RX_STRING = re.compile(r'(L?)"(([^"\\]|\\.)*)"')
-RX_CHARACTER = re.compile(r"(L?)'(([^'\\]|\\.)+)'")
-# RX_NUMBER corresponds to pp-number (std: lex.ppnumber, 2.9)
-RX_NUMBER = re.compile(r'\.?\d([a-zA-Z0-9_\.]|[eE][+-])*')
+RX_IDENTIFIER = re.compile(r'([a-zA-Z_][a-zA-Z0-9_]*)\s*')
+RX_PP_HEADERNAME = re.compile(r'((?:<[^>]+>)|(?:"[^"]+"))\s*')
+RX_LITERAL = re.compile(
+    r"""(?:   (L?)               # wide-char prefix
+          (?: "((?: [^"\\] | \\. )*)"  # string literal
+          |   '((?: [^'\\] | \\. )+)'  # character literal
+        ) \s* )
+        | (\.?\d (?: [a-zA-Z0-9_\.] | [eE][+-] )* ) \s*  # pp-number literal
+    """, re.VERBOSE)
 
 KEYWORDS = set([
     # alternative representations (std: lex.key, 2.11.2)
@@ -79,78 +83,90 @@ KEYWORDS = set([
 ])
 assert (len(KEYWORDS) == 74)
 
+def match_pp_token(ln, lines):
+    tok = RX_LINE_COMMENT.match(ln)
+    if tok is not None:
+        return '', 'comment', tok.group(1)
+    tok = RX_BLOCK_COMMENT_BEGIN.match(ln)
+    if tok is not None:
+        end = RX_BLOCK_COMMENT_END.search(ln, 2)
+        if end is None:
+            accum = [ln[2:]]
+            for xln in lines:
+                end = RX_BLOCK_COMMENT_END.search(xln)
+                if end is not None:
+                    accum.append(xln[:end.start()])
+                    return xln[end.end():], 'comment', ''.join(accum)
+                else:
+                    accum.append(xln)
+            raise Exception('Unclosed block comment')
+        else:
+            return ln[end.end():], 'comment', ln[2:end.start()]
+    tok = RX_LITERAL.match(ln)
+    if tok is not None:
+        ln = ln[tok.end():]
+        if tok.group(2) is not None:
+            return ln, 'string', tok.group(2)
+        elif tok.group(3) is not None:
+            return ln, 'character', tok.group(3)
+        elif tok.group(4) is not None:
+            return ln, 'number', tok.group(4)
+        else:
+            assert False, "One of the above should have matched"
+    # has to come after string & character, because they can have an 'L' prefix
+    tok = RX_IDENTIFIER.match(ln)
+    if tok is not None:
+        ln = ln[tok.end():]
+        if tok.group(1) in KEYWORDS:
+            return ln, 'keyword', tok.group(1)
+        else:
+            return ln, 'identifier', tok.group(1)
+    # has to come after block comment, because block comments start with two valid punctuation characters
+    # also has to come after pp-number, because pp-number can start with a '.'
+    tok = RX_PUNCTUATION.match(ln)
+    if tok is not None:
+        return ln[tok.end():], 'punctuation', tok.group(1)
+    # one of the above should have matched...
+    raise Exception('Unmatched token: ' + repr(ln))
+
+def match_pp_headername_or_token(ln, lines):
+    tok = RX_PP_HEADERNAME.match(ln)
+    if tok is not None:
+        return ln[tok.end():], 'headername', tok.group(1)
+    return match_pp_token(ln, lines)
+
 def lex(lines):
-    in_block_comment = False
-    comment_accum = []
-    for ln in lines:
-        if in_block_comment:
-            end = RX_BLOCK_COMMENT_END.search(ln)
-            if end is not None:
-                comment_accum.append(ln[:end.start()])
-                ln = ln[end.end():]
-                in_block_comment = False
-                comment = ''.join(comment_accum)
-                comment_accum = []
-                yield 'block_comment', comment
-            else:
-                comment_accum.append(ln)
-                continue
+    ln = ''
+    while True:
+        # grab the next line if this one is blank
+        if ln == '':
+            try:
+                ln = lines.next().lstrip()
+            except StopIteration:
+                break
 
-        assert len(comment_accum) == 0
+        # skip blank lines
+        if ln == '':
+            continue
 
-        ln = ln.lstrip()
-        while ln != '':
-            tok = RX_LINE_COMMENT.match(ln)
-            if tok is not None:
-                yield 'line_comment', tok.group(1)
-                ln = ''
-                continue
-            tok = RX_BLOCK_COMMENT_BEGIN.match(ln)
-            if tok is not None:
-                end = RX_BLOCK_COMMENT_END.search(ln, 2)
-                if end is None:
-                    comment_accum.append(ln[2:])
-                    in_block_comment = True
-                    ln = ''
-                    continue
-                else:
-                    yield 'oneline_block_comment', ln[2:end.start()]
-                    ln = ln[end.end():].lstrip()
-                    continue
-            tok = RX_STRING.match(ln)
-            if tok is not None:
-                yield 'string', tok.group(2)
-                ln = ln[tok.end():].lstrip()
-                continue
-            tok = RX_CHARACTER.match(ln)
-            if tok is not None:
-                yield 'character', tok.group(2)
-                ln = ln[tok.end():].lstrip()
-                continue
-            # has to come after string & character, because they can have an 'L' prefix
-            tok = RX_IDENTIFIER.match(ln)
-            if tok is not None:
-                toktext = tok.group()
-                if toktext in KEYWORDS:
-                    yield 'keyword', toktext
-                else:
-                    yield 'identifier', toktext
-                ln = ln[tok.end():].lstrip()
-                continue
-            tok = RX_NUMBER.match(ln)
-            if tok is not None:
-                yield 'number', tok.group()
-                ln = ln[tok.end():].lstrip()
-                continue
-            # has to come after block comment, because block comments start with two valid punctuation characters
-            # also has to come after pp-number, because pp-number can start with a '.'
-            tok = RX_PUNCTUATION.match(ln)
-            if tok is not None:
-                yield 'punctuation', tok.group()
-                ln = ln[tok.end():].lstrip()
-                continue
-            sys.stderr.write('Unmatched token: ' + repr(ln))
-            assert False, "One of the above should have matched..."
+        ln, toktype, toktext = match_pp_token(ln, lines)
+        # preprocessor include directives are a little special
+        # (the source path is a different token type that only matches in this context)
+        if toktype == 'punctuation' and toktext == '#':
+            yield toktype, toktext
+            ln, toktype, toktext = match_pp_token(ln, lines)
+            while toktype == 'comment':
+                yield toktype, toktext
+                ln, toktype, toktext = match_pp_token(ln, lines)
+            if toktype == 'identifier' and toktext == 'include':
+                yield toktype, toktext
+                ln, toktype, toktext = match_pp_headername_or_token(ln, lines)
+                while toktype == 'comment':
+                    yield toktype, toktext
+                    ln, toktype, toktext = match_pp_headername_or_token(ln, lines)
+                # if it didn't match a comment, it should have matched a headername, or some other pp-token
+                # either way, it can't match another headername (though it might match more pp-tokens)
+        yield toktype, toktext
 
 def main():
     oparse = OptionParser(usage='%prog [options] inputs')
