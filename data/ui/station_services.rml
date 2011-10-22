@@ -7,15 +7,8 @@
 				height: 400px;
 				float: right;
 			}
-			div.table-keys {
-				display: inline-block;
-				margin: 1em 0;
-				width: 20%;
-			}
-			div.table-values {
-				display: inline-block;
-				margin: 1em 0;
-				width: 20%;
+			div.stats-table {
+				width: 40%;
 			}
 		</style>
 	</head>
@@ -32,23 +25,25 @@
 				<button class="point" onclick="station-board"/>Bulletin board<br/>
 				<button class="point" onclick="station-police"/>Contact police
 			</p>
-			<div class="table-keys">
-				Cash<br/>
-				<br/>
-				Legal status<br/>
-				<br/>
-				Cargo space (used)<br/>
-				Cargo space (free)<br/>
-				Ship equipment
-			</div>
-			<div class="table-values">
-				<span stash="player.money"/><br/>
-				<br/>
-				<span stash="player.legalStatus"/><br/>
-				<br/>
-				<span stash="player.ship.usedCargoSpace"/><br/>
-				<span stash="player.ship.freeCargoSpace"/><br/>
-				<span stash="player.ship.equipmentMass"/>
+			<div class="stats-table">
+				<div class="table-two-column">
+					Cash<br/>
+					<br/>
+					Legal status<br/>
+					<br/>
+					Cargo space (used)<br/>
+					Cargo space (free)<br/>
+					Ship equipment
+				</div>
+				<div class="table-two-column">
+					<span stash="player.money"/><br/>
+					<br/>
+					<span stash="player.legalStatus"/><br/>
+					<br/>
+					<span stash="player.ship.usedCargoSpace"/><br/>
+					<span stash="player.ship.freeCargoSpace"/><br/>
+					<span stash="player.ship.equipmentMass"/>
+				</div>
 			</div>
         </div>
 	</body>

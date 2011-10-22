@@ -236,3 +236,10 @@ tabset panel {
 	border-left: 1px white;
 	border-right: 1px white;
 }
+
+
+div.table-two-column {
+	display: inline-block;
+	margin: 1em 0;
+	width: 50%;
+}

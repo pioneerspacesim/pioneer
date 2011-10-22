@@ -14,6 +14,9 @@
 				display: inline-block;
 				width: 50%;
 			}
+			div.stats-table {
+				width: 40%;
+			}
 		</style>
 	</head>
 	<body template="screen">
@@ -24,14 +27,21 @@
 			<panel>
 				<div class="section">
 					<ship stash="player.ship.flavour"/>
-					<h1>Ship information</h1>
 					<h2 stash="player.ship.type"/>
-					<p>
-						Capacity: <span stash="player.ship.totalCapacity"/><br/>
-						Used: <span stash="player.ship.usedCapacity"/><br/>
-						Free: <span stash="player.ship.freeCargoSpace"/><br/>
-						All-up weight: <span stash="player.ship.totalMass"/>
-					</p>
+					<div class="stats-table">
+						<div class="table-two-column">
+							Capacity:<br/>
+							Used:<br/>
+							Free:<br/>
+							All-up weight:
+						</div>
+						<div class="table-two-column">
+							<span stash="player.ship.totalCapacity"/><br/>
+							<span stash="player.ship.usedCapacity"/><br/>
+							<span stash="player.ship.freeCargoSpace"/><br/>
+							<span stash="player.ship.totalMass"/>
+						</div>
+					</div>
 					<h3>Equipment</h3>
 					<ul class="horiz-list">
 						<list stash="player.equipment">
@@ -43,6 +53,16 @@
 
 			<tab>Reputation</tab>
 			<panel>
+				<div class="section">
+					<h3>Combat rating</h3>
+					<p>Harmless</p>
+					<h3>Criminal record</h3>
+                    <p>
+					    Trading illegal goods<br/>
+    					Piracy and murder<br/>
+	    				Failure to give way
+                    </p>
+				</div>
 			</panel>
 
 			<tab>Cargo</tab>
