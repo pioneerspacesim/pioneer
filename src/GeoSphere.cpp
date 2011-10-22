@@ -1153,12 +1153,12 @@ void GeoSphere::OnChangeDetailLevel()
 				delete (*i)->m_patches[p];
 				(*i)->m_patches[p] = 0;
 			}
-
-			// reinit the terrain with the new settings
-			delete (*i)->m_terrain;
-			(*i)->m_terrain = Terrain::InstanceTerrain((*i)->m_sbody);
-			print_info((*i)->m_sbody, (*i)->m_terrain);
 		}
+
+		// reinit the terrain with the new settings
+		delete (*i)->m_terrain;
+		(*i)->m_terrain = Terrain::InstanceTerrain((*i)->m_sbody);
+		print_info((*i)->m_sbody, (*i)->m_terrain);
 
 		// clear the abort for the next run (with the new settings)
 		(*i)->m_abort = false;
