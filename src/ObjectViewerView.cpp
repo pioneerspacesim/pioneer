@@ -141,8 +141,6 @@ void ObjectViewerView::Update()
 
 void ObjectViewerView::OnChangeTerrain()
 {
-	SBody sbody;
-
 	const fixed volatileGas = fixed(65536.0*atof(m_sbodyVolatileGas->GetText().c_str()), 65536);
 	const fixed volatileLiquid = fixed(65536.0*atof(m_sbodyVolatileLiquid->GetText().c_str()), 65536);
 	const fixed volatileIces = fixed(65536.0*atof(m_sbodyVolatileIces->GetText().c_str()), 65536);
@@ -152,30 +150,26 @@ void ObjectViewerView::OnChangeTerrain()
 	const fixed mass = fixed(65536.0*atof(m_sbodyMass->GetText().c_str()), 65536);
 	const fixed radius = fixed(65536.0*atof(m_sbodyRadius->GetText().c_str()), 65536);
 
-	sbody.parent = 0;
-	sbody.name = "Test";
-	/* These should be the only SBody attributes Terrain uses */
-	sbody.type = SBody::TYPE_PLANET_TERRESTRIAL;
-	sbody.seed = atoi(m_sbodySeed->GetText().c_str());
-	sbody.radius = radius;
-	sbody.mass = mass;
-	sbody.averageTemp = 273;
-	sbody.m_metallicity = metallicity;
-	sbody.m_volatileGas = volatileGas;
-	sbody.m_volatileLiquid = volatileLiquid;
-	sbody.m_volatileIces = volatileIces;
-	sbody.m_volcanicity = volcanicity;
-	sbody.m_life = life;
-	sbody.heightMapFilename = 0;
-
+	// XXX this is horrendous, but probably safe for the moment. all bodies,
+	// terrain, whatever else holds a const pointer to the same toplevel
+	// sbody. one day objectviewer should be far more contained and not
+	// actually modify the space
 	Body *body = Pi::player->GetNavTarget();
-	if (body->IsType(Object::PLANET)) {
-		Planet *planet = static_cast<Planet*>(body);
-		GeoSphere *gs = planet->GetGeoSphere();
-		gs->m_terrain = Terrain::InstanceTerrain(&sbody);
-		// force rebuild
-		gs->OnChangeDetailLevel();
-	}
+	SBody *sbody = const_cast<SBody*>(body->GetSBody());
+
+	sbody->seed = atoi(m_sbodySeed->GetText().c_str());
+	sbody->radius = radius;
+	sbody->mass = mass;
+	sbody->m_metallicity = metallicity;
+	sbody->m_volatileGas = volatileGas;
+	sbody->m_volatileLiquid = volatileLiquid;
+	sbody->m_volatileIces = volatileIces;
+	sbody->m_volcanicity = volcanicity;
+	sbody->m_life = life;
+
+	// force reload
+	if (body->IsType(Object::TERRAINBODY))
+		static_cast<TerrainBody*>(body)->GetGeoSphere()->OnChangeDetailLevel();
 }
 
 #endif

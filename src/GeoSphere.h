@@ -32,9 +32,6 @@ public:
 	// only called from fishy thread
 	void _UpdateLODs();
 	friend class GeoPatch;
-#if OBJECTVIEWER
-	friend class ObjectViewerView;
-#endif /* DEBUG */
 	static void Init();
 	static void Uninit();
 	static void OnChangeDetailLevel();
