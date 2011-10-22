@@ -282,12 +282,9 @@ def parse_enum(toktype, toktext, tokens, preceding_comment=None):
             raise Exception('Bad enum')
 
         return e
-    elif toktype == 'punctuation' and toktext == ';':
-        # enum forward declaration
-        return None
     else:
-        raise Exception('Bad enum')
-
+        # might be a forward declaration or a variable declaration
+        return None
 
 def main():
     oparse = OptionParser(usage='%prog [options] inputs')
