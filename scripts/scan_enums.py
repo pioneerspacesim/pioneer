@@ -10,10 +10,16 @@ def splice_lines(lines):
     accum = []
     for ln in lines:
         if not ln.endswith('\n'):
+            if ln.endswith('\\'):
+                err = ' ends with a backslash'
+            else:
+                err = ' does not end with a newline'
             try:
-                sys.stderr.write('Warning: ' + lines.filename() + ' does not end with a newline.')
+                f = lines.filename
             except AttributeError:
-                sys.stderr.write('Warning: input file does not end with a newline.')
+                sys.stderr.write('Warning: input file' + err)
+            else:
+                sys.stderr.write('Warning: ' + f() + err)
 
         if ln.endswith('\\\n'):
             accum.append(ln[:-2])
