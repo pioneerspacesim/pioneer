@@ -288,14 +288,9 @@ void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoord
 	}
 
 	GetFrustum(planes);
-	
-	memset(&cityobj_params, 0, sizeof(LmrObjParams));
-	// this fucking rubbish needs to be moved into a function
-	cityobj_params.argDoubles[1] = Pi::GetGameTime();
-	cityobj_params.argDoubles[2] = Pi::GetGameTime() / 60.0;
-	cityobj_params.argDoubles[3] = Pi::GetGameTime() / 3600.0;
-	cityobj_params.argDoubles[4] = Pi::GetGameTime() / (24*3600.0);
 
+	memset(&cityobj_params, 0, sizeof(LmrObjParams));
+	cityobj_params.time = Pi::GetGameTime();
 
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
 			i != m_buildings.end(); ++i) {

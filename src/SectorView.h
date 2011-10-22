@@ -15,6 +15,7 @@ public:
 	SectorView();
 	virtual ~SectorView();
 	virtual void Update();
+	virtual void ShowAll();
 	virtual void Draw3D();
 	vector3f GetPosition() const { return m_pos; }
 	SystemPath GetSelectedSystem() const { return m_selected; }

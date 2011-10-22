@@ -1,7 +1,8 @@
 Alpha 16
 
   * New features
-    * "Wave Heavy Hypersonic Fighter" ship
+    * New ships: "Wave Heavy Hypersonic Fighter" and "Turtle" (#558, #657)
+    * Cargo scooping (#585, #708)
     * Spanish translation (#628)
 
   * Minor changes and tweaks
@@ -9,6 +10,9 @@ Alpha 16
     * Translation infrastructure for Assassinations (#641), DonateToCranks
       (#658), GoodsTrader (#659) and DeliverPackage (#639)
     * Modules translated to Polish
+    * Targets can be selected from the system view (#503)
+	* Model cleanups and optimisations (#680, #675, #672, #674)
+    * New "temple" building (#664)
 
   * Fixes
     * Optimise trade ship cargo management (#632)
@@ -16,10 +20,20 @@ Alpha 16
     * Model optimisations (#666)
     * modelviewer no longer crashes if invalid model name is given on command
       line (#669, #670)
+    * Fix hyperspace behaviour after game load
+    * Lua onGameEnd event now fires when game ends after player destruction (#684)
+    * Remember sectorview info box visbility state across view switches and
+      game saves (#685)
+    * Don't pollute the global Lua namespace with translation functions (#696)
+    * Fix assassination crash on mission completion/failure (#692, #694)
+    * Fix delivery crash on dock
+    * Model LOD switches now calculated correctly based on screen wdith (#704)
   
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
     * Module translations (#640)
+    * LMR get_arg() and get_arg_string() replaced with several special purpose
+      functions. "Stringy" constants now in use (#650, #586, #582, #688, #689, #690, #709)
 
   * Internal changes
     * Cleanups, leaks fixed and general code improvements (#635, #637, #665)
@@ -28,6 +42,7 @@ Alpha 16
       times a little more consistent
     * Remove deprecated EquipType::types list (#642)
     * Show Lua memory usage in debug info (#638)
+    * Limit number of physics updates between render updates (#671)
 
 Alpha 15
 

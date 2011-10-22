@@ -68,6 +68,12 @@ public:
 	static void Init();
 	static void Uninit();
 	enum TYPE { JJHOOP, GROUND_FLAVOURED, TYPE_MAX };
+
+	enum Animation {
+#define Animation_ITEM(x) ANIM_##x,
+#include "SpaceStationEnums.h"
+	};
+
 	// Should point to SBody in Pi::currentSystem
 	SpaceStation(const SBody *);
 	SpaceStation() {}

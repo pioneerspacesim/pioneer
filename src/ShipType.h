@@ -4,16 +4,27 @@
 #include "libs.h"
 #include "vector3.h"
 #include "EquipType.h"
-#include "Serializer.h"
 #include <vector>
 #include <map>
 
 struct lua_State;
 
 struct ShipType {
-	enum Thruster { THRUSTER_REVERSE, THRUSTER_FORWARD, THRUSTER_UP, THRUSTER_DOWN, THRUSTER_LEFT, THRUSTER_RIGHT, THRUSTER_MAX };
-	enum { GUN_FRONT, GUN_REAR, GUNMOUNT_MAX = 2 };
-	enum Tag { TAG_NONE, TAG_SHIP, TAG_STATIC_SHIP, TAG_MISSILE, TAG_MAX };
+	enum Thruster {
+#define Thruster_ITEM(x) THRUSTER_##x,
+#include "ShipTypeEnums.h"
+		THRUSTER_MAX
+	};
+	enum {
+		GUN_FRONT,
+		GUN_REAR,
+		GUNMOUNT_MAX = 2
+	};
+	enum Tag {
+#define Tag_ITEM(x) TAG_##x,
+#include "ShipTypeEnums.h"
+		TAG_MAX
+	};
 	typedef std::string Type;
 
 	////////
@@ -47,8 +58,6 @@ struct ShipType {
 	static std::vector<Type> static_ships;
 	static std::vector<Type> missile_ships;
 
-	static Type GetRandomType();
-	static Type GetRandomStaticType();
 	static const char *gunmountNames[GUNMOUNT_MAX];
 	static void Init();
 	static const ShipType *Get(const char *name) {
@@ -63,8 +72,10 @@ public:
 	EquipSet() {}
 
 	void InitSlotSizes(const ShipType::Type t) {
+		const ShipType &st = ShipType::types[t];
 		for (int i=0; i<Equip::SLOT_MAX; i++) {
-			equip[i] = std::vector<Equip::Type>(ShipType::types[t].equipSlotCapacity[i]);
+			// vector swap idiom (de-allocates unneeded space)
+			std::vector<Equip::Type>(st.equipSlotCapacity[i]).swap(equip[i]);
 		}
 		onChange.emit(Equip::NONE);
 	}
@@ -131,11 +142,9 @@ public:
 		}
 		return free;
 	}
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
 
 	sigc::signal<void,Equip::Type> onChange;
-private:
+protected:
 	std::vector<Equip::Type> equip[Equip::SLOT_MAX];
 };
 

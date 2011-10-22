@@ -25,7 +25,7 @@ define_model('maxi_ant', {
 			cylinder(3*lod, v(0,-.5,0), v(-.6,-.5,.0), v(-1,1,0), .03)
 	end,
 	dynamic = function(lod)
-	        local rot = math.pi*get_arg(1)
+	        local rot = math.pi*get_time('SECONDS')
             call_model('mini_ant', v(-.5,.5,0), v(1,0,0), v(0,math.cos(rot),math.sin(rot)), 1)
    			call_model('mini_ant', v(-.5,-.5,0), v(1,0,0), v(0,math.cos(rot),math.sin(rot)), 1)
 	end
@@ -45,7 +45,7 @@ define_model('antenna_1', {
 			cylinder(3*lod, v(0,0,.1), v(0,0,-1), v(0,1,1), .03)
     end,
 	dynamic = function(lod)
-	        local rot = math.pi*get_arg(1)
+	        local rot = math.pi*get_time('SECONDS')
 	        use_material('chrome')
 			call_model('maxi_ant', v(0,0,-.6), v(0,0,1), v(math.cos(0.25*rot),math.sin(0.25*rot),0), 1)
    			call_model('mini_ant', v(0,0,-.9), v(0,0,1), v(math.cos(0.5*rot),-math.sin(0.5*rot),0), 1)
@@ -66,7 +66,7 @@ define_model('antenna_2', {
 			cylinder(3*lod, v(0,0,.1), v(0,0,-1), v(0,1,1), .03)
     end,
 	dynamic = function(lod)
-	        local rot = math.pi*get_arg(1)
+	        local rot = math.pi*get_time('SECONDS')
 	        use_material('chrome')
 			call_model('maxi_ant', v(0,0,-.6), v(0,0,1), v(math.cos(0.25*rot),math.sin(0.25*rot),0), 1)
    			call_model('mini_ant', v(0,0,-.9), v(0,0,1), v(math.cos(0.5*rot),-math.sin(0.5*rot),0), 1)

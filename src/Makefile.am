@@ -25,6 +25,7 @@ noinst_HEADERS = \
 	DeleteEmitter.h \
 	DynamicBody.h \
 	EquipType.h \
+	EquipTypeEnums.h \
 	FaceVideoLink.h \
 	Font.h \
 	FontManager.h \
@@ -86,7 +87,9 @@ noinst_HEADERS = \
 	PiLuaClasses.h \
 	Planet.h \
 	Player.h \
+	PlayerEnums.h \
 	Polit.h \
+	PolitEnums.h \
 	Projectile.h \
 	Quaternion.h \
 	RefCounted.h \
@@ -107,19 +110,23 @@ noinst_HEADERS = \
 	StringF.h \
 	Sfx.h \
 	Ship.h \
+	ShipEnums.h \
 	ShipAICmd.h \
 	ShipCpanel.h \
 	ShipCpanelMultiFuncDisplays.h \
 	ShipFlavour.h \
 	ShipSpinnerWidget.h \
 	ShipType.h \
+	ShipTypeEnums.h \
 	Sound.h \
 	SoundMusic.h \
 	Space.h \
 	SpaceStation.h \
+	SpaceStationEnums.h \
 	SpaceStationView.h \
 	Star.h \
 	StarSystem.h \
+	StarSystemEnums.h \
 	SystemInfoView.h \
 	SystemPath.h \
 	SystemView.h \
@@ -268,9 +275,13 @@ modelviewer_SOURCES = \
 	IniConfig.cpp \
 	FontConfig.cpp \
 	FontManager.cpp \
+	Lang.cpp \
 	LmrModel.cpp \
 	LuaModelViewer.cpp \
 	LuaUtils.cpp \
+	LuaConstants.cpp \
+	EquipType.cpp \
+	ShipType.cpp \
 	MyLuaMathTypes.cpp \
 	StringF.cpp \
 	TextureFont.cpp \

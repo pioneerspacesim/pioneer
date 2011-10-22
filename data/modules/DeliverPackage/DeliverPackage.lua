@@ -1,5 +1,5 @@
 -- Get the translator function
-t = Translate:GetTranslator()
+local t = Translate:GetTranslator()
 
 -- don't produce missions for further than this many light years away
 local max_delivery_dist = 30
@@ -237,6 +237,7 @@ local onEnterSystem = function (player)
 end
 
 local onShipDocked = function (player, station)
+	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
 	if not player:IsPlayer() then return end
 
 	for ref,mission in pairs(missions) do

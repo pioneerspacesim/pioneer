@@ -261,7 +261,7 @@ static void LuaInit()
 	Pi::luaOnShipFlavourChanged->RegisterEventQueue();
 	Pi::luaOnShipEquipmentChanged->RegisterEventQueue();
 
-	LuaConstants::Register();
+	LuaConstants::Register(Pi::luaManager->GetLuaState());
 	LuaLang::Register();
 	LuaEngine::Register();
 	LuaGame::Register();
@@ -468,6 +468,7 @@ void Pi::Init()
 	draw_progress(0.3f);
 
 	LmrModelCompilerInit();
+	LmrNotifyScreenWidth(Pi::scrWidth);
 	draw_progress(0.4f);
 
 //unsigned int control_word;
@@ -844,14 +845,29 @@ static void draw_intro(Background::Starfield *starfield, Background::MilkyWay *m
 	// defaults are dandy
 	Render::State::SetZnearZfar(1.0f, 10000.0f);
 	LmrObjParams params = {
-		{ },
-		{ Lang::PIONEER },
-		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
+		"ShipAnimation", // animation namespace
+		0.0, // time
+		{ }, // animation stages
+		{ 0.0, 1.0 }, // animation positions
+		Lang::PIONEER, // label
+		0, // equipment
+		Ship::FLYING, // flightState
+		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f }, // thrust
 		{	// pColor[3]
 		{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
 		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
 		{ { 0.8f, 0.8f, 0.8f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 	};
+	EquipSet equipment;
+	// The finest parts that money can buy!
+	params.equipment = &equipment;
+	equipment.Add(Equip::ECM_ADVANCED, 1);
+	equipment.Add(Equip::HYPERCLOUD_ANALYZER, 1);
+	equipment.Add(Equip::ATMOSPHERIC_SHIELDING, 1);
+	equipment.Add(Equip::FUEL_SCOOP, 1);
+	equipment.Add(Equip::SCANNER, 1);
+	equipment.Add(Equip::RADAR_MAPPER, 1);
+	equipment.Add(Equip::MISSILE_NAVAL, 4);
 
 	glPushMatrix();
 	glRotatef(_time*10, 1, 0, 0);
@@ -887,8 +903,13 @@ static void draw_tombstone(float _time)
 	float ambient[4] = { 0.1,0.1,0.1,1 };
 
 	LmrObjParams params = {
-		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ Lang::TOMBSTONE_EPITAPH },
+		0, // animation namespace
+		0.0, // time
+		{}, // animation stages
+		{}, // animation positions
+		Lang::TOMBSTONE_EPITAPH, // label
+		0, // equipment
+		0, // flightState
 		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
 		{ { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
@@ -1253,6 +1274,8 @@ void Pi::Start()
 
 void Pi::EndGame()
 {
+	Pi::musicPlayer.Stop();
+	Sound::DestroyAllEvents();
 	Pi::luaOnGameEnd->Signal();
 	Pi::luaManager->CollectGarbage();
 	Pi::isGameStarted = false;
@@ -1275,6 +1298,10 @@ void Pi::MainLoop()
 	memset(fps_readout, 0, sizeof(fps_readout));
 #endif
 
+	int MAX_PHYSICS_TICKS = Pi::config.Int("MaxPhysicsCyclesPerRender");
+	if (MAX_PHYSICS_TICKS <= 0)
+		MAX_PHYSICS_TICKS = 4;
+
 	double currentTime = 0.001 * double(SDL_GetTicks());
 	double accumulator = Pi::GetTimeStep();
 	Pi::gameTickAlpha = 0;
@@ -1288,14 +1315,22 @@ void Pi::MainLoop()
 		
 		const float step = Pi::GetTimeStep();
 		if (step > 0.0f) {
+			int phys_ticks = 0;
 			while (accumulator >= step) {
+				if (++phys_ticks >= MAX_PHYSICS_TICKS) {
+					accumulator = 0.0;
+					break;
+				}
 				Space::TimeStep(step);
 				gameTime += step;
-				phys_stat++;
 
 				accumulator -= step;
 			}
 			Pi::gameTickAlpha = accumulator / step;
+
+#ifdef DEVKEYS
+			phys_stat += phys_ticks;
+#endif
 		} else {
 			// paused
 		}
@@ -1386,8 +1421,7 @@ void Pi::MainLoop()
 		if (Pi::player->IsDead()) {
 			if (time_player_died > 0.0) {
 				if (Pi::GetGameTime() - time_player_died > 8.0) {
-					Sound::DestroyAllEvents();
-					isGameStarted = false;
+					Pi::EndGame();
 					Pi::TombStoneLoop();
 					break;
 				}

@@ -16,9 +16,12 @@ public:
 	virtual void Draw3D();
 	virtual void OnSwitchTo() {}
 private:
+	static const double PICK_OBJECT_RECT_SIZE;
 	void PutOrbit(SBody *b, vector3d offset);
 	void PutBody(SBody *b, vector3d offset);
 	void PutLabel(SBody *b, vector3d offset);
+	void PutSelectionBox(const SBody *b, const vector3d &rootPos, const Color &col);
+	void PutSelectionBox(const vector3d &worldPos, const Color &col);
 	void GetTransformTo(SBody *b, vector3d &pos);
 	void OnClickObject(SBody *b);
 	void OnClickAccel(float step);

@@ -23,6 +23,7 @@ define_model('lrc', {
 				max_cargo = 15000,
 				max_laser = 0,
 				max_missile = 0,
+				max_cargoscoop = 0,
 				capacity = 15000,
 				hull_mass = 5000,
 				price = 3.1e8,
@@ -54,7 +55,7 @@ define_model('lrc', {
 	end,
 	dynamic = function(lod)
 		if lod > 2 then
-			set_material('glow', lerp_materials(get_arg(ARG_ALL_TIME_SECONDS)*0.4,	{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, .5 }, {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, .1 }))
+			set_material('glow', lerp_materials(get_time('SECONDS')*0.4,	{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, .5 }, {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, .1 }))
 		end
 	end
 })
