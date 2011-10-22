@@ -362,7 +362,7 @@ local onGameStart = function ()
 		-- Make a new character sheet for the player, with just
 		-- the average values.  We'll find some way to ask the
 		-- player for a new name in the future.
-		local PlayerCharacter = Character:new({name = 'Peter Jameson', player = true})
+		local PlayerCharacter = Character:New({name = 'Peter Jameson', player = true})
 		-- Insert the player character into the persistent character
 		-- table.  Player won't be ennumerated with NPCs, because player
 		-- is not numerically keyed.
