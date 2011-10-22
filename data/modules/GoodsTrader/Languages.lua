@@ -34,7 +34,7 @@ Translate:Add({ Polski = {
 ---- SPANISH / ESPAÑOL ----
 
 Translate:Add({ Spanish = {
-  ["Welcome to "] = "Bienvenido a",
+  ["Welcome to "] = "Bienvenido a ",
  
  GOODS_TRADER = {
   "Emporio del Honesto {name}",
