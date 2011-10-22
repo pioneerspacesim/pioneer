@@ -35,7 +35,7 @@ RX_BLOCK_COMMENT_END = re.compile(r'\*/\s*') # skip trailing whitespace
 # std: lex.operators (2.12.1)
 RX_PUNCTUATION = re.compile(
     r""" # 3-character puncutation
-       (  \.\.\.                     # varargs ellipsis
+       ( \.\.\.                     # varargs ellipsis
        | ->\*                       # dereference member function pointer
        | <<= | >>=                  # bit-shift-assignment
          # 2-character puncutation
@@ -168,6 +168,127 @@ def lex(lines):
                 # either way, it can't match another headername (though it might match more pp-tokens)
         yield toktype, toktext
 
+def collect_comments(tokens, comments):
+    for toktype, toktext in tokens:
+        if toktype != 'comment':
+            return toktype, toktext
+        else:
+            comments.append(toktext)
+
+def skip_comments(tokens):
+    for toktype, toktext in tokens:
+        if toktype != 'comment':
+            return toktype, toktext
+
+class EnumItem:
+    def __init__(s, identifier):
+        s.identifier = identifier
+        s.name = None
+        s.skip = False
+    def __str__(s):
+        x = ['EnumItem(', repr(s.identifier)]
+        if s.name is not None:
+            x += [', name=', repr(s.name)]
+        if s.skip:
+            x += [', skip=True']
+        x.append(')')
+        return ''.join(x)
+
+class EnumData:
+    def __init__(s, identifier):
+        s.identifier = identifier
+        s.name = None
+        s.prefix = None
+        s.items = []
+
+    def __str__(s):
+        x = [ 'EnumData:'
+            , '  identifier: ' + repr(s.identifier)
+            , '  name: ' + repr(s.name)
+            , '  prefix: ' + repr(s.prefix)
+            , '  items:']
+        if len(s.items) > 0:
+            for item in s.items:
+                x.append('    ' + str(item))
+        else:
+            x.append('    pass')
+        return '\n'.join(x)
+
+RX_ENUM_TAG = re.compile(r'<\s*enum((?:\s+[a-zA-Z_]+(?:=\w+)?)*)\s*>')
+RX_ENUM_ATTR = re.compile(r'([a-zA-Z_]+)(?:=(\w+))?')
+
+def extract_attributes(text):
+    attr = {}
+    for m in RX_ENUM_ATTR.finditer(text):
+        if m.group(2) is not None:
+            attr[m.group(1)] = m.group(2)
+        else:
+            attr[m.group(1)] = True
+    return attr
+
+def parse_enum(toktype, toktext, tokens, preceding_comment=None):
+    assert toktype == 'keyword'
+    assert toktext == 'enum'
+    tag = []
+    if preceding_comment is not None:
+        tag.append(preceding_comment)
+    toktype, toktext = collect_comments(tokens, tag)
+
+    if toktype == 'identifier':
+        identifier = toktext
+        toktype, toktext = collect_comments(tokens, tag)
+    else:
+        identifier = ''
+
+    if toktype == 'punctuation' and toktext == '{':
+        # comments become part of the enum tag right up until
+        # the identifier for the first elements
+        toktype, toktext = collect_comments(tokens, tag)
+
+        tag = RX_ENUM_TAG.search(' '.join(tag))
+        if tag is None:
+            return None
+
+        e = EnumData(identifier)
+
+        attributes = extract_attributes(tag.group(1))
+        if 'name' in attributes:
+            e.name = attributes['name']
+        if 'prefix' in attributes:
+            e.prefix = attributes['prefix']
+
+        while toktype == 'identifier':
+            item = EnumItem(toktext)
+            tag = []
+            toktype, toktext = collect_comments(tokens, tag)
+            while toktype != 'punctuation' or toktext not in [',', '}']:
+                toktype, toktext = collect_comments(tokens, tag)
+            if toktype == 'punctuation' and toktext == ',':
+                toktype, toktext = collect_comments(tokens, tag)
+            
+            tag = RX_ENUM_TAG.search(' '.join(tag))
+            if tag is not None:
+                attributes = extract_attributes(tag.group(1))
+                if 'skip' in attributes:
+                    item.skip = attributes['skip']
+                if 'name' in attributes:
+                    item.name = attributes['name']
+
+            if item.name is None and e.prefix is not None and item.identifier.startswith(e.prefix):
+                item.name = item.identifier[len(e.prefix):]
+            e.items.append(item)
+
+        if toktype != 'punctuation' or toktext != '}':
+            raise Exception('Bad enum')
+
+        return e
+    elif toktype == 'punctuation' and toktext == ';':
+        # enum forward declaration
+        return None
+    else:
+        raise Exception('Bad enum')
+
+
 def main():
     oparse = OptionParser(usage='%prog [options] inputs')
     (options, args) = oparse.parse_args()
@@ -175,8 +296,23 @@ def main():
     lines = splice_lines(fileinput.input(args, inplace=False, mode='rU'))
     tokens = lex(lines)
 
-    for ttype, tword in tokens:
-        print ttype, repr(tword)
+    enums = []
+
+    lastcomment = ''
+    for toktype, toktext in tokens:
+        if toktype == 'comment':
+            lastcomment = toktext
+        elif toktype == 'keyword' and toktext == 'enum':
+            e = parse_enum(toktype, toktext, tokens, lastcomment)
+            if e is not None:
+                enums.append(e)
+        else:
+            # comments that don't immediately precede the 'enum' keyword
+            # are discarded
+            lastcomment = ''
+
+    for e in enums:
+        print e
 
 if __name__ == '__main__':
     main()
