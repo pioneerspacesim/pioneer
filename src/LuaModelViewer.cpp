@@ -645,22 +645,22 @@ void Viewer::MainLoop()
 		Render::UnbindAllBuffers();
 
 		{
-			char buf[128];
 			Aabb aabb = m_cmesh->GetAabb();
-			snprintf(buf, sizeof(buf), "%d triangles, %d fps, %.3fm tris/sec\ncollision mesh size: %.1fx%.1fx%.1f (radius %.1f)\nClipping radius %.1f",
-					(g_renderType == 0 ? 
-						LmrModelGetStatsTris() - beforeDrawTriStats :
-						m_cmesh->m_numTris),
-					fps,
-					numTris/1000000.0f,
-					aabb.max.x-aabb.min.x,
-					aabb.max.y-aabb.min.y,
-					aabb.max.z-aabb.min.z,
-					aabb.GetBoundingRadius(),
-					m_model->GetDrawClipRadius());
-			m_trisReadout->SetText(buf);
 			m_rocketManager.SetStashItem("performance.fps", stringf("FPS %0", fps));
+			m_rocketManager.SetStashItem("performance.triangles",
+				stringf("%0 triangles, %1{f.3}m tris/sec",
+				(g_renderType == 0 ?  LmrModelGetStatsTris() - beforeDrawTriStats : m_cmesh->m_numTris),
+				numTris/1000000.0f));
+			m_rocketManager.SetStashItem("performance.dimensions",
+				stringf("mesh size: %0{f.1}x%1{f.1}x%2{f.1} (radius %3{f.1})",
+						aabb.max.x-aabb.min.x,
+						aabb.max.y-aabb.min.y,
+						aabb.max.z-aabb.min.z,
+						aabb.GetBoundingRadius()));
+			m_rocketManager.SetStashItem("performance.radius",
+				stringf("Clipping radius %0", m_model->GetDrawClipRadius()));
 		}
+		//testing getElement...
 		std::string mname = stringf("Model: %0", m_model->GetName());
 		m_ui->GetDocument()->GetElementById("modelname")->SetInnerRML(mname.c_str());
 		

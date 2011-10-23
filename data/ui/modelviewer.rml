@@ -25,10 +25,10 @@
 				width: 50%;
 			}
 			div#performance {
-				display: inline-block;
+				display: block;
 				position: absolute;
-				top: 0px;
-				left: 80%;
+				top: 0;
+				left: 60%; /* right: 0 doesn't work? */
 			}
 			div#slidercontainer {
 				background-color: rgba(49, 143, 200, 90);
@@ -47,7 +47,10 @@
 			<button class="point" onclick="resetanimations" shortcut="r" />Reset thruster/animation sliders<br />
 		</div>
 		<div id="performance">
-			<span stash="performance.fps" />
+			<span stash="performance.fps" /><br />
+			<span stash="performance.triangles" /><br />
+			<span stash="performance.dimensions" /><br />
+			<span stash="performance.radius" />
 		</div>
 		<div id="slidercontainer">
 			Sliders go here
