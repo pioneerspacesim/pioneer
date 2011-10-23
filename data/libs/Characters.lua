@@ -199,10 +199,9 @@ Character = {
 			newCharacter = temp
 			temp = nil
 			test = nil
-		else
-			-- initialise new character
-			local newCharacter = newCharacter or {}
 		end
+		-- initialise new character
+		local newCharacter = newCharacter or {}
 		-- preserve default name/gender etc against randomization
 		local female = newCharacter.female
 		local armour = newCharacter.armor
@@ -294,6 +293,12 @@ Character = {
 --
 -- > success = somebody:TestRoll('notoriety')
 --
+-- If the DiceRoll is from 4-10, then it was a critical failure and that
+-- attribute is abused.  It is decremented by one for future tests.
+--
+-- If the DiceRoll is from 251-256, then it was a critical success and that
+-- attribute is exercised.  It is incremented by one for future tests.
+--
 -- Return:
 --
 --   success - Boolean value indicating that the test roll passed or failed
@@ -315,7 +320,18 @@ Character = {
 	TestRoll = function (self,attribute,modifier)
 		if not modifier then modifier = 0 end
 		if self[attribute] then
-			return (Character.DiceRoll() < (self[attribute] + modifier))
+			local result = Character.DiceRoll()
+print('DEBUG: before = ',self[attribute])
+print('DEBUG: roll = ',result)
+			if result < 10 then -- punish critical failure
+				self[attribute] = self[attribute] - 1
+				modifier = modifier + 1 -- don't affect *this* result
+			elseif result > 250 then -- reward critical success
+				self[attribute] = self[attribute] + 1
+				modifier = modifier - 1 -- don't affect *this* result
+			end
+print('DEBUG: after = ',self[attribute])
+			return (result < (self[attribute] + modifier))
 		else
 			return false
 		end
