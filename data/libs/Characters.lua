@@ -155,8 +155,9 @@ Character = {
 --
 -- Returns a either the table specified as a parameter, or a new object table,
 -- with that table now inheriting attributes and methods from Character class.
+-- If the parameter is another character, it returns a rough clone.
 --
--- character = Character:New(newCharacter)
+-- character = Character.New(newCharacter)
 --
 -- Return:
 --
@@ -168,14 +169,13 @@ Character = {
 --
 -- Example:
 --
--- > regular_joe = Character:New()
+-- > regular_joe = Character.New()
 --
--- > lucky_guy = Character:New({luck = 180})
+-- > lucky_guy = Character.New({luck = 180})
 --
 -- > -- How to clone lucky_guy (he'll get a new name and face)
--- > new_guy = {}
--- > for k,v in pairs(lucky_guy) do new_guy[k] = v end
--- > new_guy = Character:New(new_guy)
+-- > -- by (ab)using Lua's colon to pass an object to itself
+-- > new_guy = lucky_guy:New()
 --
 -- Availability:
 --
@@ -185,12 +185,27 @@ Character = {
 --
 --   experimental
 --
-	New = function (self,newCharacter)
-		-- initialise new character
-		local newCharacter = newCharacter or {}
+	New = function (newCharacter)
+		local test = getmetatable(newCharacter)
+		if(test and (test.class == 'Character')) then
+print('DEBUG:',1)
+			-- We've been handed an actual character as a constructor argument!
+			-- We'll duplicate him.
+			local temp = {}
+			for k,v in pairs(newCharacter) do
+				if type(v) ~= 'table' then -- don't want to share sub-tables
+					temp[k] = v
+				end
+			end
+			newCharacter = temp
+			temp = nil
+			test = nil
 		else
-			newCharacter.face = {}
+print('DEBUG:',2)
+			-- initialise new character
+			local newCharacter = newCharacter or {}
 		end
+print('DEBUG:',newCharacter.name)
 		-- preserve default name/gender etc against randomization
 		local female = newCharacter.female
 		local armour = newCharacter.armor
@@ -384,7 +399,7 @@ local onGameStart = function ()
 		-- Make a new character sheet for the player, with just
 		-- the average values.  We'll find some way to ask the
 		-- player for a new name in the future.
-		local PlayerCharacter = Character:New({name = 'Peter Jameson', player = true})
+		local PlayerCharacter = Character.New({name = 'Peter Jameson', player = true})
 		-- Insert the player character into the persistent character
 		-- table.  Player won't be ennumerated with NPCs, because player
 		-- is not numerically keyed.
