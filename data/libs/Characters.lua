@@ -79,7 +79,7 @@ Character = {
 --
 -- Integer attribute for roll-play style dice tests.  Luck is intended to reflect
 -- the character's innate good fortune.
--- Tested with 4xD64; useful values are 4 (never lucky) to 257 (always lucky).
+-- Tested with 4xD16; useful values are 4 (never lucky) to 65 (always lucky).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
 --
 -- Availability:
@@ -90,14 +90,14 @@ Character = {
 --
 --   experimental
 --
-	luck = 130,
+	luck = 32,
 
 --
 -- Attribute: charisma
 --
 -- Integer attribute for roll-play style dice tests.  Charisma is intended to reflect
 -- the character's ability to win contracts or favrouable deals.
--- Tested with 4xD64; useful values are 4 (always hated) to 257 (always liked).
+-- Tested with 4xD16; useful values are 4 (always hated) to 65 (always liked).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
 --
 -- Availability:
@@ -108,14 +108,14 @@ Character = {
 --
 --   experimental
 --
-	charisma = 130,
+	charisma = 32,
 
 --
 -- Attribute: notoriety
 --
 -- Integer attribute for roll-play style dice tests.  Notoriety is intended to reflect
 -- how well the character's reputation (good or bad) is known.
--- Tested against 4xD64; useful values are 4 (complete nobody) to 257 (celebrity).
+-- Tested against 4xD16; useful values are 4 (complete nobody) to 65 (celebrity).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
 --
 -- Availability:
@@ -126,14 +126,14 @@ Character = {
 --
 --   experimental
 --
-	notoriety = 50, -- Few people are notorious, so a low default
+	notoriety = 15, -- Few people are notorious, so a low default
 
 --
 -- Attribute: lawfulness
 --
 -- Integer attribute for roll-play style dice tests.  Lawfulness is intended to reflect
 -- the character's willingness to break the law.
--- Tested with 4xD64; useful values are 4 (never lucky) to 257 (always lucky).
+-- Tested with 4xD16; useful values are 4 (never lucky) to 65 (always lucky).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
 --
 -- Availability:
@@ -144,7 +144,7 @@ Character = {
 --
 --   experimental
 --
-	lawfulness = 130,
+	lawfulness = 32,
 
 --
 -- Group: Methods
@@ -224,15 +224,15 @@ Character = {
 --
 -- Method: DiceRoll
 --
--- Returns the results of a simulated 4xD64 roll.  Results are random, but
--- distributed in a bell curve about the value 130.  The minimum result is
--- 4, and the maximum result is 256.
+-- Returns the results of a simulated 4xD16 roll.  Results are random, but
+-- distributed in a bell curve about the value 32.  The minimum result is
+-- 4, and the maximum result is 64.
 --
 -- > roll = Character.DiceRoll()
 --
 -- Return:
 --
---   roll - Integer value between 4 and 265 (inclusive), most likely 130
+--   roll - Integer value between 4 and 265 (inclusive), most likely 32
 --
 -- Example:
 --
@@ -247,11 +247,11 @@ Character = {
 --   experimental
 --
 	DiceRoll = function ()
-		return ( -- 4xD64, range is 4..256 averaging 130)
-			  Engine.rand:Integer(1,64)
-			+ Engine.rand:Integer(1,64)
-			+ Engine.rand:Integer(1,64)
-			+ Engine.rand:Integer(1,64)
+		return ( -- 4xD16, range is 4..64 averaging 32)
+			  Engine.rand:Integer(1,16)
+			+ Engine.rand:Integer(1,16)
+			+ Engine.rand:Integer(1,16)
+			+ Engine.rand:Integer(1,16)
 		)
 	end,
 
@@ -293,11 +293,13 @@ Character = {
 --
 -- > success = somebody:TestRoll('notoriety')
 --
--- If the DiceRoll is from 4-10, then it was a critical failure and that
+-- If the DiceRoll is from 4-8, then it was a critical failure and that
 -- attribute is abused.  It is decremented by one for future tests.
 --
--- If the DiceRoll is from 251-256, then it was a critical success and that
+-- If the DiceRoll is from 60-64, then it was a critical success and that
 -- attribute is exercised.  It is incremented by one for future tests.
+--
+-- Odds of this happening are low; 1/4096 of either abuse or exercise.
 --
 -- Return:
 --
@@ -321,16 +323,13 @@ Character = {
 		if not modifier then modifier = 0 end
 		if self[attribute] then
 			local result = Character.DiceRoll()
-print('DEBUG: before = ',self[attribute])
-print('DEBUG: roll = ',result)
-			if result < 10 then -- punish critical failure
+			if result < 9 then -- punish critical failure
 				self[attribute] = self[attribute] - 1
 				modifier = modifier + 1 -- don't affect *this* result
-			elseif result > 250 then -- reward critical success
+			elseif result > 59 then -- reward critical success
 				self[attribute] = self[attribute] + 1
 				modifier = modifier - 1 -- don't affect *this* result
 			end
-print('DEBUG: after = ',self[attribute])
 			return (result < (self[attribute] + modifier))
 		else
 			return false
