@@ -299,8 +299,6 @@ Character = {
 -- If the DiceRoll is from 60-64, then it was a critical success and that
 -- attribute is exercised.  It is incremented by one for future tests.
 --
--- Odds of this happening are low; 1/4096 of either abuse or exercise.
---
 -- Return:
 --
 --   success - Boolean value indicating that the test roll passed or failed
