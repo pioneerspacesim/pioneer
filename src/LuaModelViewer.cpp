@@ -201,6 +201,7 @@ private:
 	void VisualizeBoundingRadius(matrix4x4f& trans, double radius);
 	void PollEvents();
 	void SetupUi();
+	void OnThrusterUpdate();
 	bool m_showBoundingRadius;
 	bool m_quit;
 };
@@ -225,6 +226,13 @@ void Viewer::SetupUi()
 	m_ui->GetEventListener("show-boundingradius")->SetHandler(sigc::mem_fun(this, &Viewer::OnToggleBoundingRadius));
 	m_ui->GetEventListener("performancetest"    )->SetHandler(sigc::mem_fun(this, &Viewer::OnClickToggleBenchmark));
 	m_ui->GetEventListener("resetanimations"    )->SetHandler(sigc::mem_fun(this, &Viewer::OnResetAdjustments));
+
+	//thruster sliders
+	m_ui->GetEventListener("thrusterupdate"     )->SetHandler(sigc::mem_fun(this, &Viewer::OnThrusterUpdate));
+}
+
+void Viewer::OnThrusterUpdate()
+{
 }
 
 void Viewer::SetModel(LmrModel *model)
