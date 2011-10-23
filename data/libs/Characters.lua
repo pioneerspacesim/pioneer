@@ -24,36 +24,55 @@ Character = {
 --
 	player = false, -- Almost always.  One exception. (-:
 
---
--- Attribute: face
---
--- Table, as specified for ChatForm.SetFace
---
--- form:SetFace({
---     female = female,
---     armour = armour,
---     seed   = seed,
---     name   = name,
---     title  = title,
--- })
---
--- Parameters:
---
---	female - if true, the face will be female.  If false, the face will be male.
---  armour - if true, the face will wear armour, otherwise the face will have clothes and accessories.
---  seed - the seed for the random number generator.
---  name - name of the person.
---  title - (optional) the person’s job or other suitable title.
---
+-- 
+-- Attribute: name
+-- 
+--   Name of character
+-- 
 -- Availability:
---
+-- 
 --   future
---
+-- 
 -- Status:
---
+-- 
 --   experimental
---
-	face = {}, -- To-do: Move name, [is]female into here, and initialize it properly
+-- 
+-- Attribute: female
+-- 
+--   Gender of character.  If true, character is female.  If false, male.
+-- 
+-- Availability:
+-- 
+--   future
+-- 
+-- Status:
+-- 
+--   experimental
+-- 
+-- Attribute: seed
+-- 
+--   Seed for predictable randomness, if one is required.
+-- 
+-- Availability:
+-- 
+--   future
+-- 
+-- Status:
+-- 
+--   experimental
+-- 
+-- Attribute: title
+-- 
+--   Job title, for use in BBS faces
+-- 
+-- Availability:
+-- 
+--   future
+-- 
+-- Status:
+-- 
+--   experimental
+-- 
 
 --
 -- Attribute: luck
@@ -169,24 +188,23 @@ Character = {
 	New = function (self,newCharacter)
 		-- initialise new character
 		local newCharacter = newCharacter or {}
-		-- preserve default name/gender against randomization
-		if newCharacter.face then
-			local female = newCharacter.face.female
-			local armour = newCharacter.face.armor
-			local seed = newCharacter.face.armor
-			local name = newCharacter.face.name
-			local title = newCharacter.face.armor
 		else
 			newCharacter.face = {}
 		end
+		-- preserve default name/gender etc against randomization
+		local female = newCharacter.female
+		local armour = newCharacter.armor
+		local seed = newCharacter.armor
+		local name = newCharacter.name
+		local title = newCharacter.armor
 		-- set inherited characteristics (inherit from class only, not self)
 		setmetatable(newCharacter,Character.meta)
-		-- initialize face table if it wasn't fully specified
-		newCharacter.face.female = (female == nil) and (Engine.rand:Integer(1) ==1)
-		newCharacter.face.name = name or NameGen.FullName(newCharacter.female)
-		newCharacter.face.seed = seed or Engine.rand:Integer()
-		newCharacter.face.armour = armour or false
-		newCharacter.face.title = title or nil
+		-- initialize face characteristics if they weren't fully specified
+		newCharacter.female = (female == nil) and (Engine.rand:Integer(1) ==1)
+		newCharacter.name = name or NameGen.FullName(newCharacter.female)
+		newCharacter.seed = seed or Engine.rand:Integer()
+		newCharacter.armour = armour or false
+		newCharacter.title = title or nil
 		-- allocate a new table for character relationships
 		newCharacter.Relationships = {}
 		return newCharacter
@@ -366,7 +384,7 @@ local onGameStart = function ()
 		-- Make a new character sheet for the player, with just
 		-- the average values.  We'll find some way to ask the
 		-- player for a new name in the future.
-		local PlayerCharacter = Character:New({face={name = 'Peter Jameson'}, player = true})
+		local PlayerCharacter = Character:New({name = 'Peter Jameson', player = true})
 		-- Insert the player character into the persistent character
 		-- table.  Player won't be ennumerated with NPCs, because player
 		-- is not numerically keyed.
@@ -382,6 +400,21 @@ end
 local unserialize = function (data)
     loaded_data = data
 end
+
+--
+-- Group: Notes
+--
+
+--
+-- Note: ChatForm.SetFace()
+--
+-- You can pass a character directly to the SetFace() method of a ChatForm.
+--
+-- Example:
+--
+-- > ch = Character:New()
+-- > form:SetFace(ch)
+--
 
 EventQueue.onGameStart:Connect(onGameStart)
 Serializer:Register("Characters", serialize, unserialize)
