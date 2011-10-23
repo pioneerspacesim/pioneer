@@ -126,20 +126,20 @@
 			<div class="column">
 				<div>Linear thrusters</div>
 				<!-- lateral -->
-				<input id="thrust.lateral" type="range" step="0.01" min="0.0" max="1.0" value="0.5" orientation="vertical" onchange="thrusterupdate"/>
+				<input id="thrust.lateral" type="range" value="50" orientation="vertical" onchange="thrusterupdate"/>
 				<!-- vertical -->
-				<input id="thrust.vertical" type="range" step="0.01" min="0.0" max="1.0" value="0.5" orientation="vertical" onchange="thrusterupdate"/>
+				<input id="thrust.vertical" type="range" value="50" orientation="vertical" onchange="thrusterupdate"/>
 				<!-- longitudinal -->
-				<input id="thrust.linear" type="range" step="0.01" min="0.0" max="1.0" value="0.5" orientation="vertical" onchange="thrusterupdate"/>
+				<input id="thrust.linear" type="range" value="50" orientation="vertical" onchange="thrusterupdate"/>
 			</div>
 			<div class="column">
 				<div>Angular thrusters</div>
 				<!-- roll? -->
-				<input id="thrust.ang1" type="range" step="0.01" min="0.0" max="1.0" value="0.5" orientation="vertical" onchange="thrusterupdate"/>
+				<input id="thrust.ang1" type="range" value="50" orientation="vertical" onchange="thrusterupdate"/>
 				<!-- yaw? -->
-				<input id="thrust.ang2" type="range" step="0.01" min="0.0" max="1.0" value="0.5" orientation="vertical" onchange="thrusterupdate"/>
+				<input id="thrust.ang2" type="range" value="50" orientation="vertical" onchange="thrusterupdate"/>
 				<!-- pitch? -->
-				<input id="thrust.ang3" type="range" step="0.01" min="0.0" max="1.0" value="0.5" orientation="vertical" onchange="thrusterupdate"/>
+				<input id="thrust.ang3" type="range" value="50" orientation="vertical" onchange="thrusterupdate"/>
 			</div>
 			<div class="column">
 				A zillion animation sliders
