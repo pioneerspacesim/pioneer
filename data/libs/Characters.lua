@@ -202,7 +202,6 @@ Character = {
 		newCharacter.name = newCharacter.name or NameGen.FullName(newCharacter.female)
 		newCharacter.seed = newCharacter.seed or Engine.rand:Integer()
 		newCharacter.armour = newCharacter.armour or false
-		newCharacter.title = newCharacter.title or nil
 		-- allocate a new table for character relationships
 		newCharacter.Relationships = {}
 		return newCharacter
