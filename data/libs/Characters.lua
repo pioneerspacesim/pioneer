@@ -157,7 +157,7 @@ Character = {
 -- with that table now inheriting attributes and methods from Character class.
 -- If the parameter is another character, it returns a rough clone.
 --
--- character = Character.New(newCharacter)
+-- character = Character.New(template)
 --
 -- Return:
 --
@@ -165,17 +165,13 @@ Character = {
 --
 -- Parameters:
 --
---   newCharacter - (optional) a table containing default values
+--   template - (optional) a table containing default values
 --
 -- Example:
 --
 -- > regular_joe = Character.New()
 --
 -- > lucky_guy = Character.New({luck = 180})
---
--- > -- How to clone lucky_guy (he'll get a new name and face)
--- > -- by (ab)using Lua's colon to pass an object to itself
--- > new_guy = lucky_guy:New()
 --
 -- Availability:
 --
@@ -185,40 +181,89 @@ Character = {
 --
 --   experimental
 --
-	New = function (newCharacter)
-		local test = getmetatable(newCharacter)
+	New = function (template)
+		if template and (type(template) ~= 'table') then
+			error("Character template must be a table")
+		end
+		local test = getmetatable(template)
 		if(test and (test.class == 'Character')) then
-			-- We've been handed an actual character as a constructor argument!
-			-- We'll duplicate him.
-			local temp = {}
-			for k,v in pairs(newCharacter) do
-				if type(v) ~= 'table' then -- don't want to share sub-tables
-					temp[k] = v
-				end
-			end
-			newCharacter = temp
-			temp = nil
-			test = nil
+			error("Won't use a character as a template.  use Clone() instead.")
 		end
 		-- initialise new character
-		local newCharacter = newCharacter or {}
-		-- preserve default name/gender etc against randomization
-		local female = newCharacter.female
-		local armour = newCharacter.armor
-		local seed = newCharacter.armor
-		local name = newCharacter.name
-		local title = newCharacter.armor
+		local newCharacter = {}
+		if template then
+			for k,v in pairs(template) do
+				newCharacter[k] = v
+			end
+		end
 		-- set inherited characteristics (inherit from class only, not self)
 		setmetatable(newCharacter,Character.meta)
 		-- initialize face characteristics if they weren't fully specified
-		newCharacter.female = (female == nil) and (Engine.rand:Integer(1) ==1)
-		newCharacter.name = name or NameGen.FullName(newCharacter.female)
-		newCharacter.seed = seed or Engine.rand:Integer()
-		newCharacter.armour = armour or false
-		newCharacter.title = title or nil
+		newCharacter.female = (newCharacter.female == nil) and (Engine.rand:Integer(1) ==1)
+		newCharacter.name = newCharacter.name or NameGen.FullName(newCharacter.female)
+		newCharacter.seed = newCharacter.seed or Engine.rand:Integer()
+		newCharacter.armour = newCharacter.armour or false
+		newCharacter.title = newCharacter.title or nil
 		-- allocate a new table for character relationships
 		newCharacter.Relationships = {}
 		return newCharacter
+	end,
+
+--
+-- Method: Clone
+--
+-- Returns a either the table specified as a parameter, or a new object table,
+-- with that table now inheriting attributes and methods from Character class.
+-- If the parameter is another character, it returns a rough clone.
+--
+-- clone = original:Clone()
+--
+-- Return:
+--
+--   clone - a new character sheet, which inherits from Character class
+--           and is based on the original
+--
+-- Example:
+--
+-- > -- How to clone lucky_guy
+-- > new_guy = lucky_guy:Clone()
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
+	Clone = function (self)
+		local test
+		local clone
+		if type(self) == 'table' then
+			test = getmetatable(self)
+		else
+			if self then
+				error("Clone() expects a character.")
+			else
+				error("Clone() expects a character.  Did you miss a colon?")
+			end
+		end
+		if(test and (test.class == 'Character')) then
+			-- We've been handed an actual character as a constructor argument.
+			-- We'll duplicate him.
+			clone = {}
+			for k,v in pairs(self) do
+				if type(v) ~= 'table' then -- don't want to share sub-tables
+					clone[k] = v
+				end
+			end
+		else
+			error("Can't clone something that isn't a character.")
+		end
+		-- initialise new character
+		-- set inherited characteristics (inherit from class only, not self)
+		setmetatable(clone,Character.meta)
+		return clone
 	end,
 
 --
@@ -359,11 +404,17 @@ Character = {
 --   local BBS_characterID = BBS_character:Save()
 --
 	Save = function (self)
-		for i,NPC in ipairs(PersistentCharacters) do
-			if NPC == self then return i end
+		if self and (type(self) == 'table') then
+			local test = getmetatable(self)
+			if test and (test.class == 'Character') then
+				for i,NPC in ipairs(PersistentCharacters) do
+					if NPC == self then return i end
+				end
+				table.insert(PersistentCharacters,self)
+        		return #PersistentCharacters
+			end
 		end
-		table.insert(PersistentCharacters,self)
-        return #PersistentCharacters
+		error('Cannot save character')
 	end,
 
 
