@@ -5,9 +5,9 @@
 		<style>
 			body {
 				font-family: TitilliumText22L;
-				font-size: 22pt;
-				width: 800px;
-				height: 600px;
+				font-size: 12pt;
+				width: 100%;
+				height: 100%;
 			}
 			h1 {
 				background-color: rgba(49, 143, 200, 130);
@@ -36,12 +36,45 @@
 				position: absolute;
 				bottom: 0px;
 			}
+			/* Checkboxes */
+			input.checkbox
+			{
+				icon-decorator: image;
+				icon-image: templates/skin.png 0px 0px 32px 32px;
+				width: 18px;
+				height: 18px;
+			}
+
+			input.checkbox:hover
+			{
+				icon-image-t: 32px 64px;
+			}
+
+			input.checkbox:active
+			{
+				icon-image-t: 32px 64px;
+			}
+
+			input.checkbox:checked
+			{
+				icon-image-t: 64px 96px;
+			}
+
+			input.checkbox:checked:hover
+			{
+				icon-image-t: 96px 128px;
+			}
+
+			input.checkbox:checked:active
+			{
+				icon-image-t: 96px 128px;
+			}
 		</style>
 	</head>
 	<body>
 		<h1 id="modelname" style="font-size: 1.4em;">Dis is modelviewer</h1>
 		<div id="controls">
-			<input type="checkbox" onclick="changeview" shortcut="c" />View collision mesh<br />
+			<input id="view.showcollision" type="checkbox" onclick="changeview" shortcut="c" />View collision mesh<br />
 			<input type="checkbox" onclick="show-boundingradius" shortcut="shift b" />Visualize bounding radius<br />
 			<input type="checkbox" onclick="performancetest" shortcut="p" />Performance test (renders model 1000 times per frame)<br />
 			<button class="point" onclick="resetanimations" shortcut="r" />Reset thruster/animation sliders<br />
