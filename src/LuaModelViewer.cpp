@@ -95,9 +95,8 @@ public:
 		Gui::Screen::AddBaseWidget(this, 0, 0);
 		SetTransparency(true);
 
-		m_ui = m_rocketManager.OpenScreen("modelviewer");
-
 		m_trisReadout = new Gui::Label("");
+#if 0
 		Add(m_trisReadout, 500, 0);
 		{
 			Gui::Button *b = new Gui::SolidButton();
@@ -134,6 +133,7 @@ public:
 			Add(b, 10, 90);
 			Add(new Gui::Label("[shift-b] Visualize bounding radius"), 30, 90);
 		}
+#endif
 #if 0
 		{
 			Gui::Button *b = new Gui::SolidButton();
@@ -183,6 +183,7 @@ public:
 				OnAnimChange(m_anim[i], m_animEntry[i]);
 			}
 		}
+		SetupUi();
 
 		ShowAll();
 		Show();
@@ -233,12 +234,13 @@ public:
 		m_showBoundingRadius = !m_showBoundingRadius;
 	}
 
-	void MainLoop() __attribute((noreturn));
+	void MainLoop();
 	void SetSbreParams();
 private:
 	void TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg);
 	void VisualizeBoundingRadius(matrix4x4f& trans, double radius);
 	void PollEvents();
+	void SetupUi();
 	bool m_showBoundingRadius;
 	bool m_quit;
 };
@@ -251,6 +253,15 @@ Viewer::~Viewer()
 void Viewer::Quit()
 {
 	m_quit = true;
+}
+
+void Viewer::SetupUi()
+{
+	m_ui = m_rocketManager.OpenScreen("modelviewer");
+	m_ui->GetEventListener("changeview"         )->SetHandler(sigc::mem_fun(this, &Viewer::OnClickChangeView));
+	m_ui->GetEventListener("show-boundingradius")->SetHandler(sigc::mem_fun(this, &Viewer::OnToggleBoundingRadius));
+	m_ui->GetEventListener("performancetest"    )->SetHandler(sigc::mem_fun(this, &Viewer::OnClickToggleBenchmark));
+	m_ui->GetEventListener("resetanimations"    )->SetHandler(sigc::mem_fun(this, &Viewer::OnResetAdjustments));
 }
 
 void Viewer::SetModel(LmrModel *model)
@@ -648,7 +659,10 @@ void Viewer::MainLoop()
 					aabb.GetBoundingRadius(),
 					m_model->GetDrawClipRadius());
 			m_trisReadout->SetText(buf);
+			m_rocketManager.SetStashItem("performance.fps", stringf("FPS %0", fps));
 		}
+		std::string mname = stringf("Model: %0", m_model->GetName());
+		m_ui->GetDocument()->GetElementById("modelname")->SetInnerRML(mname.c_str());
 		
 		Render::PostProcess();
 		Gui::Draw();
