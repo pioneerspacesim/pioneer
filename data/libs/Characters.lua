@@ -188,7 +188,6 @@ Character = {
 	New = function (newCharacter)
 		local test = getmetatable(newCharacter)
 		if(test and (test.class == 'Character')) then
-print('DEBUG:',1)
 			-- We've been handed an actual character as a constructor argument!
 			-- We'll duplicate him.
 			local temp = {}
@@ -201,11 +200,9 @@ print('DEBUG:',1)
 			temp = nil
 			test = nil
 		else
-print('DEBUG:',2)
 			-- initialise new character
 			local newCharacter = newCharacter or {}
 		end
-print('DEBUG:',newCharacter.name)
 		-- preserve default name/gender etc against randomization
 		local female = newCharacter.female
 		local armour = newCharacter.armor
