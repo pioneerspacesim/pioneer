@@ -359,7 +359,7 @@ Character = {
 -- > if (player:TestRoll('lawfulness',20)) then UI.Message('A fellow criminal!')
 --
 	TestRoll = function (self,attribute,modifier)
-		if not modifier then modifier = 0 end
+		local modifier = modifier or 0
 		if self[attribute] then
 			local result = Character.DiceRoll()
 			if result < 9 then -- punish critical failure
