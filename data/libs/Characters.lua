@@ -153,9 +153,8 @@ Character = {
 --
 -- Method: New
 --
--- Returns a either the table specified as a parameter, or a new object table,
--- with that table now inheriting attributes and methods from Character class.
--- If the parameter is another character, it returns a rough clone.
+-- Returns a new character sheet, inheriting from Character, based on an
+-- optional template.
 --
 -- character = Character.New(template)
 --
@@ -212,9 +211,7 @@ Character = {
 --
 -- Method: Clone
 --
--- Returns a either the table specified as a parameter, or a new object table,
--- with that table now inheriting attributes and methods from Character class.
--- If the parameter is another character, it returns a rough clone.
+-- Clones a character sheet.
 --
 -- clone = original:Clone()
 --
