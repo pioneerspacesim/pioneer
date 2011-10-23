@@ -36,6 +36,33 @@
 				position: absolute;
 				bottom: 0px;
 			}
+			/* Sliders */
+			input.range {
+				display: inline-block;
+				margin: 2px;
+				width: 16px;
+				height: 160px;
+			}
+
+			slidertrack {
+				background-decorator: tiled-vertical;
+				background-top-image: templates/skin.png 32px 0px 64px 4px;
+				background-center-image: templates/skin.png stretch 32px 4px 64px 28px;
+				background-bottom-image: templates/skin.png 32px 28px 64px 32px;
+			}
+
+			sliderbar { /* Handle */
+				height: 8px;
+				background-decorator: image;
+				background-image: templates/skin.png 32px 32px 64px 48px;
+			}
+			/*sliderbar:hover {
+				width: 16px;
+				height: 16px;
+				background-decorator: image;
+				background-image: templates/sliders.png 0px 33px 32px 65px;
+			}*/
+
 			/* Checkboxes */
 			input.checkbox
 			{
