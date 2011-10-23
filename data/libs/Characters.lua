@@ -90,7 +90,7 @@ Character = {
 --
 --   experimental
 --
-	luck = 32,
+	luck = 34,
 
 --
 -- Attribute: charisma
@@ -108,7 +108,7 @@ Character = {
 --
 --   experimental
 --
-	charisma = 32,
+	charisma = 34,
 
 --
 -- Attribute: notoriety
@@ -144,7 +144,7 @@ Character = {
 --
 --   experimental
 --
-	lawfulness = 32,
+	lawfulness = 34,
 
 --
 -- Group: Methods
@@ -266,14 +266,14 @@ Character = {
 -- Method: DiceRoll
 --
 -- Returns the results of a simulated 4xD16 roll.  Results are random, but
--- distributed in a bell curve about the value 32.  The minimum result is
+-- distributed in a bell curve about the value 34.  The minimum result is
 -- 4, and the maximum result is 64.
 --
 -- > roll = Character.DiceRoll()
 --
 -- Return:
 --
---   roll - Integer value between 4 and 265 (inclusive), most likely 32
+--   roll - Integer value between 4 and 265 (inclusive), most likely 34
 --
 -- Example:
 --
@@ -288,7 +288,7 @@ Character = {
 --   experimental
 --
 	DiceRoll = function ()
-		return ( -- 4xD16, range is 4..64 averaging 32)
+		return ( -- 4xD16, range is 4..64 averaging 34)
 			  Engine.rand:Integer(1,16)
 			+ Engine.rand:Integer(1,16)
 			+ Engine.rand:Integer(1,16)
