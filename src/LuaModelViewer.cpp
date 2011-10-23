@@ -62,7 +62,6 @@ public:
 	Gui::Adjustment *m_angthrust[3];
 	Gui::Adjustment *m_anim[LMR_ARG_MAX];
 	Gui::TextEntry *m_animEntry[LMR_ARG_MAX];
-	Gui::Label *m_trisReadout;
 	LmrCollMesh *m_cmesh;
 	LmrModel *m_model;
 	CollisionSpace *m_space;
@@ -95,45 +94,6 @@ public:
 		Gui::Screen::AddBaseWidget(this, 0, 0);
 		SetTransparency(true);
 
-		m_trisReadout = new Gui::Label("");
-#if 0
-		Add(m_trisReadout, 500, 0);
-		{
-			Gui::Button *b = new Gui::SolidButton();
-			b->SetShortcut(SDLK_c, KMOD_NONE);
-			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickChangeView));
-			Add(b, 10, 10);
-			Add(new Gui::Label("[c] Change view (normal, collision mesh"), 30, 10);
-		} 
-		{
-			Gui::Button *b = new Gui::SolidButton();
-			b->SetShortcut(SDLK_r, KMOD_NONE);
-			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnResetAdjustments));
-			Add(b, 10, 30);
-			Add(new Gui::Label("[r] Reset thruster and anim sliders"), 30, 30);
-		} 
-		{
-			Gui::Button *b = new Gui::SolidButton();
-			b->SetShortcut(SDLK_m, KMOD_NONE);
-			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickRebuildCollMesh));
-			Add(b, 10, 50);
-			Add(new Gui::Label("[m] Rebuild collision mesh"), 30, 50);
-		} 
-		{
-			Gui::Button *b = new Gui::SolidButton();
-			b->SetShortcut(SDLK_p, KMOD_NONE);
-			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickToggleBenchmark));
-			Add(b, 10, 70);
-			Add(new Gui::Label("[p] Toggle performance test (renders models 1000 times per frame)"), 30, 70);
-		}
-		{
-			Gui::Button *b = new Gui::SolidButton();
-			b->SetShortcut(SDLK_b, KMOD_LSHIFT);
-			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius));
-			Add(b, 10, 90);
-			Add(new Gui::Label("[shift-b] Visualize bounding radius"), 30, 90);
-		}
-#endif
 #if 0
 		{
 			Gui::Button *b = new Gui::SolidButton();
@@ -248,6 +208,9 @@ private:
 Viewer::~Viewer()
 {
 	printf("Viewer quitting.\n");
+	if (m_cmesh) delete m_cmesh;
+	if (m_geom) delete m_geom;
+	delete m_space;
 }
 
 void Viewer::Quit()
