@@ -40,6 +40,9 @@
 -- values of the persistence members (see below).  Saved characters become
 -- available to other scripts.
 --
+-- Saved characters are indexed numerically, and can be retrieved with ipairs()
+-- and counted with the # operator.  The player's sheet is stored as
+-- PersistentCharacters.player, and is the special case.
 
 Character = {
 
@@ -51,7 +54,9 @@ Character = {
 -- Attribute: player
 --
 -- Boolean value; true if this instance of the table is for the player.  Only
--- one character sheet should be that of the player.
+-- one character sheet should be that of the player.  Useful if there's the
+-- slightest chance of the player's own sheet getting mixed up with those of
+-- NPCs.
 --
 -- Availability:
 --
