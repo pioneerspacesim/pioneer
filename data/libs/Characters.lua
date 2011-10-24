@@ -1,6 +1,45 @@
 --
 -- Class: Character
 --
+-- A character sheet, used to keep characteristics of any non-player character
+-- which should be persistent, allowing re-use of characters over time and
+-- across Lua scripts.
+--
+-- Additionally, one character sheet is initialised to keep the player's
+-- information.  Attributes in that character sheet begin as default values,
+-- and should be modified by the player's conduct in the game.
+--
+-- Character is inspired by the GURPS table-top roleplaying system.  In addition
+-- to details such as the character's name, face, rank and so forth are a
+-- number of attributes.  These attributes usually range from 4 to 64, although
+-- lower and higher numbers are valid.  The attributes define the persona of
+-- the character, and represent the chance of that character's success in
+-- various endeavours.  These chances are tested by the virtual roll of four
+-- sixteen-sided dice.  The target is to "roll under" for success.
+--
+-- So, if a character is trying to steal something, and there is an attribute
+-- called "theft" (hypothetical as I write), then we can determine whether that
+-- character succeeds by rolling the dice.  A character who is a good thief
+-- would have a high number in their "theft" attribute, making it more likely
+-- that the dice roll result will be lower.  If it's lower, the theft succeeds.
+--
+-- Character sheets inherit their methods, and many default values, from the
+-- class itself.
+--
+-- Whilst some role-playing attributes are defined here, and can be given some
+-- random values using RollNew(), in practice any arbitrary attribute can be
+-- added to a character on demand, and these attributes can be safely tested
+-- on any character, whether defined or not.  Undefined values return failure
+-- if tested using TestRoll().
+--
+-- *Saving characters*
+--
+-- There is a global table called PersistentCharacters.  Character sheets can
+-- be stored in this table using the Save() method.  This method checks whether
+-- the character sheet already exists in that table, and also updates the
+-- values of the persistence members (see below).  Saved characters become
+-- available to other scripts.
+--
 
 Character = {
 
@@ -536,6 +575,33 @@ end
 --
 -- > ch = Character:New()
 -- > form:SetFace(ch)
+--
+-- Note: Arbitrary attributes
+--
+-- You are not limited to the documented attributes, and can define more on
+-- the fly.  Any attribute is testable using TestRoll(), and will return false,
+-- meaning that it is not necessary to add an attribute to all instances of
+-- Character.  This is handy for mission-specific skills or attributes.  To
+--
+-- Example:
+--
+-- To define a new attribute, "geology," for testing planets:
+--
+-- > some_character.geology = 45 -- a fairly high value
+--
+-- To set it to a random amount:
+--
+-- > some_character.geology = Character.DiceRoll()
+--
+-- To test it:
+--
+-- > -- returns true or false, depending on chance
+-- > if some_character:TestRoll('geology') then success() end 
+--
+-- This will work for characters who have not had "geology" defined:
+--
+-- > -- always returns false
+-- > if other_character:TestRoll('geology') then success() end 
 --
 
 EventQueue.onGameStart:Connect(onGameStart)
