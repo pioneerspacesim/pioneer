@@ -535,6 +535,52 @@ Character = {
 		error('Cannot save character')
 	end,
 
+--
+-- Method: Find
+--
+--   Returns an iterator across all PersistentCharacters who match the
+--   specified filter.
+--
+-- iterator = Character.Find(filter)
+--
+-- Parameters:
+--
+--   filter - an optional function.  If specified, the function will be
+--            called once for each saved character with the Character object
+--            as the only parameter.  If the filter function returns true then
+--            the body will be returned by the iterator, otherwise it will be
+--            omitted.  If no filter function is specified then all bodies are
+--            returned.
+--
+-- Return:
+--
+--   iterator - a function which will generate the returned results, returning
+--              one each time it is called until it runs out, after which it
+--              returns nil.
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
+	Find = function (filter)
+		-- We want a nice default filter
+		local filter = filter or function () return true end
+		if type(filter) ~= 'function' then
+			error('Character.Find() expected a function or nil')
+		end
+		local NPC = 0
+		return function ()
+			NPC = NPC + 1
+			while PersistentCharacters[NPC] and (not filter(PersistentCharacters[NPC])) do
+				NPC = NPC + 1
+			end
+			return PersistentCharacters[NPC]
+		end
+	end,
 
 	-- Debug function
 	PrintStats = function (self)
