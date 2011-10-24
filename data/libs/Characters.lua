@@ -93,6 +93,22 @@ Character = {
 	available = true,
 
 --
+-- Attribute: useCount
+--
+--   Count of the number of times a script has used this character.  Used to
+--   determine how well used a character is.
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
+	useCount = 0,
+
+--
 -- Attribute: luck
 --
 -- Integer attribute for roll-play style dice tests.  Luck is intended to reflect
