@@ -164,6 +164,24 @@ Character = {
 	lastSavedTime = 0,
 
 --
+-- Attribute: lastSavedSystemPath
+--
+--   The system path of the station or system at which this character was
+--   last saved.  Save() sets this to that of Game.player, since character
+--   sheets have no intrinsic location.  Can be directly set immediately after
+--   the call to Save() if it needs to be some other path.
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
+	lastSavedSystemPath = nil,
+
+--
 -- Attribute: luck
 --
 -- Integer attribute for roll-play style dice tests.  Luck is intended to reflect
@@ -468,7 +486,8 @@ Character = {
 -- Method: Save
 --
 -- If the character is not already in the table of persistent characters, inserts
--- the character into that table.
+-- the character into that table.  Also set available to true, and update the
+-- timestamp and location members.
 --
 -- Return:
 --
@@ -492,6 +511,15 @@ Character = {
 		if self and (type(self) == 'table') then
 			local test = getmetatable(self)
 			if test and (test.class == 'Character') then
+				self.available = true
+				self.useCount = self.useCount + 1
+				self.lastSavedTime = Game.time
+				local station = Game.player:GetDockedWith()
+				if station then
+					self.lastSavedSystemPath = station.path
+				else
+					self.lastSavedSystemPath = Game.system.path
+				end
 				for i,NPC in ipairs(PersistentCharacters) do
 					if NPC == self then return i end
 				end
