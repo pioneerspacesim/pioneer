@@ -75,6 +75,24 @@ Character = {
 -- 
 
 --
+-- Attribute: available
+--
+--   Boolean value; whether this character is available for use by a mission.
+--   Used to "lock" a persistent character, so that two missions don't use the
+--   same character at the same time.  Not particularly meaningful for transient
+--   characters.
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
+	available = true,
+
+--
 -- Attribute: luck
 --
 -- Integer attribute for roll-play style dice tests.  Luck is intended to reflect
