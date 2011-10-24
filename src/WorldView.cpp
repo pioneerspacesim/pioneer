@@ -22,7 +22,10 @@ static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
 #define HUD_CROSSHAIR_SIZE	24.0f
 
 WorldView::WorldView(): View(),
-	m_showHyperspaceButton(false)
+	m_showHyperspaceButton(false),
+	m_frontCamera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight()),
+	m_rearCamera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight()),
+	m_externalCamera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight())
 {
 	float size[2];
 	GetSize(size);
@@ -34,6 +37,8 @@ WorldView::WorldView(): View(),
 	SetTransparency(true);
 	m_externalViewRotX = m_externalViewRotY = 0;
 	m_externalViewDist = 200;
+
+	m_rearCamera.SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
 	
 	m_commsOptions = new Fixed(size[0], size[1]/2);
 	m_commsOptions->SetTransparency(true);
@@ -202,9 +207,6 @@ vector3d WorldView::GetExternalViewTranslation()
 	vector3d p = vector3d(0, 0, m_externalViewDist);
 	p = matrix4x4d::RotateXMatrix(-DEG2RAD(m_externalViewRotX)) * p;
 	p = matrix4x4d::RotateYMatrix(-DEG2RAD(m_externalViewRotY)) * p;
-	matrix4x4d m = Pi::player->GetInterpolatedTransform();
-	m.ClearToRotOnly();
-	p = m*p;
 	return p;
 }
 
@@ -348,96 +350,7 @@ WorldView::CamType WorldView::GetCamType() const
 
 void WorldView::Draw3D()
 {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	float znear, zfar;
-	GetNearFarClipPlane(&znear, &zfar);
-	// why the hell do i give these functions such big names..
-   const float FOV_MAX = 170.0f; // Maximum FOV in degrees
-   const float FOV_MIN = 20.0f;  // Minimum FOV in degrees
-	const float zoom = tan(DEG2RAD(Clamp(Pi::config.Float("FOV"), FOV_MIN, FOV_MAX)/2.0f)); // angle of viewing = 2.0*atan(zoom);
-	const float left = zoom * znear;
-	const float fracH = left / Pi::GetScrAspect();
-	glFrustum(-left, left, -fracH, fracH, znear, zfar);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	// interpolate between last physics tick position and current one,
-	// to remove temporal aliasing
-	matrix4x4d pposOrient = Pi::player->GetInterpolatedTransform();
-	const vector3d ppos(pposOrient[12], pposOrient[13], pposOrient[14]);
-
-	// make temporary camera frame at player
-	Frame cam_frame(Pi::player->GetFrame(), "camera", Frame::TEMP_VIEWING);
-
-	matrix4x4d camRot = matrix4x4d::Identity();
-
-	enum CamType camtype = GetCamType();
-	if (camtype == CAM_FRONT) {
-		cam_frame.SetPosition(ppos);
-	} else if (camtype == CAM_REAR) {
-		camRot.RotateY(M_PI);
-	//	glRotatef(180.0f, 0, 1, 0);
-		cam_frame.SetPosition(ppos);
-	} else /* CAM_EXTERNAL */ {
-		cam_frame.SetPosition(ppos + GetExternalViewTranslation());
-		ApplyExternalViewRotation(camRot);
-	}
-
-	{
-		matrix4x4d prot = pposOrient;
-		prot.ClearToRotOnly();
-		camRot = prot * camRot;
-	}
-	cam_frame.SetRotationOnly(camRot);
-	// make sure old orient and interpolated orient (rendering orient) are not rubbish
-	cam_frame.ClearMovement();
-
-	matrix4x4d trans2bg;
-	Frame::GetFrameTransform(Space::rootFrame, &cam_frame, trans2bg);
-	trans2bg.ClearToRotOnly();
-	glPushMatrix();
-	glMultMatrixd(&trans2bg[0]);
-	DrawBgStars();
-	glPopMatrix();
-
-	m_numLights = 0;
-	position_system_lights(&cam_frame, Space::rootFrame, m_numLights);
-
-	if (m_numLights == 0) {
-		// no lights means we're somewhere weird (eg hyperspace). fake one
-		// fake one up and give a little ambient light so that we can see and
-		// so that things that need lights don't explode
-		float lightPos[4] = { 0,0,0,0 };
-		float lightCol[4] = { 1.0, 1.0, 1.0, 0 };
-		float ambCol[4] = { 1.0,1.0,1.0,0 };
-
-		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
-		glLightfv(GL_LIGHT0, GL_AMBIENT, ambCol);
-		glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
-		glEnable(GL_LIGHT0);
-
-		m_numLights++;
-	}
-
-	Render::State::SetNumLights(m_numLights);
-	{
-		GetNearFarClipPlane(&znear, &zfar);
-		Render::State::SetZnearZfar(znear, zfar);
-	}
-
-	Space::Render(&cam_frame);
-	if (!Pi::player->IsDead()) ProjectObjsToScreenPos(&cam_frame);
-
-	Pi::player->GetFrame()->RemoveChild(&cam_frame);
-
-	glDisable(GL_LIGHT0);
-	glDisable(GL_LIGHT1);
-	glDisable(GL_LIGHT2);
-	glDisable(GL_LIGHT3);
+	m_activeCamera->Draw();
 }
 
 void WorldView::ShowAll()
@@ -791,10 +704,10 @@ void WorldView::Update()
 		m_externalViewRotX += 60*frameTime;
 		m_externalViewDist = 200;
 		m_labelsOn = false;
-		return;
 	}
+
 	// XXX ugly hack checking for console here
-	if (GetCamType() == CAM_EXTERNAL && !Pi::IsConsoleActive()) {
+	else if (GetCamType() == CAM_EXTERNAL && !Pi::IsConsoleActive()) {
 		if (Pi::KeyState(SDLK_UP)) m_externalViewRotX -= 45*frameTime;
 		if (Pi::KeyState(SDLK_DOWN)) m_externalViewRotX += 45*frameTime;
 		if (Pi::KeyState(SDLK_LEFT)) m_externalViewRotY -= 45*frameTime;
@@ -807,13 +720,26 @@ void WorldView::Update()
 		// when landed don't let external view look from below
 		if (Pi::player->GetFlightState() == Ship::LANDED || Pi::player->GetFlightState() == Ship::DOCKED)
 			m_externalViewRotX = Clamp(m_externalViewRotX, -170.0, -10.0);
+
+		m_externalCamera.SetPosition(GetExternalViewTranslation());
+
+		matrix4x4d camRot = matrix4x4d::Identity();
+		ApplyExternalViewRotation(camRot);
+		m_externalCamera.SetOrientation(camRot);
 	}
-	if (KeyBindings::targetObject.IsActive() && !Pi::IsConsoleActive()) {
+	if (!Pi::player->IsDead() && KeyBindings::targetObject.IsActive() && !Pi::IsConsoleActive()) {
 		/* Hitting tab causes objects in the crosshairs to be selected */
 		Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
 		SelectBody(target, false);
 	}
 
+	m_activeCamera =
+		GetCamType() == CAM_FRONT ? &m_frontCamera :
+		GetCamType() == CAM_REAR  ? &m_rearCamera  :
+		                            &m_externalCamera;
+
+	m_activeCamera->Update();
+	UpdateProjectedObjects();
 }
 
 void WorldView::OnSwitchTo()
@@ -1114,10 +1040,9 @@ int WorldView::GetActiveWeapon() const
 	}
 }
 
-void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
+void WorldView::UpdateProjectedObjects()
 {
-	Gui::Screen::EnterOrtho();		// To save matrices
-
+	const Frame *cam_frame = m_activeCamera->GetFrame();
 	matrix4x4d cam_rot = cam_frame->GetTransform();
 	cam_rot.ClearToRotOnly();
 	
@@ -1170,19 +1095,15 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 	{
 		m_bodyLabels->Clear();
 		for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
-			if ((GetCamType() != WorldView::CAM_EXTERNAL) && (*i == Pi::player)) continue;
 			Body *b = *i;
-			b->SetOnscreen(false);
-			vector3d pos = b->GetInterpolatedPositionRelTo(cam_frame);
-			if (pos.z < 0 && Gui::Screen::Project(pos, pos)) {
-				b->SetProjectedPos(pos);
-				b->SetOnscreen(true);
+			if (b->IsOnscreen()) {
 				// Ok here we are hiding the label of distant small objects.
 				// If you are not a planet, star, space station or remote city
 				// and you are > 1000km away then bugger off. :)
 				if (b->IsType(Object::PLANET) || b->IsType(Object::STAR) || b->IsType(Object::SPACESTATION) ||
 					Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0) {
 
+					vector3d pos = b->GetProjectedPos();
 					m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), float(pos.x), float(pos.y));
 				}
 			}
@@ -1272,7 +1193,6 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		MoveChild(m_combatSpeed, float(lpos.x), float(lpos.y));
 		m_combatSpeed->Show();
 	}
-	Gui::Screen::LeaveOrtho();		// To save matrices
 }
 
 void WorldView::Draw()

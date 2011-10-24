@@ -15,6 +15,7 @@ noinst_HEADERS = \
 	BezierCurve.h \
 	Body.h \
 	BufferObject.h \
+	Camera.h \
 	CargoBody.h \
 	ChatForm.h \
 	CityOnPlanet.h \
@@ -151,6 +152,7 @@ pioneer_SOURCES	= \
 	AmbientSounds.cpp \
 	Background.cpp \
 	Body.cpp \
+	Camera.cpp \
 	CargoBody.cpp \
 	ChatForm.cpp \
 	CityOnPlanet.cpp \

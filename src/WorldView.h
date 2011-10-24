@@ -8,6 +8,7 @@
 #include "Serializer.h"
 #include "Background.h"
 #include "EquipType.h"
+#include "Camera.h"
 
 class Body;
 class Frame;
@@ -46,7 +47,7 @@ public:
 private:
 	void RefreshButtonStateAndVisibility();
 	void UpdateCommsOptions();
-	void ProjectObjsToScreenPos(const Frame *cam_frame);
+	void UpdateProjectedObjects();
 	void DrawTargetSquares();
 	void DrawTargetSquare(const Body* const target);
 	void DrawCombatTargetIndicator(const Ship* const target);
@@ -109,6 +110,9 @@ private:
 	vector3d m_targLeadPos;
 	bool m_navVelocityIndicatorOnscreen;
 	int m_navVelocityIndicatorPos[2];
+
+	Camera m_frontCamera, m_rearCamera, m_externalCamera;
+	Camera *m_activeCamera;
 };
 
 #endif /* _WORLDVIEW_H */
