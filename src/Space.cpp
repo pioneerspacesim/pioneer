@@ -909,7 +909,7 @@ void DrawSpike(double rad, const vector3d &fpos, const matrix4x4d &ftran)
 	glPushMatrix();
 
 	float znear, zfar;
-	Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
+	Render::GetNearFarClipPlane(znear, zfar);
 	double newdist = znear + 0.5f * (zfar - znear);
 	double scale = newdist / fpos.Length();
 

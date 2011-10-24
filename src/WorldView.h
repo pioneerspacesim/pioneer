@@ -35,7 +35,6 @@ public:
 	enum CamType GetCamType() const;
 	int GetNumLights() const { return m_numLights; }
 	void ToggleTargetActions();
-	void GetNearFarClipPlane(float *outNear, float *outFar) const;
 	int GetActiveWeapon() const;
 	void OnClickBlastoff();
 
