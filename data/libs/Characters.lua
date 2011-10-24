@@ -558,6 +558,17 @@ Character = {
 --              one each time it is called until it runs out, after which it
 --              returns nil.
 --
+-- Example:
+--
+-- Print names of all female characters who have charisma > 36
+--
+-- > for party_girl in Character.Find( function (NPC)
+-- >                                     return (NPC.female and (NPC.charisma > 36))
+-- >                                   end)
+-- > do
+-- >   print(party_girl.name)
+-- > end
+--
 -- Availability:
 --
 --   future
