@@ -109,6 +109,22 @@ Character = {
 	useCount = 0,
 
 --
+-- Attribute: lastSavedTime
+--
+--   The game time, in seconds since 12:00 01-01-3200, that this character was
+--   last saved.
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
+	lastSavedTime = 0,
+
+--
 -- Attribute: luck
 --
 -- Integer attribute for roll-play style dice tests.  Luck is intended to reflect
