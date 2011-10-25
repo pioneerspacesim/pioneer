@@ -472,7 +472,7 @@ Character = {
 --
 	TestRoll = function (self,attribute,modifier)
 		local modifier = modifier or 0
-		if self[attribute] then
+		if self[attribute] and (type(self[attribute])=='number') then
 			local result = Character.DiceRoll()
 			if result < 9 then -- punish critical failure
 				self[attribute] = self[attribute] - 1
