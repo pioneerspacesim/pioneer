@@ -670,9 +670,10 @@ end
 -- Note: Arbitrary attributes
 --
 -- You are not limited to the documented attributes, and can define more on
--- the fly.  Any attribute is testable using TestRoll(), and will return false,
--- meaning that it is not necessary to add an attribute to all instances of
--- Character.  This is handy for mission-specific skills or attributes.  To
+-- the fly.  Any attribute is testable using TestRoll(), and will return false
+-- if the attribute is undefined, meaning that it is not necessary to add an
+-- attribute to all instances of Character.  This is handy for mission-specific
+-- skills or attributes.
 --
 -- Example:
 --
