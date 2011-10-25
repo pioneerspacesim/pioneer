@@ -46,7 +46,7 @@ Alpha 16
     * Remove deprecated EquipType::types list (#642)
     * Show Lua memory usage in debug info (#638)
     * Limit number of physics updates between render updates (#671)
-	* scan_enums.py preprocessor to generate string->enum mappings (#716, #686)
+	* scan_enums.py preprocessor to generate string->enum mappings (#716, #686, #723)
 
 Alpha 15
 
