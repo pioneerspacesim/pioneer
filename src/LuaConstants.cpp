@@ -1,6 +1,8 @@
 #include "LuaConstants.h"
 #include "LuaUtils.h"
 
+#include "enum_table.h"
+
 /*
  * Namespace: Constants
  *
@@ -22,11 +24,6 @@
  * >     print(constant)
  * > end
  */
-
-struct pi_lua_constant_t {
-	const char *name;
-	int value;
-};
 
 int LuaConstants::GetConstant(lua_State *l, const char *ns, const char *name)
 {
@@ -72,7 +69,7 @@ const char *LuaConstants::GetConstantString(lua_State *l, const char *ns, int va
 	return name;
 }
 
-static void _create_constant_table(lua_State *l, const char *ns, const pi_lua_constant_t *c, bool consecutive)
+static void _create_constant_table(lua_State *l, const char *ns, const EnumItem *c, bool consecutive)
 {
 	LUA_DEBUG_START(l);
 
@@ -127,15 +124,17 @@ static void _create_constant_table(lua_State *l, const char *ns, const pi_lua_co
 	LUA_DEBUG_END(l, 0);
 }
 
-static void _create_constant_table_nonconsecutive(lua_State *l, const char *ns, const pi_lua_constant_t *c)
+static void _create_constant_table_nonconsecutive(lua_State *l, const char *ns, const EnumItem *c)
 {
 	_create_constant_table(l, ns, c, false);
 }
 
-static void _create_constant_table_consecutive(lua_State *l, const char *ns, const pi_lua_constant_t *c)
+#if 0 // no longer used, since enum tables are auto-generated and always have their values filled in
+static void _create_constant_table_consecutive(lua_State *l, const char *ns, const EnumItem *c)
 {
 	_create_constant_table(l, ns, c, true);
 }
+#endif
 
 void LuaConstants::Register(lua_State *l)
 {
@@ -200,13 +199,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   stable
 	 */
-	static const pi_lua_constant_t body_type_constants[] = {
-#define BodyType_ITEM(x,y) { #x, y },
-#define BodyType_ITEM_X(x,y)
-#include "StarSystemEnums.h"
-		{ 0, 0 }
-	};
-	_create_constant_table_nonconsecutive(l, "BodyType", body_type_constants);
+	_create_constant_table_nonconsecutive(l, "BodyType", ENUM_BodyType);
 
 
 	/*
@@ -228,12 +221,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   stable
 	 */
-	static const pi_lua_constant_t body_super_type_constants[] = {
-#define BodySuperType_ITEM(x,y) { #x, y },
-#include "StarSystemEnums.h"
-		{ 0, 0 }
-	};
-	_create_constant_table_nonconsecutive(l, "BodySuperType", body_super_type_constants);
+	_create_constant_table_nonconsecutive(l, "BodySuperType", ENUM_BodySuperType);
 
 
 	/*
@@ -254,12 +242,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	static const pi_lua_constant_t polit_crime_constants[] = {
-#define Crime_ITEM(x,y) { #x, y },
-#include "PolitEnums.h"
-		{ 0, 0 }
-	};
-	_create_constant_table_nonconsecutive(l, "PolitCrime", polit_crime_constants);
+	_create_constant_table_nonconsecutive(l, "PolitCrime", ENUM_PolitCrime);
 
 
 	/*
@@ -280,12 +263,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	static const pi_lua_constant_t polit_bloc_constants[] = {
-#define Bloc_ITEM(x) { #x, -1 },
-#include "PolitEnums.h"
-		{ 0, 0 }
-	};
-	_create_constant_table_consecutive(l, "PolitBloc", polit_bloc_constants);
+	_create_constant_table_nonconsecutive(l, "PolitBloc", ENUM_PolitBloc);
 
 	/*
 	 * Constants: PolitEcon
@@ -306,12 +284,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	static const pi_lua_constant_t polit_econ_constants[] = {
-#define PolitEcon_ITEM(x) { #x, -1 },
-#include "PolitEnums.h"
-		{ 0, 0 }
-	};
-	_create_constant_table_consecutive(l, "PolitEcon", polit_econ_constants);
+	_create_constant_table_nonconsecutive(l, "PolitEcon", ENUM_PolitEcon);
 
 	/*
 	 * Constants: PolitGovType
@@ -343,14 +316,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	static const pi_lua_constant_t polit_gov_type_constants[] = {
-#define GovType_ITEM(x) { #x, -1 },
-#define GovType_ITEM_X(x) // marker
-#define GovType_ITEM_Y(x,y) // marker
-#include "PolitEnums.h"
-		{ 0, 0 }
-	};
-	_create_constant_table_consecutive(l, "PolitGovType", polit_gov_type_constants);
+	_create_constant_table_nonconsecutive(l, "PolitGovType", ENUM_PolitGovType);
 
 
 	/*
@@ -386,12 +352,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	static const pi_lua_constant_t equip_slot_constants[] = {
-#define Slot_ITEM(x) { #x, -1 },
-#include "EquipTypeEnums.h"
-		{ 0, 0 }
-	};
-	_create_constant_table_consecutive(l, "EquipSlot", equip_slot_constants);
+	_create_constant_table_nonconsecutive(l, "EquipSlot", ENUM_EquipSlot);
 
 	/*
 	 * Constants: EquipType
@@ -484,16 +445,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	static const pi_lua_constant_t equip_type_constants[] = {
-#define CommodityType_ITEM(x) { #x, -1 },
-#define CommodityType_ITEM_X(x,y)
-#include "EquipTypeEnums.h"
-#define EquipType_ITEM(x) { #x, -1 },
-#define EquipType_ITEM_X(x,y)
-#include "EquipTypeEnums.h"
-		{ 0, 0 }
-	};
-	_create_constant_table_consecutive(l, "EquipType", equip_type_constants);
+	_create_constant_table_nonconsecutive(l, "EquipType", ENUM_EquipType);
 
 
 	/*
@@ -519,12 +471,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   stable
 	 */
-	static const pi_lua_constant_t ship_type_tag_constants[] = {
-#define Tag_ITEM(x) { #x, -1 },
-#include "ShipTypeEnums.h"
-		{ 0, 0 }
-	};
-	_create_constant_table_consecutive(l, "ShipTypeTag", ship_type_tag_constants);
+	_create_constant_table_nonconsecutive(l, "ShipTypeTag", ENUM_ShipTypeTag);
 
 	/*
 	 * Constants: ShipTypeThruster
@@ -547,12 +494,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   stable
 	 */
-	static const pi_lua_constant_t ship_type_thruster_constants[] = {
-#define Thruster_ITEM(x) { #x, -1 },
-#include "ShipTypeEnums.h"
-		{ 0, 0 }
-	};
-	_create_constant_table_consecutive(l, "ShipTypeThruster", ship_type_thruster_constants);
+	_create_constant_table_nonconsecutive(l, "ShipTypeThruster", ENUM_ShipTypeThruster);
 
 
 	/*
@@ -576,12 +518,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   stable
 	 */
-	static const pi_lua_constant_t ship_jump_status_constants[] = {
-#define HyperjumpStatus_ITEM(x) { #x, -1 },
-#include "ShipEnums.h"
-		{ 0, 0 }
-	};
-	_create_constant_table_consecutive(l, "ShipJumpStatus", ship_jump_status_constants);
+	_create_constant_table_nonconsecutive(l, "ShipJumpStatus", ENUM_ShipJumpStatus);
 
 	/*
 	 * Constants: ShipAlertStatus
@@ -601,12 +538,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	static const pi_lua_constant_t ship_alert_status_constants[] = {
-#define AlertState_ITEM(x) { #x, -1 },
-#include "ShipEnums.h"
-		{ 0, 0 }
-	};
-	_create_constant_table_consecutive(l, "ShipAlertStatus", ship_alert_status_constants);
+	_create_constant_table_nonconsecutive(l, "ShipAlertStatus", ENUM_ShipAlertStatus);
 
 	/*
 	 * Constants: ShipFlightState
@@ -627,12 +559,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	static const pi_lua_constant_t ship_flight_state_constants[] = {
-#define FlightState_ITEM(x) { #x, -1 },
-#include "ShipEnums.h"
-		{ 0, 0 }
-	};
-	_create_constant_table_consecutive(l, "ShipFlightState", ship_flight_state_constants);
+	_create_constant_table_nonconsecutive(l, "ShipFlightState", ENUM_ShipFlightState);
 
 	/*
 	 * Constants: ShipAnimation
@@ -650,12 +577,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	static const pi_lua_constant_t ship_animation_constants[] = {
-#define Animation_ITEM(x) { #x, -1 },
-#include "ShipEnums.h"
-		{ 0, 0 }
-	};
-	_create_constant_table_consecutive(l, "ShipAnimation", ship_animation_constants);
+	_create_constant_table_nonconsecutive(l, "ShipAnimation", ENUM_ShipAnimation);
 
 	/*
 	 * Constants: SpaceStationAnimation
@@ -673,12 +595,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	static const pi_lua_constant_t space_station_animation_constants[] = {
-#define Animation_ITEM(x) { #x, -1 },
-#include "SpaceStationEnums.h"
-		{ 0, 0 }
-	};
-	_create_constant_table_consecutive(l, "SpaceStationAnimation", space_station_animation_constants);
+	_create_constant_table_nonconsecutive(l, "SpaceStationAnimation", ENUM_SpaceStationAnimation);
 
     /*
      * Constants: MissionStatus
@@ -697,12 +614,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   stable
 	 */
-	static const pi_lua_constant_t mission_status_constants[] = {
-#define MissionState_ITEM(x) { #x, -1 },
-#include "PlayerEnums.h"
-		{ 0, 0 }
-	};
-	_create_constant_table_consecutive(l, "MissionStatus", mission_status_constants);
+	_create_constant_table_nonconsecutive(l, "MissionStatus", ENUM_MissionStatus);
 
 
 	LUA_DEBUG_END(l, 0);

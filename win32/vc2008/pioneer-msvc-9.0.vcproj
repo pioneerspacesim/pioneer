@@ -333,6 +333,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\enum_table.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\EquipType.cpp"
 				>
 			</File>
@@ -1031,6 +1035,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\enum_table.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\EquipType.h"
 				>
 			</File>
@@ -1695,19 +1703,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Render.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\render\Render.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\render\RenderShader.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\RenderShader.h"
 				>
 			</File>
 			<File

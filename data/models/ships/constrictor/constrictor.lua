@@ -408,7 +408,7 @@ define_model('conny_equipment', {
 	end,
 	dynamic = function(lod)
 
-		if get_equipment('FUELSCOOP') == 'FUEL_SCOOP' then
+		if get_equipment('FUELSCOOP') or get_equipment('CARGOSCOOP') then
 			call_model('conny_scoop', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 		end
 
