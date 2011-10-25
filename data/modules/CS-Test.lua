@@ -25,6 +25,7 @@ Use count: {useCount}, Last seen: {time}, Location: {place}]]):interp({
 end
 
 local current
+local stations={}
 
 local onChat = function (form, ref, option)
 
@@ -137,8 +138,35 @@ Sensors: {sensors}
 
 end
 
+local loaded_data
+
+local onGameStart = function ()
+    stations = {}
+
+    if not loaded_data then return end
+
+    for k,station in pairs(loaded_data.stations) do
+        local ref = station:AddAdvert('CHARACTER SHEET TESTING', onChat, onDelete)
+        stations[ref] = station
+    end
+
+    loaded_data = nil
+end
+
+local serialize = function ()
+    return { stations = stations }
+end
+
+local unserialize = function (data)
+    loaded_data = data
+end
+
 local onCreateBB = function (station)
-	station:AddAdvert('CHARACTER SHEET TESTING', onChat, onDelete)
+	ref = station:AddAdvert('CHARACTER SHEET TESTING', onChat, onDelete)
+    stations[ref] = station
 end
 
 EventQueue.onCreateBB:Connect(onCreateBB)
+EventQueue.onGameStart:Connect(onGameStart)
+
+Serializer:Register("CS-Test", serialize, unserialize)
