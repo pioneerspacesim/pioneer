@@ -1121,8 +1121,6 @@ AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
     Autopilot: Intră în orbita medie în jurul %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Autopilot: Intră în orbita superioară în jurul %target
-SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
-    Analizator hipernor: Setează ţinta hiperspaţiului să urmărească plecarea aceasta
 FAILED
     Eşuare
 COMPLETED

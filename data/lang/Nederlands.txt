@@ -1125,8 +1125,6 @@ AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
     Autopiloot: Kies gemiddelde omloopbaan rond %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Autopiloot: Kies hoge omloopbaan rond %target
-SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
-    Hyperspace-wolk Analysator: Kies hyperspace-doelwit om dit vertrek te volgen
 FAILED
     Gefaald
 COMPLETED

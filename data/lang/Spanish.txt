@@ -1128,8 +1128,6 @@ AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
     Piloto automático: Establecer órbita media alrededor de %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Piloto automático: Establecer órbita alta alrededor de %target
-SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
-    Analizador de nube hiperespacial: Fijar objetivo hiperespacial del viaje 
 FAILED
     Fallida
 COMPLETED

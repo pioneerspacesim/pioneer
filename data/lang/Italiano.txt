@@ -1126,8 +1126,6 @@ AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
     Pilota automatico: stabilire orbita media attorno a %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Pilota automatico: stabilire orbita alta attorno a %target
-SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
-    Analizzatore Nubi Iperspaziali: Stabilire destinazione di inseguimento
 FAILED
     Fallita
 COMPLETED
