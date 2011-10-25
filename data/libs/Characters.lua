@@ -636,6 +636,36 @@ Character = {
 		end
 	end,
 
+--
+-- Method: CheckOut
+--
+--   ch:CheckOut()
+--
+--   "Checks out" a persistent character, flagging it for exclusive use.  Sets
+--   available to false, meaning that FindAvailable() will not return this
+--   character.
+--
+--   A character is checked back in using Save().
+--
+-- Parameters:
+--
+-- Return:
+--
+--   true - The character was available, and has been marked unavailable
+--
+--   false - The character wasn't available, or didn't exist
+--
+	CheckOut = function (self)
+		if self and (type(self) == 'table') then
+			local test = getmetatable(self)
+			if test and (test.class == 'Character') and self.available then
+				self.available = false
+				return true
+			end
+		end
+		return false
+	end,
+
 	-- Debug function
 	PrintStats = function (self)
 		print('Name:',self.name)
