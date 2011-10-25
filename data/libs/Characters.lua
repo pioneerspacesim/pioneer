@@ -594,6 +594,48 @@ Character = {
 		end
 	end,
 
+--
+-- Method: FindAvailable
+--
+--   Returns an iterator across all PersistentCharacters where available is true
+--
+-- iterator = Character.FindAvailable()
+--
+-- Return:
+--
+--   iterator - a function which will generate the returned results, returning
+--              one each time it is called until it runs out, after which it
+--              returns nil.
+--
+-- Example:
+--
+-- Print names of all characters
+--
+-- > for person in Character.FindAvailable()
+-- > do
+-- >   print(person.name)
+-- > end
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
+	FindAvailable = function ()
+		-- We want a nice default filter
+		local NPC = 0
+		return function ()
+			NPC = NPC + 1
+			while PersistentCharacters[NPC] and not (PersistentCharacters[NPC]).available do
+				NPC = NPC + 1
+			end
+			return PersistentCharacters[NPC]
+		end
+	end,
+
 	-- Debug function
 	PrintStats = function (self)
 		print('Name:',self.name)
