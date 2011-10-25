@@ -839,7 +839,6 @@ local loaded_data
 local onGameStart = function ()
 	if loaded_data then
 		for k,newCharacter in pairs(loaded_data.PersistentCharacters) do
-		--	setmetatable(newCharacter,{__index = Character})
 			PersistentCharacters[k] = newCharacter
 		end
 	else
