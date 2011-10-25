@@ -171,6 +171,9 @@
     <ClCompile Include="..\..\src\ShipType.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\enum_table.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\pch.h">
@@ -342,6 +345,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ShipType.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\enum_table.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

@@ -146,6 +146,7 @@
     <ClCompile Include="..\..\src\CustomSystem.cpp" />
     <ClCompile Include="..\..\src\DeadVideoLink.cpp" />
     <ClCompile Include="..\..\src\DynamicBody.cpp" />
+    <ClCompile Include="..\..\src\enum_table.cpp" />
     <ClCompile Include="..\..\src\EquipType.cpp" />
     <ClCompile Include="..\..\src\FaceVideoLink.cpp" />
     <ClCompile Include="..\..\src\Font.cpp" />
@@ -308,6 +309,7 @@
     <ClInclude Include="..\..\src\DeadVideoLink.h" />
     <ClInclude Include="..\..\src\DeleteEmitter.h" />
     <ClInclude Include="..\..\src\DynamicBody.h" />
+    <ClInclude Include="..\..\src\enum_table.h" />
     <ClInclude Include="..\..\src\EquipType.h" />
     <ClInclude Include="..\..\src\FaceVideoLink.h" />
     <ClInclude Include="..\..\src\fixed.h" />
