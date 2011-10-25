@@ -57,6 +57,16 @@ private:
 	GLdouble m_modelMatrix[16];
 	GLdouble m_projMatrix[16];
 	GLint m_viewport[4];
+
+	struct SortBody {
+		double dist;
+		vector3d viewCoords;
+		matrix4x4d viewTransform;
+		Body *b;
+		Uint32 bodyFlags;
+	};
+
+	std::list<SortBody> m_sortedBodies;
 };
 
 #endif

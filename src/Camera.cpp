@@ -5,6 +5,7 @@
 #include "Space.h"
 #include "Player.h"
 #include "Pi.h"
+#include "Sfx.h"
 
 // min/max FOV in degrees
 static const float FOV_MAX = 170.0f;
@@ -116,6 +117,20 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 	}
 }
 
+#if 0
+struct body_zsort_compare : public std::binary_function<body_zsort_t, body_zsort_t, bool> {
+	bool operator()(body_zsort_t a, body_zsort_t b)
+	{
+		if (a.bodyFlags & Body::FLAG_DRAW_LAST) {
+			if (!(b.bodyFlags & Body::FLAG_DRAW_LAST)) return false;
+		} else {
+			if (b.bodyFlags & Body::FLAG_DRAW_LAST) return true;
+		}
+		return a.dist > b.dist;
+	}
+};
+#endif
+
 void Camera::Update()
 {
 	if (m_shadersEnabled != Render::AreShadersEnabled()) {
@@ -140,15 +155,30 @@ void Camera::Update()
 	// make sure old orient and interpolated orient (rendering orient) are not rubbish
 	m_camFrame->ClearMovement();
 
-	// calculate and store on-screen positions for each body
-	// XXX sucks to do this for every camera but other stuff relies on it
-	// XXX rough copy of Gui::Screen::Project but avoiding the overhead of
-	// EnterOrtho/LeaveOrtho
+
+	// evaluate each body and determine if/where/how to draw it
 	const float *guiscale = Gui::Screen::GetCoords2Pixels();
-	for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+
+	m_sortedBodies.clear();
+	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 		Body *b = *i;
+
+		// put the body in the sort list
+		SortBody bz;
+		vector3d pos = (*i)->GetInterpolatedPosition();
+		Frame::GetFrameRenderTransform(b->GetFrame(), m_camFrame, bz.viewTransform);
+		vector3d toBody = bz.viewTransform * pos;
+		bz.viewCoords = toBody;
+		bz.dist = toBody.Length();
+		bz.bodyFlags = b->GetFlags();
+		bz.b = b;
+		m_sortedBodies.push_back(bz);
+
+		// calculate and store projected position for labels etc
+		// XXX sucks to do this for every camera
+		// XXX rough copy of Gui::Screen::Project but avoiding the overhead of EnterOrtho/LeaveOrtho
 		b->SetOnscreen(false);
-		vector3d pos = b->GetInterpolatedPositionRelTo(m_camFrame);
+		pos = b->GetInterpolatedPositionRelTo(m_camFrame);
 		if (pos.z < 0) {
 			if (gluProject(pos.x, pos.y, pos.z, m_modelMatrix, m_projMatrix, m_viewport, &pos.x, &pos.y, &pos.z) == GL_TRUE) {
 				pos.x = pos.x * guiscale[0];
@@ -160,6 +190,9 @@ void Camera::Update()
 			}
 		}
 	}
+
+	// depth sort
+	//m_sortedBodies.sort();
 }
 
 void Camera::Draw()
@@ -217,7 +250,39 @@ void Camera::Draw()
 	Render::State::SetNumLights(num_lights);
 	Render::State::SetZnearZfar(znear, zfar);
 
-	Space::Render(m_camFrame);
+	Plane planes[6];
+	GetFrustum(planes);
+
+	for (std::list<SortBody>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); i++) {
+		double rad = (*i).b->GetBoundingRadius();
+
+		// test against all frustum planes except far plane
+		bool do_draw = true;
+		// always render stars (they have a huge glow). Other things do frustum cull
+		if (!(*i).b->IsType(Object::STAR)) {
+			for (int p=0; p<5; p++) {
+				if (planes[p].DistanceToPoint((*i).viewCoords)+rad < 0) {
+					do_draw = false;
+					break;
+				}
+			}
+		}
+		if (!do_draw) continue;
+
+		double screenrad = 500 * rad / (*i).dist;      // approximate pixel size
+		if (!(*i).b->IsType(Object::STAR) && screenrad < 2) {
+			if (!(*i).b->IsType(Object::PLANET)) continue;
+			// absolute bullshit
+			double spikerad = (7 + 1.5*log10(screenrad)) * rad / screenrad;
+			//DrawSpike(spikerad, (*i).viewCoords, (*i).viewTransform);
+		}
+		else
+			(*i).b->Render((*i).viewCoords, (*i).viewTransform);
+	}
+
+	Sfx::RenderAll(Space::rootFrame, m_camFrame);
+	Render::State::UseProgram(0);
+	Render::UnbindAllBuffers();
 
 	m_body->GetFrame()->RemoveChild(m_camFrame);
 	delete m_camFrame;
