@@ -136,6 +136,7 @@
     <ClCompile Include="..\..\src\collider\CollisionSpace.cpp" />
     <ClCompile Include="..\..\src\collider\Geom.cpp" />
     <ClCompile Include="..\..\src\collider\GeomTree.cpp" />
+    <ClCompile Include="..\..\src\enum_table.cpp" />
     <ClCompile Include="..\..\src\FontConfig.cpp" />
     <ClCompile Include="..\..\src\FontManager.cpp" />
     <ClCompile Include="..\..\src\gui\Gui.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="..\..\src\collider\CollisionSpace.h" />
     <ClInclude Include="..\..\src\collider\Geom.h" />
     <ClInclude Include="..\..\src\collider\GeomTree.h" />
+    <ClInclude Include="..\..\src\enum_table.h" />
     <ClInclude Include="..\..\src\FontConfig.h" />
     <ClInclude Include="..\..\src\FontManager.h" />
     <ClInclude Include="..\..\src\gui\Gui.h" />

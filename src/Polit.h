@@ -9,28 +9,51 @@ class SysPolit;
 class Ship;
 
 namespace Polit {
-	enum Crime {
-#define Crime_ITEM(x,y) CRIME_##x = y,
-#include "PolitEnums.h"
+	enum Crime { // <enum scope='Polit' name=PolitCrime prefix=CRIME_>
+		CRIME_TRADING_ILLEGAL_GOODS = (1<<0),
+		CRIME_WEAPON_DISCHARGE = (1<<1),
+		CRIME_PIRACY = (1<<2),
+		CRIME_MURDER = (1<<3),
 	};
 
-	enum Bloc {
-#define Bloc_ITEM(x) BLOC_##x,
-#include "PolitEnums.h"
-		BLOC_MAX
+	enum Bloc { // <enum scope='Polit' name=PolitBloc prefix=BLOC_>
+		BLOC_NONE,
+		BLOC_EARTHFED,
+		BLOC_CIS,
+		BLOC_EMPIRE,
+		BLOC_MAX // <enum skip>
 	};
 
-	enum EconType {
-#define PolitEcon_ITEM(x) ECON_##x,
-#include "PolitEnums.h"
-		ECON_MAX
+	enum PolitEcon { // <enum scope='Polit' name=PolitEcon prefix=ECON_>
+		ECON_NONE,
+		ECON_VERY_CAPITALIST,
+		ECON_CAPITALIST,
+		ECON_MIXED,
+		ECON_PLANNED,
+		ECON_MAX // <enum skip>
 	};
 
-	enum GovType {
-#define GovType_ITEM(x) GOV_##x,
-#define GovType_ITEM_X(x) GOV_##x,
-#define GovType_ITEM_Y(x,y) GOV_##x = y,
-#include "PolitEnums.h"
+	enum GovType { // <enum scope='Polit' name=PolitGovType prefix=GOV_>
+		GOV_INVALID, // <enum skip>
+		GOV_NONE,
+		GOV_EARTHCOLONIAL,
+		GOV_EARTHDEMOC,
+		GOV_EMPIRERULE,
+		GOV_CISLIBDEM,
+		GOV_CISSOCDEM,
+		GOV_LIBDEM,
+		GOV_CORPORATE,
+		GOV_SOCDEM,
+		GOV_EARTHMILDICT,
+		GOV_MILDICT1,
+		GOV_MILDICT2,
+		GOV_EMPIREMILDICT,
+		GOV_COMMUNIST,
+		GOV_PLUTOCRATIC,
+		GOV_DISORDER,
+		GOV_MAX, // <enum skip>
+		GOV_RAND_MIN = GOV_NONE+1, // <enum skip>
+		GOV_RAND_MAX = GOV_MAX-1, // <enum skip>
 	};
 
 	void NotifyOfCrime(Ship *s, enum Crime c);

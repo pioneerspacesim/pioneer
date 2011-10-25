@@ -465,6 +465,9 @@
     <ClCompile Include="..\..\src\TerrainBody.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\enum_table.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -969,6 +972,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\TerrainBody.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\enum_table.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
