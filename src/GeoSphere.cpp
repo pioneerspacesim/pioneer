@@ -6,6 +6,9 @@
 #include "RefCounted.h"
 #include "render/Render.h"
 
+#include <deque>
+#include <algorithm>
+
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
 #define GEOPATCH_MAX_DEPTH  15 + (2*Pi::detail.fracmult) //15 
@@ -994,65 +997,63 @@ static const int geo_sphere_edge_friends[6][4] = {
 	{ 1, 4, 3, 2 }
 };
 
-static std::list<GeoSphere*> s_allGeospheres;
-SDL_mutex *s_allGeospheresLock;
-SDL_Thread *s_updateThread;
+static std::vector<GeoSphere*> s_allGeospheres;
+static std::deque<GeoSphere*> s_geosphereUpdateQueue;
+static GeoSphere* s_currentlyUpdatingGeoSphere = 0;
+static SDL_mutex *s_geosphereUpdateQueueLock = 0;
+static SDL_Thread *s_updateThread = 0;
 
 static bool s_exitFlag = false;
 
 /* Thread that updates geosphere level of detail thingies */
 int GeoSphere::UpdateLODThread(void *data)
 {
-	for(;;) {
-		// make a copy of the list of geospheres for this iteration. we don't
-		// want to stop the main thread from updating
-		SDL_mutexP(s_allGeospheresLock);
+	bool done = false;
+
+	while (!done) {
+
+		// pull the next GeoSphere off the queue
+		SDL_mutexP(s_geosphereUpdateQueueLock);
 
 		// check for exit. doing it here to avoid needing another lock
 		if (s_exitFlag) {
-			SDL_mutexV(s_allGeospheresLock);
+			done = true;
+			SDL_mutexV(s_geosphereUpdateQueueLock);
 			break;
 		}
 
-		std::list<GeoSphere*> geospheres = s_allGeospheres;
-		SDL_mutexV(s_allGeospheresLock);
+		if (! s_geosphereUpdateQueue.empty()) {
+			s_currentlyUpdatingGeoSphere = s_geosphereUpdateQueue.front();
+			s_geosphereUpdateQueue.pop_front();
+		} else
+			s_currentlyUpdatingGeoSphere = 0;
 
-		for(std::list<GeoSphere*>::iterator i = geospheres.begin();
-				i != geospheres.end(); ++i) {
+		if (s_currentlyUpdatingGeoSphere) {
+			GeoSphere *gs = s_currentlyUpdatingGeoSphere;
+			// overlap locks to ensure gs doesn't die before we've locked it
+			SDL_mutexP(gs->m_updateLock);
+			SDL_mutexV(s_geosphereUpdateQueueLock);
 
-			// yes, holding the flag lock as we call into _UpdateLODs(). it
-			// will release it after taking the update lock. needed to avoid
-			// the scenario where we decide we want the update, and the root
-			// patches get deleted while we're waiting for the update lock
-			SDL_mutexP((*i)->m_needUpdateLock);
-			if ((*i)->m_needUpdate) {
-				(*i)->_UpdateLODs();
-				(*i)->m_needUpdate = false;
-			}
-			SDL_mutexV((*i)->m_needUpdateLock);
+			// update the patches
+			for (int n=0; n<6; n++)
+				gs->m_patches[n]->LODUpdate(gs->m_tempCampos);
+
+			// overlap locks again
+			SDL_mutexP(s_geosphereUpdateQueueLock);
+			assert(s_currentlyUpdatingGeoSphere == gs);
+			s_currentlyUpdatingGeoSphere = 0;
+			SDL_mutexV(s_geosphereUpdateQueueLock);
+
+			SDL_mutexV(gs->m_updateLock);
+		} else {
+			// if there's nothing in the update queue, just sleep for a bit before checking it again
+			// XXX could use a semaphore instead, but polling is probably ok
+			SDL_mutexV(s_geosphereUpdateQueueLock);
+			SDL_Delay(10);
 		}
-
-		SDL_Delay(10);
 	}
 
 	return 0;
-}
-
-void GeoSphere::_UpdateLODs()
-{
-	// lock the geosphere for update. this will stop the main thread from
-	// trying to destroy it while we're using it
-	SDL_mutexP(m_updateLock);
-
-	// release the flag lock before doing the update proper so the main thread
-	// can check it without waiting for us to finish
-	SDL_mutexV(m_needUpdateLock);
-	for (int i=0; i<6; i++) {
-		m_patches[i]->LODUpdate(m_tempCampos);
-	}
-	SDL_mutexP(m_needUpdateLock);
-
-	SDL_mutexV(m_updateLock);
 }
 
 void GeoSphere::Init()
@@ -1070,7 +1071,7 @@ void GeoSphere::Init()
 	s_geosphereDimStarShader[1] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 2\n");
 	s_geosphereDimStarShader[2] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 3\n");
 	s_geosphereDimStarShader[3] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 4\n");
-	s_allGeospheresLock = SDL_CreateMutex();
+	s_geosphereUpdateQueueLock = SDL_CreateMutex();
 
 	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
@@ -1085,17 +1086,19 @@ void GeoSphere::Uninit()
 {
 #ifdef GEOSPHERE_USE_THREADING
 	// instruct the thread to exit
-	SDL_mutexP(s_allGeospheresLock);
-	assert(s_allGeospheres.size() == 0);
+	assert(s_geosphereUpdateQueue.empty());
+	SDL_mutexP(s_geosphereUpdateQueueLock);
 	s_exitFlag = true;
-	SDL_mutexV(s_allGeospheresLock);
+	SDL_mutexV(s_geosphereUpdateQueueLock);
+
+	SDL_WaitThread(s_updateThread, 0);
 #endif /* GEOSPHERE_USE_THREADING */
 	
 	s_patchContext->DecRefCount();
 	assert (s_patchContext->GetRefCount() == 0);
 	if (s_patchContext->GetRefCount() == 0) delete s_patchContext;
 
-	SDL_DestroyMutex(s_allGeospheresLock);
+	SDL_DestroyMutex(s_geosphereUpdateQueueLock);
 	for (int i=0; i<4; i++) delete s_geosphereDimStarShader[i];
 	delete s_geosphereStarShader;
 	for (int i=0; i<4; i++) delete s_geosphereSkyShader[i];
@@ -1111,25 +1114,21 @@ void GeoSphere::OnChangeDetailLevel()
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
 	s_patchContext->IncRefCount();
 
-	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
-			i != s_allGeospheres.end(); ++i) {
+	// cancel all queued updates
+	SDL_mutexP(s_geosphereUpdateQueueLock);
+	s_geosphereUpdateQueue.clear();
+	GeoSphere *gs = s_currentlyUpdatingGeoSphere;
+	SDL_mutexV(s_geosphereUpdateQueueLock);
 
-		// we're about to force the thread back to its main loop. make sure it
-		// stops once it gets there
-		SDL_mutexP((*i)->m_needUpdateLock);
-		(*i)->m_needUpdate = false;
-		SDL_mutexV((*i)->m_needUpdateLock);
-
-		// flag all terrain gen for abort. this will cause the recursive
-		// _UpdateLODs to exit as fast as it can and get the thread back to its
-		// mainloop
-		SDL_mutexP((*i)->m_abortLock);
-		(*i)->m_abort = true;
-		SDL_mutexV((*i)->m_abortLock);
+	// if a terrain is currently being updated, then abort the update
+	if (gs) {
+		SDL_mutexP(gs->m_abortLock);
+		gs->m_abort = true;
+		SDL_mutexV(gs->m_abortLock);
 	}
 
 	// reinit the geosphere terrain data
-	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
+	for(std::vector<GeoSphere*>::iterator i = s_allGeospheres.begin();
 			i != s_allGeospheres.end(); ++i) {
 
 		// we need the update lock so we don't delete working data out from
@@ -1165,14 +1164,10 @@ GeoSphere::GeoSphere(const SBody *body): m_style(body)
 	memset(m_patches, 0, 6*sizeof(GeoPatch*));
 
 	m_updateLock = SDL_CreateMutex();
-	m_needUpdateLock = SDL_CreateMutex();
-	m_needUpdate = false;
 	m_abortLock = SDL_CreateMutex();
 	m_abort = false;
 
-	SDL_mutexP(s_allGeospheresLock);
 	s_allGeospheres.push_back(this);
-	SDL_mutexV(s_allGeospheresLock);
 }
 
 GeoSphere::~GeoSphere()
@@ -1182,17 +1177,23 @@ GeoSphere::~GeoSphere()
 	m_abort = true;
 	SDL_mutexV(m_abortLock);
 
+	SDL_mutexP(s_geosphereUpdateQueueLock);
+	assert(std::count(s_allGeospheres.begin(), s_allGeospheres.end(), this) <= 1);
+	s_geosphereUpdateQueue.erase(
+		std::remove(s_geosphereUpdateQueue.begin(), s_geosphereUpdateQueue.end(), this),
+		s_geosphereUpdateQueue.end());
+	SDL_mutexV(s_geosphereUpdateQueueLock);
+
 	// wait until it completes update
 	SDL_mutexP(m_updateLock);
 	SDL_mutexV(m_updateLock);
 
-	SDL_mutexP(s_allGeospheresLock);
-	s_allGeospheres.remove(this);
-	SDL_mutexV(s_allGeospheresLock);
+	// update thread should not be able to access us now, so we can safely continue to delete
+	assert(std::count(s_allGeospheres.begin(), s_allGeospheres.end(), this) == 1);
+	s_allGeospheres.erase(std::find(s_allGeospheres.begin(), s_allGeospheres.end(), this));
 
 	SDL_DestroyMutex(m_abortLock);
 	SDL_DestroyMutex(m_updateLock);
-	SDL_DestroyMutex(m_needUpdateLock);
 
 	for (int i=0; i<6; i++) if (m_patches[i]) delete m_patches[i];
 	DestroyVBOs();
@@ -1420,13 +1421,17 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		/*this->m_tempCampos = campos;
 		UpdateLODThread(this);
 		return;*/
-	
-	SDL_mutexP(m_needUpdateLock);
-	if (!m_needUpdate) {
+
+	SDL_mutexP(s_geosphereUpdateQueueLock);
+	bool onQueue =
+		(std::find(s_geosphereUpdateQueue.begin(), s_geosphereUpdateQueue.end(), this)
+			!= s_geosphereUpdateQueue.end());
+	// put ourselves on the update queue, unless we're already there or already being updated
+	if (!onQueue && (s_currentlyUpdatingGeoSphere != this)) {
 		this->m_tempCampos = campos;
-		m_needUpdate = true;
+		s_geosphereUpdateQueue.push_back(this);
 	}
-	SDL_mutexV(m_needUpdateLock);
+	SDL_mutexV(s_geosphereUpdateQueueLock);
 
 #ifndef GEOSPHERE_USE_THREADING
 	m_tempCampos = campos;
