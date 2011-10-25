@@ -216,7 +216,7 @@ class EnumData:
             , '  name: ' + repr(s.name)
             , '  prefix: ' + repr(s.prefix)
             , '  items:']
-        if len(s.items) > 0:
+        if s.items:
             for item in s.items:
                 x.append('    ' + str(item))
         else:
