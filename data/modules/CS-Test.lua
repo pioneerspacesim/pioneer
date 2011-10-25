@@ -25,6 +25,8 @@ Use count: {useCount}, Last seen: {time}, Location: {place}]]):interp({
 	})
 end
 
+local current
+
 local onChat = function (form, ref, option)
 
 	local mainmenu = function ()
@@ -33,7 +35,7 @@ local onChat = function (form, ref, option)
 		form:SetFace(PersistentCharacters.player)
 		form:SetMessage('First ten persistent characters are listed below')
 
-		form:AddOption("Create a new character", 1)
+		form:AddOption("Create a new persistent character", 1)
 		for topten = 1,10 do
 			if PersistentCharacters[topten] then
 				form:AddOption(PersistentCharacters[topten].name,topten+1)
@@ -47,6 +49,9 @@ local onChat = function (form, ref, option)
 		form:SetTitle("CHARACTER SHEET: " .. sheet.name)
 		form:SetFace(sheet)
 		form:SetMessage(SheetDisplayData(sheet))
+		form:AddOption('Randomize',13)
+		form:AddOption('Randomize for crew',14)
+		form:AddOption('Make non-persistent',15)
 		form:AddOption('Done',0)
 	end
 
@@ -60,9 +65,24 @@ local onChat = function (form, ref, option)
 	end
 
 	if option > 1 and option < 12 then
-		showsheet(PersistentCharacters[option-1])
+		current = PersistentCharacters[option - 1]
+		showsheet(current)
 	end
---		form:SetMessage(SheetDisplayData(PersistentCharacters[1]))
+
+	if option == 13 then
+		current:RollNew()
+		showsheet(current)
+	end
+
+	if option == 14 then
+		current:RollNew(true)
+		showsheet(current)
+	end
+
+	if option == 15 then
+		current:UnSave()
+		showsheet(current)
+	end
 
 end
 
