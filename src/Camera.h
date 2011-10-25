@@ -4,8 +4,8 @@
 #include "vector3.h"
 #include "matrix4x4.h"
 #include "Background.h"
+#include "Body.h"
 
-class Body;
 class Frame;
 
 class Camera {
@@ -64,6 +64,24 @@ private:
 		matrix4x4d viewTransform;
 		Body *b;
 		Uint32 bodyFlags;
+
+		// for sorting. "should a be drawn before b?"
+		friend bool operator<(const SortBody &a, const SortBody &b) {
+			// both drawing last; distance order
+			if (a.bodyFlags & Body::FLAG_DRAW_LAST && b.bodyFlags & Body::FLAG_DRAW_LAST)
+				return a.dist < b.dist;
+
+			// a drawing last; draw b first
+			if (a.bodyFlags & Body::FLAG_DRAW_LAST)
+				return false;
+
+			// b drawing last; draw a first
+			if (b.bodyFlags & Body::FLAG_DRAW_LAST)
+				return true;
+
+			// both in normal draw; distance order
+			return a.dist < b.dist;
+		}
 	};
 
 	std::list<SortBody> m_sortedBodies;

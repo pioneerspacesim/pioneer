@@ -117,20 +117,6 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 	}
 }
 
-#if 0
-struct body_zsort_compare : public std::binary_function<body_zsort_t, body_zsort_t, bool> {
-	bool operator()(body_zsort_t a, body_zsort_t b)
-	{
-		if (a.bodyFlags & Body::FLAG_DRAW_LAST) {
-			if (!(b.bodyFlags & Body::FLAG_DRAW_LAST)) return false;
-		} else {
-			if (b.bodyFlags & Body::FLAG_DRAW_LAST) return true;
-		}
-		return a.dist > b.dist;
-	}
-};
-#endif
-
 void Camera::Update()
 {
 	if (m_shadersEnabled != Render::AreShadersEnabled()) {
@@ -192,7 +178,7 @@ void Camera::Update()
 	}
 
 	// depth sort
-	//m_sortedBodies.sort();
+	m_sortedBodies.sort();
 }
 
 void Camera::Draw()
