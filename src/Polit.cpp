@@ -53,7 +53,7 @@ struct politDesc_t {
 	int minTechLevel;
 	int rarity;
 	Bloc bloc;
-	EconType econ;
+	PolitEcon econ;
 	fixed baseLawlessness;
 };
 const politDesc_t s_govDesc[GOV_MAX] = {
