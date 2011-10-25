@@ -1,6 +1,5 @@
 local SheetDisplayData = function (sheet)
-	return ([[{name}
---ATTRIBUTES--
+	return ([[--ATTRIBUTES--
 Luck: {luck}
 Charisma: {charisma}
 Notoriety: {notoriety}
@@ -12,7 +11,6 @@ Navigation: {navigation}
 Sensors: {sensors}
 --DATA--
 Use count: {useCount}, Last seen: {time}, Location: {place}]]):interp({
-		name = sheet.name,
 		luck = sheet.luck,
 		charisma = sheet.charisma,
 		notoriety = sheet.notoriety,
@@ -28,21 +26,43 @@ Use count: {useCount}, Last seen: {time}, Location: {place}]]):interp({
 end
 
 local onChat = function (form, ref, option)
-	if option == 0 then
-		form:Clear()
 
+	local mainmenu = function ()
+		form:Clear()
 		form:SetTitle('Character sheet testing')
 		form:SetFace(PersistentCharacters.player)
-		if not PersistentCharacters[1] then (Character.New()):Save() end
-		form:SetMessage(SheetDisplayData(PersistentCharacters[1]))
+		form:SetMessage('First ten persistent characters are listed below')
 
 		form:AddOption("Create a new character", 1)
-
+		for topten = 1,10 do
+			if PersistentCharacters[topten] then
+				form:AddOption(PersistentCharacters[topten].name,topten+1)
+			end
+		end
 		return
 	end
 
-	if option == 1 then
+	local showsheet = function(sheet)
+		form:Clear()
+		form:SetTitle("CHARACTER SHEET: " .. sheet.name)
+		form:SetFace(sheet)
+		form:SetMessage(SheetDisplayData(sheet))
+		form:AddOption('Done',0)
 	end
+
+	if option == 0 then
+		mainmenu()
+	end
+
+	if option == 1 then
+		(Character.New()):Save()
+		mainmenu()
+	end
+
+	if option > 1 and option < 12 then
+		showsheet(PersistentCharacters[option-1])
+	end
+--		form:SetMessage(SheetDisplayData(PersistentCharacters[1]))
 
 end
 
