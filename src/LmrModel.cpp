@@ -3463,7 +3463,7 @@ namespace ModelFuncs {
 	 *
 	 * Availability:
 	 *
-	 *   not yet
+	 *   alpha 16
 	 *
 	 * Status:
 	 *
@@ -3530,7 +3530,7 @@ namespace ModelFuncs {
 	 *
 	 * Availability:
 	 *
-	 *   not yet
+	 *   alpha 16
 	 *
 	 * Status:
 	 *
@@ -3590,7 +3590,7 @@ namespace ModelFuncs {
 	 *
 	 * Availability:
 	 *
-	 *   not yet
+	 *   alpha 16
 	 *
 	 * Status:
 	 *
@@ -3633,7 +3633,7 @@ namespace ModelFuncs {
 	 *
 	 * Availability:
 	 *
-	 *   not yet
+	 *   alpha 16
 	 *
 	 * Status:
 	 *
@@ -3673,7 +3673,7 @@ namespace ModelFuncs {
 	 *
 	 * Availability:
 	 *
-	 *   not yet
+	 *   alpha 16
 	 *
 	 * Status:
 	 *
@@ -3711,7 +3711,7 @@ namespace ModelFuncs {
 	 *
 	 * Availability:
 	 *
-	 *   not yet
+	 *   alpha 16
 	 *
 	 * Status:
 	 *
