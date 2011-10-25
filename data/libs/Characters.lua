@@ -672,6 +672,27 @@ Character = {
 		return false
 	end,
 
+--
+-- Method: UnSave
+--
+-- ch:UnSave()
+--
+--   Removes a character from the PersistentCharacters table
+--
+-- Availability
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
+	UnSave = function (self)
+		for num,NPC in ipairs(PersistentCharacters) do
+			if NPC == self then table.remove(PersistentCharacters,num) end
+		end
+	end,
+
 	-- Debug function
 	PrintStats = function (self)
 		print('Name:',self.name)
