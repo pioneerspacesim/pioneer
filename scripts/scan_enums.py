@@ -339,7 +339,8 @@ def write_header(enums, fl):
 
 def write_tables(enums, headers, hpath, fl):
     write_generation_header(fl)
-    fl.write('#include "' + hpath + '"\n')
+    if hpath is not None:
+       fl.write('#include "' + hpath + '"\n')
     for h in headers:
         fl.write('#include "' + h + '"\n')
     fl.write('\n')
@@ -372,6 +373,10 @@ def main():
     if options.headerfile is not None and options.outfile is None:
         oparse.error('if you specify --header you must also specify --output')
 
+    # if no input files are specified, default to reading from stdin
+    if not args:
+        args = ['-']
+
     enums = []
     headers = []
     for path in args:
@@ -380,15 +385,14 @@ def main():
         else:
             with open(path, 'rU') as fl:
                 es = list(extract_enums(fl))
-            if len(es) > 0:
+            if es:
                 headers.append(os.path.basename(path))
         enums += es
 
     if options.outfile is None and options.headerfile is None:
-        write_header(sys.stdout)
-        sys.stdout.write('\n/* ' + ('='*20) + ' */\n')
-        write_tables(sys.stdout)
-        return
+        # if no output files are specified, default to writing
+        # just the tables to stdout
+        write_tables(enums, headers, None, sys.stdout)
     else:
         assert options.outfile is not None
         cpath = options.outfile
