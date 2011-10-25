@@ -398,7 +398,7 @@ Character = {
 		-- set inherited characteristics (inherit from class only, not self)
 		setmetatable(newCharacter,Character.meta)
 		-- initialize face characteristics if they weren't fully specified
-		newCharacter.female = (newCharacter.female == nil) and (Engine.rand:Integer(1) ==1)
+		if newCharacter.female == nil then newCharacter.female = (Engine.rand:Integer(1) ==1) end
 		newCharacter.name = newCharacter.name or NameGen.FullName(newCharacter.female)
 		newCharacter.seed = newCharacter.seed or Engine.rand:Integer()
 		newCharacter.armour = newCharacter.armour or false
