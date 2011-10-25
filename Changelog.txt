@@ -34,6 +34,7 @@ Alpha 16
     * Module translations (#640)
     * LMR get_arg() and get_arg_string() replaced with several special purpose
       functions. "Stringy" constants now in use (#650, #586, #582, #688, #689, #690, #709)
+    * Serializer support for Lua-based objects (#715)
 
   * Internal changes
     * Cleanups, leaks fixed and general code improvements (#635, #637, #665)
