@@ -499,16 +499,17 @@ Character = {
 --
 -- Method: RollNew
 --
--- Uses DiceRoll to initialise the following attributes to random values:
---   luck
---   charisma
---   notoriety
---   lawfulnes
--- If optional parameter "crew" is specified and is true, then also:
---   engineering
---   piloting
---   navigation
---   sensors
+-- Uses DiceRoll to initialise the following attributes to random values:-
+--   luck,
+--   charisma,
+--   notoriety,
+--   lawfulness.
+--
+-- If optional parameter "crew" is specified and is true, then also:-
+--   engineering,
+--   piloting,
+--   navigation,
+--   sensors.
 --
 -- Parameters:
 --
