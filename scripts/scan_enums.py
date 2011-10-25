@@ -142,7 +142,7 @@ def lex(lines):
         # grab the next line if this one is blank
         if ln == '':
             try:
-                ln = lines.next().lstrip()
+                ln = next(lines).lstrip()
             except StopIteration:
                 break
 
