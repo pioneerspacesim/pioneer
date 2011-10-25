@@ -365,9 +365,14 @@ def extract_enums(lines):
             lastcomment = ''
 
 def main():
-    oparse = OptionParser(usage='%prog [options] inputs')
-    oparse.add_option('-o', '--output', type="string", dest="outfile")
-    oparse.add_option('--header', type="string", dest="headerfile")
+    oparse = OptionParser(usage='%prog [options] headers-to-scan')
+    oparse.add_option('-o', '--output', type="string", dest="outfile", default='-',
+          help="Specify the output file to write to (typically with a .c or .cpp extension). " +
+               "Specify '-' to write to stdout (this is the default).")
+    oparse.add_option('--header', type="string", dest="headerfile",
+          help="Specify the header file to write to. If the main output file is not stdout " +
+               "then this defaults to a file of the same name with the extension changed to .h; " +
+               "otherwise, then no header content is written.")
     (options, args) = oparse.parse_args()
 
     if options.headerfile is not None and options.outfile is None:
@@ -377,6 +382,7 @@ def main():
     if not args:
         args = ['-']
 
+    # scan input files and record list of headers that have enums
     enums = []
     headers = []
     for path in args:
@@ -389,11 +395,11 @@ def main():
                 headers.append(os.path.basename(path))
         enums += es
 
-    if options.outfile is None and options.headerfile is None:
-        # if no output files are specified, default to writing
-        # just the tables to stdout
+    if options.outfile == '-':
+        # write to stdout (no header)
         write_tables(enums, headers, None, sys.stdout)
     else:
+        # write to the specified file(s)
         assert options.outfile is not None
         cpath = options.outfile
         if options.headerfile is None:
