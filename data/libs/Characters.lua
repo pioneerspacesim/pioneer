@@ -653,6 +653,14 @@ Character = {
 --
 --   false - The character wasn't available, or didn't exist
 --
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
 	CheckOut = function (self)
 		if self and (type(self) == 'table') then
 			local test = getmetatable(self)
