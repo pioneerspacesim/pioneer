@@ -647,8 +647,6 @@ Character = {
 --
 --   A character is checked back in using Save().
 --
--- Parameters:
---
 -- Return:
 --
 --   true - The character was available, and has been marked unavailable
