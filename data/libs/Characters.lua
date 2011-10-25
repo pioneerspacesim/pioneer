@@ -472,6 +472,7 @@ Character = {
 --
 	TestRoll = function (self,attribute,modifier)
 		local modifier = modifier or 0
+		if type(modifier) ~= 'number' then error('TestRoll(): modifier must be numeric') end
 		if self[attribute] and (type(self[attribute])=='number') then
 			local result = Character.DiceRoll()
 			if result < 9 then -- punish critical failure
