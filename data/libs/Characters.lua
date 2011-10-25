@@ -245,7 +245,7 @@ Character = {
 --
 -- Integer attribute for roll-play style dice tests.  Lawfulness is intended to reflect
 -- the character's willingness to break the law.
--- Tested with 4xD16; useful values are 4 (never lucky) to 65 (always lucky).
+-- Tested with 4xD16; useful values are 4 (going straight) to 65 (criminal).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
 --
 -- Availability:
@@ -257,6 +257,94 @@ Character = {
 --   experimental
 --
 	lawfulness = 34,
+
+--
+-- Attribute: engineering
+--
+-- (Crew skill)
+--
+-- Integer attribute for roll-play style dice tests.  Engineering is intended to reflect
+-- the character's mechanical, electrical or other tecnical skills.  Tests might
+-- be made against this attribute to see whether a character can repair a
+-- damaged piece of equipment, partially repair a ship, fit new equipment and
+-- so on.
+-- Tested with 4xD16; useful values are 4 (always fails) to 65 (always succeeds).
+-- Modifiers can cause numbers outside this range to become useful (see TestRoll).
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
+	engineering = 15,
+
+--
+-- Attribute: piloting
+--
+-- (Crew skill)
+--
+-- Integer attribute for roll-play style dice tests.  Piloting is intended to reflect
+-- the character's skill at flying spacecraft.
+-- Tested with 4xD16; useful values are 4 (always crashes) to 65 (aerobat).
+-- Modifiers can cause numbers outside this range to become useful (see TestRoll).
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
+	piloting = 15,
+
+--
+-- Attribute: navigation
+--
+-- (Crew skill)
+--
+-- Integer attribute for roll-play style dice tests.  Navigation is intended to reflect
+-- the character's skill at course plotting, mapping and so on.  This might be
+-- tested to see whether a ship can gain additional range on a hyperspace jump,
+-- by having this character involved, or if, during a mission, a
+-- character succeeds in identifying a location based on clues, etc.
+-- Tested with 4xD16; useful values are 4 (always lost) to 65 (human compass).
+-- Modifiers can cause numbers outside this range to become useful (see TestRoll).
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
+	navigation = 15,
+
+--
+-- Attribute: sensors
+--
+-- (Crew skill)
+--
+-- Integer attribute for roll-play style dice tests.  Sensors is intended to reflect
+-- the character's ability to get the most from a ship's scanner, radar, etc.
+-- This skill might be tested to see if a hidden ship can be found, or an
+-- unknown item in space can be identified.
+-- Tested with 4xD16; useful values are 4 (blind) to 65 (no hiding from this guy).
+-- Modifiers can cause numbers outside this range to become useful (see TestRoll).
+--
+-- Availability:
+--
+--   future
+--
+-- Status:
+--
+--   experimental
+--
+	sensors = 15,
 
 --
 -- Group: Methods
@@ -416,10 +504,22 @@ Character = {
 --   charisma
 --   notoriety
 --   lawfulnes
+-- If optional parameter "crew" is specified and is true, then also:
+--   engineering
+--   piloting
+--   navigation
+--   sensors
+--
+-- Parameters:
+--
+--   crew - If true, then RollNew() also sets random crew skills, which will
+--          normally become much higher than the default values.
 --
 -- Example:
 --
 -- > new_character:RollNew()
+--
+-- > new_character:RollNew(true)
 --
 -- Availability:
 --
@@ -429,11 +529,17 @@ Character = {
 --
 --   experimental
 --
-	RollNew = function (self)
+	RollNew = function (self,crew)
 		self.luck = Character.DiceRoll()
 		self.charisma = Character.DiceRoll()
 		self.notoriety = Character.DiceRoll()
 		self.lawfulness = Character.DiceRoll()
+		if crew then
+			self.engineering = Character.DiceRoll()
+			self.piloting = Character.DiceRoll()
+			self.navigation = Character.DiceRoll()
+			self.sensors = Character.DiceRoll()
+		end
 	end,
 
 --
@@ -695,11 +801,15 @@ Character = {
 
 	-- Debug function
 	PrintStats = function (self)
-		print('Name:',self.name)
-		print('Luck:',self.luck)
-		print('Charisma:',self.charisma)
-		print('Notoriety:',self.notoriety)
-		print('Lawfulness:',self.lawfulness)
+		print('Name: ',self.name)
+		print('Luck: ',self.luck)
+		print('Charisma: ',self.charisma)
+		print('Notoriety: ',self.notoriety)
+		print('Lawfulness: ',self.lawfulness)
+		print('Engineering: ',self.engineering)
+		print('Piloting: ',self.piloting)
+		print('Navigation: ',self.navigation)
+		print('Sensors: ',self.sensors)
 	end,
 
 	Serialize = function (self)
