@@ -746,11 +746,11 @@ Character = {
 --
 -- Method: CheckOut
 --
---   ch:CheckOut()
---
 --   "Checks out" a persistent character, flagging it for exclusive use.  Sets
 --   available to false, meaning that FindAvailable() will not return this
 --   character.
+--
+--   ch:CheckOut()
 --
 --   A character is checked back in using Save().
 --
@@ -782,9 +782,9 @@ Character = {
 --
 -- Method: UnSave
 --
--- ch:UnSave()
---
 --   Removes a character from the PersistentCharacters table
+--
+-- ch:UnSave()
 --
 -- Availability
 --
