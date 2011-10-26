@@ -16,18 +16,22 @@ public:
 	Rocket::Core::String GetName() const;
 	void SetName(const Rocket::Core::String& name);
 
+	static void Register();
+
 	virtual Rocket::Core::String GetValue() const;
 	virtual void SetValue(const Rocket::Core::String&);
 
 protected:
 	virtual void OnUpdate();
 	virtual void OnRender();
-	virtual void OnAttributeChange(const Core::AttributeNameList& changed_attributes);
-	virtual void OnPropertyChange(const Core::PropertyNameList& changed_properties);
+	virtual void OnAttributeChange(const Rocket::Core::AttributeNameList& changedAttributes);
+	virtual void OnPropertyChange(const Rocket::Core::PropertyNameList& changedProperties);
 
 	virtual bool GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions);
 
+	float m_value; //the actual gauge value
+
 private:
-	RocketGaugeType* type
-	Rocket::Core::String type_name;
+	RocketGaugeType* type;
+	Rocket::Core::String type_name;	
 };

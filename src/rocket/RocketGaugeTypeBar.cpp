@@ -1,7 +1,9 @@
 #include "RocketGaugeTypeBar.h"
+#include "RocketGaugeElement.h"
 
 RocketGaugeTypeBar::RocketGaugeTypeBar(RocketGaugeElement *el) : RocketGaugeType(el)
 {
+	orientation = HORIZONTAL;
 	background = 0;
 	bar = 0;
 	Initialize();
@@ -53,21 +55,25 @@ void RocketGaugeTypeBar::OnRender()
 {
 }
 
-bool RocketGaugeTypeBar::OnAttributeChange(const Core::AttributeNameList& ROCKET_UNUSED(changed_attributes))
+bool RocketGaugeTypeBar::OnAttributeChange(const Rocket::Core::AttributeNameList& changedAttributes)
 {
 	bool dirty_layout = false;
+
+	//has orientation changed? update & dirty
 
 	return dirty_layout;
 }
 
-void RocketGaugeTypeBar::OnPropertyChange(const Core::PropertyNameList& ROCKET_UNUSED(changed_properties))
-{
-}
-
 bool RocketGaugeTypeBar::GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions)
 {
-	dimensions.x = 100.f;
-	dimensions.y = 50.f;
+	if (orientation == HORIZONTAL) {
+		dimensions.x = 100.f;
+		dimensions.y = 50.f;
+	} else {
+		dimensions.x = 50.f;
+		dimensions.y = 100.f;
+	}
+	return true;
 }
 
 void RocketGaugeTypeBar::FormatElements(const Rocket::Core::Vector2f& containingBlock, float length)
@@ -126,7 +132,7 @@ void RocketGaugeTypeBar::FormatElements(const Rocket::Core::Vector2f& containing
 
 				//check for 'min-width' restrictions
 				float min_bg_length = bar->ResolveProperty("min-width", background_length);
-				barBoxContent.x = Rocket::Core::Math::Max(min_bg_length, bar_box_content.x);
+				barBoxContent.x = Rocket::Core::Math::Max(min_bg_length, barBoxContent.x);
 
 				//check for 'max-width' restrictions'
 				float max_bg_length = bar->ResolveProperty("max-width", background_length);
@@ -151,7 +157,9 @@ void RocketGaugeTypeBar::FormatElements(const Rocket::Core::Vector2f& containing
 	//
 	//else
 	{
-		bar->SetOffset(Rocket::Core::Vector2f(), parent);
+		bar->SetOffset(
+			Rocket::Core::Vector2f(background->GetRelativeOffset().x,
+			bar->GetBox().GetEdge(Rocket::Core::Box::MARGIN, Rocket::Core::Box::TOP)), parent);
 	}
 }
 

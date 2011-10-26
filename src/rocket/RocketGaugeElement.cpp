@@ -1,18 +1,19 @@
 #include "RocketGaugeElement.h"
+#include "RocketGaugeTypeBar.h"
 
 RocketGaugeElement::RocketGaugeElement(const Rocket::Core::String &tag) :
 	Rocket::Core::Element(tag)
 {
 	//default will be a horizontal bar, fill direction right
 	type = 0;
-	//type = new RocketGaugeTypeBar(this);
+	type = new RocketGaugeTypeBar(this);
 	type_name = "bar";
 	SetClass(type_name, true);
 }
 
 RocketGaugeElement::~RocketGaugeElement()
 {
-	//delete type;
+	delete type;
 }
 
 Rocket::Core::String RocketGaugeElement::GetName() const
@@ -27,34 +28,36 @@ void RocketGaugeElement::SetName(const Rocket::Core::String& name)
 
 Rocket::Core::String RocketGaugeElement::GetValue() const
 {
-	return "booboo";
-	//return type->GetValue();
+	return Rocket::Core::String(32, "%f", m_value);
 }
 
 void RocketGaugeElement::SetValue(const Rocket::Core::String& value)
 {
 	SetAttribute("value", value);
+	//OnAttributeChange should fire after this I believe
 }
 
 void RocketGaugeElement::OnUpdate()
 {
-
+	type->OnUpdate();
 }
 
 void RocketGaugeElement::OnRender()
 {
-
+	type->OnRender();
 }
 
-void RocketGaugeElement::OnAttributeChange(const Core::AttributeNameList& changed_attributes)
+void RocketGaugeElement::OnAttributeChange(const Rocket::Core::AttributeNameList& changed_attributes)
 {
 	if (changed_attributes.find("type") != changed_attributes.end())
 	{
-		/*Rocket::Core::String new_type_name = GetAttribute< Rocket::Core::String >("type", "bar");
+		Rocket::Core::String new_type_name = GetAttribute< Rocket::Core::String >("type", "bar");
 		if (new_type_name != type_name)
 		{
 			RocketGaugeType* new_type = 0;
-			instantiate correct type
+			
+			if (new_type_name == "bar")
+				new_type = new RocketGaugeTypeBar(this);
 
 			if (new_type != 0)
 			{
@@ -67,11 +70,16 @@ void RocketGaugeElement::OnAttributeChange(const Core::AttributeNameList& change
 
 				DirtyLayout();
 			}
-		}*/
+		}
 	}
 
-	//if (!type->OnAttributeChange(changed_attributes))
-	//	DirtyLayout();
+	if (changed_attributes.find("value") != changed_attributes.end()) {
+		m_value = GetAttribute< float >("value", 0.f);
+	}
+	//type should probably do something now!
+
+	if (!type->OnAttributeChange(changed_attributes))
+		DirtyLayout();
 }
 
 bool RocketGaugeElement::GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions)

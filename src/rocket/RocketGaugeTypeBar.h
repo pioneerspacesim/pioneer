@@ -8,17 +8,24 @@
 class RocketGaugeTypeBar : public RocketGaugeType
 {
 public:
+	enum Orientation
+	{
+		VERTICAL,
+		HORIZONTAL
+	};
 	RocketGaugeTypeBar(RocketGaugeElement* element);
 	virtual ~RocketGaugeTypeBar();
 
 	bool Initialize();
 	virtual void OnUpdate();
 	virtual void OnRender();
-	virtual bool OnAttributeChange(const Core::AttributeNameList& changed_attributes);
-	virtual void OnPropertyChange(const Core::PropertyNameList& changed_properties);
-	virtual bool GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions) = 0;
+	virtual bool OnAttributeChange(const Rocket::Core::AttributeNameList& changedAttributes);
+	virtual bool GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions);
 protected:
-	void FormatElements(const Rocket::Core::Vector2f& containing_block, float bar_length);
+	void FormatElements(const Rocket::Core::Vector2f& containingBlock, float length);
+
+private:
 	Rocket::Core::Element* background;
 	Rocket::Core::Element* bar;
+	Orientation orientation;
 };
