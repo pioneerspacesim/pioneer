@@ -1,4 +1,4 @@
-#include "RocketGaugeElement"
+#include "RocketGaugeElement.h"
 
 RocketGaugeElement::RocketGaugeElement(const Rocket::Core::String &tag) :
 	Rocket::Core::Element(tag)

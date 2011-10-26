@@ -1,6 +1,6 @@
 #include "RocketGaugeType.h"
 
-RocketGaugeType::RocketGaugeType(RocketGaugeElement *el) : element(el)
+RocketGaugeType::RocketGaugeType(RocketGaugeElement *el) : parent(el)
 {
 }
 

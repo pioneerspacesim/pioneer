@@ -19,5 +19,5 @@ public:
 	virtual void OnPropertyChange(const Core::PropertyNameList& changed_properties);
 	virtual bool GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions) = 0;
 protected:
-	RocketGaugeElement* element;
+	RocketGaugeElement* parent;
 };
