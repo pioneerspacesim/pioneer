@@ -1,7 +1,7 @@
 local trade_ships, starports, imports, exports, system_updated
 
 local addFuel = function (ship)
-	local drive = ship:GetEquip('ENGINE', 0)
+	local drive = ship:GetEquip('ENGINE', 1)
 
 	-- a drive must be installed
 	if drive == 'NONE' then
@@ -137,15 +137,17 @@ local getSystem = function (ship)
 
 	-- find best system for cargo
 	for _, next_system in ipairs(systems_in_range) do
-		local prices = next_system:GetCommodityBasePriceAlterations()
-		local next_prices = 0
-		for _, cargo in ipairs(cargo_list) do
-			if cargo ~= 'HYDROGEN' and cargo ~= 'NONE' then
-				next_prices = next_prices + prices[cargo]
+		if #next_system:GetStationPaths() > 0 then
+			local prices = next_system:GetCommodityBasePriceAlterations()
+			local next_prices = 0
+			for _, cargo in ipairs(cargo_list) do
+				if cargo ~= 'HYDROGEN' and cargo ~= 'NONE' then
+					next_prices = next_prices + prices[cargo]
+				end
 			end
-		end
-		if next_prices > best_prices then
-			target_system, best_prices = next_system, next_prices
+			if next_prices > best_prices then
+				target_system, best_prices = next_system, next_prices
+			end
 		end
 	end
 

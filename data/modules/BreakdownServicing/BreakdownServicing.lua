@@ -36,7 +36,7 @@ end
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
-	local hyperdrive = Game.player:GetEquip('ENGINE',0)
+	local hyperdrive = Game.player:GetEquip('ENGINE',1)
 
 	-- Tariff!  ad.baseprice is from 2 to 10
 	local price = ad.baseprice
@@ -181,7 +181,7 @@ local onEnterSystem = function (ship)
 		service_history.jumpcount = service_history.jumpcount + 1
 		if (service_history.jumpcount > max_jumps_unserviced) or (Engine.rand:Integer(max_jumps_unserviced - service_history.jumpcount) == 0) then
 			-- Destroy the engine
-			local engine = ship:GetEquip('ENGINE',0)
+			local engine = ship:GetEquip('ENGINE',1)
 			ship:RemoveEquip(engine)
 			ship:AddEquip('RUBBISH',EquipType.GetEquipType(engine).mass)
 			UI.Message(t("The ship's hyperdrive has been destroyed by a malfunction"))
