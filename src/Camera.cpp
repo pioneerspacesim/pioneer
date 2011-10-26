@@ -124,7 +124,7 @@ void Camera::Update()
 		// XXX rough copy of Gui::Screen::Project but avoiding the overhead of EnterOrtho/LeaveOrtho
 		b->SetOnscreen(false);
 		pos = b->GetInterpolatedPositionRelTo(m_camFrame);
-		if (pos.z < 0 && m_frustum.ProjectPoint(pos, pos)) {
+		if (pos.z < -1.0 && m_frustum.ProjectPoint(pos, pos)) {	// XXX the pos.z test sucks. should ProjectPoint do it?
 			pos.x = pos.x * guiscale[0];
 			pos.y = Gui::Screen::GetHeight() - pos.y * guiscale[1];
 			b->SetProjectedPos(pos);
