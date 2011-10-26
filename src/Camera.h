@@ -1,7 +1,7 @@
 #ifndef _CAMERA_H
 #define _CAMERA_H
 
-#include "Frustum.h"
+#include "render/RenderFrustum.h"
 #include "vector3.h"
 #include "matrix4x4.h"
 #include "Background.h"
@@ -28,7 +28,7 @@ public:
 	const Frame *GetFrame() const { return m_camFrame; }
 
 private:
-	Frustum m_frustum;
+	Render::Frustum m_frustum;
 
 	const Body *m_body;
 

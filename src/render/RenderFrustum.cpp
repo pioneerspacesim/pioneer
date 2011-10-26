@@ -1,15 +1,16 @@
-#include "Frustum.h"
-#include "render/Render.h"
-#include "Pi.h"
+#include "RenderFrustum.h"
+#include "Render.h"
+
+namespace Render {
 
 // min/max FOV in degrees
 static const float FOV_MAX = 170.0f;
 static const float FOV_MIN = 20.0f;
 
-Frustum::Frustum(float width, float height) : m_width(width), m_height(height)
+Frustum::Frustum(float width, float height, float fovAng) : m_width(width), m_height(height)
 {
-	m_shadersEnabled = Render::AreShadersEnabled();
-	SetFov(Pi::config.Float("FOV"));
+	m_shadersEnabled = AreShadersEnabled();
+	SetFov(fovAng);
 }
 
 void Frustum::SetFov(float ang)
@@ -25,7 +26,7 @@ void Frustum::Update(bool force)
 	m_shadersEnabled = Render::AreShadersEnabled();
 
 	float znear, zfar;
-	Render::GetNearFarClipPlane(znear, zfar);
+	GetNearFarClipPlane(znear, zfar);
 
 	m_frustumLeft = m_fov * znear;
 	m_frustumTop = m_frustumLeft * m_height/m_width;
@@ -105,7 +106,7 @@ bool Frustum::ContainsPoint(const vector3d &p, double radius) const
 void Frustum::Enable()
 {
 	float znear, zfar;
-	Render::GetNearFarClipPlane(znear, zfar);
+	GetNearFarClipPlane(znear, zfar);
 
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
@@ -130,4 +131,6 @@ bool Frustum::ProjectPoint(vector3d &in, vector3d &out) const
 {
 	GLint o = gluProject(in.x, in.y, in.z, m_modelMatrix, m_projMatrix, m_viewport, &out.x, &out.y, &out.z);
 	return o == GL_TRUE && out.x*out.x <= 1e8 && out.y*out.y <= 1e8;	// x & y get converted to ints later, must be sane
+}
+
 }

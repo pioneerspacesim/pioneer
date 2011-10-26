@@ -4,9 +4,11 @@
 #include "libs.h"
 #include "vector3.h"
 
+namespace Render {
+
 class Frustum {
 public:
-	Frustum(float width, float height);
+	Frustum(float width, float height, float fovAng);
 
 	void Enable();
 	void Disable();
@@ -43,5 +45,7 @@ private:
 
 	Plane m_planes[6];
 };
+
+}
 
 #endif

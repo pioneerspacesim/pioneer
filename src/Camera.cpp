@@ -12,7 +12,7 @@ static const float FOV_MAX = 170.0f;
 static const float FOV_MIN = 20.0f;
 
 Camera::Camera(const Body *body, float width, float height) :
-	m_frustum(width, height),
+	m_frustum(width, height, Pi::config.Float("FOV")),
 	m_body(body),
 	m_pos(0.0),
 	m_orient(matrix4x4d::Identity()),
