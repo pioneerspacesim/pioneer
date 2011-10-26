@@ -32,7 +32,7 @@
 static int l_sbody_attr_index(lua_State *l)
 {
 	SBody *sbody = LuaSBody::GetFromLua(1);
-	lua_pushinteger(l, sbody->id);
+	lua_pushinteger(l, sbody->path.bodyIndex);
 	return 1;
 }
 

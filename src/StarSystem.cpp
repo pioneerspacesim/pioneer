@@ -907,9 +907,7 @@ SBody *StarSystem::GetBodyByPath(const SystemPath &path) const
 
 SystemPath StarSystem::GetPathOf(const SBody *sbody) const
 {
-	SystemPath path = m_path;
-    path.bodyIndex = sbody->id;
-	return path;
+	return sbody->path;
 }
 
 /*
@@ -1857,9 +1855,9 @@ void SBody::PopulateAddStations(StarSystem *system)
 		pop -= rand.Fixed();
 		if (pop > 0) {
 			SBody *sp2 = system->NewBody();
-			Uint32 id2 = sp2->id;
+			SystemPath path2 = sp2->path;
 			*sp2 = *sp;
-			sp2->id = id2;
+			sp2->path = path2;
 			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
 			sp2->name = stringf(Lang::SOMEWHERE_SPACEPORT, formatarg("spaceport", NameGenerator::Surname(rand)));
 			children.insert(children.begin(), sp2);

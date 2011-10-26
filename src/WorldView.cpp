@@ -887,13 +887,13 @@ void WorldView::BuildCommsNavOptions()
 	for ( std::vector<SBody*>::const_iterator i = Pi::currentSystem->m_spaceStations.begin();
 	      i != Pi::currentSystem->m_spaceStations.end(); i++) {
 
-		groups[(*i)->parent->id].push_back(*i);
+		groups[(*i)->parent->path.bodyIndex].push_back(*i);
 	}
 
 	for ( std::vector<SBody*>::const_iterator i = Pi::currentSystem->m_bodies.begin();
 	      i != Pi::currentSystem->m_bodies.end(); i++) {
 
-		std::vector<SBody*> group = groups[(*i)->id];
+		std::vector<SBody*> group = groups[(*i)->path.bodyIndex];
 		if ( group.size() == 0 ) continue;
 
 		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + (*i)->name));
