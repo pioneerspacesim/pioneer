@@ -1,6 +1,7 @@
 #ifndef _CAMERA_H
 #define _CAMERA_H
 
+#include "Frustum.h"
 #include "vector3.h"
 #include "matrix4x4.h"
 #include "Background.h"
@@ -12,9 +13,6 @@ class Camera {
 public:
 	Camera(const Body *body, float width, float height);
 	virtual ~Camera();
-
-	float GetWidth() { return m_width; }
-	float GetHeight() { return m_height; }
 
 	void Update();
 	void Draw();
@@ -29,10 +27,8 @@ public:
 
 	const Frame *GetFrame() const { return m_camFrame; }
 
-	void SetFov(float ang);
-
 private:
-	void UpdateMatrices();
+	Frustum m_frustum;
 
 	const Body *m_body;
 
@@ -46,17 +42,6 @@ private:
 	Background::MilkyWay m_milkyWay;
 
 	Frame *m_camFrame;
-
-	bool m_shadersEnabled;
-
-	double m_fov;
-
-	GLfloat m_frustumLeft;
-	GLfloat m_frustumTop;
-
-	GLdouble m_modelMatrix[16];
-	GLdouble m_projMatrix[16];
-	GLint m_viewport[4];
 
 	struct SortBody {
 		double dist;

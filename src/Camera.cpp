@@ -12,15 +12,12 @@ static const float FOV_MAX = 170.0f;
 static const float FOV_MIN = 20.0f;
 
 Camera::Camera(const Body *body, float width, float height) :
+	m_frustum(width, height),
 	m_body(body),
-	m_width(width),
-	m_height(height),
 	m_pos(0.0),
 	m_orient(matrix4x4d::Identity()),
 	m_camFrame(0)
 {
-	m_shadersEnabled = Render::AreShadersEnabled();
-	SetFov(Pi::config.Float("FOV"));
 }
 
 Camera::~Camera()
@@ -29,41 +26,6 @@ Camera::~Camera()
 		m_body->GetFrame()->RemoveChild(m_camFrame);
 		delete m_camFrame;
 	}
-}
-
-void Camera::SetFov(float ang)
-{
-	m_fov = tan(DEG2RAD(Clamp(ang, FOV_MIN, FOV_MAX) / 2.0f));
-	UpdateMatrices();
-}
-
-void Camera::UpdateMatrices()
-{
-	float znear, zfar;
-	Render::GetNearFarClipPlane(znear, zfar);
-
-	m_frustumLeft = m_fov * znear;
-	m_frustumTop = m_frustumLeft * m_height/m_width;
-
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	glFrustum(-m_frustumLeft, m_frustumLeft, -m_frustumTop, m_frustumTop, znear, zfar);
-
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
-
-	glViewport(0, 0, GLsizei(m_width), GLsizei(m_height));
-
-	glGetDoublev(GL_MODELVIEW_MATRIX, m_modelMatrix);
-	glGetDoublev(GL_PROJECTION_MATRIX, m_projMatrix);
-	glGetIntegerv(GL_VIEWPORT, m_viewport);
-
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
 }
 
 static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
@@ -119,10 +81,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 
 void Camera::Update()
 {
-	if (m_shadersEnabled != Render::AreShadersEnabled()) {
-		m_shadersEnabled = !m_shadersEnabled;
-		UpdateMatrices();
-	}
+	m_frustum.Update();
 
 	// make temporary camera frame at the body
 	m_camFrame = new Frame(m_body->GetFrame(), "camera", Frame::TEMP_VIEWING);
@@ -165,15 +124,11 @@ void Camera::Update()
 		// XXX rough copy of Gui::Screen::Project but avoiding the overhead of EnterOrtho/LeaveOrtho
 		b->SetOnscreen(false);
 		pos = b->GetInterpolatedPositionRelTo(m_camFrame);
-		if (pos.z < 0) {
-			if (gluProject(pos.x, pos.y, pos.z, m_modelMatrix, m_projMatrix, m_viewport, &pos.x, &pos.y, &pos.z) == GL_TRUE) {
-				pos.x = pos.x * guiscale[0];
-				pos.y = Gui::Screen::GetHeight() - pos.y * guiscale[1];
-				if (pos.x*pos.x <= 1e8 || pos.y*pos.y <= 1e8) {
-					b->SetProjectedPos(pos);
-					b->SetOnscreen(true);
-				}
-			}
+		if (pos.z < 0 && m_frustum.ProjectPoint(pos, pos)) {
+			pos.x = pos.x * guiscale[0];
+			pos.y = Gui::Screen::GetHeight() - pos.y * guiscale[1];
+			b->SetProjectedPos(pos);
+			b->SetOnscreen(true);
 		}
 	}
 
@@ -183,20 +138,9 @@ void Camera::Update()
 
 void Camera::Draw()
 {
-	float znear, zfar;
-	Render::GetNearFarClipPlane(znear, zfar);
-
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	glFrustum(-m_frustumLeft, m_frustumLeft, -m_frustumTop, m_frustumTop, znear, zfar);
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
+	m_frustum.Enable();
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
-
-	glViewport(0, 0, GLsizei(m_width), GLsizei(m_height));
 
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -234,26 +178,21 @@ void Camera::Draw()
 	}
 
 	Render::State::SetNumLights(num_lights);
-	Render::State::SetZnearZfar(znear, zfar);
 
-	Plane planes[6];
-	GetFrustum(planes);
+	float znear, zfar;
+	Render::GetNearFarClipPlane(znear, zfar);
+	Render::State::SetZnearZfar(znear, zfar);
 
 	for (std::list<SortBody>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); i++) {
 		double rad = (*i).b->GetBoundingRadius();
 
-		// test against all frustum planes except far plane
-		bool do_draw = true;
-		// always render stars (they have a huge glow). Other things do frustum cull
-		if (!(*i).b->IsType(Object::STAR)) {
-			for (int p=0; p<5; p++) {
-				if (planes[p].DistanceToPoint((*i).viewCoords)+rad < 0) {
-					do_draw = false;
-					break;
-				}
-			}
-		}
-		if (!do_draw) continue;
+		// frustum cull. always draw stars because their glow extends past
+		// their bounding radius
+		// XXX remove this exception by adding a clip radius to stars that
+		// includes their glow, otherwise the render can get expensive (stars
+		// have terrain now)
+		if (!(*i).b->IsType(Object::STAR) && !m_frustum.ContainsPoint((*i).viewCoords, rad))
+			continue;
 
 		double screenrad = 500 * rad / (*i).dist;      // approximate pixel size
 		if (!(*i).b->IsType(Object::STAR) && screenrad < 2) {
@@ -279,11 +218,7 @@ void Camera::Draw()
 	glDisable(GL_LIGHT2);
 	glDisable(GL_LIGHT3);
 
-
 	glPopAttrib();
 
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
+	m_frustum.Disable();
 }

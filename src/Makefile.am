@@ -32,6 +32,7 @@ noinst_HEADERS = \
 	Form.h \
 	FormController.h \
 	Frame.h \
+	Frustum.h \
 	GalacticView.h \
 	Galaxy.h \
 	GameMenuView.h \
@@ -160,6 +161,7 @@ pioneer_SOURCES	= \
 	FontManager.cpp \
 	FormController.cpp \
 	Frame.cpp \
+	Frustum.cpp \
 	GalacticView.cpp \
 	Galaxy.cpp \
 	GameMenuView.cpp \
