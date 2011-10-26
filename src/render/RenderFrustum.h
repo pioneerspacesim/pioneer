@@ -16,7 +16,9 @@ public:
 	void SetFov(float ang);
 
 	bool ProjectPoint(vector3d &in, vector3d &out) const;
-	bool ContainsPoint(const vector3d &p, double radius) const;
+
+	bool TestPoint(const vector3d &p, double radius) const;
+	bool TestPointInfinite(const vector3d &p, double radius) const;
 
 	inline void Update() { Update(false); }
 

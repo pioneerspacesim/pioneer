@@ -191,7 +191,7 @@ void Camera::Draw()
 		// XXX remove this exception by adding a clip radius to stars that
 		// includes their glow, otherwise the render can get expensive (stars
 		// have terrain now)
-		if (!(*i).b->IsType(Object::STAR) && !m_frustum.ContainsPoint((*i).viewCoords, rad))
+		if (!(*i).b->IsType(Object::STAR) && !m_frustum.TestPointInfinite((*i).viewCoords, rad))
 			continue;
 
 		double screenrad = 500 * rad / (*i).dist;      // approximate pixel size
