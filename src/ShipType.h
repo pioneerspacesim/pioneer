@@ -93,15 +93,18 @@ public:
 		else return equip[s][0];
 	}
 	Equip::Type Get(Equip::Slot s, int idx) const {
+		assert(idx >= 0);
 		if (signed(equip[s].size()) <= idx) return Equip::NONE;
 		else return equip[s][idx];
 	}
 	void Set(Equip::Slot s, int idx, Equip::Type e) {
+		assert(idx >= 0);
 		if (signed(equip[s].size()) <= idx) return;
 		equip[s][idx] = e;
 		onChange.emit(e);
 	}
 	int Add(Equip::Type e, int num) {
+		assert(num >= 0);
 		if (e == Equip::NONE) return 0;
 		Equip::Slot s = Equip::types[e].slot;
 		int numDone = 0;
@@ -120,6 +123,7 @@ public:
 	}
 	// returns number removed
 	int Remove(Equip::Type e, int num) {
+		assert(num >= 0);
 		if (e == Equip::NONE) return 0;
 		Equip::Slot s = Equip::types[e].slot;
 		int numDone = 0;
