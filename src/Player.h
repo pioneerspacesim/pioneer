@@ -60,10 +60,6 @@ public:
 
 	RefList<Mission> missions;
 
-	void SetFollowCloud(HyperspaceCloud *cloud) { m_followCloud = cloud; }
-	void ClearFollowCloud() { m_followCloud = 0; }
-	HyperspaceCloud *GetFollowCloud() { return m_followCloud; }
-
 	virtual void PostLoadFixup();
 
 	/* MarketAgent stuff */
@@ -90,9 +86,7 @@ private:
 	Body* m_navTarget;
 	Body* m_combatTarget;
 
-	HyperspaceCloud *m_followCloud;
-
-	int m_combatTargetIndex, m_navTargetIndex, m_followCloudIndex; // deserialisation
+	int m_combatTargetIndex, m_navTargetIndex; // deserialisation
 };
 
 #endif /* _PLAYER_H */
