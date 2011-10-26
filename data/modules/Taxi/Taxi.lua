@@ -274,7 +274,7 @@ end
 local onShipUndocked = function (player, station)
 	if not player:IsPlayer() then return end
 	local current_passengers = Game.player:GetEquipCount('CABIN', 'PASSENGER_CABIN')
-	if current_passengers == passengers then return end -- nothing changed, good
+	if current_passengers >= passengers then return end -- nothing changed, good
 
 	for ref,mission in pairs(missions) do
 		remove_passengers(mission.group)
