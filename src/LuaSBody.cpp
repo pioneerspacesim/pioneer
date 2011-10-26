@@ -142,6 +142,26 @@ static int l_sbody_attr_parent(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: population
+ *
+ * The population of the body, as a <SystemBody>, in billions of people.
+ *
+ * Availability:
+ *
+ *   not yet
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_sbody_attr_population(lua_State *l)
+{
+	SBody *sbody = LuaSBody::GetFromLua(1);
+	lua_pushnumber(l, sbody->m_population.ToDouble());
+	return 1;
+}
+
 template <> const char *LuaObject<LuaUncopyable<SBody> >::s_type = "SystemBody";
 
 template <> void LuaObject<LuaUncopyable<SBody> >::RegisterClass()
@@ -153,6 +173,7 @@ template <> void LuaObject<LuaUncopyable<SBody> >::RegisterClass()
 		{ "superType", l_sbody_attr_super_type },
 		{ "seed",      l_sbody_attr_seed       },
 		{ "parent",    l_sbody_attr_parent     },
+		{ "population",l_sbody_attr_population },
 		{ 0, 0 }
 	};
 
