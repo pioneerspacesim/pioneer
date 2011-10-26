@@ -145,7 +145,7 @@ static int l_sbody_attr_parent(lua_State *l)
 /*
  * Attribute: population
  *
- * The population of the body, as a <SystemBody>, in billions of people.
+ * The population of the body, in billions of people.
  *
  * Availability:
  *
