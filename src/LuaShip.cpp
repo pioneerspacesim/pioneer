@@ -403,7 +403,7 @@ static int l_ship_set_secondary_colour(lua_State *l)
  *
  *  experimental
  */
-static int l_ship_get_equip_slot_size(lua_State *l)
+static int l_ship_get_equip_slot_capacity(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
@@ -1185,7 +1185,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetPrimaryColour",   l_ship_set_primary_colour   },
 		{ "SetSecondaryColour", l_ship_set_secondary_colour },
 
-		{ "GetEquipSlotSize", l_ship_get_equip_slot_size },
+		{ "GetEquipSlotCapacity", l_ship_get_equip_slot_capacity },
 		{ "GetEquip",         l_ship_get_equip           },
 		{ "SetEquip",         l_ship_set_equip           },
 		{ "AddEquip",         l_ship_add_equip           },
