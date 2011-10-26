@@ -84,7 +84,8 @@ local onChat = function (form, ref, option)
 
 		local mission = {
 			type	 = t("Taxi"),
-			client	 = ad.client,
+			client	 = ad.client .. "\n[ " .. ad.group .. " ]",
+			boss     = ad.client,
 			location = ad.location,
 			risk	 = ad.risk,
 			reward	 = ad.reward,
@@ -235,7 +236,7 @@ local onEnterSystem = function (player)
 			end
 
 			if ship then
-				local pirate_greeting = string.interp(t('PIRATE_TAUNTS')[Engine.rand:Integer(1,#(t('PIRATE_TAUNTS')))], { client = mission.client,})
+				local pirate_greeting = string.interp(t('PIRATE_TAUNTS')[Engine.rand:Integer(1,#(t('PIRATE_TAUNTS')))], { client = mission.boss,})
 				UI.ImportantMessage(pirate_greeting, ship.label)
 			end
 		end
@@ -243,7 +244,7 @@ local onEnterSystem = function (player)
 		if not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
 			player:UpdateMission(ref, mission)
-			UI.ImportantMessage(taxi_flavours[mission.flavour].wherearewe, mission.client)
+			UI.ImportantMessage(taxi_flavours[mission.flavour].wherearewe, mission.boss)
 		end
 	end
 end
@@ -256,9 +257,9 @@ local onShipDocked = function (player, station)
 			local taxi_flavours = Translate:GetFlavours('Taxi')
 
 			if Game.time > mission.due then
-				UI.ImportantMessage(taxi_flavours[mission.flavour].failuremsg, mission.client)
+				UI.ImportantMessage(taxi_flavours[mission.flavour].failuremsg, mission.boss)
 			else
-				UI.ImportantMessage(taxi_flavours[mission.flavour].successmsg, mission.client)
+				UI.ImportantMessage(taxi_flavours[mission.flavour].successmsg, mission.boss)
 				player:AddMoney(mission.reward)
 			end
 
@@ -278,7 +279,7 @@ local onShipUndocked = function (player, station)
 	for ref,mission in pairs(missions) do
 		remove_passengers(mission.group)
 
-		UI.ImportantMessage(t("Hey!?! You are going to pay for this!!!"), mission.client)
+		UI.ImportantMessage(t("Hey!?! You are going to pay for this!!!"), mission.boss)
 		player:RemoveMission(ref)
 		missions[ref] = nil
 	end
