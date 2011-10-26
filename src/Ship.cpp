@@ -230,7 +230,10 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 				if (attacker->IsType(Object::BODY)) {
 					// XXX remove this call. kill stuff (including elite rating) should be in a script
 					static_cast<Body*>(attacker)->OnHaveKilled(this);
-					Pi::luaOnShipDestroyed->Queue(this, dynamic_cast<Body*>(attacker));
+					if (attacker->IsType(Object::MISSILE))
+						Pi::luaOnShipDestroyed->Queue(this, dynamic_cast<Missile*>(attacker)->GetOwner());
+					else
+						Pi::luaOnShipDestroyed->Queue(this, dynamic_cast<Body*>(attacker));
 				}
 
 				if (attacker->IsType(Object::SHIP))
