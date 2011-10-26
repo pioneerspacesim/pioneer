@@ -1,7 +1,7 @@
 local trade_ships, starports, imports, exports, system_updated
 
 local addFuel = function (ship)
-	local drive = ship:GetEquip('ENGINE', 0)
+	local drive = ship:GetEquip('ENGINE', 1)
 
 	-- a drive must be installed
 	if drive == 'NONE' then

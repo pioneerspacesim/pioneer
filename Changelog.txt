@@ -13,6 +13,8 @@ Alpha 16
     * Targets can be selected from the system view (#503)
     * Model cleanups and optimisations (#680, #675, #672, #674)
     * New "temple" building (#664)
+    * Change non-local delivery mission reward calculation so that more urgent
+      deliveries get higher rewards (#719)
 
   * Fixes
     * Optimise trade ship cargo management (#632)
@@ -29,6 +31,7 @@ Alpha 16
     * Fix delivery crash on dock
     * Model LOD switches now calculated correctly based on screen wdith (#704)
     * Fix potential deadlock in terrain generator (#661)
+    * Initialise stock levels for equipment above the station's tech level (#719)
   
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
@@ -38,6 +41,7 @@ Alpha 16
       #690, #709)
     * Serializer support for Lua-based objects (#715)
     * New SystemBody.population attribute (#726)
+    * Ship.GetEquip and Ship.SetEquip changed to 1-based indexing (#719)
 
   * Internal changes
     * Cleanups, leaks fixed and general code improvements (#635, #637, #665)
