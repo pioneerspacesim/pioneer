@@ -112,6 +112,12 @@ bool Frustum::TestPointInfinite(const vector3d &p, double radius) const
 	return true;
 }
 
+bool Frustum::ProjectPoint(vector3d &in, vector3d &out) const
+{
+	GLint o = gluProject(in.x, in.y, in.z, m_modelMatrix, m_projMatrix, m_viewport, &out.x, &out.y, &out.z);
+	return o == GL_TRUE && out.x*out.x <= 1e8 && out.y*out.y <= 1e8;	// x & y get converted to ints later, must be sane
+}
+
 void Frustum::Enable()
 {
 	float znear, zfar;
@@ -134,12 +140,6 @@ void Frustum::Disable()
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
-}
-
-bool Frustum::ProjectPoint(vector3d &in, vector3d &out) const
-{
-	GLint o = gluProject(in.x, in.y, in.z, m_modelMatrix, m_projMatrix, m_viewport, &out.x, &out.y, &out.z);
-	return o == GL_TRUE && out.x*out.x <= 1e8 && out.y*out.y <= 1e8;	// x & y get converted to ints later, must be sane
 }
 
 }

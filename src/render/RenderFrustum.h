@@ -15,10 +15,10 @@ public:
 
 	void SetFov(float ang);
 
-	bool ProjectPoint(vector3d &in, vector3d &out) const;
-
 	bool TestPoint(const vector3d &p, double radius) const;
 	bool TestPointInfinite(const vector3d &p, double radius) const;
+
+	bool ProjectPoint(vector3d &in, vector3d &out) const;
 
 	inline void Update() { Update(false); }
 
