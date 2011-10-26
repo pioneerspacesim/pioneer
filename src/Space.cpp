@@ -770,7 +770,12 @@ void DoHyperspaceTo(const SystemPath *dest)
 		cloud->SetFrame(Space::rootFrame);
 		cloud->SetVelocity(vector3d(0,0,0));
 
-		cloud->SetPosition(GetPositionAfterHyperspace(&psource, &pdest));
+		if (cloud == Pi::player->GetFollowCloud())
+			// player is following it, so put it somewhere near the player
+			cloud->SetPosition(Pi::player->GetPosition() + GetRandomPosition(5.0,20.0)*1000.0); // 5-20km
+		else
+			// player doesn't care, so just wherever
+			cloud->SetPosition(GetPositionAfterHyperspace(&psource, &pdest));
 
 		Space::AddBody(cloud);
 

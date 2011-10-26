@@ -1128,6 +1128,8 @@ AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
     Autopilot: Wejdź na średnią orbitę do okoła %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Autopilot: Wejdź na wysoką orbitę do okoła %target
+SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
+    Analizator chmury nadprzestrzennej: Ustaw cel skoku na miejsce docelowe chmury nadprzestrzennej
 FAILED
     Nieukończona
 COMPLETED

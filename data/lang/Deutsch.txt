@@ -1125,6 +1125,8 @@ AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
     Autopilot: Fliege in eine mittlere Umlaufbahn um %target.
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Autopilot: Fliege in eine hohe Umlaufbahn um %target.
+SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
+    Hyperraumwolken Analysator: Setzen Sie das Hyperraumsprungziel, um diesem Abflug zu folgen.
 FAILED
     Gescheitert
 COMPLETED

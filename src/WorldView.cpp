@@ -1057,6 +1057,15 @@ void WorldView::UpdateCommsOptions()
 				ypos += 32;
 			}
 		}
+
+		const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_HYPERCLOUD);
+		if ((t != Equip::NONE) && navtarget->IsType(Object::HYPERSPACECLOUD)) {
+			HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(navtarget);
+			if (!cloud->IsArrival()) {
+				button = AddCommsOption(Lang::SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE, ypos, optnum++);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(player_target_hypercloud), cloud));
+			}
+		}
 	}
 	if (comtarget) {
 		m_commsOptions->Add(new Gui::Label("#f00"+comtarget->GetLabel()), 16, float(ypos));
