@@ -5,6 +5,7 @@
 #include "StarSystem.h"
 #include "RefCounted.h"
 #include "render/Render.h"
+#include "render/RenderFrustum.h"
 
 #include <deque>
 #include <algorithm>
@@ -861,20 +862,17 @@ public:
 		else return e->kids[we_are];
 	}
 	
-	void Render(vector3d &campos, Plane planes[6]) {
+	void Render(vector3d &campos, const Render::Frustum &frustum) {
 		PiVerify(SDL_mutexP(m_kidsLock)==0);
 		if (kids[0]) {
-			for (int i=0; i<4; i++) kids[i]->Render(campos, planes);
+			for (int i=0; i<4; i++) kids[i]->Render(campos, frustum);
 			SDL_mutexV(m_kidsLock);
 		} else {
 			SDL_mutexV(m_kidsLock);
 			_UpdateVBOs();
-			/* frustum test! */
-			for (int i=0; i<6; i++) {
-				if (planes[i].DistanceToPoint(clipCentroid) <= -clipRadius) {
-					return;
-				}
-			}
+
+			if (!frustum.TestPoint(clipCentroid, clipRadius))
+				return;
 
 			vector3d relpos = clipCentroid - campos;
 			glPushMatrix();
@@ -1310,10 +1308,10 @@ static void DrawAtmosphereSurface(const vector3d &campos, float rad)
 }
 
 void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
-	Plane planes[6];
 	glPushMatrix();
 	glTranslated(-campos.x, -campos.y, -campos.z);
-	GetFrustum(planes);
+	Render::Frustum frustum;
+
 	const float atmosRadius = ATMOSPHERE_RADIUS;
 	
 	// no frustum test of entire geosphere, since Space::Render does this
@@ -1408,7 +1406,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 //	glLineWidth(1.0);
 //	glPolygonMode(GL_FRONT, GL_LINE);
 	for (int i=0; i<6; i++) {
-		m_patches[i]->Render(campos, planes);
+		m_patches[i]->Render(campos, frustum);
 	}
 	Render::State::UseProgram(0);
 
