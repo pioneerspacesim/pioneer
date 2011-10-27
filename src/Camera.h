@@ -43,18 +43,25 @@ private:
 
 	Frame *m_camFrame;
 
-	struct SortBody {
-		double dist;
+	// temp attrs for sorting and drawing
+	struct BodyAttrs {
+		Body *body;
+
+		// camera position and orientation relative to the body
 		vector3d viewCoords;
 		matrix4x4d viewTransform;
-		Body *b;
+
+		// body distance from camera
+		double camDist;
+
+		// body flags. DRAW_LAST is the interesting one
 		Uint32 bodyFlags;
 
 		// for sorting. "should a be drawn before b?"
-		friend bool operator<(const SortBody &a, const SortBody &b) {
+		friend bool operator<(const BodyAttrs &a, const BodyAttrs &b) {
 			// both drawing last; distance order
 			if (a.bodyFlags & Body::FLAG_DRAW_LAST && b.bodyFlags & Body::FLAG_DRAW_LAST)
-				return a.dist < b.dist;
+				return a.camDist < b.camDist;
 
 			// a drawing last; draw b first
 			if (a.bodyFlags & Body::FLAG_DRAW_LAST)
@@ -65,11 +72,11 @@ private:
 				return true;
 
 			// both in normal draw; distance order
-			return a.dist < b.dist;
+			return a.camDist < b.camDist;
 		}
 	};
 
-	std::list<SortBody> m_sortedBodies;
+	std::list<BodyAttrs> m_sortedBodies;
 };
 
 #endif

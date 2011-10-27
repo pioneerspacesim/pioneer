@@ -108,22 +108,20 @@ void Camera::Update()
 	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 		Body *b = *i;
 
-		// put the body in the sort list
-		SortBody bz;
-		vector3d pos = (*i)->GetInterpolatedPosition();
-		Frame::GetFrameRenderTransform(b->GetFrame(), m_camFrame, bz.viewTransform);
-		vector3d toBody = bz.viewTransform * pos;
-		bz.viewCoords = toBody;
-		bz.dist = toBody.Length();
-		bz.bodyFlags = b->GetFlags();
-		bz.b = b;
-		m_sortedBodies.push_back(bz);
+		// prepare attrs for sorting and drawing
+		BodyAttrs attrs;
+		attrs.body = b;
+		Frame::GetFrameRenderTransform(b->GetFrame(), m_camFrame, attrs.viewTransform);
+		attrs.viewCoords = attrs.viewTransform * b->GetInterpolatedPosition();
+		attrs.camDist = attrs.viewCoords.Length();
+		attrs.bodyFlags = b->GetFlags();
+		m_sortedBodies.push_back(attrs);
 
 		// calculate and store projected position for labels etc
 		// XXX get rid of Body::m_onScreen and move this stuff to whatever
 		//     needs it (ie WorldView::UpdateProjectedObjects)
 		b->SetOnscreen(false);
-		pos = b->GetInterpolatedPositionRelTo(m_camFrame);
+		vector3d pos = b->GetInterpolatedPositionRelTo(m_camFrame);
 		if (pos.z < -1.0 && m_frustum.ProjectPoint(pos, pos)) {	// XXX the pos.z test sucks. should ProjectPoint do it?
 			pos.x = pos.x * guiscale[0];
 			pos.y = Gui::Screen::GetHeight() - pos.y * guiscale[1];
@@ -183,28 +181,30 @@ void Camera::Draw()
 	Render::GetNearFarClipPlane(znear, zfar);
 	Render::State::SetZnearZfar(znear, zfar);
 
-	for (std::list<SortBody>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); i++) {
-		double rad = (*i).b->GetBoundingRadius();
+	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); i++) {
+		BodyAttrs *attrs = &(*i);
+
+		double rad = attrs->body->GetBoundingRadius();
 
 		// frustum cull. always draw stars because their glow extends past
 		// their bounding radius
 		// XXX remove this exception by adding a clip radius to stars that
 		//     includes their glow, otherwise the render can get expensive (stars
 		//     have terrain now)
-		if (!(*i).b->IsType(Object::STAR) && !m_frustum.TestPointInfinite((*i).viewCoords, rad))
+		if (!attrs->body->IsType(Object::STAR) && !m_frustum.TestPointInfinite((*i).viewCoords, rad))
 			continue;
 
 		// XXX check/restore this. it should probably either do the spikes for
 		//     all objects or stars/planets should do this themselves
-		double screenrad = 500 * rad / (*i).dist;      // approximate pixel size
-		if (!(*i).b->IsType(Object::STAR) && screenrad < 2) {
-			if (!(*i).b->IsType(Object::PLANET)) continue;
+		double screenrad = 500 * rad / attrs->camDist;      // approximate pixel size
+		if (attrs->body->IsType(Object::STAR) && screenrad < 2) {
+			if (!attrs->body->IsType(Object::PLANET)) continue;
 			// absolute bullshit
 			double spikerad = (7 + 1.5*log10(screenrad)) * rad / screenrad;
-			//DrawSpike(spikerad, (*i).viewCoords, (*i).viewTransform);
+			//DrawSpike(spikerad, attrs->viewCoords, attrs->viewTransform);
 		}
 		else
-			(*i).b->Render((*i).viewCoords, (*i).viewTransform);
+			attrs->body->Render(attrs->viewCoords, attrs->viewTransform);
 	}
 
 	Sfx::RenderAll(Space::rootFrame, m_camFrame);
