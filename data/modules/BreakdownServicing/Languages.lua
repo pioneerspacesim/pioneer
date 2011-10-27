@@ -99,10 +99,10 @@ Translate:Add({ English = {
 ---- POLISH / POLSKI ----
 
 Translate:AddFlavour('Polski','BreakdownServicing', {
-	title = "Konserwacja Silników w {name}",
-	intro = [[Uniknij kłopotów związanych z uszkodzeniem napędu nadprzestrzennego.  Zamów przegląd, w certyfikowanej firmie Konserwacja Silników w {name}.
+	title = "Konserwacja Silników {name}",
+	intro = [[Uniknij kłopotów związanych z uszkodzeniem napędu nadprzestrzennego.  Zamów przegląd, w certyfikowanej firmie Konserwacja Silników {name}.
 
-Napęd: {drive}
+Silnik: {drive}
 Przegląd: {price}
 Gwarancja: 18 miesięcy
 {lasttime}]],
@@ -113,7 +113,7 @@ Gwarancja: 18 miesięcy
 })
 
 Translate:AddFlavour('Polski','BreakdownServicing', {
-	title = "{proprietor}: Fachowiec od konserwacji napędów nadprzestrzennych",
+	title = "Fachowiec od konserwacji napędów nadprzestrzennych {proprietor}",
 	intro = [[Jestem {proprietor}.  Mogę obejrzeć twój {drive}, gwarantuje nie mniej niż rok bezproblemowego działania.  Koszt tej usługi wynosi {price}
 {lasttime}]],
 	yesplease = "Dokonaj przeglądu",
@@ -124,7 +124,7 @@ Translate:AddFlavour('Polski','BreakdownServicing', {
 
 Translate:AddFlavour('Polski','BreakdownServicing', {
 	title = "{proprietor} & Co HyperMechanics",
-	intro = [[Cześć.  Jestem z {proprietor} & Co, stawiamy naszą reputacje na to, że będziesz zadowolony z usługi.
+	intro = [[Cześć.  Jestem z {proprietor} & Co, nasza doskonała reputacja świadczy o jakości naszych usług.
 
 {lasttime}
 Możemy dostroić twój {drive}, za {price}, zapewniamy 12 miesięcy bezproblemowej pracy.  Zajmę się tym osobiście, więc możesz być pewien usługi na najwyższym poziomie.]],
@@ -135,14 +135,14 @@ Możemy dostroić twój {drive}, za {price}, zapewniamy 12 miesięcy bezproblemo
 })
 
 Translate:AddFlavour('Polski','BreakdownServicing', {
-	title = " SuperFix Maintenance (firmowana przez {name})",
+	title = "{name} przedstawiciel SuperFix Maintenance.",
 	intro = [[Witamy w SuperFix Maintenance.
 
 {lasttime}
-Czas na co półroczny przegląd? Pozwól nam obejrzeć twój napęd!
-Możemy wyregulować twój {drive} za jedyne {price}.  Nie znajdziesz nikogo tańszego!]],
+Czas na co półroczny przegląd? Pozwól że obejrze twój napęd!
+Mogę wyregulować twój {drive} za jedyne {price}.  Nie znajdziesz nikogo tańszego!]],
 	yesplease = "Zleć usługę SuperFix!",
-	response = "Usługa SuperFix zakończona, z gwarancją SuperFix!",
+	response = "Napęd wyregulowany, z gwarancją SuperFix!",
 	strength = 0.5,
 	baseprice = 2,
 })
@@ -153,7 +153,7 @@ Translate:AddFlavour('Polski','BreakdownServicing', {
 	
 Specjalizujemy się w napędach nadprzestrzennych. Dajemy dwuletnią gwarancje na wszystkie prace konserwacyjne.
 {lasttime}
-Za przegląd {drive} cena wynosi {price}.  Kontynuować?]],
+Za {drive} cena wynosi {price}.  Kontynuować?]],
 	yesplease = "Tak, proszę",
 	response = "Zakończyliśmy prace nad napędem.",
 	strength = 2.1,
@@ -164,7 +164,7 @@ Translate:AddFlavour('Polski','BreakdownServicing', {
 	title = "Warsztat Pan Józek i {proprietor}",
 	intro = [[Uniknij kłopotów związanych z uszkodzeniem napędu nadprzestrzennego.  Zamów przegląd jeszcze dziś.
 
-Napęd: {drive}
+Silnik: {drive}
 Usługa: {price}
 {lasttime}]],
 	yesplease = "Rozpocznij przegląd napędu",
