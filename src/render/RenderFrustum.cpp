@@ -7,49 +7,45 @@ namespace Render {
 static const float FOV_MAX = 170.0f;
 static const float FOV_MIN = 20.0f;
 
-Frustum::Frustum(float width, float height, float fovAng) : m_width(width), m_height(height)
+Frustum::Frustum()
 {
-	m_shadersEnabled = AreShadersEnabled();
-	SetFov(fovAng);
+	InitFromGLState();
 }
 
-void Frustum::SetFov(float ang)
+Frustum::Frustum(float width, float height, float fovAng)
 {
-	m_fov = tan(DEG2RAD(Clamp(ang, FOV_MIN, FOV_MAX) / 2.0f));
-	Update(true);
-}
-
-void Frustum::Update(bool force)
-{
-	if (!force && m_shadersEnabled == Render::AreShadersEnabled())
-		return;
-	m_shadersEnabled = Render::AreShadersEnabled();
+	float fov = tan(DEG2RAD(Clamp(fovAng, FOV_MIN, FOV_MAX) / 2.0f));
 
 	float znear, zfar;
 	GetNearFarClipPlane(znear, zfar);
 
-	m_frustumLeft = m_fov * znear;
-	m_frustumTop = m_frustumLeft * m_height/m_width;
+	float left = fov * znear;
+	float top = left * height/width;
 
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	glFrustum(-m_frustumLeft, m_frustumLeft, -m_frustumTop, m_frustumTop, znear, zfar);
+	glFrustum(-left, left, -top, top, znear, zfar);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
 
-	glViewport(0, 0, GLsizei(m_width), GLsizei(m_height));
+	glViewport(0, 0, GLsizei(width), GLsizei(height));
 
-	glGetDoublev(GL_MODELVIEW_MATRIX, m_modelMatrix);
+	InitFromGLState();
+
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+}
+
+void Frustum::InitFromGLState()
+{
 	glGetDoublev(GL_PROJECTION_MATRIX, m_projMatrix);
+	glGetDoublev(GL_MODELVIEW_MATRIX, m_modelMatrix);
 	glGetIntegerv(GL_VIEWPORT, m_viewport);
-
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
 
 	matrix4x4d m = matrix4x4d(m_projMatrix) * matrix4x4d(m_modelMatrix); 
 
@@ -119,18 +115,13 @@ bool Frustum::ProjectPoint(vector3d &in, vector3d &out) const
 
 void Frustum::Enable()
 {
-	float znear, zfar;
-	GetNearFarClipPlane(znear, zfar);
-
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
-	glLoadIdentity();
-	glFrustum(-m_frustumLeft, m_frustumLeft, -m_frustumTop, m_frustumTop, znear, zfar);
+	glLoadMatrixd(m_projMatrix);
+
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glLoadIdentity();
-
-	glViewport(0, 0, GLsizei(m_width), GLsizei(m_height));
+	glLoadMatrixd(m_modelMatrix);
 }
 
 void Frustum::Disable()

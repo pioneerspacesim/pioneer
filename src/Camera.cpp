@@ -12,8 +12,12 @@ static const float FOV_MAX = 170.0f;
 static const float FOV_MIN = 20.0f;
 
 Camera::Camera(const Body *body, float width, float height) :
-	m_frustum(width, height, Pi::config.Float("FOV")),
 	m_body(body),
+	m_width(width),
+	m_height(height),
+	m_fovAng(Pi::config.Float("FOV")),
+	m_shadersEnabled(Render::AreShadersEnabled()),
+	m_frustum(m_width, m_height, m_fovAng),
 	m_pos(0.0),
 	m_orient(matrix4x4d::Identity()),
 	m_camFrame(0)
@@ -81,7 +85,10 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 
 void Camera::Update()
 {
-	m_frustum.Update();
+	if (m_shadersEnabled != Render::AreShadersEnabled()) {
+		m_frustum = Render::Frustum(m_width, m_height, m_fovAng);
+		m_shadersEnabled = !m_shadersEnabled;
+	}
 
 	// make temporary camera frame at the body
 	m_camFrame = new Frame(m_body->GetFrame(), "camera", Frame::TEMP_VIEWING);

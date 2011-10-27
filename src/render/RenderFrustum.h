@@ -8,21 +8,29 @@ namespace Render {
 
 class Frustum {
 public:
+	// create from current gl state
+	Frustum();
+
+	// create for specified values
 	Frustum(float width, float height, float fovAng);
 
+	// apply the saved frustum
 	void Enable();
+
+	// restore the previous state
 	void Disable();
 
-	void SetFov(float ang);
-
+	// test if point (sphere) is in the frustum
 	bool TestPoint(const vector3d &p, double radius) const;
+	// test if point (sphere) is in the frustum, ignoring the far plane
 	bool TestPointInfinite(const vector3d &p, double radius) const;
 
+	// project a point onto the near plane (typically the screen)
 	bool ProjectPoint(vector3d &in, vector3d &out) const;
 
-	inline void Update() { Update(false); }
-
 private:
+	void InitFromGLState();
+
 	struct Plane {
 		double a, b, c, d;
 		double DistanceToPoint(const vector3d &p) const {
@@ -30,19 +38,8 @@ private:
 		}
 	};
 
-	void Update(bool force);
-
-	float m_width;
-	float m_height;
-
-	bool m_shadersEnabled;
-	double m_fov;
-
-	GLfloat m_frustumLeft;
-	GLfloat m_frustumTop;
-
-	GLdouble m_modelMatrix[16];
 	GLdouble m_projMatrix[16];
+	GLdouble m_modelMatrix[16];
 	GLint m_viewport[4];
 
 	Plane m_planes[6];

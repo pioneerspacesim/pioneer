@@ -26,14 +26,18 @@ public:
 	matrix4x4d GetOrientation() const { return m_orient; }
 
 	const Frame *GetFrame() const { return m_camFrame; }
+	const Render::Frustum &GetFrustum() const { return m_frustum; }
 
 private:
-	Render::Frustum m_frustum;
-
 	const Body *m_body;
 
 	float m_width;
 	float m_height;
+	float m_fovAng;
+
+	bool m_shadersEnabled;
+
+	Render::Frustum m_frustum;
 
 	vector3d m_pos;
 	matrix4x4d m_orient;
