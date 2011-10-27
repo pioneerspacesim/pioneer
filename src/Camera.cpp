@@ -120,8 +120,8 @@ void Camera::Update()
 		m_sortedBodies.push_back(bz);
 
 		// calculate and store projected position for labels etc
-		// XXX sucks to do this for every camera
-		// XXX rough copy of Gui::Screen::Project but avoiding the overhead of EnterOrtho/LeaveOrtho
+		// XXX get rid of Body::m_onScreen and move this stuff to whatever
+		//     needs it (ie WorldView::UpdateProjectedObjects)
 		b->SetOnscreen(false);
 		pos = b->GetInterpolatedPositionRelTo(m_camFrame);
 		if (pos.z < -1.0 && m_frustum.ProjectPoint(pos, pos)) {	// XXX the pos.z test sucks. should ProjectPoint do it?
@@ -189,11 +189,13 @@ void Camera::Draw()
 		// frustum cull. always draw stars because their glow extends past
 		// their bounding radius
 		// XXX remove this exception by adding a clip radius to stars that
-		// includes their glow, otherwise the render can get expensive (stars
-		// have terrain now)
+		//     includes their glow, otherwise the render can get expensive (stars
+		//     have terrain now)
 		if (!(*i).b->IsType(Object::STAR) && !m_frustum.TestPointInfinite((*i).viewCoords, rad))
 			continue;
 
+		// XXX check/restore this. it should probably either do the spikes for
+		//     all objects or stars/planets should do this themselves
 		double screenrad = 500 * rad / (*i).dist;      // approximate pixel size
 		if (!(*i).b->IsType(Object::STAR) && screenrad < 2) {
 			if (!(*i).b->IsType(Object::PLANET)) continue;

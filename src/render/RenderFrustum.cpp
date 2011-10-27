@@ -96,7 +96,6 @@ void Frustum::Update(bool force)
 
 bool Frustum::TestPoint(const vector3d &p, double radius) const
 {
-	// check all planes except far plane
 	for (int i=0; i<6; i++)
 		if (m_planes[i].DistanceToPoint(p)+radius < 0)
 			return false;
