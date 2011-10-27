@@ -21,6 +21,8 @@ public:
 	virtual Rocket::Core::String GetValue() const;
 	virtual void SetValue(const Rocket::Core::String&);
 
+	virtual float GetGaugeValue() const;
+	virtual void SetGaugeValue(float val);
 protected:
 	virtual void OnUpdate();
 	virtual void OnRender();

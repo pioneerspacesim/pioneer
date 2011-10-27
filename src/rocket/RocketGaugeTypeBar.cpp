@@ -91,80 +91,50 @@ bool RocketGaugeTypeBar::GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensio
 
 void RocketGaugeTypeBar::FormatElements(const Rocket::Core::Vector2f& containingBlock, float length)
 {
-	float barLength = length;
-
-	int lengthAxis = (direction == RIGHT || direction == LEFT) ? 1 : 0;
-	Rocket::Core::Box parentBox;
-	Rocket::Core::ElementUtilities::BuildBox(parentBox, Rocket::Core::Vector2f(containingBlock.x, containingBlock.y), parent);
-
-	Rocket::Core::Vector2f content = parentBox.GetSize();
-	content[lengthAxis] = barLength;
-	parentBox.SetContent(content);
-
-	/*bgLength -= (bgBox.GetCumulativeEdge(Rocket::Core::Box::CONTENT, Rocket::Core::Box::LEFT) +
-				 bgBox.GetCumulativeEdge(Rocket::Core::Box::CONTENT, Rocket::Core::Box::RIGHT));*/
-
-	// If no height has been explicitly specified for the bar, it'll be initialised to -1 as per normal block
-	// elements. We'll fix that up here.
-	if ((direction == RIGHT || direction == LEFT) &&
-		content.y < 0)
-		content.y = parentBox.GetSize().y;
-
-	//set margins - necessary?
-
-	//format bar
+	bool horizontal = (direction == RIGHT || direction == LEFT);
 	Rocket::Core::Box barBox;
 	Rocket::Core::ElementUtilities::BuildBox(barBox, parent->GetBox().GetSize(), bar);
-	
+
 	Rocket::Core::Vector2f barBoxContent = barBox.GetSize();
-	//if orientation == horizontal
+
+	// If no height is specified, it would be zero
 	if (bar->GetLocalProperty("height") == 0)
 		barBoxContent.y = parent->GetBox().GetSize().y;
 
-	if (barLength >= 0)
-	{
-		Rocket::Core::Vector2f bgSize = parent->GetBox().GetSize();
-
-		//if vertical
-		//else
-		{
-			float background_length = bgSize.x -
-				(barBox.GetCumulativeEdge(Rocket::Core::Box::CONTENT, Rocket::Core::Box::LEFT) +
-				 barBox.GetCumulativeEdge(Rocket::Core::Box::CONTENT, Rocket::Core::Box::RIGHT));
-
-			if (bar->GetLocalProperty("width") == 0)
-			{
-
-				//check for 'min-width' restrictions
-				float min_bg_length = bar->ResolveProperty("min-width", background_length);
-				barBoxContent.x = Rocket::Core::Math::Max(min_bg_length, barBoxContent.x);
-
-				//check for 'max-width' restrictions'
-				float max_bg_length = bar->ResolveProperty("max-width", background_length);
-				if (max_bg_length > 0)
-					barBoxContent.x = Rocket::Core::Math::Min(max_bg_length, barBoxContent.x);
-
-			}
-
-			barBoxContent.x = Rocket::Core::Math::Min(barBoxContent.x, background_length);
-		}
+	//calculate min-width/height limitations
+	//calculate margin limitations
+	//calculate padding
+	//calculate border
+	if (horizontal) {
+		barBoxContent.x *= parent->GetGaugeValue();
+	} else {
+		barBoxContent.y *= parent->GetGaugeValue();
 	}
 
-	// set the new dimensions on the bar to re-decorate it
+	//set updated width
 	barBox.SetContent(barBoxContent);
 	bar->SetBox(barBox);
 
-	//position the resized bar
-	const Rocket::Core::Vector2f& bgDimensions = parent->GetBox().GetSize();
-	const Rocket::Core::Vector2f& barDimensions = bar->GetBox().GetSize(Rocket::Core::Box::BORDER);
-
-	//if orientation == vertical
-	//
-	//else
-	{
-		bar->SetOffset(
-			Rocket::Core::Vector2f(parent->GetRelativeOffset().x,
-			bar->GetBox().GetEdge(Rocket::Core::Box::MARGIN, Rocket::Core::Box::TOP)), parent);
+	//Position the bar
+	//this is *not* correct wrt bar margins & background padding
+	switch (direction) {
+	case RIGHT:
+		bar->SetOffset(Rocket::Core::Vector2f(0.f, 0.f), parent);
+		break;
+	case LEFT:
+		bar->SetOffset(Rocket::Core::Vector2f(
+			parent->GetBox().GetSize().x - barBoxContent.x,
+			0.f), parent);
+		break;
+	case UP:
+		bar->SetOffset(Rocket::Core::Vector2f(
+			0.f,
+			parent->GetBox().GetSize().y - barBoxContent.y),
+			parent);
+		break;
+	case DOWN:
+		bar->SetOffset(Rocket::Core::Vector2f(0.f, 0.f), parent);
+		break;
 	}
 }
 

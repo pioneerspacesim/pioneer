@@ -2,7 +2,8 @@
 #include "RocketGaugeTypeBar.h"
 
 RocketGaugeElement::RocketGaugeElement(const Rocket::Core::String &tag) :
-	Rocket::Core::Element(tag)
+	Rocket::Core::Element(tag),
+	m_value(1.f)
 {
 	//default will be a horizontal bar, fill direction right
 	type = 0;
@@ -37,6 +38,16 @@ void RocketGaugeElement::SetValue(const Rocket::Core::String& value)
 	//OnAttributeChange should fire after this I believe
 }
 
+float RocketGaugeElement::GetGaugeValue() const
+{
+	return m_value;
+}
+
+void RocketGaugeElement::SetGaugeValue(float val)
+{
+	m_value = Rocket::Core::Math::Clamp(val, 0.f, 1.f);
+}
+
 void RocketGaugeElement::OnUpdate()
 {
 	type->OnUpdate();
@@ -49,6 +60,8 @@ void RocketGaugeElement::OnRender()
 
 void RocketGaugeElement::OnAttributeChange(const Rocket::Core::AttributeNameList& changed_attributes)
 {
+  Rocket::Core::Element::OnAttributeChange(changed_attributes);
+
 	if (changed_attributes.find("type") != changed_attributes.end())
 	{
 		Rocket::Core::String new_type_name = GetAttribute< Rocket::Core::String >("type", "bar");
@@ -76,7 +89,6 @@ void RocketGaugeElement::OnAttributeChange(const Rocket::Core::AttributeNameList
 	if (changed_attributes.find("value") != changed_attributes.end()) {
 		m_value = GetAttribute< float >("value", 0.f);
 	}
-	//type should probably do something now!
 
 	if (!type->OnAttributeChange(changed_attributes))
 		DirtyLayout();
