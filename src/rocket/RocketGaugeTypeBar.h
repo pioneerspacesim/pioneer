@@ -27,7 +27,6 @@ protected:
 	void FormatElements(const Rocket::Core::Vector2f& containingBlock, float length);
 
 private:
-	Rocket::Core::Element* background;
 	Rocket::Core::Element* bar;
 	Orientation orientation;
 };

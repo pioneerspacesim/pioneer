@@ -5,7 +5,6 @@
 RocketGaugeTypeBar::RocketGaugeTypeBar(RocketGaugeElement *el) : RocketGaugeType(el)
 {
 	orientation = HORIZONTAL;
-	background = 0;
 	bar = 0;
 	Initialize();
 	//get attributes like orientation, direction
@@ -14,33 +13,21 @@ RocketGaugeTypeBar::RocketGaugeTypeBar(RocketGaugeElement *el) : RocketGaugeType
 
 RocketGaugeTypeBar::~RocketGaugeTypeBar()
 {
-	if (background != 0)
-		parent->RemoveChild(background);
 	if (bar != 0)
 		parent->RemoveChild(bar);
 }
 
 bool RocketGaugeTypeBar::Initialize()
 {
-	background = Rocket::Core::Factory::InstanceElement(parent, "*", "gaugebackground", Rocket::Core::XMLAttributes());
 	bar = Rocket::Core::Factory::InstanceElement(parent, "*", "gaugebar", Rocket::Core::XMLAttributes());
 
-	//can't live without both
-	if (background == 0 || bar == 0) {
-		if (background != 0)
-			background->RemoveReference();
-		if (bar != 0)
-			bar->RemoveReference();
-
+	if (bar == 0)
 		return false;
-	}
 
 	//non-DOM add (hidden)
-	parent->AppendChild(background, false);
 	parent->AppendChild(bar, false);
 
-	//remove initial references
-	background->RemoveReference();
+	//remove initial reference
 	bar->RemoveReference();
 
 	//no event listeners. Should probably support focus & blur
@@ -87,32 +74,24 @@ bool RocketGaugeTypeBar::GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensio
 
 void RocketGaugeTypeBar::FormatElements(const Rocket::Core::Vector2f& containingBlock, float length)
 {
-	float bgLength = length;
 	float barLength = length;
 
-	int lengthAxis = 0; //horizontal
+	int lengthAxis = orientation == VERTICAL ? 1 : 0;
 	Rocket::Core::Box parentBox;
 	Rocket::Core::ElementUtilities::BuildBox(parentBox, Rocket::Core::Vector2f(containingBlock.x, containingBlock.y), parent);
 
 	Rocket::Core::Vector2f content = parentBox.GetSize();
-	content[lengthAxis] = bgLength;
+	content[lengthAxis] = barLength;
 	parentBox.SetContent(content);
 
-	Rocket::Core::Box bgBox;
-	Rocket::Core::ElementUtilities::BuildBox(bgBox, parentBox.GetSize(), background);
-	content = bgBox.GetSize();
-	bgLength -= (bgBox.GetCumulativeEdge(Rocket::Core::Box::CONTENT, Rocket::Core::Box::LEFT) +
-				 bgBox.GetCumulativeEdge(Rocket::Core::Box::CONTENT, Rocket::Core::Box::RIGHT));
-	content[lengthAxis] = bgLength;
+	/*bgLength -= (bgBox.GetCumulativeEdge(Rocket::Core::Box::CONTENT, Rocket::Core::Box::LEFT) +
+				 bgBox.GetCumulativeEdge(Rocket::Core::Box::CONTENT, Rocket::Core::Box::RIGHT));*/
 
 	// If no height has been explicitly specified for the bar, it'll be initialised to -1 as per normal block
 	// elements. We'll fix that up here.
 	//if orientation != vertical
 	if (content.y < 0)
 		content.y = parentBox.GetSize().y;
-
-	bgBox.SetContent(content);
-	background->SetBox(bgBox);
 
 	//set margins - necessary?
 
@@ -127,7 +106,7 @@ void RocketGaugeTypeBar::FormatElements(const Rocket::Core::Vector2f& containing
 
 	if (barLength >= 0)
 	{
-		Rocket::Core::Vector2f bgSize = background->GetBox().GetSize();
+		Rocket::Core::Vector2f bgSize = parent->GetBox().GetSize();
 
 		//if vertical
 		//else
@@ -159,7 +138,7 @@ void RocketGaugeTypeBar::FormatElements(const Rocket::Core::Vector2f& containing
 	bar->SetBox(barBox);
 
 	//position the resized bar
-	const Rocket::Core::Vector2f& bgDimensions = background->GetBox().GetSize();
+	const Rocket::Core::Vector2f& bgDimensions = parent->GetBox().GetSize();
 	const Rocket::Core::Vector2f& barDimensions = bar->GetBox().GetSize(Rocket::Core::Box::BORDER);
 
 	//if orientation == vertical
@@ -167,7 +146,7 @@ void RocketGaugeTypeBar::FormatElements(const Rocket::Core::Vector2f& containing
 	//else
 	{
 		bar->SetOffset(
-			Rocket::Core::Vector2f(background->GetRelativeOffset().x,
+			Rocket::Core::Vector2f(parent->GetRelativeOffset().x,
 			bar->GetBox().GetEdge(Rocket::Core::Box::MARGIN, Rocket::Core::Box::TOP)), parent);
 	}
 }
