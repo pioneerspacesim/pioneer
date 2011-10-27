@@ -8,10 +8,12 @@
 class RocketGaugeTypeBar : public RocketGaugeType
 {
 public:
-	enum Orientation
+	enum Direction /* Fill direction */
 	{
-		VERTICAL,
-		HORIZONTAL
+		RIGHT,
+		LEFT,
+		UP,
+		DOWN
 	};
 	RocketGaugeTypeBar(RocketGaugeElement* element);
 	virtual ~RocketGaugeTypeBar();
@@ -28,5 +30,5 @@ protected:
 
 private:
 	Rocket::Core::Element* bar;
-	Orientation orientation;
+	Direction direction;
 };

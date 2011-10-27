@@ -4,11 +4,9 @@
 
 RocketGaugeTypeBar::RocketGaugeTypeBar(RocketGaugeElement *el) : RocketGaugeType(el)
 {
-	orientation = HORIZONTAL;
+	direction = RIGHT;
 	bar = 0;
 	Initialize();
-	//get attributes like orientation, direction
-	//I guess direction could replace orientation...
 }
 
 RocketGaugeTypeBar::~RocketGaugeTypeBar()
@@ -48,21 +46,40 @@ bool RocketGaugeTypeBar::OnAttributeChange(const Rocket::Core::AttributeNameList
 	bool dirty_layout = false;
 
 	//has orientation changed? update & dirty
+	if (changedAttributes.find("direction") != changedAttributes.end()) {
+		printf("Dir has changed\n");
+		Rocket::Core::String dirstr = parent->GetAttribute< Rocket::Core::String >("direction", "right");
+		Direction newdir = RIGHT;
+		if (dirstr == "left")
+			newdir = LEFT;
+		else if (dirstr == "up")
+			newdir = UP;
+		else if (dirstr == "down")
+			newdir = DOWN;
+		if (direction != newdir) {
+			direction = newdir;
+			dirty_layout = true;
+		}
+	}
 
 	return dirty_layout;
 }
 
 void RocketGaugeTypeBar::ProcessEvent(Rocket::Core::Event& event)
 {
+	//resize is called on initial layout as well
 	if (event == "resize" && event.GetTargetElement() == parent) {
 		Rocket::Core::Vector2f box = parent->GetBox().GetSize();
-		FormatElements(box, orientation == VERTICAL ? box.y : box.x);
+		float w = box.y;
+		if (direction == UP || direction == DOWN)
+			w = box.x;
+		FormatElements(box, direction == RIGHT ? box.y : box.x);
 	}
 }
 
 bool RocketGaugeTypeBar::GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions)
 {
-	if (orientation == HORIZONTAL) {
+	if (direction == RIGHT || direction == LEFT) {
 		dimensions.x = 100.f;
 		dimensions.y = 50.f;
 	} else {
@@ -76,7 +93,7 @@ void RocketGaugeTypeBar::FormatElements(const Rocket::Core::Vector2f& containing
 {
 	float barLength = length;
 
-	int lengthAxis = orientation == VERTICAL ? 1 : 0;
+	int lengthAxis = (direction == RIGHT || direction == LEFT) ? 1 : 0;
 	Rocket::Core::Box parentBox;
 	Rocket::Core::ElementUtilities::BuildBox(parentBox, Rocket::Core::Vector2f(containingBlock.x, containingBlock.y), parent);
 
@@ -89,8 +106,8 @@ void RocketGaugeTypeBar::FormatElements(const Rocket::Core::Vector2f& containing
 
 	// If no height has been explicitly specified for the bar, it'll be initialised to -1 as per normal block
 	// elements. We'll fix that up here.
-	//if orientation != vertical
-	if (content.y < 0)
+	if ((direction == RIGHT || direction == LEFT) &&
+		content.y < 0)
 		content.y = parentBox.GetSize().y;
 
 	//set margins - necessary?
