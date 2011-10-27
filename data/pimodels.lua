@@ -226,18 +226,18 @@ a = (m*v(1,0,0))
 
 define_model('cargo', {
 	info = {
-			lod_pixels = {20, 50, 0},
-			bounding_radius = 1.5,
-			materials = {'body', 'text'}
-		},
+		lod_pixels = {1, 5, 15, 0},
+		bounding_radius = 1,
+		materials = {'body', 'text'}
+	},
 	static = function(lod)
 		local divs = 8*lod
 		set_material('body', .5,.5,.5,1, 0,0,0, 0, 0,0,0)
 		set_material('text', 1,0,0,1, 0,0,0, 0, 0,0,0)
-		local top = v(0,1,0)
-		local bottom = v(0,-1,0)
+		local top = v(0,0.25,0)
+		local bottom = v(0,-0.25,0)
 		use_material('body')
-		cylinder(divs, top, bottom, v(1,0,0), 1.0)
+		cylinder(divs, top, bottom, v(0.25,0,0), 0.25)
 	end,
 	dynamic = function(lod)
 		if lod == 3 then

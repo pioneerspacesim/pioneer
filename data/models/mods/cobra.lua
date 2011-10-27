@@ -23,6 +23,7 @@ define_model('cobra_mk3', {
 					max_cargo = 80,
 					max_laser = 2,
 					max_missile = 4,
+					max_cargoscoop = 0,
 					capacity = 80,
 					hull_mass = 60,
 					price = 124000,

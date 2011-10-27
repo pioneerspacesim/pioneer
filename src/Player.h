@@ -10,9 +10,10 @@
 #include "MarketAgent.h"
 
 struct Mission : RefItem<Mission> {
-	enum MissionState {
-#define MissionState_ITEM(x) x,
-#include "PlayerEnums.h"
+	enum MissionState { // <enum scope='Mission' name=MissionStatus>
+		ACTIVE,
+		COMPLETED,
+		FAILED,
 	};
 
 	std::string  type;

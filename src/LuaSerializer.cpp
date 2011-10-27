@@ -49,12 +49,59 @@
 //   uXXXX    - userdata. XXXX is type, followed by newline, followed by data
 //     Body       - data is a single stringified number for Serializer::LookupBody
 //     SystemPath - data is four stringified numbers, newline separated
+//   oXXXX    - object. XXX is type, followed by newline, followed by one
+//              pickled item (typically t[able])
+
+
+// on serialize, if an item has a metatable with a "class" attribute, the
+// "Serialize" function under that namespace will be called with the type. the
+// data returned will then be serialized as an "object" above.
+//
+// on deserialize, the data after an "object" item will be passed to the
+// "Deserialize" function under that namespace. that data returned will be
+// given back to the module
 
 void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *key = NULL)
 {
 	static char buf[256];
 
 	LUA_DEBUG_START(l);
+
+	idx = (idx < 0) ? lua_gettop(l)+idx+1 : idx;
+
+	if (lua_getmetatable(l, idx)) {
+		lua_getfield(l, -1, "class");
+		if (lua_isnil(l, -1))
+			lua_pop(l, 2);
+
+		else {
+			const char *cl = lua_tostring(l, -1);
+			snprintf(buf, sizeof(buf), "o%s\n", cl);
+
+			lua_getfield(l, LUA_GLOBALSINDEX, cl);
+			if (lua_isnil(l, -1))
+				luaL_error(l, "No Serialize method found for class '%s'\n", cl);
+
+			lua_getfield(l, -1, "Serialize");
+			if (lua_isnil(l, -1))
+				luaL_error(l, "No Serialize method found for class '%s'\n", cl);
+
+			lua_pushvalue(l, idx);
+			pi_lua_protected_call(l, 1, 1);
+
+			lua_remove(l, idx);
+			lua_insert(l, idx);
+
+			lua_pop(l, 3);
+
+			if (lua_isnil(l, idx)) {
+				LUA_DEBUG_END(l, 0);
+				return;
+			}
+
+			out += buf;
+		}
+	}
 
 	switch (lua_type(l, idx)) {
 		case LUA_TNIL:
@@ -259,6 +306,39 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 			}
 
 			throw SavedGameCorruptException();
+		}
+
+		case 'o': {
+			const char *end = strchr(pos, '\n');
+			if (!end) throw SavedGameCorruptException();
+			int len = end - pos;
+			end++; // skip newline
+
+			const char *cl = pos;
+
+			lua_pushlstring(l, pos, len);
+
+			pos = unpickle(l, end);
+			lua_insert(l, -2);
+
+			lua_gettable(l, LUA_GLOBALSINDEX);
+			if (lua_isnil(l, -1)) {
+				lua_pop(l, 2);
+				break;
+			}
+
+			lua_getfield(l, -1, "Unserialize");
+			if (lua_isnil(l, -1)) {
+				lua_pushlstring(l, cl, len);
+				luaL_error(l, "No Unserialize method found for class '%s'\n", lua_tostring(l, -1));
+			}
+
+			lua_insert(l, -3);
+			lua_pop(l, 1);
+
+			pi_lua_protected_call(l, 1, 1);
+
+			break;
 		}
 
 		default:

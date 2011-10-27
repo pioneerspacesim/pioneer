@@ -121,6 +121,7 @@ define_model('panther', {
 				max_cargo = 740,
 				max_laser = 2,
 				max_missile = 20,
+				max_cargoscoop = 0,
 				capacity = 740,
 				hull_mass = 700,
 				price = 2.1e6,

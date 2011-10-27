@@ -637,7 +637,9 @@ define_model('rattle_scoop', {
 		if lod > 1 then
 			texture('v_glow.png', v(0,.3,0), v(.5,0,0), v(0,.5,0))
 		end
+		geomflag(0x100)
 		quad(v140,v142,v143,v141)
+		geomflag(0)
 	end
 })
 
@@ -666,6 +668,8 @@ define_model('rattlesnake', {
 				max_cargo = 30,
 				max_laser = 2,
 				max_missile = 0,
+				max_fuelscoop = 1,
+				max_cargoscoop = 1,
 				capacity = 30,
 				hull_mass = 30,
 				price = 44000,
