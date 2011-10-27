@@ -286,3 +286,143 @@ Translate:Add({ Polski = {
 	"Zapłacisz za ten ładunek, swoim życiem.",
   },
 }, })
+
+---- SPANISH / ESPAÑOL ----
+
+Translate:AddFlavour('Spanish','DeliverPackage', {
+  adtext = "VIAJA al sistema {system}? Se paga dinero por la entrega de un pequeño paquete.",
+  introtext = "Qué hay, Soy {name}. Le pagaré {cash} si entrega un pequeño paquete en {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}).",
+  whysomuchtext = "Cuando una amiga me visitó se dejó algunas prendas y unos libros antiguos en papel. Me gustaría devolverselos.",
+  successmsg = "Gracias por la entrega. Se le ha pagado al contado.",
+  failuremsg = "Inaceptable! La entrega ha tardado una eternidad. No tengo intención de pagarle.",
+  urgency = 0,
+  risk = 0,
+  localdelivery = 0,
+})
+
+Translate:AddFlavour('Spanish','DeliverPackage', {
+  adtext = "SE BUSCA. Entrega de un paquete al sistema {system}.",
+  introtext = "Hola. Soy {name}. Tengo intención de pagar {cash} por una nave que transporte un paquete a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}).",
+  whysomuchtext = "No es nada especial.",
+  successmsg = "El paquete se ha recibido y se le ha pagado lo acordado.",
+  failuremsg = "Estoy frustrado por la tardanza de mi paquete, me niego a pagarle.",
+  urgency = 0.1,
+  risk = 0,
+  localdelivery = 0,
+})
+
+Translate:AddFlavour('Spanish','DeliverPackage', {
+  adtext = "URGENTE. Se necesita una nave rápida para la entrega de un paquete en el sistema {system}.",
+  introtext = "Hola. Soy {name}. Y mi intención es pagar {cash} por una nave que transporte un paquete a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}).",
+  whysomuchtext = "Es una propuesta de investigación y debe ser entregada en el plazo o no tendremos financiación.",
+  successmsg = "Se le ha efectuado el pago completo por la entrega. Gracias.",
+  failuremsg = "Creo que fui bastante claro con la fecha tope y estoy muy defraudado por la tardanza. No se le pagará.",
+  urgency = 0.6,
+  risk = 0,
+  localdelivery = 0,
+})
+
+Translate:AddFlavour('Spanish','DeliverPackage', {
+  adtext = "ENTREGA. Documentos al sistema {system}. {cash} para un piloto experimentado.",
+  introtext = "Hola. Soy {name}. Tengo la intención de pagar {cash} por una nave que transporte una carga a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}).",
+  whysomuchtext = "Ciertos documentos extremadamente sensibles han caido en mis manos, y tengo razones para creer que estoy bajo vigilancia.",
+  successmsg = "Se aprecia su servicio discreto y a tiempo. Se le pagará el montante.",
+  failuremsg = "Inutil! No volveré a depender de usted en el futuro! Es innecesario decir que no se le pagará ni un crédito.",
+  urgency = 0.4,
+  risk = 0.75,
+  localdelivery = 0,
+})
+
+Translate:AddFlavour('Spanish','DeliverPackage', {
+  adtext = "SERVICIO POSTAL. Se requiere una nave para una entrega en el sistema {system}.",
+  introtext = "Saludos. Este es un mensaje automatizado de los Servicios de Mensajería Bedford y {name}. Pagamos {cash} por la carrera a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}).",
+  whysomuchtext = "Estaríamos encantados de pagarle menos dinero.",
+  successmsg = "Se aprecia su entrega discreta y a tiempo. Se le ha pagado el montante completo.",
+  failuremsg = "Se ha anotado el registro de su nave, vamos a rechazar cualquier solicitud de trabajo suya en el futuro.",
+  urgency = 0.1,
+  risk = 0.1,
+  localdelivery = 0,
+})
+
+Translate:AddFlavour('Spanish','DeliverPackage', {
+  adtext = "MUDANZA. Traslado de soportes físicos a {starport}.",
+  introtext = "Encantado de conocerle. Soy {name} y estoy dispuesto a pagar {cash} a alguien con una nave que me ayude a trasladar mis pertenencias a {starport}. No hay prisa, no son más que algunos restos de la mudanza.",
+  whysomuchtext = "Es mucho? Debería replantearme la oferta!",
+  successmsg = "Oh maravilloso. Empezaré a desembalar inmediatamente. Gracias de nuevo.",
+  failuremsg = "Qué es esto? Oh, ha tardado tanto que me había olvidado de que lo había enviado!",
+  urgency = 0.1,
+  risk = 0,
+  localdelivery = 1,
+})
+
+Translate:AddFlavour('Spanish','DeliverPackage', {
+  adtext = "MENSAJERO DE CORTA DISTANCIA. Entrega de un paquete pequeño en {starport}.",
+  introtext = "Qué hay. Soy {name} y pagaré {cash} por una nave que entregue este paquete en {starport}.",
+  whysomuchtext = "No creo que sea mucho.",
+  successmsg = "Gracias por el paquete, Se le ha pagado el montante completo.",
+  failuremsg = "Yo lo habría entregado mas rápido. No le voy a pagar.",
+  urgency = 0.2,
+  risk = 0,
+  localdelivery = 1,
+})
+
+Translate:AddFlavour('Spanish','DeliverPackage', {
+  adtext = "CARGAMENTO INTERPLANETARIO. Transporte de carga local a {starport}.",
+  introtext = "Hola. Necesitamos estas cajas entregadas en {starport} tan pronto como sea posible. El pago estandar para este envío es de {cash}.",
+  whysomuchtext = "Las tarifas estandar, trabajamos con el mercado.",
+  successmsg = "Excelente, hemos añadido los fondos en su cuenta.",
+  failuremsg = "Nuestros clientes no se van a alegrar de esto. No espere pago alguno.",
+  urgency = 0.4,
+  risk = 0,
+  localdelivery = 1,
+})
+
+Translate:AddFlavour('Spanish','DeliverPackage', {
+  adtext = "ENTREGA INMEDIATA. Se requiere la entrega express de un objeto a {starport}.",
+  introtext = "Mi nombre es {name} y necesito la entrega de este objeto a un amigo en {starport} pronto, Le pagaré {cash} créditos si lo tiene allí en un tiempo razonable.",
+  whysomuchtext = "Es muy urgente.",
+  successmsg = "Su entrega a tiempo es apreciada, en consecuencia he acreditado su cuenta.",
+  failuremsg = "Las condiciones eran una rápida entrega! Me niego a pagarle por esto.",
+  urgency = 0.6,
+  risk = 0,
+  localdelivery = 1,
+})
+
+Translate:AddFlavour('Spanish','DeliverPackage', {
+  adtext = "PAQUETE PENDIENTE. Envío urgente de alimentos perecederos a {starport}.",
+  introtext = "Saludos, vamos retrasados con nuestro envio de productos y necesitamos entregarlos a {starport} urgentemente. Le pagaremos {cash} por las molestias.",
+  whysomuchtext = "Nuestro sustento depende de esto.",
+  successmsg = "Magnífico! Empezaremos a desembalar urgentemente. Le actualizaré la cuenta inmediatamente.",
+  failuremsg = "Está todo estropeado, No vale para nada! No podemos pagarle.",
+  urgency = 0.8,
+  risk = 0,
+  localdelivery = 1,
+})
+
+Translate:Add({ Spanish = {
+  ["I highly doubt it."] = "Lo dudo mucho.",
+  ["Not any more than usual."] = "No mas de lo habitual.",
+  ["This is a valuable package, you should keep your eyes open."] = "Es un paquete valioso, debería mantener los ojos abiertos.",
+  ["It could be dangerous, you should make sure you're adequately prepared."] = "Podría ser peligroso, debería prepararse adecuadamente.",
+  ["This is very risky, you will almost certainly run into resistance."] = "Es muy arriesgado, Encontrará resistencia.",
+  ["It must be delivered by "] = "La fecha de entrega es ",
+  ["Delivery"] = "Entrega",
+  ["Excellent. I will let the recipient know you are on your way."] = "Excelente. Haré saber al receptor que está en camino.",
+  ["Why so much money?"] = "Por qué tanto dinero?",
+  ["How soon must it be delivered?"] = "Cual es la fecha de entrega?",
+  ["Will I be in any danger?"] = "Correré peligro?",
+  ["Could you repeat the original request?"] = "Podría repetir la petición original?",
+  ["Ok, agreed."] = "Vale, De acuerdo.",
+ PIRATE_TAUNTS = {
+  "Vas a lamentar el hacer negocios con {client}",
+	"Al parecer mi cheque ha llegado!",
+	"Trabajas para {client}? Eso ha sido una mala idea.",
+	"La carga y la vida, piloto!",
+	"I'm sure this will bring a pretty penny on the market",
+	"Hoy no es tu día de suerte! Prepárate para morir.",
+	"Di a mi viejo amigo {client} que les veré en el infierno!",
+	"Ese paquete hoy no va a llegar a su destino.",
+	"Hoy no vas a llegar a {location}!",
+	"Pagarás por ese cargamento, pero con tu vida.",
+  },
+}, })
