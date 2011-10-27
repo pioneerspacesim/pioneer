@@ -9,7 +9,6 @@ Alpha 16
     * New assassination missions appear less often (#634)
     * Translation infrastructure for Assassinations (#641), DonateToCranks
       (#658), GoodsTrader (#659) and DeliverPackage (#639)
-    * Modules translated to Polish
     * Targets can be selected from the system view (#503)
     * Model cleanups and optimisations (#680, #675, #672, #674)
     * New "temple" building (#664)
