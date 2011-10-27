@@ -72,15 +72,6 @@ static inline Sint64 isqrt(Sint64 a)
 	return ret;
 }
 
-struct Plane {
-	double a, b, c, d;
-	double DistanceToPoint(const vector3d &p) {
-		return a*p.x + b*p.y + c*p.z + d;
-	}
-};
-
-/* from current GL modelview*projection matrix */
-void GetFrustum(Plane planes[6]);
 
 bool is_file(const std::string &filename);
 bool is_dir(const std::string &filename);

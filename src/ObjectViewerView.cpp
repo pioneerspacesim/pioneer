@@ -99,7 +99,7 @@ void ObjectViewerView::Draw3D()
 		}
 		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
 	
-		body->Render(vector3d(0,0,-viewingDist), m_camRot);
+		//body->Render(vector3d(0,0,-viewingDist), m_camRot);
 	}
 }
 

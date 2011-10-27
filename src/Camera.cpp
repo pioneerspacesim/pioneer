@@ -204,7 +204,7 @@ void Camera::Draw()
 			//DrawSpike(spikerad, attrs->viewCoords, attrs->viewTransform);
 		}
 		else
-			attrs->body->Render(attrs->viewCoords, attrs->viewTransform);
+			attrs->body->Render(attrs->viewCoords, attrs->viewTransform, m_frustum);
 	}
 
 	Sfx::RenderAll(Space::rootFrame, m_camFrame);

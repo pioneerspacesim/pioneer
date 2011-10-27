@@ -55,7 +55,7 @@ bool CargoBody::OnCollision(Object *b, Uint32 flags, double relVel)
 	return DynamicBody::OnCollision(b, flags, relVel);
 }
 
-void CargoBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void CargoBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform, const Render::Frustum &frustum)
 {
 	if (!IsEnabled()) return;
 	GetLmrObjParams().label = Equip::types[m_type].name;

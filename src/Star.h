@@ -10,7 +10,7 @@ public:
 	Star();
 	virtual ~Star() {};
 
-	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform, const Render::Frustum &frustum);
 };
 
 #endif /* _STAR_H */

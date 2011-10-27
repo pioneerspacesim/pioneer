@@ -11,7 +11,7 @@ Star::Star(SBody *sbody): TerrainBody(sbody)
 	m_hasDoubleFrame = false;
 }
 
-void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform, const Render::Frustum &frustum)
 {
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
@@ -74,7 +74,7 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		Gui::Screen::LeaveOrtho();
 		glDisable(GL_BLEND);
 
-		TerrainBody::Render(viewCoords, viewTransform);
+		TerrainBody::Render(viewCoords, viewTransform, frustum);
 	}
 
 	glPopMatrix();

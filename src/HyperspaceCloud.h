@@ -20,7 +20,7 @@ public:
 	virtual void SetVelocity(vector3d v) { m_vel = v; }
 	virtual vector3d GetVelocity() const { return m_vel; }
 	virtual double GetBoundingRadius() const { return 1200.0; }
-	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform, const Render::Frustum &frustum);
 	virtual void PostLoadFixup();
 	virtual void TimeStepUpdate(const float timeStep);
 	Ship *GetShip() { return m_ship; }

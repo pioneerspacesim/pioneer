@@ -62,7 +62,7 @@ double TerrainBody::GetBoundingRadius() const
 	return m_sbody->GetRadius() * (1.1+m_geosphere->GetMaxFeatureHeight());
 }
 
-void TerrainBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void TerrainBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform, const Render::Frustum &frustum)
 {
 	matrix4x4d ftran = viewTransform;
 	vector3d fpos = viewCoords;
@@ -104,7 +104,7 @@ void TerrainBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTrans
 		campos = campos * (1.0/rad);		// position of camera relative to planet "model"
 
 		// translation not applied until patch render to fix jitter
-		m_geosphere->Render(-campos, m_sbody->GetRadius(), scale);
+		m_geosphere->Render(-campos, frustum, m_sbody->GetRadius(), scale);
 		glTranslated(campos.x, campos.y, campos.z);
 
 		SubRender(campos);

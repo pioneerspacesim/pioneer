@@ -766,7 +766,7 @@ void SpaceStation::NotifyDeleted(const Body* const deletedBody)
 	}
 }
 
-void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform, const Render::Frustum &frustum)
 {
 	LmrObjParams &params = GetLmrObjParams();
 	params.label = GetLabel().c_str();
@@ -794,7 +794,7 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 			if (!m_adjacentCity) {
 				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 			}
-			m_adjacentCity->Render(this, viewCoords, viewTransform);
+			m_adjacentCity->Render(this, viewCoords, viewTransform, frustum);
 		}
 	}
 }
