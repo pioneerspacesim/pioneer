@@ -14,6 +14,8 @@ Alpha 16
     * New "temple" building (#664)
     * Change non-local delivery mission reward calculation so that more urgent
       deliveries get higher rewards (#719)
+    * Ships will now emerge from hyperspace at a point "close" to the source
+      system (#724)
 
   * Fixes
     * Optimise trade ship cargo management (#632)
