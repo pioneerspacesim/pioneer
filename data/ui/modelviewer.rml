@@ -106,6 +106,46 @@
 			{
 				icon-image-t: 96px 128px;
 			}
+
+			gauge {
+				margin: 5px;
+				background-color: rgb(30%, 30%, 30%);
+				display: block;
+				width: 100px;
+				height: 20px;
+				border: 1px solid red;
+			}
+
+			gaugebar {
+				background-color: rgb(50%, 90%, 50%);
+			}
+
+			#health, #mana {
+				display: inline-block;
+				width: 40px;
+				height: 100px;
+				background-color: rgb(10%, 10%, 30%);
+			}
+
+			#health gaugebar {
+				background-color: red;
+			}
+
+			#mana gaugebar {
+				background-color: blue;
+			}
+
+			#foobar {
+				background-decorator: tiled-horizontal;
+				background-left-image: templates/skin.png 0px 192px 8px 224px;
+				background-center-image: templates/skin.png stretch 8px 192px 16px 224px;
+				background-right-image: templates/skin.png 20px 192px 32px 224px;
+			}
+
+			#foobar gaugebar {
+				background-decorator: image;
+				background-image: templates/skin.png 32px 192px 62px 224px;
+			}
 		</style>
 	</head>
 	<body>
@@ -121,6 +161,17 @@
 			<span stash="performance.triangles" /><br />
 			<span stash="performance.dimensions" /><br />
 			<span stash="performance.radius" />
+
+			<div id="horigauges">
+				<gauge value="0.3" id="foobar" /> <!-- default is horizontal right -->
+				<gauge value="0.5" direction="right" />
+				<gauge value="0.3" direction="left" />
+				<gauge value="0.5" direction="left" />
+			</div>
+			<div id="vertigauges">
+				<gauge id="health" value="0.3" direction="up" />
+				<gauge id="mana"   value="0.5" direction="up" />
+			</div>
 		</div>
 		<div id="slidercontainer">
 			<div class="column">
