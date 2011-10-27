@@ -25,7 +25,6 @@ noinst_HEADERS = \
 	DeleteEmitter.h \
 	DynamicBody.h \
 	EquipType.h \
-	EquipTypeEnums.h \
 	FaceVideoLink.h \
 	Font.h \
 	FontManager.h \
@@ -87,9 +86,7 @@ noinst_HEADERS = \
 	PiLuaClasses.h \
 	Planet.h \
 	Player.h \
-	PlayerEnums.h \
 	Polit.h \
-	PolitEnums.h \
 	Projectile.h \
 	Quaternion.h \
 	RefCounted.h \
@@ -110,23 +107,19 @@ noinst_HEADERS = \
 	StringF.h \
 	Sfx.h \
 	Ship.h \
-	ShipEnums.h \
 	ShipAICmd.h \
 	ShipCpanel.h \
 	ShipCpanelMultiFuncDisplays.h \
 	ShipFlavour.h \
 	ShipSpinnerWidget.h \
 	ShipType.h \
-	ShipTypeEnums.h \
 	Sound.h \
 	SoundMusic.h \
 	Space.h \
 	SpaceStation.h \
-	SpaceStationEnums.h \
 	SpaceStationView.h \
 	Star.h \
 	StarSystem.h \
-	StarSystemEnums.h \
 	SystemInfoView.h \
 	SystemPath.h \
 	SystemView.h \
@@ -145,7 +138,8 @@ noinst_HEADERS = \
 	mtrand.h \
 	perlin.h \
 	utils.h \
-	vector3.h
+	vector3.h \
+	enum_table.h
 
 pioneer_SOURCES	= \
 	AmbientSounds.cpp \
@@ -259,7 +253,8 @@ pioneer_SOURCES	= \
 	main.cpp \
 	mtrand.cpp \
 	perlin.cpp \
-	utils.cpp
+	utils.cpp \
+	enum_table.cpp
 
 pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a gui/libgui.a render/librender.a \
 		$(MINGW_LIBS) \
@@ -288,7 +283,9 @@ modelviewer_SOURCES = \
 	TextureManager.cpp \
 	VectorFont.cpp \
 	perlin.cpp \
-	utils.cpp
+	utils.cpp \
+	enum_table.cpp
+
 modelviewer_LDADD = collider/libcollider.a gui/libgui.a render/librender.a \
 		    $(MINGW_LIBS) \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \

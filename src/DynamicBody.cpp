@@ -308,7 +308,7 @@ bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 {
 	double kineticEnergy = 0;
 	if (o->IsType(Object::DYNAMICBODY)) {
-		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * relVel * relVel;
+		kineticEnergy = KINETIC_ENERGY_MULT * static_cast<DynamicBody*>(o)->GetMass() * relVel * relVel;
 	} else {
 		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * relVel * relVel;
 	}

@@ -69,9 +69,11 @@ public:
 	static void Uninit();
 	enum TYPE { JJHOOP, GROUND_FLAVOURED, TYPE_MAX };
 
-	enum Animation {
-#define Animation_ITEM(x) ANIM_##x,
-#include "SpaceStationEnums.h"
+	enum Animation { // <enum scope='SpaceStation' name=SpaceStationAnimation prefix=ANIM_>
+		ANIM_DOCKING_BAY_1,
+		ANIM_DOCKING_BAY_2,
+		ANIM_DOCKING_BAY_3,
+		ANIM_DOCKING_BAY_4,
 	};
 
 	// Should point to SBody in Pi::currentSystem
