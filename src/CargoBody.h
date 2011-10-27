@@ -11,7 +11,7 @@ public:
 	CargoBody(Equip::Type t);
 	CargoBody() {}
 	Equip::Type GetCargoType() const { return m_type; }
-	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform, const Render::Frustum &frustum);
+	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 protected:

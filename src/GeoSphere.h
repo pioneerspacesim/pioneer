@@ -11,17 +11,13 @@ extern int GEOPATCH_EDGELEN;
 #define ATMOSPHERE_RADIUS 1.015
 
 class SBody;
-namespace Render {
-	class Frustum;
-}
-
 class GeoPatch;
 class GeoPatchContext;
 class GeoSphere {
 public:
 	GeoSphere(const SBody *body);
 	~GeoSphere();
-	void Render(vector3d campos, const Render::Frustum &frustum, const float radius, const float scale);
+	void Render(vector3d campos, const float radius, const float scale);
 	inline double GetHeight(vector3d p) {
 		const double h = m_style.GetHeight(p);
 		s_vtxGenCount++;

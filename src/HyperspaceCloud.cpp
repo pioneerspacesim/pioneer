@@ -134,7 +134,7 @@ void HyperspaceCloud::UpdateInterpolatedTransform(double alpha)
 	m_interpolatedTransform[14] = p.z;
 }
 
-void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform, const Render::Frustum &frustum)
+void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	Render::State::UseProgram(Render::simpleShader);
 	glDisable(GL_LIGHTING);

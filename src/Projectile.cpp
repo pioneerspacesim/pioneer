@@ -151,7 +151,7 @@ void Projectile::StaticUpdate(const float timeStep)
 	}
 }
 
-void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform, const Render::Frustum &frustum)
+void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	static GLuint tex;
 	if (!tex) tex = util_load_tex_rgba(PIONEER_DATA_DIR"/textures/laser.png");

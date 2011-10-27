@@ -31,7 +31,7 @@ public:
 	Player() { m_mouseActive = false; }
 	virtual ~Player();
 	void PollControls(const float timeStep);
-	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform, const Render::Frustum &frustum);
+	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void SetDockedWith(SpaceStation *, int port);
 	void StaticUpdate(const float timeStep);
 	enum FlightControlState { CONTROL_MANUAL, CONTROL_FIXSPEED, CONTROL_AUTOPILOT };

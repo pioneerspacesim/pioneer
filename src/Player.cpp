@@ -96,9 +96,9 @@ void Player::SetFlightControlState(enum FlightControlState s)
 	Pi::onPlayerChangeFlightControlState.emit();
 }
 
-void Player::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform, const Render::Frustum &frustum)
+void Player::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	if (!IsDead()) Ship::Render(viewCoords, viewTransform, frustum);
+	if (!IsDead()) Ship::Render(viewCoords, viewTransform);
 }
 
 void Player::SetDockedWith(SpaceStation *s, int port)
