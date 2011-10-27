@@ -40,9 +40,9 @@ FITTING
 REMOVING
     "Usuwam "
 FIT_TO_WHICH_MOUNT
-    Na której wieżyczce zamontować laser?
+    Gdzie zamontować laser?
 REMOVE_FROM_WHICH_MOUNT
-    Z której wieżyczki usunąć laser?
+    Skąd usunąć laser?
 YOU_NOT_ENOUGH_MONEY
     Nie masz dość pieniędzy
 TRADER_NOT_ENOUGH_MONEY
@@ -90,7 +90,7 @@ REVERSE_ACCEL_EMPTY
 REVERSE_ACCEL_LADEN
     Ciąg wsteczny (pełny)
 HYPERDRIVE_FITTED
-    Napęd nadprzestrzenny:
+    Hipernapęd:
 HYPERSPACE_RANGE_LADEN
     Zasięg w nadprzestrzeni (w pełni obciążony):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
@@ -385,23 +385,24 @@ SHIELD_ENERGY_BOOSTER
 SHIELD_ENERGY_BOOSTER_DESCRIPTION
     Zwiększa szybkość regeneracji osłon.
 DRIVE_CLASS1
-    Hipernapęd Klasy 1
+    Napęd Klasy 1
 DRIVE_CLASS2
-    Hipernapęd Klasy 2
+    Napęd Klasy 2
 DRIVE_CLASS3
-    Hipernapęd Klasy 3
+    Napęd Klasy 3
 DRIVE_CLASS4
-    Hipernapęd Klasy 4
+    Napęd Klasy 4
 DRIVE_CLASS5
-    Hipernapęd Klasy 5
+    Napęd Klasy 5
 DRIVE_CLASS6
-    Hipernapęd Klasy 6
+    Napęd Klasy 6
 DRIVE_CLASS7
-    Hipernapęd Klasy 7
+    Napęd Klasy 7
 DRIVE_CLASS8
-    Hipernapęd Klasy 8
+    Napęd Klasy 8
 DRIVE_CLASS9
-    Hipernapęd Klasy 9
+    Napęd Klasy 9
+# Miałeś rację OSH, tak wygląda lepiej.
 DRIVE_MIL1
     Napęd Wojskowy Klasy 1
 DRIVE_MIL2
@@ -463,7 +464,7 @@ CRIMINAL_RECORD
 SHIP_INFORMATION_HEADER
     "INFORMACJE O STATKU: "
 HYPERDRIVE
-    Napęd nadprzestrzenny
+    Hipernapęd
 FREE
     Wolne
 USED
@@ -703,7 +704,7 @@ DISABLED_AUTOMATIC_SYSTEM_SELECTION
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
     Dren paliwowy włączony. Masz %quantity ton wodoru.
 CARGO_BAY_LIFE_SUPPORT_LOST
-    Sensory wykryły krytyczny poziom podtrzymywania życia w ładowni.
+    Czujniki wykryły krytyczny poziom podtrzymywania życia w ładowni.
 NO_FREE_SPACE_FOR_ITEM
     Nie masz na to dość miejsca.
 SHIP_IS_FULLY_LADEN
@@ -721,13 +722,13 @@ NAVIGATION_STAR_MAPS
 COMMS
     Komunikacja
 GALAXY_SECTOR_VIEW
-    Widok sektora galaktyki
+    Sektor galaktyki
 SYSTEM_ORBIT_VIEW
-    Widok systemu orbitalnego
+    System orbitalny
 STAR_SYSTEM_INFORMATION
-    Informacja o systemie słonecznym
+    Informacja o systemie
 GALACTIC_VIEW
-    Widok galaktyki
+    Galaktyka
 NO_ALERT
     Brak alarmu
 SHIP_NEARBY
@@ -937,7 +938,7 @@ EARTH
 SURFACE_GRAVITY
     Grawitacja na powierzchni
 SURFACE_TEMPERATURE
-    Temp. powierzchni
+    Średnia temperatura
 N_CELSIUS
     %temperature C
 N_YEARS
@@ -973,7 +974,7 @@ MINOR_EXPORTS
 ILLEGAL_GOODS
     Towary nielegalne:
 UNEXPLORED_SYSTEM_STAR_INFO_ONLY
-    System niezbadany. Informacje o gwieździe uzyskano przez teleskop, ale brak danych o planetach.
+    System niezbadany. Informacje o gwieździe uzyskano przez teleskop, brak danych o planetach.
 PLANETARY_INFO
     Informacje o planecie
 ECONOMIC_INFO
@@ -1059,7 +1060,7 @@ LAUNCH_PERMISSION_DENIED_BUSY
 HYPERSPACE_JUMP_ABORTED
     Skok w nadprzestrzeń przerwany.
 LANDED
-    Ląduje
+    Wylądował
 DOCKING
     Dokuje
 DOCKED
@@ -1107,7 +1108,7 @@ NAVIGATION_TARGETS_IN_THIS_SYSTEM
 YOU_NO_MONEY
     Nie masz pieniędzy.
 FINE_PAID_N_BUT_N_REMAINING
-    Zapłaciłeś %paid lecz wciąż jesteś winien %fine.
+    Zapłaciłeś %paid kary, lecz wciąż jesteś winien %fine.
 FINE_PAID_N
     Przelełeś na konto policji %fine.
 SET_HYPERSPACE_DESTINATION_TO
@@ -1119,7 +1120,7 @@ REQUEST_DOCKING_CLEARANCE
 AUTOPILOT_DOCK_WITH_STATION
     Autopilot: Dokuj na stacji
 PAY_FINE_REMOTELY
-    Zapłać przelewem (%amount)
+    Zapłać przelewem %amount kary.
 AUTOPILOT_FLY_TO_VICINITY_OF
     Autopilot: Leć w pobliże %target
 AUTOPILOT_ENTER_LOW_ORBIT_AROUND
