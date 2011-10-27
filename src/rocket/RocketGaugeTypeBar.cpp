@@ -1,5 +1,6 @@
 #include "RocketGaugeTypeBar.h"
 #include "RocketGaugeElement.h"
+#include "Rocket/Core.h"
 
 RocketGaugeTypeBar::RocketGaugeTypeBar(RocketGaugeElement *el) : RocketGaugeType(el)
 {
@@ -62,6 +63,14 @@ bool RocketGaugeTypeBar::OnAttributeChange(const Rocket::Core::AttributeNameList
 	//has orientation changed? update & dirty
 
 	return dirty_layout;
+}
+
+void RocketGaugeTypeBar::ProcessEvent(Rocket::Core::Event& event)
+{
+	if (event == "resize" && event.GetTargetElement() == parent) {
+		Rocket::Core::Vector2f box = parent->GetBox().GetSize();
+		FormatElements(box, orientation == VERTICAL ? box.y : box.x);
+	}
 }
 
 bool RocketGaugeTypeBar::GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions)

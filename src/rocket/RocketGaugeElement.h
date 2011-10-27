@@ -26,7 +26,7 @@ protected:
 	virtual void OnRender();
 	virtual void OnAttributeChange(const Rocket::Core::AttributeNameList& changedAttributes);
 	virtual void OnPropertyChange(const Rocket::Core::PropertyNameList& changedProperties);
-
+	virtual void ProcessEvent(Rocket::Core::Event& ev);
 	virtual bool GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions);
 
 	float m_value; //the actual gauge value

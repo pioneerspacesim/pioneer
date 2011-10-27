@@ -19,7 +19,9 @@ public:
 	virtual void OnRender();
 	virtual bool OnAttributeChange(const Rocket::Core::AttributeNameList& changedAttributes);
 	virtual void OnPropertyChange(const Rocket::Core::PropertyNameList& changedProperties);
+	virtual void ProcessEvent(Rocket::Core::Event& event) = 0;
 	virtual bool GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions) = 0;
+
 protected:
 	RocketGaugeElement* parent;
 };

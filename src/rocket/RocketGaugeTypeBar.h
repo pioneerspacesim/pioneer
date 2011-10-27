@@ -20,7 +20,9 @@ public:
 	virtual void OnUpdate();
 	virtual void OnRender();
 	virtual bool OnAttributeChange(const Rocket::Core::AttributeNameList& changedAttributes);
+	virtual void ProcessEvent(Rocket::Core::Event& event);
 	virtual bool GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions);
+
 protected:
 	void FormatElements(const Rocket::Core::Vector2f& containingBlock, float length);
 

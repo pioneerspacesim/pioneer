@@ -82,6 +82,20 @@ void RocketGaugeElement::OnAttributeChange(const Rocket::Core::AttributeNameList
 		DirtyLayout();
 }
 
+void RocketGaugeElement::OnPropertyChange(const Rocket::Core::PropertyNameList& changedProperties)
+{
+	Rocket::Core::Element::OnPropertyChange(changedProperties);
+
+	if (type != 0)
+		type->OnPropertyChange(changedProperties);
+}
+
+void RocketGaugeElement::ProcessEvent(Rocket::Core::Event& ev)
+{
+	Rocket::Core::Element::ProcessEvent(ev);
+	type->ProcessEvent(ev);
+}
+
 bool RocketGaugeElement::GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions)
 {
 	return false;
