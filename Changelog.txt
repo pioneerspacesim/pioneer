@@ -36,6 +36,8 @@ Alpha 16
       starports (#728)
     * Determine damaged caused by collision between two ships using the other
       ship's mass, not our own (#732, #733)
+    * Missile collisions will no longer cause damage (the explosion will
+      though) (#734)
   
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
