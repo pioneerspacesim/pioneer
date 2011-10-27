@@ -266,3 +266,90 @@ Translate:Add({ Deutsch = {
 	["You do not have a drive to service!"] = "Sie haben keine Hyperraumantrieb zu pflegen!",
 	["The ship's hyperdrive has been destroyed by a malfunction"] = "Der Hyperraumantrieb des Schiffs hat durch eine Fehlfunktion zerstört worden",
 }, })
+
+---- DUTCH / NEDERLANDS ----
+
+Translate:AddFlavour('Nederlands','BreakdownServicing', {
+   	title = "{name} Motor-service B.V.",
+		intro = [[Vermijdt het ongemak van een kapotte hyperaandrijving!  Laat de uwe vandaag nog onderhouden door de officieël erkende {name} Motor-service B.V.
+
+Hyperaandrijving: {drive}
+Servicebeurt: {price}
+Garantie: 18 maanden
+{lasttime}]],
+		yesplease = "Ik wil een servicebeurt",
+		response = "Uw hyperaandrijving heeft een servicebeurt gekregen.",
+		strength = 1.5,
+		baseprice = 6,
+})
+  
+Translate:AddFlavour('Nederlands','BreakdownServicing',{
+		title = "{proprietor}: Hyperaandrijving onderhouds-specialist",
+		intro = [[Ik ben {proprietor}.  Ik kan uw {drive} onderhouden, zodat deze er minstens een jaar tegenaan kan! De kosten bedragen {price}
+{lasttime}]],
+		yesplease = "Geef mijn hyperaandrijving een servicebeurt",
+		response = "Ik heb uw hyperaandrijving een beurt gegeven.",
+		strength = 1.2, -- Minstens een jaar... verborgen bonus!
+		baseprice = 4,
+})
+  
+Translate:AddFlavour('Nederlands','BreakdownServicing',{
+		title = "{proprietor} & Co. HyperMonteurs",
+		intro = [[Hallo.  Wij van {proprietor} & Co. zetten onze reputatie in op de kwaliteit van ons werk!
+
+{lasttime}
+We kunnen uw {drive} een onderhoudsbeurt geven, waarna we 12 maanden dienst garanderen.  De kosten bedragen {price}. Ik zal het werk zelf overzien om de kwaliteit te bewaken!]],
+		yesplease = "Geeft u mijn hyperaandrijving alstublieft een beurt tegen de genoemde prijs",
+		response = "Service voltooid.  Bedankt voor uw klanditie.",
+		strength = 1.0,
+		baseprice = 3,
+})
+  
+Translate:AddFlavour('Nederlands','BreakdownServicing',{
+		title = "SuperFix Onderhoud (afdeling {name})",
+		intro = [[Welkom bij SuperFix Onderhoud.
+
+{lasttime}
+Tijd voor uw half-jaarlijkse onderhoudsbeurt?  Laat ons uw hyperaandrijving SuperFixen!
+We kunnen uw {drive} onderhouden voor slechts {price}.  Niemand is goedkoper!]],
+		yesplease = "Geef me een SuperFix!",
+		response = "Uw SuperFix-service is voltooid, met een SuperFix-garantie!",
+		strength = 0.5,
+		baseprice = 2,
+})
+  
+Translate:AddFlavour('Nederlands','BreakdownServicing',{
+		title = "Tijd en Ruimte Motoren, B.V.",
+		intro = [[Welkom bij Tijd en Ruimte.
+		
+Wij specialiseren ons in interstellaire aandrijf-systemen. Op al ons onderhoudswerk zit een garantie van twee jaar.
+
+{lasttime}
+Het onderhoud aan uw {drive} kost {price}.  Wilt u doorgaan?]],
+		yesplease = "Ja, gaat u alstublieft aan de slag",
+		response = "We hebben het werk aan uw hyperaandrijving voltooid.",
+		strength = 2.1, -- zeer goede service van deze gasten.
+		baseprice = 10,
+})
+
+Translate:AddFlavour('Nederlands','BreakdownServicing',{
+		title = "{proprietor} Motor-service B.V.",
+		intro = [[Vermijdt het ongemak van een kapotte hyperaandrijving!  Laat de uwe vandaag nog nalopen!
+
+Hyperaandrijving: {drive}
+Servicebeurt: {price}
+{lasttime}]],
+		yesplease = "Ik wil een servicebeurt",
+		response = "Uw hyperaandrijving heeft een servicebeurt gekregen.",
+		strength = 0.0, -- Deze heren geven zeer slechte service
+		baseprice = 1.8,
+})
+	
+Translate:Add({ Nederlands = {
+  ["I don't have enough money"] = "Ik heb niet genoeg geld",
+  ["Manufacturer's warranty"] = "Fabrieksgarantie",
+  ["Your drive was last serviced on {date} by {company}"] = "Uw aandrijving is het laatst onderhouden op {date} door {company}",
+  ["Your drive has not been serviced since it was installed on {date}"] = "Uw aandrijving heeft geen onderhoud gekregen sinds deze werd geïnstalleerd op {date}",
+  ["You do not have a drive to service!"] = "Uw heeft geen aandrijving om onderhoud op te plegen!",
+  ["The ship's hyperdrive has been destroyed by a malfunction"] = "De hyperaandrijving van het schip is vernietigd door een defect",
+}, })
