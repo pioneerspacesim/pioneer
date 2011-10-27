@@ -110,7 +110,7 @@ void RocketGaugeElement::ProcessEvent(Rocket::Core::Event& ev)
 
 bool RocketGaugeElement::GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions)
 {
-	return false;
+	return type->GetIntrinsicDimensions(dimensions);
 }
 
 class RocketGaugeElementInstancer : public Rocket::Core::ElementInstancer {

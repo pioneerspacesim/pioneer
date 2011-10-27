@@ -47,7 +47,6 @@ bool RocketGaugeTypeBar::OnAttributeChange(const Rocket::Core::AttributeNameList
 
 	//has orientation changed? update & dirty
 	if (changedAttributes.find("direction") != changedAttributes.end()) {
-		printf("Dir has changed\n");
 		Rocket::Core::String dirstr = parent->GetAttribute< Rocket::Core::String >("direction", "right");
 		Direction newdir = RIGHT;
 		if (dirstr == "left")
@@ -80,11 +79,11 @@ void RocketGaugeTypeBar::ProcessEvent(Rocket::Core::Event& event)
 bool RocketGaugeTypeBar::GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions)
 {
 	if (direction == RIGHT || direction == LEFT) {
-		dimensions.x = 100.f;
-		dimensions.y = 50.f;
+		dimensions.x = 256.f;
+		dimensions.y = 16.f;
 	} else {
-		dimensions.x = 50.f;
-		dimensions.y = 100.f;
+		dimensions.x = 16.f;
+		dimensions.y = 256.f;
 	}
 	return true;
 }
