@@ -453,28 +453,35 @@ static int l_ship_get_equip_slot_capacity(lua_State *l)
 static int l_ship_get_equip(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
+	const char *slotName = luaL_checkstring(l, 2);
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", slotName));
 
 	int size = s->m_equipment.GetSlotSize(slot);
-	if (size == 0)
-		return 0;
-	
+
 	if (lua_isnumber(l, 3)) {
-		int idx = lua_tointeger(l, 3);
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", s->m_equipment.Get(slot, idx-1)));
+		// 2-argument version; returns the item in the specified slot index
+		int idx = lua_tointeger(l, 3) - 1;
+		if (idx >= size || idx < 0) {
+			pi_lua_warn(l,
+				"argument out of range: Ship{%s}:GetEquip('%s', %d)",
+				s->GetLabel().c_str(), slotName, idx);
+		}
+		Equip::Type e = (idx >= 0) ? s->m_equipment.Get(slot, idx) : Equip::NONE;
+		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", e));
+		return 1;
+	} else {
+		// 1-argument version; returns table of equipment items
+		lua_newtable(l);
+		pi_lua_table_ro(l);
+
+		for (int idx = 0; idx < size; idx++) {
+			lua_pushinteger(l, idx+1);
+			lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", s->m_equipment.Get(slot, idx)));
+			lua_rawset(l, -3);
+		}
+
 		return 1;
 	}
-
-	lua_newtable(l);
-	pi_lua_table_ro(l);
-
-	for (int idx = 0; idx < size; idx++) {
-		lua_pushinteger(l, idx+1);
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", s->m_equipment.Get(slot, idx)));
-		lua_rawset(l, -3);
-	}
-
-	return 1;
 }
 
 /*
