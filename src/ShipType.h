@@ -148,11 +148,7 @@ public:
 		return num;
 	}
 	int FreeSpace(Equip::Slot s) const {
-		int free = 0;
-		for (unsigned int i=0; i<equip[s].size(); i++) {
-			if (equip[s][i] == Equip::NONE) free++;
-		}
-		return free;
+		return Count(s, Equip::NONE);
 	}
 
 	sigc::signal<void,Equip::Type> onChange;
