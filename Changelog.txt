@@ -16,6 +16,7 @@ Alpha 16
       deliveries get higher rewards (#719)
     * Ships will now emerge from hyperspace at a point "close" to the source
       system (#724)
+    * Jump duration estimate in sector view shown in days + hours (#738)
 
   * Fixes
     * Optimise trade ship cargo management (#632)
