@@ -686,7 +686,9 @@ NOT_FOUND_BEST_MATCH_X
 NOT_FOUND
     Niet gevonden
 NUMBER_HOURS
-    %hours{f.2} uur
+    %hours{f.1} uur
+NUMBER_DAYS
+    %days{f.0} days
 QUADRUPLE_SYSTEM
     Viervoudig systeem
 TRIPLE_SYSTEM
