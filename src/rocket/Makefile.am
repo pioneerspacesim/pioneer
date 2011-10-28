@@ -8,6 +8,9 @@ noinst_LIBRARIES = librocket.a
 noinst_HEADERS = \
 	RocketCameraElement.h \
 	RocketFaceElement.h \
+	RocketGaugeElement.h \
+	RocketGaugeType.h \
+	RocketGaugeTypeBar.h \
 	RocketShipSpinnerElement.h \
 	RocketManager.h \
 	RocketStash.h \
@@ -16,6 +19,9 @@ noinst_HEADERS = \
 librocket_a_SOURCES = \
 	RocketCameraElement.cpp \
 	RocketFaceElement.cpp \
+	RocketGaugeElement.cpp \
+	RocketGaugeType.cpp \
+	RocketGaugeTypeBar.cpp \
 	RocketShipSpinnerElement.cpp \
 	RocketManager.cpp \
 	RocketStash.cpp \
