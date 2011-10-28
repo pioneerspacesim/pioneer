@@ -533,15 +533,15 @@ Character = {
 --   experimental
 --
 	RollNew = function (self,crew)
-		self.luck = Character.DiceRoll()
-		self.charisma = Character.DiceRoll()
-		self.notoriety = Character.DiceRoll()
-		self.lawfulness = Character.DiceRoll()
+		self.luck = self.DiceRoll()
+		self.charisma = self.DiceRoll()
+		self.notoriety = self.DiceRoll()
+		self.lawfulness = self.DiceRoll()
 		if crew then
-			self.engineering = Character.DiceRoll()
-			self.piloting = Character.DiceRoll()
-			self.navigation = Character.DiceRoll()
-			self.sensors = Character.DiceRoll()
+			self.engineering = self.DiceRoll()
+			self.piloting = self.DiceRoll()
+			self.navigation = self.DiceRoll()
+			self.sensors = self.DiceRoll()
 		end
 	end,
 
@@ -583,7 +583,7 @@ Character = {
 		local modifier = modifier or 0
 		if type(modifier) ~= 'number' then error('TestRoll(): modifier must be numeric') end
 		if self[attribute] and (type(self[attribute])=='number') then
-			local result = Character.DiceRoll()
+			local result = self.DiceRoll()
 			if result < 9 then -- punish critical failure
 				self[attribute] = self[attribute] - 1
 				modifier = modifier + 1 -- don't affect *this* result
@@ -631,7 +631,7 @@ Character = {
 		local modifier = modifier or 0
 		if type(modifier) ~= 'number' then error('SafeRoll(): modifier must be numeric') end
 		if self[attribute] and (type(self[attribute])=='number') then
-			return (Character.DiceRoll() < (self[attribute] + modifier))
+			return (self.DiceRoll() < (self[attribute] + modifier))
 		else
 			return false
 		end
