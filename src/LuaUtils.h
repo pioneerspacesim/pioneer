@@ -9,6 +9,8 @@ extern "C" {
 #include "lua/lualib.h"
 }
 
+#include "utils.h"
+
 inline void pi_lua_settable(lua_State *l, const char *key, int value)
 {
 	lua_pushstring(l, key);
@@ -53,8 +55,9 @@ inline void pi_lua_settable(lua_State *l, const char *key, const char *value)
 
 void pi_lua_table_ro(lua_State *l);
 
-int  pi_lua_panic(lua_State *l);
-void pi_lua_dofile_recursive(lua_State *l, std::string basepath);
+int  pi_lua_panic(lua_State *l) __attribute((noreturn));
+void pi_lua_protected_call(lua_State* state, int nargs, int nresults);
+void pi_lua_dofile_recursive(lua_State *l, const std::string &basepath);
 int  pi_load_lua(lua_State *l);
 	
 #ifdef DEBUG

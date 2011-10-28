@@ -93,6 +93,14 @@ void ScrollBar::GetSizeRequested(float size[2])
 	}
 }
 
+void ScrollBar::GetMinimumSize(float size[2])
+{
+	// who knows what the minimum size size is. odds are good that we're next
+	// to a VScrollPortal which will provide a sane minimum size and the
+	// container will sort out the rest
+	size[0] = size[1] = SCROLLBAR_SIZE;
+}
+
 void HScale::Draw()
 {
 	float size[2]; GetSize(size);

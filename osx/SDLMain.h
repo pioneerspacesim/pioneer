@@ -1,16 +1,17 @@
-/*   SDLMain.m - main entry point for our Cocoa-ized SDL app
-       Initial Version: Darrell Walisser <dwaliss1@purdue.edu>
-       Non-NIB-Code & other changes: Max Horn <max@quendi.de>
-
-    Feel free to customize this file to suit your needs
-*/
-
-#ifndef _SDLMain_h_
-#define _SDLMain_h_
+//
+// Objective-C cocoa wrapper for pioneer
 
 #import <Cocoa/Cocoa.h>
 
-@interface SDLMain : NSObject
+@interface SDLMain : NSObject {
+}
+
+- (IBAction)openURL:(id)sender;
+- (IBAction)openFile:(id)sender;
+- (IBAction)openAboutPanel:(id)sender;
+
 @end
 
-#endif /* _SDLMain_h_ */
+@interface SDLApplication : NSApplication
+- (IBAction) terminate:(id)sender;
+@end

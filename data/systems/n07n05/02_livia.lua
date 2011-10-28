@@ -1,1 +1,0 @@
-CustomSystem:new("Livia",{'STAR_M', 'WHITE_DWARF'}):add_to_sector(-7,-5,v(0.144,0.623,0.528))

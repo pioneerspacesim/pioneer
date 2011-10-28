@@ -1,1 +1,0 @@
-CustomSystem:new("V 371 Ori",{'STAR_M'}):add_to_sector(5,2,v(0.969,0.678,-0.768))

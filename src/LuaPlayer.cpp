@@ -1,5 +1,6 @@
 #include "LuaPlayer.h"
-#include "LuaSBodyPath.h"
+#include "LuaSystemPath.h"
+#include "LuaBody.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "Player.h"
@@ -37,7 +38,7 @@ static void _mission_to_table(lua_State *l, const Mission &m)
 	lua_rawset(l, -3);
 
 	lua_pushstring(l, "location");
-	LuaSBodyPath::PushToLuaGC(new SBodyPath(m.location));
+	LuaSystemPath::PushToLuaGC(new SystemPath(m.location));
 	lua_rawset(l, -3);
 
 	lua_pushstring(l, "status");
@@ -75,7 +76,7 @@ static void _table_to_mission(lua_State *l, Mission &m, bool create)
 
 	lua_getfield(l, -1, "location");
 	if (create || !lua_isnil(l, -1)) {
-		SBodyPath *sbody = LuaSBodyPath::GetFromLua(-1);
+		SystemPath *sbody = LuaSystemPath::GetFromLua(-1);
 		m.location = *sbody;
 	}
 	lua_pop(l, 1);
@@ -372,11 +373,13 @@ static int l_player_add_money(lua_State *l)
  *
  * Add a crime to the player's criminal record
  *
- * > player:AddCrime(crime)
+ * > player:AddCrime(crime, fine)
  *
  * Parameters:
  *
  *   crime - a <Constants.PolitCrime> string describing the crime
+ *
+ *   fine - an amount to add to the player's fine
  *
  * Availability:
  *
@@ -388,11 +391,121 @@ static int l_player_add_money(lua_State *l)
  */
 static int l_player_add_crime(lua_State *l)
 {
-	Player *p = LuaPlayer::GetFromLua(1);
+	LuaPlayer::GetFromLua(1); // check that the method is being called on a Player object
 	Sint64 crimeBitset = LuaConstants::GetConstant(l, "PolitCrime", luaL_checkstring(l, 2));
-	double fine = Sint64(luaL_checknumber(l, 3) * 100.0);
+	Sint64 fine = Sint64(luaL_checknumber(l, 3) * 100.0);
 	Polit::AddCrime(crimeBitset, fine);
 	return 0;
+}
+
+/*
+ * Method: GetNavTarget
+ *
+ * Get the player's navigation target
+ *
+ * > target = player:GetNavTarget()
+ *
+ * Return:
+ *
+ *   target - nil, or a <Body>
+ * 
+ * Availability:
+ * 
+ *   alpha 15
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+static int l_get_nav_target(lua_State *l)
+{
+	Player *p = LuaPlayer::GetFromLua(1);
+	LuaBody::PushToLua(p->GetNavTarget());
+	return 1;
+}
+
+/*
+ * Method: SetNavTarget
+ *
+ * Set the player's navigation target
+ *
+ * > player:SetNavTarget(target)
+ *
+ * Parameters:
+ *
+ *   target - a <Body> to which to set the navigation target
+ * 
+ * Availability:
+ * 
+ *   alpha 14
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+static int l_set_nav_target(lua_State *l)
+{
+	Player *p = LuaPlayer::GetFromLua(1);
+	Body *target = LuaBody::GetFromLua(2);
+    p->SetNavTarget(target);
+    return 0;
+}
+
+/*
+ * Method: GetCombatTarget
+ *
+ * Get the player's combat target
+ *
+ * > target = player:GetCombatTarget()
+ *
+ * Return:
+ *
+ *   target - nil, or a <Body>
+ * 
+ * Availability:
+ * 
+ *   alpha 15
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+static int l_get_combat_target(lua_State *l)
+{
+	Player *p = LuaPlayer::GetFromLua(1);
+	LuaBody::PushToLua(p->GetCombatTarget());
+	return 1;
+}
+
+/*
+ * Method: SetCombatTarget
+ *
+ * Set the player's combat target
+ *
+ * > player:SetCombatTarget(target)
+ *
+ * Parameters:
+ *
+ *   target - a <Body> to which to set the combat target
+ * 
+ * Availability:
+ * 
+ *   alpha 14
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+static int l_set_combat_target(lua_State *l)
+{
+	Player *p = LuaPlayer::GetFromLua(1);
+	Body *target = LuaBody::GetFromLua(2);
+    p->SetCombatTarget(target);
+    return 0;
 }
 
 static bool promotion_test(DeleteEmitter *o)
@@ -418,7 +531,12 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "SetMoney", l_player_set_money },
 		{ "AddMoney", l_player_add_money },
 
-		{ "AddCrime",      l_player_add_crime      },
+		{ "AddCrime",      l_player_add_crime },
+
+		{ "GetNavTarget",    l_get_nav_target    },
+		{ "SetNavTarget",    l_set_nav_target    },
+		{ "GetCombatTarget", l_get_combat_target },
+		{ "SetCombatTarget", l_set_combat_target },
 		{ 0, 0 }
 	};
 

@@ -3,7 +3,6 @@
 
 namespace Gui {
 
-TextureFont *Screen::font;
 bool Screen::initted = false;
 int Screen::width;
 int Screen::height;
@@ -20,6 +19,9 @@ GLdouble Screen::projMatrix[16];
 GLint Screen::viewport[4];
 
 FontManager Screen::s_fontManager;
+std::stack<TextureFont*> Screen::s_fontStack;
+TextureFont *Screen::s_defaultFont;
+
 
 void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 {
@@ -35,10 +37,17 @@ void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 	// coords must be scaled.
 	Screen::fontScale[0] = ui_width / float(real_width);
 	Screen::fontScale[1] = ui_height / float(real_height);
-	Screen::font = s_fontManager.GetTextureFont("GuiFont");
+    s_defaultFont = s_fontManager.GetTextureFont("GuiFont");
+    PushFont(s_defaultFont);
 	Screen::baseContainer = new Gui::Fixed();
 	Screen::baseContainer->SetSize(float(Screen::width), float(Screen::height));
 	Screen::baseContainer->Show();
+}
+
+void Screen::Uninit()
+{
+	Screen::baseContainer->RemoveAllChildren();		// children deleted elsewhere?
+	delete Screen::baseContainer;
 }
 
 static sigc::connection _focusedWidgetOnDelete;
@@ -47,15 +56,24 @@ void Screen::OnDeleteFocusedWidget()
 {
 	_focusedWidgetOnDelete.disconnect();
 	focusedWidget = 0;
+	SDL_EnableKeyRepeat(0, 0); // disable key repeat
 }
 
-void Screen::SetFocused(Widget *w)
+void Screen::SetFocused(Widget *w, bool enableKeyRepeat)
 {
-	if (focusedWidget) {
-		_focusedWidgetOnDelete.disconnect();
-	}
+	ClearFocus();
+	if (enableKeyRepeat)
+		SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 	_focusedWidgetOnDelete = w->onDelete.connect(sigc::ptr_fun(&Screen::OnDeleteFocusedWidget));
 	focusedWidget = w;
+}
+
+void Screen::ClearFocus()
+{
+	if (!focusedWidget) return;
+	_focusedWidgetOnDelete.disconnect();
+	focusedWidget = 0;
+	SDL_EnableKeyRepeat(0, 0); // disable key repeat
 }
 
 void Screen::ShowBadError(const char *msg)
@@ -63,7 +81,7 @@ void Screen::ShowBadError(const char *msg)
 	fprintf(stderr, "%s", msg);
 	baseContainer->HideChildren();
 	
-	Gui::Fixed *f = new Gui::Fixed(6*GetWidth()/8, 6*GetHeight()/8);
+	Gui::Fixed *f = new Gui::Fixed(6*GetWidth()/8.0f, 6*GetHeight()/8.0f);
 	Gui::Screen::AddBaseWidget(f, GetWidth()/8, GetHeight()/8);
 	f->SetTransparency(false);
 	f->SetBgColor(0.4,0,0,1.0);
@@ -71,7 +89,7 @@ void Screen::ShowBadError(const char *msg)
 
 	Gui::Button *okButton = new Gui::LabelButton(new Gui::Label("Ok"));
 	okButton->SetShortcut(SDLK_RETURN, KMOD_NONE);
-	f->Add(okButton, 10, 6*GetHeight()/8 - 32);
+	f->Add(okButton, 10.0f, 6*GetHeight()/8.0f - 32);
 	f->ShowAll();
 	f->Show();
 
@@ -185,32 +203,67 @@ void Screen::OnClick(SDL_MouseButtonEvent *e)
 
 void Screen::OnKeyDown(const SDL_keysym *sym)
 {
+	if (focusedWidget) {
+		bool accepted = focusedWidget->OnKeyPress(sym);
+		// don't check shortcuts if the focused widget accepted the key-press
+		if (accepted)
+			return;
+	}
 	for (std::list<Widget*>::iterator i = kbshortcut_widgets.begin(); i != kbshortcut_widgets.end(); ++i) {
 		if (!(*i)->IsVisible()) continue;
 		if (!(*i)->GetEnabled()) continue;
 		(*i)->OnPreShortcut(sym);
 	}
-	if (focusedWidget) focusedWidget->OnKeyPress(sym);
 }
 
 void Screen::OnKeyUp(const SDL_keysym *sym)
 {
 }
 
-float Screen::GetFontHeight()
+float Screen::GetFontHeight(TextureFont *font)
 {
+    if (!font) font = GetFont();
+
 	return font->GetHeight() * fontScale[1];
 }
 
-void Screen::MeasureString(const std::string &s, float &w, float &h)
+void Screen::MeasureString(const std::string &s, float &w, float &h, TextureFont *font)
 {
+	if (!font) font = GetFont();
+	assert(font);
+
 	font->MeasureString(s.c_str(), w, h);
 	w *= fontScale[0];
 	h *= fontScale[1];
 }
 
-void Screen::RenderString(const std::string &s, float xoff, float yoff)
+void Screen::MeasureCharacterPos(const std::string &s, int charIndex, float &x, float &y, TextureFont *font)
 {
+	assert((charIndex >= 0) && (charIndex <= int(s.size())));
+
+	if (!font) font = GetFont();
+	assert(font);
+
+	font->MeasureCharacterPos(s.c_str(), charIndex, x, y);
+	x *= fontScale[0];
+	y *= fontScale[1];
+}
+
+int Screen::PickCharacterInString(const std::string &s, float x, float y, TextureFont *font)
+{
+	if (!font) font = GetFont();
+	assert(font);
+
+	x /= fontScale[0];
+	y /= fontScale[1];
+
+	return font->PickCharacter(s.c_str(), x, y);
+}
+
+void Screen::RenderString(const std::string &s, float xoff, float yoff, TextureFont *font)
+{
+    if (!font) font = GetFont();
+
 	GLdouble modelMatrix_[16];
 	glPushMatrix();
 	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix_);
@@ -224,8 +277,10 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff)
 	glPopMatrix();
 }
 
-void Screen::RenderMarkup(const std::string &s)
+void Screen::RenderMarkup(const std::string &s, TextureFont *font)
 {
+    if (!font) font = GetFont();
+
 	GLdouble modelMatrix_[16];
 	glPushMatrix();
 	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix_);

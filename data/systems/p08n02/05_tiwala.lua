@@ -1,1 +1,0 @@
-CustomSystem:new("Tiwala",{'STAR_M'}):add_to_sector(8,-2,v(0.760,0.798,1.097))

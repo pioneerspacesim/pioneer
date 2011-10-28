@@ -1,1 +1,0 @@
-CustomSystem:new("Medusa",{'STAR_F', 'STAR_M'}):add_to_sector(-5,-8,v(0.275,0.974,0.856))

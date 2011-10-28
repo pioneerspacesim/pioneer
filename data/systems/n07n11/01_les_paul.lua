@@ -1,1 +1,0 @@
-CustomSystem:new("Les Paul",{'STAR_K'}):add_to_sector(-7,-11,v(0.344,0.788,0.615))

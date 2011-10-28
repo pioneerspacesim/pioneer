@@ -1,1 +1,0 @@
-CustomSystem:new("Delta Velorum",{'STAR_A'}):add_to_sector(0,7,v(0.421,0.485,-0.276))

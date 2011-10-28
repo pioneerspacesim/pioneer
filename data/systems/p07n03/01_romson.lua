@@ -1,1 +1,0 @@
-CustomSystem:new("Romson",{'STAR_K'}):add_to_sector(7,-3,v(0.948,0.055,0.218))

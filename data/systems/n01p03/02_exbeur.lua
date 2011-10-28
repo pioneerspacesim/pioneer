@@ -1,1 +1,0 @@
-CustomSystem:new("Exbeur",{'STAR_K'}):add_to_sector(-1,3,v(0.050,0.096,-0.708))

@@ -44,6 +44,7 @@ private:
 	ScannerWidget *m_scanner;
 	MsgLogWidget *m_msglog;
 	UseEquipWidget *m_useEquipWidget;
+	Gui::RadioGroup *m_leftButtonGroup, *m_rightButtonGroup;
 	Gui::ImageRadioButton *m_timeAccelButtons[6];
 	Gui::Widget *m_mapViewButtons[4];
 	Gui::Image *m_alertLights[3];

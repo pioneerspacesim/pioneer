@@ -17,7 +17,7 @@ struct citybuilding_t {
 	const LmrCollMesh *collMesh;
 };
 
-#define MAX_BUILDING_LISTS 3
+#define MAX_BUILDING_LISTS 1
 struct citybuildinglist_t {
 	const char *modelTagName;
 	double minRadius, maxRadius;
@@ -27,8 +27,8 @@ struct citybuildinglist_t {
 
 citybuildinglist_t s_buildingLists[MAX_BUILDING_LISTS] = {
 	{ "city_building", 800, 2000, 0, NULL },
-	{ "city_power", 100, 250, 0, NULL },
-	{ "city_starport_building", 300, 400, 0, NULL },
+	//{ "city_power", 100, 250, 0, NULL },
+	//{ "city_starport_building", 300, 400, 0, NULL },
 };
 
 #define CITYFLAVOURS 5
@@ -93,7 +93,7 @@ always_divide:
 		cent = cent.Normalized();
 		double height = m_planet->GetTerrainHeight(cent);
 		/* don't position below sealevel! */
-		if (height - m_planet->GetSBody()->GetRadius() == 0.0) return;
+		if (height - m_planet->GetSBody()->GetRadius() <= 0.0) return;
 		cent = cent * height;
 
 		Geom *geom = new Geom(cmesh->geomTree);
@@ -170,6 +170,16 @@ void CityOnPlanet::Init()
 	}
 }
 
+void CityOnPlanet::Uninit()
+{
+	for (int list=0; list<MAX_BUILDING_LISTS; list++) {
+		for (int build=0; build<s_buildingLists[list].numBuildings; build++) {
+			delete s_buildingLists[list].buildings[build].collMesh;
+		}
+		delete[] s_buildingLists[list].buildings;
+	}
+}
+
 CityOnPlanet::~CityOnPlanet()
 {
 	// frame may be null (already removed from 
@@ -213,12 +223,12 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	double sizez = START_SEG_SIZE;// + rand.Int32((int)START_SEG_SIZE);
 	
 	// always have random shipyard buildings around the space station
-	cityflavour[0].buildingListIdx = 2;
+	cityflavour[0].buildingListIdx = 0;//2;
 	cityflavour[0].center = p;
 	cityflavour[0].size = 500;
 
 	for (int i=1; i<CITYFLAVOURS; i++) {
-		cityflavour[i].buildingListIdx = rand.Int32(MAX_BUILDING_LISTS-1);
+		cityflavour[i].buildingListIdx = MAX_BUILDING_LISTS>1 ? rand.Int32(MAX_BUILDING_LISTS-1) : 0;
 		citybuildinglist_t *blist = &s_buildingLists[cityflavour[i].buildingListIdx];
 		double a = rand.Int32(-1000,1000);
 		double b = rand.Int32(-1000,1000);
@@ -256,7 +266,6 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 				break;
 		}
 
-		vector3d center = (p1+p2+p3+p4)*0.25;
 		PutCityBit(rand, m, p1, p2, p3, p4);
 	}
 	AddStaticGeomsToCollisionSpace();
@@ -279,14 +288,9 @@ void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoord
 	}
 
 	GetFrustum(planes);
-	
-	memset(&cityobj_params, 0, sizeof(LmrObjParams));
-	// this fucking rubbish needs to be moved into a function
-	cityobj_params.argDoubles[1] = Pi::GetGameTime();
-	cityobj_params.argDoubles[2] = Pi::GetGameTime() / 60.0;
-	cityobj_params.argDoubles[3] = Pi::GetGameTime() / 3600.0;
-	cityobj_params.argDoubles[4] = Pi::GetGameTime() / (24*3600.0);
 
+	memset(&cityobj_params, 0, sizeof(LmrObjParams));
+	cityobj_params.time = Pi::GetGameTime();
 
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
 			i != m_buildings.end(); ++i) {

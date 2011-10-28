@@ -1,1 +1,0 @@
-CustomSystem:new("Kappa Phoenicus",{'STAR_A'}):add_to_sector(-2,5,v(0.264,0.146,-0.510))

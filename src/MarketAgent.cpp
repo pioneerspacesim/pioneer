@@ -2,6 +2,7 @@
 #include "Serializer.h"
 #include "Player.h"
 #include "Pi.h"
+#include "Lang.h"
 
 void MarketAgent::Load(Serializer::Reader &rd)
 {
@@ -35,9 +36,9 @@ bool MarketAgent::Pay(MarketAgent *b, Sint64 amount, bool verbose) {
 	if (m_money < amount) {
 		if (verbose) {
 			if (this == Pi::player) {
-				Pi::Message("", "You do not have enough credits.");
+				Pi::Message(Lang::YOU_NOT_ENOUGH_MONEY);
 			} else {
-				Pi::Message("", "Trader does not have enough credits.");
+				Pi::Message(Lang::TRADER_NOT_ENOUGH_MONEY);
 			}
 		}
 		return false;

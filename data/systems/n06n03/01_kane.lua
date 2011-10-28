@@ -1,1 +1,0 @@
-CustomSystem:new("Kane",{'STAR_K'}):add_to_sector(-6,-3,v(0.393,0.326,0.860))

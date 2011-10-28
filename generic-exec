@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Executable wrapper script
 # Ensures the program is up-to-date, then hands over
 

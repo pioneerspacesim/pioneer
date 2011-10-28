@@ -1,1 +1,0 @@
-CustomSystem:new("Nebel",{'STAR_G'}):add_to_sector(2,-17,v(0.643,0.589,0.309))

@@ -1,1 +1,0 @@
-CustomSystem:new("Omicron Aquilae",{'STAR_F', 'STAR_M'}):add_to_sector(-5,-4,v(0.283,0.216,0.543))

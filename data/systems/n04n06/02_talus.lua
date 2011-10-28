@@ -1,1 +1,0 @@
-CustomSystem:new("Talus",{'STAR_G'}):add_to_sector(-4,-6,v(0.494,0.995,1.063))

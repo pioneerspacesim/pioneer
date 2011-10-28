@@ -14,7 +14,7 @@ const float Sector::SIZE = 8;
 
 void Sector::GetCustomSystems()
 {
-	const std::list<const CustomSystem*> systems = CustomSystem::GetCustomSystemsForSector(sx, sy);
+	const std::list<const CustomSystem*> systems = CustomSystem::GetCustomSystemsForSector(sx, sy, sz);
 	if (systems.size() == 0) return;
 
 	for (std::list<const CustomSystem*>::const_iterator i = systems.begin(); i != systems.end(); i++) {
@@ -32,21 +32,23 @@ void Sector::GetCustomSystems()
 	}
 }
 
+#define CUSTOM_ONLY_RADIUS	4
+
 //////////////////////// Sector
-Sector::Sector(int x, int y)
+Sector::Sector(int x, int y, int z)
 {
-	unsigned long _init[3] = { x, y, UNIVERSE_SEED };
-	sx = x; sy = y;
-	MTRand rng(_init, 3);
+	unsigned long _init[4] = { x, y, z, UNIVERSE_SEED };
+	sx = x; sy = y; sz = z;
+	MTRand rng(_init, 4);
 	MTRand rand(UNIVERSE_SEED);
 
 	GetCustomSystems();
 
-	if (m_systems.size() != 0) {
-		// custom sector
-
-	} else {
-		int numSystems = (rng.Int32(4,20) * Galaxy::GetSectorDensity(x, y)) >> 8;
+	/* Always place random systems outside the core custom-only region */
+	if ((x < -CUSTOM_ONLY_RADIUS) || (x > CUSTOM_ONLY_RADIUS-1) ||
+	    (y < -CUSTOM_ONLY_RADIUS) || (y > CUSTOM_ONLY_RADIUS-1) ||
+	    (z < -CUSTOM_ONLY_RADIUS) || (z > CUSTOM_ONLY_RADIUS-1)) {
+		int numSystems = (rng.Int32(4,20) * Galaxy::GetSectorDensity(x, y, z)) >> 8;
 
 		for (int i=0; i<numSystems; i++) {
 			System s;
@@ -63,12 +65,11 @@ Sector::Sector(int x, int y)
 
 			s.p.x = rng.Double(SIZE);
 			s.p.y = rng.Double(SIZE);
-			s.p.z = rng.Double(2*SIZE)-SIZE;
+			s.p.z = rng.Double(SIZE);
 			s.seed = 0;
 			s.customSys = 0;
-			s.pStarSystem = NULL;
 			
-			float spec = rng.Int32(1000000);
+			double spec = rng.Double(1000000.0);
 			// frequencies from wikipedia
 			/*if (spec < 100) { // should be 1 but that is boring
 				s.starType[0] = SBody::TYPE_STAR_O;
@@ -99,35 +100,41 @@ Sector::Sector(int x, int y)
 					s.starType[0] = SBody::TYPE_STAR_IM_BH;  // These frequencies are made up
 				} else if (spec < 3) {
 					s.starType[0] = SBody::TYPE_STAR_S_BH; 
-				} else if (spec < 6) {
-					s.starType[0] = SBody::TYPE_STAR_K_HYPER_GIANT; 
-				} else if (spec < 10) {
-					s.starType[0] = SBody::TYPE_STAR_G_HYPER_GIANT;
+				} else if (spec < 5) {
+					s.starType[0] = SBody::TYPE_STAR_O_WF; 
+				} else if (spec < 8) {
+					s.starType[0] = SBody::TYPE_STAR_B_WF; 
+				} else if (spec < 12) {
+					s.starType[0] = SBody::TYPE_STAR_M_WF; 
 				} else if (spec < 15) {
+					s.starType[0] = SBody::TYPE_STAR_K_HYPER_GIANT; 
+				} else if (spec < 18) {
+					s.starType[0] = SBody::TYPE_STAR_G_HYPER_GIANT;
+				} else if (spec < 23) {
 					s.starType[0] = SBody::TYPE_STAR_O_HYPER_GIANT; 
-				} else if (spec < 20) {
+				} else if (spec < 28) {
 					s.starType[0] = SBody::TYPE_STAR_A_HYPER_GIANT;
-				} else if (spec < 25) {
+				} else if (spec < 33) {
 					s.starType[0] = SBody::TYPE_STAR_F_HYPER_GIANT;
-				} else if (spec < 30) {
+				} else if (spec < 41) {
 					s.starType[0] = SBody::TYPE_STAR_B_HYPER_GIANT; 
-				} else if (spec < 40) {
+				} else if (spec < 48) {
 					s.starType[0] = SBody::TYPE_STAR_M_HYPER_GIANT; 
-				} else if (spec < 50) {
+				} else if (spec < 58) {
 					s.starType[0] = SBody::TYPE_STAR_K_SUPER_GIANT; 
-				} else if (spec < 60) {
+				} else if (spec < 68) {
 					s.starType[0] = SBody::TYPE_STAR_G_SUPER_GIANT;
-				} else if (spec < 70) {
+				} else if (spec < 78) {
 					s.starType[0] = SBody::TYPE_STAR_O_SUPER_GIANT; 
-				} else if (spec < 80) {
+				} else if (spec < 88) {
 					s.starType[0] = SBody::TYPE_STAR_A_SUPER_GIANT;
-				} else if (spec < 90) {
+				} else if (spec < 98) {
 					s.starType[0] = SBody::TYPE_STAR_F_SUPER_GIANT;
-				} else if (spec < 100) {
+				} else if (spec < 108) {
 					s.starType[0] = SBody::TYPE_STAR_B_SUPER_GIANT; 
-				} else if (spec < 150) {
+				} else if (spec < 158) {
 					s.starType[0] = SBody::TYPE_STAR_M_SUPER_GIANT; 
-				} else if (spec < 200) {
+				} else if (spec < 208) {
 					s.starType[0] = SBody::TYPE_STAR_K_GIANT; 
 				} else if (spec < 250) {
 					s.starType[0] = SBody::TYPE_STAR_G_GIANT;
@@ -238,14 +245,14 @@ Sector::Sector(int x, int y)
 float Sector::DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int sysIdxB)
 {
 	vector3f dv = a->m_systems[sysIdxA].p - b->m_systems[sysIdxB].p;
-	dv += Sector::SIZE*vector3f(a->sx - b->sx, a->sy - b->sy, 0);
+	dv += Sector::SIZE*vector3f(float(a->sx - b->sx), float(a->sy - b->sy), float(a->sz - b->sz));
 	return dv.Length();
 }
 
 std::string Sector::GenName(System &sys, MTRand &rng)
 {
 	std::string name;
-	const int dist = std::max(abs(sx),abs(sy));
+	const int dist = std::max(std::max(abs(sx),abs(sy)),abs(sz));
 
 	int chance = 100;
 	switch (sys.starType[0]) {
@@ -257,9 +264,9 @@ std::string Sector::GenName(System &sys, MTRand &rng)
 		case SBody::TYPE_STAR_K: chance += 8*dist; break;
 		case SBody::TYPE_STAR_O_GIANT:
 		case SBody::TYPE_STAR_B_GIANT: chance = 50; break;
-		case SBody::TYPE_STAR_A_GIANT: chance = 0.2*dist; break;
-		case SBody::TYPE_STAR_F_GIANT: chance = 0.4*dist; break;
-		case SBody::TYPE_STAR_G_GIANT: chance = 0.5*dist; break;
+		case SBody::TYPE_STAR_A_GIANT: chance = int(0.2*dist); break;
+		case SBody::TYPE_STAR_F_GIANT: chance = int(0.4*dist); break;
+		case SBody::TYPE_STAR_G_GIANT: chance = int(0.5*dist); break;
 		case SBody::TYPE_STAR_K_GIANT:
 		case SBody::TYPE_STAR_M_GIANT: chance = dist; break;
 		case SBody::TYPE_STAR_O_SUPER_GIANT:
@@ -301,10 +308,12 @@ std::string Sector::GenName(System &sys, MTRand &rng)
 	}
 }
 
-bool Sector::WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax) const {
+bool Sector::WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) const {
 	if(sx >= Xmin && sx <= Xmax) {
 		if(sy >= Ymin && sy <= Ymax) {
-			return true;
+			if(sz >= Zmin && sz <= Zmax) {
+				return true;
+			}
 		}
 	}
 	return false;

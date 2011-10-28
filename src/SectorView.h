@@ -7,50 +7,102 @@
 #include <vector>
 #include <string>
 #include "View.h"
-#include "SysLoc.h"
 #include "Sector.h"
+#include "SystemPath.h"
 
 class SectorView: public View {
 public:
 	SectorView();
 	virtual ~SectorView();
 	virtual void Update();
+	virtual void ShowAll();
 	virtual void Draw3D();
-	bool GetSelectedSystem(int *sector_x, int *sector_y, int *system_idx);
-	void GotoSystem(int sector_x, int sector_y, int system_idx);
-	void GetSector(int *outSecX, int *outSecY) const { *outSecX = m_secx; *outSecY = m_secy; }
+	vector3f GetPosition() const { return m_pos; }
+	SystemPath GetSelectedSystem() const { return m_selected; }
+	SystemPath GetHyperspaceTarget() const { return m_hyperspaceTarget; }
+	void SetHyperspaceTarget(const SystemPath &path);
+	void FloatHyperspaceTarget();
+	void ResetHyperspaceTarget();
+	void GotoSystem(const SystemPath &path);
+	void GotoCurrentSystem() { GotoSystem(m_current); }
+	void GotoSelectedSystem() { GotoSystem(m_selected); }
+	void GotoHyperspaceTarget() { GotoSystem(m_hyperspaceTarget); }
+	void WarpToSystem(const SystemPath &path);
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
 	virtual void OnSwitchTo();
+
+	sigc::signal<void> onHyperspaceTargetChanged;
+
 private:
-	void DrawSector(int x, int y);
-	void PutClickableLabel(std::string &text, int sx, int sy, int sys_idx);
-	void OnClickSystem(int sx, int sy, int sys_idx);
-	void MouseButtonDown(int button, int x, int y);
-	Sector* GetCached(int sectorX, int sectorY);
+	struct SystemLabels {
+		Gui::Label *systemName;
+		Gui::Label *distance;
+		Gui::Label *starType;
+		Gui::Label *shortDesc;
+	};
+	
+	void DrawSector(int x, int y, int z, const vector3f &playerAbsPos);
+	void PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path);
+
+	void SetSelectedSystem(const SystemPath &path);
+	void OnClickSystem(const SystemPath &path);
+
+	void UpdateSystemLabels(SystemLabels &labels, const SystemPath &path);
+
+	Sector* GetCached(int sectorX, int sectorY, int sectorZ);
 	void ShrinkCache();
 
+	void MouseButtonDown(int button, int x, int y);
+	void OnKeyPress(SDL_keysym *keysym);
+	void OnSearchBoxKeyPress(const SDL_keysym *keysym);
+
+	bool m_firstTime;
+
+	SystemPath m_current;
+	SystemPath m_selected;
+
+	vector3f m_pos;
+	vector3f m_posMovingTo;
+
+	float m_rotXDefault, m_rotZDefault, m_zoomDefault;
+
+	float m_rotX, m_rotZ;
+	float m_rotXMovingTo, m_rotZMovingTo;
+
 	float m_zoom;
-	int m_secx, m_secy;
-	int m_selected;
-	float m_px, m_py;
-	float m_rot_x, m_rot_z;
-	float m_pxMovingTo, m_pyMovingTo;
-	Gui::Label *m_infoLabel;
+	float m_zoomMovingTo;
+
+	SystemPath m_hyperspaceTarget;
+	bool m_matchTargetToSelection;
+
+	bool m_selectionFollowsMovement;
+
+	Gui::Label *m_sectorLabel;
+	Gui::Label *m_distanceLabel;
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::ImageButton *m_galaxyButton;
+	Gui::TextEntry *m_searchBox;
 	GLuint m_gluDiskDlist;
 	
-	SysLoc m_lastShownLoc;
-	Gui::Label *m_systemName;
-	Gui::Label *m_distance;
-	Gui::Label *m_starType;
-	Gui::Label *m_shortDesc;
 	Gui::LabelSet *m_clickableLabels;
-	sigc::connection m_onMouseButtonDown;
 
-	std::map<SectorLoc,Sector*> m_sectorCache;
+	Gui::VBox *m_infoBox;
+	bool m_infoBoxVisible;
+	
+	SystemLabels m_currentSystemLabels;
+	SystemLabels m_selectedSystemLabels;
+	SystemLabels m_targetSystemLabels;
+
+	Gui::Label *m_hyperspaceLockLabel;
+
+	sigc::connection m_onMouseButtonDown;
+	sigc::connection m_onKeyPressConnection;
+
+	std::map<SystemPath,Sector*> m_sectorCache;
+
+	float m_playerHyperspaceRange;
 };
 
 #endif /* _SECTORVIEW_H */

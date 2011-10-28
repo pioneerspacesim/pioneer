@@ -1,1 +1,0 @@
-CustomSystem:new("Thargonis",{'STAR_M', 'STAR_M'}):add_to_sector(-1,-5,v(0.364,0.982,1.076))

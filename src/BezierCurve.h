@@ -54,7 +54,7 @@ class BezierCurve {
 		for (int i = 0; i < k; ++i)
 		{
 			c *= (n - i);
-			c /= (i + 1.0);
+			c /= (i + 1);
 		}
 		return double(c);
 	}

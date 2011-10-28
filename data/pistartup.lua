@@ -8,7 +8,25 @@
 -- rename wrapper classes
 fixed  = pi_fixed
 vector = pi_vector
-matrix = pi_matrix
+
+-- XXX Console is available in the main game Lua environment,
+--     but pistartup.lua is also used from CustomSystems which doesn't have Console
+if Console ~= nil then
+	local builtin_print = print
+	print = function (...)
+		-- emit to the console
+		local t = {...}
+		-- note: can't use pairs() or ipairs() here,
+		-- because they skip nil values
+		for i = 1,#t do
+			t[i] = tostring(t[i])
+		end
+		Console.AddLine(table.concat(t, '\t'))
+
+		-- forward to the builtin print as well
+		builtin_print(...)
+	end
+end
 
 -- convenience constructors
 -- XXX do these belong in eg picompat.lua?
@@ -28,3 +46,4 @@ function math.fixed.deg2rad (n) return n * fixed:new(31416,1800000) end
 string.interp = function (s, t)
 	return (s:gsub('(%b{})', function(w) return t[w:sub(2,-2)] or w end))
 end
+ 

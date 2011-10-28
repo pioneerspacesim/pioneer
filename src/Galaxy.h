@@ -9,9 +9,10 @@ namespace Galaxy {
 	extern const float SOL_OFFSET_Y;
 
 	void Init();
+	void Uninit();
 	const SDL_Surface *GetGalaxyBitmap();
 	/* 0 - 255 */
-	Uint8 GetSectorDensity(int sx, int sy);
+	Uint8 GetSectorDensity(int sx, int sy, int sz);
 }
 
 #endif /* _GALAXY_H */

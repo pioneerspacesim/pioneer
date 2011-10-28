@@ -6,7 +6,7 @@
 #include "Space.h"
 #include "Serializer.h"
 #include "collider/collider.h"
-#include "Render.h"
+#include "render/Render.h"
 #include "CargoBody.h"
 #include "Planet.h"
 #include "Sfx.h"
@@ -127,7 +127,7 @@ void Projectile::StaticUpdate(const float timeStep)
 				hit->OnDamage(m_parent, GetDamage());
 				Space::KillBody(this);
 				if (hit->IsType(Object::SHIP))
-					Pi::luaOnShipHit.Queue(dynamic_cast<Ship*>(hit), dynamic_cast<Body*>(m_parent));
+					Pi::luaOnShipHit->Queue(dynamic_cast<Ship*>(hit), dynamic_cast<Body*>(m_parent));
 			}
 		}
 	}
@@ -169,7 +169,8 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	}
 	Color col = Equip::lasers[m_type].color;
 	col.a = 1.0f - m_age/Equip::lasers[m_type].lifespan;
-	Render::PutPointSprites(50, points, Equip::lasers[m_type].psize, col, tex);
+	glBindTexture(GL_TEXTURE_2D, tex);
+	Render::PutPointSprites(50, points, Equip::lasers[m_type].psize, col);
 }
 
 void Projectile::Add(Body *parent, Equip::Type type, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)

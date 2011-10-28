@@ -217,7 +217,7 @@ void DynamicBody::UpdateInterpolatedTransform(double alpha)
 	m_interpolatedTransform = m_oldOrient;
 	{
 		double len = m_oldAngDisplacement.Length() * double(alpha);
-		if (len != 0) {
+		if (! float_is_zero_general(len)) {
 			vector3d rotAxis = m_oldAngDisplacement.Normalized();
 			matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(len,
 					rotAxis.x, rotAxis.y, rotAxis.z);
@@ -306,12 +306,19 @@ void DynamicBody::SetAngVelocity(vector3d v)
 #define KINETIC_ENERGY_MULT	0.00001f
 bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 {
+	// don't bother doing collision damage from a missile that will now explode, or may have already
+	// also avoids an occasional race condition where destruction event of this could be queued twice
+	// returning true to insure that the missile can react to the collision
+	if (o->IsType(Object::MISSILE)) return true;
+
 	double kineticEnergy = 0;
 	if (o->IsType(Object::DYNAMICBODY)) {
-		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * relVel * relVel;
+		kineticEnergy = KINETIC_ENERGY_MULT * static_cast<DynamicBody*>(o)->GetMass() * relVel * relVel;
 	} else {
 		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * relVel * relVel;
 	}
-	if (kineticEnergy) OnDamage(o, float(kineticEnergy));
+	// damage (kineticEnergy is being passed as a damage value) is measured in kilograms
+	// ignore damage less than a gram
+	if (kineticEnergy > 1e-3) OnDamage(o, float(kineticEnergy));
 	return true;
 }

@@ -1,1 +1,0 @@
-CustomSystem:new("Setepos",{'STAR_G'}):add_to_sector(-6,-6,v(0.494,0.467,0.735))

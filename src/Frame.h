@@ -24,6 +24,7 @@ public:
 	static void Serialize(Serializer::Writer &wr, Frame *);
 	static void PostUnserializeFixup(Frame *f);
 	static Frame *Unserialize(Serializer::Reader &rd, Frame *parent);
+	// XXX this should return a std::string
 	const char *GetLabel() const { return m_label.c_str(); }
 	void SetLabel(const char *label) { m_label = label; }
 	void SetPosition(const vector3d &pos) { m_orient.SetTranslate(pos); }
@@ -44,7 +45,7 @@ public:
 	void SetPlanetGeom(double radius, Body *);
 	CollisionSpace *GetCollisionSpace() const { return m_collisionSpace; }
 	void RotateInTimestep(double step);
-	bool IsRotatingFrame() const { return m_angVel.Length() != 0.0; }
+	bool IsRotatingFrame() const { return !float_is_zero_general(m_angVel.Length()); }
 	bool IsStationRotFrame() const;
 	// snoops into parent frames so beware
 	SBody *GetSBodyFor() const;

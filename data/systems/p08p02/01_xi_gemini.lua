@@ -1,1 +1,0 @@
-CustomSystem:new("XI Gemini",{'STAR_F'}):add_to_sector(8,2,v(0.282,0.813,-0.400))

@@ -1,1 +1,0 @@
-CustomSystem:new("Gamma Virginis",{'STAR_F', 'STAR_F'}):add_to_sector(-4,-1,v(0.652,0.281,0.990))

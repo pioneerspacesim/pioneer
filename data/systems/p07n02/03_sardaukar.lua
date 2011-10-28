@@ -1,1 +1,0 @@
-CustomSystem:new("Sardaukar",{'STAR_M'}):add_to_sector(7,-2,v(0.066,0.753,0.511))

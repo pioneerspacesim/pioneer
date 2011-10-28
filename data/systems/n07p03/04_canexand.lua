@@ -1,1 +1,0 @@
-CustomSystem:new("Canexand",{'STAR_G'}):add_to_sector(-7,3,v(1.000,0.051,-1.029))

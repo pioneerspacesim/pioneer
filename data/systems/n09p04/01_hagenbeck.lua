@@ -1,1 +1,0 @@
-CustomSystem:new("Hagenbeck",{'STAR_M'}):add_to_sector(-9,4,v(0.572,0.409,-1.005))

@@ -1,31 +1,40 @@
 #include "KeyBindings.h"
 #include "Pi.h"
+#include "Lang.h"
 
 #include <sstream>
 
 namespace KeyBindings {
 
-KeyBinding pitchUp;
-KeyBinding pitchDown;
-KeyBinding yawLeft;
-KeyBinding yawRight;
-KeyBinding rollLeft;
-KeyBinding rollRight;
-KeyBinding thrustForward;
-KeyBinding thrustBackwards;
-KeyBinding thrustUp;
-KeyBinding thrustDown;
-KeyBinding thrustLeft;
-KeyBinding thrustRight;
-KeyBinding increaseSpeed;
-KeyBinding decreaseSpeed;
-KeyBinding fireLaser;
-KeyBinding fastRotate;
-KeyBinding targetObject;
+KeyAction pitchUp;
+KeyAction pitchDown;
+KeyAction yawLeft;
+KeyAction yawRight;
+KeyAction rollLeft;
+KeyAction rollRight;
+KeyAction thrustForward;
+KeyAction thrustBackwards;
+KeyAction thrustUp;
+KeyAction thrustDown;
+KeyAction thrustLeft;
+KeyAction thrustRight;
+KeyAction increaseSpeed;
+KeyAction decreaseSpeed;
+KeyAction fireLaser;
+KeyAction fastRotate;
+KeyAction targetObject;
+KeyAction toggleLuaConsole;
 
 AxisBinding pitchAxis;
 AxisBinding rollAxis;
 AxisBinding yawAxis;
+
+bool KeyBinding::Matches(const SDL_keysym *sym) const {
+	if (type == KEYBOARD_KEY) {
+		return (sym->sym == u.keyboard.key) && ((sym->mod & 0xfff) == u.keyboard.mod);
+	} else
+		return false;
+}
 
 KeyBinding KeyBinding::keyboardBinding(SDLKey key, SDLMod mod) {
 	KeyBinding kb;
@@ -37,41 +46,94 @@ KeyBinding KeyBinding::keyboardBinding(SDLKey key, SDLMod mod) {
 	return kb;
 }
 
-bool KeyBinding::IsActive()
+bool KeyAction::IsActive() const
 {
-	if (type == KEYBOARD_KEY) {
+	if (binding.type == KEYBOARD_KEY) {
 		// 0xfff filters out numlock, capslock and other shit
-		if (u.keyboard.mod != 0)
-			return Pi::KeyState(u.keyboard.key) && ((Pi::KeyModState()&0xfff) == u.keyboard.mod);
+		if (binding.u.keyboard.mod != 0)
+			return Pi::KeyState(binding.u.keyboard.key) && ((Pi::KeyModState()&0xfff) == binding.u.keyboard.mod);
 
-		return Pi::KeyState(u.keyboard.key) != 0;
+		return Pi::KeyState(binding.u.keyboard.key) != 0;
 
-	} else if (type == JOYSTICK_BUTTON) {
-		return Pi::JoystickButtonState(u.joystickButton.joystick, u.joystickButton.button) != 0;
-	} else if (type == JOYSTICK_HAT) {
-		return Pi::JoystickHatState(u.joystickHat.joystick, u.joystickHat.hat) == u.joystickHat.direction;
+	} else if (binding.type == JOYSTICK_BUTTON) {
+		return Pi::JoystickButtonState(binding.u.joystickButton.joystick, binding.u.joystickButton.button) != 0;
+	} else if (binding.type == JOYSTICK_HAT) {
+		return Pi::JoystickHatState(binding.u.joystickHat.joystick, binding.u.joystickHat.hat) == binding.u.joystickHat.direction;
 	} else
 		abort();
 
 	return false;
 }
 
+void KeyAction::CheckSDLEventAndDispatch(const SDL_Event *event) {
+	switch (event->type) {
+		case SDL_KEYDOWN:
+		case SDL_KEYUP:
+		{
+			if (binding.type != KEYBOARD_KEY)
+				return;
+			SDL_keysym sym = event->key.keysym;
+			// 0xfff filters out numlock, capslock and other shit
+			if (binding.u.keyboard.mod && ((sym.mod & 0xfff) != binding.u.keyboard.mod))
+				return;
+			if (sym.sym == binding.u.keyboard.key) {
+				if (event->key.state == SDL_PRESSED)
+					onPress.emit();
+				else if (event->key.state == SDL_RELEASED)
+					onRelease.emit();
+			}
+			break;
+		}
+		case SDL_JOYBUTTONDOWN:
+		case SDL_JOYBUTTONUP:
+		{
+			if (binding.type != JOYSTICK_BUTTON)
+				return;
+			if (binding.u.joystickButton.joystick != event->jbutton.which)
+				return;
+			if (binding.u.joystickButton.button != event->jbutton.button) {
+				if (event->jbutton.state == SDL_PRESSED)
+					onPress.emit();
+				else if (event->jbutton.state == SDL_RELEASED)
+					onRelease.emit();
+			}
+			break;
+		}
+		case SDL_JOYHATMOTION:
+		{
+			if (binding.type != JOYSTICK_HAT)
+				return;
+			if (binding.u.joystickHat.joystick != event->jhat.which)
+				return;
+			if (binding.u.joystickHat.hat != event->jhat.hat)
+				return;
+			if (event->jhat.value == binding.u.joystickHat.direction) {
+				onPress.emit();
+				// XXX to emit onRelease, we need to have access to the state of the joystick hat prior to this event,
+				// so that we can detect the case of switching from a direction that matches the binding to some other direction
+			}
+			break;
+		}
+		default: break;
+	}
+}
+
 std::string KeyBinding::Description() const {
 	std::ostringstream oss;
 
 	if (type == KEYBOARD_KEY) {
-		if (u.keyboard.mod & KMOD_SHIFT) oss << "shift ";
-		if (u.keyboard.mod & KMOD_CTRL) oss << "ctrl ";
-		if (u.keyboard.mod & KMOD_ALT) oss << "alt ";
-		if (u.keyboard.mod & KMOD_META) oss << "meta ";
+		if (u.keyboard.mod & KMOD_SHIFT) oss << Lang::SHIFT;
+		if (u.keyboard.mod & KMOD_CTRL) oss << Lang::CTRL;
+		if (u.keyboard.mod & KMOD_ALT) oss << Lang::ALT;
+		if (u.keyboard.mod & KMOD_META) oss << Lang::META;
 		oss << SDL_GetKeyName(u.keyboard.key);
 	} else if (type == JOYSTICK_BUTTON) {
-		oss << "Joy" << int(u.joystickButton.joystick);
-		oss << " Button " << int(u.joystickButton.button);
+		oss << Lang::JOY << int(u.joystickButton.joystick);
+		oss << Lang::BUTTON << int(u.joystickButton.button);
 	} else if (type == JOYSTICK_HAT) {
-		oss << "Joy" << int(u.joystickHat.joystick);
-		oss << " Hat" << int(u.joystickHat.hat);
-		oss << " Dir " << int(u.joystickHat.direction);
+		oss << Lang::JOY << int(u.joystickHat.joystick);
+		oss << Lang::HAT << int(u.joystickHat.hat);
+		oss << Lang::DIRECTION << int(u.joystickHat.direction);
 	} else
 		abort();
 
@@ -101,55 +163,56 @@ float AxisBinding::GetValue() {
 }
 
 std::string AxisBinding::Description() const {
-	const char *axis_names[] = {"X", "Y", "Z"};
+	const char *axis_names[] = {Lang::X, Lang::Y, Lang::Z};
 	std::ostringstream oss;
 
 	if (direction == KeyBindings::NEGATIVE)
 		oss << '-';
 
-	oss << "Joy" << int(joystick) << ' ';
+	oss << Lang::JOY << int(joystick) << ' ';
 
 	if (0 <= axis && axis < 3)
 		oss << axis_names[axis];
 	else
 		oss << int(axis);
 
-	oss << " Axis";
+	oss << Lang::AXIS;
 
 	return oss.str();
 }
 
 const BindingPrototype bindingProtos[] = {
-	{ "Weapons", 0 },
-	{ "Target object in crosshairs", "BindTargetObject" },
-	{ "Fire laser", "BindFireLaser" },
-	{ "Ship orientation", 0 },
-	{ "Fast rotational control", "BindFastRotate" },
-	{ "Pitch up", "BindPitchUp" },
-	{ "Pitch down", "BindPitchDown" },
-	{ "Yaw left", "BindYawLeft" },
-	{ "Yaw right", "BindYawRight" },
-	{ "Roll left", "BindRollLeft" },
-	{ "Roll right", "BindRollRight" },
-	{ "Manual control mode", 0 },
-	{ "Thrust forward", "BindThrustForward" },
-	{ "Thrust backwards", "BindThrustBackwards" },
-	{ "Thrust up", "BindThrustUp" },
-	{ "Thrust down", "BindThrustDown" },
-	{ "Thrust left", "BindThrustLeft" },
-	{ "Thrust right", "BindThrustRight" },
-	{ "Speed control mode", 0 },
-	{ "Increase set speed", "BindIncreaseSpeed" },
-	{ "Decrease set speed", "BindDecreaseSpeed" },
-	{ 0, 0 },
+	{ Lang::WEAPONS, 0, 0, 0 },
+	{ Lang::TARGET_OBJECT_IN_SIGHTS, "BindTargetObject", &targetObject, 0 },
+	{ Lang::FIRE_LASER, "BindFireLaser", &fireLaser, 0 },
+	{ Lang::SHIP_ORIENTATION, 0, 0, 0 },
+	{ Lang::FAST_ROTATION_CONTROL, "BindFastRotate", &fastRotate, 0 },
+	{ Lang::PITCH_UP, "BindPitchUp", &pitchUp, 0 },
+	{ Lang::PITCH_DOWN, "BindPitchDown", &pitchDown, 0 },
+	{ Lang::YAW_LEFT, "BindYawLeft", &yawLeft, 0 },
+	{ Lang::YAW_RIGHT, "BindYawRight", &yawRight, 0 },
+	{ Lang::ROLL_LEFT, "BindRollLeft", &rollLeft, 0 },
+	{ Lang::ROLL_RIGHT, "BindRollRight", &rollRight, 0 },
+	{ Lang::MANUAL_CONTROL_MODE, 0, 0, 0 },
+	{ Lang::THRUSTER_MAIN, "BindThrustForward", &thrustForward, 0 },
+	{ Lang::THRUSTER_RETRO, "BindThrustBackwards", &thrustBackwards, 0 },
+	{ Lang::THRUSTER_VENTRAL, "BindThrustUp", &thrustUp, 0 },
+	{ Lang::THRUSTER_DORSAL, "BindThrustDown", &thrustDown, 0 },
+	{ Lang::THRUSTER_PORT, "BindThrustLeft", &thrustLeft, 0 },
+	{ Lang::THRUSTER_STARBOARD, "BindThrustRight", &thrustRight, 0 },
+	{ Lang::SPEED_CONTROL_MODE, 0, 0, 0 },
+	{ Lang::INCREASE_SET_SPEED, "BindIncreaseSpeed", &increaseSpeed, 0 },
+	{ Lang::DECREASE_SET_SPEED, "BindDecreaseSpeed", &decreaseSpeed, 0 },
+	{ Lang::TOGGLE_LUA_CONSOLE, "BindToggleLuaConsole", &toggleLuaConsole, 0 },
+	{ 0, 0, 0, 0 },
 };
 
 const BindingPrototype axisBindingProtos[] = {
-	{ "Joystick input", 0 },
-	{ "Pitch", "BindAxisPitch" },
-	{ "Roll", "BindAxisRoll" },
-	{ "Yaw", "BindAxisYaw" },
-	{ 0, 0 },
+	{ Lang::JOYSTICK_INPUT, 0, 0, 0 },
+	{ Lang::PITCH, "BindAxisPitch", 0, &pitchAxis },
+	{ Lang::ROLL, "BindAxisRoll", 0, &rollAxis },
+	{ Lang::YAW, "BindAxisYaw", 0, &yawAxis },
+	{ 0, 0, 0, 0 },
 };
 
 /**
@@ -290,11 +353,30 @@ std::string AxisBindingToString(const AxisBinding &ab) {
 	return oss.str();
 }
 
-#define SET_KEY_BINDING(var,bindname) \
-	KeyBindingFromString(Pi::config.String(bindname).c_str(), &(var));
+#define SET_KEY_BINDING(var, bindname) \
+	KeyBindingFromString(Pi::config.String(bindname).c_str(), &(var.binding));
 
 #define SET_AXIS_BINDING(var, bindname) \
 	AxisBindingFromString(Pi::config.String(bindname).c_str(), &(var));
+
+void DispatchSDLEvent(const SDL_Event *event) {
+	switch (event->type) {
+		case SDL_KEYDOWN:
+		case SDL_KEYUP:
+		case SDL_JOYBUTTONDOWN:
+		case SDL_JOYBUTTONUP:
+		case SDL_JOYHATMOTION:
+			break;
+		default: return;
+	}
+
+	// simplest possible approach here: just check each binding and dispatch if it matches
+	for (int i = 0; bindingProtos[i].label; ++i) {
+		KeyAction *kb = bindingProtos[i].kb;
+		if (kb)
+			kb->CheckSDLEventAndDispatch(event);
+	}
+}
 
 void OnKeyBindingsChanged()
 {
@@ -315,6 +397,7 @@ void OnKeyBindingsChanged()
 	SET_KEY_BINDING(fireLaser, "BindFireLaser");
 	SET_KEY_BINDING(fastRotate, "BindFastRotate");
 	SET_KEY_BINDING(targetObject, "BindTargetObject");
+	SET_KEY_BINDING(toggleLuaConsole, "BindToggleLuaConsole");
 	//SET_KEY_BINDING(key, "Bind");
 
 	SET_AXIS_BINDING(pitchAxis, "BindAxisPitch");
@@ -351,6 +434,7 @@ void SetDefaults()
 	SetSDLKeyboardBinding("BindThrustRight", SDLK_l);
 	SetSDLKeyboardBinding("BindIncreaseSpeed", SDLK_RETURN);
 	SetSDLKeyboardBinding("BindDecreaseSpeed", SDLK_RSHIFT);
+	SetSDLKeyboardBinding("BindToggleLuaConsole", SDLK_BACKQUOTE);
 
 	SetAxisBinding("BindAxisPitch", AxisBindingFromString("-Joy0Axis1"));
 	SetAxisBinding("BindAxisRoll", AxisBindingFromString("Joy0Axis2"));

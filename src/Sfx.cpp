@@ -4,7 +4,7 @@
 #include "Frame.h"
 #include "StarSystem.h"
 #include "Space.h"
-#include "Render.h"
+#include "render/Render.h"
 
 #define MAX_SFX_PER_FRAME 1024
 
@@ -110,7 +110,8 @@ void Sfx::Render(const matrix4x4d &ftransform)
 			col[2] = 0.0f;
 			col[3] = 1.0f-(m_age/2.0f);
 			vector3f pos(&fpos.x);
-			Render::PutPointSprites(1, &pos, 20.0f, col, tex);
+			glBindTexture(GL_TEXTURE_2D, tex);
+			Render::PutPointSprites(1, &pos, 20.0f, col);
 			break;
 	}
 }

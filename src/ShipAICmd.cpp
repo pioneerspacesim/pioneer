@@ -120,7 +120,7 @@ bool AICmdJourney::TimeStepUpdate()
 					MarketAgent *trader = m_ship->GetDockedWith();
 					// need to lose some equipment and see if we get light enough
 					Equip::Type t = (Equip::Type)Pi::rng.Int32(Equip::TYPE_MAX);
-					if ((EquipType::types[t].slot == Equip::SLOT_ENGINE) && trader->CanSell(t)) {
+					if ((Equip::types[t].slot == Equip::SLOT_ENGINE) && trader->CanSell(t)) {
 						// try a different hyperdrive
 						m_ship->SellTo(trader, driveType);
 						if (!m_ship->BuyFrom(trader, t)) {
@@ -280,10 +280,10 @@ double AICmdKill::MaintainDistance(double curdist, double curspeed, double reqdi
 
 static void LaunchShip(Ship *ship)
 {
-	if (ship->GetFlightState() == Ship::LANDED) {
-		if (ship->GetDockedWith()) ship->Undock();
-		else ship->Blastoff();
-	}
+	if (ship->GetFlightState() == Ship::LANDED)
+		ship->Blastoff();
+	else if (ship->GetFlightState() == Ship::DOCKED)
+		ship->Undock();
 }
 
 bool AICmdKamikaze::TimeStepUpdate()
@@ -592,14 +592,7 @@ static double GetGravityAtPos(Ship *ship, Frame *targframe, vector3d &posoff)
 	double rsqr = posoff.LengthSqr();
 	double m1m2 = ship->GetMass() * body->GetMass();
 	return G * m1m2 / rsqr;
-}
-
-static double GetAltForGravity(Ship *ship, Frame *targframe, double thrust)
-{
-	Body *body = targframe->GetBodyFor();
-	if (!body || body->IsType(Object::SPACESTATION)) return 0;
-	double m1m2 = ship->GetMass() * body->GetMass();
-	return sqrt(G * m1m2 / thrust);
+	// inverse is: sqrt(G * m1m2 / thrust)
 }
 
 // gets position of (target + offset in target's frame) in frame
@@ -700,8 +693,9 @@ static int GetFlipMode(Ship *ship, Frame *targframe, vector3d &posoff)
 
 void AICmdFlyTo::NavigateAroundBody(Body *body, vector3d &targpos)
 {
-printf("Flying to tangent of body: %s\n", body->GetLabel().c_str());
-
+//if(m_ship->IsType(Object::PLAYER)) {
+//	printf("Flying to tangent of body: %s\n", body->GetLabel().c_str());
+//}
 	// build tangent vector in body's rotating frame unless space station (or distant)
 	Frame *targframe = body->GetFrame();
 	double tanmul = 1.02;
@@ -929,6 +923,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 
 	if (m_frame != m_ship->GetFrame()) {				// frame switch check
 		if (m_state >= 3 && m_state <= 5) return true;			// bailout case for accidental planet-dives
+		if (!m_frame) m_state = GetFlipMode(m_ship, m_targframe, m_posoff);
 		CheckCollisions();
 		if (!m_child) CheckSuicide();
 		if (m_child) { ProcessChild(); return false; }			// child can handle at least one timestep
@@ -942,6 +937,11 @@ bool AICmdFlyTo::TimeStepUpdate()
 	vector3d reldir = relpos.NormalizedSafe();
 	double targdist = relpos.Length();
 	double sideacc = m_ship->GetMaxThrust(vector3d(0.0)).x / m_ship->GetMass();
+
+//if(m_ship->IsType(Object::PLAYER)) {
+//	printf("Autopilot dist = %f, speed = %f, term = %f, state = 0x%x\n", targdist, relvel.Length(),
+//		reldir.Dot(m_reldir), m_state);
+//}
 
 	// planet evasion case
 	if (m_state == 4 || m_state == 5) {
@@ -981,9 +981,6 @@ bool AICmdFlyTo::TimeStepUpdate()
 
 	// limit forward acceleration when facing wrong way
 	if (decel > 0 && fabs(ang) > 0.02) ClampMainThruster(m_ship);
-
-//printf("Autopilot dist = %f, speed = %f, term = %f, state = 0x%x\n", targdist, relvel.Length(),
-//	reldir.Dot(m_reldir), m_state);
 
 	if (m_state == 9) return true;
 	return false;
@@ -1025,8 +1022,7 @@ bool AICmdDock::TimeStepUpdate()
 	if (m_state == 0 || m_state == 2) {
 		const SpaceStationType *type = m_target->GetSpaceStationType();
 		SpaceStationType::positionOrient_t dockpos;
-		bool good;
-        good = type->GetShipApproachWaypoints(port, (m_state>>1)+1, dockpos);
+        type->GetShipApproachWaypoints(port, (m_state>>1)+1, dockpos);
 		matrix4x4d trot; m_target->GetRotMatrix(trot);
 		m_dockpos = trot * dockpos.pos + m_target->GetPosition();
 		m_dockdir = (trot * dockpos.xaxis.Cross(dockpos.yaxis)).Normalized();

@@ -1,1 +1,0 @@
-CustomSystem:new("Rho Capricorni",{'STAR_F'}):add_to_sector(-8,-1,v(0.732,0.567,0.274))

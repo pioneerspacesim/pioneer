@@ -1,1 +1,0 @@
-CustomSystem:new("Shinizagi",{'STAR_M'}):add_to_sector(2,-4,v(0.565,0.414,0.319))

@@ -1,1 +1,0 @@
-CustomSystem:new("Canaris",{'STAR_M'}):add_to_sector(-1,6,v(0.486,0.477,-0.560))

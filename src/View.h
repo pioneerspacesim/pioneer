@@ -29,7 +29,14 @@ public:
 		m_rightRegion1->SetTransparency(true);
 		Gui::Screen::AddBaseWidget(m_rightRegion1, Gui::Screen::GetWidth()-123, Gui::Screen::GetHeight()-62);
 	}
-	virtual ~View() { delete m_rightButtonBar; delete m_rightRegion2; }
+	virtual ~View() {
+		Gui::Screen::RemoveBaseWidget(m_rightButtonBar);
+		Gui::Screen::RemoveBaseWidget(m_rightRegion2);
+		Gui::Screen::RemoveBaseWidget(m_rightRegion1);
+		delete m_rightButtonBar;
+		delete m_rightRegion2;
+		delete m_rightRegion1;
+	}
 	virtual void ShowAll() {
 		m_rightButtonBar->ShowAll();
 		m_rightRegion2->ShowAll();

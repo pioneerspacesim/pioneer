@@ -1,1 +1,0 @@
-CustomSystem:new("Franssart",{'STAR_M'}):add_to_sector(-3,4,v(0.313,0.046,-0.692))

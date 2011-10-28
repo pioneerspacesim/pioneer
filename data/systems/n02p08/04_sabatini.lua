@@ -1,1 +1,0 @@
-CustomSystem:new("Sabatini",{'STAR_G'}):add_to_sector(-2,8,v(0.625,0.848,-1.551))

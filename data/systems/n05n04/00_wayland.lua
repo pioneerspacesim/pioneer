@@ -1,1 +1,0 @@
-CustomSystem:new("Wayland",{'STAR_M'}):add_to_sector(-5,-4,v(0.528,0.896,0.053))

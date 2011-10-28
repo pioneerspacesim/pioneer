@@ -1,1 +1,0 @@
-CustomSystem:new("Hammerstein",{'STAR_M'}):add_to_sector(8,-3,v(0.741,0.685,1.795))

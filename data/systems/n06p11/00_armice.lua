@@ -1,1 +1,0 @@
-CustomSystem:new("Armice",{'STAR_F'}):add_to_sector(-6,11,v(0.047,0.649,-0.801))

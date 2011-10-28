@@ -1,1 +1,0 @@
-CustomSystem:new("Fastolfe",{'STAR_K'}):add_to_sector(0,13,v(0.047,0.521,-0.634))

@@ -1,1 +1,0 @@
-CustomSystem:new("Ezquerra",{'STAR_K'}):add_to_sector(0,7,v(0.126,0.547,-1.119))

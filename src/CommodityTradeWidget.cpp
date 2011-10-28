@@ -2,14 +2,61 @@
 #include "Pi.h"
 #include "Player.h"
 #include "CommodityTradeWidget.h"
+#include "Lang.h"
 
 #define RBUTTON_DELAY 500
 #define RBUTTON_REPEAT 50
 
-CommodityTradeWidget::CommodityTradeWidget(MarketAgent *seller): Gui::Fixed()
+struct icon_map_t {
+	Equip::Type type;
+	std::string icon;
+};
+
+static const icon_map_t icon_names[] = {
+	{ Equip::HYDROGEN,              "Hydrogen"              },
+	{ Equip::LIQUID_OXYGEN,         "Liquid_Oxygen"         },
+	{ Equip::METAL_ORE,             "Metal_ore"             },
+	{ Equip::CARBON_ORE,            "Carbon_ore"            },
+	{ Equip::METAL_ALLOYS,          "Metal_alloys"          },
+	{ Equip::PLASTICS,              "Plastics"              },
+	{ Equip::FRUIT_AND_VEG,         "Fruit_and_Veg"         },
+	{ Equip::ANIMAL_MEAT,           "Animal_Meat"           },
+	{ Equip::LIVE_ANIMALS,          "Live_Animals"          },
+	{ Equip::LIQUOR,                "Liquor"                },
+	{ Equip::GRAIN,                 "Grain"                 },
+	{ Equip::TEXTILES,              "Textiles"              },
+	{ Equip::FERTILIZER,            "Fertilizer"            },
+	{ Equip::WATER,                 "Water"                 },
+	{ Equip::MEDICINES,             "Medicines"             },
+	{ Equip::CONSUMER_GOODS,        "Consumer_goods"        },
+	{ Equip::COMPUTERS,             "Computers"             },
+	{ Equip::ROBOTS,                "Robots"                },
+	{ Equip::PRECIOUS_METALS,       "Precious_metals"       },
+	{ Equip::INDUSTRIAL_MACHINERY,  "Industrial_machinery"  },
+	{ Equip::FARM_MACHINERY,        "Farm_machinery"        },
+	{ Equip::MINING_MACHINERY,      "Mining_machinery"      },
+	{ Equip::AIR_PROCESSORS,        "Air_processors"        },
+	{ Equip::SLAVES,                "Slaves"                },
+	{ Equip::HAND_WEAPONS,          "Hand_weapons"          },
+	{ Equip::BATTLE_WEAPONS,        "Battle_weapons"        },
+	{ Equip::NERVE_GAS,             "Nerve_Gas"             },
+	{ Equip::NARCOTICS,             "Narcotics"             },
+	{ Equip::MILITARY_FUEL,         "Military_fuel"         },
+	{ Equip::RUBBISH,               "Rubbish"               },
+	{ Equip::RADIOACTIVES,          "Radioactive_waste"     },
+    { Equip::NONE, "" }
+};
+
+static std::map<Equip::Type,std::string> s_iconMap;
+
+CommodityTradeWidget::CommodityTradeWidget(MarketAgent *seller): Gui::VBox()
 {
 	SetTransparency(false);
 	m_seller = seller;
+
+	if (!s_iconMap.size())
+		for (const icon_map_t *scan = icon_names; scan->type != Equip::NONE; scan++)
+			s_iconMap.insert(std::make_pair(scan->type, scan->icon));
 }
 
 void CommodityTradeWidget::ShowAll()
@@ -21,14 +68,14 @@ void CommodityTradeWidget::ShowAll()
 	SetTransparency(true);
 
 	Gui::VScrollBar *scroll = new Gui::VScrollBar();
-	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,400);
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450);
 	scroll->SetAdjustment(&portal->vscrollAdjust);
 	//int GetStock(Equip::Type t) const { return m_equipmentStock[t]; }
 
 	int NUM_ITEMS = 0;
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 2.5f);
 	for (int i=Equip::FIRST_COMMODITY; i<=Equip::LAST_COMMODITY; i++) {
-		assert(EquipType::types[i].slot == Equip::SLOT_CARGO);
+		assert(Equip::types[i].slot == Equip::SLOT_CARGO);
 
 		if (m_seller->DoesSell(Equip::Type(i))) {
 				NUM_ITEMS++;
@@ -39,23 +86,20 @@ void CommodityTradeWidget::ShowAll()
 	
 	const float iconOffset = 8.0f;
 	for (int i=Equip::FIRST_COMMODITY, num=0; i<=Equip::LAST_COMMODITY; i++) {
-		assert(EquipType::types[i].slot == Equip::SLOT_CARGO);
+		assert(Equip::types[i].slot == Equip::SLOT_CARGO);
 
 		if (!m_seller->DoesSell(Equip::Type(i))) continue;
 		int stock = m_seller->GetStock(static_cast<Equip::Type>(i));
 
-		// need to replace spaces in the item name
-		std::string imgname = std::string(EquipType::types[i].name);
-		size_t imgbad;
-		while ((imgbad = imgname.find(' ')) != std::string::npos) {
-			imgname.replace(imgbad, 1, "_");
+        std::map<Equip::Type,std::string>::iterator icon_iter = s_iconMap.find(Equip::Type(i));
+		if (icon_iter != s_iconMap.end()) {
+			Gui::Image *icon = new Gui::Image((PIONEER_DATA_DIR "/icons/goods/" + (*icon_iter).second + ".png").c_str());
+			innerbox->Add(icon, 0, num*YSEP);
 		}
-		Gui::Image *img = new Gui::Image((PIONEER_DATA_DIR "/icons/goods/" + imgname + ".png").c_str() );
 
-		innerbox->Add(img,0, num*YSEP);
-		Gui::Label *l = new Gui::Label(EquipType::types[i].name);
-		if (EquipType::types[i].description)
-			l->SetToolTip(EquipType::types[i].description);
+		Gui::Label *l = new Gui::Label(Equip::types[i].name);
+		if (Equip::types[i].description)
+			l->SetToolTip(Equip::types[i].description);
 		innerbox->Add(l,42,num*YSEP+iconOffset);
 		Gui::Button *b = new Gui::RepeaterButton(RBUTTON_DELAY, RBUTTON_REPEAT);
 		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &CommodityTradeWidget::OnClickBuy), i));
@@ -68,12 +112,12 @@ void CommodityTradeWidget::ShowAll()
 					format_money(m_seller->GetPrice(static_cast<Equip::Type>(i)))
 					), 200, num*YSEP+iconOffset);
 		
-		snprintf(buf, sizeof(buf), "%dt", stock*EquipType::types[i].mass);
+		snprintf(buf, sizeof(buf), "%dt", stock*Equip::types[i].mass);
 		Gui::Label *stocklabel = new Gui::Label(buf);
 		m_stockLabels[i] = stocklabel;
 		innerbox->Add(stocklabel, 275, num*YSEP+iconOffset);
 		
-		snprintf(buf, sizeof(buf), "%dt", Pi::player->m_equipment.Count(Equip::SLOT_CARGO, static_cast<Equip::Type>(i))*EquipType::types[i].mass);
+		snprintf(buf, sizeof(buf), "%dt", Pi::player->m_equipment.Count(Equip::SLOT_CARGO, static_cast<Equip::Type>(i))*Equip::types[i].mass);
 		Gui::Label *cargolabel = new Gui::Label(buf);
 		m_cargoLabels[i] = cargolabel;
 		innerbox->Add(cargolabel, 325, num*YSEP+iconOffset);
@@ -81,28 +125,36 @@ void CommodityTradeWidget::ShowAll()
 	}
 	innerbox->ShowAll();
 
-	const float *col = Gui::Theme::Colors::tableHeading;
-	Add((new Gui::Label("Item"))->Color(col), 0, 0);
-	Add((new Gui::Label("Price"))->Color(col), 200, 0);
-	Add((new Gui::Label("Buy"))->Color(col), 380, 0);
-	Add((new Gui::Label("Sell"))->Color(col), 415, 0);
-	Add((new Gui::Label("Stock"))->Color(col), 275, 0);
-	Add((new Gui::Label("Cargo"))->Color(col), 325, 0);
-	Add(portal, 0, YSEP);
-	Add(scroll, 455, YSEP);
 	portal->Add(innerbox);
 	portal->ShowAll();
 
-	Gui::Fixed::ShowAll();
+	Gui::Fixed *heading = new Gui::Fixed(470, Gui::Screen::GetFontHeight());
+	const float *col = Gui::Theme::Colors::tableHeading;
+	heading->Add((new Gui::Label(Lang::ITEM))->Color(col), 0, 0);
+	heading->Add((new Gui::Label(Lang::PRICE))->Color(col), 200, 0);
+	heading->Add((new Gui::Label(Lang::BUY))->Color(col), 380, 0);
+	heading->Add((new Gui::Label(Lang::SELL))->Color(col), 415, 0);
+	heading->Add((new Gui::Label(Lang::STOCK))->Color(col), 275, 0);
+	heading->Add((new Gui::Label(Lang::CARGO))->Color(col), 325, 0);
+	PackEnd(heading);
+
+	Gui::HBox *body = new Gui::HBox();
+	body->PackEnd(portal);
+	body->PackEnd(scroll);
+	PackEnd(body);
+
+	SetSpacing(YSEP-Gui::Screen::GetFontHeight());
+
+	Gui::VBox::ShowAll();
 }
 
 void CommodityTradeWidget::UpdateStock(int commodity_type)
 {
 	char buf[128];
-	snprintf(buf, sizeof(buf), "%dt", Pi::player->m_equipment.Count(Equip::SLOT_CARGO, static_cast<Equip::Type>(commodity_type))*EquipType::types[commodity_type].mass);
+	snprintf(buf, sizeof(buf), "%dt", Pi::player->m_equipment.Count(Equip::SLOT_CARGO, static_cast<Equip::Type>(commodity_type))*Equip::types[commodity_type].mass);
 	m_cargoLabels[commodity_type]->SetText(buf);
 	
-	snprintf(buf, sizeof(buf), "%dt", m_seller->GetStock(static_cast<Equip::Type>(commodity_type))*EquipType::types[commodity_type].mass);
+	snprintf(buf, sizeof(buf), "%dt", m_seller->GetStock(static_cast<Equip::Type>(commodity_type))*Equip::types[commodity_type].mass);
 	m_stockLabels[commodity_type]->SetText(buf);
 }
 

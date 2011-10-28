@@ -1,1 +1,0 @@
-CustomSystem:new("YZ Canis Minoris",{'STAR_M'}):add_to_sector(2,1,v(0.808,0.350,-0.655))

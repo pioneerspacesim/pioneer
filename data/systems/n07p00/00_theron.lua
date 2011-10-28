@@ -1,1 +1,0 @@
-CustomSystem:new("Theron",{'STAR_M'}):add_to_sector(-7,0,v(0.759,0.762,-0.860))

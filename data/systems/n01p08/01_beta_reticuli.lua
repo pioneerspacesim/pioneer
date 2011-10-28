@@ -1,1 +1,0 @@
-CustomSystem:new("Beta Reticuli",{'STAR_K'}):add_to_sector(-1,8,v(0.247,0.329,-0.929))

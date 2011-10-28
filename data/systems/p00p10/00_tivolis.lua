@@ -1,1 +1,0 @@
-CustomSystem:new("Tivolis",{'STAR_K'}):add_to_sector(0,10,v(0.472,0.623,-0.763))

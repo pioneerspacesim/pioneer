@@ -1,1 +1,0 @@
-CustomSystem:new("Repetto",{'STAR_M'}):add_to_sector(0,4,v(0.834,0.337,-0.674))

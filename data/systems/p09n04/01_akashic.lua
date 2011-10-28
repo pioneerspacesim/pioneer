@@ -1,1 +1,0 @@
-CustomSystem:new("Akashic",{'STAR_M'}):add_to_sector(9,-4,v(0.857,0.851,1.024))

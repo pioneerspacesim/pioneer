@@ -1,1 +1,0 @@
-CustomSystem:new("Edaho",{'STAR_M'}):add_to_sector(1,5,v(0.669,0.076,-0.958))

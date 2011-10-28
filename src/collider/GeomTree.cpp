@@ -1,16 +1,7 @@
-
-#include <float.h>
-#include <stdio.h>
-#include <assert.h>
-#include <map>
-#ifdef _WIN32
-#include <malloc.h>
-#else
-#include <alloca.h>
-#endif
-#include "../Aabb.h"
+#include "../libs.h"
 #include "GeomTree.h"
 #include "BVHTree.h"
+#include <map>
 
 int GeomTree::stats_rayTriIntersections;
 
@@ -50,7 +41,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, uns
 		vector3d v = vector3d(&m_vertices[3*i]);
 		for (int j=i+1; j<numVerts; j++) {
 			vector3d v2 = vector3d(&m_vertices[3*j]);
-			if (v2 == v) {
+			if (v2.ExactlyEqual(v)) {
 				for (int k=0; k<numTris*3; k++) {
 					if ((indices[k] == j) && (triflags[k/3] < 0x8000)) indices[k] = i;
 				}
@@ -86,8 +77,6 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, uns
 	}
 	m_radius = sqrt(m_radius);
 	
-	Aabb aabb = m_aabb;
-	
 	Aabb *aabbs = new Aabb[activeTris.size()];
 	for (unsigned int i=0; i<activeTris.size(); i++) {
 		vector3d v1 = vector3d(&m_vertices[3*m_indices[activeTris[i]]]);
@@ -98,7 +87,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, uns
 		aabbs[i].Update(v3);
 	}
 	
-	int t = SDL_GetTicks();
+	//int t = SDL_GetTicks();
 	m_triTree = new BVHTree(activeTris.size(), &activeTris[0], aabbs);
 	delete [] aabbs;
 	//printf("Tri tree of %d tris build in %dms\n", activeTris.size(), SDL_GetTicks() - t);
@@ -131,7 +120,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, uns
 		aabbs[pos].min = aabbs[pos].max = v1;
 		aabbs[pos].Update(v2);
 	}
-	t = SDL_GetTicks();
+	//t = SDL_GetTicks();
 	m_edgeTree = new BVHTree(m_numEdges, edgeIdxs, aabbs);
 	delete [] aabbs;
 	delete [] edgeIdxs;

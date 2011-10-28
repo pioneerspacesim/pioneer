@@ -1,1 +1,0 @@
-CustomSystem:new("Giger",{'STAR_M'}):add_to_sector(-1,3,v(0.883,0.968,-1.103))

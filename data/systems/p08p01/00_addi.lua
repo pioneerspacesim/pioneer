@@ -1,1 +1,0 @@
-CustomSystem:new("Addi",{'STAR_K'}):add_to_sector(8,1,v(0.772,0.389,-0.310))

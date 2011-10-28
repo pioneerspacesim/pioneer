@@ -1,1 +1,0 @@
-CustomSystem:new("Beurso",{'STAR_M'}):add_to_sector(4,-6,v(0.453,0.781,1.148))

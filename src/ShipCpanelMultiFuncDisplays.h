@@ -44,7 +44,7 @@ private:
 		Type type;
 	};
 	std::list<message_t> m_msgQueue;
-	float msgAge;
+	Uint32 msgAge;
 	Gui::Label *msgLabel;
 	Type curMsgType;
 };
@@ -80,6 +80,7 @@ private:
 class MultiFuncSelectorWidget: public Gui::Fixed {
 public:
 	MultiFuncSelectorWidget();
+	virtual ~MultiFuncSelectorWidget();
 	sigc::signal<void, multifuncfunc_t> onSelect;
 	void SetSelected(multifuncfunc_t f) {
 		m_rg->SetSelected(int(f));

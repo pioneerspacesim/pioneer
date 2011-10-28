@@ -70,7 +70,7 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 bool Ship::AITimeStep(float timeStep)
 {
 	// allow the launch thruster thing to happen
-	if (m_launchLockTimeout != 0) return false;
+	if (m_launchLockTimeout > 0.0) return false;
 
 	if (!m_curAICmd) {
 		if (this == Pi::player) return true;
@@ -85,7 +85,7 @@ bool Ship::AITimeStep(float timeStep)
 	if (m_curAICmd->TimeStepUpdate()) {
 		AIClearInstructions();
 //		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
-		Pi::luaOnAICompleted.Queue(this);
+		Pi::luaOnAICompleted->Queue(this);
 		return true;
 	}
 	else return false;
@@ -111,11 +111,13 @@ void Ship::AIKill(Ship *target)
 	m_curAICmd = new AICmdKill(this, target);
 }
 
+/*
 void Ship::AIJourney(SBodyPath &dest)
 {
 	AIClearInstructions();
 //	m_curAICmd = new AICmdJourney(this, dest);
 }
+*/
 
 void Ship::AIFlyTo(Body *target)
 {
@@ -158,7 +160,7 @@ static double calc_ivel(double dist, double vel, double acc)
 	double ivel = 0.9 * sqrt(vel*vel + 2.0 * acc * dist);		// fudge hardly necessary
 
 	double endvel = ivel - (acc * Pi::GetTimeStep());
-	if (vel == 0.0 && endvel <= 0) ivel = dist / Pi::GetTimeStep();	// last frame discrete correction
+	if (float_is_zero_general(vel) && endvel <= 0.0) ivel = dist / Pi::GetTimeStep();	// last frame discrete correction
 	else ivel = (ivel + endvel) * 0.5;					// discrete overshoot correction
 //	else ivel = endvel + 0.5*acc/PHYSICS_HZ;			// unknown next timestep discrete overshoot correction
 
@@ -297,7 +299,7 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 	double timeStep = Pi::GetTimeStep();
 
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
-	if (!maxAccel)
+	if (maxAccel <= 0.0)
 		// happens if no angular thrust is set for the model eg MISSILE_UNGUIDED
 		return 0.0;
 	double frameAccel = maxAccel * timeStep;

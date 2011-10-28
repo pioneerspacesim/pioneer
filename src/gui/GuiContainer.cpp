@@ -109,6 +109,9 @@ void Container::DeleteAllChildren()
 
 void Container::RemoveAllChildren()
 {
+	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+		i->w->SetParent(0);
+	}
 	m_children.clear();
 }
 
@@ -147,6 +150,7 @@ void Container::RemoveChild(Widget *child)
 {
 	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 		if ((*i).w == child) {
+			child->SetParent(0);
 			m_children.erase(i);
 			return;
 		}
@@ -159,7 +163,7 @@ void Container::Draw()
 	float size[2];
 	GetSize(size);
 	if (!m_transparent) {
-		if (m_bgcol[3] != 1.0) glEnable(GL_BLEND);
+		if (m_bgcol[3] < 1.0) glEnable(GL_BLEND);
 		glBegin(GL_QUADS);
 			glColor4fv(m_bgcol);
 			glVertex2f(0, size[1]);

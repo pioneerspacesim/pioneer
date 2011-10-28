@@ -1,4 +1,3 @@
-
 #include "StarSystem.h"
 #include "Serializer.h"
 #include "Pi.h"
@@ -7,7 +6,7 @@
 #include "Ship.h"
 #include "HyperspaceCloud.h"
 
-#define SAVEFILE_VERSION	23
+#define SAVEFILE_VERSION	38
 
 namespace Serializer {
 
@@ -411,13 +410,8 @@ void LoadGame(const char *filename)
 	rd.SetStreamVersion(rd.Int32());
 	fprintf(stderr, "Savefile version %d. ", rd.StreamVersion());
 
-	if (rd.StreamVersion() > SAVEFILE_VERSION) {
-		fprintf(stderr, "Can't load savefile. It is for a newer version of Pioneer.\n");
-		throw SavedGameCorruptException();
-	}
-
-	if (rd.StreamVersion() < 21) {
-		fprintf(stderr, "Can't load old savefile < alpha9.\n");
+	if (rd.StreamVersion() != SAVEFILE_VERSION) {
+		fprintf(stderr, "Can't load savefile, expected version %d\n", SAVEFILE_VERSION);
 		throw SavedGameCorruptException();
 	}
 

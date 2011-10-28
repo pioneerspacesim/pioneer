@@ -1,1 +1,0 @@
-CustomSystem:new("Cholongai",{'STAR_M'}):add_to_sector(-5,-2,v(0.133,0.723,-0.333))

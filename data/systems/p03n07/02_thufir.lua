@@ -1,1 +1,0 @@
-CustomSystem:new("Thufir",{'STAR_M'}):add_to_sector(3,-7,v(0.472,0.926,0.876))

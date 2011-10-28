@@ -1,1 +1,0 @@
-CustomSystem:new("Kisevalter",{'STAR_F'}):add_to_sector(9,3,v(0.438,0.361,-0.403))

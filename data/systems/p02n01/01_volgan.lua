@@ -1,1 +1,0 @@
-CustomSystem:new("Volgan",{'STAR_M'}):add_to_sector(2,-1,v(0.986,0.241,0.532))

@@ -1,6 +1,6 @@
 #include "LuaShip.h"
 #include "LuaSpaceStation.h"
-#include "LuaSBodyPath.h"
+#include "LuaSystemPath.h"
 #include "LuaShipType.h"
 #include "LuaBody.h"
 #include "LuaUtils.h"
@@ -60,7 +60,7 @@ static int l_ship_is_player(lua_State *l)
  *
  * Returns statistics for the ship
  *
- * > stats - ship:GetStats()
+ * > stats = ship:GetStats()
  *
  * Returns:
  *
@@ -115,6 +115,97 @@ static int l_ship_get_stats(lua_State *l)
 	LUA_DEBUG_END(l, 1);
 
 	return 1;
+}
+
+/* Method: SetShipType
+ *
+ * Replaces the ship with a new ship of the specified type. Can only be done
+ * while docked.
+ *
+ * > ship:SetShipType(newtype)
+ *
+ * Parameters:
+ *
+ *   newtype - the name of the ship
+ *
+ * Example:
+ *
+ * > ship:SetShipType('Sirius Interdictor')
+ *
+ * Availability:
+ * 
+ *   alpha 15
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_set_ship_type(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	Ship *s = LuaShip::GetFromLua(1);
+
+	const char *type = luaL_checkstring(l, 2);
+	if (! ShipType::Get(type))
+		luaL_error(l, "Unknown ship type '%s'", type);
+
+	if (s->GetFlightState() != Ship::DOCKED)
+		luaL_error(l, "Cannot change ship type unless docked");
+
+	ShipFlavour f(type);
+
+	s->ResetFlavour(&f);
+	s->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[f.type].hyperdrive);
+	s->UpdateMass();
+
+	LUA_DEBUG_END(l, 0);
+
+	return 0;
+}
+
+/*
+ * Method: SetHullPercent
+ *
+ * Sets the hull mass of the ship to the given precentage of its maximum.
+ *
+ * > ship:SetHullPercent(percent)
+ *
+ * Setting the hull percentage to 0 will not destroy the ship until it takes
+ * damage.
+ *
+ * Parameters:
+ *
+ *   percent - optional. A number from 0 to 100. Less then 0 will use 0 and
+ *             greater than 100 will use 100. Defaults to 100.
+ *
+ * Example:
+ *
+ * > ship:SetHullPercent(3.14)
+ *
+ * Availability:
+ *
+ *  alpha 15
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_set_hull_percent(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	Ship *s = LuaShip::GetFromLua(1);
+
+	float percent = 100;
+	if (lua_isnumber(l, 2))
+		percent = float(luaL_checknumber(l, 2));
+
+	s->SetPercentHull(percent);
+
+	LUA_DEBUG_END(l, 0);
+
+	return 0;
 }
 
 /*
@@ -363,8 +454,8 @@ static int l_ship_get_equip(lua_State *l)
 		return 0;
 	
 	if (lua_isnumber(l, 3)) {
-		int idx = lua_tonumber(l, 3);
-		lua_pushinteger(l, s->m_equipment.Get(slot, idx));
+		int idx = lua_tointeger(l, 3);
+		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", s->m_equipment.Get(slot, idx-1)));
 		return 1;
 	}
 
@@ -373,7 +464,7 @@ static int l_ship_get_equip(lua_State *l)
 
 	for (int idx = 0; idx < size; idx++) {
 		lua_pushinteger(l, idx+1);
-		lua_pushinteger(l, s->m_equipment.Get(slot, idx));
+		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", s->m_equipment.Get(slot, idx)));
 		lua_rawset(l, -3);
 	}
 
@@ -418,7 +509,7 @@ static int l_ship_set_equip(lua_State *l)
 	// XXX check that the slot is large enough
 	// XXX check that we have free mass
 
-	s->m_equipment.Set(slot, idx, e);
+	s->m_equipment.Set(slot, idx-1, e);
 	s->UpdateMass();
 	return 0;
 }
@@ -463,11 +554,9 @@ static int l_ship_add_equip(lua_State *l)
 		num = lua_tointeger(l, 3);
 
 	const shipstats_t *stats = s->CalcStats();
-	if (stats->free_capacity < EquipType::types[e].mass*num) {
-		lua_pushinteger(l, 0);
-		return 1;
-	}
-	
+	if (Equip::types[e].mass != 0)
+		num = std::min(stats->free_capacity / (Equip::types[e].mass), num);
+
 	lua_pushinteger(l, s->m_equipment.Add(e, num));
 	s->UpdateMass();
 	return 1;
@@ -591,8 +680,6 @@ static int l_ship_get_equip_free(lua_State *l)
  *
  * On sucessful jettison, the <EventQueue.onJettison> event is triggered.
  *
- * Calli
- *
  * Parameters:
  *
  *   item - the item to jettison
@@ -624,7 +711,7 @@ static int l_ship_jettison(lua_State *l)
  *
  * Get the station that the ship is currently docked with
  *
- * > station = ship:GetDockedWidth()
+ * > station = ship:GetDockedWith()
  *
  * Return:
  *
@@ -642,9 +729,8 @@ static int l_ship_jettison(lua_State *l)
 static int l_ship_get_docked_with(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	SpaceStation *station = s->GetDockedWith();
-	if (!station) return 0;
-	LuaSpaceStation::PushToLua(station);
+	if (s->GetFlightState() != Ship::DOCKED) return 0;
+	LuaSpaceStation::PushToLua(s->GetDockedWith());
 	return 1;
 }
 
@@ -653,9 +739,14 @@ static int l_ship_get_docked_with(lua_State *l)
  *
  * Undock from the station currently docked with
  *
- * > ship:Undock()
+ * > success = ship:Undock()
  *
  * <EventQueue.onShipUndocked> will be triggered once undocking is complete
+ *
+ * Return:
+ *
+ *   success - true if ship is undocking, false if the ship is unable to undock,
+ *             probably because another ship is currently undocking
  *
  * Availability:
  *
@@ -731,7 +822,7 @@ static int l_ship_fire_missile_at(lua_State *l)
  *
  * Determine is a ship is able to hyperspace to a given system
  *
- * > status = ship:CanHyperspaceTo(path)
+ * > status, fuel, duration = ship:CanHyperspaceTo(path)
  *
  * The result is based on distance, range, available fuel, ship mass and other
  * factors.
@@ -745,6 +836,12 @@ static int l_ship_fire_missile_at(lua_State *l)
  *   status - a <Constants.ShipJumpStatus> string that tells if the ship can
  *            hyperspace and if not, describes the reason
  *
+ *   fuel - if status is 'OK', contains the amount of fuel required to make
+ *          the jump (tonnes)
+ *
+ *   duration - if status is 'OK', contains the time that the jump will take
+ *				(seconds)
+ *
  * Availability:
  *
  *   alpha 10
@@ -756,14 +853,14 @@ static int l_ship_fire_missile_at(lua_State *l)
 static int l_ship_can_hyperspace_to(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	SBodyPath *dest = LuaSBodyPath::GetFromLua(2);
+	SystemPath *dest = LuaSystemPath::GetFromLua(2);
 
 	int fuel;
 	double duration;
 	Ship::HyperjumpStatus status;
 
 	if (s->CanHyperspaceTo(dest, fuel, duration, &status)) {
-		lua_pushinteger(l, status);
+		lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", Ship::HYPERJUMP_OK));
 		lua_pushinteger(l, fuel);
 		lua_pushnumber(l, duration);
 		return 3;
@@ -804,7 +901,7 @@ static int l_ship_can_hyperspace_to(lua_State *l)
 static int l_ship_hyperspace_to(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	SBodyPath *dest = LuaSBodyPath::GetFromLua(2);
+	SystemPath *dest = LuaSystemPath::GetFromLua(2);
 
 	int fuel;
 	double duration;
@@ -816,7 +913,7 @@ static int l_ship_hyperspace_to(lua_State *l)
 		return 1;
 	}
 
-	Space::StartHyperspaceTo(s, dest);
+	s->Hyperspace(dest);
 
 	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", Ship::HYPERJUMP_OK));
 	return 1;
@@ -850,7 +947,7 @@ static int l_ship_attr_alert_status(lua_State *l)
  * Group: AI methods
  *
  * The AI methods are the script's equivalent of the autopilot. They are
- * high-level commands instruct the ship to fly somewhere and possibly take
+ * high-level commands to instruct the ship to fly somewhere and possibly take
  * some action when it arrives (like dock or attack).
  *
  * When an AI completes the <EventQueue.onAICompleted> event is triggered, and
@@ -1081,6 +1178,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "IsPlayer", l_ship_is_player },
 
 		{ "GetStats", l_ship_get_stats },
+        { "SetShipType", l_set_ship_type },
+		{ "SetHullPercent", l_ship_set_hull_percent },
 
 		{ "SetLabel",           l_ship_set_label            },
 		{ "SetPrimaryColour",   l_ship_set_primary_colour   },

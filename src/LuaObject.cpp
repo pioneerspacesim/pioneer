@@ -107,7 +107,7 @@ static inline void _instantiate() {
 		// program if you can. doing it reintroduces the crash though, as this
 		// gets called before all our objects are destroyed. I'm not sure what
 		// the solution is at this time
-		//atexit(_teardown);
+		atexit(_teardown);
 
 		instantiated = true;
 	}
@@ -118,7 +118,7 @@ void LuaObjectBase::Deregister(LuaObjectBase *lo)
 	lo->m_deleteConnection.disconnect();
 	registry->erase(lo->m_id);
 
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -225,7 +225,7 @@ static int dispatch_index(lua_State *l)
 			// method call we have to do the call ourselves
 			if (lua_isfunction(l, -1)) {
 				lua_pushvalue(l, 1);
-				lua_call(l, 1, 1);
+				pi_lua_protected_call(l, 1, 1);
 				return 1;
 			}
 
@@ -262,7 +262,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 {
 	assert(type);
 
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	_instantiate();
 
@@ -273,16 +273,16 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	// before any objects actually turn up
 	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
 	if (lua_isnil(l, -1)) {
+		// create the LuaObjectRegistry table
+		lua_newtable(l);
 
-		// setup a metatable for weak values
+		// configure the registry to use weak values
 		lua_newtable(l);
 		lua_pushstring(l, "__mode");
 		lua_pushstring(l, "v");
 		lua_rawset(l, -3);
-
-		// and the table proper
-		lua_newtable(l);
 		lua_setmetatable(l, -2);
+
 		lua_setfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
 	}
 	lua_pop(l, 1);
@@ -351,7 +351,7 @@ bool LuaObjectBase::PushRegistered(DeleteEmitter *o)
 {
 	assert(instantiated);
 
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -423,7 +423,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 
 	registry->insert(std::make_pair(lo->m_id, lo));
 
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -450,7 +450,7 @@ DeleteEmitter *LuaObjectBase::CheckFromLua(int index, const char *type)
 {
 	assert(instantiated);
 
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -478,7 +478,7 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 {
 	assert(instantiated);
 
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -509,7 +509,7 @@ bool LuaObjectBase::Isa(const char *base) const
 
 	assert(instantiated);
 
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

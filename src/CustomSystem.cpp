@@ -3,6 +3,7 @@
 #include "PiLuaClasses.h"
 #include "LuaConstants.h"
 #include "Polit.h"
+#include "SystemPath.h"
 
 static lua_State *csLua;
 
@@ -35,13 +36,13 @@ void CustomSystem::Init()
 	lua_close(L);
 }
 
-const std::list<const CustomSystem*> CustomSystem::GetCustomSystemsForSector(int sectorX, int sectorY)
+const std::list<const CustomSystem*> CustomSystem::GetCustomSystemsForSector(int sectorX, int sectorY, int sectorZ)
 {
 	std::list<const CustomSystem*> sector_systems;
 
 	for (std::list<CustomSystem>::iterator i = custom_systems.begin(); i != custom_systems.end(); i++) {
 		CustomSystem *cs = &(*i);
-		if (cs->sectorX == sectorX && cs->sectorY == sectorY)
+		if (cs->sectorX == sectorX && cs->sectorY == sectorY && cs->sectorZ == sectorZ)
 			sector_systems.push_back(cs);
 	}
 
@@ -57,21 +58,21 @@ const CustomSystem* CustomSystem::GetCustomSystem(const char *name)
 	return NULL;
 }
 
-const SBodyPath CustomSystem::GetSBodyPathForCustomSystem(const CustomSystem* cs)
+const SystemPath CustomSystem::GetPathForCustomSystem(const CustomSystem* cs)
 {
-	const std::list<const CustomSystem*> cslist = GetCustomSystemsForSector(cs->sectorX, cs->sectorY);
+	const std::list<const CustomSystem*> cslist = GetCustomSystemsForSector(cs->sectorX, cs->sectorY, cs->sectorZ);
 	int idx = 0;
 	for (std::list<const CustomSystem*>::const_iterator i = cslist.begin(); i != cslist.end(); i++) {
 		if (!(*i)->name.compare(cs->name)) break;
 		idx++;
 	}
 	assert(idx < static_cast<int>(cslist.size()));
-	return SBodyPath(cs->sectorX, cs->sectorY, idx);
+	return SystemPath(cs->sectorX, cs->sectorY, cs->sectorZ, idx);
 }
 
-const SBodyPath CustomSystem::GetSBodyPathForCustomSystem(const char* name)
+const SystemPath CustomSystem::GetPathForCustomSystem(const char* name)
 {
-	return GetSBodyPathForCustomSystem(GetCustomSystem(name));
+	return GetPathForCustomSystem(GetCustomSystem(name));
 }
 
 CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
@@ -142,7 +143,7 @@ CustomSystem *CustomSystem::l_govtype(std::string st)
 
 void CustomSystem::l_bodies(lua_State* L, CustomSBody& primary_star, OOLUA::Lua_table children)
 {
-	if ( primary_star.type < SBody::TYPE_BROWN_DWARF || primary_star.type > SBody::TYPE_WHITE_DWARF )
+	if ( primary_star.type < SBody::TYPE_STAR_MIN || primary_star.type > SBody::TYPE_STAR_MAX )
 		luaL_error(L, "first body does not have a valid star type");
 	if ( primary_star.type != primaryType[0] )
 		luaL_error(L, "first body is not of same type as system primary star");
@@ -151,10 +152,11 @@ void CustomSystem::l_bodies(lua_State* L, CustomSBody& primary_star, OOLUA::Lua_
 	sBody = primary_star;
 }
 
-void CustomSystem::l_add_to_sector(int x, int y, pi_vector& v)
+void CustomSystem::l_add_to_sector(int x, int y, int z, pi_vector& v)
 {
 	sectorX = x;
 	sectorY = y;
+	sectorZ = z;
 	pos = v;
 
 	custom_systems.push_back(*this);

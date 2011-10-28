@@ -1,4 +1,3 @@
-#extension GL_ARB_texture_rectangle : enable
 uniform sampler2DRect fboTex;
 uniform float avgLum;
 uniform float middleGrey;

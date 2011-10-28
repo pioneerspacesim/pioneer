@@ -1,1 +1,0 @@
-CustomSystem:new("Ingle",{'STAR_M'}):add_to_sector(0,-4,v(0.125,0.776,0.483))

@@ -1,1 +1,0 @@
-CustomSystem:new("Thulahn",{'STAR_M'}):add_to_sector(-6,-9,v(0.264,0.229,0.366))

@@ -1,6 +1,6 @@
-The Pioneer team are (8 July 2011, alpha 12):
+The Pioneer team are (14 October 2011, alpha 15):
 
-Project lead: John Jordan
+Project leads: Tom Morton, John Jordan
 
 Maintainer: Robert Norris
 
@@ -15,6 +15,11 @@ Programming:
   Darren Salt
   Kimmo Kotajärvi
   Andrew Copland
+  Paul Mahol
+  John Bartholomew
+  Benjamin Hodgetts
+  Sean Bailey
+  Brian Ronald
 
 Art:
   Gernot
@@ -26,7 +31,21 @@ Art:
   Ulf Pettersson
   Konrad Mruk
   Marcel Tulloh
+  Michele Botticelli
+  Gareth Allnutt
 
+Music:
+  Dan Bennett
+  Aaron Lewis
+  Leonardo Manna
+
+Translations:
+  Brian Ronald
+  Piotr Gredka
+  Blaga Cosmin
+  Vincent Teerling
+  Alessandro Giachi
+  Paul Mahol
 
 Thanks to those that have moved on (we hope to see you back!)
 
@@ -61,6 +80,10 @@ Pioneer includes the following third-party software:
 
   Titillium Text font
   Copyright (C) 2007-2009 Academia di Belle Arte di Urbino - Campivisivi
+  Licensed under the SIL Open Font Licence v1.1 (see fonts.COPYING.txt)
+
+  Inconsolata font
+  Copyright (C) 2006, Raph Levien
   Licensed under the SIL Open Font Licence v1.1 (see fonts.COPYING.txt)
 
 

@@ -3,10 +3,11 @@
 #include "Pi.h"
 #include "Ship.h"
 #include "Serializer.h"
-#include "Render.h"
+#include "render/Render.h"
 #include "Space.h"
 #include "Player.h"
 #include "perlin.h"
+#include "Lang.h"
 
 HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 {
@@ -17,7 +18,6 @@ HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 	m_vel = (s ? s->GetVelocity() : vector3d(0.0));
 	m_birthdate = Pi::GetGameTime();
 	m_due = dueDate;
-	m_id = Pi::rng.Int32();
 	SetIsArrival(isArrival);
 }
 
@@ -35,7 +35,7 @@ HyperspaceCloud::~HyperspaceCloud()
 void HyperspaceCloud::SetIsArrival(bool isArrival)
 {
 	m_isArrival = isArrival;
-	SetLabel(isArrival ? "Hyperspace arrival cloud" : "Hyperspace departure cloud");
+	SetLabel(isArrival ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 }
 
 vector3d HyperspaceCloud::GetPosition() const
@@ -58,7 +58,6 @@ void HyperspaceCloud::Save(Serializer::Writer &wr)
 	wr.Bool(m_isArrival);
 	wr.Bool(m_ship != 0);
 	if (m_ship) m_ship->Serialize(wr);
-	wr.Int32(m_id);
 }
 
 void HyperspaceCloud::Load(Serializer::Reader &rd)
@@ -72,7 +71,6 @@ void HyperspaceCloud::Load(Serializer::Reader &rd)
 	if (rd.Bool()) {
 		m_ship = reinterpret_cast<Ship*>(Body::Unserialize(rd));
 	}
-	m_id = rd.Int32();
 }
 
 void HyperspaceCloud::PostLoadFixup()
@@ -86,16 +84,20 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 
 	if (m_isArrival && m_ship && (m_due < Pi::GetGameTime())) {
 		// spawn ship
+		// XXX some overlap with Space::DoHyperspaceTo(). should probably all
+		// be moved into EvictShip()
 		m_ship->SetPosition(m_pos);
 		m_ship->SetVelocity(m_vel);
+		m_ship->SetRotMatrix(matrix4x4d::Identity());
 		m_ship->SetFrame(GetFrame());
+		m_ship->SetFlightState(Ship::FLYING);
 		Space::AddBody(m_ship);
 		m_ship->Enable();
 
 		if (Pi::player->GetNavTarget() == this && !Pi::player->GetCombatTarget())
 			Pi::player->SetCombatTarget(m_ship);
 
-		Pi::luaOnEnterSystem.Queue(m_ship);
+		Pi::luaOnEnterSystem->Queue(m_ship);
 
 		m_ship = 0;
 	}
@@ -149,7 +151,7 @@ void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewT
 	// precise to the rendered frame (better than PHYSICS_HZ granularity)
 	double preciseTime = Pi::GetGameTime() + Pi::GetGameTickAlpha()*Pi::GetTimeStep();
 
-	float radius = 1000.0f + 200.0f*noise(10.0*preciseTime, double(m_id&0xff), 0);
+	float radius = 1000.0f + 200.0f*float(noise(10.0*preciseTime, 0, 0));
 	if (m_isArrival) {
 		make_circle_thing(radius, Color(1.0,1.0,1.0,1.0), Color(0.0,0.0,1.0,0.0));
 	} else {

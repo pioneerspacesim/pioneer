@@ -15,6 +15,8 @@ namespace Gui {
 		/** containers call this on children. input: size[] will contain max permissible size
 		 *  output: size[] will contain what space the widget desires */
 		virtual void GetSizeRequested(float size[2]) = 0;
+		// the minimum size the widget requires to operate effectively
+		virtual void GetMinimumSize(float size[2]) { GetSizeRequested(size); }
 		void GetAbsolutePosition(float pos[2]) const;
 		void GetSize(float size[2]) { size[0] = m_size.w; size[1] = m_size.h; }
 		void SetSize(float w, float h) { m_size.w = w; m_size.h = h; onSetSize.emit(); }
@@ -24,7 +26,7 @@ namespace Gui {
 		void EndClipping();
 		bool GetEnabled() { return m_enabled; }
 		void SetEnabled(bool v) { m_enabled = v; }
-		void GrabFocus();
+		virtual void GrabFocus();
 		bool IsFocused();
 		virtual void ShowAll() { m_visible = true; }
 		virtual void Show() { m_visible = true; }
@@ -42,7 +44,7 @@ namespace Gui {
 		virtual void OnActivate() {}
 		virtual void OnMouseEnter();
 		virtual void OnMouseLeave();
-		virtual void OnKeyPress(const SDL_keysym *sym) {}
+		virtual bool OnKeyPress(const SDL_keysym *sym) { return false; }
 		bool IsMouseOver() { return m_mouseOver; }
 		// only to be called by Screen::OnKeyDown
 		void OnPreShortcut(const SDL_keysym *sym);

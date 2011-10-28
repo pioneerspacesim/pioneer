@@ -69,8 +69,6 @@ void Starfield::Draw()
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 
-	double hyperspaceAnim = Space::GetHyperspaceAnim();
-
 	if (Render::AreShadersEnabled()) {
 		glError();
 		Render::State::UseProgram(m_shader);
@@ -84,7 +82,7 @@ void Starfield::Draw()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 
-	if (hyperspaceAnim == 0) {
+	if (!Pi::IsGameStarted() || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 		glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), 0);
 		glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), reinterpret_cast<void *>(3*sizeof(float)));
@@ -106,31 +104,38 @@ void Starfield::Draw()
 		// it out by tweaking the numbers until it looked sort of right
 		double mult = 0.0015 / (Space::GetHyperspaceDuration() / (60.0*60.0*24.0*7.0));
 
+		double hyperspaceAnim = Space::GetHyperspaceAnim();
+
 		float *vtx = new float[BG_STAR_MAX*12];
 		for (int i=0; i<BG_STAR_MAX; i++) {
-			vtx[i*12] = m_stars[i].x;
-			vtx[i*12+1] = m_stars[i].y;
-			vtx[i*12+2] = m_stars[i].z;
-
-			vtx[i*12+3] = m_stars[i].r * 0.5;
-			vtx[i*12+4] = m_stars[i].g * 0.5;
-			vtx[i*12+5] = m_stars[i].b * 0.5;
-
+			
 			vector3f v(m_stars[i].x, m_stars[i].y, m_stars[i].z);
 			v += pz*hyperspaceAnim*mult;
+
+			vtx[i*12] = m_stars[i].x + v.x;
+			vtx[i*12+1] = m_stars[i].y + v.y;
+			vtx[i*12+2] = m_stars[i].z + v.z;
+
+			vtx[i*12+3] = m_stars[i].r;// * noise(v.x);
+			vtx[i*12+4] = m_stars[i].g;// * noise(v.y);
+			vtx[i*12+5] = m_stars[i].b;// * noise(v.z);
 
 			vtx[i*12+6] = v.x;
 			vtx[i*12+7] = v.y;
 			vtx[i*12+8] = v.z;
 
-			vtx[i*12+9] = m_stars[i].r * 0.5;
-			vtx[i*12+10] = m_stars[i].g * 0.5;
-			vtx[i*12+11] = m_stars[i].b * 0.5;
+			vtx[i*12+9] = m_stars[i].r;// * noise(v.x);
+			vtx[i*12+10] = m_stars[i].g;// * noise(v.y);
+			vtx[i*12+11] = m_stars[i].b;// * noise(v.z);
+
+			//glRotatef(0.00001*v.x, 1.0f, 0.0f, 0.0f); // rotate around x axis
+			//glRotatef(-0.00001*v.y, 0.0f, 1.0f, 0.0f); // rotate around y axis
+			//glRotatef(0.00001*v.z, 0.0f, 0.0f, 1.0f); // rotate around z axis
 		}
 
 		glVertexPointer(3, GL_FLOAT, 6*sizeof(float), vtx);
 		glColorPointer(3, GL_FLOAT, 6*sizeof(float), vtx+3);
-		glDrawArrays(GL_LINES, 0, 2*BG_STAR_MAX);
+		glDrawArrays(GL_LINES, 0, BG_STAR_MAX*2);
 
 		delete[] vtx;
 	}

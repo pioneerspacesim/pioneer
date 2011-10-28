@@ -1,1 +1,0 @@
-CustomSystem:new("Vewaa",{'STAR_M'}):add_to_sector(-4,3,v(0.631,0.542,-0.333))

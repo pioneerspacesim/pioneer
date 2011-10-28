@@ -1,1 +1,0 @@
-CustomSystem:new("Pi Arae",{'STAR_A'}):add_to_sector(-7,3,v(0.828,0.326,-0.512))

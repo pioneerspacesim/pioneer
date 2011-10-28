@@ -1,1 +1,0 @@
-CustomSystem:new("Gilliam",{'STAR_M'}):add_to_sector(7,2,v(0.652,0.826,-0.672))

@@ -2,6 +2,15 @@
 
 namespace Gui {
 
+LabelSet::LabelSet() : Widget()
+{
+	m_eventMask = EVENT_MOUSEDOWN;
+	m_labelsVisible = true;
+	m_labelsClickable = true;
+	m_labelColor = Color(1.0f,1.0f,1.0f,1.0f);
+	m_font = Screen::GetFont();
+}
+
 bool LabelSet::OnMouseDown(Gui::MouseButtonEvent *e)
 {
 	if ((e->button == 1) && (m_labelsClickable)) {
@@ -32,6 +41,13 @@ void LabelSet::Add(std::string text, sigc::slot<void> onClick, float screenx, fl
 	}
 }
 
+void LabelSet::Add(std::string text, sigc::slot<void> onClick, float screenx, float screeny, const Color &col)
+{
+	if (CanPutItem(screenx, screeny)) {
+		m_items.push_back(LabelSetItem(text, onClick, screenx, screeny, col));
+	}
+}
+
 void LabelSet::Clear()
 {
 	m_items.clear();
@@ -41,9 +57,13 @@ void LabelSet::Draw()
 {
 	if (!m_labelsVisible) return;
 	glColor4fv(m_labelColor);
-	if (m_labelColor.a != 1.0f) glEnable(GL_BLEND);
+	if (m_labelColor.a < 1.0f) glEnable(GL_BLEND);
 	for (std::vector<LabelSetItem>::iterator i = m_items.begin(); i != m_items.end(); ++i) {
-		Gui::Screen::RenderString((*i).text, (*i).screenx, (*i).screeny - Gui::Screen::GetFontHeight()*0.5f);
+		if ((*i).hasOwnColor) {
+			if ((*i).color.a < 1.0f) glEnable(GL_BLEND);
+			glColor4fv((*i).color);
+		}
+		Gui::Screen::RenderString((*i).text, (*i).screenx, (*i).screeny - Gui::Screen::GetFontHeight()*0.5f, m_font);
 	}
 	glDisable(GL_BLEND);
 }

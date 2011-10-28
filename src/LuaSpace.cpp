@@ -2,7 +2,7 @@
 #include "LuaManager.h"
 #include "LuaUtils.h"
 #include "LuaShip.h"
-#include "LuaSBodyPath.h"
+#include "LuaSystemPath.h"
 #include "LuaBody.h"
 #include "LuaSpaceStation.h"
 #include "LuaStar.h"
@@ -20,7 +20,7 @@
  * Various functions to create and find objects in the current physics space.
  */
 
-static void _unpack_hyperspace_args(lua_State *l, int index, SBodyPath* &path, double &due)
+static void _unpack_hyperspace_args(lua_State *l, int index, SystemPath* &path, double &due)
 {
 	if (lua_isnone(l, index)) return;
 
@@ -31,8 +31,8 @@ static void _unpack_hyperspace_args(lua_State *l, int index, SBodyPath* &path, d
 
 	lua_pushinteger(l, 1);
 	lua_gettable(l, index);
-	if (!(path = LuaSBodyPath::CheckFromLua(-1)))
-		luaL_error(l, "bad value for hyperspace path at position 1 (SBodyPath expected, got %s)", luaL_typename(l, -1));
+	if (!(path = LuaSystemPath::CheckFromLua(-1)))
+		luaL_error(l, "bad value for hyperspace path at position 1 (SystemPath expected, got %s)", luaL_typename(l, -1));
 	lua_pop(l, 1);
 
 	lua_pushinteger(l, 2);
@@ -47,12 +47,12 @@ static void _unpack_hyperspace_args(lua_State *l, int index, SBodyPath* &path, d
 	LUA_DEBUG_END(l, 0);
 }
 
-static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SBodyPath *path, double due)
+static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SystemPath *path, double due)
 {
 	if (!path) return ship;
 
 	HyperspaceCloud *cloud = new HyperspaceCloud(ship, due, true);
-	ship->SetHyperspaceTarget(path);
+	ship->SetHyperspaceDest(path);
 
 	return cloud;
 }
@@ -79,6 +79,7 @@ static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SBodyPath *path, double due
  *                from. The table contains two elements, a <SystemPath> for
  *                the system the ship is travelling from, and the due
  *                date/time that the ship should emerge from the cloud.
+ *                In this case min and max arguments are ignored.
  *
  * Return:
  *
@@ -89,7 +90,7 @@ static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SBodyPath *path, double due
  * > -- spawn a ship 5-6AU from the system centre
  * > local ship = Ship.Spawn("Eagle Long Range Fighter, 5, 6)
  *
- * > -- spawn a ship in the 9-11AU hyperspace area and make it appear that it
+ * > -- spawn a ship in the ~11AU hyperspace area and make it appear that it
  * > -- came from Sol and will arrive in ten minutes
  * > local ship = Ship.Spawn(
  * >     "Flowerfairy Heavy Trader", 9, 11,
@@ -115,7 +116,7 @@ static int l_space_spawn_ship(lua_State *l)
 	float min_dist = luaL_checknumber(l, 2);
 	float max_dist = luaL_checknumber(l, 3);
 
-	SBodyPath *path = NULL;
+	SystemPath *path = NULL;
 	double due = -1;
 	_unpack_hyperspace_args(l, 4, path, due);
 
@@ -125,14 +126,11 @@ static int l_space_spawn_ship(lua_State *l)
 	Body *thing = _maybe_wrap_ship_with_cloud(ship, path, due);
 
 	// XXX protect against spawning inside the body
-	float longitude = Pi::rng.Double(-M_PI,M_PI);
-	float latitude = Pi::rng.Double(-M_PI,M_PI);
-
-	float dist = (min_dist + Pi::rng.Double(max_dist-min_dist));
-	vector3d pos = vector3d(sin(longitude)*cos(latitude), sin(latitude), cos(longitude)*cos(latitude));
-
 	thing->SetFrame(Space::rootFrame);
-	thing->SetPosition(pos * dist * AU);
+	if (path == NULL)
+		thing->SetPosition(Space::GetRandomPosition(min_dist, max_dist)*AU);
+	else
+		thing->SetPosition(Space::GetPositionAfterHyperspace(path, &(Pi::currentSystem->GetPath())));
 	thing->SetVelocity(vector3d(0,0,0));
 	Space::AddBody(thing);
 
@@ -160,8 +158,12 @@ static int l_space_spawn_ship(lua_State *l)
  *
  *   max - maximum distance to place the ship
  *
- *   hyperspace - option table containing hyperspace entry information. See
- *                <SpawnShip> for a full description of this parameter.
+ *   hyperspace - optional table containing hyperspace entry information. If
+ *                this is provided the ship will not spawn directly. Instead,
+ *                a hyperspace cloud will be created that the ship will exit
+ *                from. The table contains two elements, a <SystemPath> for
+ *                the system the ship is travelling from, and the due
+ *                date/time that the ship should emerge from the cloud.
  *
  * Return:
  *
@@ -192,7 +194,7 @@ static int l_space_spawn_ship_near(lua_State *l)
 	float min_dist = luaL_checknumber(l, 3);
 	float max_dist = luaL_checknumber(l, 4);
 
-	SBodyPath *path = NULL;
+	SystemPath *path = NULL;
 	double due = -1;
 	_unpack_hyperspace_args(l, 5, path, due);
 
@@ -202,14 +204,8 @@ static int l_space_spawn_ship_near(lua_State *l)
 	Body *thing = _maybe_wrap_ship_with_cloud(ship, path, due);
 
 	// XXX protect against spawning inside the body
-	float longitude = Pi::rng.Double(-M_PI,M_PI);
-	float latitude = Pi::rng.Double(-M_PI,M_PI);
-
-	float dist = (min_dist + Pi::rng.Double(max_dist-min_dist));
-	vector3d pos = vector3d(sin(longitude)*cos(latitude), sin(latitude), cos(longitude)*cos(latitude));
-
 	thing->SetFrame(nearbody->GetFrame());
-	thing->SetPosition((pos * dist * 1000.0) + nearbody->GetPosition());
+	thing->SetPosition((Space::GetRandomPosition(min_dist, max_dist)* 1000.0) + nearbody->GetPosition());
 	thing->SetVelocity(vector3d(0,0,0));
 	Space::AddBody(thing);
 
@@ -402,11 +398,10 @@ static int l_space_get_body(lua_State *l)
 {
 	int id = luaL_checkinteger(l, 1);
 
-	const SysLoc loc = Pi::currentSystem->GetLocation();
-	SBodyPath path(loc.GetSectorX(), loc.GetSectorY(), loc.GetSystemNum());
-	path.sbodyId = id;
+	SystemPath path = Pi::currentSystem->GetPath();
+	path.bodyIndex = id;
 
-	Body *b = Space::FindBodyForSBodyPath(&path);
+	Body *b = Space::FindBodyForPath(&path);
 	if (!b) return 0;
 
 	LuaBody::PushToLua(b);
@@ -424,7 +419,7 @@ static int l_space_get_body(lua_State *l)
  *
  *   filter - an option function. If specificed the function will be called
  *            once for each body with the <Body> object as the only parameter.
- *            If the filter function returns true then the ship name will be
+ *            If the filter function returns true then the <Body> will be
  *            included in the array returned by <GetBodies>, otherwise it will
  *            be omitted. If no filter function is specified then all bodies
  *            are returned.
@@ -469,7 +464,7 @@ static int l_space_get_bodies(lua_State *l)
 		if (filter) {
 			lua_pushvalue(l, 1);
 			LuaBody::PushToLua(b);
-			lua_call(l, 1, 1);
+			pi_lua_protected_call(l, 1, 1);
 			if (!lua_toboolean(l, -1)) {
 				lua_pop(l, 1);
 				continue;
@@ -489,7 +484,7 @@ static int l_space_get_bodies(lua_State *l)
 
 void LuaSpace::Register()
 {
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

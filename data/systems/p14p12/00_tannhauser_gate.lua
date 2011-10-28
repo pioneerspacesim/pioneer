@@ -1,1 +1,0 @@
-CustomSystem:new("Tannhauser Gate",{'STAR_A'}):add_to_sector(14,12,v(0.006,0.780,-1.029))

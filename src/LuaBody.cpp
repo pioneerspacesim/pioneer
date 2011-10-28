@@ -1,10 +1,11 @@
 #include "LuaBody.h"
-#include "LuaSBodyPath.h"
+#include "LuaSystemPath.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "Body.h"
 #include "StarSystem.h"
 #include "Pi.h"
+#include "Frame.h"
 
 /*
  * Class: Body
@@ -91,10 +92,8 @@ static int l_body_attr_path(lua_State *l)
 		return 1;
 	}
 
-	SBodyPath *sbp = new SBodyPath(Pi::currentSystem->SectorX(), Pi::currentSystem->SectorY(), Pi::currentSystem->SystemIdx());
-	sbp->sbodyId = sbody->id;
-
-	LuaSBodyPath::PushToLuaGC(sbp);
+	SystemPath path = sbody->path;
+	LuaSystemPath::PushToLua(&path);
 
 	return 1;
 }
@@ -155,6 +154,68 @@ static int l_body_attr_super_type(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: frameBody
+ *
+ * The non-dynamic body attached to the frame this dynamic body is in.
+ *
+ * Only valid for dynamic <Bodies>. For non-dynamic bodies <frameBody> will be
+ * nil.
+ *
+ * <frameBody> can also be nil if this dynamic body is in a frame with no
+ * non-dynamic body. This most commonly occurs when the player is in
+ * hyperspace.
+ *
+ * Availability:
+ *
+ *   alpha 12
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_body_attr_frame_body(lua_State *l)
+{
+	Body *b = LuaBody::GetFromLua(1);
+	if (!b->IsType(Object::DYNAMICBODY)) {
+		lua_pushnil(l);
+		return 1;
+	}
+
+	Frame *f = b->GetFrame();
+	LuaBody::PushToLua(f->GetBodyFor());
+	return 1;
+}
+
+/*
+ * Attribute: frameRotating
+ *
+ * Whether the frame this dynamic body is in is a rotating frame.
+ *
+ * Only valid for dynamic <Bodies>. For non-dynamic bodies <frameRotating>
+ * will be nil.
+ *
+ * Availability:
+ *
+ *   alpha 12
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_body_attr_frame_rotating(lua_State *l)
+{
+	Body *b = LuaBody::GetFromLua(1);
+	if (!b->IsType(Object::DYNAMICBODY)) {
+		lua_pushnil(l);
+		return 1;
+	}
+
+	Frame *f = b->GetFrame();
+	lua_pushboolean(l, f->IsRotatingFrame());
+	return 1;
+}
+
 /* 
  * Method: IsDynamic
  *
@@ -205,7 +266,7 @@ static int l_body_is_dynamic(lua_State *l)
  *
  * Returns:
  *
- *   dist - distance between the two bodies in km
+ *   dist - distance between the two bodies in meters
  *
  * Availability:
  *
@@ -234,11 +295,13 @@ template <> void LuaObject<Body>::RegisterClass()
 	};
 
 	static luaL_reg l_attrs[] = {
-		{ "label",     l_body_attr_label      },
-		{ "seed",      l_body_attr_seed       },
-		{ "path",      l_body_attr_path       },
-		{ "type",      l_body_attr_type       },
-		{ "superType", l_body_attr_super_type },
+		{ "label",         l_body_attr_label          },
+		{ "seed",          l_body_attr_seed           },
+		{ "path",          l_body_attr_path           },
+		{ "type",          l_body_attr_type           },
+		{ "superType",     l_body_attr_super_type     },
+		{ "frameBody",     l_body_attr_frame_body     },
+		{ "frameRotating", l_body_attr_frame_rotating },
 		{ 0, 0 }
 	};
 

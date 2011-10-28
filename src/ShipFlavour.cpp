@@ -58,12 +58,13 @@ ShipFlavour::ShipFlavour(ShipType::Type type_)
 
 void ShipFlavour::MakeTrulyRandom(ShipFlavour &v)
 {
-	v = ShipFlavour(ShipType::GetRandomType());
+	const std::vector<ShipType::Type> &ships = ShipType::player_ships;
+	v = ShipFlavour(ships[Pi::rng.Int32(ships.size())]);
 }
 
 void ShipFlavour::ApplyTo(LmrObjParams *p) const
 {
-	p->argStrings[0] = regid;
+	p->label = regid;
 	p->pMat[0] = primaryColor;
 	p->pMat[1] = secondaryColor;
 	p->pMat[2] = s_white;

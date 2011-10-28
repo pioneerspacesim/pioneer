@@ -1,1 +1,0 @@
-CustomSystem:new("Ethgreeze",{'STAR_F', 'STAR_G'}):add_to_sector(5,4,v(0.110,0.820,-0.604))

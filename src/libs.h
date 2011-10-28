@@ -13,6 +13,7 @@
 #include <limits>
 #include <time.h>
 #include <stdarg.h>
+#include <stdlib.h>
 
 
 /* on unix this would probably become $PREFIX/pioneer */
@@ -31,9 +32,6 @@
 inline int isfinite(double x) { return _finite(x); }
 #endif
 #endif /* __MINGW32__ */
-
-#else
-#include <alloca.h>
 #endif
 
 #ifdef _WIN32
@@ -45,6 +43,34 @@ inline int isfinite(double x) { return _finite(x); }
 #define snprintf _snprintf
 #endif
 
+#ifdef __MINGW32__
+#undef WINVER
+#define WINVER 0x0500
+#include <w32api.h>
+#define _WIN32_IE IE5
+#endif
+
+#ifdef _WIN32
+
+#ifdef __MINGW32__
+#include <dirent.h>
+#include <sys/stat.h>
+#include <stdexcept>
+#define WINSHLWAPI
+#else /* !__MINGW32__ */
+#include "win32-dirent.h"
+#endif
+
+#include <shlobj.h>
+#include <shlwapi.h>
+
+#else /* !_WIN32 */
+#include <dirent.h>
+#include <errno.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#endif
+
 #include "fixed.h"
 #include "vector3.h"
 #include "Aabb.h"
@@ -53,9 +79,10 @@ inline int isfinite(double x) { return _finite(x); }
 #include "mtrand.h"
 
 #include "utils.h"
+#include "FloatComparison.h"
 
 #ifdef NDEBUG 
-#define	PiVerify(x) x
+#define	PiVerify(x) ((void)(x))
 #else
 #define PiVerify(x) assert(x)
 #endif

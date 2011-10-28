@@ -1,1 +1,0 @@
-CustomSystem:new("Ananeth",{'STAR_G'}):add_to_sector(-6,3,v(0.813,0.045,-0.129))

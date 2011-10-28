@@ -1,1 +1,0 @@
-CustomSystem:new("Lori",{'STAR_F'}):add_to_sector(4,-3,v(0.132,0.094,0.664))

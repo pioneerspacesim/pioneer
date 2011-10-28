@@ -1,1 +1,0 @@
-CustomSystem:new("Shaa",{'STAR_M'}):add_to_sector(2,3,v(0.195,0.335,-0.557))

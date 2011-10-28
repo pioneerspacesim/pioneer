@@ -1,1 +1,0 @@
-CustomSystem:new("Fleck",{'STAR_M'}):add_to_sector(3,-8,v(0.241,0.855,0.005))

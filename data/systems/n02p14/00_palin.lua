@@ -1,1 +1,0 @@
-CustomSystem:new("Palin",{'STAR_G'}):add_to_sector(-2,14,v(0.396,0.100,-0.529))

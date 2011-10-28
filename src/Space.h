@@ -9,12 +9,13 @@
 class Body;
 class Frame;
 class SBody;
-class SBodyPath;
+class SystemPath;
 class Ship;
 
 // The place all the 'Body's exist in
 namespace Space {
 	extern void Init();
+	extern void Uninit();
 	extern void Clear();
 	extern void BuildSystem();
 	extern void Serialize(Serializer::Writer &wr);
@@ -27,16 +28,18 @@ namespace Space {
 	extern void RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, double kgDamage);
 	extern void DoECM(const Frame *f, const vector3d &pos, int power_val);
 	extern float GetHyperspaceAnim();
-	extern const SBodyPath *GetHyperspaceDest();
+	extern const SystemPath *GetHyperspaceDest();
 	extern double GetHyperspaceDuration();
 	extern void Render(const Frame *cam_frame);
-	extern void StartHyperspaceTo(Ship *s, const SBodyPath *);
-	extern void DoHyperspaceTo(const SBodyPath *);
-	extern void SetupSystemForGameStart(const SBodyPath *, int, int);
+	extern void StartHyperspaceTo(Ship *s, const SystemPath *);
+	extern void DoHyperspaceTo(const SystemPath *);
+	extern vector3d GetRandomPosition(float min_dist, float max_dist);
+	extern vector3d GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *dest);
+	extern void SetupSystemForGameStart(const SystemPath *, int, int);
 	// make sure SBody* is in Pi::currentSystem
 	extern Frame *GetFrameWithSBody(const SBody *b);
 	extern Body *FindNearestTo(const Body *b, Object::Type t);
-	extern Body *FindBodyForSBodyPath(const SBodyPath *path);
+	extern Body *FindBodyForPath(const SystemPath *path);
 
 	extern std::list<Body*> bodies;
 	typedef std::list<Body*>::iterator bodiesIter_t;

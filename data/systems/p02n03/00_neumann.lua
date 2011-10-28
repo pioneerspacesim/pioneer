@@ -1,1 +1,0 @@
-CustomSystem:new("Neumann",{'STAR_M', 'STAR_M'}):add_to_sector(2,-3,v(0.623,0.812,0.219))

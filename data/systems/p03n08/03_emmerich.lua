@@ -1,1 +1,0 @@
-CustomSystem:new("Emmerich",{'STAR_M'}):add_to_sector(3,-8,v(0.333,0.757,0.149))

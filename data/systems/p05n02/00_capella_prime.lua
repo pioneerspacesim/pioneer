@@ -1,1 +1,0 @@
-CustomSystem:new("Capella Prime",{'STAR_G', 'STAR_G'}):add_to_sector(5,-2,v(0.404,0.938,0.386))

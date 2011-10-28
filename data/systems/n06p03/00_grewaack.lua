@@ -1,1 +1,0 @@
-CustomSystem:new("Grewaack",{'STAR_K'}):add_to_sector(-6,3,v(0.079,0.347,-0.558))

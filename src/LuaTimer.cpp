@@ -4,7 +4,7 @@
 
 void LuaTimer::Tick()
 {
-	lua_State *l = Pi::luaManager.GetLuaState();
+	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -28,7 +28,7 @@ void LuaTimer::Tick()
 
 		if (at <= now) {
 			lua_getfield(l, -1, "callback");
-			lua_call(l, 0, 1);
+			pi_lua_protected_call(l, 0, 1);
 			bool cancel = lua_toboolean(l, -1);
 			lua_pop(l, 1);
 

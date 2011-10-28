@@ -1,1 +1,0 @@
-CustomSystem:new("Panell",{'STAR_K'}):add_to_sector(-3,4,v(0.190,0.885,-0.226))

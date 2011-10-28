@@ -1,1 +1,0 @@
-CustomSystem:new("Liaolze",{'STAR_M'}):add_to_sector(-6,6,v(0.106,0.195,-0.556))

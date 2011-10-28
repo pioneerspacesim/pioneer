@@ -1,1 +1,0 @@
-CustomSystem:new("Cancanio",{'STAR_G'}):add_to_sector(12,7,v(0.778,0.685,-1.085))

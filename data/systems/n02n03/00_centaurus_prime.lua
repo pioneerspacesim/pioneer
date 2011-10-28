@@ -1,1 +1,0 @@
-CustomSystem:new("Centaurus Prime",{'STAR_M'}):add_to_sector(-2,-3,v(0.018,0.105,0.477))

@@ -1,1 +1,0 @@
-CustomSystem:new("Turner",{'STAR_G'}):add_to_sector(-3,7,v(0.678,0.576,-0.747))

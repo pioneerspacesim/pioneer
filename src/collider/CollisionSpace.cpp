@@ -198,6 +198,12 @@ CollisionSpace::CollisionSpace()
 	m_dynamicObjectTree = 0;
 }
 
+CollisionSpace::~CollisionSpace()
+{
+	if (m_staticObjectTree) delete m_staticObjectTree;
+	if (m_dynamicObjectTree) delete m_dynamicObjectTree;
+}
+
 void CollisionSpace::AddGeom(Geom *geom)
 {
 	m_geoms.push_back(geom);
@@ -222,7 +228,7 @@ void CollisionSpace::RemoveStaticGeom(Geom *geom)
 
 void CollisionSpace::CollideRaySphere(const vector3d &start, const vector3d &dir, isect_t *isect)
 {
-	if (sphere.radius != 0) {
+	if (sphere.radius > 0.0) {
 		/* Collide with lovely sphere! */
 		const vector3d v = start - sphere.pos;
 		const double b = -v.Dot(dir);
@@ -372,7 +378,7 @@ void CollisionSpace::CollideGeoms(Geom *a, int minMailboxValue, void (*callback)
 	if (m_dynamicObjectTree) m_dynamicObjectTree->CollideGeom(a, ourAabb, minMailboxValue, callback);
 
 	/* test the fucker against the planet sphere thing */
-	if (sphere.radius != 0) {
+	if (sphere.radius > 0.0) {
 		a->CollideSphere(sphere, callback);
 	}
 

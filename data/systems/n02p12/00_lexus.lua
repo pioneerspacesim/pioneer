@@ -1,1 +1,0 @@
-CustomSystem:new("Lexus",{'STAR_G'}):add_to_sector(-2,12,v(0.193,0.856,-0.356))

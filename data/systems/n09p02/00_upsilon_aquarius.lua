@@ -1,1 +1,0 @@
-CustomSystem:new("Upsilon Aquarius",{'STAR_F'}):add_to_sector(-9,2,v(0.614,0.754,-0.426))

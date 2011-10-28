@@ -1,1 +1,0 @@
-CustomSystem:new("Giskard",{'STAR_G'}):add_to_sector(-1,12,v(0.008,0.769,-1.713))

@@ -3,6 +3,7 @@
 #include "Space.h"
 #include "Sfx.h"
 #include "ShipType.h"
+#include "Lang.h"
 
 Missile::Missile(ShipType::Type type, Body *owner, Body *target): Ship(type)
 {
@@ -14,7 +15,7 @@ Missile::Missile(ShipType::Type type, Body *owner, Body *target): Ship(type)
 	m_owner = owner;
 	m_target = target;
 	m_distToTarget = FLT_MAX;
-	SetLabel("missile");
+	SetLabel(Lang::MISSILE);
 
 	AIKamikaze(target);
 }

@@ -1,1 +1,0 @@
-CustomSystem:new("Esser",{'STAR_G'}):add_to_sector(3,9,v(0.251,0.157,-0.675))

@@ -1,1 +1,0 @@
-CustomSystem:new("Orrere",{'STAR_F'}):add_to_sector(-2,5,v(0.139,0.542,-0.528))

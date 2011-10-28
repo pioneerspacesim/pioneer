@@ -1,13 +1,12 @@
 #include "ShipType.h"
 #include "LmrModel.h"
-#include "Serializer.h"
 #include "MyLuaMathTypes.h"
-#include "Pi.h"
 #include "LuaUtils.h"
 #include "utils.h"
+#include "Lang.h"
 
 const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {
-	"Front", "Rear" };
+	Lang::FRONT, Lang::REAR };
 
 std::map<ShipType::Type, ShipType> ShipType::types;
 
@@ -98,7 +97,9 @@ static int _define_ship(lua_State *L, const char *model_name, std::vector<ShipTy
 	_get_int_attrib(L, "max_hullautorepair", s.equipSlotCapacity[Equip::SLOT_HULLAUTOREPAIR], 1);
 	_get_int_attrib(L, "max_energybooster", s.equipSlotCapacity[Equip::SLOT_ENERGYBOOSTER], 1);
 	_get_int_attrib(L, "max_atmoshield", s.equipSlotCapacity[Equip::SLOT_ATMOSHIELD], 1);
+	_get_int_attrib(L, "max_shield", s.equipSlotCapacity[Equip::SLOT_SHIELD], 9999);
 	_get_int_attrib(L, "max_fuelscoop", s.equipSlotCapacity[Equip::SLOT_FUELSCOOP], 1);
+	_get_int_attrib(L, "max_cargoscoop", s.equipSlotCapacity[Equip::SLOT_CARGOSCOOP], 1);
 	_get_int_attrib(L, "max_lasercooler", s.equipSlotCapacity[Equip::SLOT_LASERCOOLER], 1);
 	_get_int_attrib(L, "max_cargolifesupport", s.equipSlotCapacity[Equip::SLOT_CARGOLIFESUPPORT], 1);
 	_get_int_attrib(L, "max_autopilot", s.equipSlotCapacity[Equip::SLOT_AUTOPILOT], 1);
@@ -152,6 +153,8 @@ static void _define_ships(const char *tag, ShipType::Tag stag, std::vector<ShipT
 	lua_State *L = LmrGetLuaState();
 	int num = 0;
 
+	LUA_DEBUG_START(L);
+
 	for (std::vector<LmrModel*>::iterator i = ship_models.begin();
 			i != ship_models.end(); ++i) {
 		LmrModel *model = *i;
@@ -174,6 +177,8 @@ static void _define_ships(const char *tag, ShipType::Tag stag, std::vector<ShipT
 		lua_pop(L, 1);
 	}
 	printf("ShipType: %d ships with tag '%s'\n", num, tag);
+
+	LUA_DEBUG_END(L, 0);
 }
 
 void ShipType::Init()
@@ -185,46 +190,5 @@ void ShipType::Init()
 	_define_ships("ship", ShipType::TAG_SHIP, player_ships);
 	_define_ships("static_ship", ShipType::TAG_STATIC_SHIP, static_ships);
 	_define_ships("missile", ShipType::TAG_MISSILE, missile_ships);
-}
-
-ShipType::Type ShipType::GetRandomType() {
-	return player_ships[Pi::rng.Int32(player_ships.size())];
-}
-
-ShipType::Type ShipType::GetRandomStaticType() {
-	return static_ships[Pi::rng.Int32(static_ships.size())];
-}
-
-void EquipSet::Save(Serializer::Writer &wr)
-{
-	wr.Int32(Equip::SLOT_MAX);
-	for (int i=0; i<Equip::SLOT_MAX; i++) {
-		wr.Int32(equip[i].size());
-		for (unsigned int j=0; j<equip[i].size(); j++) {
-			wr.Int32(static_cast<int>(equip[i][j]));
-		}
-	}
-}
-
-/*
- * Should have initialised with EquipSet(ShipType::Type) first
- */
-void EquipSet::Load(Serializer::Reader &rd)
-{
-	const int numSlots = rd.Int32();
-	assert(numSlots <= Equip::SLOT_MAX);
-	for (int i=0; i<numSlots; i++) {
-		const int numItems = rd.Int32();
-		for (int j=0; j<numItems; j++) {
-			if (j < signed(equip[i].size())) {
-				equip[i][j] = static_cast<Equip::Type>(rd.Int32());
-			} else {
-				// equipment slot sizes have changed. just
-				// dump the difference
-				rd.Int32();
-			}
-		}
-	}
-	onChange.emit();
 }
 

@@ -1,1 +1,0 @@
-CustomSystem:new("Spitzer",{'STAR_F'}):add_to_sector(1,-8,v(0.587,0.953,0.181))

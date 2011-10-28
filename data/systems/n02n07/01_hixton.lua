@@ -1,1 +1,0 @@
-CustomSystem:new("Hixton",{'STAR_M'}):add_to_sector(-2,-7,v(0.421,0.128,0.468))

@@ -1,1 +1,0 @@
-CustomSystem:new("Bander",{'STAR_M', 'STAR_M'}):add_to_sector(0,-9,v(0.818,0.589,0.941))

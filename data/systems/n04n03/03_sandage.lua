@@ -1,1 +1,0 @@
-CustomSystem:new("Sandage",{'STAR_M'}):add_to_sector(-4,-3,v(0.684,0.245,0.182))

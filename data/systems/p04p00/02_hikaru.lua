@@ -1,1 +1,0 @@
-CustomSystem:new("Hikaru",{'STAR_M'}):add_to_sector(4,0,v(0.058,0.862,0.020))

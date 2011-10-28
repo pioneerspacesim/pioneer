@@ -41,7 +41,7 @@ void main(void)
 	atmosDiffuse.a = 1.0;
 //	float sun = dot(normalize(eyepos),normalize(vec3(gl_LightSource[0].position)));
 	gl_FragColor = (fogFactor)*(diff)*gl_Color + gl_LightModel.ambient*gl_Color +
-		(1.0-fogFactor)*(atmosDiffuse*atmosColor);
+		(1.0-fogFactor)*(atmosDiffuse*atmosColor) + gl_FrontMaterial.emission;
 
 #ifdef ZHACK
 	SetFragDepth(gl_TexCoord[6].z);

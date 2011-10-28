@@ -1,1 +1,0 @@
-CustomSystem:new("Ross 1007",{'STAR_M'}):add_to_sector(0,-7,v(0.852,0.511,0.995))

@@ -1,1 +1,0 @@
-CustomSystem:new("Ringo",{'STAR_M'}):add_to_sector(3,-3,v(0.593,0.922,1.076))

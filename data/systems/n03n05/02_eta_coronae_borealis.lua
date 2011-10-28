@@ -1,1 +1,0 @@
-CustomSystem:new("Eta Coronae Borealis",{'STAR_G', 'STAR_G'}):add_to_sector(-3,-5,v(0.746,0.144,1.255))

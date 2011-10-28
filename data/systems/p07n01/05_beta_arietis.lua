@@ -1,1 +1,0 @@
-CustomSystem:new("Beta Arietis",{'STAR_A'}):add_to_sector(7,-1,v(0.292,0.764,1.066))

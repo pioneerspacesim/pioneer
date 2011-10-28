@@ -1,1 +1,0 @@
-CustomSystem:new("Alpha Anturro",{'STAR_F', 'STAR_G'}):add_to_sector(2,5,v(0.754,0.110,-0.266))

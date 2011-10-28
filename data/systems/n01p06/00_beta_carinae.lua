@@ -1,1 +1,0 @@
-CustomSystem:new("Beta Carinae",{'STAR_F'}):add_to_sector(-1,6,v(0.990,0.972,-0.142))

@@ -4,6 +4,8 @@
 #include "NameGenerator.h"
 #include <map>
 #include "utils.h"
+#include "Lang.h"
+#include "StringF.h"
 
 #define CELSIUS	273.15
 //#define DEBUG_DUMP
@@ -25,6 +27,7 @@ static const fixed AU_EARTH_RADIUS = fixed(3, 65536);
 float StarSystem::starColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
 	{ 0.5, 0.0, 0.0 }, // brown dwarf
+	{ 0.4, 0.4, 0.8 }, // white dwarf
 	{ 1.0, 0.2, 0.0 }, // M
 	{ 1.0, 0.6, 0.1 }, // K
 	{ 1.0, 1.0, 0.4 }, // G
@@ -59,13 +62,13 @@ float StarSystem::starColors[][3] = {
 	{ 0.3, 0.7, 0.3 }, // Stellar Blackhole
 	{ 0.2, 0.9, 0.2 }, // Intermediate mass Black-hole
 	{ 0.0, 1.0, 0.0 }, // Super massive black hole
-	{ 0.4, 0.4, 0.8 }, // white dwarf
 };
 
 // indexed by enum type turd  
 float StarSystem::starRealColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
 	{ 0.5, 0.0, 0.0 }, // brown dwarf
+	{ 1.0, 1.0, 1.0 }, // white dwarf
 	{ 1.0, 0.5, 0.2 }, // M
 	{ 1.0, 1.0, 0.4 }, // K
 	{ 1.0, 1.0, 0.95 }, // G
@@ -100,12 +103,12 @@ float StarSystem::starRealColors[][3] = {
 	{ 1.0, 1.0, 1.0 },  // small Black hole
 	{ 0.06, 0.0, 0.08 }, // med BH
 	{ 0.04, 0.0, 0.06 }, // massive BH
-	{ 1.0, 1.0, 1.0 }, // white dwarf
 };
 
 double StarSystem::starLuminosities[] = {
 	0,
 	0.0003, // brown dwarf
+	0.1, // white dwarf
 	0.08, // M0
 	0.38, // K0
 	1.2, // G0
@@ -140,12 +143,12 @@ double StarSystem::starLuminosities[] = {
 	0.0003, // Stellar Black hole
 	0.00003, // IM Black hole
 	0.000003, // Supermassive Black hole
-	0.1, // white dwarf
 };
 
 float StarSystem::starScale[] = {  // Used in sector view
 	0,
 	0.6, // brown dwarf
+	0.5, // white dwarf
 	0.7, // M
 	0.8, // K
 	0.8, // G
@@ -179,13 +182,13 @@ float StarSystem::starScale[] = {  // Used in sector view
 	1.6, // O WF
 	1.0, // Black hole
 	2.5, // Intermediate-mass blackhole
-	4.0,  // Supermassive blackhole
-	0.5 // white dwarf
+	4.0  // Supermassive blackhole
 };
 
 fixed StarSystem::starMetallicities[] = {
 	fixed(0,1),
 	fixed(9,10), // brown dwarf
+	fixed(5,10), // white dwarf
 	fixed(7,10), // M0
 	fixed(6,10), // K0
 	fixed(5,10), // G0
@@ -217,16 +220,15 @@ fixed StarSystem::starMetallicities[] = {
 	fixed(1,1), // M WF
 	fixed(8,10), // B WF
 	fixed(6,10), // O WF
-	fixed(1,1), // Blackholes  /give them high metallicity, so any rocks that happen to be there will be mining hotspots. FUN :) 
+	fixed(1,1), // Blackholes  /give them high metallicity, so any rocks that happen to be there will be mining hotspots. FUN :)
 	fixed(1,1), // "
-	fixed(1,1), // "
-	fixed(5,10), // white dwarf
+	fixed(1,1)  // "
 };
 
 static const struct StarTypeInfo {
 	SBody::BodySuperType supertype;
-	Sint64 mass[2]; // min,max % sol for stars, unused for planets
-	Sint64 radius[2]; // min,max % sol radii for stars, % earth radii for planets
+	int mass[2]; // min,max % sol for stars, unused for planets
+	int radius[2]; // min,max % sol radii for stars, % earth radii for planets
 	int tempMin, tempMax;
 } starTypeInfo[] = {
 	{
@@ -236,6 +238,10 @@ static const struct StarTypeInfo {
 		SBody::SUPERTYPE_STAR, //Brown Dwarf
 		{2,8}, {10,30},
 		1000, 2000
+	}, {
+		SBody::SUPERTYPE_STAR,  //white dwarf
+		{20,100}, {1,2}, 
+		4000, 40000
 	}, {
 		SBody::SUPERTYPE_STAR, //M
 		{10,47}, {30,60},
@@ -366,29 +372,25 @@ static const struct StarTypeInfo {
 		10, 24
 	}, {
 		SBody::SUPERTYPE_STAR,  // IM BH
-		{1e5,2e6}, {200,1000},
+		{9e5,1e6}, {100,500},
 		1, 10
 	}, {
 		SBody::SUPERTYPE_STAR,  // SM BH
-		{1e10,5e12}, {10000,20000},
+		{2e6,5e6}, {10000,20000},
 		10, 24
-	}, {
-		SBody::SUPERTYPE_STAR,  //white dwarf
-		{20,100}, {1,2}, 
-		4000, 40000
 	}
 /*	}, {
 		SBody::SUPERTYPE_GAS_GIANT,
-		{}, 950, "Medium gas giant",
+		{}, 950, Lang::MEDIUM_GAS_GIANT,
 	}, {
 		SBody::SUPERTYPE_GAS_GIANT,
-		{}, 1110, "Large gas giant",
+		{}, 1110, Lang::LARGE_GAS_GIANT,
 	}, {
 		SBody::SUPERTYPE_GAS_GIANT,
-		{}, 1500, "Very large gas giant",
+		{}, 1500, Lang::VERY_LARGE_GAS_GIANT,
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
-		{}, 1, "Asteroid",
+		{}, 1, Lang::ASTEROID,
 		"icons/object_planet_asteroid.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
@@ -437,10 +439,10 @@ static const struct StarTypeInfo {
 		{}, 90, "Fully terraformed world with introduced species from numerous successful colonies",
 	}, {
 		SBody::SUPERTYPE_STARPORT,
-		{}, 0, "Orbital starport",
+		{}, 0, Lang::ORBITAL_STARPORT,
 	}, {
 		SBody::SUPERTYPE_STARPORT,
-		{}, 0, "Starport",
+		{}, 0, Lang::STARPORT,
 	}*/
 };
 
@@ -448,6 +450,7 @@ SBody::BodySuperType SBody::GetSuperType() const
 {
 	switch (type) {
 		case TYPE_BROWN_DWARF:
+		case TYPE_WHITE_DWARF:
 		case TYPE_STAR_M:
 		case TYPE_STAR_K:
 		case TYPE_STAR_G:
@@ -482,7 +485,6 @@ SBody::BodySuperType SBody::GetSuperType() const
 		case TYPE_STAR_S_BH:
 		case TYPE_STAR_IM_BH:
 		case TYPE_STAR_SM_BH:
-		case TYPE_WHITE_DWARF:
 		     return SUPERTYPE_STAR;
 		case TYPE_PLANET_GAS_GIANT:
 		     return SUPERTYPE_GAS_GIANT;
@@ -504,115 +506,121 @@ SBody::BodySuperType SBody::GetSuperType() const
 std::string SBody::GetAstroDescription()
 {
 	switch (type) {
-	case TYPE_BROWN_DWARF: return "Brown dwarf sub-stellar object";
-	case TYPE_STAR_M: return "Type 'M' red star";
-	case TYPE_STAR_K: return "Type 'K' orange star";
-	case TYPE_STAR_G: return "Type 'G' yellow star";
-	case TYPE_STAR_F: return "Type 'F' white star";
-	case TYPE_STAR_A: return "Type 'A' hot white star";
-	case TYPE_STAR_B: return "Bright type 'B' blue star";
-	case TYPE_STAR_O: return "Hot, massive type 'O' star";
-	case TYPE_STAR_M_GIANT: return "Red giant star";
-	case TYPE_STAR_K_GIANT: return "Orange giant star - Unstable";
-	case TYPE_STAR_G_GIANT: return "Yellow giant star - Unstable";
-	case TYPE_STAR_F_GIANT: return "White giant star";
-	case TYPE_STAR_A_GIANT: return "White giant star";
-	case TYPE_STAR_B_GIANT: return "Blue giant star";
-	case TYPE_STAR_O_GIANT: return "Hot Blue giant star";
-	case TYPE_STAR_M_SUPER_GIANT: return "Red super giant star";
-	case TYPE_STAR_K_SUPER_GIANT: return "Orange super giant star";
-	case TYPE_STAR_G_SUPER_GIANT: return "Yellow super giant star";
-	case TYPE_STAR_F_SUPER_GIANT: return "White super giant star";
-	case TYPE_STAR_A_SUPER_GIANT: return "White super giant star";
-	case TYPE_STAR_B_SUPER_GIANT: return "Blue super giant star";
-	case TYPE_STAR_O_SUPER_GIANT: return "Hot Blue super giant star";
-	case TYPE_STAR_M_HYPER_GIANT: return "Red hyper giant star";
-	case TYPE_STAR_K_HYPER_GIANT: return "Orange hyper giant star - Unstable";
-	case TYPE_STAR_G_HYPER_GIANT: return "Yellow hyper giant star - Unstable";
-	case TYPE_STAR_F_HYPER_GIANT: return "White hyper giant star";
-	case TYPE_STAR_A_HYPER_GIANT: return "White hyper giant star";
-	case TYPE_STAR_B_HYPER_GIANT: return "Blue hyper giant star";
-	case TYPE_STAR_O_HYPER_GIANT: return "Hot Blue hyper giant star";
-	case TYPE_STAR_M_WF: return "Wolf rayet star - Unstable";
-	case TYPE_STAR_B_WF: return "Wolf rayet star - Risk of collapse";
-	case TYPE_STAR_O_WF: return "Wolf rayet star - Imminent collapse";
-	case TYPE_STAR_S_BH: return "A stellar blackhole";
-	case TYPE_STAR_IM_BH: return "An intermediate-mass blackhole";
-	case TYPE_STAR_SM_BH: return "Our galactic anchor";
-	case TYPE_WHITE_DWARF: return "White dwarf stellar remnant";
+	case TYPE_BROWN_DWARF: return Lang::BROWN_DWARF;
+	case TYPE_WHITE_DWARF: return Lang::WHITE_DWARF;
+	case TYPE_STAR_M: return Lang::STAR_M;
+	case TYPE_STAR_K: return Lang::STAR_K;
+	case TYPE_STAR_G: return Lang::STAR_G;
+	case TYPE_STAR_F: return Lang::STAR_F;
+	case TYPE_STAR_A: return Lang::STAR_A;
+	case TYPE_STAR_B: return Lang::STAR_B;
+	case TYPE_STAR_O: return Lang::STAR_O;
+	case TYPE_STAR_M_GIANT: return Lang::STAR_M_GIANT;
+	case TYPE_STAR_K_GIANT: return Lang::STAR_K_GIANT;
+	case TYPE_STAR_G_GIANT: return Lang::STAR_G_GIANT;
+	case TYPE_STAR_F_GIANT: return Lang::STAR_AF_GIANT;
+	case TYPE_STAR_A_GIANT: return Lang::STAR_AF_GIANT;
+	case TYPE_STAR_B_GIANT: return Lang::STAR_B_GIANT;
+	case TYPE_STAR_O_GIANT: return Lang::STAR_O_GIANT;
+	case TYPE_STAR_M_SUPER_GIANT: return Lang::STAR_M_SUPER_GIANT;
+	case TYPE_STAR_K_SUPER_GIANT: return Lang::STAR_K_SUPER_GIANT;
+	case TYPE_STAR_G_SUPER_GIANT: return Lang::STAR_G_SUPER_GIANT;
+	case TYPE_STAR_F_SUPER_GIANT: return Lang::STAR_AF_SUPER_GIANT;
+	case TYPE_STAR_A_SUPER_GIANT: return Lang::STAR_AF_SUPER_GIANT;
+	case TYPE_STAR_B_SUPER_GIANT: return Lang::STAR_B_SUPER_GIANT;
+	case TYPE_STAR_O_SUPER_GIANT: return Lang::STAR_O_SUPER_GIANT;
+	case TYPE_STAR_M_HYPER_GIANT: return Lang::STAR_M_HYPER_GIANT;
+	case TYPE_STAR_K_HYPER_GIANT: return Lang::STAR_K_HYPER_GIANT;
+	case TYPE_STAR_G_HYPER_GIANT: return Lang::STAR_G_HYPER_GIANT;
+	case TYPE_STAR_F_HYPER_GIANT: return Lang::STAR_AF_HYPER_GIANT;
+	case TYPE_STAR_A_HYPER_GIANT: return Lang::STAR_AF_HYPER_GIANT;
+	case TYPE_STAR_B_HYPER_GIANT: return Lang::STAR_B_HYPER_GIANT;
+	case TYPE_STAR_O_HYPER_GIANT: return Lang::STAR_O_HYPER_GIANT;
+	case TYPE_STAR_M_WF: return Lang::STAR_M_WF;
+	case TYPE_STAR_B_WF: return Lang::STAR_B_WF;
+	case TYPE_STAR_O_WF: return Lang::STAR_O_WF;
+	case TYPE_STAR_S_BH: return Lang::STAR_S_BH;
+	case TYPE_STAR_IM_BH: return Lang::STAR_IM_BH;
+	case TYPE_STAR_SM_BH: return Lang::STAR_SM_BH;
 	case TYPE_PLANET_GAS_GIANT:
-		if (mass > 800) return "Very large gas giant";
-		if (mass > 300) return "Large gas giant";
-		if (mass > 80) return "Medium gas giant";
-		else return "Small gas giant";
-	case TYPE_PLANET_ASTEROID: return "Asteroid";
+		if (mass > 800) return Lang::VERY_LARGE_GAS_GIANT;
+		if (mass > 300) return Lang::LARGE_GAS_GIANT;
+		if (mass > 80) return Lang::MEDIUM_GAS_GIANT;
+		else return Lang::SMALL_GAS_GIANT;
+	case TYPE_PLANET_ASTEROID: return Lang::ASTEROID;
 	case TYPE_PLANET_TERRESTRIAL: {
 		std::string s;
-		if (mass > fixed(2,1)) s = "Massive";
-		else if (mass > fixed(3,2)) s = "Large";
-		else if (mass < fixed(1,10)) s = "Tiny";
-		else if (mass < fixed(1,5)) s = "Small";
+		if (mass > fixed(2,1)) s = Lang::MASSIVE;
+		else if (mass > fixed(3,2)) s = Lang::LARGE;
+		else if (mass < fixed(1,10)) s = Lang::TINY;
+		else if (mass < fixed(1,5)) s = Lang::SMALL;
 
 		if (m_volcanicity > fixed(7,10)) {
-			if (s.size()) s += ", highly volcanic";
-			else s = "Highly volcanic";
+			if (s.size()) s += Lang::COMMA_HIGHLY_VOLCANIC;
+			else s = Lang::HIGHLY_VOLCANIC;
 		}
 
 		if (m_volatileIces + m_volatileLiquid > fixed(4,5)) {
 			if (m_volatileIces > m_volatileLiquid) {
 				if (averageTemp < fixed(250)) {
-					s += " ice world";
-				} else s += " rocky planet";
+					s += Lang::ICE_WORLD;
+				} else s += Lang::ROCKY_PLANET;
 			} else {
 				if (averageTemp < fixed(250)) {
-					s += " ice world";
+					s += Lang::ICE_WORLD;
 				} else {
-					s += " oceanic world";
+					s += Lang::OCEANICWORLD;
 				}
 			}
 		} else if (m_volatileLiquid > fixed(2,5)){
 			if (averageTemp > fixed(250)) {
-				s += " planet containing liquid water";
+				s += Lang::PLANET_CONTAINING_LIQUID_WATER;
 			} else {
-				s += " planet with some ice";
+				s += Lang::PLANET_WITH_SOME_ICE;
 			}
 		} else if (m_volatileLiquid > fixed(1,5)){
-			s += " rocky planet containing some liquids,";
+			s += Lang::ROCKY_PLANET_CONTAINING_COME_LIQUIDS;
 		} else {
-			s += " rocky planet";
+			s += Lang::ROCKY_PLANET;
 		}
 
 		if (m_volatileGas < fixed(1,100)) {
-			s += " with no significant atmosphere";
+			s += Lang::WITH_NO_SIGNIFICANT_ATMOSPHERE;
 		} else {
 			std::string thickness;
-			if (m_volatileGas < fixed(1,10)) thickness = "tenuous";
-			else if (m_volatileGas < fixed(1,5)) thickness = "thin";
+			if (m_volatileGas < fixed(1,10)) thickness = Lang::TENUOUS;
+			else if (m_volatileGas < fixed(1,5)) thickness = Lang::THIN;
 			else if (m_volatileGas < fixed(2,1)) {}
-			else if (m_volatileGas < fixed(4,1)) thickness = "thick";
-			else thickness = "very dense";
+			else if (m_volatileGas < fixed(4,1)) thickness = Lang::THICK;
+			else thickness = Lang::VERY_DENSE;
 
-			if (m_atmosOxidizing < fixed(1,2)) {
-				if (mass > fixed(3,1)) {
-					s += " with a "+thickness+" Hydrogen atmosphere";
-				} else {
-					s += " with a "+thickness+" Methane atmosphere";
-				}
+			if (m_atmosOxidizing > fixed(95,100)) {
+				s += Lang::WITH_A+thickness+Lang::O2_ATMOSPHERE;
+			} else if (m_atmosOxidizing > fixed(7,10)) {
+				s += Lang::WITH_A+thickness+Lang::CO2_ATMOSPHERE;
+			} else if (m_atmosOxidizing > fixed(65,100)) {
+				s += Lang::WITH_A+thickness+Lang::CO_ATMOSPHERE;
+			} else if (m_atmosOxidizing > fixed(55,100)) {
+				s += Lang::WITH_A+thickness+Lang::CH4_ATMOSPHERE;
+			} else if (m_atmosOxidizing > fixed(3,10)) {
+				s += Lang::WITH_A+thickness+Lang::H_ATMOSPHERE;
+			} else if (m_atmosOxidizing > fixed(2,10)) {
+				s += Lang::WITH_A+thickness+Lang::HE_ATMOSPHERE;
+			} else if (m_atmosOxidizing > fixed(15,100)) {
+				s += Lang::WITH_A+thickness+Lang::AR_ATMOSPHERE;
+			} else if (m_atmosOxidizing > fixed(1,10)) {
+				s += Lang::WITH_A+thickness+Lang::S_ATMOSPHERE;
 			} else {
-				if (m_life > fixed(1,2)) {
-					s += " with a "+thickness+" Oxygen atmosphere";
-				} else {
-					s += " with a "+thickness+" Carbon Dioxide atmosphere";
-				}
+				s += Lang::WITH_A+thickness+Lang::N_ATMOSPHERE;
 			}
 		}
 
 		if (m_life > fixed(1,2)) {
-			s += " and a highly complex ecosystem.";
+			s += Lang::AND_HIGHLY_COMPLEX_ECOSYSTEM;
 		} else if (m_life > fixed(1,10)) {
-			s += " and indigenous plant life.";
+			s += Lang::AND_INDIGENOUS_PLANT_LIFE;
 		} else if (m_life > fixed(0)) {
-			s += " and indigenous microbial life.";
+			s += Lang::AND_INDIGENOUS_MICROBIAL_LIFE;
 		} else {
 			s += ".";
 		}
@@ -620,21 +628,22 @@ std::string SBody::GetAstroDescription()
 		return s;
 	}
 	case TYPE_STARPORT_ORBITAL:
-		return "Orbital starport";
+		return Lang::ORBITAL_STARPORT;
 	case TYPE_STARPORT_SURFACE:
-		return "Starport";
+		return Lang::STARPORT;
 	case TYPE_GRAVPOINT:
     default:
         fprintf( stderr, "Warning: Invalid Astro Body Description found.\n");
-        return "<unknown>";
+        return Lang::UNKNOWN;
 	}
-    return "<unknown>";
+    return Lang::UNKNOWN;
 }
 
 const char *SBody::GetIcon()
 {
 	switch (type) {
 	case TYPE_BROWN_DWARF: return "icons/object_brown_dwarf.png";
+	case TYPE_WHITE_DWARF: return "icons/object_white_dwarf.png";
 	case TYPE_STAR_M: return "icons/object_star_m.png";
 	case TYPE_STAR_K: return "icons/object_star_k.png";
 	case TYPE_STAR_G: return "icons/object_star_g.png";
@@ -669,7 +678,6 @@ const char *SBody::GetIcon()
 	case TYPE_STAR_S_BH: return "icons/object_star_bh.png";
 	case TYPE_STAR_IM_BH: return "icons/object_star_smbh.png";
 	case TYPE_STAR_SM_BH: return "icons/object_star_smbh.png";
-	case TYPE_WHITE_DWARF: return "icons/object_white_dwarf.png";
 	case TYPE_PLANET_GAS_GIANT:
 		if (mass > 800) {
 			if (averageTemp > 1000) return "icons/object_planet_large_gas_giant_hot.png";
@@ -732,7 +740,8 @@ const char *SBody::GetIcon()
 			} else {
 				if (averageTemp > 300) return "icons/object_planet_co2_2.png";
 				else if (averageTemp > 250) {
-					if ((m_volatileLiquid > 0.3) && (m_volatileGas > fixed(2,10))) return "icons/object_planet_co2_4.png";
+					if ((m_volatileLiquid > fixed(3,10)) && (m_volatileGas > fixed(2,10)))
+						return "icons/object_planet_co2_4.png";
 					else return "icons/object_planet_co2_3.png";
 				} else return "icons/object_planet_co2.png";
 			}
@@ -839,7 +848,7 @@ static int CalcSurfaceTemp(const SBody *primary, fixed distToPrimary, fixed albe
 	return int(isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673)));
 }
 
-vector3d Orbit::OrbitalPosAtTime(double t)
+vector3d Orbit::OrbitalPosAtTime(double t) const
 {
 	const double e = eccentricity;
 	// mean anomaly
@@ -861,7 +870,7 @@ vector3d Orbit::OrbitalPosAtTime(double t)
 	return pos;
 }
 
-vector3d Orbit::EvenSpacedPosAtTime(double t)
+vector3d Orbit::EvenSpacedPosAtTime(double t) const
 {
 	const double e = eccentricity;
 	const double M = 2*M_PI*t;
@@ -877,27 +886,6 @@ double calc_orbital_period(double semiMajorAxis, double centralMass)
 	return 2.0*M_PI*sqrt((semiMajorAxis*semiMajorAxis*semiMajorAxis)/(G*centralMass));
 }
 
-SBodyPath::SBodyPath(): SysLoc()
-{
-	sbodyId = 0;
-}
-SBodyPath::SBodyPath(int sectorX_, int sectorY_, int systemNum_): SysLoc(sectorX_, sectorY_, systemNum_)
-{
-	sbodyId = 0;
-}
-
-void SBodyPath::Serialize(Serializer::Writer &wr) const
-{
-	SysLoc::Serialize(wr);
-	wr.Int32(sbodyId);
-}
-
-void SBodyPath::Unserialize(Serializer::Reader &rd, SBodyPath *path)
-{
-	SysLoc::Unserialize(rd, path);
-	path->sbodyId = rd.Int32();
-}
-
 template <class T>
 static void shuffle_array(MTRand &rand, T *array, int len)
 {
@@ -909,23 +897,17 @@ static void shuffle_array(MTRand &rand, T *array, int len)
 	}
 }
 
-SBody *StarSystem::GetBodyByPath(const SBodyPath *path) const
+SBody *StarSystem::GetBodyByPath(const SystemPath &path) const
 {
-	assert((m_loc.sectorX == path->sectorX) || (m_loc.sectorY == path->sectorY) ||
-	       (m_loc.systemNum == path->systemNum));
-	assert(path->sbodyId < m_bodies.size());
+    assert(m_path.IsSameSystem(path));
+	assert(path.bodyIndex < m_bodies.size());
 
-	return m_bodies[path->sbodyId];
+	return m_bodies[path.bodyIndex];
 }
 
-void StarSystem::GetPathOf(const SBody *sbody, SBodyPath *path) const
+SystemPath StarSystem::GetPathOf(const SBody *sbody) const
 {
-	*path = SBodyPath();
-
-	path->sectorX = m_loc.sectorX;
-	path->sectorY = m_loc.sectorY;
-	path->systemNum = m_loc.systemNum;
-	path->sbodyId = sbody->id;
+	return sbody->path;
 }
 
 /*
@@ -1095,42 +1077,38 @@ SBody::SBody()
  *
  * We must be sneaky and avoid floating point in these places.
  */
-StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
+StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 {
-	unsigned long _init[5] = { system_idx, sector_x, sector_y, UNIVERSE_SEED, 0 };
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
-	m_loc.sectorX = sector_x;
-	m_loc.sectorY = sector_y;
-	m_loc.systemNum = system_idx;
 	rootBody = 0;
-	if (system_idx == -1) return;
 
-	Sector s = Sector(sector_x, sector_y);
-	if (unsigned(system_idx) >= s.m_systems.size()) return;
-	m_seed = s.m_systems[system_idx].seed;
-	m_name = s.m_systems[system_idx].name;
-	_init[4] = m_seed;
-	MTRand rand;
-	rand.seed(_init, 5);
+	Sector s = Sector(m_path.sectorX, m_path.sectorY, m_path.sectorZ);
+	assert(m_path.systemIndex >= 0 && m_path.systemIndex < s.m_systems.size());
+
+	m_seed = s.m_systems[m_path.systemIndex].seed;
+	m_name = s.m_systems[m_path.systemIndex].name;
+
+	unsigned long _init[6] = { m_path.systemIndex, m_path.sectorX, m_path.sectorY, m_path.sectorZ, UNIVERSE_SEED, m_seed };
+	MTRand rand(_init, 6);
 
 	/*
 	 * 0 - ~500ly from sol: explored
 	 * ~500ly - ~700ly (65-90 sectors): gradual
 	 * ~700ly+: unexplored
 	 */
-	int dist = isqrt(1 + sector_x*sector_x + sector_y*sector_y);
+	int dist = isqrt(1 + m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ);
 	m_unexplored = (dist > 90) || (dist > 65 && rand.Int32(dist) > 40);
 
 	m_isCustom = m_hasCustomBodies = false;
-	if (s.m_systems[system_idx].customSys) {
+	if (s.m_systems[m_path.systemIndex].customSys) {
 		m_isCustom = true;
-		const CustomSystem *custom = s.m_systems[system_idx].customSys;
+		const CustomSystem *custom = s.m_systems[m_path.systemIndex].customSys;
 		m_numStars = custom->numStars;
 		if (custom->shortDesc.length() > 0) m_shortDesc = custom->shortDesc;
 		if (custom->longDesc.length() > 0) m_longDesc = custom->longDesc;
 		if (!custom->IsRandom()) {
 			m_hasCustomBodies = true;
-			GenerateFromCustom(s.m_systems[system_idx].customSys, rand);
+			GenerateFromCustom(s.m_systems[m_path.systemIndex].customSys, rand);
 			return;
 		}
 	}
@@ -1138,14 +1116,14 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	SBody *star[4];
 	SBody *centGrav1, *centGrav2;
 
-	const int numStars = s.m_systems[system_idx].numStars;
+	const int numStars = s.m_systems[m_path.systemIndex].numStars;
 	assert((numStars >= 1) && (numStars <= 4));
 
 	if (numStars == 1) {
-		SBody::BodyType type = s.m_systems[system_idx].starType[0];
+		SBody::BodyType type = s.m_systems[m_path.systemIndex].starType[0];
 		star[0] = NewBody();
 		star[0]->parent = NULL;
-		star[0]->name = s.m_systems[system_idx].name;
+		star[0]->name = s.m_systems[m_path.systemIndex].name;
 		star[0]->orbMin = 0;
 		star[0]->orbMax = 0;
 		MakeStarOfType(star[0], type, rand);
@@ -1155,26 +1133,27 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		centGrav1 = NewBody();
 		centGrav1->type = SBody::TYPE_GRAVPOINT;
 		centGrav1->parent = NULL;
-		centGrav1->name = s.m_systems[system_idx].name+" A,B";
+		centGrav1->name = s.m_systems[m_path.systemIndex].name+" A,B";
 		rootBody = centGrav1;
 
-		SBody::BodyType type = s.m_systems[system_idx].starType[0];
+		SBody::BodyType type = s.m_systems[m_path.systemIndex].starType[0];
 		star[0] = NewBody();
-		star[0]->name = s.m_systems[system_idx].name+" A";
+		star[0]->name = s.m_systems[m_path.systemIndex].name+" A";
 		star[0]->parent = centGrav1;
 		MakeStarOfType(star[0], type, rand);
 		
 		star[1] = NewBody();
-		star[1]->name = s.m_systems[system_idx].name+" B";
+		star[1]->name = s.m_systems[m_path.systemIndex].name+" B";
 		star[1]->parent = centGrav1;
-		MakeStarOfTypeLighterThan(star[1], s.m_systems[system_idx].starType[1],
+		MakeStarOfTypeLighterThan(star[1], s.m_systems[m_path.systemIndex].starType[1],
 				star[0]->mass, rand);
 
 		centGrav1->mass = star[0]->mass + star[1]->mass;
 		centGrav1->children.push_back(star[0]);
 		centGrav1->children.push_back(star[1]);
+		const fixed minDist1 = (star[0]->radius + star[1]->radius) * AU_SOL_RADIUS;
 try_that_again_guvnah:
-		MakeBinaryPair(star[0], star[1], fixed(0), rand);
+		MakeBinaryPair(star[0], star[1], minDist1, rand);
 
 		m_numStars = 2;
 
@@ -1186,32 +1165,33 @@ try_that_again_guvnah:
 			// 3rd and maybe 4th star
 			if (numStars == 3) {
 				star[2] = NewBody();
-				star[2]->name = s.m_systems[system_idx].name+" C";
+				star[2]->name = s.m_systems[m_path.systemIndex].name+" C";
 				star[2]->orbMin = 0;
 				star[2]->orbMax = 0;
-				MakeStarOfTypeLighterThan(star[2], s.m_systems[system_idx].starType[2],
+				MakeStarOfTypeLighterThan(star[2], s.m_systems[m_path.systemIndex].starType[2],
 					star[0]->mass, rand);
 				centGrav2 = star[2];
 				m_numStars = 3;
 			} else {
 				centGrav2 = NewBody();
 				centGrav2->type = SBody::TYPE_GRAVPOINT;
-				centGrav2->name = s.m_systems[system_idx].name+" C,D";
+				centGrav2->name = s.m_systems[m_path.systemIndex].name+" C,D";
 				centGrav2->orbMax = 0;
 
 				star[2] = NewBody();
-				star[2]->name = s.m_systems[system_idx].name+" C";
+				star[2]->name = s.m_systems[m_path.systemIndex].name+" C";
 				star[2]->parent = centGrav2;
-				MakeStarOfTypeLighterThan(star[2], s.m_systems[system_idx].starType[2],
+				MakeStarOfTypeLighterThan(star[2], s.m_systems[m_path.systemIndex].starType[2],
 					star[0]->mass, rand);
 				
 				star[3] = NewBody();
-				star[3]->name = s.m_systems[system_idx].name+" D";
+				star[3]->name = s.m_systems[m_path.systemIndex].name+" D";
 				star[3]->parent = centGrav2;
-				MakeStarOfTypeLighterThan(star[3], s.m_systems[system_idx].starType[3],
+				MakeStarOfTypeLighterThan(star[3], s.m_systems[m_path.systemIndex].starType[3],
 					star[2]->mass, rand);
 
-				MakeBinaryPair(star[2], star[3], fixed(0), rand);
+				const fixed minDist2 = (star[2]->radius + star[3]->radius) * AU_SOL_RADIUS;
+				MakeBinaryPair(star[2], star[3], minDist2, rand);
 				centGrav2->mass = star[2]->mass + star[3]->mass;
 				centGrav2->children.push_back(star[2]);
 				centGrav2->children.push_back(star[3]);
@@ -1220,12 +1200,12 @@ try_that_again_guvnah:
 			SBody *superCentGrav = NewBody();
 			superCentGrav->type = SBody::TYPE_GRAVPOINT;
 			superCentGrav->parent = NULL;
-			superCentGrav->name = s.m_systems[system_idx].name;
+			superCentGrav->name = s.m_systems[m_path.systemIndex].name;
 			centGrav1->parent = superCentGrav;
 			centGrav2->parent = superCentGrav;
 			rootBody = superCentGrav;
-			const fixed minDist = star[0]->orbMax + star[2]->orbMax;
-			MakeBinaryPair(centGrav1, centGrav2, 4*minDist, rand);
+			const fixed minDistSuper = star[0]->orbMax + star[2]->orbMax;
+			MakeBinaryPair(centGrav1, centGrav2, 4*minDistSuper, rand);
 			superCentGrav->children.push_back(centGrav1);
 			superCentGrav->children.push_back(centGrav2);
 
@@ -1421,7 +1401,7 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 
 	while (pos < discMax) {
 		// periapsis, apoapsis = closest, farthest distance in orbit
-		fixed periapsis = pos + pos*0.5*rand.NFixed(2);/* + jump */;
+		fixed periapsis = pos + pos*fixed(1,2)*rand.NFixed(2);/* + jump */;
 		fixed ecc = rand.NFixed(3);
 		fixed semiMajorAxis = periapsis / (fixed(1,1) - ecc);
 		fixed apoapsis = 2*semiMajorAxis - periapsis;
@@ -1519,8 +1499,17 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 	int bbody_temp = CalcSurfaceTemp(star, averageDistToStar, albedo, greenhouse);
 	
 	averageTemp = bbody_temp;
-	radius = fixed::CubeRootOf(mass);
-	
+
+	// radius is just the cube root of the mass. we get some more fractional
+	// bits for small bodies otherwise we can easily end up with 0 radius
+	// which breaks stuff elsewhere
+	if (mass <= fixed(1,1))
+		radius = fixed(fixedf<48>::CubeRootOf(fixedf<48>(mass)));
+	else
+		radius = fixed::CubeRootOf(mass);
+	// enforce minimum size of 10km
+	radius = std::max(radius, fixed(1,630000));
+
 	m_metallicity = system->m_metallicity * rand.Fixed();
 	// harder to be volcanic when you are tiny (you cool down)
 	m_volcanicity = std::min(fixed(1,1), mass) * rand.Fixed();
@@ -1613,35 +1602,35 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 	}
 
 	if (m_unexplored) {
-		m_shortDesc = "Unexplored system. No more data available.";
+		m_shortDesc = Lang::UNEXPLORED_SYSTEM_NO_DATA;
 	}
 
 	/* Total population is in billions */
 	else if(m_totalPop == 0) {
-		m_shortDesc = "Small-scale prospecting. No registered settlements.";
+		m_shortDesc = Lang::SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS;
 	} else if (m_totalPop < fixed(1,10)) {
 		switch (m_econType) {
-			case ECON_INDUSTRY: m_shortDesc = "Small industrial outpost."; break;
-			case ECON_MINING: m_shortDesc = "Some established mining."; break;
-			case ECON_AGRICULTURE: m_shortDesc = "Young farming colony."; break;
+			case ECON_INDUSTRY: m_shortDesc = Lang::SMALL_INDUSTRIAL_OUTPOST; break;
+			case ECON_MINING: m_shortDesc = Lang::SOME_ESTABLISHED_MINING; break;
+			case ECON_AGRICULTURE: m_shortDesc = Lang::YOUNG_FARMING_COLONY; break;
 		}
 	} else if (m_totalPop < fixed(1,2)) {
 		switch (m_econType) {
-			case ECON_INDUSTRY: m_shortDesc = "Industrial colony."; break;
-			case ECON_MINING: m_shortDesc = "Mining colony."; break;
-			case ECON_AGRICULTURE: m_shortDesc = "Outdoor agricultural world."; break;
+			case ECON_INDUSTRY: m_shortDesc = Lang::INDUSTRIAL_COLONY; break;
+			case ECON_MINING: m_shortDesc = Lang::MINING_COLONY; break;
+			case ECON_AGRICULTURE: m_shortDesc = Lang::OUTDOOR_AGRICULTURAL_WORLD; break;
 		}
 	} else if (m_totalPop < fixed(5,1)) {
 		switch (m_econType) {
-			case ECON_INDUSTRY: m_shortDesc = "Heavy industry."; break;
-			case ECON_MINING: m_shortDesc = "Extensive mining operations."; break;
-			case ECON_AGRICULTURE: m_shortDesc = "Thriving outdoor world."; break;
+			case ECON_INDUSTRY: m_shortDesc = Lang::HEAVY_INDUSTRY; break;
+			case ECON_MINING: m_shortDesc = Lang::EXTENSIVE_MINING; break;
+			case ECON_AGRICULTURE: m_shortDesc = Lang::THRIVING_OUTDOOR_WORLD; break;
 		}
 	} else {
 		switch (m_econType) {
-			case ECON_INDUSTRY: m_shortDesc = "Industrial hub system."; break;
-			case ECON_MINING: m_shortDesc = "Vast strip-mining colony."; break;
-			case ECON_AGRICULTURE: m_shortDesc = "High population outdoor world."; break;
+			case ECON_INDUSTRY: m_shortDesc = Lang::INDUSTRIAL_HUB_SYSTEM; break;
+			case ECON_MINING: m_shortDesc = Lang::VAST_STRIP_MINE; break;
+			case ECON_AGRICULTURE: m_shortDesc = Lang::HIGH_POPULATION_OUTDOOR_WORLD; break;
 		}
 	}
 }
@@ -1651,12 +1640,12 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 
 void StarSystem::Populate(bool addSpaceStations)
 {
-	unsigned long _init[5] = { m_loc.systemNum, m_loc.sectorX, m_loc.sectorY, UNIVERSE_SEED };
+	unsigned long _init[5] = { m_path.systemIndex, m_path.sectorX, m_path.sectorY, m_path.sectorZ, UNIVERSE_SEED };
 	MTRand rand;
-	rand.seed(_init, 4);
+	rand.seed(_init, 5);
 
 	/* Various system-wide characteristics */
-	m_humanProx = fixed(3,1) / isqrt(9 + 10*(m_loc.sectorX*m_loc.sectorX + m_loc.sectorY*m_loc.sectorY));
+	m_humanProx = fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));
 	m_techlevel = (m_humanProx*5).ToInt32() + rand.Int32(-2,2);
 	m_techlevel = Clamp(m_techlevel, 1, 5);
 	m_econType = ECON_INDUSTRY;
@@ -1684,7 +1673,7 @@ void StarSystem::Populate(bool addSpaceStations)
 // Unused?
 //	for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
 //		Equip::Type t = (Equip::Type)i;
-//		const EquipType &type = EquipType::types[t];
+//		const EquipType &type = Equip::types[t];
 //		printf("%s: %d%%\n", type.name, m_tradeLevel[t]);
 //	}
 //	printf("System total population %.3f billion, tech level %d\n", m_totalPop.ToFloat(), m_techlevel);
@@ -1713,10 +1702,10 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		return;
 	}
 
-	unsigned long _init[5] = { system->m_loc.systemNum, system->m_loc.sectorX,
-			system->m_loc.sectorY, UNIVERSE_SEED, this->seed };
+	unsigned long _init[6] = { system->m_path.systemIndex, system->m_path.sectorX,
+			system->m_path.sectorY, system->m_path.sectorZ, UNIVERSE_SEED, this->seed };
 	MTRand rand;
-	rand.seed(_init, 5);
+	rand.seed(_init, 6);
 
 	m_population = fixed(0);
 
@@ -1763,7 +1752,7 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	/* Commodities we produce (mining and agriculture) */
 	for (int i=Equip::FIRST_COMMODITY; i<Equip::LAST_COMMODITY; i++) {
 		Equip::Type t = Equip::Type(i);
-		const EquipType &itype = EquipType::types[t];
+		const EquipType &itype = Equip::types[t];
 		if (itype.techLevel > system->m_techlevel) continue;
 
 		fixed affinity = fixed(1,1);
@@ -1824,10 +1813,10 @@ void SBody::PopulateAddStations(StarSystem *system)
 	for (unsigned int i=0; i<children.size(); i++) {
 		children[i]->PopulateAddStations(system);
 	}
-	unsigned long _init[5] = { system->m_loc.systemNum, system->m_loc.sectorX,
-			system->m_loc.sectorY, this->seed, UNIVERSE_SEED };
+	unsigned long _init[6] = { system->m_path.systemIndex, system->m_path.sectorX,
+			system->m_path.sectorY, system->m_path.sectorZ, this->seed, UNIVERSE_SEED };
 	MTRand rand;
-	rand.seed(_init, 5);
+	rand.seed(_init, 6);
 
 	if (m_population < fixed(1,1000)) return;
 
@@ -1849,7 +1838,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 		sp->rotationPeriod = fixed(1,3600);
 		sp->averageTemp = this->averageTemp;
 		sp->mass = 0;
-		sp->name = NameGenerator::Surname(rand) + " Spaceport";
+		sp->name = stringf(Lang::SOMEWHERE_SPACEPORT, formatarg("spaceport", NameGenerator::Surname(rand)));
 		/* just always plonk starports in near orbit */
 		sp->semiMajorAxis = orbMinS;
 		sp->eccentricity = fixed(0);
@@ -1866,11 +1855,11 @@ void SBody::PopulateAddStations(StarSystem *system)
 		pop -= rand.Fixed();
 		if (pop > 0) {
 			SBody *sp2 = system->NewBody();
-			Uint32 id2 = sp2->id;
+			SystemPath path2 = sp2->path;
 			*sp2 = *sp;
-			sp2->id = id2;
+			sp2->path = path2;
 			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
-			sp2->name = NameGenerator::Surname(rand) + " Spaceport";
+			sp2->name = stringf(Lang::SOMEWHERE_SPACEPORT, formatarg("spaceport", NameGenerator::Surname(rand)));
 			children.insert(children.begin(), sp2);
 			system->m_spaceStations.push_back(sp2);
 		}
@@ -1889,7 +1878,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 		sp->parent = this;
 		sp->averageTemp = this->averageTemp;
 		sp->mass = 0;
-		sp->name = NameGenerator::Surname(rand) + " Starport";
+		sp->name = stringf(Lang::SOMEWHERE_STARPORT, formatarg("starport", NameGenerator::Surname(rand)));
 		memset(&sp->orbit, 0, sizeof(Orbit));
 		position_settlement_on_planet(sp);
 		children.insert(children.begin(), sp);
@@ -1900,11 +1889,6 @@ void SBody::PopulateAddStations(StarSystem *system)
 StarSystem::~StarSystem()
 {
 	if (rootBody) delete rootBody;
-}
-
-bool StarSystem::IsSystem(int sector_x, int sector_y, int system_idx)
-{
-	return (sector_x == m_loc.sectorX) && (sector_y == m_loc.sectorY) && (system_idx == m_loc.systemNum);
 }
 
 SBody::~SBody()
@@ -1918,9 +1902,10 @@ void StarSystem::Serialize(Serializer::Writer &wr, StarSystem *s)
 {
 	if (s) {
 		wr.Byte(1);
-		wr.Int32(s->m_loc.sectorX);
-		wr.Int32(s->m_loc.sectorY);
-		wr.Int32(s->m_loc.systemNum);
+		wr.Int32(s->m_path.sectorX);
+		wr.Int32(s->m_path.sectorY);
+		wr.Int32(s->m_path.sectorZ);
+		wr.Int32(s->m_path.systemIndex);
 	} else {
 		wr.Byte(0);
 	}
@@ -1931,29 +1916,30 @@ StarSystem *StarSystem::Unserialize(Serializer::Reader &rd)
 	if (rd.Byte()) {
 		int sec_x = rd.Int32();
 		int sec_y = rd.Int32();
+		int sec_z = rd.Int32();
 		int sys_idx = rd.Int32();
-		return StarSystem::GetCached(sec_x, sec_y, sys_idx);
+		return StarSystem::GetCached(SystemPath(sec_x, sec_y, sec_z, sys_idx));
 	} else {
 		return 0;
 	}
 }
 
-static std::map<SysLoc,StarSystem*> s_cachedSystems;
+typedef std::map<SystemPath,StarSystem*> SystemCacheMap;
+static SystemCacheMap s_cachedSystems;
 
-StarSystem *StarSystem::GetCached(int sectorX, int sectorY, int systemNum)
+StarSystem *StarSystem::GetCached(const SystemPath &path)
 {
-    SysLoc loc(sectorX, sectorY, systemNum);
-
 	StarSystem *s = 0;
 
-	for (std::map<SysLoc,StarSystem*>::iterator i = s_cachedSystems.begin(); i != s_cachedSystems.end(); i++) {
-		if ((*i).first == loc)
-			s = (*i).second;
-	}
+	SystemPath sysPath(path);
+	sysPath.bodyIndex = 0;
 
-	if (!s) {
-		s = new StarSystem(sectorX, sectorY, systemNum);
-		s_cachedSystems.insert( std::pair<SysLoc,StarSystem*>(loc, s) );
+	SystemCacheMap::const_iterator it = s_cachedSystems.find(sysPath);
+	if (it != s_cachedSystems.end()) {
+		s = it->second;
+	} else {
+		s = new StarSystem(sysPath);
+		s_cachedSystems.insert( SystemCacheMap::value_type(sysPath, s) );
 	}
 
 	s->IncRefCount();
@@ -1962,25 +1948,14 @@ StarSystem *StarSystem::GetCached(int sectorX, int sectorY, int systemNum)
 
 void StarSystem::ShrinkCache()
 {
-	// from http://stackoverflow.com/questions/4600567/c-deleting-elements-with-iterator
-	// The idea is to walk the iterator forward from the start of the container to the end, 
-	// checking at each step whether the current key/value pair should be deleted. 
-	// If so, a copy of the iterator is made and the iterator is advanced to the next step (to avoid iterator invalidation), 
-	// then the copied iterator is removed from the container. Otherwise, the iterator is advanced as usual.
-	std::map<SysLoc,StarSystem*>::iterator iter = s_cachedSystems.begin();
-	while (iter != s_cachedSystems.end())
-	{
-		StarSystem *s = (*iter).second;
-		if ((NULL!=s) && s->GetRefCount() == 0)
-		{
-			std::map<SysLoc,StarSystem*>::iterator iterTemp = iter;
-			++iter;
+	std::map<SystemPath,StarSystem*>::iterator i = s_cachedSystems.begin();
+	while (i != s_cachedSystems.end()) {
+		StarSystem *s = (*i).second;
+		if (s->GetRefCount() == 0) {
 			delete s;
-			s_cachedSystems.erase( iterTemp ); 
+			s_cachedSystems.erase(i++);
 		}
 		else
-		{
-			++iter;
-		}
+			i++;
 	}
 }

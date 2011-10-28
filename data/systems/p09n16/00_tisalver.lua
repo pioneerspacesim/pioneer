@@ -1,1 +1,0 @@
-CustomSystem:new("Tisalver",{'STAR_K'}):add_to_sector(9,-16,v(0.086,0.809,0.797))

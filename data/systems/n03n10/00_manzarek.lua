@@ -1,1 +1,0 @@
-CustomSystem:new("Manzarek",{'STAR_M'}):add_to_sector(-3,-10,v(0.847,0.558,0.740))

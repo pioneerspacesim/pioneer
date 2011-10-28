@@ -10,7 +10,7 @@ namespace Gui {
 		ToolTip(const char *text);
 		ToolTip(std::string &text);
 		virtual void Draw();
-		virtual ~ToolTip() {}
+		virtual ~ToolTip();
 		virtual void GetSizeRequested(float size[2]);
 		void SetText(const char *text);
 		void SetText(std::string &text);

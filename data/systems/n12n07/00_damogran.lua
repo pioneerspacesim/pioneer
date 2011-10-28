@@ -1,1 +1,0 @@
-CustomSystem:new("Damogran",{'STAR_K'}):add_to_sector(-12,-7,v(0.658,0.755,0.445))

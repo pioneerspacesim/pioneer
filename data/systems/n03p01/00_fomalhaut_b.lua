@@ -1,1 +1,0 @@
-CustomSystem:new("Fomalhaut B",{'STAR_K'}):add_to_sector(-3,1,v(0.965,0.843,-0.452))

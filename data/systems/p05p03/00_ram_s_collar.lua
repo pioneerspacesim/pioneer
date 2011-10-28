@@ -1,1 +1,0 @@
-CustomSystem:new("Ram's collar",{'STAR_M'}):add_to_sector(5,3,v(0.753,0.305,-0.700))

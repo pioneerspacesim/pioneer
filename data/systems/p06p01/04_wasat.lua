@@ -1,1 +1,0 @@
-CustomSystem:new("Wasat",{'STAR_F', 'STAR_K'}):add_to_sector(6,1,v(0.999,0.175,-0.122))

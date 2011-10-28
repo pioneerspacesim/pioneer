@@ -1,1 +1,0 @@
-CustomSystem:new("Varneshi",{'STAR_G'}):add_to_sector(7,5,v(0.694,0.352,-0.605))

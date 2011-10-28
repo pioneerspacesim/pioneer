@@ -1,1 +1,0 @@
-CustomSystem:new("Hardin",{'STAR_K', 'STAR_M'}):add_to_sector(3,-5,v(0.737,0.581,0.550))

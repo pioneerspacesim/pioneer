@@ -2,7 +2,7 @@
 #define _BACKGROUND_H
 
 #include "libs.h"
-#include "Render.h"
+#include "render/Render.h"
 /*
  * Classes to draw background stars and the milky way
  * They need to work both using and without using VBOs

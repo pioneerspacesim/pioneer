@@ -1,1 +1,0 @@
-CustomSystem:new("Lowne",{'STAR_M'}):add_to_sector(7,1,v(0.327,0.477,-0.153))

@@ -1,1 +1,0 @@
-CustomSystem:new("Kenna",{'STAR_K'}):add_to_sector(0,4,v(0.069,0.209,-0.655))

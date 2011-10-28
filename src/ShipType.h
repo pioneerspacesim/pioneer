@@ -4,16 +4,33 @@
 #include "libs.h"
 #include "vector3.h"
 #include "EquipType.h"
-#include "Serializer.h"
 #include <vector>
 #include <map>
 
 struct lua_State;
 
 struct ShipType {
-	enum Thruster { THRUSTER_REVERSE, THRUSTER_FORWARD, THRUSTER_UP, THRUSTER_DOWN, THRUSTER_LEFT, THRUSTER_RIGHT, THRUSTER_MAX };
-	enum { GUN_FRONT, GUN_REAR, GUNMOUNT_MAX = 2 };
-	enum Tag { TAG_NONE, TAG_SHIP, TAG_STATIC_SHIP, TAG_MISSILE, TAG_MAX };
+	enum Thruster { // <enum scope='ShipType' name=ShipTypeThruster prefix=THRUSTER_>
+		THRUSTER_REVERSE,
+		THRUSTER_FORWARD,
+		THRUSTER_UP,
+		THRUSTER_DOWN,
+		THRUSTER_LEFT,
+		THRUSTER_RIGHT,
+		THRUSTER_MAX // <enum skip>
+	};
+	enum {
+		GUN_FRONT,
+		GUN_REAR,
+		GUNMOUNT_MAX = 2
+	};
+	enum Tag { // <enum scope='ShipType' name=ShipTypeTag prefix=TAG_>
+		TAG_NONE,
+		TAG_SHIP,
+		TAG_STATIC_SHIP,
+		TAG_MISSILE,
+		TAG_MAX // <enum skip>
+	};
 	typedef std::string Type;
 
 	////////
@@ -47,8 +64,6 @@ struct ShipType {
 	static std::vector<Type> static_ships;
 	static std::vector<Type> missile_ships;
 
-	static Type GetRandomType();
-	static Type GetRandomStaticType();
 	static const char *gunmountNames[GUNMOUNT_MAX];
 	static void Init();
 	static const ShipType *Get(const char *name) {
@@ -63,10 +78,12 @@ public:
 	EquipSet() {}
 
 	void InitSlotSizes(const ShipType::Type t) {
+		const ShipType &st = ShipType::types[t];
 		for (int i=0; i<Equip::SLOT_MAX; i++) {
-			equip[i] = std::vector<Equip::Type>(ShipType::types[t].equipSlotCapacity[i]);
+			// vector swap idiom (de-allocates unneeded space)
+			std::vector<Equip::Type>(st.equipSlotCapacity[i]).swap(equip[i]);
 		}
-		onChange.emit();
+		onChange.emit(Equip::NONE);
 	}
 	int GetSlotSize(Equip::Slot s) const {
 		return equip[s].size();
@@ -80,10 +97,12 @@ public:
 		else return equip[s][idx];
 	}
 	void Set(Equip::Slot s, int idx, Equip::Type e) {
+		if (signed(equip[s].size()) <= idx) return;
 		equip[s][idx] = e;
-		onChange.emit();
+		onChange.emit(e);
 	}
 	int Add(Equip::Type e, int num) {
+		if (e == Equip::NONE) return 0;
 		Equip::Slot s = Equip::types[e].slot;
 		int numDone = 0;
 		for (unsigned int i=0; i<equip[s].size(); i++) {
@@ -93,7 +112,7 @@ public:
 				numDone++;
 			}
 		}
-		if (numDone) onChange.emit();
+		if (numDone) onChange.emit(e);
 		return numDone;
 	}
 	int Add(Equip::Type e) {
@@ -101,6 +120,7 @@ public:
 	}
 	// returns number removed
 	int Remove(Equip::Type e, int num) {
+		if (e == Equip::NONE) return 0;
 		Equip::Slot s = Equip::types[e].slot;
 		int numDone = 0;
 		for (unsigned int i=0; i<equip[s].size(); i++) {
@@ -111,7 +131,7 @@ public:
 				numDone++;
 			}
 		}
-		if (numDone) onChange.emit();
+		if (numDone) onChange.emit(e);
 		return numDone;
 	}
 	int Count(Equip::Slot s, Equip::Type e) const {
@@ -128,11 +148,9 @@ public:
 		}
 		return free;
 	}
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
 
-	sigc::signal<void> onChange;
-private:
+	sigc::signal<void,Equip::Type> onChange;
+protected:
 	std::vector<Equip::Type> equip[Equip::SLOT_MAX];
 };
 
