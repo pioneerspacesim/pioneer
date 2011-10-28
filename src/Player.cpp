@@ -11,8 +11,7 @@
 #include "Lang.h"
 #include "rocket/RocketManager.h"
 
-Player::Player(ShipType::Type shipFlavour): Ship(shipFlavour),
-	m_followCloud(0)
+Player::Player(ShipType::Type shipType): Ship(shipType)
 {
 	m_mouseActive = false;
 	m_flightControlState = CONTROL_MANUAL;
@@ -45,7 +44,6 @@ void Player::Save(Serializer::Writer &wr)
 	wr.Double(m_setSpeed);
 	wr.Int32(m_killCount);
 	wr.Int32(m_knownKillCount);
-	wr.Int32(Serializer::LookupBody(m_followCloud));
 	wr.Int32(Serializer::LookupBody(m_combatTarget));
 	wr.Int32(Serializer::LookupBody(m_navTarget));
 }
@@ -59,7 +57,6 @@ void Player::Load(Serializer::Reader &rd)
 	m_setSpeed = rd.Double();
 	m_killCount = rd.Int32();
 	m_knownKillCount = rd.Int32();
-	m_followCloudIndex = rd.Int32();
 	m_combatTargetIndex = rd.Int32();
 	m_navTargetIndex = rd.Int32();
 }
@@ -67,7 +64,6 @@ void Player::Load(Serializer::Reader &rd)
 void Player::PostLoadFixup()
 {
 	Ship::PostLoadFixup();
-	m_followCloud = dynamic_cast<HyperspaceCloud*>(Serializer::LookupBody(m_followCloudIndex));
 	m_combatTarget = Serializer::LookupBody(m_combatTargetIndex);
 	m_navTarget = Serializer::LookupBody(m_navTargetIndex);
 

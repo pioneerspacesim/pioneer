@@ -305,6 +305,8 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 		} else {
 			if (Equip::types[i].techLevel <= Pi::currentSystem->m_techlevel)
 				m_equipmentStock[i] = Pi::rng.Int32(0,100);
+			else
+				m_equipmentStock[i] = 0;
 		}
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {

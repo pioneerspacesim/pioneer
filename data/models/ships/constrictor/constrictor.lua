@@ -408,7 +408,7 @@ define_model('conny_equipment', {
 	end,
 	dynamic = function(lod)
 
-		if get_equipment('FUELSCOOP') == 'FUEL_SCOOP' then
+		if get_equipment('FUELSCOOP') or get_equipment('CARGOSCOOP') then
 			call_model('conny_scoop', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 		end
 
@@ -811,6 +811,8 @@ define_model('conny', {
 				max_cargo = 90,
 				max_laser = 2,
 				max_missile = 2,
+				max_fuelscoop = 1,
+				max_cargoscoop = 1,
 				capacity = 90,
 				hull_mass = 90,
 				price = 143000,
@@ -831,6 +833,9 @@ define_model('conny', {
 
 		if lod == 1 then
 			load_obj('con_coll.obj')
+			geomflag(0x100)
+			quad(v(2.479,-2,2.9), v(7.046,-2,2.9), v(6.048,-4,2.9), v(3.477,-4,2.9))
+			geomflag(0)
 		else
 			set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 			set_material('text', .6, .6, .6,.99, .5, .5, .5, 30)

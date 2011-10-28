@@ -35,9 +35,8 @@ public:
 
 class Ship: public DynamicBody {
 public:
-	enum Animation {
-#define Animation_ITEM(x) ANIM_##x,
-#include "ShipEnums.h"
+	enum Animation { // <enum scope='Ship' name=ShipAnimation prefix=ANIM_>
+		ANIM_WHEEL_STATE
 	};
 
 	OBJDEF(Ship, DynamicBody, SHIP);
@@ -73,9 +72,12 @@ public:
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 
-	enum FlightState {
-#define FlightState_ITEM(x) x,
-#include "ShipEnums.h"
+	enum FlightState { // <enum scope='Ship' name=ShipFlightState>
+		FLYING,     // open flight (includes autopilot)
+		DOCKING,    // in docking animation
+		DOCKED,     // docked with station
+		LANDED,     // rough landed (not docked)
+		HYPERSPACE, // in hyperspace
 	};
 
        	FlightState GetFlightState() const { return m_flightState; }
@@ -86,9 +88,12 @@ public:
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
 	SystemPath GetHyperspaceDest() const { return m_hyperspace.dest; }
 
-	enum HyperjumpStatus {
-#define HyperjumpStatus_ITEM(x) HYPERJUMP_##x,
-#include "ShipEnums.h"
+	enum HyperjumpStatus { // <enum scope='Ship' name=ShipJumpStatus prefix=HYPERJUMP_>
+		HYPERJUMP_OK,
+		HYPERJUMP_CURRENT_SYSTEM,
+		HYPERJUMP_NO_DRIVE,
+		HYPERJUMP_OUT_OF_RANGE,
+		HYPERJUMP_INSUFFICIENT_FUEL,
 	};
 	bool CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus = 0);
 	void UseHyperspaceFuel(const SystemPath *dest);
@@ -106,9 +111,10 @@ public:
 	void UseECM();
 	virtual bool FireMissile(int idx, Ship *target);
 
-	enum AlertState {
-#define AlertState_ITEM(x) ALERT_##x,
-#include "ShipEnums.h"
+	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_>
+		ALERT_NONE,
+		ALERT_SHIP_NEARBY,
+		ALERT_SHIP_FIRING,
 	};
 	AlertState GetAlertState() { return m_alertState; }
 

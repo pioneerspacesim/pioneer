@@ -473,6 +473,7 @@ void Pi::Init()
 	draw_progress(0.3f);
 
 	LmrModelCompilerInit();
+	LmrNotifyScreenWidth(Pi::scrWidth);
 	draw_progress(0.4f);
 
 //unsigned int control_word;
@@ -1149,7 +1150,7 @@ void Pi::Start()
             for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++) {
                 const SBody *sbody = (*i)->GetSBody();
                 if (!sbody) continue;
-                if (sbody->id == 6) {
+                if (sbody->path.bodyIndex == 6) {
                     player->SetFrame((*i)->GetFrame());
                     break;
                 }
@@ -1257,6 +1258,7 @@ void Pi::Start()
 
 void Pi::EndGame()
 {
+	Pi::musicPlayer.Stop();
 	Sound::DestroyAllEvents();
 	Pi::luaOnGameEnd->Signal();
 	Pi::luaManager->CollectGarbage();
@@ -1280,6 +1282,10 @@ void Pi::MainLoop()
 	memset(fps_readout, 0, sizeof(fps_readout));
 #endif
 
+	int MAX_PHYSICS_TICKS = Pi::config.Int("MaxPhysicsCyclesPerRender");
+	if (MAX_PHYSICS_TICKS <= 0)
+		MAX_PHYSICS_TICKS = 4;
+
 	double currentTime = 0.001 * double(SDL_GetTicks());
 	double accumulator = Pi::GetTimeStep();
 	Pi::gameTickAlpha = 0;
@@ -1293,14 +1299,22 @@ void Pi::MainLoop()
 		
 		const float step = Pi::GetTimeStep();
 		if (step > 0.0f) {
+			int phys_ticks = 0;
 			while (accumulator >= step) {
+				if (++phys_ticks >= MAX_PHYSICS_TICKS) {
+					accumulator = 0.0;
+					break;
+				}
 				Space::TimeStep(step);
 				gameTime += step;
-				phys_stat++;
 
 				accumulator -= step;
 			}
 			Pi::gameTickAlpha = accumulator / step;
+
+#ifdef DEVKEYS
+			phys_stat += phys_ticks;
+#endif
 		} else {
 			// paused
 		}

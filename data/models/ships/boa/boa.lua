@@ -126,6 +126,7 @@ define_model('boa', {
 				max_cargo = 600,
 				max_laser = 2,
 				max_missile = 6,
+				max_cargoscoop = 0,
 				capacity = 600,
 				hull_mass = 580,
 				price = 2474000,

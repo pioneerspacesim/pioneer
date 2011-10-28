@@ -66,3 +66,37 @@ Translate:Add({ Polski = {
   ["Thank you. All donations are welcome."] = "Dziękuje. Cenimy każde wsparcie.",
   }
 })
+
+---- SPANISH / ESPAÑOL ----
+
+Translate:AddFlavour('Spanish','DonateToCranks', {
+  title = "HAGA UNA DONACION! La Iglesia de El Monstruo Celeste de Spaghetti Volante necesita TU dinero para propagar la palabra de dios.",
+  message = "Por favor, elija una cantidad para donar a La Iglesia de El Monstruo Celeste de Spaghetti Volante.",
+})
+
+Translate:AddFlavour('Spanish','DonateToCranks', {
+  title = "HAGA UNA DONACION. Los Guardianes del Espíritu Libre humildemente apelamos a su caridad para el mantenimiento de nuestros monasterios.",
+  message = "La paz sea contigo, hermano. Por favor, elija una cantidad para donar a los Guardianes del Espíritu Libre.",
+})
+
+Translate:AddFlavour('Spanish','DonateToCranks', {
+  title = "SE SIENTE GENEROSO? Apoyo a los Huérfanos de Guerra necesita su ayuda para mantener su trabajo esencial.",
+  message = "Por favor seleccione una cantidad para donar a Apoyo a los Huérfanos de Guerra, y acabe con el sufrimiento de los niños de toda la galaxia.",
+})
+
+Translate:AddFlavour('Spanish','DonateToCranks', {
+  title = "CONTRIBUYA. Los Amigos de La Galaxia y la campaña 'Prohibamos los motores militares de impulso' necesitan su dinero.",
+  message = "Por favor elija una cantidad para donar a GreenWatch, y acabe con la contaminación de nuestra galaxia.",
+})
+
+Translate:AddFlavour('Spanish','DonateToCranks', {
+  title = "CONTRIBUYA! Protejamos nuestras especies. Acabemos con la matanza en los nuevos mundos colonizados.",
+  message = "Por favor, elija una cantidad para donar."
+})
+
+Translate:Add({ Spanish = {
+  ["You do not have enough money."] = "No dispone de suficientes fondos.",
+  ["Wow! That was very generous."] = "Vaya! Eso ha sido muy generoso.",
+  ["Thank you. All donations are welcome."] = "Gracias. Cualquier donación es bienvenida.",
+  }
+})

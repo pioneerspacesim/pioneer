@@ -46,6 +46,7 @@ define_model('lynx', {
 				max_cargo = 3500,
 				max_laser = 0,
 				max_missile = 0,
+				max_cargoscoop = 0,
 				capacity = 3500,
 				hull_mass = 1000,
 				price = 6.5e6,
