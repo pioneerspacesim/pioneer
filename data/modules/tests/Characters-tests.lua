@@ -130,7 +130,6 @@ local onGameStart = function ()
 		test = test + 1
 	end
 	base = test
-	print(base)
 	derek:RollNew()
 	test = 0
 	for k,v in pairs(derek) do
@@ -138,7 +137,6 @@ local onGameStart = function ()
 	end
 	assert(test == base + 4,"Character assertion failure: RollNew() initialized wrong number of attributes")
 	derek:RollNew(true)
-	print(base)
 	test = 0
 	for k,v in pairs(derek) do
 		test = test + 1
