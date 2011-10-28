@@ -67,13 +67,8 @@ bool RocketGaugeTypeBar::OnAttributeChange(const Rocket::Core::AttributeNameList
 void RocketGaugeTypeBar::ProcessEvent(Rocket::Core::Event& event)
 {
 	//resize is called on initial layout as well
-	if (event == "resize" && event.GetTargetElement() == parent) {
-		Rocket::Core::Vector2f box = parent->GetBox().GetSize();
-		float w = box.y;
-		if (direction == UP || direction == DOWN)
-			w = box.x;
-		FormatElements(box, direction == RIGHT ? box.y : box.x);
-	}
+	if (event == "resize" && event.GetTargetElement() == parent)
+		FormatElements();
 }
 
 bool RocketGaugeTypeBar::GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions)
@@ -88,7 +83,7 @@ bool RocketGaugeTypeBar::GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensio
 	return true;
 }
 
-void RocketGaugeTypeBar::FormatElements(const Rocket::Core::Vector2f& containingBlock, float length)
+void RocketGaugeTypeBar::FormatElements()
 {
 	bool horizontal = (direction == RIGHT || direction == LEFT);
 	Rocket::Core::Box barBox;
@@ -100,10 +95,6 @@ void RocketGaugeTypeBar::FormatElements(const Rocket::Core::Vector2f& containing
 	if (bar->GetLocalProperty("height") == 0)
 		barBoxContent.y = parent->GetBox().GetSize().y;
 
-	//calculate min-width/height limitations
-	//calculate margin limitations
-	//calculate padding
-	//calculate border
 	if (horizontal) {
 		barBoxContent.x *= parent->GetGaugeValue();
 	} else {
@@ -115,24 +106,30 @@ void RocketGaugeTypeBar::FormatElements(const Rocket::Core::Vector2f& containing
 	bar->SetBox(barBox);
 
 	//Position the bar
-	//this is *not* correct wrt bar margins & background padding
+	//this takes borders into account but no padding I think
+	const float leftEdge = parent->GetBox().GetEdge(Rocket::Core::Box::BORDER, Rocket::Core::Box::LEFT);
+	const float topEdge = parent->GetBox().GetEdge(Rocket::Core::Box::BORDER, Rocket::Core::Box::TOP);
 	switch (direction) {
 	case RIGHT:
-		bar->SetOffset(Rocket::Core::Vector2f(0.f, 0.f), parent);
+		bar->SetOffset(Rocket::Core::Vector2f(
+			leftEdge,
+			topEdge), parent);
 		break;
 	case LEFT:
 		bar->SetOffset(Rocket::Core::Vector2f(
-			parent->GetBox().GetSize().x - barBoxContent.x,
-			0.f), parent);
+			leftEdge + parent->GetBox().GetSize().x - barBoxContent.x,
+			topEdge), parent);
 		break;
 	case UP:
 		bar->SetOffset(Rocket::Core::Vector2f(
-			0.f,
-			parent->GetBox().GetSize().y - barBoxContent.y),
+			leftEdge,
+			topEdge + parent->GetBox().GetSize().y - barBoxContent.y),
 			parent);
 		break;
 	case DOWN:
-		bar->SetOffset(Rocket::Core::Vector2f(0.f, 0.f), parent);
+		bar->SetOffset(Rocket::Core::Vector2f(
+			leftEdge,
+			topEdge), parent);
 		break;
 	}
 }

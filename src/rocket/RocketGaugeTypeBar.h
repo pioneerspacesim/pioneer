@@ -26,7 +26,7 @@ public:
 	virtual bool GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions);
 
 protected:
-	void FormatElements(const Rocket::Core::Vector2f& containingBlock, float length);
+	void FormatElements();
 
 private:
 	Rocket::Core::Element* bar;

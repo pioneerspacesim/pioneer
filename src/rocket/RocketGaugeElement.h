@@ -2,7 +2,10 @@
 
 #include "RocketManager.h"
 
-// <gauge type="bar" orientation="horizontal" direction="right" value="50" />
+// Gauge element with a variety of possible types. Represents a value between 0.0-1.0.
+// The design (separate type classes) is copied (with some simplification) from Rocket <input>
+// possibilities:
+// <gauge type="bar" direction="right" value="1.0" />
 // <gauge orientation="vertical" stash="player.health" />
 // <gauge type="pie" ...
 
