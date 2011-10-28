@@ -28,7 +28,7 @@ public:
 	bool GetShowLabels() { return m_labelsOn; }
 	void DrawBgStars();
 	vector3d GetExternalViewTranslation();
-	void ApplyExternalViewRotation(matrix4x4d &m);
+	matrix4x4d GetExternalViewRotation();
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
 	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL };

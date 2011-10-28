@@ -210,10 +210,12 @@ vector3d WorldView::GetExternalViewTranslation()
 	return p;
 }
 
-void WorldView::ApplyExternalViewRotation(matrix4x4d &m)
+matrix4x4d WorldView::GetExternalViewRotation()
 {
+	matrix4x4d m = matrix4x4d::Identity();
 	m = matrix4x4d::RotateXMatrix(-DEG2RAD(m_externalViewRotX)) * m;
 	m = matrix4x4d::RotateYMatrix(-DEG2RAD(m_externalViewRotY)) * m;
+	return m;
 }
 
 void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
@@ -724,10 +726,7 @@ void WorldView::Update()
 
 	if (GetCamType() == CAM_EXTERNAL) {
 		m_externalCamera.SetPosition(GetExternalViewTranslation());
-
-		matrix4x4d camRot = matrix4x4d::Identity();
-		ApplyExternalViewRotation(camRot);
-		m_externalCamera.SetOrientation(camRot);
+		m_externalCamera.SetOrientation(GetExternalViewRotation());
 	}
 
 	if (!Pi::player->IsDead() && KeyBindings::targetObject.IsActive() && !Pi::IsConsoleActive()) {
