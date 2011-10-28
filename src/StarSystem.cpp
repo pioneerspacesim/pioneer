@@ -1931,12 +1931,15 @@ StarSystem *StarSystem::GetCached(const SystemPath &path)
 {
 	StarSystem *s = 0;
 
-	SystemCacheMap::const_iterator it = s_cachedSystems.find(path);
+	SystemPath sysPath(path);
+	sysPath.bodyIndex = 0;
+
+	SystemCacheMap::const_iterator it = s_cachedSystems.find(sysPath);
 	if (it != s_cachedSystems.end()) {
 		s = it->second;
 	} else {
-		s = new StarSystem(path);
-		s_cachedSystems.insert( SystemCacheMap::value_type(path, s) );
+		s = new StarSystem(sysPath);
+		s_cachedSystems.insert( SystemCacheMap::value_type(sysPath, s) );
 	}
 
 	s->IncRefCount();
