@@ -99,12 +99,14 @@ public:
 	}
 	void Set(Equip::Slot s, int idx, Equip::Type e) {
 		assert(idx >= 0);
+		assert(e < Equip::TYPE_MAX);
 		if (signed(equip[s].size()) <= idx) return;
 		equip[s][idx] = e;
 		onChange.emit(e);
 	}
 	int Add(Equip::Type e, int num) {
 		assert(num >= 0);
+		assert(e < Equip::TYPE_MAX);
 		if (e == Equip::NONE) return 0;
 		Equip::Slot s = Equip::types[e].slot;
 		int numDone = 0;
@@ -123,6 +125,7 @@ public:
 	// returns number removed
 	int Remove(Equip::Type e, int num) {
 		assert(num >= 0);
+		assert(e < Equip::TYPE_MAX);
 		if (e == Equip::NONE) return 0;
 		Equip::Slot s = Equip::types[e].slot;
 		int numDone = 0;
@@ -136,6 +139,7 @@ public:
 		return numDone;
 	}
 	int Count(Equip::Slot s, Equip::Type e) const {
+		assert(e < Equip::TYPE_MAX);
 		int num = 0;
 		for (unsigned int i=0; i<equip[s].size(); i++) {
 			if (equip[s][i] == e) num++;
