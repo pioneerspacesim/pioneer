@@ -81,7 +81,7 @@ public:
 		const ShipType &st = ShipType::types[t];
 		for (int i=0; i<Equip::SLOT_MAX; i++) {
 			// vector swap idiom (de-allocates unneeded space)
-			std::vector<Equip::Type>(st.equipSlotCapacity[i]).swap(equip[i]);
+			std::vector<Equip::Type>(st.equipSlotCapacity[i], Equip::NONE).swap(equip[i]);
 		}
 		onChange.emit(Equip::NONE);
 	}
