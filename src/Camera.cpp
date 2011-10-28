@@ -174,7 +174,7 @@ void Camera::Draw()
 	Render::GetNearFarClipPlane(znear, zfar);
 	Render::State::SetZnearZfar(znear, zfar);
 
-	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); i++) {
+	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
 		BodyAttrs *attrs = &(*i);
 
 		double rad = attrs->body->GetBoundingRadius();
