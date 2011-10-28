@@ -11,11 +11,11 @@
 template <>
 class LuaAcquirer< LuaUncopyable<SBody> > {
 public:
-	virtual void Acquire(LuaUncopyable<SBody> *o) {
+	virtual void OnAcquire(LuaUncopyable<SBody> *o) {
 		o->parent = 0;
 		o->children.clear();
 	}
-	virtual void Release(LuaUncopyable<SBody> *o) { }
+	virtual void OnRelease(LuaUncopyable<SBody> *o) { }
 };
 
 class SBody;
