@@ -1,17 +1,18 @@
 --[[ position lights including bulbs for a four times flashing position lights setting
-	 period; 1st green to set left, 2nd red to set right, 3rd light blue to set at top in back of ship
-	 when LG engaged, light blue flashing lights at period 4 to set at bottom in back, left and right sides as collision warners
-	 and a white headlight to set at front (optional)
-	 ]]--
+period; 1st green to set left, 2nd red to set right, 3rd light blue to set at top in back of ship
+when LG engaged, light blue flashing lights at period 4 to set at bottom in back, left and right sides as collision warners
+and a white headlight to set at front (optional)
+]]--
 
 define_model('posl_green', {
 	info = 	{
-		lod_pixels = {2, 5, 10, 0},
+		lod_pixels = {1, 3, 6, 0},
 		bounding_radius = 1,
 		materials = {'green'},
 	},
 	static = function(lod)
 		if lod > 1 then
+			set_material('green', 0, .85, 0, .5, 1, 1, 1, 100, 0, 0, 0)
 			use_material('green')
 			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
 		end
@@ -36,12 +37,13 @@ define_model('posl_green', {
 
 define_model('posl_red', {
 	info = 	{
-		lod_pixels = {2, 5, 10, 0},
+		lod_pixels = {1, 3, 6, 0},
 		bounding_radius = 1,
 		materials = {'red'},
 	},
 	static = function(lod)
 		if lod > 1 then
+			set_material('red', .9, 0, 0, .6, 1, 1, 1, 100, 0, 0, 0)
 			use_material('red')
 			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
 		end
@@ -66,12 +68,13 @@ define_model('posl_red', {
 
 define_model('posl_white', {
 	info = 	{
-		lod_pixels = {2, 5, 10, 0},
+		lod_pixels = {1, 3, 6, 0},
 		bounding_radius = 1,
 		materials = {'blue_white'},
 	},
 	static = function(lod)
 		if lod > 1 then
+			set_material('blue_white', .8, .85, 1, .5, 1, 1, 1, 100, 0, 0, 0)
 			use_material('blue_white')
 			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
 		end
@@ -96,12 +99,13 @@ define_model('posl_white', {
 
 define_model('coll_warn', {
 	info = 	{
-		lod_pixels = {2, 5, 10, 0},
+		lod_pixels = {1, 3, 6, 0},
 		bounding_radius = 1,
 		materials = {'blue_white'},
 	},
 	static = function(lod)
 		if lod > 1 then
+			set_material('blue_white', .8, .85, 1, .5, 1, 1, 1, 100, 0, 0, 0)
 			use_material('blue_white')
 			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
 		end
@@ -128,12 +132,13 @@ define_model('coll_warn', {
 
 define_model('headlight', {
 	info = 	{
-		lod_pixels = {2, 5, 10, 0},
+		lod_pixels = {1, 3, 6, 0},
 		bounding_radius = 1,
 		materials = {'white'},
 	},
 	static = function(lod)
 		if lod > 1 then
+			set_material('white', .9, .95, 1, .5, 1, 1, 1, 100, 0, 0, 0)
 			use_material('white')
 			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
 		end
