@@ -1040,11 +1040,23 @@ int WorldView::GetActiveWeapon() const
 	}
 }
 
+static inline bool project_to_screen(const vector3d &in, vector3d &out, const Render::Frustum &frustum, const float *guiscale)
+{
+	if (in.z >= -1.0 || !frustum.ProjectPoint(in, out)) return false;
+	out.x = out.x * guiscale[0];
+	out.y = Gui::Screen::GetHeight() - out.y * guiscale[1];
+	return true;
+}
+
 void WorldView::UpdateProjectedObjects()
 {
+	const float *guiscale = Gui::Screen::GetCoords2Pixels();
+
 	const Frame *cam_frame = m_activeCamera->GetFrame();
 	matrix4x4d cam_rot = cam_frame->GetTransform();
 	cam_rot.ClearToRotOnly();
+
+	const Render::Frustum frustum = m_activeCamera->GetFrustum();
 	
 	{
 		// Direction indicator
@@ -1091,23 +1103,19 @@ void WorldView::UpdateProjectedObjects()
 		}
 	}
 */
-	// Update object onscreen positions
-	{
-		m_bodyLabels->Clear();
-		for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
-			Body *b = *i;
-			if (b->IsOnscreen()) {
-				// Ok here we are hiding the label of distant small objects.
-				// If you are not a planet, star, space station or remote city
-				// and you are > 1000km away then bugger off. :)
-				if (b->IsType(Object::PLANET) || b->IsType(Object::STAR) || b->IsType(Object::SPACESTATION) ||
-					Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0) {
+	
+	// update labels
+	m_bodyLabels->Clear();
+	for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+		Body *b = *i;
 
-					vector3d pos = b->GetProjectedPos();
-					m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), float(pos.x), float(pos.y));
-				}
-			}
-		}
+		// hide the label on distant small objects
+		if (!(b->IsType(Object::PLANET) || b->IsType(Object::STAR) || b->IsType(Object::SPACESTATION) || Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0))
+			continue;
+
+		vector3d pos = b->GetInterpolatedPositionRelTo(cam_frame);
+		if (project_to_screen(pos, pos, frustum, guiscale))
+			m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), float(pos.x), float(pos.y));
 	}
 
 	// update navtarget distance

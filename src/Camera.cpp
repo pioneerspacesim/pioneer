@@ -125,8 +125,7 @@ void Camera::Update()
 		m_sortedBodies.push_back(attrs);
 
 		// calculate and store projected position for labels etc
-		// XXX get rid of Body::m_onScreen and move this stuff to whatever
-		//     needs it (ie WorldView::UpdateProjectedObjects)
+		// XXX remove this along with SetOnscreen/IsOnscreen/GetProjectedPos/SetProjectedPos
 		b->SetOnscreen(false);
 		vector3d pos = b->GetInterpolatedPositionRelTo(m_camFrame);
 		if (pos.z < -1.0 && m_frustum.ProjectPoint(pos, pos)) {	// XXX the pos.z test sucks. should ProjectPoint do it?

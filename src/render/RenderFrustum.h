@@ -26,7 +26,7 @@ public:
 	bool TestPointInfinite(const vector3d &p, double radius) const;
 
 	// project a point onto the near plane (typically the screen)
-	bool ProjectPoint(vector3d &in, vector3d &out) const;
+	bool ProjectPoint(const vector3d &in, vector3d &out) const;
 
 private:
 	void InitFromGLState();
