@@ -406,9 +406,9 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	
 		switch (jumpStatus) {
 			case Ship::HYPERJUMP_OK:
-				snprintf(format, sizeof(format), "[ %s | %s | %s ( %s ) ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES, Lang::N_DAYS, Lang::NUMBER_HOURS);
+				snprintf(format, sizeof(format), "[ %s | %s | %s - %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES, Lang::NUMBER_DAYS, Lang::NUMBER_HOURS);
 				labels.distance->SetText(stringf(format,
-					formatarg("distance", dist), formatarg("mass", fuelRequired), formatarg("days", dur*0.000011575), formatarg("hours", dur*0.0002778)));
+					formatarg("distance", dist), formatarg("mass", fuelRequired), formatarg("days", floor(dur*0.000011575)), formatarg("hours", (((dur*0.000011575)-(floor(dur*0.000011575)))*24))));
 				labels.distance->Color(0.0f, 1.0f, 0.2f);
 				break;
 			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:

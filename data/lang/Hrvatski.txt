@@ -686,7 +686,9 @@ NOT_FOUND_BEST_MATCH_X
 NOT_FOUND
     Nije pronađen
 NUMBER_HOURS
-    %hours{f.2} sati
+    %hours{f.1} sati
+NUMBER_DAYS
+    %days{f.0} days
 QUADRUPLE_SYSTEM
     Četverostruki sustav
 TRIPLE_SYSTEM
