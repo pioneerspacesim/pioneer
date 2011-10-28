@@ -584,10 +584,10 @@ Character = {
 		if type(modifier) ~= 'number' then error('TestRoll(): modifier must be numeric') end
 		if self[attribute] and (type(self[attribute])=='number') then
 			local result = self.DiceRoll()
-			if result < 9 then -- punish critical failure
+			if result > 59 then -- punish critical failure
 				self[attribute] = self[attribute] - 1
 				modifier = modifier + 1 -- don't affect *this* result
-			elseif result > 59 then -- reward critical success
+			elseif result < 9 then -- reward critical success
 				self[attribute] = self[attribute] + 1
 				modifier = modifier - 1 -- don't affect *this* result
 			end
