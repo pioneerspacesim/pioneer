@@ -1058,52 +1058,6 @@ void WorldView::UpdateProjectedObjects()
 
 	const Render::Frustum frustum = m_activeCamera->GetFrustum();
 	
-	{
-		// Direction indicator
-		vector3d vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
-			// XXX ^ not the same as GetVelocity(), because it considers
-			// the stasis velocity of a rotating frame
-
-		vector3d vdir = vel * cam_rot;			// transform to camera space
-		m_velocityIndicatorOnscreen = false;
-		if (vdir.z < -1.0) {					// increase this maybe
-			vector3d pos;
-			if (Gui::Screen::Project(vdir, pos)) {
-				m_velocityIndicatorPos[0] = int(pos.x);		// integers eh
-				m_velocityIndicatorPos[1] = int(pos.y);
-				m_velocityIndicatorOnscreen = true;
-			}
-		}
-	}
-	
-	m_navVelocityIndicatorOnscreen = false;
-	if (Body *navtarget = Pi::player->GetNavTarget()) {
-		// nav target direction indicator
-		vector3d vel = Pi::player->GetVelocityRelTo(navtarget);
-
-		vector3d vdir = vel * cam_rot;			// transform to camera space
-		if (vdir.z < -1.0) {					// increase this maybe
-			vector3d pos;
-			if (Gui::Screen::Project(vdir, pos)) {
-				m_navVelocityIndicatorPos[0] = int(pos.x);		// integers eh
-				m_navVelocityIndicatorPos[1] = int(pos.y);
-				m_navVelocityIndicatorOnscreen = true;
-			}
-		}
-	}
-
-	// test code for mousedir
-/*	vector3d mdir = Pi::player->GetMouseDir() * cam_rot;
-	if (mdir.z < 0) {
-		vector3d pos;
-		if (Gui::Screen::Project(mdir, pos)) {
-			m_velocityIndicatorPos[0] = (int)pos.x;
-			m_velocityIndicatorPos[1] = (int)pos.y;
-			m_velocityIndicatorOnscreen = true;
-		}
-	}
-*/
-	
 	// update labels
 	m_bodyLabels->Clear();
 	for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
@@ -1116,6 +1070,32 @@ void WorldView::UpdateProjectedObjects()
 		vector3d pos = b->GetInterpolatedPositionRelTo(cam_frame);
 		if (project_to_screen(pos, pos, frustum, guiscale))
 			m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), float(pos.x), float(pos.y));
+	}
+
+	// Direction indicator
+	{
+		vector3d vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
+		vector3d vdir = vel * cam_rot;			// transform to camera space
+		m_velocityIndicatorOnscreen = false;
+		vector3d pos;
+		if (project_to_screen(vdir, pos, frustum, guiscale)) {
+			m_velocityIndicatorPos[0] = int(pos.x);
+			m_velocityIndicatorPos[1] = int(pos.y);
+			m_velocityIndicatorOnscreen = true;
+		}
+	}
+	
+	// nav target direction indicator
+	m_navVelocityIndicatorOnscreen = false;
+	if (Body *navtarget = Pi::player->GetNavTarget()) {
+		vector3d vel = Pi::player->GetVelocityRelTo(navtarget);
+		vector3d vdir = vel * cam_rot;			// transform to camera space
+		vector3d pos;
+		if (project_to_screen(vdir, pos, frustum, guiscale)) {
+			m_navVelocityIndicatorPos[0] = int(pos.x);
+			m_navVelocityIndicatorPos[1] = int(pos.y);
+			m_navVelocityIndicatorOnscreen = true;
+		}
 	}
 
 	// update navtarget distance
@@ -1171,7 +1151,7 @@ void WorldView::UpdateProjectedObjects()
 		leadpos = targpos + targvel*(leadpos.Length()/projspeed); 	// second order approx
 		double dist = targpos.Length();
 
-		if (leadpos.z < 0.0 && dist < 100000 && Gui::Screen::Project(leadpos, m_targLeadPos))
+		if (leadpos.z < 0.0 && dist < 100000 && project_to_screen(leadpos, m_targLeadPos, frustum, guiscale))
 			m_targLeadOnscreen = true;
 
 		// now the text speed/distance
