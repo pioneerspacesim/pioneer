@@ -1,6 +1,8 @@
+local loaded
+
 local onGameStart = function ()
 
-	if new_start == false then
+	if not (loaded == nil) then
 		print('Skipping Character class tests on loaded game')
 		return
 	end
@@ -150,14 +152,12 @@ local onGameStart = function ()
 
 end
 
-local new_start = true
-
 local serialize = function ()
-	return { loaded = true }
+	return { something = {} }
 end
 
 local unserialize = function (data)
-	if data.loaded then new_start = false end
+	loaded = data
 end
 
 EventQueue.onGameStart:Connect(onGameStart)
