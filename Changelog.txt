@@ -9,10 +9,13 @@ Alpha 16
     * New assassination missions appear less often (#634)
     * Translation infrastructure for Assassinations (#641), DonateToCranks
       (#658), GoodsTrader (#659) and DeliverPackage (#639)
-    * Modules translated to Polish
     * Targets can be selected from the system view (#503)
-	* Model cleanups and optimisations (#680, #675, #672, #674)
+    * Model cleanups and optimisations (#680, #675, #672, #674)
     * New "temple" building (#664)
+    * Change non-local delivery mission reward calculation so that more urgent
+      deliveries get higher rewards (#719)
+    * Ships will now emerge from hyperspace at a point "close" to the source
+      system (#724)
 
   * Fixes
     * Optimise trade ship cargo management (#632)
@@ -29,6 +32,17 @@ Alpha 16
     * Fix delivery crash on dock
     * Model LOD switches now calculated correctly based on screen wdith (#704)
     * Fix potential deadlock in terrain generator (#661)
+    * Initialise stock levels for equipment above the station's tech level (#719)
+    * Trade ships only check trade prices in surrounding systems if it has
+      starports (#728)
+    * Determine damaged caused by collision between two ships using the other
+      ship's mass, not our own (#732, #733)
+    * Missile collisions will no longer cause damage (the explosion will
+      though) (#734)
+    * Prevent SystemBody.parent from crashing when the underlying StarSystem
+      is no long in memory (#729)
+    * Fix material use in ship landing lights (#656, #705)
+    * Fix screenshot crashes (#742, #727, #645)
   
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
@@ -37,16 +51,18 @@ Alpha 16
       functions. "Stringy" constants now in use (#650, #586, #582, #688, #689,
       #690, #709)
     * Serializer support for Lua-based objects (#715)
+    * New SystemBody.population attribute (#726)
+    * Ship.GetEquip and Ship.SetEquip changed to 1-based indexing (#719)
 
   * Internal changes
-    * Cleanups, leaks fixed and general code improvements (#635, #637, #665)
+    * Cleanups, leaks fixed and general code improvements (#635, #637, #665, #729)
     * Improve terrain generation performance
     * Run Lua timers from the physics loop, which should help to make frame
       times a little more consistent
     * Remove deprecated EquipType::types list (#642)
     * Show Lua memory usage in debug info (#638)
     * Limit number of physics updates between render updates (#671)
-	* scan_enums.py preprocessor to generate string->enum mappings (#716, #686)
+    * scan_enums.py preprocessor to generate string->enum mappings (#716, #686, #723)
 
 Alpha 15
 

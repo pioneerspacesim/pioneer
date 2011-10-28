@@ -792,25 +792,20 @@ void WorldView::AddCommsNavOption(std::string msg, Body *target)
 
 void WorldView::BuildCommsNavOptions()
 {
-	std::map<Uint32, std::vector<SBody*> > groups;
+	std::map< Uint32,std::vector<SBody*> > groups;
 
 	m_commsNavOptions->PackEnd(new Gui::Label(std::string("#ff0")+std::string(Lang::NAVIGATION_TARGETS_IN_THIS_SYSTEM)+std::string("\n")));
 
 	for ( std::vector<SBody*>::const_iterator i = Pi::currentSystem->m_spaceStations.begin();
-	      i != Pi::currentSystem->m_spaceStations.end(); i++) {
+	      i != Pi::currentSystem->m_spaceStations.end(); ++i) {
 
-		groups[(*i)->parent->id].push_back(*i);
+		groups[(*i)->parent->path.bodyIndex].push_back(*i);
 	}
 
-	for ( std::vector<SBody*>::const_iterator i = Pi::currentSystem->m_bodies.begin();
-	      i != Pi::currentSystem->m_bodies.end(); i++) {
+	for ( std::map< Uint32,std::vector<SBody*> >::const_iterator i = groups.begin(); i != groups.end(); ++i ) {
+		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + Pi::currentSystem->m_bodies[(*i).first]->name));
 
-		std::vector<SBody*> group = groups[(*i)->id];
-		if ( group.size() == 0 ) continue;
-
-		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + (*i)->name));
-
-		for ( std::vector<SBody*>::const_iterator j = group.begin(); j != group.end(); j++) {
+		for ( std::vector<SBody*>::const_iterator j = (*i).second.begin(); j != (*i).second.end(); ++j) {
 			SystemPath path = Pi::currentSystem->GetPathOf(*j);
 			Body *body = Space::FindBodyForPath(&path);
 			AddCommsNavOption((*j)->name, body);
@@ -903,7 +898,6 @@ static void autopilot_orbit(Body *b, double alt)
 
 static void player_target_hypercloud(HyperspaceCloud *cloud)
 {
-	Pi::player->SetFollowCloud(cloud);
 	Pi::sectorView->SetHyperspaceTarget(cloud->GetShip()->GetHyperspaceDest());
 }
 

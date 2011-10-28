@@ -620,19 +620,6 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 		if (Pi::player->GetFlightControlState() == Player::CONTROL_AUTOPILOT)
 			Pi::player->SetFlightControlState(Player::CONTROL_MANUAL);
 
-		// if the hyperspace target is the same system as the selected cloud,
-		// make sure we're following it
-		Body *navtarget = Pi::player->GetNavTarget();
-		if (navtarget && navtarget->IsType(Object::HYPERSPACECLOUD)) {
-			HyperspaceCloud *cloud = dynamic_cast<HyperspaceCloud*>(navtarget);
-			if (Ship *hship = cloud->GetShip()) {
-				const SystemPath hdest = hship->GetHyperspaceDest();
-				if (hdest.IsSameSystem(*dest)) {
-					Pi::player->SetFollowCloud(cloud);
-				}
-			}
-		}
-
 		// Departure clouds going to the same system as us are turned
 		// into arrival clouds and stored here
 		for (bodiesIter_t i = bodies.begin(); i != bodies.end();) {
@@ -703,12 +690,22 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 	}
 }
 
-static vector3d _get_random_pos(float min_dist, float max_dist)
+vector3d GetRandomPosition(float min_dist, float max_dist)
 {
 	float longitude = Pi::rng.Double(-M_PI,M_PI);
 	float latitude = Pi::rng.Double(-M_PI,M_PI);
 	float dist = (min_dist + Pi::rng.Double(max_dist-min_dist));
 	return vector3d(sin(longitude)*cos(latitude), sin(latitude), cos(longitude)*cos(latitude)) * dist;
+}
+
+vector3d GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *dest)
+{
+	Sector source_sec(source->sectorX,source->sectorY,source->sectorZ);
+	Sector dest_sec(dest->sectorX,dest->sectorY,dest->sectorZ);
+	Sector::System source_sys = source_sec.m_systems[source->systemIndex];
+	Sector::System dest_sys = dest_sec.m_systems[dest->systemIndex];
+	vector3d pos = (source_sys.p + vector3f(source->sectorX,source->sectorY,source->sectorZ)) - (dest_sys.p + vector3f(dest->sectorX,dest->sectorY,dest->sectorZ));
+	return pos.Normalized() * 11.0*AU + GetRandomPosition(5.0,20.0)*1000.0; // "hyperspace zone": 11 AU from primary
 }
 
 /*
@@ -731,14 +728,16 @@ void DoHyperspaceTo(const SystemPath *dest)
 		storedArrivalClouds.clear();
 	}
 	
+	const SystemPath psource = Pi::currentSystem->GetPath();
+	const SystemPath pdest = SystemPath(dest->sectorX, dest->sectorY, dest->sectorZ, dest->systemIndex);
 	if (Pi::currentSystem) Pi::currentSystem->Release();
 	Pi::currentSystem = StarSystem::GetCached(dest);
 	Space::Clear();
 	Space::BuildSystem();
 	
 	Pi::player->SetFrame(Space::rootFrame);
-	Pi::player->SetPosition(_get_random_pos(9.0,11.0)*AU); // "hyperspace zone": 9-11 AU from primary
-	Pi::player->SetVelocity(vector3d(0,0,-1000.0));
+	Pi::player->SetVelocity(vector3d(0,0,-100.0));
+	Pi::player->SetPosition(GetPositionAfterHyperspace(&psource, &pdest));
 	Pi::player->SetRotMatrix(matrix4x4d::Identity());
 	Pi::player->Enable();
 	Pi::player->SetFlightState(Ship::FLYING);
@@ -758,12 +757,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 		cloud->SetFrame(Space::rootFrame);
 		cloud->SetVelocity(vector3d(0,0,0));
 
-		if (cloud == Pi::player->GetFollowCloud())
-			// player is following it, so put it somewhere near the player
-			cloud->SetPosition(Pi::player->GetPosition() + _get_random_pos(5.0,20.0)*1000.0); // 5-20km
-		else
-			// player doesn't care, so just wherever
-			cloud->SetPosition(_get_random_pos(9.0,11.0)*AU); // "hyperspace zone": 9-11 AU from primary
+		cloud->SetPosition(GetPositionAfterHyperspace(&psource, &pdest));
 
 		Space::AddBody(cloud);
 
@@ -772,7 +766,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 			Ship *ship = cloud->EvictShip();
 
 			ship->SetFrame(Space::rootFrame);
-			ship->SetVelocity(vector3d(0,0,-1000.0));
+			ship->SetVelocity(vector3d(0,0,-100.0));
 			ship->SetRotMatrix(matrix4x4d::Identity());
 			ship->Enable();
 			ship->SetFlightState(Ship::FLYING);
@@ -825,7 +819,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 					SBody *sbody = Pi::currentSystem->GetBodyByPath(&sdest);
 					if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
 						ship->SetFrame(target_body->GetFrame());
-						ship->SetPosition(_get_random_pos(1000.0,1000.0)*1000.0); // somewhere 1000km out
+						ship->SetPosition(GetRandomPosition(1000.0,1000.0)*1000.0); // somewhere 1000km out
 					}
 
 					else {
@@ -838,7 +832,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 						double sdist = sbody->GetRadius()*2.0;
 
 						ship->SetFrame(target_body->GetFrame());
-						ship->SetPosition(_get_random_pos(sdist,sdist));
+						ship->SetPosition(GetRandomPosition(sdist,sdist));
 					}
 				}
 			}
@@ -859,7 +853,6 @@ void DoHyperspaceTo(const SystemPath *dest)
 	hyperspacingTo = 0;
 	
 	Pi::sectorView->ResetHyperspaceTarget();
-	Pi::player->ClearFollowCloud();
 }
 
 /* called at game start to load the system and put the player in a starport */

@@ -32,7 +32,7 @@
 static int l_sbody_attr_index(lua_State *l)
 {
 	SBody *sbody = LuaSBody::GetFromLua(1);
-	lua_pushinteger(l, sbody->id);
+	lua_pushinteger(l, sbody->path.bodyIndex);
 	return 1;
 }
 
@@ -138,7 +138,33 @@ static int l_sbody_attr_seed(lua_State *l)
 static int l_sbody_attr_parent(lua_State *l)
 {
 	SBody *sbody = LuaSBody::GetFromLua(1);
-	LuaSBody::PushToLua(sbody->parent);
+
+	// sbody->parent is 0 as it was cleared by the acquirer. we need to go
+	// back to the starsystem proper to get what we need.
+	StarSystem *s = StarSystem::GetCached(sbody->path);
+	SBody *live_sbody = s->GetBodyByPath(sbody->path);
+	LuaSBody::PushToLua(live_sbody->parent);
+	s->Release();
+	return 1;
+}
+
+/*
+ * Attribute: population
+ *
+ * The population of the body, in billions of people.
+ *
+ * Availability:
+ *
+ *   not yet
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_sbody_attr_population(lua_State *l)
+{
+	SBody *sbody = LuaSBody::GetFromLua(1);
+	lua_pushnumber(l, sbody->m_population.ToDouble());
 	return 1;
 }
 
@@ -153,6 +179,7 @@ template <> void LuaObject<LuaUncopyable<SBody> >::RegisterClass()
 		{ "superType", l_sbody_attr_super_type },
 		{ "seed",      l_sbody_attr_seed       },
 		{ "parent",    l_sbody_attr_parent     },
+		{ "population",l_sbody_attr_population },
 		{ 0, 0 }
 	};
 

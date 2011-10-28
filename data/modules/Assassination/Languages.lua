@@ -183,3 +183,93 @@ Translate:Add({ Polski = {
 		"sierżant",
 	 },
 }, })
+
+---- SPANISH / ESPAÑOL ----
+
+Translate:AddFlavour('Spanish','Assassination', {
+  adtext = "SE BUSCA: Eliminación de {target} en el sistema {system}.",
+  introtext = "Hola, Soy {name}. Le pagaré {cash} para que se deshaga de {target}.",
+  successmsg = "Las gratas noticias sobre las largas vacaciones de {target} han sido recibidas. Bien hecho, he iniciado su pago.",
+  failuremsg = "Estoy muy disgustado al enterarme de que {target} aún sigue respirando. No es necesario decir que no recibirá pago alguno.",
+  failuremsg2 = "No ha sido usted quien ha eliminado a {target}. Esta vez no hay recompensa.",
+})
+
+Translate:AddFlavour('Spanish','Assassination', {
+  adtext = "SE BUSCA: Alguien para matar a {target} en el sistema {system}.",
+  introtext = "Necesito a {target} borrado del mapa. Se le pagará {cash} por el trabajo.",
+  successmsg = "Me entristecen las noticias sobre el fallecimiento de {target}. Se le ha efectuado el pago completo.",
+  failuremsg = "He escuchado que {target} goza de buena salud. Eso me apena.",
+  failuremsg2 = "Usted no ha tenido nada que ver con el fallecimiento de {target}, por lo tanto no pregunte por su recompensa.",
+})
+
+Translate:AddFlavour('Spanish','Assassination', {
+  adtext = "ELIMINACION: {target} ya no es grato en el sistema {system}.",
+  introtext = "Soy {name}, y le pagaré {cash} por acabar con {target}.",
+  successmsg = "Se le ha pagado al completo por cumplir con éxito este importante contrato.",
+  failuremsg = "Es muy lamentable que {target} aun está vivito y coleando. No recibirá pago alguno puesto que el contrato no ha sido cumplido.",
+  failuremsg2 = "El contrato ha sido cumplido por otra persona. La próxima vez sea mas rápido!",
+})
+
+Translate:AddFlavour('Spanish','Assassination', {
+  adtext = "EXTERMINACION: Se necesita a alguien para eliminar a {target}.",
+  introtext = "{target} debe ser reducido a polvo. Le recompensaré con {cash} por el trabajo.",
+  successmsg = "{target} está muerto. He aquí su premio.",
+  failuremsg = "Las pagará por no eliminar a {target}!",
+  failuremsg2 = "Estas pidiendo dinero por un trabajo que ha hecho otro? Piérdete.",
+})
+
+Translate:AddFlavour('Spanish','Assassination', {
+  adtext = "RETIRO FORZOSO: Se busca a alguien que retire a {target}.",
+  introtext = "Por {cash} nos gustaría forzar a {target} a que cese sus actividades de forma permanante.",
+  successmsg = "Las noticias sobre el retiro forzoso de {target} se han recibido con placer. Aquí está su dinero.",
+  failuremsg = "{target} aún respira y no habrá recompensa alguna.",
+  failuremsg2 = "El retiro de {target} fue ejecutado por otra persona.",
+})
+
+Translate:AddFlavour('Spanish','Assassination', {
+  adtext = "BIOGRAFICO: Ciertos admiradores quieren a {target} fiambre.",
+  introtext = "Nos gustaría terminar con la carrera de {target} en el sistema {system} por {cash}.",
+  successmsg = "El mensaje sobre el fin de la carrera de {target} se ha recibido felizmente. He aquí sus {cash}.",
+  failuremsg = "Nos han llegado noticias de que {target} está totalmente operativo. Y esto nos entristece.",
+  failuremsg2 = "{target} fue neutralizado por otro.",
+})
+
+Translate:Add({ Spanish = {
+  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}) at {date}. The ship is {shipname} and has registration id {shipregid}."] = "{target} partirá de {spaceport} en el sistema {system} ({sectorX}, {sectorY}, {sectorZ}) el {date}. La nave es una {shipname} y tiene el número de registro {shipregid}.",
+  ["It must be done after {target} leaves {spaceport}. Do not miss this opportunity."] = "Se debe actuar cuando {target} parta de {spaceport}. No pierda esta oportunidad.",
+  ["Assassination"] = "Asesinato",
+  ["Excellent."] = "Excelente.",
+  ["Return here on the completion of the contract and you will be paid."] = "Regrese aquí cuando el contrato se cumpla y se le efectuará el pago.",
+  ["Where can I find {target}?"] = "Dónde puedo encontrar a {target}?",
+  ["Could you repeat the original request?"] = "Podría repetir la petición?",
+  ["How soon must it be done?"] = "De cuanto tiempo dispongo?",
+  ["How will I be paid?"] = "Cómo será efectuado el pago?",
+  ["Ok, agreed."] = "De acuerdo.",
+  TITLE = {
+		"Almirante",
+		"Embajador",
+		"Brigadier",
+		"Cadete",
+		"Patrón",
+		"Cardenal",
+		"Coronel",
+		"Capitán",
+		"Comodoro",
+		"Cabo",
+		"Alferez",
+		"General",
+		"Juez",
+		"Letrado",
+		"Teniente",
+		"Mariscal",
+		"Mercader",
+		"Oficial",
+		"Soldado raso",
+		"Profesor",
+		"Fiscal",
+		"Director",
+		"Marinero",
+		"Senador",
+		"Sargento",
+	 },
+}, })

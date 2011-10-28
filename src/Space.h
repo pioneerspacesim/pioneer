@@ -32,6 +32,8 @@ namespace Space {
 	extern double GetHyperspaceDuration();
 	extern void StartHyperspaceTo(Ship *s, const SystemPath *);
 	extern void DoHyperspaceTo(const SystemPath *);
+	extern vector3d GetRandomPosition(float min_dist, float max_dist);
+	extern vector3d GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *dest);
 	extern void SetupSystemForGameStart(const SystemPath *, int, int);
 	// make sure SBody* is in Pi::currentSystem
 	extern Frame *GetFrameWithSBody(const SBody *b);
