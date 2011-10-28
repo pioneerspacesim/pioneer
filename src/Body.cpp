@@ -17,7 +17,6 @@ Body::Body()
 	m_frame = 0;
 	m_flags = 0;
 	m_hasDoubleFrame = false;
-	m_projectedPos = vector3d(0.0f, 0.0f, 0.0f);
 	m_onscreen = false;
 	m_dead = false;
 }
@@ -31,7 +30,6 @@ void Body::Save(Serializer::Writer &wr)
 	wr.Int32(Serializer::LookupFrame(m_frame));
 	wr.String(m_label);
 	wr.Bool(m_onscreen);
-	wr.Vector3d(m_projectedPos);
 	wr.Bool(m_dead);
 	wr.Bool(m_hasDoubleFrame);
 }
@@ -41,7 +39,6 @@ void Body::Load(Serializer::Reader &rd)
 	m_frame = Serializer::LookupFrame(rd.Int32());
 	m_label = rd.String();
 	m_onscreen = rd.Bool();
-	m_projectedPos = rd.Vector3d();
 	m_dead = rd.Bool();
 	m_hasDoubleFrame = rd.Bool();
 }	
@@ -130,12 +127,6 @@ vector3d Body::GetInterpolatedPositionRelTo(const Frame *relTo) const
 vector3d Body::GetPositionRelTo(const Body *relTo) const
 {
 	return GetPositionRelTo(relTo->GetFrame()) - relTo->GetPosition();
-}
-
-const vector3d& Body::GetProjectedPos() const
-{
-	assert(IsOnscreen());
-	return m_projectedPos;
 }
 
 void Body::OrientOnSurface(double radius, double latitude, double longitude)

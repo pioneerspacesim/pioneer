@@ -109,8 +109,6 @@ void Camera::Update()
 
 
 	// evaluate each body and determine if/where/how to draw it
-	const float *guiscale = Gui::Screen::GetCoords2Pixels();
-
 	m_sortedBodies.clear();
 	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 		Body *b = *i;
@@ -123,17 +121,6 @@ void Camera::Update()
 		attrs.camDist = attrs.viewCoords.Length();
 		attrs.bodyFlags = b->GetFlags();
 		m_sortedBodies.push_back(attrs);
-
-		// calculate and store projected position for labels etc
-		// XXX remove this along with SetOnscreen/IsOnscreen/GetProjectedPos/SetProjectedPos
-		b->SetOnscreen(false);
-		vector3d pos = b->GetInterpolatedPositionRelTo(m_camFrame);
-		if (pos.z < -1.0 && m_frustum.ProjectPoint(pos, pos)) {	// XXX the pos.z test sucks. should ProjectPoint do it?
-			pos.x = pos.x * guiscale[0];
-			pos.y = Gui::Screen::GetHeight() - pos.y * guiscale[1];
-			b->SetProjectedPos(pos);
-			b->SetOnscreen(true);
-		}
 	}
 
 	// depth sort
