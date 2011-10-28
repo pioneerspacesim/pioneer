@@ -690,8 +690,6 @@ NOT_FOUND
     Sin resultados
 NUMBER_HOURS
     %hours{f.1} hrs
-NUMBER_DAYS
-    %days{f.0} days
 QUADRUPLE_SYSTEM
     Sistema cuaternario
 TRIPLE_SYSTEM
