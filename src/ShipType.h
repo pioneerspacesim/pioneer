@@ -97,12 +97,13 @@ public:
 		if (signed(equip[s].size()) <= idx) return Equip::NONE;
 		else return equip[s][idx];
 	}
-	void Set(Equip::Slot s, int idx, Equip::Type e) {
+	bool Set(Equip::Slot s, int idx, Equip::Type e) {
 		assert(idx >= 0);
 		assert(e < Equip::TYPE_MAX);
-		if (signed(equip[s].size()) <= idx) return;
+		if (signed(equip[s].size()) <= idx) return false;
 		equip[s][idx] = e;
 		onChange.emit(e);
+		return true;
 	}
 	int Add(Equip::Type e, int num) {
 		assert(num >= 0);
