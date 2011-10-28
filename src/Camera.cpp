@@ -182,14 +182,13 @@ void Camera::Draw()
 		if (!m_frustum.TestPointInfinite((*i).viewCoords, rad))
 			continue;
 
-		// XXX check/restore this. it should probably either do the spikes for
-		//     all objects or stars/planets should do this themselves
+		// draw spikes for far objects
 		double screenrad = 500 * rad / attrs->camDist;      // approximate pixel size
-		if (attrs->body->IsType(Object::STAR) && screenrad < 2) {
+		if (!attrs->body->IsType(Object::STAR) && screenrad < 2) {
 			if (!attrs->body->IsType(Object::PLANET)) continue;
 			// absolute bullshit
 			double spikerad = (7 + 1.5*log10(screenrad)) * rad / screenrad;
-			//DrawSpike(spikerad, attrs->viewCoords, attrs->viewTransform);
+			DrawSpike(spikerad, attrs->viewCoords, attrs->viewTransform);
 		}
 		else
 			attrs->body->Render(attrs->viewCoords, attrs->viewTransform);
@@ -212,3 +211,73 @@ void Camera::Draw()
 
 	m_frustum.Disable();
 }
+
+void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+{
+	glPushMatrix();
+
+	float znear, zfar;
+	Render::GetNearFarClipPlane(znear, zfar);
+	double newdist = znear + 0.5f * (zfar - znear);
+	double scale = newdist / viewCoords.Length();
+
+	glTranslatef(float(scale*viewCoords.x), float(scale*viewCoords.y), float(scale*viewCoords.z));
+
+	Render::State::UseProgram(0);
+	// face the camera dammit
+	vector3d zaxis = viewCoords.Normalized();
+	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
+	vector3d yaxis = zaxis.Cross(xaxis);
+	matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
+	glMultMatrixd(&rot[0]);
+
+	glDisable(GL_LIGHTING);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+
+	// XXX WRONG. need to pick light from appropriate turd.
+	GLfloat col[4];
+	glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
+	glColor4f(col[0], col[1], col[2], 1);
+	glBegin(GL_TRIANGLE_FAN);
+	glVertex3f(0,0,0);
+	glColor4f(col[0], col[1], col[2], 0);
+
+	const float spikerad = float(scale*rad);
+
+	// bezier with (0,0,0) control points
+	{
+		vector3f p0(0,spikerad,0), p1(spikerad,0,0);
+		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
+			vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+			glVertex3fv(&p[0]);
+		}
+	}
+	{
+		vector3f p0(spikerad,0,0), p1(0,-spikerad,0);
+		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
+			vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+			glVertex3fv(&p[0]);
+		}
+	}
+	{
+		vector3f p0(0,-spikerad,0), p1(-spikerad,0,0);
+		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
+			vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+			glVertex3fv(&p[0]);
+		}
+	}
+	{
+		vector3f p0(-spikerad,0,0), p1(0,spikerad,0);
+		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
+			vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+			glVertex3fv(&p[0]);
+		}
+	}
+	glEnd();
+	glDisable(GL_BLEND);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_DEPTH_TEST);
+	glPopMatrix();
+}
+

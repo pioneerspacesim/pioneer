@@ -29,6 +29,8 @@ public:
 	const Render::Frustum &GetFrustum() const { return m_frustum; }
 
 private:
+	void DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+
 	const Body *m_body;
 
 	float m_width;
