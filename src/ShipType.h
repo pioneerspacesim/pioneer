@@ -108,8 +108,7 @@ public:
 		if (e == Equip::NONE) return 0;
 		Equip::Slot s = Equip::types[e].slot;
 		int numDone = 0;
-		for (unsigned int i=0; i<equip[s].size(); i++) {
-			if (numDone == num) break;
+		for (unsigned int i=0; (numDone < num) && (i < equip[s].size()); i++) {
 			if (equip[s][i] == Equip::NONE) {
 				equip[s][i] = e;
 				numDone++;
@@ -127,11 +126,9 @@ public:
 		if (e == Equip::NONE) return 0;
 		Equip::Slot s = Equip::types[e].slot;
 		int numDone = 0;
-		for (unsigned int i=0; i<equip[s].size(); i++) {
-			if (num == 0) break;
+		for (unsigned int i=0; (numDone < num) && (i < equip[s].size()); i++) {
 			if (equip[s][i] == e) {
 				equip[s][i] = Equip::NONE;
-				num--;
 				numDone++;
 			}
 		}
