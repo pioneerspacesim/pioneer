@@ -720,13 +720,16 @@ void WorldView::Update()
 		// when landed don't let external view look from below
 		if (Pi::player->GetFlightState() == Ship::LANDED || Pi::player->GetFlightState() == Ship::DOCKED)
 			m_externalViewRotX = Clamp(m_externalViewRotX, -170.0, -10.0);
+	}
 
+	if (GetCamType() == CAM_EXTERNAL) {
 		m_externalCamera.SetPosition(GetExternalViewTranslation());
 
 		matrix4x4d camRot = matrix4x4d::Identity();
 		ApplyExternalViewRotation(camRot);
 		m_externalCamera.SetOrientation(camRot);
 	}
+
 	if (!Pi::player->IsDead() && KeyBindings::targetObject.IsActive() && !Pi::IsConsoleActive()) {
 		/* Hitting tab causes objects in the crosshairs to be selected */
 		Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
