@@ -11,6 +11,7 @@ class Frame;
 
 class Camera {
 public:
+	// create camera relative to the given body, for rendering to area width x height
 	Camera(const Body *body, float width, float height);
 	virtual ~Camera();
 
@@ -19,13 +20,18 @@ public:
 
 	const Body *GetBody() const { return m_body; }
 
+	// camera position relative to the body
 	void SetPosition(vector3d pos) { m_pos = pos; }
 	vector3d GetPosition() const { return m_pos; }
 
+	// camera orientation relative to the body
 	void SetOrientation(matrix4x4d orient) { m_orient = orient; m_orient.ClearToRotOnly(); }
 	matrix4x4d GetOrientation() const { return m_orient; }
 
+	// only valid between Update() and Draw()
 	const Frame *GetFrame() const { return m_camFrame; }
+
+	// get the frustum. use for projection
 	const Render::Frustum &GetFrustum() const { return m_frustum; }
 
 private:
