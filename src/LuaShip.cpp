@@ -508,14 +508,22 @@ static int l_ship_get_equip(lua_State *l)
 static int l_ship_set_equip(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
-	int idx = luaL_checkinteger(l, 3);
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 4)));
+	const char *slotName = luaL_checkstring(l, 2);
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", slotName));
+	int idx = luaL_checkinteger(l, 3) - 1;
+	const char *typeName = luaL_checkstring(l, 4);
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", typeName));
 
-	// XXX check that the slot is large enough
-	// XXX check that we have free mass
+	// XXX should go through a Ship::SetEquip() wrapper method that checks mass constraints
 
-	s->m_equipment.Set(slot, idx-1, e);
+	if (idx < 0 || idx >= s->m_equipment.GetSlotSize(slot)) {
+		pi_lua_warn(l,
+			"argument out of range: Ship{%s}:SetEquip('%s', %d, '%s')",
+			s->GetLabel().c_str(), slotName, idx, typeName);
+		return 0;
+	}
+
+	s->m_equipment.Set(slot, idx, e);
 	s->UpdateMass();
 	return 0;
 }
