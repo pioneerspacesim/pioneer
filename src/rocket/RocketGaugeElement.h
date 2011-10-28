@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _ROCKETGAUGEELEMENT_H
+#define _ROCKETGAUGEELEMENT_H
 
 #include "RocketManager.h"
 
@@ -17,7 +18,7 @@ public:
 	virtual ~RocketGaugeElement();
 
 	Rocket::Core::String GetName() const;
-	void SetName(const Rocket::Core::String& name);
+	void SetName(const Rocket::Core::String &name);
 
 	static void Register();
 
@@ -29,14 +30,16 @@ public:
 protected:
 	virtual void OnUpdate();
 	virtual void OnRender();
-	virtual void OnAttributeChange(const Rocket::Core::AttributeNameList& changedAttributes);
-	virtual void OnPropertyChange(const Rocket::Core::PropertyNameList& changedProperties);
-	virtual void ProcessEvent(Rocket::Core::Event& ev);
-	virtual bool GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions);
+	virtual void OnAttributeChange(const Rocket::Core::AttributeNameList &changedAttributes);
+	virtual void OnPropertyChange(const Rocket::Core::PropertyNameList &changedProperties);
+	virtual void ProcessEvent(Rocket::Core::Event &ev);
+	virtual bool GetIntrinsicDimensions(Rocket::Core::Vector2f &dimensions);
 
 	float m_value; //the actual gauge value
 
 private:
-	RocketGaugeType* type;
-	Rocket::Core::String type_name;	
+	RocketGaugeType* m_type;
+	Rocket::Core::String m_typeName;
 };
+
+#endif

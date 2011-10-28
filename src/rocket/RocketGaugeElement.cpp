@@ -6,15 +6,15 @@ RocketGaugeElement::RocketGaugeElement(const Rocket::Core::String &tag) :
 	m_value(1.f)
 {
 	//default will be a horizontal bar, fill direction right
-	type = 0;
-	type = new RocketGaugeTypeBar(this);
-	type_name = "bar";
-	SetClass(type_name, true);
+	m_type = 0;
+	m_type = new RocketGaugeTypeBar(this);
+	m_typeName = "bar";
+	SetClass(m_typeName, true);
 }
 
 RocketGaugeElement::~RocketGaugeElement()
 {
-	delete type;
+	delete m_type;
 }
 
 Rocket::Core::String RocketGaugeElement::GetName() const
@@ -22,7 +22,7 @@ Rocket::Core::String RocketGaugeElement::GetName() const
 	return GetAttribute<Rocket::Core::String>("name", "");
 }
 
-void RocketGaugeElement::SetName(const Rocket::Core::String& name)
+void RocketGaugeElement::SetName(const Rocket::Core::String &name)
 {
 	SetAttribute("name", name);
 }
@@ -32,7 +32,7 @@ Rocket::Core::String RocketGaugeElement::GetValue() const
 	return Rocket::Core::String(32, "%f", m_value);
 }
 
-void RocketGaugeElement::SetValue(const Rocket::Core::String& value)
+void RocketGaugeElement::SetValue(const Rocket::Core::String &value)
 {
 	SetAttribute("value", value);
 	//OnAttributeChange should fire after this I believe
@@ -50,68 +50,68 @@ void RocketGaugeElement::SetGaugeValue(float val)
 
 void RocketGaugeElement::OnUpdate()
 {
-	type->OnUpdate();
+	m_type->OnUpdate();
 }
 
 void RocketGaugeElement::OnRender()
 {
-	type->OnRender();
+	m_type->OnRender();
 }
 
-void RocketGaugeElement::OnAttributeChange(const Rocket::Core::AttributeNameList& changed_attributes)
+void RocketGaugeElement::OnAttributeChange(const Rocket::Core::AttributeNameList &changedAttributes)
 {
-  Rocket::Core::Element::OnAttributeChange(changed_attributes);
+  Rocket::Core::Element::OnAttributeChange(changedAttributes);
 
-	if (changed_attributes.find("type") != changed_attributes.end())
+	if (changedAttributes.find("type") != changedAttributes.end())
 	{
-		Rocket::Core::String new_type_name = GetAttribute< Rocket::Core::String >("type", "bar");
-		if (new_type_name != type_name)
+		Rocket::Core::String newTypeName = GetAttribute< Rocket::Core::String >("type", "bar");
+		if (newTypeName != m_typeName)
 		{
-			RocketGaugeType* new_type = 0;
+			RocketGaugeType *newType = 0;
 			
-			if (new_type_name == "bar")
-				new_type = new RocketGaugeTypeBar(this);
+			if (newTypeName == "bar")
+				newType = new RocketGaugeTypeBar(this);
 
-			if (new_type != 0)
+			if (newType != 0)
 			{
 				//delete old
-				delete type;
-				type = new_type;
-				SetClass(type_name, false);
-				SetClass(new_type_name, true);
-				type_name = new_type_name;
+				delete m_type;
+				m_type = newType;
+				SetClass(m_typeName, false);
+				SetClass(newTypeName, true);
+				m_typeName = newTypeName;
 
 				DirtyLayout();
 			}
 		}
 	}
 
-	if (changed_attributes.find("value") != changed_attributes.end()) {
+	if (changedAttributes.find("value") != changedAttributes.end()) {
 		m_value = GetAttribute< float >("value", 0.f);
-		type->OnValueChanged();
+		m_type->OnValueChanged();
 	}
 
-	if (!type->OnAttributeChange(changed_attributes))
+	if (!m_type->OnAttributeChange(changedAttributes))
 		DirtyLayout();
 }
 
-void RocketGaugeElement::OnPropertyChange(const Rocket::Core::PropertyNameList& changedProperties)
+void RocketGaugeElement::OnPropertyChange(const Rocket::Core::PropertyNameList &changedProperties)
 {
 	Rocket::Core::Element::OnPropertyChange(changedProperties);
 
-	if (type != 0)
-		type->OnPropertyChange(changedProperties);
+	if (m_type != 0)
+		m_type->OnPropertyChange(changedProperties);
 }
 
-void RocketGaugeElement::ProcessEvent(Rocket::Core::Event& ev)
+void RocketGaugeElement::ProcessEvent(Rocket::Core::Event &ev)
 {
 	Rocket::Core::Element::ProcessEvent(ev);
-	type->ProcessEvent(ev);
+	m_type->ProcessEvent(ev);
 }
 
-bool RocketGaugeElement::GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions)
+bool RocketGaugeElement::GetIntrinsicDimensions(Rocket::Core::Vector2f &dimensions)
 {
-	return type->GetIntrinsicDimensions(dimensions);
+	return m_type->GetIntrinsicDimensions(dimensions);
 }
 
 class RocketGaugeElementInstancer : public Rocket::Core::ElementInstancer {

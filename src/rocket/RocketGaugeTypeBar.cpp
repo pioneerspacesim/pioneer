@@ -4,29 +4,29 @@
 
 RocketGaugeTypeBar::RocketGaugeTypeBar(RocketGaugeElement *el) : RocketGaugeType(el)
 {
-	direction = RIGHT;
-	bar = 0;
+	m_direction = RIGHT;
+	m_bar = 0;
 	Initialize();
 }
 
 RocketGaugeTypeBar::~RocketGaugeTypeBar()
 {
-	if (bar != 0)
-		parent->RemoveChild(bar);
+	if (m_bar != 0)
+		m_parent->RemoveChild(m_bar);
 }
 
 bool RocketGaugeTypeBar::Initialize()
 {
-	bar = Rocket::Core::Factory::InstanceElement(parent, "*", "gaugebar", Rocket::Core::XMLAttributes());
+	m_bar = Rocket::Core::Factory::InstanceElement(m_parent, "*", "gaugebar", Rocket::Core::XMLAttributes());
 
-	if (bar == 0)
+	if (m_bar == 0)
 		return false;
 
 	//non-DOM add (hidden)
-	parent->AppendChild(bar, false);
+	m_parent->AppendChild(m_bar, false);
 
 	//remove initial reference
-	bar->RemoveReference();
+	m_bar->RemoveReference();
 
 	//no event listeners. Should probably support focus & blur
 
@@ -41,13 +41,13 @@ void RocketGaugeTypeBar::OnRender()
 {
 }
 
-bool RocketGaugeTypeBar::OnAttributeChange(const Rocket::Core::AttributeNameList& changedAttributes)
+bool RocketGaugeTypeBar::OnAttributeChange(const Rocket::Core::AttributeNameList &changedAttributes)
 {
-	bool dirty_layout = false;
+	bool dirtyLayout = false;
 
 	//has orientation changed? update & dirty
 	if (changedAttributes.find("direction") != changedAttributes.end()) {
-		Rocket::Core::String dirstr = parent->GetAttribute< Rocket::Core::String >("direction", "right");
+		Rocket::Core::String dirstr = m_parent->GetAttribute< Rocket::Core::String >("direction", "right");
 		Direction newdir = RIGHT;
 		if (dirstr == "left")
 			newdir = LEFT;
@@ -55,25 +55,25 @@ bool RocketGaugeTypeBar::OnAttributeChange(const Rocket::Core::AttributeNameList
 			newdir = UP;
 		else if (dirstr == "down")
 			newdir = DOWN;
-		if (direction != newdir) {
-			direction = newdir;
-			dirty_layout = true;
+		if (m_direction != newdir) {
+			m_direction = newdir;
+			dirtyLayout = true;
 		}
 	}
 
-	return dirty_layout;
+	return dirtyLayout;
 }
 
-void RocketGaugeTypeBar::ProcessEvent(Rocket::Core::Event& event)
+void RocketGaugeTypeBar::ProcessEvent(Rocket::Core::Event &event)
 {
 	//resize is called on initial layout as well
-	if (event == "resize" && event.GetTargetElement() == parent)
+	if (event == "resize" && event.GetTargetElement() == m_parent)
 		FormatElements();
 }
 
-bool RocketGaugeTypeBar::GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions)
+bool RocketGaugeTypeBar::GetIntrinsicDimensions(Rocket::Core::Vector2f &dimensions)
 {
-	if (direction == RIGHT || direction == LEFT) {
+	if (m_direction == RIGHT || m_direction == LEFT) {
 		dimensions.x = 256.f;
 		dimensions.y = 16.f;
 	} else {
@@ -85,53 +85,54 @@ bool RocketGaugeTypeBar::GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensio
 
 void RocketGaugeTypeBar::FormatElements()
 {
-	bool horizontal = (direction == RIGHT || direction == LEFT);
+	const bool horizontal = (m_direction == RIGHT || m_direction == LEFT);
 	Rocket::Core::Box barBox;
 
 	//might not be a good idea to rebuild the box every time
-	Rocket::Core::ElementUtilities::BuildBox(barBox, parent->GetBox().GetSize(), bar);
+	Rocket::Core::ElementUtilities::BuildBox(barBox, m_parent->GetBox().GetSize(), m_bar);
 
 	Rocket::Core::Vector2f barBoxContent = barBox.GetSize();
 
 	// If no height is specified, it would be zero
-	if (bar->GetLocalProperty("height") == 0)
-		barBoxContent.y = parent->GetBox().GetSize().y;
+	if (m_bar->GetLocalProperty("height") == 0)
+		barBoxContent.y = m_parent->GetBox().GetSize().y;
 
 	if (horizontal) {
-		barBoxContent.x *= parent->GetGaugeValue();
+		barBoxContent.x *= m_parent->GetGaugeValue();
 	} else {
-		barBoxContent.y *= parent->GetGaugeValue();
+		barBoxContent.y *= m_parent->GetGaugeValue();
 	}
 
 	//set updated width
 	barBox.SetContent(barBoxContent);
-	bar->SetBox(barBox);
+	m_bar->SetBox(barBox);
 
 	//Position the bar
 	//this takes borders into account but not padding
-	const float leftEdge = parent->GetBox().GetEdge(Rocket::Core::Box::BORDER, Rocket::Core::Box::LEFT);
-	const float topEdge = parent->GetBox().GetEdge(Rocket::Core::Box::BORDER, Rocket::Core::Box::TOP);
-	switch (direction) {
+	const float leftEdge = m_parent->GetBox().GetEdge(Rocket::Core::Box::BORDER, Rocket::Core::Box::LEFT);
+	const float topEdge = m_parent->GetBox().GetEdge(Rocket::Core::Box::BORDER, Rocket::Core::Box::TOP);
+
+	switch (m_direction) {
 	case RIGHT:
-		bar->SetOffset(Rocket::Core::Vector2f(
+		m_bar->SetOffset(Rocket::Core::Vector2f(
 			leftEdge,
-			topEdge), parent);
+			topEdge), m_parent);
 		break;
 	case LEFT:
-		bar->SetOffset(Rocket::Core::Vector2f(
-			leftEdge + parent->GetBox().GetSize().x - barBoxContent.x,
-			topEdge), parent);
+		m_bar->SetOffset(Rocket::Core::Vector2f(
+			leftEdge + m_parent->GetBox().GetSize().x - barBoxContent.x,
+			topEdge), m_parent);
 		break;
 	case UP:
-		bar->SetOffset(Rocket::Core::Vector2f(
+		m_bar->SetOffset(Rocket::Core::Vector2f(
 			leftEdge,
-			topEdge + parent->GetBox().GetSize().y - barBoxContent.y),
-			parent);
+			topEdge + m_parent->GetBox().GetSize().y - barBoxContent.y),
+			m_parent);
 		break;
 	case DOWN:
-		bar->SetOffset(Rocket::Core::Vector2f(
+		m_bar->SetOffset(Rocket::Core::Vector2f(
 			leftEdge,
-			topEdge), parent);
+			topEdge), m_parent);
 		break;
 	}
 }
