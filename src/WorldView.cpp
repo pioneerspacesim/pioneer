@@ -885,15 +885,15 @@ void WorldView::BuildCommsNavOptions()
 	m_commsNavOptions->PackEnd(new Gui::Label(std::string("#ff0")+std::string(Lang::NAVIGATION_TARGETS_IN_THIS_SYSTEM)+std::string("\n")));
 
 	for ( std::vector<SBody*>::const_iterator i = Pi::currentSystem->m_spaceStations.begin();
-	      i != Pi::currentSystem->m_spaceStations.end(); i++) {
+	      i != Pi::currentSystem->m_spaceStations.end(); ++i) {
 
 		groups[(*i)->parent->path.bodyIndex].push_back(*i);
 	}
 
-	for ( std::map< Uint32,std::vector<SBody*> >::const_iterator i = groups.begin(); i != groups.end(); i++ ) {
+	for ( std::map< Uint32,std::vector<SBody*> >::const_iterator i = groups.begin(); i != groups.end(); ++i ) {
 		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + Pi::currentSystem->m_bodies[(*i).first]->name));
 
-		for ( std::vector<SBody*>::const_iterator j = (*i).second.begin(); j != (*i).second.end(); j++) {
+		for ( std::vector<SBody*>::const_iterator j = (*i).second.begin(); j != (*i).second.end(); ++j) {
 			SystemPath path = Pi::currentSystem->GetPathOf(*j);
 			Body *body = Space::FindBodyForPath(&path);
 			AddCommsNavOption((*j)->name, body);
