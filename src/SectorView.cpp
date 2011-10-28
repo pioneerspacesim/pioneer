@@ -403,14 +403,14 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 		double dur;
 		enum Ship::HyperjumpStatus jumpStatus;
 		Pi::player->CanHyperspaceTo(&path, fuelRequired, dur, &jumpStatus);
-	    const double DaysPerSecond = dur*(1.0 / (24*60*60)); 
-		const double HoursPerSecond = (DaysPerSecond - floor(DaysPerSecond))*24;
+		const double DaysNeeded = dur*(1.0 / (24*60*60)); 
+		const double HoursNeeded = (DaysNeeded - floor(DaysNeeded))*24;
 
 		switch (jumpStatus) {
 			case Ship::HYPERJUMP_OK:
 				snprintf(format, sizeof(format), "[ %s | %s | %s - %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES, Lang::NUMBER_DAYS, Lang::NUMBER_HOURS);
 				labels.distance->SetText(stringf(format,
-					formatarg("distance", dist), formatarg("mass", fuelRequired), formatarg("days", floor(DaysPerSecond)), formatarg("hours", HoursPerSecond)));
+					formatarg("distance", dist), formatarg("mass", fuelRequired), formatarg("days", floor(DaysNeeded)), formatarg("hours", HoursNeeded)));
 				labels.distance->Color(0.0f, 1.0f, 0.2f);
 				break;
 			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
