@@ -690,12 +690,16 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 	}
 }
 
+// random point on a sphere, distributed uniformly by area
 vector3d GetRandomPosition(float min_dist, float max_dist)
 {
-	float longitude = Pi::rng.Double(-M_PI,M_PI);
-	float latitude = Pi::rng.Double(-M_PI,M_PI);
-	float dist = (min_dist + Pi::rng.Double(max_dist-min_dist));
-	return vector3d(sin(longitude)*cos(latitude), sin(latitude), cos(longitude)*cos(latitude)) * dist;
+	// see http://mathworld.wolfram.com/SpherePointPicking.html
+	// or a Google search for further information
+	const double dist = Pi::rng.Double(min_dist, max_dist);
+	const double z = Pi::rng.Double_closed(-1.0, 1.0);
+	const double theta = Pi::rng.Double(2.0*M_PI);
+	const double r = sqrt(1.0 - z*z) * dist;
+	return vector3d(r*cos(theta), r*sin(theta), z*dist);
 }
 
 vector3d GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *dest)
