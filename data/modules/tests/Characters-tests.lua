@@ -91,6 +91,65 @@ local onGameStart = function ()
 	assert (test == charlie.luck,"Character assertion failed: SafeRoll() modified an attribute")
 	print('SafeRoll() passed tests')
 
+	--FindAvailable()
+	test=0
+	for v in Character.FindAvailable() do
+		test = test + 1
+		assert(v.available,"Character assertion failure: FindAvailable() returned an unavailable character")
+	end
+	assert(test==2,"Character assertion failed: FindAvailable() returned wrong number of characters") --bob,charlie
+	print('FindAvailable() passed tests')
+
+	--Find()
+	test=0
+	for v in Character.Find() do
+		test = test + 1
+	end
+	assert(test==3,"Character assertion failed: Find() returned wrong number of characters with no filter") --alice,bob,charlie
+	test=0
+	for v in Character.Find(function (t) return t.name == derek.name end) do
+		assert(test==0,"Character assertion failed: Find() returned wrong number of characters with filter") --alice
+		assert(v.name==derek.name,"Character assertion failed: Find() returned wrong character using filter") --derek is a Clone() of alice
+		test = test + 1
+	end
+	print('Find() passed tests')
+
+	--UnSave()
+	alice:UnSave()
+	assert(#PersistentCharacters==2,"Character assertion failed: unSave() didn't remove a character")
+	for v in Character.Find() do
+		assert(v~=alice,"Character assertion failed: UnSave() removed the wrong character")
+	end
+	print('UnSave() passed tests')
+
+	--RollNew()
+	derek = Character.New()
+	test = 0
+	local base = 0
+	for k,v in pairs(derek) do
+		test = test + 1
+	end
+	base = test
+	print(base)
+	derek:RollNew()
+	test = 0
+	for k,v in pairs(derek) do
+		test = test + 1
+	end
+	assert(test == base + 4,"Character assertion failure: RollNew() initialized wrong number of attributes")
+	derek:RollNew(true)
+	print(base)
+	test = 0
+	for k,v in pairs(derek) do
+		test = test + 1
+	end
+	assert(test == base + 8,"Character assertion failure: RollNew(true) initialized wrong number of attributes")
+	print('RollNew() passed tests')
+
+	alice:UnSave()
+	bob:UnSave()
+	charlie:UnSave()
+
 end
 
 local new_start = true
