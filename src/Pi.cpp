@@ -1166,7 +1166,7 @@ void Pi::Start()
             for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++) {
                 const SBody *sbody = (*i)->GetSBody();
                 if (!sbody) continue;
-                if (sbody->id == 6) {
+                if (sbody->path.bodyIndex == 6) {
                     player->SetFrame((*i)->GetFrame());
                     break;
                 }

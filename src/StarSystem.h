@@ -136,7 +136,7 @@ public:
 	void PopulateStage1(StarSystem *system, fixed &outTotalPop);
 	void PopulateAddStations(StarSystem *system);
 
-	Uint32 id; // index into starsystem->m_bodies
+	SystemPath path;
 	int tmp;
 	Orbit orbit;
 	Uint32 seed; // Planet.cpp can use to generate terrain
@@ -225,7 +225,8 @@ private:
 
 	SBody *NewBody() {
 		SBody *body = new SBody;
-		body->id = m_bodies.size();
+		body->path = m_path;
+		body->path.bodyIndex = m_bodies.size();
 		m_bodies.push_back(body);
 		return body;
 	}
