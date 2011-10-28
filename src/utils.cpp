@@ -440,14 +440,18 @@ Uint32 ceil_pow2(Uint32 v) {
 	return v;
 }
 
-void Screendump(const char* destFile, const int W, const int H)
+void Screendump(const char* destFile, const int width, const int height)
 {
 	std::string fname = join_path(GetPiUserDir("screenshots").c_str(), destFile, 0);
 
-	std::vector<char> pixel_data(3*W*H);
+	// pad rows to 4 bytes, which is the default row alignment for OpenGL
+	const int stride = (3*width + 3) & ~3;
+
+	std::vector<png_byte> pixel_data(stride * height);
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	glPixelStorei(GL_PACK_ALIGNMENT, 4); // never trust defaults
 	glReadBuffer(GL_FRONT);
-	glReadPixels(0, 0, W, H, GL_RGB, GL_UNSIGNED_BYTE, &pixel_data[0]);
+	glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, &pixel_data[0]);
 	glFinish();
 
 	png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
@@ -479,14 +483,14 @@ void Screendump(const char* destFile, const int W, const int H)
 
 	png_init_io(png_ptr, out);
 	png_set_filter(png_ptr, 0, PNG_FILTER_NONE);
-	png_set_IHDR(png_ptr, info_ptr, W, H, 8, PNG_COLOR_TYPE_RGB,
+	png_set_IHDR(png_ptr, info_ptr, width, height, 8, PNG_COLOR_TYPE_RGB,
 		PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
 		PNG_FILTER_TYPE_DEFAULT);
 
-	png_bytepp rows = new png_bytep[H];
+	png_bytepp rows = new png_bytep[height];
 
-	for (int i = 0; i < H; ++i) {
-		rows[i] = reinterpret_cast<png_bytep>(&pixel_data[(H-i-1) * W * 3]);
+	for (int i = 0; i < height; ++i) {
+		rows[i] = reinterpret_cast<png_bytep>(&pixel_data[(height-i-1) * stride]);
 	}
 	png_set_rows(png_ptr, info_ptr, rows);
 	png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, 0);
