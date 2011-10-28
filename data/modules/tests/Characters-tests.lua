@@ -71,7 +71,6 @@ local onGameStart = function ()
 	assert(type(alice:TestRoll()=='boolean'),"Character assertion failed: TestRoll() didn't return boolean")
 	test = bob.luck
 	assert(not bob:TestRoll('luck'),"Character assertion failed: TestRoll() didn't fail on minimum roll")
-	print(test,bob.luck)
 	assert (test > bob.luck,"Character assertion failed: TestRoll() didn't punish a critical failure")
 	test = charlie.luck
 	assert(charlie:TestRoll('luck'),"Character assertion failed: TestRoll() didn't pass on maximum roll")
@@ -80,6 +79,17 @@ local onGameStart = function ()
 	derek:TestRoll()
 	assert (test == derek.luck,"Character assertion failed: TestRoll() treated median roll as critical")
 	print('TestRoll() passed tests')
+
+	--SafeRoll()
+	test = bob.luck
+	bob:SafeRoll()
+	assert(not bob:SafeRoll('luck'),"Character assertion failed: SafeRoll() didn't fail on minimum roll")
+	assert (test == bob.luck,"Character assertion failed: SafeRoll() modified an attribute")
+	test = charlie.luck
+	charlie:SafeRoll()
+	assert(charlie:SafeRoll('luck'),"Character assertion failed: SafeRoll() didn't pass on maximum roll")
+	assert (test == charlie.luck,"Character assertion failed: SafeRoll() modified an attribute")
+	print('SafeRoll() passed tests')
 
 end
 
