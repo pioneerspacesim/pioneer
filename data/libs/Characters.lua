@@ -698,8 +698,8 @@ Character = {
 --   filter - an optional function.  If specified, the function will be
 --            called once for each saved character with the Character object
 --            as the only parameter.  If the filter function returns true then
---            the body will be returned by the iterator, otherwise it will be
---            omitted.  If no filter function is specified then all bodies are
+--            the Character will be returned by the iterator, otherwise it will be
+--            omitted.  If no filter function is specified then all Characters are
 --            returned.
 --
 -- Return:
