@@ -1010,24 +1010,27 @@ void WorldView::SelectBody(Body *target, bool reselectIsDeselect)
 
 Body* WorldView::PickBody(const double screenX, const double screenY) const
 {
-	Body *selected = 0;
+	std::map<const Body *,vector3d>::const_iterator proj;
 
 	for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 		Body *b = *i;
-		if(b->IsOnscreen() && (b != Pi::player)) {
-			const vector3d& _pos = b->GetProjectedPos();
-			const double x1 = _pos.x - PICK_OBJECT_RECT_SIZE * 0.5;
-			const double x2 = x1 + PICK_OBJECT_RECT_SIZE;
-			const double y1 = _pos.y - PICK_OBJECT_RECT_SIZE * 0.5;
-			const double y2 = y1 + PICK_OBJECT_RECT_SIZE;
-			if(screenX >= x1 && screenX <= x2 && screenY >= y1 && screenY <= y2) {
-				selected = b;
-				break;
-			}
-		}
+
+		if (b == Pi::player || b->IsType(Object::PROJECTILE))
+			continue;
+
+		proj = m_projectedPos.find(b);
+		if (proj == m_projectedPos.end())
+			continue;
+
+		const double x1 = (*proj).second.x - PICK_OBJECT_RECT_SIZE * 0.5;
+		const double x2 = x1 + PICK_OBJECT_RECT_SIZE;
+		const double y1 = (*proj).second.y - PICK_OBJECT_RECT_SIZE * 0.5;
+		const double y2 = y1 + PICK_OBJECT_RECT_SIZE;
+		if(screenX >= x1 && screenX <= x2 && screenY >= y1 && screenY <= y2)
+			return b;
 	}
 
-	return selected;
+	return 0;
 }
 
 int WorldView::GetActiveWeapon() const
@@ -1058,18 +1061,21 @@ void WorldView::UpdateProjectedObjects()
 
 	const Render::Frustum frustum = m_activeCamera->GetFrustum();
 	
-	// update labels
+	// determine projected positions and update labels
 	m_bodyLabels->Clear();
+	m_projectedPos.clear();
 	for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 		Body *b = *i;
 
-		// hide the label on distant small objects
-		if (!(b->IsType(Object::PLANET) || b->IsType(Object::STAR) || b->IsType(Object::SPACESTATION) || Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0))
-			continue;
-
 		vector3d pos = b->GetInterpolatedPositionRelTo(cam_frame);
-		if (project_to_screen(pos, pos, frustum, guiscale))
-			m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), float(pos.x), float(pos.y));
+		if (project_to_screen(pos, pos, frustum, guiscale)) {
+
+			// only show labels on large or nearby bodies
+			if (b->IsType(Object::PLANET) || b->IsType(Object::STAR) || b->IsType(Object::SPACESTATION) || Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
+				m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), float(pos.x), float(pos.y));
+
+			m_projectedPos[b] = pos;
+		}
 	}
 
 	// Direction indicator
@@ -1098,17 +1104,18 @@ void WorldView::UpdateProjectedObjects()
 		}
 	}
 
+	std::map<const Body *,vector3d>::const_iterator proj;
+
 	// update navtarget distance
 	Body *navtarget = Pi::player->GetNavTarget();
-	if (navtarget && navtarget->IsOnscreen())
+	if (navtarget && (proj = m_projectedPos.find(navtarget)) != m_projectedPos.end())
 	{
 		double dist = Pi::player->GetPositionRelTo(navtarget).Length();
 		m_targetDist->SetText(format_distance(dist).c_str());
 
 		m_targetDist->Color(0.0f, 1.0f, 0.0f);
 
-		vector3d lpos = navtarget->GetProjectedPos() + vector3d(-10,12,0);
-		MoveChild(m_targetDist, float(lpos.x), float(lpos.y));
+		MoveChild(m_targetDist, float((*proj).second.x)-10.0f, float((*proj).second.y)+12.0f);
 
 		m_targetDist->Show();
 	}
@@ -1139,7 +1146,7 @@ void WorldView::UpdateProjectedObjects()
 	m_targLeadOnscreen = false;
 	m_combatDist->Hide();
 	m_combatSpeed->Hide();
-	if (GetCamType() == CAM_FRONT && enemy && enemy->IsOnscreen())
+	if (GetCamType() == CAM_FRONT && enemy && (proj = m_projectedPos.find(enemy)) != m_projectedPos.end())
 	{
 		vector3d targpos = enemy->GetInterpolatedPositionRelTo(cam_frame);	// transforms to object space?
 		matrix4x4d prot = cam_frame->GetTransform(); prot[12] = prot[13] = prot[14] = 0.0;
@@ -1170,15 +1177,13 @@ void WorldView::UpdateProjectedObjects()
 		m_combatDist->Color(r, 0.0f, b);
 		sprintf(buf, "%.0fm", dist);
 		m_combatDist->SetText(buf);
-		vector3d lpos = enemy->GetProjectedPos() + vector3d(20,30,0);
-		MoveChild(m_combatDist, float(lpos.x), float(lpos.y));
+		MoveChild(m_combatDist, float((*proj).second.x)+20.0f, float((*proj).second.y)+30.0f);
 		m_combatDist->Show();
 
 		m_combatSpeed->Color(r, 0.0f, b);
 		sprintf(buf, "%0.fm/s", vel);
 		m_combatSpeed->SetText(buf);
-		lpos = enemy->GetProjectedPos() + vector3d(20,44,0);
-		MoveChild(m_combatSpeed, float(lpos.x), float(lpos.y));
+		MoveChild(m_combatSpeed, float((*proj).second.x)+20.0f, float((*proj).second.y)+44.0f);
 		m_combatSpeed->Show();
 	}
 }
@@ -1292,8 +1297,10 @@ void WorldView::DrawTargetSquares()
 
 void WorldView::DrawCombatTargetIndicator(const Ship* const target)
 {
-	if (!target->IsOnscreen()) return;
-	vector3d pos1 = target->GetProjectedPos();
+	std::map<const Body *,vector3d>::const_iterator proj = m_projectedPos.find(target);
+	if (proj == m_projectedPos.end()) return;
+
+	vector3d pos1 = (*proj).second;
 	vector3d pos2 = m_targLeadPos;
 	vector3d dir = (pos2 - pos1); dir.z = 0.0;
 	dir = m_targLeadOnscreen ? dir.NormalizedSafe() : vector3d(1,0,0);
@@ -1324,23 +1331,23 @@ void WorldView::DrawCombatTargetIndicator(const Ship* const target)
 
 void WorldView::DrawTargetSquare(const Body* const target)
 {
-	if(target->IsOnscreen()) {
-		const vector3d& _pos = target->GetProjectedPos();
-		const float x1 = float(_pos.x - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
-		const float x2 = float(x1 + WorldView::PICK_OBJECT_RECT_SIZE);
-		const float y1 = float(_pos.y - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
-		const float y2 = float(y1 + WorldView::PICK_OBJECT_RECT_SIZE);
+	std::map<const Body *,vector3d>::const_iterator proj = m_projectedPos.find(target);
+	if (proj == m_projectedPos.end()) return;
 
-		GLfloat vtx[8] = {
-			x1, y1,
-			x2, y1,
-			x2, y2,
-			x1, y2 };
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINE_LOOP, 0, 4);
-		glDisableClientState(GL_VERTEX_ARRAY);
-	}
+	const float x1 = float((*proj).second.x - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
+	const float x2 = float(x1 + WorldView::PICK_OBJECT_RECT_SIZE);
+	const float y1 = float((*proj).second.y - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
+	const float y2 = float(y1 + WorldView::PICK_OBJECT_RECT_SIZE);
+
+	GLfloat vtx[8] = {
+		x1, y1,
+		x2, y1,
+		x2, y2,
+		x1, y2 };
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(2, GL_FLOAT, 0, vtx);
+	glDrawArrays(GL_LINE_LOOP, 0, 4);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void WorldView::MouseButtonDown(int button, int x, int y)

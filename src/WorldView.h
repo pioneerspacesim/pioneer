@@ -113,6 +113,8 @@ private:
 
 	Camera m_frontCamera, m_rearCamera, m_externalCamera;
 	Camera *m_activeCamera;
+
+	std::map<const Body *,vector3d> m_projectedPos;
 };
 
 #endif /* _WORLDVIEW_H */
