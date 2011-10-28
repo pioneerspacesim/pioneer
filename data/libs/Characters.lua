@@ -404,6 +404,7 @@ Character = {
 		newCharacter.armour = newCharacter.armour or false
 		-- allocate a new table for character relationships
 		newCharacter.Relationships = {}
+		newCharacter.player = false -- Explicitly set this, if you need it.
 		return newCharacter
 	end,
 
@@ -458,6 +459,7 @@ Character = {
 		end
 		-- initialise new character
 		-- set inherited characteristics (inherit from class only, not self)
+		clone.player = false -- Just in case we cloned the player...
 		setmetatable(clone,Character.meta)
 		return clone
 	end,
@@ -885,7 +887,8 @@ local onGameStart = function ()
 		-- Make a new character sheet for the player, with just
 		-- the average values.  We'll find some way to ask the
 		-- player for a new name in the future.
-		local PlayerCharacter = Character.New({name = 'Peter Jameson', player = true})
+		local PlayerCharacter = Character.New({name = 'Peter Jameson'})
+		PlayerCharacter.player = true
 		-- Insert the player character into the persistent character
 		-- table.  Player won't be ennumerated with NPCs, because player
 		-- is not numerically keyed.
