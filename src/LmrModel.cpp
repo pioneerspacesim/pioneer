@@ -527,11 +527,11 @@ public:
 		m_thrusters[i].linear_only = linear_only;
 	}
 	int PushVertex(const vector3f &pos, const vector3f &normal) {
-		vector3d tex = curTexMatrix * pos;
+		vector3f tex = curTexMatrix * pos;
 		return PushVertex(pos, normal, tex.x, tex.y);
 	}
 	void SetVertex(int idx, const vector3f &pos, const vector3f &normal) {
-		vector3d tex = curTexMatrix * pos;
+		vector3f tex = curTexMatrix * pos;
 		SetVertex(idx, pos, normal, tex.x, tex.y);
 	}
 	int PushVertex(const vector3f &pos, const vector3f &normal, GLfloat tex_u, GLfloat tex_v) {
@@ -713,7 +713,7 @@ public:
 				c->pVertex[3*vtxBase + 3*i] = v.x;
 				c->pVertex[3*vtxBase + 3*i+1] = v.y;
 				c->pVertex[3*vtxBase + 3*i+2] = v.z;
-				c->m_aabb.Update(v);
+				c->m_aabb.Update(vector3d(v));
 			}
 		}
 		if (m_indices.size()) {
@@ -1219,8 +1219,8 @@ void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transfor
 LmrCollMesh::LmrCollMesh(LmrModel *m, const LmrObjParams *params)
 {
 	memset(this, 0, sizeof(LmrCollMesh));
-	m_aabb.min = vector3f(FLT_MAX, FLT_MAX, FLT_MAX);
-	m_aabb.max = vector3f(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+	m_aabb.min = vector3d(DBL_MAX, DBL_MAX, DBL_MAX);
+	m_aabb.max = vector3d(-DBL_MAX, -DBL_MAX, -DBL_MAX);
 	m->GetCollMeshGeometry(this, matrix4x4f::Identity(), params);
 	m_radius = m_aabb.GetBoundingRadius();
 	geomTree = new GeomTree(nv, m_numTris, pVertex, pIndex, pFlag);
@@ -1512,8 +1512,8 @@ namespace ModelFuncs {
 		for (int i=0; i<num-3; i+=2) {
 			const float rad1 = jizz[i+1];
 			const float rad2 = jizz[i+3];
-			const vector3d _start = *start + (*end-*start)*jizz[i];
-			const vector3d _end = *start + (*end-*start)*jizz[i+2];
+			const vector3f _start = *start + (*end-*start)*jizz[i];
+			const vector3f _end = *start + (*end-*start)*jizz[i+2];
 			bool shitty_normal = float_equal_absolute(jizz[i], jizz[i+2], 1e-4f);
 
 			const int basevtx = vtxStart + steps*i;
@@ -3981,7 +3981,7 @@ namespace ModelFuncs {
 			//luaL_error(l, "sphere(subdivs, transform): subdivs must be in range [0,4]");
 		matrix4x4f trans;
 		_get_orientation(l, 5, trans);
-		const vector3d yaxis(trans[4], trans[5], trans[6]);
+		const vector3f yaxis(trans[4], trans[5], trans[6]);
 		float latDiff = (sliceAngle2-sliceAngle1) / float(LAT_SEGS);
 
 		float rot = 0.0;
@@ -4280,13 +4280,13 @@ namespace ObjLoader {
 namespace UtilFuncs {
 	
 	int noise(lua_State *L) {
-		vector3f v;
+		vector3d v;
 		if (lua_isnumber(L, 1)) {
 			v.x = lua_tonumber(L, 1);
 			v.y = lua_tonumber(L, 2);
 			v.z = lua_tonumber(L, 3);
 		} else {
-			v = *MyLuaVec::checkVec(L, 1);
+			v = vector3d(*MyLuaVec::checkVec(L, 1));
 		}
 		lua_pushnumber(L, noise(v));
 		return 1;

@@ -704,8 +704,9 @@ vector3d GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *
 	Sector dest_sec(dest->sectorX,dest->sectorY,dest->sectorZ);
 	Sector::System source_sys = source_sec.m_systems[source->systemIndex];
 	Sector::System dest_sys = dest_sec.m_systems[dest->systemIndex];
-	vector3d pos = (source_sys.p + vector3f(source->sectorX,source->sectorY,source->sectorZ)) - (dest_sys.p + vector3f(dest->sectorX,dest->sectorY,dest->sectorZ));
-	return pos.Normalized() * 11.0*AU + GetRandomPosition(5.0,20.0)*1000.0; // "hyperspace zone": 11 AU from primary
+	const vector3d sourcePos = vector3d(source_sys.p) + vector3d(source->sectorX, source->sectorY, source->sectorZ);
+	const vector3d destPos = vector3d(dest_sys.p) + vector3d(dest->sectorX, dest->sectorY, dest->sectorZ);
+	return (sourcePos - destPos).Normalized() * 11.0*AU + GetRandomPosition(5.0,20.0)*1000.0; // "hyperspace zone": 11 AU from primary
 }
 
 /*
