@@ -455,7 +455,7 @@ static int l_ship_get_equip(lua_State *l)
 	
 	if (lua_isnumber(l, 3)) {
 		int idx = lua_tointeger(l, 3);
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", s->m_equipment.Get(slot, idx)));
+		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", s->m_equipment.Get(slot, idx-1)));
 		return 1;
 	}
 
@@ -509,7 +509,7 @@ static int l_ship_set_equip(lua_State *l)
 	// XXX check that the slot is large enough
 	// XXX check that we have free mass
 
-	s->m_equipment.Set(slot, idx, e);
+	s->m_equipment.Set(slot, idx-1, e);
 	s->UpdateMass();
 	return 0;
 }
