@@ -198,8 +198,14 @@ static int l_ship_set_hull_percent(lua_State *l)
 	Ship *s = LuaShip::GetFromLua(1);
 
 	float percent = 100;
-	if (lua_isnumber(l, 2))
+	if (lua_isnumber(l, 2)) {
 		percent = float(luaL_checknumber(l, 2));
+		if (percent < 0.0f || percent > 100.0f) {
+			pi_lua_warn(l,
+				"argument out of range: Ship{%s}:SetHullPercent(%g)",
+				s->GetLabel().c_str(), percent);
+		}
+	}
 
 	s->SetPercentHull(percent);
 
