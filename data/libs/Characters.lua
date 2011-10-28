@@ -404,6 +404,7 @@ Character = {
 		newCharacter.armour = newCharacter.armour or false
 		-- allocate a new table for character relationships
 		newCharacter.Relationships = {}
+		newCharacter.player = false -- Explicitly set this, if you need it.
 		return newCharacter
 	end,
 
@@ -458,6 +459,7 @@ Character = {
 		end
 		-- initialise new character
 		-- set inherited characteristics (inherit from class only, not self)
+		clone.player = false -- Just in case we cloned the player...
 		setmetatable(clone,Character.meta)
 		return clone
 	end,
@@ -590,6 +592,46 @@ Character = {
 				modifier = modifier - 1 -- don't affect *this* result
 			end
 			return (result < (self[attribute] + modifier))
+		else
+			return false
+		end
+	end,
+
+--
+-- Method: SafeRoll
+--
+-- Uses DiceRoll to generate a random number, which it compares with the provided
+-- attribute.  If the generated number is less than the sum of the attribute and
+-- the provided modifier, it returns true.
+-- If it is greater, or the attribute does not exist, it returns false.
+--
+-- > success = somebody:SafeRoll('notoriety')
+--
+-- Unlike TestRoll, this function never modifies the value of the attribute.
+--
+-- Return:
+--
+--   success - Boolean value indicating that the test roll passed or failed
+--
+-- Parameters:
+--
+--   attribute - The key of an attribute in this instance of the character table
+--               (such as luck, charisma, or any arbitrarily added attribute)
+--
+--   modifier - An arbitrary integer used to increase or decrease the odds of
+--              returning true or false.  Positive values increase the odds of
+--              a true result, and negative values increase the odds of false.
+--              Default is zero.
+--
+-- Example:
+--
+-- > if (player:SafeRoll('lawfulness',20)) then UI.Message('A fellow criminal!')
+--
+	SafeRoll = function (self,attribute,modifier)
+		local modifier = modifier or 0
+		if type(modifier) ~= 'number' then error('SafeRoll(): modifier must be numeric') end
+		if self[attribute] and (type(self[attribute])=='number') then
+			return (Character.DiceRoll() < (self[attribute] + modifier))
 		else
 			return false
 		end
@@ -845,7 +887,8 @@ local onGameStart = function ()
 		-- Make a new character sheet for the player, with just
 		-- the average values.  We'll find some way to ask the
 		-- player for a new name in the future.
-		local PlayerCharacter = Character.New({name = 'Peter Jameson', player = true})
+		local PlayerCharacter = Character.New({name = 'Peter Jameson'})
+		PlayerCharacter.player = true
 		-- Insert the player character into the persistent character
 		-- table.  Player won't be ennumerated with NPCs, because player
 		-- is not numerically keyed.
