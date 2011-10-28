@@ -83,6 +83,8 @@ local onGameStart = function ()
 	print('TestRoll() passed tests')
 
 	--SafeRoll()
+	assert(type(alice.SafeRoll) == 'function',"Character assertion failed: SafeRoll not a function")
+	assert(type(alice:SafeRoll()=='boolean'),"Character assertion failed: SafeRoll() didn't return boolean")
 	test = bob.luck
 	bob:SafeRoll()
 	assert(not bob:SafeRoll('luck'),"Character assertion failed: SafeRoll() didn't fail on minimum roll")
@@ -94,6 +96,8 @@ local onGameStart = function ()
 	print('SafeRoll() passed tests')
 
 	--FindAvailable()
+	assert(type(Character.FindAvailable) == 'function',"Character assertion failed: FindAvailable not a function")
+	assert(type(Character.FindAvailable()=='function'),"Character assertion failed: FindAvailable() didn't return a function")
 	test=0
 	for v in Character.FindAvailable() do
 		test = test + 1
@@ -103,6 +107,8 @@ local onGameStart = function ()
 	print('FindAvailable() passed tests')
 
 	--Find()
+	assert(type(Character.Find) == 'function',"Character assertion failed: Find not a function")
+	assert(type(Character.Find()=='function'),"Character assertion failed: Find() didn't return a function")
 	test=0
 	for v in Character.Find() do
 		test = test + 1
@@ -117,6 +123,8 @@ local onGameStart = function ()
 	print('Find() passed tests')
 
 	--UnSave()
+	assert(type(alice.UnSave) == 'function',"Character assertion failed: UnSave not a function")
+	assert(type(alice:UnSave()=='number'),"Character assertion failed: UnSave() didn't return a number")
 	alice:UnSave()
 	assert(#PersistentCharacters==2,"Character assertion failed: unSave() didn't remove a character")
 	for v in Character.Find() do
@@ -125,6 +133,7 @@ local onGameStart = function ()
 	print('UnSave() passed tests')
 
 	--RollNew()
+	assert(type(alice.RollNew) == 'function',"Character assertion failed: RollNew not a function")
 	derek = Character.New()
 	test = 0
 	local base = 0
