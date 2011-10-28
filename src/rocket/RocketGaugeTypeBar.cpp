@@ -87,6 +87,8 @@ void RocketGaugeTypeBar::FormatElements()
 {
 	bool horizontal = (direction == RIGHT || direction == LEFT);
 	Rocket::Core::Box barBox;
+
+	//might not be a good idea to rebuild the box every time
 	Rocket::Core::ElementUtilities::BuildBox(barBox, parent->GetBox().GetSize(), bar);
 
 	Rocket::Core::Vector2f barBoxContent = barBox.GetSize();
@@ -106,7 +108,7 @@ void RocketGaugeTypeBar::FormatElements()
 	bar->SetBox(barBox);
 
 	//Position the bar
-	//this takes borders into account but no padding I think
+	//this takes borders into account but not padding
 	const float leftEdge = parent->GetBox().GetEdge(Rocket::Core::Box::BORDER, Rocket::Core::Box::LEFT);
 	const float topEdge = parent->GetBox().GetEdge(Rocket::Core::Box::BORDER, Rocket::Core::Box::TOP);
 	switch (direction) {
@@ -134,3 +136,7 @@ void RocketGaugeTypeBar::FormatElements()
 	}
 }
 
+void RocketGaugeTypeBar::OnValueChanged()
+{
+	FormatElements();
+}

@@ -24,6 +24,7 @@ public:
 	virtual bool OnAttributeChange(const Rocket::Core::AttributeNameList& changedAttributes);
 	virtual void ProcessEvent(Rocket::Core::Event& event);
 	virtual bool GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions);
+	virtual void OnValueChanged();
 
 protected:
 	void FormatElements();

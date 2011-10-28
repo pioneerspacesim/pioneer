@@ -88,6 +88,7 @@ void RocketGaugeElement::OnAttributeChange(const Rocket::Core::AttributeNameList
 
 	if (changed_attributes.find("value") != changed_attributes.end()) {
 		m_value = GetAttribute< float >("value", 0.f);
+		type->OnValueChanged();
 	}
 
 	if (!type->OnAttributeChange(changed_attributes))

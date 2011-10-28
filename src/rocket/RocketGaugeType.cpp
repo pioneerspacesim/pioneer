@@ -31,3 +31,7 @@ void RocketGaugeType::OnPropertyChange(const Rocket::Core::PropertyNameList& ROC
 {
 }
 
+void RocketGaugeType::OnValueChanged()
+{
+}
+
