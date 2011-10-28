@@ -192,12 +192,7 @@ void Camera::Draw()
 
 		double rad = attrs->body->GetBoundingRadius();
 
-		// frustum cull. always draw stars because their glow extends past
-		// their bounding radius
-		// XXX remove this exception by adding a clip radius to stars that
-		//     includes their glow, otherwise the render can get expensive (stars
-		//     have terrain now)
-		if (!attrs->body->IsType(Object::STAR) && !m_frustum.TestPointInfinite((*i).viewCoords, rad))
+		if (!m_frustum.TestPointInfinite((*i).viewCoords, rad))
 			continue;
 
 		// XXX check/restore this. it should probably either do the spikes for
