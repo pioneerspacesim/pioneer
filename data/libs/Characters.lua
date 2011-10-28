@@ -596,6 +596,46 @@ Character = {
 	end,
 
 --
+-- Method: SafeRoll
+--
+-- Uses DiceRoll to generate a random number, which it compares with the provided
+-- attribute.  If the generated number is less than the sum of the attribute and
+-- the provided modifier, it returns true.
+-- If it is greater, or the attribute does not exist, it returns false.
+--
+-- > success = somebody:SafeRoll('notoriety')
+--
+-- Unlike TestRoll, this function never modifies the value of the attribute.
+--
+-- Return:
+--
+--   success - Boolean value indicating that the test roll passed or failed
+--
+-- Parameters:
+--
+--   attribute - The key of an attribute in this instance of the character table
+--               (such as luck, charisma, or any arbitrarily added attribute)
+--
+--   modifier - An arbitrary integer used to increase or decrease the odds of
+--              returning true or false.  Positive values increase the odds of
+--              a true result, and negative values increase the odds of false.
+--              Default is zero.
+--
+-- Example:
+--
+-- > if (player:SafeRoll('lawfulness',20)) then UI.Message('A fellow criminal!')
+--
+	SafeRoll = function (self,attribute,modifier)
+		local modifier = modifier or 0
+		if type(modifier) ~= 'number' then error('SafeRoll(): modifier must be numeric') end
+		if self[attribute] and (type(self[attribute])=='number') then
+			return (Character.DiceRoll() < (self[attribute] + modifier))
+		else
+			return false
+		end
+	end,
+
+--
 -- Method: Save
 --
 -- If the character is not already in the table of persistent characters, inserts
