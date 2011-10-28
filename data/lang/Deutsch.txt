@@ -686,7 +686,9 @@ NOT_FOUND_BEST_MATCH_X
 NOT_FOUND
     Nicht gefunden
 NUMBER_HOURS
-    %hours{f.2} St.
+    %hours{f.1} St.
+NUMBER_DAYS
+    %days{f.0} days
 QUADRUPLE_SYSTEM
     Vierer-Sternsystem
 TRIPLE_SYSTEM

@@ -694,7 +694,9 @@ NOT_FOUND_BEST_MATCH_X
 NOT_FOUND
     Nie znaleziono
 NUMBER_HOURS
-    %hours{f.2} godz.
+    %hours{f.1} godz.
+NUMBER_DAYS
+    %days{f.0} dni
 QUADRUPLE_SYSTEM
     System poczwórny.
 TRIPLE_SYSTEM
