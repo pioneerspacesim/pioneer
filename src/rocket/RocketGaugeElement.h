@@ -12,7 +12,7 @@
 
 class RocketGaugeType;
 
-class RocketGaugeElement : public Rocket::Core::Element {
+class RocketGaugeElement : public Rocket::Core::Element, public RocketStashConsumer<float> {
 public:
 	RocketGaugeElement(const Rocket::Core::String &tag);
 	virtual ~RocketGaugeElement();
@@ -27,6 +27,9 @@ public:
 
 	virtual float GetGaugeValue() const;
 	virtual void SetGaugeValue(float val);
+
+	virtual void UpdateFromStash(const float &v);
+
 protected:
 	virtual void OnUpdate();
 	virtual void OnRender();

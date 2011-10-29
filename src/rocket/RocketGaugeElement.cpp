@@ -46,6 +46,12 @@ float RocketGaugeElement::GetGaugeValue() const
 void RocketGaugeElement::SetGaugeValue(float val)
 {
 	m_value = Rocket::Core::Math::Clamp(val, 0.f, 1.f);
+	m_type->OnValueChanged();
+}
+
+void RocketGaugeElement::UpdateFromStash(const float &v)
+{
+	SetGaugeValue(v);
 }
 
 void RocketGaugeElement::OnUpdate()
@@ -87,8 +93,7 @@ void RocketGaugeElement::OnAttributeChange(const Rocket::Core::AttributeNameList
 	}
 
 	if (changedAttributes.find("value") != changedAttributes.end()) {
-		m_value = GetAttribute< float >("value", 0.f);
-		m_type->OnValueChanged();
+		SetGaugeValue(GetAttribute< float >("value", 0.f));
 	}
 
 	if (!m_type->OnAttributeChange(changedAttributes))
