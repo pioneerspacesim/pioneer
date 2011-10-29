@@ -101,48 +101,42 @@ private:
 class AICmdFlyTo : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdFlyTo(Ship *ship, Body *target, bool coll=true);					// fly to vicinity
+	AICmdFlyTo(Ship *ship, Body *target);					// fly to vicinity
 	AICmdFlyTo(Ship *ship, Body *target, double alt);		// orbit
-	AICmdFlyTo(Ship *ship, Frame *targframe, vector3d &posoff, double endvel, int headmode, bool coll);
+	AICmdFlyTo(Ship *ship, Frame *targframe, vector3d &posoff, double endvel, bool tangent);
 
 	virtual void GetStatusText(char *str) { 
 		if (m_child) m_child->GetStatusText(str);
 		else snprintf(str, 255, "FlyTo: endvel %.1f, state %i", m_endvel/1000.0, m_state);
 	}
 	virtual void Save(Serializer::Writer &wr) {
-		if(m_child) { 
-			delete m_child;				// can regen children anyway
-			m_child = 0;
-		}
+		if(m_child) { delete m_child; m_child = 0; }
 		AICommand::Save(wr);
 		wr.Int32(Serializer::LookupFrame(m_targframe));
 		wr.Vector3d(m_posoff);
-		wr.Double(m_endvel); wr.Double(m_orbitrad);
-		wr.Int32(m_state); wr.Bool(m_coll);
+		wr.Double(m_endvel);
+		wr.Int32(m_state);
+		wr.Bool(m_tangent);
 	}
 	AICmdFlyTo(Serializer::Reader &rd) : AICommand(rd, CMD_FLYTO) {
 		m_targframeIndex = rd.Int32();
 		m_posoff = rd.Vector3d();
-		m_endvel = rd.Double();	m_orbitrad = rd.Double();
-		m_state = rd.Int32(); m_coll = rd.Bool();
+		m_endvel = rd.Double();
+		m_state = rd.Int32();
+		m_tangent = rd.Bool();
 	}
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup(); m_frame = 0;		// regen
 		m_targframe = Serializer::LookupFrame(m_targframeIndex);
 	}
 
-protected:
-	void FrameSwitchSetup();
-	bool OrbitCorrection();
-
 private:
 	Frame *m_targframe;	// target frame for waypoint
 	int m_targframeIndex;	// used during deserialisation
 	vector3d m_posoff;	// offset in target frame
 	double m_endvel;	// target speed in direction of motion at end of path, positive only
-	double m_orbitrad;	// orbital radius in metres
-	int m_state;		// see TimeStepUpdate()
-	bool m_coll;		// whether to bother checking for collisions
+	int m_state;		// 
+	bool m_tangent;		// true if path is to a tangent of the target frame's body
 
 	Frame *m_frame;		// current frame of ship, used to check for changes	
 	vector3d m_reldir;	// target direction relative to ship at last frame change
@@ -152,6 +146,7 @@ private:
 class AICmdFlyAround : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt);
 	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel);
 	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, vector3d &posoff);
 	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, vector3d &posoff);
@@ -161,6 +156,7 @@ public:
 		else snprintf(str, 255, "FlyAround: alt %.1f, targmode %i", m_alt/1000.0, m_targmode);
 	}	
 	virtual void Save(Serializer::Writer &wr) {
+		if (m_child) { delete m_child; m_child = 0; }
 		AICommand::Save(wr);
 		wr.Int32(Serializer::LookupBody(m_obstructor));
 		wr.Double(m_vel); wr.Double(m_alt);

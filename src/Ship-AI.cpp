@@ -140,7 +140,7 @@ void Ship::AIDock(SpaceStation *target)
 void Ship::AIOrbit(Body *target, double alt)
 {
 	AIClearInstructions();
-	m_curAICmd = new AICmdFlyTo(this, target, alt);
+	m_curAICmd = new AICmdFlyAround(this, target, alt);
 }
 
 void Ship::AIHoldPosition()
