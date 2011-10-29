@@ -39,7 +39,6 @@ WorldView::WorldView(): View(),
 	m_commsOptions->SetTransparency(true);
 	Add(m_commsOptions, 10, 200);
 
-
 	m_commsNavOptionsContainer = new Gui::HBox();
 	m_commsNavOptionsContainer->SetSpacing(5);
 	m_commsNavOptionsContainer->SetSizeRequest(220, size[1]-50);
@@ -269,7 +268,6 @@ void WorldView::OnClickBlastoff()
 	}
 }
 
-
 void WorldView::OnClickHyperspace()
 {
 	if (Pi::player->IsHyperspaceActive()) {
@@ -367,8 +365,8 @@ void WorldView::Draw3D()
 	float znear, zfar;
 	GetNearFarClipPlane(&znear, &zfar);
 	// why the hell do i give these functions such big names..
-   const float FOV_MAX = 170.0f; // Maximum FOV in degrees
-   const float FOV_MIN = 20.0f;  // Minimum FOV in degrees
+	const float FOV_MAX = 170.0f; // Maximum FOV in degrees
+	const float FOV_MIN = 20.0f;  // Minimum FOV in degrees
 	const float zoom = tan(DEG2RAD(Clamp(Pi::config.Float("FOV"), FOV_MIN, FOV_MAX)/2.0f)); // angle of viewing = 2.0*atan(zoom);
 	const float left = zoom * znear;
 	const float fracH = left / Pi::GetScrAspect();
@@ -827,7 +825,6 @@ void WorldView::Update()
 		Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
 		SelectBody(target, false);
 	}
-
 }
 
 void WorldView::OnSwitchTo()
