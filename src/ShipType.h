@@ -7,8 +7,6 @@
 #include <vector>
 #include <map>
 
-struct lua_State;
-
 struct ShipType {
 	enum Thruster { // <enum scope='ShipType' name=ShipTypeThruster prefix=THRUSTER_>
 		THRUSTER_REVERSE,
