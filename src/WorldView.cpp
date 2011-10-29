@@ -1174,6 +1174,11 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 
 	// navtarget info
 	if (Body *navtarget = Pi::player->GetNavTarget()) {
+		// if navtarget and body frame are the same, then we just display the nav marker
+		// (the frame-relative velocity marker would be hidden underneath anyway)
+		if (navtarget == Pi::player->GetFrame()->GetBodyFor())
+			m_velIndicatorSide = INDICATOR_HIDDEN;
+
 		// navtarget distance (displayed with navtarget label)
 		if (navtarget->IsOnscreen()) { // projected position set in body projection loop above
 			double dist = Pi::player->GetPositionRelTo(navtarget).Length();
