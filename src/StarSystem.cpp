@@ -1953,7 +1953,7 @@ void StarSystem::ShrinkCache()
 		StarSystem *s = (*i).second;
 		if (s->GetRefCount() == 0) {
 			delete s;
-			s_cachedSystems.erase(i++);
+			i = s_cachedSystems.erase(i);
 		}
 		else
 			i++;

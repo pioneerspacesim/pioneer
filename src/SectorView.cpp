@@ -871,7 +871,7 @@ void SectorView::ShrinkCache()
 		//check_point_in_box
 		if (s && !s->WithinBox( xmin, xmax, ymin, ymax, zmin, zmax )) {
 			delete s;
-			m_sectorCache.erase( iter++ ); 
+			iter = m_sectorCache.erase( iter ); 
 		} else {
 			iter++;
 		}
