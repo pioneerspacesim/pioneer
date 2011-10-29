@@ -87,8 +87,7 @@ public:
 		return equip[s].size();
 	}
 	Equip::Type Get(Equip::Slot s) const {
-		if (equip[s].empty()) return Equip::NONE;
-		else return equip[s][0];
+		return Get(s, 0);
 	}
 	Equip::Type Get(Equip::Slot s, int idx) const {
 		assert(idx >= 0);
@@ -104,38 +103,14 @@ public:
 		return true;
 	}
 	int Add(Equip::Type e, int num) {
-		assert(num >= 0);
-		assert(e < Equip::TYPE_MAX);
-		if (e == Equip::NONE) return 0;
-		Equip::Slot s = Equip::types[e].slot;
-		int numDone = 0;
-		for (unsigned int i=0; (numDone < num) && (i < equip[s].size()); i++) {
-			if (equip[s][i] == Equip::NONE) {
-				equip[s][i] = e;
-				numDone++;
-			}
-		}
-		if (numDone) onChange.emit(e);
-		return numDone;
+		return ChangeType(Equip::NONE, e, num);
 	}
 	int Add(Equip::Type e) {
 		return Add(e, 1);
 	}
 	// returns number removed
 	int Remove(Equip::Type e, int num) {
-		assert(num >= 0);
-		assert(e < Equip::TYPE_MAX);
-		if (e == Equip::NONE) return 0;
-		Equip::Slot s = Equip::types[e].slot;
-		int numDone = 0;
-		for (unsigned int i=0; (numDone < num) && (i < equip[s].size()); i++) {
-			if (equip[s][i] == e) {
-				equip[s][i] = Equip::NONE;
-				numDone++;
-			}
-		}
-		if (numDone) onChange.emit(e);
-		return numDone;
+		return ChangeType(e, Equip::NONE, num);
 	}
 	int Count(Equip::Slot s, Equip::Type e) const {
 		assert(e < Equip::TYPE_MAX);
@@ -151,6 +126,30 @@ public:
 
 	sigc::signal<void,Equip::Type> onChange;
 protected:
+	int ChangeType(Equip::Type from, Equip::Type to, int num) {
+		assert(from != to);
+		assert(num >= 0);
+		assert((from < Equip::TYPE_MAX) && (to < Equip::TYPE_MAX));
+
+		assert(Equip::types[from].slot == Equip::types[to].slot);
+
+		if (from == to) return 0;
+
+		Equip::Slot s = Equip::types[from].slot;
+		int numDone = 0;
+		for (unsigned int i=0; (numDone < num) && (i < equip[s].size()); i++) {
+			if (equip[s][i] == from) {
+				equip[s][i] = to;
+				numDone++;
+			}
+		}
+		if (numDone) {
+			if (from != Equip::NONE) onChange.emit(from);
+			if (to != Equip::NONE) onChange.emit(to);
+		}
+		return numDone;
+	}
+
 	std::vector<Equip::Type> equip[Equip::SLOT_MAX];
 };
 
