@@ -52,6 +52,17 @@ private:
 	void DrawTargetSquare(const Body* const target);
 	void DrawCombatTargetIndicator(const Ship* const target);
 
+	enum IndicatorPos {
+		INDICATOR_ONSCREEN,
+		INDICATOR_LEFT,
+		INDICATOR_RIGHT,
+		INDICATOR_TOP,
+		INDICATOR_BOTTOM
+	};
+
+	void DrawDirectionIndicator(const vector3d &direction);
+	IndicatorPos DirectionIndicatorPos(const vector3d &direction, int pos[2]);
+
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
 	void AddCommsNavOption(const std::string msg, Body *target);
 	void OnClickCommsNavOption(Body *target);
@@ -104,12 +115,10 @@ private:
 
 	Gui::LabelSet *m_bodyLabels;
 	Gui::Label *m_targetDist, *m_targetSpeed, *m_combatDist, *m_combatSpeed;
-	bool m_velocityIndicatorOnscreen;
-	int m_velocityIndicatorPos[2];
+	vector3d m_cameraSpaceVelocity;
+	vector3d m_cameraSpaceNavVelocity;
 	bool m_targLeadOnscreen;
 	vector3d m_targLeadPos;
-	bool m_navVelocityIndicatorOnscreen;
-	int m_navVelocityIndicatorPos[2];
 };
 
 #endif /* _WORLDVIEW_H */
