@@ -1287,7 +1287,6 @@ void WorldView::Draw()
 	// don't draw crosshairs etc in hyperspace
 	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) return;
 
-	glEnableClientState(GL_VERTEX_ARRAY);
 	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
 	glEnable(GL_BLEND);
 
@@ -1296,37 +1295,10 @@ void WorldView::Draw()
 		DrawDirectionIndicator(m_cameraSpaceVelocity);
 
 	// normal crosshairs
-	if (GetCamType() == WorldView::CAM_FRONT) {
-		const float sz = HUD_CROSSHAIR_SIZE;
-		float px = float(Gui::Screen::GetWidth())/2.0f;
-		float py = float(Gui::Screen::GetHeight())/2.0f;
-		GLfloat vtx[16] = {
-			px-sz, py,
-			px-0.5f*sz, py,
-			px+sz, py,
-			px+0.5f*sz, py,
-			px, py-sz,
-			px, py-0.5f*sz,
-			px, py+sz,
-			px, py+0.5f*sz };
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINES, 0, 8);
-	} else if (GetCamType() == WorldView::CAM_REAR) {
-		float px = float(Gui::Screen::GetWidth())/2.0f;
-		float py = float(Gui::Screen::GetHeight())/2.0f;
-		const float szH = 0.5*HUD_CROSSHAIR_SIZE;
-		GLfloat vtx[16] = {
-			px-szH, py,
-			px-0.5f*szH, py,
-			px+szH, py,
-			px+0.5f*szH, py,
-			px, py-szH,
-			px, py-0.5f*szH,
-			px, py+szH,
-			px, py+0.5f*szH };
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINES, 0, 8);
-	}
+	if (GetCamType() == WorldView::CAM_FRONT)
+		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE);
+	else if (GetCamType() == WorldView::CAM_REAR)
+		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f);
 
 	// nav target velocity indicator
 	if (Pi::player->GetNavTarget() && m_targetSpeed->IsVisible()) {
@@ -1334,11 +1306,27 @@ void WorldView::Draw()
 		DrawDirectionIndicator(m_cameraSpaceNavVelocity);
 	}
 
-	glDisableClientState(GL_VERTEX_ARRAY);
-
 	DrawTargetSquares();
 
 	glDisable(GL_BLEND);
+}
+
+void WorldView::DrawCrosshair(float px, float py, float sz)
+{
+	glEnableClientState(GL_VERTEX_ARRAY);
+	GLfloat vtx[16] = {
+		px-sz, py,
+		px-0.5f*sz, py,
+		px+sz, py,
+		px+0.5f*sz, py,
+		px, py-sz,
+		px, py-0.5f*sz,
+		px, py+sz,
+		px, py+0.5f*sz,
+	};
+	glVertexPointer(2, GL_FLOAT, 0, vtx);
+	glDrawArrays(GL_LINES, 0, 8);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void WorldView::DrawTargetSquares()
@@ -1419,6 +1407,8 @@ void WorldView::DrawTargetSquare(const Body* const target)
 
 void WorldView::DrawDirectionIndicator(const vector3d &direction)
 {
+	glEnableClientState(GL_VERTEX_ARRAY);
+
 	const float sz = HUD_CROSSHAIR_SIZE;
 	int pos[2];
 	bool onscreen = (DirectionIndicatorPos(direction, pos) == INDICATOR_ONSCREEN);
@@ -1448,6 +1438,8 @@ void WorldView::DrawDirectionIndicator(const vector3d &direction)
 		glVertexPointer(2, GL_FLOAT, 0, vtx);
 		glDrawArrays(GL_LINES, 0, 2);
 	}
+
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 WorldView::IndicatorPos WorldView::DirectionIndicatorPos(const vector3d &direction, int pos[2])

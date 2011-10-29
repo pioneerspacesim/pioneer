@@ -62,6 +62,7 @@ private:
 
 	void DrawDirectionIndicator(const vector3d &direction);
 	IndicatorPos DirectionIndicatorPos(const vector3d &direction, int pos[2]);
+	void DrawCrosshair(float px, float py, float sz);
 
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
 	void AddCommsNavOption(const std::string msg, Body *target);
