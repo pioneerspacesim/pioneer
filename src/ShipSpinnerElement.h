@@ -1,16 +1,16 @@
-#ifndef _ROCKETSHIPSPINNERELEMENT_H
-#define _ROCKETSHIPSPINNERELEMENT_H
+#ifndef _SHIPSPINNERELEMENT_H
+#define _SHIPSPINNERELEMENT_H
 
-#include "RocketManager.h"
+#include "rocket/RocketManager.h"
 
 #include "ShipFlavour.h"
 #include "LmrModel.h"
 
 // <ship/>
 
-class RocketShipSpinnerElement : public Rocket::Core::Element, public RocketStashConsumer<ShipFlavour> {
+class ShipSpinnerElement : public Rocket::Core::Element, public RocketStashConsumer<ShipFlavour> {
 public:
-	RocketShipSpinnerElement(const Rocket::Core::String &_tag) : Rocket::Core::Element(_tag), m_model(0), m_rotX(0), m_rotY(0) {}
+	ShipSpinnerElement(const Rocket::Core::String &_tag) : Rocket::Core::Element(_tag), m_model(0), m_rotX(0), m_rotY(0) {}
 
 	virtual bool GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions);
 	virtual void OnRender();

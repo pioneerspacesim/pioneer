@@ -1,8 +1,6 @@
 #include "RocketManager.h"
 #include "libs.h"
 
-#include "RocketFaceElement.h"
-#include "RocketShipSpinnerElement.h"
 #include "RocketStashListElement.h"
 #include "RocketGaugeElement.h"
 
@@ -656,8 +654,6 @@ RocketManager::RocketManager(int width, int height) :
 	Rocket::Core::Initialise();
 	Rocket::Controls::Initialise();
 
-	RocketFaceElement::Register();
-	RocketShipSpinnerElement::Register();
 	RocketStashListElement::Register();
 	RocketGaugeElement::Register();
 

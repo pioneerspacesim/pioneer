@@ -1,4 +1,4 @@
-#include "RocketFaceElement.h"
+#include "FaceElement.h"
 
 #define FACE_WIDTH  295
 #define FACE_HEIGHT 285
@@ -22,7 +22,7 @@ static void _blit_image(SDL_Surface *s, const char *filename, int xoff, int yoff
 {
 	SDL_Surface *is = IMG_Load(filename);
 	if (!is) {
-		fprintf(stderr, "RocketFaceElement: couldn't load '%s'\n", filename);
+		fprintf(stderr, "FaceElement: couldn't load '%s'\n", filename);
 		return;
 	}
 
@@ -31,19 +31,19 @@ static void _blit_image(SDL_Surface *s, const char *filename, int xoff, int yoff
 	SDL_FreeSurface(is);
 }
 
-RocketFaceElement::~RocketFaceElement()
+FaceElement::~FaceElement()
 {
 	glDeleteTextures(1, &m_tex);
 }
 
-bool RocketFaceElement::GetIntrinsicDimensions(Rocket::Core::Vector2f &dimensions)
+bool FaceElement::GetIntrinsicDimensions(Rocket::Core::Vector2f &dimensions)
 {
 	dimensions.x = 256.0f;
 	dimensions.y = 256.0f;
 	return true;
 }
 
-void RocketFaceElement::OnAttributeChange(const Rocket::Core::AttributeNameList &changed_attributes)
+void FaceElement::OnAttributeChange(const Rocket::Core::AttributeNameList &changed_attributes)
 {
 	if (m_initted)
 		glDeleteTextures(1, &m_tex);
@@ -123,7 +123,7 @@ void RocketFaceElement::OnAttributeChange(const Rocket::Core::AttributeNameList 
 	m_initted = true;
 }
 
-void RocketFaceElement::OnRender()
+void FaceElement::OnRender()
 {
 	float x1 = GetAbsoluteLeft();
 	float y1 = GetAbsoluteTop();
@@ -151,9 +151,9 @@ void RocketFaceElement::OnRender()
 }
 
 
-class RocketFaceElementInstancer : public Rocket::Core::ElementInstancer {
+class FaceElementInstancer : public Rocket::Core::ElementInstancer {
 	virtual Rocket::Core::Element *InstanceElement(Rocket::Core::Element *parent, const Rocket::Core::String &tag, const Rocket::Core::XMLAttributes &attributes) {
-		return new RocketFaceElement(tag);
+		return new FaceElement(tag);
 	}
 
 	virtual void ReleaseElement(Rocket::Core::Element *element) {
@@ -165,8 +165,8 @@ class RocketFaceElementInstancer : public Rocket::Core::ElementInstancer {
 	}
 };
 
-void RocketFaceElement::Register() {
-	Rocket::Core::ElementInstancer *instancer = new RocketFaceElementInstancer();
+void FaceElement::Register() {
+	Rocket::Core::ElementInstancer *instancer = new FaceElementInstancer();
 	Rocket::Core::Factory::RegisterElementInstancer("face", instancer);
 	instancer->RemoveReference();
 }

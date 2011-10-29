@@ -25,6 +25,7 @@ noinst_HEADERS = \
 	DeleteEmitter.h \
 	DynamicBody.h \
 	EquipType.h \
+	FaceElement.h \
 	FaceVideoLink.h \
 	Font.h \
 	FontManager.h \
@@ -94,6 +95,7 @@ noinst_HEADERS = \
 	Sector.h \
 	SectorView.h \
 	Serializer.h \
+	ShipSpinnerElement.h \
 	StationAdvertForm.h \
 	StationBulletinBoardForm.h \
 	StationCommodityMarketForm.h \
@@ -153,6 +155,7 @@ pioneer_SOURCES	= \
 	DeadVideoLink.cpp \
 	DynamicBody.cpp \
 	EquipType.cpp \
+	FaceElement.cpp \
 	FaceVideoLink.cpp \
 	Font.cpp \
 	FontManager.cpp \
@@ -216,6 +219,7 @@ pioneer_SOURCES	= \
 	Sector.cpp \
 	SectorView.cpp \
 	Serializer.cpp \
+	ShipSpinnerElement.cpp \
 	StationAdvertForm.cpp \
 	StationBulletinBoardForm.cpp \
 	StationCommodityMarketForm.cpp \
@@ -289,7 +293,8 @@ modelviewer_SOURCES = \
 	utils.cpp \
 	enum_table.cpp
 
-modelviewer_LDADD = collider/libcollider.a gui/libgui.a render/librender.a \
+modelviewer_LDADD = collider/libcollider.a gui/libgui.a render/librender.a rocket/librocket.a \
+			../contrib/rocket/src/Core/librocketcore.a ../contrib/rocket/src/Controls/librocketcontrols.a \
 		    $(MINGW_LIBS) \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)

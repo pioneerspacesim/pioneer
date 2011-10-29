@@ -1,18 +1,18 @@
-#include "RocketShipSpinnerElement.h"
+#include "ShipSpinnerElement.h"
 
 #include "ShipFlavour.h"
 #include "Ship.h"
 #include "Pi.h"
 #include "render/Render.h"
 
-bool RocketShipSpinnerElement::GetIntrinsicDimensions(Rocket::Core::Vector2f &dimensions)
+bool ShipSpinnerElement::GetIntrinsicDimensions(Rocket::Core::Vector2f &dimensions)
 {
 	dimensions.x = 256.0f;
 	dimensions.y = 256.0f;
 	return true;
 }
 
-void RocketShipSpinnerElement::UpdateFromStash(const ShipFlavour &flavour)
+void ShipSpinnerElement::UpdateFromStash(const ShipFlavour &flavour)
 {
 	m_model = LmrLookupModelByName(ShipType::types[flavour.type].lmrModelName.c_str());
 
@@ -24,7 +24,7 @@ void RocketShipSpinnerElement::UpdateFromStash(const ShipFlavour &flavour)
 	m_params.flightState = Ship::FLYING;
 }
 
-void RocketShipSpinnerElement::OnRender()
+void ShipSpinnerElement::OnRender()
 {
 	if (!m_model) return;
 
@@ -85,9 +85,9 @@ void RocketShipSpinnerElement::OnRender()
 }
 
 
-class RocketShipSpinnerElementInstancer : public Rocket::Core::ElementInstancer {
+class ShipSpinnerElementInstancer : public Rocket::Core::ElementInstancer {
 	virtual Rocket::Core::Element *InstanceElement(Rocket::Core::Element *parent, const Rocket::Core::String &tag, const Rocket::Core::XMLAttributes &attributes) {
-		return new RocketShipSpinnerElement(tag);
+		return new ShipSpinnerElement(tag);
 	}
 
 	virtual void ReleaseElement(Rocket::Core::Element *element) {
@@ -99,8 +99,8 @@ class RocketShipSpinnerElementInstancer : public Rocket::Core::ElementInstancer 
 	}
 };
 
-void RocketShipSpinnerElement::Register() {
-	Rocket::Core::ElementInstancer *instancer = new RocketShipSpinnerElementInstancer();
+void ShipSpinnerElement::Register() {
+	Rocket::Core::ElementInstancer *instancer = new ShipSpinnerElementInstancer();
 	Rocket::Core::Factory::RegisterElementInstancer("ship", instancer);
 	instancer->RemoveReference();
 }
