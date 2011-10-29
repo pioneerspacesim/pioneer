@@ -1166,7 +1166,11 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 
 	// velocity relative to current frame (white)
 	// GetVelocityRelTo considers statis velocity of rotating frame, which GetVelocity() doesn't
-	m_cameraSpaceVelocity = Pi::player->GetVelocityRelTo(Pi::player->GetFrame()) * cam_rot;
+	const vector3d camSpaceVel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame()) * cam_rot;
+	if (camSpaceVel.LengthSqr() > 0.01*0.01) // 1cm per second
+		m_velIndicatorSide = DirectionIndicatorPos(camSpaceVel, m_velPos);
+	else
+		m_velIndicatorSide = INDICATOR_HIDDEN;
 
 	// navtarget info
 	if (Body *navtarget = Pi::player->GetNavTarget()) {
@@ -1188,10 +1192,9 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		// velocity relative to navigation target
 		vector3d navvelocity = Pi::player->GetVelocityRelTo(navtarget);
 		double navspeed = navvelocity.Length();
-		m_cameraSpaceNavVelocity = navvelocity * cam_rot;
+		const vector3d camSpaceNavVel = navvelocity * cam_rot;
 
-		int pos[2];
-		IndicatorPos side = DirectionIndicatorPos(m_cameraSpaceNavVelocity, pos);
+		m_navVelIndicatorSide = DirectionIndicatorPos(camSpaceNavVel, m_navVelPos);
 		if (navspeed >= 0.01) { // 1 cm per second
 			char buf[128];
 			if (navspeed > 1000)
@@ -1200,34 +1203,40 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 				snprintf(buf, sizeof(buf), "%.0f m/s", navspeed);
 
 			m_targetSpeed->SetText(buf);
+			m_targetSpeed->Color(0.0f, 1.0f, 0.0f);
+
 			float labelSize[2] = { 500.0f, 500.0f };
 			m_targetSpeed->GetSizeRequested(labelSize);
-			m_targetSpeed->Color(0.0f, 1.0f, 0.0f);
-			switch (side) {
+
+			int offset[2] = {0,0};
+			switch (m_navVelIndicatorSide) {
+			case INDICATOR_HIDDEN: assert(0 && "DirectionIndicatorPos never returns INDICATOR_HIDDEN"); break;
 			case INDICATOR_TOP: // place label below
 			case INDICATOR_ONSCREEN:
-				pos[0] -= labelSize[0]/2.0f;
-				pos[1] += HUD_CROSSHAIR_SIZE + 2.0f;
+				offset[0] = -(labelSize[0]/2.0f);
+				offset[1] = HUD_CROSSHAIR_SIZE + 2.0f;
 				break;
 			case INDICATOR_LEFT:
-				pos[0] += HUD_CROSSHAIR_SIZE + 2.0f;
-				pos[1] -= labelSize[1]/2.0f;
+				offset[0] = HUD_CROSSHAIR_SIZE + 2.0f;
+				offset[1] = -(labelSize[1]/2.0f);
 				break;
 			case INDICATOR_RIGHT:
-				pos[0] -= labelSize[0] + HUD_CROSSHAIR_SIZE + 2.0f;
-				pos[1] -= labelSize[1]/2.0f;
+				offset[0] = -(labelSize[0] + HUD_CROSSHAIR_SIZE + 2.0f);
+				offset[1] = -(labelSize[1]/2.0f);
 				break;
 			case INDICATOR_BOTTOM:
-				pos[0] -= labelSize[0]/2.0f;
-				pos[1] -= labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f;
+				offset[0] = -(labelSize[0]/2.0f);
+				offset[1] = -(labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f);
 				break;
 			}
-			MoveChild(m_targetSpeed, pos[0], pos[1]);
+			MoveChild(m_targetSpeed, m_navVelPos[0] + offset[0], m_navVelPos[1] + offset[1]);
 
 			m_targetSpeed->Show();
 		}
-		else
+		else {
+			m_navVelIndicatorSide = INDICATOR_HIDDEN;
 			m_targetSpeed->Hide();
+		}
 	}
 
 	// update combat HUD
@@ -1291,8 +1300,8 @@ void WorldView::Draw()
 	glEnable(GL_BLEND);
 
 	// velocity indicator
-	if (m_cameraSpaceVelocity.LengthSqr() > 1e-6)
-		DrawDirectionIndicator(m_cameraSpaceVelocity);
+	if (m_velIndicatorSide != INDICATOR_HIDDEN)
+		DrawDirectionIndicator(m_velIndicatorSide, m_velPos);
 
 	// normal crosshairs
 	if (GetCamType() == WorldView::CAM_FRONT)
@@ -1301,9 +1310,9 @@ void WorldView::Draw()
 		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f);
 
 	// nav target velocity indicator
-	if (Pi::player->GetNavTarget() && m_targetSpeed->IsVisible()) {
+	if (m_navVelIndicatorSide != INDICATOR_HIDDEN) {
 		glColor4f(0.0f, 1.0f, 0.0f, 0.8f);
-		DrawDirectionIndicator(m_cameraSpaceNavVelocity);
+		DrawDirectionIndicator(m_navVelIndicatorSide, m_navVelPos);
 	}
 
 	DrawTargetSquares();
@@ -1405,14 +1414,14 @@ void WorldView::DrawTargetSquare(const Body* const target)
 	}
 }
 
-void WorldView::DrawDirectionIndicator(const vector3d &direction)
+void WorldView::DrawDirectionIndicator(IndicatorPos side, int pos[2])
 {
+	assert(side != INDICATOR_HIDDEN);
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 
 	const float sz = HUD_CROSSHAIR_SIZE;
-	int pos[2];
-	bool onscreen = (DirectionIndicatorPos(direction, pos) == INDICATOR_ONSCREEN);
-	if (onscreen) {
+	if (side == INDICATOR_ONSCREEN) {
 		GLfloat vtx[16] = {
 			pos[0]-sz, pos[1]-sz,
 			pos[0]-0.5f*sz, pos[1]-0.5f*sz,

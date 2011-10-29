@@ -53,6 +53,7 @@ private:
 	void DrawCombatTargetIndicator(const Ship* const target);
 
 	enum IndicatorPos {
+		INDICATOR_HIDDEN,
 		INDICATOR_ONSCREEN,
 		INDICATOR_LEFT,
 		INDICATOR_RIGHT,
@@ -60,7 +61,7 @@ private:
 		INDICATOR_BOTTOM
 	};
 
-	void DrawDirectionIndicator(const vector3d &direction);
+	void DrawDirectionIndicator(IndicatorPos side, int pos[2]);
 	IndicatorPos DirectionIndicatorPos(const vector3d &direction, int pos[2]);
 	void DrawCrosshair(float px, float py, float sz);
 
@@ -116,8 +117,10 @@ private:
 
 	Gui::LabelSet *m_bodyLabels;
 	Gui::Label *m_targetDist, *m_targetSpeed, *m_combatDist, *m_combatSpeed;
-	vector3d m_cameraSpaceVelocity;
-	vector3d m_cameraSpaceNavVelocity;
+	IndicatorPos m_velIndicatorSide;
+	IndicatorPos m_navVelIndicatorSide;
+	int m_velPos[2];
+	int m_navVelPos[2];
 	bool m_targLeadOnscreen;
 	vector3d m_targLeadPos;
 };
