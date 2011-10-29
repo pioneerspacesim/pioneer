@@ -1456,7 +1456,8 @@ WorldView::IndicatorPos WorldView::DirectionIndicatorPos(const vector3d &directi
 	}
 
 	vector3d proj;
-	Gui::Screen::Project(direction, proj);
+	bool success = Gui::Screen::Project(direction, proj);
+	assert(success);
 	bool onscreen =
 		(direction.z < 0.0) &&
 		(proj.x >= BORDER) && (proj.x < Gui::Screen::GetWidth() - BORDER) &&
