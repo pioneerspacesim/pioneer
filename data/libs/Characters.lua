@@ -916,7 +916,7 @@ end
 --
 -- Example:
 --
--- > ch = Character:New()
+-- > ch = Character.New()
 -- > form:SetFace(ch)
 --
 -- Note: Arbitrary attributes
