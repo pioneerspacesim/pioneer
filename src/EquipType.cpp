@@ -269,6 +269,26 @@ const EquipType Equip::types[Equip::TYPE_MAX] = {
 	  Equip::SLOT_ENGINE, -1, {Equip::MILITARY_FUEL},
 	  21400000, 30, 4, 0, 0, 0
 	},{
+	  Lang::DRIVE_MIL5,0,
+	  Equip::SLOT_ENGINE, -1, {Equip::MILITARY_FUEL},
+	  21400000, 53, 5, 0, 0, 0
+	},{
+	  Lang::DRIVE_MIL6,0,
+	  Equip::SLOT_ENGINE, -1, {Equip::MILITARY_FUEL},
+	  21400000, 78, 6, 0, 0, 0
+	},{
+	  Lang::DRIVE_MIL7,0,
+	  Equip::SLOT_ENGINE, -1, {Equip::MILITARY_FUEL},
+	  21400000, 128, 7, 0, 0, 0
+	},{
+	  Lang::DRIVE_MIL8,0,
+	  Equip::SLOT_ENGINE, -1, {Equip::MILITARY_FUEL},
+	  21400000, 196, 8, 0, 0, 0
+	},{
+	  Lang::DRIVE_MIL9,0,
+	  Equip::SLOT_ENGINE, -1, {Equip::MILITARY_FUEL},
+	  21400000, 285, 9, 0, 0, 0
+	},{
 	  Lang::PULSECANNON_1MW,0,
 	  Equip::SLOT_LASER, 1, {},
 	  60000, 1, 1, 0, 0, 0

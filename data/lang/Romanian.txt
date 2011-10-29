@@ -407,6 +407,16 @@ DRIVE_MIL3
     Motor Militar Clasa 3
 DRIVE_MIL4
     Motor Militar Clasa 4
+DRIVE_MIL5
+    Motor Militar Clasa 5
+DRIVE_MIL6
+    Motor Militar Clasa 6
+DRIVE_MIL7
+    Motor Militar Clasa 7
+DRIVE_MIL8
+    Motor Militar Clasa 8
+DRIVE_MIL9
+    Motor Militar Clasa 9
 PULSECANNON_1MW
     Tun intermitent 1MW
 PULSECANNON_DUAL_1MW
