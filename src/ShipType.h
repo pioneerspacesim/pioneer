@@ -127,15 +127,14 @@ public:
 	sigc::signal<void,Equip::Type> onChange;
 protected:
 	int ChangeType(Equip::Type from, Equip::Type to, int num) {
-		assert(from != to);
 		assert(num >= 0);
 		assert((from < Equip::TYPE_MAX) && (to < Equip::TYPE_MAX));
 
-		assert(Equip::types[from].slot == Equip::types[to].slot);
-
 		if (from == to) return 0;
 
-		Equip::Slot s = Equip::types[from].slot;
+		assert((from == Equip::NONE) || (to == Equip::NONE) || (Equip::types[from].slot == Equip::types[to].slot));
+		const Equip::Type e = (from == Equip::NONE) ? to : from;
+		const Equip::Slot s = Equip::types[e].slot;
 		int numDone = 0;
 		for (unsigned int i=0; (numDone < num) && (i < equip[s].size()); i++) {
 			if (equip[s][i] == from) {
