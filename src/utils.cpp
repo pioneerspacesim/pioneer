@@ -2,8 +2,10 @@
 #include "StringF.h"
 #include "gui/Gui.h"
 
+#ifndef _MSC_VER
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
+#endif
 
 std::string GetPiUserDir(const std::string &subdir)
 {
@@ -442,6 +444,7 @@ Uint32 ceil_pow2(Uint32 v) {
 
 void Screendump(const char* destFile, const int width, const int height)
 {
+#ifndef _MSC_VER
 	std::string fname = join_path(GetPiUserDir("screenshots").c_str(), destFile, 0);
 
 	// pad rows to 4 bytes, which is the default row alignment for OpenGL
@@ -501,6 +504,7 @@ void Screendump(const char* destFile, const int width, const int height)
 
 	fclose(out);
 	printf("Screenshot %s saved\n", fname.c_str());
+#endif
 }
 
 // returns num bytes consumed, or 0 for end/bogus
