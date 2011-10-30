@@ -1444,24 +1444,27 @@ void WorldView::DrawEdgeMarker(const Indicator &marker)
 
 void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpacePos)
 {
-	const double BORDER = 10.0;
-	const double BORDER_BOTTOM = 90.0;
+	const float BORDER = 10.0;
+	const float BORDER_BOTTOM = 90.0;
 	// XXX BORDER_BOTTOM is 10+the control panel height and shouldn't be needed at all
 
+	const float w = Gui::Screen::GetWidth();
+	const float h = Gui::Screen::GetHeight();
+
 	if (cameraSpacePos.LengthSqr() < 1e-6) { // length < 1e-3
-		indicator.pos[0] = Gui::Screen::GetWidth()/2.0f;
-		indicator.pos[1] = Gui::Screen::GetHeight()/2.0f;
+		indicator.pos[0] = w/2.0f;
+		indicator.pos[1] = h/2.0f;
 		indicator.side = INDICATOR_ONSCREEN;
 	} else {
 		vector3d proj;
 		bool success = Gui::Screen::Project(cameraSpacePos, proj);
 		if (! success)
-			proj = vector3d(Gui::Screen::GetWidth()/2.0, Gui::Screen::GetHeight()/2.0, 0.0);
+			proj = vector3d(w/2.0, h/2.0, 0.0);
 
 		bool onscreen =
 			(cameraSpacePos.z < 0.0) &&
-			(proj.x >= BORDER) && (proj.x < Gui::Screen::GetWidth() - BORDER) &&
-			(proj.y >= BORDER) && (proj.y < Gui::Screen::GetHeight() - BORDER_BOTTOM);
+			(proj.x >= BORDER) && (proj.x < w - BORDER) &&
+			(proj.y >= BORDER) && (proj.y < h - BORDER_BOTTOM);
 
 		if (onscreen) {
 			indicator.pos[0] = int(proj.x);
@@ -1470,9 +1473,6 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 
 		} else {
 			// homogeneous 2D points and lines are really useful
-			const double w = Gui::Screen::GetWidth();
-			const double h = Gui::Screen::GetHeight();
-
 			const vector3d ptCentre(w/2.0, h/2.0, 1.0);
 			const vector3d ptProj(proj.x, proj.y, 1.0);
 			const vector3d lnDir = ptProj.Cross(ptCentre);
@@ -1527,28 +1527,31 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 			float labelSize[2] = { 500.0f, 500.0f };
 			indicator.label->GetSizeRequested(labelSize);
 
-			int offset[2] = {0,0};
+			int pos[2] = {0,0};
 			switch (indicator.side) {
 			case INDICATOR_HIDDEN: break;
 			case INDICATOR_TOP: // place label below
 			case INDICATOR_ONSCREEN:
-				offset[0] = -(labelSize[0]/2.0f);
-				offset[1] = HUD_CROSSHAIR_SIZE + 2.0f;
+				pos[0] = -(labelSize[0]/2.0f);
+				pos[1] = HUD_CROSSHAIR_SIZE + 2.0f;
 				break;
 			case INDICATOR_LEFT:
-				offset[0] = HUD_CROSSHAIR_SIZE + 2.0f;
-				offset[1] = -(labelSize[1]/2.0f);
+				pos[0] = HUD_CROSSHAIR_SIZE + 2.0f;
+				pos[1] = -(labelSize[1]/2.0f);
 				break;
 			case INDICATOR_RIGHT:
-				offset[0] = -(labelSize[0] + HUD_CROSSHAIR_SIZE + 2.0f);
-				offset[1] = -(labelSize[1]/2.0f);
+				pos[0] = -(labelSize[0] + HUD_CROSSHAIR_SIZE + 2.0f);
+				pos[1] = -(labelSize[1]/2.0f);
 				break;
 			case INDICATOR_BOTTOM:
-				offset[0] = -(labelSize[0]/2.0f);
-				offset[1] = -(labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f);
+				pos[0] = -(labelSize[0]/2.0f);
+				pos[1] = -(labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f);
 				break;
 			}
-			MoveChild(indicator.label, indicator.pos[0] + offset[0], indicator.pos[1] + offset[1]);
+
+			pos[0] = Clamp(pos[0] + indicator.pos[0], BORDER, w - BORDER - labelSize[0]);
+			pos[1] = Clamp(pos[1] + indicator.pos[1], BORDER, h - BORDER_BOTTOM - labelSize[1]);
+			MoveChild(indicator.label, pos[0], pos[1]);
 			indicator.label->Show();
 		} else {
 			indicator.label->Hide();
