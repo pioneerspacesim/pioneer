@@ -705,33 +705,34 @@ void WorldView::Update()
 		m_externalViewRotX += 60*frameTime;
 		m_externalViewDist = 200;
 		m_labelsOn = false;
-	}
+	} else {
+		// XXX ugly hack checking for console here
+		if (!Pi::IsConsoleActive()) {
+			if (GetCamType() == CAM_EXTERNAL) {
+				if (Pi::KeyState(SDLK_UP)) m_externalViewRotX -= 45*frameTime;
+				if (Pi::KeyState(SDLK_DOWN)) m_externalViewRotX += 45*frameTime;
+				if (Pi::KeyState(SDLK_LEFT)) m_externalViewRotY -= 45*frameTime;
+				if (Pi::KeyState(SDLK_RIGHT)) m_externalViewRotY += 45*frameTime;
+				if (Pi::KeyState(SDLK_EQUALS)) m_externalViewDist -= 400*frameTime;
+				if (Pi::KeyState(SDLK_MINUS)) m_externalViewDist += 400*frameTime;
+				if (Pi::KeyState(SDLK_HOME)) m_externalViewDist = 200;
+				m_externalViewDist = std::max(Pi::player->GetBoundingRadius(), m_externalViewDist);
 
-	// XXX ugly hack checking for console here
-	else if (GetCamType() == CAM_EXTERNAL && !Pi::IsConsoleActive()) {
-		if (Pi::KeyState(SDLK_UP)) m_externalViewRotX -= 45*frameTime;
-		if (Pi::KeyState(SDLK_DOWN)) m_externalViewRotX += 45*frameTime;
-		if (Pi::KeyState(SDLK_LEFT)) m_externalViewRotY -= 45*frameTime;
-		if (Pi::KeyState(SDLK_RIGHT)) m_externalViewRotY += 45*frameTime;
-		if (Pi::KeyState(SDLK_EQUALS)) m_externalViewDist -= 400*frameTime;
-		if (Pi::KeyState(SDLK_MINUS)) m_externalViewDist += 400*frameTime;
-		if (Pi::KeyState(SDLK_HOME)) m_externalViewDist = 200;
-		m_externalViewDist = std::max(Pi::player->GetBoundingRadius(), m_externalViewDist);
-
-		// when landed don't let external view look from below
-		if (Pi::player->GetFlightState() == Ship::LANDED || Pi::player->GetFlightState() == Ship::DOCKED)
-			m_externalViewRotX = Clamp(m_externalViewRotX, -170.0, -10.0);
+				// when landed don't let external view look from below
+				if (Pi::player->GetFlightState() == Ship::LANDED || Pi::player->GetFlightState() == Ship::DOCKED)
+					m_externalViewRotX = Clamp(m_externalViewRotX, -170.0, -10.0);
+			}
+			if (KeyBindings::targetObject.IsActive()) {
+				/* Hitting tab causes objects in the crosshairs to be selected */
+				Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
+				SelectBody(target, false);
+			}
+		}
 	}
 
 	if (GetCamType() == CAM_EXTERNAL) {
 		m_externalCamera.SetPosition(GetExternalViewTranslation());
 		m_externalCamera.SetOrientation(GetExternalViewRotation());
-	}
-
-	if (!Pi::player->IsDead() && KeyBindings::targetObject.IsActive() && !Pi::IsConsoleActive()) {
-		/* Hitting tab causes objects in the crosshairs to be selected */
-		Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
-		SelectBody(target, false);
 	}
 
 	m_activeCamera =
