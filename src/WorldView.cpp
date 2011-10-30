@@ -1006,21 +1006,16 @@ void WorldView::SelectBody(Body *target, bool reselectIsDeselect)
 
 Body* WorldView::PickBody(const double screenX, const double screenY) const
 {
-	std::map<const Body *,vector3d>::const_iterator proj;
-
-	for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
-		Body *b = *i;
+	for (std::map<Body*,vector3d>::const_iterator
+		i = m_projectedPos.begin(); i != m_projectedPos.end(); ++i) {
+		Body *b = i->first;
 
 		if (b == Pi::player || b->IsType(Object::PROJECTILE))
 			continue;
 
-		proj = m_projectedPos.find(b);
-		if (proj == m_projectedPos.end())
-			continue;
-
-		const double x1 = (*proj).second.x - PICK_OBJECT_RECT_SIZE * 0.5;
+		const double x1 = i->second.x - PICK_OBJECT_RECT_SIZE * 0.5;
 		const double x2 = x1 + PICK_OBJECT_RECT_SIZE;
-		const double y1 = (*proj).second.y - PICK_OBJECT_RECT_SIZE * 0.5;
+		const double y1 = i->second.y - PICK_OBJECT_RECT_SIZE * 0.5;
 		const double y2 = y1 + PICK_OBJECT_RECT_SIZE;
 		if(screenX >= x1 && screenX <= x2 && screenY >= y1 && screenY <= y2)
 			return b;
@@ -1100,7 +1095,7 @@ void WorldView::UpdateProjectedObjects()
 		}
 	}
 
-	std::map<const Body *,vector3d>::const_iterator proj;
+	std::map<Body*,vector3d>::const_iterator proj;
 
 	// update navtarget distance
 	Body *navtarget = Pi::player->GetNavTarget();
@@ -1290,13 +1285,23 @@ void WorldView::DrawTargetSquares()
 	glPopAttrib();
 }
 
+static bool find_body(const std::map<Body*,vector3d> &m, const Body* b, vector3d &pos)
+{
+	// find() can't touch the Body through the Body pointer,
+	// and the non-const Body pointer never escapes from this function,
+	// so this const_cast is safe
+	std::map<Body*,vector3d>::const_iterator it = m.find(const_cast<Body*>(b));
+	if (it != m.end()) {
+		pos = it->second;
+		return true;
+	} else
+		return false;
+}
 
 void WorldView::DrawCombatTargetIndicator(const Ship* const target)
 {
-	std::map<const Body *,vector3d>::const_iterator proj = m_projectedPos.find(target);
-	if (proj == m_projectedPos.end()) return;
-
-	vector3d pos1 = (*proj).second;
+	vector3d pos1;
+	if (! find_body(m_projectedPos, target, pos1)) return;
 	vector3d pos2 = m_targLeadPos;
 	vector3d dir = (pos2 - pos1); dir.z = 0.0;
 	dir = m_targLeadOnscreen ? dir.NormalizedSafe() : vector3d(1,0,0);
@@ -1327,12 +1332,12 @@ void WorldView::DrawCombatTargetIndicator(const Ship* const target)
 
 void WorldView::DrawTargetSquare(const Body* const target)
 {
-	std::map<const Body *,vector3d>::const_iterator proj = m_projectedPos.find(target);
-	if (proj == m_projectedPos.end()) return;
+	vector3d pos;
+	if (! find_body(m_projectedPos, target, pos)) return;
 
-	const float x1 = float((*proj).second.x - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
+	const float x1 = float(pos.x - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
 	const float x2 = float(x1 + WorldView::PICK_OBJECT_RECT_SIZE);
-	const float y1 = float((*proj).second.y - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
+	const float y1 = float(pos.y - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
 	const float y2 = float(y1 + WorldView::PICK_OBJECT_RECT_SIZE);
 
 	GLfloat vtx[8] = {
