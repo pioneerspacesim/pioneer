@@ -140,8 +140,8 @@ const vector3d& Body::GetProjectedPos() const
 
 void Body::OrientOnSurface(double radius, double latitude, double longitude)
 {
-	vector3d pos = vector3d(radius*cos(latitude)*cos(longitude), radius*sin(latitude)*cos(longitude), radius*sin(longitude));
-	vector3d up = pos.Normalized();
+	vector3d up = vector3d(cos(latitude)*cos(longitude), sin(latitude)*cos(longitude), sin(longitude));
+	vector3d pos = radius * up;
 	SetPosition(pos);
 
 	vector3d forward = vector3d(0,0,1);
