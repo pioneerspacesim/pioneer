@@ -24,11 +24,6 @@ Frustum::Frustum(float width, float height, float fovAng)
 
 	m_projMatrix = matrix4x4d::FrustumMatrix(-left, left, -top, top, znear, zfar);
 	m_modelMatrix = matrix4x4d::Identity();
-
-	m_viewport[0] = m_viewport[1] = 0; // x, y
-	m_viewport[2] = GLsizei(width);
-	m_viewport[3] = GLsizei(height);
-
 	InitFromMatrix(m_projMatrix);
 }
 
@@ -79,10 +74,7 @@ void Frustum::InitFromGLState()
 {
 	glGetDoublev(GL_PROJECTION_MATRIX, m_projMatrix.Data());
 	glGetDoublev(GL_MODELVIEW_MATRIX, m_modelMatrix.Data());
-	glGetIntegerv(GL_VIEWPORT, m_viewport);
-
 	matrix4x4d m = matrix4x4d(m_projMatrix) * matrix4x4d(m_modelMatrix);
-
 	InitFromMatrix(m);
 }
 
@@ -105,14 +97,15 @@ bool Frustum::TestPointInfinite(const vector3d &p, double radius) const
 
 bool Frustum::ProjectPoint(const vector3d &in, vector3d &out) const
 {
-	return gluProject(in.x, in.y, in.z, m_modelMatrix.Data(), m_projMatrix.Data(), m_viewport, &out.x, &out.y, &out.z) == GL_TRUE;
+	// fake viewport -- this is an identity transform when applied by gluProject
+	// see, e.g., http://cgit.freedesktop.org/mesa/mesa/tree/src/glu/sgi/libutil/project.c
+	// or the documentation for gluProject
+	const GLint viewport[4] = { 0, 0, 1, 1 };
+	return gluProject(in.x, in.y, in.z, m_modelMatrix.Data(), m_projMatrix.Data(), viewport, &out.x, &out.y, &out.z) == GL_TRUE;
 }
 
 void Frustum::Enable()
 {
-	glPushAttrib(GL_VIEWPORT_BIT);
-	glViewport(m_viewport[0], m_viewport[1], m_viewport[2], m_viewport[3]);
-
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadMatrixd(m_projMatrix.Data());
@@ -128,8 +121,6 @@ void Frustum::Disable()
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
-
-	glPopAttrib(); // viewport & depth range
 }
 
 }

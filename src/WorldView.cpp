@@ -1039,17 +1039,17 @@ int WorldView::GetActiveWeapon() const
 	}
 }
 
-static inline bool project_to_screen(const vector3d &in, vector3d &out, const Render::Frustum &frustum, const float *guiscale)
+static inline bool project_to_screen(const vector3d &in, vector3d &out, const Render::Frustum &frustum, const int guiSize[2])
 {
 	if (in.z >= -1.0 || !frustum.ProjectPoint(in, out)) return false;
-	out.x = out.x * guiscale[0];
-	out.y = Gui::Screen::GetHeight() - out.y * guiscale[1];
+	out.x *= guiSize[0];
+	out.y = Gui::Screen::GetHeight() - out.y * guiSize[1];
 	return true;
 }
 
 void WorldView::UpdateProjectedObjects()
 {
-	const float *guiscale = Gui::Screen::GetCoords2Pixels();
+	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
 
 	const Frame *cam_frame = m_activeCamera->GetFrame();
 	matrix4x4d cam_rot = cam_frame->GetTransform();
@@ -1064,7 +1064,7 @@ void WorldView::UpdateProjectedObjects()
 		Body *b = *i;
 
 		vector3d pos = b->GetInterpolatedPositionRelTo(cam_frame);
-		if (project_to_screen(pos, pos, frustum, guiscale)) {
+		if (project_to_screen(pos, pos, frustum, guiSize)) {
 
 			// only show labels on large or nearby bodies
 			if (b->IsType(Object::PLANET) || b->IsType(Object::STAR) || b->IsType(Object::SPACESTATION) || Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
@@ -1080,7 +1080,7 @@ void WorldView::UpdateProjectedObjects()
 		vector3d vdir = vel * cam_rot;			// transform to camera space
 		m_velocityIndicatorOnscreen = false;
 		vector3d pos;
-		if (project_to_screen(vdir, pos, frustum, guiscale)) {
+		if (project_to_screen(vdir, pos, frustum, guiSize)) {
 			m_velocityIndicatorPos[0] = int(pos.x);
 			m_velocityIndicatorPos[1] = int(pos.y);
 			m_velocityIndicatorOnscreen = true;
@@ -1093,7 +1093,7 @@ void WorldView::UpdateProjectedObjects()
 		vector3d vel = Pi::player->GetVelocityRelTo(navtarget);
 		vector3d vdir = vel * cam_rot;			// transform to camera space
 		vector3d pos;
-		if (project_to_screen(vdir, pos, frustum, guiscale)) {
+		if (project_to_screen(vdir, pos, frustum, guiSize)) {
 			m_navVelocityIndicatorPos[0] = int(pos.x);
 			m_navVelocityIndicatorPos[1] = int(pos.y);
 			m_navVelocityIndicatorOnscreen = true;
@@ -1154,7 +1154,7 @@ void WorldView::UpdateProjectedObjects()
 		leadpos = targpos + targvel*(leadpos.Length()/projspeed); 	// second order approx
 		double dist = targpos.Length();
 
-		if (leadpos.z < 0.0 && dist < 100000 && project_to_screen(leadpos, m_targLeadPos, frustum, guiscale))
+		if (leadpos.z < 0.0 && dist < 100000 && project_to_screen(leadpos, m_targLeadPos, frustum, guiSize))
 			m_targLeadOnscreen = true;
 
 		// now the text speed/distance

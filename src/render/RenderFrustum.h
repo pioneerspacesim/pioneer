@@ -41,8 +41,6 @@ private:
 
 	matrix4x4d m_projMatrix;
 	matrix4x4d m_modelMatrix;
-	GLint m_viewport[4];
-
 	Plane m_planes[6];
 };
 
