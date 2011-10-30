@@ -86,8 +86,9 @@ void StationShipRepairForm::UpdateLabels()
 
 	else {
 		m_repairAllDesc->SetText(stringf(Lang::REPAIR_ENTIRE_HULL, formatarg("repairpercent", 100.0f - hullPercent)));
-		m_repairOneCost->SetText(format_money(GetRepairCost(1.0f)));
-		m_repairAllCost->SetText(format_money(GetRepairCost(100.f - hullPercent)));
+		const float hullDamage = 100.0f - hullPercent;
+		m_repairOneCost->SetText(format_money(GetRepairCost(std::min(hullDamage, 1.0f))));
+		m_repairAllCost->SetText(format_money(GetRepairCost(hullDamage)));
 
 		m_working->Hide();
 		m_tableBox->Show();

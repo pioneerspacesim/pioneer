@@ -44,6 +44,7 @@ Alpha 16
       is no long in memory (#729)
     * Fix material use in ship landing lights (#656, #705)
     * Fix screenshot crashes (#742, #727, #645)
+    * "Repair 1% hull" display correct % and cost when hull has <1% damage (#748, #467)
   
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
