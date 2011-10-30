@@ -57,7 +57,7 @@ Alpha 16
     * Ship.GetEquip and Ship.SetEquip changed to 1-based indexing (#719)
 
   * Internal changes
-    * Cleanups, leaks fixed and general code improvements (#635, #637, #665, #729)
+    * Cleanups, leaks fixed and general code improvements (#635, #637, #665, #729, #753)
     * Improve terrain generation performance
     * Run Lua timers from the physics loop, which should help to make frame
       times a little more consistent

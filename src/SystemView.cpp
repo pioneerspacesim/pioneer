@@ -176,9 +176,10 @@ void SystemView::PutBody(SBody *b, vector3d offset)
 
 		glColor3f(1,1,1);
 		glBegin(GL_TRIANGLE_FAN);
-		float radius = float(b->GetRadius()) * m_zoom;
+		double radius = b->GetRadius() * m_zoom;
+		const vector3f offsetf(offset);
 		for (float ang=0; ang<2.0f*M_PI; ang+=M_PI*0.05f) {
-			vector3f p = offset + s_invRot * vector3f(radius*sin(ang), -radius*cos(ang), 0);
+			vector3f p = offsetf + s_invRot * vector3f(radius*sin(ang), -radius*cos(ang), 0);
 			glVertex3fv(&p.x);
 		}
 		glEnd();

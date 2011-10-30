@@ -110,7 +110,7 @@ void Starfield::Draw()
 		for (int i=0; i<BG_STAR_MAX; i++) {
 			
 			vector3f v(m_stars[i].x, m_stars[i].y, m_stars[i].z);
-			v += pz*hyperspaceAnim*mult;
+			v += vector3f(pz*hyperspaceAnim*mult);
 
 			vtx[i*12] = m_stars[i].x + v.x;
 			vtx[i*12+1] = m_stars[i].y + v.y;
