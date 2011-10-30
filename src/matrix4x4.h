@@ -74,6 +74,22 @@ class matrix4x4 {
 		m[3] = 0; m[7] = 0; m[11] = 0; m[15] = 1;
 		return m;
 	}
+	static matrix4x4 FrustumMatrix (T left, T right, T bottom, T top, T near, T far) {
+		assert((near > T(0)) && (far > T(0)));
+		// these expressions come from the documentation for glFrustum
+		const T sx = (T(2) * near) / (right - left);
+		const T sy = (T(2) * near) / (top - bottom);
+		const T A = (right + left) / (right - left);
+		const T B = (top + bottom) / (top - bottom);
+		const T C = -(far + near) / (far - near);
+		const T D = -(T(2) * far * near) / (far - near);
+		matrix4x4 m;
+		m[ 0] = sx; m[ 4] =  0; m[ 8] =  A; m[12] = 0;
+		m[ 1] =  0; m[ 5] = sy; m[ 9] =  B; m[13] = 0;
+		m[ 2] =  0; m[ 6] =  0; m[10] =  C; m[14] = D;
+		m[ 3] =  0; m[ 7] =  0; m[11] = -1; m[15] = 0;
+		return m;
+	}
 	// (x,y,z) must be normalized
 	static matrix4x4 RotateMatrix (T ang, T x, T y, T z) {
 		matrix4x4 m;
