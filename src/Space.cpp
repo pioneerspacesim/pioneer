@@ -690,12 +690,16 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 	}
 }
 
+// random point on a sphere, distributed uniformly by area
 vector3d GetRandomPosition(float min_dist, float max_dist)
 {
-	float longitude = Pi::rng.Double(-M_PI,M_PI);
-	float latitude = Pi::rng.Double(-M_PI,M_PI);
-	float dist = (min_dist + Pi::rng.Double(max_dist-min_dist));
-	return vector3d(sin(longitude)*cos(latitude), sin(latitude), cos(longitude)*cos(latitude)) * dist;
+	// see http://mathworld.wolfram.com/SpherePointPicking.html
+	// or a Google search for further information
+	const double dist = Pi::rng.Double(min_dist, max_dist);
+	const double z = Pi::rng.Double_closed(-1.0, 1.0);
+	const double theta = Pi::rng.Double(2.0*M_PI);
+	const double r = sqrt(1.0 - z*z) * dist;
+	return vector3d(r*cos(theta), r*sin(theta), z*dist);
 }
 
 vector3d GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *dest)
@@ -704,8 +708,9 @@ vector3d GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *
 	Sector dest_sec(dest->sectorX,dest->sectorY,dest->sectorZ);
 	Sector::System source_sys = source_sec.m_systems[source->systemIndex];
 	Sector::System dest_sys = dest_sec.m_systems[dest->systemIndex];
-	vector3d pos = (source_sys.p + vector3f(source->sectorX,source->sectorY,source->sectorZ)) - (dest_sys.p + vector3f(dest->sectorX,dest->sectorY,dest->sectorZ));
-	return pos.Normalized() * 11.0*AU + GetRandomPosition(5.0,20.0)*1000.0; // "hyperspace zone": 11 AU from primary
+	const vector3d sourcePos = vector3d(source_sys.p) + vector3d(source->sectorX, source->sectorY, source->sectorZ);
+	const vector3d destPos = vector3d(dest_sys.p) + vector3d(dest->sectorX, dest->sectorY, dest->sectorZ);
+	return (sourcePos - destPos).Normalized() * 11.0*AU + GetRandomPosition(5.0,20.0)*1000.0; // "hyperspace zone": 11 AU from primary
 }
 
 /*
@@ -727,8 +732,8 @@ void DoHyperspaceTo(const SystemPath *dest)
 		}
 		storedArrivalClouds.clear();
 	}
-	
-	const SystemPath psource = Pi::currentSystem->GetPath();
+
+	const SystemPath psource = Pi::currentSystem ? Pi::currentSystem->GetPath() : SystemPath();
 	const SystemPath pdest = SystemPath(dest->sectorX, dest->sectorY, dest->sectorZ, dest->systemIndex);
 	if (Pi::currentSystem) Pi::currentSystem->Release();
 	Pi::currentSystem = StarSystem::GetCached(dest);
