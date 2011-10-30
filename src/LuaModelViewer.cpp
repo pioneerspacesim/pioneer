@@ -84,8 +84,9 @@ public:
 	}
 
 	Viewer(): Gui::Fixed(float(g_width), float(g_height)),
-		m_quit(false),
-		m_rocketManager(g_width, g_height) {
+		m_rocketManager(g_width, g_height),
+		m_quit(false)
+        {
 		m_model = 0;
 		m_cmesh = 0;
 		m_geom = 0;

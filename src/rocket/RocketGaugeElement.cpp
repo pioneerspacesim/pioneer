@@ -1,8 +1,8 @@
 #include "RocketGaugeElement.h"
 #include "RocketGaugeTypeBar.h"
 
-RocketGaugeElement::RocketGaugeElement(const Rocket::Core::String &tag) :
-	Rocket::Core::Element(tag),
+RocketGaugeElement::RocketGaugeElement(const Rocket::Core::String &_tag) :
+	Rocket::Core::Element(_tag),
 	m_value(1.f)
 {
 	//default will be a horizontal bar, fill direction right
