@@ -1200,61 +1200,73 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 
 	// update combat HUD
 	Ship *enemy = static_cast<Ship *>(Pi::player->GetCombatTarget());
-	// XXX this should be generalised so that it works for the rear view too
-	if ((GetCamType() == CAM_FRONT) && enemy) {
-		vector3d targpos = enemy->GetInterpolatedPositionRelTo(cam_frame);
-		vector3d targvel = enemy->GetVelocityRelTo(Pi::player) * cam_rot;
-
-		int laser = Equip::types[Pi::player->m_equipment.Get(Equip::SLOT_LASER, 0)].tableIndex;
-		double projspeed = Equip::lasers[laser].speed;
-		vector3d leadpos = targpos + targvel*(targpos.Length()/projspeed);
-		leadpos = targpos + targvel*(leadpos.Length()/projspeed); // second order approx
-
-		double dist = targpos.Length();
-
-		// now the text speed/distance
-		// want to calculate closing velocity that you couldn't counter with retros
-
-		double vel = targvel.z; // position should be towards
-		double raccel =
-			Pi::player->GetShipType().linThrust[ShipType::THRUSTER_REVERSE] / Pi::player->GetMass();
-
-		double c = Clamp(vel / sqrt(2.0 * raccel * dist), -1.0, 1.0);
-		float r = float(0.2+(c+1.0)*0.4);
-		float b = float(0.2+(1.0-c)*0.4);
+	if (enemy) {
 		char buf[128];
+		const vector3d targpos = enemy->GetInterpolatedPositionRelTo(Pi::player) * cam_rot;
+		const double dist = targpos.Length();
+		const vector3d targScreenPos = enemy->GetInterpolatedPositionRelTo(cam_frame);
 
-		m_combatTargetIndicator.label->Color(r, 0.0f, b);
 		snprintf(buf, sizeof(buf), "%.0fm", dist);
 		m_combatTargetIndicator.label->SetText(buf);
-		UpdateIndicator(m_combatTargetIndicator, targpos);
+		UpdateIndicator(m_combatTargetIndicator, targScreenPos);
 
-		m_targetLeadIndicator.label->Color(r, 0.0f, b);
-		snprintf(buf, sizeof(buf), "%0.fm/s", vel);
-		m_targetLeadIndicator.label->SetText(buf);
-		UpdateIndicator(m_targetLeadIndicator, leadpos);
-
-		if (m_targetLeadIndicator.side != INDICATOR_ONSCREEN)
-			HideIndicator(m_targetLeadIndicator);
-		if (m_combatTargetIndicator.side != INDICATOR_ONSCREEN)
-			HideIndicator(m_targetLeadIndicator);
-
-		// if the lead indicator is very close to the position indicator
-		// try (just a little) to keep the labels from interfering with one another
-		if (m_targetLeadIndicator.side == INDICATOR_ONSCREEN) {
-			assert(m_combatTargetIndicator.side == INDICATOR_ONSCREEN);
-			float distPos[2], velPos[2];
-			GetChildPosition(m_combatTargetIndicator.label, distPos);
-			GetChildPosition(m_targetLeadIndicator.label, velPos);
-			float deltaX = fabs(distPos[0] - velPos[0]);
-			float deltaY = fabs(distPos[1] - velPos[1]);
-			if (deltaX < 40.0f && deltaY < 16.0f) {
-				if (distPos[1] > velPos[1])
-					MoveChild(m_combatTargetIndicator.label, distPos[0], std::max(distPos[1], velPos[1]+14.0f));
-				else
-					MoveChild(m_targetLeadIndicator.label, velPos[0], std::max(velPos[1], distPos[1]+14.0f));
-			}
+		// calculate firing solution and relative velocity along our z axis
+		int laser;
+		switch (GetCamType()) {
+			case CAM_FRONT: laser = 0; break;
+			case CAM_REAR: laser = 1; break;
+			default: laser = -1; break;
 		}
+		if (laser >= 0) {
+			laser = Pi::player->m_equipment.Get(Equip::SLOT_LASER, laser);
+			laser = Equip::types[laser].tableIndex;
+		}
+		if (laser >= 0) { // only display target lead position on views with lasers
+			double projspeed = Equip::lasers[laser].speed;
+
+			const vector3d targvel = enemy->GetVelocityRelTo(Pi::player) * cam_rot;
+			vector3d leadpos = targpos + targvel*(targpos.Length()/projspeed);
+			leadpos = targpos + targvel*(leadpos.Length()/projspeed); // second order approx
+
+			// now the text speed/distance
+			// want to calculate closing velocity that you couldn't counter with retros
+
+			double vel = targvel.z; // position should be towards
+			double raccel =
+				Pi::player->GetShipType().linThrust[ShipType::THRUSTER_REVERSE] / Pi::player->GetMass();
+
+			double c = Clamp(vel / sqrt(2.0 * raccel * dist), -1.0, 1.0);
+			float r = float(0.2+(c+1.0)*0.4);
+			float b = float(0.2+(1.0-c)*0.4);
+
+			m_combatTargetIndicator.label->Color(r, 0.0f, b);
+			m_targetLeadIndicator.label->Color(r, 0.0f, b);
+
+			snprintf(buf, sizeof(buf), "%0.fm/s", vel);
+			m_targetLeadIndicator.label->SetText(buf);
+			UpdateIndicator(m_targetLeadIndicator, leadpos);
+
+			if ((m_targetLeadIndicator.side != INDICATOR_ONSCREEN) || (m_combatTargetIndicator.side != INDICATOR_ONSCREEN))
+				HideIndicator(m_targetLeadIndicator);
+
+			// if the lead indicator is very close to the position indicator
+			// try (just a little) to keep the labels from interfering with one another
+			if (m_targetLeadIndicator.side == INDICATOR_ONSCREEN) {
+				assert(m_combatTargetIndicator.side == INDICATOR_ONSCREEN);
+				float distPos[2], velPos[2];
+				GetChildPosition(m_combatTargetIndicator.label, distPos);
+				GetChildPosition(m_targetLeadIndicator.label, velPos);
+				float deltaX = fabs(distPos[0] - velPos[0]);
+				float deltaY = fabs(distPos[1] - velPos[1]);
+				if (deltaX < 40.0f && deltaY < 16.0f) {
+					if (distPos[1] > velPos[1])
+						MoveChild(m_combatTargetIndicator.label, distPos[0], std::max(distPos[1], velPos[1]+14.0f));
+					else
+						MoveChild(m_targetLeadIndicator.label, velPos[0], std::max(velPos[1], distPos[1]+14.0f));
+				}
+			}
+		} else
+			HideIndicator(m_targetLeadIndicator);
 	} else {
 		HideIndicator(m_combatTargetIndicator);
 		HideIndicator(m_targetLeadIndicator);
