@@ -22,25 +22,14 @@ Frustum::Frustum(float width, float height, float fovAng)
 	float left = fov * znear;
 	float top = left * height/width;
 
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	glFrustum(-left, left, -top, top, znear, zfar);
+	m_projMatrix = matrix4x4d::FrustumMatrix(-left, left, -top, top, znear, zfar);
+	m_modelMatrix = matrix4x4d::Identity();
 
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
+	m_viewport[0] = m_viewport[1] = 0; // x, y
+	m_viewport[2] = GLsizei(width);
+	m_viewport[3] = GLsizei(height);
 
-	glPushAttrib(GL_VIEWPORT_BIT);
-	glViewport(0, 0, GLsizei(width), GLsizei(height));
-
-	InitFromGLState();
-
-	glPopAttrib(); // viewport
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
+	InitFromMatrix(m_projMatrix);
 }
 
 void Frustum::InitFromMatrix(const matrix4x4d &m)
