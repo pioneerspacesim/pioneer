@@ -1310,7 +1310,7 @@ static void DrawAtmosphereSurface(const vector3d &campos, float rad)
 void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	glPushMatrix();
 	glTranslated(-campos.x, -campos.y, -campos.z);
-	Render::Frustum frustum;
+	Render::Frustum frustum = Render::Frustum::FromGLState();
 
 	const float atmosRadius = ATMOSPHERE_RADIUS;
 	

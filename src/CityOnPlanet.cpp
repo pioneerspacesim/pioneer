@@ -287,7 +287,7 @@ void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoord
 		rot[i] = rot[0] * matrix4x4d::RotateYMatrix(M_PI*0.5*double(i));
 	}
 
-	Render::Frustum frustum;
+	Render::Frustum frustum = Render::Frustum::FromGLState();
 
 	memset(&cityobj_params, 0, sizeof(LmrObjParams));
 	cityobj_params.time = Pi::GetGameTime();

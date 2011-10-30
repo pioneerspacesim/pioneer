@@ -8,8 +8,7 @@ namespace Render {
 
 class Frustum {
 public:
-	// create from current gl state
-	Frustum();
+	static Frustum FromGLState();
 
 	// create for specified values
 	Frustum(float width, float height, float fovAng);
@@ -29,6 +28,9 @@ public:
 	bool ProjectPoint(const vector3d &in, vector3d &out) const;
 
 private:
+	// create from current gl state
+	Frustum();
+
 	void InitFromMatrix(const matrix4x4d &m);
 	void InitFromGLState();
 

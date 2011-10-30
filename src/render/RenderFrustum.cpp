@@ -7,10 +7,14 @@ namespace Render {
 static const float FOV_MAX = 170.0f;
 static const float FOV_MIN = 20.0f;
 
-Frustum::Frustum()
+Frustum Frustum::FromGLState()
 {
-	InitFromGLState();
+	Frustum f;
+	f.InitFromGLState();
+	return f;
 }
+
+Frustum::Frustum() {}
 
 Frustum::Frustum(float width, float height, float fovAng)
 {
