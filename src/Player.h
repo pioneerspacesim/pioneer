@@ -33,7 +33,15 @@ public:
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void SetDockedWith(SpaceStation *, int port);
 	void StaticUpdate(const float timeStep);
-	enum FlightControlState { CONTROL_MANUAL, CONTROL_FIXSPEED, CONTROL_AUTOPILOT };
+	enum FlightControlState {
+		CONTROL_MANUAL,
+		CONTROL_FIXSPEED,
+		CONTROL_FIXHEADING_FORWARD,
+		CONTROL_FIXHEADING_BACKWARD,
+		CONTROL_AUTOPILOT,
+
+		CONTROL_STATE_COUNT
+	};
 	FlightControlState GetFlightControlState() const { return m_flightControlState; }
 	void SetFlightControlState(FlightControlState s);
 	double GetSetSpeed() const { return m_setSpeed; }

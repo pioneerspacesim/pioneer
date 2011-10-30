@@ -84,16 +84,18 @@ bool Player::OnDamage(Object *attacker, float kgDamage)
 
 void Player::SetFlightControlState(enum FlightControlState s)
 {
-	m_flightControlState = s;
-	if (m_flightControlState == CONTROL_AUTOPILOT) {
-		AIClearInstructions();
-	} else if (m_flightControlState == CONTROL_FIXSPEED) {
-		AIClearInstructions();
-		m_setSpeed = m_setSpeedTarget ? GetVelocityRelTo(m_setSpeedTarget).Length() : GetVelocity().Length();
-	} else {
-		AIClearInstructions();
+	if (m_flightControlState != s) {
+		m_flightControlState = s;
+		if (m_flightControlState == CONTROL_AUTOPILOT) {
+			AIClearInstructions();
+		} else if (m_flightControlState == CONTROL_FIXSPEED) {
+			AIClearInstructions();
+			m_setSpeed = m_setSpeedTarget ? GetVelocityRelTo(m_setSpeedTarget).Length() : GetVelocity().Length();
+		} else {
+			AIClearInstructions();
+		}
+		Pi::onPlayerChangeFlightControlState.emit();
 	}
-	Pi::onPlayerChangeFlightControlState.emit();
 }
 
 void Player::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)

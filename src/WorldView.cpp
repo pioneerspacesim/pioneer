@@ -109,8 +109,11 @@ void WorldView::InitObject()
 
 	m_flightControlButton = new Gui::MultiStateImageButton();
 	m_flightControlButton->SetShortcut(SDLK_F5, KMOD_NONE);
+	// these states must match Player::FlightControlState (so that the enum values match)
 	m_flightControlButton->AddState(Player::CONTROL_MANUAL, PIONEER_DATA_DIR "/icons/manual_control.png", Lang::MANUAL_CONTROL);
 	m_flightControlButton->AddState(Player::CONTROL_FIXSPEED, PIONEER_DATA_DIR "/icons/manual_control.png", Lang::COMPUTER_SPEED_CONTROL);
+	m_flightControlButton->AddState(Player::CONTROL_FIXHEADING_FORWARD, PIONEER_DATA_DIR "/icons/manual_control.png", Lang::COMPUTER_HEADING_CONTROL);
+	m_flightControlButton->AddState(Player::CONTROL_FIXHEADING_BACKWARD, PIONEER_DATA_DIR "/icons/manual_control.png", Lang::COMPUTER_HEADING_CONTROL);
 	m_flightControlButton->AddState(Player::CONTROL_AUTOPILOT, PIONEER_DATA_DIR "/icons/autopilot.png", Lang::AUTOPILOT_ON);
 	m_flightControlButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeFlightState));
 	m_rightButtonBar->Add(m_flightControlButton, 2, 2);
@@ -283,8 +286,18 @@ void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
-	if (b->GetState() == Player::CONTROL_AUTOPILOT) b->StateNext();
-	Pi::player->SetFlightControlState(static_cast<Player::FlightControlState>(b->GetState()));
+	int newState = b->GetState();
+	if (Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL)) {
+		if (newState == Player::CONTROL_AUTOPILOT) {
+			newState = (newState + 1) % Player::CONTROL_STATE_COUNT;
+		}
+	} else {
+		while (newState != Player::CONTROL_MANUAL && newState != Player::CONTROL_FIXSPEED) {
+			newState = (newState + 1) % Player::CONTROL_STATE_COUNT;
+		}
+	}
+	b->SetActiveState(newState);
+	Pi::player->SetFlightControlState(static_cast<Player::FlightControlState>(newState));
 }
 
 /* This is when the flight control state actually changes... */
@@ -464,9 +477,18 @@ void WorldView::RefreshButtonStateAndVisibility()
 						break;
 					}
 
+					case Player::CONTROL_FIXHEADING_FORWARD:
+						m_flightStatus->SetText(Lang::HEADING_LOCK_FORWARD);
+						break;
+					case Player::CONTROL_FIXHEADING_BACKWARD:
+						m_flightStatus->SetText(Lang::HEADING_LOCK_BACKWARD);
+						break;
+
 					case Player::CONTROL_AUTOPILOT:
 						m_flightStatus->SetText(Lang::AUTOPILOT);
 						break;
+
+					default: assert(0); break;
 				}
 
 				m_launchButton->Hide();
