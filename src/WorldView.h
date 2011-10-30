@@ -47,12 +47,9 @@ public:
 private:
 	void RefreshButtonStateAndVisibility();
 	void UpdateCommsOptions();
-	void ProjectObjsToScreenPos(const Frame *cam_frame);
 	void DrawTargetSquares();
-	void DrawTargetSquare(const Body* const target);
-	void DrawCombatTargetIndicator(const Ship* const target);
 
-	enum IndicatorPos {
+	enum IndicatorSide {
 		INDICATOR_HIDDEN,
 		INDICATOR_ONSCREEN,
 		INDICATOR_LEFT,
@@ -61,9 +58,26 @@ private:
 		INDICATOR_BOTTOM
 	};
 
-	void DrawDirectionIndicator(IndicatorPos side, int pos[2]);
-	IndicatorPos DirectionIndicatorPos(const vector3d &direction, int pos[2]);
+	struct Indicator {
+		float pos[2];
+		IndicatorSide side;
+		Gui::Label *label;
+		Indicator() {
+			pos[0] = pos[1] = 0;
+			side = INDICATOR_HIDDEN;
+			label = 0;
+		}
+	};
+
+	void ProjectObjsToScreenPos(const Frame *cam_frame);
+	void UpdateIndicator(Indicator &indicator, const vector3d &direction);
+	void HideIndicator(Indicator &indicator);
+
 	void DrawCrosshair(float px, float py, float sz);
+	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead);
+	void DrawTargetSquare(const Indicator &marker);
+	void DrawVelocityIndicator(const Indicator &marker);
+	void DrawEdgeMarker(const Indicator &marker);
 
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
 	void AddCommsNavOption(const std::string msg, Body *target);
@@ -116,13 +130,11 @@ private:
 	sigc::connection m_onMouseButtonDown;
 
 	Gui::LabelSet *m_bodyLabels;
-	Gui::Label *m_targetDist, *m_targetSpeed, *m_combatDist, *m_combatSpeed;
-	IndicatorPos m_velIndicatorSide;
-	IndicatorPos m_navVelIndicatorSide;
-	int m_velPos[2];
-	int m_navVelPos[2];
-	bool m_targLeadOnscreen;
-	vector3d m_targLeadPos;
+	Indicator m_velIndicator;
+	Indicator m_navVelIndicator;
+	Indicator m_navTargetIndicator;
+	Indicator m_combatTargetIndicator;
+	Indicator m_targetLeadIndicator;
 };
 
 #endif /* _WORLDVIEW_H */
