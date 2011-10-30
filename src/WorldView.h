@@ -72,6 +72,7 @@ private:
 	void ProjectObjsToScreenPos(const Frame *cam_frame);
 	void UpdateIndicator(Indicator &indicator, const vector3d &direction);
 	void HideIndicator(Indicator &indicator);
+	void SeparateLabels(Gui::Label *a, Gui::Label *b);
 
 	void DrawCrosshair(float px, float py, float sz);
 	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead);

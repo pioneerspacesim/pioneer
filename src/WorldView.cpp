@@ -1187,6 +1187,10 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 				snprintf(buf, sizeof(buf), "%.0f m/s", navspeed);
 			m_navVelIndicator.label->SetText(buf);
 			UpdateIndicator(m_navVelIndicator, camSpaceNavVel);
+
+			assert(m_navTargetIndicator.side != INDICATOR_HIDDEN);
+			assert(m_navVelIndicator.side != INDICATOR_HIDDEN);
+			SeparateLabels(m_navTargetIndicator.label, m_navVelIndicator.label);
 		} else
 			HideIndicator(m_navVelIndicator);
 
@@ -1253,17 +1257,7 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 			// try (just a little) to keep the labels from interfering with one another
 			if (m_targetLeadIndicator.side == INDICATOR_ONSCREEN) {
 				assert(m_combatTargetIndicator.side == INDICATOR_ONSCREEN);
-				float distPos[2], velPos[2];
-				GetChildPosition(m_combatTargetIndicator.label, distPos);
-				GetChildPosition(m_targetLeadIndicator.label, velPos);
-				float deltaX = fabs(distPos[0] - velPos[0]);
-				float deltaY = fabs(distPos[1] - velPos[1]);
-				if (deltaX < 40.0f && deltaY < 16.0f) {
-					if (distPos[1] > velPos[1])
-						MoveChild(m_combatTargetIndicator.label, distPos[0], std::max(distPos[1], velPos[1]+14.0f));
-					else
-						MoveChild(m_targetLeadIndicator.label, velPos[0], std::max(velPos[1], distPos[1]+14.0f));
-				}
+				SeparateLabels(m_combatTargetIndicator.label, m_targetLeadIndicator.label);
 			}
 		} else
 			HideIndicator(m_targetLeadIndicator);
@@ -1404,6 +1398,40 @@ void WorldView::HideIndicator(Indicator &indicator)
 	indicator.pos[0] = indicator.pos[1] = 0;
 	if (indicator.label)
 		indicator.label->Hide();
+}
+
+void WorldView::SeparateLabels(Gui::Label *a, Gui::Label *b)
+{
+	float posa[2], posb[2], sizea[2], sizeb[2];
+	GetChildPosition(a, posa);
+	a->GetSize(sizea);
+	sizea[0] *= 0.5f;
+	sizea[1] *= 0.5f;
+	posa[0] += sizea[0];
+	posa[1] += sizea[1];
+	GetChildPosition(b, posb);
+	b->GetSize(sizeb);
+	sizeb[0] *= 0.5f;
+	sizeb[1] *= 0.5f;
+	posb[0] += sizeb[0];
+	posb[1] += sizeb[1];
+
+	float overlapX = sizea[0] + sizeb[0] - fabs(posa[0] - posb[0]);
+	float overlapY = sizea[1] + sizeb[1] - fabs(posa[1] - posb[1]);
+
+	if (overlapX > 0.0f && overlapY > 0.0f) {
+		if (overlapX <= 4.0f) {
+			// small horizontal overlap; bump horizontally
+			if (posa[0] > posb[0]) overlapX *= -1.0f;
+			MoveChild(a, posa[0] - overlapX*0.5f - sizea[0], posa[1] - sizea[1]);
+			MoveChild(b, posb[0] + overlapX*0.5f - sizeb[0], posb[1] - sizeb[1]);
+		} else {
+			// large horizonal overlap; bump vertically
+			if (posa[1] > posb[1]) overlapY *= -1.0f;
+			MoveChild(a, posa[0] - sizea[0], posa[1] - overlapY*0.5f - sizea[1]);
+			MoveChild(b, posb[0] - sizeb[0], posb[1] + overlapY*0.5f - sizeb[1]);
+		}
+	}
 }
 
 void WorldView::Draw()
