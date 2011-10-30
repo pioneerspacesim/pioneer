@@ -7,10 +7,6 @@
 #include "Pi.h"
 #include "Sfx.h"
 
-// min/max FOV in degrees
-static const float FOV_MAX = 170.0f;
-static const float FOV_MIN = 20.0f;
-
 Camera::Camera(const Body *body, float width, float height) :
 	m_body(body),
 	m_width(width),
