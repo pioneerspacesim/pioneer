@@ -1375,7 +1375,7 @@ void WorldView::DrawTargetSquare(const Indicator &marker)
 
 	// if the square is off-screen, draw a little square at the edge
 	const float sz = (marker.side == INDICATOR_ONSCREEN)
-		? float(WorldView::PICK_OBJECT_RECT_SIZE * 0.5) : 1.5f;
+		? float(WorldView::PICK_OBJECT_RECT_SIZE * 0.5) : 3.0f;
 
 	const float x1 = float(marker.pos[0] - sz);
 	const float x2 = float(marker.pos[0] + sz);
