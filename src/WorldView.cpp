@@ -1530,8 +1530,14 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 			int pos[2] = {0,0};
 			switch (indicator.side) {
 			case INDICATOR_HIDDEN: break;
-			case INDICATOR_TOP: // place label below
-			case INDICATOR_ONSCREEN:
+			case INDICATOR_ONSCREEN: // when onscreen, default to label-below unless it would clamp to be on top of the marker
+				pos[0] = -(labelSize[0]/2.0f);
+				if (indicator.pos[1] + pos[1] + labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f > h - BORDER_BOTTOM)
+					pos[1] = -(labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f);
+				else
+					pos[1] = HUD_CROSSHAIR_SIZE + 2.0f;
+				break;
+			case INDICATOR_TOP:
 				pos[0] = -(labelSize[0]/2.0f);
 				pos[1] = HUD_CROSSHAIR_SIZE + 2.0f;
 				break;
