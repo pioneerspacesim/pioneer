@@ -69,7 +69,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(howmany)
 
 	elseif option == 3 then
-		local capacity = Game.player:GetEquipSlotSize('CABIN')
+		local capacity = Game.player:GetEquipSlotCapacity('CABIN')
 		if capacity < ad.group or Game.player:GetEquipCount('CABIN', 'UNOCCUPIED_CABIN') < ad.group then
 			form:SetMessage(t("You do not have enough cabin space on your ship."))
 			form:AddOption(t('HANG_UP'), -1)
