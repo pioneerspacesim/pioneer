@@ -76,6 +76,7 @@ public:
 		return vector3d(m_interpolatedTransform[12], m_interpolatedTransform[13], m_interpolatedTransform[14]);
 	}
 	vector3d GetInterpolatedPositionRelTo(const Frame *relTo) const;
+	vector3d GetInterpolatedPositionRelTo(const Body *relTo) const;
 	// should set m_interpolatedTransform to the smoothly interpolated
 	// value (interpolated by 0 <= alpha <=1) between the previous and current
 	//  physics tick
