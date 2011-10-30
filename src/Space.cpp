@@ -732,8 +732,8 @@ void DoHyperspaceTo(const SystemPath *dest)
 		}
 		storedArrivalClouds.clear();
 	}
-	
-	const SystemPath psource = Pi::currentSystem->GetPath();
+
+	const SystemPath psource = Pi::currentSystem ? Pi::currentSystem->GetPath() : SystemPath();
 	const SystemPath pdest = SystemPath(dest->sectorX, dest->sectorY, dest->sectorZ, dest->systemIndex);
 	if (Pi::currentSystem) Pi::currentSystem->Release();
 	Pi::currentSystem = StarSystem::GetCached(dest);
