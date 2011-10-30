@@ -3,6 +3,8 @@ Alpha 16
   * New features
     * New ships: "Wave Heavy Hypersonic Fighter" and "Turtle" (#558, #657)
     * Cargo scooping (#585, #708)
+    * Target and velocity indicators now shown with directions at edge of
+      screen if they are not directly in front (#750, #752)
     * Spanish translation (#628)
 
   * Minor changes and tweaks

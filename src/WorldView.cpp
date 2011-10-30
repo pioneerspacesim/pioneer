@@ -44,7 +44,6 @@ WorldView::WorldView(): View(),
 	m_commsOptions->SetTransparency(true);
 	Add(m_commsOptions, 10, 200);
 
-
 	m_commsNavOptionsContainer = new Gui::HBox();
 	m_commsNavOptionsContainer->SetSpacing(5);
 	m_commsNavOptionsContainer->SetSizeRequest(220, size[1]-50);
@@ -143,14 +142,16 @@ WorldView::WorldView(): View(),
 	Add(m_bodyLabels, 0, 0);
 	Gui::Screen::PopFont();
 
-	m_targetDist = new Gui::Label("");
-	m_targetSpeed = new Gui::Label("");
-	m_combatDist = new Gui::Label("");
-	m_combatSpeed = new Gui::Label("");
-	Add(m_targetDist, 0, 0);			// text/color/position set dynamically
-	Add(m_targetSpeed, 0, 0);			// text/color/position set dynamically
-	Add(m_combatDist, 0, 0);			// text/color/position set dynamically
-	Add(m_combatSpeed, 0, 0);			// text/color/position set dynamically
+	m_navTargetIndicator.label = (new Gui::Label(""))->Color(0.0f, 1.0f, 0.0f);
+	m_navVelIndicator.label = (new Gui::Label(""))->Color(0.0f, 1.0f, 0.0f);
+	m_combatTargetIndicator.label = new Gui::Label(""); // colour set dynamically
+	m_targetLeadIndicator.label = new Gui::Label("");
+
+	// these labels are repositioned during Draw3D()
+	Add(m_navTargetIndicator.label, 0, 0);
+	Add(m_navVelIndicator.label, 0, 0);
+	Add(m_combatTargetIndicator.label, 0, 0);
+	Add(m_targetLeadIndicator.label, 0, 0);
 
 	m_onHyperspaceTargetChangedCon =
 		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
@@ -257,7 +258,6 @@ void WorldView::OnClickBlastoff()
 		Pi::player->Blastoff();
 	}
 }
-
 
 void WorldView::OnClickHyperspace()
 {
@@ -1036,7 +1036,7 @@ int WorldView::GetActiveWeapon() const
 
 static inline bool project_to_screen(const vector3d &in, vector3d &out, const Render::Frustum &frustum, const int guiSize[2])
 {
-	if (in.z >= -1.0 || !frustum.ProjectPoint(in, out)) return false;
+	if (!frustum.ProjectPoint(in, out)) return false;
 	out.x *= guiSize[0];
 	out.y = Gui::Screen::GetHeight() - out.y * guiSize[1];
 	return true;
@@ -1045,13 +1045,12 @@ static inline bool project_to_screen(const vector3d &in, vector3d &out, const Re
 void WorldView::UpdateProjectedObjects()
 {
 	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
+	const Render::Frustum frustum = m_activeCamera->GetFrustum();
 
 	const Frame *cam_frame = m_activeCamera->GetFrame();
 	matrix4x4d cam_rot = cam_frame->GetTransform();
 	cam_rot.ClearToRotOnly();
 
-	const Render::Frustum frustum = m_activeCamera->GetFrustum();
-	
 	// determine projected positions and update labels
 	m_bodyLabels->Clear();
 	m_projectedPos.clear();
@@ -1059,7 +1058,7 @@ void WorldView::UpdateProjectedObjects()
 		Body *b = *i;
 
 		vector3d pos = b->GetInterpolatedPositionRelTo(cam_frame);
-		if (project_to_screen(pos, pos, frustum, guiSize)) {
+		if ((pos.z < -1.0) && project_to_screen(pos, pos, frustum, guiSize)) {
 
 			// only show labels on large or nearby bodies
 			if (b->IsType(Object::PLANET) || b->IsType(Object::STAR) || b->IsType(Object::SPACESTATION) || Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
@@ -1069,113 +1068,285 @@ void WorldView::UpdateProjectedObjects()
 		}
 	}
 
-	// Direction indicator
-	{
-		vector3d vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
-		vector3d vdir = vel * cam_rot;			// transform to camera space
-		m_velocityIndicatorOnscreen = false;
-		vector3d pos;
-		if (project_to_screen(vdir, pos, frustum, guiSize)) {
-			m_velocityIndicatorPos[0] = int(pos.x);
-			m_velocityIndicatorPos[1] = int(pos.y);
-			m_velocityIndicatorOnscreen = true;
-		}
-	}
-	
-	// nav target direction indicator
-	m_navVelocityIndicatorOnscreen = false;
+	// velocity relative to current frame (white)
+	// GetVelocityRelTo considers statis velocity of rotating frame, which GetVelocity() doesn't
+	const vector3d camSpaceVel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame()) * cam_rot;
+	if (camSpaceVel.LengthSqr() >= 1e-4)
+		UpdateIndicator(m_velIndicator, camSpaceVel);
+	else
+		HideIndicator(m_velIndicator);
+
+	// navtarget info
 	if (Body *navtarget = Pi::player->GetNavTarget()) {
-		vector3d vel = Pi::player->GetVelocityRelTo(navtarget);
-		vector3d vdir = vel * cam_rot;			// transform to camera space
-		vector3d pos;
-		if (project_to_screen(vdir, pos, frustum, guiSize)) {
-			m_navVelocityIndicatorPos[0] = int(pos.x);
-			m_navVelocityIndicatorPos[1] = int(pos.y);
-			m_navVelocityIndicatorOnscreen = true;
-		}
-	}
+		// if navtarget and body frame are the same,
+		// then we hide the frame-relative velocity indicator
+		// (which would be hidden underneath anyway)
+		if (navtarget == Pi::player->GetFrame()->GetBodyFor())
+			HideIndicator(m_velIndicator);
 
-	std::map<Body*,vector3d>::const_iterator proj;
-
-	// update navtarget distance
-	Body *navtarget = Pi::player->GetNavTarget();
-	if (navtarget && (proj = m_projectedPos.find(navtarget)) != m_projectedPos.end())
-	{
+		// navtarget distance/target square indicator (displayed with navtarget label)
 		double dist = Pi::player->GetPositionRelTo(navtarget).Length();
-		m_targetDist->SetText(format_distance(dist).c_str());
+		m_navTargetIndicator.label->SetText(format_distance(dist).c_str());
+		UpdateIndicator(m_navTargetIndicator, navtarget->GetInterpolatedPositionRelTo(cam_frame));
 
-		m_targetDist->Color(0.0f, 1.0f, 0.0f);
+		// velocity relative to navigation target
+		vector3d navvelocity = Pi::player->GetVelocityRelTo(navtarget);
+		double navspeed = navvelocity.Length();
+		const vector3d camSpaceNavVel = navvelocity * cam_rot;
 
-		MoveChild(m_targetDist, float((*proj).second.x)-10.0f, float((*proj).second.y)+12.0f);
+		if (navspeed >= 0.01) { // 1 cm per second
+			char buf[128];
+			if (navspeed > 1000)
+				snprintf(buf, sizeof(buf), "%.2f km/s", navspeed*0.001);
+			else
+				snprintf(buf, sizeof(buf), "%.0f m/s", navspeed);
+			m_navVelIndicator.label->SetText(buf);
+			UpdateIndicator(m_navVelIndicator, camSpaceNavVel);
 
-		m_targetDist->Show();
+			assert(m_navTargetIndicator.side != INDICATOR_HIDDEN);
+			assert(m_navVelIndicator.side != INDICATOR_HIDDEN);
+			SeparateLabels(m_navTargetIndicator.label, m_navVelIndicator.label);
+		} else
+			HideIndicator(m_navVelIndicator);
+
+	} else {
+		HideIndicator(m_navTargetIndicator);
+		HideIndicator(m_navVelIndicator);
 	}
-	else
-		m_targetDist->Hide();
-	
-	// update navtarget speed
-	if (m_navVelocityIndicatorOnscreen) {
-		double vel = Pi::player->GetVelocityRelTo(navtarget).Length();
-		char buf[128];
-		if (vel > 1000)
-			snprintf(buf, sizeof(buf), "%.2f km/s", vel*0.001);
-		else
-			snprintf(buf, sizeof(buf), "%.0f m/s", vel);
-		m_targetSpeed->SetText(buf);
 
-		m_targetSpeed->Color(0.0f, 1.0f, 0.0f);
-
-		MoveChild(m_targetSpeed, m_navVelocityIndicatorPos[0]-26.0f, m_navVelocityIndicatorPos[1]+26.0f);
-
-		m_targetSpeed->Show();
-	}
-	else
-		m_targetSpeed->Hide();
+	// later we might want non-ship enemies (e.g., for assaults on military bases)
+	assert(!Pi::player->GetCombatTarget() || Pi::player->GetCombatTarget()->IsType(Object::SHIP));
 
 	// update combat HUD
 	Ship *enemy = static_cast<Ship *>(Pi::player->GetCombatTarget());
-	m_targLeadOnscreen = false;
-	m_combatDist->Hide();
-	m_combatSpeed->Hide();
-	if (GetCamType() == CAM_FRONT && enemy && (proj = m_projectedPos.find(enemy)) != m_projectedPos.end())
-	{
-		vector3d targpos = enemy->GetInterpolatedPositionRelTo(cam_frame);	// transforms to object space?
-		matrix4x4d prot = cam_frame->GetTransform(); prot[12] = prot[13] = prot[14] = 0.0;
-		vector3d targvel = enemy->GetVelocityRelTo(Pi::player) * prot;
+	if (enemy) {
+		char buf[128];
+		const vector3d targpos = enemy->GetInterpolatedPositionRelTo(Pi::player) * cam_rot;
+		const double dist = targpos.Length();
+		const vector3d targScreenPos = enemy->GetInterpolatedPositionRelTo(cam_frame);
 
-		int laser = Equip::types[Pi::player->m_equipment.Get(Equip::SLOT_LASER, 0)].tableIndex;
-		double projspeed = Equip::lasers[laser].speed;
-		vector3d leadpos = targpos + targvel*(targpos.Length()/projspeed);
-		leadpos = targpos + targvel*(leadpos.Length()/projspeed); 	// second order approx
-		double dist = targpos.Length();
+		snprintf(buf, sizeof(buf), "%.0fm", dist);
+		m_combatTargetIndicator.label->SetText(buf);
+		UpdateIndicator(m_combatTargetIndicator, targScreenPos);
 
-		if (leadpos.z < 0.0 && dist < 100000 && project_to_screen(leadpos, m_targLeadPos, frustum, guiSize))
-			m_targLeadOnscreen = true;
+		// calculate firing solution and relative velocity along our z axis
+		int laser;
+		switch (GetCamType()) {
+			case CAM_FRONT: laser = 0; break;
+			case CAM_REAR: laser = 1; break;
+			default: laser = -1; break;
+		}
+		if (laser >= 0) {
+			laser = Pi::player->m_equipment.Get(Equip::SLOT_LASER, laser);
+			laser = Equip::types[laser].tableIndex;
+		}
+		if (laser >= 0) { // only display target lead position on views with lasers
+			double projspeed = Equip::lasers[laser].speed;
 
-		// now the text speed/distance
-		// want to calculate closing velocity that you couldn't counter with retros
+			const vector3d targvel = enemy->GetVelocityRelTo(Pi::player) * cam_rot;
+			vector3d leadpos = targpos + targvel*(targpos.Length()/projspeed);
+			leadpos = targpos + targvel*(leadpos.Length()/projspeed); // second order approx
 
-		double vel = targvel.z;				// position should be towards
-		double raccel = Pi::player->GetShipType().linThrust[ShipType::THRUSTER_REVERSE]
-			/ Pi::player->GetMass();
+			// now the text speed/distance
+			// want to calculate closing velocity that you couldn't counter with retros
 
-		double c = vel / sqrt(2.0 * raccel * dist);
-		if (c > 1.0) c = 1.0; if (c < -1.0) c = -1.0;
-		float r = float(0.2+(c+1.0)*0.4);
-		float b = float(0.2+(1.0-c)*0.4);
-		char buf[1024];
-			
-		m_combatDist->Color(r, 0.0f, b);
-		sprintf(buf, "%.0fm", dist);
-		m_combatDist->SetText(buf);
-		MoveChild(m_combatDist, float((*proj).second.x)+20.0f, float((*proj).second.y)+30.0f);
-		m_combatDist->Show();
+			double vel = targvel.z; // position should be towards
+			double raccel =
+				Pi::player->GetShipType().linThrust[ShipType::THRUSTER_REVERSE] / Pi::player->GetMass();
 
-		m_combatSpeed->Color(r, 0.0f, b);
-		sprintf(buf, "%0.fm/s", vel);
-		m_combatSpeed->SetText(buf);
-		MoveChild(m_combatSpeed, float((*proj).second.x)+20.0f, float((*proj).second.y)+44.0f);
-		m_combatSpeed->Show();
+			double c = Clamp(vel / sqrt(2.0 * raccel * dist), -1.0, 1.0);
+			float r = float(0.2+(c+1.0)*0.4);
+			float b = float(0.2+(1.0-c)*0.4);
+
+			m_combatTargetIndicator.label->Color(r, 0.0f, b);
+			m_targetLeadIndicator.label->Color(r, 0.0f, b);
+
+			snprintf(buf, sizeof(buf), "%0.fm/s", vel);
+			m_targetLeadIndicator.label->SetText(buf);
+			UpdateIndicator(m_targetLeadIndicator, leadpos);
+
+			if ((m_targetLeadIndicator.side != INDICATOR_ONSCREEN) || (m_combatTargetIndicator.side != INDICATOR_ONSCREEN))
+				HideIndicator(m_targetLeadIndicator);
+
+			// if the lead indicator is very close to the position indicator
+			// try (just a little) to keep the labels from interfering with one another
+			if (m_targetLeadIndicator.side == INDICATOR_ONSCREEN) {
+				assert(m_combatTargetIndicator.side == INDICATOR_ONSCREEN);
+				SeparateLabels(m_combatTargetIndicator.label, m_targetLeadIndicator.label);
+			}
+		} else
+			HideIndicator(m_targetLeadIndicator);
+	} else {
+		HideIndicator(m_combatTargetIndicator);
+		HideIndicator(m_targetLeadIndicator);
+	}
+}
+
+void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpacePos)
+{
+	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
+	const Render::Frustum frustum = m_activeCamera->GetFrustum();
+
+	const float BORDER = 10.0;
+	const float BORDER_BOTTOM = 90.0;
+	// XXX BORDER_BOTTOM is 10+the control panel height and shouldn't be needed at all
+
+	const float w = Gui::Screen::GetWidth();
+	const float h = Gui::Screen::GetHeight();
+
+	if (cameraSpacePos.LengthSqr() < 1e-6) { // length < 1e-3
+		indicator.pos[0] = w/2.0f;
+		indicator.pos[1] = h/2.0f;
+		indicator.side = INDICATOR_ONSCREEN;
+	} else {
+		vector3d proj;
+		bool success = project_to_screen(cameraSpacePos, proj, frustum, guiSize);
+		if (! success)
+			proj = vector3d(w/2.0, h/2.0, 0.0);
+
+		bool onscreen =
+			(cameraSpacePos.z < 0.0) &&
+			(proj.x >= BORDER) && (proj.x < w - BORDER) &&
+			(proj.y >= BORDER) && (proj.y < h - BORDER_BOTTOM);
+
+		if (onscreen) {
+			indicator.pos[0] = int(proj.x);
+			indicator.pos[1] = int(proj.y);
+			indicator.side = INDICATOR_ONSCREEN;
+
+		} else {
+			// homogeneous 2D points and lines are really useful
+			const vector3d ptCentre(w/2.0, h/2.0, 1.0);
+			const vector3d ptProj(proj.x, proj.y, 1.0);
+			const vector3d lnDir = ptProj.Cross(ptCentre);
+
+			indicator.side = INDICATOR_TOP;
+
+			// this fallback is used if direction is close to (0, 0, +ve)
+			indicator.pos[0] = w/2.0;
+			indicator.pos[1] = BORDER;
+
+			if (cameraSpacePos.x < -1e-3) {
+				vector3d ptLeft = lnDir.Cross(vector3d(-1.0, 0.0, BORDER));
+				ptLeft /= ptLeft.z;
+				if (ptLeft.y >= BORDER && ptLeft.y < h - BORDER_BOTTOM) {
+					indicator.pos[0] = ptLeft.x;
+					indicator.pos[1] = ptLeft.y;
+					indicator.side = INDICATOR_LEFT;
+				}
+			} else if (cameraSpacePos.x > 1e-3) {
+				vector3d ptRight = lnDir.Cross(vector3d(-1.0, 0.0,  w - BORDER));
+				ptRight /= ptRight.z;
+				if (ptRight.y >= BORDER && ptRight.y < h - BORDER_BOTTOM) {
+					indicator.pos[0] = ptRight.x;
+					indicator.pos[1] = ptRight.y;
+					indicator.side = INDICATOR_RIGHT;
+				}
+			}
+
+			if (cameraSpacePos.y < -1e-3) {
+				vector3d ptBottom = lnDir.Cross(vector3d(0.0, -1.0, h - BORDER_BOTTOM));
+				ptBottom /= ptBottom.z;
+				if (ptBottom.x >= BORDER && ptBottom.x < w-BORDER) {
+					indicator.pos[0] = ptBottom.x;
+					indicator.pos[1] = ptBottom.y;
+					indicator.side = INDICATOR_BOTTOM;
+				}
+			} else if (cameraSpacePos.y > 1e-3) {
+				vector3d ptTop = lnDir.Cross(vector3d(0.0, -1.0, BORDER));
+				ptTop /= ptTop.z;
+				if (ptTop.x >= BORDER && ptTop.x < w - BORDER) {
+					indicator.pos[0] = ptTop.x;
+					indicator.pos[1] = ptTop.y;
+					indicator.side = INDICATOR_TOP;
+				}
+			}
+		}
+	}
+
+	// update the label position
+	if (indicator.label) {
+		if (indicator.side != INDICATOR_HIDDEN) {
+			float labelSize[2] = { 500.0f, 500.0f };
+			indicator.label->GetSizeRequested(labelSize);
+
+			int pos[2] = {0,0};
+			switch (indicator.side) {
+			case INDICATOR_HIDDEN: break;
+			case INDICATOR_ONSCREEN: // when onscreen, default to label-below unless it would clamp to be on top of the marker
+				pos[0] = -(labelSize[0]/2.0f);
+				if (indicator.pos[1] + pos[1] + labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f > h - BORDER_BOTTOM)
+					pos[1] = -(labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f);
+				else
+					pos[1] = HUD_CROSSHAIR_SIZE + 2.0f;
+				break;
+			case INDICATOR_TOP:
+				pos[0] = -(labelSize[0]/2.0f);
+				pos[1] = HUD_CROSSHAIR_SIZE + 2.0f;
+				break;
+			case INDICATOR_LEFT:
+				pos[0] = HUD_CROSSHAIR_SIZE + 2.0f;
+				pos[1] = -(labelSize[1]/2.0f);
+				break;
+			case INDICATOR_RIGHT:
+				pos[0] = -(labelSize[0] + HUD_CROSSHAIR_SIZE + 2.0f);
+				pos[1] = -(labelSize[1]/2.0f);
+				break;
+			case INDICATOR_BOTTOM:
+				pos[0] = -(labelSize[0]/2.0f);
+				pos[1] = -(labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f);
+				break;
+			}
+
+			pos[0] = Clamp(pos[0] + indicator.pos[0], BORDER, w - BORDER - labelSize[0]);
+			pos[1] = Clamp(pos[1] + indicator.pos[1], BORDER, h - BORDER_BOTTOM - labelSize[1]);
+			MoveChild(indicator.label, pos[0], pos[1]);
+			indicator.label->Show();
+		} else {
+			indicator.label->Hide();
+		}
+	}
+}
+
+void WorldView::HideIndicator(Indicator &indicator)
+{
+	indicator.side = INDICATOR_HIDDEN;
+	indicator.pos[0] = indicator.pos[1] = 0;
+	if (indicator.label)
+		indicator.label->Hide();
+}
+
+void WorldView::SeparateLabels(Gui::Label *a, Gui::Label *b)
+{
+	float posa[2], posb[2], sizea[2], sizeb[2];
+	GetChildPosition(a, posa);
+	a->GetSize(sizea);
+	sizea[0] *= 0.5f;
+	sizea[1] *= 0.5f;
+	posa[0] += sizea[0];
+	posa[1] += sizea[1];
+	GetChildPosition(b, posb);
+	b->GetSize(sizeb);
+	sizeb[0] *= 0.5f;
+	sizeb[1] *= 0.5f;
+	posb[0] += sizeb[0];
+	posb[1] += sizeb[1];
+
+	float overlapX = sizea[0] + sizeb[0] - fabs(posa[0] - posb[0]);
+	float overlapY = sizea[1] + sizeb[1] - fabs(posa[1] - posb[1]);
+
+	if (overlapX > 0.0f && overlapY > 0.0f) {
+		if (overlapX <= 4.0f) {
+			// small horizontal overlap; bump horizontally
+			if (posa[0] > posb[0]) overlapX *= -1.0f;
+			MoveChild(a, posa[0] - overlapX*0.5f - sizea[0], posa[1] - sizea[1]);
+			MoveChild(b, posb[0] + overlapX*0.5f - sizeb[0], posb[1] - sizeb[1]);
+		} else {
+			// large horizonal overlap; bump vertically
+			if (posa[1] > posb[1]) overlapY *= -1.0f;
+			MoveChild(a, posa[0] - sizea[0], posa[1] - overlapY*0.5f - sizea[1]);
+			MoveChild(b, posb[0] - sizeb[0], posb[1] + overlapY*0.5f - sizeb[1]);
+		}
 	}
 }
 
@@ -1186,168 +1357,175 @@ void WorldView::Draw()
 	// don't draw crosshairs etc in hyperspace
 	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) return;
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
 	glEnable(GL_BLEND);
 
-	const float sz = HUD_CROSSHAIR_SIZE;
-	// velocity indicator
-	if (m_velocityIndicatorOnscreen) {
-		const int *pos = m_velocityIndicatorPos;
-		GLfloat vtx[16] = {
-			pos[0]-sz, pos[1]-sz,
-			pos[0]-0.5f*sz, pos[1]-0.5f*sz,
-			pos[0]+sz, pos[1]-sz,
-			pos[0]+0.5f*sz, pos[1]-0.5f*sz,
-			pos[0]+sz, pos[1]+sz,
-			pos[0]+0.5f*sz, pos[1]+0.5f*sz,
-			pos[0]-sz, pos[1]+sz,
-			pos[0]-0.5f*sz, pos[1]+0.5f*sz };
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINES, 0, 8);
-	}
+	glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
+	glLineWidth(2.0f);
+
+	// nav target square
+	glColor4f(0.0f, 1.0f, 0.0f, 0.8f);
+	DrawTargetSquare(m_navTargetIndicator);
+
+	glLineWidth(1.0f);
+
+	// velocity indicators
+	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
+	DrawVelocityIndicator(m_velIndicator);
+	glColor4f(0.0f, 1.0f, 0.0f, 0.8f);
+	DrawVelocityIndicator(m_navVelIndicator);
+
+	glLineWidth(2.0f);
+
+	// combat target indicator
+	glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
+	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator);
+
+	glLineWidth(1.0f);
 
 	// normal crosshairs
-	if (GetCamType() == WorldView::CAM_FRONT) {
-		float px = float(Gui::Screen::GetWidth())/2.0f;
-		float py = float(Gui::Screen::GetHeight())/2.0f;
-		GLfloat vtx[16] = {
-			px-sz, py,
-			px-0.5f*sz, py,
-			px+sz, py,
-			px+0.5f*sz, py,
-			px, py-sz,
-			px, py-0.5f*sz,
-			px, py+sz,
-			px, py+0.5f*sz };
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINES, 0, 8);
-	} else if (GetCamType() == WorldView::CAM_REAR) {
-		float px = float(Gui::Screen::GetWidth())/2.0f;
-		float py = float(Gui::Screen::GetHeight())/2.0f;
-		const float szH = 0.5*HUD_CROSSHAIR_SIZE;
-		GLfloat vtx[16] = {
-			px-szH, py,
-			px-0.5f*szH, py,
-			px+szH, py,
-			px+0.5f*szH, py,
-			px, py-szH,
-			px, py-0.5f*szH,
-			px, py+szH,
-			px, py+0.5f*szH };
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINES, 0, 8);
-	}
+	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
+	if (GetCamType() == WorldView::CAM_FRONT)
+		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE);
+	else if (GetCamType() == WorldView::CAM_REAR)
+		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f);
 
-	// nav target velocity indicator
-	if (m_navVelocityIndicatorOnscreen) {
-		const int *pos = m_navVelocityIndicatorPos;
-		glColor4f(0.0f, 1.0f, 0.0f, 0.8f);
-		GLfloat vtx[16] = {
-			pos[0]-sz, pos[1]-sz,
-			pos[0]-0.5f*sz, pos[1]-0.5f*sz,
-			pos[0]+sz, pos[1]-sz,
-			pos[0]+0.5f*sz, pos[1]-0.5f*sz,
-			pos[0]+sz, pos[1]+sz,
-			pos[0]+0.5f*sz, pos[1]+0.5f*sz,
-			pos[0]-sz, pos[1]+sz,
-			pos[0]-0.5f*sz, pos[1]+0.5f*sz };
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINES, 0, 8);
-	}
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	DrawTargetSquares();
+	glPopAttrib();
 
 	glDisable(GL_BLEND);
 }
 
-void WorldView::DrawTargetSquares()
+void WorldView::DrawCrosshair(float px, float py, float sz)
 {
-	glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
-	glLineWidth(2.0f);
-
-	if(Pi::player->GetNavTarget()) {
-		glColor3f(0.0f, 1.0f, 0.0f);
-		DrawTargetSquare(Pi::player->GetNavTarget());
-	}
-
-	if(Pi::player->GetCombatTarget()) {
-//		glColor3f(1.0f, 0.0f, 0.0f);
-//		DrawTargetSquare(Pi::player->GetCombatTarget());
-
-// ok, let's put the fancy stuff in here
-
-		DrawCombatTargetIndicator(static_cast<Ship *>(Pi::player->GetCombatTarget()));
-	}
-
-	glPopAttrib();
-}
-
-static bool find_body(const std::map<Body*,vector3d> &m, const Body* b, vector3d &pos)
-{
-	// find() can't touch the Body through the Body pointer,
-	// and the non-const Body pointer never escapes from this function,
-	// so this const_cast is safe
-	std::map<Body*,vector3d>::const_iterator it = m.find(const_cast<Body*>(b));
-	if (it != m.end()) {
-		pos = it->second;
-		return true;
-	} else
-		return false;
-}
-
-void WorldView::DrawCombatTargetIndicator(const Ship* const target)
-{
-	vector3d pos1;
-	if (! find_body(m_projectedPos, target, pos1)) return;
-	vector3d pos2 = m_targLeadPos;
-	vector3d dir = (pos2 - pos1); dir.z = 0.0;
-	dir = m_targLeadOnscreen ? dir.NormalizedSafe() : vector3d(1,0,0);
-
-	float x1 = float(pos1.x), y1 = float(pos1.y);
-	float x2 = float(pos2.x), y2 = float(pos2.y);
-	float xd = float(dir.x), yd = float(dir.y);
-
-	glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
-	GLfloat vtx[28] = {
-		x1+10*xd, y1+10*yd,	x1+20*xd, y1+20*yd,		// target crosshairs
-		x1-10*xd, y1-10*yd,	x1-20*xd, y1-20*yd,
-		x1-10*yd, y1+10*xd,	x1-20*yd, y1+20*xd,
-		x1+10*yd, y1-10*xd,	x1+20*yd, y1-20*xd,
-
-		x2-10*xd, y2-10*yd,	x2+10*xd, y2+10*yd,		// lead crosshairs
-		x2-10*yd, y2+10*xd,	x2+10*yd, y2-10*xd,
-
-		x1+20*xd, y1+20*yd,	x2-10*xd, y2-10*yd,		// line between crosshairs
-	};
 	glEnableClientState(GL_VERTEX_ARRAY);
+	GLfloat vtx[16] = {
+		px-sz, py,
+		px-0.5f*sz, py,
+		px+sz, py,
+		px+0.5f*sz, py,
+		px, py-sz,
+		px, py-0.5f*sz,
+		px, py+sz,
+		px, py+0.5f*sz,
+	};
 	glVertexPointer(2, GL_FLOAT, 0, vtx);
 	glDrawArrays(GL_LINES, 0, 8);
-	if (m_targLeadOnscreen) glDrawArrays(GL_LINES, 8, 6);
 	glDisableClientState(GL_VERTEX_ARRAY);
-
 }
 
-void WorldView::DrawTargetSquare(const Body* const target)
+void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead)
 {
-	vector3d pos;
-	if (! find_body(m_projectedPos, target, pos)) return;
+	if (target.side == INDICATOR_HIDDEN) return;
 
-	const float x1 = float(pos.x - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
-	const float x2 = float(x1 + WorldView::PICK_OBJECT_RECT_SIZE);
-	const float y1 = float(pos.y - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
-	const float y2 = float(y1 + WorldView::PICK_OBJECT_RECT_SIZE);
+	if (target.side == INDICATOR_ONSCREEN) {
+		float x1 = target.pos[0], y1 = target.pos[1];
+		float x2 = lead.pos[0], y2 = lead.pos[1];
+
+		float xd = x2 - x1, yd = y2 - y1;
+		if (lead.side != INDICATOR_ONSCREEN) {
+			xd = 1.0f; yd = 0.0f;
+		} else {
+			float len = xd*xd + yd*yd;
+			if (len < 1e-6) {
+				xd = 1.0f; yd = 0.0f;
+			} else {
+				len = sqrt(len);
+				xd /= len;
+				yd /= len;
+			}
+		}
+
+		GLfloat vtx[28] = {
+			x1+10*xd, y1+10*yd,	x1+20*xd, y1+20*yd,  // target crosshairs
+			x1-10*xd, y1-10*yd,	x1-20*xd, y1-20*yd,
+			x1-10*yd, y1+10*xd,	x1-20*yd, y1+20*xd,
+			x1+10*yd, y1-10*xd,	x1+20*yd, y1-20*xd,
+
+			x2-10*xd, y2-10*yd,	x2+10*xd, y2+10*yd,  // lead crosshairs
+			x2-10*yd, y2+10*xd,	x2+10*yd, y2-10*xd,
+
+			x1+20*xd, y1+20*yd,	x2-10*xd, y2-10*yd,  // line between crosshairs
+		};
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(2, GL_FLOAT, 0, vtx);
+		glDrawArrays(GL_LINES, 0, 8);
+		if (lead.side == INDICATOR_ONSCREEN) glDrawArrays(GL_LINES, 8, 6);
+		glDisableClientState(GL_VERTEX_ARRAY);
+	} else
+		DrawEdgeMarker(target);
+}
+
+void WorldView::DrawTargetSquare(const Indicator &marker)
+{
+	if (marker.side == INDICATOR_HIDDEN) return;
+	if (marker.side != INDICATOR_ONSCREEN)
+		DrawEdgeMarker(marker);
+
+	// if the square is off-screen, draw a little square at the edge
+	const float sz = (marker.side == INDICATOR_ONSCREEN)
+		? float(WorldView::PICK_OBJECT_RECT_SIZE * 0.5) : 3.0f;
+
+	const float x1 = float(marker.pos[0] - sz);
+	const float x2 = float(marker.pos[0] + sz);
+	const float y1 = float(marker.pos[1] - sz);
+	const float y2 = float(marker.pos[1] + sz);
 
 	GLfloat vtx[8] = {
 		x1, y1,
 		x2, y1,
 		x2, y2,
-		x1, y2 };
+		x1, y2
+	};
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2, GL_FLOAT, 0, vtx);
 	glDrawArrays(GL_LINE_LOOP, 0, 4);
+	glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+void WorldView::DrawVelocityIndicator(const Indicator &marker)
+{
+	if (marker.side == INDICATOR_HIDDEN) return;
+
+	const float sz = HUD_CROSSHAIR_SIZE;
+	if (marker.side == INDICATOR_ONSCREEN) {
+		const float posx = marker.pos[0];
+		const float posy = marker.pos[1];
+		GLfloat vtx[16] = {
+			posx-sz, posy-sz,
+			posx-0.5f*sz, posy-0.5f*sz,
+			posx+sz, posy-sz,
+			posx+0.5f*sz, posy-0.5f*sz,
+			posx+sz, posy+sz,
+			posx+0.5f*sz, posy+0.5f*sz,
+			posx-sz, posy+sz,
+			posx-0.5f*sz, posy+0.5f*sz
+		};
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(2, GL_FLOAT, 0, vtx);
+		glDrawArrays(GL_LINES, 0, 8);
+		glDisableClientState(GL_VERTEX_ARRAY);
+	} else
+		DrawEdgeMarker(marker);
+
+}
+
+void WorldView::DrawEdgeMarker(const Indicator &marker)
+{
+	const float sz = HUD_CROSSHAIR_SIZE;
+
+	// this would be easier with a vector2 class
+	float dirx = Gui::Screen::GetWidth()/2.0f - float(marker.pos[0]);
+	float diry = Gui::Screen::GetHeight()/2.0f - float(marker.pos[1]);
+	float len = sqrt(dirx*dirx + diry*diry);
+	dirx *= sz/len;
+	diry *= sz/len;
+	GLfloat vtx[4] = {
+		marker.pos[0], marker.pos[1],
+		marker.pos[0] + dirx, marker.pos[1] + diry,
+	};
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(2, GL_FLOAT, 0, vtx);
+	glDrawArrays(GL_LINES, 0, 2);
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
