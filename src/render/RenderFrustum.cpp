@@ -41,14 +41,8 @@ Frustum::Frustum(float width, float height, float fovAng)
 	glPopMatrix();
 }
 
-void Frustum::InitFromGLState()
+void Frustum::InitFromMatrix(const matrix4x4d &m)
 {
-	glGetDoublev(GL_PROJECTION_MATRIX, m_projMatrix);
-	glGetDoublev(GL_MODELVIEW_MATRIX, m_modelMatrix);
-	glGetIntegerv(GL_VIEWPORT, m_viewport);
-
-	matrix4x4d m = matrix4x4d(m_projMatrix) * matrix4x4d(m_modelMatrix); 
-
 	// Left clipping plane
 	m_planes[0].a = m[3] + m[0];
 	m_planes[0].b = m[7] + m[4];
@@ -90,6 +84,17 @@ void Frustum::InitFromGLState()
 	}
 }
 
+void Frustum::InitFromGLState()
+{
+	glGetDoublev(GL_PROJECTION_MATRIX, m_projMatrix.Data());
+	glGetDoublev(GL_MODELVIEW_MATRIX, m_modelMatrix.Data());
+	glGetIntegerv(GL_VIEWPORT, m_viewport);
+
+	matrix4x4d m = matrix4x4d(m_projMatrix) * matrix4x4d(m_modelMatrix);
+
+	InitFromMatrix(m);
+}
+
 bool Frustum::TestPoint(const vector3d &p, double radius) const
 {
 	for (int i=0; i<6; i++)
@@ -109,18 +114,18 @@ bool Frustum::TestPointInfinite(const vector3d &p, double radius) const
 
 bool Frustum::ProjectPoint(const vector3d &in, vector3d &out) const
 {
-	return gluProject(in.x, in.y, in.z, m_modelMatrix, m_projMatrix, m_viewport, &out.x, &out.y, &out.z) == GL_TRUE;
+	return gluProject(in.x, in.y, in.z, m_modelMatrix.Data(), m_projMatrix.Data(), m_viewport, &out.x, &out.y, &out.z) == GL_TRUE;
 }
 
 void Frustum::Enable()
 {
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
-	glLoadMatrixd(m_projMatrix);
+	glLoadMatrixd(m_projMatrix.Data());
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glLoadMatrixd(m_modelMatrix);
+	glLoadMatrixd(m_modelMatrix.Data());
 }
 
 void Frustum::Disable()

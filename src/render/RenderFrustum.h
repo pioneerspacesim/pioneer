@@ -29,6 +29,7 @@ public:
 	bool ProjectPoint(const vector3d &in, vector3d &out) const;
 
 private:
+	void InitFromMatrix(const matrix4x4d &m);
 	void InitFromGLState();
 
 	struct Plane {
@@ -38,8 +39,8 @@ private:
 		}
 	};
 
-	GLdouble m_projMatrix[16];
-	GLdouble m_modelMatrix[16];
+	matrix4x4d m_projMatrix;
+	matrix4x4d m_modelMatrix;
 	GLint m_viewport[4];
 
 	Plane m_planes[6];
