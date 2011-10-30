@@ -121,6 +121,11 @@ vector3d Body::GetInterpolatedPositionRelTo(const Frame *relTo) const
 	return m * GetInterpolatedPosition();
 }
 
+vector3d Body::GetInterpolatedPositionRelTo(const Body *relTo) const
+{
+	return GetInterpolatedPositionRelTo(relTo->GetFrame()) - relTo->GetInterpolatedPosition();
+}
+
 vector3d Body::GetPositionRelTo(const Body *relTo) const
 {
 	return GetPositionRelTo(relTo->GetFrame()) - relTo->GetPosition();
