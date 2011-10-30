@@ -107,25 +107,33 @@ public:
     return o;
   }
 
+  // interval [min, max)
   double Double(double min, double max) {
-	  return Double(max-min)+min;
+    return Double(max-min)+min;
   }
-  // interval [0, 1)
+  // interval [0, max)
   double Double(double max) {
-    return max*static_cast<double>(rand_int32()) * (1. / 4294967296.); } // divided by 2^32
+    return max*Double(); } // divided by 2^32
   // interval [0, 1)
   double Double() {
-    return static_cast<double>(rand_int32()) * (1. / 4294967296.); } // divided by 2^32
+    return double(rand_int32()) * (1. / 4294967296.); } // divided by 2^32
+  // interval [min, max]
+  double Double_closed(double min, double max) {
+    return Double_closed(max-min)+min;
+  }
+  // interval [0, max]
+  double Double_closed(double max) {
+    return max*Double_closed();
+  }
   // [0, 1]
   double Double_closed() {
-    return static_cast<double>(rand_int32()) * (1. / 4294967295.); } // divided by 2^32 - 1
+    return double(rand_int32()) * (1. / 4294967295.); } // divided by 2^32 - 1
   // (0, 1)
   double Double_open() {
-    return (static_cast<double>(rand_int32()) + .5) * (1. / 4294967296.); } // divided by 2^32
+    return (double(rand_int32()) + .5) * (1. / 4294967296.); } // divided by 2^32
   // generates 53 bit resolution doubles in the half-open interval [0, 1)
   double Double53() {
-    return (static_cast<double>(rand_int32() >> 5) * 67108864. + 
-      static_cast<double>(rand_int32() >> 6)) * (1. / 9007199254740992.);
+    return (double(rand_int32() >> 5) * 67108864. + double(rand_int32() >> 6)) * (1. / 9007199254740992.);
   }
   // [0,1)
   fixed Fixed() {

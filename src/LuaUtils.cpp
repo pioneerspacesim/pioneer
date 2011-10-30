@@ -139,3 +139,23 @@ int pi_load_lua(lua_State *l) {
 	pi_lua_dofile_recursive(l, path);
 	return 0;
 }
+
+void pi_lua_warn(lua_State *l, const char *format, ...)
+{
+	char buf[1024];
+	va_list ap;
+	va_start(ap, format);
+	vsnprintf(buf, sizeof(buf), format, ap);
+	va_end(ap);
+	fprintf(stderr, "Lua Warning: %s\n", buf);
+
+	lua_Debug info;
+	int level = 0;
+	while (lua_getstack(l, level, &info)) {
+		lua_getinfo(l, "nSl", &info);
+		fprintf(stderr, "  [%d] %s:%d -- %s [%s]\n",
+			level, info.short_src, info.currentline,
+			(info.name ? info.name : "<unknown>"), info.what);
+		++level;
+	}
+}
