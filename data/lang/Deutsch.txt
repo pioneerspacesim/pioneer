@@ -957,6 +957,8 @@ DAY_LENGTH
     Tageslänge
 N_EARTH_DAYS
     %days{f.1} Erdentage
+COUNT_STARPORTS
+    raumhäfen
 STARPORTS
     Raumhäfen
 MAJOR_IMPORTS

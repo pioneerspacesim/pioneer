@@ -957,8 +957,10 @@ DAY_LENGTH
     Daglengte
 N_EARTH_DAYS
     %days{f.1} aardse dagen
-STARPORTS
+COUNT_STARPORTS
     sterrehavens
+STARPORTS
+    Sterrehavens
 MAJOR_IMPORTS
     Voornaamste import:
 MINOR_IMPORTS
