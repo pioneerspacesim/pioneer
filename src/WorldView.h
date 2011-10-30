@@ -8,6 +8,7 @@
 #include "Serializer.h"
 #include "Background.h"
 #include "EquipType.h"
+#include "Camera.h"
 
 class Body;
 class Frame;
@@ -27,7 +28,7 @@ public:
 	bool GetShowLabels() { return m_labelsOn; }
 	void DrawBgStars();
 	vector3d GetExternalViewTranslation();
-	void ApplyExternalViewRotation(matrix4x4d &m);
+	matrix4x4d GetExternalViewRotation();
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
 	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL };
@@ -35,7 +36,6 @@ public:
 	enum CamType GetCamType() const;
 	int GetNumLights() const { return m_numLights; }
 	void ToggleTargetActions();
-	void GetNearFarClipPlane(float *outNear, float *outFar) const;
 	int GetActiveWeapon() const;
 	void OnClickBlastoff();
 
@@ -47,7 +47,7 @@ public:
 private:
 	void RefreshButtonStateAndVisibility();
 	void UpdateCommsOptions();
-	void ProjectObjsToScreenPos(const Frame *cam_frame);
+	void UpdateProjectedObjects();
 	void DrawTargetSquares();
 	void DrawTargetSquare(const Body* const target);
 	void DrawCombatTargetIndicator(const Ship* const target);
@@ -110,6 +110,11 @@ private:
 	vector3d m_targLeadPos;
 	bool m_navVelocityIndicatorOnscreen;
 	int m_navVelocityIndicatorPos[2];
+
+	Camera m_frontCamera, m_rearCamera, m_externalCamera;
+	Camera *m_activeCamera;
+
+	std::map<Body*,vector3d> m_projectedPos;
 };
 
 #endif /* _WORLDVIEW_H */

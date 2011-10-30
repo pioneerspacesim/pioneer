@@ -65,6 +65,7 @@ Alpha 16
     * Show Lua memory usage in debug info (#638)
     * Limit number of physics updates between render updates (#671)
     * scan_enums.py preprocessor to generate string->enum mappings (#716, #686, #723)
+    * Camera and rendering refactor (#744)
 
 Alpha 15
 

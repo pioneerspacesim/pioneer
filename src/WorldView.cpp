@@ -22,7 +22,10 @@ static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
 #define HUD_CROSSHAIR_SIZE	24.0f
 
 WorldView::WorldView(): View(),
-	m_showHyperspaceButton(false)
+	m_showHyperspaceButton(false),
+	m_frontCamera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight()),
+	m_rearCamera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight()),
+	m_externalCamera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight())
 {
 	float size[2];
 	GetSize(size);
@@ -34,6 +37,8 @@ WorldView::WorldView(): View(),
 	SetTransparency(true);
 	m_externalViewRotX = m_externalViewRotY = 0;
 	m_externalViewDist = 200;
+
+	m_rearCamera.SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
 	
 	m_commsOptions = new Fixed(size[0], size[1]/2);
 	m_commsOptions->SetTransparency(true);
@@ -191,20 +196,6 @@ void WorldView::Load(Serializer::Reader &rd)
 		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
 }
 
-void WorldView::GetNearFarClipPlane(float *outNear, float *outFar) const
-{
-	if (Render::AreShadersEnabled()) {
-		/* If vertex shaders are enabled then we have a lovely logarithmic
-		 * z-buffer stretching out from 0.1mm to 10000km! */
-		*outNear = 0.0001f;
-		*outFar = 10000000.0f;
-	} else {
-		/* Otherwise we have the usual hopelessly crap z-buffer */
-		*outNear = 10.0f;
-		*outFar = 1000000.0f;
-	}
-}
-
 void WorldView::SetCamType(enum CamType c)
 {
 	m_camType = c;
@@ -216,16 +207,14 @@ vector3d WorldView::GetExternalViewTranslation()
 	vector3d p = vector3d(0, 0, m_externalViewDist);
 	p = matrix4x4d::RotateXMatrix(-DEG2RAD(m_externalViewRotX)) * p;
 	p = matrix4x4d::RotateYMatrix(-DEG2RAD(m_externalViewRotY)) * p;
-	matrix4x4d m = Pi::player->GetInterpolatedTransform();
-	m.ClearToRotOnly();
-	p = m*p;
 	return p;
 }
 
-void WorldView::ApplyExternalViewRotation(matrix4x4d &m)
+matrix4x4d WorldView::GetExternalViewRotation()
 {
-	m = matrix4x4d::RotateXMatrix(-DEG2RAD(m_externalViewRotX)) * m;
-	m = matrix4x4d::RotateYMatrix(-DEG2RAD(m_externalViewRotY)) * m;
+	return
+		matrix4x4d::RotateYMatrix(-DEG2RAD(m_externalViewRotY)) *
+		matrix4x4d::RotateXMatrix(-DEG2RAD(m_externalViewRotX));
 }
 
 void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
@@ -362,96 +351,7 @@ WorldView::CamType WorldView::GetCamType() const
 
 void WorldView::Draw3D()
 {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	float znear, zfar;
-	GetNearFarClipPlane(&znear, &zfar);
-	// why the hell do i give these functions such big names..
-   const float FOV_MAX = 170.0f; // Maximum FOV in degrees
-   const float FOV_MIN = 20.0f;  // Minimum FOV in degrees
-	const float zoom = tan(DEG2RAD(Clamp(Pi::config.Float("FOV"), FOV_MIN, FOV_MAX)/2.0f)); // angle of viewing = 2.0*atan(zoom);
-	const float left = zoom * znear;
-	const float fracH = left / Pi::GetScrAspect();
-	glFrustum(-left, left, -fracH, fracH, znear, zfar);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	// interpolate between last physics tick position and current one,
-	// to remove temporal aliasing
-	matrix4x4d pposOrient = Pi::player->GetInterpolatedTransform();
-	const vector3d ppos(pposOrient[12], pposOrient[13], pposOrient[14]);
-
-	// make temporary camera frame at player
-	Frame cam_frame(Pi::player->GetFrame(), "camera", Frame::TEMP_VIEWING);
-
-	matrix4x4d camRot = matrix4x4d::Identity();
-
-	enum CamType camtype = GetCamType();
-	if (camtype == CAM_FRONT) {
-		cam_frame.SetPosition(ppos);
-	} else if (camtype == CAM_REAR) {
-		camRot.RotateY(M_PI);
-	//	glRotatef(180.0f, 0, 1, 0);
-		cam_frame.SetPosition(ppos);
-	} else /* CAM_EXTERNAL */ {
-		cam_frame.SetPosition(ppos + GetExternalViewTranslation());
-		ApplyExternalViewRotation(camRot);
-	}
-
-	{
-		matrix4x4d prot = pposOrient;
-		prot.ClearToRotOnly();
-		camRot = prot * camRot;
-	}
-	cam_frame.SetRotationOnly(camRot);
-	// make sure old orient and interpolated orient (rendering orient) are not rubbish
-	cam_frame.ClearMovement();
-
-	matrix4x4d trans2bg;
-	Frame::GetFrameTransform(Space::rootFrame, &cam_frame, trans2bg);
-	trans2bg.ClearToRotOnly();
-	glPushMatrix();
-	glMultMatrixd(&trans2bg[0]);
-	DrawBgStars();
-	glPopMatrix();
-
-	m_numLights = 0;
-	position_system_lights(&cam_frame, Space::rootFrame, m_numLights);
-
-	if (m_numLights == 0) {
-		// no lights means we're somewhere weird (eg hyperspace). fake one
-		// fake one up and give a little ambient light so that we can see and
-		// so that things that need lights don't explode
-		float lightPos[4] = { 0,0,0,0 };
-		float lightCol[4] = { 1.0, 1.0, 1.0, 0 };
-		float ambCol[4] = { 1.0,1.0,1.0,0 };
-
-		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
-		glLightfv(GL_LIGHT0, GL_AMBIENT, ambCol);
-		glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
-		glEnable(GL_LIGHT0);
-
-		m_numLights++;
-	}
-
-	Render::State::SetNumLights(m_numLights);
-	{
-		GetNearFarClipPlane(&znear, &zfar);
-		Render::State::SetZnearZfar(znear, zfar);
-	}
-
-	Space::Render(&cam_frame);
-	if (!Pi::player->IsDead()) ProjectObjsToScreenPos(&cam_frame);
-
-	Pi::player->GetFrame()->RemoveChild(&cam_frame);
-
-	glDisable(GL_LIGHT0);
-	glDisable(GL_LIGHT1);
-	glDisable(GL_LIGHT2);
-	glDisable(GL_LIGHT3);
+	m_activeCamera->Draw();
 }
 
 void WorldView::ShowAll()
@@ -805,29 +705,43 @@ void WorldView::Update()
 		m_externalViewRotX += 60*frameTime;
 		m_externalViewDist = 200;
 		m_labelsOn = false;
-		return;
-	}
-	// XXX ugly hack checking for console here
-	if (GetCamType() == CAM_EXTERNAL && !Pi::IsConsoleActive()) {
-		if (Pi::KeyState(SDLK_UP)) m_externalViewRotX -= 45*frameTime;
-		if (Pi::KeyState(SDLK_DOWN)) m_externalViewRotX += 45*frameTime;
-		if (Pi::KeyState(SDLK_LEFT)) m_externalViewRotY -= 45*frameTime;
-		if (Pi::KeyState(SDLK_RIGHT)) m_externalViewRotY += 45*frameTime;
-		if (Pi::KeyState(SDLK_EQUALS)) m_externalViewDist -= 400*frameTime;
-		if (Pi::KeyState(SDLK_MINUS)) m_externalViewDist += 400*frameTime;
-		if (Pi::KeyState(SDLK_HOME)) m_externalViewDist = 200;
-		m_externalViewDist = std::max(Pi::player->GetBoundingRadius(), m_externalViewDist);
+	} else {
+		// XXX ugly hack checking for console here
+		if (!Pi::IsConsoleActive()) {
+			if (GetCamType() == CAM_EXTERNAL) {
+				if (Pi::KeyState(SDLK_UP)) m_externalViewRotX -= 45*frameTime;
+				if (Pi::KeyState(SDLK_DOWN)) m_externalViewRotX += 45*frameTime;
+				if (Pi::KeyState(SDLK_LEFT)) m_externalViewRotY -= 45*frameTime;
+				if (Pi::KeyState(SDLK_RIGHT)) m_externalViewRotY += 45*frameTime;
+				if (Pi::KeyState(SDLK_EQUALS)) m_externalViewDist -= 400*frameTime;
+				if (Pi::KeyState(SDLK_MINUS)) m_externalViewDist += 400*frameTime;
+				if (Pi::KeyState(SDLK_HOME)) m_externalViewDist = 200;
+				m_externalViewDist = std::max(Pi::player->GetBoundingRadius(), m_externalViewDist);
 
-		// when landed don't let external view look from below
-		if (Pi::player->GetFlightState() == Ship::LANDED || Pi::player->GetFlightState() == Ship::DOCKED)
-			m_externalViewRotX = Clamp(m_externalViewRotX, -170.0, -10.0);
-	}
-	if (KeyBindings::targetObject.IsActive() && !Pi::IsConsoleActive()) {
-		/* Hitting tab causes objects in the crosshairs to be selected */
-		Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
-		SelectBody(target, false);
+				// when landed don't let external view look from below
+				if (Pi::player->GetFlightState() == Ship::LANDED || Pi::player->GetFlightState() == Ship::DOCKED)
+					m_externalViewRotX = Clamp(m_externalViewRotX, -170.0, -10.0);
+			}
+			if (KeyBindings::targetObject.IsActive()) {
+				/* Hitting tab causes objects in the crosshairs to be selected */
+				Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
+				SelectBody(target, false);
+			}
+		}
 	}
 
+	if (GetCamType() == CAM_EXTERNAL) {
+		m_externalCamera.SetPosition(GetExternalViewTranslation());
+		m_externalCamera.SetOrientation(GetExternalViewRotation());
+	}
+
+	m_activeCamera =
+		GetCamType() == CAM_FRONT ? &m_frontCamera :
+		GetCamType() == CAM_REAR  ? &m_rearCamera  :
+		                            &m_externalCamera;
+
+	m_activeCamera->Update();
+	UpdateProjectedObjects();
 }
 
 void WorldView::OnSwitchTo()
@@ -1092,24 +1006,22 @@ void WorldView::SelectBody(Body *target, bool reselectIsDeselect)
 
 Body* WorldView::PickBody(const double screenX, const double screenY) const
 {
-	Body *selected = 0;
+	for (std::map<Body*,vector3d>::const_iterator
+		i = m_projectedPos.begin(); i != m_projectedPos.end(); ++i) {
+		Body *b = i->first;
 
-	for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
-		Body *b = *i;
-		if(b->IsOnscreen() && (b != Pi::player)) {
-			const vector3d& _pos = b->GetProjectedPos();
-			const double x1 = _pos.x - PICK_OBJECT_RECT_SIZE * 0.5;
-			const double x2 = x1 + PICK_OBJECT_RECT_SIZE;
-			const double y1 = _pos.y - PICK_OBJECT_RECT_SIZE * 0.5;
-			const double y2 = y1 + PICK_OBJECT_RECT_SIZE;
-			if(screenX >= x1 && screenX <= x2 && screenY >= y1 && screenY <= y2) {
-				selected = b;
-				break;
-			}
-		}
+		if (b == Pi::player || b->IsType(Object::PROJECTILE))
+			continue;
+
+		const double x1 = i->second.x - PICK_OBJECT_RECT_SIZE * 0.5;
+		const double x2 = x1 + PICK_OBJECT_RECT_SIZE;
+		const double y1 = i->second.y - PICK_OBJECT_RECT_SIZE * 0.5;
+		const double y2 = y1 + PICK_OBJECT_RECT_SIZE;
+		if(screenX >= x1 && screenX <= x2 && screenY >= y1 && screenY <= y2)
+			return b;
 	}
 
-	return selected;
+	return 0;
 }
 
 int WorldView::GetActiveWeapon() const
@@ -1122,92 +1034,79 @@ int WorldView::GetActiveWeapon() const
 	}
 }
 
-void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
+static inline bool project_to_screen(const vector3d &in, vector3d &out, const Render::Frustum &frustum, const int guiSize[2])
 {
-	Gui::Screen::EnterOrtho();		// To save matrices
+	if (in.z >= -1.0 || !frustum.ProjectPoint(in, out)) return false;
+	out.x *= guiSize[0];
+	out.y = Gui::Screen::GetHeight() - out.y * guiSize[1];
+	return true;
+}
 
+void WorldView::UpdateProjectedObjects()
+{
+	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
+
+	const Frame *cam_frame = m_activeCamera->GetFrame();
 	matrix4x4d cam_rot = cam_frame->GetTransform();
 	cam_rot.ClearToRotOnly();
-	
-	{
-		// Direction indicator
-		vector3d vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
-			// XXX ^ not the same as GetVelocity(), because it considers
-			// the stasis velocity of a rotating frame
 
+	const Render::Frustum frustum = m_activeCamera->GetFrustum();
+	
+	// determine projected positions and update labels
+	m_bodyLabels->Clear();
+	m_projectedPos.clear();
+	for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+		Body *b = *i;
+
+		vector3d pos = b->GetInterpolatedPositionRelTo(cam_frame);
+		if (project_to_screen(pos, pos, frustum, guiSize)) {
+
+			// only show labels on large or nearby bodies
+			if (b->IsType(Object::PLANET) || b->IsType(Object::STAR) || b->IsType(Object::SPACESTATION) || Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
+				m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), float(pos.x), float(pos.y));
+
+			m_projectedPos[b] = pos;
+		}
+	}
+
+	// Direction indicator
+	{
+		vector3d vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
 		vector3d vdir = vel * cam_rot;			// transform to camera space
 		m_velocityIndicatorOnscreen = false;
-		if (vdir.z < -1.0) {					// increase this maybe
-			vector3d pos;
-			if (Gui::Screen::Project(vdir, pos)) {
-				m_velocityIndicatorPos[0] = int(pos.x);		// integers eh
-				m_velocityIndicatorPos[1] = int(pos.y);
-				m_velocityIndicatorOnscreen = true;
-			}
-		}
-	}
-	
-	m_navVelocityIndicatorOnscreen = false;
-	if (Body *navtarget = Pi::player->GetNavTarget()) {
-		// nav target direction indicator
-		vector3d vel = Pi::player->GetVelocityRelTo(navtarget);
-
-		vector3d vdir = vel * cam_rot;			// transform to camera space
-		if (vdir.z < -1.0) {					// increase this maybe
-			vector3d pos;
-			if (Gui::Screen::Project(vdir, pos)) {
-				m_navVelocityIndicatorPos[0] = int(pos.x);		// integers eh
-				m_navVelocityIndicatorPos[1] = int(pos.y);
-				m_navVelocityIndicatorOnscreen = true;
-			}
-		}
-	}
-
-	// test code for mousedir
-/*	vector3d mdir = Pi::player->GetMouseDir() * cam_rot;
-	if (mdir.z < 0) {
 		vector3d pos;
-		if (Gui::Screen::Project(mdir, pos)) {
-			m_velocityIndicatorPos[0] = (int)pos.x;
-			m_velocityIndicatorPos[1] = (int)pos.y;
+		if (project_to_screen(vdir, pos, frustum, guiSize)) {
+			m_velocityIndicatorPos[0] = int(pos.x);
+			m_velocityIndicatorPos[1] = int(pos.y);
 			m_velocityIndicatorOnscreen = true;
 		}
 	}
-*/
-	// Update object onscreen positions
-	{
-		m_bodyLabels->Clear();
-		for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
-			if ((GetCamType() != WorldView::CAM_EXTERNAL) && (*i == Pi::player)) continue;
-			Body *b = *i;
-			b->SetOnscreen(false);
-			vector3d pos = b->GetInterpolatedPositionRelTo(cam_frame);
-			if (pos.z < 0 && Gui::Screen::Project(pos, pos)) {
-				b->SetProjectedPos(pos);
-				b->SetOnscreen(true);
-				// Ok here we are hiding the label of distant small objects.
-				// If you are not a planet, star, space station or remote city
-				// and you are > 1000km away then bugger off. :)
-				if (b->IsType(Object::PLANET) || b->IsType(Object::STAR) || b->IsType(Object::SPACESTATION) ||
-					Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0) {
-
-					m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), float(pos.x), float(pos.y));
-				}
-			}
+	
+	// nav target direction indicator
+	m_navVelocityIndicatorOnscreen = false;
+	if (Body *navtarget = Pi::player->GetNavTarget()) {
+		vector3d vel = Pi::player->GetVelocityRelTo(navtarget);
+		vector3d vdir = vel * cam_rot;			// transform to camera space
+		vector3d pos;
+		if (project_to_screen(vdir, pos, frustum, guiSize)) {
+			m_navVelocityIndicatorPos[0] = int(pos.x);
+			m_navVelocityIndicatorPos[1] = int(pos.y);
+			m_navVelocityIndicatorOnscreen = true;
 		}
 	}
 
+	std::map<Body*,vector3d>::const_iterator proj;
+
 	// update navtarget distance
 	Body *navtarget = Pi::player->GetNavTarget();
-	if (navtarget && navtarget->IsOnscreen())
+	if (navtarget && (proj = m_projectedPos.find(navtarget)) != m_projectedPos.end())
 	{
 		double dist = Pi::player->GetPositionRelTo(navtarget).Length();
 		m_targetDist->SetText(format_distance(dist).c_str());
 
 		m_targetDist->Color(0.0f, 1.0f, 0.0f);
 
-		vector3d lpos = navtarget->GetProjectedPos() + vector3d(-10,12,0);
-		MoveChild(m_targetDist, float(lpos.x), float(lpos.y));
+		MoveChild(m_targetDist, float((*proj).second.x)-10.0f, float((*proj).second.y)+12.0f);
 
 		m_targetDist->Show();
 	}
@@ -1238,7 +1137,7 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 	m_targLeadOnscreen = false;
 	m_combatDist->Hide();
 	m_combatSpeed->Hide();
-	if (GetCamType() == CAM_FRONT && enemy && enemy->IsOnscreen())
+	if (GetCamType() == CAM_FRONT && enemy && (proj = m_projectedPos.find(enemy)) != m_projectedPos.end())
 	{
 		vector3d targpos = enemy->GetInterpolatedPositionRelTo(cam_frame);	// transforms to object space?
 		matrix4x4d prot = cam_frame->GetTransform(); prot[12] = prot[13] = prot[14] = 0.0;
@@ -1250,7 +1149,7 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		leadpos = targpos + targvel*(leadpos.Length()/projspeed); 	// second order approx
 		double dist = targpos.Length();
 
-		if (leadpos.z < 0.0 && dist < 100000 && Gui::Screen::Project(leadpos, m_targLeadPos))
+		if (leadpos.z < 0.0 && dist < 100000 && project_to_screen(leadpos, m_targLeadPos, frustum, guiSize))
 			m_targLeadOnscreen = true;
 
 		// now the text speed/distance
@@ -1269,18 +1168,15 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		m_combatDist->Color(r, 0.0f, b);
 		sprintf(buf, "%.0fm", dist);
 		m_combatDist->SetText(buf);
-		vector3d lpos = enemy->GetProjectedPos() + vector3d(20,30,0);
-		MoveChild(m_combatDist, float(lpos.x), float(lpos.y));
+		MoveChild(m_combatDist, float((*proj).second.x)+20.0f, float((*proj).second.y)+30.0f);
 		m_combatDist->Show();
 
 		m_combatSpeed->Color(r, 0.0f, b);
 		sprintf(buf, "%0.fm/s", vel);
 		m_combatSpeed->SetText(buf);
-		lpos = enemy->GetProjectedPos() + vector3d(20,44,0);
-		MoveChild(m_combatSpeed, float(lpos.x), float(lpos.y));
+		MoveChild(m_combatSpeed, float((*proj).second.x)+20.0f, float((*proj).second.y)+44.0f);
 		m_combatSpeed->Show();
 	}
-	Gui::Screen::LeaveOrtho();		// To save matrices
 }
 
 void WorldView::Draw()
@@ -1389,11 +1285,23 @@ void WorldView::DrawTargetSquares()
 	glPopAttrib();
 }
 
+static bool find_body(const std::map<Body*,vector3d> &m, const Body* b, vector3d &pos)
+{
+	// find() can't touch the Body through the Body pointer,
+	// and the non-const Body pointer never escapes from this function,
+	// so this const_cast is safe
+	std::map<Body*,vector3d>::const_iterator it = m.find(const_cast<Body*>(b));
+	if (it != m.end()) {
+		pos = it->second;
+		return true;
+	} else
+		return false;
+}
 
 void WorldView::DrawCombatTargetIndicator(const Ship* const target)
 {
-	if (!target->IsOnscreen()) return;
-	vector3d pos1 = target->GetProjectedPos();
+	vector3d pos1;
+	if (! find_body(m_projectedPos, target, pos1)) return;
 	vector3d pos2 = m_targLeadPos;
 	vector3d dir = (pos2 - pos1); dir.z = 0.0;
 	dir = m_targLeadOnscreen ? dir.NormalizedSafe() : vector3d(1,0,0);
@@ -1424,23 +1332,23 @@ void WorldView::DrawCombatTargetIndicator(const Ship* const target)
 
 void WorldView::DrawTargetSquare(const Body* const target)
 {
-	if(target->IsOnscreen()) {
-		const vector3d& _pos = target->GetProjectedPos();
-		const float x1 = float(_pos.x - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
-		const float x2 = float(x1 + WorldView::PICK_OBJECT_RECT_SIZE);
-		const float y1 = float(_pos.y - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
-		const float y2 = float(y1 + WorldView::PICK_OBJECT_RECT_SIZE);
+	vector3d pos;
+	if (! find_body(m_projectedPos, target, pos)) return;
 
-		GLfloat vtx[8] = {
-			x1, y1,
-			x2, y1,
-			x2, y2,
-			x1, y2 };
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINE_LOOP, 0, 4);
-		glDisableClientState(GL_VERTEX_ARRAY);
-	}
+	const float x1 = float(pos.x - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
+	const float x2 = float(x1 + WorldView::PICK_OBJECT_RECT_SIZE);
+	const float y1 = float(pos.y - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
+	const float y2 = float(y1 + WorldView::PICK_OBJECT_RECT_SIZE);
+
+	GLfloat vtx[8] = {
+		x1, y1,
+		x2, y1,
+		x2, y2,
+		x1, y2 };
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(2, GL_FLOAT, 0, vtx);
+	glDrawArrays(GL_LINE_LOOP, 0, 4);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void WorldView::MouseButtonDown(int button, int x, int y)
