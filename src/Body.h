@@ -97,7 +97,6 @@ private:
 	// frame of reference
 	Frame *m_frame;
 	std::string m_label;
-	bool m_onscreen;
 	// Checked in destructor to make sure body has been marked dead.
 	bool m_dead;
 };

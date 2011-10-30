@@ -17,7 +17,6 @@ Body::Body()
 	m_frame = 0;
 	m_flags = 0;
 	m_hasDoubleFrame = false;
-	m_onscreen = false;
 	m_dead = false;
 }
 
@@ -29,7 +28,6 @@ void Body::Save(Serializer::Writer &wr)
 {
 	wr.Int32(Serializer::LookupFrame(m_frame));
 	wr.String(m_label);
-	wr.Bool(m_onscreen);
 	wr.Bool(m_dead);
 	wr.Bool(m_hasDoubleFrame);
 }
@@ -38,7 +36,6 @@ void Body::Load(Serializer::Reader &rd)
 {
 	m_frame = Serializer::LookupFrame(rd.Int32());
 	m_label = rd.String();
-	m_onscreen = rd.Bool();
 	m_dead = rd.Bool();
 	m_hasDoubleFrame = rd.Bool();
 }	
