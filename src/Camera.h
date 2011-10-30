@@ -21,12 +21,12 @@ public:
 	const Body *GetBody() const { return m_body; }
 
 	// camera position relative to the body
-	void SetPosition(vector3d pos) { m_pos = pos; }
-	vector3d GetPosition() const { return m_pos; }
+	void SetPosition(const vector3d &pos) { m_pose.SetTranslate(pos); }
+	vector3d GetPosition() const { return m_pose.GetTranslate(); }
 
 	// camera orientation relative to the body
-	void SetOrientation(matrix4x4d orient) { m_orient = orient; m_orient.ClearToRotOnly(); }
-	matrix4x4d GetOrientation() const { return m_orient; }
+	void SetOrientation(const matrix4x4d &orient) { m_pose.SetRotationOnly(orient); }
+	matrix4x4d GetOrientation() const { matrix4x4d m(m_pose); m.ClearToRotOnly(); return m; }
 
 	// only valid between Update() and Draw()
 	const Frame *GetFrame() const { return m_camFrame; }
@@ -47,8 +47,7 @@ private:
 
 	Render::Frustum m_frustum;
 
-	vector3d m_pos;
-	matrix4x4d m_orient;
+	matrix4x4d m_pose;
 
 	Background::Starfield m_starfield;
 	Background::MilkyWay m_milkyWay;

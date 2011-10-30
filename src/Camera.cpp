@@ -14,8 +14,7 @@ Camera::Camera(const Body *body, float width, float height) :
 	m_fovAng(Pi::config.Float("FOV")),
 	m_shadersEnabled(Render::AreShadersEnabled()),
 	m_frustum(m_width, m_height, m_fovAng),
-	m_pos(0.0),
-	m_orient(matrix4x4d::Identity()),
+	m_pose(matrix4x4d::Identity()),
 	m_camFrame(0)
 {
 }
@@ -91,14 +90,8 @@ void Camera::Update()
 
 	// interpolate between last physics tick position and current one,
 	// to remove temporal aliasing
-	matrix4x4d camOrient = m_body->GetInterpolatedTransform();
-	vector3d camPos = vector3d(camOrient[12], camOrient[13], camOrient[14]);
-	camOrient.ClearToRotOnly();
-	m_camFrame->SetPosition(camPos + (camOrient * m_pos));
-
-	camOrient.ClearToRotOnly();
-	matrix4x4d camRot = matrix4x4d::Identity() * camOrient * m_orient;
-	m_camFrame->SetRotationOnly(camRot);
+	matrix4x4d bodyPose = m_body->GetInterpolatedTransform();
+	m_camFrame->SetTransform(bodyPose * m_pose);
 
 	// make sure old orient and interpolated orient (rendering orient) are not rubbish
 	m_camFrame->ClearMovement();
