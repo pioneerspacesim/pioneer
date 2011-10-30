@@ -464,7 +464,7 @@ static int l_ship_get_equip(lua_State *l)
 		if (idx >= size || idx < 0) {
 			pi_lua_warn(l,
 				"argument out of range: Ship{%s}:GetEquip('%s', %d)",
-				s->GetLabel().c_str(), slotName, idx);
+				s->GetLabel().c_str(), slotName, idx+1);
 		}
 		Equip::Type e = (idx >= 0) ? s->m_equipment.Get(slot, idx) : Equip::NONE;
 		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", e));
@@ -526,7 +526,7 @@ static int l_ship_set_equip(lua_State *l)
 	if (idx < 0 || idx >= s->m_equipment.GetSlotSize(slot)) {
 		pi_lua_warn(l,
 			"argument out of range: Ship{%s}:SetEquip('%s', %d, '%s')",
-			s->GetLabel().c_str(), slotName, idx, typeName);
+			s->GetLabel().c_str(), slotName, idx+1, typeName);
 		return 0;
 	}
 
