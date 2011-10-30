@@ -1052,11 +1052,11 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 			const double r1 = Pi::rng.Double()-0.5;
 			const double r2 = Pi::rng.Double()-0.5;
 			const double r3 = Pi::rng.Double()-0.5;
-			v[i] = viewTransform * (
+			v[i] = vector3f(viewTransform * (
 				GetPosition() +
 				GetLmrCollMesh()->GetBoundingRadius() *
 				vector3d(r1, r2, r3).Normalized()
-			);
+			));
 		}
 		Color c(0.5,0.5,1.0,1.0);
 		float totalRechargeTime = GetECMRechargeTime();

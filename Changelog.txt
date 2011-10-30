@@ -44,6 +44,7 @@ Alpha 16
       is no long in memory (#729)
     * Fix material use in ship landing lights (#656, #705)
     * Fix screenshot crashes (#742, #727, #645)
+    * "Repair 1% hull" display correct % and cost when hull has <1% damage (#748, #467)
   
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
@@ -56,7 +57,7 @@ Alpha 16
     * Ship.GetEquip and Ship.SetEquip changed to 1-based indexing (#719)
 
   * Internal changes
-    * Cleanups, leaks fixed and general code improvements (#635, #637, #665, #729)
+    * Cleanups, leaks fixed and general code improvements (#635, #637, #665, #729, #753)
     * Improve terrain generation performance
     * Run Lua timers from the physics loop, which should help to make frame
       times a little more consistent
