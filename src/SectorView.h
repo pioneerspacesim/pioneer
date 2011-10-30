@@ -54,7 +54,7 @@ private:
 	void ShrinkCache();
 
 	void MouseButtonDown(int button, int x, int y);
-	void OnKeyPress(SDL_keysym *keysym);
+	void OnKeyPressed(SDL_keysym *keysym);
 	void OnSearchBoxKeyPress(const SDL_keysym *keysym);
 
 	bool m_firstTime;

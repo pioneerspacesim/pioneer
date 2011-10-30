@@ -1386,9 +1386,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 						 0.5*octavenoise(m_fracdef[3], 0.5, p)), p); //[4]?
 				} 
 				
-				if (n > 0.25) {
-					n = n;
-				} else if (n > 0.2) {
+				if (n > 0.2 && n <= 0.25) {
 					n += (0.25-n)*0.2*ridged_octavenoise(m_fracdef[3], 
 						Clamp(h*0.0002*octavenoise(m_fracdef[5], 0.5, p),
 						 0.5*octavenoise(m_fracdef[3], 0.5, p), 
@@ -1590,9 +1588,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 						 0.6*octavenoise(m_fracdef[4], 0.6, p)), p);
 				} 
 				
-				if (n > 0.25) {
-					n = n;
-				} else if (n > 0.2) {
+				if (n > 0.2 && n <= 0.25) {
 					n += (0.25-n)*0.2*ridged_octavenoise(m_fracdef[3], 
 						Clamp(h*0.0002*octavenoise(m_fracdef[5], 0.5, p),
 						 0.5*octavenoise(m_fracdef[3], 0.5, p), 
