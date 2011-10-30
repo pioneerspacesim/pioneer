@@ -31,10 +31,12 @@ Frustum::Frustum(float width, float height, float fovAng)
 	glPushMatrix();
 	glLoadIdentity();
 
+	glPushAttrib(GL_VIEWPORT_BIT);
 	glViewport(0, 0, GLsizei(width), GLsizei(height));
 
 	InitFromGLState();
 
+	glPopAttrib(); // viewport
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
@@ -119,6 +121,9 @@ bool Frustum::ProjectPoint(const vector3d &in, vector3d &out) const
 
 void Frustum::Enable()
 {
+	glPushAttrib(GL_VIEWPORT_BIT);
+	glViewport(m_viewport[0], m_viewport[1], m_viewport[2], m_viewport[3]);
+
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadMatrixd(m_projMatrix.Data());
@@ -134,6 +139,8 @@ void Frustum::Disable()
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
+
+	glPopAttrib(); // viewport & depth range
 }
 
 }
