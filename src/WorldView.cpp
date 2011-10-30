@@ -212,10 +212,9 @@ vector3d WorldView::GetExternalViewTranslation()
 
 matrix4x4d WorldView::GetExternalViewRotation()
 {
-	matrix4x4d m = matrix4x4d::Identity();
-	m = matrix4x4d::RotateXMatrix(-DEG2RAD(m_externalViewRotX)) * m;
-	m = matrix4x4d::RotateYMatrix(-DEG2RAD(m_externalViewRotY)) * m;
-	return m;
+	return
+		matrix4x4d::RotateYMatrix(-DEG2RAD(m_externalViewRotY)) *
+		matrix4x4d::RotateXMatrix(-DEG2RAD(m_externalViewRotX));
 }
 
 void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
