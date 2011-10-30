@@ -627,12 +627,12 @@ void SectorView::OnSwitchTo() {
 
 	if (!m_onKeyPressConnection.connected())
 		m_onKeyPressConnection =
-			Pi::onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPress));
+			Pi::onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPressed));
 
 	Update();
 }
 
-void SectorView::OnKeyPress(SDL_keysym *keysym)
+void SectorView::OnKeyPressed(SDL_keysym *keysym)
 {
 	if (Pi::GetView() != this) {
 		m_onKeyPressConnection.disconnect();

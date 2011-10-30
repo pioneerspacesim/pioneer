@@ -108,9 +108,7 @@ bool Screen::Project(const vector3d &in, vector3d &out)
 	GLint o = gluProject(in.x, in.y, in.z, modelMatrix, projMatrix, viewport, &out.x, &out.y, &out.z);
 	out.x = out.x * width * invRealWidth;
 	out.y = GetHeight() - out.y * height * invRealHeight;
-	if (out.x*out.x > 1e8) return false;
-	if (out.y*out.y > 1e8) return false;			// these get converted to ints later, must be sane
-	return (o == GL_TRUE) ? true : false;
+	return (o == GL_TRUE);
 }
 
 void Screen::EnterOrtho()

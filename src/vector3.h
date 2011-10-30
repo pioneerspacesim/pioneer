@@ -8,6 +8,10 @@
 // Need this pragma due to operator[] implementation.
 #pragma pack(4)
 
+template <typename T> struct other_floating_type {};
+template <> struct other_floating_type<float> { typedef double type; };
+template <> struct other_floating_type<double> { typedef float type; };
+
 template <typename T>
 class vector3 {
 public:
@@ -16,12 +20,14 @@ public:
 	// Constructor definitions are outside class declaration to enforce that
 	// only float and double versions are possible.
 	vector3();
-	vector3(const vector3<float > &v);
-	vector3(const vector3<double> &v);
+	vector3(const vector3<T> &v);
+	vector3(const T  vals[3]);
 	vector3(T val);
 	vector3(T _x, T _y, T _z);
-	vector3(const float  vals[3]);
-	vector3(const double vals[3]);
+
+	// disallow implicit conversion between floating point sizes
+	explicit vector3(const vector3<typename other_floating_type<T>::type> &v);
+	explicit vector3(const typename other_floating_type<T>::type vals[3]);
 
 	const T& operator[](const size_t i) const { return (const_cast<const T *>(&x))[i]; }
 	T& operator[](const size_t i) { return (&x)[i]; }

@@ -1334,6 +1334,7 @@ void Pi::MainLoop()
 		}
 		Space::rootFrame->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 
+		currentView->Update();
 		currentView->Draw3D();
 		// XXX HandleEvents at the moment must be after view->Draw3D and before
 		// Gui::Draw so that labels drawn to screen can have mouse events correctly
@@ -1429,7 +1430,6 @@ void Pi::MainLoop()
 			StarSystem::ShrinkCache();
 		}
 		cpan->Update();
-		currentView->Update();
 		musicPlayer.Update();
 
 #ifdef DEVKEYS

@@ -160,7 +160,7 @@ void ModelBody::TriMeshUpdateLastPos(const matrix4x4d &currentTransform)
 void ModelBody::RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	float znear, zfar;
-	Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
+	Render::GetNearFarClipPlane(znear, zfar);
 	
 /*	if (viewCoords.Length() > zfar) {
 		vector3d pos = viewCoords;
