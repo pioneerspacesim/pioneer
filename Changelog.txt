@@ -3,18 +3,22 @@ Alpha 16
   * New features
     * New ships: "Wave Heavy Hypersonic Fighter" and "Turtle" (#558, #657)
     * Cargo scooping (#585, #708)
+    * Target and velocity indicators now shown with directions at edge of
+      screen if they are not directly in front (#750, #752)
     * Spanish translation (#628)
 
   * Minor changes and tweaks
     * New assassination missions appear less often (#634)
     * Translation infrastructure for Assassinations (#641), DonateToCranks
       (#658), GoodsTrader (#659) and DeliverPackage (#639)
-    * Modules translated to Polish
     * Targets can be selected from the system view (#503)
     * Model cleanups and optimisations (#680, #675, #672, #674)
     * New "temple" building (#664)
     * Change non-local delivery mission reward calculation so that more urgent
       deliveries get higher rewards (#719)
+    * Ships will now emerge from hyperspace at a point "close" to the source
+      system (#724)
+    * Jump duration estimate in sector view shown in days + hours (#738)
 
   * Fixes
     * Optimise trade ship cargo management (#632)
@@ -34,6 +38,15 @@ Alpha 16
     * Initialise stock levels for equipment above the station's tech level (#719)
     * Trade ships only check trade prices in surrounding systems if it has
       starports (#728)
+    * Determine damaged caused by collision between two ships using the other
+      ship's mass, not our own (#732, #733)
+    * Missile collisions will no longer cause damage (the explosion will
+      though) (#734)
+    * Prevent SystemBody.parent from crashing when the underlying StarSystem
+      is no long in memory (#729)
+    * Fix material use in ship landing lights (#656, #705)
+    * Fix screenshot crashes (#742, #727, #645)
+    * "Repair 1% hull" display correct % and cost when hull has <1% damage (#748, #467)
   
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
@@ -46,7 +59,8 @@ Alpha 16
     * Ship.GetEquip and Ship.SetEquip changed to 1-based indexing (#719)
 
   * Internal changes
-    * Cleanups, leaks fixed and general code improvements (#635, #637, #665)
+    * Cleanups, leaks fixed and general code improvements (#635, #637, #665,
+      #729, #753, #743, #741)
     * Improve terrain generation performance
     * Run Lua timers from the physics loop, which should help to make frame
       times a little more consistent
@@ -54,6 +68,7 @@ Alpha 16
     * Show Lua memory usage in debug info (#638)
     * Limit number of physics updates between render updates (#671)
     * scan_enums.py preprocessor to generate string->enum mappings (#716, #686, #723)
+    * Camera and rendering refactor (#744)
 
 Alpha 15
 

@@ -693,7 +693,9 @@ NOT_FOUND_BEST_MATCH_X
 NOT_FOUND
     Not found
 NUMBER_HOURS
-    %hours{f.2} hrs
+    %hours{f.1} hrs
+NUMBER_DAYS
+    %days{f.0} days
 QUADRUPLE_SYSTEM
     Quadruple system
 TRIPLE_SYSTEM

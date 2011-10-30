@@ -687,7 +687,7 @@ NOT_FOUND_BEST_MATCH_X
 NOT_FOUND
     Non trovato
 NUMBER_HOURS
-    %hours{f.2} h
+    %hours{f.1} h
 QUADRUPLE_SYSTEM
     Sistema quaternario
 TRIPLE_SYSTEM

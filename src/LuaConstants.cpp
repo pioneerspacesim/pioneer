@@ -553,7 +553,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 * Availability:
 	 *
-	 *   not yet
+	 *   alpha 16
 	 *
 	 * Status:
 	 *
@@ -571,7 +571,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 * Availability:
 	 *
-	 *   not yet
+	 *   alpha 16
 	 *
 	 * Status:
 	 *
@@ -589,7 +589,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 * Availability:
 	 *
-	 *   not yet
+	 *   alpha 16
 	 *
 	 * Status:
 	 *

@@ -1166,7 +1166,7 @@ void Pi::Start()
             for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++) {
                 const SBody *sbody = (*i)->GetSBody();
                 if (!sbody) continue;
-                if (sbody->id == 6) {
+                if (sbody->path.bodyIndex == 6) {
                     player->SetFrame((*i)->GetFrame());
                     break;
                 }
@@ -1346,6 +1346,7 @@ void Pi::MainLoop()
 		}
 		Space::rootFrame->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 
+		currentView->Update();
 		currentView->Draw3D();
 		// XXX HandleEvents at the moment must be after view->Draw3D and before
 		// Gui::Draw so that labels drawn to screen can have mouse events correctly
@@ -1438,7 +1439,6 @@ void Pi::MainLoop()
 			StarSystem::ShrinkCache();
 		}
 		cpan->Update();
-		currentView->Update();
 		musicPlayer.Update();
 
 #ifdef DEVKEYS

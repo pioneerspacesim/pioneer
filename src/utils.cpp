@@ -262,57 +262,6 @@ std::string format_distance(double dist)
 	}
 }
 
-void GetFrustum(Plane planes[6])
-{
-	GLdouble modelMatrix[16];
-	GLdouble projMatrix[16];
-
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
-
-	matrix4x4d m = matrix4x4d(projMatrix) * matrix4x4d(modelMatrix); 
-
-	// Left clipping plane
-	planes[0].a = m[3] + m[0];
-	planes[0].b = m[7] + m[4];
-	planes[0].c = m[11] + m[8];
-	planes[0].d = m[15] + m[12];
-	// Right clipping plane
-	planes[1].a = m[3] - m[0];
-	planes[1].b = m[7] - m[4];
-	planes[1].c = m[11] - m[8];
-	planes[1].d = m[15] - m[12];
-	// Top clipping plane
-	planes[2].a = m[3] - m[1];
-	planes[2].b = m[7] - m[5];
-	planes[2].c = m[11] - m[9];
-	planes[2].d = m[15] - m[13];
-	// Bottom clipping plane
-	planes[3].a = m[3] + m[1];
-	planes[3].b = m[7] + m[5];
-	planes[3].c = m[11] + m[9];
-	planes[3].d = m[15] + m[13];
-	// Near clipping plane
-	planes[4].a = m[3] + m[2];
-	planes[4].b = m[7] + m[6];
-	planes[4].c = m[11] + m[10];
-	planes[4].d = m[15] + m[14];
-	// Far clipping plane
-	planes[5].a = m[3] + m[2];
-	planes[5].b = m[7] + m[6];
-	planes[5].c = m[11] + m[10];
-	planes[5].d = m[15] + m[14];
-
-	// Normalize the fuckers
-	for (int i=0; i<6; i++) {
-		double invlen;
-		invlen = 1.0 / sqrt(planes[i].a*planes[i].a + planes[i].b*planes[i].b + planes[i].c*planes[i].c);
-		planes[i].a *= invlen;
-		planes[i].b *= invlen;
-		planes[i].c *= invlen;
-		planes[i].d *= invlen;
-	}
-}
 
 /*
  * So (if you will excuse the C99 compound array literal):
@@ -440,14 +389,18 @@ Uint32 ceil_pow2(Uint32 v) {
 	return v;
 }
 
-void Screendump(const char* destFile, const int W, const int H)
+void Screendump(const char* destFile, const int width, const int height)
 {
 	std::string fname = join_path(GetPiUserDir("screenshots").c_str(), destFile, 0);
 
-	std::vector<char> pixel_data(3*W*H);
+	// pad rows to 4 bytes, which is the default row alignment for OpenGL
+	const int stride = (3*width + 3) & ~3;
+
+	std::vector<png_byte> pixel_data(stride * height);
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	glPixelStorei(GL_PACK_ALIGNMENT, 4); // never trust defaults
 	glReadBuffer(GL_FRONT);
-	glReadPixels(0, 0, W, H, GL_RGB, GL_UNSIGNED_BYTE, &pixel_data[0]);
+	glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, &pixel_data[0]);
 	glFinish();
 
 	png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
@@ -479,14 +432,14 @@ void Screendump(const char* destFile, const int W, const int H)
 
 	png_init_io(png_ptr, out);
 	png_set_filter(png_ptr, 0, PNG_FILTER_NONE);
-	png_set_IHDR(png_ptr, info_ptr, W, H, 8, PNG_COLOR_TYPE_RGB,
+	png_set_IHDR(png_ptr, info_ptr, width, height, 8, PNG_COLOR_TYPE_RGB,
 		PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
 		PNG_FILTER_TYPE_DEFAULT);
 
-	png_bytepp rows = new png_bytep[H];
+	png_bytepp rows = new png_bytep[height];
 
-	for (int i = 0; i < H; ++i) {
-		rows[i] = reinterpret_cast<png_bytep>(&pixel_data[(H-i-1) * W * 3]);
+	for (int i = 0; i < height; ++i) {
+		rows[i] = reinterpret_cast<png_bytep>(&pixel_data[(height-i-1) * stride]);
 	}
 	png_set_rows(png_ptr, info_ptr, rows);
 	png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, 0);
