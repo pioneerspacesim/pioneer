@@ -4,6 +4,11 @@
 #include "vector3.h"
 #include "Serializer.h"
 
+#ifdef _MSC_VER
+	#include "Gamma.h"
+	#define lgamma LogGamma
+#endif // _MSC_VER
+
 class BezierCurve {
 public:
 	std::vector<vector3d> p;
