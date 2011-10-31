@@ -468,6 +468,12 @@
     <ClCompile Include="..\..\src\enum_table.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Camera.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\RenderFrustum.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -975,6 +981,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\enum_table.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Camera.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\RenderFrustum.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
