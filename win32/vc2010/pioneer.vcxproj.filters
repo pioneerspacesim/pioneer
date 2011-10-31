@@ -989,6 +989,9 @@
     <ClInclude Include="..\..\src\render\RenderFrustum.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Lang.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am">

@@ -408,6 +408,16 @@ DRIVE_MIL3
     Ipermotore militare di 3^ classe
 DRIVE_MIL4
     Ipermotore militare di 4^ classe
+DRIVE_MIL5
+    Ipermotore militare di 5^ classe
+DRIVE_MIL6
+    Ipermotore militare di 6^ classe
+DRIVE_MIL7
+    Ipermotore militare di 7^ classe
+DRIVE_MIL8
+    Ipermotore militare di 8^ classe
+DRIVE_MIL9
+    Ipermotore militare di 9^ classe
 PULSECANNON_1MW
     Laser a impulsi da 1MW
 PULSECANNON_DUAL_1MW

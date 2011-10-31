@@ -414,6 +414,16 @@ DRIVE_MIL3
     Class 3 Military drive
 DRIVE_MIL4
     Class 4 Military drive
+DRIVE_MIL5
+    Class 5 Military drive
+DRIVE_MIL6
+    Class 6 Military drive
+DRIVE_MIL7
+    Class 7 Military drive
+DRIVE_MIL8
+    Class 8 Military drive
+DRIVE_MIL9
+    Class 9 Military drive
 PULSECANNON_1MW
     1MW pulse cannon
 PULSECANNON_DUAL_1MW

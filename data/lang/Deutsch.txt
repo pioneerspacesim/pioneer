@@ -407,6 +407,16 @@ DRIVE_MIL3
     Klasse 3 Militär-Hyperraumantrieb
 DRIVE_MIL4
     Klasse 4 Militär-Hyperraumantrieb
+DRIVE_MIL5
+    Klasse 5 Militär-Hyperraumantrieb
+DRIVE_MIL6
+    Klasse 6 Militär-Hyperraumantrieb
+DRIVE_MIL7
+    Klasse 7 Militär-Hyperraumantrieb
+DRIVE_MIL8
+    Klasse 8 Militär-Hyperraumantrieb
+DRIVE_MIL9
+    Klasse 9 Militär-Hyperraumantrieb
 PULSECANNON_1MW
     1MW Pulslaser
 PULSECANNON_DUAL_1MW

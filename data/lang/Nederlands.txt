@@ -407,6 +407,16 @@ DRIVE_MIL3
     Klasse 3 Militaire aandrijving
 DRIVE_MIL4
     Klasse 4 Militaire aandrijving
+DRIVE_MIL5
+    Klasse 5 Militaire aandrijving
+DRIVE_MIL6
+    Klasse 6 Militaire aandrijving
+DRIVE_MIL7
+    Klasse 7 Militaire aandrijving
+DRIVE_MIL8
+    Klasse 8 Militaire aandrijving
+DRIVE_MIL9
+    Klasse 9 Militaire aandrijving
 PULSECANNON_1MW
     1MW puls kanon
 PULSECANNON_DUAL_1MW

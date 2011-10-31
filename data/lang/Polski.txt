@@ -415,6 +415,16 @@ DRIVE_MIL3
     Napęd Wojskowy Klasy 3
 DRIVE_MIL4
     Napęd Wojskowy Klasy 4
+DRIVE_MIL5
+    Napęd Wojskowy Klasy 5
+DRIVE_MIL6
+    Napęd Wojskowy Klasy 6
+DRIVE_MIL7
+    Napęd Wojskowy Klasy 7
+DRIVE_MIL8
+    Napęd Wojskowy Klasy 8
+DRIVE_MIL9
+    Napęd Wojskowy Klasy 9
 PULSECANNON_1MW
     1MW Działo Impulsowe
 PULSECANNON_DUAL_1MW
