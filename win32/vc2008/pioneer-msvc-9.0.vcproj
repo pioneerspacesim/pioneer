@@ -381,7 +381,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Gamma.cpp"
+				RelativePath="..\src\Gamma.cpp"
 				>
 			</File>
 			<File
@@ -1115,7 +1115,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Gamma.h"
+				RelativePath="..\src\Gamma.h"
 				>
 			</File>
 			<File

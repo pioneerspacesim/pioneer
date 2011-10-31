@@ -159,7 +159,6 @@
     <ClCompile Include="..\..\src\Galaxy.cpp" />
     <ClCompile Include="..\..\src\GameConfig.cpp" />
     <ClCompile Include="..\..\src\GameMenuView.cpp" />
-    <ClCompile Include="..\..\src\Gamma.cpp" />
     <ClCompile Include="..\..\src\GeoSphere.cpp" />
     <ClCompile Include="..\..\src\GeoSphereStyle.cpp" />
     <ClCompile Include="..\..\src\gui\Gui.cpp" />
@@ -282,6 +281,7 @@
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\..\src\VectorFont.cpp" />
     <ClCompile Include="..\..\src\WorldView.cpp" />
+    <ClCompile Include="..\src\Gamma.cpp" />
     <ClCompile Include="..\src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -327,7 +327,6 @@
     <ClInclude Include="..\..\src\GameConfig.h" />
     <ClInclude Include="..\..\src\gameconsts.h" />
     <ClInclude Include="..\..\src\GameMenuView.h" />
-    <ClInclude Include="..\..\src\Gamma.h" />
     <ClInclude Include="..\..\src\GeoSphere.h" />
     <ClInclude Include="..\..\src\GeoSphereStyle.h" />
     <ClInclude Include="..\..\src\gui\Gui.h" />
@@ -460,6 +459,7 @@
     <ClInclude Include="..\..\src\VideoLink.h" />
     <ClInclude Include="..\..\src\View.h" />
     <ClInclude Include="..\..\src\WorldView.h" />
+    <ClInclude Include="..\src\Gamma.h" />
     <ClInclude Include="..\src\pch.h" />
     <ClInclude Include="..\src\win32-dirent.h" />
   </ItemGroup>
