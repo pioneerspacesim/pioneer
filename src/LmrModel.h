@@ -87,7 +87,7 @@ private:
 void LmrModelCompilerInit();
 void LmrModelCompilerUninit();
 struct LmrModelNotFoundException {};
-LmrModel *LmrLookupModelByName(const char *name) throw (LmrModelNotFoundException);
+LmrModel *LmrLookupModelByName(const char *name);
 void LmrModelRender(LmrModel *m, const matrix4x4f &transform);
 int LmrModelGetStatsTris();
 void LmrModelClearStatsTris();
