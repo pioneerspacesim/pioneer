@@ -474,6 +474,9 @@
     <ClCompile Include="..\..\src\render\RenderFrustum.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Gamma.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -987,6 +990,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\render\RenderFrustum.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Gamma.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

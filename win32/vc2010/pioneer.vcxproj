@@ -159,6 +159,7 @@
     <ClCompile Include="..\..\src\Galaxy.cpp" />
     <ClCompile Include="..\..\src\GameConfig.cpp" />
     <ClCompile Include="..\..\src\GameMenuView.cpp" />
+    <ClCompile Include="..\..\src\Gamma.cpp" />
     <ClCompile Include="..\..\src\GeoSphere.cpp" />
     <ClCompile Include="..\..\src\GeoSphereStyle.cpp" />
     <ClCompile Include="..\..\src\gui\Gui.cpp" />
@@ -326,6 +327,7 @@
     <ClInclude Include="..\..\src\GameConfig.h" />
     <ClInclude Include="..\..\src\gameconsts.h" />
     <ClInclude Include="..\..\src\GameMenuView.h" />
+    <ClInclude Include="..\..\src\Gamma.h" />
     <ClInclude Include="..\..\src\GeoSphere.h" />
     <ClInclude Include="..\..\src\GeoSphereStyle.h" />
     <ClInclude Include="..\..\src\gui\Gui.h" />
