@@ -74,15 +74,15 @@ class matrix4x4 {
 		m[3] = 0; m[7] = 0; m[11] = 0; m[15] = 1;
 		return m;
 	}
-	static matrix4x4 FrustumMatrix (T left, T right, T bottom, T top, T near, T far) {
-		assert((near > T(0)) && (far > T(0)));
+	static matrix4x4 FrustumMatrix (T left, T right, T bottom, T top, T znear, T zfar) {
+		assert((znear > T(0)) && (zfar > T(0)));
 		// these expressions come from the documentation for glFrustum
-		const T sx = (T(2) * near) / (right - left);
-		const T sy = (T(2) * near) / (top - bottom);
+		const T sx = (T(2) * znear) / (right - left);
+		const T sy = (T(2) * znear) / (top - bottom);
 		const T A = (right + left) / (right - left);
 		const T B = (top + bottom) / (top - bottom);
-		const T C = -(far + near) / (far - near);
-		const T D = -(T(2) * far * near) / (far - near);
+		const T C = -(zfar + znear) / (zfar - znear);
+		const T D = -(T(2) * zfar * znear) / (zfar - znear);
 		matrix4x4 m;
 		m[ 0] = sx; m[ 4] =  0; m[ 8] =  A; m[12] = 0;
 		m[ 1] =  0; m[ 5] = sy; m[ 9] =  B; m[13] = 0;
