@@ -301,6 +301,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Camera.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\CargoBody.cpp"
 				>
 			</File>
@@ -769,6 +773,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\render\RenderFrustum.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\render\RenderShader.cpp"
 				>
 			</File>
@@ -955,6 +963,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\BezierCurve.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Body.h"
 				>
 			</File>
@@ -964,6 +976,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\collider\BVHTree.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Camera.h"
 				>
 			</File>
 			<File
@@ -1704,6 +1720,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\render\Render.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\render\RenderFrustum.h"
 				>
 			</File>
 			<File
