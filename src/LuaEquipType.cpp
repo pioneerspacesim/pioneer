@@ -128,9 +128,12 @@ static int l_equiptype_get_equip_type(lua_State *l)
  *
  * Finds equipment types that match a criteria
  *
- * > equiptypes = EquipType.GetEquipTypes(filter)
+ * > equiptypes = EquipType.GetEquipTypes(slot, filter)
  *
  * Parameters:
+ *
+ *   slot   - a <Constant.EquipSlot> string. Only equipment that may be used
+ *            in this slot will be returned.
  *
  *   filter - an optional function. If specified the function will be called
  *            once for each equipment or cargo type with two parameters:
