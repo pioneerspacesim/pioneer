@@ -4,6 +4,7 @@
 #include "Frame.h"
 #include "StarSystem.h"
 #include "Space.h"
+#include "TextureManager.h"
 #include "render/Render.h"
 
 #define MAX_SFX_PER_FRAME 1024
@@ -81,9 +82,8 @@ void Sfx::TimeStepUpdate(const float timeStep)
 
 void Sfx::Render(const matrix4x4d &ftransform)
 {
-	static GLuint tex;
+	Texture *smokeTex = 0;
 	float col[4];
-	if (!tex) tex = util_load_tex_rgba(PIONEER_DATA_DIR"/textures/smoke.png");
 
 	vector3d fpos = ftransform * GetPosition();
 
@@ -110,7 +110,8 @@ void Sfx::Render(const matrix4x4d &ftransform)
 			col[2] = 0.0f;
 			col[3] = 1.0f-(m_age/2.0f);
 			vector3f pos(&fpos.x);
-			glBindTexture(GL_TEXTURE_2D, tex);
+			smokeTex = TextureManager::GetTexture(PIONEER_DATA_DIR"/textures/smoke.png");
+			smokeTex->BindTexture();
 			Render::PutPointSprites(1, &pos, 20.0f, col);
 			break;
 	}
@@ -178,4 +179,3 @@ void Sfx::RenderAll(const Frame *f, const Frame *camFrame)
 		RenderAll(*i, camFrame);
 	}
 }
-
