@@ -49,7 +49,7 @@ namespace TextureManager {
 	void Clear()
 	{
 		std::map<std::string, Texture*>::iterator i;
-		for (i=s_textures.begin(); i!=s_textures.end(); ++i) delete (*i).second;		
+		for (i=s_textures.begin(); i!=s_textures.end(); ++i) delete (*i).second;
 	}
 }
 

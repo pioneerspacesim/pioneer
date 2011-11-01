@@ -159,7 +159,7 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	vector3d from = viewTransform * GetInterpolatedPosition();
 	vector3d to = viewTransform * (GetInterpolatedPosition() + 0.1*m_dirVel);
 	vector3d dir = to - from;
-		
+
 	vector3f _from(&from.x);
 	vector3f _dir(&dir.x);
 	vector3f points[50];
