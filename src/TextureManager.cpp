@@ -33,23 +33,26 @@ void Texture::Load()
 }
 
 namespace TextureManager {
-	static std::map<std::string, Texture*> s_textures;
+	typedef std::map<std::string, Texture*> TextureCacheMap;
+	static TextureCacheMap s_textures;
 
-	Texture *GetTexture(const char *filename, bool preload)
+	Texture *GetTexture(const std::string &filename, bool preload)
 	{
-		std::map<std::string, Texture*>::iterator i = s_textures.find(filename);
-
-		if (i != s_textures.end()) return (*i).second;
-
-		Texture *tex = new Texture(filename, preload);
-		s_textures[filename] = tex;
-		return tex;
+		std::pair<TextureCacheMap::iterator, bool>
+			ret = s_textures.insert(TextureCacheMap::value_type(filename, 0));
+		if (ret.second) {
+			Texture *tex = new Texture(filename, preload);
+			ret.first->second = tex;
+			return tex;
+		} else {
+			return ret.first->second;
+		}
 	}
 
 	void Clear()
 	{
 		std::map<std::string, Texture*>::iterator i;
-		for (i=s_textures.begin(); i!=s_textures.end(); ++i) delete (*i).second;		
+		for (i=s_textures.begin(); i!=s_textures.end(); ++i) delete (*i).second;
 	}
 }
 

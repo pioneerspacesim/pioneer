@@ -968,6 +968,8 @@ DAY_LENGTH
     Day length
 N_EARTH_DAYS
     %days{f.1} earth days
+COUNT_STARPORTS
+    starports
 STARPORTS
     Starports
 MAJOR_IMPORTS

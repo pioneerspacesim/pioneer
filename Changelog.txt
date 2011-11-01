@@ -57,10 +57,13 @@ Alpha 16
     * Serializer support for Lua-based objects (#715)
     * New SystemBody.population attribute (#726)
     * Ship.GetEquip and Ship.SetEquip changed to 1-based indexing (#719)
+    * SystemBody now has several new attributes for body size and orbital
+      parameters (#760, #754)
 
   * Internal changes
     * Cleanups, leaks fixed and general code improvements (#635, #637, #665,
-      #729, #753, #743, #741)
+      #729, #753, #743, #741, #761)
+    * Windows build optimisations (#636, #758)
     * Improve terrain generation performance
     * Run Lua timers from the physics loop, which should help to make frame
       times a little more consistent

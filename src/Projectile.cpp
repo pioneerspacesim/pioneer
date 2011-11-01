@@ -11,6 +11,7 @@
 #include "Planet.h"
 #include "Sfx.h"
 #include "Ship.h"
+#include "TextureManager.h"
 
 Projectile::Projectile(): Body()
 {
@@ -153,13 +154,12 @@ void Projectile::StaticUpdate(const float timeStep)
 
 void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	static GLuint tex;
-	if (!tex) tex = util_load_tex_rgba(PIONEER_DATA_DIR"/textures/laser.png");
+	Texture *tex = TextureManager::GetTexture(PIONEER_DATA_DIR"/textures/laser.png");
 
 	vector3d from = viewTransform * GetInterpolatedPosition();
 	vector3d to = viewTransform * (GetInterpolatedPosition() + 0.1*m_dirVel);
 	vector3d dir = to - from;
-		
+
 	vector3f _from(&from.x);
 	vector3f _dir(&dir.x);
 	vector3f points[50];
@@ -169,7 +169,7 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	}
 	Color col = Equip::lasers[m_type].color;
 	col.a = 1.0f - m_age/Equip::lasers[m_type].lifespan;
-	glBindTexture(GL_TEXTURE_2D, tex);
+	tex->BindTexture();
 	Render::PutPointSprites(50, points, Equip::lasers[m_type].psize, col);
 }
 

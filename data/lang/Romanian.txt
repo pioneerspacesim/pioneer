@@ -953,6 +953,8 @@ DAY_LENGTH
     Durata unei zile
 N_EARTH_DAYS
     %days{f.1} zile pământene
+COUNT_STARPORTS
+    porturi stelare
 STARPORTS
     Porturi stelare
 MAJOR_IMPORTS
