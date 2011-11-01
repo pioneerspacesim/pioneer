@@ -16,6 +16,7 @@ noinst_HEADERS = \
 	Body.h \
 	BufferObject.h \
 	Camera.h \
+	CameraElement.h \
 	CargoBody.h \
 	ChatForm.h \
 	CityOnPlanet.h \
@@ -149,6 +150,7 @@ pioneer_SOURCES	= \
 	Background.cpp \
 	Body.cpp \
 	Camera.cpp \
+	CameraElement.cpp \
 	CargoBody.cpp \
 	ChatForm.cpp \
 	CityOnPlanet.cpp \

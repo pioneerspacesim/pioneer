@@ -15,6 +15,7 @@
 #include "SectorView.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "CameraElement.h"
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
@@ -742,6 +743,13 @@ void WorldView::Update()
 
 	m_activeCamera->Update();
 	UpdateProjectedObjects();
+
+	CameraElementData cameraData;
+	cameraData.body = Pi::player;
+	cameraData.pos = m_activeCamera->GetPosition();
+	cameraData.orient = m_activeCamera->GetOrientation();
+	Pi::rocketManager->SetStashItem("camera", cameraData);
+
 }
 
 void WorldView::OnSwitchTo()

@@ -14,6 +14,7 @@
 	</head>
 	<body template="screen">
         <div class="section">
+			<camera stash="camera"/>
 	        <h1 stash="form.title"/>
 			<p>Hello, traveller.  Welcome to our little blue play-pen.  If it's your first time here, feel free to get acquainted with the residents.  We hope you enjoy your stay.</p>
 			<p>Please remember that renovations are under way, and that scenery may change between visits.</p>

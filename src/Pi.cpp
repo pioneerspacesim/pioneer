@@ -65,6 +65,7 @@
 #include "StringF.h"
 #include "TextureManager.h"
 #include "rocket/RocketManager.h"
+#include "CameraElement.h"
 #include "FaceElement.h"
 #include "ShipSpinnerElement.h"
 
@@ -451,6 +452,7 @@ void Pi::Init()
 	InitOpenGL();
 
 	rocketManager = new RocketManager(width, height);
+	CameraElement::Register();
 	FaceElement::Register();
 	ShipSpinnerElement::Register();
 
