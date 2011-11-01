@@ -47,7 +47,6 @@ std::string format_date(double time);
 std::string format_date_only(double time);
 std::string format_distance(double dist);
 std::string format_money(Sint64 money);
-void strip_cr_lf(char *string);
 
 GLuint util_load_tex_rgba(const char *filename);
 

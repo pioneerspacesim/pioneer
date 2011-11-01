@@ -257,18 +257,6 @@ void SilentWarning(const char *format, ...)
 	fputs("\n", stderr);
 }
 
-void strip_cr_lf(char *string)
-{
-	char *s = string;
-	while (*s) {
-		if ((*s == '\r') || (*s == '\n')) {
-			*s = 0;
-			break;
-		}
-		s++;
-	}
-}
-
 #define AU		149598000000.0
 std::string format_distance(double dist)
 {
