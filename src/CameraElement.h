@@ -10,9 +10,9 @@ class Camera;
 
 struct CameraElementData {
 	CameraElementData() : body(0), pos(0.0), orient(matrix4x4d::Identity()) {}
-	const Body *body;
-	vector3d    pos;
-	matrix4x4d  orient;
+	Body       *body;
+	vector3d   pos;
+	matrix4x4d orient;
 };
 
 class CameraElement : public Rocket::Core::Element, public RocketStashConsumer<CameraElementData> {

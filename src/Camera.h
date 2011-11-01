@@ -12,7 +12,7 @@ class Frame;
 class Camera {
 public:
 	// create camera relative to the given body, for rendering to area width x height
-	Camera(const Body *body, float width, float height);
+	Camera(Body *body, float width, float height);
 	virtual ~Camera();
 
 	void Update();
@@ -37,7 +37,9 @@ public:
 private:
 	void DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
-	const Body *m_body;
+	void OnBodyDeleted();
+
+	Body *m_body;
 
 	float m_width;
 	float m_height;
@@ -53,6 +55,8 @@ private:
 	Background::MilkyWay m_milkyWay;
 
 	Frame *m_camFrame;
+
+	sigc::connection m_bodyOnDeleteConnection;
 
 	// temp attrs for sorting and drawing
 	struct BodyAttrs {
