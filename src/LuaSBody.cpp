@@ -211,7 +211,7 @@ static int l_sbody_attr_mass(lua_State *l)
 /*
  * Attribute: periapsis
  *
- * The periapsis of the body's orbit, in kilometres (km).
+ * The periapsis of the body's orbit, in metres (m).
  *
  * Availability:
  *
@@ -231,7 +231,7 @@ static int l_sbody_attr_periapsis(lua_State *l)
 /*
  * Attribute: apoapsis
  *
- * The apoapsis of the body's orbit, in kilometres (km).
+ * The apoapsis of the body's orbit, in metres (m).
  *
  * Availability:
  *
@@ -271,7 +271,7 @@ static int l_sbody_attr_rotation_period(lua_State *l)
 /*
  * Attribute: semiMajorAxis
  *
- * The semi-major axis of the orbit, in kilometres (km).
+ * The semi-major axis of the orbit, in metres (m).
  *
  * Availability:
  *
