@@ -1250,7 +1250,7 @@ LmrCollMesh::~LmrCollMesh()
 	free(pFlag);
 }
 
-LmrModel *LmrLookupModelByName(const char *name) throw (LmrModelNotFoundException)
+LmrModel *LmrLookupModelByName(const char *name)
 {
 	std::map<std::string, LmrModel*>::iterator i = s_models.find(name);
 
