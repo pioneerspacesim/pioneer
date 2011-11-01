@@ -464,9 +464,16 @@ static int l_space_get_bodies(lua_State *l)
 		if (filter) {
 			lua_pushvalue(l, 1);
 			LuaBody::PushToLua(b);
-			// unprotected call because we want errors to propagate up to the next level
-			// (i.e., an error in the filter function should come out as an error from this function)
-			lua_call(l, 1, 1);
+			if (int ret = lua_pcall(l, 1, 1, 0)) {
+				const char *errmsg;
+				if (ret == LUA_ERRRUN)
+					errmsg = lua_tostring(l, -1);
+				else if (ret == LUA_ERRMEM)
+					errmsg = "memory allocation failure";
+				else if (ret == LUA_ERRERR)
+					errmsg = "error in error handler function";
+				luaL_error(l, "Error in filter function: %s", errmsg);
+			}
 			if (!lua_toboolean(l, -1)) {
 				lua_pop(l, 1);
 				continue;
