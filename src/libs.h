@@ -22,6 +22,7 @@
 
 #ifdef _WIN32
 #	include <malloc.h>
+
 #	ifndef __MINGW32__
 #		define alloca _alloca
 #		define strncasecmp _strnicmp
@@ -31,19 +32,22 @@
 #		ifndef isfinite
 inline int isfinite(double x) { return _finite(x); }
 #		endif
-#	endif /* __MINGW32__ */
-#endif
+#
+#		include "win32-dirent.h"
 
-#ifdef _WIN32
+#	else
 
-#	ifdef __MINGW32__
+#		undef WINVER
+#		define WINVER 0x0500
+#		include <w32api.h>
+#		define _WIN32_IE IE5
+
 #		include <dirent.h>
 #		include <sys/stat.h>
 #		include <stdexcept>
 #		define WINSHLWAPI
-#	else /* !__MINGW32__ */
-#		include "win32-dirent.h"
-#	endif
+#	endif /* __MINGW32__ */
+#
 
 #else /* !_WIN32 */
 #	include <dirent.h>
