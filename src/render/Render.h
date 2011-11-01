@@ -36,6 +36,8 @@ namespace Render {
 	void ToggleShaders();
 	void ToggleHDR();
 
+	void GetNearFarClipPlane(float &znear, float &zfar);
+
 	void UnbindAllBuffers();
 	void BindArrayBuffer(GLuint bo);
 	void BindElementArrayBuffer(GLuint bo);

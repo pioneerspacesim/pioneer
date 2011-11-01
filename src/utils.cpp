@@ -5,6 +5,25 @@
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
 
+// MinGW targets NT4 by default. We need to set some higher versions to ensure
+// that functions we need are available. Specifically, SHCreateDirectoryExA
+// requires Windows 2000 and IE5. We include w32api.h to get the symbolic
+// constants for these things.
+#ifdef __MINGW32__
+#	include <w32api.h>
+#	ifdef WINVER
+#		undef WINVER
+#	endif
+#	define WINVER Windows2000
+#	define _WIN32_IE IE5
+#endif
+
+#ifdef _WIN32
+// GetPiUserDir() needs these
+#include <shlobj.h>
+#include <shlwapi.h>
+#endif
+
 std::string GetPiUserDir(const std::string &subdir)
 {
 
@@ -262,57 +281,6 @@ std::string format_distance(double dist)
 	}
 }
 
-void GetFrustum(Plane planes[6])
-{
-	GLdouble modelMatrix[16];
-	GLdouble projMatrix[16];
-
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
-
-	matrix4x4d m = matrix4x4d(projMatrix) * matrix4x4d(modelMatrix); 
-
-	// Left clipping plane
-	planes[0].a = m[3] + m[0];
-	planes[0].b = m[7] + m[4];
-	planes[0].c = m[11] + m[8];
-	planes[0].d = m[15] + m[12];
-	// Right clipping plane
-	planes[1].a = m[3] - m[0];
-	planes[1].b = m[7] - m[4];
-	planes[1].c = m[11] - m[8];
-	planes[1].d = m[15] - m[12];
-	// Top clipping plane
-	planes[2].a = m[3] - m[1];
-	planes[2].b = m[7] - m[5];
-	planes[2].c = m[11] - m[9];
-	planes[2].d = m[15] - m[13];
-	// Bottom clipping plane
-	planes[3].a = m[3] + m[1];
-	planes[3].b = m[7] + m[5];
-	planes[3].c = m[11] + m[9];
-	planes[3].d = m[15] + m[13];
-	// Near clipping plane
-	planes[4].a = m[3] + m[2];
-	planes[4].b = m[7] + m[6];
-	planes[4].c = m[11] + m[10];
-	planes[4].d = m[15] + m[14];
-	// Far clipping plane
-	planes[5].a = m[3] + m[2];
-	planes[5].b = m[7] + m[6];
-	planes[5].c = m[11] + m[10];
-	planes[5].d = m[15] + m[14];
-
-	// Normalize the fuckers
-	for (int i=0; i<6; i++) {
-		double invlen;
-		invlen = 1.0 / sqrt(planes[i].a*planes[i].a + planes[i].b*planes[i].b + planes[i].c*planes[i].c);
-		planes[i].a *= invlen;
-		planes[i].b *= invlen;
-		planes[i].c *= invlen;
-		planes[i].d *= invlen;
-	}
-}
 
 /*
  * So (if you will excuse the C99 compound array literal):

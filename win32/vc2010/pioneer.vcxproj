@@ -135,6 +135,7 @@
     <ClCompile Include="..\..\src\AmbientSounds.cpp" />
     <ClCompile Include="..\..\src\Background.cpp" />
     <ClCompile Include="..\..\src\Body.cpp" />
+    <ClCompile Include="..\..\src\Camera.cpp" />
     <ClCompile Include="..\..\src\CargoBody.cpp" />
     <ClCompile Include="..\..\src\ChatForm.cpp" />
     <ClCompile Include="..\..\src\CityOnPlanet.cpp" />
@@ -238,6 +239,7 @@
     <ClCompile Include="..\..\src\Polit.cpp" />
     <ClCompile Include="..\..\src\Projectile.cpp" />
     <ClCompile Include="..\..\src\render\Render.cpp" />
+    <ClCompile Include="..\..\src\render\RenderFrustum.cpp" />
     <ClCompile Include="..\..\src\render\RenderShader.cpp" />
     <ClCompile Include="..\..\src\render\RenderTarget.cpp" />
     <ClCompile Include="..\..\src\render\RenderTexture.cpp" />
@@ -279,6 +281,7 @@
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\..\src\VectorFont.cpp" />
     <ClCompile Include="..\..\src\WorldView.cpp" />
+    <ClCompile Include="..\src\Gamma.cpp" />
     <ClCompile Include="..\src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -294,6 +297,7 @@
     <ClInclude Include="..\..\src\Body.h" />
     <ClInclude Include="..\..\src\BufferObject.h" />
     <ClInclude Include="..\..\src\buildopts.h" />
+    <ClInclude Include="..\..\src\Camera.h" />
     <ClInclude Include="..\..\src\CargoBody.h" />
     <ClInclude Include="..\..\src\ChatForm.h" />
     <ClInclude Include="..\..\src\CityOnPlanet.h" />
@@ -411,6 +415,7 @@
     <ClInclude Include="..\..\src\RefCounted.h" />
     <ClInclude Include="..\..\src\RefList.h" />
     <ClInclude Include="..\..\src\render\Render.h" />
+    <ClInclude Include="..\..\src\render\RenderFrustum.h" />
     <ClInclude Include="..\..\src\render\RenderShader.h" />
     <ClInclude Include="..\..\src\render\RenderTarget.h" />
     <ClInclude Include="..\..\src\render\RenderTexture.h" />
@@ -454,6 +459,7 @@
     <ClInclude Include="..\..\src\VideoLink.h" />
     <ClInclude Include="..\..\src\View.h" />
     <ClInclude Include="..\..\src\WorldView.h" />
+    <ClInclude Include="..\src\Gamma.h" />
     <ClInclude Include="..\src\pch.h" />
     <ClInclude Include="..\src\win32-dirent.h" />
   </ItemGroup>

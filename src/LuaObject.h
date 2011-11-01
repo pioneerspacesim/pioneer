@@ -209,8 +209,8 @@ private:
 template <typename T>
 class LuaAcquirer {
 public:
-	virtual void Acquire(T *) {}
-	virtual void Release(T *) {}
+	virtual void OnAcquire(T *) {}
+	virtual void OnRelease(T *) {}
 };
 
 
@@ -245,8 +245,8 @@ public:
 
 protected:
 	// hook up the appropriate acquirer for the wrapped object.
-	virtual void Acquire(DeleteEmitter *o) { this->LuaAcquirer<T>::Acquire(dynamic_cast<T*>(o)); }
-	virtual void Release(DeleteEmitter *o) { this->LuaAcquirer<T>::Release(dynamic_cast<T*>(o)); }
+	virtual void Acquire(DeleteEmitter *o) { this->LuaAcquirer<T>::OnAcquire(dynamic_cast<T*>(o)); }
+	virtual void Release(DeleteEmitter *o) { this->LuaAcquirer<T>::OnRelease(dynamic_cast<T*>(o)); }
 
 private:
 	LuaObject(T *o) : LuaObjectBase(o, s_type) {}
