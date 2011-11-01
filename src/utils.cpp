@@ -269,46 +269,6 @@ std::string format_distance(double dist)
 	}
 }
 
-static std::map<std::string, GLuint> s_textures;
-
-GLuint util_load_tex_rgba(const char *filename)
-{
-	GLuint tex = -1;
-	std::map<std::string, GLuint>::iterator t = s_textures.find(filename);
-
-	if (t != s_textures.end()) return (*t).second;
-
-	SDL_Surface *s = IMG_Load(filename);
-
-	if (s)
-	{
-		glGenTextures (1, &tex);
-		glBindTexture (GL_TEXTURE_2D, tex);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
-		switch ( s->format->BitsPerPixel )
-		{
-		case 32:
-			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, s->w, s->h, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
-			break;
-		case 24:
-			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, s->w, s->h, GL_RGB, GL_UNSIGNED_BYTE, s->pixels);
-			break;
-		default:
-			printf("Texture '%s' needs to be 24 or 32 bit.\n", filename);
-			exit(0);
-		}
-	
-		SDL_FreeSurface(s);
-
-		s_textures[filename] = tex;
-	} else {
-		Error("IMG_Load: %s\n", IMG_GetError());
-	}
-
-	return tex;
-}
-
 bool is_file(const std::string &filename)
 {
 	struct stat info;

@@ -48,8 +48,6 @@ std::string format_date_only(double time);
 std::string format_distance(double dist);
 std::string format_money(Sint64 money);
 
-GLuint util_load_tex_rgba(const char *filename);
-
 FILE *fopen_or_die(const char *filename, const char *mode);
 size_t fread_or_die(void* ptr, size_t size, size_t nmemb, FILE* stream, bool allow_truncated = false);
 
