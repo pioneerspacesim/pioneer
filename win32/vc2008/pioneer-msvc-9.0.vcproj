@@ -377,6 +377,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\Gamma.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\collider\Geom.cpp"
 				>
 			</File>
@@ -737,6 +741,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\render\RenderFrustum.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\render\RenderShader.cpp"
 				>
 			</File>
@@ -1040,6 +1048,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\GameMenuView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Gamma.h"
 				>
 			</File>
 			<File
@@ -1436,6 +1448,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\render\Render.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\render\RenderFrustum.h"
 				>
 			</File>
 			<File
