@@ -257,7 +257,6 @@ void SilentWarning(const char *format, ...)
 	fputs("\n", stderr);
 }
 
-#define AU		149598000000.0
 std::string format_distance(double dist)
 {
 	if (dist < 1000) {
