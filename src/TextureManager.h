@@ -2,6 +2,7 @@
 #define _TEXTUREMANAGER_H
 
 #include "libs.h"
+#include <string>
 
 class Texture {
 public:
@@ -27,9 +28,8 @@ private:
 };
 
 namespace TextureManager {
-	extern Texture *GetTexture(const char *filename, bool preload = false);
-	static inline Texture *GetTexture(const std::string &filename, bool preload = false) { return GetTexture(filename.c_str(), preload); }
-	extern void Clear();
+	Texture *GetTexture(const std::string &filename, bool preload = false);
+	void Clear();
 }
 
 #endif

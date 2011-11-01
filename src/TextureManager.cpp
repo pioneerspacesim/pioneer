@@ -35,7 +35,7 @@ void Texture::Load()
 namespace TextureManager {
 	static std::map<std::string, Texture*> s_textures;
 
-	Texture *GetTexture(const char *filename, bool preload)
+	Texture *GetTexture(const std::string &filename, bool preload)
 	{
 		std::map<std::string, Texture*>::iterator i = s_textures.find(filename);
 
