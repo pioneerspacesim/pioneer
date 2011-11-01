@@ -3,18 +3,17 @@
 
 #include "buildopts.h"
 
-#include <assert.h>
-#include <stdio.h>
+#include <cassert>
+#include <cstdio>
 #include <sigc++/sigc++.h>
 #include <SDL.h>
 #include <GL/glew.h>
 #include <SDL_image.h>
-#include <float.h>
+#include <cfloat>
 #include <limits>
-#include <time.h>
-#include <stdarg.h>
-#include <stdlib.h>
-
+#include <ctime>
+#include <cstdarg>
+#include <cstdlib>
 
 /* on unix this would probably become $PREFIX/pioneer */
 #ifndef PIONEER_DATA_DIR
