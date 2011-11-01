@@ -22,53 +22,35 @@
 #endif /* PIONEER_DATA_DIR */
 
 #ifdef _WIN32
-#include <malloc.h>
-#ifndef __MINGW32__
-#define alloca _alloca
-#define strncasecmp _strnicmp
-#define strcasecmp _stricmp
+#	include <malloc.h>
+#	ifndef __MINGW32__
+#		define alloca _alloca
+#		define strncasecmp _strnicmp
+#		define strcasecmp _stricmp
+#		define snprintf _snprintf
 
-#ifndef isfinite
+#		ifndef isfinite
 inline int isfinite(double x) { return _finite(x); }
-#endif
-#endif /* __MINGW32__ */
-#endif
-
-#ifdef _WIN32
-#define WIN32_LEAN_AND_MEAN
-#ifndef __MINGW32__
-#define NOMINMAX
-#endif
-#include <windows.h>
-#define snprintf _snprintf
-#endif
-
-#ifdef __MINGW32__
-#undef WINVER
-#define WINVER 0x0500
-#include <w32api.h>
-#define _WIN32_IE IE5
+#		endif
+#	endif /* __MINGW32__ */
 #endif
 
 #ifdef _WIN32
 
-#ifdef __MINGW32__
-#include <dirent.h>
-#include <sys/stat.h>
-#include <stdexcept>
-#define WINSHLWAPI
-#else /* !__MINGW32__ */
-#include "win32-dirent.h"
-#endif
-
-#include <shlobj.h>
-#include <shlwapi.h>
+#	ifdef __MINGW32__
+#		include <dirent.h>
+#		include <sys/stat.h>
+#		include <stdexcept>
+#		define WINSHLWAPI
+#	else /* !__MINGW32__ */
+#		include "win32-dirent.h"
+#	endif
 
 #else /* !_WIN32 */
-#include <dirent.h>
-#include <errno.h>
-#include <sys/stat.h>
-#include <sys/types.h>
+#	include <dirent.h>
+#	include <errno.h>
+#	include <sys/stat.h>
+#	include <sys/types.h>
 #endif
 
 #include "fixed.h"
