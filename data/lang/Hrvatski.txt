@@ -957,6 +957,8 @@ DAY_LENGTH
     Trajanje dana
 N_EARTH_DAYS
     %days{f.1} zemaljskih dana
+COUNT_STARPORTS
+    svemirske luke
 STARPORTS
     Svemirske luke
 MAJOR_IMPORTS
