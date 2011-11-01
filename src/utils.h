@@ -43,7 +43,6 @@ std::string GetPiDataDir();
 // joinpath("data","models","some.def") = "data/models/some.def"
 std::string join_path(const char *firstbit, ...);
 std::string string_join(std::vector<std::string> &v, std::string sep);
-std::string string_subst(const char *format, const unsigned int num_args, std::string args[]);
 std::string format_date(double time);
 std::string format_date_only(double time);
 std::string format_distance(double dist);
