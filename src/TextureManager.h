@@ -1,3 +1,6 @@
+#ifndef _TEXTUREMANAGER_H
+#define _TEXTUREMANAGER_H
+
 #include "libs.h"
 
 class Texture {
@@ -29,3 +32,4 @@ namespace TextureManager {
 	extern void Clear();
 }
 
+#endif
