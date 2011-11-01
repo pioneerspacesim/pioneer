@@ -257,19 +257,6 @@ void SilentWarning(const char *format, ...)
 	fputs("\n", stderr);
 }
 
-void strip_cr_lf(char *string)
-{
-	char *s = string;
-	while (*s) {
-		if ((*s == '\r') || (*s == '\n')) {
-			*s = 0;
-			break;
-		}
-		s++;
-	}
-}
-
-#define AU		149598000000.0
 std::string format_distance(double dist)
 {
 	if (dist < 1000) {
@@ -279,83 +266,6 @@ std::string format_distance(double dist)
 	} else {
 		return stringf("%0{f.2} AU", dist/AU);
 	}
-}
-
-
-/*
- * So (if you will excuse the C99 compound array literal):
- * string_subst("Hello %1, you smell of %0. Yep, definitely %0.", 2, (std::string[]){"shit","Tom"});
- * will return the string "Hello Tom, you smell of shit. Yep, definitely shit."
- */
-std::string string_subst(const char *format, const unsigned int num_args, std::string args[])
-{
-	std::string out;
-	const char *pos = format;
-
-	while (*pos) {
-		int i = 0;
-		// look for control symbol
-		while (pos[i] && (pos[i]!='%')) i++;
-		out.append(pos, i);
-		if (pos[i]=='%') {
-			unsigned int argnum;
-			if (pos[++i]=='%') {
-				out.push_back('%');
-				i++;
-			}
-			else if (1 == sscanf(&pos[i], "%u", &argnum)) {
-				if (argnum >= num_args) out.append("(INVALID ARG)");
-				else {
-					out.append(args[argnum]);
-					while (isdigit(pos[i])) i++;
-				}
-			} else {
-				out.append("(INVALID %code)");
-			}
-		}
-		pos += i;
-	}
-	return out;
-}
-
-static std::map<std::string, GLuint> s_textures;
-
-GLuint util_load_tex_rgba(const char *filename)
-{
-	GLuint tex = -1;
-	std::map<std::string, GLuint>::iterator t = s_textures.find(filename);
-
-	if (t != s_textures.end()) return (*t).second;
-
-	SDL_Surface *s = IMG_Load(filename);
-
-	if (s)
-	{
-		glGenTextures (1, &tex);
-		glBindTexture (GL_TEXTURE_2D, tex);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
-		switch ( s->format->BitsPerPixel )
-		{
-		case 32:
-			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, s->w, s->h, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
-			break;
-		case 24:
-			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, s->w, s->h, GL_RGB, GL_UNSIGNED_BYTE, s->pixels);
-			break;
-		default:
-			printf("Texture '%s' needs to be 24 or 32 bit.\n", filename);
-			exit(0);
-		}
-	
-		SDL_FreeSurface(s);
-
-		s_textures[filename] = tex;
-	} else {
-		Error("IMG_Load: %s\n", IMG_GetError());
-	}
-
-	return tex;
 }
 
 bool is_file(const std::string &filename)
