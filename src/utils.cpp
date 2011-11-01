@@ -5,6 +5,12 @@
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
 
+#ifdef _WIN32
+// GetPiUserDir() needs these
+#include <shlobj.h>
+#include <shlwapi.h>
+#endif
+
 std::string GetPiUserDir(const std::string &subdir)
 {
 
