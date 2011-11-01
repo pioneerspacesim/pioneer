@@ -211,7 +211,7 @@ static int l_sbody_attr_mass(lua_State *l)
 /*
  * Attribute: periapsis
  *
- * The periapsis of the body's orbit, in astronimcal units (AU).
+ * The periapsis of the body's orbit, in kilometres (km).
  *
  * Availability:
  *
@@ -224,14 +224,14 @@ static int l_sbody_attr_mass(lua_State *l)
 static int l_sbody_attr_periapsis(lua_State *l)
 {
 	SBody *sbody = LuaSBody::GetFromLua(1);
-	lua_pushnumber(l, sbody->orbMin.ToDouble());
+	lua_pushnumber(l, sbody->orbMin.ToDouble()*AU);
 	return 1;
 }
 
 /*
  * Attribute: apoapsis
  *
- * The apoapsis of the body's orbit, in astronimcal units (AU).
+ * The apoapsis of the body's orbit, in kilometres (km).
  *
  * Availability:
  *
@@ -244,7 +244,7 @@ static int l_sbody_attr_periapsis(lua_State *l)
 static int l_sbody_attr_apoapsis(lua_State *l)
 {
 	SBody *sbody = LuaSBody::GetFromLua(1);
-	lua_pushnumber(l, sbody->orbMax.ToDouble());
+	lua_pushnumber(l, sbody->orbMax.ToDouble()*AU);
 	return 1;
 }
 
@@ -271,7 +271,7 @@ static int l_sbody_attr_rotation_period(lua_State *l)
 /*
  * Attribute: semiMajorAxis
  *
- * The semi-major axis of the orbit, in astronimcal units (AU)
+ * The semi-major axis of the orbit, in kilometres (km).
  *
  * Availability:
  *
@@ -284,7 +284,7 @@ static int l_sbody_attr_rotation_period(lua_State *l)
 static int l_sbody_attr_semi_major_axis(lua_State *l)
 {
 	SBody *sbody = LuaSBody::GetFromLua(1);
-	lua_pushnumber(l, sbody->semiMajorAxis.ToDouble());
+	lua_pushnumber(l, sbody->semiMajorAxis.ToDouble()*AU);
 	return 1;
 }
 
