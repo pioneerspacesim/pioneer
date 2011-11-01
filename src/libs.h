@@ -34,14 +34,7 @@ inline int isfinite(double x) { return _finite(x); }
 #		endif
 #
 #		include "win32-dirent.h"
-
 #	else
-
-#		undef WINVER
-#		define WINVER 0x0500
-#		include <w32api.h>
-#		define _WIN32_IE IE5
-
 #		include <dirent.h>
 #		include <sys/stat.h>
 #		include <stdexcept>

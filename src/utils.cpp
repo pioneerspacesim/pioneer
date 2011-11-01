@@ -5,6 +5,13 @@
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
 
+#ifdef __MINGW32__
+#	undef WINVER
+#	define WINVER 0x0500
+#	include <w32api.h>
+#	define _WIN32_IE IE5
+#endif
+
 #ifdef _WIN32
 // GetPiUserDir() needs these
 #include <shlobj.h>
