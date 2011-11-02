@@ -13,12 +13,12 @@
 #include "KeyBindings.h"
 
 #define SCANNER_RANGE_MAX	100000.0f
-#define SCANNER_RANGE_MIN	3000.0f
+#define SCANNER_RANGE_MIN	1000.0f
 #define SCANNER_SCALE		0.00001f
 #define SCANNER_YSHRINK		0.75f
 #define SCANNER_MODE_AUTO	0
 #define SCANNER_MODE_MAN	1
-#define A_BIT				1.1f
+#define A_BIT				1.2f
 
 MsgLogWidget::MsgLogWidget()
 {
@@ -318,8 +318,8 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 		if (blend) glColor4f(0, 0.7f, 0, 0.25f);
 		else glColor3f(0, 0.7f, 0);
 	} else {
-		if (blend) glColor4f(0.6f, 0.6f, 0, 0.25f);
-		else glColor3f(0.6f, 0.6f, 0);
+		if (blend) glColor4f(0.7f, 0.7f, 0, 0.25f);
+		else glColor3f(0.7f, 0.7f, 0);
 	}
 
 	glBegin(GL_LINE_LOOP);
