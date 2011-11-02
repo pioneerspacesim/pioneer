@@ -17,6 +17,7 @@ public:
 	virtual void NotifyDeleted(const Body* const deletedBody);
 	virtual void PostLoadFixup();
 	void ECMAttack(int power_val);
+	Body *GetOwner() const { return m_owner; }
 protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);

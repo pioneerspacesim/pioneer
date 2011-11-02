@@ -234,7 +234,8 @@ void ScannerWidget::DrawBlobs(bool below)
 				glPointSize(4);
 				break;
 			case Object::MISSILE:
-				glColor3f(0.941f, 0.149f, 0.196f);
+				if (dynamic_cast<Missile*>(*i)->GetOwner() == Pi::player) glColor3f(0.953f, 0.929f, 0.114f);
+				else glColor3f(0.941f, 0.149f, 0.196f);
 				glLineWidth(1);
 				glPointSize(3);
 				break;
