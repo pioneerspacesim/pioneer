@@ -187,7 +187,8 @@ void ScannerWidget::UpdateContactsAndScale()
 				}
 				break;
 			case Object::CARGOBODY:
-				// XXX could maybe add orbital stations and/or clouds
+			case Object::HYPERSPACECLOUD:
+				// XXX could maybe add orbital stations
 				if (m_mode == SCANNER_MODE_AUTO && !nav_dist && !combat_dist) {
 					if (dist > far_other_dist) far_other_dist = dist;
 					if ((*i) == Pi::player->GetNavTarget()) nav_dist = dist;
@@ -242,6 +243,11 @@ void ScannerWidget::DrawBlobs(bool below)
 			case Object::CARGOBODY:
 				if ((*i) == Pi::player->GetNavTarget()) glColor3f(0, 1.0f, 0);
 				else glColor3f(0.65f, 0.65f, 0.65f);
+				glLineWidth(1);
+				glPointSize(3);
+				break;
+			case Object::HYPERSPACECLOUD:
+				glColor3f(0.5f, 0.5f, 1.0f);
 				glLineWidth(1);
 				glPointSize(3);
 				break;
