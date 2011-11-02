@@ -94,7 +94,7 @@ ScannerWidget::ScannerWidget()
 {
 	m_mode = SCANNER_MODE_AUTO;
 
-	KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::NextMode));
+	KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::ToggleMode));
 }
 
 void ScannerWidget::GetSizeRequested(float size[2])
@@ -103,7 +103,7 @@ void ScannerWidget::GetSizeRequested(float size[2])
 	size[1] = 62;
 }
 
-void ScannerWidget::NextMode()
+void ScannerWidget::ToggleMode()
 {
 	if (IsVisible()) {
 		if (m_mode == SCANNER_MODE_AUTO) m_mode = SCANNER_MODE_MAN;
