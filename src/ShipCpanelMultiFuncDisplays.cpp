@@ -10,6 +10,7 @@
 #include "Sound.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "KeyBindings.h"
 
 #define SCANNER_RANGE_MAX	100000.0f
 #define SCANNER_RANGE_MIN	3000.0f
@@ -92,6 +93,8 @@ void MsgLogWidget::GetSizeRequested(float size[2])
 ScannerWidget::ScannerWidget()
 {
 	m_mode = SCANNER_MODE_AUTO;
+
+	KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::NextMode));
 }
 
 void ScannerWidget::GetSizeRequested(float size[2])
@@ -102,8 +105,10 @@ void ScannerWidget::GetSizeRequested(float size[2])
 
 void ScannerWidget::NextMode()
 {
-	if (m_mode == SCANNER_MODE_AUTO) m_mode = SCANNER_MODE_MAN;
-	else m_mode = SCANNER_MODE_AUTO;
+	if (IsVisible()) {
+		if (m_mode == SCANNER_MODE_AUTO) m_mode = SCANNER_MODE_MAN;
+		else m_mode = SCANNER_MODE_AUTO;
+	}
 }
 
 void ScannerWidget::Draw()
@@ -208,10 +213,10 @@ void ScannerWidget::UpdateContactsAndScale()
 
 		m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
 	} else {
-		if (Pi::KeyState(SDLK_RIGHTBRACKET) && m_range < SCANNER_RANGE_MAX) {
+		if (KeyBindings::increaseScanRange.IsActive() && m_range < SCANNER_RANGE_MAX) {
 			m_range = Clamp(m_range * 1.05f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 			m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
-		} else if (Pi::KeyState(SDLK_LEFTBRACKET) && m_range > SCANNER_RANGE_MIN) {
+		} else if (KeyBindings::decreaseScanRange.IsActive() && m_range > SCANNER_RANGE_MIN) {
 			m_range = Clamp(m_range * 0.95f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 			m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
 		}
