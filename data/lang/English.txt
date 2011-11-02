@@ -556,6 +556,14 @@ INCREASE_SET_SPEED
     Increase set speed
 DECREASE_SET_SPEED
     Decrease set speed
+SCANNER_CONTROL
+	Scanner control
+TOGGLE_SCAN_MODE
+	Toggle scanner mode
+INCREASE_SCAN_RANGE
+	Increase scanner range
+DECREASE_SCAN_RANGE
+	Decrease scanner range
 TOGGLE_LUA_CONSOLE
     Toggle Lua console
 JOYSTICK_INPUT

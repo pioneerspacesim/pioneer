@@ -24,6 +24,9 @@ KeyAction fireLaser;
 KeyAction fastRotate;
 KeyAction targetObject;
 KeyAction toggleLuaConsole;
+KeyAction toggleScanMode;
+KeyAction increaseScanRange;
+KeyAction decreaseScanRange;
 
 AxisBinding pitchAxis;
 AxisBinding rollAxis;
@@ -203,6 +206,10 @@ const BindingPrototype bindingProtos[] = {
 	{ Lang::SPEED_CONTROL_MODE, 0, 0, 0 },
 	{ Lang::INCREASE_SET_SPEED, "BindIncreaseSpeed", &increaseSpeed, 0 },
 	{ Lang::DECREASE_SET_SPEED, "BindDecreaseSpeed", &decreaseSpeed, 0 },
+	{ Lang::SCANNER_CONTROL, 0, 0, 0 },
+	{ Lang::TOGGLE_SCAN_MODE, "BindToggleScanMode", &toggleScanMode, 0 },
+	{ Lang::INCREASE_SCAN_RANGE, "BindIncreaseScanRange", &increaseScanRange, 0 },
+	{ Lang::DECREASE_SCAN_RANGE, "BindDecreaseScanRange", &decreaseScanRange, 0 },
 	{ Lang::TOGGLE_LUA_CONSOLE, "BindToggleLuaConsole", &toggleLuaConsole, 0 },
 	{ 0, 0, 0, 0 },
 };
@@ -397,6 +404,9 @@ void OnKeyBindingsChanged()
 	SET_KEY_BINDING(fireLaser, "BindFireLaser");
 	SET_KEY_BINDING(fastRotate, "BindFastRotate");
 	SET_KEY_BINDING(targetObject, "BindTargetObject");
+	SET_KEY_BINDING(toggleScanMode, "BindToggleScanMode");
+	SET_KEY_BINDING(increaseScanRange, "BindIncreaseScanRange");
+	SET_KEY_BINDING(decreaseScanRange, "BindDecreaseScanRange");
 	SET_KEY_BINDING(toggleLuaConsole, "BindToggleLuaConsole");
 	//SET_KEY_BINDING(key, "Bind");
 
@@ -434,6 +444,9 @@ void SetDefaults()
 	SetSDLKeyboardBinding("BindThrustRight", SDLK_l);
 	SetSDLKeyboardBinding("BindIncreaseSpeed", SDLK_RETURN);
 	SetSDLKeyboardBinding("BindDecreaseSpeed", SDLK_RSHIFT);
+	SetSDLKeyboardBinding("BindToggleScanMode", SDLK_BACKSLASH);
+	SetSDLKeyboardBinding("BindIncreaseScanRange", SDLK_RIGHTBRACKET);
+	SetSDLKeyboardBinding("BindDecreaseScanRange", SDLK_LEFTBRACKET);
 	SetSDLKeyboardBinding("BindToggleLuaConsole", SDLK_BACKQUOTE);
 
 	SetAxisBinding("BindAxisPitch", AxisBindingFromString("-Joy0Axis1"));
