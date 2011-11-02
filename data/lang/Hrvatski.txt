@@ -407,6 +407,16 @@ DRIVE_MIL3
     Vojni pogon klase 3
 DRIVE_MIL4
     Vojni pogon klase 4
+DRIVE_MIL5
+    Vojni pogon klase 5
+DRIVE_MIL6
+    Vojni pogon klase 6
+DRIVE_MIL7
+    Vojni pogon klase 7
+DRIVE_MIL8
+    Vojni pogon klase 8
+DRIVE_MIL9
+    Vojni pogon klase 9
 PULSECANNON_1MW
     1MW impulsni top
 PULSECANNON_DUAL_1MW

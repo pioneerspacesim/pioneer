@@ -55,6 +55,11 @@ local onChat = function (form, ref, option)
 		DRIVE_MIL2 = 1.6,
 		DRIVE_MIL3 = 2.8,
 		DRIVE_MIL4 = 4.0,
+		DRIVE_MIL5 = 5.2,
+		DRIVE_MIL6 = 6.8,
+		DRIVE_MIL7 = 8.4,
+		DRIVE_MIL8 = 10.8,
+		DRIVE_MIL9 = 13.6,
 	})[hyperdrive] or 10)
 
 	-- Now make it bigger (-:
