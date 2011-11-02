@@ -11,6 +11,16 @@ Star::Star(SBody *sbody): TerrainBody(sbody)
 	m_hasDoubleFrame = false;
 }
 
+double Star::GetClipRadius() const
+{
+
+	const SBody *sbody = GetSBody();
+
+	// if star is wolf-rayet it gets a very large halo effect
+	const float wf = (sbody->type < SBody::TYPE_STAR_S_BH && sbody->type > SBody::TYPE_STAR_O_HYPER_GIANT) ? 100.0f : 1.0f;
+	return sbody->GetRadius() * 8 * wf;
+}
+
 void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	glDisable(GL_LIGHTING);
@@ -19,7 +29,7 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 
 	Render::State::UseProgram(0);
 
-	double radius = GetSBody()->GetRadius();
+	double radius = GetClipRadius();
 	
 	double rad = radius;
 	vector3d fpos = viewCoords;
@@ -42,13 +52,9 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 
 	const float *col = StarSystem::starRealColors[GetSBody()->type];
 	const float b = (Render::IsHDREnabled() ? 100.0f : 1.0f);
-	// if star is wolf-rayet it gets a very large halo effect
-	const float wf = ((GetSBody()->type < SBody::TYPE_STAR_S_BH && 
-		GetSBody()->type > SBody::TYPE_STAR_O_HYPER_GIANT) ? 100.0f : 1.0f);
 
 	MTRand(rand);
 
-	const float glowrad = float(rad*wf*8);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
 	glEnable(GL_BLEND);
 	glBegin(GL_TRIANGLE_FAN);
@@ -56,9 +62,9 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	glVertex3f(0,0,0);
 	glColor4f(0,0,0,0);
 	for (float ang=0; ang<2*M_PI; ang+=0.26183+rand.Double(0,0.4)) {
-		glVertex3f(glowrad*sin(ang), glowrad*cos(ang), 0);
+		glVertex3f(rad*sin(ang), rad*cos(ang), 0);
 	}
-	glVertex3f(0, glowrad, 0);
+	glVertex3f(0, rad, 0);
 	glEnd();
 	glDisable(GL_BLEND);
 	
