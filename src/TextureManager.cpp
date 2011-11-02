@@ -39,7 +39,8 @@ namespace TextureManager {
 	Texture *GetTexture(const std::string &filename, bool preload)
 	{
 		std::pair<TextureCacheMap::iterator, bool>
-			ret = s_textures.insert(TextureCacheMap::value_type(filename, 0));
+			ret = s_textures.insert(TextureCacheMap::value_type(filename, static_cast<Texture*>(0)));
+				// cast required as work around broken msvc rvalue reference crap
 		if (ret.second) {
 			Texture *tex = new Texture(filename, preload);
 			ret.first->second = tex;
@@ -51,7 +52,7 @@ namespace TextureManager {
 
 	void Clear()
 	{
-		std::map<std::string, Texture*>::iterator i;
+		TextureCacheMap::iterator i;
 		for (i=s_textures.begin(); i!=s_textures.end(); ++i) delete (*i).second;
 	}
 }
