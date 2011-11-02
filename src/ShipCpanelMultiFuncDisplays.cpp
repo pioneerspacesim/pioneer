@@ -179,7 +179,8 @@ void ScannerWidget::UpdateContactsAndScale()
 
 		switch ((*i)->GetType()) {
 			case Object::MISSILE:
-				// XXX should ignore player's own missiles for range calc
+				// player's own missiles are ignored for range calc but still shown
+				if (dynamic_cast<Missile*>(*i)->GetOwner() == Pi::player) break;
 			case Object::SHIP:
 				if (m_mode == SCANNER_MODE_AUTO && !combat_dist) {
 					if (dist > far_ship_dist) far_ship_dist = dist;
