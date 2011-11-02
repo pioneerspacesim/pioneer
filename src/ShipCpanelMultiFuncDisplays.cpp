@@ -10,25 +10,31 @@
 #include "Sound.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "KeyBindings.h"
 
-#define SCANNER_SCALE	0.01f
-#define SCANNER_YSHRINK 0.75f
+#define SCANNER_RANGE_MAX	100000.0f
+#define SCANNER_RANGE_MIN	1000.0f
+#define SCANNER_SCALE		0.00001f
+#define SCANNER_YSHRINK		0.75f
+#define SCANNER_MODE_AUTO	0
+#define SCANNER_MODE_MAN	1
+#define A_BIT				1.1f
 
 MsgLogWidget::MsgLogWidget()
 {
-	msgAge = 0;
-	msgLabel = new Gui::Label("");
-	curMsgType = NONE;
-	Add(msgLabel, 0, 4);
+	m_msgAge = 0;
+	m_msgLabel = new Gui::Label("");
+	m_curMsgType = NONE;
+	Add(m_msgLabel, 0, 4);
 }
 
 void MsgLogWidget::Update()
 {
-	if (curMsgType != NONE) {
+	if (m_curMsgType != NONE) {
 		// has it expired?
-		bool expired = (SDL_GetTicks() - msgAge > 5000);
+		bool expired = (SDL_GetTicks() - m_msgAge > 5000);
 
-		if (expired || ((curMsgType == NOT_IMPORTANT) && !m_msgQueue.empty())) {
+		if (expired || ((m_curMsgType == NOT_IMPORTANT) && !m_msgQueue.empty())) {
 			ShowNext();
 		}
 	} else {
@@ -40,8 +46,8 @@ void MsgLogWidget::ShowNext()
 {
     if (m_msgQueue.empty()) {
 		// current message expired and queue empty
-		msgLabel->SetText("");
-		msgAge = 0;
+		m_msgLabel->SetText("");
+		m_msgAge = 0;
 		onUngrabFocus.emit();
 	} else {
 		// current message expired and more in queue
@@ -64,14 +70,14 @@ void MsgLogWidget::ShowNext()
 		}
 
 		if (msg.sender == "") {
-			msgLabel->SetText("#0f0"+msg.message);
+			m_msgLabel->SetText("#0f0" + msg.message);
 		} else {
-			msgLabel->SetText(
+			m_msgLabel->SetText(
 				std::string("#ca0") + stringf(Lang::MESSAGE_FROM_X, formatarg("sender", msg.sender)) +
 				std::string("\n#0f0") + msg.message);
 		}
-		msgAge = SDL_GetTicks();
-		curMsgType = msg.type;
+		m_msgAge = SDL_GetTicks();
+		m_curMsgType = msg.type;
 		onGrabFocus.emit();
 	}
 }
@@ -84,121 +90,261 @@ void MsgLogWidget::GetSizeRequested(float size[2])
 
 /////////////////////////////////
 
+ScannerWidget::ScannerWidget()
+{
+	m_mode = SCANNER_MODE_AUTO;
+
+	KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::ToggleMode));
+}
+
 void ScannerWidget::GetSizeRequested(float size[2])
 {
 	size[0] = 400;
 	size[1] = 62;
 }
 
+void ScannerWidget::ToggleMode()
+{
+	if (IsVisible()) {
+		if (m_mode == SCANNER_MODE_AUTO) m_mode = SCANNER_MODE_MAN;
+		else m_mode = SCANNER_MODE_AUTO;
+	}
+}
+
 void ScannerWidget::Draw()
 {
 	if (Pi::player->m_equipment.Get(Equip::SLOT_SCANNER) != Equip::SCANNER) return;
 
+	UpdateContactsAndScale();
+
 	float size[2];
 	GetSize(size);
-	const float mx = size[0]*0.5f;
-	const float my = size[1]*0.5f;
-	float c2p[2];
+	m_x = size[0] * 0.5f;
+	m_y = size[1] * 0.5f;
 	Widget::SetClipping(size[0], size[1]);
+	float c2p[2];
 	Gui::Screen::GetCoords2Pixels(c2p);
 	
 	// draw objects below player (and below scanner)
-	DrawBlobs(true);
-	/* disc */
+	if (!m_contacts.empty()) DrawBlobs(true);
+
+	// disc
 	glEnable(GL_BLEND);
-	glColor4f(0,1,0,0.1);
+	glColor4f(0, 1.0f, 0, 0.1f);
 	glBegin(GL_TRIANGLE_FAN);
-	glVertex2f(mx, my);
-	for (float a=0; a<2*M_PI; a+=M_PI*0.02) {
-		glVertex2f(mx + mx*sin(a), my + SCANNER_YSHRINK*my*cos(a));
+	glVertex2f(m_x, m_y);
+	for (float a = 0; a < 2 * M_PI; a += M_PI * 0.02) {
+		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 	}
-	glVertex2f(mx, my + SCANNER_YSHRINK*my);
+	glVertex2f(m_x, m_y + SCANNER_YSHRINK * m_y);
 	glEnd();
 	glDisable(GL_BLEND);
-	
+
+	// circles and spokes
 	glLineWidth(1);
-	glColor3f(0,.4,0);
-	DrawDistanceRings();
+	DrawRingsAndSpokes(false);
+	// draw blended in slightly different places to anti-alias
 	glPushMatrix();
 	glEnable(GL_BLEND);
-	glColor4f(0,.4,0,0.25);
-	glTranslatef(0.5f*c2p[0],0.5f*c2p[1],0);
-	DrawDistanceRings();
-	glTranslatef(0,-c2p[1],0);
-	DrawDistanceRings();
-	glTranslatef(-c2p[0],0,0);
-	DrawDistanceRings();
-	glTranslatef(0,c2p[1],0);
-	DrawDistanceRings();
+	glTranslatef(0.5f * c2p[0], 0.5f * c2p[1], 0);
+	DrawRingsAndSpokes(true);
+	glTranslatef(0, -c2p[1], 0);
+	DrawRingsAndSpokes(true);
+	glTranslatef(-c2p[0], 0, 0);
+	DrawRingsAndSpokes(true);
+	glTranslatef(0, c2p[1], 0);
+	DrawRingsAndSpokes(true);
 	glPopMatrix();
 	glDisable(GL_BLEND);
-	DrawBlobs(false);
+
+	// objects above
+	if (!m_contacts.empty()) DrawBlobs(false);
+
 	Widget::EndClipping();
 	glLineWidth(1.0f);
 	glPointSize(1.0f);
+
+	m_contacts.clear();
+}
+
+void ScannerWidget::UpdateContactsAndScale()
+{
+	// collect the bodies to be displayed, and if AUTO, distances
+	float combat_dist = 0, far_ship_dist = 0, nav_dist = 0, far_other_dist = 0;
+	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+		if ((*i) == Pi::player) continue;
+
+		float dist = float((*i)->GetPositionRelTo(Pi::player).Length());
+		if (dist > SCANNER_RANGE_MAX) continue;
+
+		switch ((*i)->GetType()) {
+			case Object::MISSILE:
+				// player's own missiles are ignored for range calc but still shown
+				if (dynamic_cast<Missile*>(*i)->GetOwner() == Pi::player) break;
+			case Object::SHIP:
+				if (m_mode == SCANNER_MODE_AUTO && !combat_dist) {
+					if (dist > far_ship_dist) far_ship_dist = dist;
+					if ((*i) == Pi::player->GetCombatTarget()) combat_dist = dist;
+				}
+				break;
+			case Object::CARGOBODY:
+			case Object::HYPERSPACECLOUD:
+				// XXX could maybe add orbital stations
+				if (m_mode == SCANNER_MODE_AUTO && !nav_dist && !combat_dist) {
+					if (dist > far_other_dist) far_other_dist = dist;
+					if ((*i) == Pi::player->GetNavTarget()) nav_dist = dist;
+				}
+				break;
+			default: continue;
+		}
+
+		m_contacts.push_back(*i);
+	}
+
+	// range priority is combat target > ship/missile > nav target > other
+	if (m_mode == SCANNER_MODE_AUTO) {
+		if (combat_dist) m_range =
+			Clamp(combat_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+		else if (far_ship_dist) m_range =
+			Clamp(far_ship_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+		else if (nav_dist) m_range =
+			Clamp(nav_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+		else if (far_other_dist) m_range =
+			Clamp(far_other_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+		else m_range = SCANNER_RANGE_MAX;
+
+		m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
+	} else {
+		if (KeyBindings::increaseScanRange.IsActive() && m_range < SCANNER_RANGE_MAX) {
+			m_range = Clamp(m_range * 1.05f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+			m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
+		} else if (KeyBindings::decreaseScanRange.IsActive() && m_range > SCANNER_RANGE_MIN) {
+			m_range = Clamp(m_range * 0.95f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+			m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
+		}
+	}
 }
 
 void ScannerWidget::DrawBlobs(bool below)
 {
-	float size[2];
-	GetSize(size);
-	float mx = size[0]*0.5f;
-	float my = size[1]*0.5f;
-	glLineWidth(2);
-	glPointSize(4);
-	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
-		if ((*i) == Pi::player) continue;
-		if ((!(*i)->IsType(Object::SHIP)) &&
-		    (!(*i)->IsType(Object::CARGOBODY))) continue;
+	for (std::list<Body*>::iterator i = m_contacts.begin(); i != m_contacts.end(); ++i) {
 		switch ((*i)->GetType()) {
-			case Object::SHIP: glColor3f(1,0,0); break;
+			case Object::SHIP:
+				if ((*i) == Pi::player->GetCombatTarget()) glColor3f(0.941f, 0.149f, 0.196f);
+				else glColor3f(0.953f, 0.929f, 0.114f);
+				glLineWidth(2);
+				glPointSize(4);
+				break;
+			case Object::MISSILE:
+				if (dynamic_cast<Missile*>(*i)->GetOwner() == Pi::player) glColor3f(0.953f, 0.929f, 0.114f);
+				else glColor3f(0.941f, 0.149f, 0.196f);
+				glLineWidth(1);
+				glPointSize(3);
+				break;
 			case Object::CARGOBODY:
-				glColor3f(.5,.5,1); break;
+				if ((*i) == Pi::player->GetNavTarget()) glColor3f(0, 1.0f, 0);
+				else glColor3f(0.65f, 0.65f, 0.65f);
+				glLineWidth(1);
+				glPointSize(3);
+				break;
+			case Object::HYPERSPACECLOUD:
+				if ((*i) == Pi::player->GetNavTarget()) glColor3f(0, 1.0f, 0);
+				else glColor3f(0.5f, 0.5f, 1.0f);
+				glLineWidth(1);
+				glPointSize(3);
+				break;
 			default: continue;
 		}
-		if ((*i)->GetFrame() == Pi::player->GetFrame()) {
-			vector3d pos = (*i)->GetPosition() - Pi::player->GetPosition();
-			matrix4x4d rot;
-			Pi::player->GetRotMatrix(rot);
-			pos = rot.InverseOf() * pos;
 
-			if ((pos.y>0)&&(below)) continue;
-			if ((pos.y<0)&&(!below)) continue;
+		vector3d pos = (*i)->GetPositionRelTo(Pi::player);
+		matrix4x4d rot;
+		Pi::player->GetRotMatrix(rot);
+		pos = rot.InverseOf() * pos;
 
-			glBegin(GL_LINES);
-			glVertex2f(mx + float(pos.x)*SCANNER_SCALE, my + SCANNER_YSHRINK*float(pos.z)*SCANNER_SCALE);
-			glVertex2f(mx + float(pos.x)*SCANNER_SCALE, my + SCANNER_YSHRINK*float(pos.z)*SCANNER_SCALE - SCANNER_YSHRINK*float(pos.y)*SCANNER_SCALE);
-			glEnd();
-			
-			glBegin(GL_POINTS);
-			glVertex2f(mx + float(pos.x)*SCANNER_SCALE, my + SCANNER_YSHRINK*float(pos.z)*SCANNER_SCALE - SCANNER_YSHRINK*float(pos.y)*SCANNER_SCALE);
-			glEnd();
-		}
+		if ((pos.y > 0) && (below)) continue;
+		if ((pos.y < 0) && (!below)) continue;
+
+		float x = m_x + m_x * float(pos.x) * m_scale;
+		float y_base = m_y + m_y * SCANNER_YSHRINK * float(pos.z) * m_scale;
+		float y_blob = y_base - m_y * SCANNER_YSHRINK * float(pos.y) * m_scale;
+
+		glBegin(GL_LINES);
+		glVertex2f(x, y_base);
+		glVertex2f(x, y_blob);
+		glEnd();
+
+		glBegin(GL_POINTS);
+		glVertex2f(x, y_blob);
+		glEnd();
 	}
 }
-void ScannerWidget::DrawDistanceRings()
+
+void ScannerWidget::DrawRingsAndSpokes(bool blend)
 {
-	float size[2];
-	GetSize(size);
-	float mx = size[0]*0.5f;
-	float my = size[1]*0.5f;
+	static const float circle = float(2 * M_PI);
+	static const float step = float(M_PI * 0.02); // 1/100th or 3.6 degrees
 
 	/* soicles */
-	for (float sz=1.0f; sz>0.1f; sz-=0.33f) {
+	if (blend) glColor4f(0, 0.4f, 0, 0.25f);
+	else glColor3f(0, 0.4f, 0);
+	/* inner soicle */
+	glBegin(GL_LINE_LOOP);
+	for (float a = 0; a < circle; a += step) {
+		glVertex2f(m_x + 0.1f * m_x * sin(a), m_y + SCANNER_YSHRINK * 0.1f * m_y * cos(a));
+	}
+	glEnd();
+	/* dynamic soicles */
+	for (int p = 0; p < 7; ++p) {
+		float sz = (pow(2.0f, p) * 1000.0f) / m_range;
+		if (sz <= 0.1f) continue;
+		if (sz >= 1.0f) break;
 		glBegin(GL_LINE_LOOP);
-		for (float a=0; a<2*M_PI; a+=float(M_PI*0.02)) {
-			glVertex2f(mx + sz*mx*sin(a), my + SCANNER_YSHRINK*sz*my*cos(a));
+		for (float a = 0; a < circle; a += step) {
+			glVertex2f(m_x + sz * m_x * sin(a), m_y + SCANNER_YSHRINK * sz * m_y * cos(a));
 		}
 		glEnd();
 	}
 	/* schpokes */
 	glBegin(GL_LINES);
-	for (float a=0; a<2*M_PI; a+=float(M_PI*0.25)) {
-		glVertex2f(mx, my);
-		glVertex2f(mx + mx*sin(a), my + SCANNER_YSHRINK*my*cos(a));
+	for (float a = 0; a < circle; a += float(M_PI * 0.25)) {
+		glVertex2f(m_x + m_x * 0.1f * sin(a), m_y + 0.1f * SCANNER_YSHRINK * m_y * cos(a));
+		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
 	}
 	glEnd();
 
+	/* outer range soicle */
+	float range_percent = m_range / SCANNER_RANGE_MAX;
+
+	if (m_mode == SCANNER_MODE_AUTO) {
+		/* green like the scanner to indicate that the scanner is controlling the range */
+		if (blend) glColor4f(0, 0.7f, 0, 0.25f);
+		else glColor3f(0, 0.7f, 0);
+	} else {
+		if (blend) glColor4f(0.7f, 0.7f, 0, 0.25f);
+		else glColor3f(0.7f, 0.7f, 0);
+	}
+
+	glBegin(GL_LINE_LOOP);
+	for (float a = 0; a < range_percent * circle; a += step) {
+		glVertex2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+	}
+	if (range_percent < 1.0f) {
+		/* this vertex is so the part that indicates range ends at
+		 * the exact point rather than a multiple of 3.6 degrees */
+		glVertex2f(m_x - m_x * sin(range_percent * circle),
+			m_y + SCANNER_YSHRINK * m_y * cos(range_percent * circle));
+		if (blend) glColor4f(0.2f, 0.3f, 0.2f, 0.25f);
+		else glColor3f(0.2f, 0.3f, 0.2f);
+		/* we start the second color at the same point so that it changes
+		 * immediately rather than blending over 3.6 degrees */
+		for (float a = range_percent * circle; a < circle; a += step) {
+			glVertex2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+		}
+		/* this vertex ensures that the end of the second color
+		 * doesn't blend with the beginning of the first color */
+		glVertex2f(m_x, m_y + SCANNER_YSHRINK * m_y);
+	}
+	glEnd();
 }
 
 /////////////////////////////////
@@ -236,9 +382,9 @@ void UseEquipWidget::UpdateEquip()
 	int numSlots = Pi::player->m_equipment.GetSlotSize(Equip::SLOT_MISSILE);
 
 	if (numSlots) {
-		float spacing = 380.0 / numSlots;
+		float spacing = 380.0f / numSlots;
 
-		for (int i=0; i<numSlots; i++) {
+		for (int i = 0; i < numSlots; ++i) {
 			const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_MISSILE, i);
 			if (t == Equip::NONE) continue;
 
@@ -258,7 +404,7 @@ void UseEquipWidget::UpdateEquip()
 					b = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/missile_naval.png");
 					break;
 			}
-			Add(b, spacing*i, 40);
+			Add(b, spacing * i, 40);
 			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &UseEquipWidget::FireMissile), i));
 			b->SetToolTip(Equip::types[t].name);
 		}
@@ -278,10 +424,6 @@ void UseEquipWidget::UpdateEquip()
 		}
 	}
 		
-}
-
-void UseEquipWidget::Update()
-{
 }
 
 ///////////////////////////////////////////////
@@ -320,12 +462,12 @@ void MultiFuncSelectorWidget::OnClickButton(multifuncfunc_t f)
 	UpdateButtons();
 	onSelect.emit(f);
 }
+
 void MultiFuncSelectorWidget::UpdateButtons()
 {
 	RemoveAllChildren();
 
-	for (int i=0; i<MFUNC_MAX; i++) {
-		Add(m_buttons[i], 36.0f+36.0f*float(i), 0.0);
+	for (int i = 0; i < MFUNC_MAX; ++i) {
+		Add(m_buttons[i], 36.0f + 36.0f * float(i), 0.0);
 	}
 }
-

@@ -44,19 +44,29 @@ private:
 		Type type;
 	};
 	std::list<message_t> m_msgQueue;
-	Uint32 msgAge;
-	Gui::Label *msgLabel;
-	Type curMsgType;
+	Uint32 m_msgAge;
+	Gui::Label *m_msgLabel;
+	Type m_curMsgType;
 };
 
 class ScannerWidget: public IMultiFunc, public Gui::Widget {
 public:
+	ScannerWidget();
 	void GetSizeRequested(float size[2]);
+	void ToggleMode();
 	void Draw();
 	virtual void Update() {}
 private:
+	void UpdateContactsAndScale();
 	void DrawBlobs(bool below);
-	void DrawDistanceRings();
+	void DrawRingsAndSpokes(bool blend);
+
+	std::list<Body*> m_contacts;
+	int m_mode;
+	float m_range;
+	float m_scale;
+	float m_x;
+	float m_y;
 };
 
 class UseEquipWidget: public IMultiFunc, public Gui::Fixed {
@@ -64,7 +74,7 @@ public:
 	UseEquipWidget();
 	virtual ~UseEquipWidget();
 	void GetSizeRequested(float size[2]);
-	virtual void Update();
+	virtual void Update() {}
 private:
 	void UpdateEquip();
 	void UseRadarMapper();
