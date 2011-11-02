@@ -3,6 +3,8 @@ Alpha 16
   * New features
     * New ships: "Wave Heavy Hypersonic Fighter" and "Turtle" (#558, #657)
     * Cargo scooping (#585, #708)
+    * Target and velocity indicators now shown with directions at edge of
+      screen if they are not directly in front (#750, #752)
     * Spanish translation (#628)
 
   * Minor changes and tweaks
@@ -44,6 +46,9 @@ Alpha 16
       is no long in memory (#729)
     * Fix material use in ship landing lights (#656, #705)
     * Fix screenshot crashes (#742, #727, #645)
+    * "Repair 1% hull" display correct % and cost when hull has <1% damage (#748, #467)
+    * Fix error capture from filter functions to EquipType.GetEquipTypes,
+      ShipType.GetShipTypes and Space.GetBodies when called from console (#764)
   
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
@@ -54,9 +59,13 @@ Alpha 16
     * Serializer support for Lua-based objects (#715)
     * New SystemBody.population attribute (#726)
     * Ship.GetEquip and Ship.SetEquip changed to 1-based indexing (#719)
+    * SystemBody now has several new attributes for body size and orbital
+      parameters (#760, #754)
 
   * Internal changes
-    * Cleanups, leaks fixed and general code improvements (#635, #637, #665, #729)
+    * Cleanups, leaks fixed and general code improvements (#635, #637, #665,
+      #729, #753, #743, #741, #761, #762)
+    * Windows build optimisations (#636, #758)
     * Improve terrain generation performance
     * Run Lua timers from the physics loop, which should help to make frame
       times a little more consistent
@@ -64,6 +73,7 @@ Alpha 16
     * Show Lua memory usage in debug info (#638)
     * Limit number of physics updates between render updates (#671)
     * scan_enums.py preprocessor to generate string->enum mappings (#716, #686, #723)
+    * Camera and rendering refactor (#744)
 
 Alpha 15
 

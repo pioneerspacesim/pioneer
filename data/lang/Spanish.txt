@@ -960,6 +960,8 @@ DAY_LENGTH
     Duración del día
 N_EARTH_DAYS
     %days{f.1} días terrestres
+COUNT_STARPORTS
+    puertos estelares
 STARPORTS
     Puertos estelares
 MAJOR_IMPORTS

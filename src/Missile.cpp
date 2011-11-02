@@ -63,6 +63,14 @@ void Missile::TimeStepUpdate(const float timeStep)
 	m_distToTarget = dist;
 }
 
+bool Missile::OnCollision(Object *o, Uint32 flags, double relVel)
+{
+	if (!IsDead()) {
+		Explode();
+	}
+	return true;
+}
+
 bool Missile::OnDamage(Object *attacker, float kgDamage)
 {
 	if (!IsDead()) {

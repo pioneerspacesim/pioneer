@@ -969,6 +969,8 @@ DAY_LENGTH
     Długość dnia
 N_EARTH_DAYS
     %days{f.1} ziemskich dni
+COUNT_STARPORTS
+    stacjami kosmicznymi
 STARPORTS
     Stacje kosmiczne
 MAJOR_IMPORTS
@@ -990,7 +992,7 @@ ECONOMIC_INFO
 DEMOGRAPHICS
     Demografia
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
-    Stabilny system z %bodycount głównymi %{body(s)}, posiadający %portcount %{starport(s)}.
+    Stabilny system z %bodycount %{body(s)} i %portcount %{starport(s)}.
 BODY
     ciałem
 BODIES

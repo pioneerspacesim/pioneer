@@ -43,14 +43,10 @@ std::string GetPiDataDir();
 // joinpath("data","models","some.def") = "data/models/some.def"
 std::string join_path(const char *firstbit, ...);
 std::string string_join(std::vector<std::string> &v, std::string sep);
-std::string string_subst(const char *format, const unsigned int num_args, std::string args[]);
 std::string format_date(double time);
 std::string format_date_only(double time);
 std::string format_distance(double dist);
 std::string format_money(Sint64 money);
-void strip_cr_lf(char *string);
-
-GLuint util_load_tex_rgba(const char *filename);
 
 FILE *fopen_or_die(const char *filename, const char *mode);
 size_t fread_or_die(void* ptr, size_t size, size_t nmemb, FILE* stream, bool allow_truncated = false);
@@ -71,16 +67,6 @@ static inline Sint64 isqrt(Sint64 a)
 	}
 	return ret;
 }
-
-struct Plane {
-	double a, b, c, d;
-	double DistanceToPoint(const vector3d &p) {
-		return a*p.x + b*p.y + c*p.z + d;
-	}
-};
-
-/* from current GL modelview*projection matrix */
-void GetFrustum(Plane planes[6]);
 
 bool is_file(const std::string &filename);
 bool is_dir(const std::string &filename);

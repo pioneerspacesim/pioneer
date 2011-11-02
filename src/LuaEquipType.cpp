@@ -128,9 +128,12 @@ static int l_equiptype_get_equip_type(lua_State *l)
  *
  * Finds equipment types that match a criteria
  *
- * > equiptypes = EquipType.GetEquipTypes(filter)
+ * > equiptypes = EquipType.GetEquipTypes(slot, filter)
  *
  * Parameters:
+ *
+ *   slot   - a <Constant.EquipSlot> string. Only equipment that may be used
+ *            in this slot will be returned.
  *
  *   filter - an optional function. If specified the function will be called
  *            once for each equipment or cargo type with two parameters:
@@ -186,7 +189,16 @@ static int l_equiptype_get_equip_types(lua_State *l)
 				lua_pushvalue(l, 2);
 				lua_pushstring(l, name);
 				LuaEquipType::PushToLua(et);
-				pi_lua_protected_call(l, 2, 1);
+				if (int ret = lua_pcall(l, 2, 1, 0)) {
+					const char *errmsg;
+					if (ret == LUA_ERRRUN)
+						errmsg = lua_tostring(l, -1);
+					else if (ret == LUA_ERRMEM)
+						errmsg = "memory allocation failure";
+					else if (ret == LUA_ERRERR)
+						errmsg = "error in error handler function";
+					luaL_error(l, "Error in filter function: %s", errmsg);
+				}
 				if (!lua_toboolean(l, -1)) {
 					lua_pop(l, 1);
 					continue;

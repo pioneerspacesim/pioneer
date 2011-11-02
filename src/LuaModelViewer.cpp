@@ -601,9 +601,9 @@ void Viewer::MainLoop()
 			glPopMatrix();
 		} else {
 			matrix4x4f tran = modelRot * g_camorient;//.InverseOf();
-			vector3d forward = tran * vector3d(0.0,0.0,-1.0);
-			vector3d up = tran * vector3d(0.0,1.0,0.0);
-			raytraceCollMesh(modelRot * g_campos, up, forward, m_space);
+			vector3d forward = vector3d(tran * vector3f(0.0,0.0,-1.0));
+			vector3d up = vector3d(tran * vector3f(0.0,1.0,0.0));
+			raytraceCollMesh(vector3d(modelRot * g_campos), up, forward, m_space);
 		}
 		Render::State::UseProgram(0);
 		if (m_showBoundingRadius) {

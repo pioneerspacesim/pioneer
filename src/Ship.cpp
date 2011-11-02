@@ -17,6 +17,7 @@
 #include "HyperspaceCloud.h"
 #include "ShipCpanel.h"
 #include "LmrModel.h"
+#include "TextureManager.h"
 #include "Polit.h"
 #include "CityOnPlanet.h"
 #include "Missile.h"
@@ -1052,20 +1053,20 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 			const double r1 = Pi::rng.Double()-0.5;
 			const double r2 = Pi::rng.Double()-0.5;
 			const double r3 = Pi::rng.Double()-0.5;
-			v[i] = viewTransform * (
+			v[i] = vector3f(viewTransform * (
 				GetPosition() +
 				GetLmrCollMesh()->GetBoundingRadius() *
 				vector3d(r1, r2, r3).Normalized()
-			);
+			));
 		}
 		Color c(0.5,0.5,1.0,1.0);
 		float totalRechargeTime = GetECMRechargeTime();
 		if (totalRechargeTime >= 0.0f) {
 			c.a = m_ecmRecharge / totalRechargeTime;
 		}
-		GLuint tex = util_load_tex_rgba(PIONEER_DATA_DIR"/textures/ecm.png");
 
-		glBindTexture(GL_TEXTURE_2D, tex);
+		Texture *tex = TextureManager::GetTexture(PIONEER_DATA_DIR"/textures/ecm.png");
+		tex->BindTexture();
 		Render::PutPointSprites(100, v, 50.0f, c);
 	}
 
