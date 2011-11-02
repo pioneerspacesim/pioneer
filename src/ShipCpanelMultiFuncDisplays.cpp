@@ -18,7 +18,7 @@
 #define SCANNER_YSHRINK		0.75f
 #define SCANNER_MODE_AUTO	0
 #define SCANNER_MODE_MAN	1
-#define A_BIT				1.2f
+#define A_BIT				1.1f
 
 MsgLogWidget::MsgLogWidget()
 {
@@ -248,7 +248,8 @@ void ScannerWidget::DrawBlobs(bool below)
 				glPointSize(3);
 				break;
 			case Object::HYPERSPACECLOUD:
-				glColor3f(0.5f, 0.5f, 1.0f);
+				if ((*i) == Pi::player->GetNavTarget()) glColor3f(0, 1.0f, 0);
+				else glColor3f(0.5f, 0.5f, 1.0f);
 				glLineWidth(1);
 				glPointSize(3);
 				break;
