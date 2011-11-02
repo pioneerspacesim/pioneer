@@ -149,24 +149,3 @@ void FaceElement::OnRender()
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 }
-
-
-class FaceElementInstancer : public Rocket::Core::ElementInstancer {
-	virtual Rocket::Core::Element *InstanceElement(Rocket::Core::Element *parent, const Rocket::Core::String &tag, const Rocket::Core::XMLAttributes &attributes) {
-		return new FaceElement(tag);
-	}
-
-	virtual void ReleaseElement(Rocket::Core::Element *element) {
-		delete element;
-	}
-
-	virtual void Release() {
-		delete this;
-	}
-};
-
-void FaceElement::Register() {
-	Rocket::Core::ElementInstancer *instancer = new FaceElementInstancer();
-	Rocket::Core::Factory::RegisterElementInstancer("face", instancer);
-	instancer->RemoveReference();
-}

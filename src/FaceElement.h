@@ -14,8 +14,6 @@ public:
 	virtual void OnRender();
 	virtual void OnAttributeChange(const Rocket::Core::AttributeNameList& changed_attributes);
 	
-	static void Register();
-	
 private:
 	bool m_initted;
 

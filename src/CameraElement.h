@@ -25,8 +25,6 @@ public:
 	virtual void OnUpdate();
 	virtual void OnRender();
 
-	static void Register();
-
 	virtual void UpdateFromStash(const CameraElementData &camera);
 
 private:

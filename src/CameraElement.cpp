@@ -59,24 +59,3 @@ void CameraElement::OnRender()
 	glDisable(GL_SCISSOR_TEST);
 	glPopAttrib();
 }
-
-
-class CameraElementInstancer : public Rocket::Core::ElementInstancer {
-	virtual Rocket::Core::Element *InstanceElement(Rocket::Core::Element *parent, const Rocket::Core::String &tag, const Rocket::Core::XMLAttributes &attributes) {
-		return new CameraElement(tag);
-	}
-
-	virtual void ReleaseElement(Rocket::Core::Element *element) {
-		delete element;
-	}
-
-	virtual void Release() {
-		delete this;
-	}
-};
-
-void CameraElement::Register() {
-	Rocket::Core::ElementInstancer *instancer = new CameraElementInstancer();
-	Rocket::Core::Factory::RegisterElementInstancer("camera", instancer);
-	instancer->RemoveReference();
-}

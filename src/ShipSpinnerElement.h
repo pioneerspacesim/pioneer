@@ -14,8 +14,6 @@ public:
 
 	virtual bool GetIntrinsicDimensions(Rocket::Core::Vector2f& dimensions);
 	virtual void OnRender();
-	
-	static void Register();
 
 	virtual void UpdateFromStash(const ShipFlavour &flavour);
 	

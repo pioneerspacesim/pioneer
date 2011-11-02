@@ -452,9 +452,9 @@ void Pi::Init()
 	InitOpenGL();
 
 	rocketManager = new RocketManager(width, height);
-	CameraElement::Register();
-	FaceElement::Register();
-	ShipSpinnerElement::Register();
+	rocketManager->RegisterCustomElement<CameraElement>("camera");
+	rocketManager->RegisterCustomElement<FaceElement>("face");
+	rocketManager->RegisterCustomElement<ShipSpinnerElement>("ship");
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)

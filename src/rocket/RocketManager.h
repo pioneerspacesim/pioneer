@@ -76,6 +76,12 @@ public:
 	RocketManager(int width, int height);
 	~RocketManager();
 
+	template <typename T> void RegisterCustomElement(const std::string &tag) {
+		Rocket::Core::ElementInstancer *instancer = new RocketElementInstancer<T>();
+		Rocket::Core::Factory::RegisterElementInstancer(tag.c_str(), instancer);
+		instancer->RemoveReference();
+	}
+
 	RocketScreen *OpenScreen(const std::string &name);
 	RocketScreen *GetCurrentScreen() const { return m_currentScreen; }
 
@@ -86,6 +92,21 @@ public:
 	void Draw();
 
 private:
+	template <typename T>
+	class RocketElementInstancer : public Rocket::Core::ElementInstancer {
+	    virtual Rocket::Core::Element *InstanceElement(Rocket::Core::Element *parent, const Rocket::Core::String &tag, const Rocket::Core::XMLAttributes &attributes) {
+	        return new T(tag);
+	    }   
+
+	    virtual void ReleaseElement(Rocket::Core::Element *element) {
+	        delete element;
+	    }
+    
+	    virtual void Release() {
+	        delete this;
+		}
+	};
+
 	int m_width, m_height;
 
 	RocketSystem *m_rocketSystem;
