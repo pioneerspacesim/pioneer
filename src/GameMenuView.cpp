@@ -617,7 +617,11 @@ GameMenuView::GameMenuView(): View()
 
 		Gui::VBox *box2 = new Gui::VBox();
 		box2->SetSpacing(5.0f);
-		keybindingTab->Add(box2, 400, 10);
+		keybindingTab->Add(box2, 270, 10);
+
+        Gui::VBox *box3 = new Gui::VBox();
+		box1->SetSpacing(5.0f);
+		keybindingTab->Add(box3, 540, 10);
 
 		Gui::VBox *box = box1;
 		KeyGetter *keyg;
@@ -637,8 +641,13 @@ GameMenuView::GameMenuView(): View()
 			}
 
 			/* 2nd column */
-			if (i == 20) {
+			if (i == 17) {
 				box = box2;
+			}
+
+            /* 3nd column */
+			if (i == 36) {
+				box = box3;
 			}
 		}
 
