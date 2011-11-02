@@ -350,6 +350,8 @@ ECM_ADVANCED_DESCRIPTION
     An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles.
 SHIELD_GENERATOR
     Shield Generator
+X_SHIELD_GENERATORS
+    %quantity Shield Generators
 SHIELD_GENERATOR_DESCRIPTION
     Provides additional hull defences with each unit fitted.
 LASER_COOLING_BOOSTER
