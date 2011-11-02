@@ -27,7 +27,6 @@ private:
 	void OnClickTimeaccel(int val);
 	void OnClickComms(Gui::MultiStateImageButton *b);
 	void OnDockingClearanceExpired(const SpaceStation *);
-	void OnKeyPress(SDL_keysym *keysym);
 
 	void OnUserChangeMultiFunctionDisplay(multifuncfunc_t f);
 	void ChangeMultiFunctionDisplay(multifuncfunc_t selected);
@@ -40,7 +39,6 @@ private:
 	Gui::Label *m_clock;
 
 	sigc::connection m_connOnDockingClearanceExpired;
-	sigc::connection m_connOnKeyPress;
 
 	MultiFuncSelectorWidget *m_mfsel;
 	ScannerWidget *m_scanner;
