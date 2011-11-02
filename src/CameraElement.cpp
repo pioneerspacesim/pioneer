@@ -49,9 +49,11 @@ void CameraElement::OnRender()
 	float width = GetClientWidth();
 	float height = GetClientHeight();
 
+	float invy = GetContext()->GetDimensions().y-(y+height);
+
 	glPushAttrib(GL_VIEWPORT_BIT);
-	glViewport(x, GLint(GetContext()->GetDimensions().y-(y+height)), GLsizei(width), GLsizei(height));
-	glScissor(x, GLint(GetContext()->GetDimensions().y-(y+height)), GLsizei(width), GLsizei(height));
+	glViewport(GLint(x), GLint(invy), GLsizei(width), GLsizei(height));
+	glScissor(GLint(x), GLint(invy), GLsizei(width), GLsizei(height));
 	glEnable(GL_SCISSOR_TEST);
 	m_camera->Draw();
 	glDisable(GL_SCISSOR_TEST);
