@@ -14,7 +14,7 @@
 
 class pi_fixed {
 public:
-	pi_fixed(): f(0,0) { }
+	pi_fixed(): f() { }
 	pi_fixed(int n, int d): f(n,d) { }
 	pi_fixed(const pi_fixed &a) { f = a; }
 	pi_fixed(const fixed &a) { f = a; }

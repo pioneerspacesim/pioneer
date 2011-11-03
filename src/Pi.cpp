@@ -640,7 +640,7 @@ void Pi::SetTimeAccel(int s)
 	}
 	// Give all ships a half-step acceleration to stop autopilot overshoot
 	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
-		if ((*i)->IsType(Object::SHIP)) (static_cast<DynamicBody *>(*i))->ApplyAccel(0.5*Pi::GetTimeStep());
+		if ((*i)->IsType(Object::SHIP)) (static_cast<DynamicBody *>(*i))->ApplyAccel(0.5f*Pi::GetTimeStep());
 	}
 
 	timeAccelIdx = s;
@@ -900,8 +900,8 @@ static void draw_intro(Background::Starfield *starfield, Background::MilkyWay *m
 	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
 	glEnable(GL_LIGHT0);
 	
-	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6*_time) *
-			matrix4x4f::RotateXMatrix(_time*.7);
+	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6f*_time) *
+			matrix4x4f::RotateXMatrix(_time*0.7f);
 	rot[14] = -80.0;
 	LmrLookupModelByName("lanner_ub")->Render(rot, &params);
 	Render::State::UseProgram(0);
@@ -957,7 +957,7 @@ void Pi::TombStoneLoop()
 		Render::PrepareFrame();
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		float fracH = 1.0 / Pi::GetScrAspect();
+		float fracH = 1.0f / Pi::GetScrAspect();
 		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
@@ -972,7 +972,7 @@ void Pi::TombStoneLoop()
 		Gui::Draw();
 		Render::SwapBuffers();
 		
-		Pi::frameTime = 0.001*(SDL_GetTicks() - last_time);
+		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
 	} while (!((_time > 2.0) && ((Pi::MouseButtonState(SDL_BUTTON_LEFT)) || Pi::KeyState(SDLK_SPACE)) ));
@@ -1098,6 +1098,7 @@ void Pi::Start()
 	screen->GetEventListener("quit"           )->SetHandler(sigc::bind(sigc::ptr_fun(&_main_menu_click), 5));
 
 	_main_menu_selected = 0;
+
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
 	do {
@@ -1106,7 +1107,7 @@ void Pi::Start()
 		Render::PrepareFrame();
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		float fracH = 1.0 / Pi::GetScrAspect();
+		float fracH = 1.0f / Pi::GetScrAspect();
 		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
@@ -1122,7 +1123,7 @@ void Pi::Start()
 
 		Render::SwapBuffers();
 		
-		Pi::frameTime = 0.001*(SDL_GetTicks() - last_time);
+		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
 	} while (!_main_menu_selected);
@@ -1517,6 +1518,10 @@ void Pi::Serialize(Serializer::Writer &wr)
 	wr.WrSection("WorldView", section.GetData());
 
 	section = Serializer::Writer();
+	cpan->Save(section);
+	wr.WrSection("Cpanel", section.GetData());
+
+	section = Serializer::Writer();
 	luaSerializer->Serialize(section);
 	wr.WrSection("LuaModules", section.GetData());
 }
@@ -1553,6 +1558,9 @@ void Pi::Unserialize(Serializer::Reader &rd)
 	section = rd.RdSection("WorldView");
 	worldView->Load(section);
 
+	section = rd.RdSection("Cpanel");
+	cpan->Load(section);
+
 	section = rd.RdSection("LuaModules");
 	luaSerializer->Unserialize(section);
 }
@@ -1563,7 +1571,7 @@ float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)
 	// Brian: "The 60% value was arrived at through trial and error, 
 	// to scale the entire jump range calculation after things like ship mass,
 	// cargo mass, hyperdrive class, fuel use and fun were factored in."
-	return 200.0f * hyperclass * hyperclass / (float(total_mass_in_tonnes)*0.6);
+	return 200.0f * hyperclass * hyperclass / (total_mass_in_tonnes * 0.6f);
 }
 
 void Pi::Message(const std::string &message, const std::string &from, enum MsgLevel level)

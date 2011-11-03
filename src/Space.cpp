@@ -19,6 +19,7 @@
 #include "WorldView.h"
 #include "SectorView.h"
 #include "Lang.h"
+#include "ShipCpanel.h"
 
 namespace Space {
 
@@ -567,6 +568,8 @@ void TimeStep(float step)
 
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);
+	
+	Pi::cpan->TimeStepUpdate(step);
 
 	Sfx::TimeStepAll(step, rootFrame);
 
