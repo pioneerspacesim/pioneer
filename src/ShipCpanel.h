@@ -19,6 +19,8 @@ public:
 	MsgLogWidget *MsgLog() { return m_msglog; }
 	void SetAlertState(Ship::AlertState as);
 
+	void TimeStepUpdate(float step);
+
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
 

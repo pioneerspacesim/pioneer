@@ -339,6 +339,11 @@ void ShipCpanel::SetAlertState(Ship::AlertState as)
 	}
 }
 
+void ShipCpanel::TimeStepUpdate(float step)
+{
+	m_scanner->TimeStepUpdate(step);
+}
+
 void ShipCpanel::Save(Serializer::Writer &wr)
 {
 	m_scanner->Save(wr);

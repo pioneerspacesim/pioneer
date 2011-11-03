@@ -127,8 +127,6 @@ void ScannerWidget::Draw()
 {
 	if (Pi::player->m_equipment.Get(Equip::SLOT_SCANNER) != Equip::SCANNER) return;
 
-	UpdateContactsAndScale();
-
 	float size[2];
 	GetSize(size);
 	m_x = size[0] * 0.5f;
@@ -179,11 +177,8 @@ void ScannerWidget::Draw()
 	m_contacts.clear();
 }
 
-void ScannerWidget::UpdateContactsAndScale()
+void ScannerWidget::Update()
 {
-	// XXX should probably be pegged to the physics step but this will do for now
-	if (Pi::IsTimeAccelPause()) return;
-
 	enum { RANGE_MAX, RANGE_FAR_OTHER, RANGE_NAV, RANGE_FAR_SHIP, RANGE_COMBAT } range_type = RANGE_MAX;
 	float combat_dist = 0, far_ship_dist = 0, nav_dist = 0, far_other_dist = 0;
 
@@ -281,13 +276,6 @@ void ScannerWidget::UpdateContactsAndScale()
 	
 	else
 		m_targetRange = m_manualRange;
-	
-	if (m_targetRange < m_currentRange)
-		m_currentRange = Clamp(m_currentRange * 0.95f, m_targetRange, SCANNER_RANGE_MAX);
-	else if (m_targetRange > m_currentRange)
-		m_currentRange = Clamp(m_currentRange * 1.05f, SCANNER_RANGE_MIN, m_targetRange);
-
-	m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_currentRange);
 }
 
 void ScannerWidget::DrawBlobs(bool below)
@@ -435,6 +423,16 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 		glVertex2f(m_x, m_y + SCANNER_YSHRINK * m_y);
 	}
 	glEnd();
+}
+
+void ScannerWidget::TimeStepUpdate(float step)
+{
+	if (m_targetRange < m_currentRange)
+		m_currentRange = Clamp(m_currentRange - (m_currentRange*step), m_targetRange, SCANNER_RANGE_MAX);
+	else if (m_targetRange > m_currentRange)
+		m_currentRange = Clamp(m_currentRange + (m_currentRange*step), SCANNER_RANGE_MIN, m_targetRange);
+
+	m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_currentRange);
 }
 
 void ScannerWidget::Save(Serializer::Writer &wr)

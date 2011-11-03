@@ -58,13 +58,14 @@ public:
 	void GetSizeRequested(float size[2]);
 	void ToggleMode();
 	void Draw();
-	virtual void Update() {}
+	virtual void Update();
+
+	void TimeStepUpdate(float step);
 
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
 
 private:
-	void UpdateContactsAndScale();
 	void DrawBlobs(bool below);
 	void DrawRingsAndSpokes(bool blend);
 
