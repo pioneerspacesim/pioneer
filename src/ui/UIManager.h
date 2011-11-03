@@ -1,23 +1,26 @@
-#ifndef _ROCKETMANAGER_H
-#define _ROCKETMANAGER_H
+#ifndef _UIMANAGER_H
+#define _UIMANAGER_H
 
 #include "libs.h"
 #include <map>
 
-#include "RocketStash.h"
+#include "UIStash.h"
 
 #include "Rocket/Core.h"
 #include "Rocket/Controls.h"
 
-class RocketSystemInterface;
-class RocketRenderInterface;
-class RocketEventListenerInstancer;
 union SDL_Event;
 
+namespace UI {
 
-class RocketEventListener : public Rocket::Core::EventListener {
+class RocketSystemInterface;
+class RocketRenderInterface;
+class EventListenerInstancer;
+
+
+class EventListener : public Rocket::Core::EventListener {
 public:
-	RocketEventListener(const std::string &eventName) : Rocket::Core::EventListener(), m_eventName(eventName) {}
+	EventListener(const std::string &eventName) : Rocket::Core::EventListener(), m_eventName(eventName) {}
 
 	virtual void ProcessEvent(Rocket::Core::Event &e) {
 		CallHandler();
@@ -34,10 +37,10 @@ private:
 };
 
 
-class RocketScreen {
+class Screen {
 public:
-	RocketScreen() : m_document(0), m_tooltipActive(false), m_tooltipElement(0) {}
-	virtual ~RocketScreen();
+	Screen() : m_document(0), m_tooltipActive(false), m_tooltipElement(0) {}
+	virtual ~Screen();
 
 	void SetDocument(Rocket::Core::ElementDocument *document);
 	Rocket::Core::ElementDocument *GetDocument() const { return m_document; }
@@ -45,14 +48,14 @@ public:
 	void RegisterKeyboardShortcut(Rocket::Core::Input::KeyIdentifier key, Rocket::Core::Input::KeyModifier modifier, const std::string &eventName);
 	void ProcessKeyboardShortcut(Rocket::Core::Input::KeyIdentifier key, Rocket::Core::Input::KeyModifier modifier);
 
-	RocketEventListener *GetEventListener(const std::string &eventName);
+	EventListener *GetEventListener(const std::string &eventName);
 
 	void ShowTooltip(Rocket::Core::Element *sourceElement);
 	void ClearTooltip();
 
 private:
 	Rocket::Core::ElementDocument *m_document;
-	std::map<std::string,RocketEventListener*> m_eventListeners;
+	std::map<std::string,EventListener*> m_eventListeners;
 
 	class ShortcutPair {
 	public:
@@ -71,19 +74,19 @@ private:
 };
 
 
-class RocketManager : public Rocket::Core::EventListener, public RocketStash {
+class Manager : public Rocket::Core::EventListener, public Stash {
 public:
-	RocketManager(int width, int height);
-	~RocketManager();
+	Manager(int width, int height);
+	~Manager();
 
 	template <typename T> void RegisterCustomElement(const std::string &tag) {
-		Rocket::Core::ElementInstancer *instancer = new RocketElementInstancer<T>();
+		Rocket::Core::ElementInstancer *instancer = new ElementInstancer<T>();
 		Rocket::Core::Factory::RegisterElementInstancer(tag.c_str(), instancer);
 		instancer->RemoveReference();
 	}
 
-	RocketScreen *OpenScreen(const std::string &name);
-	RocketScreen *GetCurrentScreen() const { return m_currentScreen; }
+	Screen *OpenScreen(const std::string &name);
+	Screen *GetCurrentScreen() const { return m_currentScreen; }
 
 	virtual void ProcessEvent(Rocket::Core::Event &e);
 
@@ -93,7 +96,7 @@ public:
 
 private:
 	template <typename T>
-	class RocketElementInstancer : public Rocket::Core::ElementInstancer {
+	class ElementInstancer : public Rocket::Core::ElementInstancer {
 	    virtual Rocket::Core::Element *InstanceElement(Rocket::Core::Element *parent, const Rocket::Core::String &tag, const Rocket::Core::XMLAttributes &attributes) {
 	        return new T(tag);
 	    }   
@@ -109,15 +112,15 @@ private:
 
 	int m_width, m_height;
 
-	RocketSystemInterface *m_rocketSystem;
-	RocketRenderInterface *m_rocketRender;
+	RocketSystemInterface *m_rocketSystemInterface;
+	RocketRenderInterface *m_rocketRenderInterface;
 
-	RocketEventListenerInstancer *m_rocketEventListenerInstancer;
+	EventListenerInstancer *m_eventListenerInstancer;
 
-	Rocket::Core::Context *m_rocketContext;
+	Rocket::Core::Context *m_context;
 
-	std::map<std::string,RocketScreen*> m_screens;
-	RocketScreen *m_currentScreen;
+	std::map<std::string,Screen*> m_screens;
+	Screen *m_currentScreen;
 
 	Rocket::Core::Input::KeyIdentifier m_currentKey;
 	Rocket::Core::Input::KeyModifier m_currentModifier;
@@ -125,5 +128,7 @@ private:
 	Uint32 m_tooltipDelayStartTick;
 	Rocket::Core::Element *m_tooltipSourceElement;
 };
+
+}
 
 #endif

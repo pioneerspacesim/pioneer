@@ -5,7 +5,7 @@
 #include "Pi.h"
 #include "Serializer.h"
 #include "LmrModel.h"
-#include "rocket/RocketManager.h"
+#include "ui/UIManager.h"
 
 static const LmrMaterial s_white = {
     { 1.0f, 1.0f, 1.0f, 1.0f }, //diffuse
@@ -108,6 +108,6 @@ void ShipFlavour::Load(Serializer::Reader &rd)
 
 void ShipFlavour::UIStashUpdate(const std::string &prefix) const
 {
-	Pi::rocketManager->SetStashItem(prefix + ".flavour", *this);
-    Pi::rocketManager->SetStashItem(prefix + ".type", type);
+	Pi::uiManager->SetStashItem(prefix + ".flavour", *this);
+    Pi::uiManager->SetStashItem(prefix + ".type", type);
 }

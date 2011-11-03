@@ -1,18 +1,20 @@
-#include "RocketStash.h"
+#include "UIStash.h"
 
 #include <queue>
 
-void RocketStash::ClearStashItem(const std::string &id)
+namespace UI {
+
+void Stash::ClearStashItem(const std::string &id)
 {
 	m_stash.erase(id);
 }
 
-void RocketStash::ClearStash()
+void Stash::ClearStash()
 {
 	m_stash.clear();
 }
 
-void RocketStash::Update(Rocket::Core::Element *rootElement, bool force)
+void Stash::Update(Rocket::Core::Element *rootElement, bool force)
 {
 	if (!force && !m_needsStashUpdate) return;
 
@@ -36,4 +38,6 @@ void RocketStash::Update(Rocket::Core::Element *rootElement, bool force)
 	}
 
 	m_needsStashUpdate = false;
+}
+
 }

@@ -36,7 +36,7 @@ namespace Sound { class MusicPlayer; }
 class ObjectViewerView;
 #endif
 
-class RocketManager;
+namespace UI { class Manager; };
 
 struct DetailLevel {
 	int planets;
@@ -175,7 +175,7 @@ public:
 	static struct DetailLevel detail;
 	static GameConfig config;
 
-	static RocketManager *rocketManager;
+	static UI::Manager *uiManager;
 
 private:
 	static void InitOpenGL();

@@ -64,7 +64,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "TextureManager.h"
-#include "rocket/RocketManager.h"
+#include "ui/UIManager.h"
 #include "CameraElement.h"
 #include "FaceElement.h"
 #include "ShipSpinnerElement.h"
@@ -160,7 +160,7 @@ ObjectViewerView *Pi::objectViewerView;
 
 Sound::MusicPlayer Pi::musicPlayer;
 
-RocketManager *Pi::rocketManager;
+UI::Manager *Pi::uiManager;
 
 int Pi::CombatRating(int kills)
 {
@@ -451,10 +451,10 @@ void Pi::Init()
 
 	InitOpenGL();
 
-	rocketManager = new RocketManager(width, height);
-	rocketManager->RegisterCustomElement<CameraElement>("camera");
-	rocketManager->RegisterCustomElement<FaceElement>("face");
-	rocketManager->RegisterCustomElement<ShipSpinnerElement>("ship");
+	uiManager = new UI::Manager(width, height);
+	uiManager->RegisterCustomElement<CameraElement>("camera");
+	uiManager->RegisterCustomElement<FaceElement>("face");
+	uiManager->RegisterCustomElement<ShipSpinnerElement>("ship");
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
@@ -608,7 +608,7 @@ void Pi::Quit()
 	Pi::UninitGame();
 	delete Pi::gameMenuView;
 	delete Pi::luaConsole;
-	delete rocketManager;
+	delete uiManager;
 	Sound::Uninit();
 	SpaceStation::Uninit();
 	Space::Uninit();
@@ -674,7 +674,7 @@ void Pi::HandleEvents()
 
 	Pi::mouseMotion[0] = Pi::mouseMotion[1] = 0;
 	while (SDL_PollEvent(&event)) {
-		rocketManager->HandleEvent(&event);
+		uiManager->HandleEvent(&event);
 		Gui::HandleSDLEvent(&event);
 		KeyBindings::DispatchSDLEvent(&event);
 
@@ -1088,9 +1088,9 @@ void Pi::Start()
 	std::string version(PIONEER_VERSION);
 	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
 
-	rocketManager->SetStashItem("engine.version", version);
+	uiManager->SetStashItem("engine.version", version);
 
-	RocketScreen *screen = rocketManager->OpenScreen("main_menu");
+	UI::Screen *screen = uiManager->OpenScreen("main_menu");
 	screen->GetEventListener("newgame-earth"  )->SetHandler(sigc::bind(sigc::ptr_fun(&_main_menu_click), 1));
 	screen->GetEventListener("newgame-eridani")->SetHandler(sigc::bind(sigc::ptr_fun(&_main_menu_click), 2));
 	screen->GetEventListener("newgame-debug"  )->SetHandler(sigc::bind(sigc::ptr_fun(&_main_menu_click), 3));
@@ -1119,7 +1119,7 @@ void Pi::Start()
 		draw_intro(starfield, milkyway, _time);
 		Render::PostProcess();
 
-		rocketManager->Draw();
+		uiManager->Draw();
 
 		Render::SwapBuffers();
 		
@@ -1351,7 +1351,7 @@ void Pi::MainLoop()
 
 		Gui::Draw();
 
-		rocketManager->Draw();
+		uiManager->Draw();
 
 #if DEVKEYS
 		if (Pi::showDebugInfo) {

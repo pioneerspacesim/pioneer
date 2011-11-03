@@ -1,7 +1,7 @@
 #ifndef _CAMERAELEMENT_H
 #define _CAMERAELEMENT_H
 
-#include "rocket/RocketManager.h"
+#include "ui/UIManager.h"
 
 // <camera/>
 
@@ -15,7 +15,7 @@ struct CameraElementData {
 	matrix4x4d orient;
 };
 
-class CameraElement : public Rocket::Core::Element, public RocketStashConsumer<CameraElementData> {
+class CameraElement : public Rocket::Core::Element, public UI::StashConsumer<CameraElementData> {
 public:
 	CameraElement(const Rocket::Core::String &_tag) : Rocket::Core::Element(_tag), m_camera(0) {}
     ~CameraElement();

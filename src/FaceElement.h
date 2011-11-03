@@ -1,7 +1,7 @@
 #ifndef _FACEELEMENT_H
 #define _FACEELEMENT_H
 
-#include "rocket/RocketManager.h"
+#include "ui/UIManager.h"
 
 // <face gender='male|female' armour='0|1' seed='12345'/>
 

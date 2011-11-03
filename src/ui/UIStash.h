@@ -1,5 +1,5 @@
-#ifndef _ROCKETSTASH_H
-#define _ROCKETSTASH_H
+#ifndef _UISTASH_H
+#define _UISTASH_H
 
 #include <map>
 #ifdef _MSC_VER
@@ -10,17 +10,18 @@
 
 #include "Rocket/Core/Element.h"
 
+namespace UI {
 
 template <typename T>
-class RocketStashConsumer {
+class StashConsumer {
 public:
 	virtual void UpdateFromStash(const T &value) = 0;
 };
 
 
-class RocketStash {
+class Stash {
 public:
-	RocketStash() : m_needsStashUpdate(false) {}
+	Stash() : m_needsStashUpdate(false) {}
 
 	template <typename T>
 	void SetStashItem(const std::string &id, const T &value) {
@@ -49,7 +50,7 @@ private:
 	public:
 		StashItem(const T &value) : m_value(value) {}
 		virtual void UpdateElement(Rocket::Core::Element *e) {
-			RocketStashConsumer<T> *c = dynamic_cast<RocketStashConsumer<T>*>(e);
+			StashConsumer<T> *c = dynamic_cast<StashConsumer<T>*>(e);
 			if (!c) return;
 			c->UpdateFromStash(m_value);
 		}
@@ -65,7 +66,7 @@ private:
 };
 
 template <>
-class RocketStash::StashItem<std::string> : public StashItemBase {
+class Stash::StashItem<std::string> : public StashItemBase {
 public:
 	StashItem(const std::string &value) : m_value(value) {}
 	virtual void UpdateElement(Rocket::Core::Element *e) {
@@ -75,5 +76,7 @@ public:
 private:
 	std::string m_value;
 };
+
+}
 
 #endif

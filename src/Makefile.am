@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider gui render rocket
+SUBDIRS = collider gui render ui
 
 include $(top_srcdir)/Makefile.common
 
@@ -265,7 +265,7 @@ pioneer_SOURCES	= \
 	enum_table.cpp
 
 pioneer_LDADD = \
-		collider/libcollider.a gui/libgui.a render/librender.a rocket/librocket.a \
+		collider/libcollider.a gui/libgui.a render/librender.a ui/libui.a \
 		../contrib/rocket/src/Core/librocketcore.a ../contrib/rocket/src/Controls/librocketcontrols.a \
 		../contrib/oolua/liboolua.a \
 		$(MINGW_LIBS) \
@@ -297,7 +297,7 @@ modelviewer_SOURCES = \
 	utils.cpp \
 	enum_table.cpp
 
-modelviewer_LDADD = collider/libcollider.a gui/libgui.a render/librender.a rocket/librocket.a \
+modelviewer_LDADD = collider/libcollider.a gui/libgui.a render/librender.a ui/libui.a \
 			../contrib/rocket/src/Core/librocketcore.a ../contrib/rocket/src/Controls/librocketcontrols.a \
 		    $(MINGW_LIBS) \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \

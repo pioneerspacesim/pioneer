@@ -1,10 +1,12 @@
-#include "RocketStashListElement.h"
+#include "UIStashListElement.h"
 
-RocketStashListElement::~RocketStashListElement()
+namespace UI {
+
+StashListElement::~StashListElement()
 {
 }
 
-void RocketStashListElement::DetachTemplate()
+void StashListElement::DetachTemplate()
 {
 	assert(!m_detached);
 
@@ -16,13 +18,13 @@ void RocketStashListElement::DetachTemplate()
 	m_detached = true;
 }
 
-void RocketStashListElement::OnUpdate()
+void StashListElement::OnUpdate()
 {
 	if (!m_detached)
 		DetachTemplate();
 }
 
-void RocketStashListElement::UpdateFromStash(const std::list<std::string> &list)
+void StashListElement::UpdateFromStash(const std::list<std::string> &list)
 {
 	if (!m_detached)
 		DetachTemplate();
@@ -72,9 +74,9 @@ void RocketStashListElement::UpdateFromStash(const std::list<std::string> &list)
 	}
 }
 
-class RocketStashListElementInstancer : public Rocket::Core::ElementInstancer {
+class StashListElementInstancer : public Rocket::Core::ElementInstancer {
 	virtual Rocket::Core::Element *InstanceElement(Rocket::Core::Element *parent, const Rocket::Core::String &tag, const Rocket::Core::XMLAttributes &attributes) {
-		return new RocketStashListElement(tag);
+		return new StashListElement(tag);
 	}
 
 	virtual void ReleaseElement(Rocket::Core::Element *element) {
@@ -86,8 +88,10 @@ class RocketStashListElementInstancer : public Rocket::Core::ElementInstancer {
 	}
 };
 
-void RocketStashListElement::Register() {
-	Rocket::Core::ElementInstancer *instancer = new RocketStashListElementInstancer();
+void StashListElement::Register() {
+	Rocket::Core::ElementInstancer *instancer = new StashListElementInstancer();
 	Rocket::Core::Factory::RegisterElementInstancer("list", instancer);
 	instancer->RemoveReference();
+}
+
 }

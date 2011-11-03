@@ -1,19 +1,21 @@
-#ifndef _ROCKETGAUGETYPE_H
-#define _ROCKETGAUGETYPE_H
+#ifndef _UIGAUGETYPE_H
+#define _UIGAUGETYPE_H
 
-#include "RocketManager.h"
+#include "UIManager.h"
 
-class RocketGaugeElement;
+namespace UI {
+
+class GaugeElement;
 
 /*
  * GaugeType base class
  * Gauge types do the actual drawing & important stuff
  */
-class RocketGaugeType
+class GaugeType
 {
 public:
-	RocketGaugeType(RocketGaugeElement *element);
-	virtual ~RocketGaugeType();
+	GaugeType(GaugeElement *element);
+	virtual ~GaugeType();
 
 	virtual Rocket::Core::String GetValue() const;
 	virtual void OnUpdate();
@@ -25,7 +27,9 @@ public:
 	virtual void OnValueChanged();
 
 protected:
-	RocketGaugeElement* m_parent;
+	GaugeElement* m_parent;
 };
+
+}
 
 #endif

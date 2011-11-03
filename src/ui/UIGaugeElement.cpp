@@ -1,70 +1,72 @@
-#include "RocketGaugeElement.h"
-#include "RocketGaugeTypeBar.h"
+#include "UIGaugeElement.h"
+#include "UIGaugeTypeBar.h"
 
-RocketGaugeElement::RocketGaugeElement(const Rocket::Core::String &_tag) :
+namespace UI {
+
+GaugeElement::GaugeElement(const Rocket::Core::String &_tag) :
 	Rocket::Core::Element(_tag),
 	m_value(1.f)
 {
 	//default will be a horizontal bar, fill direction right
 	m_type = 0;
-	m_type = new RocketGaugeTypeBar(this);
+	m_type = new GaugeTypeBar(this);
 	m_typeName = "bar";
 	SetClass(m_typeName, true);
 }
 
-RocketGaugeElement::~RocketGaugeElement()
+GaugeElement::~GaugeElement()
 {
 	delete m_type;
 }
 
-Rocket::Core::String RocketGaugeElement::GetName() const
+Rocket::Core::String GaugeElement::GetName() const
 {
 	return GetAttribute<Rocket::Core::String>("name", "");
 }
 
-void RocketGaugeElement::SetName(const Rocket::Core::String &name)
+void GaugeElement::SetName(const Rocket::Core::String &name)
 {
 	SetAttribute("name", name);
 }
 
-Rocket::Core::String RocketGaugeElement::GetValue() const
+Rocket::Core::String GaugeElement::GetValue() const
 {
 	return Rocket::Core::String(32, "%f", m_value);
 }
 
-void RocketGaugeElement::SetValue(const Rocket::Core::String &value)
+void GaugeElement::SetValue(const Rocket::Core::String &value)
 {
 	SetAttribute("value", value);
 	//OnAttributeChange should fire after this I believe
 }
 
-float RocketGaugeElement::GetGaugeValue() const
+float GaugeElement::GetGaugeValue() const
 {
 	return m_value;
 }
 
-void RocketGaugeElement::SetGaugeValue(float val)
+void GaugeElement::SetGaugeValue(float val)
 {
 	m_value = Rocket::Core::Math::Clamp(val, 0.f, 1.f);
 	m_type->OnValueChanged();
 }
 
-void RocketGaugeElement::UpdateFromStash(const float &v)
+void GaugeElement::UpdateFromStash(const float &v)
 {
 	SetGaugeValue(v);
 }
 
-void RocketGaugeElement::OnUpdate()
+void GaugeElement::OnUpdate()
 {
 	m_type->OnUpdate();
 }
 
-void RocketGaugeElement::OnRender()
+void GaugeElement::OnRender()
 {
 	m_type->OnRender();
 }
 
-void RocketGaugeElement::OnAttributeChange(const Rocket::Core::AttributeNameList &changedAttributes)
+void GaugeElement::OnAttributeChange(const Rocket::Core::AttributeNameList &changedAttributes)
 {
   Rocket::Core::Element::OnAttributeChange(changedAttributes);
 
@@ -73,10 +75,10 @@ void RocketGaugeElement::OnAttributeChange(const Rocket::Core::AttributeNameList
 		Rocket::Core::String newTypeName = GetAttribute< Rocket::Core::String >("type", "bar");
 		if (newTypeName != m_typeName)
 		{
-			RocketGaugeType *newType = 0;
+			GaugeType *newType = 0;
 			
 			if (newTypeName == "bar")
-				newType = new RocketGaugeTypeBar(this);
+				newType = new GaugeTypeBar(this);
 
 			if (newType != 0)
 			{
@@ -100,7 +102,7 @@ void RocketGaugeElement::OnAttributeChange(const Rocket::Core::AttributeNameList
 		DirtyLayout();
 }
 
-void RocketGaugeElement::OnPropertyChange(const Rocket::Core::PropertyNameList &changedProperties)
+void GaugeElement::OnPropertyChange(const Rocket::Core::PropertyNameList &changedProperties)
 {
 	Rocket::Core::Element::OnPropertyChange(changedProperties);
 
@@ -108,20 +110,20 @@ void RocketGaugeElement::OnPropertyChange(const Rocket::Core::PropertyNameList &
 		m_type->OnPropertyChange(changedProperties);
 }
 
-void RocketGaugeElement::ProcessEvent(Rocket::Core::Event &ev)
+void GaugeElement::ProcessEvent(Rocket::Core::Event &ev)
 {
 	Rocket::Core::Element::ProcessEvent(ev);
 	m_type->ProcessEvent(ev);
 }
 
-bool RocketGaugeElement::GetIntrinsicDimensions(Rocket::Core::Vector2f &dimensions)
+bool GaugeElement::GetIntrinsicDimensions(Rocket::Core::Vector2f &dimensions)
 {
 	return m_type->GetIntrinsicDimensions(dimensions);
 }
 
-class RocketGaugeElementInstancer : public Rocket::Core::ElementInstancer {
+class GaugeElementInstancer : public Rocket::Core::ElementInstancer {
 	virtual Rocket::Core::Element *InstanceElement(Rocket::Core::Element *parent, const Rocket::Core::String &tag, const Rocket::Core::XMLAttributes &attributes) {
-		return new RocketGaugeElement(tag);
+		return new GaugeElement(tag);
 	}
 
 	virtual void ReleaseElement(Rocket::Core::Element *element) {
@@ -133,8 +135,10 @@ class RocketGaugeElementInstancer : public Rocket::Core::ElementInstancer {
 	}
 };
 
-void RocketGaugeElement::Register() {
-	Rocket::Core::ElementInstancer *instancer = new RocketGaugeElementInstancer();
+void GaugeElement::Register() {
+	Rocket::Core::ElementInstancer *instancer = new GaugeElementInstancer();
 	Rocket::Core::Factory::RegisterElementInstancer("gauge", instancer);
 	instancer->RemoveReference();
+}
+
 }

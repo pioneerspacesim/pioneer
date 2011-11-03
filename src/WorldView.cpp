@@ -748,7 +748,7 @@ void WorldView::Update()
 	cameraData.body = Pi::player;
 	cameraData.pos = m_activeCamera->GetPosition();
 	cameraData.orient = m_activeCamera->GetOrientation();
-	Pi::rocketManager->SetStashItem("camera", cameraData);
+	Pi::uiManager->SetStashItem("camera", cameraData);
 
 }
 

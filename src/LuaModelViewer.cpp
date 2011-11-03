@@ -7,7 +7,7 @@
 #include "render/Render.h"
 #include "Ship.h" // for the flight state and ship animation enums
 #include "SpaceStation.h" // for the space station animation enums
-#include "rocket/RocketManager.h"
+#include "ui/UIManager.h"
 
 enum ModelCategory {
 	MODEL_OTHER,
@@ -67,8 +67,8 @@ public:
 	CollisionSpace *m_space;
 	Geom *m_geom;
 	ModelCategory m_modelCategory;
-	RocketManager m_rocketManager;
-	RocketScreen *m_ui;
+	UI::Manager m_uiManager;
+	UI::Screen *m_ui;
 
 	void SetModel(LmrModel *);
 
@@ -84,7 +84,7 @@ public:
 	}
 
 	Viewer(): Gui::Fixed(float(g_width), float(g_height)),
-		m_rocketManager(g_width, g_height),
+		m_uiManager(g_width, g_height),
 		m_quit(false)
         {
 		m_model = 0;
@@ -222,7 +222,7 @@ void Viewer::Quit()
 
 void Viewer::SetupUi()
 {
-	m_ui = m_rocketManager.OpenScreen("modelviewer");
+	m_ui = m_uiManager.OpenScreen("modelviewer");
 	m_ui->GetEventListener("changeview"         )->SetHandler(sigc::mem_fun(this, &Viewer::OnClickChangeView));
 	m_ui->GetEventListener("show-boundingradius")->SetHandler(sigc::mem_fun(this, &Viewer::OnToggleBoundingRadius));
 	m_ui->GetEventListener("performancetest"    )->SetHandler(sigc::mem_fun(this, &Viewer::OnClickToggleBenchmark));
@@ -618,18 +618,18 @@ void Viewer::MainLoop()
 
 		{
 			Aabb aabb = m_cmesh->GetAabb();
-			m_rocketManager.SetStashItem("performance.fps", stringf("FPS %0", fps));
-			m_rocketManager.SetStashItem("performance.triangles",
+			m_uiManager.SetStashItem("performance.fps", stringf("FPS %0", fps));
+			m_uiManager.SetStashItem("performance.triangles",
 				stringf("%0 triangles, %1{f.3}m tris/sec",
 				(g_renderType == 0 ?  LmrModelGetStatsTris() - beforeDrawTriStats : m_cmesh->m_numTris),
 				numTris/1000000.0f));
-			m_rocketManager.SetStashItem("performance.dimensions",
+			m_uiManager.SetStashItem("performance.dimensions",
 				stringf("mesh size: %0{f.1}x%1{f.1}x%2{f.1} (radius %3{f.1})",
 						aabb.max.x-aabb.min.x,
 						aabb.max.y-aabb.min.y,
 						aabb.max.z-aabb.min.z,
 						aabb.GetBoundingRadius()));
-			m_rocketManager.SetStashItem("performance.radius",
+			m_uiManager.SetStashItem("performance.radius",
 				stringf("Clipping radius %0", m_model->GetDrawClipRadius()));
 		}
 		//testing getElement...
@@ -638,7 +638,7 @@ void Viewer::MainLoop()
 		
 		Render::PostProcess();
 		Gui::Draw();
-		m_rocketManager.Draw();
+		m_uiManager.Draw();
 		
 		glError();
 		Render::SwapBuffers();
@@ -664,7 +664,7 @@ void Viewer::PollEvents()
 
 	g_mouseMotion[0] = g_mouseMotion[1] = 0;
 	while (SDL_PollEvent(&event)) {
-		m_rocketManager.HandleEvent(&event);
+		m_uiManager.HandleEvent(&event);
 		Gui::HandleSDLEvent(&event);
 		switch (event.type) {
 			case SDL_KEYDOWN:

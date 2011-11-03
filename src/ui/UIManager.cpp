@@ -1,12 +1,13 @@
-#include "RocketManager.h"
+#include "UIManager.h"
 #include "libs.h"
 
-#include "RocketStashListElement.h"
-#include "RocketGaugeElement.h"
+#include "UIStashListElement.h"
+#include "UIGaugeElement.h"
 
 #include "Rocket/Core/SystemInterface.h"
 #include "Rocket/Core/RenderInterface.h"
 
+namespace UI {
 
 // RGBA pixel format for converting textures
 // XXX little-endian. if we ever have a port to a big-endian arch, invert
@@ -422,7 +423,7 @@ public:
 	{
 		SDL_Surface *s = IMG_Load(source.CString());
 		if (!s) {
-			fprintf(stderr, "RocketRenderInterface: couldn't load '%s'\n", source.CString());
+			fprintf(stderr, "UIRocketRenderInterface: couldn't load '%s'\n", source.CString());
 			return false;
 		}
 
@@ -450,7 +451,7 @@ public:
 		GLuint texture_id = 0;
 		glGenTextures(1, &texture_id);
 		if (texture_id == 0) {
-			fprintf(stderr, "RocketRenderInterface: couldn't generate texture\n");
+			fprintf(stderr, "UIRocketRenderInterface: couldn't generate texture\n");
 			return false;
 		}
 
@@ -489,18 +490,18 @@ static Rocket::Core::Input::KeyIdentifier sdlkey_to_ki[SDLK_LAST];
 static std::map<std::string,Rocket::Core::Input::KeyIdentifier> name_to_ki;
 
 
-class RocketEventListenerInstancer : public Rocket::Core::EventListenerInstancer {
+class EventListenerInstancer : public Rocket::Core::EventListenerInstancer {
 public:
-	RocketEventListenerInstancer(RocketManager *rocketManager) : Rocket::Core::EventListenerInstancer(), m_rocketManager(rocketManager) {}
+	EventListenerInstancer(Manager *manager) : Rocket::Core::EventListenerInstancer(), m_manager(manager) {}
 
 	virtual Rocket::Core::EventListener *InstanceEventListener(const Rocket::Core::String &value, Rocket::Core::Element *element)
 	{
 		std::string eventName(value.CString());
 
-		RocketScreen *screen = m_rocketManager->GetCurrentScreen();
+		Screen *screen = m_manager->GetCurrentScreen();
 		if (!screen) return 0;
 
-		RocketEventListener *listener = screen->GetEventListener(eventName);
+		EventListener *listener = screen->GetEventListener(eventName);
 
 		Rocket::Core::String shortcut = element->GetAttribute<Rocket::Core::String>("shortcut", "");
 		if (shortcut.Length() > 0) {
@@ -537,7 +538,7 @@ public:
 			if (ki != Rocket::Core::Input::KI_UNKNOWN)
 				screen->RegisterKeyboardShortcut(ki, Rocket::Core::Input::KeyModifier(km), eventName);
 			else
-				fprintf(stderr, "RocketInput: Couldn't convert shortcut spec '%s'\n", shortcut.CString());
+				fprintf(stderr, "UIInput: Couldn't convert shortcut spec '%s'\n", shortcut.CString());
 		}
 
 		return listener;
@@ -546,54 +547,54 @@ public:
 	virtual void Release() {}
 
 private:
-	RocketManager *m_rocketManager;
+	Manager *m_manager;
 };
 
 
-RocketScreen::~RocketScreen()
+Screen::~Screen()
 {
-	for (std::map<std::string,RocketEventListener*>::iterator i = m_eventListeners.begin(); i != m_eventListeners.end(); i++)
+	for (std::map<std::string,EventListener*>::iterator i = m_eventListeners.begin(); i != m_eventListeners.end(); i++)
 		delete (*i).second;
 }
 
-void RocketScreen::SetDocument(Rocket::Core::ElementDocument *document)
+void Screen::SetDocument(Rocket::Core::ElementDocument *document)
 {
 	assert(!m_document);
 	m_document = document;
 }
 
-void RocketScreen::RegisterKeyboardShortcut(Rocket::Core::Input::KeyIdentifier key, Rocket::Core::Input::KeyModifier modifier, const std::string &eventName)
+void Screen::RegisterKeyboardShortcut(Rocket::Core::Input::KeyIdentifier key, Rocket::Core::Input::KeyModifier modifier, const std::string &eventName)
 {
 	ShortcutPair pair = { key, modifier };
 	m_shortcuts[pair] = eventName;
 }
 
-void RocketScreen::ProcessKeyboardShortcut(Rocket::Core::Input::KeyIdentifier key, Rocket::Core::Input::KeyModifier modifier)
+void Screen::ProcessKeyboardShortcut(Rocket::Core::Input::KeyIdentifier key, Rocket::Core::Input::KeyModifier modifier)
 {
 	ShortcutPair pair = { key, modifier };
 	std::map<ShortcutPair,std::string>::iterator i = m_shortcuts.find(pair);
 	if (i == m_shortcuts.end())
 		return;
 
-	std::map<std::string,RocketEventListener*>::iterator j = m_eventListeners.find((*i).second);
+	std::map<std::string,EventListener*>::iterator j = m_eventListeners.find((*i).second);
 	assert((*j).second);
 
 	(*j).second->CallHandler();
 }
 
-RocketEventListener *RocketScreen::GetEventListener(const std::string &eventName)
+EventListener *Screen::GetEventListener(const std::string &eventName)
 {
-	std::map<std::string,RocketEventListener*>::iterator i = m_eventListeners.find(eventName);
+	std::map<std::string,EventListener*>::iterator i = m_eventListeners.find(eventName);
 	if (i != m_eventListeners.end())
 		return (*i).second;
 
-	RocketEventListener *listener = new RocketEventListener(eventName);
+	EventListener *listener = new EventListener(eventName);
 	m_eventListeners.insert(make_pair(eventName, listener));
 
 	return listener;
 }
 
-void RocketScreen::ShowTooltip(Rocket::Core::Element *sourceElement)
+void Screen::ShowTooltip(Rocket::Core::Element *sourceElement)
 {
 	if (m_tooltipActive) return;
 
@@ -619,7 +620,7 @@ void RocketScreen::ShowTooltip(Rocket::Core::Element *sourceElement)
 	m_tooltipActive = true;
 }
 
-void RocketScreen::ClearTooltip()
+void Screen::ClearTooltip()
 {
 	if (m_tooltipElement) m_document->RemoveChild(m_tooltipElement);
 	m_tooltipActive = false;
@@ -628,7 +629,7 @@ void RocketScreen::ClearTooltip()
 
 
 static bool s_initted = false;
-RocketManager::RocketManager(int width, int height) :
+Manager::Manager(int width, int height) :
 	m_width(width),
 	m_height(height),
 	m_currentScreen(0),
@@ -647,66 +648,66 @@ RocketManager::RocketManager(int width, int height) :
 		if (km->name) name_to_ki[km->name] = km->rocket;
 	}
 
-	m_rocketSystem = new RocketSystemInterface();
-	m_rocketRender = new RocketRenderInterface(m_width, m_height);
+	m_rocketSystemInterface = new RocketSystemInterface();
+	m_rocketRenderInterface = new RocketRenderInterface(m_width, m_height);
 
-	Rocket::Core::SetSystemInterface(m_rocketSystem);
-	Rocket::Core::SetRenderInterface(m_rocketRender);
+	Rocket::Core::SetSystemInterface(m_rocketSystemInterface);
+	Rocket::Core::SetRenderInterface(m_rocketRenderInterface);
 
 	Rocket::Core::Initialise();
 	Rocket::Controls::Initialise();
 
-	RocketStashListElement::Register();
-	RocketGaugeElement::Register();
+	StashListElement::Register();
+	GaugeElement::Register();
 
-	m_rocketEventListenerInstancer = new RocketEventListenerInstancer(this);
-	Rocket::Core::Factory::RegisterEventListenerInstancer(m_rocketEventListenerInstancer);
-	m_rocketEventListenerInstancer->RemoveReference();
+	m_eventListenerInstancer = new EventListenerInstancer(this);
+	Rocket::Core::Factory::RegisterEventListenerInstancer(m_eventListenerInstancer);
+	m_eventListenerInstancer->RemoveReference();
 
 	// XXX hook up to fontmanager or something
 	Rocket::Core::FontDatabase::LoadFontFace(PIONEER_DATA_DIR "/fonts/TitilliumText22L004.otf");
 
-	m_rocketContext = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(m_width, m_height));
-	m_rocketContext->AddEventListener("keyup", this, true);
-	m_rocketContext->AddEventListener("keydown", this, true);
-	m_rocketContext->AddEventListener("mousemove", this, false);
+	m_context = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(m_width, m_height));
+	m_context->AddEventListener("keyup", this, true);
+	m_context->AddEventListener("keydown", this, true);
+	m_context->AddEventListener("mousemove", this, false);
 }
 
-RocketManager::~RocketManager()
+Manager::~Manager()
 {
-	for (std::map<std::string,RocketScreen*>::iterator i = m_screens.begin(); i != m_screens.end(); i++)
+	for (std::map<std::string,Screen*>::iterator i = m_screens.begin(); i != m_screens.end(); i++)
 		(*i).second->GetDocument()->RemoveReference();
 
-	m_rocketContext->RemoveReference();
+	m_context->RemoveReference();
 
 	Rocket::Core::Shutdown();
 
-	for (std::map<std::string,RocketScreen*>::iterator i = m_screens.begin(); i != m_screens.end(); i++)
+	for (std::map<std::string,Screen*>::iterator i = m_screens.begin(); i != m_screens.end(); i++)
 		delete (*i).second;
 
 	// XXX no way to clear the event listener instancer registered with
 	// rocket, so it will retain this pointer. future document builds will
 	// crash
-	delete m_rocketEventListenerInstancer;
+	delete m_eventListenerInstancer;
 
-	delete m_rocketSystem;
-	delete m_rocketRender;
+	delete m_rocketSystemInterface;
+	delete m_rocketRenderInterface;
 
 	s_initted = false;
 }
 
-RocketScreen *RocketManager::OpenScreen(const std::string &name)
+Screen *Manager::OpenScreen(const std::string &name)
 {
 	if (m_currentScreen)
 		m_currentScreen->GetDocument()->Hide();
 
-	std::map<std::string,RocketScreen*>::iterator i = m_screens.find(name);
+	std::map<std::string,Screen*>::iterator i = m_screens.find(name);
 	if (i == m_screens.end()) {
-		m_currentScreen = new RocketScreen();
+		m_currentScreen = new Screen();
 
-		Rocket::Core::ElementDocument *document = m_rocketContext->LoadDocument((PIONEER_DATA_DIR "/ui/" + name + ".rml").c_str());
+		Rocket::Core::ElementDocument *document = m_context->LoadDocument((PIONEER_DATA_DIR "/ui/" + name + ".rml").c_str());
 		if (!document) {
-			fprintf(stderr, "RocketManager: couldn't load document '%s'\n", name.c_str());
+			fprintf(stderr, "UIManager: couldn't load document '%s'\n", name.c_str());
 			delete m_currentScreen;
 			m_currentScreen = 0;
 			return 0;
@@ -732,7 +733,7 @@ RocketScreen *RocketManager::OpenScreen(const std::string &name)
 	return m_currentScreen;
 }
 
-void RocketManager::ProcessEvent(Rocket::Core::Event &e)
+void Manager::ProcessEvent(Rocket::Core::Event &e)
 {
 	if (!m_currentScreen) return;
 
@@ -761,7 +762,7 @@ void RocketManager::ProcessEvent(Rocket::Core::Event &e)
 		m_currentScreen->ProcessKeyboardShortcut(key, modifier);
 }
 
-void RocketManager::HandleEvent(const SDL_Event *e)
+void Manager::HandleEvent(const SDL_Event *e)
 {
 	SDLMod sdlmod = SDL_GetModState();
 	Rocket::Core::Input::KeyModifier rmod = Rocket::Core::Input::KeyModifier(
@@ -775,12 +776,12 @@ void RocketManager::HandleEvent(const SDL_Event *e)
 	
 	switch (e->type) {
 		case SDL_MOUSEMOTION:
-			m_rocketContext->ProcessMouseMove(e->motion.x, e->motion.y, rmod);
+			m_context->ProcessMouseMove(e->motion.x, e->motion.y, rmod);
 			break;
 
 		case SDL_MOUSEBUTTONDOWN:
 			// XXX special handling for wheelup/wheeldown
-			m_rocketContext->ProcessMouseButtonDown(
+			m_context->ProcessMouseButtonDown(
 				e->button.button & SDL_BUTTON_LEFT  ? 0 :
 				e->button.button & SDL_BUTTON_RIGHT ? 1 :
 				                                      e->button.button, rmod);
@@ -788,7 +789,7 @@ void RocketManager::HandleEvent(const SDL_Event *e)
 
 		case SDL_MOUSEBUTTONUP:
 			// XXX special handling for wheelup/wheeldown
-			m_rocketContext->ProcessMouseButtonUp(
+			m_context->ProcessMouseButtonUp(
 				e->button.button & SDL_BUTTON_LEFT  ? 0 :
 				e->button.button & SDL_BUTTON_RIGHT ? 1 :
 				                                      e->button.button, rmod);
@@ -798,9 +799,9 @@ void RocketManager::HandleEvent(const SDL_Event *e)
 			// XXX textinput
 			Rocket::Core::Input::KeyIdentifier ki = sdlkey_to_ki[e->key.keysym.sym];
 			if (ki == Rocket::Core::Input::KI_UNKNOWN)
-				fprintf(stderr, "RocketInput: No keymap for SDL key %d\n", e->key.keysym.sym);
+				fprintf(stderr, "UIInput: No keymap for SDL key %d\n", e->key.keysym.sym);
 			else
-				m_rocketContext->ProcessKeyDown(sdlkey_to_ki[e->key.keysym.sym], rmod);
+				m_context->ProcessKeyDown(sdlkey_to_ki[e->key.keysym.sym], rmod);
 			break;
 		}
 
@@ -808,9 +809,9 @@ void RocketManager::HandleEvent(const SDL_Event *e)
 			// XXX textinput
 			Rocket::Core::Input::KeyIdentifier ki = sdlkey_to_ki[e->key.keysym.sym];
 			if (ki == Rocket::Core::Input::KI_UNKNOWN)
-				fprintf(stderr, "RocketInput: No keymap for SDL key %d\n", e->key.keysym.sym);
+				fprintf(stderr, "UIInput: No keymap for SDL key %d\n", e->key.keysym.sym);
 			else
-				m_rocketContext->ProcessKeyUp(sdlkey_to_ki[e->key.keysym.sym], rmod);
+				m_context->ProcessKeyUp(sdlkey_to_ki[e->key.keysym.sym], rmod);
 			break;
 		}
 
@@ -819,7 +820,7 @@ void RocketManager::HandleEvent(const SDL_Event *e)
 	}
 }
 
-void RocketManager::Draw()
+void Manager::Draw()
 {
 	if (!m_currentScreen)
 		return;
@@ -829,7 +830,7 @@ void RocketManager::Draw()
 
 	Update(m_currentScreen->GetDocument());
 
-	m_rocketContext->Update();
+	m_context->Update();
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -843,6 +844,7 @@ void RocketManager::Draw()
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 
-	m_rocketContext->Render();
+	m_context->Render();
 }
 
+}

@@ -1,12 +1,14 @@
-#ifndef _ROCKETGAUGETYPEBAR_H
-#define _ROCKETGAUGETYPEBAR_H
+#ifndef _UIGAUGETYPEBAR_H
+#define _UIGAUGETYPEBAR_H
 
-#include "RocketGaugeType.h"
+#include "UIGaugeType.h"
+
+namespace UI {
 
 /*
  * Horizontal or vertical "progress" bar
  */
-class RocketGaugeTypeBar : public RocketGaugeType
+class GaugeTypeBar : public GaugeType
 {
 public:
 	enum Direction /* Fill direction */
@@ -16,8 +18,8 @@ public:
 		UP,
 		DOWN
 	};
-	RocketGaugeTypeBar(RocketGaugeElement *element);
-	virtual ~RocketGaugeTypeBar();
+	GaugeTypeBar(GaugeElement *element);
+	virtual ~GaugeTypeBar();
 
 	bool Initialize();
 	virtual void OnUpdate();
@@ -34,5 +36,7 @@ private:
 	Rocket::Core::Element *m_bar;
 	Direction m_direction;
 };
+
+}
 
 #endif

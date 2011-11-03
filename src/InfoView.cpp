@@ -1,6 +1,6 @@
 #include "InfoView.h"
 #include "Pi.h"
-#include "rocket/RocketManager.h"
+#include "ui/UIManager.h"
 
 InfoView::InfoView(): View()
 {
@@ -14,5 +14,5 @@ void InfoView::NextPage()
 
 void InfoView::OnSwitchTo()
 {
-	Pi::rocketManager->OpenScreen("ship_info");
+	Pi::uiManager->OpenScreen("ship_info");
 }

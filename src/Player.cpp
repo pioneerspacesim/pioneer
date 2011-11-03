@@ -9,7 +9,7 @@
 #include "ShipCpanel.h"
 #include "KeyBindings.h"
 #include "Lang.h"
-#include "rocket/RocketManager.h"
+#include "ui/UIManager.h"
 
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
@@ -25,7 +25,7 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Player::OnEquipmentChange));
 
-	Pi::rocketManager->SetStashItem("player.money", format_money(GetMoney()));
+	Pi::uiManager->SetStashItem("player.money", format_money(GetMoney()));
 
 	GetFlavour()->UIStashUpdate("player.ship");
 }
@@ -70,7 +70,7 @@ void Player::PostLoadFixup()
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Player::OnEquipmentChange));
 	OnEquipmentChange(Equip::NONE);
 
-	Pi::rocketManager->SetStashItem("player.money", format_money(GetMoney()));
+	Pi::uiManager->SetStashItem("player.money", format_money(GetMoney()));
 
 	GetFlavour()->UIStashUpdate("player.ship");
 }
@@ -425,7 +425,7 @@ void Player::OnEquipmentChange(Equip::Type e)
 			equipList.push_back(stringf("%0{d} %1s\n", num, Equip::types[t].name));
 	}
 
-	Pi::rocketManager->SetStashItem("player.equipment", equipList);
+	Pi::uiManager->SetStashItem("player.equipment", equipList);
 }
 
 /* MarketAgent shite */
@@ -443,7 +443,7 @@ void Player::Sold(Equip::Type t)
 
 void Player::SetMoney(Sint64 m) {
 	MarketAgent::SetMoney(m);
-	Pi::rocketManager->SetStashItem("player.money", format_money(GetMoney()));
+	Pi::uiManager->SetStashItem("player.money", format_money(GetMoney()));
 }
 
 bool Player::CanBuy(Equip::Type t, bool verbose) const

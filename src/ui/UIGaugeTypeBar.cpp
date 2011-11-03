@@ -1,21 +1,23 @@
-#include "RocketGaugeTypeBar.h"
-#include "RocketGaugeElement.h"
+#include "UIGaugeTypeBar.h"
+#include "UIGaugeElement.h"
 #include "Rocket/Core.h"
 
-RocketGaugeTypeBar::RocketGaugeTypeBar(RocketGaugeElement *el) : RocketGaugeType(el)
+namespace UI {
+
+GaugeTypeBar::GaugeTypeBar(GaugeElement *el) : GaugeType(el)
 {
 	m_direction = RIGHT;
 	m_bar = 0;
 	Initialize();
 }
 
-RocketGaugeTypeBar::~RocketGaugeTypeBar()
+GaugeTypeBar::~GaugeTypeBar()
 {
 	if (m_bar != 0)
 		m_parent->RemoveChild(m_bar);
 }
 
-bool RocketGaugeTypeBar::Initialize()
+bool GaugeTypeBar::Initialize()
 {
 	m_bar = Rocket::Core::Factory::InstanceElement(m_parent, "*", "gaugebar", Rocket::Core::XMLAttributes());
 
@@ -33,15 +35,15 @@ bool RocketGaugeTypeBar::Initialize()
 	return true;
 }
 
-void RocketGaugeTypeBar::OnUpdate()
+void GaugeTypeBar::OnUpdate()
 {
 }
 
-void RocketGaugeTypeBar::OnRender()
+void GaugeTypeBar::OnRender()
 {
 }
 
-bool RocketGaugeTypeBar::OnAttributeChange(const Rocket::Core::AttributeNameList &changedAttributes)
+bool GaugeTypeBar::OnAttributeChange(const Rocket::Core::AttributeNameList &changedAttributes)
 {
 	bool dirtyLayout = false;
 
@@ -64,14 +66,14 @@ bool RocketGaugeTypeBar::OnAttributeChange(const Rocket::Core::AttributeNameList
 	return dirtyLayout;
 }
 
-void RocketGaugeTypeBar::ProcessEvent(Rocket::Core::Event &event)
+void GaugeTypeBar::ProcessEvent(Rocket::Core::Event &event)
 {
 	//resize is called on initial layout as well
 	if (event == "resize" && event.GetTargetElement() == m_parent)
 		FormatElements();
 }
 
-bool RocketGaugeTypeBar::GetIntrinsicDimensions(Rocket::Core::Vector2f &dimensions)
+bool GaugeTypeBar::GetIntrinsicDimensions(Rocket::Core::Vector2f &dimensions)
 {
 	if (m_direction == RIGHT || m_direction == LEFT) {
 		dimensions.x = 256.f;
@@ -83,7 +85,7 @@ bool RocketGaugeTypeBar::GetIntrinsicDimensions(Rocket::Core::Vector2f &dimensio
 	return true;
 }
 
-void RocketGaugeTypeBar::FormatElements()
+void GaugeTypeBar::FormatElements()
 {
 	const bool horizontal = (m_direction == RIGHT || m_direction == LEFT);
 	Rocket::Core::Box barBox;
@@ -137,7 +139,9 @@ void RocketGaugeTypeBar::FormatElements()
 	}
 }
 
-void RocketGaugeTypeBar::OnValueChanged()
+void GaugeTypeBar::OnValueChanged()
 {
 	FormatElements();
+}
+
 }

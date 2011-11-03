@@ -1,14 +1,14 @@
 #ifndef _SHIPSPINNERELEMENT_H
 #define _SHIPSPINNERELEMENT_H
 
-#include "rocket/RocketManager.h"
+#include "ui/UIManager.h"
 
 #include "ShipFlavour.h"
 #include "LmrModel.h"
 
 // <ship/>
 
-class ShipSpinnerElement : public Rocket::Core::Element, public RocketStashConsumer<ShipFlavour> {
+class ShipSpinnerElement : public Rocket::Core::Element, public UI::StashConsumer<ShipFlavour> {
 public:
 	ShipSpinnerElement(const Rocket::Core::String &_tag) : Rocket::Core::Element(_tag), m_model(0), m_rotX(0), m_rotY(0) {}
 

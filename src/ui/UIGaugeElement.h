@@ -1,7 +1,9 @@
-#ifndef _ROCKETGAUGEELEMENT_H
-#define _ROCKETGAUGEELEMENT_H
+#ifndef _UIGAUGEELEMENT_H
+#define _UIGAUGEELEMENT_H
 
-#include "RocketManager.h"
+#include "UIManager.h"
+
+namespace UI {
 
 // Gauge element with a variety of possible types. Represents a value between 0.0-1.0.
 // The design (separate type classes) is copied (with some simplification) from Rocket <input>
@@ -10,12 +12,12 @@
 // <gauge orientation="vertical" stash="player.health" />
 // <gauge type="pie" ...
 
-class RocketGaugeType;
+class GaugeType;
 
-class RocketGaugeElement : public Rocket::Core::Element, public RocketStashConsumer<float> {
+class GaugeElement : public Rocket::Core::Element, public StashConsumer<float> {
 public:
-	RocketGaugeElement(const Rocket::Core::String &_tag);
-	virtual ~RocketGaugeElement();
+	GaugeElement(const Rocket::Core::String &_tag);
+	virtual ~GaugeElement();
 
 	Rocket::Core::String GetName() const;
 	void SetName(const Rocket::Core::String &name);
@@ -41,8 +43,10 @@ protected:
 	float m_value; //the actual gauge value
 
 private:
-	RocketGaugeType* m_type;
+	GaugeType* m_type;
 	Rocket::Core::String m_typeName;
 };
+
+}
 
 #endif

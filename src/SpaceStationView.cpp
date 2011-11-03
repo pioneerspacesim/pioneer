@@ -4,7 +4,7 @@
 #include "Player.h"
 #include "utils.h"
 #include "Lang.h"
-#include "rocket/RocketManager.h"
+#include "ui/UIManager.h"
 
 #include "StationServicesForm.h"
 
@@ -16,7 +16,7 @@ SpaceStationView::SpaceStationView(): View()
 	m_formController->onRefresh.connect(sigc::mem_fun(this, &SpaceStationView::RefreshForForm));
 
 	// XXX hack
-	Pi::rocketManager->SetStashItem("player.legalStatus", Lang::CLEAN);
+	Pi::uiManager->SetStashItem("player.legalStatus", Lang::CLEAN);
 }
 
 SpaceStationView::~SpaceStationView()
@@ -31,7 +31,7 @@ void SpaceStationView::OnSwitchTo()
 
 void SpaceStationView::RefreshForForm(Form *f)
 {
-	Pi::rocketManager->SetStashItem("form.title", f->GetTitle());
+	Pi::uiManager->SetStashItem("form.title", f->GetTitle());
 
 /*
 	switch (f->GetType()) {
