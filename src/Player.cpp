@@ -16,6 +16,7 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	m_flightControlState = CONTROL_MANUAL;
 	m_killCount = 0;
 	m_knownKillCount = 0;
+	m_setSpeedTarget = 0;
 	m_navTarget = 0;
 	m_combatTarget = 0;
 	UpdateMass();
@@ -83,11 +84,13 @@ void Player::SetFlightControlState(enum FlightControlState s)
 	m_flightControlState = s;
 	if (m_flightControlState == CONTROL_AUTOPILOT) {
 		AIClearInstructions();
+		m_setSpeedTarget = 0;
 	} else if (m_flightControlState == CONTROL_FIXSPEED) {
 		AIClearInstructions();
-		m_setSpeed = GetVelocity().Length();
+		m_setSpeed = m_setSpeedTarget ? GetVelocityRelTo(m_setSpeedTarget).Length() : GetVelocity().Length();
 	} else {
 		AIClearInstructions();
+		m_setSpeedTarget = 0;
 	}
 	Pi::onPlayerChangeFlightControlState.emit();
 }
@@ -129,6 +132,9 @@ void Player::StaticUpdate(const float timeStep)
 			if (IsAnyThrusterKeyDown()) break;
 			GetRotMatrix(m);
 			v = m * vector3d(0, 0, -m_setSpeed);
+			if (m_setSpeedTarget) {
+				v += m_setSpeedTarget->GetVelocityRelTo(GetFrame());
+			}
 			AIMatchVel(v);
 			break;
 		case CONTROL_MANUAL:
@@ -352,15 +358,23 @@ bool Player::IsAnyThrusterKeyDown()
 	);
 }
 
-void Player::SetNavTarget(Body* const target)
+void Player::SetNavTarget(Body* const target, bool setSpeedTo)
 {
+	if (setSpeedTo) {
+		m_setSpeedTarget = target;
+		SetFlightControlState(CONTROL_FIXSPEED);
+	} else m_setSpeedTarget = 0;
 	m_navTarget = target;
 	Pi::onPlayerChangeTarget.emit();
 	Sound::PlaySfx("OK");
 }
 
-void Player::SetCombatTarget(Body* const target)
+void Player::SetCombatTarget(Body* const target, bool setSpeedTo)
 {
+	if (setSpeedTo) {
+		m_setSpeedTarget = target;
+		SetFlightControlState(CONTROL_FIXSPEED);
+	} else m_setSpeedTarget = 0;
 	m_combatTarget = target;
 	Pi::onPlayerChangeTarget.emit();
 	Sound::PlaySfx("OK");
