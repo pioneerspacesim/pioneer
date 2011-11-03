@@ -553,6 +553,14 @@ INCREASE_SET_SPEED
     Povećaj postavljenu brzinu
 DECREASE_SET_SPEED
     Smanji postavljenu brzinu
+SCANNER_CONTROL
+    Kontrola skenera
+TOGGLE_SCAN_MODE
+    Prekidač načina skeniranja
+INCREASE_SCAN_RANGE
+    Povećaj domet skenera
+DECREASE_SCAN_RANGE
+    Smanji domet skenera
 TOGGLE_LUA_CONSOLE
     Prekidač Lua konzole
 JOYSTICK_INPUT
