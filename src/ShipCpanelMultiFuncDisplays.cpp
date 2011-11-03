@@ -24,6 +24,7 @@ enum ScannerBlobWeight { WEIGHT_LIGHT, WEIGHT_HEAVY };
 
 static const GLfloat scannerNavTargetColour[3]     = { 0,      1.0f,   0      };
 static const GLfloat scannerCombatTargetColour[3]  = { 0.941f, 0.149f, 0.196f };
+static const GLfloat scannerStationColour[3]       = { 1.0f,   1.0f,   1.0f   };
 static const GLfloat scannerShipColour[3]          = { 0.953f, 0.929f, 0.114f };
 static const GLfloat scannerMissileColour[3]       = { 0.941f, 0.149f, 0.196f };
 static const GLfloat scannerPlayerMissileColour[3] = { 0.953f, 0.929f, 0.114f };
@@ -214,6 +215,7 @@ void ScannerWidget::UpdateContactsAndScale()
 				}
 				break;
 
+			case Object::SPACESTATION:
 			case Object::CARGOBODY:
 			case Object::HYPERSPACECLOUD:
 
@@ -307,6 +309,14 @@ void ScannerWidget::DrawBlobs(bool below)
 					glColor3fv(scannerPlayerMissileColour);
 				else
 					glColor3fv(scannerMissileColour);
+				break;
+
+			case Object::SPACESTATION:
+				if ((*i) == Pi::player->GetNavTarget())
+					glColor3fv(scannerNavTargetColour);
+				else
+					glColor3fv(scannerStationColour);
+				weight = WEIGHT_HEAVY;
 				break;
 
 			case Object::CARGOBODY:
