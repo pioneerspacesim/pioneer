@@ -4,6 +4,8 @@
 #include "gui/Gui.h"
 #include "EquipType.h"
 
+class Body;
+
 enum multifuncfunc_t {
 	MFUNC_SCANNER,
 	MFUNC_EQUIPMENT,
