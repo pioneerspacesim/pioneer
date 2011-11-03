@@ -257,8 +257,11 @@ public:
 			if (num == 1) {
 				col1 += stringf("%0\n", Equip::types[t].name);
 			} else if (num > 1) {
-				col1 += stringf("%0{d} %1s\n", num, Equip::types[t].name);
-			}
+				if (t == Equip::SHIELD_GENERATOR) {
+					col1 += stringf(Lang::X_SHIELD_GENERATORS, formatarg ("quantity", int(num)));
+					col1 += stringf("\n");
+				}
+			} 
 		}
 
 		info1->SetText(col1);
