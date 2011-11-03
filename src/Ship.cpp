@@ -36,7 +36,7 @@ void Ship::Save(Serializer::Writer &wr)
 	wr.Bool(m_testLanded);
 	wr.Int32(int(m_flightState));
 	wr.Int32(int(m_alertState));
-	wr.Float(m_lastFiringAlert);
+	wr.Double(m_lastFiringAlert);
 
 	m_hyperspace.dest.Serialize(wr);
 	wr.Float(m_hyperspace.countdown);
@@ -69,7 +69,7 @@ void Ship::Load(Serializer::Reader &rd)
 	m_testLanded = rd.Bool();
 	m_flightState = FlightState(rd.Int32());
 	m_alertState = AlertState(rd.Int32());
-	m_lastFiringAlert = rd.Float();
+	m_lastFiringAlert = rd.Double();
 	
 	m_hyperspace.dest = SystemPath::Unserialize(rd);
 	m_hyperspace.countdown = rd.Float();
