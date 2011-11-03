@@ -171,12 +171,12 @@ void ScannerWidget::Draw()
 	Widget::EndClipping();
 	glLineWidth(1.0f);
 	glPointSize(1.0f);
-
-	m_contacts.clear();
 }
 
 void ScannerWidget::Update()
 {
+	m_contacts.clear();
+
 	if (Pi::player->m_equipment.Get(Equip::SLOT_SCANNER) != Equip::SCANNER) {
 		m_mode = SCANNER_MODE_AUTO;
 		m_currentRange = m_manualRange = m_targetRange = SCANNER_RANGE_MIN;
@@ -203,7 +203,7 @@ void ScannerWidget::Update()
 
 			case Object::SHIP: {
 				Ship *s = static_cast<Ship*>(*i);
-				if (s->GetFlightState() == Ship::DOCKED || s->GetFlightState() == Ship::DOCKING)
+				if (s->GetFlightState() != Ship::FLYING && s->GetFlightState() != Ship::LANDED)
 					continue;
 
 				if (m_mode == SCANNER_MODE_AUTO && range_type != RANGE_COMBAT) {
