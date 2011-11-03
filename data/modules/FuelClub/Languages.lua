@@ -10,8 +10,8 @@ Translate:AddFlavour('English','FuelClub',{
 	* Discounted prices on {military_fuel}
 	* Free {radioactives} disposal (conditions apply)
 
-Join now! Annual membership costs only {membership_fee}]]
-	member_intro = [[You may purhase fuel and dispose of radioactives here.]]
+Join now! Annual membership costs only {membership_fee}]],
+	member_intro = [[You may purhase fuel and dispose of radioactives here.]],
 })
 
 Translate:Add('English',{
