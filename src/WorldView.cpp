@@ -493,9 +493,17 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 	else {
 		{
-			double _vel = vel.Length();
 			std::string str;
-			const char *rel_to = Pi::player->GetFrame()->GetLabel();
+			double _vel = 0;
+			const char *rel_to = 0;
+			const Body *set_speed_target = Pi::player->GetSetSpeedTarget();
+			if (set_speed_target) {
+				rel_to = set_speed_target->GetLabel().c_str();
+				_vel = Pi::player->GetVelocityRelTo(set_speed_target).Length();
+			} else {
+				rel_to = Pi::player->GetFrame()->GetLabel();
+				_vel = vel.Length();
+			}
 			if (_vel > 1000) {
 				str = stringf(Lang::KM_S_RELATIVE_TO, formatarg("speed", _vel*0.001), formatarg("frame", rel_to));
 			} else {
@@ -993,13 +1001,13 @@ void WorldView::SelectBody(Body *target, bool reselectIsDeselect)
 		if (Pi::player->GetCombatTarget() == target) {
 			if (reselectIsDeselect) Pi::player->SetCombatTarget(0);
 		} else {
-			Pi::player->SetCombatTarget(target);
+			Pi::player->SetCombatTarget(target, Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL));
 		}
 	} else {
 		if (Pi::player->GetNavTarget() == target) {
 			if (reselectIsDeselect) Pi::player->SetNavTarget(0);
 		} else {
-			Pi::player->SetNavTarget(target);
+			Pi::player->SetNavTarget(target, Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL));
 		}
 	}
 }
