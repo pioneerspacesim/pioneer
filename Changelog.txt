@@ -22,6 +22,7 @@ Alpha 16
     * Ships will now emerge from hyperspace at a point "close" to the source
       system (#724)
     * Jump duration estimate in sector view shown in days + hours (#738)
+    * Renamed "Panther" to "Caribou"
 
   * Fixes
     * Optimise trade ship cargo management (#632)
