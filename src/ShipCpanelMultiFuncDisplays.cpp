@@ -20,6 +20,16 @@
 #define SCANNER_MODE_MAN	1
 #define A_BIT				1.1f
 
+enum ScannerBlobWeight { WEIGHT_LIGHT, WEIGHT_HEAVY };
+
+static const GLfloat scannerNavTargetColour[3]     = { 0,      1.0f,   0      };
+static const GLfloat scannerCombatTargetColour[3]  = { 0.941f, 0.149f, 0.196f };
+static const GLfloat scannerShipColour[3]          = { 0.953f, 0.929f, 0.114f };
+static const GLfloat scannerMissileColour[3]       = { 0.941f, 0.149f, 0.196f };
+static const GLfloat scannerPlayerMissileColour[3] = { 0.953f, 0.929f, 0.114f };
+static const GLfloat scannerCargoColour[3]         = { 0.65f,  0.65f,  0.65f  };
+static const GLfloat scannerCloudColour[3]         = { 0.5f,   0.5f,   1.0f   };
+
 MsgLogWidget::MsgLogWidget()
 {
 	m_msgAge = 0;
@@ -260,32 +270,49 @@ void ScannerWidget::UpdateContactsAndScale()
 void ScannerWidget::DrawBlobs(bool below)
 {
 	for (std::list<Body*>::iterator i = m_contacts.begin(); i != m_contacts.end(); ++i) {
+		ScannerBlobWeight weight = WEIGHT_LIGHT;
+
 		switch ((*i)->GetType()) {
 			case Object::SHIP:
-				if ((*i) == Pi::player->GetCombatTarget()) glColor3f(0.941f, 0.149f, 0.196f);
-				else glColor3f(0.953f, 0.929f, 0.114f);
-				glLineWidth(2);
-				glPointSize(4);
+				if ((*i) == Pi::player->GetCombatTarget())
+					glColor3fv(scannerCombatTargetColour);
+				else
+					glColor3fv(scannerShipColour);
+				weight = WEIGHT_HEAVY;
 				break;
+
 			case Object::MISSILE:
-				if (dynamic_cast<Missile*>(*i)->GetOwner() == Pi::player) glColor3f(0.953f, 0.929f, 0.114f);
-				else glColor3f(0.941f, 0.149f, 0.196f);
-				glLineWidth(1);
-				glPointSize(3);
+				if (dynamic_cast<Missile*>(*i)->GetOwner() == Pi::player)
+					glColor3fv(scannerPlayerMissileColour);
+				else
+					glColor3fv(scannerMissileColour);
 				break;
+
 			case Object::CARGOBODY:
-				if ((*i) == Pi::player->GetNavTarget()) glColor3f(0, 1.0f, 0);
-				else glColor3f(0.65f, 0.65f, 0.65f);
-				glLineWidth(1);
-				glPointSize(3);
+				if ((*i) == Pi::player->GetNavTarget())
+					glColor3fv(scannerNavTargetColour);
+				else
+					glColor3fv(scannerCargoColour);
 				break;
+
 			case Object::HYPERSPACECLOUD:
-				if ((*i) == Pi::player->GetNavTarget()) glColor3f(0, 1.0f, 0);
-				else glColor3f(0.5f, 0.5f, 1.0f);
-				glLineWidth(1);
-				glPointSize(3);
+				if ((*i) == Pi::player->GetNavTarget())
+					glColor3fv(scannerNavTargetColour);
+				else
+					glColor3fv(scannerCloudColour);
 				break;
-			default: continue;
+
+			default:
+				continue;
+		}
+
+		if (weight == WEIGHT_LIGHT) {
+			glLineWidth(1);
+			glPointSize(3);
+		}
+		else {
+			glLineWidth(2);
+			glPointSize(4);
 		}
 
 		vector3d pos = (*i)->GetPositionRelTo(Pi::player);
