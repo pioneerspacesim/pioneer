@@ -193,7 +193,7 @@ void ScannerWidget::UpdateContactsAndScale()
 
 			case Object::MISSILE:
 				// player's own missiles are ignored for range calc but still shown
-				if (dynamic_cast<Missile*>(*i)->GetOwner() == Pi::player)
+				if (static_cast<Missile*>(*i)->GetOwner() == Pi::player)
 					break;
 				// fall through
 
@@ -282,7 +282,7 @@ void ScannerWidget::DrawBlobs(bool below)
 				break;
 
 			case Object::MISSILE:
-				if (dynamic_cast<Missile*>(*i)->GetOwner() == Pi::player)
+				if (static_cast<Missile*>(*i)->GetOwner() == Pi::player)
 					glColor3fv(scannerPlayerMissileColour);
 				else
 					glColor3fv(scannerMissileColour);
