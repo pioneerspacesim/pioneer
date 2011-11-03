@@ -325,6 +325,8 @@ public:
 		GLuint texture;
 	};
 
+	// XXX this creates a new vbo for every piece of compiled geometry, which
+	// means at least one per glyph. this needs optimising
 	virtual Rocket::Core::CompiledGeometryHandle CompileGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture)
 	{
 		VBO *vbo = new VBO;
