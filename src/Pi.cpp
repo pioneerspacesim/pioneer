@@ -1524,6 +1524,10 @@ void Pi::Serialize(Serializer::Writer &wr)
 	wr.WrSection("WorldView", section.GetData());
 
 	section = Serializer::Writer();
+	cpan->Save(section);
+	wr.WrSection("Cpanel", section.GetData());
+
+	section = Serializer::Writer();
 	luaSerializer->Serialize(section);
 	wr.WrSection("LuaModules", section.GetData());
 }
@@ -1559,6 +1563,9 @@ void Pi::Unserialize(Serializer::Reader &rd)
 
 	section = rd.RdSection("WorldView");
 	worldView->Load(section);
+
+	section = rd.RdSection("Cpanel");
+	cpan->Load(section);
 
 	section = rd.RdSection("LuaModules");
 	luaSerializer->Unserialize(section);

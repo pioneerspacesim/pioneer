@@ -102,6 +102,9 @@ namespace KeyBindings {
 	extern KeyAction fastRotate;
 	extern KeyAction targetObject;
 	extern KeyAction toggleLuaConsole;
+	extern KeyAction toggleScanMode;
+	extern KeyAction increaseScanRange;
+	extern KeyAction decreaseScanRange;
 
 	extern AxisBinding pitchAxis;
 	extern AxisBinding rollAxis;

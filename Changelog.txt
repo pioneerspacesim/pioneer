@@ -5,6 +5,9 @@ Alpha 16
     * Cargo scooping (#585, #708)
     * Target and velocity indicators now shown with directions at edge of
       screen if they are not directly in front (#750, #752)
+    * Scanner now shows different colours for different types of nearby object
+      automatically adjusts range to show the most interesting objects in the
+      best detail possible (#521)
     * Spanish translation (#628)
 
   * Minor changes and tweaks
@@ -49,6 +52,7 @@ Alpha 16
     * "Repair 1% hull" display correct % and cost when hull has <1% damage (#748, #467)
     * Fix error capture from filter functions to EquipType.GetEquipTypes,
       ShipType.GetShipTypes and Space.GetBodies when called from console (#764)
+    * Objects on the scanner now positioned correctly (#521)
   
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
