@@ -65,8 +65,10 @@ private:
 
 	std::list<Body*> m_contacts;
 	int m_mode;
-	float m_range;
+
+	float m_currentRange, m_manualRange, m_targetRange;
 	float m_scale;
+
 	float m_x;
 	float m_y;
 };

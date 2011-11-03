@@ -103,6 +103,7 @@ void MsgLogWidget::GetSizeRequested(float size[2])
 ScannerWidget::ScannerWidget()
 {
 	m_mode = SCANNER_MODE_AUTO;
+	m_currentRange = m_manualRange = m_targetRange = SCANNER_RANGE_MAX;
 
 	KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::ToggleMode));
 }
@@ -233,40 +234,51 @@ void ScannerWidget::UpdateContactsAndScale()
 		m_contacts.push_back(*i);
 	}
 
-	if (KeyBindings::increaseScanRange.IsActive() && m_range < SCANNER_RANGE_MAX) {
-		m_range = Clamp(m_range * 1.05f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
-		m_mode = SCANNER_MODE_MAN;
+	if (KeyBindings::increaseScanRange.IsActive()) {
+		if (m_mode == SCANNER_MODE_AUTO) {
+			m_manualRange = m_targetRange;
+			m_mode = SCANNER_MODE_MAN;
+		}
+		m_manualRange = Clamp(m_manualRange * 1.05f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 	}
-	else if (KeyBindings::decreaseScanRange.IsActive() && m_range > SCANNER_RANGE_MIN) {
-		m_range = Clamp(m_range * 0.95f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
-		m_mode = SCANNER_MODE_MAN;
+	else if (KeyBindings::decreaseScanRange.IsActive() && m_manualRange > SCANNER_RANGE_MIN) {
+		if (m_mode == SCANNER_MODE_AUTO) {
+			m_manualRange = m_targetRange;
+			m_mode = SCANNER_MODE_MAN;
+		}
+		m_manualRange = Clamp(m_manualRange * 0.95f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 	}
 
 	// range priority is combat target > ship/missile > nav target > other
 	if (m_mode == SCANNER_MODE_AUTO) {
 		switch (range_type) {
 			case RANGE_COMBAT:
-				m_range = Clamp(combat_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+				m_targetRange = Clamp(combat_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 				break;
 			case RANGE_FAR_SHIP:
-				m_range = Clamp(far_ship_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+				m_targetRange = Clamp(far_ship_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 				break;
 			case RANGE_NAV:
-				m_range = Clamp(nav_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+				m_targetRange = Clamp(nav_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 				break;
 			case RANGE_FAR_OTHER:
-				m_range = Clamp(far_other_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+				m_targetRange = Clamp(far_other_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 				break;
 			default:
-				m_range = SCANNER_RANGE_MAX;
+				m_targetRange = SCANNER_RANGE_MAX;
 				break;
 		}
 	}
 	
-	else {
-	}
+	else
+		m_targetRange = m_manualRange;
+	
+	if (m_targetRange < m_currentRange)
+		m_currentRange = Clamp(m_currentRange * 0.95f, m_targetRange, SCANNER_RANGE_MAX);
+	else if (m_targetRange > m_currentRange)
+		m_currentRange = Clamp(m_currentRange * 1.05f, SCANNER_RANGE_MIN, m_targetRange);
 
-	m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
+	m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_currentRange);
 }
 
 void ScannerWidget::DrawBlobs(bool below)
@@ -356,7 +368,7 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 	glEnd();
 	/* dynamic soicles */
 	for (int p = 0; p < 7; ++p) {
-		float sz = (pow(2.0f, p) * 1000.0f) / m_range;
+		float sz = (pow(2.0f, p) * 1000.0f) / m_currentRange;
 		if (sz <= 0.1f) continue;
 		if (sz >= 1.0f) break;
 		glBegin(GL_LINE_LOOP);
@@ -374,7 +386,7 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 	glEnd();
 
 	/* outer range soicle */
-	float range_percent = m_range / SCANNER_RANGE_MAX;
+	float range_percent = m_currentRange / SCANNER_RANGE_MAX;
 
 	if (m_mode == SCANNER_MODE_AUTO) {
 		/* green like the scanner to indicate that the scanner is controlling the range */
