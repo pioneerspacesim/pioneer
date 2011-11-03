@@ -5,6 +5,7 @@
 #include "gui/Gui.h"
 #include "ShipCpanelMultiFuncDisplays.h"
 #include "Ship.h"
+#include "Serializer.h"
 
 class Body;
 class SpaceStation;
@@ -17,6 +18,10 @@ public:
 	void Update();
 	MsgLogWidget *MsgLog() { return m_msglog; }
 	void SetAlertState(Ship::AlertState as);
+
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
+
 private:
 	enum MapView { MAP_SECTOR, MAP_SYSTEM, MAP_INFO, MAP_GALACTIC };
 

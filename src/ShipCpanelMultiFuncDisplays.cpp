@@ -420,6 +420,22 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 	glEnd();
 }
 
+void ScannerWidget::Save(Serializer::Writer &wr)
+{
+	wr.Bool(m_mode);
+	wr.Float(m_currentRange);
+	wr.Float(m_manualRange);
+	wr.Float(m_targetRange);
+}
+
+void ScannerWidget::Load(Serializer::Reader &rd)
+{
+	m_mode = rd.Bool();
+	m_currentRange = rd.Float();
+	m_manualRange = rd.Float();
+	m_targetRange = rd.Float();
+}
+
 /////////////////////////////////
 
 UseEquipWidget::UseEquipWidget(): Gui::Fixed(400,100)

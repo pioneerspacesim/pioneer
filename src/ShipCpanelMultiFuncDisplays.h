@@ -3,6 +3,7 @@
 
 #include "gui/Gui.h"
 #include "EquipType.h"
+#include "Serializer.h"
 
 class Body;
 
@@ -58,6 +59,10 @@ public:
 	void ToggleMode();
 	void Draw();
 	virtual void Update() {}
+
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
+
 private:
 	void UpdateContactsAndScale();
 	void DrawBlobs(bool below);
