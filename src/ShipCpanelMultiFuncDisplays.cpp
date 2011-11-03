@@ -16,8 +16,6 @@
 #define SCANNER_RANGE_MIN	1000.0f
 #define SCANNER_SCALE		0.00001f
 #define SCANNER_YSHRINK		0.75f
-#define SCANNER_MODE_AUTO	0
-#define SCANNER_MODE_MAN	1
 #define A_BIT				1.1f
 
 enum ScannerBlobWeight { WEIGHT_LIGHT, WEIGHT_HEAVY };
@@ -118,7 +116,7 @@ void ScannerWidget::GetSizeRequested(float size[2])
 void ScannerWidget::ToggleMode()
 {
 	if (IsVisible() && !Pi::IsTimeAccelPause()) {
-		if (m_mode == SCANNER_MODE_AUTO) m_mode = SCANNER_MODE_MAN;
+		if (m_mode == SCANNER_MODE_AUTO) m_mode = SCANNER_MODE_MANUAL;
 		else m_mode = SCANNER_MODE_AUTO;
 	}
 }
@@ -243,7 +241,7 @@ void ScannerWidget::Update()
 	if (KeyBindings::increaseScanRange.IsActive()) {
 		if (m_mode == SCANNER_MODE_AUTO) {
 			m_manualRange = m_targetRange;
-			m_mode = SCANNER_MODE_MAN;
+			m_mode = SCANNER_MODE_MANUAL;
 		}
 		else
 			m_manualRange = m_currentRange;
@@ -252,7 +250,7 @@ void ScannerWidget::Update()
 	else if (KeyBindings::decreaseScanRange.IsActive() && m_manualRange > SCANNER_RANGE_MIN) {
 		if (m_mode == SCANNER_MODE_AUTO) {
 			m_manualRange = m_targetRange;
-			m_mode = SCANNER_MODE_MAN;
+			m_mode = SCANNER_MODE_MANUAL;
 		}
 		else
 			m_manualRange = m_currentRange;
@@ -443,7 +441,7 @@ void ScannerWidget::TimeStepUpdate(float step)
 
 void ScannerWidget::Save(Serializer::Writer &wr)
 {
-	wr.Bool(m_mode);
+	wr.Int32(Sint32(m_mode));
 	wr.Float(m_currentRange);
 	wr.Float(m_manualRange);
 	wr.Float(m_targetRange);
@@ -451,7 +449,7 @@ void ScannerWidget::Save(Serializer::Writer &wr)
 
 void ScannerWidget::Load(Serializer::Reader &rd)
 {
-	m_mode = rd.Bool();
+	m_mode = ScannerMode(rd.Int32());
 	m_currentRange = rd.Float();
 	m_manualRange = rd.Float();
 	m_targetRange = rd.Float();

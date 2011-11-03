@@ -70,7 +70,9 @@ private:
 	void DrawRingsAndSpokes(bool blend);
 
 	std::list<Body*> m_contacts;
-	int m_mode;
+
+	enum ScannerMode { SCANNER_MODE_AUTO, SCANNER_MODE_MANUAL };
+	ScannerMode m_mode;
 
 	float m_currentRange, m_manualRange, m_targetRange;
 	float m_scale;
