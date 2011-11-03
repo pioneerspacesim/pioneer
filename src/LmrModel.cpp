@@ -4145,11 +4145,13 @@ static void _makeModelFilesCRC(const std::string &dir, const std::string &filena
 	} else if (S_ISREG(info.st_mode) && (filename.substr(filename.size()-4) != ".png")) {
 		FILE *f = fopen(filename.c_str(), "rb");
 		if (f) {
-			for (int c = 0;;) {
-				c = fgetc(f);
-				if (c != EOF) s_allModelFilesCRC += c;
-				else break;
-			}
+			fseek(f, 0, SEEK_END);
+			int size = ftell(f);
+			unsigned char *data = (unsigned char *)malloc(size);
+			fseek(f, 0, SEEK_SET);
+			fread(data, 1, size, f);
+			for (int c=0; c<size; c++) s_allModelFilesCRC += data[c];
+			free(data);
 			fclose(f);
 		}
 	}
