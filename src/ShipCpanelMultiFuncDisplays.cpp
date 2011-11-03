@@ -179,6 +179,12 @@ void ScannerWidget::Draw()
 
 void ScannerWidget::Update()
 {
+	if (Pi::player->m_equipment.Get(Equip::SLOT_SCANNER) != Equip::SCANNER) {
+		m_mode = SCANNER_MODE_AUTO;
+		m_currentRange = m_manualRange = m_targetRange = SCANNER_RANGE_MIN;
+		return;
+	}
+
 	enum { RANGE_MAX, RANGE_FAR_OTHER, RANGE_NAV, RANGE_FAR_SHIP, RANGE_COMBAT } range_type = RANGE_MAX;
 	float combat_dist = 0, far_ship_dist = 0, nav_dist = 0, far_other_dist = 0;
 
