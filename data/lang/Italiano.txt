@@ -958,6 +958,8 @@ DAY_LENGTH
     Lunghezza del giorno
 N_EARTH_DAYS
     %days{f.1} Giorni Terrestri
+COUNT_STARPORTS
+    astroporti
 STARPORTS
     Astroporti
 MAJOR_IMPORTS

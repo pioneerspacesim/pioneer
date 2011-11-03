@@ -5,6 +5,9 @@ Alpha 16
     * Cargo scooping (#585, #708)
     * Target and velocity indicators now shown with directions at edge of
       screen if they are not directly in front (#750, #752)
+    * Scanner now shows different colours for different types of nearby object
+      automatically adjusts range to show the most interesting objects in the
+      best detail possible (#521)
     * Spanish translation (#628)
 
   * Minor changes and tweaks
@@ -19,6 +22,7 @@ Alpha 16
     * Ships will now emerge from hyperspace at a point "close" to the source
       system (#724)
     * Jump duration estimate in sector view shown in days + hours (#738)
+    * Renamed "Panther" to "Caribou"
 
   * Fixes
     * Optimise trade ship cargo management (#632)
@@ -47,6 +51,9 @@ Alpha 16
     * Fix material use in ship landing lights (#656, #705)
     * Fix screenshot crashes (#742, #727, #645)
     * "Repair 1% hull" display correct % and cost when hull has <1% damage (#748, #467)
+    * Fix error capture from filter functions to EquipType.GetEquipTypes,
+      ShipType.GetShipTypes and Space.GetBodies when called from console (#764)
+    * Objects on the scanner now positioned correctly (#521)
   
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
@@ -62,7 +69,7 @@ Alpha 16
 
   * Internal changes
     * Cleanups, leaks fixed and general code improvements (#635, #637, #665,
-      #729, #753, #743, #741)
+      #729, #753, #743, #741, #761, #762)
     * Windows build optimisations (#636, #758)
     * Improve terrain generation performance
     * Run Lua timers from the physics loop, which should help to make frame
