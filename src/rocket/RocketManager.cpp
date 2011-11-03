@@ -269,15 +269,15 @@ static const Keymap keymap[] = {
 };
 
 
-class RocketSystem : public Rocket::Core::SystemInterface {
+class RocketSystemInterface : public Rocket::Core::SystemInterface {
 public:
 	virtual float GetElapsedTime() { return float(SDL_GetTicks()) * 0.001; }
 };
 
 
-class RocketRender : public Rocket::Core::RenderInterface {
+class RocketRenderInterface : public Rocket::Core::RenderInterface {
 public:
-	RocketRender(int width, int height) : Rocket::Core::RenderInterface(), m_width(width), m_height(height) {}
+	RocketRenderInterface(int width, int height) : Rocket::Core::RenderInterface(), m_width(width), m_height(height) {}
 
 	virtual void RenderGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture, const Rocket::Core::Vector2f& translation)
 	{
@@ -422,7 +422,7 @@ public:
 	{
 		SDL_Surface *s = IMG_Load(source.CString());
 		if (!s) {
-			fprintf(stderr, "RocketRender: couldn't load '%s'\n", source.CString());
+			fprintf(stderr, "RocketRenderInterface: couldn't load '%s'\n", source.CString());
 			return false;
 		}
 
@@ -450,7 +450,7 @@ public:
 		GLuint texture_id = 0;
 		glGenTextures(1, &texture_id);
 		if (texture_id == 0) {
-			fprintf(stderr, "RocketRender: couldn't generate texture\n");
+			fprintf(stderr, "RocketRenderInterface: couldn't generate texture\n");
 			return false;
 		}
 
@@ -479,7 +479,7 @@ private:
 	int m_width, m_height;
 };
 
-const RocketRender::BufferOffset RocketRender::s_bufferOffset = {
+const RocketRenderInterface::BufferOffset RocketRenderInterface::s_bufferOffset = {
 	reinterpret_cast<void*>(offsetof(Rocket::Core::Vertex, position)),
 	reinterpret_cast<void*>(offsetof(Rocket::Core::Vertex, colour)),
 	reinterpret_cast<void*>(offsetof(Rocket::Core::Vertex, tex_coord))
@@ -647,8 +647,8 @@ RocketManager::RocketManager(int width, int height) :
 		if (km->name) name_to_ki[km->name] = km->rocket;
 	}
 
-	m_rocketSystem = new RocketSystem();
-	m_rocketRender = new RocketRender(m_width, m_height);
+	m_rocketSystem = new RocketSystemInterface();
+	m_rocketRender = new RocketRenderInterface(m_width, m_height);
 
 	Rocket::Core::SetSystemInterface(m_rocketSystem);
 	Rocket::Core::SetRenderInterface(m_rocketRender);

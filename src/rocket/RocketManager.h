@@ -9,8 +9,8 @@
 #include "Rocket/Core.h"
 #include "Rocket/Controls.h"
 
-class RocketSystem;
-class RocketRender;
+class RocketSystemInterface;
+class RocketRenderInterface;
 class RocketEventListenerInstancer;
 union SDL_Event;
 
@@ -109,8 +109,8 @@ private:
 
 	int m_width, m_height;
 
-	RocketSystem *m_rocketSystem;
-	RocketRender *m_rocketRender;
+	RocketSystemInterface *m_rocketSystem;
+	RocketRenderInterface *m_rocketRender;
 
 	RocketEventListenerInstancer *m_rocketEventListenerInstancer;
 
