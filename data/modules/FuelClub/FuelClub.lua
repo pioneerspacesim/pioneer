@@ -71,9 +71,27 @@ local onChat = function (form, ref, option)
 	if membership and (membership.joined + membership.expiry > Game.time) then
 		-- members get the trader interface
 		setMessage(ad.flavour.member_intro)
+	elseif option == -1 then
+		-- hang up
+		form:Close()
+	elseif option == 1 then
+		-- Player asked the question about radioactives
+		setMessage(t('We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us.'))
+		form:AddOption(t('Apply for membership'),2)
+		form:AddOption(t('GO_BACK'),0)
+		form:AddOption(t('HANG_UP'),-1)
+	elseif option == 2 then
+		-- Player applied for membership
+		setMessage(t('Your membership application has been declined.'))
+		form:AddOption(t('HANG_UP'),-1)
 	else
 		-- non-members get offered membership
-		setMessage(ad.flavour.nonmember_intro)
+		setMessage(ad.flavour.nonmember_intro:interp({
+			membership_fee = Format.Money(500) -- Placeholder
+		}))
+		form:AddOption(t('What conditions apply to {radioactives} disposal?'):interp({radioactives = t('RADIOACTIVES')}),1)
+		form:AddOption(t('Apply for membership'),2)
+		form:AddOption(t('HANG_UP'),-1)
 	end
 end
 
