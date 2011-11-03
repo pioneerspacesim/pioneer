@@ -18,6 +18,6 @@ Translate:Add('English',{
 	["What conditions apply to {radioactives} disposal?"] = "What conditions apply to {radioactives} disposal?",
 	["We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."] = "We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us.",
 	["Apply for membership"] = "Apply for membership",
-	["Your membership application has been declined."],
+	["Your membership application has been declined."] = "Your membership application has been declined.",
 	["You are now a member. Your membership will expire on {expiry_date}."] = "You are now a member. Your membership will expire on {expiry_date}.",
 })
