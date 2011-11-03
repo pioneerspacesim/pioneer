@@ -116,7 +116,7 @@ void ScannerWidget::GetSizeRequested(float size[2])
 
 void ScannerWidget::ToggleMode()
 {
-	if (IsVisible()) {
+	if (IsVisible() && !Pi::IsTimeAccelPause()) {
 		if (m_mode == SCANNER_MODE_AUTO) m_mode = SCANNER_MODE_MAN;
 		else m_mode = SCANNER_MODE_AUTO;
 	}
@@ -180,6 +180,9 @@ void ScannerWidget::Draw()
 
 void ScannerWidget::UpdateContactsAndScale()
 {
+	// XXX should probably be pegged to the physics step but this will do for now
+	if (Pi::IsTimeAccelPause()) return;
+
 	enum { RANGE_MAX, RANGE_FAR_OTHER, RANGE_NAV, RANGE_FAR_SHIP, RANGE_COMBAT } range_type = RANGE_MAX;
 	float combat_dist = 0, far_ship_dist = 0, nav_dist = 0, far_other_dist = 0;
 
