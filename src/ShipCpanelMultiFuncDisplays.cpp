@@ -201,7 +201,11 @@ void ScannerWidget::Update()
 					break;
 				// fall through
 
-			case Object::SHIP:
+			case Object::SHIP: {
+				Ship *s = static_cast<Ship*>(*i);
+				if (s->GetFlightState() == Ship::DOCKED || s->GetFlightState() == Ship::DOCKING)
+					continue;
+
 				if (m_mode == SCANNER_MODE_AUTO && range_type != RANGE_COMBAT) {
 					if ((*i) == Pi::player->GetCombatTarget()) {
 						combat_dist = dist;
@@ -213,6 +217,7 @@ void ScannerWidget::Update()
 					}
 				}
 				break;
+			}
 
 			case Object::SPACESTATION:
 			case Object::CARGOBODY:
