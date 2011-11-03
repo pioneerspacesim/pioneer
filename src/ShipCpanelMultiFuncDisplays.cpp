@@ -242,6 +242,8 @@ void ScannerWidget::UpdateContactsAndScale()
 			m_manualRange = m_targetRange;
 			m_mode = SCANNER_MODE_MAN;
 		}
+		else
+			m_manualRange = m_currentRange;
 		m_manualRange = Clamp(m_manualRange * 1.05f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 	}
 	else if (KeyBindings::decreaseScanRange.IsActive() && m_manualRange > SCANNER_RANGE_MIN) {
@@ -249,6 +251,8 @@ void ScannerWidget::UpdateContactsAndScale()
 			m_manualRange = m_targetRange;
 			m_mode = SCANNER_MODE_MAN;
 		}
+		else
+			m_manualRange = m_currentRange;
 		m_manualRange = Clamp(m_manualRange * 0.95f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 	}
 
