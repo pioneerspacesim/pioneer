@@ -104,7 +104,7 @@ void MsgLogWidget::GetSizeRequested(float size[2])
 ScannerWidget::ScannerWidget()
 {
 	m_mode = SCANNER_MODE_AUTO;
-	m_currentRange = m_manualRange = m_targetRange = SCANNER_RANGE_MAX;
+	m_currentRange = m_manualRange = m_targetRange = SCANNER_RANGE_MIN;
 
 	KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::ToggleMode));
 }
