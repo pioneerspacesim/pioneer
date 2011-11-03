@@ -233,6 +233,15 @@ void ScannerWidget::UpdateContactsAndScale()
 		m_contacts.push_back(*i);
 	}
 
+	if (KeyBindings::increaseScanRange.IsActive() && m_range < SCANNER_RANGE_MAX) {
+		m_range = Clamp(m_range * 1.05f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+		m_mode = SCANNER_MODE_MAN;
+	}
+	else if (KeyBindings::decreaseScanRange.IsActive() && m_range > SCANNER_RANGE_MIN) {
+		m_range = Clamp(m_range * 0.95f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+		m_mode = SCANNER_MODE_MAN;
+	}
+
 	// range priority is combat target > ship/missile > nav target > other
 	if (m_mode == SCANNER_MODE_AUTO) {
 		switch (range_type) {
@@ -252,19 +261,12 @@ void ScannerWidget::UpdateContactsAndScale()
 				m_range = SCANNER_RANGE_MAX;
 				break;
 		}
-
-		m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
 	}
 	
 	else {
-		if (KeyBindings::increaseScanRange.IsActive() && m_range < SCANNER_RANGE_MAX) {
-			m_range = Clamp(m_range * 1.05f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
-			m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
-		} else if (KeyBindings::decreaseScanRange.IsActive() && m_range > SCANNER_RANGE_MIN) {
-			m_range = Clamp(m_range * 0.95f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
-			m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
-		}
 	}
+
+	m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
 }
 
 void ScannerWidget::DrawBlobs(bool below)
