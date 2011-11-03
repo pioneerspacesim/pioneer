@@ -169,8 +169,10 @@ void ScannerWidget::Draw()
 
 void ScannerWidget::UpdateContactsAndScale()
 {
-	// collect the bodies to be displayed, and if AUTO, distances
+	enum { RANGE_MAX, RANGE_FAR_OTHER, RANGE_NAV, RANGE_FAR_SHIP, RANGE_COMBAT } range_type = RANGE_MAX;
 	float combat_dist = 0, far_ship_dist = 0, nav_dist = 0, far_other_dist = 0;
+
+	// collect the bodies to be displayed, and if AUTO, distances
 	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 		if ((*i) == Pi::player) continue;
 
@@ -178,24 +180,44 @@ void ScannerWidget::UpdateContactsAndScale()
 		if (dist > SCANNER_RANGE_MAX) continue;
 
 		switch ((*i)->GetType()) {
+
 			case Object::MISSILE:
 				// player's own missiles are ignored for range calc but still shown
-				if (dynamic_cast<Missile*>(*i)->GetOwner() == Pi::player) break;
+				if (dynamic_cast<Missile*>(*i)->GetOwner() == Pi::player)
+					break;
+				// fall through
+
 			case Object::SHIP:
-				if (m_mode == SCANNER_MODE_AUTO && !combat_dist) {
-					if (dist > far_ship_dist) far_ship_dist = dist;
-					if ((*i) == Pi::player->GetCombatTarget()) combat_dist = dist;
+				if (m_mode == SCANNER_MODE_AUTO && range_type != RANGE_COMBAT) {
+					if ((*i) == Pi::player->GetCombatTarget()) {
+						combat_dist = dist;
+						range_type = RANGE_COMBAT;
+					}
+					else if (dist > far_ship_dist) {
+						far_ship_dist = dist;
+						range_type = RANGE_FAR_SHIP;
+					}
 				}
 				break;
+
 			case Object::CARGOBODY:
 			case Object::HYPERSPACECLOUD:
+
 				// XXX could maybe add orbital stations
-				if (m_mode == SCANNER_MODE_AUTO && !nav_dist && !combat_dist) {
-					if (dist > far_other_dist) far_other_dist = dist;
-					if ((*i) == Pi::player->GetNavTarget()) nav_dist = dist;
+				if (m_mode == SCANNER_MODE_AUTO && range_type != RANGE_NAV && range_type != RANGE_COMBAT) {
+					if ((*i) == Pi::player->GetNavTarget()) {
+						nav_dist = dist;
+						range_type = RANGE_NAV;
+					}
+					else if (dist > far_other_dist) {
+						far_other_dist = dist;
+						range_type = RANGE_FAR_OTHER;
+					}
 				}
 				break;
-			default: continue;
+
+			default:
+				continue;
 		}
 
 		m_contacts.push_back(*i);
@@ -203,18 +225,28 @@ void ScannerWidget::UpdateContactsAndScale()
 
 	// range priority is combat target > ship/missile > nav target > other
 	if (m_mode == SCANNER_MODE_AUTO) {
-		if (combat_dist) m_range =
-			Clamp(combat_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
-		else if (far_ship_dist) m_range =
-			Clamp(far_ship_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
-		else if (nav_dist) m_range =
-			Clamp(nav_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
-		else if (far_other_dist) m_range =
-			Clamp(far_other_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
-		else m_range = SCANNER_RANGE_MAX;
+		switch (range_type) {
+			case RANGE_COMBAT:
+				m_range = Clamp(combat_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+				break;
+			case RANGE_FAR_SHIP:
+				m_range = Clamp(far_ship_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+				break;
+			case RANGE_NAV:
+				m_range = Clamp(nav_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+				break;
+			case RANGE_FAR_OTHER:
+				m_range = Clamp(far_other_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+				break;
+			default:
+				m_range = SCANNER_RANGE_MAX;
+				break;
+		}
 
 		m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
-	} else {
+	}
+	
+	else {
 		if (KeyBindings::increaseScanRange.IsActive() && m_range < SCANNER_RANGE_MAX) {
 			m_range = Clamp(m_range * 1.05f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 			m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_range);
