@@ -4,6 +4,7 @@
 #include "gui/Gui.h"
 #include "EquipType.h"
 #include "Serializer.h"
+#include "Object.h"
 
 class Body;
 
@@ -69,7 +70,12 @@ private:
 	void DrawBlobs(bool below);
 	void DrawRingsAndSpokes(bool blend);
 
-	std::list<Body*> m_contacts;
+	struct Contact {
+		Object::Type type;
+		vector3d pos;
+		bool isSpecial;
+	};
+	std::list<Contact> m_contacts;
 
 	enum ScannerMode { SCANNER_MODE_AUTO, SCANNER_MODE_MANUAL };
 	ScannerMode m_mode;
