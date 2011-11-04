@@ -20,12 +20,12 @@ local oneyear = 31557600 -- One standard Julian year
 -- This is to make the BBS name different from the station welcome character.
 -- This will be unnecessary once ported to Character
 local seedbump = 27
-
 local ads = {}
 local memberships = {
 -- some_club = {
 --	joined = 0,
 --	expiry = oneyear,
+--  milrads = 0, -- counter for military fuel / radioactives balance
 -- }
 }
 
@@ -43,6 +43,10 @@ local onGameStart = function ()
 		end
 		-- load membership info
 		memberships = loaded_data.memberships
+		for k,v in pairs(memberships) do
+			for l,w in pairs(v) do
+			end
+		end
 		loaded_data = nil
 	end
 end
@@ -52,7 +56,9 @@ local onDelete = function (ref)
 	ads[ref] = nil
 end
 
-local onChat = function (form, ref, option)
+local onChat
+-- This can recurse now!
+onChat = function (form, ref, option)
 	local ad = ads[ref]
 
 	local setMessage = function (message)
@@ -67,27 +73,95 @@ local onChat = function (form, ref, option)
 	form:Clear()
 	form:SetFace(ad.face)
 	form:SetTitle(ad.flavour.welcome:interp({clubname = ad.flavour.clubname}))
-	local membership = memberships[ad.flavour]
+	local membership = memberships[ad.flavour.clubname]
+	print('MEMBERSHIP: ',membership)
+
 	if membership and (membership.joined + membership.expiry > Game.time) then
 		-- members get the trader interface
 		setMessage(ad.flavour.member_intro)
+		form:AddGoodsTrader({
+			canTrade = function (ref, commodity)
+				return ({
+					['HYDROGEN'] = true,
+					['MILITARY_FUEL'] = true,
+					['RADIOACTIVES'] = true,
+				})[commodity]
+			end,
+			getStock = function (ref, commodity)
+				ad.stock[commodity] = ({
+					-- Hydrogen: Between 5 and 75 units, tending to lower values
+					['HYDROGEN'] = ad.stock.HYDROGEN or (Engine.rand:Integer(2,50) + Engine.rand:Integer(3,25)),
+					-- Milfuel: Between 5 and 50 units, tending to median values
+					['MILITARY_FUEL'] = ad.stock.MILITARY_FUEL or (Engine.rand:Integer(2,25) + Engine.rand:Integer(3,25)),
+					-- Always taken away
+					['RADIOACTIVES'] = 0,
+				})[commodity]
+				return ad.stock[commodity]
+			end,
+			getPrice = function (ref, commodity)
+				return ad.station:GetEquipmentPrice(commodity) * ({
+					['HYDROGEN'] = 0.5, -- half price Hydrogen
+					['MILITARY_FUEL'] = 0.75, -- 25% off Milfuel
+					['RADIOACTIVES'] = 0, -- Radioactives go free
+				})[commodity]
+			end,
+			-- Next two functions: If your membership is nearly up, you'd better
+			-- trade quickly, because we do check!
+			-- Also checking that the player isn't abusing radioactives sales...
+			onClickBuy = function (ref, commodity)
+				return membership.joined + membership.expiry > Game.time
+			end,
+			onClickSell = function (ref, commodity)
+				if (commodity == 'RADIOACTIVES' and membership.milrads < 1) then return false end
+				return	membership.joined + membership.expiry > Game.time
+			end,
+			bought = function (ref, commodity)
+				ad.stock[commodity] = ad.stock[commodity] + 1
+				if commodity == 'MILITARY_FUEL' or commodity == 'RADIOACTIVES' then
+					membership.milrads = membership.milrads -1
+				end
+			end,
+			sold = function (ref, commodity)
+				ad.stock[commodity] = ad.stock[commodity] - 1
+				if commodity == 'MILITARY_FUEL' or commodity == 'RADIOACTIVES' then
+					membership.milrads = membership.milrads +1
+				end
+			end,
+		})
+
 	elseif option == -1 then
 		-- hang up
 		form:Close()
+
 	elseif option == 1 then
 		-- Player asked the question about radioactives
 		setMessage(t('We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us.'))
 		form:AddOption(t('Apply for membership'),2)
 		form:AddOption(t('GO_BACK'),0)
 		form:AddOption(t('HANG_UP'),-1)
+
 	elseif option == 2 then
 		-- Player applied for membership
-		setMessage(t('Your membership application has been declined.'))
-		form:AddOption(t('HANG_UP'),-1)
+		if Game.player:GetMoney() > 500 then
+			-- Membership application successful
+			memberships[ad.flavour.clubname] = {
+				joined = Game.time,
+				expiry = oneyear,
+				milrads = 0,
+			}
+			Game.player:AddMoney(0 - ad.flavour.annual_fee)
+			onChat(form,ref,0)
+			return
+		else
+			-- Membership application unsuccessful
+			setMessage(t('Your membership application has been declined.'))
+			form:AddOption(t('HANG_UP'),-1)
+		end
+
 	else
 		-- non-members get offered membership
 		setMessage(ad.flavour.nonmember_intro:interp({
-			membership_fee = Format.Money(500) -- Placeholder
+			membership_fee = Format.Money(ad.flavour.annual_fee)
 		}))
 		form:AddOption(t('What conditions apply to {radioactives} disposal?'):interp({radioactives = t('RADIOACTIVES')}),1)
 		form:AddOption(t('Apply for membership'),2)
@@ -101,25 +175,33 @@ local onCreateBB = function (station)
 	if rand:Integer(1,chance_of_availability) == 1 then
 	print('***** FUELCLUB: ',station.label)
 		-- Create our bulletin board ad
-		local ad = {}
+		local ad = {station = station, stock = {}, price = {}}
 		local flavours = Translate:GetFlavours('FuelClub')
-		print(flavours,' ',#flavours)
 		ad.flavour = flavours[rand:Integer(1,#flavours)]
-		print(ad.flavour,' ',#ad.flavour)
 		-- I'd like to replace this with a Character sheet for sheer
 		-- convenience of face generation!
+		local female = (rand:Integer(1) == 1)
 		ad.face = {
-			female = (rand:Integer(1) == 1),
+			female = female,
 			seed = rand:Integer(),
 			name = NameGen.FullName(female,rand),
 			title = ad.flavour.clubname,
+			armour = false,
 		}
 		ads[station:AddAdvert(ad.flavour.clubname,onChat,onDelete)] = ad
 	end
 	print('***** CONSIDERED: ',station.label)
 end
 
+local serialize = function ()
+	return { ads = ads, memberships = memberships }
+end
+
+local unserialize = function (data)
+	loaded_data = data
+end
+
 EventQueue.onCreateBB:Connect(onCreateBB)
 EventQueue.onGameStart:Connect(onGameStart)
 
--- Serializer:Register("FuelClub", serialize, unserialize)
+Serializer:Register("FuelClub", serialize, unserialize)

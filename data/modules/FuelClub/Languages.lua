@@ -13,6 +13,7 @@ Translate:AddFlavour('English','FuelClub',{
 
 Join now! Annual membership costs only {membership_fee}]],
 	member_intro = [[You may purhase fuel and dispose of {radioactives} here.]],
+	annual_fee = 500,
 })
 
 Translate:Add({English = {
