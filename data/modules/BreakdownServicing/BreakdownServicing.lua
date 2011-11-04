@@ -163,16 +163,23 @@ local loaded_data
 local onGameStart = function ()
 	ads = {}
 
-	if not loaded_data then return end
+	if not loaded_data then
+		service_history = {
+			lastdate = 0, -- Default will be overwritten on game start
+			company = nil, -- Name of company that did the last service
+			service_period = oneyear, -- default
+			jumpcount = 0, -- Number of jumps made after the service_period
+		}
+	else
+		for k,ad in pairs(loaded_data.ads) do
+			local ref = ad.station:AddAdvert(ad.title, onChat, onDelete)
+			ads[ref] = ad
+		end
 
-	for k,ad in pairs(loaded_data.ads) do
-		local ref = ad.station:AddAdvert(ad.title, onChat, onDelete)
-		ads[ref] = ad
+		service_history = loaded_data.service_history
+
+		loaded_data = nil
 	end
-
-	service_history = loaded_data.service_history
-
-	loaded_data = nil
 end
 
 local onEnterSystem = function (ship)
