@@ -4349,11 +4349,13 @@ static void _makeModelFilesCRC(const std::string &dir, const std::string &filena
 	} else if (S_ISREG(info.st_mode) && (filename.substr(filename.size()-4) != ".png")) {
 		FILE *f = fopen(filename.c_str(), "rb");
 		if (f) {
-			for (int c = 0;;) {
-				c = fgetc(f);
-				if (c != EOF) s_allModelFilesCRC += c;
-				else break;
-			}
+			fseek(f, 0, SEEK_END);
+			int size = ftell(f);
+			unsigned char *data = reinterpret_cast<unsigned char *>(malloc(size));
+			fseek(f, 0, SEEK_SET);
+			fread(data, 1, size, f);
+			for (int c=0; c<size; c++) s_allModelFilesCRC += data[c];
+			free(data);
 			fclose(f);
 		}
 	}
@@ -4361,7 +4363,6 @@ static void _makeModelFilesCRC(const std::string &dir, const std::string &filena
 
 static void _detect_model_changes()
 {
-
 	// do we need to rebuild the model cache?
 	foreach_file_in(PIONEER_DATA_DIR "/models", &_makeModelFilesCRC);
 
@@ -4377,9 +4378,13 @@ static void _detect_model_changes()
 		}
 		fclose(cache_sum_file);
 	}
+	if (s_recompileAllModels) printf("Rebuilding model cache...\n");
+}
+
+static void _write_model_crc_file()
+{
 	if (s_recompileAllModels) {
-		printf("Rebuilding model cache...\n");
-		cache_sum_file = fopen(join_path(s_cacheDir.c_str(), "cache.sum", 0).c_str(), "wb");
+		FILE *cache_sum_file = fopen(join_path(s_cacheDir.c_str(), "cache.sum", 0).c_str(), "wb");
 		if (cache_sum_file) {
 			_fwrite_string(PIONEER_VERSION, cache_sum_file);
 			_fwrite_string(PIONEER_EXTRAVERSION, cache_sum_file);
@@ -4492,6 +4497,7 @@ void LmrModelCompilerInit()
 
 	LUA_DEBUG_END(sLua, 0);
 	
+	_write_model_crc_file();
 	s_buildDynamic = true;
 }
 
