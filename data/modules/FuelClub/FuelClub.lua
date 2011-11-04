@@ -48,6 +48,9 @@ local onGameStart = function ()
 			end
 		end
 		loaded_data = nil
+	else
+		-- Hopefully this won't be necessary after Pioneer handles Lua teardown
+		memberships = {}
 	end
 end
 
