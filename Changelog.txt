@@ -23,6 +23,7 @@ Alpha 16
       system (#724)
     * Jump duration estimate in sector view shown in days + hours (#738)
     * Renamed "Panther" to "Caribou"
+    * Slightly improve model cache performance
 
   * Fixes
     * Optimise trade ship cargo management (#632)

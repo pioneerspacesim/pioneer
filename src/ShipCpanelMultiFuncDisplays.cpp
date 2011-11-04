@@ -193,12 +193,20 @@ void ScannerWidget::Update()
 		float dist = float((*i)->GetPositionRelTo(Pi::player).Length());
 		if (dist > SCANNER_RANGE_MAX) continue;
 
+		Contact c;
+		c.type = (*i)->GetType();
+		c.pos = (*i)->GetPositionRelTo(Pi::player);
+		c.isSpecial = false;
+
 		switch ((*i)->GetType()) {
 
 			case Object::MISSILE:
 				// player's own missiles are ignored for range calc but still shown
-				if (static_cast<Missile*>(*i)->GetOwner() == Pi::player)
+				if (static_cast<Missile*>(*i)->GetOwner() == Pi::player) {
+					c.isSpecial = true;
 					break;
+				}
+
 				// fall through
 
 			case Object::SHIP: {
@@ -208,6 +216,7 @@ void ScannerWidget::Update()
 
 				if (m_mode == SCANNER_MODE_AUTO && range_type != RANGE_COMBAT) {
 					if ((*i) == Pi::player->GetCombatTarget()) {
+						c.isSpecial = true;
 						combat_dist = dist;
 						range_type = RANGE_COMBAT;
 					}
@@ -226,6 +235,7 @@ void ScannerWidget::Update()
 				// XXX could maybe add orbital stations
 				if (m_mode == SCANNER_MODE_AUTO && range_type != RANGE_NAV && range_type != RANGE_COMBAT) {
 					if ((*i) == Pi::player->GetNavTarget()) {
+						c.isSpecial = true;
 						nav_dist = dist;
 						range_type = RANGE_NAV;
 					}
@@ -240,7 +250,7 @@ void ScannerWidget::Update()
 				continue;
 		}
 
-		m_contacts.push_back(*i);
+		m_contacts.push_back(c);
 	}
 
 	if (KeyBindings::increaseScanRange.IsActive()) {
@@ -289,12 +299,12 @@ void ScannerWidget::Update()
 
 void ScannerWidget::DrawBlobs(bool below)
 {
-	for (std::list<Body*>::iterator i = m_contacts.begin(); i != m_contacts.end(); ++i) {
+	for (std::list<Contact>::iterator i = m_contacts.begin(); i != m_contacts.end(); ++i) {
 		ScannerBlobWeight weight = WEIGHT_LIGHT;
 
-		switch ((*i)->GetType()) {
+		switch (i->type) {
 			case Object::SHIP:
-				if ((*i) == Pi::player->GetCombatTarget())
+				if (i->isSpecial)
 					glColor3fv(scannerCombatTargetColour);
 				else
 					glColor3fv(scannerShipColour);
@@ -302,14 +312,14 @@ void ScannerWidget::DrawBlobs(bool below)
 				break;
 
 			case Object::MISSILE:
-				if (static_cast<Missile*>(*i)->GetOwner() == Pi::player)
+				if (i->isSpecial)
 					glColor3fv(scannerPlayerMissileColour);
 				else
 					glColor3fv(scannerMissileColour);
 				break;
 
 			case Object::SPACESTATION:
-				if ((*i) == Pi::player->GetNavTarget())
+				if (i->isSpecial)
 					glColor3fv(scannerNavTargetColour);
 				else
 					glColor3fv(scannerStationColour);
@@ -317,14 +327,14 @@ void ScannerWidget::DrawBlobs(bool below)
 				break;
 
 			case Object::CARGOBODY:
-				if ((*i) == Pi::player->GetNavTarget())
+				if (i->isSpecial)
 					glColor3fv(scannerNavTargetColour);
 				else
 					glColor3fv(scannerCargoColour);
 				break;
 
 			case Object::HYPERSPACECLOUD:
-				if ((*i) == Pi::player->GetNavTarget())
+				if (i->isSpecial)
 					glColor3fv(scannerNavTargetColour);
 				else
 					glColor3fv(scannerCloudColour);
@@ -343,10 +353,9 @@ void ScannerWidget::DrawBlobs(bool below)
 			glPointSize(4);
 		}
 
-		vector3d pos = (*i)->GetPositionRelTo(Pi::player);
 		matrix4x4d rot;
 		Pi::player->GetRotMatrix(rot);
-		pos = rot.InverseOf() * pos;
+		vector3d pos = rot.InverseOf() * i->pos;
 
 		if ((pos.y > 0) && (below)) continue;
 		if ((pos.y < 0) && (!below)) continue;
