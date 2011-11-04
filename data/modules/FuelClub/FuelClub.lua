@@ -30,7 +30,7 @@ local memberships = {
 }
 
 -- 1 / probability that you'll see one in a BBS
-local chance_of_availability = 1
+local chance_of_availability = 3
 
 local loaded_data -- empty unless the game is loaded
 
@@ -77,7 +77,6 @@ onChat = function (form, ref, option)
 	form:SetFace(ad.face)
 	form:SetTitle(ad.flavour.welcome:interp({clubname = ad.flavour.clubname}))
 	local membership = memberships[ad.flavour.clubname]
-	print('MEMBERSHIP: ',membership)
 
 	if membership and (membership.joined + membership.expiry > Game.time) then
 		-- members get the trader interface
@@ -174,9 +173,8 @@ end
 
 local onCreateBB = function (station)
 	-- deterministically generate our instance
-	local rand = Rand:New(station.seed + seedbump)
+	local rand = Rand.New(station.seed + seedbump)
 	if rand:Integer(1,chance_of_availability) == 1 then
-	print('***** FUELCLUB: ',station.label)
 		-- Create our bulletin board ad
 		local ad = {station = station, stock = {}, price = {}}
 		local flavours = Translate:GetFlavours('FuelClub')
@@ -193,7 +191,6 @@ local onCreateBB = function (station)
 		}
 		ads[station:AddAdvert(ad.flavour.clubname,onChat,onDelete)] = ad
 	end
-	print('***** CONSIDERED: ',station.label)
 end
 
 local serialize = function ()
