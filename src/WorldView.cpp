@@ -1076,6 +1076,13 @@ void WorldView::UpdateProjectedObjects()
 	else
 		HideIndicator(m_velIndicator);
 
+	// orientation according to mouse
+	if (Pi::player->IsMouseActive()) {
+		const vector3d mouseDir = Pi::player->GetMouseDir() * cam_rot;
+		UpdateIndicator(m_mouseDirIndicator, (Pi::player->GetBoundingRadius() * 1.5) * mouseDir);
+	} else
+		HideIndicator(m_mouseDirIndicator);
+
 	// navtarget info
 	if (Body *navtarget = Pi::player->GetNavTarget()) {
 		// if navtarget and body frame are the same,
@@ -1375,6 +1382,9 @@ void WorldView::Draw()
 	DrawVelocityIndicator(m_navVelIndicator);
 
 	glLineWidth(2.0f);
+
+	glColor4f(0.5f, 0.5f, 0.5f, 0.7f);
+	DrawVelocityIndicator(m_mouseDirIndicator);
 
 	// combat target indicator
 	glColor4f(1.0f, 0.0f, 0.0f, 0.5f);

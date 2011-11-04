@@ -55,7 +55,8 @@ public:
 	virtual void TimeStepUpdate(const float timeStep);
 	vector3d GetAccumTorque() { return m_accumTorque; }
 	vector3d m_accumTorque;
-	vector3d GetMouseDir() { return m_mouseDir; }
+	bool IsMouseActive() const { return m_mouseActive; }
+	vector3d GetMouseDir() const { return m_mouseDir; }
 
 	double m_mouseAcc;
 

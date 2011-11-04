@@ -140,6 +140,7 @@ private:
 	Indicator m_navTargetIndicator;
 	Indicator m_combatTargetIndicator;
 	Indicator m_targetLeadIndicator;
+	Indicator m_mouseDirIndicator;
 };
 
 #endif /* _WORLDVIEW_H */
