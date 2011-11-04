@@ -553,7 +553,7 @@ private:
 
 Screen::~Screen()
 {
-	for (std::map<std::string,EventListener*>::iterator i = m_eventListeners.begin(); i != m_eventListeners.end(); i++)
+	for (std::map<std::string,EventListener*>::iterator i = m_eventListeners.begin(); i != m_eventListeners.end(); ++i)
 		delete (*i).second;
 }
 
@@ -675,14 +675,14 @@ Manager::Manager(int width, int height) :
 
 Manager::~Manager()
 {
-	for (std::map<std::string,Screen*>::iterator i = m_screens.begin(); i != m_screens.end(); i++)
+	for (std::map<std::string,Screen*>::iterator i = m_screens.begin(); i != m_screens.end(); ++i)
 		(*i).second->GetDocument()->RemoveReference();
 
 	m_context->RemoveReference();
 
 	Rocket::Core::Shutdown();
 
-	for (std::map<std::string,Screen*>::iterator i = m_screens.begin(); i != m_screens.end(); i++)
+	for (std::map<std::string,Screen*>::iterator i = m_screens.begin(); i != m_screens.end(); ++i)
 		delete (*i).second;
 
 	// XXX no way to clear the event listener instancer registered with

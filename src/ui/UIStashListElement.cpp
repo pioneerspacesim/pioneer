@@ -35,7 +35,7 @@ void StashListElement::UpdateFromStash(const std::list<std::string> &list)
 	while (HasChildNodes())
 		RemoveChild(GetFirstChild());
 
-	for (std::list<std::string>::const_iterator i = list.begin(); i != list.end(); i++) {
+	for (std::list<std::string>::const_iterator i = list.begin(); i != list.end(); ++i) {
 
 		std::queue<Rocket::Core::Element*> searchQueue;
 	
