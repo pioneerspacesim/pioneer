@@ -204,9 +204,8 @@ bool Ship::AIChangeVelBy(const vector3d &diffvel)
 }
 
 // relpos and relvel are position and velocity of ship relative to target in ship's frame
-// targvel is in direction of motion, must be positive
+// targspeed is in direction of motion, must be positive
 // returns difference in closing speed from ideal, or zero if it thinks it's at the target
-// flip == true means it uses main thruster value for determining decel point
 double Ship::AIMatchPosVel(const vector3d &relpos, const vector3d &relvel, double targspeed, const vector3d &maxthrust)
 {
 	matrix4x4d rot; GetRotMatrix(rot);
@@ -225,6 +224,35 @@ double Ship::AIMatchPosVel(const vector3d &relpos, const vector3d &relvel, doubl
 	vector3d diffvel = ivel - objvel;		// required change in velocity
 	AIChangeVelBy(diffvel);
 	return diffvel.Dot(reldir);
+}
+
+// reldir*targdist and relvel are pos and vel of ship relative to target in ship's frame
+// endspeed is in direction of motion, must be positive
+// maxdecel is maximum deceleration thrust
+bool Ship::AIMatchPosVel2(const vector3d &reldir, double targdist, const vector3d &relvel, double endspeed, double maxdecel)
+{
+	matrix4x4d rot; GetRotMatrix(rot);
+	double parspeed = relvel.Dot(reldir);
+	double ivel = calc_ivel(targdist, endspeed, maxdecel);
+	double diffspeed = ivel - parspeed;
+	vector3d diffvel = diffspeed * reldir * rot;
+	bool rval = false;
+
+	// crunch diffvel by relative thruster power to get acceleration in right direction
+	if (diffspeed > 0.0) {
+		vector3d maxFrameAccel = GetMaxThrust(diffvel) * Pi::GetTimeStep() / GetMass();
+		vector3d absv = vector3d(abs(diffvel.x), abs(diffvel.y), abs(diffvel.z));
+		if (absv.x > maxFrameAccel.x) diffvel *= maxFrameAccel.x / absv.x;
+		if (absv.y > maxFrameAccel.y) diffvel *= maxFrameAccel.y / absv.y;
+		if (absv.z > maxFrameAccel.z) diffvel *= maxFrameAccel.z / absv.z;
+		if (maxFrameAccel.z < diffspeed) rval = true;
+	}
+
+	// add perpendicular velocity
+	vector3d perpvel = relvel - parspeed*reldir;
+	diffvel -= perpvel * rot;
+	AIChangeVelBy(diffvel);
+	return rval;			// true if acceleration was capped
 }
 
 // Input in object space
@@ -282,7 +310,7 @@ double Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 		double frameEndAV = iangvel - frameAccel;
 		if (frameEndAV <= 0.0) iangvel = ang / timeStep;	// last frame discrete correction
 		else iangvel = (iangvel + frameEndAV) * 0.5;		// discrete overshoot correction
-		dav.z = -iangvel;
+		dav.z = uphead.x > 0 ? -iangvel : iangvel;
 	}
 	vector3d cav = (GetAngVelocity() - GetFrame()->GetAngVelocity()) * rot;				// current obj-rel angvel
 //	vector3d cav = GetAngVelocity() * rot;				// current obj-rel angvel
@@ -326,7 +354,7 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 		else iangvel = (iangvel + frameEndAV) * 0.5;		// discrete overshoot correction
 
 		// Normalize (head.x, head.y) to give desired angvel direction
-		if (head.z > 0.9999) head.x = 1.0;
+		if (head.x*head.x + head.y*head.y < 1e-30) head.x = 1.0;
 		double head2dnorm = 1.0 / sqrt(head.x*head.x + head.y*head.y);		// NAN fix shouldn't be necessary if inputs are normalized
 		dav.x = head.y * head2dnorm * iangvel;
 		dav.y = -head.x * head2dnorm * iangvel;
