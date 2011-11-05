@@ -362,7 +362,7 @@ void Player::SetNavTarget(Body* const target, bool setSpeedTo)
 {
 	if (setSpeedTo)
 		m_setSpeedTarget = target;
-	else
+	else if (m_setSpeedTarget == m_navTarget)
 		m_setSpeedTarget = 0;
 	m_navTarget = target;
 	Pi::onPlayerChangeTarget.emit();
@@ -373,7 +373,7 @@ void Player::SetCombatTarget(Body* const target, bool setSpeedTo)
 {
 	if (setSpeedTo)
 		m_setSpeedTarget = target;
-	else
+	else if (m_setSpeedTarget == m_combatTarget)
 		m_setSpeedTarget = 0;
 	m_combatTarget = target;
 	Pi::onPlayerChangeTarget.emit();
