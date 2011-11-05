@@ -1383,8 +1383,8 @@ void WorldView::Draw()
 
 	glLineWidth(2.0f);
 
-	glColor4f(0.5f, 0.5f, 0.5f, 0.7f);
-	DrawVelocityIndicator(m_mouseDirIndicator);
+	glColor4f(0.8f, 0.8f, 0.0f, 0.6f);
+	DrawCircleIndicator(m_mouseDirIndicator);
 
 	// combat target indicator
 	glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
@@ -1512,6 +1512,28 @@ void WorldView::DrawVelocityIndicator(const Indicator &marker)
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(2, GL_FLOAT, 0, vtx);
 		glDrawArrays(GL_LINES, 0, 8);
+		glDisableClientState(GL_VERTEX_ARRAY);
+	} else
+		DrawEdgeMarker(marker);
+
+}
+
+void WorldView::DrawCircleIndicator(const Indicator &marker)
+{
+	if (marker.side == INDICATOR_HIDDEN) return;
+
+	const float sz = HUD_CROSSHAIR_SIZE*0.5;
+	if (marker.side == INDICATOR_ONSCREEN) {
+		const float posx = marker.pos[0];
+		const float posy = marker.pos[1];
+		GLfloat vtx[72*2];
+		for (int i = 0; i < 72*2; i+=2) {
+			vtx[i]   = posx+sinf(DEG2RAD(i*5))*sz;
+			vtx[i+1] = posy+cosf(DEG2RAD(i*5))*sz;
+		}
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(2, GL_FLOAT, 0, vtx);
+		glDrawArrays(GL_LINE_LOOP, 0, 72);
 		glDisableClientState(GL_VERTEX_ARRAY);
 	} else
 		DrawEdgeMarker(marker);

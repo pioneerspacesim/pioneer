@@ -77,6 +77,7 @@ private:
 	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead);
 	void DrawTargetSquare(const Indicator &marker);
 	void DrawVelocityIndicator(const Indicator &marker);
+	void DrawCircleIndicator(const Indicator &marker);
 	void DrawEdgeMarker(const Indicator &marker);
 
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
