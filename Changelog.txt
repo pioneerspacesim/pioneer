@@ -56,6 +56,8 @@ Alpha 16
       ShipType.GetShipTypes and Space.GetBodies when called from console (#764)
     * Objects on the scanner now positioned correctly (#521)
     * Only randomise goods trader stock levels when bulletin board is created (#772, #776)
+    * Clear breakdown servicing state on game start to avoid state leak
+      between games (#775)
   
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
