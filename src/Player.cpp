@@ -360,10 +360,10 @@ bool Player::IsAnyThrusterKeyDown()
 
 void Player::SetNavTarget(Body* const target, bool setSpeedTo)
 {
-	if (setSpeedTo) {
+	if (setSpeedTo)
 		m_setSpeedTarget = target;
-		SetFlightControlState(CONTROL_FIXSPEED);
-	} else m_setSpeedTarget = 0;
+	else
+		m_setSpeedTarget = 0;
 	m_navTarget = target;
 	Pi::onPlayerChangeTarget.emit();
 	Sound::PlaySfx("OK");
@@ -371,10 +371,10 @@ void Player::SetNavTarget(Body* const target, bool setSpeedTo)
 
 void Player::SetCombatTarget(Body* const target, bool setSpeedTo)
 {
-	if (setSpeedTo) {
+	if (setSpeedTo)
 		m_setSpeedTarget = target;
-		SetFlightControlState(CONTROL_FIXSPEED);
-	} else m_setSpeedTarget = 0;
+	else
+		m_setSpeedTarget = 0;
 	m_combatTarget = target;
 	Pi::onPlayerChangeTarget.emit();
 	Sound::PlaySfx("OK");
