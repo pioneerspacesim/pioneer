@@ -610,10 +610,9 @@ void Pi::SetTimeAccel(int s)
 		player->SetAngThrusterState(vector3d(0.0));
 	}
 	// Give all ships a half-step acceleration to stop autopilot overshoot
-	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+	if (s < timeAccelIdx) for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 		if ((*i)->IsType(Object::SHIP)) (static_cast<DynamicBody *>(*i))->ApplyAccel(0.5*Pi::GetTimeStep());
 	}
-
 	timeAccelIdx = s;
 }
 

@@ -783,7 +783,8 @@ static bool CheckOvershoot(Ship *ship, vector3d &relvel, vector3d &relpos, vecto
 
 	// check for uncorrectable side velocity
 	vector3d perpvel = relvel - reldir * relvel.Dot(reldir);
-	if (perpvel.Length() > 0.5*ship->GetAccelMin()*t) return true;
+	if (perpvel.Length() > 0.5*ship->GetAccelMin()*t)		
+		return true;
 	return false;
 }
 
@@ -827,12 +828,11 @@ bool AICmdFlyTo::TimeStepUpdate()
 	double timestep = Pi::GetTimeStep();
 	vector3d targvel = GetVelInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
 	vector3d relvel = m_ship->GetVelocity() - targvel;
-	vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_targframe, m_posoff) + targvel * timestep;
+	vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
 	ParentSafetyAdjust(m_ship, m_targframe, m_posoff, targpos);
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
 	double targdist = relpos.Length();
-	double sideacc = m_ship->GetAccelMin();
 
 	// sort out gear, launching
 	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
@@ -846,10 +846,8 @@ bool AICmdFlyTo::TimeStepUpdate()
 	}
 	Body *body = m_frame->GetBodyFor();
 
-if(m_ship->IsType(Object::PLAYER)) {
-	printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state = %x\n",
-		targdist, relvel.Length(), m_ship->GetThrusterState().z, reldir.Dot(m_reldir), m_state);
-}
+printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state = %i\n",
+	targdist, relvel.Length(), m_ship->GetThrusterState().z, reldir.Dot(m_reldir), m_state);
 
 	if (m_tangent && body == m_targframe->GetBodyFor())
 	{
@@ -892,11 +890,6 @@ if(m_ship->IsType(Object::PLAYER)) {
 	if (targdist > localdist && localdist < 1.5*MaxEffectRad(m_frame->GetBodyFor()))
 		relvel += targvel;
 
-	// termination conditions
-	if (m_state == 3) m_state = 4;					// finished last adjustment, hopefully
-	else if (m_endvel <= 0) { if (targdist < 0.5*sideacc*timestep*timestep) m_state = 3; }
-	else if (reldir.Dot(m_reldir) < 0.9) m_state = 4;
-
 	// linear thrust
 	double ang, maxdecel = GetMaxDecel(m_ship, reldir, m_state, &ang);
 	maxdecel -= GetGravityAtPos(m_targframe, m_posoff);
@@ -905,6 +898,11 @@ if(m_ship->IsType(Object::PLAYER)) {
 
 	// flip check - if facing forward and not accelerating at maximum
 	if (m_state == 1 && ang > 0.99 && !cap) m_state = 2;
+
+	// termination conditions
+	if (m_state == 3) m_state++;					// finished last adjustment, hopefully
+	else if (m_endvel > 0.0) { if (reldir.Dot(m_reldir) < 0.9) m_state = 4; }
+	else if (targdist < 0.5*m_ship->GetAccelMin()*timestep*timestep) m_state = 3;
 
 	// set heading according to current state
 	if (m_state < 2) {		// this shit still needed? yeah, sort of
@@ -915,7 +913,7 @@ if(m_ship->IsType(Object::PLAYER)) {
 	}
 	else if (m_state == 2) m_ship->AIFaceDirection(-reldir);	// hmm. -relvel instead?
 	else m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
-	
+
 	if (m_state == 4) return true;
 	return false;
 }
@@ -983,6 +981,10 @@ bool AICmdDock::TimeStepUpdate()
 
 	double ang = m_ship->AIFaceOrient(m_dockdir, m_dockupdir);
 	if (m_state < 5 && ang < 0.01 && m_ship->GetWheelState() >= 1.0f) m_state++;
+
+printf("AICmdDock dist = %.1f, speed = %.1f, ythrust = %.2f, state = %i\n",
+	targdist, relvel.Length(), m_ship->GetThrusterState().y, m_state);
+
 	return false;
 }
 
@@ -993,15 +995,6 @@ bool AICmdHoldPosition::TimeStepUpdate()
 	return false;
 }
 
-
-vector3d AICmdFlyAround::Targpos()
-{
-	switch (m_targmode) {
-		default: return m_ship->GetPosition() + m_ship->GetVelocity();
-		case 1: return GetPosInFrame(m_ship->GetFrame(), m_target->GetFrame(), m_target->GetPosition());
-		case 2: return GetPosInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
-	}
-}
 
 void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int targmode, Body *target, Frame *targframe, vector3d &posoff)
 {
@@ -1040,12 +1033,22 @@ AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double 
 
 extern double calc_ivel(double dist, double vel, double acc);
 
+vector3d AICmdFlyAround::Targpos()
+{
+	switch (m_targmode) {
+		default: return m_ship->GetPosition() + m_ship->GetVelocity();
+		case 1: return GetPosInFrame(m_ship->GetFrame(), m_target->GetFrame(), m_target->GetPosition());
+		case 2: return GetPosInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
+	}
+}
+
 double AICmdFlyAround::MaxVel(double targdist, double timestep)
 {
 	if (m_targmode != 1 && m_targmode != 2) return m_vel;
 	double t = sqrt(2.0 * targdist / m_ship->GetAccelFwd());
 	double vmaxprox = m_ship->GetAccelMin()*t;			// limit by target proximity
 	double vmaxtime = m_alt * 0.05 / timestep;		// limit by timestep - approx 1/120 circum per frame
+	if (m_targmode == 2 && m_targframe->GetBodyFor()->IsType(Object::SPACESTATION)) vmaxtime *= 12;
 	return std::min(m_vel, std::min(vmaxprox, vmaxtime));
 }
 

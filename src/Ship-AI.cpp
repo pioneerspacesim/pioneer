@@ -292,10 +292,11 @@ vector3d Ship::AIGetNextFramePos()
 double Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 {
 	double timeStep = Pi::GetTimeStep();
-	matrix4x4d rot; GetRotMatrix(rot);
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
+	if (maxAccel <= 0.0) return 0.0;
 	double frameAccel = maxAccel * timeStep;
 	
+	matrix4x4d rot; GetRotMatrix(rot);
 	if (dir.Dot(vector3d(rot[8], rot[9], rot[10])) > -0.999999)
 		{ AIFaceDirection(dir); return false; }
 	
@@ -318,8 +319,6 @@ double Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 
 	SetAngThrusterState(diff);
 	return ang;
-//	if (diff.x*diff.x > 1.0 || diff.y*diff.y > 1.0 || diff.z*diff.z > 1.0) return false;
-//	else return true;
 }
 
 
@@ -331,15 +330,11 @@ double Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 double Ship::AIFaceDirection(const vector3d &dir, double av)
 {
 	double timeStep = Pi::GetTimeStep();
-
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
-	if (maxAccel <= 0.0)
-		// happens if no angular thrust is set for the model eg MISSILE_UNGUIDED
-		return 0.0;
+	if (maxAccel <= 0.0) return 0.0;
 	double frameAccel = maxAccel * timeStep;
 
 	matrix4x4d rot; GetRotMatrix(rot);
-
 	vector3d head = (dir * rot).Normalized();		// create desired object-space heading
 	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity
 
@@ -354,7 +349,7 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 		else iangvel = (iangvel + frameEndAV) * 0.5;		// discrete overshoot correction
 
 		// Normalize (head.x, head.y) to give desired angvel direction
-		if (head.x*head.x + head.y*head.y < 1e-30) head.x = 1.0;
+		if (head.z > 0.999999) head.x = 1.0;
 		double head2dnorm = 1.0 / sqrt(head.x*head.x + head.y*head.y);		// NAN fix shouldn't be necessary if inputs are normalized
 		dav.x = head.y * head2dnorm * iangvel;
 		dav.y = -head.x * head2dnorm * iangvel;
@@ -365,8 +360,6 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 
 	SetAngThrusterState(diff);
 	return ang;
-//if (diff.x*diff.x > 1.0 || diff.y*diff.y > 1.0 || diff.z*diff.z > 1.0) return false;
-//	else return true;
 }
 
 
