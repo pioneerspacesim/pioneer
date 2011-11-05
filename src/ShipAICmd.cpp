@@ -593,9 +593,15 @@ static double MaxFeatureRad(Body *body)
 	return static_cast<TerrainBody *>(body)->GetMaxFeatureRadius();
 }
 
-static double MaxEffectRad(Body *body)
+static double MaxEffectRad(Body *body, Ship *ship)
 {
-	return MaxFeatureRad(body) * 1.1;		// temporary hack
+	if(!body) return 0.0;
+	if(!body->IsType(Object::TERRAINBODY)) {
+		double brad = body->GetBoundingRadius();
+		return std::max(brad*1.1, brad+2000.0);
+	}
+	double frad = static_cast<TerrainBody *>(body)->GetMaxFeatureRadius() * 1.1;
+	return std::max(frad, sqrt(G * body->GetMass() / ship->GetAccelMin()));
 }
 
 // returns acceleration due to gravity at that point
@@ -607,6 +613,14 @@ static double GetGravityAtPos(Frame *targframe, vector3d &posoff)
 	return G * body->GetMass() / rsqr;
 	// inverse is: sqrt(G * m1m2 / thrust)
 }
+
+// returns distance from frame with specific gravity
+static double GetDistWithGravity(Body *body, double accel)
+{
+	if (!body || body->IsType(Object::SPACESTATION)) return 0;
+	return sqrt(G * body->GetMass() / accel);
+}
+
 
 // gets position of (target + offset in target's frame) in frame
 // if object has its own rotational frame, ignores it
@@ -628,17 +642,16 @@ static vector3d GetVelInFrame(Frame *frame, Frame *target, vector3d &offset)
 // formula uses similar triangles
 // shiptarg in ship's frame
 // output in targframe
-static vector3d GenerateTangent(Ship *ship, Frame *targframe, vector3d &shiptarg)
+static vector3d GenerateTangent(Ship *ship, Frame *targframe, vector3d &shiptarg, double alt)
 {
 	matrix4x4d tran;
 	Frame::GetFrameTransform(ship->GetFrame(), targframe, tran);
 	vector3d spos = tran * ship->GetPosition();
 	vector3d targ = tran * shiptarg;
-	double a = spos.Length();
-	double b = MaxEffectRad(targframe->GetBodyFor());
+	double a = spos.Length(), b = alt;
 	if (b*1.02 > a) { spos *= b*1.02/a; a = b*1.02; }		// fudge if ship gets under radius
 	double c = sqrt(a*a - b*b);
-	return spos.Normalized()*b*b/a + spos.Cross(targ).Cross(spos).Normalized()*b*c/a;
+	return (spos*b*b)/(a*a) + spos.Cross(targ).Cross(spos).Normalized()*b*c/a;
 }
 
 static int GetFlipMode(Ship *ship, vector3d &relpos, vector3d &relvel)
@@ -677,7 +690,7 @@ static int CheckCollision(Ship *ship, vector3d &tpos, double endvel)
 	double tdist = (tpos-spos).Length();
 	if (tdist < 100.0) return 0;
 	vector3d pathdir = (tpos-spos) / tdist;
-	double r = MaxEffectRad(body);
+	double r = MaxEffectRad(body, ship);
 	double p2len = tpos.Length();
 	double p1len = spos.Length();
 
@@ -712,7 +725,7 @@ static int CheckCollision(Ship *ship, vector3d &tpos, double endvel)
 	double time = tanlen / (0.5 * (parspeed + tanspeed));		// actually correct?
 
 	double dist = spos.Dot(perpdir) - perpspeed*time;		// spos.perpdir should be positive
-	if (dist < MaxEffectRad(body)) return 4;
+	if (dist < MaxEffectRad(body, ship)) return 4;
 	return 0;
 }
 
@@ -792,7 +805,7 @@ static bool CheckOvershoot(Ship *ship, vector3d &relvel, vector3d &relpos, vecto
 // Fly to "vicinity" of body
 AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO)
 {
-	double dist = std::max(VICINITY_MIN, VICINITY_MUL*MaxEffectRad(target));
+	double dist = std::max(VICINITY_MIN, VICINITY_MUL*MaxEffectRad(target, ship));
 	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation *>(target)->IsGroundStation()) {
 		matrix4x4d rot; target->GetRotMatrix(rot);
 		m_posoff = target->GetPosition() + dist * vector3d(rot[4], rot[5], rot[6]);		// up vector for starport
@@ -870,8 +883,8 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 			m_state = -3; return false;
 		}
 		else {							// same thing for 2/3/4
-			if (!m_child) m_child = new AICmdFlyAround(m_ship, body, MaxEffectRad(body),
-				0.0, m_targframe, m_posoff);
+			if (!m_child) m_child = new AICmdFlyAround(m_ship, body,
+				MaxEffectRad(body, m_ship), 0.0, m_targframe, m_posoff);
 			ProcessChild(); m_state = -5; return false;
 		}
 	}
@@ -887,7 +900,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 	
 	// if dangerously close to local body, pretend target isn't moving
 	double localdist = m_ship->GetPosition().Length();
-	if (targdist > localdist && localdist < 1.5*MaxEffectRad(m_frame->GetBodyFor()))
+	if (targdist > localdist && localdist < 1.5*MaxEffectRad(body, m_ship))
 		relvel += targvel;
 
 	// linear thrust
@@ -1071,29 +1084,30 @@ bool AICmdFlyAround::TimeStepUpdate()
 
 	double timestep = Pi::GetTimeStep();
 	vector3d targpos = Targpos();		// target position in ship's frame
+	vector3d obspos = m_obstructor->GetPositionRelTo(m_ship);
+	double obsdist = obspos.Length();
+	vector3d obsdir = obspos / obsdist;
+	vector3d relpos = targpos + obspos;
 
 	// if too far away, fly to tangent
-	if (m_ship->GetPositionRelTo(m_obstructor).LengthSqr() > 1.21*m_alt*m_alt)
+	if (obsdist > 1.1*m_alt)
 	{
 		Frame *obsframe = m_obstructor->GetFrame();
 		if (m_obstructor->HasDoubleFrame()) obsframe = obsframe->m_parent;
-		vector3d tangent = GenerateTangent(m_ship, obsframe, targpos);
-		tangent *= m_alt / MaxEffectRad(m_obstructor);
-		double v = MaxVel((targpos-tangent).Length(), timestep);
+		vector3d tangent = GenerateTangent(m_ship, obsframe, targpos, m_alt);
+		vector3d shiptan = GetPosInFrame(m_ship->GetFrame(), obsframe, tangent);
+		double v = MaxVel((targpos-shiptan).Length(), timestep);
 		if (m_targmode == 1 || m_targmode == 2 && 
-			targpos.LengthSqr() < tangent.LengthSqr()) v = 0.0;
+			relpos.LengthSqr() < (obspos+tangent).LengthSqr()) v = 0.0;
 		m_child = new AICmdFlyTo(m_ship, obsframe, tangent, v, true);
 		ProcessChild(); return false;
 	}
 
 	// limit m_vel by target proximity: TODO: check if timestep limit is also req'd
-	double vel = MaxVel((targpos-m_ship->GetPosition()).Length(), timestep);
+	double vel = MaxVel(relpos.Length(), timestep);
 
 	// all calculations in ship's frame
-	vector3d obspos = m_obstructor->GetPositionRelTo(m_ship);
-	vector3d obsdir = obspos.Normalized();
-	vector3d fwddir = targpos - m_ship->GetPosition();
-	fwddir = (obsdir.Cross(fwddir).Cross(obsdir)).Normalized();
+	vector3d fwddir = (obsdir.Cross(relpos).Cross(obsdir)).Normalized();
 	vector3d tanvel = vel * fwddir;
 
 	// frame body suicide check, response
