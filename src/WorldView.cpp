@@ -350,11 +350,6 @@ WorldView::CamType WorldView::GetCamType() const
 	}
 }
 
-void WorldView::Draw3D()
-{
-	m_activeCamera->Draw();
-}
-
 void WorldView::ShowAll()
 {
 	View::ShowAll(); // by default, just delegate back to View
@@ -754,6 +749,7 @@ void WorldView::Update()
 
 void WorldView::OnSwitchTo()
 {
+	Pi::uiManager->OpenBackground("background_camera");
 	RefreshButtonStateAndVisibility();
 }
 
