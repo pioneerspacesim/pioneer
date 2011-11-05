@@ -632,6 +632,7 @@ static bool s_initted = false;
 Manager::Manager(int width, int height) :
 	m_width(width),
 	m_height(height),
+	m_backgroundDocument(0),
 	m_currentScreen(0),
 	m_currentKey(Rocket::Core::Input::KI_UNKNOWN),
 	m_currentModifier(Rocket::Core::Input::KeyModifier(0)),
@@ -667,10 +668,12 @@ Manager::Manager(int width, int height) :
 	// XXX hook up to fontmanager or something
 	Rocket::Core::FontDatabase::LoadFontFace(PIONEER_DATA_DIR "/fonts/TitilliumText22L004.otf");
 
-	m_context = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(m_width, m_height));
-	m_context->AddEventListener("keyup", this, true);
-	m_context->AddEventListener("keydown", this, true);
-	m_context->AddEventListener("mousemove", this, false);
+	m_backgroundContext = Rocket::Core::CreateContext("background", Rocket::Core::Vector2i(m_width, m_height));
+
+	m_mainContext = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(m_width, m_height));
+	m_mainContext->AddEventListener("keyup", this, true);
+	m_mainContext->AddEventListener("keydown", this, true);
+	m_mainContext->AddEventListener("mousemove", this, false);
 }
 
 Manager::~Manager()
@@ -678,7 +681,8 @@ Manager::~Manager()
 	for (std::map<std::string,Screen*>::iterator i = m_screens.begin(); i != m_screens.end(); ++i)
 		(*i).second->GetDocument()->RemoveReference();
 
-	m_context->RemoveReference();
+	m_mainContext->RemoveReference();
+	m_backgroundContext->RemoveReference();
 
 	Rocket::Core::Shutdown();
 
@@ -705,7 +709,7 @@ Screen *Manager::OpenScreen(const std::string &name)
 	if (i == m_screens.end()) {
 		m_currentScreen = new Screen();
 
-		Rocket::Core::ElementDocument *document = m_context->LoadDocument((PIONEER_DATA_DIR "/ui/" + name + ".rml").c_str());
+		Rocket::Core::ElementDocument *document = m_mainContext->LoadDocument((PIONEER_DATA_DIR "/ui/" + name + ".rml").c_str());
 		if (!document) {
 			fprintf(stderr, "UIManager: couldn't load document '%s'\n", name.c_str());
 			delete m_currentScreen;
@@ -731,6 +735,30 @@ Screen *Manager::OpenScreen(const std::string &name)
 	m_currentScreen->GetDocument()->Show();
 
 	return m_currentScreen;
+}
+
+// XXX too much overlap in code and concept with the screen stuff, but its the
+// simplest way to prototype this
+void Manager::OpenBackground(const std::string &name)
+{
+	if (m_backgroundDocument)
+		m_backgroundDocument->Hide();
+	
+	std::map<std::string,Rocket::Core::ElementDocument*>::iterator i = m_backgroundDocuments.find(name);
+	if (i == m_backgroundDocuments.end()) {
+		m_backgroundDocument = m_backgroundContext->LoadDocument((PIONEER_DATA_DIR "/ui/" + name + ".rml").c_str());
+		if (!m_backgroundDocument) {
+			fprintf(stderr, "UIManager: couldn't load document '%s'\n", name.c_str());
+			return;
+		}
+		m_backgroundDocuments[name] = m_backgroundDocument;
+	}
+	else
+		m_backgroundDocument = (*i).second;
+
+	Update(m_backgroundDocument, true);
+
+	m_backgroundDocument->Show();
 }
 
 void Manager::ProcessEvent(Rocket::Core::Event &e)
@@ -776,12 +804,12 @@ void Manager::HandleEvent(const SDL_Event *e)
 	
 	switch (e->type) {
 		case SDL_MOUSEMOTION:
-			m_context->ProcessMouseMove(e->motion.x, e->motion.y, rmod);
+			m_mainContext->ProcessMouseMove(e->motion.x, e->motion.y, rmod);
 			break;
 
 		case SDL_MOUSEBUTTONDOWN:
 			// XXX special handling for wheelup/wheeldown
-			m_context->ProcessMouseButtonDown(
+			m_mainContext->ProcessMouseButtonDown(
 				e->button.button & SDL_BUTTON_LEFT  ? 0 :
 				e->button.button & SDL_BUTTON_RIGHT ? 1 :
 				                                      e->button.button, rmod);
@@ -789,7 +817,7 @@ void Manager::HandleEvent(const SDL_Event *e)
 
 		case SDL_MOUSEBUTTONUP:
 			// XXX special handling for wheelup/wheeldown
-			m_context->ProcessMouseButtonUp(
+			m_mainContext->ProcessMouseButtonUp(
 				e->button.button & SDL_BUTTON_LEFT  ? 0 :
 				e->button.button & SDL_BUTTON_RIGHT ? 1 :
 				                                      e->button.button, rmod);
@@ -801,7 +829,7 @@ void Manager::HandleEvent(const SDL_Event *e)
 			if (ki == Rocket::Core::Input::KI_UNKNOWN)
 				fprintf(stderr, "UIInput: No keymap for SDL key %d\n", e->key.keysym.sym);
 			else
-				m_context->ProcessKeyDown(sdlkey_to_ki[e->key.keysym.sym], rmod);
+				m_mainContext->ProcessKeyDown(sdlkey_to_ki[e->key.keysym.sym], rmod);
 			break;
 		}
 
@@ -811,7 +839,7 @@ void Manager::HandleEvent(const SDL_Event *e)
 			if (ki == Rocket::Core::Input::KI_UNKNOWN)
 				fprintf(stderr, "UIInput: No keymap for SDL key %d\n", e->key.keysym.sym);
 			else
-				m_context->ProcessKeyUp(sdlkey_to_ki[e->key.keysym.sym], rmod);
+				m_mainContext->ProcessKeyUp(sdlkey_to_ki[e->key.keysym.sym], rmod);
 			break;
 		}
 
@@ -822,15 +850,21 @@ void Manager::HandleEvent(const SDL_Event *e)
 
 void Manager::Draw()
 {
-	if (!m_currentScreen)
+	if (!m_currentScreen && !m_backgroundDocument)
 		return;
 
-	if (m_tooltipSourceElement && m_tooltipDelayStartTick + 2000 <= SDL_GetTicks())   // 2s mouse stop for tooltips
-		m_currentScreen->ShowTooltip(m_tooltipSourceElement);
+	if (m_backgroundDocument) {
+		Update(m_backgroundDocument);
+		m_backgroundContext->Update();
+	}
 
-	Update(m_currentScreen->GetDocument());
+	if (m_currentScreen) {
+		Update(m_currentScreen->GetDocument());
+		m_mainContext->Update();
 
-	m_context->Update();
+		if (m_tooltipSourceElement && m_tooltipDelayStartTick + 2000 <= SDL_GetTicks())   // 2s mouse stop for tooltips
+			m_currentScreen->ShowTooltip(m_tooltipSourceElement);
+	}
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -844,7 +878,11 @@ void Manager::Draw()
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 
-	m_context->Render();
+	if (m_backgroundDocument)
+		m_backgroundContext->Render();
+
+	if (m_currentScreen)
+		m_mainContext->Render();
 }
 
 }

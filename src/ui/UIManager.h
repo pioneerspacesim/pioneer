@@ -88,6 +88,8 @@ public:
 	Screen *OpenScreen(const std::string &name);
 	Screen *GetCurrentScreen() const { return m_currentScreen; }
 
+	void OpenBackground(const std::string &name);
+
 	virtual void ProcessEvent(Rocket::Core::Event &e);
 
 	void HandleEvent(const SDL_Event *e);
@@ -117,7 +119,11 @@ private:
 
 	EventListenerInstancer *m_eventListenerInstancer;
 
-	Rocket::Core::Context *m_context;
+	Rocket::Core::Context *m_backgroundContext;
+	Rocket::Core::Context *m_mainContext;
+
+	std::map<std::string,Rocket::Core::ElementDocument*> m_backgroundDocuments;
+	Rocket::Core::ElementDocument *m_backgroundDocument;
 
 	std::map<std::string,Screen*> m_screens;
 	Screen *m_currentScreen;
