@@ -289,7 +289,8 @@ vector3d Ship::AIGetNextFramePos()
 	return pos;
 }
 
-double Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
+// returns true if ship will be aligned at end of frame
+bool Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 {
 	double timeStep = Pi::GetTimeStep();
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
@@ -318,7 +319,7 @@ double Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 	vector3d diff = (dav - cav) / frameAccel;			// find diff between current & desired angvel
 
 	SetAngThrusterState(diff);
-	return ang;
+	return (diff.z*diff.z < 1.0);
 }
 
 

@@ -783,7 +783,7 @@ static bool CheckOvershoot(Ship *ship, vector3d &relvel, vector3d &relpos, vecto
 
 	// check for uncorrectable side velocity
 	vector3d perpvel = relvel - reldir * relvel.Dot(reldir);
-	if (perpvel.Length() > 0.5*ship->GetAccelMin()*t)		
+	if (perpvel.Length() > 0.5*ship->GetAccelMin()*t)
 		return true;
 	return false;
 }
@@ -979,8 +979,17 @@ bool AICmdDock::TimeStepUpdate()
 	maxdecel -= GetGravityAtPos(m_target->GetFrame(), m_dockpos);
 	m_ship->AIMatchPosVel2(reldir, relpos.Length(), relvel, 0.0, maxdecel);
 
-	double ang = m_ship->AIFaceOrient(m_dockdir, m_dockupdir);
-	if (m_state < 5 && ang < 0.01 && m_ship->GetWheelState() >= 1.0f) m_state++;
+	// massive pile of crap needed to get updir right outside the frame
+	Frame *sframe = m_target->GetFrame();
+	double ang = sframe->GetAngVelocity().Length() * Pi::GetTimeStep();
+	matrix4x4d m; Frame::GetFrameTransform(sframe, m_ship->GetFrame(), m);
+	if (!float_is_zero_general(ang) && sframe != m_ship->GetFrame()) {
+		vector3d axis = sframe->GetAngVelocity().Normalized();
+		m = m * matrix4x4d::RotateMatrix(ang, axis.x, axis.y, axis.z);
+	}
+	vector3d updir = m.ApplyRotationOnly(m_dockupdir);
+	bool fin = m_ship->AIFaceOrient(m_dockdir, updir);
+	if (m_state < 5 && fin && m_ship->GetWheelState() >= 1.0f) m_state++;
 
 printf("AICmdDock dist = %.1f, speed = %.1f, ythrust = %.2f, state = %i\n",
 	targdist, relvel.Length(), m_ship->GetThrusterState().y, m_state);
