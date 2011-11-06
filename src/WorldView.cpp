@@ -750,6 +750,8 @@ void WorldView::Update()
 void WorldView::OnSwitchTo()
 {
 	Pi::uiManager->OpenBackground("background_camera");
+	Pi::uiManager->OpenScreen("world");
+
 	RefreshButtonStateAndVisibility();
 }
 
