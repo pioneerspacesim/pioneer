@@ -139,7 +139,11 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 		}
 		m_knownKillCount = m_killCount;
 
-		Pi::SetView(Pi::spaceStationView);
+		// XXX SetDockedWith() is called on game start to place the player in
+		// the dock. this "auto switch to services menu" function should
+		// probably happen elsewhere (if at all)
+		// XXX disabled for rocket-ui
+		//Pi::SetView(Pi::spaceStationView);
 	}
 }
 
