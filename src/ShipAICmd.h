@@ -178,6 +178,10 @@ public:
 		if (m_targmode == 2) m_target = Serializer::LookupBody(m_targetIndex);
 		else m_targframe = Serializer::LookupFrame(m_targetIndex);
 	}
+	virtual void OnDeleted(const Body *body) {
+		AICommand::OnDeleted(body);
+		if (m_target == body) m_target = 0;
+	}
 
 protected:
 	void Setup(Body *obstructor, double alt, double vel, int targmode, Body *target, Frame *targframe, vector3d &posoff);

@@ -585,6 +585,11 @@ bool AICmdKill::TimeStepUpdate()
 }
 */
 
+static Frame *GetNonRotFrame(Body *body)
+{
+	if (!body->HasDoubleFrame()) return body->GetFrame();
+	else return body->GetFrame()->m_parent;
+}
 
 static double MaxFeatureRad(Body *body)
 {
@@ -812,8 +817,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO)
 		m_targframe = target->GetFrame();
 	}
 	else {
-		if(target->HasDoubleFrame()) m_targframe = target->GetFrame()->m_parent;
-		else m_targframe = target->GetFrame();
+		m_targframe = GetNonRotFrame(target);
 		m_posoff = dist * m_ship->GetPositionRelTo(m_targframe).Normalized();
 		m_posoff += target->GetPosition();
 	}
@@ -896,6 +900,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 		m_state = -4; return false;
 	}
 	// regenerate state to flipmode if we're off course
+	if ((m_state == -4 || m_state == -2) && m_tangent) return true;		// bail out
 	if (m_state < 0) m_state = GetFlipMode(m_ship, relpos, relvel);
 	
 	// if dangerously close to local body, pretend target isn't moving
@@ -1027,11 +1032,18 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int targmod
 	double minacc = (targmode == 3) ? 0 : m_ship->GetAccelMin();
 	double mass = obstructor->IsType(Object::TERRAINBODY) ? obstructor->GetMass() : 0;
 	if (vel < 1e-30) m_vel = sqrt(m_alt*0.8*minacc + mass*G/m_alt);
+
+	// check if altitude is within obstructor frame
+	if (alt > 0.9 * GetNonRotFrame(obstructor)->GetRadius()) {
+		m_ship->AIMessage(Ship::ORBIT_IMPOSSIBLE);
+		m_targmode = 1; m_target = 0;			// force an exit
+	}
 }
 
-AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt)
+AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double relalt)
 	: AICommand (ship, CMD_FLYAROUND)
 {
+	double alt = relalt*MaxEffectRad(obstructor, ship);
 	Setup(obstructor, alt, 0.0, 3, 0, 0, vector3d(0.0));
 }
 
@@ -1076,6 +1088,7 @@ double AICmdFlyAround::MaxVel(double targdist, double timestep)
 
 bool AICmdFlyAround::TimeStepUpdate()
 {
+	if (m_targmode == 1 && !m_target) return true;
 	if (!ProcessChild()) return false;
 
 	// Not necessary unless it's a tier 1 AI
@@ -1092,8 +1105,7 @@ bool AICmdFlyAround::TimeStepUpdate()
 	// if too far away, fly to tangent
 	if (obsdist > 1.1*m_alt)
 	{
-		Frame *obsframe = m_obstructor->GetFrame();
-		if (m_obstructor->HasDoubleFrame()) obsframe = obsframe->m_parent;
+		Frame *obsframe = GetNonRotFrame(m_obstructor);
 		vector3d tangent = GenerateTangent(m_ship, obsframe, targpos, m_alt);
 		vector3d shiptan = GetPosInFrame(m_ship->GetFrame(), obsframe, tangent);
 		double v = MaxVel((targpos-shiptan).Length(), timestep);
@@ -1132,7 +1144,15 @@ bool AICmdFlyAround::TimeStepUpdate()
 //	printf("Autopilot dist = %f, speed = %f, term = %f, state = 0x%x\n", targdist, relvel.Length(),
 //		reldir.Dot(m_reldir), m_state);
 //}
-	if (vmatch && m_targmode == 3) return true;
+
+//	double veldiff = m_ship->GetVelocity().Length() - m_vel;
+//	double altdiff = (obsdist - m_alt);
+//	double dotvel = m_ship->GetVelocity().Dot(obsdir);
+
+	// termination condition for orbits
+	vector3d thrust = m_ship->GetThrusterState();
+	if (m_targmode >= 3 && thrust.LengthSqr() < 0.01) m_targmode++;
+	if (m_targmode == 5) { m_ship->SetThrusterState(vector3d(0.0)); return true; }
 	return false;
 }
 
