@@ -15,6 +15,7 @@
 #include "SectorView.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "CameraElement.h"
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
@@ -347,11 +348,6 @@ WorldView::CamType WorldView::GetCamType() const
 	} else {
 		return m_camType;
 	}
-}
-
-void WorldView::Draw3D()
-{
-	m_activeCamera->Draw();
 }
 
 void WorldView::ShowAll()
@@ -742,10 +738,20 @@ void WorldView::Update()
 
 	m_activeCamera->Update();
 	UpdateProjectedObjects();
+
+	CameraElementData cameraData;
+	cameraData.body = Pi::player;
+	cameraData.pos = m_activeCamera->GetPosition();
+	cameraData.orient = m_activeCamera->GetOrientation();
+	Pi::uiManager->SetStashItem("camera", cameraData);
+
 }
 
 void WorldView::OnSwitchTo()
 {
+	Pi::uiManager->OpenBackground("background_camera");
+	Pi::uiManager->OpenScreen("world");
+
 	RefreshButtonStateAndVisibility();
 }
 

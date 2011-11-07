@@ -7,7 +7,7 @@
 #include "Pi.h"
 #include "Sfx.h"
 
-Camera::Camera(const Body *body, float width, float height) :
+Camera::Camera(Body *body, float width, float height) :
 	m_body(body),
 	m_width(width),
 	m_height(height),
@@ -17,6 +17,7 @@ Camera::Camera(const Body *body, float width, float height) :
 	m_pose(matrix4x4d::Identity()),
 	m_camFrame(0)
 {
+	m_bodyOnDeleteConnection = m_body->onDelete.connect(sigc::mem_fun(this, &Camera::OnBodyDeleted));
 }
 
 Camera::~Camera()
@@ -25,6 +26,16 @@ Camera::~Camera()
 		m_body->GetFrame()->RemoveChild(m_camFrame);
 		delete m_camFrame;
 	}
+	m_bodyOnDeleteConnection.disconnect();
+}
+
+void Camera::OnBodyDeleted()
+{
+	if (m_camFrame) {
+		m_body->GetFrame()->RemoveChild(m_camFrame);
+		delete m_camFrame;
+	}
+	m_body = 0;
 }
 
 static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
@@ -80,6 +91,8 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 
 void Camera::Update()
 {
+	if (!m_body) return;
+
 	if (m_shadersEnabled != Render::AreShadersEnabled()) {
 		m_frustum = Render::Frustum(m_width, m_height, m_fovAng);
 		m_shadersEnabled = !m_shadersEnabled;
@@ -124,6 +137,11 @@ void Camera::Draw()
 
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	if (!m_camFrame) {
+		m_frustum.Disable();
+		return;
+	}
 
 	matrix4x4d trans2bg;
 	Frame::GetFrameTransform(Space::rootFrame, m_camFrame, trans2bg);

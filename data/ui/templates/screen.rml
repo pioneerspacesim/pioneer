@@ -1,0 +1,8 @@
+<template name="screen" content="content">
+<head>
+	<link type="text/rcss" href="core.rcss"/>
+	<link type="text/rcss" href="screen.rcss"/>
+</head>
+<body class="screen">
+</body>
+</template>

@@ -1,0 +1,8 @@
+<template name="background" content="content">
+<head>
+	<link type="text/rcss" href="core.rcss"/>
+</head>
+<body class="background">
+</body>
+</template>
+

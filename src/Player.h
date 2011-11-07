@@ -63,7 +63,13 @@ public:
 
 	virtual void PostLoadFixup();
 
+	virtual void UpdateFlavour(const ShipFlavour *f);
+	virtual void ResetFlavour(const ShipFlavour *f);
+
+	virtual const shipstats_t *CalcStats();
+
 	/* MarketAgent stuff */
+	virtual void SetMoney(Sint64 m);
 	int GetStock(Equip::Type t) const { assert(0); return 0; }
 	bool CanBuy(Equip::Type t, bool verbose) const;
 	bool CanSell(Equip::Type t, bool verbose) const;
@@ -75,7 +81,10 @@ protected:
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
+
 private:
+	void OnEquipmentChange(Equip::Type e);
+
 	vector3d m_mouseDir;
 	double m_mouseX, m_mouseY;
 	bool m_mouseActive;

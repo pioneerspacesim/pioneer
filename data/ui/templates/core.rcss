@@ -1,0 +1,245 @@
+/* core styles */
+
+body {
+	font-family: TitilliumText22L;
+	font-size: 22pt;
+}
+
+div, p, h1, h2, h3, h4, h5, h6 {
+	display: block;
+}
+
+div.section {
+	padding: 1em;
+}
+
+h1 {
+	font-size: 200%;
+}
+
+h2 {
+	font-size: 170%;
+}
+
+h3 {
+	font-size: 140%;
+}
+
+h4 {
+	font-size: 110%;
+}
+
+h5 {
+	font-size: 80%;
+}
+
+h6 {
+	font-size: 50%;
+}
+
+em {
+	font-style: italic;
+}
+
+strong {
+	font-weight: bold;
+}
+
+p {
+	margin: 0.5em 0;
+}
+
+tooltip {
+	position: absolute;
+	display: inline;
+	font-size: 20pt;
+	background-color: #008a;
+	border-top: 1px white;
+	border-bottom: 1px white;
+	border-left: 1px white;
+	border-right: 1px white;
+}
+
+button.text {
+	display: inline-block;
+
+	min-width: 64px;
+	height: 32px;
+
+	padding: 0 32px;
+	margin-bottom: 0.1em;
+
+	text-align: center;
+
+	outline-font-effect: outline;
+	outline-width: 1px;
+	outline-color: black;
+
+	background-decorator: tiled-horizontal;
+	background-left-image: button_static.png 0px 0px 52px 52px;
+	background-center-image: button_static.png stretch 52px 0px 52px 52px;
+	background-right-image: button_static.png 154px 0px 186px 52px;
+}
+
+button.text:hover {
+	background-left-image: button_hover.png 0px 0px 52px 52px;
+	background-center-image: button_hover.png stretch 52px 0px 52px 52px;
+	background-right-image: button_hover.png 154px 0px 186px 52px;
+}
+
+button.text:active {
+	background-left-image: button_click.png 0px 0px 52px 52px;
+	background-center-image: button_click.png stretch 52px 0px 52px 52px;
+	background-right-image: button_click.png 154px 0px 186px 52px;
+}
+
+button.point {
+	display: inline-block;
+
+	width: 24px;
+	height: 24px;
+
+	margin: 0 0.3em 0.1em 0;
+
+	overflow: hidden;
+
+	vertical-align: top;
+
+	background-decorator: image;
+	background-image: pointbutton_static.png;
+}
+
+button.point:hover {
+	background-image: pointbutton_hover.png;
+}
+
+button.point:active {
+	background-image: pointbutton_click.png;
+}
+
+
+scrollbarvertical
+{
+	margin-top: -6px;
+	margin-bottom: -6px;
+	margin-right: -11px;
+	width: 27px;
+}
+
+scrollbarvertical slidertrack
+{
+	background-decorator: tiled-vertical;
+	background-top-image: scrollbars.png 70px 48px 97px 50px;
+	background-center-image: scrollbars.png stretch 70px 50px 97px 51px;
+	background-bottom-image: scrollbars.png 70px 52px 97px 53px;
+}
+
+scrollbarvertical sliderbar
+{
+	margin-left: 4px;
+	width: 23px;
+	min-height: 46px;
+
+	background-decorator: tiled-vertical;
+	background-top-image: scrollbars.png 56px 1px 79px 24px;
+	background-center-image: scrollbars.png stretch 56px 24px 79px 24px;
+	background-bottom-image: scrollbars.png 56px 25px 79px 47px;
+}
+
+scrollbarvertical sliderbar:hover
+{
+	background-top-image-s: 80px 103px;
+	background-center-image-s: 80px 103px;
+	background-bottom-image-s: 80px 103px;
+}
+
+scrollbarvertical sliderbar:active
+{
+	background-top-image-s: 104px 127px;
+	background-center-image-s: 104px 127px;
+	background-bottom-image-s: 104px 127px;
+}
+
+scrollbarvertical sliderarrowdec
+{
+	width: 27px;
+	height: 24px;
+	
+	icon-decorator: image;
+	icon-image: scrollbars.png 0px 1px 27px 25px;
+}
+
+scrollbarvertical sliderarrowdec:hover,
+scrollbarvertical sliderarrowinc:hover
+{
+	icon-image-t: 26px 50px;
+}
+
+scrollbarvertical sliderarrowdec:active,
+scrollbarvertical sliderarrowinc:active
+{
+	icon-image-t: 51px 75px;
+}
+
+scrollbarvertical sliderarrowinc
+{
+	width: 27px;
+	height: 24px;
+	
+	icon-decorator: image;
+	icon-image: scrollbars.png 28px 1px 55px 25px;
+}
+
+
+
+scrollbarhorizontal
+{
+	width: 0px;
+	height: 0px;
+}
+
+
+tabset {
+	display: block;
+}
+
+tabset tabs {
+	display: block;
+}
+
+tabset tab {
+	width: 10em;
+	text-align: center;
+	border-top: 1px white;
+	border-left: 1px white;
+	border-right: 1px white;
+}
+
+tabset tab:hover {
+	background-color: #888a;
+}
+
+tabset tab:selected {
+	background-color: #008a;
+}
+
+tabset panels {
+	display: block;
+}
+
+tabset panel {
+	display: block;
+	overflow: auto;
+	height: 100%;
+	border-top: 1px white;
+	border-bottom: 1px white;
+	border-left: 1px white;
+	border-right: 1px white;
+}
+
+
+div.table-two-column {
+	display: inline-block;
+	margin: 1em 0;
+	width: 50%;
+}

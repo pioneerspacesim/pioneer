@@ -66,6 +66,7 @@ Starfield::~Starfield()
 
 void Starfield::Draw()
 {
+	glDisable(GL_BLEND);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 
@@ -142,6 +143,7 @@ void Starfield::Draw()
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
+	glEnable(GL_BLEND);
 
 	if (Render::AreShadersEnabled()) {
 		Render::State::UseProgram(0);
@@ -213,6 +215,7 @@ MilkyWay::~MilkyWay()
 
 void MilkyWay::Draw()
 {
+	glDisable(GL_BLEND);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -229,6 +232,7 @@ void MilkyWay::Draw()
 	glDisableClientState(GL_COLOR_ARRAY);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
+	glEnable(GL_BLEND);
 }
 
 }; //namespace Background

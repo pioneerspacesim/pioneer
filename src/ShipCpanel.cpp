@@ -262,7 +262,6 @@ void ShipCpanel::OnChangeInfoView(Gui::MultiStateImageButton *b)
 	if (Pi::GetView() == Pi::infoView) {
 		Pi::infoView->NextPage();
 	} else {
-		Pi::infoView->UpdateInfo();
 		Pi::SetView(Pi::infoView);
 	}
 }

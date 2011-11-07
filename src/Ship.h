@@ -60,7 +60,7 @@ public:
 	vector3d GetMaxThrust(const vector3d &dir);
 	void SetGunState(int idx, int state);
 	const ShipType &GetShipType() const;
-	const shipstats_t *CalcStats();
+	virtual const shipstats_t *CalcStats();
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	void Blastoff();
@@ -155,16 +155,18 @@ public:
 
 	const ShipFlavour *GetFlavour() const { return &m_shipFlavour; }
 	// used to change ship label or colour. asserts if you try to change type
-	void UpdateFlavour(const ShipFlavour *f);
+	virtual void UpdateFlavour(const ShipFlavour *f);
 	// used when buying a new ship. changes the flavour and resets cargo,
 	// equipment, etc
-	void ResetFlavour(const ShipFlavour *f);
+	virtual void ResetFlavour(const ShipFlavour *f);
 
 	float GetPercentShields() const;
 	float GetPercentHull() const;
 	void SetPercentHull(float);
 	float GetGunTemperature(int idx) const { return m_gunTemperature[idx]; }
-	
+
+	void UIStashUpdate(const std::string &prefix) const;
+
 	sigc::signal<void> onDock;				// JJ: check what these are for
 	sigc::signal<void> onUndock;
 protected:

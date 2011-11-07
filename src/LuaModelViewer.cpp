@@ -7,6 +7,7 @@
 #include "render/Render.h"
 #include "Ship.h" // for the flight state and ship animation enums
 #include "SpaceStation.h" // for the space station animation enums
+#include "ui/UIManager.h"
 
 enum ModelCategory {
 	MODEL_OTHER,
@@ -32,10 +33,6 @@ static bool g_doBenchmark = false;
 
 static GLuint mytexture;
 
-class Viewer;
-static Viewer *g_viewer;
-
-static void PollEvents();
 extern void LmrModelCompilerInit();
 
 static int g_wheelMoveDir = -1;
@@ -65,12 +62,13 @@ public:
 	Gui::Adjustment *m_angthrust[3];
 	Gui::Adjustment *m_anim[LMR_ARG_MAX];
 	Gui::TextEntry *m_animEntry[LMR_ARG_MAX];
-	Gui::Label *m_trisReadout;
 	LmrCollMesh *m_cmesh;
 	LmrModel *m_model;
 	CollisionSpace *m_space;
 	Geom *m_geom;
 	ModelCategory m_modelCategory;
+	UI::Manager m_uiManager;
+	UI::Screen *m_ui;
 
 	void SetModel(LmrModel *);
 
@@ -85,7 +83,10 @@ public:
 		return float(atof(val.c_str()));
 	}
 
-	Viewer(): Gui::Fixed(float(g_width), float(g_height)) {
+	Viewer(): Gui::Fixed(float(g_width), float(g_height)),
+		m_uiManager(g_width, g_height),
+		m_quit(false)
+        {
 		m_model = 0;
 		m_cmesh = 0;
 		m_geom = 0;
@@ -94,43 +95,6 @@ public:
 		Gui::Screen::AddBaseWidget(this, 0, 0);
 		SetTransparency(true);
 
-		m_trisReadout = new Gui::Label("");
-		Add(m_trisReadout, 500, 0);
-		{
-			Gui::Button *b = new Gui::SolidButton();
-			b->SetShortcut(SDLK_c, KMOD_NONE);
-			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickChangeView));
-			Add(b, 10, 10);
-			Add(new Gui::Label("[c] Change view (normal, collision mesh"), 30, 10);
-		} 
-		{
-			Gui::Button *b = new Gui::SolidButton();
-			b->SetShortcut(SDLK_r, KMOD_NONE);
-			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnResetAdjustments));
-			Add(b, 10, 30);
-			Add(new Gui::Label("[r] Reset thruster and anim sliders"), 30, 30);
-		} 
-		{
-			Gui::Button *b = new Gui::SolidButton();
-			b->SetShortcut(SDLK_m, KMOD_NONE);
-			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickRebuildCollMesh));
-			Add(b, 10, 50);
-			Add(new Gui::Label("[m] Rebuild collision mesh"), 30, 50);
-		} 
-		{
-			Gui::Button *b = new Gui::SolidButton();
-			b->SetShortcut(SDLK_p, KMOD_NONE);
-			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickToggleBenchmark));
-			Add(b, 10, 70);
-			Add(new Gui::Label("[p] Toggle performance test (renders models 1000 times per frame)"), 30, 70);
-		}
-		{
-			Gui::Button *b = new Gui::SolidButton();
-			b->SetShortcut(SDLK_b, KMOD_LSHIFT);
-			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius));
-			Add(b, 10, 90);
-			Add(new Gui::Label("[shift-b] Visualize bounding radius"), 30, 90);
-		}
 #if 0
 		{
 			Gui::Button *b = new Gui::SolidButton();
@@ -180,10 +144,15 @@ public:
 				OnAnimChange(m_anim[i], m_animEntry[i]);
 			}
 		}
+		SetupUi();
 
 		ShowAll();
 		Show();
 	}
+
+	~Viewer();
+
+	void Quit();
 
 	void OnAnimChange(Gui::Adjustment *a, Gui::TextEntry *e) {
 		char buf[128];
@@ -226,13 +195,46 @@ public:
 		m_showBoundingRadius = !m_showBoundingRadius;
 	}
 
-	void MainLoop() __attribute((noreturn));
+	void MainLoop();
 	void SetSbreParams();
 private:
 	void TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg);
 	void VisualizeBoundingRadius(matrix4x4f& trans, double radius);
+	void PollEvents();
+	void SetupUi();
+	void OnThrusterUpdate();
 	bool m_showBoundingRadius;
+	bool m_quit;
 };
+
+Viewer::~Viewer()
+{
+	printf("Viewer quitting.\n");
+	if (m_cmesh) delete m_cmesh;
+	if (m_geom) delete m_geom;
+	delete m_space;
+}
+
+void Viewer::Quit()
+{
+	m_quit = true;
+}
+
+void Viewer::SetupUi()
+{
+	m_ui = m_uiManager.OpenScreen("modelviewer");
+	m_ui->GetEventListener("changeview"         )->SetHandler(sigc::mem_fun(this, &Viewer::OnClickChangeView));
+	m_ui->GetEventListener("show-boundingradius")->SetHandler(sigc::mem_fun(this, &Viewer::OnToggleBoundingRadius));
+	m_ui->GetEventListener("performancetest"    )->SetHandler(sigc::mem_fun(this, &Viewer::OnClickToggleBenchmark));
+	m_ui->GetEventListener("resetanimations"    )->SetHandler(sigc::mem_fun(this, &Viewer::OnResetAdjustments));
+
+	//thruster sliders
+	m_ui->GetEventListener("thrusterupdate"     )->SetHandler(sigc::mem_fun(this, &Viewer::OnThrusterUpdate));
+}
+
+void Viewer::OnThrusterUpdate()
+{
+}
 
 void Viewer::SetModel(LmrModel *model)
 {
@@ -532,6 +534,7 @@ void Viewer::MainLoop()
 	Render::State::SetZnearZfar(1.0f, 10000.0f);
 
 	for (;;) {
+		if (m_quit) return;
 		PollEvents();
 		Render::PrepareFrame();
 
@@ -579,6 +582,7 @@ void Viewer::MainLoop()
 		glLoadIdentity();
 		glClearColor(0,0,0,0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_DEPTH_TEST);
 		
 		SetSbreParams();
 
@@ -613,24 +617,28 @@ void Viewer::MainLoop()
 		Render::UnbindAllBuffers();
 
 		{
-			char buf[128];
 			Aabb aabb = m_cmesh->GetAabb();
-			snprintf(buf, sizeof(buf), "%d triangles, %d fps, %.3fm tris/sec\ncollision mesh size: %.1fx%.1fx%.1f (radius %.1f)\nClipping radius %.1f",
-					(g_renderType == 0 ? 
-						LmrModelGetStatsTris() - beforeDrawTriStats :
-						m_cmesh->m_numTris),
-					fps,
-					numTris/1000000.0f,
-					aabb.max.x-aabb.min.x,
-					aabb.max.y-aabb.min.y,
-					aabb.max.z-aabb.min.z,
-					aabb.GetBoundingRadius(),
-					m_model->GetDrawClipRadius());
-			m_trisReadout->SetText(buf);
+			m_uiManager.SetStashItem("performance.fps", stringf("FPS %0", fps));
+			m_uiManager.SetStashItem("performance.triangles",
+				stringf("%0 triangles, %1{f.3}m tris/sec",
+				(g_renderType == 0 ?  LmrModelGetStatsTris() - beforeDrawTriStats : m_cmesh->m_numTris),
+				numTris/1000000.0f));
+			m_uiManager.SetStashItem("performance.dimensions",
+				stringf("mesh size: %0{f.1}x%1{f.1}x%2{f.1} (radius %3{f.1})",
+						aabb.max.x-aabb.min.x,
+						aabb.max.y-aabb.min.y,
+						aabb.max.z-aabb.min.z,
+						aabb.GetBoundingRadius()));
+			m_uiManager.SetStashItem("performance.radius",
+				stringf("Clipping radius %0", m_model->GetDrawClipRadius()));
 		}
+		//testing getElement...
+		std::string mname = stringf("Model: %0", m_model->GetName());
+		m_ui->GetDocument()->GetElementById("modelname")->SetInnerRML(mname.c_str());
 		
 		Render::PostProcess();
 		Gui::Draw();
+		m_uiManager.Draw();
 		
 		glError();
 		Render::SwapBuffers();
@@ -650,25 +658,25 @@ void Viewer::MainLoop()
 	}
 }
 
-static void PollEvents()
+void Viewer::PollEvents()
 {
 	SDL_Event event;
 
 	g_mouseMotion[0] = g_mouseMotion[1] = 0;
 	while (SDL_PollEvent(&event)) {
+		m_uiManager.HandleEvent(&event);
 		Gui::HandleSDLEvent(&event);
 		switch (event.type) {
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_ESCAPE) {
-                    if (g_viewer->m_model) {
-                        g_viewer->PickModel();
+                    if (m_model) {
+                        PickModel();
                     } else {
-                        SDL_Quit();
-                        exit(0);
+                        Quit();
                     }
 				}
 				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(g_screen);
-				if (event.key.keysym.sym == SDLK_s && (g_viewer->m_model)) {
+				if (event.key.keysym.sym == SDLK_s && (m_model)) {
 					Render::ToggleShaders();
 				}
 				g_keyState[event.key.keysym.sym] = 1;
@@ -691,8 +699,7 @@ static void PollEvents()
 				g_mouseMotion[1] += event.motion.yrel;
 				break;
 			case SDL_QUIT:
-				SDL_Quit();
-				exit(0);
+				Quit();
 				break;
 		}
 	}
@@ -785,18 +792,21 @@ int main(int argc, char **argv)
 
 	ShipType::Init();
 
-	g_viewer = new Viewer();
+	Viewer viewer;
 	if (argc >= 4) {
 		try {
 			LmrModel *m = LmrLookupModelByName(argv[3]);
-			g_viewer->SetModel(m);
+			viewer.SetModel(m);
 		} catch (LmrModelNotFoundException) {
-			g_viewer->PickModel(argv[3], std::string("Could not find model: ") + argv[3]);
+			viewer.PickModel(argv[3], std::string("Could not find model: ") + argv[3]);
 		}
 	} else {
-		g_viewer->PickModel();
+		viewer.PickModel();
 	}
 
-	g_viewer->MainLoop();
+	viewer.MainLoop();
+
+	Render::Uninit();
+	LmrModelCompilerUninit();
 	return 0;
 }

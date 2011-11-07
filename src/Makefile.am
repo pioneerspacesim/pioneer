@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider gui render
+SUBDIRS = collider gui render ui
 
 include $(top_srcdir)/Makefile.common
 
@@ -16,6 +16,7 @@ noinst_HEADERS = \
 	Body.h \
 	BufferObject.h \
 	Camera.h \
+	CameraElement.h \
 	CargoBody.h \
 	ChatForm.h \
 	CityOnPlanet.h \
@@ -26,6 +27,7 @@ noinst_HEADERS = \
 	DeleteEmitter.h \
 	DynamicBody.h \
 	EquipType.h \
+	FaceElement.h \
 	FaceVideoLink.h \
 	Font.h \
 	FontManager.h \
@@ -95,6 +97,7 @@ noinst_HEADERS = \
 	Sector.h \
 	SectorView.h \
 	Serializer.h \
+	ShipSpinnerElement.h \
 	StationAdvertForm.h \
 	StationBulletinBoardForm.h \
 	StationCommodityMarketForm.h \
@@ -147,6 +150,7 @@ pioneer_SOURCES	= \
 	Background.cpp \
 	Body.cpp \
 	Camera.cpp \
+	CameraElement.cpp \
 	CargoBody.cpp \
 	ChatForm.cpp \
 	CityOnPlanet.cpp \
@@ -155,6 +159,7 @@ pioneer_SOURCES	= \
 	DeadVideoLink.cpp \
 	DynamicBody.cpp \
 	EquipType.cpp \
+	FaceElement.cpp \
 	FaceVideoLink.cpp \
 	Font.cpp \
 	FontManager.cpp \
@@ -218,6 +223,7 @@ pioneer_SOURCES	= \
 	Sector.cpp \
 	SectorView.cpp \
 	Serializer.cpp \
+	ShipSpinnerElement.cpp \
 	StationAdvertForm.cpp \
 	StationBulletinBoardForm.cpp \
 	StationCommodityMarketForm.cpp \
@@ -258,7 +264,10 @@ pioneer_SOURCES	= \
 	utils.cpp \
 	enum_table.cpp
 
-pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a gui/libgui.a render/librender.a \
+pioneer_LDADD = \
+		collider/libcollider.a gui/libgui.a render/librender.a ui/libui.a \
+		../contrib/rocket/src/Core/librocketcore.a ../contrib/rocket/src/Controls/librocketcontrols.a \
+		../contrib/oolua/liboolua.a \
 		$(MINGW_LIBS) \
 		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
@@ -288,7 +297,8 @@ modelviewer_SOURCES = \
 	utils.cpp \
 	enum_table.cpp
 
-modelviewer_LDADD = collider/libcollider.a gui/libgui.a render/librender.a \
+modelviewer_LDADD = collider/libcollider.a gui/libgui.a render/librender.a ui/libui.a \
+			../contrib/rocket/src/Core/librocketcore.a ../contrib/rocket/src/Controls/librocketcontrols.a \
 		    $(MINGW_LIBS) \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
@@ -307,7 +317,7 @@ TESTS = tests
  
 tests_LDADD = collider/libcollider.a gui/libgui.a render/librender.a
 
-INCLUDES = -isystem @top_srcdir@/contrib
+INCLUDES = -isystem @top_srcdir@/contrib -isystem @top_srcdir@/contrib/rocket/include
 if !HAVE_LUA
 INCLUDES += -isystem @top_srcdir@/contrib/lua
 endif

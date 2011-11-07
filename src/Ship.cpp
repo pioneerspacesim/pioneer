@@ -23,6 +23,7 @@
 #include "Missile.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "ui/UIManager.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
@@ -1140,4 +1141,17 @@ float Ship::GetWeakestThrustersForce() const
 		val = std::min(val, fabsf(type.linThrust[i]));
 	}
 	return val;
+}
+
+void Ship::UIStashUpdate(const std::string &prefix) const
+{
+	Pi::uiManager->SetStashItem(prefix + ".totalCapacity",      stringf(Lang::NUMBER_TONNES, formatarg("mass", m_stats.max_capacity)));
+	Pi::uiManager->SetStashItem(prefix + ".usedCapacity",       stringf(Lang::NUMBER_TONNES, formatarg("mass", m_stats.used_capacity)));
+	Pi::uiManager->SetStashItem(prefix + ".usedCargoSpace",     stringf(Lang::NUMBER_TONNES, formatarg("mass", m_stats.used_cargo)));
+	Pi::uiManager->SetStashItem(prefix + ".freeCargoSpace",     stringf(Lang::NUMBER_TONNES, formatarg("mass", m_stats.free_capacity)));
+	Pi::uiManager->SetStashItem(prefix + ".equipmentMass",      stringf(Lang::NUMBER_TONNES, formatarg("mass", m_stats.used_capacity - m_stats.used_cargo)));
+	Pi::uiManager->SetStashItem(prefix + ".totalMass",          stringf(Lang::NUMBER_TONNES, formatarg("mass", m_stats.total_mass)));
+
+	Pi::uiManager->SetStashItem(prefix + ".hyperspaceRange",    stringf(Lang::NUMBER_LY, formatarg("distance", m_stats.hyperspace_range)));
+	Pi::uiManager->SetStashItem(prefix + ".hyperspaceRangeMax", stringf(Lang::NUMBER_LY, formatarg("distance", m_stats.hyperspace_range_max)));
 }

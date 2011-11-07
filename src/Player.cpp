@@ -9,6 +9,7 @@
 #include "ShipCpanel.h"
 #include "KeyBindings.h"
 #include "Lang.h"
+#include "ui/UIManager.h"
 
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
@@ -21,6 +22,12 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	UpdateMass();
 
 	m_accumTorque = vector3d(0,0,0);
+
+	m_equipment.onChange.connect(sigc::mem_fun(this, &Player::OnEquipmentChange));
+
+	Pi::uiManager->SetStashItem("player.money", format_money(GetMoney()));
+
+	GetFlavour()->UIStashUpdate("player.ship");
 }
 
 Player::~Player()
@@ -59,6 +66,32 @@ void Player::PostLoadFixup()
 	Ship::PostLoadFixup();
 	m_combatTarget = Serializer::LookupBody(m_combatTargetIndex);
 	m_navTarget = Serializer::LookupBody(m_navTargetIndex);
+
+	m_equipment.onChange.connect(sigc::mem_fun(this, &Player::OnEquipmentChange));
+	OnEquipmentChange(Equip::NONE);
+
+	Pi::uiManager->SetStashItem("player.money", format_money(GetMoney()));
+
+	GetFlavour()->UIStashUpdate("player.ship");
+}
+
+void Player::UpdateFlavour(const ShipFlavour *f)
+{
+	Ship::UpdateFlavour(f);
+	f->UIStashUpdate("player.ship");
+}
+
+void Player::ResetFlavour(const ShipFlavour *f)
+{
+	Ship::ResetFlavour(f);
+	f->UIStashUpdate("player.ship");
+}
+
+const shipstats_t *Player::CalcStats()
+{
+	const shipstats_t *stats = Ship::CalcStats();
+	UIStashUpdate("player.ship");
+	return stats;
 }
 
 void Player::OnHaveKilled(Body *guyWeKilled)
@@ -106,7 +139,11 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 		}
 		m_knownKillCount = m_killCount;
 
-		Pi::SetView(Pi::spaceStationView);
+		// XXX SetDockedWith() is called on game start to place the player in
+		// the dock. this "auto switch to services menu" function should
+		// probably happen elsewhere (if at all)
+		// XXX disabled for rocket-ui
+		//Pi::SetView(Pi::spaceStationView);
 	}
 }
 
@@ -375,6 +412,26 @@ void Player::NotifyDeleted(const Body* const deletedBody)
 	Ship::NotifyDeleted(deletedBody);
 }
 
+void Player::OnEquipmentChange(Equip::Type e)
+{
+	std::list<std::string> equipList;
+
+	// XXX this is very bruteforce but I can't think of a better way without
+    //     changes elsewhere
+	for (int i=Equip::FIRST_SHIPEQUIP; i<=Equip::LAST_SHIPEQUIP; i++) {
+		Equip::Type t = Equip::Type(i) ;
+		Equip::Slot s = Equip::types[t].slot;
+		if ((s == Equip::SLOT_MISSILE) || (s == Equip::SLOT_ENGINE) || (s == Equip::SLOT_LASER)) continue;
+		int num = Pi::player->m_equipment.Count(s, t);
+		if (num == 1)
+			equipList.push_back(Equip::types[t].name);
+		else if (num > 1)
+			equipList.push_back(stringf("%0{d} %1s\n", num, Equip::types[t].name));
+	}
+
+	Pi::uiManager->SetStashItem("player.equipment", equipList);
+}
+
 /* MarketAgent shite */
 void Player::Bought(Equip::Type t)
 {
@@ -386,6 +443,11 @@ void Player::Sold(Equip::Type t)
 {
 	m_equipment.Remove(t, 1);
 	UpdateMass();
+}
+
+void Player::SetMoney(Sint64 m) {
+	MarketAgent::SetMoney(m);
+	Pi::uiManager->SetStashItem("player.money", format_money(GetMoney()));
 }
 
 bool Player::CanBuy(Equip::Type t, bool verbose) const

@@ -21,7 +21,7 @@ public:
 	virtual ~WorldView();
 	virtual void ShowAll();
 	virtual void Update();
-	virtual void Draw3D();
+	virtual void Draw3D() {}
 	virtual void Draw();
 	virtual void OnSwitchTo();
 	static const double PICK_OBJECT_RECT_SIZE;

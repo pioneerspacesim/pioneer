@@ -1,0 +1,78 @@
+<rml>
+	<head>
+		<link type="text/template" href="templates/screen.rml"/>
+		<style>
+			ship {
+				float: right;
+				width: 50%;
+			}
+			ul.horiz-list {
+				display: block;
+				width: 50%;
+			}
+			ul.horiz-list li {
+				display: inline-block;
+				width: 50%;
+			}
+			div.stats-table {
+				width: 40%;
+			}
+		</style>
+	</head>
+	<body template="screen">
+
+		<tabset>
+
+			<tab>Ship information</tab>
+			<panel>
+				<div class="section">
+					<ship stash="player.ship.flavour"/>
+					<h2 stash="player.ship.type"/>
+					<div class="stats-table">
+						<div class="table-two-column">
+							Capacity:<br/>
+							Used:<br/>
+							Free:<br/>
+							All-up weight:
+						</div>
+						<div class="table-two-column">
+							<span stash="player.ship.totalCapacity"/><br/>
+							<span stash="player.ship.usedCapacity"/><br/>
+							<span stash="player.ship.freeCargoSpace"/><br/>
+							<span stash="player.ship.totalMass"/>
+						</div>
+					</div>
+					<h3>Equipment</h3>
+					<ul class="horiz-list">
+						<list stash="player.equipment">
+							<li stash="player.equipment"/>
+						</list>
+					</ul>
+				</div>
+			</panel>
+
+			<tab>Reputation</tab>
+			<panel>
+				<div class="section">
+					<h3>Combat rating</h3>
+					<p>Harmless</p>
+					<h3>Criminal record</h3>
+                    <p>
+					    Trading illegal goods<br/>
+    					Piracy and murder<br/>
+	    				Failure to give way
+                    </p>
+				</div>
+			</panel>
+
+			<tab>Cargo</tab>
+			<panel>
+			</panel>
+
+			<tab>Missions</tab>
+			<panel>
+			</panel>
+
+		</tabset>
+	</body>
+</rml>
