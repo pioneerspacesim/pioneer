@@ -170,6 +170,12 @@ public:
 	static int CombatRating(int kills);
 	static const char * const combatRating[];
 
+	static int FederalRating(int fedpoints);
+	static const char * const federalRating[];
+
+	static int ImperialRating(int imppoints);
+	static const char * const imperialRating[];
+
 	static struct DetailLevel detail;
 	static GameConfig config;
 private:

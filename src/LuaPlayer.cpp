@@ -369,6 +369,178 @@ static int l_player_add_money(lua_State *l)
 }
 
 /*
+ * Method: GetFedPoints
+ *
+ * Get the player's current Federal Rank points
+ *
+ * > points = player:GetFedPoints()
+ *
+ * Return:
+ *
+ *   Federal Rank points
+ *
+ * Availability:
+ *
+ *   alpha 16
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_player_get_fed_points(lua_State *l)
+{
+	Player *p = LuaPlayer::GetFromLua(1);
+	lua_pushnumber(l, p->GetFedCount());
+	return 1;
+} 
+
+/*
+ * Method: SetFedPoints
+ *
+ * Set the Federal Rank points
+ *
+ * > player:SetFedPoints(points)
+ *
+ * Parameters:
+ *
+ *   points - new amount of points
+ *
+ * Availability:
+ *
+ *   alpha 16
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_player_set_fed_points(lua_State *l)
+{
+	Player *p = LuaPlayer::GetFromLua(1);
+	float m = luaL_checknumber(l, 2);
+	p->SetFedCount(Sint64(m));
+	return 0;
+} 
+
+/*
+ * Method: AddFedPoints
+ *
+ * Add an amount to the Federal Rank points
+ *
+ * > points = player:AddFedPoints(change)
+ *
+ * Parameters:
+ *
+ *   change - the amount of points to add to the Federal Rank points
+ *
+ * Return:
+ *
+ *   points - the player's new Federal Rank points
+ *
+ * Availability:
+ *
+ *   alpha 16
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_player_add_fed_points(lua_State *l)
+{
+	Player *p = LuaPlayer::GetFromLua(1);
+	float a = luaL_checknumber(l, 2);
+	Sint64 m = p->GetFedCount() + Sint64(a);
+	p->SetFedCount(m);
+	lua_pushnumber(l, m);
+	return 1;
+}
+
+/*
+ * Method: GetImpPoints
+ *
+ * Get the player's current Imperial Rank points
+ *
+ * > points = player:GetImpPoints()
+ *
+ * Return:
+ *
+ *   Imperial Rank points
+ *
+ * Availability:
+ *
+ *   alpha 16
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_player_get_imp_points(lua_State *l)
+{
+	Player *p = LuaPlayer::GetFromLua(1);
+	lua_pushnumber(l, p->GetImpCount());
+	return 1;
+} 
+
+/*
+ * Method: SetImpPoints
+ *
+ * Set the Imperial Rank points
+ *
+ * > player:SetImpPoints(points)
+ *
+ * Parameters:
+ *
+ *   points - new amount of points
+ *
+ * Availability:
+ *
+ *   alpha 16
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_player_set_imp_points(lua_State *l)
+{
+	Player *p = LuaPlayer::GetFromLua(1);
+	float m = luaL_checknumber(l, 2);
+	p->SetImpCount(Sint64(m));
+	return 0;
+} 
+
+/*
+ * Method: AddImpPoints
+ *
+ * Add an amount to the Imperial Rank points
+ *
+ * > points = player:AddImpPoints(change)
+ *
+ * Parameters:
+ *
+ *   change - the amount of points to add to the Imperial Rank points
+ *
+ * Return:
+ *
+ *   points - the player's new Imperial Rank points
+ *
+ * Availability:
+ *
+ *   alpha 16
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_player_add_imp_points(lua_State *l)
+{
+	Player *p = LuaPlayer::GetFromLua(1);
+	float a = luaL_checknumber(l, 2);
+	Sint64 m = p->GetImpCount() + Sint64(a);
+	p->SetImpCount(m);
+	lua_pushnumber(l, m);
+	return 1;
+}
+
+/*
  * Method: AddCrime
  *
  * Add a crime to the player's criminal record
@@ -530,6 +702,14 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "GetMoney", l_player_get_money },
 		{ "SetMoney", l_player_set_money },
 		{ "AddMoney", l_player_add_money },
+
+		{ "GetFedPoints", l_player_get_fed_points },
+		{ "SetFedPoints", l_player_set_fed_points },
+		{ "AddFedPoints", l_player_add_fed_points },
+
+		{ "GetImpPoints", l_player_get_imp_points },
+		{ "SetImpPoints", l_player_set_imp_points },
+		{ "AddImpPoints", l_player_add_imp_points },
 
 		{ "AddCrime",      l_player_add_crime },
 
