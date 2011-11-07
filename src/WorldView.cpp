@@ -21,11 +21,28 @@ static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
 
 #define HUD_CROSSHAIR_SIZE	24.0f
 
-WorldView::WorldView(): View(),
-	m_showHyperspaceButton(false),
-	m_frontCamera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight()),
-	m_rearCamera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight()),
-	m_externalCamera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight())
+WorldView::WorldView(): View()
+{
+	m_showHyperspaceButton = false;
+	m_externalViewRotX = m_externalViewRotY = 0;
+	m_externalViewDist = 200;
+	m_camType = CAM_FRONT;
+
+	InitObject();
+}
+
+WorldView::WorldView(Serializer::Reader &rd): View()
+{
+	m_externalViewRotX = rd.Float();
+	m_externalViewRotY = rd.Float();
+	m_externalViewDist = rd.Float();
+	m_camType = CamType(rd.Int32());
+	m_showHyperspaceButton = rd.Bool();
+
+	InitObject();
+}
+
+void WorldView::InitObject()
 {
 	float size[2];
 	GetSize(size);
@@ -33,13 +50,8 @@ WorldView::WorldView(): View(),
 	m_showTargetActionsTimeout = 0;
 	m_numLights = 1;
 	m_labelsOn = true;
-	m_camType = CAM_FRONT;
 	SetTransparency(true);
-	m_externalViewRotX = m_externalViewRotY = 0;
-	m_externalViewDist = 200;
 
-	m_rearCamera.SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
-	
 	m_commsOptions = new Fixed(size[0], size[1]/2);
 	m_commsOptions->SetTransparency(true);
 	Add(m_commsOptions, 10, 200);
@@ -153,6 +165,12 @@ WorldView::WorldView(): View(),
 	Add(m_combatTargetIndicator.label, 0, 0);
 	Add(m_targetLeadIndicator.label, 0, 0);
 
+	m_frontCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight());
+	m_rearCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight());
+	m_externalCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight());
+
+	m_rearCamera->SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
+	
 	m_onHyperspaceTargetChangedCon =
 		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
 	m_onPlayerEquipmentChangeCon =
@@ -164,10 +182,16 @@ WorldView::WorldView(): View(),
 		Pi::onPlayerChangeFlightControlState.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeFlightControlState));
 	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));
+	m_onPlayerEquipmentChangeCon =
+		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
 }
 
 WorldView::~WorldView()
 {
+	delete m_frontCamera;
+	delete m_rearCamera;
+	delete m_externalCamera;
+
 	m_onHyperspaceTargetChangedCon.disconnect();
 	m_onPlayerEquipmentChangeCon.disconnect();
 
@@ -183,18 +207,6 @@ void WorldView::Save(Serializer::Writer &wr)
 	wr.Float(float(m_externalViewDist));
 	wr.Int32(int(m_camType));
 	wr.Bool(bool(m_showHyperspaceButton));
-}
-
-void WorldView::Load(Serializer::Reader &rd)
-{
-	m_externalViewRotX = rd.Float();
-	m_externalViewRotY = rd.Float();
-	m_externalViewDist = rd.Float();
-	m_camType = CamType(rd.Int32());
-	m_showHyperspaceButton = rd.Bool();
-
-	m_onPlayerEquipmentChangeCon =
-		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
 }
 
 void WorldView::SetCamType(enum CamType c)
@@ -731,14 +743,14 @@ void WorldView::Update()
 	}
 
 	if (GetCamType() == CAM_EXTERNAL) {
-		m_externalCamera.SetPosition(GetExternalViewTranslation());
-		m_externalCamera.SetOrientation(GetExternalViewRotation());
+		m_externalCamera->SetPosition(GetExternalViewTranslation());
+		m_externalCamera->SetOrientation(GetExternalViewRotation());
 	}
 
 	m_activeCamera =
-		GetCamType() == CAM_FRONT ? &m_frontCamera :
-		GetCamType() == CAM_REAR  ? &m_rearCamera  :
-		                            &m_externalCamera;
+		GetCamType() == CAM_FRONT ? m_frontCamera :
+		GetCamType() == CAM_REAR  ? m_rearCamera  :
+		                            m_externalCamera;
 
 	m_activeCamera->Update();
 	UpdateProjectedObjects();

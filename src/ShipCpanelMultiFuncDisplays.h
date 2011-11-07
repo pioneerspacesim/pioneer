@@ -56,6 +56,7 @@ private:
 class ScannerWidget: public IMultiFunc, public Gui::Widget {
 public:
 	ScannerWidget();
+	virtual ~ScannerWidget();
 	void GetSizeRequested(float size[2]);
 	void ToggleMode();
 	void Draw();
@@ -69,6 +70,8 @@ public:
 private:
 	void DrawBlobs(bool below);
 	void DrawRingsAndSpokes(bool blend);
+
+	sigc::connection m_toggleScanModeConnection;
 
 	struct Contact {
 		Object::Type type;
