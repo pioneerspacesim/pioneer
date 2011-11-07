@@ -240,12 +240,11 @@ bool Ship::AIMatchPosVel2(const vector3d &reldir, double targdist, const vector3
 
 	// crunch diffvel by relative thruster power to get acceleration in right direction
 	if (diffspeed > 0.0) {
-		vector3d maxFrameAccel = GetMaxThrust(diffvel) * Pi::GetTimeStep() / GetMass();
-		vector3d absv = vector3d(abs(diffvel.x), abs(diffvel.y), abs(diffvel.z));
-		if (absv.x > maxFrameAccel.x) diffvel *= maxFrameAccel.x / absv.x;
-		if (absv.y > maxFrameAccel.y) diffvel *= maxFrameAccel.y / absv.y;
-		if (absv.z > maxFrameAccel.z) diffvel *= maxFrameAccel.z / absv.z;
-		if (maxFrameAccel.z < diffspeed) rval = true;
+		vector3d maxFA = GetMaxThrust(diffvel) * Pi::GetTimeStep() / GetMass();
+		if (abs(diffvel.x) > maxFA.x) diffvel *= maxFA.x / abs(diffvel.x);
+		if (abs(diffvel.y) > maxFA.y) diffvel *= maxFA.y / abs(diffvel.y);
+//		if (abs(diffvel.z) > maxFA.z) diffvel *= maxFA.z / abs(diffvel.z);
+		if (maxFA.z < diffspeed) rval = true;
 	}
 
 	// add perpendicular velocity

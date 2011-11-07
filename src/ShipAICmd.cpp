@@ -728,10 +728,8 @@ static int CheckCollision(Ship *ship, vector3d &pathdir, double pathdist, vector
 	double tanspeed = sqrt(ivelsqr < fvelsqr ? ivelsqr : fvelsqr);
 	double time = tanlen / (0.5 * (parspeed + tanspeed));		// actually correct?
 
-	double dist = spos.Dot(perpdir);		// spos.perpdir should be positive
+	double dist = spos.Dot(perpdir) + perpspeed*time;		// spos.perpdir should be positive
 	if (dist < r) return 4;
-	dist -= perpspeed*time;
-	if (dist < r) return 4; 
 	return 0;
 }
 
