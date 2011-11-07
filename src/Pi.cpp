@@ -1562,7 +1562,8 @@ void Pi::Unserialize(Serializer::Reader &rd)
 	sectorView->Load(section);
 
 	section = rd.RdSection("WorldView");
-	worldView->Load(section);
+	if (worldView) delete worldView;		// XXX hack. in reality this should never have been created in the first place
+	worldView = new WorldView(section);
 
 	section = rd.RdSection("Cpanel");
 	cpan->Load(section);
