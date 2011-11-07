@@ -1078,7 +1078,9 @@ void WorldView::UpdateProjectedObjects()
 
 	// orientation according to mouse
 	if (Pi::player->IsMouseActive()) {
-		const vector3d mouseDir = Pi::player->GetMouseDir() * cam_rot;
+		vector3d mouseDir = Pi::player->GetMouseDir() * cam_rot;
+		if (GetCamType() == CAM_REAR)
+			mouseDir = -mouseDir;
 		UpdateIndicator(m_mouseDirIndicator, (Pi::player->GetBoundingRadius() * 1.5) * mouseDir);
 	} else
 		HideIndicator(m_mouseDirIndicator);
