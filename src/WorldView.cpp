@@ -31,6 +31,17 @@ WorldView::WorldView(): View()
 	InitObject();
 }
 
+WorldView::WorldView(Serializer::Reader &rd): View()
+{
+	m_externalViewRotX = rd.Float();
+	m_externalViewRotY = rd.Float();
+	m_externalViewDist = rd.Float();
+	m_camType = CamType(rd.Int32());
+	m_showHyperspaceButton = rd.Bool();
+
+	InitObject();
+}
+
 void WorldView::InitObject()
 {
 	float size[2];
@@ -196,17 +207,6 @@ void WorldView::Save(Serializer::Writer &wr)
 	wr.Float(float(m_externalViewDist));
 	wr.Int32(int(m_camType));
 	wr.Bool(bool(m_showHyperspaceButton));
-}
-
-void WorldView::Load(Serializer::Reader &rd)
-{
-	m_externalViewRotX = rd.Float();
-	m_externalViewRotY = rd.Float();
-	m_externalViewDist = rd.Float();
-	m_camType = CamType(rd.Int32());
-	m_showHyperspaceButton = rd.Bool();
-
-	InitObject();
 }
 
 void WorldView::SetCamType(enum CamType c)
