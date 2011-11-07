@@ -687,35 +687,34 @@ static double GetMaxDecel(Ship *ship, const vector3d &reldir, int flip, double *
 //2 - unsafe escape from effect radius
 //3 - unsafe entry to effect radius
 //4 - probable path intercept
-static int CheckCollision(Ship *ship, vector3d &tpos, double endvel)
+static int CheckCollision(Ship *ship, vector3d &pathdir, double pathdist, vector3d &tpos, double endvel)
 {
-	// ship is in obstructor's frame anyway, so is targpos
+	// ship is in obstructor's frame anyway, so is tpos
+	if (pathdist < 100.0) return 0;
 	Body *body = ship->GetFrame()->GetBodyFor();
 	vector3d spos = ship->GetPosition();
-	double tdist = (tpos-spos).Length();
-	if (tdist < 100.0) return 0;
-	vector3d pathdir = (tpos-spos) / tdist;
-	double r = MaxEffectRad(body, ship);
-	double p2len = tpos.Length();
-	double p1len = spos.Length();
+	double tlen = tpos.Length(), slen = spos.Length();
+	double r = MaxEffectRad(body, ship), fr = MaxFeatureRad(body);
 
 	// if target inside, check if direct entry is safe (30 degree)
-	if (p2len < r) {
-		if (pathdir.Dot(tpos) > -0.5*p2len)
-			if (p1len < MaxFeatureRad(body)) return 1; else return 3;
+	if (tlen < r) {
+		double af = (tlen > fr) ? 0.5 * (1 - (tlen-fr) / (r-fr)) : 0.5;
+		if (pathdir.Dot(tpos) > -af*tlen)
+			if (slen < fr) return 1; else return 3;
 		else return 0;
 	}
 
 	// if ship inside, check for max feature height and direct escape (30 degree)
-	if (p1len < r) {
-		if (p1len < MaxFeatureRad(body)) return 1;
-		if (pathdir.Dot(spos) < 0.5*p1len) return 2; else return 0;
+	if (slen < r) {
+		if (slen < fr) return 1;
+		double af = (slen > fr) ? 0.5 * (1 - (slen-fr) / (r-fr)) : 0.5;
+		if (pathdir.Dot(spos) < 0.5*slen) return 2; else return 0;
 	}
 
 	// now for the intercept calc
 	// find closest point to obstructor
 	double tanlen = -spos.Dot(pathdir);
-	if (tanlen < 0 || tanlen > tdist) return 0;		// closest point outside path 
+	if (tanlen < 0 || tanlen > pathdist) return 0;		// closest point outside path 
 
 	vector3d perpdir = (tanlen*pathdir + spos).Normalized();
 	double perpspeed = ship->GetVelocity().Dot(perpdir);
@@ -724,13 +723,15 @@ static int CheckCollision(Ship *ship, vector3d &tpos, double endvel)
 
 	// find time that ship will pass through that point
 	// get velocity as if accelerating from start or end, pick smallest
-	double ivelsqr = endvel*endvel + 2*ship->GetAccelFwd()*(tdist-tanlen);		// could put endvel in here
+	double ivelsqr = endvel*endvel + 2*ship->GetAccelFwd()*(pathdist-tanlen);		// could put endvel in here
 	double fvelsqr = parspeed*parspeed + 2*ship->GetAccelFwd()*tanlen;
 	double tanspeed = sqrt(ivelsqr < fvelsqr ? ivelsqr : fvelsqr);
 	double time = tanlen / (0.5 * (parspeed + tanspeed));		// actually correct?
 
-	double dist = spos.Dot(perpdir) - perpspeed*time;		// spos.perpdir should be positive
-	if (dist < MaxEffectRad(body, ship)) return 4;
+	double dist = spos.Dot(perpdir);		// spos.perpdir should be positive
+	if (dist < r) return 4;
+	dist -= perpspeed*time;
+	if (dist < r) return 4; 
 	return 0;
 }
 
@@ -784,7 +785,8 @@ static bool CheckSuicide(Ship *ship, vector3d &tandir)
 
 	double vel = ship->GetVelocity().Dot(tandir);
 	double dist = ship->GetPosition().Length() - MaxFeatureRad(body);
-	if (vel < -1.0 && vel*vel > 2.0*ship->GetAccelMin()*dist) return true;
+	if (vel < -1.0 && vel*vel > 2.0*ship->GetAccelMin()*dist)
+		return true;
 	return false;
 }
 
@@ -846,7 +848,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	vector3d targvel = GetVelInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
 	vector3d relvel = m_ship->GetVelocity() - targvel;
 	vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
-	ParentSafetyAdjust(m_ship, m_targframe, m_posoff, targpos);
+	bool safemode = ParentSafetyAdjust(m_ship, m_targframe, m_posoff, targpos);
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
 	double targdist = relpos.Length();
@@ -869,7 +871,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 	if (m_tangent && body == m_targframe->GetBodyFor())
 	{
 		// if we're flying to tangent, just do suicide check
-		if (CheckSuicide(m_ship, targpos.Normalized())) {
+		if (!safemode && CheckSuicide(m_ship, targpos.Normalized())) {
 			m_ship->AIFaceDirection(m_ship->GetPosition());		// face away from planet
 			m_ship->AIMatchVel(m_ship->GetPosition());
 			m_state = -2; return false;
@@ -877,7 +879,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 	}
 	else {
 		// process path collisions with frame body
-		int coll = CheckCollision(m_ship, targpos, m_endvel);
+		int coll = CheckCollision(m_ship, reldir, targdist, targpos, m_endvel);
 		if (coll == 0) {				// no collision
 			if (m_child) { delete m_child; m_child = 0; m_state = -1; }
 		}
