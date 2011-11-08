@@ -195,12 +195,17 @@ void WorldView::Load(Serializer::Reader &rd)
 
 	m_onPlayerEquipmentChangeCon =
 		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
+
+	Pi::player->SetMouseForRearView(m_camType == CAM_REAR);
 }
 
 void WorldView::SetCamType(enum CamType c)
 {
-	m_camType = c;
-	onChangeCamType.emit();
+	if (c != m_camType) {
+		m_camType = c;
+		Pi::player->SetMouseForRearView(c == CAM_REAR);
+		onChangeCamType.emit();
+	}
 }
 
 vector3d WorldView::GetExternalViewTranslation()

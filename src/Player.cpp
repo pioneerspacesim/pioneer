@@ -13,6 +13,7 @@
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
 	m_mouseActive = false;
+	m_invertMouse = false;
 	m_flightControlState = CONTROL_MANUAL;
 	m_killCount = 0;
 	m_knownKillCount = 0;
@@ -221,7 +222,9 @@ void Player::PollControls(const float timeStep)
 			double modx = clipmouse(objDir.x, m_mouseX);			
 			m_mouseX -= modx;
 
-			m_mouseY += mouseMotion[1] * radiansPerPixel * (Pi::IsMouseYInvert() ? -1 : 1);
+			const bool invertY = (Pi::IsMouseYInvert() ? !m_invertMouse : m_invertMouse);
+
+			m_mouseY += mouseMotion[1] * radiansPerPixel * (invertY ? -1 : 1);
 			double mody = clipmouse(objDir.y, m_mouseY);
 			m_mouseY -= mody;
 
