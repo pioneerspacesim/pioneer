@@ -57,7 +57,6 @@ local onGameStart = function ()
 	assert(derek.name == alice.name,"Clone() failed to copy name")
 	assert(derek.luck == alice.luck,"Clone() failed to copy set value")
 	assert(derek.charisma == alice.charisma,"Clone() failed to set inheritance")
-	assert(derek.Relationships ~= alice.Relationships,"Clone() failed to initialise new Relationships table")
 	print('Clone() passed tests')
 
 	--Make some predictable dice rolls by overloading ; assumes 4d16
