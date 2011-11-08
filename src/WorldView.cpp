@@ -1558,10 +1558,10 @@ void WorldView::DrawImageIndicator(const Indicator &marker, const char *icon_pat
 		const float x0 = marker.pos[0] - w/2.0f;
 		const float y0 = marker.pos[1] - h/2.0f;
 		GLfloat vtx[4*4] = {
-			x0,     y0 + h,  0.0f, 0.0f,
-			x0 + w, y0 + h,  1.0f, 0.0f,
-			x0 + w, y0,      1.0f, 1.0f,
-			x0,     y0,      0.0f, 1.0f,
+			x0,     y0,     0.0f, 0.0f,
+			x0,     y0 + h, 0.0f, 1.0f,
+			x0 + w, y0 + h, 1.0f, 1.0f,
+			x0 + w, y0,     1.0f, 0.0f,
 		};
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
