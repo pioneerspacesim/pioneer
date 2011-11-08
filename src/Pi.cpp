@@ -593,7 +593,6 @@ void Pi::InitOpenGL()
 
 void Pi::Quit()
 {
-	Pi::UninitGame();
 	delete Pi::gameMenuView;
 	delete Pi::luaConsole;
 	Sound::Uninit();
@@ -1293,8 +1292,6 @@ void Pi::Start()
 			fprintf(stderr, "Invalid Menu Option."); // should not get here!
 			break;
 	}
-
-	UninitGame();
 }
 
 void Pi::EndGame()
