@@ -884,6 +884,8 @@ local onGameStart = function ()
 			PersistentCharacters[k] = newCharacter
 		end
 	else
+		-- Game state might have leaked; delete any persistent characters
+		PersistentCharacters = {}
 		-- Make a new character sheet for the player, with just
 		-- the average values.  We'll find some way to ask the
 		-- player for a new name in the future.
