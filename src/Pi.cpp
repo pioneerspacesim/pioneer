@@ -487,6 +487,7 @@ void Pi::Init()
 	CityOnPlanet::Init();
 	draw_progress(0.8f);
 
+	SpaceStation::Init();
 	draw_progress(0.9f);
 
 	if (!config.Int("DisableSound")) {
