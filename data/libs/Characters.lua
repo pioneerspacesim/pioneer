@@ -60,7 +60,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -75,7 +75,7 @@ Character = {
 -- 
 -- Availability:
 -- 
---   future
+--   alpha 17
 -- 
 -- Status:
 -- 
@@ -87,7 +87,7 @@ Character = {
 -- 
 -- Availability:
 -- 
---   future
+--   alpha 17
 -- 
 -- Status:
 -- 
@@ -99,7 +99,7 @@ Character = {
 -- 
 -- Availability:
 -- 
---   future
+--   alpha 17
 -- 
 -- Status:
 -- 
@@ -111,7 +111,7 @@ Character = {
 -- 
 -- Availability:
 -- 
---   future
+--   alpha 17
 -- 
 -- Status:
 -- 
@@ -128,7 +128,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -144,7 +144,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -160,7 +160,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -178,7 +178,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -196,7 +196,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -214,7 +214,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -232,7 +232,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -250,7 +250,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -273,7 +273,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -293,7 +293,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -316,7 +316,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -338,7 +338,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -374,7 +374,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -425,7 +425,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -481,7 +481,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -524,7 +524,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -720,7 +720,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -766,7 +766,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -803,7 +803,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -829,7 +829,7 @@ Character = {
 --
 -- Availability
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
