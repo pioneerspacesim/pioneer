@@ -864,8 +864,10 @@ bool AICmdFlyTo::TimeStepUpdate()
 		m_reldir = reldir;							// for +vel termination condition
 	}
 
+#ifdef DEBUG_AUTOPILOT
 printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state = %i\n",
 	targdist, relvel.Length(), m_ship->GetThrusterState().z, reldir.Dot(m_reldir), m_state);
+#endif
 
 	Body *body = m_frame->GetBodyFor();
 	double erad = MaxEffectRad(body, m_ship);
@@ -1005,8 +1007,10 @@ bool AICmdDock::TimeStepUpdate()
 	bool fin = m_ship->AIFaceOrient(m_dockdir, updir);
 	if (m_state < 5 && fin && m_ship->GetWheelState() >= 1.0f) m_state++;
 
+#ifdef DEBUG_AUTOPILOT
 printf("AICmdDock dist = %.1f, speed = %.1f, ythrust = %.2f, state = %i\n",
 	targdist, relvel.Length(), m_ship->GetThrusterState().y, m_state);
+#endif
 
 	return false;
 }
@@ -1135,15 +1139,6 @@ bool AICmdFlyAround::TimeStepUpdate()
 //	vector3d newhead = GenerateTangent(m_ship, m_obstructor->GetFrame(), fwddir);
 //	newhead = GetPosInFrame(m_ship->GetFrame(), m_obstructor->GetFrame(), newhead);
 //	m_ship->AIFaceDirection(newhead-m_ship->GetPosition());
-
-//if(m_ship->IsType(Object::PLAYER)) {
-//	printf("Autopilot dist = %f, speed = %f, term = %f, state = 0x%x\n", targdist, relvel.Length(),
-//		reldir.Dot(m_reldir), m_state);
-//}
-
-//	double veldiff = m_ship->GetVelocity().Length() - m_vel;
-//	double altdiff = (obsdist - m_alt);
-//	double dotvel = m_ship->GetVelocity().Dot(obsdir);
 
 	// termination condition for orbits
 	vector3d thrust = m_ship->GetThrusterState();
