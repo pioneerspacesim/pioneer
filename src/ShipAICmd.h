@@ -185,7 +185,7 @@ public:
 
 protected:
 	void Setup(Body *obstructor, double alt, double vel, int targmode, Body *target, Frame *targframe, vector3d &posoff);
-	double MaxVel(double targdist, double timestep);
+	double MaxVel(double targdist, const vector3d &targpos);
 	vector3d Targpos();
 
 private:
