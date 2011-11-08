@@ -481,7 +481,7 @@ void SpaceStation::DoLawAndOrder()
 			ship->AIKill(Pi::player);
 			ship->SetFrame(GetFrame());
 			ship->SetDockedWith(this, port);
-			Space::AddBody(ship);
+			Pi::space->AddBody(ship);
 			{ // blue and white thang
 				ShipFlavour f;
 				f.type = ShipType::LADYBIRD;

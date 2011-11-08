@@ -26,7 +26,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 
 	SystemPath path = m_system->GetPathOf(b);
 	if (Pi::currentSystem->GetPath() == m_system->GetPath()) {
-		Body* body = Space::FindBodyForPath(&path);
+		Body* body = Pi::space->FindBodyForPath(&path);
 		if(body != 0)
 			Pi::player->SetNavTarget(body);
 	}

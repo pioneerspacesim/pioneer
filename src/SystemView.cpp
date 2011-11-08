@@ -140,7 +140,7 @@ void SystemView::OnClickObject(SBody *b)
 	if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
 		SystemPath path = m_system->GetPathOf(b);
 		if (Pi::currentSystem->GetPath() == m_system->GetPath()) {
-			Body* body = Space::FindBodyForPath(&path);
+			Body* body = Pi::space->FindBodyForPath(&path);
 			if (body != 0)
 				Pi::player->SetNavTarget(body);
 		}

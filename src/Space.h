@@ -11,39 +11,67 @@ class Frame;
 class SBody;
 class SystemPath;
 class Ship;
+class HyperspaceCloud;
 
-// The place all the 'Body's exist in
-namespace Space {
-	extern void Init();
-	extern void Uninit();
-	extern void Clear();
-	extern void BuildSystem();
-	extern void Serialize(Serializer::Writer &wr);
-	extern void Unserialize(Serializer::Reader &rd);
-	extern void GenBody(SBody *b, Frame *f);
-	extern void TimeStep(float step);
-	extern void AddBody(Body *);
-	extern void RemoveBody(Body *);
-	extern void KillBody(Body *);
-	extern void RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, double kgDamage);
-	extern void DoECM(const Frame *f, const vector3d &pos, int power_val);
-	extern float GetHyperspaceAnim();
-	extern const SystemPath *GetHyperspaceDest();
-	extern double GetHyperspaceDuration();
-	extern void StartHyperspaceTo(Ship *s, const SystemPath *);
-	extern void DoHyperspaceTo(const SystemPath *);
-	extern vector3d GetRandomPosition(float min_dist, float max_dist);
-	extern vector3d GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *dest);
-	extern void SetupSystemForGameStart(const SystemPath *, int, int);
-	// make sure SBody* is in Pi::currentSystem
-	extern Frame *GetFrameWithSBody(const SBody *b);
-	extern Body *FindNearestTo(const Body *b, Object::Type t);
-	extern Body *FindBodyForPath(const SystemPath *path);
+class Space {
+public:
+	Space(const SystemPath &path);
+	Space(Serializer::Reader &rd);
+	virtual ~Space();
 
-	extern std::list<Body*> bodies;
+	//void Save(Serializer::Writer &wr);
+
+	StarSystem *GetStarSystem() const { return m_starSystem; }
+
+	Frame *GetRootFrame() const { return rootFrame; }
+
+	void AddBody(Body *);
+	void RemoveBody(Body *);
+	void KillBody(Body *);
+
+	void TimeStep(float step);
+
+	// XXX these do not belong here
+	static vector3d GetRandomPosition(float min_dist, float max_dist);
+	static vector3d GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *dest);
+
+	// XXX these may belong elsewhere
+	void RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, double kgDamage);
+	void DoECM(const Frame *f, const vector3d &pos, int power_val);
+
+	void StartHyperspaceTo(Ship *s, const SystemPath *);
+	void DoHyperspaceTo(const SystemPath *);
+
+	void SetupSystemForGameStart(const SystemPath *, int, int);
+	Body *FindNearestTo(const Body *b, Object::Type t);
+	Body *FindBodyForPath(const SystemPath *path);
+
+	float GetHyperspaceAnim() const { return hyperspaceAnim; }
+	const SystemPath *GetHyperspaceDest() const { return hyperspacingTo; }
+	double GetHyperspaceDuration() const { return hyperspaceDuration; }
+
+	// XXX make private
+	std::list<Body*> bodies;
 	typedef std::list<Body*>::iterator bodiesIter_t;
-	extern Frame *rootFrame;
-}
+	Frame *rootFrame;
 
+private:
+	void GenBody(SBody *b, Frame *f);
+	// make sure SBody* is in Pi::currentSystem
+	Frame *GetFrameWithSBody(const SBody *b);
+
+	void PruneCorpses();
+
+	void CollideFrame(Frame *f);
+
+	StarSystem *m_starSystem;
+
+	std::list<Body*> corpses;
+	SystemPath *hyperspacingTo;
+	float hyperspaceAnim;
+	double hyperspaceDuration;
+	double hyperspaceEndTime;
+	std::list<HyperspaceCloud*> storedArrivalClouds;
+};
 
 #endif /* _SPACE_H */

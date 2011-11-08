@@ -126,13 +126,13 @@ static int l_space_spawn_ship(lua_State *l)
 	Body *thing = _maybe_wrap_ship_with_cloud(ship, path, due);
 
 	// XXX protect against spawning inside the body
-	thing->SetFrame(Space::rootFrame);
+	thing->SetFrame(Pi::space->GetRootFrame());
 	if (path == NULL)
 		thing->SetPosition(Space::GetRandomPosition(min_dist, max_dist)*AU);
 	else
 		thing->SetPosition(Space::GetPositionAfterHyperspace(path, &(Pi::currentSystem->GetPath())));
 	thing->SetVelocity(vector3d(0,0,0));
-	Space::AddBody(thing);
+	Pi::space->AddBody(thing);
 
 	LuaShip::PushToLua(ship);
 
@@ -207,7 +207,7 @@ static int l_space_spawn_ship_near(lua_State *l)
 	thing->SetFrame(nearbody->GetFrame());
 	thing->SetPosition((Space::GetRandomPosition(min_dist, max_dist)* 1000.0) + nearbody->GetPosition());
 	thing->SetVelocity(vector3d(0,0,0));
-	Space::AddBody(thing);
+	Pi::space->AddBody(thing);
 
 	LuaShip::PushToLua(ship);
 
@@ -260,7 +260,7 @@ static int l_space_spawn_ship_docked(lua_State *l)
 	assert(ship);
 
 	ship->SetFrame(station->GetFrame());
-	Space::AddBody(ship);
+	Pi::space->AddBody(ship);
 	ship->SetDockedWith(station, port);
 
 	station->CreateBB();
@@ -359,7 +359,7 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	ship->SetPosition(pos);
 	ship->SetRotMatrix(rot);
 
-	Space::AddBody(ship);
+	Pi::space->AddBody(ship);
 
 	ship->AIHoldPosition();
 	
@@ -401,7 +401,7 @@ static int l_space_get_body(lua_State *l)
 	SystemPath path = Pi::currentSystem->GetPath();
 	path.bodyIndex = id;
 
-	Body *b = Space::FindBodyForPath(&path);
+	Body *b = Pi::space->FindBodyForPath(&path);
 	if (!b) return 0;
 
 	LuaBody::PushToLua(b);
@@ -458,7 +458,7 @@ static int l_space_get_bodies(lua_State *l)
 	lua_newtable(l);
 	pi_lua_table_ro(l);
 
-	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++) {
+	for (std::list<Body*>::iterator i = Pi::space->bodies.begin(); i != Pi::space->bodies.end(); i++) {
 		Body *b = *i;
 
 		if (filter) {

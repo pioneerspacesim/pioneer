@@ -470,7 +470,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	if (Pi::showDebugInfo) {
 		char buf[1024];
 		vector3d pos = Pi::player->GetPosition();
-		vector3d abs_pos = Pi::player->GetPositionRelTo(Space::rootFrame);
+		vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::space->GetRootFrame());
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
 
@@ -488,7 +488,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 #endif
 
-	if (const SystemPath *dest = Space::GetHyperspaceDest()) {
+	if (const SystemPath *dest = Pi::space->GetHyperspaceDest()) {
 		StarSystem *s = StarSystem::GetCached(*dest);
 		m_hudVelocity->SetText(stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
 			formatarg("system", s->GetName()),
@@ -821,7 +821,7 @@ void WorldView::BuildCommsNavOptions()
 
 		for ( std::vector<SBody*>::const_iterator j = (*i).second.begin(); j != (*i).second.end(); ++j) {
 			SystemPath path = Pi::currentSystem->GetPathOf(*j);
-			Body *body = Space::FindBodyForPath(&path);
+			Body *body = Pi::space->FindBodyForPath(&path);
 			AddCommsNavOption((*j)->name, body);
 		}
 	}
@@ -1066,7 +1066,7 @@ void WorldView::UpdateProjectedObjects()
 	// determine projected positions and update labels
 	m_bodyLabels->Clear();
 	m_projectedPos.clear();
-	for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+	for(std::list<Body*>::iterator i = Pi::space->bodies.begin(); i != Pi::space->bodies.end(); ++i) {
 		Body *b = *i;
 
 		vector3d pos = b->GetInterpolatedPositionRelTo(cam_frame);

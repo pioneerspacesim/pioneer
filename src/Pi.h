@@ -12,6 +12,7 @@
 #include "LuaSerializer.h"
 #include "LuaTimer.h"
 #include "CargoBody.h"
+#include "Space.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -166,6 +167,8 @@ public:
 #if OBJECTVIEWER
 	static ObjectViewerView *objectViewerView;
 #endif
+
+	static Space *space;
 
 	static int CombatRating(int kills);
 	static const char * const combatRating[];

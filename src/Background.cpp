@@ -93,7 +93,7 @@ void Starfield::Draw()
 		/* all this jizz isn't really necessary, since the player will
 		 * be in the root frame when hyperspacing... */
 		matrix4x4d m, rot;
-		Frame::GetFrameTransform(Space::rootFrame, Pi::player->GetFrame(), m);
+		Frame::GetFrameTransform(Pi::space->GetRootFrame(), Pi::player->GetFrame(), m);
 		m.ClearToRotOnly();
 		Pi::player->GetRotMatrix(rot);
 		m = rot.InverseOf() * m;
@@ -102,9 +102,9 @@ void Starfield::Draw()
 		// roughly, the multiplier gets smaller as the duration gets larger.
 		// the time-looking bits in this are completely arbitrary - I figured
 		// it out by tweaking the numbers until it looked sort of right
-		double mult = 0.0015 / (Space::GetHyperspaceDuration() / (60.0*60.0*24.0*7.0));
+		double mult = 0.0015 / (Pi::space->GetHyperspaceDuration() / (60.0*60.0*24.0*7.0));
 
-		double hyperspaceAnim = Space::GetHyperspaceAnim();
+		double hyperspaceAnim = Pi::space->GetHyperspaceAnim();
 
 		float *vtx = new float[BG_STAR_MAX*12];
 		for (int i=0; i<BG_STAR_MAX; i++) {

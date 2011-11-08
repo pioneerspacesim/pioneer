@@ -134,7 +134,7 @@ vector3d Frame::GetFrameRelativeVelocity(const Frame *fFrom, const Frame *fTo)
 	matrix4x4d m = matrix4x4d::Identity();
 
 	const Frame *f = fFrom;
-	const Frame *root = Space::rootFrame;
+	const Frame *root = Pi::space->GetRootFrame();
 
 	// move forwards from origin to root
 	while ((f!=root) && (fTo != f)) {
@@ -160,7 +160,7 @@ void Frame::GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &
 	m = matrix4x4d::Identity();
 
 	const Frame *f = fFrom;
-	const Frame *root = Space::rootFrame;
+	const Frame *root = Pi::space->GetRootFrame();
 
 	while ((f!=root) && (fTo != f)) {
 		f->ApplyLeavingTransform(m);
@@ -181,7 +181,7 @@ void Frame::GetFrameRenderTransform(const Frame *fFrom, const Frame *fTo, matrix
 	m = matrix4x4d::Identity();
 
 	const Frame *f = fFrom;
-	const Frame *root = Space::rootFrame;
+	const Frame *root = Pi::space->GetRootFrame();
 
 	while ((f!=root) && (fTo != f)) {
 		m = f->m_interpolatedTransform * m;

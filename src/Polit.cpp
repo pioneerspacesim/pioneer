@@ -119,7 +119,7 @@ void NotifyOfCrime(Ship *s, enum Crime crime)
 	// ignore crimes of NPCs for the time being
 	if (!s->IsType(Object::PLAYER)) return;
 	// find nearest starport to this evil criminal
-	SpaceStation *station = static_cast<SpaceStation*>(Space::FindNearestTo(s, Object::SPACESTATION));
+	SpaceStation *station = static_cast<SpaceStation*>(Pi::space->FindNearestTo(s, Object::SPACESTATION));
 	if (station) {
 		double dist = station->GetPositionRelTo(s).Length();
 		// too far away for crime to be noticed :)

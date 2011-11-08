@@ -21,55 +21,141 @@
 #include "Lang.h"
 #include "ShipCpanel.h"
 
-namespace Space {
 
-std::list<Body*> bodies;
-Frame *rootFrame;
-static void CollideFrame(Frame *f);
-static void PruneCorpses();
-static std::list<Body*> corpses;
-static SystemPath *hyperspacingTo;
-static float hyperspaceAnim;
-static double hyperspaceDuration;
-static double hyperspaceEndTime;
-static std::list<HyperspaceCloud*> storedArrivalClouds;
-
-void Init()
+Space::Space(const SystemPath &path)
 {
-	rootFrame = new Frame(NULL, Lang::SYSTEM);
+	m_starSystem = StarSystem::GetCached(path);
+
+	// XXX set radius in constructor
+	rootFrame = new Frame(0, Lang::SYSTEM);
 	rootFrame->SetRadius(FLT_MAX);
+
+	hyperspacingTo = 0;
+	hyperspaceAnim = hyperspaceDuration = hyperspaceEndTime = 0;
+
+	GenBody(m_starSystem->rootBody, rootFrame);
+	rootFrame->SetPosition(vector3d(0,0,0));
+	rootFrame->SetVelocity(vector3d(0,0,0));
+	rootFrame->UpdateOrbitRails();
 }
 
-void Uninit()
+Space::Space(Serializer::Reader &rd)
 {
-	delete rootFrame;
-	if (Pi::currentSystem) Pi::currentSystem->Release();
+	assert(0);
 }
 
-void Clear()
+Space::~Space()
 {
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
 		(*i)->SetFrame(NULL);
-		if ((*i) != static_cast<Body*>(Pi::player)) {
+		if ((*i) != static_cast<Body*>(Pi::player))
 			KillBody(*i);
-		}
 	}
+
 	PruneCorpses();
 
+	// XXX probably can just keep a straight field
+	if (hyperspacingTo)
+		delete hyperspacingTo;
+
+	// XXX clean this up in the frame destructor
 	Pi::player->SetFrame(rootFrame);
 	for (std::list<Frame*>::iterator i = rootFrame->m_children.begin(); i != rootFrame->m_children.end(); ++i) delete *i;
 	rootFrame->m_children.clear();
 	rootFrame->m_astroBody = 0;
 	rootFrame->m_sbody = 0;
 
-	if (hyperspacingTo) delete hyperspacingTo;
-	hyperspacingTo = 0;
-	hyperspaceAnim = 0.0f;
-	hyperspaceDuration = 0.0f;
-	hyperspaceEndTime = 0.0f;
+	delete rootFrame;
+
+	m_starSystem->Release();
 }
 
-Body *FindNearestTo(const Body *b, Object::Type t)
+void Space::PruneCorpses()
+{
+	for (bodiesIter_t corpse = corpses.begin(); corpse != corpses.end(); ++corpse) {
+		for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
+			(*i)->NotifyDeleted(*corpse);
+		bodies.remove(*corpse);
+		delete *corpse;
+	}
+	corpses.clear();
+}
+
+void Space::AddBody(Body *b)
+{
+	bodies.push_back(b);
+}
+
+void Space::RemoveBody(Body *b)
+{
+	b->SetFrame(0);
+	bodies.remove(b);
+}
+
+void Space::KillBody(Body* b)
+{
+	if (!b->IsDead()) {
+		b->MarkDead();
+		if (b != Pi::player) corpses.push_back(b);
+	}
+}
+
+// XXX this is only called by Missile::Explode. consider moving it there
+void Space::RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, double kgDamage)
+{
+	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
+		if ((*i)->GetFrame() != f) continue;
+		double dist = ((*i)->GetPosition() - pos).Length();
+		if (dist < radius) {
+			// linear damage decay with distance
+			(*i)->OnDamage(attacker, kgDamage * (radius - dist) / radius);
+			if ((*i)->IsType(Object::SHIP))
+				Pi::luaOnShipHit->Queue(dynamic_cast<Ship*>(*i), attacker);
+		}
+	}
+}
+
+void Space::DoECM(const Frame *f, const vector3d &pos, int power_val)
+{
+	const float ECM_RADIUS = 4000.0f;
+	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
+		if ((*i)->GetFrame() != f) continue;
+		if (!(*i)->IsType(Object::MISSILE)) continue;
+
+		double dist = ((*i)->GetPosition() - pos).Length();
+		if (dist < ECM_RADIUS) {
+			// increasing chance of destroying it with proximity
+			if (Pi::rng.Double() > (dist / ECM_RADIUS)) {
+				static_cast<Missile*>(*i)->ECMAttack(power_val);
+			}
+		}
+	}
+}
+
+// random point on a sphere, distributed uniformly by area
+vector3d Space::GetRandomPosition(float min_dist, float max_dist)
+{
+	// see http://mathworld.wolfram.com/SpherePointPicking.html
+	// or a Google search for further information
+	const double dist = Pi::rng.Double(min_dist, max_dist);
+	const double z = Pi::rng.Double_closed(-1.0, 1.0);
+	const double theta = Pi::rng.Double(2.0*M_PI);
+	const double r = sqrt(1.0 - z*z) * dist;
+	return vector3d(r*cos(theta), r*sin(theta), z*dist);
+}
+
+vector3d Space::GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *dest)
+{
+	Sector source_sec(source->sectorX,source->sectorY,source->sectorZ);
+	Sector dest_sec(dest->sectorX,dest->sectorY,dest->sectorZ);
+	Sector::System source_sys = source_sec.m_systems[source->systemIndex];
+	Sector::System dest_sys = dest_sec.m_systems[dest->systemIndex];
+	const vector3d sourcePos = vector3d(source_sys.p) + vector3d(source->sectorX, source->sectorY, source->sectorZ);
+	const vector3d destPos = vector3d(dest_sys.p) + vector3d(dest->sectorX, dest->sectorY, dest->sectorZ);
+	return (sourcePos - destPos).Normalized() * 11.0*AU + GetRandomPosition(5.0,20.0)*1000.0; // "hyperspace zone": 11 AU from primary
+}
+
+Body *Space::FindNearestTo(const Body *b, Object::Type t)
 {
 	Body *nearest = 0;
 	double dist = FLT_MAX;
@@ -86,7 +172,7 @@ Body *FindNearestTo(const Body *b, Object::Type t)
 	return nearest;
 }
 
-Body *FindBodyForPath(const SystemPath *path)
+Body *Space::FindBodyForPath(const SystemPath *path)
 {
 	// it is a bit dumb that currentSystem is not part of Space...
 	SBody *body = Pi::currentSystem->GetBodyByPath(path);
@@ -99,39 +185,10 @@ Body *FindBodyForPath(const SystemPath *path)
 	return 0;
 }
 
-// XXX this is only called by Missile::Explode. consider moving it there
-void RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, double kgDamage)
-{
-	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
-		if ((*i)->GetFrame() != f) continue;
-		double dist = ((*i)->GetPosition() - pos).Length();
-		if (dist < radius) {
-			// linear damage decay with distance
-			(*i)->OnDamage(attacker, kgDamage * (radius - dist) / radius);
-			if ((*i)->IsType(Object::SHIP))
-				Pi::luaOnShipHit->Queue(dynamic_cast<Ship*>(*i), attacker);
-		}
-	}
-}
 
-void DoECM(const Frame *f, const vector3d &pos, int power_val)
-{
-	const float ECM_RADIUS = 4000.0f;
-	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
-		if ((*i)->GetFrame() != f) continue;
-		if (!(*i)->IsType(Object::MISSILE)) continue;
 
-		double dist = ((*i)->GetPosition() - pos).Length();
-		if (dist < ECM_RADIUS) {
-			// increasing chance of destroying it with proximity
-			if (Pi::rng.Double() > (dist / ECM_RADIUS)) {
-				static_cast<Missile*>(*i)->ECMAttack(power_val);
-			}
-		}
-	}
 
-}
-
+/*
 void Serialize(Serializer::Writer &wr)
 {
 	Serializer::Writer wr2;
@@ -158,7 +215,9 @@ void Serialize(Serializer::Writer &wr)
 		wr.Double(hyperspaceEndTime);
 	}
 }
+*/
 
+/*
 void Unserialize(Serializer::Reader &rd)
 {
 	Serializer::IndexSystemBodies(Pi::currentSystem);
@@ -194,6 +253,7 @@ void Unserialize(Serializer::Reader &rd)
 	}
 	Frame::PostUnserializeFixup(rootFrame);
 }
+*/
 
 static Frame *find_frame_with_sbody(Frame *f, const SBody *b)
 {
@@ -209,7 +269,7 @@ static Frame *find_frame_with_sbody(Frame *f, const SBody *b)
 	return 0;
 }
 
-Frame *GetFrameWithSBody(const SBody *b)
+Frame *Space::GetFrameWithSBody(const SBody *b)
 {
 	return find_frame_with_sbody(rootFrame, b);
 }
@@ -332,7 +392,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 	return NULL;
 }
 
-void GenBody(SBody *sbody, Frame *f)
+void Space::GenBody(SBody *sbody, Frame *f)
 {
 	Body *b = 0;
 
@@ -356,33 +416,6 @@ void GenBody(SBody *sbody, Frame *f)
 
 	for (std::vector<SBody*>::iterator i = sbody->children.begin(); i != sbody->children.end(); ++i) {
 		GenBody(*i, f);
-	}
-}
-
-void BuildSystem()
-{
-	GenBody(Pi::currentSystem->rootBody, rootFrame);
-	rootFrame->SetPosition(vector3d(0,0,0));
-	rootFrame->SetVelocity(vector3d(0,0,0));
-	rootFrame->UpdateOrbitRails();
-}
-
-void AddBody(Body *b)
-{
-	bodies.push_back(b);
-}
-
-void RemoveBody(Body *b)
-{
-	b->SetFrame(0);
-	bodies.remove(b);
-}
-
-void KillBody(Body* const b)
-{
-	if (!b->IsDead()) {
-		b->MarkDead();
-		if (b != Pi::player) corpses.push_back(b);
 	}
 }
 
@@ -489,7 +522,7 @@ static void hitCallback(CollisionContact *c)
 	}
 }
 
-void CollideFrame(Frame *f)
+void Space::CollideFrame(Frame *f)
 {
 	if (f->m_astroBody && (f->m_astroBody->IsType(Object::TERRAINBODY))) {
 		// this is pretty retarded
@@ -539,7 +572,7 @@ void CollideFrame(Frame *f)
 }
 
 
-void TimeStep(float step)
+void Space::TimeStep(float step)
 {
 	if (hyperspacingTo) {
 		Pi::RequestTimeAccel(6);
@@ -554,7 +587,7 @@ void TimeStep(float step)
 		return;
 	}
 
-	CollideFrame(rootFrame);
+	Space::CollideFrame(rootFrame);
 	// XXX does not need to be done this often
 
 	// update frames of reference
@@ -596,21 +629,10 @@ void TimeStep(float step)
 	PruneCorpses();
 }
 
-void PruneCorpses()
-{
-	for (bodiesIter_t corpse = corpses.begin(); corpse != corpses.end(); ++corpse) {
-		for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
-			(*i)->NotifyDeleted(*corpse);
-		bodies.remove(*corpse);
-		delete *corpse;
-	}
-	corpses.clear();
-}
-
 /*
  * Called during play to initiate hyperspace sequence.
  */
-void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
+void Space::StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 {
 	int fuelUsage;
 	double duration;
@@ -647,7 +669,7 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 		}
 		printf("%lu clouds brought over\n", storedArrivalClouds.size());
 
-		Space::Clear();
+		// XXX Space::Clear();
 
 		hyperspacingTo = new SystemPath(*dest);
 		hyperspaceAnim = 0.0f;
@@ -693,34 +715,12 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 	}
 }
 
-// random point on a sphere, distributed uniformly by area
-vector3d GetRandomPosition(float min_dist, float max_dist)
-{
-	// see http://mathworld.wolfram.com/SpherePointPicking.html
-	// or a Google search for further information
-	const double dist = Pi::rng.Double(min_dist, max_dist);
-	const double z = Pi::rng.Double_closed(-1.0, 1.0);
-	const double theta = Pi::rng.Double(2.0*M_PI);
-	const double r = sqrt(1.0 - z*z) * dist;
-	return vector3d(r*cos(theta), r*sin(theta), z*dist);
-}
-
-vector3d GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *dest)
-{
-	Sector source_sec(source->sectorX,source->sectorY,source->sectorZ);
-	Sector dest_sec(dest->sectorX,dest->sectorY,dest->sectorZ);
-	Sector::System source_sys = source_sec.m_systems[source->systemIndex];
-	Sector::System dest_sys = dest_sec.m_systems[dest->systemIndex];
-	const vector3d sourcePos = vector3d(source_sys.p) + vector3d(source->sectorX, source->sectorY, source->sectorZ);
-	const vector3d destPos = vector3d(dest_sys.p) + vector3d(dest->sectorX, dest->sectorY, dest->sectorZ);
-	return (sourcePos - destPos).Normalized() * 11.0*AU + GetRandomPosition(5.0,20.0)*1000.0; // "hyperspace zone": 11 AU from primary
-}
-
 /*
  * Called at end of hyperspace sequence to place the player in a system.
  */
-void DoHyperspaceTo(const SystemPath *dest)
+void Space::DoHyperspaceTo(const SystemPath *dest)
 {
+#if 0
 	bool isRealHyperspaceEvent = false;
 	if (dest == 0) {
 		dest = hyperspacingTo;
@@ -861,11 +861,13 @@ void DoHyperspaceTo(const SystemPath *dest)
 	hyperspacingTo = 0;
 	
 	Pi::sectorView->ResetHyperspaceTarget();
+#endif
 }
 
 /* called at game start to load the system and put the player in a starport */
-void SetupSystemForGameStart(const SystemPath *dest, int starport, int port)
+void Space::SetupSystemForGameStart(const SystemPath *dest, int starport, int port)
 {
+#if 0
 	if (Pi::currentSystem) Pi::currentSystem->Release();
 	Pi::currentSystem = StarSystem::GetCached(dest);
 	Space::Clear();
@@ -888,21 +890,5 @@ void SetupSystemForGameStart(const SystemPath *dest, int starport, int port)
 	Pi::player->SetDockedWith(station, port); 
 
 	station->CreateBB();
-}
-
-float GetHyperspaceAnim()
-{
-	return hyperspaceAnim;
-}
-
-const SystemPath *GetHyperspaceDest()
-{
-	return hyperspacingTo;
-}
-
-double GetHyperspaceDuration()
-{
-	return hyperspaceDuration;
-}
-
+#endif
 }

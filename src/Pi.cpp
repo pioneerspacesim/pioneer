@@ -123,6 +123,7 @@ ShipCpanel *Pi::cpan;
 LuaConsole *Pi::luaConsole;
 StarSystem *Pi::selectedSystem;
 StarSystem *Pi::currentSystem;
+Space *Pi::space;
 MTRand Pi::rng;
 double Pi::gameTime;
 float Pi::frameTime;
@@ -461,15 +462,17 @@ void Pi::Init()
 	draw_progress(0.2f);
 
 	NameGenerator::Init();
+	draw_progress(0.3f);
+
 	if (config.Int("DisableShaders")) Render::ToggleShaders();
 	if (config.Int("EnableHDR")) Render::ToggleHDR();
 
     CustomSystem::Init();
-	draw_progress(0.3f);
+	draw_progress(0.4f);
 
 	LmrModelCompilerInit();
 	LmrNotifyScreenWidth(Pi::scrWidth);
-	draw_progress(0.4f);
+	draw_progress(0.5f);
 
 //unsigned int control_word;
 //_clearfp();
@@ -477,18 +480,14 @@ void Pi::Init()
 //double fpexcept = Pi::timeAccelRates[1] / Pi::timeAccelRates[0];
 
 	ShipType::Init();
-	draw_progress(0.5f);
-
-	GeoSphere::Init();
 	draw_progress(0.6f);
 
-	CityOnPlanet::Init();
+	GeoSphere::Init();
 	draw_progress(0.7f);
 
-	Space::Init();
+	CityOnPlanet::Init();
 	draw_progress(0.8f);
 
-	SpaceStation::Init();
 	draw_progress(0.9f);
 
 	if (!config.Int("DisableSound")) {
@@ -599,7 +598,7 @@ void Pi::Quit()
 	delete Pi::luaConsole;
 	Sound::Uninit();
 	SpaceStation::Uninit();
-	Space::Uninit();
+	delete Pi::space;
 	CityOnPlanet::Uninit();
 	GeoSphere::Uninit();
 	LmrModelCompilerUninit();
@@ -627,7 +626,7 @@ void Pi::SetTimeAccel(int s)
 		player->SetAngThrusterState(vector3d(0.0));
 	}
 	// Give all ships a half-step acceleration to stop autopilot overshoot
-	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+	for (std::list<Body*>::iterator i = space->bodies.begin(); i != space->bodies.end(); ++i) {
 		if ((*i)->IsType(Object::SHIP)) (static_cast<DynamicBody *>(*i))->ApplyAccel(0.5f*Pi::GetTimeStep());
 	}
 
@@ -726,7 +725,7 @@ void Pi::HandleEvents()
 									missile->SetFrame(Pi::player->GetFrame());
 									missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
 									missile->SetVelocity(Pi::player->GetVelocity());
-									Space::AddBody(missile);
+									space->AddBody(missile);
 								} else if (KeyState(SDLK_LSHIFT)) {
 									SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
 									if (s) {
@@ -738,7 +737,7 @@ void Pi::HandleEvents()
 											ship->AIKill(Pi::player);
 											ship->SetFrame(Pi::player->GetFrame());
 											ship->SetDockedWith(s, port);
-											Space::AddBody(ship);
+											space->AddBody(ship);
 										} else {
 											printf("No docking ports free dude\n");
 										}
@@ -758,7 +757,7 @@ void Pi::HandleEvents()
 									ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
 									ship->m_equipment.Add(Equip::HYDROGEN, 10);
 									ship->UpdateMass();
-									Space::AddBody(ship);
+									space->AddBody(ship);
 								}
 							}
 							break;
@@ -990,7 +989,7 @@ void Pi::InitGame()
 	player->m_equipment.Add(Equip::SCANNER);
 	player->UpdateMass();
 	player->SetMoney(10000);
-	Space::AddBody(player);
+	space->AddBody(player);
 	
 	cpan = new ShipCpanel();
 	sectorView = new SectorView();
@@ -1052,9 +1051,9 @@ void Pi::UninitGame()
 	delete cpan;
 	delete galacticView;
 	if (Pi::player) {
-		Space::KillBody(Pi::player);
-		Space::RemoveBody(Pi::player);
-		Space::Clear();
+		space->KillBody(Pi::player);
+		space->RemoveBody(Pi::player);
+		delete space;
 		delete Pi::player;
 		Pi::player = 0;
 	}
@@ -1146,7 +1145,8 @@ void Pi::Start()
         case 1: // Earth start point
         {
             SystemPath path(0,0,0, 0);
-            Space::SetupSystemForGameStart(&path, 1, 0);
+			space = new Space(path);
+            //Space::SetupSystemForGameStart(&path, 1, 0);
             StartGame();
             MainLoop();
             break;
@@ -1154,7 +1154,8 @@ void Pi::Start()
         case 2: // Epsilon Eridani start point
         {
             SystemPath path(1,0,-1, 0);
-            Space::SetupSystemForGameStart(&path, 0, 0);
+			space = new Space(path);
+            //Space::SetupSystemForGameStart(&path, 0, 0);
             StartGame();
             MainLoop();
             break;
@@ -1162,6 +1163,8 @@ void Pi::Start()
         case 3: // Debug start point
         {
             SystemPath path(1,0,-1, 0);
+			assert(0);
+#if 0
             Space::DoHyperspaceTo(&path);
             for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++) {
                 const SBody *sbody = (*i)->GetSBody();
@@ -1244,12 +1247,14 @@ void Pi::Start()
             StartGame();
             MainLoop();
             break;
+#endif
         }
         case 4: // Load game
         {
             if (Pi::player) {
-                Pi::player->MarkDead();
-                Space::bodies.remove(Pi::player);
+				space->KillBody(Pi::player);
+				space->RemoveBody(Pi::player);
+				delete space;
                 delete Pi::player;
                 Pi::player = 0;
             }
@@ -1321,7 +1326,7 @@ void Pi::MainLoop()
 					accumulator = 0.0;
 					break;
 				}
-				Space::TimeStep(step);
+				space->TimeStep(step);
 				gameTime += step;
 
 				accumulator -= step;
@@ -1341,10 +1346,10 @@ void Pi::MainLoop()
 		glLoadIdentity();
 		
 		/* Calculate position for this rendered frame (interpolated between two physics ticks */
-		for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+		for (std::list<Body*>::iterator i = space->bodies.begin(); i != space->bodies.end(); ++i) {
 			(*i)->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 		}
-		Space::rootFrame->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
+		space->GetRootFrame()->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 
 		currentView->Update();
 		currentView->Draw3D();
@@ -1385,7 +1390,7 @@ void Pi::MainLoop()
 
 			else if (!Pi::forceTimeAccel) {
 				// check we aren't too near to objects for timeaccel //
-				for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+				for (std::list<Body*>::iterator i = space->bodies.begin(); i != space->bodies.end(); ++i) {
 					if ((*i) == Pi::player) continue;
 					if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
 				
@@ -1507,9 +1512,12 @@ void Pi::Serialize(Serializer::Writer &wr)
 	StarSystem::Serialize(section, currentSystem);
 	wr.WrSection("PiMisc", section.GetData());
 	
+	/*
 	section = Serializer::Writer();
 	Space::Serialize(section);
 	wr.WrSection("Space", section.GetData());
+	*/
+	assert(0);
 
 	section = Serializer::Writer();
 	Polit::Serialize(section);
@@ -1534,8 +1542,10 @@ void Pi::Serialize(Serializer::Writer &wr)
 
 void Pi::Unserialize(Serializer::Reader &rd)
 {
+	assert(0);
 	Serializer::Reader section;
 	
+	/* XXX
 	SetTimeAccel(0);
 	requestedTimeAccelIdx = 0;
 	forceTimeAccel = false;
@@ -1546,14 +1556,17 @@ void Pi::Unserialize(Serializer::Reader &rd)
 		delete Pi::player;
 		Pi::player = 0;
 	}
+	*/
 
 	section = rd.RdSection("PiMisc");
 	gameTime = section.Double();
 	selectedSystem = StarSystem::Unserialize(section);
 	currentSystem = StarSystem::Unserialize(section);
 
+	/* XXX
 	section = rd.RdSection("Space");
 	Space::Unserialize(section);
+	*/
 	
 	section = rd.RdSection("Polit");
 	Polit::Unserialize(section);

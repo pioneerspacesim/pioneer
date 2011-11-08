@@ -238,7 +238,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 					Polit::NotifyOfCrime(static_cast<Ship*>(attacker), Polit::CRIME_MURDER);
 			}
 
-			Space::KillBody(this);
+			Pi::space->KillBody(this);
 			Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 			Sound::BodyMakeNoise(this, "Explosion_1", 1.0f);
 		}
@@ -273,7 +273,7 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) && b->IsType(Object::CARGOBODY) && (flags & 0x100) && m_stats.free_capacity) {
 		Equip::Type item = dynamic_cast<CargoBody*>(b)->GetCargoType();
 		m_equipment.Add(item);
-		Space::KillBody(dynamic_cast<Body*>(b));
+		Pi::space->KillBody(dynamic_cast<Body*>(b));
 		if (this->IsType(Object::PLAYER))
 			Pi::Message(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", Equip::types[item].name)));
 		// XXX Sfx::Add(this, Sfx::TYPE_SCOOP);
@@ -515,7 +515,7 @@ void Ship::UseECM()
 	if (t != Equip::NONE) {
 		Sound::BodyMakeNoise(this, "ECM", 1.0f);
 		m_ecmRecharge = GetECMRechargeTime();
-		Space::DoECM(GetFrame(), GetPosition(), Equip::types[t].pval);
+		Pi::space->DoECM(GetFrame(), GetPosition(), Equip::types[t].pval);
 	}
 }
 
@@ -549,7 +549,7 @@ bool Ship::FireMissile(int idx, Ship *target)
 	// XXX DODGY! need to put it in a sensible location
 	missile->SetPosition(GetPosition()+50.0*dir);
 	missile->SetVelocity(GetVelocity());
-	Space::AddBody(missile);
+	Pi::space->AddBody(missile);
 	return true;
 }
 
@@ -713,7 +713,7 @@ void Ship::UpdateAlertState()
 	}
 
 	bool ship_is_near = false, ship_is_firing = false;
-	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); i++)
+	for (Space::bodiesIter_t i = Pi::space->bodies.begin(); i != Pi::space->bodies.end(); i++)
 	{
 		if ((*i) == this) continue;
 		if (!(*i)->IsType(Object::SHIP) || (*i)->IsType(Object::MISSILE)) continue;
@@ -786,7 +786,7 @@ void Ship::StaticUpdate(const float timeStep)
 	AITimeStep(timeStep);		// moved to correct place, maybe
 
 	if (GetHullTemperature() > 1.0) {
-		Space::KillBody(this);
+		Pi::space->KillBody(this);
 	}
 
 	UpdateAlertState();
@@ -909,7 +909,7 @@ void Ship::StaticUpdate(const float timeStep)
 
 	if (m_hyperspace.now) {
 		m_hyperspace.now = false;
-		Space::StartHyperspaceTo(this, &m_hyperspace.dest);
+		Pi::space->StartHyperspaceTo(this, &m_hyperspace.dest);
 	}
 }
 
@@ -1098,7 +1098,7 @@ bool Ship::Jettison(Equip::Type t)
 		cargo->SetFrame(GetFrame());
 		cargo->SetPosition(GetPosition()+pos);
 		cargo->SetVelocity(GetVelocity()+rot*vector3d(0,-10,0));
-		Space::AddBody(cargo);
+		Pi::space->AddBody(cargo);
 
 		Pi::luaOnJettison->Queue(this, cargo);
 

@@ -35,7 +35,7 @@ void IndexFrames()
 {
 	g_frames.clear();
 	g_frames.push_back(0);			// map zero to null
-	AddFrame(Space::rootFrame);
+	// XXX AddFrame(Space::rootFrame);
 }
 
 SBody *LookupSystemBody(uint32_t index) { return g_sbodies[index]; }
@@ -72,6 +72,7 @@ uint32_t LookupBody(const Body *b)
 
 void IndexBodies()
 {
+    /* XXX
 	g_bodies.clear();
 	g_bodies.push_back(0);		// map zero to null
 	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
@@ -83,6 +84,7 @@ void IndexBodies()
 			if (s) g_bodies.push_back(s);
 		}
 	}
+    */
 }
 
 
