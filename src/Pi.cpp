@@ -363,7 +363,7 @@ void Pi::Init()
 		RedirectStdio();
 
 	if (!Lang::LoadStrings(config.String("Lang")))
-        abort();
+		abort();
 
 	Pi::detail.planets = config.Int("DetailPlanets");
 	Pi::detail.textures = config.Int("Textures");
@@ -466,7 +466,7 @@ void Pi::Init()
 	if (config.Int("DisableShaders")) Render::ToggleShaders();
 	if (config.Int("EnableHDR")) Render::ToggleHDR();
 
-    CustomSystem::Init();
+	CustomSystem::Init();
 	draw_progress(0.4f);
 
 	LmrModelCompilerInit();
@@ -683,37 +683,37 @@ void Pi::HandleEvents()
 				}
 				// special keys. LCTRL+turd
 				if ((KeyState(SDLK_LCTRL) || (KeyState(SDLK_RCTRL)))) {
-                    switch (event.key.keysym.sym) {
-                        case SDLK_q: // Quit
-                            Pi::Quit();
-                            break;
-                        case SDLK_s: // Toggle Shaders
-                            Render::ToggleShaders();
-                            break;
-                        case SDLK_h: // Toggle HDR
-                            Render::ToggleHDR();
-                            break;
-                        case SDLK_PRINT:       // print
-                        case SDLK_KP_MULTIPLY: // screen
-                        {
-                            char buf[256];
-                            const time_t t = time(0);
-                            struct tm *_tm = localtime(&t);
-                            strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.png", _tm);
-                            Screendump(buf, GetScrWidth(), GetScrHeight());
-                            break;
-                        }
+					switch (event.key.keysym.sym) {
+						case SDLK_q: // Quit
+							Pi::Quit();
+							break;
+						case SDLK_s: // Toggle Shaders
+							Render::ToggleShaders();
+							break;
+						case SDLK_h: // Toggle HDR
+							Render::ToggleHDR();
+							break;
+						case SDLK_PRINT:	   // print
+						case SDLK_KP_MULTIPLY: // screen
+						{
+							char buf[256];
+							const time_t t = time(0);
+							struct tm *_tm = localtime(&t);
+							strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.png", _tm);
+							Screendump(buf, GetScrWidth(), GetScrHeight());
+							break;
+						}
 #if DEVKEYS
-                        case SDLK_i: // Toggle Debug info
-                            Pi::showDebugInfo = !Pi::showDebugInfo;
-                            break;
-                        case SDLK_m:  // Gimme money!
+						case SDLK_i: // Toggle Debug info
+							Pi::showDebugInfo = !Pi::showDebugInfo;
+							break;
+						case SDLK_m:  // Gimme money!
 							if(Pi::IsGameStarted()) {
 								Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
 							}
-                            break;
-                        case SDLK_F12:
-                        {
+							break;
+						case SDLK_F12:
+						{
 							if(Pi::IsGameStarted()) {
 								matrix4x4d m; Pi::player->GetRotMatrix(m);
 								vector3d dir = m*vector3d(0,0,-1);
@@ -761,29 +761,29 @@ void Pi::HandleEvents()
 								}
 							}
 							break;
-                        }
+						}
 #endif /* DEVKEYS */
 #if OBJECTVIEWER
-                        case SDLK_F10:
-                            Pi::SetView(Pi::objectViewerView);
-                            break;
+						case SDLK_F10:
+							Pi::SetView(Pi::objectViewerView);
+							break;
 #endif
-                        case SDLK_F11:
-                            // XXX only works on X11
-                            //SDL_WM_ToggleFullScreen(Pi::scrSurface);
-                            break;
-                        case SDLK_F9: // Quicksave
-                        {
-                            if(Pi::IsGameStarted()) {
-                                std::string name = join_path(GetFullSavefileDirPath().c_str(), "_quicksave", 0);
-                                Serializer::SaveGame(name.c_str());
-                                Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+name);
-                            }
-                            break;
-                        }
-                        default:
-                            break; // This does nothing but it stops the compiler warnings
-                    }
+						case SDLK_F11:
+							// XXX only works on X11
+							//SDL_WM_ToggleFullScreen(Pi::scrSurface);
+							break;
+						case SDLK_F9: // Quicksave
+						{
+							if(Pi::IsGameStarted()) {
+								std::string name = join_path(GetFullSavefileDirPath().c_str(), "_quicksave", 0);
+								Serializer::SaveGame(name.c_str());
+								Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+name);
+							}
+							break;
+						}
+						default:
+							break; // This does nothing but it stops the compiler warnings
+					}
 				}
 				Pi::keyState[event.key.keysym.sym] = 1;
 				Pi::keyModState = event.key.keysym.mod;
@@ -1113,10 +1113,10 @@ void Pi::Start()
 	splash->Add(opts[4], w, h+64);
 	splash->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+64);
 
-    std::string version("Pioneer " PIONEER_VERSION);
-    if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
+	std::string version("Pioneer " PIONEER_VERSION);
+	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
 
-    splash->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200.0f, Gui::Screen::GetHeight()-32.0f);
+	splash->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200.0f, Gui::Screen::GetHeight()-32.0f);
 
 	Gui::Screen::PopFont();
 
@@ -1159,140 +1159,140 @@ void Pi::Start()
 	delete starfield;
 	delete milkyway;
 	
-    switch (choice) {
-        case 1: // Earth start point
-        {
-            SystemPath path(0,0,0, 0);
-            space = new Space(path);
-            InitGame();
-            StarportStart(1);
-            StartGame();
-            MainLoop();
-            break;
-        }
-        case 2: // Epsilon Eridani start point
-        {
-            SystemPath path(1,0,-1, 0);
-            space = new Space(path);
-            InitGame();
-            StarportStart(0);
-            StartGame();
-            MainLoop();
-            break;
-        }
-        case 3: // Debug start point
-        {
-            SystemPath path(1,0,-1, 0);
+	switch (choice) {
+		case 1: // Earth start point
+		{
+			SystemPath path(0,0,0, 0);
+			space = new Space(path);
+			InitGame();
+			StarportStart(1);
+			StartGame();
+			MainLoop();
+			break;
+		}
+		case 2: // Epsilon Eridani start point
+		{
+			SystemPath path(1,0,-1, 0);
+			space = new Space(path);
+			InitGame();
+			StarportStart(0);
+			StartGame();
+			MainLoop();
+			break;
+		}
+		case 3: // Debug start point
+		{
+			SystemPath path(1,0,-1, 0);
 			assert(0);
 #if 0
-            Space::DoHyperspaceTo(&path);
-            for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++) {
-                const SBody *sbody = (*i)->GetSBody();
-                if (!sbody) continue;
-                if (sbody->path.bodyIndex == 6) {
-                    player->SetFrame((*i)->GetFrame());
-                    break;
-                }
-            }
-            player->SetPosition(vector3d(0,2*EARTH_RADIUS,0));
-            player->SetVelocity(vector3d(0,0,0));
-            player->m_equipment.Add(Equip::HYPERCLOUD_ANALYZER);
-            player->UpdateMass();
+			Space::DoHyperspaceTo(&path);
+			for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++) {
+				const SBody *sbody = (*i)->GetSBody();
+				if (!sbody) continue;
+				if (sbody->path.bodyIndex == 6) {
+					player->SetFrame((*i)->GetFrame());
+					break;
+				}
+			}
+			player->SetPosition(vector3d(0,2*EARTH_RADIUS,0));
+			player->SetVelocity(vector3d(0,0,0));
+			player->m_equipment.Add(Equip::HYPERCLOUD_ANALYZER);
+			player->UpdateMass();
 
-            Ship *enemy = new Ship(ShipType::EAGLE_LRF);
-            enemy->SetFrame(player->GetFrame());
-            enemy->SetPosition(player->GetPosition()+vector3d(0,0,-9000.0));
-            enemy->SetVelocity(vector3d(0,0,0));
-            enemy->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
-            enemy->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
-            enemy->m_equipment.Add(Equip::HYDROGEN, 2);
-            enemy->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
-            enemy->m_equipment.Add(Equip::AUTOPILOT);
-            enemy->m_equipment.Add(Equip::SCANNER);
-            enemy->UpdateMass();
-            enemy->AIKill(player);
-            Space::AddBody(enemy);
+			Ship *enemy = new Ship(ShipType::EAGLE_LRF);
+			enemy->SetFrame(player->GetFrame());
+			enemy->SetPosition(player->GetPosition()+vector3d(0,0,-9000.0));
+			enemy->SetVelocity(vector3d(0,0,0));
+			enemy->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
+			enemy->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+			enemy->m_equipment.Add(Equip::HYDROGEN, 2);
+			enemy->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
+			enemy->m_equipment.Add(Equip::AUTOPILOT);
+			enemy->m_equipment.Add(Equip::SCANNER);
+			enemy->UpdateMass();
+			enemy->AIKill(player);
+			Space::AddBody(enemy);
 
-            player->SetCombatTarget(enemy);
+			player->SetCombatTarget(enemy);
 
-            const ShipType *shipdef;
-            double mass, acc1, acc2, acc3;
-            printf("Player ship mass = %.0fkg, Enemy ship mass = %.0fkg\n",
-                   player->GetMass(), enemy->GetMass());
+			const ShipType *shipdef;
+			double mass, acc1, acc2, acc3;
+			printf("Player ship mass = %.0fkg, Enemy ship mass = %.0fkg\n",
+				   player->GetMass(), enemy->GetMass());
 
-            shipdef = &player->GetShipType();
-            mass = player->GetMass();
-            acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
-            acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
-            acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
-            printf("Player ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
+			shipdef = &player->GetShipType();
+			mass = player->GetMass();
+			acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
+			acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
+			acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
+			printf("Player ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
 
-            shipdef = &enemy->GetShipType();
-            mass = enemy->GetMass();
-            acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
-            acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
-            acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
-            printf("Enemy ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
+			shipdef = &enemy->GetShipType();
+			mass = enemy->GetMass();
+			acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
+			acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
+			acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
+			printf("Enemy ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
 
-            /*	Frame *stationFrame = new Frame(pframe, "Station frame...");
-             stationFrame->SetRadius(5000);
-             stationFrame->m_sbody = 0;
-             stationFrame->SetPosition(vector3d(0,0,zpos));
-             stationFrame->SetAngVelocity(vector3d(0,0,0.5));
+			/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
+			 stationFrame->SetRadius(5000);
+			 stationFrame->m_sbody = 0;
+			 stationFrame->SetPosition(vector3d(0,0,zpos));
+			 stationFrame->SetAngVelocity(vector3d(0,0,0.5));
 
-             for (int i=0; i<4; i++) {
-             Ship *body = new Ship(ShipType::LADYBIRD);
-             char buf[64];
-             snprintf(buf,sizeof(buf),"X%c-0%02d", 'A'+i, i);
-             body->SetLabel(buf);
-             body->SetFrame(stationFrame);
-             body->SetPosition(vector3d(200*(i+1), 0, 2000));
-             Space::AddBody(body);
-             }
+			 for (int i=0; i<4; i++) {
+			 Ship *body = new Ship(ShipType::LADYBIRD);
+			 char buf[64];
+			 snprintf(buf,sizeof(buf),"X%c-0%02d", 'A'+i, i);
+			 body->SetLabel(buf);
+			 body->SetFrame(stationFrame);
+			 body->SetPosition(vector3d(200*(i+1), 0, 2000));
+			 Space::AddBody(body);
+			 }
 
-             SpaceStation *station = new SpaceStation(SpaceStation::JJHOOP);
-             station->SetLabel("Poemi-chan's Folly");
-             station->SetFrame(stationFrame);
-             station->SetPosition(vector3d(0,0,0));
-             Space::AddBody(station);
+			 SpaceStation *station = new SpaceStation(SpaceStation::JJHOOP);
+			 station->SetLabel("Poemi-chan's Folly");
+			 station->SetFrame(stationFrame);
+			 station->SetPosition(vector3d(0,0,0));
+			 Space::AddBody(station);
 
-             SpaceStation *station2 = new SpaceStation(SpaceStation::GROUND_FLAVOURED);
-             station2->SetLabel("Conor's End");
-             station2->SetFrame(*pframe->m_children.begin()); // rotating frame of planet
-             station2->OrientOnSurface(EARTH_RADIUS, M_PI/4, M_PI/4);
-             Space::AddBody(station2);
-             */
-            //	player->SetDockedWith(station2, 0);
+			 SpaceStation *station2 = new SpaceStation(SpaceStation::GROUND_FLAVOURED);
+			 station2->SetLabel("Conor's End");
+			 station2->SetFrame(*pframe->m_children.begin()); // rotating frame of planet
+			 station2->OrientOnSurface(EARTH_RADIUS, M_PI/4, M_PI/4);
+			 Space::AddBody(station2);
+			 */
+			//	player->SetDockedWith(station2, 0);
 
-            StartGame();
-            MainLoop();
-            break;
+			StartGame();
+			MainLoop();
+			break;
 #endif
-        }
-        case 4: // Load game
-        {
-            if (Pi::player) {
+		}
+		case 4: // Load game
+		{
+			if (Pi::player) {
 				space->KillBody(Pi::player);
 				space->RemoveBody(Pi::player);
 				delete space;
-                delete Pi::player;
-                Pi::player = 0;
-            }
-            Pi::gameMenuView->OpenLoadDialog();
-            do {
-                Gui::MainLoopIteration();
-            } while (Pi::currentView != Pi::worldView);
+				delete Pi::player;
+				Pi::player = 0;
+			}
+			Pi::gameMenuView->OpenLoadDialog();
+			do {
+				Gui::MainLoopIteration();
+			} while (Pi::currentView != Pi::worldView);
 
-            if (Pi::isGameStarted) MainLoop();
-            break;
-        }
-        case 5: // Quit
-            Pi::Quit();
-            break;
-        default:
-            fprintf(stderr, "Invalid Menu Option."); // should not get here!
-            break;
-    }
+			if (Pi::isGameStarted) MainLoop();
+			break;
+		}
+		case 5: // Quit
+			Pi::Quit();
+			break;
+		default:
+			fprintf(stderr, "Invalid Menu Option."); // should not get here!
+			break;
+	}
 
 	UninitGame();
 }
