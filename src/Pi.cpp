@@ -1139,13 +1139,13 @@ void Pi::Start()
 	delete starfield;
 	delete milkyway;
 	
-	InitGame();
-
     switch (choice) {
         case 1: // Earth start point
         {
             SystemPath path(0,0,0, 0);
-			space = new Space(path);
+            space = new Space(path);
+            InitGame();
+
             //Space::SetupSystemForGameStart(&path, 1, 0);
             StartGame();
             MainLoop();
@@ -1154,7 +1154,9 @@ void Pi::Start()
         case 2: // Epsilon Eridani start point
         {
             SystemPath path(1,0,-1, 0);
-			space = new Space(path);
+            space = new Space(path);
+            InitGame();
+
             //Space::SetupSystemForGameStart(&path, 0, 0);
             StartGame();
             MainLoop();
