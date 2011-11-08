@@ -47,9 +47,8 @@ Space::Space(Serializer::Reader &rd)
 Space::~Space()
 {
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
-		(*i)->SetFrame(NULL);
-		if ((*i) != static_cast<Body*>(Pi::player))
-			KillBody(*i);
+		(*i)->SetFrame(0);
+		KillBody(*i);
 	}
 
 	PruneCorpses();
@@ -57,13 +56,6 @@ Space::~Space()
 	// XXX probably can just keep a straight field
 	if (hyperspacingTo)
 		delete hyperspacingTo;
-
-	// XXX clean this up in the frame destructor
-	Pi::player->SetFrame(rootFrame);
-	for (std::list<Frame*>::iterator i = rootFrame->m_children.begin(); i != rootFrame->m_children.end(); ++i) delete *i;
-	rootFrame->m_children.clear();
-	rootFrame->m_astroBody = 0;
-	rootFrame->m_sbody = 0;
 
 	delete rootFrame;
 
@@ -96,6 +88,13 @@ void Space::KillBody(Body* b)
 {
 	if (!b->IsDead()) {
 		b->MarkDead();
+
+		// player needs to stay alive so things like the death animation
+		// (which uses a camera positioned relative to the player) can
+		// continue to work. it will be cleaned up with the space is torn down
+		// XXX this seems like the wrong way to do it. since its still "alive"
+		// it still collides, moves, etc. better to just snapshot its position
+		// elsewhere
 		if (b != Pi::player) corpses.push_back(b);
 	}
 }
