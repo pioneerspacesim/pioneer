@@ -122,7 +122,6 @@ SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
 LuaConsole *Pi::luaConsole;
 StarSystem *Pi::selectedSystem;
-StarSystem *Pi::currentSystem;
 Space *Pi::space;
 MTRand Pi::rng;
 double Pi::gameTime;
@@ -1506,12 +1505,12 @@ void Pi::Serialize(Serializer::Writer &wr)
 
 	Serializer::IndexFrames();
 	Serializer::IndexBodies();
-	Serializer::IndexSystemBodies(currentSystem);
+	Serializer::IndexSystemBodies(space->GetStarSystem());
 
 	section = Serializer::Writer();
 	section.Double(gameTime);
 	StarSystem::Serialize(section, selectedSystem);
-	StarSystem::Serialize(section, currentSystem);
+	StarSystem::Serialize(section, space->GetStarSystem());
 	wr.WrSection("PiMisc", section.GetData());
 	
 	/*
@@ -1560,12 +1559,12 @@ void Pi::Unserialize(Serializer::Reader &rd)
 	}
 	*/
 
+	/* XXX
 	section = rd.RdSection("PiMisc");
 	gameTime = section.Double();
 	selectedSystem = StarSystem::Unserialize(section);
 	currentSystem = StarSystem::Unserialize(section);
 
-	/* XXX
 	section = rd.RdSection("Space");
 	Space::Unserialize(section);
 	*/

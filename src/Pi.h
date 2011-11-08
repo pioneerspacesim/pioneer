@@ -161,7 +161,6 @@ public:
 	static LuaConsole *luaConsole;
 	static ShipCpanel *cpan;
 	static GLUquadric *gluQuadric;
-	static StarSystem *currentSystem;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
 
 #if OBJECTVIEWER

@@ -14,7 +14,7 @@ Starfield::Starfield() :
 	m_shader(0)
 {
 	//This is needed because there is no system seed for the main menu
-	unsigned long seed = Pi::IsGameStarted() ? Pi::currentSystem->m_seed : UNIVERSE_SEED;
+	unsigned long seed = Pi::IsGameStarted() ? Pi::space->GetStarSystem()->m_seed : UNIVERSE_SEED;
 	
 	// Slight colour variation to stars based on seed
 	MTRand rand(seed);

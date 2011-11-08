@@ -130,7 +130,7 @@ static int l_space_spawn_ship(lua_State *l)
 	if (path == NULL)
 		thing->SetPosition(Space::GetRandomPosition(min_dist, max_dist)*AU);
 	else
-		thing->SetPosition(Space::GetPositionAfterHyperspace(path, &(Pi::currentSystem->GetPath())));
+		thing->SetPosition(Space::GetPositionAfterHyperspace(path, &(Pi::space->GetStarSystem()->GetPath())));
 	thing->SetVelocity(vector3d(0,0,0));
 	Pi::space->AddBody(thing);
 
@@ -398,7 +398,7 @@ static int l_space_get_body(lua_State *l)
 {
 	int id = luaL_checkinteger(l, 1);
 
-	SystemPath path = Pi::currentSystem->GetPath();
+	SystemPath path = Pi::space->GetStarSystem()->GetPath();
 	path.bodyIndex = id;
 
 	Body *b = Pi::space->FindBodyForPath(&path);

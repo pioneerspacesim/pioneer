@@ -613,7 +613,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 
 void SectorView::OnSwitchTo() {
 	if (m_firstTime) {
-		m_current = Pi::currentSystem->GetPath();
+		m_current = Pi::space->GetStarSystem()->GetPath();
 
 		WarpToSystem(m_current);
 		OnClickSystem(m_current);
@@ -720,7 +720,7 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 void SectorView::Update()
 {
 	SystemPath last_current = m_current;
-	m_current = Pi::currentSystem->GetPath();
+	m_current = Pi::space->GetStarSystem()->GetPath();
 	if (last_current != m_current)
 		UpdateSystemLabels(m_currentSystemLabels, m_current);
 

@@ -303,7 +303,7 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 		if (Equip::types[i].slot == Equip::SLOT_CARGO) {
 			m_equipmentStock[i] = Pi::rng.Int32(0,100) * Pi::rng.Int32(1,100);
 		} else {
-			if (Equip::types[i].techLevel <= Pi::currentSystem->m_techlevel)
+			if (Equip::types[i].techLevel <= Pi::space->GetStarSystem()->m_techlevel)
 				m_equipmentStock[i] = Pi::rng.Int32(0,100);
 			else
 				m_equipmentStock[i] = 0;
@@ -672,11 +672,11 @@ bool SpaceStation::CanSell(Equip::Type t, bool verbose) const {
 	return result;
 }
 bool SpaceStation::DoesSell(Equip::Type t) const {
-	return Polit::IsCommodityLegal(Pi::currentSystem, t);
+	return Polit::IsCommodityLegal(Pi::space->GetStarSystem(), t);
 }
 
 Sint64 SpaceStation::GetPrice(Equip::Type t) const {
-	Sint64 mul = 100 + Pi::currentSystem->GetCommodityBasePriceModPercent(t);
+	Sint64 mul = 100 + Pi::space->GetStarSystem()->GetCommodityBasePriceModPercent(t);
 	return (mul * Sint64(Equip::types[t].basePrice)) / 100;
 }
 

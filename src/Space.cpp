@@ -175,7 +175,7 @@ Body *Space::FindNearestTo(const Body *b, Object::Type t)
 Body *Space::FindBodyForPath(const SystemPath *path)
 {
 	// it is a bit dumb that currentSystem is not part of Space...
-	SBody *body = Pi::currentSystem->GetBodyByPath(path);
+	SBody *body = Pi::space->GetStarSystem()->GetBodyByPath(path);
 
 	if (!body) return 0;
 
@@ -220,7 +220,7 @@ void Serialize(Serializer::Writer &wr)
 /*
 void Unserialize(Serializer::Reader &rd)
 {
-	Serializer::IndexSystemBodies(Pi::currentSystem);
+	Serializer::IndexSystemBodies(Pi::space->GetStarSystem());
 	
 	Serializer::Reader rd2 = rd.RdSection("Frames");
 	rootFrame = Frame::Unserialize(rd2, 0);
@@ -655,7 +655,7 @@ void Space::StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 				const SystemPath cloudDest = cloud->GetShip()->GetHyperspaceDest();
 				if (cloudDest.IsSameSystem(*dest)) {
 					Pi::player->NotifyDeleted(cloud);
-					cloud->GetShip()->SetHyperspaceDest(Pi::currentSystem->GetPath());
+					cloud->GetShip()->SetHyperspaceDest(Pi::space->GetStarSystem()->GetPath());
 					cloud->SetIsArrival(true);
 					cloud->SetFrame(0);
 					storedArrivalClouds.push_back(cloud);
@@ -736,10 +736,10 @@ void Space::DoHyperspaceTo(const SystemPath *dest)
 		storedArrivalClouds.clear();
 	}
 
-	const SystemPath psource = Pi::currentSystem ? Pi::currentSystem->GetPath() : SystemPath();
+	const SystemPath psource = Pi::space->GetStarSystem() ? Pi::space->GetStarSystem()->GetPath() : SystemPath();
 	const SystemPath pdest = SystemPath(dest->sectorX, dest->sectorY, dest->sectorZ, dest->systemIndex);
-	if (Pi::currentSystem) Pi::currentSystem->Release();
-	Pi::currentSystem = StarSystem::GetCached(dest);
+	if (Pi::space->GetStarSystem()) Pi::space->GetStarSystem()->Release();
+	Pi::space->GetStarSystem() = StarSystem::GetCached(dest);
 	Space::Clear();
 	Space::BuildSystem();
 	
@@ -824,7 +824,7 @@ void Space::DoHyperspaceTo(const SystemPath *dest)
 					// flyto command in onEnterSystem so it should sort it
 					// itself out long before the player can get near
 					
-					SBody *sbody = Pi::currentSystem->GetBodyByPath(&sdest);
+					SBody *sbody = Pi::space->GetStarSystem()->GetBodyByPath(&sdest);
 					if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
 						ship->SetFrame(target_body->GetFrame());
 						ship->SetPosition(GetRandomPosition(1000.0,1000.0)*1000.0); // somewhere 1000km out
@@ -833,7 +833,7 @@ void Space::DoHyperspaceTo(const SystemPath *dest)
 					else {
 						if (sbody->type == SBody::TYPE_STARPORT_SURFACE) {
 							sbody = sbody->parent;
-							SystemPath path = Pi::currentSystem->GetPathOf(sbody);
+							SystemPath path = Pi::space->GetStarSystem()->GetPathOf(sbody);
 							target_body = FindBodyForPath(&path);
 						}
 
@@ -868,8 +868,8 @@ void Space::DoHyperspaceTo(const SystemPath *dest)
 void Space::SetupSystemForGameStart(const SystemPath *dest, int starport, int port)
 {
 #if 0
-	if (Pi::currentSystem) Pi::currentSystem->Release();
-	Pi::currentSystem = StarSystem::GetCached(dest);
+	if (Pi::space->GetStarSystem()) Pi::space->GetStarSystem()->Release();
+	Pi::space->GetStarSystem() = StarSystem::GetCached(dest);
 	Space::Clear();
 	Space::BuildSystem();
 

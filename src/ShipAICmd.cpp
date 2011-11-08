@@ -63,7 +63,7 @@ bool AICmdJourney::TimeStepUpdate()
 {
 	if (!ProcessChild()) return false;
 
-	if (Pi::currentSystem->GetLocation() != (SysLoc)m_dest) {
+	if (Pi::space->GetStarSystem()->GetLocation() != (SysLoc)m_dest) {
 		// need to hyperspace there
 		int fuelRequired;
 		double duration;

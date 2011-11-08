@@ -128,7 +128,7 @@ void NotifyOfCrime(Ship *s, enum Crime crime)
 		Pi::cpan->MsgLog()->ImportantMessage(station->GetLabel(),
 				stringf(Lang::X_CANNOT_BE_TOLERATED_HERE, formatarg("crime", crimeNames[crimeIdx])));
 
-		float lawlessness = Pi::currentSystem->GetSysPolit().lawlessness.ToFloat();
+		float lawlessness = Pi::space->GetStarSystem()->GetSysPolit().lawlessness.ToFloat();
 		Sint64 oldCrimes, oldFine;
 		GetCrime(&oldCrimes, &oldFine);
 		Sint64 newFine = std::max(1, 1 + int(crimeBaseFine[crimeIdx] * (1.0-lawlessness)));
@@ -140,14 +140,14 @@ void NotifyOfCrime(Ship *s, enum Crime crime)
 
 void AddCrime(Sint64 crimeBitset, Sint64 addFine)
 {
-	int politType = Pi::currentSystem->GetSysPolit().govType;
+	int politType = Pi::space->GetStarSystem()->GetSysPolit().govType;
 
 	if (s_govDesc[politType].bloc != BLOC_NONE) {
 		const Bloc b = s_govDesc[politType].bloc;
 		s_playerPerBlocCrimeRecord[b].record |= crimeBitset;
 		s_playerPerBlocCrimeRecord[b].fine += addFine;
 	} else {
-		SystemPath path = Pi::currentSystem->GetPath();
+		SystemPath path = Pi::space->GetStarSystem()->GetPath();
 		Sint64 record = s_criminalRecord.Get(path, 0);
 		record |= crimeBitset;
 		s_criminalRecord.Set(path, crimeBitset);
@@ -157,14 +157,14 @@ void AddCrime(Sint64 crimeBitset, Sint64 addFine)
 
 void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 {
-	int politType = Pi::currentSystem->GetSysPolit().govType;
+	int politType = Pi::space->GetStarSystem()->GetSysPolit().govType;
 
 	if (s_govDesc[politType].bloc != BLOC_NONE) {
 		const Bloc b = s_govDesc[politType].bloc;
 		*crimeBitset = s_playerPerBlocCrimeRecord[b].record;
 		*fine = s_playerPerBlocCrimeRecord[b].fine;
 	} else {
-		SystemPath path = Pi::currentSystem->GetPath();
+		SystemPath path = Pi::space->GetStarSystem()->GetPath();
 		*crimeBitset = s_criminalRecord.Get(path, 0);
 		*fine = s_outstandingFine.Get(path, 0);
 	}
