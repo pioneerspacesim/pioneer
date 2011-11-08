@@ -299,16 +299,7 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 	m_sbody = sbody;
 	m_lastUpdatedShipyard = 0;
 	m_numPoliceDocked = Pi::rng.Int32(3,10);
-	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if (Equip::types[i].slot == Equip::SLOT_CARGO) {
-			m_equipmentStock[i] = Pi::rng.Int32(0,100) * Pi::rng.Int32(1,100);
-		} else {
-			if (Equip::types[i].techLevel <= Pi::space->GetStarSystem()->m_techlevel)
-				m_equipmentStock[i] = Pi::rng.Int32(0,100);
-			else
-				m_equipmentStock[i] = 0;
-		}
-	}
+
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		m_shipDocking[i].ship = 0;
 		m_shipDocking[i].stage = 0;
@@ -820,6 +811,21 @@ bool SpaceStation::AllocateStaticSlot(int& slot)
 void SpaceStation::CreateBB()
 {
 	if (m_bbCreated) return;
+
+	// fill the shipyard equipment shop with all kinds of things
+	// XXX should probably be moved out to a MarketAgent/CommodityWidget type
+	//     thing, or just lua
+	for (int i=1; i<Equip::TYPE_MAX; i++) {
+		if (Equip::types[i].slot == Equip::SLOT_CARGO) {
+			m_equipmentStock[i] = Pi::rng.Int32(0,100) * Pi::rng.Int32(1,100);
+		} else {
+			if (Equip::types[i].techLevel <= Pi::space->GetStarSystem()->m_techlevel)
+				m_equipmentStock[i] = Pi::rng.Int32(0,100);
+			else
+				m_equipmentStock[i] = 0;
+		}
+	}
+
 	Pi::luaOnCreateBB->Queue(this);
 	m_bbCreated = true;
 }
