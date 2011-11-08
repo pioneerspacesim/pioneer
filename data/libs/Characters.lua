@@ -402,8 +402,6 @@ Character = {
 		newCharacter.name = newCharacter.name or NameGen.FullName(newCharacter.female)
 		newCharacter.seed = newCharacter.seed or Engine.rand:Integer()
 		newCharacter.armour = newCharacter.armour or false
-		-- allocate a new table for character relationships
-		newCharacter.Relationships = {}
 		newCharacter.player = false -- Explicitly set this, if you need it.
 		return newCharacter
 	end,
@@ -637,6 +635,7 @@ Character = {
 		end
 	end,
 
+--
 --
 -- Method: Save
 --
