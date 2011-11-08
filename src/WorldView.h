@@ -78,6 +78,7 @@ private:
 	void DrawTargetSquare(const Indicator &marker);
 	void DrawVelocityIndicator(const Indicator &marker);
 	void DrawCircleIndicator(const Indicator &marker);
+	void DrawImageIndicator(const Indicator &marker, const char *icon_path);
 	void DrawEdgeMarker(const Indicator &marker);
 
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
