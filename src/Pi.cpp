@@ -990,7 +990,7 @@ void Pi::InitGame()
 	player->UpdateMass();
 	player->SetMoney(10000);
 	space->AddBody(player);
-	
+
 	cpan = new ShipCpanel();
 	sectorView = new SectorView();
 	worldView = new WorldView();
@@ -1007,6 +1007,26 @@ void Pi::InitGame()
 	if (!config.Int("DisableSound")) AmbientSounds::Init();
 
 	LuaInitGame();
+}
+
+// XXX this shouldn't be here but will do for now
+void Pi::StarportStart(Uint32 starport)
+{
+	SpaceStation *station = 0;
+	for (Space::bodiesIter_t i = space->bodies.begin(); i != space->bodies.end(); ++i) {
+		if ((*i)->IsType(Object::SPACESTATION) && !starport--) {
+				station = static_cast<SpaceStation*>(*i);
+				break;
+			}
+		}
+	assert(station);
+
+	player->Enable();
+	player->SetFrame(station->GetFrame());
+	player->SetDockedWith(station, 0);
+
+	// XXX stupid, should probably be done by SetDockedWith
+	station->CreateBB();
 }
 
 static void OnPlayerDockOrUndock()
@@ -1145,8 +1165,7 @@ void Pi::Start()
             SystemPath path(0,0,0, 0);
             space = new Space(path);
             InitGame();
-
-            //Space::SetupSystemForGameStart(&path, 1, 0);
+            StarportStart(1);
             StartGame();
             MainLoop();
             break;
@@ -1156,8 +1175,7 @@ void Pi::Start()
             SystemPath path(1,0,-1, 0);
             space = new Space(path);
             InitGame();
-
-            //Space::SetupSystemForGameStart(&path, 0, 0);
+            StarportStart(0);
             StartGame();
             MainLoop();
             break;

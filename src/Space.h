@@ -42,7 +42,6 @@ public:
 	void StartHyperspaceTo(Ship *s, const SystemPath *);
 	void DoHyperspaceTo(const SystemPath *);
 
-	void SetupSystemForGameStart(const SystemPath *, int, int);
 	Body *FindNearestTo(const Body *b, Object::Type t);
 	Body *FindBodyForPath(const SystemPath *path);
 

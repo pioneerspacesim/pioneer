@@ -58,6 +58,7 @@ public:
 	static void Init();
 	static void RedirectStdio();
 	static void InitGame();
+	static void StarportStart(Uint32 starport);
 	static void StartGame();
 	static void UninitGame();
 	static void EndGame();

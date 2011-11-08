@@ -863,32 +863,3 @@ void Space::DoHyperspaceTo(const SystemPath *dest)
 	Pi::sectorView->ResetHyperspaceTarget();
 #endif
 }
-
-/* called at game start to load the system and put the player in a starport */
-void Space::SetupSystemForGameStart(const SystemPath *dest, int starport, int port)
-{
-#if 0
-	if (Pi::space->GetStarSystem()) Pi::space->GetStarSystem()->Release();
-	Pi::space->GetStarSystem() = StarSystem::GetCached(dest);
-	Space::Clear();
-	Space::BuildSystem();
-
-	SpaceStation *station = 0;
-	for (Space::bodiesIter_t i = Space::bodies.begin(); i!=Space::bodies.end(); i++) {
-		if ((*i)->IsType(Object::SPACESTATION) && !starport--) {
-			station = static_cast<SpaceStation*>(*i);
-			break;
-		}
-	}
-	assert(station);
-
-	Pi::player->Enable();
-	Pi::player->SetPosition(vector3d(0,0,0)); 
-	Pi::player->SetVelocity(vector3d(0,0,0));
-
-	Pi::player->SetFrame(station->GetFrame()); 
-	Pi::player->SetDockedWith(station, port); 
-
-	station->CreateBB();
-#endif
-}
