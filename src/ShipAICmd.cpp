@@ -1099,8 +1099,8 @@ bool AICmdFlyAround::TimeStepUpdate()
 		vector3d tangent = GenerateTangent(m_ship, obsframe, targpos, m_alt);
 		vector3d shiptan = GetPosInFrame(m_ship->GetFrame(), obsframe, tangent);
 		double v = MaxVel((targpos-shiptan).Length(), targpos);
-		if (m_targmode == 1 || m_targmode == 2 && 
-			relpos.LengthSqr() < (obspos+tangent).LengthSqr()) v = 0.0;
+		if (m_targmode == 1 || (m_targmode == 2 &&
+			relpos.LengthSqr() < (obspos+tangent).LengthSqr())) v = 0.0;
 		m_child = new AICmdFlyTo(m_ship, obsframe, tangent, v, true);
 		ProcessChild(); return false;
 	}
