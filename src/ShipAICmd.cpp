@@ -619,14 +619,6 @@ static double GetGravityAtPos(Frame *targframe, const vector3d &posoff)
 	// inverse is: sqrt(G * m1m2 / thrust)
 }
 
-// returns distance from frame with specific gravity
-static double GetDistWithGravity(Body *body, double accel)
-{
-	if (!body || body->IsType(Object::SPACESTATION)) return 0;
-	return sqrt(G * body->GetMass() / accel);
-}
-
-
 // gets position of (target + offset in target's frame) in frame
 // if object has its own rotational frame, ignores it
 static vector3d GetPosInFrame(Frame *frame, Frame *target, const vector3d &offset)
