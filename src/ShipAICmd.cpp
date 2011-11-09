@@ -610,7 +610,7 @@ static double MaxEffectRad(Body *body, Ship *ship)
 }
 
 // returns acceleration due to gravity at that point
-static double GetGravityAtPos(Frame *targframe, vector3d &posoff)
+static double GetGravityAtPos(Frame *targframe, const vector3d &posoff)
 {
 	Body *body = targframe->GetBodyFor();
 	if (!body || body->IsType(Object::SPACESTATION)) return 0;
@@ -629,13 +629,13 @@ static double GetDistWithGravity(Body *body, double accel)
 
 // gets position of (target + offset in target's frame) in frame
 // if object has its own rotational frame, ignores it
-static vector3d GetPosInFrame(Frame *frame, Frame *target, vector3d &offset)
+static vector3d GetPosInFrame(Frame *frame, Frame *target, const vector3d &offset)
 {
 	matrix4x4d m; Frame::GetFrameTransform(target, frame, m);
 	return m * offset;
 }
 
-static vector3d GetVelInFrame(Frame *frame, Frame *target, vector3d &offset)
+static vector3d GetVelInFrame(Frame *frame, Frame *target, const vector3d &offset)
 {
 	matrix4x4d m; vector3d vel(0.0);
 	Frame::GetFrameTransform(target, frame, m);
@@ -647,7 +647,7 @@ static vector3d GetVelInFrame(Frame *frame, Frame *target, vector3d &offset)
 // formula uses similar triangles
 // shiptarg in ship's frame
 // output in targframe
-static vector3d GenerateTangent(Ship *ship, Frame *targframe, vector3d &shiptarg, double alt)
+static vector3d GenerateTangent(Ship *ship, Frame *targframe, const vector3d &shiptarg, double alt)
 {
 	matrix4x4d tran;
 	Frame::GetFrameTransform(ship->GetFrame(), targframe, tran);
@@ -659,7 +659,7 @@ static vector3d GenerateTangent(Ship *ship, Frame *targframe, vector3d &shiptarg
 	return (spos*b*b)/(a*a) + spos.Cross(targ).Cross(spos).Normalized()*b*c/a;
 }
 
-static int GetFlipMode(Ship *ship, vector3d &relpos, vector3d &relvel)
+static int GetFlipMode(Ship *ship, const vector3d &relpos, const vector3d &relvel)
 {
 	double dist = relpos.Length();
 	double vel = relvel.Dot(relpos) / dist;
@@ -687,7 +687,7 @@ static double GetMaxDecel(Ship *ship, const vector3d &reldir, int flip, double *
 //2 - unsafe escape from effect radius
 //3 - unsafe entry to effect radius
 //4 - probable path intercept
-static int CheckCollision(Ship *ship, vector3d &pathdir, double pathdist, vector3d &tpos, double endvel, double r)
+static int CheckCollision(Ship *ship, const vector3d &pathdir, double pathdist, const vector3d &tpos, double endvel, double r)
 {
 	// ship is in obstructor's frame anyway, so is tpos
 	if (pathdist < 100.0) return 0;
@@ -736,7 +736,7 @@ static int CheckCollision(Ship *ship, vector3d &pathdir, double pathdist, vector
 
 // ok, need thing to step down through bodies and find closest approach
 // modify targpos directly to aim short of dangerous bodies
-static bool ParentSafetyAdjust(Ship *ship, Frame *targframe, vector3d &posoff, vector3d &targpos)
+static bool ParentSafetyAdjust(Ship *ship, Frame *targframe, const vector3d &posoff, vector3d &targpos)
 {
 	Body *body = 0;
 	Frame *frame = targframe->IsRotatingFrame() ? targframe->m_parent : targframe;
@@ -778,7 +778,7 @@ static bool ParentSafetyAdjust(Ship *ship, Frame *targframe, vector3d &posoff, v
 
 // check for collision course with frame body
 // tandir is normal vector from planet to target pos or dir
-static bool CheckSuicide(Ship *ship, vector3d &tandir)
+static bool CheckSuicide(Ship *ship, const vector3d &tandir)
 {
 	Body *body = ship->GetFrame()->GetBodyFor();
 	if (!body || !body->IsType(Object::TERRAINBODY)) return false;
@@ -791,7 +791,7 @@ static bool CheckSuicide(Ship *ship, vector3d &tandir)
 }
 
 // check for inability to reach target waypoint without overshooting
-static bool CheckOvershoot(Ship *ship, vector3d &reldir, double targdist, vector3d &relvel, double endvel)
+static bool CheckOvershoot(Ship *ship, const vector3d &reldir, double targdist, const vector3d &relvel, double endvel)
 {
 	if (targdist < 100.0) return false;		// spazzes out occasionally otherwise
 	// only slightly fake minimum time to target
@@ -832,7 +832,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO)
 }
 
 // Specified pos, endvel should be > 0
-AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, vector3d &posoff, double endvel, bool tangent)
+AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent)
 	: AICommand (ship, CMD_FLYTO)
 {
 	m_targframe = targframe;
@@ -1022,7 +1022,7 @@ bool AICmdHoldPosition::TimeStepUpdate()
 }
 
 
-void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int targmode, Body *target, Frame *targframe, vector3d &posoff)
+void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int targmode, Body *target, Frame *targframe, const vector3d &posoff)
 {
 	m_obstructor = obstructor; m_alt = alt; m_vel = vel;
 	m_targmode = targmode; m_target = target; m_targframe = targframe; m_posoff = posoff;
@@ -1052,13 +1052,13 @@ AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double 
 	Setup(obstructor, alt, vel, 0, 0, 0, vector3d(0.0));
 }
 
-AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, vector3d &posoff)
+AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, const vector3d &posoff)
 	: AICommand (ship, CMD_FLYAROUND)
 {
 	Setup(obstructor, alt, vel, 1, target, 0, posoff);
 }
 
-AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, vector3d &posoff)
+AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, const vector3d &posoff)
 	: AICommand (ship, CMD_FLYAROUND)
 {
 	Setup(obstructor, alt, vel, 2, 0, targframe, posoff);

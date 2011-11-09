@@ -103,7 +103,7 @@ public:
 	virtual bool TimeStepUpdate();
 	AICmdFlyTo(Ship *ship, Body *target);					// fly to vicinity
 	AICmdFlyTo(Ship *ship, Body *target, double alt);		// orbit
-	AICmdFlyTo(Ship *ship, Frame *targframe, vector3d &posoff, double endvel, bool tangent);
+	AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent);
 
 	virtual void GetStatusText(char *str) { 
 		if (m_child) m_child->GetStatusText(str);
@@ -148,8 +148,8 @@ public:
 	virtual bool TimeStepUpdate();
 	AICmdFlyAround(Ship *ship, Body *obstructor, double alt);
 	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel);
-	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, vector3d &posoff);
-	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, vector3d &posoff);
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, const vector3d &posoff);
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, const vector3d &posoff);
 
 	virtual void GetStatusText(char *str) { 
 		if (m_child) m_child->GetStatusText(str);
@@ -184,7 +184,7 @@ public:
 	}
 
 protected:
-	void Setup(Body *obstructor, double alt, double vel, int targmode, Body *target, Frame *targframe, vector3d &posoff);
+	void Setup(Body *obstructor, double alt, double vel, int targmode, Body *target, Frame *targframe, const vector3d &posoff);
 	double MaxVel(double targdist, const vector3d &targpos);
 	vector3d Targpos();
 
