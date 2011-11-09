@@ -104,7 +104,12 @@ ScannerWidget::ScannerWidget()
 	m_mode = SCANNER_MODE_AUTO;
 	m_currentRange = m_manualRange = m_targetRange = SCANNER_RANGE_MIN;
 
-	KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::ToggleMode));
+	m_toggleScanModeConnection = KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::ToggleMode));
+}
+
+ScannerWidget::~ScannerWidget()
+{
+	m_toggleScanModeConnection.disconnect();
 }
 
 void ScannerWidget::GetSizeRequested(float size[2])
