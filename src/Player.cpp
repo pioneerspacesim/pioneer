@@ -484,9 +484,12 @@ void Player::Hyperspace()
 	// remove the player from space
 	Pi::spaceManager->GetCurrentSpace()->RemoveBody(this);
 
-	// create hyperspace and put the player in it
+	// create hyperspace :)
 	Space *newSpace = new Space();
 	Pi::spaceManager->SetNextSpace(newSpace);
+
+	// put the player in it
+	SetFrame(newSpace->GetRootFrame());
 	newSpace->AddBody(this);
 
 	// put player at the origin. kind of unnecessary since it won't be moving
