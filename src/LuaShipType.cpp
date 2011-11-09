@@ -304,7 +304,16 @@ static int l_shiptype_get_ship_types(lua_State *l)
 			if (filter) {
 				lua_pushvalue(l, 2);
 				LuaShipType::PushToLua(st);
-				pi_lua_protected_call(l, 1, 1);
+				if (int ret = lua_pcall(l, 1, 1, 0)) {
+					const char *errmsg;
+					if (ret == LUA_ERRRUN)
+						errmsg = lua_tostring(l, -1);
+					else if (ret == LUA_ERRMEM)
+						errmsg = "memory allocation failure";
+					else if (ret == LUA_ERRERR)
+						errmsg = "error in error handler function";
+					luaL_error(l, "Error in filter function: %s", errmsg);
+				}
 				if (!lua_toboolean(l, -1)) {
 					lua_pop(l, 1);
 					continue;

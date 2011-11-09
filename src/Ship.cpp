@@ -17,6 +17,7 @@
 #include "HyperspaceCloud.h"
 #include "ShipCpanel.h"
 #include "LmrModel.h"
+#include "TextureManager.h"
 #include "Polit.h"
 #include "CityOnPlanet.h"
 #include "Missile.h"
@@ -24,6 +25,39 @@
 #include "StringF.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
+
+void SerializableEquipSet::Save(Serializer::Writer &wr)
+{
+	wr.Int32(Equip::SLOT_MAX);
+	for (int i=0; i<Equip::SLOT_MAX; i++) {
+		wr.Int32(equip[i].size());
+		for (unsigned int j=0; j<equip[i].size(); j++) {
+			wr.Int32(static_cast<int>(equip[i][j]));
+		}
+	}
+}
+
+/*
+ * Should have initialised with EquipSet(ShipType::Type) first
+ */
+void SerializableEquipSet::Load(Serializer::Reader &rd)
+{
+	const int numSlots = rd.Int32();
+	assert(numSlots <= Equip::SLOT_MAX);
+	for (int i=0; i<numSlots; i++) {
+		const int numItems = rd.Int32();
+		for (int j=0; j<numItems; j++) {
+			if (j < signed(equip[i].size())) {
+				equip[i][j] = static_cast<Equip::Type>(rd.Int32());
+			} else {
+				// equipment slot sizes have changed. just
+				// dump the difference
+				rd.Int32();
+			}
+		}
+	}
+	onChange.emit(Equip::NONE);
+}
 
 void Ship::Save(Serializer::Writer &wr)
 {
@@ -96,12 +130,19 @@ void Ship::Load(Serializer::Reader &rd)
 
 void Ship::Init()
 {
+	// XXX the animation namespace must match that in LuaConstants
+	// note: this must be set before generating the collision mesh
+	// (which happens in SetModel()) and before rendering
+	GetLmrObjParams().animationNamespace = "ShipAnimation";
+	GetLmrObjParams().equipment = &m_equipment;
+
 	const ShipType &stype = GetShipType();
 	SetModel(stype.lmrModelName.c_str());
 	SetMassDistributionFromModel();
 	UpdateMass();
 	m_stats.hull_mass_left = float(stype.hullMass);
 	m_stats.shield_mass_left = 0;
+	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
 }
 
 void Ship::PostLoadFixup()
@@ -139,6 +180,12 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 
 	Init();	
 }
+
+Ship::~Ship()
+{
+	if (m_curAICmd) delete m_curAICmd;
+}
+
 
 float Ship::GetPercentHull() const
 {
@@ -222,6 +269,18 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 		return true;
 	}
 
+	// hitting cargo scoop surface shouldn't do damage
+	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) && b->IsType(Object::CARGOBODY) && (flags & 0x100) && m_stats.free_capacity) {
+		Equip::Type item = dynamic_cast<CargoBody*>(b)->GetCargoType();
+		m_equipment.Add(item);
+		Space::KillBody(dynamic_cast<Body*>(b));
+		if (this->IsType(Object::PLAYER))
+			Pi::Message(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", Equip::types[item].name)));
+		// XXX Sfx::Add(this, Sfx::TYPE_SCOOP);
+		UpdateMass();
+		return true;
+	}
+
 	if (b->IsType(Object::PLANET)) {
 		// geoms still enabled when landed
 		if (m_flightState != FLYING) return false;
@@ -294,7 +353,7 @@ void Ship::ClearThrusterState()
 Equip::Type Ship::GetHyperdriveFuelType() const
 {
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-	return EquipType::types[t].inputs[0];
+	return Equip::types[t].inputs[0];
 }
 
 const shipstats_t *Ship::CalcStats()
@@ -308,8 +367,8 @@ const shipstats_t *Ship::CalcStats()
 	for (int i=0; i<Equip::SLOT_MAX; i++) {
 		for (int j=0; j<stype.equipSlotCapacity[i]; j++) {
 			Equip::Type t = m_equipment.Get(Equip::Slot(i), j);
-			if (t) m_stats.used_capacity += EquipType::types[t].mass;
-			if (Equip::Slot(i) == Equip::SLOT_CARGO) m_stats.used_cargo += EquipType::types[t].mass;
+			if (t) m_stats.used_capacity += Equip::types[t].mass;
+			if (Equip::Slot(i) == Equip::SLOT_CARGO) m_stats.used_cargo += Equip::types[t].mass;
 		}
 	}
 	m_stats.free_capacity = m_stats.max_capacity - m_stats.used_capacity;
@@ -319,7 +378,7 @@ const shipstats_t *Ship::CalcStats()
 
 	if (stype.equipSlotCapacity[Equip::SLOT_ENGINE]) {
 		Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-		int hyperclass = EquipType::types[t].pval;
+		int hyperclass = Equip::types[t].pval;
 		if (!hyperclass) { // no drive
 			m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 		} else {
@@ -361,7 +420,7 @@ bool Ship::CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double 
 {
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	Equip::Type fuelType = GetHyperdriveFuelType();
-	int hyperclass = EquipType::types[t].pval;
+	int hyperclass = Equip::types[t].pval;
 	int fuel = m_equipment.Count(Equip::SLOT_CARGO, fuelType);
 	outFuelRequired = 0;
 	if (hyperclass == 0) {
@@ -420,7 +479,7 @@ Ship::HyperjumpStatus Ship::StartHyperspaceCountdown(const SystemPath &dest)
 		return status;
 	
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-	m_hyperspace.countdown = 1.0f + EquipType::types[t].pval;
+	m_hyperspace.countdown = 1.0f + Equip::types[t].pval;
 	m_hyperspace.now = false;
 
 	return Ship::HYPERJUMP_OK;
@@ -452,7 +511,7 @@ float Ship::GetECMRechargeTime()
 {
 	const Equip::Type t = m_equipment.Get(Equip::SLOT_ECM);
 	if (t != Equip::NONE) {
-		return EquipType::types[t].rechargeTime;
+		return Equip::types[t].rechargeTime;
 	} else {
 		return 0;
 	}
@@ -465,7 +524,7 @@ void Ship::UseECM()
 	if (t != Equip::NONE) {
 		Sound::BodyMakeNoise(this, "ECM", 1.0f);
 		m_ecmRecharge = GetECMRechargeTime();
-		Space::DoECM(GetFrame(), GetPosition(), EquipType::types[t].pval);
+		Space::DoECM(GetFrame(), GetPosition(), Equip::types[t].pval);
 	}
 }
 
@@ -761,7 +820,7 @@ void Ship::StaticUpdate(const float timeStep)
 					double rate = speed*density*0.00001f;
 					if (Pi::rng.Double() < rate) {
 						m_equipment.Add(Equip::HYDROGEN);
-						if (this == reinterpret_cast<Ship*>(Pi::player)) {
+						if (this->IsType(Object::PLAYER)) {
 							Pi::Message(stringf(Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
 									formatarg("quantity", m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN))));
 						}
@@ -783,7 +842,7 @@ void Ship::StaticUpdate(const float timeStep)
 			
 			if (m_equipment.Remove(t, 1)) {
 				m_equipment.Add(Equip::FERTILIZER);
-				if (this == reinterpret_cast<Ship*>(Pi::player)) {
+				if (this->IsType(Object::PLAYER)) {
 					Pi::Message(Lang::CARGO_BAY_LIFE_SUPPORT_LOST);
 				}
 			}
@@ -804,7 +863,7 @@ void Ship::StaticUpdate(const float timeStep)
 		m_gunRecharge[i] -= timeStep;
 		float rateCooling = 0.01f;
 		if (m_equipment.Get(Equip::SLOT_LASERCOOLER) != Equip::NONE)  {
-			rateCooling *= float(EquipType::types[ m_equipment.Get(Equip::SLOT_LASERCOOLER) ].pval);
+			rateCooling *= float(Equip::types[ m_equipment.Get(Equip::SLOT_LASERCOOLER) ].pval);
 		}
 		m_gunTemperature[i] -= rateCooling*timeStep;
 		if (m_gunTemperature[i] < 0.0f) m_gunTemperature[i] = 0;
@@ -825,7 +884,7 @@ void Ship::StaticUpdate(const float timeStep)
 		// 250 second recharge
 		float recharge_rate = 0.004f;
 		if (m_equipment.Get(Equip::SLOT_ENERGYBOOSTER) != Equip::NONE) {
-			recharge_rate *= float(EquipType::types[ m_equipment.Get(Equip::SLOT_ENERGYBOOSTER) ].pval);
+			recharge_rate *= float(Equip::types[ m_equipment.Get(Equip::SLOT_ENERGYBOOSTER) ].pval);
 		}
 		m_stats.shield_mass_left += m_stats.shield_mass * recharge_rate * timeStep;
 	}
@@ -964,7 +1023,7 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	if ((!IsEnabled()) && !m_flightState) return;
 	LmrObjParams &params = GetLmrObjParams();
 	
-	if ( (this != reinterpret_cast<Ship*>(Pi::player)) ||
+	if ( (!this->IsType(Object::PLAYER)) ||
 	     (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) ) {
 		m_shipFlavour.ApplyTo(&params);
 		SetLmrTimeParams();
@@ -974,18 +1033,8 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		params.linthrust[0] = float(m_thrusters.x);
 		params.linthrust[1] = float(m_thrusters.y);
 		params.linthrust[2] = float(m_thrusters.z);
-		params.argDoubles[0] = m_wheelState;
-		params.argDoubles[5] = double(m_equipment.Get(Equip::SLOT_FUELSCOOP));
-		params.argDoubles[6] = double(m_equipment.Get(Equip::SLOT_ENGINE));
-		params.argDoubles[7] = double(m_equipment.Get(Equip::SLOT_ECM));
-		params.argDoubles[8] = double(m_equipment.Get(Equip::SLOT_SCANNER));
-		params.argDoubles[9] = double(m_equipment.Get(Equip::SLOT_ATMOSHIELD));
-		params.argDoubles[10] = double(m_equipment.Get(Equip::SLOT_LASER, 0));
-		params.argDoubles[11] = double(m_equipment.Get(Equip::SLOT_LASER, 1));
-		for (int i=0; i<8; i++) {
-			params.argDoubles[12+i] = double(m_equipment.Get(Equip::SLOT_MISSILE, i));
-		}
-		params.argDoubles[20] = m_flightState;
+		params.animValues[ANIM_WHEEL_STATE] = m_wheelState;
+		params.flightState = m_flightState;
 
 		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 		RenderLmrModel(viewCoords, viewTransform);
@@ -1013,20 +1062,20 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 			const double r1 = Pi::rng.Double()-0.5;
 			const double r2 = Pi::rng.Double()-0.5;
 			const double r3 = Pi::rng.Double()-0.5;
-			v[i] = viewTransform * (
+			v[i] = vector3f(viewTransform * (
 				GetPosition() +
 				GetLmrCollMesh()->GetBoundingRadius() *
 				vector3d(r1, r2, r3).Normalized()
-			);
+			));
 		}
 		Color c(0.5,0.5,1.0,1.0);
 		float totalRechargeTime = GetECMRechargeTime();
 		if (totalRechargeTime >= 0.0f) {
 			c.a = m_ecmRecharge / totalRechargeTime;
 		}
-		GLuint tex = util_load_tex_rgba(PIONEER_DATA_DIR"/textures/ecm.png");
 
-		glBindTexture(GL_TEXTURE_2D, tex);
+		Texture *tex = TextureManager::GetTexture(PIONEER_DATA_DIR"/textures/ecm.png");
+		tex->BindTexture();
 		Render::PutPointSprites(100, v, 50.0f, c);
 	}
 
@@ -1044,7 +1093,7 @@ bool Ship::Jettison(Equip::Type t)
 {
 	if (m_flightState != FLYING) return false;
 	if (t == Equip::NONE) return false;
-	Equip::Slot slot = EquipType::types[int(t)].slot;
+	Equip::Slot slot = Equip::types[int(t)].slot;
 	if (m_equipment.Count(slot, t) > 0) {
 		m_equipment.Remove(t, 1);
 		UpdateMass();
@@ -1070,7 +1119,7 @@ bool Ship::Jettison(Equip::Type t)
 
 void Ship::OnEquipmentChange(Equip::Type e)
 {
-	Pi::luaOnShipEquipmentChanged->Queue(this, LuaConstants::GetConstantString("EquipType", e));
+	Pi::luaOnShipEquipmentChanged->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "EquipType", e));
 }
 
 void Ship::UpdateFlavour(const ShipFlavour *f)

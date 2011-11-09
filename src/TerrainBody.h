@@ -3,9 +3,9 @@
 
 #include "Body.h"
 #include "StarSystem.h"
+#include "GeoSphere.h"
 
 class Frame;
-class GeoSphere;
 
 class TerrainBody : public Body {
 public:

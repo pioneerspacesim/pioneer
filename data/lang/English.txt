@@ -123,8 +123,11 @@ BULLETIN_BOARD
     Bulletin Board
 WELCOME_TO_SOMEWHERE
     Welcome to %station
+# This next translation does not have to be a real translation.  You can
+# write anything you like here.  It will appear in every space station
+# in the whole galaxy.
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Hello, traveller.  Welcome to this space station.  We have reports of vandalism and graffiti on board.  If you see that any of our signage is misleading, mis-spelled or just missing, please inform a member of staff.\n\nOxygen is currently free of charge.
+    Hello, traveller.  Welcome to our little blue play-pen.  If it's your first time here, feel free to get acquainted with the residents.  We hope you enjoy your stay.\n\nPlease remember that renovations are under way, and that scenery may change between visits.
 REQUEST_LAUNCH
     Request Launch
 SHIPYARD
@@ -347,6 +350,8 @@ ECM_ADVANCED_DESCRIPTION
     An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles.
 SHIELD_GENERATOR
     Shield Generator
+X_SHIELD_GENERATORS
+    %quantity Shield Generators
 SHIELD_GENERATOR_DESCRIPTION
     Provides additional hull defences with each unit fitted.
 LASER_COOLING_BOOSTER
@@ -369,6 +374,10 @@ FUEL_SCOOP
     Fuel Scoop
 FUEL_SCOOP_DESCRIPTION
     Permits scooping hydrogen fuel from gas giant planets.
+CARGO_SCOOP
+    Cargo Scoop
+CARGO_SCOOP_DESCRIPTION
+    Permits scooping cargo pods from space.
 HYPERCLOUD_ANALYZER
     Hypercloud Analyzer
 HYPERCLOUD_ANALYZER_DESCRIPTION
@@ -549,6 +558,14 @@ INCREASE_SET_SPEED
     Increase set speed
 DECREASE_SET_SPEED
     Decrease set speed
+SCANNER_CONTROL
+	Scanner control
+TOGGLE_SCAN_MODE
+	Toggle scanner mode
+INCREASE_SCAN_RANGE
+	Increase scanner range
+DECREASE_SCAN_RANGE
+	Decrease scanner range
 TOGGLE_LUA_CONSOLE
     Toggle Lua console
 JOYSTICK_INPUT
@@ -686,7 +703,9 @@ NOT_FOUND_BEST_MATCH_X
 NOT_FOUND
     Not found
 NUMBER_HOURS
-    %hours{f.2} hrs
+    %hours{f.1} hrs
+NUMBER_DAYS
+    %days{f.0} days
 QUADRUPLE_SYSTEM
     Quadruple system
 TRIPLE_SYSTEM
@@ -699,6 +718,8 @@ DISABLED_AUTOMATIC_SYSTEM_SELECTION
     Disabled automatic system selection.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
     Fuel scoop active. You now have %quantity tonnes of hydrogen.
+CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED
+    Cargo scoop active. Collected 1 tonne of %item.
 CARGO_BAY_LIFE_SUPPORT_LOST
     Sensors report critical cargo bay life-support conditions.
 NO_FREE_SPACE_FOR_ITEM
@@ -920,9 +941,9 @@ VAST_STRIP_MINE
 HIGH_POPULATION_OUTDOOR_WORLD
     High population outdoor world.
 SOMEWHERE_SPACEPORT
-     " Spaceport"
+    %spaceport Spaceport
 SOMEWHERE_STARPORT
-     " Starport"
+    %starport Starport
 MASS
     Mass
 N_WHATEVER_MASSES
@@ -957,6 +978,8 @@ DAY_LENGTH
     Day length
 N_EARTH_DAYS
     %days{f.1} earth days
+COUNT_STARPORTS
+    starports
 STARPORTS
     Starports
 MAJOR_IMPORTS
@@ -1089,16 +1112,10 @@ CARGO_N
     Cargo: %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
     Hyperspace arrival cloud remnant
-HYPERSPACE_X_CLOUD
-    Hyperspace %direction cloud
 SHIP_MASS_N_TONNES
     Ship mass: %{mass}t
 DATE_DUE_N
     Date due: %date
-ARRIVAL
-    arrival
-DEPARTURE
-    departure
 SOURCE
     Origin
 DESTINATION
@@ -1141,3 +1158,5 @@ ACTIVE
     Active
 DISTANCE_LY
     Distance: %distance{f.2} ly
+SYSTEM
+    System

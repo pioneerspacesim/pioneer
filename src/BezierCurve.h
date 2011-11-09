@@ -4,8 +4,13 @@
 #include "vector3.h"
 #include "Serializer.h"
 
+#ifdef _MSC_VER
+	#include "Gamma.h"
+	#define lgamma LogGamma
+#endif // _MSC_VER
+
 class BezierCurve {
-	public:
+public:
 	std::vector<vector3d> p;
 
 	BezierCurve() {}
@@ -40,23 +45,31 @@ class BezierCurve {
 		for (std::vector<vector3d>::size_type i=0; i<p.size(); i++) p[i] = rd.Vector3d();
 	}
 
-	private:
+private:
 	inline double BinomialCoeff(int n, int k)
 	{
 		// See Wikipedia page for algorithm
 		// http://en.wikipedia.org/wiki/Binomial_coefficient#Binomial_coefficient_in_programming_languages
-		// XXX note: if n is high enough (which is not very high at all), this will overflow
-		//           should assert for a small enough n (or use doubles if n could be large)
 
+		// normal restrictions for binomial coefficients
+		assert(k <= n && n >= 0 && k >= 0);
+
+		// results are symmetric; use smaller k value to minimise loop iterations
 		if (k > n-k)
 			k = n-k;
-		int c = 1;
-		for (int i = 0; i < k; ++i)
-		{
-			c *= (n - i);
-			c /= (i + 1);
+
+		if (n > 30) {
+			// for 32-bit (unsigned) ints, n > 30 leads to overflow
+			// (upper bound of 30 found with a little test program)
+			// so here we swap to a floating point alternative based on lgamma()
+			// (see Wikipedia page linked above for explanation)
+			return exp(lgamma(n+1) - lgamma(k+1) - lgamma(n-k+1));
+		} else {
+			unsigned int c = 1;
+			for (int i = 0; i < k; ++i)
+				c = (c * (n - i)) / (i + 1);
+			return double(c);
 		}
-		return double(c);
 	}
 };
 

@@ -459,6 +459,24 @@
     <ClCompile Include="..\..\src\LuaConsole.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LuaLang.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\TerrainBody.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\enum_table.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Camera.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\RenderFrustum.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Gamma.cpp">
+      <Filter>win32\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -958,6 +976,24 @@
     </ClInclude>
     <ClInclude Include="..\..\src\StringF.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaLang.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\TerrainBody.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\enum_table.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Camera.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\RenderFrustum.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Gamma.h">
+      <Filter>win32\src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

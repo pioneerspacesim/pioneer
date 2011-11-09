@@ -41,7 +41,7 @@ define_model('building1', {
 			set_material('wins2', 1,1,1,1,.9,.9,1.5,100,0,0,0)
 			set_material('wins3', 1,1,1,1,.9,.9,1.5,100,0,0,0)
 			set_material('wins4', 1,1,1,1,.9,.9,1.5,100,0,0,0)
-			local switch = math.fmod((get_arg(3)*0.2),1)
+			local switch = math.fmod((get_time('HOURS')*0.2),1)
 			if switch < .26 then
 				set_material('wins1', 1,1,1,1,.9,.9,1.5,100,.5,.7,.9)
 			elseif switch < .51 then

@@ -71,6 +71,8 @@ SpaceStationView::SpaceStationView(): View()
 SpaceStationView::~SpaceStationView()
 {
 	delete m_formController;
+	Remove(m_formStack);
+	delete m_formStack;
 	m_undockConnection.disconnect();
 }
 

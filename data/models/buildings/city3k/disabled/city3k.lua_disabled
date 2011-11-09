@@ -40,7 +40,7 @@ define_model('church_3k_0', {
 	end,
 
 	dynamic = function(lod)
-		local minutePos = -2*math.pi * get_arg(3)
+		local minutePos = -2*math.pi * get_time('HOURS')
 		local hourPos = minutePos / 12
 
 		use_material('min')
@@ -279,7 +279,7 @@ define_model('arco_01', {
 
 	dynamic = function(lod)
 		if lod > 1 then
-			local rot = math.pi*get_arg(3)/12
+			local rot = math.pi*get_time('HOURS')/12
 	  		call_model('arco01_rot', v(0,0,0), v(math.cos(rot),0,math.sin(rot)), v(0,1,0),1)
 
 			texture(nil)

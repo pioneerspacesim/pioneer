@@ -1,4 +1,4 @@
 .DS_Store
 pioneer.xcodeproj/xcuserdata/*
 pioneer.xcodeproj/project.xcworkspace/xcuserdata/*
-
+InfoPlist.h

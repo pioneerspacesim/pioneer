@@ -155,6 +155,7 @@ void SectorView::Save(Serializer::Writer &wr)
 	wr.Float(m_rotZ);
 	wr.Bool(m_matchTargetToSelection);
 	wr.Bool(m_selectionFollowsMovement);
+	wr.Bool(m_infoBoxVisible);
 }
 
 void SectorView::Load(Serializer::Reader &rd)
@@ -170,6 +171,7 @@ void SectorView::Load(Serializer::Reader &rd)
 	m_rotZ = m_rotZMovingTo = rd.Float();
 	m_matchTargetToSelection = rd.Bool();
 	m_selectionFollowsMovement = rd.Bool();
+	m_infoBoxVisible = rd.Bool();
 
 	UpdateSystemLabels(m_currentSystemLabels, m_current);
 	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
@@ -401,12 +403,14 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 		double dur;
 		enum Ship::HyperjumpStatus jumpStatus;
 		Pi::player->CanHyperspaceTo(&path, fuelRequired, dur, &jumpStatus);
-	
+		const double DaysNeeded = dur*(1.0 / (24*60*60)); 
+		const double HoursNeeded = (DaysNeeded - floor(DaysNeeded))*24;
+
 		switch (jumpStatus) {
 			case Ship::HYPERJUMP_OK:
-				snprintf(format, sizeof(format), "[ %s | %s | %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES, Lang::NUMBER_HOURS);
+				snprintf(format, sizeof(format), "[ %s | %s | %s, %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES, Lang::NUMBER_DAYS, Lang::NUMBER_HOURS);
 				labels.distance->SetText(stringf(format,
-					formatarg("distance", dist), formatarg("mass", fuelRequired), formatarg("hours", dur*0.0002778)));
+					formatarg("distance", dist), formatarg("mass", fuelRequired), formatarg("days", floor(DaysNeeded)), formatarg("hours", HoursNeeded)));
 				labels.distance->Color(0.0f, 1.0f, 0.2f);
 				break;
 			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
@@ -478,7 +482,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 {
 	Sector* ps = GetCached(sx, sy, sz);
 
-	int cz = floor(m_pos.z+0.5f);
+	int cz = int(floor(m_pos.z+0.5f));
 
 	if (cz == sz) {
 		glColor3f(0,0.2f,0);
@@ -623,12 +627,12 @@ void SectorView::OnSwitchTo() {
 
 	if (!m_onKeyPressConnection.connected())
 		m_onKeyPressConnection =
-			Pi::onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPress));
+			Pi::onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPressed));
 
 	Update();
 }
 
-void SectorView::OnKeyPress(SDL_keysym *keysym)
+void SectorView::OnKeyPressed(SDL_keysym *keysym)
 {
 	if (Pi::GetView() != this) {
 		m_onKeyPressConnection.disconnect();
@@ -817,6 +821,13 @@ void SectorView::Update()
 	m_playerHyperspaceRange = Pi::player->CalcStats()->hyperspace_range;
 }
 
+void SectorView::ShowAll()
+{
+	View::ShowAll();
+	if (!m_infoBoxVisible)
+		m_infoBox->HideAll();
+}
+
 void SectorView::MouseButtonDown(int button, int x, int y)
 {
 	const float ft = Pi::GetFrameTime();
@@ -845,12 +856,12 @@ Sector* SectorView::GetCached(int sectorX, int sectorY, int sectorZ)
 void SectorView::ShrinkCache()
 {
 	// we're going to use these to determine if our sectors are within the range that we'll ever render
-	const int xmin = floorf(m_pos.x)-DRAW_RAD;
-	const int xmax = ceilf(m_pos.x)+DRAW_RAD;
-	const int ymin = floorf(m_pos.y)-DRAW_RAD;
-	const int ymax = ceilf(m_pos.y)+DRAW_RAD;
-	const int zmin = floorf(m_pos.z)-DRAW_RAD;
-	const int zmax = ceilf(m_pos.z)+DRAW_RAD;
+	const int xmin = int(floorf(m_pos.x))-DRAW_RAD;
+	const int xmax = int(ceilf(m_pos.x))+DRAW_RAD;
+	const int ymin = int(floorf(m_pos.y))-DRAW_RAD;
+	const int ymax = int(ceilf(m_pos.y))+DRAW_RAD;
+	const int zmin = int(floorf(m_pos.z))-DRAW_RAD;
+	const int zmax = int(ceilf(m_pos.z))+DRAW_RAD;
 
 	// XXX don't clear the current/selected/target sectors
 

@@ -103,7 +103,7 @@ local moon = {
 }
 
 local mars = CustomSBody:new('Mars', 'PLANET_TERRESTRIAL')
-	:seed(3)
+	:seed(4)
 	:radius(f(533,1000))
 	:mass(f(107,1000))
 	:temp(278)
@@ -219,7 +219,7 @@ local jupiter_moons = {
 			:rotation_period(f(1,24*60*3)),
 	},
 	CustomSBody:new('Ganymede', 'PLANET_TERRESTRIAL')
-		:seed(4)
+		:seed(2)
 		:radius(f(413,1000))
 		:mass(f(25,1000))
 		:temp(180)
@@ -263,13 +263,14 @@ local saturn = CustomSBody:new('Saturn', 'PLANET_GAS_GIANT')
 
 local saturn_moons = {
 	CustomSBody:new('Titan', 'PLANET_TERRESTRIAL')
+		:seed(7)
 		:radius(f(400,1000))
 		:mass(f(225,10000))
 		:temp(94)
 		:semi_major_axis(f(82,10000))
 		:eccentricity(f(288,10000))
 		:inclination(math.deg2rad(0.34854))
-		:atmos_density(f(10,1))
+		:atmos_density(f(15,1))
 		:atmos_oxidizing(f(6,10))
 		:rotation_period(f(15945,1000)),
 	{

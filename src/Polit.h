@@ -9,33 +9,32 @@ class SysPolit;
 class Ship;
 
 namespace Polit {
-	enum Crime {
-		// XXX MUST BE KEPT IN SYNC WITH data/pimodule.lua
+	enum Crime { // <enum scope='Polit' name=PolitCrime prefix=CRIME_>
 		CRIME_TRADING_ILLEGAL_GOODS = (1<<0),
 		CRIME_WEAPON_DISCHARGE = (1<<1),
 		CRIME_PIRACY = (1<<2),
 		CRIME_MURDER = (1<<3),
 	};
 
-	enum Bloc {
+	enum Bloc { // <enum scope='Polit' name=PolitBloc prefix=BLOC_>
 		BLOC_NONE,
 		BLOC_EARTHFED,
 		BLOC_CIS,
 		BLOC_EMPIRE,
-		BLOC_MAX
+		BLOC_MAX // <enum skip>
 	};
 
-	enum EconType {
+	enum PolitEcon { // <enum scope='Polit' name=PolitEcon prefix=ECON_>
 		ECON_NONE,
 		ECON_VERY_CAPITALIST,
 		ECON_CAPITALIST,
 		ECON_MIXED,
 		ECON_PLANNED,
-		ECON_MAX
+		ECON_MAX // <enum skip>
 	};
 
-	enum GovType {
-		GOV_INVALID,
+	enum GovType { // <enum scope='Polit' name=PolitGovType prefix=GOV_>
+		GOV_INVALID, // <enum skip>
 		GOV_NONE,
 		GOV_EARTHCOLONIAL,
 		GOV_EARTHDEMOC,
@@ -52,9 +51,9 @@ namespace Polit {
 		GOV_COMMUNIST,
 		GOV_PLUTOCRATIC,
 		GOV_DISORDER,
-		GOV_MAX,
-		GOV_RAND_MIN = GOV_NONE+1,
-		GOV_RAND_MAX = GOV_MAX-1
+		GOV_MAX, // <enum skip>
+		GOV_RAND_MIN = GOV_NONE+1, // <enum skip>
+		GOV_RAND_MAX = GOV_MAX-1, // <enum skip>
 	};
 
 	void NotifyOfCrime(Ship *s, enum Crime c);

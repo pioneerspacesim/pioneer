@@ -54,17 +54,14 @@ static int l_starsystem_get_station_paths(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	SystemPath path = s->GetPath();
 
 	lua_newtable(l);
 	pi_lua_table_ro(l);
 
 	for (std::vector<SBody*>::const_iterator i = s->m_spaceStations.begin(); i != s->m_spaceStations.end(); i++)
 	{
-		SystemPath *station_path = new SystemPath(path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, (*i)->id);
-
 		lua_pushinteger(l, lua_objlen(l, -1)+1);
-		LuaSystemPath::PushToLuaGC(station_path);
+		LuaSystemPath::PushToLua(&(*i)->path);
 		lua_rawset(l, -3);
 	}
 
@@ -97,17 +94,14 @@ static int l_starsystem_get_body_paths(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	SystemPath path = s->GetPath();
 
 	lua_newtable(l);
 	pi_lua_table_ro(l);
 
 	for (std::vector<SBody*>::const_iterator i = s->m_bodies.begin(); i != s->m_bodies.end(); i++)
 	{
-		SystemPath *body_path = new SystemPath(path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, (*i)->id);
-
 		lua_pushinteger(l, lua_objlen(l, -1)+1);
-		LuaSystemPath::PushToLuaGC(body_path);
+		LuaSystemPath::PushToLua(&(*i)->path);
 		lua_rawset(l, -3);
 	}
 
@@ -246,7 +240,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 	Uint32 here_idx = here.systemIndex;
 	Sector here_sec(here_x, here_y, here_z);
 
-	int diff_sec = ceil(dist_ly/Sector::SIZE);
+	int diff_sec = int(ceil(dist_ly/Sector::SIZE));
 
 	for (int x = here_x-diff_sec; x <= here_x+diff_sec; x++) {
 		for (int y = here_y-diff_sec; y <= here_y+diff_sec; y++) {

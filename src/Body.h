@@ -65,17 +65,13 @@ public:
 	void MarkDead() { m_dead = true; }
 	bool IsDead() const { return m_dead; }
 
-	void SetProjectedPos(const vector3d& projectedPos) { m_projectedPos = projectedPos; }
-	const vector3d& GetProjectedPos() const;	// Only valid if IsOnscreen() is true.
-	bool IsOnscreen() const { return m_onscreen; }
-	void SetOnscreen(const bool onscreen) { m_onscreen = onscreen; }
-
 	// Interpolated between physics ticks.
 	const matrix4x4d &GetInterpolatedTransform() const { return m_interpolatedTransform; }
 	vector3d GetInterpolatedPosition() const {
 		return vector3d(m_interpolatedTransform[12], m_interpolatedTransform[13], m_interpolatedTransform[14]);
 	}
 	vector3d GetInterpolatedPositionRelTo(const Frame *relTo) const;
+	vector3d GetInterpolatedPositionRelTo(const Body *relTo) const;
 	// should set m_interpolatedTransform to the smoothly interpolated
 	// value (interpolated by 0 <= alpha <=1) between the previous and current
 	//  physics tick
@@ -102,8 +98,6 @@ private:
 	// frame of reference
 	Frame *m_frame;
 	std::string m_label;
-	bool m_onscreen;
-	vector3d m_projectedPos;
 	// Checked in destructor to make sure body has been marked dead.
 	bool m_dead;
 };

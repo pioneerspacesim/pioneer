@@ -549,6 +549,8 @@ INCREASE_SET_SPEED
     Gesetzten Geschwindigkeit steigern
 DECREASE_SET_SPEED
     Gesetzten Geschwindigkeit verringern
+TOGGLE_LUA_CONSOLE
+    Lua-console schalten
 JOYSTICK_INPUT
     Joystickeingabe
 PITCH
@@ -684,7 +686,7 @@ NOT_FOUND_BEST_MATCH_X
 NOT_FOUND
     Nicht gefunden
 NUMBER_HOURS
-    %hours{f.2} St.
+    %hours{f.1} St.
 QUADRUPLE_SYSTEM
     Vierer-Sternsystem
 TRIPLE_SYSTEM
@@ -918,9 +920,9 @@ VAST_STRIP_MINE
 HIGH_POPULATION_OUTDOOR_WORLD
     Planet mit hoher Bevölkerungsdichte und Städten unter freiem Himmel.
 SOMEWHERE_SPACEPORT
-    " Raumhafen"
+    %spaceport Raumhafen
 SOMEWHERE_STARPORT
-    " Sternhafen"
+    %starport Sternhafen
 MASS
     Masse
 N_WHATEVER_MASSES
@@ -929,6 +931,8 @@ SOLAR
     Sonnen
 EARTH
     Erd
+SURFACE_GRAVITY
+    Oberfläche die Schwerkraft
 SURFACE_TEMPERATURE
     Oberflächentemperatur
 N_CELSIUS
@@ -953,6 +957,8 @@ DAY_LENGTH
     Tageslänge
 N_EARTH_DAYS
     %days{f.1} Erdentage
+COUNT_STARPORTS
+    raumhäfen
 STARPORTS
     Raumhäfen
 MAJOR_IMPORTS
@@ -1085,16 +1091,10 @@ CARGO_N
     Ladung: %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
     Hyperraum Anflugwolkenrest
-HYPERSPACE_X_CLOUD
-    Hyperraum %direction Wolke
 SHIP_MASS_N_TONNES
     Schiff Masse: %{mass}t
 DATE_DUE_N
     Fälligkeitsdatum: %date
-ARRIVAL
-    Anflug
-DEPARTURE
-    Abflug
 SOURCE
     Ursprung
 DESTINATION

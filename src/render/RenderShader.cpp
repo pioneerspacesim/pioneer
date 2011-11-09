@@ -45,6 +45,18 @@ static __attribute((malloc)) char *load_file(const char *filename)
 	return buf;
 }
 
+static char *s_lib_fs = 0;
+static char *s_lib_vs = 0;
+static char *s_lib_all = 0;
+
+// Render::FreeLibs
+void FreeLibs()
+{
+	if(s_lib_fs) { free(s_lib_fs); s_lib_fs = 0; }
+	if(s_lib_vs) { free(s_lib_vs); s_lib_vs = 0; }
+	if(s_lib_all) { free(s_lib_all); s_lib_all = 0; }
+}
+
 bool Shader::Compile(const char *shader_name, const char *additional_defines)
 {
 	GLuint vs, ps = 0;
@@ -54,12 +66,9 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 		m_program = 0;
 		return false;
 	}
-	static char *lib_fs = 0;
-	static char *lib_vs = 0;
-	static char *lib_all = 0;
-	if (!lib_fs) lib_fs = load_file(PIONEER_DATA_DIR"/shaders/_library.frag.glsl");
-	if (!lib_vs) lib_vs = load_file(PIONEER_DATA_DIR"/shaders/_library.vert.glsl");
-	if (!lib_all) lib_all = load_file(PIONEER_DATA_DIR"/shaders/_library.all.glsl");
+	if (!s_lib_fs) s_lib_fs = load_file(PIONEER_DATA_DIR"/shaders/_library.frag.glsl");
+	if (!s_lib_vs) s_lib_vs = load_file(PIONEER_DATA_DIR"/shaders/_library.vert.glsl");
+	if (!s_lib_all) s_lib_all = load_file(PIONEER_DATA_DIR"/shaders/_library.all.glsl");
 
 	const std::string name = std::string(PIONEER_DATA_DIR"/shaders/") + shader_name;
 	char *vscode = load_file((name + ".vert.glsl").c_str());
@@ -75,8 +84,8 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 
 	if (additional_defines) shader_src.push_back(additional_defines);
 	shader_src.push_back("#define ZHACK 1\n");
-	shader_src.push_back(lib_all);
-	shader_src.push_back(lib_vs);
+	shader_src.push_back(s_lib_all);
+	shader_src.push_back(s_lib_vs);
 	if (allcode) shader_src.push_back(allcode);
 	shader_src.push_back(vscode);
 
@@ -93,8 +102,8 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 		shader_src.clear();
 		if (additional_defines) shader_src.push_back(additional_defines);
 		shader_src.push_back("#define ZHACK 1\n");
-		shader_src.push_back(lib_all);
-		shader_src.push_back(lib_fs);
+		shader_src.push_back(s_lib_all);
+		shader_src.push_back(s_lib_fs);
 		if (allcode) shader_src.push_back(allcode);
 		shader_src.push_back(pscode);
 

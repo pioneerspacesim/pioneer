@@ -15,6 +15,7 @@ noinst_HEADERS = \
 	BezierCurve.h \
 	Body.h \
 	BufferObject.h \
+	Camera.h \
 	CargoBody.h \
 	ChatForm.h \
 	CityOnPlanet.h \
@@ -54,6 +55,7 @@ noinst_HEADERS = \
 	LuaEventQueue.h \
 	LuaFormat.h \
 	LuaGame.h \
+	LuaLang.h \
 	LuaManager.h \
 	LuaMusic.h \
 	LuaNameGen.h \
@@ -137,12 +139,14 @@ noinst_HEADERS = \
 	mtrand.h \
 	perlin.h \
 	utils.h \
-	vector3.h
+	vector3.h \
+	enum_table.h
 
 pioneer_SOURCES	= \
 	AmbientSounds.cpp \
 	Background.cpp \
 	Body.cpp \
+	Camera.cpp \
 	CargoBody.cpp \
 	ChatForm.cpp \
 	CityOnPlanet.cpp \
@@ -179,6 +183,7 @@ pioneer_SOURCES	= \
 	LuaEventQueue.cpp \
 	LuaFormat.cpp \
 	LuaGame.cpp \
+	LuaLang.cpp \
 	LuaManager.cpp \
 	LuaMusic.cpp \
 	LuaNameGen.cpp \
@@ -250,7 +255,8 @@ pioneer_SOURCES	= \
 	main.cpp \
 	mtrand.cpp \
 	perlin.cpp \
-	utils.cpp
+	utils.cpp \
+	enum_table.cpp
 
 pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a gui/libgui.a render/librender.a \
 		$(MINGW_LIBS) \
@@ -266,16 +272,22 @@ modelviewer_SOURCES = \
 	IniConfig.cpp \
 	FontConfig.cpp \
 	FontManager.cpp \
+	Lang.cpp \
 	LmrModel.cpp \
 	LuaModelViewer.cpp \
 	LuaUtils.cpp \
+	LuaConstants.cpp \
+	EquipType.cpp \
+	ShipType.cpp \
 	MyLuaMathTypes.cpp \
 	StringF.cpp \
 	TextureFont.cpp \
 	TextureManager.cpp \
 	VectorFont.cpp \
 	perlin.cpp \
-	utils.cpp
+	utils.cpp \
+	enum_table.cpp
+
 modelviewer_LDADD = collider/libcollider.a gui/libgui.a render/librender.a \
 		    $(MINGW_LIBS) \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \

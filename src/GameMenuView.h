@@ -33,6 +33,9 @@ class VolumeControl : public Gui::HBox
 			m_muteButton->onClick.connect(sigc::mem_fun(this, &VolumeControl::propagateMute));
 			m_adjustment->onValueChanged.connect(sigc::mem_fun(this, &VolumeControl::propagateSlider));
 		}
+		virtual ~VolumeControl() {
+			delete m_adjustment;
+		}
 		float GetValue() const {
 			return m_adjustment->GetValue();
 		}
@@ -54,6 +57,7 @@ private:
 class GameMenuView: public View {
 public:
 	GameMenuView();
+	virtual ~GameMenuView();
 	virtual void Update() {}
 	virtual void Draw3D() {}
 	virtual void OnSwitchTo();
@@ -80,10 +84,12 @@ private:
 	VolumeControl *m_masterVolume;
 	VolumeControl *m_sfxVolume;
 	VolumeControl *m_musicVolume;
+	Gui::RadioGroup *m_screenModesGroup;
 	Gui::RadioGroup *m_planetDetailGroup;
 	Gui::RadioGroup *m_planetTextureGroup;
 	Gui::RadioGroup *m_planetFractalGroup;
 	Gui::RadioGroup *m_cityDetailGroup;
+	Gui::RadioGroup *m_languageGroup;
 	Gui::ToggleButton *m_toggleShaders;
 	Gui::ToggleButton *m_toggleHDR;
 	Gui::ToggleButton *m_toggleFullscreen;

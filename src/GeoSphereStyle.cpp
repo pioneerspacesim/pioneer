@@ -54,8 +54,8 @@ double GeoSphereStyle::GetHeightMapVal(const vector3d &pt)
 	double longitude = atan2(pt.x, pt.z);
 	double px = (((m_heightMapSizeX-1) * (longitude + M_PI)) / (2*M_PI));
 	double py = ((m_heightMapSizeY-1)*(latitude + 0.5*M_PI)) / M_PI;
-	int ix = floor(px);
-	int iy = floor(py);
+	int ix = int(floor(px));
+	int iy = int(floor(py));
 	ix = Clamp(ix, 0, m_heightMapSizeX-1);
 	iy = Clamp(iy, 0, m_heightMapSizeY-1);
 	double dx = px-ix;
@@ -1386,9 +1386,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 						 0.5*octavenoise(m_fracdef[3], 0.5, p)), p); //[4]?
 				} 
 				
-				if (n > 0.25) {
-					n = n;
-				} else if (n > 0.2) {
+				if (n > 0.2 && n <= 0.25) {
 					n += (0.25-n)*0.2*ridged_octavenoise(m_fracdef[3], 
 						Clamp(h*0.0002*octavenoise(m_fracdef[5], 0.5, p),
 						 0.5*octavenoise(m_fracdef[3], 0.5, p), 
@@ -1590,9 +1588,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 						 0.6*octavenoise(m_fracdef[4], 0.6, p)), p);
 				} 
 				
-				if (n > 0.25) {
-					n = n;
-				} else if (n > 0.2) {
+				if (n > 0.2 && n <= 0.25) {
 					n += (0.25-n)*0.2*ridged_octavenoise(m_fracdef[3], 
 						Clamp(h*0.0002*octavenoise(m_fracdef[5], 0.5, p),
 						 0.5*octavenoise(m_fracdef[3], 0.5, p), 
