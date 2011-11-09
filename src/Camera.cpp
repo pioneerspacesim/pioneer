@@ -99,7 +99,7 @@ void Camera::Update()
 
 	// evaluate each body and determine if/where/how to draw it
 	m_sortedBodies.clear();
-	for (std::list<Body*>::iterator i = Pi::space->bodies.begin(); i != Pi::space->bodies.end(); ++i) {
+	for (std::list<Body*>::iterator i = Pi::spaceManager->GetCurrentSpace()->bodies.begin(); i != Pi::spaceManager->GetCurrentSpace()->bodies.end(); ++i) {
 		Body *b = *i;
 
 		// prepare attrs for sorting and drawing
@@ -126,7 +126,7 @@ void Camera::Draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	matrix4x4d trans2bg;
-	Frame::GetFrameTransform(Pi::space->GetRootFrame(), m_camFrame, trans2bg);
+	Frame::GetFrameTransform(Pi::spaceManager->GetCurrentSpace()->GetRootFrame(), m_camFrame, trans2bg);
 	trans2bg.ClearToRotOnly();
 	glPushMatrix();
 	glMultMatrixd(&trans2bg[0]);
@@ -138,7 +138,7 @@ void Camera::Draw()
 	glPopMatrix();
 
 	int num_lights = 0;
-	position_system_lights(m_camFrame, Pi::space->GetRootFrame(), num_lights);
+	position_system_lights(m_camFrame, Pi::spaceManager->GetCurrentSpace()->GetRootFrame(), num_lights);
 
 	if (num_lights == 0) {
 		// no lights means we're somewhere weird (eg hyperspace). fake one
@@ -183,7 +183,7 @@ void Camera::Draw()
 			attrs->body->Render(attrs->viewCoords, attrs->viewTransform);
 	}
 
-	Sfx::RenderAll(Pi::space->GetRootFrame(), m_camFrame);
+	Sfx::RenderAll(Pi::spaceManager->GetCurrentSpace()->GetRootFrame(), m_camFrame);
 	Render::State::UseProgram(0);
 	Render::UnbindAllBuffers();
 

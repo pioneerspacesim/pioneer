@@ -133,9 +133,9 @@ void AmbientSounds::Update()
 			stationNoise.VolumeAnimate(target, dv_dt);
 			stationNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
 		}
-		if (astroNoiseSeed != Pi::space->GetStarSystem()->m_seed) {
+		if (astroNoiseSeed != Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->m_seed) {
 			// change sound!
-			astroNoiseSeed = Pi::space->GetStarSystem()->m_seed;
+			astroNoiseSeed = Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->m_seed;
 			float target[2] = {0.0f,0.0f};
 			float dv_dt[2] = {0.1f,0.1f};
 			starNoise.VolumeAnimate(target, dv_dt);

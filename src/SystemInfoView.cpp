@@ -25,8 +25,8 @@ void SystemInfoView::OnBodySelected(SBody *b)
 	}
 
 	SystemPath path = m_system->GetPathOf(b);
-	if (Pi::space->GetStarSystem()->GetPath() == m_system->GetPath()) {
-		Body* body = Pi::space->FindBodyForPath(&path);
+	if (Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->GetPath() == m_system->GetPath()) {
+		Body* body = Pi::spaceManager->GetCurrentSpace()->FindBodyForPath(&path);
 		if(body != 0)
 			Pi::player->SetNavTarget(body);
 	}
@@ -411,7 +411,7 @@ void SystemInfoView::UpdateIconSelections()
 	for (std::vector<std::pair<std::string, BodyIcon*> >::iterator it = m_bodyIcons.begin();
 		 it != m_bodyIcons.end(); ++it) {
 			 (*it).second->SetSelected(false);
-		if (Pi::space->GetStarSystem()->GetPath() == m_system->GetPath() &&
+		if (Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->GetPath() == m_system->GetPath() &&
 			Pi::player->GetNavTarget() &&
 			(*it).first == Pi::player->GetNavTarget()->GetLabel())
 			(*it).second->SetSelected(true);

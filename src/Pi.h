@@ -168,7 +168,7 @@ public:
 	static ObjectViewerView *objectViewerView;
 #endif
 
-	static Space *space;
+	static SpaceManager *spaceManager;
 
 	static int CombatRating(int kills);
 	static const char * const combatRating[];

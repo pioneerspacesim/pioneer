@@ -470,7 +470,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	if (Pi::showDebugInfo) {
 		char buf[1024];
 		vector3d pos = Pi::player->GetPosition();
-		vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::space->GetRootFrame());
+		vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::spaceManager->GetCurrentSpace()->GetRootFrame());
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
 
@@ -811,18 +811,18 @@ void WorldView::BuildCommsNavOptions()
 
 	m_commsNavOptions->PackEnd(new Gui::Label(std::string("#ff0")+std::string(Lang::NAVIGATION_TARGETS_IN_THIS_SYSTEM)+std::string("\n")));
 
-	for ( std::vector<SBody*>::const_iterator i = Pi::space->GetStarSystem()->m_spaceStations.begin();
-	      i != Pi::space->GetStarSystem()->m_spaceStations.end(); ++i) {
+	for ( std::vector<SBody*>::const_iterator i = Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->m_spaceStations.begin();
+	      i != Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->m_spaceStations.end(); ++i) {
 
 		groups[(*i)->parent->path.bodyIndex].push_back(*i);
 	}
 
 	for ( std::map< Uint32,std::vector<SBody*> >::const_iterator i = groups.begin(); i != groups.end(); ++i ) {
-		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + Pi::space->GetStarSystem()->m_bodies[(*i).first]->name));
+		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->m_bodies[(*i).first]->name));
 
 		for ( std::vector<SBody*>::const_iterator j = (*i).second.begin(); j != (*i).second.end(); ++j) {
-			SystemPath path = Pi::space->GetStarSystem()->GetPathOf(*j);
-			Body *body = Pi::space->FindBodyForPath(&path);
+			SystemPath path = Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->GetPathOf(*j);
+			Body *body = Pi::spaceManager->GetCurrentSpace()->FindBodyForPath(&path);
 			AddCommsNavOption((*j)->name, body);
 		}
 	}
@@ -923,7 +923,7 @@ void WorldView::UpdateCommsOptions()
 
 	if (m_showTargetActionsTimeout == 0) return;
 
-	if (Pi::space->GetStarSystem()->m_spaceStations.size() > 0)
+	if (Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->m_spaceStations.size() > 0)
 	{
 		BuildCommsNavOptions();
 	}
@@ -1067,7 +1067,7 @@ void WorldView::UpdateProjectedObjects()
 	// determine projected positions and update labels
 	m_bodyLabels->Clear();
 	m_projectedPos.clear();
-	for(std::list<Body*>::iterator i = Pi::space->bodies.begin(); i != Pi::space->bodies.end(); ++i) {
+	for(std::list<Body*>::iterator i = Pi::spaceManager->GetCurrentSpace()->bodies.begin(); i != Pi::spaceManager->GetCurrentSpace()->bodies.end(); ++i) {
 		Body *b = *i;
 
 		vector3d pos = b->GetInterpolatedPositionRelTo(cam_frame);

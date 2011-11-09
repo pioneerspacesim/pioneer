@@ -70,4 +70,37 @@ private:
 	std::list<Body*> corpses;
 };
 
+class SpaceManager {
+public:
+	SpaceManager() : m_currentSpace(0), m_nextSpace(0) {}
+	~SpaceManager() {
+		if (m_currentSpace) delete m_currentSpace;
+		if (m_nextSpace) delete m_nextSpace;
+	}
+
+	Space *GetCurrentSpace() const { return m_currentSpace; }
+
+	Space *GetNextSpace() {
+		if (!m_nextSpace) return m_currentSpace;
+
+		if (m_currentSpace)
+			delete m_currentSpace;
+
+		m_currentSpace = m_nextSpace;
+		m_nextSpace = 0;
+
+		return m_currentSpace;
+	}
+
+	void SetNextSpace(Space *space) {
+		if (m_nextSpace)
+			delete m_nextSpace;
+		m_nextSpace = space;
+	}
+
+private:
+	Space *m_currentSpace;
+	Space *m_nextSpace;
+};
+
 #endif /* _SPACE_H */

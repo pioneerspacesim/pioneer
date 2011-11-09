@@ -450,7 +450,7 @@ void Player::Hyperspace()
 	// them for the next system
 	// XXX no ++i here because space->bodies can change. sucky
 	m_hyperspaceClouds.clear();
-	for (Space::bodiesIter_t i = Pi::space->bodies.begin(); i != Pi::space->bodies.end();) {
+	for (Space::bodiesIter_t i = Pi::spaceManager->GetCurrentSpace()->bodies.begin(); i != Pi::spaceManager->GetCurrentSpace()->bodies.end();) {
 		if (!(*i)->IsType(Object::HYPERSPACECLOUD)) {
 			++i;
 			continue;
@@ -470,7 +470,7 @@ void Player::Hyperspace()
 		}
 
 		// remove it from space
-		Pi::space->RemoveBody(cloud);
+		Pi::spaceManager->GetCurrentSpace()->RemoveBody(cloud);
 
 		// player and the clouds are coming to the next system, but we don't
 		// want the player to have any memory of what they were (we're just
@@ -479,7 +479,7 @@ void Player::Hyperspace()
 		Pi::player->NotifyDeleted(cloud);
 
 		// turn the cloud arround
-		cloud->GetShip()->SetHyperspaceDest(Pi::space->GetStarSystem()->GetPath());
+		cloud->GetShip()->SetHyperspaceDest(Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->GetPath());
 		cloud->SetIsArrival(true);
 
 		// and remember it
@@ -489,14 +489,12 @@ void Player::Hyperspace()
 	printf("%lu clouds brought over\n", m_hyperspaceClouds.size());
 
 	// remove the player from space
-	Pi::space->RemoveBody(this);
-
-	// system gone
-	delete Pi::space;
+	Pi::spaceManager->GetCurrentSpace()->RemoveBody(this);
 
 	// create hyperspace and put the player in it
-	Pi::space = new Space();
-	Pi::space->AddBody(this);
+	Space *newSpace = new Space();
+	Pi::spaceManager->SetNextSpace(newSpace);
+	newSpace->AddBody(this);
 
 	// put player at the origin. kind of unnecessary since it won't be moving
 	// but at least it gives some consistency

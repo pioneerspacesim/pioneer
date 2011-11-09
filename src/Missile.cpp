@@ -82,8 +82,8 @@ bool Missile::OnDamage(Object *attacker, float kgDamage)
 
 void Missile::Explode()
 {
-	Pi::space->KillBody(this);
-	Pi::space->RadiusDamage(m_owner, GetFrame(), GetPosition(), 200.0f, 10000.0f);
+	Pi::spaceManager->GetCurrentSpace()->KillBody(this);
+	Pi::spaceManager->GetCurrentSpace()->RadiusDamage(m_owner, GetFrame(), GetPosition(), 200.0f, 10000.0f);
 	Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 }
 

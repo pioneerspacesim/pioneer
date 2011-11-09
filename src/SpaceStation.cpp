@@ -472,7 +472,7 @@ void SpaceStation::DoLawAndOrder()
 			ship->AIKill(Pi::player);
 			ship->SetFrame(GetFrame());
 			ship->SetDockedWith(this, port);
-			Pi::space->AddBody(ship);
+			Pi::spaceManager->GetCurrentSpace()->AddBody(ship);
 			{ // blue and white thang
 				ShipFlavour f;
 				f.type = ShipType::LADYBIRD;
@@ -663,11 +663,11 @@ bool SpaceStation::CanSell(Equip::Type t, bool verbose) const {
 	return result;
 }
 bool SpaceStation::DoesSell(Equip::Type t) const {
-	return Polit::IsCommodityLegal(Pi::space->GetStarSystem(), t);
+	return Polit::IsCommodityLegal(Pi::spaceManager->GetCurrentSpace()->GetStarSystem(), t);
 }
 
 Sint64 SpaceStation::GetPrice(Equip::Type t) const {
-	Sint64 mul = 100 + Pi::space->GetStarSystem()->GetCommodityBasePriceModPercent(t);
+	Sint64 mul = 100 + Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->GetCommodityBasePriceModPercent(t);
 	return (mul * Sint64(Equip::types[t].basePrice)) / 100;
 }
 
@@ -819,7 +819,7 @@ void SpaceStation::CreateBB()
 		if (Equip::types[i].slot == Equip::SLOT_CARGO) {
 			m_equipmentStock[i] = Pi::rng.Int32(0,100) * Pi::rng.Int32(1,100);
 		} else {
-			if (Equip::types[i].techLevel <= Pi::space->GetStarSystem()->m_techlevel)
+			if (Equip::types[i].techLevel <= Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->m_techlevel)
 				m_equipmentStock[i] = Pi::rng.Int32(0,100);
 			else
 				m_equipmentStock[i] = 0;

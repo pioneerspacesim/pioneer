@@ -40,7 +40,7 @@ bool CargoBody::OnDamage(Object *attacker, float kgDamage)
 {
 	m_hitpoints -= kgDamage*0.001f;
 	if (m_hitpoints < 0) {
-		Pi::space->KillBody(this);
+		Pi::spaceManager->GetCurrentSpace()->KillBody(this);
 		Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 	}
 	return true;

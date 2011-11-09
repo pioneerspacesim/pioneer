@@ -76,7 +76,7 @@ void Projectile::TimeStepUpdate(const float timeStep)
 {
 	m_age += timeStep;
 	SetPosition(GetPosition() + (m_baseVel+m_dirVel) * double(timeStep));
-	if (m_age > Equip::lasers[m_type].lifespan) Pi::space->KillBody(this);
+	if (m_age > Equip::lasers[m_type].lifespan) Pi::spaceManager->GetCurrentSpace()->KillBody(this);
 }
 
 /* In hull kg */
@@ -107,7 +107,7 @@ static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const ve
 	cargo->SetFrame(f);
 	cargo->SetPosition(pos);
 	cargo->SetVelocity(Pi::rng.Double(100.0,200.0)*vector3d(Pi::rng.Double()-.5, Pi::rng.Double()-.5, Pi::rng.Double()-.5));
-	Pi::space->AddBody(cargo);
+	Pi::spaceManager->GetCurrentSpace()->AddBody(cargo);
 }
 
 void Projectile::StaticUpdate(const float timeStep)
@@ -120,13 +120,13 @@ void Projectile::StaticUpdate(const float timeStep)
 		Object *o = static_cast<Object*>(c.userData1);
 
 		if (o->IsType(Object::CITYONPLANET)) {
-			Pi::space->KillBody(this);
+			Pi::spaceManager->GetCurrentSpace()->KillBody(this);
 		}
 		else if (o->IsType(Object::BODY)) {
 			Body *hit = static_cast<Body*>(o);
 			if (hit != m_parent) {
 				hit->OnDamage(m_parent, GetDamage());
-				Pi::space->KillBody(this);
+				Pi::spaceManager->GetCurrentSpace()->KillBody(this);
 				if (hit->IsType(Object::SHIP))
 					Pi::luaOnShipHit->Queue(dynamic_cast<Ship*>(hit), dynamic_cast<Body*>(m_parent));
 			}
@@ -146,7 +146,7 @@ void Projectile::StaticUpdate(const float timeStep)
 					MiningLaserSpawnTastyStuff(planet->GetFrame(), b, n*terrainHeight + 5.0*n);
 					Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 				}
-				Pi::space->KillBody(this);
+				Pi::spaceManager->GetCurrentSpace()->KillBody(this);
 			}
 		}
 	}
@@ -184,5 +184,5 @@ void Projectile::Add(Body *parent, Equip::Type type, const vector3d &pos, const 
 	p->SetPosition(pos);
 	p->m_baseVel = baseVel;
 	p->m_dirVel = dirVel;
-	Pi::space->AddBody(p);
+	Pi::spaceManager->GetCurrentSpace()->AddBody(p);
 }

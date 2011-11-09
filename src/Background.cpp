@@ -14,7 +14,7 @@ Starfield::Starfield() :
 	m_shader(0)
 {
 	//This is needed because there is no system seed for the main menu
-	unsigned long seed = Pi::IsGameStarted() ? Pi::space->GetStarSystem()->m_seed : UNIVERSE_SEED;
+	unsigned long seed = Pi::IsGameStarted() ? Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->m_seed : UNIVERSE_SEED;
 	
 	// Slight colour variation to stars based on seed
 	MTRand rand(seed);
@@ -93,7 +93,7 @@ void Starfield::Draw()
 		/* all this jizz isn't really necessary, since the player will
 		 * be in the root frame when hyperspacing... */
 		matrix4x4d m, rot;
-		Frame::GetFrameTransform(Pi::space->GetRootFrame(), Pi::player->GetFrame(), m);
+		Frame::GetFrameTransform(Pi::spaceManager->GetCurrentSpace()->GetRootFrame(), Pi::player->GetFrame(), m);
 		m.ClearToRotOnly();
 		Pi::player->GetRotMatrix(rot);
 		m = rot.InverseOf() * m;
