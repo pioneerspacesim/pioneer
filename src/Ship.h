@@ -86,7 +86,7 @@ public:
 	bool Jettison(Equip::Type t);
 
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
-	SystemPath GetHyperspaceDest() const { return m_hyperspace.dest; }
+	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }
 
 	enum HyperjumpStatus { // <enum scope='Ship' name=ShipJumpStatus prefix=HYPERJUMP_>
 		HYPERJUMP_OK,

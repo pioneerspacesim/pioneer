@@ -428,5 +428,88 @@ Sint64 Player::GetPrice(Equip::Type t) const
 
 void Player::Hyperspace()
 {
-    printf("zoooooooooom\n");
+	const SystemPath dest = GetHyperspaceDest();
+
+	int fuel;
+	double duration;
+	Ship::HyperjumpStatus status;
+	if (!CanHyperspaceTo(&dest, fuel, duration, &status))
+		// XXX something has changed (fuel loss, mass change, whatever).
+		// could report it to the player but better would be to cancel the
+		// countdown before this is reached. either way do something
+		return;
+
+	UseHyperspaceFuel(&dest);
+
+	Pi::luaOnLeaveSystem->Queue(this);
+
+	if (Pi::player->GetFlightControlState() == Player::CONTROL_AUTOPILOT)
+		Pi::player->SetFlightControlState(Player::CONTROL_MANUAL);
+
+	// find all the departure clouds, convert them to arrival clouds and store
+	// them for the next system
+	// XXX no ++i here because space->bodies can change. sucky
+	m_hyperspaceClouds.clear();
+	for (Space::bodiesIter_t i = Pi::space->bodies.begin(); i != Pi::space->bodies.end();) {
+		if (!(*i)->IsType(Object::HYPERSPACECLOUD)) {
+			++i;
+			continue;
+		}
+
+		// only want departure clouds with ships in them
+		HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(*i);
+		if (cloud->IsArrival() || cloud->GetShip() == 0) {
+			++i;
+			continue;
+		}
+
+		// make sure they're going to the same place as us
+		if (!dest.IsSameSystem(cloud->GetShip()->GetHyperspaceDest())) {
+			++i;
+			continue;
+		}
+
+		// remove it from space
+		Pi::space->RemoveBody(cloud);
+
+		// player and the clouds are coming to the next system, but we don't
+		// want the player to have any memory of what they were (we're just
+		// reusing them for convenience). tell the player it was deleted so it
+		// can clean up
+		Pi::player->NotifyDeleted(cloud);
+
+		// turn the cloud arround
+		cloud->GetShip()->SetHyperspaceDest(Pi::space->GetStarSystem()->GetPath());
+		cloud->SetIsArrival(true);
+
+		// and remember it
+		m_hyperspaceClouds.push_back(cloud);
+	}
+
+	printf("%lu clouds brought over\n", m_hyperspaceClouds.size());
+
+	// remove the player from space
+	Pi::space->RemoveBody(this);
+
+	// system gone
+	delete Pi::space;
+
+	// create hyperspace and put the player in it
+	Pi::space = new Space();
+	Pi::space->AddBody(this);
+
+	// put player at the origin. kind of unnecessary since it won't be moving
+	// but at least it gives some consistency
+	SetPosition(vector3d(0,0,0));
+	SetVelocity(vector3d(0,0,0));
+
+	ClearThrusterState();
+	SetFlightState(Ship::HYPERSPACE);
+
+	// animation and end time counters
+	m_hyperspaceProgress = 0;
+	m_hyperspaceDuration = duration;
+	m_hyperspaceEndTime = Pi::GetGameTime() + duration;
+
+	printf("Started hyperspacing...\n");
 }

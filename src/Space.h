@@ -15,7 +15,13 @@ class HyperspaceCloud;
 
 class Space {
 public:
+	// empty space (eg for hyperspace)
+	Space();
+
+	// initalise with system bodies
 	Space(const SystemPath &path);
+
+	// initialise from save file
 	Space(Serializer::Reader &rd);
 	virtual ~Space();
 
@@ -45,10 +51,6 @@ public:
 	Body *FindNearestTo(const Body *b, Object::Type t);
 	Body *FindBodyForPath(const SystemPath *path);
 
-	float GetHyperspaceAnim() const { return hyperspaceAnim; }
-	const SystemPath *GetHyperspaceDest() const { return hyperspacingTo; }
-	double GetHyperspaceDuration() const { return hyperspaceDuration; }
-
 	// XXX make private
 	std::list<Body*> bodies;
 	typedef std::list<Body*>::iterator bodiesIter_t;
@@ -66,11 +68,6 @@ private:
 	StarSystem *m_starSystem;
 
 	std::list<Body*> corpses;
-	SystemPath *hyperspacingTo;
-	float hyperspaceAnim;
-	double hyperspaceDuration;
-	double hyperspaceEndTime;
-	std::list<HyperspaceCloud*> storedArrivalClouds;
 };
 
 #endif /* _SPACE_H */

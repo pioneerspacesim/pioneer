@@ -21,6 +21,13 @@
 #include "Lang.h"
 #include "ShipCpanel.h"
 
+Space::Space()
+{
+	m_starSystem = 0;
+
+	rootFrame = new Frame(0, Lang::SYSTEM);
+	rootFrame->SetRadius(FLT_MAX);
+}
 
 Space::Space(const SystemPath &path)
 {
@@ -30,12 +37,7 @@ Space::Space(const SystemPath &path)
 	rootFrame = new Frame(0, Lang::SYSTEM);
 	rootFrame->SetRadius(FLT_MAX);
 
-	hyperspacingTo = 0;
-	hyperspaceAnim = hyperspaceDuration = hyperspaceEndTime = 0;
-
 	GenBody(m_starSystem->rootBody, rootFrame);
-	rootFrame->SetPosition(vector3d(0,0,0));
-	rootFrame->SetVelocity(vector3d(0,0,0));
 	rootFrame->UpdateOrbitRails();
 }
 
@@ -53,13 +55,10 @@ Space::~Space()
 
 	PruneCorpses();
 
-	// XXX probably can just keep a straight field
-	if (hyperspacingTo)
-		delete hyperspacingTo;
-
 	delete rootFrame;
 
-	m_starSystem->Release();
+	if (m_starSystem)
+		m_starSystem->Release();
 }
 
 void Space::PruneCorpses()
@@ -573,6 +572,11 @@ void Space::CollideFrame(Frame *f)
 
 void Space::TimeStep(float step)
 {
+	// no or one body means there's nothing much to do (eg hyperspace)
+	if (bodies.size() <= 1)
+		return;
+
+	/* XXX move to Player timestep for hyperspace
 	if (hyperspacingTo) {
 		Pi::RequestTimeAccel(6);
 
@@ -585,6 +589,7 @@ void Space::TimeStep(float step)
 		// don't take a physics step at this mental time accel
 		return;
 	}
+	*/
 
 	Space::CollideFrame(rootFrame);
 	// XXX does not need to be done this often
@@ -641,44 +646,6 @@ void Space::StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 	Pi::luaOnLeaveSystem->Queue(ship);
 
 	if (Pi::player == ship) {
-		if (Pi::player->GetFlightControlState() == Player::CONTROL_AUTOPILOT)
-			Pi::player->SetFlightControlState(Player::CONTROL_MANUAL);
-
-		// Departure clouds going to the same system as us are turned
-		// into arrival clouds and stored here
-		for (bodiesIter_t i = bodies.begin(); i != bodies.end();) {
-			HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(*i);
-			if ((*i)->IsType(Object::HYPERSPACECLOUD) && (!cloud->IsArrival()) &&
-					(cloud->GetShip() != 0)) {
-				// only comparing system, not precise body target
-				const SystemPath cloudDest = cloud->GetShip()->GetHyperspaceDest();
-				if (cloudDest.IsSameSystem(*dest)) {
-					Pi::player->NotifyDeleted(cloud);
-					cloud->GetShip()->SetHyperspaceDest(Pi::space->GetStarSystem()->GetPath());
-					cloud->SetIsArrival(true);
-					cloud->SetFrame(0);
-					storedArrivalClouds.push_back(cloud);
-					i = bodies.erase(i);
-				} else {
-					++i;
-				}
-			} else {
-				++i;
-			}
-		}
-		printf("%lu clouds brought over\n", storedArrivalClouds.size());
-
-		// XXX Space::Clear();
-
-		hyperspacingTo = new SystemPath(*dest);
-		hyperspaceAnim = 0.0f;
-		hyperspaceDuration = duration;
-		hyperspaceEndTime = Pi::GetGameTime() + duration;
-
-		Pi::player->ClearThrusterState();
-		Pi::player->SetFlightState(Ship::HYPERSPACE);
-
-		printf("Started hyperspacing...\n");
 	} else {
 		// XXX note that cloud now takes ownership of the ship object, and
 		// so we can drop the reference in Space::bodies. ship will be freed

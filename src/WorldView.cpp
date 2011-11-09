@@ -488,13 +488,14 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 #endif
 
-	if (const SystemPath *dest = Pi::space->GetHyperspaceDest()) {
-		StarSystem *s = StarSystem::GetCached(*dest);
+	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) {
+		const SystemPath dest = Pi::player->GetHyperspaceDest();
+		StarSystem *s = StarSystem::GetCached(dest);
 		m_hudVelocity->SetText(stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
 			formatarg("system", s->GetName()),
-			formatarg("x", dest->sectorX),
-			formatarg("y", dest->sectorY),
-			formatarg("z", dest->sectorZ)));
+			formatarg("x", dest.sectorX),
+			formatarg("y", dest.sectorY),
+			formatarg("z", dest.sectorZ)));
 		s->Release();
 		m_hudVelocity->Show();
 

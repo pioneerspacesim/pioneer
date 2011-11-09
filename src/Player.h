@@ -63,6 +63,10 @@ public:
 
 	virtual void PostLoadFixup();
 
+	float GetHyperspaceProgress() const { return m_hyperspaceProgress; }
+	double GetHyperspaceDuration() const { return m_hyperspaceDuration; }
+	double GetHyperspaceEndTime() const { return m_hyperspaceEndTime; }
+
 	/* MarketAgent stuff */
 	int GetStock(Equip::Type t) const { assert(0); return 0; }
 	bool CanBuy(Equip::Type t, bool verbose) const;
@@ -91,6 +95,11 @@ private:
 	Body* m_combatTarget;
 
 	int m_combatTargetIndex, m_navTargetIndex; // deserialisation
+
+	std::list<HyperspaceCloud*> m_hyperspaceClouds;
+	float m_hyperspaceProgress;
+	double m_hyperspaceDuration;
+	double m_hyperspaceEndTime;
 };
 
 #endif /* _PLAYER_H */

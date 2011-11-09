@@ -102,15 +102,15 @@ void Starfield::Draw()
 		// roughly, the multiplier gets smaller as the duration gets larger.
 		// the time-looking bits in this are completely arbitrary - I figured
 		// it out by tweaking the numbers until it looked sort of right
-		double mult = 0.0015 / (Pi::space->GetHyperspaceDuration() / (60.0*60.0*24.0*7.0));
+		double mult = 0.0015 / (Pi::player->GetHyperspaceDuration() / (60.0*60.0*24.0*7.0));
 
-		double hyperspaceAnim = Pi::space->GetHyperspaceAnim();
+		double hyperspaceProgress = Pi::player->GetHyperspaceProgress();
 
 		float *vtx = new float[BG_STAR_MAX*12];
 		for (int i=0; i<BG_STAR_MAX; i++) {
 			
 			vector3f v(m_stars[i].x, m_stars[i].y, m_stars[i].z);
-			v += vector3f(pz*hyperspaceAnim*mult);
+			v += vector3f(pz*hyperspaceProgress*mult);
 
 			vtx[i*12] = m_stars[i].x + v.x;
 			vtx[i*12+1] = m_stars[i].y + v.y;
