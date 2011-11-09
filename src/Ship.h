@@ -175,6 +175,8 @@ protected:
 
 	virtual void SetAlertState(AlertState as) { m_alertState = as; }
 
+	virtual void Hyperspace();
+
 	SpaceStation *m_dockedWith;
 	int m_dockedWithPort;
 	ShipFlavour m_shipFlavour;

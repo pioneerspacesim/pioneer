@@ -425,3 +425,8 @@ Sint64 Player::GetPrice(Equip::Type t) const
 		return 0;
 	}
 }
+
+void Player::Hyperspace()
+{
+    printf("zoooooooooom\n");
+}

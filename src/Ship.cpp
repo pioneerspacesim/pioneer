@@ -898,7 +898,7 @@ void Ship::StaticUpdate(const float timeStep)
 
 	if (m_hyperspace.now) {
 		m_hyperspace.now = false;
-		Pi::space->StartHyperspaceTo(this, &m_hyperspace.dest);
+		Hyperspace();
 	}
 }
 
@@ -1129,4 +1129,8 @@ float Ship::GetWeakestThrustersForce() const
 		val = std::min(val, fabsf(type.linThrust[i]));
 	}
 	return val;
+}
+
+void Ship::Hyperspace() {
+	assert(0);
 }
