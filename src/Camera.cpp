@@ -17,14 +17,24 @@ Camera::Camera(const Body *body, float width, float height) :
 	m_pose(matrix4x4d::Identity()),
 	m_camFrame(0)
 {
+	m_onBodyDeletedConnection = m_body->onDelete.connect(sigc::mem_fun(this, &Camera::OnBodyDeleted));
 }
 
 Camera::~Camera()
 {
+	if (m_onBodyDeletedConnection.connected())
+		m_onBodyDeletedConnection.disconnect();
+
 	if (m_camFrame) {
 		m_body->GetFrame()->RemoveChild(m_camFrame);
 		delete m_camFrame;
 	}
+}
+
+void Camera::OnBodyDeleted()
+{
+	m_onBodyDeletedConnection.disconnect();
+	m_body = 0;
 }
 
 static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
@@ -80,6 +90,8 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 
 void Camera::Update()
 {
+	if (!m_body) return;
+
 	if (m_shadersEnabled != Render::AreShadersEnabled()) {
 		m_frustum = Render::Frustum(m_width, m_height, m_fovAng);
 		m_shadersEnabled = !m_shadersEnabled;
@@ -118,6 +130,8 @@ void Camera::Update()
 
 void Camera::Draw()
 {
+	if (!m_body) return;
+
 	m_frustum.Enable();
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);

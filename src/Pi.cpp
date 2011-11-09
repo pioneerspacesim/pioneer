@@ -1358,6 +1358,14 @@ void Pi::MainLoop()
 		}
 		frame_stat++;
 
+		// swap the space. if the last timestep caused a new space to be setup
+		// this will delete the old one and the bodies within it, causing any
+		// cameras set up over the old space to be notified and arrange not to
+		// try and draw anything. this is good, otherwise they end up trying
+		// to draw a body against a space it doesn't exist in, and hilarity
+		// ensues
+		space = spaceManager->GetNextSpace();
+
 		Render::PrepareFrame();
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();

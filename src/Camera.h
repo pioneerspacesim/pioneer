@@ -35,6 +35,9 @@ public:
 	const Render::Frustum &GetFrustum() const { return m_frustum; }
 
 private:
+	void OnBodyDeleted();
+	sigc::connection m_onBodyDeletedConnection;
+
 	void DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 	const Body *m_body;

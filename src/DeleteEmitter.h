@@ -14,7 +14,7 @@ public:
 	virtual ~DeleteEmitter() {
 		onDelete.emit();
 	}
-	sigc::signal<void> onDelete;
+	mutable sigc::signal<void> onDelete;
 
 private:
     // sigc++ signals cannot be copied, but long-standing design flaw means
