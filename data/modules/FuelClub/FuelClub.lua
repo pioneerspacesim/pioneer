@@ -103,7 +103,7 @@ onChat = function (form, ref, option)
 			getPrice = function (ref, commodity)
 				return ad.station:GetEquipmentPrice(commodity) * ({
 					['HYDROGEN'] = 0.5, -- half price Hydrogen
-					['MILITARY_FUEL'] = 0.75, -- 25% off Milfuel
+					['MILITARY_FUEL'] = 0.80, -- 20% off Milfuel
 					['RADIOACTIVES'] = 0, -- Radioactives go free
 				})[commodity]
 			end,
