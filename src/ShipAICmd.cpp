@@ -699,12 +699,8 @@ static int CheckCollision(Ship *ship, const vector3d &pathdir, double pathdist, 
 	// if ship inside, check for max feature height and direct escape (30 degree)
 	if (slen < r) {
 		if (slen < fr) return 1;
-<<<<<<< HEAD
 		double af = (slen > fr) ? 0.5 * (1 - (slen-fr) / (r-fr)) : 0.5;
 		if (pathdir.Dot(spos) < af*slen) return 2; else return 0;
-=======
-		if (pathdir.Dot(spos) < 0.5*slen) return 2; else return 0;
->>>>>>> jpab/autopilot
 	}
 
 	// now for the intercept calc
@@ -1104,13 +1100,8 @@ bool AICmdFlyAround::TimeStepUpdate()
 		vector3d tangent = GenerateTangent(m_ship, obsframe, targpos, m_alt);
 		vector3d shiptan = GetPosInFrame(m_ship->GetFrame(), obsframe, tangent);
 		double v = MaxVel((targpos-shiptan).Length(), targpos);
-<<<<<<< HEAD
 		if ((m_targmode == 1 || m_targmode == 2) && 
 			relpos.LengthSqr() < (obspos+tangent).LengthSqr()) v = 0.0;
-=======
-		if (m_targmode == 1 || (m_targmode == 2 &&
-			relpos.LengthSqr() < (obspos+tangent).LengthSqr())) v = 0.0;
->>>>>>> jpab/autopilot
 		m_child = new AICmdFlyTo(m_ship, obsframe, tangent, v, true);
 		ProcessChild(); return false;
 	}
