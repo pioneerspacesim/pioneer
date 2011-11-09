@@ -66,30 +66,36 @@ end
 
 local addShipCargo = function (ship, direction)
 	local prices = Game.system:GetCommodityBasePriceAlterations()
-	local added = 0
+	local total = 0
 	local empty_space = ship:GetStats().freeCapacity
 	local size_factor = empty_space / 20
-	trade_ships[ship.label]['cargo'] = {}
+	local cargo = {}
 
-	while added < empty_space do
-		local cargo
+	while total < empty_space do
+		local cargo_type
 
 		-- get random for direction
 		if direction == 'import' then
-			cargo = imports[Engine.rand:Integer(1, #imports)]
+			cargo_type = imports[Engine.rand:Integer(1, #imports)]
 		else
-			cargo = exports[Engine.rand:Integer(1, #exports)]
+			cargo_type = exports[Engine.rand:Integer(1, #exports)]
 		end
 
 		-- amount based on price and size of ship
-		local num = math.abs(prices[cargo]) * size_factor
+		local num = math.abs(prices[cargo_type]) * size_factor
 		num = Engine.rand:Integer(num, num * 2)
 
-		added = added + ship:AddEquip(cargo, num)
-		trade_ships[ship.label]['cargo'][cargo] = true
+		local added = ship:AddEquip(cargo_type, num)
+		if cargo[cargo_type] == nil then
+			cargo[cargo_type] = added
+		else
+			cargo[cargo_type] = cargo[cargo_type] + added
+		end
+		total = total + added
 	end
 
-	return added
+	trade_ships[ship.label]['cargo'] = cargo
+	return total
 end
 
 local doUndock
