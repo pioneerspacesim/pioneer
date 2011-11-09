@@ -117,7 +117,20 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 			Pi::cpan->MsgLog()->ImportantMessage(Lang::PIONEERING_PILOTS_GUILD, Lang::RIGHT_ON_COMMANDER);
 		}
 		m_knownKillCount = m_killCount;
+		Pi::SetView(Pi::spaceStationView);
+	}
+}
 
+
+
+void Player::TimeStepUpdate(const float timeStep)
+{
+	Ship::TimeStepUpdate(timeStep);
+}
+
+void Player::StaticUpdate(const float timeStep)
+{
+	{
 		if (Pi::FederalRating(m_fedCount) > Pi::FederalRating(m_knownFedCount)) {
 			Pi::cpan->MsgLog()->ImportantMessage(Lang::MESSAGE_FROM_FEDERAL_MILITARY, Lang::FEDERAL_MILITARY_PROMOTION_MESSAGE);
 		}
@@ -133,20 +146,7 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 			Pi::cpan->MsgLog()->ImportantMessage(Lang::MESSAGE_FROM_IMPERIAL_NAVY, Lang::DEMOTE_MESSAGE);
 		}
 		m_knownImpCount = m_impCount;
-
-		Pi::SetView(Pi::spaceStationView);
 	}
-}
-
-
-
-void Player::TimeStepUpdate(const float timeStep)
-{
-	Ship::TimeStepUpdate(timeStep);
-}
-
-void Player::StaticUpdate(const float timeStep)
-{
 	vector3d v;
 	matrix4x4d m;
 
