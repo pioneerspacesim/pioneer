@@ -637,11 +637,11 @@ local onShipHit = function (ship, attacker)
 
 	-- maybe jettison a bit of cargo
 	if Engine.rand:Number(1) < trader.chance then
-		local cargo_list = ship:GetEquip('CARGO')
-		if #cargo_list == 0 then return end
+		if #trader.cargo == 0 then return end
 
-		local cargo = cargo_list[Engine.rand:Integer(1, #cargo_list)]
-		if cargo ~= 'NONE' and cargo ~= 'HYDROGEN' and ship:Jettison(cargo) then
+		local cargo_type = trader.cargo[Engine.rand:Integer(1, #trader.cargo)]
+		if trader.cargo[cargo_type] > 1 and ship:Jettison(cargo_type) then
+			trader.cargo[cargo_type] = trader.cargo[cargo_type] - 1
 			UI.ImportantMessage(attacker.label..', take this and leave us be, you filthy pirate!', ship.label)
 			trader['chance'] = trader.chance - 0.1
 		end
