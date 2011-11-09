@@ -12,10 +12,12 @@ public:
 	Missile() {}
 	virtual ~Missile() {}
 	void TimeStepUpdate(const float timeStep);
-	bool OnDamage(Object *attacker, float kgDamage);
+	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
+	virtual bool OnDamage(Object *attacker, float kgDamage);
 	virtual void NotifyDeleted(const Body* const deletedBody);
 	virtual void PostLoadFixup();
 	void ECMAttack(int power_val);
+	Body *GetOwner() const { return m_owner; }
 protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);

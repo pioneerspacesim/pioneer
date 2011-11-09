@@ -367,6 +367,17 @@ static const char *planet_fractal_desc[5] = {
 	Lang::VERY_LOW, Lang::LOW, Lang::MEDIUM, Lang::HIGH, Lang::VERY_HIGH
 };
 
+GameMenuView::~GameMenuView()
+{
+	// Have to explicitly delete RadioGroups because they're not a physical GUI element
+	delete m_screenModesGroup;
+	delete m_planetDetailGroup;
+	delete m_planetTextureGroup;
+	delete m_planetFractalGroup;
+	delete m_cityDetailGroup;
+	delete m_languageGroup;
+}
+
 GameMenuView::GameMenuView(): View()
 {
 	m_subview = 0;
@@ -450,7 +461,7 @@ GameMenuView::GameMenuView(): View()
 
 	vbox->PackEnd((new Gui::Label(Lang::VIDEO_RESOLUTION))->Color(1.0f,1.0f,0.0f));
 
-	Gui::RadioGroup *g = new Gui::RadioGroup();
+	m_screenModesGroup = new Gui::RadioGroup();
 	SDL_Rect **modes;
 	modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_HWSURFACE);
 	if ((modes!=0) && (modes != reinterpret_cast<SDL_Rect**>(-1))) {
@@ -468,7 +479,7 @@ GameMenuView::GameMenuView(): View()
 		portal->Add(vbox2);
 		
 		for (int i=0; modes[i]; ++i) {
-			Gui::RadioButton *temp = new Gui::RadioButton(g);
+			Gui::RadioButton *temp = new Gui::RadioButton(m_screenModesGroup);
 			temp->onSelect.connect(sigc::bind(sigc::mem_fun(this,
 					&GameMenuView::OnChangeVideoResolution), i));
 			Gui::HBox *hbox = new Gui::HBox();
@@ -564,7 +575,7 @@ GameMenuView::GameMenuView(): View()
 
 	vbox->PackEnd((new Gui::Label(Lang::LANGUAGE_SELECTION))->Color(1.0f,1.0f,0.0f));
 
-	g = new Gui::RadioGroup();
+	m_languageGroup = new Gui::RadioGroup();
 	const std::list<std::string> availableLanguages = Lang::GetAvailableLanguages();
 
 	{
@@ -582,7 +593,7 @@ GameMenuView::GameMenuView(): View()
 		portal->Add(vbox2);
 		
 		for (std::list<std::string>::const_iterator i = availableLanguages.begin(); i != availableLanguages.end(); i++) {
-			Gui::RadioButton *temp = new Gui::RadioButton(g);
+			Gui::RadioButton *temp = new Gui::RadioButton(m_languageGroup);
 			temp->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeLanguage), *i));
 			Gui::HBox *hbox = new Gui::HBox();
 			hbox->SetSpacing(5.0f);

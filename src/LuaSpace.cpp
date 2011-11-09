@@ -79,6 +79,7 @@ static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SystemPath *path, double du
  *                from. The table contains two elements, a <SystemPath> for
  *                the system the ship is travelling from, and the due
  *                date/time that the ship should emerge from the cloud.
+ *                In this case min and max arguments are ignored.
  *
  * Return:
  *
@@ -89,7 +90,7 @@ static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SystemPath *path, double du
  * > -- spawn a ship 5-6AU from the system centre
  * > local ship = Ship.Spawn("Eagle Long Range Fighter, 5, 6)
  *
- * > -- spawn a ship in the 9-11AU hyperspace area and make it appear that it
+ * > -- spawn a ship in the ~11AU hyperspace area and make it appear that it
  * > -- came from Sol and will arrive in ten minutes
  * > local ship = Ship.Spawn(
  * >     "Flowerfairy Heavy Trader", 9, 11,
@@ -125,14 +126,11 @@ static int l_space_spawn_ship(lua_State *l)
 	Body *thing = _maybe_wrap_ship_with_cloud(ship, path, due);
 
 	// XXX protect against spawning inside the body
-	float longitude = Pi::rng.Double(-M_PI,M_PI);
-	float latitude = Pi::rng.Double(-M_PI,M_PI);
-
-	float dist = (min_dist + Pi::rng.Double(max_dist-min_dist));
-	vector3d pos = vector3d(sin(longitude)*cos(latitude), sin(latitude), cos(longitude)*cos(latitude));
-
 	thing->SetFrame(Space::rootFrame);
-	thing->SetPosition(pos * dist * AU);
+	if (path == NULL)
+		thing->SetPosition(Space::GetRandomPosition(min_dist, max_dist)*AU);
+	else
+		thing->SetPosition(Space::GetPositionAfterHyperspace(path, &(Pi::currentSystem->GetPath())));
 	thing->SetVelocity(vector3d(0,0,0));
 	Space::AddBody(thing);
 
@@ -160,8 +158,12 @@ static int l_space_spawn_ship(lua_State *l)
  *
  *   max - maximum distance to place the ship
  *
- *   hyperspace - option table containing hyperspace entry information. See
- *                <SpawnShip> for a full description of this parameter.
+ *   hyperspace - optional table containing hyperspace entry information. If
+ *                this is provided the ship will not spawn directly. Instead,
+ *                a hyperspace cloud will be created that the ship will exit
+ *                from. The table contains two elements, a <SystemPath> for
+ *                the system the ship is travelling from, and the due
+ *                date/time that the ship should emerge from the cloud.
  *
  * Return:
  *
@@ -202,14 +204,8 @@ static int l_space_spawn_ship_near(lua_State *l)
 	Body *thing = _maybe_wrap_ship_with_cloud(ship, path, due);
 
 	// XXX protect against spawning inside the body
-	float longitude = Pi::rng.Double(-M_PI,M_PI);
-	float latitude = Pi::rng.Double(-M_PI,M_PI);
-
-	float dist = (min_dist + Pi::rng.Double(max_dist-min_dist));
-	vector3d pos = vector3d(sin(longitude)*cos(latitude), sin(latitude), cos(longitude)*cos(latitude));
-
 	thing->SetFrame(nearbody->GetFrame());
-	thing->SetPosition((pos * dist * 1000.0) + nearbody->GetPosition());
+	thing->SetPosition((Space::GetRandomPosition(min_dist, max_dist)* 1000.0) + nearbody->GetPosition());
 	thing->SetVelocity(vector3d(0,0,0));
 	Space::AddBody(thing);
 
@@ -468,7 +464,16 @@ static int l_space_get_bodies(lua_State *l)
 		if (filter) {
 			lua_pushvalue(l, 1);
 			LuaBody::PushToLua(b);
-			pi_lua_protected_call(l, 1, 1);
+			if (int ret = lua_pcall(l, 1, 1, 0)) {
+				const char *errmsg;
+				if (ret == LUA_ERRRUN)
+					errmsg = lua_tostring(l, -1);
+				else if (ret == LUA_ERRMEM)
+					errmsg = "memory allocation failure";
+				else if (ret == LUA_ERRERR)
+					errmsg = "error in error handler function";
+				luaL_error(l, "Error in filter function: %s", errmsg);
+			}
 			if (!lua_toboolean(l, -1)) {
 				lua_pop(l, 1);
 				continue;

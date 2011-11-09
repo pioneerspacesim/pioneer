@@ -5,6 +5,7 @@
 #include "Planet.h"
 #include "Pi.h"
 #include "collider/Geom.h"
+#include "render/RenderFrustum.h"
 
 #define START_SEG_SIZE CITY_ON_PLANET_RADIUS
 #define MIN_SEG_SIZE 50.0
@@ -39,7 +40,6 @@ struct cityflavourdef_t {
 } cityflavour[CITYFLAVOURS];
 
 
-static Plane planes[6];
 LmrObjParams cityobj_params;
 
 void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
@@ -170,6 +170,16 @@ void CityOnPlanet::Init()
 	}
 }
 
+void CityOnPlanet::Uninit()
+{
+	for (int list=0; list<MAX_BUILDING_LISTS; list++) {
+		for (int build=0; build<s_buildingLists[list].numBuildings; build++) {
+			delete s_buildingLists[list].buildings[build].collMesh;
+		}
+		delete[] s_buildingLists[list].buildings;
+	}
+}
+
 CityOnPlanet::~CityOnPlanet()
 {
 	// frame may be null (already removed from 
@@ -256,7 +266,6 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 				break;
 		}
 
-		vector3d center = (p1+p2+p3+p4)*0.25;
 		PutCityBit(rand, m, p1, p2, p3, p4);
 	}
 	AddStaticGeomsToCollisionSpace();
@@ -278,15 +287,10 @@ void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoord
 		rot[i] = rot[0] * matrix4x4d::RotateYMatrix(M_PI*0.5*double(i));
 	}
 
-	GetFrustum(planes);
-	
-	memset(&cityobj_params, 0, sizeof(LmrObjParams));
-	// this fucking rubbish needs to be moved into a function
-	cityobj_params.argDoubles[1] = Pi::GetGameTime();
-	cityobj_params.argDoubles[2] = Pi::GetGameTime() / 60.0;
-	cityobj_params.argDoubles[3] = Pi::GetGameTime() / 3600.0;
-	cityobj_params.argDoubles[4] = Pi::GetGameTime() / (24*3600.0);
+	Render::Frustum frustum = Render::Frustum::FromGLState();
 
+	memset(&cityobj_params, 0, sizeof(LmrObjParams));
+	cityobj_params.time = Pi::GetGameTime();
 
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
 			i != m_buildings.end(); ++i) {
@@ -294,15 +298,9 @@ void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoord
 		if (!(*i).isEnabled) continue;
 
 		vector3d pos = viewTransform * (*i).pos;
-		/* frustum cull */
-		bool cull = false;
-		for (int j=0; j<6; j++) {
-			if (planes[j].DistanceToPoint(pos)+(*i).clipRadius < 0) {
-				cull = true;
-				break;
-			}
-		}
-		if (cull) continue;
+		if (!frustum.TestPoint(pos, (*i).clipRadius))
+			continue;
+
 		matrix4x4f _rot;
 		for (int e=0; e<16; e++) _rot[e] = float(rot[(*i).rotation][e]);
 		_rot[12] = float(pos.x);

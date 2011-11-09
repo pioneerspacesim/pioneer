@@ -40,9 +40,9 @@ FITTING
 REMOVING
     "Usuwam "
 FIT_TO_WHICH_MOUNT
-    Na której wieżyczce zamontować laser?
+    Gdzie zamontować laser?
 REMOVE_FROM_WHICH_MOUNT
-    Z której wieżyczki usunąć laser?
+    Skąd usunąć laser?
 YOU_NOT_ENOUGH_MONEY
     Nie masz dość pieniędzy
 TRADER_NOT_ENOUGH_MONEY
@@ -66,7 +66,7 @@ FIT
 REMOVE
     Usuń
 BUY_THIS_SHIP
-    Kup ten statek
+    Kup statek
 SHIP_TYPE
     Typ statku
 REGISTRATION_ID
@@ -76,7 +76,7 @@ WEIGHT_EMPTY
 NUMBER_TONNES
     %{mass}t
 WEIGHT_FULLY_LADEN
-    Masa w pełnym załadunku
+    Masa całkowita
 CAPACITY
     Ładowność
 FORWARD_ACCEL_EMPTY
@@ -90,7 +90,7 @@ REVERSE_ACCEL_EMPTY
 REVERSE_ACCEL_LADEN
     Ciąg wsteczny (pełny)
 HYPERDRIVE_FITTED
-    Napęd nadprzestrzenny:
+    Hipernapęd:
 HYPERSPACE_RANGE_LADEN
     Zasięg w nadprzestrzeni (w pełni obciążony):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
@@ -123,6 +123,9 @@ BULLETIN_BOARD
     Ogłoszenia
 WELCOME_TO_SOMEWHERE
     Witamy w %station
+# This next translation does not have to be a real translation.  You can
+# write anything you like here.  It will appear in every space station
+# in the whole galaxy.
 SPACESTATION_LONG_WELCOME_MESSAGE
     Witaj, podróżniku.  Witamy w stacji kosmicznej.  Mamy doniesienia o aktach wandalizmu i problemach graffiti.  Jeśli zauważysz oznakowanie wprowadzające w błąd, niepoprawne lub po prostu brakujące, prosimy o poinformowanie członka personelu.\n\nTlen jest obecnie bezpłatny.
 REQUEST_LAUNCH
@@ -347,6 +350,8 @@ ECM_ADVANCED_DESCRIPTION
     Elektroniczny system obrony przeciwrakietowej, zdolny do zniszczenia bardziej zaawansowanych pocisków naprowadzanych.
 SHIELD_GENERATOR
     Generator Osłon
+X_SHIELD_GENERATORS
+    Genaratory Osłon [ %quantity ]
 SHIELD_GENERATOR_DESCRIPTION
     Zapewnia dodatkowa osłonę kadłuba wraz z dodawaniem kolejnych jednostek.
 LASER_COOLING_BOOSTER
@@ -369,6 +374,10 @@ FUEL_SCOOP
     Dren paliwowy
 FUEL_SCOOP_DESCRIPTION
     Pozwala czerpać paliwo wodorowe z gazowych olbrzymów.
+CARGO_SCOOP
+    Harpun towarowy
+CARGO_SCOOP_DESCRIPTION
+    Umożliwia przejęcie kontenerów towarowych dryfujących w przestrzeni.
 HYPERCLOUD_ANALYZER
     Analizator Hiperskoku
 HYPERCLOUD_ANALYZER_DESCRIPTION
@@ -382,23 +391,24 @@ SHIELD_ENERGY_BOOSTER
 SHIELD_ENERGY_BOOSTER_DESCRIPTION
     Zwiększa szybkość regeneracji osłon.
 DRIVE_CLASS1
-    Hipernapęd Klasy 1
+    Napęd Klasy 1
 DRIVE_CLASS2
-    Hipernapęd Klasy 2
+    Napęd Klasy 2
 DRIVE_CLASS3
-    Hipernapęd Klasy 3
+    Napęd Klasy 3
 DRIVE_CLASS4
-    Hipernapęd Klasy 4
+    Napęd Klasy 4
 DRIVE_CLASS5
-    Hipernapęd Klasy 5
+    Napęd Klasy 5
 DRIVE_CLASS6
-    Hipernapęd Klasy 6
+    Napęd Klasy 6
 DRIVE_CLASS7
-    Hipernapęd Klasy 7
+    Napęd Klasy 7
 DRIVE_CLASS8
-    Hipernapęd Klasy 8
+    Napęd Klasy 8
 DRIVE_CLASS9
-    Hipernapęd Klasy 9
+    Napęd Klasy 9
+# Miałeś rację OSH, tak wygląda lepiej.
 DRIVE_MIL1
     Napęd Wojskowy Klasy 1
 DRIVE_MIL2
@@ -460,7 +470,7 @@ CRIMINAL_RECORD
 SHIP_INFORMATION_HEADER
     "INFORMACJE O STATKU: "
 HYPERDRIVE
-    Napęd nadprzestrzenny
+    Hipernapęd
 FREE
     Wolne
 USED
@@ -474,7 +484,7 @@ REAR_WEAPON
 HYPERSPACE_RANGE
     Zasięg w nadprzestrzeni
 NO_MOUNTING
-    nie montowana
+    nie montowalna
 N_LIGHT_YEARS_N_MAX
     %distance{f.1} lat świetlnych (%maxdistance{f.1} maks.)
 SHIP_INFORMATION
@@ -532,9 +542,9 @@ ROLL_RIGHT
 MANUAL_CONTROL_MODE
     Tryb sterowania ręcznego
 THRUSTER_MAIN
-    Ciąg do przodu
+    Ciąg główny
 THRUSTER_RETRO
-    Ciąg do tylu
+    Ciąg wsteczny
 THRUSTER_VENTRAL
     Ciąg w górę
 THRUSTER_DORSAL
@@ -546,9 +556,11 @@ THRUSTER_STARBOARD
 SPEED_CONTROL_MODE
     Tryb sterowania prędkością
 INCREASE_SET_SPEED
-    Zwiększ ustawiona prędkość
+    Zwiększ ustawioną prędkość
 DECREASE_SET_SPEED
-    Zmniejsz ustawiona prędkość
+    Zmniejsz ustawioną prędkość
+TOGGLE_LUA_CONSOLE
+    Aktywacja konsoli
 JOYSTICK_INPUT
     Ustawienia Joysticka
 PITCH
@@ -582,11 +594,11 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
 TOMBSTONE_EPITAPH
     ŚWIĘTEJ PAMIĘCI
 MM_START_NEW_GAME_EARTH
-    Nowa gra: start z Ziemi
+    Nowa gra: rozpocznij na Ziemi
 MM_START_NEW_GAME_E_ERIDANI
-    Nowa gra: start z Epsilon Eridani
+    Nowa gra: rozpocznij na Epsilon Eridani
 MM_START_NEW_GAME_DEBUG
-    Nowa gra: start z debug point
+    Nowa gra: rozpocznij z debug point
 MM_LOAD_SAVED_GAME
     Wczytaj grę
 MM_QUIT
@@ -610,9 +622,9 @@ SOMEWHERE_POLICE
 WE_HAVE_NO_BUSINESS_WITH_YOU
     W tej chwili nie mamy do ciebie żadnych spraw.
 YOU_MUST_PAY_FINE_OF_N_CREDITS
-    Nie tolerujemy przestępstwa. Musisz zapłacić mandat %fine.
+    Nie tolerujemy przestępstwa. Musisz zapłacić %fine kary.
 PAY_THE_FINE_NOW
-    Zapłać mandat.
+    Zapłać.
 HANG_UP
     Rozłącz się.
 TRADING_ILLEGAL_GOODS
@@ -684,7 +696,9 @@ NOT_FOUND_BEST_MATCH_X
 NOT_FOUND
     Nie znaleziono
 NUMBER_HOURS
-    %hours{f.2} godz.
+    %hours{f.1} godz.
+NUMBER_DAYS
+    %days{f.0} dni
 QUADRUPLE_SYSTEM
     System poczwórny.
 TRIPLE_SYSTEM
@@ -697,8 +711,10 @@ DISABLED_AUTOMATIC_SYSTEM_SELECTION
     Wyłącz automatyczny wybór systemu.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
     Dren paliwowy włączony. Masz %quantity ton wodoru.
+CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED
+    Wystrzelono harpun towarowy. Pozyskano 1 tonę: %item.
 CARGO_BAY_LIFE_SUPPORT_LOST
-    Sensory wykryły krytyczny poziom podtrzymywania życia w ładowni.
+    Czujniki wykryły krytyczny poziom podtrzymywania życia w ładowni.
 NO_FREE_SPACE_FOR_ITEM
     Nie masz na to dość miejsca.
 SHIP_IS_FULLY_LADEN
@@ -716,13 +732,13 @@ NAVIGATION_STAR_MAPS
 COMMS
     Komunikacja
 GALAXY_SECTOR_VIEW
-    Widok sektora galaktyki
+    Sektor galaktyki
 SYSTEM_ORBIT_VIEW
-    Widok systemu orbitalnego
+    System orbitalny
 STAR_SYSTEM_INFORMATION
-    Informacja o systemie słonecznym
+    Informacja o systemie
 GALACTIC_VIEW
-    Widok galaktyki
+    Galaktyka
 NO_ALERT
     Brak alarmu
 SHIP_NEARBY
@@ -918,9 +934,9 @@ VAST_STRIP_MINE
 HIGH_POPULATION_OUTDOOR_WORLD
     Zewnętrzny świat o wysokim zaludnieniu.
 SOMEWHERE_SPACEPORT
-     "-port kosmiczny"
+    stacja kosmiczna %spaceport
 SOMEWHERE_STARPORT
-     "-stacja kosmiczna"
+    port kosmiczny %starport
 MASS
     Masa
 N_WHATEVER_MASSES
@@ -929,8 +945,10 @@ SOLAR
     Słonecznych
 EARTH
     Ziemskich
+SURFACE_GRAVITY
+    Grawitacja na powierzchni
 SURFACE_TEMPERATURE
-    Temp. powierzchni
+    Średnia temperatura
 N_CELSIUS
     %temperature C
 N_YEARS
@@ -953,6 +971,8 @@ DAY_LENGTH
     Długość dnia
 N_EARTH_DAYS
     %days{f.1} ziemskich dni
+COUNT_STARPORTS
+    stacjami kosmicznymi
 STARPORTS
     Stacje kosmiczne
 MAJOR_IMPORTS
@@ -966,7 +986,7 @@ MINOR_EXPORTS
 ILLEGAL_GOODS
     Towary nielegalne:
 UNEXPLORED_SYSTEM_STAR_INFO_ONLY
-    System niezbadany. Informacje o gwieździe uzyskano przez teleskop, ale brak danych o planetach.
+    System niezbadany. Informacje o gwieździe uzyskano przez teleskop, brak danych o planetach.
 PLANETARY_INFO
     Informacje o planecie
 ECONOMIC_INFO
@@ -974,7 +994,7 @@ ECONOMIC_INFO
 DEMOGRAPHICS
     Demografia
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
-    Stabilny system z %bodycount głównymi %{body(s)}, posiadający %portcount %{starport(s)}.
+    Stabilny system z %bodycount %{body(s)} i %portcount %{starport(s)}.
 BODY
     ciałem
 BODIES
@@ -1010,7 +1030,7 @@ RADIUS
 SEMI_MAJOR_AXIS
     Duża półoś
 TIME_POINT
-    czas: 
+     "czas: " 
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
     System nie zbadany. Dane systemu niedostępne.
 WHEELS_ARE_UP
@@ -1052,7 +1072,7 @@ LAUNCH_PERMISSION_DENIED_BUSY
 HYPERSPACE_JUMP_ABORTED
     Skok w nadprzestrzeń przerwany.
 LANDED
-    Ląduje
+    Wylądował
 DOCKING
     Dokuje
 DOCKED
@@ -1085,16 +1105,10 @@ CARGO_N
     Ładownia: %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
     Ślad wyjściowej chmury nadprzestrzennej
-HYPERSPACE_X_CLOUD
-    %direction tunelu nadprzestrzennego
 SHIP_MASS_N_TONNES
     Masa statku: %{mass}t
 DATE_DUE_N
     Data przybycia: %date
-ARRIVAL
-    Wylot
-DEPARTURE
-    Wlot
 SOURCE
     Punkt wyjściowy
 DESTINATION
@@ -1106,9 +1120,9 @@ NAVIGATION_TARGETS_IN_THIS_SYSTEM
 YOU_NO_MONEY
     Nie masz pieniędzy.
 FINE_PAID_N_BUT_N_REMAINING
-    Zapłaciłeś %paid lecz wciąż jesteś winien %fine.
+    Zapłaciłeś %paid kary, lecz wciąż jesteś winien %fine.
 FINE_PAID_N
-    Zapłaciłeś mandat %fine.
+    Przelełeś na konto policji %fine.
 SET_HYPERSPACE_DESTINATION_TO
     "Ustawiono cel skoku na %system"
 NO_TARGET_SELECTED
@@ -1118,7 +1132,7 @@ REQUEST_DOCKING_CLEARANCE
 AUTOPILOT_DOCK_WITH_STATION
     Autopilot: Dokuj na stacji
 PAY_FINE_REMOTELY
-    Zapłać mandat (%amount)
+    Zapłać przelewem %amount kary.
 AUTOPILOT_FLY_TO_VICINITY_OF
     Autopilot: Leć w pobliże %target
 AUTOPILOT_ENTER_LOW_ORBIT_AROUND
@@ -1137,3 +1151,5 @@ ACTIVE
     Aktywna
 DISTANCE_LY
     Dystans: %distance{f.2} lś
+SYSTEM
+    całego systemu

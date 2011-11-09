@@ -53,7 +53,7 @@ struct politDesc_t {
 	int minTechLevel;
 	int rarity;
 	Bloc bloc;
-	EconType econ;
+	PolitEcon econ;
 	fixed baseLawlessness;
 };
 const politDesc_t s_govDesc[GOV_MAX] = {
@@ -117,7 +117,7 @@ static int GetCrimeIdxFromEnum(enum Crime crime)
 void NotifyOfCrime(Ship *s, enum Crime crime)
 {
 	// ignore crimes of NPCs for the time being
-	if (s != reinterpret_cast<Ship*>(Pi::player)) return;
+	if (!s->IsType(Object::PLAYER)) return;
 	// find nearest starport to this evil criminal
 	SpaceStation *station = static_cast<SpaceStation*>(Space::FindNearestTo(s, Object::SPACESTATION));
 	if (station) {

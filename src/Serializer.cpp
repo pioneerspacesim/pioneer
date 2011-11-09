@@ -1,4 +1,3 @@
-
 #include "StarSystem.h"
 #include "Serializer.h"
 #include "Pi.h"
@@ -7,7 +6,7 @@
 #include "Ship.h"
 #include "HyperspaceCloud.h"
 
-#define SAVEFILE_VERSION	33
+#define SAVEFILE_VERSION	40
 
 namespace Serializer {
 

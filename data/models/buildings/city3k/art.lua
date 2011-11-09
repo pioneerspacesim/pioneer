@@ -53,7 +53,7 @@ define_model('green_bubble', {
 	dynamic = function(lod)
 		--pulsating glow
 		if lod > 1 then
-			set_material('glow2',lerp_materials(get_arg(1)*0.3, {0,0,0,1,0,0,0,0,1.6,1.9,0},
+			set_material('glow2',lerp_materials(get_time('SECONDS')*0.3, {0,0,0,1,0,0,0,0,1.6,1.9,0},
 																 {0,0,0,1,0,0,0,0,1,2.5,0}))
 		end
 	end
@@ -124,7 +124,7 @@ define_model('blue_bubble', {
 	end,
 	dynamic = function(lod)
 		if lod > 1 then
-			set_material('glow2',lerp_materials(get_arg(1)*0.3, {0,0,0,1,0,0,0,0,2.5,1,1.5},
+			set_material('glow2',lerp_materials(get_time('SECONDS')*0.3, {0,0,0,1,0,0,0,0,2.5,1,1.5},
 																 {0,0,0,1,0,0,0,0,1,1.5,2.5}))
 		end
 
@@ -167,7 +167,7 @@ define_model('advert_0', {
 	end,
 	dynamic = function(lod)
 		if lod > 1 then
-			set_material('glow2',lerp_materials(get_arg(1)*2, {0,0,0,1,0,0,0,0,1.6,1.9,0},
+			set_material('glow2',lerp_materials(get_time('SECONDS')*2, {0,0,0,1,0,0,0,0,1.6,1.9,0},
 																 {0,0,0,1,0,0,0,0,1.4,1,1.8}))
 		end
 
@@ -233,7 +233,7 @@ define_model('pink_obelisk', {
 
 	dynamic = function(lod)
 		if lod > 1 then
-			set_material('glow2',lerp_materials(get_arg(1)*0.1, {0,0,0,1,1,1,1,100,2.2,1,1.5},
+			set_material('glow2',lerp_materials(get_time('SECONDS')*0.1, {0,0,0,1,1,1,1,100,2.2,1,1.5},
 																 {0,0,0,1,1,1,1,100,1.5,1,2.2}))
 		end
 	end

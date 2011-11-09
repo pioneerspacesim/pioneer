@@ -1,11 +1,19 @@
 #include "libs.h"
 #include <map>
 
+// XXX we're allocating a whole KB for each translatable string
+// that's... not very nice (though I guess it "doesn't matter" with virtual memory and multi-GB of RAM)
 #define MAX_STRING (1024)
 
 namespace Lang {
 
-typedef std::map<std::string,char*> token_map;
+// declaring value type as const char* so that we can give out a const reference to the real
+// token map without allowing external code to modify token text
+// unfortunately, this means we don't have write access internally either,
+// so we have to const_cast<> to initialise the token values.
+// this could be avoided by using a custom class for the value type
+// (or std::string, but then we'd be changing the way translated text is stored)
+typedef std::map<std::string, const char*> token_map;
 
 static token_map s_tokens;
 
@@ -134,8 +142,9 @@ static void _copy_string(const char *src, char *dest)
 
 bool LoadStrings(const std::string &lang)
 {
+	// XXX const_cast is ugly, but see note for declaration of tokens map
 	for (token_map::iterator i = s_tokens.begin(); i != s_tokens.end(); i++)
-		*((*i).second) = '\0';
+		*const_cast<char*>((*i).second) = '\0';
 	
 	std::map<std::string,bool> seen, missing;
 
@@ -159,7 +168,8 @@ bool LoadStrings(const std::string &lang)
 		if (!value)
 			break;
 
-		_copy_string(value, (*token_iter).second);
+		// XXX const_cast is ugly, but see note for declaration of tokens map
+		_copy_string(value, const_cast<char*>((*token_iter).second));
 		seen.insert(std::make_pair((*token_iter).first, true));
 	}
 
@@ -199,7 +209,8 @@ bool LoadStrings(const std::string &lang)
 		if (!value)
 			break;
 
-		_copy_string(value, (*token_iter).second);
+		// XXX const_cast is ugly, but see note for declaration of tokens map
+		_copy_string(value, const_cast<char*>((*token_iter).second));
 		seen.insert(std::make_pair((*token_iter).first, true));
 		
 		std::map<std::string,bool>::iterator i = missing.find((*token_iter).first);
@@ -243,6 +254,11 @@ const std::list<std::string> &GetAvailableLanguages()
 	foreach_file_in(PIONEER_DATA_DIR "/lang/", _found_language_file_callback);
 
 	return s_availableLanguages;
+}
+
+const std::map<std::string, const char*> &GetDictionary()
+{
+    return s_tokens;
 }
 
 }

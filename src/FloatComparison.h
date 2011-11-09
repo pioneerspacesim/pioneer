@@ -15,8 +15,6 @@
 // implementation in the Google test framework, and
 // http://stackoverflow.com/questions/17333/most-effective-way-for-float-and-double-comparison
 
-template <typename T> struct IEEEFloatTraits;
-
 //   provides (for float & double):
 
 // bool float_equal_exact(float a, float b);
@@ -40,6 +38,8 @@ template <typename T> struct IEEEFloatTraits;
 
 // in the following code, IEEEFloatTraits<T>::bool_type is used to limit
 // the application of the functions by SFINAE
+
+template <typename T> struct IEEEFloatTraits;
 
 // --- float function helpers
 

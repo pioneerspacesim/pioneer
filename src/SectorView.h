@@ -15,6 +15,7 @@ public:
 	SectorView();
 	virtual ~SectorView();
 	virtual void Update();
+	virtual void ShowAll();
 	virtual void Draw3D();
 	vector3f GetPosition() const { return m_pos; }
 	SystemPath GetSelectedSystem() const { return m_selected; }
@@ -53,7 +54,7 @@ private:
 	void ShrinkCache();
 
 	void MouseButtonDown(int button, int x, int y);
-	void OnKeyPress(SDL_keysym *keysym);
+	void OnKeyPressed(SDL_keysym *keysym);
 	void OnSearchBoxKeyPress(const SDL_keysym *keysym);
 
 	bool m_firstTime;

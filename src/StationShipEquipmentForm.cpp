@@ -50,9 +50,9 @@ StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) :
 		Equip::Type type = static_cast<Equip::Type>(i);
 		int stock = m_station->GetStock(type);
 		if (!stock) continue;
-		Gui::Label *l = new Gui::Label(EquipType::types[i].name);
-		if (EquipType::types[i].description) {
-			l->SetToolTip(EquipType::types[i].description);
+		Gui::Label *l = new Gui::Label(Equip::types[i].name);
+		if (Equip::types[i].description) {
+			l->SetToolTip(Equip::types[i].description);
 		}
 		innerbox->Add(l,0,num*YSEP);
 		
@@ -61,7 +61,7 @@ StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) :
 		innerbox->Add(new Gui::Label(format_money(REMOVAL_VALUE_PERCENT * m_station->GetPrice(type) / 100)),
 				275, num*YSEP);
 		
-		innerbox->Add(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", EquipType::types[i].mass))), 360, num*YSEP);
+		innerbox->Add(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", Equip::types[i].mass))), 360, num*YSEP);
 
 		ButtonPair pair;
 		pair.type = type;
@@ -110,7 +110,7 @@ void StationShipEquipmentForm::ShowAll()
 void StationShipEquipmentForm::RecalcButtonVisibility()
 {
 	for (std::list<ButtonPair>::iterator i = m_buttons.begin(); i != m_buttons.end(); i++) {
-		Equip::Slot slot = EquipType::types[(*i).type].slot;
+		Equip::Slot slot = Equip::types[(*i).type].slot;
 
 		if (Pi::player->m_equipment.FreeSpace(slot))
 			(*i).add->Show();
@@ -126,7 +126,7 @@ void StationShipEquipmentForm::RecalcButtonVisibility()
 
 void StationShipEquipmentForm::FitItem(Equip::Type t)
 {
-	Equip::Slot slot = EquipType::types[t].slot;
+	Equip::Slot slot = Equip::types[t].slot;
 
 	const shipstats_t *stats = Pi::player->CalcStats();
 	int freespace = Pi::player->m_equipment.FreeSpace(slot);
@@ -136,7 +136,7 @@ void StationShipEquipmentForm::FitItem(Equip::Type t)
 		return;
 	}
 
-	if (!freespace || stats->free_capacity < EquipType::types[t].mass) {
+	if (!freespace || stats->free_capacity < Equip::types[t].mass) {
 		Pi::cpan->MsgLog()->Message("", Lang::NO_SPACE_ON_SHIP);
 		return;
 	}
@@ -151,7 +151,7 @@ void StationShipEquipmentForm::FitItem(Equip::Type t)
 }
 	
 void StationShipEquipmentForm::RemoveItem(Equip::Type t) {
-	Equip::Slot slot = EquipType::types[t].slot;
+	Equip::Slot slot = Equip::types[t].slot;
 
 	int num = Pi::player->m_equipment.Count(slot, t);
 	if (!num)
@@ -170,11 +170,11 @@ void StationShipEquipmentForm::FitItemForce(Equip::Type t, int pos) {
 	if (pos < 0)
 		Pi::player->m_equipment.Add(t);
 	else
-		Pi::player->m_equipment.Set(EquipType::types[t].slot, pos, t);
+		Pi::player->m_equipment.Set(Equip::types[t].slot, pos, t);
 
 	Pi::player->UpdateMass();
 	Pi::player->SetMoney(Pi::player->GetMoney() - m_station->GetPrice(t));
-	Pi::cpan->MsgLog()->Message("", Lang::FITTING+std::string(EquipType::types[t].name));
+	Pi::cpan->MsgLog()->Message("", Lang::FITTING+std::string(Equip::types[t].name));
 
 	RecalcButtonVisibility();
 }
@@ -183,12 +183,12 @@ void StationShipEquipmentForm::RemoveItemForce(Equip::Type t, int pos) {
 	if (pos < 0)
 		Pi::player->m_equipment.Remove(t, 1);
 	else
-		Pi::player->m_equipment.Set(EquipType::types[t].slot, pos, Equip::NONE);
+		Pi::player->m_equipment.Set(Equip::types[t].slot, pos, Equip::NONE);
 
 	Pi::player->UpdateMass();
 	Pi::player->SetMoney(Pi::player->GetMoney() + m_station->GetPrice(t) * REMOVAL_VALUE_PERCENT / 100);
 	m_station->AddEquipmentStock(t, 1);
-	Pi::cpan->MsgLog()->Message("", Lang::REMOVING+std::string(EquipType::types[t].name));
+	Pi::cpan->MsgLog()->Message("", Lang::REMOVING+std::string(Equip::types[t].name));
 
 	RecalcButtonVisibility();
 }
@@ -209,7 +209,7 @@ PickLaserMountForm::PickLaserMountForm(FormController *controller, StationShipEq
 	else
 		layoutBox->PackEnd(new Gui::Label(Lang::REMOVE_FROM_WHICH_MOUNT));
 
-	Equip::Slot slot = EquipType::types[m_equipType].slot;
+	Equip::Slot slot = Equip::types[m_equipType].slot;
 
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		if (m_doFit && (Pi::player->m_equipment.Get(slot, i) != Equip::NONE)) continue;

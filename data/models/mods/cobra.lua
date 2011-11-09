@@ -23,6 +23,7 @@ define_model('cobra_mk3', {
 					max_cargo = 80,
 					max_laser = 2,
 					max_missile = 4,
+					max_cargoscoop = 0,
 					capacity = 80,
 					hull_mass = 60,
 					price = 124000,
@@ -41,7 +42,7 @@ define_model('cobra_mk3', {
 		
 		if lod > 1 then
 			use_material('text')
-			local reg = get_arg_string(0)
+			local reg = get_label()
 			zbias(1,v(16,0.42,1), v(0,1,-.63))
 			text(reg,v(16,0.42,1), v(0,1,-.63), v(-1,.041,-.95), 3, {center = true})
 			zbias(1,v(-16,0.42,1), v(0,1,-.63))
@@ -49,7 +50,7 @@ define_model('cobra_mk3', {
 			zbias(0)	
 		end
 		
-		if get_arg(ARG_SHIP_WHEEL_STATE) ~= 0 then
+		if get_animation_position('WHEEL_STATE') ~= 0 then
       		-- wheels
 			local v73 = v(0.0, -1.4, -5.5)
 			local v74 = v(-4.5, -4.05, 7)
@@ -64,7 +65,7 @@ define_model('cobra_mk3', {
 			zbias(0)
 
             -- lights on wingtips
-			local lightphase = math.fmod(get_arg(1), 1)
+			local lightphase = math.fmod(get_time('SECONDS'), 1)
 			if lightphase > .9 then
 				billboard('smoke.png', 10, v(1,1,1), { v(-25.35,-.95,11.375) })
 			elseif lightphase > .8 then
@@ -74,8 +75,8 @@ define_model('cobra_mk3', {
 			end
 		end
 		
-		if get_arg(ARG_SHIP_WHEEL_STATE) == 0 then
-			local lightphase = math.fmod(get_arg(1), 1)
+		if get_animation_position('WHEEL_STATE') == 0 then
+			local lightphase = math.fmod(get_time('SECONDS'), 1)
 			if lightphase > .9 then
 				billboard('smoke.png', 10, v(0,1,0), { v(-25.35,-.95,11.375) })
 			elseif lightphase > .8 then

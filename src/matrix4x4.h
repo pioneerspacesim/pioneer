@@ -21,6 +21,9 @@ class matrix4x4 {
 	}
 	void SetTranslate(const vector3<T> v) { cell[12] = v.x; cell[13] = v.y; cell[14] = v.z; }
 	vector3<T> GetTranslate() const { return vector3<T>(cell[12], cell[13], cell[14]); }
+	void SetRotationOnly(const matrix4x4& m) {
+		for (int i=0; i<12; i++) cell[i] = m.cell[i];
+	}
 	// row-major 3x3 matrix
 	void LoadFrom3x3Matrix(const T *r) {
 		cell[0] = r[0]; cell[4] = r[1]; cell[8] = r[2]; cell[12] = 0;
@@ -69,6 +72,22 @@ class matrix4x4 {
 		m[1] = rx.y; m[5] = ry.y; m[9] = rz.y; m[13] = 0;
 		m[2] = rx.z; m[6] = ry.z; m[10] = rz.z; m[14] = 0;
 		m[3] = 0; m[7] = 0; m[11] = 0; m[15] = 1;
+		return m;
+	}
+	static matrix4x4 FrustumMatrix (T left, T right, T bottom, T top, T znear, T zfar) {
+		assert((znear > T(0)) && (zfar > T(0)));
+		// these expressions come from the documentation for glFrustum
+		const T sx = (T(2) * znear) / (right - left);
+		const T sy = (T(2) * znear) / (top - bottom);
+		const T A = (right + left) / (right - left);
+		const T B = (top + bottom) / (top - bottom);
+		const T C = -(zfar + znear) / (zfar - znear);
+		const T D = -(T(2) * zfar * znear) / (zfar - znear);
+		matrix4x4 m;
+		m[ 0] = sx; m[ 4] =  0; m[ 8] =  A; m[12] = 0;
+		m[ 1] =  0; m[ 5] = sy; m[ 9] =  B; m[13] = 0;
+		m[ 2] =  0; m[ 6] =  0; m[10] =  C; m[14] = D;
+		m[ 3] =  0; m[ 7] =  0; m[11] = -1; m[15] = 0;
 		return m;
 	}
 	// (x,y,z) must be normalized
@@ -190,6 +209,8 @@ class matrix4x4 {
 	}
 	T& operator [] (const size_t i) { return cell[i]; }
 	const T& operator[] (const size_t i) const { return cell[i]; }
+	const T* Data() const { return cell; }
+	T* Data() { return cell; }
 	friend matrix4x4 operator+ (const matrix4x4 &a, const matrix4x4 &b) {
 		matrix4x4 m;
 		for (int i=0; i<16; i++) m.cell[i] = a.cell[i] + b.cell[i];

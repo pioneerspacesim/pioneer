@@ -69,7 +69,7 @@ Sector::Sector(int x, int y, int z)
 			s.seed = 0;
 			s.customSys = 0;
 			
-			float spec = rng.Int32(1000000);
+			double spec = rng.Double(1000000.0);
 			// frequencies from wikipedia
 			/*if (spec < 100) { // should be 1 but that is boring
 				s.starType[0] = SBody::TYPE_STAR_O;
@@ -245,7 +245,7 @@ Sector::Sector(int x, int y, int z)
 float Sector::DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int sysIdxB)
 {
 	vector3f dv = a->m_systems[sysIdxA].p - b->m_systems[sysIdxB].p;
-	dv += Sector::SIZE*vector3f(a->sx - b->sx, a->sy - b->sy, a->sz - b->sz);
+	dv += Sector::SIZE*vector3f(float(a->sx - b->sx), float(a->sy - b->sy), float(a->sz - b->sz));
 	return dv.Length();
 }
 
@@ -264,9 +264,9 @@ std::string Sector::GenName(System &sys, MTRand &rng)
 		case SBody::TYPE_STAR_K: chance += 8*dist; break;
 		case SBody::TYPE_STAR_O_GIANT:
 		case SBody::TYPE_STAR_B_GIANT: chance = 50; break;
-		case SBody::TYPE_STAR_A_GIANT: chance = 0.2*dist; break;
-		case SBody::TYPE_STAR_F_GIANT: chance = 0.4*dist; break;
-		case SBody::TYPE_STAR_G_GIANT: chance = 0.5*dist; break;
+		case SBody::TYPE_STAR_A_GIANT: chance = int(0.2*dist); break;
+		case SBody::TYPE_STAR_F_GIANT: chance = int(0.4*dist); break;
+		case SBody::TYPE_STAR_G_GIANT: chance = int(0.5*dist); break;
 		case SBody::TYPE_STAR_K_GIANT:
 		case SBody::TYPE_STAR_M_GIANT: chance = dist; break;
 		case SBody::TYPE_STAR_O_SUPER_GIANT:

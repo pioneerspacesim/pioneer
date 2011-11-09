@@ -33,14 +33,7 @@ LuaConsole::LuaConsole(int displayedOutputLines):
 	PackEnd(m_entryField);
 }
 
-LuaConsole::~LuaConsole() {
-	delete m_entryField;
-	for (std::vector<Gui::Label*>::const_iterator
-		it = m_outputLines.begin(); it != m_outputLines.end(); ++it) {
-		delete (*it);
-	}
-	m_outputLines.clear();
-}
+LuaConsole::~LuaConsole() {}
 
 bool LuaConsole::IsActive() const {
 	return IsVisible() && m_entryField->IsFocused();
@@ -56,11 +49,7 @@ void LuaConsole::OnKeyPressed(const SDL_keysym *sym) {
 
 	if ((sym->sym == SDLK_UP) || (sym->sym == SDLK_DOWN)) {
 		if (m_historyPosition == -1) {
-			if (sym->sym == SDLK_DOWN) {
-				m_stashedStatement = "";
-				m_entryField->SetText("");
-				ResizeRequest();
-			} else {
+			if (sym->sym == SDLK_UP) {
 				m_historyPosition = (m_statementHistory.size() - 1);
 				if (m_historyPosition != -1) {
 					m_stashedStatement = m_entryField->GetText();
@@ -88,6 +77,14 @@ void LuaConsole::OnKeyPressed(const SDL_keysym *sym) {
 				}
 			}
 		}
+	}
+
+	// CTRL+U clears the current command
+	if ((sym->sym == SDLK_u) && (sym->mod & KMOD_CTRL)) {
+		m_stashedStatement.clear();
+		m_entryField->SetText("");
+		m_historyPosition = -1;
+		ResizeRequest();
 	}
 
 	if (((sym->unicode == '\n') || (sym->unicode == '\r')) && ((sym->mod & KMOD_CTRL) == 0)) {
@@ -209,12 +206,22 @@ void LuaConsole::ExecOrContinue() {
 	// pop all return values
 	lua_settop(L, top);
 
+	// update the history list
+
 	if (! result) {
-		m_historyPosition = -1;
-		m_statementHistory.push_back(stmt);
+		// command succeeded... add it to the history unless it's just
+		// an exact repeat of the immediate last command
+		if (m_statementHistory.empty() || (stmt != m_statementHistory.back()))
+			m_statementHistory.push_back(stmt);
+
+		// clear the entry box
 		m_entryField->SetText("");
 		ResizeRequest();
 	}
+
+	// always forget the history position and clear the stashed command
+	m_historyPosition = -1;
+	m_stashedStatement.clear();
 }
 
 /*

@@ -51,3 +51,13 @@ LuaManager::~LuaManager() {
 
 	instantiated = false;
 }
+
+size_t LuaManager::GetMemoryUsage() const {
+	int kb = lua_gc(m_lua, LUA_GCCOUNT, 0);
+	int b = lua_gc(m_lua, LUA_GCCOUNTB, 0);
+	return (size_t(kb) * 1024) + b;
+}
+
+void LuaManager::CollectGarbage() {
+	lua_gc(m_lua, LUA_GCCOLLECT, 0);
+}

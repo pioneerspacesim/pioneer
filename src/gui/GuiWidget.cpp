@@ -105,6 +105,7 @@ void Widget::OnMouseLeave()
 	m_mouseOver = false;
 	if (m_tooltipWidget) {
 		Screen::RemoveBaseWidget(m_tooltipWidget);
+		delete m_tooltipWidget;
 		m_tooltipWidget = 0;
 	}
 	m_tooltipTimerConnection.disconnect();

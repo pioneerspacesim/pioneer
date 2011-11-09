@@ -69,7 +69,7 @@ void TerrainBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTrans
 	double rad = m_sbody->GetRadius();
 
 	float znear, zfar;
-	Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
+	Render::GetNearFarClipPlane(znear, zfar);
 
 	double len = fpos.Length();
 	int shrink = 0;

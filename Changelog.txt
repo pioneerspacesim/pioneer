@@ -1,3 +1,89 @@
+Alpha 16
+
+  * New features
+    * New ships: "Wave Heavy Hypersonic Fighter" and "Turtle" (#558, #657)
+    * Cargo scooping (#585, #708)
+    * Target and velocity indicators now shown with directions at edge of
+      screen if they are not directly in front (#750, #752)
+    * Scanner now shows different colours for different types of nearby object
+      automatically adjusts range to show the most interesting objects in the
+      best detail possible (#521)
+    * Spanish translation (#628)
+
+  * Minor changes and tweaks
+    * New assassination missions appear less often (#634)
+    * Translation infrastructure for Assassinations (#641), DonateToCranks
+      (#658), GoodsTrader (#659) and DeliverPackage (#639)
+    * Targets can be selected from the system view (#503)
+    * Model cleanups and optimisations (#680, #675, #672, #674)
+    * New "temple" building (#664)
+    * Change non-local delivery mission reward calculation so that more urgent
+      deliveries get higher rewards (#719)
+    * Ships will now emerge from hyperspace at a point "close" to the source
+      system (#724)
+    * Jump duration estimate in sector view shown in days + hours (#738)
+    * Renamed "Panther" to "Caribou"
+    * Slightly improve model cache performance
+
+  * Fixes
+    * Optimise trade ship cargo management (#632)
+    * Ensure that stars in a binary pair do not overlap (#621, #627)
+    * Model optimisations (#666)
+    * modelviewer no longer crashes if invalid model name is given on command
+      line (#669, #670)
+    * Fix hyperspace behaviour after game load
+    * Lua onGameEnd event now fires when game ends after player destruction (#684)
+    * Remember sectorview info box visbility state across view switches and
+      game saves (#685)
+    * Don't pollute the global Lua namespace with translation functions (#696)
+    * Fix assassination crash on mission completion/failure (#692, #694)
+    * Fix delivery crash on dock
+    * Model LOD switches now calculated correctly based on screen wdith (#704)
+    * Fix potential deadlock in terrain generator (#661)
+    * Initialise stock levels for equipment above the station's tech level (#719)
+    * Trade ships only check trade prices in surrounding systems if it has
+      starports (#728)
+    * Determine damaged caused by collision between two ships using the other
+      ship's mass, not our own (#732, #733)
+    * Missile collisions will no longer cause damage (the explosion will
+      though) (#734)
+    * Prevent SystemBody.parent from crashing when the underlying StarSystem
+      is no long in memory (#729)
+    * Fix material use in ship landing lights (#656, #705)
+    * Fix screenshot crashes (#742, #727, #645)
+    * "Repair 1% hull" display correct % and cost when hull has <1% damage (#748, #467)
+    * Fix error capture from filter functions to EquipType.GetEquipTypes,
+      ShipType.GetShipTypes and Space.GetBodies when called from console (#764)
+    * Objects on the scanner now positioned correctly (#521)
+    * Only randomise goods trader stock levels when bulletin board is created (#772, #776)
+    * Clear breakdown servicing state on game start to avoid state leak
+      between games (#775)
+  
+  * Script changes
+    * Modules moved into dedicated subdirs with their translation files (#640)
+    * Module translations (#640)
+    * LMR get_arg() and get_arg_string() replaced with several special purpose
+      functions. "Stringy" constants now in use (#650, #586, #582, #688, #689,
+      #690, #709)
+    * Serializer support for Lua-based objects (#715)
+    * New SystemBody.population attribute (#726)
+    * Ship.GetEquip and Ship.SetEquip changed to 1-based indexing (#719)
+    * SystemBody now has several new attributes for body size and orbital
+      parameters (#760, #754)
+
+  * Internal changes
+    * Cleanups, leaks fixed and general code improvements (#635, #637, #665,
+      #729, #753, #743, #741, #761, #762)
+    * Windows build optimisations (#636, #758)
+    * Improve terrain generation performance
+    * Run Lua timers from the physics loop, which should help to make frame
+      times a little more consistent
+    * Remove deprecated EquipType::types list (#642)
+    * Show Lua memory usage in debug info (#638)
+    * Limit number of physics updates between render updates (#671)
+    * scan_enums.py preprocessor to generate string->enum mappings (#716, #686, #723)
+    * Camera and rendering refactor (#744)
+
 Alpha 15
 
   * New features
@@ -5,15 +91,16 @@ Alpha 15
     * Assassination missions (#290, #500)
     * Restored "hoop" orbital station (#499, #516)
     * Restored "Panther" ship (#497)
+    * "Long Range Cruiser" bulk ship (#626)
     * Big mushroom station with four bays (#530)
     * New futuristic city buildings (#518, #557)
     * Four new ambient music tracks (#543)
-    * Ship drives now break down over time and require repairs (#552)
+    * Ship drives now break down over time and require repairs (#552, #570, #610)
     * Ship landing lights now only flash when landing gear is down or ship is
       docking (#236, #478)
     * Station landing lights now coloured to indicate occupied (red), free
       (orange) and cleared for docking (green) (#4, #489, #498)
-    * Romanian translation (#565)
+    * Romanian, Dutch, Italian and Croatian translations (#565, #571, #573, #593)
 
   * Minor changes and tweaks
     * Landed and docked ships will no longer cause alerts (#454, #466)
@@ -22,7 +109,7 @@ Alpha 15
     * Mushroom station now has ads in bay 2 (#524)
     * Display surface gravity of bodies in system info view (#533)
     * Model fixes: Ship bounding radii, LOD checked and fixed, adverts cleaned
-      up and other minor fixes (#530, #542, #556, #515, #72)
+      up and other minor fixes (#530, #542, #556, #515, #72, #582, #613, #614, #620)
     * Support for glowmaps (#557)
     * Terrains. Snow on mountains and polar ice caps. Various optimisations
     * and fixes (#440, #566)
@@ -41,17 +128,34 @@ Alpha 15
     * Fix rare crash when NPC ship is destroyed that previously attacked the
       player (#568)
     * Fix a case where we try to access an object after its been freed (#342, #470)
+    * Fix various depth bugs when shaders are enabled. Fixes gas giant rings,
+      hyperspace clouds, etc (#24, #234, #504)
+    * Fix black halo around gas giant atmospheres when rings are visible (#595)
+    * Update hyperspace button after cargo/equipment change (#550, #602, #609,
+      #611, #612)
+    * Fix directory handle leak (#618)
+    * Don't allow scripts to add more equipment than a ship has room for (#617, #616)
+    * Interplanetary Shuttle can no longer take a hyperdrive (#613)
+    * Fix crash on attack after high-risk delivery (#631)
+    * Fix crash in if player arrives in system before assassination target (#643)
+    * Fix crash when setting equipment in a slot that a ship doesn't have (#647, #648)
+    * Fix crash when rendering non-ship models under certain conditions (#646)
 
   * Script changes
-    * Experimental Lua console (#537)
+    * Experimental Lua console (#537, #597)
     * Lua events onShipEquipmentChanged and onShipFlavourChanged (#544, #547)
     * Lua method Ship.SetHullPercent to set a ship's damage level (#420, #472)
     * Lua method Ship.SetShipType to change the type of a ship (#404, #507)
+    * Lua methods Player.GetNavTarget and Player.GetCombatTarget to get the
+      currently-targetted bodies (#588, #583)
+    * Lua Lang interface to access core translated strings (#579, #575, #553)
+    * Lua Translate interface to let modules provide translations (#580, #625, #629)
+    * LMR methods fully documented (#615)
  
   * Internal changes
     * Lots of internal cleanups; silences many warnings under GCC (#477,
-      #484) and MSVC (#483)
-    * String and language updates (#509, #510, #514, #525, #528)
+      #484, #604) and MSVC (#483)
+    * String and language updates (#509, #510, #514, #525, #528, #622, #623)
     * Allow terrain generation to be aborted when the current set of terrains
       become unusable (eg after hyperspace or detail settings change) (#457, #490)
     * Shield generators now occupy their own equipment slot to remove the
@@ -65,6 +169,7 @@ Alpha 15
       problems (#535)
     * (OSX Only) Refactored and Restructured ObjectiveC code to be more
       manageable (#559)
+    * Use FBO extension functions (GL2) instead of core (GL3) (#608, #605)
 
 Alpha 14
 

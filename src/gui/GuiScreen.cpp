@@ -44,6 +44,12 @@ void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 	Screen::baseContainer->Show();
 }
 
+void Screen::Uninit()
+{
+	Screen::baseContainer->RemoveAllChildren();		// children deleted elsewhere?
+	delete Screen::baseContainer;
+}
+
 static sigc::connection _focusedWidgetOnDelete;
 
 void Screen::OnDeleteFocusedWidget()
@@ -75,7 +81,7 @@ void Screen::ShowBadError(const char *msg)
 	fprintf(stderr, "%s", msg);
 	baseContainer->HideChildren();
 	
-	Gui::Fixed *f = new Gui::Fixed(6*GetWidth()/8, 6*GetHeight()/8);
+	Gui::Fixed *f = new Gui::Fixed(6*GetWidth()/8.0f, 6*GetHeight()/8.0f);
 	Gui::Screen::AddBaseWidget(f, GetWidth()/8, GetHeight()/8);
 	f->SetTransparency(false);
 	f->SetBgColor(0.4,0,0,1.0);
@@ -83,7 +89,7 @@ void Screen::ShowBadError(const char *msg)
 
 	Gui::Button *okButton = new Gui::LabelButton(new Gui::Label("Ok"));
 	okButton->SetShortcut(SDLK_RETURN, KMOD_NONE);
-	f->Add(okButton, 10, 6*GetHeight()/8 - 32);
+	f->Add(okButton, 10.0f, 6*GetHeight()/8.0f - 32);
 	f->ShowAll();
 	f->Show();
 
@@ -102,9 +108,7 @@ bool Screen::Project(const vector3d &in, vector3d &out)
 	GLint o = gluProject(in.x, in.y, in.z, modelMatrix, projMatrix, viewport, &out.x, &out.y, &out.z);
 	out.x = out.x * width * invRealWidth;
 	out.y = GetHeight() - out.y * height * invRealHeight;
-	if (out.x*out.x > 1e8) return false;
-	if (out.y*out.y > 1e8) return false;			// these get converted to ints later, must be sane
-	return (o == GL_TRUE) ? true : false;
+	return (o == GL_TRUE);
 }
 
 void Screen::EnterOrtho()

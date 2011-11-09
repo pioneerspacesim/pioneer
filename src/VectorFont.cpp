@@ -4,6 +4,9 @@
 #define PARAGRAPH_SPACING 1.5f
 
 #ifdef _WIN32
+// to avoid including reams and reams of headers just for a couple of macros, they're duplicated here
+#define APIENTRY __stdcall
+#define CALLBACK __stdcall
 typedef GLvoid (APIENTRY *_GLUfuncptr)();
 #endif
 #ifdef __APPLE__
@@ -451,5 +454,14 @@ VectorFont::VectorFont(FontManager &fm, const std::string &config_filename) : Fo
 		
 		m_height = m_glyphs['M'].advy;
 		m_width = m_glyphs['M'].advx;
+	}
+}
+
+VectorFont::~VectorFont()
+{
+	std::map<int,glfglyph_t>::iterator i;
+	for (i=m_glyphs.begin(); i!=m_glyphs.end(); ++i) {
+		free ((*i).second.varray);
+		free ((*i).second.iarray);
 	}
 }

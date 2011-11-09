@@ -22,6 +22,7 @@ class BvhTree;
 class CollisionSpace {
 public:
 	CollisionSpace();
+	~CollisionSpace();
 	void AddGeom(Geom*);
 	void RemoveGeom(Geom*);
 	void AddStaticGeom(Geom*);

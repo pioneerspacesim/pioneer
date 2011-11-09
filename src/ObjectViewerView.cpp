@@ -72,7 +72,7 @@ void ObjectViewerView::Draw3D()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	float znear, zfar;
-	Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
+	Render::GetNearFarClipPlane(znear, zfar);
 	float fracH = znear / Pi::GetScrAspect();
 	glFrustum(-znear, znear, -fracH, fracH, znear, zfar);
 	glMatrixMode(GL_MODELVIEW);
@@ -130,7 +130,7 @@ void ObjectViewerView::Update()
 			m_sbodyLife->SetText(stringf("%0{f.3}", sbody->m_life.ToFloat()));
 			m_sbodyVolcanicity->SetText(stringf("%0{f.3}", sbody->m_volcanicity.ToFloat()));
 			m_sbodyMetallicity->SetText(stringf("%0{f.3}", sbody->m_metallicity.ToFloat()));
-			m_sbodySeed->SetText(stringf("%0{d}", sbody->seed));
+			m_sbodySeed->SetText(stringf("%0{u}", sbody->seed));
 			m_sbodyMass->SetText(stringf("%0{f}", sbody->mass.ToFloat()));
 			m_sbodyRadius->SetText(stringf("%0{f}", sbody->radius.ToFloat()));
 		}
