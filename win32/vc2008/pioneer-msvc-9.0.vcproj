@@ -741,10 +741,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\render\RenderFrustum.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\render\RenderShader.cpp"
 				>
 			</File>
@@ -1448,10 +1444,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\render\Render.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\render\RenderFrustum.h"
 				>
 			</File>
 			<File
