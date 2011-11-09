@@ -60,7 +60,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -75,7 +75,7 @@ Character = {
 -- 
 -- Availability:
 -- 
---   future
+--   alpha 17
 -- 
 -- Status:
 -- 
@@ -87,7 +87,7 @@ Character = {
 -- 
 -- Availability:
 -- 
---   future
+--   alpha 17
 -- 
 -- Status:
 -- 
@@ -99,7 +99,7 @@ Character = {
 -- 
 -- Availability:
 -- 
---   future
+--   alpha 17
 -- 
 -- Status:
 -- 
@@ -111,7 +111,7 @@ Character = {
 -- 
 -- Availability:
 -- 
---   future
+--   alpha 17
 -- 
 -- Status:
 -- 
@@ -128,7 +128,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -144,7 +144,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -160,7 +160,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -178,13 +178,30 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
 --   experimental
 --
 	lastSavedSystemPath = nil,
+
+--
+-- Attribute: playerRelationship
+--
+-- Integer attribute for roll-play style dice tests.  PlayerRelationship is
+-- intended to reflect the character's willingness to accommodate the player.
+-- Tested with 4xD16; useful values are 4 (despise) to 65 (adore).
+-- Modifiers can cause numbers outside this range to become useful (see TestRoll).
+--
+-- Availability:
+--
+--   alpha 17
+--
+-- Status:
+--
+--   experimental
+--
 
 --
 -- Attribute: luck
@@ -196,7 +213,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -214,7 +231,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -232,7 +249,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -250,7 +267,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -273,7 +290,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -293,7 +310,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -316,7 +333,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -338,7 +355,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -374,7 +391,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -425,7 +442,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -481,7 +498,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -524,7 +541,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -720,7 +737,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -766,7 +783,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -803,7 +820,7 @@ Character = {
 --
 -- Availability:
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
@@ -829,7 +846,7 @@ Character = {
 --
 -- Availability
 --
---   future
+--   alpha 17
 --
 -- Status:
 --
