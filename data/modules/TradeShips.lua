@@ -138,7 +138,6 @@ local getSystem = function (ship)
 	end
 
 	local target_system = nil
-	local cargo_list = ship:GetEquip('CARGO')
 	local best_prices = 0
 
 	-- find best system for cargo
@@ -146,10 +145,8 @@ local getSystem = function (ship)
 		if #next_system:GetStationPaths() > 0 then
 			local prices = next_system:GetCommodityBasePriceAlterations()
 			local next_prices = 0
-			for _, cargo in ipairs(cargo_list) do
-				if cargo ~= 'HYDROGEN' and cargo ~= 'NONE' then
-					next_prices = next_prices + prices[cargo]
-				end
+			for cargo, count in pairs(trade_ships[ship.label]['cargo']) do
+				next_prices = next_prices + (prices[cargo] * count)
 			end
 			if next_prices > best_prices then
 				target_system, best_prices = next_system, next_prices
