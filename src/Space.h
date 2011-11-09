@@ -51,23 +51,35 @@ public:
 	Body *FindNearestTo(const Body *b, Object::Type t);
 	Body *FindBodyForPath(const SystemPath *path);
 
-	// XXX make private
-	std::list<Body*> bodies;
-	typedef std::list<Body*>::iterator bodiesIter_t;
-	Frame *rootFrame;
+	typedef std::list<Body*>::const_iterator BodyIterator;
+	const std::list<Body*> &GetBodies() const {
+		return m_bodies;
+	}
+	const std::list<Body*> &GetActiveBodies() const {
+		return m_activeBodies;
+	}
 
 private:
 	void GenBody(SBody *b, Frame *f);
 	// make sure SBody* is in Pi::currentSystem
 	Frame *GetFrameWithSBody(const SBody *b);
 
-	void PruneCorpses();
+	void CleanupBodies();
 
 	void CollideFrame(Frame *f);
 
+	Frame *rootFrame;
+
 	StarSystem *m_starSystem;
 
-	std::list<Body*> corpses;
+	// all the bodies we know about
+	std::list<Body*> m_bodies;
+
+	// bodies that are active for the current timestep
+	std::list<Body*> m_activeBodies;
+
+	// bodies that were killed this timestep and need removing
+	std::list<Body*> m_deadBodies;
 };
 
 class SpaceManager {

@@ -448,26 +448,19 @@ void Player::Hyperspace()
 
 	// find all the departure clouds, convert them to arrival clouds and store
 	// them for the next system
-	// XXX no ++i here because space->bodies can change. sucky
 	m_hyperspaceClouds.clear();
-	for (Space::bodiesIter_t i = Pi::spaceManager->GetCurrentSpace()->bodies.begin(); i != Pi::spaceManager->GetCurrentSpace()->bodies.end();) {
-		if (!(*i)->IsType(Object::HYPERSPACECLOUD)) {
-			++i;
-			continue;
-		}
+	for (Space::BodyIterator i = Pi::spaceManager->GetCurrentSpace()->GetActiveBodies().begin(); i != Pi::spaceManager->GetCurrentSpace()->GetActiveBodies().end(); ++i) {
+
+		if (!(*i)->IsType(Object::HYPERSPACECLOUD)) continue;
 
 		// only want departure clouds with ships in them
 		HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(*i);
-		if (cloud->IsArrival() || cloud->GetShip() == 0) {
-			++i;
+		if (cloud->IsArrival() || cloud->GetShip() == 0)
 			continue;
-		}
 
 		// make sure they're going to the same place as us
-		if (!dest.IsSameSystem(cloud->GetShip()->GetHyperspaceDest())) {
-			++i;
+		if (!dest.IsSameSystem(cloud->GetShip()->GetHyperspaceDest()))
 			continue;
-		}
 
 		// remove it from space
 		Pi::spaceManager->GetCurrentSpace()->RemoveBody(cloud);

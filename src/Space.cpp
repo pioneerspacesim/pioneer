@@ -48,12 +48,10 @@ Space::Space(Serializer::Reader &rd)
 
 Space::~Space()
 {
-	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
-		(*i)->SetFrame(0);
+	for (std::list<Body*>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		KillBody(*i);
-	}
 
-	PruneCorpses();
+	CleanupBodies();
 
 	delete rootFrame;
 
@@ -61,26 +59,15 @@ Space::~Space()
 		m_starSystem->Release();
 }
 
-void Space::PruneCorpses()
-{
-	for (bodiesIter_t corpse = corpses.begin(); corpse != corpses.end(); ++corpse) {
-		for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
-			(*i)->NotifyDeleted(*corpse);
-		bodies.remove(*corpse);
-		delete *corpse;
-	}
-	corpses.clear();
-}
-
 void Space::AddBody(Body *b)
 {
-	bodies.push_back(b);
+	m_bodies.push_back(b);
 }
 
 void Space::RemoveBody(Body *b)
 {
 	b->SetFrame(0);
-	bodies.remove(b);
+	m_bodies.remove(b);
 }
 
 void Space::KillBody(Body* b)
@@ -94,14 +81,15 @@ void Space::KillBody(Body* b)
 		// XXX this seems like the wrong way to do it. since its still "alive"
 		// it still collides, moves, etc. better to just snapshot its position
 		// elsewhere
-		if (b != Pi::player) corpses.push_back(b);
+		if (b != Pi::player)
+			m_deadBodies.push_back(b);
 	}
 }
 
 // XXX this is only called by Missile::Explode. consider moving it there
 void Space::RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, double kgDamage)
 {
-	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
+	for (std::list<Body*>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
 		if ((*i)->GetFrame() != f) continue;
 		double dist = ((*i)->GetPosition() - pos).Length();
 		if (dist < radius) {
@@ -116,7 +104,7 @@ void Space::RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double r
 void Space::DoECM(const Frame *f, const vector3d &pos, int power_val)
 {
 	const float ECM_RADIUS = 4000.0f;
-	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
+	for (std::list<Body*>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
 		if ((*i)->GetFrame() != f) continue;
 		if (!(*i)->IsType(Object::MISSILE)) continue;
 
@@ -157,7 +145,7 @@ Body *Space::FindNearestTo(const Body *b, Object::Type t)
 {
 	Body *nearest = 0;
 	double dist = FLT_MAX;
-	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
+	for (std::list<Body*>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
 		if ((*i)->IsDead()) continue;
 		if ((*i)->IsType(t)) {
 			double d = (*i)->GetPositionRelTo(b).Length();
@@ -177,7 +165,7 @@ Body *Space::FindBodyForPath(const SystemPath *path)
 
 	if (!body) return 0;
 
-	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
 		if ((*i)->GetSBody() == body) return *i;
 	}
 	return 0;
@@ -193,8 +181,8 @@ void Serialize(Serializer::Writer &wr)
 	Frame::Serialize(wr2, rootFrame);
 	wr.WrSection("Frames", wr2.GetData());
 
-	wr.Int32(bodies.size());
-	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+	wr.Int32(m_bodies.size());
+	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
 		//printf("Serializing %s\n", (*i)->GetLabel().c_str());
 		(*i)->Serialize(wr);
 	}
@@ -218,21 +206,21 @@ void Serialize(Serializer::Writer &wr)
 /*
 void Unserialize(Serializer::Reader &rd)
 {
-	Serializer::IndexSystemBodies(Pi::spaceManager->GetCurrentSpace()->GetStarSystem());
+	Serializer::IndexSystemm_bodies(Pi::spaceManager->GetCurrentSpace()->GetStarSystem());
 	
 	Serializer::Reader rd2 = rd.RdSection("Frames");
 	rootFrame = Frame::Unserialize(rd2, 0);
 	
 	// XXX not needed. done in Pi::Unserialize
 	Serializer::IndexFrames();
-	int num_bodies = rd.Int32();
-	//printf("%d bodies to read\n", num_bodies);
-	for (int i=0; i<num_bodies; i++) {
+	int num_m_bodies = rd.Int32();
+	//printf("%d m_bodies to read\n", num_m_bodies);
+	for (int i=0; i<num_m_bodies; i++) {
 		Body *b = Body::Unserialize(rd);
-		if (b) bodies.push_back(b);
+		if (b) m_bodies.push_back(b);
 	}
-	num_bodies = rd.Int32();
-	for (int i=0; i<num_bodies; i++) {
+	num_m_bodies = rd.Int32();
+	for (int i=0; i<num_m_bodies; i++) {
 		Body *b = Body::Unserialize(rd);
 		if (b) storedArrivalClouds.push_back(static_cast<HyperspaceCloud*>(b));
 	}
@@ -244,9 +232,9 @@ void Unserialize(Serializer::Reader &rd)
 		hyperspaceDuration = rd.Double();
 		hyperspaceEndTime = rd.Double();
 	}
-	// bodies with references to others must fix these up
-	Serializer::IndexBodies();
-	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+	// m_bodies with references to others must fix these up
+	Serializer::Indexm_bodies();
+	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
 		(*i)->PostLoadFixup();
 	}
 	Frame::PostUnserializeFixup(rootFrame);
@@ -524,7 +512,7 @@ void Space::CollideFrame(Frame *f)
 {
 	if (f->m_astroBody && (f->m_astroBody->IsType(Object::TERRAINBODY))) {
 		// this is pretty retarded
-		for (bodiesIter_t i = bodies.begin(); i!=bodies.end(); ++i) {
+		for (BodyIterator i = m_bodies.begin(); i!=m_bodies.end(); ++i) {
 			if ((*i)->GetFrame() != f) continue;
 			if (!(*i)->IsType(Object::DYNAMICBODY)) continue;
 			DynamicBody *dynBody = static_cast<DynamicBody*>(*i);
@@ -573,7 +561,7 @@ void Space::CollideFrame(Frame *f)
 void Space::TimeStep(float step)
 {
 	// no or one body means there's nothing much to do (eg hyperspace)
-	if (bodies.size() <= 1)
+	if (m_bodies.size() <= 1)
 		return;
 
 	/* XXX move to Player timestep for hyperspace
@@ -591,19 +579,21 @@ void Space::TimeStep(float step)
 	}
 	*/
 
+	m_activeBodies = m_bodies;
+
 	Space::CollideFrame(rootFrame);
 	// XXX does not need to be done this often
 
 	// update frames of reference
-	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i)
+	for (BodyIterator i = m_activeBodies.begin(); i != m_activeBodies.end(); ++i)
 		(*i)->UpdateFrame();
 
 	rootFrame->UpdateOrbitRails();
 	
-	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
+	for (BodyIterator i = m_activeBodies.begin(); i != m_activeBodies.end(); ++i)
 		(*i)->StaticUpdate(step);			// moved so timestep is correct during StaticUpdate
 
-	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
+	for (BodyIterator i = m_activeBodies.begin(); i != m_activeBodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);
 	
 	Pi::cpan->TimeStepUpdate(step);
@@ -630,7 +620,20 @@ void Space::TimeStep(float step)
 
 	Pi::luaTimer->Tick();
 
-	PruneCorpses();
+	m_activeBodies.clear();
+
+	CleanupBodies();
+}
+
+void Space::CleanupBodies()
+{
+	for (BodyIterator b = m_deadBodies.begin(); b != m_deadBodies.end(); ++b) {
+		for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
+			(*i)->NotifyDeleted(*b);
+		m_bodies.remove(*b);
+		delete *b;
+	}
+    m_deadBodies.clear();
 }
 
 /*
@@ -638,6 +641,7 @@ void Space::TimeStep(float step)
  */
 void Space::StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 {
+#if 0
 	int fuelUsage;
 	double duration;
 	if (!ship->CanHyperspaceTo(dest, fuelUsage, duration)) return;
@@ -648,7 +652,7 @@ void Space::StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 	if (Pi::player == ship) {
 	} else {
 		// XXX note that cloud now takes ownership of the ship object, and
-		// so we can drop the reference in Space::bodies. ship will be freed
+		// so we can drop the reference in Space::m_bodies. ship will be freed
 		// when the hyperspacecloud is freed
 		HyperspaceCloud *cloud = new HyperspaceCloud(ship, Pi::GetGameTime() + duration, false);
 		cloud->SetFrame(ship->GetFrame());
@@ -657,7 +661,7 @@ void Space::StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 
 		// need to swap ship out of bodies list, replacing it with
 		// cloud
-		for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+		for (std::list<Body*>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
 			if (*i == ship) {
 				*i = cloud;
 				break;
@@ -667,10 +671,10 @@ void Space::StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 		if (Pi::player->GetCombatTarget() == ship && !Pi::player->GetNavTarget())
 			Pi::player->SetNavTarget(cloud);
 
-		// Hyperspacing ship must drop references to all other bodies,
+		// Hyperspacing ship must drop references to all other m_bodies,
 		// and they must all drop references to it.
 		// make other objects drop their references to this dude
-		for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+		for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
 			if (*i != cloud) {
 				(*i)->NotifyDeleted(ship);
 				ship->NotifyDeleted(*i);
@@ -679,6 +683,7 @@ void Space::StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 
 		ship->SetFlightState(Ship::HYPERSPACE);
 	}
+#endif
 }
 
 /*

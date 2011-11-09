@@ -624,7 +624,7 @@ void Pi::SetTimeAccel(int s)
 		player->SetAngThrusterState(vector3d(0.0));
 	}
 	// Give all ships a half-step acceleration to stop autopilot overshoot
-	for (std::list<Body*>::iterator i = spaceManager->GetCurrentSpace()->bodies.begin(); i != spaceManager->GetCurrentSpace()->bodies.end(); ++i) {
+	for (Space::BodyIterator i = spaceManager->GetCurrentSpace()->GetBodies().begin(); i != spaceManager->GetCurrentSpace()->GetBodies().end(); ++i) {
 		if ((*i)->IsType(Object::SHIP)) (static_cast<DynamicBody *>(*i))->ApplyAccel(0.5f*Pi::GetTimeStep());
 	}
 
@@ -1011,7 +1011,7 @@ void Pi::InitGame()
 void Pi::StarportStart(Uint32 starport)
 {
 	SpaceStation *station = 0;
-	for (Space::bodiesIter_t i = spaceManager->GetCurrentSpace()->bodies.begin(); i != spaceManager->GetCurrentSpace()->bodies.end(); ++i) {
+	for (Space::BodyIterator i = spaceManager->GetCurrentSpace()->GetBodies().begin(); i != spaceManager->GetCurrentSpace()->GetBodies().end(); ++i) {
 		if ((*i)->IsType(Object::SPACESTATION) && !starport--) {
 				station = static_cast<SpaceStation*>(*i);
 				break;
@@ -1363,7 +1363,8 @@ void Pi::MainLoop()
 		glLoadIdentity();
 		
 		/* Calculate position for this rendered frame (interpolated between two physics ticks */
-		for (std::list<Body*>::iterator i = space->bodies.begin(); i != space->bodies.end(); ++i) {
+        // XXX should this be here? what is this anyway?
+		for (Space::BodyIterator i = space->GetBodies().begin(); i != space->GetBodies().end(); ++i) {
 			(*i)->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 		}
 		space->GetRootFrame()->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
@@ -1407,7 +1408,7 @@ void Pi::MainLoop()
 
 			else if (!Pi::forceTimeAccel) {
 				// check we aren't too near to objects for timeaccel //
-				for (std::list<Body*>::iterator i = space->bodies.begin(); i != space->bodies.end(); ++i) {
+				for (Space::BodyIterator i = space->GetBodies().begin(); i != space->GetBodies().end(); ++i) {
 					if ((*i) == Pi::player) continue;
 					if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
 				
