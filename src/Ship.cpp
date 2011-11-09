@@ -465,19 +465,6 @@ bool Ship::CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double 
 
 Ship::HyperjumpStatus Ship::StartHyperspaceCountdown(const SystemPath &dest)
 {
-	Ship::HyperjumpStatus status = Hyperspace(dest);
-	if (status != Ship::HYPERJUMP_OK)
-		return status;
-	
-	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-	m_hyperspace.countdown = 1.0f + Equip::types[t].pval;
-	m_hyperspace.now = false;
-
-	return Ship::HYPERJUMP_OK;
-}
-
-Ship::HyperjumpStatus Ship::Hyperspace(const SystemPath &dest)
-{
 	int fuelUsage;
 	double duration;
 
@@ -486,8 +473,10 @@ Ship::HyperjumpStatus Ship::Hyperspace(const SystemPath &dest)
 		return status;
 
 	m_hyperspace.dest = dest;
-	m_hyperspace.countdown = 0;
-	m_hyperspace.now = true;
+
+	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
+	m_hyperspace.countdown = 1.0f + Equip::types[t].pval;
+	m_hyperspace.now = false;
 
 	return Ship::HYPERJUMP_OK;
 }
