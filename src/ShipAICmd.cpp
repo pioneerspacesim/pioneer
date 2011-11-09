@@ -699,7 +699,6 @@ static int CheckCollision(Ship *ship, const vector3d &pathdir, double pathdist, 
 	// if ship inside, check for max feature height and direct escape (30 degree)
 	if (slen < r) {
 		if (slen < fr) return 1;
-		double af = (slen > fr) ? 0.5 * (1 - (slen-fr) / (r-fr)) : 0.5;
 		if (pathdir.Dot(spos) < 0.5*slen) return 2; else return 0;
 	}
 
@@ -840,7 +839,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	vector3d targvel = GetVelInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
 	vector3d relvel = m_ship->GetVelocity() - targvel;
 	vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
-	bool safemode = ParentSafetyAdjust(m_ship, m_targframe, m_posoff, targpos);
+	ParentSafetyAdjust(m_ship, m_targframe, m_posoff, targpos);
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
 	double targdist = relpos.Length();
@@ -1124,7 +1123,7 @@ bool AICmdFlyAround::TimeStepUpdate()
 	double ivel = calc_ivel(alt - m_alt, 0.0, m_ship->GetAccelMin());
 
 	vector3d finalvel = tanvel + ivel * obsdir;
-	bool vmatch = m_ship->AIMatchVel(finalvel);
+	m_ship->AIMatchVel(finalvel);
 	m_ship->AIFaceDirection(fwddir);
 
 //	vector3d newhead = GenerateTangent(m_ship, m_obstructor->GetFrame(), fwddir);
