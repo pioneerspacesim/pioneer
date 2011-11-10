@@ -142,8 +142,14 @@ public:
 	void AIClearInstructions();
 	bool AIIsActive() { return m_curAICmd ? true : false; }
 	void AIGetStatusText(char *str);
-	enum AIError { NONE=0, GRAV_TOO_HIGH, REFUSED_PERM, ORBIT_IMPOSSIBLE };
-	AIError AIMessage(AIError msg=NONE) { AIError tmp = m_aiMessage; m_aiMessage = msg; return tmp; }
+
+	enum AIError { // <enum scope='Ship' name=ShipAIError prefix=AIERROR_>
+		AIERROR_NONE=0,
+		AIERROR_GRAV_TOO_HIGH,
+		AIERROR_REFUSED_PERM,
+		AIERROR_ORBIT_IMPOSSIBLE
+	};
+	AIError AIMessage(AIError msg=AIERROR_NONE) { AIError tmp = m_aiMessage; m_aiMessage = msg; return tmp; }
 
 	void AIKamikaze(Body *target);
 	void AIKill(Ship *target);

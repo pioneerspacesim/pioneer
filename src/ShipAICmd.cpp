@@ -901,7 +901,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 	// linear thrust
 	double ang, maxdecel = GetMaxDecel(m_ship, reldir, m_state, &ang);
 	maxdecel -= GetGravityAtPos(m_targframe, m_posoff);
-	if(maxdecel <= 0) { m_ship->AIMessage(Ship::GRAV_TOO_HIGH); return true; }
+	if(maxdecel <= 0) { m_ship->AIMessage(Ship::AIERROR_GRAV_TOO_HIGH); return true; }
 	bool cap = m_ship->AIMatchPosVel2(reldir, targdist, relvel, m_endvel, maxdecel);
 
 	// flip check - if facing forward and not accelerating at maximum
@@ -955,7 +955,7 @@ bool AICmdDock::TimeStepUpdate()
 		std::string msg;
 		m_target->GetDockingClearance(m_ship, msg);
 		port = m_target->GetMyDockingPort(m_ship);
-		if (port == -1) { m_ship->AIMessage(Ship::REFUSED_PERM); return true; }
+		if (port == -1) { m_ship->AIMessage(Ship::AIERROR_REFUSED_PERM); return true; }
 	}
 
 	// state 0,2: Get docking data
@@ -1026,7 +1026,7 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int targmod
 
 	// check if altitude is within obstructor frame
 	if (alt > 0.9 * GetNonRotFrame(obstructor)->GetRadius()) {
-		m_ship->AIMessage(Ship::ORBIT_IMPOSSIBLE);
+		m_ship->AIMessage(Ship::AIERROR_ORBIT_IMPOSSIBLE);
 		m_targmode = 1; m_target = 0;			// force an exit
 	}
 }
