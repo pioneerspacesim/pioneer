@@ -154,7 +154,8 @@ def lex(lines):
         ln, toktype, toktext = match_pp_token(ln, lines)
         # preprocessor include directives are a little special
         # (the source path is a different token type that only matches in this context)
-        if toktype == 'punctuation' and toktext == '#':
+        # this if predicate also copes with null directives (C99 6.10.7)
+        if toktype == 'punctuation' and toktext == '#' and ln != '':
             yield toktype, toktext
             ln, toktype, toktext = match_pp_token(ln, lines)
             while toktype == 'comment':
