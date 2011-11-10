@@ -414,5 +414,5 @@ def main():
         with open(cpath, 'w') as fl:
             write_tables(enums, headers, os.path.basename(hpath), fl)
 
-if __name__ == '__main__':
+if __name__ == '__main__' and not sys.flags.interactive:
     main()
