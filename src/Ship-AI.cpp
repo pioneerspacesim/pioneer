@@ -8,6 +8,7 @@
 #include "Planet.h"
 #include "SpaceStation.h"
 #include "Space.h"
+#include "LuaConstants.h"
 
 
 
@@ -85,7 +86,7 @@ bool Ship::AITimeStep(float timeStep)
 	if (m_curAICmd->TimeStepUpdate()) {
 		AIClearInstructions();
 //		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
-		Pi::luaOnAICompleted->Queue(this);
+		Pi::luaOnAICompleted->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipAIError", AIMessage()));
 		return true;
 	}
 	else return false;
