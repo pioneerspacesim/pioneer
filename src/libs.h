@@ -32,7 +32,7 @@
 #		ifndef isfinite
 inline int isfinite(double x) { return _finite(x); }
 #		endif
-#
+
 #		include "win32-dirent.h"
 #	else
 #		include <dirent.h>
@@ -40,7 +40,6 @@ inline int isfinite(double x) { return _finite(x); }
 #		include <stdexcept>
 #		define WINSHLWAPI
 #	endif /* __MINGW32__ */
-#
 
 #else /* !_WIN32 */
 #	include <dirent.h>
