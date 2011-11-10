@@ -1,10 +1,13 @@
-local messages = {
-	GRAV_TOO_HIGH    = 'Cannot compensate for local gravity',
-	REFUSED_PERM     = 'Starport refused docking permission',
-	ORBIT_IMPOSSIBLE = 'Cannot compute orbit paramaters',
-}
+local t = Translate:GetTranslator()
 
 EventQueue.onAICompleted:Connect(function (s, e)
+
+	local messages = {
+		GRAV_TOO_HIGH    = t('Cannot compensate for local gravity'),
+		REFUSED_PERM     = t('Starport refused docking permission'),
+		ORBIT_IMPOSSIBLE = t('Cannot compute orbit paramaters'),
+	}
+
 	if e == 'NONE' then return end
 	if not s:IsPlayer() then return end
 	
