@@ -468,18 +468,18 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 #if DEVKEYS
 	if (Pi::showDebugInfo) {
-		char buf[1024];
+		char buf[1024], aibuf[256];
 		vector3d pos = Pi::player->GetPosition();
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Space::rootFrame);
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
-
+		Pi::player->AIGetStatusText(aibuf); aibuf[255] = 0;
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
-			"Rel-to: %s (%.0f km), rotating: %s\n",
+			"Rel-to: %s (%.0f km), rotating: %s\n" "%s",
 			pos.x, pos.y, pos.z,
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
-			rel_to, pos.Length()/1000, rot_frame);
+			rel_to, pos.Length()/1000, rot_frame, aibuf);
 
 		m_debugInfo->SetText(buf);
 		m_debugInfo->Show();
@@ -1162,7 +1162,7 @@ void WorldView::UpdateProjectedObjects()
 			// now the text speed/distance
 			// want to calculate closing velocity that you couldn't counter with retros
 
-			double vel = targvel.z; // position should be towards
+			double vel = targvel.Dot(targpos.NormalizedSafe()); // position should be towards
 			double raccel =
 				Pi::player->GetShipType().linThrust[ShipType::THRUSTER_REVERSE] / Pi::player->GetMass();
 

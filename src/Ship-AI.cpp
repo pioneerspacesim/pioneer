@@ -99,6 +99,12 @@ void Ship::AIClearInstructions()
 	m_curAICmd = 0;
 }
 
+void Ship::AIGetStatusText(char *str)
+{
+	if (!m_curAICmd) strcpy(str, "AI inactive");
+	else m_curAICmd->GetStatusText(str);
+}
+
 void Ship::AIKamikaze(Body *target)
 {
 	AIClearInstructions();
@@ -134,7 +140,7 @@ void Ship::AIDock(SpaceStation *target)
 void Ship::AIOrbit(Body *target, double alt)
 {
 	AIClearInstructions();
-	m_curAICmd = new AICmdFlyTo(this, target, alt);
+	m_curAICmd = new AICmdFlyAround(this, target, alt);
 }
 
 void Ship::AIHoldPosition()
@@ -153,14 +159,14 @@ void Ship::AIHoldPosition()
 // sometimes endvel is too low to catch moving objects
 // worked around with half-accel hack in dynamicbody & pi.cpp
 
-static double calc_ivel(double dist, double vel, double acc)
+double calc_ivel(double dist, double vel, double acc)
 {
 	bool inv = false;
 	if (dist < 0) { dist = -dist; vel = -vel; inv = true; }
 	double ivel = 0.9 * sqrt(vel*vel + 2.0 * acc * dist);		// fudge hardly necessary
 
 	double endvel = ivel - (acc * Pi::GetTimeStep());
-	if (float_is_zero_general(vel) && endvel <= 0.0) ivel = dist / Pi::GetTimeStep();	// last frame discrete correction
+	if (endvel <= 0.0) ivel = dist / Pi::GetTimeStep();	// last frame discrete correction
 	else ivel = (ivel + endvel) * 0.5;					// discrete overshoot correction
 //	else ivel = endvel + 0.5*acc/PHYSICS_HZ;			// unknown next timestep discrete overshoot correction
 
@@ -198,9 +204,8 @@ bool Ship::AIChangeVelBy(const vector3d &diffvel)
 }
 
 // relpos and relvel are position and velocity of ship relative to target in ship's frame
-// targvel is in direction of motion, must be positive
+// targspeed is in direction of motion, must be positive
 // returns difference in closing speed from ideal, or zero if it thinks it's at the target
-// flip == true means it uses main thruster value for determining decel point
 double Ship::AIMatchPosVel(const vector3d &relpos, const vector3d &relvel, double targspeed, const vector3d &maxthrust)
 {
 	matrix4x4d rot; GetRotMatrix(rot);
@@ -219,6 +224,34 @@ double Ship::AIMatchPosVel(const vector3d &relpos, const vector3d &relvel, doubl
 	vector3d diffvel = ivel - objvel;		// required change in velocity
 	AIChangeVelBy(diffvel);
 	return diffvel.Dot(reldir);
+}
+
+// reldir*targdist and relvel are pos and vel of ship relative to target in ship's frame
+// endspeed is in direction of motion, must be positive
+// maxdecel is maximum deceleration thrust
+bool Ship::AIMatchPosVel2(const vector3d &reldir, double targdist, const vector3d &relvel, double endspeed, double maxdecel)
+{
+	matrix4x4d rot; GetRotMatrix(rot);
+	double parspeed = relvel.Dot(reldir);
+	double ivel = calc_ivel(targdist, endspeed, maxdecel);
+	double diffspeed = ivel - parspeed;
+	vector3d diffvel = diffspeed * reldir * rot;
+	bool rval = false;
+
+	// crunch diffvel by relative thruster power to get acceleration in right direction
+	if (diffspeed > 0.0) {
+		vector3d maxFA = GetMaxThrust(diffvel) * Pi::GetTimeStep() / GetMass();
+		if (abs(diffvel.x) > maxFA.x) diffvel *= maxFA.x / abs(diffvel.x);
+		if (abs(diffvel.y) > maxFA.y) diffvel *= maxFA.y / abs(diffvel.y);
+//		if (abs(diffvel.z) > maxFA.z) diffvel *= maxFA.z / abs(diffvel.z);
+		if (maxFA.z < diffspeed) rval = true;
+	}
+
+	// add perpendicular velocity
+	vector3d perpvel = relvel - parspeed*reldir;
+	diffvel -= perpvel * rot;
+	AIChangeVelBy(diffvel);
+	return rval;			// true if acceleration was capped
 }
 
 // Input in object space
@@ -255,13 +288,15 @@ vector3d Ship::AIGetNextFramePos()
 	return pos;
 }
 
-double Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
+// returns true if ship will be aligned at end of frame
+bool Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 {
 	double timeStep = Pi::GetTimeStep();
-	matrix4x4d rot; GetRotMatrix(rot);
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
+	if (maxAccel <= 0.0) return 0.0;
 	double frameAccel = maxAccel * timeStep;
 	
+	matrix4x4d rot; GetRotMatrix(rot);
 	if (dir.Dot(vector3d(rot[8], rot[9], rot[10])) > -0.999999)
 		{ AIFaceDirection(dir); return false; }
 	
@@ -276,16 +311,14 @@ double Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 		double frameEndAV = iangvel - frameAccel;
 		if (frameEndAV <= 0.0) iangvel = ang / timeStep;	// last frame discrete correction
 		else iangvel = (iangvel + frameEndAV) * 0.5;		// discrete overshoot correction
-		dav.z = -iangvel;
+		dav.z = uphead.x > 0 ? -iangvel : iangvel;
 	}
 	vector3d cav = (GetAngVelocity() - GetFrame()->GetAngVelocity()) * rot;				// current obj-rel angvel
 //	vector3d cav = GetAngVelocity() * rot;				// current obj-rel angvel
 	vector3d diff = (dav - cav) / frameAccel;			// find diff between current & desired angvel
 
 	SetAngThrusterState(diff);
-	return ang;
-//	if (diff.x*diff.x > 1.0 || diff.y*diff.y > 1.0 || diff.z*diff.z > 1.0) return false;
-//	else return true;
+	return (diff.z*diff.z < 1.0);
 }
 
 
@@ -297,15 +330,11 @@ double Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 double Ship::AIFaceDirection(const vector3d &dir, double av)
 {
 	double timeStep = Pi::GetTimeStep();
-
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
-	if (maxAccel <= 0.0)
-		// happens if no angular thrust is set for the model eg MISSILE_UNGUIDED
-		return 0.0;
+	if (maxAccel <= 0.0) return 0.0;
 	double frameAccel = maxAccel * timeStep;
 
 	matrix4x4d rot; GetRotMatrix(rot);
-
 	vector3d head = (dir * rot).Normalized();		// create desired object-space heading
 	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity
 
@@ -320,7 +349,7 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 		else iangvel = (iangvel + frameEndAV) * 0.5;		// discrete overshoot correction
 
 		// Normalize (head.x, head.y) to give desired angvel direction
-		if (head.z > 0.9999) head.x = 1.0;
+		if (head.z > 0.999999) head.x = 1.0;
 		double head2dnorm = 1.0 / sqrt(head.x*head.x + head.y*head.y);		// NAN fix shouldn't be necessary if inputs are normalized
 		dav.x = head.y * head2dnorm * iangvel;
 		dav.y = -head.x * head2dnorm * iangvel;
@@ -331,8 +360,6 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 
 	SetAngThrusterState(diff);
 	return ang;
-//if (diff.x*diff.x > 1.0 || diff.y*diff.y > 1.0 || diff.z*diff.z > 1.0) return false;
-//	else return true;
 }
 
 
@@ -357,33 +384,31 @@ vector3d Ship::AIGetLeadDir(const Body *target, const vector3d& targaccel, int g
 	return leadpos.Normalized();
 }
 
-/* Don't actually need this
 // same inputs as matchposvel, returns approximate travel time instead
+// underestimates if targspeed isn't reachable
 double Ship::AITravelTime(const vector3d &relpos, const vector3d &relvel, double targspeed, bool flip)
 {
 	matrix4x4d rot; GetRotMatrix(rot);
 	double dist = relpos.Length();
 	double speed = -(relvel * rot).z;		// speed >0 is towards
 
-	double faccel = -GetShipType().linThrust[ShipType::THRUSTER_FORWARD] / GetMass();
-	double raccel = GetShipType().linThrust[ShipType::THRUSTER_REVERSE] / GetMass();
+	double faccel = GetAccelFwd();
+	double raccel = GetAccelRev();
 	if (flip) raccel = faccel;
-
-	// first part is time necessary to change speed to zero
 	double time1, time2, time3;
-	time1 = (targspeed-speed) / faccel;
-	dist += 0.5 * time1 * (targspeed-speed);
 
-	// now time to cover the remaining distance		
+	// time to reduce speed to zero:
+	time1 = -speed / faccel;
+	dist += 0.5 * time1 * -speed;
 
-	time2 = sqrt(2 * naccel)
+	// time to reduce speed to zero after target reached:
+	time3 = -targspeed / raccel;
+	dist += 0.5 * time3 * -targspeed;
+	
+	// now time to cover distance between zero-vel points
+	// midpoint = intercept of two gradients
+	double m = dist*raccel / (faccel+raccel);
+	time2 = sqrt(2*m/faccel) + sqrt(2*(dist-m)/raccel);
 
-	// find ideal velocities at current time given reverse thrust level
-	double ispeed = 0.9 * sqrt(targspeed*targspeed + 2.0*paccel*dist);
-
-	vector3d diffvel = ivel - objvel;		// required change in velocity
-	AIChangeVelBy(diffvel);
-
-	return diffvel.Dot(reldir);
+	return time1+time2+time3;
 }
-*/
