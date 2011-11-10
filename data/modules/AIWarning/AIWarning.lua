@@ -11,5 +11,5 @@ EventQueue.onAICompleted:Connect(function (s, e)
 	if e == 'NONE' then return end
 	if not s:IsPlayer() then return end
 	
-	UI.ImportantMessage(messages[e], 'autopilot')
+	UI.ImportantMessage(messages[e], t('AUTOPILOT'))
 end)
