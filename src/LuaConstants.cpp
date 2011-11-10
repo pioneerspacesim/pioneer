@@ -559,6 +559,27 @@ void LuaConstants::Register(lua_State *l)
 	_create_constant_table_nonconsecutive(l, "ShipFlightState", ENUM_ShipFlightState);
 
 	/*
+	 * Constants: ShipAIError
+	 *
+	 * AI command error/result code passed to EventQueue.onAICompleted
+	 *
+	 * NONE             - AI completed successfully
+	 * GRAV_TOO_HIGH    - AI can not compensate for gravity
+	 * REFUSED_PERM     - AI was refused docking permission
+	 * ORBIT_IMPOSSIBLE - AI was asked to enter an impossible orbit (orbit is
+	 *                    outside target's frame)
+	 *
+	 * Availability:
+	 *
+	 *   alpha 17
+	 *
+	 * Status:
+	 *
+	 *   experimental
+	 */
+	_create_constant_table_nonconsecutive(l, "ShipAIError", ENUM_ShipAIError);
+
+	/*
 	 * Constants: ShipAnimation
 	 *
 	 * Animation code used by LMR. Pass one of these constants to
