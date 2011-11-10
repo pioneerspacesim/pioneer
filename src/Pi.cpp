@@ -98,7 +98,7 @@ LuaEventQueue<Ship,Body> *Pi::luaOnShipLanded;
 LuaEventQueue<Ship,Body> *Pi::luaOnShipTakeOff;
 LuaEventQueue<Ship,const char *> *Pi::luaOnShipAlertChanged;
 LuaEventQueue<Ship,CargoBody> *Pi::luaOnJettison;
-LuaEventQueue<Ship> *Pi::luaOnAICompleted;
+LuaEventQueue<Ship,const char *> *Pi::luaOnAICompleted;
 LuaEventQueue<SpaceStation> *Pi::luaOnCreateBB;
 LuaEventQueue<SpaceStation> *Pi::luaOnUpdateBB;
 LuaEventQueue<> *Pi::luaOnSongFinished;
@@ -233,7 +233,7 @@ static void LuaInit()
 	Pi::luaOnShipTakeOff = new LuaEventQueue<Ship,Body>("onShipTakeOff");
 	Pi::luaOnShipAlertChanged = new LuaEventQueue<Ship,const char *>("onShipAlertChanged");
 	Pi::luaOnJettison = new LuaEventQueue<Ship,CargoBody>("onJettison");
-	Pi::luaOnAICompleted = new LuaEventQueue<Ship>("onAICompleted");
+	Pi::luaOnAICompleted = new LuaEventQueue<Ship,const char *>("onAICompleted");
 	Pi::luaOnCreateBB = new LuaEventQueue<SpaceStation>("onCreateBB");
 	Pi::luaOnUpdateBB = new LuaEventQueue<SpaceStation>("onUpdateBB");
 	Pi::luaOnSongFinished = new LuaEventQueue<>("onSongFinished");
@@ -627,10 +627,9 @@ void Pi::SetTimeAccel(int s)
 		player->SetAngThrusterState(vector3d(0.0));
 	}
 	// Give all ships a half-step acceleration to stop autopilot overshoot
-	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+	if (s < timeAccelIdx) for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 		if ((*i)->IsType(Object::SHIP)) (static_cast<DynamicBody *>(*i))->ApplyAccel(0.5f*Pi::GetTimeStep());
 	}
-
 	timeAccelIdx = s;
 }
 

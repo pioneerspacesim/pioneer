@@ -190,6 +190,14 @@ const struct EnumItem ENUM_ShipAlertStatus[] = {
 	{ 0, 0 },
 };
 
+const struct EnumItem ENUM_ShipAIError[] = {
+	{ "NONE", Ship::AIERROR_NONE },
+	{ "GRAV_TOO_HIGH", Ship::AIERROR_GRAV_TOO_HIGH },
+	{ "REFUSED_PERM", Ship::AIERROR_REFUSED_PERM },
+	{ "ORBIT_IMPOSSIBLE", Ship::AIERROR_ORBIT_IMPOSSIBLE },
+	{ 0, 0 },
+};
+
 const struct EnumItem ENUM_ShipTypeThruster[] = {
 	{ "REVERSE", ShipType::THRUSTER_REVERSE },
 	{ "FORWARD", ShipType::THRUSTER_FORWARD },

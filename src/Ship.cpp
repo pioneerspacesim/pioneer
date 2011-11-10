@@ -70,7 +70,7 @@ void Ship::Save(Serializer::Writer &wr)
 	wr.Bool(m_testLanded);
 	wr.Int32(int(m_flightState));
 	wr.Int32(int(m_alertState));
-	wr.Float(m_lastFiringAlert);
+	wr.Double(m_lastFiringAlert);
 
 	m_hyperspace.dest.Serialize(wr);
 	wr.Float(m_hyperspace.countdown);
@@ -89,6 +89,7 @@ void Ship::Save(Serializer::Writer &wr)
 	wr.Float(m_stats.shield_mass_left);
 	if(m_curAICmd) { wr.Int32(1); m_curAICmd->Save(wr); }
 	else wr.Int32(0);
+	wr.Int32(int(m_aiMessage));
 }
 
 void Ship::Load(Serializer::Reader &rd)
@@ -103,7 +104,7 @@ void Ship::Load(Serializer::Reader &rd)
 	m_testLanded = rd.Bool();
 	m_flightState = FlightState(rd.Int32());
 	m_alertState = AlertState(rd.Int32());
-	m_lastFiringAlert = rd.Float();
+	m_lastFiringAlert = rd.Double();
 	
 	m_hyperspace.dest = SystemPath::Unserialize(rd);
 	m_hyperspace.countdown = rd.Float();
@@ -124,6 +125,7 @@ void Ship::Load(Serializer::Reader &rd)
 	m_stats.shield_mass_left = rd.Float();
 	if(rd.Int32()) m_curAICmd = AICommand::Load(rd);
 	else m_curAICmd = 0;
+	m_aiMessage = AIError(rd.Int32());
 
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
@@ -176,6 +178,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_ecmRecharge = 0;
 	SetLabel(m_shipFlavour.regid);
 	m_curAICmd = 0;
+	m_aiMessage = AIERROR_NONE;
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
 	Init();	
@@ -322,7 +325,7 @@ void Ship::SetAngThrusterState(const vector3d &levels)
 	m_angThrusters.z = Clamp(levels.z, -1.0, 1.0);
 }
 
-vector3d Ship::GetMaxThrust(const vector3d &dir)
+vector3d Ship::GetMaxThrust(const vector3d &dir) const
 {
 	const ShipType &stype = GetShipType();
 	vector3d maxThrust;
@@ -333,6 +336,15 @@ vector3d Ship::GetMaxThrust(const vector3d &dir)
 	maxThrust.z = (dir.z > 0) ? stype.linThrust[ShipType::THRUSTER_REVERSE]
 		: -stype.linThrust[ShipType::THRUSTER_FORWARD];
 	return maxThrust;
+}
+
+double Ship::GetAccelMin() const
+{
+	const ShipType &stype = GetShipType();
+	float val = stype.linThrust[ShipType::THRUSTER_UP];
+	val = std::min(val, stype.linThrust[ShipType::THRUSTER_RIGHT]);
+	val = std::min(val, -stype.linThrust[ShipType::THRUSTER_LEFT]);
+	return val / GetMass();
 }
 
 void Ship::ClearThrusterState()
@@ -1130,14 +1142,4 @@ void Ship::ResetFlavour(const ShipFlavour *f)
 	SetLabel(f->regid);
 	Init();
 	Pi::luaOnShipFlavourChanged->Queue(this);
-}
-
-float Ship::GetWeakestThrustersForce() const
-{
-	const ShipType &type = GetShipType();
-	float val = FLT_MAX;
-	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
-		val = std::min(val, fabsf(type.linThrust[i]));
-	}
-	return val;
 }

@@ -8,13 +8,21 @@
 class AICommand {
 public:
 	// This enum is solely to make the serialization work
-	enum CmdName { CMD_NONE, CMD_JOURNEY, CMD_DOCK, CMD_FLYTO, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION };
+	enum CmdName { CMD_NONE, CMD_JOURNEY, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION };
 
-	AICommand(Ship *ship, CmdName name) { m_ship = ship; m_cmdName = name; m_child = 0; }
+	AICommand(Ship *ship, CmdName name) {
+	   	m_ship = ship; m_cmdName = name; 
+		m_child = 0;
+		m_ship->AIMessage(Ship::AIERROR_NONE);
+	}
 	virtual ~AICommand() { if (m_child) delete m_child; }
 
 	virtual bool TimeStepUpdate() = 0;
 	bool ProcessChild();				// returns false if child is active
+	virtual void GetStatusText(char *str) { 
+		if (m_child) m_child->GetStatusText(str);
+		else strcpy(str, "AI state unknown");
+	}
 
 	// Serialisation functions
 	static AICommand *Load(Serializer::Reader &rd);
@@ -61,6 +69,10 @@ public:
 		m_target = target;
 		m_state = 0;
 	}
+	virtual void GetStatusText(char *str) { 
+		if (m_child) m_child->GetStatusText(str);
+		else snprintf(str, 255, "Dock: target %s, state %i", m_target->GetLabel().c_str(), m_state);
+	}
 	virtual void Save(Serializer::Writer &wr) {
 		AICommand::Save(wr);
 		wr.Int32(Serializer::LookupBody(m_target));
@@ -95,52 +107,101 @@ public:
 	virtual bool TimeStepUpdate();
 	AICmdFlyTo(Ship *ship, Body *target);					// fly to vicinity
 	AICmdFlyTo(Ship *ship, Body *target, double alt);		// orbit
-	AICmdFlyTo(Ship *ship, Frame *targframe, vector3d &posoff, double endvel, int headmode, bool coll);
+	AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent);
 
+	virtual void GetStatusText(char *str) { 
+		if (m_child) m_child->GetStatusText(str);
+		else snprintf(str, 255, "FlyTo: endvel %.1f, state %i", m_endvel/1000.0, m_state);
+	}
 	virtual void Save(Serializer::Writer &wr) {
-		if(m_child) { 
-			delete m_child;				// can regen children anyway
-			m_child = 0;
-		}
+		if(m_child) { delete m_child; m_child = 0; }
 		AICommand::Save(wr);
 		wr.Int32(Serializer::LookupFrame(m_targframe));
 		wr.Vector3d(m_posoff);
-		wr.Double(m_endvel); wr.Double(m_orbitrad);
-		wr.Int32(m_state); wr.Bool(m_coll);
+		wr.Double(m_endvel);
+		wr.Int32(m_state);
+		wr.Bool(m_tangent);
 	}
 	AICmdFlyTo(Serializer::Reader &rd) : AICommand(rd, CMD_FLYTO) {
 		m_targframeIndex = rd.Int32();
 		m_posoff = rd.Vector3d();
-		m_endvel = rd.Double();	m_orbitrad = rd.Double();
-		m_state = rd.Int32(); m_coll = rd.Bool();
+		m_endvel = rd.Double();
+		m_state = rd.Int32();
+		m_tangent = rd.Bool();
 	}
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup(); m_frame = 0;		// regen
 		m_targframe = Serializer::LookupFrame(m_targframeIndex);
 	}
 
-protected:
-	void NavigateAroundBody(Body *body, vector3d &targpos);
-	void CheckCollisions();
-	void CheckSuicide();
-	bool OrbitCorrection();
-	void SetOrigTarg(Frame *origframe, vector3d &origpos)
-		{ m_origframe = origframe; m_origpos = origpos; }
-
 private:
 	Frame *m_targframe;	// target frame for waypoint
+	int m_targframeIndex;	// used during deserialisation
 	vector3d m_posoff;	// offset in target frame
 	double m_endvel;	// target speed in direction of motion at end of path, positive only
-	double m_orbitrad;	// orbital radius in metres
-	int m_state;		// see TimeStepUpdate()
-	int m_targframeIndex;	// used during deserialisation
-	bool m_coll;		// whether to bother checking for collisions
+	int m_state;		// 
+	bool m_tangent;		// true if path is to a tangent of the target frame's body
 
 	Frame *m_frame;		// current frame of ship, used to check for changes	
 	vector3d m_reldir;	// target direction relative to ship at last frame change
+};
 
-	Frame *m_origframe;		// original target frame, used for tangent heading 
-	vector3d m_origpos;		// original target offset, used for tangent heading
+
+class AICmdFlyAround : public AICommand {
+public:
+	virtual bool TimeStepUpdate();
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt);
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel);
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, const vector3d &posoff);
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, const vector3d &posoff);
+
+	virtual void GetStatusText(char *str) { 
+		if (m_child) m_child->GetStatusText(str);
+		else snprintf(str, 255, "FlyAround: alt %.1f, targmode %i", m_alt/1000.0, m_targmode);
+	}	
+	virtual void Save(Serializer::Writer &wr) {
+		if (m_child) { delete m_child; m_child = 0; }
+		AICommand::Save(wr);
+		wr.Int32(Serializer::LookupBody(m_obstructor));
+		wr.Double(m_vel); wr.Double(m_alt);
+		wr.Int32(m_targmode);
+		if (m_targmode == 2) wr.Int32(Serializer::LookupFrame(m_targframe));
+		else wr.Int32(Serializer::LookupBody(m_target));
+		wr.Vector3d(m_posoff);
+	}
+	AICmdFlyAround(Serializer::Reader &rd) : AICommand(rd, CMD_FLYAROUND) {
+		m_obstructorIndex = rd.Int32();
+		m_vel = rd.Double(); m_alt = rd.Double();
+		m_targmode = rd.Int32();
+		m_targetIndex = rd.Int32();
+		m_posoff = rd.Vector3d();
+	}
+	virtual void PostLoadFixup() {
+		AICommand::PostLoadFixup();
+		m_obstructor = Serializer::LookupBody(m_obstructorIndex);
+		if (m_targmode == 2) m_target = Serializer::LookupBody(m_targetIndex);
+		else m_targframe = Serializer::LookupFrame(m_targetIndex);
+	}
+	virtual void OnDeleted(const Body *body) {
+		AICommand::OnDeleted(body);
+		if (m_target == body) m_target = 0;
+	}
+
+protected:
+	void Setup(Body *obstructor, double alt, double vel, int targmode, Body *target, Frame *targframe, const vector3d &posoff);
+	double MaxVel(double targdist, const vector3d &targpos);
+	vector3d Targpos();
+
+private:
+	Body *m_obstructor;		// body to fly around 
+	int m_obstructorIndex;	// deserialisation
+	double m_alt, m_vel;
+
+	int m_targmode;			// 0 = no target, 1 = target body, 2 = target waypoint
+	Body *m_target;			// target body
+	Frame *m_targframe;		// target frame
+	int m_targetIndex;		// deserialisation
+	vector3d m_posoff;		// target offset from body or frame
 };
 
 class AICmdKill : public AICommand {
