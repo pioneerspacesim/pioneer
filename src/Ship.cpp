@@ -89,6 +89,7 @@ void Ship::Save(Serializer::Writer &wr)
 	wr.Float(m_stats.shield_mass_left);
 	if(m_curAICmd) { wr.Int32(1); m_curAICmd->Save(wr); }
 	else wr.Int32(0);
+	wr.Int32(int(m_aiMessage));
 }
 
 void Ship::Load(Serializer::Reader &rd)
@@ -124,6 +125,7 @@ void Ship::Load(Serializer::Reader &rd)
 	m_stats.shield_mass_left = rd.Float();
 	if(rd.Int32()) m_curAICmd = AICommand::Load(rd);
 	else m_curAICmd = 0;
+	m_aiMessage = AIError(rd.Int32());
 
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
@@ -176,6 +178,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_ecmRecharge = 0;
 	SetLabel(m_shipFlavour.regid);
 	m_curAICmd = 0;
+	m_aiMessage = AIERROR_NONE;
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
 	Init();	
