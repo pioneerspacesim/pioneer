@@ -9,6 +9,7 @@
 #include "ShipCpanel.h"
 #include "KeyBindings.h"
 #include "Lang.h"
+#include "SectorView.h"
 
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
@@ -118,9 +119,8 @@ void Player::TimeStepUpdate(const float timeStep)
 	{
 		Pi::RequestTimeAccel(6);
 
-		if (Pi::GetGameTime() > m_hyperspaceEndTime) {
-			assert(0);
-		}
+		if (Pi::GetGameTime() > m_hyperspaceEndTime)
+			LeaveHyperspace();
 		else
 			m_hyperspaceProgress += timeStep;
 	}
@@ -439,6 +439,8 @@ Sint64 Player::GetPrice(Equip::Type t) const
 
 void Player::EnterHyperspace()
 {
+	m_hyperspaceSource = Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->GetPath();
+
 	const SystemPath dest = GetHyperspaceDest();
 
 	int fuel;
@@ -507,6 +509,7 @@ void Player::EnterHyperspace()
 	// but at least it gives some consistency
 	SetPosition(vector3d(0,0,0));
 	SetVelocity(vector3d(0,0,0));
+	SetRotMatrix(matrix4x4d::Identity());
 
 	ClearThrusterState();
 	SetFlightState(Ship::HYPERSPACE);
@@ -521,4 +524,127 @@ void Player::EnterHyperspace()
 
 void Player::LeaveHyperspace()
 {
+	// remove the player from hyperspace
+	Pi::spaceManager->GetCurrentSpace()->RemoveBody(this);
+
+	const SystemPath &dest = GetHyperspaceDest();
+
+	// create a new space for the system
+	Space *space = new Space(dest);
+	Pi::spaceManager->SetNextSpace(space);
+
+	// put the player in it
+	SetFrame(space->GetRootFrame());
+	space->AddBody(this);
+
+	// place it
+	SetPosition(space->GetPositionAfterHyperspace(&m_hyperspaceSource, &dest));
+	SetVelocity(vector3d(0,0,-100.0));
+	SetRotMatrix(matrix4x4d::Identity());
+
+	SetFlightState(Ship::FLYING);
+	SetFlightControlState(Player::CONTROL_MANUAL);
+
+	// place the exit cloud
+	HyperspaceCloud *cloud = new HyperspaceCloud(0, Pi::GetGameTime(), true);
+	cloud->SetFrame(space->GetRootFrame());
+	cloud->SetPosition(GetPosition());
+	space->AddBody(cloud);
+
+	for (std::list<HyperspaceCloud*>::iterator i = m_hyperspaceClouds.begin(); i != m_hyperspaceClouds.end(); ++i) {
+		cloud = *i;
+
+		cloud->SetFrame(space->GetRootFrame());
+		cloud->SetPosition(space->GetPositionAfterHyperspace(&m_hyperspaceSource, &dest));
+
+		space->AddBody(cloud);
+
+		if (cloud->GetDueDate() < Pi::GetGameTime()) {
+			// they emerged from hyperspace some time ago
+			Ship *ship = cloud->EvictShip();
+
+			ship->SetFrame(space->GetRootFrame());
+			ship->SetVelocity(vector3d(0,0,-100.0));
+			ship->SetRotMatrix(matrix4x4d::Identity());
+			ship->Enable();
+			ship->SetFlightState(Ship::FLYING);
+
+			const SystemPath &sdest = ship->GetHyperspaceDest();
+			if (sdest.bodyIndex == 0) {
+				// travelling to the system as a whole, so just dump them on
+				// the cloud - we can't do any better in this case
+				ship->SetPosition(cloud->GetPosition());
+			}
+
+			else {
+				// on their way to a body. they're already in-system so we
+				// want to simulate some travel to their destination. we
+				// naively assume full accel for half the distance, flip and
+				// full brake for the rest.
+				Body *target_body = space->FindBodyForPath(&sdest);
+				double dist_to_target = cloud->GetPositionRelTo(target_body).Length();
+				double half_dist_to_target = dist_to_target / 2.0;
+				double accel = -(ship->GetShipType().linThrust[ShipType::THRUSTER_FORWARD] / ship->GetMass());
+				double travel_time = Pi::GetGameTime() - cloud->GetDueDate();
+
+				// I can't help but feel some actual math would do better here
+				double speed = 0;
+				double dist = 0;
+				while (travel_time > 0 && dist <= half_dist_to_target) {
+					speed += accel;
+					dist += speed;
+					travel_time--;
+				}
+				while (travel_time > 0 && dist < dist_to_target) {
+					speed -= accel;
+					dist += speed;
+					travel_time--;
+				}
+
+				if (travel_time <= 0) {
+					vector3d pos =
+						target_body->GetPositionRelTo(space->GetRootFrame()) +
+						cloud->GetPositionRelTo(target_body).Normalized() * (dist_to_target - dist);
+					ship->SetPosition(pos);
+				}
+
+				else {
+					// ship made it with time to spare. just put it somewhere
+					// near the body. the script should be issuing a dock or
+					// flyto command in onEnterSystem so it should sort it
+					// itself out long before the player can get near
+					
+					SBody *sbody = space->GetStarSystem()->GetBodyByPath(&sdest);
+					if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
+						ship->SetFrame(target_body->GetFrame());
+						ship->SetPosition(space->GetRandomPosition(1000.0,1000.0)*1000.0); // somewhere 1000km out
+					}
+
+					else {
+						if (sbody->type == SBody::TYPE_STARPORT_SURFACE) {
+							sbody = sbody->parent;
+							SystemPath path = space->GetStarSystem()->GetPathOf(sbody);
+							target_body = space->FindBodyForPath(&path);
+						}
+
+						double sdist = sbody->GetRadius()*2.0;
+
+						ship->SetFrame(target_body->GetFrame());
+						ship->SetPosition(space->GetRandomPosition(sdist,sdist));
+					}
+				}
+			}
+
+			space->AddBody(ship);
+
+			Pi::luaOnEnterSystem->Queue(ship);
+		}
+	}
+	m_hyperspaceClouds.clear();
+
+	//Pi::luaOnEnterSystem->Queue(Pi::player);
+
+	Pi::sectorView->ResetHyperspaceTarget();
+
+	Pi::RequestTimeAccel(1);
 }

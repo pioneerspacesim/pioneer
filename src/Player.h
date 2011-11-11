@@ -98,6 +98,7 @@ private:
 	int m_combatTargetIndex, m_navTargetIndex; // deserialisation
 
 	std::list<HyperspaceCloud*> m_hyperspaceClouds;
+	SystemPath m_hyperspaceSource;
 	float m_hyperspaceProgress;
 	double m_hyperspaceDuration;
 	double m_hyperspaceEndTime;
