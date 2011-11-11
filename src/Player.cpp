@@ -437,7 +437,7 @@ Sint64 Player::GetPrice(Equip::Type t) const
 	}
 }
 
-void Player::Hyperspace()
+void Player::EnterHyperspace()
 {
 	const SystemPath dest = GetHyperspaceDest();
 
@@ -517,4 +517,8 @@ void Player::Hyperspace()
 	m_hyperspaceEndTime = Pi::GetGameTime() + duration;
 
 	printf("Started hyperspacing...\n");
+}
+
+void Player::LeaveHyperspace()
+{
 }

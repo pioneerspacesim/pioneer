@@ -188,7 +188,8 @@ protected:
 
 	virtual void SetAlertState(AlertState as) { m_alertState = as; }
 
-	virtual void Hyperspace();
+	virtual void EnterHyperspace();
+	virtual void LeaveHyperspace();
 
 	SpaceStation *m_dockedWith;
 	int m_dockedWithPort;

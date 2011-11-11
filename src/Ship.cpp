@@ -911,7 +911,7 @@ void Ship::StaticUpdate(const float timeStep)
 
 	if (m_hyperspace.now) {
 		m_hyperspace.now = false;
-		Hyperspace();
+		EnterHyperspace();
 	}
 }
 
@@ -1134,6 +1134,10 @@ void Ship::ResetFlavour(const ShipFlavour *f)
 	Pi::luaOnShipFlavourChanged->Queue(this);
 }
 
-void Ship::Hyperspace() {
+void Ship::EnterHyperspace() {
+	assert(0);
+}
+
+void Ship::LeaveHyperspace() {
 	assert(0);
 }

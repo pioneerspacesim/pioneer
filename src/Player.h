@@ -77,7 +77,8 @@ protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
 
-	virtual void Hyperspace();
+	virtual void EnterHyperspace();
+	virtual void LeaveHyperspace();
 
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
