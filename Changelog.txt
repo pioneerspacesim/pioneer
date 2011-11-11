@@ -1,3 +1,17 @@
+Alpha 17
+
+  * New features
+    * Rewritten autopilot (#789)
+
+  * Minor changes and tweaks
+    * Improved planet atmosphere rendering
+
+  * Fixes
+
+  * Script changes
+
+  * Internal changes
+
 Alpha 16
 
   * New features

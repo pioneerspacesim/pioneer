@@ -588,10 +588,11 @@ void Space::TimeStep(float step)
 	for (BodyIterator i = m_activeBodies.begin(); i != m_activeBodies.end(); ++i)
 		(*i)->UpdateFrame();
 
-	rootFrame->UpdateOrbitRails();
-	
+	// AI acts here, then move all bodies and frames
 	for (BodyIterator i = m_activeBodies.begin(); i != m_activeBodies.end(); ++i)
-		(*i)->StaticUpdate(step);			// moved so timestep is correct during StaticUpdate
+		(*i)->StaticUpdate(step);
+
+	rootFrame->UpdateOrbitRails();
 
 	for (BodyIterator i = m_activeBodies.begin(); i != m_activeBodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);

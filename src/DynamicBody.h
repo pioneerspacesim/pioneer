@@ -69,6 +69,9 @@ private:
 	vector3d m_externalForce;
 	vector3d m_atmosForce;
 	vector3d m_gravityForce;	
+	// for time accel reduction fudge
+	vector3d m_lastForce;
+	vector3d m_lastTorque;
 };
 
 #endif /* _DYNAMICBODY_H */
