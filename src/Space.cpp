@@ -561,10 +561,11 @@ void TimeStep(float step)
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i)
 		(*i)->UpdateFrame();
 
-	rootFrame->UpdateOrbitRails();
-	
+	// AI acts here, then move all bodies and frames
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
-		(*i)->StaticUpdate(step);			// moved so timestep is correct during StaticUpdate
+		(*i)->StaticUpdate(step);
+
+	rootFrame->UpdateOrbitRails();
 
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);
