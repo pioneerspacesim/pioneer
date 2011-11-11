@@ -559,6 +559,14 @@ INCREASE_SET_SPEED
     Zwiększ ustawioną prędkość
 DECREASE_SET_SPEED
     Zmniejsz ustawioną prędkość
+SCANNER_CONTROL
+	  Opcje skanera
+TOGGLE_SCAN_MODE
+  	Zmiana trybu skanera
+INCREASE_SCAN_RANGE
+	  Zwiększa zasięg skanera
+DECREASE_SCAN_RANGE
+	  Zmniejsza zasięg skanera
 TOGGLE_LUA_CONSOLE
     Aktywacja konsoli
 JOYSTICK_INPUT
