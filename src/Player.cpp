@@ -439,6 +439,8 @@ Sint64 Player::GetPrice(Equip::Type t) const
 
 void Player::EnterHyperspace()
 {
+	assert(GetFlightState() != Ship::HYPERSPACE);
+
 	m_hyperspaceSource = Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->GetPath();
 
 	const SystemPath dest = GetHyperspaceDest();
@@ -524,6 +526,8 @@ void Player::EnterHyperspace()
 
 void Player::LeaveHyperspace()
 {
+	assert(GetFlightState() == Ship::HYPERSPACE);
+
 	// remove the player from hyperspace
 	Pi::spaceManager->GetCurrentSpace()->RemoveBody(this);
 
