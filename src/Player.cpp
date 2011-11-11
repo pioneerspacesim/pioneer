@@ -642,7 +642,7 @@ void Player::LeaveHyperspace()
 	}
 	m_hyperspaceClouds.clear();
 
-	//Pi::luaOnEnterSystem->Queue(Pi::player);
+	Pi::luaOnEnterSystem->Queue(Pi::player);
 
 	Pi::sectorView->ResetHyperspaceTarget();
 
