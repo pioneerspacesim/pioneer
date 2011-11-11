@@ -22,11 +22,28 @@ static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
 
 #define HUD_CROSSHAIR_SIZE	24.0f
 
-WorldView::WorldView(): View(),
-	m_showHyperspaceButton(false),
-	m_frontCamera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight()),
-	m_rearCamera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight()),
-	m_externalCamera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight())
+WorldView::WorldView(): View()
+{
+	m_showHyperspaceButton = false;
+	m_externalViewRotX = m_externalViewRotY = 0;
+	m_externalViewDist = 200;
+	m_camType = CAM_FRONT;
+
+	InitObject();
+}
+
+WorldView::WorldView(Serializer::Reader &rd): View()
+{
+	m_externalViewRotX = rd.Float();
+	m_externalViewRotY = rd.Float();
+	m_externalViewDist = rd.Float();
+	m_camType = CamType(rd.Int32());
+	m_showHyperspaceButton = rd.Bool();
+
+	InitObject();
+}
+
+void WorldView::InitObject()
 {
 	float size[2];
 	GetSize(size);
@@ -34,13 +51,8 @@ WorldView::WorldView(): View(),
 	m_showTargetActionsTimeout = 0;
 	m_numLights = 1;
 	m_labelsOn = true;
-	m_camType = CAM_FRONT;
 	SetTransparency(true);
-	m_externalViewRotX = m_externalViewRotY = 0;
-	m_externalViewDist = 200;
 
-	m_rearCamera.SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
-	
 	m_commsOptions = new Fixed(size[0], size[1]/2);
 	m_commsOptions->SetTransparency(true);
 	Add(m_commsOptions, 10, 200);
@@ -154,6 +166,12 @@ WorldView::WorldView(): View(),
 	Add(m_combatTargetIndicator.label, 0, 0);
 	Add(m_targetLeadIndicator.label, 0, 0);
 
+	m_frontCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight());
+	m_rearCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight());
+	m_externalCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight());
+
+	m_rearCamera->SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
+	
 	m_onHyperspaceTargetChangedCon =
 		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
 	m_onPlayerEquipmentChangeCon =
@@ -165,10 +183,18 @@ WorldView::WorldView(): View(),
 		Pi::onPlayerChangeFlightControlState.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeFlightControlState));
 	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));
+	m_onPlayerEquipmentChangeCon =
+		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
+
+	Pi::player->SetMouseForRearView(m_camType == CAM_REAR);
 }
 
 WorldView::~WorldView()
 {
+	delete m_frontCamera;
+	delete m_rearCamera;
+	delete m_externalCamera;
+
 	m_onHyperspaceTargetChangedCon.disconnect();
 	m_onPlayerEquipmentChangeCon.disconnect();
 
@@ -184,20 +210,6 @@ void WorldView::Save(Serializer::Writer &wr)
 	wr.Float(float(m_externalViewDist));
 	wr.Int32(int(m_camType));
 	wr.Bool(bool(m_showHyperspaceButton));
-}
-
-void WorldView::Load(Serializer::Reader &rd)
-{
-	m_externalViewRotX = rd.Float();
-	m_externalViewRotY = rd.Float();
-	m_externalViewDist = rd.Float();
-	m_camType = CamType(rd.Int32());
-	m_showHyperspaceButton = rd.Bool();
-
-	m_onPlayerEquipmentChangeCon =
-		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
-
-	Pi::player->SetMouseForRearView(m_camType == CAM_REAR);
 }
 
 void WorldView::SetCamType(enum CamType c)
@@ -462,18 +474,18 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 #if DEVKEYS
 	if (Pi::showDebugInfo) {
-		char buf[1024];
+		char buf[1024], aibuf[256];
 		vector3d pos = Pi::player->GetPosition();
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Space::rootFrame);
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
-
+		Pi::player->AIGetStatusText(aibuf); aibuf[255] = 0;
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
-			"Rel-to: %s (%.0f km), rotating: %s\n",
+			"Rel-to: %s (%.0f km), rotating: %s\n" "%s",
 			pos.x, pos.y, pos.z,
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
-			rel_to, pos.Length()/1000, rot_frame);
+			rel_to, pos.Length()/1000, rot_frame, aibuf);
 
 		m_debugInfo->SetText(buf);
 		m_debugInfo->Show();
@@ -737,14 +749,14 @@ void WorldView::Update()
 	}
 
 	if (GetCamType() == CAM_EXTERNAL) {
-		m_externalCamera.SetPosition(GetExternalViewTranslation());
-		m_externalCamera.SetOrientation(GetExternalViewRotation());
+		m_externalCamera->SetPosition(GetExternalViewTranslation());
+		m_externalCamera->SetOrientation(GetExternalViewRotation());
 	}
 
 	m_activeCamera =
-		GetCamType() == CAM_FRONT ? &m_frontCamera :
-		GetCamType() == CAM_REAR  ? &m_rearCamera  :
-		                            &m_externalCamera;
+		GetCamType() == CAM_FRONT ? m_frontCamera :
+		GetCamType() == CAM_REAR  ? m_rearCamera  :
+		                            m_externalCamera;
 
 	m_activeCamera->Update();
 	UpdateProjectedObjects();
@@ -1165,7 +1177,7 @@ void WorldView::UpdateProjectedObjects()
 			// now the text speed/distance
 			// want to calculate closing velocity that you couldn't counter with retros
 
-			double vel = targvel.z; // position should be towards
+			double vel = targvel.Dot(targpos.NormalizedSafe()); // position should be towards
 			double raccel =
 				Pi::player->GetShipType().linThrust[ShipType::THRUSTER_REVERSE] / Pi::player->GetMass();
 
