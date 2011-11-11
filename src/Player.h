@@ -28,7 +28,7 @@ class Player: public Ship, public MarketAgent {
 public:
 	OBJDEF(Player, Ship, PLAYER);
 	Player(ShipType::Type shipType);
-	Player() { m_mouseActive = false; }
+	Player() { m_mouseActive = false; m_invertMouse = false; }
 	virtual ~Player();
 	void PollControls(const float timeStep);
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
@@ -55,7 +55,9 @@ public:
 	virtual void TimeStepUpdate(const float timeStep);
 	vector3d GetAccumTorque() { return m_accumTorque; }
 	vector3d m_accumTorque;
-	vector3d GetMouseDir() { return m_mouseDir; }
+	void SetMouseForRearView(bool enable) { m_invertMouse = enable; }
+	bool IsMouseActive() const { return m_mouseActive; }
+	vector3d GetMouseDir() const { return m_mouseDir; }
 
 	double m_mouseAcc;
 
@@ -79,6 +81,7 @@ private:
 	vector3d m_mouseDir;
 	double m_mouseX, m_mouseY;
 	bool m_mouseActive;
+	bool m_invertMouse; // used for rear view, *not* for invert Y-axis option (which is Pi::IsMouseYInvert)
 	bool polledControlsThisTurn;
 	enum FlightControlState m_flightControlState;
 	double m_setSpeed;
