@@ -461,6 +461,9 @@ void Player::EnterHyperspace()
 
 	Pi::luaOnLeaveSystem->Queue(this);
 
+	SetNavTarget(0);
+	SetCombatTarget(0);
+
 	if (Pi::player->GetFlightControlState() == Player::CONTROL_AUTOPILOT)
 		Pi::player->SetFlightControlState(Player::CONTROL_MANUAL);
 
