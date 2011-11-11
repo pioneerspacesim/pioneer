@@ -10,6 +10,7 @@ public:
 		this->filename = file_name;
 		isLoaded = false;
 		tex = 0;
+		width = height = -1;
 		if (load_now) Load();
 	}
 	virtual ~Texture() { if (tex) glDeleteTextures(1, &tex); }
@@ -19,11 +20,14 @@ public:
 		if (!IsLoaded()) Load();
 		glBindTexture(GL_TEXTURE_2D, tex);
 	}
+	int GetWidth() const { return width; }
+	int GetHeight() const { return height; }
 private:
 	void Load();
 
 	std::string filename;
 	GLuint tex;
+	int width, height;
 	bool isLoaded;
 };
 

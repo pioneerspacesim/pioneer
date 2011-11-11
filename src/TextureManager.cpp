@@ -7,6 +7,9 @@ void Texture::Load()
 	SDL_Surface *s = IMG_Load(filename.c_str());
 
 	if (s) {
+		width = s->w;
+		height = s->h;
+
 		glGenTextures (1, &tex);
 		glBindTexture (GL_TEXTURE_2D, tex);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);

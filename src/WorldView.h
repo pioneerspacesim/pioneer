@@ -79,6 +79,8 @@ private:
 	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead);
 	void DrawTargetSquare(const Indicator &marker);
 	void DrawVelocityIndicator(const Indicator &marker);
+	void DrawCircleIndicator(const Indicator &marker);
+	void DrawImageIndicator(const Indicator &marker, const char *icon_path);
 	void DrawEdgeMarker(const Indicator &marker);
 
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
@@ -142,6 +144,7 @@ private:
 	Indicator m_navTargetIndicator;
 	Indicator m_combatTargetIndicator;
 	Indicator m_targetLeadIndicator;
+	Indicator m_mouseDirIndicator;
 };
 
 #endif /* _WORLDVIEW_H */
