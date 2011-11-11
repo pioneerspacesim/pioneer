@@ -113,6 +113,17 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 void Player::TimeStepUpdate(const float timeStep)
 {
 	Ship::TimeStepUpdate(timeStep);
+
+	if (GetFlightState() == Ship::HYPERSPACE)
+	{
+		Pi::RequestTimeAccel(6);
+
+		if (Pi::GetGameTime() > m_hyperspaceEndTime) {
+			assert(0);
+		}
+		else
+			m_hyperspaceProgress += timeStep;
+	}
 }
 
 void Player::StaticUpdate(const float timeStep)

@@ -560,25 +560,6 @@ void Space::CollideFrame(Frame *f)
 
 void Space::TimeStep(float step)
 {
-	// no or one body means there's nothing much to do (eg hyperspace)
-	if (m_bodies.size() <= 1)
-		return;
-
-	/* XXX move to Player timestep for hyperspace
-	if (hyperspacingTo) {
-		Pi::RequestTimeAccel(6);
-
-		hyperspaceAnim += step;
-		if (Pi::GetGameTime() > hyperspaceEndTime) {
-			DoHyperspaceTo(0);
-			Pi::RequestTimeAccel(1);
-			hyperspaceAnim = 0;
-		}
-		// don't take a physics step at this mental time accel
-		return;
-	}
-	*/
-
 	m_activeBodies = m_bodies;
 
 	Space::CollideFrame(rootFrame);
