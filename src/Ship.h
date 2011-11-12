@@ -92,6 +92,7 @@ public:
 
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
 	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }
+	double GetHyperspaceDuration() const { return m_hyperspace.duration; }
 
 	enum HyperjumpStatus { // <enum scope='Ship' name=ShipJumpStatus prefix=HYPERJUMP_>
 		HYPERJUMP_OK,
@@ -226,6 +227,7 @@ private:
 		// > 0 means active
 		float countdown;
 		bool now;
+		double duration;
 	} m_hyperspace;
 
 	AICommand *m_curAICmd;

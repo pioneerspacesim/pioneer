@@ -64,8 +64,6 @@ public:
 
 	virtual void PostLoadFixup();
 
-	double GetHyperspaceDuration() const { return m_hyperspaceDuration; }
-
 	virtual void OnEnterSystem();
 
 	/* MarketAgent stuff */

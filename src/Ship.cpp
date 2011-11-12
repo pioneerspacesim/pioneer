@@ -1136,9 +1136,25 @@ void Ship::ResetFlavour(const ShipFlavour *f)
 }
 
 void Ship::EnterHyperspace() {
-	assert(0);
+	assert(GetFlightState() != Ship::HYPERSPACE);
+
+	const SystemPath dest = GetHyperspaceDest();
+
+	int fuel;
+	Ship::HyperjumpStatus status;
+	if (!CanHyperspaceTo(&dest, fuel, m_hyperspace.duration, &status))
+		// XXX something has changed (fuel loss, mass change, whatever).
+		// could report it to the player but better would be to cancel the
+		// countdown before this is reached. either way do something
+		return;
+
+	UseHyperspaceFuel(&dest);
+
+	Pi::luaOnLeaveSystem->Queue(this);
 }
 
 void Ship::OnEnterSystem() {
-	assert(0);
+	SetFlightState(Ship::FLYING);
+
+	Pi::luaOnEnterSystem->Queue(this);
 }

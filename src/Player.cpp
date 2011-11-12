@@ -428,21 +428,7 @@ Sint64 Player::GetPrice(Equip::Type t) const
 
 void Player::EnterHyperspace()
 {
-	assert(GetFlightState() != Ship::HYPERSPACE);
-
-	const SystemPath dest = GetHyperspaceDest();
-
-	int fuel;
-	Ship::HyperjumpStatus status;
-	if (!CanHyperspaceTo(&dest, fuel, m_hyperspaceDuration, &status))
-		// XXX something has changed (fuel loss, mass change, whatever).
-		// could report it to the player but better would be to cancel the
-		// countdown before this is reached. either way do something
-		return;
-
-	UseHyperspaceFuel(&dest);
-
-	Pi::luaOnLeaveSystem->Queue(this);
+	Ship::EnterHyperspace();
 
 	SetNavTarget(0);
 	SetCombatTarget(0);
@@ -460,12 +446,11 @@ void Player::OnEnterSystem()
 {
 	assert(GetFlightState() == Ship::HYPERSPACE);
 
-	SetFlightState(Ship::FLYING);
+	Ship::OnEnterSystem();
+
 	SetFlightControlState(Player::CONTROL_MANUAL);
 
 	Pi::sectorView->ResetHyperspaceTarget();
 
 	Pi::RequestTimeAccel(1);
-
-	Pi::luaOnEnterSystem->Queue(Pi::player);
 }
