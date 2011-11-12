@@ -91,14 +91,13 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 		m_ship->SetVelocity(m_vel);
 		m_ship->SetRotMatrix(matrix4x4d::Identity());
 		m_ship->SetFrame(GetFrame());
-		m_ship->SetFlightState(Ship::FLYING);
 		Pi::spaceManager->GetSpace()->AddBody(m_ship);
 		m_ship->Enable();
 
 		if (Pi::player->GetNavTarget() == this && !Pi::player->GetCombatTarget())
 			Pi::player->SetCombatTarget(m_ship);
 
-		Pi::luaOnEnterSystem->Queue(m_ship);
+		m_ship->OnEnterSystem();
 
 		m_ship = 0;
 	}
