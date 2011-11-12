@@ -1,3 +1,19 @@
+Alpha 17
+
+  * New features
+    * Rewritten autopilot (#789)
+    * Yellow indicator to show target orientation change by mouse
+      movement (#216, #777)
+
+  * Minor changes and tweaks
+    * Improved planet atmosphere rendering
+
+  * Fixes
+
+  * Script changes
+
+  * Internal changes
+
 Alpha 16
 
   * New features
