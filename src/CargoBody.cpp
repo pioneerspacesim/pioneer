@@ -5,6 +5,7 @@
 #include "Sfx.h"
 #include "Space.h"
 #include "LmrModel.h"
+#include "SpaceManager.h"
 
 void CargoBody::Save(Serializer::Writer &wr)
 {
@@ -40,7 +41,7 @@ bool CargoBody::OnDamage(Object *attacker, float kgDamage)
 {
 	m_hitpoints -= kgDamage*0.001f;
 	if (m_hitpoints < 0) {
-		Pi::spaceManager->GetCurrentSpace()->KillBody(this);
+		Pi::spaceManager->GetSpace()->KillBody(this);
 		Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 	}
 	return true;

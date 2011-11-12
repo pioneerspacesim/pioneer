@@ -64,6 +64,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "TextureManager.h"
+#include "SpaceManager.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -626,7 +627,7 @@ void Pi::SetTimeAccel(int s)
 
 	// Give all ships a half-step acceleration to stop autopilot overshoot
 	if (s < timeAccelIdx)
-		for (Space::BodyIterator i = spaceManager->GetCurrentSpace()->GetBodies().begin(); i != spaceManager->GetCurrentSpace()->GetBodies().end(); ++i)
+		for (Space::BodyIterator i = spaceManager->GetSpace()->GetBodies().begin(); i != spaceManager->GetSpace()->GetBodies().end(); ++i)
 			if ((*i)->IsType(Object::SHIP))
 				(static_cast<DynamicBody *>(*i))->ApplyAccel(0.5f*Pi::GetTimeStep());
 	timeAccelIdx = s;
@@ -724,7 +725,7 @@ void Pi::HandleEvents()
 									missile->SetFrame(Pi::player->GetFrame());
 									missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
 									missile->SetVelocity(Pi::player->GetVelocity());
-									spaceManager->GetCurrentSpace()->AddBody(missile);
+									spaceManager->GetSpace()->AddBody(missile);
 								} else if (KeyState(SDLK_LSHIFT)) {
 									SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
 									if (s) {
@@ -736,7 +737,7 @@ void Pi::HandleEvents()
 											ship->AIKill(Pi::player);
 											ship->SetFrame(Pi::player->GetFrame());
 											ship->SetDockedWith(s, port);
-											spaceManager->GetCurrentSpace()->AddBody(ship);
+											spaceManager->GetSpace()->AddBody(ship);
 										} else {
 											printf("No docking ports free dude\n");
 										}
@@ -756,7 +757,7 @@ void Pi::HandleEvents()
 									ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
 									ship->m_equipment.Add(Equip::HYDROGEN, 10);
 									ship->UpdateMass();
-									spaceManager->GetCurrentSpace()->AddBody(ship);
+									spaceManager->GetSpace()->AddBody(ship);
 								}
 							}
 							break;
@@ -988,7 +989,8 @@ void Pi::InitGame()
 	player->m_equipment.Add(Equip::SCANNER);
 	player->UpdateMass();
 	player->SetMoney(10000);
-	spaceManager->GetNextSpace()->AddBody(player);
+
+	spaceManager = new SpaceManager(player);
 
 	cpan = new ShipCpanel();
 	sectorView = new SectorView();
@@ -1006,26 +1008,6 @@ void Pi::InitGame()
 	if (!config.Int("DisableSound")) AmbientSounds::Init();
 
 	LuaInitGame();
-}
-
-// XXX this shouldn't be here but will do for now
-void Pi::StarportStart(Uint32 starport)
-{
-	SpaceStation *station = 0;
-	for (Space::BodyIterator i = spaceManager->GetCurrentSpace()->GetBodies().begin(); i != spaceManager->GetCurrentSpace()->GetBodies().end(); ++i) {
-		if ((*i)->IsType(Object::SPACESTATION) && !starport--) {
-				station = static_cast<SpaceStation*>(*i);
-				break;
-			}
-		}
-	assert(station);
-
-	player->Enable();
-	player->SetFrame(station->GetFrame());
-	player->SetDockedWith(station, 0);
-
-	// XXX stupid, should probably be done by SetDockedWith
-	station->CreateBB();
 }
 
 static void OnPlayerDockOrUndock()
@@ -1155,22 +1137,16 @@ void Pi::Start()
 	switch (choice) {
 		case 1: // Earth start point
 		{
-			SystemPath path(0,0,0, 0);
-			spaceManager = new SpaceManager();
-			spaceManager->SetNextSpace(new Space(path));
 			InitGame();
-			StarportStart(1);
+			spaceManager->CreateSpaceForDockedStart(SystemPath(0,0,0,0,6));  // Mexico City
 			StartGame();
 			MainLoop();
 			break;
 		}
 		case 2: // Epsilon Eridani start point
 		{
-			SystemPath path(1,0,-1, 0);
-			spaceManager = new SpaceManager();
-			spaceManager->SetNextSpace(new Space(path));
 			InitGame();
-			StarportStart(0);
+			spaceManager->CreateSpaceForDockedStart(SystemPath(1,0,-1,0,5));  // New Hope
 			StartGame();
 			MainLoop();
 			break;
@@ -1328,8 +1304,6 @@ void Pi::MainLoop()
 	Pi::gameTickAlpha = 0;
 
 	while (isGameStarted) {
-		Space *space = spaceManager->GetNextSpace();
-
 		double newTime = 0.001 * double(SDL_GetTicks());
 		Pi::frameTime = newTime - currentTime;
 		if (Pi::frameTime > 0.25) Pi::frameTime = 0.25;
@@ -1344,7 +1318,7 @@ void Pi::MainLoop()
 					accumulator = 0.0;
 					break;
 				}
-				space->TimeStep(step);
+				spaceManager->TimeStep(step);
 				gameTime += step;
 
 				accumulator -= step;
@@ -1359,24 +1333,16 @@ void Pi::MainLoop()
 		}
 		frame_stat++;
 
-		// swap the space. if the last timestep caused a new space to be setup
-		// this will delete the old one and the bodies within it, causing any
-		// cameras set up over the old space to be notified and arrange not to
-		// try and draw anything. this is good, otherwise they end up trying
-		// to draw a body against a space it doesn't exist in, and hilarity
-		// ensues
-		space = spaceManager->GetNextSpace();
-
 		Render::PrepareFrame();
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		
 		/* Calculate position for this rendered frame (interpolated between two physics ticks */
         // XXX should this be here? what is this anyway?
-		for (Space::BodyIterator i = space->GetBodies().begin(); i != space->GetBodies().end(); ++i) {
+		for (Space::BodyIterator i = spaceManager->GetSpace()->GetBodies().begin(); i != spaceManager->GetSpace()->GetBodies().end(); ++i) {
 			(*i)->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 		}
-		space->GetRootFrame()->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
+		spaceManager->GetSpace()->GetRootFrame()->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 
 		currentView->Update();
 		currentView->Draw3D();
@@ -1406,8 +1372,15 @@ void Pi::MainLoop()
 		Render::SwapBuffers();
 		//if (glGetError()) printf ("GL: %s\n", gluErrorString (glGetError ()));
 		
+
+		// XXX all this timeaccel stuff should be done somewhere else
 		int timeAccel = Pi::requestedTimeAccelIdx;
-		if (Pi::player->GetFlightState() == Ship::FLYING) {
+
+		// ludicrous speed
+		if (Pi::player->GetFlightState() == Ship::HYPERSPACE)
+			Pi::RequestTimeAccel(6);
+
+		else if (Pi::player->GetFlightState() == Ship::FLYING) {
 
 			// special timeaccel lock rules while in alert
 			if (Pi::player->GetAlertState() == Ship::ALERT_SHIP_NEARBY)
@@ -1417,7 +1390,7 @@ void Pi::MainLoop()
 
 			else if (!Pi::forceTimeAccel) {
 				// check we aren't too near to objects for timeaccel //
-				for (Space::BodyIterator i = space->GetBodies().begin(); i != space->GetBodies().end(); ++i) {
+				for (Space::BodyIterator i = spaceManager->GetSpace()->GetBodies().begin(); i != spaceManager->GetSpace()->GetBodies().end(); ++i) {
 					if ((*i) == Pi::player) continue;
 					if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
 				
@@ -1531,12 +1504,12 @@ void Pi::Serialize(Serializer::Writer &wr)
 
 	Serializer::IndexFrames();
 	Serializer::IndexBodies();
-	Serializer::IndexSystemBodies(spaceManager->GetCurrentSpace()->GetStarSystem());
+	Serializer::IndexSystemBodies(spaceManager->GetSpace()->GetStarSystem());
 
 	section = Serializer::Writer();
 	section.Double(gameTime);
 	StarSystem::Serialize(section, selectedSystem);
-	StarSystem::Serialize(section, spaceManager->GetCurrentSpace()->GetStarSystem());
+	StarSystem::Serialize(section, spaceManager->GetSpace()->GetStarSystem());
 	wr.WrSection("PiMisc", section.GetData());
 	
 	/*

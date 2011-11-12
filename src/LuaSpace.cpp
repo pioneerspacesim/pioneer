@@ -13,6 +13,7 @@
 #include "Pi.h"
 #include "SpaceStation.h"
 #include "Player.h"
+#include "SpaceManager.h"
 
 /*
  * Interface: Space
@@ -126,13 +127,13 @@ static int l_space_spawn_ship(lua_State *l)
 	Body *thing = _maybe_wrap_ship_with_cloud(ship, path, due);
 
 	// XXX protect against spawning inside the body
-	thing->SetFrame(Pi::spaceManager->GetCurrentSpace()->GetRootFrame());
+	thing->SetFrame(Pi::spaceManager->GetSpace()->GetRootFrame());
 	if (path == NULL)
 		thing->SetPosition(Space::GetRandomPosition(min_dist, max_dist)*AU);
 	else
-		thing->SetPosition(Space::GetPositionAfterHyperspace(path, &(Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->GetPath())));
+		thing->SetPosition(Space::GetPositionAfterHyperspace(path, &(Pi::spaceManager->GetSpace()->GetStarSystem()->GetPath())));
 	thing->SetVelocity(vector3d(0,0,0));
-	Pi::spaceManager->GetCurrentSpace()->AddBody(thing);
+	Pi::spaceManager->GetSpace()->AddBody(thing);
 
 	LuaShip::PushToLua(ship);
 
@@ -207,7 +208,7 @@ static int l_space_spawn_ship_near(lua_State *l)
 	thing->SetFrame(nearbody->GetFrame());
 	thing->SetPosition((Space::GetRandomPosition(min_dist, max_dist)* 1000.0) + nearbody->GetPosition());
 	thing->SetVelocity(vector3d(0,0,0));
-	Pi::spaceManager->GetCurrentSpace()->AddBody(thing);
+	Pi::spaceManager->GetSpace()->AddBody(thing);
 
 	LuaShip::PushToLua(ship);
 
@@ -260,7 +261,7 @@ static int l_space_spawn_ship_docked(lua_State *l)
 	assert(ship);
 
 	ship->SetFrame(station->GetFrame());
-	Pi::spaceManager->GetCurrentSpace()->AddBody(ship);
+	Pi::spaceManager->GetSpace()->AddBody(ship);
 	ship->SetDockedWith(station, port);
 
 	station->CreateBB();
@@ -359,7 +360,7 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	ship->SetPosition(pos);
 	ship->SetRotMatrix(rot);
 
-	Pi::spaceManager->GetCurrentSpace()->AddBody(ship);
+	Pi::spaceManager->GetSpace()->AddBody(ship);
 
 	ship->AIHoldPosition();
 	
@@ -398,10 +399,10 @@ static int l_space_get_body(lua_State *l)
 {
 	int id = luaL_checkinteger(l, 1);
 
-	SystemPath path = Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->GetPath();
+	SystemPath path = Pi::spaceManager->GetSpace()->GetStarSystem()->GetPath();
 	path.bodyIndex = id;
 
-	Body *b = Pi::spaceManager->GetCurrentSpace()->FindBodyForPath(&path);
+	Body *b = Pi::spaceManager->GetSpace()->FindBodyForPath(&path);
 	if (!b) return 0;
 
 	LuaBody::PushToLua(b);
@@ -458,7 +459,7 @@ static int l_space_get_bodies(lua_State *l)
 	lua_newtable(l);
 	pi_lua_table_ro(l);
 
-	for (Space::BodyIterator i = Pi::spaceManager->GetCurrentSpace()->GetActiveBodies().begin(); i != Pi::spaceManager->GetCurrentSpace()->GetActiveBodies().end(); i++) {
+	for (Space::BodyIterator i = Pi::spaceManager->GetSpace()->GetBodies().begin(); i != Pi::spaceManager->GetSpace()->GetBodies().end(); i++) {
 		Body *b = *i;
 
 		if (filter) {

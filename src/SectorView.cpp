@@ -11,6 +11,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "ShipCpanel.h"
+#include "SpaceManager.h"
 
 #define INNER_RADIUS (Sector::SIZE*1.5f)
 #define OUTER_RADIUS (Sector::SIZE*3.0f)
@@ -613,7 +614,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 
 void SectorView::OnSwitchTo() {
 	if (m_firstTime) {
-		m_current = Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->GetPath();
+		m_current = Pi::spaceManager->GetSpace()->GetStarSystem()->GetPath();
 
 		WarpToSystem(m_current);
 		OnClickSystem(m_current);
@@ -720,7 +721,7 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 void SectorView::Update()
 {
 	SystemPath last_current = m_current;
-	m_current = Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->GetPath();
+	m_current = Pi::spaceManager->GetSpace()->GetStarSystem()->GetPath();
 	if (last_current != m_current)
 		UpdateSystemLabels(m_currentSystemLabels, m_current);
 

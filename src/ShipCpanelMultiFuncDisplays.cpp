@@ -11,6 +11,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "KeyBindings.h"
+#include "SpaceManager.h"
 
 #define SCANNER_RANGE_MAX	100000.0f
 #define SCANNER_RANGE_MIN	1000.0f
@@ -192,7 +193,7 @@ void ScannerWidget::Update()
 	float combat_dist = 0, far_ship_dist = 0, nav_dist = 0, far_other_dist = 0;
 
 	// collect the bodies to be displayed, and if AUTO, distances
-	for (Space::BodyIterator i = Pi::spaceManager->GetCurrentSpace()->GetBodies().begin(); i != Pi::spaceManager->GetCurrentSpace()->GetBodies().end(); ++i) {
+	for (Space::BodyIterator i = Pi::spaceManager->GetSpace()->GetBodies().begin(); i != Pi::spaceManager->GetSpace()->GetBodies().end(); ++i) {
 		if ((*i) == Pi::player) continue;
 
 		float dist = float((*i)->GetPositionRelTo(Pi::player).Length());

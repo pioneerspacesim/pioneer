@@ -23,6 +23,7 @@
 #include "Missile.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "SpaceManager.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
@@ -241,7 +242,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 					Polit::NotifyOfCrime(static_cast<Ship*>(attacker), Polit::CRIME_MURDER);
 			}
 
-			Pi::spaceManager->GetCurrentSpace()->KillBody(this);
+			Pi::spaceManager->GetSpace()->KillBody(this);
 			Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 			Sound::BodyMakeNoise(this, "Explosion_1", 1.0f);
 		}
@@ -276,7 +277,7 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) && b->IsType(Object::CARGOBODY) && (flags & 0x100) && m_stats.free_capacity) {
 		Equip::Type item = dynamic_cast<CargoBody*>(b)->GetCargoType();
 		m_equipment.Add(item);
-		Pi::spaceManager->GetCurrentSpace()->KillBody(dynamic_cast<Body*>(b));
+		Pi::spaceManager->GetSpace()->KillBody(dynamic_cast<Body*>(b));
 		if (this->IsType(Object::PLAYER))
 			Pi::Message(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", Equip::types[item].name)));
 		// XXX Sfx::Add(this, Sfx::TYPE_SCOOP);
@@ -398,7 +399,7 @@ const shipstats_t *Ship::CalcStats()
 
 static float distance_to_system(const SystemPath *dest)
 {
-	SystemPath here = Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->GetPath();
+	SystemPath here = Pi::spaceManager->GetSpace()->GetStarSystem()->GetPath();
 	
 	Sector sec1(here.sectorX, here.sectorY, here.sectorZ);
 	Sector sec2(dest->sectorX, dest->sectorY, dest->sectorZ);
@@ -431,7 +432,7 @@ bool Ship::CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double 
 		return false;
 	}
 
-	StarSystem *s = Pi::spaceManager->GetCurrentSpace()->GetStarSystem();
+	StarSystem *s = Pi::spaceManager->GetSpace()->GetStarSystem();
 	if (s && s->GetPath().IsSameSystem(*dest)) {
 		if (outStatus) *outStatus = HYPERJUMP_CURRENT_SYSTEM;
 		return false;
@@ -517,7 +518,7 @@ void Ship::UseECM()
 	if (t != Equip::NONE) {
 		Sound::BodyMakeNoise(this, "ECM", 1.0f);
 		m_ecmRecharge = GetECMRechargeTime();
-		Pi::spaceManager->GetCurrentSpace()->DoECM(GetFrame(), GetPosition(), Equip::types[t].pval);
+		Pi::spaceManager->GetSpace()->DoECM(GetFrame(), GetPosition(), Equip::types[t].pval);
 	}
 }
 
@@ -551,7 +552,7 @@ bool Ship::FireMissile(int idx, Ship *target)
 	// XXX DODGY! need to put it in a sensible location
 	missile->SetPosition(GetPosition()+50.0*dir);
 	missile->SetVelocity(GetVelocity());
-	Pi::spaceManager->GetCurrentSpace()->AddBody(missile);
+	Pi::spaceManager->GetSpace()->AddBody(missile);
 	return true;
 }
 
@@ -715,7 +716,7 @@ void Ship::UpdateAlertState()
 	}
 
 	bool ship_is_near = false, ship_is_firing = false;
-	for (Space::BodyIterator i = Pi::spaceManager->GetCurrentSpace()->GetActiveBodies().begin(); i != Pi::spaceManager->GetCurrentSpace()->GetActiveBodies().end(); i++)
+	for (Space::BodyIterator i = Pi::spaceManager->GetSpace()->GetBodies().begin(); i != Pi::spaceManager->GetSpace()->GetBodies().end(); i++)
 	{
 		if ((*i) == this) continue;
 		if (!(*i)->IsType(Object::SHIP) || (*i)->IsType(Object::MISSILE)) continue;
@@ -788,7 +789,7 @@ void Ship::StaticUpdate(const float timeStep)
 	AITimeStep(timeStep);		// moved to correct place, maybe
 
 	if (GetHullTemperature() > 1.0) {
-		Pi::spaceManager->GetCurrentSpace()->KillBody(this);
+		Pi::spaceManager->GetSpace()->KillBody(this);
 	}
 
 	UpdateAlertState();
@@ -1100,7 +1101,7 @@ bool Ship::Jettison(Equip::Type t)
 		cargo->SetFrame(GetFrame());
 		cargo->SetPosition(GetPosition()+pos);
 		cargo->SetVelocity(GetVelocity()+rot*vector3d(0,-10,0));
-		Pi::spaceManager->GetCurrentSpace()->AddBody(cargo);
+		Pi::spaceManager->GetSpace()->AddBody(cargo);
 
 		Pi::luaOnJettison->Queue(this, cargo);
 
@@ -1138,6 +1139,6 @@ void Ship::EnterHyperspace() {
 	assert(0);
 }
 
-void Ship::LeaveHyperspace() {
+void Ship::OnEnterSystem() {
 	assert(0);
 }

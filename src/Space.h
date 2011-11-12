@@ -55,16 +55,13 @@ public:
 	const std::list<Body*> &GetBodies() const {
 		return m_bodies;
 	}
-	const std::list<Body*> &GetActiveBodies() const {
-		return m_activeBodies;
-	}
 
 private:
 	void GenBody(SBody *b, Frame *f);
 	// make sure SBody* is in Pi::currentSystem
 	Frame *GetFrameWithSBody(const SBody *b);
 
-	void CleanupBodies();
+	void UpdateBodies();
 
 	void CollideFrame(Frame *f);
 
@@ -75,44 +72,10 @@ private:
 	// all the bodies we know about
 	std::list<Body*> m_bodies;
 
-	// bodies that are active for the current timestep
-	std::list<Body*> m_activeBodies;
-
-	// bodies that were killed this timestep and need removing
-	std::list<Body*> m_deadBodies;
-};
-
-class SpaceManager {
-public:
-	SpaceManager() : m_currentSpace(0), m_nextSpace(0) {}
-	~SpaceManager() {
-		if (m_currentSpace) delete m_currentSpace;
-		if (m_nextSpace) delete m_nextSpace;
-	}
-
-	Space *GetCurrentSpace() const { return m_currentSpace; }
-
-	Space *GetNextSpace() {
-		if (!m_nextSpace) return m_currentSpace;
-
-		if (m_currentSpace)
-			delete m_currentSpace;
-
-		m_currentSpace = m_nextSpace;
-		m_nextSpace = 0;
-
-		return m_currentSpace;
-	}
-
-	void SetNextSpace(Space *space) {
-		if (m_nextSpace)
-			delete m_nextSpace;
-		m_nextSpace = space;
-	}
-
-private:
-	Space *m_currentSpace;
-	Space *m_nextSpace;
+	// bodies that were changed this timestep and need removing
+	std::list<Body*> m_addBodies;
+	std::list<Body*> m_removeBodies;
+	std::list<Body*> m_killBodies;
 };
 
 #endif /* _SPACE_H */

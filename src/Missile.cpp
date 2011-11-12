@@ -5,6 +5,7 @@
 #include "ShipType.h"
 #include "Lang.h"
 #include "Pi.h"
+#include "SpaceManager.h"
 
 Missile::Missile(ShipType::Type type, Body *owner, Body *target): Ship(type)
 {
@@ -82,8 +83,8 @@ bool Missile::OnDamage(Object *attacker, float kgDamage)
 
 void Missile::Explode()
 {
-	Pi::spaceManager->GetCurrentSpace()->KillBody(this);
-	Pi::spaceManager->GetCurrentSpace()->RadiusDamage(m_owner, GetFrame(), GetPosition(), 200.0f, 10000.0f);
+	Pi::spaceManager->GetSpace()->KillBody(this);
+	Pi::spaceManager->GetSpace()->RadiusDamage(m_owner, GetFrame(), GetPosition(), 200.0f, 10000.0f);
 	Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 }
 

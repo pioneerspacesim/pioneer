@@ -12,14 +12,13 @@
 #include "SpaceStation.h"
 #include "Serializer.h"
 #include "collider/collider.h"
-#include "Sfx.h"
 #include "Missile.h"
 #include "HyperspaceCloud.h"
 #include "render/Render.h"
 #include "WorldView.h"
 #include "SectorView.h"
 #include "Lang.h"
-#include "ShipCpanel.h"
+#include "SpaceManager.h"
 
 Space::Space()
 {
@@ -48,10 +47,10 @@ Space::Space(Serializer::Reader &rd)
 
 Space::~Space()
 {
+	UpdateBodies(); // get any on the add list into the space so we can kill them
 	for (std::list<Body*>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		KillBody(*i);
-
-	CleanupBodies();
+	UpdateBodies();
 
 	delete rootFrame;
 
@@ -61,13 +60,13 @@ Space::~Space()
 
 void Space::AddBody(Body *b)
 {
-	m_bodies.push_back(b);
+	m_addBodies.push_back(b);
 }
 
 void Space::RemoveBody(Body *b)
 {
 	b->SetFrame(0);
-	m_bodies.remove(b);
+	m_removeBodies.push_back(b);
 }
 
 void Space::KillBody(Body* b)
@@ -82,7 +81,7 @@ void Space::KillBody(Body* b)
 		// it still collides, moves, etc. better to just snapshot its position
 		// elsewhere
 		if (b != Pi::player)
-			m_deadBodies.push_back(b);
+			m_killBodies.push_back(b);
 	}
 }
 
@@ -161,7 +160,7 @@ Body *Space::FindNearestTo(const Body *b, Object::Type t)
 Body *Space::FindBodyForPath(const SystemPath *path)
 {
 	// it is a bit dumb that currentSystem is not part of Space...
-	SBody *body = Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->GetBodyByPath(path);
+	SBody *body = m_starSystem->GetBodyByPath(path);
 
 	if (!body) return 0;
 
@@ -206,7 +205,7 @@ void Serialize(Serializer::Writer &wr)
 /*
 void Unserialize(Serializer::Reader &rd)
 {
-	Serializer::IndexSystemm_bodies(Pi::spaceManager->GetCurrentSpace()->GetStarSystem());
+	Serializer::IndexSystemm_bodies(Pi::spaceManager->GetSpace()->GetStarSystem());
 	
 	Serializer::Reader rd2 = rd.RdSection("Frames");
 	rootFrame = Frame::Unserialize(rd2, 0);
@@ -560,69 +559,44 @@ void Space::CollideFrame(Frame *f)
 
 void Space::TimeStep(float step)
 {
-	m_activeBodies = m_bodies;
+	UpdateBodies();
 
-	Space::CollideFrame(rootFrame);
 	// XXX does not need to be done this often
+	Space::CollideFrame(rootFrame);
 
 	// update frames of reference
-	for (BodyIterator i = m_activeBodies.begin(); i != m_activeBodies.end(); ++i)
+	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->UpdateFrame();
 
 	// AI acts here, then move all bodies and frames
-	for (BodyIterator i = m_activeBodies.begin(); i != m_activeBodies.end(); ++i)
+	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->StaticUpdate(step);
 
 	rootFrame->UpdateOrbitRails();
 
-	for (BodyIterator i = m_activeBodies.begin(); i != m_activeBodies.end(); ++i)
+	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);
 	
-	Pi::cpan->TimeStepUpdate(step);
-
-	Sfx::TimeStepAll(step, rootFrame);
-
-	// XXX don't emit events in hyperspace. this is mostly to maintain the
-	// status quo. in particular without this onEnterSystem will fire in the
-	// frame immediately before the player leaves hyperspace and the system is
-	// invalid when Lua goes and queries for it. we need to consider whether
-	// there's anything useful that can be done with events in hyperspace
-	if (m_starSystem) {
-		Pi::luaOnEnterSystem->Emit();
-		Pi::luaOnLeaveSystem->Emit();
-		Pi::luaOnFrameChanged->Emit();
-		Pi::luaOnShipHit->Emit();
-		Pi::luaOnShipCollided->Emit();
-		Pi::luaOnShipDestroyed->Emit();
-		Pi::luaOnShipDocked->Emit();
-		Pi::luaOnShipAlertChanged->Emit();
-		Pi::luaOnShipUndocked->Emit();
-		Pi::luaOnShipLanded->Emit();
-		Pi::luaOnShipTakeOff->Emit();
-		Pi::luaOnJettison->Emit();
-		Pi::luaOnAICompleted->Emit();
-		Pi::luaOnCreateBB->Emit();
-		Pi::luaOnUpdateBB->Emit();
-		Pi::luaOnShipFlavourChanged->Emit();
-		Pi::luaOnShipEquipmentChanged->Emit();
-
-		Pi::luaTimer->Tick();
-	}
-
-	m_activeBodies.clear();
-
-	CleanupBodies();
+	UpdateBodies();
 }
 
-void Space::CleanupBodies()
+void Space::UpdateBodies()
 {
-	for (BodyIterator b = m_deadBodies.begin(); b != m_deadBodies.end(); ++b) {
+	for (BodyIterator b = m_addBodies.begin(); b != m_addBodies.end(); ++b)
+		m_bodies.push_back(*b);
+	m_addBodies.clear();
+	
+	for (BodyIterator b = m_removeBodies.begin(); b != m_removeBodies.end(); ++b)
+		m_bodies.remove(*b);
+	m_removeBodies.clear();
+
+	for (BodyIterator b = m_killBodies.begin(); b != m_killBodies.end(); ++b) {
 		for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 			(*i)->NotifyDeleted(*b);
 		m_bodies.remove(*b);
 		delete *b;
 	}
-    m_deadBodies.clear();
+    m_killBodies.clear();
 }
 
 /*
@@ -696,10 +670,10 @@ void Space::DoHyperspaceTo(const SystemPath *dest)
 		storedArrivalClouds.clear();
 	}
 
-	const SystemPath psource = Pi::spaceManager->GetCurrentSpace()->GetStarSystem() ? Pi::space->GetStarSystem()->GetPath() : SystemPath();
+	const SystemPath psource = Pi::spaceManager->GetSpace()->GetStarSystem() ? Pi::space->GetStarSystem()->GetPath() : SystemPath();
 	const SystemPath pdest = SystemPath(dest->sectorX, dest->sectorY, dest->sectorZ, dest->systemIndex);
-	if (Pi::spaceManager->GetCurrentSpace()->GetStarSystem()) Pi::space->GetStarSystem()->Release();
-	Pi::spaceManager->GetCurrentSpace()->GetStarSystem() = StarSystem::GetCached(dest);
+	if (Pi::spaceManager->GetSpace()->GetStarSystem()) Pi::space->GetStarSystem()->Release();
+	Pi::spaceManager->GetSpace()->GetStarSystem() = StarSystem::GetCached(dest);
 	Space::Clear();
 	Space::BuildSystem();
 	
@@ -784,7 +758,7 @@ void Space::DoHyperspaceTo(const SystemPath *dest)
 					// flyto command in onEnterSystem so it should sort it
 					// itself out long before the player can get near
 					
-					SBody *sbody = Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->GetBodyByPath(&sdest);
+					SBody *sbody = Pi::spaceManager->GetSpace()->GetStarSystem()->GetBodyByPath(&sdest);
 					if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
 						ship->SetFrame(target_body->GetFrame());
 						ship->SetPosition(GetRandomPosition(1000.0,1000.0)*1000.0); // somewhere 1000km out
@@ -793,7 +767,7 @@ void Space::DoHyperspaceTo(const SystemPath *dest)
 					else {
 						if (sbody->type == SBody::TYPE_STARPORT_SURFACE) {
 							sbody = sbody->parent;
-							SystemPath path = Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->GetPathOf(sbody);
+							SystemPath path = Pi::spaceManager->GetSpace()->GetStarSystem()->GetPathOf(sbody);
 							target_body = FindBodyForPath(&path);
 						}
 

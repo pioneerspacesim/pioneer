@@ -50,6 +50,7 @@ enum MsgLevel {
 };
 
 class Frame;
+class SpaceManager;
 
 #define PHYSICS_HZ (60.0f)
 

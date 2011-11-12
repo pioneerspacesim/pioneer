@@ -52,7 +52,6 @@ public:
 	virtual void NotifyDeleted(const Body* const deletedBody);
 
 	// test code
-	virtual void TimeStepUpdate(const float timeStep);
 	vector3d GetAccumTorque() { return m_accumTorque; }
 	vector3d m_accumTorque;
 	void SetMouseForRearView(bool enable) { m_invertMouse = enable; }
@@ -65,9 +64,9 @@ public:
 
 	virtual void PostLoadFixup();
 
-	float GetHyperspaceProgress() const { return m_hyperspaceProgress; }
 	double GetHyperspaceDuration() const { return m_hyperspaceDuration; }
-	double GetHyperspaceEndTime() const { return m_hyperspaceEndTime; }
+
+	virtual void OnEnterSystem();
 
 	/* MarketAgent stuff */
 	int GetStock(Equip::Type t) const { assert(0); return 0; }
@@ -80,7 +79,6 @@ protected:
 	virtual void Load(Serializer::Reader &rd);
 
 	virtual void EnterHyperspace();
-	virtual void LeaveHyperspace();
 
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
@@ -100,11 +98,7 @@ private:
 
 	int m_combatTargetIndex, m_navTargetIndex; // deserialisation
 
-	std::list<HyperspaceCloud*> m_hyperspaceClouds;
-	SystemPath m_hyperspaceSource;
-	float m_hyperspaceProgress;
 	double m_hyperspaceDuration;
-	double m_hyperspaceEndTime;
 };
 
 #endif /* _PLAYER_H */

@@ -177,6 +177,8 @@ public:
 	void SetPercentHull(float);
 	float GetGunTemperature(int idx) const { return m_gunTemperature[idx]; }
 	
+	virtual void OnEnterSystem();
+
 	sigc::signal<void> onDock;				// JJ: check what these are for
 	sigc::signal<void> onUndock;
 protected:
@@ -189,7 +191,6 @@ protected:
 	virtual void SetAlertState(AlertState as) { m_alertState = as; }
 
 	virtual void EnterHyperspace();
-	virtual void LeaveHyperspace();
 
 	SpaceStation *m_dockedWith;
 	int m_dockedWithPort;

@@ -6,6 +6,7 @@
 #include "Frame.h"
 #include "Player.h"
 #include <vector>
+#include "SpaceManager.h"
 
 namespace Background
 {
@@ -14,7 +15,7 @@ Starfield::Starfield() :
 	m_shader(0)
 {
 	//This is needed because there is no system seed for the main menu
-	unsigned long seed = Pi::IsGameStarted() ? Pi::spaceManager->GetCurrentSpace()->GetStarSystem()->m_seed : UNIVERSE_SEED;
+	unsigned long seed = Pi::IsGameStarted() ? Pi::spaceManager->GetSpace()->GetStarSystem()->m_seed : UNIVERSE_SEED;
 	
 	// Slight colour variation to stars based on seed
 	MTRand rand(seed);
@@ -93,7 +94,7 @@ void Starfield::Draw()
 		/* all this jizz isn't really necessary, since the player will
 		 * be in the root frame when hyperspacing... */
 		matrix4x4d m, rot;
-		Frame::GetFrameTransform(Pi::spaceManager->GetCurrentSpace()->GetRootFrame(), Pi::player->GetFrame(), m);
+		Frame::GetFrameTransform(Pi::spaceManager->GetSpace()->GetRootFrame(), Pi::player->GetFrame(), m);
 		m.ClearToRotOnly();
 		Pi::player->GetRotMatrix(rot);
 		m = rot.InverseOf() * m;
@@ -104,7 +105,7 @@ void Starfield::Draw()
 		// it out by tweaking the numbers until it looked sort of right
 		double mult = 0.0015 / (Pi::player->GetHyperspaceDuration() / (60.0*60.0*24.0*7.0));
 
-		double hyperspaceProgress = Pi::player->GetHyperspaceProgress();
+		double hyperspaceProgress = Pi::spaceManager->GetHyperspaceProgress();
 
 		float *vtx = new float[BG_STAR_MAX*12];
 		for (int i=0; i<BG_STAR_MAX; i++) {

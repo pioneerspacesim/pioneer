@@ -5,6 +5,7 @@
 #include "Sfx.h"
 #include "StarSystem.h"
 #include "Pi.h"
+#include "SpaceManager.h"
 
 Frame::Frame()
 {
@@ -134,7 +135,7 @@ vector3d Frame::GetFrameRelativeVelocity(const Frame *fFrom, const Frame *fTo)
 	matrix4x4d m = matrix4x4d::Identity();
 
 	const Frame *f = fFrom;
-	const Frame *root = Pi::spaceManager->GetCurrentSpace()->GetRootFrame();
+	const Frame *root = Pi::spaceManager->GetSpace()->GetRootFrame();
 
 	// move forwards from origin to root
 	while ((f!=root) && (fTo != f)) {
@@ -160,7 +161,7 @@ void Frame::GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &
 	m = matrix4x4d::Identity();
 
 	const Frame *f = fFrom;
-	const Frame *root = Pi::spaceManager->GetCurrentSpace()->GetRootFrame();
+	const Frame *root = Pi::spaceManager->GetSpace()->GetRootFrame();
 
 	while ((f!=root) && (fTo != f)) {
 		f->ApplyLeavingTransform(m);
@@ -181,7 +182,7 @@ void Frame::GetFrameRenderTransform(const Frame *fFrom, const Frame *fTo, matrix
 	m = matrix4x4d::Identity();
 
 	const Frame *f = fFrom;
-	const Frame *root = Pi::spaceManager->GetCurrentSpace()->GetRootFrame();
+	const Frame *root = Pi::spaceManager->GetSpace()->GetRootFrame();
 
 	while ((f!=root) && (fTo != f)) {
 		m = f->m_interpolatedTransform * m;
