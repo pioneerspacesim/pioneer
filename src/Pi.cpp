@@ -1138,7 +1138,7 @@ void Pi::Start()
 		case 1: // Earth start point
 		{
 			InitGame();
-			spaceManager->CreateSpaceForDockedStart(SystemPath(0,0,0,0,6));  // Mexico City
+			spaceManager->CreateSpaceForDockedStart(SystemPath(0,0,0,0,6));  // Mexico City, Earth
 			StartGame();
 			MainLoop();
 			break;
@@ -1146,29 +1146,15 @@ void Pi::Start()
 		case 2: // Epsilon Eridani start point
 		{
 			InitGame();
-			spaceManager->CreateSpaceForDockedStart(SystemPath(1,0,-1,0,5));  // New Hope
+			spaceManager->CreateSpaceForDockedStart(SystemPath(1,0,-1,0,5));  // New Hope, New Hope
 			StartGame();
 			MainLoop();
 			break;
 		}
 		case 3: // Debug start point
 		{
-			SystemPath path(1,0,-1, 0);
-			assert(0);
-#if 0
-			Space::DoHyperspaceTo(&path);
-			for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++) {
-				const SBody *sbody = (*i)->GetSBody();
-				if (!sbody) continue;
-				if (sbody->path.bodyIndex == 6) {
-					player->SetFrame((*i)->GetFrame());
-					break;
-				}
-			}
-			player->SetPosition(vector3d(0,2*EARTH_RADIUS,0));
-			player->SetVelocity(vector3d(0,0,0));
-			player->m_equipment.Add(Equip::HYPERCLOUD_ANALYZER);
-			player->UpdateMass();
+			InitGame();
+			spaceManager->CreateSpaceForFreeStart(SystemPath(1,0,-1,0,4), vector3d(0,2*EARTH_RADIUS,0));  // New Hope
 
 			Ship *enemy = new Ship(ShipType::EAGLE_LRF);
 			enemy->SetFrame(player->GetFrame());
@@ -1182,7 +1168,7 @@ void Pi::Start()
 			enemy->m_equipment.Add(Equip::SCANNER);
 			enemy->UpdateMass();
 			enemy->AIKill(player);
-			Space::AddBody(enemy);
+			spaceManager->GetSpace()->AddBody(enemy);
 
 			player->SetCombatTarget(enemy);
 
@@ -1238,7 +1224,6 @@ void Pi::Start()
 			StartGame();
 			MainLoop();
 			break;
-#endif
 		}
 		case 4: // Load game
 		{

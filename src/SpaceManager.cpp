@@ -44,7 +44,30 @@ void SpaceManager::CreateSpaceForFreeStart(const SystemPath &path, const vector3
 {
 	assert(m_state == STATE_NONE);
 	assert(!m_space);
-	assert(0);
+
+	m_space = new Space(path);
+	m_space->TimeStep(0);
+	
+	assert(m_space->GetBodies().size() > path.bodyIndex);
+
+	Body *b = 0;
+	Uint32 idx = path.bodyIndex;
+	for (Space::BodyIterator i = m_space->GetBodies().begin(); i != m_space->GetBodies().end(); ++i)
+		if (--idx == 0) {
+			b = *i;
+			break;
+		}
+	assert(b);
+
+	m_space->AddBody(m_player);
+
+	m_player->Enable();
+	m_player->SetFrame(b->GetFrame());
+
+	m_player->SetPosition(pos);
+	m_player->SetVelocity(vector3d(0,0,0));
+
+    m_state = STATE_NORMAL;
 }
 
 void SpaceManager::TimeStep(float step)
