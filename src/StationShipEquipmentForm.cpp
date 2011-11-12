@@ -48,6 +48,7 @@ StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) :
 
 	for (int i=Equip::FIRST_SHIPEQUIP, num=0; i<=Equip::LAST_SHIPEQUIP; i++) {
 		Equip::Type type = static_cast<Equip::Type>(i);
+		if (type == Equip::PASSENGER_CABIN) continue;
 		int stock = m_station->GetStock(type);
 		if (!stock) continue;
 		Gui::Label *l = new Gui::Label(Equip::types[i].name);
