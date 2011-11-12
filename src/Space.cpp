@@ -577,6 +577,33 @@ void Space::TimeStep(float step)
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);
 	
+	// XXX don't emit events in hyperspace. this is mostly to maintain the
+	// status quo. in particular without this onEnterSystem will fire in the
+	// frame immediately before the player leaves hyperspace and the system is
+	// invalid when Lua goes and queries for it. we need to consider whether
+	// there's anything useful that can be done with events in hyperspace
+	if (m_starSystem) {
+		Pi::luaOnEnterSystem->Emit();
+		Pi::luaOnLeaveSystem->Emit();
+		Pi::luaOnFrameChanged->Emit();
+		Pi::luaOnShipHit->Emit();
+		Pi::luaOnShipCollided->Emit();
+		Pi::luaOnShipDestroyed->Emit();
+		Pi::luaOnShipDocked->Emit();
+		Pi::luaOnShipAlertChanged->Emit();
+		Pi::luaOnShipUndocked->Emit();
+		Pi::luaOnShipLanded->Emit();
+		Pi::luaOnShipTakeOff->Emit();
+		Pi::luaOnJettison->Emit();
+		Pi::luaOnAICompleted->Emit();
+		Pi::luaOnCreateBB->Emit();
+		Pi::luaOnUpdateBB->Emit();
+		Pi::luaOnShipFlavourChanged->Emit();
+		Pi::luaOnShipEquipmentChanged->Emit();
+
+		Pi::luaTimer->Tick();
+	}
+
 	UpdateBodies();
 }
 

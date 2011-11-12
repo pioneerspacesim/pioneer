@@ -81,33 +81,6 @@ void SpaceManager::TimeStep(float step)
 	Pi::cpan->TimeStepUpdate(step);
 	Sfx::TimeStepAll(step, m_space->GetRootFrame());
 
-	// XXX don't emit events in hyperspace. this is mostly to maintain the
-	// status quo. in particular without this onEnterSystem will fire in the
-	// frame immediately before the player leaves hyperspace and the system is
-	// invalid when Lua goes and queries for it. we need to consider whether
-	// there's anything useful that can be done with events in hyperspace
-	if (m_state == STATE_NORMAL) {
-		Pi::luaOnEnterSystem->Emit();
-		Pi::luaOnLeaveSystem->Emit();
-		Pi::luaOnFrameChanged->Emit();
-		Pi::luaOnShipHit->Emit();
-		Pi::luaOnShipCollided->Emit();
-		Pi::luaOnShipDestroyed->Emit();
-		Pi::luaOnShipDocked->Emit();
-		Pi::luaOnShipAlertChanged->Emit();
-		Pi::luaOnShipUndocked->Emit();
-		Pi::luaOnShipLanded->Emit();
-		Pi::luaOnShipTakeOff->Emit();
-		Pi::luaOnJettison->Emit();
-		Pi::luaOnAICompleted->Emit();
-		Pi::luaOnCreateBB->Emit();
-		Pi::luaOnUpdateBB->Emit();
-		Pi::luaOnShipFlavourChanged->Emit();
-		Pi::luaOnShipEquipmentChanged->Emit();
-
-		Pi::luaTimer->Tick();
-	}
-
 	if (m_state == STATE_HYPERSPACE) {
 		if (Pi::GetGameTime() > m_hyperspaceEndTime) {
 			SwitchToNormalSpace();
