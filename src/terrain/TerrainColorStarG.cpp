@@ -3,6 +3,7 @@
 #include "TerrainFeature.h"
 
 using namespace TerrainNoise;
+using namespace TerrainFeature;
 
 template <>
 const char *TerrainColorFractal<TerrainColorStarG>::GetColorFractalName() const { return "StarG"; }
@@ -16,7 +17,6 @@ TerrainColorFractal<TerrainColorStarG>::TerrainColorFractal(const SBody *body) :
 	SetFracDef(2, height, 4e6, 100.0*m_fracmult);
 	SetFracDef(3, height, 2e5, 100.0*m_fracmult);
 }
-using namespace TerrainFeature;
 
 template <>
 vector3d TerrainColorFractal<TerrainColorStarG>::GetColor(const vector3d &p, double height, const vector3d &norm)
@@ -44,6 +44,7 @@ vector3d TerrainColorFractal<TerrainColorStarG>::GetColor(const vector3d &p, dou
 		n -= 0.05;
 		n *= 3.533;	
 		col = interpolate_color(n, vector3d(.8, .8, .0), vector3d(.6, .6, .0) );
+		return col;
 	} else {
 		n *= 20.0;
 		col = interpolate_color(n, vector3d(.02, .0, .0), vector3d(.8, .8, .0) );
