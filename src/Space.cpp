@@ -47,6 +47,7 @@ Space::Space(Serializer::Reader &rd)
 
 Space::~Space()
 {
+	UpdateBodies(); // make sure anything waiting to be removed gets removed before we go and kill everything else
 	for (std::list<Body*>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		KillBody(*i);
 	UpdateBodies();
