@@ -69,7 +69,6 @@ public:
 		for (std::list<const Mission*>::const_iterator i = missions.begin(); i != missions.end(); ++i) {
 			SystemPath path = (*i)->location;
 			StarSystem *s = StarSystem::GetCached(path);
-			SBody *sbody = s->GetBodyByPath(&path);
 
 			l = new Gui::Label((*i)->type);
 			innerbox->Add(l, 0, ypos);
@@ -77,7 +76,10 @@ public:
 			l = new Gui::Label((*i)->client);
 			innerbox->Add(l, 80, ypos);
 			
-			l = new Gui::Label(stringf("%0,\n%1 [%2{d},%3{d},%4{d}]", sbody->name.c_str(), s->GetName().c_str(), path.sectorX, path.sectorY, path.sectorZ));
+			if (path.bodyIndex == 0)
+				l = new Gui::Label(stringf("%0 [%1{d},%2{d},%3{d}]", s->GetName().c_str(), path.sectorX, path.sectorY, path.sectorZ));
+			else
+				l = new Gui::Label(stringf("%0\n%1 [%2{d},%3{d},%4{d}]", s->GetBodyByPath(&path)->name.c_str(), s->GetName().c_str(), path.sectorX, path.sectorY, path.sectorZ));
 			innerbox->Add(l, 240, ypos);
 			
 			l = new Gui::Label(format_date((*i)->due));
