@@ -9,6 +9,7 @@ Alpha 17
     * Improved planet atmosphere rendering
 
   * Fixes
+    * Star halo now drawn properly in the world space (#768)
 
   * Script changes
 
