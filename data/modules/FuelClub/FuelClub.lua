@@ -74,7 +74,7 @@ onChat = function (form, ref, option)
 	end
 
 	form:Clear()
-	form:SetFace(ad.face)
+	form:SetFace(ad.character)
 	form:SetTitle(ad.flavour.welcome:interp({clubname = ad.flavour.clubname}))
 	local membership = memberships[ad.flavour.clubname]
 
@@ -179,16 +179,10 @@ local onCreateBB = function (station)
 		local ad = {station = station, stock = {}, price = {}}
 		local flavours = Translate:GetFlavours('FuelClub')
 		ad.flavour = flavours[rand:Integer(1,#flavours)]
-		-- I'd like to replace this with a Character sheet for sheer
-		-- convenience of face generation!
-		local female = (rand:Integer(1) == 1)
-		ad.face = {
-			female = female,
-			seed = rand:Integer(),
-			name = NameGen.FullName(female,rand),
+		ad.character = Character.New({
 			title = ad.flavour.clubname,
 			armour = false,
-		}
+		})
 		ads[station:AddAdvert(ad.flavour.clubname,onChat,onDelete)] = ad
 	end
 end
