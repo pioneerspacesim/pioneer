@@ -95,6 +95,7 @@ local onDelete = function (ref)
 	-- Keep the ad's character for the future
 	ads[ref].Client:Save()
 	ads[ref].Client.lastSavedSystemPath = ads[ref].station.path
+	ads[ref].Client.title = "Persistent"
 	ads[ref] = nil
 end
 
