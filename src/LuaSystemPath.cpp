@@ -367,7 +367,8 @@ static int l_sbodypath_attr_sector_z(lua_State *l)
 /*
  * Attribute: systemIndex
  *
- * The system index component of the path
+ * The system index component of the path, or nil if the SystemPath does
+ * not point to a system.
  *
  * Availability:
  *
@@ -380,14 +381,18 @@ static int l_sbodypath_attr_sector_z(lua_State *l)
 static int l_sbodypath_attr_system_index(lua_State *l)
 {
 	SystemPath *path = LuaSystemPath::GetFromLua(1);
-	lua_pushinteger(l, path->systemIndex);
+	if (!path->IsSectorPath())
+		lua_pushinteger(l, path->systemIndex);
+	else
+		lua_pushnil(l);
 	return 1;
 }
 
 /*
  * Attribute: bodyIndex
  *
- * The body index component of the path
+ * The body index component of the path, or nil if the SystemPath does
+ * not point to a body.
  *
  * Availability:
  *
@@ -400,7 +405,10 @@ static int l_sbodypath_attr_system_index(lua_State *l)
 static int l_sbodypath_attr_body_index(lua_State *l)
 {
 	SystemPath *path = LuaSystemPath::GetFromLua(1);
-	lua_pushinteger(l, path->bodyIndex);
+	if (path->IsBodyPath())
+		lua_pushinteger(l, path->bodyIndex);
+	else
+		lua_pushnil(l);
 	return 1;
 }
 
