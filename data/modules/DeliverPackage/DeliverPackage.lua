@@ -23,13 +23,13 @@ local onChat = function (form, ref, option)
 	end
 
 	if option == 0 then
-		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.client })
+		form:SetFace(ad.Client)
 
 		local sys   = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
 
 		local introtext = string.interp(delivery_flavours[ad.flavour].introtext, {
-			name     = ad.client,
+			name     = ad.Client.name,
 			cash     = Format.Money(ad.reward),
 			starport = sbody.name,
 			system   = sys.name,
@@ -66,7 +66,7 @@ local onChat = function (form, ref, option)
 
 		local mission = {
 			type	 = t("Delivery"),
-			client	 = ad.client,
+			client	 = ad.Client.name,
 			location = ad.location,
 			risk	 = ad.risk,
 			reward	 = ad.reward,
@@ -98,8 +98,7 @@ end
 local makeAdvert = function (station)
 	local reward, due, location, nearbysystem
 	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
-	local isfemale = Engine.rand:Integer(1) == 1
-	local client = NameGen.FullName(isfemale)
+	local Client = Character.New()
 	local flavour = Engine.rand:Integer(1,#delivery_flavours)
 	local urgency = delivery_flavours[flavour].urgency
 	local risk = delivery_flavours[flavour].risk
@@ -128,14 +127,12 @@ local makeAdvert = function (station)
 	local ad = {
 		station		= station,
 		flavour		= flavour,
-		client		= client,
+		Client		= Client,
 		location	= location,
 		due		= due,
 		risk		= risk,
 		urgency		= urgency,
 		reward		= reward,
-		isfemale	= isfemale,
-		faceseed	= Engine.rand:Integer(),
 	}
 
 	local sbody = ad.location:GetSystemBody()
