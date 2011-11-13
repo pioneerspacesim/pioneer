@@ -6,12 +6,12 @@
 class SystemPath {
 public:
 	SystemPath() :
-		sectorX(0), sectorY(0), sectorZ(0), systemIndex(0), bodyIndex(0) {}
+		sectorX(0), sectorY(0), sectorZ(0), systemIndex(-1), bodyIndex(-1) {}
 
 	SystemPath(Sint32 x, Sint32 y, Sint32 z) :
-		sectorX(x), sectorY(y), sectorZ(z), systemIndex(0), bodyIndex(0) {}
+		sectorX(x), sectorY(y), sectorZ(z), systemIndex(-1), bodyIndex(-1) {}
 	SystemPath(Sint32 x, Sint32 y, Sint32 z, Uint32 si) : 
-		sectorX(x), sectorY(y), sectorZ(z), systemIndex(si), bodyIndex(0) {}
+		sectorX(x), sectorY(y), sectorZ(z), systemIndex(si), bodyIndex(-1) {}
 	SystemPath(Sint32 x, Sint32 y, Sint32 z, Uint32 si, Uint32 bi) : 
 		sectorX(x), sectorY(y), sectorZ(z), systemIndex(si), bodyIndex(bi) {}
 	
@@ -45,6 +45,18 @@ public:
 		if (a.sectorZ != b.sectorZ) return (a.sectorZ < b.sectorZ);
 		if (a.systemIndex != b.systemIndex) return (a.systemIndex < b.systemIndex);
 		return (a.bodyIndex < b.bodyIndex);
+	}
+
+	bool IsSectorPath() const {
+		return (systemIndex == Uint32(-1) && bodyIndex == Uint32(-1));
+	}
+
+	bool IsSystemPath() const {
+		return (systemIndex != Uint32(-1) && bodyIndex == Uint32(-1));
+	}
+
+	bool IsBodyPath() const {
+		return (systemIndex != Uint32(-1) && bodyIndex != Uint32(-1));
 	}
 
 	bool IsSameSector(const SystemPath &b) const {
