@@ -47,7 +47,6 @@ Space::Space(Serializer::Reader &rd)
 
 Space::~Space()
 {
-	UpdateBodies(); // get any on the add list into the space so we can kill them
 	for (std::list<Body*>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		KillBody(*i);
 	UpdateBodies();
@@ -60,7 +59,7 @@ Space::~Space()
 
 void Space::AddBody(Body *b)
 {
-	m_addBodies.push_back(b);
+	m_bodies.push_back(b);
 }
 
 void Space::RemoveBody(Body *b)
@@ -559,8 +558,6 @@ void Space::CollideFrame(Frame *f)
 
 void Space::TimeStep(float step)
 {
-	UpdateBodies();
-
 	// XXX does not need to be done this often
 	Space::CollideFrame(rootFrame);
 
@@ -609,10 +606,6 @@ void Space::TimeStep(float step)
 
 void Space::UpdateBodies()
 {
-	for (BodyIterator b = m_addBodies.begin(); b != m_addBodies.end(); ++b)
-		m_bodies.push_back(*b);
-	m_addBodies.clear();
-	
 	for (BodyIterator b = m_removeBodies.begin(); b != m_removeBodies.end(); ++b)
 		m_bodies.remove(*b);
 	m_removeBodies.clear();

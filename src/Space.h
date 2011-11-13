@@ -72,8 +72,7 @@ private:
 	// all the bodies we know about
 	std::list<Body*> m_bodies;
 
-	// bodies that were changed this timestep and need removing
-	std::list<Body*> m_addBodies;
+	// bodies that were removed/killed this timestep and need pruning at the end
 	std::list<Body*> m_removeBodies;
 	std::list<Body*> m_killBodies;
 };
