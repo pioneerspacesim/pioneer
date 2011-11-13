@@ -147,6 +147,58 @@ static int l_sbodypath_is_same_sector(lua_State *l)
 }
 
 /*
+ * Method: SystemOnly
+ *
+ * Derive a SystemPath that points to the whole system.
+ *
+ * > system_path = path:SystemOnly()
+ *
+ * Return:
+ *
+ *   system_path - the SystemPath that represents just the system
+ *
+ * Availability:
+ *
+ *   not yet
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_sbodypath_system_only(lua_State *l)
+{
+	SystemPath *path = LuaSystemPath::GetFromLua(1);
+	LuaSystemPath::PushToLuaGC(new SystemPath(path->SystemOnly()));
+	return 1;
+}
+
+/*
+ * Method: SectorOnly
+ *
+ * Derive a SystemPath that points to the whole sector.
+ *
+ * > sector_path = path:SectorOnly()
+ *
+ * Return:
+ *
+ *   sector_path - the SystemPath that represents just the sector
+ *
+ * Availability:
+ *
+ *   not yet
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_sbodypath_sector_only(lua_State *l)
+{
+	SystemPath *path = LuaSystemPath::GetFromLua(1);
+	LuaSystemPath::PushToLuaGC(new SystemPath(path->SectorOnly()));
+	return 1;
+}
+
+/*
  * Method: DistanceTo
  *
  * Calculate the distance between this and another system
@@ -379,6 +431,9 @@ template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
 
 		{ "IsSameSystem", l_sbodypath_is_same_system },
 		{ "IsSameSector", l_sbodypath_is_same_sector },
+
+		{ "SystemOnly", l_sbodypath_system_only },
+		{ "SectorOnly", l_sbodypath_sector_only },
 
 		{ "DistanceTo", l_sbodypath_distance_to },
 
