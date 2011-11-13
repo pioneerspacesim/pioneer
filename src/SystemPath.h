@@ -8,6 +8,8 @@ public:
 	SystemPath() :
 		sectorX(0), sectorY(0), sectorZ(0), systemIndex(0), bodyIndex(0) {}
 
+	SystemPath(Sint32 x, Sint32 y, Sint32 z) :
+		sectorX(x), sectorY(y), sectorZ(z), systemIndex(0), bodyIndex(0) {}
 	SystemPath(Sint32 x, Sint32 y, Sint32 z, Uint32 si) : 
 		sectorX(x), sectorY(y), sectorZ(z), systemIndex(si), bodyIndex(0) {}
 	SystemPath(Sint32 x, Sint32 y, Sint32 z, Uint32 si, Uint32 bi) : 
@@ -58,6 +60,10 @@ public:
 		if (sectorZ != b.sectorZ) return false;
 		if (systemIndex != b.systemIndex) return false;
 		return true;
+	}
+
+	SystemPath SectorOnly() const {
+		return SystemPath(sectorX, sectorY, sectorZ);
 	}
 
 	SystemPath SystemOnly() const {
