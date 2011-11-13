@@ -161,11 +161,19 @@ public:
 		DeleteAllChildren();
 
 		float ypos = 40.0f;
-		Add((new Gui::Label(Lang::COMBAT_RATING))->Shadow(true), 40, ypos);
+		Add((new Gui::Label("#0f0"+std::string(Lang::COMBAT_RATING)+"#fff"))->Shadow(true), 40, ypos);
 		Add(new Gui::Label(Pi::combatRating[ Pi::CombatRating(Pi::player->GetKillCount()) ]), 40, ypos+YSEP);
 
+		ypos = 100.0f;
+		Add((new Gui::Label("#0f0"+std::string(Lang::FEDERAL_RANK)+"#fff"))->Shadow(true), 40, ypos);
+		Add(new Gui::Label(Pi::federalRating[ Pi::FederalRating(Pi::player->GetFedCount()) ]), 40, ypos+YSEP);
+
 		ypos = 160.0f;
-		Add((new Gui::Label(Lang::CRIMINAL_RECORD))->Shadow(true), 40, ypos);
+		Add((new Gui::Label("#0f0"+std::string(Lang::IMPERIAL_RANK)+"#fff"))->Shadow(true), 40, ypos);
+		Add(new Gui::Label(Pi::imperialRating[ Pi::ImperialRating(Pi::player->GetImpCount()) ]), 40, ypos+YSEP);
+
+		ypos = 260.0f;
+		Add((new Gui::Label("#ff0"+std::string(Lang::CRIMINAL_RECORD)+"#fff"))->Shadow(true), 40, ypos);
 		for (int i=0; i<64; i++) {
 			if (!(crime & (Uint64(1)<<i))) continue;
 			if (!Polit::crimeNames[i]) continue;

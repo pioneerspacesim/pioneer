@@ -41,6 +41,10 @@ public:
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 	virtual void OnHaveKilled(Body *guyWeKilled);
 	int GetKillCount() const { return m_knownKillCount; }
+	void SetFedCount(int const c);
+	int GetFedCount() const { return m_knownFedCount; }
+	void SetImpCount(int const c);
+	int GetImpCount() const { return m_knownImpCount; }
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	virtual bool FireMissile(int idx, Ship *target);
 	virtual void SetAlertState(Ship::AlertState as);
@@ -87,6 +91,10 @@ private:
 	double m_setSpeed;
 	int m_killCount;
 	int m_knownKillCount; // updated on docking
+	int m_fedCount;
+	int m_knownFedCount;
+	int m_impCount;
+	int m_knownImpCount;
 	Body* m_navTarget;
 	Body* m_combatTarget;
 

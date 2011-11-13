@@ -149,6 +149,37 @@ const char * const Pi::combatRating[] = {
 	Lang::DEADLY,
 	Lang::ELITE
 };
+const char * const Pi::federalRating[] = {
+	Lang::FED_NONE,
+	Lang::FED_PRIVATE,
+	Lang::FED_CORPORAL,
+	Lang::FED_SERGEANT,
+	Lang::FED_SGT_MAJOR,
+	Lang::FED_MAJOR,
+	Lang::FED_COLONEL,
+	Lang::FED_LIEUTENANT,
+	Lang::FED_LT_COMMANDER,
+	Lang::FED_CAPITAN,
+	Lang::FED_COMMODORE,
+	Lang::FED_REAR_ADMIRAL,
+	Lang::FED_ADMIRAL
+};
+
+const char * const Pi::imperialRating[] = {
+	Lang::IMP_OUTSIDER,
+	Lang::IMP_SERF,
+	Lang::IMP_MASTER,
+	Lang::IMP_SIR,
+	Lang::IMP_SQUIRE,
+	Lang::IMP_LORD,
+	Lang::IMP_BARON,
+	Lang::IMP_VISCOUNT,
+	Lang::IMP_COUNT,
+	Lang::IMP_EARL,
+	Lang::IMP_MARQUIS,
+	Lang::IMP_DUKE,
+	Lang::IMP_PRINCE
+};
 
 #if OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -168,6 +199,40 @@ int Pi::CombatRating(int kills)
 	if (kills < 6000) return 7;
 	/* nothing better to do with their lives? */
 	return 8;
+}
+
+int Pi::FederalRating(int fedpoints)
+{
+	if (fedpoints < 1) return 0;
+	if (fedpoints < 16) return 1;
+	if (fedpoints < 81) return 2;
+	if (fedpoints < 256) return 3;
+	if (fedpoints < 625) return 4;
+	if (fedpoints < 1296) return 5;
+	if (fedpoints < 2401) return 6;
+	if (fedpoints < 4096) return 7;
+	if (fedpoints < 6561) return 8;
+	if (fedpoints < 10000) return 9;
+	if (fedpoints < 14641) return 10;
+	if (fedpoints < 20736) return 11;
+	return 12;
+}
+
+int Pi::ImperialRating(int imppoints)
+{
+	if (imppoints < 1) return 0;
+	if (imppoints < 16) return 1;
+	if (imppoints < 81) return 2;
+	if (imppoints < 256) return 3;
+	if (imppoints < 625) return 4;
+	if (imppoints < 1296) return 5;
+	if (imppoints < 2401) return 6;
+	if (imppoints < 4096) return 7;
+	if (imppoints < 6561) return 8;
+	if (imppoints < 10000) return 9;
+	if (imppoints < 14641) return 10;
+	if (imppoints < 20736) return 11;
+	return 12;
 }
 
 static void draw_progress(float progress)

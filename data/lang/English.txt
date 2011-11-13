@@ -464,6 +464,10 @@ JETTISONED_1T_OF_X
     Jettisoned 1 tonne of %commodity
 COMBAT_RATING
     COMBAT RATING:
+FEDERAL_RANK
+    FEDERAL MILITARY RANK:
+IMPERIAL_RANK
+    IMPERIAL NAVY RANK:
 CRIMINAL_RECORD
     CRIMINAL RECORD:
 SHIP_INFORMATION_HEADER
@@ -596,6 +600,58 @@ DEADLY
     Deadly
 ELITE
     ELITE
+FED_NONE
+    None
+FED_PRIVATE
+    Private
+FED_CORPORAL
+    Corporal
+FED_SERGEANT
+    Sergeant
+FED_SGT_MAJOR
+    Sgt-Major
+FED_MAJOR
+    Major
+FED_COLONEL
+    Colonel
+FED_LIEUTENANT
+    Lieutenant
+FED_LT_COMMANDER
+    Lt.Commander
+FED_CAPITAN
+    Capitan
+FED_COMMODORE
+    Commodore
+FED_REAR_ADMIRAL
+    Rear Admiral
+FED_ADMIRAL
+    Admiral
+IMP_OUTSIDER
+    Outsider
+IMP_SERF
+    Serf
+IMP_MASTER
+    Master
+IMP_SIR
+    Sir
+IMP_SQUIRE
+    Squire
+IMP_LORD
+    Lord
+IMP_BARON
+    Baron
+IMP_VISCOUNT
+    Viscount
+IMP_COUNT
+    Count
+IMP_EARL
+    Earl
+IMP_MARQUIS
+    Marquis
+IMP_DUKE
+    Duke
+IMP_PRINCE
+    Prince
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simulating evolution of the universe: %age{f.1} billion years ;-)
 TOMBSTONE_EPITAPH
@@ -612,6 +668,16 @@ MM_QUIT
     Quit
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
+MESSAGE_FROM_IMPERIAL_NAVY
+    Imperial Navy
+IMPERIAL_NAVY_PROMOTION_MESSAGE
+    Well done commander! Your Imperial Navy Rank has improved!
+MESSAGE_FROM_FEDERAL_MILITARY
+    Federal Military
+FEDERAL_MILITARY_PROMOTION_MESSAGE
+    Well done commander! Your Federal Military Rank has improved!
+DEMOTE_MESSAGE
+    Disappointing! You have been demoted!
 PIONEERING_PILOTS_GUILD
     Pioneering Pilots' Guild
 RIGHT_ON_COMMANDER

@@ -17,6 +17,10 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	m_flightControlState = CONTROL_MANUAL;
 	m_killCount = 0;
 	m_knownKillCount = 0;
+	m_fedCount = 0;
+	m_knownFedCount = 0;
+	m_impCount = 0;
+	m_knownImpCount = 0;
 	m_navTarget = 0;
 	m_combatTarget = 0;
 	UpdateMass();
@@ -38,6 +42,10 @@ void Player::Save(Serializer::Writer &wr)
 	wr.Double(m_setSpeed);
 	wr.Int32(m_killCount);
 	wr.Int32(m_knownKillCount);
+	wr.Int32(m_fedCount);
+	wr.Int32(m_knownFedCount);
+	wr.Int32(m_impCount);
+	wr.Int32(m_knownImpCount);
 	wr.Int32(Serializer::LookupBody(m_combatTarget));
 	wr.Int32(Serializer::LookupBody(m_navTarget));
 }
@@ -51,6 +59,10 @@ void Player::Load(Serializer::Reader &rd)
 	m_setSpeed = rd.Double();
 	m_killCount = rd.Int32();
 	m_knownKillCount = rd.Int32();
+	m_fedCount = rd.Int32();
+	m_knownFedCount = rd.Int32();
+	m_impCount = rd.Int32();
+	m_knownImpCount = rd.Int32();
 	m_combatTargetIndex = rd.Int32();
 	m_navTargetIndex = rd.Int32();
 }
@@ -106,10 +118,11 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 			Pi::cpan->MsgLog()->ImportantMessage(Lang::PIONEERING_PILOTS_GUILD, Lang::RIGHT_ON_COMMANDER);
 		}
 		m_knownKillCount = m_killCount;
-
 		Pi::SetView(Pi::spaceStationView);
 	}
 }
+
+
 
 void Player::TimeStepUpdate(const float timeStep)
 {
@@ -118,6 +131,23 @@ void Player::TimeStepUpdate(const float timeStep)
 
 void Player::StaticUpdate(const float timeStep)
 {
+	{
+		if (Pi::FederalRating(m_fedCount) > Pi::FederalRating(m_knownFedCount)) {
+			Pi::cpan->MsgLog()->ImportantMessage(Lang::MESSAGE_FROM_FEDERAL_MILITARY, Lang::FEDERAL_MILITARY_PROMOTION_MESSAGE);
+		}
+		if (Pi::FederalRating(m_fedCount) < Pi::FederalRating(m_knownFedCount)) {
+			Pi::cpan->MsgLog()->ImportantMessage(Lang::MESSAGE_FROM_FEDERAL_MILITARY, Lang::DEMOTE_MESSAGE);
+		}
+		m_knownFedCount = m_fedCount;
+
+		if (Pi::ImperialRating(m_impCount) > Pi::ImperialRating(m_knownImpCount)) {
+			Pi::cpan->MsgLog()->ImportantMessage(Lang::MESSAGE_FROM_IMPERIAL_NAVY, Lang::IMPERIAL_NAVY_PROMOTION_MESSAGE);
+		}
+		if (Pi::ImperialRating(m_impCount) < Pi::ImperialRating(m_knownImpCount)) {
+			Pi::cpan->MsgLog()->ImportantMessage(Lang::MESSAGE_FROM_IMPERIAL_NAVY, Lang::DEMOTE_MESSAGE);
+		}
+		m_knownImpCount = m_impCount;
+	}
 	vector3d v;
 	matrix4x4d m;
 
@@ -353,6 +383,16 @@ bool Player::IsAnyThrusterKeyDown()
 		KeyBindings::thrustLeft.IsActive()		||
 		KeyBindings::thrustRight.IsActive()
 	);
+}
+
+void Player::SetImpCount(int const c)
+{
+	m_impCount = c;
+}
+
+void Player::SetFedCount(int const c)
+{
+	m_fedCount = c;
 }
 
 void Player::SetNavTarget(Body* const target)
