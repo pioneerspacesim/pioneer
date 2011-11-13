@@ -1,4 +1,4 @@
-Format: Development Release 12-07-2007 (1.35 base)
+Format: 1.51
 
 
 # You can add a title and sub-title to your menu like this:
@@ -52,39 +52,38 @@ Format: Development Release 12-07-2007 (1.35 base)
 
 Group: Src  {
 
-   File: Body  (/home/brian/pioneer/src/LuaBody.cpp)
-   File: CargoBody  (/home/brian/pioneer/src/LuaCargoBody.cpp)
-   File: ChatForm  (/home/brian/pioneer/src/LuaChatForm.cpp)
-   File: Console  (/home/brian/pioneer/src/LuaConsole.cpp)
-   File: Constants  (/home/brian/pioneer/src/LuaConstants.cpp)
-   File: Does not mean killed, just deleted.  (/home/brian/pioneer/src/Body.h)
-   File: Engine  (/home/brian/pioneer/src/LuaEngine.cpp)
-   File: EquipType  (/home/brian/pioneer/src/LuaEquipType.cpp)
-   File: EventQueue  (/home/brian/pioneer/src/LuaEventQueue.cpp)
-   File: Format  (/home/brian/pioneer/src/LuaFormat.cpp)
-   File: Game  (/home/brian/pioneer/src/LuaGame.cpp)
-   File: Lang  (/home/brian/pioneer/src/LuaLang.cpp)
-   File: LMR  (/home/brian/pioneer/src/LmrModel.cpp)
-   File: Music  (/home/brian/pioneer/src/LuaMusic.cpp)
-   File: NameGen  (/home/brian/pioneer/src/LuaNameGen.cpp)
-   File: Object  (/home/brian/pioneer/src/LuaObject.cpp)
-   File: Planet  (/home/brian/pioneer/src/LuaPlanet.cpp)
-   File: Player  (/home/brian/pioneer/src/LuaPlayer.cpp)
-   File: Rand  (/home/brian/pioneer/src/LuaRand.cpp)
-   File: Ship  (/home/brian/pioneer/src/LuaShip.cpp)
-   File: ShipType  (/home/brian/pioneer/src/LuaShipType.cpp)
-   File: Space  (/home/brian/pioneer/src/LuaSpace.cpp)
-   File: SpaceStation  (/home/brian/pioneer/src/LuaSpaceStation.cpp)
-   File: Star  (/home/brian/pioneer/src/LuaStar.cpp)
-   File: StarSystem  (/home/brian/pioneer/src/LuaStarSystem.cpp)
-   File: SystemBody  (/home/brian/pioneer/src/LuaSBody.cpp)
-   File: SystemPath  (/home/brian/pioneer/src/LuaSystemPath.cpp)
-   File: Timer  (/home/brian/pioneer/src/LuaTimer.cpp)
-   File: UI  (/home/brian/pioneer/src/LuaUI.cpp)
+   File: Body  (/home/rob/code/pioneer/src/LuaBody.cpp)
+   File: CargoBody  (/home/rob/code/pioneer/src/LuaCargoBody.cpp)
+   File: ChatForm  (/home/rob/code/pioneer/src/LuaChatForm.cpp)
+   File: Console  (/home/rob/code/pioneer/src/LuaConsole.cpp)
+   File: Constants  (/home/rob/code/pioneer/src/LuaConstants.cpp)
+   File: Engine  (/home/rob/code/pioneer/src/LuaEngine.cpp)
+   File: EquipType  (/home/rob/code/pioneer/src/LuaEquipType.cpp)
+   File: EventQueue  (/home/rob/code/pioneer/src/LuaEventQueue.cpp)
+   File: Format  (/home/rob/code/pioneer/src/LuaFormat.cpp)
+   File: Game  (/home/rob/code/pioneer/src/LuaGame.cpp)
+   File: Lang  (/home/rob/code/pioneer/src/LuaLang.cpp)
+   File: LMR  (/home/rob/code/pioneer/src/LmrModel.cpp)
+   File: Music  (/home/rob/code/pioneer/src/LuaMusic.cpp)
+   File: NameGen  (/home/rob/code/pioneer/src/LuaNameGen.cpp)
+   File: Object  (/home/rob/code/pioneer/src/LuaObject.cpp)
+   File: Planet  (/home/rob/code/pioneer/src/LuaPlanet.cpp)
+   File: Player  (/home/rob/code/pioneer/src/LuaPlayer.cpp)
+   File: Rand  (/home/rob/code/pioneer/src/LuaRand.cpp)
+   File: Ship  (/home/rob/code/pioneer/src/LuaShip.cpp)
+   File: ShipType  (/home/rob/code/pioneer/src/LuaShipType.cpp)
+   File: Space  (/home/rob/code/pioneer/src/LuaSpace.cpp)
+   File: SpaceStation  (/home/rob/code/pioneer/src/LuaSpaceStation.cpp)
+   File: Star  (/home/rob/code/pioneer/src/LuaStar.cpp)
+   File: StarSystem  (/home/rob/code/pioneer/src/LuaStarSystem.cpp)
+   File: SystemBody  (/home/rob/code/pioneer/src/LuaSBody.cpp)
+   File: SystemPath  (/home/rob/code/pioneer/src/LuaSystemPath.cpp)
+   File: Timer  (/home/rob/code/pioneer/src/LuaTimer.cpp)
+   File: UI  (/home/rob/code/pioneer/src/LuaUI.cpp)
    }  # Group: Src
 
-File: Character  (no auto-title, /home/brian/pioneer/data/libs/Characters.lua)
-File: Translate  (/home/brian/pioneer/data/libs/Translate.lua)
+File: Character  (no auto-title, /home/rob/code/pioneer/data/libs/Characters.lua)
+File: Translate  (/home/rob/code/pioneer/data/libs/Translate.lua)
 
 Group: Index  {
 
@@ -101,5 +100,5 @@ Group: Index  {
 
 
 ##### Do not change or remove these lines. #####
-Data: 1(D3333RuEG3YH8p\3I8u\GGH36H9)
-Data: 1(h3333RuEG3YH8p\3I8u\GGH3fptp3o8Y6)
+Data: 1(D3333RuEG3HuY39ufG3I8u\GGH36H9)
+Data: 1(h3333RuEG3HuY39ufG3I8u\GGH3fptp3o8Y6)
