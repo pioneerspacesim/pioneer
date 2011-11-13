@@ -259,10 +259,22 @@ public:
 			if (num == 1) {
 				col1 += stringf("%0\n", Equip::types[t].name);
 			} else if (num > 1) {
-				if (t == Equip::SHIELD_GENERATOR) {
-					col1 += stringf(Lang::X_SHIELD_GENERATORS, formatarg ("quantity", int(num)));
-					col1 += stringf("\n");
+				// XXX this needs something more generic
+				switch (t) {
+					case Equip::SHIELD_GENERATOR:
+						col1 += stringf(Lang::X_SHIELD_GENERATORS, formatarg ("quantity", int(num)));
+						break;
+					case Equip::PASSENGER_CABIN:
+						col1 += stringf(Lang::X_PASSENGER_CABINS, formatarg ("quantity", int(num)));
+						break;
+					case Equip::UNOCCUPIED_CABIN:
+						col1 += stringf(Lang::X_UNOCCUPIED_CABINS, formatarg ("quantity", int(num)));
+						break;
+					default:
+						col1 += stringf("%0\n", Equip::types[t].name);
+						break;
 				}
+				col1 += stringf("\n");
 			} 
 		}
 
