@@ -886,17 +886,6 @@ double calc_orbital_period(double semiMajorAxis, double centralMass)
 	return 2.0*M_PI*sqrt((semiMajorAxis*semiMajorAxis*semiMajorAxis)/(G*centralMass));
 }
 
-template <class T>
-static void shuffle_array(MTRand &rand, T *array, int len)
-{
-	for (int i=0; i<len; i++) {
-		int pos = rand.Int32(len);
-		T temp = array[i];
-		array[i] = array[pos];
-		array[pos] = temp;
-	}
-}
-
 SBody *StarSystem::GetBodyByPath(const SystemPath &path) const
 {
 	assert(m_path.IsSameSystem(path));
