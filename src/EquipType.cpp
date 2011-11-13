@@ -167,6 +167,15 @@ const EquipType Equip::types[Equip::TYPE_MAX] = {
 	  Equip::SLOT_ECM, -1, {},
 	  1520000, 2, 3, 0, 5, 5.0
 	},{
+	  Lang::UNOCCUPIED_CABIN,
+	  Lang::UNOCCUPIED_CABIN_DESCRIPTION,
+	  Equip::SLOT_CABIN, -1, {},
+	  135000, 5, 1, 0, 1, 5.0
+	},{
+	  Lang::PASSENGER_CABIN,0,
+	  Equip::SLOT_CABIN, -1, {},
+	  -135000, 5, 1, 0, 99, 5.0 // XXX: techLevel is 99 so that item can not be bought/sold
+	},{
 	  Lang::SHIELD_GENERATOR,
 	  Lang::SHIELD_GENERATOR_DESCRIPTION,
 	  Equip::SLOT_SHIELD, -1, {},

@@ -336,6 +336,7 @@ void LuaConstants::Register(lua_State *l)
 	 * HULLAUTOREPAIR - hull auto-repair system
 	 * ENERGYBOOSTER - shield energy booster unit
 	 * ATMOSHIELD - atmospheric shielding
+	 * CABIN - cabin
 	 * SHIELD - shield
 	 * FUELSCOOP - fuel scoop
 	 * CARGOSCOOP - cargo scoop
@@ -400,6 +401,8 @@ void LuaConstants::Register(lua_State *l)
 	 * ECM_BASIC - basic ECM system (ECM)
 	 * SCANNER - scanner (SCANNER)
 	 * ECM_ADVANCED - advanced ECM system (ECM)
+	 * UNOCCUPIED_CABIN - unoccupied passenger cabin (CABIN)
+	 * PASSENGER_CABIN - occupied passenger cabin (CABIN)
 	 * SHIELD_GENERATOR - shield generator (SHIELD)
 	 * LASER_COOLING_BOOSTER - laser cooling booster (LASERCOOLER)
 	 * CARGO_LIFE_SUPPORT - cargo bay life support (CARGOLIFESUPPORT)
