@@ -48,6 +48,7 @@ StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) :
 
 	for (int i=Equip::FIRST_SHIPEQUIP, num=0; i<=Equip::LAST_SHIPEQUIP; i++) {
 		Equip::Type type = static_cast<Equip::Type>(i);
+		if (type == Equip::PASSENGER_CABIN) continue;
 		if (!m_station->GetStock(type) &&
 			!(Pi::player->m_equipment.Count(Equip::types[i].slot, type) &&
 			Equip::types[i].techLevel <= Pi::currentSystem->m_techlevel))
