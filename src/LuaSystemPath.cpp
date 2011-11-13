@@ -330,6 +330,15 @@ static int l_sbodypath_meta_eq(lua_State *l)
 	return 1;
 }
 
+static int l_sbodypath_meta_tostring(lua_State *l)
+{
+	SystemPath *path = LuaSystemPath::GetFromLua(1);
+	lua_pushfstring(l, "<%d,%d,%d : %d,%d>",
+			path->sectorX, path->sectorY, path->sectorZ,
+			path->systemIndex, path->bodyIndex);
+	return 1;
+}
+
 template <> const char *LuaObject<LuaUncopyable<SystemPath> >::s_type = "SystemPath";
 
 template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
@@ -358,6 +367,7 @@ template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
 
 	static const luaL_reg l_meta[] = {
 		{ "__eq",  l_sbodypath_meta_eq },
+		{ "__tostring", l_sbodypath_meta_tostring },
 		{ 0, 0 }
 	};
 
