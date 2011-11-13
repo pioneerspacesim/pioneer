@@ -4,6 +4,8 @@ Alpha 17
     * Rewritten autopilot (#789)
     * Yellow indicator to show target orientation change by mouse
       movement (#216, #777)
+    * Check/set speed relative to navigation or combat target (press CTRL
+      while targeting) (#462, #769)
 
   * Minor changes and tweaks
     * Improved planet atmosphere rendering
