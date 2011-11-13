@@ -114,7 +114,13 @@ onChat = function (form, ref, option)
 				return membership.joined + membership.expiry > Game.time
 			end,
 			onClickSell = function (ref, commodity)
-				if (commodity == 'RADIOACTIVES' and membership.milrads < 1) then return false end
+				if (commodity == 'RADIOACTIVES' and membership.milrads < 1) then
+					UI.Message(t("You must buy our {military_fuel} before we will take your {radioactives}"):interp({
+						military_fuel = t('MILITARY_FUEL'),
+						radioactives = t('RADIOACTIVES'),
+					}))
+					return false
+				end
 				return	membership.joined + membership.expiry > Game.time
 			end,
 			bought = function (ref, commodity)
