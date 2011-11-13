@@ -45,10 +45,11 @@ public:
 	virtual bool FireMissile(int idx, Ship *target);
 	virtual void SetAlertState(Ship::AlertState as);
 	bool IsAnyThrusterKeyDown();
-	void SetNavTarget(Body* const target);
+	void SetNavTarget(Body* const target, bool setSpeedTo = false);
 	Body *GetNavTarget() const { return m_navTarget; }
-	void SetCombatTarget(Body* const target);
+	void SetCombatTarget(Body* const target, bool setSpeedTo = false);
 	Body *GetCombatTarget() const { return m_combatTarget; }
+	Body *GetSetSpeedTarget() const { return m_setSpeedTarget; }
 	virtual void NotifyDeleted(const Body* const deletedBody);
 
 	// test code
@@ -85,6 +86,7 @@ private:
 	bool polledControlsThisTurn;
 	enum FlightControlState m_flightControlState;
 	double m_setSpeed;
+	Body* m_setSpeedTarget;
 	int m_killCount;
 	int m_knownKillCount; // updated on docking
 	Body* m_navTarget;
