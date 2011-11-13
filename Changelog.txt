@@ -7,6 +7,7 @@ Alpha 17
     * Check/set speed relative to navigation or combat target (press CTRL
       while targeting) (#462, #769)
     * Passenger cabins and taxi missions (#718)
+    * Fuel club (#788)
 
   * Minor changes and tweaks
     * Improved planet atmosphere rendering
