@@ -19,6 +19,9 @@
     <Filter Include="src\render">
       <UniqueIdentifier>{d9c0c67d-08a9-40e3-a726-2441396eae67}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\terrain">
+      <UniqueIdentifier>{61866310-baa3-48ea-ad0b-a53ae7c23661}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\collider\BVHTree.cpp">
@@ -94,9 +97,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GeoSphere.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GeoSphereStyle.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\HyperspaceCloud.cpp">
@@ -465,6 +465,143 @@
     <ClCompile Include="..\..\src\TerrainBody.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\terrain\Terrain.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorAsteroid.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorBandedRock.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorDeadWithWater.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorDesert.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorEarthLike.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorGGJupiter.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorGGNeptune.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorGGNeptune2.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorGGSaturn.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorGGSaturn2.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorGGUranus.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorIce.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorMethane.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorRock.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorRock2.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorSolid.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorStarBrownDwarf.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorStarG.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorStarK.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorStarM.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorStarWhiteDwarf.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorTFGood.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorTFPoor.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainColorVolcanic.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainFeature.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightAsteroid.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightFlat.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightHillsCraters.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightHillsCraters2.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightHillsDunes.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightHillsNormal.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightHillsRidged.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightHillsRivers.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightMapped.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsCraters.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsCraters2.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsNormal.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsRidged.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsRivers.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsRiversVolcano.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsVolcano.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightRuggedDesert.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightRuggedLava.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightWaterSolid.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightWaterSolidCanyons.cpp">
+      <Filter>src\terrain</Filter>
     <ClCompile Include="..\..\src\enum_table.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -585,9 +722,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GeoSphere.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GeoSphereStyle.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\HyperspaceCloud.h">
@@ -983,6 +1117,14 @@
     <ClInclude Include="..\..\src\TerrainBody.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\terrain\Terrain.h">
+      <Filter>src\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\terrain\TerrainFeature.h">
+      <Filter>src\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\terrain\TerrainNoise.h">
+      <Filter>src\terrain</Filter>
     <ClInclude Include="..\..\src\enum_table.h">
       <Filter>src</Filter>
     </ClInclude>
