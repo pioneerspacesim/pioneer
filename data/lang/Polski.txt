@@ -1161,3 +1161,15 @@ DISTANCE_LY
     Dystans: %distance{f.2} lś
 SYSTEM
     całego systemu
+UNOCCUPIED_CABIN
+    Kabina pasażerska
+X_UNOCCUPIED_CABINS
+    Kabiny pasażerskie [#0f0 %quantity #fff]
+UNOCCUPIED_CABIN_DESCRIPTION
+    Umożliwia przewiezienie jednego pasażera
+PASSENGER_CABIN
+    Zajęta kabina pasażerska
+X_PASSENGER_CABINS
+    Zajęte kabiny pasażerskie [#ff0 %quantity #fff]
+CABINS
+    Kabiny

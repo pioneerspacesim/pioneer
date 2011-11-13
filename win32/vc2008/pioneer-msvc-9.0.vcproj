@@ -393,10 +393,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GeoSphereStyle.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\gui\Gui.cpp"
 				>
 			</File>
@@ -881,7 +877,191 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\terrain\Terrain.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\TerrainBody.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorAsteroid.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorBandedRock.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorDeadWithWater.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorDesert.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorEarthLike.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorGGJupiter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorGGNeptune.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorGGNeptune2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorGGSaturn.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorGGSaturn2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorGGUranus.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorIce.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorMethane.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorRock.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorRock2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorSolid.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorStarBrownDwarf.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorStarG.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorStarK.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorStarM.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorStarWhiteDwarf.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorTFGood.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorTFPoor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainColorVolcanic.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainFeature.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightAsteroid.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightFlat.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightHillsCraters.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightHillsCraters2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightHillsDunes.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightHillsNormal.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightHillsRidged.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightHillsRivers.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightMapped.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightMountainsCraters.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightMountainsCraters2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightMountainsNormal.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightMountainsRidged.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightMountainsRivers.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightMountainsRiversVolcano.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightMountainsVolcano.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightRuggedDesert.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightRuggedLava.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightWaterSolid.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightWaterSolidCanyons.cpp"
 				>
 			</File>
 			<File
@@ -1064,18 +1244,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\GeoSphere.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\GeoSphereStyle.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\GeoSphereStyle.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\GeoSphereStyle.h"
 				>
 			</File>
 			<File
@@ -1587,7 +1755,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\terrain\Terrain.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\TerrainBody.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainFeature.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainNoise.h"
 				>
 			</File>
 			<File

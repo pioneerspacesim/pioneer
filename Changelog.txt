@@ -4,15 +4,23 @@ Alpha 17
     * Rewritten autopilot (#789)
     * Yellow indicator to show target orientation change by mouse
       movement (#216, #777)
+    * Check/set speed relative to navigation or combat target (press CTRL
+      while targeting) (#462, #769)
+    * Passenger cabins and taxi missions (#718)
+    * Fuel club (#788)
 
   * Minor changes and tweaks
     * Improved planet atmosphere rendering
 
   * Fixes
+    * Star halo now drawn properly in the world space (#768)
+    * Allow equipment to be removed even if the station has none in stock (#780, #781)
 
   * Script changes
+    * New Character class to represent and test NPC attributes (#725, #787)
 
   * Internal changes
+    * Terrain color/height fractal refactor (#699)
 
 Alpha 16
 

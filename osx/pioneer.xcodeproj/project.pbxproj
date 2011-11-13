@@ -199,6 +199,9 @@
 		4A82AA861386969B0028CCED /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA7D1386969B0028CCED /* GameConfig.cpp */; };
 		4A82AA871386969B0028CCED /* TextureFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA801386969B0028CCED /* TextureFont.cpp */; };
 		4A82AA881386969B0028CCED /* VectorFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA821386969B0028CCED /* VectorFont.cpp */; };
+		4A84CB7D14595D850051C848 /* enum_table.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A84CB7B14595D850051C848 /* enum_table.cpp */; };
+		4A84CB84146027DC0051C848 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A84CB82146027DC0051C848 /* Camera.cpp */; };
+		4A84CB88146027F70051C848 /* RenderFrustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A84CB86146027F70051C848 /* RenderFrustum.cpp */; };
 		4A85A86A13C4631D00C2B986 /* LuaMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86313C4631D00C2B986 /* LuaMusic.cpp */; };
 		4A85A86B13C4631D00C2B986 /* LuaSystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */; };
 		4A85A86C13C4631D00C2B986 /* SoundMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86713C4631D00C2B986 /* SoundMusic.cpp */; };
@@ -470,6 +473,7 @@
 		4A190486138AA39C00E0229C /* push_pointer_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = push_pointer_internal.h; sourceTree = "<group>"; };
 		4A190488138AA39C00E0229C /* type_list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = type_list.h; sourceTree = "<group>"; };
 		4A190489138AA39C00E0229C /* typelist_structs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = typelist_structs.h; sourceTree = "<group>"; };
+		4A1E9EBE144EEA8A009243D2 /* FloatComparison.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatComparison.h; sourceTree = "<group>"; };
 		4A20B0DE135319770020F43E /* pioneer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pioneer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A20B0E2135319770020F43E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		4A20B0E5135319770020F43E /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -698,6 +702,12 @@
 		4A82AA811386969B0028CCED /* TextureFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureFont.h; sourceTree = "<group>"; };
 		4A82AA821386969B0028CCED /* VectorFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VectorFont.cpp; sourceTree = "<group>"; };
 		4A82AA831386969B0028CCED /* VectorFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VectorFont.h; sourceTree = "<group>"; };
+		4A84CB7B14595D850051C848 /* enum_table.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = enum_table.cpp; sourceTree = "<group>"; };
+		4A84CB7C14595D850051C848 /* enum_table.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = enum_table.h; sourceTree = "<group>"; };
+		4A84CB82146027DC0051C848 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
+		4A84CB83146027DC0051C848 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		4A84CB86146027F70051C848 /* RenderFrustum.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderFrustum.cpp; sourceTree = "<group>"; };
+		4A84CB87146027F70051C848 /* RenderFrustum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderFrustum.h; sourceTree = "<group>"; };
 		4A85A86313C4631D00C2B986 /* LuaMusic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaMusic.cpp; sourceTree = "<group>"; };
 		4A85A86413C4631D00C2B986 /* LuaMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaMusic.h; sourceTree = "<group>"; };
 		4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSystemPath.cpp; sourceTree = "<group>"; };
@@ -1075,6 +1085,8 @@
 		4A6B59CD1429F16E00ADC7C8 /* render */ = {
 			isa = PBXGroup;
 			children = (
+				4A84CB86146027F70051C848 /* RenderFrustum.cpp */,
+				4A84CB87146027F70051C848 /* RenderFrustum.h */,
 				4A6B59D71429F16E00ADC7C8 /* Render.cpp */,
 				4A6B59D81429F16E00ADC7C8 /* Render.h */,
 				4A6B59DA1429F16E00ADC7C8 /* RenderShader.cpp */,
@@ -1090,6 +1102,11 @@
 		4A6C4B9F13532FC300FDD53F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				4A84CB82146027DC0051C848 /* Camera.cpp */,
+				4A84CB83146027DC0051C848 /* Camera.h */,
+				4A84CB7B14595D850051C848 /* enum_table.cpp */,
+				4A84CB7C14595D850051C848 /* enum_table.h */,
+				4A1E9EBE144EEA8A009243D2 /* FloatComparison.h */,
 				4AE9706514369D7500424F91 /* LuaLang.cpp */,
 				4AE9706614369D7500424F91 /* LuaLang.h */,
 				4AB3DF8714346952001B783A /* TerrainBody.cpp */,
@@ -1663,6 +1680,9 @@
 				4A8DD53B142E19B6006DD821 /* LuaConsole.cpp in Sources */,
 				4AB3DF8914346952001B783A /* TerrainBody.cpp in Sources */,
 				4AE9706714369D7500424F91 /* LuaLang.cpp in Sources */,
+				4A84CB7D14595D850051C848 /* enum_table.cpp in Sources */,
+				4A84CB84146027DC0051C848 /* Camera.cpp in Sources */,
+				4A84CB88146027F70051C848 /* RenderFrustum.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

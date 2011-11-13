@@ -659,7 +659,7 @@ void Space::StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 		}
 
 		if (Pi::player->GetCombatTarget() == ship && !Pi::player->GetNavTarget())
-			Pi::player->SetNavTarget(cloud);
+			Pi::player->SetNavTarget(cloud, Pi::player->GetSetSpeedTarget() == ship);
 
 		// Hyperspacing ship must drop references to all other m_bodies,
 		// and they must all drop references to it.

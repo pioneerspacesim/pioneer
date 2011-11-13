@@ -48,8 +48,10 @@ StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) :
 
 	for (int i=Equip::FIRST_SHIPEQUIP, num=0; i<=Equip::LAST_SHIPEQUIP; i++) {
 		Equip::Type type = static_cast<Equip::Type>(i);
-		int stock = m_station->GetStock(type);
-		if (!stock) continue;
+		if (!m_station->GetStock(type) &&
+			!(Pi::player->m_equipment.Count(Equip::types[i].slot, type) &&
+			Equip::types[i].techLevel <= Pi::currentSystem->m_techlevel))
+			continue;
 		Gui::Label *l = new Gui::Label(Equip::types[i].name);
 		if (Equip::types[i].description) {
 			l->SetToolTip(Equip::types[i].description);
@@ -112,7 +114,7 @@ void StationShipEquipmentForm::RecalcButtonVisibility()
 	for (std::list<ButtonPair>::iterator i = m_buttons.begin(); i != m_buttons.end(); i++) {
 		Equip::Slot slot = Equip::types[(*i).type].slot;
 
-		if (Pi::player->m_equipment.FreeSpace(slot))
+		if (Pi::player->m_equipment.FreeSpace(slot) && m_station->GetStock((*i).type))
 			(*i).add->Show();
 		else
 			(*i).add->Hide();
