@@ -23,4 +23,5 @@ Translate:Add({English = {
 	["Your membership application has been declined."] = "Your membership application has been declined.",
 	["You are now a member. Your membership will expire on {expiry_date}."] = "You are now a member. Your membership will expire on {expiry_date}.",
 	["You must buy our {military_fuel} before we will take your {radioactives}"] = "You must buy our {military_fuel} before we will take your {radioactives}",
+	["Begin trade"] = "Begin trade",
 }})

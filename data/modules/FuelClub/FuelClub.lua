@@ -158,8 +158,11 @@ onChat = function (form, ref, option)
 				milrads = 0,
 			}
 			Game.player:AddMoney(0 - ad.flavour.annual_fee)
-			onChat(form,ref,0)
-			return
+			setMessage(t("You are now a member. Your membership will expire on {expiry_date}."):interp({
+				expiry_date = Format.Date(memberships[ad.flavour.clubname].joined + memberships[ad.flavour.clubname].expiry)
+			}))
+			form:AddOption(t('Begin trade'),0)
+			form:AddOption(t('HANG_UP'),-1)
 		else
 			-- Membership application unsuccessful
 			setMessage(t('Your membership application has been declined.'))
