@@ -10,6 +10,7 @@ Alpha 17
 
   * Fixes
     * Star halo now drawn properly in the world space (#768)
+    * Allow equipment to be removed even if the station has none in stock (#780, #781)
 
   * Script changes
 
