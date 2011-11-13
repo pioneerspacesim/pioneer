@@ -438,6 +438,20 @@ void ToggleHDR()
 	printf("HDR lighting %s.\n", hdrEnabled ? "enabled" : "disabled");
 }
 
+void GetNearFarClipPlane(float &znear, float &zfar)
+{
+	if (shadersEnabled) {
+		/* If vertex shaders are enabled then we have a lovely logarithmic
+		 * z-buffer stretching out from 0.1mm to 10000km! */
+		znear = 0.0001f;
+		zfar = 10000000.0f;
+	} else {
+		/* Otherwise we have the usual hopelessly crap z-buffer */
+		znear = 10.0f;
+		zfar = 1000000.0f;
+	}
+}
+
 /**
  * So if we are using the z-hack VPROG_POINTSPRITE then this still works.
  * Desired texture should already be bound on calling PutPointSprites()

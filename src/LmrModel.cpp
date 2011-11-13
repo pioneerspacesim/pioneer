@@ -527,11 +527,11 @@ public:
 		m_thrusters[i].linear_only = linear_only;
 	}
 	int PushVertex(const vector3f &pos, const vector3f &normal) {
-		vector3d tex = curTexMatrix * pos;
+		vector3f tex = curTexMatrix * pos;
 		return PushVertex(pos, normal, tex.x, tex.y);
 	}
 	void SetVertex(int idx, const vector3f &pos, const vector3f &normal) {
-		vector3d tex = curTexMatrix * pos;
+		vector3f tex = curTexMatrix * pos;
 		SetVertex(idx, pos, normal, tex.x, tex.y);
 	}
 	int PushVertex(const vector3f &pos, const vector3f &normal, GLfloat tex_u, GLfloat tex_v) {
@@ -713,7 +713,7 @@ public:
 				c->pVertex[3*vtxBase + 3*i] = v.x;
 				c->pVertex[3*vtxBase + 3*i+1] = v.y;
 				c->pVertex[3*vtxBase + 3*i+2] = v.z;
-				c->m_aabb.Update(v);
+				c->m_aabb.Update(vector3d(v));
 			}
 		}
 		if (m_indices.size()) {
@@ -1219,8 +1219,8 @@ void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transfor
 LmrCollMesh::LmrCollMesh(LmrModel *m, const LmrObjParams *params)
 {
 	memset(this, 0, sizeof(LmrCollMesh));
-	m_aabb.min = vector3f(FLT_MAX, FLT_MAX, FLT_MAX);
-	m_aabb.max = vector3f(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+	m_aabb.min = vector3d(DBL_MAX, DBL_MAX, DBL_MAX);
+	m_aabb.max = vector3d(-DBL_MAX, -DBL_MAX, -DBL_MAX);
 	m->GetCollMeshGeometry(this, matrix4x4f::Identity(), params);
 	m_radius = m_aabb.GetBoundingRadius();
 	geomTree = new GeomTree(nv, m_numTris, pVertex, pIndex, pFlag);
@@ -1250,7 +1250,7 @@ LmrCollMesh::~LmrCollMesh()
 	free(pFlag);
 }
 
-LmrModel *LmrLookupModelByName(const char *name) throw (LmrModelNotFoundException)
+LmrModel *LmrLookupModelByName(const char *name)
 {
 	std::map<std::string, LmrModel*>::iterator i = s_models.find(name);
 
@@ -1512,8 +1512,8 @@ namespace ModelFuncs {
 		for (int i=0; i<num-3; i+=2) {
 			const float rad1 = jizz[i+1];
 			const float rad2 = jizz[i+3];
-			const vector3d _start = *start + (*end-*start)*jizz[i];
-			const vector3d _end = *start + (*end-*start)*jizz[i+2];
+			const vector3f _start = *start + (*end-*start)*jizz[i];
+			const vector3f _end = *start + (*end-*start)*jizz[i+2];
 			bool shitty_normal = float_equal_absolute(jizz[i], jizz[i+2], 1e-4f);
 
 			const int basevtx = vtxStart + steps*i;
@@ -3463,7 +3463,7 @@ namespace ModelFuncs {
 	 *
 	 * Availability:
 	 *
-	 *   not yet
+	 *   alpha 16
 	 *
 	 * Status:
 	 *
@@ -3530,7 +3530,7 @@ namespace ModelFuncs {
 	 *
 	 * Availability:
 	 *
-	 *   not yet
+	 *   alpha 16
 	 *
 	 * Status:
 	 *
@@ -3556,16 +3556,17 @@ namespace ModelFuncs {
 			} else {
 				const EquipSet &es = *s_curParams->equipment;
 				const int slotSize = es.GetSlotSize(slot);
-				int i = 0;
+				int i = 0, count = 0;
 				Equip::Type equip = Equip::NONE;
 				while (i < slotSize) {
 					equip = es.Get(slot, i++);
 					if (equip != Equip::NONE) {
 						PiVerify(lua_checkstack(L, 1));
 						lua_pushstring(L, LuaConstants::GetConstantString(L, "EquipType", equip));
+						++count;
 					}
 				}
-				return i;
+				return count;
 			}
 		} else
 			return luaL_error(L, "Equipment is only valid for ships.");
@@ -3589,7 +3590,7 @@ namespace ModelFuncs {
 	 *
 	 * Availability:
 	 *
-	 *   not yet
+	 *   alpha 16
 	 *
 	 * Status:
 	 *
@@ -3632,7 +3633,7 @@ namespace ModelFuncs {
 	 *
 	 * Availability:
 	 *
-	 *   not yet
+	 *   alpha 16
 	 *
 	 * Status:
 	 *
@@ -3672,7 +3673,7 @@ namespace ModelFuncs {
 	 *
 	 * Availability:
 	 *
-	 *   not yet
+	 *   alpha 16
 	 *
 	 * Status:
 	 *
@@ -3710,7 +3711,7 @@ namespace ModelFuncs {
 	 *
 	 * Availability:
 	 *
-	 *   not yet
+	 *   alpha 16
 	 *
 	 * Status:
 	 *
@@ -3980,7 +3981,7 @@ namespace ModelFuncs {
 			//luaL_error(l, "sphere(subdivs, transform): subdivs must be in range [0,4]");
 		matrix4x4f trans;
 		_get_orientation(l, 5, trans);
-		const vector3d yaxis(trans[4], trans[5], trans[6]);
+		const vector3f yaxis(trans[4], trans[5], trans[6]);
 		float latDiff = (sliceAngle2-sliceAngle1) / float(LAT_SEGS);
 
 		float rot = 0.0;
@@ -4279,13 +4280,13 @@ namespace ObjLoader {
 namespace UtilFuncs {
 	
 	int noise(lua_State *L) {
-		vector3f v;
+		vector3d v;
 		if (lua_isnumber(L, 1)) {
 			v.x = lua_tonumber(L, 1);
 			v.y = lua_tonumber(L, 2);
 			v.z = lua_tonumber(L, 3);
 		} else {
-			v = *MyLuaVec::checkVec(L, 1);
+			v = vector3d(*MyLuaVec::checkVec(L, 1));
 		}
 		lua_pushnumber(L, noise(v));
 		return 1;
@@ -4348,11 +4349,13 @@ static void _makeModelFilesCRC(const std::string &dir, const std::string &filena
 	} else if (S_ISREG(info.st_mode) && (filename.substr(filename.size()-4) != ".png")) {
 		FILE *f = fopen(filename.c_str(), "rb");
 		if (f) {
-			for (int c = 0;;) {
-				c = fgetc(f);
-				if (c != EOF) s_allModelFilesCRC += c;
-				else break;
-			}
+			fseek(f, 0, SEEK_END);
+			int size = ftell(f);
+			unsigned char *data = reinterpret_cast<unsigned char *>(malloc(size));
+			fseek(f, 0, SEEK_SET);
+			fread(data, 1, size, f);
+			for (int c=0; c<size; c++) s_allModelFilesCRC += data[c];
+			free(data);
 			fclose(f);
 		}
 	}
@@ -4360,7 +4363,6 @@ static void _makeModelFilesCRC(const std::string &dir, const std::string &filena
 
 static void _detect_model_changes()
 {
-
 	// do we need to rebuild the model cache?
 	foreach_file_in(PIONEER_DATA_DIR "/models", &_makeModelFilesCRC);
 
@@ -4376,9 +4378,13 @@ static void _detect_model_changes()
 		}
 		fclose(cache_sum_file);
 	}
+	if (s_recompileAllModels) printf("Rebuilding model cache...\n");
+}
+
+static void _write_model_crc_file()
+{
 	if (s_recompileAllModels) {
-		printf("Rebuilding model cache...\n");
-		cache_sum_file = fopen(join_path(s_cacheDir.c_str(), "cache.sum", 0).c_str(), "wb");
+		FILE *cache_sum_file = fopen(join_path(s_cacheDir.c_str(), "cache.sum", 0).c_str(), "wb");
 		if (cache_sum_file) {
 			_fwrite_string(PIONEER_VERSION, cache_sum_file);
 			_fwrite_string(PIONEER_EXTRAVERSION, cache_sum_file);
@@ -4491,6 +4497,7 @@ void LmrModelCompilerInit()
 
 	LUA_DEBUG_END(sLua, 0);
 	
+	_write_model_crc_file();
 	s_buildDynamic = true;
 }
 

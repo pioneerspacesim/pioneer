@@ -1,5 +1,5 @@
 -- Get the translator function
-t = Translate:GetTranslator()
+local t = Translate:GetTranslator()
 
 local ads = {}
 
@@ -9,16 +9,6 @@ local onChat = function (form, ref, option)
 	if option == -1 then
 		form:Close()
 		return
-	end
-
-	ad.stock = {}
-	ad.price = {}
-	for i,e in pairs(Constants.EquipType) do
-		if not Game.system:IsCommodityLegal(e) then
-			ad.stock[e] = Engine.rand:Integer(1,50)
-			-- going rate on the black market will be twice normal
-			ad.price[e] = ad.station:GetEquipmentPrice(e) * 2
-		end
 	end
 
 	form:Clear()
@@ -104,6 +94,16 @@ local onCreateBB = function (station)
 			ispolice = ispolice,
 			faceseed = rand:Integer(),
 		}
+
+		ad.stock = {}
+		ad.price = {}
+		for i,e in pairs(Constants.EquipType) do
+			if not Game.system:IsCommodityLegal(e) then
+				ad.stock[e] = Engine.rand:Integer(1,50)
+				-- going rate on the black market will be twice normal
+				ad.price[e] = ad.station:GetEquipmentPrice(e) * 2
+			end
+		end
 
 		local ref = station:AddAdvert(ad.flavour, onChat, onDelete)
 		ads[ref] = ad

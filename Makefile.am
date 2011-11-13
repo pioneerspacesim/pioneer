@@ -7,6 +7,10 @@ include $(top_srcdir)/Makefile.common
 codedoc:
 	@naturaldocs -i src/ -i data/libs/ -xi src/data/ -o HTML codedoc/ -p nd/ -do -ro -s Default Local
 
+.PHONY: enums
+enums:
+	python scripts/scan_enums.py -o src/enum_table.cpp src/*.h
+
 EXTRA_DIST = \
 	AUTHORS.txt \
 	COMPILING.OSX.txt \

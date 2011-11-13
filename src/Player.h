@@ -10,9 +10,10 @@
 #include "MarketAgent.h"
 
 struct Mission : RefItem<Mission> {
-	enum MissionState {
-#define MissionState_ITEM(x) x,
-#include "PlayerEnums.h"
+	enum MissionState { // <enum scope='Mission' name=MissionStatus>
+		ACTIVE,
+		COMPLETED,
+		FAILED,
 	};
 
 	std::string  type;
@@ -27,7 +28,7 @@ class Player: public Ship, public MarketAgent {
 public:
 	OBJDEF(Player, Ship, PLAYER);
 	Player(ShipType::Type shipType);
-	Player() { m_mouseActive = false; }
+	Player() { m_mouseActive = false; m_invertMouse = false; }
 	virtual ~Player();
 	void PollControls(const float timeStep);
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
@@ -44,25 +45,24 @@ public:
 	virtual bool FireMissile(int idx, Ship *target);
 	virtual void SetAlertState(Ship::AlertState as);
 	bool IsAnyThrusterKeyDown();
-	void SetNavTarget(Body* const target);
+	void SetNavTarget(Body* const target, bool setSpeedTo = false);
 	Body *GetNavTarget() const { return m_navTarget; }
-	void SetCombatTarget(Body* const target);
+	void SetCombatTarget(Body* const target, bool setSpeedTo = false);
 	Body *GetCombatTarget() const { return m_combatTarget; }
+	Body *GetSetSpeedTarget() const { return m_setSpeedTarget; }
 	virtual void NotifyDeleted(const Body* const deletedBody);
 
 	// test code
 	virtual void TimeStepUpdate(const float timeStep);
 	vector3d GetAccumTorque() { return m_accumTorque; }
 	vector3d m_accumTorque;
-	vector3d GetMouseDir() { return m_mouseDir; }
+	void SetMouseForRearView(bool enable) { m_invertMouse = enable; }
+	bool IsMouseActive() const { return m_mouseActive; }
+	vector3d GetMouseDir() const { return m_mouseDir; }
 
 	double m_mouseAcc;
 
 	RefList<Mission> missions;
-
-	void SetFollowCloud(HyperspaceCloud *cloud) { m_followCloud = cloud; }
-	void ClearFollowCloud() { m_followCloud = 0; }
-	HyperspaceCloud *GetFollowCloud() { return m_followCloud; }
 
 	virtual void PostLoadFixup();
 
@@ -82,17 +82,17 @@ private:
 	vector3d m_mouseDir;
 	double m_mouseX, m_mouseY;
 	bool m_mouseActive;
+	bool m_invertMouse; // used for rear view, *not* for invert Y-axis option (which is Pi::IsMouseYInvert)
 	bool polledControlsThisTurn;
 	enum FlightControlState m_flightControlState;
 	double m_setSpeed;
+	Body* m_setSpeedTarget;
 	int m_killCount;
 	int m_knownKillCount; // updated on docking
 	Body* m_navTarget;
 	Body* m_combatTarget;
 
-	HyperspaceCloud *m_followCloud;
-
-	int m_combatTargetIndex, m_navTargetIndex, m_followCloudIndex; // deserialisation
+	int m_combatTargetIndex, m_navTargetIndex; // deserialisation
 };
 
 #endif /* _PLAYER_H */

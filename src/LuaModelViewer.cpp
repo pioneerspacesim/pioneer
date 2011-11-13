@@ -5,24 +5,8 @@
 #include "ShipType.h"
 #include "EquipType.h"
 #include "render/Render.h"
-
-// semi-duplicated from Ship.h, because that would be painful to include from here
-enum FlightState {
-#define FlightState_ITEM(x) FLIGHT_STATE_##x,
-#include "ShipEnums.h"
-};
-
-// semi-duplicated from Ship.h, because that would be painful to include from here
-enum ShipAnimation {
-#define Animation_ITEM(x) SHIP_ANIM_##x,
-#include "ShipEnums.h"
-};
-
-// semi-duplicated from Ship.h, because that would be painful to include from here
-enum SpaceStationAnimation {
-#define Animation_ITEM(x) SPACESTATION_ANIM_##x,
-#include "SpaceStationEnums.h"
-};
+#include "Ship.h" // for the flight state and ship animation enums
+#include "SpaceStation.h" // for the space station animation enums
 
 enum ModelCategory {
 	MODEL_OTHER,
@@ -65,7 +49,7 @@ static LmrObjParams g_params = {
 	{}, // animation positions
 	"PIONEER", // label
 	&g_equipment, // equipment
-	FLIGHT_STATE_FLYING, // flightState
+	Ship::FLYING, // flightState
 
 	{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 
@@ -385,7 +369,7 @@ void Viewer::SetSbreParams()
 #endif
 
 	if (m_modelCategory == MODEL_SHIP) {
-		g_params.animValues[SHIP_ANIM_WHEEL_STATE] = GetAnimValue(0);
+		g_params.animValues[Ship::ANIM_WHEEL_STATE] = GetAnimValue(0);
 
 		g_equipment.Set(Equip::SLOT_FUELSCOOP,  0, (GetAnimValue( 5) > 0.5) ? Equip::FUEL_SCOOP            : Equip::NONE);
 		g_equipment.Set(Equip::SLOT_ENGINE,     0, (GetAnimValue( 6) > 0.5) ? Equip::DRIVE_CLASS4          : Equip::NONE);
@@ -403,14 +387,14 @@ void Viewer::SetSbreParams()
 		g_equipment.Set(Equip::SLOT_MISSILE,    6, (GetAnimValue(18) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
 		g_equipment.Set(Equip::SLOT_MISSILE,    7, (GetAnimValue(19) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
 	} else if (m_modelCategory == MODEL_SPACESTATION) {
-		g_params.animStages[SPACESTATION_ANIM_DOCKING_BAY_1] = int(GetAnimValue(6) * 7.0);
-		g_params.animStages[SPACESTATION_ANIM_DOCKING_BAY_2] = int(GetAnimValue(7) * 7.0);
-		g_params.animStages[SPACESTATION_ANIM_DOCKING_BAY_3] = int(GetAnimValue(8) * 7.0);
-		g_params.animStages[SPACESTATION_ANIM_DOCKING_BAY_4] = int(GetAnimValue(9) * 7.0);
-		g_params.animValues[SPACESTATION_ANIM_DOCKING_BAY_1] = GetAnimValue(10);
-		g_params.animValues[SPACESTATION_ANIM_DOCKING_BAY_2] = GetAnimValue(11);
-		g_params.animValues[SPACESTATION_ANIM_DOCKING_BAY_3] = GetAnimValue(12);
-		g_params.animValues[SPACESTATION_ANIM_DOCKING_BAY_4] = GetAnimValue(13);
+		g_params.animStages[SpaceStation::ANIM_DOCKING_BAY_1] = int(GetAnimValue(6) * 7.0);
+		g_params.animStages[SpaceStation::ANIM_DOCKING_BAY_2] = int(GetAnimValue(7) * 7.0);
+		g_params.animStages[SpaceStation::ANIM_DOCKING_BAY_3] = int(GetAnimValue(8) * 7.0);
+		g_params.animStages[SpaceStation::ANIM_DOCKING_BAY_4] = int(GetAnimValue(9) * 7.0);
+		g_params.animValues[SpaceStation::ANIM_DOCKING_BAY_1] = GetAnimValue(10);
+		g_params.animValues[SpaceStation::ANIM_DOCKING_BAY_2] = GetAnimValue(11);
+		g_params.animValues[SpaceStation::ANIM_DOCKING_BAY_3] = GetAnimValue(12);
+		g_params.animValues[SpaceStation::ANIM_DOCKING_BAY_4] = GetAnimValue(13);
 	}
 
 /*
@@ -617,9 +601,9 @@ void Viewer::MainLoop()
 			glPopMatrix();
 		} else {
 			matrix4x4f tran = modelRot * g_camorient;//.InverseOf();
-			vector3d forward = tran * vector3d(0.0,0.0,-1.0);
-			vector3d up = tran * vector3d(0.0,1.0,0.0);
-			raytraceCollMesh(modelRot * g_campos, up, forward, m_space);
+			vector3d forward = vector3d(tran * vector3f(0.0,0.0,-1.0));
+			vector3d up = vector3d(tran * vector3f(0.0,1.0,0.0));
+			raytraceCollMesh(vector3d(modelRot * g_campos), up, forward, m_space);
 		}
 		Render::State::UseProgram(0);
 		if (m_showBoundingRadius) {
@@ -797,6 +781,7 @@ int main(int argc, char **argv)
 	Render::Init(g_width, g_height);
 	Gui::Init(g_width, g_height, g_width, g_height);
 	LmrModelCompilerInit();
+	LmrNotifyScreenWidth(g_width);
 
 	ShipType::Init();
 

@@ -684,7 +684,7 @@ NOT_FOUND_BEST_MATCH_X
 NOT_FOUND
     Nu a fost găsit
 NUMBER_HOURS
-    %hours{f.2} ore
+    %hours{f.1} ore
 QUADRUPLE_SYSTEM
     Sistem cuadruplu
 TRIPLE_SYSTEM
@@ -953,6 +953,8 @@ DAY_LENGTH
     Durata unei zile
 N_EARTH_DAYS
     %days{f.1} zile pământene
+COUNT_STARPORTS
+    porturi stelare
 STARPORTS
     Porturi stelare
 MAJOR_IMPORTS

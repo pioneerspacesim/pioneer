@@ -67,7 +67,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib glew32.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib libpng15.lib"
+				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib glew32.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib libpng15d.lib"
 				OutputFile="$(OutDir)\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\lib"
@@ -502,6 +502,14 @@
 			>
 		</Filter>
 		<File
+			RelativePath="..\..\src\enum_table.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\enum_table.h"
+			>
+		</File>
+		<File
 			RelativePath="..\..\src\FontConfig.cpp"
 			>
 		</File>
@@ -523,6 +531,14 @@
 		</File>
 		<File
 			RelativePath="..\..\src\IniConfig.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\Lang.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\Lang.h"
 			>
 		</File>
 		<File
@@ -718,6 +734,14 @@
 			>
 		</File>
 		<File
+			RelativePath="..\..\src\LuaConstants.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\LuaConstants.h"
+			>
+		</File>
+		<File
 			RelativePath="..\..\contrib\lua\lualib.h"
 			>
 		</File>
@@ -819,6 +843,14 @@
 		</File>
 		<File
 			RelativePath="..\..\src\render\RenderTexture.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\ShipType.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\ShipType.h"
 			>
 		</File>
 		<File

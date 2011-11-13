@@ -13,7 +13,6 @@ public:
 	static void Add(Body *parent, Equip::Type type, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel);
 
 	Projectile();
-	//virtual ~Projectile();
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition() const { return vector3d(m_orient[12], m_orient[13], m_orient[14]); }
 	virtual double GetBoundingRadius() const { return 10; }

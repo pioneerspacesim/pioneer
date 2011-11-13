@@ -17,6 +17,7 @@
 #include "HyperspaceCloud.h"
 #include "ShipCpanel.h"
 #include "LmrModel.h"
+#include "TextureManager.h"
 #include "Polit.h"
 #include "CityOnPlanet.h"
 #include "Missile.h"
@@ -69,7 +70,7 @@ void Ship::Save(Serializer::Writer &wr)
 	wr.Bool(m_testLanded);
 	wr.Int32(int(m_flightState));
 	wr.Int32(int(m_alertState));
-	wr.Float(m_lastFiringAlert);
+	wr.Double(m_lastFiringAlert);
 
 	m_hyperspace.dest.Serialize(wr);
 	wr.Float(m_hyperspace.countdown);
@@ -88,6 +89,7 @@ void Ship::Save(Serializer::Writer &wr)
 	wr.Float(m_stats.shield_mass_left);
 	if(m_curAICmd) { wr.Int32(1); m_curAICmd->Save(wr); }
 	else wr.Int32(0);
+	wr.Int32(int(m_aiMessage));
 }
 
 void Ship::Load(Serializer::Reader &rd)
@@ -102,7 +104,7 @@ void Ship::Load(Serializer::Reader &rd)
 	m_testLanded = rd.Bool();
 	m_flightState = FlightState(rd.Int32());
 	m_alertState = AlertState(rd.Int32());
-	m_lastFiringAlert = rd.Float();
+	m_lastFiringAlert = rd.Double();
 	
 	m_hyperspace.dest = SystemPath::Unserialize(rd);
 	m_hyperspace.countdown = rd.Float();
@@ -123,6 +125,7 @@ void Ship::Load(Serializer::Reader &rd)
 	m_stats.shield_mass_left = rd.Float();
 	if(rd.Int32()) m_curAICmd = AICommand::Load(rd);
 	else m_curAICmd = 0;
+	m_aiMessage = AIError(rd.Int32());
 
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
@@ -131,9 +134,9 @@ void Ship::Init()
 {
 	// XXX the animation namespace must match that in LuaConstants
 	// note: this must be set before generating the collision mesh
-	// (which happens in SetModel())
-	// and before rendering
+	// (which happens in SetModel()) and before rendering
 	GetLmrObjParams().animationNamespace = "ShipAnimation";
+	GetLmrObjParams().equipment = &m_equipment;
 
 	const ShipType &stype = GetShipType();
 	SetModel(stype.lmrModelName.c_str());
@@ -175,6 +178,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_ecmRecharge = 0;
 	SetLabel(m_shipFlavour.regid);
 	m_curAICmd = 0;
+	m_aiMessage = AIERROR_NONE;
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
 	Init();	
@@ -268,6 +272,18 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 		return true;
 	}
 
+	// hitting cargo scoop surface shouldn't do damage
+	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) && b->IsType(Object::CARGOBODY) && (flags & 0x100) && m_stats.free_capacity) {
+		Equip::Type item = dynamic_cast<CargoBody*>(b)->GetCargoType();
+		m_equipment.Add(item);
+		Space::KillBody(dynamic_cast<Body*>(b));
+		if (this->IsType(Object::PLAYER))
+			Pi::Message(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", Equip::types[item].name)));
+		// XXX Sfx::Add(this, Sfx::TYPE_SCOOP);
+		UpdateMass();
+		return true;
+	}
+
 	if (b->IsType(Object::PLANET)) {
 		// geoms still enabled when landed
 		if (m_flightState != FLYING) return false;
@@ -309,7 +325,7 @@ void Ship::SetAngThrusterState(const vector3d &levels)
 	m_angThrusters.z = Clamp(levels.z, -1.0, 1.0);
 }
 
-vector3d Ship::GetMaxThrust(const vector3d &dir)
+vector3d Ship::GetMaxThrust(const vector3d &dir) const
 {
 	const ShipType &stype = GetShipType();
 	vector3d maxThrust;
@@ -320,6 +336,15 @@ vector3d Ship::GetMaxThrust(const vector3d &dir)
 	maxThrust.z = (dir.z > 0) ? stype.linThrust[ShipType::THRUSTER_REVERSE]
 		: -stype.linThrust[ShipType::THRUSTER_FORWARD];
 	return maxThrust;
+}
+
+double Ship::GetAccelMin() const
+{
+	const ShipType &stype = GetShipType();
+	float val = stype.linThrust[ShipType::THRUSTER_UP];
+	val = std::min(val, stype.linThrust[ShipType::THRUSTER_RIGHT]);
+	val = std::min(val, -stype.linThrust[ShipType::THRUSTER_LEFT]);
+	return val / GetMass();
 }
 
 void Ship::ClearThrusterState()
@@ -1011,7 +1036,6 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		params.linthrust[0] = float(m_thrusters.x);
 		params.linthrust[1] = float(m_thrusters.y);
 		params.linthrust[2] = float(m_thrusters.z);
-		params.equipment = &m_equipment;
 		params.animValues[ANIM_WHEEL_STATE] = m_wheelState;
 		params.flightState = m_flightState;
 
@@ -1041,20 +1065,20 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 			const double r1 = Pi::rng.Double()-0.5;
 			const double r2 = Pi::rng.Double()-0.5;
 			const double r3 = Pi::rng.Double()-0.5;
-			v[i] = viewTransform * (
+			v[i] = vector3f(viewTransform * (
 				GetPosition() +
 				GetLmrCollMesh()->GetBoundingRadius() *
 				vector3d(r1, r2, r3).Normalized()
-			);
+			));
 		}
 		Color c(0.5,0.5,1.0,1.0);
 		float totalRechargeTime = GetECMRechargeTime();
 		if (totalRechargeTime >= 0.0f) {
 			c.a = m_ecmRecharge / totalRechargeTime;
 		}
-		GLuint tex = util_load_tex_rgba(PIONEER_DATA_DIR"/textures/ecm.png");
 
-		glBindTexture(GL_TEXTURE_2D, tex);
+		Texture *tex = TextureManager::GetTexture(PIONEER_DATA_DIR"/textures/ecm.png");
+		tex->BindTexture();
 		Render::PutPointSprites(100, v, 50.0f, c);
 	}
 
@@ -1118,14 +1142,4 @@ void Ship::ResetFlavour(const ShipFlavour *f)
 	SetLabel(f->regid);
 	Init();
 	Pi::luaOnShipFlavourChanged->Queue(this);
-}
-
-float Ship::GetWeakestThrustersForce() const
-{
-	const ShipType &type = GetShipType();
-	float val = FLT_MAX;
-	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
-		val = std::min(val, fabsf(type.linThrust[i]));
-	}
-	return val;
 }

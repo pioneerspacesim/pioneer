@@ -319,6 +319,8 @@ define_model('asp_sparks', {
 				max_cargo = 120,
 				max_missile = 1,
 				max_laser = 2,
+				max_cargoscoop = 0,
+				max_fuelscoop = 1,
 				capacity = 120,
 				hull_mass = 100,
 				price = 187000,

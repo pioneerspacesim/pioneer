@@ -686,7 +686,7 @@ NOT_FOUND_BEST_MATCH_X
 NOT_FOUND
     Nicht gefunden
 NUMBER_HOURS
-    %hours{f.2} St.
+    %hours{f.1} St.
 QUADRUPLE_SYSTEM
     Vierer-Sternsystem
 TRIPLE_SYSTEM
@@ -957,6 +957,8 @@ DAY_LENGTH
     Tageslänge
 N_EARTH_DAYS
     %days{f.1} Erdentage
+COUNT_STARPORTS
+    raumhäfen
 STARPORTS
     Raumhäfen
 MAJOR_IMPORTS

@@ -1,16 +1,51 @@
+Alpha 17
+
+  * New features
+    * Rewritten autopilot (#789)
+    * Yellow indicator to show target orientation change by mouse
+      movement (#216, #777)
+    * Check/set speed relative to navigation or combat target (press CTRL
+      while targeting) (#462, #769)
+    * Passenger cabins and taxi missions (#718)
+
+  * Minor changes and tweaks
+    * Improved planet atmosphere rendering
+
+  * Fixes
+    * Star halo now drawn properly in the world space (#768)
+    * Allow equipment to be removed even if the station has none in stock (#780, #781)
+
+  * Script changes
+    * New Character class to represent and test NPC attributes (#725, #787)
+
+  * Internal changes
+
 Alpha 16
 
   * New features
     * New ships: "Wave Heavy Hypersonic Fighter" and "Turtle" (#558, #657)
+    * Cargo scooping (#585, #708)
+    * Target and velocity indicators now shown with directions at edge of
+      screen if they are not directly in front (#750, #752)
+    * Scanner now shows different colours for different types of nearby object
+      automatically adjusts range to show the most interesting objects in the
+      best detail possible (#521)
     * Spanish translation (#628)
 
   * Minor changes and tweaks
     * New assassination missions appear less often (#634)
     * Translation infrastructure for Assassinations (#641), DonateToCranks
       (#658), GoodsTrader (#659) and DeliverPackage (#639)
-    * Modules translated to Polish
     * Targets can be selected from the system view (#503)
-	* Model cleanups and optimisations (#680, #675, #672, #674)
+    * Model cleanups and optimisations (#680, #675, #672, #674)
+    * New "temple" building (#664)
+    * Change non-local delivery mission reward calculation so that more urgent
+      deliveries get higher rewards (#719)
+    * Ships will now emerge from hyperspace at a point "close" to the source
+      system (#724)
+    * Jump duration estimate in sector view shown in days + hours (#738)
+    * Renamed "Panther" to "Caribou"
+    * Slightly improve model cache performance
 
   * Fixes
     * Optimise trade ship cargo management (#632)
@@ -22,20 +57,54 @@ Alpha 16
     * Lua onGameEnd event now fires when game ends after player destruction (#684)
     * Remember sectorview info box visbility state across view switches and
       game saves (#685)
+    * Don't pollute the global Lua namespace with translation functions (#696)
+    * Fix assassination crash on mission completion/failure (#692, #694)
+    * Fix delivery crash on dock
+    * Model LOD switches now calculated correctly based on screen wdith (#704)
+    * Fix potential deadlock in terrain generator (#661)
+    * Initialise stock levels for equipment above the station's tech level (#719)
+    * Trade ships only check trade prices in surrounding systems if it has
+      starports (#728)
+    * Determine damaged caused by collision between two ships using the other
+      ship's mass, not our own (#732, #733)
+    * Missile collisions will no longer cause damage (the explosion will
+      though) (#734)
+    * Prevent SystemBody.parent from crashing when the underlying StarSystem
+      is no long in memory (#729)
+    * Fix material use in ship landing lights (#656, #705)
+    * Fix screenshot crashes (#742, #727, #645)
+    * "Repair 1% hull" display correct % and cost when hull has <1% damage (#748, #467)
+    * Fix error capture from filter functions to EquipType.GetEquipTypes,
+      ShipType.GetShipTypes and Space.GetBodies when called from console (#764)
+    * Objects on the scanner now positioned correctly (#521)
+    * Only randomise goods trader stock levels when bulletin board is created (#772, #776)
+    * Clear breakdown servicing state on game start to avoid state leak
+      between games (#775)
   
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
     * Module translations (#640)
     * LMR get_arg() and get_arg_string() replaced with several special purpose
-      functions. "Stringy" constants now in use (#650, #586, #582, #688, #689, #690)
+      functions. "Stringy" constants now in use (#650, #586, #582, #688, #689,
+      #690, #709)
+    * Serializer support for Lua-based objects (#715)
+    * New SystemBody.population attribute (#726)
+    * Ship.GetEquip and Ship.SetEquip changed to 1-based indexing (#719)
+    * SystemBody now has several new attributes for body size and orbital
+      parameters (#760, #754)
 
   * Internal changes
-    * Cleanups, leaks fixed and general code improvements (#635, #637, #665)
+    * Cleanups, leaks fixed and general code improvements (#635, #637, #665,
+      #729, #753, #743, #741, #761, #762)
+    * Windows build optimisations (#636, #758)
     * Improve terrain generation performance
     * Run Lua timers from the physics loop, which should help to make frame
       times a little more consistent
     * Remove deprecated EquipType::types list (#642)
     * Show Lua memory usage in debug info (#638)
+    * Limit number of physics updates between render updates (#671)
+    * scan_enums.py preprocessor to generate string->enum mappings (#716, #686, #723)
+    * Camera and rendering refactor (#744)
 
 Alpha 15
 

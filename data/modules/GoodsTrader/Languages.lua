@@ -30,3 +30,19 @@ Translate:Add({ Polski = {
 	}
  }
 })
+
+---- SPANISH / ESPAÑOL ----
+
+Translate:Add({ Spanish = {
+  ["Welcome to "] = "Bienvenido a ",
+ 
+ GOODS_TRADER = {
+  "Emporio del Honesto {name}",
+  "Casa de Comercio {name}",
+  "Almacén {name}",
+  "Centro de Productos {name}",
+  "{name} Holdings",
+  "{name} & Hijos"
+  }
+ }
+})

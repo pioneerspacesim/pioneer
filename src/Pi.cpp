@@ -98,7 +98,7 @@ LuaEventQueue<Ship,Body> *Pi::luaOnShipLanded;
 LuaEventQueue<Ship,Body> *Pi::luaOnShipTakeOff;
 LuaEventQueue<Ship,const char *> *Pi::luaOnShipAlertChanged;
 LuaEventQueue<Ship,CargoBody> *Pi::luaOnJettison;
-LuaEventQueue<Ship> *Pi::luaOnAICompleted;
+LuaEventQueue<Ship,const char *> *Pi::luaOnAICompleted;
 LuaEventQueue<SpaceStation> *Pi::luaOnCreateBB;
 LuaEventQueue<SpaceStation> *Pi::luaOnUpdateBB;
 LuaEventQueue<> *Pi::luaOnSongFinished;
@@ -233,7 +233,7 @@ static void LuaInit()
 	Pi::luaOnShipTakeOff = new LuaEventQueue<Ship,Body>("onShipTakeOff");
 	Pi::luaOnShipAlertChanged = new LuaEventQueue<Ship,const char *>("onShipAlertChanged");
 	Pi::luaOnJettison = new LuaEventQueue<Ship,CargoBody>("onJettison");
-	Pi::luaOnAICompleted = new LuaEventQueue<Ship>("onAICompleted");
+	Pi::luaOnAICompleted = new LuaEventQueue<Ship,const char *>("onAICompleted");
 	Pi::luaOnCreateBB = new LuaEventQueue<SpaceStation>("onCreateBB");
 	Pi::luaOnUpdateBB = new LuaEventQueue<SpaceStation>("onUpdateBB");
 	Pi::luaOnSongFinished = new LuaEventQueue<>("onSongFinished");
@@ -468,6 +468,7 @@ void Pi::Init()
 	draw_progress(0.3f);
 
 	LmrModelCompilerInit();
+	LmrNotifyScreenWidth(Pi::scrWidth);
 	draw_progress(0.4f);
 
 //unsigned int control_word;
@@ -626,10 +627,9 @@ void Pi::SetTimeAccel(int s)
 		player->SetAngThrusterState(vector3d(0.0));
 	}
 	// Give all ships a half-step acceleration to stop autopilot overshoot
-	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
-		if ((*i)->IsType(Object::SHIP)) (static_cast<DynamicBody *>(*i))->ApplyAccel(0.5*Pi::GetTimeStep());
+	if (s < timeAccelIdx) for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+		if ((*i)->IsType(Object::SHIP)) (static_cast<DynamicBody *>(*i))->ApplyAccel(0.5f*Pi::GetTimeStep());
 	}
-
 	timeAccelIdx = s;
 }
 
@@ -886,8 +886,8 @@ static void draw_intro(Background::Starfield *starfield, Background::MilkyWay *m
 	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
 	glEnable(GL_LIGHT0);
 	
-	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6*_time) *
-			matrix4x4f::RotateXMatrix(_time*.7);
+	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6f*_time) *
+			matrix4x4f::RotateXMatrix(_time*0.7f);
 	rot[14] = -80.0;
 	LmrLookupModelByName("lanner_ub")->Render(rot, &params);
 	Render::State::UseProgram(0);
@@ -943,7 +943,7 @@ void Pi::TombStoneLoop()
 		Render::PrepareFrame();
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		float fracH = 1.0 / Pi::GetScrAspect();
+		float fracH = 1.0f / Pi::GetScrAspect();
 		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
@@ -958,7 +958,7 @@ void Pi::TombStoneLoop()
 		Gui::Draw();
 		Render::SwapBuffers();
 		
-		Pi::frameTime = 0.001*(SDL_GetTicks() - last_time);
+		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
 	} while (!((_time > 2.0) && ((Pi::MouseButtonState(SDL_BUTTON_LEFT)) || Pi::KeyState(SDLK_SPACE)) ));
@@ -1067,7 +1067,7 @@ void Pi::Start()
 	Background::Starfield *starfield = new Background::Starfield();
 	Background::MilkyWay *milkyway = new Background::MilkyWay();
 
-	Gui::Fixed *splash = new Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight());
+	Gui::Fixed *splash = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 	Gui::Screen::AddBaseWidget(splash, 0, 0);
 	splash->SetTransparency(true);
 
@@ -1111,7 +1111,7 @@ void Pi::Start()
 		Render::PrepareFrame();
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		float fracH = 1.0 / Pi::GetScrAspect();
+		float fracH = 1.0f / Pi::GetScrAspect();
 		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
@@ -1125,7 +1125,7 @@ void Pi::Start()
 		Gui::Draw();
 		Render::SwapBuffers();
 		
-		Pi::frameTime = 0.001*(SDL_GetTicks() - last_time);
+		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
 
@@ -1165,7 +1165,7 @@ void Pi::Start()
             for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++) {
                 const SBody *sbody = (*i)->GetSBody();
                 if (!sbody) continue;
-                if (sbody->id == 6) {
+                if (sbody->path.bodyIndex == 6) {
                     player->SetFrame((*i)->GetFrame());
                     break;
                 }
@@ -1297,6 +1297,10 @@ void Pi::MainLoop()
 	memset(fps_readout, 0, sizeof(fps_readout));
 #endif
 
+	int MAX_PHYSICS_TICKS = Pi::config.Int("MaxPhysicsCyclesPerRender");
+	if (MAX_PHYSICS_TICKS <= 0)
+		MAX_PHYSICS_TICKS = 4;
+
 	double currentTime = 0.001 * double(SDL_GetTicks());
 	double accumulator = Pi::GetTimeStep();
 	Pi::gameTickAlpha = 0;
@@ -1310,14 +1314,22 @@ void Pi::MainLoop()
 		
 		const float step = Pi::GetTimeStep();
 		if (step > 0.0f) {
+			int phys_ticks = 0;
 			while (accumulator >= step) {
+				if (++phys_ticks >= MAX_PHYSICS_TICKS) {
+					accumulator = 0.0;
+					break;
+				}
 				Space::TimeStep(step);
 				gameTime += step;
-				phys_stat++;
 
 				accumulator -= step;
 			}
 			Pi::gameTickAlpha = accumulator / step;
+
+#ifdef DEVKEYS
+			phys_stat += phys_ticks;
+#endif
 		} else {
 			// paused
 		}
@@ -1333,6 +1345,7 @@ void Pi::MainLoop()
 		}
 		Space::rootFrame->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 
+		currentView->Update();
 		currentView->Draw3D();
 		// XXX HandleEvents at the moment must be after view->Draw3D and before
 		// Gui::Draw so that labels drawn to screen can have mouse events correctly
@@ -1425,7 +1438,6 @@ void Pi::MainLoop()
 			StarSystem::ShrinkCache();
 		}
 		cpan->Update();
-		currentView->Update();
 		musicPlayer.Update();
 
 #ifdef DEVKEYS
@@ -1511,6 +1523,10 @@ void Pi::Serialize(Serializer::Writer &wr)
 	wr.WrSection("WorldView", section.GetData());
 
 	section = Serializer::Writer();
+	cpan->Save(section);
+	wr.WrSection("Cpanel", section.GetData());
+
+	section = Serializer::Writer();
 	luaSerializer->Serialize(section);
 	wr.WrSection("LuaModules", section.GetData());
 }
@@ -1545,7 +1561,11 @@ void Pi::Unserialize(Serializer::Reader &rd)
 	sectorView->Load(section);
 
 	section = rd.RdSection("WorldView");
-	worldView->Load(section);
+	if (worldView) delete worldView;		// XXX hack. in reality this should never have been created in the first place
+	worldView = new WorldView(section);
+
+	section = rd.RdSection("Cpanel");
+	cpan->Load(section);
 
 	section = rd.RdSection("LuaModules");
 	luaSerializer->Unserialize(section);
@@ -1557,7 +1577,7 @@ float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)
 	// Brian: "The 60% value was arrived at through trial and error, 
 	// to scale the entire jump range calculation after things like ship mass,
 	// cargo mass, hyperdrive class, fuel use and fun were factored in."
-	return 200.0f * hyperclass * hyperclass / (float(total_mass_in_tonnes)*0.6);
+	return 200.0f * hyperclass * hyperclass / (total_mass_in_tonnes * 0.6f);
 }
 
 void Pi::Message(const std::string &message, const std::string &from, enum MsgLevel level)

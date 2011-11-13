@@ -19,6 +19,7 @@
 #include "WorldView.h"
 #include "SectorView.h"
 #include "Lang.h"
+#include "ShipCpanel.h"
 
 namespace Space {
 
@@ -560,13 +561,16 @@ void TimeStep(float step)
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i)
 		(*i)->UpdateFrame();
 
-	rootFrame->UpdateOrbitRails();
-	
+	// AI acts here, then move all bodies and frames
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
-		(*i)->StaticUpdate(step);			// moved so timestep is correct during StaticUpdate
+		(*i)->StaticUpdate(step);
+
+	rootFrame->UpdateOrbitRails();
 
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);
+	
+	Pi::cpan->TimeStepUpdate(step);
 
 	Sfx::TimeStepAll(step, rootFrame);
 
@@ -619,19 +623,6 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 	if (Pi::player == ship) {
 		if (Pi::player->GetFlightControlState() == Player::CONTROL_AUTOPILOT)
 			Pi::player->SetFlightControlState(Player::CONTROL_MANUAL);
-
-		// if the hyperspace target is the same system as the selected cloud,
-		// make sure we're following it
-		Body *navtarget = Pi::player->GetNavTarget();
-		if (navtarget && navtarget->IsType(Object::HYPERSPACECLOUD)) {
-			HyperspaceCloud *cloud = dynamic_cast<HyperspaceCloud*>(navtarget);
-			if (Ship *hship = cloud->GetShip()) {
-				const SystemPath hdest = hship->GetHyperspaceDest();
-				if (hdest.IsSameSystem(*dest)) {
-					Pi::player->SetFollowCloud(cloud);
-				}
-			}
-		}
 
 		// Departure clouds going to the same system as us are turned
 		// into arrival clouds and stored here
@@ -687,7 +678,7 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 		}
 
 		if (Pi::player->GetCombatTarget() == ship && !Pi::player->GetNavTarget())
-			Pi::player->SetNavTarget(cloud);
+			Pi::player->SetNavTarget(cloud, Pi::player->GetSetSpeedTarget() == ship);
 
 		// Hyperspacing ship must drop references to all other bodies,
 		// and they must all drop references to it.
@@ -703,12 +694,27 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 	}
 }
 
-static vector3d _get_random_pos(float min_dist, float max_dist)
+// random point on a sphere, distributed uniformly by area
+vector3d GetRandomPosition(float min_dist, float max_dist)
 {
-	float longitude = Pi::rng.Double(-M_PI,M_PI);
-	float latitude = Pi::rng.Double(-M_PI,M_PI);
-	float dist = (min_dist + Pi::rng.Double(max_dist-min_dist));
-	return vector3d(sin(longitude)*cos(latitude), sin(latitude), cos(longitude)*cos(latitude)) * dist;
+	// see http://mathworld.wolfram.com/SpherePointPicking.html
+	// or a Google search for further information
+	const double dist = Pi::rng.Double(min_dist, max_dist);
+	const double z = Pi::rng.Double_closed(-1.0, 1.0);
+	const double theta = Pi::rng.Double(2.0*M_PI);
+	const double r = sqrt(1.0 - z*z) * dist;
+	return vector3d(r*cos(theta), r*sin(theta), z*dist);
+}
+
+vector3d GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *dest)
+{
+	Sector source_sec(source->sectorX,source->sectorY,source->sectorZ);
+	Sector dest_sec(dest->sectorX,dest->sectorY,dest->sectorZ);
+	Sector::System source_sys = source_sec.m_systems[source->systemIndex];
+	Sector::System dest_sys = dest_sec.m_systems[dest->systemIndex];
+	const vector3d sourcePos = vector3d(source_sys.p) + vector3d(source->sectorX, source->sectorY, source->sectorZ);
+	const vector3d destPos = vector3d(dest_sys.p) + vector3d(dest->sectorX, dest->sectorY, dest->sectorZ);
+	return (sourcePos - destPos).Normalized() * 11.0*AU + GetRandomPosition(5.0,20.0)*1000.0; // "hyperspace zone": 11 AU from primary
 }
 
 /*
@@ -730,15 +736,17 @@ void DoHyperspaceTo(const SystemPath *dest)
 		}
 		storedArrivalClouds.clear();
 	}
-	
+
+	const SystemPath psource = Pi::currentSystem ? Pi::currentSystem->GetPath() : SystemPath();
+	const SystemPath pdest = SystemPath(dest->sectorX, dest->sectorY, dest->sectorZ, dest->systemIndex);
 	if (Pi::currentSystem) Pi::currentSystem->Release();
 	Pi::currentSystem = StarSystem::GetCached(dest);
 	Space::Clear();
 	Space::BuildSystem();
 	
 	Pi::player->SetFrame(Space::rootFrame);
-	Pi::player->SetPosition(_get_random_pos(9.0,11.0)*AU); // "hyperspace zone": 9-11 AU from primary
-	Pi::player->SetVelocity(vector3d(0,0,-1000.0));
+	Pi::player->SetVelocity(vector3d(0,0,-100.0));
+	Pi::player->SetPosition(GetPositionAfterHyperspace(&psource, &pdest));
 	Pi::player->SetRotMatrix(matrix4x4d::Identity());
 	Pi::player->Enable();
 	Pi::player->SetFlightState(Ship::FLYING);
@@ -758,12 +766,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 		cloud->SetFrame(Space::rootFrame);
 		cloud->SetVelocity(vector3d(0,0,0));
 
-		if (cloud == Pi::player->GetFollowCloud())
-			// player is following it, so put it somewhere near the player
-			cloud->SetPosition(Pi::player->GetPosition() + _get_random_pos(5.0,20.0)*1000.0); // 5-20km
-		else
-			// player doesn't care, so just wherever
-			cloud->SetPosition(_get_random_pos(9.0,11.0)*AU); // "hyperspace zone": 9-11 AU from primary
+		cloud->SetPosition(GetPositionAfterHyperspace(&psource, &pdest));
 
 		Space::AddBody(cloud);
 
@@ -772,7 +775,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 			Ship *ship = cloud->EvictShip();
 
 			ship->SetFrame(Space::rootFrame);
-			ship->SetVelocity(vector3d(0,0,-1000.0));
+			ship->SetVelocity(vector3d(0,0,-100.0));
 			ship->SetRotMatrix(matrix4x4d::Identity());
 			ship->Enable();
 			ship->SetFlightState(Ship::FLYING);
@@ -825,7 +828,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 					SBody *sbody = Pi::currentSystem->GetBodyByPath(&sdest);
 					if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
 						ship->SetFrame(target_body->GetFrame());
-						ship->SetPosition(_get_random_pos(1000.0,1000.0)*1000.0); // somewhere 1000km out
+						ship->SetPosition(GetRandomPosition(1000.0,1000.0)*1000.0); // somewhere 1000km out
 					}
 
 					else {
@@ -838,7 +841,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 						double sdist = sbody->GetRadius()*2.0;
 
 						ship->SetFrame(target_body->GetFrame());
-						ship->SetPosition(_get_random_pos(sdist,sdist));
+						ship->SetPosition(GetRandomPosition(sdist,sdist));
 					}
 				}
 			}
@@ -859,7 +862,6 @@ void DoHyperspaceTo(const SystemPath *dest)
 	hyperspacingTo = 0;
 	
 	Pi::sectorView->ResetHyperspaceTarget();
-	Pi::player->ClearFollowCloud();
 }
 
 /* called at game start to load the system and put the player in a starport */
@@ -904,147 +906,4 @@ double GetHyperspaceDuration()
 	return hyperspaceDuration;
 }
 
-void DrawSpike(double rad, const vector3d &fpos, const matrix4x4d &ftran)
-{
-	glPushMatrix();
-
-	float znear, zfar;
-	Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
-	double newdist = znear + 0.5f * (zfar - znear);
-	double scale = newdist / fpos.Length();
-
-	glTranslatef(float(scale*fpos.x), float(scale*fpos.y), float(scale*fpos.z));
-
-	Render::State::UseProgram(0);
-	// face the camera dammit
-	vector3d zaxis = fpos.Normalized();
-	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
-	vector3d yaxis = zaxis.Cross(xaxis);
-	matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
-	glMultMatrixd(&rot[0]);
-
-	glDisable(GL_LIGHTING);
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_BLEND);
-
-	// XXX WRONG. need to pick light from appropriate turd.
-	GLfloat col[4];
-	glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
-	glColor4f(col[0], col[1], col[2], 1);
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(0,0,0);
-	glColor4f(col[0], col[1], col[2], 0);
-
-	const float spikerad = float(scale*rad);
-
-	// bezier with (0,0,0) control points
-		{
-			vector3f p0(0,spikerad,0), p1(spikerad,0,0);
-			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-		{
-			vector3f p0(spikerad,0,0), p1(0,-spikerad,0);
-			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-		{
-			vector3f p0(0,-spikerad,0), p1(-spikerad,0,0);
-			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-		{
-			vector3f p0(-spikerad,0,0), p1(0,spikerad,0);
-			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-	glEnd();
-	glDisable(GL_BLEND);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_DEPTH_TEST);
-	glPopMatrix();
 }
-
-struct body_zsort_t {
-	double dist;
-	vector3d viewCoords;
-	matrix4x4d viewTransform;
-	Body *b;
-	Uint32 bodyFlags;
-};
-
-struct body_zsort_compare : public std::binary_function<body_zsort_t, body_zsort_t, bool> {
-	bool operator()(body_zsort_t a, body_zsort_t b)
-	{
-		if (a.bodyFlags & Body::FLAG_DRAW_LAST) {
-			if (!(b.bodyFlags & Body::FLAG_DRAW_LAST)) return false;
-		} else {
-			if (b.bodyFlags & Body::FLAG_DRAW_LAST) return true;
-		}
-		return a.dist > b.dist;
-	}
-};
-
-/** Perhaps this should be moved to WorldView.cpp. It is only called from there. */
-void Render(const Frame *cam_frame)
-{
-	Plane planes[6];
-	GetFrustum(planes);
-
-	// simple z-sort!!!!!!!!!!!!!11
-	body_zsort_t *bz = new body_zsort_t[bodies.size()];
-	int idx = 0;
-	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
-		const vector3d pos = (*i)->GetInterpolatedPosition();
-		Frame::GetFrameRenderTransform((*i)->GetFrame(), cam_frame, bz[idx].viewTransform);
-		vector3d toBody = bz[idx].viewTransform * pos;
-		bz[idx].viewCoords = toBody;
-		bz[idx].dist = toBody.Length();
-		bz[idx].bodyFlags = (*i)->GetFlags();
-		bz[idx].b = *i;
-		idx++;
-	}
-	sort(bz, bz+bodies.size(), body_zsort_compare());
-
-	for (unsigned int i=0; i<bodies.size(); i++) {
-		double rad = bz[i].b->GetBoundingRadius();
-
-		// test against all frustum planes except far plane
-		bool do_draw = true;
-		// always render stars (they have a huge glow). Other things do frustum cull
-		if (!bz[i].b->IsType(Object::STAR)) {
-			for (int p=0; p<5; p++) {
-				if (planes[p].DistanceToPoint(bz[i].viewCoords)+rad < 0) {
-					do_draw = false;
-					break;
-				}
-			}
-		}
-		if (!do_draw) continue;
-
-		double screenrad = 500 * rad / bz[i].dist;		// approximate pixel size
-		if (!bz[i].b->IsType(Object::STAR) && screenrad < 2) {
-			if (!bz[i].b->IsType(Object::PLANET)) continue;
-			// absolute bullshit
-			double spikerad = (7 + 1.5*log10(screenrad)) * rad / screenrad;
-			DrawSpike(spikerad, bz[i].viewCoords, bz[i].viewTransform);
-		}
-		else bz[i].b->Render(bz[i].viewCoords, bz[i].viewTransform);
-	}
-	Sfx::RenderAll(rootFrame, cam_frame);
-	Render::State::UseProgram(0);
-	Render::UnbindAllBuffers();
-
-	delete [] bz;
-}
-
-}
-

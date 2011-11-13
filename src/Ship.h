@@ -35,9 +35,8 @@ public:
 
 class Ship: public DynamicBody {
 public:
-	enum Animation {
-#define Animation_ITEM(x) ANIM_##x,
-#include "ShipEnums.h"
+	enum Animation { // <enum scope='Ship' name=ShipAnimation prefix=ANIM_>
+		ANIM_WHEEL_STATE
 	};
 
 	OBJDEF(Ship, DynamicBody, SHIP);
@@ -58,7 +57,12 @@ public:
 	vector3d GetAngThrusterState() const { return m_angThrusters; }
 	void ClearThrusterState();
 
-	vector3d GetMaxThrust(const vector3d &dir);
+	vector3d GetMaxThrust(const vector3d &dir) const;
+	double GetAccelFwd() const { return -GetShipType().linThrust[ShipType::THRUSTER_FORWARD] / GetMass(); }
+	double GetAccelRev() const { return GetShipType().linThrust[ShipType::THRUSTER_REVERSE] / GetMass(); }
+	double GetAccelUp() const { return GetShipType().linThrust[ShipType::THRUSTER_UP] / GetMass(); }
+	double GetAccelMin() const;
+
 	void SetGunState(int idx, int state);
 	const ShipType &GetShipType() const;
 	const shipstats_t *CalcStats();
@@ -73,12 +77,15 @@ public:
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 
-	enum FlightState {
-#define FlightState_ITEM(x) x,
-#include "ShipEnums.h"
+	enum FlightState { // <enum scope='Ship' name=ShipFlightState>
+		FLYING,     // open flight (includes autopilot)
+		DOCKING,    // in docking animation
+		DOCKED,     // docked with station
+		LANDED,     // rough landed (not docked)
+		HYPERSPACE, // in hyperspace
 	};
 
-       	FlightState GetFlightState() const { return m_flightState; }
+	FlightState GetFlightState() const { return m_flightState; }
 	void SetFlightState(FlightState s) { m_flightState = s; }
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
@@ -86,9 +93,12 @@ public:
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
 	SystemPath GetHyperspaceDest() const { return m_hyperspace.dest; }
 
-	enum HyperjumpStatus {
-#define HyperjumpStatus_ITEM(x) HYPERJUMP_##x,
-#include "ShipEnums.h"
+	enum HyperjumpStatus { // <enum scope='Ship' name=ShipJumpStatus prefix=HYPERJUMP_>
+		HYPERJUMP_OK,
+		HYPERJUMP_CURRENT_SYSTEM,
+		HYPERJUMP_NO_DRIVE,
+		HYPERJUMP_OUT_OF_RANGE,
+		HYPERJUMP_INSUFFICIENT_FUEL,
 	};
 	bool CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus = 0);
 	void UseHyperspaceFuel(const SystemPath *dest);
@@ -100,27 +110,29 @@ public:
 	void ResetHyperspaceCountdown();
 
 	Equip::Type GetHyperdriveFuelType() const;
-	float GetWeakestThrustersForce() const;
 	// 0 to 1.0 is alive, > 1.0 = death
 	double GetHullTemperature() const;
 	void UseECM();
 	virtual bool FireMissile(int idx, Ship *target);
 
-	enum AlertState {
-#define AlertState_ITEM(x) ALERT_##x,
-#include "ShipEnums.h"
+	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_>
+		ALERT_NONE,
+		ALERT_SHIP_NEARBY,
+		ALERT_SHIP_FIRING,
 	};
 	AlertState GetAlertState() { return m_alertState; }
 
 	bool AIMatchVel(const vector3d &vel);
 	bool AIChangeVelBy(const vector3d &diffvel);		// acts in obj space
-	double AIMatchPosVel(const vector3d &targpos, const vector3d &curvel, double targvel, const vector3d &maxthrust);
+	bool AIMatchPosVel2(const vector3d &reldir, double targdist, const vector3d &relvel, double endspeed, double maxthrust);
+	double AIMatchPosVel(const vector3d &relpos, const vector3d &relvel, double endspeed, const vector3d &maxthrust);
 	void AIMatchAngVelObjSpace(const vector3d &angvel);
 	void AIFaceDirectionImmediate(const vector3d &dir);
-	double AIFaceOrient(const vector3d &dir, const vector3d &updir);
+	bool AIFaceOrient(const vector3d &dir, const vector3d &updir);
 	double AIFaceDirection(const vector3d &dir, double av=0);
 	vector3d AIGetNextFramePos();
 	vector3d AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex=0);
+	double AITravelTime(const vector3d &relpos, const vector3d &relvel, double targspeed, bool flip);
 
 	// old stuff, deprecated
 	void AIAccelToModelRelativeVelocity(const vector3d v);
@@ -129,8 +141,15 @@ public:
 
 	void AIClearInstructions();
 	bool AIIsActive() { return m_curAICmd ? true : false; }
-	enum AIError { NONE=0, GRAV_TOO_HIGH, REFUSED_PERM };
-	AIError AIMessage(AIError msg=NONE) { AIError tmp = m_aiMessage; m_aiMessage = msg; return tmp; }
+	void AIGetStatusText(char *str);
+
+	enum AIError { // <enum scope='Ship' name=ShipAIError prefix=AIERROR_>
+		AIERROR_NONE=0,
+		AIERROR_GRAV_TOO_HIGH,
+		AIERROR_REFUSED_PERM,
+		AIERROR_ORBIT_IMPOSSIBLE
+	};
+	AIError AIMessage(AIError msg=AIERROR_NONE) { AIError tmp = m_aiMessage; m_aiMessage = msg; return tmp; }
 
 	void AIKamikaze(Body *target);
 	void AIKill(Ship *target);
@@ -197,7 +216,7 @@ private:
 	vector3d m_angThrusters;
 
 	AlertState m_alertState;
-	float m_lastFiringAlert;
+	double m_lastFiringAlert;
 
 	struct HyperspacingOut {
 		SystemPath dest;

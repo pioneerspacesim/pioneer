@@ -344,7 +344,7 @@ SCANNER_DESCRIPTION
 ECM_ADVANCED
     Napredni ECM sustav
 ECM_ADVANCED_DESCRIPTION
-    Elektronsi sustav obrane od raketa, sposoban za uništavanje naprednijih raketa.
+    Elektronski sustav obrane od raketa, sposoban za uništavanje naprednijih raketa.
 SHIELD_GENERATOR
     Generator štita
 SHIELD_GENERATOR_DESCRIPTION
@@ -369,6 +369,10 @@ FUEL_SCOOP
     Crpka za gorivo
 FUEL_SCOOP_DESCRIPTION
     Omogućava crpljenje vodika iz plinovitih divova.
+CARGO_SCOOP
+    Crpka za teret
+CARGO_SCOOP_DESCRIPTION
+    Omogućava prikupljanje kontejnera iz svemira.
 HYPERCLOUD_ANALYZER
     Analizator hiperoblaka
 HYPERCLOUD_ANALYZER_DESCRIPTION
@@ -549,6 +553,14 @@ INCREASE_SET_SPEED
     Povećaj postavljenu brzinu
 DECREASE_SET_SPEED
     Smanji postavljenu brzinu
+SCANNER_CONTROL
+    Kontrola skenera
+TOGGLE_SCAN_MODE
+    Prekidač načina skeniranja
+INCREASE_SCAN_RANGE
+    Povećaj domet skenera
+DECREASE_SCAN_RANGE
+    Smanji domet skenera
 TOGGLE_LUA_CONSOLE
     Prekidač Lua konzole
 JOYSTICK_INPUT
@@ -686,7 +698,9 @@ NOT_FOUND_BEST_MATCH_X
 NOT_FOUND
     Nije pronađen
 NUMBER_HOURS
-    %hours{f.2} sati
+    %hours{f.1} sati
+NUMBER_DAYS
+    %days{f.0} dana
 QUADRUPLE_SYSTEM
     Četverostruki sustav
 TRIPLE_SYSTEM
@@ -699,6 +713,8 @@ DISABLED_AUTOMATIC_SYSTEM_SELECTION
     Onemogućena automatska selekcija sustava.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
     Crpka za gorivo je aktivna. Imate sada %quantity tona vodika.
+CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED
+    Crpka za teret je aktivirana. Prikupljena 1 tona %item.
 CARGO_BAY_LIFE_SUPPORT_LOST
     Senzori javljaju kritično po život opasne uvjete u prostoru za teret.
 NO_FREE_SPACE_FOR_ITEM
@@ -957,6 +973,8 @@ DAY_LENGTH
     Trajanje dana
 N_EARTH_DAYS
     %days{f.1} zemaljskih dana
+COUNT_STARPORTS
+    svemirske luke
 STARPORTS
     Svemirske luke
 MAJOR_IMPORTS

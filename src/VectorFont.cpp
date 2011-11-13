@@ -4,6 +4,9 @@
 #define PARAGRAPH_SPACING 1.5f
 
 #ifdef _WIN32
+// to avoid including reams and reams of headers just for a couple of macros, they're duplicated here
+#define APIENTRY __stdcall
+#define CALLBACK __stdcall
 typedef GLvoid (APIENTRY *_GLUfuncptr)();
 #endif
 #ifdef __APPLE__

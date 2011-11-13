@@ -1,4 +1,4 @@
-define_model('pantengl', {
+define_model('caribou_eng_l', {
 	info = {
 		lod_pixels = { .1, 10, 100, 0 },
 		bounding_radius = 20,
@@ -6,13 +6,13 @@ define_model('pantengl', {
 
 	static = function(lod)
 		if lod > 1 then
-			texture('pantherleg.png')
+			texture('caribou_leg.png')
 		end
-		load_obj('panthereng.obj', Matrix.rotate(math.pi,v(0,0,1)))
+		load_obj('caribou_eng.obj', Matrix.rotate(math.pi,v(0,0,1)))
 	end
 })
 
-define_model('pantengr', {
+define_model('caribou_eng_r', {
 	info = {
 		lod_pixels = { .1, 10, 100, 0 },
 		bounding_radius = 20,
@@ -20,13 +20,13 @@ define_model('pantengr', {
 
 	static = function(lod)
 		if lod > 1 then
-			texture('pantherleg.png')
+			texture('caribou_leg.png')
 		end
-		load_obj('panthereng.obj')
+		load_obj('caribou_eng.obj')
 	end
 })
 
-define_model('pant_sub', {
+define_model('caribou_sub', {
 	info = {
 		lod_pixels = { .1, 30, 400, 0 },
 		bounding_radius = 70,
@@ -36,7 +36,7 @@ define_model('pant_sub', {
 	static = function(lod)
 		if lod > 1 then
 
-			texture('pantherold.png')
+			texture('caribou_old.png')
 			set_material('top', .5,.5,.5,1,.35,.38,.4,30)
 			set_material('bot', .5,.5,.5,1,.35,.38,.4,30)
 			set_material('glass', .6,.6,.6,.7,.7,.8,.9,100)
@@ -44,9 +44,9 @@ define_model('pant_sub', {
 
 			if lod > 2 then
 				use_material('bot')
-				load_obj('panther_bot.obj')
+				load_obj('caribou_bot.obj')
 				use_material('top')
-				load_obj('panther_top.obj')
+				load_obj('caribou_top.obj')
 
 				texture(nil)
 				use_material('inside')
@@ -57,8 +57,8 @@ define_model('pant_sub', {
 				use_light(1)
 				use_light(2)
 				use_light(3)
-				texture('panther_inside.png')
-				load_obj('panther_inside.obj')
+				texture('caribou_inside.png')
+				load_obj('caribou_inside.obj')
 
 				if lod > 3 then
 					call_model('pilot1', v(-.8,1.57,-12.5), v(1,0,0), v(0,1,0), .06)
@@ -71,16 +71,16 @@ define_model('pant_sub', {
 
 				set_local_lighting(false)
 				use_material('glass')
-				load_obj('panther_glass.obj')
+				load_obj('caribou_glass.obj')
 				use_material('top')
 			else
 				use_material('bot')
-				load_obj('pant_coll_bot.obj')
+				load_obj('caribou_coll_bot.obj')
 				use_material('top')
-				load_obj('pant_coll_top.obj')
+				load_obj('caribou_coll_top.obj')
 			end
 		else
-			load_obj('pant_coll.obj')
+			load_obj('caribou_coll.obj')
 		end
 	end,
 	dynamic = function(lod)
@@ -89,14 +89,14 @@ define_model('pant_sub', {
 		local v2 = v(6,-3.627+3*rot,-7.017+2*rot)
 		local v3 = v(-6,-3.627+3*rot,10.983-2*rot)
 		local v4 = v(6,-3.627+3*rot,10.983-2*rot)
-		call_model('pantengl', v1, v(-1,0,0), v(0,1-1.2*rot,.1+rot), 1)
-		call_model('pantengr', v2, v(-1,0,0), v(0,1-1.2*rot,.1+rot), 1)
-		call_model('pantengl', v3, v(-1,0,0), v(0,-1+1.2*rot,.1+rot), 1)
-		call_model('pantengr', v4, v(-1,0,0), v(0,-1+1.2*rot,.1+rot), 1)
+		call_model('caribou_eng_l', v1, v(-1,0,0), v(0,1-1.2*rot,.1+rot), 1)
+		call_model('caribou_eng_r', v2, v(-1,0,0), v(0,1-1.2*rot,.1+rot), 1)
+		call_model('caribou_eng_l', v3, v(-1,0,0), v(0,-1+1.2*rot,.1+rot), 1)
+		call_model('caribou_eng_r', v4, v(-1,0,0), v(0,-1+1.2*rot,.1+rot), 1)
 	end
 })
 
-define_model('panther', {
+define_model('caribou', {
 	info = {
 		scale = 2.8,
 		lod_pixels = { .1, 50, 500, 0 },
@@ -105,7 +105,7 @@ define_model('panther', {
 		tags = { 'ship' },
 		ship_defs = {
 			{
-				name='Panther',
+				name='Caribou',
 				forward_thrust = -10e7,
 				reverse_thrust = 3e7,
 				up_thrust = 3e7,
@@ -121,6 +121,7 @@ define_model('panther', {
 				max_cargo = 740,
 				max_laser = 2,
 				max_missile = 20,
+				max_cargoscoop = 0,
 				capacity = 740,
 				hull_mass = 700,
 				price = 2.1e6,
@@ -129,7 +130,7 @@ define_model('panther', {
 		}
 	},
 	static = function(lod)
-		call_model('pant_sub',v(0,0,0),v(1,0,0),v(0,1,0),1)
+		call_model('caribou_sub',v(0,0,0),v(1,0,0),v(0,1,0),1)
 
 		if lod > 1 then
 			if lod > 2 then
@@ -138,10 +139,10 @@ define_model('panther', {
 				set_material('steel', .2,.23,.25,1,.35,.38,.4,30)
 
 				use_material('steel')
-				load_obj('panther_steel.obj')
-				texture('panthernew.png')
+				load_obj('caribou_steel.obj')
+				texture('caribou_new.png')
 				use_material('glow')
-				load_obj('panther_glow.obj')
+				load_obj('caribou_glow.obj')
 			end
 		end
 	end,

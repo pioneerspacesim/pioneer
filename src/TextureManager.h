@@ -1,4 +1,8 @@
+#ifndef _TEXTUREMANAGER_H
+#define _TEXTUREMANAGER_H
+
 #include "libs.h"
+#include <string>
 
 class Texture {
 public:
@@ -6,6 +10,7 @@ public:
 		this->filename = file_name;
 		isLoaded = false;
 		tex = 0;
+		width = height = -1;
 		if (load_now) Load();
 	}
 	virtual ~Texture() { if (tex) glDeleteTextures(1, &tex); }
@@ -15,17 +20,20 @@ public:
 		if (!IsLoaded()) Load();
 		glBindTexture(GL_TEXTURE_2D, tex);
 	}
+	int GetWidth() const { return width; }
+	int GetHeight() const { return height; }
 private:
 	void Load();
 
 	std::string filename;
 	GLuint tex;
+	int width, height;
 	bool isLoaded;
 };
 
 namespace TextureManager {
-	extern Texture *GetTexture(const char *filename, bool preload = false);
-	static inline Texture *GetTexture(const std::string &filename, bool preload = false) { return GetTexture(filename.c_str(), preload); }
-	extern void Clear();
+	Texture *GetTexture(const std::string &filename, bool preload = false);
+	void Clear();
 }
 
+#endif

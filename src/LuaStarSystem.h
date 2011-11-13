@@ -10,10 +10,10 @@
 template <>
 class LuaAcquirer<StarSystem> {
 public:
-	virtual void Acquire(StarSystem *o) {
+	virtual void OnAcquire(StarSystem *o) {
 		o->IncRefCount();
 	}
-	virtual void Release(StarSystem *o) {
+	virtual void OnRelease(StarSystem *o) {
 		o->DecRefCount();
 	}
 };

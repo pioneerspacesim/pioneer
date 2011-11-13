@@ -1,5 +1,5 @@
 -- Get the translator function
-t = Translate:GetTranslator()
+local t = Translate:GetTranslator()
 
 -- Default numeric values --
 ----------------------------
@@ -36,7 +36,7 @@ end
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
-	local hyperdrive = Game.player:GetEquip('ENGINE',0)
+	local hyperdrive = Game.player:GetEquip('ENGINE',1)
 
 	-- Tariff!  ad.baseprice is from 2 to 10
 	local price = ad.baseprice
@@ -163,16 +163,23 @@ local loaded_data
 local onGameStart = function ()
 	ads = {}
 
-	if not loaded_data then return end
+	if not loaded_data then
+		service_history = {
+			lastdate = 0, -- Default will be overwritten on game start
+			company = nil, -- Name of company that did the last service
+			service_period = oneyear, -- default
+			jumpcount = 0, -- Number of jumps made after the service_period
+		}
+	else
+		for k,ad in pairs(loaded_data.ads) do
+			local ref = ad.station:AddAdvert(ad.title, onChat, onDelete)
+			ads[ref] = ad
+		end
 
-	for k,ad in pairs(loaded_data.ads) do
-		local ref = ad.station:AddAdvert(ad.title, onChat, onDelete)
-		ads[ref] = ad
+		service_history = loaded_data.service_history
+
+		loaded_data = nil
 	end
-
-	service_history = loaded_data.service_history
-
-	loaded_data = nil
 end
 
 local onEnterSystem = function (ship)
@@ -181,7 +188,7 @@ local onEnterSystem = function (ship)
 		service_history.jumpcount = service_history.jumpcount + 1
 		if (service_history.jumpcount > max_jumps_unserviced) or (Engine.rand:Integer(max_jumps_unserviced - service_history.jumpcount) == 0) then
 			-- Destroy the engine
-			local engine = ship:GetEquip('ENGINE',0)
+			local engine = ship:GetEquip('ENGINE',1)
 			ship:RemoveEquip(engine)
 			ship:AddEquip('RUBBISH',EquipType.GetEquipType(engine).mass)
 			UI.Message(t("The ship's hyperdrive has been destroyed by a malfunction"))

@@ -5,6 +5,25 @@
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
 
+// MinGW targets NT4 by default. We need to set some higher versions to ensure
+// that functions we need are available. Specifically, SHCreateDirectoryExA
+// requires Windows 2000 and IE5. We include w32api.h to get the symbolic
+// constants for these things.
+#ifdef __MINGW32__
+#	include <w32api.h>
+#	ifdef WINVER
+#		undef WINVER
+#	endif
+#	define WINVER Windows2000
+#	define _WIN32_IE IE5
+#endif
+
+#ifdef _WIN32
+// GetPiUserDir() needs these
+#include <shlobj.h>
+#include <shlwapi.h>
+#endif
+
 std::string GetPiUserDir(const std::string &subdir)
 {
 
@@ -238,19 +257,6 @@ void SilentWarning(const char *format, ...)
 	fputs("\n", stderr);
 }
 
-void strip_cr_lf(char *string)
-{
-	char *s = string;
-	while (*s) {
-		if ((*s == '\r') || (*s == '\n')) {
-			*s = 0;
-			break;
-		}
-		s++;
-	}
-}
-
-#define AU		149598000000.0
 std::string format_distance(double dist)
 {
 	if (dist < 1000) {
@@ -260,134 +266,6 @@ std::string format_distance(double dist)
 	} else {
 		return stringf("%0{f.2} AU", dist/AU);
 	}
-}
-
-void GetFrustum(Plane planes[6])
-{
-	GLdouble modelMatrix[16];
-	GLdouble projMatrix[16];
-
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
-
-	matrix4x4d m = matrix4x4d(projMatrix) * matrix4x4d(modelMatrix); 
-
-	// Left clipping plane
-	planes[0].a = m[3] + m[0];
-	planes[0].b = m[7] + m[4];
-	planes[0].c = m[11] + m[8];
-	planes[0].d = m[15] + m[12];
-	// Right clipping plane
-	planes[1].a = m[3] - m[0];
-	planes[1].b = m[7] - m[4];
-	planes[1].c = m[11] - m[8];
-	planes[1].d = m[15] - m[12];
-	// Top clipping plane
-	planes[2].a = m[3] - m[1];
-	planes[2].b = m[7] - m[5];
-	planes[2].c = m[11] - m[9];
-	planes[2].d = m[15] - m[13];
-	// Bottom clipping plane
-	planes[3].a = m[3] + m[1];
-	planes[3].b = m[7] + m[5];
-	planes[3].c = m[11] + m[9];
-	planes[3].d = m[15] + m[13];
-	// Near clipping plane
-	planes[4].a = m[3] + m[2];
-	planes[4].b = m[7] + m[6];
-	planes[4].c = m[11] + m[10];
-	planes[4].d = m[15] + m[14];
-	// Far clipping plane
-	planes[5].a = m[3] + m[2];
-	planes[5].b = m[7] + m[6];
-	planes[5].c = m[11] + m[10];
-	planes[5].d = m[15] + m[14];
-
-	// Normalize the fuckers
-	for (int i=0; i<6; i++) {
-		double invlen;
-		invlen = 1.0 / sqrt(planes[i].a*planes[i].a + planes[i].b*planes[i].b + planes[i].c*planes[i].c);
-		planes[i].a *= invlen;
-		planes[i].b *= invlen;
-		planes[i].c *= invlen;
-		planes[i].d *= invlen;
-	}
-}
-
-/*
- * So (if you will excuse the C99 compound array literal):
- * string_subst("Hello %1, you smell of %0. Yep, definitely %0.", 2, (std::string[]){"shit","Tom"});
- * will return the string "Hello Tom, you smell of shit. Yep, definitely shit."
- */
-std::string string_subst(const char *format, const unsigned int num_args, std::string args[])
-{
-	std::string out;
-	const char *pos = format;
-
-	while (*pos) {
-		int i = 0;
-		// look for control symbol
-		while (pos[i] && (pos[i]!='%')) i++;
-		out.append(pos, i);
-		if (pos[i]=='%') {
-			unsigned int argnum;
-			if (pos[++i]=='%') {
-				out.push_back('%');
-				i++;
-			}
-			else if (1 == sscanf(&pos[i], "%u", &argnum)) {
-				if (argnum >= num_args) out.append("(INVALID ARG)");
-				else {
-					out.append(args[argnum]);
-					while (isdigit(pos[i])) i++;
-				}
-			} else {
-				out.append("(INVALID %code)");
-			}
-		}
-		pos += i;
-	}
-	return out;
-}
-
-static std::map<std::string, GLuint> s_textures;
-
-GLuint util_load_tex_rgba(const char *filename)
-{
-	GLuint tex = -1;
-	std::map<std::string, GLuint>::iterator t = s_textures.find(filename);
-
-	if (t != s_textures.end()) return (*t).second;
-
-	SDL_Surface *s = IMG_Load(filename);
-
-	if (s)
-	{
-		glGenTextures (1, &tex);
-		glBindTexture (GL_TEXTURE_2D, tex);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
-		switch ( s->format->BitsPerPixel )
-		{
-		case 32:
-			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, s->w, s->h, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
-			break;
-		case 24:
-			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, s->w, s->h, GL_RGB, GL_UNSIGNED_BYTE, s->pixels);
-			break;
-		default:
-			printf("Texture '%s' needs to be 24 or 32 bit.\n", filename);
-			exit(0);
-		}
-	
-		SDL_FreeSurface(s);
-
-		s_textures[filename] = tex;
-	} else {
-		Error("IMG_Load: %s\n", IMG_GetError());
-	}
-
-	return tex;
 }
 
 bool is_file(const std::string &filename)
@@ -440,14 +318,18 @@ Uint32 ceil_pow2(Uint32 v) {
 	return v;
 }
 
-void Screendump(const char* destFile, const int W, const int H)
+void Screendump(const char* destFile, const int width, const int height)
 {
 	std::string fname = join_path(GetPiUserDir("screenshots").c_str(), destFile, 0);
 
-	std::vector<char> pixel_data(3*W*H);
+	// pad rows to 4 bytes, which is the default row alignment for OpenGL
+	const int stride = (3*width + 3) & ~3;
+
+	std::vector<png_byte> pixel_data(stride * height);
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	glPixelStorei(GL_PACK_ALIGNMENT, 4); // never trust defaults
 	glReadBuffer(GL_FRONT);
-	glReadPixels(0, 0, W, H, GL_RGB, GL_UNSIGNED_BYTE, &pixel_data[0]);
+	glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, &pixel_data[0]);
 	glFinish();
 
 	png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
@@ -479,14 +361,14 @@ void Screendump(const char* destFile, const int W, const int H)
 
 	png_init_io(png_ptr, out);
 	png_set_filter(png_ptr, 0, PNG_FILTER_NONE);
-	png_set_IHDR(png_ptr, info_ptr, W, H, 8, PNG_COLOR_TYPE_RGB,
+	png_set_IHDR(png_ptr, info_ptr, width, height, 8, PNG_COLOR_TYPE_RGB,
 		PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
 		PNG_FILTER_TYPE_DEFAULT);
 
-	png_bytepp rows = new png_bytep[H];
+	png_bytepp rows = new png_bytep[height];
 
-	for (int i = 0; i < H; ++i) {
-		rows[i] = reinterpret_cast<png_bytep>(&pixel_data[(H-i-1) * W * 3]);
+	for (int i = 0; i < height; ++i) {
+		rows[i] = reinterpret_cast<png_bytep>(&pixel_data[(height-i-1) * stride]);
 	}
 	png_set_rows(png_ptr, info_ptr, rows);
 	png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, 0);

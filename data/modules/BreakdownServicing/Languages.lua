@@ -99,10 +99,10 @@ Translate:Add({ English = {
 ---- POLISH / POLSKI ----
 
 Translate:AddFlavour('Polski','BreakdownServicing', {
-	title = "Konserwacja Silników w {name}",
-	intro = [[Uniknij kłopotów związanych z uszkodzeniem napędu nadprzestrzennego.  Zamów przegląd, w certyfikowanej firmie Konserwacja Silników w {name}.
+	title = "Konserwacja Silników {name}",
+	intro = [[Uniknij kłopotów związanych z uszkodzeniem napędu nadprzestrzennego.  Zamów przegląd, w certyfikowanej firmie Konserwacja Silników {name}.
 
-Napęd: {drive}
+Silnik: {drive}
 Przegląd: {price}
 Gwarancja: 18 miesięcy
 {lasttime}]],
@@ -113,7 +113,7 @@ Gwarancja: 18 miesięcy
 })
 
 Translate:AddFlavour('Polski','BreakdownServicing', {
-	title = "{proprietor}: Fachowiec od konserwacji napędów nadprzestrzennych",
+	title = "Fachowiec od konserwacji napędów nadprzestrzennych {proprietor}",
 	intro = [[Jestem {proprietor}.  Mogę obejrzeć twój {drive}, gwarantuje nie mniej niż rok bezproblemowego działania.  Koszt tej usługi wynosi {price}
 {lasttime}]],
 	yesplease = "Dokonaj przeglądu",
@@ -124,7 +124,7 @@ Translate:AddFlavour('Polski','BreakdownServicing', {
 
 Translate:AddFlavour('Polski','BreakdownServicing', {
 	title = "{proprietor} & Co HyperMechanics",
-	intro = [[Cześć.  Jestem z {proprietor} & Co, stawiamy naszą reputacje na to, że będziesz zadowolony z usługi.
+	intro = [[Cześć.  Jestem z {proprietor} & Co, nasza doskonała reputacja świadczy o jakości naszych usług.
 
 {lasttime}
 Możemy dostroić twój {drive}, za {price}, zapewniamy 12 miesięcy bezproblemowej pracy.  Zajmę się tym osobiście, więc możesz być pewien usługi na najwyższym poziomie.]],
@@ -135,14 +135,14 @@ Możemy dostroić twój {drive}, za {price}, zapewniamy 12 miesięcy bezproblemo
 })
 
 Translate:AddFlavour('Polski','BreakdownServicing', {
-	title = " SuperFix Maintenance (firmowana przez {name})",
+	title = "{name} przedstawiciel SuperFix Maintenance.",
 	intro = [[Witamy w SuperFix Maintenance.
 
 {lasttime}
-Czas na co półroczny przegląd? Pozwól nam obejrzeć twój napęd!
-Możemy wyregulować twój {drive} za jedyne {price}.  Nie znajdziesz nikogo tańszego!]],
+Czas na co półroczny przegląd? Pozwól że obejrze twój napęd!
+Mogę wyregulować twój {drive} za jedyne {price}.  Nie znajdziesz nikogo tańszego!]],
 	yesplease = "Zleć usługę SuperFix!",
-	response = "Usługa SuperFix zakończona, z gwarancją SuperFix!",
+	response = "Napęd wyregulowany, z gwarancją SuperFix!",
 	strength = 0.5,
 	baseprice = 2,
 })
@@ -153,7 +153,7 @@ Translate:AddFlavour('Polski','BreakdownServicing', {
 	
 Specjalizujemy się w napędach nadprzestrzennych. Dajemy dwuletnią gwarancje na wszystkie prace konserwacyjne.
 {lasttime}
-Za przegląd {drive} cena wynosi {price}.  Kontynuować?]],
+Za {drive} cena wynosi {price}.  Kontynuować?]],
 	yesplease = "Tak, proszę",
 	response = "Zakończyliśmy prace nad napędem.",
 	strength = 2.1,
@@ -164,7 +164,7 @@ Translate:AddFlavour('Polski','BreakdownServicing', {
 	title = "Warsztat Pan Józek i {proprietor}",
 	intro = [[Uniknij kłopotów związanych z uszkodzeniem napędu nadprzestrzennego.  Zamów przegląd jeszcze dziś.
 
-Napęd: {drive}
+Silnik: {drive}
 Usługa: {price}
 {lasttime}]],
 	yesplease = "Rozpocznij przegląd napędu",
@@ -265,4 +265,176 @@ Translate:Add({ Deutsch = {
 	["Your drive has not been serviced since it was installed on {date}"] = "Ihr Antrieb hat nicht gewartet sein, da er am {date} installiert wurde",
 	["You do not have a drive to service!"] = "Sie haben keine Hyperraumantrieb zu pflegen!",
 	["The ship's hyperdrive has been destroyed by a malfunction"] = "Der Hyperraumantrieb des Schiffs hat durch eine Fehlfunktion zerstört worden",
+}, })
+
+---- DUTCH / NEDERLANDS ----
+
+Translate:AddFlavour('Nederlands','BreakdownServicing', {
+   	title = "{name} Motor-service B.V.",
+		intro = [[Vermijdt het ongemak van een kapotte hyperaandrijving!  Laat de uwe vandaag nog onderhouden door de officieël erkende {name} Motor-service B.V.
+
+Hyperaandrijving: {drive}
+Servicebeurt: {price}
+Garantie: 18 maanden
+{lasttime}]],
+		yesplease = "Ik wil een servicebeurt",
+		response = "Uw hyperaandrijving heeft een servicebeurt gekregen.",
+		strength = 1.5,
+		baseprice = 6,
+})
+  
+Translate:AddFlavour('Nederlands','BreakdownServicing',{
+		title = "{proprietor}: Hyperaandrijving onderhouds-specialist",
+		intro = [[Ik ben {proprietor}.  Ik kan uw {drive} onderhouden, zodat deze er minstens een jaar tegenaan kan! De kosten bedragen {price}
+{lasttime}]],
+		yesplease = "Geef mijn hyperaandrijving een servicebeurt",
+		response = "Ik heb uw hyperaandrijving een beurt gegeven.",
+		strength = 1.2, -- Minstens een jaar... verborgen bonus!
+		baseprice = 4,
+})
+  
+Translate:AddFlavour('Nederlands','BreakdownServicing',{
+		title = "{proprietor} & Co. HyperMonteurs",
+		intro = [[Hallo.  Wij van {proprietor} & Co. zetten onze reputatie in op de kwaliteit van ons werk!
+
+{lasttime}
+We kunnen uw {drive} een onderhoudsbeurt geven, waarna we 12 maanden dienst garanderen.  De kosten bedragen {price}. Ik zal het werk zelf overzien om de kwaliteit te bewaken!]],
+		yesplease = "Geeft u mijn hyperaandrijving alstublieft een beurt tegen de genoemde prijs",
+		response = "Service voltooid.  Bedankt voor uw klanditie.",
+		strength = 1.0,
+		baseprice = 3,
+})
+  
+Translate:AddFlavour('Nederlands','BreakdownServicing',{
+		title = "SuperFix Onderhoud (afdeling {name})",
+		intro = [[Welkom bij SuperFix Onderhoud.
+
+{lasttime}
+Tijd voor uw half-jaarlijkse onderhoudsbeurt?  Laat ons uw hyperaandrijving SuperFixen!
+We kunnen uw {drive} onderhouden voor slechts {price}.  Niemand is goedkoper!]],
+		yesplease = "Geef me een SuperFix!",
+		response = "Uw SuperFix-service is voltooid, met een SuperFix-garantie!",
+		strength = 0.5,
+		baseprice = 2,
+})
+  
+Translate:AddFlavour('Nederlands','BreakdownServicing',{
+		title = "Tijd en Ruimte Motoren, B.V.",
+		intro = [[Welkom bij Tijd en Ruimte.
+		
+Wij specialiseren ons in interstellaire aandrijf-systemen. Op al ons onderhoudswerk zit een garantie van twee jaar.
+
+{lasttime}
+Het onderhoud aan uw {drive} kost {price}.  Wilt u doorgaan?]],
+		yesplease = "Ja, gaat u alstublieft aan de slag",
+		response = "We hebben het werk aan uw hyperaandrijving voltooid.",
+		strength = 2.1, -- zeer goede service van deze gasten.
+		baseprice = 10,
+})
+
+Translate:AddFlavour('Nederlands','BreakdownServicing',{
+		title = "{proprietor} Motor-service B.V.",
+		intro = [[Vermijdt het ongemak van een kapotte hyperaandrijving!  Laat de uwe vandaag nog nalopen!
+
+Hyperaandrijving: {drive}
+Servicebeurt: {price}
+{lasttime}]],
+		yesplease = "Ik wil een servicebeurt",
+		response = "Uw hyperaandrijving heeft een servicebeurt gekregen.",
+		strength = 0.0, -- Deze heren geven zeer slechte service
+		baseprice = 1.8,
+})
+	
+Translate:Add({ Nederlands = {
+  ["I don't have enough money"] = "Ik heb niet genoeg geld",
+  ["Manufacturer's warranty"] = "Fabrieksgarantie",
+  ["Your drive was last serviced on {date} by {company}"] = "Uw aandrijving is het laatst onderhouden op {date} door {company}",
+  ["Your drive has not been serviced since it was installed on {date}"] = "Uw aandrijving heeft geen onderhoud gekregen sinds deze werd geïnstalleerd op {date}",
+  ["You do not have a drive to service!"] = "Uw heeft geen aandrijving om onderhoud op te plegen!",
+  ["The ship's hyperdrive has been destroyed by a malfunction"] = "De hyperaandrijving van het schip is vernietigd door een defect",
+}, })
+
+---- SPANISH / ESPAÑOL ----
+
+Translate:AddFlavour('Spanish','BreakdownServicing', {
+	title = "Compañía de Revisión de Motores {name}",
+	intro = [[Elimine el inconveniente de un motor hiperespacial averiado. Tenga hoy mismo el suyo revisado por la compañía homologada Revisión de Motores {name}.
+
+Engine: {drive}
+Service: {price}
+Guarantee: 18 meses
+{lasttime}]],
+	yesplease = "Revise el motor",
+	response = "Su motor ha sido revisado.",
+	strength = 1.5,
+	baseprice = 6,
+})
+
+Translate:AddFlavour('Spanish','BreakdownServicing', {
+	title = "{proprietor}: Especialistas en mantenimiento de motores de Hiperimpulso",
+	intro = [[Soy {proprietor}.  Puedo revisar su {drive}, con garantía por un año.  El costo de la revisión será {price}
+{lasttime}]],
+	yesplease = "Revise mi motor",
+	response = "Acabo de revisar su motor de hiperimpulso.",
+	strength = 1.2, -- Mínimo un año... bonus ocultos!
+	baseprice = 4,
+})
+
+Translate:AddFlavour('Spanish','BreakdownServicing', {
+	title = "{proprietor} & Co HyperMechanics",
+	intro = [[Saludos.  En {proprietor} & Co ponemos nuestra reputación en el trabajo.
+
+{lasttime}
+Podemos afinar el {drive} de su nave, garantía por 12 meses, por la suma de {price}.  Estaré supervisando el trabajo yo mismo, por lo tanto puedo asegurarle un trabajo bien hecho.]],
+	yesplease = "Por favor afine mi motor al precio acordado",
+	response = "Revisión completa.  Gracias.",
+	strength = 1.0,
+	baseprice = 3,
+})
+
+Translate:AddFlavour('Spanish','BreakdownServicing', {
+	title = "Mantenimiento SuperFix (Sucursal {name})",
+	intro = [[Bienvenido Mantenimiento SuperFix.
+
+{lasttime}
+Ha llegado el momento de su mantenimiento bianual? Permítanos SuperReparar su motor de hiperimpulso!
+Podemos tunear su {drive} por solo {price}.  No hay nada mas barato!]],
+	yesplease = "SuperRepárame!",
+	response = "La SuperReparación está completa, con garantía SuperFix!",
+	strength = 0.5,
+	baseprice = 2,
+})
+
+Translate:AddFlavour('Spanish','BreakdownServicing', {
+	title = "Motores Espacio Tiempo, Inc.",
+	intro = [[Bienvenido a Motores Espacio Tiempo.
+		
+Nos especializamos en motores interestelares. Garantía por dos años.
+{lasttime}
+La revisión de su {drive} le costará {price}.  Quiere continuar?]],
+	yesplease = "Si, por favor proceda",
+	response = "Hemos completado el trabajo en su motor.",
+	strength = 2.1, -- estos tipos son buenos.
+	baseprice = 10,
+})
+
+Translate:AddFlavour('Spanish','BreakdownServicing', {
+	title = "{proprietor} Compañía de Revisión de Motores",
+	intro = [[Elimine el inconveniente de un motor de hiperimpulso averiado.  Optimice hoy mismo el suyo.
+
+Engine: {drive}
+Service: {price}
+{lasttime}]],
+	yesplease = "Revise el motor de hiperimpulso",
+	response = "El motor ha sido revisado.",
+	strength = 0.0, -- Estos tipos resetean la cuenta de saltos.  Chapuceros.
+	baseprice = 1.8,
+})
+
+Translate:Add({ Spanish = {
+	["I don't have enough money"] = "No dispongo de dinero suficiente",
+	["Your drive was last serviced on {date} by {company}"] = "La última revisión de su motor fue el {date} por {company}",
+	["Your drive has not been serviced since it was installed on {date}"] = "Su motor no ha tenido ninguna revisión desde que fué instalado el {date}",
+	["You do not have a drive to service!"] = "No dispone de motor para revisar!",
+	["The ship's hyperdrive has been destroyed by a malfunction"] = "El motor de hiperimpulso de la nave se ha destruído por un mal funcionamiento",
 }, })

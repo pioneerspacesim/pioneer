@@ -29,14 +29,16 @@ public:
 	void SetLabel(const char *label) { m_label = label; }
 	void SetPosition(const vector3d &pos) { m_orient.SetTranslate(pos); }
 	vector3d GetPosition() const { return m_orient.GetTranslate(); }
+	void SetRotationOnly(const matrix4x4d &m) { for (int i=0; i<12; i++) m_orient[i] = m[i]; }
+	void SetTransform(const matrix4x4d &m) { m_orient = m; }
+	const matrix4x4d &GetTransform() const { return m_orient; }
 	void SetVelocity(const vector3d &vel) { m_vel = vel; }
 	vector3d GetVelocity() const { return m_vel; }
 	void SetAngVelocity(const vector3d &angvel) { m_angVel = angvel; }
 	vector3d GetAngVelocity() const { return m_angVel; }
 	vector3d GetStasisVelocityAtPosition(const vector3d &pos) const;
-	const matrix4x4d &GetTransform() const { return m_orient; }
-	void SetRotationOnly(const matrix4x4d &m) { for (int i=0; i<12; i++) m_orient[i] = m[i]; }
 	void SetRadius(double radius) { m_radius = radius; }
+	double GetRadius() const { return m_radius; }
 	void RemoveChild(Frame *f);
 	void AddGeom(Geom *);
 	void RemoveGeom(Geom *);

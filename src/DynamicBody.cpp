@@ -23,6 +23,8 @@ DynamicBody::DynamicBody(): ModelBody()
 	m_atmosForce = vector3d(0.0);
 	m_gravityForce = vector3d(0.0);
 	m_externalForce = vector3d(0.0);		// do external forces calc instead?
+	m_lastForce = vector3d(0.0);
+	m_lastTorque = vector3d(0.0);
 }
 
 void DynamicBody::SetForce(const vector3d f)
@@ -190,6 +192,8 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 //	m_vel.x, m_vel.y, m_vel.z, m_force.x, m_force.y, m_force.z,
 //	m_externalForce.x, m_externalForce.y, m_externalForce.z);
 
+		m_lastForce = m_force;
+		m_lastTorque = m_torque;
 		m_force = vector3d(0.0);
 		m_torque = vector3d(0.0);
 		CalcExternalForce();			// regenerate for new pos/vel
@@ -200,12 +204,18 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 }
 
 // for timestep changes, to stop autopilot overshoot
+// either adds half of current accel or removes all of current accel 
 void DynamicBody::ApplyAccel(const float timeStep)
 {
-	vector3d newvel = m_vel + double(timeStep) * m_force * (1.0 / m_mass);
-	if (newvel.LengthSqr() < m_vel.LengthSqr()) m_vel = newvel;
-	vector3d newav = m_angVel + double(timeStep) * m_torque * (1.0 / m_angInertia);
-	if (newav.LengthSqr() < m_angVel.LengthSqr()) m_angVel = newav;
+	vector3d vdiff = double(timeStep) * m_lastForce * (1.0 / m_mass);
+	double spd = m_vel.LengthSqr();
+	if ((m_vel-2.0*vdiff).LengthSqr() < spd) m_vel -= 2.0*vdiff;
+	else if ((m_vel+vdiff).LengthSqr() < spd) m_vel += vdiff;
+
+	vector3d avdiff = double(timeStep) * m_lastTorque * (1.0 / m_angInertia);
+	double aspd = m_angVel.LengthSqr();
+	if ((m_angVel-2.0*avdiff).LengthSqr() < aspd) m_angVel -= 2.0*avdiff;
+	else if ((m_angVel+avdiff).LengthSqr() < aspd) m_angVel += avdiff;
 }
 
 void DynamicBody::UpdateInterpolatedTransform(double alpha)
@@ -306,9 +316,14 @@ void DynamicBody::SetAngVelocity(vector3d v)
 #define KINETIC_ENERGY_MULT	0.00001f
 bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 {
+	// don't bother doing collision damage from a missile that will now explode, or may have already
+	// also avoids an occasional race condition where destruction event of this could be queued twice
+	// returning true to insure that the missile can react to the collision
+	if (o->IsType(Object::MISSILE)) return true;
+
 	double kineticEnergy = 0;
 	if (o->IsType(Object::DYNAMICBODY)) {
-		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * relVel * relVel;
+		kineticEnergy = KINETIC_ENERGY_MULT * static_cast<DynamicBody*>(o)->GetMass() * relVel * relVel;
 	} else {
 		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * relVel * relVel;
 	}

@@ -414,6 +414,8 @@ define_model('viper_x', {
 				max_cargo = 55,
 				max_laser = 1,
 				max_missile = 4,
+				max_cargoscoop = 0,
+				max_fuelscoop = 1,
 				capacity = 55,
 				hull_mass = 40,
 				price = 90000,

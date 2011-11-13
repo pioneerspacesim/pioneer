@@ -95,9 +95,7 @@ double TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeight(const vecto
 				 0.5*octavenoise(GetFracDef(3), 0.5, p)), p); //[4]?
 		} 
 		
-		if (n > 0.25) {
-			n = n;
-		} else if (n > 0.2) {
+		if (n > 0.2 && n <= 0.25) {
 			n += (0.25-n)*0.2*ridged_octavenoise(GetFracDef(3), 
 				Clamp(h*0.0002*octavenoise(GetFracDef(5), 0.5, p),
 				 0.5*octavenoise(GetFracDef(3), 0.5, p), 

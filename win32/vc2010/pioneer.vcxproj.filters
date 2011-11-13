@@ -602,6 +602,17 @@
     </ClCompile>
     <ClCompile Include="..\..\src\terrain\TerrainHeightWaterSolidCanyons.cpp">
       <Filter>src\terrain</Filter>
+    <ClCompile Include="..\..\src\enum_table.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Camera.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\RenderFrustum.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Gamma.cpp">
+      <Filter>win32\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1114,6 +1125,17 @@
     </ClInclude>
     <ClInclude Include="..\..\src\terrain\TerrainNoise.h">
       <Filter>src\terrain</Filter>
+    <ClInclude Include="..\..\src\enum_table.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Camera.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\RenderFrustum.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Gamma.h">
+      <Filter>win32\src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

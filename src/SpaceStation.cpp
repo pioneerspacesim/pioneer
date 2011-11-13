@@ -78,17 +78,17 @@ bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOri
 		gotOrient = true;
 		lua_pushinteger(L, 1);
 		lua_gettable(L, -2);
-		outPosOrient.pos = vector3f(*MyLuaVec::checkVec(L, -1));
+		outPosOrient.pos = vector3d(*MyLuaVec::checkVec(L, -1));
 		lua_pop(L, 1);
 
 		lua_pushinteger(L, 2);
 		lua_gettable(L, -2);
-		outPosOrient.xaxis = vector3f(*MyLuaVec::checkVec(L, -1));
+		outPosOrient.xaxis = vector3d(*MyLuaVec::checkVec(L, -1));
 		lua_pop(L, 1);
 
 		lua_pushinteger(L, 3);
 		lua_gettable(L, -2);
-		outPosOrient.yaxis = vector3f(*MyLuaVec::checkVec(L, -1));
+		outPosOrient.yaxis = vector3d(*MyLuaVec::checkVec(L, -1));
 		lua_pop(L, 1);
 	} else {
 		gotOrient = false;
@@ -130,10 +130,10 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 		ship->GetAabb(aabb);
 		lua_createtable (L, 0, 2);
 		vector3f *v = MyLuaVec::pushVec(L);
-		*v = aabb.max;
+		*v = vector3f(aabb.max);
 		lua_setfield(L, -2, "max");
 		v = MyLuaVec::pushVec(L);
-		*v = aabb.min;
+		*v = vector3f(aabb.min);
 		lua_setfield(L, -2, "min");
 	}
 
@@ -143,17 +143,17 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 		gotOrient = true;
 		lua_pushinteger(L, 1);
 		lua_gettable(L, -2);
-		outPosOrient.pos = vector3f(*MyLuaVec::checkVec(L, -1));
+		outPosOrient.pos = vector3d(*MyLuaVec::checkVec(L, -1));
 		lua_pop(L, 1);
 
 		lua_pushinteger(L, 2);
 		lua_gettable(L, -2);
-		outPosOrient.xaxis = vector3f(*MyLuaVec::checkVec(L, -1));
+		outPosOrient.xaxis = vector3d(*MyLuaVec::checkVec(L, -1));
 		lua_pop(L, 1);
 
 		lua_pushinteger(L, 3);
 		lua_gettable(L, -2);
-		outPosOrient.yaxis = vector3f(*MyLuaVec::checkVec(L, -1));
+		outPosOrient.yaxis = vector3d(*MyLuaVec::checkVec(L, -1));
 		lua_pop(L, 1);
 	} else {
 		gotOrient = false;
@@ -305,6 +305,8 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 		} else {
 			if (Equip::types[i].techLevel <= Pi::currentSystem->m_techlevel)
 				m_equipmentStock[i] = Pi::rng.Int32(0,100);
+			else
+				m_equipmentStock[i] = 0;
 		}
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {

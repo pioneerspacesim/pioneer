@@ -1,5 +1,5 @@
 -- Get the translator function
-t = Translate:GetTranslator()
+local t = Translate:GetTranslator()
 
 -- don't produce missions for further than this many light years away
 local max_ass_dist = 30
@@ -257,6 +257,7 @@ local onShipDocked = function (ship, station)
 		if ship:IsPlayer() then
 			if mission.status == 'COMPLETED' and
 			   mission.backstation == station.path then
+				local ass_flavours = Translate:GetFlavours('Assassination')
 				local text = string.interp(ass_flavours[mission.flavour].successmsg, {
 					target	= mission.target,
 					cash	= Format.Money(mission.reward),
@@ -266,6 +267,7 @@ local onShipDocked = function (ship, station)
 				ship:RemoveMission(ref)
 				missions[ref] = nil
 			elseif mission.status == 'FAILED' then
+				local ass_flavours = Translate:GetFlavours('Assassination')
 				local text
 				if mission.notplayer == 'TRUE' then
 					text = string.interp(ass_flavours[mission.flavour].failuremsg2, {

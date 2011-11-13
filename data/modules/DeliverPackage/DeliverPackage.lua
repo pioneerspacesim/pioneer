@@ -1,5 +1,5 @@
 -- Get the translator function
-t = Translate:GetTranslator()
+local t = Translate:GetTranslator()
 
 -- don't produce missions for further than this many light years away
 local max_delivery_dist = 30
@@ -121,7 +121,7 @@ local makeAdvert = function (station)
 		local dist = nearbysystem:DistanceTo(Game.system)
 		local nearbystations = nearbysystem:GetStationPaths()
 		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
-		reward = ((dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5-urgency) * Engine.rand:Number(0.8,1.2))
+		reward = ((dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5+urgency) * Engine.rand:Number(0.8,1.2))
 		due = Game.time + ((dist / max_delivery_dist) * typical_travel_time * (1.5-urgency) * Engine.rand:Number(0.9,1.1))
 	end
 
@@ -237,6 +237,7 @@ local onEnterSystem = function (player)
 end
 
 local onShipDocked = function (player, station)
+	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
 	if not player:IsPlayer() then return end
 
 	for ref,mission in pairs(missions) do

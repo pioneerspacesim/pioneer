@@ -213,8 +213,8 @@ static int l_sbodypath_get_system_body(lua_State *l)
 	SystemPath *path = LuaSystemPath::GetFromLua(1);
 	StarSystem *s = StarSystem::GetCached(path);
 	SBody *sbody = s->GetBodyByPath(path);
-	s->Release();
 	LuaSBody::PushToLua(sbody);
+	s->Release();
 	return 1;
 }
 

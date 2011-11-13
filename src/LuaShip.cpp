@@ -198,8 +198,14 @@ static int l_ship_set_hull_percent(lua_State *l)
 	Ship *s = LuaShip::GetFromLua(1);
 
 	float percent = 100;
-	if (lua_isnumber(l, 2))
+	if (lua_isnumber(l, 2)) {
 		percent = float(luaL_checknumber(l, 2));
+		if (percent < 0.0f || percent > 100.0f) {
+			pi_lua_warn(l,
+				"argument out of range: Ship{%s}:SetHullPercent(%g)",
+				s->GetLabel().c_str(), percent);
+		}
+	}
 
 	s->SetPercentHull(percent);
 
@@ -403,7 +409,7 @@ static int l_ship_set_secondary_colour(lua_State *l)
  *
  *  experimental
  */
-static int l_ship_get_equip_slot_size(lua_State *l)
+static int l_ship_get_equip_slot_capacity(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
@@ -447,28 +453,35 @@ static int l_ship_get_equip_slot_size(lua_State *l)
 static int l_ship_get_equip(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
+	const char *slotName = luaL_checkstring(l, 2);
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", slotName));
 
 	int size = s->m_equipment.GetSlotSize(slot);
-	if (size == 0)
-		return 0;
-	
+
 	if (lua_isnumber(l, 3)) {
-		int idx = lua_tointeger(l, 3);
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", s->m_equipment.Get(slot, idx)));
+		// 2-argument version; returns the item in the specified slot index
+		int idx = lua_tointeger(l, 3) - 1;
+		if (idx >= size || idx < 0) {
+			pi_lua_warn(l,
+				"argument out of range: Ship{%s}:GetEquip('%s', %d)",
+				s->GetLabel().c_str(), slotName, idx+1);
+		}
+		Equip::Type e = (idx >= 0) ? s->m_equipment.Get(slot, idx) : Equip::NONE;
+		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", e));
+		return 1;
+	} else {
+		// 1-argument version; returns table of equipment items
+		lua_newtable(l);
+		pi_lua_table_ro(l);
+
+		for (int idx = 0; idx < size; idx++) {
+			lua_pushinteger(l, idx+1);
+			lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", s->m_equipment.Get(slot, idx)));
+			lua_rawset(l, -3);
+		}
+
 		return 1;
 	}
-
-	lua_newtable(l);
-	pi_lua_table_ro(l);
-
-	for (int idx = 0; idx < size; idx++) {
-		lua_pushinteger(l, idx+1);
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", s->m_equipment.Get(slot, idx)));
-		lua_rawset(l, -3);
-	}
-
-	return 1;
 }
 
 /*
@@ -502,12 +515,20 @@ static int l_ship_get_equip(lua_State *l)
 static int l_ship_set_equip(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
-	int idx = luaL_checkinteger(l, 3);
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 4)));
+	const char *slotName = luaL_checkstring(l, 2);
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", slotName));
+	int idx = luaL_checkinteger(l, 3) - 1;
+	const char *typeName = luaL_checkstring(l, 4);
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", typeName));
 
-	// XXX check that the slot is large enough
-	// XXX check that we have free mass
+	// XXX should go through a Ship::SetEquip() wrapper method that checks mass constraints
+
+	if (idx < 0 || idx >= s->m_equipment.GetSlotSize(slot)) {
+		pi_lua_warn(l,
+			"argument out of range: Ship{%s}:SetEquip('%s', %d, '%s')",
+			s->GetLabel().c_str(), slotName, idx+1, typeName);
+		return 0;
+	}
 
 	s->m_equipment.Set(slot, idx, e);
 	s->UpdateMass();
@@ -1185,7 +1206,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetPrimaryColour",   l_ship_set_primary_colour   },
 		{ "SetSecondaryColour", l_ship_set_secondary_colour },
 
-		{ "GetEquipSlotSize", l_ship_get_equip_slot_size },
+		{ "GetEquipSlotCapacity", l_ship_get_equip_slot_capacity },
 		{ "GetEquip",         l_ship_get_equip           },
 		{ "SetEquip",         l_ship_set_equip           },
 		{ "AddEquip",         l_ship_add_equip           },

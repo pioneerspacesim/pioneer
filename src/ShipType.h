@@ -7,23 +7,27 @@
 #include <vector>
 #include <map>
 
-struct lua_State;
-
 struct ShipType {
-	enum Thruster {
-#define Thruster_ITEM(x) THRUSTER_##x,
-#include "ShipTypeEnums.h"
-		THRUSTER_MAX
+	enum Thruster { // <enum scope='ShipType' name=ShipTypeThruster prefix=THRUSTER_>
+		THRUSTER_REVERSE,
+		THRUSTER_FORWARD,
+		THRUSTER_UP,
+		THRUSTER_DOWN,
+		THRUSTER_LEFT,
+		THRUSTER_RIGHT,
+		THRUSTER_MAX // <enum skip>
 	};
 	enum {
 		GUN_FRONT,
 		GUN_REAR,
 		GUNMOUNT_MAX = 2
 	};
-	enum Tag {
-#define Tag_ITEM(x) TAG_##x,
-#include "ShipTypeEnums.h"
-		TAG_MAX
+	enum Tag { // <enum scope='ShipType' name=ShipTypeTag prefix=TAG_>
+		TAG_NONE,
+		TAG_SHIP,
+		TAG_STATIC_SHIP,
+		TAG_MISSILE,
+		TAG_MAX // <enum skip>
 	};
 	typedef std::string Type;
 
@@ -75,7 +79,7 @@ public:
 		const ShipType &st = ShipType::types[t];
 		for (int i=0; i<Equip::SLOT_MAX; i++) {
 			// vector swap idiom (de-allocates unneeded space)
-			std::vector<Equip::Type>(st.equipSlotCapacity[i]).swap(equip[i]);
+			std::vector<Equip::Type>(st.equipSlotCapacity[i], Equip::NONE).swap(equip[i]);
 		}
 		onChange.emit(Equip::NONE);
 	}
@@ -83,52 +87,33 @@ public:
 		return equip[s].size();
 	}
 	Equip::Type Get(Equip::Slot s) const {
-		if (equip[s].size() == 0) return Equip::NONE;
-		else return equip[s][0];
+		return Get(s, 0);
 	}
 	Equip::Type Get(Equip::Slot s, int idx) const {
+		assert(idx >= 0);
 		if (signed(equip[s].size()) <= idx) return Equip::NONE;
 		else return equip[s][idx];
 	}
-	void Set(Equip::Slot s, int idx, Equip::Type e) {
-		if (signed(equip[s].size()) <= idx) return;
+	bool Set(Equip::Slot s, int idx, Equip::Type e) {
+		assert(idx >= 0);
+		assert(e < Equip::TYPE_MAX);
+		if (signed(equip[s].size()) <= idx) return false;
 		equip[s][idx] = e;
 		onChange.emit(e);
+		return true;
 	}
 	int Add(Equip::Type e, int num) {
-		if (e == Equip::NONE) return 0;
-		Equip::Slot s = Equip::types[e].slot;
-		int numDone = 0;
-		for (unsigned int i=0; i<equip[s].size(); i++) {
-			if (numDone == num) break;
-			if (equip[s][i] == Equip::NONE) {
-				equip[s][i] = e;
-				numDone++;
-			}
-		}
-		if (numDone) onChange.emit(e);
-		return numDone;
+		return ChangeType(Equip::NONE, e, num);
 	}
 	int Add(Equip::Type e) {
 		return Add(e, 1);
 	}
 	// returns number removed
 	int Remove(Equip::Type e, int num) {
-		if (e == Equip::NONE) return 0;
-		Equip::Slot s = Equip::types[e].slot;
-		int numDone = 0;
-		for (unsigned int i=0; i<equip[s].size(); i++) {
-			if (num == 0) break;
-			if (equip[s][i] == e) {
-				equip[s][i] = Equip::NONE;
-				num--;
-				numDone++;
-			}
-		}
-		if (numDone) onChange.emit(e);
-		return numDone;
+		return ChangeType(e, Equip::NONE, num);
 	}
 	int Count(Equip::Slot s, Equip::Type e) const {
+		assert(e < Equip::TYPE_MAX);
 		int num = 0;
 		for (unsigned int i=0; i<equip[s].size(); i++) {
 			if (equip[s][i] == e) num++;
@@ -136,15 +121,34 @@ public:
 		return num;
 	}
 	int FreeSpace(Equip::Slot s) const {
-		int free = 0;
-		for (unsigned int i=0; i<equip[s].size(); i++) {
-			if (equip[s][i] == Equip::NONE) free++;
-		}
-		return free;
+		return Count(s, Equip::NONE);
 	}
 
 	sigc::signal<void,Equip::Type> onChange;
 protected:
+	int ChangeType(Equip::Type from, Equip::Type to, int num) {
+		assert(num >= 0);
+		assert((from < Equip::TYPE_MAX) && (to < Equip::TYPE_MAX));
+
+		if (from == to) return 0;
+
+		assert((from == Equip::NONE) || (to == Equip::NONE) || (Equip::types[from].slot == Equip::types[to].slot));
+		const Equip::Type e = (from == Equip::NONE) ? to : from;
+		const Equip::Slot s = Equip::types[e].slot;
+		int numDone = 0;
+		for (unsigned int i=0; (numDone < num) && (i < equip[s].size()); i++) {
+			if (equip[s][i] == from) {
+				equip[s][i] = to;
+				numDone++;
+			}
+		}
+		if (numDone) {
+			if (from != Equip::NONE) onChange.emit(from);
+			if (to != Equip::NONE) onChange.emit(to);
+		}
+		return numDone;
+	}
+
 	std::vector<Equip::Type> equip[Equip::SLOT_MAX];
 };
 

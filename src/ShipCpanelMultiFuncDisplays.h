@@ -3,6 +3,10 @@
 
 #include "gui/Gui.h"
 #include "EquipType.h"
+#include "Serializer.h"
+#include "Object.h"
+
+class Body;
 
 enum multifuncfunc_t {
 	MFUNC_SCANNER,
@@ -44,19 +48,46 @@ private:
 		Type type;
 	};
 	std::list<message_t> m_msgQueue;
-	Uint32 msgAge;
-	Gui::Label *msgLabel;
-	Type curMsgType;
+	Uint32 m_msgAge;
+	Gui::Label *m_msgLabel;
+	Type m_curMsgType;
 };
 
 class ScannerWidget: public IMultiFunc, public Gui::Widget {
 public:
+	ScannerWidget();
+	virtual ~ScannerWidget();
 	void GetSizeRequested(float size[2]);
+	void ToggleMode();
 	void Draw();
-	virtual void Update() {}
+	virtual void Update();
+
+	void TimeStepUpdate(float step);
+
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
+
 private:
 	void DrawBlobs(bool below);
-	void DrawDistanceRings();
+	void DrawRingsAndSpokes(bool blend);
+
+	sigc::connection m_toggleScanModeConnection;
+
+	struct Contact {
+		Object::Type type;
+		vector3d pos;
+		bool isSpecial;
+	};
+	std::list<Contact> m_contacts;
+
+	enum ScannerMode { SCANNER_MODE_AUTO, SCANNER_MODE_MANUAL };
+	ScannerMode m_mode;
+
+	float m_currentRange, m_manualRange, m_targetRange;
+	float m_scale;
+
+	float m_x;
+	float m_y;
 };
 
 class UseEquipWidget: public IMultiFunc, public Gui::Fixed {
@@ -64,7 +95,7 @@ public:
 	UseEquipWidget();
 	virtual ~UseEquipWidget();
 	void GetSizeRequested(float size[2]);
-	virtual void Update();
+	virtual void Update() {}
 private:
 	void UpdateEquip();
 	void UseRadarMapper();
