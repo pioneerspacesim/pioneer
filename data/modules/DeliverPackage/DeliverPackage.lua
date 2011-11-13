@@ -92,13 +92,37 @@ local onChat = function (form, ref, option)
 end
 
 local onDelete = function (ref)
+	-- Keep the ad's character for the future
+	ads[ref].Client:Save()
+	ads[ref].Client.lastSavedSystemPath = ads[ref].station.path
 	ads[ref] = nil
 end
 
 local makeAdvert = function (station)
+
+	-- Function for filtering characters
+	local characterFilter = function (character)
+		-- If they're both here and available, they can send a package!
+		return character.available and (character.lastSavedSystemPath == station.path)
+	end
+
 	local reward, due, location, nearbysystem
 	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
-	local Client = Character.New()
+	local Client
+	for potentialclient in Character.Find(characterFilter) do
+		-- Let's select characters who aren't used often, to give them good rotation
+		if Client and Client.useCount > potentialclient.useCount then
+			-- We have found a less-used client
+			Client = potentialclient
+		else
+			-- We either don't have a client, or it was little enough used
+			Client = Client or potentialclient
+		end
+	end
+	-- If we didn't find an existing character, make a new one.
+	Client = Client or Character.New()
+	-- Mark it as exclusive (in case it was pre-existing)
+	Client:CheckOut()
 	local flavour = Engine.rand:Integer(1,#delivery_flavours)
 	local urgency = delivery_flavours[flavour].urgency
 	local risk = delivery_flavours[flavour].risk
@@ -145,6 +169,7 @@ local makeAdvert = function (station)
 
 	local ref = station:AddAdvert(ad.desc, onChat, onDelete)
 	ads[ref] = ad
+	print(ad.station.label,' ',ad.desc,' ',ad.Client.name)
 end
 
 local onCreateBB = function (station)
