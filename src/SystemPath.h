@@ -45,6 +45,13 @@ public:
 		return (a.bodyIndex < b.bodyIndex);
 	}
 
+	bool IsSameSector(const SystemPath &b) const {
+		if (sectorX != b.sectorX) return false;
+		if (sectorY != b.sectorY) return false;
+		if (sectorZ != b.sectorZ) return false;
+		return true;
+	}
+
 	bool IsSameSystem(const SystemPath &b) const {
 		if (sectorX != b.sectorX) return false;
 		if (sectorY != b.sectorY) return false;

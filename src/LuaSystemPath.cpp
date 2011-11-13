@@ -85,8 +85,7 @@ static int l_sbodypath_new(lua_State *l)
 /*
  * Method: IsSameSystem
  *
- * Determine if two <SystemPath> objects point to the same system, ignoring
- * the body index.
+ * Determine if two <SystemPath> objects point to objects in the same system. 
  *
  * > is_same = path:IsSameSystem(otherpath)
  *
@@ -112,6 +111,38 @@ static int l_sbodypath_is_same_system(lua_State *l)
 	SystemPath *b = LuaSystemPath::GetFromLua(2);
 
 	lua_pushboolean(l, a->IsSameSystem(b));
+	return 1;
+}
+
+/*
+ * Method: IsSameSector
+ *
+ * Determine if two <SystemPath> objects point to objects in the same sector.
+ *
+ * > is_same = path:IsSameSector(otherpath)
+ *
+ * Parameters:
+ *
+ *   otherpath - the <SystemPath> to compare with this path
+ *
+ * Return:
+ *
+ *   is_same - true if the path's point to the same sector, false otherwise
+ *
+ * Availability:
+ *
+ *   not yet
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_sbodypath_is_same_sector(lua_State *l)
+{
+	SystemPath *a = LuaSystemPath::GetFromLua(1);
+	SystemPath *b = LuaSystemPath::GetFromLua(2);
+
+	lua_pushboolean(l, a->IsSameSector(b));
 	return 1;
 }
 
@@ -347,6 +378,7 @@ template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
 		{ "New", l_sbodypath_new },
 
 		{ "IsSameSystem", l_sbodypath_is_same_system },
+		{ "IsSameSector", l_sbodypath_is_same_sector },
 
 		{ "DistanceTo", l_sbodypath_distance_to },
 
