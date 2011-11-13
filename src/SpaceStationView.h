@@ -28,6 +28,8 @@ private:
 	Gui::Label *m_money;
 	Gui::Label *m_cargoSpaceUsed;
 	Gui::Label *m_cargoSpaceFree;
+	Gui::Label *m_cabinsUsed;;
+	Gui::Label *m_cabinsFree;;
 	Gui::Label *m_equipmentMass;
 	Gui::Label *m_titleLabel;
 	Gui::Label *m_legalstatus;
