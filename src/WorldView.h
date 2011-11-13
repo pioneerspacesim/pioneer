@@ -18,6 +18,7 @@ class Ship;
 class WorldView: public View {
 public:
 	WorldView();
+	WorldView(Serializer::Reader &reader);
 	virtual ~WorldView();
 	virtual void ShowAll();
 	virtual void Update();
@@ -30,7 +31,6 @@ public:
 	vector3d GetExternalViewTranslation();
 	matrix4x4d GetExternalViewRotation();
 	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
 	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL };
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const;
@@ -45,6 +45,8 @@ public:
 	double m_externalViewDist;
 
 private:
+	void InitObject();
+
 	void RefreshButtonStateAndVisibility();
 	void UpdateCommsOptions();
 
@@ -77,6 +79,8 @@ private:
 	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead);
 	void DrawTargetSquare(const Indicator &marker);
 	void DrawVelocityIndicator(const Indicator &marker);
+	void DrawCircleIndicator(const Indicator &marker);
+	void DrawImageIndicator(const Indicator &marker, const char *icon_path);
 	void DrawEdgeMarker(const Indicator &marker);
 
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
@@ -132,7 +136,7 @@ private:
 	Gui::LabelSet *m_bodyLabels;
 	std::map<Body*,vector3d> m_projectedPos;
 
-	Camera m_frontCamera, m_rearCamera, m_externalCamera;
+	Camera *m_frontCamera, *m_rearCamera, *m_externalCamera;
 	Camera *m_activeCamera;
 
 	Indicator m_velIndicator;
@@ -140,6 +144,7 @@ private:
 	Indicator m_navTargetIndicator;
 	Indicator m_combatTargetIndicator;
 	Indicator m_targetLeadIndicator;
+	Indicator m_mouseDirIndicator;
 };
 
 #endif /* _WORLDVIEW_H */

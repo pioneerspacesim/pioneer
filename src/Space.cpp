@@ -19,6 +19,7 @@
 #include "WorldView.h"
 #include "SectorView.h"
 #include "Lang.h"
+#include "ShipCpanel.h"
 
 namespace Space {
 
@@ -560,13 +561,16 @@ void TimeStep(float step)
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i)
 		(*i)->UpdateFrame();
 
-	rootFrame->UpdateOrbitRails();
-	
+	// AI acts here, then move all bodies and frames
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
-		(*i)->StaticUpdate(step);			// moved so timestep is correct during StaticUpdate
+		(*i)->StaticUpdate(step);
+
+	rootFrame->UpdateOrbitRails();
 
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);
+	
+	Pi::cpan->TimeStepUpdate(step);
 
 	Sfx::TimeStepAll(step, rootFrame);
 
@@ -674,7 +678,7 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 		}
 
 		if (Pi::player->GetCombatTarget() == ship && !Pi::player->GetNavTarget())
-			Pi::player->SetNavTarget(cloud);
+			Pi::player->SetNavTarget(cloud, Pi::player->GetSetSpeedTarget() == ship);
 
 		// Hyperspacing ship must drop references to all other bodies,
 		// and they must all drop references to it.

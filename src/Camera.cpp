@@ -166,7 +166,7 @@ void Camera::Draw()
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
 		BodyAttrs *attrs = &(*i);
 
-		double rad = attrs->body->GetBoundingRadius();
+		double rad = attrs->body->GetClipRadius();
 
 		if (!m_frustum.TestPointInfinite((*i).viewCoords, rad))
 			continue;

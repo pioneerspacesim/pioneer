@@ -350,6 +350,8 @@ ECM_ADVANCED_DESCRIPTION
     An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles.
 SHIELD_GENERATOR
     Shield Generator
+X_SHIELD_GENERATORS
+    %quantity Shield Generators
 SHIELD_GENERATOR_DESCRIPTION
     Provides additional hull defences with each unit fitted.
 LASER_COOLING_BOOSTER
@@ -556,6 +558,14 @@ INCREASE_SET_SPEED
     Increase set speed
 DECREASE_SET_SPEED
     Decrease set speed
+SCANNER_CONTROL
+	Scanner control
+TOGGLE_SCAN_MODE
+	Toggle scanner mode
+INCREASE_SCAN_RANGE
+	Increase scanner range
+DECREASE_SCAN_RANGE
+	Decrease scanner range
 TOGGLE_LUA_CONSOLE
     Toggle Lua console
 JOYSTICK_INPUT
@@ -1150,3 +1160,15 @@ DISTANCE_LY
     Distance: %distance{f.2} ly
 SYSTEM
     System
+UNOCCUPIED_CABIN
+    Extra Passenger Cabins
+X_UNOCCUPIED_CABINS
+    %quantity Extra Passenger Cabins
+UNOCCUPIED_CABIN_DESCRIPTION
+    Required for transport of a single passenger
+PASSENGER_CABIN
+    Occupied Passenger Cabin
+X_PASSENGER_CABINS
+    %quantity Occupied Passenger Cabins
+CABINS
+    Cabins

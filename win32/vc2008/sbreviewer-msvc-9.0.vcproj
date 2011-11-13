@@ -67,7 +67,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib glew32.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib libpng15.lib"
+				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib glew32.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib libpng15d.lib"
 				OutputFile="$(OutDir)\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\lib"

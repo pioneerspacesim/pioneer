@@ -21,6 +21,7 @@ const struct EnumItem ENUM_EquipSlot[] = {
 	{ "HYPERCLOUD", Equip::SLOT_HYPERCLOUD },
 	{ "HULLAUTOREPAIR", Equip::SLOT_HULLAUTOREPAIR },
 	{ "ENERGYBOOSTER", Equip::SLOT_ENERGYBOOSTER },
+	{ "CABIN", Equip::SLOT_CABIN },
 	{ "SHIELD", Equip::SLOT_SHIELD },
 	{ "ATMOSHIELD", Equip::SLOT_ATMOSHIELD },
 	{ "FUELSCOOP", Equip::SLOT_FUELSCOOP },
@@ -72,6 +73,8 @@ const struct EnumItem ENUM_EquipType[] = {
 	{ "ECM_BASIC", Equip::ECM_BASIC },
 	{ "SCANNER", Equip::SCANNER },
 	{ "ECM_ADVANCED", Equip::ECM_ADVANCED },
+	{ "UNOCCUPIED_CABIN", Equip::UNOCCUPIED_CABIN },
+	{ "PASSENGER_CABIN", Equip::PASSENGER_CABIN },
 	{ "SHIELD_GENERATOR", Equip::SHIELD_GENERATOR },
 	{ "LASER_COOLING_BOOSTER", Equip::LASER_COOLING_BOOSTER },
 	{ "CARGO_LIFE_SUPPORT", Equip::CARGO_LIFE_SUPPORT },
@@ -187,6 +190,14 @@ const struct EnumItem ENUM_ShipAlertStatus[] = {
 	{ "NONE", Ship::ALERT_NONE },
 	{ "SHIP_NEARBY", Ship::ALERT_SHIP_NEARBY },
 	{ "SHIP_FIRING", Ship::ALERT_SHIP_FIRING },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_ShipAIError[] = {
+	{ "NONE", Ship::AIERROR_NONE },
+	{ "GRAV_TOO_HIGH", Ship::AIERROR_GRAV_TOO_HIGH },
+	{ "REFUSED_PERM", Ship::AIERROR_REFUSED_PERM },
+	{ "ORBIT_IMPOSSIBLE", Ship::AIERROR_ORBIT_IMPOSSIBLE },
 	{ 0, 0 },
 };
 

@@ -38,6 +38,7 @@ public:
 	vector3d GetAngVelocity() const { return m_angVel; }
 	vector3d GetStasisVelocityAtPosition(const vector3d &pos) const;
 	void SetRadius(double radius) { m_radius = radius; }
+	double GetRadius() const { return m_radius; }
 	void RemoveChild(Frame *f);
 	void AddGeom(Geom *);
 	void RemoveGeom(Geom *);
