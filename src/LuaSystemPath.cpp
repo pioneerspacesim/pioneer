@@ -416,9 +416,18 @@ static int l_sbodypath_meta_eq(lua_State *l)
 static int l_sbodypath_meta_tostring(lua_State *l)
 {
 	SystemPath *path = LuaSystemPath::GetFromLua(1);
-	lua_pushfstring(l, "<%d,%d,%d : %d,%d>",
+	if (path->IsSectorPath()) {
+		lua_pushfstring(l, "<%d,%d,%d>", path->sectorX, path->sectorY, path->sectorZ);
+	} else if (path->IsSystemPath()) {
+		lua_pushfstring(l, "<%d,%d,%d : %d>",
+			path->sectorX, path->sectorY, path->sectorZ,
+			path->systemIndex);
+	} else {
+		assert(path->IsBodyPath());
+		lua_pushfstring(l, "<%d,%d,%d : %d, %d>",
 			path->sectorX, path->sectorY, path->sectorZ,
 			path->systemIndex, path->bodyIndex);
+	}
 	return 1;
 }
 
