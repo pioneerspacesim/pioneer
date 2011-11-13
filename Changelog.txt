@@ -13,6 +13,7 @@ Alpha 17
     * Allow equipment to be removed even if the station has none in stock (#780, #781)
 
   * Script changes
+    * New Character class to represent and test NPC attributes (#725, #787)
 
   * Internal changes
 
