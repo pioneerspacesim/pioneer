@@ -5,7 +5,7 @@
 #include "Player.h"
 #include "Space.h"
 #include "GeoSphere.h"
-#include "GeoSphereStyle.h"
+#include "terrain/Terrain.h"
 #include "Planet.h"
 
 #if OBJECTVIEWER
@@ -59,7 +59,7 @@ ObjectViewerView::ObjectViewerView(): View()
 	vbox->PackEnd(m_sbodyMetallicity);
 
 	Gui::LabelButton *b = new Gui::LabelButton(new Gui::Label("Change planet terrain type"));
-	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnChangeGeoSphereStyle));
+	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnChangeTerrain));
 	vbox->PackEnd(b);
 }
 
@@ -139,10 +139,8 @@ void ObjectViewerView::Update()
 	m_infoLabel->SetText(buf);
 }
 
-void ObjectViewerView::OnChangeGeoSphereStyle()
+void ObjectViewerView::OnChangeTerrain()
 {
-	SBody sbody;
-
 	const fixed volatileGas = fixed(65536.0*atof(m_sbodyVolatileGas->GetText().c_str()), 65536);
 	const fixed volatileLiquid = fixed(65536.0*atof(m_sbodyVolatileLiquid->GetText().c_str()), 65536);
 	const fixed volatileIces = fixed(65536.0*atof(m_sbodyVolatileIces->GetText().c_str()), 65536);
@@ -152,30 +150,26 @@ void ObjectViewerView::OnChangeGeoSphereStyle()
 	const fixed mass = fixed(65536.0*atof(m_sbodyMass->GetText().c_str()), 65536);
 	const fixed radius = fixed(65536.0*atof(m_sbodyRadius->GetText().c_str()), 65536);
 
-	sbody.parent = 0;
-	sbody.name = "Test";
-	/* These should be the only SBody attributes GeoSphereStyle uses */
-	sbody.type = SBody::TYPE_PLANET_TERRESTRIAL;
-	sbody.seed = atoi(m_sbodySeed->GetText().c_str());
-	sbody.radius = radius;
-	sbody.mass = mass;
-	sbody.averageTemp = 273;
-	sbody.m_metallicity = metallicity;
-	sbody.m_volatileGas = volatileGas;
-	sbody.m_volatileLiquid = volatileLiquid;
-	sbody.m_volatileIces = volatileIces;
-	sbody.m_volcanicity = volcanicity;
-	sbody.m_life = life;
-	sbody.heightMapFilename = 0;
-
+	// XXX this is horrendous, but probably safe for the moment. all bodies,
+	// terrain, whatever else holds a const pointer to the same toplevel
+	// sbody. one day objectviewer should be far more contained and not
+	// actually modify the space
 	Body *body = Pi::player->GetNavTarget();
-	if (body->IsType(Object::PLANET)) {
-		Planet *planet = static_cast<Planet*>(body);
-		GeoSphere *gs = planet->GetGeoSphere();
-		gs->m_style = GeoSphereStyle(&sbody);
-		// force rebuild
-		gs->OnChangeDetailLevel();
-	}
+	SBody *sbody = const_cast<SBody*>(body->GetSBody());
+
+	sbody->seed = atoi(m_sbodySeed->GetText().c_str());
+	sbody->radius = radius;
+	sbody->mass = mass;
+	sbody->m_metallicity = metallicity;
+	sbody->m_volatileGas = volatileGas;
+	sbody->m_volatileLiquid = volatileLiquid;
+	sbody->m_volatileIces = volatileIces;
+	sbody->m_volcanicity = volcanicity;
+	sbody->m_life = life;
+
+	// force reload
+	if (body->IsType(Object::TERRAINBODY))
+		static_cast<TerrainBody*>(body)->GetGeoSphere()->OnChangeDetailLevel();
 }
 
 #endif

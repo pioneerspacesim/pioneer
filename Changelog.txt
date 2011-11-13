@@ -19,6 +19,7 @@ Alpha 17
     * New Character class to represent and test NPC attributes (#725, #787)
 
   * Internal changes
+    * Terrain color/height fractal refactor (#699)
 
 Alpha 16
 

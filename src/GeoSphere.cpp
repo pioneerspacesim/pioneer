@@ -1103,6 +1103,16 @@ void GeoSphere::Uninit()
 	for (int i=0; i<4; i++) delete s_geosphereSurfaceShader[i];
 }
 
+static void print_info(const SBody *sbody, const Terrain *terrain)
+{
+	printf(
+		"%s:\n"
+		"    height fractal: %s\n"
+		"    colour fractal: %s\n"
+		"    seed: %u\n",
+		sbody->name.c_str(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->seed);
+}
+
 void GeoSphere::OnChangeDetailLevel()
 {
 	s_patchContext->DecRefCount();
@@ -1140,10 +1150,12 @@ void GeoSphere::OnChangeDetailLevel()
 				delete (*i)->m_patches[p];
 				(*i)->m_patches[p] = 0;
 			}
-
-			// reinit the styles with the new settings
-			(*i)->m_style.ChangeDetailLevel();
 		}
+
+		// reinit the terrain with the new settings
+		delete (*i)->m_terrain;
+		(*i)->m_terrain = Terrain::InstanceTerrain((*i)->m_sbody);
+		print_info((*i)->m_sbody, (*i)->m_terrain);
 
 		// clear the abort for the next run (with the new settings)
 		(*i)->m_abort = false;
@@ -1155,8 +1167,11 @@ void GeoSphere::OnChangeDetailLevel()
 
 #define GEOSPHERE_TYPE	(m_sbody->type)
 
-GeoSphere::GeoSphere(const SBody *body): m_style(body)
+GeoSphere::GeoSphere(const SBody *body)
 {
+	m_terrain = Terrain::InstanceTerrain(body);
+	print_info(body, m_terrain);
+
 	m_vbosToDestroyLock = SDL_CreateMutex();
 	m_sbody = body;
 	memset(m_patches, 0, 6*sizeof(GeoPatch*));
@@ -1196,6 +1211,8 @@ GeoSphere::~GeoSphere()
 	for (int i=0; i<6; i++) if (m_patches[i]) delete m_patches[i];
 	DestroyVBOs();
 	SDL_DestroyMutex(m_vbosToDestroyLock);
+
+	delete m_terrain;
 }
 
 void GeoSphere::AddVBOToDestroy(GLuint vbo)
@@ -1324,7 +1341,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
 		
-		GetAtmosphereFlavor(&atmosCol, &atmosDensity);
+		m_sbody->GetAtmosphereFlavor(&atmosCol, &atmosDensity);
 		atmosDensity *= 0.00005;
 
 		if (atmosDensity > 0.0) {
