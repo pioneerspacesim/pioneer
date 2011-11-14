@@ -839,7 +839,7 @@ void SectorView::MouseButtonDown(int button, int x, int y)
 
 Sector* SectorView::GetCached(int sectorX, int sectorY, int sectorZ)
 {
-	const SystemPath loc(sectorX, sectorY, sectorZ, 0);
+	const SystemPath loc(sectorX, sectorY, sectorZ);
 
 	Sector *s = 0;
 
