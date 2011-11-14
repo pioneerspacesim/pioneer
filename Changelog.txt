@@ -19,9 +19,13 @@ Alpha 17
 
   * Script changes
     * New Character class to represent and test NPC attributes (#725, #787)
+    * SystemPath has additional methods to test for sector-only and
+      system-only paths (#795)
 
   * Internal changes
     * Terrain color/height fractal refactor (#699)
+    * SystemPath now has specific invalid values to indicate sector-only and
+      system-only paths (#795)
 
 Alpha 16
 
