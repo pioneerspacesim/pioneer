@@ -1142,6 +1142,7 @@ void Pi::Start()
 			sectorView->NewGameInit();
 			StartGame();
 			MainLoop();
+			UninitGame();
 			break;
 		}
 		case 2: // Epsilon Eridani start point
@@ -1151,6 +1152,7 @@ void Pi::Start()
 			sectorView->NewGameInit();
 			StartGame();
 			MainLoop();
+			UninitGame();
 			break;
 		}
 		case 3: // Debug start point
@@ -1227,6 +1229,7 @@ void Pi::Start()
 
 			StartGame();
 			MainLoop();
+			UninitGame();
 			break;
 		}
 		case 4: // Load game
