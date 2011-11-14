@@ -34,6 +34,8 @@ local chance_of_availability = 3
 
 local loaded_data -- empty unless the game is loaded
 
+local onChat, onDelete
+
 local onGameStart = function ()
 	local ref
 	if loaded_data then
@@ -54,12 +56,11 @@ local onGameStart = function ()
 	end
 end
 
-local onDelete = function (ref)
+onDelete = function (ref)
 	-- ad has been destroyed; forget its details
 	ads[ref] = nil
 end
 
-local onChat
 -- This can recurse now!
 onChat = function (form, ref, option)
 	local ad = ads[ref]
