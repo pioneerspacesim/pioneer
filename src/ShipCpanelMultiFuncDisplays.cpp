@@ -416,15 +416,6 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 	/* outer range soicle */
 	float range_percent = m_currentRange / SCANNER_RANGE_MAX;
 
-	if (m_mode == SCANNER_MODE_AUTO) {
-		/* green like the scanner to indicate that the scanner is controlling the range */
-		if (blend) glColor4f(0, 0.7f, 0, 0.25f);
-		else glColor3f(0, 0.7f, 0);
-	} else {
-		if (blend) glColor4f(0.7f, 0.7f, 0, 0.25f);
-		else glColor3f(0.7f, 0.7f, 0);
-	}
-
 	float arc_end_x, arc_end_y;
 	if (range_percent < 1.0f) {
 		arc_end_x = m_x - m_x * sin(range_percent * circle);
@@ -435,6 +426,15 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 	}
 
 	/* draw bright range arg */
+	if (m_mode == SCANNER_MODE_AUTO) {
+		/* green like the scanner to indicate that the scanner is controlling the range */
+		if (blend) glColor4f(0, 0.7f, 0, 0.25f);
+		else glColor3f(0, 0.7f, 0);
+	} else {
+		if (blend) glColor4f(0.7f, 0.7f, 0, 0.25f);
+		else glColor3f(0.7f, 0.7f, 0);
+	}
+
 	glBegin(GL_LINE_STRIP);
 	for (float a = 0; a < range_percent * circle; a += step) {
 		glVertex2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
