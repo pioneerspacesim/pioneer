@@ -1159,7 +1159,14 @@ void Ship::EnterHyperspace() {
 }
 
 void Ship::OnEnterHyperspace() {
-	assert(0);
+	HyperspaceCloud *cloud = new HyperspaceCloud(this, Pi::GetGameTime() + m_hyperspace.duration, false);
+	cloud->SetFrame(GetFrame());
+	cloud->SetPosition(GetPosition());
+
+	Space *space = Pi::spaceManager->GetSpace();
+
+	space->RemoveBody(this);
+	space->AddBody(cloud);
 }
 
 void Ship::EnterSystem() {
