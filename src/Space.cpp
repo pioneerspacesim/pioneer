@@ -65,7 +65,6 @@ void Space::AddBody(Body *b)
 
 void Space::RemoveBody(Body *b)
 {
-	b->SetFrame(0);
 	m_removeBodies.push_back(b);
 }
 
@@ -607,8 +606,10 @@ void Space::TimeStep(float step)
 
 void Space::UpdateBodies()
 {
-	for (BodyIterator b = m_removeBodies.begin(); b != m_removeBodies.end(); ++b)
+	for (BodyIterator b = m_removeBodies.begin(); b != m_removeBodies.end(); ++b) {
+		(*b)->SetFrame(0);
 		m_bodies.remove(*b);
+	}
 	m_removeBodies.clear();
 
 	for (BodyIterator b = m_killBodies.begin(); b != m_killBodies.end(); ++b) {
