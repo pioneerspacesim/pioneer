@@ -131,7 +131,7 @@ static int l_sbodypath_is_same_system(lua_State *l)
  *
  * Availability:
  *
- *   not yet
+ *   alpha 17
  *
  * Status:
  *
@@ -159,7 +159,7 @@ static int l_sbodypath_is_same_sector(lua_State *l)
  *
  * Availability:
  *
- *   not yet
+ *   alpha 17
  *
  * Status:
  *
@@ -185,7 +185,7 @@ static int l_sbodypath_system_only(lua_State *l)
  *
  * Availability:
  *
- *   not yet
+ *   alpha 17
  *
  * Status:
  *
