@@ -15,6 +15,7 @@ Alpha 17
   * Fixes
     * Star halo now drawn properly in the world space (#768)
     * Allow equipment to be removed even if the station has none in stock (#780, #781)
+    * Fix scanner drawing glitches with some recent NVidia drivers (#758)
 
   * Script changes
     * New Character class to represent and test NPC attributes (#725, #787)
