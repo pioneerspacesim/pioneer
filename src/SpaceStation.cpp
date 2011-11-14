@@ -751,10 +751,10 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 	}
 }
 
-void SpaceStation::NotifyDeleted(const Body* const deletedBody)
+void SpaceStation::NotifyRemoved(const Body* const removedBody)
 {
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		if (m_shipDocking[i].ship == deletedBody) {
+		if (m_shipDocking[i].ship == removedBody) {
 			m_shipDocking[i].ship = 0;
 		}
 	}

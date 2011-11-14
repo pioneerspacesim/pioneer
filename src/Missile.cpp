@@ -88,12 +88,12 @@ void Missile::Explode()
 	Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 }
 
-void Missile::NotifyDeleted(const Body* const deletedBody)
+void Missile::NotifyRemoved(const Body* const removedBody)
 {
-	if (m_owner == deletedBody) {
+	if (m_owner == removedBody) {
 		Explode();
 	}
-	else if (m_target == deletedBody) {
+	else if (m_target == removedBody) {
 		Explode();
 	}
 }

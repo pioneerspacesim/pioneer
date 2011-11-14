@@ -73,7 +73,7 @@ public:
 	virtual void TimeStepUpdate(const float timeStep);
 	virtual void StaticUpdate(const float timeStep);
 
-	virtual void NotifyDeleted(const Body* const deletedBody);
+	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 

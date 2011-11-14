@@ -378,13 +378,13 @@ void Player::SetCombatTarget(Body* const target, bool setSpeedTo)
 	Sound::PlaySfx("OK");
 }
 
-void Player::NotifyDeleted(const Body* const deletedBody)
+void Player::NotifyRemoved(const Body* const removedBody)
 {
-	if(GetNavTarget() == deletedBody)
+	if(GetNavTarget() == removedBody)
 		SetNavTarget(0);
-	if(GetCombatTarget() == deletedBody)
+	if(GetCombatTarget() == removedBody)
 		SetCombatTarget(0);
-	Ship::NotifyDeleted(deletedBody);
+	Ship::NotifyRemoved(removedBody);
 }
 
 /* MarketAgent shite */

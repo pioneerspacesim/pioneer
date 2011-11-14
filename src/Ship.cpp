@@ -901,7 +901,7 @@ void Ship::StaticUpdate(const float timeStep)
 	// After calling StartHyperspaceTo this Ship must not spawn objects
 	// holding references to it (eg missiles), as StartHyperspaceTo
 	// removes the ship from Space::bodies and so the missile will not
-	// have references to this cleared by NotifyDeleted()
+	// have references to this cleared by NotifyRemoved()
 	if (m_hyperspace.countdown > 0.0f) {
 		m_hyperspace.countdown = m_hyperspace.countdown - timeStep;
 		if (m_hyperspace.countdown <= 0.0f) {
@@ -916,9 +916,9 @@ void Ship::StaticUpdate(const float timeStep)
 	}
 }
 
-void Ship::NotifyDeleted(const Body* const deletedBody)
+void Ship::NotifyRemoved(const Body* const removedBody)
 {
-	if (m_curAICmd) m_curAICmd->OnDeleted(deletedBody);
+	if (m_curAICmd) m_curAICmd->OnDeleted(removedBody);
 }
 
 const ShipType &Ship::GetShipType() const

@@ -14,7 +14,7 @@ public:
 	void TimeStepUpdate(const float timeStep);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
-	virtual void NotifyDeleted(const Body* const deletedBody);
+	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual void PostLoadFixup();
 	void ECMAttack(int power_val);
 	Body *GetOwner() const { return m_owner; }

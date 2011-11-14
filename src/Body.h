@@ -36,7 +36,7 @@ public:
 	virtual void OnHaveKilled(Body *guyWeKilled) {}
 	// Note: Does not mean killed, just deleted.
 	// Override to clear any pointers you hold to the body
-	virtual void NotifyDeleted(const Body* const deletedBody) {}
+	virtual void NotifyRemoved(const Body* const removedBody) {}
 
 	// before all bodies have had TimeStepUpdate (their moving step),
 	// StaticUpdate() is called. Good for special collision testing (Projectiles)

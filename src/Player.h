@@ -50,7 +50,7 @@ public:
 	void SetCombatTarget(Body* const target, bool setSpeedTo = false);
 	Body *GetCombatTarget() const { return m_combatTarget; }
 	Body *GetSetSpeedTarget() const { return m_setSpeedTarget; }
-	virtual void NotifyDeleted(const Body* const deletedBody);
+	virtual void NotifyRemoved(const Body* const removedBody);
 
 	// test code
 	vector3d GetAccumTorque() { return m_accumTorque; }

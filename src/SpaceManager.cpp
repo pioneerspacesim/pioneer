@@ -140,7 +140,7 @@ void SpaceManager::SwitchToHyperspace()
 		// want the player to have any memory of what they were (we're just
 		// reusing them for convenience). tell the player it was deleted so it
 		// can clean up
-		m_player->NotifyDeleted(cloud);
+		m_player->NotifyRemoved(cloud);
 
 		// turn the cloud arround
 		cloud->GetShip()->SetHyperspaceDest(m_hyperspaceSource);

@@ -608,13 +608,15 @@ void Space::UpdateBodies()
 {
 	for (BodyIterator b = m_removeBodies.begin(); b != m_removeBodies.end(); ++b) {
 		(*b)->SetFrame(0);
+		for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
+			(*i)->NotifyRemoved(*b);
 		m_bodies.remove(*b);
 	}
 	m_removeBodies.clear();
 
 	for (BodyIterator b = m_killBodies.begin(); b != m_killBodies.end(); ++b) {
 		for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-			(*i)->NotifyDeleted(*b);
+			(*i)->NotifyRemoved(*b);
 		m_bodies.remove(*b);
 		delete *b;
 	}
@@ -661,8 +663,8 @@ void Space::StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 		// make other objects drop their references to this dude
 		for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
 			if (*i != cloud) {
-				(*i)->NotifyDeleted(ship);
-				ship->NotifyDeleted(*i);
+				(*i)->NotifyRemoved(ship);
+				ship->NotifyRemoved(*i);
 			}
 		}
 
