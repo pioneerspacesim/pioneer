@@ -20,6 +20,7 @@ public:
 	};
 
 	SpaceManager(Player *player) : m_player(player), m_state(STATE_NONE), m_space(0), m_wantHyperspace(false) {}
+	~SpaceManager();
 
 	State GetState() const { return m_state; }
 	Space *GetSpace() const { return m_space; }

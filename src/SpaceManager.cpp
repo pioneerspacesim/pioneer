@@ -8,6 +8,12 @@
 #include "ShipCpanel.h"
 #include "Sfx.h"
 
+SpaceManager::~SpaceManager()
+{
+	if (m_space)
+		delete m_space;
+}
+
 void SpaceManager::CreateSpaceForDockedStart(const SystemPath &path)
 {
 	assert(m_state == STATE_NONE);
