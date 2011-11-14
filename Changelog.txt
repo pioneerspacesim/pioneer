@@ -7,7 +7,7 @@ Alpha 17
     * Check/set speed relative to navigation or combat target (press CTRL
       while targeting) (#462, #769)
     * Passenger cabins and taxi missions (#718)
-    * Fuel club (#788)
+    * Fuel club (#788, #794, #796)
 
   * Minor changes and tweaks
     * Improved planet atmosphere rendering
@@ -15,12 +15,17 @@ Alpha 17
   * Fixes
     * Star halo now drawn properly in the world space (#768)
     * Allow equipment to be removed even if the station has none in stock (#780, #781)
+    * Fix scanner drawing glitches with some recent NVidia drivers (#758)
 
   * Script changes
     * New Character class to represent and test NPC attributes (#725, #787)
+    * SystemPath has additional methods to test for sector-only and
+      system-only paths (#795)
 
   * Internal changes
     * Terrain color/height fractal refactor (#699)
+    * SystemPath now has specific invalid values to indicate sector-only and
+      system-only paths (#795)
 
 Alpha 16
 

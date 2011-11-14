@@ -899,7 +899,8 @@ static void shuffle_array(MTRand &rand, T *array, int len)
 
 SBody *StarSystem::GetBodyByPath(const SystemPath &path) const
 {
-    assert(m_path.IsSameSystem(path));
+	assert(m_path.IsSameSystem(path));
+	assert(path.IsBodyPath());
 	assert(path.bodyIndex < m_bodies.size());
 
 	return m_bodies[path.bodyIndex];
@@ -1175,6 +1176,7 @@ void SBody::PickAtmosphere()
  */
 StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 {
+	assert(path.IsSystemPath());
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
 	rootBody = 0;
 
@@ -2029,8 +2031,7 @@ StarSystem *StarSystem::GetCached(const SystemPath &path)
 {
 	StarSystem *s = 0;
 
-	SystemPath sysPath(path);
-	sysPath.bodyIndex = 0;
+	SystemPath sysPath(path.SystemOnly());
 
 	SystemCacheMap::const_iterator it = s_cachedSystems.find(sysPath);
 	if (it != s_cachedSystems.end()) {

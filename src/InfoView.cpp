@@ -76,7 +76,7 @@ public:
 			l = new Gui::Label((*i)->client);
 			innerbox->Add(l, 80, ypos);
 			
-			if (path.bodyIndex == 0)
+			if (!path.IsBodyPath())
 				l = new Gui::Label(stringf("%0 [%1{d},%2{d},%3{d}]", s->GetName().c_str(), path.sectorX, path.sectorY, path.sectorZ));
 			else
 				l = new Gui::Label(stringf("%0\n%1 [%2{d},%3{d},%4{d}]", s->GetBodyByPath(&path)->name.c_str(), s->GetName().c_str(), path.sectorX, path.sectorY, path.sectorZ));

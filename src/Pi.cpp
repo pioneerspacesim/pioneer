@@ -1139,6 +1139,7 @@ void Pi::Start()
 		{
 			InitGame();
 			spaceManager->CreateSpaceForDockedStart(SystemPath(0,0,0,0,6));  // Mexico City, Earth
+			sectorView->NewGameInit();
 			StartGame();
 			MainLoop();
 			break;
@@ -1147,6 +1148,7 @@ void Pi::Start()
 		{
 			InitGame();
 			spaceManager->CreateSpaceForDockedStart(SystemPath(1,0,-1,0,5));  // New Hope, New Hope
+			sectorView->NewGameInit();
 			StartGame();
 			MainLoop();
 			break;
@@ -1220,6 +1222,8 @@ void Pi::Start()
 			 Space::AddBody(station2);
 			 */
 			//	player->SetDockedWith(station2, 0);
+
+			sectorView->NewGameInit();
 
 			StartGame();
 			MainLoop();

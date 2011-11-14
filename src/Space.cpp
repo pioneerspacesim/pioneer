@@ -691,7 +691,7 @@ void Space::DoHyperspaceTo(const SystemPath *dest)
 		storedArrivalClouds.clear();
 	}
 
-	const SystemPath psource = Pi::spaceManager->GetSpace()->GetStarSystem() ? Pi::space->GetStarSystem()->GetPath() : SystemPath();
+	const SystemPath psource = Pi::spaceManager->GetSpace()->GetStarSystem() ? Pi::space->GetStarSystem()->GetPath() : SystemPath(0,0,0,0);
 	const SystemPath pdest = SystemPath(dest->sectorX, dest->sectorY, dest->sectorZ, dest->systemIndex);
 	if (Pi::spaceManager->GetSpace()->GetStarSystem()) Pi::space->GetStarSystem()->Release();
 	Pi::spaceManager->GetSpace()->GetStarSystem() = StarSystem::GetCached(dest);
@@ -735,7 +735,7 @@ void Space::DoHyperspaceTo(const SystemPath *dest)
 			ship->SetFlightState(Ship::FLYING);
 
 			SystemPath sdest = ship->GetHyperspaceDest();
-			if (sdest.bodyIndex == 0) {
+			if (sdest.IsSystemPath()) {
 				// travelling to the system as a whole, so just dump them on
 				// the cloud - we can't do any better in this case
 				ship->SetPosition(cloud->GetPosition());

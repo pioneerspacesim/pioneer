@@ -85,8 +85,7 @@ static int l_sbodypath_new(lua_State *l)
 /*
  * Method: IsSameSystem
  *
- * Determine if two <SystemPath> objects point to the same system, ignoring
- * the body index.
+ * Determine if two <SystemPath> objects point to objects in the same system. 
  *
  * > is_same = path:IsSameSystem(otherpath)
  *
@@ -112,6 +111,90 @@ static int l_sbodypath_is_same_system(lua_State *l)
 	SystemPath *b = LuaSystemPath::GetFromLua(2);
 
 	lua_pushboolean(l, a->IsSameSystem(b));
+	return 1;
+}
+
+/*
+ * Method: IsSameSector
+ *
+ * Determine if two <SystemPath> objects point to objects in the same sector.
+ *
+ * > is_same = path:IsSameSector(otherpath)
+ *
+ * Parameters:
+ *
+ *   otherpath - the <SystemPath> to compare with this path
+ *
+ * Return:
+ *
+ *   is_same - true if the path's point to the same sector, false otherwise
+ *
+ * Availability:
+ *
+ *   alpha 17
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_sbodypath_is_same_sector(lua_State *l)
+{
+	SystemPath *a = LuaSystemPath::GetFromLua(1);
+	SystemPath *b = LuaSystemPath::GetFromLua(2);
+
+	lua_pushboolean(l, a->IsSameSector(b));
+	return 1;
+}
+
+/*
+ * Method: SystemOnly
+ *
+ * Derive a SystemPath that points to the whole system.
+ *
+ * > system_path = path:SystemOnly()
+ *
+ * Return:
+ *
+ *   system_path - the SystemPath that represents just the system
+ *
+ * Availability:
+ *
+ *   alpha 17
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_sbodypath_system_only(lua_State *l)
+{
+	SystemPath *path = LuaSystemPath::GetFromLua(1);
+	LuaSystemPath::PushToLuaGC(new SystemPath(path->SystemOnly()));
+	return 1;
+}
+
+/*
+ * Method: SectorOnly
+ *
+ * Derive a SystemPath that points to the whole sector.
+ *
+ * > sector_path = path:SectorOnly()
+ *
+ * Return:
+ *
+ *   sector_path - the SystemPath that represents just the sector
+ *
+ * Availability:
+ *
+ *   alpha 17
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_sbodypath_sector_only(lua_State *l)
+{
+	SystemPath *path = LuaSystemPath::GetFromLua(1);
+	LuaSystemPath::PushToLuaGC(new SystemPath(path->SectorOnly()));
 	return 1;
 }
 
@@ -284,7 +367,8 @@ static int l_sbodypath_attr_sector_z(lua_State *l)
 /*
  * Attribute: systemIndex
  *
- * The system index component of the path
+ * The system index component of the path, or nil if the SystemPath does
+ * not point to a system.
  *
  * Availability:
  *
@@ -297,14 +381,18 @@ static int l_sbodypath_attr_sector_z(lua_State *l)
 static int l_sbodypath_attr_system_index(lua_State *l)
 {
 	SystemPath *path = LuaSystemPath::GetFromLua(1);
-	lua_pushinteger(l, path->systemIndex);
+	if (!path->IsSectorPath())
+		lua_pushinteger(l, path->systemIndex);
+	else
+		lua_pushnil(l);
 	return 1;
 }
 
 /*
  * Attribute: bodyIndex
  *
- * The body index component of the path
+ * The body index component of the path, or nil if the SystemPath does
+ * not point to a body.
  *
  * Availability:
  *
@@ -317,7 +405,10 @@ static int l_sbodypath_attr_system_index(lua_State *l)
 static int l_sbodypath_attr_body_index(lua_State *l)
 {
 	SystemPath *path = LuaSystemPath::GetFromLua(1);
-	lua_pushinteger(l, path->bodyIndex);
+	if (path->IsBodyPath())
+		lua_pushinteger(l, path->bodyIndex);
+	else
+		lua_pushnil(l);
 	return 1;
 }
 
@@ -330,6 +421,24 @@ static int l_sbodypath_meta_eq(lua_State *l)
 	return 1;
 }
 
+static int l_sbodypath_meta_tostring(lua_State *l)
+{
+	SystemPath *path = LuaSystemPath::GetFromLua(1);
+	if (path->IsSectorPath()) {
+		lua_pushfstring(l, "<%d,%d,%d>", path->sectorX, path->sectorY, path->sectorZ);
+	} else if (path->IsSystemPath()) {
+		lua_pushfstring(l, "<%d,%d,%d : %d>",
+			path->sectorX, path->sectorY, path->sectorZ,
+			path->systemIndex);
+	} else {
+		assert(path->IsBodyPath());
+		lua_pushfstring(l, "<%d,%d,%d : %d, %d>",
+			path->sectorX, path->sectorY, path->sectorZ,
+			path->systemIndex, path->bodyIndex);
+	}
+	return 1;
+}
+
 template <> const char *LuaObject<LuaUncopyable<SystemPath> >::s_type = "SystemPath";
 
 template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
@@ -338,6 +447,10 @@ template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
 		{ "New", l_sbodypath_new },
 
 		{ "IsSameSystem", l_sbodypath_is_same_system },
+		{ "IsSameSector", l_sbodypath_is_same_sector },
+
+		{ "SystemOnly", l_sbodypath_system_only },
+		{ "SectorOnly", l_sbodypath_sector_only },
 
 		{ "DistanceTo", l_sbodypath_distance_to },
 
@@ -358,6 +471,7 @@ template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
 
 	static const luaL_reg l_meta[] = {
 		{ "__eq",  l_sbodypath_meta_eq },
+		{ "__tostring", l_sbodypath_meta_tostring },
 		{ 0, 0 }
 	};
 

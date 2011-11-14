@@ -17,7 +17,6 @@
 #define OUTER_RADIUS (Sector::SIZE*3.0f)
 		
 SectorView::SectorView() :
-	m_firstTime(true),
 	m_selectionFollowsMovement(true),
 	m_infoBoxVisible(true)
 {
@@ -143,6 +142,19 @@ SectorView::~SectorView()
 	if (m_onKeyPressConnection.connected()) m_onKeyPressConnection.disconnect();
 }
 
+void SectorView::NewGameInit()
+{
+	printf("SectorView::NewGameInit()\n");
+	assert(Pi::spaceManager->GetSpace()->GetStarSystem());
+	m_current = Pi::spaceManager->GetSpace()->GetStarSystem()->GetPath();
+	assert(!m_current.IsSectorPath());
+	m_current = m_current.SystemOnly();
+
+	WarpToSystem(m_current);
+	OnClickSystem(m_current);
+	SetSelectedSystem(m_current);
+}
+
 void SectorView::Save(Serializer::Writer &wr)
 {
 	wr.Float(m_zoom);
@@ -179,8 +191,6 @@ void SectorView::Load(Serializer::Reader &rd)
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 
 	m_hyperspaceLockLabel->SetText(stringf("[%0]", std::string(m_matchTargetToSelection ? Lang::FOLLOWING_SELECTION : Lang::LOCKED)));
-
-	m_firstTime = false;
 }
 
 void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
@@ -613,15 +623,6 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 }
 
 void SectorView::OnSwitchTo() {
-	if (m_firstTime) {
-		m_current = Pi::spaceManager->GetSpace()->GetStarSystem()->GetPath();
-
-		WarpToSystem(m_current);
-		OnClickSystem(m_current);
-
-		m_firstTime = false;
-	}
-	
 	UpdateSystemLabels(m_currentSystemLabels, m_current);
 	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
@@ -840,7 +841,7 @@ void SectorView::MouseButtonDown(int button, int x, int y)
 
 Sector* SectorView::GetCached(int sectorX, int sectorY, int sectorZ)
 {
-	const SystemPath loc(sectorX, sectorY, sectorZ, 0);
+	const SystemPath loc(sectorX, sectorY, sectorZ);
 
 	Sector *s = 0;
 

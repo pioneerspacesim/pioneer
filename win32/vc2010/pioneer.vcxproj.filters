@@ -602,6 +602,7 @@
     </ClCompile>
     <ClCompile Include="..\..\src\terrain\TerrainHeightWaterSolidCanyons.cpp">
       <Filter>src\terrain</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\enum_table.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -1125,6 +1126,7 @@
     </ClInclude>
     <ClInclude Include="..\..\src\terrain\TerrainNoise.h">
       <Filter>src\terrain</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\enum_table.h">
       <Filter>src</Filter>
     </ClInclude>
