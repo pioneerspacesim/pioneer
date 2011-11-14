@@ -2031,8 +2031,7 @@ StarSystem *StarSystem::GetCached(const SystemPath &path)
 {
 	StarSystem *s = 0;
 
-	SystemPath sysPath(path);
-	sysPath.bodyIndex = 0;
+	SystemPath sysPath(path.SystemOnly());
 
 	SystemCacheMap::const_iterator it = s_cachedSystems.find(sysPath);
 	if (it != s_cachedSystems.end()) {

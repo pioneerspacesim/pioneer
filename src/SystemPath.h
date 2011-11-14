@@ -79,6 +79,7 @@ public:
 	}
 
 	SystemPath SystemOnly() const {
+		assert(systemIndex != Uint32(-1));
 		return SystemPath(sectorX, sectorY, sectorZ, systemIndex);
 	}
 
