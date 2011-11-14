@@ -90,7 +90,7 @@ void SpaceManager::TimeStep(float step)
 	if (m_state == STATE_HYPERSPACE) {
 		if (Pi::GetGameTime() > m_hyperspaceEndTime) {
 			SwitchToNormalSpace();
-			m_player->OnEnterSystem();
+			m_player->EnterSystem();
 		}
 		else
 			m_hyperspaceProgress += step;

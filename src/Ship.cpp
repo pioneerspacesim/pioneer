@@ -1151,10 +1151,28 @@ void Ship::EnterHyperspace() {
 	UseHyperspaceFuel(&dest);
 
 	Pi::luaOnLeaveSystem->Queue(this);
+
+	SetFlightState(Ship::HYPERSPACE);
+
+	// virtual call, do class-specific things
+	OnEnterHyperspace();
 }
 
-void Ship::OnEnterSystem() {
+void Ship::OnEnterHyperspace() {
+	assert(0);
+}
+
+void Ship::EnterSystem() {
+	assert(GetFlightState() == Ship::HYPERSPACE);
+
 	SetFlightState(Ship::FLYING);
 
 	Pi::luaOnEnterSystem->Queue(this);
+
+	// virtual call, do class-specific things
+	OnEnterSystem();
+}
+
+void Ship::OnEnterSystem() {
+	assert(0);
 }

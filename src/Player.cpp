@@ -438,10 +438,8 @@ Sint64 Player::GetPrice(Equip::Type t) const
 	}
 }
 
-void Player::EnterHyperspace()
+void Player::OnEnterHyperspace()
 {
-	Ship::EnterHyperspace();
-
 	SetNavTarget(0);
 	SetCombatTarget(0);
 
@@ -449,17 +447,12 @@ void Player::EnterHyperspace()
 		Pi::player->SetFlightControlState(Player::CONTROL_MANUAL);
 
 	ClearThrusterState();
-	SetFlightState(Ship::HYPERSPACE);
 
 	Pi::spaceManager->WantHyperspace();
 }
 
 void Player::OnEnterSystem()
 {
-	assert(GetFlightState() == Ship::HYPERSPACE);
-
-	Ship::OnEnterSystem();
-
 	SetFlightControlState(Player::CONTROL_MANUAL);
 
 	Pi::sectorView->ResetHyperspaceTarget();

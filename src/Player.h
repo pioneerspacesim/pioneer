@@ -65,8 +65,6 @@ public:
 
 	virtual void PostLoadFixup();
 
-	virtual void OnEnterSystem();
-
 	/* MarketAgent stuff */
 	int GetStock(Equip::Type t) const { assert(0); return 0; }
 	bool CanBuy(Equip::Type t, bool verbose) const;
@@ -77,7 +75,8 @@ protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
 
-	virtual void EnterHyperspace();
+	virtual void OnEnterSystem();
+	virtual void OnEnterHyperspace();
 
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
