@@ -180,6 +180,8 @@ public:
 	
 	void EnterSystem();
 
+	HyperspaceCloud *GetHyperspaceCloud() const { return m_hyperspaceCloud; }
+
 	sigc::signal<void> onDock;				// JJ: check what these are for
 	sigc::signal<void> onUndock;
 protected:
@@ -231,6 +233,7 @@ private:
 		bool now;
 		double duration;
 	} m_hyperspace;
+	HyperspaceCloud *m_hyperspaceCloud;
 
 	AICommand *m_curAICmd;
 	AIError m_aiMessage;

@@ -380,10 +380,16 @@ void Player::SetCombatTarget(Body* const target, bool setSpeedTo)
 
 void Player::NotifyRemoved(const Body* const removedBody)
 {
-	if(GetNavTarget() == removedBody)
+	if (GetNavTarget() == removedBody)
 		SetNavTarget(0);
-	if(GetCombatTarget() == removedBody)
+
+	else if (GetCombatTarget() == removedBody) {
 		SetCombatTarget(0);
+
+		if (!GetNavTarget() && removedBody->IsType(Object::SHIP))
+			SetNavTarget(static_cast<const Ship*>(removedBody)->GetHyperspaceCloud());
+	}
+
 	Ship::NotifyRemoved(removedBody);
 }
 

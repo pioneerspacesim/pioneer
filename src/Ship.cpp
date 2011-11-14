@@ -73,8 +73,10 @@ void Ship::Save(Serializer::Writer &wr)
 	wr.Int32(int(m_alertState));
 	wr.Double(m_lastFiringAlert);
 
+	// XXX make sure all hyperspace attrs and the cloud get saved
 	m_hyperspace.dest.Serialize(wr);
 	wr.Float(m_hyperspace.countdown);
+
 
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		wr.Int32(m_gunState[i]);
@@ -146,6 +148,7 @@ void Ship::Init()
 	m_stats.hull_mass_left = float(stype.hullMass);
 	m_stats.shield_mass_left = 0;
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
+	m_hyperspaceCloud = 0;
 }
 
 void Ship::PostLoadFixup()
@@ -1159,14 +1162,14 @@ void Ship::EnterHyperspace() {
 }
 
 void Ship::OnEnterHyperspace() {
-	HyperspaceCloud *cloud = new HyperspaceCloud(this, Pi::GetGameTime() + m_hyperspace.duration, false);
-	cloud->SetFrame(GetFrame());
-	cloud->SetPosition(GetPosition());
+	m_hyperspaceCloud = new HyperspaceCloud(this, Pi::GetGameTime() + m_hyperspace.duration, false);
+	m_hyperspaceCloud->SetFrame(GetFrame());
+	m_hyperspaceCloud->SetPosition(GetPosition());
 
 	Space *space = Pi::spaceManager->GetSpace();
 
 	space->RemoveBody(this);
-	space->AddBody(cloud);
+	space->AddBody(m_hyperspaceCloud);
 }
 
 void Ship::EnterSystem() {
@@ -1181,5 +1184,7 @@ void Ship::EnterSystem() {
 }
 
 void Ship::OnEnterSystem() {
+	m_hyperspaceCloud = 0;
+	
 	assert(0);
 }
