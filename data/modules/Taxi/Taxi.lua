@@ -231,6 +231,13 @@ local onEnterSystem = function (player)
 					ship = Space.SpawnShipNear(shipname, Game.player, 50, 100)
 					ship:AddEquip(default_drive)
 					ship:AddEquip(laser)
+					ship:AddEquip('SHIELD_GENERATOR', math.ceil(risk * 3))
+					if Engine.rand:Number(2) <= risk then
+						ship:AddEquip('LASER_COOLING_BOOSTER')
+					end
+					if Engine.rand:Number(3) <= risk then
+						ship:AddEquip('SHIELD_ENERGY_BOOSTER')
+					end
 					ship:AIKill(Game.player)
 				end
 			end
