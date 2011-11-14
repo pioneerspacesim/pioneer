@@ -1146,6 +1146,7 @@ void Pi::Start()
         {
             SystemPath path(0,0,0, 0);
             Space::SetupSystemForGameStart(&path, 1, 0);
+			sectorView->NewGameInit();
             StartGame();
             MainLoop();
             break;
@@ -1154,6 +1155,7 @@ void Pi::Start()
         {
             SystemPath path(1,0,-1, 0);
             Space::SetupSystemForGameStart(&path, 0, 0);
+			sectorView->NewGameInit();
             StartGame();
             MainLoop();
             break;
@@ -1240,6 +1242,7 @@ void Pi::Start()
              */
             //	player->SetDockedWith(station2, 0);
 
+			sectorView->NewGameInit();
             StartGame();
             MainLoop();
             break;
