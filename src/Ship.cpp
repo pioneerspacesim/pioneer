@@ -1185,6 +1185,4 @@ void Ship::EnterSystem() {
 
 void Ship::OnEnterSystem() {
 	m_hyperspaceCloud = 0;
-	
-	assert(0);
 }
