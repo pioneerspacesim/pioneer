@@ -435,7 +435,7 @@ bool Ship::CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double 
 		return false;
 	}
 
-	StarSystem *s = Pi::spaceManager->GetSpace()->GetStarSystem();
+	StarSystem *s = Pi::spaceManager->GetSpace()->GetStarSystem().Get();
 	if (s && s->GetPath().IsSameSystem(*dest)) {
 		if (outStatus) *outStatus = HYPERJUMP_CURRENT_SYSTEM;
 		return false;

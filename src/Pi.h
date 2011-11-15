@@ -146,7 +146,7 @@ public:
 
 	static void SetView(View *v);
 	static View *GetView() { return currentView; }
-	static StarSystem *GetSelectedSystem();
+	static RefCountedPtr<StarSystem> GetSelectedSystem();
 
 #if DEVKEYS
 	static bool showDebugInfo;
@@ -189,7 +189,7 @@ private:
 	  * factor between one physics tick and another [0.0-1.0]
 	  */
 	static float gameTickAlpha;
-	static StarSystem *selectedSystem;
+	static RefCountedPtr<StarSystem> selectedSystem;
 	static int timeAccelIdx;
 	static int requestedTimeAccelIdx;
 	static bool forceTimeAccel;

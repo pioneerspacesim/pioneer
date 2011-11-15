@@ -5,11 +5,11 @@
 #include "Object.h"
 #include "vector3.h"
 #include "Serializer.h"
+#include "RefCounted.h"
+#include "StarSystem.h"
 
 class Body;
 class Frame;
-class SBody;
-class SystemPath;
 class Ship;
 class HyperspaceCloud;
 
@@ -27,7 +27,7 @@ public:
 
 	//void Save(Serializer::Writer &wr);
 
-	StarSystem *GetStarSystem() const { return m_starSystem; }
+	RefCountedPtr<StarSystem> GetStarSystem() const { return m_starSystem; }
 
 	Frame *GetRootFrame() const { return rootFrame; }
 
@@ -64,7 +64,7 @@ private:
 
 	Frame *rootFrame;
 
-	StarSystem *m_starSystem;
+	RefCountedPtr<StarSystem> m_starSystem;
 
 	// all the bodies we know about
 	std::list<Body*> m_bodies;

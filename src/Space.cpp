@@ -22,8 +22,6 @@
 
 Space::Space()
 {
-	m_starSystem = 0;
-
 	rootFrame = new Frame(0, Lang::SYSTEM);
 	rootFrame->SetRadius(FLT_MAX);
 }
@@ -53,9 +51,6 @@ Space::~Space()
 	UpdateBodies();
 
 	delete rootFrame;
-
-	if (m_starSystem)
-		m_starSystem->Release();
 }
 
 void Space::AddBody(Body *b)
@@ -204,7 +199,7 @@ void Serialize(Serializer::Writer &wr)
 /*
 void Unserialize(Serializer::Reader &rd)
 {
-	Serializer::IndexSystemm_bodies(Pi::spaceManager->GetSpace()->GetStarSystem());
+	Serializer::IndexSystemm_bodies(Pi::spaceManager->GetSpace()->GetStarSystem().Get());
 	
 	Serializer::Reader rd2 = rd.RdSection("Frames");
 	rootFrame = Frame::Unserialize(rd2, 0);

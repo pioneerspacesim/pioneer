@@ -442,7 +442,7 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 		}
 	}
 
-	StarSystem *sys = StarSystem::GetCached(path);
+	RefCountedPtr<StarSystem> sys = StarSystem::GetCached(path);
 
 	std::string desc;
 	if (sys->GetNumStars() == 4) {
@@ -458,8 +458,6 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 
 	labels.systemName->SetText(sys->GetName());
 	labels.shortDesc->SetText(sys->GetShortDescription());
-
-	sys->Release();
 
 	if (m_infoBoxVisible)
 		m_infoBox->ShowAll();
@@ -526,7 +524,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 					fabs(m_posMovingTo.z - m_pos.z));
 			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
 			if( !(*i).IsSetInhabited() && diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f ) {
-				StarSystem* pSS = StarSystem::GetCached(current);
+				RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
 				if( (!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0) ) 
 				{
 					(*i).SetInhabited(true);
@@ -535,7 +533,6 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				{
 					(*i).SetInhabited(false);
 				}
-				pSS->Release();
 			}
 		}
 		

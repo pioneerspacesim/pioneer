@@ -136,7 +136,7 @@ void AmbientSounds::Update()
 		}
 		{
 			if (Pi::spaceManager->GetState() == SpaceManager::STATE_NORMAL) {
-				StarSystem *s = Pi::spaceManager->GetSpace()->GetStarSystem();
+				StarSystem *s = Pi::spaceManager->GetSpace()->GetStarSystem().Get();
 				if (astroNoiseSeed != s->m_seed) {
 					// change sound!
 					astroNoiseSeed = s->m_seed;

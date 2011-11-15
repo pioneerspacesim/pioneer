@@ -24,7 +24,7 @@ private:
 		virtual void Draw();
 		virtual void OnActivate();
 	};
-	void SystemChanged(StarSystem *s);
+	void SystemChanged(const RefCountedPtr<StarSystem> &s);
 	void UpdateEconomyTab();
 	void OnBodyViewed(SBody *b);
 	void OnBodySelected(SBody *b);
@@ -38,7 +38,7 @@ private:
 	Gui::Label *m_econIllegal;
 	Gui::Fixed *m_sbodyInfoTab, *m_econInfoTab;
 	Gui::Tabbed *m_tabs;
-	StarSystem *m_system;
+	RefCountedPtr<StarSystem> m_system;
 	bool m_refresh;
 	//map is not enough to associate icons as each tab has their own
 	std::vector<std::pair<std::string, BodyIcon*> > m_bodyIcons;

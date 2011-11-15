@@ -2011,7 +2011,7 @@ void StarSystem::Serialize(Serializer::Writer &wr, StarSystem *s)
 	}
 }
 
-StarSystem *StarSystem::Unserialize(Serializer::Reader &rd)
+RefCountedPtr<StarSystem> StarSystem::Unserialize(Serializer::Reader &rd)
 {
 	if (rd.Byte()) {
 		int sec_x = rd.Int32();
@@ -2020,14 +2020,14 @@ StarSystem *StarSystem::Unserialize(Serializer::Reader &rd)
 		int sys_idx = rd.Int32();
 		return StarSystem::GetCached(SystemPath(sec_x, sec_y, sec_z, sys_idx));
 	} else {
-		return 0;
+		return RefCountedPtr<StarSystem>(0);
 	}
 }
 
 typedef std::map<SystemPath,StarSystem*> SystemCacheMap;
 static SystemCacheMap s_cachedSystems;
 
-StarSystem *StarSystem::GetCached(const SystemPath &path)
+RefCountedPtr<StarSystem> StarSystem::GetCached(const SystemPath &path)
 {
 	StarSystem *s = 0;
 
@@ -2038,11 +2038,11 @@ StarSystem *StarSystem::GetCached(const SystemPath &path)
 		s = it->second;
 	} else {
 		s = new StarSystem(sysPath);
+		s->IncRefCount(); // the cache owns one reference
 		s_cachedSystems.insert( SystemCacheMap::value_type(sysPath, s) );
 	}
 
-	s->IncRefCount();
-	return s;
+	return RefCountedPtr<StarSystem>(s);
 }
 
 void StarSystem::ShrinkCache()
@@ -2050,7 +2050,9 @@ void StarSystem::ShrinkCache()
 	std::map<SystemPath,StarSystem*>::iterator i = s_cachedSystems.begin();
 	while (i != s_cachedSystems.end()) {
 		StarSystem *s = (*i).second;
-		if (s->GetRefCount() == 0) {
+		assert(s->GetRefCount() >= 1); // sanity check
+		// if the cache is the only owner, then delete it
+		if (s->GetRefCount() == 1) {
 			delete s;
 			s_cachedSystems.erase(i++);
 		}
