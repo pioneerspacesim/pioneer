@@ -13,7 +13,6 @@ local ads = {}
 local missions = {}
 
 local onChat = function (form, ref, option)
-	local scout_flavours = Translate:GetFlavours('Scout')
 	local ad = ads[ref]
 
 	form:Clear()
@@ -28,7 +27,8 @@ local onChat = function (form, ref, option)
 
 		local sys   = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
-
+		
+		local scout_flavours = Translate:GetFlavours('Scout')
 		local introtext = string.interp(scout_flavours[ad.flavour].introtext, {
 			name     = ad.client,
 			cash     = Format.Money(ad.reward),
@@ -43,6 +43,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(introtext)
 
 	elseif option == 1 then
+		local scout_flavours = Translate:GetFlavours('Scout')
 		form:SetMessage(scout_flavours[ad.flavour].whysomuchtext)
 
 	elseif option == 2 then
@@ -168,7 +169,6 @@ local makeAdvert = function (station)
 end
 
 local onCreateBB = function (station)
-	local scout_flavours = Translate:GetFlavours('Scout')
 	local num = Engine.rand:Integer(0, math.ceil(Game.system.population))
 	for i = 1,num do
 		makeAdvert(station)
@@ -176,8 +176,8 @@ local onCreateBB = function (station)
 end
 
 local onUpdateBB = function (station)
-	local scout_flavours = Translate:GetFlavours('Scout')
 	for ref,ad in pairs(ads) do
+		local scout_flavours = Translate:GetFlavours('Scout')
 		if scout_flavours[ad.flavour].localscout == 0
 			and ad.due < Game.time + 5*60*60*24 then -- five day timeout for inter-system
 			ad.station:RemoveAdvert(ref)
@@ -204,7 +204,6 @@ end
 end]]--
 
 local onFrameChanged = function (body)
-	local scout_flavours = Translate:GetFlavours('Scout')
 	if body:isa("Ship") and body:IsPlayer() then
 		for ref,mission in pairs(missions) do
 			local CurBody = body.frameBody
@@ -231,9 +230,10 @@ local onFrameChanged = function (body)
 										if not ShipSpawned then
 											ShouldSpawn = Engine.rand:Number(MinChance, 1)
 
-											-- -----------------------------------------------------------
+											-------------------------------------------------------------
 											if 	ShouldSpawn > 0.9 then
 												ShipSpawned = true
+												local scout_flavours = Translate:GetFlavours('Scout')
 												local risk = scout_flavours[mission.flavour].risk
 												local ships = 0
 
@@ -281,8 +281,7 @@ local onFrameChanged = function (body)
 													UI.ImportantMessage(pirate_greeting, ship.label)
 												end
 											end
-
-											-- -----------------------------------------------------------
+											-------------------------------------------------------------
 											if not ShipSpawned then
 												MinChance = MinChance + 0.1
 											end
@@ -297,47 +296,38 @@ local onFrameChanged = function (body)
 										return true
 									end
 								end)
-
 			end
 		end
 	end
 end
 
-
-
-
 local onShipDocked = function (player, station)
-	local scout_flavours = Translate:GetFlavours('Scout')
 	if not player:IsPlayer() then return end
-
 	for ref,mission in pairs(missions) do
 		if Game.time > mission.due then
 			mission.state = 3
 		end
-
 		if mission.state == 2 then
+			local scout_flavours = Translate:GetFlavours('Scout')
 			UI.ImportantMessage(scout_flavours[mission.flavour].successmsg, mission.client)
 			player:AddMoney(mission.reward)
 			player:RemoveMission(ref)
 			missions[ref] = nil
 		elseif mission.state == 3 then
+			local scout_flavours = Translate:GetFlavours('Scout')
 			UI.ImportantMessage(scout_flavours[mission.flavour].failuremsg, mission.client)
 			player:RemoveMission(ref)
 			missions[ref] = nil
 		end
-
 	end
 end
 
 local loaded_data
 
 local onGameStart = function ()
-	
 	ads = {}
 	missions = {}
-
 	if not loaded_data then return end
-
 	for k,ad in pairs(loaded_data.ads) do
 		local ref = ad.station:AddAdvert(ad.desc, onChat, onDelete)
 		ads[ref] = ad
@@ -346,7 +336,6 @@ local onGameStart = function ()
 		local mref = Game.player:AddMission(mission)
 		missions[mref] = mission
 	end
-
 	loaded_data = nil
 end
 
