@@ -24,6 +24,7 @@ public:
 	T *operator->() const { assert(m_ptr); return m_ptr; }
 	T *Get() const { return m_ptr; }
 	bool Valid() const { return (m_ptr != 0); }
+
 	// safe bool idiom; see http://www.artima.com/cppsource/safebool.html
 	operator safe_bool() const { return (m_ptr == 0) ? 0 : &this_type::m_ptr; }
 	bool operator!() const { return (m_ptr == 0); }
@@ -36,6 +37,24 @@ public:
 		b.m_ptr = p;
 	}
 
+	// comparisons directly with T* have to be defined here, because
+	// if comparing with literal 0 (null pointer), the compiler can't
+	// deduce the second pointer type for the more general templated
+	// comparisons that are written to work on any <T1,T2> pair
+	friend bool operator==(const this_type &a, const T *b) { return (a.Get() == b); }
+	friend bool operator!=(const this_type &a, const T *b) { return (a.Get() != b); }
+	friend bool operator< (const this_type &a, const T *b) { return (a.Get() <  b); }
+	friend bool operator<=(const this_type &a, const T *b) { return (a.Get() <= b); }
+	friend bool operator> (const this_type &a, const T *b) { return (a.Get() >  b); }
+	friend bool operator>=(const this_type &a, const T *b) { return (a.Get() >= b); }
+
+	friend bool operator==(const T *a, const this_type &b) { return (a == b.Get()); }
+	friend bool operator!=(const T *a, const this_type &b) { return (a != b.Get()); }
+	friend bool operator< (const T *a, const this_type &b) { return (a <  b.Get()); }
+	friend bool operator<=(const T *a, const this_type &b) { return (a <= b.Get()); }
+	friend bool operator> (const T *a, const this_type &b) { return (a >  b.Get()); }
+	friend bool operator>=(const T *a, const this_type &b) { return (a >= b.Get()); }
+
 protected:
 	SmartPtrBase(): m_ptr(0) {}
 	explicit SmartPtrBase(T *p): m_ptr(p) {}
@@ -45,12 +64,25 @@ protected:
 	WARN_UNUSED_RESULT(T*,Release()) { T *p = m_ptr; m_ptr = 0; return p; }
 
 	T *m_ptr;
-
-private:
-	// disable comparison operators (which are implicitly provided by the conversion to safe_bool)
-	bool operator==(const this_type& b);
-	bool operator!=(const this_type& b);
 };
+
+#define DEF_SMARTPTR_COMPARISON(op) \
+	template <typename D1, typename T1, typename D2, typename T2> \
+	inline bool operator op(const SmartPtrBase<D1,T1> &a, const SmartPtrBase<D2,T2> &b) \
+	{ return (a.Get() op b.Get()); } \
+	template <typename D, typename T1, typename T2> \
+	inline bool operator op(const SmartPtrBase<D,T1> &a, const T2 *b) \
+	{ return (a.Get() op b); } \
+	template <typename D, typename T1, typename T2> \
+	inline bool operator op(const T1 *a, const SmartPtrBase<D,T2> &b) \
+	{ return (a op b.Get()); }
+DEF_SMARTPTR_COMPARISON(==)
+DEF_SMARTPTR_COMPARISON(!=)
+DEF_SMARTPTR_COMPARISON(< )
+DEF_SMARTPTR_COMPARISON(<=)
+DEF_SMARTPTR_COMPARISON(> )
+DEF_SMARTPTR_COMPARISON(>=)
+#undef DEF_SMARTPTR_COMPARISON
 
 template <typename T>
 class ScopedPtr : public SmartPtrBase<ScopedPtr<T>, T> {
