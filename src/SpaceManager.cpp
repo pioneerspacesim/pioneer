@@ -228,7 +228,7 @@ void SpaceManager::SwitchToNormalSpace()
 			ship->SetFlightState(Ship::FLYING);
 
 			const SystemPath &sdest = ship->GetHyperspaceDest();
-			if (sdest.bodyIndex == 0) {
+			if (sdest.IsSystemPath()) {
 				// travelling to the system as a whole, so just dump them on
 				// the cloud - we can't do any better in this case
 				ship->SetPosition(cloud->GetPosition());
