@@ -68,7 +68,7 @@ private:
 
 	static int s_vtxGenCount;
 
-	static GeoPatchContext *s_patchContext;
+	static RefCountedPtr<GeoPatchContext> s_patchContext;
 };
 
 #endif /* _GEOSPHERE_H */

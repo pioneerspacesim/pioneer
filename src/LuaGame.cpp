@@ -52,7 +52,7 @@ static int l_game_meta_index(lua_State *l)
 	 *  stable
 	 */
 	if (strcmp(key, "system") == 0) {
-		LuaStarSystem::PushToLua(Pi::currentSystem);
+		LuaStarSystem::PushToLua(Pi::currentSystem.Get());
 		return 1;
 	}
 

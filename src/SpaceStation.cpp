@@ -672,7 +672,7 @@ bool SpaceStation::CanSell(Equip::Type t, bool verbose) const {
 	return result;
 }
 bool SpaceStation::DoesSell(Equip::Type t) const {
-	return Polit::IsCommodityLegal(Pi::currentSystem, t);
+	return Polit::IsCommodityLegal(Pi::currentSystem.Get(), t);
 }
 
 Sint64 SpaceStation::GetPrice(Equip::Type t) const {

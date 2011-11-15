@@ -121,8 +121,8 @@ SystemView *Pi::systemView;
 SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
 LuaConsole *Pi::luaConsole;
-StarSystem *Pi::selectedSystem;
-StarSystem *Pi::currentSystem;
+RefCountedPtr<StarSystem> Pi::selectedSystem;
+RefCountedPtr<StarSystem> Pi::currentSystem;
 MTRand Pi::rng;
 double Pi::gameTime;
 float Pi::frameTime;
@@ -1057,7 +1057,7 @@ void Pi::UninitGame()
 		delete Pi::player;
 		Pi::player = 0;
 	}
-	if (Pi::selectedSystem) Pi::selectedSystem->Release();
+	Pi::selectedSystem.Reset();
 	StarSystem::ShrinkCache();
 }
 
@@ -1481,14 +1481,14 @@ void Pi::MainLoop()
 	}
 }
 
-StarSystem *Pi::GetSelectedSystem()
+RefCountedPtr<StarSystem> Pi::GetSelectedSystem()
 {
 	SystemPath selectedPath = Pi::sectorView->GetSelectedSystem();
 
 	if (selectedSystem) {
 		if (selectedSystem->GetPath().IsSameSystem(selectedPath))
 			return selectedSystem;
-		selectedSystem->Release();
+		selectedSystem.Reset();
 	}
 
 	selectedSystem = StarSystem::GetCached(selectedPath);
@@ -1501,12 +1501,12 @@ void Pi::Serialize(Serializer::Writer &wr)
 
 	Serializer::IndexFrames();
 	Serializer::IndexBodies();
-	Serializer::IndexSystemBodies(currentSystem);
+	Serializer::IndexSystemBodies(currentSystem.Get());
 
 	section = Serializer::Writer();
 	section.Double(gameTime);
-	StarSystem::Serialize(section, selectedSystem);
-	StarSystem::Serialize(section, currentSystem);
+	StarSystem::Serialize(section, selectedSystem.Get());
+	StarSystem::Serialize(section, currentSystem.Get());
 	wr.WrSection("PiMisc", section.GetData());
 	
 	section = Serializer::Writer();

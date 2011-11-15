@@ -26,6 +26,7 @@ Alpha 17
     * Terrain color/height fractal refactor (#699)
     * SystemPath now has specific invalid values to indicate sector-only and
       system-only paths (#795)
+    * Scoped and RefCounted smart pointers (#803)
 
 Alpha 16
 
