@@ -37,8 +37,7 @@ public:
 
 	void TimeStep(float step);
 
-	// XXX these do not belong here
-	static vector3d GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *dest);
+	vector3d GetHyperspaceExitPoint(const SystemPath &source);
 
 	// XXX these may belong elsewhere
 	void RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, double kgDamage);

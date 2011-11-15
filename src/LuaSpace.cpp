@@ -133,7 +133,9 @@ static int l_space_spawn_ship(lua_State *l)
 	if (path == NULL)
 		thing->SetPosition(MathUtil::RandomPointOnSphere(min_dist, max_dist)*AU);
 	else
-		thing->SetPosition(Space::GetPositionAfterHyperspace(path, &(Pi::spaceManager->GetSpace()->GetStarSystem()->GetPath())));
+		// XXX broken. this is ignoring min_dist & max_dist. otoh, what's the
+		// correct behaviour given there's now a fixed hyperspace exit point?
+		thing->SetPosition(Pi::spaceManager->GetSpace()->GetHyperspaceExitPoint(*path));
 	thing->SetVelocity(vector3d(0,0,0));
 	Pi::spaceManager->GetSpace()->AddBody(thing);
 

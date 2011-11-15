@@ -112,14 +112,22 @@ void Space::DoECM(const Frame *f, const vector3d &pos, int power_val)
 	}
 }
 
-vector3d Space::GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *dest)
+vector3d Space::GetHyperspaceExitPoint(const SystemPath &source)
 {
-	Sector source_sec(source->sectorX,source->sectorY,source->sectorZ);
-	Sector dest_sec(dest->sectorX,dest->sectorY,dest->sectorZ);
-	Sector::System source_sys = source_sec.m_systems[source->systemIndex];
-	Sector::System dest_sys = dest_sec.m_systems[dest->systemIndex];
-	const vector3d sourcePos = vector3d(source_sys.p) + vector3d(source->sectorX, source->sectorY, source->sectorZ);
-	const vector3d destPos = vector3d(dest_sys.p) + vector3d(dest->sectorX, dest->sectorY, dest->sectorZ);
+	assert(m_starSystem);
+	assert(source.IsSystemPath());
+
+	const SystemPath &dest = m_starSystem->GetPath();
+
+	Sector source_sec(source.sectorX, source.sectorY, source.sectorZ);
+	Sector dest_sec(dest.sectorX, dest.sectorY, dest.sectorZ);
+
+	Sector::System source_sys = source_sec.m_systems[source.systemIndex];
+	Sector::System dest_sys = dest_sec.m_systems[dest.systemIndex];
+
+	const vector3d sourcePos = vector3d(source_sys.p) + vector3d(source.sectorX, source.sectorY, source.sectorZ);
+	const vector3d destPos = vector3d(dest_sys.p) + vector3d(dest.sectorX, dest.sectorY, dest.sectorZ);
+
 	return (sourcePos - destPos).Normalized() * 11.0*AU + MathUtil::RandomPointOnSphere(5.0,20.0)*1000.0; // "hyperspace zone": 11 AU from primary
 }
 

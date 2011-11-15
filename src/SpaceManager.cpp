@@ -200,7 +200,7 @@ void SpaceManager::SwitchToNormalSpace()
 	m_space->AddBody(m_player);
 
 	// place it
-	m_player->SetPosition(m_space->GetPositionAfterHyperspace(&m_hyperspaceSource, &dest));
+	m_player->SetPosition(m_space->GetHyperspaceExitPoint(m_hyperspaceSource));
 	m_player->SetVelocity(vector3d(0,0,-100.0));
 	m_player->SetRotMatrix(matrix4x4d::Identity());
 
@@ -214,7 +214,7 @@ void SpaceManager::SwitchToNormalSpace()
 		cloud = *i;
 
 		cloud->SetFrame(m_space->GetRootFrame());
-		cloud->SetPosition(m_space->GetPositionAfterHyperspace(&m_hyperspaceSource, &dest));
+		cloud->SetPosition(m_space->GetHyperspaceExitPoint(m_hyperspaceSource));
 
 		m_space->AddBody(cloud);
 
