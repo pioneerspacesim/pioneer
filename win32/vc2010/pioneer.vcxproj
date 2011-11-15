@@ -474,6 +474,7 @@
     <ClInclude Include="..\..\src\ShipFlavour.h" />
     <ClInclude Include="..\..\src\ShipSpinnerWidget.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
+    <ClInclude Include="..\..\src\SmartPtr.h" />
     <ClInclude Include="..\..\src\Sound.h" />
     <ClInclude Include="..\..\src\SoundMusic.h" />
     <ClInclude Include="..\..\src\Space.h" />
