@@ -26,17 +26,17 @@ public:
 	explicit RefCountedPtr(T *p): base_type(p)
 	{ if (this->m_ptr) this->m_ptr->IncRefCount(); }
 
-	RefCountedPtr(const this_type& b): base_type(b.get())
+	RefCountedPtr(const this_type& b): base_type(b.Get())
 	{ if (this->m_ptr) this->m_ptr->IncRefCount(); }
 
 	~RefCountedPtr() {
-		T *p = this->release();
+		T *p = this->Release();
 		if (p) p->DecRefCount();
 	}
 
-	this_type &operator=(const this_type &b) { this->reset(b.get()); return *this; }
+	this_type &operator=(const this_type &b) { this->Reset(b.Get()); return *this; }
 
-	bool unique() const { assert(this->m_ptr); return (this->m_ptr->GetRefCount() == 1); }
+	bool Unique() const { assert(this->m_ptr); return (this->m_ptr->GetRefCount() == 1); }
 };
 
 #endif
