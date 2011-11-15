@@ -13,7 +13,6 @@
 SystemInfoView::SystemInfoView()
 {
 	SetTransparency(true);
-	m_system = 0;
 	m_refresh = false;
 }
 
@@ -107,7 +106,7 @@ void SystemInfoView::OnBodyViewed(SBody *b)
 void SystemInfoView::UpdateEconomyTab()
 {
 	/* Economy info page */
-	StarSystem *s = m_system;
+	StarSystem *s = m_system.Get();
 	std::string data;
 	
 /*	if (s->m_econType) {
@@ -222,7 +221,7 @@ void SystemInfoView::OnClickBackground(Gui::MouseButtonEvent *e)
 	}
 }
 
-void SystemInfoView::SystemChanged(StarSystem *s)
+void SystemInfoView::SystemChanged(const RefCountedPtr<StarSystem> &s)
 {
 	DeleteAllChildren();
 
@@ -349,13 +348,13 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		col2->Add(new Gui::Label(m_system->GetShortDescription()), 0, 0);
 		
 		col1->Add((new Gui::Label(Lang::GOVERNMENT_TYPE))->Color(1,1,0), 0, YSEP);
-		col2->Add(new Gui::Label(Polit::GetGovernmentDesc(m_system)), 0, YSEP);
+		col2->Add(new Gui::Label(Polit::GetGovernmentDesc(m_system.Get())), 0, YSEP);
 		
 		col1->Add((new Gui::Label(Lang::ECONOMY_TYPE))->Color(1,1,0), 0, 2*YSEP);
-		col2->Add(new Gui::Label(Polit::GetEconomicDesc(m_system)), 0, 2*YSEP);
+		col2->Add(new Gui::Label(Polit::GetEconomicDesc(m_system.Get())), 0, 2*YSEP);
 		
 		col1->Add((new Gui::Label(Lang::ALLEGIANCE))->Color(1,1,0), 0, 3*YSEP);
-		col2->Add(new Gui::Label(Polit::GetAllegianceDesc(m_system)), 0, 3*YSEP);
+		col2->Add(new Gui::Label(Polit::GetAllegianceDesc(m_system.Get())), 0, 3*YSEP);
 		
 		col1->Add((new Gui::Label(Lang::POPULATION))->Color(1,1,0), 0, 4*YSEP);
 		std::string popmsg;

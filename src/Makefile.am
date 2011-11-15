@@ -130,6 +130,7 @@ noinst_HEADERS = \
 	VideoLink.h \
 	View.h \
 	WorldView.h \
+	SmartPtr.h \
 	buildopts.h \
 	fixed.h \
 	gameconsts.h \

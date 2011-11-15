@@ -68,7 +68,7 @@ public:
 		float ypos = 0;
 		for (std::list<const Mission*>::const_iterator i = missions.begin(); i != missions.end(); ++i) {
 			SystemPath path = (*i)->location;
-			StarSystem *s = StarSystem::GetCached(path);
+			RefCountedPtr<StarSystem> s = StarSystem::GetCached(path);
 
 			l = new Gui::Label((*i)->type);
 			innerbox->Add(l, 0, ypos);
@@ -97,8 +97,6 @@ public:
 			innerbox->Add(l, 660, ypos);
 
 			ypos += YSEP*3;
-
-			s->Release();
 		}
 		Add(portal, 20, 20 + YSEP*3);
 		Add(scroll, 780, 20 + YSEP*3);
