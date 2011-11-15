@@ -54,6 +54,7 @@ static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SystemPath *path, double du
 
 	HyperspaceCloud *cloud = new HyperspaceCloud(ship, due, true);
 	ship->SetHyperspaceDest(path);
+	ship->SetFlightState(Ship::HYPERSPACE);
 
 	return cloud;
 }
