@@ -1175,12 +1175,12 @@ void Ship::OnEnterHyperspace() {
 void Ship::EnterSystem() {
 	assert(GetFlightState() == Ship::HYPERSPACE);
 
+	// virtual call, do class-specific things
+	OnEnterSystem();
+
 	SetFlightState(Ship::FLYING);
 
 	Pi::luaOnEnterSystem->Queue(this);
-
-	// virtual call, do class-specific things
-	OnEnterSystem();
 }
 
 void Ship::OnEnterSystem() {
