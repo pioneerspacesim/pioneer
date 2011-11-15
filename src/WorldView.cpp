@@ -495,13 +495,12 @@ void WorldView::RefreshButtonStateAndVisibility()
 #endif
 
 	if (const SystemPath *dest = Space::GetHyperspaceDest()) {
-		StarSystem *s = StarSystem::GetCached(*dest);
+		RefCountedPtr<StarSystem> s = StarSystem::GetCached(*dest);
 		m_hudVelocity->SetText(stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
 			formatarg("system", s->GetName()),
 			formatarg("x", dest->sectorX),
 			formatarg("y", dest->sectorY),
 			formatarg("z", dest->sectorZ)));
-		s->DecRefCount();
 		m_hudVelocity->Show();
 
 		m_hudTargetDist->Hide();
@@ -879,9 +878,8 @@ void WorldView::OnHyperspaceTargetChanged()
 
 	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
 
-	StarSystem *system = StarSystem::GetCached(path);
+	RefCountedPtr<StarSystem> system = StarSystem::GetCached(path);
 	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", system->GetName())));
-	system->DecRefCount();
 
 	int fuelReqd;
 	double dur;

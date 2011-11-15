@@ -266,9 +266,10 @@ static int l_sbodypath_distance_to(lua_State *l)
 static int l_sbodypath_get_star_system(lua_State *l)
 {
 	SystemPath *path = LuaSystemPath::GetFromLua(1);
-	StarSystem *s = StarSystem::GetCached(path);
-	LuaStarSystem::PushToLua(s);
-	s->DecRefCount();
+	RefCountedPtr<StarSystem> s = StarSystem::GetCached(path);
+	// LuaStarSystem shares ownership of the StarSystem,
+	// because LuaAcquirer<LuaStarSystem> uses IncRefCount and DecRefCount
+	LuaStarSystem::PushToLua(s.Get());
 	return 1;
 }
 
@@ -294,10 +295,9 @@ static int l_sbodypath_get_star_system(lua_State *l)
 static int l_sbodypath_get_system_body(lua_State *l)
 {
 	SystemPath *path = LuaSystemPath::GetFromLua(1);
-	StarSystem *s = StarSystem::GetCached(path);
+	RefCountedPtr<StarSystem> s = StarSystem::GetCached(path);
 	SBody *sbody = s->GetBodyByPath(path);
 	LuaSBody::PushToLua(sbody);
-	s->DecRefCount();
 	return 1;
 }
 
