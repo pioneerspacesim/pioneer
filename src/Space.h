@@ -38,7 +38,6 @@ public:
 	void TimeStep(float step);
 
 	// XXX these do not belong here
-	static vector3d GetRandomPosition(float min_dist, float max_dist);
 	static vector3d GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *dest);
 
 	// XXX these may belong elsewhere

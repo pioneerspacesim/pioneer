@@ -19,6 +19,7 @@
 #include "SectorView.h"
 #include "Lang.h"
 #include "SpaceManager.h"
+#include "MathUtil.h"
 
 Space::Space()
 {
@@ -111,18 +112,6 @@ void Space::DoECM(const Frame *f, const vector3d &pos, int power_val)
 	}
 }
 
-// random point on a sphere, distributed uniformly by area
-vector3d Space::GetRandomPosition(float min_dist, float max_dist)
-{
-	// see http://mathworld.wolfram.com/SpherePointPicking.html
-	// or a Google search for further information
-	const double dist = Pi::rng.Double(min_dist, max_dist);
-	const double z = Pi::rng.Double_closed(-1.0, 1.0);
-	const double theta = Pi::rng.Double(2.0*M_PI);
-	const double r = sqrt(1.0 - z*z) * dist;
-	return vector3d(r*cos(theta), r*sin(theta), z*dist);
-}
-
 vector3d Space::GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *dest)
 {
 	Sector source_sec(source->sectorX,source->sectorY,source->sectorZ);
@@ -131,7 +120,7 @@ vector3d Space::GetPositionAfterHyperspace(const SystemPath *source, const Syste
 	Sector::System dest_sys = dest_sec.m_systems[dest->systemIndex];
 	const vector3d sourcePos = vector3d(source_sys.p) + vector3d(source->sectorX, source->sectorY, source->sectorZ);
 	const vector3d destPos = vector3d(dest_sys.p) + vector3d(dest->sectorX, dest->sectorY, dest->sectorZ);
-	return (sourcePos - destPos).Normalized() * 11.0*AU + GetRandomPosition(5.0,20.0)*1000.0; // "hyperspace zone": 11 AU from primary
+	return (sourcePos - destPos).Normalized() * 11.0*AU + MathUtil::RandomPointOnSphere(5.0,20.0)*1000.0; // "hyperspace zone": 11 AU from primary
 }
 
 Body *Space::FindNearestTo(const Body *b, Object::Type t)

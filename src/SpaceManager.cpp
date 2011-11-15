@@ -7,6 +7,7 @@
 #include "Pi.h"
 #include "ShipCpanel.h"
 #include "Sfx.h"
+#include "MathUtil.h"
 
 SpaceManager::~SpaceManager()
 {
@@ -275,7 +276,7 @@ void SpaceManager::SwitchToNormalSpace()
 					SBody *sbody = m_space->GetStarSystem()->GetBodyByPath(&sdest);
 					if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
 						ship->SetFrame(target_body->GetFrame());
-						ship->SetPosition(m_space->GetRandomPosition(1000.0,1000.0)*1000.0); // somewhere 1000km out
+						ship->SetPosition(MathUtil::RandomPointOnSphere(1000.0)*1000.0); // somewhere 1000km out
 					}
 
 					else {
@@ -288,7 +289,7 @@ void SpaceManager::SwitchToNormalSpace()
 						double sdist = sbody->GetRadius()*2.0;
 
 						ship->SetFrame(target_body->GetFrame());
-						ship->SetPosition(m_space->GetRandomPosition(sdist,sdist));
+						ship->SetPosition(MathUtil::RandomPointOnSphere(sdist));
 					}
 				}
 			}

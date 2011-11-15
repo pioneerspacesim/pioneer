@@ -75,6 +75,7 @@ noinst_HEADERS = \
 	LuaUI.h \
 	LuaUtils.h \
 	MarketAgent.h \
+	MathUtil.h \
 	Missile.h \
 	ModelBody.h \
 	MyLuaMathTypes.h \
@@ -204,6 +205,7 @@ pioneer_SOURCES	= \
 	LuaUI.cpp \
 	LuaUtils.cpp \
 	MarketAgent.cpp \
+	MathUtil.cpp \
 	Missile.cpp \
 	ModelBody.cpp \
 	MyLuaMathTypes.cpp \

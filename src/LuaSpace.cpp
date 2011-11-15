@@ -14,6 +14,7 @@
 #include "SpaceStation.h"
 #include "Player.h"
 #include "SpaceManager.h"
+#include "MathUtil.h"
 
 /*
  * Interface: Space
@@ -130,7 +131,7 @@ static int l_space_spawn_ship(lua_State *l)
 	// XXX protect against spawning inside the body
 	thing->SetFrame(Pi::spaceManager->GetSpace()->GetRootFrame());
 	if (path == NULL)
-		thing->SetPosition(Space::GetRandomPosition(min_dist, max_dist)*AU);
+		thing->SetPosition(MathUtil::RandomPointOnSphere(min_dist, max_dist)*AU);
 	else
 		thing->SetPosition(Space::GetPositionAfterHyperspace(path, &(Pi::spaceManager->GetSpace()->GetStarSystem()->GetPath())));
 	thing->SetVelocity(vector3d(0,0,0));
@@ -207,7 +208,7 @@ static int l_space_spawn_ship_near(lua_State *l)
 
 	// XXX protect against spawning inside the body
 	thing->SetFrame(nearbody->GetFrame());
-	thing->SetPosition((Space::GetRandomPosition(min_dist, max_dist)* 1000.0) + nearbody->GetPosition());
+	thing->SetPosition((MathUtil::RandomPointOnSphere(min_dist, max_dist)* 1000.0) + nearbody->GetPosition());
 	thing->SetVelocity(vector3d(0,0,0));
 	Pi::spaceManager->GetSpace()->AddBody(thing);
 
