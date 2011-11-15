@@ -45,9 +45,6 @@ public:
 	void RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, double kgDamage);
 	void DoECM(const Frame *f, const vector3d &pos, int power_val);
 
-	void StartHyperspaceTo(Ship *s, const SystemPath *);
-	void DoHyperspaceTo(const SystemPath *);
-
 	Body *FindNearestTo(const Body *b, Object::Type t);
 	Body *FindBodyForPath(const SystemPath *path);
 
