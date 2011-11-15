@@ -17,7 +17,7 @@
 
 static const int GEOPATCH_MAX_EDGELEN = 55;
 int GeoSphere::s_vtxGenCount = 0;
-GeoPatchContext *GeoSphere::s_patchContext = 0;
+RefCountedPtr<GeoPatchContext> GeoSphere::s_patchContext;
 
 // must be odd numbers
 static const int detail_edgeLen[5] = {
@@ -316,7 +316,7 @@ public:
 
 class GeoPatch {
 public:
-	GeoPatchContext *ctx;
+	RefCountedPtr<GeoPatchContext> ctx;
 	vector3d v[4];
 	vector3d *vertices;
 	vector3d *normals;
@@ -334,11 +334,10 @@ public:
 	bool m_needUpdateVBOs;
 	double m_distMult;
 	
-	GeoPatch(GeoPatchContext *_ctx, GeoSphere *gs, vector3d v0, vector3d v1, vector3d v2, vector3d v3, int depth) {
+	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs, vector3d v0, vector3d v1, vector3d v2, vector3d v3, int depth) {
 		memset(this, 0, sizeof(GeoPatch));
 
 		ctx = _ctx;
-		ctx->IncRefCount();
 
 		geosphere = gs;
 
@@ -373,8 +372,6 @@ public:
 		delete[] normals;
 		delete[] colors;
 		geosphere->AddVBOToDestroy(m_vbo);
-
-		ctx->DecRefCount();
 	}
 
 	void UpdateVBOs() {
@@ -1070,9 +1067,8 @@ void GeoSphere::Init()
 	s_geosphereDimStarShader[3] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 4\n");
 	s_geosphereUpdateQueueLock = SDL_CreateMutex();
 
-	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
+	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
-	s_patchContext->IncRefCount();
 
 #ifdef GEOSPHERE_USE_THREADING
 	s_updateThread = SDL_CreateThread(&GeoSphere::UpdateLODThread, 0);
@@ -1091,8 +1087,8 @@ void GeoSphere::Uninit()
 	SDL_WaitThread(s_updateThread, 0);
 #endif /* GEOSPHERE_USE_THREADING */
 	
-	assert (s_patchContext->GetRefCount() == 1);
-	s_patchContext->DecRefCount();
+	assert (s_patchContext.Unique());
+	s_patchContext.Reset();
 
 	SDL_DestroyMutex(s_geosphereUpdateQueueLock);
 	for (int i=0; i<4; i++) delete s_geosphereDimStarShader[i];
@@ -1113,10 +1109,8 @@ static void print_info(const SBody *sbody, const Terrain *terrain)
 
 void GeoSphere::OnChangeDetailLevel()
 {
-	s_patchContext->DecRefCount();
-	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
+	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
-	s_patchContext->IncRefCount();
 
 	// cancel all queued updates
 	SDL_mutexP(s_geosphereUpdateQueueLock);
