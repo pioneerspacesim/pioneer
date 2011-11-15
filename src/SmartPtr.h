@@ -1,8 +1,9 @@
 #ifndef _SMARTPTR_H
 #define _SMARTPTR_H
 
-#include <cstddef>
+#include <cstddef> // for ptrdiff_t
 #include <cassert>
+#include <cstdlib> // for free()
 
 #ifdef __GNUC__
 #define WARN_UNUSED_RESULT(ret,decl) ret decl __attribute__ ((warn_unused_result))
