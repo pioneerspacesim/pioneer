@@ -112,7 +112,7 @@ void Camera::Update()
 
 	// evaluate each body and determine if/where/how to draw it
 	m_sortedBodies.clear();
-	for (Space::BodyIterator i = Pi::spaceManager->GetSpace()->GetBodies().begin(); i != Pi::spaceManager->GetSpace()->GetBodies().end(); ++i) {
+	for (Space::BodyIterator i = Pi::spaceManager->GetSpace()->IteratorBegin(); i != Pi::spaceManager->GetSpace()->IteratorEnd(); ++i) {
 		Body *b = *i;
 
 		// prepare attrs for sorting and drawing

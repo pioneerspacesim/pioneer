@@ -23,11 +23,9 @@ void SpaceManager::CreateSpaceForDockedStart(const SystemPath &path)
 	m_space = new Space(path);
 	m_space->TimeStep(0);
 	
-	assert(m_space->GetBodies().size() > path.bodyIndex);
-
 	SpaceStation *station = 0;
 	Uint32 idx = path.bodyIndex;
-	for (Space::BodyIterator i = m_space->GetBodies().begin(); i != m_space->GetBodies().end(); ++i)
+	for (Space::BodyIterator i = m_space->IteratorBegin(); i != m_space->IteratorEnd(); ++i)
 		if (--idx == 0) {
 			assert((*i)->IsType(Object::SPACESTATION));
 			station = static_cast<SpaceStation*>(*i);
@@ -55,11 +53,9 @@ void SpaceManager::CreateSpaceForFreeStart(const SystemPath &path, const vector3
 	m_space = new Space(path);
 	m_space->TimeStep(0);
 	
-	assert(m_space->GetBodies().size() > path.bodyIndex);
-
 	Body *b = 0;
 	Uint32 idx = path.bodyIndex;
-	for (Space::BodyIterator i = m_space->GetBodies().begin(); i != m_space->GetBodies().end(); ++i)
+	for (Space::BodyIterator i = m_space->IteratorBegin(); i != m_space->IteratorEnd(); ++i)
 		if (--idx == 0) {
 			b = *i;
 			break;
@@ -121,7 +117,7 @@ void SpaceManager::SwitchToHyperspace()
 	// find all the departure clouds, convert them to arrival clouds and store
 	// them for the next system
 	m_hyperspaceClouds.clear();
-	for (Space::BodyIterator i = m_space->GetBodies().begin(); i != m_space->GetBodies().end(); ++i) {
+	for (Space::BodyIterator i = m_space->IteratorBegin(); i != m_space->IteratorEnd(); ++i) {
 
 		if (!(*i)->IsType(Object::HYPERSPACECLOUD)) continue;
 

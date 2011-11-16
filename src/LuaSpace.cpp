@@ -463,7 +463,7 @@ static int l_space_get_bodies(lua_State *l)
 	lua_newtable(l);
 	pi_lua_table_ro(l);
 
-	for (Space::BodyIterator i = Pi::spaceManager->GetSpace()->GetBodies().begin(); i != Pi::spaceManager->GetSpace()->GetBodies().end(); i++) {
+	for (Space::BodyIterator i = Pi::spaceManager->GetSpace()->IteratorBegin(); i != Pi::spaceManager->GetSpace()->IteratorEnd(); ++i) {
 		Body *b = *i;
 
 		if (filter) {

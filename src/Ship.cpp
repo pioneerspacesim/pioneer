@@ -719,7 +719,7 @@ void Ship::UpdateAlertState()
 	}
 
 	bool ship_is_near = false, ship_is_firing = false;
-	for (Space::BodyIterator i = Pi::spaceManager->GetSpace()->GetBodies().begin(); i != Pi::spaceManager->GetSpace()->GetBodies().end(); i++)
+	for (Space::BodyIterator i = Pi::spaceManager->GetSpace()->IteratorBegin(); i != Pi::spaceManager->GetSpace()->IteratorEnd(); ++i)
 	{
 		if ((*i) == this) continue;
 		if (!(*i)->IsType(Object::SHIP) || (*i)->IsType(Object::MISSILE)) continue;

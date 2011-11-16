@@ -47,9 +47,8 @@ public:
 	Body *FindBodyForPath(const SystemPath *path);
 
 	typedef std::list<Body*>::const_iterator BodyIterator;
-	const std::list<Body*> &GetBodies() const {
-		return m_bodies;
-	}
+	const BodyIterator IteratorBegin() const { return m_bodies.begin(); }
+	const BodyIterator IteratorEnd() const { return m_bodies.end(); }
 
 private:
 	void GenBody(SBody *b, Frame *f);

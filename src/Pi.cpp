@@ -627,7 +627,7 @@ void Pi::SetTimeAccel(int s)
 
 	// Give all ships a half-step acceleration to stop autopilot overshoot
 	if (s < timeAccelIdx)
-		for (Space::BodyIterator i = spaceManager->GetSpace()->GetBodies().begin(); i != spaceManager->GetSpace()->GetBodies().end(); ++i)
+		for (Space::BodyIterator i = spaceManager->GetSpace()->IteratorBegin(); i != spaceManager->GetSpace()->IteratorEnd(); ++i)
 			if ((*i)->IsType(Object::SHIP))
 				(static_cast<DynamicBody *>(*i))->ApplyAccel(0.5f*Pi::GetTimeStep());
 	timeAccelIdx = s;
@@ -1331,7 +1331,7 @@ void Pi::MainLoop()
 		
 		/* Calculate position for this rendered frame (interpolated between two physics ticks */
         // XXX should this be here? what is this anyway?
-		for (Space::BodyIterator i = spaceManager->GetSpace()->GetBodies().begin(); i != spaceManager->GetSpace()->GetBodies().end(); ++i) {
+		for (Space::BodyIterator i = spaceManager->GetSpace()->IteratorBegin(); i != spaceManager->GetSpace()->IteratorEnd(); ++i) {
 			(*i)->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 		}
 		spaceManager->GetSpace()->GetRootFrame()->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
@@ -1382,7 +1382,7 @@ void Pi::MainLoop()
 
 			else if (!Pi::forceTimeAccel) {
 				// check we aren't too near to objects for timeaccel //
-				for (Space::BodyIterator i = spaceManager->GetSpace()->GetBodies().begin(); i != spaceManager->GetSpace()->GetBodies().end(); ++i) {
+				for (Space::BodyIterator i = spaceManager->GetSpace()->IteratorBegin(); i != spaceManager->GetSpace()->IteratorEnd(); ++i) {
 					if ((*i) == Pi::player) continue;
 					if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
 				
