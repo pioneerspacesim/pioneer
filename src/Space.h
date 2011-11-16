@@ -26,7 +26,7 @@ public:
 
 	virtual ~Space();
 
-	//void Save(Serializer::Writer &wr);
+	void Serialize(Serializer::Writer &wr);
 
 	RefCountedPtr<StarSystem> GetStarSystem() const { return m_starSystem; }
 

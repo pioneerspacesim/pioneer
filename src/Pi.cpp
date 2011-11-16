@@ -1500,15 +1500,11 @@ void Pi::Serialize(Serializer::Writer &wr)
 	section = Serializer::Writer();
 	section.Double(gameTime);
 	StarSystem::Serialize(section, selectedSystem.Get());
-	StarSystem::Serialize(section, spaceManager->GetSpace()->GetStarSystem().Get());
 	wr.WrSection("PiMisc", section.GetData());
 	
-	/*
 	section = Serializer::Writer();
-	Space::Serialize(section);
-	wr.WrSection("Space", section.GetData());
-	*/
-	assert(0);
+	spaceManager->Serialize(wr);
+	wr.WrSection("SpaceManager", section.GetData());
 
 	section = Serializer::Writer();
 	Polit::Serialize(section);

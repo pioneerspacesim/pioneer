@@ -52,6 +52,19 @@ Space::~Space()
 	UpdateBodies();
 }
 
+void Space::Serialize(Serializer::Writer &wr)
+{
+	Serializer::Writer section;
+	Frame::Serialize(section, m_rootFrame.Get());
+	wr.WrSection("Frames", section.GetData());
+
+	StarSystem::Serialize(wr, m_starSystem.Get());
+
+	wr.Int32(m_bodies.size());
+	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
+		(*i)->Serialize(wr);
+}
+
 void Space::AddBody(Body *b)
 {
 	m_bodies.push_back(b);
@@ -127,37 +140,6 @@ Body *Space::FindBodyForPath(const SystemPath *path)
 	return 0;
 }
 
-
-
-
-/*
-void Serialize(Serializer::Writer &wr)
-{
-	Serializer::Writer wr2;
-	Frame::Serialize(wr2, m_rootFrame);
-	wr.WrSection("Frames", wr2.GetData());
-
-	wr.Int32(m_bodies.size());
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
-		//printf("Serializing %s\n", (*i)->GetLabel().c_str());
-		(*i)->Serialize(wr);
-	}
-	wr.Int32(storedArrivalClouds.size());
-	for (std::list<HyperspaceCloud*>::iterator i = storedArrivalClouds.begin();
-			i != storedArrivalClouds.end(); ++i) {
-		(*i)->Serialize(wr);
-	}
-	if (hyperspacingTo == 0) {
-		wr.Byte(0);
-	} else {
-		wr.Byte(1);
-		hyperspacingTo->Serialize(wr);
-		wr.Float(hyperspaceAnim);
-		wr.Double(hyperspaceDuration);
-		wr.Double(hyperspaceEndTime);
-	}
-}
-*/
 
 /*
 void Unserialize(Serializer::Reader &rd)

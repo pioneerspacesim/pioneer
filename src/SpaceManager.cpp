@@ -9,6 +9,24 @@
 #include "Sfx.h"
 #include "MathUtil.h"
 
+void SpaceManager::Serialize(Serializer::Writer &wr)
+{
+	Serializer::Writer section;
+	m_space->Serialize(section);
+	wr.WrSection("Space", section.GetData());
+
+	wr.Int32(m_hyperspaceClouds.size());
+	for (std::list<HyperspaceCloud*>::const_iterator i = m_hyperspaceClouds.begin(); i != m_hyperspaceClouds.end(); ++i)
+		(*i)->Serialize(wr);
+
+	wr.Int32(Serializer::LookupBody(m_player));
+	wr.Int32(Uint32(m_state));
+	wr.Bool(m_wantHyperspace);
+	wr.Double(m_hyperspaceProgress);
+	wr.Double(m_hyperspaceDuration);
+	wr.Double(m_hyperspaceEndTime);
+}
+
 void SpaceManager::CreateSpaceForDockedStart(const SystemPath &path)
 {
 	assert(m_state == STATE_NONE);

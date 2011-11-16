@@ -6,6 +6,7 @@
 
 #include "vector3.h"
 #include "SystemPath.h"
+#include "Serializer.h"
 
 class Space;
 class Player;
@@ -20,6 +21,8 @@ public:
 	};
 
 	SpaceManager(Player *player) : m_player(player), m_state(STATE_NONE), m_space(0), m_wantHyperspace(false) {}
+
+	void Serialize(Serializer::Writer &wr);
 
 	bool IsNormalSpace() const { return m_state == STATE_NORMAL; }
 	bool IsHyperspace() const { return m_state == STATE_HYPERSPACE; }
@@ -51,7 +54,7 @@ private:
 
 	std::list<HyperspaceCloud*> m_hyperspaceClouds;
 	SystemPath m_hyperspaceSource;
-	float m_hyperspaceProgress;
+	double m_hyperspaceProgress;
 	double m_hyperspaceDuration;
 	double m_hyperspaceEndTime;
 };
