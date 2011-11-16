@@ -23,8 +23,8 @@
 
 Space::Space()
 {
-	rootFrame = new Frame(0, Lang::SYSTEM);
-	rootFrame->SetRadius(FLT_MAX);
+	m_rootFrame = new Frame(0, Lang::SYSTEM);
+	m_rootFrame->SetRadius(FLT_MAX);
 }
 
 Space::Space(const SystemPath &path)
@@ -32,11 +32,11 @@ Space::Space(const SystemPath &path)
 	m_starSystem = StarSystem::GetCached(path);
 
 	// XXX set radius in constructor
-	rootFrame = new Frame(0, Lang::SYSTEM);
-	rootFrame->SetRadius(FLT_MAX);
+	m_rootFrame = new Frame(0, Lang::SYSTEM);
+	m_rootFrame->SetRadius(FLT_MAX);
 
-	GenBody(m_starSystem->rootBody, rootFrame);
-	rootFrame->UpdateOrbitRails();
+	GenBody(m_starSystem->rootBody, m_rootFrame);
+	m_rootFrame->UpdateOrbitRails();
 }
 
 Space::Space(Serializer::Reader &rd)
@@ -51,7 +51,7 @@ Space::~Space()
 		KillBody(*i);
 	UpdateBodies();
 
-	delete rootFrame;
+	delete m_rootFrame;
 }
 
 void Space::AddBody(Body *b)
@@ -136,7 +136,7 @@ Body *Space::FindBodyForPath(const SystemPath *path)
 void Serialize(Serializer::Writer &wr)
 {
 	Serializer::Writer wr2;
-	Frame::Serialize(wr2, rootFrame);
+	Frame::Serialize(wr2, m_rootFrame);
 	wr.WrSection("Frames", wr2.GetData());
 
 	wr.Int32(m_bodies.size());
@@ -167,7 +167,7 @@ void Unserialize(Serializer::Reader &rd)
 	Serializer::IndexSystemm_bodies(Pi::spaceManager->GetSpace()->GetStarSystem().Get());
 	
 	Serializer::Reader rd2 = rd.RdSection("Frames");
-	rootFrame = Frame::Unserialize(rd2, 0);
+	m_rootFrame = Frame::Unserialize(rd2, 0);
 	
 	// XXX not needed. done in Pi::Unserialize
 	Serializer::IndexFrames();
@@ -195,7 +195,7 @@ void Unserialize(Serializer::Reader &rd)
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
 		(*i)->PostLoadFixup();
 	}
-	Frame::PostUnserializeFixup(rootFrame);
+	Frame::PostUnserializeFixup(m_rootFrame);
 }
 */
 
@@ -215,7 +215,7 @@ static Frame *find_frame_with_sbody(Frame *f, const SBody *b)
 
 Frame *Space::GetFrameWithSBody(const SBody *b)
 {
-	return find_frame_with_sbody(rootFrame, b);
+	return find_frame_with_sbody(m_rootFrame, b);
 }
 
 static void SetFrameOrientationFromSBodyAxialTilt(Frame *f, const SBody *sbody)
@@ -519,7 +519,7 @@ void Space::CollideFrame(Frame *f)
 void Space::TimeStep(float step)
 {
 	// XXX does not need to be done this often
-	Space::CollideFrame(rootFrame);
+	Space::CollideFrame(m_rootFrame);
 
 	// update frames of reference
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
@@ -529,7 +529,7 @@ void Space::TimeStep(float step)
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->StaticUpdate(step);
 
-	rootFrame->UpdateOrbitRails();
+	m_rootFrame->UpdateOrbitRails();
 
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);

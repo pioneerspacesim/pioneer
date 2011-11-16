@@ -29,7 +29,7 @@ public:
 
 	RefCountedPtr<StarSystem> GetStarSystem() const { return m_starSystem; }
 
-	Frame *GetRootFrame() const { return rootFrame; }
+	Frame *GetRootFrame() const { return m_rootFrame; }
 
 	void AddBody(Body *);
 	void RemoveBody(Body *);
@@ -55,7 +55,7 @@ private:
 
 	void CollideFrame(Frame *f);
 
-	Frame *rootFrame;
+	Frame *m_rootFrame;
 
 	RefCountedPtr<StarSystem> m_starSystem;
 
