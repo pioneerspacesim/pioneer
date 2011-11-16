@@ -23,13 +23,14 @@ public:
 
 	// initialise from save file
 	Space(Serializer::Reader &rd);
+
 	virtual ~Space();
 
 	//void Save(Serializer::Writer &wr);
 
 	RefCountedPtr<StarSystem> GetStarSystem() const { return m_starSystem; }
 
-	Frame *GetRootFrame() const { return m_rootFrame; }
+	Frame *GetRootFrame() const { return m_rootFrame.Get(); }
 
 	void AddBody(Body *);
 	void RemoveBody(Body *);
@@ -55,7 +56,7 @@ private:
 
 	void CollideFrame(Frame *f);
 
-	Frame *m_rootFrame;
+	ScopedPtr<Frame> m_rootFrame;
 
 	RefCountedPtr<StarSystem> m_starSystem;
 

@@ -20,12 +20,11 @@ public:
 	};
 
 	SpaceManager(Player *player) : m_player(player), m_state(STATE_NONE), m_space(0), m_wantHyperspace(false) {}
-	~SpaceManager();
 
 	bool IsNormalSpace() const { return m_state == STATE_NORMAL; }
 	bool IsHyperspace() const { return m_state == STATE_HYPERSPACE; }
 
-	Space *GetSpace() const { return m_space; }
+	Space *GetSpace() const { return m_space.Get(); }
 
 	void CreateSpaceForDockedStart(const SystemPath &path);
 	void CreateSpaceForFreeStart(const SystemPath &path, const vector3d &pos);
@@ -45,7 +44,8 @@ private:
 	Player *m_player;
 
 	State m_state;
-	Space *m_space;
+
+	ScopedPtr<Space> m_space;
 
 	bool m_wantHyperspace;
 

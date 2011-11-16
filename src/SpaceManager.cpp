@@ -9,18 +9,12 @@
 #include "Sfx.h"
 #include "MathUtil.h"
 
-SpaceManager::~SpaceManager()
-{
-	if (m_space)
-		delete m_space;
-}
-
 void SpaceManager::CreateSpaceForDockedStart(const SystemPath &path)
 {
 	assert(m_state == STATE_NONE);
 	assert(!m_space);
 
-	m_space = new Space(path);
+	m_space.Reset(new Space(path));
 	m_space->TimeStep(0);
 	
 	SpaceStation *station = 0;
@@ -50,7 +44,7 @@ void SpaceManager::CreateSpaceForFreeStart(const SystemPath &path, const vector3
 	assert(m_state == STATE_NONE);
 	assert(!m_space);
 
-	m_space = new Space(path);
+	m_space.Reset(new Space(path));
 	m_space->TimeStep(0);
 	
 	Body *b = 0;
@@ -152,11 +146,8 @@ void SpaceManager::SwitchToHyperspace()
 	// remove the player from space
 	m_space->RemoveBody(m_player);
 
-	// delete the rest of it
-	delete m_space;
-
 	// create hyperspace :)
-	m_space = new Space();
+	m_space.Reset(new Space());
 
 	// put the player in it
 	m_player->SetFrame(m_space->GetRootFrame());
@@ -184,12 +175,9 @@ void SpaceManager::SwitchToNormalSpace()
 	// remove the player from hyperspace
 	m_space->RemoveBody(m_player);
 
-	// leave hyperspace
-	delete m_space;
-
 	// create a new space for the system
 	const SystemPath &dest = m_player->GetHyperspaceDest();
-	m_space = new Space(dest);
+	m_space.Reset(new Space(dest));
 
 	// put the player in it
 	m_player->SetFrame(m_space->GetRootFrame());

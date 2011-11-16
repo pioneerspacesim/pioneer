@@ -23,7 +23,7 @@
 
 Space::Space()
 {
-	m_rootFrame = new Frame(0, Lang::SYSTEM);
+	m_rootFrame.Reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 }
 
@@ -32,10 +32,10 @@ Space::Space(const SystemPath &path)
 	m_starSystem = StarSystem::GetCached(path);
 
 	// XXX set radius in constructor
-	m_rootFrame = new Frame(0, Lang::SYSTEM);
+	m_rootFrame.Reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 
-	GenBody(m_starSystem->rootBody, m_rootFrame);
+	GenBody(m_starSystem->rootBody, m_rootFrame.Get());
 	m_rootFrame->UpdateOrbitRails();
 }
 
@@ -50,8 +50,6 @@ Space::~Space()
 	for (std::list<Body*>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		KillBody(*i);
 	UpdateBodies();
-
-	delete m_rootFrame;
 }
 
 void Space::AddBody(Body *b)
@@ -215,7 +213,7 @@ static Frame *find_frame_with_sbody(Frame *f, const SBody *b)
 
 Frame *Space::GetFrameWithSBody(const SBody *b)
 {
-	return find_frame_with_sbody(m_rootFrame, b);
+	return find_frame_with_sbody(m_rootFrame.Get(), b);
 }
 
 static void SetFrameOrientationFromSBodyAxialTilt(Frame *f, const SBody *sbody)
@@ -519,7 +517,7 @@ void Space::CollideFrame(Frame *f)
 void Space::TimeStep(float step)
 {
 	// XXX does not need to be done this often
-	Space::CollideFrame(m_rootFrame);
+	CollideFrame(m_rootFrame.Get());
 
 	// update frames of reference
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
