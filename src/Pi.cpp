@@ -1459,8 +1459,7 @@ void Pi::MainLoop()
 			phys_stat = 0;
 			TextureFont::ClearGlyphCount();
 			GeoSphere::ClearVtxGenCount();
-			last_stats += 1000;
-			GeoSphere::ClearVtxGenCount();
+			last_stats = SDL_GetTicks();
 		}
 		Pi::statSceneTris = 0;
 		LmrModelClearStatsTris();

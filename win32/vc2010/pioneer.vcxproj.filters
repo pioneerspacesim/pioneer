@@ -1139,6 +1139,9 @@
     <ClInclude Include="..\src\Gamma.h">
       <Filter>win32\src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\SmartPtr.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am">

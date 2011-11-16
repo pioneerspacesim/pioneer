@@ -1675,6 +1675,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\SmartPtr.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Sound.h"
 				>
 			</File>
