@@ -39,10 +39,6 @@ public:
 
 	vector3d GetHyperspaceExitPoint(const SystemPath &source);
 
-	// XXX these may belong elsewhere
-	void RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, double kgDamage);
-	void DoECM(const Frame *f, const vector3d &pos, int power_val);
-
 	Body *FindNearestTo(const Body *b, Object::Type t);
 	Body *FindBodyForPath(const SystemPath *path);
 

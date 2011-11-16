@@ -84,7 +84,21 @@ bool Missile::OnDamage(Object *attacker, float kgDamage)
 void Missile::Explode()
 {
 	Pi::spaceManager->GetSpace()->KillBody(this);
-	Pi::spaceManager->GetSpace()->RadiusDamage(m_owner, GetFrame(), GetPosition(), 200.0f, 10000.0f);
+
+	const double damageRadius = 200.0;
+	const double kgDamage = 10000.0;
+
+	for (Space::BodyIterator i = Pi::spaceManager->GetSpace()->IteratorBegin(); i != Pi::spaceManager->GetSpace()->IteratorEnd(); ++i) {
+		if ((*i)->GetFrame() != GetFrame()) continue;
+		double dist = ((*i)->GetPosition() - GetPosition()).Length();
+		if (dist < damageRadius) {
+			// linear damage decay with distance
+			(*i)->OnDamage(m_owner, kgDamage * (damageRadius - dist) / damageRadius);
+			if ((*i)->IsType(Object::SHIP))
+				Pi::luaOnShipHit->Queue(dynamic_cast<Ship*>(*i), m_owner);
+		}
+	}
+
 	Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 }
 

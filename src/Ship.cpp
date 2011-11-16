@@ -518,10 +518,26 @@ void Ship::UseECM()
 {
 	const Equip::Type t = m_equipment.Get(Equip::SLOT_ECM);
 	if (m_ecmRecharge > 0.0f) return;
+
 	if (t != Equip::NONE) {
 		Sound::BodyMakeNoise(this, "ECM", 1.0f);
 		m_ecmRecharge = GetECMRechargeTime();
-		Pi::spaceManager->GetSpace()->DoECM(GetFrame(), GetPosition(), Equip::types[t].pval);
+
+		// damage neaby missiles
+		const float ECM_RADIUS = 4000.0f;
+
+		for (Space::BodyIterator i = Pi::spaceManager->GetSpace()->IteratorBegin(); i != Pi::spaceManager->GetSpace()->IteratorEnd(); ++i) {
+			if ((*i)->GetFrame() != GetFrame()) continue;
+			if (!(*i)->IsType(Object::MISSILE)) continue;
+
+			double dist = ((*i)->GetPosition() - GetPosition()).Length();
+			if (dist < ECM_RADIUS) {
+				// increasing chance of destroying it with proximity
+				if (Pi::rng.Double() > (dist / ECM_RADIUS)) {
+					static_cast<Missile*>(*i)->ECMAttack(Equip::types[t].pval);
+				}
+			}
+		}
 	}
 }
 
