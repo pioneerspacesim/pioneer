@@ -135,7 +135,7 @@ void AmbientSounds::Update()
 			stationNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
 		}
 		{
-			if (Pi::spaceManager->GetState() == SpaceManager::STATE_NORMAL) {
+			if (Pi::spaceManager->IsNormalSpace()) {
 				StarSystem *s = Pi::spaceManager->GetSpace()->GetStarSystem().Get();
 				if (astroNoiseSeed != s->m_seed) {
 					// change sound!
