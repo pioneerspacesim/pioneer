@@ -21,7 +21,7 @@ public:
 	virtual vector3d GetVelocity() const { return m_vel; }
 	virtual double GetBoundingRadius() const { return 1200.0; }
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
-	virtual void PostLoadFixup();
+	virtual void PostLoadFixup(Space *space);
 	virtual void TimeStepUpdate(const float timeStep);
 	Ship *GetShip() { return m_ship; }
 	Ship *EvictShip();
@@ -31,7 +31,7 @@ public:
 	virtual void UpdateInterpolatedTransform(double alpha);
 protected:
 	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
+	virtual void Load(Serializer::Reader &rd, Space *space);
 private:
 	Ship *m_ship;
 	vector3d m_pos;

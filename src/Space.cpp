@@ -49,9 +49,12 @@ Space::Space(Serializer::Reader &rd) : m_indexesValid(false)
 
 	Uint32 nbodies = rd.Int32();
 	for (Uint32 i = 0; i < nbodies; i++)
-		m_bodies.push_back(Body::Unserialize(rd));
+		m_bodies.push_back(Body::Unserialize(rd, this));
 	
 	RebuildIndexes();
+
+	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
+		(*i)->PostLoadFixup(this);
 }
 
 Space::~Space()

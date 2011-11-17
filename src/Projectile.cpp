@@ -35,9 +35,9 @@ void Projectile::Save(Serializer::Writer &wr)
 	wr.Int32(space->GetIndexForBody(m_parent));
 }
 
-void Projectile::Load(Serializer::Reader &rd)
+void Projectile::Load(Serializer::Reader &rd, Space *space)
 {
-	Body::Load(rd);
+	Body::Load(rd, space);
 	for (int i=0; i<16; i++) m_orient[i] = rd.Double();
 	m_baseVel = rd.Vector3d();
 	m_dirVel = rd.Vector3d();
@@ -46,9 +46,8 @@ void Projectile::Load(Serializer::Reader &rd)
 	m_parentIndex = rd.Int32();
 }
 
-void Projectile::PostLoadFixup()
+void Projectile::PostLoadFixup(Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
 	m_parent = space->GetBodyByIndex(m_parentIndex);
 }
 

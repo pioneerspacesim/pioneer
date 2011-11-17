@@ -16,7 +16,7 @@ SpaceManager::SpaceManager(Serializer::Reader &rd)
 
 	Uint32 nclouds = rd.Int32();
 	for (Uint32 i = 0; i < nclouds; i++)
-		m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud*>(Body::Unserialize(rd)));
+		m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud*>(Body::Unserialize(rd, 0)));
 	
 	m_player = static_cast<Player*>(m_space->GetBodyByIndex(rd.Int32()));
 	m_state = State(rd.Int32());

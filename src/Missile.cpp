@@ -29,10 +29,9 @@ void Missile::ECMAttack(int power_val)
 	}
 }
 
-void Missile::PostLoadFixup()
+void Missile::PostLoadFixup(Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
-	Ship::PostLoadFixup();
+	Ship::PostLoadFixup(space);
 	m_owner = space->GetBodyByIndex(m_ownerIndex);
 	m_target = space->GetBodyByIndex(m_targetIndex);
 }
@@ -47,9 +46,9 @@ void Missile::Save(Serializer::Writer &wr)
 	wr.Int32(m_power);
 }
 
-void Missile::Load(Serializer::Reader &rd)
+void Missile::Load(Serializer::Reader &rd, Space *space)
 {
-	Ship::Load(rd);
+	Ship::Load(rd, space);
 	m_ownerIndex = rd.Int32();
 	m_targetIndex = rd.Int32();
 	m_distToTarget = rd.Double();

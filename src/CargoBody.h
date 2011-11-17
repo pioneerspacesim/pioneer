@@ -16,7 +16,7 @@ public:
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 protected:
 	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
+	virtual void Load(Serializer::Reader &rd, Space *space);
 private:
 	void Init();
 	Equip::Type m_type;

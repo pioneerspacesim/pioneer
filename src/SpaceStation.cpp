@@ -250,11 +250,9 @@ void SpaceStation::Save(Serializer::Writer &wr)
 	wr.Int32(m_numPoliceDocked);
 }
 
-void SpaceStation::Load(Serializer::Reader &rd)
+void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
-
-	ModelBody::Load(rd);
+	ModelBody::Load(rd, space);
 	MarketAgent::Load(rd);
 	int num = rd.Int32();
 	if (num > Equip::TYPE_MAX) throw SavedGameCorruptException();
@@ -287,10 +285,8 @@ void SpaceStation::Load(Serializer::Reader &rd)
 	InitStation();
 }
 
-void SpaceStation::PostLoadFixup()
+void SpaceStation::PostLoadFixup(Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
-
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		m_shipDocking[i].ship = static_cast<Ship*>(space->GetBodyByIndex(m_shipDocking[i].shipIndex));
 	}

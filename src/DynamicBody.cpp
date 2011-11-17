@@ -66,9 +66,9 @@ void DynamicBody::Save(Serializer::Writer &wr)
 	wr.Bool(m_enabled);
 }
 
-void DynamicBody::Load(Serializer::Reader &rd)
+void DynamicBody::Load(Serializer::Reader &rd, Space *space)
 {
-	ModelBody::Load(rd);
+	ModelBody::Load(rd, space);
 	for (int i=0; i<16; i++) m_orient[i] = rd.Double();
 	m_oldOrient = m_orient;
 	m_force = rd.Vector3d();
@@ -81,7 +81,7 @@ void DynamicBody::Load(Serializer::Reader &rd)
 	m_enabled = rd.Bool();
 }
 
-void DynamicBody::PostLoadFixup()
+void DynamicBody::PostLoadFixup(Space *space)
 {
 	CalcExternalForce();
 }

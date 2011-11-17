@@ -30,7 +30,7 @@ public:
 	static AICommand *Load(Serializer::Reader &rd);
 	AICommand(Serializer::Reader &rd, CmdName name);
 	virtual void Save(Serializer::Writer &wr);
-	virtual void PostLoadFixup();
+	virtual void PostLoadFixup(Space *space);
 
 	// Signal functions
 	virtual void OnDeleted(const Body *body) { if (m_child) m_child->OnDeleted(body); }
@@ -87,9 +87,8 @@ public:
 		m_dockpos = rd.Vector3d(); m_dockdir = rd.Vector3d();
 		m_dockupdir = rd.Vector3d(); m_state = rd.Int32();
 	}
-	virtual void PostLoadFixup() {
-        Space *space = Pi::spaceManager->GetSpace();
-		AICommand::PostLoadFixup();
+	virtual void PostLoadFixup(Space *space) {
+		AICommand::PostLoadFixup(space);
 		m_target = static_cast<SpaceStation *>(space->GetBodyByIndex(m_targetIndex));
 	}
 	virtual void OnDeleted(const Body *body) {
@@ -134,9 +133,8 @@ public:
 		m_state = rd.Int32();
 		m_tangent = rd.Bool();
 	}
-	virtual void PostLoadFixup() {
-        Space *space = Pi::spaceManager->GetSpace();
-		AICommand::PostLoadFixup(); m_frame = 0;		// regen
+	virtual void PostLoadFixup(Space *space) {
+		AICommand::PostLoadFixup(space); m_frame = 0;		// regen
 		m_targframe = space->GetFrameByIndex(m_targframeIndex);
 	}
 
@@ -183,9 +181,8 @@ public:
 		m_targetIndex = rd.Int32();
 		m_posoff = rd.Vector3d();
 	}
-	virtual void PostLoadFixup() {
-        Space *space = Pi::spaceManager->GetSpace();
-		AICommand::PostLoadFixup();
+	virtual void PostLoadFixup(Space *space) {
+		AICommand::PostLoadFixup(space);
 		m_obstructor = space->GetBodyByIndex(m_obstructorIndex);
 		if (m_targmode == 2) m_target = space->GetBodyByIndex(m_targetIndex);
 		else m_targframe = space->GetFrameByIndex(m_targetIndex);
@@ -230,9 +227,8 @@ public:
 	AICmdKill(Serializer::Reader &rd) : AICommand(rd, CMD_KILL) {
 		m_targetIndex = rd.Int32();
 	}
-	virtual void PostLoadFixup() {
-        Space *space = Pi::spaceManager->GetSpace();
-		AICommand::PostLoadFixup();
+	virtual void PostLoadFixup(Space *space) {
+		AICommand::PostLoadFixup(space);
 		m_target = static_cast<Ship *>(space->GetBodyByIndex(m_targetIndex));
 		m_leadTime = m_evadeTime = m_closeTime = 0.0;
 		m_lastVel = m_target->GetVelocity();
@@ -265,9 +261,8 @@ public:
 	AICmdKamikaze(Serializer::Reader &rd) : AICommand(rd, CMD_KAMIKAZE) {
 		m_targetIndex = rd.Int32();
 	}
-	virtual void PostLoadFixup() {
-        Space *space = Pi::spaceManager->GetSpace();
-		AICommand::PostLoadFixup();
+	virtual void PostLoadFixup(Space *space) {
+		AICommand::PostLoadFixup(space);
 		m_target = space->GetBodyByIndex(m_targetIndex);
 	}
 

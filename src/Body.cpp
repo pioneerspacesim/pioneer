@@ -11,6 +11,7 @@
 #include "Missile.h"
 #include "HyperspaceCloud.h"
 #include "Pi.h"
+#include "Space.h"
 #include "SpaceManager.h"
 
 Body::Body()
@@ -34,9 +35,8 @@ void Body::Save(Serializer::Writer &wr)
 	wr.Bool(m_hasDoubleFrame);
 }
 
-void Body::Load(Serializer::Reader &rd)
+void Body::Load(Serializer::Reader &rd, Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
 	m_frame = space->GetFrameByIndex(rd.Int32());
 	m_label = rd.String();
 	m_dead = rd.Bool();
@@ -69,7 +69,7 @@ void Body::Serialize(Serializer::Writer &_wr)
 	_wr.WrSection("Body", wr.GetData());
 }
 
-Body *Body::Unserialize(Serializer::Reader &_rd)
+Body *Body::Unserialize(Serializer::Reader &_rd, Space *space)
 {
 	Serializer::Reader rd = _rd.RdSection("Body");
 	Body *b = 0;
@@ -96,7 +96,7 @@ Body *Body::Unserialize(Serializer::Reader &_rd)
 		default:
 			assert(0);
 	}
-	b->Load(rd);
+	b->Load(rd, space);
 	// must SetFrame() correctly so ModelBodies can add geom to space
 	Frame *f = b->m_frame;
 	b->m_frame = 0;

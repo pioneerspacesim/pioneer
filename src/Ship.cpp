@@ -97,9 +97,9 @@ void Ship::Save(Serializer::Writer &wr)
 	wr.Int32(int(m_aiMessage));
 }
 
-void Ship::Load(Serializer::Reader &rd)
+void Ship::Load(Serializer::Reader &rd, Space *space)
 {
-	DynamicBody::Load(rd);
+	DynamicBody::Load(rd, space);
 	// needs fixups
 	m_angThrusters = rd.Vector3d();
 	m_thrusters = rd.Vector3d();
@@ -153,11 +153,10 @@ void Ship::Init()
 	m_hyperspaceCloud = 0;
 }
 
-void Ship::PostLoadFixup()
+void Ship::PostLoadFixup(Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
 	m_dockedWith = reinterpret_cast<SpaceStation*>(space->GetBodyByIndex(m_dockedWithIndex));
-	if (m_curAICmd) m_curAICmd->PostLoadFixup();
+	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
 }
 
 Ship::Ship(ShipType::Type shipType): DynamicBody()

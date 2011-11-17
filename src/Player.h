@@ -63,7 +63,7 @@ public:
 
 	RefList<Mission> missions;
 
-	virtual void PostLoadFixup();
+	virtual void PostLoadFixup(Space *space);
 
 	/* MarketAgent stuff */
 	int GetStock(Equip::Type t) const { assert(0); return 0; }
@@ -73,7 +73,7 @@ public:
 	Sint64 GetPrice(Equip::Type t) const;
 protected:
 	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
+	virtual void Load(Serializer::Reader &rd, Space *space);
 
 	virtual void OnEnterSystem();
 	virtual void OnEnterHyperspace();

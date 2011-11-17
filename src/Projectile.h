@@ -21,10 +21,10 @@ public:
 	void StaticUpdate(const float timeStep);
 	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual void UpdateInterpolatedTransform(double alpha);
-	virtual void PostLoadFixup();
+	virtual void PostLoadFixup(Space *space);
 protected:
 	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
+	virtual void Load(Serializer::Reader &rd, Space *space);
 private:
 	float GetDamage() const;
 	Body *m_parent;

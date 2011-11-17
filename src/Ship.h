@@ -164,7 +164,7 @@ public:
 	SerializableEquipSet m_equipment;			// shouldn't be public?...
 	shipstats_t m_stats;
 
-	virtual void PostLoadFixup();
+	virtual void PostLoadFixup(Space *space);
 
 	const ShipFlavour *GetFlavour() const { return &m_shipFlavour; }
 	// used to change ship label or colour. asserts if you try to change type
@@ -186,7 +186,7 @@ public:
 	sigc::signal<void> onUndock;
 protected:
 	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
+	virtual void Load(Serializer::Reader &rd, Space *space);
 	void RenderLaserfire();
 
 	bool AITimeStep(float timeStep);		// returns true if complete

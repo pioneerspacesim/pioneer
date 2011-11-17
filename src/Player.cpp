@@ -46,10 +46,10 @@ void Player::Save(Serializer::Writer &wr)
 	wr.Int32(space->GetIndexForBody(m_navTarget));
 }
 
-void Player::Load(Serializer::Reader &rd)
+void Player::Load(Serializer::Reader &rd, Space *space)
 {
 	Pi::player = this;
-	Ship::Load(rd);
+	Ship::Load(rd, space);
 	MarketAgent::Load(rd);
 	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
 	m_setSpeed = rd.Double();
@@ -59,10 +59,9 @@ void Player::Load(Serializer::Reader &rd)
 	m_navTargetIndex = rd.Int32();
 }
 
-void Player::PostLoadFixup()
+void Player::PostLoadFixup(Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
-	Ship::PostLoadFixup();
+	Ship::PostLoadFixup(space);
 	m_combatTarget = space->GetBodyByIndex(m_combatTargetIndex);
 	m_navTarget = space->GetBodyByIndex(m_navTargetIndex);
 }

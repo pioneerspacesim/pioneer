@@ -49,10 +49,9 @@ void TerrainBody::Save(Serializer::Writer &wr)
 	wr.Int32(space->GetIndexForSBody(m_sbody));
 }
 
-void TerrainBody::Load(Serializer::Reader &rd)
+void TerrainBody::Load(Serializer::Reader &rd, Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
-	Body::Load(rd);
+	Body::Load(rd, space);
 	m_pos = rd.Vector3d();
 	SBody *sbody = space->GetSBodyByIndex(rd.Int32());
 	InitTerrainBody(sbody);

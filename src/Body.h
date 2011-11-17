@@ -9,6 +9,7 @@
 
 class Frame;
 class ObjMesh;
+class Space;
 
 class Body: public Object {
 public:
@@ -16,8 +17,8 @@ public:
 	Body();
 	virtual ~Body();
 	void Serialize(Serializer::Writer &wr);
-	static Body *Unserialize(Serializer::Reader &rd);
-	virtual void PostLoadFixup() {};
+	static Body *Unserialize(Serializer::Reader &rd, Space *space);
+	virtual void PostLoadFixup(Space *space) {};
 
 	virtual void SetPosition(vector3d p) = 0;
 	virtual vector3d GetPosition() const = 0; // within frame
@@ -88,7 +89,7 @@ public:
 	       FLAG_DRAW_LAST = (1<<2) }; // causes the body drawn after other bodies in the z-sort
 protected:
 	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
+	virtual void Load(Serializer::Reader &rd, Space *space);
 	unsigned int m_flags;
 	bool m_hasDoubleFrame;
 

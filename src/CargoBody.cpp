@@ -14,9 +14,9 @@ void CargoBody::Save(Serializer::Writer &wr)
 	wr.Float(m_hitpoints);
 }
 
-void CargoBody::Load(Serializer::Reader &rd)
+void CargoBody::Load(Serializer::Reader &rd, Space *space)
 {
-	DynamicBody::Load(rd);
+	DynamicBody::Load(rd, space);
 	m_type = static_cast<Equip::Type>(rd.Int32());
 	Init();
 	m_hitpoints = rd.Float();

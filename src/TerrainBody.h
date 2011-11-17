@@ -35,7 +35,7 @@ protected:
 	void InitTerrainBody(SBody *);
 
 	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
+	virtual void Load(Serializer::Reader &rd, Space *space);
 
 private:
 	SBody *m_sbody;

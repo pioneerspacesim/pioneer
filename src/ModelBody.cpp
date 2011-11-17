@@ -29,9 +29,9 @@ void ModelBody::Save(Serializer::Writer &wr)
 	Body::Save(wr);
 }
 
-void ModelBody::Load(Serializer::Reader &rd)
+void ModelBody::Load(Serializer::Reader &rd, Space *space)
 {
-	Body::Load(rd);
+	Body::Load(rd, space);
 }
 
 void ModelBody::Disable()

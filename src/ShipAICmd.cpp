@@ -44,11 +44,10 @@ AICommand::AICommand(Serializer::Reader &rd, CmdName name)
 	m_child = Load(rd);
 }
 
-void AICommand::PostLoadFixup()
+void AICommand::PostLoadFixup(Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
 	m_ship = static_cast<Ship *>(space->GetBodyByIndex(m_shipIndex));
-	if (m_child) m_child->PostLoadFixup();
+	if (m_child) m_child->PostLoadFixup(space);
 }
 
 

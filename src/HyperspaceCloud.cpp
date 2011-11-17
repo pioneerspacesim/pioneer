@@ -61,22 +61,22 @@ void HyperspaceCloud::Save(Serializer::Writer &wr)
 	if (m_ship) m_ship->Serialize(wr);
 }
 
-void HyperspaceCloud::Load(Serializer::Reader &rd)
+void HyperspaceCloud::Load(Serializer::Reader &rd, Space *space)
 {
-	Body::Load(rd);
+	Body::Load(rd, space);
 	m_pos = rd.Vector3d();
 	m_vel = rd.Vector3d();
 	m_birthdate = rd.Double();
 	m_due = rd.Double();
 	m_isArrival = rd.Bool();
 	if (rd.Bool()) {
-		m_ship = reinterpret_cast<Ship*>(Body::Unserialize(rd));
+		m_ship = reinterpret_cast<Ship*>(Body::Unserialize(rd, space));
 	}
 }
 
-void HyperspaceCloud::PostLoadFixup()
+void HyperspaceCloud::PostLoadFixup(Space *space)
 {
-	if (m_ship) m_ship->PostLoadFixup();
+	if (m_ship) m_ship->PostLoadFixup(space);
 }
 
 void HyperspaceCloud::TimeStepUpdate(const float timeStep)
