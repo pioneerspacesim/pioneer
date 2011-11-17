@@ -41,7 +41,16 @@ Space::Space(const SystemPath &path) : m_indexesValid(false)
 
 Space::Space(Serializer::Reader &rd) : m_indexesValid(false)
 {
-	assert(0);
+	Serializer::Reader section = rd.RdSection("Frames");
+	m_rootFrame.Reset(Frame::Unserialize(section, 0));
+
+	m_starSystem = StarSystem::Unserialize(rd);
+
+	Uint32 nbodies = rd.Int32();
+	for (Uint32 i = 0; i < nbodies; i++)
+		m_bodies.push_back(Body::Unserialize(rd));
+	
+	RebuildIndexes();
 }
 
 Space::~Space()
