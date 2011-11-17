@@ -40,9 +40,8 @@ void Frame::Serialize(Serializer::Writer &wr, Frame *f)
 	Sfx::Serialize(wr, f);
 }
 
-Frame *Frame::Unserialize(Serializer::Reader &rd, Frame *parent)
+Frame *Frame::Unserialize(Serializer::Reader &rd, Space *space, Frame *parent)
 {
-	Space *space = Pi::spaceManager->GetSpace();
 	Frame *f = new Frame();
 	f->m_parent = parent;
 	f->m_flags = rd.Int32();
@@ -58,7 +57,7 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Frame *parent)
 	f->m_astroBodyIndex = rd.Int32();
 	f->m_vel = vector3d(0.0);
 	for (int i=rd.Int32(); i>0; --i) {
-		f->m_children.push_back(Unserialize(rd, f));
+		f->m_children.push_back(Unserialize(rd, space, f));
 	}
 	Sfx::Unserialize(rd, f);
 

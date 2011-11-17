@@ -11,6 +11,7 @@ class CollisionSpace;
 class Geom;
 class SBody;
 class Sfx;
+class Space;
 
 /*
  * Frame of reference.
@@ -23,7 +24,7 @@ public:
 	~Frame();
 	static void Serialize(Serializer::Writer &wr, Frame *);
 	static void PostUnserializeFixup(Frame *f);
-	static Frame *Unserialize(Serializer::Reader &rd, Frame *parent);
+	static Frame *Unserialize(Serializer::Reader &rd, Space *space, Frame *parent);
 	// XXX this should return a std::string
 	const char *GetLabel() const { return m_label.c_str(); }
 	void SetLabel(const char *label) { m_label = label; }
