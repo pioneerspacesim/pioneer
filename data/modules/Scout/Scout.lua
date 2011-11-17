@@ -27,7 +27,6 @@ local onChat = function (form, ref, option)
 
 		local sys   = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
-		
 		local scout_flavours = Translate:GetFlavours('Scout')
 		local introtext = string.interp(scout_flavours[ad.flavour].introtext, {
 			name     = ad.client,
@@ -39,7 +38,6 @@ local onChat = function (form, ref, option)
 			sectory  = ad.location.sectorY,
 			sectorz  = ad.location.sectorZ,
 		})
-
 		form:SetMessage(introtext)
 
 	elseif option == 1 then
@@ -80,10 +78,8 @@ local onChat = function (form, ref, option)
 
 		local mref = Game.player:AddMission(mission)
 		missions[mref] = mission
-
 		form:SetMessage(t("Excellent. I will await your report."))
 		form:AddOption(t('HANG_UP'), -1)
-
 		return
 	end
 
@@ -138,7 +134,6 @@ local makeAdvert = function (station)
 				HasPop = 0
 			end
 		end
-
 		reward = ((dist / max_scout_dist) * typical_reward * (1+risk) * (1.5-urgency) * Engine.rand:Number(0.8,1.2))
 		due = Game.time + ((dist / max_scout_dist) * typical_travel_time * (1.5-urgency) * Engine.rand:Number(0.9,1.1))
 	end
@@ -191,14 +186,13 @@ local onUpdateBB = function (station)
 	end
 end
 
-
 --[[local GetDistToTgt = function ()
   
 	local Dist = MissBody:DistanceTo(Game.player)
 	if MissBody:isa("SystemBody") then
-	if Dist < MissBody.radius * 1.25 then
-		UI.ImportantMessage("distance reached", "computer")
-	end
+		if Dist < MissBody.radius * 1.25 then
+			UI.ImportantMessage("distance reached", "computer")
+		end
 	end
 
 end]]--
@@ -209,93 +203,81 @@ local onFrameChanged = function (body)
 			local CurBody = body.frameBody
 			local PhysBody = CurBody.path:GetSystemBody()
 			if CurBody.path == mission.location then
-
 				local ShouldSpawn
 				local TimeUp = 0
 				local ShipSpawned = false
 				Timer:CallEvery(10, function ()
-									local MinChance = 0
-									local Dist = CurBody:DistanceTo(Game.player)
-									if Dist < PhysBody.radius * 1.3 and mission.state == 0 then
-										UI.ImportantMessage(t("Distance reached, starting long range sensor sweep. Maintain orbit for at least 60 minutes"), t("computer"))
-										mission.state = 1
+					local MinChance = 0
+					local Dist = CurBody:DistanceTo(Game.player)
+					if Dist < PhysBody.radius * 1.3 and mission.state == 0 then
+						UI.ImportantMessage(t("Distance reached, starting long range sensor sweep. Maintain orbit for at least 60 minutes"), t("computer"))
+						mission.state = 1
+					end
+					if Dist > PhysBody.radius * 1.4 and mission.state == 1 then
+						UI.ImportantMessage(t("sensor sweep interrupted, too far from target!"), t("computer"))
+						mission.state = 0
+						TimeUp = 0
+					end
+					if mission.state == 1 then
+						TimeUp = TimeUp + 10
+						if not ShipSpawned then
+							ShouldSpawn = Engine.rand:Number(MinChance, 1)
+							-------------------------------------------------------------
+							if 	ShouldSpawn > 0.9 then
+								ShipSpawned = true
+								local scout_flavours = Translate:GetFlavours('Scout')
+								local risk = scout_flavours[mission.flavour].risk
+								local ships = 0
+								local riskmargin = Engine.rand:Number(-0.3,0.3) -- Add some random luck
+								if risk >= (0.5 + riskmargin) then ships = 1
+								elseif risk >= (0.7 + riskmargin) then ships = 2
+								elseif risk >= (1.0 + riskmargin) then ships = 3
+								end
+								-- if there is some risk and still no ships, flip a tricoin
+								if ships < 1 and risk >= 0.2 and Engine.rand:Integer(2) == 1 then ships = 1 end
+									local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
+									local mass = t.hullMass
+									return mass >= 100 and mass <= 400
+									end)
+								if #shiptypes == 0 then return end
+								local ship
+								while ships > 0 do
+									ships = ships-1
+									if Engine.rand:Number(1) <= risk then
+										local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
+										local shiptype = ShipType.GetShipType(shipname)
+										local default_drive = shiptype.defaultHyperdrive
+										local max_laser_size = shiptype.capacity - EquipType.GetEquipType(default_drive).mass
+										local lasers = EquipType.GetEquipTypes('LASER', function (e,et)
+										return et.mass <= max_laser_size and string.sub(e,0,11) == 'PULSECANNON'
+										end)
+										local laser = lasers[Engine.rand:Integer(1,#lasers)]
+										ship = Space.SpawnShipNear(shipname,Game.player, 10, 15)
+										ship:AddEquip(default_drive)
+										ship:AddEquip(laser)
+										ship:AIKill(Game.player)
 									end
-									if Dist > PhysBody.radius * 1.4 and mission.state == 1 then
-										UI.ImportantMessage(t("sensor sweep interrupted, too far from target!"), t("computer"))
-										mission.state = 0
-										TimeUp = 0
-									end
-									if mission.state == 1 then
-										TimeUp = TimeUp + 10
-										if not ShipSpawned then
-											ShouldSpawn = Engine.rand:Number(MinChance, 1)
-
-											-------------------------------------------------------------
-											if 	ShouldSpawn > 0.9 then
-												ShipSpawned = true
-												local scout_flavours = Translate:GetFlavours('Scout')
-												local risk = scout_flavours[mission.flavour].risk
-												local ships = 0
-
-												local riskmargin = Engine.rand:Number(-0.3,0.3) -- Add some random luck
-												if risk >= (0.5 + riskmargin) then ships = 1
-												elseif risk >= (0.7 + riskmargin) then ships = 2
-												elseif risk >= (1.0 + riskmargin) then ships = 3
-												end
-
-											-- if there is some risk and still no ships, flip a tricoin
-											if ships < 1 and risk >= 0.2 and Engine.rand:Integer(2) == 1 then ships = 1 end
-
-												local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
-												local mass = t.hullMass
-												return mass >= 100 and mass <= 400
-												end)
-												if #shiptypes == 0 then return end
-
-												local ship
-
-												while ships > 0 do
-													ships = ships-1
-
-													if Engine.rand:Number(1) <= risk then
-														local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
-														local shiptype = ShipType.GetShipType(shipname)
-														local default_drive = shiptype.defaultHyperdrive
-
-														local max_laser_size = shiptype.capacity - EquipType.GetEquipType(default_drive).mass
-														local lasers = EquipType.GetEquipTypes('LASER', function (e,et)
-														return et.mass <= max_laser_size and string.sub(e,0,11) == 'PULSECANNON'
-														end)
-														local laser = lasers[Engine.rand:Integer(1,#lasers)]
-
-														ship = Space.SpawnShipNear(shipname,Game.player, 10, 15)
-														ship:AddEquip(default_drive)
-														ship:AddEquip(laser)
-														ship:AIKill(Game.player)
-													end
-												end
-
-												if ship then
-													local pirate_greeting = string.interp(t('PIRATE_TAUNTS')[Engine.rand:Integer(1,#(t('PIRATE_TAUNTS')))], {
-													client = mission.client, location = mission.location:GetSystemBody().name,})
-													UI.ImportantMessage(pirate_greeting, ship.label)
-												end
-											end
-											-------------------------------------------------------------
-											if not ShipSpawned then
-												MinChance = MinChance + 0.1
-											end
-										end
-
-										if TimeUp > 3600 then
-											mission.state = 2
-											UI.ImportantMessage(t("Sensor sweep complete, data stored."), t("computer"))
-										end
-									end
-									if mission.state == 2 then
-										return true
-									end
-								end)
+								end
+								if ship then
+									local pirate_greeting = string.interp(t('PIRATE_TAUNTS')[Engine.rand:Integer(1,#(t('PIRATE_TAUNTS')))], {
+									client = mission.client, location = mission.location:GetSystemBody().name,})
+									UI.ImportantMessage(pirate_greeting, ship.label)
+								end
+							end
+							-------------------------------------------------------------
+							if not ShipSpawned then
+								MinChance = MinChance + 0.1
+							end
+						end
+						if TimeUp > 3600 then
+							mission.state = 2
+							UI.ImportantMessage(t("Sensor sweep complete, data stored."), t("computer"))
+						end
+					end
+					if mission.state == 2 then
+						return true
+					end
+				end)
 			end
 		end
 	end
