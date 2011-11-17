@@ -41,10 +41,11 @@ Space::Space(const SystemPath &path) : m_indexesValid(false)
 
 Space::Space(Serializer::Reader &rd) : m_indexesValid(false)
 {
-	Serializer::Reader section = rd.RdSection("Frames");
-	m_rootFrame.Reset(Frame::Unserialize(section, 0));
-
 	m_starSystem = StarSystem::Unserialize(rd);
+	RebuildIndexes();
+
+	Serializer::Reader section = rd.RdSection("Frames");
+	m_rootFrame.Reset(Frame::Unserialize(section, this, 0));
 
 	Uint32 nbodies = rd.Int32();
 	for (Uint32 i = 0; i < nbodies; i++)
@@ -65,11 +66,11 @@ void Space::Serialize(Serializer::Writer &wr)
 {
 	RebuildIndexes();
 
+	StarSystem::Serialize(wr, m_starSystem.Get());
+
 	Serializer::Writer section;
 	Frame::Serialize(section, m_rootFrame.Get());
 	wr.WrSection("Frames", section.GetData());
-
-	StarSystem::Serialize(wr, m_starSystem.Get());
 
 	wr.Int32(m_bodies.size());
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
@@ -126,6 +127,7 @@ Uint32 Space::GetIndexForSBody(const SBody *sbody)
 
 void Space::AddFrameToIndex(Frame *frame)
 {
+	assert(frame);
 	m_frameIndex.push_back(frame);
 	for (std::list<Frame*>::iterator i = frame->m_children.begin(); i != frame->m_children.end(); ++i)
 		AddFrameToIndex(*i);
@@ -133,6 +135,7 @@ void Space::AddFrameToIndex(Frame *frame)
 
 void Space::AddSBodyToIndex(SBody *sbody)
 {
+	assert(sbody);
 	m_sbodyIndex.push_back(sbody);
 	for (Uint32 i = 0; i < sbody->children.size(); i++)
 		AddSBodyToIndex(sbody->children[i]);
@@ -148,7 +151,8 @@ void Space::RebuildIndexes()
 	m_bodyIndex.push_back(0);
 	m_sbodyIndex.push_back(0);
 
-	AddFrameToIndex(m_rootFrame.Get());
+	if (m_rootFrame)
+		AddFrameToIndex(m_rootFrame.Get());
 
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
 		m_bodyIndex.push_back(*i);
