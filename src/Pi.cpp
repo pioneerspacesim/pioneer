@@ -1051,8 +1051,13 @@ void Pi::UninitGame()
 	delete sectorView;
 	delete cpan;
 	delete galacticView;
-	delete spaceManager;
+
+	// XXX
+	if (spaceManager)
+		delete spaceManager;
+	spaceManager = 0;
 	Pi::selectedSystem.Reset();
+
 	StarSystem::ShrinkCache();
 }
 
@@ -1234,7 +1239,7 @@ void Pi::Start()
 		}
 		case 4: // Load game
 		{
-			assert(0);
+			// XXX
 			/*
 			if (Pi::player) {
 				space->KillBody(Pi::player);
@@ -1243,13 +1248,14 @@ void Pi::Start()
 				delete Pi::player;
 				Pi::player = 0;
 			}
+			*/
+
 			Pi::gameMenuView->OpenLoadDialog();
 			do {
 				Gui::MainLoopIteration();
 			} while (Pi::currentView != Pi::worldView);
 
 			if (Pi::isGameStarted) MainLoop();
-			*/
 			break;
 		}
 		case 5: // Quit
@@ -1494,14 +1500,14 @@ void Pi::Serialize(Serializer::Writer &wr)
 	Serializer::Writer section;
 
 	section = Serializer::Writer();
-	spaceManager->Serialize(wr);
-	wr.WrSection("SpaceManager", section.GetData());
-
-	section = Serializer::Writer();
 	section.Double(gameTime);
 	StarSystem::Serialize(section, selectedSystem.Get());
 	wr.WrSection("PiMisc", section.GetData());
 	
+	section = Serializer::Writer();
+	spaceManager->Serialize(section);
+	wr.WrSection("SpaceManager", section.GetData());
+
 	section = Serializer::Writer();
 	Polit::Serialize(section);
 	wr.WrSection("Polit", section.GetData());
@@ -1525,8 +1531,6 @@ void Pi::Serialize(Serializer::Writer &wr)
 
 void Pi::Unserialize(Serializer::Reader &rd)
 {
-	assert(0);
-	Serializer::Reader section;
 	
 	/* XXX
 	SetTimeAccel(0);
@@ -1541,15 +1545,18 @@ void Pi::Unserialize(Serializer::Reader &rd)
 	}
 	*/
 
-	/* XXX
+	// XXX
+	if (spaceManager)
+		delete spaceManager;
+
+	Serializer::Reader section;
+
 	section = rd.RdSection("PiMisc");
 	gameTime = section.Double();
 	selectedSystem = StarSystem::Unserialize(section);
-	currentSystem = StarSystem::Unserialize(section);
 
-	section = rd.RdSection("Space");
-	Space::Unserialize(section);
-	*/
+	section = rd.RdSection("SpaceManager");
+	spaceManager = new SpaceManager(section);
 	
 	section = rd.RdSection("Polit");
 	Polit::Unserialize(section);
