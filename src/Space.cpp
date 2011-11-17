@@ -21,13 +21,13 @@
 #include "SpaceManager.h"
 #include "MathUtil.h"
 
-Space::Space() : m_indexesValid(false)
+Space::Space() : m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false)
 {
 	m_rootFrame.Reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 }
 
-Space::Space(const SystemPath &path) : m_indexesValid(false)
+Space::Space(const SystemPath &path) : m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false)
 {
 	m_starSystem = StarSystem::GetCached(path);
 
@@ -39,19 +39,19 @@ Space::Space(const SystemPath &path) : m_indexesValid(false)
 	m_rootFrame->UpdateOrbitRails();
 }
 
-Space::Space(Serializer::Reader &rd) : m_indexesValid(false)
+Space::Space(Serializer::Reader &rd) : m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false)
 {
 	m_starSystem = StarSystem::Unserialize(rd);
-	RebuildIndexes();
+	RebuildSBodyIndex();
 
 	Serializer::Reader section = rd.RdSection("Frames");
 	m_rootFrame.Reset(Frame::Unserialize(section, this, 0));
+	RebuildFrameIndex();
 
 	Uint32 nbodies = rd.Int32();
 	for (Uint32 i = 0; i < nbodies; i++)
 		m_bodies.push_back(Body::Unserialize(rd, this));
-	
-	RebuildIndexes();
+	RebuildBodyIndex();
 
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->PostLoadFixup(this);
@@ -67,7 +67,9 @@ Space::~Space()
 
 void Space::Serialize(Serializer::Writer &wr)
 {
-	RebuildIndexes();
+	RebuildFrameIndex();
+	RebuildBodyIndex();
+	RebuildSBodyIndex();
 
 	StarSystem::Serialize(wr, m_starSystem.Get());
 
@@ -82,28 +84,28 @@ void Space::Serialize(Serializer::Writer &wr)
 
 Frame *Space::GetFrameByIndex(Uint32 idx)
 {
-	assert(m_indexesValid);
+	assert(m_frameIndexValid);
 	assert(m_frameIndex.size() > idx);
 	return m_frameIndex[idx];
 }
 
 Body *Space::GetBodyByIndex(Uint32 idx)
 {
-	assert(m_indexesValid);
+	assert(m_bodyIndexValid);
 	assert(m_bodyIndex.size() > idx);
 	return m_bodyIndex[idx];
 }
 
 SBody *Space::GetSBodyByIndex(Uint32 idx)
 {
-	assert(m_indexesValid);
+	assert(m_sbodyIndexValid);
 	assert(m_sbodyIndex.size() > idx);
 	return m_sbodyIndex[idx];
 }
 
 Uint32 Space::GetIndexForFrame(const Frame *frame)
 {
-	assert(m_indexesValid);
+	assert(m_frameIndexValid);
 	for (Uint32 i = 0; i < m_frameIndex.size(); i++)
 		if (m_frameIndex[i] == frame) return i;
 	assert(0);
@@ -112,7 +114,7 @@ Uint32 Space::GetIndexForFrame(const Frame *frame)
 
 Uint32 Space::GetIndexForBody(const Body *body)
 {
-	assert(m_indexesValid);
+	assert(m_bodyIndexValid);
 	for (Uint32 i = 0; i < m_bodyIndex.size(); i++)
 		if (m_bodyIndex[i] == body) return i;
 	assert(0);
@@ -121,7 +123,7 @@ Uint32 Space::GetIndexForBody(const Body *body)
 
 Uint32 Space::GetIndexForSBody(const SBody *sbody)
 {
-	assert(m_indexesValid);
+	assert(m_sbodyIndexValid);
 	for (Uint32 i = 0; i < m_sbodyIndex.size(); i++)
 		if (m_sbodyIndex[i] == sbody) return i;
 	assert(0);
@@ -144,32 +146,45 @@ void Space::AddSBodyToIndex(SBody *sbody)
 		AddSBodyToIndex(sbody->children[i]);
 }
 
-void Space::RebuildIndexes()
+void Space::RebuildFrameIndex()
 {
 	m_frameIndex.clear();
-	m_bodyIndex.clear();
-	m_sbodyIndex.clear();
-
 	m_frameIndex.push_back(0);
-	m_bodyIndex.push_back(0);
-	m_sbodyIndex.push_back(0);
 
 	if (m_rootFrame)
 		AddFrameToIndex(m_rootFrame.Get());
+	
+	m_frameIndexValid = true;
+}
+
+void Space::RebuildBodyIndex()
+{
+	m_bodyIndex.clear();
+	m_bodyIndex.push_back(0);
 
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
 		m_bodyIndex.push_back(*i);
 		// also index ships inside clouds
+		// XXX we should not have to know about this. move indexing grunt work
+		// down into the bodies?
 		if ((*i)->IsType(Object::HYPERSPACECLOUD)) {
 			Ship *s = static_cast<HyperspaceCloud*>(*i)->GetShip();
 			if (s) m_bodyIndex.push_back(s);
 		}
 	}
 
+	m_bodyIndexValid = true;
+}
+
+void Space::RebuildSBodyIndex()
+{
+	m_sbodyIndex.clear();
+	m_sbodyIndex.push_back(0);
+
 	if (m_starSystem)
 		AddSBodyToIndex(m_starSystem->rootBody);
 
-	m_indexesValid = true;
+	m_sbodyIndexValid = true;
 }
 
 void Space::AddBody(Body *b)
@@ -605,6 +620,8 @@ void Space::CollideFrame(Frame *f)
 
 void Space::TimeStep(float step)
 {
+	m_frameIndexValid = m_bodyIndexValid = m_sbodyIndexValid = false;
+
 	// XXX does not need to be done this often
 	CollideFrame(m_rootFrame.Get());
 

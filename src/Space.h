@@ -77,11 +77,14 @@ private:
 	std::list<Body*> m_removeBodies;
 	std::list<Body*> m_killBodies;
 
-	void RebuildIndexes();
+	void RebuildFrameIndex();
+	void RebuildBodyIndex();
+	void RebuildSBodyIndex();
+
 	void AddFrameToIndex(Frame *frame);
 	void AddSBodyToIndex(SBody *sbody);
 
-	bool m_indexesValid;
+	bool m_frameIndexValid, m_bodyIndexValid, m_sbodyIndexValid;
 	std::vector<Frame*> m_frameIndex;
 	std::vector<Body*>  m_bodyIndex;
 	std::vector<SBody*> m_sbodyIndex;
