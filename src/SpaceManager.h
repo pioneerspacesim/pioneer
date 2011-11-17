@@ -21,6 +21,7 @@ public:
 	};
 
 	SpaceManager(Player *player) : m_player(player), m_state(STATE_NONE), m_space(0), m_wantHyperspace(false) {}
+	SpaceManager(Serializer::Reader &rd);
 
 	void Serialize(Serializer::Writer &wr);
 

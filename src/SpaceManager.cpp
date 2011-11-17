@@ -9,6 +9,23 @@
 #include "Sfx.h"
 #include "MathUtil.h"
 
+SpaceManager::SpaceManager(Serializer::Reader &rd)
+{
+	Serializer::Reader section = rd.RdSection("Space");
+	m_space.Reset(new Space(section));
+
+	Uint32 nclouds = rd.Int32();
+	for (Uint32 i = 0; i < nclouds; i++)
+		m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud*>(Body::Unserialize(rd)));
+	
+	m_player = static_cast<Player*>(m_space->GetBodyByIndex(rd.Int32()));
+	m_state = State(rd.Int32());
+	m_wantHyperspace = rd.Bool();
+	m_hyperspaceProgress = rd.Double();
+	m_hyperspaceDuration = rd.Double();
+	m_hyperspaceEndTime = rd.Double();
+}
+
 void SpaceManager::Serialize(Serializer::Writer &wr)
 {
 	Serializer::Writer section;
