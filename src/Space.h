@@ -28,6 +28,16 @@ public:
 
 	void Serialize(Serializer::Writer &wr);
 
+	// frame/body/sbody indexing for save/load. valid after
+	// construction/Serialize(), invalidated by TimeStep(). they will assert
+	// if called while invalid
+	Frame *GetFrameByIndex(Uint32 idx);
+	Body  *GetBodyByIndex(Uint32 idx);
+	SBody *GetSBodyByIndex(Uint32 idx);
+	Uint32 GetIndexForFrame(const Frame *frame);
+	Uint32 GetIndexForBody(const Body *body);
+	Uint32 GetIndexForSBody(const SBody *sbody);
+
 	RefCountedPtr<StarSystem> GetStarSystem() const { return m_starSystem; }
 
 	Frame *GetRootFrame() const { return m_rootFrame.Get(); }
@@ -66,6 +76,15 @@ private:
 	// bodies that were removed/killed this timestep and need pruning at the end
 	std::list<Body*> m_removeBodies;
 	std::list<Body*> m_killBodies;
+
+	void RebuildIndexes();
+	void AddFrameToIndex(Frame *frame);
+	void AddSBodyToIndex(SBody *sbody);
+
+	bool m_indexesValid;
+	std::vector<Frame*> m_frameIndex;
+	std::vector<Body*>  m_bodyIndex;
+	std::vector<SBody*> m_sbodyIndex;
 };
 
 #endif /* _SPACE_H */

@@ -21,13 +21,13 @@
 #include "SpaceManager.h"
 #include "MathUtil.h"
 
-Space::Space()
+Space::Space() : m_indexesValid(false)
 {
 	m_rootFrame.Reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 }
 
-Space::Space(const SystemPath &path)
+Space::Space(const SystemPath &path) : m_indexesValid(false)
 {
 	m_starSystem = StarSystem::GetCached(path);
 
@@ -39,7 +39,7 @@ Space::Space(const SystemPath &path)
 	m_rootFrame->UpdateOrbitRails();
 }
 
-Space::Space(Serializer::Reader &rd)
+Space::Space(Serializer::Reader &rd) : m_indexesValid(false)
 {
 	assert(0);
 }
@@ -63,6 +63,91 @@ void Space::Serialize(Serializer::Writer &wr)
 	wr.Int32(m_bodies.size());
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->Serialize(wr);
+}
+
+Frame *Space::GetFrameByIndex(Uint32 idx)
+{
+	assert(m_indexesValid);
+	assert(m_frameIndex.size() > idx);
+	return m_frameIndex[idx];
+}
+
+Body *Space::GetBodyByIndex(Uint32 idx)
+{
+	assert(m_indexesValid);
+	assert(m_bodyIndex.size() > idx);
+	return m_bodyIndex[idx];
+}
+
+SBody *Space::GetSBodyByIndex(Uint32 idx)
+{
+	assert(m_indexesValid);
+	assert(m_sbodyIndex.size() > idx);
+	return m_sbodyIndex[idx];
+}
+
+Uint32 Space::GetIndexForFrame(const Frame *frame)
+{
+	assert(m_indexesValid);
+	for (Uint32 i = 0; i < m_frameIndex.size(); i++)
+		if (m_frameIndex[i] == frame) return i;
+	assert(0);
+	return Uint32(-1);
+}
+
+Uint32 Space::GetIndexForBody(const Body *body)
+{
+	assert(m_indexesValid);
+	for (Uint32 i = 0; i < m_bodyIndex.size(); i++)
+		if (m_bodyIndex[i] == body) return i;
+	assert(0);
+	return Uint32(-1);
+}
+
+Uint32 Space::GetIndexForSBody(const SBody *sbody)
+{
+	assert(m_indexesValid);
+	for (Uint32 i = 0; i < m_sbodyIndex.size(); i++)
+		if (m_sbodyIndex[i] == sbody) return i;
+	assert(0);
+	return Uint32(-1);
+}
+
+void Space::AddFrameToIndex(Frame *frame)
+{
+	m_frameIndex.push_back(frame);
+	for (std::list<Frame*>::iterator i = frame->m_children.begin(); i != frame->m_children.end(); ++i)
+		AddFrameToIndex(*i);
+}
+
+void Space::AddSBodyToIndex(SBody *sbody)
+{
+	m_sbodyIndex.push_back(sbody);
+	for (Uint32 i = 0; i < sbody->children.size(); i++)
+		AddSBodyToIndex(sbody->children[i]);
+}
+
+void Space::RebuildIndexes()
+{
+	m_frameIndex.clear();
+	m_bodyIndex.clear();
+	m_sbodyIndex.clear();
+
+	AddFrameToIndex(m_rootFrame.Get());
+
+	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
+		m_bodyIndex.push_back(*i);
+		// also index ships inside clouds
+		if ((*i)->IsType(Object::HYPERSPACECLOUD)) {
+			Ship *s = static_cast<HyperspaceCloud*>(*i)->GetShip();
+			if (s) m_bodyIndex.push_back(s);
+		}
+	}
+
+	if (m_starSystem)
+		AddSBodyToIndex(m_starSystem->rootBody);
+
+	m_indexesValid = true;
 }
 
 void Space::AddBody(Body *b)
