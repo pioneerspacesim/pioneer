@@ -229,8 +229,8 @@ local onFrameChanged = function (body)
 								local risk = scout_flavours[mission.flavour].risk
 								local ships = 0
 								local riskmargin = Engine.rand:Number(-0.3,0.3) -- Add some random luck
-								if risk >= (0.5 + riskmargin) then ships = 1
-								elseif risk >= (0.7 + riskmargin) then ships = 2
+								if risk >= (0.5 + riskmargin) and risk < (0.7 + riskmargin) then ships = 1
+								elseif risk >= (0.7 + riskmargin) and risk < (1.0 + riskmargin) then ships = 2
 								elseif risk >= (1.0 + riskmargin) then ships = 3
 								end
 								-- if there is some risk and still no ships, flip a tricoin
