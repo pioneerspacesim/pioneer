@@ -1493,19 +1493,15 @@ void Pi::Serialize(Serializer::Writer &wr)
 {
 	Serializer::Writer section;
 
-	Serializer::IndexFrames();
-	Serializer::IndexBodies();
-	Serializer::IndexSystemBodies(spaceManager->GetSpace()->GetStarSystem().Get());
+	section = Serializer::Writer();
+	spaceManager->Serialize(wr);
+	wr.WrSection("SpaceManager", section.GetData());
 
 	section = Serializer::Writer();
 	section.Double(gameTime);
 	StarSystem::Serialize(section, selectedSystem.Get());
 	wr.WrSection("PiMisc", section.GetData());
 	
-	section = Serializer::Writer();
-	spaceManager->Serialize(wr);
-	wr.WrSection("SpaceManager", section.GetData());
-
 	section = Serializer::Writer();
 	Polit::Serialize(section);
 	wr.WrSection("Polit", section.GetData());

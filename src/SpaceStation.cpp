@@ -221,6 +221,8 @@ float SpaceStation::GetDesiredAngVel() const
 
 void SpaceStation::Save(Serializer::Writer &wr)
 {
+	Space *space = Pi::spaceManager->GetSpace();
+
 	ModelBody::Save(wr);
 	MarketAgent::Save(wr);
 	wr.Int32(Equip::TYPE_MAX);
@@ -234,7 +236,7 @@ void SpaceStation::Save(Serializer::Writer &wr)
 		(*i).Save(wr);
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		wr.Int32(Serializer::LookupBody(m_shipDocking[i].ship));
+		wr.Int32(space->GetIndexForBody(m_shipDocking[i].ship));
 		wr.Int32(m_shipDocking[i].stage);
 		wr.Float(float(m_shipDocking[i].stagePos));
 		wr.Vector3d(m_shipDocking[i].fromPos);
@@ -244,12 +246,14 @@ void SpaceStation::Save(Serializer::Writer &wr)
 		wr.Float(float(m_dockAnimState[i]));
 	}
 	wr.Double(m_lastUpdatedShipyard);
-	wr.Int32(Serializer::LookupSystemBody(m_sbody));
+	wr.Int32(space->GetIndexForSBody(m_sbody));
 	wr.Int32(m_numPoliceDocked);
 }
 
 void SpaceStation::Load(Serializer::Reader &rd)
 {
+	Space *space = Pi::spaceManager->GetSpace();
+
 	ModelBody::Load(rd);
 	MarketAgent::Load(rd);
 	int num = rd.Int32();
@@ -278,15 +282,17 @@ void SpaceStation::Load(Serializer::Reader &rd)
 		m_dockAnimState[i] = rd.Float();
 	}
 	m_lastUpdatedShipyard = rd.Double();
-	m_sbody = Serializer::LookupSystemBody(rd.Int32());
+	m_sbody = space->GetSBodyByIndex(rd.Int32());
 	m_numPoliceDocked = rd.Int32();
 	InitStation();
 }
 
 void SpaceStation::PostLoadFixup()
 {
+	Space *space = Pi::spaceManager->GetSpace();
+
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		m_shipDocking[i].ship = static_cast<Ship*>(Serializer::LookupBody(m_shipDocking[i].shipIndex));
+		m_shipDocking[i].ship = static_cast<Ship*>(space->GetBodyByIndex(m_shipDocking[i].shipIndex));
 	}
 }
 

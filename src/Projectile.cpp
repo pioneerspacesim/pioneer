@@ -25,13 +25,14 @@ Projectile::Projectile(): Body()
 
 void Projectile::Save(Serializer::Writer &wr)
 {
+	Space *space = Pi::spaceManager->GetSpace();
 	Body::Save(wr);
 	for (int i=0; i<16; i++) wr.Double(m_orient[i]);
 	wr.Vector3d(m_baseVel);
 	wr.Vector3d(m_dirVel);
 	wr.Float(m_age);
 	wr.Int32(m_type);
-	wr.Int32(Serializer::LookupBody(m_parent));
+	wr.Int32(space->GetIndexForBody(m_parent));
 }
 
 void Projectile::Load(Serializer::Reader &rd)
@@ -47,7 +48,8 @@ void Projectile::Load(Serializer::Reader &rd)
 
 void Projectile::PostLoadFixup()
 {
-	m_parent = Serializer::LookupBody(m_parentIndex);
+	Space *space = Pi::spaceManager->GetSpace();
+	m_parent = space->GetBodyByIndex(m_parentIndex);
 }
 
 void Projectile::UpdateInterpolatedTransform(double alpha)

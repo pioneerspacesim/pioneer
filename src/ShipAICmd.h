@@ -4,6 +4,8 @@
 #include "Ship.h"
 #include "SpaceStation.h"
 #include "Serializer.h"
+#include "Pi.h"
+#include "SpaceManager.h"
 
 class AICommand {
 public:
@@ -74,8 +76,9 @@ public:
 		else snprintf(str, 255, "Dock: target %s, state %i", m_target->GetLabel().c_str(), m_state);
 	}
 	virtual void Save(Serializer::Writer &wr) {
+        Space *space = Pi::spaceManager->GetSpace();
 		AICommand::Save(wr);
-		wr.Int32(Serializer::LookupBody(m_target));
+		wr.Int32(space->GetIndexForBody(m_target));
 		wr.Vector3d(m_dockpos); wr.Vector3d(m_dockdir);
 		wr.Vector3d(m_dockupdir); wr.Int32(m_state);
 	}
@@ -85,8 +88,9 @@ public:
 		m_dockupdir = rd.Vector3d(); m_state = rd.Int32();
 	}
 	virtual void PostLoadFixup() {
+        Space *space = Pi::spaceManager->GetSpace();
 		AICommand::PostLoadFixup();
-		m_target = static_cast<SpaceStation *>(Serializer::LookupBody(m_targetIndex));
+		m_target = static_cast<SpaceStation *>(space->GetBodyByIndex(m_targetIndex));
 	}
 	virtual void OnDeleted(const Body *body) {
 		AICommand::OnDeleted(body);
@@ -114,9 +118,10 @@ public:
 		else snprintf(str, 255, "FlyTo: endvel %.1f, state %i", m_endvel/1000.0, m_state);
 	}
 	virtual void Save(Serializer::Writer &wr) {
+        Space *space = Pi::spaceManager->GetSpace();
 		if(m_child) { delete m_child; m_child = 0; }
 		AICommand::Save(wr);
-		wr.Int32(Serializer::LookupFrame(m_targframe));
+		wr.Int32(space->GetIndexForFrame(m_targframe));
 		wr.Vector3d(m_posoff);
 		wr.Double(m_endvel);
 		wr.Int32(m_state);
@@ -130,8 +135,9 @@ public:
 		m_tangent = rd.Bool();
 	}
 	virtual void PostLoadFixup() {
+        Space *space = Pi::spaceManager->GetSpace();
 		AICommand::PostLoadFixup(); m_frame = 0;		// regen
-		m_targframe = Serializer::LookupFrame(m_targframeIndex);
+		m_targframe = space->GetFrameByIndex(m_targframeIndex);
 	}
 
 private:
@@ -160,13 +166,14 @@ public:
 		else snprintf(str, 255, "FlyAround: alt %.1f, targmode %i", m_alt/1000.0, m_targmode);
 	}	
 	virtual void Save(Serializer::Writer &wr) {
+        Space *space = Pi::spaceManager->GetSpace();
 		if (m_child) { delete m_child; m_child = 0; }
 		AICommand::Save(wr);
-		wr.Int32(Serializer::LookupBody(m_obstructor));
+		wr.Int32(space->GetIndexForBody(m_obstructor));
 		wr.Double(m_vel); wr.Double(m_alt);
 		wr.Int32(m_targmode);
-		if (m_targmode == 2) wr.Int32(Serializer::LookupFrame(m_targframe));
-		else wr.Int32(Serializer::LookupBody(m_target));
+		if (m_targmode == 2) wr.Int32(space->GetIndexForFrame(m_targframe));
+		else wr.Int32(space->GetIndexForBody(m_target));
 		wr.Vector3d(m_posoff);
 	}
 	AICmdFlyAround(Serializer::Reader &rd) : AICommand(rd, CMD_FLYAROUND) {
@@ -177,10 +184,11 @@ public:
 		m_posoff = rd.Vector3d();
 	}
 	virtual void PostLoadFixup() {
+        Space *space = Pi::spaceManager->GetSpace();
 		AICommand::PostLoadFixup();
-		m_obstructor = Serializer::LookupBody(m_obstructorIndex);
-		if (m_targmode == 2) m_target = Serializer::LookupBody(m_targetIndex);
-		else m_targframe = Serializer::LookupFrame(m_targetIndex);
+		m_obstructor = space->GetBodyByIndex(m_obstructorIndex);
+		if (m_targmode == 2) m_target = space->GetBodyByIndex(m_targetIndex);
+		else m_targframe = space->GetFrameByIndex(m_targetIndex);
 	}
 	virtual void OnDeleted(const Body *body) {
 		AICommand::OnDeleted(body);
@@ -215,15 +223,17 @@ public:
 
 	// don't actually need to save all this crap
 	virtual void Save(Serializer::Writer &wr) {
+        Space *space = Pi::spaceManager->GetSpace();
 		AICommand::Save(wr);
-		wr.Int32(Serializer::LookupBody(m_target));
+		wr.Int32(space->GetIndexForBody(m_target));
 	}
 	AICmdKill(Serializer::Reader &rd) : AICommand(rd, CMD_KILL) {
 		m_targetIndex = rd.Int32();
 	}
 	virtual void PostLoadFixup() {
+        Space *space = Pi::spaceManager->GetSpace();
 		AICommand::PostLoadFixup();
-		m_target = static_cast<Ship *>(Serializer::LookupBody(m_targetIndex));
+		m_target = static_cast<Ship *>(space->GetBodyByIndex(m_targetIndex));
 		m_leadTime = m_evadeTime = m_closeTime = 0.0;
 		m_lastVel = m_target->GetVelocity();
 	}
@@ -248,15 +258,17 @@ public:
 	}
 
 	virtual void Save(Serializer::Writer &wr) {
+        Space *space = Pi::spaceManager->GetSpace();
 		AICommand::Save(wr);
-		wr.Int32(Serializer::LookupBody(m_target));
+		wr.Int32(space->GetIndexForBody(m_target));
 	}
 	AICmdKamikaze(Serializer::Reader &rd) : AICommand(rd, CMD_KAMIKAZE) {
 		m_targetIndex = rd.Int32();
 	}
 	virtual void PostLoadFixup() {
+        Space *space = Pi::spaceManager->GetSpace();
 		AICommand::PostLoadFixup();
-		m_target = Serializer::LookupBody(m_targetIndex);
+		m_target = space->GetBodyByIndex(m_targetIndex);
 	}
 
 	virtual void OnDeleted(const Body *body) {

@@ -30,8 +30,9 @@ AICommand *AICommand::Load(Serializer::Reader &rd)
 
 void AICommand::Save(Serializer::Writer &wr)
 {
+	Space *space = Pi::spaceManager->GetSpace();
 	wr.Int32(m_cmdName);
-	wr.Int32(Serializer::LookupBody(m_ship));
+	wr.Int32(space->GetIndexForBody(m_ship));
 	if (m_child) m_child->Save(wr);
 	else wr.Int32(CMD_NONE);
 }
@@ -45,7 +46,8 @@ AICommand::AICommand(Serializer::Reader &rd, CmdName name)
 
 void AICommand::PostLoadFixup()
 {
-	m_ship = static_cast<Ship *>(Serializer::LookupBody(m_shipIndex));
+	Space *space = Pi::spaceManager->GetSpace();
+	m_ship = static_cast<Ship *>(space->GetBodyByIndex(m_shipIndex));
 	if (m_child) m_child->PostLoadFixup();
 }
 

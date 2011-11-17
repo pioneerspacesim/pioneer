@@ -19,7 +19,7 @@ void SpaceManager::Serialize(Serializer::Writer &wr)
 	for (std::list<HyperspaceCloud*>::const_iterator i = m_hyperspaceClouds.begin(); i != m_hyperspaceClouds.end(); ++i)
 		(*i)->Serialize(wr);
 
-	wr.Int32(Serializer::LookupBody(m_player));
+	wr.Int32(m_space->GetIndexForBody(m_player));
 	wr.Int32(Uint32(m_state));
 	wr.Bool(m_wantHyperspace);
 	wr.Double(m_hyperspaceProgress);

@@ -11,6 +11,7 @@
 #include "Missile.h"
 #include "HyperspaceCloud.h"
 #include "Pi.h"
+#include "SpaceManager.h"
 
 Body::Body()
 {
@@ -26,7 +27,8 @@ Body::~Body()
 
 void Body::Save(Serializer::Writer &wr)
 {
-	wr.Int32(Serializer::LookupFrame(m_frame));
+	Space *space = Pi::spaceManager->GetSpace();
+	wr.Int32(space->GetIndexForFrame(m_frame));
 	wr.String(m_label);
 	wr.Bool(m_dead);
 	wr.Bool(m_hasDoubleFrame);
@@ -34,7 +36,8 @@ void Body::Save(Serializer::Writer &wr)
 
 void Body::Load(Serializer::Reader &rd)
 {
-	m_frame = Serializer::LookupFrame(rd.Int32());
+	Space *space = Pi::spaceManager->GetSpace();
+	m_frame = space->GetFrameByIndex(rd.Int32());
 	m_label = rd.String();
 	m_dead = rd.Bool();
 	m_hasDoubleFrame = rd.Bool();

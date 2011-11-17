@@ -62,6 +62,8 @@ void SerializableEquipSet::Load(Serializer::Reader &rd)
 
 void Ship::Save(Serializer::Writer &wr)
 {
+	Space *space = Pi::spaceManager->GetSpace();
+
 	DynamicBody::Save(wr);
 	wr.Vector3d(m_angThrusters);
 	wr.Vector3d(m_thrusters);
@@ -86,7 +88,7 @@ void Ship::Save(Serializer::Writer &wr)
 	wr.Float(m_ecmRecharge);
 	m_shipFlavour.Save(wr);
 	wr.Int32(m_dockedWithPort);
-	wr.Int32(Serializer::LookupBody(m_dockedWith));
+	wr.Int32(space->GetIndexForBody(m_dockedWith));
 	m_equipment.Save(wr);
 	wr.Float(m_stats.hull_mass_left);
 	wr.Float(m_stats.shield_mass_left);
@@ -153,7 +155,8 @@ void Ship::Init()
 
 void Ship::PostLoadFixup()
 {
-	m_dockedWith = reinterpret_cast<SpaceStation*>(Serializer::LookupBody(m_dockedWithIndex));
+	Space *space = Pi::spaceManager->GetSpace();
+	m_dockedWith = reinterpret_cast<SpaceStation*>(space->GetBodyByIndex(m_dockedWithIndex));
 	if (m_curAICmd) m_curAICmd->PostLoadFixup();
 }
 

@@ -35,14 +35,15 @@ Player::~Player()
 
 void Player::Save(Serializer::Writer &wr)
 {
+	Space *space = Pi::spaceManager->GetSpace();
 	Ship::Save(wr);
 	MarketAgent::Save(wr);
 	wr.Int32(static_cast<int>(m_flightControlState));
 	wr.Double(m_setSpeed);
 	wr.Int32(m_killCount);
 	wr.Int32(m_knownKillCount);
-	wr.Int32(Serializer::LookupBody(m_combatTarget));
-	wr.Int32(Serializer::LookupBody(m_navTarget));
+	wr.Int32(space->GetIndexForBody(m_combatTarget));
+	wr.Int32(space->GetIndexForBody(m_navTarget));
 }
 
 void Player::Load(Serializer::Reader &rd)
@@ -60,9 +61,10 @@ void Player::Load(Serializer::Reader &rd)
 
 void Player::PostLoadFixup()
 {
+	Space *space = Pi::spaceManager->GetSpace();
 	Ship::PostLoadFixup();
-	m_combatTarget = Serializer::LookupBody(m_combatTargetIndex);
-	m_navTarget = Serializer::LookupBody(m_navTargetIndex);
+	m_combatTarget = space->GetBodyByIndex(m_combatTargetIndex);
+	m_navTarget = space->GetBodyByIndex(m_navTargetIndex);
 }
 
 void Player::OnHaveKilled(Body *guyWeKilled)

@@ -4,6 +4,7 @@
 #include "render/Render.h"
 #include "WorldView.h"
 #include "Frame.h"
+#include "SpaceManager.h"
 
 TerrainBody::TerrainBody(SBody *sbody) :
 	Body(), 
@@ -42,16 +43,18 @@ void TerrainBody::InitTerrainBody(SBody *sbody)
 
 void TerrainBody::Save(Serializer::Writer &wr)
 {
+	Space *space = Pi::spaceManager->GetSpace();
 	Body::Save(wr);
 	wr.Vector3d(m_pos);
-	wr.Int32(Serializer::LookupSystemBody(m_sbody));
+	wr.Int32(space->GetIndexForSBody(m_sbody));
 }
 
 void TerrainBody::Load(Serializer::Reader &rd)
 {
+	Space *space = Pi::spaceManager->GetSpace();
 	Body::Load(rd);
 	m_pos = rd.Vector3d();
-	SBody *sbody = Serializer::LookupSystemBody(rd.Int32());
+	SBody *sbody = space->GetSBodyByIndex(rd.Int32());
 	InitTerrainBody(sbody);
 }
 

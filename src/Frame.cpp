@@ -24,13 +24,14 @@ Frame::Frame(Frame *parent, const char *label, unsigned int flags)
 
 void Frame::Serialize(Serializer::Writer &wr, Frame *f)
 {
+	Space *space = Pi::spaceManager->GetSpace();
 	wr.Int32(f->m_flags);
 	wr.Double(f->m_radius);
 	wr.String(f->m_label);
 	for (int i=0; i<16; i++) wr.Double(f->m_orient[i]);
 	wr.Vector3d(f->m_angVel);
-	wr.Int32(Serializer::LookupSystemBody(f->m_sbody));
-	wr.Int32(Serializer::LookupBody(f->m_astroBody));
+	wr.Int32(space->GetIndexForSBody(f->m_sbody));
+	wr.Int32(space->GetIndexForBody(f->m_astroBody));
 	wr.Int32(f->m_children.size());
 	for (std::list<Frame*>::iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
@@ -41,6 +42,7 @@ void Frame::Serialize(Serializer::Writer &wr, Frame *f)
 
 Frame *Frame::Unserialize(Serializer::Reader &rd, Frame *parent)
 {
+	Space *space = Pi::spaceManager->GetSpace();
 	Frame *f = new Frame();
 	f->m_parent = parent;
 	f->m_flags = rd.Int32();
@@ -52,7 +54,7 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Frame *parent)
 		vector3d pos = rd.Vector3d();
 		f->m_orient.SetTranslate(pos);
 	}
-	f->m_sbody = Serializer::LookupSystemBody(rd.Int32());
+	f->m_sbody = space->GetSBodyByIndex(rd.Int32());
 	f->m_astroBodyIndex = rd.Int32();
 	f->m_vel = vector3d(0.0);
 	for (int i=rd.Int32(); i>0; --i) {
@@ -68,7 +70,8 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Frame *parent)
 
 void Frame::PostUnserializeFixup(Frame *f)
 {
-	f->m_astroBody = Serializer::LookupBody(f->m_astroBodyIndex);
+	Space *space = Pi::spaceManager->GetSpace();
+	f->m_astroBody = space->GetBodyByIndex(f->m_astroBodyIndex);
 	for (std::list<Frame*>::iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
 		PostUnserializeFixup(*i);
