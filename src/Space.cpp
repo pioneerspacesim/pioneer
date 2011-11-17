@@ -135,6 +135,10 @@ void Space::RebuildIndexes()
 	m_bodyIndex.clear();
 	m_sbodyIndex.clear();
 
+	m_frameIndex.push_back(0);
+	m_bodyIndex.push_back(0);
+	m_sbodyIndex.push_back(0);
+
 	AddFrameToIndex(m_rootFrame.Get());
 
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
