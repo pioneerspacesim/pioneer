@@ -44,6 +44,7 @@ void Player::Save(Serializer::Writer &wr)
 	wr.Int32(m_knownKillCount);
 	wr.Int32(space->GetIndexForBody(m_combatTarget));
 	wr.Int32(space->GetIndexForBody(m_navTarget));
+	wr.Int32(space->GetIndexForBody(m_setSpeedTarget));
 }
 
 void Player::Load(Serializer::Reader &rd, Space *space)
@@ -57,6 +58,7 @@ void Player::Load(Serializer::Reader &rd, Space *space)
 	m_knownKillCount = rd.Int32();
 	m_combatTargetIndex = rd.Int32();
 	m_navTargetIndex = rd.Int32();
+	m_setSpeedTargetIndex = rd.Int32();
 }
 
 void Player::PostLoadFixup(Space *space)
@@ -64,6 +66,7 @@ void Player::PostLoadFixup(Space *space)
 	Ship::PostLoadFixup(space);
 	m_combatTarget = space->GetBodyByIndex(m_combatTargetIndex);
 	m_navTarget = space->GetBodyByIndex(m_navTargetIndex);
+	m_setSpeedTarget = space->GetBodyByIndex(m_setSpeedTargetIndex);
 }
 
 void Player::OnHaveKilled(Body *guyWeKilled)
