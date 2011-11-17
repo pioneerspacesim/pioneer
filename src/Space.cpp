@@ -54,6 +54,8 @@ Space::~Space()
 
 void Space::Serialize(Serializer::Writer &wr)
 {
+	RebuildIndexes();
+
 	Serializer::Writer section;
 	Frame::Serialize(section, m_rootFrame.Get());
 	wr.WrSection("Frames", section.GetData());
