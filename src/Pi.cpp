@@ -1255,7 +1255,10 @@ void Pi::Start()
 				Gui::MainLoopIteration();
 			} while (Pi::currentView != Pi::worldView);
 
-			if (Pi::isGameStarted) MainLoop();
+			if (Pi::isGameStarted) {
+				MainLoop();
+				UninitGame();
+			}
 			break;
 		}
 		case 5: // Quit
