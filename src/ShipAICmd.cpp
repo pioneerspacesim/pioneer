@@ -884,14 +884,16 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 			ProcessChild(); m_state = -5; return false;
 		}
 	}
-
-	// regenerate state to flipmode if we're off course
-	if (m_state < 0) m_state = GetFlipMode(m_ship, relpos, relvel);
 	
 	// if dangerously close to local body, pretend target isn't moving
 	double localdist = m_ship->GetPosition().Length();
 	if (targdist > localdist && localdist < 1.5*MaxFeatureRad(body))
 		relvel += targvel;
+
+	// regenerate state to flipmode if we're off course
+	bool overshoot = CheckOvershoot(m_ship, reldir, targdist, relvel, m_endvel);
+	if (m_tangent && m_state == -4 && !overshoot) return true;			// bail out
+	if (m_state < 0) m_state = GetFlipMode(m_ship, relpos, relvel);
 
 	// linear thrust
 	double ang, maxdecel = GetMaxDecel(m_ship, reldir, m_state, &ang);
@@ -900,7 +902,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 	bool cap = m_ship->AIMatchPosVel2(reldir, targdist, relvel, m_endvel, maxdecel);
 
 	// path overshoot check, response
-	if (m_state < 3 && CheckOvershoot(m_ship, reldir, targdist, relvel, m_endvel)) {
+	if (m_state < 3 && overshoot) {
 		double ispeed = calc_ivel(targdist, m_endvel, maxdecel);
 		m_ship->AIFaceDirection(ispeed*reldir - relvel);
 		m_state = -4; return false;
