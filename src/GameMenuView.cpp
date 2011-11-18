@@ -322,10 +322,11 @@ private:
 		if (filename.empty()) return;
 		std::string fullname = join_path(GetFullSavefileDirPath().c_str(), filename.c_str(), 0);
 
-        if (Pi::IsGameStarted())
+        if (Pi::IsGameStarted()) {
 			Pi::EndGame();
+			Pi::UninitGame();
+		}
 
-		Pi::UninitGame();
 		Pi::InitGame();
 
 		try {
