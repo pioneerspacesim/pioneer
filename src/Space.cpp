@@ -55,6 +55,7 @@ Space::Space(Serializer::Reader &rd) : m_frameIndexValid(false), m_bodyIndexVali
 
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->PostLoadFixup(this);
+	Frame::PostUnserializeFixup(m_rootFrame.Get(), this);
 }
 
 Space::~Space()

@@ -67,13 +67,12 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Space *space, Frame *parent)
 	return f;
 }
 
-void Frame::PostUnserializeFixup(Frame *f)
+void Frame::PostUnserializeFixup(Frame *f, Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
 	f->m_astroBody = space->GetBodyByIndex(f->m_astroBodyIndex);
 	for (std::list<Frame*>::iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
-		PostUnserializeFixup(*i);
+		PostUnserializeFixup(*i, space);
 	}
 }
 

@@ -23,7 +23,7 @@ public:
 	Frame(Frame *parent, const char *label, unsigned int flags);
 	~Frame();
 	static void Serialize(Serializer::Writer &wr, Frame *);
-	static void PostUnserializeFixup(Frame *f);
+	static void PostUnserializeFixup(Frame *f, Space *space);
 	static Frame *Unserialize(Serializer::Reader &rd, Space *space, Frame *parent);
 	// XXX this should return a std::string
 	const char *GetLabel() const { return m_label.c_str(); }
