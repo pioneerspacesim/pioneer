@@ -263,45 +263,6 @@ Body *Space::FindBodyForPath(const SystemPath *path)
 	return 0;
 }
 
-
-/*
-void Unserialize(Serializer::Reader &rd)
-{
-	Serializer::IndexSystemm_bodies(Pi::spaceManager->GetSpace()->GetStarSystem().Get());
-	
-	Serializer::Reader rd2 = rd.RdSection("Frames");
-	m_rootFrame = Frame::Unserialize(rd2, 0);
-	
-	// XXX not needed. done in Pi::Unserialize
-	Serializer::IndexFrames();
-	int num_m_bodies = rd.Int32();
-	//printf("%d m_bodies to read\n", num_m_bodies);
-	for (int i=0; i<num_m_bodies; i++) {
-		Body *b = Body::Unserialize(rd);
-		if (b) m_bodies.push_back(b);
-	}
-	num_m_bodies = rd.Int32();
-	for (int i=0; i<num_m_bodies; i++) {
-		Body *b = Body::Unserialize(rd);
-		if (b) storedArrivalClouds.push_back(static_cast<HyperspaceCloud*>(b));
-	}
-
-	hyperspaceAnim = 0;
-	if (rd.Byte()) {
-		hyperspacingTo = new SystemPath(SystemPath::Unserialize(rd));
-		hyperspaceAnim = rd.Float();
-		hyperspaceDuration = rd.Double();
-		hyperspaceEndTime = rd.Double();
-	}
-	// m_bodies with references to others must fix these up
-	Serializer::Indexm_bodies();
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
-		(*i)->PostLoadFixup();
-	}
-	Frame::PostUnserializeFixup(m_rootFrame);
-}
-*/
-
 static Frame *find_frame_with_sbody(Frame *f, const SBody *b)
 {
 	if (f->m_sbody == b) return f;
