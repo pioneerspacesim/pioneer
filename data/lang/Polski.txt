@@ -351,7 +351,7 @@ ECM_ADVANCED_DESCRIPTION
 SHIELD_GENERATOR
     Generator Osłon
 X_SHIELD_GENERATORS
-    Genaratory Osłon [ %quantity ]
+    Genaratory Osłon [#0f0 %quantity #fff]
 SHIELD_GENERATOR_DESCRIPTION
     Zapewnia dodatkowa osłonę kadłuba wraz z dodawaniem kolejnych jednostek.
 LASER_COOLING_BOOSTER
