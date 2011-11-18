@@ -22,9 +22,8 @@ Frame::Frame(Frame *parent, const char *label, unsigned int flags)
 	Init(parent, label, flags);
 }
 
-void Frame::Serialize(Serializer::Writer &wr, Frame *f)
+void Frame::Serialize(Serializer::Writer &wr, Frame *f, Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
 	wr.Int32(f->m_flags);
 	wr.Double(f->m_radius);
 	wr.String(f->m_label);
@@ -35,7 +34,7 @@ void Frame::Serialize(Serializer::Writer &wr, Frame *f)
 	wr.Int32(f->m_children.size());
 	for (std::list<Frame*>::iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
-		Serialize(wr, *i);
+		Serialize(wr, *i, space);
 	}
 	Sfx::Serialize(wr, f);
 }

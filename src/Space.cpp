@@ -75,12 +75,12 @@ void Space::Serialize(Serializer::Writer &wr)
 	StarSystem::Serialize(wr, m_starSystem.Get());
 
 	Serializer::Writer section;
-	Frame::Serialize(section, m_rootFrame.Get());
+	Frame::Serialize(section, m_rootFrame.Get(), this);
 	wr.WrSection("Frames", section.GetData());
 
 	wr.Int32(m_bodies.size());
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		(*i)->Serialize(wr);
+		(*i)->Serialize(wr, this);
 }
 
 Frame *Space::GetFrameByIndex(Uint32 idx)

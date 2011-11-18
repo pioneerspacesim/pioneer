@@ -24,9 +24,9 @@ ModelBody::~ModelBody()
 	delete m_geom;
 }
 
-void ModelBody::Save(Serializer::Writer &wr)
+void ModelBody::Save(Serializer::Writer &wr, Space *space)
 {
-	Body::Save(wr);
+	Body::Save(wr, space);
 }
 
 void ModelBody::Load(Serializer::Reader &rd, Space *space)

@@ -23,7 +23,7 @@ public:
 	virtual void UpdateInterpolatedTransform(double alpha);
 	virtual void PostLoadFixup(Space *space);
 protected:
-	virtual void Save(Serializer::Writer &wr);
+	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
 private:
 	float GetDamage() const;

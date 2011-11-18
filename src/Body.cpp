@@ -26,9 +26,8 @@ Body::~Body()
 {
 }
 
-void Body::Save(Serializer::Writer &wr)
+void Body::Save(Serializer::Writer &wr, Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
 	wr.Int32(space->GetIndexForFrame(m_frame));
 	wr.String(m_label);
 	wr.Bool(m_dead);
@@ -43,7 +42,7 @@ void Body::Load(Serializer::Reader &rd, Space *space)
 	m_hasDoubleFrame = rd.Bool();
 }	
 
-void Body::Serialize(Serializer::Writer &_wr)
+void Body::Serialize(Serializer::Writer &_wr, Space *space)
 {
 	Serializer::Writer wr;
 	wr.Int32(int(GetType()));
@@ -57,7 +56,7 @@ void Body::Serialize(Serializer::Writer &_wr)
 		case Object::CARGOBODY:
 		case Object::PROJECTILE:
 		case Object::HYPERSPACECLOUD:
-			Save(wr);
+			Save(wr, space);
 			break;
 		default:
 			assert(0);

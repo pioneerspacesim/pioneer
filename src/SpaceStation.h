@@ -127,7 +127,7 @@ public:
 	const std::list<const BBAdvert*> GetBBAdverts();
 	
 protected:
-	virtual void Save(Serializer::Writer &wr);
+	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);

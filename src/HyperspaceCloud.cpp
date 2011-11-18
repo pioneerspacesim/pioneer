@@ -49,16 +49,16 @@ void HyperspaceCloud::SetPosition(vector3d p)
 	m_pos = p;
 }
 
-void HyperspaceCloud::Save(Serializer::Writer &wr)
+void HyperspaceCloud::Save(Serializer::Writer &wr, Space *space)
 {
-	Body::Save(wr);
+	Body::Save(wr, space);
 	wr.Vector3d(m_pos);
 	wr.Vector3d(m_vel);
 	wr.Double(m_birthdate);
 	wr.Double(m_due);
 	wr.Bool(m_isArrival);
 	wr.Bool(m_ship != 0);
-	if (m_ship) m_ship->Serialize(wr);
+	if (m_ship) m_ship->Serialize(wr, space);
 }
 
 void HyperspaceCloud::Load(Serializer::Reader &rd, Space *space)

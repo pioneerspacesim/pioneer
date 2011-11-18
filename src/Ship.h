@@ -185,7 +185,7 @@ public:
 	sigc::signal<void> onDock;				// JJ: check what these are for
 	sigc::signal<void> onUndock;
 protected:
-	virtual void Save(Serializer::Writer &wr);
+	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
 	void RenderLaserfire();
 

@@ -52,9 +52,9 @@ void DynamicBody::AddRelTorque(const vector3d t)
 	m_torque += m_orient.ApplyRotationOnly(t);
 }
 
-void DynamicBody::Save(Serializer::Writer &wr)
+void DynamicBody::Save(Serializer::Writer &wr, Space *space)
 {
-	ModelBody::Save(wr);
+	ModelBody::Save(wr, space);
 	for (int i=0; i<16; i++) wr.Double(m_orient[i]);
 	wr.Vector3d(m_force);
 	wr.Vector3d(m_torque);

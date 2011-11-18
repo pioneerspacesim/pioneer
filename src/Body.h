@@ -16,7 +16,7 @@ public:
 	OBJDEF(Body, Object, BODY);
 	Body();
 	virtual ~Body();
-	void Serialize(Serializer::Writer &wr);
+	void Serialize(Serializer::Writer &wr, Space *space);
 	static Body *Unserialize(Serializer::Reader &rd, Space *space);
 	virtual void PostLoadFixup(Space *space) {};
 
@@ -88,7 +88,7 @@ public:
                FLAG_LABEL_HIDDEN = (1<<1),
 	       FLAG_DRAW_LAST = (1<<2) }; // causes the body drawn after other bodies in the z-sort
 protected:
-	virtual void Save(Serializer::Writer &wr);
+	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
 	unsigned int m_flags;
 	bool m_hasDoubleFrame;

@@ -38,7 +38,7 @@ public:
 	
 	virtual void UpdateInterpolatedTransform(double alpha);
 protected:
-	virtual void Save(Serializer::Writer &wr);
+	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
 private:
 	LmrModel *m_lmrModel;

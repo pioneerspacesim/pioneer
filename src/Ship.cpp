@@ -60,11 +60,9 @@ void SerializableEquipSet::Load(Serializer::Reader &rd)
 	onChange.emit(Equip::NONE);
 }
 
-void Ship::Save(Serializer::Writer &wr)
+void Ship::Save(Serializer::Writer &wr, Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
-
-	DynamicBody::Save(wr);
+	DynamicBody::Save(wr, space);
 	wr.Vector3d(m_angThrusters);
 	wr.Vector3d(m_thrusters);
 	wr.Int32(m_wheelTransition);

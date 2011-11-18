@@ -33,10 +33,9 @@ Player::~Player()
 	Pi::player = 0;
 }
 
-void Player::Save(Serializer::Writer &wr)
+void Player::Save(Serializer::Writer &wr, Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
-	Ship::Save(wr);
+	Ship::Save(wr, space);
 	MarketAgent::Save(wr);
 	wr.Int32(static_cast<int>(m_flightControlState));
 	wr.Double(m_setSpeed);

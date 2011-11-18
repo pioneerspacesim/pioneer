@@ -41,10 +41,9 @@ void TerrainBody::InitTerrainBody(SBody *sbody)
 		m_geosphere = new GeoSphere(sbody);
 }
 
-void TerrainBody::Save(Serializer::Writer &wr)
+void TerrainBody::Save(Serializer::Writer &wr, Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
-	Body::Save(wr);
+	Body::Save(wr, space);
 	wr.Vector3d(m_pos);
 	wr.Int32(space->GetIndexForSBody(m_sbody));
 }

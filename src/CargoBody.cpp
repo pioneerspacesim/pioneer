@@ -7,9 +7,9 @@
 #include "LmrModel.h"
 #include "SpaceManager.h"
 
-void CargoBody::Save(Serializer::Writer &wr)
+void CargoBody::Save(Serializer::Writer &wr, Space *space)
 {
-	DynamicBody::Save(wr);
+	DynamicBody::Save(wr, space);
 	wr.Int32(static_cast<int>(m_type));
 	wr.Float(m_hitpoints);
 }

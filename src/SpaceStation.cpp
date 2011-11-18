@@ -219,11 +219,9 @@ float SpaceStation::GetDesiredAngVel() const
 	return m_type->angVel;
 }
 
-void SpaceStation::Save(Serializer::Writer &wr)
+void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
-
-	ModelBody::Save(wr);
+	ModelBody::Save(wr, space);
 	MarketAgent::Save(wr);
 	wr.Int32(Equip::TYPE_MAX);
 	for (int i=0; i<Equip::TYPE_MAX; i++) {

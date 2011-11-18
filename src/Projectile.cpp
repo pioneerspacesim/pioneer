@@ -23,10 +23,9 @@ Projectile::Projectile(): Body()
 	m_flags |= FLAG_DRAW_LAST;
 }
 
-void Projectile::Save(Serializer::Writer &wr)
+void Projectile::Save(Serializer::Writer &wr, Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
-	Body::Save(wr);
+	Body::Save(wr, space);
 	for (int i=0; i<16; i++) wr.Double(m_orient[i]);
 	wr.Vector3d(m_baseVel);
 	wr.Vector3d(m_dirVel);

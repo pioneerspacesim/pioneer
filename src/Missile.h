@@ -19,7 +19,7 @@ public:
 	void ECMAttack(int power_val);
 	Body *GetOwner() const { return m_owner; }
 protected:
-	virtual void Save(Serializer::Writer &wr);
+	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
 private:
 	void Explode();

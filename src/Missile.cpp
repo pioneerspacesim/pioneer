@@ -36,10 +36,9 @@ void Missile::PostLoadFixup(Space *space)
 	m_target = space->GetBodyByIndex(m_targetIndex);
 }
 
-void Missile::Save(Serializer::Writer &wr)
+void Missile::Save(Serializer::Writer &wr, Space *space)
 {
-	Space *space = Pi::spaceManager->GetSpace();
-	Ship::Save(wr);
+	Ship::Save(wr, space);
 	wr.Int32(space->GetIndexForBody(m_owner));
 	wr.Int32(space->GetIndexForBody(m_target));
 	wr.Double(m_distToTarget);
