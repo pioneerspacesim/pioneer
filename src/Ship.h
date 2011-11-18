@@ -132,7 +132,7 @@ public:
 	double AIFaceDirection(const vector3d &dir, double av=0);
 	vector3d AIGetNextFramePos();
 	vector3d AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex=0);
-	double AITravelTime(const vector3d &relpos, const vector3d &relvel, double targspeed, bool flip);
+	double AITravelTime(const vector3d &reldir, double targdist, const vector3d &relvel, double targspeed, bool flip);
 
 	// old stuff, deprecated
 	void AIAccelToModelRelativeVelocity(const vector3d v);
