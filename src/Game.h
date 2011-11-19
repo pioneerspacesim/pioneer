@@ -15,41 +15,50 @@ class HyperspaceCloud;
 class Game {
 public:
 	enum State {
-		STATE_NONE,
 		STATE_NORMAL,
 		STATE_HYPERSPACE,
 	};
 
-	Game(Player *player) : m_player(player), m_state(STATE_NONE), m_space(0), m_wantHyperspace(false) {}
+	// start docked in station referenced by path
+	Game(const SystemPath &path);
+
+	// start at position relative to body referenced by path
+	Game(const SystemPath &path, const vector3d &pos);
+
+	// load game
 	Game(Serializer::Reader &rd);
 
+	// save game
 	void Serialize(Serializer::Writer &wr);
 
+	// various game states
 	bool IsNormalSpace() const { return m_state == STATE_NORMAL; }
 	bool IsHyperspace() const { return m_state == STATE_HYPERSPACE; }
 
 	Space *GetSpace() const { return m_space.Get(); }
+	Player *GetPlayer() const { return m_player.Get(); }
 
-	void CreateSpaceForDockedStart(const SystemPath &path);
-	void CreateSpaceForFreeStart(const SystemPath &path, const vector3d &pos);
-
+	// request switch to hyperspace
 	void WantHyperspace();
 
+	// physics step
 	void TimeStep(float step);
 
+	// hyperspace parameters. only meaningful when IsHyperspace() is true
 	float GetHyperspaceProgress() const { return m_hyperspaceProgress; }
 	double GetHyperspaceDuration() const { return m_hyperspaceDuration; }
 	double GetHyperspaceEndTime() const { return m_hyperspaceEndTime; }
 
 private:
+	void CreatePlayer();
+
 	void SwitchToHyperspace();
 	void SwitchToNormalSpace();
 
-	Player *m_player;
+	ScopedPtr<Space> m_space;
+	ScopedPtr<Player> m_player;
 
 	State m_state;
-
-	ScopedPtr<Space> m_space;
 
 	bool m_wantHyperspace;
 

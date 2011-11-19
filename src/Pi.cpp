@@ -981,21 +981,6 @@ void Pi::InitGame()
 
 	Polit::Init();
 
-	player = new Player("Eagle Long Range Fighter");
-	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
-	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
-	player->m_equipment.Add(Equip::HYDROGEN, 1);
-	player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
-	player->m_equipment.Add(Equip::MISSILE_GUIDED);
-	player->m_equipment.Add(Equip::MISSILE_GUIDED);
-	player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
-	player->m_equipment.Add(Equip::AUTOPILOT);
-	player->m_equipment.Add(Equip::SCANNER);
-	player->UpdateMass();
-	player->SetMoney(10000);
-
-	game = new Game(player);
-
 	cpan = new ShipCpanel();
 	sectorView = new SectorView();
 	worldView = new WorldView();
@@ -1146,8 +1131,9 @@ void Pi::Start()
 	switch (choice) {
 		case 1: // Earth start point
 		{
+			game = new Game(SystemPath(0,0,0,0,6));  // Mexico City, Earth
+			player = game->GetPlayer(); // XXX hack
 			InitGame();
-			game->CreateSpaceForDockedStart(SystemPath(0,0,0,0,6));  // Mexico City, Earth
 			sectorView->NewGameInit();
 			StartGame();
 			MainLoop();
@@ -1156,8 +1142,9 @@ void Pi::Start()
 		}
 		case 2: // Epsilon Eridani start point
 		{
+			game = new Game(SystemPath(1,0,-1,0,5));  // New Hope, New Hope
+			player = game->GetPlayer(); // XXX hack
 			InitGame();
-			game->CreateSpaceForDockedStart(SystemPath(1,0,-1,0,5));  // New Hope, New Hope
 			sectorView->NewGameInit();
 			StartGame();
 			MainLoop();
@@ -1166,8 +1153,9 @@ void Pi::Start()
 		}
 		case 3: // Debug start point
 		{
+			game = new Game(SystemPath(1,0,-1,0,4), vector3d(0,2*EARTH_RADIUS,0));  // somewhere over New Hope
+			player = game->GetPlayer(); // XXX hack
 			InitGame();
-			game->CreateSpaceForFreeStart(SystemPath(1,0,-1,0,4), vector3d(0,2*EARTH_RADIUS,0));  // New Hope
 
 			Ship *enemy = new Ship(ShipType::EAGLE_LRF);
 			enemy->SetFrame(player->GetFrame());

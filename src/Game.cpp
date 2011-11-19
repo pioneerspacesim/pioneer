@@ -9,6 +9,56 @@
 #include "Sfx.h"
 #include "MathUtil.h"
 
+Game::Game(const SystemPath &path) : m_state(STATE_NORMAL), m_wantHyperspace(false)
+{
+	CreatePlayer();
+
+	m_space.Reset(new Space(path));
+	
+	SpaceStation *station = 0;
+	Uint32 idx = path.bodyIndex;
+	for (Space::BodyIterator i = m_space->IteratorBegin(); i != m_space->IteratorEnd(); ++i)
+		if (--idx == 0) {
+			assert((*i)->IsType(Object::SPACESTATION));
+			station = static_cast<SpaceStation*>(*i);
+			break;
+		}
+	assert(station);
+
+	m_space->AddBody(m_player.Get());
+
+	m_player->Enable();
+	m_player->SetFrame(station->GetFrame());
+	m_player->SetDockedWith(station, 0);
+
+	// XXX stupid, should probably be done by SetDockedWith
+	station->CreateBB();
+}
+
+Game::Game(const SystemPath &path, const vector3d &pos) : m_state(STATE_NORMAL), m_wantHyperspace(false)
+{
+	CreatePlayer();
+
+	m_space.Reset(new Space(path));
+	
+	Body *b = 0;
+	Uint32 idx = path.bodyIndex;
+	for (Space::BodyIterator i = m_space->IteratorBegin(); i != m_space->IteratorEnd(); ++i)
+		if (--idx == 0) {
+			b = *i;
+			break;
+		}
+	assert(b);
+
+	m_space->AddBody(m_player.Get());
+
+	m_player->Enable();
+	m_player->SetFrame(b->GetFrame());
+
+	m_player->SetPosition(pos);
+	m_player->SetVelocity(vector3d(0,0,0));
+}
+
 Game::Game(Serializer::Reader &rd)
 {
 	Serializer::Reader section = rd.RdSection("Space");
@@ -18,7 +68,7 @@ Game::Game(Serializer::Reader &rd)
 	for (Uint32 i = 0; i < nclouds; i++)
 		m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud*>(Body::Unserialize(rd, 0)));
 	
-	m_player = static_cast<Player*>(m_space->GetBodyByIndex(rd.Int32()));
+	m_player.Reset(static_cast<Player*>(m_space->GetBodyByIndex(rd.Int32())));
 	m_state = State(rd.Int32());
 	m_wantHyperspace = rd.Bool();
 	m_hyperspaceProgress = rd.Double();
@@ -36,7 +86,7 @@ void Game::Serialize(Serializer::Writer &wr)
 	for (std::list<HyperspaceCloud*>::const_iterator i = m_hyperspaceClouds.begin(); i != m_hyperspaceClouds.end(); ++i)
 		(*i)->Serialize(wr, m_space.Get());
 
-	wr.Int32(m_space->GetIndexForBody(m_player));
+	wr.Int32(m_space->GetIndexForBody(m_player.Get()));
 	wr.Int32(Uint32(m_state));
 	wr.Bool(m_wantHyperspace);
 	wr.Double(m_hyperspaceProgress);
@@ -44,69 +94,8 @@ void Game::Serialize(Serializer::Writer &wr)
 	wr.Double(m_hyperspaceEndTime);
 }
 
-void Game::CreateSpaceForDockedStart(const SystemPath &path)
-{
-	assert(m_state == STATE_NONE);
-	assert(!m_space);
-
-	m_space.Reset(new Space(path));
-	m_space->TimeStep(0);
-	
-	SpaceStation *station = 0;
-	Uint32 idx = path.bodyIndex;
-	for (Space::BodyIterator i = m_space->IteratorBegin(); i != m_space->IteratorEnd(); ++i)
-		if (--idx == 0) {
-			assert((*i)->IsType(Object::SPACESTATION));
-			station = static_cast<SpaceStation*>(*i);
-			break;
-		}
-	assert(station);
-
-	m_space->AddBody(m_player);
-
-	m_player->Enable();
-	m_player->SetFrame(station->GetFrame());
-	m_player->SetDockedWith(station, 0);
-
-	// XXX stupid, should probably be done by SetDockedWith
-	station->CreateBB();
-
-    m_state = STATE_NORMAL;
-}
-
-void Game::CreateSpaceForFreeStart(const SystemPath &path, const vector3d &pos)
-{
-	assert(m_state == STATE_NONE);
-	assert(!m_space);
-
-	m_space.Reset(new Space(path));
-	m_space->TimeStep(0);
-	
-	Body *b = 0;
-	Uint32 idx = path.bodyIndex;
-	for (Space::BodyIterator i = m_space->IteratorBegin(); i != m_space->IteratorEnd(); ++i)
-		if (--idx == 0) {
-			b = *i;
-			break;
-		}
-	assert(b);
-
-	m_space->AddBody(m_player);
-
-	m_player->Enable();
-	m_player->SetFrame(b->GetFrame());
-
-	m_player->SetPosition(pos);
-	m_player->SetVelocity(vector3d(0,0,0));
-
-    m_state = STATE_NORMAL;
-}
-
 void Game::TimeStep(float step)
 {
-	assert(m_state != STATE_NONE);
-	assert(m_space);
-
 	m_space->TimeStep(step);
 
 	// XXX ui updates, not sure if they belong here
@@ -179,14 +168,14 @@ void Game::SwitchToHyperspace()
 	printf("%lu clouds brought over\n", m_hyperspaceClouds.size());
 
 	// remove the player from space
-	m_space->RemoveBody(m_player);
+	m_space->RemoveBody(m_player.Get());
 
 	// create hyperspace :)
 	m_space.Reset(new Space());
 
 	// put the player in it
 	m_player->SetFrame(m_space->GetRootFrame());
-	m_space->AddBody(m_player);
+	m_space->AddBody(m_player.Get());
 
 	// put player at the origin. kind of unnecessary since it won't be moving
 	// but at least it gives some consistency
@@ -208,7 +197,7 @@ void Game::SwitchToHyperspace()
 void Game::SwitchToNormalSpace()
 {
 	// remove the player from hyperspace
-	m_space->RemoveBody(m_player);
+	m_space->RemoveBody(m_player.Get());
 
 	// create a new space for the system
 	const SystemPath &dest = m_player->GetHyperspaceDest();
@@ -216,7 +205,7 @@ void Game::SwitchToNormalSpace()
 
 	// put the player in it
 	m_player->SetFrame(m_space->GetRootFrame());
-	m_space->AddBody(m_player);
+	m_space->AddBody(m_player.Get());
 
 	// place it
 	m_player->SetPosition(m_space->GetHyperspaceExitPoint(m_hyperspaceSource));
@@ -321,4 +310,20 @@ void Game::SwitchToNormalSpace()
 	m_hyperspaceClouds.clear();
 
 	m_state = STATE_NORMAL;
+}
+
+void Game::CreatePlayer()
+{
+	// XXX this should probably be in lua somewhere
+	m_player.Reset(new Player("Eagle Long Range Fighter"));
+	m_player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
+	m_player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+	m_player->m_equipment.Add(Equip::HYDROGEN, 1);
+	m_player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
+	m_player->m_equipment.Add(Equip::MISSILE_GUIDED);
+	m_player->m_equipment.Add(Equip::MISSILE_GUIDED);
+	m_player->m_equipment.Add(Equip::AUTOPILOT);
+	m_player->m_equipment.Add(Equip::SCANNER);
+	m_player->UpdateMass();
+	m_player->SetMoney(10000);
 }
