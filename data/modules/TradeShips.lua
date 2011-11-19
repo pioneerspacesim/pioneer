@@ -1,4 +1,51 @@
-local trade_ships, starports, imports, exports, system_updated
+--[[
+	trade_ships
+		interval - is minimum amount of time between hyperspace arrivals,
+			stored here as it needs to be saved; number as seconds, updated by
+			spawnInitialShips
+		ship - object returned from Space:SpawnShip*
+			ship_name - of this ship type; string
+			starport - at which this ship intends to dock; SpaceStation object
+			dest_time - arrival time from hyperspace; number as Game.time
+			dest_path - for hyperspace; SystemPath object, may have body index
+			from_path - for hyperspace; SystemPath object
+			delay - indicates waiting for a Timer to give next action; number
+				as Game.time
+			status - of this ship; string, one of:
+				hyperspace - yet to arrive or has departed
+				inbound - in system and given AIDockWith order
+				docked - currently docked or un/docking
+				outbound - heading away from starport before hyperspacing
+				fleeing - has been attacked and is trying to get away
+					(currently still just following whatever AI order it had)
+				cowering - docked after having been attacked, waiting for
+					attacker to go away
+				orbit - was unable to dock, heading to or waiting in orbit
+				dead - XXX not yet added, may not be needed
+			cargo - table of cargo types and amounts currently carried;
+				key: Constants.EquipType string, value: number
+			attacker - what this was last attacked by; Body object
+			chance - used to determine what action to take when attacked; number
+			last_flee - when last action was taken, number as Game.time
+			no_jump - whether this has tried to hyperspace away so it only
+				tries once; bool
+			answered - XXX unused, need to remove
+
+	system_updated - indicates whether the following tables have been updated
+		for the current system; bool, see onEnterSystem, onLeaveSystem, and
+		onGameStart
+
+	local_systems - around the current system, used to get a from_system for
+		ships spawned in hyperspace; indexed array of XXX, updated by
+		spawnInitialShips
+
+	starports - in the current system; indexed array of SpaceStation objects,
+		updated by spawnInitialShips
+
+	imports, exports - in the current system, indexed array of
+		Constants.EquipType strings, updated by spawnInitialShips
+--]]
+local trade_ships, system_updated, local_systems, starports, imports, exports
 
 local addFuel = function (ship)
 	local drive = ship:GetEquip('ENGINE', 1)
@@ -216,6 +263,7 @@ local spawnInitialShips = function (game_start)
 	imports, exports = {}, {}
 	for k,v in pairs(prices) do
 		if k ~= 'RUBBISH' and k ~= 'RADIOACTIVES' and Game.system:IsCommodityLegal(k) then
+			-- values from SystemInfoView::UpdateEconomyTab
 			if		v > 10	then
 				import_score = import_score + 2
 			elseif	v > 2	then
@@ -410,7 +458,7 @@ end
 
 local onEnterSystem = function (ship)
 	-- if the player is following a ship through hyperspace that ship may enter first
-	-- so update the system when the first ship enters
+	-- so update the system when the first ship enters (see Space::DoHyperspaceTo)
 	if not system_updated then
 		updateTradeShipsTable()
 		spawnInitialShips(false)
@@ -639,6 +687,8 @@ local onShipHit = function (ship, attacker)
 	if Engine.rand:Number(1) < trader.chance then
 		if #trader.cargo == 0 then return end
 
+		-- XXX this does not work as the table is not indexed
+		-- XXX replace with for pairs loop of some sort
 		local cargo_type = trader.cargo[Engine.rand:Integer(1, #trader.cargo)]
 		if trader.cargo[cargo_type] > 1 and ship:Jettison(cargo_type) then
 			trader.cargo[cargo_type] = trader.cargo[cargo_type] - 1
@@ -743,7 +793,7 @@ local onGameStart = function ()
 		end
 	end
 
-	system_updated = true
+	system_updated = true -- XXX move to before if block so the #starports==0 return doesn't skip it
 end
 EventQueue.onGameStart:Connect(onGameStart)
 
