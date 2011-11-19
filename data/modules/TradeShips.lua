@@ -758,7 +758,7 @@ EventQueue.onShipDestroyed:Connect(onShipDestroyed)
 
 local onGameStart = function ()
 	-- create tables for data on the current system
-	starports, imports, exports = {}, {}, {}
+	from_paths, starports, imports, exports = {}, {}, {}, {}
 
 	system_updated = true
 
@@ -784,6 +784,17 @@ local onGameStart = function ()
 					end
 				end
 			end
+		end
+
+		-- rebuild nearby system paths for hyperspace spawns to come from
+		local from_systems, dist = {}, 10
+		while #from_systems < 10 do
+			dist = dist + 5
+			from_systems = Game.system:GetNearbySystems(dist)
+		end
+		from_paths = {}
+		for _, system in ipairs(from_systems) do
+			table.insert(from_paths, system.path)
 		end
 
 		-- check if any trade ships were waiting on a timer
