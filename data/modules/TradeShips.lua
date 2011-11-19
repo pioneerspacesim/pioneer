@@ -29,7 +29,6 @@
 			last_flee - when last action was taken, number as Game.time
 			no_jump - whether this has tried to hyperspace away so it only
 				tries once; bool
-			answered - XXX unused, need to remove
 
 	system_updated - indicates whether the following tables have been updated
 		for the current system; bool, see onEnterSystem, onLeaveSystem, and
@@ -541,7 +540,7 @@ local onShipDocked = function (ship, starport)
 	end
 	if trader.chance then
 		trader['chance'] = trader.chance / 2
-		trader['last_flee'], trader['no_jump'], trader['answered'] = nil, nil, nil
+		trader['last_flee'], trader['no_jump'] = nil, nil
 	end
 
 	-- 'sell' trade cargo
