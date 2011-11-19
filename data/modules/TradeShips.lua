@@ -34,9 +34,9 @@
 		for the current system; bool, see onEnterSystem, onLeaveSystem, and
 		onGameStart
 
-	local_systems - around the current system, used to get a from_system for
-		ships spawned in hyperspace; indexed array of XXX, updated by
-		spawnInitialShips
+	from_paths - paths of systems around the current system, used to get a
+		from_system for ships spawned in hyperspace; indexed array of
+		SystemPath objects, updated by spawnInitialShips
 
 	starports - in the current system; indexed array of SpaceStation objects,
 		updated by spawnInitialShips
@@ -44,7 +44,7 @@
 	imports, exports - in the current system, indexed array of
 		Constants.EquipType strings, updated by spawnInitialShips
 --]]
-local trade_ships, system_updated, local_systems, starports, imports, exports
+local trade_ships, system_updated, from_paths, starports, imports, exports
 
 local addFuel = function (ship)
 	local drive = ship:GetEquip('ENGINE', 1)
@@ -297,6 +297,16 @@ local spawnInitialShips = function (game_start)
 	end
 	-- the base number of seconds between ships spawned in hyperspace
 	trade_ships['interval'] = (864000 / (num_trade_ships / 4))
+	-- get nearby system paths for hyperspace spawns to come from
+	local from_systems, dist = {}, 10
+	while #from_systems < 10 do
+		dist = dist + 5
+		from_systems = Game.system:GetNearbySystems(dist)
+	end
+	from_paths = {}
+	for _, system in ipairs(from_systems) do
+		table.insert(from_paths, system.path)
+	end
 
 	-- spawn the initial trade ships
 	for i = 0, num_trade_ships do
@@ -342,19 +352,14 @@ local spawnInitialShips = function (game_start)
 			local min_time = trade_ships.interval * (i - num_trade_ships * 0.75)
 			local max_time = min_time + trade_ships.interval
 			local dest_time = Game.time + Engine.rand:Integer(min_time, max_time)
-			local local_systems, dist = {}, 0
-			while #local_systems == 0 do
-				dist = dist + 5
-				local_systems = Game.system:GetNearbySystems(dist)
-			end
-			local from_system = local_systems[Engine.rand:Integer(1, #local_systems)]
+			local from = from_paths[Engine.rand:Integer(1, #from_paths)]
 
-			ship = Space.SpawnShip(ship_name, 9, 11, {from_system.path, dest_time})
+			ship = Space.SpawnShip(ship_name, 9, 11, {from, dest_time})
 			trade_ships[ship] = {
 				status		= 'hyperspace',
 				dest_time	= dest_time,
 				dest_path	= Game.system.path,
-				from_path	= from_system.path,
+				from_path	= from,
 				ship_name	= ship_name,
 			}
 		end
@@ -393,19 +398,14 @@ local spawnReplacement = function ()
 		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
 
 		local dest_time = Game.time + Engine.rand:Number(trade_ships.interval, trade_ships.interval * 2)
-		local local_systems, dist = {}, 0
-		while #local_systems == 0 do
-			dist = dist + 5
-			local_systems = Game.system:GetNearbySystems(dist)
-		end
-		local from_system = local_systems[Engine.rand:Integer(1, #local_systems)]
+		local from = from_paths[Engine.rand:Integer(1, #from_paths)]
 
-		local ship = Space.SpawnShip(ship_name, 9, 11, {from_system.path, dest_time})
+		local ship = Space.SpawnShip(ship_name, 9, 11, {from, dest_time})
 		trade_ships[ship] = {
 			status		= 'hyperspace',
 			dest_time	= dest_time,
 			dest_path	= Game.system.path,
-			from_path	= from_system.path,
+			from_path	= from,
 			ship_name	= ship_name,
 		}
 
@@ -802,7 +802,7 @@ EventQueue.onGameStart:Connect(onGameStart)
 local onGameEnd = function ()
 	-- drop the references for our data so Lua can free them
 	-- and so we can start fresh if the player starts another game
-	trade_ships, starports, imports, exports, system_updated = nil, nil, nil, nil, nil
+	trade_ships, system_updated, from_paths, starports, imports, exports = nil, nil, nil, nil, nil, nil
 end
 EventQueue.onGameEnd:Connect(onGameEnd)
 
