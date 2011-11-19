@@ -684,12 +684,15 @@ local onShipHit = function (ship, attacker)
 
 	-- maybe jettison a bit of cargo
 	if Engine.rand:Number(1) < trader.chance then
-		if #trader.cargo == 0 then return end
-
-		-- XXX this does not work as the table is not indexed
-		-- XXX replace with for pairs loop of some sort
-		local cargo_type = trader.cargo[Engine.rand:Integer(1, #trader.cargo)]
-		if trader.cargo[cargo_type] > 1 and ship:Jettison(cargo_type) then
+		local cargo_type = nil
+		local max_cap = ship:GetStats().maxCapacity
+		for k, v in pairs(trader.cargo) do
+			if v > 1 and Engine.rand:Number(1) < v / max_cap then
+				cargo_type = k
+				break
+			end
+		end
+		if cargo_type and ship:Jettison(cargo_type) then
 			trader.cargo[cargo_type] = trader.cargo[cargo_type] - 1
 			UI.ImportantMessage(attacker.label..', take this and leave us be, you filthy pirate!', ship.label)
 			trader['chance'] = trader.chance - 0.1
