@@ -756,6 +756,8 @@ local onGameStart = function ()
 	-- create tables for data on the current system
 	starports, imports, exports = {}, {}, {}
 
+	system_updated = true
+
 	if trade_ships == nil then
 		-- create table to hold ships, keyed by ship object
 		trade_ships = {}
@@ -792,8 +794,6 @@ local onGameStart = function ()
 			end
 		end
 	end
-
-	system_updated = true -- XXX move to before if block so the #starports==0 return doesn't skip it
 end
 EventQueue.onGameStart:Connect(onGameStart)
 
