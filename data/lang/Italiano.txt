@@ -71,7 +71,7 @@ BUY_THIS_SHIP
 SHIP_TYPE
     Tipo di Astronave
 REGISTRATION_ID
-    Codice registrazione
+    Codice Reg.
 WEIGHT_EMPTY
     Peso a vuoto
 NUMBER_TONNES
@@ -411,7 +411,7 @@ DRIVE_MIL4
 PULSECANNON_1MW
     Laser a impulsi da 1MW
 PULSECANNON_DUAL_1MW
-    Laser a impulsi doppio da 1MW
+    Doppio Laser a impulsi da 1MW
 PULSECANNON_2MW
     Laser a impulsi da 2MW
 PULSECANNON_RAPID_2MW
@@ -425,7 +425,7 @@ PULSECANNON_20MW
 MININGCANNON_17MW
     Laser ablatore da 17MW
 MININGCANNON_17MW_DESCRIPTION
-    Utilizzato per ablare materiale minerario dagli asteroidi.
+    Utilizzato per ablare materiale dagli asteroidi.
 SMALL_PLASMA_ACCEL
     Acceleratore di plasma: piccolo
 LARGE_PLASMA_ACCEL
@@ -511,7 +511,7 @@ AXIS
 WEAPONS
     Armamenti
 TARGET_OBJECT_IN_SIGHTS
-    Bersaglio a tiro
+    Bersaglio a vista
 FIRE_LASER
     Fuoco laser
 SHIP_ORIENTATION
@@ -583,11 +583,11 @@ ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Sto simulando l'evoluzione dell'Universo: %age{f.1} miliardi di anni ;-)
 TOMBSTONE_EPITAPH
-    Riposa in Pace, Vecchio Mio
+    Riposa in Pace,\nVecchio Mio
 MM_START_NEW_GAME_EARTH
-    Nuova Partita: partenza sulla Terra
+    Nuova Partita: partenza dalla Terra
 MM_START_NEW_GAME_E_ERIDANI
-    Nuova Partita: partenza su Epsilon Eridani
+    Nuova Partita: partenza da Epsilon Eridani
 MM_START_NEW_GAME_DEBUG
     Nuova Partita: partenza dal punto di debug
 MM_LOAD_SAVED_GAME
@@ -663,7 +663,7 @@ MILITARY_DICTATORSHIP
 COMMUNIST
     Comunismo
 PLUTOCRATIC_DICTATORSHIP
-    Plutocrazia dittatoriale
+    Plutocrazia autoritaria
 VIOLENT_ANARCHY
     Stato di anarchia
 X_CANNOT_BE_TOLERATED_HERE
@@ -1045,7 +1045,7 @@ DISTANCE_FROM_SHIP_TO_NAV_TARGET
 SHIP_ALTITUDE_ABOVE_TERRAIN
     Altitudine
 EXTERNAL_ATMOSPHERIC_PRESSURE
-    Pressione atmosferica
+    Press. Atm.
 HULL_TEMP
     Temp. scafo
 WEAPON_TEMP
@@ -1075,7 +1075,7 @@ KM_S_RELATIVE_TO
 M_S_RELATIVE_TO
     %speed{f.0} m/s relativa a %frame
 N_DISTANCE_TO_TARGET
-    %distance al bersaglio
+    %distance all'obiettivo
 IN_TRANSIT_TO_N_X_X_X
     In transito verso %system [%x,%y,%z]
 ALT_IN_METRES
@@ -1107,7 +1107,7 @@ NAVIGATION_TARGETS_IN_THIS_SYSTEM
 YOU_NO_MONEY
     Non ha più crediti.
 FINE_PAID_N_BUT_N_REMAINING
-    Ha pagato %paid ma ha ancora in pendenza sanzioni per %fine.
+    Ha pagato %paid, ma ha ancora in pendenza sanzioni per %fine.
 FINE_PAID_N
     Ha pagato la sanzione di %fine.
 SET_HYPERSPACE_DESTINATION_TO
@@ -1117,19 +1117,19 @@ NO_TARGET_SELECTED
 REQUEST_DOCKING_CLEARANCE
     Richiedo autorizzazione all'attracco
 AUTOPILOT_DOCK_WITH_STATION
-    Pilota automatico: attracca alla stazione spaziale
+    Pilota autom.: attracca alla stazione spaziale
 PAY_FINE_REMOTELY
     Paga sanzione via remoto (%amount)
 AUTOPILOT_FLY_TO_VICINITY_OF
-    Pilota automatico: approssimarsi a %target
+    Pilota autom.: approssimarsi a %target
 AUTOPILOT_ENTER_LOW_ORBIT_AROUND
-    Pilota automatico: stabilire orbita bassa attorno a %target
+    Pilota autom.: stabilire orbita bassa attorno a %target
 AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
-    Pilota automatico: stabilire orbita media attorno a %target
+    Pilota autom.: stabilire orbita media attorno a %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
-    Pilota automatico: stabilire orbita alta attorno a %target
+    Pilota autom.: stabilire orbita alta attorno a %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
-    Analizzatore Nubi Iperspaziali: Stabilire destinazione di inseguimento
+    Analizzatore Nubi Iperspaziali: Tracciare rotta di intercettazione
 FAILED
     Fallita
 COMPLETED
