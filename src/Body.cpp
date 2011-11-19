@@ -12,7 +12,7 @@
 #include "HyperspaceCloud.h"
 #include "Pi.h"
 #include "Space.h"
-#include "SpaceManager.h"
+#include "Game.h"
 
 Body::Body()
 {

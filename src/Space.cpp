@@ -18,7 +18,7 @@
 #include "WorldView.h"
 #include "SectorView.h"
 #include "Lang.h"
-#include "SpaceManager.h"
+#include "Game.h"
 #include "MathUtil.h"
 
 Space::Space() : m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false)

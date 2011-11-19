@@ -12,7 +12,7 @@
 #include "Sfx.h"
 #include "Ship.h"
 #include "TextureManager.h"
-#include "SpaceManager.h"
+#include "Game.h"
 
 Projectile::Projectile(): Body()
 {
@@ -77,7 +77,7 @@ void Projectile::TimeStepUpdate(const float timeStep)
 {
 	m_age += timeStep;
 	SetPosition(GetPosition() + (m_baseVel+m_dirVel) * double(timeStep));
-	if (m_age > Equip::lasers[m_type].lifespan) Pi::spaceManager->GetSpace()->KillBody(this);
+	if (m_age > Equip::lasers[m_type].lifespan) Pi::game->GetSpace()->KillBody(this);
 }
 
 /* In hull kg */
@@ -108,7 +108,7 @@ static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const ve
 	cargo->SetFrame(f);
 	cargo->SetPosition(pos);
 	cargo->SetVelocity(Pi::rng.Double(100.0,200.0)*vector3d(Pi::rng.Double()-.5, Pi::rng.Double()-.5, Pi::rng.Double()-.5));
-	Pi::spaceManager->GetSpace()->AddBody(cargo);
+	Pi::game->GetSpace()->AddBody(cargo);
 }
 
 void Projectile::StaticUpdate(const float timeStep)
@@ -121,13 +121,13 @@ void Projectile::StaticUpdate(const float timeStep)
 		Object *o = static_cast<Object*>(c.userData1);
 
 		if (o->IsType(Object::CITYONPLANET)) {
-			Pi::spaceManager->GetSpace()->KillBody(this);
+			Pi::game->GetSpace()->KillBody(this);
 		}
 		else if (o->IsType(Object::BODY)) {
 			Body *hit = static_cast<Body*>(o);
 			if (hit != m_parent) {
 				hit->OnDamage(m_parent, GetDamage());
-				Pi::spaceManager->GetSpace()->KillBody(this);
+				Pi::game->GetSpace()->KillBody(this);
 				if (hit->IsType(Object::SHIP))
 					Pi::luaOnShipHit->Queue(dynamic_cast<Ship*>(hit), dynamic_cast<Body*>(m_parent));
 			}
@@ -147,7 +147,7 @@ void Projectile::StaticUpdate(const float timeStep)
 					MiningLaserSpawnTastyStuff(planet->GetFrame(), b, n*terrainHeight + 5.0*n);
 					Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 				}
-				Pi::spaceManager->GetSpace()->KillBody(this);
+				Pi::game->GetSpace()->KillBody(this);
 			}
 		}
 	}
@@ -185,5 +185,5 @@ void Projectile::Add(Body *parent, Equip::Type type, const vector3d &pos, const 
 	p->SetPosition(pos);
 	p->m_baseVel = baseVel;
 	p->m_dirVel = dirVel;
-	Pi::spaceManager->GetSpace()->AddBody(p);
+	Pi::game->GetSpace()->AddBody(p);
 }

@@ -11,7 +11,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "ShipCpanel.h"
-#include "SpaceManager.h"
+#include "Game.h"
 
 #define INNER_RADIUS (Sector::SIZE*1.5f)
 #define OUTER_RADIUS (Sector::SIZE*3.0f)
@@ -145,8 +145,8 @@ SectorView::~SectorView()
 void SectorView::NewGameInit()
 {
 	printf("SectorView::NewGameInit()\n");
-	assert(Pi::spaceManager->GetSpace()->GetStarSystem());
-	m_current = Pi::spaceManager->GetSpace()->GetStarSystem()->GetPath();
+	assert(Pi::game->GetSpace()->GetStarSystem());
+	m_current = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 	assert(!m_current.IsSectorPath());
 	m_current = m_current.SystemOnly();
 
@@ -719,7 +719,7 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 void SectorView::Update()
 {
 	SystemPath last_current = m_current;
-	m_current = Pi::spaceManager->GetSpace()->GetStarSystem()->GetPath();
+	m_current = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 	if (last_current != m_current)
 		UpdateSystemLabels(m_currentSystemLabels, m_current);
 

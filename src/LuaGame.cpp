@@ -4,7 +4,7 @@
 #include "LuaPlayer.h"
 #include "LuaStarSystem.h"
 #include "Pi.h"
-#include "SpaceManager.h"
+#include "Game.h"
 
 /*
  * Interface: Game
@@ -53,7 +53,7 @@ static int l_game_meta_index(lua_State *l)
 	 *  stable
 	 */
 	if (strcmp(key, "system") == 0) {
-		LuaStarSystem::PushToLua(Pi::spaceManager->GetSpace()->GetStarSystem().Get());
+		LuaStarSystem::PushToLua(Pi::game->GetSpace()->GetStarSystem().Get());
 		return 1;
 	}
 

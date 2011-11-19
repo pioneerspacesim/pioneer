@@ -1,4 +1,4 @@
-#include "SpaceManager.h"
+#include "Game.h"
 #include "Space.h"
 #include "Player.h"
 #include "Body.h"
@@ -9,7 +9,7 @@
 #include "Sfx.h"
 #include "MathUtil.h"
 
-SpaceManager::SpaceManager(Serializer::Reader &rd)
+Game::Game(Serializer::Reader &rd)
 {
 	Serializer::Reader section = rd.RdSection("Space");
 	m_space.Reset(new Space(section));
@@ -26,7 +26,7 @@ SpaceManager::SpaceManager(Serializer::Reader &rd)
 	m_hyperspaceEndTime = rd.Double();
 }
 
-void SpaceManager::Serialize(Serializer::Writer &wr)
+void Game::Serialize(Serializer::Writer &wr)
 {
 	Serializer::Writer section;
 	m_space->Serialize(section);
@@ -44,7 +44,7 @@ void SpaceManager::Serialize(Serializer::Writer &wr)
 	wr.Double(m_hyperspaceEndTime);
 }
 
-void SpaceManager::CreateSpaceForDockedStart(const SystemPath &path)
+void Game::CreateSpaceForDockedStart(const SystemPath &path)
 {
 	assert(m_state == STATE_NONE);
 	assert(!m_space);
@@ -74,7 +74,7 @@ void SpaceManager::CreateSpaceForDockedStart(const SystemPath &path)
     m_state = STATE_NORMAL;
 }
 
-void SpaceManager::CreateSpaceForFreeStart(const SystemPath &path, const vector3d &pos)
+void Game::CreateSpaceForFreeStart(const SystemPath &path, const vector3d &pos)
 {
 	assert(m_state == STATE_NONE);
 	assert(!m_space);
@@ -102,7 +102,7 @@ void SpaceManager::CreateSpaceForFreeStart(const SystemPath &path, const vector3
     m_state = STATE_NORMAL;
 }
 
-void SpaceManager::TimeStep(float step)
+void Game::TimeStep(float step)
 {
 	assert(m_state != STATE_NONE);
 	assert(m_space);
@@ -130,13 +130,13 @@ void SpaceManager::TimeStep(float step)
 	}
 }
 
-void SpaceManager::WantHyperspace()
+void Game::WantHyperspace()
 {
 	assert(m_state == STATE_NORMAL);
 	m_wantHyperspace = true;
 }
 
-void SpaceManager::SwitchToHyperspace()
+void Game::SwitchToHyperspace()
 {
 	// remember where we came from so we can properly place the player on exit
 	m_hyperspaceSource = m_space->GetStarSystem()->GetPath();
@@ -205,7 +205,7 @@ void SpaceManager::SwitchToHyperspace()
 	printf("Started hyperspacing...\n");
 }
 
-void SpaceManager::SwitchToNormalSpace()
+void Game::SwitchToNormalSpace()
 {
 	// remove the player from hyperspace
 	m_space->RemoveBody(m_player);

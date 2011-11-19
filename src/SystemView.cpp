@@ -7,7 +7,7 @@
 #include "Space.h"
 #include "Player.h"
 #include "FloatComparison.h"
-#include "SpaceManager.h"
+#include "Game.h"
 
 const double SystemView::PICK_OBJECT_RECT_SIZE = 12.0;
 
@@ -138,8 +138,8 @@ void SystemView::OnClickObject(SBody *b)
 
 	if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
 		SystemPath path = m_system->GetPathOf(b);
-		if (Pi::spaceManager->GetSpace()->GetStarSystem()->GetPath() == m_system->GetPath()) {
-			Body* body = Pi::spaceManager->GetSpace()->FindBodyForPath(&path);
+		if (Pi::game->GetSpace()->GetStarSystem()->GetPath() == m_system->GetPath()) {
+			Body* body = Pi::game->GetSpace()->FindBodyForPath(&path);
 			if (body != 0)
 				Pi::player->SetNavTarget(body);
 		}
@@ -301,7 +301,7 @@ void SystemView::Draw3D()
 		m_infoLabel->SetText(Lang::UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
 	else if (m_system->rootBody) {
 		PutBody(m_system->rootBody, pos);
-		if (Pi::spaceManager->GetSpace()->GetStarSystem() == m_system) {
+		if (Pi::game->GetSpace()->GetStarSystem() == m_system) {
 			const Body *navTarget = Pi::player->GetNavTarget();
 			const SBody *navTargetSBody = navTarget ? navTarget->GetSBody() : 0;
 			if (navTargetSBody)

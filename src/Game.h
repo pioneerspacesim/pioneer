@@ -1,7 +1,7 @@
-#ifndef _SPACEMANAGER_H
-#define _SPACEMANAGER_H
+#ifndef _GAME_H
+#define _GAME_H
 
-// SpaceManager takes care of creating and destroying spaces as the player
+// Game takes care of creating and destroying spaces as the player
 // moves from system to hyperspace to system
 
 #include "vector3.h"
@@ -12,7 +12,7 @@ class Space;
 class Player;
 class HyperspaceCloud;
 
-class SpaceManager {
+class Game {
 public:
 	enum State {
 		STATE_NONE,
@@ -20,8 +20,8 @@ public:
 		STATE_HYPERSPACE,
 	};
 
-	SpaceManager(Player *player) : m_player(player), m_state(STATE_NONE), m_space(0), m_wantHyperspace(false) {}
-	SpaceManager(Serializer::Reader &rd);
+	Game(Player *player) : m_player(player), m_state(STATE_NONE), m_space(0), m_wantHyperspace(false) {}
+	Game(Serializer::Reader &rd);
 
 	void Serialize(Serializer::Writer &wr);
 

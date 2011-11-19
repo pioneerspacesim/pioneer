@@ -5,7 +5,7 @@
 #include "SpaceStation.h"
 #include "Serializer.h"
 #include "Pi.h"
-#include "SpaceManager.h"
+#include "Game.h"
 
 class AICommand {
 public:
@@ -76,7 +76,7 @@ public:
 		else snprintf(str, 255, "Dock: target %s, state %i", m_target->GetLabel().c_str(), m_state);
 	}
 	virtual void Save(Serializer::Writer &wr) {
-        Space *space = Pi::spaceManager->GetSpace();
+        Space *space = Pi::game->GetSpace();
 		AICommand::Save(wr);
 		wr.Int32(space->GetIndexForBody(m_target));
 		wr.Vector3d(m_dockpos); wr.Vector3d(m_dockdir);
@@ -117,7 +117,7 @@ public:
 		else snprintf(str, 255, "FlyTo: endvel %.1f, state %i", m_endvel/1000.0, m_state);
 	}
 	virtual void Save(Serializer::Writer &wr) {
-        Space *space = Pi::spaceManager->GetSpace();
+        Space *space = Pi::game->GetSpace();
 		if(m_child) { delete m_child; m_child = 0; }
 		AICommand::Save(wr);
 		wr.Int32(space->GetIndexForFrame(m_targframe));
@@ -164,7 +164,7 @@ public:
 		else snprintf(str, 255, "FlyAround: alt %.1f, targmode %i", m_alt/1000.0, m_targmode);
 	}	
 	virtual void Save(Serializer::Writer &wr) {
-        Space *space = Pi::spaceManager->GetSpace();
+        Space *space = Pi::game->GetSpace();
 		if (m_child) { delete m_child; m_child = 0; }
 		AICommand::Save(wr);
 		wr.Int32(space->GetIndexForBody(m_obstructor));
@@ -220,7 +220,7 @@ public:
 
 	// don't actually need to save all this crap
 	virtual void Save(Serializer::Writer &wr) {
-        Space *space = Pi::spaceManager->GetSpace();
+        Space *space = Pi::game->GetSpace();
 		AICommand::Save(wr);
 		wr.Int32(space->GetIndexForBody(m_target));
 	}
@@ -254,7 +254,7 @@ public:
 	}
 
 	virtual void Save(Serializer::Writer &wr) {
-        Space *space = Pi::spaceManager->GetSpace();
+        Space *space = Pi::game->GetSpace();
 		AICommand::Save(wr);
 		wr.Int32(space->GetIndexForBody(m_target));
 	}

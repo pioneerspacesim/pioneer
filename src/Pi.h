@@ -50,7 +50,7 @@ enum MsgLevel {
 };
 
 class Frame;
-class SpaceManager;
+class Game;
 
 #define PHYSICS_HZ (60.0f)
 
@@ -169,7 +169,7 @@ public:
 	static ObjectViewerView *objectViewerView;
 #endif
 
-	static SpaceManager *spaceManager;
+	static Game *game;
 
 	static int CombatRating(int kills);
 	static const char * const combatRating[];

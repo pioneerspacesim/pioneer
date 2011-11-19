@@ -8,7 +8,7 @@
 #include "Player.h"
 #include "perlin.h"
 #include "Lang.h"
-#include "SpaceManager.h"
+#include "Game.h"
 
 HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 {
@@ -91,7 +91,7 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 		m_ship->SetVelocity(m_vel);
 		m_ship->SetRotMatrix(matrix4x4d::Identity());
 		m_ship->SetFrame(GetFrame());
-		Pi::spaceManager->GetSpace()->AddBody(m_ship);
+		Pi::game->GetSpace()->AddBody(m_ship);
 		m_ship->Enable();
 
 		if (Pi::player->GetNavTarget() == this && !Pi::player->GetCombatTarget())

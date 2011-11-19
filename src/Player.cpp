@@ -10,7 +10,7 @@
 #include "KeyBindings.h"
 #include "Lang.h"
 #include "SectorView.h"
-#include "SpaceManager.h"
+#include "Game.h"
 
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
@@ -457,7 +457,7 @@ void Player::OnEnterHyperspace()
 
 	ClearThrusterState();
 
-	Pi::spaceManager->WantHyperspace();
+	Pi::game->WantHyperspace();
 }
 
 void Player::OnEnterSystem()

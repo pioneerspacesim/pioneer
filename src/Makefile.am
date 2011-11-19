@@ -34,6 +34,7 @@ noinst_HEADERS = \
 	Frame.h \
 	GalacticView.h \
 	Galaxy.h \
+	Game.h \
 	GameMenuView.h \
 	GeoSphere.h \
 	HyperspaceCloud.h \
@@ -117,7 +118,6 @@ noinst_HEADERS = \
 	Sound.h \
 	SoundMusic.h \
 	Space.h \
-	SpaceManager.h \
 	SpaceStation.h \
 	SpaceStationView.h \
 	Star.h \
@@ -164,6 +164,7 @@ pioneer_SOURCES	= \
 	Frame.cpp \
 	GalacticView.cpp \
 	Galaxy.cpp \
+	Game.cpp \
 	GameMenuView.cpp \
 	GeoSphere.cpp \
 	HyperspaceCloud.cpp \
@@ -243,7 +244,6 @@ pioneer_SOURCES	= \
 	Sound.cpp \
 	SoundMusic.cpp \
 	Space.cpp \
-	SpaceManager.cpp \
 	SpaceStation.cpp \
 	SpaceStationView.cpp \
 	Star.cpp \

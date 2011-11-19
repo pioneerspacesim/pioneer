@@ -30,7 +30,7 @@ AICommand *AICommand::Load(Serializer::Reader &rd)
 
 void AICommand::Save(Serializer::Writer &wr)
 {
-	Space *space = Pi::spaceManager->GetSpace();
+	Space *space = Pi::game->GetSpace();
 	wr.Int32(m_cmdName);
 	wr.Int32(space->GetIndexForBody(m_ship));
 	if (m_child) m_child->Save(wr);
@@ -65,7 +65,7 @@ bool AICmdJourney::TimeStepUpdate()
 {
 	if (!ProcessChild()) return false;
 
-	if (Pi::spaceManager->GetSpace()->GetStarSystem()->GetLocation() != (SysLoc)m_dest) {
+	if (Pi::game->GetSpace()->GetStarSystem()->GetLocation() != (SysLoc)m_dest) {
 		// need to hyperspace there
 		int fuelRequired;
 		double duration;

@@ -64,7 +64,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "TextureManager.h"
-#include "SpaceManager.h"
+#include "Game.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -123,7 +123,7 @@ SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
 LuaConsole *Pi::luaConsole;
 RefCountedPtr<StarSystem> Pi::selectedSystem;
-SpaceManager *Pi::spaceManager;
+Game *Pi::game;
 MTRand Pi::rng;
 double Pi::gameTime;
 float Pi::frameTime;
@@ -627,7 +627,7 @@ void Pi::SetTimeAccel(int s)
 
 	// Give all ships a half-step acceleration to stop autopilot overshoot
 	if (s < timeAccelIdx)
-		for (Space::BodyIterator i = spaceManager->GetSpace()->IteratorBegin(); i != spaceManager->GetSpace()->IteratorEnd(); ++i)
+		for (Space::BodyIterator i = game->GetSpace()->IteratorBegin(); i != game->GetSpace()->IteratorEnd(); ++i)
 			if ((*i)->IsType(Object::SHIP))
 				(static_cast<DynamicBody *>(*i))->ApplyAccel(0.5f*Pi::GetTimeStep());
 	timeAccelIdx = s;
@@ -725,7 +725,7 @@ void Pi::HandleEvents()
 									missile->SetFrame(Pi::player->GetFrame());
 									missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
 									missile->SetVelocity(Pi::player->GetVelocity());
-									spaceManager->GetSpace()->AddBody(missile);
+									game->GetSpace()->AddBody(missile);
 								} else if (KeyState(SDLK_LSHIFT)) {
 									SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
 									if (s) {
@@ -737,7 +737,7 @@ void Pi::HandleEvents()
 											ship->AIKill(Pi::player);
 											ship->SetFrame(Pi::player->GetFrame());
 											ship->SetDockedWith(s, port);
-											spaceManager->GetSpace()->AddBody(ship);
+											game->GetSpace()->AddBody(ship);
 										} else {
 											printf("No docking ports free dude\n");
 										}
@@ -757,7 +757,7 @@ void Pi::HandleEvents()
 									ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
 									ship->m_equipment.Add(Equip::HYDROGEN, 10);
 									ship->UpdateMass();
-									spaceManager->GetSpace()->AddBody(ship);
+									game->GetSpace()->AddBody(ship);
 								}
 							}
 							break;
@@ -990,7 +990,7 @@ void Pi::InitGame()
 	player->UpdateMass();
 	player->SetMoney(10000);
 
-	spaceManager = new SpaceManager(player);
+	game = new Game(player);
 
 	cpan = new ShipCpanel();
 	sectorView = new SectorView();
@@ -1053,9 +1053,9 @@ void Pi::UninitGame()
 	delete galacticView;
 
 	// XXX
-	if (spaceManager)
-		delete spaceManager;
-	spaceManager = 0;
+	if (game)
+		delete game;
+	game = 0;
 	Pi::selectedSystem.Reset();
 
 	StarSystem::ShrinkCache();
@@ -1143,7 +1143,7 @@ void Pi::Start()
 		case 1: // Earth start point
 		{
 			InitGame();
-			spaceManager->CreateSpaceForDockedStart(SystemPath(0,0,0,0,6));  // Mexico City, Earth
+			game->CreateSpaceForDockedStart(SystemPath(0,0,0,0,6));  // Mexico City, Earth
 			sectorView->NewGameInit();
 			StartGame();
 			MainLoop();
@@ -1153,7 +1153,7 @@ void Pi::Start()
 		case 2: // Epsilon Eridani start point
 		{
 			InitGame();
-			spaceManager->CreateSpaceForDockedStart(SystemPath(1,0,-1,0,5));  // New Hope, New Hope
+			game->CreateSpaceForDockedStart(SystemPath(1,0,-1,0,5));  // New Hope, New Hope
 			sectorView->NewGameInit();
 			StartGame();
 			MainLoop();
@@ -1163,7 +1163,7 @@ void Pi::Start()
 		case 3: // Debug start point
 		{
 			InitGame();
-			spaceManager->CreateSpaceForFreeStart(SystemPath(1,0,-1,0,4), vector3d(0,2*EARTH_RADIUS,0));  // New Hope
+			game->CreateSpaceForFreeStart(SystemPath(1,0,-1,0,4), vector3d(0,2*EARTH_RADIUS,0));  // New Hope
 
 			Ship *enemy = new Ship(ShipType::EAGLE_LRF);
 			enemy->SetFrame(player->GetFrame());
@@ -1177,7 +1177,7 @@ void Pi::Start()
 			enemy->m_equipment.Add(Equip::SCANNER);
 			enemy->UpdateMass();
 			enemy->AIKill(player);
-			spaceManager->GetSpace()->AddBody(enemy);
+			game->GetSpace()->AddBody(enemy);
 
 			player->SetCombatTarget(enemy);
 
@@ -1319,7 +1319,7 @@ void Pi::MainLoop()
 					accumulator = 0.0;
 					break;
 				}
-				spaceManager->TimeStep(step);
+				game->TimeStep(step);
 				gameTime += step;
 
 				accumulator -= step;
@@ -1340,10 +1340,10 @@ void Pi::MainLoop()
 		
 		/* Calculate position for this rendered frame (interpolated between two physics ticks */
         // XXX should this be here? what is this anyway?
-		for (Space::BodyIterator i = spaceManager->GetSpace()->IteratorBegin(); i != spaceManager->GetSpace()->IteratorEnd(); ++i) {
+		for (Space::BodyIterator i = game->GetSpace()->IteratorBegin(); i != game->GetSpace()->IteratorEnd(); ++i) {
 			(*i)->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 		}
-		spaceManager->GetSpace()->GetRootFrame()->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
+		game->GetSpace()->GetRootFrame()->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 
 		currentView->Update();
 		currentView->Draw3D();
@@ -1391,7 +1391,7 @@ void Pi::MainLoop()
 
 			else if (!Pi::forceTimeAccel) {
 				// check we aren't too near to objects for timeaccel //
-				for (Space::BodyIterator i = spaceManager->GetSpace()->IteratorBegin(); i != spaceManager->GetSpace()->IteratorEnd(); ++i) {
+				for (Space::BodyIterator i = game->GetSpace()->IteratorBegin(); i != game->GetSpace()->IteratorEnd(); ++i) {
 					if ((*i) == Pi::player) continue;
 					if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
 				
@@ -1508,8 +1508,8 @@ void Pi::Serialize(Serializer::Writer &wr)
 	wr.WrSection("PiMisc", section.GetData());
 	
 	section = Serializer::Writer();
-	spaceManager->Serialize(section);
-	wr.WrSection("SpaceManager", section.GetData());
+	game->Serialize(section);
+	wr.WrSection("Game", section.GetData());
 
 	section = Serializer::Writer();
 	Polit::Serialize(section);
@@ -1549,8 +1549,8 @@ void Pi::Unserialize(Serializer::Reader &rd)
 	*/
 
 	// XXX
-	if (spaceManager)
-		delete spaceManager;
+	if (game)
+		delete game;
 
 	Serializer::Reader section;
 
@@ -1558,8 +1558,8 @@ void Pi::Unserialize(Serializer::Reader &rd)
 	gameTime = section.Double();
 	selectedSystem = StarSystem::Unserialize(section);
 
-	section = rd.RdSection("SpaceManager");
-	spaceManager = new SpaceManager(section);
+	section = rd.RdSection("Game");
+	game = new Game(section);
 	
 	section = rd.RdSection("Polit");
 	Polit::Unserialize(section);

@@ -7,7 +7,7 @@
 #include "Planet.h"
 #include "Sound.h"
 #include "SpaceStation.h"
-#include "SpaceManager.h"
+#include "Game.h"
 
 static int astroNoiseSeed;
 static Sound::Event stationNoise;
@@ -135,8 +135,8 @@ void AmbientSounds::Update()
 			stationNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
 		}
 		{
-			if (Pi::spaceManager->IsNormalSpace()) {
-				StarSystem *s = Pi::spaceManager->GetSpace()->GetStarSystem().Get();
+			if (Pi::game->IsNormalSpace()) {
+				StarSystem *s = Pi::game->GetSpace()->GetStarSystem().Get();
 				if (astroNoiseSeed != s->m_seed) {
 					// change sound!
 					astroNoiseSeed = s->m_seed;

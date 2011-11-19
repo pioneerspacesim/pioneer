@@ -4,7 +4,7 @@
 #include "render/Render.h"
 #include "WorldView.h"
 #include "Frame.h"
-#include "SpaceManager.h"
+#include "Game.h"
 
 TerrainBody::TerrainBody(SBody *sbody) :
 	Body(), 

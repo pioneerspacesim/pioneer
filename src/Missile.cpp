@@ -5,7 +5,7 @@
 #include "ShipType.h"
 #include "Lang.h"
 #include "Pi.h"
-#include "SpaceManager.h"
+#include "Game.h"
 
 Missile::Missile(ShipType::Type type, Body *owner, Body *target): Ship(type)
 {
@@ -83,12 +83,12 @@ bool Missile::OnDamage(Object *attacker, float kgDamage)
 
 void Missile::Explode()
 {
-	Pi::spaceManager->GetSpace()->KillBody(this);
+	Pi::game->GetSpace()->KillBody(this);
 
 	const double damageRadius = 200.0;
 	const double kgDamage = 10000.0;
 
-	for (Space::BodyIterator i = Pi::spaceManager->GetSpace()->IteratorBegin(); i != Pi::spaceManager->GetSpace()->IteratorEnd(); ++i) {
+	for (Space::BodyIterator i = Pi::game->GetSpace()->IteratorBegin(); i != Pi::game->GetSpace()->IteratorEnd(); ++i) {
 		if ((*i)->GetFrame() != GetFrame()) continue;
 		double dist = ((*i)->GetPosition() - GetPosition()).Length();
 		if (dist < damageRadius) {
