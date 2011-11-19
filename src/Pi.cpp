@@ -829,6 +829,10 @@ void Pi::HandleEvents()
 				joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
 				break;
 			case SDL_QUIT:
+				if (Pi::IsGameStarted()) {
+					Pi::EndGame();
+					Pi::UninitGame();
+				}
 				Pi::Quit();
 				break;
 		}
