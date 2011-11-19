@@ -21,7 +21,6 @@
 				cowering - docked after having been attacked, waiting for
 					attacker to go away
 				orbit - was unable to dock, heading to or waiting in orbit
-				dead - XXX not yet added, may not be needed
 			cargo - table of cargo types and amounts currently carried;
 				key: Constants.EquipType string, value: number
 			attacker - what this was last attacked by; Body object
@@ -485,8 +484,8 @@ local onLeaveSystem = function (ship)
 	if ship:IsPlayer() then
 		-- the next onEnterSystem will be in a new system
 		system_updated = false
-
 		trade_ships['interval'] = nil
+
 		local total, removed = 0, 0
 		for t_ship, trader in pairs(trade_ships) do
 			total = total + 1
