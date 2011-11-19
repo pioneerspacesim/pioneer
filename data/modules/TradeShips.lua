@@ -465,7 +465,7 @@ local onEnterSystem = function (ship)
 	end
 
 	if trade_ships[ship] ~= nil then
-		print(ship.label..' entered '..Game.system.name)
+		print(ship.label..' entered '..Game.system.name..' from '..trade_ships[ship]['from_path']:GetStarSystem().name)
 		if #starports == 0 then
 			-- this only happens if player has followed ship to empty system
 
@@ -579,10 +579,10 @@ local onShipUndocked = function (ship, starport)
 end
 EventQueue.onShipUndocked:Connect(onShipUndocked)
 
-local onAICompleted = function (ship)
+local onAICompleted = function (ship, ai_error)
 	if trade_ships[ship] == nil then return end
 	local trader = trade_ships[ship]
-	print(ship.label..' AICompleted: '..trader.status)
+	print(ship.label..' AICompleted: Error: '..ai_error..' Status: '..trader.status)
 
 	if trader.status == 'outbound' then
 		if getSystemAndJump(ship) ~= 'OK' then
@@ -590,24 +590,26 @@ local onAICompleted = function (ship)
 			trader['status'] = 'inbound'
 		end
 	elseif trader.status == 'orbit' then
-		trader['starport'] = getNearestStarport(ship)
-		ship:AIDockWith(trader.starport)
-		trader['status'] = 'inbound'
+		if ai_error == 'NONE' then
+			trader['delay'] = Game.time + 21600 -- 6 hours
+			Timer:CallAt(trader.delay, function ()
+				if ship:exists() then
+					trader['starport'] = getNearestStarport(ship)
+					ship:AIDockWith(trader.starport)
+					trader['status'] = 'inbound'
+					trader['delay'] = nil
+				end
+			end)
+		end
+		-- XXX if ORBIT_IMPOSSIBLE asteroid? get parent of parent and attempt orbit?
 	elseif trader.status == 'inbound' then
-		-- AIDockWith emits AICompleted before the ship has finish docking
-		-- or the starport may have been full or maybe the docking port was busy
-		-- get parent body of starport and orbit if not docked after 3 minutes
-		local sbody = trader.starport.path:GetSystemBody()
-		local body = Space.GetBody(sbody.parent.index)
-		trader['delay'] = Game.time + 180
-		Timer:CallAt(trader.delay, function ()
-			if ship:exists() and trader.status == 'inbound' then
-				ship:AIEnterLowOrbit(body)
-				trader['status'] = 'orbit'
-				trader['delay'] = nil
-				print(ship.label..' ordering orbit')
-			end
-		end)
+		if ai_error == 'REFUSED_PERM' then
+			local sbody = trader.starport.path:GetSystemBody()
+			local body = Space.GetBody(sbody.parent.index)
+			ship:AIEnterLowOrbit(body)
+			trader['status'] = 'orbit'
+			print(ship.label..' ordering orbit')
+		end
 	end
 end
 EventQueue.onAICompleted:Connect(onAICompleted)
@@ -789,9 +791,15 @@ local onGameStart = function ()
 			if trader.delay > Game.time then
 				if trader.status == 'docked' then
 					Timer:CallAt(trader.delay, function () doUndock(ship) end)
-				elseif trader.status == 'inbound' then
-					-- was waiting to see if docking succeeded
-					ship:AIDockWith(trader.starport)
+				elseif trader.status == 'orbit' then
+					Timer:CallAt(trader.delay, function ()
+						if ship:exists() then
+							trader['starport'] = getNearestStarport(ship)
+							ship:AIDockWith(trader.starport)
+							trader['status'] = 'inbound'
+							trader['delay'] = nil
+						end
+					end)
 				end
 			end
 		end
