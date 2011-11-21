@@ -1050,112 +1050,25 @@ void Pi::UninitGame()
 	StarSystem::ShrinkCache();
 }
 
-
-void Pi::Start()
+void Pi::HandleMenuKey(int n)
 {
-	Background::Starfield *starfield = new Background::Starfield();
-	Background::MilkyWay *milkyway = new Background::MilkyWay();
+	switch (n) {
 
-	Gui::Fixed *splash = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
-	Gui::Screen::AddBaseWidget(splash, 0, 0);
-	splash->SetTransparency(true);
-
-	Gui::Screen::PushFont("OverlayFont");
-
-	const float w = Gui::Screen::GetWidth() / 2.0f;
-	const float h = Gui::Screen::GetHeight() / 2.0f;
-	const int OPTS = 5;
-	Gui::ToggleButton *opts[OPTS];
-	opts[0] = new Gui::ToggleButton(); opts[0]->SetShortcut(SDLK_1, KMOD_NONE);
-	opts[1] = new Gui::ToggleButton(); opts[1]->SetShortcut(SDLK_2, KMOD_NONE);
-	opts[2] = new Gui::ToggleButton(); opts[2]->SetShortcut(SDLK_3, KMOD_NONE);
-	opts[3] = new Gui::ToggleButton(); opts[3]->SetShortcut(SDLK_4, KMOD_NONE);
-	opts[4] = new Gui::ToggleButton(); opts[4]->SetShortcut(SDLK_5, KMOD_NONE);
-	splash->Add(opts[0], w, h-64);
-	splash->Add(new Gui::Label(Lang::MM_START_NEW_GAME_EARTH), w+32, h-64);
-	splash->Add(opts[1], w, h-32);
-	splash->Add(new Gui::Label(Lang::MM_START_NEW_GAME_E_ERIDANI), w+32, h-32);
-	splash->Add(opts[2], w, h);
-	splash->Add(new Gui::Label(Lang::MM_START_NEW_GAME_DEBUG), w+32, h);
-	splash->Add(opts[3], w, h+32);
-	splash->Add(new Gui::Label(Lang::MM_LOAD_SAVED_GAME), w+32, h+32);
-	splash->Add(opts[4], w, h+64);
-	splash->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+64);
-
-	std::string version("Pioneer " PIONEER_VERSION);
-	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
-
-	splash->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200.0f, Gui::Screen::GetHeight()-32.0f);
-
-	Gui::Screen::PopFont();
-
-	splash->ShowAll();
-
-	int choice = 0;
-	Uint32 last_time = SDL_GetTicks();
-	float _time = 0;
-	do {
-		Pi::HandleEvents();
-
-		Render::PrepareFrame();
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		float fracH = 1.0f / Pi::GetScrAspect();
-		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		glClearColor(0,0,0,0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		Pi::SetMouseGrab(false);
-
-		draw_intro(starfield, milkyway, _time);
-		Render::PostProcess();
-		Gui::Draw();
-		Render::SwapBuffers();
-		
-		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
-		_time += Pi::frameTime;
-		last_time = SDL_GetTicks();
-
-		// poll ui instead of using callbacks :-J
-		for (int i=0; i<OPTS; i++) if (opts[i]->GetPressed()) choice = i+1;
-	} while (!choice);
-	splash->HideAll();
-	
-	Gui::Screen::RemoveBaseWidget(splash);
-	delete splash;
-	delete starfield;
-	delete milkyway;
-	
-	switch (choice) {
-		case 1: // Earth start point
+		case 0: // Earth start point
 		{
 			game = new Game(SystemPath(0,0,0,0,6));  // Mexico City, Earth
-			player = game->GetPlayer(); // XXX hack
-			InitGame();
-			sectorView->NewGameInit();
-			StartGame();
-			MainLoop();
-			UninitGame();
 			break;
 		}
-		case 2: // Epsilon Eridani start point
+
+		case 1: // Epsilon Eridani start point
 		{
 			game = new Game(SystemPath(1,0,-1,0,5));  // New Hope, New Hope
-			player = game->GetPlayer(); // XXX hack
-			InitGame();
-			sectorView->NewGameInit();
-			StartGame();
-			MainLoop();
-			UninitGame();
 			break;
 		}
-		case 3: // Debug start point
+
+		case 2: // Debug start point
 		{
 			game = new Game(SystemPath(1,0,-1,0,4), vector3d(0,2*EARTH_RADIUS,0));  // somewhere over New Hope
-			player = game->GetPlayer(); // XXX hack
-			InitGame();
 
 			Ship *enemy = new Ship(ShipType::EAGLE_LRF);
 			enemy->SetFrame(player->GetFrame());
@@ -1171,7 +1084,7 @@ void Pi::Start()
 			enemy->AIKill(player);
 			game->GetSpace()->AddBody(enemy);
 
-			player->SetCombatTarget(enemy);
+			game->GetPlayer()->SetCombatTarget(enemy);
 
 			const ShipType *shipdef;
 			double mass, acc1, acc2, acc3;
@@ -1222,14 +1135,10 @@ void Pi::Start()
 			 */
 			//	player->SetDockedWith(station2, 0);
 
-			sectorView->NewGameInit();
-
-			StartGame();
-			MainLoop();
-			UninitGame();
 			break;
 		}
-		case 4: // Load game
+
+		case 3: // Load game
 		{
 			// XXX
 			/*
@@ -1240,7 +1149,6 @@ void Pi::Start()
 				delete Pi::player;
 				Pi::player = 0;
 			}
-			*/
 
 			Pi::gameMenuView->OpenLoadDialog();
 			do {
@@ -1251,15 +1159,102 @@ void Pi::Start()
 				MainLoop();
 				UninitGame();
 			}
+			*/
 			break;
 		}
-		case 5: // Quit
+
+		default:
 			Pi::Quit();
 			break;
-		default:
-			fprintf(stderr, "Invalid Menu Option."); // should not get here!
-			break;
 	}
+}
+
+void Pi::Start()
+{
+	Background::Starfield *starfield = new Background::Starfield();
+	Background::MilkyWay *milkyway = new Background::MilkyWay();
+
+	Gui::Fixed *menu = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
+	Gui::Screen::AddBaseWidget(menu, 0, 0);
+	menu->SetTransparency(true);
+
+	Gui::Screen::PushFont("OverlayFont");
+
+	const float w = Gui::Screen::GetWidth() / 2.0f;
+	const float h = Gui::Screen::GetHeight() / 2.0f;
+	const int OPTS = 5;
+	Gui::SolidButton *opts[OPTS];
+	opts[0] = new Gui::SolidButton(); opts[0]->SetShortcut(SDLK_1, KMOD_NONE);
+	opts[0]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 0));
+	opts[1] = new Gui::SolidButton(); opts[1]->SetShortcut(SDLK_2, KMOD_NONE);
+	opts[1]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 1));
+	opts[2] = new Gui::SolidButton(); opts[2]->SetShortcut(SDLK_3, KMOD_NONE);
+	opts[2]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 2));
+	opts[3] = new Gui::SolidButton(); opts[3]->SetShortcut(SDLK_4, KMOD_NONE);
+	opts[3]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 3));
+	opts[4] = new Gui::SolidButton(); opts[4]->SetShortcut(SDLK_5, KMOD_NONE);
+	opts[4]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 4));
+	menu->Add(opts[0], w, h-64);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_EARTH), w+32, h-64);
+	menu->Add(opts[1], w, h-32);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_E_ERIDANI), w+32, h-32);
+	menu->Add(opts[2], w, h);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_DEBUG), w+32, h);
+	menu->Add(opts[3], w, h+32);
+	menu->Add(new Gui::Label(Lang::MM_LOAD_SAVED_GAME), w+32, h+32);
+	menu->Add(opts[4], w, h+64);
+	menu->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+64);
+
+	std::string version("Pioneer " PIONEER_VERSION);
+	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
+
+	menu->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200.0f, Gui::Screen::GetHeight()-32.0f);
+
+	Gui::Screen::PopFont();
+
+	menu->ShowAll();
+	
+	Uint32 last_time = SDL_GetTicks();
+	float _time = 0;
+
+	game = 0;
+	while (!game) {
+		Pi::HandleEvents();
+
+		Render::PrepareFrame();
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		float fracH = 1.0f / Pi::GetScrAspect();
+		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glClearColor(0,0,0,0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		Pi::SetMouseGrab(false);
+
+		draw_intro(starfield, milkyway, _time);
+		Render::PostProcess();
+		Gui::Draw();
+		Render::SwapBuffers();
+		
+		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
+		_time += Pi::frameTime;
+		last_time = SDL_GetTicks();
+	}
+	menu->HideAll();
+	
+	Gui::Screen::RemoveBaseWidget(menu);
+	delete menu;
+	delete starfield;
+	delete milkyway;
+
+	player = game->GetPlayer(); // XXX hack
+	InitGame();
+	sectorView->NewGameInit();
+	StartGame();
+	MainLoop();
+	UninitGame();
 }
 
 void Pi::EndGame()

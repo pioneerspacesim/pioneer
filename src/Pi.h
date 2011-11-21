@@ -66,6 +66,7 @@ public:
 	static void Start();
 	static void MainLoop();
 	static void TombStoneLoop();
+	static void HandleMenuKey(int n);
 	static void OnChangeDetailLevel();
 	static void ToggleLuaConsole();
 	static void Quit() __attribute((noreturn));
