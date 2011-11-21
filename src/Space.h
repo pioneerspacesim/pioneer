@@ -12,17 +12,18 @@ class Body;
 class Frame;
 class Ship;
 class HyperspaceCloud;
+class Game;
 
 class Space {
 public:
 	// empty space (eg for hyperspace)
-	Space();
+	Space(Game *game);
 
 	// initalise with system bodies
-	Space(const SystemPath &path);
+	Space(Game *game, const SystemPath &path);
 
 	// initialise from save file
-	Space(Serializer::Reader &rd);
+	Space(Game *game, Serializer::Reader &rd);
 
 	virtual ~Space();
 
@@ -69,6 +70,8 @@ private:
 	ScopedPtr<Frame> m_rootFrame;
 
 	RefCountedPtr<StarSystem> m_starSystem;
+
+	Game *m_game;
 
 	// all the bodies we know about
 	std::list<Body*> m_bodies;

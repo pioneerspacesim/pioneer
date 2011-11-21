@@ -21,13 +21,13 @@
 #include "Game.h"
 #include "MathUtil.h"
 
-Space::Space() : m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false)
+Space::Space(Game *game) : m_game(game), m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false)
 {
 	m_rootFrame.Reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 }
 
-Space::Space(const SystemPath &path) : m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false)
+Space::Space(Game *game, const SystemPath &path) : m_game(game), m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false)
 {
 	m_starSystem = StarSystem::GetCached(path);
 
@@ -36,10 +36,10 @@ Space::Space(const SystemPath &path) : m_frameIndexValid(false), m_bodyIndexVali
 	m_rootFrame->SetRadius(FLT_MAX);
 
 	GenBody(m_starSystem->rootBody, m_rootFrame.Get());
-	m_rootFrame->UpdateOrbitRails();
+	m_rootFrame->UpdateOrbitRails(m_game->GetTime());
 }
 
-Space::Space(Serializer::Reader &rd) : m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false)
+Space::Space(Game *game, Serializer::Reader &rd) : m_game(game), m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false)
 {
 	m_starSystem = StarSystem::Unserialize(rd);
 	RebuildSBodyIndex();
@@ -595,7 +595,7 @@ void Space::TimeStep(float step)
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->StaticUpdate(step);
 
-	m_rootFrame->UpdateOrbitRails();
+	m_rootFrame->UpdateOrbitRails(m_game->GetTime());
 
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);

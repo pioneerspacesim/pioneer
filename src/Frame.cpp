@@ -266,7 +266,7 @@ void Frame::UpdateInterpolatedTransform(double alpha)
 
 }
 
-void Frame::UpdateOrbitRails()
+void Frame::UpdateOrbitRails(double time)
 {
 	double timestep = Pi::GetTimeStep();
 	m_oldOrient = m_orient;
@@ -275,8 +275,8 @@ void Frame::UpdateOrbitRails()
 		m_orient = matrix4x4d::Identity();
 	} else if (m_sbody) {
 		// this isn't very smegging efficient
-		vector3d pos = m_sbody->orbit.OrbitalPosAtTime(Pi::game->GetTime());
-		vector3d pos2 = m_sbody->orbit.OrbitalPosAtTime(Pi::game->GetTime()+1.0);
+		vector3d pos = m_sbody->orbit.OrbitalPosAtTime(time);
+		vector3d pos2 = m_sbody->orbit.OrbitalPosAtTime(time+1.0);
 		vector3d vel = pos2 - pos;
 		SetPosition(pos);
 		SetVelocity(vel);
@@ -284,7 +284,7 @@ void Frame::UpdateOrbitRails()
 	RotateInTimestep(timestep);
 
 	for (std::list<Frame*>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		(*i)->UpdateOrbitRails();
+		(*i)->UpdateOrbitRails(time);
 	}
 }
 

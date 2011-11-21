@@ -13,7 +13,7 @@ Game::Game(const SystemPath &path) : m_time(0), m_state(STATE_NORMAL), m_wantHyp
 {
 	CreatePlayer();
 
-	m_space.Reset(new Space(path));
+	m_space.Reset(new Space(this, path));
 	
 	SpaceStation *station = 0;
 	Uint32 idx = path.bodyIndex;
@@ -39,7 +39,7 @@ Game::Game(const SystemPath &path, const vector3d &pos) : m_time(0), m_state(STA
 {
 	CreatePlayer();
 
-	m_space.Reset(new Space(path));
+	m_space.Reset(new Space(this, path));
 	
 	Body *b = 0;
 	Uint32 idx = path.bodyIndex;
@@ -62,7 +62,7 @@ Game::Game(const SystemPath &path, const vector3d &pos) : m_time(0), m_state(STA
 Game::Game(Serializer::Reader &rd)
 {
 	Serializer::Reader section = rd.RdSection("Space");
-	m_space.Reset(new Space(section));
+	m_space.Reset(new Space(this, section));
 
 	Uint32 nclouds = rd.Int32();
 	for (Uint32 i = 0; i < nclouds; i++)
@@ -173,7 +173,7 @@ void Game::SwitchToHyperspace()
 	m_space->RemoveBody(m_player.Get());
 
 	// create hyperspace :)
-	m_space.Reset(new Space());
+	m_space.Reset(new Space(this));
 
 	// put the player in it
 	m_player->SetFrame(m_space->GetRootFrame());
@@ -203,7 +203,7 @@ void Game::SwitchToNormalSpace()
 
 	// create a new space for the system
 	const SystemPath &dest = m_player->GetHyperspaceDest();
-	m_space.Reset(new Space(dest));
+	m_space.Reset(new Space(this, dest));
 
 	// put the player in it
 	m_player->SetFrame(m_space->GetRootFrame());
