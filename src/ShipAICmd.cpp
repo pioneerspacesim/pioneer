@@ -337,19 +337,19 @@ bool AICmdKill::TimeStepUpdate()
 	// turn towards target lead direction, add inaccuracy
 	// trigger recheck when angular velocity reaches zero or after certain time
 
-	if (m_leadTime < Pi::GetGameTime())
+	if (m_leadTime < Pi::game->GetTime())
 	{
 		double skillShoot = 0.5;		// todo: should come from AI stats
 
 		double headdiff = (leaddir - heading).Length();
 		double leaddiff = (leaddir - targdir).Length();
-		m_leadTime = Pi::GetGameTime() + headdiff + (1.0*Pi::rng.Double()*skillShoot);
+		m_leadTime = Pi::game->GetTime() + headdiff + (1.0*Pi::rng.Double()*skillShoot);
 
 		// lead inaccuracy based on diff between heading and leaddir
 		vector3d r(Pi::rng.Double()-0.5, Pi::rng.Double()-0.5, Pi::rng.Double()-0.5);
 		vector3d newoffset = r * (0.02 + 2.0*leaddiff + 2.0*headdiff)*Pi::rng.Double()*skillShoot;
 		m_leadOffset = (heading - leaddir);		// should be already...
-		m_leadDrift = (newoffset - m_leadOffset) / (m_leadTime - Pi::GetGameTime());
+		m_leadDrift = (newoffset - m_leadOffset) / (m_leadTime - Pi::game->GetTime());
 
 		// Shoot only when close to target
 
@@ -365,10 +365,10 @@ bool AICmdKill::TimeStepUpdate()
 
 
 	vector3d evadethrust(0,0,0);
-	if (m_evadeTime < Pi::GetGameTime())		// evasion time!
+	if (m_evadeTime < Pi::game->GetTime())		// evasion time!
 	{
 		double skillEvade = 0.5;			// todo: should come from AI stats
-		m_evadeTime = Pi::GetGameTime() + Pi::rng.Double(3.0,10.0) * skillEvade;
+		m_evadeTime = Pi::game->GetTime() + Pi::rng.Double(3.0,10.0) * skillEvade;
 		if (heading.Dot(targdir) < 0.7) skillEvade += 0.5;		// not in view
 		skillEvade += Pi::rng.Double(-0.5,0.5);
 
@@ -407,12 +407,12 @@ bool AICmdKill::TimeStepUpdate()
 
 
 	// todo: some logic behind desired range? pass from higher level
-	if (m_closeTime < Pi::GetGameTime())
+	if (m_closeTime < Pi::game->GetTime())
 	{
 		double skillEvade = 0.5;
 		if (heading.Dot(targdir) < 0.7) skillEvade += 0.5;		// not in view
 
-		m_closeTime = Pi::GetGameTime() + skillEvade * Pi::rng.Double(1.0,5.0);
+		m_closeTime = Pi::game->GetTime() + skillEvade * Pi::rng.Double(1.0,5.0);
 	
 		double reqdist = 500.0 + skillEvade * Pi::rng.Double(-500.0, 250);
 		double dist = targpos.Length(), ispeed;

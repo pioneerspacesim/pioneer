@@ -4,6 +4,7 @@
 #include "SpaceStation.h"
 #include "Planet.h"
 #include "Pi.h"
+#include "Game.h"
 #include "collider/Geom.h"
 #include "render/RenderFrustum.h"
 
@@ -290,7 +291,7 @@ void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoord
 	Render::Frustum frustum = Render::Frustum::FromGLState();
 
 	memset(&cityobj_params, 0, sizeof(LmrObjParams));
-	cityobj_params.time = Pi::GetGameTime();
+	cityobj_params.time = Pi::game->GetTime();
 
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
 			i != m_buildings.end(); ++i) {

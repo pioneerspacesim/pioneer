@@ -126,7 +126,6 @@ LuaConsole *Pi::luaConsole;
 RefCountedPtr<StarSystem> Pi::selectedSystem;
 Game *Pi::game;
 MTRand Pi::rng;
-double Pi::gameTime;
 float Pi::frameTime;
 GLUquadric *Pi::gluQuadric;
 #if DEVKEYS
@@ -976,7 +975,6 @@ void Pi::InitGame()
 	Pi::timeAccelIdx = 1;
 	Pi::requestedTimeAccelIdx = 1;
 	Pi::forceTimeAccel = false;
-	Pi::gameTime = 0;
 	Pi::currentView = 0;
 	Pi::isGameStarted = false;
 
@@ -1291,7 +1289,6 @@ void Pi::MainLoop()
 					break;
 				}
 				game->TimeStep(step);
-				gameTime += step;
 
 				accumulator -= step;
 			}
@@ -1398,7 +1395,7 @@ void Pi::MainLoop()
 		// fuckadoodledoo, did the player die?
 		if (Pi::player->IsDead()) {
 			if (time_player_died > 0.0) {
-				if (Pi::GetGameTime() - time_player_died > 8.0) {
+				if (Pi::game->GetTime() - time_player_died > 8.0) {
 					Pi::EndGame();
 					Pi::TombStoneLoop();
 					break;
@@ -1408,7 +1405,7 @@ void Pi::MainLoop()
 				Pi::cpan->HideAll();
 				Pi::SetView(static_cast<View*>(Pi::worldView));
 				Pi::player->Disable();
-				time_player_died = Pi::GetGameTime();
+				time_player_died = Pi::game->GetTime();
 			}
 		} else {
 			// this is something we need not do every turn...
@@ -1474,7 +1471,6 @@ void Pi::Serialize(Serializer::Writer &wr)
 	Serializer::Writer section;
 
 	section = Serializer::Writer();
-	section.Double(gameTime);
 	StarSystem::Serialize(section, selectedSystem.Get());
 	wr.WrSection("PiMisc", section.GetData());
 	
@@ -1526,7 +1522,6 @@ void Pi::Unserialize(Serializer::Reader &rd)
 	Serializer::Reader section;
 
 	section = rd.RdSection("PiMisc");
-	gameTime = section.Double();
 	selectedSystem = StarSystem::Unserialize(section);
 
 	section = rd.RdSection("Game");

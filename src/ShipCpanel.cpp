@@ -13,6 +13,7 @@
 #include "GalacticView.h"
 #include "GameMenuView.h"
 #include "Lang.h"
+#include "Game.h"
 
 
 ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
@@ -237,7 +238,7 @@ void ShipCpanel::Update()
 
 void ShipCpanel::Draw()
 {
-	std::string time = format_date(Pi::GetGameTime());
+	std::string time = format_date(Pi::game->GetTime());
 	m_clock->SetText(time);
 
 	View *cur = Pi::GetView();

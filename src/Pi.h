@@ -73,7 +73,6 @@ public:
 	static void Serialize(Serializer::Writer &wr);
 	static void Unserialize(Serializer::Reader &rd);
 	static float GetFrameTime() { return frameTime; }
-	static double GetGameTime() { return gameTime; }
 	static void SetTimeAccel(int v);
 	static void RequestTimeAccel(int v, bool force = false);
 	static int GetRequestedTimeAccelIdx() { return requestedTimeAccelIdx; }
@@ -184,7 +183,6 @@ private:
 
 	static View *currentView;
 
-	static double gameTime;
 	/** So, the game physics rate (50Hz) can run slower
 	  * than the frame rate. gameTickAlpha is the interpolation
 	  * factor between one physics tick and another [0.0-1.0]

@@ -71,7 +71,7 @@ static int l_game_meta_index(lua_State *l)
 	 *  stable
 	 */
 	if (strcmp(key, "time") == 0) {
-		lua_pushnumber(l, Pi::GetGameTime());
+		lua_pushnumber(l, Pi::game->GetTime());
 		return 1;
 	}
 

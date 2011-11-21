@@ -17,7 +17,7 @@ HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 	m_ship = s;
 	m_pos = vector3d(0,0,0);
 	m_vel = (s ? s->GetVelocity() : vector3d(0.0));
-	m_birthdate = Pi::GetGameTime();
+	m_birthdate = Pi::game->GetTime();
 	m_due = dueDate;
 	SetIsArrival(isArrival);
 }
@@ -83,7 +83,7 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 {
 	m_pos += m_vel * timeStep;
 
-	if (m_isArrival && m_ship && (m_due < Pi::GetGameTime())) {
+	if (m_isArrival && m_ship && (m_due < Pi::game->GetTime())) {
 		// spawn ship
 		// XXX some overlap with Space::DoHyperspaceTo(). should probably all
 		// be moved into EvictShip()
@@ -149,7 +149,7 @@ void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewT
 	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
 	glMultMatrixd(&rot[0]);
 	// precise to the rendered frame (better than PHYSICS_HZ granularity)
-	double preciseTime = Pi::GetGameTime() + Pi::GetGameTickAlpha()*Pi::GetTimeStep();
+	double preciseTime = Pi::game->GetTime() + Pi::GetGameTickAlpha()*Pi::GetTimeStep();
 
 	float radius = 1000.0f + 200.0f*float(noise(10.0*preciseTime, 0, 0));
 	if (m_isArrival) {

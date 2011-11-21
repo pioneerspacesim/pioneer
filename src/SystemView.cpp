@@ -90,7 +90,7 @@ void SystemView::ResetViewpoint()
 	m_rot_x = 50;
 	m_zoom = 1.0f/AU;
 	m_timeStep = 1.0f;
-	m_time = Pi::GetGameTime();
+	m_time = Pi::game->GetTime();
 }
 
 void SystemView::PutOrbit(SBody *b, vector3d offset)

@@ -9,7 +9,7 @@
 #include "Sfx.h"
 #include "MathUtil.h"
 
-Game::Game(const SystemPath &path) : m_state(STATE_NORMAL), m_wantHyperspace(false)
+Game::Game(const SystemPath &path) : m_time(0), m_state(STATE_NORMAL), m_wantHyperspace(false)
 {
 	CreatePlayer();
 
@@ -35,7 +35,7 @@ Game::Game(const SystemPath &path) : m_state(STATE_NORMAL), m_wantHyperspace(fal
 	station->CreateBB();
 }
 
-Game::Game(const SystemPath &path, const vector3d &pos) : m_state(STATE_NORMAL), m_wantHyperspace(false)
+Game::Game(const SystemPath &path, const vector3d &pos) : m_time(0), m_state(STATE_NORMAL), m_wantHyperspace(false)
 {
 	CreatePlayer();
 
@@ -102,8 +102,10 @@ void Game::TimeStep(float step)
 	Pi::cpan->TimeStepUpdate(step);
 	Sfx::TimeStepAll(step, m_space->GetRootFrame());
 
+	m_time += step;
+
 	if (m_state == STATE_HYPERSPACE) {
-		if (Pi::GetGameTime() > m_hyperspaceEndTime) {
+		if (Pi::game->GetTime() > m_hyperspaceEndTime) {
 			SwitchToNormalSpace();
 			m_player->EnterSystem();
 		}
@@ -186,7 +188,7 @@ void Game::SwitchToHyperspace()
 	// animation and end time counters
 	m_hyperspaceProgress = 0;
 	m_hyperspaceDuration = m_player->GetHyperspaceDuration();
-	m_hyperspaceEndTime = Pi::GetGameTime() + m_hyperspaceDuration;
+	m_hyperspaceEndTime = Pi::game->GetTime() + m_hyperspaceDuration;
 
 	m_state = STATE_HYPERSPACE;
 	m_wantHyperspace = false;
@@ -213,7 +215,7 @@ void Game::SwitchToNormalSpace()
 	m_player->SetRotMatrix(matrix4x4d::Identity());
 
 	// place the exit cloud
-	HyperspaceCloud *cloud = new HyperspaceCloud(0, Pi::GetGameTime(), true);
+	HyperspaceCloud *cloud = new HyperspaceCloud(0, Pi::game->GetTime(), true);
 	cloud->SetFrame(m_space->GetRootFrame());
 	cloud->SetPosition(m_player->GetPosition());
 	m_space->AddBody(cloud);
@@ -226,7 +228,7 @@ void Game::SwitchToNormalSpace()
 
 		m_space->AddBody(cloud);
 
-		if (cloud->GetDueDate() < Pi::GetGameTime()) {
+		if (cloud->GetDueDate() < Pi::game->GetTime()) {
 			// they emerged from hyperspace some time ago
 			Ship *ship = cloud->EvictShip();
 
@@ -252,7 +254,7 @@ void Game::SwitchToNormalSpace()
 				double dist_to_target = cloud->GetPositionRelTo(target_body).Length();
 				double half_dist_to_target = dist_to_target / 2.0;
 				double accel = -(ship->GetShipType().linThrust[ShipType::THRUSTER_FORWARD] / ship->GetMass());
-				double travel_time = Pi::GetGameTime() - cloud->GetDueDate();
+				double travel_time = Pi::game->GetTime() - cloud->GetDueDate();
 
 				// I can't help but feel some actual math would do better here
 				double speed = 0;

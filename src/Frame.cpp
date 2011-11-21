@@ -275,8 +275,8 @@ void Frame::UpdateOrbitRails()
 		m_orient = matrix4x4d::Identity();
 	} else if (m_sbody) {
 		// this isn't very smegging efficient
-		vector3d pos = m_sbody->orbit.OrbitalPosAtTime(Pi::GetGameTime());
-		vector3d pos2 = m_sbody->orbit.OrbitalPosAtTime(Pi::GetGameTime()+1.0);
+		vector3d pos = m_sbody->orbit.OrbitalPosAtTime(Pi::game->GetTime());
+		vector3d pos2 = m_sbody->orbit.OrbitalPosAtTime(Pi::game->GetTime()+1.0);
 		vector3d vel = pos2 - pos;
 		SetPosition(pos);
 		SetVelocity(vel);

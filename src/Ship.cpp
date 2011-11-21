@@ -766,7 +766,7 @@ void Ship::UpdateAlertState()
 				changed = true;
             }
 			if (ship_is_firing) {
-				m_lastFiringAlert = Pi::GetGameTime();
+				m_lastFiringAlert = Pi::game->GetTime();
 				SetAlertState(ALERT_SHIP_FIRING);
 				changed = true;
 			}
@@ -778,7 +778,7 @@ void Ship::UpdateAlertState()
 				changed = true;
 			}
 			else if (ship_is_firing) {
-				m_lastFiringAlert = Pi::GetGameTime();
+				m_lastFiringAlert = Pi::game->GetTime();
 				SetAlertState(ALERT_SHIP_FIRING);
 				changed = true;
 			}
@@ -790,9 +790,9 @@ void Ship::UpdateAlertState()
 				changed = true;
 			}
 			else if (ship_is_firing) {
-				m_lastFiringAlert = Pi::GetGameTime();
+				m_lastFiringAlert = Pi::game->GetTime();
 			}
-			else if (m_lastFiringAlert + 60.0 <= Pi::GetGameTime()) {
+			else if (m_lastFiringAlert + 60.0 <= Pi::game->GetTime()) {
 				SetAlertState(ALERT_SHIP_NEARBY);
 				changed = true;
 			}
@@ -1178,7 +1178,7 @@ void Ship::EnterHyperspace() {
 }
 
 void Ship::OnEnterHyperspace() {
-	m_hyperspaceCloud = new HyperspaceCloud(this, Pi::GetGameTime() + m_hyperspace.duration, false);
+	m_hyperspaceCloud = new HyperspaceCloud(this, Pi::game->GetTime() + m_hyperspace.duration, false);
 	m_hyperspaceCloud->SetFrame(GetFrame());
 	m_hyperspaceCloud->SetPosition(GetPosition());
 

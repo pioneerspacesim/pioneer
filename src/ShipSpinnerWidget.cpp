@@ -1,6 +1,7 @@
 #include "ShipSpinnerWidget.h"
 #include "render/Render.h"
 #include "Pi.h"
+#include "Game.h"
 #include "Ship.h"
 
 ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, float height) :
@@ -22,7 +23,7 @@ void ShipSpinnerWidget::Draw()
 	float pos[2];
 	GetAbsolutePosition(pos);
 
-	m_params.time = Pi::GetGameTime();
+	m_params.time = Pi::game->GetTime();
 
 	float guiscale[2];
 	Gui::Screen::GetCoords2Pixels(guiscale);
