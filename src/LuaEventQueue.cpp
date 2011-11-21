@@ -513,12 +513,14 @@ void LuaEventQueueBase::Emit()
  *
  * Triggered when a ship AI completes
  *
- * > local onAICompleted = function (ship) ... end
+ * > local onAICompleted = function (ship, error) ... end
  * > EventQueue.onAICompleted:Connect(onAICompleted)
  *
  * Parameters:
  *
  *   ship - the <Ship>
+ *
+ *   error - the <Constants.ShipAIError>
  *
  * Availability:
  *
