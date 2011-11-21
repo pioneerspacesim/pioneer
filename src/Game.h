@@ -14,11 +14,6 @@ class HyperspaceCloud;
 
 class Game {
 public:
-	enum State {
-		STATE_NORMAL,
-		STATE_HYPERSPACE,
-	};
-
 	// start docked in station referenced by path
 	Game(const SystemPath &path);
 
@@ -58,6 +53,10 @@ private:
 	ScopedPtr<Space> m_space;
 	ScopedPtr<Player> m_player;
 
+	enum State {
+		STATE_NORMAL,
+		STATE_HYPERSPACE,
+	};
 	State m_state;
 
 	bool m_wantHyperspace;
