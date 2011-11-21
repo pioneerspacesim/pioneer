@@ -27,6 +27,7 @@ noinst_HEADERS = \
 	DynamicBody.h \
 	EquipType.h \
 	FaceVideoLink.h \
+	FileSelectorWidget.h \
 	Font.h \
 	FontManager.h \
 	Form.h \
@@ -158,6 +159,7 @@ pioneer_SOURCES	= \
 	DynamicBody.cpp \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
+	FileSelectorWidget.cpp \
 	Font.cpp \
 	FontManager.cpp \
 	FormController.cpp \

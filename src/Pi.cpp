@@ -775,7 +775,7 @@ void Pi::HandleEvents()
 						case SDLK_F9: // Quicksave
 						{
 							if(Pi::IsGameStarted()) {
-								std::string name = join_path(GetFullSavefileDirPath().c_str(), "_quicksave", 0);
+								std::string name = join_path(GetPiSavefileDir().c_str(), "_quicksave", 0);
 								Serializer::SaveGame(name.c_str());
 								Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+name);
 							}

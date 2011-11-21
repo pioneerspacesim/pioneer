@@ -8,15 +8,7 @@
 #include "KeyBindings.h"
 #include "Lang.h"
 #include "StringF.h"
-
-#if _GNU_SOURCE
-#include <sys/types.h>
-#include <dirent.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#elif _WIN32
-#include "win32-dirent.h"
-#endif
+#include "FileSelectorWidget.h"
 
 class KeyGetter: public Gui::Fixed {
 public:
@@ -146,115 +138,6 @@ private:
 	sigc::connection m_keyUpConnection;
 };
 
-/*
- * Must create the folders if they do not exist already.
- */
-std::string GetFullSavefileDirPath()
-{
-	return GetPiUserDir("savefiles");
-}
-
-/* Not dirs, not . or .. */
-static void GetDirectoryContents(const char *name, std::list<std::string> &files)
-{
-	DIR *dir = opendir(name);
-	if (!dir) {
-		//if (-1 == mkdir(name, 0770)
-		Gui::Screen::ShowBadError(stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", name)).c_str());
-		return;
-	}
-	struct dirent *entry;
-
-	while ((entry = readdir(dir))) {
-		if (strcmp(entry->d_name, ".")==0) continue;
-		if (strcmp(entry->d_name, "..")==0) continue;
-		files.push_back(entry->d_name);
-	}
-
-	closedir(dir);
-
-	files.sort();
-}
-
-class SimpleLabelButton: public Gui::LabelButton
-{
-public:
-	SimpleLabelButton(Gui::Label *label): Gui::LabelButton(label) {
-		SetPadding(0.0f);
-	}
-	virtual void Draw() {
-		m_label->Draw();
-	}
-};
-
-class FileDialog: public Gui::VBox {
-public:
-	enum TYPE { LOAD, SAVE };
-	FileDialog(TYPE t, const char *title): Gui::VBox() {
-		m_type = t;
-		m_title = title;
-		SetTransparency(false);
-		SetSpacing(5.0f);
-		SetSizeRequest(FLT_MAX, FLT_MAX);
-	}
-
-	void ShowAll() {
-		DeleteAllChildren();
-		PackEnd(new Gui::Label(m_title));
-		m_tentry = new Gui::TextEntry();
-		PackEnd(m_tentry);
-
-		std::list<std::string> files;
-		GetDirectoryContents(GetFullSavefileDirPath().c_str(), files);
-
-		Gui::HBox *hbox = new Gui::HBox();
-		PackEnd(hbox);
-
-		Gui::HBox *buttonBox = new Gui::HBox();
-		buttonBox->SetSpacing(5.0f);
-		Gui::Button *b = new Gui::LabelButton(new Gui::Label(m_type == SAVE ? Lang::SAVE : Lang::LOAD));
-		b->onClick.connect(sigc::mem_fun(this, &FileDialog::OnClickAction));
-		buttonBox->PackEnd(b);
-		b = new Gui::LabelButton(new Gui::Label(Lang::CANCEL));
-		b->onClick.connect(sigc::mem_fun(this, &FileDialog::OnClickCancel));
-		buttonBox->PackEnd(b);
-		PackEnd(buttonBox);
-
-
-		Gui::VScrollBar *scroll = new Gui::VScrollBar();
-		Gui::VScrollPortal *portal = new Gui::VScrollPortal(390);
-		portal->SetTransparency(false);
-		scroll->SetAdjustment(&portal->vscrollAdjust);
-		hbox->PackEnd(portal);
-		hbox->PackEnd(scroll);
-
-		Gui::Box *vbox = new Gui::VBox();
-		for (std::list<std::string>::iterator i = files.begin(); i!=files.end(); ++i) {
-			b = new SimpleLabelButton(new Gui::Label(*i));
-			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &FileDialog::OnClickFile), *i));
-			vbox->PackEnd(b);
-		}
-		portal->Add(vbox);
-		
-		Gui::VBox::ShowAll();
-	}
-	sigc::signal<void,std::string> onClickAction;
-	sigc::signal<void> onClickCancel;
-private:
-	void OnClickAction() {
-		onClickAction.emit(m_tentry->GetText());
-	}
-	void OnClickCancel() {
-		onClickCancel.emit();
-	}
-	void OnClickFile(std::string file) {
-		m_tentry->SetText(file);
-	}
-	Gui::TextEntry *m_tentry;
-	TYPE m_type;
-	std::string m_title;
-};
-
 class SaveDialogView: public View {
 public:
 	SaveDialogView() {
@@ -266,11 +149,11 @@ public:
 		Add(f2, 195, 45);
 		Gui::Fixed *f = new Gui::Fixed(400, 400);
 		f2->Add(f, 5, 5);
-		m_fileDialog = new FileDialog(FileDialog::SAVE, Lang::SELECT_FILENAME_TO_SAVE);
-		f->Add(m_fileDialog, 0, 0);
+		m_fileSelector = new FileSelectorWidget(FileSelectorWidget::SAVE, Lang::SELECT_FILENAME_TO_SAVE);
+		f->Add(m_fileSelector, 0, 0);
 
-		m_fileDialog->onClickCancel.connect(sigc::mem_fun(this, &SaveDialogView::OnClickBack));
-		m_fileDialog->onClickAction.connect(sigc::mem_fun(this, &SaveDialogView::OnClickSave));
+		m_fileSelector->onClickCancel.connect(sigc::mem_fun(this, &SaveDialogView::OnClickBack));
+		m_fileSelector->onClickAction.connect(sigc::mem_fun(this, &SaveDialogView::OnClickSave));
 	}
 	virtual void Update() {}
 	virtual void Draw3D() {}
@@ -278,13 +161,13 @@ public:
 private:
 	void OnClickSave(std::string filename) {
 		if (filename.empty()) return;
-		std::string fullname = join_path(GetFullSavefileDirPath().c_str(), filename.c_str(), 0);
+		std::string fullname = join_path(GetPiSavefileDir().c_str(), filename.c_str(), 0);
 		Serializer::SaveGame(fullname.c_str());
 		Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+fullname);
-		m_fileDialog->ShowAll();
+		m_fileSelector->ShowAll();
 	}
 	void OnClickBack() { Pi::SetView(Pi::gameMenuView); }
-	FileDialog *m_fileDialog;
+	FileSelectorWidget *m_fileSelector;
 };
 
 class LoadDialogView: public View {
@@ -298,11 +181,11 @@ public:
 		Add(f2, 195, 45);
 		Gui::Fixed *f = new Gui::Fixed(400, 400);
 		f2->Add(f, 5, 5);
-		m_fileDialog = new FileDialog(FileDialog::LOAD, Lang::SELECT_FILENAME_TO_LOAD);
-		f->Add(m_fileDialog, 0, 0);
+		m_fileSelector = new FileSelectorWidget(FileSelectorWidget::LOAD, Lang::SELECT_FILENAME_TO_LOAD);
+		f->Add(m_fileSelector, 0, 0);
 
-		m_fileDialog->onClickCancel.connect(sigc::mem_fun(this, &LoadDialogView::OnClickBack));
-		m_fileDialog->onClickAction.connect(sigc::mem_fun(this, &LoadDialogView::OnClickLoad));
+		m_fileSelector->onClickCancel.connect(sigc::mem_fun(this, &LoadDialogView::OnClickBack));
+		m_fileSelector->onClickAction.connect(sigc::mem_fun(this, &LoadDialogView::OnClickLoad));
 	}
 	virtual void Update() {}
 	virtual void Draw3D() {}
@@ -320,7 +203,7 @@ private:
     
 	void OnClickLoad(std::string filename) {
 		if (filename.empty()) return;
-		std::string fullname = join_path(GetFullSavefileDirPath().c_str(), filename.c_str(), 0);
+		std::string fullname = join_path(GetPiSavefileDir().c_str(), filename.c_str(), 0);
 
         if (Pi::IsGameStarted()) {
 			Pi::EndGame();
@@ -353,7 +236,7 @@ private:
 		Pi::SetView(Pi::worldView);
 	}
 	void OnClickBack() { Pi::SetView(Pi::gameMenuView); }
-	FileDialog *m_fileDialog;
+	FileSelectorWidget *m_fileSelector;
 };
 
 static const char *planet_detail_desc[5] = {
