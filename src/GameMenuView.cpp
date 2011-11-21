@@ -170,75 +170,6 @@ private:
 	FileSelectorWidget *m_fileSelector;
 };
 
-class LoadDialogView: public View {
-public:
-	LoadDialogView() {
-		SetTransparency(false);
-		SetBgColor(0,0,0,1.0);
-
-		Gui::Fixed *f2 = new Gui::Fixed(410, 410);
-		f2->SetTransparency(false);
-		Add(f2, 195, 45);
-		Gui::Fixed *f = new Gui::Fixed(400, 400);
-		f2->Add(f, 5, 5);
-		m_fileSelector = new FileSelectorWidget(FileSelectorWidget::LOAD, Lang::SELECT_FILENAME_TO_LOAD);
-		f->Add(m_fileSelector, 0, 0);
-
-		m_fileSelector->onClickCancel.connect(sigc::mem_fun(this, &LoadDialogView::OnClickBack));
-		m_fileSelector->onClickAction.connect(sigc::mem_fun(this, &LoadDialogView::OnClickLoad));
-	}
-	virtual void Update() {}
-	virtual void Draw3D() {}
-	virtual void OnSwitchTo() {}
-private:
-    
-    // XXX this is an insane mess. what we want to do is load the game up into
-    // a brand new Space object, and once we're sure the load is completed
-    // successfully, throw away the old Space object and swap in the new one.
-    // unfortunately we don't have a Space object right now, and its going to
-    // take a lot of work elsewhere to get us one
-    //
-    // until then, we really can't guarantee that the game is in a consistent
-    // state after a load fails, so we just throw them back to the menu
-    
-	void OnClickLoad(std::string filename) {
-		if (filename.empty()) return;
-		std::string fullname = join_path(GetPiSavefileDir().c_str(), filename.c_str(), 0);
-
-        if (Pi::IsGameStarted()) {
-			Pi::EndGame();
-			Pi::UninitGame();
-		}
-
-		Pi::InitGame();
-
-		try {
-			Serializer::LoadGame(fullname.c_str());
-		} catch (SavedGameCorruptException) {
-			Gui::Screen::ShowBadError(Lang::GAME_LOAD_CORRUPT);
-			Pi::UninitGame();
-			Pi::InitGame();
-			Pi::SetView(Pi::gameMenuView); // Pi::currentView is unset, set it back to the gameMenuView
-			return;
-		} catch (CouldNotOpenFileException) {
-			Gui::Screen::ShowBadError(Lang::GAME_LOAD_CANNOT_OPEN);
-			Pi::UninitGame();
-			Pi::InitGame();
-			Pi::SetView(Pi::gameMenuView); // Pi::currentView is unset, set it back to the gameMenuView
-			return;
-		}
-
-		Pi::StartGame();
-
-		// Pi::currentView is unset, but this view is still shown, so
-		// must un-show it
-		Pi::SetView(Pi::gameMenuView);
-		Pi::SetView(Pi::worldView);
-	}
-	void OnClickBack() { Pi::SetView(Pi::gameMenuView); }
-	FileSelectorWidget *m_fileSelector;
-};
-
 static const char *planet_detail_desc[5] = {
 	Lang::LOW, Lang::MEDIUM, Lang::HIGH, Lang::VERY_HIGH, Lang::VERY_VERY_HIGH
 };
@@ -720,7 +651,7 @@ void GameMenuView::OpenSaveDialog()
 void GameMenuView::OpenLoadDialog()
 {
 	if (m_subview) delete m_subview;
-	m_subview = new LoadDialogView;
+	//m_subview = new LoadDialogView;
 	Pi::SetView(m_subview);
 }
 

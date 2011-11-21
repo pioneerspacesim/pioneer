@@ -1143,26 +1143,7 @@ void Pi::HandleMenuKey(int n)
 		{
 			LoadDialog d;
 			d.MainLoop();
-			// XXX
-			/*
-			if (Pi::player) {
-				space->KillBody(Pi::player);
-				space->RemoveBody(Pi::player);
-				delete space;
-				delete Pi::player;
-				Pi::player = 0;
-			}
-
-			Pi::gameMenuView->OpenLoadDialog();
-			do {
-				Gui::MainLoopIteration();
-			} while (Pi::currentView != Pi::worldView);
-
-			if (Pi::isGameStarted) {
-				MainLoop();
-				UninitGame();
-			}
-			*/
+			game = d.GetGame();
 			break;
 		}
 
