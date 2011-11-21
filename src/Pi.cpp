@@ -646,8 +646,10 @@ void Pi::SetView(View *v)
 {
 	if (currentView) currentView->HideAll();
 	currentView = v;
-	currentView->OnSwitchTo();
-	currentView->ShowAll();
+	if (currentView) { // XXX
+		currentView->OnSwitchTo();
+		currentView->ShowAll();
+	}
 }
 
 void Pi::OnChangeDetailLevel()
