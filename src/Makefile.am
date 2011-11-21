@@ -46,6 +46,7 @@ noinst_HEADERS = \
 	KeyBindings.h \
 	Lang.h \
 	LmrModel.h \
+	LoadSaveDialog.h \
 	LuaBody.h \
 	LuaCargoBody.h \
 	LuaChatForm.h \
@@ -177,6 +178,7 @@ pioneer_SOURCES	= \
 	KeyBindings.cpp \
 	Lang.cpp \
 	LmrModel.cpp \
+	LoadSaveDialog.cpp \
 	LuaBody.cpp \
 	LuaCargoBody.cpp \
 	LuaChatForm.cpp \

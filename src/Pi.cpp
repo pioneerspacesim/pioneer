@@ -65,6 +65,7 @@
 #include "StringF.h"
 #include "TextureManager.h"
 #include "Game.h"
+#include "LoadSaveDialog.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -1140,6 +1141,8 @@ void Pi::HandleMenuKey(int n)
 
 		case 3: // Load game
 		{
+			LoadDialog d;
+			d.MainLoop();
 			// XXX
 			/*
 			if (Pi::player) {
