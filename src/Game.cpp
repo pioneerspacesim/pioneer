@@ -32,7 +32,7 @@ Game::Game(const SystemPath &path) : m_time(0), m_state(STATE_NORMAL), m_wantHyp
 	m_player->SetDockedWith(station, 0);
 
 	// XXX stupid, should probably be done by SetDockedWith
-	station->CreateBB();
+	//station->CreateBB();
 }
 
 Game::Game(const SystemPath &path, const vector3d &pos) : m_time(0), m_state(STATE_NORMAL), m_wantHyperspace(false)
