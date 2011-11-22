@@ -12,6 +12,7 @@ class SBody;
 
 struct SavedGameCorruptException {};
 struct CouldNotOpenFileException {};
+struct CouldNotWriteToFileException {};
 
 namespace Serializer {
 	

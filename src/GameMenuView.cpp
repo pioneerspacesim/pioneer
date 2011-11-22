@@ -8,7 +8,7 @@
 #include "KeyBindings.h"
 #include "Lang.h"
 #include "StringF.h"
-#include "FileSelectorWidget.h"
+#include "LoadSaveDialog.h"
 
 class KeyGetter: public Gui::Fixed {
 public:
@@ -138,38 +138,6 @@ private:
 	sigc::connection m_keyUpConnection;
 };
 
-class SaveDialogView: public View {
-public:
-	SaveDialogView() {
-		SetTransparency(false);
-		SetBgColor(0,0,0,1.0);
-
-		Gui::Fixed *f2 = new Gui::Fixed(410, 410);
-		f2->SetTransparency(false);
-		Add(f2, 195, 45);
-		Gui::Fixed *f = new Gui::Fixed(400, 400);
-		f2->Add(f, 5, 5);
-		m_fileSelector = new FileSelectorWidget(FileSelectorWidget::SAVE, Lang::SELECT_FILENAME_TO_SAVE);
-		f->Add(m_fileSelector, 0, 0);
-
-		m_fileSelector->onClickCancel.connect(sigc::mem_fun(this, &SaveDialogView::OnClickBack));
-		m_fileSelector->onClickAction.connect(sigc::mem_fun(this, &SaveDialogView::OnClickSave));
-	}
-	virtual void Update() {}
-	virtual void Draw3D() {}
-	virtual void OnSwitchTo() {}
-private:
-	void OnClickSave(std::string filename) {
-		if (filename.empty()) return;
-		std::string fullname = join_path(GetPiSavefileDir().c_str(), filename.c_str(), 0);
-		assert(0 && "save"); // XXX
-		//Serializer::SaveGame(fullname.c_str());
-		Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+fullname);
-		m_fileSelector->ShowAll();
-	}
-	void OnClickBack() { Pi::SetView(Pi::gameMenuView); }
-	FileSelectorWidget *m_fileSelector;
-};
 
 static const char *planet_detail_desc[5] = {
 	Lang::LOW, Lang::MEDIUM, Lang::HIGH, Lang::VERY_HIGH, Lang::VERY_VERY_HIGH
@@ -644,16 +612,21 @@ void GameMenuView::HideAll()
 
 void GameMenuView::OpenSaveDialog()
 {
-	if (m_subview) delete m_subview;
-	m_subview = new SaveDialogView;
-	Pi::SetView(m_subview);
+	SaveDialog d(Pi::game);
+	d.MainLoop();
+	const std::string filename = d.GetFilename();
+	if (!filename.empty())
+		Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+filename);
 }
 
 void GameMenuView::OpenLoadDialog()
 {
-	if (m_subview) delete m_subview;
-	//m_subview = new LoadDialogView;
-	Pi::SetView(m_subview);
+	LoadDialog d;
+	d.MainLoop();
+	if (d.GetGame()) {
+		// XXX tear down the current game and swap this one in
+		assert(0);
+	}
 }
 
 void GameMenuView::OnSwitchTo() {

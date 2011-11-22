@@ -10,15 +10,21 @@ class LoadSaveDialog {
 public:
 	virtual void MainLoop();
 
+	const std::string &GetFilename() const { return m_filename; }
+
 protected:
 	LoadSaveDialog(FileSelectorWidget::Type type, const std::string &title);
 
-	FileSelectorWidget *GetFileSelector() const { return m_fileSelector.Get(); }
-
-	void Done() { m_done = true; }
+	virtual bool OnAction() = 0;
 
 private:
-	ScopedPtr<FileSelectorWidget> m_fileSelector;
+	void OnClickLoad(std::string filename);
+	void OnClickBack();
+
+	FileSelectorWidget::Type m_type;
+	std::string m_title;
+
+	std::string m_filename;
 	bool m_done;
 };
 
@@ -29,10 +35,10 @@ public:
 
 	virtual void MainLoop();
 
-private:
-	void OnClickLoad(std::string filename);
-	void OnClickBack();
+protected:
+	virtual bool OnAction();
 
+private:
 	Game *m_game;
 };
 
@@ -40,10 +46,10 @@ class SaveDialog : public LoadSaveDialog {
 public:
 	SaveDialog(Game *game);
 
-private:
-	void OnClickLoad(std::string filename);
-	void OnClickBack();
+protected:
+	virtual bool OnAction();
 
+private:
 	Game *m_game;
 };
 

@@ -184,6 +184,8 @@ GAME_LOAD_CORRUPT
     This saved game cannot be loaded because it contains errors.
 GAME_LOAD_CANNOT_OPEN
     This saved game file could not be opened due to permissions or something...
+GAME_SAVE_CANNOT_WRITE
+	This saved game file could not be written because of a system error.
 VERY_LOW
     Very low
 LOW

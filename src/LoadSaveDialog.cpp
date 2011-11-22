@@ -4,9 +4,8 @@
 #include "Lang.h"
 #include "Pi.h"
 
-LoadSaveDialog::LoadSaveDialog(FileSelectorWidget::Type type, const std::string &title)
+LoadSaveDialog::LoadSaveDialog(FileSelectorWidget::Type type, const std::string &title) : m_type(type), m_title(title)
 {
-	m_fileSelector.Reset(new FileSelectorWidget(type, title));
 }
 
 void LoadSaveDialog::MainLoop()
@@ -22,7 +21,11 @@ void LoadSaveDialog::MainLoop()
 	Gui::Fixed *inner = new Gui::Fixed(400, 400);
 	outer->Add(inner, 5, 5);
 
-	inner->Add(m_fileSelector.Get(), 0, 0);
+	FileSelectorWidget *fileSelector = new FileSelectorWidget(m_type, m_title);
+	inner->Add(fileSelector, 0, 0);
+
+	fileSelector->onClickAction.connect(sigc::mem_fun(this, &LoadSaveDialog::OnClickLoad));
+	fileSelector->onClickCancel.connect(sigc::mem_fun(this, &LoadSaveDialog::OnClickBack));
 
 	Gui::Screen::AddBaseWidget(background, 0, 0);
 	background->ShowAll();
@@ -31,17 +34,27 @@ void LoadSaveDialog::MainLoop()
 	while (!m_done)
 		Gui::MainLoopIteration();
 	
-	background->Remove(m_fileSelector.Get());
-	
 	Gui::Screen::RemoveBaseWidget(background);
 	delete background;
+}
+
+void LoadSaveDialog::OnClickLoad(std::string filename)
+{
+	if (filename.empty()) return;
+	m_filename = join_path(GetPiSavefileDir().c_str(), filename.c_str(), 0);
+	if (!OnAction())
+		m_filename = "";
+	m_done = true;
+}
+
+void LoadSaveDialog::OnClickBack()
+{
+	m_done = true;
 }
 
 
 LoadDialog::LoadDialog() : LoadSaveDialog(FileSelectorWidget::LOAD, Lang::SELECT_FILENAME_TO_LOAD), m_game(0)
 {
-	GetFileSelector()->onClickAction.connect(sigc::mem_fun(this, &LoadDialog::OnClickLoad));
-	GetFileSelector()->onClickCancel.connect(sigc::mem_fun(this, &LoadDialog::OnClickBack));
 }
 
 void LoadDialog::MainLoop()
@@ -50,69 +63,57 @@ void LoadDialog::MainLoop()
 	LoadSaveDialog::MainLoop();
 }
 
-void LoadDialog::OnClickLoad(std::string filename)
+bool LoadDialog::OnAction()
 {
-	if (filename.empty()) return;
-	std::string fullname = join_path(GetPiSavefileDir().c_str(), filename.c_str(), 0);
-
 	try {
-		FILE *f = fopen(fullname.c_str(), "rb");
+		FILE *f = fopen(GetFilename().c_str(), "rb");
 		if (!f) throw CouldNotOpenFileException();
 
 		Serializer::Reader rd(f);
 		fclose(f);
 
 		m_game = new Game(rd);
-
-	} catch (SavedGameCorruptException) {
+	}
+	catch (SavedGameCorruptException) {
 		Gui::Screen::ShowBadError(Lang::GAME_LOAD_CORRUPT);
-
-	} catch (CouldNotOpenFileException) {
+	}
+	catch (CouldNotOpenFileException) {
 		Gui::Screen::ShowBadError(Lang::GAME_LOAD_CANNOT_OPEN);
 	}
 
-	Done();
-}
-
-void LoadDialog::OnClickBack()
-{
-	Done();
+	return m_game != 0;
 }
 
 
 SaveDialog::SaveDialog(Game *game) : LoadSaveDialog(FileSelectorWidget::SAVE, Lang::SELECT_FILENAME_TO_SAVE), m_game(game)
 {
-	GetFileSelector()->onClickAction.connect(sigc::mem_fun(this, &SaveDialog::OnClickLoad));
-	GetFileSelector()->onClickCancel.connect(sigc::mem_fun(this, &SaveDialog::OnClickBack));
 }
 
-void SaveDialog::OnClickLoad(std::string filename)
+bool SaveDialog::OnAction()
 {
-	if (filename.empty()) return;
-#if 0
-	std::string fullname = join_path(GetPiSavefileDir().c_str(), filename.c_str(), 0);
-
+	bool success = false;
 	try {
-		FILE *f = fopen(fullname.c_str(), "rb");
+		Serializer::Writer wr;
+		m_game->Serialize(wr);
+
+		const std::string data = wr.GetData();
+
+		FILE *f = fopen(GetFilename().c_str(), "wb");
 		if (!f) throw CouldNotOpenFileException();
 
-		Serializer::Reader rd(f);
+		size_t nwritten = fwrite(data.data(), data.length(), 1, f);
 		fclose(f);
 
-		m_game = new Game(rd);
+		if (nwritten != 1) throw CouldNotWriteToFileException();
 
-	} catch (SavedGameCorruptException) {
-		Gui::Screen::ShowBadError(Lang::GAME_LOAD_CORRUPT);
-
-	} catch (CouldNotOpenFileException) {
+		success = true;
+	}
+	catch (CouldNotOpenFileException) {
 		Gui::Screen::ShowBadError(Lang::GAME_LOAD_CANNOT_OPEN);
 	}
+	catch (CouldNotWriteToFileException) {
+		Gui::Screen::ShowBadError(Lang::GAME_SAVE_CANNOT_WRITE);
+	}
 
-	Done();
-#endif
-}
-
-void SaveDialog::OnClickBack()
-{
-	Done();
+	return success;
 }
