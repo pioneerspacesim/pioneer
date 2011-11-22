@@ -171,8 +171,8 @@ void Game::Serialize(Serializer::Writer &wr)
 	wr.WrSection("LuaModules", section.GetData());
 
 	// trailing signature
-	for (Uint32 i = 0; i < strlen(s_saveStart)+1; i++)
-		wr.Byte(s_saveStart[i]);
+	for (Uint32 i = 0; i < strlen(s_saveEnd)+1; i++)
+		wr.Byte(s_saveEnd[i]);
 }
 
 void Game::TimeStep(float step)
