@@ -23,6 +23,8 @@ public:
 	// load game
 	Game(Serializer::Reader &rd);
 
+	~Game();
+
 	// save game
 	void Serialize(Serializer::Writer &wr);
 

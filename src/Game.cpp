@@ -65,6 +65,24 @@ Game::Game(const SystemPath &path, const vector3d &pos) : m_time(0), m_state(STA
 	m_player->SetVelocity(vector3d(0,0,0));
 }
 
+Game::~Game()
+{
+	// XXX this shutdown sequence is critical:
+	// 1- RemoveBody marks the Player for removal from Space,
+	// 2- Space is destroyed, which actually goes through its removal list,
+	//    removes the Player from Space and calls SetFrame(0) on it, which unlinks
+	//    any references it has to other Space items
+	// 3- Player is destroyed
+	//
+	// note that because of the declaration order of m_space and m_player in Game,
+	// without these explicit Reset() calls, m_player would be deleted before m_space is,
+	// which causes problems because then when Space is destroyed it tries to reference
+	// the deleted Player object (to call SetFrame(0))
+	m_space->RemoveBody(m_player.Get());
+	m_space.Reset();
+	m_player.Reset();
+}
+
 Game::Game(Serializer::Reader &rd)
 {
 	// signature check
