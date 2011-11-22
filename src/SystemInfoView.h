@@ -24,7 +24,7 @@ private:
 		virtual void Draw();
 		virtual void OnActivate();
 	};
-	void SystemChanged(const RefCountedPtr<StarSystem> &s);
+	void SystemChanged(const SystemPath &path);
 	void UpdateEconomyTab();
 	void OnBodyViewed(SBody *b);
 	void OnBodySelected(SBody *b);

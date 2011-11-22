@@ -123,7 +123,6 @@ SystemView *Pi::systemView;
 SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
 LuaConsole *Pi::luaConsole;
-RefCountedPtr<StarSystem> Pi::selectedSystem;
 Game *Pi::game;
 MTRand Pi::rng;
 float Pi::frameTime;
@@ -1046,7 +1045,6 @@ void Pi::UninitGame()
 	if (game)
 		delete game;
 	game = 0;
-	Pi::selectedSystem.Reset();
 
 	StarSystem::ShrinkCache();
 }
@@ -1456,28 +1454,10 @@ void Pi::MainLoop()
 	}
 }
 
-RefCountedPtr<StarSystem> Pi::GetSelectedSystem()
-{
-	SystemPath selectedPath = Pi::sectorView->GetSelectedSystem();
-
-	if (selectedSystem) {
-		if (selectedSystem->GetPath().IsSameSystem(selectedPath))
-			return selectedSystem;
-		selectedSystem.Reset();
-	}
-
-	selectedSystem = StarSystem::GetCached(selectedPath);
-	return selectedSystem;
-}
-
 void Pi::Serialize(Serializer::Writer &wr)
 {
 	Serializer::Writer section;
 
-	section = Serializer::Writer();
-	StarSystem::Serialize(section, selectedSystem.Get());
-	wr.WrSection("PiMisc", section.GetData());
-	
 	section = Serializer::Writer();
 	game->Serialize(section);
 	wr.WrSection("Game", section.GetData());
@@ -1524,9 +1504,6 @@ void Pi::Unserialize(Serializer::Reader &rd)
 		delete game;
 
 	Serializer::Reader section;
-
-	section = rd.RdSection("PiMisc");
-	selectedSystem = StarSystem::Unserialize(section);
 
 	section = rd.RdSection("Game");
 	game = new Game(section);
