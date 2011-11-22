@@ -162,7 +162,8 @@ private:
 	void OnClickSave(std::string filename) {
 		if (filename.empty()) return;
 		std::string fullname = join_path(GetPiSavefileDir().c_str(), filename.c_str(), 0);
-		Serializer::SaveGame(fullname.c_str());
+		assert(0 && "save"); // XXX
+		//Serializer::SaveGame(fullname.c_str());
 		Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+fullname);
 		m_fileSelector->ShowAll();
 	}

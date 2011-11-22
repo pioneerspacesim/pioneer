@@ -777,7 +777,8 @@ void Pi::HandleEvents()
 						{
 							if(Pi::IsGameStarted()) {
 								std::string name = join_path(GetPiSavefileDir().c_str(), "_quicksave", 0);
-								Serializer::SaveGame(name.c_str());
+								assert(0 && "quicksave"); // XXX
+								//Serializer::SaveGame(name.c_str());
 								Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+name);
 							}
 							break;
@@ -1502,27 +1503,6 @@ void Pi::Unserialize(Serializer::Reader &rd)
 	// XXX
 	if (game)
 		delete game;
-
-	Serializer::Reader section;
-
-	section = rd.RdSection("Game");
-	game = new Game(section);
-	
-	section = rd.RdSection("Polit");
-	Polit::Unserialize(section);
-
-	section = rd.RdSection("SectorView");
-	sectorView->Load(section);
-
-	section = rd.RdSection("WorldView");
-	if (worldView) delete worldView;		// XXX hack. in reality this should never have been created in the first place
-	worldView = new WorldView(section);
-
-	section = rd.RdSection("Cpanel");
-	cpan->Load(section);
-
-	section = rd.RdSection("LuaModules");
-	luaSerializer->Unserialize(section);
 }
 
 float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)

@@ -271,6 +271,7 @@ Quaternionf Reader::RdQuaternionf()
 	return q;
 }
 
+#if 0
 bool SaveGame(const char *filename)
 {
 	FILE *sfptr = fopen(filename, "wb");
@@ -313,44 +314,6 @@ bool SaveGame(const char *filename)
 
 	return true;
 }
-
-void LoadGame(const char *filename)
-{
-	FILE *lfptr = fopen(filename, "rb");
-
-	if (lfptr == NULL) throw CouldNotOpenFileException();
-
-	Reader rd = Reader(lfptr);
-	fclose(lfptr);
-
-	if (rd.Byte() != 'P') throw SavedGameCorruptException();
-	if (rd.Byte() != 'I') throw SavedGameCorruptException();
-	if (rd.Byte() != 'O') throw SavedGameCorruptException();
-	if (rd.Byte() != 'N') throw SavedGameCorruptException();
-	if (rd.Byte() != 'E') throw SavedGameCorruptException();
-	if (rd.Byte() != 'E') throw SavedGameCorruptException();
-	if (rd.Byte() != 'R') throw SavedGameCorruptException();
-	if (rd.Byte() != '\0') throw SavedGameCorruptException();
-	
-	/* savefile version */
-	rd.SetStreamVersion(rd.Int32());
-	fprintf(stderr, "Savefile version %d. ", rd.StreamVersion());
-
-	if (rd.StreamVersion() != SAVEFILE_VERSION) {
-		fprintf(stderr, "Can't load savefile, expected version %d\n", SAVEFILE_VERSION);
-		throw SavedGameCorruptException();
-	}
-
-	stream_version_context = rd.StreamVersion();
-	Pi::Unserialize(rd);
-	stream_version_context = SAVEFILE_VERSION;
-
-	if (rd.Byte() != 'E') throw SavedGameCorruptException();
-	if (rd.Byte() != 'N') throw SavedGameCorruptException();
-	if (rd.Byte() != 'D') throw SavedGameCorruptException();
-	if (rd.Byte() != 0) throw SavedGameCorruptException();
-
-	fprintf(stderr, "Loaded '%s'\n", filename);
-}
+#endif
 
 } /* end namespace Serializer */

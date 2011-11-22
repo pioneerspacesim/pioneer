@@ -15,9 +15,6 @@ struct CouldNotOpenFileException {};
 
 namespace Serializer {
 	
-	bool SaveGame(const char *filename);
-	void LoadGame(const char *filename);
-
 	class Writer {
 	public:
 		Writer() {}

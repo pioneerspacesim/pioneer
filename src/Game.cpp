@@ -8,6 +8,12 @@
 #include "ShipCpanel.h"
 #include "Sfx.h"
 #include "MathUtil.h"
+#include "SectorView.h"
+#include "WorldView.h"
+
+static const int  s_saveVersion   = 42;
+static const char s_saveStart[]   = "PIONEER";
+static const char s_saveEnd[]     = "END";
 
 Game::Game(const SystemPath &path) : m_time(0), m_state(STATE_NORMAL), m_wantHyperspace(false)
 {
@@ -61,19 +67,61 @@ Game::Game(const SystemPath &path, const vector3d &pos) : m_time(0), m_state(STA
 
 Game::Game(Serializer::Reader &rd)
 {
-	Serializer::Reader section = rd.RdSection("Space");
+	// signature check
+	for (Uint32 i = 0; i < strlen(s_saveStart)+1; i++)
+		if (rd.Byte() != s_saveStart[i]) throw SavedGameCorruptException();
+
+	// version check
+	rd.SetStreamVersion(rd.Int32());
+	fprintf(stderr, "savefile version: %d\n", rd.StreamVersion());
+	if (rd.StreamVersion() != s_saveVersion) {
+		fprintf(stderr, "can't load savefile, expected version: %d\n", s_saveVersion);
+		throw SavedGameCorruptException();
+	}
+
+	Serializer::Reader section;
+
+	// space, all the bodies and things
+	section = rd.RdSection("Space");
 	m_space.Reset(new Space(this, section));
 
+	// hyperspace clouds being brought over from the previous system
 	Uint32 nclouds = rd.Int32();
 	for (Uint32 i = 0; i < nclouds; i++)
 		m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud*>(Body::Unserialize(rd, 0)));
 	
+	// the player
 	m_player.Reset(static_cast<Player*>(m_space->GetBodyByIndex(rd.Int32())));
 	m_state = State(rd.Int32());
+
 	m_wantHyperspace = rd.Bool();
 	m_hyperspaceProgress = rd.Double();
 	m_hyperspaceDuration = rd.Double();
 	m_hyperspaceEndTime = rd.Double();
+
+
+	// load everything else
+	section = rd.RdSection("Polit");
+	Polit::Unserialize(section);
+
+	// XXX this is all pretty vile. eventually all the views should be held in
+	// Game itself and use load constructors
+	section = rd.RdSection("SectorView");
+	Pi::sectorView->Load(section);
+
+	section = rd.RdSection("WorldView");
+	if (Pi::worldView) delete Pi::worldView;	// XXX hack. this should never have been created in the first place
+	Pi::worldView = new WorldView(section);
+
+	section = rd.RdSection("Cpanel");
+	Pi::cpan->Load(section);
+
+	section = rd.RdSection("LuaModules");
+	Pi::luaSerializer->Unserialize(section);
+
+	// signature check
+	for (Uint32 i = 0; i < strlen(s_saveEnd)+1; i++)
+		if (rd.Byte() != s_saveEnd[i]) throw SavedGameCorruptException();
 }
 
 void Game::Serialize(Serializer::Writer &wr)
