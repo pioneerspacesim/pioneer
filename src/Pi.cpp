@@ -1455,56 +1455,6 @@ void Pi::MainLoop()
 	}
 }
 
-void Pi::Serialize(Serializer::Writer &wr)
-{
-	Serializer::Writer section;
-
-	section = Serializer::Writer();
-	game->Serialize(section);
-	wr.WrSection("Game", section.GetData());
-
-	section = Serializer::Writer();
-	Polit::Serialize(section);
-	wr.WrSection("Polit", section.GetData());
-	
-	section = Serializer::Writer();
-	sectorView->Save(section);
-	wr.WrSection("SectorView", section.GetData());
-
-	section = Serializer::Writer();
-	worldView->Save(section);
-	wr.WrSection("WorldView", section.GetData());
-
-	section = Serializer::Writer();
-	cpan->Save(section);
-	wr.WrSection("Cpanel", section.GetData());
-
-	section = Serializer::Writer();
-	luaSerializer->Serialize(section);
-	wr.WrSection("LuaModules", section.GetData());
-}
-
-void Pi::Unserialize(Serializer::Reader &rd)
-{
-	
-	/* XXX
-	SetTimeAccel(0);
-	requestedTimeAccelIdx = 0;
-	forceTimeAccel = false;
-	Space::Clear();
-	if (Pi::player) {
-		Pi::player->MarkDead();
-		Space::bodies.remove(Pi::player);
-		delete Pi::player;
-		Pi::player = 0;
-	}
-	*/
-
-	// XXX
-	if (game)
-		delete game;
-}
-
 float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)
 {
 	// for the sake of hyperspace range, we count ships mass as 60% of original.

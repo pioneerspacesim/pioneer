@@ -6,11 +6,7 @@
 #include "Ship.h"
 #include "HyperspaceCloud.h"
 
-#define SAVEFILE_VERSION	42
-
 namespace Serializer {
-
-static int stream_version_context = SAVEFILE_VERSION;
 
 const std::string &Writer::GetData() { return m_str; }
 void Writer::Byte(Uint8 x) {
@@ -110,16 +106,13 @@ void Writer::WrQuaternionf(const Quaternionf &q)
 
 
 Reader::Reader(): m_data(""), m_pos(0) {
-	m_streamVersion = stream_version_context;
 }
 Reader::Reader(const std::string &data):
 	m_data(data),
 	m_pos(0) {
-	m_streamVersion = stream_version_context;
 	
 }
 Reader::Reader(FILE *fptr): m_pos(0) {
-	m_streamVersion = stream_version_context;
 	m_data = "";
 	while (!feof(fptr)) m_data.push_back(fgetc(fptr));
 	printf("%lu characters in savefile\n", m_data.size());
@@ -270,50 +263,5 @@ Quaternionf Reader::RdQuaternionf()
 	q.z = Float();
 	return q;
 }
-
-#if 0
-bool SaveGame(const char *filename)
-{
-	FILE *sfptr = fopen(filename, "wb");
-
-	if (sfptr == NULL) {
-		return false;
-	}
-
-	Writer wr;
-
-	wr.Byte('P');
-	wr.Byte('I');
-	wr.Byte('O');
-	wr.Byte('N');
-	wr.Byte('E');
-	wr.Byte('E');
-	wr.Byte('R');
-	wr.Byte('\0');
-
-	/* Save file version */
-	wr.Int32(SAVEFILE_VERSION);
-
-	Pi::Serialize(wr);
-	
-	wr.Byte('E');
-	wr.Byte('N');
-	wr.Byte('D');
-	wr.Byte(0);
-
-	// actually write the shit
-	const std::string &data = wr.GetData();
-	for (size_t i=0; i<data.size(); i++) {
-		putc(data[i], sfptr);
-	}
-
-	wr = Writer();
-
-	fclose(sfptr);
-	fprintf(stderr, "Game saved to '%s'\n", filename);
-
-	return true;
-}
-#endif
 
 } /* end namespace Serializer */

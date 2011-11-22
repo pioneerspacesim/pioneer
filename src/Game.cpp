@@ -90,7 +90,6 @@ Game::Game(Serializer::Reader &rd)
 	for (Uint32 i = 0; i < nclouds; i++)
 		m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud*>(Body::Unserialize(rd, 0)));
 	
-	// the player
 	m_player.Reset(static_cast<Player*>(m_space->GetBodyByIndex(rd.Int32())));
 	m_state = State(rd.Int32());
 
@@ -126,10 +125,19 @@ Game::Game(Serializer::Reader &rd)
 
 void Game::Serialize(Serializer::Writer &wr)
 {
+	// leading signature
+	for (Uint32 i = 0; i < strlen(s_saveStart)+1; i++)
+		wr.Byte(s_saveStart[i]);
+	
+	// version
+	wr.Int32(s_saveVersion);
+
+	// space, all the bodies and things
 	Serializer::Writer section;
 	m_space->Serialize(section);
 	wr.WrSection("Space", section.GetData());
 
+	// hyperspace clouds being brought over from the previous system
 	wr.Int32(m_hyperspaceClouds.size());
 	for (std::list<HyperspaceCloud*>::const_iterator i = m_hyperspaceClouds.begin(); i != m_hyperspaceClouds.end(); ++i)
 		(*i)->Serialize(wr, m_space.Get());
@@ -140,6 +148,31 @@ void Game::Serialize(Serializer::Writer &wr)
 	wr.Double(m_hyperspaceProgress);
 	wr.Double(m_hyperspaceDuration);
 	wr.Double(m_hyperspaceEndTime);
+
+	// save everything else
+	section = Serializer::Writer();
+	Polit::Serialize(section);
+	wr.WrSection("Polit", section.GetData());
+	
+	section = Serializer::Writer();
+	Pi::sectorView->Save(section);
+	wr.WrSection("SectorView", section.GetData());
+
+	section = Serializer::Writer();
+	Pi::worldView->Save(section);
+	wr.WrSection("WorldView", section.GetData());
+
+	section = Serializer::Writer();
+	Pi::cpan->Save(section);
+	wr.WrSection("Cpanel", section.GetData());
+
+	section = Serializer::Writer();
+	Pi::luaSerializer->Serialize(section);
+	wr.WrSection("LuaModules", section.GetData());
+
+	// trailing signature
+	for (Uint32 i = 0; i < strlen(s_saveStart)+1; i++)
+		wr.Byte(s_saveStart[i]);
 }
 
 void Game::TimeStep(float step)

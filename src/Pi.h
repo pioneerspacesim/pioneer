@@ -6,7 +6,6 @@
 #include "View.h"
 #include "mtrand.h"
 #include "gameconsts.h"
-#include "Serializer.h"
 #include "GameConfig.h"
 #include "LuaEventQueue.h"
 #include "LuaSerializer.h"
@@ -70,8 +69,6 @@ public:
 	static void OnChangeDetailLevel();
 	static void ToggleLuaConsole();
 	static void Quit() __attribute((noreturn));
-	static void Serialize(Serializer::Writer &wr);
-	static void Unserialize(Serializer::Reader &rd);
 	static float GetFrameTime() { return frameTime; }
 	static void SetTimeAccel(int v);
 	static void RequestTimeAccel(int v, bool force = false);
