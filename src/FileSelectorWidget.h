@@ -7,7 +7,7 @@ class FileSelectorWidget: public Gui::VBox {
 public:
 	enum Type { LOAD, SAVE };
 
-	FileSelectorWidget(Type type, std::string title);
+	FileSelectorWidget(Type type, const std::string &title);
 	void ShowAll();
 
 	sigc::signal<void,std::string> onClickAction;

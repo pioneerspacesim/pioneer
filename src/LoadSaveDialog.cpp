@@ -4,7 +4,12 @@
 #include "Lang.h"
 #include "Pi.h"
 
-void LoadDialog::MainLoop()
+LoadSaveDialog::LoadSaveDialog(FileSelectorWidget::Type type, const std::string &title)
+{
+	m_fileSelector.Reset(new FileSelectorWidget(type, title));
+}
+
+void LoadSaveDialog::MainLoop()
 {
 	Gui::Fixed *background = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 	background->SetTransparency(false);
@@ -17,23 +22,32 @@ void LoadDialog::MainLoop()
 	Gui::Fixed *inner = new Gui::Fixed(400, 400);
 	outer->Add(inner, 5, 5);
 
-	FileSelectorWidget *fileSelector = new FileSelectorWidget(FileSelectorWidget::LOAD, Lang::SELECT_FILENAME_TO_LOAD);
-	inner->Add(fileSelector, 0, 0);
-
-	fileSelector->onClickAction.connect(sigc::mem_fun(this, &LoadDialog::OnClickLoad));
-	fileSelector->onClickCancel.connect(sigc::mem_fun(this, &LoadDialog::OnClickBack));
+	inner->Add(m_fileSelector.Get(), 0, 0);
 
 	Gui::Screen::AddBaseWidget(background, 0, 0);
 	background->ShowAll();
-
-	m_game = 0;
 
 	m_done = false;
 	while (!m_done)
 		Gui::MainLoopIteration();
 	
+	background->Remove(m_fileSelector.Get());
+	
 	Gui::Screen::RemoveBaseWidget(background);
 	delete background;
+}
+
+
+LoadDialog::LoadDialog() : LoadSaveDialog(FileSelectorWidget::LOAD, Lang::SELECT_FILENAME_TO_LOAD), m_game(0)
+{
+	GetFileSelector()->onClickAction.connect(sigc::mem_fun(this, &LoadDialog::OnClickLoad));
+	GetFileSelector()->onClickCancel.connect(sigc::mem_fun(this, &LoadDialog::OnClickBack));
+}
+
+void LoadDialog::MainLoop()
+{
+	m_game = 0;
+	LoadSaveDialog::MainLoop();
 }
 
 void LoadDialog::OnClickLoad(std::string filename)
@@ -57,10 +71,48 @@ void LoadDialog::OnClickLoad(std::string filename)
 		Gui::Screen::ShowBadError(Lang::GAME_LOAD_CANNOT_OPEN);
 	}
 
-	m_done = true;
+	Done();
 }
 
 void LoadDialog::OnClickBack()
 {
-	m_done = true;
+	Done();
+}
+
+
+SaveDialog::SaveDialog(Game *game) : LoadSaveDialog(FileSelectorWidget::SAVE, Lang::SELECT_FILENAME_TO_SAVE), m_game(game)
+{
+	GetFileSelector()->onClickAction.connect(sigc::mem_fun(this, &SaveDialog::OnClickLoad));
+	GetFileSelector()->onClickCancel.connect(sigc::mem_fun(this, &SaveDialog::OnClickBack));
+}
+
+void SaveDialog::OnClickLoad(std::string filename)
+{
+	if (filename.empty()) return;
+#if 0
+	std::string fullname = join_path(GetPiSavefileDir().c_str(), filename.c_str(), 0);
+
+	try {
+		FILE *f = fopen(fullname.c_str(), "rb");
+		if (!f) throw CouldNotOpenFileException();
+
+		Serializer::Reader rd(f);
+		fclose(f);
+
+		m_game = new Game(rd);
+
+	} catch (SavedGameCorruptException) {
+		Gui::Screen::ShowBadError(Lang::GAME_LOAD_CORRUPT);
+
+	} catch (CouldNotOpenFileException) {
+		Gui::Screen::ShowBadError(Lang::GAME_LOAD_CANNOT_OPEN);
+	}
+
+	Done();
+#endif
+}
+
+void SaveDialog::OnClickBack()
+{
+	Done();
 }

@@ -13,7 +13,7 @@ public:
 	}
 };
 
-FileSelectorWidget::FileSelectorWidget(Type type, std::string title) : Gui::VBox(), m_type(type), m_title(title)
+FileSelectorWidget::FileSelectorWidget(Type type, const std::string &title) : Gui::VBox(), m_type(type), m_title(title)
 {
 	SetTransparency(false);
 	SetSpacing(5.0f);
