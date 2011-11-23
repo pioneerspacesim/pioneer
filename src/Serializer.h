@@ -32,8 +32,6 @@ namespace Serializer {
 		void Vector3d(vector3d vec);
 		void WrQuaternionf(const Quaternionf &q);
 		void WrSection(const std::string &section_label, const std::string &section_data) {
-			//printf("writing section '%s' at offset %lx\n", section_label.c_str(), m_str.size());
-			//hexdump(reinterpret_cast<const unsigned char *>(section_data.data()), std::min(int(section_data.size()), 32));
 			String(section_label);
 			String(section_data);
 		}
@@ -66,41 +64,12 @@ namespace Serializer {
 		vector3d Vector3d();
 		Quaternionf RdQuaternionf();
 		Reader RdSection(const std::string &section_label_expected) {
-			printf("reading section '%s' from offset %lx\n", section_label_expected.c_str(), m_pos);
 			if (section_label_expected != String()) {
 				throw SavedGameCorruptException();
 			}
-
-			// XXX right now game load hits an assert when looking up an sbody
-			// index in the Space section. However, calling m_data.data() and
-			// m_data.size() here makes it work. I discovered this while
-			// hexdumping the section data to try and get a feel for what was
-			// going on:
-			//
-			//   hexdump(reinterpret_cast<const unsigned char *>(m_data.data())+m_pos, std::min(int(m_data.size()-m_pos), 32));
-			//
-			// imagine my surprise to find that the load suddenly started
-			// working. (it segfaults later, but thats something else that I
-			// haven't got to refactoring yet).
-			//
-			// a little testing reveals that calling only one of m_data.data()
-			// or m_data.size() does not make it work, only both. this can be
-			// shown by noting that this causes things to work:
-			//
-			//   printf("%p %ld\n", m_data.data(), m_data.size());
-			//
-			// whereas these do not:
-			//
-			//   printf("%p\n", m_data.data());
-			//   printf("%ld\n", m_data.size())
-			//
-			// (using printf to avoid the these const calls being optimised
-			// away)
-			//
-			// I don't know what this means. memory corruption? should I run
-			// it through valgrind?
-
-			return Reader(String());
+			Reader section = Reader(String());
+			section.SetStreamVersion(StreamVersion());
+			return section;
 		}
 		/** Best not to use these except in templates */
 		void Auto(Sint32 *x) { *x = Int32(); }
