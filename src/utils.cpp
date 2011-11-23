@@ -503,3 +503,33 @@ const char *pi_strcasestr (const char *haystack, const char *needle)
 		}
 	}
 }
+
+
+#define HEXDUMP_CHUNK 16
+void hexdump(const unsigned char *buf, int len)
+{
+	int count;
+
+	for (int i = 0; i < len; i += HEXDUMP_CHUNK) {
+		fprintf(stderr, "0x%06x  ", i);
+
+		count = ((len-i) > HEXDUMP_CHUNK ? HEXDUMP_CHUNK : len-i);
+
+		for (int j = 0; j < count; j++) {
+			if (j == HEXDUMP_CHUNK/2) fputc(' ', stderr);
+			fprintf(stderr, "%02x ", buf[i+j]);
+		}
+
+		for (int j = count; j < HEXDUMP_CHUNK; j++) {
+			if (j == HEXDUMP_CHUNK/2) fputc(' ', stderr);
+			fprintf(stderr, "   ");
+		}
+
+		fputc(' ', stderr);
+
+		for (int j = 0; j < count; j++)
+			fprintf(stderr, "%c", isprint(buf[i+j]) ? buf[i+j] : '.');
+
+		fputc('\n', stderr);
+	}
+}

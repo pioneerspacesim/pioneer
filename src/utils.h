@@ -112,4 +112,6 @@ static inline float roundf(float x)
 }
 #endif /* _MSC_VER */
 
+void hexdump(const unsigned char *buf, int bufsz);
+
 #endif /* _UTILS_H */
