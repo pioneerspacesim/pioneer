@@ -45,7 +45,7 @@
 	public: \
 	void set_##name(int v) { \
 		if (!loc_##name) { loc_##name = glGetUniformLocation(m_program, #name); } \
-		else if (val_##name != v) return; \
+		else if (val_##name == v) return; \
 		glUniform1i(loc_##name, v); val_##name = v; \
 	}
 #define SHADER_UNIFORM_SAMPLER(name) \

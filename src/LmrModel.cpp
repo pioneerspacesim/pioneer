@@ -364,8 +364,10 @@ public:
 					glActiveTexture(GL_TEXTURE0);
 					glEnable(GL_TEXTURE_2D);
 					op.elems.texture->BindTexture();
-					glActiveTexture(GL_TEXTURE1);
-					if (op.elems.glowmap != 0) op.elems.glowmap->BindTexture();
+					if (op.elems.glowmap != 0) {
+						glActiveTexture(GL_TEXTURE1);
+						op.elems.glowmap->BindTexture();
+					}
 				} else {
 					UseProgram(curShader, false);
 				}
@@ -384,12 +386,8 @@ public:
 					glDrawElements(GL_TRIANGLES, op.elems.count, GL_UNSIGNED_SHORT, &m_indices[op.elems.start]);
 				}
 				if ( op.elems.texture != 0 ) {
-
-					glActiveTexture(GL_TEXTURE1);
-					glBindTexture(GL_TEXTURE_2D, 0);
 					glActiveTexture(GL_TEXTURE0);
 					glDisable(GL_TEXTURE_2D);
-					glBindTexture(GL_TEXTURE_2D, 0);
 				}
 				break;
 			case OP_DRAW_BILLBOARDS:
