@@ -95,7 +95,7 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 		m_ship->Enable();
 
 		if (Pi::player->GetNavTarget() == this && !Pi::player->GetCombatTarget())
-			Pi::player->SetCombatTarget(m_ship);
+			Pi::player->SetCombatTarget(m_ship, Pi::player->GetSetSpeedTarget() == this);
 
 		Pi::luaOnEnterSystem->Queue(m_ship);
 

@@ -131,7 +131,7 @@ public:
 	static LuaEventQueue<Ship,Body> *luaOnShipTakeOff;
 	static LuaEventQueue<Ship,const char *> *luaOnShipAlertChanged;
 	static LuaEventQueue<Ship,CargoBody> *luaOnJettison;
-	static LuaEventQueue<Ship> *luaOnAICompleted;
+	static LuaEventQueue<Ship,const char *> *luaOnAICompleted;
 	static LuaEventQueue<SpaceStation> *luaOnCreateBB;
 	static LuaEventQueue<SpaceStation> *luaOnUpdateBB;
 	static LuaEventQueue<> *luaOnSongFinished;
@@ -143,7 +143,7 @@ public:
 
 	static void SetView(View *v);
 	static View *GetView() { return currentView; }
-	static StarSystem *GetSelectedSystem();
+	static RefCountedPtr<StarSystem> GetSelectedSystem();
 
 #if DEVKEYS
 	static bool showDebugInfo;
@@ -160,7 +160,7 @@ public:
 	static LuaConsole *luaConsole;
 	static ShipCpanel *cpan;
 	static GLUquadric *gluQuadric;
-	static StarSystem *currentSystem;
+	static RefCountedPtr<StarSystem> currentSystem;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
 
 #if OBJECTVIEWER
@@ -185,7 +185,7 @@ private:
 	  * factor between one physics tick and another [0.0-1.0]
 	  */
 	static float gameTickAlpha;
-	static StarSystem *selectedSystem;
+	static RefCountedPtr<StarSystem> selectedSystem;
 	static int timeAccelIdx;
 	static int requestedTimeAccelIdx;
 	static bool forceTimeAccel;

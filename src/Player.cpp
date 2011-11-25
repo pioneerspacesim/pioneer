@@ -13,9 +13,11 @@
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
 	m_mouseActive = false;
+	m_invertMouse = false;
 	m_flightControlState = CONTROL_MANUAL;
 	m_killCount = 0;
 	m_knownKillCount = 0;
+	m_setSpeedTarget = 0;
 	m_navTarget = 0;
 	m_combatTarget = 0;
 	UpdateMass();
@@ -39,6 +41,7 @@ void Player::Save(Serializer::Writer &wr)
 	wr.Int32(m_knownKillCount);
 	wr.Int32(Serializer::LookupBody(m_combatTarget));
 	wr.Int32(Serializer::LookupBody(m_navTarget));
+	wr.Int32(Serializer::LookupBody(m_setSpeedTarget));
 }
 
 void Player::Load(Serializer::Reader &rd)
@@ -52,6 +55,7 @@ void Player::Load(Serializer::Reader &rd)
 	m_knownKillCount = rd.Int32();
 	m_combatTargetIndex = rd.Int32();
 	m_navTargetIndex = rd.Int32();
+	m_setSpeedTargetIndex = rd.Int32();
 }
 
 void Player::PostLoadFixup()
@@ -59,6 +63,7 @@ void Player::PostLoadFixup()
 	Ship::PostLoadFixup();
 	m_combatTarget = Serializer::LookupBody(m_combatTargetIndex);
 	m_navTarget = Serializer::LookupBody(m_navTargetIndex);
+	m_setSpeedTarget = Serializer::LookupBody(m_setSpeedTargetIndex);
 }
 
 void Player::OnHaveKilled(Body *guyWeKilled)
@@ -85,7 +90,7 @@ void Player::SetFlightControlState(enum FlightControlState s)
 		AIClearInstructions();
 	} else if (m_flightControlState == CONTROL_FIXSPEED) {
 		AIClearInstructions();
-		m_setSpeed = GetVelocity().Length();
+		m_setSpeed = m_setSpeedTarget ? GetVelocityRelTo(m_setSpeedTarget).Length() : GetVelocity().Length();
 	} else {
 		AIClearInstructions();
 	}
@@ -129,6 +134,9 @@ void Player::StaticUpdate(const float timeStep)
 			if (IsAnyThrusterKeyDown()) break;
 			GetRotMatrix(m);
 			v = m * vector3d(0, 0, -m_setSpeed);
+			if (m_setSpeedTarget) {
+				v += m_setSpeedTarget->GetVelocityRelTo(GetFrame());
+			}
 			AIMatchVel(v);
 			break;
 		case CONTROL_MANUAL:
@@ -221,7 +229,9 @@ void Player::PollControls(const float timeStep)
 			double modx = clipmouse(objDir.x, m_mouseX);			
 			m_mouseX -= modx;
 
-			m_mouseY += mouseMotion[1] * radiansPerPixel * (Pi::IsMouseYInvert() ? -1 : 1);
+			const bool invertY = (Pi::IsMouseYInvert() ? !m_invertMouse : m_invertMouse);
+
+			m_mouseY += mouseMotion[1] * radiansPerPixel * (invertY ? -1 : 1);
 			double mody = clipmouse(objDir.y, m_mouseY);
 			m_mouseY -= mody;
 
@@ -352,15 +362,23 @@ bool Player::IsAnyThrusterKeyDown()
 	);
 }
 
-void Player::SetNavTarget(Body* const target)
+void Player::SetNavTarget(Body* const target, bool setSpeedTo)
 {
+	if (setSpeedTo)
+		m_setSpeedTarget = target;
+	else if (m_setSpeedTarget == m_navTarget)
+		m_setSpeedTarget = 0;
 	m_navTarget = target;
 	Pi::onPlayerChangeTarget.emit();
 	Sound::PlaySfx("OK");
 }
 
-void Player::SetCombatTarget(Body* const target)
+void Player::SetCombatTarget(Body* const target, bool setSpeedTo)
 {
+	if (setSpeedTo)
+		m_setSpeedTarget = target;
+	else if (m_setSpeedTarget == m_combatTarget)
+		m_setSpeedTarget = 0;
 	m_combatTarget = target;
 	Pi::onPlayerChangeTarget.emit();
 	Sound::PlaySfx("OK");

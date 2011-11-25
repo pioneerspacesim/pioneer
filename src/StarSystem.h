@@ -136,6 +136,13 @@ public:
 	void PopulateStage1(StarSystem *system, fixed &outTotalPop);
 	void PopulateAddStations(StarSystem *system);
 
+	void PickAtmosphere();
+	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
+		*outColor = m_atmosColor;
+		*outDensity = m_atmosDensity;
+	}
+
+	Uint32 id; // index into starsystem->m_bodies
 	SystemPath path;
 	int tmp;
 	Orbit orbit;
@@ -169,21 +176,22 @@ public:
 	const char *heightMapFilename;
 
 private:
+	Color m_atmosColor;
+	double m_atmosDensity;
 };
 
 class StarSystem : public DeleteEmitter, public RefCounted {
 public:
 	friend class SBody;
 
-	static StarSystem *GetCached(const SystemPath &path);
-	inline void Release() { DecRefCount(); }
+	static RefCountedPtr<StarSystem> GetCached(const SystemPath &path);
 	static void ShrinkCache();
 
 	const std::string &GetName() const { return m_name; }
 	SystemPath GetPathOf(const SBody *sbody) const;
 	SBody *GetBodyByPath(const SystemPath &path) const;
 	static void Serialize(Serializer::Writer &wr, StarSystem *);
-	static StarSystem *Unserialize(Serializer::Reader &rd);
+	static RefCountedPtr<StarSystem> Unserialize(Serializer::Reader &rd);
 	void Dump();
 	const SystemPath &GetPath() const { return m_path; }
 	const char *GetShortDescription() const { return m_shortDesc.c_str(); }

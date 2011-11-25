@@ -10,7 +10,11 @@ public:
 	// This enum is solely to make the serialization work
 	enum CmdName { CMD_NONE, CMD_JOURNEY, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION };
 
-	AICommand(Ship *ship, CmdName name) { m_ship = ship; m_cmdName = name; m_child = 0; }
+	AICommand(Ship *ship, CmdName name) {
+	   	m_ship = ship; m_cmdName = name; 
+		m_child = 0;
+		m_ship->AIMessage(Ship::AIERROR_NONE);
+	}
 	virtual ~AICommand() { if (m_child) delete m_child; }
 
 	virtual bool TimeStepUpdate() = 0;
@@ -185,7 +189,7 @@ public:
 
 protected:
 	void Setup(Body *obstructor, double alt, double vel, int targmode, Body *target, Frame *targframe, const vector3d &posoff);
-	double MaxVel(double targdist, const vector3d &targpos);
+	double MaxVel(double targdist, double targalt);
 	vector3d Targpos();
 
 private:

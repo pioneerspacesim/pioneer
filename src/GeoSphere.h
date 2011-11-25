@@ -5,7 +5,7 @@
 
 #include "vector3.h"
 #include "mtrand.h"
-#include "GeoSphereStyle.h"
+#include "terrain/Terrain.h"
 
 extern int GEOPATCH_EDGELEN;
 #define ATMOSPHERE_RADIUS 1.015
@@ -19,7 +19,7 @@ public:
 	~GeoSphere();
 	void Render(vector3d campos, const float radius, const float scale);
 	inline double GetHeight(vector3d p) {
-		const double h = m_style.GetHeight(p);
+		const double h = m_terrain->GetHeight(p);
 		s_vtxGenCount++;
 #ifdef DEBUG
 		// XXX don't remove this. Fix your fractals instead
@@ -30,17 +30,11 @@ public:
 		return h;
 	}
 	friend class GeoPatch;
-#if OBJECTVIEWER
-	friend class ObjectViewerView;
-#endif /* DEBUG */
 	static void Init();
 	static void Uninit();
 	static void OnChangeDetailLevel();
-	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
-		m_style.GetAtmosphereFlavor(outColor, outDensity);
-	}
 	// in sbody radii
-	double GetMaxFeatureHeight() const { return m_style.GetMaxHeight(); }
+	double GetMaxFeatureHeight() const { return m_terrain->GetMaxHeight(); }
 	static int GetVtxGenCount() { return s_vtxGenCount; }
 	static void ClearVtxGenCount() { s_vtxGenCount = 0; }
 private:
@@ -50,7 +44,7 @@ private:
 	const SBody *m_sbody;
 
 	/* all variables for GetHeight(), GetColor() */
-	GeoSphereStyle m_style;
+	Terrain *m_terrain;
 
 	///////////////////////////
 	// threading rubbbbbish
@@ -69,12 +63,12 @@ private:
 	//////////////////////////////
 
 	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) {
-		return m_style.GetColor(p, height, norm);
+		return m_terrain->GetColor(p, height, norm);
 	}
 
 	static int s_vtxGenCount;
 
-	static GeoPatchContext *s_patchContext;
+	static RefCountedPtr<GeoPatchContext> s_patchContext;
 };
 
 #endif /* _GEOSPHERE_H */

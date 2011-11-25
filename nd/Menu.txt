@@ -82,6 +82,7 @@ Group: Src  {
    File: UI  (/home/rob/code/pioneer/src/LuaUI.cpp)
    }  # Group: Src
 
+File: Character  (no auto-title, /home/rob/code/pioneer/data/libs/Characters.lua)
 File: Translate  (/home/rob/code/pioneer/data/libs/Translate.lua)
 
 Group: Index  {

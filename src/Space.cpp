@@ -43,7 +43,7 @@ void Init()
 void Uninit()
 {
 	delete rootFrame;
-	if (Pi::currentSystem) Pi::currentSystem->Release();
+	Pi::currentSystem.Reset();
 }
 
 void Clear()
@@ -161,7 +161,7 @@ void Serialize(Serializer::Writer &wr)
 
 void Unserialize(Serializer::Reader &rd)
 {
-	Serializer::IndexSystemBodies(Pi::currentSystem);
+	Serializer::IndexSystemBodies(Pi::currentSystem.Get());
 	
 	Serializer::Reader rd2 = rd.RdSection("Frames");
 	rootFrame = Frame::Unserialize(rd2, 0);
@@ -678,7 +678,7 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 		}
 
 		if (Pi::player->GetCombatTarget() == ship && !Pi::player->GetNavTarget())
-			Pi::player->SetNavTarget(cloud);
+			Pi::player->SetNavTarget(cloud, Pi::player->GetSetSpeedTarget() == ship);
 
 		// Hyperspacing ship must drop references to all other bodies,
 		// and they must all drop references to it.
@@ -737,9 +737,8 @@ void DoHyperspaceTo(const SystemPath *dest)
 		storedArrivalClouds.clear();
 	}
 
-	const SystemPath psource = Pi::currentSystem ? Pi::currentSystem->GetPath() : SystemPath();
-	const SystemPath pdest = SystemPath(dest->sectorX, dest->sectorY, dest->sectorZ, dest->systemIndex);
-	if (Pi::currentSystem) Pi::currentSystem->Release();
+	const SystemPath psource = Pi::currentSystem ? Pi::currentSystem->GetPath() : SystemPath(0,0,0,0);
+	const SystemPath pdest = dest->SystemOnly();
 	Pi::currentSystem = StarSystem::GetCached(dest);
 	Space::Clear();
 	Space::BuildSystem();
@@ -781,7 +780,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 			ship->SetFlightState(Ship::FLYING);
 
 			SystemPath sdest = ship->GetHyperspaceDest();
-			if (sdest.bodyIndex == 0) {
+			if (sdest.IsSystemPath()) {
 				// travelling to the system as a whole, so just dump them on
 				// the cloud - we can't do any better in this case
 				ship->SetPosition(cloud->GetPosition());
@@ -867,7 +866,6 @@ void DoHyperspaceTo(const SystemPath *dest)
 /* called at game start to load the system and put the player in a starport */
 void SetupSystemForGameStart(const SystemPath *dest, int starport, int port)
 {
-	if (Pi::currentSystem) Pi::currentSystem->Release();
 	Pi::currentSystem = StarSystem::GetCached(dest);
 	Space::Clear();
 	Space::BuildSystem();

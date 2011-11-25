@@ -1,4 +1,4 @@
-Pioneer Space Simulator - alpha 15
+Pioneer Space Simulator - alpha 17
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Pioneer is a space adventure game set in the Milky Way galaxy at the turn of
@@ -14,11 +14,14 @@ the various factions fighting for power, freedom or self-determination.
 For more information, see:
   http://pioneerspacesim.net/
 
-Bugs? Ideas? Log an issue:
-  https://github.com/pioneerspacesim/pioneer/issues
+Follow Pioneer on Google+:
+  http://pioneerspacesim.net/+
 
 Join the community:
   http://www.spacesimcentral.com/forum/viewforum.php?f=35
+
+Bugs? Ideas? Log an issue:
+  https://github.com/pioneerspacesim/pioneer/issues
 
 Chat with the team:
   http://pioneerspacesim.net/irc

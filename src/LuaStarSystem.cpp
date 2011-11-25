@@ -254,24 +254,21 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 					if (Sector::DistanceBetween(&here_sec, here_idx, &sec, idx) > dist_ly)
 						continue;
 
-					StarSystem *sys = StarSystem::GetCached(SystemPath(x, y, z, idx));
+					RefCountedPtr<StarSystem> sys = StarSystem::GetCached(SystemPath(x, y, z, idx));
 					if (filter) {
 						lua_pushvalue(l, 3);
-						LuaStarSystem::PushToLua(sys);
+						LuaStarSystem::PushToLua(sys.Get());
 						lua_call(l, 1, 1);
 						if (!lua_toboolean(l, -1)) {
 							lua_pop(l, 1);
-							sys->Release();
 							continue;
 						}
 						lua_pop(l, 1);
 					}
 
 					lua_pushinteger(l, lua_objlen(l, -1)+1);
-					LuaStarSystem::PushToLua(sys);
+					LuaStarSystem::PushToLua(sys.Get());
 					lua_rawset(l, -3);
-
-					sys->Release();
 				}
 			}
 		}

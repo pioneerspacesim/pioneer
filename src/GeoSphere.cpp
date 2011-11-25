@@ -17,7 +17,7 @@
 
 static const int GEOPATCH_MAX_EDGELEN = 55;
 int GeoSphere::s_vtxGenCount = 0;
-GeoPatchContext *GeoSphere::s_patchContext = 0;
+RefCountedPtr<GeoPatchContext> GeoSphere::s_patchContext;
 
 // must be odd numbers
 static const int detail_edgeLen[5] = {
@@ -316,7 +316,7 @@ public:
 
 class GeoPatch {
 public:
-	GeoPatchContext *ctx;
+	RefCountedPtr<GeoPatchContext> ctx;
 	vector3d v[4];
 	vector3d *vertices;
 	vector3d *normals;
@@ -334,11 +334,10 @@ public:
 	bool m_needUpdateVBOs;
 	double m_distMult;
 	
-	GeoPatch(GeoPatchContext *_ctx, GeoSphere *gs, vector3d v0, vector3d v1, vector3d v2, vector3d v3, int depth) {
+	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs, vector3d v0, vector3d v1, vector3d v2, vector3d v3, int depth) {
 		memset(this, 0, sizeof(GeoPatch));
 
 		ctx = _ctx;
-		ctx->IncRefCount();
 
 		geosphere = gs;
 
@@ -373,9 +372,6 @@ public:
 		delete[] normals;
 		delete[] colors;
 		geosphere->AddVBOToDestroy(m_vbo);
-
-		ctx->DecRefCount();
-		if (ctx->GetRefCount() == 0) delete ctx;
 	}
 
 	void UpdateVBOs() {
@@ -1071,9 +1067,8 @@ void GeoSphere::Init()
 	s_geosphereDimStarShader[3] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 4\n");
 	s_geosphereUpdateQueueLock = SDL_CreateMutex();
 
-	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
+	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
-	s_patchContext->IncRefCount();
 
 #ifdef GEOSPHERE_USE_THREADING
 	s_updateThread = SDL_CreateThread(&GeoSphere::UpdateLODThread, 0);
@@ -1092,9 +1087,8 @@ void GeoSphere::Uninit()
 	SDL_WaitThread(s_updateThread, 0);
 #endif /* GEOSPHERE_USE_THREADING */
 	
-	s_patchContext->DecRefCount();
-	assert (s_patchContext->GetRefCount() == 0);
-	if (s_patchContext->GetRefCount() == 0) delete s_patchContext;
+	assert (s_patchContext.Unique());
+	s_patchContext.Reset();
 
 	SDL_DestroyMutex(s_geosphereUpdateQueueLock);
 	for (int i=0; i<4; i++) delete s_geosphereDimStarShader[i];
@@ -1103,14 +1097,20 @@ void GeoSphere::Uninit()
 	for (int i=0; i<4; i++) delete s_geosphereSurfaceShader[i];
 }
 
+static void print_info(const SBody *sbody, const Terrain *terrain)
+{
+	printf(
+		"%s:\n"
+		"    height fractal: %s\n"
+		"    colour fractal: %s\n"
+		"    seed: %u\n",
+		sbody->name.c_str(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->seed);
+}
+
 void GeoSphere::OnChangeDetailLevel()
 {
-	s_patchContext->DecRefCount();
-	if (s_patchContext->GetRefCount() == 0) delete s_patchContext;
-
-	s_patchContext = new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]);
+	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
-	s_patchContext->IncRefCount();
 
 	// cancel all queued updates
 	SDL_mutexP(s_geosphereUpdateQueueLock);
@@ -1140,10 +1140,12 @@ void GeoSphere::OnChangeDetailLevel()
 				delete (*i)->m_patches[p];
 				(*i)->m_patches[p] = 0;
 			}
-
-			// reinit the styles with the new settings
-			(*i)->m_style.ChangeDetailLevel();
 		}
+
+		// reinit the terrain with the new settings
+		delete (*i)->m_terrain;
+		(*i)->m_terrain = Terrain::InstanceTerrain((*i)->m_sbody);
+		print_info((*i)->m_sbody, (*i)->m_terrain);
 
 		// clear the abort for the next run (with the new settings)
 		(*i)->m_abort = false;
@@ -1155,8 +1157,11 @@ void GeoSphere::OnChangeDetailLevel()
 
 #define GEOSPHERE_TYPE	(m_sbody->type)
 
-GeoSphere::GeoSphere(const SBody *body): m_style(body)
+GeoSphere::GeoSphere(const SBody *body)
 {
+	m_terrain = Terrain::InstanceTerrain(body);
+	print_info(body, m_terrain);
+
 	m_vbosToDestroyLock = SDL_CreateMutex();
 	m_sbody = body;
 	memset(m_patches, 0, 6*sizeof(GeoPatch*));
@@ -1196,6 +1201,8 @@ GeoSphere::~GeoSphere()
 	for (int i=0; i<6; i++) if (m_patches[i]) delete m_patches[i];
 	DestroyVBOs();
 	SDL_DestroyMutex(m_vbosToDestroyLock);
+
+	delete m_terrain;
 }
 
 void GeoSphere::AddVBOToDestroy(GLuint vbo)
@@ -1324,7 +1331,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
 		
-		GetAtmosphereFlavor(&atmosCol, &atmosDensity);
+		m_sbody->GetAtmosphereFlavor(&atmosCol, &atmosDensity);
 		atmosDensity *= 0.00005;
 
 		if (atmosDensity > 0.0) {

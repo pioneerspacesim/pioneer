@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# vim: set ts=8 sts=4 sw=4 expandtab autoindent:
 
 import sys
 import os
@@ -153,7 +154,8 @@ def lex(lines):
         ln, toktype, toktext = match_pp_token(ln, lines)
         # preprocessor include directives are a little special
         # (the source path is a different token type that only matches in this context)
-        if toktype == 'punctuation' and toktext == '#':
+        # this if predicate also copes with null directives (C99 6.10.7)
+        if toktype == 'punctuation' and toktext == '#' and ln != '':
             yield toktype, toktext
             ln, toktype, toktext = match_pp_token(ln, lines)
             while toktype == 'comment':
@@ -413,5 +415,5 @@ def main():
         with open(cpath, 'w') as fl:
             write_tables(enums, headers, os.path.basename(hpath), fl)
 
-if __name__ == '__main__':
+if __name__ == '__main__' and not sys.flags.interactive:
     main()

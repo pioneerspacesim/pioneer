@@ -11,6 +11,7 @@
 #include "Sector.h"
 #include "HyperspaceCloud.h"
 #include "KeyBindings.h"
+#include "TextureManager.h"
 #include "perlin.h"
 #include "SectorView.h"
 #include "Lang.h"
@@ -184,6 +185,8 @@ void WorldView::InitObject()
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));
 	m_onPlayerEquipmentChangeCon =
 		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
+
+	Pi::player->SetMouseForRearView(m_camType == CAM_REAR);
 }
 
 WorldView::~WorldView()
@@ -211,8 +214,11 @@ void WorldView::Save(Serializer::Writer &wr)
 
 void WorldView::SetCamType(enum CamType c)
 {
-	m_camType = c;
-	onChangeCamType.emit();
+	if (c != m_camType) {
+		m_camType = c;
+		Pi::player->SetMouseForRearView(c == CAM_REAR);
+		onChangeCamType.emit();
+	}
 }
 
 vector3d WorldView::GetExternalViewTranslation()
@@ -489,13 +495,12 @@ void WorldView::RefreshButtonStateAndVisibility()
 #endif
 
 	if (const SystemPath *dest = Space::GetHyperspaceDest()) {
-		StarSystem *s = StarSystem::GetCached(*dest);
+		RefCountedPtr<StarSystem> s = StarSystem::GetCached(*dest);
 		m_hudVelocity->SetText(stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
 			formatarg("system", s->GetName()),
 			formatarg("x", dest->sectorX),
 			formatarg("y", dest->sectorY),
 			formatarg("z", dest->sectorZ)));
-		s->Release();
 		m_hudVelocity->Show();
 
 		m_hudTargetDist->Hide();
@@ -505,9 +510,17 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 	else {
 		{
-			double _vel = vel.Length();
 			std::string str;
-			const char *rel_to = Pi::player->GetFrame()->GetLabel();
+			double _vel = 0;
+			const char *rel_to = 0;
+			const Body *set_speed_target = Pi::player->GetSetSpeedTarget();
+			if (set_speed_target) {
+				rel_to = set_speed_target->GetLabel().c_str();
+				_vel = Pi::player->GetVelocityRelTo(set_speed_target).Length();
+			} else {
+				rel_to = Pi::player->GetFrame()->GetLabel();
+				_vel = vel.Length();
+			}
 			if (_vel > 1000) {
 				str = stringf(Lang::KM_S_RELATIVE_TO, formatarg("speed", _vel*0.001), formatarg("frame", rel_to));
 			} else {
@@ -865,9 +878,8 @@ void WorldView::OnHyperspaceTargetChanged()
 
 	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
 
-	StarSystem *system = StarSystem::GetCached(path);
+	RefCountedPtr<StarSystem> system = StarSystem::GetCached(path);
 	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", system->GetName())));
-	system->Release();
 
 	int fuelReqd;
 	double dur;
@@ -1005,13 +1017,13 @@ void WorldView::SelectBody(Body *target, bool reselectIsDeselect)
 		if (Pi::player->GetCombatTarget() == target) {
 			if (reselectIsDeselect) Pi::player->SetCombatTarget(0);
 		} else {
-			Pi::player->SetCombatTarget(target);
+			Pi::player->SetCombatTarget(target, Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL));
 		}
 	} else {
 		if (Pi::player->GetNavTarget() == target) {
 			if (reselectIsDeselect) Pi::player->SetNavTarget(0);
 		} else {
-			Pi::player->SetNavTarget(target);
+			Pi::player->SetNavTarget(target, Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL));
 		}
 	}
 }
@@ -1087,6 +1099,15 @@ void WorldView::UpdateProjectedObjects()
 		UpdateIndicator(m_velIndicator, camSpaceVel);
 	else
 		HideIndicator(m_velIndicator);
+
+	// orientation according to mouse
+	if (Pi::player->IsMouseActive()) {
+		vector3d mouseDir = Pi::player->GetMouseDir() * cam_rot;
+		if (GetCamType() == CAM_REAR)
+			mouseDir = -mouseDir;
+		UpdateIndicator(m_mouseDirIndicator, (Pi::player->GetBoundingRadius() * 1.5) * mouseDir);
+	} else
+		HideIndicator(m_mouseDirIndicator);
 
 	// navtarget info
 	if (Body *navtarget = Pi::player->GetNavTarget()) {
@@ -1388,6 +1409,9 @@ void WorldView::Draw()
 
 	glLineWidth(2.0f);
 
+	glColor4f(0.9f, 0.9f, 0.3f, 1.0f);
+	DrawImageIndicator(m_mouseDirIndicator, PIONEER_DATA_DIR "/icons/indicator_mousedir.png");
+
 	// combat target indicator
 	glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
 	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator);
@@ -1518,6 +1542,57 @@ void WorldView::DrawVelocityIndicator(const Indicator &marker)
 	} else
 		DrawEdgeMarker(marker);
 
+}
+
+void WorldView::DrawCircleIndicator(const Indicator &marker)
+{
+	if (marker.side == INDICATOR_HIDDEN) return;
+
+	const float sz = HUD_CROSSHAIR_SIZE*0.5;
+	if (marker.side == INDICATOR_ONSCREEN) {
+		const float posx = marker.pos[0];
+		const float posy = marker.pos[1];
+		GLfloat vtx[72*2];
+		for (int i = 0; i < 72*2; i+=2) {
+			vtx[i]   = posx+sinf(DEG2RAD(i*5))*sz;
+			vtx[i+1] = posy+cosf(DEG2RAD(i*5))*sz;
+		}
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(2, GL_FLOAT, 0, vtx);
+		glDrawArrays(GL_LINE_LOOP, 0, 72);
+		glDisableClientState(GL_VERTEX_ARRAY);
+	} else
+		DrawEdgeMarker(marker);
+}
+
+void WorldView::DrawImageIndicator(const Indicator &marker, const char *icon_path)
+{
+	if (marker.side == INDICATOR_HIDDEN) return;
+
+	if (marker.side == INDICATOR_ONSCREEN) {
+		Texture *tex = TextureManager::GetTexture(icon_path, true);
+		const float w = tex->GetWidth();
+		const float h = tex->GetHeight();
+		const float x0 = marker.pos[0] - w/2.0f;
+		const float y0 = marker.pos[1] - h/2.0f;
+		GLfloat vtx[4*4] = {
+			x0,     y0,     0.0f, 0.0f,
+			x0,     y0 + h, 0.0f, 1.0f,
+			x0 + w, y0 + h, 1.0f, 1.0f,
+			x0 + w, y0,     1.0f, 0.0f,
+		};
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glEnable(GL_TEXTURE_2D);
+		tex->BindTexture();
+		glVertexPointer(2, GL_FLOAT, sizeof(GLfloat)*4, &vtx[0]);
+		glTexCoordPointer(2, GL_FLOAT, sizeof(GLfloat)*4, &vtx[2]);
+		glDrawArrays(GL_QUADS, 0, 4);
+		glDisable(GL_TEXTURE_2D);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
+	} else
+		DrawEdgeMarker(marker);
 }
 
 void WorldView::DrawEdgeMarker(const Indicator &marker)

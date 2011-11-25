@@ -28,7 +28,7 @@ private:
 	void ResetViewpoint();
 	void MouseButtonDown(int button, int x, int y);
 
-	StarSystem *m_system;
+	RefCountedPtr<StarSystem> m_system;
 	SBody *m_selectedObject;
 	float m_rot_x, m_rot_z;
 	float m_zoom;

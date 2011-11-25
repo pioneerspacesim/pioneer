@@ -98,7 +98,7 @@ LuaEventQueue<Ship,Body> *Pi::luaOnShipLanded;
 LuaEventQueue<Ship,Body> *Pi::luaOnShipTakeOff;
 LuaEventQueue<Ship,const char *> *Pi::luaOnShipAlertChanged;
 LuaEventQueue<Ship,CargoBody> *Pi::luaOnJettison;
-LuaEventQueue<Ship> *Pi::luaOnAICompleted;
+LuaEventQueue<Ship,const char *> *Pi::luaOnAICompleted;
 LuaEventQueue<SpaceStation> *Pi::luaOnCreateBB;
 LuaEventQueue<SpaceStation> *Pi::luaOnUpdateBB;
 LuaEventQueue<> *Pi::luaOnSongFinished;
@@ -121,8 +121,8 @@ SystemView *Pi::systemView;
 SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
 LuaConsole *Pi::luaConsole;
-StarSystem *Pi::selectedSystem;
-StarSystem *Pi::currentSystem;
+RefCountedPtr<StarSystem> Pi::selectedSystem;
+RefCountedPtr<StarSystem> Pi::currentSystem;
 MTRand Pi::rng;
 double Pi::gameTime;
 float Pi::frameTime;
@@ -233,7 +233,7 @@ static void LuaInit()
 	Pi::luaOnShipTakeOff = new LuaEventQueue<Ship,Body>("onShipTakeOff");
 	Pi::luaOnShipAlertChanged = new LuaEventQueue<Ship,const char *>("onShipAlertChanged");
 	Pi::luaOnJettison = new LuaEventQueue<Ship,CargoBody>("onJettison");
-	Pi::luaOnAICompleted = new LuaEventQueue<Ship>("onAICompleted");
+	Pi::luaOnAICompleted = new LuaEventQueue<Ship,const char *>("onAICompleted");
 	Pi::luaOnCreateBB = new LuaEventQueue<SpaceStation>("onCreateBB");
 	Pi::luaOnUpdateBB = new LuaEventQueue<SpaceStation>("onUpdateBB");
 	Pi::luaOnSongFinished = new LuaEventQueue<>("onSongFinished");
@@ -1057,7 +1057,7 @@ void Pi::UninitGame()
 		delete Pi::player;
 		Pi::player = 0;
 	}
-	if (Pi::selectedSystem) Pi::selectedSystem->Release();
+	Pi::selectedSystem.Reset();
 	StarSystem::ShrinkCache();
 }
 
@@ -1146,6 +1146,7 @@ void Pi::Start()
         {
             SystemPath path(0,0,0, 0);
             Space::SetupSystemForGameStart(&path, 1, 0);
+			sectorView->NewGameInit();
             StartGame();
             MainLoop();
             break;
@@ -1154,6 +1155,7 @@ void Pi::Start()
         {
             SystemPath path(1,0,-1, 0);
             Space::SetupSystemForGameStart(&path, 0, 0);
+			sectorView->NewGameInit();
             StartGame();
             MainLoop();
             break;
@@ -1240,6 +1242,7 @@ void Pi::Start()
              */
             //	player->SetDockedWith(station2, 0);
 
+			sectorView->NewGameInit();
             StartGame();
             MainLoop();
             break;
@@ -1463,7 +1466,6 @@ void Pi::MainLoop()
 			GeoSphere::ClearVtxGenCount();
 			if (SDL_GetTicks() - last_stats > 1200) last_stats = SDL_GetTicks();
 			else last_stats += 1000;
-			GeoSphere::ClearVtxGenCount();
 		}
 		Pi::statSceneTris = 0;
 		LmrModelClearStatsTris();
@@ -1479,14 +1481,14 @@ void Pi::MainLoop()
 	}
 }
 
-StarSystem *Pi::GetSelectedSystem()
+RefCountedPtr<StarSystem> Pi::GetSelectedSystem()
 {
 	SystemPath selectedPath = Pi::sectorView->GetSelectedSystem();
 
 	if (selectedSystem) {
 		if (selectedSystem->GetPath().IsSameSystem(selectedPath))
 			return selectedSystem;
-		selectedSystem->Release();
+		selectedSystem.Reset();
 	}
 
 	selectedSystem = StarSystem::GetCached(selectedPath);
@@ -1499,12 +1501,12 @@ void Pi::Serialize(Serializer::Writer &wr)
 
 	Serializer::IndexFrames();
 	Serializer::IndexBodies();
-	Serializer::IndexSystemBodies(currentSystem);
+	Serializer::IndexSystemBodies(currentSystem.Get());
 
 	section = Serializer::Writer();
 	section.Double(gameTime);
-	StarSystem::Serialize(section, selectedSystem);
-	StarSystem::Serialize(section, currentSystem);
+	StarSystem::Serialize(section, selectedSystem.Get());
+	StarSystem::Serialize(section, currentSystem.Get());
 	wr.WrSection("PiMisc", section.GetData());
 	
 	section = Serializer::Writer();
