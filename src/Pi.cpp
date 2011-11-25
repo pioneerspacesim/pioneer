@@ -426,6 +426,9 @@ void Pi::Init()
 	Uint32 flags = SDL_OPENGL;
 	if (config.Int("StartFullscreen")) flags |= SDL_FULLSCREEN;
 
+	SDL_Surface *icon = IMG_Load(PIONEER_DATA_DIR "/icons/badge.png");
+	SDL_WM_SetIcon(icon, 0);
+
 	if ((Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags)) == 0) {
 		// fall back on 16-bit depth buffer...
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
