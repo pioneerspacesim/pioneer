@@ -159,6 +159,8 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\lib"
 				GenerateDebugInformation="true"
+				GenerateMapFile="true"
+				MapFileName="$(ProjectDir)mapfile.txt"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
