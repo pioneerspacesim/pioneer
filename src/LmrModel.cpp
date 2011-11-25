@@ -270,9 +270,9 @@ void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
 void UseProgram(LmrShader *shader, bool Textured = false, bool Glowmap = false) {
 	if (Render::AreShadersEnabled()) {
 		Render::State::UseProgram(shader);
-		if (Textured) shader->set_tex(0);
+		if (Textured) shader->set_tex(1);
 		shader->set_usetex(Textured ? 1 : 0);
-		if (Glowmap) shader->set_texGlow(1);
+		if (Glowmap) shader->set_texGlow(2);
 		shader->set_useglow(Glowmap ? 1 : 0);
 	}
 }
@@ -360,13 +360,18 @@ public:
 			switch (op.type) {
 			case OP_DRAW_ELEMENTS:
 				if (op.elems.texture != 0 ) {
-					UseProgram(curShader, true, op.elems.glowmap != 0);
-					glActiveTexture(GL_TEXTURE0);
-					glEnable(GL_TEXTURE_2D);
-					op.elems.texture->BindTexture();
-					if (op.elems.glowmap != 0) {
+					if (Render::AreShadersEnabled()) {
+						UseProgram(curShader, true, op.elems.glowmap != 0);
+						// use units 1 & 2 because of weird driver bugs
 						glActiveTexture(GL_TEXTURE1);
-						op.elems.glowmap->BindTexture();
+						op.elems.texture->BindTexture();
+						glActiveTexture(GL_TEXTURE2);
+						if (op.elems.glowmap != 0) op.elems.glowmap->BindTexture();
+					}
+					else {
+						glActiveTexture(GL_TEXTURE0);
+						glEnable(GL_TEXTURE_2D);
+						op.elems.texture->BindTexture();
 					}
 				} else {
 					UseProgram(curShader, false);
