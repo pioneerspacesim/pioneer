@@ -1464,7 +1464,8 @@ void Pi::MainLoop()
 			phys_stat = 0;
 			TextureFont::ClearGlyphCount();
 			GeoSphere::ClearVtxGenCount();
-			last_stats = SDL_GetTicks();
+			if (SDL_GetTicks() - last_stats > 1200) last_stats = SDL_GetTicks();
+			else last_stats += 1000;
 		}
 		Pi::statSceneTris = 0;
 		LmrModelClearStatsTris();
