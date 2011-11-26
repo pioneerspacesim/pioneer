@@ -2018,19 +2018,18 @@ static SystemCacheMap s_cachedSystems;
 
 RefCountedPtr<StarSystem> StarSystem::GetCached(const SystemPath &path)
 {
-	StarSystem *s = 0;
-
 	SystemPath sysPath(path.SystemOnly());
 
-	SystemCacheMap::const_iterator it = s_cachedSystems.find(sysPath);
-	if (it != s_cachedSystems.end()) {
-		s = it->second;
-	} else {
+	StarSystem *s = 0;
+	std::pair<SystemCacheMap::iterator, bool>
+		ret = s_cachedSystems.insert(SystemCacheMap::value_type(sysPath, static_cast<StarSystem*>(0)));
+	if (ret.second) {
 		s = new StarSystem(sysPath);
+		ret.first->second = s;
 		s->IncRefCount(); // the cache owns one reference
-		s_cachedSystems.insert( SystemCacheMap::value_type(sysPath, s) );
+	} else {
+		s = ret.first->second;
 	}
-
 	return RefCountedPtr<StarSystem>(s);
 }
 
