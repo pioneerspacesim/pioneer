@@ -24,6 +24,7 @@ Alpha 17
       system-only paths (#795)
 
   * Internal changes
+    * Cleanups and general code improvements (#819)
     * Terrain color/height fractal refactor (#699)
     * SystemPath now has specific invalid values to indicate sector-only and
       system-only paths (#795)

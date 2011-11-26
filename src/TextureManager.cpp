@@ -55,8 +55,9 @@ namespace TextureManager {
 
 	void Clear()
 	{
-		TextureCacheMap::iterator i;
-		for (i=s_textures.begin(); i!=s_textures.end(); ++i) delete (*i).second;
+		for (TextureCacheMap::iterator i = s_textures.begin(); i != s_textures.end(); ++i)
+			delete (*i).second;
+		s_textures.clear();
 	}
 }
 
