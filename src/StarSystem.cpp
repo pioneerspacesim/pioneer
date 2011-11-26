@@ -886,17 +886,6 @@ double calc_orbital_period(double semiMajorAxis, double centralMass)
 	return 2.0*M_PI*sqrt((semiMajorAxis*semiMajorAxis*semiMajorAxis)/(G*centralMass));
 }
 
-template <class T>
-static void shuffle_array(MTRand &rand, T *array, int len)
-{
-	for (int i=0; i<len; i++) {
-		int pos = rand.Int32(len);
-		T temp = array[i];
-		array[i] = array[pos];
-		array[pos] = temp;
-	}
-}
-
 SBody *StarSystem::GetBodyByPath(const SystemPath &path) const
 {
 	assert(m_path.IsSameSystem(path));
@@ -2029,19 +2018,18 @@ static SystemCacheMap s_cachedSystems;
 
 RefCountedPtr<StarSystem> StarSystem::GetCached(const SystemPath &path)
 {
-	StarSystem *s = 0;
-
 	SystemPath sysPath(path.SystemOnly());
 
-	SystemCacheMap::const_iterator it = s_cachedSystems.find(sysPath);
-	if (it != s_cachedSystems.end()) {
-		s = it->second;
-	} else {
+	StarSystem *s = 0;
+	std::pair<SystemCacheMap::iterator, bool>
+		ret = s_cachedSystems.insert(SystemCacheMap::value_type(sysPath, static_cast<StarSystem*>(0)));
+	if (ret.second) {
 		s = new StarSystem(sysPath);
+		ret.first->second = s;
 		s->IncRefCount(); // the cache owns one reference
-		s_cachedSystems.insert( SystemCacheMap::value_type(sysPath, s) );
+	} else {
+		s = ret.first->second;
 	}
-
 	return RefCountedPtr<StarSystem>(s);
 }
 

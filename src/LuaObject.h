@@ -1,14 +1,6 @@
 #ifndef _LUAOBJECT_H
 #define _LUAOBJECT_H
 
-// XXX win32 defines RegisterClass->RegisterClassA somewhere in its headers.
-// this causes things to break if the wrapper implementations include libs.h,
-// but we don't. until we have a better way to handle platform-specifics, this
-// will do
-#ifdef _WIN32
-#include "libs.h"
-#endif
-
 #include "LuaManager.h"
 #include "DeleteEmitter.h"
 
