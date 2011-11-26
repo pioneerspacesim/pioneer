@@ -11,6 +11,7 @@ Alpha 17
 
   * Minor changes and tweaks
     * Improved planet atmosphere rendering
+    * Window icon (#817)
 
   * Fixes
     * Star halo now drawn properly in the world space (#768)
