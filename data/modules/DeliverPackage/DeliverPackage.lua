@@ -93,9 +93,14 @@ end
 
 local onDelete = function (ref)
 	-- Keep the ad's character for the future
-	ads[ref].Client:Save()
-	ads[ref].Client.lastSavedSystemPath = ads[ref].station.path
-	ads[ref].Client.title = "Persistent"
+	if ads[ref].Client.useCount > 0 or ads[ref].Client:TestRoll('notoriety',10) then
+		-- All characters that already existed, or approximately one in
+		-- five of newly created characters (with notoriety benefits, just
+		-- in case). Default notoriety is 15, +10 modifier makes 25. Chance
+		-- of successful testroll is about 19%-20%.
+		ads[ref].Client:Save()
+		ads[ref].Client.lastSavedSystemPath = ads[ref].station.path
+	end
 	ads[ref] = nil
 end
 
