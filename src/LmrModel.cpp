@@ -4171,6 +4171,8 @@ namespace ObjLoader {
 				// texture
 				vector3f v;
 				PiVerify(2 == sscanf(buf, "vt %f %f", &v.x, &v.y));
+				//max, blender use 0,0 as lower left so flip vertical
+				v.y = 1.0 - v.y;
 				texcoords.push_back(v);
 			}
 			else if ((buf[0] == 'f') && (buf[1] == ' ')) {
