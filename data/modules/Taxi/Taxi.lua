@@ -199,9 +199,9 @@ local onEnterSystem = function (player)
 			local ships = 0
 
 			local riskmargin = Engine.rand:Number(-0.3,0.3) -- Add some random luck
-			if risk >= (0.5 + riskmargin) then ships = 1
+			if risk >= (1 + riskmargin) then ships = 3
 			elseif risk >= (0.7 + riskmargin) then ships = 2
-			elseif risk >= (1.0 + riskmargin) then ships = 3
+			elseif risk >= (0.5 + riskmargin) then ships = 1
 			end
 
 			if ships < 1 and risk > 0 and Engine.rand:Integer(math.ceil(1/risk)) == 1 then ships = 1 end
@@ -231,6 +231,13 @@ local onEnterSystem = function (player)
 					ship = Space.SpawnShipNear(shipname, Game.player, 50, 100)
 					ship:AddEquip(default_drive)
 					ship:AddEquip(laser)
+					ship:AddEquip('SHIELD_GENERATOR', math.ceil(risk * 3))
+					if Engine.rand:Number(2) <= risk then
+						ship:AddEquip('LASER_COOLING_BOOSTER')
+					end
+					if Engine.rand:Number(3) <= risk then
+						ship:AddEquip('SHIELD_ENERGY_BOOSTER')
+					end
 					ship:AIKill(Game.player)
 				end
 			end
