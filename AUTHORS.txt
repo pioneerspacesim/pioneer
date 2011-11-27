@@ -46,6 +46,7 @@ Translations:
   Vincent Teerling
   Alessandro Giachi
   Paul Mahol
+  Thierry Dupré
 
 Thanks to those that have moved on (we hope to see you back!)
 
