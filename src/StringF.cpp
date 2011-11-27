@@ -1,6 +1,5 @@
 #include "StringF.h"
 
-// XXX maybe replace use of iostreams with something else
 #include <iostream>
 #include <sstream>
 

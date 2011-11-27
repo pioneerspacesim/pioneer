@@ -44,9 +44,9 @@
  *
  *   sectorZ - galactic sector Z coordinate
  *
- *   systemIndex - the numeric index of the system within the sector
+ *   systemIndex - optional. the numeric index of the system within the sector
  *
- *   bodyIndex - optional, the numeric index of a specific body within the
+ *   bodyIndex - optional. the numeric index of a specific body within the
  *               system. Defaults to 0, which typically corresponds to the
  *               primary star.
  *
@@ -60,25 +60,32 @@
  */
 static int l_sbodypath_new(lua_State *l)
 {
-	int sector_x = luaL_checkinteger(l, 1);
-	int sector_y = luaL_checkinteger(l, 2);
-	int sector_z = luaL_checkinteger(l, 3);
-	int system_idx = luaL_checkinteger(l, 4);
+	Sint32 sector_x = luaL_checkinteger(l, 1);
+	Sint32 sector_y = luaL_checkinteger(l, 2);
+	Sint32 sector_z = luaL_checkinteger(l, 3);
 
-	int sbody_id = 0;
-	if (!lua_isnone(l, 5))
-		sbody_id = luaL_checkinteger(l, 5);
-	
-	Sector s(sector_x, sector_y, sector_z);
-	if (size_t(system_idx) >= s.m_systems.size())
-		luaL_error(l, "System %d in sector [%d,%d,%d] does not exist", system_idx, sector_x, sector_y, sector_z);
+	SystemPath path(sector_x, sector_y, sector_z);
 
-	// XXX explode if sbody_id doesn't exist in the target system?
-	
-	SystemPath *path = new SystemPath(sector_x, sector_y, sector_z, system_idx, sbody_id);
+	if (lua_gettop(l) > 3) {
+		path.systemIndex = luaL_checkinteger(l, 4);
 
-	LuaSystemPath::PushToLuaGC(path);
+		// if this is a system path, then check that the system exists
+		Sector s(sector_x, sector_y, sector_z);
+		if (size_t(path.systemIndex) >= s.m_systems.size())
+			luaL_error(l, "System %d in sector <%d,%d,%d> does not exist", path.systemIndex, sector_x, sector_y, sector_z);
 
+		if (lua_gettop(l) > 4) {
+			path.bodyIndex = luaL_checkinteger(l, 5);
+
+			// and if it's a body path, check that the body exists
+			RefCountedPtr<StarSystem> sys = StarSystem::GetCached(path);
+			if (size_t(path.bodyIndex) >= sys->m_bodies.size()) {
+				luaL_error(l, "Body %d in system <%d,%d,%d : %d ('%s')> does not exist",
+					path.bodyIndex, sector_x, sector_y, sector_z, path.systemIndex, sys->GetName().c_str());
+			}
+		}
+	}
+	LuaSystemPath::PushToLua(&path);
 	return 1;
 }
 
