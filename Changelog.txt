@@ -14,6 +14,7 @@ Alpha 17
     * Improved planet atmosphere rendering
     * Window icon (#817)
     * Increase difficulty of high-risk taxi missions (#800)
+    * Flip texture UV coordinates on object load (#818)
 
   * Fixes
     * Star halo now drawn properly in the world space (#768)
