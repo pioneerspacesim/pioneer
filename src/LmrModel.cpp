@@ -4117,6 +4117,13 @@ namespace ObjLoader {
 	 *   stable
 	 *
 	 */
+	struct objTriplet {	int v, n, uv; };
+	const bool operator< (const objTriplet &t1, const objTriplet &t2) {
+		if (t1.v < t2.v) return true; if (t1.v > t2.v) return false;
+		if (t1.n < t2.n) return true; if (t1.n > t2.n) return false;
+		if (t1.uv < t2.uv) return true; return false;
+	}
+
 	static int load_obj_file(lua_State *L)
 	{
 		const char *obj_name = luaL_checkstring(L, 1);
@@ -4143,7 +4150,7 @@ namespace ObjLoader {
 		std::string texture;
 
 		// maps obj file vtx_idx,norm_idx to a single GeomBuffer vertex index
-		std::map< std::pair<int,int>, int> vtxmap;
+		std::map<objTriplet, int> vtxmap;
 
 		for (int line_no=1; fgets(buf, sizeof(buf), f); line_no++) {
 			if ((buf[0] == 'v') && buf[1] == ' ') {
@@ -4164,6 +4171,8 @@ namespace ObjLoader {
 				// texture
 				vector3f v;
 				PiVerify(2 == sscanf(buf, "vt %f %f", &v.x, &v.y));
+				//max, blender use 0,0 as lower left so flip vertical
+				v.y = 1.0 - v.y;
 				texcoords.push_back(v);
 			}
 			else if ((buf[0] == 'f') && (buf[1] == ' ')) {
@@ -4222,7 +4231,8 @@ namespace ObjLoader {
 				} else {
 					for (int i=0; i<numBits; i++) {
 						// SHARE THE PAIN!
-						std::map< std::pair<int, int>, int>::iterator it = vtxmap.find(std::pair<int,int>(vi[i], ni[i]));
+						objTriplet t = { vi[i], ni[i], ti[i] };
+						std::map<objTriplet, int>::iterator it = vtxmap.find(t);
 						if (it == vtxmap.end()) {
 							// insert the horrible thing
 							int vtxStart = s_curBuf->AllocVertices(1);
@@ -4232,7 +4242,7 @@ namespace ObjLoader {
 							} else {
 								s_curBuf->SetVertex(vtxStart, vertices[vi[i]], normals[ni[i]], texcoords[ti[i]].x, texcoords[ti[i]].y);
 							}
-							vtxmap[std::pair<int,int>(vi[i], ni[i])] = vtxStart;
+							vtxmap[t] = vtxStart;
 							realVtxIdx[i] = vtxStart;
 						} else {
 							realVtxIdx[i] = (*it).second;

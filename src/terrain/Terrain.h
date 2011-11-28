@@ -4,6 +4,10 @@
 #include "libs.h"
 #include "StarSystem.h"
 
+#ifdef _MSC_VER
+#pragma warning(disable : 4250)			// workaround for MSVC 2008 multiple inheritance bug
+#endif
+
 struct fracdef_t {
 	fracdef_t() : amplitude(0.0), frequency(0.0), lacunarity(0.0), octaves(0) {}
 	double amplitude;
@@ -170,5 +174,9 @@ class TerrainColorStarWhiteDwarf;
 class TerrainColorTFGood;
 class TerrainColorTFPoor;
 class TerrainColorVolcanic;
+
+#ifdef _MSC_VER
+#pragma warning(default : 4250)
+#endif
 
 #endif /* TERRAIN_H */

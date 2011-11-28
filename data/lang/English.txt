@@ -1163,7 +1163,7 @@ DISTANCE_LY
 SYSTEM
     System
 UNOCCUPIED_CABIN
-    Extra Passenger Cabins
+    Extra Passenger Cabin
 X_UNOCCUPIED_CABINS
     %quantity Extra Passenger Cabins
 UNOCCUPIED_CABIN_DESCRIPTION

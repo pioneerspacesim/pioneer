@@ -793,6 +793,7 @@ static bool CheckOvershoot(Ship *ship, const vector3d &reldir, double targdist, 
 	double u = 0.5 * (relvel.Dot(reldir) + endvel);	if (u<0) u = 0;
 	double t = (-u + sqrt(u*u + fwdacc*targdist)) / (fwdacc * 0.5);
 	if (t < Pi::GetTimeStep()) t = Pi::GetTimeStep();
+//	double t2 = ship->AITravelTime(reldir, targdist, relvel, endvel, true);
 
 	// check for uncorrectable side velocity
 	vector3d perpvel = relvel - reldir * relvel.Dot(reldir);
@@ -834,6 +835,8 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, dou
 	m_state = -1; m_frame = 0;
 	m_tangent = tangent;
 }
+
+extern double calc_ivel(double dist, double vel, double acc);
 
 bool AICmdFlyTo::TimeStepUpdate()
 {
@@ -882,28 +885,29 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 			ProcessChild(); m_state = -5; return false;
 		}
 	}
-
-	// path overshoot check, response
-	if (m_state < 3 && CheckOvershoot(m_ship, reldir, targdist, relvel, m_endvel)) {
-		if (!m_tangent) m_ship->AIFaceDirection(-relvel);
-		else m_ship->AIFaceDirection(m_ship->GetPosition());
-		m_ship->AIMatchVel(vector3d(0.0));
-		m_state = -4; return false;
-	}
-	// regenerate state to flipmode if we're off course
-	if ((m_state == -4 || m_state == -2) && m_tangent) return true;		// bail out
-	if (m_state < 0) m_state = GetFlipMode(m_ship, relpos, relvel);
 	
 	// if dangerously close to local body, pretend target isn't moving
 	double localdist = m_ship->GetPosition().Length();
-	if (targdist > localdist && localdist < 1.5*erad)
+	if (targdist > localdist && localdist < 1.5*MaxFeatureRad(body))
 		relvel += targvel;
+
+	// regenerate state to flipmode if we're off course
+	bool overshoot = CheckOvershoot(m_ship, reldir, targdist, relvel, m_endvel);
+	if (m_tangent && m_state == -4 && !overshoot) return true;			// bail out
+	if (m_state < 0) m_state = GetFlipMode(m_ship, relpos, relvel);
 
 	// linear thrust
 	double ang, maxdecel = GetMaxDecel(m_ship, reldir, m_state, &ang);
 	maxdecel -= GetGravityAtPos(m_targframe, m_posoff);
 	if(maxdecel <= 0) { m_ship->AIMessage(Ship::AIERROR_GRAV_TOO_HIGH); return true; }
 	bool cap = m_ship->AIMatchPosVel2(reldir, targdist, relvel, m_endvel, maxdecel);
+
+	// path overshoot check, response
+	if (m_state < 3 && overshoot) {
+		double ispeed = calc_ivel(targdist, m_endvel, maxdecel);
+		m_ship->AIFaceDirection(ispeed*reldir - relvel);
+		m_state = -4; return false;
+	}
 
 	// flip check - if facing forward and not accelerating at maximum
 	if (m_state == 1 && ang > 0.99 && !cap) m_state = 2;
@@ -1057,8 +1061,6 @@ AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double 
 	Setup(obstructor, alt, vel, 2, 0, targframe, posoff);
 }
 
-extern double calc_ivel(double dist, double vel, double acc);
-
 vector3d AICmdFlyAround::Targpos()
 {
 	switch (m_targmode) {
@@ -1068,12 +1070,12 @@ vector3d AICmdFlyAround::Targpos()
 	}
 }
 
-double AICmdFlyAround::MaxVel(double targdist, const vector3d &targpos)
+double AICmdFlyAround::MaxVel(double targdist, double targalt)
 {
-	if (m_targmode != 1 && m_targmode != 2) return m_vel;
+	if (targalt > m_alt) return m_vel;
 	double t = sqrt(2.0 * targdist / m_ship->GetAccelFwd());
 	double vmaxprox = m_ship->GetAccelMin()*t;			// limit by target proximity
-	double vmaxstep = std::max(m_alt*0.05, m_alt-targpos.Length());
+	double vmaxstep = std::max(m_alt*0.05, m_alt-targalt);
 	vmaxstep /= Pi::GetTimeStep();			// limit by distance covered per timestep
 	return std::min(m_vel, std::min(vmaxprox, vmaxstep));
 }
@@ -1092,23 +1094,25 @@ bool AICmdFlyAround::TimeStepUpdate()
 	vector3d obspos = m_obstructor->GetPositionRelTo(m_ship);
 	double obsdist = obspos.Length();
 	vector3d obsdir = obspos / obsdist;
-	vector3d relpos = targpos + obspos;
+	vector3d relpos = targpos - m_ship->GetPosition();
 
 	// if too far away, fly to tangent
 	if (obsdist > 1.1*m_alt)
 	{
+		double v;
 		Frame *obsframe = GetNonRotFrame(m_obstructor);
 		vector3d tangent = GenerateTangent(m_ship, obsframe, targpos, m_alt);
-		vector3d shiptan = GetPosInFrame(m_ship->GetFrame(), obsframe, tangent);
-		double v = MaxVel((targpos-shiptan).Length(), targpos);
-		if ((m_targmode == 1 || m_targmode == 2) && 
-			relpos.LengthSqr() < (obspos+tangent).LengthSqr()) v = 0.0;
+		vector3d tpos_obs = GetPosInFrame(obsframe, m_ship->GetFrame(), targpos);
+		if (m_targmode != 1 && m_targmode != 2) v = m_vel;
+		else if (relpos.LengthSqr() < obsdist) v = 0.0;
+		else v = MaxVel((tpos_obs-tangent).Length(), tpos_obs.Length());
 		m_child = new AICmdFlyTo(m_ship, obsframe, tangent, v, true);
 		ProcessChild(); return false;
 	}
 
 	// limit m_vel by target proximity & distance covered per frame
-	double vel = MaxVel(relpos.Length(), targpos);
+	double vel = (m_targmode != 1 && m_targmode != 2) ? m_vel
+		: MaxVel(relpos.Length(), targpos.Length());
 
 	// all calculations in ship's frame
 	vector3d fwddir = (obsdir.Cross(relpos).Cross(obsdir)).Normalized();

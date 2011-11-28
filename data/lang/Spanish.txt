@@ -350,6 +350,8 @@ ECM_ADVANCED_DESCRIPTION
     Un sistema de defensa electrónico de contramedidas, capaz de neutralizar un tipo mas avanzado de misiles guiados.
 SHIELD_GENERATOR
     Generador de escudo
+X_SHIELD_GENERATORS
+    %quantity generadores de escudo
 SHIELD_GENERATOR_DESCRIPTION
     Proporciona una defensa adicional del casco con cada unidad ensamblada.
 LASER_COOLING_BOOSTER
@@ -372,6 +374,10 @@ FUEL_SCOOP
     Recogedor de combustible
 FUEL_SCOOP_DESCRIPTION
     Permite la recogida de combustible de hidrógeno de gigantes gaseosos.
+CARGO_SCOOP
+    Recogedor de carga
+CARGO_SCOOP_DESCRIPTION
+    Permite la recogida de carga en el espacio.
 HYPERCLOUD_ANALYZER
     Analizador de la nube hiperespacial
 HYPERCLOUD_ANALYZER_DESCRIPTION
@@ -552,6 +558,14 @@ INCREASE_SET_SPEED
     Aumentar velocidad
 DECREASE_SET_SPEED
     Reducción de velocidad
+SCANNER_CONTROL
+    Control de Scanner
+TOGGLE_SCAN_MODE
+    Encender modo Scanner
+INCREASE_SCAN_RANGE
+    Ampliar distancia de Scanner
+DECREASE_SCAN_RANGE
+    Reducir rango del Scanner
 TOGGLE_LUA_CONSOLE
     ON/OFF Lua Console
 JOYSTICK_INPUT
@@ -690,6 +704,8 @@ NOT_FOUND
     Sin resultados
 NUMBER_HOURS
     %hours{f.1} hrs
+NUMBER_DAYS
+    %days{f.0} días
 QUADRUPLE_SYSTEM
     Sistema cuaternario
 TRIPLE_SYSTEM
@@ -702,6 +718,8 @@ DISABLED_AUTOMATIC_SYSTEM_SELECTION
     Selección automática de sistema desconectado.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
     Recogedor de combustible activo. Dispone de %quantity toneladas de hidrógeno.
+CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED
+    Recogedor de carga activo. Recogida 1 ton de %item.
 CARGO_BAY_LIFE_SUPPORT_LOST
     Los sensores informan de condiciones críticas en los sitemas de apoyo vital de la bahía de carga. 
 NO_FREE_SPACE_FOR_ITEM
@@ -1142,4 +1160,15 @@ DISTANCE_LY
     Distancia: %distance{f.2} ly
 SYSTEM
     Sistema
-
+UNOCCUPIED_CABIN
+    Cabina extra de pasajeros
+X_UNOCCUPIED_CABINS
+    %quantity cabinas extra de pasajeros
+UNOCCUPIED_CABIN_DESCRIPTION
+    Para el transporte de un pasajero
+PASSENGER_CABIN
+    Cabina de pasajeros ocupada
+X_PASSENGER_CABINS
+    %quantity cabinas de pasajeros ocupadas
+CABINS
+    Cabinas

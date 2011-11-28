@@ -387,15 +387,12 @@ vector3d Ship::AIGetLeadDir(const Body *target, const vector3d& targaccel, int g
 
 // same inputs as matchposvel, returns approximate travel time instead
 // underestimates if targspeed isn't reachable
-double Ship::AITravelTime(const vector3d &relpos, const vector3d &relvel, double targspeed, bool flip)
+double Ship::AITravelTime(const vector3d &reldir, double targdist, const vector3d &relvel, double targspeed, bool flip)
 {
-	matrix4x4d rot; GetRotMatrix(rot);
-	double dist = relpos.Length();
-	double speed = -(relvel * rot).z;		// speed >0 is towards
-
+	double speed = relvel.Dot(reldir);		// speed >0 is towards
+	double dist = targdist;
 	double faccel = GetAccelFwd();
-	double raccel = GetAccelRev();
-	if (flip) raccel = faccel;
+	double raccel = flip ? faccel : GetAccelRev();
 	double time1, time2, time3;
 
 	// time to reduce speed to zero:

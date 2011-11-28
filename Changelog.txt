@@ -1,6 +1,7 @@
 Alpha 17
 
   * New features
+    * French translation (#814)
     * Rewritten autopilot (#789)
     * Yellow indicator to show target orientation change by mouse
       movement (#216, #777)
@@ -11,11 +12,17 @@ Alpha 17
 
   * Minor changes and tweaks
     * Improved planet atmosphere rendering
+    * Window icon (#817)
+    * Increase difficulty of high-risk taxi missions (#800)
+    * Flip texture UV coordinates on object load (#818)
 
   * Fixes
     * Star halo now drawn properly in the world space (#768)
     * Allow equipment to be removed even if the station has none in stock (#780, #781)
     * Fix scanner drawing glitches with some recent NVidia drivers (#758)
+    * Fix textures and shaders on Intel and VMware (#711)
+    * Correctly order texture coordinates when loading models (#667)
+    * Reset breakdown service jump count to 0 when buying new drive (#820)
 
   * Script changes
     * New Character class to represent and test NPC attributes (#725, #787)
@@ -23,6 +30,7 @@ Alpha 17
       system-only paths (#795)
 
   * Internal changes
+    * Cleanups and general code improvements (#819)
     * Terrain color/height fractal refactor (#699)
     * SystemPath now has specific invalid values to indicate sector-only and
       system-only paths (#795)

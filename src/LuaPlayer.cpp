@@ -144,7 +144,7 @@ static void _table_to_mission(lua_State *l, Mission &m, bool create)
  * >     'client'   = 'Jefferson Ford',
  * >     'due'      = Game.time + 3*24*60*60,    -- three days
  * >     'reward'   = 123.45,
- * >     'location' = SystemPath:New(0,0,0,16),  -- Mars High, Sol
+ * >     'location' = SystemPath:New(0,0,0,0,16),  -- Mars High, Sol
  * >     'status'   = 'ACTIVE',
  * > })
  *
