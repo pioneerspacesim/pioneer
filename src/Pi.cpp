@@ -985,19 +985,6 @@ void Pi::InitGame()
 
 	Polit::Init();
 
-	cpan = new ShipCpanel();
-	sectorView = new SectorView();
-	worldView = new WorldView();
-	galacticView = new GalacticView();
-	systemView = new SystemView();
-	systemInfoView = new SystemInfoView();
-	spaceStationView = new SpaceStationView();
-	infoView = new InfoView();
-
-#if OBJECTVIEWER
-	objectViewerView = new ObjectViewerView();
-#endif
-
 	if (!config.Int("DisableSound")) AmbientSounds::Init();
 
 	LuaInitGame();
@@ -1031,19 +1018,6 @@ void Pi::UninitGame()
 {
 	if (!config.Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
-
-#if OBJECTVIEWER
-	delete objectViewerView;
-#endif
-
-	delete infoView;
-	delete spaceStationView;
-	delete worldView;
-	delete systemInfoView;
-	delete systemView;
-	delete sectorView;
-	delete cpan;
-	delete galacticView;
 
 	// XXX
 	if (game)

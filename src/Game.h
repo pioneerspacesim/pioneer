@@ -50,6 +50,9 @@ public:
 private:
 	void CreatePlayer();
 
+	void CreateViews();
+	void DestroyViews();
+
 	void SwitchToHyperspace();
 	void SwitchToNormalSpace();
 
