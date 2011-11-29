@@ -9,6 +9,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "GameLoaderSaver.h"
+#include "Game.h"
 
 class KeyGetter: public Gui::Fixed {
 public:
@@ -621,11 +622,19 @@ void GameMenuView::OpenSaveDialog()
 
 void GameMenuView::OpenLoadDialog()
 {
+	// XXX careful! destroying the game will also destroy the GameMenuView,
+	// making "this" invalid
+	Pi::EndGame();
+	Pi::UninitGame();
+
 	GameLoader loader;
 	loader.DialogMainLoop();
-	if (loader.GetGame()) {
-		// XXX tear down the current game and swap this one in
-		assert(0);
+
+	Game *newGame = loader.GetGame();
+	if (newGame) {
+		Pi::game = newGame;
+		Pi::InitGame();
+		Pi::StartGame();
 	}
 }
 
