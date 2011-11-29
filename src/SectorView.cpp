@@ -132,6 +132,14 @@ SectorView::SectorView() :
 	m_onMouseButtonDown = 
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SectorView::MouseButtonDown));
 	
+	m_current = Pi::game->GetSpace()->GetStarSystem()->GetPath();
+	assert(!m_current.IsSectorPath());
+	m_current = m_current.SystemOnly();
+
+	WarpToSystem(m_current);
+	OnClickSystem(m_current);
+	SetSelectedSystem(m_current);
+
 	FloatHyperspaceTarget();
 }
 
@@ -140,19 +148,6 @@ SectorView::~SectorView()
 	glDeleteLists(m_gluDiskDlist, 1);
 	m_onMouseButtonDown.disconnect();
 	if (m_onKeyPressConnection.connected()) m_onKeyPressConnection.disconnect();
-}
-
-void SectorView::NewGameInit()
-{
-	printf("SectorView::NewGameInit()\n");
-	assert(Pi::game->GetSpace()->GetStarSystem());
-	m_current = Pi::game->GetSpace()->GetStarSystem()->GetPath();
-	assert(!m_current.IsSectorPath());
-	m_current = m_current.SystemOnly();
-
-	WarpToSystem(m_current);
-	OnClickSystem(m_current);
-	SetSelectedSystem(m_current);
 }
 
 void SectorView::Save(Serializer::Writer &wr)

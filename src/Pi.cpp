@@ -1210,7 +1210,6 @@ void Pi::Start()
 	delete milkyway;
 
 	InitGame();
-	sectorView->NewGameInit();
 	StartGame();
 	MainLoop();
 	UninitGame();

@@ -15,9 +15,6 @@ public:
 	SectorView();
 	virtual ~SectorView();
 
-	// must be called after Pi::currentSystem is initialised
-	void NewGameInit();
-
 	virtual void Update();
 	virtual void ShowAll();
 	virtual void Draw3D();
