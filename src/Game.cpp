@@ -133,24 +133,19 @@ Game::Game(Serializer::Reader &rd)
 	m_hyperspaceEndTime = section.Double();
 
 
-	// load everything else
+	// system political stuff
 	section = rd.RdSection("Polit");
 	Polit::Unserialize(section);
 
-	// XXX this is all pretty vile. eventually all the views should be held in
-	// Game itself and use load constructors
-	section = rd.RdSection("SectorView");
-	Pi::sectorView->Load(section);
 
-	section = rd.RdSection("WorldView");
-	if (Pi::worldView) delete Pi::worldView;	// XXX hack. this should never have been created in the first place
-	Pi::worldView = new WorldView(section);
+	// views
+	LoadViews(rd);
 
-	section = rd.RdSection("Cpanel");
-	Pi::cpan->Load(section);
 
+	// lua
 	section = rd.RdSection("LuaModules");
 	Pi::luaSerializer->Unserialize(section);
+
 
 	// signature check
 	for (Uint32 i = 0; i < strlen(s_saveEnd)+1; i++)
@@ -476,6 +471,35 @@ void Game::CreateViews()
 	Pi::cpan = new ShipCpanel();
 	Pi::sectorView = new SectorView();
 	Pi::worldView = new WorldView();
+	Pi::galacticView = new GalacticView();
+	Pi::systemView = new SystemView();
+	Pi::systemInfoView = new SystemInfoView();
+	Pi::spaceStationView = new SpaceStationView();
+	Pi::infoView = new InfoView();
+
+#if OBJECTVIEWER
+	Pi::objectViewerView = new ObjectViewerView();
+#endif
+}
+
+// XXX mostly a copy of CreateViews
+void Game::LoadViews(Serializer::Reader &rd)
+{
+	Pi::SetView(0);
+
+	// XXX views expect Pi::game and Pi::player to exist
+	Pi::game = this;
+	Pi::player = m_player.Get();
+
+	Serializer::Reader section = rd.RdSection("ShipCpanel");
+	Pi::cpan = new ShipCpanel(section);
+
+	section = rd.RdSection("SectorView");
+	Pi::sectorView = new SectorView(section);
+
+	section = rd.RdSection("WorldView");
+	Pi::worldView = new WorldView(section);
+
 	Pi::galacticView = new GalacticView();
 	Pi::systemView = new SystemView();
 	Pi::systemInfoView = new SystemInfoView();

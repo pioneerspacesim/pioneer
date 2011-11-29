@@ -104,7 +104,18 @@ ScannerWidget::ScannerWidget()
 {
 	m_mode = SCANNER_MODE_AUTO;
 	m_currentRange = m_manualRange = m_targetRange = SCANNER_RANGE_MIN;
+}
 
+ScannerWidget::ScannerWidget(Serializer::Reader &rd)
+{
+	m_mode = ScannerMode(rd.Int32());
+	m_currentRange = rd.Float();
+	m_manualRange = rd.Float();
+	m_targetRange = rd.Float();
+}
+
+void ScannerWidget::InitObject()
+{
 	m_toggleScanModeConnection = KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::ToggleMode));
 }
 
@@ -476,13 +487,6 @@ void ScannerWidget::Save(Serializer::Writer &wr)
 	wr.Float(m_targetRange);
 }
 
-void ScannerWidget::Load(Serializer::Reader &rd)
-{
-	m_mode = ScannerMode(rd.Int32());
-	m_currentRange = rd.Float();
-	m_manualRange = rd.Float();
-	m_targetRange = rd.Float();
-}
 
 /////////////////////////////////
 

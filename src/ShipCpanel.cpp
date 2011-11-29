@@ -15,8 +15,21 @@
 #include "Lang.h"
 #include "Game.h"
 
-
 ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
+{
+	m_scanner = new ScannerWidget();
+
+	InitObject();
+}
+
+ShipCpanel::ShipCpanel(Serializer::Reader &rd): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
+{
+	m_scanner = new ScannerWidget(rd);
+
+	InitObject();
+}
+
+void ShipCpanel::InitObject()
 {
 	Gui::Screen::AddBaseWidget(this, 0, Gui::Screen::GetHeight()-80);
 	SetTransparency(true);
@@ -25,7 +38,6 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 	Add(img, 0, 0);
 
 	m_currentMapView = MAP_SECTOR;
-	m_scanner = new ScannerWidget();
 	m_useEquipWidget = new UseEquipWidget();
 	m_msglog = new MsgLogWidget();
 
@@ -348,9 +360,4 @@ void ShipCpanel::TimeStepUpdate(float step)
 void ShipCpanel::Save(Serializer::Writer &wr)
 {
 	m_scanner->Save(wr);
-}
-
-void ShipCpanel::Load(Serializer::Reader &rd)
-{
-	m_scanner->Load(rd);
 }

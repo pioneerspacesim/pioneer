@@ -13,6 +13,7 @@ class SpaceStation;
 class ShipCpanel: public Gui::Fixed {
 public:
 	ShipCpanel();
+    ShipCpanel(Serializer::Reader &rd);
 	virtual ~ShipCpanel();
 	virtual void Draw();
 	void Update();
@@ -22,9 +23,10 @@ public:
 	void TimeStepUpdate(float step);
 
 	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
 
 private:
+	void InitObject();
+
 	enum MapView { MAP_SECTOR, MAP_SYSTEM, MAP_INFO, MAP_GALACTIC };
 
 	void OnChangeCamView(Gui::MultiStateImageButton *b);

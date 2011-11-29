@@ -51,6 +51,7 @@ private:
 	void CreatePlayer();
 
 	void CreateViews();
+	void LoadViews(Serializer::Reader &rd);
 	void DestroyViews();
 
 	void SwitchToHyperspace();

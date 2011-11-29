@@ -13,6 +13,7 @@
 class SectorView: public View {
 public:
 	SectorView();
+	SectorView(Serializer::Reader &rd);
 	virtual ~SectorView();
 
 	virtual void Update();
@@ -30,12 +31,14 @@ public:
 	void GotoHyperspaceTarget() { GotoSystem(m_hyperspaceTarget); }
 	void WarpToSystem(const SystemPath &path);
 	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
 	virtual void OnSwitchTo();
 
 	sigc::signal<void> onHyperspaceTargetChanged;
 
 private:
+	void InitDefaults();
+	void InitObject();
+
 	struct SystemLabels {
 		Gui::Label *systemName;
 		Gui::Label *distance;
@@ -50,6 +53,8 @@ private:
 	void OnClickSystem(const SystemPath &path);
 
 	void UpdateSystemLabels(SystemLabels &labels, const SystemPath &path);
+
+	void UpdateHyperspaceLockLabel();
 
 	Sector* GetCached(int sectorX, int sectorY, int sectorZ);
 	void ShrinkCache();
