@@ -1018,10 +1018,10 @@ void Pi::UninitGame()
 	if (!config.Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
 
-	// XXX
-	if (game)
-		delete game;
+	assert(game);
+	delete game;
 	game = 0;
+	player = 0;
 
 	StarSystem::ShrinkCache();
 }

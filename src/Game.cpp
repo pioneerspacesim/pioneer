@@ -541,7 +541,4 @@ void Game::DestroyViews()
 	Pi::worldView = 0;
 	Pi::sectorView = 0;
 	Pi::cpan = 0;
-
-	Pi::game = 0;
-	Pi::player = 0;
 }
