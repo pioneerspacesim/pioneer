@@ -780,9 +780,9 @@ void Pi::HandleEvents()
 						{
 							if(Pi::IsGameStarted()) {
 								std::string name = join_path(GetPiSavefileDir().c_str(), "_quicksave", 0);
-								assert(0 && "quicksave"); // XXX
-								//Serializer::SaveGame(name.c_str());
-								Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+name);
+								GameSaver saver(Pi::game);
+								if (saver.SaveToFile(name))
+									Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+name);
 							}
 							break;
 						}
