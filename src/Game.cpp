@@ -192,10 +192,16 @@ void Game::Serialize(Serializer::Writer &wr)
 	wr.WrSection("Game", section.GetData());
 
 
-	// save everything else
+	// system political data (crime etc)
 	section = Serializer::Writer();
 	Polit::Serialize(section);
 	wr.WrSection("Polit", section.GetData());
+
+
+	// views. must be saved in init order
+	section = Serializer::Writer();
+	Pi::cpan->Save(section);
+	wr.WrSection("ShipCpanel", section.GetData());
 	
 	section = Serializer::Writer();
 	Pi::sectorView->Save(section);
@@ -205,13 +211,12 @@ void Game::Serialize(Serializer::Writer &wr)
 	Pi::worldView->Save(section);
 	wr.WrSection("WorldView", section.GetData());
 
-	section = Serializer::Writer();
-	Pi::cpan->Save(section);
-	wr.WrSection("Cpanel", section.GetData());
 
+	// lua
 	section = Serializer::Writer();
 	Pi::luaSerializer->Serialize(section);
 	wr.WrSection("LuaModules", section.GetData());
+
 
 	// trailing signature
 	for (Uint32 i = 0; i < strlen(s_saveEnd)+1; i++)
