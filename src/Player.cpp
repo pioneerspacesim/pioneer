@@ -27,12 +27,6 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	m_accumTorque = vector3d(0,0,0);
 }
 
-Player::~Player()
-{
-	assert(this == Pi::player);
-	Pi::player = 0;
-}
-
 void Player::Save(Serializer::Writer &wr, Space *space)
 {
 	Ship::Save(wr, space);

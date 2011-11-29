@@ -1047,8 +1047,6 @@ void Pi::HandleMenuKey(int n)
 		{
 			game = new Game(SystemPath(1,0,-1,0,4), vector3d(0,2*EARTH_RADIUS,0));  // somewhere over New Hope
 
-			player = game->GetPlayer(); // XXX hack
-
 			Ship *enemy = new Ship(ShipType::EAGLE_LRF);
 			enemy->SetFrame(player->GetFrame());
 			enemy->SetPosition(player->GetPosition()+vector3d(0,0,-9000.0));
@@ -1211,7 +1209,6 @@ void Pi::Start()
 	delete starfield;
 	delete milkyway;
 
-	player = game->GetPlayer(); // XXX hack
 	InitGame();
 	sectorView->NewGameInit();
 	StartGame();

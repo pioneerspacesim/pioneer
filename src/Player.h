@@ -29,7 +29,6 @@ public:
 	OBJDEF(Player, Ship, PLAYER);
 	Player(ShipType::Type shipType);
 	Player() { m_mouseActive = false; m_invertMouse = false; }
-	virtual ~Player();
 	void PollControls(const float timeStep);
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void SetDockedWith(SpaceStation *, int port);
