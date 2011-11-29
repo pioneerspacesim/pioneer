@@ -980,7 +980,6 @@ void Pi::InitGame()
 	Pi::timeAccelIdx = 1;
 	Pi::requestedTimeAccelIdx = 1;
 	Pi::forceTimeAccel = false;
-	Pi::currentView = 0;
 	Pi::isGameStarted = false;
 
 	Polit::Init();

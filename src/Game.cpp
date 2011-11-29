@@ -467,6 +467,8 @@ void Game::CreatePlayer()
 // manage creation and destruction here to get the timing and order right
 void Game::CreateViews()
 {
+	Pi::SetView(0);
+
 	// XXX views expect Pi::game and Pi::player to exist
 	Pi::game = this;
 	Pi::player = m_player.Get();
