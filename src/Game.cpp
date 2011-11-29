@@ -120,13 +120,15 @@ Game::Game(Serializer::Reader &rd)
 	section = rd.RdSection("Game");
 
 	m_player.Reset(static_cast<Player*>(m_space->GetBodyByIndex(section.Int32())));
-	m_state = State(section.Int32());
 
 	// hyperspace clouds being brought over from the previous system
 	Uint32 nclouds = section.Int32();
 	for (Uint32 i = 0; i < nclouds; i++)
 		m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud*>(Body::Unserialize(section, 0)));
 	
+	m_time = section.Double();
+	m_state = State(section.Int32());
+
 	m_wantHyperspace = section.Bool();
 	m_hyperspaceProgress = section.Double();
 	m_hyperspaceDuration = section.Double();
@@ -172,12 +174,14 @@ void Game::Serialize(Serializer::Writer &wr)
 	section = Serializer::Writer();
 
 	section.Int32(m_space->GetIndexForBody(m_player.Get()));
-	section.Int32(Uint32(m_state));
 
 	// hyperspace clouds being brought over from the previous system
 	section.Int32(m_hyperspaceClouds.size());
 	for (std::list<HyperspaceCloud*>::const_iterator i = m_hyperspaceClouds.begin(); i != m_hyperspaceClouds.end(); ++i)
 		(*i)->Serialize(section, m_space.Get());
+
+	section.Double(m_time);
+	section.Int32(Uint32(m_state));
 
 	section.Bool(m_wantHyperspace);
 	section.Double(m_hyperspaceProgress);
