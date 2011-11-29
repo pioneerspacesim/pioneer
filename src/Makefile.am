@@ -36,6 +36,7 @@ noinst_HEADERS = \
 	GalacticView.h \
 	Galaxy.h \
 	Game.h \
+	GameLoaderSaver.h \
 	GameMenuView.h \
 	GeoSphere.h \
 	HyperspaceCloud.h \
@@ -46,7 +47,6 @@ noinst_HEADERS = \
 	KeyBindings.h \
 	Lang.h \
 	LmrModel.h \
-	LoadSaveDialog.h \
 	LuaBody.h \
 	LuaCargoBody.h \
 	LuaChatForm.h \
@@ -168,6 +168,7 @@ pioneer_SOURCES	= \
 	GalacticView.cpp \
 	Galaxy.cpp \
 	Game.cpp \
+	GameLoaderSaver.cpp \
 	GameMenuView.cpp \
 	GeoSphere.cpp \
 	HyperspaceCloud.cpp \
@@ -178,7 +179,6 @@ pioneer_SOURCES	= \
 	KeyBindings.cpp \
 	Lang.cpp \
 	LmrModel.cpp \
-	LoadSaveDialog.cpp \
 	LuaBody.cpp \
 	LuaCargoBody.cpp \
 	LuaChatForm.cpp \

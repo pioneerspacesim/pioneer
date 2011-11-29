@@ -1,19 +1,19 @@
-#ifndef _LOADSAVEDIALOG_H
-#define _LOADSAVEDIALOG_H
+#ifndef _GAMELOADERSAVER_H
+#define _GAMELOADERSAVER_H
 
 #include "gui/Gui.h"
 #include "FileSelectorWidget.h"
 
 class Game;
 
-class LoadSaveDialog {
+class GameLoaderSaver {
 public:
-	virtual void MainLoop();
+	virtual void DialogMainLoop();
 
 	const std::string &GetFilename() const { return m_filename; }
 
 protected:
-	LoadSaveDialog(FileSelectorWidget::Type type, const std::string &title);
+	GameLoaderSaver(FileSelectorWidget::Type type, const std::string &title);
 
 	virtual bool OnAction() = 0;
 
@@ -28,12 +28,15 @@ private:
 	bool m_done;
 };
 
-class LoadDialog : public LoadSaveDialog {
+class GameLoader : public GameLoaderSaver {
 public:
-	LoadDialog();
+	GameLoader();
+
 	Game *GetGame() const { return m_game; }
 
-	virtual void MainLoop();
+	virtual void DialogMainLoop();
+
+	bool LoadFromFile(const std::string &filename);
 
 protected:
 	virtual bool OnAction();
@@ -42,9 +45,11 @@ private:
 	Game *m_game;
 };
 
-class SaveDialog : public LoadSaveDialog {
+class GameSaver : public GameLoaderSaver {
 public:
-	SaveDialog(Game *game);
+	GameSaver(Game *game);
+
+	bool SaveToFile(const std::string &filename);
 
 protected:
 	virtual bool OnAction();

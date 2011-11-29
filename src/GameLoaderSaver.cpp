@@ -1,14 +1,14 @@
-#include "LoadSaveDialog.h"
+#include "GameLoaderSaver.h"
 #include "FileSelectorWidget.h"
 #include "Game.h"
 #include "Lang.h"
 #include "Pi.h"
 
-LoadSaveDialog::LoadSaveDialog(FileSelectorWidget::Type type, const std::string &title) : m_type(type), m_title(title)
+GameLoaderSaver::GameLoaderSaver(FileSelectorWidget::Type type, const std::string &title) : m_type(type), m_title(title)
 {
 }
 
-void LoadSaveDialog::MainLoop()
+void GameLoaderSaver::DialogMainLoop()
 {
 	Gui::Fixed *background = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 	background->SetTransparency(false);
@@ -24,8 +24,8 @@ void LoadSaveDialog::MainLoop()
 	FileSelectorWidget *fileSelector = new FileSelectorWidget(m_type, m_title);
 	inner->Add(fileSelector, 0, 0);
 
-	fileSelector->onClickAction.connect(sigc::mem_fun(this, &LoadSaveDialog::OnClickLoad));
-	fileSelector->onClickCancel.connect(sigc::mem_fun(this, &LoadSaveDialog::OnClickBack));
+	fileSelector->onClickAction.connect(sigc::mem_fun(this, &GameLoaderSaver::OnClickLoad));
+	fileSelector->onClickCancel.connect(sigc::mem_fun(this, &GameLoaderSaver::OnClickBack));
 
 	Gui::Screen::AddBaseWidget(background, 0, 0);
 	background->ShowAll();
@@ -38,7 +38,7 @@ void LoadSaveDialog::MainLoop()
 	delete background;
 }
 
-void LoadSaveDialog::OnClickLoad(std::string filename)
+void GameLoaderSaver::OnClickLoad(std::string filename)
 {
 	if (filename.empty()) return;
 	m_filename = join_path(GetPiSavefileDir().c_str(), filename.c_str(), 0);
@@ -47,23 +47,23 @@ void LoadSaveDialog::OnClickLoad(std::string filename)
 	m_done = true;
 }
 
-void LoadSaveDialog::OnClickBack()
+void GameLoaderSaver::OnClickBack()
 {
 	m_done = true;
 }
 
 
-LoadDialog::LoadDialog() : LoadSaveDialog(FileSelectorWidget::LOAD, Lang::SELECT_FILENAME_TO_LOAD), m_game(0)
+GameLoader::GameLoader() : GameLoaderSaver(FileSelectorWidget::LOAD, Lang::SELECT_FILENAME_TO_LOAD), m_game(0)
 {
 }
 
-void LoadDialog::MainLoop()
+void GameLoader::DialogMainLoop()
 {
 	m_game = 0;
-	LoadSaveDialog::MainLoop();
+	GameLoaderSaver::DialogMainLoop();
 }
 
-bool LoadDialog::OnAction()
+bool GameLoader::LoadFromFile(const std::string &filename)
 {
 	try {
 		FILE *f = fopen(GetFilename().c_str(), "rb");
@@ -85,11 +85,16 @@ bool LoadDialog::OnAction()
 }
 
 
-SaveDialog::SaveDialog(Game *game) : LoadSaveDialog(FileSelectorWidget::SAVE, Lang::SELECT_FILENAME_TO_SAVE), m_game(game)
+bool GameLoader::OnAction()
+{
+	return LoadFromFile(GetFilename());
+}
+
+GameSaver::GameSaver(Game *game) : GameLoaderSaver(FileSelectorWidget::SAVE, Lang::SELECT_FILENAME_TO_SAVE), m_game(game)
 {
 }
 
-bool SaveDialog::OnAction()
+bool GameSaver::SaveToFile(const std::string &filename)
 {
 	bool success = false;
 	try {
@@ -98,7 +103,7 @@ bool SaveDialog::OnAction()
 
 		const std::string data = wr.GetData();
 
-		FILE *f = fopen(GetFilename().c_str(), "wb");
+		FILE *f = fopen(filename.c_str(), "wb");
 		if (!f) throw CouldNotOpenFileException();
 
 		size_t nwritten = fwrite(data.data(), data.length(), 1, f);
@@ -116,4 +121,9 @@ bool SaveDialog::OnAction()
 	}
 
 	return success;
+}
+
+bool GameSaver::OnAction()
+{
+	return SaveToFile(GetFilename());
 }
