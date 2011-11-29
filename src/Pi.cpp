@@ -648,7 +648,7 @@ void Pi::SetView(View *v)
 {
 	if (currentView) currentView->HideAll();
 	currentView = v;
-	if (currentView) { // XXX
+	if (currentView) {
 		currentView->OnSwitchTo();
 		currentView->ShowAll();
 	}
@@ -1029,6 +1029,12 @@ void Pi::UninitGame()
 void Pi::HandleMenuKey(int n)
 {
 	switch (n) {
+
+		// XXX these assign to Pi::game, which is the correct behaviour. its
+		// redundant right now because the Game constructor assigns itself to
+		// Pi::game. it only does that as a hack to get the views up and
+		// running. one day, when all that is fixed, you can delete this
+		// comment
 
 		case 0: // Earth start point
 		{
