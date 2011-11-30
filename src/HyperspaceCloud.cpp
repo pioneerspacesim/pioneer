@@ -127,7 +127,7 @@ void HyperspaceCloud::UpdateInterpolatedTransform(double alpha)
 {
 	m_interpolatedTransform = matrix4x4d::Identity();
 	const vector3d newPos = GetPosition();
-	const vector3d oldPos = newPos - m_vel*Pi::GetTimeStep();
+	const vector3d oldPos = newPos - m_vel*Pi::game->GetTimeStep();
 	const vector3d p = alpha*newPos + (1.0-alpha)*oldPos;
 	m_interpolatedTransform[12] = p.x;
 	m_interpolatedTransform[13] = p.y;
@@ -149,7 +149,7 @@ void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewT
 	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
 	glMultMatrixd(&rot[0]);
 	// precise to the rendered frame (better than PHYSICS_HZ granularity)
-	double preciseTime = Pi::game->GetTime() + Pi::GetGameTickAlpha()*Pi::GetTimeStep();
+	double preciseTime = Pi::game->GetTime() + Pi::GetGameTickAlpha()*Pi::game->GetTimeStep();
 
 	float radius = 1000.0f + 200.0f*float(noise(10.0*preciseTime, 0, 0));
 	if (m_isArrival) {

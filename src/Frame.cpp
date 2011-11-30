@@ -268,7 +268,7 @@ void Frame::UpdateInterpolatedTransform(double alpha)
 
 void Frame::UpdateOrbitRails(double time)
 {
-	double timestep = Pi::GetTimeStep();
+	double timestep = Pi::game->GetTimeStep();
 	m_oldOrient = m_orient;
 	m_oldAngDisplacement = m_angVel * timestep;
 	if (!m_parent) {

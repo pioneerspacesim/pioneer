@@ -51,8 +51,6 @@ enum MsgLevel {
 class Frame;
 class Game;
 
-#define PHYSICS_HZ (60.0f)
-
 class Pi {
 public:
 	static void Init();
@@ -70,15 +68,6 @@ public:
 	static void ToggleLuaConsole();
 	static void Quit() __attribute((noreturn));
 	static float GetFrameTime() { return frameTime; }
-	static void SetTimeAccel(int v);
-	static void RequestTimeAccel(int v, bool force = false);
-	static int GetRequestedTimeAccelIdx() { return requestedTimeAccelIdx; }
-	static int GetTimeAccelIdx() { return timeAccelIdx; }
-	static bool IsTimeAccelPause() { return (timeAccelIdx == 0); }
-	static bool IsTimeAccelNormal() { return (timeAccelIdx == 1); }
-	static bool IsTimeAccelFast() { return (timeAccelIdx > 1); }
-	static float GetTimeAccel() { return timeAccelRates[timeAccelIdx]; }
-	static float GetTimeStep() { return timeAccelRates[timeAccelIdx]*(1.0f/PHYSICS_HZ); }
 	static float GetGameTickAlpha() { return gameTickAlpha; }
 	static int GetScrWidth() { return scrWidth; }
 	static int GetScrHeight() { return scrHeight; }

@@ -54,7 +54,7 @@ void Projectile::UpdateInterpolatedTransform(double alpha)
 {
 	m_interpolatedTransform = m_orient;
 	const vector3d newPos = GetPosition();
-	const vector3d oldPos = newPos - (m_baseVel+m_dirVel)*Pi::GetTimeStep();
+	const vector3d oldPos = newPos - (m_baseVel+m_dirVel)*Pi::game->GetTimeStep();
 	const vector3d p = alpha*newPos + (1.0-alpha)*oldPos;
 	m_interpolatedTransform[12] = p.x;
 	m_interpolatedTransform[13] = p.y;

@@ -62,8 +62,8 @@ void MsgLogWidget::ShowNext()
 	} else {
 		// current message expired and more in queue
 		Pi::BoinkNoise();
-		Pi::SetTimeAccel(1);
-		Pi::RequestTimeAccel(1);
+		Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
+		Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
 		message_t msg("","",NONE);
 		// use MUST_SEE messages first
 		for (std::list<message_t>::iterator i = m_msgQueue.begin();
@@ -132,7 +132,7 @@ void ScannerWidget::GetSizeRequested(float size[2])
 
 void ScannerWidget::ToggleMode()
 {
-	if (IsVisible() && !Pi::IsTimeAccelPause()) {
+	if (IsVisible() && Pi::game->GetTimeAccel() != Game::TIMEACCEL_PAUSED) {
 		if (m_mode == SCANNER_MODE_AUTO) m_mode = SCANNER_MODE_MANUAL;
 		else m_mode = SCANNER_MODE_AUTO;
 	}

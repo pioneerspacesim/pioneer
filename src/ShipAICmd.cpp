@@ -158,7 +158,7 @@ bool AICmdJourney::TimeStepUpdate()
 // temporary evasion-test version
 bool AICmdKill::TimeStepUpdate()
 {
-	m_timeSinceChange += Pi::GetTimeStep();
+	m_timeSinceChange += Pi::game->GetTimeStep();
 	if (m_timeSinceChange < m_changeTime) {
 		m_ship->AIFaceDirection(m_curDir);
 		return false;
@@ -330,7 +330,7 @@ bool AICmdKill::TimeStepUpdate()
 	vector3d targdir = targpos.NormalizedSafe();
 	vector3d heading = vector3d(-rot[8], -rot[9], -rot[10]);
 	// Accel will be wrong for a frame on timestep changes, but it doesn't matter
-	vector3d targaccel = (m_target->GetVelocity() - m_lastVel) / Pi::GetTimeStep();
+	vector3d targaccel = (m_target->GetVelocity() - m_lastVel) / Pi::game->GetTimeStep();
 	m_lastVel = m_target->GetVelocity();		// may need next frame
 	vector3d leaddir = m_ship->AIGetLeadDir(m_target, targaccel, 0);
 
@@ -359,7 +359,7 @@ bool AICmdKill::TimeStepUpdate()
 		else m_ship->SetGunState(0,0);
 		if (targpos.LengthSqr() > 4000*4000) m_ship->SetGunState(0,0);		// temp
 	}
-	m_leadOffset += m_leadDrift * Pi::GetTimeStep();
+	m_leadOffset += m_leadDrift * Pi::game->GetTimeStep();
 	double leadAV = (leaddir-targdir).Dot((leaddir-heading).NormalizedSafe());	// leaddir angvel
 	m_ship->AIFaceDirection((leaddir + m_leadOffset).Normalized(), leadAV);
 
@@ -792,7 +792,7 @@ static bool CheckOvershoot(Ship *ship, const vector3d &reldir, double targdist, 
 	double fwdacc = ship->GetAccelFwd();
 	double u = 0.5 * (relvel.Dot(reldir) + endvel);	if (u<0) u = 0;
 	double t = (-u + sqrt(u*u + fwdacc*targdist)) / (fwdacc * 0.5);
-	if (t < Pi::GetTimeStep()) t = Pi::GetTimeStep();
+	if (t < Pi::game->GetTimeStep()) t = Pi::game->GetTimeStep();
 //	double t2 = ship->AITravelTime(reldir, targdist, relvel, endvel, true);
 
 	// check for uncorrectable side velocity
@@ -840,7 +840,7 @@ extern double calc_ivel(double dist, double vel, double acc);
 
 bool AICmdFlyTo::TimeStepUpdate()
 {
-	double timestep = Pi::GetTimeStep();
+	double timestep = Pi::game->GetTimeStep();
 	vector3d targvel = GetVelInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
 	vector3d relvel = m_ship->GetVelocity() - targvel;
 	vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
@@ -993,7 +993,7 @@ bool AICmdDock::TimeStepUpdate()
 
 	// massive pile of crap needed to get updir right outside the frame
 	Frame *sframe = m_target->GetFrame();
-	double ang = sframe->GetAngVelocity().Length() * Pi::GetTimeStep();
+	double ang = sframe->GetAngVelocity().Length() * Pi::game->GetTimeStep();
 	matrix4x4d m; Frame::GetFrameTransform(sframe, m_ship->GetFrame(), m);
 	if (!float_is_zero_general(ang) && sframe != m_ship->GetFrame()) {
 		vector3d axis = sframe->GetAngVelocity().Normalized();
@@ -1076,7 +1076,7 @@ double AICmdFlyAround::MaxVel(double targdist, double targalt)
 	double t = sqrt(2.0 * targdist / m_ship->GetAccelFwd());
 	double vmaxprox = m_ship->GetAccelMin()*t;			// limit by target proximity
 	double vmaxstep = std::max(m_alt*0.05, m_alt-targalt);
-	vmaxstep /= Pi::GetTimeStep();			// limit by distance covered per timestep
+	vmaxstep /= Pi::game->GetTimeStep();			// limit by distance covered per timestep
 	return std::min(m_vel, std::min(vmaxprox, vmaxstep));
 }
 
@@ -1089,7 +1089,7 @@ bool AICmdFlyAround::TimeStepUpdate()
 	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
 	else { LaunchShip(m_ship); return false; }
 
-	double timestep = Pi::GetTimeStep();
+	double timestep = Pi::game->GetTimeStep();
 	vector3d targpos = Targpos();		// target position in ship's frame
 	vector3d obspos = m_obstructor->GetPositionRelTo(m_ship);
 	double obsdist = obspos.Length();

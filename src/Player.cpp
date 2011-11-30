@@ -135,7 +135,7 @@ void Player::StaticUpdate(const float timeStep)
 			break;
 		case CONTROL_AUTOPILOT:
 			if (AIIsActive()) break;
-			Pi::RequestTimeAccel(1);
+			Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
 //			AIMatchVel(vector3d(0.0));			// just in case autopilot doesn't...
 						// actually this breaks last timestep slightly in non-relative target cases
 			AIMatchAngVelObjSpace(vector3d(0.0));
@@ -189,7 +189,7 @@ void Player::PollControls(const float timeStep)
 {
 	static bool stickySpeedKey = false;
 
-	if (Pi::IsTimeAccelPause() || Pi::player->IsDead() || GetFlightState() != FLYING)
+	if (Pi::game->GetTimeAccel() == Game::TIMEACCEL_PAUSED || Pi::player->IsDead() || GetFlightState() != FLYING)
 		return;
 
 	// if flying 
@@ -284,9 +284,9 @@ void Player::PollControls(const float timeStep)
 		wantAngVel.y += 2 * KeyBindings::yawAxis.GetValue();
 		wantAngVel.z += 2 * KeyBindings::rollAxis.GetValue();
 
-		double invTimeAccel = 1.0 / Pi::GetTimeAccel();
+		double invTimeAccelRate = 1.0 / Pi::game->GetTimeAccelRate();
 		for (int axis=0; axis<3; axis++)
-			wantAngVel[axis] = Clamp(wantAngVel[axis], -invTimeAccel, invTimeAccel);
+			wantAngVel[axis] = Clamp(wantAngVel[axis], -invTimeAccelRate, invTimeAccelRate);
 		
 		if (m_mouseActive) AIFaceDirection(m_mouseDir);
 		else AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
@@ -459,6 +459,4 @@ void Player::OnEnterSystem()
 	SetFlightControlState(Player::CONTROL_MANUAL);
 
 	Pi::sectorView->ResetHyperspaceTarget();
-
-	Pi::RequestTimeAccel(1);
 }

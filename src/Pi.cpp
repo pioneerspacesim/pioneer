@@ -68,9 +68,6 @@
 #include "GameLoaderSaver.h"
 
 float Pi::gameTickAlpha;
-int Pi::timeAccelIdx = 1;
-int Pi::requestedTimeAccelIdx = 1;
-bool Pi::forceTimeAccel = false;
 int Pi::scrWidth;
 int Pi::scrHeight;
 float Pi::scrAspect;
@@ -137,7 +134,6 @@ struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
 std::vector<Pi::JoystickState> Pi::joysticks;
-const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0 };
 const char * const Pi::combatRating[] = {
 	Lang::HARMLESS,
 	Lang::MOSTLY_HARMLESS,
@@ -618,32 +614,6 @@ void Pi::BoinkNoise()
 	Sound::PlaySfx("Click", 0.3f, 0.3f, false);
 }
 
-void Pi::SetTimeAccel(int s)
-{
-	// don't want player to spin like mad when hitting time accel
-	if ((s != timeAccelIdx) && (s > 2)) {
-		player->SetAngVelocity(vector3d(0,0,0));
-		player->SetTorque(vector3d(0,0,0));
-		player->SetAngThrusterState(vector3d(0.0));
-	}
-
-	// Give all ships a half-step acceleration to stop autopilot overshoot
-	if (s < timeAccelIdx)
-		for (Space::BodyIterator i = game->GetSpace()->IteratorBegin(); i != game->GetSpace()->IteratorEnd(); ++i)
-			if ((*i)->IsType(Object::SHIP))
-				(static_cast<DynamicBody *>(*i))->ApplyAccel(0.5f*Pi::GetTimeStep());
-	timeAccelIdx = s;
-}
-
-void Pi::RequestTimeAccel(int s, bool force)
-{
-	if (currentView == gameMenuView) {
-		SetView(worldView);
-	}
-	requestedTimeAccelIdx = s;
-	forceTimeAccel = force;
-}
-
 void Pi::SetView(View *v)
 {
 	if (currentView) currentView->HideAll();
@@ -675,12 +645,11 @@ void Pi::HandleEvents()
 						// only accessible once game started
 						if (currentView != 0) {
 							if (currentView != gameMenuView) {
-								RequestTimeAccel(0);
-								SetTimeAccel(0);
+								Pi::game->SetTimeAccel(Game::TIMEACCEL_PAUSED);
 								SetView(gameMenuView);
 							}
 							else
-								RequestTimeAccel(1);
+								Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
 						}
 					}
 					break;
@@ -977,9 +946,6 @@ void Pi::InitGame()
 {
 	// this is a bit brittle. skank may be forgotten and survive between
 	// games
-	Pi::timeAccelIdx = 1;
-	Pi::requestedTimeAccelIdx = 1;
-	Pi::forceTimeAccel = false;
 	Pi::isGameStarted = false;
 
 	Polit::Init();
@@ -991,8 +957,8 @@ void Pi::InitGame()
 
 static void OnPlayerDockOrUndock()
 {
-	Pi::RequestTimeAccel(1);
-	Pi::SetTimeAccel(1);
+	Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
+	Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
 }
 
 static void OnPlayerChangeEquipment(Equip::Type e)
@@ -1251,7 +1217,7 @@ void Pi::MainLoop()
 		MAX_PHYSICS_TICKS = 4;
 
 	double currentTime = 0.001 * double(SDL_GetTicks());
-	double accumulator = Pi::GetTimeStep();
+	double accumulator = Pi::game->GetTimeStep();
 	Pi::gameTickAlpha = 0;
 
 	while (isGameStarted) {
@@ -1259,9 +1225,9 @@ void Pi::MainLoop()
 		Pi::frameTime = newTime - currentTime;
 		if (Pi::frameTime > 0.25) Pi::frameTime = 0.25;
 		currentTime = newTime;
-		accumulator += Pi::frameTime * GetTimeAccel();
+		accumulator += Pi::frameTime * Pi::game->GetTimeAccelRate();
 		
-		const float step = Pi::GetTimeStep();
+		const float step = Pi::game->GetTimeStep();
 		if (step > 0.0f) {
 			int phys_ticks = 0;
 			while (accumulator >= step) {
@@ -1323,55 +1289,8 @@ void Pi::MainLoop()
 		//if (glGetError()) printf ("GL: %s\n", gluErrorString (glGetError ()));
 		
 
-		// XXX all this timeaccel stuff should be done somewhere else
-		int timeAccel = Pi::requestedTimeAccelIdx;
-
-		// ludicrous speed
-		if (Pi::player->GetFlightState() == Ship::HYPERSPACE)
-			Pi::RequestTimeAccel(6);
-
-		else if (Pi::player->GetFlightState() == Ship::FLYING) {
-
-			// special timeaccel lock rules while in alert
-			if (Pi::player->GetAlertState() == Ship::ALERT_SHIP_NEARBY)
-				timeAccel = std::min(timeAccel, 2);
-			else if (Pi::player->GetAlertState() == Ship::ALERT_SHIP_FIRING)
-				timeAccel = std::min(timeAccel, 1);
-
-			else if (!Pi::forceTimeAccel) {
-				// check we aren't too near to objects for timeaccel //
-				for (Space::BodyIterator i = game->GetSpace()->IteratorBegin(); i != game->GetSpace()->IteratorEnd(); ++i) {
-					if ((*i) == Pi::player) continue;
-					if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
-				
-					vector3d toBody = Pi::player->GetPosition() - (*i)->GetPositionRelTo(Pi::player->GetFrame());
-					double dist = toBody.Length();
-					double rad = (*i)->GetBoundingRadius();
-
-					if (dist < 1000.0) {
-						timeAccel = std::min(timeAccel, 1);
-					} else if (dist < std::min(rad+0.0001*AU, rad*1.1)) {
-						timeAccel = std::min(timeAccel, 2);
-					} else if (dist < std::min(rad+0.001*AU, rad*5.0)) {
-						timeAccel = std::min(timeAccel, 3);
-					} else if (dist < std::min(rad+0.01*AU,rad*10.0)) {
-						timeAccel = std::min(timeAccel, 4);
-					} else if (dist < std::min(rad+0.1*AU, rad*1000.0)) {
-						timeAccel = std::min(timeAccel, 5);
-					}
-				}
-			}
-		}
-
-		// force down to timeaccel 1 during the docking sequence
-		else if (Pi::player->GetFlightState() == Ship::DOCKING) {
-			timeAccel = std::min(timeAccel, 1);
-		}
-
-		if (timeAccel != Pi::GetTimeAccelIdx()) {
-			Pi::SetTimeAccel(timeAccel);
+		if (Pi::game->UpdateTimeAccel())
 			accumulator = 0;				// fix for huge pauses 10000x -> 1x
-		}
 
 		// fuckadoodledoo, did the player die?
 		if (Pi::player->IsDead()) {
@@ -1382,7 +1301,7 @@ void Pi::MainLoop()
 					break;
 				}
 			} else {
-				Pi::SetTimeAccel(1);
+				Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
 				Pi::cpan->HideAll();
 				Pi::SetView(static_cast<View*>(Pi::worldView));
 				Pi::player->Disable();

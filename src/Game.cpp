@@ -21,7 +21,13 @@ static const int  s_saveVersion   = 42;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
-Game::Game(const SystemPath &path) : m_time(0), m_state(STATE_NORMAL), m_wantHyperspace(false)
+Game::Game(const SystemPath &path) :
+	m_time(0),
+	m_state(STATE_NORMAL),
+	m_wantHyperspace(false),
+	m_timeAccel(TIMEACCEL_1X),
+	m_requestedTimeAccel(TIMEACCEL_1X),
+	m_forceTimeAccel(false)
 {
 	CreatePlayer();
 
@@ -49,7 +55,13 @@ Game::Game(const SystemPath &path) : m_time(0), m_state(STATE_NORMAL), m_wantHyp
 	CreateViews();
 }
 
-Game::Game(const SystemPath &path, const vector3d &pos) : m_time(0), m_state(STATE_NORMAL), m_wantHyperspace(false)
+Game::Game(const SystemPath &path, const vector3d &pos) :
+	m_time(0),
+	m_state(STATE_NORMAL),
+	m_wantHyperspace(false),
+	m_timeAccel(TIMEACCEL_1X),
+	m_requestedTimeAccel(TIMEACCEL_1X),
+	m_forceTimeAccel(false)
 {
 	CreatePlayer();
 
@@ -95,7 +107,10 @@ Game::~Game()
 	m_player.Reset();
 }
 
-Game::Game(Serializer::Reader &rd)
+Game::Game(Serializer::Reader &rd) :
+	m_timeAccel(TIMEACCEL_PAUSED),
+	m_requestedTimeAccel(TIMEACCEL_PAUSED),
+	m_forceTimeAccel(false)
 {
 	// signature check
 	for (Uint32 i = 0; i < strlen(s_saveStart)+1; i++)
@@ -236,6 +251,7 @@ void Game::TimeStep(float step)
 		if (Pi::game->GetTime() > m_hyperspaceEndTime) {
 			SwitchToNormalSpace();
 			m_player->EnterSystem();
+			RequestTimeAccel(TIMEACCEL_1X);
 		}
 		else
 			m_hyperspaceProgress += step;
@@ -247,6 +263,64 @@ void Game::TimeStep(float step)
 		SwitchToHyperspace();
 		return;
 	}
+}
+
+bool Game::UpdateTimeAccel()
+{
+	TimeAccel newTimeAccel = m_requestedTimeAccel;
+
+	// ludicrous speed
+	if (m_player->GetFlightState() == Ship::HYPERSPACE) {
+		newTimeAccel = Game::TIMEACCEL_HYPERSPACE;
+		RequestTimeAccel(newTimeAccel);
+	}
+
+	// force down to timeaccel 1 during the docking sequence
+	else if (m_player->GetFlightState() == Ship::DOCKING) {
+		newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
+		RequestTimeAccel(newTimeAccel);
+	}
+
+	// normal flight
+	else if (m_player->GetFlightState() == Ship::FLYING) {
+
+		// special timeaccel lock rules while in alert
+		if (m_player->GetAlertState() == Ship::ALERT_SHIP_NEARBY)
+			newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
+		else if (m_player->GetAlertState() == Ship::ALERT_SHIP_FIRING)
+			newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
+
+		else if (!m_forceTimeAccel) {
+			// check we aren't too near to objects for timeaccel //
+			for (Space::BodyIterator i = m_space->IteratorBegin(); i != m_space->IteratorEnd(); ++i) {
+				if ((*i) == m_player) continue;
+				if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
+			
+				vector3d toBody = m_player->GetPosition() - (*i)->GetPositionRelTo(m_player->GetFrame());
+				double dist = toBody.Length();
+				double rad = (*i)->GetBoundingRadius();
+
+				if (dist < 1000.0) {
+					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
+				} else if (dist < std::min(rad+0.0001*AU, rad*1.1)) {
+					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
+				} else if (dist < std::min(rad+0.001*AU, rad*5.0)) {
+					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_100X);
+				} else if (dist < std::min(rad+0.01*AU,rad*10.0)) {
+					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1000X);
+				} else if (dist < std::min(rad+0.1*AU, rad*1000.0)) {
+					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10000X);
+				}
+			}
+		}
+	}
+
+	// no change
+	if (newTimeAccel == m_timeAccel)
+		return false;
+	
+	m_timeAccel = newTimeAccel;
+	return true;
 }
 
 void Game::WantHyperspace()
@@ -440,6 +514,45 @@ void Game::SwitchToNormalSpace()
 	m_hyperspaceClouds.clear();
 
 	m_state = STATE_NORMAL;
+}
+
+const float Game::s_timeAccelRates[] = {
+	0.0f,       // paused
+	1.0f,       // 1x
+	10.0f,      // 10x
+	100.0f,     // 100x
+	1000.0f,    // 1000x
+	10000.0f,   // 10000x
+	100000.0f   // hyperspace
+};
+
+void Game::SetTimeAccel(TimeAccel t)
+{
+	// don't want player to spin like mad when hitting time accel
+	if ((t != m_timeAccel) && (t > TIMEACCEL_1X)) {
+		m_player->SetAngVelocity(vector3d(0,0,0));
+		m_player->SetTorque(vector3d(0,0,0));
+		m_player->SetAngThrusterState(vector3d(0.0));
+	}
+
+	// Give all ships a half-step acceleration to stop autopilot overshoot
+	if (t < m_timeAccel)
+		for (Space::BodyIterator i = m_space->IteratorBegin(); i != m_space->IteratorEnd(); ++i)
+			if ((*i)->IsType(Object::SHIP))
+				(static_cast<DynamicBody*>(*i))->ApplyAccel(0.5f * GetTimeStep());
+
+	m_timeAccel = t;
+
+	if (m_timeAccel == TIMEACCEL_PAUSED || m_timeAccel == TIMEACCEL_HYPERSPACE) {
+		m_requestedTimeAccel = m_timeAccel;
+		m_forceTimeAccel = false;
+	}
+}
+
+void Game::RequestTimeAccel(TimeAccel t, bool force)
+{
+	m_requestedTimeAccel = t;
+	m_forceTimeAccel = force;
 }
 
 void Game::CreatePlayer()

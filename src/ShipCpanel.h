@@ -6,6 +6,7 @@
 #include "ShipCpanelMultiFuncDisplays.h"
 #include "Ship.h"
 #include "Serializer.h"
+#include "Game.h"
 
 class Body;
 class SpaceStation;
@@ -33,7 +34,7 @@ private:
 	void OnChangeToMapView(Gui::MultiStateImageButton *b);
 	void OnChangeMapView(enum MapView);
 	void OnChangeInfoView(Gui::MultiStateImageButton *b);
-	void OnClickTimeaccel(int val);
+	void OnClickTimeaccel(Game::TimeAccel val);
 	void OnClickComms(Gui::MultiStateImageButton *b);
 	void OnDockingClearanceExpired(const SpaceStation *);
 
