@@ -58,7 +58,6 @@ public:
 	static void InitGame();
 	static void StarportStart(Uint32 starport);
 	static void StartGame();
-	static void UninitGame();
 	static void EndGame();
 	static void Start();
 	static void MainLoop();
@@ -88,7 +87,6 @@ public:
 	}
 	static void SetMouseGrab(bool on);
 	static void BoinkNoise();
-	static bool IsGameStarted() { return isGameStarted; }
 	static float CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes);
 	static void Message(const std::string &message, const std::string &from = "", enum MsgLevel level = MSG_NORMAL);
 
@@ -186,7 +184,6 @@ private:
 	static int mouseMotion[2];
 	static bool doingMouseGrab;
 	static const float timeAccelRates[];
-	static bool isGameStarted;
 
 	static bool joystickEnabled;
 	static bool mouseYInvert;

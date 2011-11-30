@@ -128,7 +128,6 @@ GLUquadric *Pi::gluQuadric;
 bool Pi::showDebugInfo;
 #endif
 int Pi::statSceneTris;
-bool Pi::isGameStarted = false;
 GameConfig Pi::config(GetPiUserDir() + "config.ini");
 struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
@@ -641,7 +640,7 @@ void Pi::HandleEvents()
 		switch (event.type) {
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_ESCAPE) {
-					if (isGameStarted) {
+					if (Pi::game) {
 						// only accessible once game started
 						if (currentView != 0) {
 							if (currentView != gameMenuView) {
@@ -681,13 +680,13 @@ void Pi::HandleEvents()
 							Pi::showDebugInfo = !Pi::showDebugInfo;
 							break;
 						case SDLK_m:  // Gimme money!
-							if(Pi::IsGameStarted()) {
+							if(Pi::game) {
 								Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
 							}
 							break;
 						case SDLK_F12:
 						{
-							if(Pi::IsGameStarted()) {
+							if(Pi::game) {
 								matrix4x4d m; Pi::player->GetRotMatrix(m);
 								vector3d dir = m*vector3d(0,0,-1);
 								/* add test object */
@@ -747,7 +746,7 @@ void Pi::HandleEvents()
 							break;
 						case SDLK_F9: // Quicksave
 						{
-							if(Pi::IsGameStarted()) {
+							if(Pi::game) {
 								std::string name = join_path(GetPiSavefileDir().c_str(), "_quicksave", 0);
 								GameSaver saver(Pi::game);
 								if (saver.SaveToFile(name))
@@ -803,10 +802,8 @@ void Pi::HandleEvents()
 				joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
 				break;
 			case SDL_QUIT:
-				if (Pi::IsGameStarted()) {
+				if (Pi::game)
 					Pi::EndGame();
-					Pi::UninitGame();
-				}
 				Pi::Quit();
 				break;
 		}
@@ -946,7 +943,6 @@ void Pi::InitGame()
 {
 	// this is a bit brittle. skank may be forgotten and survive between
 	// games
-	Pi::isGameStarted = false;
 
 	Polit::Init();
 
@@ -974,22 +970,8 @@ void Pi::StartGame()
 	cpan->ShowAll();
 	cpan->SetAlertState(Ship::ALERT_NONE);
 	OnPlayerChangeEquipment(Equip::NONE);
-	Pi::isGameStarted = true;
 	SetView(worldView);
 	Pi::luaOnGameStart->Signal();
-}
-
-void Pi::UninitGame()
-{
-	if (!config.Int("DisableSound")) AmbientSounds::Uninit();
-	Sound::DestroyAllEvents();
-
-	assert(game);
-	delete game;
-	game = 0;
-	player = 0;
-
-	StarSystem::ShrinkCache();
 }
 
 void Pi::HandleMenuKey(int n)
@@ -1183,7 +1165,6 @@ void Pi::Start()
 	InitGame();
 	StartGame();
 	MainLoop();
-	UninitGame();
 }
 
 void Pi::EndGame()
@@ -1192,7 +1173,16 @@ void Pi::EndGame()
 	Sound::DestroyAllEvents();
 	Pi::luaOnGameEnd->Signal();
 	Pi::luaManager->CollectGarbage();
-	Pi::isGameStarted = false;
+
+	if (!config.Int("DisableSound")) AmbientSounds::Uninit();
+	Sound::DestroyAllEvents();
+
+	assert(game);
+	delete game;
+	game = 0;
+	player = 0;
+
+	StarSystem::ShrinkCache();
 }
 
 
@@ -1220,7 +1210,7 @@ void Pi::MainLoop()
 	double accumulator = Pi::game->GetTimeStep();
 	Pi::gameTickAlpha = 0;
 
-	while (isGameStarted) {
+	while (Pi::game) {
 		double newTime = 0.001 * double(SDL_GetTicks());
 		Pi::frameTime = newTime - currentTime;
 		if (Pi::frameTime > 0.25) Pi::frameTime = 0.25;
@@ -1296,8 +1286,8 @@ void Pi::MainLoop()
 		if (Pi::player->IsDead()) {
 			if (time_player_died > 0.0) {
 				if (Pi::game->GetTime() - time_player_died > 8.0) {
-					Pi::EndGame();
 					Pi::TombStoneLoop();
+					Pi::EndGame();
 					break;
 				}
 			} else {

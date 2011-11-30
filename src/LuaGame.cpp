@@ -16,7 +16,7 @@
 
 static int l_game_meta_index(lua_State *l)
 {
-	if (!Pi::IsGameStarted())
+	if (!Pi::game)
 		luaL_error(l, "Can't query game state when game is not started");
 
 	const char *key = luaL_checkstring(l, 2);

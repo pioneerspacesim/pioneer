@@ -625,7 +625,6 @@ void GameMenuView::OpenLoadDialog()
 	// XXX careful! destroying the game will also destroy the GameMenuView,
 	// making "this" invalid
 	Pi::EndGame();
-	Pi::UninitGame();
 
 	GameLoader loader;
 	loader.DialogMainLoop();
@@ -645,7 +644,7 @@ void GameMenuView::OnSwitchTo() {
 		m_subview = 0;
 	}
 	// don't want to switch to this view if game not running
-	if (!Pi::IsGameStarted()) {
+	if (!Pi::game) {
 		Pi::SetView(Pi::worldView);
 	} else {
 		m_planetDetailGroup->SetSelected(Pi::detail.planets);

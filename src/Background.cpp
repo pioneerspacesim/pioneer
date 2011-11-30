@@ -15,7 +15,7 @@ Starfield::Starfield() :
 	m_shader(0)
 {
 	//This is needed because there is no system seed for the main menu
-	unsigned long seed = Pi::IsGameStarted() ? Pi::game->GetSpace()->GetStarSystem()->m_seed : UNIVERSE_SEED;
+	unsigned long seed = Pi::game ? Pi::game->GetSpace()->GetStarSystem()->m_seed : UNIVERSE_SEED;
 	
 	// Slight colour variation to stars based on seed
 	MTRand rand(seed);
@@ -83,7 +83,7 @@ void Starfield::Draw()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 
-	if (!Pi::IsGameStarted() || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
+	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 		glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), 0);
 		glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), reinterpret_cast<void *>(3*sizeof(float)));
