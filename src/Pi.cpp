@@ -1279,6 +1279,12 @@ void Pi::MainLoop()
 		//if (glGetError()) printf ("GL: %s\n", gluErrorString (glGetError ()));
 		
 
+		// game exit or failed load from GameMenuView will have cleared
+		// Pi::game. we can't continue.
+		if (!Pi::game)
+			return;
+		
+
 		if (Pi::game->UpdateTimeAccel())
 			accumulator = 0;				// fix for huge pauses 10000x -> 1x
 
