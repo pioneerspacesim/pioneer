@@ -201,6 +201,7 @@
 		4A84CB7D14595D850051C848 /* enum_table.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A84CB7B14595D850051C848 /* enum_table.cpp */; };
 		4A84CB84146027DC0051C848 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A84CB82146027DC0051C848 /* Camera.cpp */; };
 		4A84CB88146027F70051C848 /* RenderFrustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A84CB86146027F70051C848 /* RenderFrustum.cpp */; };
+		4A8563FD148655DA008121E1 /* pioneer-logo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4A8563FC148655DA008121E1 /* pioneer-logo.icns */; };
 		4A85A86A13C4631D00C2B986 /* LuaMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86313C4631D00C2B986 /* LuaMusic.cpp */; };
 		4A85A86B13C4631D00C2B986 /* LuaSystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */; };
 		4A85A86C13C4631D00C2B986 /* SoundMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86713C4631D00C2B986 /* SoundMusic.cpp */; };
@@ -284,7 +285,6 @@
 		4AB7D62E1472A83E00158DE4 /* TerrainHeightRuggedLava.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5FE1472A83E00158DE4 /* TerrainHeightRuggedLava.cpp */; };
 		4AB7D62F1472A83E00158DE4 /* TerrainHeightWaterSolid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5FF1472A83E00158DE4 /* TerrainHeightWaterSolid.cpp */; };
 		4AB7D6301472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D6001472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp */; };
-		4AD68C8D1359C3CE0048A93F /* pioneer-logo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */; };
 		4AE5CA3B1383E2D000B55DEB /* libSDL-1.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */; };
 		4AE5CA3C1383E2EC00B55DEB /* libSDL-1.2.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */; };
 		4AE5CA3E1383E63C00B55DEB /* libSDL_image-1.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */; };
@@ -751,6 +751,7 @@
 		4A84CB83146027DC0051C848 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		4A84CB86146027F70051C848 /* RenderFrustum.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderFrustum.cpp; sourceTree = "<group>"; };
 		4A84CB87146027F70051C848 /* RenderFrustum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderFrustum.h; sourceTree = "<group>"; };
+		4A8563FC148655DA008121E1 /* pioneer-logo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "pioneer-logo.icns"; sourceTree = "<group>"; };
 		4A85A86313C4631D00C2B986 /* LuaMusic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaMusic.cpp; sourceTree = "<group>"; };
 		4A85A86413C4631D00C2B986 /* LuaMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaMusic.h; sourceTree = "<group>"; };
 		4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSystemPath.cpp; sourceTree = "<group>"; };
@@ -873,7 +874,6 @@
 		4AB7D5FF1472A83E00158DE4 /* TerrainHeightWaterSolid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightWaterSolid.cpp; sourceTree = "<group>"; };
 		4AB7D6001472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightWaterSolidCanyons.cpp; sourceTree = "<group>"; };
 		4AB7D6011472A83E00158DE4 /* TerrainNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerrainNoise.h; sourceTree = "<group>"; };
-		4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "pioneer-logo.icns"; sourceTree = "<group>"; };
 		4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL-1.2.0.dylib"; path = "/opt/local/lib/libSDL-1.2.0.dylib"; sourceTree = "<absolute>"; };
 		4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_image-1.2.0.dylib"; path = "/opt/local/lib/libSDL_image-1.2.0.dylib"; sourceTree = "<absolute>"; };
 		4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_sound-1.0.1.0.2.dylib"; path = "/opt/local/lib/libSDL_sound-1.0.1.0.2.dylib"; sourceTree = "<absolute>"; };
@@ -1145,7 +1145,7 @@
 		4A20B11213531CAF0020F43E /* Cocoa Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */,
+				4A8563FC148655DA008121E1 /* pioneer-logo.icns */,
 				4A20B11F13531E950020F43E /* pioneerApp.xib */,
 				4A20B10E13531C040020F43E /* SDLMain.h */,
 				4A20B10F13531C040020F43E /* SDLMain.m */,
@@ -1598,7 +1598,7 @@
 				4A20B11C13531CD10020F43E /* Credits.rtf in Resources */,
 				4A20B11D13531CD10020F43E /* InfoPlist.strings in Resources */,
 				4A20B12013531E950020F43E /* pioneerApp.xib in Resources */,
-				4AD68C8D1359C3CE0048A93F /* pioneer-logo.icns in Resources */,
+				4A8563FD148655DA008121E1 /* pioneer-logo.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
