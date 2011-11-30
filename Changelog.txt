@@ -13,7 +13,6 @@ Alpha 17
   * Minor changes and tweaks
     * Improved planet atmosphere rendering
     * Window icon (#817)
-    * OSX icon
     * Increase difficulty of high-risk taxi missions (#800)
     * Flip texture UV coordinates on object load (#818)
 
