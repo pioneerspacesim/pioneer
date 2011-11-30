@@ -102,6 +102,11 @@ Game::~Game()
 	// without these explicit Reset() calls, m_player would be deleted before m_space is,
 	// which causes problems because then when Space is destroyed it tries to reference
 	// the deleted Player object (to call SetFrame(0))
+	//
+	// ideally we'd split Player out into two objects, the physics part that
+	// is owned by the space, and the game part that holds all the player
+	// attributes and whatever else
+
 	m_space->RemoveBody(m_player.Get());
 	m_space.Reset();
 	m_player.Reset();
