@@ -148,7 +148,6 @@
 		4A6C4DE613532FC300FDD53F /* Galaxy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C2A13532FC300FDD53F /* Galaxy.cpp */; };
 		4A6C4DE713532FC300FDD53F /* GameMenuView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C2D13532FC300FDD53F /* GameMenuView.cpp */; };
 		4A6C4DE913532FC300FDD53F /* GeoSphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C3113532FC300FDD53F /* GeoSphere.cpp */; };
-		4A6C4DEA13532FC300FDD53F /* GeoSphereStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C3313532FC300FDD53F /* GeoSphereStyle.cpp */; };
 		4A6C4E0413532FC300FDD53F /* HyperspaceCloud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C6A13532FC300FDD53F /* HyperspaceCloud.cpp */; };
 		4A6C4E0513532FC300FDD53F /* InfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C6C13532FC300FDD53F /* InfoView.cpp */; };
 		4A6C4E0613532FC300FDD53F /* IniConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C6E13532FC300FDD53F /* IniConfig.cpp */; };
@@ -202,6 +201,7 @@
 		4A84CB7D14595D850051C848 /* enum_table.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A84CB7B14595D850051C848 /* enum_table.cpp */; };
 		4A84CB84146027DC0051C848 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A84CB82146027DC0051C848 /* Camera.cpp */; };
 		4A84CB88146027F70051C848 /* RenderFrustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A84CB86146027F70051C848 /* RenderFrustum.cpp */; };
+		4A8563FD148655DA008121E1 /* pioneer-logo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4A8563FC148655DA008121E1 /* pioneer-logo.icns */; };
 		4A85A86A13C4631D00C2B986 /* LuaMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86313C4631D00C2B986 /* LuaMusic.cpp */; };
 		4A85A86B13C4631D00C2B986 /* LuaSystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */; };
 		4A85A86C13C4631D00C2B986 /* SoundMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86713C4631D00C2B986 /* SoundMusic.cpp */; };
@@ -239,7 +239,52 @@
 		4A99376A1368355500EA0EE5 /* LuaUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99374C1368355500EA0EE5 /* LuaUtils.cpp */; };
 		4A99893E1388BCD900647BA9 /* FontConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99893C1388BCD900647BA9 /* FontConfig.cpp */; };
 		4AB3DF8914346952001B783A /* TerrainBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB3DF8714346952001B783A /* TerrainBody.cpp */; };
-		4AD68C8D1359C3CE0048A93F /* pioneer-logo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */; };
+		4AB7D6031472A83E00158DE4 /* Terrain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5D11472A83E00158DE4 /* Terrain.cpp */; };
+		4AB7D6041472A83E00158DE4 /* TerrainColorAsteroid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5D31472A83E00158DE4 /* TerrainColorAsteroid.cpp */; };
+		4AB7D6051472A83E00158DE4 /* TerrainColorBandedRock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5D41472A83E00158DE4 /* TerrainColorBandedRock.cpp */; };
+		4AB7D6061472A83E00158DE4 /* TerrainColorDeadWithWater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5D51472A83E00158DE4 /* TerrainColorDeadWithWater.cpp */; };
+		4AB7D6071472A83E00158DE4 /* TerrainColorDesert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5D61472A83E00158DE4 /* TerrainColorDesert.cpp */; };
+		4AB7D6081472A83E00158DE4 /* TerrainColorEarthLike.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5D71472A83E00158DE4 /* TerrainColorEarthLike.cpp */; };
+		4AB7D6091472A83E00158DE4 /* TerrainColorGGJupiter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5D81472A83E00158DE4 /* TerrainColorGGJupiter.cpp */; };
+		4AB7D60A1472A83E00158DE4 /* TerrainColorGGNeptune.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5D91472A83E00158DE4 /* TerrainColorGGNeptune.cpp */; };
+		4AB7D60B1472A83E00158DE4 /* TerrainColorGGNeptune2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5DA1472A83E00158DE4 /* TerrainColorGGNeptune2.cpp */; };
+		4AB7D60C1472A83E00158DE4 /* TerrainColorGGSaturn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5DB1472A83E00158DE4 /* TerrainColorGGSaturn.cpp */; };
+		4AB7D60D1472A83E00158DE4 /* TerrainColorGGSaturn2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5DC1472A83E00158DE4 /* TerrainColorGGSaturn2.cpp */; };
+		4AB7D60E1472A83E00158DE4 /* TerrainColorGGUranus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5DD1472A83E00158DE4 /* TerrainColorGGUranus.cpp */; };
+		4AB7D60F1472A83E00158DE4 /* TerrainColorIce.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5DE1472A83E00158DE4 /* TerrainColorIce.cpp */; };
+		4AB7D6101472A83E00158DE4 /* TerrainColorMethane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5DF1472A83E00158DE4 /* TerrainColorMethane.cpp */; };
+		4AB7D6111472A83E00158DE4 /* TerrainColorRock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5E01472A83E00158DE4 /* TerrainColorRock.cpp */; };
+		4AB7D6121472A83E00158DE4 /* TerrainColorRock2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5E11472A83E00158DE4 /* TerrainColorRock2.cpp */; };
+		4AB7D6131472A83E00158DE4 /* TerrainColorSolid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5E21472A83E00158DE4 /* TerrainColorSolid.cpp */; };
+		4AB7D6141472A83E00158DE4 /* TerrainColorStarBrownDwarf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5E31472A83E00158DE4 /* TerrainColorStarBrownDwarf.cpp */; };
+		4AB7D6151472A83E00158DE4 /* TerrainColorStarG.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5E41472A83E00158DE4 /* TerrainColorStarG.cpp */; };
+		4AB7D6161472A83E00158DE4 /* TerrainColorStarK.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5E51472A83E00158DE4 /* TerrainColorStarK.cpp */; };
+		4AB7D6171472A83E00158DE4 /* TerrainColorStarM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5E61472A83E00158DE4 /* TerrainColorStarM.cpp */; };
+		4AB7D6181472A83E00158DE4 /* TerrainColorStarWhiteDwarf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5E71472A83E00158DE4 /* TerrainColorStarWhiteDwarf.cpp */; };
+		4AB7D6191472A83E00158DE4 /* TerrainColorTFGood.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5E81472A83E00158DE4 /* TerrainColorTFGood.cpp */; };
+		4AB7D61A1472A83E00158DE4 /* TerrainColorTFPoor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5E91472A83E00158DE4 /* TerrainColorTFPoor.cpp */; };
+		4AB7D61B1472A83E00158DE4 /* TerrainColorVolcanic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5EA1472A83E00158DE4 /* TerrainColorVolcanic.cpp */; };
+		4AB7D61C1472A83E00158DE4 /* TerrainFeature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5EB1472A83E00158DE4 /* TerrainFeature.cpp */; };
+		4AB7D61D1472A83E00158DE4 /* TerrainHeightAsteroid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5ED1472A83E00158DE4 /* TerrainHeightAsteroid.cpp */; };
+		4AB7D61E1472A83E00158DE4 /* TerrainHeightFlat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5EE1472A83E00158DE4 /* TerrainHeightFlat.cpp */; };
+		4AB7D61F1472A83E00158DE4 /* TerrainHeightHillsCraters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5EF1472A83E00158DE4 /* TerrainHeightHillsCraters.cpp */; };
+		4AB7D6201472A83E00158DE4 /* TerrainHeightHillsCraters2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5F01472A83E00158DE4 /* TerrainHeightHillsCraters2.cpp */; };
+		4AB7D6211472A83E00158DE4 /* TerrainHeightHillsDunes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5F11472A83E00158DE4 /* TerrainHeightHillsDunes.cpp */; };
+		4AB7D6221472A83E00158DE4 /* TerrainHeightHillsNormal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5F21472A83E00158DE4 /* TerrainHeightHillsNormal.cpp */; };
+		4AB7D6231472A83E00158DE4 /* TerrainHeightHillsRidged.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5F31472A83E00158DE4 /* TerrainHeightHillsRidged.cpp */; };
+		4AB7D6241472A83E00158DE4 /* TerrainHeightHillsRivers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5F41472A83E00158DE4 /* TerrainHeightHillsRivers.cpp */; };
+		4AB7D6251472A83E00158DE4 /* TerrainHeightMapped.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5F51472A83E00158DE4 /* TerrainHeightMapped.cpp */; };
+		4AB7D6261472A83E00158DE4 /* TerrainHeightMountainsCraters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5F61472A83E00158DE4 /* TerrainHeightMountainsCraters.cpp */; };
+		4AB7D6271472A83E00158DE4 /* TerrainHeightMountainsCraters2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5F71472A83E00158DE4 /* TerrainHeightMountainsCraters2.cpp */; };
+		4AB7D6281472A83E00158DE4 /* TerrainHeightMountainsNormal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5F81472A83E00158DE4 /* TerrainHeightMountainsNormal.cpp */; };
+		4AB7D6291472A83E00158DE4 /* TerrainHeightMountainsRidged.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5F91472A83E00158DE4 /* TerrainHeightMountainsRidged.cpp */; };
+		4AB7D62A1472A83E00158DE4 /* TerrainHeightMountainsRivers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5FA1472A83E00158DE4 /* TerrainHeightMountainsRivers.cpp */; };
+		4AB7D62B1472A83E00158DE4 /* TerrainHeightMountainsRiversVolcano.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5FB1472A83E00158DE4 /* TerrainHeightMountainsRiversVolcano.cpp */; };
+		4AB7D62C1472A83E00158DE4 /* TerrainHeightMountainsVolcano.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5FC1472A83E00158DE4 /* TerrainHeightMountainsVolcano.cpp */; };
+		4AB7D62D1472A83E00158DE4 /* TerrainHeightRuggedDesert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5FD1472A83E00158DE4 /* TerrainHeightRuggedDesert.cpp */; };
+		4AB7D62E1472A83E00158DE4 /* TerrainHeightRuggedLava.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5FE1472A83E00158DE4 /* TerrainHeightRuggedLava.cpp */; };
+		4AB7D62F1472A83E00158DE4 /* TerrainHeightWaterSolid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5FF1472A83E00158DE4 /* TerrainHeightWaterSolid.cpp */; };
+		4AB7D6301472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D6001472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp */; };
 		4AE5CA3B1383E2D000B55DEB /* libSDL-1.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */; };
 		4AE5CA3C1383E2EC00B55DEB /* libSDL-1.2.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */; };
 		4AE5CA3E1383E63C00B55DEB /* libSDL_image-1.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */; };
@@ -595,8 +640,6 @@
 		4A6C4C2E13532FC300FDD53F /* GameMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMenuView.h; sourceTree = "<group>"; };
 		4A6C4C3113532FC300FDD53F /* GeoSphere.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeoSphere.cpp; sourceTree = "<group>"; };
 		4A6C4C3213532FC300FDD53F /* GeoSphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoSphere.h; sourceTree = "<group>"; };
-		4A6C4C3313532FC300FDD53F /* GeoSphereStyle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeoSphereStyle.cpp; sourceTree = "<group>"; };
-		4A6C4C3413532FC300FDD53F /* GeoSphereStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoSphereStyle.h; sourceTree = "<group>"; };
 		4A6C4C6A13532FC300FDD53F /* HyperspaceCloud.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HyperspaceCloud.cpp; sourceTree = "<group>"; };
 		4A6C4C6B13532FC300FDD53F /* HyperspaceCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperspaceCloud.h; sourceTree = "<group>"; };
 		4A6C4C6C13532FC300FDD53F /* InfoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InfoView.cpp; sourceTree = "<group>"; };
@@ -708,6 +751,7 @@
 		4A84CB83146027DC0051C848 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		4A84CB86146027F70051C848 /* RenderFrustum.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderFrustum.cpp; sourceTree = "<group>"; };
 		4A84CB87146027F70051C848 /* RenderFrustum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderFrustum.h; sourceTree = "<group>"; };
+		4A8563FC148655DA008121E1 /* pioneer-logo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "pioneer-logo.icns"; sourceTree = "<group>"; };
 		4A85A86313C4631D00C2B986 /* LuaMusic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaMusic.cpp; sourceTree = "<group>"; };
 		4A85A86413C4631D00C2B986 /* LuaMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaMusic.h; sourceTree = "<group>"; };
 		4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSystemPath.cpp; sourceTree = "<group>"; };
@@ -781,7 +825,55 @@
 		4A99893D1388BCD900647BA9 /* FontConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontConfig.h; sourceTree = "<group>"; };
 		4AB3DF8714346952001B783A /* TerrainBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainBody.cpp; sourceTree = "<group>"; };
 		4AB3DF8814346952001B783A /* TerrainBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerrainBody.h; sourceTree = "<group>"; };
-		4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "pioneer-logo.icns"; sourceTree = "<group>"; };
+		4AB7D5D11472A83E00158DE4 /* Terrain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Terrain.cpp; sourceTree = "<group>"; };
+		4AB7D5D21472A83E00158DE4 /* Terrain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Terrain.h; sourceTree = "<group>"; };
+		4AB7D5D31472A83E00158DE4 /* TerrainColorAsteroid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorAsteroid.cpp; sourceTree = "<group>"; };
+		4AB7D5D41472A83E00158DE4 /* TerrainColorBandedRock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorBandedRock.cpp; sourceTree = "<group>"; };
+		4AB7D5D51472A83E00158DE4 /* TerrainColorDeadWithWater.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorDeadWithWater.cpp; sourceTree = "<group>"; };
+		4AB7D5D61472A83E00158DE4 /* TerrainColorDesert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorDesert.cpp; sourceTree = "<group>"; };
+		4AB7D5D71472A83E00158DE4 /* TerrainColorEarthLike.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorEarthLike.cpp; sourceTree = "<group>"; };
+		4AB7D5D81472A83E00158DE4 /* TerrainColorGGJupiter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorGGJupiter.cpp; sourceTree = "<group>"; };
+		4AB7D5D91472A83E00158DE4 /* TerrainColorGGNeptune.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorGGNeptune.cpp; sourceTree = "<group>"; };
+		4AB7D5DA1472A83E00158DE4 /* TerrainColorGGNeptune2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorGGNeptune2.cpp; sourceTree = "<group>"; };
+		4AB7D5DB1472A83E00158DE4 /* TerrainColorGGSaturn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorGGSaturn.cpp; sourceTree = "<group>"; };
+		4AB7D5DC1472A83E00158DE4 /* TerrainColorGGSaturn2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorGGSaturn2.cpp; sourceTree = "<group>"; };
+		4AB7D5DD1472A83E00158DE4 /* TerrainColorGGUranus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorGGUranus.cpp; sourceTree = "<group>"; };
+		4AB7D5DE1472A83E00158DE4 /* TerrainColorIce.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorIce.cpp; sourceTree = "<group>"; };
+		4AB7D5DF1472A83E00158DE4 /* TerrainColorMethane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorMethane.cpp; sourceTree = "<group>"; };
+		4AB7D5E01472A83E00158DE4 /* TerrainColorRock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorRock.cpp; sourceTree = "<group>"; };
+		4AB7D5E11472A83E00158DE4 /* TerrainColorRock2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorRock2.cpp; sourceTree = "<group>"; };
+		4AB7D5E21472A83E00158DE4 /* TerrainColorSolid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorSolid.cpp; sourceTree = "<group>"; };
+		4AB7D5E31472A83E00158DE4 /* TerrainColorStarBrownDwarf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorStarBrownDwarf.cpp; sourceTree = "<group>"; };
+		4AB7D5E41472A83E00158DE4 /* TerrainColorStarG.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorStarG.cpp; sourceTree = "<group>"; };
+		4AB7D5E51472A83E00158DE4 /* TerrainColorStarK.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorStarK.cpp; sourceTree = "<group>"; };
+		4AB7D5E61472A83E00158DE4 /* TerrainColorStarM.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorStarM.cpp; sourceTree = "<group>"; };
+		4AB7D5E71472A83E00158DE4 /* TerrainColorStarWhiteDwarf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorStarWhiteDwarf.cpp; sourceTree = "<group>"; };
+		4AB7D5E81472A83E00158DE4 /* TerrainColorTFGood.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorTFGood.cpp; sourceTree = "<group>"; };
+		4AB7D5E91472A83E00158DE4 /* TerrainColorTFPoor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorTFPoor.cpp; sourceTree = "<group>"; };
+		4AB7D5EA1472A83E00158DE4 /* TerrainColorVolcanic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainColorVolcanic.cpp; sourceTree = "<group>"; };
+		4AB7D5EB1472A83E00158DE4 /* TerrainFeature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainFeature.cpp; sourceTree = "<group>"; };
+		4AB7D5EC1472A83E00158DE4 /* TerrainFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerrainFeature.h; sourceTree = "<group>"; };
+		4AB7D5ED1472A83E00158DE4 /* TerrainHeightAsteroid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightAsteroid.cpp; sourceTree = "<group>"; };
+		4AB7D5EE1472A83E00158DE4 /* TerrainHeightFlat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightFlat.cpp; sourceTree = "<group>"; };
+		4AB7D5EF1472A83E00158DE4 /* TerrainHeightHillsCraters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightHillsCraters.cpp; sourceTree = "<group>"; };
+		4AB7D5F01472A83E00158DE4 /* TerrainHeightHillsCraters2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightHillsCraters2.cpp; sourceTree = "<group>"; };
+		4AB7D5F11472A83E00158DE4 /* TerrainHeightHillsDunes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightHillsDunes.cpp; sourceTree = "<group>"; };
+		4AB7D5F21472A83E00158DE4 /* TerrainHeightHillsNormal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightHillsNormal.cpp; sourceTree = "<group>"; };
+		4AB7D5F31472A83E00158DE4 /* TerrainHeightHillsRidged.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightHillsRidged.cpp; sourceTree = "<group>"; };
+		4AB7D5F41472A83E00158DE4 /* TerrainHeightHillsRivers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightHillsRivers.cpp; sourceTree = "<group>"; };
+		4AB7D5F51472A83E00158DE4 /* TerrainHeightMapped.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightMapped.cpp; sourceTree = "<group>"; };
+		4AB7D5F61472A83E00158DE4 /* TerrainHeightMountainsCraters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightMountainsCraters.cpp; sourceTree = "<group>"; };
+		4AB7D5F71472A83E00158DE4 /* TerrainHeightMountainsCraters2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightMountainsCraters2.cpp; sourceTree = "<group>"; };
+		4AB7D5F81472A83E00158DE4 /* TerrainHeightMountainsNormal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightMountainsNormal.cpp; sourceTree = "<group>"; };
+		4AB7D5F91472A83E00158DE4 /* TerrainHeightMountainsRidged.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightMountainsRidged.cpp; sourceTree = "<group>"; };
+		4AB7D5FA1472A83E00158DE4 /* TerrainHeightMountainsRivers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightMountainsRivers.cpp; sourceTree = "<group>"; };
+		4AB7D5FB1472A83E00158DE4 /* TerrainHeightMountainsRiversVolcano.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightMountainsRiversVolcano.cpp; sourceTree = "<group>"; };
+		4AB7D5FC1472A83E00158DE4 /* TerrainHeightMountainsVolcano.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightMountainsVolcano.cpp; sourceTree = "<group>"; };
+		4AB7D5FD1472A83E00158DE4 /* TerrainHeightRuggedDesert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightRuggedDesert.cpp; sourceTree = "<group>"; };
+		4AB7D5FE1472A83E00158DE4 /* TerrainHeightRuggedLava.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightRuggedLava.cpp; sourceTree = "<group>"; };
+		4AB7D5FF1472A83E00158DE4 /* TerrainHeightWaterSolid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightWaterSolid.cpp; sourceTree = "<group>"; };
+		4AB7D6001472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightWaterSolidCanyons.cpp; sourceTree = "<group>"; };
+		4AB7D6011472A83E00158DE4 /* TerrainNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerrainNoise.h; sourceTree = "<group>"; };
 		4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL-1.2.0.dylib"; path = "/opt/local/lib/libSDL-1.2.0.dylib"; sourceTree = "<absolute>"; };
 		4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_image-1.2.0.dylib"; path = "/opt/local/lib/libSDL_image-1.2.0.dylib"; sourceTree = "<absolute>"; };
 		4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_sound-1.0.1.0.2.dylib"; path = "/opt/local/lib/libSDL_sound-1.0.1.0.2.dylib"; sourceTree = "<absolute>"; };
@@ -1053,7 +1145,7 @@
 		4A20B11213531CAF0020F43E /* Cocoa Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */,
+				4A8563FC148655DA008121E1 /* pioneer-logo.icns */,
 				4A20B11F13531E950020F43E /* pioneerApp.xib */,
 				4A20B10E13531C040020F43E /* SDLMain.h */,
 				4A20B10F13531C040020F43E /* SDLMain.m */,
@@ -1102,6 +1194,7 @@
 		4A6C4B9F13532FC300FDD53F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				4AB7D5CF1472A83E00158DE4 /* terrain */,
 				4A84CB82146027DC0051C848 /* Camera.cpp */,
 				4A84CB83146027DC0051C848 /* Camera.h */,
 				4A84CB7B14595D850051C848 /* enum_table.cpp */,
@@ -1262,8 +1355,6 @@
 				4A6C4C2E13532FC300FDD53F /* GameMenuView.h */,
 				4A6C4C3113532FC300FDD53F /* GeoSphere.cpp */,
 				4A6C4C3213532FC300FDD53F /* GeoSphere.h */,
-				4A6C4C3313532FC300FDD53F /* GeoSphereStyle.cpp */,
-				4A6C4C3413532FC300FDD53F /* GeoSphereStyle.h */,
 				4A6C4C6A13532FC300FDD53F /* HyperspaceCloud.cpp */,
 				4A6C4C6B13532FC300FDD53F /* HyperspaceCloud.h */,
 				4A6C4C6C13532FC300FDD53F /* InfoView.cpp */,
@@ -1392,6 +1483,62 @@
 			name = "Misc TXT files";
 			sourceTree = "<group>";
 		};
+		4AB7D5CF1472A83E00158DE4 /* terrain */ = {
+			isa = PBXGroup;
+			children = (
+				4AB7D5D11472A83E00158DE4 /* Terrain.cpp */,
+				4AB7D5D21472A83E00158DE4 /* Terrain.h */,
+				4AB7D5D31472A83E00158DE4 /* TerrainColorAsteroid.cpp */,
+				4AB7D5D41472A83E00158DE4 /* TerrainColorBandedRock.cpp */,
+				4AB7D5D51472A83E00158DE4 /* TerrainColorDeadWithWater.cpp */,
+				4AB7D5D61472A83E00158DE4 /* TerrainColorDesert.cpp */,
+				4AB7D5D71472A83E00158DE4 /* TerrainColorEarthLike.cpp */,
+				4AB7D5D81472A83E00158DE4 /* TerrainColorGGJupiter.cpp */,
+				4AB7D5D91472A83E00158DE4 /* TerrainColorGGNeptune.cpp */,
+				4AB7D5DA1472A83E00158DE4 /* TerrainColorGGNeptune2.cpp */,
+				4AB7D5DB1472A83E00158DE4 /* TerrainColorGGSaturn.cpp */,
+				4AB7D5DC1472A83E00158DE4 /* TerrainColorGGSaturn2.cpp */,
+				4AB7D5DD1472A83E00158DE4 /* TerrainColorGGUranus.cpp */,
+				4AB7D5DE1472A83E00158DE4 /* TerrainColorIce.cpp */,
+				4AB7D5DF1472A83E00158DE4 /* TerrainColorMethane.cpp */,
+				4AB7D5E01472A83E00158DE4 /* TerrainColorRock.cpp */,
+				4AB7D5E11472A83E00158DE4 /* TerrainColorRock2.cpp */,
+				4AB7D5E21472A83E00158DE4 /* TerrainColorSolid.cpp */,
+				4AB7D5E31472A83E00158DE4 /* TerrainColorStarBrownDwarf.cpp */,
+				4AB7D5E41472A83E00158DE4 /* TerrainColorStarG.cpp */,
+				4AB7D5E51472A83E00158DE4 /* TerrainColorStarK.cpp */,
+				4AB7D5E61472A83E00158DE4 /* TerrainColorStarM.cpp */,
+				4AB7D5E71472A83E00158DE4 /* TerrainColorStarWhiteDwarf.cpp */,
+				4AB7D5E81472A83E00158DE4 /* TerrainColorTFGood.cpp */,
+				4AB7D5E91472A83E00158DE4 /* TerrainColorTFPoor.cpp */,
+				4AB7D5EA1472A83E00158DE4 /* TerrainColorVolcanic.cpp */,
+				4AB7D5EB1472A83E00158DE4 /* TerrainFeature.cpp */,
+				4AB7D5EC1472A83E00158DE4 /* TerrainFeature.h */,
+				4AB7D5ED1472A83E00158DE4 /* TerrainHeightAsteroid.cpp */,
+				4AB7D5EE1472A83E00158DE4 /* TerrainHeightFlat.cpp */,
+				4AB7D5EF1472A83E00158DE4 /* TerrainHeightHillsCraters.cpp */,
+				4AB7D5F01472A83E00158DE4 /* TerrainHeightHillsCraters2.cpp */,
+				4AB7D5F11472A83E00158DE4 /* TerrainHeightHillsDunes.cpp */,
+				4AB7D5F21472A83E00158DE4 /* TerrainHeightHillsNormal.cpp */,
+				4AB7D5F31472A83E00158DE4 /* TerrainHeightHillsRidged.cpp */,
+				4AB7D5F41472A83E00158DE4 /* TerrainHeightHillsRivers.cpp */,
+				4AB7D5F51472A83E00158DE4 /* TerrainHeightMapped.cpp */,
+				4AB7D5F61472A83E00158DE4 /* TerrainHeightMountainsCraters.cpp */,
+				4AB7D5F71472A83E00158DE4 /* TerrainHeightMountainsCraters2.cpp */,
+				4AB7D5F81472A83E00158DE4 /* TerrainHeightMountainsNormal.cpp */,
+				4AB7D5F91472A83E00158DE4 /* TerrainHeightMountainsRidged.cpp */,
+				4AB7D5FA1472A83E00158DE4 /* TerrainHeightMountainsRivers.cpp */,
+				4AB7D5FB1472A83E00158DE4 /* TerrainHeightMountainsRiversVolcano.cpp */,
+				4AB7D5FC1472A83E00158DE4 /* TerrainHeightMountainsVolcano.cpp */,
+				4AB7D5FD1472A83E00158DE4 /* TerrainHeightRuggedDesert.cpp */,
+				4AB7D5FE1472A83E00158DE4 /* TerrainHeightRuggedLava.cpp */,
+				4AB7D5FF1472A83E00158DE4 /* TerrainHeightWaterSolid.cpp */,
+				4AB7D6001472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp */,
+				4AB7D6011472A83E00158DE4 /* TerrainNoise.h */,
+			);
+			path = terrain;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1451,7 +1598,7 @@
 				4A20B11C13531CD10020F43E /* Credits.rtf in Resources */,
 				4A20B11D13531CD10020F43E /* InfoPlist.strings in Resources */,
 				4A20B12013531E950020F43E /* pioneerApp.xib in Resources */,
-				4AD68C8D1359C3CE0048A93F /* pioneer-logo.icns in Resources */,
+				4A8563FD148655DA008121E1 /* pioneer-logo.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1511,7 +1658,6 @@
 				4A6C4DE613532FC300FDD53F /* Galaxy.cpp in Sources */,
 				4A6C4DE713532FC300FDD53F /* GameMenuView.cpp in Sources */,
 				4A6C4DE913532FC300FDD53F /* GeoSphere.cpp in Sources */,
-				4A6C4DEA13532FC300FDD53F /* GeoSphereStyle.cpp in Sources */,
 				4A6C4E0413532FC300FDD53F /* HyperspaceCloud.cpp in Sources */,
 				4A6C4E0513532FC300FDD53F /* InfoView.cpp in Sources */,
 				4A6C4E0613532FC300FDD53F /* IniConfig.cpp in Sources */,
@@ -1683,6 +1829,52 @@
 				4A84CB7D14595D850051C848 /* enum_table.cpp in Sources */,
 				4A84CB84146027DC0051C848 /* Camera.cpp in Sources */,
 				4A84CB88146027F70051C848 /* RenderFrustum.cpp in Sources */,
+				4AB7D6031472A83E00158DE4 /* Terrain.cpp in Sources */,
+				4AB7D6041472A83E00158DE4 /* TerrainColorAsteroid.cpp in Sources */,
+				4AB7D6051472A83E00158DE4 /* TerrainColorBandedRock.cpp in Sources */,
+				4AB7D6061472A83E00158DE4 /* TerrainColorDeadWithWater.cpp in Sources */,
+				4AB7D6071472A83E00158DE4 /* TerrainColorDesert.cpp in Sources */,
+				4AB7D6081472A83E00158DE4 /* TerrainColorEarthLike.cpp in Sources */,
+				4AB7D6091472A83E00158DE4 /* TerrainColorGGJupiter.cpp in Sources */,
+				4AB7D60A1472A83E00158DE4 /* TerrainColorGGNeptune.cpp in Sources */,
+				4AB7D60B1472A83E00158DE4 /* TerrainColorGGNeptune2.cpp in Sources */,
+				4AB7D60C1472A83E00158DE4 /* TerrainColorGGSaturn.cpp in Sources */,
+				4AB7D60D1472A83E00158DE4 /* TerrainColorGGSaturn2.cpp in Sources */,
+				4AB7D60E1472A83E00158DE4 /* TerrainColorGGUranus.cpp in Sources */,
+				4AB7D60F1472A83E00158DE4 /* TerrainColorIce.cpp in Sources */,
+				4AB7D6101472A83E00158DE4 /* TerrainColorMethane.cpp in Sources */,
+				4AB7D6111472A83E00158DE4 /* TerrainColorRock.cpp in Sources */,
+				4AB7D6121472A83E00158DE4 /* TerrainColorRock2.cpp in Sources */,
+				4AB7D6131472A83E00158DE4 /* TerrainColorSolid.cpp in Sources */,
+				4AB7D6141472A83E00158DE4 /* TerrainColorStarBrownDwarf.cpp in Sources */,
+				4AB7D6151472A83E00158DE4 /* TerrainColorStarG.cpp in Sources */,
+				4AB7D6161472A83E00158DE4 /* TerrainColorStarK.cpp in Sources */,
+				4AB7D6171472A83E00158DE4 /* TerrainColorStarM.cpp in Sources */,
+				4AB7D6181472A83E00158DE4 /* TerrainColorStarWhiteDwarf.cpp in Sources */,
+				4AB7D6191472A83E00158DE4 /* TerrainColorTFGood.cpp in Sources */,
+				4AB7D61A1472A83E00158DE4 /* TerrainColorTFPoor.cpp in Sources */,
+				4AB7D61B1472A83E00158DE4 /* TerrainColorVolcanic.cpp in Sources */,
+				4AB7D61C1472A83E00158DE4 /* TerrainFeature.cpp in Sources */,
+				4AB7D61D1472A83E00158DE4 /* TerrainHeightAsteroid.cpp in Sources */,
+				4AB7D61E1472A83E00158DE4 /* TerrainHeightFlat.cpp in Sources */,
+				4AB7D61F1472A83E00158DE4 /* TerrainHeightHillsCraters.cpp in Sources */,
+				4AB7D6201472A83E00158DE4 /* TerrainHeightHillsCraters2.cpp in Sources */,
+				4AB7D6211472A83E00158DE4 /* TerrainHeightHillsDunes.cpp in Sources */,
+				4AB7D6221472A83E00158DE4 /* TerrainHeightHillsNormal.cpp in Sources */,
+				4AB7D6231472A83E00158DE4 /* TerrainHeightHillsRidged.cpp in Sources */,
+				4AB7D6241472A83E00158DE4 /* TerrainHeightHillsRivers.cpp in Sources */,
+				4AB7D6251472A83E00158DE4 /* TerrainHeightMapped.cpp in Sources */,
+				4AB7D6261472A83E00158DE4 /* TerrainHeightMountainsCraters.cpp in Sources */,
+				4AB7D6271472A83E00158DE4 /* TerrainHeightMountainsCraters2.cpp in Sources */,
+				4AB7D6281472A83E00158DE4 /* TerrainHeightMountainsNormal.cpp in Sources */,
+				4AB7D6291472A83E00158DE4 /* TerrainHeightMountainsRidged.cpp in Sources */,
+				4AB7D62A1472A83E00158DE4 /* TerrainHeightMountainsRivers.cpp in Sources */,
+				4AB7D62B1472A83E00158DE4 /* TerrainHeightMountainsRiversVolcano.cpp in Sources */,
+				4AB7D62C1472A83E00158DE4 /* TerrainHeightMountainsVolcano.cpp in Sources */,
+				4AB7D62D1472A83E00158DE4 /* TerrainHeightRuggedDesert.cpp in Sources */,
+				4AB7D62E1472A83E00158DE4 /* TerrainHeightRuggedLava.cpp in Sources */,
+				4AB7D62F1472A83E00158DE4 /* TerrainHeightWaterSolid.cpp in Sources */,
+				4AB7D6301472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
