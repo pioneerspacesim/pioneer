@@ -16,8 +16,8 @@ define_model('gear', {
 define_model('natrix', {
 	info = {
 		scale = 3.5,
-		bounding_radius = 10,
-		lod_pixels = {10, 100},
+		bounding_radius = 40,
+		lod_pixels = {50, 100},
 		materials = {'default'},
 		tags = {'ship'},
 		ship_defs = {
@@ -30,10 +30,8 @@ define_model('natrix', {
 				left_thrust = -1e6,
 				right_thrust = 1e6,
 				angular_thrust = 30e6,
-				gun_mounts =
-				{
-					{ v(0,-0.5,-10.7), v(0,0,-1) },
-					{ v(0,-0.5,0), v(0,0,1) },
+				gun_mounts = {
+					{ v(0.000, 0.000, -9.342), v(0.000, 0.000, -1.000) },
 				},
 				max_cargo = 50,
 				max_laser = 1,
@@ -92,9 +90,9 @@ define_model('natrix', {
 		--lights visible when the craft is docking, landing
 		--or landing gear is down
 		navigation_lights(
-			{v(0.000, -1.420, 9.023), v(0.000, -1.420, 2.007), v(0.000, -1.420, -2.904), v(0.000, 1.474, -2.904), v(0.000, 1.474, 2.007), v(0.000, 1.474, 9.023), },
-			{v(4.030, 0.028, 8.898), v(3.300, 0.028, -8.869), },
-			{v(-4.030, 0.028, 8.898), v(-3.300, 0.028, -8.869), }
+			{v(4.467, 1.474, -0.018), v(-4.467, 1.474, -0.018), }, --white collision lights
+			{v(4.030, 0.028, 8.898), v(3.300, 0.028, -8.869), },   --red lights
+			{v(-4.030, 0.028, 8.898), v(-3.300, 0.028, -8.869), }  --green lights
 		)
 	end
 })
