@@ -29,7 +29,7 @@ define_model('natrix', {
 				down_thrust = -1e6,
 				left_thrust = -1e6,
 				right_thrust = 1e6,
-				angular_thrust = 30e6,
+				angular_thrust = 15e6,
 				gun_mounts = {
 					{ v(0.000, 0.000, -9.342), v(0.000, 0.000, -1.000) },
 				},
@@ -58,8 +58,8 @@ define_model('natrix', {
 		end
 
 		--thrusters from blender
-		thruster(v(1.300, 0.000, 9.769), v(0.000, 0.000, 1.000), 3.55, true)
-		thruster(v(-1.300, 0.000, 9.769), v(0.000, 0.000, 1.000), 3.55, true)
+		thruster(v(1.300, 0.000, 9.769), v(0.000, 0.000, 1.000), 4.50, true)
+		thruster(v(-1.300, 0.000, 9.769), v(0.000, 0.000, 1.000), 4.50, true)
 		thruster(v(-3.000, 0.427, 9.214), v(0.000, 1.000, -0.000), 1.24, false)
 		thruster(v(-3.458, 0.000, 9.214), v(-1.000, -0.000, 0.000), 1.24, false)
 		thruster(v(-3.000, -0.472, 9.214), v(0.000, -1.000, 0.000), 1.24, false)
@@ -90,9 +90,9 @@ define_model('natrix', {
 		--lights visible when the craft is docking, landing
 		--or landing gear is down
 		navigation_lights(
-			{v(4.467, 1.474, -0.018), v(-4.467, 1.474, -0.018), }, --white collision lights
-			{v(4.030, 0.028, 8.898), v(3.300, 0.028, -8.869), },   --red lights
-			{v(-4.030, 0.028, 8.898), v(-3.300, 0.028, -8.869), }  --green lights
+			{v(4.355, 0.763, -0.018), v(-4.467, 0.763, -0.018), },
+			{v(4.030, 0.028, 8.898), v(3.300, 0.028, -8.869), },
+			{v(-4.030, 0.028, 8.898), v(-3.300, 0.028, -8.869), }
 		)
 	end
 })
