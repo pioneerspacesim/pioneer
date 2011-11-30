@@ -36,7 +36,7 @@ Space::Space(Game *game, const SystemPath &path) : m_game(game), m_frameIndexVal
 	m_rootFrame->SetRadius(FLT_MAX);
 
 	GenBody(m_starSystem->rootBody, m_rootFrame.Get());
-	m_rootFrame->UpdateOrbitRails(m_game->GetTime());
+	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 }
 
 Space::Space(Game *game, Serializer::Reader &rd) : m_game(game), m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false)
@@ -595,7 +595,7 @@ void Space::TimeStep(float step)
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->StaticUpdate(step);
 
-	m_rootFrame->UpdateOrbitRails(m_game->GetTime());
+	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);

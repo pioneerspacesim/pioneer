@@ -266,9 +266,8 @@ void Frame::UpdateInterpolatedTransform(double alpha)
 
 }
 
-void Frame::UpdateOrbitRails(double time)
+void Frame::UpdateOrbitRails(double time, double timestep)
 {
-	double timestep = Pi::game->GetTimeStep();
 	m_oldOrient = m_orient;
 	m_oldAngDisplacement = m_angVel * timestep;
 	if (!m_parent) {
@@ -284,7 +283,7 @@ void Frame::UpdateOrbitRails(double time)
 	RotateInTimestep(timestep);
 
 	for (std::list<Frame*>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		(*i)->UpdateOrbitRails(time);
+		(*i)->UpdateOrbitRails(time, timestep);
 	}
 }
 

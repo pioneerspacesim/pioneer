@@ -53,7 +53,7 @@ public:
 	// snoops into parent frames so beware
 	SBody *GetSBodyFor() const;
 	Body *GetBodyFor() const;
-	void UpdateOrbitRails(double time);
+	void UpdateOrbitRails(double time, double timestep);
 
 	void ApplyLeavingTransform(matrix4x4d &m) const;
 	void ApplyEnteringTransform(matrix4x4d &m) const;
