@@ -268,8 +268,6 @@ static int l_space_spawn_ship_docked(lua_State *l)
 	Pi::game->GetSpace()->AddBody(ship);
 	ship->SetDockedWith(station, port);
 
-	station->CreateBB();
-
 	LuaShip::PushToLua(ship);
 
 	LUA_DEBUG_END(l, 1);

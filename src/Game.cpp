@@ -49,9 +49,6 @@ Game::Game(const SystemPath &path) :
 	m_player->SetFrame(station->GetFrame());
 	m_player->SetDockedWith(station, 0);
 
-	// XXX stupid, should probably be done by SetDockedWith
-	//station->CreateBB();
-	
 	CreateViews();
 }
 

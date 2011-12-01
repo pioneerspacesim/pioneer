@@ -426,7 +426,6 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 			if (dt.stage >= 0) {
 				// set docked
 				dt.ship->SetDockedWith(this, i);
-				CreateBB();
 				Pi::luaOnShipDocked->Queue(dt.ship, this);
 			} else {
 				if (!dt.ship->IsEnabled()) {
@@ -502,7 +501,10 @@ void SpaceStation::DoLawAndOrder()
 void SpaceStation::TimeStepUpdate(const float timeStep)
 {
 	if (Pi::game->GetTime() > m_lastUpdatedShipyard) {
-        if (m_bbCreated) Pi::luaOnUpdateBB->Queue(this);
+        if (m_bbCreated)
+			Pi::luaOnUpdateBB->Queue(this);
+		else if (GetFreeDockingPort() != 0)	// only create a BB if there's ships here
+			CreateBB();
 		UpdateShipyard();
 		// update again in an hour or two
 		m_lastUpdatedShipyard = Pi::game->GetTime() + 3600.0 + 3600.0*Pi::rng.Double();
@@ -740,7 +742,6 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					s->SetFlightState(Ship::DOCKING);
 				} else {
 					s->SetDockedWith(this, port);
-					CreateBB();
 					Pi::luaOnShipDocked->Queue(s, this);
 				}
 			}
