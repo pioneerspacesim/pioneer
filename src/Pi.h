@@ -164,6 +164,8 @@ private:
 	static void HandleEvents();
 	static void InitJoysticks();
 
+	static bool menuDone;
+
 	static View *currentView;
 
 	/** So, the game physics rate (50Hz) can run slower

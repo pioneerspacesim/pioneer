@@ -973,6 +973,7 @@ void Pi::StartGame()
 	Pi::luaOnGameStart->Signal();
 }
 
+bool Pi::menuDone = false;
 void Pi::HandleMenuKey(int n)
 {
 	switch (n) {
@@ -1076,9 +1077,10 @@ void Pi::HandleMenuKey(int n)
 		}
 
 		default:
-			Pi::Quit();
 			break;
 	}
+
+	menuDone = true;
 }
 
 void Pi::Start()
@@ -1129,8 +1131,9 @@ void Pi::Start()
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
 
+	menuDone = false;
 	game = 0;
-	while (!game) {
+	while (!menuDone) {
 		Pi::HandleEvents();
 
 		Render::PrepareFrame();
@@ -1160,6 +1163,9 @@ void Pi::Start()
 	delete menu;
 	delete starfield;
 	delete milkyway;
+
+	if (!game)
+		Pi::Quit();
 
 	InitGame();
 	StartGame();
