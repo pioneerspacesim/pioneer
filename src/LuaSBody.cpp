@@ -143,6 +143,10 @@ static int l_sbody_attr_parent(lua_State *l)
 	// back to the starsystem proper to get what we need.
 	RefCountedPtr<StarSystem> s = StarSystem::GetCached(sbody->path);
 	SBody *live_sbody = s->GetBodyByPath(sbody->path);
+
+	if (!live_sbody->parent)
+		return 0;
+
 	LuaSBody::PushToLua(live_sbody->parent);
 	return 1;
 }
