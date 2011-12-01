@@ -591,6 +591,7 @@ void Pi::InitOpenGL()
 
 void Pi::Quit()
 {
+	delete Pi::gameMenuView;
 	delete Pi::luaConsole;
 	Sound::Uninit();
 	SpaceStation::Uninit();
