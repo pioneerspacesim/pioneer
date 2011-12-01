@@ -646,8 +646,10 @@ void Pi::HandleEvents()
 								Pi::game->SetTimeAccel(Game::TIMEACCEL_PAUSED);
 								SetView(gameMenuView);
 							}
-							else
+							else {
 								Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
+								SetView(worldView);
+							}
 						}
 					}
 					break;
