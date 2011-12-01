@@ -1,6 +1,7 @@
 Alpha 17
 
   * New features
+    * New ship: "Natrix" (#816)
     * French translation (#814)
     * Rewritten autopilot (#789)
     * Yellow indicator to show target orientation change by mouse
