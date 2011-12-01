@@ -20,7 +20,6 @@ SectorView::SectorView()
 {
 	InitDefaults();
 	
-	m_pos = m_posMovingTo = vector3f(0.0f);
 	m_rotX = m_rotXMovingTo = m_rotXDefault;
 	m_rotZ = m_rotZMovingTo = m_rotZDefault;
 	m_zoom = m_zoomMovingTo = m_zoomDefault;
@@ -30,6 +29,9 @@ SectorView::SectorView()
 	m_current = m_current.SystemOnly();
 
 	m_selected = m_hyperspaceTarget = m_current;
+
+	GotoSystem(m_current);
+	m_pos = m_posMovingTo;
 
 	m_matchTargetToSelection = true;
 	m_selectionFollowsMovement = true;
@@ -374,14 +376,6 @@ void SectorView::GotoSystem(const SystemPath &path)
 	m_posMovingTo.x = path.sectorX + p.x/Sector::SIZE;
 	m_posMovingTo.y = path.sectorY + p.y/Sector::SIZE;
 	m_posMovingTo.z = path.sectorZ + p.z/Sector::SIZE;
-}
-
-void SectorView::WarpToSystem(const SystemPath &path)
-{
-	GotoSystem(path);
-	m_pos = m_posMovingTo;
-
-	m_selected = m_hyperspaceTarget = m_current;
 }
 
 void SectorView::SetSelectedSystem(const SystemPath &path)

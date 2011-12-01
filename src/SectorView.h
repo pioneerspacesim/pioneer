@@ -29,7 +29,6 @@ public:
 	void GotoCurrentSystem() { GotoSystem(m_current); }
 	void GotoSelectedSystem() { GotoSystem(m_selected); }
 	void GotoHyperspaceTarget() { GotoSystem(m_hyperspaceTarget); }
-	void WarpToSystem(const SystemPath &path);
 	virtual void Save(Serializer::Writer &wr);
 	virtual void OnSwitchTo();
 
