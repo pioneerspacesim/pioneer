@@ -33,6 +33,7 @@ Art:
   Marcel Tulloh
   Michele Botticelli
   Gareth Allnutt
+  C de Craen
 
 Music:
   Dan Bennett
