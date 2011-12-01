@@ -17,7 +17,7 @@
 #include "InfoView.h"
 #include "ObjectViewerView.h"
 
-static const int  s_saveVersion   = 42;
+static const int  s_saveVersion   = 43;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
