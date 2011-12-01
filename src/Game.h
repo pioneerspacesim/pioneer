@@ -1,9 +1,6 @@
 #ifndef _GAME_H
 #define _GAME_H
 
-// Game takes care of creating and destroying spaces as the player
-// moves from system to hyperspace to system
-
 #include "vector3.h"
 #include "SystemPath.h"
 #include "Serializer.h"
