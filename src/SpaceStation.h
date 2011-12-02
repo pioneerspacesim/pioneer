@@ -125,6 +125,9 @@ public:
 	const BBAdvert *GetBBAdvert(int ref);
 	bool RemoveBBAdvert(int ref);
 	const std::list<const BBAdvert*> GetBBAdverts();
+
+	// use docking bay position, if player has been granted permission
+	virtual vector3d GetTargetIndicatorPosition(const Frame *relTo) const;
 	
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);

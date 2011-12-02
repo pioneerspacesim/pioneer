@@ -1122,7 +1122,7 @@ void WorldView::UpdateProjectedObjects()
 		// navtarget distance/target square indicator (displayed with navtarget label)
 		double dist = Pi::player->GetPositionRelTo(navtarget).Length();
 		m_navTargetIndicator.label->SetText(format_distance(dist).c_str());
-		UpdateIndicator(m_navTargetIndicator, navtarget->GetInterpolatedPositionRelTo(cam_frame));
+		UpdateIndicator(m_navTargetIndicator, navtarget->GetTargetIndicatorPosition(cam_frame));
 
 		// velocity relative to navigation target
 		vector3d navvelocity = Pi::player->GetVelocityRelTo(navtarget);

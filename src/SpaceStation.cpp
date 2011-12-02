@@ -884,3 +884,23 @@ const std::list<const BBAdvert*> SpaceStation::GetBBAdverts()
 	return ads;
 }
 
+vector3d SpaceStation::GetTargetIndicatorPosition(const Frame *relTo) const
+{
+	//return the docking point's position, if permission has been granted for player
+	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+		if (i >= m_type->numDockingPorts) break;
+		if ((m_shipDocking[i].ship == Pi::player) && (m_shipDocking[i].stage > 0)) {
+
+			SpaceStationType::positionOrient_t dport;
+			PiVerify(m_type->GetDockAnimPositionOrient(i, m_type->numDockingStages,
+				1.0f, vector3d(0.0), dport, m_shipDocking[i].ship));
+			matrix4x4d rot;
+			GetRotMatrix(rot);
+
+			matrix4x4d m;
+			Frame::GetFrameRenderTransform(GetFrame(), relTo, m);
+			return m * (GetInterpolatedPosition() + (rot*dport.pos));
+		}
+	}
+	return GetInterpolatedPositionRelTo(relTo);
+}

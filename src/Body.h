@@ -84,6 +84,9 @@ public:
 		m_interpolatedTransform[14] = pos.z;
 	}
 
+	// where to draw targeting indicators - usually equal to GetInterpolatedPositionRelTo
+	virtual vector3d GetTargetIndicatorPosition(const Frame *relTo) const;
+
 	enum { FLAG_CAN_MOVE_FRAME = (1<<0),
                FLAG_LABEL_HIDDEN = (1<<1),
 	       FLAG_DRAW_LAST = (1<<2) }; // causes the body drawn after other bodies in the z-sort
