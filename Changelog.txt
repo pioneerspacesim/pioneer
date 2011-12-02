@@ -1,5 +1,7 @@
 Alpha 17
 
+  * Christmas edition!
+
   * New features
     * New ship: "Natrix" (#816)
     * French translation (#814)
