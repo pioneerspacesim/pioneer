@@ -1652,7 +1652,7 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 		m_volatileLiquid = proportion_liquid * amount_volatiles;
 
 		const fixed proportion_ices = fixed(1,1) - (proportion_gas + proportion_liquid);
-		m_volatileIces = proportion_ices * amount_volatiles * 10.0; //christmas hack, just bump up number of frozen worlds
+		m_volatileIces = proportion_ices * amount_volatiles;
 
 		//printf("temp %dK, gas:liquid:ices %f:%f:%f\n", averageTemp, proportion_gas.ToFloat(),
 		//		proportion_liquid.ToFloat(), proportion_ices.ToFloat());
