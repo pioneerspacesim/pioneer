@@ -11,10 +11,10 @@
 
 Translate:AddFlavour('English','DeliverPackage', {
   adtext = "GOING TO the {system} system? Money paid for delivery of a small package.",
-  introtext = "Hi, I'm {name}. I'll pay you {cash} if you will deliver a small package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system.",
-  whysomuchtext = "When a friend visited me she left behind some clothes and antique paper books. I'd like to have them returned to her.",
-  successmsg = "Thank you for the delivery. You have been paid in full.",
-  failuremsg = "Unacceptable! You took forever over that delivery. I'm not willing to pay you.",
+  introtext = "Hi, I'm {name}. I'll pay you {cash} if you will deliver some presents to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system.",
+  whysomuchtext = "I'd really like to send my good friend a nice present this year.",
+  successmsg = "Thank you for the delivery, they'll love these presents. You have been paid in full.",
+  failuremsg = "Father Christmas you certainly are not!.",
   urgency = 0,
   risk = 0,
   localdelivery = 0,
@@ -22,10 +22,10 @@ Translate:AddFlavour('English','DeliverPackage', {
 
 Translate:AddFlavour('English','DeliverPackage', {
   adtext = "WANTED. Delivery of a package to the {system} system.",
-  introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system.",
-  whysomuchtext = "It is nothing special.",
+  introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a present to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system.",
+  whysomuchtext = "It's a limited edition model of the Eagle MkIV for my son.",
   successmsg = "The package has been received and you have been paid in full.",
-  failuremsg = "I'm frustrated by the late delivery of my package, and I refuse to pay you.",
+  failuremsg = "This is terrible, everyone missed out on their presents this year.",
   urgency = 0.1,
   risk = 0,
   localdelivery = 0,
@@ -33,8 +33,8 @@ Translate:AddFlavour('English','DeliverPackage', {
 
 Translate:AddFlavour('English','DeliverPackage', {
   adtext = "URGENT. Fast ship needed to deliver a package to the {system} system.",
-  introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system.",
-  whysomuchtext = "It is a research proposal and must be delivered by the deadline or we may not get funding.",
+  introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a sack of gifts for the children at {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system.",
+  whysomuchtext = "These children have been waiting a long time for their gifts, and urgently need them.",
   successmsg = "You have been paid in full for the delivery. Thank you.",
   failuremsg = "I was quite clear about the deadline and am very disappointed by the late delivery. You will not be paid.",
   urgency = 0.6,
@@ -44,7 +44,7 @@ Translate:AddFlavour('English','DeliverPackage', {
 
 Translate:AddFlavour('English','DeliverPackage', {
   adtext = "DELIVERY. Documents to the {system} system. {cash} to an experienced pilot.",
-  introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system.",
+  introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a present to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system.",
   whysomuchtext = "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me.",
   successmsg = "Your timely and discrete service is much appreciated. You have been paid in full.",
   failuremsg = "Useless! I will never depend on you again! Needless to say, you will not be paid for this.",
