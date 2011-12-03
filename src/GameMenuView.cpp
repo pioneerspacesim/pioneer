@@ -622,8 +622,6 @@ void GameMenuView::OpenSaveDialog()
 
 void GameMenuView::OpenLoadDialog()
 {
-	// XXX careful! destroying the game will also destroy the GameMenuView,
-	// making "this" invalid
 	Pi::EndGame();
 
 	GameLoader loader;
