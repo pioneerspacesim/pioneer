@@ -1,7 +1,9 @@
 #include "MathUtil.h"
 #include "Pi.h"
 
-vector3d MathUtil::RandomPointOnSphere(double minRadius, double maxRadius)
+namespace MathUtil {
+
+vector3d RandomPointOnSphere(double minRadius, double maxRadius)
 {
 	// see http://mathworld.wolfram.com/SpherePointPicking.html
 	// or a Google search for further information
@@ -10,4 +12,6 @@ vector3d MathUtil::RandomPointOnSphere(double minRadius, double maxRadius)
 	const double theta = Pi::rng.Double(2.0*M_PI);
 	const double r = sqrt(1.0 - z*z) * dist;
 	return vector3d(r*cos(theta), r*sin(theta), z*dist);
+}
+
 }
