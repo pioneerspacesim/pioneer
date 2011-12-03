@@ -1167,12 +1167,17 @@ void Pi::Start()
 	delete starfield;
 	delete milkyway;
 
-	if (!game)
-		Pi::Quit();
+	// game is set by HandleMenuKey if any game-starting option (start or
+	// load) is selected
+	if (game) {
+		InitGame();
+		StartGame();
+		MainLoop();
+	}
 
-	InitGame();
-	StartGame();
-	MainLoop();
+	// no game means quit was selected, so end things
+	else
+		Pi::Quit();
 }
 
 void Pi::EndGame()
