@@ -93,10 +93,6 @@ std::string PiGetDataDir()
 	return PIONEER_DATA_DIR + std::string("/");
 }
 
-/*
- * Must create the folders if they do not exist already.
- */
-/* Not dirs, not . or .. */
 void GetDirectoryContents(const std::string &path, std::list<std::string> &files)
 {
 	DIR *dir = opendir(path.c_str());
