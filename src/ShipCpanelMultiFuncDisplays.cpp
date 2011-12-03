@@ -204,7 +204,7 @@ void ScannerWidget::Update()
 	float combat_dist = 0, far_ship_dist = 0, nav_dist = 0, far_other_dist = 0;
 
 	// collect the bodies to be displayed, and if AUTO, distances
-	for (Space::BodyIterator i = Pi::game->GetSpace()->IteratorBegin(); i != Pi::game->GetSpace()->IteratorEnd(); ++i) {
+	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
 		if ((*i) == Pi::player) continue;
 
 		float dist = float((*i)->GetPositionRelTo(Pi::player).Length());

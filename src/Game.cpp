@@ -35,7 +35,7 @@ Game::Game(const SystemPath &path) :
 	
 	SpaceStation *station = 0;
 	Uint32 idx = path.bodyIndex;
-	for (Space::BodyIterator i = m_space->IteratorBegin(); i != m_space->IteratorEnd(); ++i)
+	for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i)
 		if (--idx == 0) {
 			assert((*i)->IsType(Object::SPACESTATION));
 			station = static_cast<SpaceStation*>(*i);
@@ -66,7 +66,7 @@ Game::Game(const SystemPath &path, const vector3d &pos) :
 	
 	Body *b = 0;
 	Uint32 idx = path.bodyIndex;
-	for (Space::BodyIterator i = m_space->IteratorBegin(); i != m_space->IteratorEnd(); ++i)
+	for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i)
 		if (--idx == 0) {
 			b = *i;
 			break;
@@ -294,7 +294,7 @@ bool Game::UpdateTimeAccel()
 
 		else if (!m_forceTimeAccel) {
 			// check we aren't too near to objects for timeaccel //
-			for (Space::BodyIterator i = m_space->IteratorBegin(); i != m_space->IteratorEnd(); ++i) {
+			for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i) {
 				if ((*i) == m_player) continue;
 				if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
 			
@@ -341,7 +341,7 @@ void Game::SwitchToHyperspace()
 	// find all the departure clouds, convert them to arrival clouds and store
 	// them for the next system
 	m_hyperspaceClouds.clear();
-	for (Space::BodyIterator i = m_space->IteratorBegin(); i != m_space->IteratorEnd(); ++i) {
+	for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i) {
 
 		if (!(*i)->IsType(Object::HYPERSPACECLOUD)) continue;
 
@@ -539,7 +539,7 @@ void Game::SetTimeAccel(TimeAccel t)
 
 	// Give all ships a half-step acceleration to stop autopilot overshoot
 	if (t < m_timeAccel)
-		for (Space::BodyIterator i = m_space->IteratorBegin(); i != m_space->IteratorEnd(); ++i)
+		for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i)
 			if ((*i)->IsType(Object::SHIP))
 				(static_cast<DynamicBody*>(*i))->ApplyAccel(0.5f * GetTimeStep());
 

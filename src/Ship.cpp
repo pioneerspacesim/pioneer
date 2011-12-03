@@ -526,7 +526,7 @@ void Ship::UseECM()
 		// damage neaby missiles
 		const float ECM_RADIUS = 4000.0f;
 
-		for (Space::BodyIterator i = Pi::game->GetSpace()->IteratorBegin(); i != Pi::game->GetSpace()->IteratorEnd(); ++i) {
+		for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
 			if ((*i)->GetFrame() != GetFrame()) continue;
 			if (!(*i)->IsType(Object::MISSILE)) continue;
 
@@ -735,7 +735,7 @@ void Ship::UpdateAlertState()
 	}
 
 	bool ship_is_near = false, ship_is_firing = false;
-	for (Space::BodyIterator i = Pi::game->GetSpace()->IteratorBegin(); i != Pi::game->GetSpace()->IteratorEnd(); ++i)
+	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i)
 	{
 		if ((*i) == this) continue;
 		if (!(*i)->IsType(Object::SHIP) || (*i)->IsType(Object::MISSILE)) continue;

@@ -1253,7 +1253,7 @@ void Pi::MainLoop()
 		
 		/* Calculate position for this rendered frame (interpolated between two physics ticks */
         // XXX should this be here? what is this anyway?
-		for (Space::BodyIterator i = game->GetSpace()->IteratorBegin(); i != game->GetSpace()->IteratorEnd(); ++i) {
+		for (Space::BodyIterator i = game->GetSpace()->BodiesBegin(); i != game->GetSpace()->BodiesEnd(); ++i) {
 			(*i)->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 		}
 		game->GetSpace()->GetRootFrame()->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
