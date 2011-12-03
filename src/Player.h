@@ -95,8 +95,6 @@ private:
 	Body* m_combatTarget;
 
 	int m_combatTargetIndex, m_navTargetIndex, m_setSpeedTargetIndex; // deserialisation
-
-	double m_hyperspaceDuration;
 };
 
 #endif /* _PLAYER_H */
