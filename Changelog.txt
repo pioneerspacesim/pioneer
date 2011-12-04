@@ -1,6 +1,9 @@
 Alpha 17
 
+  * Christmas edition!
+
   * New features
+    * New ship: "Natrix" (#816)
     * French translation (#814)
     * Rewritten autopilot (#789)
     * Yellow indicator to show target orientation change by mouse
@@ -15,6 +18,7 @@ Alpha 17
     * Window icon (#817)
     * Increase difficulty of high-risk taxi missions (#800)
     * Flip texture UV coordinates on object load (#818)
+    * Removed airport station
 
   * Fixes
     * Star halo now drawn properly in the world space (#768)
