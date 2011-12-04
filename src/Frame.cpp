@@ -135,10 +135,9 @@ vector3d Frame::GetFrameRelativeVelocity(const Frame *fFrom, const Frame *fTo)
 	matrix4x4d m = matrix4x4d::Identity();
 
 	const Frame *f = fFrom;
-	const Frame *root = Pi::game->GetSpace()->GetRootFrame();
 
 	// move forwards from origin to root
-	while ((f!=root) && (fTo != f)) {
+	while (f->m_parent && fTo != f) {
 		v1 += m.ApplyRotationOnly(-f->GetVelocity());
 		m = m * f->m_orient.InverseOf();
 		f = f->m_parent;
@@ -161,9 +160,8 @@ void Frame::GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &
 	m = matrix4x4d::Identity();
 
 	const Frame *f = fFrom;
-	const Frame *root = Pi::game->GetSpace()->GetRootFrame();
 
-	while ((f!=root) && (fTo != f)) {
+	while (f->m_parent && fTo != f) {
 		f->ApplyLeavingTransform(m);
 		f = f->m_parent;
 	}
@@ -182,9 +180,8 @@ void Frame::GetFrameRenderTransform(const Frame *fFrom, const Frame *fTo, matrix
 	m = matrix4x4d::Identity();
 
 	const Frame *f = fFrom;
-	const Frame *root = Pi::game->GetSpace()->GetRootFrame();
 
-	while ((f!=root) && (fTo != f)) {
+	while (f->m_parent && fTo != f) {
 		m = f->m_interpolatedTransform * m;
 		f = f->m_parent;
 	}
