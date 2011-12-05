@@ -124,7 +124,7 @@ local onShipEquipmentChanged = function (ship, equipment)
 		service_history.company = nil
 		service_history.lastdate = Game.time
 		service_history.service_period = oneyear
-		service_history.jumpcount = oneyear
+		service_history.jumpcount = 0
 	end
 end
 
