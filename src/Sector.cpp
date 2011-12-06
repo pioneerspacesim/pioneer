@@ -94,7 +94,8 @@ Sector::Sector(int x, int y, int z)
 			//	(sy > 50) || (sy < -50))
 
 			// Frequencies are low enough that we probably don't need this anymore.
-			if (isqrt(1+sx*sx+sy*sy) > 10) 
+			//if (isqrt(1+sx*sx+sy*sy) > 10) 
+			if (fabs((sx+1*sy+1*sz+1)*0.333) > 15)
 			{
 				if (spec < 1) { 
 					s.starType[0] = SBody::TYPE_STAR_IM_BH;  // These frequencies are made up
@@ -201,29 +202,29 @@ Sector::Sector(int x, int y, int z)
 			if ((s.starType[0] <= SBody::TYPE_STAR_A) && (rng.Int32(10)==0)) {
 				// make primary a giant. never more than one giant in a system
 				// while 
-				if (isqrt(1+sx*sx+sy*sy) > 10)
+				if (fabs((sx+1*sy+1*sz+1)*0.333) > 15)
 				{			
-					if (rand.Int32(0,1000) >= 999) {
+					if (rand.Int32(0,1000000) >= 999999) {
 						s.starType[0] = SBody::TYPE_STAR_B_HYPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 998) {
+					} else if (rand.Int32(0,1000000) >= 999998) {
 						s.starType[0] = SBody::TYPE_STAR_O_HYPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 997) {
+					} else if (rand.Int32(0,1000000) >= 999997) {
 						s.starType[0] = SBody::TYPE_STAR_K_HYPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 995) {
+					} else if (rand.Int32(0,1000000) >= 999995) {
 						s.starType[0] = SBody::TYPE_STAR_B_SUPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 993) {
+					} else if (rand.Int32(0,1000000) >= 999993) {
 						s.starType[0] = SBody::TYPE_STAR_O_SUPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 990) {
+					} else if (rand.Int32(0,1000000) >= 999990) {
 						s.starType[0] = SBody::TYPE_STAR_K_SUPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 985) {
+					} else if (rand.Int32(0,1000000) >= 999985) {
 						s.starType[0] = SBody::TYPE_STAR_B_GIANT;
-					} else if (rand.Int32(0,1000) >= 980) {
+					} else if (rand.Int32(0,1000000) >= 999980) {
 						s.starType[0] = SBody::TYPE_STAR_O_GIANT;
-					} else if (rand.Int32(0,1000) >= 975) {
+					} else if (rand.Int32(0,1000000) >= 999975) {
 						s.starType[0] = SBody::TYPE_STAR_K_GIANT;
-					} else if (rand.Int32(0,1000) >= 950) {
+					} else if (rand.Int32(0,1000000) >= 999850) {
 						s.starType[0] = SBody::TYPE_STAR_M_HYPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 875) {
+					} else if (rand.Int32(0,1000000) >= 999075) {
 						s.starType[0] = SBody::TYPE_STAR_M_SUPER_GIANT;
 					} else {
 						s.starType[0] = SBody::TYPE_STAR_M_GIANT;
