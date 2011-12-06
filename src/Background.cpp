@@ -11,12 +11,28 @@
 namespace Background
 {
 
-Starfield::Starfield(unsigned long seed) :
-	m_shader(0)
+Starfield::Starfield()
 {
-	//This is needed because there is no system seed for the main menu
-	//unsigned long seed = Pi::game ? Pi::game->GetSpace()->GetStarSystem()->m_seed : UNIVERSE_SEED;
-	
+	//starfield is not created without a seed
+	glGenBuffersARB(1, &m_vbo);
+	m_shader = new Render::Shader("bgstars");
+}
+
+Starfield::Starfield(unsigned long seed)
+{
+	glGenBuffersARB(1, &m_vbo);
+	Fill(seed);
+	m_shader = new Render::Shader("bgstars");
+}
+
+Starfield::~Starfield()
+{
+	if (m_shader) delete m_shader;
+	glDeleteBuffersARB(1, &m_vbo);
+}
+
+void Starfield::Fill(unsigned long seed)
+{
 	// Slight colour variation to stars based on seed
 	MTRand rand(seed);
 
@@ -51,18 +67,9 @@ Starfield::Starfield(unsigned long seed) :
 		m_stars[i].z = 1000.0f * sqrt(1.0f - u*u) * sin(theta);
 	}
 
-	glGenBuffersARB(1, &m_vbo);
 	Render::BindArrayBuffer(m_vbo);
 	glBufferDataARB(GL_ARRAY_BUFFER, sizeof(Vertex)*BG_STAR_MAX, m_stars, GL_STATIC_DRAW);
 	Render::BindArrayBuffer(0);
-
-	m_shader = new Render::Shader("bgstars");
-}
-
-Starfield::~Starfield()
-{
-	if (m_shader) delete m_shader;
-	glDeleteBuffersARB(1, &m_vbo);
 }
 
 void Starfield::Draw()

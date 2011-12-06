@@ -36,9 +36,13 @@ namespace Background
 	class Starfield
 	{
 	public:
-		Starfield(unsigned long seed = UNIVERSE_SEED);
+		//does not Fill the starfield
+		Starfield();
+		Starfield(unsigned long seed);
 		~Starfield();
 		void Draw();
+		//create or recreate the starfield
+		void Fill(unsigned long seed);
 	private:
 		static const int BG_STAR_MAX = 65536;
 		GLuint m_vbo;
