@@ -57,8 +57,6 @@ void Starfield::Fill(unsigned long seed)
 		m_stars[i].b = rand.Double(col-0.05f,col);
 
 		// this is proper random distribution on a sphere's surface
-		// XXX TODO
-		// perhaps distribute stars to give greater density towards the galaxy's centre and in the galactic plane?
 		const float theta = float(rand.Double(0.0, 2.0*M_PI));
 		const float u = float(rand.Double(-1.0, 1.0));
 
@@ -244,7 +242,10 @@ void Draw(const matrix4x4d &transform, const Starfield &starfield, const MilkyWa
 	glPushMatrix();
 	glMultMatrixd(&transform[0]);
 	milkyway.Draw();
+	glPushMatrix();
+	glScalef(1.f, 0.5f, 1.f);
 	starfield.Draw();
+	glPopMatrix();
 	glPopMatrix();
 }
 
