@@ -163,37 +163,40 @@ void Starfield::Draw() const
 MilkyWay::MilkyWay()
 {
 	//build milky way model in two strips
+	std::vector<Background::Vertex> dataBottom;
+	std::vector<Background::Vertex> dataTop;
+
 	//bottom
 	float theta;
 	for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
-		m_dataBottom.push_back(Vertex(
+		dataBottom.push_back(Vertex(
 				vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta)),
 				vector3f(0.0,0.0,0.0)));
-		m_dataBottom.push_back(Vertex(
+		dataBottom.push_back(Vertex(
 			vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
 			vector3f(0.05,0.05,0.05)));
 	}
 	theta = 2.0*M_PI;
-	m_dataBottom.push_back(Vertex(
+	dataBottom.push_back(Vertex(
 		vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta)),
 		vector3f(0.0,0.0,0.0)));
-	m_dataBottom.push_back(Vertex(
+	dataBottom.push_back(Vertex(
 		vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
 		vector3f(0.05,0.05,0.05)));
 	//top
 	for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
-		m_dataTop.push_back(Vertex(
+		dataTop.push_back(Vertex(
 			vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
 			vector3f(0.05,0.05,0.05)));
-		m_dataTop.push_back(Vertex(
+		dataTop.push_back(Vertex(
 			vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
 			vector3f(0.0,0.0,0.0)));
 	}
 	theta = 2.0*M_PI;
-	m_dataTop.push_back(Vertex(
+	dataTop.push_back(Vertex(
 		vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
 		vector3f(0.05,0.05,0.05)));
-	m_dataTop.push_back(Vertex(
+	dataTop.push_back(Vertex(
 		vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
 		vector3f(0.0,0.0,0.0)));
 
@@ -201,15 +204,19 @@ MilkyWay::MilkyWay()
 	glGenBuffersARB(1, &m_vbo);
 	Render::BindArrayBuffer(m_vbo);
 	glBufferDataARB(GL_ARRAY_BUFFER,
-		sizeof(Vertex) * (m_dataBottom.size() + m_dataTop.size()),
+		sizeof(Vertex) * (dataBottom.size() + dataTop.size()),
 		NULL, GL_STATIC_DRAW);
 	glBufferSubDataARB(GL_ARRAY_BUFFER, 0,
-		sizeof(Vertex) * m_dataBottom.size(),
-		&m_dataBottom.front());
-	glBufferSubDataARB(GL_ARRAY_BUFFER, sizeof(Vertex) * m_dataBottom.size(),
-		sizeof(Vertex) * m_dataTop.size(),
-		&m_dataTop.front());
+		sizeof(Vertex) * dataBottom.size(),
+		&dataBottom.front());
+	glBufferSubDataARB(GL_ARRAY_BUFFER, sizeof(Vertex) * dataBottom.size(),
+		sizeof(Vertex) * dataTop.size(),
+		&dataTop.front());
 	Render::BindArrayBuffer(0);
+
+	// store sizes for drawing
+	m_bottomSize = dataBottom.size();
+	m_topSize    = dataTop.size();
 }
 
 MilkyWay::~MilkyWay()
@@ -227,8 +234,8 @@ void MilkyWay::Draw() const
 	Render::BindArrayBuffer(m_vbo);
 	glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), 0);
 	glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), reinterpret_cast<void *>(3*sizeof(float)));
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, m_dataBottom.size());
-	glDrawArrays(GL_TRIANGLE_STRIP, m_dataBottom.size(), m_dataTop.size());
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, m_bottomSize);
+	glDrawArrays(GL_TRIANGLE_STRIP, m_bottomSize, m_topSize);
 	Render::BindArrayBuffer(0);
 
 	glDisableClientState(GL_VERTEX_ARRAY);

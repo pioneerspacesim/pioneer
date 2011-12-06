@@ -58,8 +58,8 @@ namespace Background
 		void Draw() const;
 	private:
 		GLuint m_vbo;
-		std::vector<Background::Vertex> m_dataBottom;
-		std::vector<Background::Vertex> m_dataTop;
+		std::vector<Background::Vertex>::size_type m_bottomSize;
+		std::vector<Background::Vertex>::size_type m_topSize;
 	};
 
 	void Draw(const matrix4x4d &transform, const Starfield &starfield, const MilkyWay &milkyway);
