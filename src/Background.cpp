@@ -72,7 +72,7 @@ void Starfield::Fill(unsigned long seed)
 	Render::BindArrayBuffer(0);
 }
 
-void Starfield::Draw()
+void Starfield::Draw() const
 {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
@@ -219,7 +219,7 @@ MilkyWay::~MilkyWay()
 	glDeleteBuffersARB(1, &m_vbo);
 }
 
-void MilkyWay::Draw()
+void MilkyWay::Draw() const
 {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
@@ -237,6 +237,15 @@ void MilkyWay::Draw()
 	glDisableClientState(GL_COLOR_ARRAY);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
+}
+
+void Draw(const matrix4x4d &transform, const Starfield &starfield, const MilkyWay &milkyway)
+{
+	glPushMatrix();
+	glMultMatrixd(&transform[0]);
+	milkyway.Draw();
+	starfield.Draw();
+	glPopMatrix();
 }
 
 }; //namespace Background

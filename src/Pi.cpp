@@ -845,14 +845,10 @@ static void draw_intro(Background::Starfield *starfield, Background::MilkyWay *m
 	equipment.Add(Equip::RADAR_MAPPER, 1);
 	equipment.Add(Equip::MISSILE_NAVAL, 4);
 
-	glPushMatrix();
-	glRotatef(_time*10, 1, 0, 0);
-	glPushMatrix();
-	glRotatef(40.0, 1.0, 2.0, 3.0);
-	milkyway->Draw();
-	glPopMatrix();
-	starfield->Draw();
-	glPopMatrix();
+	// XXX all this stuff will be gone when intro uses a Camera
+	// rotate background by time, and a bit extra Z so it's not so flat
+	matrix4x4d brot = matrix4x4d::RotateXMatrix(-0.25*_time) * matrix4x4d::RotateZMatrix(0.6);
+	Background::Draw(brot, *starfield, *milkyway);
 	
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 

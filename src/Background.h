@@ -40,7 +40,7 @@ namespace Background
 		Starfield();
 		Starfield(unsigned long seed);
 		~Starfield();
-		void Draw();
+		void Draw() const;
 		//create or recreate the starfield
 		void Fill(unsigned long seed);
 	private:
@@ -55,12 +55,14 @@ namespace Background
 	public:
 		MilkyWay();
 		~MilkyWay();
-		void Draw();
+		void Draw() const;
 	private:
 		GLuint m_vbo;
 		std::vector<Background::Vertex> m_dataBottom;
 		std::vector<Background::Vertex> m_dataTop;
 	};
+
+	void Draw(const matrix4x4d &transform, const Starfield &starfield, const MilkyWay &milkyway);
 
 }; //namespace Background
 
