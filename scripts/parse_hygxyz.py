@@ -13,7 +13,7 @@ local_f = open("local_stars.lua", "w")
 num = 0
 tot = 0
 
-LOCAL_RAD_SECTORS = 4.0
+LOCAL_RAD_SECTORS = 200.0
 
 namesubs = {
 "Gliese 729": "Ross 154",
@@ -156,8 +156,12 @@ while 1:
 	tot = tot + 1
 	spectral = m[15]
 	yg = float(m[17]) * PARSEC
+	yg = yg + (float(m[20]) * PARSEC * 1188) #1188 years between now and Pioneer, although the data itself is likely older
+	#x and y swapped to project stars in the correct orientation in relation to galactic center
 	xg = float(m[18]) * PARSEC
+	xg = xg + (float(m[21]) * PARSEC * 1188)
 	zg = float(m[19]) * PARSEC
+	zg = zg + (float(m[22]) * PARSEC * 1188)
 	dist = sqrt(xg*xg + yg*yg + zg*zg)
 	sx = int(floor(xg / 8.0))
 	sy = int(floor(yg / 8.0))
@@ -170,7 +174,7 @@ while 1:
 	if sx > LOCAL_RAD_SECTORS-1 or sx < -LOCAL_RAD_SECTORS or \
 	   sy > LOCAL_RAD_SECTORS-1 or sy < -LOCAL_RAD_SECTORS or \
 	   sz > LOCAL_RAD_SECTORS-1 or sz < -LOCAL_RAD_SECTORS:
-		if magnitude > 3.0: continue
+		if magnitude > 7.0: continue
 		isLocal = 0
 	else:
 		isLocal = 1
@@ -254,10 +258,11 @@ while 1:
 	elif wank:
 		body = 'WHITE_DWARF'
 	else:
-		wank = re.search("s?d?([OBAFGKMobafgkm])(\d?)([IVivab]*)", spectral)
+		wank = re.search("s?d?([OBAFGKMobafgkm])([0]*)([IVivab]*)", spectral)
 		if wank and wank.group(3):
 			body = 'STAR_' + wank.group(1).upper()
 			size = wank.group(3).upper()
+			sizeb = wank.group(2)
 			if size[:1] == 'V':
 				# dwarfs
 				pass
@@ -267,9 +272,23 @@ while 1:
 			elif size[:2] == 'II' or size[:1] == 'I':
 				# bright giants and supergiants
 				body = body + "_SUPER_GIANT"
+			elif sizeb[:1] == '0':
+				# hypergiants
+				body = body + "_HYPER_GIANT"
 			else:
 				print "Unknown size. Not processing %s (%s) [%f,%f,%f]" % (name, spectral, xg, yg, zg)
+		#elif wank and wank.group(2):
+    #  body = 'STAR_' + wank.group(1).upper()
+		#	size = wank.group(2).upper()
+		#	if size[:1] == '0':
+    #    # hypergiants
+    #    body = body + "_HYPER_GIANT"		
 		elif wank:
+      #sizeb = wank.group(2)
+      #if sizeb[:1] =='0':
+        # hypergiants
+			#	body = body + "_HYPER_GIANT"
+				
 			body = 'STAR_' + wank.group(1).upper()
 		else:
 			print "Unknown spectral type. Not processing %s (%s) [%f,%f,%f]" % (name, spectral, xg, yg, zg)
@@ -299,7 +318,7 @@ for i in stars.keys():
 		if j: components.append(j)
 
 	components = ",".join(["\'"+j+"\'" for j in components])
-	_f.write("CustomSystem:new('%s',{%s}):add_to_sector(%d,%d,%d,v(%.3f,%.3f,%.3f))\r\n"%(star.name.replace('\'','\\\''),components,star.sx,star.sy,star.sz,star.fracx,star.fracy,star.fracz))
+	_f.write("CustomSystem:new('%s',{%s}):add_to_sector(%d,%d,%d,v(%.3f,%.3f,%.3f))\r"%(star.name.replace('\'','\\\''),components,star.sx,star.sy,star.sz,star.fracx,star.fracy,star.fracz))
 		
 bright_f.close()
 local_f.close()
