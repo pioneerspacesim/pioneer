@@ -147,9 +147,9 @@ void Camera::Draw()
 	glMultMatrixd(&trans2bg[0]);
 	glPushMatrix();
 	glRotatef(40.0, 1.0,2.0,3.0);
-	m_milkyWay.Draw();
+	Pi::game->GetSpace()->m_milkyWay.Draw();
 	glPopMatrix();
-	m_starfield.Draw();
+	Pi::game->GetSpace()->m_starField.Draw();
 	glPopMatrix();
 
 	int num_lights = 0;

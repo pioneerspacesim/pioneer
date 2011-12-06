@@ -36,7 +36,7 @@ namespace Background
 	class Starfield
 	{
 	public:
-		Starfield();
+		Starfield(unsigned long seed = UNIVERSE_SEED);
 		~Starfield();
 		void Draw();
 	private:

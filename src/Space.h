@@ -7,6 +7,7 @@
 #include "Serializer.h"
 #include "RefCounted.h"
 #include "StarSystem.h"
+#include "Background.h"
 
 class Body;
 class Frame;
@@ -91,6 +92,12 @@ private:
 	std::vector<Frame*> m_frameIndex;
 	std::vector<Body*>  m_bodyIndex;
 	std::vector<SBody*> m_sbodyIndex;
+
+	//background (elements that are infinitely far away,
+	//e.g. starfield and milky way)
+public: // temporary
+	Background::Starfield m_starField;
+	Background::MilkyWay m_milkyWay;
 };
 
 #endif /* _SPACE_H */

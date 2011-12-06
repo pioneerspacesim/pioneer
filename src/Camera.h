@@ -52,9 +52,6 @@ private:
 
 	matrix4x4d m_pose;
 
-	Background::Starfield m_starfield;
-	Background::MilkyWay m_milkyWay;
-
 	Frame *m_camFrame;
 
 	// temp attrs for sorting and drawing

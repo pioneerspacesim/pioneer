@@ -11,11 +11,11 @@
 namespace Background
 {
 
-Starfield::Starfield() :
+Starfield::Starfield(unsigned long seed) :
 	m_shader(0)
 {
 	//This is needed because there is no system seed for the main menu
-	unsigned long seed = Pi::game ? Pi::game->GetSpace()->GetStarSystem()->m_seed : UNIVERSE_SEED;
+	//unsigned long seed = Pi::game ? Pi::game->GetSpace()->GetStarSystem()->m_seed : UNIVERSE_SEED;
 	
 	// Slight colour variation to stars based on seed
 	MTRand rand(seed);

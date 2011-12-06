@@ -1088,7 +1088,7 @@ void Pi::HandleMenuKey(int n)
 
 void Pi::Start()
 {
-	Background::Starfield *starfield = new Background::Starfield();
+	Background::Starfield *starfield = new Background::Starfield(UNIVERSE_SEED);
 	Background::MilkyWay *milkyway = new Background::MilkyWay();
 
 	Gui::Fixed *menu = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
