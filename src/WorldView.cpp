@@ -291,18 +291,6 @@ void WorldView::OnClickHyperspace()
 	}
 }
 
-// This is the background starfield
-void WorldView::DrawBgStars() 
-{
-	// make it rotated a bit so star systems are not in the same
-	// plane (could make it different per system...
-	glPushMatrix();
-	glRotatef(40.0, 1.0,2.0,3.0);
-	m_milkyWay.Draw();
-	glPopMatrix();
-	m_starfield.Draw();
-}
-
 static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 {
 	if (lightNum > 3) return;

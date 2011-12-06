@@ -115,8 +115,6 @@ private:
 	enum CamType m_camType;
 	int m_numLights;
 	Uint32 m_showTargetActionsTimeout;
-	Background::Starfield m_starfield;
-	Background::MilkyWay m_milkyWay;
 
 #if DEVKEYS
 	Gui::Label *m_debugInfo;
