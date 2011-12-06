@@ -95,7 +95,7 @@ Sector::Sector(int x, int y, int z)
 
 			// Frequencies are low enough that we probably don't need this anymore.
 			//if (isqrt(1+sx*sx+sy*sy) > 10) 
-			if (fabs((sx+1*sy+1*sz+1)*0.333) > 15)
+			if (1+fabs(sx*sy*sz)*0.333 > 15)
 			{
 				if (spec < 1) { 
 					s.starType[0] = SBody::TYPE_STAR_IM_BH;  // These frequencies are made up
@@ -202,7 +202,7 @@ Sector::Sector(int x, int y, int z)
 			if ((s.starType[0] <= SBody::TYPE_STAR_A) && (rng.Int32(10)==0)) {
 				// make primary a giant. never more than one giant in a system
 				// while 
-				if (fabs((sx+1*sy+1*sz+1)*0.333) > 15)
+				if (1+fabs(sx*sy*sz)*0.333 > 15)
 				{			
 					if (rand.Int32(0,1000000) >= 999999) {
 						s.starType[0] = SBody::TYPE_STAR_B_HYPER_GIANT;
@@ -229,7 +229,7 @@ Sector::Sector(int x, int y, int z)
 					} else {
 						s.starType[0] = SBody::TYPE_STAR_M_GIANT;
 					} 
-				} else if (isqrt(1+sx*sx+sy*sy) > 5) s.starType[0] = SBody::TYPE_STAR_M_GIANT;
+				} else if (1+fabs(sx*sy*sz)*0.333 > 5) s.starType[0] = SBody::TYPE_STAR_M_GIANT;
 				else s.starType[0] = SBody::TYPE_STAR_M;
 
 				//printf("%d: %d%\n", sx, sy);
