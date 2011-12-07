@@ -13,7 +13,7 @@ local_f = open("local_stars.lua", "w")
 num = 0
 tot = 0
 
-LOCAL_RAD_SECTORS = 200.0
+LOCAL_RAD_SECTORS = 10.0
 
 namesubs = {
 "Gliese 729": "Ross 154",
@@ -133,6 +133,37 @@ con_names = (
 ("Vol","Volantis"),
 ("Vul","Vulpeculae"))
 
+def query_yes_no_quit(question, default="yes"):
+    """Ask a yes/no/quit question via raw_input() and return their answer.
+    
+    "question" is a string that is presented to the user.
+    "default" is the presumed answer if the user just hits <Enter>.
+        It must be "yes" (the default), "no", "quit" or None (meaning
+        an answer is required of the user).
+
+    The "answer" return value is one of "yes", "no" or "quit".
+    """
+    valid = {"yes":"yes",   "y":"yes",    "ye":"yes",
+             "no":"no",     "n":"no"}
+    if default == None:
+        prompt = " [y/n] "
+    elif default == "yes":
+        prompt = " [Y/n] "
+    elif default == "no":
+        prompt = " [y/N] "
+    else:
+        raise ValueError("invalid default answer: '%s'" % default)
+
+    while 1:
+        sys.stdout.write(question + prompt)
+        choice = raw_input().lower()
+        if default is not None and choice == '':
+            return default
+        elif choice in valid.keys():
+            return valid[choice]
+        else:
+            sys.stdout.write("Please respond with 'yes'or 'no'.\n")
+
 class Star:
 	def __init__(self, name, islocal, sx, sy, sz, fracx, fracy, fracz):
 		self.name = name
@@ -155,6 +186,7 @@ while 1:
 	m = l.split(",")
 	tot = tot + 1
 	spectral = m[15]
+	distance = float(m[9]) * PARSEC
 	yg = float(m[17]) * PARSEC
 	yg = yg + (float(m[20]) * PARSEC * 1188) #1188 years between now and Pioneer, although the data itself is likely older
 	#x and y swapped to project stars in the correct orientation in relation to galactic center
@@ -230,7 +262,10 @@ while 1:
 	if not name and m[4]:
 		name = m[4].replace("Gl ", "Gliese ")
 	if not name and m[2]:
-		name = "HD " + m[2]
+		if distance < 200.0 or magnitude < 5.5: 
+			name = "HD " + m[2]
+		else:
+			continue
 	if not name:
 		#if isLocal: print "WTF?: " + l
 		continue
@@ -254,43 +289,119 @@ while 1:
 		# For some reason Van Maanen's Star (and it alone) are
 		# classified as 'DG' in this star catalogue. I can't find any
 		# reference to DG spectral type for white dwarfs...
-		body = 'WHITE_DWARF'
+		if distance >= 50000.0:
+			print "DISTANCE CHECK : %s (%s) [%f,%f,%f] \n  Magnitude : %.2f  Distance : %.2fLYs " % (name, spectral, xg, yg, zg, magnitude, distance)
+			question = "Are you sure you want this? Its likely a messier object and in-fact not a member of our galaxy :)"  
+			choice = query_yes_no_quit(question, default="no")  
+			if choice == 'yes':    
+				print "*SAVED* %s (%s) {%s} [%f,%f,%f]" % (name, spectral, body, xg, yg, zg)
+				body = 'WHITE_DWARF'
+			else:     
+				print ("Not saved")
+				pass  
+		else:
+			body = 'WHITE_DWARF'
+			print "*SAVED* %s (%s) {%s} [%f,%f,%f]" % (name, spectral, body, xg, yg, zg)
 	elif wank:
-		body = 'WHITE_DWARF'
+		if distance >= 50000.0:
+			print "DISTANCE CHECK : %s (%s) [%f,%f,%f] \n  Magnitude : %.2f  Distance : %.2fLYs " % (name, spectral, xg, yg, zg, magnitude, distance)
+			question = "Are you sure you want this? Its likely a messier object and in-fact not a member of our galaxy :)"  
+			choice = query_yes_no_quit(question, default="no")  
+			if choice == 'yes':    
+				print "*SAVED* %s (%s) {%s} [%f,%f,%f]" % (name, spectral, body, xg, yg, zg)
+				body = 'WHITE_DWARF'
+			else:     
+				print ("Not saved")
+				pass  
+		else:
+			body = 'WHITE_DWARF'
+			print "*SAVED* %s (%s) {%s} [%f,%f,%f]" % (name, spectral, body, xg, yg, zg)
 	else:
-		wank = re.search("s?d?([OBAFGKMobafgkm])([0]*)([IVivab]*)", spectral)
+		wank = re.search("s?d?([OBAFGKMobafgkm])(\d?)([IVivmab]*)", spectral)
+		wank2 = re.search("s?d?([OBAFGKMobafgkm])(\d?)([ /MNSP:.;mnsp]*)([IVivab]*)", spectral)
 		if wank and wank.group(3):
 			body = 'STAR_' + wank.group(1).upper()
 			size = wank.group(3).upper()
-			sizeb = wank.group(2)
 			if size[:1] == 'V':
 				# dwarfs
-				pass
+				if distance >= 50000.0:
+					print "DISTANCE CHECK : %s (%s) [%f,%f,%f] \n  Magnitude : %.2f  Distance : %.2fLYs " % (name, spectral, xg, yg, zg, magnitude, distance)
+					question = "Are you sure you want this? Its likely a messier object and in-fact not a member of our galaxy :)"  
+					choice = query_yes_no_quit(question, default="no")  
+					if choice == 'yes':    
+						print "*SAVED* %s (%s) {%s} [%f,%f,%f]" % (name, spectral, body, xg, yg, zg)
+					else:     
+						print ("Not saved")
+						pass  
+				else:
+					print "*SAVED* %s (%s) {%s} [%f,%f,%f]" % (name, spectral, body, xg, yg, zg)
 			elif size[:2] == 'IV' or size[:3] == 'III':
 				# subgiants and giants
-				body = body + "_GIANT"
+				if distance >= 50000.0:
+					print "DISTANCE CHECK : %s (%s) [%f,%f,%f] \n  Magnitude : %.2f  Distance : %.2fLYs " % (name, spectral, xg, yg, zg, magnitude, distance)
+					question = "Are you sure you want this? Its likely a messier object and in-fact not a member of our galaxy :)"  
+					choice = query_yes_no_quit(question, default="no")  
+					if choice == 'yes':    
+						print "*SAVED* %s (%s) {%s} [%f,%f,%f]" % (name, spectral, body, xg, yg, zg)
+						body = body + "_GIANT"
+					else:     
+						print ("Not saved")
+						pass  
+				else:
+					print "*SAVED* %s (%s) {%s} [%f,%f,%f]" % (name, spectral, body, xg, yg, zg)
+					body = body + "_GIANT"
 			elif size[:2] == 'II' or size[:1] == 'I':
 				# bright giants and supergiants
-				body = body + "_SUPER_GIANT"
-			elif sizeb[:1] == '0':
-				# hypergiants
-				body = body + "_HYPER_GIANT"
-			else:
-				print "Unknown size. Not processing %s (%s) [%f,%f,%f]" % (name, spectral, xg, yg, zg)
-		#elif wank and wank.group(2):
-    #  body = 'STAR_' + wank.group(1).upper()
-		#	size = wank.group(2).upper()
-		#	if size[:1] == '0':
-    #    # hypergiants
-    #    body = body + "_HYPER_GIANT"		
-		elif wank:
-      #sizeb = wank.group(2)
-      #if sizeb[:1] =='0':
-        # hypergiants
-			#	body = body + "_HYPER_GIANT"
-				
+				if distance >= 50000.0:
+					print "DISTANCE CHECK : %s (%s) [%f,%f,%f] \n  Magnitude : %.2f  Distance : %.2fLYs " % (name, spectral, xg, yg, zg, magnitude, distance)
+					question = "Are you sure you want this? Its likely a messier object and in-fact not a member of our galaxy :)"  
+					choice = query_yes_no_quit(question, default="no")  
+					if choice == 'yes':    
+						print "*SAVED* %s (%s) {%s} [%f,%f,%f]" % (name, spectral, body, xg, yg, zg)
+						body = body + "_SUPER_GIANT"
+					else:     
+						print ("Not saved")
+						pass  
+				else:
+					body = body + "_SUPER_GIANT"
+					print "*SAVED* %s (%s) {%s} [%f,%f,%f]" % (name, spectral, body, xg, yg, zg)
+			#else:
+				#print "Unknown size. Not processing %s (%s) [%f,%f,%f]" % (name, spectral, xg, yg, zg)
+		elif wank and wank.group(2):
 			body = 'STAR_' + wank.group(1).upper()
-		else:
+			size = wank.group(2)
+			if not wank.group(3) and not wank2.group(3):
+				if size[:1] == '0':
+					if distance >= 2000.0: #if below 2000LY don't bother to make this star a hypergiant, its too close 
+						if distance >= 6000.0:
+							if distance >= 50000.0:
+								print "DISTANCE CHECK : %s (%s) [%f,%f,%f] \n  Magnitude : %.2f  Distance : %.2fLYs " % (name, spectral, xg, yg, zg, magnitude, distance)
+								question = "Are you sure you want this? Its likely a messier object and in-fact not a member of our galaxy :)"  
+								choice = query_yes_no_quit(question, default="no")  
+								if choice == 'yes':    
+									print ("*SAVED* as hypergiant") 
+									body = body + "_HYPER_GIANT" 
+								else:     
+									print ("Not saved")  
+							else:
+								body = body + "_HYPER_GIANT" 
+								print "*HYPERGIANT_SAVED* : %s (%s) [%f,%f,%f] \n  Magnitude : %.2f  Distance : %.2fLYs " % (name, spectral, xg, yg, zg, magnitude, distance)
+						else:
+							print "HYPERGIANT CHECK : %s (%s) [%f,%f,%f] \n  Magnitude : %.2f  Distance : %.2fLYs " % (name, spectral, xg, yg, zg, magnitude, distance)
+							question = "Is this really a hypergiant? Check the distance and magnitude"  
+							choice = query_yes_no_quit(question, default="no")  
+							if choice == 'yes':    
+								print ("*SAVED* as hypergiant") 
+								body = body + "_HYPER_GIANT" 
+							else:     
+								print ("Not a Hypergiant")  
+					else:
+						print ("Far too close to be a hypergiant. ERROR WITH ORIGINAL DATA!! Not saving as hypergiant") 
+				#else:
+					#print "Not a hypergiant, skipping %s (%s) [%f,%f,%f]" % (name, spectral, xg, yg, zg)
+		elif wank:
+			body = 'STAR_' + wank.group(1).upper()
+		else:			
 			print "Unknown spectral type. Not processing %s (%s) [%f,%f,%f]" % (name, spectral, xg, yg, zg)
 			continue
 
@@ -324,3 +435,4 @@ bright_f.close()
 local_f.close()
 f.close()
 print "Output: %d / %d stars processed" % (num, tot)
+raw_input("Press ENTER to exit")
