@@ -5,7 +5,6 @@
 #include "render/Render.h"
 /*
  * Classes to draw background stars and the milky way
- * They need to work both using and without using VBOs
  */
 
 namespace Background
@@ -62,7 +61,20 @@ namespace Background
 		std::vector<Background::Vertex>::size_type m_topSize;
 	};
 
-	void Draw(const matrix4x4d &transform, const Starfield &starfield, const MilkyWay &milkyway);
+	// contains starfield, milkyway, possibly other Background elements
+	class Container
+	{
+	public:
+		// default constructor, needs Refresh with proper seed to show starfield
+		Container();
+		Container(unsigned long seed);
+		void Draw(const matrix4x4d &transform) const;
+		void Refresh(unsigned long seed);
+
+	private:
+		Starfield m_starField;
+		MilkyWay m_milkyWay;
+	};
 
 }; //namespace Background
 

@@ -88,6 +88,7 @@ void Starfield::Draw() const
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 
+	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 		glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), 0);
@@ -244,14 +245,30 @@ void MilkyWay::Draw() const
 	glEnable(GL_LIGHTING);
 }
 
-void Draw(const matrix4x4d &transform, const Starfield &starfield, const MilkyWay &milkyway)
+Container::Container()
+{
+}
+
+Container::Container(unsigned long seed)
+{
+	Refresh(seed);
+};
+
+void Container::Refresh(unsigned long seed)
+{
+	// redo starfield, milkyway stays normal for now
+	m_starField.Fill(seed);
+}
+
+void Container::Draw(const matrix4x4d &transform) const
 {
 	glPushMatrix();
 	glMultMatrixd(&transform[0]);
-	milkyway.Draw();
+	m_milkyWay.Draw();
 	glPushMatrix();
-	glScalef(1.f, 0.5f, 1.f);
-	starfield.Draw();
+	// squeeze the starfield a bit to get more density near horizon
+	glScalef(1.f, 0.4f, 1.f);
+	m_starField.Draw();
 	glPopMatrix();
 	glPopMatrix();
 }

@@ -59,6 +59,8 @@ public:
 	const BodyIterator BodiesBegin() const { return m_bodies.begin(); }
 	const BodyIterator BodiesEnd() const { return m_bodies.end(); }
 
+	const Background::Container& GetBackground() const { return m_background; }
+
 private:
 	void GenBody(SBody *b, Frame *f);
 	// make sure SBody* is in Pi::currentSystem
@@ -95,9 +97,7 @@ private:
 
 	//background (elements that are infinitely far away,
 	//e.g. starfield and milky way)
-public: // temporary
-	Background::Starfield m_starField;
-	Background::MilkyWay m_milkyWay;
+	Background::Container m_background;
 };
 
 #endif /* _SPACE_H */

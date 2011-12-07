@@ -812,7 +812,7 @@ void Pi::HandleEvents()
 	}
 }
 
-static void draw_intro(Background::Starfield *starfield, Background::MilkyWay *milkyway, float _time)
+static void draw_intro(Background::Container *background, float _time)
 {
 	float lightCol[4] = { 1,1,1,0 };
 	float lightDir[4] = { 0,1,1,0 };
@@ -848,7 +848,7 @@ static void draw_intro(Background::Starfield *starfield, Background::MilkyWay *m
 	// XXX all this stuff will be gone when intro uses a Camera
 	// rotate background by time, and a bit extra Z so it's not so flat
 	matrix4x4d brot = matrix4x4d::RotateXMatrix(-0.25*_time) * matrix4x4d::RotateZMatrix(0.6);
-	Background::Draw(brot, *starfield, *milkyway);
+	background->Draw(brot);
 	
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
@@ -1084,8 +1084,7 @@ void Pi::HandleMenuKey(int n)
 
 void Pi::Start()
 {
-	Background::Starfield *starfield = new Background::Starfield(UNIVERSE_SEED);
-	Background::MilkyWay *milkyway = new Background::MilkyWay();
+	Background::Container *background = new Background::Container(UNIVERSE_SEED);
 
 	Gui::Fixed *menu = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 	Gui::Screen::AddBaseWidget(menu, 0, 0);
@@ -1147,7 +1146,7 @@ void Pi::Start()
 
 		Pi::SetMouseGrab(false);
 
-		draw_intro(starfield, milkyway, _time);
+		draw_intro(background, _time);
 		Render::PostProcess();
 		Gui::Draw();
 		Render::SwapBuffers();
@@ -1160,8 +1159,7 @@ void Pi::Start()
 	
 	Gui::Screen::RemoveBaseWidget(menu);
 	delete menu;
-	delete starfield;
-	delete milkyway;
+	delete background;
 
 	// game is set by HandleMenuKey if any game-starting option (start or
 	// load) is selected
