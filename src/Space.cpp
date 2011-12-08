@@ -712,9 +712,12 @@ vector3d GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *
 	Sector dest_sec(dest->sectorX,dest->sectorY,dest->sectorZ);
 	Sector::System source_sys = source_sec.m_systems[source->systemIndex];
 	Sector::System dest_sys = dest_sec.m_systems[dest->systemIndex];
+	RefCountedPtr<StarSystem> dest_system = StarSystem::GetCached(dest);
+	SBody *root_body = dest_system->rootBody;
+	double dist = sqrt(root_body->GetRadius() / SOL_RADIUS);
 	const vector3d sourcePos = vector3d(source_sys.p) + vector3d(source->sectorX, source->sectorY, source->sectorZ);
 	const vector3d destPos = vector3d(dest_sys.p) + vector3d(dest->sectorX, dest->sectorY, dest->sectorZ);
-	return (sourcePos - destPos).Normalized() * 11.0*AU + GetRandomPosition(5.0,20.0)*1000.0; // "hyperspace zone": 11 AU from primary
+	return (sourcePos - destPos).Normalized() * 11.0*AU*dist + GetRandomPosition(5.0,20.0)*1000.0;
 }
 
 /*
