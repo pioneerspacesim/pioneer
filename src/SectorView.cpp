@@ -541,8 +541,9 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		glPushMatrix();
 		glTranslatef((*i).p.x, (*i).p.y, (*i).p.z);
 
+		// draw system "leg"
 		glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
-		glBegin(GL_LINES);
+		glBegin(GL_LINE_STRIP);
 			float z = -(*i).p.z;
 			if (sz <= cz)
 				z = z+abs(cz-sz)*Sector::SIZE;
@@ -550,8 +551,14 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				z = z-abs(cz-sz)*Sector::SIZE;
 
 			glVertex3f(0, 0, z);
+			glColor4f(0.2f, 0.2f, 0.2f, 0.2f);
+			glVertex3f(0, 0, z * 0.5);
+			glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
 			glVertex3f(0, 0, 0);
+		glEnd();
 
+		//cross at other end
+		glBegin(GL_LINES);
 			glVertex3f(-0.1f, -0.1f, z);
 			glVertex3f(0.1f, 0.1f, z);
 			glVertex3f(-0.1f, 0.1f, z);
