@@ -1099,7 +1099,8 @@ void Pi::Start()
     std::string version("Pioneer " PIONEER_VERSION);
     if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
 
-    splash->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200.0f, Gui::Screen::GetHeight()-32.0f);
+    splash->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200.0f, Gui::Screen::GetHeight()-60.0f);
+    splash->Add(new Gui::Label("Christmas edition"), Gui::Screen::GetWidth()-200.0f, Gui::Screen::GetHeight()-40.0f);
 
 	Gui::Screen::PopFont();
 
