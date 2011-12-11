@@ -67,6 +67,9 @@ void RenderTarget::CheckCompleteness() const
 		case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT:
 			ss << "Incomplete read buffer";
 			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE_EXT:
+			ss << "Number of samples does not match for all buffers";
+			break;
 		default:
 			ss << "Unknown status " << status;
 			break;
