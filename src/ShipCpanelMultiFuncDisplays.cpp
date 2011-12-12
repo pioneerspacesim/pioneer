@@ -104,6 +104,8 @@ ScannerWidget::ScannerWidget()
 {
 	m_mode = SCANNER_MODE_AUTO;
 	m_currentRange = m_manualRange = m_targetRange = SCANNER_RANGE_MIN;
+
+	InitObject();
 }
 
 ScannerWidget::ScannerWidget(Serializer::Reader &rd)
@@ -112,6 +114,8 @@ ScannerWidget::ScannerWidget(Serializer::Reader &rd)
 	m_currentRange = rd.Float();
 	m_manualRange = rd.Float();
 	m_targetRange = rd.Float();
+
+	InitObject();
 }
 
 void ScannerWidget::InitObject()
