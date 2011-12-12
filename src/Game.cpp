@@ -269,6 +269,12 @@ void Game::TimeStep(float step)
 
 bool Game::UpdateTimeAccel()
 {
+	// don't modify the timeaccel if the game is paused
+	if (m_requestedTimeAccel == Game::TIMEACCEL_PAUSED) {
+		m_timeAccel = Game::TIMEACCEL_PAUSED;
+		return false;
+	}
+
 	TimeAccel newTimeAccel = m_requestedTimeAccel;
 
 	// ludicrous speed
