@@ -317,8 +317,12 @@ void ShipCpanel::OnClickTimeaccel(Game::TimeAccel val)
 			Pi::SetView(Pi::gameMenuView);
 		else
 			Pi::SetView(Pi::worldView);
-	} else
+	}
+	else {
+		if (Pi::GetView() == Pi::gameMenuView)
+			Pi::SetView(Pi::worldView);
 		Pi::game->RequestTimeAccel(val, Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL));
+	}
 }
 
 void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
