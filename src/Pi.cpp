@@ -749,10 +749,15 @@ void Pi::HandleEvents()
 						case SDLK_F9: // Quicksave
 						{
 							if(Pi::game) {
-								std::string name = join_path(GetPiSavefileDir().c_str(), "_quicksave", 0);
-								GameSaver saver(Pi::game);
-								if (saver.SaveToFile(name))
-									Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+name);
+								if (Pi::game->IsHyperspace())
+									Pi::cpan->MsgLog()->Message("", Lang::CANT_SAVE_IN_HYPERSPACE);
+
+								else {
+									std::string name = join_path(GetPiSavefileDir().c_str(), "_quicksave", 0);
+									GameSaver saver(Pi::game);
+									if (saver.SaveToFile(name))
+										Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+name);
+								}
 							}
 							break;
 						}

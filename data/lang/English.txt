@@ -174,6 +174,8 @@ CANCEL
     Cancel
 SELECT_FILENAME_TO_SAVE
     Select a file to save to or enter a new filename
+CANT_SAVE_IN_HYPERSPACE
+	Can't save game while in hyperspace
 GAME_SAVED_TO
     "Game saved to "
 SELECT_FILENAME_TO_LOAD
