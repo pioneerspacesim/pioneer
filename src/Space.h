@@ -5,45 +5,92 @@
 #include "Object.h"
 #include "vector3.h"
 #include "Serializer.h"
+#include "RefCounted.h"
+#include "StarSystem.h"
 
 class Body;
 class Frame;
-class SBody;
-class SystemPath;
 class Ship;
+class HyperspaceCloud;
+class Game;
 
-// The place all the 'Body's exist in
-namespace Space {
-	extern void Init();
-	extern void Uninit();
-	extern void Clear();
-	extern void BuildSystem();
-	extern void Serialize(Serializer::Writer &wr);
-	extern void Unserialize(Serializer::Reader &rd);
-	extern void GenBody(SBody *b, Frame *f);
-	extern void TimeStep(float step);
-	extern void AddBody(Body *);
-	extern void RemoveBody(Body *);
-	extern void KillBody(Body *);
-	extern void RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, double kgDamage);
-	extern void DoECM(const Frame *f, const vector3d &pos, int power_val);
-	extern float GetHyperspaceAnim();
-	extern const SystemPath *GetHyperspaceDest();
-	extern double GetHyperspaceDuration();
-	extern void StartHyperspaceTo(Ship *s, const SystemPath *);
-	extern void DoHyperspaceTo(const SystemPath *);
-	extern vector3d GetRandomPosition(float min_dist, float max_dist);
-	extern vector3d GetPositionAfterHyperspace(const SystemPath *source, const SystemPath *dest);
-	extern void SetupSystemForGameStart(const SystemPath *, int, int);
+class Space {
+public:
+	// empty space (eg for hyperspace)
+	Space(Game *game);
+
+	// initalise with system bodies
+	Space(Game *game, const SystemPath &path);
+
+	// initialise from save file
+	Space(Game *game, Serializer::Reader &rd);
+
+	virtual ~Space();
+
+	void Serialize(Serializer::Writer &wr);
+
+	// frame/body/sbody indexing for save/load. valid after
+	// construction/Serialize(), invalidated by TimeStep(). they will assert
+	// if called while invalid
+	Frame *GetFrameByIndex(Uint32 idx);
+	Body  *GetBodyByIndex(Uint32 idx);
+	SBody *GetSBodyByIndex(Uint32 idx);
+	Uint32 GetIndexForFrame(const Frame *frame);
+	Uint32 GetIndexForBody(const Body *body);
+	Uint32 GetIndexForSBody(const SBody *sbody);
+
+	RefCountedPtr<StarSystem> GetStarSystem() const { return m_starSystem; }
+
+	Frame *GetRootFrame() const { return m_rootFrame.Get(); }
+
+	void AddBody(Body *);
+	void RemoveBody(Body *);
+	void KillBody(Body *);
+
+	void TimeStep(float step);
+
+	vector3d GetHyperspaceExitPoint(const SystemPath &source);
+
+	Body *FindNearestTo(const Body *b, Object::Type t);
+	Body *FindBodyForPath(const SystemPath *path);
+
+	typedef std::list<Body*>::const_iterator BodyIterator;
+	const BodyIterator BodiesBegin() const { return m_bodies.begin(); }
+	const BodyIterator BodiesEnd() const { return m_bodies.end(); }
+
+private:
+	void GenBody(SBody *b, Frame *f);
 	// make sure SBody* is in Pi::currentSystem
-	extern Frame *GetFrameWithSBody(const SBody *b);
-	extern Body *FindNearestTo(const Body *b, Object::Type t);
-	extern Body *FindBodyForPath(const SystemPath *path);
+	Frame *GetFrameWithSBody(const SBody *b);
 
-	extern std::list<Body*> bodies;
-	typedef std::list<Body*>::iterator bodiesIter_t;
-	extern Frame *rootFrame;
-}
+	void UpdateBodies();
 
+	void CollideFrame(Frame *f);
+
+	ScopedPtr<Frame> m_rootFrame;
+
+	RefCountedPtr<StarSystem> m_starSystem;
+
+	Game *m_game;
+
+	// all the bodies we know about
+	std::list<Body*> m_bodies;
+
+	// bodies that were removed/killed this timestep and need pruning at the end
+	std::list<Body*> m_removeBodies;
+	std::list<Body*> m_killBodies;
+
+	void RebuildFrameIndex();
+	void RebuildBodyIndex();
+	void RebuildSBodyIndex();
+
+	void AddFrameToIndex(Frame *frame);
+	void AddSBodyToIndex(SBody *sbody);
+
+	bool m_frameIndexValid, m_bodyIndexValid, m_sbodyIndexValid;
+	std::vector<Frame*> m_frameIndex;
+	std::vector<Body*>  m_bodyIndex;
+	std::vector<SBody*> m_sbodyIndex;
+};
 
 #endif /* _SPACE_H */

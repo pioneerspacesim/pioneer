@@ -6,6 +6,7 @@
 #include "ShipCpanelMultiFuncDisplays.h"
 #include "Ship.h"
 #include "Serializer.h"
+#include "Game.h"
 
 class Body;
 class SpaceStation;
@@ -13,6 +14,7 @@ class SpaceStation;
 class ShipCpanel: public Gui::Fixed {
 public:
 	ShipCpanel();
+    ShipCpanel(Serializer::Reader &rd);
 	virtual ~ShipCpanel();
 	virtual void Draw();
 	void Update();
@@ -22,16 +24,17 @@ public:
 	void TimeStepUpdate(float step);
 
 	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
 
 private:
+	void InitObject();
+
 	enum MapView { MAP_SECTOR, MAP_SYSTEM, MAP_INFO, MAP_GALACTIC };
 
 	void OnChangeCamView(Gui::MultiStateImageButton *b);
 	void OnChangeToMapView(Gui::MultiStateImageButton *b);
 	void OnChangeMapView(enum MapView);
 	void OnChangeInfoView(Gui::MultiStateImageButton *b);
-	void OnClickTimeaccel(int val);
+	void OnClickTimeaccel(Game::TimeAccel val);
 	void OnClickComms(Gui::MultiStateImageButton *b);
 	void OnDockingClearanceExpired(const SpaceStation *);
 

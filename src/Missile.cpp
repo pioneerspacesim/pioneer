@@ -4,6 +4,8 @@
 #include "Sfx.h"
 #include "ShipType.h"
 #include "Lang.h"
+#include "Pi.h"
+#include "Game.h"
 
 Missile::Missile(ShipType::Type type, Body *owner, Body *target): Ship(type)
 {
@@ -27,25 +29,25 @@ void Missile::ECMAttack(int power_val)
 	}
 }
 
-void Missile::PostLoadFixup()
+void Missile::PostLoadFixup(Space *space)
 {
-	Ship::PostLoadFixup();
-	m_owner = Serializer::LookupBody(m_ownerIndex);
-	m_target = Serializer::LookupBody(m_targetIndex);
+	Ship::PostLoadFixup(space);
+	m_owner = space->GetBodyByIndex(m_ownerIndex);
+	m_target = space->GetBodyByIndex(m_targetIndex);
 }
 
-void Missile::Save(Serializer::Writer &wr)
+void Missile::Save(Serializer::Writer &wr, Space *space)
 {
-	Ship::Save(wr);
-	wr.Int32(Serializer::LookupBody(m_owner));
-	wr.Int32(Serializer::LookupBody(m_target));
+	Ship::Save(wr, space);
+	wr.Int32(space->GetIndexForBody(m_owner));
+	wr.Int32(space->GetIndexForBody(m_target));
 	wr.Double(m_distToTarget);
 	wr.Int32(m_power);
 }
 
-void Missile::Load(Serializer::Reader &rd)
+void Missile::Load(Serializer::Reader &rd, Space *space)
 {
-	Ship::Load(rd);
+	Ship::Load(rd, space);
 	m_ownerIndex = rd.Int32();
 	m_targetIndex = rd.Int32();
 	m_distToTarget = rd.Double();
@@ -81,17 +83,31 @@ bool Missile::OnDamage(Object *attacker, float kgDamage)
 
 void Missile::Explode()
 {
-	Space::KillBody(this);
-	Space::RadiusDamage(m_owner, GetFrame(), GetPosition(), 200.0f, 10000.0f);
+	Pi::game->GetSpace()->KillBody(this);
+
+	const double damageRadius = 200.0;
+	const double kgDamage = 10000.0;
+
+	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
+		if ((*i)->GetFrame() != GetFrame()) continue;
+		double dist = ((*i)->GetPosition() - GetPosition()).Length();
+		if (dist < damageRadius) {
+			// linear damage decay with distance
+			(*i)->OnDamage(m_owner, kgDamage * (damageRadius - dist) / damageRadius);
+			if ((*i)->IsType(Object::SHIP))
+				Pi::luaOnShipHit->Queue(dynamic_cast<Ship*>(*i), m_owner);
+		}
+	}
+
 	Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 }
 
-void Missile::NotifyDeleted(const Body* const deletedBody)
+void Missile::NotifyRemoved(const Body* const removedBody)
 {
-	if (m_owner == deletedBody) {
+	if (m_owner == removedBody) {
 		Explode();
 	}
-	else if (m_target == deletedBody) {
+	else if (m_target == removedBody) {
 		Explode();
 	}
 }

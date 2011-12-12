@@ -1,3 +1,8 @@
+Alpha 18
+
+   * Internal changes
+     * Refactored game and space state into discrete object (#833)
+
 Alpha 17
 
   * Christmas edition!

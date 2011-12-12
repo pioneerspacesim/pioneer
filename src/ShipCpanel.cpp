@@ -13,9 +13,23 @@
 #include "GalacticView.h"
 #include "GameMenuView.h"
 #include "Lang.h"
-
+#include "Game.h"
 
 ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
+{
+	m_scanner = new ScannerWidget();
+
+	InitObject();
+}
+
+ShipCpanel::ShipCpanel(Serializer::Reader &rd): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
+{
+	m_scanner = new ScannerWidget(rd);
+
+	InitObject();
+}
+
+void ShipCpanel::InitObject()
 {
 	Gui::Screen::AddBaseWidget(this, 0, Gui::Screen::GetHeight()-80);
 	SetTransparency(true);
@@ -24,7 +38,6 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 	Add(img, 0, 0);
 
 	m_currentMapView = MAP_SECTOR;
-	m_scanner = new ScannerWidget();
 	m_useEquipWidget = new UseEquipWidget();
 	m_msglog = new MsgLogWidget();
 
@@ -46,38 +59,38 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 
 //	Gui::RadioGroup *g = new Gui::RadioGroup();
 	Gui::ImageRadioButton *b = new Gui::ImageRadioButton(0, PIONEER_DATA_DIR "/icons/timeaccel0.png", PIONEER_DATA_DIR "/icons/timeaccel0_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 0));
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_PAUSED));
 	b->SetShortcut(SDLK_ESCAPE, KMOD_LSHIFT);
 	Add(b, 0, 36);
 	m_timeAccelButtons[0] = b;
 	
 	b = new Gui::ImageRadioButton(0, PIONEER_DATA_DIR "/icons/timeaccel1.png", PIONEER_DATA_DIR "/icons/timeaccel1_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 1));
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_1X));
 	b->SetShortcut(SDLK_F1, KMOD_LSHIFT);
 	b->SetSelected(true);
 	Add(b, 22, 36);
 	m_timeAccelButtons[1] = b;
 	
 	b = new Gui::ImageRadioButton(0, PIONEER_DATA_DIR "/icons/timeaccel2.png", PIONEER_DATA_DIR "/icons/timeaccel2_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 2));
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_10X));
 	b->SetShortcut(SDLK_F2, KMOD_LSHIFT);
 	Add(b, 44, 36);
 	m_timeAccelButtons[2] = b;
 	
 	b = new Gui::ImageRadioButton(0, PIONEER_DATA_DIR "/icons/timeaccel3.png", PIONEER_DATA_DIR "/icons/timeaccel3_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 3));
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_100X));
 	b->SetShortcut(SDLK_F3, KMOD_LSHIFT);
 	Add(b, 66, 36);
 	m_timeAccelButtons[3] = b;
 	
 	b = new Gui::ImageRadioButton(0, PIONEER_DATA_DIR "/icons/timeaccel4.png", PIONEER_DATA_DIR "/icons/timeaccel4_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 4));
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_1000X));
 	b->SetShortcut(SDLK_F4, KMOD_LSHIFT);
 	Add(b, 88, 36);
 	m_timeAccelButtons[4] = b;
 	
 	b = new Gui::ImageRadioButton(0, PIONEER_DATA_DIR "/icons/timeaccel5.png", PIONEER_DATA_DIR "/icons/timeaccel5_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 5));
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_10000X));
 	b->SetShortcut(SDLK_F5, KMOD_LSHIFT);
 	Add(b, 110, 36);
 	m_timeAccelButtons[5] = b;
@@ -219,8 +232,8 @@ void ShipCpanel::OnDockingClearanceExpired(const SpaceStation *s)
 
 void ShipCpanel::Update()
 {
-	int timeAccel = Pi::GetTimeAccelIdx();
-	int requested = Pi::GetRequestedTimeAccelIdx();
+	int timeAccel = Pi::game->GetTimeAccel();
+	int requested = Pi::game->GetRequestedTimeAccel();
 
 	for (int i=0; i<6; i++) {
 		m_timeAccelButtons[i]->SetSelected(timeAccel == i);
@@ -237,7 +250,7 @@ void ShipCpanel::Update()
 
 void ShipCpanel::Draw()
 {
-	std::string time = format_date(Pi::GetGameTime());
+	std::string time = format_date(Pi::game->GetTime());
 	m_clock->SetText(time);
 
 	View *cur = Pi::GetView();
@@ -296,16 +309,20 @@ void ShipCpanel::HideMapviewButtons()
 	for (int i=0; i<4; i++) m_mapViewButtons[i]->Hide();
 }
 
-void ShipCpanel::OnClickTimeaccel(int val)
+void ShipCpanel::OnClickTimeaccel(Game::TimeAccel val)
 {
 	Pi::BoinkNoise();
-	if ((Pi::GetTimeAccelIdx() == val) && (val == 0)) {
+	if ((Pi::game->GetTimeAccel() == val) && (val == Game::TIMEACCEL_PAUSED)) {
 		if (Pi::GetView() != Pi::gameMenuView)
 			Pi::SetView(Pi::gameMenuView);
 		else
 			Pi::SetView(Pi::worldView);
-	} else
-		Pi::RequestTimeAccel(val, Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL));
+	}
+	else {
+		if (Pi::GetView() == Pi::gameMenuView)
+			Pi::SetView(Pi::worldView);
+		Pi::game->RequestTimeAccel(val, Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL));
+	}
 }
 
 void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
@@ -347,9 +364,4 @@ void ShipCpanel::TimeStepUpdate(float step)
 void ShipCpanel::Save(Serializer::Writer &wr)
 {
 	m_scanner->Save(wr);
-}
-
-void ShipCpanel::Load(Serializer::Reader &rd)
-{
-	m_scanner->Load(rd);
 }

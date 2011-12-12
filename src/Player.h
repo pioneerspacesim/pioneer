@@ -29,7 +29,6 @@ public:
 	OBJDEF(Player, Ship, PLAYER);
 	Player(ShipType::Type shipType);
 	Player() { m_mouseActive = false; m_invertMouse = false; }
-	virtual ~Player();
 	void PollControls(const float timeStep);
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void SetDockedWith(SpaceStation *, int port);
@@ -50,10 +49,9 @@ public:
 	void SetCombatTarget(Body* const target, bool setSpeedTo = false);
 	Body *GetCombatTarget() const { return m_combatTarget; }
 	Body *GetSetSpeedTarget() const { return m_setSpeedTarget; }
-	virtual void NotifyDeleted(const Body* const deletedBody);
+	virtual void NotifyRemoved(const Body* const removedBody);
 
 	// test code
-	virtual void TimeStepUpdate(const float timeStep);
 	vector3d GetAccumTorque() { return m_accumTorque; }
 	vector3d m_accumTorque;
 	void SetMouseForRearView(bool enable) { m_invertMouse = enable; }
@@ -64,7 +62,7 @@ public:
 
 	RefList<Mission> missions;
 
-	virtual void PostLoadFixup();
+	virtual void PostLoadFixup(Space *space);
 
 	/* MarketAgent stuff */
 	int GetStock(Equip::Type t) const { assert(0); return 0; }
@@ -73,8 +71,12 @@ public:
 	bool DoesSell(Equip::Type t) const { return true; }
 	Sint64 GetPrice(Equip::Type t) const;
 protected:
-	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
+	virtual void Save(Serializer::Writer &wr, Space *space);
+	virtual void Load(Serializer::Reader &rd, Space *space);
+
+	virtual void OnEnterSystem();
+	virtual void OnEnterHyperspace();
+
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);

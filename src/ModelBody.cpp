@@ -3,6 +3,7 @@
 #include "Space.h"
 #include "matrix4x4.h"
 #include "Frame.h"
+#include "Game.h"
 #include "Pi.h"
 #include "WorldView.h"
 #include "Serializer.h"
@@ -24,14 +25,14 @@ ModelBody::~ModelBody()
 	delete m_geom;
 }
 
-void ModelBody::Save(Serializer::Writer &wr)
+void ModelBody::Save(Serializer::Writer &wr, Space *space)
 {
-	Body::Save(wr);
+	Body::Save(wr, space);
 }
 
-void ModelBody::Load(Serializer::Reader &rd)
+void ModelBody::Load(Serializer::Reader &rd, Space *space)
 {
-	Body::Load(rd);
+	Body::Load(rd, space);
 }
 
 void ModelBody::Disable()
@@ -106,7 +107,7 @@ double ModelBody::GetBoundingRadius() const
 
 void ModelBody::SetLmrTimeParams()
 {
-	m_params.time = Pi::GetGameTime();
+	m_params.time = Pi::game->GetTime();
 }
 
 void ModelBody::SetRotMatrix(const matrix4x4d &r)

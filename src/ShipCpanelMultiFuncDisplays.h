@@ -56,6 +56,7 @@ private:
 class ScannerWidget: public IMultiFunc, public Gui::Widget {
 public:
 	ScannerWidget();
+	ScannerWidget(Serializer::Reader &rd);
 	virtual ~ScannerWidget();
 	void GetSizeRequested(float size[2]);
 	void ToggleMode();
@@ -65,9 +66,10 @@ public:
 	void TimeStepUpdate(float step);
 
 	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
 
 private:
+	void InitObject();
+
 	void DrawBlobs(bool below);
 	void DrawRingsAndSpokes(bool blend);
 

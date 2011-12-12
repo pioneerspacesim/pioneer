@@ -150,6 +150,7 @@
     <ClCompile Include="..\..\src\enum_table.cpp" />
     <ClCompile Include="..\..\src\EquipType.cpp" />
     <ClCompile Include="..\..\src\FaceVideoLink.cpp" />
+    <ClCompile Include="..\..\src\FileSelectorWidget.cpp" />
     <ClCompile Include="..\..\src\Font.cpp" />
     <ClCompile Include="..\..\src\FontConfig.cpp" />
     <ClCompile Include="..\..\src\FontManager.cpp" />
@@ -157,7 +158,9 @@
     <ClCompile Include="..\..\src\Frame.cpp" />
     <ClCompile Include="..\..\src\GalacticView.cpp" />
     <ClCompile Include="..\..\src\Galaxy.cpp" />
+    <ClCompile Include="..\..\src\Game.cpp" />
     <ClCompile Include="..\..\src\GameConfig.cpp" />
+    <ClCompile Include="..\..\src\GameLoaderSaver.cpp" />
     <ClCompile Include="..\..\src\GameMenuView.cpp" />
     <ClCompile Include="..\..\src\GeoSphere.cpp" />
     <ClCompile Include="..\..\src\gui\Gui.cpp" />
@@ -224,6 +227,7 @@
     <ClCompile Include="..\..\src\LuaUtils.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\MarketAgent.cpp" />
+    <ClCompile Include="..\..\src\MathUtil.cpp" />
     <ClCompile Include="..\..\src\Missile.cpp" />
     <ClCompile Include="..\..\src\ModelBody.cpp" />
     <ClCompile Include="..\..\src\mtrand.cpp" />
@@ -361,6 +365,7 @@
     <ClInclude Include="..\..\src\enum_table.h" />
     <ClInclude Include="..\..\src\EquipType.h" />
     <ClInclude Include="..\..\src\FaceVideoLink.h" />
+    <ClInclude Include="..\..\src\FileSelectorWidget.h" />
     <ClInclude Include="..\..\src\fixed.h" />
     <ClInclude Include="..\..\src\Font.h" />
     <ClInclude Include="..\..\src\FontConfig.h" />
@@ -369,8 +374,10 @@
     <ClInclude Include="..\..\src\Frame.h" />
     <ClInclude Include="..\..\src\GalacticView.h" />
     <ClInclude Include="..\..\src\Galaxy.h" />
+    <ClInclude Include="..\..\src\Game.h" />
     <ClInclude Include="..\..\src\GameConfig.h" />
     <ClInclude Include="..\..\src\gameconsts.h" />
+    <ClInclude Include="..\..\src\GameLoaderSaver.h" />
     <ClInclude Include="..\..\src\GameMenuView.h" />
     <ClInclude Include="..\..\src\GeoSphere.h" />
     <ClInclude Include="..\..\src\gui\Gui.h" />
@@ -439,6 +446,7 @@
     <ClInclude Include="..\..\src\LuaUI.h" />
     <ClInclude Include="..\..\src\LuaUtils.h" />
     <ClInclude Include="..\..\src\MarketAgent.h" />
+    <ClInclude Include="..\..\src\MathUtil.h" />
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\Missile.h" />
     <ClInclude Include="..\..\src\ModelBody.h" />

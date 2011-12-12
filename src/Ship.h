@@ -73,7 +73,7 @@ public:
 	virtual void TimeStepUpdate(const float timeStep);
 	virtual void StaticUpdate(const float timeStep);
 
-	virtual void NotifyDeleted(const Body* const deletedBody);
+	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 
@@ -91,7 +91,8 @@ public:
 	bool Jettison(Equip::Type t);
 
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
-	SystemPath GetHyperspaceDest() const { return m_hyperspace.dest; }
+	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }
+	double GetHyperspaceDuration() const { return m_hyperspace.duration; }
 
 	enum HyperjumpStatus { // <enum scope='Ship' name=ShipJumpStatus prefix=HYPERJUMP_>
 		HYPERJUMP_OK,
@@ -103,7 +104,6 @@ public:
 	bool CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus = 0);
 	void UseHyperspaceFuel(const SystemPath *dest);
 
-	Ship::HyperjumpStatus Hyperspace(const SystemPath &dest);
 	Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
 	bool IsHyperspaceActive() const { return (m_hyperspace.countdown > 0.0); }
@@ -164,7 +164,7 @@ public:
 	SerializableEquipSet m_equipment;			// shouldn't be public?...
 	shipstats_t m_stats;
 
-	virtual void PostLoadFixup();
+	virtual void PostLoadFixup(Space *space);
 
 	const ShipFlavour *GetFlavour() const { return &m_shipFlavour; }
 	// used to change ship label or colour. asserts if you try to change type
@@ -178,16 +178,23 @@ public:
 	void SetPercentHull(float);
 	float GetGunTemperature(int idx) const { return m_gunTemperature[idx]; }
 	
+	void EnterSystem();
+
+	HyperspaceCloud *GetHyperspaceCloud() const { return m_hyperspaceCloud; }
+
 	sigc::signal<void> onDock;				// JJ: check what these are for
 	sigc::signal<void> onUndock;
 protected:
-	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
+	virtual void Save(Serializer::Writer &wr, Space *space);
+	virtual void Load(Serializer::Reader &rd, Space *space);
 	void RenderLaserfire();
 
 	bool AITimeStep(float timeStep);		// returns true if complete
 
 	virtual void SetAlertState(AlertState as) { m_alertState = as; }
+
+	virtual void OnEnterHyperspace();
+	virtual void OnEnterSystem();
 
 	SpaceStation *m_dockedWith;
 	int m_dockedWithPort;
@@ -205,6 +212,7 @@ private:
 	void TestLanded();
 	void UpdateAlertState();
 	void OnEquipmentChange(Equip::Type e);
+	void EnterHyperspace();
 
 	FlightState m_flightState;
 	bool m_testLanded;
@@ -223,7 +231,9 @@ private:
 		// > 0 means active
 		float countdown;
 		bool now;
+		double duration;
 	} m_hyperspace;
+	HyperspaceCloud *m_hyperspaceCloud;
 
 	AICommand *m_curAICmd;
 	AIError m_aiMessage;

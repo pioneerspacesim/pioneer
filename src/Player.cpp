@@ -9,6 +9,8 @@
 #include "ShipCpanel.h"
 #include "KeyBindings.h"
 #include "Lang.h"
+#include "SectorView.h"
+#include "Game.h"
 
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
@@ -25,29 +27,23 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	m_accumTorque = vector3d(0,0,0);
 }
 
-Player::~Player()
+void Player::Save(Serializer::Writer &wr, Space *space)
 {
-	assert(this == Pi::player);
-	Pi::player = 0;
-}
-
-void Player::Save(Serializer::Writer &wr)
-{
-	Ship::Save(wr);
+	Ship::Save(wr, space);
 	MarketAgent::Save(wr);
 	wr.Int32(static_cast<int>(m_flightControlState));
 	wr.Double(m_setSpeed);
 	wr.Int32(m_killCount);
 	wr.Int32(m_knownKillCount);
-	wr.Int32(Serializer::LookupBody(m_combatTarget));
-	wr.Int32(Serializer::LookupBody(m_navTarget));
-	wr.Int32(Serializer::LookupBody(m_setSpeedTarget));
+	wr.Int32(space->GetIndexForBody(m_combatTarget));
+	wr.Int32(space->GetIndexForBody(m_navTarget));
+	wr.Int32(space->GetIndexForBody(m_setSpeedTarget));
 }
 
-void Player::Load(Serializer::Reader &rd)
+void Player::Load(Serializer::Reader &rd, Space *space)
 {
 	Pi::player = this;
-	Ship::Load(rd);
+	Ship::Load(rd, space);
 	MarketAgent::Load(rd);
 	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
 	m_setSpeed = rd.Double();
@@ -58,12 +54,12 @@ void Player::Load(Serializer::Reader &rd)
 	m_setSpeedTargetIndex = rd.Int32();
 }
 
-void Player::PostLoadFixup()
+void Player::PostLoadFixup(Space *space)
 {
-	Ship::PostLoadFixup();
-	m_combatTarget = Serializer::LookupBody(m_combatTargetIndex);
-	m_navTarget = Serializer::LookupBody(m_navTargetIndex);
-	m_setSpeedTarget = Serializer::LookupBody(m_setSpeedTargetIndex);
+	Ship::PostLoadFixup(space);
+	m_combatTarget = space->GetBodyByIndex(m_combatTargetIndex);
+	m_navTarget = space->GetBodyByIndex(m_navTargetIndex);
+	m_setSpeedTarget = space->GetBodyByIndex(m_setSpeedTargetIndex);
 }
 
 void Player::OnHaveKilled(Body *guyWeKilled)
@@ -115,11 +111,6 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 	}
 }
 
-void Player::TimeStepUpdate(const float timeStep)
-{
-	Ship::TimeStepUpdate(timeStep);
-}
-
 void Player::StaticUpdate(const float timeStep)
 {
 	vector3d v;
@@ -144,7 +135,7 @@ void Player::StaticUpdate(const float timeStep)
 			break;
 		case CONTROL_AUTOPILOT:
 			if (AIIsActive()) break;
-			Pi::RequestTimeAccel(1);
+			Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
 //			AIMatchVel(vector3d(0.0));			// just in case autopilot doesn't...
 						// actually this breaks last timestep slightly in non-relative target cases
 			AIMatchAngVelObjSpace(vector3d(0.0));
@@ -198,7 +189,7 @@ void Player::PollControls(const float timeStep)
 {
 	static bool stickySpeedKey = false;
 
-	if (Pi::IsTimeAccelPause() || Pi::player->IsDead() || GetFlightState() != FLYING)
+	if (Pi::game->GetTimeAccel() == Game::TIMEACCEL_PAUSED || Pi::player->IsDead() || GetFlightState() != FLYING)
 		return;
 
 	// if flying 
@@ -293,9 +284,9 @@ void Player::PollControls(const float timeStep)
 		wantAngVel.y += 2 * KeyBindings::yawAxis.GetValue();
 		wantAngVel.z += 2 * KeyBindings::rollAxis.GetValue();
 
-		double invTimeAccel = 1.0 / Pi::GetTimeAccel();
+		double invTimeAccelRate = 1.0 / Pi::game->GetTimeAccelRate();
 		for (int axis=0; axis<3; axis++)
-			wantAngVel[axis] = Clamp(wantAngVel[axis], -invTimeAccel, invTimeAccel);
+			wantAngVel[axis] = Clamp(wantAngVel[axis], -invTimeAccelRate, invTimeAccelRate);
 		
 		if (m_mouseActive) AIFaceDirection(m_mouseDir);
 		else AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
@@ -384,13 +375,19 @@ void Player::SetCombatTarget(Body* const target, bool setSpeedTo)
 	Sound::PlaySfx("OK");
 }
 
-void Player::NotifyDeleted(const Body* const deletedBody)
+void Player::NotifyRemoved(const Body* const removedBody)
 {
-	if(GetNavTarget() == deletedBody)
+	if (GetNavTarget() == removedBody)
 		SetNavTarget(0);
-	if(GetCombatTarget() == deletedBody)
+
+	else if (GetCombatTarget() == removedBody) {
 		SetCombatTarget(0);
-	Ship::NotifyDeleted(deletedBody);
+
+		if (!GetNavTarget() && removedBody->IsType(Object::SHIP))
+			SetNavTarget(static_cast<const Ship*>(removedBody)->GetHyperspaceCloud());
+	}
+
+	Ship::NotifyRemoved(removedBody);
 }
 
 /* MarketAgent shite */
@@ -442,4 +439,24 @@ Sint64 Player::GetPrice(Equip::Type t) const
 		assert(0);
 		return 0;
 	}
+}
+
+void Player::OnEnterHyperspace()
+{
+	SetNavTarget(0);
+	SetCombatTarget(0);
+
+	if (Pi::player->GetFlightControlState() == Player::CONTROL_AUTOPILOT)
+		Pi::player->SetFlightControlState(Player::CONTROL_MANUAL);
+
+	ClearThrusterState();
+
+	Pi::game->WantHyperspace();
+}
+
+void Player::OnEnterSystem()
+{
+	SetFlightControlState(Player::CONTROL_MANUAL);
+
+	Pi::sectorView->ResetHyperspaceTarget();
 }

@@ -27,6 +27,7 @@ noinst_HEADERS = \
 	DynamicBody.h \
 	EquipType.h \
 	FaceVideoLink.h \
+	FileSelectorWidget.h \
 	Font.h \
 	FontManager.h \
 	Form.h \
@@ -34,6 +35,8 @@ noinst_HEADERS = \
 	Frame.h \
 	GalacticView.h \
 	Galaxy.h \
+	Game.h \
+	GameLoaderSaver.h \
 	GameMenuView.h \
 	GeoSphere.h \
 	HyperspaceCloud.h \
@@ -75,6 +78,7 @@ noinst_HEADERS = \
 	LuaUI.h \
 	LuaUtils.h \
 	MarketAgent.h \
+	MathUtil.h \
 	Missile.h \
 	ModelBody.h \
 	MyLuaMathTypes.h \
@@ -156,12 +160,15 @@ pioneer_SOURCES	= \
 	DynamicBody.cpp \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
+	FileSelectorWidget.cpp \
 	Font.cpp \
 	FontManager.cpp \
 	FormController.cpp \
 	Frame.cpp \
 	GalacticView.cpp \
 	Galaxy.cpp \
+	Game.cpp \
+	GameLoaderSaver.cpp \
 	GameMenuView.cpp \
 	GeoSphere.cpp \
 	HyperspaceCloud.cpp \
@@ -203,6 +210,7 @@ pioneer_SOURCES	= \
 	LuaUI.cpp \
 	LuaUtils.cpp \
 	MarketAgent.cpp \
+	MathUtil.cpp \
 	Missile.cpp \
 	ModelBody.cpp \
 	MyLuaMathTypes.cpp \

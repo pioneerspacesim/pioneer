@@ -64,11 +64,10 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "TextureManager.h"
+#include "Game.h"
+#include "GameLoaderSaver.h"
 
 float Pi::gameTickAlpha;
-int Pi::timeAccelIdx = 1;
-int Pi::requestedTimeAccelIdx = 1;
-bool Pi::forceTimeAccel = false;
 int Pi::scrWidth;
 int Pi::scrHeight;
 float Pi::scrAspect;
@@ -121,23 +120,19 @@ SystemView *Pi::systemView;
 SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
 LuaConsole *Pi::luaConsole;
-RefCountedPtr<StarSystem> Pi::selectedSystem;
-RefCountedPtr<StarSystem> Pi::currentSystem;
+Game *Pi::game;
 MTRand Pi::rng;
-double Pi::gameTime;
 float Pi::frameTime;
 GLUquadric *Pi::gluQuadric;
 #if DEVKEYS
 bool Pi::showDebugInfo;
 #endif
 int Pi::statSceneTris;
-bool Pi::isGameStarted = false;
 GameConfig Pi::config(GetPiUserDir() + "config.ini");
 struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
 std::vector<Pi::JoystickState> Pi::joysticks;
-const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0 };
 const char * const Pi::combatRating[] = {
 	Lang::HARMLESS,
 	Lang::MOSTLY_HARMLESS,
@@ -363,7 +358,7 @@ void Pi::Init()
 		RedirectStdio();
 
 	if (!Lang::LoadStrings(config.String("Lang")))
-        abort();
+		abort();
 
 	Pi::detail.planets = config.Int("DetailPlanets");
 	Pi::detail.textures = config.Int("Textures");
@@ -464,15 +459,17 @@ void Pi::Init()
 	draw_progress(0.2f);
 
 	NameGenerator::Init();
+	draw_progress(0.3f);
+
 	if (config.Int("DisableShaders")) Render::ToggleShaders();
 	if (config.Int("EnableHDR")) Render::ToggleHDR();
 
-    CustomSystem::Init();
-	draw_progress(0.3f);
+	CustomSystem::Init();
+	draw_progress(0.4f);
 
 	LmrModelCompilerInit();
 	LmrNotifyScreenWidth(Pi::scrWidth);
-	draw_progress(0.4f);
+	draw_progress(0.5f);
 
 //unsigned int control_word;
 //_clearfp();
@@ -480,15 +477,12 @@ void Pi::Init()
 //double fpexcept = Pi::timeAccelRates[1] / Pi::timeAccelRates[0];
 
 	ShipType::Init();
-	draw_progress(0.5f);
-
-	GeoSphere::Init();
 	draw_progress(0.6f);
 
-	CityOnPlanet::Init();
+	GeoSphere::Init();
 	draw_progress(0.7f);
 
-	Space::Init();
+	CityOnPlanet::Init();
 	draw_progress(0.8f);
 
 	SpaceStation::Init();
@@ -597,12 +591,10 @@ void Pi::InitOpenGL()
 
 void Pi::Quit()
 {
-	Pi::UninitGame();
 	delete Pi::gameMenuView;
 	delete Pi::luaConsole;
 	Sound::Uninit();
 	SpaceStation::Uninit();
-	Space::Uninit();
 	CityOnPlanet::Uninit();
 	GeoSphere::Uninit();
 	LmrModelCompilerUninit();
@@ -621,36 +613,14 @@ void Pi::BoinkNoise()
 	Sound::PlaySfx("Click", 0.3f, 0.3f, false);
 }
 
-void Pi::SetTimeAccel(int s)
-{
-	// don't want player to spin like mad when hitting time accel
-	if ((s != timeAccelIdx) && (s > 2)) {
-		player->SetAngVelocity(vector3d(0,0,0));
-		player->SetTorque(vector3d(0,0,0));
-		player->SetAngThrusterState(vector3d(0.0));
-	}
-	// Give all ships a half-step acceleration to stop autopilot overshoot
-	if (s < timeAccelIdx) for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
-		if ((*i)->IsType(Object::SHIP)) (static_cast<DynamicBody *>(*i))->ApplyAccel(0.5f*Pi::GetTimeStep());
-	}
-	timeAccelIdx = s;
-}
-
-void Pi::RequestTimeAccel(int s, bool force)
-{
-	if (currentView == gameMenuView) {
-		SetView(worldView);
-	}
-	requestedTimeAccelIdx = s;
-	forceTimeAccel = force;
-}
-
 void Pi::SetView(View *v)
 {
 	if (currentView) currentView->HideAll();
 	currentView = v;
-	currentView->OnSwitchTo();
-	currentView->ShowAll();
+	if (currentView) {
+		currentView->OnSwitchTo();
+		currentView->ShowAll();
+	}
 }
 
 void Pi::OnChangeDetailLevel()
@@ -670,54 +640,55 @@ void Pi::HandleEvents()
 		switch (event.type) {
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_ESCAPE) {
-					if (isGameStarted) {
+					if (Pi::game) {
 						// only accessible once game started
 						if (currentView != 0) {
 							if (currentView != gameMenuView) {
-								RequestTimeAccel(0);
-								SetTimeAccel(0);
+								Pi::game->SetTimeAccel(Game::TIMEACCEL_PAUSED);
 								SetView(gameMenuView);
 							}
-							else
-								RequestTimeAccel(1);
+							else {
+								Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
+								SetView(worldView);
+							}
 						}
 					}
 					break;
 				}
 				// special keys. LCTRL+turd
 				if ((KeyState(SDLK_LCTRL) || (KeyState(SDLK_RCTRL)))) {
-                    switch (event.key.keysym.sym) {
-                        case SDLK_q: // Quit
-                            Pi::Quit();
-                            break;
-                        case SDLK_s: // Toggle Shaders
-                            Render::ToggleShaders();
-                            break;
-                        case SDLK_h: // Toggle HDR
-                            Render::ToggleHDR();
-                            break;
-                        case SDLK_PRINT:       // print
-                        case SDLK_KP_MULTIPLY: // screen
-                        {
-                            char buf[256];
-                            const time_t t = time(0);
-                            struct tm *_tm = localtime(&t);
-                            strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.png", _tm);
-                            Screendump(buf, GetScrWidth(), GetScrHeight());
-                            break;
-                        }
+					switch (event.key.keysym.sym) {
+						case SDLK_q: // Quit
+							Pi::Quit();
+							break;
+						case SDLK_s: // Toggle Shaders
+							Render::ToggleShaders();
+							break;
+						case SDLK_h: // Toggle HDR
+							Render::ToggleHDR();
+							break;
+						case SDLK_PRINT:	   // print
+						case SDLK_KP_MULTIPLY: // screen
+						{
+							char buf[256];
+							const time_t t = time(0);
+							struct tm *_tm = localtime(&t);
+							strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.png", _tm);
+							Screendump(buf, GetScrWidth(), GetScrHeight());
+							break;
+						}
 #if DEVKEYS
-                        case SDLK_i: // Toggle Debug info
-                            Pi::showDebugInfo = !Pi::showDebugInfo;
-                            break;
-                        case SDLK_m:  // Gimme money!
-							if(Pi::IsGameStarted()) {
+						case SDLK_i: // Toggle Debug info
+							Pi::showDebugInfo = !Pi::showDebugInfo;
+							break;
+						case SDLK_m:  // Gimme money!
+							if(Pi::game) {
 								Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
 							}
-                            break;
-                        case SDLK_F12:
-                        {
-							if(Pi::IsGameStarted()) {
+							break;
+						case SDLK_F12:
+						{
+							if(Pi::game) {
 								matrix4x4d m; Pi::player->GetRotMatrix(m);
 								vector3d dir = m*vector3d(0,0,-1);
 								/* add test object */
@@ -728,7 +699,7 @@ void Pi::HandleEvents()
 									missile->SetFrame(Pi::player->GetFrame());
 									missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
 									missile->SetVelocity(Pi::player->GetVelocity());
-									Space::AddBody(missile);
+									game->GetSpace()->AddBody(missile);
 								} else if (KeyState(SDLK_LSHIFT)) {
 									SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
 									if (s) {
@@ -740,7 +711,7 @@ void Pi::HandleEvents()
 											ship->AIKill(Pi::player);
 											ship->SetFrame(Pi::player->GetFrame());
 											ship->SetDockedWith(s, port);
-											Space::AddBody(ship);
+											game->GetSpace()->AddBody(ship);
 										} else {
 											printf("No docking ports free dude\n");
 										}
@@ -760,33 +731,39 @@ void Pi::HandleEvents()
 									ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
 									ship->m_equipment.Add(Equip::HYDROGEN, 10);
 									ship->UpdateMass();
-									Space::AddBody(ship);
+									game->GetSpace()->AddBody(ship);
 								}
 							}
 							break;
-                        }
+						}
 #endif /* DEVKEYS */
 #if OBJECTVIEWER
-                        case SDLK_F10:
-                            Pi::SetView(Pi::objectViewerView);
-                            break;
+						case SDLK_F10:
+							Pi::SetView(Pi::objectViewerView);
+							break;
 #endif
-                        case SDLK_F11:
-                            // XXX only works on X11
-                            //SDL_WM_ToggleFullScreen(Pi::scrSurface);
-                            break;
-                        case SDLK_F9: // Quicksave
-                        {
-                            if(Pi::IsGameStarted()) {
-                                std::string name = join_path(GetFullSavefileDirPath().c_str(), "_quicksave", 0);
-                                Serializer::SaveGame(name.c_str());
-                                Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+name);
-                            }
-                            break;
-                        }
-                        default:
-                            break; // This does nothing but it stops the compiler warnings
-                    }
+						case SDLK_F11:
+							// XXX only works on X11
+							//SDL_WM_ToggleFullScreen(Pi::scrSurface);
+							break;
+						case SDLK_F9: // Quicksave
+						{
+							if(Pi::game) {
+								if (Pi::game->IsHyperspace())
+									Pi::cpan->MsgLog()->Message("", Lang::CANT_SAVE_IN_HYPERSPACE);
+
+								else {
+									std::string name = join_path(GetPiSavefileDir().c_str(), "_quicksave", 0);
+									GameSaver saver(Pi::game);
+									if (saver.SaveToFile(name))
+										Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+name);
+								}
+							}
+							break;
+						}
+						default:
+							break; // This does nothing but it stops the compiler warnings
+					}
 				}
 				Pi::keyState[event.key.keysym.sym] = 1;
 				Pi::keyModState = event.key.keysym.mod;
@@ -832,6 +809,8 @@ void Pi::HandleEvents()
 				joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
 				break;
 			case SDL_QUIT:
+				if (Pi::game)
+					Pi::EndGame();
 				Pi::Quit();
 				break;
 		}
@@ -971,41 +950,8 @@ void Pi::InitGame()
 {
 	// this is a bit brittle. skank may be forgotten and survive between
 	// games
-	Pi::timeAccelIdx = 1;
-	Pi::requestedTimeAccelIdx = 1;
-	Pi::forceTimeAccel = false;
-	Pi::gameTime = 0;
-	Pi::currentView = 0;
-	Pi::isGameStarted = false;
 
 	Polit::Init();
-
-	player = new Player("Eagle Long Range Fighter");
-	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
-	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
-	player->m_equipment.Add(Equip::HYDROGEN, 1);
-	player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
-	player->m_equipment.Add(Equip::MISSILE_GUIDED);
-	player->m_equipment.Add(Equip::MISSILE_GUIDED);
-	player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
-	player->m_equipment.Add(Equip::AUTOPILOT);
-	player->m_equipment.Add(Equip::SCANNER);
-	player->UpdateMass();
-	player->SetMoney(10000);
-	Space::AddBody(player);
-	
-	cpan = new ShipCpanel();
-	sectorView = new SectorView();
-	worldView = new WorldView();
-	galacticView = new GalacticView();
-	systemView = new SystemView();
-	systemInfoView = new SystemInfoView();
-	spaceStationView = new SpaceStationView();
-	infoView = new InfoView();
-
-#if OBJECTVIEWER
-	objectViewerView = new ObjectViewerView();
-#endif
 
 	if (!config.Int("DisableSound")) AmbientSounds::Init();
 
@@ -1014,8 +960,8 @@ void Pi::InitGame()
 
 static void OnPlayerDockOrUndock()
 {
-	Pi::RequestTimeAccel(1);
-	Pi::SetTimeAccel(1);
+	Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
+	Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
 }
 
 static void OnPlayerChangeEquipment(Equip::Type e)
@@ -1031,84 +977,171 @@ void Pi::StartGame()
 	cpan->ShowAll();
 	cpan->SetAlertState(Ship::ALERT_NONE);
 	OnPlayerChangeEquipment(Equip::NONE);
-	Pi::isGameStarted = true;
 	SetView(worldView);
 	Pi::luaOnGameStart->Signal();
 }
 
-void Pi::UninitGame()
+bool Pi::menuDone = false;
+void Pi::HandleMenuKey(int n)
 {
-	if (!config.Int("DisableSound")) AmbientSounds::Uninit();
-	Sound::DestroyAllEvents();
+	switch (n) {
 
-#if OBJECTVIEWER
-	delete objectViewerView;
-#endif
+		// XXX these assign to Pi::game, which is the correct behaviour. its
+		// redundant right now because the Game constructor assigns itself to
+		// Pi::game. it only does that as a hack to get the views up and
+		// running. one day, when all that is fixed, you can delete this
+		// comment
 
-	delete infoView;
-	delete spaceStationView;
-	delete worldView;
-	delete systemInfoView;
-	delete systemView;
-	delete sectorView;
-	delete cpan;
-	delete galacticView;
-	if (Pi::player) {
-		Space::KillBody(Pi::player);
-		Space::RemoveBody(Pi::player);
-		Space::Clear();
-		delete Pi::player;
-		Pi::player = 0;
+		case 0: // Earth start point
+		{
+			game = new Game(SystemPath(0,0,0,0,6));  // Mexico City, Earth
+			break;
+		}
+
+		case 1: // Epsilon Eridani start point
+		{
+			game = new Game(SystemPath(1,0,-1,0,5));  // New Hope, New Hope
+			break;
+		}
+
+		case 2: // Debug start point
+		{
+			game = new Game(SystemPath(1,0,-1,0,4), vector3d(0,2*EARTH_RADIUS,0));  // somewhere over New Hope
+
+			Ship *enemy = new Ship(ShipType::EAGLE_LRF);
+			enemy->SetFrame(player->GetFrame());
+			enemy->SetPosition(player->GetPosition()+vector3d(0,0,-9000.0));
+			enemy->SetVelocity(vector3d(0,0,0));
+			enemy->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
+			enemy->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+			enemy->m_equipment.Add(Equip::HYDROGEN, 2);
+			enemy->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
+			enemy->m_equipment.Add(Equip::AUTOPILOT);
+			enemy->m_equipment.Add(Equip::SCANNER);
+			enemy->UpdateMass();
+			enemy->AIKill(player);
+			game->GetSpace()->AddBody(enemy);
+
+			player->SetCombatTarget(enemy);
+
+			const ShipType *shipdef;
+			double mass, acc1, acc2, acc3;
+			printf("Player ship mass = %.0fkg, Enemy ship mass = %.0fkg\n",
+				   player->GetMass(), enemy->GetMass());
+
+			shipdef = &player->GetShipType();
+			mass = player->GetMass();
+			acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
+			acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
+			acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
+			printf("Player ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
+
+			shipdef = &enemy->GetShipType();
+			mass = enemy->GetMass();
+			acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
+			acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
+			acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
+			printf("Enemy ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
+
+			/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
+			 stationFrame->SetRadius(5000);
+			 stationFrame->m_sbody = 0;
+			 stationFrame->SetPosition(vector3d(0,0,zpos));
+			 stationFrame->SetAngVelocity(vector3d(0,0,0.5));
+
+			 for (int i=0; i<4; i++) {
+			 Ship *body = new Ship(ShipType::LADYBIRD);
+			 char buf[64];
+			 snprintf(buf,sizeof(buf),"X%c-0%02d", 'A'+i, i);
+			 body->SetLabel(buf);
+			 body->SetFrame(stationFrame);
+			 body->SetPosition(vector3d(200*(i+1), 0, 2000));
+			 Space::AddBody(body);
+			 }
+
+			 SpaceStation *station = new SpaceStation(SpaceStation::JJHOOP);
+			 station->SetLabel("Poemi-chan's Folly");
+			 station->SetFrame(stationFrame);
+			 station->SetPosition(vector3d(0,0,0));
+			 Space::AddBody(station);
+
+			 SpaceStation *station2 = new SpaceStation(SpaceStation::GROUND_FLAVOURED);
+			 station2->SetLabel("Conor's End");
+			 station2->SetFrame(*pframe->m_children.begin()); // rotating frame of planet
+			 station2->OrientOnSurface(EARTH_RADIUS, M_PI/4, M_PI/4);
+			 Space::AddBody(station2);
+			 */
+			//	player->SetDockedWith(station2, 0);
+
+			break;
+		}
+
+		case 3: // Load game
+		{
+			GameLoader loader;
+			loader.DialogMainLoop();
+			game = loader.GetGame();
+			break;
+		}
+
+		default:
+			break;
 	}
-	Pi::selectedSystem.Reset();
-	StarSystem::ShrinkCache();
-}
 
+	menuDone = true;
+}
 
 void Pi::Start()
 {
 	Background::Starfield *starfield = new Background::Starfield();
 	Background::MilkyWay *milkyway = new Background::MilkyWay();
 
-	Gui::Fixed *splash = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
-	Gui::Screen::AddBaseWidget(splash, 0, 0);
-	splash->SetTransparency(true);
+	Gui::Fixed *menu = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
+	Gui::Screen::AddBaseWidget(menu, 0, 0);
+	menu->SetTransparency(true);
 
 	Gui::Screen::PushFont("OverlayFont");
 
 	const float w = Gui::Screen::GetWidth() / 2.0f;
 	const float h = Gui::Screen::GetHeight() / 2.0f;
 	const int OPTS = 5;
-	Gui::ToggleButton *opts[OPTS];
-	opts[0] = new Gui::ToggleButton(); opts[0]->SetShortcut(SDLK_1, KMOD_NONE);
-	opts[1] = new Gui::ToggleButton(); opts[1]->SetShortcut(SDLK_2, KMOD_NONE);
-	opts[2] = new Gui::ToggleButton(); opts[2]->SetShortcut(SDLK_3, KMOD_NONE);
-	opts[3] = new Gui::ToggleButton(); opts[3]->SetShortcut(SDLK_4, KMOD_NONE);
-	opts[4] = new Gui::ToggleButton(); opts[4]->SetShortcut(SDLK_5, KMOD_NONE);
-	splash->Add(opts[0], w, h-64);
-	splash->Add(new Gui::Label(Lang::MM_START_NEW_GAME_EARTH), w+32, h-64);
-	splash->Add(opts[1], w, h-32);
-	splash->Add(new Gui::Label(Lang::MM_START_NEW_GAME_E_ERIDANI), w+32, h-32);
-	splash->Add(opts[2], w, h);
-	splash->Add(new Gui::Label(Lang::MM_START_NEW_GAME_DEBUG), w+32, h);
-	splash->Add(opts[3], w, h+32);
-	splash->Add(new Gui::Label(Lang::MM_LOAD_SAVED_GAME), w+32, h+32);
-	splash->Add(opts[4], w, h+64);
-	splash->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+64);
+	Gui::SolidButton *opts[OPTS];
+	opts[0] = new Gui::SolidButton(); opts[0]->SetShortcut(SDLK_1, KMOD_NONE);
+	opts[0]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 0));
+	opts[1] = new Gui::SolidButton(); opts[1]->SetShortcut(SDLK_2, KMOD_NONE);
+	opts[1]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 1));
+	opts[2] = new Gui::SolidButton(); opts[2]->SetShortcut(SDLK_3, KMOD_NONE);
+	opts[2]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 2));
+	opts[3] = new Gui::SolidButton(); opts[3]->SetShortcut(SDLK_4, KMOD_NONE);
+	opts[3]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 3));
+	opts[4] = new Gui::SolidButton(); opts[4]->SetShortcut(SDLK_5, KMOD_NONE);
+	opts[4]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 4));
+	menu->Add(opts[0], w, h-64);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_EARTH), w+32, h-64);
+	menu->Add(opts[1], w, h-32);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_E_ERIDANI), w+32, h-32);
+	menu->Add(opts[2], w, h);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_DEBUG), w+32, h);
+	menu->Add(opts[3], w, h+32);
+	menu->Add(new Gui::Label(Lang::MM_LOAD_SAVED_GAME), w+32, h+32);
+	menu->Add(opts[4], w, h+64);
+	menu->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+64);
 
-    std::string version("Pioneer " PIONEER_VERSION);
-    if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
+	std::string version("Pioneer " PIONEER_VERSION);
+	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
 
-    splash->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200.0f, Gui::Screen::GetHeight()-32.0f);
+	menu->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200.0f, Gui::Screen::GetHeight()-32.0f);
 
 	Gui::Screen::PopFont();
 
-	splash->ShowAll();
-
-	int choice = 0;
+	menu->ShowAll();
+	
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
-	do {
+
+	menuDone = false;
+	game = 0;
+	while (!menuDone) {
 		Pi::HandleEvents();
 
 		Render::PrepareFrame();
@@ -1131,150 +1164,25 @@ void Pi::Start()
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
-
-		// poll ui instead of using callbacks :-J
-		for (int i=0; i<OPTS; i++) if (opts[i]->GetPressed()) choice = i+1;
-	} while (!choice);
-	splash->HideAll();
+	}
+	menu->HideAll();
 	
-	Gui::Screen::RemoveBaseWidget(splash);
-	delete splash;
+	Gui::Screen::RemoveBaseWidget(menu);
+	delete menu;
 	delete starfield;
 	delete milkyway;
-	
-	InitGame();
 
-    switch (choice) {
-        case 1: // Earth start point
-        {
-            SystemPath path(0,0,0, 0);
-            Space::SetupSystemForGameStart(&path, 1, 0);
-			sectorView->NewGameInit();
-            StartGame();
-            MainLoop();
-            break;
-        }
-        case 2: // Epsilon Eridani start point
-        {
-            SystemPath path(1,0,-1, 0);
-            Space::SetupSystemForGameStart(&path, 0, 0);
-			sectorView->NewGameInit();
-            StartGame();
-            MainLoop();
-            break;
-        }
-        case 3: // Debug start point
-        {
-            SystemPath path(1,0,-1, 0);
-            Space::DoHyperspaceTo(&path);
-            for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++) {
-                const SBody *sbody = (*i)->GetSBody();
-                if (!sbody) continue;
-                if (sbody->path.bodyIndex == 6) {
-                    player->SetFrame((*i)->GetFrame());
-                    break;
-                }
-            }
-            player->SetPosition(vector3d(0,2*EARTH_RADIUS,0));
-            player->SetVelocity(vector3d(0,0,0));
-            player->m_equipment.Add(Equip::HYPERCLOUD_ANALYZER);
-            player->UpdateMass();
+	// game is set by HandleMenuKey if any game-starting option (start or
+	// load) is selected
+	if (game) {
+		InitGame();
+		StartGame();
+		MainLoop();
+	}
 
-            Ship *enemy = new Ship(ShipType::EAGLE_LRF);
-            enemy->SetFrame(player->GetFrame());
-            enemy->SetPosition(player->GetPosition()+vector3d(0,0,-9000.0));
-            enemy->SetVelocity(vector3d(0,0,0));
-            enemy->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
-            enemy->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
-            enemy->m_equipment.Add(Equip::HYDROGEN, 2);
-            enemy->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
-            enemy->m_equipment.Add(Equip::AUTOPILOT);
-            enemy->m_equipment.Add(Equip::SCANNER);
-            enemy->UpdateMass();
-            enemy->AIKill(player);
-            Space::AddBody(enemy);
-
-            player->SetCombatTarget(enemy);
-
-            const ShipType *shipdef;
-            double mass, acc1, acc2, acc3;
-            printf("Player ship mass = %.0fkg, Enemy ship mass = %.0fkg\n",
-                   player->GetMass(), enemy->GetMass());
-
-            shipdef = &player->GetShipType();
-            mass = player->GetMass();
-            acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
-            acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
-            acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
-            printf("Player ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
-
-            shipdef = &enemy->GetShipType();
-            mass = enemy->GetMass();
-            acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
-            acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
-            acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
-            printf("Enemy ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
-
-            /*	Frame *stationFrame = new Frame(pframe, "Station frame...");
-             stationFrame->SetRadius(5000);
-             stationFrame->m_sbody = 0;
-             stationFrame->SetPosition(vector3d(0,0,zpos));
-             stationFrame->SetAngVelocity(vector3d(0,0,0.5));
-
-             for (int i=0; i<4; i++) {
-             Ship *body = new Ship(ShipType::LADYBIRD);
-             char buf[64];
-             snprintf(buf,sizeof(buf),"X%c-0%02d", 'A'+i, i);
-             body->SetLabel(buf);
-             body->SetFrame(stationFrame);
-             body->SetPosition(vector3d(200*(i+1), 0, 2000));
-             Space::AddBody(body);
-             }
-
-             SpaceStation *station = new SpaceStation(SpaceStation::JJHOOP);
-             station->SetLabel("Poemi-chan's Folly");
-             station->SetFrame(stationFrame);
-             station->SetPosition(vector3d(0,0,0));
-             Space::AddBody(station);
-
-             SpaceStation *station2 = new SpaceStation(SpaceStation::GROUND_FLAVOURED);
-             station2->SetLabel("Conor's End");
-             station2->SetFrame(*pframe->m_children.begin()); // rotating frame of planet
-             station2->OrientOnSurface(EARTH_RADIUS, M_PI/4, M_PI/4);
-             Space::AddBody(station2);
-             */
-            //	player->SetDockedWith(station2, 0);
-
-			sectorView->NewGameInit();
-            StartGame();
-            MainLoop();
-            break;
-        }
-        case 4: // Load game
-        {
-            if (Pi::player) {
-                Pi::player->MarkDead();
-                Space::bodies.remove(Pi::player);
-                delete Pi::player;
-                Pi::player = 0;
-            }
-            Pi::gameMenuView->OpenLoadDialog();
-            do {
-                Gui::MainLoopIteration();
-            } while (Pi::currentView != Pi::worldView);
-
-            if (Pi::isGameStarted) MainLoop();
-            break;
-        }
-        case 5: // Quit
-            Pi::Quit();
-            break;
-        default:
-            fprintf(stderr, "Invalid Menu Option."); // should not get here!
-            break;
-    }
-
-	UninitGame();
+	// no game means quit was selected, so end things
+	else
+		Pi::Quit();
 }
 
 void Pi::EndGame()
@@ -1283,7 +1191,16 @@ void Pi::EndGame()
 	Sound::DestroyAllEvents();
 	Pi::luaOnGameEnd->Signal();
 	Pi::luaManager->CollectGarbage();
-	Pi::isGameStarted = false;
+
+	if (!config.Int("DisableSound")) AmbientSounds::Uninit();
+	Sound::DestroyAllEvents();
+
+	assert(game);
+	delete game;
+	game = 0;
+	player = 0;
+
+	StarSystem::ShrinkCache();
 }
 
 
@@ -1308,17 +1225,17 @@ void Pi::MainLoop()
 		MAX_PHYSICS_TICKS = 4;
 
 	double currentTime = 0.001 * double(SDL_GetTicks());
-	double accumulator = Pi::GetTimeStep();
+	double accumulator = Pi::game->GetTimeStep();
 	Pi::gameTickAlpha = 0;
 
-	while (isGameStarted) {
+	while (Pi::game) {
 		double newTime = 0.001 * double(SDL_GetTicks());
 		Pi::frameTime = newTime - currentTime;
 		if (Pi::frameTime > 0.25) Pi::frameTime = 0.25;
 		currentTime = newTime;
-		accumulator += Pi::frameTime * GetTimeAccel();
+		accumulator += Pi::frameTime * Pi::game->GetTimeAccelRate();
 		
-		const float step = Pi::GetTimeStep();
+		const float step = Pi::game->GetTimeStep();
 		if (step > 0.0f) {
 			int phys_ticks = 0;
 			while (accumulator >= step) {
@@ -1326,8 +1243,7 @@ void Pi::MainLoop()
 					accumulator = 0.0;
 					break;
 				}
-				Space::TimeStep(step);
-				gameTime += step;
+				game->TimeStep(step);
 
 				accumulator -= step;
 			}
@@ -1346,10 +1262,11 @@ void Pi::MainLoop()
 		glLoadIdentity();
 		
 		/* Calculate position for this rendered frame (interpolated between two physics ticks */
-		for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+        // XXX should this be here? what is this anyway?
+		for (Space::BodyIterator i = game->GetSpace()->BodiesBegin(); i != game->GetSpace()->BodiesEnd(); ++i) {
 			(*i)->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 		}
-		Space::rootFrame->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
+		game->GetSpace()->GetRootFrame()->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 
 		currentView->Update();
 		currentView->Draw3D();
@@ -1379,64 +1296,30 @@ void Pi::MainLoop()
 		Render::SwapBuffers();
 		//if (glGetError()) printf ("GL: %s\n", gluErrorString (glGetError ()));
 		
-		int timeAccel = Pi::requestedTimeAccelIdx;
-		if (Pi::player->GetFlightState() == Ship::FLYING) {
 
-			// special timeaccel lock rules while in alert
-			if (Pi::player->GetAlertState() == Ship::ALERT_SHIP_NEARBY)
-				timeAccel = std::min(timeAccel, 2);
-			else if (Pi::player->GetAlertState() == Ship::ALERT_SHIP_FIRING)
-				timeAccel = std::min(timeAccel, 1);
+		// game exit or failed load from GameMenuView will have cleared
+		// Pi::game. we can't continue.
+		if (!Pi::game)
+			return;
+		
 
-			else if (!Pi::forceTimeAccel) {
-				// check we aren't too near to objects for timeaccel //
-				for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
-					if ((*i) == Pi::player) continue;
-					if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
-				
-					vector3d toBody = Pi::player->GetPosition() - (*i)->GetPositionRelTo(Pi::player->GetFrame());
-					double dist = toBody.Length();
-					double rad = (*i)->GetBoundingRadius();
-
-					if (dist < 1000.0) {
-						timeAccel = std::min(timeAccel, 1);
-					} else if (dist < std::min(rad+0.0001*AU, rad*1.1)) {
-						timeAccel = std::min(timeAccel, 2);
-					} else if (dist < std::min(rad+0.001*AU, rad*5.0)) {
-						timeAccel = std::min(timeAccel, 3);
-					} else if (dist < std::min(rad+0.01*AU,rad*10.0)) {
-						timeAccel = std::min(timeAccel, 4);
-					} else if (dist < std::min(rad+0.1*AU, rad*1000.0)) {
-						timeAccel = std::min(timeAccel, 5);
-					}
-				}
-			}
-		}
-
-		// force down to timeaccel 1 during the docking sequence
-		else if (Pi::player->GetFlightState() == Ship::DOCKING) {
-			timeAccel = std::min(timeAccel, 1);
-		}
-
-		if (timeAccel != Pi::GetTimeAccelIdx()) {
-			Pi::SetTimeAccel(timeAccel);
+		if (Pi::game->UpdateTimeAccel())
 			accumulator = 0;				// fix for huge pauses 10000x -> 1x
-		}
 
 		// fuckadoodledoo, did the player die?
 		if (Pi::player->IsDead()) {
 			if (time_player_died > 0.0) {
-				if (Pi::GetGameTime() - time_player_died > 8.0) {
-					Pi::EndGame();
+				if (Pi::game->GetTime() - time_player_died > 8.0) {
 					Pi::TombStoneLoop();
+					Pi::EndGame();
 					break;
 				}
 			} else {
-				Pi::SetTimeAccel(1);
+				Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
 				Pi::cpan->HideAll();
 				Pi::SetView(static_cast<View*>(Pi::worldView));
 				Pi::player->Disable();
-				time_player_died = Pi::GetGameTime();
+				time_player_died = Pi::game->GetTime();
 			}
 		} else {
 			// this is something we need not do every turn...
@@ -1482,99 +1365,6 @@ void Pi::MainLoop()
 		}
 #endif /* MAKING_VIDEO */
 	}
-}
-
-RefCountedPtr<StarSystem> Pi::GetSelectedSystem()
-{
-	SystemPath selectedPath = Pi::sectorView->GetSelectedSystem();
-
-	if (selectedSystem) {
-		if (selectedSystem->GetPath().IsSameSystem(selectedPath))
-			return selectedSystem;
-		selectedSystem.Reset();
-	}
-
-	selectedSystem = StarSystem::GetCached(selectedPath);
-	return selectedSystem;
-}
-
-void Pi::Serialize(Serializer::Writer &wr)
-{
-	Serializer::Writer section;
-
-	Serializer::IndexFrames();
-	Serializer::IndexBodies();
-	Serializer::IndexSystemBodies(currentSystem.Get());
-
-	section = Serializer::Writer();
-	section.Double(gameTime);
-	StarSystem::Serialize(section, selectedSystem.Get());
-	StarSystem::Serialize(section, currentSystem.Get());
-	wr.WrSection("PiMisc", section.GetData());
-	
-	section = Serializer::Writer();
-	Space::Serialize(section);
-	wr.WrSection("Space", section.GetData());
-
-	section = Serializer::Writer();
-	Polit::Serialize(section);
-	wr.WrSection("Polit", section.GetData());
-	
-	section = Serializer::Writer();
-	sectorView->Save(section);
-	wr.WrSection("SectorView", section.GetData());
-
-	section = Serializer::Writer();
-	worldView->Save(section);
-	wr.WrSection("WorldView", section.GetData());
-
-	section = Serializer::Writer();
-	cpan->Save(section);
-	wr.WrSection("Cpanel", section.GetData());
-
-	section = Serializer::Writer();
-	luaSerializer->Serialize(section);
-	wr.WrSection("LuaModules", section.GetData());
-}
-
-void Pi::Unserialize(Serializer::Reader &rd)
-{
-	Serializer::Reader section;
-	
-	SetTimeAccel(0);
-	requestedTimeAccelIdx = 0;
-	forceTimeAccel = false;
-	Space::Clear();
-	if (Pi::player) {
-		Pi::player->MarkDead();
-		Space::bodies.remove(Pi::player);
-		delete Pi::player;
-		Pi::player = 0;
-	}
-
-	section = rd.RdSection("PiMisc");
-	gameTime = section.Double();
-	selectedSystem = StarSystem::Unserialize(section);
-	currentSystem = StarSystem::Unserialize(section);
-
-	section = rd.RdSection("Space");
-	Space::Unserialize(section);
-	
-	section = rd.RdSection("Polit");
-	Polit::Unserialize(section);
-
-	section = rd.RdSection("SectorView");
-	sectorView->Load(section);
-
-	section = rd.RdSection("WorldView");
-	if (worldView) delete worldView;		// XXX hack. in reality this should never have been created in the first place
-	worldView = new WorldView(section);
-
-	section = rd.RdSection("Cpanel");
-	cpan->Load(section);
-
-	section = rd.RdSection("LuaModules");
-	luaSerializer->Unserialize(section);
 }
 
 float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)

@@ -155,7 +155,7 @@ void Planet::DrawGasGiantRings()
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 	glDisable(GL_CULL_FACE);
 
-//	MTRand rng((int)Pi::GetGameTime());
+//	MTRand rng((int)Pi::game->GetTime());
 	MTRand rng(GetSBody()->seed+965467);
 	float col[4];
 

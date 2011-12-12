@@ -19,12 +19,12 @@ public:
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	void TimeStepUpdate(const float timeStep);
 	void StaticUpdate(const float timeStep);
-	virtual void NotifyDeleted(const Body* const deletedBody);
+	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual void UpdateInterpolatedTransform(double alpha);
-	virtual void PostLoadFixup();
+	virtual void PostLoadFixup(Space *space);
 protected:
-	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
+	virtual void Save(Serializer::Writer &wr, Space *space);
+	virtual void Load(Serializer::Reader &rd, Space *space);
 private:
 	float GetDamage() const;
 	Body *m_parent;

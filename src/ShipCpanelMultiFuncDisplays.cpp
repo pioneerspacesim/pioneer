@@ -11,6 +11,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "KeyBindings.h"
+#include "Game.h"
 
 #define SCANNER_RANGE_MAX	100000.0f
 #define SCANNER_RANGE_MIN	1000.0f
@@ -61,8 +62,8 @@ void MsgLogWidget::ShowNext()
 	} else {
 		// current message expired and more in queue
 		Pi::BoinkNoise();
-		Pi::SetTimeAccel(1);
-		Pi::RequestTimeAccel(1);
+		Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
+		Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
 		message_t msg("","",NONE);
 		// use MUST_SEE messages first
 		for (std::list<message_t>::iterator i = m_msgQueue.begin();
@@ -104,6 +105,21 @@ ScannerWidget::ScannerWidget()
 	m_mode = SCANNER_MODE_AUTO;
 	m_currentRange = m_manualRange = m_targetRange = SCANNER_RANGE_MIN;
 
+	InitObject();
+}
+
+ScannerWidget::ScannerWidget(Serializer::Reader &rd)
+{
+	m_mode = ScannerMode(rd.Int32());
+	m_currentRange = rd.Float();
+	m_manualRange = rd.Float();
+	m_targetRange = rd.Float();
+
+	InitObject();
+}
+
+void ScannerWidget::InitObject()
+{
 	m_toggleScanModeConnection = KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::ToggleMode));
 }
 
@@ -120,7 +136,7 @@ void ScannerWidget::GetSizeRequested(float size[2])
 
 void ScannerWidget::ToggleMode()
 {
-	if (IsVisible() && !Pi::IsTimeAccelPause()) {
+	if (IsVisible() && Pi::game->GetTimeAccel() != Game::TIMEACCEL_PAUSED) {
 		if (m_mode == SCANNER_MODE_AUTO) m_mode = SCANNER_MODE_MANUAL;
 		else m_mode = SCANNER_MODE_AUTO;
 	}
@@ -192,7 +208,7 @@ void ScannerWidget::Update()
 	float combat_dist = 0, far_ship_dist = 0, nav_dist = 0, far_other_dist = 0;
 
 	// collect the bodies to be displayed, and if AUTO, distances
-	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
 		if ((*i) == Pi::player) continue;
 
 		float dist = float((*i)->GetPositionRelTo(Pi::player).Length());
@@ -475,13 +491,6 @@ void ScannerWidget::Save(Serializer::Writer &wr)
 	wr.Float(m_targetRange);
 }
 
-void ScannerWidget::Load(Serializer::Reader &rd)
-{
-	m_mode = ScannerMode(rd.Int32());
-	m_currentRange = rd.Float();
-	m_manualRange = rd.Float();
-	m_targetRange = rd.Float();
-}
 
 /////////////////////////////////
 

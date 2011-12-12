@@ -7,6 +7,7 @@
 #include "ShipCpanel.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "Game.h"
 
 #define REMOVAL_VALUE_PERCENT 90
 
@@ -50,7 +51,7 @@ StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) :
 		Equip::Type type = static_cast<Equip::Type>(i);
 		if (!m_station->GetStock(type) &&
 			!(Pi::player->m_equipment.Count(Equip::types[i].slot, type) &&
-			Equip::types[i].techLevel <= Pi::currentSystem->m_techlevel))
+			Equip::types[i].techLevel <= Pi::game->GetSpace()->GetStarSystem()->m_techlevel))
 			continue;
 		Gui::Label *l = new Gui::Label(Equip::types[i].name);
 		if (Equip::types[i].description) {

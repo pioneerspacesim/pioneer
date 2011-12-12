@@ -9,15 +9,16 @@
 
 class Frame;
 class ObjMesh;
+class Space;
 
 class Body: public Object {
 public:
 	OBJDEF(Body, Object, BODY);
 	Body();
 	virtual ~Body();
-	void Serialize(Serializer::Writer &wr);
-	static Body *Unserialize(Serializer::Reader &rd);
-	virtual void PostLoadFixup() {};
+	void Serialize(Serializer::Writer &wr, Space *space);
+	static Body *Unserialize(Serializer::Reader &rd, Space *space);
+	virtual void PostLoadFixup(Space *space) {};
 
 	virtual void SetPosition(vector3d p) = 0;
 	virtual vector3d GetPosition() const = 0; // within frame
@@ -36,7 +37,7 @@ public:
 	virtual void OnHaveKilled(Body *guyWeKilled) {}
 	// Note: Does not mean killed, just deleted.
 	// Override to clear any pointers you hold to the body
-	virtual void NotifyDeleted(const Body* const deletedBody) {}
+	virtual void NotifyRemoved(const Body* const removedBody) {}
 
 	// before all bodies have had TimeStepUpdate (their moving step),
 	// StaticUpdate() is called. Good for special collision testing (Projectiles)
@@ -87,8 +88,8 @@ public:
                FLAG_LABEL_HIDDEN = (1<<1),
 	       FLAG_DRAW_LAST = (1<<2) }; // causes the body drawn after other bodies in the z-sort
 protected:
-	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
+	virtual void Save(Serializer::Writer &wr, Space *space);
+	virtual void Load(Serializer::Reader &rd, Space *space);
 	unsigned int m_flags;
 	bool m_hasDoubleFrame;
 
