@@ -11,26 +11,67 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "ShipCpanel.h"
+#include "Game.h"
 
 #define INNER_RADIUS (Sector::SIZE*1.5f)
 #define OUTER_RADIUS (Sector::SIZE*3.0f)
-		
-SectorView::SectorView() :
-	m_selectionFollowsMovement(true),
-	m_infoBoxVisible(true)
-{
-	SetTransparency(true);
 
+SectorView::SectorView()
+{
+	InitDefaults();
+	
+	m_rotX = m_rotXMovingTo = m_rotXDefault;
+	m_rotZ = m_rotZMovingTo = m_rotZDefault;
+	m_zoom = m_zoomMovingTo = m_zoomDefault;
+
+	m_current = Pi::game->GetSpace()->GetStarSystem()->GetPath();
+	assert(!m_current.IsSectorPath());
+	m_current = m_current.SystemOnly();
+
+	m_selected = m_hyperspaceTarget = m_current;
+
+	GotoSystem(m_current);
+	m_pos = m_posMovingTo;
+
+	m_matchTargetToSelection = true;
+	m_selectionFollowsMovement = true;
+	m_infoBoxVisible = true;
+
+	InitObject();
+}
+
+SectorView::SectorView(Serializer::Reader &rd)
+{
+	InitDefaults();
+
+	m_pos.x = m_posMovingTo.x = rd.Float();
+	m_pos.y = m_posMovingTo.y = rd.Float();
+	m_pos.z = m_posMovingTo.z = rd.Float();
+	m_rotX = m_rotXMovingTo = rd.Float();
+	m_rotZ = m_rotZMovingTo = rd.Float();
+	m_zoom = m_zoomMovingTo = rd.Float();
+	m_current = SystemPath::Unserialize(rd);
+	m_selected = SystemPath::Unserialize(rd);
+	m_hyperspaceTarget = SystemPath::Unserialize(rd);
+	m_matchTargetToSelection = rd.Bool();
+	m_selectionFollowsMovement = rd.Bool();
+	m_infoBoxVisible = rd.Bool();
+
+	InitObject();
+}
+
+void SectorView::InitDefaults()
+{
 	m_rotXDefault = Pi::config.Float("SectorViewXRotation");
 	m_rotZDefault = Pi::config.Float("SectorViewZRotation");
 	m_zoomDefault = Pi::config.Float("SectorViewZoom");
 	m_rotXDefault = Clamp(m_rotXDefault, -170.0f, -10.0f);
 	m_zoomDefault = Clamp(m_zoomDefault, 0.1f, 5.0f);
-
-	m_pos = m_posMovingTo = vector3f(0.0f);
-	m_rotX = m_rotXMovingTo = m_rotXDefault;
-	m_rotZ = m_rotZMovingTo = m_rotZDefault;
-	m_zoom = m_zoomMovingTo = m_zoomDefault;
+}
+		
+void SectorView::InitObject()
+{
+	SetTransparency(true);
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_clickableLabels = new Gui::LabelSet();
@@ -131,7 +172,11 @@ SectorView::SectorView() :
 	m_onMouseButtonDown = 
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SectorView::MouseButtonDown));
 	
-	FloatHyperspaceTarget();
+	UpdateSystemLabels(m_currentSystemLabels, m_current);
+	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
+	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
+
+	UpdateHyperspaceLockLabel();
 }
 
 SectorView::~SectorView()
@@ -141,55 +186,20 @@ SectorView::~SectorView()
 	if (m_onKeyPressConnection.connected()) m_onKeyPressConnection.disconnect();
 }
 
-void SectorView::NewGameInit()
-{
-	printf("SectorView::NewGameInit()\n");
-	assert(Pi::currentSystem);
-	m_current = Pi::currentSystem->GetPath();
-	assert(!m_current.IsSectorPath());
-	m_current = m_current.SystemOnly();
-
-	WarpToSystem(m_current);
-	OnClickSystem(m_current);
-	SetSelectedSystem(m_current);
-}
-
 void SectorView::Save(Serializer::Writer &wr)
 {
-	wr.Float(m_zoom);
-	m_current.Serialize(wr);
-	m_selected.Serialize(wr);
-	m_hyperspaceTarget.Serialize(wr);
 	wr.Float(m_pos.x);
 	wr.Float(m_pos.y);
 	wr.Float(m_pos.z);
 	wr.Float(m_rotX);
 	wr.Float(m_rotZ);
+	wr.Float(m_zoom);
+	m_current.Serialize(wr);
+	m_selected.Serialize(wr);
+	m_hyperspaceTarget.Serialize(wr);
 	wr.Bool(m_matchTargetToSelection);
 	wr.Bool(m_selectionFollowsMovement);
 	wr.Bool(m_infoBoxVisible);
-}
-
-void SectorView::Load(Serializer::Reader &rd)
-{
-	m_zoom = m_zoomMovingTo = rd.Float();
-	m_current = SystemPath::Unserialize(rd);
-	m_selected = SystemPath::Unserialize(rd);
-	m_hyperspaceTarget = SystemPath::Unserialize(rd);
-	m_pos.x = m_posMovingTo.x = rd.Float();
-	m_pos.y = m_posMovingTo.y = rd.Float();
-	m_pos.z = m_posMovingTo.z = rd.Float();
-	m_rotX = m_rotXMovingTo = rd.Float();
-	m_rotZ = m_rotZMovingTo = rd.Float();
-	m_matchTargetToSelection = rd.Bool();
-	m_selectionFollowsMovement = rd.Bool();
-	m_infoBoxVisible = rd.Bool();
-
-	UpdateSystemLabels(m_currentSystemLabels, m_current);
-	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
-	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
-
-	m_hyperspaceLockLabel->SetText(stringf("[%0]", std::string(m_matchTargetToSelection ? Lang::FOLLOWING_SELECTION : Lang::LOCKED)));
 }
 
 void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
@@ -333,13 +343,18 @@ void SectorView::SetHyperspaceTarget(const SystemPath &path)
 
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 
-	m_hyperspaceLockLabel->SetText(stringf("[%0]", std::string(Lang::LOCKED)));
+	UpdateHyperspaceLockLabel();
 }
 
 void SectorView::FloatHyperspaceTarget()
 {
 	m_matchTargetToSelection = true;
-	m_hyperspaceLockLabel->SetText(stringf("[%0]", std::string(Lang::FOLLOWING_SELECTION)));
+	UpdateHyperspaceLockLabel();
+}
+
+void SectorView::UpdateHyperspaceLockLabel()
+{
+	m_hyperspaceLockLabel->SetText(stringf("[%0]", m_matchTargetToSelection ? std::string(Lang::FOLLOWING_SELECTION) : std::string(Lang::LOCKED)));
 }
 
 void SectorView::ResetHyperspaceTarget()
@@ -361,12 +376,6 @@ void SectorView::GotoSystem(const SystemPath &path)
 	m_posMovingTo.x = path.sectorX + p.x/Sector::SIZE;
 	m_posMovingTo.y = path.sectorY + p.y/Sector::SIZE;
 	m_posMovingTo.z = path.sectorZ + p.z/Sector::SIZE;
-}
-
-void SectorView::WarpToSystem(const SystemPath &path)
-{
-	GotoSystem(path);
-	m_pos = m_posMovingTo;
 }
 
 void SectorView::SetSelectedSystem(const SystemPath &path)
@@ -718,7 +727,7 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 void SectorView::Update()
 {
 	SystemPath last_current = m_current;
-	m_current = Pi::currentSystem->GetPath();
+	m_current = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 	if (last_current != m_current)
 		UpdateSystemLabels(m_currentSystemLabels, m_current);
 

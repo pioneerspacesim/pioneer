@@ -16,6 +16,7 @@
 #include "SectorView.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "Game.h"
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
@@ -392,7 +393,7 @@ static Color get_color_for_warning_meter_bar(float v) {
 
 void WorldView::RefreshButtonStateAndVisibility()
 {
-	if ((!Pi::player) || Pi::player->IsDead() || !Pi::IsGameStarted()) {
+	if (!Pi::player || Pi::player->IsDead() || !Pi::game) {
 		HideAll();
 		return;
 	}
@@ -476,7 +477,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	if (Pi::showDebugInfo) {
 		char buf[1024], aibuf[256];
 		vector3d pos = Pi::player->GetPosition();
-		vector3d abs_pos = Pi::player->GetPositionRelTo(Space::rootFrame);
+		vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
 		Pi::player->AIGetStatusText(aibuf); aibuf[255] = 0;
@@ -494,13 +495,14 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 #endif
 
-	if (const SystemPath *dest = Space::GetHyperspaceDest()) {
-		RefCountedPtr<StarSystem> s = StarSystem::GetCached(*dest);
+	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) {
+		const SystemPath dest = Pi::player->GetHyperspaceDest();
+		RefCountedPtr<StarSystem> s = StarSystem::GetCached(dest);
 		m_hudVelocity->SetText(stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
 			formatarg("system", s->GetName()),
-			formatarg("x", dest->sectorX),
-			formatarg("y", dest->sectorY),
-			formatarg("z", dest->sectorZ)));
+			formatarg("x", dest.sectorX),
+			formatarg("y", dest.sectorY),
+			formatarg("z", dest.sectorZ)));
 		m_hudVelocity->Show();
 
 		m_hudTargetDist->Hide();
@@ -823,18 +825,18 @@ void WorldView::BuildCommsNavOptions()
 
 	m_commsNavOptions->PackEnd(new Gui::Label(std::string("#ff0")+std::string(Lang::NAVIGATION_TARGETS_IN_THIS_SYSTEM)+std::string("\n")));
 
-	for ( std::vector<SBody*>::const_iterator i = Pi::currentSystem->m_spaceStations.begin();
-	      i != Pi::currentSystem->m_spaceStations.end(); ++i) {
+	for ( std::vector<SBody*>::const_iterator i = Pi::game->GetSpace()->GetStarSystem()->m_spaceStations.begin();
+	      i != Pi::game->GetSpace()->GetStarSystem()->m_spaceStations.end(); ++i) {
 
 		groups[(*i)->parent->path.bodyIndex].push_back(*i);
 	}
 
 	for ( std::map< Uint32,std::vector<SBody*> >::const_iterator i = groups.begin(); i != groups.end(); ++i ) {
-		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + Pi::currentSystem->m_bodies[(*i).first]->name));
+		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + Pi::game->GetSpace()->GetStarSystem()->m_bodies[(*i).first]->name));
 
 		for ( std::vector<SBody*>::const_iterator j = (*i).second.begin(); j != (*i).second.end(); ++j) {
-			SystemPath path = Pi::currentSystem->GetPathOf(*j);
-			Body *body = Space::FindBodyForPath(&path);
+			SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPathOf(*j);
+			Body *body = Pi::game->GetSpace()->FindBodyForPath(&path);
 			AddCommsNavOption((*j)->name, body);
 		}
 	}
@@ -934,7 +936,7 @@ void WorldView::UpdateCommsOptions()
 
 	if (m_showTargetActionsTimeout == 0) return;
 
-	if (Pi::currentSystem->m_spaceStations.size() > 0)
+	if (Pi::game->GetSpace()->GetStarSystem()->m_spaceStations.size() > 0)
 	{
 		BuildCommsNavOptions();
 	}
@@ -1078,7 +1080,7 @@ void WorldView::UpdateProjectedObjects()
 	// determine projected positions and update labels
 	m_bodyLabels->Clear();
 	m_projectedPos.clear();
-	for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
 		Body *b = *i;
 
 		vector3d pos = b->GetInterpolatedPositionRelTo(cam_frame);

@@ -15,6 +15,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include <algorithm>
+#include "Game.h"
 
 #define ARG_STATION_BAY1_STAGE 6
 #define ARG_STATION_BAY1_POS   10
@@ -218,9 +219,9 @@ float SpaceStation::GetDesiredAngVel() const
 	return m_type->angVel;
 }
 
-void SpaceStation::Save(Serializer::Writer &wr)
+void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 {
-	ModelBody::Save(wr);
+	ModelBody::Save(wr, space);
 	MarketAgent::Save(wr);
 	wr.Int32(Equip::TYPE_MAX);
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
@@ -233,7 +234,7 @@ void SpaceStation::Save(Serializer::Writer &wr)
 		(*i).Save(wr);
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		wr.Int32(Serializer::LookupBody(m_shipDocking[i].ship));
+		wr.Int32(space->GetIndexForBody(m_shipDocking[i].ship));
 		wr.Int32(m_shipDocking[i].stage);
 		wr.Float(float(m_shipDocking[i].stagePos));
 		wr.Vector3d(m_shipDocking[i].fromPos);
@@ -243,13 +244,13 @@ void SpaceStation::Save(Serializer::Writer &wr)
 		wr.Float(float(m_dockAnimState[i]));
 	}
 	wr.Double(m_lastUpdatedShipyard);
-	wr.Int32(Serializer::LookupSystemBody(m_sbody));
+	wr.Int32(space->GetIndexForSBody(m_sbody));
 	wr.Int32(m_numPoliceDocked);
 }
 
-void SpaceStation::Load(Serializer::Reader &rd)
+void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 {
-	ModelBody::Load(rd);
+	ModelBody::Load(rd, space);
 	MarketAgent::Load(rd);
 	int num = rd.Int32();
 	if (num > Equip::TYPE_MAX) throw SavedGameCorruptException();
@@ -277,15 +278,15 @@ void SpaceStation::Load(Serializer::Reader &rd)
 		m_dockAnimState[i] = rd.Float();
 	}
 	m_lastUpdatedShipyard = rd.Double();
-	m_sbody = Serializer::LookupSystemBody(rd.Int32());
+	m_sbody = space->GetSBodyByIndex(rd.Int32());
 	m_numPoliceDocked = rd.Int32();
 	InitStation();
 }
 
-void SpaceStation::PostLoadFixup()
+void SpaceStation::PostLoadFixup(Space *space)
 {
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		m_shipDocking[i].ship = static_cast<Ship*>(Serializer::LookupBody(m_shipDocking[i].shipIndex));
+		m_shipDocking[i].ship = static_cast<Ship*>(space->GetBodyByIndex(m_shipDocking[i].shipIndex));
 	}
 }
 
@@ -299,16 +300,7 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 	m_sbody = sbody;
 	m_lastUpdatedShipyard = 0;
 	m_numPoliceDocked = Pi::rng.Int32(3,10);
-	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if (Equip::types[i].slot == Equip::SLOT_CARGO) {
-			m_equipmentStock[i] = Pi::rng.Int32(0,100) * Pi::rng.Int32(1,100);
-		} else {
-			if (Equip::types[i].techLevel <= Pi::currentSystem->m_techlevel)
-				m_equipmentStock[i] = Pi::rng.Int32(0,100);
-			else
-				m_equipmentStock[i] = 0;
-		}
-	}
+
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		m_shipDocking[i].ship = 0;
 		m_shipDocking[i].stage = 0;
@@ -434,7 +426,6 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 			if (dt.stage >= 0) {
 				// set docked
 				dt.ship->SetDockedWith(this, i);
-				CreateBB();
 				Pi::luaOnShipDocked->Queue(dt.ship, this);
 			} else {
 				if (!dt.ship->IsEnabled()) {
@@ -481,7 +472,7 @@ void SpaceStation::DoLawAndOrder()
 			ship->AIKill(Pi::player);
 			ship->SetFrame(GetFrame());
 			ship->SetDockedWith(this, port);
-			Space::AddBody(ship);
+			Pi::game->GetSpace()->AddBody(ship);
 			{ // blue and white thang
 				ShipFlavour f;
 				f.type = ShipType::LADYBIRD;
@@ -509,11 +500,14 @@ void SpaceStation::DoLawAndOrder()
 
 void SpaceStation::TimeStepUpdate(const float timeStep)
 {
-	if (Pi::GetGameTime() > m_lastUpdatedShipyard) {
-        if (m_bbCreated) Pi::luaOnUpdateBB->Queue(this);
+	if (Pi::game->GetTime() > m_lastUpdatedShipyard) {
+        if (m_bbCreated)
+			Pi::luaOnUpdateBB->Queue(this);
+		else if (GetFreeDockingPort() != 0)	// only create a BB if there's ships here
+			CreateBB();
 		UpdateShipyard();
 		// update again in an hour or two
-		m_lastUpdatedShipyard = Pi::GetGameTime() + 3600.0 + 3600.0*Pi::rng.Double();
+		m_lastUpdatedShipyard = Pi::game->GetTime() + 3600.0 + 3600.0*Pi::rng.Double();
 	}
 	DoDockingAnimation(timeStep);
 	DoLawAndOrder();
@@ -672,11 +666,11 @@ bool SpaceStation::CanSell(Equip::Type t, bool verbose) const {
 	return result;
 }
 bool SpaceStation::DoesSell(Equip::Type t) const {
-	return Polit::IsCommodityLegal(Pi::currentSystem.Get(), t);
+	return Polit::IsCommodityLegal(Pi::game->GetSpace()->GetStarSystem().Get(), t);
 }
 
 Sint64 SpaceStation::GetPrice(Equip::Type t) const {
-	Sint64 mul = 100 + Pi::currentSystem->GetCommodityBasePriceModPercent(t);
+	Sint64 mul = 100 + Pi::game->GetSpace()->GetStarSystem()->GetCommodityBasePriceModPercent(t);
 	return (mul * Sint64(Equip::types[t].basePrice)) / 100;
 }
 
@@ -748,7 +742,6 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					s->SetFlightState(Ship::DOCKING);
 				} else {
 					s->SetDockedWith(this, port);
-					CreateBB();
 					Pi::luaOnShipDocked->Queue(s, this);
 				}
 			}
@@ -759,10 +752,10 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 	}
 }
 
-void SpaceStation::NotifyDeleted(const Body* const deletedBody)
+void SpaceStation::NotifyRemoved(const Body* const removedBody)
 {
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		if (m_shipDocking[i].ship == deletedBody) {
+		if (m_shipDocking[i].ship == removedBody) {
 			m_shipDocking[i].ship = 0;
 		}
 	}
@@ -820,6 +813,21 @@ bool SpaceStation::AllocateStaticSlot(int& slot)
 void SpaceStation::CreateBB()
 {
 	if (m_bbCreated) return;
+
+	// fill the shipyard equipment shop with all kinds of things
+	// XXX should probably be moved out to a MarketAgent/CommodityWidget type
+	//     thing, or just lua
+	for (int i=1; i<Equip::TYPE_MAX; i++) {
+		if (Equip::types[i].slot == Equip::SLOT_CARGO) {
+			m_equipmentStock[i] = Pi::rng.Int32(0,100) * Pi::rng.Int32(1,100);
+		} else {
+			if (Equip::types[i].techLevel <= Pi::game->GetSpace()->GetStarSystem()->m_techlevel)
+				m_equipmentStock[i] = Pi::rng.Int32(0,100);
+			else
+				m_equipmentStock[i] = 0;
+		}
+	}
+
 	Pi::luaOnCreateBB->Queue(this);
 	m_bbCreated = true;
 }

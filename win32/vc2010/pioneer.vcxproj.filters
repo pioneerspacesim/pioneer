@@ -615,6 +615,10 @@
     <ClCompile Include="..\src\Gamma.cpp">
       <Filter>win32\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\GameLoaderSaver.cpp" />
+    <ClCompile Include="..\..\src\FileSelectorWidget.cpp" />
+    <ClCompile Include="..\..\src\Game.cpp" />
+    <ClCompile Include="..\..\src\MathUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -1142,6 +1146,10 @@
     <ClInclude Include="..\..\src\SmartPtr.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\GameLoaderSaver.h" />
+    <ClInclude Include="..\..\src\FileSelectorWidget.h" />
+    <ClInclude Include="..\..\src\Game.h" />
+    <ClInclude Include="..\..\src\MathUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am">

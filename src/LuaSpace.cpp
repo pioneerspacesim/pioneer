@@ -13,6 +13,8 @@
 #include "Pi.h"
 #include "SpaceStation.h"
 #include "Player.h"
+#include "Game.h"
+#include "MathUtil.h"
 
 /*
  * Interface: Space
@@ -53,6 +55,7 @@ static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SystemPath *path, double du
 
 	HyperspaceCloud *cloud = new HyperspaceCloud(ship, due, true);
 	ship->SetHyperspaceDest(path);
+	ship->SetFlightState(Ship::HYPERSPACE);
 
 	return cloud;
 }
@@ -126,13 +129,15 @@ static int l_space_spawn_ship(lua_State *l)
 	Body *thing = _maybe_wrap_ship_with_cloud(ship, path, due);
 
 	// XXX protect against spawning inside the body
-	thing->SetFrame(Space::rootFrame);
+	thing->SetFrame(Pi::game->GetSpace()->GetRootFrame());
 	if (path == NULL)
-		thing->SetPosition(Space::GetRandomPosition(min_dist, max_dist)*AU);
+		thing->SetPosition(MathUtil::RandomPointOnSphere(min_dist, max_dist)*AU);
 	else
-		thing->SetPosition(Space::GetPositionAfterHyperspace(path, &(Pi::currentSystem->GetPath())));
+		// XXX broken. this is ignoring min_dist & max_dist. otoh, what's the
+		// correct behaviour given there's now a fixed hyperspace exit point?
+		thing->SetPosition(Pi::game->GetSpace()->GetHyperspaceExitPoint(*path));
 	thing->SetVelocity(vector3d(0,0,0));
-	Space::AddBody(thing);
+	Pi::game->GetSpace()->AddBody(thing);
 
 	LuaShip::PushToLua(ship);
 
@@ -205,9 +210,9 @@ static int l_space_spawn_ship_near(lua_State *l)
 
 	// XXX protect against spawning inside the body
 	thing->SetFrame(nearbody->GetFrame());
-	thing->SetPosition((Space::GetRandomPosition(min_dist, max_dist)* 1000.0) + nearbody->GetPosition());
+	thing->SetPosition((MathUtil::RandomPointOnSphere(min_dist, max_dist)* 1000.0) + nearbody->GetPosition());
 	thing->SetVelocity(vector3d(0,0,0));
-	Space::AddBody(thing);
+	Pi::game->GetSpace()->AddBody(thing);
 
 	LuaShip::PushToLua(ship);
 
@@ -260,10 +265,8 @@ static int l_space_spawn_ship_docked(lua_State *l)
 	assert(ship);
 
 	ship->SetFrame(station->GetFrame());
-	Space::AddBody(ship);
+	Pi::game->GetSpace()->AddBody(ship);
 	ship->SetDockedWith(station, port);
-
-	station->CreateBB();
 
 	LuaShip::PushToLua(ship);
 
@@ -359,7 +362,7 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	ship->SetPosition(pos);
 	ship->SetRotMatrix(rot);
 
-	Space::AddBody(ship);
+	Pi::game->GetSpace()->AddBody(ship);
 
 	ship->AIHoldPosition();
 	
@@ -398,10 +401,10 @@ static int l_space_get_body(lua_State *l)
 {
 	int id = luaL_checkinteger(l, 1);
 
-	SystemPath path = Pi::currentSystem->GetPath();
+	SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 	path.bodyIndex = id;
 
-	Body *b = Space::FindBodyForPath(&path);
+	Body *b = Pi::game->GetSpace()->FindBodyForPath(&path);
 	if (!b) return 0;
 
 	LuaBody::PushToLua(b);
@@ -458,7 +461,7 @@ static int l_space_get_bodies(lua_State *l)
 	lua_newtable(l);
 	pi_lua_table_ro(l);
 
-	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++) {
+	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
 		Body *b = *i;
 
 		if (filter) {

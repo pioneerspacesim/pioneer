@@ -4,6 +4,7 @@
 #include "render/Render.h"
 #include "WorldView.h"
 #include "Frame.h"
+#include "Game.h"
 
 TerrainBody::TerrainBody(SBody *sbody) :
 	Body(), 
@@ -40,18 +41,18 @@ void TerrainBody::InitTerrainBody(SBody *sbody)
 		m_geosphere = new GeoSphere(sbody);
 }
 
-void TerrainBody::Save(Serializer::Writer &wr)
+void TerrainBody::Save(Serializer::Writer &wr, Space *space)
 {
-	Body::Save(wr);
+	Body::Save(wr, space);
 	wr.Vector3d(m_pos);
-	wr.Int32(Serializer::LookupSystemBody(m_sbody));
+	wr.Int32(space->GetIndexForSBody(m_sbody));
 }
 
-void TerrainBody::Load(Serializer::Reader &rd)
+void TerrainBody::Load(Serializer::Reader &rd, Space *space)
 {
-	Body::Load(rd);
+	Body::Load(rd, space);
 	m_pos = rd.Vector3d();
-	SBody *sbody = Serializer::LookupSystemBody(rd.Int32());
+	SBody *sbody = space->GetSBodyByIndex(rd.Int32());
 	InitTerrainBody(sbody);
 }
 

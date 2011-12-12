@@ -1,6 +1,7 @@
 #include "libs.h"
 #include "StringF.h"
 #include "gui/Gui.h"
+#include "Lang.h"
 
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
@@ -90,6 +91,27 @@ std::string GetPiUserDir(const std::string &subdir)
 std::string PiGetDataDir()
 {
 	return PIONEER_DATA_DIR + std::string("/");
+}
+
+void GetDirectoryContents(const std::string &path, std::list<std::string> &files)
+{
+	DIR *dir = opendir(path.c_str());
+	if (!dir) {
+		//if (-1 == mkdir(name, 0770)
+		Error("%s", stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path)).c_str());
+		return;
+	}
+	struct dirent *entry;
+
+	while ((entry = readdir(dir))) {
+		if (strcmp(entry->d_name, ".")==0) continue;
+		if (strcmp(entry->d_name, "..")==0) continue;
+		files.push_back(entry->d_name);
+	}
+
+	closedir(dir);
+
+	files.sort();
 }
 
 FILE *fopen_or_die(const char *filename, const char *mode)
@@ -475,5 +497,35 @@ const char *pi_strcasestr (const char *haystack, const char *needle)
 					break;
 			}
 		}
+	}
+}
+
+
+#define HEXDUMP_CHUNK 16
+void hexdump(const unsigned char *buf, int len)
+{
+	int count;
+
+	for (int i = 0; i < len; i += HEXDUMP_CHUNK) {
+		fprintf(stderr, "0x%06x  ", i);
+
+		count = ((len-i) > HEXDUMP_CHUNK ? HEXDUMP_CHUNK : len-i);
+
+		for (int j = 0; j < count; j++) {
+			if (j == HEXDUMP_CHUNK/2) fputc(' ', stderr);
+			fprintf(stderr, "%02x ", buf[i+j]);
+		}
+
+		for (int j = count; j < HEXDUMP_CHUNK; j++) {
+			if (j == HEXDUMP_CHUNK/2) fputc(' ', stderr);
+			fprintf(stderr, "   ");
+		}
+
+		fputc(' ', stderr);
+
+		for (int j = 0; j < count; j++)
+			fprintf(stderr, "%c", isprint(buf[i+j]) ? buf[i+j] : '.');
+
+		fputc('\n', stderr);
 	}
 }

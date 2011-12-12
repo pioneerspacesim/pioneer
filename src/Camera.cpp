@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Pi.h"
 #include "Sfx.h"
+#include "Game.h"
 
 Camera::Camera(const Body *body, float width, float height) :
 	m_body(body),
@@ -17,14 +18,24 @@ Camera::Camera(const Body *body, float width, float height) :
 	m_pose(matrix4x4d::Identity()),
 	m_camFrame(0)
 {
+	m_onBodyDeletedConnection = m_body->onDelete.connect(sigc::mem_fun(this, &Camera::OnBodyDeleted));
 }
 
 Camera::~Camera()
 {
+	if (m_onBodyDeletedConnection.connected())
+		m_onBodyDeletedConnection.disconnect();
+
 	if (m_camFrame) {
 		m_body->GetFrame()->RemoveChild(m_camFrame);
 		delete m_camFrame;
 	}
+}
+
+void Camera::OnBodyDeleted()
+{
+	m_onBodyDeletedConnection.disconnect();
+	m_body = 0;
 }
 
 static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
@@ -80,6 +91,8 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 
 void Camera::Update()
 {
+	if (!m_body) return;
+
 	if (m_shadersEnabled != Render::AreShadersEnabled()) {
 		m_frustum = Render::Frustum(m_width, m_height, m_fovAng);
 		m_shadersEnabled = !m_shadersEnabled;
@@ -99,7 +112,7 @@ void Camera::Update()
 
 	// evaluate each body and determine if/where/how to draw it
 	m_sortedBodies.clear();
-	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
 		Body *b = *i;
 
 		// prepare attrs for sorting and drawing
@@ -118,6 +131,8 @@ void Camera::Update()
 
 void Camera::Draw()
 {
+	if (!m_body) return;
+
 	m_frustum.Enable();
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -126,7 +141,7 @@ void Camera::Draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	matrix4x4d trans2bg;
-	Frame::GetFrameTransform(Space::rootFrame, m_camFrame, trans2bg);
+	Frame::GetFrameTransform(Pi::game->GetSpace()->GetRootFrame(), m_camFrame, trans2bg);
 	trans2bg.ClearToRotOnly();
 	glPushMatrix();
 	glMultMatrixd(&trans2bg[0]);
@@ -138,7 +153,7 @@ void Camera::Draw()
 	glPopMatrix();
 
 	int num_lights = 0;
-	position_system_lights(m_camFrame, Space::rootFrame, num_lights);
+	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), num_lights);
 
 	if (num_lights == 0) {
 		// no lights means we're somewhere weird (eg hyperspace). fake one
@@ -183,7 +198,7 @@ void Camera::Draw()
 			attrs->body->Render(attrs->viewCoords, attrs->viewTransform);
 	}
 
-	Sfx::RenderAll(Space::rootFrame, m_camFrame);
+	Sfx::RenderAll(Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
 	Render::State::UseProgram(0);
 	Render::UnbindAllBuffers();
 

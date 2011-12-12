@@ -11,6 +11,7 @@ class CollisionSpace;
 class Geom;
 class SBody;
 class Sfx;
+class Space;
 
 /*
  * Frame of reference.
@@ -21,9 +22,9 @@ public:
 	Frame(Frame *parent, const char *label);
 	Frame(Frame *parent, const char *label, unsigned int flags);
 	~Frame();
-	static void Serialize(Serializer::Writer &wr, Frame *);
-	static void PostUnserializeFixup(Frame *f);
-	static Frame *Unserialize(Serializer::Reader &rd, Frame *parent);
+	static void Serialize(Serializer::Writer &wr, Frame *f, Space *space);
+	static void PostUnserializeFixup(Frame *f, Space *space);
+	static Frame *Unserialize(Serializer::Reader &rd, Space *space, Frame *parent);
 	// XXX this should return a std::string
 	const char *GetLabel() const { return m_label.c_str(); }
 	void SetLabel(const char *label) { m_label = label; }
@@ -52,7 +53,7 @@ public:
 	// snoops into parent frames so beware
 	SBody *GetSBodyFor() const;
 	Body *GetBodyFor() const;
-	void UpdateOrbitRails();
+	void UpdateOrbitRails(double time, double timestep);
 
 	void ApplyLeavingTransform(matrix4x4d &m) const;
 	void ApplyEnteringTransform(matrix4x4d &m) const;

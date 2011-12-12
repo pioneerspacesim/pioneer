@@ -16,7 +16,7 @@ void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness)
 {
 	const ShipType &stype = GetShipType();
 	double angAccel = stype.angThrust / GetAngularInertia();
-	const double softTimeStep = Pi::GetTimeStep() * softness;
+	const double softTimeStep = Pi::game->GetTimeStep() * softness;
 
 	matrix4x4d rot;
 	GetRotMatrix(rot);
@@ -59,7 +59,7 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 	vector3d difVel = v - (relVel * m);		// required change in velocity
 
 	vector3d maxThrust = GetMaxThrust(difVel);
-	vector3d maxFrameAccel = maxThrust * Pi::GetTimeStep() / GetMass();
+	vector3d maxFrameAccel = maxThrust * Pi::game->GetTimeStep() / GetMass();
 
 	SetThrusterState(0, difVel.x / maxFrameAccel.x);
 	SetThrusterState(1, difVel.y / maxFrameAccel.y);
@@ -153,7 +153,7 @@ void Ship::AIHoldPosition()
 // Because of issues when reducing timestep, must do parts of this as if 1x accel
 // final frame has too high velocity to correct if timestep is reduced
 // fix is too slow in the terminal stages:
-//	if (endvel <= vel) { endvel = vel; ivel = dist / Pi::GetTimeStep(); }	// last frame discrete correction
+//	if (endvel <= vel) { endvel = vel; ivel = dist / Pi::game->GetTimeStep(); }	// last frame discrete correction
 //	ivel = std::min(ivel, endvel + 0.5*acc/PHYSICS_HZ);	// unknown next timestep discrete overshoot correction
 
 // yeah ok, this doesn't work
@@ -166,8 +166,8 @@ double calc_ivel(double dist, double vel, double acc)
 	if (dist < 0) { dist = -dist; vel = -vel; inv = true; }
 	double ivel = 0.9 * sqrt(vel*vel + 2.0 * acc * dist);		// fudge hardly necessary
 
-	double endvel = ivel - (acc * Pi::GetTimeStep());
-	if (endvel <= 0.0) ivel = dist / Pi::GetTimeStep();	// last frame discrete correction
+	double endvel = ivel - (acc * Pi::game->GetTimeStep());
+	if (endvel <= 0.0) ivel = dist / Pi::game->GetTimeStep();	// last frame discrete correction
 	else ivel = (ivel + endvel) * 0.5;					// discrete overshoot correction
 //	else ivel = endvel + 0.5*acc/PHYSICS_HZ;			// unknown next timestep discrete overshoot correction
 
@@ -190,12 +190,12 @@ bool Ship::AIChangeVelBy(const vector3d &diffvel)
 {
 	// counter external forces unless we're in an orbital station rotating frame
 	matrix4x4d rot; GetRotMatrix(rot);
-	vector3d diffvel2 = GetExternalForce() * Pi::GetTimeStep() / GetMass();
+	vector3d diffvel2 = GetExternalForce() * Pi::game->GetTimeStep() / GetMass();
 	if (GetFrame()->IsStationRotFrame()) diffvel2 = diffvel;
 	else diffvel2 = diffvel - diffvel2 * rot;
 
 	vector3d maxThrust = GetMaxThrust(diffvel2);
-	vector3d maxFrameAccel = maxThrust * Pi::GetTimeStep() / GetMass();
+	vector3d maxFrameAccel = maxThrust * Pi::game->GetTimeStep() / GetMass();
 	vector3d thrust(diffvel2.x / maxFrameAccel.x,
 					diffvel2.y / maxFrameAccel.y,
 					diffvel2.z / maxFrameAccel.z);
@@ -241,7 +241,7 @@ bool Ship::AIMatchPosVel2(const vector3d &reldir, double targdist, const vector3
 
 	// crunch diffvel by relative thruster power to get acceleration in right direction
 	if (diffspeed > 0.0) {
-		vector3d maxFA = GetMaxThrust(diffvel) * Pi::GetTimeStep() / GetMass();
+		vector3d maxFA = GetMaxThrust(diffvel) * Pi::game->GetTimeStep() / GetMass();
 		if (abs(diffvel.x) > maxFA.x) diffvel *= maxFA.x / abs(diffvel.x);
 		if (abs(diffvel.y) > maxFA.y) diffvel *= maxFA.y / abs(diffvel.y);
 //		if (abs(diffvel.z) > maxFA.z) diffvel *= maxFA.z / abs(diffvel.z);
@@ -259,7 +259,7 @@ bool Ship::AIMatchPosVel2(const vector3d &reldir, double targdist, const vector3
 void Ship::AIMatchAngVelObjSpace(const vector3d &angvel)
 {
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();
-	double invFrameAccel = 1.0 / (maxAccel * Pi::GetTimeStep());
+	double invFrameAccel = 1.0 / (maxAccel * Pi::game->GetTimeStep());
 
 	matrix4x4d rot; GetRotMatrix(rot);
 	vector3d diff = angvel - GetAngVelocity() * rot;		// find diff between current & desired angvel
@@ -284,15 +284,15 @@ vector3d Ship::AIGetNextFramePos()
 	vector3d thrust = vector3d(maxThrust.x*thrusters.x, maxThrust.y*thrusters.y,
 		maxThrust.z*thrusters.z);
 	matrix4x4d rot; GetRotMatrix(rot);
-	vector3d vel = GetVelocity() + rot * thrust * Pi::GetTimeStep() / GetMass();
-	vector3d pos = GetPosition() + vel * Pi::GetTimeStep();
+	vector3d vel = GetVelocity() + rot * thrust * Pi::game->GetTimeStep() / GetMass();
+	vector3d pos = GetPosition() + vel * Pi::game->GetTimeStep();
 	return pos;
 }
 
 // returns true if ship will be aligned at end of frame
 bool Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 {
-	double timeStep = Pi::GetTimeStep();
+	double timeStep = Pi::game->GetTimeStep();
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
 	if (maxAccel <= 0.0) return 0.0;
 	double frameAccel = maxAccel * timeStep;
@@ -330,7 +330,7 @@ bool Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 // returns angle to target
 double Ship::AIFaceDirection(const vector3d &dir, double av)
 {
-	double timeStep = Pi::GetTimeStep();
+	double timeStep = Pi::game->GetTimeStep();
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
 	if (maxAccel <= 0.0) return 0.0;
 	double frameAccel = maxAccel * timeStep;

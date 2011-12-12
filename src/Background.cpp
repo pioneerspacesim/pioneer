@@ -6,6 +6,7 @@
 #include "Frame.h"
 #include "Player.h"
 #include <vector>
+#include "Game.h"
 
 namespace Background
 {
@@ -14,7 +15,7 @@ Starfield::Starfield() :
 	m_shader(0)
 {
 	//This is needed because there is no system seed for the main menu
-	unsigned long seed = Pi::IsGameStarted() ? Pi::currentSystem->m_seed : UNIVERSE_SEED;
+	unsigned long seed = Pi::game ? Pi::game->GetSpace()->GetStarSystem()->m_seed : UNIVERSE_SEED;
 	
 	// Slight colour variation to stars based on seed
 	MTRand rand(seed);
@@ -82,7 +83,7 @@ void Starfield::Draw()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 
-	if (!Pi::IsGameStarted() || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
+	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 		glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), 0);
 		glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), reinterpret_cast<void *>(3*sizeof(float)));
@@ -93,7 +94,7 @@ void Starfield::Draw()
 		/* all this jizz isn't really necessary, since the player will
 		 * be in the root frame when hyperspacing... */
 		matrix4x4d m, rot;
-		Frame::GetFrameTransform(Space::rootFrame, Pi::player->GetFrame(), m);
+		Frame::GetFrameTransform(Pi::game->GetSpace()->GetRootFrame(), Pi::player->GetFrame(), m);
 		m.ClearToRotOnly();
 		Pi::player->GetRotMatrix(rot);
 		m = rot.InverseOf() * m;
@@ -102,15 +103,15 @@ void Starfield::Draw()
 		// roughly, the multiplier gets smaller as the duration gets larger.
 		// the time-looking bits in this are completely arbitrary - I figured
 		// it out by tweaking the numbers until it looked sort of right
-		double mult = 0.0015 / (Space::GetHyperspaceDuration() / (60.0*60.0*24.0*7.0));
+		double mult = 0.0015 / (Pi::player->GetHyperspaceDuration() / (60.0*60.0*24.0*7.0));
 
-		double hyperspaceAnim = Space::GetHyperspaceAnim();
+		double hyperspaceProgress = Pi::game->GetHyperspaceProgress();
 
 		float *vtx = new float[BG_STAR_MAX*12];
 		for (int i=0; i<BG_STAR_MAX; i++) {
 			
 			vector3f v(m_stars[i].x, m_stars[i].y, m_stars[i].z);
-			v += vector3f(pz*hyperspaceAnim*mult);
+			v += vector3f(pz*hyperspaceProgress*mult);
 
 			vtx[i*12] = m_stars[i].x + v.x;
 			vtx[i*12+1] = m_stars[i].y + v.y;

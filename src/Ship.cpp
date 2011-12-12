@@ -23,6 +23,7 @@
 #include "Missile.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "Game.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
@@ -59,9 +60,9 @@ void SerializableEquipSet::Load(Serializer::Reader &rd)
 	onChange.emit(Equip::NONE);
 }
 
-void Ship::Save(Serializer::Writer &wr)
+void Ship::Save(Serializer::Writer &wr, Space *space)
 {
-	DynamicBody::Save(wr);
+	DynamicBody::Save(wr, space);
 	wr.Vector3d(m_angThrusters);
 	wr.Vector3d(m_thrusters);
 	wr.Int32(m_wheelTransition);
@@ -72,8 +73,10 @@ void Ship::Save(Serializer::Writer &wr)
 	wr.Int32(int(m_alertState));
 	wr.Double(m_lastFiringAlert);
 
+	// XXX make sure all hyperspace attrs and the cloud get saved
 	m_hyperspace.dest.Serialize(wr);
 	wr.Float(m_hyperspace.countdown);
+
 
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		wr.Int32(m_gunState[i]);
@@ -83,7 +86,7 @@ void Ship::Save(Serializer::Writer &wr)
 	wr.Float(m_ecmRecharge);
 	m_shipFlavour.Save(wr);
 	wr.Int32(m_dockedWithPort);
-	wr.Int32(Serializer::LookupBody(m_dockedWith));
+	wr.Int32(space->GetIndexForBody(m_dockedWith));
 	m_equipment.Save(wr);
 	wr.Float(m_stats.hull_mass_left);
 	wr.Float(m_stats.shield_mass_left);
@@ -92,9 +95,9 @@ void Ship::Save(Serializer::Writer &wr)
 	wr.Int32(int(m_aiMessage));
 }
 
-void Ship::Load(Serializer::Reader &rd)
+void Ship::Load(Serializer::Reader &rd, Space *space)
 {
-	DynamicBody::Load(rd);
+	DynamicBody::Load(rd, space);
 	// needs fixups
 	m_angThrusters = rd.Vector3d();
 	m_thrusters = rd.Vector3d();
@@ -145,12 +148,13 @@ void Ship::Init()
 	m_stats.hull_mass_left = float(stype.hullMass);
 	m_stats.shield_mass_left = 0;
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
+	m_hyperspaceCloud = 0;
 }
 
-void Ship::PostLoadFixup()
+void Ship::PostLoadFixup(Space *space)
 {
-	m_dockedWith = reinterpret_cast<SpaceStation*>(Serializer::LookupBody(m_dockedWithIndex));
-	if (m_curAICmd) m_curAICmd->PostLoadFixup();
+	m_dockedWith = reinterpret_cast<SpaceStation*>(space->GetBodyByIndex(m_dockedWithIndex));
+	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
 }
 
 Ship::Ship(ShipType::Type shipType): DynamicBody()
@@ -241,7 +245,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 					Polit::NotifyOfCrime(static_cast<Ship*>(attacker), Polit::CRIME_MURDER);
 			}
 
-			Space::KillBody(this);
+			Pi::game->GetSpace()->KillBody(this);
 			Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 			Sound::BodyMakeNoise(this, "Explosion_1", 1.0f);
 		}
@@ -276,7 +280,7 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) && b->IsType(Object::CARGOBODY) && (flags & 0x100) && m_stats.free_capacity) {
 		Equip::Type item = dynamic_cast<CargoBody*>(b)->GetCargoType();
 		m_equipment.Add(item);
-		Space::KillBody(dynamic_cast<Body*>(b));
+		Pi::game->GetSpace()->KillBody(dynamic_cast<Body*>(b));
 		if (this->IsType(Object::PLAYER))
 			Pi::Message(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", Equip::types[item].name)));
 		// XXX Sfx::Add(this, Sfx::TYPE_SCOOP);
@@ -398,7 +402,7 @@ const shipstats_t *Ship::CalcStats()
 
 static float distance_to_system(const SystemPath *dest)
 {
-	SystemPath here = Pi::currentSystem->GetPath();
+	SystemPath here = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 	
 	Sector sec1(here.sectorX, here.sectorY, here.sectorZ);
 	Sector sec2(dest->sectorX, dest->sectorY, dest->sectorZ);
@@ -431,7 +435,8 @@ bool Ship::CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double 
 		return false;
 	}
 
-	if (Pi::currentSystem && Pi::currentSystem->GetPath().IsSameSystem(*dest)) {
+	StarSystem *s = Pi::game->GetSpace()->GetStarSystem().Get();
+	if (s && s->GetPath().IsSameSystem(*dest)) {
 		if (outStatus) *outStatus = HYPERJUMP_CURRENT_SYSTEM;
 		return false;
 	}
@@ -477,19 +482,6 @@ bool Ship::CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double 
 
 Ship::HyperjumpStatus Ship::StartHyperspaceCountdown(const SystemPath &dest)
 {
-	Ship::HyperjumpStatus status = Hyperspace(dest);
-	if (status != Ship::HYPERJUMP_OK)
-		return status;
-	
-	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-	m_hyperspace.countdown = 1.0f + Equip::types[t].pval;
-	m_hyperspace.now = false;
-
-	return Ship::HYPERJUMP_OK;
-}
-
-Ship::HyperjumpStatus Ship::Hyperspace(const SystemPath &dest)
-{
 	int fuelUsage;
 	double duration;
 
@@ -498,8 +490,10 @@ Ship::HyperjumpStatus Ship::Hyperspace(const SystemPath &dest)
 		return status;
 
 	m_hyperspace.dest = dest;
-	m_hyperspace.countdown = 0;
-	m_hyperspace.now = true;
+
+	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
+	m_hyperspace.countdown = 1.0f + Equip::types[t].pval;
+	m_hyperspace.now = false;
 
 	return Ship::HYPERJUMP_OK;
 }
@@ -524,10 +518,26 @@ void Ship::UseECM()
 {
 	const Equip::Type t = m_equipment.Get(Equip::SLOT_ECM);
 	if (m_ecmRecharge > 0.0f) return;
+
 	if (t != Equip::NONE) {
 		Sound::BodyMakeNoise(this, "ECM", 1.0f);
 		m_ecmRecharge = GetECMRechargeTime();
-		Space::DoECM(GetFrame(), GetPosition(), Equip::types[t].pval);
+
+		// damage neaby missiles
+		const float ECM_RADIUS = 4000.0f;
+
+		for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
+			if ((*i)->GetFrame() != GetFrame()) continue;
+			if (!(*i)->IsType(Object::MISSILE)) continue;
+
+			double dist = ((*i)->GetPosition() - GetPosition()).Length();
+			if (dist < ECM_RADIUS) {
+				// increasing chance of destroying it with proximity
+				if (Pi::rng.Double() > (dist / ECM_RADIUS)) {
+					static_cast<Missile*>(*i)->ECMAttack(Equip::types[t].pval);
+				}
+			}
+		}
 	}
 }
 
@@ -561,7 +571,7 @@ bool Ship::FireMissile(int idx, Ship *target)
 	// XXX DODGY! need to put it in a sensible location
 	missile->SetPosition(GetPosition()+50.0*dir);
 	missile->SetVelocity(GetVelocity());
-	Space::AddBody(missile);
+	Pi::game->GetSpace()->AddBody(missile);
 	return true;
 }
 
@@ -725,7 +735,7 @@ void Ship::UpdateAlertState()
 	}
 
 	bool ship_is_near = false, ship_is_firing = false;
-	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); i++)
+	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i)
 	{
 		if ((*i) == this) continue;
 		if (!(*i)->IsType(Object::SHIP) || (*i)->IsType(Object::MISSILE)) continue;
@@ -756,7 +766,7 @@ void Ship::UpdateAlertState()
 				changed = true;
             }
 			if (ship_is_firing) {
-				m_lastFiringAlert = Pi::GetGameTime();
+				m_lastFiringAlert = Pi::game->GetTime();
 				SetAlertState(ALERT_SHIP_FIRING);
 				changed = true;
 			}
@@ -768,7 +778,7 @@ void Ship::UpdateAlertState()
 				changed = true;
 			}
 			else if (ship_is_firing) {
-				m_lastFiringAlert = Pi::GetGameTime();
+				m_lastFiringAlert = Pi::game->GetTime();
 				SetAlertState(ALERT_SHIP_FIRING);
 				changed = true;
 			}
@@ -780,9 +790,9 @@ void Ship::UpdateAlertState()
 				changed = true;
 			}
 			else if (ship_is_firing) {
-				m_lastFiringAlert = Pi::GetGameTime();
+				m_lastFiringAlert = Pi::game->GetTime();
 			}
-			else if (m_lastFiringAlert + 60.0 <= Pi::GetGameTime()) {
+			else if (m_lastFiringAlert + 60.0 <= Pi::game->GetTime()) {
 				SetAlertState(ALERT_SHIP_NEARBY);
 				changed = true;
 			}
@@ -798,7 +808,7 @@ void Ship::StaticUpdate(const float timeStep)
 	AITimeStep(timeStep);		// moved to correct place, maybe
 
 	if (GetHullTemperature() > 1.0) {
-		Space::KillBody(this);
+		Pi::game->GetSpace()->KillBody(this);
 	}
 
 	UpdateAlertState();
@@ -910,7 +920,7 @@ void Ship::StaticUpdate(const float timeStep)
 	// After calling StartHyperspaceTo this Ship must not spawn objects
 	// holding references to it (eg missiles), as StartHyperspaceTo
 	// removes the ship from Space::bodies and so the missile will not
-	// have references to this cleared by NotifyDeleted()
+	// have references to this cleared by NotifyRemoved()
 	if (m_hyperspace.countdown > 0.0f) {
 		m_hyperspace.countdown = m_hyperspace.countdown - timeStep;
 		if (m_hyperspace.countdown <= 0.0f) {
@@ -921,13 +931,13 @@ void Ship::StaticUpdate(const float timeStep)
 
 	if (m_hyperspace.now) {
 		m_hyperspace.now = false;
-		Space::StartHyperspaceTo(this, &m_hyperspace.dest);
+		EnterHyperspace();
 	}
 }
 
-void Ship::NotifyDeleted(const Body* const deletedBody)
+void Ship::NotifyRemoved(const Body* const removedBody)
 {
-	if (m_curAICmd) m_curAICmd->OnDeleted(deletedBody);
+	if (m_curAICmd) m_curAICmd->OnDeleted(removedBody);
 }
 
 const ShipType &Ship::GetShipType() const
@@ -1110,7 +1120,7 @@ bool Ship::Jettison(Equip::Type t)
 		cargo->SetFrame(GetFrame());
 		cargo->SetPosition(GetPosition()+pos);
 		cargo->SetVelocity(GetVelocity()+rot*vector3d(0,-10,0));
-		Space::AddBody(cargo);
+		Pi::game->GetSpace()->AddBody(cargo);
 
 		Pi::luaOnJettison->Queue(this, cargo);
 
@@ -1142,4 +1152,53 @@ void Ship::ResetFlavour(const ShipFlavour *f)
 	SetLabel(f->regid);
 	Init();
 	Pi::luaOnShipFlavourChanged->Queue(this);
+}
+
+void Ship::EnterHyperspace() {
+	assert(GetFlightState() != Ship::HYPERSPACE);
+
+	const SystemPath dest = GetHyperspaceDest();
+
+	int fuel;
+	Ship::HyperjumpStatus status;
+	if (!CanHyperspaceTo(&dest, fuel, m_hyperspace.duration, &status))
+		// XXX something has changed (fuel loss, mass change, whatever).
+		// could report it to the player but better would be to cancel the
+		// countdown before this is reached. either way do something
+		return;
+
+	UseHyperspaceFuel(&dest);
+
+	Pi::luaOnLeaveSystem->Queue(this);
+
+	SetFlightState(Ship::HYPERSPACE);
+
+	// virtual call, do class-specific things
+	OnEnterHyperspace();
+}
+
+void Ship::OnEnterHyperspace() {
+	m_hyperspaceCloud = new HyperspaceCloud(this, Pi::game->GetTime() + m_hyperspace.duration, false);
+	m_hyperspaceCloud->SetFrame(GetFrame());
+	m_hyperspaceCloud->SetPosition(GetPosition());
+
+	Space *space = Pi::game->GetSpace();
+
+	space->RemoveBody(this);
+	space->AddBody(m_hyperspaceCloud);
+}
+
+void Ship::EnterSystem() {
+	assert(GetFlightState() == Ship::HYPERSPACE);
+
+	// virtual call, do class-specific things
+	OnEnterSystem();
+
+	SetFlightState(Ship::FLYING);
+
+	Pi::luaOnEnterSystem->Queue(this);
+}
+
+void Ship::OnEnterSystem() {
+	m_hyperspaceCloud = 0;
 }

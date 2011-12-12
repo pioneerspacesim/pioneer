@@ -40,6 +40,10 @@ void SilentWarning(const char *format, ...) __attribute((format(printf,1,2)));
 std::string GetPiUserDir(const std::string &subdir = "");
 std::string GetPiDataDir();
 
+inline std::string GetPiSavefileDir() { return GetPiUserDir("savefiles"); }
+
+void GetDirectoryContents(const std::string &path, std::list<std::string> &files);
+
 // joinpath("data","models","some.def") = "data/models/some.def"
 std::string join_path(const char *firstbit, ...);
 std::string string_join(std::vector<std::string> &v, std::string sep);
@@ -107,5 +111,7 @@ static inline float roundf(float x)
    return x >= 0.0f ? floorf(x + 0.5f) : ceilf(x - 0.5f);
 }
 #endif /* _MSC_VER */
+
+void hexdump(const unsigned char *buf, int bufsz);
 
 #endif /* _UTILS_H */

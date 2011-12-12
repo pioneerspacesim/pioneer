@@ -934,7 +934,7 @@ static int l_ship_hyperspace_to(lua_State *l)
 		return 1;
 	}
 
-	s->Hyperspace(dest);
+	s->StartHyperspaceCountdown(dest);
 
 	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", Ship::HYPERJUMP_OK));
 	return 1;

@@ -7,6 +7,7 @@
 #include "Planet.h"
 #include "Sound.h"
 #include "SpaceStation.h"
+#include "Game.h"
 
 static int astroNoiseSeed;
 static Sound::Event stationNoise;
@@ -133,17 +134,22 @@ void AmbientSounds::Update()
 			stationNoise.VolumeAnimate(target, dv_dt);
 			stationNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
 		}
-		if (astroNoiseSeed != Pi::currentSystem->m_seed) {
-			// change sound!
-			astroNoiseSeed = Pi::currentSystem->m_seed;
-			float target[2] = {0.0f,0.0f};
-			float dv_dt[2] = {0.1f,0.1f};
-			starNoise.VolumeAnimate(target, dv_dt);
-			starNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
-			// XXX the way Sound::Event works isn't totally obvious.
-			// to destroy the object doesn't stop the sound. it is
-			// really just a sound event reference
-			starNoise = Sound::Event();
+		{
+			if (Pi::game->IsNormalSpace()) {
+				StarSystem *s = Pi::game->GetSpace()->GetStarSystem().Get();
+				if (astroNoiseSeed != s->m_seed) {
+					// change sound!
+					astroNoiseSeed = s->m_seed;
+					float target[2] = {0.0f,0.0f};
+					float dv_dt[2] = {0.1f,0.1f};
+					starNoise.VolumeAnimate(target, dv_dt);
+					starNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+					// XXX the way Sound::Event works isn't totally obvious.
+					// to destroy the object doesn't stop the sound. it is
+					// really just a sound event reference
+					starNoise = Sound::Event();
+				}
+			}
 		} 
 		// when all the sounds are in we can use the body we are in frame of reference to
 		if (!starNoise.IsPlaying()) {

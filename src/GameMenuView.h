@@ -6,8 +6,6 @@
 #include "View.h"
 #include "KeyBindings.h"
 
-extern std::string GetFullSavefileDirPath();
-
 //contains a slider, mute button and the necessary layout fluff
 class VolumeControl : public Gui::HBox
 {

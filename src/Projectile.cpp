@@ -12,6 +12,7 @@
 #include "Sfx.h"
 #include "Ship.h"
 #include "TextureManager.h"
+#include "Game.h"
 
 Projectile::Projectile(): Body()
 {
@@ -22,20 +23,20 @@ Projectile::Projectile(): Body()
 	m_flags |= FLAG_DRAW_LAST;
 }
 
-void Projectile::Save(Serializer::Writer &wr)
+void Projectile::Save(Serializer::Writer &wr, Space *space)
 {
-	Body::Save(wr);
+	Body::Save(wr, space);
 	for (int i=0; i<16; i++) wr.Double(m_orient[i]);
 	wr.Vector3d(m_baseVel);
 	wr.Vector3d(m_dirVel);
 	wr.Float(m_age);
 	wr.Int32(m_type);
-	wr.Int32(Serializer::LookupBody(m_parent));
+	wr.Int32(space->GetIndexForBody(m_parent));
 }
 
-void Projectile::Load(Serializer::Reader &rd)
+void Projectile::Load(Serializer::Reader &rd, Space *space)
 {
-	Body::Load(rd);
+	Body::Load(rd, space);
 	for (int i=0; i<16; i++) m_orient[i] = rd.Double();
 	m_baseVel = rd.Vector3d();
 	m_dirVel = rd.Vector3d();
@@ -44,16 +45,16 @@ void Projectile::Load(Serializer::Reader &rd)
 	m_parentIndex = rd.Int32();
 }
 
-void Projectile::PostLoadFixup()
+void Projectile::PostLoadFixup(Space *space)
 {
-	m_parent = Serializer::LookupBody(m_parentIndex);
+	m_parent = space->GetBodyByIndex(m_parentIndex);
 }
 
 void Projectile::UpdateInterpolatedTransform(double alpha)
 {
 	m_interpolatedTransform = m_orient;
 	const vector3d newPos = GetPosition();
-	const vector3d oldPos = newPos - (m_baseVel+m_dirVel)*Pi::GetTimeStep();
+	const vector3d oldPos = newPos - (m_baseVel+m_dirVel)*Pi::game->GetTimeStep();
 	const vector3d p = alpha*newPos + (1.0-alpha)*oldPos;
 	m_interpolatedTransform[12] = p.x;
 	m_interpolatedTransform[13] = p.y;
@@ -67,16 +68,16 @@ void Projectile::SetPosition(vector3d p)
 	m_orient[14] = p.z;
 }
 
-void Projectile::NotifyDeleted(const Body* const deletedBody)
+void Projectile::NotifyRemoved(const Body* const removedBody)
 {
-	if (m_parent == deletedBody) m_parent = 0;
+	if (m_parent == removedBody) m_parent = 0;
 }
 
 void Projectile::TimeStepUpdate(const float timeStep)
 {
 	m_age += timeStep;
 	SetPosition(GetPosition() + (m_baseVel+m_dirVel) * double(timeStep));
-	if (m_age > Equip::lasers[m_type].lifespan) Space::KillBody(this);
+	if (m_age > Equip::lasers[m_type].lifespan) Pi::game->GetSpace()->KillBody(this);
 }
 
 /* In hull kg */
@@ -107,7 +108,7 @@ static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const ve
 	cargo->SetFrame(f);
 	cargo->SetPosition(pos);
 	cargo->SetVelocity(Pi::rng.Double(100.0,200.0)*vector3d(Pi::rng.Double()-.5, Pi::rng.Double()-.5, Pi::rng.Double()-.5));
-	Space::AddBody(cargo);
+	Pi::game->GetSpace()->AddBody(cargo);
 }
 
 void Projectile::StaticUpdate(const float timeStep)
@@ -120,13 +121,13 @@ void Projectile::StaticUpdate(const float timeStep)
 		Object *o = static_cast<Object*>(c.userData1);
 
 		if (o->IsType(Object::CITYONPLANET)) {
-			Space::KillBody(this);
+			Pi::game->GetSpace()->KillBody(this);
 		}
 		else if (o->IsType(Object::BODY)) {
 			Body *hit = static_cast<Body*>(o);
 			if (hit != m_parent) {
 				hit->OnDamage(m_parent, GetDamage());
-				Space::KillBody(this);
+				Pi::game->GetSpace()->KillBody(this);
 				if (hit->IsType(Object::SHIP))
 					Pi::luaOnShipHit->Queue(dynamic_cast<Ship*>(hit), dynamic_cast<Body*>(m_parent));
 			}
@@ -146,7 +147,7 @@ void Projectile::StaticUpdate(const float timeStep)
 					MiningLaserSpawnTastyStuff(planet->GetFrame(), b, n*terrainHeight + 5.0*n);
 					Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 				}
-				Space::KillBody(this);
+				Pi::game->GetSpace()->KillBody(this);
 			}
 		}
 	}
@@ -184,5 +185,5 @@ void Projectile::Add(Body *parent, Equip::Type type, const vector3d &pos, const 
 	p->SetPosition(pos);
 	p->m_baseVel = baseVel;
 	p->m_dirVel = dirVel;
-	Space::AddBody(p);
+	Pi::game->GetSpace()->AddBody(p);
 }

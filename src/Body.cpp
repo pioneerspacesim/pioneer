@@ -11,6 +11,8 @@
 #include "Missile.h"
 #include "HyperspaceCloud.h"
 #include "Pi.h"
+#include "Space.h"
+#include "Game.h"
 
 Body::Body()
 {
@@ -24,23 +26,23 @@ Body::~Body()
 {
 }
 
-void Body::Save(Serializer::Writer &wr)
+void Body::Save(Serializer::Writer &wr, Space *space)
 {
-	wr.Int32(Serializer::LookupFrame(m_frame));
+	wr.Int32(space->GetIndexForFrame(m_frame));
 	wr.String(m_label);
 	wr.Bool(m_dead);
 	wr.Bool(m_hasDoubleFrame);
 }
 
-void Body::Load(Serializer::Reader &rd)
+void Body::Load(Serializer::Reader &rd, Space *space)
 {
-	m_frame = Serializer::LookupFrame(rd.Int32());
+	m_frame = space->GetFrameByIndex(rd.Int32());
 	m_label = rd.String();
 	m_dead = rd.Bool();
 	m_hasDoubleFrame = rd.Bool();
 }	
 
-void Body::Serialize(Serializer::Writer &_wr)
+void Body::Serialize(Serializer::Writer &_wr, Space *space)
 {
 	Serializer::Writer wr;
 	wr.Int32(int(GetType()));
@@ -54,7 +56,7 @@ void Body::Serialize(Serializer::Writer &_wr)
 		case Object::CARGOBODY:
 		case Object::PROJECTILE:
 		case Object::HYPERSPACECLOUD:
-			Save(wr);
+			Save(wr, space);
 			break;
 		default:
 			assert(0);
@@ -66,7 +68,7 @@ void Body::Serialize(Serializer::Writer &_wr)
 	_wr.WrSection("Body", wr.GetData());
 }
 
-Body *Body::Unserialize(Serializer::Reader &_rd)
+Body *Body::Unserialize(Serializer::Reader &_rd, Space *space)
 {
 	Serializer::Reader rd = _rd.RdSection("Body");
 	Body *b = 0;
@@ -93,7 +95,7 @@ Body *Body::Unserialize(Serializer::Reader &_rd)
 		default:
 			assert(0);
 	}
-	b->Load(rd);
+	b->Load(rd, space);
 	// must SetFrame() correctly so ModelBodies can add geom to space
 	Frame *f = b->m_frame;
 	b->m_frame = 0;
