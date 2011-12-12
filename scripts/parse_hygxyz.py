@@ -8,23 +8,28 @@ f.readline()
 
 PARSEC = 3.26163626
 
+named_f = open("named_stars.lua", "w")
 bright_f = open("bright_stars.lua", "w")
 local_f = open("local_stars.lua", "w")
 num = 0
 tot = 0
 
-LOCAL_RAD_SECTORS = 10.0
+LOCAL_RAD_SECTORS = 12.0
 
 namesubs = {
 "Gliese 729": "Ross 154",
 "Gliese 447": "Ross 128",
-"Gliese 905": "Ross 248"
+"Gliese 905": "Ross 248",
+"Phad": "Phekda",
+"82 G. Eri" : "82 Gamma Eridani",
+"268 G. Cet" : "268 Gamma Ceti"
 }
 
 gr_let = (
 ("Alp","Alpha"),
 ("Bet","Beta"),
 ("Gam","Gamma"),
+("G.","Gamma"),
 ("Del","Delta"),
 ("Eps","Epsilon"),
 ("Zet","Zeta"),
@@ -165,9 +170,10 @@ def query_yes_no_quit(question, default="yes"):
             sys.stdout.write("Please respond with 'yes'or 'no'.\n")
 
 class Star:
-	def __init__(self, name, islocal, sx, sy, sz, fracx, fracy, fracz):
+	def __init__(self, name, islocal, isnamed, sx, sy, sz, fracx, fracy, fracz):
 		self.name = name
 		self.islocal = islocal
+		self.isnamed = isnamed
 		self.sx = sx
 		self.sy = sy
 		self.sz = sz
@@ -202,20 +208,32 @@ while 1:
 	fracy = (yg/8.0) - sy
 	fracz = (zg/8.0) - sz
 
+	name = m[6]
 	magnitude = float(m[13])
 	if sx > LOCAL_RAD_SECTORS-1 or sx < -LOCAL_RAD_SECTORS or \
 	   sy > LOCAL_RAD_SECTORS-1 or sy < -LOCAL_RAD_SECTORS or \
 	   sz > LOCAL_RAD_SECTORS-1 or sz < -LOCAL_RAD_SECTORS:
-		if magnitude > 7.0: continue
-		isLocal = 0
+		if name:
+			isNamed = 1
+			isLocal = 0
+		#elif magnitude > 6.0: continue
+		else: 
+			isLocal = 0
+			isNamed = 0
 	else:
-		isLocal = 1
+		if name:
+			isNamed = 1
+			isLocal = 1
+		else :
+			isLocal = 1
+			isNamed = 0
 	
-	name = m[6]
+	# name = m[6]
 	if name == "Sol": continue
 	if not name and m[5]:
 		# Bayer-flamsteed designation
 		s = re.search("([\d]*)([A-Za-z]*)([\d\s]+)([A-Za-z]+)", m[5])
+		isNamed = 1
 		if s:
 			flamsteed = s.group(1)
 			bayer = s.group(2)
@@ -260,9 +278,14 @@ while 1:
 	#			bits[0] = wank.group(1) + " " + wank.group(2)
 	#	name = " ".join(bits)
 	if not name and m[4]:
-		name = m[4].replace("Gl ", "Gliese ")
+		if distance < 150.0 or magnitude < 6.0: 
+			name = m[4].replace("Gl ", "Gliese ")
+			isNamed = 0
+		else:
+			continue
 	if not name and m[2]:
-		if distance < 200.0 or magnitude < 5.5: 
+		isNamed = 0
+		if distance < 150.0 or magnitude < 6.0: 
 			name = "HD " + m[2]
 		else:
 			continue
@@ -413,14 +436,16 @@ while 1:
 	if stars.has_key(name):
 		stars[name].AddComponent(component_num, body)
 	else:
-		star = Star(name, isLocal, sx, sy, sz, fracx, fracy, fracz)
+		star = Star(name, isLocal, isNamed, sx, sy, sz, fracx, fracy, fracz)
 		star.AddComponent(component_num, body)
 		stars[name] = star
 	num = num + 1
 
 for i in stars.keys():
 	star = stars[i]
-	if star.islocal:
+	if star.isnamed:
+		_f = named_f
+	elif star.islocal:
 		_f = local_f
 	else:
 		_f = bright_f
@@ -431,6 +456,7 @@ for i in stars.keys():
 	components = ",".join(["\'"+j+"\'" for j in components])
 	_f.write("CustomSystem:new('%s',{%s}):add_to_sector(%d,%d,%d,v(%.3f,%.3f,%.3f))\n"%(star.name.replace('\'','\\\''),components,star.sx,star.sy,star.sz,star.fracx,star.fracy,star.fracz))
 		
+named_f.close()
 bright_f.close()
 local_f.close()
 f.close()
