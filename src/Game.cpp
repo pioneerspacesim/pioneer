@@ -32,15 +32,7 @@ Game::Game(const SystemPath &path) :
 	CreatePlayer();
 
 	m_space.Reset(new Space(this, path));
-	
-	SpaceStation *station = 0;
-	Uint32 idx = path.bodyIndex;
-	for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i)
-		if (--idx == 0) {
-			assert((*i)->IsType(Object::SPACESTATION));
-			station = static_cast<SpaceStation*>(*i);
-			break;
-		}
+	SpaceStation *station = static_cast<SpaceStation*>(m_space->FindBodyForPath(&path));
 	assert(station);
 
 	m_space->AddBody(m_player.Get());
@@ -63,14 +55,7 @@ Game::Game(const SystemPath &path, const vector3d &pos) :
 	CreatePlayer();
 
 	m_space.Reset(new Space(this, path));
-	
-	Body *b = 0;
-	Uint32 idx = path.bodyIndex;
-	for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i)
-		if (--idx == 0) {
-			b = *i;
-			break;
-		}
+	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);
 
 	m_space->AddBody(m_player.Get());
