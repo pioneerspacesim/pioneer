@@ -24,10 +24,10 @@ void Sector::GetCustomSystems()
 		System s;
 		s.p = SIZE*cs->pos;
 		s.name = cs->name;
-		if ((!s.name.find_first_of("Gliese")) || (!s.name.find_first_of("HD"))
-			 || (!s.name.find_first_of("NN")) || (!s.name.find_first_of("Gj")))
+		if ((!s.name.find("Gliese", 0)) || (!s.name.find("HD", 0))
+			 || (!s.name.find("NN", 0)) || (!s.name.find("Gj", 0)))
 		{
-			//s.name = Sector::GenName(s, rng); 
+			//s.name = Sector::GenName(s, rng);  size_t pos = 0
 			s.name = "";
 			int len = rng.Int32(2,3);
 			for (int i=0; i<len; i++) {
