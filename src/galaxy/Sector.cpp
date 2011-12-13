@@ -16,12 +16,25 @@ void Sector::GetCustomSystems()
 {
 	const std::vector<CustomSystem*> &systems = CustomSystem::GetCustomSystemsForSector(sx, sy, sz);
 	if (systems.size() == 0) return;
+	unsigned long _init[4] = { sx, sy, sz, UNIVERSE_SEED };
+	MTRand rng(_init, 4);
 
 	for (std::vector<CustomSystem*>::const_iterator it = systems.begin(); it != systems.end(); it++) {
 		const CustomSystem *cs = *it;
 		System s;
 		s.p = SIZE*cs->pos;
 		s.name = cs->name;
+		if ((!s.name.find_first_of("Gliese")) || (!s.name.find_first_of("HD"))
+			 || (!s.name.find_first_of("NN")) || (!s.name.find_first_of("Gj")))
+		{
+			//s.name = Sector::GenName(s, rng); 
+			s.name = "";
+			int len = rng.Int32(2,3);
+			for (int i=0; i<len; i++) {
+				s.name += sys_names[rng.Int32(0,SYS_NAME_FRAGS-1)];
+			}
+			s.name[0] = toupper(s.name[0]);
+		}
 		for (s.numStars=0; s.numStars<cs->numStars; s.numStars++) {
 			if (cs->primaryType[s.numStars] == 0) break;
 			s.starType[s.numStars] = cs->primaryType[s.numStars];
