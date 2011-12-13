@@ -1,7 +1,7 @@
 Alpha 18
 
    * Internal changes
-     * Refactored game and space state into discrete object (#833)
+     * Refactored game and space state into discrete object (#833, #70)
 
 Alpha 17
 
