@@ -293,6 +293,10 @@
 		4AE5CA421383E6AA00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */; };
 		4AE5CA441383E6AA00B55DEB /* libsigc-2.0.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
 		4AE9706714369D7500424F91 /* LuaLang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AE9706514369D7500424F91 /* LuaLang.cpp */; };
+		4AF999A31496D51F009821AF /* FileSelectorWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9999B1496D51F009821AF /* FileSelectorWidget.cpp */; };
+		4AF999A41496D51F009821AF /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9999D1496D51F009821AF /* Game.cpp */; };
+		4AF999A51496D51F009821AF /* GameLoaderSaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9999F1496D51F009821AF /* GameLoaderSaver.cpp */; };
+		4AF999A61496D51F009821AF /* MathUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF999A11496D51F009821AF /* MathUtil.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -879,6 +883,14 @@
 		4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_sound-1.0.1.0.2.dylib"; path = "/opt/local/lib/libSDL_sound-1.0.1.0.2.dylib"; sourceTree = "<absolute>"; };
 		4AE9706514369D7500424F91 /* LuaLang.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaLang.cpp; sourceTree = "<group>"; };
 		4AE9706614369D7500424F91 /* LuaLang.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaLang.h; sourceTree = "<group>"; };
+		4AF9999B1496D51F009821AF /* FileSelectorWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSelectorWidget.cpp; sourceTree = "<group>"; };
+		4AF9999C1496D51F009821AF /* FileSelectorWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSelectorWidget.h; sourceTree = "<group>"; };
+		4AF9999D1496D51F009821AF /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
+		4AF9999E1496D51F009821AF /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
+		4AF9999F1496D51F009821AF /* GameLoaderSaver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameLoaderSaver.cpp; sourceTree = "<group>"; };
+		4AF999A01496D51F009821AF /* GameLoaderSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLoaderSaver.h; sourceTree = "<group>"; };
+		4AF999A11496D51F009821AF /* MathUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MathUtil.cpp; sourceTree = "<group>"; };
+		4AF999A21496D51F009821AF /* MathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathUtil.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1194,6 +1206,14 @@
 		4A6C4B9F13532FC300FDD53F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				4AF9999B1496D51F009821AF /* FileSelectorWidget.cpp */,
+				4AF9999C1496D51F009821AF /* FileSelectorWidget.h */,
+				4AF9999D1496D51F009821AF /* Game.cpp */,
+				4AF9999E1496D51F009821AF /* Game.h */,
+				4AF9999F1496D51F009821AF /* GameLoaderSaver.cpp */,
+				4AF999A01496D51F009821AF /* GameLoaderSaver.h */,
+				4AF999A11496D51F009821AF /* MathUtil.cpp */,
+				4AF999A21496D51F009821AF /* MathUtil.h */,
 				4AB7D5CF1472A83E00158DE4 /* terrain */,
 				4A84CB82146027DC0051C848 /* Camera.cpp */,
 				4A84CB83146027DC0051C848 /* Camera.h */,
@@ -1875,6 +1895,10 @@
 				4AB7D62E1472A83E00158DE4 /* TerrainHeightRuggedLava.cpp in Sources */,
 				4AB7D62F1472A83E00158DE4 /* TerrainHeightWaterSolid.cpp in Sources */,
 				4AB7D6301472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp in Sources */,
+				4AF999A31496D51F009821AF /* FileSelectorWidget.cpp in Sources */,
+				4AF999A41496D51F009821AF /* Game.cpp in Sources */,
+				4AF999A51496D51F009821AF /* GameLoaderSaver.cpp in Sources */,
+				4AF999A61496D51F009821AF /* MathUtil.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
