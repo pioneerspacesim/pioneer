@@ -223,3 +223,7 @@ void Body::UpdateFrame()
 	}
 }
 
+vector3d Body::GetTargetIndicatorPosition(const Frame *relTo) const
+{
+	return GetInterpolatedPositionRelTo(relTo);
+}
