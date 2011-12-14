@@ -417,6 +417,8 @@ void Pi::Init()
 	} 
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	const int requestedSamples = config.Int("AntiAliasingMode");
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, requestedSamples);
 
 	Uint32 flags = SDL_OPENGL;
 	if (config.Int("StartFullscreen")) flags |= SDL_FULLSCREEN;
@@ -432,6 +434,13 @@ void Pi::Init()
 			fprintf(stderr, "Failed to set video mode: %s", SDL_GetError());
 		}
 	}
+
+	// this valuable is not reliable if antialiasing settings are overridden by
+	// nvidia/ati/whatever settings
+	int actualSamples = 0;
+	SDL_GL_GetAttribute(SDL_GL_MULTISAMPLESAMPLES, &actualSamples);
+	if (requestedSamples != actualSamples)
+		fprintf(stderr, "Requested AA mode: %dx, actual: %dx\n", requestedSamples, actualSamples);
 
 	glewInit();
 	SDL_WM_SetCaption("Pioneer","Pioneer");

@@ -1,5 +1,9 @@
 Alpha 18
 
+   * New features
+     * Multisampled antialiasing. Set the "AntiAliasingMode" config value or
+       change your graphics driver settings (#848)
+
    * Minor changes and tweaks
      * Target square now appears on specific docking port of station when
        clearance is granted (#836, #835)
