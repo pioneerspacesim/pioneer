@@ -1,5 +1,9 @@
 Alpha 18
 
+   * Minor changes and tweaks
+     * Target square now appears on specific docking port of station when
+       clearance is granted (#836, #835)
+
    * Internal changes
      * Refactored game and space state into discrete object (#833, #70)
 
