@@ -1003,13 +1003,13 @@ void Pi::HandleMenuKey(int n)
 
 		case 0: // Earth start point
 		{
-			game = new Game(SystemPath(0,0,0,0,6));  // Mexico City, Earth
+			game = new Game(SystemPath(0,0,0,0,9));  // Los Angeles, Earth
 			break;
 		}
 
 		case 1: // Epsilon Eridani start point
 		{
-			game = new Game(SystemPath(1,0,-1,0,5));  // New Hope, New Hope
+			game = new Game(SystemPath(1,0,-1,0,4));  // New Hope, New Hope
 			break;
 		}
 
