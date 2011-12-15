@@ -45,7 +45,7 @@ void main(void)
 	{
 		vec3 surfaceNorm = normalize(eyepos - geosphereCenter);
 		for (int i=0; i<NUM_LIGHTS; ++i) {
-			atmosDiffuse += gl_LightSource[i].diffuse * max(0.0, dot(surfaceNorm, normalize(vec3(gl_LightSource[i].position))));
+			atmosDiffuse += gl_LightSource[i].diffuse * gl_TexCoord[2][i] * max(0.0, dot(surfaceNorm, normalize(vec3(gl_LightSource[i].position))));
 		}
 	}
 	atmosDiffuse.a = 1.0;

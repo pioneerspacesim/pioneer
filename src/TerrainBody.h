@@ -5,6 +5,7 @@
 #include "StarSystem.h"
 #include "GeoSphere.h"
 
+struct EclipseData;
 class Frame;
 
 class TerrainBody : public Body {
@@ -20,6 +21,9 @@ public:
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel) { return true; }
 	virtual double GetMass() const { return m_mass; }
 	double GetTerrainHeight(const vector3d pos) const;
+	void AddEclipse(int light, vector3d centre, double srad, double lrad);
+	void ClearEclipses();
+	void SetLightDiscRadius(int light, float radius);
 	bool IsSuperType(SBody::BodySuperType t) const;
 	virtual const SBody *GetSBody() const { return m_sbody; }
 	GeoSphere *GetGeoSphere() const { return m_geosphere; }

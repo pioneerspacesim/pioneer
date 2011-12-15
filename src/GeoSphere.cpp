@@ -33,6 +33,11 @@ SHADER_CLASS_BEGIN(GeosphereShader)
 	SHADER_UNIFORM_FLOAT(geosphereAtmosTopRad)
 	SHADER_UNIFORM_VEC3(geosphereCenter)
 	SHADER_UNIFORM_FLOAT(geosphereAtmosFogDensity)
+	SHADER_UNIFORM_INT(occultedLight)
+	SHADER_UNIFORM_VEC3(occultCentre)
+	SHADER_UNIFORM_FLOAT(srad)
+	SHADER_UNIFORM_FLOAT(lrad)
+	SHADER_UNIFORM_VEC4(lightDiscRadii)
 SHADER_CLASS_END()
 
 static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4], *s_geosphereStarShader, *s_geosphereDimStarShader[4];
@@ -1170,6 +1175,8 @@ GeoSphere::GeoSphere(const SBody *body)
 	m_abortLock = SDL_CreateMutex();
 	m_abort = false;
 
+	m_lightDiscRadii[0]=m_lightDiscRadii[1]=m_lightDiscRadii[2]=m_lightDiscRadii[3] = 0;
+
 	s_allGeospheres.push_back(this);
 }
 
@@ -1330,6 +1337,14 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		matrix4x4d modelMatrix;
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
+
+		EclipseData *eclipse = NULL;
+		if (!m_eclipses.empty())
+			// XXX: we don't handle multiple simultaneous eclipses on the same body!
+			eclipse = &m_eclipses.front();
+		vector3d occultCentre(0,0,0);
+		if (eclipse)
+			occultCentre = eclipse->centre.Length()*(modelMatrix * eclipse->centre - center).Normalized();
 		
 		m_sbody->GetAtmosphereFlavor(&atmosCol, &atmosDensity);
 		atmosDensity *= 0.00005;
@@ -1342,6 +1357,14 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			shader->set_geosphereAtmosFogDensity(atmosDensity);
 			shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
 			shader->set_geosphereCenter(center.x, center.y, center.z);
+			shader->set_lightDiscRadii(m_lightDiscRadii[0],m_lightDiscRadii[1],m_lightDiscRadii[2],m_lightDiscRadii[3]);
+			if (eclipse) {
+				shader->set_occultedLight(eclipse->lightNum);
+				shader->set_occultCentre(occultCentre[0], occultCentre[1], occultCentre[2]);
+				shader->set_srad(eclipse->srad);
+				shader->set_lrad(eclipse->lrad);
+			} else
+				shader->set_occultedLight(-1);
 			
 			glEnable(GL_BLEND);
 			glDepthMask(GL_FALSE);
@@ -1367,6 +1390,14 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			shader->set_geosphereAtmosFogDensity(atmosDensity);
 			shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
 			shader->set_geosphereCenter(center.x, center.y, center.z);
+			shader->set_lightDiscRadii(m_lightDiscRadii[0],m_lightDiscRadii[1],m_lightDiscRadii[2],m_lightDiscRadii[3]);
+			if (eclipse) {
+				shader->set_occultedLight(eclipse->lightNum);
+				shader->set_occultCentre(occultCentre[0], occultCentre[1], occultCentre[2]);
+				shader->set_srad(eclipse->srad);
+				shader->set_lrad(eclipse->lrad);
+			} else
+				shader->set_occultedLight(-1);
 		}
 	}
 	glPopMatrix();
@@ -1443,4 +1474,3 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	_UpdateLODs();
 #endif /* !GEOSPHERE_USE_THREADING */
 }
-

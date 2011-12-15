@@ -63,6 +63,22 @@ double TerrainBody::GetBoundingRadius() const
 	return m_sbody->GetRadius() * (1.1+m_geosphere->GetMaxFeatureHeight());
 }
 
+void TerrainBody::AddEclipse(int light, vector3d centre, double srad, double lrad)
+{
+	if (m_geosphere)
+		m_geosphere->AddEclipse(light, centre, srad, lrad);
+}
+void TerrainBody::ClearEclipses()
+{
+	if (m_geosphere)
+		m_geosphere->ClearEclipses();
+}
+void TerrainBody::SetLightDiscRadius(int light, float radius)
+{
+	if (m_geosphere)
+		m_geosphere->SetLightDiscRadius(light,radius);
+}
+
 void TerrainBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d ftran = viewTransform;

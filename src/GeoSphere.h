@@ -10,6 +10,13 @@
 extern int GEOPATCH_EDGELEN;
 #define ATMOSPHERE_RADIUS 1.015
 
+struct EclipseData {
+	int lightNum;
+	vector3d centre;
+	double srad;
+	double lrad;
+};
+
 class SBody;
 class GeoPatch;
 class GeoPatchContext;
@@ -37,6 +44,16 @@ public:
 	double GetMaxFeatureHeight() const { return m_terrain->GetMaxHeight(); }
 	static int GetVtxGenCount() { return s_vtxGenCount; }
 	static void ClearVtxGenCount() { s_vtxGenCount = 0; }
+
+	void AddEclipse(int light, vector3d centre, double srad, double lrad) {
+	    const EclipseData eclipse = { light, centre, srad, lrad };
+	    m_eclipses.push_back(eclipse);
+	}
+
+	void ClearEclipses() { m_eclipses.clear(); }
+	void SetLightDiscRadius(int light, float radius)
+		{ m_lightDiscRadii[light] = radius; }
+
 private:
 	void BuildFirstPatches();
 	GeoPatch *m_patches[6];
@@ -69,6 +86,9 @@ private:
 	static int s_vtxGenCount;
 
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
+
+	std::list<EclipseData> m_eclipses;
+	float m_lightDiscRadii[4];
 };
 
 #endif /* _GEOSPHERE_H */

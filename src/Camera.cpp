@@ -1,6 +1,7 @@
 #include "Camera.h"
 #include "Frame.h"
 #include "StarSystem.h"
+#include "TerrainBody.h"
 #include "render/Render.h"
 #include "Space.h"
 #include "Player.h"
@@ -18,6 +19,8 @@ Camera::Camera(const Body *body, float width, float height) :
 	m_pose(matrix4x4d::Identity()),
 	m_camFrame(0)
 {
+	for (int i=0; i<4; i++)
+		m_systemLightBodies[i] = NULL;
 	m_onBodyDeletedConnection = m_body->onDelete.connect(sigc::mem_fun(this, &Camera::OnBodyDeleted));
 }
 
@@ -38,7 +41,7 @@ void Camera::OnBodyDeleted()
 	m_body = 0;
 }
 
-static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
+void Camera::position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 {
 	if (lightNum > 3) return;
 	// not using frame->GetSBodyFor() because it snoops into parent frames,
@@ -81,6 +84,8 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 		glLightfv(light, GL_SPECULAR, lightCol);
 		glEnable(light);
 
+		m_systemLightBodies[lightNum] = frame->m_astroBody;
+
 		lightNum++;
 	}
 
@@ -122,6 +127,7 @@ void Camera::Update()
 		attrs.viewCoords = attrs.viewTransform * b->GetInterpolatedPosition();
 		attrs.camDist = attrs.viewCoords.Length();
 		attrs.bodyFlags = b->GetFlags();
+		attrs.lightIntensities[0]=attrs.lightIntensities[1]=attrs.lightIntensities[2]=attrs.lightIntensities[3]=1.0;
 		m_sortedBodies.push_back(attrs);
 	}
 
@@ -162,6 +168,8 @@ void Camera::Draw()
 		glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
 		glEnable(GL_LIGHT0);
 
+		m_systemLightBodies[0] = NULL;
+
 		num_lights++;
 	}
 
@@ -188,7 +196,7 @@ void Camera::Draw()
 			DrawSpike(spikerad, attrs->viewCoords, attrs->viewTransform);
 		}
 		else
-			attrs->body->Render(attrs->viewCoords, attrs->viewTransform);
+			RenderBody(attrs);
 	}
 
 	Sfx::RenderAll(Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
@@ -207,6 +215,128 @@ void Camera::Draw()
 	glPopAttrib();
 
 	m_frustum.Disable();
+}
+
+void Camera::RenderBody(BodyAttrs *attrs) {
+	Body *b = attrs->body;
+	for (int i=0; i < Render::State::GetNumLights(); i++) {
+		Body *lightBody = m_systemLightBodies[i];
+		if (!lightBody)
+			continue;
+
+		// Set up data for eclipses. All bodies are assumed to be spheres.
+		const double lightRadius = lightBody->GetSBody()->GetRadius();
+		if ( b->IsType(Object::TERRAINBODY) || b->IsType(Object::MODELBODY)) {
+			const vector3d bLightPos = lightBody->GetPositionRelTo(b);
+			const vector3d lightDir = bLightPos.Normalized();
+
+			double bRadius = 0;
+			if ( b->IsType(Object::TERRAINBODY)) {
+				TerrainBody* tb = static_cast<TerrainBody*>(b);
+				tb->ClearEclipses();
+				bRadius = b->GetSBody()->GetRadius();
+				// Set up data for "self-eclipse", i.e. "sunrise/sunset":
+				if (tb->GetSBody()->type == SBody::TYPE_PLANET_ASTEROID)
+					// Insufficiently spherical - ignore:
+					tb->SetLightDiscRadius(i, -1);
+				else
+					// Store arctan of the apparant angular radius:
+					tb->SetLightDiscRadius(i, lightRadius / bLightPos.Length());
+			}
+
+			// Look for eclipsing third bodies:
+			for (Space::BodyIterator ib2 = Pi::game->GetSpace()->BodiesBegin(); ib2 != Pi::game->GetSpace()->BodiesEnd(); ++ib2) {
+				Body *b2 = *ib2;
+				if ( b2 != b && b2 != lightBody && b2->IsType(Object::TERRAINBODY) ) {
+					const double b2Radius = b2->GetSBody()->GetRadius();
+
+					vector3d b2pos = b2->GetPositionRelTo(b);
+					const double perpDist = lightDir.Dot(b2pos);
+
+					if ( perpDist <= 0 || perpDist > bLightPos.Length())
+						// b2 isn't between b and lightBody; no eclipse
+						continue;
+
+					if ( b->IsType(Object::TERRAINBODY)) {
+						TerrainBody* tb = static_cast<TerrainBody*>(b);
+						// Project to plane perpendicular to light source. Our calculations assume that the
+						// light source is at infinity. All lengths are normalised such that the shadowed planet
+						// has radius 1. srad is then the radius of the occulting sphere (b2); lrad is the
+						// radius of the light disc projected to the plane of the occulting sphere, and
+						// projectedCentre is the normalised projected position of the centre of b2 relative to
+						// the centre of b. The upshot is that from a point on b, with normalised projected
+						// position p, the picture is of a disc of radius lrad being occulted by a disc of
+						// radius srad centred at projectedCentre-p. To determine the light intensity at p, we
+						// then just need to estimate the proportion of the light disc being occulted.
+						const vector3d projectedCentre = ( b2pos - perpDist*lightDir ) / bRadius;
+						const double srad = b2Radius/bRadius;
+						const double lrad = (lightRadius/bLightPos.Length())*perpDist/bRadius;
+						if (projectedCentre.Length() < 1 + srad + lrad) {
+							if (srad > projectedCentre.Length() + 1 + lrad) {
+								// whole planet is completely shadowed, so we can just turn the light off when
+								// rendering the body:
+								attrs->lightIntensities[i] = 0.0;
+							}
+							else {
+								// Variable lighting - just tell the body what's happening:
+								tb->AddEclipse(i, projectedCentre, srad, lrad);
+							}
+						}
+					}
+					else {
+						// b is a model; we light these uniformly, so just need to calculate the intensity:
+						const double srad = b2Radius;
+						const double lrad = (lightRadius/bLightPos.Length())*perpDist;
+						const double prdist = ( b2pos - perpDist*lightDir ).Length();
+						if (prdist < srad + lrad) {
+							float intensity = 1.0;
+							if (prdist < abs(srad-lrad))
+								if (srad > lrad)
+									// umbra
+									intensity = 0.0;
+								else
+									// penumbra
+									intensity = 1.0 - (srad*srad) / (lrad*lrad);
+							else
+								// antumbra - just linearly interpolate (TODO:better?)
+								intensity = 1.0 - ((srad+lrad-prdist)*(
+											(srad > lrad) ? 1 : (srad*srad) / (lrad*lrad))) /
+									(srad+lrad-abs(srad-lrad));
+							attrs->lightIntensities[i] *= intensity;
+						}
+					}
+				}
+			}
+		}
+	}
+	attrs->Render();
+}
+
+void Camera::BodyAttrs::Render() {
+
+	// dim lights if requested
+	static const int lightTypes[3] = {GL_AMBIENT, GL_DIFFUSE, GL_SPECULAR};
+	float lightData[4][3][4];
+	float tempCol[4];
+	for (int i=0; i < Render::State::GetNumLights(); i++) {
+		if (lightIntensities[i] < 1.0) {
+			for (int j=0; j<3; j++) {
+				glGetLightfv(GL_LIGHT0+i, lightTypes[j], lightData[i][j]);
+				for (int k=0; k<4; k++)
+					tempCol[k] = lightIntensities[i]*lightData[i][j][k];
+				glLightfv(GL_LIGHT0+i, lightTypes[j], tempCol);
+			}
+		}
+	}
+
+	// render
+	body->Render(viewCoords, viewTransform);
+
+	// restore dimmed lights
+	for (int i=0; i < Render::State::GetNumLights(); i++)
+		if (lightIntensities[i] < 1.0)
+				for (int j=0; j<3; j++)
+					glLightfv(GL_LIGHT0+i, lightTypes[j], lightData[i][j]);
 }
 
 void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform)

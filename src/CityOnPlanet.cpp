@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "collider/Geom.h"
 #include "render/RenderFrustum.h"
+#include "render/Render.h"
 
 #define START_SEG_SIZE CITY_ON_PLANET_RADIUS
 #define MIN_SEG_SIZE 50.0
