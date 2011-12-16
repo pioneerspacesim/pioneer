@@ -189,8 +189,8 @@ void SpaceStation::Init()
 			t.numDockingPorts = (*i)->GetIntAttribute("num_docking_ports");
 			t.dockOneAtATimePlease = (*i)->GetBoolAttribute("dock_one_at_a_time_please");
 			t.ReadStageDurations();
-			printf("one at a time? %s\n", t.dockOneAtATimePlease ? "yes" : "no");
-			printf("%s: %d docking ports\n", t.modelName, t.numDockingPorts);
+			//printf("one at a time? %s\n", t.dockOneAtATimePlease ? "yes" : "no");
+			//printf("%s: %d docking ports\n", t.modelName, t.numDockingPorts);
 			if (is_orbital) {
 				t.angVel = (*i)->GetFloatAttribute("angular_velocity");
 				orbitalStationTypes.push_back(t);
@@ -198,7 +198,7 @@ void SpaceStation::Init()
 			else surfaceStationTypes.push_back(t);
 		}
 	}
-	printf("%lu orbital station types and %lu surface station types.\n", orbitalStationTypes.size(), surfaceStationTypes.size());
+	//printf("%lu orbital station types and %lu surface station types.\n", orbitalStationTypes.size(), surfaceStationTypes.size());
 }
 
 void SpaceStation::Uninit()

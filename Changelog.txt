@@ -7,6 +7,7 @@ Alpha 18
    * Minor changes and tweaks
      * Target square now appears on specific docking port of station when
        clearance is granted (#836, #835)
+     * OpenGL info saved to opengl.txt on game start (#857)
 
    * Internal changes
      * Refactored game and space state into discrete object (#833, #70)
