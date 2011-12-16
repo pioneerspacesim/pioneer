@@ -27,7 +27,7 @@ void main(void)
 		vec3 lightDir = normalize(gl_LightSource[i].position - geosphereCenter);
 		float perpDist = dot(lightDir,v);
 
-		// Handle self-shadowing, i.e. "sunrise/sunset":
+		// Handle self-shadowing, i.e. "night"
 		if (lightDiscRadii[i] < 0.0)
 			gl_TexCoord[2][i] = 1.0;
 		else

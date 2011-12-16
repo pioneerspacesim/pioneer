@@ -235,7 +235,7 @@ void Camera::RenderBody(BodyAttrs *attrs) {
 				TerrainBody* tb = static_cast<TerrainBody*>(b);
 				tb->ClearEclipses();
 				bRadius = b->GetSBody()->GetRadius();
-				// Set up data for "self-eclipse", i.e. "sunrise/sunset":
+				// Set up data for "self-eclipse", i.e. "night":
 				if (tb->GetSBody()->type == SBody::TYPE_PLANET_ASTEROID)
 					// Insufficiently spherical - ignore:
 					tb->SetLightDiscRadius(i, -1);
@@ -259,26 +259,27 @@ void Camera::RenderBody(BodyAttrs *attrs) {
 
 					if ( b->IsType(Object::TERRAINBODY)) {
 						TerrainBody* tb = static_cast<TerrainBody*>(b);
-						// Project to plane perpendicular to light source. Our calculations assume that the
-						// light source is at infinity. All lengths are normalised such that the shadowed planet
-						// has radius 1. srad is then the radius of the occulting sphere (b2); lrad is the
-						// radius of the light disc projected to the plane of the occulting sphere, and
-						// projectedCentre is the normalised projected position of the centre of b2 relative to
-						// the centre of b. The upshot is that from a point on b, with normalised projected
-						// position p, the picture is of a disc of radius lrad being occulted by a disc of
-						// radius srad centred at projectedCentre-p. To determine the light intensity at p, we
+						// Project to the plane perpendicular to lightDir, taking the line between the shadowed sphere
+						// (b) and the light source as zero. Our calculations assume that the light source is at
+						// infinity. All lengths are normalised such that b has radius 1. srad is then the radius of the
+						// occulting sphere (b2), and lrad is the apparent radius of the light disc when considered to
+						// be at the distance of b2, and projectedCentre is the normalised projected position of the
+						// centre of b2 relative to the centre of b. The upshot is that from a point on b, with
+						// normalised projected position p, the picture is of a disc of radius lrad being occulted by a
+						// disc of radius srad centred at projectedCentre-p. To determine the light intensity at p, we
 						// then just need to estimate the proportion of the light disc being occulted.
 						const vector3d projectedCentre = ( b2pos - perpDist*lightDir ) / bRadius;
 						const double srad = b2Radius/bRadius;
 						const double lrad = (lightRadius/bLightPos.Length())*perpDist/bRadius;
 						if (projectedCentre.Length() < 1 + srad + lrad) {
+							// some part of b is (partially) eclipsed
 							if (srad > projectedCentre.Length() + 1 + lrad) {
 								// whole planet is completely shadowed, so we can just turn the light off when
 								// rendering the body:
 								attrs->lightIntensities[i] = 0.0;
 							}
 							else {
-								// Variable lighting - just tell the body what's happening:
+								// non-uniform lighting - just tell the body what's happening:
 								tb->AddEclipse(i, projectedCentre, srad, lrad);
 							}
 						}
