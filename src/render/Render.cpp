@@ -1,6 +1,7 @@
 #include "Render.h"
 #include "RenderTarget.h"
 #include <stdexcept>
+#include <sstream>
 
 static GLuint boundArrayBufferObject = 0;
 static GLuint boundElementArrayBufferObject = 0;
@@ -431,6 +432,9 @@ static struct postprocessBuffers_t {
 void Init(int screen_width, int screen_height)
 {
 	if (initted) return;
+
+	PrintGLInfo();
+
 	shadersAvailable = glewIsSupported("GL_VERSION_2_0");
 	shadersEnabled = shadersAvailable;
 	printf("GLSL shaders %s.\n", shadersEnabled ? "on" : "off");
@@ -647,6 +651,28 @@ bool State::UseProgram(Shader *shader)
 	} else {
 		return false;
 	}
+}
+
+void PrintGLInfo() {
+	std::string fname = GetPiUserDir() + "opengl.txt";
+	FILE *f = fopen(fname.c_str(), "w");
+	if (!f) return;
+
+	std::ostringstream ss;
+	ss << "OpenGL version " << glGetString(GL_VERSION);
+	ss << ", running on " << glGetString(GL_VENDOR);
+	ss << " " << glGetString(GL_RENDERER) << std::endl;
+
+	ss << "Available extensions:" << std::endl;
+	GLint numext = 0;
+	glGetIntegerv(GL_NUM_EXTENSIONS, &numext);
+	for (int i = 0; i < numext; ++i) {
+		ss << "  " << glGetStringi(GL_EXTENSIONS, i) << std::endl;
+	}
+
+	fprintf(f, "%s", ss.str().c_str());
+	fclose(f);
+	printf("OpenGL system information saved to %s\n", fname.c_str());
 }
 
 } /* namespace Render */
