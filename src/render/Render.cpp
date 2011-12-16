@@ -2,6 +2,7 @@
 #include "RenderTarget.h"
 #include <stdexcept>
 #include <sstream>
+#include <iterator>
 
 static GLuint boundArrayBufferObject = 0;
 static GLuint boundElementArrayBufferObject = 0;
@@ -666,8 +667,18 @@ void PrintGLInfo() {
 	ss << "Available extensions:" << std::endl;
 	GLint numext = 0;
 	glGetIntegerv(GL_NUM_EXTENSIONS, &numext);
-	for (int i = 0; i < numext; ++i) {
-		ss << "  " << glGetStringi(GL_EXTENSIONS, i) << std::endl;
+	if (GLEW_VERSION_3_0) {
+		for (int i = 0; i < numext; ++i) {
+			ss << "  " << glGetStringi(GL_EXTENSIONS, i) << std::endl;
+		}
+	}
+	else {
+		ss << "  ";
+		std::istringstream ext(reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS)));
+		std::copy(
+			std::istream_iterator<std::string>(ext),
+			std::istream_iterator<std::string>(),
+			std::ostream_iterator<std::string>(ss, "\n  "));
 	}
 
 	fprintf(f, "%s", ss.str().c_str());
