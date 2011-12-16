@@ -4,6 +4,7 @@ uniform int occultedLight;
 uniform vec3 occultCentre;
 uniform float srad;
 uniform float lrad;
+uniform float maxOcclusion;
 uniform vec4 lightDiscRadii;
 
 void main(void)
@@ -32,10 +33,11 @@ void main(void)
 		else
 			// Just linearly interpolate (the correct calculation involves
 			// asin, which isn't so cheap)
-			gl_TexCoord[2][i] = min(1,max(0,perpDist / (2*lightDiscRadii[i]) + 0.5));
+			gl_TexCoord[2][i] = clamp(perpDist / (2*lightDiscRadii[i]) + 0.5, 0.0, 1.0);
 
 		if (i == occultedLight)
 			// Apply eclipse:
-			gl_TexCoord[2][i]*=intensityOfOccultedLight(lightDir, v, occultCentre, srad, lrad);
+			// TODO: should be branching in a way the shader compiler can understand (uniform bool? diff shader?)
+			gl_TexCoord[2][i]*=intensityOfOccultedLight(lightDir, v, occultCentre, srad, lrad, maxOcclusion);
 	}
 }

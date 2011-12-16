@@ -37,6 +37,7 @@ SHADER_CLASS_BEGIN(GeosphereShader)
 	SHADER_UNIFORM_VEC3(occultCentre)
 	SHADER_UNIFORM_FLOAT(srad)
 	SHADER_UNIFORM_FLOAT(lrad)
+	SHADER_UNIFORM_FLOAT(maxOcclusion)
 	SHADER_UNIFORM_VEC4(lightDiscRadii)
 SHADER_CLASS_END()
 
@@ -1363,6 +1364,10 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 				shader->set_occultCentre(occultCentre[0], occultCentre[1], occultCentre[2]);
 				shader->set_srad(eclipse->srad);
 				shader->set_lrad(eclipse->lrad);
+				if (eclipse->srad > eclipse->lrad)
+					shader->set_maxOcclusion(1.0);
+				else
+					shader->set_maxOcclusion((eclipse->srad*eclipse->srad)/(eclipse->lrad*eclipse->lrad));
 			} else
 				shader->set_occultedLight(-1);
 			
@@ -1396,6 +1401,10 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 				shader->set_occultCentre(occultCentre[0], occultCentre[1], occultCentre[2]);
 				shader->set_srad(eclipse->srad);
 				shader->set_lrad(eclipse->lrad);
+				if (eclipse->srad > eclipse->lrad)
+					shader->set_maxOcclusion(1.0);
+				else
+					shader->set_maxOcclusion((eclipse->srad*eclipse->srad)/(eclipse->lrad*eclipse->lrad));
 			} else
 				shader->set_occultedLight(-1);
 		}

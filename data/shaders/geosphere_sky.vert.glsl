@@ -3,6 +3,7 @@ uniform int occultedLight;
 uniform vec3 occultCentre;
 uniform float srad;
 uniform float lrad;
+uniform float maxOcclusion;
 uniform vec4 lightDiscRadii;
 
 varying vec4 varyingEyepos;
@@ -24,8 +25,8 @@ void main(void)
 		if (lightDiscRadii[i] < 0.0)
 			gl_TexCoord[2][i] = 1.0;
 		else
-			gl_TexCoord[2][i] = min(1,max(0,perpDist / (2*lightDiscRadii[i]) + 0.5));
+			gl_TexCoord[2][i] = clamp(perpDist / (2*lightDiscRadii[i]) + 0.5, 0.0, 1.0);
 		if (i == occultedLight)
-			gl_TexCoord[2][i]*=intensityOfOccultedLight(lightDir, v, occultCentre, srad, lrad);
+			gl_TexCoord[2][i]*=intensityOfOccultedLight(lightDir, v, occultCentre, srad, lrad, maxOcclusion);
 	}
 }
