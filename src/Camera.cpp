@@ -268,9 +268,13 @@ void Camera::RenderBody(BodyAttrs *attrs) {
 						// normalised projected position p, the picture is of a disc of radius lrad being occulted by a
 						// disc of radius srad centred at projectedCentre-p. To determine the light intensity at p, we
 						// then just need to estimate the proportion of the light disc being occulted.
-						const vector3d projectedCentre = ( b2pos - perpDist*lightDir ) / bRadius;
 						const double srad = b2Radius/bRadius;
 						const double lrad = (lightRadius/bLightPos.Length())*perpDist/bRadius;
+						if (srad / lrad < 0.01) {
+							// any eclipse would have negligible effect - ignore
+							continue;
+						}
+						const vector3d projectedCentre = ( b2pos - perpDist*lightDir ) / bRadius;
 						if (projectedCentre.Length() < 1 + srad + lrad) {
 							// some part of b is (partially) eclipsed
 							if (srad > projectedCentre.Length() + 1 + lrad) {
