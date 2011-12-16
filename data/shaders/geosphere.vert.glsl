@@ -1,4 +1,5 @@
 uniform vec3 geosphereCenter;
+uniform float geosphereRadius;
 
 uniform int occultedLight;
 uniform vec3 occultCentre;
@@ -22,18 +23,22 @@ void main(void)
 	gl_TexCoord[1] = vec4(tnorm.x, tnorm.y, tnorm.z, 0.0);
 
 	// set gl_TexCoord[2][i] to the effective intensity of light i:
-	vec3 v = normalize(gl_TexCoord[0] - geosphereCenter);
+	vec3 v = (gl_TexCoord[0] - geosphereCenter)/geosphereRadius;
+	float lenInvSq = 1.0/(length(v)*length(v));
 	for (int i=0; i<NUM_LIGHTS; i++) {
 		vec3 lightDir = normalize(gl_LightSource[i].position - geosphereCenter);
-		float perpDist = dot(lightDir,v);
 
-		// Handle self-shadowing, i.e. "night"
+		// Handle self-shadowing, i.e. "night".
+		// d = dot(lightDir,t) where t is the unique point on the unit sphere whose tangent plane
+		// contains v, is in the plane of lightDir and d, and is towards the light.
+		float perp = dot(lightDir,v);
+		float d = perp*lenInvSq + sqrt((1-lenInvSq)*(1-(perp*perp*lenInvSq)));
 		if (lightDiscRadii[i] < 0.0)
 			gl_TexCoord[2][i] = 1.0;
 		else
 			// Just linearly interpolate (the correct calculation involves
 			// asin, which isn't so cheap)
-			gl_TexCoord[2][i] = clamp(perpDist / (2*lightDiscRadii[i]) + 0.5, 0.0, 1.0);
+			gl_TexCoord[2][i] = clamp(d / (2*lightDiscRadii[i]) + 0.5, 0.0, 1.0);
 
 		if (i == occultedLight)
 			// Apply eclipse:
