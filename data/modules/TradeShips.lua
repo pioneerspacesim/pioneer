@@ -71,6 +71,10 @@ local addShipCargo = function (ship, direction)
 	local size_factor = empty_space / 20
 	trade_ships[ship.label]['cargo'] = {}
 
+        if size_factor == 0 then
+            return 0
+        end
+
 	while added < empty_space do
 		local cargo
 
@@ -326,7 +330,7 @@ local spawnInitialShips = function (game_start)
 		-- give orders
 		if trader.status == 'docked' then
 			-- have ship wait 30-45 seconds per unit of cargo
-			trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
+			trader['delay'] = Game.time + Engine.rand:Number(3*60, 15*60) + (delay * Engine.rand:Number(30, 45))
 			Timer:CallAt(trader.delay, function () doUndock(ship) end)
 		elseif trader.status == 'inbound' then
 			ship:AIDockWith(trader.starport)
@@ -512,7 +516,7 @@ local onShipDocked = function (ship, starport)
 
 	-- delay undocking by 30-45 seconds for every unit of cargo transfered
 	-- or 2-3 minutes for every unit of hull repaired
-	trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
+	trader['delay'] = Game.time + Engine.rand:Number(3*60, 15*60) + (delay * Engine.rand:Number(30, 45))
 	if trader.status == 'docked' then
 		Timer:CallAt(trader.delay, function () doUndock(ship) end)
 	end
