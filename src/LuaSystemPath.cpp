@@ -302,8 +302,27 @@ static int l_sbodypath_get_star_system(lua_State *l)
 static int l_sbodypath_get_system_body(lua_State *l)
 {
 	SystemPath *path = LuaSystemPath::GetFromLua(1);
-	RefCountedPtr<StarSystem> s = StarSystem::GetCached(path);
-	SBody *sbody = s->GetBodyByPath(path);
+
+	if (path->IsSectorPath()) {
+		luaL_error(l, "Path <%d,%d,%d> does not name a system or body", path->sectorX, path->sectorY, path->sectorZ);
+		return 0;
+	}
+
+	RefCountedPtr<StarSystem> sys = StarSystem::GetCached(path);
+	if (path->IsSystemPath()) {
+		luaL_error(l, "Path <%d,%d,%d : %d ('%s')> does not name a body", path->sectorX, path->sectorY, path->sectorZ, path->systemIndex, sys->GetName().c_str());
+		return 0;
+	}
+
+	// technically, the following should never happen:
+	// Lua should never be able to get an invalid SystemPath
+	if (size_t(path->bodyIndex) >= sys->m_bodies.size()) {
+		luaL_error(l, "Body %d in system <%d,%d,%d : %d ('%s')> does not exist",
+			path->bodyIndex, path->sectorX, path->sectorY, path->sectorZ, path->systemIndex, sys->GetName().c_str());
+		return 0;
+	}
+
+	SBody *sbody = sys->GetBodyByPath(path);
 	LuaSBody::PushToLua(sbody);
 	return 1;
 }
