@@ -9,9 +9,6 @@ Alpha 18
        clearance is granted (#836, #835)
      * OpenGL info saved to opengl.txt on game start (#857)
 
-   * Fixes
-     * Fix crash when Ctrl-Q used to quit game
-
    * Internal changes
      * Refactored game and space state into discrete object (#833, #70)
 
