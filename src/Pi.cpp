@@ -668,6 +668,8 @@ void Pi::HandleEvents()
 				if ((KeyState(SDLK_LCTRL) || (KeyState(SDLK_RCTRL)))) {
 					switch (event.key.keysym.sym) {
 						case SDLK_q: // Quit
+							if (Pi::game)
+								Pi::EndGame();
 							Pi::Quit();
 							break;
 						case SDLK_s: // Toggle Shaders
