@@ -5,8 +5,8 @@
 
 class Texture {
 public:
-	Texture(const std::string &filename, bool preload = false);
-	Texture(SDL_Surface *s);
+	Texture(const std::string &filename, bool preload = false, bool clamp = false);
+	Texture(SDL_Surface *s, bool clamp = false);
 	~Texture();
 
 	void BindTexture();
@@ -23,7 +23,10 @@ private:
 	bool CreateFromSurface(SDL_Surface *s);
 
 	std::string m_filename;
+	bool m_clamp;
+
 	bool m_isLoaded;
+
 	int m_width, m_height;
 	GLuint m_tex;
 };

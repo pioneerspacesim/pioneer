@@ -1,7 +1,8 @@
 #include "Texture.h"
 
-Texture::Texture(const std::string &filename, bool preload) :
+Texture::Texture(const std::string &filename, bool preload, bool clamp) :
 	m_filename(filename),
+	m_clamp(clamp),
 	m_isLoaded(false),
 	m_width(-1),
 	m_height(-1),
@@ -11,8 +12,9 @@ Texture::Texture(const std::string &filename, bool preload) :
 		Load();
 }
 
-Texture::Texture(SDL_Surface *s) :
+Texture::Texture(SDL_Surface *s, bool clamp) :
 	m_filename(),
+	m_clamp(clamp),
 	m_isLoaded(false),
 	m_width(-1),
 	m_height(-1),
@@ -71,6 +73,11 @@ bool Texture::CreateFromSurface(SDL_Surface *s)
 	glBindTexture(GL_TEXTURE_2D, m_tex);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+
+	if (m_clamp) {
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	}
 
 	switch (s->format->BitsPerPixel) {
 		case 32:
