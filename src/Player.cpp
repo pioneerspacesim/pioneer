@@ -293,6 +293,8 @@ void Player::PollControls(const float timeStep)
 		changeVec.x = KeyBindings::pitchAxis.GetValue();
 		changeVec.y = KeyBindings::yawAxis.GetValue();
 		changeVec.z = KeyBindings::rollAxis.GetValue();
+
+		// Deadzone
 		float deadzoneSq = 0.1 * 0.1;
 		if(changeVec.LengthSqr() < deadzoneSq)
 			changeVec = vector3d(0.0);
