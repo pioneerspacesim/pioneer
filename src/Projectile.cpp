@@ -11,7 +11,7 @@
 #include "Planet.h"
 #include "Sfx.h"
 #include "Ship.h"
-#include "TextureManager.h"
+#include "TextureCache.h"
 #include "Pi.h"
 #include "Game.h"
 
@@ -156,7 +156,7 @@ void Projectile::StaticUpdate(const float timeStep)
 
 void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	Texture *tex = Pi::textureManager->GetTexture(PIONEER_DATA_DIR"/textures/laser.png");
+	Texture *tex = Pi::textureCache->GetTexture(PIONEER_DATA_DIR"/textures/laser.png");
 
 	vector3d from = viewTransform * GetInterpolatedPosition();
 	vector3d to = viewTransform * (GetInterpolatedPosition() + 0.1*m_dirVel);

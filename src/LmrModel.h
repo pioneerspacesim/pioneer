@@ -84,8 +84,8 @@ private:
 	friend class LmrGeomBuffer;
 };
 
-class TextureManager;
-void LmrModelCompilerInit(TextureManager *textureManager);
+class TextureCache;
+void LmrModelCompilerInit(TextureCache *textureCache);
 void LmrModelCompilerUninit();
 struct LmrModelNotFoundException {};
 LmrModel *LmrLookupModelByName(const char *name);

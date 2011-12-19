@@ -5,7 +5,7 @@
 #include "StarSystem.h"
 #include "Space.h"
 #include "Pi.h"
-#include "TextureManager.h"
+#include "TextureCache.h"
 #include "render/Render.h"
 
 #define MAX_SFX_PER_FRAME 1024
@@ -111,7 +111,7 @@ void Sfx::Render(const matrix4x4d &ftransform)
 			col[2] = 0.0f;
 			col[3] = 1.0f-(m_age/2.0f);
 			vector3f pos(&fpos.x);
-			smokeTex = Pi::textureManager->GetTexture(PIONEER_DATA_DIR"/textures/smoke.png");
+			smokeTex = Pi::textureCache->GetTexture(PIONEER_DATA_DIR"/textures/smoke.png");
 			smokeTex->BindTexture();
 			Render::PutPointSprites(1, &pos, 20.0f, col);
 			break;

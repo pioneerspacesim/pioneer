@@ -63,7 +63,7 @@
 #include "Background.h"
 #include "Lang.h"
 #include "StringF.h"
-#include "TextureManager.h"
+#include "TextureCache.h"
 #include "Game.h"
 #include "GameLoaderSaver.h"
 
@@ -103,7 +103,7 @@ LuaEventQueue<SpaceStation> *Pi::luaOnUpdateBB;
 LuaEventQueue<> *Pi::luaOnSongFinished;
 LuaEventQueue<Ship> *Pi::luaOnShipFlavourChanged;
 LuaEventQueue<Ship,const char *> *Pi::luaOnShipEquipmentChanged;
-TextureManager *Pi::textureManager;
+TextureCache *Pi::textureCache;
 int Pi::keyModState;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[6];
@@ -451,7 +451,7 @@ void Pi::Init()
 
 	Pi::rng.seed(time(NULL));
 
-	Pi::textureManager = new TextureManager;
+	Pi::textureCache = new TextureCache;
 
 	InitOpenGL();
 
@@ -479,7 +479,7 @@ void Pi::Init()
 	CustomSystem::Init();
 	draw_progress(0.4f);
 
-	LmrModelCompilerInit(Pi::textureManager);
+	LmrModelCompilerInit(Pi::textureCache);
 	LmrNotifyScreenWidth(Pi::scrWidth);
 	draw_progress(0.5f);
 
@@ -614,7 +614,7 @@ void Pi::Quit()
 	Render::Uninit();
 	LuaUninit();
 	Gui::Uninit();
-	delete Pi::textureManager;
+	delete Pi::textureCache;
 	StarSystem::ShrinkCache();
 	SDL_Quit();
 	exit(0);

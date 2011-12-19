@@ -1,13 +1,13 @@
-#ifndef _TEXTUREMANAGER_H
-#define _TEXTUREMANAGER_H
+#ifndef _TEXTURECACHE_H
+#define _TEXTURECACHE_H
 
 #include "Texture.h"
 #include "libs.h"
 #include <map>
 
-class TextureManager {
+class TextureCache {
 public:
-	~TextureManager();
+	~TextureCache();
 
 	Texture *GetTexture(const std::string &filename, bool preload = false);
 

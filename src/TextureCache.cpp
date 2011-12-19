@@ -1,13 +1,13 @@
-#include "TextureManager.h"
+#include "TextureCache.h"
 #include "Texture.h"
 
-TextureManager::~TextureManager()
+TextureCache::~TextureCache()
 {
 	for (TextureCacheMap::iterator i = m_textureCache.begin(); i != m_textureCache.end(); ++i)
 		delete (*i).second;
 }
 
-Texture *TextureManager::GetTexture(const std::string &filename, bool preload)
+Texture *TextureCache::GetTexture(const std::string &filename, bool preload)
 {
 	TextureCacheMap::iterator i = m_textureCache.find(filename);
 	if (i != m_textureCache.end())

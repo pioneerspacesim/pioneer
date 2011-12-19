@@ -11,7 +11,7 @@
 #include "LuaConstants.h"
 #include "EquipType.h"
 #include "ShipType.h"
-#include "TextureManager.h"
+#include "TextureCache.h"
 #include <set>
 #include <algorithm>
 
@@ -247,7 +247,7 @@ static lua_State *sLua;
 static int s_numTrisRendered;
 static std::string s_cacheDir;
 static bool s_recompileAllModels = true;
-static TextureManager *s_textureManager;
+static TextureCache *s_textureCache;
 
 struct Vertex {
 	Vertex() : v(0.0), n(0.0), tex_u(0.0), tex_v(0.0) {}		// zero this shit to stop denormal-copying on resize
@@ -552,7 +552,7 @@ public:
 	}
 	void SetTexture(const char *tex) {
 		if (tex) {
-			curTexture = s_textureManager->GetTexture(tex);
+			curTexture = s_textureCache->GetTexture(tex);
 		} else {
 			curTexture = 0;
 			curGlowmap = 0; //won't have these without textures
@@ -560,7 +560,7 @@ public:
 	}
 	void SetGlowMap(const char *tex) {
 		if (tex) {
-			curGlowmap = s_textureManager->GetTexture(tex);
+			curGlowmap = s_textureCache->GetTexture(tex);
 		} else {
 			curGlowmap = 0;
 		}
@@ -640,7 +640,7 @@ public:
 		curOp.type = OP_DRAW_BILLBOARDS;
 		curOp.billboards.start = m_vertices.size();
 		curOp.billboards.count = numPoints;
-		curOp.billboards.texture = s_textureManager->GetTexture(buf, true);
+		curOp.billboards.texture = s_textureCache->GetTexture(buf, true);
 		curOp.billboards.size = size;
 		curOp.billboards.col[0] = color.x;
 		curOp.billboards.col[1] = color.y;
@@ -880,12 +880,12 @@ public:
 				m_ops[i].callmodel.model = s_models[_fread_string(f)];
 			}
 			else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
-				m_ops[i].elems.texture = s_textureManager->GetTexture(_fread_string(f));
+				m_ops[i].elems.texture = s_textureCache->GetTexture(_fread_string(f));
 				if (m_ops[i].elems.glowmap)
-					m_ops[i].elems.glowmap = s_textureManager->GetTexture(_fread_string(f));
+					m_ops[i].elems.glowmap = s_textureCache->GetTexture(_fread_string(f));
 			}
 			else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
-				m_ops[i].billboards.texture = s_textureManager->GetTexture(_fread_string(f));
+				m_ops[i].billboards.texture = s_textureCache->GetTexture(_fread_string(f));
 			}
 		}
 	}
@@ -4405,9 +4405,9 @@ static void _write_model_crc_file()
 	}
 }
 
-void LmrModelCompilerInit(TextureManager *textureManager)
+void LmrModelCompilerInit(TextureCache *textureCache)
 {
-	s_textureManager = textureManager;
+	s_textureCache = textureCache;
 
 	s_cacheDir = GetPiUserDir("model_cache");
 	_detect_model_changes();
