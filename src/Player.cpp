@@ -20,6 +20,7 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	m_setSpeedTarget = 0;
 	m_navTarget = 0;
 	m_combatTarget = 0;
+	m_JoystickDeadzone = Pi::config.Float("JoystickDeadzone");
 	UpdateMass();
 
 	m_accumTorque = vector3d(0,0,0);
@@ -295,7 +296,7 @@ void Player::PollControls(const float timeStep)
 		changeVec.z = KeyBindings::rollAxis.GetValue();
 
 		// Deadzone
-		float deadzoneSq = 0.1 * 0.1;
+		float deadzoneSq = m_JoystickDeadzone * m_JoystickDeadzone;
 		if(changeVec.LengthSqr() < deadzoneSq)
 			changeVec = vector3d(0.0);
 
