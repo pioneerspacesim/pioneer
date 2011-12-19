@@ -778,8 +778,11 @@ void WorldView::OnSwitchTo()
 
 void WorldView::ToggleTargetActions()
 {
-	if (m_showTargetActionsTimeout) m_showTargetActionsTimeout = 0;
-	else m_showTargetActionsTimeout = SDL_GetTicks();
+	if (Pi::game->IsHyperspace() || m_showTargetActionsTimeout)
+		m_showTargetActionsTimeout = 0;
+	else
+		m_showTargetActionsTimeout = SDL_GetTicks();
+
 	UpdateCommsOptions();
 }
 
@@ -882,6 +885,9 @@ void WorldView::OnHyperspaceTargetChanged()
 
 	RefCountedPtr<StarSystem> system = StarSystem::GetCached(path);
 	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", system->GetName())));
+
+	if (Pi::game->IsHyperspace())
+		return;
 
 	int fuelReqd;
 	double dur;
