@@ -461,7 +461,7 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	}
 
 	else if (path.IsSameSystem(Pi::player->GetHyperspaceDest())) {
-		snprintf(format, sizeof(format), "[ %s ]", "In transit");
+		snprintf(format, sizeof(format), "[ %s ]", Lang::IN_TRANSIT);
 		labels.distance->SetText(format);
 		labels.distance->Color(0.4f, 0.4f, 1.0f);
 	}
