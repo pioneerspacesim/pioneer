@@ -31,6 +31,7 @@ class Ship;
 class GameMenuView;
 class LuaConsole;
 namespace Sound { class MusicPlayer; }
+class TextureManager;
 
 #if OBJECTVIEWER
 class ObjectViewerView;
@@ -124,6 +125,8 @@ public:
 	static LuaEventQueue<> *luaOnSongFinished;
 	static LuaEventQueue<Ship> *luaOnShipFlavourChanged;
 	static LuaEventQueue<Ship,const char *> *luaOnShipEquipmentChanged;
+
+	static TextureManager *textureManager;
 
 	static MTRand rng;
 	static int statSceneTris;

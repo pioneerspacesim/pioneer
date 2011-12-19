@@ -7,6 +7,7 @@
 #include "render/Render.h"
 #include "Ship.h" // for the flight state and ship animation enums
 #include "SpaceStation.h" // for the space station animation enums
+#include "TextureManager.h"
 
 enum ModelCategory {
 	MODEL_OTHER,
@@ -36,7 +37,7 @@ class Viewer;
 static Viewer *g_viewer;
 
 static void PollEvents();
-extern void LmrModelCompilerInit();
+extern void LmrModelCompilerInit(TextureManager *textureManager);
 
 static int g_wheelMoveDir = -1;
 static int g_renderType = 0;
@@ -778,9 +779,13 @@ int main(int argc, char **argv)
 
 	glClearColor(0,0,0,0);
 	glViewport(0, 0, g_width, g_height);
+
+	TextureManager *textureManager = new TextureManager;
+
 	Render::Init(g_width, g_height);
 	Gui::Init(g_width, g_height, g_width, g_height);
-	LmrModelCompilerInit();
+
+	LmrModelCompilerInit(textureManager);
 	LmrNotifyScreenWidth(g_width);
 
 	ShipType::Init();

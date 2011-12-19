@@ -1572,7 +1572,7 @@ void WorldView::DrawImageIndicator(const Indicator &marker, const char *icon_pat
 	if (marker.side == INDICATOR_HIDDEN) return;
 
 	if (marker.side == INDICATOR_ONSCREEN) {
-		Texture *tex = TextureManager::GetTexture(icon_path, true);
+		Texture *tex = Pi::textureManager->GetTexture(icon_path, true);
 		const float w = tex->GetWidth();
 		const float h = tex->GetHeight();
 		const float x0 = marker.pos[0] - w/2.0f;

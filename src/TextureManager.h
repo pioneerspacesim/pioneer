@@ -2,38 +2,58 @@
 #define _TEXTUREMANAGER_H
 
 #include "libs.h"
-#include <string>
+#include <map>
+
+class Texture;
+
+class TextureManager {
+public:
+	~TextureManager();
+
+	Texture *GetTexture(const std::string &filename, bool preload = false);
+
+private:
+	typedef std::map<std::string,Texture*> TextureCacheMap;
+	TextureCacheMap m_textureCache;
+};
+
 
 class Texture {
 public:
-	Texture(const std::string &file_name, bool load_now) {
-		this->filename = file_name;
-		isLoaded = false;
-		tex = 0;
-		width = height = -1;
-		if (load_now) Load();
+	Texture(const std::string &filename, bool preload = false) :
+		m_filename(filename),
+		m_isLoaded(false),
+		m_width(-1),
+		m_height(-1),
+		m_tex(0)
+	{
+		if (preload)
+			Load();
 	}
-	virtual ~Texture() { if (tex) glDeleteTextures(1, &tex); }
-	const std::string &GetFilename() const { return filename; }
-	bool IsLoaded() const { return isLoaded; }
+	~Texture() {
+		if (m_tex)
+			glDeleteTextures(1, &m_tex);
+	}
+
 	void BindTexture() {
-		if (!IsLoaded()) Load();
-		glBindTexture(GL_TEXTURE_2D, tex);
+		if (!IsLoaded())
+			Load();
+		glBindTexture(GL_TEXTURE_2D, m_tex);
 	}
-	int GetWidth() const { return width; }
-	int GetHeight() const { return height; }
+
+	const std::string &GetFilename() const { return m_filename; }
+	bool IsLoaded() const { return m_isLoaded; }
+
+	int GetWidth() const { return m_width; }
+	int GetHeight() const { return m_height; }
+
 private:
 	void Load();
 
-	std::string filename;
-	GLuint tex;
-	int width, height;
-	bool isLoaded;
+	std::string m_filename;
+	bool m_isLoaded;
+	int m_width, m_height;
+	GLuint m_tex;
 };
-
-namespace TextureManager {
-	Texture *GetTexture(const std::string &filename, bool preload = false);
-	void Clear();
-}
 
 #endif

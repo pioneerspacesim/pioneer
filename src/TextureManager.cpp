@@ -3,61 +3,64 @@
 
 void Texture::Load()
 {
-	if (isLoaded) return;
-	SDL_Surface *s = IMG_Load(filename.c_str());
+	if (m_isLoaded) return;
 
-	if (s) {
-		width = s->w;
-		height = s->h;
+	SDL_Surface *s = IMG_Load(m_filename.c_str());
+	if (!s) {
+		Error("Texture::Load: %s: %s\n", m_filename.c_str(), IMG_GetError());
+		return;
+	}
 
-		glGenTextures (1, &tex);
-		glBindTexture (GL_TEXTURE_2D, tex);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
-		switch ( s->format->BitsPerPixel )
-		{
+	if (s->format->BitsPerPixel != 24 && s->format->BitsPerPixel != 32) {
+		Error("Texture::Load: %s: cannot handle image with %d bits per pixel\n", m_filename.c_str(), s->format->BitsPerPixel);
+		SDL_FreeSurface(s);
+		return;
+	}
+
+	m_width = s->w;
+	m_height = s->h;
+
+	glGenTextures(1, &m_tex);
+	glBindTexture(GL_TEXTURE_2D, m_tex);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+
+	switch (s->format->BitsPerPixel) {
 		case 32:
 			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, s->w, s->h, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
 			break;
+
 		case 24:
 			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, s->w, s->h, GL_RGB, GL_UNSIGNED_BYTE, s->pixels);
 			break;
+
 		default:
-			Error("Texture '%s' needs to be 24 or 32 bit.", filename.c_str());
-			exit(0);
-		}
-	
-		SDL_FreeSurface(s);
-		isLoaded = true;
-		glBindTexture(GL_TEXTURE_2D, 0);
-	} else {
-		Error("IMG_Load: %s\n", IMG_GetError());
+			assert(0);
 	}
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	
+	SDL_FreeSurface(s);
+
+	m_isLoaded = true;
 }
 
-namespace TextureManager {
-	typedef std::map<std::string, Texture*> TextureCacheMap;
-	static TextureCacheMap s_textures;
+TextureManager::~TextureManager()
+{
+	for (TextureCacheMap::iterator i = m_textureCache.begin(); i != m_textureCache.end(); ++i)
+		delete (*i).second;
+}
 
-	Texture *GetTexture(const std::string &filename, bool preload)
-	{
-		std::pair<TextureCacheMap::iterator, bool>
-			ret = s_textures.insert(TextureCacheMap::value_type(filename, static_cast<Texture*>(0)));
-				// cast required as work around broken msvc rvalue reference crap
-		if (ret.second) {
-			Texture *tex = new Texture(filename, preload);
-			ret.first->second = tex;
-			return tex;
-		} else {
-			return ret.first->second;
-		}
-	}
+Texture *TextureManager::GetTexture(const std::string &filename, bool preload)
+{
+	TextureCacheMap::iterator i = m_textureCache.find(filename);
+	if (i != m_textureCache.end())
+		return (*i).second;
+	
+	Texture *t = new Texture(filename, preload);
+	m_textureCache.insert(std::make_pair(filename, t));
 
-	void Clear()
-	{
-		for (TextureCacheMap::iterator i = s_textures.begin(); i != s_textures.end(); ++i)
-			delete (*i).second;
-		s_textures.clear();
-	}
+	return t;
+
 }
 

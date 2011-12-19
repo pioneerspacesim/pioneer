@@ -103,6 +103,7 @@ LuaEventQueue<SpaceStation> *Pi::luaOnUpdateBB;
 LuaEventQueue<> *Pi::luaOnSongFinished;
 LuaEventQueue<Ship> *Pi::luaOnShipFlavourChanged;
 LuaEventQueue<Ship,const char *> *Pi::luaOnShipEquipmentChanged;
+TextureManager *Pi::textureManager;
 int Pi::keyModState;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[6];
@@ -450,6 +451,8 @@ void Pi::Init()
 
 	Pi::rng.seed(time(NULL));
 
+	Pi::textureManager = new TextureManager;
+
 	InitOpenGL();
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
@@ -476,7 +479,7 @@ void Pi::Init()
 	CustomSystem::Init();
 	draw_progress(0.4f);
 
-	LmrModelCompilerInit();
+	LmrModelCompilerInit(Pi::textureManager);
 	LmrNotifyScreenWidth(Pi::scrWidth);
 	draw_progress(0.5f);
 
@@ -607,11 +610,11 @@ void Pi::Quit()
 	CityOnPlanet::Uninit();
 	GeoSphere::Uninit();
 	LmrModelCompilerUninit();
-	TextureManager::Clear();
 	Galaxy::Uninit();
 	Render::Uninit();
 	LuaUninit();
 	Gui::Uninit();
+	delete Pi::textureManager;
 	StarSystem::ShrinkCache();
 	SDL_Quit();
 	exit(0);
