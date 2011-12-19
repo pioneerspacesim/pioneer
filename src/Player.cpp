@@ -289,9 +289,16 @@ void Player::PollControls(const float timeStep)
 				angThrustSoftness = 10.0;
 		}
 
-		wantAngVel.x += 2 * KeyBindings::pitchAxis.GetValue();
-		wantAngVel.y += 2 * KeyBindings::yawAxis.GetValue();
-		wantAngVel.z += 2 * KeyBindings::rollAxis.GetValue();
+		vector3d changeVec;
+		changeVec.x = KeyBindings::pitchAxis.GetValue();
+		changeVec.y = KeyBindings::yawAxis.GetValue();
+		changeVec.z = KeyBindings::rollAxis.GetValue();
+		float deadzoneSq = 0.1 * 0.1;
+		if(changeVec.LengthSqr() < deadzoneSq)
+			changeVec = vector3d(0.0);
+
+		changeVec *= 2.0;
+		wantAngVel += changeVec;
 
 		double invTimeAccel = 1.0 / Pi::GetTimeAccel();
 		for (int axis=0; axis<3; axis++)
