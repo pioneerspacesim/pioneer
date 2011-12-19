@@ -5,26 +5,10 @@
 
 class Texture {
 public:
-	Texture(const std::string &filename, bool preload = false) :
-		m_filename(filename),
-		m_isLoaded(false),
-		m_width(-1),
-		m_height(-1),
-		m_tex(0)
-	{
-		if (preload)
-			Load();
-	}
-	~Texture() {
-		if (m_tex)
-			glDeleteTextures(1, &m_tex);
-	}
+	Texture(const std::string &filename, bool preload = false);
+	~Texture();
 
-	void BindTexture() {
-		if (!IsLoaded())
-			Load();
-		glBindTexture(GL_TEXTURE_2D, m_tex);
-	}
+	void BindTexture();
 
 	const std::string &GetFilename() const { return m_filename; }
 	bool IsLoaded() const { return m_isLoaded; }

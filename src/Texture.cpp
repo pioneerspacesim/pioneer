@@ -1,5 +1,29 @@
 #include "Texture.h"
 
+Texture::Texture(const std::string &filename, bool preload) :
+	m_filename(filename),
+	m_isLoaded(false),
+	m_width(-1),
+	m_height(-1),
+	m_tex(0)
+{
+	if (preload)
+		Load();
+}
+
+Texture::~Texture()
+{
+	if (m_tex)
+		glDeleteTextures(1, &m_tex);
+}
+
+void Texture::BindTexture()
+{
+	if (!IsLoaded())
+		Load();
+	glBindTexture(GL_TEXTURE_2D, m_tex);
+}
+
 void Texture::Load()
 {
 	if (m_isLoaded) return;
