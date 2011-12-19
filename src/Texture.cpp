@@ -11,6 +11,19 @@ Texture::Texture(const std::string &filename, bool preload) :
 		Load();
 }
 
+Texture::Texture(SDL_Surface *s) :
+	m_filename(),
+	m_isLoaded(false),
+	m_width(-1),
+	m_height(-1),
+	m_tex(0)
+{
+	if (!CreateFromSurface(s))
+		fprintf(stderr, "Texture::Texture: creating texture from surface failed\n");
+	else
+		m_isLoaded = true;
+}
+
 Texture::~Texture()
 {
 	if (m_tex)

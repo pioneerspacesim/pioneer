@@ -6,6 +6,7 @@
 class Texture {
 public:
 	Texture(const std::string &filename, bool preload = false);
+	Texture(SDL_Surface *s);
 	~Texture();
 
 	void BindTexture();
