@@ -30,14 +30,24 @@ void Texture::Load()
 
 	SDL_Surface *s = IMG_Load(m_filename.c_str());
 	if (!s) {
-		Error("Texture::Load: %s: %s\n", m_filename.c_str(), IMG_GetError());
+		fprintf(stderr, "Texture::Load: %s: %s\n", m_filename.c_str(), IMG_GetError());
 		return;
 	}
 
-	if (s->format->BitsPerPixel != 24 && s->format->BitsPerPixel != 32) {
-		Error("Texture::Load: %s: cannot handle image with %d bits per pixel\n", m_filename.c_str(), s->format->BitsPerPixel);
+	if (!CreateFromSurface(s)) {
+		fprintf(stderr, "Texture::Load: %s: creating texture from surface failed\n", m_filename.c_str());
 		SDL_FreeSurface(s);
 		return;
+	}
+
+	m_isLoaded = true;
+}
+
+bool Texture::CreateFromSurface(SDL_Surface *s)
+{
+	if (s->format->BitsPerPixel != 24 && s->format->BitsPerPixel != 32) {
+		fprintf(stderr, "Texture::CreateFromSurface: cannot handle image with %d bits per pixel\n", s->format->BitsPerPixel);
+		return false;
 	}
 
 	m_width = s->w;
@@ -62,10 +72,6 @@ void Texture::Load()
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-	
-	SDL_FreeSurface(s);
 
-	m_isLoaded = true;
+	return true;
 }
-
-

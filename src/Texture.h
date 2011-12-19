@@ -19,6 +19,8 @@ public:
 private:
 	void Load();
 
+	bool CreateFromSurface(SDL_Surface *s);
+
 	std::string m_filename;
 	bool m_isLoaded;
 	int m_width, m_height;
