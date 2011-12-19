@@ -119,11 +119,15 @@ void SectorView::InitObject()
 	hbox->PackEnd(b);
 	hbox->PackEnd((new Gui::Label(Lang::CURRENT_SYSTEM))->Color(1.0f, 1.0f, 1.0f));
 	systemBox->PackEnd(hbox);
+	hbox = new Gui::HBox();
+	hbox->SetSpacing(5.0f);
 	m_currentSystemLabels.systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
-	m_currentSystemLabels.distance = 0;
+	m_currentSystemLabels.distance = (new Gui::Label(""))->Color(1.0f, 0.0f, 0.0f);
+	hbox->PackEnd(m_currentSystemLabels.systemName);
+	hbox->PackEnd(m_currentSystemLabels.distance);
+	systemBox->PackEnd(hbox);
 	m_currentSystemLabels.starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
 	m_currentSystemLabels.shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
-	systemBox->PackEnd(m_currentSystemLabels.systemName);
 	systemBox->PackEnd(m_currentSystemLabels.starType);
 	systemBox->PackEnd(m_currentSystemLabels.shortDesc);
 	m_infoBox->PackEnd(systemBox);
@@ -419,47 +423,51 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 	Sector *sec = GetCached(path.sectorX, path.sectorY, path.sectorZ);
 	Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
 
-    if (labels.distance) {
-		char format[256];
+	char format[256];
 
-		if (m_inSystem) {
-			const float dist = Sector::DistanceBetween(sec, path.systemIndex, playerSec, m_current.systemIndex);
+	if (m_inSystem) {
+		const float dist = Sector::DistanceBetween(sec, path.systemIndex, playerSec, m_current.systemIndex);
 		
-			int fuelRequired;
-			double dur;
-			enum Ship::HyperjumpStatus jumpStatus;
-			Pi::player->CanHyperspaceTo(&path, fuelRequired, dur, &jumpStatus);
-			const double DaysNeeded = dur*(1.0 / (24*60*60)); 
-			const double HoursNeeded = (DaysNeeded - floor(DaysNeeded))*24;
-	
-			switch (jumpStatus) {
-				case Ship::HYPERJUMP_OK:
-					snprintf(format, sizeof(format), "[ %s | %s | %s, %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES, Lang::NUMBER_DAYS, Lang::NUMBER_HOURS);
-					labels.distance->SetText(stringf(format,
-						formatarg("distance", dist), formatarg("mass", fuelRequired), formatarg("days", floor(DaysNeeded)), formatarg("hours", HoursNeeded)));
-					labels.distance->Color(0.0f, 1.0f, 0.2f);
-					break;
-				case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
-					snprintf(format, sizeof(format), "[ %s | %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES);
-					labels.distance->SetText(stringf(format,
-						formatarg("distance", dist), formatarg("mass", fuelRequired)));
-					labels.distance->Color(1.0f, 1.0f, 0.0f);
-					break;
-				case Ship::HYPERJUMP_OUT_OF_RANGE:
-					snprintf(format, sizeof(format), "[ %s ]", Lang::NUMBER_LY);
-					labels.distance->SetText(stringf(format,
-						formatarg("distance", dist)));
-					labels.distance->Color(1.0f, 0.0f, 0.0f);
-					break;
-				default:
-					labels.distance->SetText("");
-					break;
-			}
-		}
+		int fuelRequired;
+		double dur;
+		enum Ship::HyperjumpStatus jumpStatus;
+		Pi::player->CanHyperspaceTo(&path, fuelRequired, dur, &jumpStatus);
+		const double DaysNeeded = dur*(1.0 / (24*60*60)); 
+		const double HoursNeeded = (DaysNeeded - floor(DaysNeeded))*24;
 
-		else
-			labels.distance->SetText("");
+		switch (jumpStatus) {
+			case Ship::HYPERJUMP_OK:
+				snprintf(format, sizeof(format), "[ %s | %s | %s, %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES, Lang::NUMBER_DAYS, Lang::NUMBER_HOURS);
+				labels.distance->SetText(stringf(format,
+					formatarg("distance", dist), formatarg("mass", fuelRequired), formatarg("days", floor(DaysNeeded)), formatarg("hours", HoursNeeded)));
+				labels.distance->Color(0.0f, 1.0f, 0.2f);
+				break;
+			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
+				snprintf(format, sizeof(format), "[ %s | %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES);
+				labels.distance->SetText(stringf(format,
+					formatarg("distance", dist), formatarg("mass", fuelRequired)));
+				labels.distance->Color(1.0f, 1.0f, 0.0f);
+				break;
+			case Ship::HYPERJUMP_OUT_OF_RANGE:
+				snprintf(format, sizeof(format), "[ %s ]", Lang::NUMBER_LY);
+				labels.distance->SetText(stringf(format,
+					formatarg("distance", dist)));
+				labels.distance->Color(1.0f, 0.0f, 0.0f);
+				break;
+			default:
+				labels.distance->SetText("");
+				break;
+		}
 	}
+
+	else if (path.IsSameSystem(Pi::player->GetHyperspaceDest())) {
+		snprintf(format, sizeof(format), "[ %s ]", "In transit");
+		labels.distance->SetText(format);
+		labels.distance->Color(0.4f, 0.4f, 1.0f);
+	}
+
+	else
+		labels.distance->SetText("");
 
 	RefCountedPtr<StarSystem> sys = StarSystem::GetCached(path);
 
@@ -738,19 +746,22 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 
 void SectorView::Update()
 {
-	if (Pi::game->IsNormalSpace()) {
-		SystemPath last_current = m_current;
-		m_current = Pi::game->GetSpace()->GetStarSystem()->GetPath();
-		if (!m_inSystem || last_current != m_current) {
-			m_inSystem = true;
-			UpdateSystemLabels(m_currentSystemLabels, m_current);
-		}
-		m_inSystem = true;
-	}
+	SystemPath last_current = m_current;
+	bool last_inSystem = m_inSystem;
 
+	if (Pi::game->IsNormalSpace()) {
+		m_inSystem = true;
+		m_current = Pi::game->GetSpace()->GetStarSystem()->GetPath();
+	}
 	else {
 		m_inSystem = false;
+		m_current = Pi::player->GetHyperspaceDest();
+	}
+
+	if (last_inSystem != m_inSystem || last_current != m_current) {
 		UpdateSystemLabels(m_currentSystemLabels, m_current);
+		UpdateSystemLabels(m_selectedSystemLabels, m_selected);
+		UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 	}
 
 	const float frameTime = Pi::GetFrameTime();
