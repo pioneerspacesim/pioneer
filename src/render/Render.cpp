@@ -667,7 +667,7 @@ void PrintGLInfo() {
 	ss << "Available extensions:" << std::endl;
 	GLint numext = 0;
 	glGetIntegerv(GL_NUM_EXTENSIONS, &numext);
-	if (GLEW_VERSION_3_0) {
+	if (glewIsSupported("GL_VERSION_3_0")) {
 		for (int i = 0; i < numext; ++i) {
 			ss << "  " << glGetStringi(GL_EXTENSIONS, i) << std::endl;
 		}
