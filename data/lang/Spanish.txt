@@ -174,6 +174,8 @@ CANCEL
     Cancelar
 SELECT_FILENAME_TO_SAVE
     Seleccione un archivo para Guardar o cree un nuevo nombre de fichero
+CANT_SAVE_IN_HYPERSPACE
+    No es posible salvar estando en hiperespacio
 GAME_SAVED_TO
     "Juego guardado en "
 SELECT_FILENAME_TO_LOAD
@@ -184,6 +186,8 @@ GAME_LOAD_CORRUPT
     Este juego salvado no se puede abrir porque contiene errores.
 GAME_LOAD_CANNOT_OPEN
     Este juego salvado no se puede abrir debido a permisos o algo...
+GAME_SAVE_CANNOT_WRITE
+    No se puede escribir en este juego salvado por un error del sistema.
 VERY_LOW
     Muy bajo
 LOW
@@ -1096,6 +1100,8 @@ M_S_RELATIVE_TO
     %speed{f.0} m/s relativa a %frame
 N_DISTANCE_TO_TARGET
     %distance al objetivo
+IN_TRANSIT
+    En tránsito
 IN_TRANSIT_TO_N_X_X_X
     En tránsito a %system [%x,%y,%z]
 ALT_IN_METRES
