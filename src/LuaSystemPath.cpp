@@ -314,13 +314,9 @@ static int l_sbodypath_get_system_body(lua_State *l)
 		return 0;
 	}
 
-	// technically, the following should never happen:
 	// Lua should never be able to get an invalid SystemPath
-	if (size_t(path->bodyIndex) >= sys->m_bodies.size()) {
-		luaL_error(l, "Body %d in system <%d,%d,%d : %d ('%s')> does not exist",
-			path->bodyIndex, path->sectorX, path->sectorY, path->sectorZ, path->systemIndex, sys->GetName().c_str());
-		return 0;
-	}
+	// (note: this may change if it becomes possible to remove systems during the game)
+	assert(size_t(path->bodyIndex) < sys->m_bodies.size());
 
 	SBody *sbody = sys->GetBodyByPath(path);
 	LuaSBody::PushToLua(sbody);
