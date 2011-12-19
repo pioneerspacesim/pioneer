@@ -66,6 +66,7 @@ bool Texture::CreateFromSurface(SDL_Surface *s)
 	m_width = s->w;
 	m_height = s->h;
 
+	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &m_tex);
 	glBindTexture(GL_TEXTURE_2D, m_tex);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -85,6 +86,7 @@ bool Texture::CreateFromSurface(SDL_Surface *s)
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
+	glDisable(GL_TEXTURE_2D);
 
 	return true;
 }
