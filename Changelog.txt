@@ -9,6 +9,9 @@ Alpha 18
        clearance is granted (#836, #835)
      * OpenGL info saved to opengl.txt on game start (#857)
 
+   * Fixes
+     * Fix incorrect galaxy density on OSX (#867, #869)
+
    * Internal changes
      * Refactored game and space state into discrete object (#833, #70)
 

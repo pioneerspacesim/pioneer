@@ -14,9 +14,9 @@ static SDL_Surface *s_galaxybmp;
 
 void Init() 
 {
-	s_galaxybmp = IMG_Load(PIONEER_DATA_DIR"/galaxy.png");
+	s_galaxybmp = SDL_LoadBMP(PIONEER_DATA_DIR"/galaxy.bmp");
 	if (!s_galaxybmp) {
-		Error("IMG_Load: %s\n", IMG_GetError());
+		Error("SDL_LoadBMP: %s\n", IMG_GetError());
 		Pi::Quit();
 	}
 }
