@@ -45,7 +45,7 @@ private:
 		Gui::Label *shortDesc;
 	};
 	
-	void DrawSector(int x, int y, int z, const vector3f &playerAbsPos);
+	void DrawSector(int x, int y, int z);
 	void PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path);
 
 	void SetSelectedSystem(const SystemPath &path);
@@ -61,6 +61,8 @@ private:
 	void MouseButtonDown(int button, int x, int y);
 	void OnKeyPressed(SDL_keysym *keysym);
 	void OnSearchBoxKeyPress(const SDL_keysym *keysym);
+
+	bool m_inSystem;
 
 	SystemPath m_current;
 	SystemPath m_selected;

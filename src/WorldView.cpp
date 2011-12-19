@@ -883,6 +883,9 @@ void WorldView::OnHyperspaceTargetChanged()
 	RefCountedPtr<StarSystem> system = StarSystem::GetCached(path);
 	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", system->GetName())));
 
+	if (Pi::game->IsHyperspace())
+		return;
+
 	int fuelReqd;
 	double dur;
 	m_showHyperspaceButton = Pi::player->CanHyperspaceTo(&path, fuelReqd, dur);
