@@ -158,6 +158,13 @@ void AddCrime(Sint64 crimeBitset, Sint64 addFine)
 
 void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 {
+	// no crime in hyperspace :)
+	if (Pi::game->IsHyperspace()) {
+		*crimeBitset = 0;
+		*fine = 0;
+		return ;
+	}
+
 	int politType = Pi::game->GetSpace()->GetStarSystem()->GetSysPolit().govType;
 
 	if (s_govDesc[politType].bloc != BLOC_NONE) {
