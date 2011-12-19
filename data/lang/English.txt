@@ -1100,6 +1100,8 @@ M_S_RELATIVE_TO
     %speed{f.0} m/s rel-to %frame
 N_DISTANCE_TO_TARGET
     %distance to target
+IN_TRANSIT
+    In transit
 IN_TRANSIT_TO_N_X_X_X
     In transit to %system [%x,%y,%z]
 ALT_IN_METRES
