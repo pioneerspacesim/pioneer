@@ -618,6 +618,7 @@ void Space::TimeStep(float step)
 		Pi::luaOnShipLanded->Emit();
 		Pi::luaOnShipTakeOff->Emit();
 		Pi::luaOnJettison->Emit();
+		Pi::luaOnCargoUnload->Emit();
 		Pi::luaOnAICompleted->Emit();
 		Pi::luaOnCreateBB->Emit();
 		Pi::luaOnUpdateBB->Emit();
