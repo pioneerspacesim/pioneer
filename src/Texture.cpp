@@ -82,6 +82,25 @@ bool Texture::CreateFromSurface(SDL_Surface *s)
 	return true;
 }
 
+bool Texture::CreateFromFile(const std::string &filename)
+{
+	SDL_Surface *s = IMG_Load(filename.c_str());
+	if (!s) {
+		fprintf(stderr, "Texture::CreateFromFile: %s: %s\n", filename.c_str(), IMG_GetError());
+		return false;
+	}
+
+	if (!CreateFromSurface(s)) {
+		fprintf(stderr, "Texture::CreateFromFile: %s: creating texture from surface failed\n", filename.c_str());
+		SDL_FreeSurface(s);
+		return false;
+	}
+
+	SDL_FreeSurface(s);
+
+	return true;
+}
+
 
 ModelTexture::ModelTexture(const std::string &filename, bool preload) :
 	Texture(GL_TEXTURE_2D, TextureFormat(GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE), REPEAT, NEAREST, true),
@@ -96,19 +115,5 @@ void ModelTexture::Load()
 {
 	assert(!m_isLoaded);
 
-	SDL_Surface *s = IMG_Load(m_filename.c_str());
-	if (!s) {
-		fprintf(stderr, "ModelTexture::Load: %s: %s\n", m_filename.c_str(), IMG_GetError());
-		return;
-	}
-
-	if (!CreateFromSurface(s)) {
-		fprintf(stderr, "ModelTexture::Load: %s: creating texture from surface failed\n", m_filename.c_str());
-		SDL_FreeSurface(s);
-		return;
-	}
-
-	SDL_FreeSurface(s);
-
-	m_isLoaded = true;
+	m_isLoaded = CreateFromFile(m_filename);
 }

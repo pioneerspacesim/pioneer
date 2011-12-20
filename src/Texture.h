@@ -12,14 +12,15 @@ public:
 	virtual void Unbind();
 	//perhaps also Bind(int) so you can switch active texture unit
 	
-	bool CreateFromSurface(SDL_Surface *s);
-
 	//virtual void Load(filename);
 
 	int GetWidth() const { return m_width; }
 	int GetHeight() const { return m_height; }
 
 protected:
+	bool CreateFromSurface(SDL_Surface *s);
+	bool CreateFromFile(const std::string &filename);
+
 	struct TextureFormat {
 		TextureFormat(GLenum format_, GLint internalFormat_, GLenum type_) :
 			format(format_),
