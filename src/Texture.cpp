@@ -60,12 +60,12 @@ ModelTexture::ModelTexture(const std::string &filename, bool preload) :
 {
 	SDL_Surface *s = IMG_Load(m_filename.c_str());
 	if (!s) {
-		fprintf(stderr, "Texture::Load: %s: %s\n", m_filename.c_str(), IMG_GetError());
+		fprintf(stderr, "ModelTexture::Load: %s: %s\n", m_filename.c_str(), IMG_GetError());
 		return;
 	}
 
 	if (!CreateFromSurface(s)) {
-		fprintf(stderr, "Texture::Load: %s: creating texture from surface failed\n", m_filename.c_str());
+		fprintf(stderr, "ModelTexture::Load: %s: creating texture from surface failed\n", m_filename.c_str());
 		SDL_FreeSurface(s);
 		return;
 	}
