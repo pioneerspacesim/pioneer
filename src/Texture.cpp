@@ -119,6 +119,12 @@ void ModelTexture::Load()
 }
 
 
+UITexture::UITexture(SDL_Surface *s) :
+    Texture(GL_TEXTURE_2D, TextureFormat(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false)
+{
+	CreateFromSurface(s);
+}
+
 UITexture::UITexture(const std::string &filename) :
     Texture(GL_TEXTURE_2D, TextureFormat(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false)
 {

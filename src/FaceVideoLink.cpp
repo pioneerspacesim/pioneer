@@ -126,7 +126,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 		_blit_image(s, filename, 0, 0);
 	}
 
-	// XXX TEXTURE m_texture = new Texture(s, true);
+	m_texture = new UITexture(s);
 
 	SDL_FreeSurface(s);
 }

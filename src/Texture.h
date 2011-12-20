@@ -89,6 +89,7 @@ private:
 
 class UITexture : public Texture {
 public:
+	UITexture(SDL_Surface *s);
 	UITexture(const std::string &filename);
 };
 
