@@ -26,7 +26,7 @@ void Uninit()
 	if(s_galaxybmp) SDL_FreeSurface(s_galaxybmp);
 }
 
-const SDL_Surface *GetGalaxyBitmap()
+SDL_Surface *GetGalaxyBitmap()
 {
 	return s_galaxybmp;
 }
