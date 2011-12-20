@@ -552,7 +552,7 @@ public:
 	}
 	void SetTexture(const char *tex) {
 		if (tex) {
-			curTexture = s_textureCache->GetTexture(tex);
+			curTexture = s_textureCache->GetModelTexture(tex);
 		} else {
 			curTexture = 0;
 			curGlowmap = 0; //won't have these without textures
@@ -560,7 +560,7 @@ public:
 	}
 	void SetGlowMap(const char *tex) {
 		if (tex) {
-			curGlowmap = s_textureCache->GetTexture(tex);
+			curGlowmap = s_textureCache->GetModelTexture(tex);
 		} else {
 			curGlowmap = 0;
 		}
@@ -640,7 +640,7 @@ public:
 		curOp.type = OP_DRAW_BILLBOARDS;
 		curOp.billboards.start = m_vertices.size();
 		curOp.billboards.count = numPoints;
-		curOp.billboards.texture = s_textureCache->GetTexture(buf, true);
+		curOp.billboards.texture = s_textureCache->GetModelTexture(buf, true);
 		curOp.billboards.size = size;
 		curOp.billboards.col[0] = color.x;
 		curOp.billboards.col[1] = color.y;
@@ -880,12 +880,12 @@ public:
 				m_ops[i].callmodel.model = s_models[_fread_string(f)];
 			}
 			else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
-				m_ops[i].elems.texture = s_textureCache->GetTexture(_fread_string(f));
+				m_ops[i].elems.texture = s_textureCache->GetModelTexture(_fread_string(f));
 				if (m_ops[i].elems.glowmap)
-					m_ops[i].elems.glowmap = s_textureCache->GetTexture(_fread_string(f));
+					m_ops[i].elems.glowmap = s_textureCache->GetModelTexture(_fread_string(f));
 			}
 			else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
-				m_ops[i].billboards.texture = s_textureCache->GetTexture(_fread_string(f));
+				m_ops[i].billboards.texture = s_textureCache->GetModelTexture(_fread_string(f));
 			}
 		}
 	}

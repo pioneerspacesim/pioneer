@@ -1087,7 +1087,7 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 			c.a = m_ecmRecharge / totalRechargeTime;
 		}
 
-		ModelTexture *tex = Pi::textureCache->GetTexture(PIONEER_DATA_DIR"/textures/ecm.png");
+		ModelTexture *tex = Pi::textureCache->GetModelTexture(PIONEER_DATA_DIR"/textures/ecm.png");
 		tex->Bind();
 		Render::PutPointSprites(100, v, 50.0f, c);
 	}

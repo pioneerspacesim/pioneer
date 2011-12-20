@@ -1571,9 +1571,8 @@ void WorldView::DrawImageIndicator(const Indicator &marker, const char *icon_pat
 {
 	if (marker.side == INDICATOR_HIDDEN) return;
 
-/* XXX TEXTURE
 	if (marker.side == INDICATOR_ONSCREEN) {
-		Texture *tex = Pi::textureCache->GetTexture(icon_path, true);
+		UITexture *tex = Pi::textureCache->GetUITexture(icon_path);
 		const float w = tex->GetWidth();
 		const float h = tex->GetHeight();
 		const float x0 = marker.pos[0] - w/2.0f;
@@ -1587,7 +1586,7 @@ void WorldView::DrawImageIndicator(const Indicator &marker, const char *icon_pat
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glEnable(GL_TEXTURE_2D);
-		tex->BindTexture();
+		tex->Bind();
 		glVertexPointer(2, GL_FLOAT, sizeof(GLfloat)*4, &vtx[0]);
 		glTexCoordPointer(2, GL_FLOAT, sizeof(GLfloat)*4, &vtx[2]);
 		glDrawArrays(GL_QUADS, 0, 4);
@@ -1595,7 +1594,6 @@ void WorldView::DrawImageIndicator(const Indicator &marker, const char *icon_pat
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
 	} else
-*/
 		DrawEdgeMarker(marker);
 }
 

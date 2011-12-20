@@ -9,11 +9,13 @@ class TextureCache {
 public:
 	~TextureCache();
 
-	ModelTexture *GetTexture(const std::string &filename, bool preload = false);
+	ModelTexture *GetModelTexture(const std::string &filename, bool preload = false);
+	UITexture *GetUITexture(const std::string &filename);
 
 private:
-	typedef std::map<std::string,ModelTexture*> TextureCacheMap;
-	TextureCacheMap m_textureCache;
+	typedef std::map<std::string,Texture*> TextureCacheMap;
+	TextureCacheMap m_modelTextureCache;
+	TextureCacheMap m_uiTextureCache;
 };
 
 #endif
