@@ -17,11 +17,28 @@ void Texture::Unbind()
 	glBindTexture(m_target, 0);
 }
 
+// RGBA pixel format for converting textures
+// XXX little-endian. if we ever have a port to a big-endian arch, invert shift and mask
+static SDL_PixelFormat rgba_pixfmt = {
+	0,                                  // palette
+	32,                                 // bits per pixel
+	4,                                  // bytes per pixel
+	0, 0, 0, 0,                         // RGBA loss
+	24, 16, 8, 0,                       // RGBA shift
+	0xff, 0xff00, 0xff0000, 0xff000000, // RGBA mask
+	0,                                  // colour key
+	0                                   // alpha
+};
+
 bool Texture::CreateFromSurface(SDL_Surface *s)
 {
-	if (s->format->BitsPerPixel != 24 && s->format->BitsPerPixel != 32) {
-		fprintf(stderr, "Texture::CreateFromSurface: cannot handle image with %d bits per pixel\n", s->format->BitsPerPixel);
-		return false;
+	bool freeSurface = false;
+
+	SDL_PixelFormat *pixfmt = s->format;
+	if (pixfmt->BytesPerPixel != rgba_pixfmt.BytesPerPixel || pixfmt->Rmask != rgba_pixfmt.Rmask || pixfmt->Gmask != rgba_pixfmt.Gmask || pixfmt->Bmask != rgba_pixfmt.Bmask)
+	{
+		s = SDL_ConvertSurface(s, &rgba_pixfmt, SDL_SWSURFACE);
+		freeSurface = true;
 	}
 
 	m_width = s->w;
@@ -34,21 +51,13 @@ bool Texture::CreateFromSurface(SDL_Surface *s)
 	glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
 
-	switch (s->format->BitsPerPixel) {
-		case 32:
-			gluBuild2DMipmaps(m_target, GL_RGBA, s->w, s->h, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
-			break;
-
-		case 24:
-			gluBuild2DMipmaps(m_target, GL_RGBA, s->w, s->h, GL_RGB, GL_UNSIGNED_BYTE, s->pixels);
-			break;
-
-		default:
-			assert(0);
-	}
+	gluBuild2DMipmaps(m_target, GL_RGBA, s->w, s->h, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
 
 	glBindTexture(m_target, 0);
 	glDisable(m_target);
+
+	if (freeSurface)
+		SDL_FreeSurface(s);
 
 	return true;
 }
