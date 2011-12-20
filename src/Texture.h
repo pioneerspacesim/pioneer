@@ -8,8 +8,8 @@ public:
 	virtual ~Texture();
 
 	//imagine appropriate constructors
-	void Bind();
-	void Unbind();
+	virtual void Bind();
+	virtual void Unbind();
 	//perhaps also Bind(int) so you can switch active texture unit
 	
 	bool CreateFromSurface(SDL_Surface *s);
@@ -69,10 +69,20 @@ class ModelTexture : public Texture {
 public:
 	ModelTexture(const std::string &filename, bool preload = false);
 
+	virtual void Bind() {
+		if (!m_isLoaded)
+			Load();
+		Texture::Bind();
+	}
+
 	const std::string &GetFilename() const { return m_filename; }
 
 private:
+	void Load();
+
 	std::string m_filename;
+
+	bool m_isLoaded;
 };
 
 #endif
