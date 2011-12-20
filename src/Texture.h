@@ -86,4 +86,10 @@ private:
 	bool m_isLoaded;
 };
 
+
+class UITexture : public Texture {
+public:
+	UITexture(const std::string &filename);
+};
+
 #endif

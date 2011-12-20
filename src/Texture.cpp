@@ -117,3 +117,10 @@ void ModelTexture::Load()
 
 	m_isLoaded = CreateFromFile(m_filename);
 }
+
+
+UITexture::UITexture(const std::string &filename) :
+    Texture(GL_TEXTURE_2D, TextureFormat(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false)
+{
+	CreateFromFile(filename);
+}
