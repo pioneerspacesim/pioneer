@@ -27,28 +27,28 @@ bool Texture::CreateFromSurface(SDL_Surface *s)
 	m_width = s->w;
 	m_height = s->h;
 
-	glEnable(GL_TEXTURE_2D);
+	glEnable(m_target);
 
 	glGenTextures(1, &m_glTexture);
-	glBindTexture(GL_TEXTURE_2D, m_glTexture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+	glBindTexture(m_target, m_glTexture);
+	glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
 
 	switch (s->format->BitsPerPixel) {
 		case 32:
-			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, s->w, s->h, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
+			gluBuild2DMipmaps(m_target, GL_RGBA, s->w, s->h, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
 			break;
 
 		case 24:
-			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, s->w, s->h, GL_RGB, GL_UNSIGNED_BYTE, s->pixels);
+			gluBuild2DMipmaps(m_target, GL_RGBA, s->w, s->h, GL_RGB, GL_UNSIGNED_BYTE, s->pixels);
 			break;
 
 		default:
 			assert(0);
 	}
 
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glDisable(GL_TEXTURE_2D);
+	glBindTexture(m_target, 0);
+	glDisable(m_target);
 
 	return true;
 }
