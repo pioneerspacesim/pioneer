@@ -13,7 +13,7 @@ Alpha 18
      * Fix incorrect galaxy density on OSX (#867, #869)
 
    * Script changes
-     * SystemPath.GetSystemBody now checks to make sure the path is invalid
+     * SystemPath.GetSystemBody now checks to make sure the path is valid
        and throws a Lua error if it is not (#863, #864)
 
    * Internal changes
