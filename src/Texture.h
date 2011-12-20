@@ -7,13 +7,10 @@ class Texture {
 public:
 	virtual ~Texture();
 
-	//imagine appropriate constructors
 	virtual void Bind();
 	virtual void Unbind();
 	//perhaps also Bind(int) so you can switch active texture unit
 	
-	//virtual void Load(filename);
-
 	int GetWidth() const { return m_width; }
 	int GetHeight() const { return m_height; }
 
