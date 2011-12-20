@@ -112,7 +112,7 @@ void Sfx::Render(const matrix4x4d &ftransform)
 			col[3] = 1.0f-(m_age/2.0f);
 			vector3f pos(&fpos.x);
 			smokeTex = Pi::textureCache->GetTexture(PIONEER_DATA_DIR"/textures/smoke.png");
-			smokeTex->BindTexture();
+			smokeTex->Bind();
 			Render::PutPointSprites(1, &pos, 20.0f, col);
 			break;
 	}

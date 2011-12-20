@@ -126,7 +126,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 		_blit_image(s, filename, 0, 0);
 	}
 
-	m_texture = new Texture(s, true);
+	// XXX TEXTURE m_texture = new Texture(s, true);
 
 	SDL_FreeSurface(s);
 }
@@ -159,7 +159,7 @@ void FaceVideoLink::Draw() {
 	}
 
 	glEnable(GL_TEXTURE_2D);
-	m_texture->BindTexture();
+	m_texture->Bind();
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	glBegin(GL_QUADS);
 		float w = float(FACE_WIDTH) / ceil_pow2(FACE_WIDTH);

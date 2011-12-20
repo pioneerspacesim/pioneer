@@ -9,10 +9,10 @@ class TextureCache {
 public:
 	~TextureCache();
 
-	Texture *GetTexture(const std::string &filename, bool preload = false);
+	ModelTexture *GetTexture(const std::string &filename, bool preload = false);
 
 private:
-	typedef std::map<std::string,Texture*> TextureCacheMap;
+	typedef std::map<std::string,ModelTexture*> TextureCacheMap;
 	TextureCacheMap m_textureCache;
 };
 

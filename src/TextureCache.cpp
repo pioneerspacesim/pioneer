@@ -7,13 +7,13 @@ TextureCache::~TextureCache()
 		delete (*i).second;
 }
 
-Texture *TextureCache::GetTexture(const std::string &filename, bool preload)
+ModelTexture *TextureCache::GetTexture(const std::string &filename, bool preload)
 {
 	TextureCacheMap::iterator i = m_textureCache.find(filename);
 	if (i != m_textureCache.end())
 		return (*i).second;
 	
-	Texture *t = new Texture(filename, preload);
+	ModelTexture *t = new ModelTexture(filename, preload);
 	m_textureCache.insert(std::make_pair(filename, t));
 
 	return t;

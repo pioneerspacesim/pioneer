@@ -1,61 +1,20 @@
 #include "Texture.h"
 
-Texture::Texture(const std::string &filename, bool preload, bool clamp) :
-	m_filename(filename),
-	m_clamp(clamp),
-	m_isLoaded(false),
-	m_width(-1),
-	m_height(-1),
-	m_tex(0)
-{
-	if (preload)
-		Load();
-}
-
-Texture::Texture(SDL_Surface *s, bool clamp) :
-	m_filename(),
-	m_clamp(clamp),
-	m_isLoaded(false),
-	m_width(-1),
-	m_height(-1),
-	m_tex(0)
-{
-	if (!CreateFromSurface(s))
-		fprintf(stderr, "Texture::Texture: creating texture from surface failed\n");
-	else
-		m_isLoaded = true;
-}
-
 Texture::~Texture()
 {
-	if (m_tex)
-		glDeleteTextures(1, &m_tex);
+	if (m_glTexture)
+		glDeleteTextures(1, &m_glTexture);
 }
 
-void Texture::BindTexture()
+void Texture::Bind()
 {
-	if (!IsLoaded())
-		Load();
-	glBindTexture(GL_TEXTURE_2D, m_tex);
+	assert(m_glTexture);
+	glBindTexture(m_target, m_glTexture);
 }
 
-void Texture::Load()
+void Texture::Unbind()
 {
-	if (m_isLoaded) return;
-
-	SDL_Surface *s = IMG_Load(m_filename.c_str());
-	if (!s) {
-		fprintf(stderr, "Texture::Load: %s: %s\n", m_filename.c_str(), IMG_GetError());
-		return;
-	}
-
-	if (!CreateFromSurface(s)) {
-		fprintf(stderr, "Texture::Load: %s: creating texture from surface failed\n", m_filename.c_str());
-		SDL_FreeSurface(s);
-		return;
-	}
-
-	m_isLoaded = true;
+	glBindTexture(m_target, 0);
 }
 
 bool Texture::CreateFromSurface(SDL_Surface *s)
@@ -69,15 +28,11 @@ bool Texture::CreateFromSurface(SDL_Surface *s)
 	m_height = s->h;
 
 	glEnable(GL_TEXTURE_2D);
-	glGenTextures(1, &m_tex);
-	glBindTexture(GL_TEXTURE_2D, m_tex);
+
+	glGenTextures(1, &m_glTexture);
+	glBindTexture(GL_TEXTURE_2D, m_glTexture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-
-	if (m_clamp) {
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	}
 
 	switch (s->format->BitsPerPixel) {
 		case 32:
@@ -96,4 +51,22 @@ bool Texture::CreateFromSurface(SDL_Surface *s)
 	glDisable(GL_TEXTURE_2D);
 
 	return true;
+}
+
+
+ModelTexture::ModelTexture(const std::string &filename, bool preload) :
+	Texture(GL_TEXTURE_2D, TextureFormat(GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE), REPEAT, NEAREST, true),
+	m_filename(filename)
+{
+	SDL_Surface *s = IMG_Load(m_filename.c_str());
+	if (!s) {
+		fprintf(stderr, "Texture::Load: %s: %s\n", m_filename.c_str(), IMG_GetError());
+		return;
+	}
+
+	if (!CreateFromSurface(s)) {
+		fprintf(stderr, "Texture::Load: %s: creating texture from surface failed\n", m_filename.c_str());
+		SDL_FreeSurface(s);
+		return;
+	}
 }

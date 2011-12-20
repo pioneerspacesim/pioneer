@@ -156,7 +156,7 @@ void Projectile::StaticUpdate(const float timeStep)
 
 void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	Texture *tex = Pi::textureCache->GetTexture(PIONEER_DATA_DIR"/textures/laser.png");
+	ModelTexture *tex = Pi::textureCache->GetTexture(PIONEER_DATA_DIR"/textures/laser.png");
 
 	vector3d from = viewTransform * GetInterpolatedPosition();
 	vector3d to = viewTransform * (GetInterpolatedPosition() + 0.1*m_dirVel);
@@ -171,7 +171,7 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	}
 	Color col = Equip::lasers[m_type].color;
 	col.a = 1.0f - m_age/Equip::lasers[m_type].lifespan;
-	tex->BindTexture();
+	tex->Bind();
 	Render::PutPointSprites(50, points, Equip::lasers[m_type].psize, col);
 }
 
