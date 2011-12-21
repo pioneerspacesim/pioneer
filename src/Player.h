@@ -95,7 +95,8 @@ private:
 	Body* m_combatTarget;
 
 	int m_combatTargetIndex, m_navTargetIndex, m_setSpeedTargetIndex; // deserialisation
-	float m_JoystickDeadzone;
+
+	float m_joystickDeadzone;
 };
 
 #endif /* _PLAYER_H */
