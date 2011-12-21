@@ -21,7 +21,7 @@
 #include "Game.h"
 #include "MathUtil.h"
 
-Space::Space(Game *game) : m_game(game), m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false)
+Space::Space(Game *game) : m_game(game), m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false), m_background(UNIVERSE_SEED)
 {
 	m_rootFrame.Reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
@@ -30,6 +30,7 @@ Space::Space(Game *game) : m_game(game), m_frameIndexValid(false), m_bodyIndexVa
 Space::Space(Game *game, const SystemPath &path) : m_game(game), m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false)
 {
 	m_starSystem = StarSystem::GetCached(path);
+	m_background.Refresh(m_starSystem->m_seed);
 
 	// XXX set radius in constructor
 	m_rootFrame.Reset(new Frame(0, Lang::SYSTEM));
@@ -42,6 +43,7 @@ Space::Space(Game *game, const SystemPath &path) : m_game(game), m_frameIndexVal
 Space::Space(Game *game, Serializer::Reader &rd) : m_game(game), m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false)
 {
 	m_starSystem = StarSystem::Unserialize(rd);
+	m_background.Refresh(m_starSystem->m_seed);
 	RebuildSBodyIndex();
 
 	Serializer::Reader section = rd.RdSection("Frames");
@@ -618,6 +620,7 @@ void Space::TimeStep(float step)
 		Pi::luaOnShipLanded->Emit();
 		Pi::luaOnShipTakeOff->Emit();
 		Pi::luaOnJettison->Emit();
+		Pi::luaOnCargoUnload->Emit();
 		Pi::luaOnAICompleted->Emit();
 		Pi::luaOnCreateBB->Emit();
 		Pi::luaOnUpdateBB->Emit();

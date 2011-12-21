@@ -291,18 +291,6 @@ void WorldView::OnClickHyperspace()
 	}
 }
 
-// This is the background starfield
-void WorldView::DrawBgStars() 
-{
-	// make it rotated a bit so star systems are not in the same
-	// plane (could make it different per system...
-	glPushMatrix();
-	glRotatef(40.0, 1.0,2.0,3.0);
-	m_milkyWay.Draw();
-	glPopMatrix();
-	m_starfield.Draw();
-}
-
 static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 {
 	if (lightNum > 3) return;
@@ -778,8 +766,11 @@ void WorldView::OnSwitchTo()
 
 void WorldView::ToggleTargetActions()
 {
-	if (m_showTargetActionsTimeout) m_showTargetActionsTimeout = 0;
-	else m_showTargetActionsTimeout = SDL_GetTicks();
+	if (Pi::game->IsHyperspace() || m_showTargetActionsTimeout)
+		m_showTargetActionsTimeout = 0;
+	else
+		m_showTargetActionsTimeout = SDL_GetTicks();
+
 	UpdateCommsOptions();
 }
 
@@ -882,6 +873,9 @@ void WorldView::OnHyperspaceTargetChanged()
 
 	RefCountedPtr<StarSystem> system = StarSystem::GetCached(path);
 	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", system->GetName())));
+
+	if (Pi::game->IsHyperspace())
+		return;
 
 	int fuelReqd;
 	double dur;
