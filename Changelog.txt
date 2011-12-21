@@ -1,6 +1,7 @@
 Alpha 18
 
    * New features
+     * Jettison cargo while landed/docked (#872)
      * Multisampled antialiasing. Set the "AntiAliasingMode" config value or
        change your graphics driver settings (#848)
 
@@ -13,6 +14,8 @@ Alpha 18
      * Fix incorrect galaxy density on OSX (#867, #869)
 
    * Script changes
+     * New event onCargoUnload triggered when cargo is jettisoned while
+       landed/docked (#872)
      * SystemPath.GetSystemBody now checks to make sure the path is valid
        and throws a Lua error if it is not (#863, #864)
 

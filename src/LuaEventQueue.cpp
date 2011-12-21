@@ -509,6 +509,28 @@ void LuaEventQueueBase::Emit()
  *   experimental
  *
  *
+ * Event: onCargoUnload
+ *
+ * Triggered when the player unloads a cargo item while docked or landed.
+ *
+ * > local onUnload = function (body, cargoType) ... end
+ * > EventQueue.onCargoUnload:Connect(onUnload)
+ *
+ * Parameters:
+ *
+ *   body - the <Body> the <Player> was docked with (a <SpaceStation>) or landed on (a <Planet>)
+ *
+ *   cargoType - <EquipType> of the unloaded cargo
+ *
+ * Availability:
+ *
+ *   alpha 18
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
  * Event: onAICompleted
  *
  * Triggered when a ship AI completes
