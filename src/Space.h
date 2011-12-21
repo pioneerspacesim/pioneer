@@ -7,6 +7,7 @@
 #include "Serializer.h"
 #include "RefCounted.h"
 #include "StarSystem.h"
+#include "Background.h"
 
 class Body;
 class Frame;
@@ -58,6 +59,8 @@ public:
 	const BodyIterator BodiesBegin() const { return m_bodies.begin(); }
 	const BodyIterator BodiesEnd() const { return m_bodies.end(); }
 
+	const Background::Container& GetBackground() const { return m_background; }
+
 private:
 	void GenBody(SBody *b, Frame *f);
 	// make sure SBody* is in Pi::currentSystem
@@ -91,6 +94,10 @@ private:
 	std::vector<Frame*> m_frameIndex;
 	std::vector<Body*>  m_bodyIndex;
 	std::vector<SBody*> m_sbodyIndex;
+
+	//background (elements that are infinitely far away,
+	//e.g. starfield and milky way)
+	Background::Container m_background;
 };
 
 #endif /* _SPACE_H */

@@ -143,14 +143,7 @@ void Camera::Draw()
 	matrix4x4d trans2bg;
 	Frame::GetFrameTransform(Pi::game->GetSpace()->GetRootFrame(), m_camFrame, trans2bg);
 	trans2bg.ClearToRotOnly();
-	glPushMatrix();
-	glMultMatrixd(&trans2bg[0]);
-	glPushMatrix();
-	glRotatef(40.0, 1.0,2.0,3.0);
-	m_milkyWay.Draw();
-	glPopMatrix();
-	m_starfield.Draw();
-	glPopMatrix();
+	Pi::game->GetSpace()->GetBackground().Draw(trans2bg);
 
 	int num_lights = 0;
 	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), num_lights);

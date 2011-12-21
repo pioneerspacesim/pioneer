@@ -9,6 +9,7 @@ Alpha 18
      * Target square now appears on specific docking port of station when
        clearance is granted (#836, #835)
      * OpenGL info saved to opengl.txt on game start (#857)
+     * Background stars are now denser along the galaxy strip as you'd expect (#844)
 
    * Fixes
      * Fix incorrect galaxy density on OSX (#867, #869)
@@ -21,6 +22,7 @@ Alpha 18
 
    * Internal changes
      * Refactored game and space state into discrete object (#833, #70)
+     * Background starfield & galaxy strip code cleanup (#844)
 
 Alpha 17
 

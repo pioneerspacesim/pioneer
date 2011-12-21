@@ -11,12 +11,28 @@
 namespace Background
 {
 
-Starfield::Starfield() :
-	m_shader(0)
+Starfield::Starfield()
 {
-	//This is needed because there is no system seed for the main menu
-	unsigned long seed = Pi::game ? Pi::game->GetSpace()->GetStarSystem()->m_seed : UNIVERSE_SEED;
-	
+	//starfield is not created without a seed
+	glGenBuffersARB(1, &m_vbo);
+	m_shader = new Render::Shader("bgstars");
+}
+
+Starfield::Starfield(unsigned long seed)
+{
+	glGenBuffersARB(1, &m_vbo);
+	Fill(seed);
+	m_shader = new Render::Shader("bgstars");
+}
+
+Starfield::~Starfield()
+{
+	if (m_shader) delete m_shader;
+	glDeleteBuffersARB(1, &m_vbo);
+}
+
+void Starfield::Fill(unsigned long seed)
+{
 	// Slight colour variation to stars based on seed
 	MTRand rand(seed);
 
@@ -41,8 +57,6 @@ Starfield::Starfield() :
 		m_stars[i].b = rand.Double(col-0.05f,col);
 
 		// this is proper random distribution on a sphere's surface
-		// XXX TODO
-		// perhaps distribute stars to give greater density towards the galaxy's centre and in the galactic plane?
 		const float theta = float(rand.Double(0.0, 2.0*M_PI));
 		const float u = float(rand.Double(-1.0, 1.0));
 
@@ -51,21 +65,12 @@ Starfield::Starfield() :
 		m_stars[i].z = 1000.0f * sqrt(1.0f - u*u) * sin(theta);
 	}
 
-	glGenBuffersARB(1, &m_vbo);
 	Render::BindArrayBuffer(m_vbo);
 	glBufferDataARB(GL_ARRAY_BUFFER, sizeof(Vertex)*BG_STAR_MAX, m_stars, GL_STATIC_DRAW);
 	Render::BindArrayBuffer(0);
-
-	m_shader = new Render::Shader("bgstars");
 }
 
-Starfield::~Starfield()
-{
-	if (m_shader) delete m_shader;
-	glDeleteBuffersARB(1, &m_vbo);
-}
-
-void Starfield::Draw()
+void Starfield::Draw() const
 {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
@@ -83,6 +88,7 @@ void Starfield::Draw()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 
+	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 		glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), 0);
@@ -158,37 +164,40 @@ void Starfield::Draw()
 MilkyWay::MilkyWay()
 {
 	//build milky way model in two strips
+	std::vector<Background::Vertex> dataBottom;
+	std::vector<Background::Vertex> dataTop;
+
 	//bottom
 	float theta;
 	for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
-		m_dataBottom.push_back(Vertex(
+		dataBottom.push_back(Vertex(
 				vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta)),
 				vector3f(0.0,0.0,0.0)));
-		m_dataBottom.push_back(Vertex(
+		dataBottom.push_back(Vertex(
 			vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
 			vector3f(0.05,0.05,0.05)));
 	}
 	theta = 2.0*M_PI;
-	m_dataBottom.push_back(Vertex(
+	dataBottom.push_back(Vertex(
 		vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta)),
 		vector3f(0.0,0.0,0.0)));
-	m_dataBottom.push_back(Vertex(
+	dataBottom.push_back(Vertex(
 		vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
 		vector3f(0.05,0.05,0.05)));
 	//top
 	for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
-		m_dataTop.push_back(Vertex(
+		dataTop.push_back(Vertex(
 			vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
 			vector3f(0.05,0.05,0.05)));
-		m_dataTop.push_back(Vertex(
+		dataTop.push_back(Vertex(
 			vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
 			vector3f(0.0,0.0,0.0)));
 	}
 	theta = 2.0*M_PI;
-	m_dataTop.push_back(Vertex(
+	dataTop.push_back(Vertex(
 		vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
 		vector3f(0.05,0.05,0.05)));
-	m_dataTop.push_back(Vertex(
+	dataTop.push_back(Vertex(
 		vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
 		vector3f(0.0,0.0,0.0)));
 
@@ -196,15 +205,19 @@ MilkyWay::MilkyWay()
 	glGenBuffersARB(1, &m_vbo);
 	Render::BindArrayBuffer(m_vbo);
 	glBufferDataARB(GL_ARRAY_BUFFER,
-		sizeof(Vertex) * (m_dataBottom.size() + m_dataTop.size()),
+		sizeof(Vertex) * (dataBottom.size() + dataTop.size()),
 		NULL, GL_STATIC_DRAW);
 	glBufferSubDataARB(GL_ARRAY_BUFFER, 0,
-		sizeof(Vertex) * m_dataBottom.size(),
-		&m_dataBottom.front());
-	glBufferSubDataARB(GL_ARRAY_BUFFER, sizeof(Vertex) * m_dataBottom.size(),
-		sizeof(Vertex) * m_dataTop.size(),
-		&m_dataTop.front());
+		sizeof(Vertex) * dataBottom.size(),
+		&dataBottom.front());
+	glBufferSubDataARB(GL_ARRAY_BUFFER, sizeof(Vertex) * dataBottom.size(),
+		sizeof(Vertex) * dataTop.size(),
+		&dataTop.front());
 	Render::BindArrayBuffer(0);
+
+	// store sizes for drawing
+	m_bottomSize = dataBottom.size();
+	m_topSize    = dataTop.size();
 }
 
 MilkyWay::~MilkyWay()
@@ -212,7 +225,7 @@ MilkyWay::~MilkyWay()
 	glDeleteBuffersARB(1, &m_vbo);
 }
 
-void MilkyWay::Draw()
+void MilkyWay::Draw() const
 {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
@@ -222,14 +235,42 @@ void MilkyWay::Draw()
 	Render::BindArrayBuffer(m_vbo);
 	glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), 0);
 	glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), reinterpret_cast<void *>(3*sizeof(float)));
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, m_dataBottom.size());
-	glDrawArrays(GL_TRIANGLE_STRIP, m_dataBottom.size(), m_dataTop.size());
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, m_bottomSize);
+	glDrawArrays(GL_TRIANGLE_STRIP, m_bottomSize, m_topSize);
 	Render::BindArrayBuffer(0);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
+}
+
+Container::Container()
+{
+}
+
+Container::Container(unsigned long seed)
+{
+	Refresh(seed);
+};
+
+void Container::Refresh(unsigned long seed)
+{
+	// redo starfield, milkyway stays normal for now
+	m_starField.Fill(seed);
+}
+
+void Container::Draw(const matrix4x4d &transform) const
+{
+	glPushMatrix();
+	glMultMatrixd(&transform[0]);
+	m_milkyWay.Draw();
+	glPushMatrix();
+	// squeeze the starfield a bit to get more density near horizon
+	glScalef(1.f, 0.4f, 1.f);
+	m_starField.Draw();
+	glPopMatrix();
+	glPopMatrix();
 }
 
 }; //namespace Background
