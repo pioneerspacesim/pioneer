@@ -11,6 +11,8 @@ public:
 	virtual void Unbind();
 	//perhaps also Bind(int) so you can switch active texture unit
 	
+	GLenum GetTarget() const { return m_target; }
+	
 	int GetWidth() const { return m_width; }
 	int GetHeight() const { return m_height; }
 
@@ -98,6 +100,8 @@ class UITexture : public Texture {
 public:
 	UITexture(SDL_Surface *s);
 	UITexture(const std::string &filename);
+
+	void DrawQuad(float x, float y, float w, float h);
 };
 
 #endif

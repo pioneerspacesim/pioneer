@@ -152,3 +152,31 @@ UITexture::UITexture(const std::string &filename) :
 {
 	CreateFromFile(filename);
 }
+
+void UITexture::DrawQuad(float x, float y, float w, float h)
+{
+	const float tw = GetTextureWidth(), th = GetTextureHeight();
+
+	GLfloat vtx[4*4] = {
+		x,   y+h, 0,  th,
+		x+w, y+h, tw, th,
+		x+w, y,   tw, 0,
+		x,   y,   0,  0
+	};
+
+	glEnable(GetTarget());
+	Bind();
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glVertexPointer(2, GL_FLOAT, sizeof(GLfloat)*4, &vtx[0]);
+	glTexCoordPointer(2, GL_FLOAT, sizeof(GLfloat)*4, &vtx[2]);
+
+	glDrawArrays(GL_QUADS, 0, 4);
+
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+	Unbind();
+	glDisable(GetTarget());
+}
