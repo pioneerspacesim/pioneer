@@ -14,6 +14,9 @@ public:
 	int GetWidth() const { return m_width; }
 	int GetHeight() const { return m_height; }
 
+	float GetTextureWidth() const { return m_texWidth; }
+	float GetTextureHeight() const { return m_texHeight; }
+
 protected:
 	bool CreateFromSurface(SDL_Surface *s);
 	bool CreateFromFile(const std::string &filename);
@@ -39,14 +42,17 @@ protected:
 		LINEAR   //smooth (Texture will pick bilinear/trilinear, maybe anisotropic according to graphics settings)
 	};
 
-	Texture(GLenum target, const TextureFormat &format, WrapMode wrapMode, FilterMode filterMode, bool hasMipmaps) :
+	Texture(GLenum target, const TextureFormat &format, WrapMode wrapMode, FilterMode filterMode, bool hasMipmaps, bool wantPow2Resize) :
 		m_target(target),
 		m_format(format),
 		m_wrapMode(wrapMode),
 		m_filterMode(filterMode),
 		m_hasMipmaps(hasMipmaps),
+		m_wantPow2Resize(wantPow2Resize),
 		m_width(-1),
-		m_height(-1)
+		m_height(-1),
+		m_texWidth(0.0f),
+		m_texHeight(0.0f)
 	{}
 
 	GLenum m_target; // GL_TEXTURE2D etc.
@@ -55,9 +61,13 @@ protected:
 	WrapMode m_wrapMode;
 	FilterMode m_filterMode;
 	bool m_hasMipmaps;
+	bool m_wantPow2Resize;
 
 	int m_width;
 	int m_height;
+
+	float m_texWidth;
+	float m_texHeight;
 
 	GLuint m_glTexture;
 };
