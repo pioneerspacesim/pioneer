@@ -1569,24 +1569,9 @@ void WorldView::DrawImageIndicator(const Indicator &marker, const char *icon_pat
 		UITexture *tex = Pi::textureCache->GetUITexture(icon_path);
 		const float w = tex->GetWidth();
 		const float h = tex->GetHeight();
-		const float x0 = marker.pos[0] - w/2.0f;
-		const float y0 = marker.pos[1] - h/2.0f;
-		GLfloat vtx[4*4] = {
-			x0,     y0,     0.0f, 0.0f,
-			x0,     y0 + h, 0.0f, 1.0f,
-			x0 + w, y0 + h, 1.0f, 1.0f,
-			x0 + w, y0,     1.0f, 0.0f,
-		};
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glEnable(GL_TEXTURE_2D);
-		tex->Bind();
-		glVertexPointer(2, GL_FLOAT, sizeof(GLfloat)*4, &vtx[0]);
-		glTexCoordPointer(2, GL_FLOAT, sizeof(GLfloat)*4, &vtx[2]);
-		glDrawArrays(GL_QUADS, 0, 4);
-		glDisable(GL_TEXTURE_2D);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisableClientState(GL_VERTEX_ARRAY);
+		const float x = marker.pos[0] - w/2.0f;
+		const float y = marker.pos[1] - h/2.0f;
+		tex->DrawQuad(x, y, w, h);
 	} else
 		DrawEdgeMarker(marker);
 }
