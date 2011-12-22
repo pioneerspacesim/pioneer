@@ -22,6 +22,7 @@ FontManager Screen::s_fontManager;
 std::stack<TextureFont*> Screen::s_fontStack;
 TextureFont *Screen::s_defaultFont;
 
+TextureCache Screen::s_textureCache;
 
 void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 {
