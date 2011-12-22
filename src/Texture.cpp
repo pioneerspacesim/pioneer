@@ -89,11 +89,10 @@ bool Texture::CreateFromSurface(SDL_Surface *s)
 		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, m_hasMipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
 	}
 
-	// XXX use format options
 	if (m_hasMipmaps)
-		gluBuild2DMipmaps(m_target, GL_RGBA, s->w, s->h, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
+		gluBuild2DMipmaps(m_target, m_format.internalFormat, s->w, s->h, m_format.dataFormat, m_format.dataType, s->pixels);
 	else
-		glTexImage2D(m_target, 0, GL_RGBA, s->w, s->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
+		glTexImage2D(m_target, 0, m_format.internalFormat, s->w, s->h, 0, m_format.dataFormat, m_format.dataType, s->pixels);
 
 	glBindTexture(m_target, 0);
 	glDisable(m_target);
@@ -125,7 +124,7 @@ bool Texture::CreateFromFile(const std::string &filename)
 
 
 ModelTexture::ModelTexture(const std::string &filename, bool preload) :
-	Texture(GL_TEXTURE_2D, TextureFormat(GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE), REPEAT, NEAREST, true, false),
+	Texture(GL_TEXTURE_2D, TextureFormat(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), REPEAT, NEAREST, true, false),
 	m_filename(filename),
 	m_isLoaded(false)
 {

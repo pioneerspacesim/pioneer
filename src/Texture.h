@@ -24,14 +24,14 @@ protected:
 	bool CreateFromFile(const std::string &filename);
 
 	struct TextureFormat {
-		TextureFormat(GLenum format_, GLint internalFormat_, GLenum type_) :
-			format(format_),
+		TextureFormat(GLint internalFormat_, GLenum dataFormat_, GLenum dataType_) :
 			internalFormat(internalFormat_),
-			type(type_)
+			dataFormat(dataFormat_),
+			dataType(dataType_)
 		{}
-		GLenum format;        // GL_RGB, GL_RGBA...
 		GLint internalFormat; // GL_RGB8, GL_RGB8_ALPHA8 etc.
-		GLenum type;          // GL_UNSIGNED_BYTE etc.
+		GLenum dataFormat;    // GL_RGB, GL_RGBA...
+		GLenum dataType;      // GL_UNSIGNED_BYTE etc.
 	};
 
 	enum WrapMode {
