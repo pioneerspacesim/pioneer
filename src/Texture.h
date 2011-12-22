@@ -20,6 +20,7 @@ public:
 	float GetTextureHeight() const { return m_texHeight; }
 
 protected:
+	void CreateFromArray(const void *data, int width, int height);
 	bool CreateFromSurface(SDL_Surface *s);
 	bool CreateFromFile(const std::string &filename);
 

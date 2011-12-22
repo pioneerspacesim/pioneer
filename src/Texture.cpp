@@ -30,6 +30,40 @@ static SDL_PixelFormat rgba_pixfmt = {
 	0                                   // alpha
 };
 
+void Texture::CreateFromArray(const void *data, int width, int height)
+{
+	glEnable(m_target);
+
+	glGenTextures(1, &m_glTexture);
+	glBindTexture(m_target, m_glTexture);
+
+	if (m_wrapMode == CLAMP) {
+		glTexParameterf(m_target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameterf(m_target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	}
+	else {
+		glTexParameterf(m_target, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameterf(m_target, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	}
+
+	if (m_filterMode == NEAREST) {
+		glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, m_hasMipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+	}
+	else {
+		glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, m_hasMipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+	}
+
+	if (m_hasMipmaps)
+		gluBuild2DMipmaps(m_target, m_format.internalFormat, width, height, m_format.dataFormat, m_format.dataType, data);
+	else
+		glTexImage2D(m_target, 0, m_format.internalFormat, width, height, 0, m_format.dataFormat, m_format.dataType, data);
+
+	glBindTexture(m_target, 0);
+	glDisable(m_target);
+}
+
 bool Texture::CreateFromSurface(SDL_Surface *s)
 {
 	bool freeSurface = false;
@@ -66,36 +100,9 @@ bool Texture::CreateFromSurface(SDL_Surface *s)
 		}
 	}
 
-	glEnable(m_target);
-
-	glGenTextures(1, &m_glTexture);
-	glBindTexture(m_target, m_glTexture);
-
-	if (m_wrapMode == CLAMP) {
-		glTexParameterf(m_target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(m_target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	}
-	else {
-		glTexParameterf(m_target, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameterf(m_target, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	}
-
-	if (m_filterMode == NEAREST) {
-		glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, m_hasMipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
-	}
-	else {
-		glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, m_hasMipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
-	}
-
-	if (m_hasMipmaps)
-		gluBuild2DMipmaps(m_target, m_format.internalFormat, s->w, s->h, m_format.dataFormat, m_format.dataType, s->pixels);
-	else
-		glTexImage2D(m_target, 0, m_format.internalFormat, s->w, s->h, 0, m_format.dataFormat, m_format.dataType, s->pixels);
-
-	glBindTexture(m_target, 0);
-	glDisable(m_target);
+	SDL_LockSurface(s);
+	CreateFromArray(s->pixels, s->w, s->h);
+	SDL_UnlockSurface(s);
 
 	if (freeSurface)
 		SDL_FreeSurface(s);
