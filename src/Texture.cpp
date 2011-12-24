@@ -32,6 +32,11 @@ static SDL_PixelFormat rgba_pixfmt = {
 
 void Texture::CreateFromArray(const void *data, int width, int height)
 {
+	if (m_glTexture) {
+		glDeleteTextures(1, &m_glTexture);
+		m_glTexture = 0;
+	}
+
 	glEnable(m_target);
 
 	glGenTextures(1, &m_glTexture);

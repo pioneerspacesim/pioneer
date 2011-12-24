@@ -55,7 +55,8 @@ protected:
 		m_width(-1),
 		m_height(-1),
 		m_texWidth(0.0f),
-		m_texHeight(0.0f)
+		m_texHeight(0.0f),
+		m_glTexture(0)
 	{}
 
 	GLenum m_target; // GL_TEXTURE2D etc.
