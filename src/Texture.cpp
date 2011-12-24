@@ -60,10 +60,23 @@ void Texture::CreateFromArray(const void *data, int width, int height)
 		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, m_hasMipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
 	}
 
-	if (m_hasMipmaps)
-		gluBuild2DMipmaps(m_target, m_format.internalFormat, width, height, m_format.dataFormat, m_format.dataType, data);
-	else
-		glTexImage2D(m_target, 0, m_format.internalFormat, width, height, 0, m_format.dataFormat, m_format.dataType, data);
+	// XXX feels a bit icky
+	switch (m_target) {
+		case GL_TEXTURE_1D:
+			assert(!m_hasMipmaps);
+			glTexImage1D(GL_TEXTURE_1D, 0, m_format.internalFormat, width, 0, m_format.dataFormat, m_format.dataType, data);
+			break;
+
+		case GL_TEXTURE_2D:
+			if (m_hasMipmaps)
+				gluBuild2DMipmaps(m_target, m_format.internalFormat, width, height, m_format.dataFormat, m_format.dataType, data);
+			else
+				glTexImage2D(m_target, 0, m_format.internalFormat, width, height, 0, m_format.dataFormat, m_format.dataType, data);
+			break;
+
+		default:
+			assert(0);
+	}
 
 	glBindTexture(m_target, 0);
 	glDisable(m_target);
