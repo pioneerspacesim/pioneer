@@ -26,40 +26,10 @@ void Gradient::Draw()
 {
 	float size[2];
 	GetSize(size);
-	const float w = size[0];
-	const float h = size[1];
 
-	//todo: not immediate
-	glColor4f(1.f, 0.f, 1.f, 1.f);
-	glPushAttrib(GL_ENABLE_BIT);
 	glEnable(GL_BLEND);
-	glActiveTexture(GL_TEXTURE0);
-	glEnable(GL_TEXTURE_1D);
-	m_texture.Bind();
-	glBegin(GL_QUADS);
-	if (m_direction == VERTICAL) {
-		glTexCoord1f(1.f);
-		glVertex2f(0, h);
-		glTexCoord1f(1.f);
-		glVertex2f(w, h);
-		glTexCoord1f(0.f);
-		glVertex2f(w, 0);
-		glTexCoord1f(0.f);
-		glVertex2f(0, 0);
-	} else {
-		glTexCoord1f(0.f);
-		glVertex2f(0, h);
-		glTexCoord1f(1.f);
-		glVertex2f(w, h);
-		glTexCoord1f(1.f);
-		glVertex2f(w, 0);
-		glTexCoord1f(0.f);
-		glVertex2f(0, 0);
-	}
-	glEnd();
-	m_texture.Unbind();
-	glDisable(GL_TEXTURE_1D);
-	glPopAttrib();
+	m_texture.DrawQuad(0, 0, size[0], size[1], m_direction);
+	glDisable(GL_BLEND);
 }
 
 
@@ -96,6 +66,46 @@ void Gradient::GradientTexture::GenerateGradient()
 	CreateFromArray(data, width, 0);
 
 	m_needGenerate = false;
+}
+
+void Gradient::GradientTexture::DrawQuad(float x, float y, float w, float h, Direction direction)
+{
+	GLfloat vtx[4*2] = {
+		x,   y+h,
+		x+w, y+h,
+		x+w, y,
+		x,   y
+	};
+
+	GLfloat vTex[4] = {
+		1.0f,
+		1.0f,
+		0.0f,
+		0.0f
+	};
+
+	GLfloat hTex[4] = {
+		0.0f,
+		1.0f,
+		1.0f,
+		0.0f
+	};
+
+	glEnable(GetTarget());
+	Bind();
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glVertexPointer(2, GL_FLOAT, sizeof(GLfloat)*2, &vtx[0]);
+	glTexCoordPointer(1, GL_FLOAT, sizeof(GLfloat), direction == VERTICAL ? &vTex[0] : &hTex[0]);
+
+	glDrawArrays(GL_QUADS, 0, 4);
+
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+	Unbind();
+	glDisable(GetTarget());
 }
 
 }

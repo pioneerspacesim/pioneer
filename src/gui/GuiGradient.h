@@ -44,6 +44,8 @@ namespace Gui {
 				Texture::Bind();
 			}
 
+			void DrawQuad(float x, float y, float w, float h, Direction direction);
+
 		private:
 			void GenerateGradient();
 
