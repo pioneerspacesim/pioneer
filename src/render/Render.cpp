@@ -445,8 +445,12 @@ void Init(int screen_width, int screen_height)
 	if (hdrAvailable) {
 		try {
 			s_hdrBufs.CreateBuffers(screen_width, screen_height);
-		} catch (std::runtime_error &ex) {
-			fprintf(stderr, "HDR initialization error: %s\n", ex.what());
+		} catch (RenderTarget::fbo_incomplete &ex) {
+			if (ex.GetErrorCode() == GL_FRAMEBUFFER_UNSUPPORTED_EXT) {
+				fprintf(stderr, "HDR render targets unsupported: forcing HDR off\n");
+			} else {
+				fprintf(stderr, "HDR initialization error: %s\n", ex.what());
+			}
 			s_hdrBufs.DeleteBuffers();
 			hdrAvailable = false;
 			hdrEnabled = false;
