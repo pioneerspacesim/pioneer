@@ -225,6 +225,7 @@ void SystemInfoView::OnClickBackground(Gui::MouseButtonEvent *e)
 void SystemInfoView::SystemChanged(const SystemPath &path)
 {
 	DeleteAllChildren();
+	m_tabs = 0;
 
 	if (!path.IsSystemPath())
 		return;
@@ -403,7 +404,8 @@ void SystemInfoView::OnSwitchTo()
 
 void SystemInfoView::NextPage()
 {
-	m_tabs->OnActivate();
+	if (m_tabs)
+		m_tabs->OnActivate();
 }
 
 void SystemInfoView::UpdateIconSelections()
