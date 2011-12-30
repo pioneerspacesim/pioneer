@@ -493,7 +493,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 			formatarg("z", dest.sectorZ)));
 		m_hudVelocity->Show();
 
-		m_hudTargetDist->Hide();
+		m_hudTargetDist->SetText(stringf(Lang::PROBABILITY_OF_ARRIVAL_X_PERCENT,
+			formatarg("probability", Pi::game->GetHyperspaceArrivalProbability()*100.0, "f3.1")));
+		m_hudTargetDist->Show();
+
 		m_hudAltitude->Hide();
 		m_hudPressure->Hide();
 	}
