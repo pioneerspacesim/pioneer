@@ -454,6 +454,7 @@ void Init(int screen_width, int screen_height)
 			s_hdrBufs.DeleteBuffers();
 			hdrAvailable = false;
 			hdrEnabled = false;
+			glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 		}
 	}
 	
