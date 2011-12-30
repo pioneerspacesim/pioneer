@@ -431,13 +431,36 @@ void Pi::Init()
 	SDL_Surface *icon = IMG_Load(PIONEER_DATA_DIR "/icons/badge.png");
 	SDL_WM_SetIcon(icon, 0);
 
-	if ((Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags)) == 0) {
-		// fall back on 16-bit depth buffer...
+	Pi::scrSurface = 0;
+
+	// attempt sequence is:
+	// 1- requested mode
+	if (!Pi::scrSurface && requestedSamples &&
+		((Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags)) == 0)) {
+		fprintf(stderr, "Failed to set video mode. (%s). Re-trying without multisampling.\n", SDL_GetError());
+		// turn off multisample
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
+	}
+
+	// 2- requested mode with no anti-aliasing
+	if (!Pi::scrSurface && ((Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags)) == 0)) {
+		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer\n", SDL_GetError());
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, requestedSamples);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer.\n", SDL_GetError());
-		if ((Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags)) == 0) {
-			fprintf(stderr, "Failed to set video mode: %s", SDL_GetError());
-		}
+	}
+
+	// 3- requested mode with 16 bit depth buffer
+	if (!Pi::scrSurface && requestedSamples &&
+		((Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags)) == 0)) {
+		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer and no multisampling\n", SDL_GetError());
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
+		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+	}
+
+	// 4- requested mode with 16-bit depth buffer and no anti-aliasing
+	if (!Pi::scrSurface && (Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags)) == 0) {
+		fprintf(stderr, "Failed to set video mode: %s", SDL_GetError());
+		abort();
 	}
 
 	// this valuable is not reliable if antialiasing settings are overridden by
