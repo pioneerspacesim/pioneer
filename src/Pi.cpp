@@ -423,6 +423,7 @@ void Pi::Init()
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	const int requestedSamples = config.Int("AntiAliasingMode");
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, requestedSamples ? 1 : 0);
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, requestedSamples);
 
 	Uint32 flags = SDL_OPENGL;
@@ -438,13 +439,14 @@ void Pi::Init()
 	if (!Pi::scrSurface && requestedSamples &&
 		((Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags)) == 0)) {
 		fprintf(stderr, "Failed to set video mode. (%s). Re-trying without multisampling.\n", SDL_GetError());
-		// turn off multisample
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
 	}
 
 	// 2- requested mode with no anti-aliasing
 	if (!Pi::scrSurface && ((Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags)) == 0)) {
 		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer\n", SDL_GetError());
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, requestedSamples ? 1 : 0);
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, requestedSamples);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 	}
@@ -453,6 +455,7 @@ void Pi::Init()
 	if (!Pi::scrSurface && requestedSamples &&
 		((Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags)) == 0)) {
 		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer and no multisampling\n", SDL_GetError());
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 	}
