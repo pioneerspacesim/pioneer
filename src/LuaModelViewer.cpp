@@ -26,9 +26,19 @@ static SDL_Surface *g_screen;
 static int g_width, g_height;
 static int g_mouseMotion[2];
 static char g_keyState[SDLK_LAST];
-static int g_mouseButton[5];
+#define MAX_MOUSE_BTN_IDX 6
+static int g_mouseButton[MAX_MOUSE_BTN_IDX];	// inc to 6 as mouseScroll is index 5
 static float g_zbias;
 static bool g_doBenchmark = false;
+
+static bool setMouseButton(const Uint8 idx, const int value)
+{
+	if( idx < MAX_MOUSE_BTN_IDX ) {
+		g_mouseButton[idx] = value;
+		return true;
+	}
+	return false;
+}
 
 static GLuint mytexture;
 
@@ -677,12 +687,12 @@ static void PollEvents()
 				g_keyState[event.key.keysym.sym] = 0;
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				g_mouseButton[event.button.button] = 1;
+				setMouseButton(event.button.button, 1);
 	//			Pi::onMouseButtonDown.emit(event.button.button,
 	//					event.button.x, event.button.y);
 				break;
 			case SDL_MOUSEBUTTONUP:
-				g_mouseButton[event.button.button] = 0;
+				setMouseButton(event.button.button, 0);
 	//			Pi::onMouseButtonUp.emit(event.button.button,
 	//					event.button.x, event.button.y);
 				break;
