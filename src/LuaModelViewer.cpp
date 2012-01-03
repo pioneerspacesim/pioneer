@@ -26,7 +26,7 @@ static SDL_Surface *g_screen;
 static int g_width, g_height;
 static int g_mouseMotion[2];
 static char g_keyState[SDLK_LAST];
-#define MAX_MOUSE_BTN_IDX 6
+static const int MAX_MOUSE_BTN_IDX = SDL_BUTTON_WHEELDOWN + 1;
 static int g_mouseButton[MAX_MOUSE_BTN_IDX];	// inc to 6 as mouseScroll is index 5
 static float g_zbias;
 static bool g_doBenchmark = false;
