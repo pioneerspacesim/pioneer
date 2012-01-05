@@ -13,6 +13,8 @@ Alpha 18
 
    * Fixes
      * Fix incorrect galaxy density on OSX (#867, #869)
+     * Fix crash in system info view if opened the first time on an unexplored
+       system (#783, #876)
 
    * Script changes
      * New event onCargoUnload triggered when cargo is jettisoned while
