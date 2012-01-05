@@ -432,36 +432,42 @@ void Pi::Init()
 	SDL_Surface *icon = IMG_Load(PIONEER_DATA_DIR "/icons/badge.png");
 	SDL_WM_SetIcon(icon, 0);
 
-	Pi::scrSurface = 0;
-
 	// attempt sequence is:
 	// 1- requested mode
-	if (!Pi::scrSurface && requestedSamples &&
-		((Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags)) == 0)) {
+	Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags);
+
+	// 2- requested mode with no anti-aliasing (skipped if no AA was requested anyway)
+	if (!Pi::scrSurface && requestedSamples) {
 		fprintf(stderr, "Failed to set video mode. (%s). Re-trying without multisampling.\n", SDL_GetError());
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
+
+		Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags);
 	}
 
-	// 2- requested mode with no anti-aliasing
-	if (!Pi::scrSurface && ((Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags)) == 0)) {
+	// 3- requested mode with 16 bit depth buffer
+	if (!Pi::scrSurface) {
 		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer\n", SDL_GetError());
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, requestedSamples ? 1 : 0);
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, requestedSamples);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+
+		Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags);
 	}
 
-	// 3- requested mode with 16 bit depth buffer
-	if (!Pi::scrSurface && requestedSamples &&
-		((Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags)) == 0)) {
+	// 4- requested mode with 16-bit depth buffer and no anti-aliasing
+	//    (skipped if no AA was requested anyway)
+	if (!Pi::scrSurface && requestedSamples) {
 		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer and no multisampling\n", SDL_GetError());
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+
+		Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags);
 	}
 
-	// 4- requested mode with 16-bit depth buffer and no anti-aliasing
-	if (!Pi::scrSurface && (Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags)) == 0) {
+	// 5- abort!
+	if (!Pi::scrSurface) {
 		fprintf(stderr, "Failed to set video mode: %s", SDL_GetError());
 		abort();
 	}
