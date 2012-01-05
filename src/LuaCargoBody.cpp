@@ -12,7 +12,8 @@
 /*
  * Attribute: type
  *
- * The type of cargo contained within this cargo body
+ * The type of cargo contained within this cargo body, as a
+ * <Constants.EquipType> constant.
  *
  * Availability:
  *
