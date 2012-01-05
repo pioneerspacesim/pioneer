@@ -19,6 +19,8 @@ public:
 	float GetTextureWidth() const { return m_texWidth; }
 	float GetTextureHeight() const { return m_texHeight; }
 
+	void DrawQuad(float x, float y, float w, float h);
+
 protected:
 	void CreateFromArray(const void *data, int width, int height);
 	bool CreateFromSurface(SDL_Surface *s);
@@ -102,8 +104,6 @@ class UITexture : public Texture {
 public:
 	UITexture(SDL_Surface *s);
 	UITexture(const std::string &filename);
-
-	void DrawQuad(float x, float y, float w, float h);
 };
 
 #endif
