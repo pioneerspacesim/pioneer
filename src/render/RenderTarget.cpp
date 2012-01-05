@@ -4,6 +4,28 @@
 
 namespace Render {
 
+const char *RenderTarget::fbo_incomplete::what() const throw() {
+	switch (m_errcode) {
+	case GL_FRAMEBUFFER_UNSUPPORTED_EXT:
+		return "Unsupported formats";
+	case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT:
+		return "Incomplete attachment";
+	case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT:
+		return "Missing attachment";
+	case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
+		return "Incomplete dimensions";
+	case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT:
+		return "Incomplete formats";
+	case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT:
+		return "Incomplete draw buffer";
+	case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT:
+		return "Incomplete read buffer";
+	case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE_EXT:
+		return "Number of samples does not match for all buffers";
+	default: return "Unknown status";
+	}
+}
+
 RenderTarget::RenderTarget() :
 	Texture(),
 	m_fbo(0)
@@ -43,38 +65,7 @@ void RenderTarget::CheckCompleteness() const
 {
 	const GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
 	if (status != GL_FRAMEBUFFER_COMPLETE_EXT) {
-		std::ostringstream ss;
-		ss << "FBO error, ";
-		switch (status) {
-		case GL_FRAMEBUFFER_UNSUPPORTED_EXT:
-			ss << "Unsupported formats";
-			break;
-		case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT:
-			ss << "Incomplete attachment";
-			break;
-		case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT:
-			ss << "Missing attachment";
-			break;
-		case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
-			ss << "Incomplete dimensions";
-			break;
-		case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT:
-			ss << "Incomplete formats";
-			break;
-		case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT:
-			ss << "Incomplete draw buffer";
-			break;
-		case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT:
-			ss << "Incomplete read buffer";
-			break;
-		case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE_EXT:
-			ss << "Number of samples does not match for all buffers";
-			break;
-		default:
-			ss << "Unknown status " << status;
-			break;
-		}
-		throw std::runtime_error(ss.str());
+		throw fbo_incomplete(status);
 	}
 }
 
