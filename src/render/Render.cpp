@@ -279,9 +279,22 @@ static struct postprocessBuffers_t {
 		luminanceRT = new LuminanceTarget(128, 128);
 		bloom1RT = new RectangleTarget(width>>2, height>>2, GL_RGB, GL_RGB16F_ARB, GL_HALF_FLOAT_ARB);
 		bloom2RT = new RectangleTarget(width>>2, height>>2, GL_RGB, GL_RGB16F_ARB, GL_HALF_FLOAT_ARB);
-		if (msSamples > 1)
-			sceneRT = new MultiSampledSceneTarget(width, height, GL_RGB, GL_RGB16F_ARB, GL_HALF_FLOAT_ARB, msSamples);
-		else
+		sceneRT = 0;
+		if (msSamples > 1) {
+			try {
+				sceneRT = new MultiSampledSceneTarget(width, height, GL_RGB, GL_RGB16F_ARB, GL_HALF_FLOAT_ARB, msSamples);
+			} catch (RenderTarget::fbo_incomplete &ex) {
+				if (ex.GetErrorCode() == GL_FRAMEBUFFER_UNSUPPORTED_EXT) {
+					// try again without multisampling
+					glDisable(GL_MULTISAMPLE);
+					sceneRT = 0;
+					msSamples = 1;
+				} else {
+					throw;
+				}
+			}
+		}
+		if (!sceneRT)
 			sceneRT = new SceneTarget(width, height, GL_RGB, GL_RGB16F_ARB, GL_HALF_FLOAT_ARB);
 
 		postprocessBloom1Downsample = new PostprocessDownsampleShader("postprocessBloom1Downsample", "#extension GL_ARB_texture_rectangle : enable\n");
@@ -445,11 +458,16 @@ void Init(int screen_width, int screen_height)
 	if (hdrAvailable) {
 		try {
 			s_hdrBufs.CreateBuffers(screen_width, screen_height);
-		} catch (std::runtime_error &ex) {
-			fprintf(stderr, "HDR initialization error: %s\n", ex.what());
+		} catch (RenderTarget::fbo_incomplete &ex) {
+			if (ex.GetErrorCode() == GL_FRAMEBUFFER_UNSUPPORTED_EXT) {
+				fprintf(stderr, "HDR render targets unsupported: forcing HDR off\n");
+			} else {
+				fprintf(stderr, "HDR initialization error: %s\n", ex.what());
+			}
 			s_hdrBufs.DeleteBuffers();
 			hdrAvailable = false;
 			hdrEnabled = false;
+			glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 		}
 	}
 	

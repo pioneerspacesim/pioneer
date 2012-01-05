@@ -1,6 +1,7 @@
 #ifndef _RENDERTARGET_H
 #define _RENDERTARGET_H
 #include "RenderTexture.h"
+#include <exception>
 
 namespace Render {
 	/*
@@ -8,6 +9,15 @@ namespace Render {
 	 */
 	class RenderTarget : public Texture {
 	public:
+		struct fbo_incomplete : public std::exception {
+			public:
+				fbo_incomplete(GLenum errcode): m_errcode(errcode) {}
+				const char *what() const throw();
+				GLenum GetErrorCode() const throw() { return m_errcode; }
+			private:
+				GLenum m_errcode;
+		};
+
 		RenderTarget();
 		RenderTarget(int w, int h, GLint format,
 			GLint internalFormat, GLenum type);
