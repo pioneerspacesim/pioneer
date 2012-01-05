@@ -48,6 +48,7 @@ public:
 	float GetHyperspaceProgress() const { return m_hyperspaceProgress; }
 	double GetHyperspaceDuration() const { return m_hyperspaceDuration; }
 	double GetHyperspaceEndTime() const { return m_hyperspaceEndTime; }
+	double GetHyperspaceArrivalProbability() const;
 
 	enum TimeAccel {
 		TIMEACCEL_PAUSED,
