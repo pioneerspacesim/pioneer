@@ -18,7 +18,7 @@ Alpha 18
      * Fix memory overrun in modelviewer that would break z-bias when mouse
        wheel is used (#880)
      * Fall back to no-AA HDR and then no-HDR based on GPU features (#855,
-       #878)
+       #878, #877)
 
    * Script changes
      * New event onCargoUnload triggered when cargo is jettisoned while
