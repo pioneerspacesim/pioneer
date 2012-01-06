@@ -1104,6 +1104,8 @@ IN_TRANSIT
     En tránsito
 IN_TRANSIT_TO_N_X_X_X
     En tránsito a %system [%x,%y,%z]
+PROBABILITY_OF_ARRIVAL_X_PERCENT
+    Probabilidad de llegada: %probability%%
 ALT_IN_METRES
     Alt: %altitude{f.0}m
 PRESSURE_N_BAR
