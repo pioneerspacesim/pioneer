@@ -322,6 +322,14 @@ void Game::WantHyperspace()
 	m_wantHyperspace = true;
 }
 
+double Game::GetHyperspaceArrivalProbability() const
+{
+	double progress = m_hyperspaceProgress / m_hyperspaceDuration;
+	const double fudge = 4.0;
+	const double scale = 1.0 / (1.0 - exp(-fudge));
+	return scale * (1.0 - exp(-fudge * progress));
+}
+
 void Game::SwitchToHyperspace()
 {
 	// remember where we came from so we can properly place the player on exit
