@@ -20,6 +20,8 @@ Alpha 18
        wheel is used (#880)
      * Fall back to no-AA HDR and then no-HDR based on GPU features (#855,
        #878, #877)
+     * Set minimal reverse thrust for Natrix so the autopilot doesn't get
+       confused (#856)
 
    * Script changes
      * New event onCargoUnload triggered when cargo is jettisoned while
