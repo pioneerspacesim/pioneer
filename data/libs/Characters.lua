@@ -985,8 +985,30 @@ Character = {
 --
 --   experimental
 --
-	IsCombatRated = function (self)
-
+	IsCombatRated = function (self,rating)
+		-- This function is completely agnostic of the values of the ratings.
+		local ratingflag = false
+		local combatrating = self:GetCombatRating()
+		for i,testrating in ipairs {'HARMLESS',
+									'MOSTLY_HARMLESS',
+									'POOR',
+									'AVERAGE',
+									'ABOVE_AVERAGE',
+									'COMPETENT',
+									'DANGEROUS',
+									'DEADLY',
+									'ELITE'} do
+			if testrating == rating then
+				-- We have reached the desired rating
+				ratingflag = true
+			end
+			if testrating == combatrating and ratingflag then
+				-- The character's rating is equal to the one we've rached, and
+				-- we have either reached or passed the desired rating
+				return true
+			end
+		end --for
+		return false
 	end,
 
 	-- Debug function
