@@ -949,6 +949,46 @@ Character = {
 		end
 	end,
 
+--
+-- Method: IsCombatRated
+--
+--   Tests whether a character has reached a specific combat rating
+--
+-- ch:IsCombatRated(rating)
+--
+-- Parameters:
+--
+--   rating - One of the following values:
+-- >         'HARMLESS','MOSTLY_HARMLESS','POOR','AVERAGE','ABOVE_AVERAGE',
+-- >         'COMPETENT','DANGEROUS','DEADLY','ELITE'
+--
+-- Return:
+--
+--   true - Character has reached the specified rating
+--
+--   false - Character has not reached the specified rating (or specified
+--          rating was not a valid value)
+--
+-- Example:
+--
+-- Check to see if the player is rated "Deadly" or higher
+--
+-- > if PersistentCharacter.player:IsCombatRated('DEADLY') then
+-- >   DoSomethingDeadly() -- Player is rated "Deadly" or higher
+-- > end
+--
+-- Availability:
+--
+--   alpha 18
+--
+-- Status:
+--
+--   experimental
+--
+	IsCombatRated = function (self)
+
+	end,
+
 	-- Debug function
 	PrintStats = function (self)
 		print('Name: ',self.name)
