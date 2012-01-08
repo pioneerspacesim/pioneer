@@ -928,7 +928,25 @@ Character = {
 --   experimental
 --
 	GetCombatRating = function (self)
-
+		if self.killcount < 8 then
+			return('HARMLESS')
+		elseif self.killcount < 16 then
+			return('MOSTLY_HARMLESS')
+		elseif self.killcount < 32 then
+			return('POOR')
+		elseif self.killcount < 64 then
+			return('AVERAGE')
+		elseif self.killcount < 128 then
+			return('ABOVE_AVERAGE')
+		elseif self.killcount < 512 then
+			return('COMPETENT')
+		elseif self.killcount < 2400 then
+			return('DANGEROUS')
+		elseif self.killcount < 6000 then
+			return('DEADLY')
+		else 
+			return('ELITE')
+		end
 	end,
 
 	-- Debug function
