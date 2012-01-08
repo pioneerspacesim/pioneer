@@ -899,6 +899,38 @@ Character = {
 		end
 	end,
 
+--
+-- Method: GetCombatRating
+--
+--   Returns a translatable string giving the character's combat rating
+--
+-- rating = ch:GetCombatRating()
+--
+-- Return
+--
+--   rating: Translatable string
+--
+-- Example
+--
+-- Show player their own combat rating as a UI message
+--
+-- > t = Translate:GetTranslator()
+-- > UI.Message(('Your combat rating is {rating}'):interp({
+-- >     rating = t(PersistentCharacters.player:GetCombatRating()),
+-- > }))
+--
+-- Availability
+--
+--   alpha 17
+--
+-- Status:
+--
+--   experimental
+--
+	GetCombatRating = function (self)
+
+	end,
+
 	-- Debug function
 	PrintStats = function (self)
 		print('Name: ',self.name)
