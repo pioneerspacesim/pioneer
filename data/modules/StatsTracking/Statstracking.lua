@@ -11,7 +11,7 @@
 local PlayerDamagedShips = {}
 
 local onShipDestroyed = function (ship, attacker)
-	if attacker:IsPlayer() then
+	if attacker:isa('Ship') and attacker:IsPlayer() then
 		-- Increment player's kill count
 		PersistentCharacters.player.killcount = PersistentCharacters.player.killcount + 1
 		PlayerDamagedShips[ship]=nil
@@ -21,7 +21,7 @@ local onShipDestroyed = function (ship, attacker)
 end
 
 local onShipHit = function (ship, attacker)
-	if attacker:IsPlayer() then
+	if attacker:isa('Ship') and attacker:IsPlayer() then
 		PlayerDamagedShips[ship]=true
 	end
 end
