@@ -367,6 +367,39 @@ Character = {
 	sensors = 15,
 
 --
+-- Attribute: killcount
+--
+-- Integer value; number of objects destroyed by this character. Automatically
+-- incremented in the case of the player by one of the stock scripts.
+--
+-- Availability:
+--
+--   alpha 18
+--
+-- Status:
+--
+--   experimental
+--
+	killcount = 0,
+
+--
+-- Attribute: assistcount
+--
+-- Integer value; number of objects damaged by this character which were
+-- subsequently destroyed by something else. Automatically incremented
+-- in the case of the player by one of the stock scripts.
+--
+-- Availability:
+--
+--   alpha 18
+--
+-- Status:
+--
+--   experimental
+--
+	assistcount = 0,
+
+--
 -- Group: Methods
 --
 
