@@ -885,7 +885,7 @@ Character = {
 --
 -- ch:UnSave()
 --
--- Availability
+-- Availability:
 --
 --   alpha 17
 --
@@ -906,11 +906,11 @@ Character = {
 --
 -- rating = ch:GetCombatRating()
 --
--- Return
+-- Return:
 --
 --   rating: Translatable string
 --
--- Example
+-- Example:
 --
 -- Show player their own combat rating as a UI message
 --
@@ -919,7 +919,7 @@ Character = {
 -- >     rating = t(PersistentCharacters.player:GetCombatRating()),
 -- > }))
 --
--- Availability
+-- Availability:
 --
 --   alpha 18
 --
