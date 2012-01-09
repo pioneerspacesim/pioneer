@@ -73,7 +73,7 @@ Apúntese! Afiliación anual por solo {membership_fee}]],
 	annual_fee = 400,
 })
 
-Translate:Add({English = {
+Translate:Add({Español = {
 	["What conditions apply to {radioactives} disposal?"] = "Cuáles son las condiciones aplicables en la disponibilidad de {radioactives}?",
 	["We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."] = "Solo dispensaremos una cantidad de {radioactives} equivalente a las toneladas de {military_fuel} adquiridas.",
 	["Apply for membership"] = "Solicitar el ingreso",
