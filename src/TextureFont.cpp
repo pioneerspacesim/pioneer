@@ -464,12 +464,8 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 }
 
 
-TextureFont::GlyphTexture::GlyphTexture() :
+TextureFont::GlyphTexture::GlyphTexture(Uint8 *data, int width, int height) :
 	Texture(GL_TEXTURE_2D, TextureFormat(GL_LUMINANCE_ALPHA, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE), CLAMP, NEAREST, false, true)
 {
-}
-
-void TextureFont::GlyphTexture::CreateFromBitmap(Uint8 *bitmap, int width, int height)
-{
-	CreateFromArray(bitmap, width, height);
+	CreateFromArray(data, width, height);
 }

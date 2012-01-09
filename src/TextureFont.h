@@ -11,9 +11,7 @@ private:
 
 	class GlyphTexture : public Texture {
 	public:
-		GlyphTexture();
-		
-		void CreateFromBitmap(Uint8 *bitmap, int width, int height);
+		GlyphTexture(Uint8 *data, int width, int height);
 	};
 
 public:
