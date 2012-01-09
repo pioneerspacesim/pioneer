@@ -3,9 +3,24 @@
 
 #include "Font.h"
 #include "FontConfig.h"
+#include "Texture.h"
 
-class TextureFont : public Font
-{
+class TextureFont : public Font {
+
+private:
+
+	class GlyphTexture : public Texture {
+	public:
+		GlyphTexture();
+		
+		void CreateFromBitmap(Uint8 *bitmap, int width, int height);
+
+		bool HasData() const { return m_hasData; }
+	
+	private:
+		bool m_hasData;
+	};
+
 public:
 	TextureFont(FontManager &fm, const std::string &config_filename);
 

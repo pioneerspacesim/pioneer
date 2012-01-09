@@ -463,3 +463,14 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 	m_descender = -float(m_face->descender) / 64.0;
 }
 
+
+TextureFont::GlyphTexture::GlyphTexture() :
+	Texture(GL_TEXTURE_2D, TextureFormat(GL_LUMINANCE_ALPHA, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE), CLAMP, NEAREST, false, true),
+	m_hasData(false)
+{
+}
+
+void TextureFont::GlyphTexture::CreateFromBitmap(Uint8 *bitmap, int width, int height)
+{
+	CreateFromArray(bitmap, width, height);
+}
