@@ -7,15 +7,6 @@
 
 #define PARAGRAPH_SPACING 1.5f
 
-#define TEXTURE_FONT_ENTER \
-	glEnable(GL_BLEND); \
-	glEnable(GL_TEXTURE_2D); \
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-#define TEXTURE_FONT_LEAVE \
-	glDisable(GL_TEXTURE_2D); \
-	glDisable(GL_BLEND);
-
 int TextureFont::s_glyphCount = 0;
 
 void TextureFont::RenderGlyph(Uint32 chr, float x, float y)
@@ -177,7 +168,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 
 void TextureFont::RenderString(const char *str, float x, float y)
 {
-	TEXTURE_FONT_ENTER;
+	glEnable(GL_BLEND);
 
 	float px = x;
 	float py = y;
@@ -215,12 +206,13 @@ void TextureFont::RenderString(const char *str, float x, float y)
 			px += glyph->advx;
 		}
 	}
-	TEXTURE_FONT_LEAVE;
+
+	glDisable(GL_BLEND);
 }
 
 void TextureFont::RenderMarkup(const char *str, float x, float y)
 {
-	TEXTURE_FONT_ENTER;
+	glEnable(GL_BLEND);
 
 	float px = x;
 	float py = y;
@@ -273,7 +265,7 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 		}
 	}
 
-	TEXTURE_FONT_LEAVE;
+	glDisable(GL_BLEND);
 }
 
 TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : Font(fm, config_filename)
