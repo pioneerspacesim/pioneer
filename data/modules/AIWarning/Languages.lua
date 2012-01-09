@@ -27,3 +27,13 @@ Translate:Add({
 		['Cannot compute orbit parameters']     = 'Impossibile calcolare i parametri orbitali',
 	}
 })
+
+  ---- SPANISH / ESPAÑOL ----
+
+Translate:Add({
+	Español = {
+		['Cannot compensate for local gravity'] = 'No se puede compensar la gravedad local',
+		['Starport refused docking permission'] = 'Permiso de atraque denegado',
+		['Cannot compute orbit parameters']     = 'Imposible calcular los parámetros orbitales',
+	}
+})
