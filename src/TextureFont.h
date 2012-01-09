@@ -14,11 +14,6 @@ private:
 		GlyphTexture();
 		
 		void CreateFromBitmap(Uint8 *bitmap, int width, int height);
-
-		bool HasData() const { return m_hasData; }
-	
-	private:
-		bool m_hasData;
 	};
 
 public:

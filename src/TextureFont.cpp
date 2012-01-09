@@ -465,8 +465,7 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 
 
 TextureFont::GlyphTexture::GlyphTexture() :
-	Texture(GL_TEXTURE_2D, TextureFormat(GL_LUMINANCE_ALPHA, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE), CLAMP, NEAREST, false, true),
-	m_hasData(false)
+	Texture(GL_TEXTURE_2D, TextureFormat(GL_LUMINANCE_ALPHA, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE), CLAMP, NEAREST, false, true)
 {
 }
 
