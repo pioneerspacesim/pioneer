@@ -53,3 +53,33 @@ Translate:Add({Polski = {
 	["You must buy our {military_fuel} before we will take your {radioactives}"] = "Musisz zakupić u nas {military_fuel} zanim zutylizujemy twoje {radioactives}",
 	["Begin trade"] = "Pohandlujmy",
 }})
+
+   ---- SPANISH / ESPAÑOL ----
+
+Translate:AddFlavour('Español','FuelClub',{
+	-- Translators: Feel free to change this in your language!
+	-- It's a proper name, so exact translation is not vital.
+	clubname = "Cooperativa Interestelar de Combustibles",
+	welcome = 'Bienvenido a {clubname}',
+	nonmember_intro = [[{clubname} es una organización independiente dedicada a proveer descuentos en combustible a sus miembros. Sus sedes se encuentran por toda la galaxia. Los beneficios de afiliación incluyen:
+
+	* Existencias de combustible propias, independientes del mercado general
+	* Descuento de precios en {hydrogen} 
+	* Descuento de precios en {military_fuel} 
+	* {radioactives}, disponibilidad libre (bajo condiciones)
+
+Apúntese! Afiliación anual por solo {membership_fee}]],
+	member_intro = [[Puede adquirir combustible y disponer de {radioactives} aquí.]],
+	annual_fee = 400,
+})
+
+Translate:Add({English = {
+	["What conditions apply to {radioactives} disposal?"] = "Cuáles son las condiciones aplicables en la disponibilidad de {radioactives}?",
+	["We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."] = "Solo dispensaremos una cantidad de {radioactives} equivalente a las toneladas de {military_fuel} adquiridas.",
+	["Apply for membership"] = "Solicitar el ingreso",
+	["Your membership application has been declined."] = "Su ingreso ha sido rechazado.",
+	["You are now a member. Your membership will expire on {expiry_date}."] = "Ahora es miembro. Su afiliación expira en {expiry_date}.",
+	["You must buy our {military_fuel} before we will take your {radioactives}"] = "Debe adquirir nuestro {military_fuel} para dispensarle {radioactives}",
+	["Begin trade"] = "Comenzar transacción",
+}})
+   
