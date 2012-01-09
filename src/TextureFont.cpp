@@ -21,7 +21,7 @@ int TextureFont::s_glyphCount = 0;
 void TextureFont::RenderGlyph(Uint32 chr, float x, float y)
 {
 	glfglyph_t *glyph = &m_glyphs[chr];
-	glBindTexture(GL_TEXTURE_2D, glyph->tex);
+	glyph->texture->Bind();
 	const float ox = x + float(glyph->offx);
 	const float oy = y + float(m_pixSize - glyph->offy);
 	glBegin(GL_QUADS);
@@ -205,7 +205,7 @@ void TextureFont::RenderString(const char *str, float x, float y)
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			if (glyph->tex) RenderGlyph(chr, roundf(px), py);
+			if (glyph->texture) RenderGlyph(chr, roundf(px), py);
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -261,7 +261,7 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			if (glyph->tex) RenderGlyph(chr, roundf(px), py);
+			if (glyph->texture) RenderGlyph(chr, roundf(px), py);
 
 			// XXX kerning doesn't skip markup
 			if (str[i]) {
@@ -438,15 +438,7 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 
 		FT_Done_Glyph(glyph);
 
-		glEnable (GL_TEXTURE_2D);
-		glGenTextures (1, &glfglyph.tex);
-		glBindTexture (GL_TEXTURE_2D, glfglyph.tex);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, sz, sz, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, pixBuf);
-		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glDisable (GL_TEXTURE_2D);
+		glfglyph.texture.Reset(new GlyphTexture(pixBuf, sz, sz));
 
 		glfglyph.advx = float(m_face->glyph->advance.x) / 64.0 + advx_adjust;
 		glfglyph.advy = float(m_face->glyph->advance.y) / 64.0;

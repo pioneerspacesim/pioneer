@@ -28,7 +28,7 @@ public:
 	float GetWidth() const { return m_width; }
 	float GetDescender() const { return m_descender; }
 	struct glfglyph_t {
-		unsigned int tex;
+		RefCountedPtr<GlyphTexture> texture;
 		float advx, advy;
 		float width, height;
 		int offx, offy;
