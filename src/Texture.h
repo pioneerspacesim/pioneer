@@ -10,6 +10,8 @@ public:
 	virtual void Bind();
 	virtual void Unbind();
 	//perhaps also Bind(int) so you can switch active texture unit
+
+	bool IsCreated() const { return m_glTexture != 0; }
 	
 	GLenum GetTarget() const { return m_target; }
 	
