@@ -21,22 +21,14 @@ int TextureFont::s_glyphCount = 0;
 void TextureFont::RenderGlyph(Uint32 chr, float x, float y)
 {
 	glfglyph_t *glyph = &m_glyphs[chr];
-	glyph->texture->Bind();
-	const float ox = x + float(glyph->offx);
-	const float oy = y + float(m_pixSize - glyph->offy);
-	glBegin(GL_QUADS);
-		float allocSize[2] = { m_texSize*glyph->width, m_texSize*glyph->height };
-		const float w = glyph->width;
-		const float h = glyph->height;
-		glTexCoord2f(0,h);
-		glVertex2f(ox,oy+allocSize[1]);
-		glTexCoord2f(w,h);
-		glVertex2f(ox+allocSize[0],oy+allocSize[1]);
-		glTexCoord2f(w,0);
-		glVertex2f(ox+allocSize[0],oy);
-		glTexCoord2f(0,0);
-		glVertex2f(ox,oy);
-	glEnd();
+
+	const float offx = x + float(glyph->offx);
+	const float offy = y + float(m_pixSize - glyph->offy);
+
+	const float w = m_texSize*glyph->width;
+	const float h = m_texSize*glyph->height;
+
+	glyph->texture->DrawQuad(offx, offy, w, h, 0, 0, glyph->width, glyph->height);
 
 	s_glyphCount++;
 }
