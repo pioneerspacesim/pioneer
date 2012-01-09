@@ -94,7 +94,7 @@ public:
 	ModelTexture(const std::string &filename, bool preload = false);
 
 	virtual void Bind() {
-		if (!m_isLoaded)
+		if (!IsCreated())
 			Load();
 		Texture::Bind();
 	}
@@ -105,8 +105,6 @@ private:
 	void Load();
 
 	std::string m_filename;
-
-	bool m_isLoaded;
 };
 
 
