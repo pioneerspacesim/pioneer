@@ -147,15 +147,13 @@ bool Texture::CreateFromFile(const std::string &filename)
 	return true;
 }
 
-void Texture::DrawQuad(float x, float y, float w, float h)
+void Texture::DrawQuad(float x, float y, float w, float h, float tx, float ty, float tw, float th)
 {
-	const float tw = GetTextureWidth(), th = GetTextureHeight();
-
 	GLfloat vtx[4*4] = {
-		x,   y+h, 0,  th,
-		x+w, y+h, tw, th,
-		x+w, y,   tw, 0,
-		x,   y,   0,  0
+		x,   y+h, tx,    ty+th,
+		x+w, y+h, tx+tw, ty+th,
+		x+w, y,   tx+tw, ty,
+		x,   y,   tx,    ty
 	};
 
 	glEnable(GetTarget());

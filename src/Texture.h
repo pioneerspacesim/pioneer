@@ -19,7 +19,15 @@ public:
 	float GetTextureWidth() const { return m_texWidth; }
 	float GetTextureHeight() const { return m_texHeight; }
 
-	void DrawQuad(float x, float y, float w, float h);
+	void DrawQuad(float x, float y, float w, float h, float tx, float ty, float tw, float th);
+
+	inline void DrawQuad(float x, float y, float w, float h) {
+		DrawQuad(x, y, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
+	}
+
+	inline void DrawQuad(float w, float h) {
+		DrawQuad(0, 0, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
+	}
 
 protected:
 	void CreateFromArray(const void *data, int width, int height);

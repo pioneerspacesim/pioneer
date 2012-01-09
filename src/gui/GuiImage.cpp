@@ -43,7 +43,7 @@ void Image::Draw()
 		glColor4fv(m_col);
 	}
 
-	m_texture->DrawQuad(0, 0, allocSize[0], allocSize[1]);
+	m_texture->DrawQuad(allocSize[0], allocSize[1]);
 
 	glDisable(GL_BLEND);
 }
