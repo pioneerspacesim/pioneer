@@ -2,8 +2,9 @@
 #define _TEXTURE_H
 
 #include "libs.h"
+#include "RefCounted.h"
 
-class Texture {
+class Texture : public RefCounted {
 public:
 	virtual ~Texture();
 
@@ -32,6 +33,8 @@ public:
 	}
 
 protected:
+	Texture(const Texture &) : m_format(0,0,0) {}
+
 	void CreateFromArray(const void *data, int width, int height);
 	bool CreateFromSurface(SDL_Surface *s);
 	bool CreateFromFile(const std::string &filename);
