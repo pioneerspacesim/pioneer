@@ -24,7 +24,7 @@ define_model('natrix', {
 			{
 				name='Natrix',
 				forward_thrust = -6e6,
-				reverse_thrust = 0,
+				reverse_thrust = 1e6,
 				up_thrust = 1e6,
 				down_thrust = -1e6,
 				left_thrust = -1e6,

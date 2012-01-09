@@ -10,6 +10,7 @@ Alpha 18
        clearance is granted (#836, #835)
      * OpenGL info saved to opengl.txt on game start (#857)
      * Background stars are now denser along the galaxy strip as you'd expect (#844)
+     * Probability of hyperspace arrival now displayed during hyperspace (#55, #879)
 
    * Fixes
      * Fix incorrect galaxy density on OSX (#867, #869)
@@ -18,7 +19,9 @@ Alpha 18
      * Fix memory overrun in modelviewer that would break z-bias when mouse
        wheel is used (#880)
      * Fall back to no-AA HDR and then no-HDR based on GPU features (#855,
-       #878)
+       #878, #877)
+     * Set minimal reverse thrust for Natrix so the autopilot doesn't get
+       confused (#856)
 
    * Script changes
      * New event onCargoUnload triggered when cargo is jettisoned while
