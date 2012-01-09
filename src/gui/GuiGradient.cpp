@@ -28,7 +28,7 @@ void Gradient::Draw()
 	GetSize(size);
 
 	glEnable(GL_BLEND);
-	m_texture.DrawQuad(size[0], size[1], m_direction);
+	m_texture.DrawGradientQuad(size[0], size[1], m_direction);
 	glDisable(GL_BLEND);
 }
 
@@ -68,7 +68,7 @@ void Gradient::GradientTexture::GenerateGradient()
 	m_needGenerate = false;
 }
 
-void Gradient::GradientTexture::DrawQuad(float w, float h, Direction direction)
+void Gradient::GradientTexture::DrawGradientQuad(float w, float h, Direction direction)
 {
 	GLfloat vtx[4*2] = {
 		0, h,
