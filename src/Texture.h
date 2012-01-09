@@ -32,13 +32,6 @@ public:
 		DrawQuad(0, 0, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
 	}
 
-protected:
-	Texture(const Texture &) : m_format(0,0,0) {}
-
-	void CreateFromArray(const void *data, int width, int height);
-	bool CreateFromSurface(SDL_Surface *s);
-	bool CreateFromFile(const std::string &filename);
-
 	struct TextureFormat {
 		TextureFormat(GLint internalFormat_, GLenum dataFormat_, GLenum dataType_) :
 			internalFormat(internalFormat_),
@@ -60,6 +53,9 @@ protected:
 		LINEAR   //smooth (Texture will pick bilinear/trilinear, maybe anisotropic according to graphics settings)
 	};
 
+protected:
+	Texture(const Texture &) : m_format(0,0,0) {}
+
 	Texture(GLenum target, const TextureFormat &format, WrapMode wrapMode, FilterMode filterMode, bool hasMipmaps, bool wantPow2Resize) :
 		m_target(target),
 		m_format(format),
@@ -74,6 +70,11 @@ protected:
 		m_glTexture(0)
 	{}
 
+	void CreateFromArray(const void *data, int width, int height);
+	bool CreateFromSurface(SDL_Surface *s);
+	bool CreateFromFile(const std::string &filename);
+
+private:
 	GLenum m_target; // GL_TEXTURE2D etc.
 	
 	TextureFormat m_format;
