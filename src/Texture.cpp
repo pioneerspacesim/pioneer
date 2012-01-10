@@ -175,7 +175,7 @@ void Texture::DrawQuad(float x, float y, float w, float h, float tx, float ty, f
 
 
 ModelTexture::ModelTexture(const std::string &filename, bool preload) :
-	Texture(GL_TEXTURE_2D, TextureFormat(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), REPEAT, NEAREST, true, false),
+	Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), REPEAT, NEAREST, true, false),
 	m_filename(filename)
 {
 	if (preload)
@@ -190,13 +190,13 @@ void ModelTexture::Load()
 
 
 UITexture::UITexture(SDL_Surface *s) :
-    Texture(GL_TEXTURE_2D, TextureFormat(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false, true)
+    Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false, true)
 {
 	CreateFromSurface(s);
 }
 
 UITexture::UITexture(const std::string &filename) :
-    Texture(GL_TEXTURE_2D, TextureFormat(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false, true)
+    Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false, true)
 {
 	CreateFromFile(filename);
 }

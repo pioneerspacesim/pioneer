@@ -32,8 +32,8 @@ public:
 		DrawQuad(0, 0, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
 	}
 
-	struct TextureFormat {
-		TextureFormat(GLint internalFormat_, GLenum dataFormat_, GLenum dataType_) :
+	struct Format {
+		Format(GLint internalFormat_, GLenum dataFormat_, GLenum dataType_) :
 			internalFormat(internalFormat_),
 			dataFormat(dataFormat_),
 			dataType(dataType_)
@@ -56,7 +56,7 @@ public:
 protected:
 	Texture(const Texture &) : m_format(0,0,0) {}
 
-	Texture(GLenum target, const TextureFormat &format, WrapMode wrapMode, FilterMode filterMode, bool hasMipmaps, bool wantPow2Resize) :
+	Texture(GLenum target, const Format &format, WrapMode wrapMode, FilterMode filterMode, bool hasMipmaps, bool wantPow2Resize) :
 		m_target(target),
 		m_format(format),
 		m_wrapMode(wrapMode),
@@ -77,7 +77,7 @@ protected:
 private:
 	GLenum m_target; // GL_TEXTURE2D etc.
 	
-	TextureFormat m_format;
+	Format m_format;
 	WrapMode m_wrapMode;
 	FilterMode m_filterMode;
 	bool m_hasMipmaps;

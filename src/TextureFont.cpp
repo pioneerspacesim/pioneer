@@ -441,7 +441,7 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 
 
 TextureFont::GlyphTexture::GlyphTexture(Uint8 *data, int width, int height) :
-	Texture(GL_TEXTURE_2D, TextureFormat(GL_LUMINANCE_ALPHA, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE), CLAMP, NEAREST, false, true)
+	Texture(GL_TEXTURE_2D, Format(GL_LUMINANCE_ALPHA, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE), CLAMP, NEAREST, false, true)
 {
 	CreateFromArray(data, width, height);
 }
