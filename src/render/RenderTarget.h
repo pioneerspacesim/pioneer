@@ -1,6 +1,7 @@
 #ifndef _RENDERTARGET_H
 #define _RENDERTARGET_H
-#include "RenderTexture.h"
+
+#include "Texture.h"
 #include <exception>
 
 namespace Render {
@@ -18,10 +19,9 @@ namespace Render {
 				GLenum m_errcode;
 		};
 
-		RenderTarget();
-		RenderTarget(int w, int h, GLint format,
-			GLint internalFormat, GLenum type);
-		~RenderTarget();
+		RenderTarget(unsigned int width, unsigned int height, GLenum target, const Texture::Format &format, bool hasMipmaps);
+		virtual ~RenderTarget();
+
 		virtual void BeginRTT();
 		virtual void EndRTT();
 
