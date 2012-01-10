@@ -74,6 +74,8 @@ protected:
 	bool CreateFromSurface(SDL_Surface *s);
 	bool CreateFromFile(const std::string &filename);
 
+    GLuint GetGLTexture() const { return m_glTexture; }
+
 private:
 	GLenum m_target; // GL_TEXTURE2D etc.
 	
