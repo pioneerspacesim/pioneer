@@ -63,14 +63,14 @@ protected:
 		m_filterMode(filterMode),
 		m_hasMipmaps(hasMipmaps),
 		m_wantPow2Resize(wantPow2Resize),
-		m_width(-1),
-		m_height(-1),
+		m_width(0),
+		m_height(0),
 		m_texWidth(0.0f),
 		m_texHeight(0.0f),
 		m_glTexture(0)
 	{}
 
-	void CreateFromArray(const void *data, int width, int height);
+	void CreateFromArray(const void *data, unsigned int width, unsigned int height);
 	bool CreateFromSurface(SDL_Surface *s);
 	bool CreateFromFile(const std::string &filename);
 
@@ -83,8 +83,8 @@ private:
 	bool m_hasMipmaps;
 	bool m_wantPow2Resize;
 
-	int m_width;
-	int m_height;
+	unsigned int m_width;
+	unsigned int m_height;
 
 	float m_texWidth;
 	float m_texHeight;
