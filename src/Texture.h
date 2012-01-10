@@ -6,31 +6,6 @@
 
 class Texture : public RefCounted {
 public:
-	virtual ~Texture();
-
-	virtual void Bind();
-	virtual void Unbind();
-	//perhaps also Bind(int) so you can switch active texture unit
-
-	bool IsCreated() const { return m_glTexture != 0; }
-	
-	GLenum GetTarget() const { return m_target; }
-	
-	int GetWidth() const { return m_width; }
-	int GetHeight() const { return m_height; }
-
-	float GetTextureWidth() const { return m_texWidth; }
-	float GetTextureHeight() const { return m_texHeight; }
-
-	void DrawQuad(float x, float y, float w, float h, float tx, float ty, float tw, float th);
-
-	inline void DrawQuad(float x, float y, float w, float h) {
-		DrawQuad(x, y, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
-	}
-
-	inline void DrawQuad(float w, float h) {
-		DrawQuad(0, 0, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
-	}
 
 	struct Format {
 		Format(GLint internalFormat_, GLenum dataFormat_, GLenum dataType_) :
@@ -52,6 +27,34 @@ public:
 		NEAREST, //sharp
 		LINEAR   //smooth (Texture will pick bilinear/trilinear, maybe anisotropic according to graphics settings)
 	};
+
+	virtual ~Texture();
+
+	virtual void Bind();
+	virtual void Unbind();
+	//perhaps also Bind(int) so you can switch active texture unit
+
+	bool IsCreated() const { return m_glTexture != 0; }
+	
+	GLenum GetTarget() const { return m_target; }
+	
+	int GetWidth() const { return m_width; }
+	int GetHeight() const { return m_height; }
+
+	float GetTextureWidth() const { return m_texWidth; }
+	float GetTextureHeight() const { return m_texHeight; }
+
+	const Format &GetFormat() const { return m_format; }
+
+	void DrawQuad(float x, float y, float w, float h, float tx, float ty, float tw, float th);
+
+	inline void DrawQuad(float x, float y, float w, float h) {
+		DrawQuad(x, y, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
+	}
+
+	inline void DrawQuad(float w, float h) {
+		DrawQuad(0, 0, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
+	}
 
 protected:
 	Texture(const Texture &) : m_format(0,0,0) {}
