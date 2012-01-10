@@ -9,12 +9,14 @@ Texture::~Texture()
 void Texture::Bind()
 {
 	assert(m_glTexture);
+	glEnable(m_target);     // XXX make separate Enable()
 	glBindTexture(m_target, m_glTexture);
 }
 
 void Texture::Unbind()
 {
 	glBindTexture(m_target, 0);
+	glDisable(m_target);    // XXX make separate Disable()
 }
 
 // RGBA pixel format for converting textures
