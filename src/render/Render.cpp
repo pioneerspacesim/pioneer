@@ -50,154 +50,97 @@ float State::m_zfar = 1e6f;
 float State::m_invLogZfarPlus1;
 Shader *State::m_currentShader = 0;
 
-// 2D Rectangle texture RT
+
+// 2D rectangle texture for rtt
 class RectangleTarget : public RenderTarget {
 public:
-	RectangleTarget() : RenderTarget() { }
-	RectangleTarget(int w, int h, GLint format,
-		GLint internalFormat, GLenum type) {
-		m_w = w;
-		m_h = h;
-
-		glGenFramebuffersEXT(1, &m_fbo);
-		glGenTextures(1, &m_texture);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_fbo);
-		glBindTexture(GL_TEXTURE_RECTANGLE, m_texture);
-		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, internalFormat, w, h, 0,
-			format, type, 0);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
-			GL_TEXTURE_RECTANGLE, m_texture, 0);
-
-		CheckCompleteness();
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-	}
-
-	void Bind() {
-		glEnable(GL_TEXTURE_RECTANGLE);
-		glBindTexture(GL_TEXTURE_RECTANGLE, m_texture);
-	}
-
-	void Unbind() {
-		glBindTexture(GL_TEXTURE_RECTANGLE, 0);
-		glDisable(GL_TEXTURE_RECTANGLE);
-	}
+	RectangleTarget(unsigned int w, unsigned int h) :
+		RenderTarget(w, h, GL_TEXTURE_RECTANGLE, Texture::Format(GL_RGB16F_ARB, GL_RGB, GL_HALF_FLOAT_ARB))
+	{ }
 };
 
-//2D target with mipmaps for capturing scene luminance
+
+// 2D target with mipmaps for capturing scene luminance
 class LuminanceTarget : public RenderTarget {
 public:
-	LuminanceTarget(int w, int h) {
-		m_w = w;
-		m_h = h;
-		glGenFramebuffersEXT(1, &m_fbo);
-		glGenTextures(1, &m_texture);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_fbo);
-		glBindTexture(GL_TEXTURE_2D, m_texture);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
-		glGenerateMipmapEXT(GL_TEXTURE_2D);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
-			GL_TEXTURE_2D, m_texture, 0);
-		CheckCompleteness();
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-	}
+	LuminanceTarget(unsigned int w, unsigned int h) :
+		RenderTarget(w, h, GL_TEXTURE_2D, Texture::Format(GL_RGB16F, GL_RGB, GL_FLOAT))
+	{ }
 
 	void UpdateMipmaps() {
 		glGenerateMipmapEXT(GL_TEXTURE_2D);
 	}
 };
 
-// Render target with 24-bit depth attachment
+
+// 2d rectangle target, used as base for fancier scene targets
 class SceneTarget : public RectangleTarget {
 public:
-	SceneTarget() { }
+	SceneTarget(unsigned int w, unsigned int h) :
+		RectangleTarget(w, h)
+	{ }
+};
 
-	SceneTarget(int w, int h, GLint format,
-		GLint internalFormat, GLenum type) {
-		m_w = w;
-		m_h = h;
 
-		glGenFramebuffersEXT(1, &m_fbo);
-		glGenTextures(1, &m_texture);
+// 2d rectangle target with 24-bit depth buffer attachment
+class StandardSceneTarget : public SceneTarget {
+public:
+	StandardSceneTarget(unsigned int w, unsigned int h) :
+		SceneTarget(w, h)
+	{
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_fbo);
-		glBindTexture(GL_TEXTURE_RECTANGLE, m_texture);
-		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, internalFormat, w, h, 0,
-			format, type, 0);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
-			GL_TEXTURE_RECTANGLE, m_texture, 0);
 
 		glGenRenderbuffersEXT(1, &m_depth);
 		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, m_depth);
 		glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24, w, h);
 		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
-		glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT,
-			GL_RENDERBUFFER_EXT, m_depth);
+		glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, m_depth);
 
 		CheckCompleteness();
+
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	}
 
-	~SceneTarget() {
+	~StandardSceneTarget() {
 		glDeleteRenderbuffersEXT(1, &m_depth);
 	}
-protected:
+
+private:
 	GLuint m_depth;
 };
 
-// Render target with 24-bit depth attachment
+
+// 2d rectangle target with multisampled colour and 24-bit depth buffer attachment
 class MultiSampledSceneTarget : public SceneTarget {
 public:
-	MultiSampledSceneTarget(int w, int h, GLint format,
-		GLint internalFormat, GLenum type, int samples) {
-		m_w = w;
-		m_h = h;
+	MultiSampledSceneTarget(unsigned int w, int h, int samples) :
+		SceneTarget(w, h)
+	{
+		const Texture::Format format = GetFormat();
 
 		// multisampled fbo
 		glGenFramebuffersEXT(1, &m_msFbo);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_msFbo);
+
 		// ms color buffer
 		glGenRenderbuffersEXT(1, &m_msColor);
 		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, m_msColor);
-		glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, samples, internalFormat, m_w, m_h);
+		glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, samples, format.internalFormat, w, h);
+
 		// ms depth buffer
-		glGenRenderbuffersEXT(1, &m_depth);
-		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, m_depth);
-		glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, samples, GL_DEPTH_COMPONENT24, m_w, m_h);
+		glGenRenderbuffersEXT(1, &m_msDepth);
+		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, m_msDepth);
+		glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, samples, GL_DEPTH_COMPONENT24, w, h);
+
 		// attach
 		glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT, m_msColor);
-		glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT,  GL_RENDERBUFFER_EXT, m_depth);
+		glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT,  GL_RENDERBUFFER_EXT, m_msDepth);
 
 		CheckCompleteness();
-
-		glGenFramebuffersEXT(1, &m_fbo);
-		glGenTextures(1, &m_texture);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_fbo);
-		glBindTexture(GL_TEXTURE_RECTANGLE, m_texture);
-		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, internalFormat, w, h, 0,
-			format, type, 0);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
-			GL_TEXTURE_RECTANGLE, m_texture, 0);
-
-		CheckCompleteness();
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	}
 
 	~MultiSampledSceneTarget() {
+		glDeleteRenderbuffersEXT(1, &m_msDepth);
 		glDeleteRenderbuffersEXT(1, &m_msColor);
 		glDeleteFramebuffersEXT(1, &m_msFbo);
 	}
@@ -206,7 +149,7 @@ public:
 		//begin rendering to multisampled FBO
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_msFbo);
 		glPushAttrib(GL_VIEWPORT_BIT);
-		glViewport(0, 0, m_w, m_h);
+		glViewport(0, 0, GetWidth(), GetHeight());
 	}
 
 	virtual void EndRTT() {
@@ -216,16 +159,20 @@ public:
 
 		glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, m_msFbo);
 		glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, m_fbo);
+
 		//depth testing has already been done, so color is enough
-		glBlitFramebufferEXT(0, 0, m_w, m_h, 0, 0, m_w, m_h, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+		glBlitFramebufferEXT(0, 0, GetWidth(), GetHeight(), 0, 0, GetWidth(), GetHeight(), GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
 		glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, 0);
 		glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, 0);
 	}
+
 private:
 	GLuint m_msFbo;
 	GLuint m_msColor;
+	GLuint m_msDepth;
 };
+
 
 void BindArrayBuffer(GLuint bo)
 {
@@ -275,14 +222,14 @@ static struct postprocessBuffers_t {
 		GLint msSamples = 0;
 		glGetIntegerv(GL_SAMPLES, &msSamples);
 
-		halfSizeRT  = new RectangleTarget(width>>1, height>>1, GL_RGB, GL_RGB16F_ARB, GL_HALF_FLOAT_ARB);
+		halfSizeRT  = new RectangleTarget(width>>1, height>>1);
 		luminanceRT = new LuminanceTarget(128, 128);
-		bloom1RT = new RectangleTarget(width>>2, height>>2, GL_RGB, GL_RGB16F_ARB, GL_HALF_FLOAT_ARB);
-		bloom2RT = new RectangleTarget(width>>2, height>>2, GL_RGB, GL_RGB16F_ARB, GL_HALF_FLOAT_ARB);
+		bloom1RT = new RectangleTarget(width>>2, height>>2);
+		bloom2RT = new RectangleTarget(width>>2, height>>2);
 		sceneRT = 0;
 		if (msSamples > 1) {
 			try {
-				sceneRT = new MultiSampledSceneTarget(width, height, GL_RGB, GL_RGB16F_ARB, GL_HALF_FLOAT_ARB, msSamples);
+				sceneRT = new MultiSampledSceneTarget(width, height, msSamples);
 			} catch (RenderTarget::fbo_incomplete &ex) {
 				if (ex.GetErrorCode() == GL_FRAMEBUFFER_UNSUPPORTED_EXT) {
 					// try again without multisampling
@@ -295,7 +242,7 @@ static struct postprocessBuffers_t {
 			}
 		}
 		if (!sceneRT)
-			sceneRT = new SceneTarget(width, height, GL_RGB, GL_RGB16F_ARB, GL_HALF_FLOAT_ARB);
+			sceneRT = new SceneTarget(width, height);
 
 		postprocessBloom1Downsample = new PostprocessDownsampleShader("postprocessBloom1Downsample", "#extension GL_ARB_texture_rectangle : enable\n");
 		postprocessBloom2Downsample = new PostprocessShader("postprocessBloom2Downsample", "#extension GL_ARB_texture_rectangle : enable\n");
