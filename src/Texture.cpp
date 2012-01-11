@@ -83,6 +83,9 @@ void Texture::CreateFromArray(const void *data, unsigned int width, unsigned int
 
 	glBindTexture(m_target, 0);
 	glDisable(m_target);
+
+	m_width = width;
+	m_height = height;
 }
 
 bool Texture::CreateFromSurface(SDL_Surface *s)
@@ -95,8 +98,9 @@ bool Texture::CreateFromSurface(SDL_Surface *s)
 		freeSurface = true;
 	}
 
-	m_width = s->w;
-	m_height = s->h;
+	unsigned int width = s->w;
+	unsigned int height = s->h;
+
 	m_texWidth = m_texHeight = 1.0f;
 
 	if (m_wantPow2Resize) {
@@ -116,14 +120,17 @@ bool Texture::CreateFromSurface(SDL_Surface *s)
 			s = s2;
 			freeSurface = true;
 
-			m_texWidth = float(m_width) / float(width2);
-			m_texHeight = float(m_height) / float(height2);
+			m_texWidth = float(width) / float(width2);
+			m_texHeight = float(height) / float(height2);
 		}
 	}
 
 	SDL_LockSurface(s);
 	CreateFromArray(s->pixels, s->w, s->h);
 	SDL_UnlockSurface(s);
+
+	m_width = width;
+	m_height = height;
 
 	if (freeSurface)
 		SDL_FreeSurface(s);
