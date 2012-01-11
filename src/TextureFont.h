@@ -12,6 +12,7 @@ private:
 	class GlyphTexture : public Texture {
 	public:
 		GlyphTexture(Uint8 *data, int width, int height);
+		virtual void Bind();
 	};
 
 public:

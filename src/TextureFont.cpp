@@ -445,3 +445,9 @@ TextureFont::GlyphTexture::GlyphTexture(Uint8 *data, int width, int height) :
 {
 	CreateFromArray(data, width, height);
 }
+
+void TextureFont::GlyphTexture::Bind()
+{
+	Texture::Bind();
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+}
