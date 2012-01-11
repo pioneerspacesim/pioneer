@@ -120,7 +120,16 @@ void Camera::Update()
 		attrs.body = b;
 		Frame::GetFrameRenderTransform(b->GetFrame(), m_camFrame, attrs.viewTransform);
 		attrs.viewCoords = attrs.viewTransform * b->GetInterpolatedPosition();
-		attrs.camDist = attrs.viewCoords.Length();
+		// Large spheres should be drawn after objects past their horizons.
+		// This is just to make sure spikes are drawn properly.
+		if (b->IsType(Object::TERRAINBODY)) {
+			double rad = b->GetSBody()->GetRadius();
+			double len = attrs.viewCoords.Length();
+			attrs.camDist = sqrt(len*len - rad*rad);
+		}
+		else {
+			attrs.camDist = attrs.viewCoords.Length();
+		}		
 		attrs.bodyFlags = b->GetFlags();
 		m_sortedBodies.push_back(attrs);
 	}
@@ -182,7 +191,7 @@ void Camera::Draw()
 		// draw spikes for far objects
 		double screenrad = 500 * rad / attrs->camDist;      // approximate pixel size
 		if (!attrs->body->IsType(Object::STAR) && screenrad < 2) {
-			if (!attrs->body->IsType(Object::PLANET)) continue;
+			if (!attrs->body->IsType(Object::PLANET) && !attrs->body->IsType(Object::SPACESTATION)) continue;
 			// absolute bullshit
 			double spikerad = (7 + 1.5*log10(screenrad)) * rad / screenrad;
 			DrawSpike(spikerad, attrs->viewCoords, attrs->viewTransform);
