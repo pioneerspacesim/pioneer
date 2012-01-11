@@ -31,7 +31,7 @@ Translate:Add({
   ---- SPANISH / ESPAÑOL ----
 
 Translate:Add({
-	Español = {
+	Spanish = {
 		['Cannot compensate for local gravity'] = 'No se puede compensar la gravedad local',
 		['Starport refused docking permission'] = 'Permiso de atraque denegado',
 		['Cannot compute orbit parameters']     = 'Imposible calcular los parámetros orbitales',

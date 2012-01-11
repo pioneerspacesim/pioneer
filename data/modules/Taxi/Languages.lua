@@ -448,7 +448,7 @@ Translate:Add({ Polski = {
 
 ---- SPANISH / ESPAÑOL ----
 
-Translate:AddFlavour('Español','Taxi', {
+Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA: Pasaje para un pequeño grupo al Sistema {system}. Se pagará {cash}.",
   introtext = "Hola, Soy {name} y necesito pasaje para un grupo pequeño al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Pagaré {cash}.",
   whysomuch = "Vamos a visitar a un amigo.",
@@ -462,7 +462,7 @@ Translate:AddFlavour('Español','Taxi', {
   risk = 0.001,
 })
 
-Translate:AddFlavour('Español','Taxi', {
+Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA: Pasaje para un grupo pequeño al Sistema {system}. Se abonará {cash}.",
   introtext = "Saludos, Soy {name} y necesito pasaje para un pequeño grupo al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Abonaré {cash}.",
   whysomuch = "Trabajamos para la corporación {corp} y ellos pagan.",
@@ -476,7 +476,7 @@ Translate:AddFlavour('Español','Taxi', {
   risk = 0,
 })
 
-Translate:AddFlavour('Español','Taxi', {
+Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA: Pasaje para un grupo pequeño al Sistema {system}. Se pagarán {cash}.",
   introtext = "Hola, Mi nombre es {name} y necesito pasaje para un pequeño grupo al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Pagaré {cash}.",
   whysomuch = "Un viaje de negocios rutinario.",
@@ -490,7 +490,7 @@ Translate:AddFlavour('Español','Taxi', {
   risk = 0,
 })
 
-Translate:AddFlavour('Español','Taxi', {
+Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE REQUIERE NAVE: Pasaje al Sistema {system}. Se pagará {cash}.",
   introtext = "Hola, Soy {name} y necesito pasaje al sistema {system} ({sectorx}, {sectory}, {sectorz}). Le pagaré {cash}.",
   whysomuch = "Un antiguo enemigo trata de liquidarme.",
@@ -504,7 +504,7 @@ Translate:AddFlavour('Español','Taxi', {
   risk = 0.73,
 })
 
-Translate:AddFlavour('Español','Taxi', {
+Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA NAVE: Pasaje al Sistema {system}. Se abonarán {cash}.",
   introtext = "Saludos, Mi nombre es {name} y necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Pagaré {cash}.",
   whysomuch = "Soy viajante.",
@@ -518,7 +518,7 @@ Translate:AddFlavour('Español','Taxi', {
   risk = 0.02,
 })
 
-Translate:AddFlavour('Español','Taxi', {
+Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA: Pasaje al Sistema {system}. Se paga {cash}.",
   introtext = "Hola, Soy {name} y necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Pagaré {cash}.",
   whysomuch = "Ah, no lo sabías - Soy una conocida Estrella.",
@@ -532,7 +532,7 @@ Translate:AddFlavour('Español','Taxi', {
   risk = 0.05,
 })
 
-Translate:AddFlavour('Español','Taxi', {
+Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA NAVE: Pasaje al Sistema {system}. Se abonará {cash}.",
   introtext = "Saludos, Mi nombre es {name} y necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Abonaré {cash}.",
   whysomuch = "Soy periodista autónomo.",
@@ -546,7 +546,7 @@ Translate:AddFlavour('Español','Taxi', {
   risk = 0.07,
 })
 
-Translate:AddFlavour('Español','Taxi', {
+Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE REQUIERE NAVE: Pasaje seguro al Sistema {system}. Pagaré {cash}.",
   introtext = "Hola, mi nombre es {name} y necesito pasaje seguro al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Le pagaré {cash}.",
   whysomuch = "La Mafia me quiere fiambre.",
@@ -560,7 +560,7 @@ Translate:AddFlavour('Español','Taxi', {
   risk = 1,
 })
 
-Translate:AddFlavour('Español','Taxi', {
+Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA NAVE: Pasaje en una nave rápida al Sistema {system}.",
   introtext = "Mi nombre es {name}. Necesito pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Pagaré {cash}.",
   whysomuch = "Voy a visitar a un familiar enfermo.",
@@ -574,7 +574,7 @@ Translate:AddFlavour('Español','Taxi', {
   risk = 0.001,
 })
 
-Translate:AddFlavour('Español','Taxi', {
+Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA NAVE: Pasaje en nave rápida al Sistema {system}.",
   introtext = "Mi nombre es {name}. Necesito pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Pagaré {cash}.",
   whysomuch = "La Policiá quiere que colabore en una investigación.",
@@ -588,7 +588,7 @@ Translate:AddFlavour('Español','Taxi', {
   risk = 0.20,
 })
 
-Translate:AddFlavour('Español','Taxi', {
+Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA NAVE: Pasaje en una nave rápida al Sistema {system}.",
   introtext = "Mi nombre es {name}. Quiero pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Pago {cash}.",
   whysomuch = "Me gustaría que nadie me encontrara.",
@@ -602,7 +602,7 @@ Translate:AddFlavour('Español','Taxi', {
   risk = 0.40,
 })
 
-Translate:AddFlavour('Español','Taxi', {
+Translate:AddFlavour('Spanish','Taxi', {
   adtext = "NAVE RÁPIDA: Pasaje en nave rápida al Sistema {system}.",
   introtext = "Mi nombre es {name}. Necesito pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Se pagarán {cash}.",
   whysomuch = "Soy Inspector de Fábricas haciendo mi ronda.",
@@ -616,7 +616,7 @@ Translate:AddFlavour('Español','Taxi', {
   risk = 0.31,
 })
 
-Translate:AddFlavour('Español','Taxi', {
+Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE REQUIERE NAVE: Pasaje al Sistema {system}.",
   introtext = "Mi nombre es {name}. Necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Se le pagará {cash}.",
   whysomuch = "Le debo pasta a alguien, y va tras de mi.",
@@ -630,7 +630,7 @@ Translate:AddFlavour('Español','Taxi', {
   risk = 0.17,
 })
 
-Translate:Add({ Español = {
+Translate:Add({ Spanish = {
   ["Taxi"] = "Taxi",
   ["Why so much money?"] = "Por qué tanto dinero?",
   ["How many of you are there?"] = "Cuántos son?",
