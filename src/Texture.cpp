@@ -70,6 +70,7 @@ void Texture::CreateFromArray(const void *data, unsigned int width, unsigned int
 			break;
 
 		case GL_TEXTURE_2D:
+		case GL_TEXTURE_RECTANGLE:
 			if (m_hasMipmaps)
 				gluBuild2DMipmaps(m_target, m_format.internalFormat, width, height, m_format.dataFormat, m_format.dataType, data);
 			else
