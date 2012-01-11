@@ -166,7 +166,6 @@ void Texture::DrawQuad(float x, float y, float w, float h, float tx, float ty, f
 		x,   y,   tx,    ty
 	};
 
-	glEnable(GetTarget());
 	Bind();
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -180,7 +179,6 @@ void Texture::DrawQuad(float x, float y, float w, float h, float tx, float ty, f
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 	Unbind();
-	glDisable(GetTarget());
 }
 
 
