@@ -75,7 +75,7 @@ public:
 
 // 2d rectangle target, used as base for fancier scene targets
 class SceneTarget : public RectangleTarget {
-public:
+protected:
 	SceneTarget(unsigned int w, unsigned int h) :
 		RectangleTarget(w, h)
 	{ }
@@ -242,7 +242,7 @@ static struct postprocessBuffers_t {
 			}
 		}
 		if (!sceneRT)
-			sceneRT = new SceneTarget(width, height);
+			sceneRT = new StandardSceneTarget(width, height);
 
 		postprocessBloom1Downsample = new PostprocessDownsampleShader("postprocessBloom1Downsample", "#extension GL_ARB_texture_rectangle : enable\n");
 		postprocessBloom2Downsample = new PostprocessShader("postprocessBloom2Downsample", "#extension GL_ARB_texture_rectangle : enable\n");
