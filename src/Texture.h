@@ -47,13 +47,19 @@ public:
 	const Format &GetFormat() const { return m_format; }
 
 	void DrawQuad(float x, float y, float w, float h, float tx, float ty, float tw, float th);
-
 	inline void DrawQuad(float x, float y, float w, float h) {
 		DrawQuad(x, y, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
 	}
-
 	inline void DrawQuad(float w, float h) {
 		DrawQuad(0, 0, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
+	}
+
+	void DrawUIQuad(float x, float y, float w, float h, float tx, float ty, float tw, float th);
+	inline void DrawUIQuad(float x, float y, float w, float h) {
+		DrawUIQuad(x, y, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
+	}
+	inline void DrawUIQuad(float w, float h) {
+		DrawUIQuad(0, 0, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
 	}
 
 protected:
@@ -78,6 +84,8 @@ protected:
 	bool CreateFromFile(const std::string &filename);
 
     GLuint GetGLTexture() const { return m_glTexture; }
+
+    void DrawQuadArray(const GLfloat *array);
 
 private:
 	GLenum m_target; // GL_TEXTURE2D etc.

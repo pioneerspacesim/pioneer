@@ -19,7 +19,7 @@ void TextureFont::RenderGlyph(Uint32 chr, float x, float y)
 	const float w = m_texSize*glyph->width;
 	const float h = m_texSize*glyph->height;
 
-	glyph->texture->DrawQuad(offx, offy, w, h, 0, 0, glyph->width, glyph->height);
+	glyph->texture->DrawUIQuad(offx, offy, w, h, 0, 0, glyph->width, glyph->height);
 
 	s_glyphCount++;
 }

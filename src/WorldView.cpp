@@ -1574,7 +1574,7 @@ void WorldView::DrawImageIndicator(const Indicator &marker, const char *icon_pat
 		const float h = tex->GetHeight();
 		const float x = marker.pos[0] - w/2.0f;
 		const float y = marker.pos[1] - h/2.0f;
-		tex->DrawQuad(x, y, w, h);
+		tex->DrawUIQuad(x, y, w, h);
 	} else
 		DrawEdgeMarker(marker);
 }
