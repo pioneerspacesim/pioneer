@@ -115,11 +115,25 @@ protected:
 		m_glTexture(0)
 	{}
 
-	// create the underlying texture from raw data, a SDL surface or loaded
-	// from a file. the bool return version return true on success
+	// create the underlying texture from raw data. data is expected to be of
+	// the format and type setup by the subclass in its Texture::Format
 	void CreateFromArray(const void *data, unsigned int width, unsigned int height);
-	bool CreateFromSurface(SDL_Surface *s);
-	bool CreateFromFile(const std::string &filename);
+
+	// create the texture from a SDL surface. this method is designed for 24
+	// and 32-bit colour surfaces, and won't work properly if the incoming
+	// data form is something else.
+	//
+	// if forceRGBA is true, incoming surfaces will be converted to RGBA
+	// before being passed to CreateFromArray(). if its false, then 24-bit
+	// surfaces will be converted to RGB and 32-bit to RGBA and the internal
+	// data format will be adjusted appropriately. this can save texture
+	// memory but doesn't always do the right thing if the user expects the
+	// texture to always have an alpha channel (eg for UI textures)
+	bool CreateFromSurface(SDL_Surface *s, bool forceRGBA = true);
+
+	// loads the given file into a SDL surface and passes the result to
+	// CreateFromSurface()
+	bool CreateFromFile(const std::string &filename, bool forceRGBA = true);
 
 	// get the GL texture name. don't use this if you just want to bind the
 	// texture, use Bind() for that.

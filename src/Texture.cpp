@@ -77,9 +77,9 @@ void Texture::CreateFromArray(const void *data, unsigned int width, unsigned int
 	m_height = height;
 }
 
-// RGBA pixel format for converting textures
+// RGBA and RGBpixel format for converting textures
 // XXX little-endian. if we ever have a port to a big-endian arch, invert shift and mask
-static SDL_PixelFormat rgba_pixfmt = {
+static SDL_PixelFormat pixfmtRGBA = {
 	0,                                  // palette
 	32,                                 // bits per pixel
 	4,                                  // bytes per pixel
@@ -90,14 +90,61 @@ static SDL_PixelFormat rgba_pixfmt = {
 	0                                   // alpha
 };
 
-bool Texture::CreateFromSurface(SDL_Surface *s)
+static SDL_PixelFormat pixfmtRGB = {
+	0,                                  // palette
+	24,                                 // bits per pixel
+	3,                                  // bytes per pixel
+	0, 0, 0, 0,                         // RGBA loss
+	16, 8, 0, 0,                        // RGBA shift
+	0xff, 0xff00, 0xff0000, 0,          // RGBA mask
+	0,                                  // colour key
+	0                                   // alpha
+};
+
+static inline bool GetTargetFormat(const SDL_PixelFormat *pixfmt, GLenum *targetGLformat, SDL_PixelFormat **targetPixfmt, bool forceRGBA)
+{
+	if (!forceRGBA && pixfmt->BytesPerPixel == pixfmtRGB.BytesPerPixel && pixfmt->Rmask == pixfmtRGB.Rmask && pixfmt->Bmask == pixfmtRGB.Bmask && pixfmt->Gmask == pixfmtRGB.Gmask) {
+		*targetGLformat = GL_RGB;
+		*targetPixfmt = &pixfmtRGB;
+		return true;
+	}
+
+	if (pixfmt->BytesPerPixel == pixfmtRGBA.BytesPerPixel && pixfmt->Rmask == pixfmtRGBA.Rmask && pixfmt->Bmask == pixfmtRGBA.Bmask && pixfmt->Gmask == pixfmtRGBA.Gmask) {
+		*targetGLformat = GL_RGBA;
+		*targetPixfmt = &pixfmtRGBA;
+		return true;
+	}
+	
+	if (!forceRGBA && pixfmt->BytesPerPixel == 3) {
+		*targetGLformat = GL_RGB;
+		*targetPixfmt = &pixfmtRGB;
+		return false;
+	}
+
+	*targetGLformat = GL_RGBA;
+	*targetPixfmt = &pixfmtRGBA;
+	return false;
+}
+
+bool Texture::CreateFromSurface(SDL_Surface *s, bool forceRGBA)
 {
 	bool freeSurface = false;
 
 	SDL_PixelFormat *pixfmt = s->format;
-	if (pixfmt->BytesPerPixel != rgba_pixfmt.BytesPerPixel || pixfmt->Rmask != rgba_pixfmt.Rmask || pixfmt->Gmask != rgba_pixfmt.Gmask || pixfmt->Bmask != rgba_pixfmt.Bmask) {
-		s = SDL_ConvertSurface(s, &rgba_pixfmt, SDL_SWSURFACE);
+
+	GLenum targetGLformat;
+	SDL_PixelFormat *targetPixfmt;
+	bool needConvert = !GetTargetFormat(pixfmt, &targetGLformat, &targetPixfmt, forceRGBA);
+
+	if (needConvert) {
+		s = SDL_ConvertSurface(s, targetPixfmt, SDL_SWSURFACE);
 		freeSurface = true;
+	}
+
+	// store incoming 24-bit as GL_RGB to save on texture memory
+	if (targetGLformat == GL_RGB && m_format.internalFormat == GL_RGBA) {
+		m_format.internalFormat = GL_RGB;
+		m_format.dataFormat = GL_RGB;
 	}
 
 	unsigned int width = s->w;
@@ -107,7 +154,7 @@ bool Texture::CreateFromSurface(SDL_Surface *s)
 	int width2 = ceil_pow2(s->w);
 	int height2 = ceil_pow2(s->h);
 	if (s->w != width2 || s->h != height2) {
-		SDL_Surface *s2 = SDL_CreateRGBSurface(SDL_SWSURFACE, width2, height2, rgba_pixfmt.BitsPerPixel, rgba_pixfmt.Rmask, rgba_pixfmt.Gmask, rgba_pixfmt.Bmask, rgba_pixfmt.Amask);
+		SDL_Surface *s2 = SDL_CreateRGBSurface(SDL_SWSURFACE, width2, height2, targetPixfmt->BitsPerPixel, targetPixfmt->Rmask, targetPixfmt->Gmask, targetPixfmt->Bmask, targetPixfmt->Amask);
 
 		SDL_SetAlpha(s, 0, 0);
 		SDL_SetAlpha(s2, 0, 0);
@@ -138,7 +185,7 @@ bool Texture::CreateFromSurface(SDL_Surface *s)
 	return true;
 }
 
-bool Texture::CreateFromFile(const std::string &filename)
+bool Texture::CreateFromFile(const std::string &filename, bool forceRGBA)
 {
 	SDL_Surface *s = IMG_Load(filename.c_str());
 	if (!s) {
@@ -146,7 +193,7 @@ bool Texture::CreateFromFile(const std::string &filename)
 		return false;
 	}
 
-	if (!CreateFromSurface(s)) {
+	if (!CreateFromSurface(s, forceRGBA)) {
 		fprintf(stderr, "Texture::CreateFromFile: %s: creating texture from surface failed\n", filename.c_str());
 		SDL_FreeSurface(s);
 		return false;
@@ -212,7 +259,7 @@ ModelTexture::ModelTexture(const std::string &filename, bool preload) :
 void ModelTexture::Load()
 {
 	assert(!IsCreated());
-	CreateFromFile(m_filename);
+	CreateFromFile(m_filename, false);
 }
 
 
