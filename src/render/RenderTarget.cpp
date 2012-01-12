@@ -27,7 +27,7 @@ const char *RenderTarget::fbo_incomplete::what() const throw() {
 }
 
 RenderTarget::RenderTarget(unsigned int w, unsigned int h, GLenum target, const Texture::Format &format) :
-	Texture(target, format, CLAMP, LINEAR, false, false),
+	Texture(target, format, CLAMP, LINEAR, false),
     m_fbo(0)
 {
 	glGenFramebuffersEXT(1, &m_fbo);

@@ -101,16 +101,13 @@ public:
 protected:
 
 	// constructor for subclasses. if wantMipmaps is true then mipmaps will be
-	// generated when the texture is created. if wantPow2Resize is true the
-	// underlying data will be extended (not resized) up the the nearest
-	// power-of-two pixel square when created
-	Texture(GLenum target, const Format &format, WrapMode wrapMode, FilterMode filterMode, bool wantMipmaps, bool wantPow2Resize) :
+	// generated when the texture is created.
+	Texture(GLenum target, const Format &format, WrapMode wrapMode, FilterMode filterMode, bool wantMipmaps) :
 		m_target(target),
 		m_format(format),
 		m_wrapMode(wrapMode),
 		m_filterMode(filterMode),
 		m_wantMipmaps(wantMipmaps),
-		m_wantPow2Resize(wantPow2Resize),
 		m_width(0),
 		m_height(0),
 		m_texWidth(0.0f),

@@ -99,29 +99,27 @@ bool Texture::CreateFromSurface(SDL_Surface *s)
 	unsigned int width = s->w;
 	unsigned int height = s->h;
 
-	m_texWidth = m_texHeight = 1.0f;
+	// extend to power-of-two if necessary
+	int width2 = ceil_pow2(s->w);
+	int height2 = ceil_pow2(s->h);
+	if (s->w != width2 || s->h != height2) {
+		SDL_Surface *s2 = SDL_CreateRGBSurface(SDL_SWSURFACE, width2, height2, rgba_pixfmt.BitsPerPixel, rgba_pixfmt.Rmask, rgba_pixfmt.Gmask, rgba_pixfmt.Bmask, rgba_pixfmt.Amask);
 
-	if (m_wantPow2Resize) {
-		int width2 = ceil_pow2(s->w);
-		int height2 = ceil_pow2(s->h);
+		SDL_SetAlpha(s, 0, 0);
+		SDL_SetAlpha(s2, 0, 0);
+		SDL_BlitSurface(s, 0, s2, 0);
 
-		if (s->w != width2 || s->h != height2) {
-			SDL_Surface *s2 = SDL_CreateRGBSurface(SDL_SWSURFACE, width2, height2, rgba_pixfmt.BitsPerPixel, rgba_pixfmt.Rmask, rgba_pixfmt.Gmask, rgba_pixfmt.Bmask, rgba_pixfmt.Amask);
+		if (freeSurface)
+			SDL_FreeSurface(s);
 
-			SDL_SetAlpha(s, 0, 0);
-			SDL_SetAlpha(s2, 0, 0);
-			SDL_BlitSurface(s, 0, s2, 0);
+		s = s2;
+		freeSurface = true;
 
-			if (freeSurface)
-				SDL_FreeSurface(s);
-
-			s = s2;
-			freeSurface = true;
-
-			m_texWidth = float(width) / float(width2);
-			m_texHeight = float(height) / float(height2);
-		}
+		m_texWidth = float(width) / float(width2);
+		m_texHeight = float(height) / float(height2);
 	}
+	else
+		m_texWidth = m_texHeight = 1.0f;
 
 	SDL_LockSurface(s);
 	CreateFromArray(s->pixels, s->w, s->h);
@@ -200,7 +198,7 @@ void Texture::DrawQuadArray(const GLfloat *array)
 
 
 ModelTexture::ModelTexture(const std::string &filename, bool preload) :
-	Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), REPEAT, NEAREST, true, false),
+	Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), REPEAT, NEAREST, true),
 	m_filename(filename)
 {
 	if (preload)
@@ -215,13 +213,13 @@ void ModelTexture::Load()
 
 
 UITexture::UITexture(SDL_Surface *s) :
-    Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false, true)
+    Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false)
 {
 	CreateFromSurface(s);
 }
 
 UITexture::UITexture(const std::string &filename) :
-    Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false, true)
+    Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false)
 {
 	CreateFromFile(filename);
 }
