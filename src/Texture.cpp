@@ -17,19 +17,6 @@ void Texture::Unbind()
 	glBindTexture(m_target, 0);
 }
 
-// RGBA pixel format for converting textures
-// XXX little-endian. if we ever have a port to a big-endian arch, invert shift and mask
-static SDL_PixelFormat rgba_pixfmt = {
-	0,                                  // palette
-	32,                                 // bits per pixel
-	4,                                  // bytes per pixel
-	0, 0, 0, 0,                         // RGBA loss
-	24, 16, 8, 0,                       // RGBA shift
-	0xff, 0xff00, 0xff0000, 0xff000000, // RGBA mask
-	0,                                  // colour key
-	0                                   // alpha
-};
-
 void Texture::CreateFromArray(const void *data, unsigned int width, unsigned int height)
 {
 	if (m_glTexture) {
@@ -85,6 +72,19 @@ void Texture::CreateFromArray(const void *data, unsigned int width, unsigned int
 	m_width = width;
 	m_height = height;
 }
+
+// RGBA pixel format for converting textures
+// XXX little-endian. if we ever have a port to a big-endian arch, invert shift and mask
+static SDL_PixelFormat rgba_pixfmt = {
+	0,                                  // palette
+	32,                                 // bits per pixel
+	4,                                  // bytes per pixel
+	0, 0, 0, 0,                         // RGBA loss
+	24, 16, 8, 0,                       // RGBA shift
+	0xff, 0xff00, 0xff0000, 0xff000000, // RGBA mask
+	0,                                  // colour key
+	0                                   // alpha
+};
 
 bool Texture::CreateFromSurface(SDL_Surface *s)
 {
