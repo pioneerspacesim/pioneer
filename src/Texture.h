@@ -83,10 +83,10 @@ protected:
 
     GLuint GetGLTexture() const { return m_glTexture; }
 
-    void DrawQuadArray(const GLfloat *array);
-
 private:
 	Texture(const Texture &) : m_format(0,0,0) {}
+
+	void DrawQuadArray(const GLfloat *array);
 
 	GLenum m_target; // GL_TEXTURE2D etc.
 	
