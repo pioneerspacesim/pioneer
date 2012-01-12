@@ -198,7 +198,7 @@ void Texture::DrawQuadArray(const GLfloat *array)
 
 
 ModelTexture::ModelTexture(const std::string &filename, bool preload) :
-	Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), REPEAT, NEAREST, true),
+	Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), REPEAT, LINEAR, true),
 	m_filename(filename)
 {
 	if (preload)
