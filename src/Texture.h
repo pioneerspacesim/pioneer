@@ -50,7 +50,6 @@ public:
 	// bind/unbind the texture to the currently active texture unit
 	virtual void Bind();
 	virtual void Unbind();
-	//perhaps also Bind(int) so you can switch active texture unit
 
 	// see if the texture has an underlying GL texture yet. allows subclasses
 	// to support on-demand texture loading. Bind() will assert if IsCreated()
