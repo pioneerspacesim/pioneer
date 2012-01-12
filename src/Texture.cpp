@@ -30,12 +30,12 @@ void Texture::CreateFromArray(const void *data, unsigned int width, unsigned int
 	glBindTexture(m_target, m_glTexture);
 
 	if (m_wrapMode == CLAMP) {
-		glTexParameterf(m_target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(m_target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(m_target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(m_target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	}
 	else {
-		glTexParameterf(m_target, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameterf(m_target, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(m_target, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(m_target, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	}
 
 	if (m_filterMode == NEAREST) {
