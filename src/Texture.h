@@ -63,8 +63,6 @@ public:
 	}
 
 protected:
-	Texture(const Texture &) : m_format(0,0,0) {}
-
 	Texture(GLenum target, const Format &format, WrapMode wrapMode, FilterMode filterMode, bool hasMipmaps, bool wantPow2Resize) :
 		m_target(target),
 		m_format(format),
@@ -88,6 +86,8 @@ protected:
     void DrawQuadArray(const GLfloat *array);
 
 private:
+	Texture(const Texture &) : m_format(0,0,0) {}
+
 	GLenum m_target; // GL_TEXTURE2D etc.
 	
 	Format m_format;
