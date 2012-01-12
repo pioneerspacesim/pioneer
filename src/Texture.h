@@ -4,9 +4,22 @@
 #include "libs.h"
 #include "RefCounted.h"
 
+/*
+ * Texture is a class to manage the details of a single texture. you can't
+ * instantiate this class directly. most of the time you'll want either
+ * UITexture or ModelTexture, which will create an appropriate texture for
+ * general UI or world drawing use.
+ *
+ * Textures are not copyable, but are RefCounted. if you need to store them in
+ * a standard container, wrap them with a RefCountedPtr.
+ */
 class Texture : public RefCounted {
 public:
 
+	// texture format definition. holds details of how the texture is stored
+	// internally in GL and what the incoming data looks like. see the docs
+	// for glTexImage* for details. You don't need to worry about this unless
+	// you're subclassing Texture.
 	struct Format {
 		Format(GLint internalFormat_, GLenum dataFormat_, GLenum dataType_) :
 			internalFormat(internalFormat_),
@@ -18,34 +31,55 @@ public:
 		GLenum dataType;      // GL_UNSIGNED_BYTE etc.
 	};
 
+	// wrap mode. decides what to do when the texture is not large enough to
+	// cover the mesh. ignore unless subclassing.
 	enum WrapMode {
-		REPEAT,
-		CLAMP
+		REPEAT, // GL_REPEAT
+		CLAMP   // GL_CLAMP_TO_EDGE
 	};
 
+    // filter mode. decides how texture elements are mapped to the mesh.
+    // ignore unless subclassing.
 	enum FilterMode {
-		NEAREST, //sharp
-		LINEAR   //smooth (Texture will pick bilinear/trilinear, maybe anisotropic according to graphics settings)
+		NEAREST, // GL_NEAREST, sharp
+		LINEAR   // GL_LINEAR, smooth
 	};
 
 	virtual ~Texture();
 
+	// bind/unbind the texture to the currently active texture unit
 	virtual void Bind();
 	virtual void Unbind();
 	//perhaps also Bind(int) so you can switch active texture unit
 
+	// see if the texture has an underlying GL texture yet. allows subclasses
+	// to support on-demand texture loading. Bind() will assert if IsCreated()
+	// is false.
 	bool IsCreated() const { return m_glTexture != 0; }
 	
+	// get the texture target, eg GL_TEXTURE_2D. set by the subclass
 	GLenum GetTarget() const { return m_target; }
 	
+	// return the pixel height/width of the texture. this usually corresponds
+	// to the size of the data that was used to create the texture (eg the
+	// on-disk image file)
 	int GetWidth() const { return m_width; }
 	int GetHeight() const { return m_height; }
 
+	// return the texel height/width of the texture. this will typically be
+	// [1.0f,1.0f] but might not be if the texture has been resized (eg for
+	// power-of-two restrictions)
 	float GetTextureWidth() const { return m_texWidth; }
 	float GetTextureHeight() const { return m_texHeight; }
 
+	// return the Texture::Format definition of this texture. useful if you
+	// need to know the underlying texture format
 	const Format &GetFormat() const { return m_format; }
 
+	// convenience methods to draw a quad using this texture. it will enable
+	// the target and bind the texture, draw the quad and then unbind the
+	// texture and disbale the target. x/y/w/h are the position and size of
+	// the quad, tx/ty/tw/th are the texel position/size of the texture.
 	void DrawQuad(float x, float y, float w, float h, float tx, float ty, float tw, float th);
 	inline void DrawQuad(float x, float y, float w, float h) {
 		DrawQuad(x, y, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
@@ -54,6 +88,9 @@ public:
 		DrawQuad(0, 0, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
 	}
 
+	// like DrawQuad, but for drawing the quad for the UI. Pioneer's UI is
+	// inverted so that the y-coord goes down the screen instead of up. this
+	// draws the quad with opposite winding so it does the right thing.
 	void DrawUIQuad(float x, float y, float w, float h, float tx, float ty, float tw, float th);
 	inline void DrawUIQuad(float x, float y, float w, float h) {
 		DrawUIQuad(x, y, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
@@ -63,12 +100,17 @@ public:
 	}
 
 protected:
-	Texture(GLenum target, const Format &format, WrapMode wrapMode, FilterMode filterMode, bool hasMipmaps, bool wantPow2Resize) :
+
+	// constructor for subclasses. if wantMipmaps is true then mipmaps will be
+	// generated when the texture is created. if wantPow2Resize is true the
+	// underlying data will be extended (not resized) up the the nearest
+	// power-of-two pixel square when created
+	Texture(GLenum target, const Format &format, WrapMode wrapMode, FilterMode filterMode, bool wantMipmaps, bool wantPow2Resize) :
 		m_target(target),
 		m_format(format),
 		m_wrapMode(wrapMode),
 		m_filterMode(filterMode),
-		m_hasMipmaps(hasMipmaps),
+		m_wantMipmaps(wantMipmaps),
 		m_wantPow2Resize(wantPow2Resize),
 		m_width(0),
 		m_height(0),
@@ -77,23 +119,27 @@ protected:
 		m_glTexture(0)
 	{}
 
+	// create the underlying texture from raw data, a SDL surface or loaded
+	// from a file. the bool return version return true on success
 	void CreateFromArray(const void *data, unsigned int width, unsigned int height);
 	bool CreateFromSurface(SDL_Surface *s);
 	bool CreateFromFile(const std::string &filename);
 
-    GLuint GetGLTexture() const { return m_glTexture; }
+	// get the GL texture name. don't use this if you just want to bind the
+	// texture, use Bind() for that.
+	GLuint GetGLTexture() const { return m_glTexture; }
 
 private:
 	Texture(const Texture &) : m_format(0,0,0) {}
 
 	void DrawQuadArray(const GLfloat *array);
 
-	GLenum m_target; // GL_TEXTURE2D etc.
+	GLenum m_target;
 	
 	Format m_format;
 	WrapMode m_wrapMode;
 	FilterMode m_filterMode;
-	bool m_hasMipmaps;
+	bool m_wantMipmaps;
 	bool m_wantPow2Resize;
 
 	unsigned int m_width;
@@ -106,6 +152,8 @@ private:
 };
 
 
+// subclass for model textures. primarily allows lazy-loaded textures, where
+// they aren't pulled from disk until the first call to Bind().
 class ModelTexture : public Texture {
 public:
 	ModelTexture(const std::string &filename, bool preload = false);
@@ -125,6 +173,8 @@ private:
 };
 
 
+// subclass for UI textures. these can be constructed directly from a SDL
+// surface or loaded from disk
 class UITexture : public Texture {
 public:
 	UITexture(SDL_Surface *s);

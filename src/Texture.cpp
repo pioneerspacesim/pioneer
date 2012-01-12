@@ -53,23 +53,23 @@ void Texture::CreateFromArray(const void *data, unsigned int width, unsigned int
 
 	if (m_filterMode == NEAREST) {
 		glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, m_hasMipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, m_wantMipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
 	}
 	else {
 		glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, m_hasMipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, m_wantMipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
 	}
 
 	// XXX feels a bit icky
 	switch (m_target) {
 		case GL_TEXTURE_1D:
-			assert(!m_hasMipmaps);
+			assert(!m_wantMipmaps);
 			glTexImage1D(GL_TEXTURE_1D, 0, m_format.internalFormat, width, 0, m_format.dataFormat, m_format.dataType, data);
 			break;
 
 		case GL_TEXTURE_2D:
 		case GL_TEXTURE_RECTANGLE:
-			if (m_hasMipmaps)
+			if (m_wantMipmaps)
 				gluBuild2DMipmaps(m_target, m_format.internalFormat, width, height, m_format.dataFormat, m_format.dataType, data);
 			else
 				glTexImage2D(m_target, 0, m_format.internalFormat, width, height, 0, m_format.dataFormat, m_format.dataType, data);
