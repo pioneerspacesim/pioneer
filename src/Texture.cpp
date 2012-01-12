@@ -181,6 +181,7 @@ void Texture::DrawUIQuad(float x, float y, float w, float h, float tx, float ty,
 
 void Texture::DrawQuadArray(const GLfloat *array)
 {
+	glEnable(GetTarget());
 	Bind();
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -194,6 +195,7 @@ void Texture::DrawQuadArray(const GLfloat *array)
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 	Unbind();
+	glDisable(GetTarget());
 }
 
 
