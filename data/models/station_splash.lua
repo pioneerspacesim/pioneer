@@ -1,15 +1,16 @@
 define_model('station_splash', {
 	info = {
 			bounding_radius = 1.0,
-			materials = { 'bg', 'text', 'glow1'},
+			materials = { 'splash' },
 			tags = {'advert'}
 		},
 	static = function(lod)
-		set_material('bg', .8,.8,.8,1)
-		set_material('glow1', 0,0,0,1,0,0,0,0,1,2,2.5)
-		--use_material('bg')
-		use_material('glow1')
+		set_material('splash', 1,1,1,1)
+		use_material('splash')
 
+		set_light(1, 0.00005, v(0,0,1), v(1,1,1))
+		set_local_lighting(true)
+		use_light(1)
 	
 		zbias(1, v(0,0,0), v(0,0,1))
 		texture('ships/default_ship_textures/station_splash.png', v(.5,.5,0),v(.5,0,0),v(0,-1,0))
