@@ -17,6 +17,7 @@ private:
 
 public:
 	TextureFont(FontManager &fm, const std::string &config_filename);
+	~TextureFont();
 
 	void RenderString(const char *str, float x, float y);
 	void RenderMarkup(const char *str, float x, float y);
@@ -29,7 +30,7 @@ public:
 	float GetWidth() const { return m_width; }
 	float GetDescender() const { return m_descender; }
 	struct glfglyph_t {
-		RefCountedPtr<GlyphTexture> texture;
+		GlyphTexture *texture;
 		float advx, advy;
 		float width, height;
 		int offx, offy;

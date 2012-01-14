@@ -2,18 +2,14 @@
 #define _TEXTURE_H
 
 #include "libs.h"
-#include "RefCounted.h"
 
 /*
  * Texture is a class to manage the details of a single texture. you can't
  * instantiate this class directly. most of the time you'll want either
  * UITexture or ModelTexture, which will create an appropriate texture for
  * general UI or world drawing use.
- *
- * Textures are not copyable, but are RefCounted. if you need to store them in
- * a standard container, wrap them with a RefCountedPtr.
  */
-class Texture : public RefCounted {
+class Texture {
 public:
 
 	// texture format definition. holds details of how the texture is stored
@@ -140,6 +136,7 @@ protected:
 	GLuint GetGLTexture() const { return m_glTexture; }
 
 private:
+	// textures should not be copied as they have shared GL state
 	Texture(const Texture &) : m_format(0,0,0) {}
 
 	void DrawQuadArray(const GLfloat *array);

@@ -422,7 +422,7 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 
 		FT_Done_Glyph(glyph);
 
-		glfglyph.texture.Reset(new GlyphTexture(pixBuf, sz, sz));
+		glfglyph.texture = new GlyphTexture(pixBuf, sz, sz);
 
 		glfglyph.advx = float(m_face->glyph->advance.x) / 64.0 + advx_adjust;
 		glfglyph.advy = float(m_face->glyph->advance.y) / 64.0;
@@ -437,6 +437,14 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 	m_height = float(a_height);
 	m_width = float(a_width);
 	m_descender = -float(m_face->descender) / 64.0;
+}
+
+TextureFont::~TextureFont()
+{
+	for (std::map<Uint32,glfglyph_t>::const_iterator i = m_glyphs.begin(); i != m_glyphs.end(); ++i) {
+		if ((*i).second.texture)
+			delete (*i).second.texture;
+	}
 }
 
 
