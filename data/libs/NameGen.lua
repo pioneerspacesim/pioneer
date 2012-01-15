@@ -6,14 +6,18 @@ NameGen = {
 		female = {},
 	},
 	surnames = {},
-    planetFormats = {},
-    starportFormats = {},
+
+	outdoorPlanetFormats = {},
+	rockPlanetFormats = {},
+
+	orbitalStarportFormats = {},
+	surfaceStarportFormats = {},
 
     FullName = function (isfemale, rand)
 		if not rand then rand = Engine.rand end
 
-        local firstname
-        if isfemale then
+		local firstname
+		if isfemale then
 			firstname = r(NameGen.firstNames.female, rand)
 		else
             firstname = r(NameGen.firstNames.male, rand)
@@ -29,17 +33,28 @@ NameGen = {
 	end,
 
 	BodyName = function (body, rand)
+		if not rand then rand = Engine.rand end
+
 		if body.type == "STARPORT_ORBITAL" then
-			return r(NameGen.surnames, rand) .. " Spaceport"
+			return string.interp(r(NameGen.orbitalStarportFormats, rand), { name = NameGen.Surname(rand) })
 		end
 
 		if body.type == "STARPORT_SURFACE" then
-			return r(NameGen.surnames, rand) .. " Starport"
+			return string.interp(r(NameGen.surfaceStarportFormats, rand), { name = NameGen.Surname(rand) })
 		end
 
-		print("such fun")
-		return "such fun"
+		if body.superType == "ROCKY_PLANET" then
 
+			-- XXX -15-50C is "outdoor". once more planet composition
+			-- attributes are exposed we can do better here
+			if body.averageTemp >= 258 and body.averageTemp <= 323 then
+				return string.interp(r(NameGen.outdoorPlanetFormats, rand), { name = NameGen.Surname(rand) })
+			end
+
+			return string.interp(r(NameGen.rockPlanetFormats, rand), { name = NameGen.Surname(rand) })
+		end
+
+		error("No available namegen for body type '" .. body.type .. "'")
 	end
 }
 
@@ -170,4 +185,51 @@ NameGen.surnames = {
 	'Tsou', 'Shih', 'Hsiung', 'Yen', 'Hou', 'Lei', 'Lung', 'Tuan', 'Hao',
 	'Shao', 'Shih', 'Mao', 'Wan', 'Kang', 'Yen', 'Yin', 'Shih', 'Niu', 'Hung',
 	'Kung',
+}
+
+NameGen.outdoorPlanetFormats = {
+	"{name}",
+	"{name}'s World",
+	"{name}world",
+	"{name} Colony",
+	"{name}'s Hope",
+	"{name}'s Dream",
+	"New {name}",
+}
+
+NameGen.rockPlanetFormats = {
+	"{name}'s Mine",
+	"{name}'s Claim",
+	"{name}'s Folly",
+	"{name}'s Grave",
+	"{name}'s Misery",
+	"{name} Colony",
+	"{name}'s Rock",
+}
+
+NameGen.orbitalStarportFormats = {
+	"{name}",
+	"{name} Spaceport",
+	"{name} High",
+	"{name} Orbiter",
+	"{name} Base",
+	"{name} Station",
+	"{name} Outpost",
+	"{name} Citadel",
+	"{name} Platform",
+}
+
+NameGen.surfaceStarportFormats = {
+	"{name}",
+	"{name}",
+	"{name} Starport",
+	"{name} Town",
+	"{name} City",
+	"{name} Village",
+	"Fort {name}",
+	"Fortress {name}",
+	"{name} Base",
+	"{name} Station",
+	"{name}ton",
+	"{name}ville",
 }

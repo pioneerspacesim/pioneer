@@ -1874,7 +1874,7 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	}
 
 	if (!system->m_hasCustomBodies && m_population > fixed(1,10))
-		name = NameGenerator::PlanetName(rand);
+		name = Pi::luaNameGen->BodyName(this, rand);
 	
 	// Add a bunch of things people consume
 	for (int i=0; i<NUM_CONSUMABLES; i++) {
