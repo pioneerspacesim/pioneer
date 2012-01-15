@@ -20,7 +20,7 @@ static bool GetNameGenFunc(lua_State *l, const char *func)
 
 	lua_getfield(l, -1, func);
 	if (lua_isnil(l, -1)) {
-		lua_pop(l, 1);
+		lua_pop(l, 2);
 		LUA_DEBUG_END(l, 0);
 		return false;
 	}
