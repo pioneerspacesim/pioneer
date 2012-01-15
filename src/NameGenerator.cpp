@@ -61,20 +61,10 @@ namespace NameGenerator {
 		fclose(f);
 	}
 
-	std::string FullName(MTRand &rng, bool genderFemale)
-	{
-		return Pi::luaNameGen->FullName(genderFemale, rng);
-	}
-
-	std::string Surname(MTRand &rng)
-	{
-		return Pi::luaNameGen->Surname(rng);
-	}
-	
 	std::string PlanetName(MTRand &rng)
 	{
 		const char *format = planet_names[rng.Int32(planet_names.size())].c_str();
-		return stringf(format, Surname(rng).c_str());
+		return stringf(format, Pi::luaNameGen->Surname(rng).c_str());
 	}
 }
 
