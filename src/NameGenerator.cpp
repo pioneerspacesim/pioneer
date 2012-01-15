@@ -1,6 +1,8 @@
 #include "libs.h"
 #include "mtrand.h"
 #include "StringF.h"
+#include "Pi.h"
+#include "LuaNameGen.h"
 
 namespace NameGenerator {
 	/* in the future the western way is the only way... :-/ */
@@ -61,21 +63,12 @@ namespace NameGenerator {
 
 	std::string FullName(MTRand &rng, bool genderFemale)
 	{
-		std::string name;
-		
-		if (genderFemale) {
-			name = forenames_female[rng.Int32(forenames_female.size())];
-		} else {
-			name = forenames_male[rng.Int32(forenames_male.size())];
-		}
-
-		name += " " + surnames[rng.Int32(surnames.size())];
-		return name;
+		return Pi::luaNameGen->FullName(genderFemale, rng);
 	}
 
 	std::string Surname(MTRand &rng)
 	{
-		return surnames[rng.Int32(surnames.size())];
+		return Pi::luaNameGen->Surname(rng);
 	}
 	
 	std::string PlanetName(MTRand &rng)

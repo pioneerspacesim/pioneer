@@ -104,6 +104,7 @@ LuaEventQueue<SpaceStation> *Pi::luaOnUpdateBB;
 LuaEventQueue<> *Pi::luaOnSongFinished;
 LuaEventQueue<Ship> *Pi::luaOnShipFlavourChanged;
 LuaEventQueue<Ship,const char *> *Pi::luaOnShipEquipmentChanged;
+LuaNameGen *Pi::luaNameGen;
 int Pi::keyModState;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[6];
@@ -266,7 +267,6 @@ static void LuaInit()
 	LuaUI::Register();
 	LuaFormat::Register();
 	LuaSpace::Register();
-	LuaNameGen::Register();
 	LuaMusic::Register();
 
 	LuaConsole::Register();
@@ -276,9 +276,13 @@ static void LuaInit()
 	// XXX load everything. for now, just modules
 	pi_lua_dofile_recursive(l, PIONEER_DATA_DIR "/libs");
 	pi_lua_dofile_recursive(l, PIONEER_DATA_DIR "/modules");
+
+	Pi::luaNameGen = new LuaNameGen(Pi::luaManager);
 }
 
 static void LuaUninit() {
+	delete Pi::luaNameGen;
+
 	delete Pi::luaOnGameStart;
 	delete Pi::luaOnGameEnd;
 	delete Pi::luaOnEnterSystem;
