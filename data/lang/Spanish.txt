@@ -944,10 +944,6 @@ VAST_STRIP_MINE
     Colonia minera masiva.
 HIGH_POPULATION_OUTDOOR_WORLD
     Mundo exterior muy poblado.
-SOMEWHERE_SPACEPORT
-    Estación espacial %spaceport 
-SOMEWHERE_STARPORT
-    Puerto estelar %starport 
 MASS
     Masa
 N_WHATEVER_MASSES

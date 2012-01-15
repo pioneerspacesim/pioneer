@@ -1941,7 +1941,6 @@ void SBody::PopulateAddStations(StarSystem *system)
 		sp->orbMin = sp->semiMajorAxis;
 		sp->orbMax = sp->semiMajorAxis;
 
-		// XXX sp->name = stringf(Lang::SOMEWHERE_SPACEPORT, formatarg("spaceport", Pi::luaNameGen->Surname(rand)));
 		sp->name = Pi::luaNameGen->BodyName(sp, rand);
 
 		pop -= rand.Fixed();
@@ -1951,7 +1950,6 @@ void SBody::PopulateAddStations(StarSystem *system)
 			*sp2 = *sp;
 			sp2->path = path2;
 			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
-			// XXX sp2->name = stringf(Lang::SOMEWHERE_SPACEPORT, formatarg("spaceport", Pi::luaNameGen->Surname(rand)));
 			sp2->name = Pi::luaNameGen->BodyName(sp2, rand);
 			children.insert(children.begin(), sp2);
 			system->m_spaceStations.push_back(sp2);
@@ -1971,7 +1969,6 @@ void SBody::PopulateAddStations(StarSystem *system)
 		sp->parent = this;
 		sp->averageTemp = this->averageTemp;
 		sp->mass = 0;
-		// XXX sp->name = stringf(Lang::SOMEWHERE_STARPORT, formatarg("starport", Pi::luaNameGen->Surname(rand)));
 		sp->name = Pi::luaNameGen->BodyName(sp, rand);
 		memset(&sp->orbit, 0, sizeof(Orbit));
 		position_settlement_on_planet(sp);
