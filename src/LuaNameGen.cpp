@@ -7,6 +7,7 @@
 static const std::string defaultMaleFullName("Tom Morton");
 static const std::string defaultFemaleFullName("Thomasina Mortonella");
 static const std::string defaultSurname("Jameson");
+static const std::string defaultBodyName("Planet Rock");
 
 static bool GetNameGenFunc(lua_State *l, const char *func)
 {
@@ -36,7 +37,9 @@ std::string LuaNameGen::FullName(bool isFemale, MTRand &rng)
 {
 	lua_State *l = m_luaManager->GetLuaState();
 
-	GetNameGenFunc(l, "FullName");
+	if (!GetNameGenFunc(l, "FullName"))
+		return isFemale ? defaultFemaleFullName : defaultMaleFullName;
+
 	LuaRand::PushToLua(&rng);
 	lua_pushboolean(l, isFemale);
 	pi_lua_protected_call(l, 2, 1);
@@ -51,7 +54,9 @@ std::string LuaNameGen::Surname(MTRand &rng)
 {
 	lua_State *l = m_luaManager->GetLuaState();
 
-	GetNameGenFunc(l, "Surname");
+	if (!GetNameGenFunc(l, "Surname"))
+		return defaultSurname;
+
 	LuaRand::PushToLua(&rng);
 	pi_lua_protected_call(l, 1, 1);
 
@@ -65,7 +70,9 @@ std::string LuaNameGen::BodyName(SBody *body, MTRand &rng)
 {
 	lua_State *l = m_luaManager->GetLuaState();
 
-	GetNameGenFunc(l, "BodyName");
+	if (!GetNameGenFunc(l, "BodyName"))
+		return defaultBodyName;
+
 	LuaSBody::PushToLua(body);
 	LuaRand::PushToLua(&rng);
 	pi_lua_protected_call(l, 2, 1);
