@@ -65,7 +65,6 @@ Group: Src  {
    File: Lang  (/home/rob/code/pioneer/src/LuaLang.cpp)
    File: LMR  (/home/rob/code/pioneer/src/LmrModel.cpp)
    File: Music  (/home/rob/code/pioneer/src/LuaMusic.cpp)
-   File: NameGen  (/home/rob/code/pioneer/src/LuaNameGen.cpp)
    File: Object  (/home/rob/code/pioneer/src/LuaObject.cpp)
    File: Planet  (/home/rob/code/pioneer/src/LuaPlanet.cpp)
    File: Player  (/home/rob/code/pioneer/src/LuaPlayer.cpp)
@@ -83,6 +82,7 @@ Group: Src  {
    }  # Group: Src
 
 File: Character  (no auto-title, /home/rob/code/pioneer/data/libs/Characters.lua)
+File: NameGen  (/home/rob/code/pioneer/data/libs/NameGen.lua)
 File: Translate  (/home/rob/code/pioneer/data/libs/Translate.lua)
 
 Group: Index  {
