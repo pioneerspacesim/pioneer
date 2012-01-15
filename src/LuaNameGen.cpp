@@ -40,8 +40,8 @@ std::string LuaNameGen::FullName(bool isFemale, MTRand &rng)
 	if (!GetNameGenFunc(l, "FullName"))
 		return isFemale ? defaultFemaleFullName : defaultMaleFullName;
 
-	LuaRand::PushToLua(&rng);
 	lua_pushboolean(l, isFemale);
+	LuaRand::PushToLua(&rng);
 	pi_lua_protected_call(l, 2, 1);
 
 	std::string fullname = luaL_checkstring(l, -1);
