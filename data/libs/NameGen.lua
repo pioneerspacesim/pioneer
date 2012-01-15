@@ -27,6 +27,20 @@ NameGen = {
 
 		return r(NameGen.surnames, rand)
 	end,
+
+	BodyName = function (body, rand)
+		if body.type == "STARPORT_ORBITAL" then
+			return r(NameGen.surnames, rand) .. " Spaceport"
+		end
+
+		if body.type == "STARPORT_SURFACE" then
+			return r(NameGen.surnames, rand) .. " Starport"
+		end
+
+		print("such fun")
+		return "such fun"
+
+	end
 }
 
 NameGen.firstNames.male = {

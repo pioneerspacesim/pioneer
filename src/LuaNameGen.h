@@ -5,6 +5,7 @@
 
 class LuaManager;
 class MTRand;
+class SBody;
 
 class LuaNameGen {
 public:
@@ -12,7 +13,7 @@ public:
 
 	std::string FullName(bool isFemale, MTRand &rng);
 	std::string Surname(MTRand &rng);
-	//std::string PlanetName(MTRand &rng);
+	std::string BodyName(SBody *body, MTRand &rng);
 
 private:
 	LuaManager *m_luaManager;
