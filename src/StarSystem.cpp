@@ -1,7 +1,6 @@
 #include "StarSystem.h"
 #include "Sector.h"
 #include "Serializer.h"
-#include "NameGenerator.h"
 #include "Pi.h"
 #include "LuaNameGen.h"
 #include <map>

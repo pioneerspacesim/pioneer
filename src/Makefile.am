@@ -82,7 +82,6 @@ noinst_HEADERS = \
 	Missile.h \
 	ModelBody.h \
 	MyLuaMathTypes.h \
-	NameGenerator.h \
 	Object.h \
 	ObjectViewerView.h \
 	PersistSystemData.h \
@@ -214,7 +213,6 @@ pioneer_SOURCES	= \
 	Missile.cpp \
 	ModelBody.cpp \
 	MyLuaMathTypes.cpp \
-	NameGenerator.cpp \
 	ObjectViewerView.cpp \
 	Pi.cpp \
 	PiLuaClasses.cpp \

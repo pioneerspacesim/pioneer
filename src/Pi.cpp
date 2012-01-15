@@ -19,7 +19,6 @@
 #include "CargoBody.h"
 #include "InfoView.h"
 #include "Serializer.h"
-#include "NameGenerator.h"
 #include "GeoSphere.h"
 #include "Sound.h"
 #include "Polit.h"
@@ -507,9 +506,6 @@ void Pi::Init()
 
 	Galaxy::Init();
 	draw_progress(0.2f);
-
-	NameGenerator::Init();
-	draw_progress(0.3f);
 
 	if (config.Int("DisableShaders")) Render::ToggleShaders();
 	if (config.Int("EnableHDR")) Render::ToggleHDR();
