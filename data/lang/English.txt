@@ -944,10 +944,6 @@ VAST_STRIP_MINE
     Vast strip-mining colony.
 HIGH_POPULATION_OUTDOOR_WORLD
     High population outdoor world.
-SOMEWHERE_SPACEPORT
-    %spaceport Spaceport
-SOMEWHERE_STARPORT
-    %starport Starport
 MASS
     Mass
 N_WHATEVER_MASSES

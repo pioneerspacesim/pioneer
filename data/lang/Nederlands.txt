@@ -919,10 +919,6 @@ VAST_STRIP_MINE
     Enorme mijnbouw-kolonie (dagbouw).
 HIGH_POPULATION_OUTDOOR_WORLD
     Openlucht-wereld met hoge populatie.
-SOMEWHERE_SPACEPORT
-     " Ruimtehaven"
-SOMEWHERE_STARPORT
-     " Sterrehaven"
 MASS
     Massa
 N_WHATEVER_MASSES

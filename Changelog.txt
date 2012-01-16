@@ -1,3 +1,12 @@
+Alpha 19
+
+   * New features
+     * Lua-based body name generator. Planets and starports now have much more
+       interesting/varied names (#896)
+
+   * Script changes
+     * Removed NameGen.PlanetName and replaced with NameGen.BodyName (#896)
+
 Alpha 18
 
    * New features

@@ -940,10 +940,6 @@ VAST_STRIP_MINE
     Vast strip-mining colony.
 HIGH_POPULATION_OUTDOOR_WORLD
     Monde habitable hautement peuplé.
-SOMEWHERE_SPACEPORT
-    %spaceport Spatioport
-SOMEWHERE_STARPORT
-    %starport Station
 MASS
     Masse
 N_WHATEVER_MASSES

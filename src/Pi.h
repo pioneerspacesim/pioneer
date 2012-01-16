@@ -30,6 +30,7 @@ class GalacticView;
 class Ship;
 class GameMenuView;
 class LuaConsole;
+class LuaNameGen;
 namespace Sound { class MusicPlayer; }
 
 #if WITH_OBJECTVIEWER
@@ -125,6 +126,8 @@ public:
 	static LuaEventQueue<> *luaOnSongFinished;
 	static LuaEventQueue<Ship> *luaOnShipFlavourChanged;
 	static LuaEventQueue<Ship,const char *> *luaOnShipEquipmentChanged;
+
+	static LuaNameGen *luaNameGen;
 
 	static MTRand rng;
 	static int statSceneTris;
