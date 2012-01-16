@@ -14,7 +14,7 @@ public:
 
 	void GetAtmosphericState(double dist, double *outPressure, double *outDensity);
 
-#if OBJECTVIEWER
+#if WITH_OBJECTVIEWER
 	friend class ObjectViewerView;
 #endif
 

@@ -32,7 +32,7 @@ class GameMenuView;
 class LuaConsole;
 namespace Sound { class MusicPlayer; }
 
-#if OBJECTVIEWER
+#if WITH_OBJECTVIEWER
 class ObjectViewerView;
 #endif
 
@@ -132,7 +132,7 @@ public:
 	static void SetView(View *v);
 	static View *GetView() { return currentView; }
 
-#if DEVKEYS
+#if WITH_DEVKEYS
 	static bool showDebugInfo;
 #endif
 	static Player *player;
@@ -149,7 +149,7 @@ public:
 	static GLUquadric *gluQuadric;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
 
-#if OBJECTVIEWER
+#if WITH_OBJECTVIEWER
 	static ObjectViewerView *objectViewerView;
 #endif
 

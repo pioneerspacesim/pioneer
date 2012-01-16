@@ -595,7 +595,7 @@ void Game::CreateViews()
 	Pi::spaceStationView = new SpaceStationView();
 	Pi::infoView = new InfoView();
 
-#if OBJECTVIEWER
+#if WITH_OBJECTVIEWER
 	Pi::objectViewerView = new ObjectViewerView();
 #endif
 }
@@ -624,7 +624,7 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::spaceStationView = new SpaceStationView();
 	Pi::infoView = new InfoView();
 
-#if OBJECTVIEWER
+#if WITH_OBJECTVIEWER
 	Pi::objectViewerView = new ObjectViewerView();
 #endif
 }
@@ -633,7 +633,7 @@ void Game::DestroyViews()
 {
 	Pi::SetView(0);
 
-#if OBJECTVIEWER
+#if WITH_OBJECTVIEWER
 	delete Pi::objectViewerView;
 #endif
 
