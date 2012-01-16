@@ -941,10 +941,6 @@ VAST_STRIP_MINE
     Ogromne kolonie górnicze.
 HIGH_POPULATION_OUTDOOR_WORLD
     Zewnętrzny świat o wysokim zaludnieniu.
-SOMEWHERE_SPACEPORT
-    stacja kosmiczna %spaceport
-SOMEWHERE_STARPORT
-    port kosmiczny %starport
 MASS
     Masa
 N_WHATEVER_MASSES
