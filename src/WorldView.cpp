@@ -111,7 +111,7 @@ void WorldView::InitObject()
 	m_flightStatus = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
 	m_rightRegion2->Add(m_flightStatus, 2, 0);
 
-#if DEVKEYS
+#if WITH_DEVKEYS
 	Gui::Screen::PushFont("ConsoleFont");
 	m_debugInfo = (new Gui::Label(""))->Color(0.8f, 0.8f, 0.8f);
 	Add(m_debugInfo, 10, 200);
@@ -461,7 +461,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_commsOptions->Hide();
 		m_commsNavOptionsContainer->Hide();
 	}
-#if DEVKEYS
+#if WITH_DEVKEYS
 	if (Pi::showDebugInfo) {
 		char buf[1024], aibuf[256];
 		vector3d pos = Pi::player->GetPosition();

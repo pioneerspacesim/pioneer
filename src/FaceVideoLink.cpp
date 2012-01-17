@@ -1,6 +1,7 @@
 #include "FaceVideoLink.h"
 #include "Lang.h"
-#include "NameGenerator.h"
+#include "Pi.h"
+#include "LuaNameGen.h"
 #include "Texture.h"
 
 #define FACE_WIDTH  295
@@ -64,7 +65,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 
 	std::string charname = name;
 	if (charname.empty())
-		charname = NameGenerator::FullName(rand, (gender != 0));
+		charname = Pi::luaNameGen->FullName((gender != 0), rand);
 
 	m_characterInfo = new CharacterInfoText(w * 0.8f, h * 0.15f, charname, title);
 

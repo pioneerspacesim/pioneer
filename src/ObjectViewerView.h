@@ -5,7 +5,7 @@
 #include "gui/Gui.h"
 #include "View.h"
 
-#if OBJECTVIEWER
+#if WITH_OBJECTVIEWER
 
 class Body;
 

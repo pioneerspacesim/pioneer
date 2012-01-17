@@ -116,7 +116,7 @@ private:
 	int m_numLights;
 	Uint32 m_showTargetActionsTimeout;
 
-#if DEVKEYS
+#if WITH_DEVKEYS
 	Gui::Label *m_debugInfo;
 #endif
 

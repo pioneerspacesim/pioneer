@@ -30,10 +30,11 @@ class GalacticView;
 class Ship;
 class GameMenuView;
 class LuaConsole;
+class LuaNameGen;
 namespace Sound { class MusicPlayer; }
 class TextureCache;
 
-#if OBJECTVIEWER
+#if WITH_OBJECTVIEWER
 class ObjectViewerView;
 #endif
 
@@ -127,6 +128,8 @@ public:
 	static LuaEventQueue<Ship> *luaOnShipFlavourChanged;
 	static LuaEventQueue<Ship,const char *> *luaOnShipEquipmentChanged;
 
+	static LuaNameGen *luaNameGen;
+
 	static TextureCache *textureCache;
 
 	static MTRand rng;
@@ -135,7 +138,7 @@ public:
 	static void SetView(View *v);
 	static View *GetView() { return currentView; }
 
-#if DEVKEYS
+#if WITH_DEVKEYS
 	static bool showDebugInfo;
 #endif
 	static Player *player;
@@ -152,7 +155,7 @@ public:
 	static GLUquadric *gluQuadric;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
 
-#if OBJECTVIEWER
+#if WITH_OBJECTVIEWER
 	static ObjectViewerView *objectViewerView;
 #endif
 

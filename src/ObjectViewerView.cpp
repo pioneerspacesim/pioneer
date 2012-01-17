@@ -8,7 +8,7 @@
 #include "terrain/Terrain.h"
 #include "Planet.h"
 
-#if OBJECTVIEWER
+#if WITH_OBJECTVIEWER
 
 ObjectViewerView::ObjectViewerView(): View()
 {

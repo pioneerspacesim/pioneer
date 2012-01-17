@@ -940,10 +940,6 @@ VAST_STRIP_MINE
     Colonia mineraria ed estrattiva di vaste proporzioni.
 HIGH_POPULATION_OUTDOOR_WORLD
     Mondo esterno altamente popolato.
-SOMEWHERE_SPACEPORT
-     " Stazione spaziale"
-SOMEWHERE_STARPORT
-     " Astroporto"
 MASS
     Massa
 N_WHATEVER_MASSES

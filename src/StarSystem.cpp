@@ -1,7 +1,8 @@
 #include "StarSystem.h"
 #include "Sector.h"
 #include "Serializer.h"
-#include "NameGenerator.h"
+#include "Pi.h"
+#include "LuaNameGen.h"
 #include <map>
 #include "utils.h"
 #include "Lang.h"
@@ -1793,8 +1794,10 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 
 	unsigned long _init[6] = { system->m_path.systemIndex, system->m_path.sectorX,
 			system->m_path.sectorY, system->m_path.sectorZ, UNIVERSE_SEED, this->seed };
-	MTRand rand;
+
+	MTRand rand, namerand;
 	rand.seed(_init, 6);
+	namerand.seed(_init, 6);
 
 	m_population = fixed(0);
 
@@ -1872,7 +1875,7 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	}
 
 	if (!system->m_hasCustomBodies && m_population > fixed(1,10))
-		name = NameGenerator::PlanetName(rand);
+		name = Pi::luaNameGen->BodyName(this, namerand);
 	
 	// Add a bunch of things people consume
 	for (int i=0; i<NUM_CONSUMABLES; i++) {
@@ -1902,10 +1905,13 @@ void SBody::PopulateAddStations(StarSystem *system)
 	for (unsigned int i=0; i<children.size(); i++) {
 		children[i]->PopulateAddStations(system);
 	}
+
 	unsigned long _init[6] = { system->m_path.systemIndex, system->m_path.sectorX,
 			system->m_path.sectorY, system->m_path.sectorZ, this->seed, UNIVERSE_SEED };
-	MTRand rand;
+
+	MTRand rand, namerand;
 	rand.seed(_init, 6);
+	namerand.seed(_init, 6);
 
 	if (m_population < fixed(1,1000)) return;
 
@@ -1927,7 +1933,6 @@ void SBody::PopulateAddStations(StarSystem *system)
 		sp->rotationPeriod = fixed(1,3600);
 		sp->averageTemp = this->averageTemp;
 		sp->mass = 0;
-		sp->name = stringf(Lang::SOMEWHERE_SPACEPORT, formatarg("spaceport", NameGenerator::Surname(rand)));
 		/* just always plonk starports in near orbit */
 		sp->semiMajorAxis = orbMinS;
 		sp->eccentricity = fixed(0);
@@ -1941,6 +1946,8 @@ void SBody::PopulateAddStations(StarSystem *system)
 		sp->orbMin = sp->semiMajorAxis;
 		sp->orbMax = sp->semiMajorAxis;
 
+		sp->name = Pi::luaNameGen->BodyName(sp, namerand);
+
 		pop -= rand.Fixed();
 		if (pop > 0) {
 			SBody *sp2 = system->NewBody();
@@ -1948,7 +1955,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 			*sp2 = *sp;
 			sp2->path = path2;
 			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
-			sp2->name = stringf(Lang::SOMEWHERE_SPACEPORT, formatarg("spaceport", NameGenerator::Surname(rand)));
+			sp2->name = Pi::luaNameGen->BodyName(sp2, namerand);
 			children.insert(children.begin(), sp2);
 			system->m_spaceStations.push_back(sp2);
 		}
@@ -1967,7 +1974,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 		sp->parent = this;
 		sp->averageTemp = this->averageTemp;
 		sp->mass = 0;
-		sp->name = stringf(Lang::SOMEWHERE_STARPORT, formatarg("starport", NameGenerator::Surname(rand)));
+		sp->name = Pi::luaNameGen->BodyName(sp, namerand);
 		memset(&sp->orbit, 0, sizeof(Orbit));
 		position_settlement_on_planet(sp);
 		children.insert(children.begin(), sp);

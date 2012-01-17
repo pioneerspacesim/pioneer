@@ -935,10 +935,6 @@ VAST_STRIP_MINE
     Kolonija neizmjernog rudarenja.
 HIGH_POPULATION_OUTDOOR_WORLD
     Vanjski svijet ogromne populacije.
-SOMEWHERE_SPACEPORT
-    Svemirska luka %spaceport
-SOMEWHERE_STARPORT
-    Zvijezdana luka %starport
 MASS
     Masa
 N_WHATEVER_MASSES

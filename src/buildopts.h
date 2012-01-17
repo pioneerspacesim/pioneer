@@ -10,13 +10,13 @@
 #endif
 
 // define to include the object viewer in the build
-#ifndef OBJECTVIEWER
-#define OBJECTVIEWER 1
+#ifndef WITH_OBJECTVIEWER
+#define WITH_OBJECTVIEWER 1
 #endif
 
 // define to include various extra keybindings for dev functions
-#ifndef DEVKEYS
-#define DEVKEYS 1
+#ifndef WITH_DEVKEYS
+#define WITH_DEVKEYS 1
 #endif
 
 #endif

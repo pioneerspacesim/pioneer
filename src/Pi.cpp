@@ -19,7 +19,6 @@
 #include "CargoBody.h"
 #include "InfoView.h"
 #include "Serializer.h"
-#include "NameGenerator.h"
 #include "GeoSphere.h"
 #include "Sound.h"
 #include "Polit.h"
@@ -104,6 +103,7 @@ LuaEventQueue<SpaceStation> *Pi::luaOnUpdateBB;
 LuaEventQueue<> *Pi::luaOnSongFinished;
 LuaEventQueue<Ship> *Pi::luaOnShipFlavourChanged;
 LuaEventQueue<Ship,const char *> *Pi::luaOnShipEquipmentChanged;
+LuaNameGen *Pi::luaNameGen;
 TextureCache *Pi::textureCache;
 int Pi::keyModState;
 char Pi::keyState[SDLK_LAST];
@@ -126,7 +126,7 @@ Game *Pi::game;
 MTRand Pi::rng;
 float Pi::frameTime;
 GLUquadric *Pi::gluQuadric;
-#if DEVKEYS
+#if WITH_DEVKEYS
 bool Pi::showDebugInfo;
 #endif
 int Pi::statSceneTris;
@@ -147,7 +147,7 @@ const char * const Pi::combatRating[] = {
 	Lang::ELITE
 };
 
-#if OBJECTVIEWER
+#if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
 #endif
 
@@ -267,7 +267,6 @@ static void LuaInit()
 	LuaUI::Register();
 	LuaFormat::Register();
 	LuaSpace::Register();
-	LuaNameGen::Register();
 	LuaMusic::Register();
 
 	LuaConsole::Register();
@@ -277,9 +276,13 @@ static void LuaInit()
 	// XXX load everything. for now, just modules
 	pi_lua_dofile_recursive(l, PIONEER_DATA_DIR "/libs");
 	pi_lua_dofile_recursive(l, PIONEER_DATA_DIR "/modules");
+
+	Pi::luaNameGen = new LuaNameGen(Pi::luaManager);
 }
 
 static void LuaUninit() {
+	delete Pi::luaNameGen;
+
 	delete Pi::luaOnGameStart;
 	delete Pi::luaOnGameEnd;
 	delete Pi::luaOnEnterSystem;
@@ -507,9 +510,6 @@ void Pi::Init()
 	Galaxy::Init();
 	draw_progress(0.2f);
 
-	NameGenerator::Init();
-	draw_progress(0.3f);
-
 	if (config.Int("DisableShaders")) Render::ToggleShaders();
 	if (config.Int("EnableHDR")) Render::ToggleHDR();
 
@@ -728,7 +728,7 @@ void Pi::HandleEvents()
 							Screendump(buf, GetScrWidth(), GetScrHeight());
 							break;
 						}
-#if DEVKEYS
+#if WITH_DEVKEYS
 						case SDLK_i: // Toggle Debug info
 							Pi::showDebugInfo = !Pi::showDebugInfo;
 							break;
@@ -788,7 +788,7 @@ void Pi::HandleEvents()
 							break;
 						}
 #endif /* DEVKEYS */
-#if OBJECTVIEWER
+#if WITH_OBJECTVIEWER
 						case SDLK_F10:
 							Pi::SetView(Pi::objectViewerView);
 							break;
@@ -1257,7 +1257,7 @@ void Pi::MainLoop()
 	int dumpnum = 0;
 #endif /* MAKING_VIDEO */
 
-#ifdef DEVKEYS
+#if WITH_DEVKEYS
 	Uint32 last_stats = SDL_GetTicks();
 	int frame_stat = 0;
 	int phys_stat = 0;
@@ -1294,7 +1294,7 @@ void Pi::MainLoop()
 			}
 			Pi::gameTickAlpha = accumulator / step;
 
-#ifdef DEVKEYS
+#if WITH_DEVKEYS
 			phys_stat += phys_ticks;
 #endif
 		} else {
@@ -1326,7 +1326,7 @@ void Pi::MainLoop()
 		Render::PostProcess();
 		Gui::Draw();
 
-#if DEVKEYS
+#if WITH_DEVKEYS
 		if (Pi::showDebugInfo) {
 			Gui::Screen::EnterOrtho();
 			glColor3f(1,1,1);
@@ -1374,7 +1374,7 @@ void Pi::MainLoop()
 		cpan->Update();
 		musicPlayer.Update();
 
-#ifdef DEVKEYS
+#if WITH_DEVKEYS
 		if (Pi::showDebugInfo && SDL_GetTicks() - last_stats > 1000) {
 			size_t lua_mem = Pi::luaManager->GetMemoryUsage();
 			int lua_memB = int(lua_mem & ((1u << 10) - 1));
