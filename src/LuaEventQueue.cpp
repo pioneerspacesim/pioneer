@@ -728,6 +728,28 @@ int LuaEventQueueBase::l_disconnect(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: DebugTimer
+ *
+ * Enables the function timer for this event queue. When enabled the console
+ * will display the amount of time that each function attached to this queue
+ * takes to run.
+ *
+ * > onEvent:DebugTimer(enabled)
+ *
+ * Parameters:
+ *
+ *   enabled - a true value to enable the timer, or a false value to disable
+ *             it.
+ *
+ * Availability:
+ *
+ *   alpha 19
+ *
+ * Status:
+ *
+ *   debug
+ */
 int LuaEventQueueBase::l_debug_timer(lua_State *l)
 {
 	LUA_DEBUG_START(l);
