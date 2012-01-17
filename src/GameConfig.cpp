@@ -27,6 +27,7 @@ GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
 	(*this)["SectorViewZoom"] = "2.0";
 	(*this)["MaxPhysicsCyclesPerRender"] = "4";
 	(*this)["AntiAliasingMode"] = "2";
+	(*this)["JoystickDeadzone"] = "0.1";
 
 #ifdef _WIN32
 	(*this)["RedirectStdio"] = "1";
