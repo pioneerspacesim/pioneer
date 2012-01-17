@@ -56,7 +56,7 @@ void LuaEventQueueBase::ClearEvents()
 
 inline void LuaEventQueueBase::DoEventCall(lua_State *l, LuaEventBase *e)
 {
-	if (m_debugHandlerTimer) {
+	if (m_debugTimer) {
 		int top = lua_gettop(l);
 
 		lua_pushvalue(l, -1);
@@ -728,14 +728,14 @@ int LuaEventQueueBase::l_disconnect(lua_State *l)
 	return 0;
 }
 
-int LuaEventQueueBase::l_set_debug_handler_timer_enabled(lua_State *l)
+int LuaEventQueueBase::l_debug_timer(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
 	LuaEventQueueBase *q = LuaObject<LuaEventQueueBase>::GetFromLua(1);
 	bool enable = lua_toboolean(l, 2);
 
-	q->SetDebugHandlerTimerEnabled(enable);
+	q->DebugTimer(enable);
 
 	LUA_DEBUG_END(l, 0);
 
@@ -747,9 +747,9 @@ template <> const char *LuaObject<LuaEventQueueBase>::s_type = "EventQueue";
 template <> void LuaObject<LuaEventQueueBase>::RegisterClass()
 {
 	static const luaL_reg l_methods[] = {
-		{ "Connect",                     LuaEventQueueBase::l_connect                         },
-		{ "Disconnect",                  LuaEventQueueBase::l_disconnect                      },
-		{ "SetDebugHandlerTimerEnabled", LuaEventQueueBase::l_set_debug_handler_timer_enabled },
+		{ "Connect",    LuaEventQueueBase::l_connect     },
+		{ "Disconnect", LuaEventQueueBase::l_disconnect  },
+		{ "DebugTimer", LuaEventQueueBase::l_debug_timer },
 		{ 0, 0 }
 	};
 

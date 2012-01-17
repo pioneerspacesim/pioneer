@@ -57,12 +57,12 @@ public:
 	void ClearEvents();
 	void Emit();
 
-	void SetDebugHandlerTimerEnabled(bool enabled) { m_debugHandlerTimer = enabled; }
+	void DebugTimer(bool enabled) { m_debugTimer = enabled; }
 
 protected:
 	LuaEventQueueBase(const char *name) :
 		m_name(name),
-		m_debugHandlerTimer(false)
+		m_debugTimer(false)
 	{}
 
 	virtual ~LuaEventQueueBase() { ClearEvents(); }
@@ -74,13 +74,13 @@ protected:
 private:
 	static int l_connect(lua_State *l);
 	static int l_disconnect(lua_State *l);
-	static int l_set_debug_handler_timer_enabled(lua_State *l);
+	static int l_debug_timer(lua_State *l);
 
 	virtual void PrepareLuaStack(lua_State *l, const LuaEventBase *e) = 0;
 	void DoEventCall(lua_State *l, LuaEventBase *e);
 
 	const char *m_name;
-	bool m_debugHandlerTimer;
+	bool m_debugTimer;
 };
 
 template <typename T0=void, typename T1=void>
