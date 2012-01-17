@@ -57,8 +57,14 @@ public:
 	void ClearEvents();
 	void Emit();
 
+	void SetDebugHandlerTimerEnabled(bool enabled) { m_debugHandlerTimer = enabled; }
+
 protected:
-	LuaEventQueueBase(const char *name) : m_name(name) {}
+	LuaEventQueueBase(const char *name) :
+		m_name(name),
+		m_debugHandlerTimer(false)
+	{}
+
 	virtual ~LuaEventQueueBase() { ClearEvents(); }
 
 	void EmitSingleEvent(LuaEventBase *e);
@@ -73,6 +79,7 @@ private:
 	void DoEventCall(lua_State *l, LuaEventBase *e);
 
 	const char *m_name;
+	bool m_debugHandlerTimer;
 };
 
 template <typename T0=void, typename T1=void>
