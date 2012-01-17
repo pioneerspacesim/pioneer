@@ -74,6 +74,7 @@ protected:
 private:
 	static int l_connect(lua_State *l);
 	static int l_disconnect(lua_State *l);
+	static int l_set_debug_handler_timer_enabled(lua_State *l);
 
 	virtual void PrepareLuaStack(lua_State *l, const LuaEventBase *e) = 0;
 	void DoEventCall(lua_State *l, LuaEventBase *e);
