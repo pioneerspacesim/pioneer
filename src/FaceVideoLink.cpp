@@ -2,6 +2,7 @@
 #include "Lang.h"
 #include "Pi.h"
 #include "LuaNameGen.h"
+#include "Texture.h"
 
 #define FACE_WIDTH  295
 #define FACE_HEIGHT 285
@@ -126,15 +127,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 		_blit_image(s, filename, 0, 0);
 	}
 
-	glEnable(GL_TEXTURE_2D);
-	glGenTextures(1, &m_tex);
-	glBindTexture(GL_TEXTURE_2D, m_tex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, s->w, s->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glDisable(GL_TEXTURE_2D);
+	m_texture = new UITexture(s);
 
 	SDL_FreeSurface(s);
 }
@@ -142,8 +135,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 FaceVideoLink::~FaceVideoLink() {
 	delete m_message;
 	delete m_characterInfo;
-
-	glDeleteTextures(1, &m_tex);
+	delete m_texture;
 }
 
 void FaceVideoLink::Draw() {
@@ -168,7 +160,7 @@ void FaceVideoLink::Draw() {
 	}
 
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, m_tex);
+	m_texture->Bind();
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	glBegin(GL_QUADS);
 		float w = float(FACE_WIDTH) / ceil_pow2(FACE_WIDTH);

@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include "View.h"
+#include "Texture.h"
 
 class GalacticView: public View {
 public:
@@ -26,7 +27,7 @@ private:
 	Gui::Label *m_scaleReadout;
 	Gui::LabelSet *m_labels;
 	float m_zoom;
-	GLuint m_texture;
+	ScopedPtr<UITexture> m_texture;
 	sigc::connection m_onMouseButtonDown;
 };
 

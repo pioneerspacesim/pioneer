@@ -3,11 +3,21 @@
 
 #include "Font.h"
 #include "FontConfig.h"
+#include "Texture.h"
 
-class TextureFont : public Font
-{
+class TextureFont : public Font {
+
+private:
+
+	class GlyphTexture : public Texture {
+	public:
+		GlyphTexture(Uint8 *data, int width, int height);
+		virtual void Bind();
+	};
+
 public:
 	TextureFont(FontManager &fm, const std::string &config_filename);
+	~TextureFont();
 
 	void RenderString(const char *str, float x, float y);
 	void RenderMarkup(const char *str, float x, float y);
@@ -20,7 +30,7 @@ public:
 	float GetWidth() const { return m_width; }
 	float GetDescender() const { return m_descender; }
 	struct glfglyph_t {
-		unsigned int tex;
+		GlyphTexture *texture;
 		float advx, advy;
 		float width, height;
 		int offx, offy;
