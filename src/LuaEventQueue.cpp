@@ -52,6 +52,13 @@ void LuaEventQueueBase::ClearEvents()
 	}
 }
 
+inline void LuaEventQueueBase::DoEventCall(lua_State *l, LuaEventBase *e)
+{
+	int top = lua_gettop(l);
+	PrepareLuaStack(l, e);
+	pi_lua_protected_call(l, lua_gettop(l) - top, 0);
+}
+
 void LuaEventQueueBase::EmitSingleEvent(LuaEventBase *e)
 {
 	lua_State *l = Pi::luaManager->GetLuaState();
@@ -64,11 +71,8 @@ void LuaEventQueueBase::EmitSingleEvent(LuaEventBase *e)
 	assert(lua_istable(l, -1));
 
 	lua_pushnil(l);
-	while (lua_next(l, -2) != 0) {
-		int top = lua_gettop(l);
-		PrepareLuaStack(l, e);
-		pi_lua_protected_call(l, lua_gettop(l) - top, 0);
-	}
+	while (lua_next(l, -2) != 0)
+		DoEventCall(l, e);
 
 	lua_pop(l, 2);
 
@@ -95,11 +99,8 @@ void LuaEventQueueBase::Emit()
 		m_events.pop_front();
 
 		lua_pushnil(l);
-		while (lua_next(l, -2) != 0) {
-			int top = lua_gettop(l);
-			PrepareLuaStack(l, e);
-			pi_lua_protected_call(l, lua_gettop(l) - top, 0);
-		}
+		while (lua_next(l, -2) != 0)
+			DoEventCall(l, e);
 
 		delete e;
 	}
