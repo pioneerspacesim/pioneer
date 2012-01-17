@@ -4,6 +4,8 @@
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Pi.h"
+#include "LuaConsole.h"
+#include "StringF.h"
 
 void LuaEventQueueBase::RegisterEventQueue()
 {
@@ -67,7 +69,7 @@ inline void LuaEventQueueBase::DoEventCall(lua_State *l, LuaEventBase *e)
 		pi_lua_protected_call(l, lua_gettop(l) - top, 0);
 		Uint32 end = SDL_GetTicks();
 
-		printf("DEBUG: %s %dms %s:%d\n", m_name, end-start, ar.source, ar.linedefined);
+		Pi::luaConsole->AddOutput(stringf("DEBUG: %0 %1{u}ms %2:%3{d}", m_name, end-start, ar.source, ar.linedefined));
 	}
 	else {
 		int top = lua_gettop(l);
