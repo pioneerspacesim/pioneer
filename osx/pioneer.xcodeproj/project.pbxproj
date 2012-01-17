@@ -160,7 +160,6 @@
 		4A6C4E5413532FC300FDD53F /* ModelBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CDE13532FC300FDD53F /* ModelBody.cpp */; };
 		4A6C4E5513532FC300FDD53F /* mtrand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CE013532FC300FDD53F /* mtrand.cpp */; };
 		4A6C4E5713532FC300FDD53F /* MyLuaMathTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CE413532FC300FDD53F /* MyLuaMathTypes.cpp */; };
-		4A6C4E5813532FC300FDD53F /* NameGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CE613532FC300FDD53F /* NameGenerator.cpp */; };
 		4A6C4E5913532FC300FDD53F /* ObjectViewerView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CE913532FC300FDD53F /* ObjectViewerView.cpp */; };
 		4A6C4E7113532FC300FDD53F /* perlin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D2C13532FC300FDD53F /* perlin.cpp */; };
 		4A6C4E7213532FC300FDD53F /* Pi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D2F13532FC300FDD53F /* Pi.cpp */; };
@@ -670,8 +669,6 @@
 		4A6C4CE113532FC300FDD53F /* mtrand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mtrand.h; sourceTree = "<group>"; };
 		4A6C4CE413532FC300FDD53F /* MyLuaMathTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyLuaMathTypes.cpp; sourceTree = "<group>"; };
 		4A6C4CE513532FC300FDD53F /* MyLuaMathTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLuaMathTypes.h; sourceTree = "<group>"; };
-		4A6C4CE613532FC300FDD53F /* NameGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NameGenerator.cpp; sourceTree = "<group>"; };
-		4A6C4CE713532FC300FDD53F /* NameGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NameGenerator.h; sourceTree = "<group>"; };
 		4A6C4CE813532FC300FDD53F /* Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Object.h; sourceTree = "<group>"; };
 		4A6C4CE913532FC300FDD53F /* ObjectViewerView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectViewerView.cpp; sourceTree = "<group>"; };
 		4A6C4CEA13532FC300FDD53F /* ObjectViewerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectViewerView.h; sourceTree = "<group>"; };
@@ -1401,8 +1398,6 @@
 				4A6C4CE113532FC300FDD53F /* mtrand.h */,
 				4A6C4CE413532FC300FDD53F /* MyLuaMathTypes.cpp */,
 				4A6C4CE513532FC300FDD53F /* MyLuaMathTypes.h */,
-				4A6C4CE613532FC300FDD53F /* NameGenerator.cpp */,
-				4A6C4CE713532FC300FDD53F /* NameGenerator.h */,
 				4A6C4CE813532FC300FDD53F /* Object.h */,
 				4A6C4CE913532FC300FDD53F /* ObjectViewerView.cpp */,
 				4A6C4CEA13532FC300FDD53F /* ObjectViewerView.h */,
@@ -1690,7 +1685,6 @@
 				4A6C4E5413532FC300FDD53F /* ModelBody.cpp in Sources */,
 				4A6C4E5513532FC300FDD53F /* mtrand.cpp in Sources */,
 				4A6C4E5713532FC300FDD53F /* MyLuaMathTypes.cpp in Sources */,
-				4A6C4E5813532FC300FDD53F /* NameGenerator.cpp in Sources */,
 				4A6C4E5913532FC300FDD53F /* ObjectViewerView.cpp in Sources */,
 				4A6C4E7113532FC300FDD53F /* perlin.cpp in Sources */,
 				4A6C4E7213532FC300FDD53F /* Pi.cpp in Sources */,
