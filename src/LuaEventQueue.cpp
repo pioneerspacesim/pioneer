@@ -54,9 +54,26 @@ void LuaEventQueueBase::ClearEvents()
 
 inline void LuaEventQueueBase::DoEventCall(lua_State *l, LuaEventBase *e)
 {
-	int top = lua_gettop(l);
-	PrepareLuaStack(l, e);
-	pi_lua_protected_call(l, lua_gettop(l) - top, 0);
+	if (m_debugHandlerTimer) {
+		int top = lua_gettop(l);
+
+		lua_pushvalue(l, -1);
+		lua_Debug ar;
+		lua_getinfo(l, ">S", &ar);
+
+		PrepareLuaStack(l, e);
+
+		Uint32 start = SDL_GetTicks();
+		pi_lua_protected_call(l, lua_gettop(l) - top, 0);
+		Uint32 end = SDL_GetTicks();
+
+		printf("DEBUG: %s %dms %s:%d\n", m_name, end-start, ar.source, ar.linedefined);
+	}
+	else {
+		int top = lua_gettop(l);
+		PrepareLuaStack(l, e);
+		pi_lua_protected_call(l, lua_gettop(l) - top, 0);
+	}
 }
 
 void LuaEventQueueBase::EmitSingleEvent(LuaEventBase *e)
