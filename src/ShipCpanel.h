@@ -10,11 +10,12 @@
 
 class Body;
 class SpaceStation;
+class Renderer;
 
 class ShipCpanel: public Gui::Fixed {
 public:
-	ShipCpanel();
-    ShipCpanel(Serializer::Reader &rd);
+	ShipCpanel(Renderer *r);
+    ShipCpanel(Serializer::Reader &rd, Renderer *r);
 	virtual ~ShipCpanel();
 	virtual void Draw();
 	void Update();

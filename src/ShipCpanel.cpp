@@ -15,16 +15,18 @@
 #include "Lang.h"
 #include "Game.h"
 
-ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
+ShipCpanel::ShipCpanel(Renderer *r): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 {
 	m_scanner = new ScannerWidget();
+	m_scanner->SetRenderer(r);
 
 	InitObject();
 }
 
-ShipCpanel::ShipCpanel(Serializer::Reader &rd): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
+ShipCpanel::ShipCpanel(Serializer::Reader &rd, Renderer *r): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 {
 	m_scanner = new ScannerWidget(rd);
+	m_scanner->SetRenderer(r);
 
 	InitObject();
 }

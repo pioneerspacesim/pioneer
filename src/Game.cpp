@@ -587,7 +587,7 @@ void Game::CreateViews()
 	Pi::game = this;
 	Pi::player = m_player.Get();
 
-	Pi::cpan = new ShipCpanel();
+	Pi::cpan = new ShipCpanel(Pi::renderer);
 	Pi::sectorView = new SectorView();
 	Pi::worldView = new WorldView();
 	Pi::galacticView = new GalacticView();
@@ -617,7 +617,7 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::player = m_player.Get();
 
 	Serializer::Reader section = rd.RdSection("ShipCpanel");
-	Pi::cpan = new ShipCpanel(section);
+	Pi::cpan = new ShipCpanel(section, Pi::renderer);
 
 	section = rd.RdSection("SectorView");
 	Pi::sectorView = new SectorView(section);

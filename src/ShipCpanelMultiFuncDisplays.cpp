@@ -12,6 +12,7 @@
 #include "StringF.h"
 #include "KeyBindings.h"
 #include "Game.h"
+#include "render/Renderer.h"
 
 #define SCANNER_RANGE_MAX	100000.0f
 #define SCANNER_RANGE_MIN	1000.0f
@@ -402,32 +403,39 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 	static const float step = float(M_PI * 0.02); // 1/100th or 3.6 degrees
 
 	/* soicles */
-	if (blend) glColor4f(0, 0.4f, 0, 0.25f);
-	else glColor3f(0, 0.4f, 0);
 	/* inner soicle */
-	glBegin(GL_LINE_LOOP);
+	Color col(0.f, 0.4f, 0.f, 0.25f);
+
+	std::vector<LineVertex2D> vts;
 	for (float a = 0; a < circle; a += step) {
-		glVertex2f(m_x + 0.1f * m_x * sin(a), m_y + SCANNER_YSHRINK * 0.1f * m_y * cos(a));
+		vts.push_back(LineVertex2D(
+				m_x + 0.1f * m_x * sin(a),
+				m_y + SCANNER_YSHRINK * 0.1f * m_y * cos(a),
+				col));
 	}
-	glEnd();
+	m_renderer->DrawLines2D(vts.size(), &vts[0], LINE_LOOP);
+
 	/* dynamic soicles */
 	for (int p = 0; p < 7; ++p) {
+		std::vector<LineVertex2D> circ;
 		float sz = (pow(2.0f, p) * 1000.0f) / m_currentRange;
 		if (sz <= 0.1f) continue;
 		if (sz >= 1.0f) break;
-		glBegin(GL_LINE_LOOP);
 		for (float a = 0; a < circle; a += step) {
-			glVertex2f(m_x + sz * m_x * sin(a), m_y + SCANNER_YSHRINK * sz * m_y * cos(a));
+			circ.push_back(LineVertex2D(
+				m_x + sz * m_x * sin(a),
+				m_y + SCANNER_YSHRINK * sz * m_y * cos(a),
+				col));
 		}
-		glEnd();
+		m_renderer->DrawLines2D(circ.size(), &circ[0], LINE_LOOP);
 	}
 	/* schpokes */
-	glBegin(GL_LINES);
+	std::vector<LineVertex2D> spokes;
 	for (float a = 0; a < circle; a += float(M_PI * 0.25)) {
-		glVertex2f(m_x + m_x * 0.1f * sin(a), m_y + 0.1f * SCANNER_YSHRINK * m_y * cos(a));
-		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+		spokes.push_back(LineVertex2D(m_x + m_x * 0.1f * sin(a), m_y + 0.1f * SCANNER_YSHRINK * m_y * cos(a), col));
+		spokes.push_back(LineVertex2D(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), col));
 	}
-	glEnd();
+	m_renderer->DrawLines2D(spokes.size(), &spokes[0]);
 
 	/* outer range soicle */
 	float range_percent = m_currentRange / SCANNER_RANGE_MAX;
@@ -442,34 +450,31 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 	}
 
 	/* draw bright range arg */
+	col = Color(0.7f, 0.7f, 0.f, 0.25f);
 	if (m_mode == SCANNER_MODE_AUTO) {
 		/* green like the scanner to indicate that the scanner is controlling the range */
-		if (blend) glColor4f(0, 0.7f, 0, 0.25f);
-		else glColor3f(0, 0.7f, 0);
-	} else {
-		if (blend) glColor4f(0.7f, 0.7f, 0, 0.25f);
-		else glColor3f(0.7f, 0.7f, 0);
+		col = Color(0.f, 0.7f, 0.f, 0.25f);
 	}
 
-	glBegin(GL_LINE_STRIP);
+	std::vector<LineVertex2D> bg;
 	for (float a = 0; a < range_percent * circle; a += step) {
-		glVertex2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+		bg.push_back(LineVertex2D(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), col));
 	}
-	glVertex2f(arc_end_x, arc_end_y);
-	glEnd();
+	bg.push_back(LineVertex2D(arc_end_x, arc_end_y, col));
+	m_renderer->DrawLines2D(bg.size(), &bg[0], LINE_STRIP);
 
 	/* and dim surround for the remaining segment */
 	if (range_percent < 1.0f) {
-		if (blend) glColor4f(0.2f, 0.3f, 0.2f, 0.25f);
-		else glColor3f(0.2f, 0.3f, 0.2f);
-		glBegin(GL_LINE_STRIP);
-		glVertex2f(arc_end_x, arc_end_y);
+		col = Color(0.2f, 0.3f, 0.2f, 0.25f);
+		std::vector<LineVertex2D> v;
+		v.push_back(LineVertex2D(arc_end_x, arc_end_y, col));
 		for (float a = range_percent * circle; a < circle; a += step) {
-			glVertex2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+			v.push_back(LineVertex2D(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), col));
 		}
 		/* reconnect to the start */
-		glVertex2f(m_x, m_y + SCANNER_YSHRINK * m_y);
-		glEnd();
+		// XXX why is this not a LINE_LOOP?
+		v.push_back(LineVertex2D(m_x, m_y + SCANNER_YSHRINK * m_y, col));
+		m_renderer->DrawLines2D(v.size(), &v[0], LINE_STRIP);
 	}
 }
 
