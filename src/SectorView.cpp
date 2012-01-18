@@ -320,8 +320,7 @@ void SectorView::Draw3D()
 	glRotatef(m_rotZ, 0, 0, 1);
 	glTranslatef(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+	m_renderer->SetBlendMode(BLEND_ALPHA);
 	
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	glEnable(GL_LINE_SMOOTH);
@@ -341,7 +340,7 @@ void SectorView::Draw3D()
 
 	glDisable(GL_LINE_SMOOTH);
 
-	glDisable(GL_BLEND);
+	m_renderer->SetBlendMode(BLEND_SOLID);
 	glEnable(GL_LIGHTING);
 }
 

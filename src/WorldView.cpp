@@ -1390,7 +1390,7 @@ void WorldView::Draw()
 	// don't draw crosshairs etc in hyperspace
 	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) return;
 
-	glEnable(GL_BLEND);
+	m_renderer->SetBlendMode(BLEND_ALPHA);
 
 	glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
 	glLineWidth(2.0f);
@@ -1428,7 +1428,7 @@ void WorldView::Draw()
 
 	glPopAttrib();
 
-	glDisable(GL_BLEND);
+	m_renderer->SetBlendMode(BLEND_SOLID);
 }
 
 void WorldView::DrawCrosshair(float px, float py, float sz, const Color &c)

@@ -9,6 +9,7 @@
 
 #define TEXTURE_FONT_ENTER \
 	glEnable(GL_BLEND); \
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE); \
 	glEnable(GL_TEXTURE_2D); \
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 

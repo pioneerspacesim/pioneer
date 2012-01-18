@@ -111,7 +111,7 @@ void GalacticView::Draw3D()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
+	m_renderer->SetBlendMode(BLEND_SOLID);
 
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, m_texture);

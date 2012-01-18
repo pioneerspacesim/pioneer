@@ -159,7 +159,7 @@ void ScannerWidget::Draw()
 	if (!m_contacts.empty()) DrawBlobs(true);
 
 	// disc
-	glEnable(GL_BLEND);
+	m_renderer->SetBlendMode(BLEND_ALPHA);
 	glColor4f(0, 1.0f, 0, 0.1f);
 	glBegin(GL_TRIANGLE_FAN);
 	glVertex2f(m_x, m_y);
@@ -168,14 +168,14 @@ void ScannerWidget::Draw()
 	}
 	glVertex2f(m_x, m_y + SCANNER_YSHRINK * m_y);
 	glEnd();
-	glDisable(GL_BLEND);
+	m_renderer->SetBlendMode(BLEND_SOLID);
 
 	// circles and spokes
 	glLineWidth(1);
 	DrawRingsAndSpokes(false);
 	// draw blended in slightly different places to anti-alias
 	glPushMatrix();
-	glEnable(GL_BLEND);
+	m_renderer->SetBlendMode(BLEND_ALPHA);
 	glTranslatef(0.5f * c2p[0], 0.5f * c2p[1], 0);
 	DrawRingsAndSpokes(true);
 	glTranslatef(0, -c2p[1], 0);
@@ -185,7 +185,7 @@ void ScannerWidget::Draw()
 	glTranslatef(0, c2p[1], 0);
 	DrawRingsAndSpokes(true);
 	glPopMatrix();
-	glDisable(GL_BLEND);
+	m_renderer->SetBlendMode(BLEND_SOLID);
 
 	// objects above
 	if (!m_contacts.empty()) DrawBlobs(false);
