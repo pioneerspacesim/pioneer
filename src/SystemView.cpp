@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "FloatComparison.h"
 #include "Game.h"
+#include "render/Renderer.h"
 
 const double SystemView::PICK_OBJECT_RECT_SIZE = 12.0;
 
@@ -95,14 +96,16 @@ void SystemView::ResetViewpoint()
 
 void SystemView::PutOrbit(SBody *b, vector3d offset)
 {
-	glColor3f(0,1,0);
-	glBegin(GL_LINE_LOOP);
+	std::vector<LineVertex> vts;
+	Color c = Color(0.f, 1.f, 0.f, 1.f);
+	int vcount = 0;
 	for (double t=0.0; t<1.0; t += 0.01) {
 		vector3d pos = b->orbit.EvenSpacedPosAtTime(t);
 		pos = offset + pos * double(m_zoom);
-		glVertex3dv(&pos[0]);
+		vts.push_back(LineVertex(vector3f(pos), c));
+		vcount++;
 	}
-	glEnd();
+	m_renderer->DrawLines(vcount-1, &vts[0], LINE_LOOP);
 }
 
 void SystemView::OnClickObject(SBody *b)
@@ -231,18 +234,13 @@ void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
 		const float x2 = float(x1 + SystemView::PICK_OBJECT_RECT_SIZE);
 		const float y1 = float(screenPos.y - SystemView::PICK_OBJECT_RECT_SIZE * 0.5);
 		const float y2 = float(y1 + SystemView::PICK_OBJECT_RECT_SIZE);
-
-		const GLfloat vtx[8] = {
-			x1, y1,
-			x2, y1,
-			x2, y2,
-			x1, y2
+		const LineVertex2D vts[] = {
+			LineVertex2D(vector2f(x1, y1), col),
+			LineVertex2D(vector2f(x2, y1), col),
+			LineVertex2D(vector2f(x2, y2), col),
+			LineVertex2D(vector2f(x1, y2), col)
 		};
-		glColor4f(col.r, col.g, col.b, col.a);
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINE_LOOP, 0, 4);
-		glDisableClientState(GL_VERTEX_ARRAY);
+		m_renderer->DrawLines2D(4, vts, LINE_LOOP);
 	}
 
 	Gui::Screen::LeaveOrtho();
