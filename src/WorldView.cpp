@@ -1395,32 +1395,36 @@ void WorldView::Draw()
 	glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
 	glLineWidth(2.0f);
 
+	Color white(1.f, 1.f, 1.f, 0.8f);
+	Color green(0.f, 1.f, 0.f, 0.8f);
+	Color yellow(0.9f, 0.9f, 0.3f, 1.f);
+	Color red(1.f, 0.f, 0.f, 0.5f);
+
 	// nav target square
-	DrawTargetSquare(m_navTargetIndicator, Color(0.f, 1.f, 0.f, 0.8f));
+	DrawTargetSquare(m_navTargetIndicator, green);
 
 	glLineWidth(1.0f);
 
 	// velocity indicators
-	DrawVelocityIndicator(m_velIndicator, Color(1.f, 1.f, 1.f, 0.8f));
-	DrawVelocityIndicator(m_navVelIndicator, Color(0.f, 1.f, 0.f, 0.8f));
+	DrawVelocityIndicator(m_velIndicator, white);
+	DrawVelocityIndicator(m_navVelIndicator, green);
 
 	glLineWidth(2.0f);
 
 	DrawImageIndicator(m_mouseDirIndicator,
 		PIONEER_DATA_DIR "/icons/indicator_mousedir.png",
-		Color(0.9f, 0.9f, 0.3f, 1.f));
+		yellow);
 
 	// combat target indicator
-	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, Color(1.f, 0.f, 0.f, 0.5f));
+	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, red);
 
 	glLineWidth(1.0f);
 
 	// normal crosshairs
-	Color cc(1.f, 1.f, 1.f, 0.8f);
 	if (GetCamType() == WorldView::CAM_FRONT)
-		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, cc);
+		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, white);
 	else if (GetCamType() == WorldView::CAM_REAR)
-		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f, cc);
+		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f, white);
 
 	glPopAttrib();
 
