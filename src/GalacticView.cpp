@@ -10,6 +10,7 @@
 #include "Galaxy.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "render/Renderer.h"
 
 GalacticView::GalacticView()
 {
@@ -119,6 +120,7 @@ void GalacticView::Draw3D()
 	glScalef(m_zoom, m_zoom, 0.0f);
 	glTranslatef(-offset_x, -offset_y, 0.0f);
 
+	// galaxy image
 	glBegin(GL_QUADS);
 		float w = 1.0;
 		float h = 1.0;
@@ -133,21 +135,24 @@ void GalacticView::Draw3D()
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 
+	// "you are here" dot
 	glColor3f(0.0,1.0,0.0);
 	glPointSize(3.0);
 	glBegin(GL_POINTS);
 		glVertex2f(offset_x, offset_y);
 	glEnd();
-	
-	glLoadIdentity();
-	glColor3f(1,1,1);
 	glPointSize(1.0);
-	glBegin(GL_LINE_STRIP);
-		glVertex2f(-0.25,-0.93);
-		glVertex2f(-0.25,-0.94);
-		glVertex2f(0.25,-0.94);
-		glVertex2f(0.25,-0.93);
-	glEnd();
+
+	// scale at the top
+	glLoadIdentity();
+	Color white(1.f);
+	const LineVertex2D vts[] = {
+		LineVertex2D(-0.25,-0.93, white),
+		LineVertex2D(-0.25,-0.94, white),
+		LineVertex2D(0.25,-0.94, white),
+		LineVertex2D(0.25,-0.93, white)
+	};
+	m_renderer->DrawLines2D(4, vts, LINE_STRIP);
 
 	m_labels->Clear();
 	PutLabels(-vector3d(offset_x, offset_y, 0.0));
