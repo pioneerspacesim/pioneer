@@ -4,6 +4,7 @@
 #include "Gui.h"
 #include "FontManager.h"
 #include "TextureFont.h"
+#include "TextureCache.h"
 #include <list>
 #include <stack>
 
@@ -55,6 +56,8 @@ namespace Gui {
 		static void MeasureCharacterPos(const std::string &s, int charIndex, float &x, float &y, TextureFont *font = 0);
 		static void RenderMarkup(const std::string &s, TextureFont *font = 0);
 
+		static TextureCache *GetTextureCache() { return &s_textureCache; }
+
 	private:
 		static void AddShortcutWidget(Widget *w);
 		static void RemoveShortcutWidget(Widget *w);
@@ -77,6 +80,8 @@ namespace Gui {
 		static FontManager s_fontManager;
 		static std::stack<TextureFont*> s_fontStack;
 		static TextureFont *s_defaultFont;
+
+		static TextureCache s_textureCache;
 	};
 }
 

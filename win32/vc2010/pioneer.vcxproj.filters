@@ -210,6 +210,9 @@
     <ClCompile Include="..\..\src\MyLuaMathTypes.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\NameGenerator.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\ObjectViewerView.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -384,9 +387,6 @@
     <ClCompile Include="..\..\src\LuaMusic.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\TextureManager.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LuaSystemPath.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -439,9 +439,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\render\RenderTarget.cpp">
-      <Filter>src\render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\render\RenderTexture.cpp">
       <Filter>src\render</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\render\Render.cpp">
@@ -616,8 +613,11 @@
     <ClCompile Include="..\..\src\FileSelectorWidget.cpp" />
     <ClCompile Include="..\..\src\Game.cpp" />
     <ClCompile Include="..\..\src\MathUtil.cpp" />
-    <ClCompile Include="..\..\src\render\Renderer.cpp">
-      <Filter>src\render</Filter>
+    <ClCompile Include="..\..\src\Texture.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\TextureCache.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -843,6 +843,9 @@
     <ClInclude Include="..\..\src\MyLuaMathTypes.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\NameGenerator.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\Object.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1044,9 +1047,6 @@
     <ClInclude Include="..\..\src\LuaMusic.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\TextureManager.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\LuaSystemPath.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1098,9 +1098,6 @@
     <ClInclude Include="..\..\src\render\RenderTarget.h">
       <Filter>src\render</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\render\RenderTexture.h">
-      <Filter>src\render</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\render\Render.h">
       <Filter>src\render</Filter>
     </ClInclude>
@@ -1147,8 +1144,11 @@
     <ClInclude Include="..\..\src\FileSelectorWidget.h" />
     <ClInclude Include="..\..\src\Game.h" />
     <ClInclude Include="..\..\src\MathUtil.h" />
-    <ClInclude Include="..\..\src\render\Renderer.h">
-      <Filter>src\render</Filter>
+    <ClInclude Include="..\..\src\Texture.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\TextureCache.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

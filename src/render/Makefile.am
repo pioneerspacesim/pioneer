@@ -12,7 +12,6 @@ noinst_HEADERS = \
 	Renderer.h \
 	RenderFrustum.h \
 	RenderShader.h \
-	RenderTexture.h \
 	RenderTarget.h
 
 librender_a_SOURCES = \
@@ -20,7 +19,6 @@ librender_a_SOURCES = \
 	Renderer.cpp \
 	RenderFrustum.cpp \
 	RenderShader.cpp \
-	RenderTexture.cpp \
 	RenderTarget.cpp
 	
 

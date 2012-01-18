@@ -174,11 +174,11 @@
     <ClCompile Include="..\..\src\render\Render.cpp" />
     <ClCompile Include="..\..\src\render\RenderShader.cpp" />
     <ClCompile Include="..\..\src\render\RenderTarget.cpp" />
-    <ClCompile Include="..\..\src\render\RenderTexture.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
     <ClCompile Include="..\..\src\StringF.cpp" />
+    <ClCompile Include="..\..\src\Texture.cpp" />
+    <ClCompile Include="..\..\src\TextureCache.cpp" />
     <ClCompile Include="..\..\src\TextureFont.cpp" />
-    <ClCompile Include="..\..\src\TextureManager.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\..\src\VectorFont.cpp" />
     <ClCompile Include="..\src\pch.cpp">
@@ -237,11 +237,11 @@
     <ClInclude Include="..\..\src\render\Render.h" />
     <ClInclude Include="..\..\src\render\RenderShader.h" />
     <ClInclude Include="..\..\src\render\RenderTarget.h" />
-    <ClInclude Include="..\..\src\render\RenderTexture.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
     <ClInclude Include="..\..\src\StringF.h" />
+    <ClInclude Include="..\..\src\Texture.h" />
+    <ClInclude Include="..\..\src\TextureCache.h" />
     <ClInclude Include="..\..\src\TextureFont.h" />
-    <ClInclude Include="..\..\src\TextureManager.h" />
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\vector3.h" />
     <ClInclude Include="..\..\src\VectorFont.h" />
