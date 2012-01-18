@@ -5,6 +5,9 @@ Alpha 19
        interesting/varied names (#896)
      * Joystick deadzone support (#870)
 
+   * Fixes
+     * Ensure bulletin board is created before ship docks with station (#899)
+
    * Script changes
      * Removed NameGen.PlanetName and replaced with NameGen.BodyName (#896)
      * Added EventQueue.DebugTimer to enable event function call timing for
