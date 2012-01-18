@@ -31,6 +31,7 @@ class Ship;
 class GameMenuView;
 class LuaConsole;
 class LuaNameGen;
+class Renderer;
 namespace Sound { class MusicPlayer; }
 
 #if WITH_OBJECTVIEWER
@@ -151,6 +152,7 @@ public:
 	static ShipCpanel *cpan;
 	static GLUquadric *gluQuadric;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
+	static Renderer* renderer; // blargh
 
 #if WITH_OBJECTVIEWER
 	static ObjectViewerView *objectViewerView;

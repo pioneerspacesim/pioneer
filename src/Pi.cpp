@@ -65,6 +65,7 @@
 #include "TextureManager.h"
 #include "Game.h"
 #include "GameLoaderSaver.h"
+#include "render/Renderer.h"
 
 float Pi::gameTickAlpha;
 int Pi::scrWidth;
@@ -145,6 +146,7 @@ const char * const Pi::combatRating[] = {
 	Lang::DEADLY,
 	Lang::ELITE
 };
+Renderer *Pi::renderer;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -633,6 +635,8 @@ void Pi::InitOpenGL()
 	glViewport(0, 0, scrWidth, scrHeight);
 
 	gluQuadric = gluNewQuadric ();
+
+	Pi::renderer = new Renderer();
 }
 
 void Pi::Quit()

@@ -9,9 +9,11 @@
  * Draws points, lines, polys...
  * Terrains and LMRmodels might be too special for this now
  * Would ideally also:
+ * set blending modes
+ * set fill modes (solid/wireframe)
  * create and destroy context
  * toggle between fullscreen/windowed
- * prepare/endframe (move from Render.h)
+ * prepare/endframe/swapbuf (move from Render.h)
  */
 
 //first some data structures

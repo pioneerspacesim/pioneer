@@ -16,6 +16,7 @@
 #include "SpaceStationView.h"
 #include "InfoView.h"
 #include "ObjectViewerView.h"
+#include "render/Renderer.h"
 
 static const int  s_saveVersion   = 44;
 static const char s_saveStart[]   = "PIONEER";
@@ -595,6 +596,9 @@ void Game::CreateViews()
 	Pi::spaceStationView = new SpaceStationView();
 	Pi::infoView = new InfoView();
 
+	// view manager will handle setting this probably
+	Pi::sectorView->SetRenderer(Pi::renderer);
+
 #if WITH_OBJECTVIEWER
 	Pi::objectViewerView = new ObjectViewerView();
 #endif
@@ -627,6 +631,8 @@ void Game::LoadViews(Serializer::Reader &rd)
 #if WITH_OBJECTVIEWER
 	Pi::objectViewerView = new ObjectViewerView();
 #endif
+
+	Pi::sectorView->SetRenderer(Pi::renderer);
 }
 
 void Game::DestroyViews()
