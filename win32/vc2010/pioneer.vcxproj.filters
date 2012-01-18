@@ -210,9 +210,6 @@
     <ClCompile Include="..\..\src\MyLuaMathTypes.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\NameGenerator.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\ObjectViewerView.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -619,6 +616,9 @@
     <ClCompile Include="..\..\src\FileSelectorWidget.cpp" />
     <ClCompile Include="..\..\src\Game.cpp" />
     <ClCompile Include="..\..\src\MathUtil.cpp" />
+    <ClCompile Include="..\..\src\render\Renderer.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -841,9 +841,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\MyLuaMathTypes.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\NameGenerator.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Object.h">
@@ -1150,6 +1147,9 @@
     <ClInclude Include="..\..\src\FileSelectorWidget.h" />
     <ClInclude Include="..\..\src\Game.h" />
     <ClInclude Include="..\..\src\MathUtil.h" />
+    <ClInclude Include="..\..\src\render\Renderer.h">
+      <Filter>src\render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am">
