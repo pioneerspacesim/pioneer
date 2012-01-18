@@ -6,6 +6,14 @@
 
 class Renderer;
 
+struct Rect {
+	Rect() : x(0.f), y(0.f), w(0.f), h(0.f) { }
+	Rect(float x_, float y_, float width, float height) :
+		x(x_), y(y_), w(width), h(height) { }
+	float x, y;
+	float w, h;
+};
+
 namespace Gui {
 	class Container;
 	class ToolTip;
@@ -68,6 +76,9 @@ namespace Gui {
 
 		void SetRenderer(Renderer *r) { m_renderer = r; }
 		Renderer *GetRenderer() const { return m_renderer; }
+
+		// drawing utility functions
+		void FillRect(const Rect &r, const Color &c);
 	protected:
 		unsigned int m_eventMask;
 		struct {

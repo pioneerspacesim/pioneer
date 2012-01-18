@@ -40,13 +40,7 @@ void ShipSpinnerWidget::Draw()
 		rot2 += Pi::GetFrameTime();
 	}
 
-	glColor3f(0,0,0);
-	glBegin(GL_QUADS); {
-		glVertex2f(0.0f, 0.0f);
-		glVertex2f(0.0f, m_height);
-		glVertex2f(m_width, m_height);
-		glVertex2f(m_width, 0.0f);
-	} glEnd();
+	FillRect(Rect(0.f, 0.f, m_width, m_height), Color(0.f));
 
 	Render::State::SetZnearZfar(1.0f, 10000.0f);
 
