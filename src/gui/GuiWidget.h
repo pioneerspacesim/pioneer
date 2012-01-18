@@ -78,7 +78,9 @@ namespace Gui {
 		Renderer *GetRenderer() const { return m_renderer; }
 
 		// drawing utility functions
+		void FillRect(float x, float y, float w, float h, const Color &c);
 		void FillRect(const Rect &r, const Color &c);
+
 	protected:
 		unsigned int m_eventMask;
 		struct {

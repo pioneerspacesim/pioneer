@@ -176,17 +176,22 @@ Widget::~Widget()
 	m_tooltipTimerConnection.disconnect();
 }
 
-void Widget::FillRect(const Rect &r, const Color &c)
+void Widget::FillRect(float x, float y, float w, float h, const Color &c)
 {
 	// XXX use renderer
 	glColor4f(c.r, c.g, c.b, c.a);
 	glBegin(GL_QUADS);
-		glVertex2f(r.x,     r.y);
-		glVertex2f(r.x,     r.y+r.h);
-		glVertex2f(r.x+r.w, r.y+r.h);
-		glVertex2f(r.x+r.w, r.y);
+		glVertex2f(x,   y);
+		glVertex2f(x,   y+h);
+		glVertex2f(x+w, y+h);
+		glVertex2f(x+w, y);
 	glEnd();
 	glColor4f(1.f, 1.f, 1.f, 1.f);
+}
+
+void Widget::FillRect(const Rect &r, const Color &c)
+{
+	FillRect(r.x, r.y, r.w, r.h, c);
 }
 
 }
