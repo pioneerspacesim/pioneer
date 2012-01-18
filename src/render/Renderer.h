@@ -39,6 +39,15 @@ struct LineVertex2D {
 	Color color;
 };
 
+struct ColoredVertex {
+	ColoredVertex() : position(0.f), normal(0.f), color(0.f) { }
+	ColoredVertex(const vector3f &v, const vector3f &n, const Color &c)
+		: position(v), normal(n), color(c) { }
+	vector3f position;
+	vector3f normal;
+	Color color;
+};
+
 enum LineType {
 	LINE_SINGLE = GL_LINES, //draw one line per two vertices
 	LINE_STRIP = GL_LINE_STRIP,  //connect vertices
@@ -61,6 +70,7 @@ public:
 	//drawing functions
 	virtual bool DrawLines(int vertCount, const LineVertex *vertices, unsigned int lineType=LINE_SINGLE);
 	virtual bool DrawLines2D(int vertCount, const LineVertex2D *vertices, unsigned int lineType=LINE_SINGLE);
+	virtual bool DrawTriangleStrip(int vertCount, const ColoredVertex *vertices);
 };
 
 #endif

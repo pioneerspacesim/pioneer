@@ -52,3 +52,21 @@ bool Renderer::DrawLines2D(int count, const LineVertex2D *v, unsigned int type)
 
 	return true;
 }
+
+bool Renderer::DrawTriangleStrip(int count, const ColoredVertex *v)
+{
+	if (count < 3) return false;
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glVertexPointer(3, GL_FLOAT, sizeof(ColoredVertex), &v[0].position);
+	glColorPointer(4, GL_FLOAT, sizeof(ColoredVertex), &v[0].color);
+	glNormalPointer(GL_FLOAT, sizeof(ColoredVertex), &v[0].normal);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, count);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+
+	return true;
+}
