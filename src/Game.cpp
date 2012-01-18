@@ -599,6 +599,7 @@ void Game::CreateViews()
 	// view manager will handle setting this probably
 	Pi::sectorView->SetRenderer(Pi::renderer);
 	Pi::systemView->SetRenderer(Pi::renderer);
+	Pi::systemInfoView->SetRenderer(Pi::renderer);
 
 #if WITH_OBJECTVIEWER
 	Pi::objectViewerView = new ObjectViewerView();
@@ -635,6 +636,7 @@ void Game::LoadViews(Serializer::Reader &rd)
 
 	Pi::sectorView->SetRenderer(Pi::renderer);
 	Pi::systemView->SetRenderer(Pi::renderer);
+	Pi::systemInfoView->SetRenderer(Pi::renderer);
 }
 
 void Game::DestroyViews()

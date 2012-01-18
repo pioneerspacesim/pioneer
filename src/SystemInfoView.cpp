@@ -10,6 +10,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
+#include "render/Renderer.h"
 
 SystemInfoView::SystemInfoView()
 {
@@ -433,13 +434,14 @@ void SystemInfoView::BodyIcon::Draw()
 	if (!GetSelected()) return;
 	float size[2];
 	GetSize(size);
-	glColor3f(0.f, 1.f, 0.f);
-	glBegin(GL_LINE_LOOP);
-	glVertex2f(0.f, 0.f);
-	glVertex2f(size[0], 0.f);
-	glVertex2f(size[0], size[1]);
-	glVertex2f(0.f, size[1]);
-	glEnd();
+	Color c = Color(0.f, 1.f, 0.f, 1.f);
+	const LineVertex2D vts[] = {
+		LineVertex2D(vector2f(0.f, 0.f), c),
+		LineVertex2D(vector2f(size[0], 0.f), c),
+		LineVertex2D(vector2f(size[0], size[1]), c),
+		LineVertex2D(vector2f(0.f, size[1]), c)
+	};
+	m_renderer->DrawLines2D(4, vts, LINE_LOOP);
 }
 
 void SystemInfoView::BodyIcon::OnActivate()
