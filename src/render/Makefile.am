@@ -9,6 +9,7 @@ INCLUDES = -I$(srcdir)/..
 noinst_LIBRARIES = librender.a
 noinst_HEADERS = \
 	Render.h \
+	Renderer.h \
 	RenderFrustum.h \
 	RenderShader.h \
 	RenderTexture.h \
@@ -16,6 +17,7 @@ noinst_HEADERS = \
 
 librender_a_SOURCES = \
 	Render.cpp \
+	Renderer.cpp \
 	RenderFrustum.cpp \
 	RenderShader.cpp \
 	RenderTexture.cpp \
