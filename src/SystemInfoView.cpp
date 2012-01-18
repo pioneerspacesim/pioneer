@@ -187,6 +187,7 @@ void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, floa
 	if (body->type == SBody::TYPE_STARPORT_SURFACE) return;
 	if (body->type != SBody::TYPE_GRAVPOINT) {
 		BodyIcon *ib = new BodyIcon( (PIONEER_DATA_DIR "/" + std::string(body->GetIcon())).c_str() );
+		ib->SetRenderer(m_renderer);
 		m_bodyIcons.push_back(std::pair<std::string, BodyIcon*>(body->name, ib));
 		ib->GetSize(size);
 		if (prevSize < 0) prevSize = size[!dir];
