@@ -4,6 +4,8 @@
 #include "Color.h"
 #include "GuiEvents.h"
 
+class Renderer;
+
 namespace Gui {
 	class Container;
 	class ToolTip;
@@ -63,6 +65,9 @@ namespace Gui {
 		sigc::signal<void> onMouseLeave;
 		sigc::signal<void> onSetSize;
 		sigc::signal<void> onDelete;
+
+		void SetRenderer(Renderer *r) { m_renderer = r; }
+		Renderer *GetRenderer() const { return m_renderer; }
 	protected:
 		unsigned int m_eventMask;
 		struct {
@@ -72,6 +77,7 @@ namespace Gui {
 		
 		virtual std::string GetOverrideTooltip() { return ""; }
 		void UpdateOverriddenTooltip();
+		Renderer *m_renderer;
 	private:
 		struct {
 			float w,h;

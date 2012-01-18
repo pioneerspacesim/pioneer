@@ -46,6 +46,7 @@ private:
 	};
 	
 	void DrawSector(int x, int y, int z);
+	void DrawArrow(const vector3f &direction, const Color &c);
 	void PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path);
 
 	void SetSelectedSystem(const SystemPath &path);

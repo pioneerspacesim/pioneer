@@ -12,6 +12,7 @@
 #include "StringF.h"
 #include "ShipCpanel.h"
 #include "Game.h"
+#include "render/Renderer.h"
 
 #define INNER_RADIUS (Sector::SIZE*1.5f)
 #define OUTER_RADIUS (Sector::SIZE*3.0f)
@@ -490,18 +491,22 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 		m_infoBox->ShowAll();
 }
 
-static void _draw_arrow(const vector3f &direction)
+void SectorView::DrawArrow(const vector3f &direction, const Color &c)
 {
 	// ^^^^ !sol
 	const float headRadius = 0.25f;
-	glBegin(GL_LINE_STRIP);
-		glVertex3f(direction.x, direction.y, direction.z);
-		glVertex3f(0, 0, 0);
-	glEnd();
+
+	const LineVertex vts[] = {
+		LineVertex(vector3f(direction.x, direction.y, direction.z), c),
+		LineVertex(vector3f(0.f, 0.f, 0.f), c),
+	};
+	m_renderer->DrawLines(2, vts, LINE_STRIP);
+
 	glDisable(GL_CULL_FACE);
 	const vector3f axis1 = direction.Cross(vector3f(0,1.0f,0)).Normalized();
 	const vector3f axis2 = direction.Cross(axis1).Normalized();
 	vector3f p;
+	glColor4f(c.r, c.g, c.b, c.a);
 	glBegin(GL_TRIANGLE_FAN);
 		glVertex3f(direction.x, direction.y, direction.z);
 		for (float f=2*M_PI; f>0; f-=0.6) {
@@ -521,13 +526,15 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 	int cz = int(floor(m_pos.z+0.5f));
 
 	if (cz == sz) {
-		glColor3f(0,0.2f,0);
-		glBegin(GL_LINE_LOOP);
-			glVertex3f(0, 0, 0);
-			glVertex3f(0, Sector::SIZE, 0);
-			glVertex3f(Sector::SIZE, Sector::SIZE, 0);
-			glVertex3f(Sector::SIZE, 0, 0);
-		glEnd();
+		const Color c = Color(0.f, 0.2f, 0.f, 1.f);
+		const LineVertex vts[] = {
+			LineVertex(vector3f(0.f, 0.f, 0.f), c),
+			LineVertex(vector3f(0.f, Sector::SIZE, 0.f), c),
+			LineVertex(vector3f(Sector::SIZE, Sector::SIZE, 0.f), c),
+			LineVertex(vector3f(Sector::SIZE, 0.f, 0.f), c)
+		};
+	
+		m_renderer->DrawLines(4, vts, LINE_LOOP);
 	}
 
 	if (!(sx || sy)) glColor3f(1,1,0);
@@ -566,26 +573,28 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 		glPushMatrix();
 		glTranslatef((*i).p.x, (*i).p.y, (*i).p.z);
 
-		glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
-		glBegin(GL_LINES);
-			float z = -(*i).p.z;
-			if (sz <= cz)
-				z = z+abs(cz-sz)*Sector::SIZE;
-			else
-				z = z-abs(cz-sz)*Sector::SIZE;
+		float z = -(*i).p.z;
+		if (sz <= cz)
+			z = z+abs(cz-sz)*Sector::SIZE;
+		else
+			z = z-abs(cz-sz)*Sector::SIZE;
 
-			glVertex3f(0, 0, z);
-			glVertex3f(0, 0, 0);
+		const Color c = Color(0.5f, 0.5f, 0.5f, 0.5f);
+		const LineVertex vts[] = {
+			//vertical bit
+			LineVertex(vector3f(0.f, 0.f, z), c),
+			LineVertex(vector3f(0.f, 0.f, 0.f), c),
 
-			glVertex3f(-0.1f, -0.1f, z);
-			glVertex3f(0.1f, 0.1f, z);
-			glVertex3f(-0.1f, 0.1f, z);
-			glVertex3f(0.1f, -0.1f, z);
-		glEnd();
+			//cross at the base
+			LineVertex(vector3f(-0.1f, -0.1f, z), c),
+			LineVertex(vector3f(0.1f, 0.1f, z), c),
+			LineVertex(vector3f(-0.1f, 0.1f, z), c),
+			LineVertex(vector3f(0.1f, -0.1f, z), c)
+		};
+		m_renderer->DrawLines(6, vts);
 
 		if (current == m_selected && current != SystemPath(0,0,0,0)) {
-			glColor4f(0, 0.8f, 0, 1.0f);
-			_draw_arrow(-3.0f*sysAbsPos.Normalized());
+			DrawArrow(-3.0f*sysAbsPos.Normalized(), Color(0.f, 0.8f, 0.f, 1.f));
 		}
 
 		// draw star blob itself
