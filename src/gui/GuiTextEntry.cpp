@@ -184,22 +184,11 @@ void TextEntry::Draw()
 		if (m_scroll < 0) m_scroll = 0;
 	}
 
-	glColor3f(0,0,0);
-	glBegin(GL_TRIANGLE_FAN);
-		glVertex2f(0,size[1]);
-		glVertex2f(size[0],size[1]);
-		glVertex2f(size[0],0);
-		glVertex2f(0,0);
-	glEnd();
-	if (IsFocused()) glColor3f(1,1,1);
-	else glColor3f(.75f, .75f, .75f);
-	glBegin(GL_LINE_LOOP);
-		glVertex2f(0,0);
-		glVertex2f(size[0],0);
-		glVertex2f(size[0],size[1]);
-		glVertex2f(0,size[1]);
-	glEnd();
-
+	FillRect(0.f, 0.f, size[0], size[1], Color(0.f));
+	Color c(1.f);
+	if (!IsFocused())
+		c = Color(.75f, .75f, .75f, 1.f);
+	DrawRect(0.f, 0.f, size[0], size[1], c);
 
 	SetClipping(size[0], size[1]);
 	Gui::Screen::RenderString(m_text, 1.0f - m_scroll, 1.0f, m_font);
