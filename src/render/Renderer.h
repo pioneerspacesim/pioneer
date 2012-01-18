@@ -17,6 +17,13 @@
  */
 
 //first some data structures
+struct vector2f {
+	vector2f() : x(0.f), y(0.f) { }
+	vector2f(float _v) : x(_v), y(_v) { }
+	vector2f(float _x, float _y) : x(_x), y(_y) { }
+	float x, y;
+};
+
 struct LineVertex {
 	LineVertex() : position(0.f, 0.f, 0.f), color(0.f, 0.f, 0.f, 0.f) { }
 	LineVertex(const vector3f& v, const Color &c) : position(v), color(c) { }
