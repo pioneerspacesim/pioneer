@@ -10,6 +10,7 @@
 class Frame;
 class ObjMesh;
 class Space;
+class Renderer;
 
 class Body: public Object {
 public:
@@ -90,6 +91,9 @@ public:
 	enum { FLAG_CAN_MOVE_FRAME = (1<<0),
                FLAG_LABEL_HIDDEN = (1<<1),
 	       FLAG_DRAW_LAST = (1<<2) }; // causes the body drawn after other bodies in the z-sort
+
+	void SetRenderer(Renderer *r) { m_renderer = r; }
+	Renderer *GetRenderer() const { return m_renderer; }
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -98,6 +102,7 @@ protected:
 
 	// Interpolated draw orientation-position
 	matrix4x4d m_interpolatedTransform;
+	Renderer *m_renderer;
 private:
 	// frame of reference
 	Frame *m_frame;

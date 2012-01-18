@@ -4,6 +4,7 @@
 #include "GeoSphere.h"
 #include "render/Render.h"
 #include "perlin.h"
+#include "render/Renderer.h"
 
 struct ColRangeObj_t {
 	float baseCol[4]; float modCol[4]; float modAll;
@@ -127,20 +128,22 @@ static GasGiantDef_t ggdefs[] = {
 
 #define PLANET_AMBIENT	0.1f
 
-static void DrawRing(double inner, double outer, const float color[4])
+static void DrawRing(double inner, double outer, const float color[4], Renderer *r)
 {
 	glColor4fv(color);
 
 	float step = 0.1f / (Pi::detail.planets + 1);
 
-	glBegin(GL_TRIANGLE_STRIP);
-	glNormal3f(0,1,0);
+	std::vector<ColoredVertex> vts;
+	const vector3f normal(0.f, 1.f, 0.f);
+	const Color c(color[0], color[1], color[2], color[3]);
 	for (float ang=0; ang<2*M_PI; ang+=step) {
-		glVertex3f(float(inner)*sin(ang), 0, float(inner)*cos(ang));
-		glVertex3f(float(outer)*sin(ang), 0, float(outer)*cos(ang));
+		vts.push_back(ColoredVertex(vector3f(float(inner)*sin(ang), 0.f, float(inner)*cos(ang)), normal, c));
+		vts.push_back(ColoredVertex(vector3f(float(outer)*sin(ang), 0.f, float(outer)*cos(ang)), normal, c));
 	}
-	glVertex3f(0, 0, float(inner));
-	glVertex3f(0, 0, float(outer));
+	vts.push_back(ColoredVertex(vector3f(0.f, 0.f, float(inner)), normal, c));
+	vts.push_back(ColoredVertex(vector3f(0.f, 0.f, float(outer)), normal, c));
+	r->DrawTriangleStrip(vts.size(), &vts[0]);
 	glEnd();
 }
 
@@ -184,7 +187,7 @@ void Planet::DrawGasGiantRings()
 			col[1] = baseCol[1] * n;
 			col[2] = baseCol[2] * n;
 			col[3] = baseCol[3] * n;
-			DrawRing(rpos, rpos+size, col);
+			DrawRing(rpos, rpos+size, col, m_renderer);
 			rpos += size;
 		}
 	}
