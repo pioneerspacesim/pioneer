@@ -1416,33 +1416,30 @@ void WorldView::Draw()
 	glLineWidth(1.0f);
 
 	// normal crosshairs
-	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
+	Color cc(1.f, 1.f, 1.f, 0.8f);
 	if (GetCamType() == WorldView::CAM_FRONT)
-		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE);
+		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, cc);
 	else if (GetCamType() == WorldView::CAM_REAR)
-		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f);
+		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f, cc);
 
 	glPopAttrib();
 
 	glDisable(GL_BLEND);
 }
 
-void WorldView::DrawCrosshair(float px, float py, float sz)
+void WorldView::DrawCrosshair(float px, float py, float sz, const Color &c)
 {
-	glEnableClientState(GL_VERTEX_ARRAY);
-	GLfloat vtx[16] = {
-		px-sz, py,
-		px-0.5f*sz, py,
-		px+sz, py,
-		px+0.5f*sz, py,
-		px, py-sz,
-		px, py-0.5f*sz,
-		px, py+sz,
-		px, py+0.5f*sz,
+	const LineVertex2D vts[] = {
+		LineVertex2D(vector2f(px-sz, py), c),
+		LineVertex2D(vector2f(px-0.5f*sz, py), c),
+		LineVertex2D(vector2f(px+sz, py), c),
+		LineVertex2D(vector2f(px+0.5f*sz, py), c),
+		LineVertex2D(vector2f(px, py-sz), c),
+		LineVertex2D(vector2f(px, py-0.5f*sz), c),
+		LineVertex2D(vector2f(px, py+sz), c),
+		LineVertex2D(vector2f(px, py+0.5f*sz), c)
 	};
-	glVertexPointer(2, GL_FLOAT, 0, vtx);
-	glDrawArrays(GL_LINES, 0, 8);
-	glDisableClientState(GL_VERTEX_ARRAY);
+	m_renderer->DrawLines2D(8, vts);
 }
 
 void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c)
@@ -1467,22 +1464,31 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 			}
 		}
 
-		GLfloat vtx[28] = {
-			x1+10*xd, y1+10*yd,	x1+20*xd, y1+20*yd,  // target crosshairs
-			x1-10*xd, y1-10*yd,	x1-20*xd, y1-20*yd,
-			x1-10*yd, y1+10*xd,	x1-20*yd, y1+20*xd,
-			x1+10*yd, y1-10*xd,	x1+20*yd, y1-20*xd,
+		const LineVertex2D vts[] = {
+			// target crosshairs
+			LineVertex2D(vector2f(x1+10*xd, y1+10*yd), c),
+			LineVertex2D(vector2f(x1+20*xd, y1+20*yd), c),
+			LineVertex2D(vector2f(x1-10*xd, y1-10*yd), c),
+			LineVertex2D(vector2f(x1-20*xd, y1-20*yd), c),
+			LineVertex2D(vector2f(x1-10*yd, y1+10*xd), c),
+			LineVertex2D(vector2f(x1-20*yd, y1+20*xd), c),
+			LineVertex2D(vector2f(x1+10*yd, y1-10*xd), c),
+			LineVertex2D(vector2f(x1+20*yd, y1-20*xd), c),
 
-			x2-10*xd, y2-10*yd,	x2+10*xd, y2+10*yd,  // lead crosshairs
-			x2-10*yd, y2+10*xd,	x2+10*yd, y2-10*xd,
+			// lead crosshairs
+			LineVertex2D(vector2f(x2-10*xd, y2-10*yd), c),
+			LineVertex2D(vector2f(x2+10*xd, y2+10*yd), c),  
+			LineVertex2D(vector2f(x2-10*yd, y2+10*xd), c),
+			LineVertex2D(vector2f(x2+10*yd, y2-10*xd), c),
 
-			x1+20*xd, y1+20*yd,	x2-10*xd, y2-10*yd,  // line between crosshairs
+			// line between crosshairs
+			LineVertex2D(vector2f(x1+20*xd, y1+20*yd), c),
+			LineVertex2D(vector2f(x2-10*xd, y2-10*yd), c)
 		};
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINES, 0, 8);
-		if (lead.side == INDICATOR_ONSCREEN) glDrawArrays(GL_LINES, 8, 6);
-		glDisableClientState(GL_VERTEX_ARRAY);
+		if (lead.side == INDICATOR_ONSCREEN)
+			m_renderer->DrawLines2D(14, vts); //draw all
+		else
+			m_renderer->DrawLines2D(8, vts); //only crosshair
 	} else
 		DrawEdgeMarker(target, c);
 }
@@ -1519,20 +1525,17 @@ void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
 	if (marker.side == INDICATOR_ONSCREEN) {
 		const float posx = marker.pos[0];
 		const float posy = marker.pos[1];
-		GLfloat vtx[16] = {
-			posx-sz, posy-sz,
-			posx-0.5f*sz, posy-0.5f*sz,
-			posx+sz, posy-sz,
-			posx+0.5f*sz, posy-0.5f*sz,
-			posx+sz, posy+sz,
-			posx+0.5f*sz, posy+0.5f*sz,
-			posx-sz, posy+sz,
-			posx-0.5f*sz, posy+0.5f*sz
+		const LineVertex2D vts[] = {
+			LineVertex2D(vector2f(posx-sz, posy-sz), c),
+			LineVertex2D(vector2f(posx-0.5f*sz, posy-0.5f*sz), c),
+			LineVertex2D(vector2f(posx+sz, posy-sz), c),
+			LineVertex2D(vector2f(posx+0.5f*sz, posy-0.5f*sz), c),
+			LineVertex2D(vector2f(posx+sz, posy+sz), c),
+			LineVertex2D(vector2f(posx+0.5f*sz, posy+0.5f*sz), c),
+			LineVertex2D(vector2f(posx-sz, posy+sz), c),
+			LineVertex2D(vector2f(posx-0.5f*sz, posy+0.5f*sz), c)
 		};
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINES, 0, 8);
-		glDisableClientState(GL_VERTEX_ARRAY);
+		m_renderer->DrawLines2D(8, vts);
 	} else
 		DrawEdgeMarker(marker, c);
 
@@ -1546,15 +1549,14 @@ void WorldView::DrawCircleIndicator(const Indicator &marker, const Color &c)
 	if (marker.side == INDICATOR_ONSCREEN) {
 		const float posx = marker.pos[0];
 		const float posy = marker.pos[1];
-		GLfloat vtx[72*2];
-		for (int i = 0; i < 72*2; i+=2) {
-			vtx[i]   = posx+sinf(DEG2RAD(i*5))*sz;
-			vtx[i+1] = posy+cosf(DEG2RAD(i*5))*sz;
+		std::vector<LineVertex2D> vts;
+		for (int i = 0; i < 72; i++) {
+			vts.push_back(LineVertex2D(vector2f(
+				posx+sinf(DEG2RAD(i*5))*sz,
+				posy+cosf(DEG2RAD(i*5))*sz),
+				c));
 		}
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINE_LOOP, 0, 72);
-		glDisableClientState(GL_VERTEX_ARRAY);
+		m_renderer->DrawLines2D(72, &vts[0], LINE_LOOP);
 	} else
 		DrawEdgeMarker(marker, c);
 }
