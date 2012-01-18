@@ -45,13 +45,22 @@ enum LineType {
 	LINE_LOOP = GL_LINE_LOOP    //connect vertices,  connect start & end
 };
 
+enum BlendModes {
+	BLEND_SOLID,
+	BLEND_ADDITIVE,
+	BLEND_ALPHA
+};
+
 class Renderer
 {
 public:
-	//drawing functions
 	//return false if failed/unsupported
-	bool DrawLines(int vertCount, const LineVertex *vertices, unsigned int lineType=LINE_SINGLE);
-	bool DrawLines2D(int vertCount, const LineVertex2D *vertices, unsigned int lineType=LINE_SINGLE);
+	//render state functions
+	virtual bool SetBlendMode(unsigned int blendType);
+
+	//drawing functions
+	virtual bool DrawLines(int vertCount, const LineVertex *vertices, unsigned int lineType=LINE_SINGLE);
+	virtual bool DrawLines2D(int vertCount, const LineVertex2D *vertices, unsigned int lineType=LINE_SINGLE);
 };
 
 #endif
