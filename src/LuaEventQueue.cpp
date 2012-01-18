@@ -4,6 +4,8 @@
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Pi.h"
+#include "LuaConsole.h"
+#include "StringF.h"
 
 void LuaEventQueueBase::RegisterEventQueue()
 {
@@ -52,6 +54,30 @@ void LuaEventQueueBase::ClearEvents()
 	}
 }
 
+inline void LuaEventQueueBase::DoEventCall(lua_State *l, LuaEventBase *e)
+{
+	if (m_debugTimer) {
+		int top = lua_gettop(l);
+
+		lua_pushvalue(l, -1);
+		lua_Debug ar;
+		lua_getinfo(l, ">S", &ar);
+
+		PrepareLuaStack(l, e);
+
+		Uint32 start = SDL_GetTicks();
+		pi_lua_protected_call(l, lua_gettop(l) - top, 0);
+		Uint32 end = SDL_GetTicks();
+
+		Pi::luaConsole->AddOutput(stringf("DEBUG: %0 %1{u}ms %2:%3{d}", m_name, end-start, ar.source, ar.linedefined));
+	}
+	else {
+		int top = lua_gettop(l);
+		PrepareLuaStack(l, e);
+		pi_lua_protected_call(l, lua_gettop(l) - top, 0);
+	}
+}
+
 void LuaEventQueueBase::EmitSingleEvent(LuaEventBase *e)
 {
 	lua_State *l = Pi::luaManager->GetLuaState();
@@ -64,11 +90,8 @@ void LuaEventQueueBase::EmitSingleEvent(LuaEventBase *e)
 	assert(lua_istable(l, -1));
 
 	lua_pushnil(l);
-	while (lua_next(l, -2) != 0) {
-		int top = lua_gettop(l);
-		PrepareLuaStack(l, e);
-		pi_lua_protected_call(l, lua_gettop(l) - top, 0);
-	}
+	while (lua_next(l, -2) != 0)
+		DoEventCall(l, e);
 
 	lua_pop(l, 2);
 
@@ -95,11 +118,8 @@ void LuaEventQueueBase::Emit()
 		m_events.pop_front();
 
 		lua_pushnil(l);
-		while (lua_next(l, -2) != 0) {
-			int top = lua_gettop(l);
-			PrepareLuaStack(l, e);
-			pi_lua_protected_call(l, lua_gettop(l) - top, 0);
-		}
+		while (lua_next(l, -2) != 0)
+			DoEventCall(l, e);
 
 		delete e;
 	}
@@ -708,13 +728,50 @@ int LuaEventQueueBase::l_disconnect(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: DebugTimer
+ *
+ * Enables the function timer for this event queue. When enabled the console
+ * will display the amount of time that each function attached to this queue
+ * takes to run.
+ *
+ * > onEvent:DebugTimer(enabled)
+ *
+ * Parameters:
+ *
+ *   enabled - a true value to enable the timer, or a false value to disable
+ *             it.
+ *
+ * Availability:
+ *
+ *   alpha 19
+ *
+ * Status:
+ *
+ *   debug
+ */
+int LuaEventQueueBase::l_debug_timer(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	LuaEventQueueBase *q = LuaObject<LuaEventQueueBase>::GetFromLua(1);
+	bool enable = lua_toboolean(l, 2);
+
+	q->DebugTimer(enable);
+
+	LUA_DEBUG_END(l, 0);
+
+	return 0;
+}
+
 template <> const char *LuaObject<LuaEventQueueBase>::s_type = "EventQueue";
 
 template <> void LuaObject<LuaEventQueueBase>::RegisterClass()
 {
 	static const luaL_reg l_methods[] = {
-		{ "Connect",    LuaEventQueueBase::l_connect    },
-		{ "Disconnect", LuaEventQueueBase::l_disconnect },
+		{ "Connect",    LuaEventQueueBase::l_connect     },
+		{ "Disconnect", LuaEventQueueBase::l_disconnect  },
+		{ "DebugTimer", LuaEventQueueBase::l_debug_timer },
 		{ 0, 0 }
 	};
 
