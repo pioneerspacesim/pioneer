@@ -17,6 +17,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
+#include "render/Renderer.h"
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
@@ -1395,25 +1396,22 @@ void WorldView::Draw()
 	glLineWidth(2.0f);
 
 	// nav target square
-	glColor4f(0.0f, 1.0f, 0.0f, 0.8f);
-	DrawTargetSquare(m_navTargetIndicator);
+	DrawTargetSquare(m_navTargetIndicator, Color(0.f, 1.f, 0.f, 0.8f));
 
 	glLineWidth(1.0f);
 
 	// velocity indicators
-	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
-	DrawVelocityIndicator(m_velIndicator);
-	glColor4f(0.0f, 1.0f, 0.0f, 0.8f);
-	DrawVelocityIndicator(m_navVelIndicator);
+	DrawVelocityIndicator(m_velIndicator, Color(1.f, 1.f, 1.f, 0.8f));
+	DrawVelocityIndicator(m_navVelIndicator, Color(0.f, 1.f, 0.f, 0.8f));
 
 	glLineWidth(2.0f);
 
-	glColor4f(0.9f, 0.9f, 0.3f, 1.0f);
-	DrawImageIndicator(m_mouseDirIndicator, PIONEER_DATA_DIR "/icons/indicator_mousedir.png");
+	DrawImageIndicator(m_mouseDirIndicator,
+		PIONEER_DATA_DIR "/icons/indicator_mousedir.png",
+		Color(0.9f, 0.9f, 0.3f, 1.f));
 
 	// combat target indicator
-	glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
-	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator);
+	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, Color(1.f, 0.f, 0.f, 0.5f));
 
 	glLineWidth(1.0f);
 
@@ -1447,7 +1445,7 @@ void WorldView::DrawCrosshair(float px, float py, float sz)
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead)
+void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c)
 {
 	if (target.side == INDICATOR_HIDDEN) return;
 
@@ -1486,14 +1484,14 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 		if (lead.side == INDICATOR_ONSCREEN) glDrawArrays(GL_LINES, 8, 6);
 		glDisableClientState(GL_VERTEX_ARRAY);
 	} else
-		DrawEdgeMarker(target);
+		DrawEdgeMarker(target, c);
 }
 
-void WorldView::DrawTargetSquare(const Indicator &marker)
+void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 {
 	if (marker.side == INDICATOR_HIDDEN) return;
 	if (marker.side != INDICATOR_ONSCREEN)
-		DrawEdgeMarker(marker);
+		DrawEdgeMarker(marker, c);
 
 	// if the square is off-screen, draw a little square at the edge
 	const float sz = (marker.side == INDICATOR_ONSCREEN)
@@ -1504,19 +1502,16 @@ void WorldView::DrawTargetSquare(const Indicator &marker)
 	const float y1 = float(marker.pos[1] - sz);
 	const float y2 = float(marker.pos[1] + sz);
 
-	GLfloat vtx[8] = {
-		x1, y1,
-		x2, y1,
-		x2, y2,
-		x1, y2
+	const LineVertex2D vts[] = {
+		LineVertex2D(vector2f(x1, y1), c),
+		LineVertex2D(vector2f(x2, y1), c),
+		LineVertex2D(vector2f(x2, y2), c),
+		LineVertex2D(vector2f(x1, y2), c)
 	};
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(2, GL_FLOAT, 0, vtx);
-	glDrawArrays(GL_LINE_LOOP, 0, 4);
-	glDisableClientState(GL_VERTEX_ARRAY);
+	m_renderer->DrawLines2D(4, vts, LINE_LOOP);
 }
 
-void WorldView::DrawVelocityIndicator(const Indicator &marker)
+void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
 {
 	if (marker.side == INDICATOR_HIDDEN) return;
 
@@ -1539,11 +1534,11 @@ void WorldView::DrawVelocityIndicator(const Indicator &marker)
 		glDrawArrays(GL_LINES, 0, 8);
 		glDisableClientState(GL_VERTEX_ARRAY);
 	} else
-		DrawEdgeMarker(marker);
+		DrawEdgeMarker(marker, c);
 
 }
 
-void WorldView::DrawCircleIndicator(const Indicator &marker)
+void WorldView::DrawCircleIndicator(const Indicator &marker, const Color &c)
 {
 	if (marker.side == INDICATOR_HIDDEN) return;
 
@@ -1561,10 +1556,10 @@ void WorldView::DrawCircleIndicator(const Indicator &marker)
 		glDrawArrays(GL_LINE_LOOP, 0, 72);
 		glDisableClientState(GL_VERTEX_ARRAY);
 	} else
-		DrawEdgeMarker(marker);
+		DrawEdgeMarker(marker, c);
 }
 
-void WorldView::DrawImageIndicator(const Indicator &marker, const char *icon_path)
+void WorldView::DrawImageIndicator(const Indicator &marker, const char *icon_path, const Color &c)
 {
 	if (marker.side == INDICATOR_HIDDEN) return;
 
@@ -1580,6 +1575,7 @@ void WorldView::DrawImageIndicator(const Indicator &marker, const char *icon_pat
 			x0 + w, y0 + h, 1.0f, 1.0f,
 			x0 + w, y0,     1.0f, 0.0f,
 		};
+		//XXX apply color to tint the image
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glEnable(GL_TEXTURE_2D);
@@ -1591,10 +1587,10 @@ void WorldView::DrawImageIndicator(const Indicator &marker, const char *icon_pat
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
 	} else
-		DrawEdgeMarker(marker);
+		DrawEdgeMarker(marker, c);
 }
 
-void WorldView::DrawEdgeMarker(const Indicator &marker)
+void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 {
 	const float sz = HUD_CROSSHAIR_SIZE;
 
@@ -1604,15 +1600,11 @@ void WorldView::DrawEdgeMarker(const Indicator &marker)
 	float len = sqrt(dirx*dirx + diry*diry);
 	dirx *= sz/len;
 	diry *= sz/len;
-	GLfloat vtx[4] = {
-		marker.pos[0], marker.pos[1],
-		marker.pos[0] + dirx, marker.pos[1] + diry,
+	const LineVertex2D vts[] = {
+		LineVertex2D(vector2f(marker.pos[0], marker.pos[1]), c),
+		LineVertex2D(vector2f(marker.pos[0] + dirx, marker.pos[1] + diry), c)
 	};
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(2, GL_FLOAT, 0, vtx);
-	glDrawArrays(GL_LINES, 0, 2);
-	glDisableClientState(GL_VERTEX_ARRAY);
+	m_renderer->DrawLines2D(2, vts);
 }
 
 void WorldView::MouseButtonDown(int button, int x, int y)

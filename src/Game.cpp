@@ -597,6 +597,7 @@ void Game::CreateViews()
 	Pi::infoView = new InfoView();
 
 	// view manager will handle setting this probably
+	Pi::worldView->SetRenderer(Pi::renderer);
 	Pi::sectorView->SetRenderer(Pi::renderer);
 	Pi::systemView->SetRenderer(Pi::renderer);
 	Pi::systemInfoView->SetRenderer(Pi::renderer);
@@ -634,6 +635,7 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::objectViewerView = new ObjectViewerView();
 #endif
 
+	Pi::worldView->SetRenderer(Pi::renderer);
 	Pi::sectorView->SetRenderer(Pi::renderer);
 	Pi::systemView->SetRenderer(Pi::renderer);
 	Pi::systemInfoView->SetRenderer(Pi::renderer);
