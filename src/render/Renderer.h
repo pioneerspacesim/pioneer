@@ -25,9 +25,16 @@ struct vector2f {
 };
 
 struct LineVertex {
-	LineVertex() : position(0.f, 0.f, 0.f), color(0.f, 0.f, 0.f, 0.f) { }
+	LineVertex() : position(0.f, 0.f, 0.f), color(0.f) { }
 	LineVertex(const vector3f& v, const Color &c) : position(v), color(c) { }
 	vector3f position;
+	Color color;
+};
+
+struct LineVertex2D {
+	LineVertex2D() : position(0.f), color(0.f) { }
+	LineVertex2D(const vector2f &pos, const Color &c) : position(pos), color(c) { }
+	vector2f position;
 	Color color;
 };
 
@@ -43,6 +50,7 @@ public:
 	//drawing functions
 	//return false if failed/unsupported
 	bool DrawLines(int vertCount, const LineVertex *vertices, unsigned int lineType=LINE_SINGLE);
+	bool DrawLines2D(int vertCount, const LineVertex2D *vertices, unsigned int lineType=LINE_SINGLE);
 };
 
 #endif
