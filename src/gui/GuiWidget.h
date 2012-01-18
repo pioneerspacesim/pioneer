@@ -80,6 +80,8 @@ namespace Gui {
 		// drawing utility functions
 		void FillRect(float x, float y, float w, float h, const Color &c);
 		void FillRect(const Rect &r, const Color &c);
+		void DrawRect(float x, float y, float w, float h, const Color &c);
+		void DrawRect(const Rect &r, const Color &c);
 
 	protected:
 		unsigned int m_eventMask;

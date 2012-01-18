@@ -194,4 +194,21 @@ void Widget::FillRect(const Rect &r, const Color &c)
 	FillRect(r.x, r.y, r.w, r.h, c);
 }
 
+void Widget::DrawRect(float x, float y, float w, float h, const Color &c)
+{
+	glColor4f(c.r, c.g, c.b, c.a);
+	glBegin(GL_LINE_LOOP);
+		glVertex2f(x,   y);
+		glVertex2f(x,   y+h);
+		glVertex2f(x+w, y+h);
+		glVertex2f(x+w, y);
+	glEnd();
+	glColor4f(1.f, 1.f, 1.f, 1.f);
+}
+
+void Widget::DrawRect(const Rect &r, const Color &c)
+{
+	DrawRect(r.x, r.y, r.w, r.h, c);
+}
+
 }
