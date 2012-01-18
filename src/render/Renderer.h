@@ -33,6 +33,7 @@ struct LineVertex {
 
 struct LineVertex2D {
 	LineVertex2D() : position(0.f), color(0.f) { }
+	LineVertex2D(float x, float y, const Color &c) : position(x, y), color(c) { }
 	LineVertex2D(const vector2f &pos, const Color &c) : position(pos), color(c) { }
 	vector2f position;
 	Color color;
