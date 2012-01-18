@@ -151,13 +151,10 @@ void Tabbed::Draw()
 	float xpos = 0;
 	unsigned int index = 0;
 
-	glColor3fv(Theme::Colors::bgShadow);
-	glBegin(GL_QUADS);
-		glVertex2f(0, TAB_BAR_HEIGHT);
-		glVertex2f(size[0], TAB_BAR_HEIGHT);
-		glVertex2f(size[0], 0);
-		glVertex2f(0, 0);
-	glEnd();
+	const float *c = Theme::Colors::bgShadow;
+	FillRect(
+		Rect(0.f, 0.f, size[0], TAB_BAR_HEIGHT),
+		Color(c[0], c[1], c[2], c[3]));
 
 	for (pagecontainer_t::iterator i = m_pages.begin(); i!=m_pages.end(); 
 			++i, index++) {
@@ -165,13 +162,10 @@ void Tabbed::Draw()
 		(*i).first->GetSize(csize);
 		csize[0] += 2*LABEL_PADDING;
 		if (index == m_page) {
-			glColor3fv(Theme::Colors::bg);
-			glBegin(GL_QUADS);
-				glVertex2f(xpos, TAB_BAR_HEIGHT);
-				glVertex2f(xpos+csize[0], TAB_BAR_HEIGHT);
-				glVertex2f(xpos+csize[0], 0);
-				glVertex2f(xpos, 0);
-			glEnd();
+			const float *b = Theme::Colors::bg;
+			FillRect(
+				Rect(xpos, 0.f, csize[0], TAB_BAR_HEIGHT),
+				Color(b[0], b[1], b[2], b[3]));
 		}
 		xpos += csize[0];
 	}

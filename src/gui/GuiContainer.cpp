@@ -164,13 +164,9 @@ void Container::Draw()
 	GetSize(size);
 	if (!m_transparent) {
 		if (m_bgcol[3] < 1.0) glEnable(GL_BLEND);
-		glBegin(GL_QUADS);
-			glColor4fv(m_bgcol);
-			glVertex2f(0, size[1]);
-			glVertex2f(size[0], size[1]);
-			glVertex2f(size[0], 0);
-			glVertex2f(0, 0);
-		glEnd();
+		FillRect(
+			Rect(0.f, 0.f, size[0], size[1]),
+			Color(m_bgcol[0], m_bgcol[1], m_bgcol[2], m_bgcol[3]));
 		glDisable(GL_BLEND);
 	}
 #ifdef GUI_DEBUG_CONTAINER

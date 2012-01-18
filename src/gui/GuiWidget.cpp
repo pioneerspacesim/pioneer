@@ -181,10 +181,10 @@ void Widget::FillRect(const Rect &r, const Color &c)
 	// XXX use renderer
 	glColor4f(c.r, c.g, c.b, c.a);
 	glBegin(GL_QUADS);
-		glVertex2f(r.x, r.y);
-		glVertex2f(r.x, r.h);
-		glVertex2f(r.w, r.h);
-		glVertex2f(r.h, r.y);
+		glVertex2f(r.x,     r.y);
+		glVertex2f(r.x,     r.y+r.h);
+		glVertex2f(r.x+r.w, r.y+r.h);
+		glVertex2f(r.x+r.w, r.y);
 	glEnd();
 	glColor4f(1.f, 1.f, 1.f, 1.f);
 }

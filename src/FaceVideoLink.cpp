@@ -145,13 +145,7 @@ void FaceVideoLink::Draw() {
 	Uint32 now = SDL_GetTicks();
 
 	if (now - m_created < 1500) {
-		glBegin(GL_QUADS);
-			glColor3f(0,0,0);
-			glVertex2f(0,0);
-			glVertex2f(0,size[1]);
-			glVertex2f(size[0],size[1]);
-			glVertex2f(size[0],0);
-		glEnd();
+		FillRect(Rect(0.f, 0.f, size[0], size[1]), Color(0.f));
 
 		m_message->SetText(Lang::VID_CONNECTING);
 		DrawMessage();
