@@ -13,16 +13,7 @@
 
 GalacticView::GalacticView()
 {
-	const SDL_Surface *s = Galaxy::GetGalaxyBitmap();
-	glEnable(GL_TEXTURE_2D);
-	glGenTextures (1, &m_texture);
-	glBindTexture (GL_TEXTURE_2D, m_texture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, s->w, s->h, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, s->pixels);
-	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glDisable(GL_TEXTURE_2D);
+	m_texture.Reset(new UITexture(Galaxy::GetGalaxyBitmap()));
 
 	SetTransparency(true);
 	m_zoom = 1.0f;
@@ -49,7 +40,6 @@ GalacticView::GalacticView()
 
 GalacticView::~GalacticView()
 {
-	glDeleteTextures(1, &m_texture);
 	m_onMouseButtonDown.disconnect();
 }
 
@@ -113,7 +103,7 @@ void GalacticView::Draw3D()
 	glDisable(GL_BLEND);
 
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, m_texture);
+	m_texture->Bind();
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	
 	glScalef(m_zoom, m_zoom, 0.0f);
@@ -131,6 +121,8 @@ void GalacticView::Draw3D()
 		glTexCoord2f(0,0);
 		glVertex2f(-1.0,-1.0);
 	glEnd();
+
+	m_texture->Unbind();
 	glDisable(GL_TEXTURE_2D);
 
 	glColor3f(0.0,1.0,0.0);

@@ -10,7 +10,7 @@ namespace Galaxy {
 
 	void Init();
 	void Uninit();
-	const SDL_Surface *GetGalaxyBitmap();
+	SDL_Surface *GetGalaxyBitmap();
 	/* 0 - 255 */
 	Uint8 GetSectorDensity(int sx, int sy, int sz);
 }

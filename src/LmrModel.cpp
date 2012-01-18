@@ -11,7 +11,7 @@
 #include "LuaConstants.h"
 #include "EquipType.h"
 #include "ShipType.h"
-#include "TextureManager.h"
+#include "TextureCache.h"
 #include <set>
 #include <algorithm>
 
@@ -247,6 +247,7 @@ static lua_State *sLua;
 static int s_numTrisRendered;
 static std::string s_cacheDir;
 static bool s_recompileAllModels = true;
+static TextureCache *s_textureCache;
 
 struct Vertex {
 	Vertex() : v(0.0), n(0.0), tex_u(0.0), tex_v(0.0) {}		// zero this shit to stop denormal-copying on resize
@@ -363,10 +364,10 @@ public:
 					UseProgram(curShader, true, op.elems.glowmap != 0);
 					glActiveTexture(GL_TEXTURE0);
 					glEnable(GL_TEXTURE_2D);
-					op.elems.texture->BindTexture();
+					op.elems.texture->Bind();
 					if (op.elems.glowmap != 0) {
 						glActiveTexture(GL_TEXTURE1);
-						op.elems.glowmap->BindTexture();
+						op.elems.glowmap->Bind();
 					}
 				} else {
 					UseProgram(curShader, false);
@@ -393,7 +394,7 @@ public:
 			case OP_DRAW_BILLBOARDS:
 				// XXX not using vbo yet
 				Render::UnbindAllBuffers();
-				op.billboards.texture->BindTexture();
+				op.billboards.texture->Bind();
 				Render::PutPointSprites(op.billboards.count, &m_vertices[op.billboards.start].v, op.billboards.size,
 						op.billboards.col, sizeof(Vertex));
 				BindBuffers();
@@ -551,7 +552,7 @@ public:
 	}
 	void SetTexture(const char *tex) {
 		if (tex) {
-			curTexture = TextureManager::GetTexture(tex);
+			curTexture = s_textureCache->GetModelTexture(tex);
 		} else {
 			curTexture = 0;
 			curGlowmap = 0; //won't have these without textures
@@ -559,7 +560,7 @@ public:
 	}
 	void SetGlowMap(const char *tex) {
 		if (tex) {
-			curGlowmap = TextureManager::GetTexture(tex);
+			curGlowmap = s_textureCache->GetModelTexture(tex);
 		} else {
 			curGlowmap = 0;
 		}
@@ -639,7 +640,7 @@ public:
 		curOp.type = OP_DRAW_BILLBOARDS;
 		curOp.billboards.start = m_vertices.size();
 		curOp.billboards.count = numPoints;
-		curOp.billboards.texture = TextureManager::GetTexture(buf, true);
+		curOp.billboards.texture = s_textureCache->GetModelTexture(buf, true);
 		curOp.billboards.size = size;
 		curOp.billboards.col[0] = color.x;
 		curOp.billboards.col[1] = color.y;
@@ -784,11 +785,11 @@ private:
 	struct Op {
 		enum OpType type;
 		union {
-			struct { Texture *texture; Texture *glowmap; int start, count, elemMin, elemMax; } elems;
+			struct { ModelTexture *texture; ModelTexture *glowmap; int start, count, elemMin, elemMax; } elems;
 			struct { int material_idx; } col;
 			struct { float amount; float pos[3]; float norm[3]; } zbias;
 			struct { LmrModel *model; float transform[16]; float scale; } callmodel;
-			struct { Texture *texture; int start, count; float size; float col[4]; } billboards;
+			struct { ModelTexture *texture; int start, count; float size; float col[4]; } billboards;
 			struct { bool local; } lighting_type;
 			struct { int num; float quadratic_attenuation; float pos[4], col[4]; } light;
 		};
@@ -796,8 +797,8 @@ private:
 	/* this crap is only used at build time... could move this elsewhere */
 	Op curOp;
 	Uint16 curTriFlag;
-	Texture *curTexture;
-	Texture *curGlowmap;
+	ModelTexture *curTexture;
+	ModelTexture *curGlowmap;
 	matrix4x4f curTexMatrix;
 	// 
 	std::vector<Vertex> m_vertices;
@@ -879,12 +880,12 @@ public:
 				m_ops[i].callmodel.model = s_models[_fread_string(f)];
 			}
 			else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
-				m_ops[i].elems.texture = TextureManager::GetTexture(_fread_string(f));
+				m_ops[i].elems.texture = s_textureCache->GetModelTexture(_fread_string(f));
 				if (m_ops[i].elems.glowmap)
-					m_ops[i].elems.glowmap = TextureManager::GetTexture(_fread_string(f));
+					m_ops[i].elems.glowmap = s_textureCache->GetModelTexture(_fread_string(f));
 			}
 			else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
-				m_ops[i].billboards.texture = TextureManager::GetTexture(_fread_string(f));
+				m_ops[i].billboards.texture = s_textureCache->GetModelTexture(_fread_string(f));
 			}
 		}
 	}
@@ -4404,8 +4405,10 @@ static void _write_model_crc_file()
 	}
 }
 
-void LmrModelCompilerInit()
+void LmrModelCompilerInit(TextureCache *textureCache)
 {
+	s_textureCache = textureCache;
+
 	s_cacheDir = GetPiUserDir("model_cache");
 	_detect_model_changes();
 
