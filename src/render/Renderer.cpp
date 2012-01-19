@@ -119,3 +119,18 @@ bool Renderer::DrawTriangleStrip(int count, const ColoredVertex *v)
 
 	return true;
 }
+
+bool Renderer::DrawTriangleFan(int count, const vector3f *v, const Color *c)
+{
+	if (count < 3) return false;
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, (const GLvoid *)v);
+	glColorPointer(4, GL_FLOAT, 0, (const GLvoid *)c);
+	glDrawArrays(GL_TRIANGLE_FAN, 0, count);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+
+	return true;
+}

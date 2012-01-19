@@ -7,6 +7,7 @@
 #include "Pi.h"
 #include "Sfx.h"
 #include "Game.h"
+#include "render/Renderer.h"
 
 Camera::Camera(const Body *body, float width, float height) :
 	m_body(body),
@@ -16,7 +17,8 @@ Camera::Camera(const Body *body, float width, float height) :
 	m_shadersEnabled(Render::AreShadersEnabled()),
 	m_frustum(m_width, m_height, m_fovAng),
 	m_pose(matrix4x4d::Identity()),
-	m_camFrame(0)
+	m_camFrame(0),
+	m_renderer(0)
 {
 	m_onBodyDeletedConnection = m_body->onDelete.connect(sigc::mem_fun(this, &Camera::OnBodyDeleted));
 }
@@ -132,6 +134,9 @@ void Camera::Update()
 void Camera::Draw(Renderer *renderer)
 {
 	if (!m_body) return;
+	if (!renderer) return;
+
+	m_renderer = renderer;
 
 	m_frustum.Enable();
 
@@ -211,6 +216,8 @@ void Camera::Draw(Renderer *renderer)
 
 void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
+	if (!m_renderer) return;
+
 	glPushMatrix();
 
 	float znear, zfar;
@@ -230,49 +237,64 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_BLEND);
+
+	m_renderer->SetBlendMode(BLEND_ALPHA_ONE);
 
 	// XXX WRONG. need to pick light from appropriate turd.
 	GLfloat col[4];
 	glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
-	glColor4f(col[0], col[1], col[2], 1);
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(0,0,0);
-	glColor4f(col[0], col[1], col[2], 0);
+	col[3] = 1.f;
+
+	//Experiment
+	std::vector<vector3f> vts;
+	std::vector<Color> cols;
+
+	//center
+	vts.push_back(vector3f(0.f));
+	cols.push_back(Color(col));
+
+	const Color edges(col[0], col[1], col[2], 0.f);
 
 	const float spikerad = float(scale*rad);
 
 	// bezier with (0,0,0) control points
 	{
-		vector3f p0(0,spikerad,0), p1(spikerad,0,0);
+		const vector3f p0(0,spikerad,0), p1(spikerad,0,0);
 		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-			vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			glVertex3fv(&p[0]);
+			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+			vts.push_back(p);
+			cols.push_back(edges);
 		}
 	}
 	{
-		vector3f p0(spikerad,0,0), p1(0,-spikerad,0);
+		const vector3f p0(spikerad,0,0), p1(0,-spikerad,0);
 		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-			vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			glVertex3fv(&p[0]);
+			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+			vts.push_back(p);
+			cols.push_back(edges);
 		}
 	}
 	{
-		vector3f p0(0,-spikerad,0), p1(-spikerad,0,0);
+		const vector3f p0(0,-spikerad,0), p1(-spikerad,0,0);
 		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-			vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			glVertex3fv(&p[0]);
+			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+			vts.push_back(p);
+			cols.push_back(edges);
 		}
 	}
 	{
-		vector3f p0(-spikerad,0,0), p1(0,spikerad,0);
+		const vector3f p0(-spikerad,0,0), p1(0,spikerad,0);
 		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-			vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			glVertex3fv(&p[0]);
+			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+			vts.push_back(p);
+			cols.push_back(edges);
 		}
 	}
-	glEnd();
-	glDisable(GL_BLEND);
+
+	if (vts.size() == cols.size())
+		m_renderer->DrawTriangleFan(vts.size(), &vts[0], &cols[0]);
+
+	m_renderer->SetBlendMode(BLEND_SOLID);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
 	glPopMatrix();

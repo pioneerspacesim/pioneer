@@ -78,6 +78,8 @@ public:
 	virtual bool DrawLines(int vertCount, const LineVertex *vertices, unsigned int lineType=LINE_SINGLE);
 	virtual bool DrawLines2D(int vertCount, const LineVertex2D *vertices, unsigned int lineType=LINE_SINGLE);
 	virtual bool DrawTriangleStrip(int vertCount, const ColoredVertex *vertices);
+	//yes, this is different, trying out what works best
+	virtual bool DrawTriangleFan(int vertCount, const vector3f *vertices, const Color *colors);
 
 protected:
 	int m_width;

@@ -89,6 +89,8 @@ private:
 	};
 
 	std::list<BodyAttrs> m_sortedBodies;
+
+	Renderer *m_renderer;
 };
 
 #endif
