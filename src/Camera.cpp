@@ -129,7 +129,7 @@ void Camera::Update()
 	m_sortedBodies.sort();
 }
 
-void Camera::Draw()
+void Camera::Draw(Renderer *renderer)
 {
 	if (!m_body) return;
 
@@ -188,7 +188,7 @@ void Camera::Draw()
 			DrawSpike(spikerad, attrs->viewCoords, attrs->viewTransform);
 		}
 		else
-			attrs->body->Render(Pi::renderer, attrs->viewCoords, attrs->viewTransform); //XXX renderer!
+			attrs->body->Render(renderer, attrs->viewCoords, attrs->viewTransform);
 	}
 
 	Sfx::RenderAll(Pi::game->GetSpace()->GetRootFrame(), m_camFrame);

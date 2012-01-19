@@ -605,6 +605,7 @@ void Game::CreateViews()
 
 #if WITH_OBJECTVIEWER
 	Pi::objectViewerView = new ObjectViewerView();
+	Pi::objectViewerView->SetRenderer(Pi::renderer);
 #endif
 }
 
@@ -634,6 +635,7 @@ void Game::LoadViews(Serializer::Reader &rd)
 
 #if WITH_OBJECTVIEWER
 	Pi::objectViewerView = new ObjectViewerView();
+	Pi::objectViewerView->SetRenderer(Pi::renderer);
 #endif
 
 	Pi::worldView->SetRenderer(Pi::renderer);

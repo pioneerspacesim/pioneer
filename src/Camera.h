@@ -8,6 +8,7 @@
 #include "Body.h"
 
 class Frame;
+class Renderer;
 
 class Camera {
 public:
@@ -16,7 +17,7 @@ public:
 	virtual ~Camera();
 
 	void Update();
-	void Draw();
+	void Draw(Renderer *r);
 
 	const Body *GetBody() const { return m_body; }
 

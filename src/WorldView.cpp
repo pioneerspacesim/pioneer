@@ -359,7 +359,7 @@ WorldView::CamType WorldView::GetCamType() const
 
 void WorldView::Draw3D()
 {
-	m_activeCamera->Draw();
+	m_activeCamera->Draw(m_renderer);
 }
 
 void WorldView::ShowAll()
