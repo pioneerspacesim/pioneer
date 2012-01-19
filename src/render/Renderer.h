@@ -63,6 +63,7 @@ enum BlendModes {
 class Renderer
 {
 public:
+	Renderer(int width, int height);
 	//return false if failed/unsupported
 	virtual bool BeginFrame();
 	virtual bool EndFrame();
@@ -75,6 +76,10 @@ public:
 	virtual bool DrawLines(int vertCount, const LineVertex *vertices, unsigned int lineType=LINE_SINGLE);
 	virtual bool DrawLines2D(int vertCount, const LineVertex2D *vertices, unsigned int lineType=LINE_SINGLE);
 	virtual bool DrawTriangleStrip(int vertCount, const ColoredVertex *vertices);
+
+protected:
+	int m_width;
+	int m_height;
 };
 
 #endif

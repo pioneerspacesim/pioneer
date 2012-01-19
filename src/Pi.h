@@ -169,7 +169,6 @@ public:
 	static struct DetailLevel detail;
 	static GameConfig config;
 private:
-	static void InitOpenGL();
 	static void HandleEvents();
 	static void InitJoysticks();
 

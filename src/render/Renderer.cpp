@@ -1,6 +1,25 @@
 #include "Renderer.h"
 #include "Render.h"
 
+/* Most of the contents will be moved to RendererLegacy.h/cpp or similar */
+Renderer::Renderer(int w, int h) :
+	m_width(w), m_height(h)
+{
+	glShadeModel(GL_SMOOTH);
+	glCullFace(GL_BACK);
+	glFrontFace(GL_CCW);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+
+	glClearColor(0,0,0,0);
+
+	glViewport(0, 0, m_width, m_height);
+}
+
 bool Renderer::BeginFrame()
 {
 	Render::PrepareFrame();

@@ -495,7 +495,8 @@ void Pi::Init()
 
 	Pi::textureCache = new TextureCache;
 
-	InitOpenGL();
+	Pi::renderer = new Renderer(scrWidth, scrHeight);
+	Pi::gluQuadric = gluNewQuadric();
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
@@ -622,26 +623,6 @@ void Pi::ToggleLuaConsole()
 	}
 }
 
-void Pi::InitOpenGL()
-{
-	glShadeModel(GL_SMOOTH);
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
-
-	glClearColor(0,0,0,0);
-	glViewport(0, 0, scrWidth, scrHeight);
-
-	gluQuadric = gluNewQuadric ();
-
-	Pi::renderer = new Renderer();
-}
-
 void Pi::Quit()
 {
 	delete Pi::gameMenuView;
@@ -656,6 +637,7 @@ void Pi::Quit()
 	LuaUninit();
 	Gui::Uninit();
 	delete Pi::textureCache;
+	delete Pi::renderer;
 	StarSystem::ShrinkCache();
 	SDL_Quit();
 	exit(0);
