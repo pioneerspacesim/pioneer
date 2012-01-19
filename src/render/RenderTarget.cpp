@@ -31,7 +31,7 @@ RenderTarget::RenderTarget(unsigned int w, unsigned int h, GLenum target, const 
     m_fbo(0)
 {
 	glGenFramebuffersEXT(1, &m_fbo);
-	glBindFramebuffer(GL_FRAMEBUFFER_EXT, m_fbo);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_fbo);
 
 	CreateFromArray(0, w, h);
 
