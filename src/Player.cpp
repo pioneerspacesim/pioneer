@@ -24,6 +24,9 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	m_combatTarget = 0;
 	UpdateMass();
 
+	float deadzone = Pi::config.Float("JoystickDeadzone");
+	m_joystickDeadzone = deadzone * deadzone;
+
 	m_accumTorque = vector3d(0,0,0);
 }
 
@@ -280,9 +283,17 @@ void Player::PollControls(const float timeStep)
 				angThrustSoftness = 10.0;
 		}
 
-		wantAngVel.x += 2 * KeyBindings::pitchAxis.GetValue();
-		wantAngVel.y += 2 * KeyBindings::yawAxis.GetValue();
-		wantAngVel.z += 2 * KeyBindings::rollAxis.GetValue();
+		vector3d changeVec;
+		changeVec.x = KeyBindings::pitchAxis.GetValue();
+		changeVec.y = KeyBindings::yawAxis.GetValue();
+		changeVec.z = KeyBindings::rollAxis.GetValue();
+
+		// Deadzone
+		if(changeVec.LengthSqr() < m_joystickDeadzone)
+			changeVec = vector3d(0.0);
+
+		changeVec *= 2.0;
+		wantAngVel += changeVec;
 
 		double invTimeAccelRate = 1.0 / Pi::game->GetTimeAccelRate();
 		for (int axis=0; axis<3; axis++)

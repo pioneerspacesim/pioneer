@@ -7,36 +7,19 @@
 
 #define PARAGRAPH_SPACING 1.5f
 
-#define TEXTURE_FONT_ENTER \
-	glEnable(GL_BLEND); \
-	glEnable(GL_TEXTURE_2D); \
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-#define TEXTURE_FONT_LEAVE \
-	glDisable(GL_TEXTURE_2D); \
-	glDisable(GL_BLEND);
-
 int TextureFont::s_glyphCount = 0;
 
 void TextureFont::RenderGlyph(Uint32 chr, float x, float y)
 {
 	glfglyph_t *glyph = &m_glyphs[chr];
-	glBindTexture(GL_TEXTURE_2D, glyph->tex);
-	const float ox = x + float(glyph->offx);
-	const float oy = y + float(m_pixSize - glyph->offy);
-	glBegin(GL_QUADS);
-		float allocSize[2] = { m_texSize*glyph->width, m_texSize*glyph->height };
-		const float w = glyph->width;
-		const float h = glyph->height;
-		glTexCoord2f(0,h);
-		glVertex2f(ox,oy+allocSize[1]);
-		glTexCoord2f(w,h);
-		glVertex2f(ox+allocSize[0],oy+allocSize[1]);
-		glTexCoord2f(w,0);
-		glVertex2f(ox+allocSize[0],oy);
-		glTexCoord2f(0,0);
-		glVertex2f(ox,oy);
-	glEnd();
+
+	const float offx = x + float(glyph->offx);
+	const float offy = y + float(m_pixSize - glyph->offy);
+
+	const float w = m_texSize*glyph->width;
+	const float h = m_texSize*glyph->height;
+
+	glyph->texture->DrawUIQuad(offx, offy, w, h, 0, 0, glyph->width, glyph->height);
 
 	s_glyphCount++;
 }
@@ -185,7 +168,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 
 void TextureFont::RenderString(const char *str, float x, float y)
 {
-	TEXTURE_FONT_ENTER;
+	glEnable(GL_BLEND);
 
 	float px = x;
 	float py = y;
@@ -205,7 +188,7 @@ void TextureFont::RenderString(const char *str, float x, float y)
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			if (glyph->tex) RenderGlyph(chr, roundf(px), py);
+			if (glyph->texture) RenderGlyph(chr, roundf(px), py);
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -223,12 +206,13 @@ void TextureFont::RenderString(const char *str, float x, float y)
 			px += glyph->advx;
 		}
 	}
-	TEXTURE_FONT_LEAVE;
+
+	glDisable(GL_BLEND);
 }
 
 void TextureFont::RenderMarkup(const char *str, float x, float y)
 {
-	TEXTURE_FONT_ENTER;
+	glEnable(GL_BLEND);
 
 	float px = x;
 	float py = y;
@@ -261,7 +245,7 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			if (glyph->tex) RenderGlyph(chr, roundf(px), py);
+			if (glyph->texture) RenderGlyph(chr, roundf(px), py);
 
 			// XXX kerning doesn't skip markup
 			if (str[i]) {
@@ -281,7 +265,7 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 		}
 	}
 
-	TEXTURE_FONT_LEAVE;
+	glDisable(GL_BLEND);
 }
 
 TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : Font(fm, config_filename)
@@ -438,15 +422,7 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 
 		FT_Done_Glyph(glyph);
 
-		glEnable (GL_TEXTURE_2D);
-		glGenTextures (1, &glfglyph.tex);
-		glBindTexture (GL_TEXTURE_2D, glfglyph.tex);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, sz, sz, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, pixBuf);
-		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glDisable (GL_TEXTURE_2D);
+		glfglyph.texture = new GlyphTexture(pixBuf, sz, sz);
 
 		glfglyph.advx = float(m_face->glyph->advance.x) / 64.0 + advx_adjust;
 		glfglyph.advy = float(m_face->glyph->advance.y) / 64.0;
@@ -463,3 +439,23 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 	m_descender = -float(m_face->descender) / 64.0;
 }
 
+TextureFont::~TextureFont()
+{
+	for (std::map<Uint32,glfglyph_t>::const_iterator i = m_glyphs.begin(); i != m_glyphs.end(); ++i) {
+		if ((*i).second.texture)
+			delete (*i).second.texture;
+	}
+}
+
+
+TextureFont::GlyphTexture::GlyphTexture(Uint8 *data, int width, int height) :
+	Texture(GL_TEXTURE_2D, Format(GL_LUMINANCE_ALPHA, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE), CLAMP, NEAREST, false)
+{
+	CreateFromArray(data, width, height);
+}
+
+void TextureFont::GlyphTexture::Bind()
+{
+	Texture::Bind();
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+}
