@@ -253,10 +253,10 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
 	glEnable(GL_BLEND);
 	glDisable(GL_CULL_FACE);
-	glBegin(GL_TRIANGLE_STRIP);
+	std::vector<ColoredVertex> vts;
 	for (float ang=0; ang<2*M_PI; ang+=float(angStep)) {
-		vector3d norm = r1.Normalized();
-		glNormal3dv(&norm.x);
+		const vector3d norm = r1.Normalized();
+		const vector3f n = vector3f(norm.x, norm.y, norm.z);
 		float _col[4] = { 0,0,0,0 };
 		for (int lnum=0; lnum<numLights; lnum++) {
 			const float dot = norm.x*lightDir[lnum].x + norm.y*lightDir[lnum].y + norm.z*lightDir[lnum].z;
@@ -266,15 +266,13 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 		}
 		for (int i=0; i<3; i++) _col[i] = _col[i] * col[i];
 		_col[3] = col[3];
-		glColor4fv(_col);
-		glVertex3dv(&r1.x);
-		glColor4f(0,0,0,0);
-		glVertex3dv(&r2.x);
+		vts.push_back(ColoredVertex(vector3f(r1.x, r1.y, r1.z), n, Color(_col)));
+		vts.push_back(ColoredVertex(vector3f(r2.x, r2.y, r2.z), n, Color(0.f)));
 		r1 = rot * r1;
 		r2 = rot * r2;
 	}
-	
-	glEnd();
+	renderer->DrawTriangleStrip(vts.size(), &vts[0]);
+
 	glEnable(GL_CULL_FACE);
 	glDisable(GL_BLEND);
 	glEnable(GL_LIGHTING);
