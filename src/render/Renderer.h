@@ -64,6 +64,10 @@ class Renderer
 {
 public:
 	//return false if failed/unsupported
+	virtual bool BeginFrame();
+	virtual bool EndFrame();
+	virtual bool SwapBuffers();
+
 	//render state functions
 	virtual bool SetBlendMode(unsigned int blendType);
 

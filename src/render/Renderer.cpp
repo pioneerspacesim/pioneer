@@ -1,4 +1,24 @@
 #include "Renderer.h"
+#include "Render.h"
+
+bool Renderer::BeginFrame()
+{
+	Render::PrepareFrame();
+	return true;
+}
+
+bool Renderer::EndFrame()
+{
+	Render::PostProcess();
+	return true;
+}
+
+bool Renderer::SwapBuffers()
+{
+	glError();
+	Render::SwapBuffers();
+	return true;
+}
 
 bool Renderer::SetBlendMode(unsigned int m)
 {

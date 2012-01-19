@@ -172,8 +172,8 @@ int Pi::CombatRating(int kills)
 static void draw_progress(float progress)
 {
 	float w, h;
-	Render::PrepareFrame();
-	Render::PostProcess();
+	Pi::renderer->BeginFrame();
+	Pi::renderer->EndFrame();
 	Gui::Screen::EnterOrtho();
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -182,7 +182,7 @@ static void draw_progress(float progress)
 	glColor3f(1.0f,1.0f,1.0f);
 	Gui::Screen::RenderString(msg, 0.5f*(Gui::Screen::GetWidth()-w), 0.5f*(Gui::Screen::GetHeight()-h));
 	Gui::Screen::LeaveOrtho();
-	Render::SwapBuffers();
+	Pi::renderer->SwapBuffers();
 }
 
 static void LuaInit()
@@ -973,7 +973,7 @@ void Pi::TombStoneLoop()
 	cpan->HideAll();
 	currentView->HideAll();
 	do {
-		Render::PrepareFrame();
+		Pi::renderer->BeginFrame();
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		float fracH = 1.0f / Pi::GetScrAspect();
@@ -987,9 +987,9 @@ void Pi::TombStoneLoop()
 		Pi::SetMouseGrab(false);
 
 		draw_tombstone(_time);
-		Render::PostProcess();
+		Pi::renderer->EndFrame();
 		Gui::Draw();
-		Render::SwapBuffers();
+		Pi::renderer->SwapBuffers();
 		
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
@@ -1194,7 +1194,7 @@ void Pi::Start()
 	while (!menuDone) {
 		Pi::HandleEvents();
 
-		Render::PrepareFrame();
+		Pi::renderer->BeginFrame();
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		float fracH = 1.0f / Pi::GetScrAspect();
@@ -1207,9 +1207,9 @@ void Pi::Start()
 		Pi::SetMouseGrab(false);
 
 		draw_intro(background, _time);
-		Render::PostProcess();
+		Pi::renderer->EndFrame();
 		Gui::Draw();
-		Render::SwapBuffers();
+		Pi::renderer->SwapBuffers();
 		
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
@@ -1306,7 +1306,7 @@ void Pi::MainLoop()
 		}
 		frame_stat++;
 
-		Render::PrepareFrame();
+		Pi::renderer->BeginFrame();
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		
@@ -1327,7 +1327,7 @@ void Pi::MainLoop()
 
 		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT));
 
-		Render::PostProcess();
+		Pi::renderer->EndFrame();
 		Gui::Draw();
 
 #if WITH_DEVKEYS
@@ -1341,10 +1341,7 @@ void Pi::MainLoop()
 		}
 #endif
 
-		glError();
-		Render::SwapBuffers();
-		//if (glGetError()) printf ("GL: %s\n", gluErrorString (glGetError ()));
-		
+		Pi::renderer->SwapBuffers();
 
 		// game exit or failed load from GameMenuView will have cleared
 		// Pi::game. we can't continue.
