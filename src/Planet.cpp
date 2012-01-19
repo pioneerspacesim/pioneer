@@ -152,7 +152,7 @@ void Planet::DrawGasGiantRings()
 	glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT |
 		GL_ENABLE_BIT | GL_LIGHTING_BIT | GL_POLYGON_BIT);
 	glDisable(GL_LIGHTING);
-	glEnable(GL_BLEND);
+	m_renderer->SetBlendMode(BLEND_ADDITIVE); // should be perhaps GL_SRC_ALPHA, GL_ONE
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_NORMALIZE);
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
@@ -195,7 +195,7 @@ void Planet::DrawGasGiantRings()
 	
 	glEnable(GL_CULL_FACE);
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
-	glDisable(GL_BLEND);
+	m_renderer->SetBlendMode(BLEND_SOLID);
 	glDisable(GL_NORMALIZE);
 	glPopAttrib();
 }

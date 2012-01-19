@@ -6,6 +6,7 @@
 #include "GeoSphere.h"
 
 class Frame;
+class Renderer;
 
 class TerrainBody : public Body {
 public:
@@ -14,7 +15,7 @@ public:
 	virtual void SetPosition(vector3d pos) { m_pos = pos; }
 	virtual vector3d GetPosition() const { return m_pos; }
 	virtual double GetBoundingRadius() const;
-	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void SubRender(const vector3d &camPos) {}
 	virtual void SetFrame(Frame *f);
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel) { return true; }

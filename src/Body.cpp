@@ -78,7 +78,7 @@ Body *Body::Unserialize(Serializer::Reader &_rd, Space *space)
 			b = new Star(); break;
 		case Object::PLANET:
 			b = new Planet();
-			b->SetRenderer(Pi::renderer);
+			b->SetRenderer(Pi::renderer); // XXX remove
 			break;
 		case Object::SPACESTATION:
 			b = new SpaceStation(); break;

@@ -1031,7 +1031,7 @@ void Ship::RenderLaserfire()
 }
 #endif /* 0 */
 
-void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void Ship::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if ((!IsEnabled()) && !m_flightState) return;
 	LmrObjParams &params = GetLmrObjParams();

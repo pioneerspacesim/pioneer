@@ -154,7 +154,7 @@ void Projectile::StaticUpdate(const float timeStep)
 	}
 }
 
-void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void Projectile::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	ModelTexture *tex = Pi::textureCache->GetModelTexture(PIONEER_DATA_DIR"/textures/laser.png");
 

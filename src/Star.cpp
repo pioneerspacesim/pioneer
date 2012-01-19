@@ -21,7 +21,7 @@ double Star::GetClipRadius() const
 	return sbody->GetRadius() * 8 * wf;
 }
 
-void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void Star::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
@@ -83,5 +83,5 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 
-	TerrainBody::Render(viewCoords, viewTransform);
+	TerrainBody::Render(renderer, viewCoords, viewTransform);
 }

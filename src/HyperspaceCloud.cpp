@@ -9,6 +9,7 @@
 #include "perlin.h"
 #include "Lang.h"
 #include "Game.h"
+#include "render/Renderer.h"
 
 HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 {
@@ -134,7 +135,7 @@ void HyperspaceCloud::UpdateInterpolatedTransform(double alpha)
 	m_interpolatedTransform[14] = p.z;
 }
 
-void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void HyperspaceCloud::Render(Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	Render::State::UseProgram(Render::simpleShader);
 	glDisable(GL_LIGHTING);

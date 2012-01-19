@@ -5,6 +5,7 @@
 #include "EquipType.h"
 
 class Frame;
+class Renderer;
 
 class Projectile: public Body {
 public:
@@ -16,7 +17,7 @@ public:
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition() const { return vector3d(m_orient[12], m_orient[13], m_orient[14]); }
 	virtual double GetBoundingRadius() const { return 10; }
-	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	void TimeStepUpdate(const float timeStep);
 	void StaticUpdate(const float timeStep);
 	virtual void NotifyRemoved(const Body* const removedBody);

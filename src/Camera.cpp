@@ -188,7 +188,7 @@ void Camera::Draw()
 			DrawSpike(spikerad, attrs->viewCoords, attrs->viewTransform);
 		}
 		else
-			attrs->body->Render(attrs->viewCoords, attrs->viewTransform);
+			attrs->body->Render(Pi::renderer, attrs->viewCoords, attrs->viewTransform); //XXX renderer!
 	}
 
 	Sfx::RenderAll(Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
