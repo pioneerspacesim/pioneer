@@ -19,7 +19,7 @@ namespace Render {
 				GLenum m_errcode;
 		};
 
-		RenderTarget(unsigned int width, unsigned int height, GLenum target, const Texture::Format &format);
+		RenderTarget(unsigned int width, unsigned int height, GLenum target, const Texture::Format &format, bool wantMipmaps = false);
 		virtual ~RenderTarget();
 
 		virtual void BeginRTT();
