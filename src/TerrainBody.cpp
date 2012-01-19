@@ -108,7 +108,7 @@ void TerrainBody::Render(Renderer *renderer, const vector3d &viewCoords, const m
 		m_geosphere->Render(-campos, m_sbody->GetRadius(), scale);
 		glTranslated(campos.x, campos.y, campos.z);
 
-		SubRender(campos);
+		SubRender(renderer, campos);
 
 		glDisable(GL_NORMALIZE);
 		

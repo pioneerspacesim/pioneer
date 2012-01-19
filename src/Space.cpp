@@ -416,7 +416,6 @@ void Space::GenBody(SBody *sbody, Frame *f)
 			b = ss;
 		} else {
 			Planet *planet = new Planet(sbody);
-			planet->SetRenderer(Pi::renderer);
 			b = planet;
 		}
 		b->SetLabel(sbody->name.c_str());

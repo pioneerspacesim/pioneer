@@ -147,12 +147,12 @@ static void DrawRing(double inner, double outer, const float color[4], Renderer 
 	glEnd();
 }
 
-void Planet::DrawGasGiantRings()
+void Planet::DrawGasGiantRings(Renderer *renderer)
 {
 	glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT |
 		GL_ENABLE_BIT | GL_LIGHTING_BIT | GL_POLYGON_BIT);
 	glDisable(GL_LIGHTING);
-	m_renderer->SetBlendMode(BLEND_ADDITIVE); // should be perhaps GL_SRC_ALPHA, GL_ONE
+	renderer->SetBlendMode(BLEND_ADDITIVE); // should be perhaps GL_SRC_ALPHA, GL_ONE
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_NORMALIZE);
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
@@ -187,7 +187,7 @@ void Planet::DrawGasGiantRings()
 			col[1] = baseCol[1] * n;
 			col[2] = baseCol[2] * n;
 			col[3] = baseCol[3] * n;
-			DrawRing(rpos, rpos+size, col, m_renderer);
+			DrawRing(rpos, rpos+size, col, renderer);
 			rpos += size;
 		}
 	}
@@ -195,12 +195,12 @@ void Planet::DrawGasGiantRings()
 	
 	glEnable(GL_CULL_FACE);
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
-	m_renderer->SetBlendMode(BLEND_SOLID);
+	renderer->SetBlendMode(BLEND_SOLID);
 	glDisable(GL_NORMALIZE);
 	glPopAttrib();
 }
 
-void Planet::DrawAtmosphere(const vector3d &camPos)
+void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 {
 	Color col;
 	double density;
@@ -281,9 +281,9 @@ void Planet::DrawAtmosphere(const vector3d &camPos)
 	glPopMatrix();
 }
 
-void Planet::SubRender(const vector3d &camPos)
+void Planet::SubRender(Renderer *r, const vector3d &camPos)
 {
-	if (GetSBody()->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings();
+	if (GetSBody()->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings(r);
 	
-	if (!Render::AreShadersEnabled()) DrawAtmosphere(camPos);
+	if (!Render::AreShadersEnabled()) DrawAtmosphere(r, camPos);
 }
