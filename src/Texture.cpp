@@ -55,9 +55,9 @@ void Texture::CreateFromArray(const void *data, unsigned int width, unsigned int
 			break;
 
 		case GL_TEXTURE_2D:
-			glTexImage2D(GL_TEXTURE_2D, 0, m_format.internalFormat, width, height, 0, m_format.dataFormat, m_format.dataType, data);
 			if (m_wantMipmaps)
-				glGenerateMipmapEXT(GL_TEXTURE_2D);
+				glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+			glTexImage2D(GL_TEXTURE_2D, 0, m_format.internalFormat, width, height, 0, m_format.dataFormat, m_format.dataType, data);
 			break;
 
 		case GL_TEXTURE_RECTANGLE:
