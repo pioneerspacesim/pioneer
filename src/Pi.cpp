@@ -175,8 +175,6 @@ static void draw_progress(float progress)
 	Pi::renderer->BeginFrame();
 	Pi::renderer->EndFrame();
 	Gui::Screen::EnterOrtho();
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	std::string msg = stringf(Lang::SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS, formatarg("age", progress * 13.7f));
 	Gui::Screen::MeasureString(msg, w, h);
 	glColor3f(1.0f,1.0f,1.0f);
@@ -962,8 +960,6 @@ void Pi::TombStoneLoop()
 		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		glClearColor(0,0,0,0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		Pi::HandleEvents();
 		Pi::SetMouseGrab(false);
@@ -1183,8 +1179,6 @@ void Pi::Start()
 		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		glClearColor(0,0,0,0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		Pi::SetMouseGrab(false);
 
