@@ -15,7 +15,7 @@ Alpha 19
 
    * Internal changes
      * New Texture class and subclasses to manage all kinds of GL texture
-       creation and use (#892)
+       creation and use (#892, #900, #901)
 
 Alpha 18
 
