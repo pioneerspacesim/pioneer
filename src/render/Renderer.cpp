@@ -57,6 +57,14 @@ bool Renderer::SetBlendMode(unsigned int m)
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		break;
+	case BLEND_ALPHA_ONE:
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		break;
+	case BLEND_ALPHA_PREMULT:
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+		break;
 	default:
 		return false;
 	}

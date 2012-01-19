@@ -250,8 +250,7 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 	rot = matrix4x4d::RotateZMatrix(angStep);
 
 	glDisable(GL_LIGHTING);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
-	glEnable(GL_BLEND);
+	renderer->SetBlendMode(BLEND_ALPHA_ONE);
 	glDisable(GL_CULL_FACE);
 	std::vector<ColoredVertex> vts;
 	for (float ang=0; ang<2*M_PI; ang+=float(angStep)) {
@@ -274,7 +273,7 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 	renderer->DrawTriangleStrip(vts.size(), &vts[0]);
 
 	glEnable(GL_CULL_FACE);
-	glDisable(GL_BLEND);
+	renderer->SetBlendMode(BLEND_SOLID);
 	glEnable(GL_LIGHTING);
 	glPopMatrix();
 }

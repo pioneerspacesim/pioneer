@@ -57,7 +57,9 @@ enum LineType {
 enum BlendModes {
 	BLEND_SOLID,
 	BLEND_ADDITIVE,
-	BLEND_ALPHA
+	BLEND_ALPHA,
+	BLEND_ALPHA_ONE, //XXX what the hell to call this
+	BLEND_ALPHA_PREMULT
 };
 
 class Renderer
