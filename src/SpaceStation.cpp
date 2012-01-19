@@ -500,15 +500,26 @@ void SpaceStation::DoLawAndOrder()
 
 void SpaceStation::TimeStepUpdate(const float timeStep)
 {
-	if (Pi::game->GetTime() > m_lastUpdatedShipyard) {
-        if (m_bbCreated)
-			Pi::luaOnUpdateBB->Queue(this);
-		else if (GetFreeDockingPort() != 0)	// only create a BB if there's ships here
-			CreateBB();
+	bool update = false;
+
+	// if there's no BB and there are ships here, make one
+	if (!m_bbCreated && GetFreeDockingPort() != 0) {
+		CreateBB();
+		update = true;
+	}
+	
+	// if there is and it hasn't had an update for a while, update it
+	else if (Pi::game->GetTime() > m_lastUpdatedShipyard) {
+		Pi::luaOnUpdateBB->Queue(this);
+		update = true;
+	}
+
+	if (update) {
 		UpdateShipyard();
 		// update again in an hour or two
 		m_lastUpdatedShipyard = Pi::game->GetTime() + 3600.0 + 3600.0*Pi::rng.Double();
 	}
+
 	DoDockingAnimation(timeStep);
 	DoLawAndOrder();
 }

@@ -144,9 +144,6 @@
     <ClCompile Include="..\..\src\gui\GuiWidget.cpp">
       <Filter>src\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\TextureManager.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\render\Render.cpp">
       <Filter>src\render</Filter>
     </ClCompile>
@@ -154,9 +151,6 @@
       <Filter>src\render</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\render\RenderTarget.cpp">
-      <Filter>src\render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\render\RenderTexture.cpp">
       <Filter>src\render</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\StringF.cpp">
@@ -172,6 +166,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\enum_table.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Texture.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\TextureCache.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -320,9 +320,6 @@
     <ClInclude Include="..\..\src\gui\GuiVScrollPortal.h">
       <Filter>src\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\TextureManager.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\render\Render.h">
       <Filter>src\render</Filter>
     </ClInclude>
@@ -330,9 +327,6 @@
       <Filter>src\render</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\render\RenderTarget.h">
-      <Filter>src\render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\render\RenderTexture.h">
       <Filter>src\render</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\StringF.h">
@@ -348,6 +342,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\enum_table.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Texture.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\TextureCache.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
