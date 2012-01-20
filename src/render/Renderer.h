@@ -43,15 +43,6 @@ struct LineVertex2D {
 	Color color;
 };
 
-struct ColoredVertex {
-	ColoredVertex() : position(0.f), normal(0.f), color(0.f) { }
-	ColoredVertex(const vector3f &v, const vector3f &n, const Color &c)
-		: position(v), normal(n), color(c) { }
-	vector3f position;
-	vector3f normal;
-	Color color;
-};
-
 enum VertexAttribs {
 	ATTRIB_POSITION = 0,
 	ATTRIB_NORMAL = 1,
@@ -145,12 +136,9 @@ public:
 	//drawing functions
 	virtual bool DrawLines(int vertCount, const LineVertex *vertices, unsigned int lineType=LINE_SINGLE);
 	virtual bool DrawLines2D(int vertCount, const LineVertex2D *vertices, unsigned int lineType=LINE_SINGLE);
-	//yes, this is different, trying out what works best
-	virtual bool DrawTriangleFan(int vertCount, const vector3f *vertices, const Color *colors);
-	//unindexed triangle draw
-	//virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES) { };
 	//indexed triangle draw
 	//virtual bool DrawSurface(const Surface *surface) { };
+	//unindexed triangle draw
 	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES);
 	virtual bool DrawTriangles2D(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES);
 

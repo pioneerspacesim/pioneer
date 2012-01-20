@@ -177,17 +177,15 @@ void SystemView::PutBody(SBody *b, vector3d offset)
 		s_invRot = s_invRot.InverseOf();
 
 		// Draw a filled circle
-		Color white(1.f);
-		std::vector<vector3f> vts;
-		std::vector<Color> cols;
-		double radius = b->GetRadius() * m_zoom;
+		const Color white(1.f);
+		VertexArray va;
+		const double radius = b->GetRadius() * m_zoom;
 		const vector3f offsetf(offset);
 		for (float ang=0; ang<2.0f*M_PI; ang+=M_PI*0.05f) {
 			vector3f p = offsetf + s_invRot * vector3f(radius*sin(ang), -radius*cos(ang), 0);
-			vts.push_back(p);
-			cols.push_back(white);
+			va.Add(p, white);
 		}
-		m_renderer->DrawTriangleFan(vts.size(), &vts[0], &cols[0]);
+		m_renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
 
 		PutLabel(b, offset);
 	}
