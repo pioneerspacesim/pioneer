@@ -133,23 +133,23 @@ public:
 	Renderer(int width, int height);
 	virtual ~Renderer();
 
-	virtual bool BeginFrame();
-	virtual bool EndFrame();
+	virtual bool BeginFrame() = 0;
+	virtual bool EndFrame() = 0;
 	//traditionally gui happens between endframe and swapbuffers
-	virtual bool SwapBuffers();
+	virtual bool SwapBuffers() = 0;
 
 	//render state functions
-	virtual bool SetBlendMode(unsigned int blendType);
+	virtual bool SetBlendMode(unsigned int blendType) { return false; }
 	//virtual bool SetState(Z_WRITE, false) or
 	//virtual bool SetZWrite(false) ?
 
 	//drawing functions
 	//2d drawing is generally understood to be for gui use (unlit, ortho projection)
-	virtual bool DrawLines(int vertCount, const LineVertex *vertices, unsigned int lineType=LINE_SINGLE);
-	virtual bool DrawLines2D(int vertCount, const LineVertex2D *vertices, unsigned int lineType=LINE_SINGLE);
+	virtual bool DrawLines(int vertCount, const LineVertex *vertices, unsigned int lineType=LINE_SINGLE)  { return false; }
+	virtual bool DrawLines2D(int vertCount, const LineVertex2D *vertices, unsigned int lineType=LINE_SINGLE)  { return false; }
 	//unindexed triangle draw
-	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES);
-	virtual bool DrawTriangles2D(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES);
+	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES)  { return false; }
+	virtual bool DrawTriangles2D(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES)  { return false; }
 	//indexed triangle draw
 	//virtual bool DrawSurface(const Surface *surface) { };
 

@@ -65,7 +65,7 @@
 #include "TextureCache.h"
 #include "Game.h"
 #include "GameLoaderSaver.h"
-#include "render/Renderer.h"
+#include "render/RendererLegacy.h"
 
 float Pi::gameTickAlpha;
 int Pi::scrWidth;
@@ -493,7 +493,7 @@ void Pi::Init()
 
 	Pi::textureCache = new TextureCache;
 
-	Pi::renderer = new Renderer(scrWidth, scrHeight);
+	Pi::renderer = new RendererLegacy(scrWidth, scrHeight);
 	Pi::gluQuadric = gluNewQuadric();
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
