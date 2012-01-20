@@ -176,15 +176,18 @@ void SystemView::PutBody(SBody *b, vector3d offset)
 		s_invRot[12] = s_invRot[13] = s_invRot[14] = 0;
 		s_invRot = s_invRot.InverseOf();
 
-		glColor3f(1,1,1);
-		glBegin(GL_TRIANGLE_FAN);
+		// Draw a filled circle
+		Color white(1.f);
+		std::vector<vector3f> vts;
+		std::vector<Color> cols;
 		double radius = b->GetRadius() * m_zoom;
 		const vector3f offsetf(offset);
 		for (float ang=0; ang<2.0f*M_PI; ang+=M_PI*0.05f) {
 			vector3f p = offsetf + s_invRot * vector3f(radius*sin(ang), -radius*cos(ang), 0);
-			glVertex3fv(&p.x);
+			vts.push_back(p);
+			cols.push_back(white);
 		}
-		glEnd();
+		m_renderer->DrawTriangleFan(vts.size(), &vts[0], &cols[0]);
 
 		PutLabel(b, offset);
 	}
@@ -225,6 +228,7 @@ void SystemView::PutSelectionBox(const SBody *b, const vector3d &rootPos, const 
 
 void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
 {
+	// XXX EnterOrtho shouldn't be necessary after Gui uses DrawLines2D correctly
 	Gui::Screen::EnterOrtho();
 
 	vector3d screenPos;
@@ -234,13 +238,7 @@ void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
 		const float x2 = float(x1 + SystemView::PICK_OBJECT_RECT_SIZE);
 		const float y1 = float(screenPos.y - SystemView::PICK_OBJECT_RECT_SIZE * 0.5);
 		const float y2 = float(y1 + SystemView::PICK_OBJECT_RECT_SIZE);
-		const LineVertex2D vts[] = {
-			LineVertex2D(vector2f(x1, y1), col),
-			LineVertex2D(vector2f(x2, y1), col),
-			LineVertex2D(vector2f(x2, y2), col),
-			LineVertex2D(vector2f(x1, y2), col)
-		};
-		m_renderer->DrawLines2D(4, vts, LINE_LOOP);
+		DrawRect(x1, y1, x2-x1, y2-y1, col);
 	}
 
 	Gui::Screen::LeaveOrtho();
