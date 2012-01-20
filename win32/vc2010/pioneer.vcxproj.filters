@@ -210,9 +210,6 @@
     <ClCompile Include="..\..\src\MyLuaMathTypes.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\NameGenerator.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\ObjectViewerView.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -619,6 +616,10 @@
     <ClCompile Include="..\..\src\TextureCache.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\render\Renderer.cpp" />
+    <ClCompile Include="..\..\src\render\RendererLegacy.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -841,9 +842,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\MyLuaMathTypes.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\NameGenerator.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Object.h">
@@ -1149,6 +1147,10 @@
     </ClInclude>
     <ClInclude Include="..\..\src\TextureCache.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\Renderer.h" />
+    <ClInclude Include="..\..\src\render\RendererLegacy.h">
+      <Filter>src\render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
