@@ -502,19 +502,21 @@ void SectorView::DrawArrow(const vector3f &direction, const Color &c)
 	m_renderer->DrawLines(2, vts, LINE_STRIP);
 
 	glDisable(GL_CULL_FACE);
+
 	const vector3f axis1 = direction.Cross(vector3f(0,1.0f,0)).Normalized();
 	const vector3f axis2 = direction.Cross(axis1).Normalized();
 	vector3f p;
-	glColor4f(c.r, c.g, c.b, c.a);
-	glBegin(GL_TRIANGLE_FAN);
-		glVertex3f(direction.x, direction.y, direction.z);
-		for (float f=2*M_PI; f>0; f-=0.6) {
-			p = 0.8f*direction + headRadius*sin(f)*axis1 + headRadius*cos(f)*axis2;
-			glVertex3fv(&p.x);
-		}
-		p = 0.8f*direction + headRadius*axis2;
-		glVertex3fv(&p.x);
-	glEnd();
+	VertexArray va;
+	va.attribs[ATTRIB_DIFFUSE] = true;
+	va.Add(direction, c);
+	for (float f=2*M_PI; f>0; f-=0.6) {
+		p = 0.8f*direction + headRadius*sin(f)*axis1 + headRadius*cos(f)*axis2;
+		va.Add(p, c);
+	}
+	p = 0.8f*direction + headRadius*axis2;
+	va.Add(p, c);
+	m_renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
+
 	glEnable(GL_CULL_FACE);
 }
 
