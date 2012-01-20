@@ -13,6 +13,7 @@ Widget::Widget()
 	m_tooltipWidget = 0;
 	m_shortcut.sym = SDLK_UNKNOWN;
 	m_shortcut.mod = KMOD_NONE;
+	m_renderer = 0;
 }
 
 bool Widget::IsVisible() const

@@ -89,16 +89,15 @@ struct Material {
 	//Color diffuse;
 	//Color ambient;
 	//Color specular;
-	//bool unlit
+	bool unlit;
 	//etc
 };
 
 // surface with a material
 // can have indices
 struct Surface {
-	unsigned short* indices;
-	unsigned int numIndices;
-	VertexArray vertices;
+	std::vector<unsigned short> indices;
+	VertexArray *vertices;
 	Material* mat;
 	//Texture separately or part of material?
 };
@@ -150,8 +149,9 @@ public:
 	//unindexed triangle draw
 	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES)  { return false; }
 	virtual bool DrawTriangles2D(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES)  { return false; }
-	//indexed triangle draw
-	//virtual bool DrawSurface(const Surface *surface) { };
+	//indexed triangle draw (only triangles, no strips or fans)
+	virtual bool DrawSurface(const Surface *surface) { return false; }
+	virtual bool DrawSurface2D(const Surface *surface) { return false; }
 
 protected:
 	int m_width;

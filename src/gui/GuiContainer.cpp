@@ -194,6 +194,9 @@ void Container::Draw()
 			glVertex2f(0, 0);
 		glEnd();
 #endif /* GUI_DEBUG_CONTAINER */
+		// XXX bad
+		assert(Pi::renderer != 0);
+		(*i).w->SetRenderer(Pi::renderer);
 		(*i).w->Draw();
 		glPopMatrix();
 	}
