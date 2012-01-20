@@ -134,17 +134,17 @@ static void DrawRing(double inner, double outer, const float color[4], Renderer 
 
 	float step = 0.1f / (Pi::detail.planets + 1);
 
-	std::vector<ColoredVertex> vts;
+	VertexArray vts;
 	const vector3f normal(0.f, 1.f, 0.f);
 	const Color c(color[0], color[1], color[2], color[3]);
 	for (float ang=0; ang<2*M_PI; ang+=step) {
-		vts.push_back(ColoredVertex(vector3f(float(inner)*sin(ang), 0.f, float(inner)*cos(ang)), normal, c));
-		vts.push_back(ColoredVertex(vector3f(float(outer)*sin(ang), 0.f, float(outer)*cos(ang)), normal, c));
+		vts.Add(vector3f(float(inner)*sin(ang), 0.f, float(inner)*cos(ang)), c, normal);
+		vts.Add(vector3f(float(outer)*sin(ang), 0.f, float(outer)*cos(ang)), c, normal);
 	}
-	vts.push_back(ColoredVertex(vector3f(0.f, 0.f, float(inner)), normal, c));
-	vts.push_back(ColoredVertex(vector3f(0.f, 0.f, float(outer)), normal, c));
-	r->DrawTriangleStrip(vts.size(), &vts[0]);
-	glEnd();
+	vts.Add(vector3f(0.f, 0.f, float(inner)), c, normal);
+	vts.Add(vector3f(0.f, 0.f, float(outer)), c, normal);
+	// XXX ring material
+	r->DrawTriangles(&vts, 0, TRIANGLE_STRIP);
 }
 
 void Planet::DrawGasGiantRings(Renderer *renderer)
@@ -252,7 +252,8 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 	glDisable(GL_LIGHTING);
 	renderer->SetBlendMode(BLEND_ALPHA_ONE);
 	glDisable(GL_CULL_FACE);
-	std::vector<ColoredVertex> vts;
+
+	VertexArray vts;
 	for (float ang=0; ang<2*M_PI; ang+=float(angStep)) {
 		const vector3d norm = r1.Normalized();
 		const vector3f n = vector3f(norm.x, norm.y, norm.z);
@@ -265,12 +266,13 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 		}
 		for (int i=0; i<3; i++) _col[i] = _col[i] * col[i];
 		_col[3] = col[3];
-		vts.push_back(ColoredVertex(vector3f(r1.x, r1.y, r1.z), n, Color(_col)));
-		vts.push_back(ColoredVertex(vector3f(r2.x, r2.y, r2.z), n, Color(0.f)));
+		vts.Add(vector3f(r1.x, r1.y, r1.z), Color(_col), n);
+		vts.Add(vector3f(r2.x, r2.y, r2.z), Color(0.f), n);
 		r1 = rot * r1;
 		r2 = rot * r2;
 	}
-	renderer->DrawTriangleStrip(vts.size(), &vts[0]);
+	// XXX does this need a material?
+	renderer->DrawTriangles(&vts, 0, TRIANGLE_STRIP);
 
 	glEnable(GL_CULL_FACE);
 	renderer->SetBlendMode(BLEND_SOLID);
