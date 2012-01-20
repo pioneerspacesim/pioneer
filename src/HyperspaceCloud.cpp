@@ -111,17 +111,13 @@ Ship *HyperspaceCloud::EvictShip()
 	return s;
 }
 
-static void make_circle_thing(float radius, const Color &colCenter, const Color &colEdge)
+static void make_circle_thing(VertexArray &va, float radius, const Color &colCenter, const Color &colEdge)
 {
-	glColor4fv(colCenter);
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(0,0,0);
-	glColor4fv(colEdge);
+	va.Add(vector3f(0.f, 0.f, 0.f), colCenter);
 	for (float ang=0; ang<M_PI*2.0; ang+=0.1) {
-		glVertex3f(radius*sin(ang), radius*cos(ang), 0.0f);
+		va.Add(vector3f(radius*sin(ang), radius*cos(ang), 0.0f), colEdge);
 	}
-	glVertex3f(0, radius, 0.0f);
-	glEnd();
+	va.Add(vector3f(0.f, radius, 0.f), colEdge);
 }
 
 void HyperspaceCloud::UpdateInterpolatedTransform(double alpha)
@@ -135,7 +131,7 @@ void HyperspaceCloud::UpdateInterpolatedTransform(double alpha)
 	m_interpolatedTransform[14] = p.z;
 }
 
-void HyperspaceCloud::Render(Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void HyperspaceCloud::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	Render::State::UseProgram(Render::simpleShader);
 	glDisable(GL_LIGHTING);
@@ -153,11 +149,13 @@ void HyperspaceCloud::Render(Renderer *r, const vector3d &viewCoords, const matr
 	double preciseTime = Pi::game->GetTime() + Pi::GetGameTickAlpha()*Pi::game->GetTimeStep();
 
 	float radius = 1000.0f + 200.0f*float(noise(10.0*preciseTime, 0, 0));
+	VertexArray va;
 	if (m_isArrival) {
-		make_circle_thing(radius, Color(1.0,1.0,1.0,1.0), Color(0.0,0.0,1.0,0.0));
+		make_circle_thing(va, radius, Color(1.0,1.0,1.0,1.0), Color(0.0,0.0,1.0,0.0));
 	} else {
-		make_circle_thing(radius, Color(1.0,1.0,1.0,1.0), Color(1.0,0.0,0.0,0.0));
+		make_circle_thing(va, radius, Color(1.0,1.0,1.0,1.0), Color(1.0,0.0,0.0,0.0));
 	}
+	renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
 	glPopMatrix();
 	glDisable(GL_BLEND);
 	glEnable(GL_LIGHTING);
