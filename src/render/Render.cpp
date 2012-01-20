@@ -64,7 +64,7 @@ public:
 class LuminanceTarget : public RenderTarget {
 public:
 	LuminanceTarget(unsigned int w, unsigned int h) :
-		RenderTarget(w, h, GL_TEXTURE_2D, Texture::Format(GL_RGB16F, GL_RGB, GL_FLOAT))
+		RenderTarget(w, h, GL_TEXTURE_2D, Texture::Format(GL_RGB16F, GL_RGB, GL_FLOAT), true)
 	{ }
 
 	void UpdateMipmaps() {

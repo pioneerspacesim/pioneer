@@ -5,8 +5,22 @@ Alpha 19
        interesting/varied names (#896)
      * Joystick deadzone support (#870)
 
+   * Minor changes and tweaks
+     * Roll keys now work while using mouse control (#904, #850, #278)
+
+   * Fixes
+     * Ensure bulletin board is created before ship docks with station (#899)
+     * Don't propogate mouse wheel events in one view to other views (#903, #225)
+     * Show distance to dock on target square when docking clearance is granted (#902)
+
    * Script changes
      * Removed NameGen.PlanetName and replaced with NameGen.BodyName (#896)
+     * Added EventQueue.DebugTimer to enable event function call timing for
+       debugging purposes (#898)
+
+   * Internal changes
+     * New Texture class and subclasses to manage all kinds of GL texture
+       creation and use (#892, #900, #901)
 
 Alpha 18
 
@@ -74,7 +88,7 @@ Alpha 17
     * Correctly order texture coordinates when loading models (#667)
     * Reset breakdown service jump count to 0 when buying new drive (#820, #841)
     * Fix crash when a script tries to obtain the parent of an object with no
-	  parent (eg a star)
+      parent (eg a star)
 
   * Script changes
     * New Character class to represent and test NPC attributes (#725, #787)

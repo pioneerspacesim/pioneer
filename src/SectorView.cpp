@@ -879,11 +879,13 @@ void SectorView::ShowAll()
 
 void SectorView::MouseButtonDown(int button, int x, int y)
 {
-	const float ft = Pi::GetFrameTime();
-	if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN)) 
-			m_zoomMovingTo += 10.0*ft;
-	if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP)) 
-			m_zoomMovingTo -= 10.0*ft;
+	if (this == Pi::GetView()) {
+		const float ft = Pi::GetFrameTime();
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN)) 
+				m_zoomMovingTo += 10.0*ft;
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP)) 
+				m_zoomMovingTo -= 10.0*ft;
+	}
 }
 
 Sector* SectorView::GetCached(int sectorX, int sectorY, int sectorZ)
