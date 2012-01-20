@@ -164,35 +164,18 @@ void FaceVideoLink::Draw() {
 
 	float w = float(FACE_WIDTH) / ceil_pow2(FACE_WIDTH);
 	float h = float(FACE_HEIGHT) / ceil_pow2(FACE_HEIGHT);
-	// XXX this is completely unnecessary, but demonstrating
-	// indexed draw
+
+	// XXX can't use generic fillrect due to UV thing
 	VertexArray va;
 	Color white(1.f, 1.f, 1.f, 1.f);
-	va.position.push_back(vector3f(0.f,size[1],0.f));     //0
-	va.position.push_back(vector3f(size[0],size[1],0.f)); //1
-	va.position.push_back(vector3f(size[0],0.f,0.f));     //2
-	va.position.push_back(vector3f(0.f,0.f,0.f));         //3
-	va.uv0.push_back(vector2f(0.f,h));
-	va.uv0.push_back(vector2f(w,h));
-	va.uv0.push_back(vector2f(w,0));
-	va.uv0.push_back(vector2f(0.f,0.f));
-	va.diffuse.push_back(Color(1.f, 0.f, 0.f, 1.f));
-	va.diffuse.push_back(white);
-	va.diffuse.push_back(white);
-	va.diffuse.push_back(white);
+	va.Add(vector3f(0.f, 0.f, 0.f), white, vector2f(0.f, 0.f));
+	va.Add(vector3f(0.f, size[1], 0.f), white, vector2f(0.f, h));
+	va.Add(vector3f(size[0], 0.f, 0.f), white, vector2f(w, 0.f));
+	va.Add(vector3f(size[0], size[1], 0.f), white, vector2f(w, h));
 	Material mat;
-	mat.unlit = false;
 	mat.texture0 = m_texture;
-	Surface surf;
-	surf.vertices = &va;
-	surf.mat = &mat;
-	surf.indices.push_back(0);
-	surf.indices.push_back(1);
-	surf.indices.push_back(3);
-	surf.indices.push_back(1);
-	surf.indices.push_back(2);
-	surf.indices.push_back(3);
-	m_renderer->DrawSurface2D(&surf);
+	mat.unlit = true;
+	m_renderer->DrawTriangles2D(&va, &mat, TRIANGLE_STRIP);
 
 	glPushMatrix();
 	glTranslatef(0.f, size[1]- size[1] * 0.16f, 0.f);

@@ -66,7 +66,9 @@ struct VertexArray {
 	virtual void Clear();
 	virtual void Add(const vector3f &v);
 	virtual void Add(const vector3f &v, const Color &c);
-	virtual void Add(const vector3f &v, const Color &c, const vector3f normal);
+	virtual void Add(const vector3f &v, const Color &c, const vector3f &normal);
+	//common for UI
+	virtual void Add(const vector3f &v, const Color &c, const vector2f &uv);
 	//virtual void Reserve(unsigned int howmuch)
 
 	std::vector<vector3f> position;

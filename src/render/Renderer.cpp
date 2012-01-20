@@ -45,11 +45,18 @@ void VertexArray::Add(const vector3f &v, const Color &c)
 	diffuse.push_back(c);
 }
 
-void VertexArray::Add(const vector3f &v, const Color &c, const vector3f n)
+void VertexArray::Add(const vector3f &v, const Color &c, const vector3f &n)
 {
 	position.push_back(v);
 	diffuse.push_back(c);
 	normal.push_back(n);
+}
+
+void VertexArray::Add(const vector3f &v, const Color &c, const vector2f &uv)
+{
+	position.push_back(v);
+	diffuse.push_back(c);
+	uv0.push_back(uv);
 }
 
 Renderer::Renderer(int w, int h) :
