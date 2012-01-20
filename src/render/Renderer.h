@@ -74,7 +74,7 @@ struct VertexArray {
 	//vector3f* normal;
 	std::vector<Color> diffuse;
 	// two uvs should be enough for everyone
-	//vector2f* uv0;
+	std::vector<vector2f> uv0;
 	//vector2f* uv1;
 	//future stuff
 	//vector3f* tangent;
@@ -88,8 +88,9 @@ struct VertexArray {
 //shader is determined from this
 //(can add shaderType or whatever is necessary)
 struct Material {
-	Texture *tex0;
-	Texture *tex1;
+	Material() { memset(this, 0, sizeof(Material)); }
+	Texture *texture0;
+	Texture *texture1;
 	Color diffuse;
 	Color ambient;
 	Color specular;
