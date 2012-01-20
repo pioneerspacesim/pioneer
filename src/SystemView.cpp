@@ -335,9 +335,11 @@ void SystemView::Update()
 
 void SystemView::MouseButtonDown(int button, int x, int y)
 {
-	const float ft = Pi::GetFrameTime();
-	if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN)) 
-			m_zoom *= pow(0.25f, ft);
-	if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP)) 
-			m_zoom *= pow(4.0f, ft);
+	if (this == Pi::GetView()) {
+		const float ft = Pi::GetFrameTime();
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN)) 
+				m_zoom *= pow(0.25f, ft);
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP)) 
+				m_zoom *= pow(4.0f, ft);
+	}
 }

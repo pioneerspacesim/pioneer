@@ -1602,7 +1602,7 @@ void WorldView::DrawEdgeMarker(const Indicator &marker)
 
 void WorldView::MouseButtonDown(int button, int x, int y)
 {
-	if (GetCamType() == CAM_EXTERNAL)
+	if (this == Pi::GetView() && GetCamType() == CAM_EXTERNAL)
 	{
 		const float ft = Pi::GetFrameTime();
 		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
