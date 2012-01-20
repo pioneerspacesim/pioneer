@@ -51,8 +51,11 @@ enum VertexAttribs {
 };
 #define NUM_ATTRIBS 4
 
+// this is a generic collection of vertex attributes. Renderers do
+// whatever they need to do with regards to the attribute set.
+// Presence of an attribute is checked using vector size, so users are trusted
+// to provide matching number of attributes
 struct VertexArray {
-	//no attribs are enabled by default
 	VertexArray();
 	//reserve space for vertice, specifying attributes to be used
 	//(positions are always on)
@@ -65,7 +68,7 @@ struct VertexArray {
 	virtual void Add(const vector3f &v, const Color &c);
 	virtual void Add(const vector3f &v, const Color &c, const vector3f normal);
 	//virtual void Reserve(unsigned int howmuch)
-	//vector3f* position;
+
 	std::vector<vector3f> position;
 	std::vector<vector3f> normal;
 	std::vector<Color> diffuse;
@@ -82,10 +85,11 @@ struct VertexArray {
 struct Material {
 	Material() { memset(this, 0, sizeof(Material)); }
 	Texture *texture0;
-	Texture *texture1;
-	Color diffuse;
-	Color ambient;
-	Color specular;
+	//Texture *texture1;
+	//Color diffuse;
+	//Color ambient;
+	//Color specular;
+	//bool unlit
 	//etc
 };
 
@@ -121,26 +125,33 @@ enum BlendModes {
 	BLEND_ALPHA_PREMULT
 };
 
+// Renderer base, functions return false if
+// failed/unsupported
 class Renderer
 {
 public:
 	Renderer(int width, int height);
-	//return false if failed/unsupported
+	virtual ~Renderer();
+
 	virtual bool BeginFrame();
 	virtual bool EndFrame();
+	//traditionally gui happens between endframe and swapbuffers
 	virtual bool SwapBuffers();
 
 	//render state functions
 	virtual bool SetBlendMode(unsigned int blendType);
+	//virtual bool SetState(Z_WRITE, false) or
+	//virtual bool SetZWrite(false) ?
 
 	//drawing functions
+	//2d drawing is generally understood to be for gui use (unlit, ortho projection)
 	virtual bool DrawLines(int vertCount, const LineVertex *vertices, unsigned int lineType=LINE_SINGLE);
 	virtual bool DrawLines2D(int vertCount, const LineVertex2D *vertices, unsigned int lineType=LINE_SINGLE);
-	//indexed triangle draw
-	//virtual bool DrawSurface(const Surface *surface) { };
 	//unindexed triangle draw
 	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES);
 	virtual bool DrawTriangles2D(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES);
+	//indexed triangle draw
+	//virtual bool DrawSurface(const Surface *surface) { };
 
 protected:
 	int m_width;
