@@ -245,13 +245,11 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
 	col[3] = 1.f;
 
-	//Experiment
-	std::vector<vector3f> vts;
-	std::vector<Color> cols;
+	VertexArray va;
 
 	//center
-	vts.push_back(vector3f(0.f));
-	cols.push_back(Color(col));
+	va.position.push_back(vector3f(0.f));
+	va.diffuse.push_back(Color(col));
 
 	const Color edges(col[0], col[1], col[2], 0.f);
 
@@ -262,37 +260,36 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 		const vector3f p0(0,spikerad,0), p1(spikerad,0,0);
 		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
 			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			vts.push_back(p);
-			cols.push_back(edges);
+			va.position.push_back(p);
+			va.diffuse.push_back(edges);
 		}
 	}
 	{
 		const vector3f p0(spikerad,0,0), p1(0,-spikerad,0);
 		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
 			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			vts.push_back(p);
-			cols.push_back(edges);
+			va.position.push_back(p);
+			va.diffuse.push_back(edges);
 		}
 	}
 	{
 		const vector3f p0(0,-spikerad,0), p1(-spikerad,0,0);
 		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
 			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			vts.push_back(p);
-			cols.push_back(edges);
+			va.position.push_back(p);
+			va.diffuse.push_back(edges);
 		}
 	}
 	{
 		const vector3f p0(-spikerad,0,0), p1(0,spikerad,0);
 		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
 			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			vts.push_back(p);
-			cols.push_back(edges);
+			va.position.push_back(p);
+			va.diffuse.push_back(edges);
 		}
 	}
 
-	if (vts.size() == cols.size())
-		m_renderer->DrawTriangleFan(vts.size(), &vts[0], &cols[0]);
+	m_renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
 
 	m_renderer->SetBlendMode(BLEND_SOLID);
 	glEnable(GL_LIGHTING);
