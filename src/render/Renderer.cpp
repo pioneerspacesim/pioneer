@@ -3,23 +3,40 @@
 
 VertexArray::VertexArray()
 {
-	memset(this, 0, sizeof(VertexArray));
+	memset(attribs, 0, sizeof(attribs));
 }
 
-VertexArray::VertexArray(int size)
+VertexArray::VertexArray(int size, bool c)
 {
-	memset(this, 0, sizeof(VertexArray));
-	numVertices = size;
-	position = new vector3f[size];
-	diffuse  = new Color[size];
+	memset(attribs, 0, sizeof(attribs));
+	numVertices = 0;
+	attribs[ATTRIB_POSITION] = true;
+	position.reserve(size);
+
+	if (c) {
+		attribs[ATTRIB_DIFFUSE] = true;
+		diffuse.reserve(size);
+	}
 }
 
 VertexArray::~VertexArray()
 {
-	if (numVertices) {
-		delete[] position;
-		delete[] diffuse;
-	}
+
+}
+
+void VertexArray::Add(const vector3f &v)
+{
+	position.push_back(v);
+	numVertices = position.size();
+	assert(attribs[ATTRIB_DIFFUSE] == false);
+}
+
+void VertexArray::Add(const vector3f &v, const Color &c)
+{
+	position.push_back(v);
+	diffuse.push_back(c);
+	numVertices = position.size();
+	assert(attribs[ATTRIB_DIFFUSE] == true);
 }
 
 /* Most of the contents will be moved to RendererLegacy.h/cpp or similar */
@@ -159,15 +176,38 @@ bool Renderer::DrawTriangleFan(int count, const vector3f *v, const Color *c)
 bool Renderer::DrawTriangles2D(const VertexArray *v, const Material *m, unsigned int t)
 {
 	if (!v || v->numVertices < 3) return false;
+	assert(v->numVertices <= v->position.size());
 
 	// XXX uses standard 3D VertexArray
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, (const GLvoid *)v->position);
-	glColorPointer(4, GL_FLOAT, 0, (const GLvoid *)v->diffuse);
+	glVertexPointer(3, GL_FLOAT, 0, (const GLvoid *)&v->position[0]);
+	if (v->attribs[ATTRIB_DIFFUSE]) {
+		glEnableClientState(GL_COLOR_ARRAY);
+		glColorPointer(4, GL_FLOAT, 0, (const GLvoid *)&v->diffuse[0]);
+	}
 	glDrawArrays(t, 0, v->numVertices);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
+	if (v->attribs[ATTRIB_DIFFUSE])
+		glDisableClientState(GL_COLOR_ARRAY);
+
+	return true;
+}
+
+bool Renderer::DrawTriangles(const VertexArray *v, const Material *m, unsigned int t)
+{
+	if (!v || v->numVertices < 3) return false;
+	assert(v->numVertices <= v->position.size());
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, (const GLvoid *)&v->position[0]);
+	if (v->attribs[ATTRIB_DIFFUSE]) {
+		glEnableClientState(GL_COLOR_ARRAY);
+		glColorPointer(4, GL_FLOAT, 0, (const GLvoid *)&v->diffuse[0]);
+	}
+	glDrawArrays(t, 0, v->numVertices);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	if (v->attribs[ATTRIB_DIFFUSE])
+		glDisableClientState(GL_COLOR_ARRAY);
 
 	return true;
 }

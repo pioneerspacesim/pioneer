@@ -52,20 +52,37 @@ struct ColoredVertex {
 	Color color;
 };
 
+enum VertexAttribs {
+	ATTRIB_POSITION = 0,
+	ATTRIB_NORMAL = 1,
+	ATTRIB_DIFFUSE = 2
+};
+#define NUM_ATTRIBS 3
+
 struct VertexArray {
+	//no attribs are enabled by default
 	VertexArray();
-	VertexArray(int size);
+	//reserve space for vertice, specifying attributes to be used
+	//(positions are always on)
+	VertexArray(int size, bool colors=true);
 	~VertexArray();
-	vector3f* position;
-	vector3f* normal;
-	Color* diffuse;
+
+	virtual void Add(const vector3f &v);
+	virtual void Add(const vector3f &v, const Color &c);
+	//vector3f* position;
+	std::vector<vector3f> position;
+	//vector3f* normal;
+	std::vector<Color> diffuse;
 	// two uvs should be enough for everyone
-	vector2f* uv0;
-	vector2f* uv1;
+	//vector2f* uv0;
+	//vector2f* uv1;
 	//future stuff
-	vector3f* tangent;
-	vector3f* binormal;
+	//vector3f* tangent;
+	//vector3f* binormal;
+	//can be set by user
 	int numVertices;
+	//track used attributes
+	bool attribs[NUM_ATTRIBS];
 };
 
 //shader is determined from this
@@ -133,6 +150,7 @@ public:
 	//virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES) { };
 	//indexed triangle draw
 	//virtual bool DrawSurface(const Surface *surface) { };
+	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES);
 	virtual bool DrawTriangles2D(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES);
 
 protected:
