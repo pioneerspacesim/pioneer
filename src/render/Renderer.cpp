@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include "Render.h"
+#include "Texture.h"
 
 VertexArray::VertexArray()
 {
