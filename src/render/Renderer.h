@@ -65,17 +65,18 @@ struct VertexArray {
 	VertexArray();
 	//reserve space for vertice, specifying attributes to be used
 	//(positions are always on)
-	VertexArray(int size, bool colors);
+	VertexArray(int size, bool colors, bool normals);
 	~VertexArray();
 
 	virtual unsigned int GetNumVerts() const;
 	virtual void Clear();
 	virtual void Add(const vector3f &v);
 	virtual void Add(const vector3f &v, const Color &c);
+	virtual void Add(const vector3f &v, const Color &c, const vector3f normal);
 	//virtual void Reserve(unsigned int howmuch)
 	//vector3f* position;
 	std::vector<vector3f> position;
-	//vector3f* normal;
+	std::vector<vector3f> normal;
 	std::vector<Color> diffuse;
 	// two uvs should be enough for everyone
 	std::vector<vector2f> uv0;

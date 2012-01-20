@@ -6,13 +6,14 @@ VertexArray::VertexArray()
 {
 }
 
-VertexArray::VertexArray(int size, bool c)
+VertexArray::VertexArray(int size, bool c, bool n)
 {
 	position.reserve(size);
 
-	if (c) {
+	if (c)
 		diffuse.reserve(size);
-	}
+	if (n)
+		normal.reserve(size);
 }
 
 VertexArray::~VertexArray()
@@ -29,6 +30,7 @@ void VertexArray::Clear()
 {
 	position.clear();
 	diffuse.clear();
+	normal.clear();
 	uv0.clear();
 }
 
@@ -41,6 +43,13 @@ void VertexArray::Add(const vector3f &v, const Color &c)
 {
 	position.push_back(v);
 	diffuse.push_back(c);
+}
+
+void VertexArray::Add(const vector3f &v, const Color &c, const vector3f n)
+{
+	position.push_back(v);
+	diffuse.push_back(c);
+	normal.push_back(n);
 }
 
 /* Most of the contents will be moved to RendererLegacy.h/cpp or similar */
@@ -191,6 +200,7 @@ bool Renderer::DrawTriangles(const VertexArray *v, const Material *m, unsigned i
 
 	const bool diffuse = !v->diffuse.empty();
 	const bool textured = (m && m->texture0 && v->uv0.size() == v->position.size());
+	const bool normals = !v->normal.empty();
 	const unsigned int numverts = v->position.size();
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -199,6 +209,11 @@ bool Renderer::DrawTriangles(const VertexArray *v, const Material *m, unsigned i
 		assert(v->diffuse.size() == v->position.size());
 		glEnableClientState(GL_COLOR_ARRAY);
 		glColorPointer(4, GL_FLOAT, 0, (const GLvoid *)&v->diffuse[0]);
+	}
+	if (normals) {
+		assert(v->normal.size() == v->position.size());
+		glEnableClientState(GL_NORMAL_ARRAY);
+		glNormalPointer(GL_FLOAT, 0, (const GLvoid *)&v->normal[0]);
 	}
 	if (textured) {
 		assert(v->uv0.size() == v->position.size());
@@ -211,6 +226,8 @@ bool Renderer::DrawTriangles(const VertexArray *v, const Material *m, unsigned i
 	glDisableClientState(GL_VERTEX_ARRAY);
 	if (diffuse)
 		glDisableClientState(GL_COLOR_ARRAY);
+	if (normals)
+		glDisableClientState(GL_NORMAL_ARRAY);
 	if (textured) {
 		m->texture0->Unbind();
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
