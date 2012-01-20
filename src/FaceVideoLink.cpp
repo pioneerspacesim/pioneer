@@ -3,6 +3,7 @@
 #include "Pi.h"
 #include "LuaNameGen.h"
 #include "Texture.h"
+#include "render/Renderer.h"
 
 #define FACE_WIDTH  295
 #define FACE_HEIGHT 285
@@ -153,23 +154,45 @@ void FaceVideoLink::Draw() {
 		return;
 	}
 
+	// XXX fixed function combiner
+	assert(m_renderer != 0);
 	glEnable(GL_TEXTURE_2D);
 	m_texture->Bind();
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	glBegin(GL_QUADS);
-		float w = float(FACE_WIDTH) / ceil_pow2(FACE_WIDTH);
-		float h = float(FACE_HEIGHT) / ceil_pow2(FACE_HEIGHT);
-		glColor3f(0,0,0);
-		glTexCoord2f(0,h);
-		glVertex2f(0,size[1]);
-		glTexCoord2f(w,h);
-		glVertex2f(size[0],size[1]);
-		glTexCoord2f(w,0);
-		glVertex2f(size[0],0);
-		glTexCoord2f(0,0);
-		glVertex2f(0,0);
-	glEnd();
+	m_texture->Unbind();
 	glDisable(GL_TEXTURE_2D);
+
+	float w = float(FACE_WIDTH) / ceil_pow2(FACE_WIDTH);
+	float h = float(FACE_HEIGHT) / ceil_pow2(FACE_HEIGHT);
+	// XXX this is completely unnecessary, but demonstrating
+	// indexed draw
+	VertexArray va;
+	Color white(1.f, 1.f, 1.f, 1.f);
+	va.position.push_back(vector3f(0.f,size[1],0.f));     //0
+	va.position.push_back(vector3f(size[0],size[1],0.f)); //1
+	va.position.push_back(vector3f(size[0],0.f,0.f));     //2
+	va.position.push_back(vector3f(0.f,0.f,0.f));         //3
+	va.uv0.push_back(vector2f(0.f,h));
+	va.uv0.push_back(vector2f(w,h));
+	va.uv0.push_back(vector2f(w,0));
+	va.uv0.push_back(vector2f(0.f,0.f));
+	va.diffuse.push_back(Color(1.f, 0.f, 0.f, 1.f));
+	va.diffuse.push_back(white);
+	va.diffuse.push_back(white);
+	va.diffuse.push_back(white);
+	Material mat;
+	mat.unlit = false;
+	mat.texture0 = m_texture;
+	Surface surf;
+	surf.vertices = &va;
+	surf.mat = &mat;
+	surf.indices.push_back(0);
+	surf.indices.push_back(1);
+	surf.indices.push_back(3);
+	surf.indices.push_back(1);
+	surf.indices.push_back(2);
+	surf.indices.push_back(3);
+	m_renderer->DrawSurface2D(&surf);
 
 	glPushMatrix();
 	glTranslatef(0.f, size[1]- size[1] * 0.16f, 0.f);
