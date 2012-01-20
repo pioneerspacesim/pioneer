@@ -6,6 +6,7 @@
 #include "RefCounted.h"
 #include "render/Render.h"
 #include "render/RenderFrustum.h"
+#include "render/Renderer.h"
 
 #include <deque>
 #include <algorithm>
@@ -1261,7 +1262,7 @@ void GeoSphere::BuildFirstPatches()
 
 static const float g_ambient[4] = { 0, 0, 0, 1.0 };
 
-static void DrawAtmosphereSurface(const vector3d &campos, float rad)
+static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, float rad)
 {
 	const int LAT_SEGS = 20;
 	const int LONG_SEGS = 20;
@@ -1289,32 +1290,35 @@ static void DrawAtmosphereSurface(const vector3d &campos, float rad)
 	}
 
 	/* Tri-fan above viewer */
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(0.0f, 1.0f, 0.0f);
+	VertexArray va;
+	va.Add(vector3f(0.f, 1.f, 0.f));
 	for (int i=0; i<=LONG_SEGS; i++) {
-		glVertex3f(sin(latDiff)*sinCosTable[i][0], cos(latDiff), -sin(latDiff)*sinCosTable[i][1]);
+		va.Add(vector3f(
+			sin(latDiff)*sinCosTable[i][0],
+			cos(latDiff),
+			-sin(latDiff)*sinCosTable[i][1]));
 	}
-	glEnd();
+	renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
 
 	/* and wound latitudinal strips */
 	double lat = latDiff;
 	for (int j=1; j<LAT_SEGS; j++, lat += latDiff) {
-		glBegin(GL_TRIANGLE_STRIP);
+		VertexArray v;
 		float cosLat = cos(lat);
 		float sinLat = sin(lat);
 		float cosLat2 = cos(lat+latDiff);
 		float sinLat2 = sin(lat+latDiff);
 		for (int i=0; i<=LONG_SEGS; i++) {
-			glVertex3f(sinLat*sinCosTable[i][0], cosLat, -sinLat*sinCosTable[i][1]);
-			glVertex3f(sinLat2*sinCosTable[i][0], cosLat2, -sinLat2*sinCosTable[i][1]);
+			v.Add(vector3f(sinLat*sinCosTable[i][0], cosLat, -sinLat*sinCosTable[i][1]));
+			v.Add(vector3f(sinLat2*sinCosTable[i][0], cosLat2, -sinLat2*sinCosTable[i][1]));
 		}
-		glEnd();
+		renderer->DrawTriangles(&v, 0, TRIANGLE_STRIP);
 	}
 
 	glPopMatrix();
 }
 
-void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
+void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, const float scale) {
 	glPushMatrix();
 	glTranslated(-campos.x, -campos.y, -campos.z);
 	Render::Frustum frustum = Render::Frustum::FromGLState();
@@ -1343,15 +1347,14 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
 			shader->set_geosphereCenter(center.x, center.y, center.z);
 			
-			glEnable(GL_BLEND);
+			renderer->SetBlendMode(BLEND_ALPHA_ONE);
 			glDepthMask(GL_FALSE);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
-			DrawAtmosphereSurface(campos, atmosRadius*1.01);
+			DrawAtmosphereSurface(renderer, campos, atmosRadius*1.01);
 			glDepthMask(GL_TRUE);
-			glDisable(GL_BLEND);
+			renderer->SetBlendMode(BLEND_SOLID);
 		}
 
 		if ((m_sbody->type == SBody::TYPE_BROWN_DWARF) || 
