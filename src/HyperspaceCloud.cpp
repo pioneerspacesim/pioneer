@@ -134,8 +134,7 @@ void HyperspaceCloud::UpdateInterpolatedTransform(double alpha)
 void HyperspaceCloud::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	Render::State::UseProgram(Render::simpleShader);
-	glDisable(GL_LIGHTING);
-	glEnable(GL_BLEND);
+	renderer->SetBlendMode(BLEND_ALPHA_ONE);
 	glPushMatrix();
 	glTranslatef(float(viewCoords.x), float(viewCoords.y), float(viewCoords.z));
 	
@@ -156,7 +155,6 @@ void HyperspaceCloud::Render(Renderer *renderer, const vector3d &viewCoords, con
 		make_circle_thing(va, radius, Color(1.0,1.0,1.0,1.0), Color(1.0,0.0,0.0,0.0));
 	}
 	renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
+	renderer->SetBlendMode(BLEND_SOLID);
 	glPopMatrix();
-	glDisable(GL_BLEND);
-	glEnable(GL_LIGHTING);
 }

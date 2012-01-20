@@ -249,7 +249,6 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 
 	rot = matrix4x4d::RotateZMatrix(angStep);
 
-	glDisable(GL_LIGHTING);
 	renderer->SetBlendMode(BLEND_ALPHA_ONE);
 	glDisable(GL_CULL_FACE);
 
@@ -276,7 +275,6 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 
 	glEnable(GL_CULL_FACE);
 	renderer->SetBlendMode(BLEND_SOLID);
-	glEnable(GL_LIGHTING);
 	glPopMatrix();
 }
 

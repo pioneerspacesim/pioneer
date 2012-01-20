@@ -235,7 +235,6 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
 	glMultMatrixd(&rot[0]);
 
-	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 
 	m_renderer->SetBlendMode(BLEND_ALPHA_ONE);
@@ -292,7 +291,6 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	m_renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
 
 	m_renderer->SetBlendMode(BLEND_SOLID);
-	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
 	glPopMatrix();
 }

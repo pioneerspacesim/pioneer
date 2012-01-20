@@ -117,6 +117,9 @@ bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, unsi
 {
 	if (!v || v->position.size() < 3) return false;
 
+	glPushAttrib(GL_LIGHTING_BIT);
+	if (!m) glDisable(GL_LIGHTING);
+
 	const bool diffuse = !v->diffuse.empty();
 	const bool textured = (m && m->texture0 && v->uv0.size() == v->position.size());
 	const bool normals = !v->normal.empty();
@@ -152,6 +155,8 @@ bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, unsi
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		glDisable(GL_TEXTURE_2D);
 	}
+
+	glPopAttrib();
 
 	return true;
 }
