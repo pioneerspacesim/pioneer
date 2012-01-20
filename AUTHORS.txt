@@ -20,6 +20,7 @@ Programming:
   Benjamin Hodgetts
   Sean Bailey
   Brian Ronald
+  Taiki Kim
 
 Art:
   Gernot
