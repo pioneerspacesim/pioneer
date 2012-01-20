@@ -1,5 +1,6 @@
 #include "Star.h"
 #include "render/Render.h"
+#include "render/Renderer.h"
 #include "gui/Gui.h"
 
 Star::Star() : TerrainBody()
@@ -55,29 +56,26 @@ void Star::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x
 
 	MTRand(rand);
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
-	glEnable(GL_BLEND);
-	glBegin(GL_TRIANGLE_FAN);
-	glColor4f(col[0], col[1], col[2], 1);
-	glVertex3f(0,0,0);
-	glColor4f(0,0,0,0);
+	renderer->SetBlendMode(BLEND_ALPHA_ONE);
+
+	//render star halo
+	VertexArray va;
+	va.attribs[ATTRIB_DIFFUSE] = true;
+	const Color bright(col[0], col[1], col[2], 1.f);
+	const Color dark(0.f, 0.f, 0.f, 0.f);
+	va.position.push_back(vector3f(0.f, 0.f, 0.f));
+	va.diffuse.push_back(bright);
 	for (float ang=0; ang<2*M_PI; ang+=0.26183+rand.Double(0,0.4)) {
-		glVertex3f(rad*sin(ang), rad*cos(ang), 0);
+		va.position.push_back(vector3f(rad*sin(ang), rad*cos(ang), 0));
+		va.diffuse.push_back(dark);
 	}
-	glVertex3f(0, rad, 0);
-	glEnd();
-	glDisable(GL_BLEND);
-	
-	Render::State::UseProgram(Render::simpleShader);
-	glEnable(GL_BLEND);
-	glColor4f(b*col[0],b*col[1],b*col[2],1);
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(0,0,0);
-	glColor4f(0,0,0,0);
-	glEnd();
-	
+	va.position.push_back(vector3f(0.f, rad, 0.f));
+	va.diffuse.push_back(dark);
+	va.numVertices = va.position.size();
+	renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
+
 	Render::State::UseProgram(0);
-	glDisable(GL_BLEND);
+	renderer->SetBlendMode(BLEND_SOLID);
 
 	glPopMatrix();
 	glEnable(GL_DEPTH_TEST);
