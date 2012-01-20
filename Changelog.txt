@@ -11,6 +11,7 @@ Alpha 19
    * Fixes
      * Ensure bulletin board is created before ship docks with station (#899)
      * Don't propogate mouse wheel events in one view to other views (#903, #225)
+     * Show distance to dock on target square when docking clearance is granted (#902)
 
    * Script changes
      * Removed NameGen.PlanetName and replaced with NameGen.BodyName (#896)
