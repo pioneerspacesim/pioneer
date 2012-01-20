@@ -5,6 +5,9 @@ Alpha 19
        interesting/varied names (#896)
      * Joystick deadzone support (#870)
 
+   * Minor changes and tweaks
+     * Roll keys now work while using mouse control (#904, #850, #278)
+
    * Fixes
      * Ensure bulletin board is created before ship docks with station (#899)
 
