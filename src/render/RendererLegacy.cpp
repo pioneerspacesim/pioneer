@@ -1,4 +1,6 @@
 #include "RendererLegacy.h"
+#include "Render.h"
+#include "Texture.h"
 
 RendererLegacy::RendererLegacy(int w, int h) :
 	Renderer(w, h)
