@@ -65,10 +65,11 @@ struct VertexArray {
 	VertexArray();
 	//reserve space for vertice, specifying attributes to be used
 	//(positions are always on)
-	VertexArray(int size, bool colors=true);
+	VertexArray(int size, bool colors);
 	~VertexArray();
 
 	virtual unsigned int GetNumVerts() const;
+	virtual void Clear();
 	virtual void Add(const vector3f &v);
 	virtual void Add(const vector3f &v, const Color &c);
 	//virtual void Reserve(unsigned int howmuch)

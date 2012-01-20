@@ -24,6 +24,13 @@ unsigned int VertexArray::GetNumVerts() const
 	return position.size();
 }
 
+void VertexArray::Clear()
+{
+	position.clear();
+	diffuse.clear();
+	uv0.clear();
+}
+
 void VertexArray::Add(const vector3f &v)
 {
 	position.push_back(v);
