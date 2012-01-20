@@ -179,16 +179,29 @@ bool Renderer::DrawTriangles2D(const VertexArray *v, const Material *m, unsigned
 	assert(v->numVertices <= v->position.size());
 
 	// XXX uses standard 3D VertexArray
+	bool textured = (m && m->texture0 && v->uv0.size() == v->position.size());
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, (const GLvoid *)&v->position[0]);
 	if (v->attribs[ATTRIB_DIFFUSE]) {
 		glEnableClientState(GL_COLOR_ARRAY);
 		glColorPointer(4, GL_FLOAT, 0, (const GLvoid *)&v->diffuse[0]);
 	}
+	if (textured) {
+		glEnable(GL_TEXTURE_2D);
+		m->texture0->Bind();
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glTexCoordPointer(2, GL_FLOAT, 0, (const GLvoid *)&v->uv0[0]);
+	}
 	glDrawArrays(t, 0, v->numVertices);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	if (v->attribs[ATTRIB_DIFFUSE])
 		glDisableClientState(GL_COLOR_ARRAY);
+	if (textured) {
+		m->texture0->Unbind();
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisable(GL_TEXTURE_2D);
+	}
 
 	return true;
 }

@@ -103,29 +103,33 @@ void GalacticView::Draw3D()
 	glDisable(GL_DEPTH_TEST);
 	m_renderer->SetBlendMode(BLEND_SOLID);
 
+	// XXX fixed function combiner
 	glEnable(GL_TEXTURE_2D);
 	m_texture->Bind();
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	m_texture->Unbind();
+	glDisable(GL_TEXTURE_2D);
 	
 	glScalef(m_zoom, m_zoom, 0.0f);
 	glTranslatef(-offset_x, -offset_y, 0.0f);
 
 	// galaxy image
-	glBegin(GL_QUADS);
-		float w = 1.0;
-		float h = 1.0;
-		glTexCoord2f(0,h);
-		glVertex2f(-1.0,1.0);
-		glTexCoord2f(w,h);
-		glVertex2f(1.0,1.0);
-		glTexCoord2f(w,0);
-		glVertex2f(1.0,-1.0);
-		glTexCoord2f(0,0);
-		glVertex2f(-1.0,-1.0);
-	glEnd();
-
-	m_texture->Unbind();
-	glDisable(GL_TEXTURE_2D);
+	VertexArray va;
+	const float w = 1.0;
+	const float h = 1.0;
+	// XXX 2d verts
+	va.position.push_back(vector3f(-1.f, 1.f, 0.f));
+	va.position.push_back(vector3f( 1.f, 1.f, 0.f));
+	va.position.push_back(vector3f( 1.0,-1.0, 0.f));
+	va.position.push_back(vector3f(-1.0,-1.0, 0.f));
+	va.uv0.push_back(vector2f(0.f, h));
+	va.uv0.push_back(vector2f(w,h));
+	va.uv0.push_back(vector2f(w,0));
+	va.uv0.push_back(vector2f(0,0));
+	va.numVertices = va.position.size();
+	Material m;
+	m.texture0 = m_texture.Get();
+	m_renderer->DrawTriangles2D(&va, &m, QUADS);
 
 	// "you are here" dot
 	glColor3f(0.0,1.0,0.0);

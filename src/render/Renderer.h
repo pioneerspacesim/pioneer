@@ -55,9 +55,10 @@ struct ColoredVertex {
 enum VertexAttribs {
 	ATTRIB_POSITION = 0,
 	ATTRIB_NORMAL = 1,
-	ATTRIB_DIFFUSE = 2
+	ATTRIB_DIFFUSE = 2,
+	ATTRIB_UV0 = 3
 };
-#define NUM_ATTRIBS 3
+#define NUM_ATTRIBS 4
 
 struct VertexArray {
 	//no attribs are enabled by default
