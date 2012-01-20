@@ -6,6 +6,8 @@
 #include "Color.h"
 
 /*
+ * Don't mind the mess! Experiments are happening.
+ *
  * Draws points, lines, polys...
  * Terrains and LMRmodels might be too special for this now
  * Would ideally also:
@@ -15,6 +17,8 @@
  * toggle between fullscreen/windowed
  * prepare/endframe/swapbuf (move from Render.h)
  */
+
+class Texture;
 
 //first some data structures
 struct vector2f {
@@ -48,10 +52,55 @@ struct ColoredVertex {
 	Color color;
 };
 
+struct VertexArray {
+	VertexArray();
+	VertexArray(int size);
+	~VertexArray();
+	vector3f* position;
+	vector3f* normal;
+	Color* diffuse;
+	// two uvs should be enough for everyone
+	vector2f* uv0;
+	vector2f* uv1;
+	//future stuff
+	vector3f* tangent;
+	vector3f* binormal;
+	int numVertices;
+};
+
+//shader is determined from this
+//(can add shaderType or whatever is necessary)
+struct Material {
+	Texture *tex0;
+	Texture *tex1;
+	Color diffuse;
+	Color ambient;
+	Color specular;
+	//etc
+};
+
+// surface with a material
+// can have indices
+struct Surface {
+	unsigned short* indices;
+	unsigned int numIndices;
+	VertexArray vertices;
+	Material* mat;
+	//Texture separately or part of material?
+};
+
 enum LineType {
 	LINE_SINGLE = GL_LINES, //draw one line per two vertices
 	LINE_STRIP = GL_LINE_STRIP,  //connect vertices
 	LINE_LOOP = GL_LINE_LOOP    //connect vertices,  connect start & end
+};
+
+//how to treat vertices
+enum PrimitiveType {
+	TRIANGLES = GL_TRIANGLES,
+	TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
+	TRIANGLE_FAN = GL_TRIANGLE_FAN,
+	QUADS = GL_QUADS
 };
 
 enum BlendModes {
@@ -80,6 +129,11 @@ public:
 	virtual bool DrawTriangleStrip(int vertCount, const ColoredVertex *vertices);
 	//yes, this is different, trying out what works best
 	virtual bool DrawTriangleFan(int vertCount, const vector3f *vertices, const Color *colors);
+	//unindexed triangle draw
+	//virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES) { };
+	//indexed triangle draw
+	//virtual bool DrawSurface(const Surface *surface) { };
+	virtual bool DrawTriangles2D(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES);
 
 protected:
 	int m_width;

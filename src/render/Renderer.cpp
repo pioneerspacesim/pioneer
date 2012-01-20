@@ -1,6 +1,25 @@
 #include "Renderer.h"
 #include "Render.h"
 
+VertexArray::VertexArray()
+{
+	memset(this, 0, sizeof(VertexArray));
+}
+
+VertexArray::VertexArray(int size)
+{
+	memset(this, 0, sizeof(VertexArray));
+	numVertices = size;
+	position = new vector3f[size];
+}
+
+VertexArray::~VertexArray()
+{
+	if (numVertices) {
+		delete[] position;
+	}
+}
+
 /* Most of the contents will be moved to RendererLegacy.h/cpp or similar */
 Renderer::Renderer(int w, int h) :
 	m_width(w), m_height(h)
@@ -129,6 +148,22 @@ bool Renderer::DrawTriangleFan(int count, const vector3f *v, const Color *c)
 	glVertexPointer(3, GL_FLOAT, 0, (const GLvoid *)v);
 	glColorPointer(4, GL_FLOAT, 0, (const GLvoid *)c);
 	glDrawArrays(GL_TRIANGLE_FAN, 0, count);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+
+	return true;
+}
+
+bool Renderer::DrawTriangles2D(const VertexArray *v, const Material *m, unsigned int t)
+{
+	if (!v || v->numVertices < 3) return false;
+
+	// XXX uses standard VertexArray
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, (const GLvoid *)v->position);
+	glColorPointer(4, GL_FLOAT, 0, (const GLvoid *)v->diffuse);
+	glDrawArrays(t, 0, v->numVertices);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 
