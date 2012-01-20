@@ -299,8 +299,8 @@ void Player::PollControls(const float timeStep)
 		for (int axis=0; axis<3; axis++)
 			wantAngVel[axis] = Clamp(wantAngVel[axis], -invTimeAccelRate, invTimeAccelRate);
 		
+		AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
 		if (m_mouseActive) AIFaceDirection(m_mouseDir);
-		else AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
 	}
 }
 

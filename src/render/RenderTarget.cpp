@@ -26,12 +26,12 @@ const char *RenderTarget::fbo_incomplete::what() const throw() {
 	}
 }
 
-RenderTarget::RenderTarget(unsigned int w, unsigned int h, GLenum target, const Texture::Format &format) :
-	Texture(target, format, CLAMP, LINEAR, false),
+RenderTarget::RenderTarget(unsigned int w, unsigned int h, GLenum target, const Texture::Format &format, bool wantMipmaps) :
+	Texture(target, format, CLAMP, LINEAR, wantMipmaps),
     m_fbo(0)
 {
 	glGenFramebuffersEXT(1, &m_fbo);
-	glBindFramebuffer(GL_FRAMEBUFFER_EXT, m_fbo);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_fbo);
 
 	CreateFromArray(0, w, h);
 
