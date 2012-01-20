@@ -11,12 +11,14 @@ VertexArray::VertexArray(int size)
 	memset(this, 0, sizeof(VertexArray));
 	numVertices = size;
 	position = new vector3f[size];
+	diffuse  = new Color[size];
 }
 
 VertexArray::~VertexArray()
 {
 	if (numVertices) {
 		delete[] position;
+		delete[] diffuse;
 	}
 }
 
@@ -158,7 +160,7 @@ bool Renderer::DrawTriangles2D(const VertexArray *v, const Material *m, unsigned
 {
 	if (!v || v->numVertices < 3) return false;
 
-	// XXX uses standard VertexArray
+	// XXX uses standard 3D VertexArray
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, (const GLvoid *)v->position);

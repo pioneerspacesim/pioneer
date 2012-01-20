@@ -160,14 +160,22 @@ void ScannerWidget::Draw()
 
 	// disc
 	m_renderer->SetBlendMode(BLEND_ALPHA);
-	glColor4f(0, 1.0f, 0, 0.1f);
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex2f(m_x, m_y);
+	Color green(0.f, 1.f, 0.f, 0.1f);
+
+	VertexArray va(128);
+	va.position[0] = vector3f(m_x, m_y, 0.f);
+	va.diffuse[0] = green;
+	int i = 1;
 	for (float a = 0; a < 2 * M_PI; a += M_PI * 0.02) {
-		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+		va.position[i] = vector3f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), 0.f);
+		va.diffuse[i] = green;
+		i++;
 	}
-	glVertex2f(m_x, m_y + SCANNER_YSHRINK * m_y);
-	glEnd();
+	va.position[i] = vector3f(m_x, m_y + SCANNER_YSHRINK * m_y, 0.f);
+	va.diffuse[i] = green;
+	va.numVertices = i+1;
+	m_renderer->DrawTriangles2D(&va, 0, TRIANGLE_FAN);
+
 	m_renderer->SetBlendMode(BLEND_SOLID);
 
 	// circles and spokes
