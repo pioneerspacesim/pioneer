@@ -126,7 +126,6 @@ void GalacticView::Draw3D()
 	va.uv0.push_back(vector2f(w,h));
 	va.uv0.push_back(vector2f(w,0));
 	va.uv0.push_back(vector2f(0,0));
-	va.numVertices = va.position.size();
 	Material m;
 	m.texture0 = m_texture.Get();
 	m_renderer->DrawTriangles2D(&va, &m, QUADS);

@@ -3,18 +3,13 @@
 
 VertexArray::VertexArray()
 {
-	memset(attribs, 0, sizeof(attribs));
 }
 
 VertexArray::VertexArray(int size, bool c)
 {
-	memset(attribs, 0, sizeof(attribs));
-	numVertices = 0;
-	attribs[ATTRIB_POSITION] = true;
 	position.reserve(size);
 
 	if (c) {
-		attribs[ATTRIB_DIFFUSE] = true;
 		diffuse.reserve(size);
 	}
 }
@@ -24,19 +19,20 @@ VertexArray::~VertexArray()
 
 }
 
+unsigned int VertexArray::GetNumVerts() const
+{
+	return position.size();
+}
+
 void VertexArray::Add(const vector3f &v)
 {
 	position.push_back(v);
-	numVertices = position.size();
-	assert(attribs[ATTRIB_DIFFUSE] == false);
 }
 
 void VertexArray::Add(const vector3f &v, const Color &c)
 {
 	position.push_back(v);
 	diffuse.push_back(c);
-	numVertices = position.size();
-	assert(attribs[ATTRIB_DIFFUSE] == true);
 }
 
 /* Most of the contents will be moved to RendererLegacy.h/cpp or similar */
@@ -175,59 +171,37 @@ bool Renderer::DrawTriangleFan(int count, const vector3f *v, const Color *c)
 
 bool Renderer::DrawTriangles2D(const VertexArray *v, const Material *m, unsigned int t)
 {
-	if (!v || v->numVertices < 3) return false;
-	assert(v->numVertices <= v->position.size());
+	if (!v || v->GetNumVerts() < 3) return false;
 
 	// XXX uses standard 3D VertexArray
-	bool textured = (m && m->texture0 && v->uv0.size() == v->position.size());
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, (const GLvoid *)&v->position[0]);
-	if (v->attribs[ATTRIB_DIFFUSE]) {
-		glEnableClientState(GL_COLOR_ARRAY);
-		glColorPointer(4, GL_FLOAT, 0, (const GLvoid *)&v->diffuse[0]);
-	}
-	if (textured) {
-		glEnable(GL_TEXTURE_2D);
-		m->texture0->Bind();
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glTexCoordPointer(2, GL_FLOAT, 0, (const GLvoid *)&v->uv0[0]);
-	}
-	glDrawArrays(t, 0, v->numVertices);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	if (v->attribs[ATTRIB_DIFFUSE])
-		glDisableClientState(GL_COLOR_ARRAY);
-	if (textured) {
-		m->texture0->Unbind();
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisable(GL_TEXTURE_2D);
-	}
-
-	return true;
+	return DrawTriangles(v, m, t);
 }
 
 bool Renderer::DrawTriangles(const VertexArray *v, const Material *m, unsigned int t)
 {
-	if (!v || v->numVertices < 3) return false;
-	assert(v->numVertices <= v->position.size());
+	if (!v || v->position.size() < 3) return false;
 
-	bool textured = (m && m->texture0 && v->uv0.size() == v->position.size());
+	const bool diffuse = !v->diffuse.empty();
+	const bool textured = (m && m->texture0 && v->uv0.size() == v->position.size());
+	const unsigned int numverts = v->position.size();
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, (const GLvoid *)&v->position[0]);
-	if (v->attribs[ATTRIB_DIFFUSE]) {
+	if (diffuse) {
+		assert(v->diffuse.size() == v->position.size());
 		glEnableClientState(GL_COLOR_ARRAY);
 		glColorPointer(4, GL_FLOAT, 0, (const GLvoid *)&v->diffuse[0]);
 	}
 	if (textured) {
+		assert(v->uv0.size() == v->position.size());
 		glEnable(GL_TEXTURE_2D);
 		m->texture0->Bind();
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glTexCoordPointer(2, GL_FLOAT, 0, (const GLvoid *)&v->uv0[0]);
 	}
-	glDrawArrays(t, 0, v->numVertices);
+	glDrawArrays(t, 0, numverts);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	if (v->attribs[ATTRIB_DIFFUSE])
+	if (diffuse)
 		glDisableClientState(GL_COLOR_ARRAY);
 	if (textured) {
 		m->texture0->Unbind();

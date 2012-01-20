@@ -60,7 +60,6 @@ void Star::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x
 
 	//render star halo
 	VertexArray va;
-	va.attribs[ATTRIB_DIFFUSE] = true;
 	const Color bright(col[0], col[1], col[2], 1.f);
 	const Color dark(0.f, 0.f, 0.f, 0.f);
 	va.position.push_back(vector3f(0.f, 0.f, 0.f));
@@ -71,7 +70,6 @@ void Star::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x
 	}
 	va.position.push_back(vector3f(0.f, rad, 0.f));
 	va.diffuse.push_back(dark);
-	va.numVertices = va.position.size();
 	renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
 
 	Render::State::UseProgram(0);

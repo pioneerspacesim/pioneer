@@ -507,7 +507,6 @@ void SectorView::DrawArrow(const vector3f &direction, const Color &c)
 	const vector3f axis2 = direction.Cross(axis1).Normalized();
 	vector3f p;
 	VertexArray va;
-	va.attribs[ATTRIB_DIFFUSE] = true;
 	va.Add(direction, c);
 	for (float f=2*M_PI; f>0; f-=0.6) {
 		p = 0.8f*direction + headRadius*sin(f)*axis1 + headRadius*cos(f)*axis2;

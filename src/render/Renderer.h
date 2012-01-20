@@ -68,8 +68,10 @@ struct VertexArray {
 	VertexArray(int size, bool colors=true);
 	~VertexArray();
 
+	virtual unsigned int GetNumVerts() const;
 	virtual void Add(const vector3f &v);
 	virtual void Add(const vector3f &v, const Color &c);
+	//virtual void Reserve(unsigned int howmuch)
 	//vector3f* position;
 	std::vector<vector3f> position;
 	//vector3f* normal;
@@ -80,10 +82,6 @@ struct VertexArray {
 	//future stuff
 	//vector3f* tangent;
 	//vector3f* binormal;
-	//can be set by user
-	int numVertices;
-	//track used attributes
-	bool attribs[NUM_ATTRIBS];
 };
 
 //shader is determined from this
