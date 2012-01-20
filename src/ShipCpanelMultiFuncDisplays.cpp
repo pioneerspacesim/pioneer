@@ -164,7 +164,6 @@ void ScannerWidget::Draw()
 
 	VertexArray va(128, true, false); //reserve some space for positions & colors
 	va.Add(vector3f(m_x, m_y, 0.f), green);
-	int i = 1;
 	for (float a = 0; a < 2 * M_PI; a += M_PI * 0.02) {
 		va.Add(vector3f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), 0.f), green);
 	}

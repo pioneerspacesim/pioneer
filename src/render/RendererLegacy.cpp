@@ -128,23 +128,23 @@ bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, unsi
 	const unsigned int numverts = v->position.size();
 
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, (const GLvoid *)&v->position[0]);
+	glVertexPointer(3, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->position[0]));
 	if (diffuse) {
 		assert(v->diffuse.size() == v->position.size());
 		glEnableClientState(GL_COLOR_ARRAY);
-		glColorPointer(4, GL_FLOAT, 0, (const GLvoid *)&v->diffuse[0]);
+		glColorPointer(4, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));
 	}
 	if (normals) {
 		assert(v->normal.size() == v->position.size());
 		glEnableClientState(GL_NORMAL_ARRAY);
-		glNormalPointer(GL_FLOAT, 0, (const GLvoid *)&v->normal[0]);
+		glNormalPointer(GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->normal[0]));
 	}
 	if (textured) {
 		assert(v->uv0.size() == v->position.size());
 		glEnable(GL_TEXTURE_2D);
 		m->texture0->Bind();
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glTexCoordPointer(2, GL_FLOAT, 0, (const GLvoid *)&v->uv0[0]);
+		glTexCoordPointer(2, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
 	}
 	glDrawArrays(t, 0, numverts);
 	glDisableClientState(GL_VERTEX_ARRAY);
