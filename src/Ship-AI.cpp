@@ -359,6 +359,7 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 //	vector3d cav = GetAngVelocity() * rot;				// current obj-rel angvel
 	vector3d diff = (dav - cav) / frameAccel;					// find diff between current & desired angvel
 
+	diff.z = m_angThrusters.z;  // Leave roll unchanged
 	SetAngThrusterState(diff);
 	return ang;
 }
