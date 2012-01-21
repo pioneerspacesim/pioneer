@@ -47,7 +47,7 @@ bool RendererLegacy::SwapBuffers()
 	return true;
 }
 
-bool RendererLegacy::SetBlendMode(unsigned int m)
+bool RendererLegacy::SetBlendMode(BlendMode m)
 {
 	//where does SRC_ALPHA, ONE fit in?
 	switch (m) {
@@ -100,7 +100,7 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 	return true;
 }
 
-bool RendererLegacy::DrawLines(int count, const LineVertex *v, unsigned int type)
+bool RendererLegacy::DrawLines(int count, const LineVertex *v, LineType type)
 {
 	if (count < 2) return false;
 
@@ -116,7 +116,7 @@ bool RendererLegacy::DrawLines(int count, const LineVertex *v, unsigned int type
 	return true;
 }
 
-bool RendererLegacy::DrawLines2D(int count, const LineVertex2D *v, unsigned int type)
+bool RendererLegacy::DrawLines2D(int count, const LineVertex2D *v, LineType type)
 {
 	if (count < 2) return false;
 
@@ -131,7 +131,7 @@ bool RendererLegacy::DrawLines2D(int count, const LineVertex2D *v, unsigned int 
 	return true;
 }
 
-bool RendererLegacy::DrawTriangles2D(const VertexArray *v, const Material *m, unsigned int t)
+bool RendererLegacy::DrawTriangles2D(const VertexArray *v, const Material *m, PrimitiveType t)
 {
 	if (!v || v->GetNumVerts() < 3) return false;
 
@@ -139,7 +139,7 @@ bool RendererLegacy::DrawTriangles2D(const VertexArray *v, const Material *m, un
 	return DrawTriangles(v, m, t);
 }
 
-bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, unsigned int t)
+bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, PrimitiveType t)
 {
 	if (!v || v->position.size() < 3) return false;
 

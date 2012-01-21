@@ -14,14 +14,14 @@ public:
 	virtual bool EndFrame();
 	virtual bool SwapBuffers();
 
-	virtual bool SetBlendMode(unsigned int blendType);
+	virtual bool SetBlendMode(BlendMode mode);
 
 	virtual bool SetLights(int numlights, const Light *l);
 
-	virtual bool DrawLines(int vertCount, const LineVertex *vertices, unsigned int lineType=LINE_SINGLE);
-	virtual bool DrawLines2D(int vertCount, const LineVertex2D *vertices, unsigned int lineType=LINE_SINGLE);
-	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES);
-	virtual bool DrawTriangles2D(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES);
+	virtual bool DrawLines(int vertCount, const LineVertex *vertices, LineType lineType=LINE_SINGLE);
+	virtual bool DrawLines2D(int vertCount, const LineVertex2D *vertices, LineType lineType=LINE_SINGLE);
+	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES);
+	virtual bool DrawTriangles2D(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES);
 	virtual bool DrawSurface2D(const Surface *surface);
 };
 

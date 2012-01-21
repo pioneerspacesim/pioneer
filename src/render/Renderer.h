@@ -116,10 +116,10 @@ enum PrimitiveType {
 	TRIANGLES = GL_TRIANGLES,
 	TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
 	TRIANGLE_FAN = GL_TRIANGLE_FAN,
-	QUADS = GL_QUADS
+	QUADS = GL_QUADS // XXX not available in ES2, replace with strips
 };
 
-enum BlendModes {
+enum BlendMode {
 	BLEND_SOLID,
 	BLEND_ADDITIVE,
 	BLEND_ALPHA,
@@ -141,7 +141,7 @@ public:
 	virtual bool SwapBuffers() = 0;
 
 	//render state functions
-	virtual bool SetBlendMode(unsigned int blendType) { return false; }
+	virtual bool SetBlendMode(BlendMode type) { return false; }
 	//virtual bool SetState(Z_WRITE, false) or
 	//virtual bool SetZWrite(false) ?
 
@@ -149,11 +149,11 @@ public:
 
 	//drawing functions
 	//2d drawing is generally understood to be for gui use (unlit, ortho projection)
-	virtual bool DrawLines(int vertCount, const LineVertex *vertices, unsigned int lineType=LINE_SINGLE)  { return false; }
-	virtual bool DrawLines2D(int vertCount, const LineVertex2D *vertices, unsigned int lineType=LINE_SINGLE)  { return false; }
+	virtual bool DrawLines(int vertCount, const LineVertex *vertices, LineType type=LINE_SINGLE)  { return false; }
+	virtual bool DrawLines2D(int vertCount, const LineVertex2D *vertices, LineType type=LINE_SINGLE)  { return false; }
 	//unindexed triangle draw
-	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES)  { return false; }
-	virtual bool DrawTriangles2D(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES)  { return false; }
+	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES)  { return false; }
+	virtual bool DrawTriangles2D(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES)  { return false; }
 	//indexed triangle draw (only triangles, no strips or fans)
 	virtual bool DrawSurface(const Surface *surface) { return false; }
 	virtual bool DrawSurface2D(const Surface *surface) { return false; }
