@@ -1298,7 +1298,9 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 			cos(latDiff),
 			-sin(latDiff)*sinCosTable[i][1]));
 	}
-	renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
+	// XXX atmosphere material
+	Material dummyAtmoMaterial;
+	renderer->DrawTriangles(&va, &dummyAtmoMaterial, TRIANGLE_FAN);
 
 	/* and wound latitudinal strips */
 	double lat = latDiff;
@@ -1312,7 +1314,7 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 			v.Add(vector3f(sinLat*sinCosTable[i][0], cosLat, -sinLat*sinCosTable[i][1]));
 			v.Add(vector3f(sinLat2*sinCosTable[i][0], cosLat2, -sinLat2*sinCosTable[i][1]));
 		}
-		renderer->DrawTriangles(&v, 0, TRIANGLE_STRIP);
+		renderer->DrawTriangles(&v, &dummyAtmoMaterial, TRIANGLE_STRIP);
 	}
 
 	glPopMatrix();

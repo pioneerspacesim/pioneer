@@ -27,8 +27,6 @@ void Star::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x
 	glDisable(GL_DEPTH_TEST);
 	glPushMatrix();
 
-	Render::State::UseProgram(0);
-
 	double radius = GetClipRadius();
 	
 	double rad = radius;

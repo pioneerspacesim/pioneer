@@ -144,7 +144,8 @@ static void DrawRing(double inner, double outer, const float color[4], Renderer 
 	vts.Add(vector3f(0.f, 0.f, float(inner)), c, normal);
 	vts.Add(vector3f(0.f, 0.f, float(outer)), c, normal);
 	// XXX ring material
-	r->DrawTriangles(&vts, 0, TRIANGLE_STRIP);
+	Material ringMaterial;
+	r->DrawTriangles(&vts, &ringMaterial, TRIANGLE_STRIP);
 }
 
 void Planet::DrawGasGiantRings(Renderer *renderer)
@@ -270,8 +271,9 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 		r1 = rot * r1;
 		r2 = rot * r2;
 	}
-	// XXX does this need a material?
-	renderer->DrawTriangles(&vts, 0, TRIANGLE_STRIP);
+	// XXX atmosphere material
+	Material dummyAtmoMaterial;
+	renderer->DrawTriangles(&vts, &dummyAtmoMaterial, TRIANGLE_STRIP);
 
 	glEnable(GL_CULL_FACE);
 	renderer->SetBlendMode(BLEND_SOLID);

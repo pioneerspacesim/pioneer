@@ -133,7 +133,6 @@ void HyperspaceCloud::UpdateInterpolatedTransform(double alpha)
 
 void HyperspaceCloud::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	Render::State::UseProgram(Render::simpleShader);
 	renderer->SetBlendMode(BLEND_ALPHA_ONE);
 	glPushMatrix();
 	glTranslatef(float(viewCoords.x), float(viewCoords.y), float(viewCoords.z));

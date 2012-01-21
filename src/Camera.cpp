@@ -227,7 +227,6 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 
 	glTranslatef(float(scale*viewCoords.x), float(scale*viewCoords.y), float(scale*viewCoords.z));
 
-	Render::State::UseProgram(0);
 	// face the camera dammit
 	vector3d zaxis = viewCoords.Normalized();
 	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();

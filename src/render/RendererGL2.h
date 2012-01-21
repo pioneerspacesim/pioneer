@@ -12,4 +12,6 @@ class RendererGL2 : public RendererLegacy // XXX not really desired, just want t
 public:
 	RendererGL2(int width, int height);
 	virtual ~RendererGL2();
+
+	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES);
 };
