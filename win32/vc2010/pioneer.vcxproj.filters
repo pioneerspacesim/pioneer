@@ -620,6 +620,9 @@
     <ClCompile Include="..\..\src\render\RendererLegacy.cpp">
       <Filter>src\render</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Light.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -1151,6 +1154,9 @@
     <ClInclude Include="..\..\src\render\Renderer.h" />
     <ClInclude Include="..\..\src\render\RendererLegacy.h">
       <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Light.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
