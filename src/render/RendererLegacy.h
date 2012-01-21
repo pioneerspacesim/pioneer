@@ -19,6 +19,7 @@ public:
 	virtual bool SetBlendMode(BlendMode mode);
 
 	virtual bool SetLights(int numlights, const Light *l);
+	virtual bool SetAmbientColor(const Color &c);
 
 	virtual bool DrawLines(int vertCount, const LineVertex *vertices, LineType lineType=LINE_SINGLE);
 	virtual bool DrawLines2D(int vertCount, const LineVertex2D *vertices, LineType lineType=LINE_SINGLE);

@@ -890,9 +890,7 @@ static void draw_intro(Background::Container *background, float _time)
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-	// XXX no ambient support in renderer yet
-	float ambient[4] = { 0.1,0.1,0.1,1 };
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
+	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
 	const Light light(Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
@@ -925,9 +923,7 @@ static void draw_tombstone(float _time)
 	};
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-	// XXX no ambient support in renderer yet
-	float ambient[4] = { 0.1,0.1,0.1,1 };
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
+	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
 	const Light light(Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);

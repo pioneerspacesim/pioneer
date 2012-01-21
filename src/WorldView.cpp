@@ -292,6 +292,7 @@ void WorldView::OnClickHyperspace()
 	}
 }
 
+// XXX this is unused
 static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 {
 	if (lightNum > 3) return;

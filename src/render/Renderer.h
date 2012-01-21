@@ -148,6 +148,7 @@ public:
 	//virtual bool SetZWrite(false) ?
 
 	virtual bool SetLights(int numlights, const Light *l) { return false; }
+	virtual bool SetAmbientColor(const Color &c) { return false; }
 
 	//drawing functions
 	//2d drawing is generally understood to be for gui use (unlit, ortho projection)

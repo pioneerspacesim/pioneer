@@ -100,6 +100,13 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 	return true;
 }
 
+bool RendererLegacy::SetAmbientColor(const Color &c)
+{
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, c);
+
+	return true;
+}
+
 bool RendererLegacy::DrawLines(int count, const LineVertex *v, LineType type)
 {
 	if (count < 2) return false;

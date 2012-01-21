@@ -1379,19 +1379,20 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 	if (!m_patches[0]) BuildFirstPatches();
 
 	const float black[4] = { 0,0,0,0 };
-	float ambient[4];// = { 0.1, 0.1, 0.1, 1.0 };
+	Color ambient;
 	float emission[4] = { 0,0,0,0 };
 
 	// save old global ambient
-	float oldAmbient[4];
+	// XXX add GetAmbient to renderer or save ambient in scene? (Space)
+	Color oldAmbient;
 	glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
 
 	float b = (Render::IsHDREnabled() ? (m_sbody->type == SBody::TYPE_BROWN_DWARF ? 2.0f : 100.0f) : (Render::AreShadersEnabled() ? 2.0f : 1.5f));
 
 	if ((m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) || (m_sbody->type == SBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
-		ambient[0] = ambient[1] = ambient[2] = 0.2f;
-		ambient[3] = 1.0f;
+		ambient.r = ambient.g = ambient.b = 0.2f;
+		ambient.a = 1.0f;
 		emission[0] = StarSystem::starRealColors[m_sbody->type][0] * 0.5f * b;
 		emission[1] = StarSystem::starRealColors[m_sbody->type][1] * 0.5f * b;
 		emission[2] = StarSystem::starRealColors[m_sbody->type][2] * 0.5f * b;
@@ -1405,11 +1406,11 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 		// why the fuck is this returning 0.1 when we are sat on the planet??
 		// JJ: Because campos is relative to a unit-radius planet - 1.0 at the surface
 		// XXX oh well, it is the value we want anyway...
-		ambient[0] = ambient[1] = ambient[2] = float(camdist);
-		ambient[3] = 1.0f;
+		ambient.r = ambient.g = ambient.b = float(camdist);
+		ambient.a = 1.0f;
 	}
 
-	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, ambient);
+	renderer->SetAmbientColor(ambient);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	glMaterialfv (GL_FRONT, GL_SPECULAR, black);
 	glMaterialfv (GL_FRONT, GL_EMISSION, emission);
@@ -1423,7 +1424,7 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 	Render::State::UseProgram(0);
 
 	glDisable(GL_COLOR_MATERIAL);
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
+	renderer->SetAmbientColor(oldAmbient);
 
 	// if the update thread has deleted any geopatches, destroy the vbos
 	// associated with them
