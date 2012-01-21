@@ -16,6 +16,8 @@ public:
 
 	virtual bool SetBlendMode(unsigned int blendType);
 
+	virtual bool SetLights(int numlights, const Light *l);
+
 	virtual bool DrawLines(int vertCount, const LineVertex *vertices, unsigned int lineType=LINE_SINGLE);
 	virtual bool DrawLines2D(int vertCount, const LineVertex2D *vertices, unsigned int lineType=LINE_SINGLE);
 	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, unsigned int type=TRIANGLES);

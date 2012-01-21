@@ -19,6 +19,7 @@
  */
 
 class Texture;
+class Light;
 
 //first some data structures
 struct vector2f {
@@ -143,6 +144,8 @@ public:
 	virtual bool SetBlendMode(unsigned int blendType) { return false; }
 	//virtual bool SetState(Z_WRITE, false) or
 	//virtual bool SetZWrite(false) ?
+
+	virtual bool SetLights(int numlights, const Light *l) { return false; }
 
 	//drawing functions
 	//2d drawing is generally understood to be for gui use (unlit, ortho projection)

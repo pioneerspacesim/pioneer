@@ -1,6 +1,7 @@
 #include "RendererLegacy.h"
 #include "Render.h"
 #include "Texture.h"
+#include "Light.h"
 
 RendererLegacy::RendererLegacy(int w, int h) :
 	Renderer(w, h)
@@ -73,6 +74,29 @@ bool RendererLegacy::SetBlendMode(unsigned int m)
 	default:
 		return false;
 	}
+	return true;
+}
+
+bool RendererLegacy::SetLights(int numlights, const Light *lights)
+{
+	if (numlights < 1) return false;
+
+	for (int i=0; i < numlights; i++) {
+		const Light &l = lights[i];
+		// directional lights have the length of 1
+		const float pos[] = {
+			l.GetPosition().x,
+			l.GetPosition().y,
+			l.GetPosition().z,
+			l.GetType() == Light::LIGHT_DIRECTIONAL ? 1.f : 0.f
+		};
+		glLightfv(GL_LIGHT0+i, GL_POSITION, pos);
+		glLightfv(GL_LIGHT0+i, GL_DIFFUSE, l.GetDiffuse());
+		glLightfv(GL_LIGHT0+i, GL_AMBIENT, l.GetAmbient());
+		glLightfv(GL_LIGHT0+i, GL_SPECULAR, l.GetSpecular());
+		glEnable(GL_LIGHT0+i);
+	}
+
 	return true;
 }
 
