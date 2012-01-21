@@ -284,31 +284,59 @@ public:
 		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
-	void GetEdge(vector3d *array, int edge, vector3d *ev) {
+	void GetEdge(vector3f *array, int edge, vector3d *ev) {
 		if (edge == 0) {
-			for (int x=0; x<edgeLen; x++) ev[x] = array[x];
+			for (int x=0; x<edgeLen; x++) ev[x] = vector3d(array[x]);
 		} else if (edge == 1) {
 			const int x = edgeLen-1;
-			for (int y=0; y<edgeLen; y++) ev[y] = array[x + y*edgeLen];
+			for (int y=0; y<edgeLen; y++) ev[y] = vector3d(array[x + y*edgeLen]);
 		} else if (edge == 2) {
 			const int y = edgeLen-1;
-			for (int x=0; x<edgeLen; x++) ev[x] = array[(edgeLen-1)-x + y*edgeLen];
+			for (int x=0; x<edgeLen; x++) ev[x] = vector3d(array[(edgeLen-1)-x + y*edgeLen]);
 		} else {
-			for (int y=0; y<edgeLen; y++) ev[y] = array[0 + ((edgeLen-1)-y)*edgeLen];
+			for (int y=0; y<edgeLen; y++) ev[y] = vector3d(array[0 + ((edgeLen-1)-y)*edgeLen]);
 		}
 	}
 
-	void SetEdge(vector3d *array, int edge, const vector3d *ev) {
+	void GetEdgeVertices(vector3f *array, vector3d cc, int edge, vector3d *ev) {
 		if (edge == 0) {
-			for (int x=0; x<edgeLen; x++) array[x] = ev[x];
+			for (int x=0; x<edgeLen; x++) ev[x] = vector3d(array[x])+cc;
 		} else if (edge == 1) {
 			const int x = edgeLen-1;
-			for (int y=0; y<edgeLen; y++) array[x + y*edgeLen] = ev[y];
+			for (int y=0; y<edgeLen; y++) ev[y] = vector3d(array[x + y*edgeLen])+cc;
 		} else if (edge == 2) {
 			const int y = edgeLen-1;
-			for (int x=0; x<edgeLen; x++) array[(edgeLen-1)-x + y*edgeLen] = ev[x];
+			for (int x=0; x<edgeLen; x++) ev[x] = vector3d(array[(edgeLen-1)-x + y*edgeLen])+cc;
 		} else {
-			for (int y=0; y<edgeLen; y++) array[0 + ((edgeLen-1)-y)*edgeLen] = ev[y];
+			for (int y=0; y<edgeLen; y++) ev[y] = vector3d(array[0 + ((edgeLen-1)-y)*edgeLen])+cc;
+		}
+	}
+
+	void SetEdge(vector3f *array, int edge, const vector3d *ev) {
+		if (edge == 0) {
+			for (int x=0; x<edgeLen; x++) array[x] = vector3f(ev[x]);
+		} else if (edge == 1) {
+			const int x = edgeLen-1;
+			for (int y=0; y<edgeLen; y++) array[x + y*edgeLen] = vector3f(ev[y]);
+		} else if (edge == 2) {
+			const int y = edgeLen-1;
+			for (int x=0; x<edgeLen; x++) array[(edgeLen-1)-x + y*edgeLen] = vector3f(ev[x]);
+		} else {
+			for (int y=0; y<edgeLen; y++) array[0 + ((edgeLen-1)-y)*edgeLen] = vector3f(ev[y]);
+		}
+	}
+
+	void SetEdgeVertices(vector3f *array, vector3d cc, int edge, const vector3d *ev) {
+		if (edge == 0) {
+			for (int x=0; x<edgeLen; x++) array[x] = vector3f(ev[x]-cc);
+		} else if (edge == 1) {
+			const int x = edgeLen-1;
+			for (int y=0; y<edgeLen; y++) array[x + y*edgeLen] = vector3f(ev[y]-cc);
+		} else if (edge == 2) {
+			const int y = edgeLen-1;
+			for (int x=0; x<edgeLen; x++) array[(edgeLen-1)-x + y*edgeLen] = vector3f(ev[x]-cc);
+		} else {
+			for (int y=0; y<edgeLen; y++) array[0 + ((edgeLen-1)-y)*edgeLen] = vector3f(ev[y]-cc);
 		}
 	}
 };
@@ -318,9 +346,9 @@ class GeoPatch {
 public:
 	RefCountedPtr<GeoPatchContext> ctx;
 	vector3d v[4];
-	vector3d *vertices;
-	vector3d *normals;
-	vector3d *colors;
+	vector3f *vertices;
+	vector3f *normals;
+	vector3f *colors;
 	GLuint m_vbo;
 	GeoPatch *kids[4];
 	GeoPatch *parent;
@@ -357,9 +385,9 @@ public:
  		}
 		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth) * m_distMult;
 		m_needUpdateVBOs = false;
-		normals = new vector3d[ctx->NUMVERTICES()];
-		vertices = new vector3d[ctx->NUMVERTICES()];
-		colors = new vector3d[ctx->NUMVERTICES()];
+		normals = new vector3f[ctx->NUMVERTICES()];
+		vertices = new vector3f[ctx->NUMVERTICES()];
+		colors = new vector3f[ctx->NUMVERTICES()];
 	}
 
 	~GeoPatch() {
@@ -374,6 +402,11 @@ public:
 		geosphere->AddVBOToDestroy(m_vbo);
 	}
 
+	vector3d GetVertex(int i) {return vector3d(vertices[i])+clipCentroid; }
+	
+	void SaveHeightToColor(vector3f *color,double *height){ *reinterpret_cast<double *>(color) = *height; }
+	void GetHeightFromColor(vector3f *color, double *height){ *height = *reinterpret_cast<double *>(color); }
+
 	void UpdateVBOs() {
 		m_needUpdateVBOs = true;
 	}
@@ -386,14 +419,14 @@ public:
 			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*ctx->NUMVERTICES(), 0, GL_DYNAMIC_DRAW);
 			for (int i=0; i<ctx->NUMVERTICES(); i++)
 			{
-				clipRadius = std::max(clipRadius, (vertices[i]-clipCentroid).Length());
+				clipRadius = std::max(clipRadius, vector3d(vertices[i]).Length());
 				VBOVertex *pData = ctx->vbotemp + i;
-				pData->x = float(vertices[i].x - clipCentroid.x);
-				pData->y = float(vertices[i].y - clipCentroid.y);
-				pData->z = float(vertices[i].z - clipCentroid.z);
-				pData->nx = float(normals[i].x);
-				pData->ny = float(normals[i].y);
-				pData->nz = float(normals[i].z);
+				pData->x = vertices[i].x;
+				pData->y = vertices[i].y;
+				pData->z = vertices[i].z;
+				pData->nx = normals[i].x;
+				pData->ny = normals[i].y;
+				pData->nz = normals[i].z;
 				pData->col[0] = static_cast<unsigned char>(Clamp(colors[i].x*255.0, 0.0, 255.0));
 				pData->col[1] = static_cast<unsigned char>(Clamp(colors[i].y*255.0, 0.0, 255.0));
 				pData->col[2] = static_cast<unsigned char>(Clamp(colors[i].z*255.0, 0.0, 255.0));
@@ -408,15 +441,15 @@ public:
 	 * for adjacent tiles */
 	void GetEdgeMinusOneVerticesFlipped(int edge, vector3d *ev) {
 		if (edge == 0) {
-			for (int x=0; x<ctx->edgeLen; x++) ev[ctx->edgeLen-1-x] = vertices[x + ctx->edgeLen];
+			for (int x=0; x<ctx->edgeLen; x++) ev[ctx->edgeLen-1-x] = GetVertex(x + ctx->edgeLen);
 		} else if (edge == 1) {
 			const int x = ctx->edgeLen-2;
-			for (int y=0; y<ctx->edgeLen; y++) ev[ctx->edgeLen-1-y] = vertices[x + y*ctx->edgeLen];
+			for (int y=0; y<ctx->edgeLen; y++) ev[ctx->edgeLen-1-y] = GetVertex(x + y*ctx->edgeLen);
 		} else if (edge == 2) {
 			const int y = ctx->edgeLen-2;
-			for (int x=0; x<ctx->edgeLen; x++) ev[ctx->edgeLen-1-x] = vertices[(ctx->edgeLen-1)-x + y*ctx->edgeLen];
+			for (int x=0; x<ctx->edgeLen; x++) ev[ctx->edgeLen-1-x] = GetVertex((ctx->edgeLen-1)-x + y*ctx->edgeLen);
 		} else {
-			for (int y=0; y<ctx->edgeLen; y++) ev[ctx->edgeLen-1-y] = vertices[1 + ((ctx->edgeLen-1)-y)*ctx->edgeLen];
+			for (int y=0; y<ctx->edgeLen; y++) ev[ctx->edgeLen-1-y] = GetVertex(1 + ((ctx->edgeLen-1)-y)*ctx->edgeLen);
 		}
 	}
 	int GetEdgeIdxOf(GeoPatch *e) {
@@ -433,61 +466,61 @@ public:
 		switch (edge) {
 		case 0:
 			for (x=1; x<ctx->edgeLen-1; x++) {
-				const vector3d x1 = vertices[x-1];
-				const vector3d x2 = vertices[x+1];
+				const vector3d x1 = GetVertex(x-1);
+				const vector3d x2 = GetVertex(x+1);
 				const vector3d y1 = ev[x];
-				const vector3d y2 = vertices[x + ctx->edgeLen];
+				const vector3d y2 = GetVertex(x + ctx->edgeLen);
 				const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
-				normals[x] = norm;
+				normals[x] = vector3f(norm);
 				// make color
 				const vector3d p = GetSpherePoint(x*ctx->frac, 0);
-				const double height = colors[x].x;
-				colors[x] = geosphere->GetColor(p, height, norm);
+				const double height = double(colors[x].x);
+				colors[x] = vector3f(geosphere->GetColor(p, height, norm));
 			}
 			break;
 		case 1:
 			x = ctx->edgeLen-1;
 			for (y=1; y<ctx->edgeLen-1; y++) {
-				const vector3d x1 = vertices[(x-1) + y*ctx->edgeLen];
+				const vector3d x1 = GetVertex((x-1) + y*ctx->edgeLen);
 				const vector3d x2 = ev[y];
-				const vector3d y1 = vertices[x + (y-1)*ctx->edgeLen];
-				const vector3d y2 = vertices[x + (y+1)*ctx->edgeLen];
+				const vector3d y1 = GetVertex(x + (y-1)*ctx->edgeLen);
+				const vector3d y2 = GetVertex(x + (y+1)*ctx->edgeLen);
 				const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
-				normals[x + y*ctx->edgeLen] = norm;
+				normals[x + y*ctx->edgeLen] = vector3f(norm);
 				// make color
 				const vector3d p = GetSpherePoint(x*ctx->frac, y*ctx->frac);
 				const double height = colors[x + y*ctx->edgeLen].x;
-				colors[x + y*ctx->edgeLen] = geosphere->GetColor(p, height, norm);
+				colors[x + y*ctx->edgeLen] = vector3f(geosphere->GetColor(p, height, norm));
 	//			colors[x+y*ctx->edgeLen] = vector3d(1,0,0);
 			}
 			break;
 		case 2:
 			y = ctx->edgeLen-1;
 			for (x=1; x<ctx->edgeLen-1; x++) {
-				const vector3d x1 = vertices[x-1 + y*ctx->edgeLen];
-				const vector3d x2 = vertices[x+1 + y*ctx->edgeLen];
-				const vector3d y1 = vertices[x + (y-1)*ctx->edgeLen];
+				const vector3d x1 = GetVertex(x-1 + y*ctx->edgeLen);
+				const vector3d x2 = GetVertex(x+1 + y*ctx->edgeLen);
+				const vector3d y1 = GetVertex(x + (y-1)*ctx->edgeLen);
 				const vector3d y2 = ev[ctx->edgeLen-1-x];
 				const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
-				normals[x + y*ctx->edgeLen] = norm;
+				normals[x + y*ctx->edgeLen] = vector3f(norm);
 				// make color
 				const vector3d p = GetSpherePoint(x*ctx->frac, y*ctx->frac);
-				const double height = colors[x + y*ctx->edgeLen].x;
-				colors[x + y*ctx->edgeLen] = geosphere->GetColor(p, height, norm);
+				const double height = double(colors[x + y*ctx->edgeLen].x);
+				colors[x + y*ctx->edgeLen] = vector3f(geosphere->GetColor(p, height, norm));
 			}
 			break;
 		case 3:
 			for (y=1; y<ctx->edgeLen-1; y++) {
 				const vector3d x1 = ev[ctx->edgeLen-1-y];
-				const vector3d x2 = vertices[1 + y*ctx->edgeLen];
-				const vector3d y1 = vertices[(y-1)*ctx->edgeLen];
-				const vector3d y2 = vertices[(y+1)*ctx->edgeLen];
+				const vector3d x2 = GetVertex(1 + y*ctx->edgeLen);
+				const vector3d y1 = GetVertex((y-1)*ctx->edgeLen);
+				const vector3d y2 = GetVertex((y+1)*ctx->edgeLen);
 				const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
-				normals[y*ctx->edgeLen] = norm;
+				normals[y*ctx->edgeLen] = vector3f(norm);
 				// make color
 				const vector3d p = GetSpherePoint(0, y*ctx->frac);
-				const double height = colors[y*ctx->edgeLen].x;
-				colors[y*ctx->edgeLen] = geosphere->GetColor(p, height, norm);
+				const double height = double(colors[y*ctx->edgeLen].x);
+				colors[y*ctx->edgeLen] = vector3f(geosphere->GetColor(p, height, norm));
 	//			colors[y*ctx->edgeLen] = vector3d(0,1,0);
 			}
 			break;
@@ -510,7 +543,7 @@ public:
 		vector3d ev2[GEOPATCH_MAX_EDGELEN];
 		vector3d en2[GEOPATCH_MAX_EDGELEN];
 		vector3d ec2[GEOPATCH_MAX_EDGELEN];
-		ctx->GetEdge(parent->vertices, edge, ev);
+		ctx->GetEdgeVertices(parent->vertices,parent->clipCentroid, edge, ev);
 		ctx->GetEdge(parent->normals, edge, en);
 		ctx->GetEdge(parent->colors, edge, ec);
 
@@ -536,7 +569,7 @@ public:
 			en2[i] = (en2[i-1]+en2[i+1]).Normalized();
 			ec2[i] = (ec2[i-1]+ec2[i+1]) * 0.5;
 		}
-		ctx->SetEdge(this->vertices, edge, ev2);
+		ctx->SetEdgeVertices(this->vertices,this->clipCentroid, edge, ev2);
 		ctx->SetEdge(this->normals, edge, en2);
 		ctx->SetEdge(this->colors, edge, ec2);
 	}
@@ -548,61 +581,61 @@ public:
 		switch (corner) {
 		case 0: {
 			x1 = ev[ctx->edgeLen-1];
-			x2 = vertices[1];
+			x2 = GetVertex(1);
 			y1 = ev2[0];
-			y2 = vertices[ctx->edgeLen];
+			y2 = GetVertex(ctx->edgeLen);
 			const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
-			normals[0] = norm;
+			normals[0] = vector3f(norm);
 			// make color
 			const vector3d pt = GetSpherePoint(0, 0);
 		//	const double height = colors[0].x;
 			const double height = geosphere->GetHeight(pt);
-			colors[0] = geosphere->GetColor(pt, height, norm);
+			colors[0] = vector3f(geosphere->GetColor(pt, height, norm));
 			}
 			break;
 		case 1: {
 			p = ctx->edgeLen-1;
-			x1 = vertices[p-1];
+			x1 = GetVertex(p-1);
 			x2 = ev2[0];
 			y1 = ev[ctx->edgeLen-1];
-			y2 = vertices[p + ctx->edgeLen];
+			y2 = GetVertex(p + ctx->edgeLen);
 			const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
-			normals[p] = norm;
+			normals[p] = vector3f(norm);
 			// make color
 			const vector3d pt = GetSpherePoint(p*ctx->frac, 0);
 		//	const double height = colors[p].x;
 			const double height = geosphere->GetHeight(pt);
-			colors[p] = geosphere->GetColor(pt, height, norm);
+			colors[p] = vector3f(geosphere->GetColor(pt, height, norm));
 			}
 			break;
 		case 2: {
 			p = ctx->edgeLen-1;
-			x1 = vertices[(p-1) + p*ctx->edgeLen];
+			x1 = GetVertex((p-1) + p*ctx->edgeLen);
 			x2 = ev[ctx->edgeLen-1];
-			y1 = vertices[p + (p-1)*ctx->edgeLen];
+			y1 = GetVertex(p + (p-1)*ctx->edgeLen);
 			y2 = ev2[0];
 			const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
-			normals[p + p*ctx->edgeLen] = norm;
+			normals[p + p*ctx->edgeLen] = vector3f(norm);
 			// make color
 			const vector3d pt = GetSpherePoint(p*ctx->frac, p*ctx->frac);
 		//	const double height = colors[p + p*ctx->edgeLen].x;
 			const double height = geosphere->GetHeight(pt);
-			colors[p + p*ctx->edgeLen] = geosphere->GetColor(pt, height, norm);
+			colors[p + p*ctx->edgeLen] = vector3f(geosphere->GetColor(pt, height, norm));
 			}
 			break;
 		case 3: {
 			p = ctx->edgeLen-1;
 			x1 = ev2[0];
-			x2 = vertices[1 + p*ctx->edgeLen];
-			y1 = vertices[(p-1)*ctx->edgeLen];
+			x2 = GetVertex(1 + p*ctx->edgeLen);
+			y1 = GetVertex((p-1)*ctx->edgeLen);
 			y2 = ev[ctx->edgeLen-1];
 			const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
-			normals[p*ctx->edgeLen] = norm;
+			normals[p*ctx->edgeLen] = vector3f(norm);
 			// make color
 			const vector3d pt = GetSpherePoint(0, p*ctx->frac);
 		//	const double height = colors[p*ctx->edgeLen].x;
 			const double height = geosphere->GetHeight(pt);
-			colors[p*ctx->edgeLen] = geosphere->GetColor(pt, height, norm);
+			colors[p*ctx->edgeLen] = vector3f(geosphere->GetColor(pt, height, norm));
 			}
 			break;
 		}
@@ -709,8 +742,8 @@ public:
 	void GenerateMesh() {
 		centroid = clipCentroid.Normalized();
 		centroid = (1.0 + geosphere->GetHeight(centroid)) * centroid;
-		vector3d *vts = vertices;
-		vector3d *col = colors;
+		vector3f *vts = vertices;
+		vector3f *col = colors;
 		double xfrac;
 		double yfrac = 0;
 		for (int y=0; y<ctx->edgeLen; y++) {
@@ -718,9 +751,9 @@ public:
 			for (int x=0; x<ctx->edgeLen; x++) {
 				vector3d p = GetSpherePoint(xfrac, yfrac);
 				double height = geosphere->GetHeight(p);
-				*(vts++) = p * (height + 1.0);
+				*(vts++) = vector3f( (p * (height + 1.0)) - clipCentroid );
 				// remember this -- we will need it later
-				(col++)->x = height;
+				(col++)->x = float(height); //usually variation in height will be less than 1% planet height 
 				xfrac += ctx->frac;
 			}
 			yfrac += ctx->frac;
@@ -729,20 +762,22 @@ public:
 		// Generate normals & colors for non-edge vertices since they never change
 		for (int y=1; y<ctx->edgeLen-1; y++) {
 			for (int x=1; x<ctx->edgeLen-1; x++) {
-				// normal
-				vector3d x1 = vertices[x-1 + y*ctx->edgeLen];
-				vector3d x2 = vertices[x+1 + y*ctx->edgeLen];
-				vector3d y1 = vertices[x + (y-1)*ctx->edgeLen];
-				vector3d y2 = vertices[x + (y+1)*ctx->edgeLen];
+				// normal - store verticies in a temp array to avoid GetVertex (to do)
+				vector3d x1 = GetVertex(x-1 + y*ctx->edgeLen);
+				vector3d x2 = GetVertex(x+1 + y*ctx->edgeLen);
+				vector3d y1 = GetVertex(x + (y-1)*ctx->edgeLen);
+				vector3d y2 = GetVertex(x + (y+1)*ctx->edgeLen);
 
 				vector3d n = (x2-x1).Cross(y2-y1);
-				normals[x + y*ctx->edgeLen] = n.Normalized();
+				normals[x + y*ctx->edgeLen] = vector3f(n.Normalized());
 				// color
 				vector3d p = GetSpherePoint(x*ctx->frac, y*ctx->frac);
-				vector3d &col_r = colors[x + y*ctx->edgeLen];
+				vector3d &col_r = vector3d(colors[x + y*ctx->edgeLen]);
 				const double height = col_r.x;
-				const vector3d &norm = normals[x + y*ctx->edgeLen];
-				col_r = geosphere->GetColor(p, height, norm);
+				vector3d norm = vector3d(normals[x + y*ctx->edgeLen]);
+				const vector3d &np = norm;
+				col_r = geosphere->GetColor(p, height, np);
+				normals[x + y*ctx->edgeLen] = vector3f(norm);
 			}
 		}
 		
@@ -757,12 +792,12 @@ public:
 			for (int x=0; x<ctx->edgeLen; x++) {
 				vector3d p = GetSpherePoint(x * ctx->frac, 0);
 				double height = geosphere->GetHeight(p);
-				vertices[x] = p * (height + 1.0);
+				vertices[x] = vector3f(p * (height + 1.0) - clipCentroid);
 				// XXX These bounds checks in each edge case are
 				// only necessary while the "All these 'if's"
 				// comment in FixCOrnerNormalsByEdge stands
 				if ((x>0) && (x<ctx->edgeLen-1)) {
-					colors[x].x = height;
+					colors[x].x = float(height);
 				}
 			}
 		} else if (edge == 1) {
@@ -770,9 +805,9 @@ public:
 				vector3d p = GetSpherePoint(1.0, y * ctx->frac);
 				double height = geosphere->GetHeight(p);
 				int pos = (ctx->edgeLen-1) + y*ctx->edgeLen;
-				vertices[pos] = p * (height + 1.0);
+				vertices[pos] = vector3f(p * (height + 1.0) - clipCentroid);
 				if ((y>0) && (y<ctx->edgeLen-1)) {
-					colors[pos].x = height;
+					colors[pos].x = float(height);
 				}
 			}
 		} else if (edge == 2) {
@@ -780,9 +815,9 @@ public:
 				vector3d p = GetSpherePoint(x * ctx->frac, 1.0);
 				double height = geosphere->GetHeight(p);
 				int pos = x + (ctx->edgeLen-1)*ctx->edgeLen;
-				vertices[pos] = p * (height + 1.0);
+				vertices[pos] = vector3f(p * (height + 1.0) - clipCentroid); 
 				if ((x>0) && (x<ctx->edgeLen-1)) {
-					colors[pos].x = height;
+					colors[pos].x = float(height);
 				}
 			}
 		} else {
@@ -790,9 +825,9 @@ public:
 				vector3d p = GetSpherePoint(0, y * ctx->frac);
 				double height = geosphere->GetHeight(p);
 				int pos = y * ctx->edgeLen;
-				vertices[pos] = p * (height + 1.0);
+				vertices[pos] = vector3f(p * (height + 1.0) - clipCentroid);
 				if ((y>0) && (y<ctx->edgeLen-1)) {
-					colors[pos].x = height;
+					colors[pos].x = float(height);
 				}
 			}
 		}
