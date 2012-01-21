@@ -135,6 +135,8 @@ public:
 	Renderer(int width, int height);
 	virtual ~Renderer();
 
+	virtual const char* GetName() = 0;
+
 	virtual bool BeginFrame() = 0;
 	virtual bool EndFrame() = 0;
 	//traditionally gui happens between endframe and swapbuffers

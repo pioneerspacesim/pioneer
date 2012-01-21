@@ -1154,8 +1154,10 @@ void Pi::Start()
 
 	std::string version("Pioneer " PIONEER_VERSION);
 	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
+	version += "\n";
+	version += Pi::renderer->GetName();
 
-	menu->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200.0f, Gui::Screen::GetHeight()-32.0f);
+	menu->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200.0f, Gui::Screen::GetHeight()-60.0f);
 
 	Gui::Screen::PopFont();
 

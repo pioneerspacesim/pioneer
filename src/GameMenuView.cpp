@@ -655,7 +655,7 @@ void GameMenuView::OnSwitchTo() {
 		m_planetTextureGroup->SetSelected(Pi::detail.textures);
 		m_planetFractalGroup->SetSelected(Pi::detail.fracmult);
 		m_cityDetailGroup->SetSelected(Pi::detail.cities);
-		m_toggleShaders->SetPressed(Render::AreShadersEnabled());
+		m_toggleShaders->SetPressed(Pi::config.Int("DisableShaders") == 0);
 		m_toggleHDR->SetPressed(Render::IsHDREnabled());
 		m_toggleFullscreen->SetPressed(Pi::config.Int("StartFullscreen") != 0);
 		m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());

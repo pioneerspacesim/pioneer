@@ -402,7 +402,7 @@ Renderer* Init(int screen_width, int screen_height, bool wantShaders)
 	PrintGLInfo();
 
 	shadersAvailable = glewIsSupported("GL_VERSION_2_0");
-	shadersEnabled = shadersAvailable;
+	shadersEnabled = wantShaders;
 
 	if (shadersAvailable && wantShaders)
 		renderer = new RendererGL2(screen_width, screen_height);

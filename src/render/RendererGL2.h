@@ -13,5 +13,7 @@ public:
 	RendererGL2(int width, int height);
 	virtual ~RendererGL2();
 
+	virtual const char* GetName() { return "GL2 renderer"; }
+
 	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES);
 };

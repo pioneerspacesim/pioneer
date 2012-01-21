@@ -10,6 +10,8 @@ public:
 	RendererLegacy(int width, int height);
 	virtual ~RendererLegacy();
 
+	virtual const char* GetName() { return "Legacy renderer"; }
+
 	virtual bool BeginFrame();
 	virtual bool EndFrame();
 	virtual bool SwapBuffers();
