@@ -3,6 +3,8 @@
 #include "Pi.h"
 #include "Game.h"
 #include "Ship.h"
+#include "Light.h"
+#include "render/Renderer.h"
 
 ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, float height) :
 	m_width(width),
@@ -56,16 +58,17 @@ void ShipSpinnerWidget::Draw()
 	glEnable(GL_DEPTH_TEST);
 	glClear(GL_DEPTH_BUFFER_BIT);
 
-	float lightCol[] = { .5,.5,.5,0 };
-	float lightDir[] = { 1,1,0,0 };
+	Color lc(0.5f, 0.5f, 0.5f, 0.f);
+	Light l;
+	l.SetDiffuse(lc);
+	l.SetAmbient(lc);
+	l.SetSpecular(lc);
+	l.SetPosition(vector3f(1.f, 1.f, 0.f));
+	l.SetType(Light::LIGHT_DIRECTIONAL);
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-	glLightfv(GL_LIGHT0, GL_POSITION, lightDir);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, lightCol);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
-	glEnable(GL_LIGHT0);
+	m_renderer->SetLights(1, &l);
 
 	glViewport(
 		GLint(roundf(pos[0]/guiscale[0])),
