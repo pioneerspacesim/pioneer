@@ -1,6 +1,7 @@
 #include "libs.h"
 #include "Gui.h"
 #include "TextureFont.h"
+#include "render/Renderer.h"
 
 namespace Gui {
 
@@ -176,7 +177,6 @@ void TextEntry::Draw()
 	float curs_x, curs_y;
 	Gui::Screen::MeasureCharacterPos(m_text, m_cursPos, curs_x, curs_y, m_font);
 
-	glColor3f(1,0,0);
 	if (curs_x - m_scroll > size[0]*0.75f) {
 		m_scroll += int(size[0]*0.25f);
 	} else if (curs_x - m_scroll < size[0]*0.25f) {
@@ -194,11 +194,12 @@ void TextEntry::Draw()
 	Gui::Screen::RenderString(m_text, 1.0f - m_scroll, 1.0f, m_font);
 
 	/* Cursor */
-	glColor3f(0.5f,0.5f,0.5f);
-	glBegin(GL_LINES);
-		glVertex2f(curs_x + 1.0f - m_scroll, curs_y - Gui::Screen::GetFontHeight(m_font) - 1.0f);
-		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + 1.0f);
-	glEnd();
+	const Color grey(0.5f, 0.5f, 0.5f, 0.5f);
+	const LineVertex2D vts[] = {
+		LineVertex2D(curs_x + 1.0f - m_scroll, curs_y - Gui::Screen::GetFontHeight(m_font) - 1.0f, grey),
+		LineVertex2D(curs_x + 1.0f - m_scroll, curs_y + 1.0f, grey)
+	};
+	GetRenderer()->DrawLines2D(2, &vts[0]);
 	
 	EndClipping();
 }
