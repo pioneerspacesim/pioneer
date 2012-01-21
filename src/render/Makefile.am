@@ -10,6 +10,7 @@ noinst_LIBRARIES = librender.a
 noinst_HEADERS = \
 	Render.h \
 	Renderer.h \
+	RendererGL2.h \
 	RendererLegacy.h \
 	RenderFrustum.h \
 	RenderShader.h \
@@ -18,6 +19,7 @@ noinst_HEADERS = \
 librender_a_SOURCES = \
 	Render.cpp \
 	Renderer.cpp \
+	RendererGL2.cpp \
 	RendererLegacy.cpp \
 	RenderFrustum.cpp \
 	RenderShader.cpp \

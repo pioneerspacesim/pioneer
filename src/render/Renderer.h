@@ -158,6 +158,9 @@ public:
 	virtual bool DrawSurface(const Surface *surface) { return false; }
 	virtual bool DrawSurface2D(const Surface *surface) { return false; }
 
+	//virtual bool DrawPoints(...)
+	//virtual bool DrawPointSprites(...) //high amount of textured quads for particles etc
+
 protected:
 	int m_width;
 	int m_height;

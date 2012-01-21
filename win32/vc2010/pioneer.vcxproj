@@ -243,6 +243,7 @@
     <ClCompile Include="..\..\src\Projectile.cpp" />
     <ClCompile Include="..\..\src\render\Render.cpp" />
     <ClCompile Include="..\..\src\render\Renderer.cpp" />
+    <ClCompile Include="..\..\src\render\RendererGL2.cpp" />
     <ClCompile Include="..\..\src\render\RendererLegacy.cpp" />
     <ClCompile Include="..\..\src\render\RenderFrustum.cpp" />
     <ClCompile Include="..\..\src\render\RenderShader.cpp" />
@@ -470,6 +471,7 @@
     <ClInclude Include="..\..\src\RefList.h" />
     <ClInclude Include="..\..\src\render\Render.h" />
     <ClInclude Include="..\..\src\render\Renderer.h" />
+    <ClInclude Include="..\..\src\render\RendererGL2.h" />
     <ClInclude Include="..\..\src\render\RendererLegacy.h" />
     <ClInclude Include="..\..\src\render\RenderFrustum.h" />
     <ClInclude Include="..\..\src\render\RenderShader.h" />

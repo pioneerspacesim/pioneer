@@ -623,6 +623,9 @@
     <ClCompile Include="..\..\src\Light.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\render\RendererGL2.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -1157,6 +1160,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Light.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\RendererGL2.h">
+      <Filter>src\render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
