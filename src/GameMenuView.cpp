@@ -220,6 +220,7 @@ GameMenuView::GameMenuView(): View()
 		hbox->SetSpacing(5.0f);
 		hbox->PackEnd(m_toggleShaders);
 		hbox->PackEnd(new Gui::Label(Lang::USE_SHADERS));
+		hbox->PackEnd(new Gui::Label("(Requires restart)"));
 		vbox->PackEnd(hbox);
 		
 		m_toggleHDR = new Gui::ToggleButton();
@@ -579,7 +580,7 @@ void GameMenuView::OnToggleShaders(Gui::ToggleButton *b, bool state)
 {
 	Pi::config.SetInt("DisableShaders", (state ? 0 : 1));
 	Pi::config.Save();
-	Render::ToggleShaders();
+	//Render::ToggleShaders();
 }
 
 void GameMenuView::OnToggleHDR(Gui::ToggleButton *b, bool state)

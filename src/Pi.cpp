@@ -65,8 +65,8 @@
 #include "TextureCache.h"
 #include "Game.h"
 #include "GameLoaderSaver.h"
-#include "render/RendererLegacy.h"
 #include "Light.h"
+#include "render/Renderer.h"
 
 float Pi::gameTickAlpha;
 int Pi::scrWidth;
@@ -494,7 +494,6 @@ void Pi::Init()
 
 	Pi::textureCache = new TextureCache;
 
-	Pi::renderer = new RendererLegacy(scrWidth, scrHeight);
 	Pi::gluQuadric = gluNewQuadric();
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
@@ -506,13 +505,15 @@ void Pi::Init()
 
 	LuaInit();
 
-	Render::Init(width, height);
+	bool wantShaders = (config.Int("DisableShaders") == 0);
+	Pi::renderer = Render::Init(width, height, wantShaders);
+
 	draw_progress(0.1f);
 
 	Galaxy::Init();
 	draw_progress(0.2f);
 
-	if (config.Int("DisableShaders")) Render::ToggleShaders();
+//	if (config.Int("DisableShaders")) Render::ToggleShaders();
 	if (config.Int("EnableHDR")) Render::ToggleHDR();
 
 	CustomSystem::Init();
@@ -698,7 +699,7 @@ void Pi::HandleEvents()
 							Pi::Quit();
 							break;
 						case SDLK_s: // Toggle Shaders
-							Render::ToggleShaders();
+							//Render::ToggleShaders();
 							break;
 						case SDLK_h: // Toggle HDR
 							Render::ToggleHDR();

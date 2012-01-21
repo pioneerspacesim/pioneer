@@ -4,6 +4,8 @@
 #include "libs.h"
 #include "RenderShader.h"
 
+class Renderer;
+
 /*
  * bunch of reused 3d drawy routines.
  */
@@ -30,7 +32,8 @@ namespace Render {
 	// one for each number of lights (stars in system)
 	extern Shader *planetRingsShader[4];
 
-	void Init(int screen_width, int screen_height);
+	// constructs renderer
+	Renderer* Init(int screen_width, int screen_height, bool wantShaders);
 	void Uninit();
 	bool AreShadersEnabled();
 	void ToggleShaders();

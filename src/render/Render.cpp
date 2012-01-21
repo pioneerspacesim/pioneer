@@ -3,6 +3,8 @@
 #include <stdexcept>
 #include <sstream>
 #include <iterator>
+#include "RendererLegacy.h"
+#include "RendererGL2.h"
 
 static GLuint boundArrayBufferObject = 0;
 static GLuint boundElementArrayBufferObject = 0;
@@ -390,14 +392,23 @@ static struct postprocessBuffers_t {
 	}
 } s_hdrBufs;
 
-void Init(int screen_width, int screen_height)
+Renderer* Init(int screen_width, int screen_height, bool wantShaders)
 {
-	if (initted) return;
+	assert(!initted);
+	if (initted) return 0;
+
+	Renderer *renderer = 0;
 
 	PrintGLInfo();
 
 	shadersAvailable = glewIsSupported("GL_VERSION_2_0");
 	shadersEnabled = shadersAvailable;
+
+	if (shadersAvailable && wantShaders)
+		renderer = new RendererGL2(screen_width, screen_height);
+	else
+		renderer = new RendererLegacy(screen_width, screen_height);
+
 	printf("GLSL shaders %s.\n", shadersEnabled ? "on" : "off");
 
 	// Framebuffers for HDR
@@ -428,6 +439,8 @@ void Init(int screen_width, int screen_height)
 		planetRingsShader[2] = new Shader("planetrings", "#define NUM_LIGHTS 3\n");
 		planetRingsShader[3] = new Shader("planetrings", "#define NUM_LIGHTS 4\n");
 	}
+
+	return renderer;
 }
 
 void Uninit()
