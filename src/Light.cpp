@@ -9,3 +9,13 @@ Light::Light() :
 {
 
 }
+
+Light::Light(LightType t, const vector3f &p, const Color &d, const Color &a, const Color &s) :
+	m_type(t),
+	m_position(p),
+	m_diffuse(d),
+	m_ambient(a),
+	m_specular(s)
+{
+
+}

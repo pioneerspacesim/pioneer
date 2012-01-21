@@ -66,6 +66,7 @@
 #include "Game.h"
 #include "GameLoaderSaver.h"
 #include "render/RendererLegacy.h"
+#include "Light.h"
 
 float Pi::gameTickAlpha;
 int Pi::scrWidth;
@@ -854,10 +855,6 @@ void Pi::HandleEvents()
 
 static void draw_intro(Background::Container *background, float _time)
 {
-	float lightCol[4] = { 1,1,1,0 };
-	float lightDir[4] = { 0,1,1,0 };
-	float ambient[4] = { 0.1,0.1,0.1,1 };
-
 	// defaults are dandy
 	Render::State::SetZnearZfar(1.0f, 10000.0f);
 	LmrObjParams params = {
@@ -889,16 +886,17 @@ static void draw_intro(Background::Container *background, float _time)
 	// rotate background by time, and a bit extra Z so it's not so flat
 	matrix4x4d brot = matrix4x4d::RotateXMatrix(-0.25*_time) * matrix4x4d::RotateZMatrix(0.6);
 	background->Draw(brot);
-	
+
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
+	// XXX no ambient support in renderer yet
+	float ambient[4] = { 0.1,0.1,0.1,1 };
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
-	glLightfv(GL_LIGHT0, GL_POSITION, lightDir);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, lightCol);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
-	glEnable(GL_LIGHT0);
-	
+
+	const Color lc(1.f, 1.f, 1.f, 0.f);
+	const Light light(Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
+	Pi::renderer->SetLights(1, &light);
+
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6f*_time) *
 			matrix4x4f::RotateXMatrix(_time*0.7f);
 	rot[14] = -80.0;
@@ -910,10 +908,6 @@ static void draw_intro(Background::Container *background, float _time)
 
 static void draw_tombstone(float _time)
 {
-	float lightCol[4] = { 1,1,1,0 };
-	float lightDir[4] = { 0,1,1,0 };
-	float ambient[4] = { 0.1,0.1,0.1,1 };
-
 	LmrObjParams params = {
 		0, // animation namespace
 		0.0, // time
@@ -929,13 +923,15 @@ static void draw_tombstone(float _time)
 		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 	};
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
-	
+
+	// XXX no ambient support in renderer yet
+	float ambient[4] = { 0.1,0.1,0.1,1 };
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
-	glLightfv(GL_LIGHT0, GL_POSITION, lightDir);
-	glLightfv(GL_LIGHT0, GL_AMBIENT_AND_DIFFUSE, lightCol);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
-	glEnable(GL_LIGHT0);
-	
+
+	const Color lc(1.f, 1.f, 1.f, 0.f);
+	const Light light(Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
+	Pi::renderer->SetLights(1, &light);
+
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
 	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
 	LmrLookupModelByName("tombstone")->Render(rot, &params);

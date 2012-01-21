@@ -15,6 +15,10 @@ public:
 		LIGHT_DIRECTIONAL
 	};
 	Light();
+	Light(LightType t, const vector3f &position,
+		const Color &diffuse,
+		const Color &ambient,
+		const Color &specular);
 	void SetType(LightType t) { m_type = t; }
 	void SetPosition(const vector3f &p) { m_position = p; }
 	void SetDiffuse(const Color &c) { m_diffuse = c; }
