@@ -84,8 +84,9 @@ BufferThing::BufferThing(int n)
 
 BufferThing::~BufferThing()
 {
-	/*if (surfaces)
-		delete[] surfaces;*/
+	// does not delete vertex arrays or
+	// materials, could solve with sharedptr
+	delete[] surfaces;
 }
 
 Renderer::Renderer(int w, int h) :

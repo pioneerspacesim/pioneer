@@ -616,7 +616,6 @@
     <ClCompile Include="..\..\src\TextureCache.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\render\Renderer.cpp" />
     <ClCompile Include="..\..\src\render\RendererLegacy.cpp">
       <Filter>src\render</Filter>
     </ClCompile>
@@ -624,6 +623,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\render\RendererGL2.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\Renderer.cpp">
       <Filter>src\render</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1154,7 +1156,6 @@
     <ClInclude Include="..\..\src\TextureCache.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\render\Renderer.h" />
     <ClInclude Include="..\..\src\render\RendererLegacy.h">
       <Filter>src\render</Filter>
     </ClInclude>
@@ -1162,6 +1163,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\render\RendererGL2.h">
+      <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\Renderer.h">
       <Filter>src\render</Filter>
     </ClInclude>
   </ItemGroup>
