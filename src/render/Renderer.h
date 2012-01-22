@@ -117,8 +117,8 @@ public:
 	Surface *surfaces;
 	bool cached;
 private:
-	friend Renderer;
-	friend RendererLegacy;
+	friend class Renderer;
+	friend class RendererLegacy;
 	unsigned int buffy;
 };
 
