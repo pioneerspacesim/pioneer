@@ -65,6 +65,7 @@ BufferThing::BufferThing()
 	numSurfaces = 0;
 	surfaces = 0;
 	cached = false;
+	primitiveType = TRIANGLES;
 }
 
 BufferThing::BufferThing(int n)
@@ -73,6 +74,7 @@ BufferThing::BufferThing(int n)
 	numSurfaces = 0;
 	surfaces = 0;
 	cached = false;
+	primitiveType = TRIANGLES;
 
 	if (n > 0) {
 		numSurfaces = n;

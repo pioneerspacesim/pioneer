@@ -112,6 +112,9 @@ bool RendererLegacy::DrawLines(int count, const LineVertex *v, LineType type)
 {
 	if (count < 2) return false;
 
+	glPushAttrib(GL_LIGHTING_BIT);
+	glDisable(GL_LIGHTING);
+
 	//this is easy to upgrade to GL3/ES2 level
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
@@ -120,6 +123,8 @@ bool RendererLegacy::DrawLines(int count, const LineVertex *v, LineType type)
 	glDrawArrays(type, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
+
+	glPopAttrib();
 
 	return true;
 }
@@ -289,7 +294,7 @@ bool RendererLegacy::DrawBufferThing(BufferThing *t)
 	int start = 0;
 	// XXX save start & numverts somewhere
 	for (int i=0; i < t->numSurfaces; i++) {
-		glDrawArrays(GL_TRIANGLE_STRIP, start, t->surfaces->vertices->GetNumVerts());
+		glDrawArrays(t->primitiveType, start, t->surfaces->vertices->GetNumVerts());
 		start += t->surfaces->vertices->GetNumVerts();
 	}
 	glDisableClientState(GL_COLOR_ARRAY);

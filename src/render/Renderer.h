@@ -22,7 +22,39 @@ class Texture;
 class Light;
 class RendererLegacy;
 
-//first some data structures
+// first some enums
+enum LineType {
+	LINE_SINGLE = GL_LINES, //draw one line per two vertices
+	LINE_STRIP = GL_LINE_STRIP,  //connect vertices
+	LINE_LOOP = GL_LINE_LOOP    //connect vertices,  connect start & end
+};
+
+//how to treat vertices
+enum PrimitiveType {
+	TRIANGLES = GL_TRIANGLES,
+	TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
+	TRIANGLE_FAN = GL_TRIANGLE_FAN,
+	QUADS = GL_QUADS, // XXX not available in ES2, replace with strips
+	POINTS = GL_POINTS
+};
+
+enum BlendMode {
+	BLEND_SOLID,
+	BLEND_ADDITIVE,
+	BLEND_ALPHA,
+	BLEND_ALPHA_ONE, //XXX what the hell to call this
+	BLEND_ALPHA_PREMULT
+};
+
+enum VertexAttribs {
+	ATTRIB_POSITION = 0,
+	ATTRIB_NORMAL = 1,
+	ATTRIB_DIFFUSE = 2,
+	ATTRIB_UV0 = 3
+};
+#define NUM_ATTRIBS 4
+
+// some data structures
 struct vector2f {
 	vector2f() : x(0.f), y(0.f) { }
 	vector2f(float _v) : x(_v), y(_v) { }
@@ -44,14 +76,6 @@ struct LineVertex2D {
 	vector2f position;
 	Color color;
 };
-
-enum VertexAttribs {
-	ATTRIB_POSITION = 0,
-	ATTRIB_NORMAL = 1,
-	ATTRIB_DIFFUSE = 2,
-	ATTRIB_UV0 = 3
-};
-#define NUM_ATTRIBS 4
 
 // this is a generic collection of vertex attributes. Renderers do
 // whatever they need to do with regards to the attribute set.
@@ -100,6 +124,7 @@ struct Material {
 // surface with a material
 // can have indices
 struct Surface {
+	Surface() : vertices(0), mat(0) { }
 	std::vector<unsigned short> indices;
 	VertexArray *vertices;
 	Material* mat;
@@ -116,32 +141,12 @@ public:
 	int numSurfaces;
 	Surface *surfaces;
 	bool cached;
+	PrimitiveType primitiveType;
 private:
 	friend class Renderer;
 	friend class RendererLegacy;
+	friend class RendererGL2;
 	unsigned int buffy;
-};
-
-enum LineType {
-	LINE_SINGLE = GL_LINES, //draw one line per two vertices
-	LINE_STRIP = GL_LINE_STRIP,  //connect vertices
-	LINE_LOOP = GL_LINE_LOOP    //connect vertices,  connect start & end
-};
-
-//how to treat vertices
-enum PrimitiveType {
-	TRIANGLES = GL_TRIANGLES,
-	TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
-	TRIANGLE_FAN = GL_TRIANGLE_FAN,
-	QUADS = GL_QUADS // XXX not available in ES2, replace with strips
-};
-
-enum BlendMode {
-	BLEND_SOLID,
-	BLEND_ADDITIVE,
-	BLEND_ALPHA,
-	BLEND_ALPHA_ONE, //XXX what the hell to call this
-	BLEND_ALPHA_PREMULT
 };
 
 // Renderer base, functions return false if
