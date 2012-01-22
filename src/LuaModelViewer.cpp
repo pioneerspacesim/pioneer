@@ -792,7 +792,8 @@ int main(int argc, char **argv)
 
 	TextureCache *textureCache = new TextureCache;
 
-	Render::Init(g_width, g_height);
+	// XXX just avoiding compile error, don't expect modelviewer to run
+	Render::Init(g_width, g_height, true);
 	Gui::Init(g_width, g_height, g_width, g_height);
 
 	LmrModelCompilerInit(textureCache);

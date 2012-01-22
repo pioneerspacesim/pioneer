@@ -177,6 +177,15 @@ Widget::~Widget()
 	m_tooltipTimerConnection.disconnect();
 }
 
+Renderer *Widget::GetRenderer()
+{
+	// XXX this is horrible but it is late and I am tired
+	if (!m_renderer && GetParent())
+		SetRenderer(GetParent()->GetRenderer());
+	//assert(m_renderer != 0);
+	return m_renderer;
+}
+
 void Widget::FillRect(float x, float y, float w, float h, const Color &c)
 {
 	// XXX use renderer

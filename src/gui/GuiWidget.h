@@ -75,7 +75,7 @@ namespace Gui {
 		sigc::signal<void> onDelete;
 
 		void SetRenderer(Renderer *r) { m_renderer = r; }
-		Renderer *GetRenderer() const { return m_renderer; }
+		Renderer *GetRenderer();
 
 		// drawing utility functions
 		void FillRect(float x, float y, float w, float h, const Color &c);

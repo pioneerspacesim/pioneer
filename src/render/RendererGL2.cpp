@@ -1,4 +1,6 @@
 #include "RendererGL2.h"
+#include "Render.h"
+#include "Texture.h"
 
 RendererGL2::RendererGL2(int w, int h) :
 	RendererLegacy(w, h)
