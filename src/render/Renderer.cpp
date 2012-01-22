@@ -59,6 +59,33 @@ void VertexArray::Add(const vector3f &v, const Color &c, const vector2f &uv)
 	uv0.push_back(uv);
 }
 
+BufferThing::BufferThing()
+{
+	buffy = 0;
+	numSurfaces = 0;
+	surfaces = 0;
+	cached = false;
+}
+
+BufferThing::BufferThing(int n)
+{
+	buffy = 0;
+	numSurfaces = 0;
+	surfaces = 0;
+	cached = false;
+
+	if (n > 0) {
+		numSurfaces = n;
+		surfaces = new Surface[n];
+	}
+}
+
+BufferThing::~BufferThing()
+{
+	/*if (surfaces)
+		delete[] surfaces;*/
+}
+
 Renderer::Renderer(int w, int h) :
 	m_width(w), m_height(h)
 {

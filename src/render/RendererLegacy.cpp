@@ -2,6 +2,7 @@
 #include "Render.h"
 #include "Texture.h"
 #include "Light.h"
+#include <stddef.h> //for offsetof
 
 RendererLegacy::RendererLegacy(int w, int h) :
 	Renderer(w, h)
@@ -235,6 +236,65 @@ bool RendererLegacy::DrawSurface2D(const Surface *s)
 	}
 
 	glPopAttrib();
+
+	return true;
+}
+
+//position, color.
+struct UnlitVertex {
+	vector3f position;
+	Color color;
+};
+
+bool RendererLegacy::DrawBufferThing(BufferThing *t)
+{
+	if (!t) return false;
+
+	// prepare it
+	if (!t->cached) {
+		glGenBuffers(1, &t->buffy);
+
+		//XXX add getnumvertices to surface
+		int numvertices = 0;
+		for (int i=0; i < t->numSurfaces; i++) {
+			numvertices += t->surfaces->vertices->GetNumVerts();
+		}
+		assert(numvertices > 0);
+
+		UnlitVertex *vts = new UnlitVertex[numvertices];
+		int next = 0;
+		for (int i=0; i < t->numSurfaces; i++) {
+			for(int j=0; j<t->surfaces[i].vertices->GetNumVerts(); j++) {
+				vts[next].position = t->surfaces[i].vertices->position[j];
+				vts[next].color = t->surfaces[i].vertices->diffuse[j];
+				next++;
+			}
+		}
+
+		//buffer
+		glBindBuffer(GL_ARRAY_BUFFER, t->buffy);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(UnlitVertex)*numvertices, vts, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		t->cached = true;
+		delete[] vts;
+	}
+	assert(t->cached == true);
+
+	//draw it
+	glBindBuffer(GL_ARRAY_BUFFER, t->buffy);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glVertexPointer(3, GL_FLOAT, sizeof(UnlitVertex), reinterpret_cast<const GLvoid *>(offsetof(UnlitVertex, position)));
+	glColorPointer(4, GL_FLOAT, sizeof(UnlitVertex), reinterpret_cast<const GLvoid *>(offsetof(UnlitVertex, color)));
+	int start = 0;
+	// XXX save start & numverts somewhere
+	for (int i=0; i < t->numSurfaces; i++) {
+		glDrawArrays(GL_TRIANGLE_STRIP, start, t->surfaces->vertices->GetNumVerts());
+		start += t->surfaces->vertices->GetNumVerts();
+	}
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	return true;
 }

@@ -20,6 +20,7 @@
 
 class Texture;
 class Light;
+class RendererLegacy;
 
 //first some data structures
 struct vector2f {
@@ -105,6 +106,22 @@ struct Surface {
 	//Texture separately or part of material?
 };
 
+// can hold multiple surfaces
+// *may* be cached by the renderer
+class BufferThing {
+public:
+	BufferThing();
+	BufferThing(int num_surfaces);
+	~BufferThing();
+	int numSurfaces;
+	Surface *surfaces;
+	bool cached;
+private:
+	friend Renderer;
+	friend RendererLegacy;
+	unsigned int buffy;
+};
+
 enum LineType {
 	LINE_SINGLE = GL_LINES, //draw one line per two vertices
 	LINE_STRIP = GL_LINE_STRIP,  //connect vertices
@@ -163,6 +180,8 @@ public:
 
 	//virtual bool DrawPoints(...)
 	//virtual bool DrawPointSprites(...) //high amount of textured quads for particles etc
+
+	virtual bool DrawBufferThing(BufferThing *thing) { return false; }
 
 protected:
 	int m_width;
