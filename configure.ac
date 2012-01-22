@@ -170,7 +170,7 @@ PKG_CHECK_MODULES([SDL], [sdl SDL_image])
 dnl Check for Freetype
 PKG_CHECK_MODULES([FREETYPE], [freetype2])
 
-dnl Not using vorbis yet
+dnl Check for libvorbis
 PKG_CHECK_MODULES([VORBIS], [vorbisfile])
 
 dnl Optionally use external liblua
