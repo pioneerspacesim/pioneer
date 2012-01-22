@@ -21,6 +21,8 @@ Alpha 19
    * Internal changes
      * New Texture class and subclasses to manage all kinds of GL texture
        creation and use (#892, #900, #901)
+     * Simplified autotools build system by using pkg-config for all
+       dependencies (#909, #353)
 
 Alpha 18
 
