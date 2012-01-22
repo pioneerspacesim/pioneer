@@ -394,7 +394,11 @@ def main():
             with open(path, 'rU') as fl:
                 es = list(extract_enums(fl))
             if es:
-                headers.append(os.path.basename(path))
+                if options.outfile == '-':
+                    hpath = os.path.basename(path)
+                else:
+                    hpath = os.path.relpath(path, os.path.dirname(options.outfile))
+                headers.append(hpath)
         enums += es
 
     if options.outfile == '-':
