@@ -7,6 +7,7 @@
 #include "Player.h"
 #include <vector>
 #include "Game.h"
+#include "render/Renderer.h"
 
 namespace Background
 {
@@ -70,7 +71,7 @@ void Starfield::Fill(unsigned long seed)
 	Render::BindArrayBuffer(0);
 }
 
-void Starfield::Draw() const
+void Starfield::Draw()
 {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
@@ -163,84 +164,74 @@ void Starfield::Draw() const
 
 MilkyWay::MilkyWay()
 {
-	//build milky way model in two strips
-	std::vector<Background::Vertex> dataBottom;
-	std::vector<Background::Vertex> dataTop;
+	m_model = new BufferThing();
+	m_model->numSurfaces = 2;
+	m_model->surfaces = new Surface[2];
+
+	//build milky way model in two strips (about 256 verts)
+	//The model is built as a generic vertex array first. The renderer
+	//will reprocess this into buffered format as it sees fit, the old
+	//data can then be thrown away (or not. If the cache is emptied the model
+	//needs to be regenerated somehow).
+
+	VertexArray *bottom = new VertexArray();
+	VertexArray *top = new VertexArray();
+	m_model->surfaces[0].vertices = bottom;
+	m_model->surfaces[1].vertices = top;
+
+	const Color dark(0.f);
+	const Color bright(0.05,0.05f, 0.05f, 0.05f);
 
 	//bottom
 	float theta;
 	for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
-		dataBottom.push_back(Vertex(
+		bottom->Add(
 				vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta)),
-				vector3f(0.0,0.0,0.0)));
-		dataBottom.push_back(Vertex(
+				dark);
+		bottom->Add(
 			vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
-			vector3f(0.05,0.05,0.05)));
+			bright);
 	}
 	theta = 2.0*M_PI;
-	dataBottom.push_back(Vertex(
+	bottom->Add(
 		vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta)),
-		vector3f(0.0,0.0,0.0)));
-	dataBottom.push_back(Vertex(
+		dark);
+	bottom->Add(
 		vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
-		vector3f(0.05,0.05,0.05)));
+		bright);
 	//top
 	for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
-		dataTop.push_back(Vertex(
+		top->Add(
 			vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
-			vector3f(0.05,0.05,0.05)));
-		dataTop.push_back(Vertex(
+			bright);
+		top->Add(
 			vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
-			vector3f(0.0,0.0,0.0)));
+			dark);
 	}
 	theta = 2.0*M_PI;
-	dataTop.push_back(Vertex(
+	top->Add(
 		vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
-		vector3f(0.05,0.05,0.05)));
-	dataTop.push_back(Vertex(
+		bright);
+	top->Add(
 		vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
-		vector3f(0.0,0.0,0.0)));
+		dark);
 
-	//both strips in one vbo
-	glGenBuffersARB(1, &m_vbo);
-	Render::BindArrayBuffer(m_vbo);
-	glBufferDataARB(GL_ARRAY_BUFFER,
-		sizeof(Vertex) * (dataBottom.size() + dataTop.size()),
-		NULL, GL_STATIC_DRAW);
-	glBufferSubDataARB(GL_ARRAY_BUFFER, 0,
-		sizeof(Vertex) * dataBottom.size(),
-		&dataBottom.front());
-	glBufferSubDataARB(GL_ARRAY_BUFFER, sizeof(Vertex) * dataBottom.size(),
-		sizeof(Vertex) * dataTop.size(),
-		&dataTop.front());
-	Render::BindArrayBuffer(0);
-
-	// store sizes for drawing
-	m_bottomSize = dataBottom.size();
-	m_topSize    = dataTop.size();
+	assert(m_model->surfaces[0].vertices->GetNumVerts() > 0);
+	assert(m_model->surfaces[1].vertices->GetNumVerts() > 0);
 }
 
 MilkyWay::~MilkyWay()
 {
-	glDeleteBuffersARB(1, &m_vbo);
+	//XXX release bufferthing (or let renderer do it?)
+	delete m_model;
 }
 
-void MilkyWay::Draw() const
+void MilkyWay::Draw()
 {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-
-	Render::BindArrayBuffer(m_vbo);
-	glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), 0);
-	glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), reinterpret_cast<void *>(3*sizeof(float)));
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, m_bottomSize);
-	glDrawArrays(GL_TRIANGLE_STRIP, m_bottomSize, m_topSize);
-	Render::BindArrayBuffer(0);
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
+	assert(m_model != 0);
+	Pi::renderer->DrawBufferThing(m_model);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 }
@@ -264,11 +255,11 @@ void Container::Draw(const matrix4x4d &transform) const
 {
 	glPushMatrix();
 	glMultMatrixd(&transform[0]);
-	m_milkyWay.Draw();
+	const_cast<MilkyWay&>(m_milkyWay).Draw();
 	glPushMatrix();
 	// squeeze the starfield a bit to get more density near horizon
 	glScalef(1.f, 0.4f, 1.f);
-	m_starField.Draw();
+	const_cast<Starfield&>(m_starField).Draw();
 	glPopMatrix();
 	glPopMatrix();
 }

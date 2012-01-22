@@ -3,6 +3,8 @@
 
 #include "libs.h"
 #include "render/Render.h"
+
+class BufferThing;
 /*
  * Classes to draw background stars and the milky way
  */
@@ -39,7 +41,7 @@ namespace Background
 		Starfield();
 		Starfield(unsigned long seed);
 		~Starfield();
-		void Draw() const;
+		void Draw();
 		//create or recreate the starfield
 		void Fill(unsigned long seed);
 	private:
@@ -54,11 +56,9 @@ namespace Background
 	public:
 		MilkyWay();
 		~MilkyWay();
-		void Draw() const;
+		void Draw();
 	private:
-		GLuint m_vbo;
-		std::vector<Background::Vertex>::size_type m_bottomSize;
-		std::vector<Background::Vertex>::size_type m_topSize;
+		BufferThing *m_model;
 	};
 
 	// contains starfield, milkyway, possibly other Background elements
