@@ -21,7 +21,7 @@ void main(void)
 
 	// as in geosphere.vert.glsl
 	vec3 v = (vec3(varyingEyepos) - geosphereCenter)/geosphereRadius;
-	float lenInvSq = 1.0/(length(v)*length(v));
+	float lenInvSq = min(1.0, 1.0/(length(v)*length(v)));
 	for (int i=0; i<NUM_LIGHTS; i++) {
 		vec3 lightDir = normalize(vec3(gl_LightSource[i].position) - geosphereCenter);
 		float perp = dot(lightDir,v);
