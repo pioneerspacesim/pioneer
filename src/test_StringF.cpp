@@ -123,6 +123,8 @@ void test_stringf() {
 	TESTPF1("%0{i+08}", 42, "%+08i");
 	TESTPF1("%0{i+8}", 42, "%+8i");
 
+	TESTPF1("%0{x02}", 93u, "%02x");
+
 	TEST1("%0{i.0}", 42, "%(err: bad format)");
 	TEST1("%0{i }", 42, "%(err: bad format)");
 }
