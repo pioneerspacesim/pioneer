@@ -964,6 +964,28 @@ static int l_ship_attr_alert_status(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: shipType
+ *
+ * The type of the ship. This value can be passed to <ShipType.GetShipType>
+ * to retrieve information about this ship type.
+ *
+ * Availability:
+ *
+ *  not yet
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_ship_attr_ship_type(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	const ShipType &st = s->GetShipType();
+	lua_pushstring(l, st.name.c_str());
+	return 1;
+}
+
 /* 
  * Group: AI methods
  *
@@ -1237,6 +1259,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 	static const luaL_reg l_attrs[] = {
 		{ "alertStatus", l_ship_attr_alert_status },
+		{ "shipType", l_ship_attr_ship_type },
 		{ 0, 0 }
 	};
 
