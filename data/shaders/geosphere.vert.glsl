@@ -24,7 +24,7 @@ void main(void)
 
 	// set gl_TexCoord[2][i] to the effective intensity of light i:
 	vec3 v = (vec3(gl_TexCoord[0]) - geosphereCenter)/geosphereRadius;
-	float lenInvSq = max(1.0, 1.0/(length(v)*length(v)));
+	float lenInvSq = min(1.0, 1.0/(length(v)*length(v)));
 	for (int i=0; i<NUM_LIGHTS; i++) {
 		vec3 lightDir = normalize(vec3(gl_LightSource[i].position) - geosphereCenter);
 
