@@ -5,9 +5,12 @@
 #include "ShipType.h"
 #include "EquipType.h"
 #include "render/Render.h"
+#include "render/Renderer.h"
 #include "Ship.h" // for the flight state and ship animation enums
 #include "SpaceStation.h" // for the space station animation enums
 #include "TextureCache.h"
+
+static Renderer *renderer;
 
 enum ModelCategory {
 	MODEL_OTHER,
@@ -330,7 +333,7 @@ void Viewer::PickModel(const std::string &initial_name, const std::string &initi
 		glClearColor(0,0,0,0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		Render::PostProcess();
-		Gui::Draw();
+		Gui::Draw(renderer);
 		glError();
 		Render::SwapBuffers();
 	}
@@ -641,7 +644,7 @@ void Viewer::MainLoop()
 		}
 		
 		Render::PostProcess();
-		Gui::Draw();
+		Gui::Draw(renderer);
 		
 		glError();
 		Render::SwapBuffers();
@@ -792,8 +795,7 @@ int main(int argc, char **argv)
 
 	TextureCache *textureCache = new TextureCache;
 
-	// XXX just avoiding compile error, don't expect modelviewer to run
-	Render::Init(g_width, g_height, true);
+	renderer = Render::Init(g_width, g_height, true);
 	Gui::Init(g_width, g_height, g_width, g_height);
 
 	LmrModelCompilerInit(textureCache);
@@ -814,5 +816,7 @@ int main(int argc, char **argv)
 	}
 
 	g_viewer->MainLoop();
+
+	delete renderer;
 	return 0;
 }
