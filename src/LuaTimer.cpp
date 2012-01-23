@@ -5,6 +5,7 @@
 
 void LuaTimer::Tick()
 {
+	assert(Pi::game);
 	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
@@ -147,6 +148,9 @@ static void _finish_timer_create(lua_State *l)
  */
 static int l_timer_call_at(lua_State *l)
 {
+	if (!Pi::game)
+		luaL_error(l, "Game is not started");
+
 	double at = luaL_checknumber(l, 2);
 	if (!lua_isfunction(l, 3))
 		luaL_typerror(l, 3, lua_typename(l, LUA_TFUNCTION));
@@ -208,6 +212,9 @@ static int l_timer_call_at(lua_State *l)
  */
 static int l_timer_call_every(lua_State *l)
 {
+	if (!Pi::game)
+		luaL_error(l, "Game is not started");
+
 	double every = luaL_checknumber(l, 2);
 	if (!lua_isfunction(l, 3))
 		luaL_typerror(l, 3, lua_typename(l, LUA_TFUNCTION));
