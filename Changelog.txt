@@ -14,6 +14,7 @@ Alpha 19
      * Show distance to dock on target square when docking clearance is granted (#902)
      * Fix crashes if Lua Space, Timer or UI methods are called before the
        game loads (#885, #911)
+     * Fix background star jitter (#910)
 
    * Script changes
      * Removed NameGen.PlanetName and replaced with NameGen.BodyName (#896)
