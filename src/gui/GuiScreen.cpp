@@ -140,10 +140,11 @@ void Screen::LeaveOrtho()
 	glEnable(GL_DEPTH_TEST);
 }
 
-void Screen::Draw()
+void Screen::Draw(Renderer *r)
 {
 	assert(Screen::initted);
 	EnterOrtho();
+	baseContainer->SetRenderer(r);
 	baseContainer->Draw();
 	LeaveOrtho();
 }

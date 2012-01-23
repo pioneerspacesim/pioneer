@@ -195,7 +195,8 @@ void Container::Draw()
 		glEnd();
 #endif /* GUI_DEBUG_CONTAINER */
 		// XXX bad
-		GetRenderer();
+		// pulls renderer from parent. Or explodes.
+		(*i).w->SetRenderer(GetRenderer());
 		(*i).w->Draw();
 		glPopMatrix();
 	}

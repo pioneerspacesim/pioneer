@@ -8,12 +8,14 @@
 #include <list>
 #include <stack>
 
+class Renderer;
+
 namespace Gui {
 	class Screen {
 	public:
 		static void Init(int real_width, int real_height, int ui_width, int ui_height);
 		static void Uninit();
-		static void Draw();
+		static void Draw(Renderer *r);
 		static void ShowBadError(const char *msg);
 		static void AddBaseWidget(Widget *w, int x, int y);
 		static void RemoveBaseWidget(Widget *w);

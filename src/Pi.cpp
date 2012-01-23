@@ -959,7 +959,7 @@ void Pi::TombStoneLoop()
 
 		draw_tombstone(_time);
 		Pi::renderer->EndFrame();
-		Gui::Draw();
+		Gui::Draw(Pi::renderer);
 		Pi::renderer->SwapBuffers();
 		
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
@@ -1179,7 +1179,7 @@ void Pi::Start()
 
 		draw_intro(background, _time);
 		Pi::renderer->EndFrame();
-		Gui::Draw();
+		Gui::Draw(Pi::renderer);
 		Pi::renderer->SwapBuffers();
 		
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
@@ -1299,7 +1299,7 @@ void Pi::MainLoop()
 		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT));
 
 		Pi::renderer->EndFrame();
-		Gui::Draw();
+		Gui::Draw(Pi::renderer);
 
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo) {
