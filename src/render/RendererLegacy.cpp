@@ -148,8 +148,42 @@ bool RendererLegacy::DrawTriangles2D(const VertexArray *v, const Material *m, Pr
 {
 	if (!v || v->GetNumVerts() < 3) return false;
 
-	// XXX uses standard 3D VertexArray
-	return DrawTriangles(v, m, t);
+	glPushAttrib(GL_ENABLE_BIT);
+	// XXX assuming GUI+unlit
+	glDisable(GL_LIGHTING);
+
+	const bool diffuse = !v->diffuse.empty();
+	const bool textured = (m && m->texture0 && v->uv0.size() == v->position.size());
+	const unsigned int numverts = v->position.size();
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->position[0]));
+	if (diffuse) {
+		assert(v->diffuse.size() == v->position.size());
+		glEnableClientState(GL_COLOR_ARRAY);
+		glColorPointer(4, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));
+	}
+	if (textured) {
+		assert(v->uv0.size() == v->position.size());
+		glEnable(GL_TEXTURE_2D);
+		m->texture0->Bind();
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glTexCoordPointer(2, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
+	}
+
+	glDrawArrays(t, 0, numverts);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+	if (diffuse)
+		glDisableClientState(GL_COLOR_ARRAY);
+	if (textured) {
+		m->texture0->Unbind();
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	}
+
+	glPopAttrib();
+
+	return true;
 }
 
 bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, PrimitiveType t)
