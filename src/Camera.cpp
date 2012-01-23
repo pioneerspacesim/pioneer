@@ -300,10 +300,10 @@ void Camera::RenderBody(BodyAttrs *attrs) {
 									// umbra
 									intensity = 0.0;
 								else
-									// penumbra
+									// antumbra
 									intensity = 1.0 - (srad*srad) / (lrad*lrad);
 							else
-								// antumbra - just linearly interpolate (TODO:better?)
+								// penumbra - just linearly interpolate (TODO:better?)
 								intensity = 1.0 - ((srad+lrad-prdist)*(
 											(srad > lrad) ? 1 : (srad*srad) / (lrad*lrad))) /
 									(srad+lrad-abs(srad-lrad));

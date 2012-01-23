@@ -79,11 +79,12 @@ void main(void)
 					// following loop would be nice.
 					const int pN = 12;
 					for (int pi=pN; pi>=0; pi--) {
-						float c = (srad+pi*lrad/pN)*(srad+pi*lrad/pN) - perpsq;
+						float r = srad + float(pi)*lrad/float(pN);
+						float c = r*r - perpsq;
 						if (c < 0.0)
 							break;
 						float rootc = sqrt(c);
-						uneclipsed -= (maxOcclusion/(pN+1)) *
+						uneclipsed -= (maxOcclusion/float(pN+1)) *
 							(clamp(rootc,ad,bd) - clamp(-rootc,ad,bd)) / (bd-ad);
 					}
 				}
