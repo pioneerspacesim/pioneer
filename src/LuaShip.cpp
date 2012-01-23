@@ -140,7 +140,7 @@ static int l_ship_get_stats(lua_State *l)
  *
  *   experimental
  */
-static int l_set_ship_type(lua_State *l)
+static int l_ship_set_type(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
@@ -1221,7 +1221,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "IsPlayer", l_ship_is_player },
 
 		{ "GetStats", l_ship_get_stats },
-        { "SetShipType", l_set_ship_type },
+		{ "SetShipType", l_ship_set_type },
 		{ "SetHullPercent", l_ship_set_hull_percent },
 
 		{ "SetLabel",           l_ship_set_label            },
