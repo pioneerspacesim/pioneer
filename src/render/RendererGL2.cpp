@@ -31,8 +31,8 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, const Material *m, Primiti
 	if (!m)
 		Render::State::UseProgram(Render::simpleShader);
 	else if(m->type == Material::TYPE_PLANETRING) {
-		int numlights = 1;
-		Render::State::UseProgram(Render::planetRingsShader[numlights-1]);
+		const int lights = Clamp(m_numLights-1, 0, 3);
+		Render::State::UseProgram(Render::planetRingsShader[lights]);
 	}
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -54,8 +54,10 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, const Material *m, Primiti
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glTexCoordPointer(2, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
 	}
+
 	glDrawArrays(t, 0, numverts);
 	glDisableClientState(GL_VERTEX_ARRAY);
+
 	if (diffuse)
 		glDisableClientState(GL_COLOR_ARRAY);
 	if (normals)

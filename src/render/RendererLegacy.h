@@ -29,6 +29,9 @@ public:
 
 	// meant for geometry that is worthwhile to store in VBOs etc.
 	virtual bool DrawBufferThing(BufferThing *thing);
+
+protected:
+	int m_numLights;
 };
 
 #endif

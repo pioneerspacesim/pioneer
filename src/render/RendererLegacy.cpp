@@ -82,6 +82,8 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 {
 	if (numlights < 1) return false;
 
+	m_numLights = numlights;
+
 	for (int i=0; i < numlights; i++) {
 		const Light &l = lights[i];
 		// directional lights have the length of 1
