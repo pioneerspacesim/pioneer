@@ -128,10 +128,8 @@ static GasGiantDef_t ggdefs[] = {
 
 #define PLANET_AMBIENT	0.1f
 
-static void DrawRing(double inner, double outer, const float color[4], Renderer *r)
+static void DrawRing(double inner, double outer, const float color[4], Renderer *r, const Material &mat)
 {
-	glColor4fv(color);
-
 	float step = 0.1f / (Pi::detail.planets + 1);
 
 	VertexArray vts;
@@ -143,21 +141,22 @@ static void DrawRing(double inner, double outer, const float color[4], Renderer 
 	}
 	vts.Add(vector3f(0.f, 0.f, float(inner)), c, normal);
 	vts.Add(vector3f(0.f, 0.f, float(outer)), c, normal);
-	// XXX ring material
-	Material ringMaterial;
-	r->DrawTriangles(&vts, &ringMaterial, TRIANGLE_STRIP);
+
+	r->DrawTriangles(&vts, &mat, TRIANGLE_STRIP);
 }
 
 void Planet::DrawGasGiantRings(Renderer *renderer)
 {
-	glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT |
-		GL_ENABLE_BIT | GL_LIGHTING_BIT | GL_POLYGON_BIT);
-	glDisable(GL_LIGHTING);
 	renderer->SetBlendMode(BLEND_ALPHA_ONE);
+	glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT );
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_NORMALIZE);
-	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-	glDisable(GL_CULL_FACE);
+
+	// XXX ring material
+	Material mat;
+	mat.type = Material::TYPE_PLANETRING;
+	mat.unlit = true;
+	mat.twoSided = true;
 
 //	MTRand rng((int)Pi::game->GetTime());
 	MTRand rng(GetSBody()->seed+965467);
@@ -172,7 +171,6 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 	
 	const double maxRingWidth = 0.1 / double(2*(Pi::detail.planets + 1));
 
-	Render::State::UseProgram(Render::planetRingsShader[Pi::worldView->GetNumLights()-1]);
 	if (rng.Double(1.0) < ggdef.ringProbability) {
 		float rpos = float(rng.Double(1.15,1.5));
 		float end = rpos + float(rng.Double(0.1, 1.0));
@@ -188,17 +186,13 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 			col[1] = baseCol[1] * n;
 			col[2] = baseCol[2] * n;
 			col[3] = baseCol[3] * n;
-			DrawRing(rpos, rpos+size, col, renderer);
+			DrawRing(rpos, rpos+size, col, renderer, mat);
 			rpos += size;
 		}
 	}
-	Render::State::UseProgram(0);
-	
-	glEnable(GL_CULL_FACE);
-	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
-	renderer->SetBlendMode(BLEND_SOLID);
-	glDisable(GL_NORMALIZE);
+
 	glPopAttrib();
+	renderer->SetBlendMode(BLEND_SOLID);
 }
 
 void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)

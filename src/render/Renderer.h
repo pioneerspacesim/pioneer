@@ -111,6 +111,10 @@ struct VertexArray {
 //shader is determined from this
 //(can add shaderType or whatever is necessary)
 struct Material {
+	enum MaterialType {
+		TYPE_DEFAULT = 0,
+		TYPE_PLANETRING
+	};
 	Material() { memset(this, 0, sizeof(Material)); }
 	Texture *texture0;
 	//Texture *texture1;
@@ -118,6 +122,8 @@ struct Material {
 	//Color ambient;
 	//Color specular;
 	bool unlit;
+	MaterialType type;
+	bool twoSided;
 	//etc
 };
 

@@ -22,9 +22,18 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, const Material *m, Primiti
 	const bool textured = (m && m->texture0 && v->uv0.size() == v->position.size());
 	const bool normals = !v->normal.empty();
 	const unsigned int numverts = v->position.size();
+	const bool twoSided = (m && m->twoSided);
 
+	if (twoSided)
+		glDisable(GL_CULL_FACE);
+
+	//program choice
 	if (!m)
 		Render::State::UseProgram(Render::simpleShader);
+	else if(m->type == Material::TYPE_PLANETRING) {
+		int numlights = 1;
+		Render::State::UseProgram(Render::planetRingsShader[numlights-1]);
+	}
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->position[0]));
@@ -55,9 +64,14 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, const Material *m, Primiti
 		m->texture0->Unbind();
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
+	if (twoSided)
+		glEnable(GL_CULL_FACE);
 
+	// XXX won't be necessary
 	if (!m)
-		Render::State::UseProgram(0); // XXX remove
+		Render::State::UseProgram(0);
+	else if(m->type == Material::TYPE_PLANETRING)
+		Render::State::UseProgram(0);
 
 	return true;
 }
