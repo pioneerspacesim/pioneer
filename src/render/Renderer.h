@@ -108,8 +108,11 @@ struct VertexArray {
 	//vector3f* binormal;
 };
 
-//shader is determined from this
-//(can add shaderType or whatever is necessary)
+//a bunch of renderstates and shaders are determined from this
+//(can add shaderType or whatever hacks are necessary)
+// Idea: to avoid if-else soup in Draw* functions, let renderers subclass Material
+// with Apply() and perhaps Cleanup() methods. Users can then request
+// materials with Material *mat = renderer->RequestMaterial(...)
 struct Material {
 	enum MaterialType {
 		TYPE_DEFAULT = 0,

@@ -6,6 +6,8 @@
  *  - no fixed function support (shaders for everything)
  *  - try to stick to bufferobjects
  *  - avoid glVertexPointer, glColorPointer?
+ *
+ *  To do: a nice buffer object class
  */
 class RendererGL2 : public RendererLegacy // XXX not really desired, just want to get up to speed
 {
