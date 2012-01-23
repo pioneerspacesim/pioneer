@@ -936,7 +936,7 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *ch
 		kid->m_volcanicity    = csbody->volcanicity;
 		kid->m_atmosOxidizing = csbody->atmosOxidizing;
 		kid->m_life           = csbody->life;
-
+		
 		kid->rotationPeriod = csbody->rotationPeriod;
 		kid->eccentricity = csbody->eccentricity;
 		kid->orbitalOffset = csbody->orbitalOffset;
@@ -968,6 +968,7 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *ch
 		kid->orbMax = 2*csbody->semiMajorAxis - kid->orbMin;
 
 		kid->PickAtmosphere();
+		
 
 		CustomGetKidsOf(kid, &csbody->children, outHumanInfestedness, rand);
 	}
@@ -1147,7 +1148,12 @@ void SBody::PickAtmosphere()
 			} else {
 				m_atmosColor = Color(0.0, 0.0, 0.0, 0.0f);
 			}
-			m_atmosDensity = m_volatileGas.ToDouble();
+			// multiple of earth atmosphere density 
+			m_atmosDensity = m_volatileGas.ToDouble()*1.225; 
+			
+			
+			
+
 			//printf("| Atmosphere :\n|      red   : [%f] \n|      green : [%f] \n|      blue  : [%f] \n", r, g, b);
 			//printf("-------------------------------\n");
 			break;

@@ -40,7 +40,7 @@ Planet::Planet(SBody *sbody): TerrainBody(sbody)
  */
 void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDensity)
 {
-	
+	Color c;
 	double surfaceDensity;
 	const double SPECIFIC_HEAT_AIR_CP=1000.5;// constant pressure specific heat, for the combination of gasses that make up air
 	// XXX using earth's molar mass of air...		   
@@ -49,25 +49,24 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	
 	const double PA_2_ATMOS = 1.0 / 101325.0;
 
-	double atmosDist = dist/(GetSBody()->GetRadius()*ATMOSPHERE_RADIUS);
 	// surface gravity = -G*M/planet radius^2
 	const double surfaceGravity_g = -G*this->GetSBody()->GetMass()/pow((this->GetSBody()->GetRadius()),2); // should be stored in sbody
 	// lapse rate http://en.wikipedia.org/wiki/Adiabatic_lapse_rate#Dry_adiabatic_lapse_rate
-	// the wet adiabetic rate can be used when cloud layers are incorporated
+	// the wet adiabatic rate can be used when cloud layers are incorporated
 	// fairly accurate in the troposphere
 	const double lapseRate_L = -surfaceGravity_g/SPECIFIC_HEAT_AIR_CP; // negative deg/m
 	const double height_h = (dist-GetSBody()->GetRadius()); // height in m
 	const double surfaceTemperature_T0 = this->GetSBody()->averageTemp; //K 
 	
-	Color c;
+	
 	GetSBody()->GetAtmosphereFlavor(&c, &surfaceDensity);// kg / m^3
 	// convert to moles/m^3
 	surfaceDensity/=GAS_MOLAR_MASS;
 
-	const double adiabeticLimit = surfaceTemperature_T0/lapseRate_L; //should be stored 
-	printf("dist %f,height %f, density %f, pressure %f, %f\n",dist,height_h, surfaceDensity, surfaceGravity_g, adiabeticLimit);
+	const double adiabaticLimit = surfaceTemperature_T0/lapseRate_L; //should be stored 
+	
 	// This model has no atmosphere beyond the adiabetic limit
-	if (height_h >= adiabeticLimit) {*outDensity = 0.0; *outPressure = 0.0; return;}
+	if (height_h >= adiabaticLimit) {*outDensity = 0.0; *outPressure = 0.0; return;}
 
 	//P = density*R*T=(n/V)*R*T
 	const double surfaceP_p0 = PA_2_ATMOS*((surfaceDensity)*GAS_CONSTANT*surfaceTemperature_T0); // in atmospheres
