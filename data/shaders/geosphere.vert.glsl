@@ -24,7 +24,7 @@ void main(void)
 
 	// set gl_TexCoord[2][i] to the effective intensity of light i:
 	vec3 v = (vec3(gl_TexCoord[0]) - geosphereCenter)/geosphereRadius;
-	float lenInvSq = min(1.0, 1.0/(length(v)*length(v)));
+	float lenInvSq = 1.0/(length(v)*length(v));
 	for (int i=0; i<NUM_LIGHTS; i++) {
 		vec3 lightDir = normalize(vec3(gl_LightSource[i].position) - geosphereCenter);
 
@@ -32,7 +32,11 @@ void main(void)
 		// d = dot(lightDir,t) where t is the unique point on the unit sphere whose tangent plane
 		// contains v, is in the plane of lightDir and d, and is towards the light.
 		float perp = dot(lightDir,v);
-		float d = perp*lenInvSq + sqrt((1.0-lenInvSq)*(1.0-(perp*perp*lenInvSq)));
+
+		// XXX: the 'max' in the next line is necessary because v can actually be slightly below sea
+		// level
+		float d = perp*lenInvSq + sqrt(max(0.0, (1.0-lenInvSq)*(1.0-(perp*perp*lenInvSq))));
+
 		if (lightDiscRadii[i] < 0.0)
 			gl_TexCoord[2][i] = 1.0;
 		else
