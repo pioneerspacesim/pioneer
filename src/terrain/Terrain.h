@@ -129,8 +129,11 @@ private:
 };
 
 
-class TerrainHeightAsteroid;
 class TerrainHeightFlat;
+class TerrainHeightAsteroid;
+class TerrainHeightBarrenRock;
+class TerrainHeightBarrenRock2;
+class TerrainHeightBarrenRock3;
 class TerrainHeightHillsCraters2;
 class TerrainHeightHillsCraters;
 class TerrainHeightHillsDunes;
