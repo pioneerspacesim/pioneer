@@ -331,6 +331,7 @@ bool RendererLegacy::DrawBufferThing(BufferThing *t)
 	glColorPointer(4, GL_FLOAT, sizeof(UnlitVertex), reinterpret_cast<const GLvoid *>(offsetof(UnlitVertex, color)));
 	int start = 0;
 	// XXX save start & numverts somewhere
+	// XXX this is not indexed
 	for (int i=0; i < t->numSurfaces; i++) {
 		glDrawArrays(t->primitiveType, start, t->surfaces[i].GetNumVerts());
 		start += t->surfaces[i].GetNumVerts();

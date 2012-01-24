@@ -138,6 +138,13 @@ struct Surface {
 	std::vector<unsigned short> indices;
 	VertexArray *vertices;
 	Material* mat;
+
+	// multiple surfaces can be buffered in one vbo so need to
+	// save starting offset + amount to draw
+	//int startVertex;
+	//int numVertices; should be samme as vertices->GetNumVerts()
+	//int startIndex;
+	//int numIndices; should be same as indices.size()
 };
 
 // can hold multiple surfaces
@@ -158,6 +165,7 @@ private:
 	friend class Renderer;
 	friend class RendererLegacy;
 	friend class RendererGL2;
+	// XXX gl specific hack (stores vbo id)
 	unsigned int buffy;
 };
 
