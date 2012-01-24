@@ -59,6 +59,14 @@ void VertexArray::Add(const vector3f &v, const Color &c, const vector2f &uv)
 	uv0.push_back(uv);
 }
 
+int Surface::GetNumVerts() const
+{
+	if (vertices)
+		return vertices->position.size();
+	else
+		return 0;
+}
+
 BufferThing::BufferThing()
 {
 	buffy = 0;
@@ -87,6 +95,15 @@ BufferThing::~BufferThing()
 	// does not delete vertex arrays or
 	// materials, could solve with sharedptr
 	delete[] surfaces;
+}
+
+int BufferThing::GetNumVerts() const
+{
+	int numvertices = 0;
+	for (int i=0; i < numSurfaces; i++) {
+		numvertices += surfaces[i].GetNumVerts();
+	}
+	return numvertices;
 }
 
 Renderer::Renderer(int w, int h) :

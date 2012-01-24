@@ -301,17 +301,13 @@ bool RendererLegacy::DrawBufferThing(BufferThing *t)
 	if (!t->cached) {
 		glGenBuffers(1, &t->buffy);
 
-		//XXX add getnumvertices to surface
-		int numvertices = 0;
-		for (int i=0; i < t->numSurfaces; i++) {
-			numvertices += t->surfaces->vertices->GetNumVerts();
-		}
+		const int numvertices = t->GetNumVerts();
 		assert(numvertices > 0);
 
 		UnlitVertex *vts = new UnlitVertex[numvertices];
 		int next = 0;
 		for (int i=0; i < t->numSurfaces; i++) {
-			for(int j=0; j<t->surfaces[i].vertices->GetNumVerts(); j++) {
+			for(int j=0; j<t->surfaces[i].GetNumVerts(); j++) {
 				vts[next].position = t->surfaces[i].vertices->position[j];
 				vts[next].color = t->surfaces[i].vertices->diffuse[j];
 				next++;
@@ -336,8 +332,8 @@ bool RendererLegacy::DrawBufferThing(BufferThing *t)
 	int start = 0;
 	// XXX save start & numverts somewhere
 	for (int i=0; i < t->numSurfaces; i++) {
-		glDrawArrays(t->primitiveType, start, t->surfaces->vertices->GetNumVerts());
-		start += t->surfaces->vertices->GetNumVerts();
+		glDrawArrays(t->primitiveType, start, t->surfaces[i].GetNumVerts());
+		start += t->surfaces[i].GetNumVerts();
 	}
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);

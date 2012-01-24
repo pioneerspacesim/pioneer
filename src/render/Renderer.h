@@ -118,26 +118,26 @@ struct Material {
 		TYPE_DEFAULT = 0,
 		TYPE_PLANETRING
 	};
-	Material() { memset(this, 0, sizeof(Material)); }
+	MaterialType type;
 	Texture *texture0;
 	//Texture *texture1;
 	//Color diffuse;
 	//Color ambient;
 	//Color specular;
 	bool unlit;
-	MaterialType type;
 	bool twoSided;
 	//etc
+	Material() : type(TYPE_DEFAULT), texture0(0), unlit(false), twoSided(false) { }
 };
 
 // surface with a material
 // can have indices
 struct Surface {
 	Surface() : vertices(0), mat(0) { }
+	int GetNumVerts() const;
 	std::vector<unsigned short> indices;
 	VertexArray *vertices;
 	Material* mat;
-	//Texture separately or part of material?
 };
 
 // can hold multiple surfaces
@@ -147,10 +147,13 @@ public:
 	BufferThing();
 	BufferThing(int num_surfaces);
 	~BufferThing();
+	int GetNumVerts() const;
+
 	int numSurfaces;
 	Surface *surfaces;
 	bool cached;
 	PrimitiveType primitiveType;
+
 private:
 	friend class Renderer;
 	friend class RendererLegacy;
