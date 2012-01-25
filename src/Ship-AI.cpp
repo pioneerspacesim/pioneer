@@ -9,6 +9,7 @@
 #include "SpaceStation.h"
 #include "Space.h"
 #include "LuaConstants.h"
+#include "KeyBindings.h"
 
 
 
@@ -359,7 +360,14 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 //	vector3d cav = GetAngVelocity() * rot;				// current obj-rel angvel
 	vector3d diff = (dav - cav) / frameAccel;					// find diff between current & desired angvel
 
-	diff.z = m_angThrusters.z;  // Leave roll unchanged
+	// If the player is pressing a roll key, don't override roll.
+	// XXX this really shouldn't be here. a better way would be to have a
+	// field in Ship describing the wanted angvel adjustment from input. the
+	// baseclass version in Ship would always be 0. the version in Player
+	// would be constructed from user input. that adjustment could then be
+	// considered by this method when computing the required change
+	if (IsType(Object::PLAYER) && (KeyBindings::rollLeft.IsActive() || KeyBindings::rollRight.IsActive()))
+		diff.z = m_angThrusters.z;
 	SetAngThrusterState(diff);
 	return ang;
 }
