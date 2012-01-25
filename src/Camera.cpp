@@ -141,7 +141,7 @@ void Camera::Draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	matrix4x4d trans2bg;
-	Frame::GetFrameTransform(Pi::game->GetSpace()->GetRootFrame(), m_camFrame, trans2bg);
+	Frame::GetFrameRenderTransform(Pi::game->GetSpace()->GetRootFrame(), m_camFrame, trans2bg);
 	trans2bg.ClearToRotOnly();
 	Pi::game->GetSpace()->GetBackground().Draw(trans2bg);
 

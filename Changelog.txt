@@ -12,6 +12,9 @@ Alpha 19
      * Ensure bulletin board is created before ship docks with station (#899)
      * Don't propogate mouse wheel events in one view to other views (#903, #225)
      * Show distance to dock on target square when docking clearance is granted (#902)
+     * Fix crashes if Lua Space, Timer or UI methods are called before the
+       game loads (#885, #911)
+     * Fix background star jitter (#910)
 
    * Script changes
      * Removed NameGen.PlanetName and replaced with NameGen.BodyName (#896)
@@ -21,6 +24,8 @@ Alpha 19
    * Internal changes
      * New Texture class and subclasses to manage all kinds of GL texture
        creation and use (#892, #900, #901)
+     * Simplified autotools build system by using pkg-config for all
+       dependencies (#909, #353)
 
 Alpha 18
 
