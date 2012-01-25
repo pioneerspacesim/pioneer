@@ -6,7 +6,7 @@ Alpha 19
      * Joystick deadzone support (#870)
 
    * Minor changes and tweaks
-     * Roll keys now work while using mouse control (#904, #850, #278)
+     * Roll keys now work while using mouse control (#904, #850, #278, #914, #919)
 
    * Fixes
      * Ensure bulletin board is created before ship docks with station (#899)
