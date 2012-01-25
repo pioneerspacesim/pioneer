@@ -116,28 +116,38 @@ local addShipCargo = function (ship, direction)
 	local size_factor = empty_space / 20
 	local cargo = {}
 
-	while total < empty_space do
-		local cargo_type
+	if direction == 'import' and #imports == 1 then
+		total = ship:AddEquip(imports[1], empty_space)
+		cargo[imports[1]] = total
+	elseif direction == 'export' and #exports == 1 then
+		total = ship:AddEquip(exports[1], empty_space)
+		cargo[exports[1]] = total
+	elseif (direction == 'import' and #imports > 1) or
+			(direction == 'export' and #exports > 1) then
+		while total < empty_space do
+			local cargo_type
 
-		-- get random for direction
-		if direction == 'import' then
-			cargo_type = imports[Engine.rand:Integer(1, #imports)]
-		else
-			cargo_type = exports[Engine.rand:Integer(1, #exports)]
+			-- get random for direction
+			if direction == 'import' then
+				cargo_type = imports[Engine.rand:Integer(1, #imports)]
+			else
+				cargo_type = exports[Engine.rand:Integer(1, #exports)]
+			end
+
+			-- amount based on price and size of ship
+			local num = math.abs(prices[cargo_type]) * size_factor
+			num = Engine.rand:Integer(num, num * 2)
+
+			local added = ship:AddEquip(cargo_type, num)
+			if cargo[cargo_type] == nil then
+				cargo[cargo_type] = added
+			else
+				cargo[cargo_type] = cargo[cargo_type] + added
+			end
+			total = total + added
 		end
-
-		-- amount based on price and size of ship
-		local num = math.abs(prices[cargo_type]) * size_factor
-		num = Engine.rand:Integer(num, num * 2)
-
-		local added = ship:AddEquip(cargo_type, num)
-		if cargo[cargo_type] == nil then
-			cargo[cargo_type] = added
-		else
-			cargo[cargo_type] = cargo[cargo_type] + added
-		end
-		total = total + added
 	end
+	-- if the table for direction was empty then cargo is empty and total is 0
 
 	trade_ships[ship]['cargo'] = cargo
 	return total
