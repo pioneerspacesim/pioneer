@@ -6,8 +6,10 @@
 Terrain *Terrain::InstanceTerrain(const SBody *body)
 {
 	// special case for heightmaps
-	if (body->heightMapFilename)
-		return new TerrainGenerator<TerrainHeightMapped,TerrainColorEarthLike>(body);
+	if (body->heightMapFilename) {
+		if (body->heightMapType == 1) return new TerrainGenerator<TerrainHeightMapped,TerrainColorEarthLike>(body);
+		else if (body->heightMapType == 4) return new TerrainGenerator<TerrainHeightMapped4,TerrainColorAsteroid>(body);
+	}
 
 	MTRand rand(body->seed);
 
@@ -274,21 +276,42 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 	return gi(body);
 }
 
-Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed), m_heightMap(0) {
+Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed), m_heightMap(0), m_heightScaling(0), m_minh(0) {
 
 	// load the heightmap
 	if (m_body->heightMapFilename) {
-		FILE *f;
-		f = fopen_or_die(m_body->heightMapFilename, "rb");
-		// read size!
-		Uint16 v;
-		fread_or_die(&v, 2, 1, f); m_heightMapSizeX = v;
-		fread_or_die(&v, 2, 1, f); m_heightMapSizeY = v;
-		m_heightMap = new Sint16[m_heightMapSizeX * m_heightMapSizeY];
-		// XXX TODO XXX what about bigendian archs...
-		fread_or_die(m_heightMap, sizeof(Sint16), m_heightMapSizeX * m_heightMapSizeY, f);
-		fclose(f);
+		if (m_body->heightMapType==1){ 
+			FILE *f;
+			f = fopen_or_die(m_body->heightMapFilename, "rb");
+			// read size!
+			Uint16 v;
+			fread_or_die(&v, 2, 1, f); m_heightMapSizeX = v;
+			fread_or_die(&v, 2, 1, f); m_heightMapSizeY = v;
+			m_heightMap = new Sint16[m_heightMapSizeX * m_heightMapSizeY];
+			// XXX TODO XXX what about bigendian archs...
+			fread_or_die(m_heightMap, sizeof(Sint16), m_heightMapSizeX * m_heightMapSizeY, f);
+			fclose(f);
+			
+		}else if (m_body->heightMapType == 4){
+			FILE *f;
+			f = fopen_or_die(m_body->heightMapFilename, "rb");
+			// read size!
+			Uint16 v;
+			fread_or_die(&v, 2, 1, f); m_heightMapSizeY = v;
+			fread_or_die(&v, 2, 1, f); m_heightMapSizeX = v; 
+			// read height scaling and min height which are doubles
+			double te; fread_or_die(&te, 8, 1, f); m_heightScaling = te;fread_or_die(&te, 8, 1, f); m_minh = te;
+			m_heightMapScaled = new Uint16[m_heightMapSizeX * m_heightMapSizeY];
+			// XXX TODO XXX what about bigendian archs...
+			fread_or_die(m_heightMapScaled, sizeof(Uint16), m_heightMapSizeX * m_heightMapSizeY, f);
+			fclose(f);
+
+		}
+
+
 	}
+
+
 
 	switch (Pi::detail.textures) {
 		case 0: textures = false;
