@@ -361,7 +361,7 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 	vector3d diff = (dav - cav) / frameAccel;					// find diff between current & desired angvel
 
 	// If the player is pressing a roll key, don't override roll.
-	if (this == (Ship *)Pi::player && (KeyBindings::rollLeft.IsActive() || KeyBindings::rollRight.IsActive()))
+	if (IsType(Object::PLAYER) && (KeyBindings::rollLeft.IsActive() || KeyBindings::rollRight.IsActive()))
 		diff.z = m_angThrusters.z;
 	SetAngThrusterState(diff);
 	return ang;
