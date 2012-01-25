@@ -571,7 +571,12 @@ local onShipDocked = function (ship, starport)
 
 	-- delay undocking by 30-45 seconds for every unit of cargo transfered
 	-- or 2-3 minutes for every unit of hull repaired
-	trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
+	if delay > 0 then
+		trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
+	else
+		trader['delay'] = Game.time + Engine.rand:Number(600, 3600)
+	end
+
 	if trader.status == 'docked' then
 		Timer:CallAt(trader.delay, function () doUndock(ship) end)
 	end
