@@ -473,6 +473,8 @@ Terrain::~Terrain()
 {
 	if (m_heightMap)
 		delete [] m_heightMap;
+	if (m_heightMapScaled)
+		delete [] m_heightMapScaled;
 }
 
 
