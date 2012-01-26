@@ -22,14 +22,15 @@
 
 enum ScannerBlobWeight { WEIGHT_LIGHT, WEIGHT_HEAVY };
 
-static const GLfloat scannerNavTargetColour[3]     = { 0,      1.0f,   0      };
-static const GLfloat scannerCombatTargetColour[3]  = { 1.0f,   0,      0      };
-static const GLfloat scannerStationColour[3]       = { 1.0f,   1.0f,   1.0f   };
-static const GLfloat scannerShipColour[3]          = { 0.953f, 0.929f, 0.114f };
-static const GLfloat scannerMissileColour[3]       = { 0.941f, 0.149f, 0.196f };
-static const GLfloat scannerPlayerMissileColour[3] = { 0.953f, 0.929f, 0.114f };
-static const GLfloat scannerCargoColour[3]         = { 0.65f,  0.65f,  0.65f  };
-static const GLfloat scannerCloudColour[3]         = { 0.5f,   0.5f,   1.0f   };
+// XXX target colours should be unified throughout the game
+static const Color scannerNavTargetColour     = Color( 0,      1.0f,   0      );
+static const Color scannerCombatTargetColour  = Color( 1.0f,   0,      0      );
+static const Color scannerStationColour       = Color( 1.0f,   1.0f,   1.0f   );
+static const Color scannerShipColour          = Color( 0.953f, 0.929f, 0.114f );
+static const Color scannerMissileColour       = Color( 0.941f, 0.149f, 0.196f );
+static const Color scannerPlayerMissileColour = Color( 0.953f, 0.929f, 0.114f );
+static const Color scannerCargoColour         = Color( 0.65f,  0.65f,  0.65f  );
+static const Color scannerCloudColour         = Color( 0.5f,   0.5f,   1.0f   );
 
 MsgLogWidget::MsgLogWidget()
 {
@@ -321,55 +322,49 @@ void ScannerWidget::Update()
 		m_targetRange = m_manualRange;
 }
 
-// XXX remove after scannerCombatTargetColour are actual Colors
-static Color float3ToColor(const GLfloat *f)
-{
-	return Color(f[0], f[1], f[2], 1.f);
-}
-
 void ScannerWidget::DrawBlobs(bool below)
 {
 	for (std::list<Contact>::iterator i = m_contacts.begin(); i != m_contacts.end(); ++i) {
 		ScannerBlobWeight weight = WEIGHT_LIGHT;
 
-		Color color;
+		const Color *color = 0;
 
 		switch (i->type) {
 			case Object::SHIP:
 				if (i->isSpecial)
-					color = float3ToColor(scannerCombatTargetColour);
+					color = &scannerCombatTargetColour;
 				else
-					color = float3ToColor(scannerShipColour);
+					color = &scannerShipColour;
 				weight = WEIGHT_HEAVY;
 				break;
 
 			case Object::MISSILE:
 				if (i->isSpecial)
-					color = float3ToColor(scannerPlayerMissileColour);
+					color = &scannerPlayerMissileColour;
 				else
-					color = float3ToColor(scannerMissileColour);
+					color = &scannerMissileColour;
 				break;
 
 			case Object::SPACESTATION:
 				if (i->isSpecial)
-					color = float3ToColor(scannerNavTargetColour);
+					color = &scannerNavTargetColour;
 				else
-					color = float3ToColor(scannerStationColour);
+					color = &scannerStationColour;
 				weight = WEIGHT_HEAVY;
 				break;
 
 			case Object::CARGOBODY:
 				if (i->isSpecial)
-					color = float3ToColor(scannerNavTargetColour);
+					color = &scannerNavTargetColour;
 				else
-					color = float3ToColor(scannerCargoColour);
+					color = &scannerCargoColour;
 				break;
 
 			case Object::HYPERSPACECLOUD:
 				if (i->isSpecial)
-					color = float3ToColor(scannerNavTargetColour);
+					color = &scannerNavTargetColour;
 				else
-					color = float3ToColor(scannerCloudColour);
+					color = &scannerCloudColour;
 				break;
 
 			default:
@@ -397,12 +392,13 @@ void ScannerWidget::DrawBlobs(bool below)
 		float y_base = m_y + m_y * SCANNER_YSHRINK * float(pos.z) * m_scale;
 		float y_blob = y_base - m_y * SCANNER_YSHRINK * float(pos.y) * m_scale;
 
+		glColor3f(color->r, color->g, color->b);
 		glBegin(GL_LINES);
 		glVertex2f(x, y_base);
 		glVertex2f(x, y_blob);
 		glEnd();
 
-		m_renderer->DrawPoints2D(1, &vector2f(x, y_blob), &color, pointSize);
+		m_renderer->DrawPoints2D(1, &vector2f(x, y_blob), color, pointSize);
 	}
 }
 
