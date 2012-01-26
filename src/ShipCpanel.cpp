@@ -102,7 +102,7 @@ void ShipCpanel::InitObject()
 	cam_button->AddState(WorldView::CAM_FRONT, PIONEER_DATA_DIR "/icons/cam_front.png", PIONEER_DATA_DIR "/icons/cam_front_on.png", Lang::FRONT_VIEW);
 	cam_button->AddState(WorldView::CAM_REAR, PIONEER_DATA_DIR "/icons/cam_rear.png", PIONEER_DATA_DIR "/icons/cam_rear_on.png", Lang::REAR_VIEW);
 	cam_button->AddState(WorldView::CAM_EXTERNAL, PIONEER_DATA_DIR "/icons/cam_external.png", PIONEER_DATA_DIR "/icons/cam_external_on.png", Lang::EXTERNAL_VIEW);
-	cam_button->AddState(WorldView::CAM_SIDEREAL, PIONEER_DATA_DIR "/icons/cam_external.png", PIONEER_DATA_DIR "/icons/cam_external_on.png", Lang::SIDEREAL_VIEW);
+	cam_button->AddState(WorldView::CAM_STATIONARY, PIONEER_DATA_DIR "/icons/cam_external.png", PIONEER_DATA_DIR "/icons/cam_external_on.png", Lang::STATIONARY_VIEW);
 	cam_button->SetShortcut(SDLK_F1, KMOD_NONE);
 	cam_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeCamView));
 	Add(cam_button, 2, 56);

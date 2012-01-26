@@ -738,8 +738,8 @@ REAR_VIEW
     Rear view
 EXTERNAL_VIEW
     External view
-SIDEREAL_VIEW
-    Sidereal view
+STATIONARY_VIEW
+    Stationary view
 NAVIGATION_STAR_MAPS
     Navigation and star maps
 COMMS

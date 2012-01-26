@@ -30,10 +30,10 @@ public:
 	void DrawBgStars();
 	vector3d GetExternalViewTranslation();
 	matrix4x4d GetExternalViewRotation();
-	vector3d GetSiderealViewTranslation();
-	matrix4x4d GetSiderealViewRotation();
+	vector3d GetStationaryViewTranslation();
+	matrix4x4d GetStationaryViewRotation();
 	virtual void Save(Serializer::Writer &wr);
-	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL, CAM_SIDEREAL };
+	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL, CAM_STATIONARY };
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const;
 	int GetNumLights() const { return m_numLights; }
@@ -46,8 +46,8 @@ public:
 	double m_externalViewRotX, m_externalViewRotY;
 	double m_externalViewDist;
 	
-	matrix4x4d m_siderealViewOrient;
-	double m_siderealViewDist;
+	matrix4x4d m_stationaryViewOrient;
+	double m_stationaryViewDist;
 
 private:
 	void InitObject();
@@ -75,7 +75,7 @@ private:
 		}
 	};
 
-	void UpdateSiderealView();
+	void UpdateStationaryView();
 	
 	void UpdateProjectedObjects();
 	void UpdateIndicator(Indicator &indicator, const vector3d &direction);
@@ -143,7 +143,7 @@ private:
 	Gui::LabelSet *m_bodyLabels;
 	std::map<Body*,vector3d> m_projectedPos;
 
-	Camera *m_frontCamera, *m_rearCamera, *m_externalCamera, *m_siderealCamera;
+	Camera *m_frontCamera, *m_rearCamera, *m_externalCamera, *m_stationaryCamera;
 	Camera *m_activeCamera;
 
 	Indicator m_velIndicator;
