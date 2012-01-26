@@ -23,6 +23,8 @@ public:
 
 	virtual bool DrawLines(int vertCount, const LineVertex *vertices, LineType lineType=LINE_SINGLE);
 	virtual bool DrawLines2D(int vertCount, const LineVertex2D *vertices, LineType lineType=LINE_SINGLE);
+	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, float pointSize=1.f);
+	virtual bool DrawPoints2D(int count, const vector2f *points, const Color *colors, float pointSize=1.f);
 	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES);
 	virtual bool DrawTriangles2D(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES);
 	virtual bool DrawSurface2D(const Surface *surface);

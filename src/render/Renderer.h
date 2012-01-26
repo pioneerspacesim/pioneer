@@ -197,14 +197,14 @@ public:
 	//2d drawing is generally understood to be for gui use (unlit, ortho projection)
 	virtual bool DrawLines(int vertCount, const LineVertex *vertices, LineType type=LINE_SINGLE)  { return false; }
 	virtual bool DrawLines2D(int vertCount, const LineVertex2D *vertices, LineType type=LINE_SINGLE)  { return false; }
+	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, float pointSize=1.f) { return false; }
+	virtual bool DrawPoints2D(int count, const vector2f *points, const Color *colors, float pointSize=1.f) { return false; }
 	//unindexed triangle draw
 	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES)  { return false; }
 	virtual bool DrawTriangles2D(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES)  { return false; }
 	//indexed triangle draw (only triangles, no strips or fans)
 	virtual bool DrawSurface(const Surface *surface) { return false; }
 	virtual bool DrawSurface2D(const Surface *surface) { return false; }
-
-	//virtual bool DrawPoints(...)
 	//virtual bool DrawPointSprites(...) //high amount of textured quads for particles etc
 
 	virtual bool DrawStaticMesh(StaticMesh *thing) { return false; }
