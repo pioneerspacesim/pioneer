@@ -321,60 +321,69 @@ void ScannerWidget::Update()
 		m_targetRange = m_manualRange;
 }
 
+// XXX remove after scannerCombatTargetColour are actual Colors
+static Color float3ToColor(const GLfloat *f)
+{
+	return Color(f[0], f[1], f[2], 1.f);
+}
+
 void ScannerWidget::DrawBlobs(bool below)
 {
 	for (std::list<Contact>::iterator i = m_contacts.begin(); i != m_contacts.end(); ++i) {
 		ScannerBlobWeight weight = WEIGHT_LIGHT;
 
+		Color color;
+
 		switch (i->type) {
 			case Object::SHIP:
 				if (i->isSpecial)
-					glColor3fv(scannerCombatTargetColour);
+					color = float3ToColor(scannerCombatTargetColour);
 				else
-					glColor3fv(scannerShipColour);
+					color = float3ToColor(scannerShipColour);
 				weight = WEIGHT_HEAVY;
 				break;
 
 			case Object::MISSILE:
 				if (i->isSpecial)
-					glColor3fv(scannerPlayerMissileColour);
+					color = float3ToColor(scannerPlayerMissileColour);
 				else
-					glColor3fv(scannerMissileColour);
+					color = float3ToColor(scannerMissileColour);
 				break;
 
 			case Object::SPACESTATION:
 				if (i->isSpecial)
-					glColor3fv(scannerNavTargetColour);
+					color = float3ToColor(scannerNavTargetColour);
 				else
-					glColor3fv(scannerStationColour);
+					color = float3ToColor(scannerStationColour);
 				weight = WEIGHT_HEAVY;
 				break;
 
 			case Object::CARGOBODY:
 				if (i->isSpecial)
-					glColor3fv(scannerNavTargetColour);
+					color = float3ToColor(scannerNavTargetColour);
 				else
-					glColor3fv(scannerCargoColour);
+					color = float3ToColor(scannerCargoColour);
 				break;
 
 			case Object::HYPERSPACECLOUD:
 				if (i->isSpecial)
-					glColor3fv(scannerNavTargetColour);
+					color = float3ToColor(scannerNavTargetColour);
 				else
-					glColor3fv(scannerCloudColour);
+					color = float3ToColor(scannerCloudColour);
 				break;
 
 			default:
 				continue;
 		}
 
+		float pointSize = 1.f;
 		if (weight == WEIGHT_LIGHT) {
 			glLineWidth(1);
-			glPointSize(3);
+			pointSize = 3.f;
 		}
 		else {
 			glLineWidth(2);
-			glPointSize(4);
+			pointSize = 4.f;
 		}
 
 		matrix4x4d rot;
@@ -393,9 +402,7 @@ void ScannerWidget::DrawBlobs(bool below)
 		glVertex2f(x, y_blob);
 		glEnd();
 
-		glBegin(GL_POINTS);
-		glVertex2f(x, y_blob);
-		glEnd();
+		m_renderer->DrawPoints2D(1, &vector2f(x, y_blob), &color, pointSize);
 	}
 }
 

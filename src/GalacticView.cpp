@@ -131,12 +131,8 @@ void GalacticView::Draw3D()
 	m_renderer->DrawTriangles2D(&va, &m, QUADS);
 
 	// "you are here" dot
-	glColor3f(0.0,1.0,0.0);
-	glPointSize(3.0);
-	glBegin(GL_POINTS);
-		glVertex2f(offset_x, offset_y);
-	glEnd();
-	glPointSize(1.0);
+	Color green(0.f, 1.f, 0.f, 1.f);
+	m_renderer->DrawPoints2D(1, &vector2f(offset_x, offset_y), &green, 3.f);
 
 	// scale at the top
 	glLoadIdentity();
