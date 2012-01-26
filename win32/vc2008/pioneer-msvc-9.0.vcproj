@@ -48,7 +48,7 @@
 				SmallerTypeCheck="true"
 				RuntimeLibrary="3"
 				FloatingPointModel="2"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="pch.h"
 				ProgramDataBaseFileName="$(IntDir)\$(ProjectName)D.pdb"
 				WarningLevel="3"
@@ -67,7 +67,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15d.lib"
-				OutputFile="$(OutDir)\$(ProjectName)_debug.exe"
+				OutputFile="$(SolutionDir)\..\..\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\lib"
 				IgnoreDefaultLibraryNames="libcmt.lib"
@@ -136,7 +136,7 @@
 				BufferSecurityCheck="false"
 				EnableEnhancedInstructionSet="0"
 				FloatingPointModel="2"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="pch.h"
 				ProgramDataBaseFileName="$(IntDir)\$(ProjectName).pdb"
 				WarningLevel="3"
@@ -155,7 +155,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15.lib"
-				OutputFile="$(OutDir)\$(ProjectName)_release.exe"
+				OutputFile="$(SolutionDir)\..\..\$(ProjectName).exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\lib"
 				GenerateDebugInformation="true"
@@ -225,7 +225,7 @@
 				BufferSecurityCheck="false"
 				EnableEnhancedInstructionSet="0"
 				FloatingPointModel="2"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="pch.h"
 				ProgramDataBaseFileName="$(IntDir)\$(ProjectName)D.pdb"
 				WarningLevel="3"
@@ -244,7 +244,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15d.lib"
-				OutputFile="$(OutDir)\$(ProjectName)_debug.exe"
+				OutputFile="$(SolutionDir)\..\..\$(ProjectName)_prerelease.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\lib"
 				IgnoreDefaultLibraryNames="libcmt.lib"
@@ -346,6 +346,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\FileSelectorWidget.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\FontConfig.cpp"
 				>
 			</File>
@@ -370,7 +374,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Game.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\GameConfig.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\GameLoaderSaver.cpp"
 				>
 			</File>
 			<File
@@ -650,6 +662,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\MathUtil.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Missile.cpp"
 				>
 			</File>
@@ -663,10 +679,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\MyLuaMathTypes.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\NameGenerator.cpp"
 				>
 			</File>
 			<File
@@ -743,10 +755,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\render\RenderTarget.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\render\RenderTexture.cpp"
 				>
 			</File>
 			<File
@@ -1066,11 +1074,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\TextureFont.cpp"
+				RelativePath="..\..\src\Texture.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\TextureManager.cpp"
+				RelativePath="..\..\src\TextureCache.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\TextureFont.cpp"
 				>
 			</File>
 			<File
@@ -1184,6 +1196,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\FileSelectorWidget.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\fixed.h"
 				>
 			</File>
@@ -1216,11 +1232,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Game.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\GameConfig.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\gameconsts.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\GameLoaderSaver.h"
 				>
 			</File>
 			<File
@@ -1516,6 +1540,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\MathUtil.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\matrix4x4.h"
 				>
 			</File>
@@ -1541,10 +1569,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\MyLuaMathTypes.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\NameGenerator.h"
 				>
 			</File>
 			<File
@@ -1625,10 +1649,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\render\RenderTarget.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\render\RenderTexture.h"
 				>
 			</File>
 			<File
@@ -1776,11 +1796,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\TextureFont.h"
+				RelativePath="..\..\src\Texture.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\TextureManager.h"
+				RelativePath="..\..\src\TextureCache.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\TextureFont.h"
 				>
 			</File>
 			<File
