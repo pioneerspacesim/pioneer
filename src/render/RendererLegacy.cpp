@@ -293,7 +293,7 @@ struct UnlitVertex {
 	Color color;
 };
 
-bool RendererLegacy::DrawBufferThing(BufferThing *t)
+bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 {
 	if (!t) return false;
 

@@ -28,7 +28,7 @@ public:
 	virtual bool DrawSurface2D(const Surface *surface);
 
 	// meant for geometry that is worthwhile to store in VBOs etc.
-	virtual bool DrawBufferThing(BufferThing *thing);
+	virtual bool DrawStaticMesh(StaticMesh *thing);
 
 protected:
 	int m_numLights;

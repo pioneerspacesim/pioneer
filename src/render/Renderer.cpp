@@ -67,7 +67,7 @@ int Surface::GetNumVerts() const
 		return 0;
 }
 
-BufferThing::BufferThing()
+StaticMesh::StaticMesh()
 {
 	buffy = 0;
 	numSurfaces = 0;
@@ -76,7 +76,7 @@ BufferThing::BufferThing()
 	primitiveType = TRIANGLES;
 }
 
-BufferThing::BufferThing(int n)
+StaticMesh::StaticMesh(int n)
 {
 	buffy = 0;
 	numSurfaces = 0;
@@ -90,14 +90,14 @@ BufferThing::BufferThing(int n)
 	}
 }
 
-BufferThing::~BufferThing()
+StaticMesh::~StaticMesh()
 {
 	// does not delete vertex arrays or
 	// materials, could solve with sharedptr
 	delete[] surfaces;
 }
 
-int BufferThing::GetNumVerts() const
+int StaticMesh::GetNumVerts() const
 {
 	int numvertices = 0;
 	for (int i=0; i < numSurfaces; i++) {

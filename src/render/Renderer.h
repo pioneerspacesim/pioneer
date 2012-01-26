@@ -147,13 +147,14 @@ struct Surface {
 	//int numIndices; should be same as indices.size()
 };
 
-// can hold multiple surfaces
-// *may* be cached by the renderer
-class BufferThing {
+// Geometry that changes rarely or never
+// May be cached by the renderer
+// Can hold multiple surfaces
+class StaticMesh {
 public:
-	BufferThing();
-	BufferThing(int num_surfaces);
-	~BufferThing();
+	StaticMesh();
+	StaticMesh(int num_surfaces);
+	~StaticMesh();
 	int GetNumVerts() const;
 
 	int numSurfaces;
@@ -206,7 +207,7 @@ public:
 	//virtual bool DrawPoints(...)
 	//virtual bool DrawPointSprites(...) //high amount of textured quads for particles etc
 
-	virtual bool DrawBufferThing(BufferThing *thing) { return false; }
+	virtual bool DrawStaticMesh(StaticMesh *thing) { return false; }
 
 protected:
 	int m_width;

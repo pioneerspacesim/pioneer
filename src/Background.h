@@ -4,7 +4,7 @@
 #include "libs.h"
 #include "render/Render.h"
 
-class BufferThing;
+class StaticMesh;
 struct VertexArray;
 /*
  * Classes to draw background stars and the milky way
@@ -24,7 +24,7 @@ namespace Background
 		void Fill(unsigned long seed);
 	private:
 		static const int BG_STAR_MAX = 65536;
-		BufferThing *m_model;
+		StaticMesh *m_model;
 		VertexArray *m_stars;
 		Render::Shader *m_shader;
 	};
@@ -36,7 +36,7 @@ namespace Background
 		~MilkyWay();
 		void Draw();
 	private:
-		BufferThing *m_model;
+		StaticMesh *m_model;
 	};
 
 	// contains starfield, milkyway, possibly other Background elements

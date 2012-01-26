@@ -17,7 +17,7 @@ Starfield::Starfield()
 	// reserve some space for positions, colours
 	m_stars = new VertexArray(BG_STAR_MAX, true, false);
 	// one "surface"
-	m_model = new BufferThing(1);
+	m_model = new StaticMesh(1);
 	m_shader = new Render::Shader("bgstars");
 	//starfield is not filled without a seed
 }
@@ -25,7 +25,7 @@ Starfield::Starfield()
 Starfield::Starfield(unsigned long seed)
 {
 	m_stars = new VertexArray(BG_STAR_MAX, true, false);
-	m_model = new BufferThing(1);
+	m_model = new StaticMesh(1);
 	Fill(seed);
 	m_shader = new Render::Shader("bgstars");
 }
@@ -99,7 +99,7 @@ void Starfield::Draw()
 
 	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-		Pi::renderer->DrawBufferThing(m_model);
+		Pi::renderer->DrawStaticMesh(m_model);
 	} else {
 		/* HYPERSPACING!!!!!!!!!!!!!!!!!!! */
 		/* all this jizz isn't really necessary, since the player will
@@ -146,7 +146,7 @@ void Starfield::Draw()
 
 MilkyWay::MilkyWay()
 {
-	m_model = new BufferThing();
+	m_model = new StaticMesh();
 	m_model->numSurfaces = 2;
 	m_model->surfaces = new Surface[2];
 	m_model->primitiveType = TRIANGLE_STRIP;
@@ -205,7 +205,7 @@ MilkyWay::MilkyWay()
 
 MilkyWay::~MilkyWay()
 {
-	//XXX release bufferthing (or let renderer do it?)
+	//XXX release StaticMesh (or let renderer do it?)
 	delete m_model;
 }
 
@@ -214,7 +214,7 @@ void MilkyWay::Draw()
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 	assert(m_model != 0);
-	Pi::renderer->DrawBufferThing(m_model);
+	Pi::renderer->DrawStaticMesh(m_model);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 }
