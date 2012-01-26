@@ -86,6 +86,11 @@ namespace Render {
 		}
 		bool Compile(const char *shader_name, const char *additional_defines = 0);
 		SHADER_UNIFORM_FLOAT(invLogZfarPlus1);
+
+		//some quick uniform stuff
+		void SetUniform1f(const char *name, int v) {
+			glUniform1f(glGetUniformLocation(m_program, name), v);
+		}
 	protected:
 		GLuint m_program;
 	private:

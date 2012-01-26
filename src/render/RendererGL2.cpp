@@ -2,15 +2,17 @@
 #include "Render.h"
 #include "Texture.h"
 
+Render::Shader *simpleTextured;
+
 RendererGL2::RendererGL2(int w, int h) :
 	RendererLegacy(w, h)
 {
-
+	simpleTextured = new Render::Shader("simpleTextured");
 }
 
 RendererGL2::~RendererGL2()
 {
-
+	delete simpleTextured;
 }
 
 // XXX copypaste from legacy renderer
@@ -28,12 +30,16 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, const Material *m, Primiti
 		glDisable(GL_CULL_FACE);
 
 	//program choice
+	Render::Shader *s = 0;
 	if (!m)
-		Render::State::UseProgram(Render::simpleShader);
+		s = Render::simpleShader;
 	else if(m->type == Material::TYPE_PLANETRING) {
 		const int lights = Clamp(m_numLights-1, 0, 3);
-		Render::State::UseProgram(Render::planetRingsShader[lights]);
-	}
+		s = Render::planetRingsShader[lights];
+	} else if (textured)
+		s = simpleTextured;
+	if (s)
+		Render::State::UseProgram(s);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->position[0]));
@@ -48,9 +54,9 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, const Material *m, Primiti
 		glNormalPointer(GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->normal[0]));
 	}
 	if (textured) {
-		//XXX need a simple texturedShader
 		assert(v->uv0.size() == v->position.size());
 		m->texture0->Bind();
+		s->SetUniform1f("texture0", 0);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glTexCoordPointer(2, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
 	}
@@ -70,9 +76,7 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, const Material *m, Primiti
 		glEnable(GL_CULL_FACE);
 
 	// XXX won't be necessary
-	if (!m)
-		Render::State::UseProgram(0);
-	else if(m->type == Material::TYPE_PLANETRING)
+	if (s)
 		Render::State::UseProgram(0);
 
 	return true;
