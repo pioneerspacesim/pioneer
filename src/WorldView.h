@@ -30,8 +30,10 @@ public:
 	void DrawBgStars();
 	vector3d GetExternalViewTranslation();
 	matrix4x4d GetExternalViewRotation();
+	vector3d GetSiderealViewTranslation();
+	matrix4x4d GetSiderealViewRotation();
 	virtual void Save(Serializer::Writer &wr);
-	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL };
+	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL, CAM_SIDEREAL };
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const;
 	int GetNumLights() const { return m_numLights; }
@@ -43,6 +45,9 @@ public:
 
 	double m_externalViewRotX, m_externalViewRotY;
 	double m_externalViewDist;
+	
+	matrix4x4d m_siderealViewOrient;
+	double m_siderealViewDist;
 
 private:
 	void InitObject();
@@ -70,6 +75,8 @@ private:
 		}
 	};
 
+	void UpdateSiderealView();
+	
 	void UpdateProjectedObjects();
 	void UpdateIndicator(Indicator &indicator, const vector3d &direction);
 	void HideIndicator(Indicator &indicator);
@@ -101,6 +108,8 @@ private:
 	Body* PickBody(const double screenX, const double screenY) const;
 	void MouseButtonDown(int button, int x, int y);
 
+	matrix4x4d m_prevShipOrient;
+	
 	Gui::ImageButton *m_hyperspaceButton;
 	bool m_showHyperspaceButton;
 
@@ -134,7 +143,7 @@ private:
 	Gui::LabelSet *m_bodyLabels;
 	std::map<Body*,vector3d> m_projectedPos;
 
-	Camera *m_frontCamera, *m_rearCamera, *m_externalCamera;
+	Camera *m_frontCamera, *m_rearCamera, *m_externalCamera, *m_siderealCamera;
 	Camera *m_activeCamera;
 
 	Indicator m_velIndicator;
