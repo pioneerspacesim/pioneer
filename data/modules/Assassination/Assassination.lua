@@ -106,16 +106,24 @@ local RandomShipRegId = function ()
 	return string.format("%s%s-%04d", letters:sub(a,a), letters:sub(b,b), Engine.rand:Integer(0, 9999))
 end
 
+local nearbysystems
 local makeAdvert = function (station)
 	local ass_flavours = Translate:GetFlavours('Assassination')
-	local nearbysystems = Game.system:GetNearbySystems(max_ass_dist, function (s) return #s:GetStationPaths() > 0 end)
+	if nearbysystems == nil then
+		nearbysystems = Game.system:GetNearbySystems(max_ass_dist, function (s) return #s:GetStationPaths() > 0 end)
+	end
 	if #nearbysystems == 0 then return end
 	local isfemale = Engine.rand:Integer(1) == 1
 	local client = NameGen.FullName(isfemale)
 	local targetIsfemale = Engine.rand:Integer(1) == 1
 	local target = t('TITLE')[Engine.rand:Integer(1, #t('TITLE'))] .. " " .. NameGen.FullName(targetIsfemale)
 	local flavour = Engine.rand:Integer(1, #ass_flavours)
-	local nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
+	local nearbysystem
+	if #nearbysystems == 1 then
+		nearbysystem = nearbysystems[1]
+	else
+		nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
+	end
 	local nearbystations = nearbysystem:GetStationPaths()
 	local location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
 	local time = Engine.rand:Number(0.3, 3)
@@ -249,6 +257,12 @@ local onEnterSystem = function (ship)
 				end
 			end
 		end
+	end
+end
+
+local onLeaveSystem = function (ship)
+	if ship:IsPlayer() then
+		nearbysystems = nil
 	end
 end
 
@@ -389,6 +403,7 @@ end
 EventQueue.onCreateBB:Connect(onCreateBB)
 EventQueue.onGameStart:Connect(onGameStart)
 EventQueue.onEnterSystem:Connect(onEnterSystem)
+EventQueue.onLeaveSystem:Connect(onLeaveSystem)
 EventQueue.onShipDestroyed:Connect(onShipDestroyed)
 EventQueue.onShipUndocked:Connect(onShipUndocked)
 EventQueue.onAICompleted:Connect(onAICompleted)
