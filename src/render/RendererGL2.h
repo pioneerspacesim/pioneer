@@ -17,5 +17,8 @@ public:
 
 	virtual const char* GetName() { return "GL2 renderer"; }
 
+	virtual bool BeginFrame();
+
+	virtual bool DrawLines(int vertCount, const LineVertex *vertices, LineType type=LINE_SINGLE);
 	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES);
 };

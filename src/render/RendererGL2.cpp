@@ -2,17 +2,100 @@
 #include "Render.h"
 #include "Texture.h"
 
+template <typename T>
+class Buffer {
+private:
+	GLuint m_buf;
+	int m_numverts;
+	int m_size;
+	unsigned int m_target;
+
+public:
+	Buffer(int size) : m_numverts(0), m_size(size) {
+		glGenBuffers(1, &m_buf);
+		m_target = GL_ARRAY_BUFFER;
+		Bind();
+		// create data storage
+		glBufferData(m_target, sizeof(T)*size, 0, GL_STREAM_DRAW);
+		Unbind();
+	}
+
+	~Buffer() {
+		glDeleteBuffers(1, &m_buf);
+	}
+
+	void Bind() {
+		glBindBuffer(m_target, m_buf);
+	}
+
+	void Unbind() {
+		glBindBuffer(m_target, 0);
+	}
+
+	void Reset() {
+		m_numverts = 0;
+	}
+
+	int BufferData(int count, const T *v) {
+		assert(m_numverts += count <= m_size);
+		glBufferSubData(m_target, m_numverts*sizeof(T), count*sizeof(T), v);
+		int start = m_numverts;
+		m_numverts += count;
+		return start;
+	}
+
+	void Draw(GLenum pt, int start, int count) {
+
+	}
+};
+
+template<> void Buffer<LineVertex>::Draw(GLenum pt, int start, int count) {
+	glVertexPointer(3, GL_FLOAT, sizeof(LineVertex), reinterpret_cast<const GLvoid *>(offsetof(LineVertex, position)));
+	glColorPointer(4, GL_FLOAT, sizeof(LineVertex), reinterpret_cast<const GLvoid *>(offsetof(LineVertex, color)));
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glDrawArrays(pt, start, count);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+}
+
 Render::Shader *simpleTextured;
+Buffer<LineVertex> *lineBuffer;
 
 RendererGL2::RendererGL2(int w, int h) :
 	RendererLegacy(w, h)
 {
 	simpleTextured = new Render::Shader("simpleTextured");
+	lineBuffer = new Buffer<LineVertex>(1000);
 }
 
 RendererGL2::~RendererGL2()
 {
 	delete simpleTextured;
+	delete lineBuffer;
+}
+
+bool RendererGL2::BeginFrame()
+{
+	lineBuffer->Reset();
+	Render::PrepareFrame();
+	glClearColor(0,0,0,0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	return true;
+}
+
+bool RendererGL2::DrawLines(int count, const LineVertex *v, LineType t)
+{
+	if (count < 2 || !v) return false;
+
+	Render::State::UseProgram(Render::simpleShader);
+	lineBuffer->Bind();
+	int offset = lineBuffer->BufferData(count, v);
+	lineBuffer->Draw(t, offset, count);
+	lineBuffer->Unbind();
+	Render::State::UseProgram(0);
+
+	return true;
 }
 
 // XXX copypaste from legacy renderer
