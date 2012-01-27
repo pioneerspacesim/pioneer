@@ -78,13 +78,13 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 		}
 
 		case SBody::TYPE_PLANET_ASTEROID:
-			gi = InstanceGenerator<TerrainHeightAsteroid,TerrainColorAsteroid>;
+			gi = InstanceGenerator<TerrainHeightAsteroid4,TerrainColorAsteroid>;
 			break;
 
 		case SBody::TYPE_PLANET_TERRESTRIAL: {
 
 			//Over-ride:
-			gi = InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorRock>;
+			gi = InstanceGenerator<TerrainHeightAsteroid3,TerrainColorRock>;
 			break;
 			// Earth-like world
 			/*
