@@ -131,6 +131,9 @@ private:
 
 class TerrainHeightFlat;
 class TerrainHeightAsteroid;
+class TerrainHeightAsteroid2;
+class TerrainHeightAsteroid3;
+class TerrainHeightAsteroid4;
 class TerrainHeightBarrenRock;
 class TerrainHeightBarrenRock2;
 class TerrainHeightBarrenRock3;
