@@ -226,18 +226,29 @@ bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, Prim
 {
 	if (!v || v->position.size() < 3) return false;
 
-	glPushAttrib(GL_LIGHTING_BIT | GL_ENABLE_BIT);
-	if (!m || m->unlit) glDisable(GL_LIGHTING);
+	bool diffuse = !v->diffuse.empty();
 
-	const bool diffuse = !v->diffuse.empty();
 	const bool textured = (m && m->texture0 && v->uv0.size() == v->position.size());
 	const bool normals = !v->normal.empty();
 	const unsigned int numverts = v->position.size();
-	const bool twoSided = (m && m->twoSided);
 
-	if (twoSided) {
-		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-		glDisable(GL_CULL_FACE);
+	glPushAttrib(GL_LIGHTING_BIT | GL_ENABLE_BIT);
+
+	if (m) {
+		if (m->unlit) {
+			glDisable(GL_LIGHTING);
+			if (!diffuse) {
+				//overall color supplied by material
+				glColor4f(m->diffuse.r, m->diffuse.g, m->diffuse.b, m->diffuse.a);
+			}
+		} else {
+			glEnable(GL_LIGHTING);
+			glMaterialfv (GL_FRONT, GL_DIFFUSE, &m->diffuse[0]);
+		}
+		if (m->twoSided) {
+			glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+			glDisable(GL_CULL_FACE);
+		}
 	}
 
 	glEnableClientState(GL_VERTEX_ARRAY);
