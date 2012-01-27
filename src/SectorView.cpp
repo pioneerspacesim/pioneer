@@ -318,8 +318,6 @@ void SectorView::Draw3D()
 		m_distanceLabel->SetText("");
 	}
 
-	glDisable(GL_LIGHTING);
-
 	// units are lightyears, my friend
 	glTranslatef(0, 0, -10-10*m_zoom);
 	glRotatef(m_rotX, 1, 0, 0);
@@ -347,7 +345,6 @@ void SectorView::Draw3D()
 	glDisable(GL_LINE_SMOOTH);
 
 	m_renderer->SetBlendMode(BLEND_SOLID);
-	glEnable(GL_LIGHTING);
 }
 
 void SectorView::SetHyperspaceTarget(const SystemPath &path)
@@ -532,6 +529,7 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 	int cz = int(floor(m_pos.z+0.5f));
 
 	if (cz == sz) {
+		//dark green
 		const Color c = Color(0.f, 0.2f, 0.f, 1.f);
 		const LineVertex vts[] = {
 			LineVertex(vector3f(0.f, 0.f, 0.f), c),
@@ -543,7 +541,6 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 		m_renderer->DrawLines(4, vts, LINE_LOOP);
 	}
 
-	if (!(sx || sy)) glColor3f(1,1,0);
 	Uint32 num=0;
 	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i, ++num) {
 		SystemPath current = SystemPath(sx, sy, sz, num);

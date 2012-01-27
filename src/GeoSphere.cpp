@@ -1300,6 +1300,7 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 	}
 	// XXX atmosphere material
 	Material dummyAtmoMaterial;
+	dummyAtmoMaterial.type = Material::TYPE_ATMOSPHERE;
 	renderer->DrawTriangles(&va, &dummyAtmoMaterial, TRIANGLE_FAN);
 
 	/* and wound latitudinal strips */

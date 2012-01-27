@@ -116,7 +116,8 @@ struct VertexArray {
 struct Material {
 	enum MaterialType {
 		TYPE_DEFAULT = 0,
-		TYPE_PLANETRING
+		TYPE_PLANETRING,
+		TYPE_ATMOSPHERE
 	};
 	MaterialType type;
 	Texture *texture0;

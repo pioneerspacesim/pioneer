@@ -60,18 +60,21 @@ template<> void Buffer<LineVertex>::Draw(GLenum pt, int start, int count) {
 }
 
 Render::Shader *simpleTextured;
+Render::Shader *flatProg;
 Buffer<LineVertex> *lineBuffer;
 
 RendererGL2::RendererGL2(int w, int h) :
 	RendererLegacy(w, h)
 {
 	simpleTextured = new Render::Shader("simpleTextured");
+	flatProg = new Render::Shader("flat");
 	lineBuffer = new Buffer<LineVertex>(1000);
 }
 
 RendererGL2::~RendererGL2()
 {
 	delete simpleTextured;
+	delete flatProg;
 	delete lineBuffer;
 }
 
@@ -90,6 +93,7 @@ bool RendererGL2::DrawLines(int count, const LineVertex *v, LineType t)
 
 	Render::State::UseProgram(Render::simpleShader);
 	lineBuffer->Bind();
+	//since it's drawn immediately, there isn't much point in having the offset
 	int offset = lineBuffer->BufferData(count, v);
 	lineBuffer->Draw(t, offset, count);
 	lineBuffer->Unbind();
@@ -108,6 +112,7 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, const Material *m, Primiti
 	const bool normals = !v->normal.empty();
 	const unsigned int numverts = v->position.size();
 	const bool twoSided = (m && m->twoSided);
+	const bool flat = (m && m->type == Material::TYPE_DEFAULT && v->diffuse.empty());
 
 	if (twoSided)
 		glDisable(GL_CULL_FACE);
@@ -116,6 +121,8 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, const Material *m, Primiti
 	Render::Shader *s = 0;
 	if (!m)
 		s = Render::simpleShader;
+	else if (flat)
+		s = flatProg;
 	else if(m->type == Material::TYPE_PLANETRING) {
 		const int lights = Clamp(m_numLights-1, 0, 3);
 		s = Render::planetRingsShader[lights];
@@ -139,9 +146,13 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, const Material *m, Primiti
 	if (textured) {
 		assert(v->uv0.size() == v->position.size());
 		m->texture0->Bind();
-		s->SetUniform1f("texture0", 0);
+		s->SetUniform1i("texture0", 0);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glTexCoordPointer(2, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
+	}
+	if (flat) {
+		assert(diffuse == false);
+		s->SetUniform4f("color", m->diffuse);
 	}
 
 	glDrawArrays(t, 0, numverts);
