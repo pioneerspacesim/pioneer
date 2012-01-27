@@ -121,7 +121,7 @@ struct Material {
 	MaterialType type;
 	Texture *texture0;
 	//Texture *texture1;
-	//Color diffuse;
+	Color diffuse;
 	//Color ambient;
 	//Color specular;
 	bool unlit;

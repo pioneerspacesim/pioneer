@@ -101,10 +101,17 @@ void SectorView::InitObject()
 	m_searchBox->onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnSearchBoxKeyPress));
 	Add(m_searchBox, 700, 500);
 
-	m_gluDiskDlist = glGenLists(1);
-	glNewList(m_gluDiskDlist, GL_COMPILE);
-	gluDisk(Pi::gluQuadric, 0.0, 0.2, 40, 1);
-	glEndList();
+	// selection highlight disk
+	// (wound counterclockwise)
+	// color will be determined by a material
+	m_disk.Add(vector3f(0.f, 0.f, 0.f));
+	const float rad = 0.2f;
+	for (int i = 72; i >= 0; i--) {
+		m_disk.Add(vector3f(
+			0.f+sinf(DEG2RAD(i*5))*rad,
+			0.f+cosf(DEG2RAD(i*5))*rad,
+			0.f));
+	}
 	
 	m_infoBox = new Gui::VBox();
 	m_infoBox->SetTransparency(false);
@@ -189,7 +196,6 @@ void SectorView::InitObject()
 
 SectorView::~SectorView()
 {
-	glDeleteLists(m_gluDiskDlist, 1);
 	m_onMouseButtonDown.disconnect();
 	if (m_onKeyPressConnection.connected()) m_onKeyPressConnection.disconnect();
 }
@@ -597,42 +603,46 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 			DrawArrow(-3.0f*sysAbsPos.Normalized(), Color(0.f, 0.8f, 0.f, 1.f));
 		}
 
+		Material mat;
+		mat.unlit = true;
+
 		// draw star blob itself
-		glColor3fv(StarSystem::starColors[(*i).starType[0]]);
 		glPushMatrix();
 		glRotatef(-m_rotZ, 0, 0, 1);
 		glRotatef(-m_rotX, 1, 0, 0);
 		glScalef((StarSystem::starScale[(*i).starType[0]]),
 			(StarSystem::starScale[(*i).starType[0]]),
 			(StarSystem::starScale[(*i).starType[0]]));
-		glCallList(m_gluDiskDlist);
+		float *col = StarSystem::starColors[(*i).starType[0]];
+		mat.diffuse = Color(col[0], col[1], col[2]);
+		m_renderer->DrawTriangles(&m_disk, &mat, TRIANGLE_FAN);
 		glScalef(2,2,2);
 
 		// player location indicator
 		if (m_inSystem && current == m_current) {
 			glPushMatrix();
 			glDepthRange(0.2,1.0);
-			glColor3f(0,0,0.8);
 			glScalef(3,3,3);
-			glCallList(m_gluDiskDlist);
+			mat.diffuse = Color(0.f, 0.f, 0.8f);
+			m_renderer->DrawTriangles(&m_disk, &mat, TRIANGLE_FAN);
 			glPopMatrix();
 		}
 		// selected indicator
 		if (current == m_selected) {
 			glPushMatrix();
 			glDepthRange(0.1,1.0);
-			glColor3f(0,0.8,0);
 			glScalef(2,2,2);
-			glCallList(m_gluDiskDlist);
+			mat.diffuse = Color(0.f, 0.8f, 0.0f);
+			m_renderer->DrawTriangles(&m_disk, &mat, TRIANGLE_FAN);
 			glPopMatrix();
 		}
 		// hyperspace target indicator (if different from selection)
 		if (current == m_hyperspaceTarget && m_hyperspaceTarget != m_selected && (!m_inSystem || m_hyperspaceTarget != m_current)) {
 			glPushMatrix();
 			glDepthRange(0.1,1.0);
-			glColor3f(0.3,0.3,0.3);
 			glScalef(2,2,2);
-			glCallList(m_gluDiskDlist);
+			mat.diffuse = Color(0.3f);
+			m_renderer->DrawTriangles(&m_disk, &mat, TRIANGLE_FAN);
 			glPopMatrix();
 		}
 		glDepthRange(0,1);
@@ -651,7 +661,6 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 		}
 
 		PutClickableLabel((*i).name, labelColor, current);
-		glDisable(GL_LIGHTING);
 
 		glPopMatrix();
 	}

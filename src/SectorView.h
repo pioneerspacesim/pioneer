@@ -9,6 +9,7 @@
 #include "View.h"
 #include "Sector.h"
 #include "SystemPath.h"
+#include "render/Renderer.h"
 
 class SectorView: public View {
 public:
@@ -90,7 +91,7 @@ private:
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::ImageButton *m_galaxyButton;
 	Gui::TextEntry *m_searchBox;
-	GLuint m_gluDiskDlist;
+	VertexArray m_disk;
 	
 	Gui::LabelSet *m_clickableLabels;
 
