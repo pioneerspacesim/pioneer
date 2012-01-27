@@ -206,8 +206,9 @@ public:
 	//indexed triangle draw (only triangles, no strips or fans)
 	virtual bool DrawSurface(const Surface *surface) { return false; }
 	virtual bool DrawSurface2D(const Surface *surface) { return false; }
-	//virtual bool DrawPointSprites(...) //high amount of textured quads for particles etc
-
+	//high amount of textured quads for particles etc
+	virtual bool DrawPointSprites(int count, const vector3f *positions, const Material *material, float size) { return false; }
+	//complex unchanging geometry that is worthwhile to store in VBOs etc.
 	virtual bool DrawStaticMesh(StaticMesh *thing) { return false; }
 
 protected:

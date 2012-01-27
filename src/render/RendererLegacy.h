@@ -28,8 +28,7 @@ public:
 	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES);
 	virtual bool DrawTriangles2D(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES);
 	virtual bool DrawSurface2D(const Surface *surface);
-
-	// meant for geometry that is worthwhile to store in VBOs etc.
+	virtual bool DrawPointSprites(int count, const vector3f *positions, const Material *material, float size);
 	virtual bool DrawStaticMesh(StaticMesh *thing);
 
 protected:
