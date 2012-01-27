@@ -18,8 +18,8 @@ TerrainHeightFractal<TerrainHeightAsteroid>::TerrainHeightFractal(const SBody *b
 template <>
 double TerrainHeightFractal<TerrainHeightAsteroid>::GetHeight(const vector3d &p)
 {
-	float heightmap = octavenoise(8, 0.2*octavenoise(1, 0.3, 3.7, p), 15.0*octavenoise(1, 0.5, 4.0, p), p) - 
-		0.75*billow_octavenoise(16*octavenoise(1, 0.275, 3.2, p), 0.4*octavenoise(1, 0.4, 3.0, p), 4.0*octavenoise(1, 0.35, 3.7, p), p);
+	float heightmap = octavenoise(8, 0.2*octavenoise(4, 0.3, 3.7, p), 15.0*octavenoise(1, 0.5, 4.0, p), p) - 
+		0.75*billow_octavenoise(16*octavenoise(3, 0.275, 3.2, p), 0.4*octavenoise(2, 0.4, 3.0, p), 4.0*octavenoise(1, 0.35, 3.7, p), p);
 
 	return m_maxHeight*heightmap;
 }
