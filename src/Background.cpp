@@ -82,7 +82,7 @@ void Starfield::Fill(unsigned long seed)
 	//XXX not nice
 	m_model->surfaces[0].vertices = va;
 	m_model->numSurfaces = 1;
-	m_model->primitiveType = POINTS;
+	m_model->primitiveType = TYPE_POINTS;
 }
 
 void Starfield::Draw()

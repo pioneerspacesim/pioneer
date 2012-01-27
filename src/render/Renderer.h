@@ -35,7 +35,7 @@ enum PrimitiveType {
 	TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
 	TRIANGLE_FAN = GL_TRIANGLE_FAN,
 	QUADS = GL_QUADS, // XXX not available in ES2, replace with strips
-	POINTS = GL_POINTS
+	TYPE_POINTS = GL_POINTS
 };
 
 enum BlendMode {
