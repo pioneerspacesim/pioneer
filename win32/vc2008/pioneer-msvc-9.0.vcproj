@@ -990,6 +990,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\terrain\TerrainHeightAsteroid2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightAsteroid3.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightAsteroid4.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\terrain\TerrainHeightBarrenRock.cpp"
 				>
 			</File>
