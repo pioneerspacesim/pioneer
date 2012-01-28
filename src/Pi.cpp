@@ -1177,7 +1177,7 @@ void Pi::Start()
 
 		Pi::SetMouseGrab(false);
 
-		draw_intro(background, _time);
+		//draw_intro(background, _time);
 		Pi::renderer->EndFrame();
 		Gui::Draw(Pi::renderer);
 		Pi::renderer->SwapBuffers();

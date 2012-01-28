@@ -137,13 +137,13 @@ void GalacticView::Draw3D()
 	// scale at the top
 	glLoadIdentity();
 	Color white(1.f);
-	const LineVertex2D vts[] = {
-		LineVertex2D(-0.25,-0.93, white),
-		LineVertex2D(-0.25,-0.94, white),
-		LineVertex2D(0.25,-0.94, white),
-		LineVertex2D(0.25,-0.93, white)
+	const vector2f vts[] = {
+		vector2f(-0.25,-0.93),
+		vector2f(-0.25,-0.94),
+		vector2f(0.25,-0.94),
+		vector2f(0.25,-0.93)
 	};
-	m_renderer->DrawLines2D(4, vts, LINE_STRIP);
+	m_renderer->DrawLines2D(4, vts, white, LINE_STRIP);
 
 	m_labels->Clear();
 	PutLabels(-vector3d(offset_x, offset_y, 0.0));

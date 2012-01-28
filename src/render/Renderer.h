@@ -69,14 +69,6 @@ struct LineVertex {
 	Color color;
 };
 
-struct LineVertex2D {
-	LineVertex2D() : position(0.f), color(0.f) { }
-	LineVertex2D(float x, float y, const Color &c) : position(x, y), color(c) { }
-	LineVertex2D(const vector2f &pos, const Color &c) : position(pos), color(c) { }
-	vector2f position;
-	Color color;
-};
-
 // this is a generic collection of vertex attributes. Renderers do
 // whatever they need to do with regards to the attribute set.
 // Presence of an attribute is checked using vector size, so users are trusted
@@ -197,7 +189,8 @@ public:
 	//drawing functions
 	//2d drawing is generally understood to be for gui use (unlit, ortho projection)
 	virtual bool DrawLines(int vertCount, const LineVertex *vertices, LineType type=LINE_SINGLE)  { return false; }
-	virtual bool DrawLines2D(int vertCount, const LineVertex2D *vertices, LineType type=LINE_SINGLE)  { return false; }
+	//flat colour lines (implement multicolour drawing when you need it)
+	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, LineType type=LINE_SINGLE) { return false; }
 	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, float pointSize=1.f) { return false; }
 	virtual bool DrawPoints2D(int count, const vector2f *points, const Color *colors, float pointSize=1.f) { return false; }
 	//unindexed triangle draw

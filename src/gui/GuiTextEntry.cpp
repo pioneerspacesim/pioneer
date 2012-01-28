@@ -195,11 +195,11 @@ void TextEntry::Draw()
 
 	/* Cursor */
 	const Color grey(0.5f, 0.5f, 0.5f, 0.5f);
-	const LineVertex2D vts[] = {
-		LineVertex2D(curs_x + 1.0f - m_scroll, curs_y - Gui::Screen::GetFontHeight(m_font) - 1.0f, grey),
-		LineVertex2D(curs_x + 1.0f - m_scroll, curs_y + 1.0f, grey)
+	const vector2f vts[] = {
+		vector2f(curs_x + 1.0f - m_scroll, curs_y - Gui::Screen::GetFontHeight(m_font) - 1.0f),
+		vector2f(curs_x + 1.0f - m_scroll, curs_y + 1.0f)
 	};
-	GetRenderer()->DrawLines2D(2, &vts[0]);
+	GetRenderer()->DrawLines2D(2, &vts[0], grey);
 	
 	EndClipping();
 }

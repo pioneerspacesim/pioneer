@@ -1435,17 +1435,17 @@ void WorldView::Draw()
 
 void WorldView::DrawCrosshair(float px, float py, float sz, const Color &c)
 {
-	const LineVertex2D vts[] = {
-		LineVertex2D(vector2f(px-sz, py), c),
-		LineVertex2D(vector2f(px-0.5f*sz, py), c),
-		LineVertex2D(vector2f(px+sz, py), c),
-		LineVertex2D(vector2f(px+0.5f*sz, py), c),
-		LineVertex2D(vector2f(px, py-sz), c),
-		LineVertex2D(vector2f(px, py-0.5f*sz), c),
-		LineVertex2D(vector2f(px, py+sz), c),
-		LineVertex2D(vector2f(px, py+0.5f*sz), c)
+	const vector2f vts[] = {
+		vector2f(px-sz, py),
+		vector2f(px-0.5f*sz, py),
+		vector2f(px+sz, py),
+		vector2f(px+0.5f*sz, py),
+		vector2f(px, py-sz),
+		vector2f(px, py-0.5f*sz),
+		vector2f(px, py+sz),
+		vector2f(px, py+0.5f*sz)
 	};
-	m_renderer->DrawLines2D(8, vts);
+	m_renderer->DrawLines2D(8, vts, c);
 }
 
 void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c)
@@ -1470,31 +1470,31 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 			}
 		}
 
-		const LineVertex2D vts[] = {
+		const vector2f vts[] = {
 			// target crosshairs
-			LineVertex2D(vector2f(x1+10*xd, y1+10*yd), c),
-			LineVertex2D(vector2f(x1+20*xd, y1+20*yd), c),
-			LineVertex2D(vector2f(x1-10*xd, y1-10*yd), c),
-			LineVertex2D(vector2f(x1-20*xd, y1-20*yd), c),
-			LineVertex2D(vector2f(x1-10*yd, y1+10*xd), c),
-			LineVertex2D(vector2f(x1-20*yd, y1+20*xd), c),
-			LineVertex2D(vector2f(x1+10*yd, y1-10*xd), c),
-			LineVertex2D(vector2f(x1+20*yd, y1-20*xd), c),
+			vector2f(x1+10*xd, y1+10*yd),
+			vector2f(x1+20*xd, y1+20*yd),
+			vector2f(x1-10*xd, y1-10*yd),
+			vector2f(x1-20*xd, y1-20*yd),
+			vector2f(x1-10*yd, y1+10*xd),
+			vector2f(x1-20*yd, y1+20*xd),
+			vector2f(x1+10*yd, y1-10*xd),
+			vector2f(x1+20*yd, y1-20*xd),
 
 			// lead crosshairs
-			LineVertex2D(vector2f(x2-10*xd, y2-10*yd), c),
-			LineVertex2D(vector2f(x2+10*xd, y2+10*yd), c),  
-			LineVertex2D(vector2f(x2-10*yd, y2+10*xd), c),
-			LineVertex2D(vector2f(x2+10*yd, y2-10*xd), c),
+			vector2f(x2-10*xd, y2-10*yd),
+			vector2f(x2+10*xd, y2+10*yd),  
+			vector2f(x2-10*yd, y2+10*xd),
+			vector2f(x2+10*yd, y2-10*xd),
 
 			// line between crosshairs
-			LineVertex2D(vector2f(x1+20*xd, y1+20*yd), c),
-			LineVertex2D(vector2f(x2-10*xd, y2-10*yd), c)
+			vector2f(x1+20*xd, y1+20*yd),
+			vector2f(x2-10*xd, y2-10*yd)
 		};
 		if (lead.side == INDICATOR_ONSCREEN)
-			m_renderer->DrawLines2D(14, vts); //draw all
+			m_renderer->DrawLines2D(14, vts, c); //draw all
 		else
-			m_renderer->DrawLines2D(8, vts); //only crosshair
+			m_renderer->DrawLines2D(8, vts, c); //only crosshair
 	} else
 		DrawEdgeMarker(target, c);
 }
@@ -1514,13 +1514,13 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 	const float y1 = float(marker.pos[1] - sz);
 	const float y2 = float(marker.pos[1] + sz);
 
-	const LineVertex2D vts[] = {
-		LineVertex2D(vector2f(x1, y1), c),
-		LineVertex2D(vector2f(x2, y1), c),
-		LineVertex2D(vector2f(x2, y2), c),
-		LineVertex2D(vector2f(x1, y2), c)
+	const vector2f vts[] = {
+		vector2f(x1, y1),
+		vector2f(x2, y1),
+		vector2f(x2, y2),
+		vector2f(x1, y2)
 	};
-	m_renderer->DrawLines2D(4, vts, LINE_LOOP);
+	m_renderer->DrawLines2D(4, vts, c, LINE_LOOP);
 }
 
 void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
@@ -1531,17 +1531,17 @@ void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
 	if (marker.side == INDICATOR_ONSCREEN) {
 		const float posx = marker.pos[0];
 		const float posy = marker.pos[1];
-		const LineVertex2D vts[] = {
-			LineVertex2D(vector2f(posx-sz, posy-sz), c),
-			LineVertex2D(vector2f(posx-0.5f*sz, posy-0.5f*sz), c),
-			LineVertex2D(vector2f(posx+sz, posy-sz), c),
-			LineVertex2D(vector2f(posx+0.5f*sz, posy-0.5f*sz), c),
-			LineVertex2D(vector2f(posx+sz, posy+sz), c),
-			LineVertex2D(vector2f(posx+0.5f*sz, posy+0.5f*sz), c),
-			LineVertex2D(vector2f(posx-sz, posy+sz), c),
-			LineVertex2D(vector2f(posx-0.5f*sz, posy+0.5f*sz), c)
+		const vector2f vts[] = {
+			vector2f(posx-sz, posy-sz),
+			vector2f(posx-0.5f*sz, posy-0.5f*sz),
+			vector2f(posx+sz, posy-sz),
+			vector2f(posx+0.5f*sz, posy-0.5f*sz),
+			vector2f(posx+sz, posy+sz),
+			vector2f(posx+0.5f*sz, posy+0.5f*sz),
+			vector2f(posx-sz, posy+sz),
+			vector2f(posx-0.5f*sz, posy+0.5f*sz)
 		};
-		m_renderer->DrawLines2D(8, vts);
+		m_renderer->DrawLines2D(8, vts, c);
 	} else
 		DrawEdgeMarker(marker, c);
 
@@ -1551,18 +1551,18 @@ void WorldView::DrawCircleIndicator(const Indicator &marker, const Color &c)
 {
 	if (marker.side == INDICATOR_HIDDEN) return;
 
+	// XXX implement DrawCircle
 	const float sz = HUD_CROSSHAIR_SIZE*0.5;
 	if (marker.side == INDICATOR_ONSCREEN) {
 		const float posx = marker.pos[0];
 		const float posy = marker.pos[1];
-		std::vector<LineVertex2D> vts;
+		std::vector<vector2f> vts;
 		for (int i = 0; i < 72; i++) {
-			vts.push_back(LineVertex2D(vector2f(
+			vts.push_back(vector2f(
 				posx+sinf(DEG2RAD(i*5))*sz,
-				posy+cosf(DEG2RAD(i*5))*sz),
-				c));
+				posy+cosf(DEG2RAD(i*5))*sz));
 		}
-		m_renderer->DrawLines2D(72, &vts[0], LINE_LOOP);
+		m_renderer->DrawLines2D(72, &vts[0], c, LINE_LOOP);
 	} else
 		DrawEdgeMarker(marker, c);
 }
@@ -1593,11 +1593,11 @@ void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 	float len = sqrt(dirx*dirx + diry*diry);
 	dirx *= sz/len;
 	diry *= sz/len;
-	const LineVertex2D vts[] = {
-		LineVertex2D(vector2f(marker.pos[0], marker.pos[1]), c),
-		LineVertex2D(vector2f(marker.pos[0] + dirx, marker.pos[1] + diry), c)
+	const vector2f vts[] = {
+		vector2f(marker.pos[0], marker.pos[1]),
+		vector2f(marker.pos[0] + dirx, marker.pos[1] + diry)
 	};
-	m_renderer->DrawLines2D(2, vts);
+	m_renderer->DrawLines2D(2, vts, c);
 }
 
 void WorldView::MouseButtonDown(int button, int x, int y)

@@ -131,17 +131,16 @@ bool RendererLegacy::DrawLines(int count, const LineVertex *v, LineType type)
 	return true;
 }
 
-bool RendererLegacy::DrawLines2D(int count, const LineVertex2D *v, LineType type)
+bool RendererLegacy::DrawLines2D(int count, const vector2f *v, const Color &c, LineType t)
 {
-	if (count < 2) return false;
+	if (count < 2 || !v) return false;
 
+	glColor4f(c.r, c.g, c.b, c.a);
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(2, GL_FLOAT, sizeof(LineVertex2D), &v[0].position);
-	glColorPointer(4, GL_FLOAT, sizeof(LineVertex2D), &v[0].color);
-	glDrawArrays(type, 0, count);
+	glVertexPointer(2, GL_FLOAT, sizeof(vector2f), v);
+	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
+	glColor4f(1.f, 1.f, 1.f, 1.f);
 
 	return true;
 }

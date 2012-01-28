@@ -435,14 +435,14 @@ void SystemInfoView::BodyIcon::Draw()
 	if (!GetSelected()) return;
 	float size[2];
 	GetSize(size);
-	Color c = Color(0.f, 1.f, 0.f, 1.f);
-	const LineVertex2D vts[] = {
-		LineVertex2D(vector2f(0.f, 0.f), c),
-		LineVertex2D(vector2f(size[0], 0.f), c),
-		LineVertex2D(vector2f(size[0], size[1]), c),
-		LineVertex2D(vector2f(0.f, size[1]), c)
+	Color green = Color(0.f, 1.f, 0.f, 1.f);
+	const vector2f vts[] = {
+		vector2f(0.f, 0.f),
+		vector2f(size[0], 0.f),
+		vector2f(size[0], size[1]),
+		vector2f(0.f, size[1]),
 	};
-	m_renderer->DrawLines2D(4, vts, LINE_LOOP);
+	m_renderer->DrawLines2D(4, vts, green, LINE_LOOP);
 }
 
 void SystemInfoView::BodyIcon::OnActivate()
