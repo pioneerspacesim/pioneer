@@ -102,6 +102,21 @@ bool RendererGL2::DrawLines(int count, const LineVertex *v, LineType t)
 	return true;
 }
 
+bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineType t)
+{
+	if (count < 2 || !v) return false;
+
+	Render::State::UseProgram(flatProg);
+	flatProg->SetUniform4f("color", c);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
+	glDrawArrays(t, 0, count);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	Render::State::UseProgram(0);
+
+	return true;
+}
+
 // XXX copypaste from legacy renderer
 bool RendererGL2::DrawTriangles(const VertexArray *v, const Material *m, PrimitiveType t)
 {

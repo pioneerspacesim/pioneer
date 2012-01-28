@@ -131,6 +131,20 @@ bool RendererLegacy::DrawLines(int count, const LineVertex *v, LineType type)
 	return true;
 }
 
+bool RendererLegacy::DrawLines(int count, const vector3f *v, const Color &c, LineType t)
+{
+	if (count < 2 || !v) return false;
+
+	glColor4f(c.r, c.g, c.b, c.a);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
+	glDrawArrays(t, 0, count);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glColor4f(1.f, 1.f, 1.f, 1.f);
+
+	return true;
+}
+
 bool RendererLegacy::DrawLines2D(int count, const vector2f *v, const Color &c, LineType t)
 {
 	if (count < 2 || !v) return false;

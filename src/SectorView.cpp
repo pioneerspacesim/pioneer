@@ -498,11 +498,11 @@ void SectorView::DrawArrow(const vector3f &direction, const Color &c)
 	// ^^^^ !sol
 	const float headRadius = 0.25f;
 
-	const LineVertex vts[] = {
-		LineVertex(vector3f(direction.x, direction.y, direction.z), c),
-		LineVertex(vector3f(0.f, 0.f, 0.f), c),
+	const vector3f vts[] = {
+		vector3f(direction.x, direction.y, direction.z),
+		vector3f(0.f, 0.f, 0.f),
 	};
-	m_renderer->DrawLines(2, vts, LINE_STRIP);
+	m_renderer->DrawLines(2, vts, c, LINE_STRIP);
 
 	glDisable(GL_CULL_FACE);
 
@@ -529,16 +529,15 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 	int cz = int(floor(m_pos.z+0.5f));
 
 	if (cz == sz) {
-		//dark green
-		const Color c = Color(0.f, 0.2f, 0.f, 1.f);
-		const LineVertex vts[] = {
-			LineVertex(vector3f(0.f, 0.f, 0.f), c),
-			LineVertex(vector3f(0.f, Sector::SIZE, 0.f), c),
-			LineVertex(vector3f(Sector::SIZE, Sector::SIZE, 0.f), c),
-			LineVertex(vector3f(Sector::SIZE, 0.f, 0.f), c)
+		const Color darkgreen(0.f, 0.2f, 0.f, 1.f);
+		const vector3f vts[] = {
+			vector3f(0.f, 0.f, 0.f),
+			vector3f(0.f, Sector::SIZE, 0.f),
+			vector3f(Sector::SIZE, Sector::SIZE, 0.f),
+			vector3f(Sector::SIZE, 0.f, 0.f)
 		};
 	
-		m_renderer->DrawLines(4, vts, LINE_LOOP);
+		m_renderer->DrawLines(4, vts, darkgreen, LINE_LOOP);
 	}
 
 	Uint32 num=0;
@@ -582,19 +581,19 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 		else
 			z = z-abs(cz-sz)*Sector::SIZE;
 
-		const Color c = Color(0.5f, 0.5f, 0.5f, 0.5f);
-		const LineVertex vts[] = {
+		const Color gray(0.5f, 0.5f, 0.5f, 0.5f);
+		const vector3f vts[] = {
 			//vertical bit
-			LineVertex(vector3f(0.f, 0.f, z), c),
-			LineVertex(vector3f(0.f, 0.f, 0.f), c),
+			vector3f(0.f, 0.f, z),
+			vector3f(0.f, 0.f, 0.f),
 
 			//cross at the base
-			LineVertex(vector3f(-0.1f, -0.1f, z), c),
-			LineVertex(vector3f(0.1f, 0.1f, z), c),
-			LineVertex(vector3f(-0.1f, 0.1f, z), c),
-			LineVertex(vector3f(0.1f, -0.1f, z), c)
+			vector3f(-0.1f, -0.1f, z),
+			vector3f(0.1f, 0.1f, z),
+			vector3f(-0.1f, 0.1f, z),
+			vector3f(0.1f, -0.1f, z)
 		};
-		m_renderer->DrawLines(6, vts);
+		m_renderer->DrawLines(6, vts, gray);
 
 		if (current == m_selected && current != SystemPath(0,0,0,0)) {
 			DrawArrow(-3.0f*sysAbsPos.Normalized(), Color(0.f, 0.8f, 0.f, 1.f));
