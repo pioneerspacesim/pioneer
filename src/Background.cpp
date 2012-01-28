@@ -213,11 +213,9 @@ MilkyWay::~MilkyWay()
 void MilkyWay::Draw()
 {
 	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_LIGHTING);
 	assert(m_model != 0);
 	Pi::renderer->DrawStaticMesh(m_model);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
 }
 
 Container::Container()

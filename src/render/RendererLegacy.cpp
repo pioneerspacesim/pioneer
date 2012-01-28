@@ -135,12 +135,17 @@ bool RendererLegacy::DrawLines(int count, const vector3f *v, const Color &c, Lin
 {
 	if (count < 2 || !v) return false;
 
+	glPushAttrib(GL_LIGHTING_BIT);
+	glDisable(GL_LIGHTING);
+
 	glColor4f(c.r, c.g, c.b, c.a);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glColor4f(1.f, 1.f, 1.f, 1.f);
+
+	glPopAttrib();
 
 	return true;
 }
@@ -262,6 +267,10 @@ bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, Prim
 			glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 			glDisable(GL_CULL_FACE);
 		}
+	} else {
+		//unlit, colours per vertex
+		glDisable(GL_LIGHTING);
+		assert(v->diffuse.size() > 0); //not a fatal mistake, but there should be some colour
 	}
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -422,6 +431,10 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 {
 	if (!t) return false;
 
+	// XXX the only static mesh is the background, so cutting some corners
+	glPushAttrib(GL_LIGHTING_BIT);
+	glDisable(GL_LIGHTING);
+
 	// prepare it
 	if (!t->cached) {
 		glGenBuffers(1, &t->buffy);
@@ -464,6 +477,8 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glPopAttrib();
 
 	return true;
 }

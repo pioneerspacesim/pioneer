@@ -266,8 +266,9 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 		r2 = rot * r2;
 	}
 	// XXX atmosphere material
-	Material dummyAtmoMaterial;
-	renderer->DrawTriangles(&vts, &dummyAtmoMaterial, TRIANGLE_STRIP);
+	Material mat;
+	mat.unlit = true;
+	renderer->DrawTriangles(&vts, &mat, TRIANGLE_STRIP);
 
 	glEnable(GL_CULL_FACE);
 	renderer->SetBlendMode(BLEND_SOLID);
