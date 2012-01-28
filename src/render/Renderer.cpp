@@ -73,7 +73,6 @@ StaticMesh::StaticMesh()
 	numSurfaces = 0;
 	surfaces = 0;
 	cached = false;
-	primitiveType = TRIANGLES;
 }
 
 StaticMesh::StaticMesh(int n)
@@ -82,7 +81,6 @@ StaticMesh::StaticMesh(int n)
 	numSurfaces = 0;
 	surfaces = 0;
 	cached = false;
-	primitiveType = TRIANGLES;
 
 	if (n > 0) {
 		numSurfaces = n;

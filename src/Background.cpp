@@ -81,8 +81,8 @@ void Starfield::Fill(unsigned long seed)
 
 	//XXX not nice
 	m_model->surfaces[0].vertices = va;
+	m_model->surfaces[0].primitiveType = TYPE_POINTS;
 	m_model->numSurfaces = 1;
-	m_model->primitiveType = TYPE_POINTS;
 }
 
 void Starfield::Draw()
@@ -149,7 +149,8 @@ MilkyWay::MilkyWay()
 	m_model = new StaticMesh();
 	m_model->numSurfaces = 2;
 	m_model->surfaces = new Surface[2];
-	m_model->primitiveType = TRIANGLE_STRIP;
+	m_model->surfaces[0].primitiveType = TRIANGLE_STRIP;
+	m_model->surfaces[1].primitiveType = TRIANGLE_STRIP;
 
 	//build milky way model in two strips (about 256 verts)
 	//The model is built as a generic vertex array first. The renderer

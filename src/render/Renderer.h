@@ -126,11 +126,12 @@ struct Material {
 // surface with a material
 // can have indices
 struct Surface {
-	Surface() : vertices(0), mat(0) { }
+	Surface() : vertices(0), mat(0), primitiveType(TRIANGLES) { }
 	int GetNumVerts() const;
 	std::vector<unsigned short> indices;
 	VertexArray *vertices;
 	Material* mat;
+	PrimitiveType primitiveType;
 
 	// multiple surfaces can be buffered in one vbo so need to
 	// save starting offset + amount to draw
@@ -153,7 +154,6 @@ public:
 	int numSurfaces;
 	Surface *surfaces;
 	bool cached;
-	PrimitiveType primitiveType;
 
 private:
 	friend class Renderer;
@@ -197,7 +197,7 @@ public:
 	//unindexed triangle draw
 	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES)  { return false; }
 	virtual bool DrawTriangles2D(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES)  { return false; }
-	//indexed triangle draw (only triangles, no strips or fans)
+	//indexed triangle draw
 	virtual bool DrawSurface(const Surface *surface) { return false; }
 	virtual bool DrawSurface2D(const Surface *surface) { return false; }
 	//high amount of textured quads for particles etc
