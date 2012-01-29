@@ -2,7 +2,7 @@ Alpha 19
 
    * New features
      * Lua-based body name generator. Planets and starports now have much more
-       interesting/varied names (#896)
+       interesting/varied names (#896, #926)
      * Joystick deadzone support (#870)
 
    * Minor changes and tweaks
