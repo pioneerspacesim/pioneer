@@ -21,6 +21,7 @@ Programming:
   Sean Bailey
   Brian Ronald
   Taiki Kim
+  Craig Thomson
 
 Art:
   Gernot

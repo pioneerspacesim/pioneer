@@ -1,94 +1,63 @@
-					Pioneer Quickstart Guide
-					~~~~~~~~~~~~~~~~~~~~~~~~
-				   http://pioneerspacesim.net/
+Getting started with Pioneer
+----------------------------
 
-Note: Pioneer is still considered alpha. If you find any bugs or have an idea
-feel free to log them at http://github.com/pioneerspacesim/pioneer/issues
+The principles of the game are largely the same as those of Frontier: Elite 2.
 
-Game Controls
-~~~~~~~~~~~~~
+You can buy and sell on the commodities market, take missions on the bulletin
+board, buy and upgrade ships in the shipyard, when docked. Do all of this with
+the mouse.
 
-The buttons along the bottom of the control panel have numbers next to them
-which correspond to function keys.
+The eight main console buttons are activated by the F1-F8 keys or the mouse.
 
-F1 - Toggle from Front, Rear and external view
-F2 - Toggle star map and system view
-F3 - Ship info
-F4 - When docked show space station menu
+F1: Change view.
+F2: Use the map system.
+F3: Look at your own information.
+F4: Select targets, operate autopilot and communicate.
 
-Pitch, yaw and roll (rotation):
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The next four buttons change function depending on the first four. Hover the
+mouse over them to see what they do.
 
-Key cluster:
-Q W E
-A S D
+F5 turns off the autopilot, and changes between manual flight and set speed
+flight
 
-W - Pitch down
-S - Pitch up
-A - Yaw left
-D - Yaw right
-Q - Roll left
-E - Roll right
-Left-shift - When held down, increases the speed of pitch, roll and yaw controls.
+To fly your ship manually, the keys are:
+Q: Roll left
+W: Pitch forward
+E: Roll right
+A: Yaw left
+S: Pitch up
+D: Yaw right
+U: Ventral thruster (slide up)
+I: Aft thruster (go forwards)
+O: Dorsal thruster (slide down)
+J: Starboard thruster (slide left)
+K: Forward thruster (go backwards)
+L: Port thruster (slide right)
 
+In "set speed" mode, the keys are:
+Q: Roll left
+W: Pitch forward
+E: Roll right
+A: Yaw left
+S: Pitch up
+D: Yaw right
+Enter: Set speed faster
+RightShift: Set speed slower
 
-Thrust:
-~~~~~~~
+You can also steer the ship with your mouse while holding the right mouse
+button.
 
-Key cluster:
-U I O
-J K L
+To jump to another system, use the map (F2) and click on another system. Systems
+with ports are labelled in blue. You need enough Hydrogen to get there, and it
+must be close enough for your ship. F7 will start the hyperdrive.
 
-I - Thrust forward
-K - Thrust backwards
-J - Thrust left
-L - Thrust right
-U - Thrust up
-O - Thrust down
+To fly to a station, press F4, and select one from the right. You can turn on
+the autopilot with the buttons on the left.
 
-Rotation:
-~~~~~~~~~
+Trade is hard. Deliveries are fun, but can be hard. You can cheat extra money by
+pressing Ctrl+M.
 
-Q - Spin left
-E - Spin right
-<left cursor> - yaw left
-<right cursor> - yaw right
-<up cursor> - pitch up
-<down cursor> - pitch down
-
-You can rotate your craft either with the cursor keys or by holding down the
-right mouse button and moving the mouse. Only mouse rotation is available
-in the external view.
-
-Time Acceleration:
-~~~~~~~~~~~~~~~~~~
-
-shift-F1..F5   - controls time acceleration
-
-
-External view:
-~~~~~~~~~~~~~~
-
-Cursor keys - Rotate view, pitch and yaw
-- and =     - Zoom in and out
-Home        - reset distance from ship
-
-Other things:
-~~~~~~~~~~~~~
-
-Tab              - Select object in crosshairs
-Return           - When in Speed Control mode, this increases the set speed
-Right-shift      - When in Speed Control mode, this decreases the set speed
-
-Special things:
-~~~~~~~~~~~~~~~
-
-ctrl-q           - quit
-ctrl-i           - show some ugly debug info
-ctrl-printscreen - screenshot (ctrl-keypad-* on osx)
-ctrl-F9          - quicksave
-ctrl-F10         - view currently selected object
-ctrl-F11         - fullscreen
-ctrl-F12         - add a ship
-ctrl-shift-F12   - add a station
-
+Pioneer is alpha-quality software. Saved games are not guaranteed to load in
+different versions of Pioneer.  The universe might not be the same in the next
+version of Pioneer. Anything can change. The game is not finished, and we would
+like feedback. See README.txt to find out how to do that.

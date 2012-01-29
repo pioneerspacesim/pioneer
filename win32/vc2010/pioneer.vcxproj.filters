@@ -210,9 +210,6 @@
     <ClCompile Include="..\..\src\MyLuaMathTypes.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\NameGenerator.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\ObjectViewerView.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -841,9 +838,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\MyLuaMathTypes.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\NameGenerator.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Object.h">
