@@ -647,7 +647,7 @@ void Ship::TestLanded()
 				DisableBodyOnly();
 				ClearThrusterState();
 				m_flightState = LANDED;
-				Sound::PlaySfx("Rough_Landing", 1.0f, 1.0f, 0);
+				Sound::BodyMakeNoise(this, "Rough_Landing", 1.0f);
 				Pi::luaOnShipLanded->Queue(this, GetFrame()->GetBodyFor());
 			}
 		}
