@@ -95,6 +95,7 @@ local onDelete = function (ref)
 	ads[ref] = nil
 end
 
+local nearbysystems
 local makeAdvert = function (station)
 	local reward, due, location, nearbysystem
 	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
@@ -115,7 +116,9 @@ local makeAdvert = function (station)
 		reward = 25 + (math.sqrt(dist) / 15000) * (1+urgency)
 		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(1.5,3.5) - urgency))
 	else
-		local nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
+		if nearbysystems == nil then
+			nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
+		end
 		if #nearbysystems == 0 then return end
 		nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 		local dist = nearbysystem:DistanceTo(Game.system)
@@ -236,6 +239,12 @@ local onEnterSystem = function (player)
 	end
 end
 
+local onLeaveSystem = function (ship)
+	if ship:IsPlayer() then
+		nearbysystems = nil
+	end
+end
+
 local onShipDocked = function (player, station)
 	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
 	if not player:IsPlayer() then return end
@@ -293,6 +302,7 @@ end
 EventQueue.onCreateBB:Connect(onCreateBB)
 EventQueue.onUpdateBB:Connect(onUpdateBB)
 EventQueue.onEnterSystem:Connect(onEnterSystem)
+EventQueue.onLeaveSystem:Connect(onLeaveSystem)
 EventQueue.onShipDocked:Connect(onShipDocked)
 EventQueue.onGameStart:Connect(onGameStart)
 
