@@ -119,11 +119,7 @@ local makeAdvert = function (station)
 	local target = t('TITLE')[Engine.rand:Integer(1, #t('TITLE'))] .. " " .. NameGen.FullName(targetIsfemale)
 	local flavour = Engine.rand:Integer(1, #ass_flavours)
 	local nearbysystem
-	if #nearbysystems == 1 then
-		nearbysystem = nearbysystems[1]
-	else
-		nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
-	end
+	nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 	local nearbystations = nearbysystem:GetStationPaths()
 	local location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
 	local time = Engine.rand:Number(0.3, 3)

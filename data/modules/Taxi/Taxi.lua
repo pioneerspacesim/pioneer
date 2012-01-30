@@ -143,11 +143,7 @@ local makeAdvert = function (station)
 		nearbysystems = Game.system:GetNearbySystems(max_taxi_dist, function (s) return #s:GetStationPaths() > 0 end)
 	end
 	if #nearbysystems == 0 then return end
-	if #nearbysystems == 1 then
-		location = nearbysystems[1]
-	else
-		location = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
-	end
+	location = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 	local dist = location:DistanceTo(Game.system)
 	reward = ((dist / max_taxi_dist) * typical_reward * (group / 2) * (1+risk) * (1+3*urgency) * Engine.rand:Number(0.8,1.2))
 	due = Game.time + ((dist / max_taxi_dist) * typical_travel_time * (1.5-urgency) * Engine.rand:Number(0.9,1.1))

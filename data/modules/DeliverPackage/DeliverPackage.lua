@@ -120,11 +120,7 @@ local makeAdvert = function (station)
 			nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
 		end
 		if #nearbysystems == 0 then return end
-		if #nearbysystems == 1 then
-			nearbysystem = nearbysystems[1]
-		else
-			nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
-		end
+		nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 		local dist = nearbysystem:DistanceTo(Game.system)
 		local nearbystations = nearbysystem:GetStationPaths()
 		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
