@@ -16,6 +16,7 @@ Alpha 19
        game loads (#885, #911)
      * Fix background star jitter (#910)
      * Fix "rough landing" sound being played globally (#925, #895, #865)
+     * Reduce the number of nearby system searches done by scripts (#927)
 
    * Script changes
      * Removed NameGen.PlanetName and replaced with NameGen.BodyName (#896)
