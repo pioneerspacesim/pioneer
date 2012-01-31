@@ -5,8 +5,6 @@
 #include "Polit.h"
 #include "SystemPath.h"
 
-static lua_State *csLua;
-
 struct SectorCoordinates {
 	int x;
 	int y;
@@ -18,8 +16,11 @@ struct SectorCoordinates {
 	}
 };
 
-typedef std::shared_ptr<std::list<CustomSystem> > SectorListPtr;
-typedef std::map<SectorCoordinates, SectorListPtr> SectorMap;
+typedef std::list<CustomSystem> SystemList;
+typedef std::shared_ptr<SystemList> SystemListPtr;
+typedef std::map<SectorCoordinates, SystemListPtr> SectorMap;
+
+static lua_State *csLua;
 
 static SectorMap sector_map;
 
@@ -50,19 +51,18 @@ void CustomSystem::Init()
 	lua_close(L);
 }
 
-const std::list<const CustomSystem*> CustomSystem::GetCustomSystemsForSector(int sectorX, int sectorY, int sectorZ)
+const std::list<const CustomSystem*> CustomSystem::GetCustomSystemsForSector(int x, int y, int z)
 {
-	SectorMap::iterator map_i;
 	SectorCoordinates sc;
+	sc.x = x;
+	sc.y = y;
+	sc.z = z;
+
+	SectorMap::iterator map_i = sector_map.find(sc);
+
 	std::list<const CustomSystem*> sector_systems;
-
-	sc.x = sectorX;
-	sc.y = sectorY;
-	sc.z = sectorZ;
-
-	map_i = sector_map.find(sc);
 	if (map_i != sector_map.end()) {
-		for (std::list<CustomSystem>::iterator i = (*map_i).second->begin(); i != (*map_i).second->end(); i++) {
+		for (SystemList::iterator i = (*map_i).second->begin(); i != (*map_i).second->end(); i++) {
 			CustomSystem *cs = &(*i);
 			sector_systems.push_back(cs);
 		}
@@ -74,7 +74,7 @@ const std::list<const CustomSystem*> CustomSystem::GetCustomSystemsForSector(int
 const CustomSystem* CustomSystem::GetCustomSystem(const char *name)
 {
 	for (SectorMap::iterator map_i = sector_map.begin(); map_i != sector_map.end(); map_i++) {
-		for (std::list<CustomSystem>::iterator i = (*map_i).second->begin(); i != (*map_i).second->end(); i++) {
+		for (SystemList::iterator i = (*map_i).second->begin(); i != (*map_i).second->end(); i++) {
 			CustomSystem *cs = &(*i);
 			if (!cs->name.compare(name)) return cs; // why not use string's ==?
 		}
@@ -178,23 +178,23 @@ void CustomSystem::l_bodies(lua_State* L, CustomSBody& primary_star, OOLUA::Lua_
 
 void CustomSystem::l_add_to_sector(int x, int y, int z, pi_vector& v)
 {
-	SectorMap::iterator i;
 	SectorCoordinates sc;
-	SectorListPtr sector_list;
-
 	sc.x = sectorX = x;
 	sc.y = sectorY = y;
 	sc.z = sectorZ = z;
 	pos = v;
 
-	i = sector_map.find(sc);
+	SectorMap::iterator i = sector_map.find(sc);
+
+	SystemListPtr sector_list;
 	if (i == sector_map.end()) {
-		sector_list = SectorListPtr(new std::list<CustomSystem>);
+		sector_list = SystemListPtr(new SystemList);
 		sector_map[sc] = sector_list;
 	}
 	else {
 		sector_list = i->second;
 	}
+
 	sector_list->push_back(*this);
 }
 
