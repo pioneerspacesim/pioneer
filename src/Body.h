@@ -54,7 +54,6 @@ public:
 	vector3d GetVelocityRelTo(const Frame *f) const;
 	vector3d GetPositionRelTo(const Frame *) const;
 	vector3d GetPositionRelTo(const Body *) const;
-	virtual matrix4x4d GetTransformRelTo(const Frame *relTo) const {}
 	
 	// Should return pointer in Pi::currentSystem
 	virtual const SBody *GetSBody() const { return 0; }
