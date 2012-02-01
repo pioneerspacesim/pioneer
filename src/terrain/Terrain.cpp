@@ -8,7 +8,7 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 	// special case for heightmaps
 	if (body->heightMapFilename) {
 		if (body->heightMapType == 1) return new TerrainGenerator<TerrainHeightMapped,TerrainColorEarthLike>(body);
-		else if (body->heightMapType == 4) return new TerrainGenerator<TerrainHeightMapped4,TerrainColorAsteroid>(body);
+		else if (body->heightMapType == 4) return new TerrainGenerator<TerrainHeightMapped2,TerrainColorRock>(body);
 	}
 
 	MTRand rand(body->seed);
