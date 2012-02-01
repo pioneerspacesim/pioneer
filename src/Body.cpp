@@ -133,6 +133,13 @@ vector3d Body::GetPositionRelTo(const Body *relTo) const
 	return GetPositionRelTo(relTo->GetFrame()) - relTo->GetPosition();
 }
 
+matrix4x4d Body::GetInterpolatedTransformRelTo(const Frame *relTo) const
+{
+	matrix4x4d m;
+	Frame::GetFrameRenderTransform(m_frame, relTo, m);
+	return m * GetInterpolatedTransform();
+}
+
 void Body::OrientOnSurface(double radius, double latitude, double longitude)
 {
 	vector3d up = vector3d(cos(latitude)*cos(longitude), sin(latitude)*cos(longitude), sin(longitude));

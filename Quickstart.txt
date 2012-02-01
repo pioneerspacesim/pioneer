@@ -47,6 +47,9 @@ RightShift: Set speed slower
 You can also steer the ship with your mouse while holding the right mouse
 button.
 
+Use the cursor keys to move the camera in external and sidereal view. In
+sidereal view, use ',' (comma) and '.' (period) to roll the camera in place.
+
 To jump to another system, use the map (F2) and click on another system. Systems
 with ports are labelled in blue. You need enough Hydrogen to get there, and it
 must be close enough for your ship. F7 will start the hyperdrive.
