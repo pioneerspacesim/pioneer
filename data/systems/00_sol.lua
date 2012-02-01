@@ -85,7 +85,7 @@ local earth_starports = {
 
 local moon = {
 	CustomSBody:new('Moon', 'PLANET_TERRESTRIAL')
-		:seed(1900)
+		:seed(-5)
 		:radius(f(273,1000))
 		:mass(f(12,1000))
 		:temp(220)
