@@ -60,9 +60,13 @@ protected:
 	double m_icyness; // 0 - 1 (0% to 100% cover)
 	double m_volcanic;
 	
-	/** for sbodies with a heightMap we load this turd
-	 * and use it instead of perlin height function */
+	// for earth this heightmap format is used
 	Sint16 *m_heightMap;
+
+	// For the moon and other bodies (with height scaling)
+	Uint16 *m_heightMapScaled;
+	double m_heightScaling, m_minh;
+
 	int m_heightMapSizeX;
 	int m_heightMapSizeY;
 
@@ -138,6 +142,7 @@ class TerrainHeightHillsNormal;
 class TerrainHeightHillsRidged;
 class TerrainHeightHillsRivers;
 class TerrainHeightMapped;
+class TerrainHeightMapped4;
 class TerrainHeightMountainsCraters2;
 class TerrainHeightMountainsCraters;
 class TerrainHeightMountainsNormal;
