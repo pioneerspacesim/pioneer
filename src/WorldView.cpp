@@ -805,6 +805,9 @@ void WorldView::Update()
 					m_siderealViewOrient = matrix4x4d::RotateMatrix(M_PI/4 * frameTime, rotAxis.x, rotAxis.y, rotAxis.z)
 						* m_siderealViewOrient;
 				}
+				if (Pi::KeyState(SDLK_EQUALS)) m_siderealViewDist -= 400*frameTime;
+				if (Pi::KeyState(SDLK_MINUS)) m_siderealViewDist += 400*frameTime;
+				if (Pi::KeyState(SDLK_HOME)) m_siderealViewDist = 200;
 				m_siderealViewDist = std::max(Pi::player->GetBoundingRadius(), m_siderealViewDist);
 			}
 			if (KeyBindings::targetObject.IsActive()) {
