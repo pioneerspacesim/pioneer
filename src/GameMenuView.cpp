@@ -222,15 +222,6 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(new Gui::Label(Lang::USE_SHADERS));
 		vbox->PackEnd(hbox);
 		
-		m_toggleHDR = new Gui::ToggleButton();
-		m_toggleHDR->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleHDR));
-		hbox = new Gui::HBox();
-		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(m_toggleHDR);
-		hbox->PackEnd(new Gui::Label(Lang::USE_HDR));
-		vbox->PackEnd(hbox);
-		if (!Render::IsHDRAvailable()) m_toggleHDR->SetEnabled(false);
-		
 		vbox->PackEnd((new Gui::Label(Lang::SOUND_SETTINGS))->Color(1.0f,1.0f,0.0f));
 		m_masterVolume = new VolumeControl(Lang::VOL_MASTER, Pi::config.Float("MasterVolume"), Pi::config.Int("MasterMuted"));
 		vbox->PackEnd(m_masterVolume);
@@ -582,13 +573,6 @@ void GameMenuView::OnToggleShaders(Gui::ToggleButton *b, bool state)
 	Render::ToggleShaders();
 }
 
-void GameMenuView::OnToggleHDR(Gui::ToggleButton *b, bool state)
-{
-	Pi::config.SetInt("EnableHDR", (state ? 1 : 0));
-	Pi::config.Save();
-	Render::ToggleHDR();
-}
-
 void GameMenuView::OnToggleJoystick(Gui::ToggleButton *b, bool state)
 {
 	Pi::config.SetInt("EnableJoystick", (state ? 1 : 0));
@@ -655,7 +639,6 @@ void GameMenuView::OnSwitchTo() {
 		m_planetFractalGroup->SetSelected(Pi::detail.fracmult);
 		m_cityDetailGroup->SetSelected(Pi::detail.cities);
 		m_toggleShaders->SetPressed(Render::AreShadersEnabled());
-		m_toggleHDR->SetPressed(Render::IsHDREnabled());
 		m_toggleFullscreen->SetPressed(Pi::config.Int("StartFullscreen") != 0);
 		m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());
 		m_toggleMouseYInvert->SetPressed(Pi::IsMouseYInvert());

@@ -511,7 +511,6 @@ void Pi::Init()
 	draw_progress(0.2f);
 
 	if (config.Int("DisableShaders")) Render::ToggleShaders();
-	if (config.Int("EnableHDR")) Render::ToggleHDR();
 
 	CustomSystem::Init();
 	draw_progress(0.4f);
@@ -714,9 +713,6 @@ void Pi::HandleEvents()
 							break;
 						case SDLK_s: // Toggle Shaders
 							Render::ToggleShaders();
-							break;
-						case SDLK_h: // Toggle HDR
-							Render::ToggleHDR();
 							break;
 						case SDLK_PRINT:	   // print
 						case SDLK_KP_MULTIPLY: // screen
