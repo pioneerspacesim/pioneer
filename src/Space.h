@@ -99,6 +99,10 @@ private:
 	//e.g. starfield and milky way)
 	Background::Container m_background;
 
+#ifndef NDEBUG
+	bool m_processingFinalizationQueue;
+#endif
+
 	void DebugDumpFrames();
 };
 

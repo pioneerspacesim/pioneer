@@ -24,6 +24,8 @@ Alpha 19
      * Reduce the number of nearby system searches done by scripts (#927)
      * Fixed HDR screen flicker (#928)
      * Fixed autopilot hangs related to gravpoint frames and small bodies (#935, #921)
+     * Fixed crash where missile objects were destroyed while other objects
+       were holding a reference to them (#922, #735)
 
    * Script changes
      * Removed NameGen.PlanetName and replaced with NameGen.BodyName (#896)
@@ -36,6 +38,8 @@ Alpha 19
        creation and use (#892, #900, #901)
      * Simplified autotools build system by using pkg-config for all
        dependencies (#909, #353)
+     * Additional debug checks to ensure that bodies are not removed or
+       destroyed during destruction of another body (#922)
 
 Alpha 18
 
