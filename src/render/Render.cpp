@@ -14,27 +14,6 @@ static bool initted = false;
 Shader *simpleShader;
 Shader *planetRingsShader[4];
 
-SHADER_CLASS_BEGIN(PostprocessShader)
-	SHADER_UNIFORM_SAMPLER(fboTex)
-SHADER_CLASS_END()
-
-SHADER_CLASS_BEGIN(PostprocessComposeShader)
-	SHADER_UNIFORM_SAMPLER(fboTex)
-	SHADER_UNIFORM_SAMPLER(bloomTex)
-	SHADER_UNIFORM_FLOAT(avgLum)
-	SHADER_UNIFORM_FLOAT(middleGrey)
-SHADER_CLASS_END()
-
-SHADER_CLASS_BEGIN(PostprocessDownsampleShader)
-	SHADER_UNIFORM_SAMPLER(fboTex)
-	SHADER_UNIFORM_FLOAT(avgLum)
-	SHADER_UNIFORM_FLOAT(middleGrey)
-SHADER_CLASS_END()
-
-PostprocessDownsampleShader *postprocessBloom1Downsample;
-PostprocessShader *postprocessBloom2Downsample, *postprocessBloom3VBlur, *postprocessBloom4HBlur, *postprocessLuminance;
-PostprocessComposeShader *postprocessCompose;
-
 SHADER_CLASS_BEGIN(BillboardShader)
 	SHADER_UNIFORM_SAMPLER(some_texture)
 SHADER_CLASS_END()
