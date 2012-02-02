@@ -97,9 +97,9 @@ local moon = {
 		:axial_tilt(math.fixed.deg2rad(f(668,100)))
 		:volcanicity(f(0,1)),
 	{
-		CustomSBody:new('Lunar City', 'STARPORT_SURFACE')
-			:latitude(math.deg2rad(19))
-			:longitude(math.deg2rad(99)),
+		CustomSBody:new('Tranquility Base', 'STARPORT_SURFACE')
+			:latitude(math.deg2rad(0.6875))
+			:longitude(math.deg2rad(23.4334))
 	},
 }
 
