@@ -60,7 +60,7 @@ private:
 		Gui::Label *shortDesc;
 	};
 	
-	void DrawSector(int x, int y, int z);
+	void DrawSector(int x, int y, int z, const vector3f &playerAbsPos);
 	void PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path);
 
 	void SetSelectedSystem(const SystemPath &path);
