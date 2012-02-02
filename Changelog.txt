@@ -26,6 +26,8 @@ Alpha 19
      * Fixed autopilot hangs related to gravpoint frames and small bodies (#935, #921)
      * Fixed crash where missile objects were destroyed while other objects
        were holding a reference to them (#922, #735)
+     * Optimised nearby system lookups for scripts. Significantly improces
+       game startup time (#937)
 
    * Script changes
      * Removed NameGen.PlanetName and replaced with NameGen.BodyName (#896)
