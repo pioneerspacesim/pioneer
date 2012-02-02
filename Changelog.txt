@@ -22,6 +22,7 @@ Alpha 19
      * Fix "rough landing" sound being played globally (#925, #895, #865)
      * Reduce the number of nearby system searches done by scripts (#927)
      * Fixed HDR screen flicker (#928)
+     * Fixed autopilot hangs related to gravpoint frames and small bodies (#935, #921)
 
    * Script changes
      * Removed NameGen.PlanetName and replaced with NameGen.BodyName (#896)
