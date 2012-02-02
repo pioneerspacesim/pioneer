@@ -326,7 +326,7 @@ void SectorView::Draw3D()
 	glEnable(GL_LINE_SMOOTH);
 
 	Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
-	vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) - playerSec->m_systems[m_current.systemIndex].p;
+	vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].p;
 
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
