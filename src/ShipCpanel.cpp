@@ -263,14 +263,16 @@ void ShipCpanel::Draw()
 	if (cur == Pi::worldView) {
 		// XXX committing this atrocity because we don't really have a good
 		// way to trap arbitrary keypresses and/or set multiple shortcut keys
-		if (Pi::KeyState(SDLK_1))
-			SwitchToCamera(WorldView::CAM_FRONT);
-		else if (Pi::KeyState(SDLK_2))
-			SwitchToCamera(WorldView::CAM_REAR);
-		else if (Pi::KeyState(SDLK_3))
-			SwitchToCamera(WorldView::CAM_EXTERNAL);
-		else if (Pi::KeyState(SDLK_4))
-			SwitchToCamera(WorldView::CAM_SIDEREAL);
+		if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
+			if (Pi::KeyState(SDLK_1))
+				SwitchToCamera(WorldView::CAM_FRONT);
+			else if (Pi::KeyState(SDLK_2))
+				SwitchToCamera(WorldView::CAM_REAR);
+			else if (Pi::KeyState(SDLK_3))
+				SwitchToCamera(WorldView::CAM_EXTERNAL);
+			else if (Pi::KeyState(SDLK_4))
+				SwitchToCamera(WorldView::CAM_SIDEREAL);
+		}
 	}
 
 	Gui::Fixed::Draw();
