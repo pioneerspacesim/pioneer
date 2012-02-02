@@ -945,7 +945,12 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *ch
 		kid->orbit.eccentricity = csbody->eccentricity.ToDouble();
 		kid->orbit.semiMajorAxis = csbody->semiMajorAxis.ToDouble() * AU;
 		kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
-		if (csbody->heightMapFilename.length() > 0) kid->heightMapFilename = csbody->heightMapFilename.c_str();
+		// associate heightmap types by body - add for mars etc.
+		if (csbody->heightMapFilename.length() > 0){ 
+			if (csbody->name.compare("Earth")==0) {kid->heightMapType = 1;}
+			else if (csbody->name.compare("Moon")==0) {kid->heightMapType = 4;} 
+			kid->heightMapFilename = csbody->heightMapFilename.c_str(); 
+		}
 
 		if (kid->type == SBody::TYPE_STARPORT_SURFACE) {
 			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(csbody->longitude) *
@@ -1063,6 +1068,7 @@ void StarSystem::MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand)
 SBody::SBody()
 {
 	heightMapFilename = 0;
+	heightMapType = 0;
 }
 
 void SBody::PickAtmosphere()
