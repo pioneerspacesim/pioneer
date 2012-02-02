@@ -51,7 +51,7 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	glMultMatrixd(&rot[0]);
 
 	const float *col = StarSystem::starRealColors[GetSBody()->type];
-	const float b = (Render::IsHDREnabled() ? 100.0f : 1.0f);
+	const float b = 1.0f;
 
 	MTRand(rand);
 

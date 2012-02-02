@@ -1381,7 +1381,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	float oldAmbient[4];
 	glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
 
-	float b = (Render::IsHDREnabled() ? (m_sbody->type == SBody::TYPE_BROWN_DWARF ? 2.0f : 100.0f) : (Render::AreShadersEnabled() ? 2.0f : 1.5f));
+	float b = Render::AreShadersEnabled() ? 2.0f : 1.5f; //XXX ??
 
 	if ((m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) || (m_sbody->type == SBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
