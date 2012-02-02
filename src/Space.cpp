@@ -21,7 +21,15 @@
 #include "Game.h"
 #include "MathUtil.h"
 
-Space::Space(Game *game) : m_game(game), m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false), m_background(UNIVERSE_SEED)
+Space::Space(Game *game)
+	: m_game(game)
+	, m_frameIndexValid(false)
+	, m_bodyIndexValid(false)
+	, m_sbodyIndexValid(false)
+	, m_background(UNIVERSE_SEED)
+#ifndef NDEBUG
+	, m_processingFinalizationQueue(false)
+#endif
 {
 	m_rootFrame.Reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
@@ -197,11 +205,17 @@ void Space::AddBody(Body *b)
 
 void Space::RemoveBody(Body *b)
 {
+#ifndef NDEBUG
+	assert(!m_processingFinalizationQueue);
+#endif
 	m_removeBodies.push_back(b);
 }
 
 void Space::KillBody(Body* b)
 {
+#ifndef NDEBUG
+	assert(!m_processingFinalizationQueue);
+#endif
 	if (!b->IsDead()) {
 		b->MarkDead();
 
@@ -635,6 +649,10 @@ void Space::TimeStep(float step)
 
 void Space::UpdateBodies()
 {
+#ifndef NDEBUG
+	m_processingFinalizationQueue = true;
+#endif
+
 	for (BodyIterator b = m_removeBodies.begin(); b != m_removeBodies.end(); ++b) {
 		(*b)->SetFrame(0);
 		for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
@@ -649,5 +667,9 @@ void Space::UpdateBodies()
 		m_bodies.remove(*b);
 		delete *b;
 	}
-    m_killBodies.clear();
+	m_killBodies.clear();
+
+#ifndef NDEBUG
+	m_processingFinalizationQueue = false;
+#endif
 }

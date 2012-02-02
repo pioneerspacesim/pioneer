@@ -98,6 +98,10 @@ private:
 	//background (elements that are infinitely far away,
 	//e.g. starfield and milky way)
 	Background::Container m_background;
+
+#ifndef NDEBUG
+	bool m_processingFinalizationQueue;
+#endif
 };
 
 #endif /* _SPACE_H */
