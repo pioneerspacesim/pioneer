@@ -181,6 +181,13 @@ CustomSBody::CustomSBody(std::string s, std::string stype)
 	want_rand_seed = true;
 }
 
+CustomSBody* CustomSBody::l_height_map(lua_State *L, std::string f, unsigned int n) {
+	heightMapFilename = std::string(PIONEER_DATA_DIR)+"/heightmaps/"+f;
+	heightMapFractal = n;
+	if (n >= 2) luaL_error(L, "invalid terrain fractal type");
+		return this; 
+}
+
 EXPORT_OOLUA_FUNCTIONS_0_CONST(CustomSBody)
 
 // this is the same as EXPORT_OOLUA_FUNCTIONS_*_NON_CONST. oolua doesn't

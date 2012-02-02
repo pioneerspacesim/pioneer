@@ -22,6 +22,7 @@ Programming:
   Brian Ronald
   Taiki Kim
   Craig Thomson
+  Ae
 
 Art:
   Gernot

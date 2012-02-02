@@ -4,6 +4,7 @@ Alpha 19
      * Lua-based body name generator. Planets and starports now have much more
        interesting/varied names (#896, #926)
      * Joystick deadzone support (#870)
+     * Moon height map. Now looks like the real thing! (#936)
 
    * Minor changes and tweaks
      * Roll keys now work while using mouse control (#904, #850, #278, #914, #919)
