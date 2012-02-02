@@ -21,7 +21,15 @@
 #include "Game.h"
 #include "MathUtil.h"
 
-Space::Space(Game *game) : m_game(game), m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false), m_background(UNIVERSE_SEED)
+Space::Space(Game *game)
+	: m_game(game)
+	, m_frameIndexValid(false)
+	, m_bodyIndexValid(false)
+	, m_sbodyIndexValid(false)
+	, m_background(UNIVERSE_SEED)
+#ifndef NDEBUG
+	, m_processingFinalizationQueue(false)
+#endif
 {
 	m_rootFrame.Reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
@@ -38,6 +46,8 @@ Space::Space(Game *game, const SystemPath &path) : m_game(game), m_frameIndexVal
 
 	GenBody(m_starSystem->rootBody, m_rootFrame.Get());
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
+
+	//DebugDumpFrames();
 }
 
 Space::Space(Game *game, Serializer::Reader &rd) : m_game(game), m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false)
@@ -197,11 +207,17 @@ void Space::AddBody(Body *b)
 
 void Space::RemoveBody(Body *b)
 {
+#ifndef NDEBUG
+	assert(!m_processingFinalizationQueue);
+#endif
 	m_removeBodies.push_back(b);
 }
 
 void Space::KillBody(Body* b)
 {
+#ifndef NDEBUG
+	assert(!m_processingFinalizationQueue);
+#endif
 	if (!b->IsDead()) {
 		b->MarkDead();
 
@@ -635,6 +651,10 @@ void Space::TimeStep(float step)
 
 void Space::UpdateBodies()
 {
+#ifndef NDEBUG
+	m_processingFinalizationQueue = true;
+#endif
+
 	for (BodyIterator b = m_removeBodies.begin(); b != m_removeBodies.end(); ++b) {
 		(*b)->SetFrame(0);
 		for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
@@ -649,5 +669,35 @@ void Space::UpdateBodies()
 		m_bodies.remove(*b);
 		delete *b;
 	}
-    m_killBodies.clear();
+	m_killBodies.clear();
+
+#ifndef NDEBUG
+	m_processingFinalizationQueue = false;
+#endif
+}
+
+static char space[256];
+
+static void DebugDumpFrame(const Frame *f, unsigned int indent)
+{
+	printf("%.*s%p (%s)", indent, space, f, f->GetLabel());
+	if (f->m_parent)
+		printf(" parent %p (%s)", f->m_parent, f->m_parent->GetLabel());
+	if (f->m_astroBody)
+		printf(" body %p (%s)", f->m_astroBody, f->m_astroBody->GetLabel().c_str());
+	if (Body *b = f->GetBodyFor())
+		printf(" bodyFor %p (%s)", b, b->GetLabel().c_str());
+	printf(" distance %f radius %f", f->GetPosition().Length(), f->GetRadius());
+	printf("%s\n", f->IsRotatingFrame() ? " [rotating]" : "");
+
+	for (std::list<Frame*>::const_iterator i = f->m_children.begin(); i != f->m_children.end(); ++i)
+		DebugDumpFrame(*i, indent+2);
+}
+
+void Space::DebugDumpFrames()
+{
+	memset(space, ' ', sizeof(space));
+
+	printf("Frame structure for '%s':\n", m_starSystem->GetName().c_str());
+	DebugDumpFrame(m_rootFrame.Get(), 2);
 }

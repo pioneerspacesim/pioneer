@@ -628,6 +628,9 @@
     <ClCompile Include="..\..\src\render\Renderer.cpp">
       <Filter>src\render</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightMapped2.cpp">
+      <Filter>src\terrain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">

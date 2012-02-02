@@ -50,7 +50,7 @@ local earth = CustomSBody:new('Earth', 'PLANET_TERRESTRIAL')
 	:eccentricity(f(167,10000))
 	:rotation_period(f(1,1))
 	:axial_tilt(math.fixed.deg2rad(f(2344,100)))
-	:height_map('earth.hmap')
+	:height_map('earth.hmap',0)
 	:metallicity(f(1,2))
 	:volcanicity(f(1,10))
 	:atmos_density(f(1,1))
@@ -85,20 +85,21 @@ local earth_starports = {
 
 local moon = {
 	CustomSBody:new('Moon', 'PLANET_TERRESTRIAL')
-		:seed(1900)
+		:seed(-5)
 		:radius(f(273,1000))
 		:mass(f(12,1000))
 		:temp(220)
 		:semi_major_axis(f(257,100000))
 		:eccentricity(f(549,10000))
+		:height_map('moon.hmap',1)
 		:inclination(math.deg2rad(5.145))
 		:rotation_period(f(273,10))
 		:axial_tilt(math.fixed.deg2rad(f(668,100)))
 		:volcanicity(f(0,1)),
 	{
-		CustomSBody:new('Lunar City', 'STARPORT_SURFACE')
-			:latitude(math.deg2rad(19))
-			:longitude(math.deg2rad(99)),
+		CustomSBody:new('Tranquility Base', 'STARPORT_SURFACE')
+			:latitude(math.deg2rad(0.6875))
+			:longitude(math.deg2rad(23.4334))
 	},
 }
 

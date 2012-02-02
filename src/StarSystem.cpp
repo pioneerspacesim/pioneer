@@ -945,7 +945,10 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *ch
 		kid->orbit.eccentricity = csbody->eccentricity.ToDouble();
 		kid->orbit.semiMajorAxis = csbody->semiMajorAxis.ToDouble() * AU;
 		kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
-		if (csbody->heightMapFilename.length() > 0) kid->heightMapFilename = csbody->heightMapFilename.c_str();
+		if (csbody->heightMapFilename.length() > 0) {
+			kid->heightMapFilename = csbody->heightMapFilename.c_str(); 
+			kid->heightMapFractal = csbody->heightMapFractal;
+		}
 
 		if (kid->type == SBody::TYPE_STARPORT_SURFACE) {
 			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(csbody->longitude) *
@@ -1063,6 +1066,7 @@ void StarSystem::MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand)
 SBody::SBody()
 {
 	heightMapFilename = 0;
+	heightMapFractal = 0;
 }
 
 void SBody::PickAtmosphere()

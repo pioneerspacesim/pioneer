@@ -12,6 +12,20 @@
 #include "render/Renderer.h"
 
 class SectorView: public View {
+	class Line3D {
+	public:
+		Line3D();
+		void SetStart(const vector3f &);
+		void SetEnd(const vector3f &);
+		void SetColor(const Color &);
+		void Draw();
+	private:
+		vector3f m_start;
+		vector3f m_end;
+		Color    m_startColor;
+		Color    m_endColor;
+		float    m_width;
+	};
 public:
 	SectorView();
 	SectorView(Serializer::Reader &rd);
@@ -46,8 +60,7 @@ private:
 		Gui::Label *shortDesc;
 	};
 	
-	void DrawSector(int x, int y, int z);
-	void DrawArrow(const vector3f &direction, const Color &c);
+	void DrawSector(int x, int y, int z, const vector3f &playerAbsPos);
 	void PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path);
 
 	void SetSelectedSystem(const SystemPath &path);
@@ -110,6 +123,7 @@ private:
 	std::map<SystemPath,Sector*> m_sectorCache;
 
 	float m_playerHyperspaceRange;
+	Line3D m_jumpLine;
 };
 
 #endif /* _SECTORVIEW_H */

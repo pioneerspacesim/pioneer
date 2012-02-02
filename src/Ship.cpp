@@ -1037,7 +1037,8 @@ void Ship::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x
 	LmrObjParams &params = GetLmrObjParams();
 	
 	if ( (!this->IsType(Object::PLAYER)) ||
-	     (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) ) {
+	     (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) ||
+		(Pi::worldView->GetCamType() == WorldView::CAM_SIDEREAL)) {
 		m_shipFlavour.ApplyTo(&params);
 		SetLmrTimeParams();
 		params.angthrust[0] = float(-m_angThrusters.x);

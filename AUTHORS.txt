@@ -1,4 +1,4 @@
-The Pioneer team are (13 January 2012, alpha 18):
+The Pioneer team are (10 February 2012, alpha 19):
 
 Project leads: Tom Morton, John Jordan
 
@@ -22,6 +22,7 @@ Programming:
   Brian Ronald
   Taiki Kim
   Craig Thomson
+  Ae
 
 Art:
   Gernot
