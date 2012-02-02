@@ -3,7 +3,7 @@
 
 using namespace TerrainNoise;
 template <>
-const char *TerrainHeightFractal<TerrainHeightMapped2>::GetHeightFractalName() const { return "Mapped"; }
+const char *TerrainHeightFractal<TerrainHeightMapped2>::GetHeightFractalName() const { return "Mapped2"; }
 
 template <>
 TerrainHeightFractal<TerrainHeightMapped2>::TerrainHeightFractal(const SBody *body) : Terrain(body)
