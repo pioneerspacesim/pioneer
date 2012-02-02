@@ -493,30 +493,6 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 		m_infoBox->ShowAll();
 }
 
-static void _draw_arrow(const vector3f &direction)
-{
-	// ^^^^ !sol
-	const float headRadius = 0.25f;
-	glBegin(GL_LINE_STRIP);
-		glVertex3f(direction.x, direction.y, direction.z);
-		glVertex3f(0, 0, 0);
-	glEnd();
-	glDisable(GL_CULL_FACE);
-	const vector3f axis1 = direction.Cross(vector3f(0,1.0f,0)).Normalized();
-	const vector3f axis2 = direction.Cross(axis1).Normalized();
-	vector3f p;
-	glBegin(GL_TRIANGLE_FAN);
-		glVertex3f(direction.x, direction.y, direction.z);
-		for (float f=2*M_PI; f>0; f-=0.6) {
-			p = 0.8f*direction + headRadius*sin(f)*axis1 + headRadius*cos(f)*axis2;
-			glVertex3fv(&p.x);
-		}
-		p = 0.8f*direction + headRadius*axis2;
-		glVertex3fv(&p.x);
-	glEnd();
-	glEnable(GL_CULL_FACE);
-}
-
 void SectorView::DrawSector(int sx, int sy, int sz)
 {
 	Sector* ps = GetCached(sx, sy, sz);
@@ -952,7 +928,6 @@ void SectorView::Line3D::SetEnd(const vector3f &e)
 
 void SectorView::Line3D::SetColor(const Color &c)
 {
-	const float v = 0.5f;
 	m_startColor  = c;
 	m_endColor    = m_startColor;
 	m_endColor   *= 0.5;
