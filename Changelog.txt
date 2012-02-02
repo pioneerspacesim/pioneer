@@ -11,6 +11,7 @@ Alpha 19
    * Minor changes and tweaks
      * Roll keys now work while using mouse control (#904, #850, #278, #914, #919)
      * Camera quick-switch using Shift+1-4 in the main view (#932)
+     * Sector view now shows line from current to target system (#843, #845)
 
    * Fixes
      * Ensure bulletin board is created before ship docks with station (#899)
