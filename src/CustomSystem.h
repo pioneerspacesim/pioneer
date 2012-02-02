@@ -57,8 +57,7 @@ public:
 	inline CustomSBody* l_axial_tilt(pi_fixed &t) { axialTilt = t; return this; }
 
 	inline CustomSBody* l_height_map(std::string f) {
-        heightMapFilename = PIONEER_DATA_DIR;
-        heightMapFilename += "/" + f;
+        heightMapFilename = std::string(PIONEER_DATA_DIR)+"/heightmaps/"+f;
         return this; 
     }
 

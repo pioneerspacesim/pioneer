@@ -91,7 +91,7 @@ local moon = {
 		:temp(220)
 		:semi_major_axis(f(257,100000))
 		:eccentricity(f(549,10000))
-		:height_map('moon.hmap4')
+		:height_map('moon.hmap')
 		:inclination(math.deg2rad(5.145))
 		:rotation_period(f(273,10))
 		:axial_tilt(math.fixed.deg2rad(f(668,100)))
