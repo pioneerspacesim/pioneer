@@ -28,6 +28,7 @@ Alpha 19
      * Removed NameGen.PlanetName and replaced with NameGen.BodyName (#896)
      * Added EventQueue.DebugTimer to enable event function call timing for
        debugging purposes (#898)
+     * Added Ship.shipType attribute to get ship type (#912)
 
    * Internal changes
      * New Texture class and subclasses to manage all kinds of GL texture
