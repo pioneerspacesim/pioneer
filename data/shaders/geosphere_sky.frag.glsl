@@ -55,6 +55,6 @@ void main(void)
 		vec4(atmosColor.r, atmosColor.g, atmosColor.b, 1.0));
 
 #ifdef ZHACK
-	SetFragDepth(gl_TexCoord[6].z);
+	SetFragDepth();
 #endif
 }

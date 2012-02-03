@@ -5,6 +5,6 @@ void main(void)
 	gl_FragColor = gl_Color * texture2D(some_texture, gl_TexCoord[0].st);
 
 #ifdef ZHACK
-	SetFragDepth(gl_TexCoord[6].z);
+	SetFragDepth();
 #endif
 }

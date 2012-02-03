@@ -13,6 +13,6 @@ void main(void)
 	col.w = gl_Color.w;
 	gl_FragColor = col;
 #ifdef ZHACK
-	SetFragDepth(gl_TexCoord[6].z);
+	SetFragDepth();
 #endif
 }
