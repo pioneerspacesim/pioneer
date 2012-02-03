@@ -312,6 +312,7 @@
     <ClCompile Include="..\..\src\terrain\TerrainHeightHillsRidged.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightHillsRivers.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightMapped.cpp" />
+    <ClCompile Include="..\..\src\terrain\TerrainHeightMapped2.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsCraters.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsCraters2.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsNormal.cpp" />

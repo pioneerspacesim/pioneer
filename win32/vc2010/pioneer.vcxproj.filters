@@ -606,15 +606,26 @@
     <ClCompile Include="..\src\Gamma.cpp">
       <Filter>win32\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\GameLoaderSaver.cpp" />
-    <ClCompile Include="..\..\src\FileSelectorWidget.cpp" />
-    <ClCompile Include="..\..\src\Game.cpp" />
-    <ClCompile Include="..\..\src\MathUtil.cpp" />
     <ClCompile Include="..\..\src\Texture.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\TextureCache.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\FileSelectorWidget.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Game.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GameLoaderSaver.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\MathUtil.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\terrain\TerrainHeightMapped2.cpp">
+      <Filter>src\terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1134,14 +1145,22 @@
     <ClInclude Include="..\..\src\SmartPtr.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GameLoaderSaver.h" />
-    <ClInclude Include="..\..\src\FileSelectorWidget.h" />
-    <ClInclude Include="..\..\src\Game.h" />
-    <ClInclude Include="..\..\src\MathUtil.h" />
     <ClInclude Include="..\..\src\Texture.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\TextureCache.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\MathUtil.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FileSelectorWidget.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Game.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GameLoaderSaver.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
