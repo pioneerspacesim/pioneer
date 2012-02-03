@@ -111,6 +111,13 @@ vector3d DynamicBody::GetPosition() const
 	return vector3d(m_orient[12], m_orient[13], m_orient[14]);
 }
 
+matrix4x4d DynamicBody::GetTransformRelTo(const Frame* relTo) const
+{
+	matrix4x4d m;
+	Frame::GetFrameTransform(GetFrame(), relTo, m);
+	return m * m_orient;
+}
+
 void DynamicBody::CalcExternalForce()
 {
 	// gravity

@@ -346,6 +346,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\FileSelectorWidget.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\FontConfig.cpp"
 				>
 			</File>
@@ -370,7 +374,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Game.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\GameConfig.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\GameLoaderSaver.cpp"
 				>
 			</File>
 			<File
@@ -650,6 +662,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\MathUtil.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Missile.cpp"
 				>
 			</File>
@@ -663,10 +679,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\MyLuaMathTypes.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\NameGenerator.cpp"
 				>
 			</File>
 			<File
@@ -743,10 +755,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\render\RenderTarget.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\render\RenderTexture.cpp"
 				>
 			</File>
 			<File
@@ -1022,6 +1030,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\terrain\TerrainHeightMapped2.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\terrain\TerrainHeightMountainsCraters.cpp"
 				>
 			</File>
@@ -1066,11 +1078,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\TextureFont.cpp"
+				RelativePath="..\..\src\Texture.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\TextureManager.cpp"
+				RelativePath="..\..\src\TextureCache.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\TextureFont.cpp"
 				>
 			</File>
 			<File

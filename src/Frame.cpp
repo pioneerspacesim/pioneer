@@ -233,7 +233,7 @@ SBody *Frame::GetSBodyFor() const
 Body *Frame::GetBodyFor() const
 {
 	if (m_astroBody) return m_astroBody;
-	if (m_sbody && !m_children.empty())
+	if (m_sbody && m_sbody->type != SBody::TYPE_GRAVPOINT && !m_children.empty())
 		return (*m_children.begin())->m_astroBody;
 	return 0;
 }

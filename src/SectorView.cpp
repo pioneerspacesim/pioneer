@@ -325,14 +325,15 @@ void SectorView::Draw3D()
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	glEnable(GL_LINE_SMOOTH);
 
-	vector3d playerPos;
+	Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+	vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) - playerSec->m_systems[m_current.systemIndex].p;
 
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
 			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
 				glPushMatrix();
 				glTranslatef(Sector::SIZE*sx, Sector::SIZE*sy, Sector::SIZE*sz);
-				DrawSector(int(floorf(m_pos.x))+sx, int(floorf(m_pos.y))+sy, int(floorf(m_pos.z))+sz);
+				DrawSector(int(floorf(m_pos.x))+sx, int(floorf(m_pos.y))+sy, int(floorf(m_pos.z))+sz, playerPos);
 				glPopMatrix();
 			}
 		}
@@ -441,18 +442,21 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 				labels.distance->SetText(stringf(format,
 					formatarg("distance", dist), formatarg("mass", fuelRequired), formatarg("days", floor(DaysNeeded)), formatarg("hours", HoursNeeded)));
 				labels.distance->Color(0.0f, 1.0f, 0.2f);
+				m_jumpLine.SetColor(Color(0.f, 1.f, 0.2f, 1.f));
 				break;
 			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
 				snprintf(format, sizeof(format), "[ %s | %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES);
 				labels.distance->SetText(stringf(format,
 					formatarg("distance", dist), formatarg("mass", fuelRequired)));
 				labels.distance->Color(1.0f, 1.0f, 0.0f);
+				m_jumpLine.SetColor(Color(1.f, 1.f, 0.f, 1.f));
 				break;
 			case Ship::HYPERJUMP_OUT_OF_RANGE:
 				snprintf(format, sizeof(format), "[ %s ]", Lang::NUMBER_LY);
 				labels.distance->SetText(stringf(format,
 					formatarg("distance", dist)));
 				labels.distance->Color(1.0f, 0.0f, 0.0f);
+				m_jumpLine.SetColor(Color(1.f, 0.f, 0.f, 1.f));
 				break;
 			default:
 				labels.distance->SetText("");
@@ -490,31 +494,7 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 		m_infoBox->ShowAll();
 }
 
-static void _draw_arrow(const vector3f &direction)
-{
-	// ^^^^ !sol
-	const float headRadius = 0.25f;
-	glBegin(GL_LINE_STRIP);
-		glVertex3f(direction.x, direction.y, direction.z);
-		glVertex3f(0, 0, 0);
-	glEnd();
-	glDisable(GL_CULL_FACE);
-	const vector3f axis1 = direction.Cross(vector3f(0,1.0f,0)).Normalized();
-	const vector3f axis2 = direction.Cross(axis1).Normalized();
-	vector3f p;
-	glBegin(GL_TRIANGLE_FAN);
-		glVertex3f(direction.x, direction.y, direction.z);
-		for (float f=2*M_PI; f>0; f-=0.6) {
-			p = 0.8f*direction + headRadius*sin(f)*axis1 + headRadius*cos(f)*axis2;
-			glVertex3fv(&p.x);
-		}
-		p = 0.8f*direction + headRadius*axis2;
-		glVertex3fv(&p.x);
-	glEnd();
-	glEnable(GL_CULL_FACE);
-}
-
-void SectorView::DrawSector(int sx, int sy, int sz)
+void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos)
 {
 	Sector* ps = GetCached(sx, sy, sz);
 
@@ -566,8 +546,9 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 		glPushMatrix();
 		glTranslatef((*i).p.x, (*i).p.y, (*i).p.z);
 
+		// draw system "leg"
 		glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
-		glBegin(GL_LINES);
+		glBegin(GL_LINE_STRIP);
 			float z = -(*i).p.z;
 			if (sz <= cz)
 				z = z+abs(cz-sz)*Sector::SIZE;
@@ -575,17 +556,24 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 				z = z-abs(cz-sz)*Sector::SIZE;
 
 			glVertex3f(0, 0, z);
+			glColor4f(0.2f, 0.2f, 0.2f, 0.2f);
+			glVertex3f(0, 0, z * 0.5);
+			glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
 			glVertex3f(0, 0, 0);
+		glEnd();
 
+		//cross at other end
+		glBegin(GL_LINES);
 			glVertex3f(-0.1f, -0.1f, z);
 			glVertex3f(0.1f, 0.1f, z);
 			glVertex3f(-0.1f, 0.1f, z);
 			glVertex3f(0.1f, -0.1f, z);
 		glEnd();
 
-		if (current == m_selected && current != SystemPath(0,0,0,0)) {
-			glColor4f(0, 0.8f, 0, 1.0f);
-			_draw_arrow(-3.0f*sysAbsPos.Normalized());
+		if (current == m_selected) {
+			m_jumpLine.SetStart(vector3f(0.f, 0.f, 0.f));
+			m_jumpLine.SetEnd(playerAbsPos - sysAbsPos);
+			m_jumpLine.Draw();
 		}
 
 		// draw star blob itself
@@ -918,4 +906,52 @@ void SectorView::ShrinkCache()
 			iter++;
 		}
 	}
+}
+
+SectorView::Line3D::Line3D()
+{
+	m_start      = vector3f(0.f, 0.f, 0.f);
+	m_end        = vector3f(0.f, 0.f, 0.f);
+	m_startColor = Color(0.5f, 0.5f, 0.5f, 0.5f);
+	m_endColor   = m_startColor;
+	m_width      = 3.f;
+}
+
+void SectorView::Line3D::SetStart(const vector3f &s)
+{
+	m_start = s;
+}
+
+void SectorView::Line3D::SetEnd(const vector3f &e)
+{
+	m_end = e;
+}
+
+void SectorView::Line3D::SetColor(const Color &c)
+{
+	m_startColor  = c;
+	m_endColor    = m_startColor;
+	m_endColor   *= 0.5;
+}
+
+void SectorView::Line3D::Draw()
+{
+	// XXX would be nicer to draw this as a textured triangle strip
+	glLineWidth(m_width);
+	const GLfloat verts[6] = {
+		m_start.x, m_start.y, m_start.z,
+		m_end.x,   m_end.y,   m_end.z
+	};
+	const GLfloat col[8] = {
+		m_startColor.r, m_startColor.g, m_startColor.b, m_startColor.a,
+		m_endColor.r,   m_endColor.g,   m_endColor.b,   m_endColor.a
+	};
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, verts);
+	glColorPointer(4, GL_FLOAT, 0, col);
+	glDrawArrays(GL_LINES, 0, 6);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+	glLineWidth(1.f);
 }

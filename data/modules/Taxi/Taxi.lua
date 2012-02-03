@@ -125,6 +125,7 @@ local onDelete = function (ref)
 	ads[ref] = nil
 end
 
+local nearbysystems
 local makeAdvert = function (station)
 	local reward, due, location
 	local taxi_flavours = Translate:GetFlavours('Taxi')
@@ -138,7 +139,9 @@ local makeAdvert = function (station)
 		group = Engine.rand:Integer(2,max_group)
 	end
 
-	local nearbysystems = Game.system:GetNearbySystems(max_taxi_dist, function (s) return #s:GetStationPaths() > 0 end)
+	if nearbysystems == nil then
+		nearbysystems = Game.system:GetNearbySystems(max_taxi_dist, function (s) return #s:GetStationPaths() > 0 end)
+	end
 	if #nearbysystems == 0 then return end
 	location = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 	local dist = location:DistanceTo(Game.system)
@@ -256,6 +259,12 @@ local onEnterSystem = function (player)
 	end
 end
 
+local onLeaveSystem = function (ship)
+	if ship:IsPlayer() then
+		nearbysystems = nil
+	end
+end
+
 local onShipDocked = function (player, station)
 	if not player:IsPlayer() then return end
 
@@ -325,6 +334,7 @@ end
 EventQueue.onCreateBB:Connect(onCreateBB)
 EventQueue.onUpdateBB:Connect(onUpdateBB)
 EventQueue.onEnterSystem:Connect(onEnterSystem)
+EventQueue.onLeaveSystem:Connect(onLeaveSystem)
 EventQueue.onShipUndocked:Connect(onShipUndocked)
 EventQueue.onShipDocked:Connect(onShipDocked)
 EventQueue.onGameStart:Connect(onGameStart)

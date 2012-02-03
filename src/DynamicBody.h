@@ -17,6 +17,7 @@ public:
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition() const;
 	virtual vector3d GetVelocity() const;
+	matrix4x4d GetTransformRelTo(const Frame *relTo) const;
 	vector3d GetAngVelocity() const;
 	void SetAngVelocity(vector3d v);
 	void SetMesh(ObjMesh *m);

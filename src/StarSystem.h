@@ -174,7 +174,7 @@ public:
 	fixed m_agricultural;
 
 	const char *heightMapFilename;
-
+	unsigned int heightMapFractal; 
 private:
 	Color m_atmosColor;
 	double m_atmosDensity;

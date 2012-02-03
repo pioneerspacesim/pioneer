@@ -140,7 +140,7 @@ static int l_ship_get_stats(lua_State *l)
  *
  *   experimental
  */
-static int l_set_ship_type(lua_State *l)
+static int l_ship_set_type(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
@@ -964,6 +964,28 @@ static int l_ship_attr_alert_status(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: shipType
+ *
+ * The type of the ship. This value can be passed to <ShipType.GetShipType>
+ * to retrieve information about this ship type.
+ *
+ * Availability:
+ *
+ *  alpha 19
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_ship_attr_ship_type(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	const ShipType &st = s->GetShipType();
+	lua_pushstring(l, st.name.c_str());
+	return 1;
+}
+
 /* 
  * Group: AI methods
  *
@@ -1199,7 +1221,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "IsPlayer", l_ship_is_player },
 
 		{ "GetStats", l_ship_get_stats },
-        { "SetShipType", l_set_ship_type },
+		{ "SetShipType", l_ship_set_type },
 		{ "SetHullPercent", l_ship_set_hull_percent },
 
 		{ "SetLabel",           l_ship_set_label            },
@@ -1237,6 +1259,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 	static const luaL_reg l_attrs[] = {
 		{ "alertStatus", l_ship_attr_alert_status },
+		{ "shipType", l_ship_attr_ship_type },
 		{ 0, 0 }
 	};
 
