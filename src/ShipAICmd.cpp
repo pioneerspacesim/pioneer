@@ -732,29 +732,18 @@ static int CheckCollision(Ship *ship, const vector3d &pathdir, double pathdist, 
 static bool ParentSafetyAdjust(Ship *ship, Frame *targframe, const vector3d &posoff, vector3d &targpos)
 {
 	Body *body = 0;
-
-	// we're always interested in the static frame. rotating frames are
-	// usually far too close to the body to be useful
 	Frame *frame = targframe->IsRotatingFrame() ? targframe->m_parent : targframe;
-
 	while (frame)
 	{
-		// our position relative to the target frame
-		double sdist = ship->GetPositionRelTo(frame).Length();
-		
-		// if we're inside that frame then we have our body to consider
+		double sdist = ship->GetPositionRelTo(frame).Length();				// ship position in that frame
 		if (sdist < frame->GetRadius()) break;
 
-		// try the next frame up. m_parent is the static frame
-		frame = frame->m_parent;
-
-		// we need a frame with a body
 		while (frame && !(body = frame->GetBodyFor()))
 			frame = frame->m_parent;
+		if (!frame) return false;
 
-		// got to the root without finding a body, nothing else we can do
-		if (!body) break;
-
+		frame = body->GetFrame()->m_parent;
+		if (body->HasDoubleFrame()) frame = frame->m_parent;
 	}
 	if (!body) return false;
 
