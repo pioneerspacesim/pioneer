@@ -54,6 +54,7 @@ public:
 	vector3d GetVelocityRelTo(const Frame *f) const;
 	vector3d GetPositionRelTo(const Frame *) const;
 	vector3d GetPositionRelTo(const Body *) const;
+	
 	// Should return pointer in Pi::currentSystem
 	virtual const SBody *GetSBody() const { return 0; }
 	// for putting on planet surface, oriented +y up
@@ -73,6 +74,7 @@ public:
 	}
 	vector3d GetInterpolatedPositionRelTo(const Frame *relTo) const;
 	vector3d GetInterpolatedPositionRelTo(const Body *relTo) const;
+	matrix4x4d GetInterpolatedTransformRelTo(const Frame *relTo) const;
 	// should set m_interpolatedTransform to the smoothly interpolated
 	// value (interpolated by 0 <= alpha <=1) between the previous and current
 	//  physics tick

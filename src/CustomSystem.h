@@ -28,6 +28,7 @@ public:
 	fixed                  rotationPeriod; // in days
 	fixed                  axialTilt; // in radians
 	std::string            heightMapFilename;
+	int                    heightMapFractal;
 	std::list<CustomSBody> children;
 
 	/* composition */
@@ -56,11 +57,7 @@ public:
 	inline CustomSBody* l_rotation_period(pi_fixed &p) { rotationPeriod = p; return this; }
 	inline CustomSBody* l_axial_tilt(pi_fixed &t) { axialTilt = t; return this; }
 
-	inline CustomSBody* l_height_map(std::string f) {
-        heightMapFilename = PIONEER_DATA_DIR;
-        heightMapFilename += "/" + f;
-        return this; 
-    }
+	CustomSBody *l_height_map(lua_State *L, std::string f, unsigned int n);
 
 	inline CustomSBody* l_metallicity(pi_fixed& f) { metallicity = f; return this; }
 	inline CustomSBody* l_volcanicity(pi_fixed& f) { volcanicity = f; return this; }
@@ -93,7 +90,7 @@ OOLUA_CLASS_NO_BASES(CustomSBody)
 	OOLUA_MEM_FUNC_1_RENAME(longitude, CustomSBody*, l_longitude, float)
 	OOLUA_MEM_FUNC_1_RENAME(rotation_period, CustomSBody*, l_rotation_period, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(axial_tilt, CustomSBody*, l_axial_tilt, pi_fixed&)
-	OOLUA_MEM_FUNC_1_RENAME(height_map, CustomSBody*, l_height_map, std::string)
+	OOLUA_MEM_FUNC_3_RENAME(height_map, CustomSBody*, l_height_map, lua_State*, std::string, unsigned int)
 	OOLUA_MEM_FUNC_1_RENAME(metallicity, CustomSBody*, l_metallicity, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(volcanicity, CustomSBody*, l_volcanicity, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(atmos_density, CustomSBody*, l_atmos_density, pi_fixed&)

@@ -11,13 +11,9 @@ void main(void)
 	vec4 diff = vec4(0.0);
 	vec4 spec = vec4(0.0);
 	for (int i=0; i<NUM_LIGHTS; ++i) {
-		float nDotVP; 
-		float nDotHV;         
-		float pf;             
-		nDotVP = max(0.0, dot(tnorm, normalize(vec3(gl_LightSource[i].position))));
-		nDotHV = max(0.0, dot(tnorm, vec3(gl_LightSource[i].halfVector)));
-		if (nDotVP == 0.0) pf = 0.0;
-		else pf = pow(nDotHV, gl_FrontMaterial.shininess);
+		float nDotVP = max(0.0001, dot(tnorm, normalize(vec3(gl_LightSource[i].position))));
+		float nDotHV = max(0.0001, dot(tnorm, vec3(gl_LightSource[i].halfVector)));
+		float pf = max(0.0, pow(nDotHV, gl_FrontMaterial.shininess));
 		amb += gl_LightSource[i].ambient;
 		diff += gl_LightSource[i].diffuse * nDotVP;
 		spec += gl_LightSource[i].specular * pf;

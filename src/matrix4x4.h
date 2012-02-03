@@ -196,8 +196,8 @@ class matrix4x4 {
 		vector3<T> y(cell[1], cell[5], cell[9]);
 		vector3<T> z(cell[2], cell[6], cell[10]);
 		x = x.Normalized();
-		z = vector3<T>::Cross(x, y).Normalized();
-		y = vector3<T>::Cross(z, x).Normalized();
+		z = x.Cross(y).Normalized();
+		y = z.Cross(x).Normalized();
 		cell[0] = x.x; cell[4] = x.y; cell[8] = x.z;
 		cell[1] = y.x; cell[5] = y.y; cell[9] = y.z;
 		cell[2] = z.x; cell[6] = z.y; cell[10] = z.z;

@@ -232,7 +232,6 @@
     <ClCompile Include="..\..\src\ModelBody.cpp" />
     <ClCompile Include="..\..\src\mtrand.cpp" />
     <ClCompile Include="..\..\src\MyLuaMathTypes.cpp" />
-    <ClCompile Include="..\..\src\NameGenerator.cpp" />
     <ClCompile Include="..\..\src\ObjectViewerView.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\Pi.cpp" />
@@ -452,7 +451,6 @@
     <ClInclude Include="..\..\src\ModelBody.h" />
     <ClInclude Include="..\..\src\mtrand.h" />
     <ClInclude Include="..\..\src\MyLuaMathTypes.h" />
-    <ClInclude Include="..\..\src\NameGenerator.h" />
     <ClInclude Include="..\..\src\Object.h" />
     <ClInclude Include="..\..\src\ObjectViewerView.h" />
     <ClInclude Include="..\..\src\perlin.h" />

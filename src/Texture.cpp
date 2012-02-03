@@ -56,14 +56,13 @@ void Texture::CreateFromArray(const void *data, unsigned int width, unsigned int
 
 		case GL_TEXTURE_2D:
 			if (m_wantMipmaps)
-				gluBuild2DMipmaps(m_target, m_format.internalFormat, width, height, m_format.dataFormat, m_format.dataType, data);
-			else
-				glTexImage2D(m_target, 0, m_format.internalFormat, width, height, 0, m_format.dataFormat, m_format.dataType, data);
+				glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+			glTexImage2D(GL_TEXTURE_2D, 0, m_format.internalFormat, width, height, 0, m_format.dataFormat, m_format.dataType, data);
 			break;
 
 		case GL_TEXTURE_RECTANGLE:
 			assert(!m_wantMipmaps);
-			glTexImage2D(m_target, 0, m_format.internalFormat, width, height, 0, m_format.dataFormat, m_format.dataType, data);
+			glTexImage2D(GL_TEXTURE_RECTANGLE, 0, m_format.internalFormat, width, height, 0, m_format.dataFormat, m_format.dataType, data);
 			break;
 
 		default:

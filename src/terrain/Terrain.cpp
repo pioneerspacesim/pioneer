@@ -6,8 +6,17 @@
 Terrain *Terrain::InstanceTerrain(const SBody *body)
 {
 	// special case for heightmaps
-	if (body->heightMapFilename)
-		return new TerrainGenerator<TerrainHeightMapped,TerrainColorEarthLike>(body);
+	// XXX this is terrible but will do for now until we get a unified
+	// heightmap setup. if you add another height fractal, remember to change
+	// the check in CustomSystem::l_height_map
+	if (body->heightMapFilename) {
+		const GeneratorInstancer choices[] = {
+			InstanceGenerator<TerrainHeightMapped,TerrainColorEarthLike>,
+			InstanceGenerator<TerrainHeightMapped2,TerrainColorRock>
+		};
+		assert(body->heightMapFractal < 2);
+		return choices[body->heightMapFractal](body);
+	}
 
 	MTRand rand(body->seed);
 
@@ -274,7 +283,7 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 	return gi(body);
 }
 
-Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed), m_heightMap(0) {
+Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed), m_heightMap(0), m_heightMapScaled(0), m_heightScaling(0), m_minh(0) {
 
 	// load the heightmap
 	if (m_body->heightMapFilename) {
@@ -282,11 +291,40 @@ Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed), m_height
 		f = fopen_or_die(m_body->heightMapFilename, "rb");
 		// read size!
 		Uint16 v;
-		fread_or_die(&v, 2, 1, f); m_heightMapSizeX = v;
-		fread_or_die(&v, 2, 1, f); m_heightMapSizeY = v;
-		m_heightMap = new Sint16[m_heightMapSizeX * m_heightMapSizeY];
-		// XXX TODO XXX what about bigendian archs...
-		fread_or_die(m_heightMap, sizeof(Sint16), m_heightMapSizeX * m_heightMapSizeY, f);
+
+		// XXX unify heightmap types
+		switch (m_body->heightMapFractal) {
+			case 0: {
+				fread_or_die(&v, 2, 1, f); m_heightMapSizeX = v;
+				fread_or_die(&v, 2, 1, f); m_heightMapSizeY = v;
+
+				m_heightMap = new Sint16[m_heightMapSizeX * m_heightMapSizeY];
+				fread_or_die(m_heightMap, sizeof(Sint16), m_heightMapSizeX * m_heightMapSizeY, f);
+				break;
+			}
+
+			case 1: {
+				// XXX x and y reversed from above *sigh*
+				fread_or_die(&v, 2, 1, f); m_heightMapSizeY = v;
+				fread_or_die(&v, 2, 1, f); m_heightMapSizeX = v;
+
+				// read height scaling and min height which are doubles
+				double te;
+				fread_or_die(&te, 8, 1, f);
+				m_heightScaling = te;
+				fread_or_die(&te, 8, 1, f);
+				m_minh = te;
+
+				m_heightMapScaled = new Uint16[m_heightMapSizeX * m_heightMapSizeY];
+				fread_or_die(m_heightMapScaled, sizeof(Uint16), m_heightMapSizeX * m_heightMapSizeY, f);
+
+				break;
+			}
+
+			default:
+				assert(0);
+		}
+
 		fclose(f);
 	}
 
@@ -450,6 +488,8 @@ Terrain::~Terrain()
 {
 	if (m_heightMap)
 		delete [] m_heightMap;
+	if (m_heightMapScaled)
+		delete [] m_heightMapScaled;
 }
 
 

@@ -110,6 +110,9 @@ static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SystemPath *path, double du
  */
 static int l_space_spawn_ship(lua_State *l)
 {
+	if (!Pi::game)
+		luaL_error(l, "Game is not started");
+
 	LUA_DEBUG_START(l);
 
 	const char *type = luaL_checkstring(l, 1);
@@ -189,6 +192,9 @@ static int l_space_spawn_ship(lua_State *l)
  */
 static int l_space_spawn_ship_near(lua_State *l)
 {
+	if (!Pi::game)
+		luaL_error(l, "Game is not started");
+
 	LUA_DEBUG_START(l);
 
 	const char *type = luaL_checkstring(l, 1);
@@ -249,6 +255,9 @@ static int l_space_spawn_ship_near(lua_State *l)
  */
 static int l_space_spawn_ship_docked(lua_State *l)
 {
+	if (!Pi::game)
+		luaL_error(l, "Game is not started");
+
 	LUA_DEBUG_START(l);
 
 	const char *type = luaL_checkstring(l, 1);
@@ -307,6 +316,9 @@ static int l_space_spawn_ship_docked(lua_State *l)
  */
 static int l_space_spawn_ship_parked(lua_State *l)
 {
+	if (!Pi::game)
+		luaL_error(l, "Game is not started");
+
 	LUA_DEBUG_START(l);
 
 	const char *type = luaL_checkstring(l, 1);
@@ -399,6 +411,9 @@ static int l_space_spawn_ship_parked(lua_State *l)
  */
 static int l_space_get_body(lua_State *l)
 {
+	if (!Pi::game)
+		luaL_error(l, "Game is not started");
+
 	int id = luaL_checkinteger(l, 1);
 
 	SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPath();
@@ -449,6 +464,9 @@ static int l_space_get_body(lua_State *l)
  */
 static int l_space_get_bodies(lua_State *l)
 {
+	if (!Pi::game)
+		luaL_error(l, "Game is not started");
+
 	LUA_DEBUG_START(l);
 
 	bool filter = false;
