@@ -8,7 +8,7 @@
 #include "terrain/Terrain.h"
 
 extern int GEOPATCH_EDGELEN;
-#define ATMOSPHERE_RADIUS 1.015
+#define ATMOSPHERE_RADIUS 1.1
 
 class SBody;
 class GeoPatch;
