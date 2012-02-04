@@ -12,6 +12,9 @@ Alpha 19
      * Roll keys now work while using mouse control (#904, #850, #278, #914, #919)
      * Camera quick-switch using Shift+1-4 in the main view (#932)
      * Sector view now shows line from current to target system (#843, #845)
+     * Optimised nearby system lookups for scripts. Significantly improves
+       game startup time (#937)
+     * Various TradeShips optimisiations and fixes (#917)
 
    * Fixes
      * Ensure bulletin board is created before ship docks with station (#899)
@@ -26,8 +29,6 @@ Alpha 19
      * Fixed autopilot hangs related to gravpoint frames and small bodies (#935, #921)
      * Fixed crash where missile objects were destroyed while other objects
        were holding a reference to them (#922, #735)
-     * Optimised nearby system lookups for scripts. Significantly improces
-       game startup time (#937)
 
    * Script changes
      * Removed NameGen.PlanetName and replaced with NameGen.BodyName (#896)

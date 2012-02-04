@@ -1,11 +1,56 @@
-local trade_ships, starports, imports, exports, system_updated
+--[[
+	trade_ships
+		interval - is minimum amount of time between hyperspace arrivals,
+			stored here as it needs to be saved; number as seconds, updated by
+			spawnInitialShips
+		ship - object returned from Space:SpawnShip*
+			ship_name - of this ship type; string
+			starport - at which this ship intends to dock; SpaceStation object
+			dest_time - arrival time from hyperspace; number as Game.time
+			dest_path - for hyperspace; SystemPath object, may have body index
+			from_path - for hyperspace; SystemPath object
+			delay - indicates waiting for a Timer to give next action; number
+				as Game.time
+			status - of this ship; string, one of:
+				hyperspace - yet to arrive or has departed
+				inbound - in system and given AIDockWith order
+				docked - currently docked or un/docking
+				outbound - heading away from starport before hyperspacing
+				fleeing - has been attacked and is trying to get away
+					(currently still just following whatever AI order it had)
+				cowering - docked after having been attacked, waiting for
+					attacker to go away
+				orbit - was unable to dock, heading to or waiting in orbit
+			cargo - table of cargo types and amounts currently carried;
+				key: Constants.EquipType string, value: number
+			attacker - what this was last attacked by; Body object
+			chance - used to determine what action to take when attacked; number
+			last_flee - when last action was taken, number as Game.time
+			no_jump - whether this has tried to hyperspace away so it only
+				tries once; bool
+
+	system_updated - indicates whether the following tables have been updated
+		for the current system; bool, see onEnterSystem, onLeaveSystem, and
+		onGameStart
+
+	from_paths - paths of systems around the current system, used to get a
+		from_system for ships spawned in hyperspace; indexed array of
+		SystemPath objects, updated by spawnInitialShips
+
+	starports - in the current system; indexed array of SpaceStation objects,
+		updated by spawnInitialShips
+
+	imports, exports - in the current system, indexed array of
+		Constants.EquipType strings, updated by spawnInitialShips
+--]]
+local trade_ships, system_updated, from_paths, starports, imports, exports
 
 local addFuel = function (ship)
 	local drive = ship:GetEquip('ENGINE', 1)
 
 	-- a drive must be installed
 	if drive == 'NONE' then
-		print(trade_ships[ship.label]['ship_name']..' has no drive!')
+		print(trade_ships[ship]['ship_name']..' has no drive!')
 		return nil
 	end
 
@@ -22,7 +67,7 @@ local addFuel = function (ship)
 end
 
 local addShipEquip = function (ship)
-	local trader = trade_ships[ship.label]
+	local trader = trade_ships[ship]
 	local ship_type = ShipType.GetShipType(trader.ship_name)
 
 	-- add standard equipment
@@ -66,37 +111,53 @@ end
 
 local addShipCargo = function (ship, direction)
 	local prices = Game.system:GetCommodityBasePriceAlterations()
-	local added = 0
+	local total = 0
 	local empty_space = ship:GetStats().freeCapacity
 	local size_factor = empty_space / 20
-	trade_ships[ship.label]['cargo'] = {}
+	local cargo = {}
 
-	while added < empty_space do
-		local cargo
+	if direction == 'import' and #imports == 1 then
+		total = ship:AddEquip(imports[1], empty_space)
+		cargo[imports[1]] = total
+	elseif direction == 'export' and #exports == 1 then
+		total = ship:AddEquip(exports[1], empty_space)
+		cargo[exports[1]] = total
+	elseif (direction == 'import' and #imports > 1) or
+			(direction == 'export' and #exports > 1) then
+		while total < empty_space do
+			local cargo_type
 
-		-- get random for direction
-		if direction == 'import' then
-			cargo = imports[Engine.rand:Integer(1, #imports)]
-		else
-			cargo = exports[Engine.rand:Integer(1, #exports)]
+			-- get random for direction
+			if direction == 'import' then
+				cargo_type = imports[Engine.rand:Integer(1, #imports)]
+			else
+				cargo_type = exports[Engine.rand:Integer(1, #exports)]
+			end
+
+			-- amount based on price and size of ship
+			local num = math.abs(prices[cargo_type]) * size_factor
+			num = Engine.rand:Integer(num, num * 2)
+
+			local added = ship:AddEquip(cargo_type, num)
+			if cargo[cargo_type] == nil then
+				cargo[cargo_type] = added
+			else
+				cargo[cargo_type] = cargo[cargo_type] + added
+			end
+			total = total + added
 		end
-
-		-- amount based on price and size of ship
-		local num = math.abs(prices[cargo]) * size_factor
-		num = Engine.rand:Integer(num, num * 2)
-
-		added = added + ship:AddEquip(cargo, num)
-		trade_ships[ship.label]['cargo'][cargo] = true
 	end
+	-- if the table for direction was empty then cargo is empty and total is 0
 
-	return added
+	trade_ships[ship]['cargo'] = cargo
+	return total
 end
 
 local doUndock
 doUndock = function (ship)
 	-- the player may have left the system or the ship may have already undocked
 	if ship:exists() and ship:GetDockedWith() then
-		local trader = trade_ships[ship.label]
+		local trader = trade_ships[ship]
 		if not ship:Undock() then
 			-- unable to undock, try again in ten minutes
 			trader['delay'] = Game.time + 600
@@ -132,7 +193,6 @@ local getSystem = function (ship)
 	end
 
 	local target_system = nil
-	local cargo_list = ship:GetEquip('CARGO')
 	local best_prices = 0
 
 	-- find best system for cargo
@@ -140,10 +200,8 @@ local getSystem = function (ship)
 		if #next_system:GetStationPaths() > 0 then
 			local prices = next_system:GetCommodityBasePriceAlterations()
 			local next_prices = 0
-			for _, cargo in ipairs(cargo_list) do
-				if cargo ~= 'HYDROGEN' and cargo ~= 'NONE' then
-					next_prices = next_prices + prices[cargo]
-				end
+			for cargo, count in pairs(trade_ships[ship]['cargo']) do
+				next_prices = next_prices + (prices[cargo] * count)
 			end
 			if next_prices > best_prices then
 				target_system, best_prices = next_system, next_prices
@@ -181,16 +239,16 @@ local jumpToSystem = function (ship, target_path)
 	status = ship:HyperspaceTo(target_path)
 
 	if status ~= 'OK' then
-		print(trade_ships[ship.label]['ship_name']..' jump status is not OK')
+		print(trade_ships[ship]['ship_name']..' jump status is not OK')
 		return status
 	end
 
 	-- update table for ship
-	trade_ships[ship.label]['status'] = 'hyperspace'
-	trade_ships[ship.label]['starport'] = nil
-	trade_ships[ship.label]['dest_time'] = Game.time + duration
-	trade_ships[ship.label]['dest_path'] = target_path
-	trade_ships[ship.label]['from_path'] = Game.system.path
+	trade_ships[ship]['status'] = 'hyperspace'
+	trade_ships[ship]['starport'] = nil
+	trade_ships[ship]['dest_time'] = Game.time + duration
+	trade_ships[ship]['dest_path'] = target_path
+	trade_ships[ship]['from_path'] = Game.system.path
 	return status
 end
 
@@ -213,6 +271,7 @@ local spawnInitialShips = function (game_start)
 	imports, exports = {}, {}
 	for k,v in pairs(prices) do
 		if k ~= 'RUBBISH' and k ~= 'RADIOACTIVES' and Game.system:IsCommodityLegal(k) then
+			-- values from SystemInfoView::UpdateEconomyTab
 			if		v > 10	then
 				import_score = import_score + 2
 			elseif	v > 2	then
@@ -247,6 +306,16 @@ local spawnInitialShips = function (game_start)
 	end
 	-- the base number of seconds between ships spawned in hyperspace
 	trade_ships['interval'] = (864000 / (num_trade_ships / 4))
+	-- get nearby system paths for hyperspace spawns to come from
+	local from_systems, dist = {}, 10
+	while #from_systems < 10 do
+		dist = dist + 5
+		from_systems = Game.system:GetNearbySystems(dist)
+	end
+	from_paths = {}
+	for _, system in ipairs(from_systems) do
+		table.insert(from_paths, system.path)
+	end
 
 	-- spawn the initial trade ships
 	for i = 0, num_trade_ships do
@@ -260,7 +329,7 @@ local spawnInitialShips = function (game_start)
 
 			ship = Space.SpawnShipDocked(ship_name, starport)
 			if ship ~= nil then
-				trade_ships[ship.label] = {
+				trade_ships[ship] = {
 					status		= 'docked',
 					starport	= starport,
 					ship_name	= ship_name,
@@ -268,7 +337,7 @@ local spawnInitialShips = function (game_start)
 			else
 				-- the starport must have been full
 				ship = Space.SpawnShipNear(ship_name, starport, 10000000, 149598000) -- 10mkm - 1AU
-				trade_ships[ship.label] = {
+				trade_ships[ship] = {
 					status		= 'inbound',
 					starport	= starport,
 					ship_name	= ship_name,
@@ -282,7 +351,7 @@ local spawnInitialShips = function (game_start)
 			end
 
 			ship = Space.SpawnShip(ship_name, min_dist, min_dist + range)
-			trade_ships[ship.label] = {
+			trade_ships[ship] = {
 				status		= 'inbound',
 				starport	= getNearestStarport(ship),
 				ship_name	= ship_name,
@@ -292,23 +361,18 @@ local spawnInitialShips = function (game_start)
 			local min_time = trade_ships.interval * (i - num_trade_ships * 0.75)
 			local max_time = min_time + trade_ships.interval
 			local dest_time = Game.time + Engine.rand:Integer(min_time, max_time)
-			local local_systems, dist = {}, 0
-			while #local_systems == 0 do
-				dist = dist + 5
-				local_systems = Game.system:GetNearbySystems(dist)
-			end
-			local from_system = local_systems[Engine.rand:Integer(1, #local_systems)]
+			local from = from_paths[Engine.rand:Integer(1, #from_paths)]
 
-			ship = Space.SpawnShip(ship_name, 9, 11, {from_system.path, dest_time})
-			trade_ships[ship.label] = {
+			ship = Space.SpawnShip(ship_name, 9, 11, {from, dest_time})
+			trade_ships[ship] = {
 				status		= 'hyperspace',
 				dest_time	= dest_time,
 				dest_path	= Game.system.path,
-				from_path	= from_system.path,
+				from_path	= from,
 				ship_name	= ship_name,
 			}
 		end
-		local trader = trade_ships[ship.label]
+		local trader = trade_ships[ship]
 
 		-- add equipment and cargo
 		addShipEquip(ship)
@@ -343,19 +407,14 @@ local spawnReplacement = function ()
 		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
 
 		local dest_time = Game.time + Engine.rand:Number(trade_ships.interval, trade_ships.interval * 2)
-		local local_systems, dist = {}, 0
-		while #local_systems == 0 do
-			dist = dist + 5
-			local_systems = Game.system:GetNearbySystems(dist)
-		end
-		local from_system = local_systems[Engine.rand:Integer(1, #local_systems)]
+		local from = from_paths[Engine.rand:Integer(1, #from_paths)]
 
-		local ship = Space.SpawnShip(ship_name, 9, 11, {from_system.path, dest_time})
-		trade_ships[ship.label] = {
+		local ship = Space.SpawnShip(ship_name, 9, 11, {from, dest_time})
+		trade_ships[ship] = {
 			status		= 'hyperspace',
 			dest_time	= dest_time,
 			dest_path	= Game.system.path,
-			from_path	= from_system.path,
+			from_path	= from,
 			ship_name	= ship_name,
 		}
 
@@ -370,17 +429,17 @@ end
 
 local updateTradeShipsTable = function ()
 	local total, removed = 0, 0
-	for label, trader in pairs(trade_ships) do
+	for ship, trader in pairs(trade_ships) do
 		total = total + 1
 		if trader.status == 'hyperspace' then
 			-- remove ships not coming here
 			if not trader.dest_path:IsSameSystem(Game.system.path) then
-				trade_ships[label] = nil
+				trade_ships[ship] = nil
 				removed = removed + 1
 			end
 		else
 			-- remove ships that are not in hyperspace
-			trade_ships[label] = nil
+			trade_ships[ship] = nil
 			removed = removed + 1
 		end
 	end
@@ -389,14 +448,14 @@ end
 
 local cleanTradeShipsTable = function ()
 	local total, hyperspace, removed = 0, 0, 0
-	for label, trader in pairs(trade_ships) do
-		if label ~= 'interval' then
+	for ship, trader in pairs(trade_ships) do
+		if ship ~= 'interval' then
 			total = total + 1
 			if trader.status == 'hyperspace' then
 				hyperspace = hyperspace + 1
 				-- remove well past due ships as the player can not catch them
 				if trader.dest_time + 86400 < Game.time then
-					trade_ships[label] = nil
+					trade_ships[ship] = nil
 					removed = removed + 1
 				end
 			end
@@ -407,15 +466,15 @@ end
 
 local onEnterSystem = function (ship)
 	-- if the player is following a ship through hyperspace that ship may enter first
-	-- so update the system when the first ship enters
+	-- so update the system when the first ship enters (see Space::DoHyperspaceTo)
 	if not system_updated then
 		updateTradeShipsTable()
 		spawnInitialShips(false)
 		system_updated = true
 	end
 
-	if trade_ships[ship.label] ~= nil then
-		print(ship.label..' entered '..Game.system.name)
+	if trade_ships[ship] ~= nil then
+		print(ship.label..' entered '..Game.system.name..' from '..trade_ships[ship]['from_path']:GetStarSystem().name)
 		if #starports == 0 then
 			-- this only happens if player has followed ship to empty system
 
@@ -424,8 +483,8 @@ local onEnterSystem = function (ship)
 		else
 			local starport = getNearestStarport(ship)
 			ship:AIDockWith(starport)
-			trade_ships[ship.label]['starport'] = starport
-			trade_ships[ship.label]['status'] = 'inbound'
+			trade_ships[ship]['starport'] = starport
+			trade_ships[ship]['status'] = 'inbound'
 		end
 	end
 end
@@ -435,26 +494,26 @@ local onLeaveSystem = function (ship)
 	if ship:IsPlayer() then
 		-- the next onEnterSystem will be in a new system
 		system_updated = false
-
 		trade_ships['interval'] = nil
+
 		local total, removed = 0, 0
-		for label, trader in pairs(trade_ships) do
+		for t_ship, trader in pairs(trade_ships) do
 			total = total + 1
 			if trader.status == 'hyperspace' then
 				if trader.dest_path:IsSameSystem(Game.system.path) then
 					-- remove ships that are in hyperspace to here
-					trade_ships[label] = nil
+					trade_ships[t_ship] = nil
 					removed = removed + 1
 				end
 			else
 				-- remove all ships that are not in hyperspace
-				trade_ships[label] = nil
+				trade_ships[t_ship] = nil
 				removed = removed + 1
 			end
 		end
 		print('onLeaveSystem:total:'..total..',removed:'..removed)
-	elseif trade_ships[ship.label] ~= nil then
-		local system = trade_ships[ship.label]['dest_path']:GetStarSystem()
+	elseif trade_ships[ship] ~= nil then
+		local system = trade_ships[ship]['dest_path']:GetStarSystem()
 		print(ship.label..' left '..Game.system.name..' for '..system.name)
 		cleanTradeShipsTable()
 		spawnReplacement()
@@ -463,8 +522,8 @@ end
 EventQueue.onLeaveSystem:Connect(onLeaveSystem)
 
 local onFrameChanged = function (ship)
-	if not ship:isa("Ship") or trade_ships[ship.label] == nil then return end
-	local trader = trade_ships[ship.label]
+	if not ship:isa("Ship") or trade_ships[ship] == nil then return end
+	local trader = trade_ships[ship]
 
 	if trader.status == 'outbound' then
 		-- the cloud inherits the ship velocity and vector
@@ -478,8 +537,8 @@ end
 EventQueue.onFrameChanged:Connect(onFrameChanged)
 
 local onShipDocked = function (ship, starport)
-	if trade_ships[ship.label] == nil then return end
-	local trader = trade_ships[ship.label]
+	if trade_ships[ship] == nil then return end
+	local trader = trade_ships[ship]
 
 	print(ship.label..' docked with '..starport.label..' ship:'..trader.ship_name)
 
@@ -490,7 +549,7 @@ local onShipDocked = function (ship, starport)
 	end
 	if trader.chance then
 		trader['chance'] = trader.chance / 2
-		trader['last_flee'], trader['no_jump'], trader['answered'] = nil, nil, nil
+		trader['last_flee'], trader['no_jump'] = nil, nil
 	end
 
 	-- 'sell' trade cargo
@@ -512,7 +571,12 @@ local onShipDocked = function (ship, starport)
 
 	-- delay undocking by 30-45 seconds for every unit of cargo transfered
 	-- or 2-3 minutes for every unit of hull repaired
-	trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
+	if delay > 0 then
+		trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
+	else
+		trader['delay'] = Game.time + Engine.rand:Number(600, 3600)
+	end
+
 	if trader.status == 'docked' then
 		Timer:CallAt(trader.delay, function () doUndock(ship) end)
 	end
@@ -520,19 +584,19 @@ end
 EventQueue.onShipDocked:Connect(onShipDocked)
 
 local onShipUndocked = function (ship, starport)
-	if trade_ships[ship.label] == nil then return end
+	if trade_ships[ship] == nil then return end
 
 	-- fly to the limit of the starport frame
 	ship:AIFlyTo(starport)
 
-	trade_ships[ship.label]['status'] = 'outbound'
+	trade_ships[ship]['status'] = 'outbound'
 end
 EventQueue.onShipUndocked:Connect(onShipUndocked)
 
-local onAICompleted = function (ship)
-	if trade_ships[ship.label] == nil then return end
-	local trader = trade_ships[ship.label]
-	print(ship.label..' AICompleted: '..trader.status)
+local onAICompleted = function (ship, ai_error)
+	if trade_ships[ship] == nil then return end
+	local trader = trade_ships[ship]
+	print(ship.label..' AICompleted: Error: '..ai_error..' Status: '..trader.status)
 
 	if trader.status == 'outbound' then
 		if getSystemAndJump(ship) ~= 'OK' then
@@ -540,32 +604,34 @@ local onAICompleted = function (ship)
 			trader['status'] = 'inbound'
 		end
 	elseif trader.status == 'orbit' then
-		trader['starport'] = getNearestStarport(ship)
-		ship:AIDockWith(trader.starport)
-		trader['status'] = 'inbound'
+		if ai_error == 'NONE' then
+			trader['delay'] = Game.time + 21600 -- 6 hours
+			Timer:CallAt(trader.delay, function ()
+				if ship:exists() then
+					trader['starport'] = getNearestStarport(ship)
+					ship:AIDockWith(trader.starport)
+					trader['status'] = 'inbound'
+					trader['delay'] = nil
+				end
+			end)
+		end
+		-- XXX if ORBIT_IMPOSSIBLE asteroid? get parent of parent and attempt orbit?
 	elseif trader.status == 'inbound' then
-		-- AIDockWith emits AICompleted before the ship has finish docking
-		-- or the starport may have been full or maybe the docking port was busy
-		-- get parent body of starport and orbit if not docked after 3 minutes
-		local sbody = trader.starport.path:GetSystemBody()
-		local body = Space.GetBody(sbody.parent.index)
-		trader['delay'] = Game.time + 180
-		Timer:CallAt(trader.delay, function ()
-			if ship:exists() and trader.status == 'inbound' then
-				ship:AIEnterLowOrbit(body)
-				trader['status'] = 'orbit'
-				trader['delay'] = nil
-				print(ship.label..' ordering orbit')
-			end
-		end)
+		if ai_error == 'REFUSED_PERM' then
+			local sbody = trader.starport.path:GetSystemBody()
+			local body = Space.GetBody(sbody.parent.index)
+			ship:AIEnterLowOrbit(body)
+			trader['status'] = 'orbit'
+			print(ship.label..' ordering orbit')
+		end
 	end
 end
 EventQueue.onAICompleted:Connect(onAICompleted)
 
 local onShipAlertChanged = function (ship, alert)
-	if trade_ships[ship.label] == nil then return end
+	if trade_ships[ship] == nil then return end
 	print(ship.label..' alert changed to '..alert)
-	local trader = trade_ships[ship.label]
+	local trader = trade_ships[ship]
 	if trader.attacker == nil then return end
 
 	if alert == 'NONE' or not trader.attacker:exists() or
@@ -593,8 +659,8 @@ EventQueue.onShipAlertChanged:Connect(onShipAlertChanged)
 
 local onShipHit = function (ship, attacker)
 	-- XXX this whole thing might be better if based on amount of damage sustained
-	if trade_ships[ship.label] == nil then return end
-	local trader = trade_ships[ship.label]
+	if trade_ships[ship] == nil then return end
+	local trader = trade_ships[ship]
 
 	trader['chance'] = trader.chance or 0
 	trader['chance'] = trader.chance + 0.1
@@ -634,11 +700,16 @@ local onShipHit = function (ship, attacker)
 
 	-- maybe jettison a bit of cargo
 	if Engine.rand:Number(1) < trader.chance then
-		local cargo_list = ship:GetEquip('CARGO')
-		if #cargo_list == 0 then return end
-
-		local cargo = cargo_list[Engine.rand:Integer(1, #cargo_list)]
-		if cargo ~= 'NONE' and cargo ~= 'HYDROGEN' and ship:Jettison(cargo) then
+		local cargo_type = nil
+		local max_cap = ship:GetStats().maxCapacity
+		for k, v in pairs(trader.cargo) do
+			if v > 1 and Engine.rand:Number(1) < v / max_cap then
+				cargo_type = k
+				break
+			end
+		end
+		if cargo_type and ship:Jettison(cargo_type) then
+			trader.cargo[cargo_type] = trader.cargo[cargo_type] - 1
 			UI.ImportantMessage(attacker.label..', take this and leave us be, you filthy pirate!', ship.label)
 			trader['chance'] = trader.chance - 0.1
 		end
@@ -647,7 +718,7 @@ end
 EventQueue.onShipHit:Connect(onShipHit)
 
 local onShipCollided = function (ship, other)
-	if trade_ships[ship.label] == nil then return end
+	if trade_ships[ship] == nil then return end
 	if other:isa('CargoBody') then return end
 	
 	if other:isa('Ship') and other:IsPlayer() then
@@ -661,19 +732,19 @@ end
 EventQueue.onShipCollided:Connect(onShipCollided)
 
 local onShipDestroyed = function (ship, attacker)
-	if trade_ships[ship.label] ~= nil then
-		local trader = trade_ships[ship.label]
+	if trade_ships[ship] ~= nil then
+		local trader = trade_ships[ship]
 
 		print(ship.label..' destroyed by '..attacker.label..', status:'..trader.status..' ship:'..trader.ship_name..', starport:'..trader.starport.label)
-		trade_ships[ship.label] = nil
+		trade_ships[ship] = nil
 
 		if not attacker:isa("Ship") then
 			spawnReplacement()
 		end
 		-- XXX consider spawning some CargoBodies if killed by a ship
 	else
-		for label, trader in pairs(trade_ships) do
-			if label ~= 'interval' and trader.attacker and trader.attacker == ship then
+		for t_ship, trader in pairs(trade_ships) do
+			if t_ship ~= 'interval' and trader.attacker and trader.attacker == ship then
 				trader['attacker'] = nil
 				if trader.status == 'fleeing' then
 					-- had not reached starport yet
@@ -682,20 +753,14 @@ local onShipDestroyed = function (ship, attacker)
 					-- already reached starport and docked
 					trader['status'] = 'docked'
 
-					-- need the ship object for the trader
-					local ships = Space.GetBodies(function (body)
-						return body:isa("Ship") and body.label == label
-					end)
-					assert(#ships == 1, 'got '..#ships..' entries, expected 1')
-
 					if trader.delay > Game.time then
 						--[[ not ready to undock, so schedule it
 						there is a slight chance that the status was changed while
 						onShipDocked was in progress so fire a bit later ]]
-						Timer:CallAt(trader.delay + 120, function () doUndock(ships[1]) end)
+						Timer:CallAt(trader.delay + 120, function () doUndock(t_ship) end)
 					else
 						-- ready to undock
-						doUndock(ships[1])
+						doUndock(t_ship)
 					end
 				end
 				return
@@ -707,10 +772,12 @@ EventQueue.onShipDestroyed:Connect(onShipDestroyed)
 
 local onGameStart = function ()
 	-- create tables for data on the current system
-	starports, imports, exports = {}, {}, {}
+	from_paths, starports, imports, exports = {}, {}, {}, {}
+
+	system_updated = true
 
 	if trade_ships == nil then
-		-- create table to hold ships, keyed by label (ex. OD-7764)
+		-- create table to hold ships, keyed by ship object
 		trade_ships = {}
 		spawnInitialShips(true)
 	else
@@ -733,35 +800,42 @@ local onGameStart = function ()
 			end
 		end
 
+		-- rebuild nearby system paths for hyperspace spawns to come from
+		local from_systems, dist = {}, 10
+		while #from_systems < 10 do
+			dist = dist + 5
+			from_systems = Game.system:GetNearbySystems(dist)
+		end
+		from_paths = {}
+		for _, system in ipairs(from_systems) do
+			table.insert(from_paths, system.path)
+		end
+
 		-- check if any trade ships were waiting on a timer
-		local ships = Space.GetBodies(function (body)
-			return body:isa("Ship")
-				and trade_ships[body.label] ~= nil
-				and trade_ships[body.label]['delay'] ~= nil
-		end)
-		if #ships > 0 then
-			for i, ship in ipairs(ships) do
-				local trader = trade_ships[ship.label]
-				if trader.delay > Game.time then
-					if trader.status == 'docked' then
-						Timer:CallAt(trader.delay, function () doUndock(ship) end)
-					elseif trader.status == 'inbound' then
-						-- was waiting to see if docking succeeded
-						ship:AIDockWith(trader.starport)
-					end
+		for ship, trader in ipairs(trade_ships) do
+			if trader.delay > Game.time then
+				if trader.status == 'docked' then
+					Timer:CallAt(trader.delay, function () doUndock(ship) end)
+				elseif trader.status == 'orbit' then
+					Timer:CallAt(trader.delay, function ()
+						if ship:exists() then
+							trader['starport'] = getNearestStarport(ship)
+							ship:AIDockWith(trader.starport)
+							trader['status'] = 'inbound'
+							trader['delay'] = nil
+						end
+					end)
 				end
 			end
 		end
 	end
-
-	system_updated = true
 end
 EventQueue.onGameStart:Connect(onGameStart)
 
 local onGameEnd = function ()
 	-- drop the references for our data so Lua can free them
 	-- and so we can start fresh if the player starts another game
-	trade_ships, starports, imports, exports, system_updated = nil, nil, nil, nil, nil
+	trade_ships, system_updated, from_paths, starports, imports, exports = nil, nil, nil, nil, nil, nil
 end
 EventQueue.onGameEnd:Connect(onGameEnd)
 
