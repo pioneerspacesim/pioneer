@@ -1127,6 +1127,13 @@ bool AICmdFlyAround::TimeStepUpdate()
 		m_ship->AIMatchVel(vector3d(0.0)); return false;
 	}
 
+	// max feature avoidance check, response
+	if (obsdist < MaxFeatureRad(m_obstructor)) {
+		double ang = m_ship->AIFaceDirection(-obsdir);
+		m_ship->AIMatchVel(ang < 0.05 ? 1000.0 * -obsdir : 0.0);
+		return false;
+	}
+
 	// calculate target velocity
 	double alt = (tanvel * timestep + obspos).Length();		// unnecessary?
 	double ivel = calc_ivel(alt - m_alt, 0.0, m_ship->GetAccelMin());
