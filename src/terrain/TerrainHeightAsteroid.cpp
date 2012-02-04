@@ -18,8 +18,16 @@ TerrainHeightFractal<TerrainHeightAsteroid>::TerrainHeightFractal(const SBody *b
 template <>
 double TerrainHeightFractal<TerrainHeightAsteroid>::GetHeight(const vector3d &p)
 {
-	float heightmap = octavenoise(8, 0.2*octavenoise(4, 0.3, 3.7, p), 15.0*octavenoise(1, 0.5, 4.0, p), p) - 
-		0.75*billow_octavenoise(16*octavenoise(3, 0.275, 3.2, p), 0.4*octavenoise(2, 0.4, 3.0, p), 4.0*octavenoise(1, 0.35, 3.7, p), p);
+	//p.x = 3*(p.y-p.x);
+	//p.y = (-p.x*p.z) + (26.5*p.x) - p.y;
+	//p.z = (p.x*p.y) - p.z;
+	//float heightmap = octavenoise(64, 0.4, 1.6, 12.0*(3*(p.y-p.x), (-p.x*p.z) + (26.5*p.x) - p.y, (p.x*p.y) - p.z) );
+	//Lorenz attractor:
+	//float heightmap = octavenoise(8, 0.5, 2.0, (3*(p.y-p.x), (-p.x*p.z) + (26.5*p.x) - p.y, (p.x*p.y) - p.z) );
+	//float heightmap = octavenoise(8, 0.2*octavenoise(1, 0.3, 3.7, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), 15.0*octavenoise(1, 0.5, 4.0, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), (p.x*2.0-p.y, p.y*2.0-p.x, p.z)) -
+		//0.75*billow_octavenoise(8*octavenoise(1, 0.275, 3.2, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), 0.4*octavenoise(1, 0.4, 3.0, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), 4.0*octavenoise(1, 0.35, 3.7, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), (p.x*2.0-p.y, p.y*2.0-p.x, p.z));
 
+	float heightmap = octavenoise(8, 0.4, 1.6, p);
+	
 	return m_maxHeight*heightmap;
 }

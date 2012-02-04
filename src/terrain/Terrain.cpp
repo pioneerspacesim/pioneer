@@ -78,7 +78,7 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 		}
 
 		case SBody::TYPE_PLANET_ASTEROID:
-			gi = InstanceGenerator<TerrainHeightAsteroid4,TerrainColorAsteroid>;
+			gi = InstanceGenerator<TerrainHeightAsteroid,TerrainColorAsteroid>;
 			break;
 
 		case SBody::TYPE_PLANET_TERRESTRIAL: {
