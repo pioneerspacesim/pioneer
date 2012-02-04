@@ -144,6 +144,7 @@ noinst_HEADERS = \
 	mtrand.h \
 	perlin.h \
 	utils.h \
+	vector2.h \
 	vector3.h \
 	enum_table.h
 
