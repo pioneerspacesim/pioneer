@@ -282,7 +282,7 @@ void ScannerWidget::Update()
 			m_manualRange = m_currentRange;
 		m_manualRange = Clamp(m_manualRange * 1.05f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 	}
-	else if (KeyBindings::decreaseScanRange.IsActive() && m_manualRange > SCANNER_RANGE_MIN) {
+	else if (KeyBindings::decreaseScanRange.IsActive()) {
 		if (m_mode == SCANNER_MODE_AUTO) {
 			m_manualRange = m_targetRange;
 			m_mode = SCANNER_MODE_MANUAL;
