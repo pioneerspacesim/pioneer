@@ -43,3 +43,5 @@ stamp-h1
 *~
 *.orig
 pioneer-*.tar.*
+*.pdb
+*.ilk
