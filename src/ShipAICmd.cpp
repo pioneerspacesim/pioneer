@@ -1067,7 +1067,7 @@ AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double 
 vector3d AICmdFlyAround::Targpos()
 {
 	switch (m_targmode) {
-		default: return m_ship->GetPosition() + m_ship->GetVelocity();
+		default: return m_ship->GetVelocity().NormalizedSafe()*m_ship->GetPosition().LengthSqr();
 		case 1: return GetPosInFrame(m_ship->GetFrame(), m_target->GetFrame(), m_target->GetPosition());
 		case 2: return GetPosInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
 	}
