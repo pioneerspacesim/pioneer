@@ -204,6 +204,7 @@ void ScannerWidget::Update()
 		return;
 	}
 
+	// range priority is combat target > ship/missile > nav target > other
 	enum { RANGE_MAX, RANGE_FAR_OTHER, RANGE_NAV, RANGE_FAR_SHIP, RANGE_COMBAT } range_type = RANGE_MAX;
 	float combat_dist = 0, far_ship_dist = 0, nav_dist = 0, far_other_dist = 0;
 
@@ -294,7 +295,6 @@ void ScannerWidget::Update()
 		m_manualRange = Clamp(m_manualRange * 0.95f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 	}
 
-	// range priority is combat target > ship/missile > nav target > other
 	if (m_mode == SCANNER_MODE_AUTO) {
 		switch (range_type) {
 			case RANGE_COMBAT:
