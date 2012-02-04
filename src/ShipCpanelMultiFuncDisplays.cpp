@@ -228,16 +228,17 @@ void ScannerWidget::Update()
 					break;
 				}
 
-				// fall through
+				// else fall through
 
 			case Object::SHIP: {
 				Ship *s = static_cast<Ship*>(*i);
 				if (s->GetFlightState() != Ship::FLYING && s->GetFlightState() != Ship::LANDED)
 					continue;
 
+				if ((*i) == Pi::player->GetCombatTarget()) c.isSpecial = true;
+
 				if (m_mode == SCANNER_MODE_AUTO && range_type != RANGE_COMBAT) {
-					if ((*i) == Pi::player->GetCombatTarget()) {
-						c.isSpecial = true;
+					if (c.isSpecial == true) {
 						combat_dist = dist;
 						range_type = RANGE_COMBAT;
 					}
@@ -253,9 +254,10 @@ void ScannerWidget::Update()
 			case Object::CARGOBODY:
 			case Object::HYPERSPACECLOUD:
 
+				if ((*i) == Pi::player->GetNavTarget()) c.isSpecial = true;
+
 				if (m_mode == SCANNER_MODE_AUTO && range_type < RANGE_NAV) {
-					if ((*i) == Pi::player->GetNavTarget()) {
-						c.isSpecial = true;
+					if (c.isSpecial == true) {
 						nav_dist = dist;
 						range_type = RANGE_NAV;
 					}
