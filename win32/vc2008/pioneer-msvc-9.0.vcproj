@@ -1033,6 +1033,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\terrain\TerrainHeightMapped2.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\terrain\TerrainHeightMountainsCraters.cpp"
 				>
 			</File>
