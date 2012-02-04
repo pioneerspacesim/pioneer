@@ -950,7 +950,7 @@ void SectorView::Line3D::Draw()
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, verts);
 	glColorPointer(4, GL_FLOAT, 0, col);
-	glDrawArrays(GL_LINES, 0, 6);
+	glDrawArrays(GL_LINES, 0, 2);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 	glLineWidth(1.f);
