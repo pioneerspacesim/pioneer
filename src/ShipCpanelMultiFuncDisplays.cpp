@@ -253,7 +253,6 @@ void ScannerWidget::Update()
 			case Object::CARGOBODY:
 			case Object::HYPERSPACECLOUD:
 
-				// XXX could maybe add orbital stations
 				if (m_mode == SCANNER_MODE_AUTO && range_type != RANGE_NAV && range_type != RANGE_COMBAT) {
 					if ((*i) == Pi::player->GetNavTarget()) {
 						c.isSpecial = true;
