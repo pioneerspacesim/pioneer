@@ -253,7 +253,7 @@ void ScannerWidget::Update()
 			case Object::CARGOBODY:
 			case Object::HYPERSPACECLOUD:
 
-				if (m_mode == SCANNER_MODE_AUTO && range_type != RANGE_NAV && range_type != RANGE_COMBAT) {
+				if (m_mode == SCANNER_MODE_AUTO && range_type < RANGE_NAV) {
 					if ((*i) == Pi::player->GetNavTarget()) {
 						c.isSpecial = true;
 						nav_dist = dist;
