@@ -44,11 +44,16 @@ enum BlendMode {
 	BLEND_ALPHA_PREMULT
 };
 
+//allowed minimum of GL_MAX_VERTEX_ATTRIBS is 8 on ES2
 enum VertexAttribs {
 	ATTRIB_POSITION = 0,
 	ATTRIB_NORMAL = 1,
 	ATTRIB_DIFFUSE = 2,
-	ATTRIB_UV0 = 3
+	ATTRIB_UV0 = 3,
+	ATTRIB_UV1 = 4,
+	ATTRIB_TANGENT = 5,
+	ATTRIB_BITANGENT = 6
+	//ATTRIB_CUSTOM?
 };
 #define NUM_ATTRIBS 4
 
