@@ -92,7 +92,7 @@ void Starfield::Fill(unsigned long seed)
 	m_model->numSurfaces = 1;
 }
 
-void Starfield::Draw()
+void Starfield::Draw(Renderer *renderer)
 {
 	glDisable(GL_DEPTH_TEST);
 
@@ -105,7 +105,7 @@ void Starfield::Draw()
 
 	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-		Pi::renderer->DrawStaticMesh(m_model);
+		renderer->DrawStaticMesh(m_model);
 	} else {
 		/* HYPERSPACING!!!!!!!!!!!!!!!!!!! */
 		/* all this jizz isn't really necessary, since the player will
@@ -216,11 +216,11 @@ MilkyWay::~MilkyWay()
 	delete m_model;
 }
 
-void MilkyWay::Draw()
+void MilkyWay::Draw(Renderer *renderer)
 {
 	glDisable(GL_DEPTH_TEST);
 	assert(m_model != 0);
-	Pi::renderer->DrawStaticMesh(m_model);
+	renderer->DrawStaticMesh(m_model);
 	glEnable(GL_DEPTH_TEST);
 }
 
@@ -241,15 +241,15 @@ void Container::Refresh(unsigned long seed)
 
 void Container::Draw(const matrix4x4d &transform) const
 {
-	// XXX not really const - renderer can modify the buffers
+	//XXX not really const - renderer can modify the buffers
 	glPushMatrix();
-	glMultMatrixd(&transform[0]);
-	const_cast<MilkyWay&>(m_milkyWay).Draw();
-	glPushMatrix();
+	Renderer *renderer = Pi::renderer;
+	renderer->SetTransform(transform);
+	const_cast<MilkyWay&>(m_milkyWay).Draw(renderer);
 	// squeeze the starfield a bit to get more density near horizon
-	glScalef(1.f, 0.4f, 1.f);
-	const_cast<Starfield&>(m_starField).Draw();
-	glPopMatrix();
+	matrix4x4d starTrans = transform * matrix4x4d::ScaleMatrix(1.0, 0.4, 1.0);
+	renderer->SetTransform(starTrans);
+	const_cast<Starfield&>(m_starField).Draw(renderer);
 	glPopMatrix();
 }
 

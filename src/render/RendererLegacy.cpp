@@ -48,6 +48,15 @@ bool RendererLegacy::SwapBuffers()
 	return true;
 }
 
+bool RendererLegacy::SetTransform(const matrix4x4d &m)
+{
+	//XXX this is not the intended final state, but now it's easier to do this
+	//and rely on push/pop in objects' render functions
+	//GL2+ or ES2 renderers can forego the classic matrix stuff entirely and use uniforms
+	glLoadMatrixd(&m[0]);
+	return true;
+}
+
 bool RendererLegacy::SetBlendMode(BlendMode m)
 {
 	//where does SRC_ALPHA, ONE fit in?

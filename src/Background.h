@@ -20,7 +20,7 @@ namespace Background
 		Starfield();
 		Starfield(unsigned long seed);
 		~Starfield();
-		void Draw();
+		void Draw(Renderer *r);
 		//create or recreate the starfield
 		void Fill(unsigned long seed);
 	private:
@@ -37,7 +37,7 @@ namespace Background
 	public:
 		MilkyWay();
 		~MilkyWay();
-		void Draw();
+		void Draw(Renderer *r);
 	private:
 		StaticMesh *m_model;
 	};

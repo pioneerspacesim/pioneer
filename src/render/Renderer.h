@@ -169,6 +169,9 @@ public:
 	//traditionally gui happens between endframe and swapbuffers
 	virtual bool SwapBuffers() = 0;
 
+	//set the model view matrix
+	virtual bool SetTransform(const matrix4x4d &m) { return false; }
+
 	//render state functions
 	virtual bool SetBlendMode(BlendMode type) { return false; }
 	//virtual bool SetState(Z_WRITE, false) or

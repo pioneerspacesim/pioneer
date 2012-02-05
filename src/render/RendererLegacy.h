@@ -16,6 +16,8 @@ public:
 	virtual bool EndFrame();
 	virtual bool SwapBuffers();
 
+	virtual bool SetTransform(const matrix4x4d &m);
+
 	virtual bool SetBlendMode(BlendMode mode);
 
 	virtual bool SetLights(int numlights, const Light *l);
