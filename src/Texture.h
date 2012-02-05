@@ -71,6 +71,8 @@ public:
 	// need to know the underlying texture format
 	const Format &GetFormat() const { return m_format; }
 
+	void SetWrapMode(WrapMode mode);
+
 	// convenience methods to draw a quad using this texture. it will enable
 	// the target and bind the texture, draw the quad and then unbind the
 	// texture and disbale the target. x/y/w/h are the position and size of

@@ -57,15 +57,11 @@ namespace ShipThruster {
 
 		thrusTex = s_textureCache->GetModelTexture(PIONEER_DATA_DIR"/textures/thruster.png");
 		thrusTex->Bind();
-		//XXX implement SetwrapMode
-		glTexParameteri(thrusTex->GetTarget(), GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(thrusTex->GetTarget(), GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		thrusTex->SetWrapMode(Texture::CLAMP);
 
 		glowTex = s_textureCache->GetModelTexture(PIONEER_DATA_DIR"/textures/halo.png");
 		glowTex->Bind();
-		//XXX implement SetwrapMode
-		glTexParameteri(glowTex->GetTarget(), GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(glowTex->GetTarget(), GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		thrusTex->SetWrapMode(Texture::CLAMP);
 		glowTex->Unbind();
 
 		//zero at thruster center
