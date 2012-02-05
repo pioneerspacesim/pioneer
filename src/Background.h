@@ -5,6 +5,7 @@
 #include "render/Render.h"
 
 class StaticMesh;
+struct Material;
 struct VertexArray;
 /*
  * Classes to draw background stars and the milky way
@@ -23,10 +24,12 @@ namespace Background
 		//create or recreate the starfield
 		void Fill(unsigned long seed);
 	private:
+		void Init();
 		static const int BG_STAR_MAX = 65536;
 		StaticMesh *m_model;
 		VertexArray *m_stars;
 		Render::Shader *m_shader;
+		Material *m_material;
 	};
 	
 	class MilkyWay

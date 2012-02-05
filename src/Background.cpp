@@ -14,20 +14,14 @@ namespace Background
 
 Starfield::Starfield()
 {
-	// reserve some space for positions, colours
-	m_stars = new VertexArray(BG_STAR_MAX, true, false);
-	// one "surface"
-	m_model = new StaticMesh(1);
-	m_shader = new Render::Shader("bgstars");
+	Init();
 	//starfield is not filled without a seed
 }
 
 Starfield::Starfield(unsigned long seed)
 {
-	m_stars = new VertexArray(BG_STAR_MAX, true, false);
-	m_model = new StaticMesh(1);
+	Init();
 	Fill(seed);
-	m_shader = new Render::Shader("bgstars");
 }
 
 Starfield::~Starfield()
@@ -35,6 +29,19 @@ Starfield::~Starfield()
 	delete m_stars;
 	delete m_model;
 	delete m_shader;
+	delete m_material;
+}
+
+void Starfield::Init()
+{
+	// reserve some space for positions, colours
+	m_stars = new VertexArray(BG_STAR_MAX, true, false);
+	// one "surface"
+	m_model = new StaticMesh(1);
+	m_shader = new Render::Shader("bgstars");
+	m_material = new Material();
+	m_material->shader = m_shader;
+	m_model->surfaces[0].mat = m_material;
 }
 
 void Starfield::Fill(unsigned long seed)
@@ -90,7 +97,6 @@ void Starfield::Draw()
 	glDisable(GL_DEPTH_TEST);
 
 	if (Render::AreShadersEnabled()) {
-		Render::State::UseProgram(m_shader);
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 	} else {
 		glDisable(GL_POINT_SMOOTH);
