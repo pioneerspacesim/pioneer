@@ -127,7 +127,7 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, const Material *m, Primiti
 	const bool normals = !v->normal.empty();
 	const unsigned int numverts = v->position.size();
 	const bool twoSided = (m && m->twoSided);
-	const bool flat = (m && m->type == Material::TYPE_DEFAULT && v->diffuse.empty());
+	const bool flat = (m && v->diffuse.empty());
 
 	if (twoSided)
 		glDisable(GL_CULL_FACE);
@@ -136,12 +136,11 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, const Material *m, Primiti
 	Render::Shader *s = 0;
 	if (!m)
 		s = Render::simpleShader;
+	else if (m->shader)
+		s = m->shader;
 	else if (flat)
 		s = flatProg;
-	else if(m->type == Material::TYPE_PLANETRING) {
-		const int lights = Clamp(m_numLights-1, 0, 3);
-		s = Render::planetRingsShader[lights];
-	} else if (textured)
+	else if (textured)
 		s = simpleTextured;
 	if (s)
 		Render::State::UseProgram(s);

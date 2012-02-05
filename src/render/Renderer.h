@@ -101,12 +101,6 @@ struct VertexArray {
 // with Apply() and perhaps Cleanup() methods. Users can then request
 // materials with Material *mat = renderer->RequestMaterial(...)
 struct Material {
-	enum MaterialType {
-		TYPE_DEFAULT = 0,
-		TYPE_PLANETRING,
-		TYPE_ATMOSPHERE
-	};
-	MaterialType type;
 	Texture *texture0;
 	//Texture *texture1;
 	Color diffuse;
@@ -114,8 +108,10 @@ struct Material {
 	//Color specular;
 	bool unlit;
 	bool twoSided;
+
+	Render::Shader *shader; //custom glsl prog
 	//etc
-	Material() : type(TYPE_DEFAULT), texture0(0), unlit(false), twoSided(false) { }
+	Material() : texture0(0), unlit(false), twoSided(false), shader(0) { }
 };
 
 // surface with a material

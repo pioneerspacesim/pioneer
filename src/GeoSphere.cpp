@@ -1262,7 +1262,7 @@ void GeoSphere::BuildFirstPatches()
 
 static const float g_ambient[4] = { 0, 0, 0, 1.0 };
 
-static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, float rad)
+static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, float rad, Material *mat)
 {
 	const int LAT_SEGS = 20;
 	const int LONG_SEGS = 20;
@@ -1298,10 +1298,7 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 			cos(latDiff),
 			-sin(latDiff)*sinCosTable[i][1]));
 	}
-	// XXX atmosphere material
-	Material dummyAtmoMaterial;
-	dummyAtmoMaterial.type = Material::TYPE_ATMOSPHERE;
-	renderer->DrawTriangles(&va, &dummyAtmoMaterial, TRIANGLE_FAN);
+	renderer->DrawTriangles(&va, mat, TRIANGLE_FAN);
 
 	/* and wound latitudinal strips */
 	double lat = latDiff;
@@ -1315,7 +1312,7 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 			v.Add(vector3f(sinLat*sinCosTable[i][0], cosLat, -sinLat*sinCosTable[i][1]));
 			v.Add(vector3f(sinLat2*sinCosTable[i][0], cosLat2, -sinLat2*sinCosTable[i][1]));
 		}
-		renderer->DrawTriangles(&v, &dummyAtmoMaterial, TRIANGLE_STRIP);
+		renderer->DrawTriangles(&v, mat, TRIANGLE_STRIP);
 	}
 
 	glPopMatrix();
@@ -1349,13 +1346,16 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 			shader->set_geosphereAtmosFogDensity(atmosDensity);
 			shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
 			shader->set_geosphereCenter(center.x, center.y, center.z);
+
+			Material atmoMat;
+			atmoMat.shader = shader;
 			
 			renderer->SetBlendMode(BLEND_ALPHA_ONE);
 			glDepthMask(GL_FALSE);
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
-			DrawAtmosphereSurface(renderer, campos, atmosRadius*1.01);
+			DrawAtmosphereSurface(renderer, campos, atmosRadius*1.01, &atmoMat);
 			glDepthMask(GL_TRUE);
 			renderer->SetBlendMode(BLEND_SOLID);
 		}

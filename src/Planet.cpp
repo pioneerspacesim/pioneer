@@ -152,11 +152,11 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_NORMALIZE);
 
-	// XXX ring material
 	Material mat;
-	mat.type = Material::TYPE_PLANETRING;
 	mat.unlit = true;
 	mat.twoSided = true;
+	// XXX worldview numlights always 1!
+	mat.shader = Render::planetRingsShader[Pi::worldView->GetNumLights()-1];
 
 //	MTRand rng((int)Pi::game->GetTime());
 	MTRand rng(GetSBody()->seed+965467);
@@ -197,6 +197,7 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 
 void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 {
+	//this is the non-shadered atmosphere rendering
 	Color col;
 	double density;
 	GetSBody()->GetAtmosphereFlavor(&col, &density);
@@ -245,7 +246,6 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 	rot = matrix4x4d::RotateZMatrix(angStep);
 
 	renderer->SetBlendMode(BLEND_ALPHA_ONE);
-	glDisable(GL_CULL_FACE);
 
 	VertexArray vts;
 	for (float ang=0; ang<2*M_PI; ang+=float(angStep)) {
@@ -265,13 +265,13 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 		r1 = rot * r1;
 		r2 = rot * r2;
 	}
-	// XXX atmosphere material
+
 	Material mat;
 	mat.unlit = true;
+	mat.twoSided = true;
 	renderer->DrawTriangles(&vts, &mat, TRIANGLE_STRIP);
-
-	glEnable(GL_CULL_FACE);
 	renderer->SetBlendMode(BLEND_SOLID);
+
 	glPopMatrix();
 }
 
