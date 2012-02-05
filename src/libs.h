@@ -21,6 +21,8 @@
 #endif /* PIONEER_DATA_DIR */
 
 #ifdef _WIN32
+#   pragma warning(disable : 4244) // "conversion from x to x: possible loss of data"
+#   pragma warning(disable : 4800) // int-to-bool "performance warning"
 #	include <malloc.h>
 
 #	ifndef __MINGW32__
