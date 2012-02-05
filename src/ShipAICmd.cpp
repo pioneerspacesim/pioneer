@@ -1067,7 +1067,7 @@ AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double 
 vector3d AICmdFlyAround::Targpos()
 {
 	switch (m_targmode) {
-		default: return m_ship->GetPosition() + m_ship->GetVelocity();
+		default: return m_ship->GetVelocity().NormalizedSafe()*m_ship->GetPosition().LengthSqr();
 		case 1: return GetPosInFrame(m_ship->GetFrame(), m_target->GetFrame(), m_target->GetPosition());
 		case 2: return GetPosInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
 	}
@@ -1125,6 +1125,13 @@ bool AICmdFlyAround::TimeStepUpdate()
 	if (CheckSuicide(m_ship, -obsdir)) {
 		m_ship->AIFaceDirection(m_ship->GetPosition());		// face away from planet
 		m_ship->AIMatchVel(vector3d(0.0)); return false;
+	}
+
+	// max feature avoidance check, response
+	if (obsdist < MaxFeatureRad(m_obstructor)) {
+		double ang = m_ship->AIFaceDirection(-obsdir);
+		m_ship->AIMatchVel(ang < 0.05 ? 1000.0 * -obsdir : 0.0);
+		return false;
 	}
 
 	// calculate target velocity
