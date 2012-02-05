@@ -2,8 +2,6 @@
 #define _RENDERER_H
 
 #include "libs.h"
-#include "vector3.h"
-#include "Color.h"
 
 /*
  * Don't mind the mess! Experiments are happening.
@@ -53,14 +51,6 @@ enum VertexAttribs {
 	ATTRIB_UV0 = 3
 };
 #define NUM_ATTRIBS 4
-
-// some data structures
-struct vector2f {
-	vector2f() : x(0.f), y(0.f) { }
-	vector2f(float _v) : x(_v), y(_v) { }
-	vector2f(float _x, float _y) : x(_x), y(_y) { }
-	float x, y;
-};
 
 struct LineVertex {
 	LineVertex() : position(0.f, 0.f, 0.f), color(0.f) { }

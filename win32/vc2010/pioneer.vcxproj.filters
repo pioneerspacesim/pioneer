@@ -1171,6 +1171,9 @@
     <ClInclude Include="..\..\src\render\Renderer.h">
       <Filter>src\render</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\vector2.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am">

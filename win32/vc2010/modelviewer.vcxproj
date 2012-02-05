@@ -172,6 +172,9 @@
     <ClCompile Include="..\..\src\MyLuaMathTypes.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\render\Render.cpp" />
+    <ClCompile Include="..\..\src\render\Renderer.cpp" />
+    <ClCompile Include="..\..\src\render\RendererGL2.cpp" />
+    <ClCompile Include="..\..\src\render\RendererLegacy.cpp" />
     <ClCompile Include="..\..\src\render\RenderShader.cpp" />
     <ClCompile Include="..\..\src\render\RenderTarget.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
@@ -235,6 +238,9 @@
     <ClInclude Include="..\..\src\MyLuaMathTypes.h" />
     <ClInclude Include="..\..\src\perlin.h" />
     <ClInclude Include="..\..\src\render\Render.h" />
+    <ClInclude Include="..\..\src\render\Renderer.h" />
+    <ClInclude Include="..\..\src\render\RendererGL2.h" />
+    <ClInclude Include="..\..\src\render\RendererLegacy.h" />
     <ClInclude Include="..\..\src\render\RenderShader.h" />
     <ClInclude Include="..\..\src\render\RenderTarget.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
@@ -243,6 +249,7 @@
     <ClInclude Include="..\..\src\TextureCache.h" />
     <ClInclude Include="..\..\src\TextureFont.h" />
     <ClInclude Include="..\..\src\utils.h" />
+    <ClInclude Include="..\..\src\vector2.h" />
     <ClInclude Include="..\..\src\vector3.h" />
     <ClInclude Include="..\..\src\VectorFont.h" />
     <ClInclude Include="..\src\pch.h" />
