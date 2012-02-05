@@ -194,6 +194,7 @@ namespace ShipThruster {
 		Render::State::UseProgram(thrusterProg);
 		thrusterProg->SetUniform("texture0", 0);
 		thrusterProg->SetUniform("color", color);
+		glColor4f(color.r, color.g, color.b, color.a);
 
 		glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &verts[0].pos);
 		glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &verts[0].u);
@@ -208,6 +209,7 @@ namespace ShipThruster {
 			glow = Clamp(viewdir.Dot(cdir), 0.f, 1.f);
 			color.a = pow(glow, 2.f);
 			thrusterProg->SetUniform("color", color);
+			glColor4f(color.r, color.g, color.b, color.a);
 			glPushMatrix();
 			matrix4x4f rot;
 			glGetFloatv(GL_MODELVIEW_MATRIX, &rot[0]);
@@ -525,9 +527,12 @@ public:
 		glEnable(GL_BLEND);
 		glDepthMask(GL_FALSE);
 		glDisable(GL_CULL_FACE);
+		glEnable(GL_TEXTURE_2D);
 		for (unsigned int i=0; i<m_thrusters.size(); i++) {
 			m_thrusters[i].Render(rstate, params);
 		}
+		glDisable(GL_TEXTURE_2D);
+		glColor3f(1.f, 1.f, 1.f);
 		glDisable(GL_BLEND);
 		glDepthMask(GL_TRUE);
 		glEnable(GL_CULL_FACE);
