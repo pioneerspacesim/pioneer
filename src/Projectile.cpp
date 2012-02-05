@@ -7,6 +7,7 @@
 #include "Serializer.h"
 #include "collider/collider.h"
 #include "render/Render.h"
+#include "render/Renderer.h"
 #include "CargoBody.h"
 #include "Planet.h"
 #include "Sfx.h"

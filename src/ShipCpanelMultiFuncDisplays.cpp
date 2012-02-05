@@ -398,7 +398,8 @@ void ScannerWidget::DrawBlobs(bool below)
 		glVertex2f(x, y_blob);
 		glEnd();
 
-		m_renderer->DrawPoints2D(1, &vector2f(x, y_blob), color, pointSize);
+		vector2f blob(x, y_blob);
+		m_renderer->DrawPoints2D(1, &blob, color, pointSize);
 	}
 }
 

@@ -19,6 +19,9 @@
 class Texture;
 class Light;
 class RendererLegacy;
+namespace Render {
+	class Shader;
+}
 
 // first some enums
 enum LineType {
