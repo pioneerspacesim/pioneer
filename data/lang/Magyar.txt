@@ -944,10 +944,6 @@ VAST_STRIP_MINE
     Óriási külszínfejtő bányakolónia
 HIGH_POPULATION_OUTDOOR_WORLD
     Nagy népességü külső világ
-SOMEWHERE_SPACEPORT
-    %spaceport űrkikötő
-SOMEWHERE_STARPORT
-    %starport űrkikötő
 MASS
     Tömeg
 N_WHATEVER_MASSES
