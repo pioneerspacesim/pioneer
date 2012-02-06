@@ -50,7 +50,6 @@ class Viewer;
 static Viewer *g_viewer;
 
 static void PollEvents();
-extern void LmrModelCompilerInit(TextureCache *textureCache);
 
 static int g_wheelMoveDir = -1;
 static int g_renderType = 0;
@@ -798,7 +797,7 @@ int main(int argc, char **argv)
 	renderer = Render::Init(g_width, g_height, true);
 	Gui::Init(g_width, g_height, g_width, g_height);
 
-	LmrModelCompilerInit(textureCache);
+	LmrModelCompilerInit(renderer, textureCache);
 	LmrNotifyScreenWidth(g_width);
 
 	ShipType::Init();

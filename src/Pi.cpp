@@ -519,7 +519,7 @@ void Pi::Init()
 	CustomSystem::Init();
 	draw_progress(0.4f);
 
-	LmrModelCompilerInit(Pi::textureCache);
+	LmrModelCompilerInit(Pi::renderer, Pi::textureCache);
 	LmrNotifyScreenWidth(Pi::scrWidth);
 	draw_progress(0.5f);
 

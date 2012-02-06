@@ -5,13 +5,14 @@
 #include "LmrModel.h"
 #include "collider/collider.h"
 #include "perlin.h"
-#include "render/Render.h"
 #include "BufferObject.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "EquipType.h"
 #include "ShipType.h"
 #include "TextureCache.h"
+#include "render/Render.h"
+#include "render/Renderer.h"
 #include <set>
 #include <algorithm>
 
@@ -248,6 +249,7 @@ static int s_numTrisRendered;
 static std::string s_cacheDir;
 static bool s_recompileAllModels = true;
 static TextureCache *s_textureCache;
+static Renderer *s_renderer;
 
 struct Vertex {
 	Vertex() : v(0.0), n(0.0), tex_u(0.0), tex_v(0.0) {}		// zero this shit to stop denormal-copying on resize
@@ -4405,8 +4407,9 @@ static void _write_model_crc_file()
 	}
 }
 
-void LmrModelCompilerInit(TextureCache *textureCache)
+void LmrModelCompilerInit(Renderer *renderer, TextureCache *textureCache)
 {
+	s_renderer = renderer;
 	s_textureCache = textureCache;
 
 	s_cacheDir = GetPiUserDir("model_cache");
