@@ -66,6 +66,27 @@ bool RendererLegacy::SetTransform(const matrix4x4f &m)
 	return true;
 }
 
+bool RendererLegacy::SetPerspectiveProjection(float fov, float aspect, float near, float far)
+{
+	double ymax = near * tan(fov * M_PI / 360.0);
+	double ymin = -ymax;
+	double xmin = ymin * aspect;
+	double xmax = ymax * aspect;
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glFrustum(xmin, xmax, ymin, ymax, near, far);
+	return true;
+}
+
+bool RendererLegacy::SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax)
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glFrustum(xmin, xmax, ymin, ymax, zmin, zmax);
+	return true;
+}
+
 bool RendererLegacy::SetBlendMode(BlendMode m)
 {
 	//where does SRC_ALPHA, ONE fit in?

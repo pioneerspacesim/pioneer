@@ -18,6 +18,8 @@ public:
 
 	virtual bool SetTransform(const matrix4x4d &m);
 	virtual bool SetTransform(const matrix4x4f &m);
+	virtual bool SetPerspectiveProjection(float fov, float aspect, float near, float far);
+	virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax);
 
 	virtual bool SetBlendMode(BlendMode mode);
 
