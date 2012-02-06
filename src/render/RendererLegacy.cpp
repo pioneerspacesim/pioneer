@@ -53,7 +53,16 @@ bool RendererLegacy::SetTransform(const matrix4x4d &m)
 	//XXX this is not the intended final state, but now it's easier to do this
 	//and rely on push/pop in objects' render functions
 	//GL2+ or ES2 renderers can forego the classic matrix stuff entirely and use uniforms
+	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd(&m[0]);
+	return true;
+}
+
+bool RendererLegacy::SetTransform(const matrix4x4f &m)
+{
+	//same as above
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf(&m[0]);
 	return true;
 }
 

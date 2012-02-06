@@ -17,6 +17,7 @@ public:
 	virtual bool SwapBuffers();
 
 	virtual bool SetTransform(const matrix4x4d &m);
+	virtual bool SetTransform(const matrix4x4f &m);
 
 	virtual bool SetBlendMode(BlendMode mode);
 

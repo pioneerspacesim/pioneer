@@ -174,6 +174,7 @@ public:
 
 	//set the model view matrix
 	virtual bool SetTransform(const matrix4x4d &m) { return false; }
+	virtual bool SetTransform(const matrix4x4f &m) { return false; }
 
 	//render state functions
 	virtual bool SetBlendMode(BlendMode type) { return false; }
