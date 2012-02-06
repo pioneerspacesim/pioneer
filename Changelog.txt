@@ -1,3 +1,8 @@
+Alpha 20
+
+   * Fixes
+     * Updated zlib and libpng DLLs for MSVC to fix screenshot crash (#942, #645)
+
 Alpha 19
 
    * New features
@@ -29,6 +34,9 @@ Alpha 19
      * Fixed autopilot hangs related to gravpoint frames and small bodies (#935, #921)
      * Fixed crash where missile objects were destroyed while other objects
        were holding a reference to them (#922, #735)
+     * Fixed hang when autopilot tried to start flying around a body from stopped (#934)
+     * Make sure the ship is above the body's max feature height before
+       attempting a flyaround
 
    * Script changes
      * Removed NameGen.PlanetName and replaced with NameGen.BodyName (#896)
