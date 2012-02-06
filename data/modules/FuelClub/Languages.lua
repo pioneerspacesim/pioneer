@@ -83,3 +83,33 @@ Translate:Add({Spanish = {
 	["Begin trade"] = "Comenzar transacción",
 }})
    
+
+  ---- HUNGARIAN / MAGYAR ----
+  
+Translate:AddFlavour('Magyar','FuelClub',{
+	
+	clubname = "Csillagközi pilóták üzemanyagegyüttműködése",
+	welcome = 'Üdvözlünk a(z) {clubname} klubban.',
+	nonmember_intro = [[{clubname} egy független szervezet, amely olcsón kínál űrhajóüzemanyagot tagjainak. A fiókok szerte megtalálhatóak a galaxisban. A tagság előnyei a következők:
+
+	* Saját üzemanyagraktárunk árai függetlenek a piactól
+	* {hydrogen} diszkontáron kapható
+	* {military_fuel} diszkontáron kapható
+	* {radioactives} megsemmisítése ingyen (feltételekkel)
+
+Csatlakozz most! Az éves tagsági díj csak {membership_fee}]],
+	member_intro = [[Továbbá vehetsz üzemanyagot és {radioactives} megsemmisítést is vállalunk.]],
+
+	annual_fee = 400,
+})
+
+Translate:Add({Magyar = {
+	["What conditions apply to {radioactives} disposal?"] = "Mik a feltételei a {radioactives} kezelésének?",
+	["We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."] = "Annyi tonna {radioactives} semlegesítését vállaljuk, amennyi {military_fuel} vásárolsz tőlünk.",
+	["Apply for membership"] = "Tagságigénylés",
+	["Your membership application has been declined."] = "A tagságigénylésedet visszautasítottuk.",
+	["You are now a member. Your membership will expire on {expiry_date}."] = "Immáron tag vagy. A tagságod {expiry_date} napján jár le.",
+	["You must buy our {military_fuel} before we will take your {radioactives}"] = "Venned kell: {military_fuel} mielőtt átvennénk tőled: {radioactives}",
+	["Begin trade"] = "Üzlet megkezdése",
+}})
+

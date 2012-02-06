@@ -100,3 +100,37 @@ Translate:Add({ Spanish = {
   ["Thank you. All donations are welcome."] = "Gracias. Cualquier donación es bienvenida.",
   }
 })
+
+---- HUNGARIAN / MAGYAR ----
+
+Translate:AddFlavour('Magyar','DonateToCranks', {
+  title = "ADAKOZZ! A Szent Repülő Spagettiszörny egyházának szüksége van a pénzedre, hogy terjeszthessük a tanokat.",
+  message = "Kérlek válaszd ki a felajánlásra szánt összeget a Szent Repülő Spagettiszörny egyházának.",
+})
+
+Translate:AddFlavour('Magyar','DonateToCranks', {
+  title = "ADAKOZZ. A Szabad Szellem Őrzői alázatosan kérik jótékony adományodat a kolostoraink támogatásához.",
+  message = "A béke legyen veled, testvér. Kérlek válaszd ki a felajánlásra szánt összeget a Szabad Szellem Őrzői számára.",
+})
+
+Translate:AddFlavour('Magyar','DonateToCranks', {
+  title = "NAGYLELKŰ VAGY? A Háborús árvák Támogató Egylete a segítséged kéri a fennmaradáshoz.",
+  message = "Kérlek, válaszd ki a háborús árvák számára a felajánlásra szánt összeget, hogy véget vethessünk a szenvedésüknek.",
+})
+
+Translate:AddFlavour('Magyar','DonateToCranks', {
+  title = "ADAKOZZ. A Galaxis Barátai 'Tiltsák be a katonai hajtóműveket' hadjáratának a pénzbeli segítséged kell.",
+  message = "Kérlek válaszd ki a Zöld Figyelőknek juttatandó összeget, hogy véget vessünk a galaxisunk szennyezésének.",
+})
+
+Translate:AddFlavour('Magyar','DonateToCranks', {
+  title = "ADAKOZZ! Mentsük meg a fajokat. Állítsuk meg az újonnan betelepült világok kifosztását.",
+  message = "Kérlek válaszd ki az adományozásra szánt összeget."
+})
+
+Translate:Add({ Magyar = {
+  ["You do not have enough money."] = "Nincsen elég pénzed.",
+  ["Wow! That was very generous."] = "Azta! Ez aztán nagylelkű.",
+  ["Thank you. All donations are welcome."] = "Köszönjük. Minden felajánlást szívesen fogadunk.",
+  }
+})

@@ -46,3 +46,21 @@ Translate:Add({ Spanish = {
   }
  }
 })
+
+
+
+---- HUNGARIAN / MAGYAR ----
+
+Translate:Add({ Magyar = {
+  ["Welcome to "] = "Üdvözöllek nálunk: ",
+ 
+ GOODS_TRADER = {
+  "Becsületes {name} áruház",
+  "{name} kereskedőház",
+  "{name} raktáráruház",
+  "{name} árupiac",
+  "{name} holding",
+  "{name} & fiai"
+  }
+ }
+})

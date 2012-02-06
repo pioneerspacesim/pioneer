@@ -663,3 +663,293 @@ Translate:Add({ Spanish = {
 	 "Arment Aerodynamics"
   },
 }, })
+
+
+
+---- HUNGARIAN / MAGYAR ----
+
+Translate:AddFlavour('Magyar','Taxi', {
+
+  adtext = "KERESÜNK: Egy kisebb csoportot {system} rendszerbe elszállító hajót. A fizetség {cash} kredit.",
+  introtext = "Helló, a nevem {name}. Szeretném, ha elvinnél egy kisebb csoportot a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. A megbízásod fizetsége {cash} kredit.",
+
+  whysomuch = "Egy barátunkat látogatjuk meg.",
+  howmany = "{group} személyről van szó.",
+  danger = "Nem.",
+
+
+
+  successmsg = "Köszönjük az utat. Már ki is fizettünk.",
+  failuremsg = "Elfogadhatatlan! Meddig tartott ez az út!? Örökké! Nem fogunk még fizetni is érte!",
+  wherearewe = "Hol vagyunk? Eleget vártunk - AZONNAL vigyél minket a legközelebbi kikötőbe!",
+  single = 0,
+  urgency = 0,
+  risk = 0.001,
+})
+
+Translate:AddFlavour('Magyar','Taxi', {
+
+  adtext = "KERESÜNK: Utazási lehetőséget egy kisebb csoport számára a(z) {system} rendszerbe. Fizetünk érte {cash} kreditet.",
+  introtext = "Helló, a nevem {name}. Szeretném, ha elvinnél egy kisebb csoportot a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetnénk a szállításért {cash} kreditet.",
+
+  whysomuch = "Mi a(z) {corp} vállalatnak dolgozunk, és ők fizetik az utat.",
+  howmany = "{group} személyről van szó.",
+  danger = "Nem.",
+
+
+
+  successmsg = "Köszönjük az utat. Már ki is fizettünk.",
+  failuremsg = "Elfogadhatatlan! Meddig tartott ez az út!? Örökké! Nem fogunk még fizetni is érte!",
+  wherearewe = "Hol vagyunk? Eleget vártunk - AZONNAL vigyél minket a legközelebbi kikötőbe!",
+  single = 0,
+  urgency = 0,
+  risk = 0,
+})
+
+Translate:AddFlavour('Magyar','Taxi', {
+
+  adtext = "KERESÜNK: Utazási lehetőséget egy kisebb csoport számára a(z) {system} rendszerbe. Fizetünk érte {cash} kreditet.",
+  introtext = "Helló, a nevem {name}. Szeretném, ha elvinnél egy kisebb csoportot a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetnénk a szállításért {cash} kreditet.",
+
+  whysomuch = "Csak egy egyszerű üzleti út.",
+  howmany = "{group} személyről van szó.",
+  danger = "Nem.",
+
+
+  successmsg = "Köszönjük, hogy elhoztál. Már ki is fizettünk. Sok szerencsét a továbbiakban.",
+  failuremsg = "Elfogadhatatlan! Meddig tartott ez az út!? Nem fogunk még fizetni is érte.",
+  wherearewe = "Hol vagyunk? Eleget vártunk - AZONNAL vigyél minket a legközelebbi kikötőbe!",
+  single = 0,
+  urgency = 0,
+  risk = 0,
+})
+
+Translate:AddFlavour('Magyar','Taxi', {
+
+  adtext = "HAJÓ KERESTETIK: Hajót keresek utazáshoz a(z) {system} rendszerbe. Fizetek érte {cash} kreditet.",
+  introtext = "Helló, a nevem {name}. El szeretnék jutni a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek érte {cash} kreditet.",
+
+  whysomuch = "Egy régi riválisom meg akar ölni.",
+  howmany = "Csak én vagyok.",
+
+
+  danger = "Úgy gondolom, hogy egy orgyilkos van a nyomomban, szóval így téged is megtámadna, amíg engem szállítasz.",
+  successmsg = "Köszönöm az utat. Már ki is fizettem a járandóságod.",
+  failuremsg = "Ez elfogadhatatlan! Már mióta úton vagyunk. Nem fogok neked fizetni.",
+  wherearewe = "Hol a francban vagyunk? Már eleget vártam - azonnal vigyél a legközelebbi kikötőbe!",
+  single = 1,
+  urgency = 0.13,
+  risk = 0.73,
+})
+
+Translate:AddFlavour('Magyar','Taxi', {
+
+  adtext = "HAJÓ KERESTETIK: Hajót keresek utazáshoz a(z) {system} rendszerbe. Fizetek érte {cash} kreditet.",
+  introtext = "Helló, a nevem {name}, szeretnék eljutni a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek érte {cash} kreditet.",
+  whysomuch = "Utazó ügynök vagyok.",
+  howmany = "Csak én.",
+  danger = "Nem.",
+
+
+  successmsg = "Köszönöm a szállítást. Ki is fizettelek. Sok szerencsét a továbbiakban!",
+  failuremsg = "Ne is kérd a fizetséged! Jelentelek a hatóságoknak.",
+  wherearewe = "Hol vagyunk? Már eleget várakoztam - AZONNAL vigyél a legközelebbi kikötődokkba!",
+  single = 1,
+  urgency = 0.3,
+  risk = 0.02,
+})
+
+Translate:AddFlavour('Magyar','Taxi', {
+
+  adtext = "KERESEK: Utazási lehetőséget a(z) {system} rendszerbe. Fizetek érte {cash} kreditet.",
+  introtext = "Helló, a nevem {name}. El akarok jutni a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek érte {cash} kreditet.",
+
+  whysomuch = "Nem is tudod - én egy ismert álomsztár vagyok.",
+  howmany = "Csak én.",
+
+
+
+
+  danger = "Talán a sajtó zaklatni fog miattam. Csak hagyd őket figyelmen kívül.",
+  successmsg = "Kösz az utat. Már ki is vagy fizetve.",
+  failuremsg = "Mit csináltál! A turnémnak annyi, és elveszítettem a rajongóim felét.",
+  wherearewe = "Hol vagyunk? Már eleget vártam - vigyél a legközelebbi kikötőbe AZONNAL!",
+  single = 1,
+  urgency = 0.1,
+  risk = 0.05,
+})
+
+Translate:AddFlavour('Magyar','Taxi', {
+
+  adtext = "KERESEK: Hajót, ami elszállít a(z) {system} rendszerbe. Fizetek érte {cash} kreditet.",
+  introtext = "Helló, a nevem {name}, és szeretnék eljutni a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek az útért {cash} kreditet.",
+  whysomuch = "Szabadúszó újságíró vagyok.",
+  howmany = "Csak én vagyok.",
+  danger = "Nem.",
+
+
+
+  successmsg = "Köszönöm az utat. Már ki is fizettelek érte.",
+  failuremsg = "Elfogadhatatlan, meddig tartott! Örökké. Ezért én nem fogok neked még fizetni is.",
+  wherearewe = "Hol vagyunk egyáltalán? Már eleget vártam - vigyél AZONNAL a legközelebbi űrkikötőbe!",
+  single = 1,
+  urgency = 0.02,
+  risk = 0.07,
+})
+
+Translate:AddFlavour('Magyar','Taxi', {
+
+  adtext = "HAJÓT KERESEK: Hajót, amely biztonságban elvisz a(z) {system} rendszerbe {cash} kreditért cserébe.",
+  introtext = "Helló, a nevem {name}. Szeretnék biztonságban eljutni a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek érte {cash} kreditet.",
+
+  whysomuch = "A maffia meg akar ölni.",
+  howmany = "Én és senki más.",
+
+
+
+
+  danger = "A maffia nem veszi jó néven, ha segíted az ellenségeit..",
+  successmsg = "Köszönöm, hogy biztonságban elhoztál ide. Kifizettelek, további sok sikert!",
+  failuremsg = "Ez elfogadhatatlan, hogy mennyi időt elvesztegettél. Nem fogok még fizetni is ezért.",
+  wherearewe = "Hol a pokolban vagyunk? Már eleget várakoztam - vigyél AZONNAL a legközelebbi űrkikötőbe!",
+  single = 1,
+  urgency = 0.15,
+  risk = 1,
+})
+
+Translate:AddFlavour('Magyar','Taxi', {
+
+  adtext = "HAJÓT KERESEK: Olyat, amely gyorsan elvinne a(z) {system} rendszerbe.",
+  introtext = "A nevem {name}. Gyorsan el szeretnék jutni a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek az útért {cash} kreditet.",
+
+  whysomuch = "Egy beteg rokonomat látogatom meg.",
+  howmany = "Csak én.",
+  danger = "Nem.",
+
+
+
+  successmsg = "Köszönöm a gyors szállítást. Ki is fizettelek érte.",
+  failuremsg = "Elfogadhatatlan! Már egy örökkévalóság eltelt az indulás óta. Nem fogok még fizetni is érte.",
+  wherearewe = "Hol vagyunk egyáltalán? Már eleget vártam - vigyél AZONNAL a legközelebbi űrkikötőbe!",
+  single = 1,
+  urgency = 0.5,
+  risk = 0.001,
+})
+
+Translate:AddFlavour('Magyar','Taxi', {
+
+  adtext = "HAJÓT KERESEK: Olyat, amely gyorsan elvinne a(z) {system} rendszerbe.",
+  introtext = "A nevem {name}. Szeretnék gyorsan eljutni a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek érte {cash} kreditet.",
+
+  whysomuch = "A rendőrség megkért, hogy segítsek a nyomozásukban.",
+  howmany = "Csak én.",
+
+
+
+
+  danger = "A rendőrség lehet hogy meg akar állítani.",
+  successmsg = "Köszönöm a gyors utat. Kifizettelek érte.",
+  failuremsg = "Használhatatlan! Már mióta jövünk. Nem fogok ezért még fizetni is.",
+  wherearewe = "Hol a pokolban vagyunk? Már eleget várakoztam - vigyél AZONNAL a legközelebbi űrkikötőbe!",
+  single = 1,
+  urgency = 0.85,
+  risk = 0.20,
+})
+
+Translate:AddFlavour('Magyar','Taxi', {
+
+  adtext = "HAJÓT KERESEK: Egy gyors hajót, amely elvinne a(z) {system} rendszerbe.",
+  introtext = "A nevem {name}. Gyorsan el szeretnék jutni a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek {cash} kreditet.",
+
+  whysomuch = "Szereném, ha egy bizonyos valaki nem találna rám.",
+  howmany = "Csak egy.",
+
+
+
+
+  danger = "Szerintem valaki követ engem.",
+  successmsg = "Köszönöm a gyors utat. Azonnal ki is fizetlek érte.",
+  failuremsg = "Annyira egy kezdő pilóta vagy, hogy nem várhatod el a fizetséget se.",
+  wherearewe = "Hol vagyunk egyáltalán? Már eleget vártam - vigyél AZONNAL a legközelebbi űrkikötőbe!",
+  single = 1,
+  urgency = 0.9,
+  risk = 0.40,
+})
+
+Translate:AddFlavour('Magyar','Taxi', {
+
+  adtext = "GYORS HAJÓT KERESEK: Egy olyat, amely elvinne a(z) {system} rendszerbe.",
+  introtext = "Az én nevem {name}. Egy gyors utazást szeretnék a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek érte {cash} kreditet.",
+
+  whysomuch = "Csak a körutamat járom gyárvizsgálóként.",
+  howmany = "Csak egy.",
+
+
+
+
+  danger = "Néhányan nem akarják, hogy vizsgálódjak.",
+  successmsg = "Köszönöm a gyors utat, máris kifizetlek érte.",
+  failuremsg = "El fogom veszteni a munkámat a képzetlenséged miatt. Így pénzt sem várhatsz el, mert nekem nagyobb szükségem van rá.",
+  wherearewe = "Hol vagyunk? Már eleget vártam - vigyél a legközelebbi kikötőbe AZONNAL!",
+  single = 1,
+  urgency = 1,
+  risk = 0.31,
+})
+
+Translate:AddFlavour('Magyar','Taxi', {
+
+  adtext = "HAJÓT KERESEK: Amely elvinne a(z) {system} rendszerbe.",
+  introtext = "My name is {name}. I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system. Will pay {cash}.",
+
+  whysomuch = "Tartozom valakinek pénzzel, és ezért üldöz engem.",
+  howmany = "Csak egy.",
+
+
+
+
+  danger = "Valaki üldöz engem.",
+  successmsg = "Köszönöm a fuvart, máris kifizetlek.",
+  failuremsg = "Nincs elég pénzem. Bocs.",
+  wherearewe = "Hol vagyunk? Már eleget vártam - vigyél a legközelebbi kikötőbe AZONNAL!",
+  single = 1,
+  urgency = 0,
+  risk = 0.17,
+})
+
+Translate:Add({ Magyar = {
+  ["Taxi"] = "Taxi",
+  ["Why so much money?"] = "Miért ennyi a díjazás?",
+  ["How many of you are there?"] = "Hány személyről van szó?",
+  ["How soon you must be there?"] = "Milyen hamar kell odaérni?",
+  ["Will I be in any danger?"] = "Lesz valamilyen veszély útközben?",
+  ["I must be there before "] = "Oda kell érnem még előtte:",
+  ["We want to be there before "] = "Oda kell érnünk ezen időpontig:",
+  ["You do not have enough cabin space on your ship."] = "Nincs elég utaskabin a hajódon.",
+  ["Could you repeat the original request?"] = "Megismételnéd az eredeti feladatot?",
+  ["Ok, agreed."] = "Rendben, elvállalom.",
+  ["Hey!?! You are going to pay for this!!!"] = "Hé?! Ezért fizetni fogsz!!",
+ PIRATE_TAUNTS = {
+
+
+
+
+	"Meg fogod bánni, hogy {client} megbízott téged!",
+	"A fedélzeten van {client} ? Na, ez egy igen rossz ötlet.",
+	"A mai nap nem a szerencsenapod. Készülj a halálra.",
+	"Ma már nem fogsz sehol dokkolni!",
+  },
+ CORPORATIONS = {
+	 "Sirius",
+	 "ACME",
+	 "Cool Cola",
+	 "Taranis",
+	 "Aquarian Shipbuilding",
+	 "Rockforth",
+	 "Amaliel",
+	 "Marett Space",
+	 "Vega Line",
+	 "Digital",
+	 "Bulk Ships",
+	 "Arment Aerodynamics"
+  },
+}, })
