@@ -1,3 +1,8 @@
+Alpha 20
+
+   * Fixes
+     * Updated zlib and libpng DLLs for MSVC to fix screenshot crash (#942, #645)
+
 Alpha 19
 
    * New features
