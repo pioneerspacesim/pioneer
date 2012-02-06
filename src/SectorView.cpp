@@ -296,9 +296,7 @@ void SectorView::Draw3D()
 {
 	m_clickableLabels->Clear();
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(40, Pi::GetScrAspect(), 1.0, 100.0);
+	m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 100.f);
 
 	matrix4x4f modelview = matrix4x4f::Identity();
 	glClearColor(0,0,0,0);

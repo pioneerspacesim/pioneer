@@ -255,9 +255,8 @@ void SystemView::GetTransformTo(SBody *b, vector3d &pos)
 
 void SystemView::Draw3D()
 {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(50, Pi::GetScrAspect(), 1.0, 1000.0);
+	m_renderer->SetPerspectiveProjection(50.f, Pi::GetScrAspect(), 1.f, 1000.f);
+
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glClearColor(0,0,0,0);
