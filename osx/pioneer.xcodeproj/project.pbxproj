@@ -292,6 +292,7 @@
 		4AE5CA421383E6AA00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */; };
 		4AE5CA441383E6AA00B55DEB /* libsigc-2.0.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
 		4AE9706714369D7500424F91 /* LuaLang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AE9706514369D7500424F91 /* LuaLang.cpp */; };
+		4AED721D14E1501D004D171E /* TerrainHeightMapped2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AED721C14E1501D004D171E /* TerrainHeightMapped2.cpp */; };
 		4AF999A31496D51F009821AF /* FileSelectorWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9999B1496D51F009821AF /* FileSelectorWidget.cpp */; };
 		4AF999A41496D51F009821AF /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9999D1496D51F009821AF /* Game.cpp */; };
 		4AF999A51496D51F009821AF /* GameLoaderSaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9999F1496D51F009821AF /* GameLoaderSaver.cpp */; };
@@ -880,6 +881,7 @@
 		4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_sound-1.0.1.0.2.dylib"; path = "/opt/local/lib/libSDL_sound-1.0.1.0.2.dylib"; sourceTree = "<absolute>"; };
 		4AE9706514369D7500424F91 /* LuaLang.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaLang.cpp; sourceTree = "<group>"; };
 		4AE9706614369D7500424F91 /* LuaLang.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaLang.h; sourceTree = "<group>"; };
+		4AED721C14E1501D004D171E /* TerrainHeightMapped2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightMapped2.cpp; sourceTree = "<group>"; };
 		4AF9999B1496D51F009821AF /* FileSelectorWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSelectorWidget.cpp; sourceTree = "<group>"; };
 		4AF9999C1496D51F009821AF /* FileSelectorWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSelectorWidget.h; sourceTree = "<group>"; };
 		4AF9999D1496D51F009821AF /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
@@ -1501,6 +1503,7 @@
 		4AB7D5CF1472A83E00158DE4 /* terrain */ = {
 			isa = PBXGroup;
 			children = (
+				4AED721C14E1501D004D171E /* TerrainHeightMapped2.cpp */,
 				4AB7D5D11472A83E00158DE4 /* Terrain.cpp */,
 				4AB7D5D21472A83E00158DE4 /* Terrain.h */,
 				4AB7D5D31472A83E00158DE4 /* TerrainColorAsteroid.cpp */,
@@ -1893,6 +1896,7 @@
 				4AF999A61496D51F009821AF /* MathUtil.cpp in Sources */,
 				4A05F20B14C6E87F00854A54 /* Texture.cpp in Sources */,
 				4A05F20C14C6E87F00854A54 /* TextureCache.cpp in Sources */,
+				4AED721D14E1501D004D171E /* TerrainHeightMapped2.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
