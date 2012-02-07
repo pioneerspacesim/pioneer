@@ -21,11 +21,11 @@ local onChat = function (form, ref, option)
 		form:Close()
 		return
 	elseif option == 0 then
-		form:SetFace({ female = ad.isfemale, seed = ad.faceseed })
+		form:SetFace(ad.client)
 		local sys = ad.location:GetStarSystem()
 
 		local introtext = string.interp(ass_flavours[ad.flavour].introtext, {
-			name	= ad.client,
+			name	= ad.client.name,
 			cash	= Format.Money(ad.reward),
 			target	= ad.target,
 			system	= sys.name,
@@ -68,7 +68,7 @@ local onChat = function (form, ref, option)
 		local mission = {
 			type		= t("Assassination"),
 			backstation	= backstation,
-			boss		= ad.client,
+			boss		= ad.client.name,
 			client		= ad.shipname .. "\n(" .. ad.shipregid .. ")",
 			danger		= ad.danger,
 			due		= ad.due,
@@ -113,8 +113,7 @@ local makeAdvert = function (station)
 		nearbysystems = Game.system:GetNearbySystems(max_ass_dist, function (s) return #s:GetStationPaths() > 0 end)
 	end
 	if #nearbysystems == 0 then return end
-	local isfemale = Engine.rand:Integer(1) == 1
-	local client = NameGen.FullName(isfemale)
+	local client = Character.New()
 	local targetIsfemale = Engine.rand:Integer(1) == 1
 	local target = t('TITLE')[Engine.rand:Integer(1, #t('TITLE'))] .. " " .. NameGen.FullName(targetIsfemale)
 	local flavour = Engine.rand:Integer(1, #ass_flavours)
