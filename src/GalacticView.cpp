@@ -118,17 +118,14 @@ void GalacticView::Draw3D()
 	const float w = 1.0;
 	const float h = 1.0;
 	// XXX 2d verts
-	va.position.push_back(vector3f(-1.f, 1.f, 0.f));
-	va.position.push_back(vector3f( 1.f, 1.f, 0.f));
-	va.position.push_back(vector3f( 1.0,-1.0, 0.f));
-	va.position.push_back(vector3f(-1.0,-1.0, 0.f));
-	va.uv0.push_back(vector2f(0.f, h));
-	va.uv0.push_back(vector2f(w,h));
-	va.uv0.push_back(vector2f(w,0));
-	va.uv0.push_back(vector2f(0,0));
+	va.Add(vector3f(-1.0,-1.0, 0.f), vector2f(0.f,0.f));
+	va.Add(vector3f(-1.f, 1.f, 0.f), vector2f(0.f,h));
+	va.Add(vector3f( 1.0,-1.0, 0.f), vector2f(w,0.f));
+	va.Add(vector3f( 1.f, 1.f, 0.f), vector2f(w,h));
+
 	Material m;
 	m.texture0 = m_texture.Get();
-	m_renderer->DrawTriangles2D(&va, &m, QUADS);
+	m_renderer->DrawTriangles2D(&va, &m, TRIANGLE_STRIP);
 
 	// "you are here" dot
 	Color green(0.f, 1.f, 0.f, 1.f);

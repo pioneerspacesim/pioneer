@@ -36,7 +36,6 @@ enum PrimitiveType {
 	TRIANGLES = GL_TRIANGLES,
 	TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
 	TRIANGLE_FAN = GL_TRIANGLE_FAN,
-	QUADS = GL_QUADS, // XXX not available in ES2, replace with strips
 	TYPE_POINTS = GL_POINTS
 };
 
