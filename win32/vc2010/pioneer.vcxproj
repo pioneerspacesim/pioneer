@@ -248,6 +248,7 @@
     <ClCompile Include="..\..\src\render\RenderFrustum.cpp" />
     <ClCompile Include="..\..\src\render\RenderShader.cpp" />
     <ClCompile Include="..\..\src\render\RenderTarget.cpp" />
+    <ClCompile Include="..\..\src\render\VertexArray.cpp" />
     <ClCompile Include="..\..\src\Sector.cpp" />
     <ClCompile Include="..\..\src\SectorView.cpp" />
     <ClCompile Include="..\..\src\Serializer.cpp" />
@@ -477,6 +478,7 @@
     <ClInclude Include="..\..\src\render\RenderFrustum.h" />
     <ClInclude Include="..\..\src\render\RenderShader.h" />
     <ClInclude Include="..\..\src\render\RenderTarget.h" />
+    <ClInclude Include="..\..\src\render\VertexArray.h" />
     <ClInclude Include="..\..\src\Sector.h" />
     <ClInclude Include="..\..\src\SectorView.h" />
     <ClInclude Include="..\..\src\Serializer.h" />

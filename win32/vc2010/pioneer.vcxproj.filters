@@ -631,6 +631,9 @@
     <ClCompile Include="..\..\src\terrain\TerrainHeightMapped2.cpp">
       <Filter>src\terrain</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\render\VertexArray.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -1173,6 +1176,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\vector2.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\VertexArray.h">
+      <Filter>src\render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
