@@ -43,3 +43,10 @@ stamp-h1
 *~
 *.orig
 pioneer-*.tar.*
+*.ilk
+/pioneerPR.pdb
+/pioneer.pdb
+/pioneerD.pdb
+/pioneer-msvc-9.0.pdb
+/pioneer-msvc-9.0_debug.pdb
+/pioneer-msvc-9.0_prerelease.pdb
