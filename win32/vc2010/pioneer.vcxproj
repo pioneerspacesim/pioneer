@@ -241,6 +241,7 @@
     <ClCompile Include="..\..\src\Player.cpp" />
     <ClCompile Include="..\..\src\Polit.cpp" />
     <ClCompile Include="..\..\src\Projectile.cpp" />
+    <ClCompile Include="..\..\src\render\Material.cpp" />
     <ClCompile Include="..\..\src\render\Render.cpp" />
     <ClCompile Include="..\..\src\render\Renderer.cpp" />
     <ClCompile Include="..\..\src\render\RendererGL2.cpp" />
@@ -248,6 +249,8 @@
     <ClCompile Include="..\..\src\render\RenderFrustum.cpp" />
     <ClCompile Include="..\..\src\render\RenderShader.cpp" />
     <ClCompile Include="..\..\src\render\RenderTarget.cpp" />
+    <ClCompile Include="..\..\src\render\StaticMesh.cpp" />
+    <ClCompile Include="..\..\src\render\Surface.cpp" />
     <ClCompile Include="..\..\src\render\VertexArray.cpp" />
     <ClCompile Include="..\..\src\Sector.cpp" />
     <ClCompile Include="..\..\src\SectorView.cpp" />
@@ -472,6 +475,7 @@
     <ClInclude Include="..\..\src\Quaternion.h" />
     <ClInclude Include="..\..\src\RefCounted.h" />
     <ClInclude Include="..\..\src\RefList.h" />
+    <ClInclude Include="..\..\src\render\Material.h" />
     <ClInclude Include="..\..\src\render\Render.h" />
     <ClInclude Include="..\..\src\render\Renderer.h" />
     <ClInclude Include="..\..\src\render\RendererGL2.h" />
@@ -479,6 +483,8 @@
     <ClInclude Include="..\..\src\render\RenderFrustum.h" />
     <ClInclude Include="..\..\src\render\RenderShader.h" />
     <ClInclude Include="..\..\src\render\RenderTarget.h" />
+    <ClInclude Include="..\..\src\render\StaticMesh.h" />
+    <ClInclude Include="..\..\src\render\Surface.h" />
     <ClInclude Include="..\..\src\render\VertexArray.h" />
     <ClInclude Include="..\..\src\Sector.h" />
     <ClInclude Include="..\..\src\SectorView.h" />

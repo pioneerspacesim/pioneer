@@ -183,6 +183,21 @@
     <ClCompile Include="..\..\src\render\Renderer.cpp">
       <Filter>src\render</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\render\Material.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\RenderFrustum.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\StaticMesh.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\Surface.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\render\VertexArray.cpp">
+      <Filter>src\render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\pch.h">
@@ -373,6 +388,21 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Drawables.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\Material.h">
+      <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\RenderFrustum.h">
+      <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\StaticMesh.h">
+      <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\Surface.h">
+      <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\render\VertexArray.h">
+      <Filter>src\render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
