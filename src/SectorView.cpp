@@ -549,7 +549,6 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		matrix4x4f systrans = trans * matrix4x4f::Translation((*i).p.x, (*i).p.y, (*i).p.z);
 		m_renderer->SetTransform(systrans);
 
-		Render::State::UseProgram(0);
 		glDisable(GL_LIGHTING);
 
 		// draw system "leg"

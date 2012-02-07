@@ -146,7 +146,6 @@ void Starfield::Draw(Renderer *renderer)
 	glEnable(GL_DEPTH_TEST);
 
 	if (Render::AreShadersEnabled()) {
-		Render::State::UseProgram(0);
 		glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 		glDisable(GL_POINT_SMOOTH);
 	}

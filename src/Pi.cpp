@@ -900,8 +900,6 @@ static void draw_intro(Background::Container *background, float _time)
 			matrix4x4f::RotateXMatrix(_time*0.7f);
 	rot[14] = -80.0;
 	LmrLookupModelByName("lanner_ub")->Render(rot, &params);
-	Render::State::UseProgram(0);
-	Render::UnbindAllBuffers();
 	glPopAttrib();
 }
 
@@ -932,8 +930,6 @@ static void draw_tombstone(float _time)
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
 	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
 	LmrLookupModelByName("tombstone")->Render(rot, &params);
-	Render::State::UseProgram(0);
-	Render::UnbindAllBuffers();
 	glPopAttrib();
 }
 

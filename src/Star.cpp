@@ -69,7 +69,6 @@ void Star::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x
 	va.diffuse.push_back(dark);
 	renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
 
-	Render::State::UseProgram(0);
 	renderer->SetBlendMode(BLEND_SOLID);
 
 	glPopMatrix();

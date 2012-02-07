@@ -81,8 +81,6 @@ void ShipSpinnerWidget::Draw()
 	rot[14] = -1.5f * m_model->GetDrawClipRadius();
 
 	m_model->Render(rot, &m_params);
-	Render::State::UseProgram(0);
-	Render::UnbindAllBuffers();
 
 	glPopAttrib();
 
