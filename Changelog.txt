@@ -1,5 +1,8 @@
 Alpha 20
 
+   * New features
+     * Hungarian translation (#947, #894)
+
    * Fixes
      * Updated zlib and libpng DLLs for MSVC to fix screenshot crash (#942, #645)
 
