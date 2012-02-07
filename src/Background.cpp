@@ -29,27 +29,27 @@ Starfield::Starfield(unsigned long seed)
 
 Starfield::~Starfield()
 {
-	delete m_stars;
 	delete m_model;
 	delete m_shader;
-	delete m_material;
 }
 
 void Starfield::Init()
 {
 	// reserve some space for positions, colours
-	m_stars = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, BG_STAR_MAX);
+	VertexArray *stars = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, BG_STAR_MAX);
 	// one "surface"
-	m_model = new StaticMesh(1);
+	m_model = new StaticMesh(1, TYPE_POINTS);
 	m_shader = new Render::Shader("bgstars");
-	m_material = new Material();
-	m_material->shader = m_shader;
-	m_model->surfaces[0].mat = m_material;
+	RefCountedPtr<Material> mat(new Material());
+	mat->shader = m_shader;
+	m_model->surfaces[0].SetMaterial(mat);
+	m_model->surfaces[0].SetVertices(stars);
+	m_model->numSurfaces = 1;
 }
 
 void Starfield::Fill(unsigned long seed)
 {
-	VertexArray *va = m_stars;
+	VertexArray *va = m_model->surfaces[0].GetVertices();
 	va->Clear(); // clear if previously filled
 	// Slight colour variation to stars based on seed
 	MTRand rand(seed);
@@ -88,11 +88,6 @@ void Starfield::Fill(unsigned long seed)
 			)
 		);
 	}
-
-	//XXX not nice
-	m_model->surfaces[0].vertices = va;
-	m_model->surfaces[0].primitiveType = TYPE_POINTS;
-	m_model->numSurfaces = 1;
 }
 
 void Starfield::Draw(Renderer *renderer)
@@ -128,16 +123,17 @@ void Starfield::Draw(Renderer *renderer)
 		double hyperspaceProgress = Pi::game->GetHyperspaceProgress();
 
 		LineVertex *vtx = new LineVertex[BG_STAR_MAX * 2];
+		VertexArray *va = m_model->surfaces[0].GetVertices();
 		for (int i=0; i<BG_STAR_MAX; i++) {
 			
-			vector3f v(m_stars->position[i]);
+			vector3f v(va->position[i]);
 			v += vector3f(pz*hyperspaceProgress*mult);
 
-			vtx[i*2].position = m_stars->position[i] + v;
-			vtx[i*2].color = m_stars->diffuse[i];
+			vtx[i*2].position = va->position[i] + v;
+			vtx[i*2].color = va->diffuse[i];
 
 			vtx[i*2+1].position = v;
-			vtx[i*2+1].color = m_stars->diffuse[i];
+			vtx[i*2+1].color = va->diffuse[i];
 		}
 		Pi::renderer->DrawLines(BG_STAR_MAX*2, vtx);
 		delete[] vtx;
@@ -154,22 +150,17 @@ void Starfield::Draw(Renderer *renderer)
 
 MilkyWay::MilkyWay()
 {
-	m_model = new StaticMesh();
-	m_model->numSurfaces = 2;
-	m_model->surfaces = new Surface[2];
-	m_model->surfaces[0].primitiveType = TRIANGLE_STRIP;
-	m_model->surfaces[1].primitiveType = TRIANGLE_STRIP;
+	m_model = new StaticMesh(2, TRIANGLE_STRIP);
 
 	//build milky way model in two strips (about 256 verts)
 	//The model is built as a generic vertex array first. The renderer
-	//will reprocess this into buffered format as it sees fit, the old
-	//data can then be thrown away (or not. If the cache is emptied the model
-	//needs to be regenerated somehow).
+	//will reprocess this into buffered format as it sees fit. The old data is
+	//kept around as long as StaticMesh is alive (needed if the cache is to be regenerated)
 
 	VertexArray *bottom = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 	VertexArray *top = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE);
-	m_model->surfaces[0].vertices = bottom;
-	m_model->surfaces[1].vertices = top;
+	m_model->surfaces[0].SetVertices(bottom);
+	m_model->surfaces[1].SetVertices(top);
 
 	const Color dark(0.f);
 	const Color bright(0.05,0.05f, 0.05f, 0.05f);
@@ -207,14 +198,10 @@ MilkyWay::MilkyWay()
 	top->Add(
 		vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
 		dark);
-
-	assert(m_model->surfaces[0].vertices->GetNumVerts() > 0);
-	assert(m_model->surfaces[1].vertices->GetNumVerts() > 0);
 }
 
 MilkyWay::~MilkyWay()
 {
-	//XXX release StaticMesh (or let renderer do it?)
 	delete m_model;
 }
 
