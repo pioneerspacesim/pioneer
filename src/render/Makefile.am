@@ -14,7 +14,8 @@ noinst_HEADERS = \
 	RendererLegacy.h \
 	RenderFrustum.h \
 	RenderShader.h \
-	RenderTarget.h
+	RenderTarget.h \
+	VertexArray.h \
 
 librender_a_SOURCES = \
 	Render.cpp \
@@ -23,6 +24,7 @@ librender_a_SOURCES = \
 	RendererLegacy.cpp \
 	RenderFrustum.cpp \
 	RenderShader.cpp \
-	RenderTarget.cpp
-	
+	RenderTarget.cpp \
+	VertexArray.cpp
+
 

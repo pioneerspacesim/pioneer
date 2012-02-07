@@ -371,5 +371,8 @@
     <ClInclude Include="..\..\src\render\Renderer.h">
       <Filter>src\render</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Drawables.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

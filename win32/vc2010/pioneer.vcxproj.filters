@@ -1180,6 +1180,9 @@
     <ClInclude Include="..\..\src\render\VertexArray.h">
       <Filter>src\render</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Drawables.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am">

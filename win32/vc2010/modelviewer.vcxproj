@@ -198,6 +198,7 @@
     <ClInclude Include="..\..\src\collider\CollisionSpace.h" />
     <ClInclude Include="..\..\src\collider\Geom.h" />
     <ClInclude Include="..\..\src\collider\GeomTree.h" />
+    <ClInclude Include="..\..\src\Drawables.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
     <ClInclude Include="..\..\src\FontConfig.h" />
     <ClInclude Include="..\..\src\FontManager.h" />

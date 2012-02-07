@@ -366,6 +366,7 @@
     <ClInclude Include="..\..\src\CustomSystem.h" />
     <ClInclude Include="..\..\src\DeadVideoLink.h" />
     <ClInclude Include="..\..\src\DeleteEmitter.h" />
+    <ClInclude Include="..\..\src\Drawables.h" />
     <ClInclude Include="..\..\src\DynamicBody.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
     <ClInclude Include="..\..\src\EquipType.h" />
