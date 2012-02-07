@@ -380,7 +380,7 @@ bool RendererLegacy::DrawSurface2D(const Surface *s)
 		glTexCoordPointer(2, GL_FLOAT, 0, (const GLvoid *)&v->uv0[0]);
 	}
 
-	glDrawElements(s->primitiveType, s->indices.size(), GL_UNSIGNED_SHORT, reinterpret_cast<const GLvoid *>(&s->indices[0]));
+	glDrawElements(s->m_primitiveType, s->indices.size(), GL_UNSIGNED_SHORT, reinterpret_cast<const GLvoid *>(&s->indices[0]));
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	if (diffuse)
@@ -513,7 +513,7 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 	// XXX save start & numverts somewhere
 	// XXX this is not indexed
 	for (int i=0; i < t->numSurfaces; i++) {
-		glDrawArrays(t->surfaces[i].primitiveType, start, t->surfaces[i].GetNumVerts());
+		glDrawArrays(t->surfaces[i].m_primitiveType, start, t->surfaces[i].GetNumVerts());
 		start += t->surfaces[i].GetNumVerts();
 	}
 	glDisableClientState(GL_COLOR_ARRAY);

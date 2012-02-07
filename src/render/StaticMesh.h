@@ -1,6 +1,8 @@
 #ifndef _STATICMESH_H
 #define _STATICMESH_H
 
+#include <vector>
+
 class Surface;
 
 // Geometry that changes rarely or never
@@ -9,7 +11,7 @@ class Surface;
 class StaticMesh {
 public:
 	StaticMesh();
-	StaticMesh(int num_surfaces);
+	StaticMesh(int num_surfaces, PrimitiveType t);
 	~StaticMesh();
 	int GetNumVerts() const;
 

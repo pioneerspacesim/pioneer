@@ -9,7 +9,7 @@ StaticMesh::StaticMesh() :
 {
 }
 
-StaticMesh::StaticMesh(int n) :
+StaticMesh::StaticMesh(int n, PrimitiveType t) :
 	numSurfaces(0),
 	surfaces(0),
 	cached(false),
@@ -18,6 +18,8 @@ StaticMesh::StaticMesh(int n) :
 	if (n > 0) {
 		numSurfaces = n;
 		surfaces = new Surface[n];
+		for (int i=0;i<n;i++)
+			surfaces[i].m_primitiveType = t;
 	}
 }
 

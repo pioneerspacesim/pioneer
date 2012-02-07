@@ -10,12 +10,10 @@
 // can have indices
 class Surface {
 public:
-	Surface();
+	Surface(PrimitiveType t);
 	~Surface();
 	int GetNumVerts() const;
 	std::vector<unsigned short> indices;
-
-	PrimitiveType primitiveType;
 
 	//deletes existing, takes ownership
 	void SetVertices(VertexArray *v);
@@ -25,6 +23,12 @@ public:
 	RefCountedPtr<Material> GetMaterial() const { return m_material; }
 
 private:
+	Surface();
+	friend class StaticMesh;
+	friend class Renderer;
+	friend class RendererLegacy;
+	friend class RendererGL2;
+	PrimitiveType m_primitiveType;
 	RefCountedPtr<Material> m_material;
 	VertexArray *m_vertices;
 	// multiple surfaces can be buffered in one vbo so need to
