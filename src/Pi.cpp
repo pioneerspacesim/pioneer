@@ -856,8 +856,6 @@ void Pi::HandleEvents()
 
 static void draw_intro(Background::Container *background, float _time)
 {
-	// defaults are dandy
-	Render::State::SetZnearZfar(1.0f, 10000.0f);
 	LmrObjParams params = {
 		"ShipAnimation", // animation namespace
 		0.0, // time
@@ -935,20 +933,14 @@ static void draw_tombstone(float _time)
 
 void Pi::TombStoneLoop()
 {
-	Render::State::SetZnearZfar(1.0f, 10000.0f);
-
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
 	cpan->HideAll();
 	currentView->HideAll();
 	do {
 		Pi::renderer->BeginFrame();
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		float fracH = 1.0f / Pi::GetScrAspect();
-		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
+		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
+		Pi::renderer->SetTransform(matrix4x4f::Identity());
 
 		Pi::HandleEvents();
 		Pi::SetMouseGrab(false);
@@ -1164,16 +1156,12 @@ void Pi::Start()
 		Pi::HandleEvents();
 
 		Pi::renderer->BeginFrame();
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		float fracH = 1.0f / Pi::GetScrAspect();
-		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
+		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
+		Pi::renderer->SetTransform(matrix4x4f::Identity());
 
 		Pi::SetMouseGrab(false);
 
-		//draw_intro(background, _time);
+		draw_intro(background, _time);
 		Pi::renderer->EndFrame();
 		Gui::Draw(Pi::renderer);
 		Pi::renderer->SwapBuffers();

@@ -543,8 +543,6 @@ void Viewer::MainLoop()
 
 	printf("Geom tree build in %dms\n", SDL_GetTicks() - t);
 
-	Render::State::SetZnearZfar(1.0f, 10000.0f);
-
 	for (;;) {
 		PollEvents();
 		Render::PrepareFrame();
@@ -585,12 +583,9 @@ void Viewer::MainLoop()
 
 //		geom->MoveTo(modelRot, vector3d(0.0,0.0,0.0));
 
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		float fracH = g_height / float(g_width);
-		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
+		renderer->SetPerspectiveProjection(85, g_width/float(g_height), 1.f, 10000.f);
+		renderer->SetTransform(matrix4x4f::Identity());
+
 		glClearColor(0,0,0,0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		

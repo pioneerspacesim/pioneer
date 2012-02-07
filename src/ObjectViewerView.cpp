@@ -75,10 +75,12 @@ void ObjectViewerView::Draw3D()
 	Render::GetNearFarClipPlane(znear, zfar);
 	float fracH = znear / Pi::GetScrAspect();
 	glFrustum(-znear, znear, -fracH, fracH, znear, zfar);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+
 	glEnable(GL_LIGHT0);
 
+	//m_renderer->SetPerspectiveProjection(90, Pi::GetScrAspect(), 1.f, 1000000.f);
+	m_renderer->SetTransform(matrix4x4f::Identity());
+	glDisable(GL_DEPTH_TEST);
 	Render::State::SetZnearZfar(znear, zfar);
 
 	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
