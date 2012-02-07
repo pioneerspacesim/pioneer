@@ -16,10 +16,14 @@
  * prepare/endframe/swapbuf (move from Render.h)
  */
 
-class Texture;
 class Light;
+class Material;
 class RendererLegacy;
-struct VertexArray;
+class StaticMesh;
+class Surface;
+class Texture;
+class VertexArray;
+
 namespace Render {
 	class Shader;
 }
@@ -52,65 +56,6 @@ struct LineVertex {
 	LineVertex(const vector3f& v, const Color &c) : position(v), color(c) { }
 	vector3f position;
 	Color color;
-};
-
-//a bunch of renderstates and shaders are determined from this
-//(can add shaderType or whatever hacks are necessary)
-// Idea: to avoid if-else soup in Draw* functions, let renderers subclass Material
-// with Apply() and perhaps Cleanup() methods. Users can then request
-// materials with Material *mat = renderer->RequestMaterial(...)
-struct Material {
-	Texture *texture0;
-	//Texture *texture1;
-	Color diffuse;
-	//Color ambient;
-	//Color specular;
-	bool unlit;
-	bool twoSided;
-
-	Render::Shader *shader; //custom glsl prog
-	//etc
-	Material() : texture0(0), unlit(false), twoSided(false), shader(0) { }
-};
-
-// surface with a material
-// can have indices
-struct Surface {
-	Surface() : vertices(0), mat(0), primitiveType(TRIANGLES) { }
-	int GetNumVerts() const;
-	std::vector<unsigned short> indices;
-	VertexArray *vertices;
-	Material* mat;
-	PrimitiveType primitiveType;
-
-	// multiple surfaces can be buffered in one vbo so need to
-	// save starting offset + amount to draw
-	//int startVertex;
-	//int numVertices; should be samme as vertices->GetNumVerts()
-	//int startIndex;
-	//int numIndices; should be same as indices.size()
-};
-
-// Geometry that changes rarely or never
-// May be cached by the renderer
-// Can hold multiple surfaces
-class StaticMesh {
-public:
-	StaticMesh();
-	StaticMesh(int num_surfaces);
-	~StaticMesh();
-	int GetNumVerts() const;
-
-	int numSurfaces;
-	Surface *surfaces;
-	bool cached;
-
-private:
-	friend class Renderer;
-	friend class RendererLegacy;
-	friend class RendererGL2;
-	// XXX gl specific hack (stores vbo id)
-	unsigned int buffy;
 };
 
 // Renderer base, functions return false if

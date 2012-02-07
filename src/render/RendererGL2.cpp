@@ -1,4 +1,5 @@
 #include "RendererGL2.h"
+#include "Material.h"
 #include "Render.h"
 #include "Texture.h"
 

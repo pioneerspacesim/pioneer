@@ -1,7 +1,10 @@
 #include "RendererLegacy.h"
-#include "Render.h"
-#include "Texture.h"
 #include "Light.h"
+#include "Material.h"
+#include "Render.h"
+#include "StaticMesh.h"
+#include "Surface.h"
+#include "Texture.h"
 #include <stddef.h> //for offsetof
 
 RendererLegacy::RendererLegacy(int w, int h) :
