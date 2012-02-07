@@ -1,6 +1,8 @@
 #ifndef BUFFEROBJECT_H
 #define BUFFEROBJECT_H
 
+#include "render/Render.h"
+
 // 2MiB @ 32 bytes/vertex
 #define VERTICES_IN_BUFFER 65536
 

@@ -1,13 +1,14 @@
 #include "Camera.h"
 #include "Frame.h"
 #include "StarSystem.h"
-#include "render/Render.h"
 #include "Space.h"
 #include "Player.h"
 #include "Pi.h"
 #include "Sfx.h"
 #include "Game.h"
+#include "render/Render.h"
 #include "render/Renderer.h"
+#include "render/VertexArray.h"
 
 Camera::Camera(const Body *body, float width, float height) :
 	m_body(body),

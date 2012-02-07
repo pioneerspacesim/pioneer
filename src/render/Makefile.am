@@ -15,7 +15,10 @@ noinst_HEADERS = \
 	RenderFrustum.h \
 	RenderShader.h \
 	RenderTarget.h \
-	VertexArray.h \
+	Material.h \
+	StaticMesh.h \
+	Surface.h \
+	VertexArray.h
 
 librender_a_SOURCES = \
 	Render.cpp \
@@ -25,6 +28,9 @@ librender_a_SOURCES = \
 	RenderFrustum.cpp \
 	RenderShader.cpp \
 	RenderTarget.cpp \
+	Material.cpp \
+	StaticMesh.cpp \
+	Surface.cpp \
 	VertexArray.cpp
 
 

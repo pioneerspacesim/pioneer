@@ -2,6 +2,7 @@
 #include "Material.h"
 #include "Render.h"
 #include "Texture.h"
+#include "VertexArray.h"
 
 template <typename T>
 class Buffer {

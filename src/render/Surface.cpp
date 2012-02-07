@@ -3,12 +3,16 @@
 #include "VertexArray.h"
 
 Surface::Surface() :
-	m_vertices(0), m_material(0), m_primitiveType(TRIANGLES)
+	m_material(0),
+	m_primitiveType(TRIANGLES),
+	m_vertices(0)
 {
 }
 
 Surface::Surface(PrimitiveType t) :
-	m_vertices(0), m_material(0), m_primitiveType(t)
+	m_material(0),
+	m_primitiveType(t),
+	m_vertices(0)
 {
 }
 

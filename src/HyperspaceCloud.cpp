@@ -3,13 +3,14 @@
 #include "Pi.h"
 #include "Ship.h"
 #include "Serializer.h"
-#include "render/Render.h"
 #include "Space.h"
 #include "Player.h"
 #include "perlin.h"
 #include "Lang.h"
 #include "Game.h"
+#include "render/Render.h"
 #include "render/Renderer.h"
+#include "render/VertexArray.h"
 
 HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 {

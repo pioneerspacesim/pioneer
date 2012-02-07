@@ -2,6 +2,7 @@
 #define _STATICMESH_H
 
 #include <vector>
+#include "Renderer.h"
 
 class Surface;
 

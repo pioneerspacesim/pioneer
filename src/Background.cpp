@@ -11,6 +11,7 @@
 #include "render/Renderer.h"
 #include "render/StaticMesh.h"
 #include "render/Surface.h"
+#include "render/VertexArray.h"
 
 namespace Background
 {

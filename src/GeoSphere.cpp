@@ -5,9 +5,10 @@
 #include "StarSystem.h"
 #include "RefCounted.h"
 #include "render/Material.h"
-#include "render/Render.h"
 #include "render/Renderer.h"
 #include "render/RenderFrustum.h"
+#include "render/Render.h"
+#include "render/VertexArray.h"
 #include <deque>
 #include <algorithm>
 

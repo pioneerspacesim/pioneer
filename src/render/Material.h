@@ -1,7 +1,13 @@
 #ifndef _MATERIAL_H
 #define _MATERIAL_H
 
+#include "libs.h"
 #include <RefCounted.h>
+
+class Texture;
+namespace Render {
+	class Shader;
+}
 
 //a bunch of renderstates and shaders are determined from this
 //(can add shaderType or whatever hacks are necessary)

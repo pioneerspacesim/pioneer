@@ -1,6 +1,8 @@
 #ifndef _VERTEXARRAY_H
 #define _VERTEXARRAY_H
 
+#include "libs.h"
+
 //allowed minimum of GL_MAX_VERTEX_ATTRIBS is 8 on ES2
 enum VertexAttrib {
 	ATTRIB_POSITION  = (1u << 0),

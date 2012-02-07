@@ -5,6 +5,7 @@
 #include "Texture.h"
 #include "render/Material.h"
 #include "render/Renderer.h"
+#include "render/VertexArray.h"
 
 #define FACE_WIDTH  295
 #define FACE_HEIGHT 285

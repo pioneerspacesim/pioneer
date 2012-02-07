@@ -4,8 +4,9 @@
 #include "GeoSphere.h"
 #include "perlin.h"
 #include "render/Material.h"
-#include "render/Render.h"
 #include "render/Renderer.h"
+#include "render/Render.h"
+#include "render/VertexArray.h"
 
 struct ColRangeObj_t {
 	float baseCol[4]; float modCol[4]; float modAll;

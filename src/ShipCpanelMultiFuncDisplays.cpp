@@ -13,6 +13,7 @@
 #include "KeyBindings.h"
 #include "Game.h"
 #include "render/Renderer.h"
+#include "render/VertexArray.h"
 
 #define SCANNER_RANGE_MAX	100000.0f
 #define SCANNER_RANGE_MIN	1000.0f

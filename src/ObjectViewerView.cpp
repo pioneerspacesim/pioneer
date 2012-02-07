@@ -7,6 +7,7 @@
 #include "GeoSphere.h"
 #include "terrain/Terrain.h"
 #include "Planet.h"
+#include "render/Renderer.h"
 
 #if WITH_OBJECTVIEWER
 

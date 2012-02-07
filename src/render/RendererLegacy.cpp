@@ -5,6 +5,7 @@
 #include "StaticMesh.h"
 #include "Surface.h"
 #include "Texture.h"
+#include "VertexArray.h"
 #include <stddef.h> //for offsetof
 
 RendererLegacy::RendererLegacy(int w, int h) :
@@ -366,21 +367,21 @@ bool RendererLegacy::DrawSurface2D(const Surface *s)
 	if (!m || m->unlit) glDisable(GL_LIGHTING);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->position[0]));
+	glVertexPointer(3, GL_FLOAT, 0, &v->position[0]);
 	if (diffuse) {
 		assert(v->diffuse.size() == v->position.size());
 		glEnableClientState(GL_COLOR_ARRAY);
-		glColorPointer(4, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));
+		glColorPointer(4, GL_FLOAT, 0, &v->diffuse[0]);
 	}
 	if (textured) {
 		assert(v->uv0.size() == v->position.size());
 		glEnable(GL_TEXTURE_2D);
 		m->texture0->Bind();
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glTexCoordPointer(2, GL_FLOAT, 0, (const GLvoid *)&v->uv0[0]);
+		glTexCoordPointer(2, GL_FLOAT, 0, &v->uv0[0]);
 	}
 
-	glDrawElements(s->m_primitiveType, s->indices.size(), GL_UNSIGNED_SHORT, reinterpret_cast<const GLvoid *>(&s->indices[0]));
+	glDrawElements(s->m_primitiveType, s->indices.size(), GL_UNSIGNED_SHORT, &s->indices[0]);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	if (diffuse)
