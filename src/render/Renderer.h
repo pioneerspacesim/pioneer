@@ -19,6 +19,7 @@
 class Texture;
 class Light;
 class RendererLegacy;
+struct VertexArray;
 namespace Render {
 	class Shader;
 }
@@ -47,55 +48,11 @@ enum BlendMode {
 	BLEND_ALPHA_PREMULT
 };
 
-//allowed minimum of GL_MAX_VERTEX_ATTRIBS is 8 on ES2
-enum VertexAttribs {
-	ATTRIB_POSITION = 0,
-	ATTRIB_NORMAL = 1,
-	ATTRIB_DIFFUSE = 2,
-	ATTRIB_UV0 = 3,
-	ATTRIB_UV1 = 4,
-	ATTRIB_TANGENT = 5,
-	ATTRIB_BITANGENT = 6
-	//ATTRIB_CUSTOM?
-};
-#define NUM_ATTRIBS 4
-
 struct LineVertex {
 	LineVertex() : position(0.f, 0.f, 0.f), color(0.f) { }
 	LineVertex(const vector3f& v, const Color &c) : position(v), color(c) { }
 	vector3f position;
 	Color color;
-};
-
-// this is a generic collection of vertex attributes. Renderers do
-// whatever they need to do with regards to the attribute set.
-// Presence of an attribute is checked using vector size, so users are trusted
-// to provide matching number of attributes
-struct VertexArray {
-	VertexArray();
-	//reserve space for vertice, specifying attributes to be used
-	//(positions are always on)
-	VertexArray(int size, bool colors, bool normals);
-	~VertexArray();
-
-	virtual unsigned int GetNumVerts() const;
-	virtual void Clear();
-	virtual void Add(const vector3f &v);
-	virtual void Add(const vector3f &v, const Color &c);
-	virtual void Add(const vector3f &v, const Color &c, const vector3f &normal);
-	//common for UI
-	virtual void Add(const vector3f &v, const Color &c, const vector2f &uv);
-	//virtual void Reserve(unsigned int howmuch)
-
-	std::vector<vector3f> position;
-	std::vector<vector3f> normal;
-	std::vector<Color> diffuse;
-	// two uvs should be enough for everyone
-	std::vector<vector2f> uv0;
-	//vector2f* uv1;
-	//future stuff
-	//vector3f* tangent;
-	//vector3f* binormal;
 };
 
 //a bunch of renderstates and shaders are determined from this
