@@ -545,6 +545,8 @@ bool Ship::FireMissile(int idx, Ship *target)
 {
 	assert(target);
 
+	if (GetFlightState() != FLYING) return false;
+
 	const Equip::Type t = m_equipment.Get(Equip::SLOT_MISSILE, idx);
 	if (t == Equip::NONE) {
 		return false;
