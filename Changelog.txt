@@ -3,6 +3,9 @@ Alpha 20
    * New features
      * Hungarian translation (#947, #894)
 
+   * Minor changes and tweaks
+     * LED effect on timeaccel buttons (#946, #153)
+
    * Fixes
      * Updated zlib and libpng DLLs for MSVC to fix screenshot crash (#942, #645)
      * Only allow missiles to be fired in open flight (#951)
