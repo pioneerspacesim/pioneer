@@ -88,6 +88,22 @@ bool RendererGL2::BeginFrame()
 	return true;
 }
 
+bool RendererGL2::SetPerspectiveProjection(float fov, float aspect, float near, float far)
+{
+	double ymax = near * tan(fov * M_PI / 360.0);
+	double ymin = -ymax;
+	double xmin = ymin * aspect;
+	double xmax = ymax * aspect;
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glFrustum(xmin, xmax, ymin, ymax, near, far);
+
+	// update values for log-z hack
+	Render::State::SetZnearZfar(near, far);
+	return true;
+}
+
 bool RendererGL2::DrawLines(int count, const LineVertex *v, LineType t)
 {
 	if (count < 2 || !v) return false;
