@@ -62,7 +62,7 @@
     <TargetName>$(ProjectName)PR</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
     <IntDir>$(SolutionDir)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)..\..\</OutDir>
   </PropertyGroup>
@@ -82,7 +82,7 @@
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <ExceptionHandling>Sync</ExceptionHandling>
       <StringPooling>true</StringPooling>
-      <MinimalRebuild>false</MinimalRebuild>
+      <MinimalRebuild>true</MinimalRebuild>
       <FloatingPointExceptions>false</FloatingPointExceptions>
     </ClCompile>
     <Link>
@@ -116,7 +116,7 @@
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <ExceptionHandling>Sync</ExceptionHandling>
       <StringPooling>true</StringPooling>
-      <MinimalRebuild>false</MinimalRebuild>
+      <MinimalRebuild>true</MinimalRebuild>
       <FloatingPointExceptions>false</FloatingPointExceptions>
     </ClCompile>
     <Link>
@@ -147,7 +147,7 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <StringPooling>true</StringPooling>
-      <MinimalRebuild>false</MinimalRebuild>
+      <MinimalRebuild>true</MinimalRebuild>
       <FloatingPointExceptions>false</FloatingPointExceptions>
     </ClCompile>
     <Link>
