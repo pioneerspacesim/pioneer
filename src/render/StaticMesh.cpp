@@ -23,8 +23,6 @@ StaticMesh::StaticMesh(int n) :
 
 StaticMesh::~StaticMesh()
 {
-	// does not delete vertex arrays or
-	// materials, could solve with sharedptr
 	delete[] surfaces;
 }
 

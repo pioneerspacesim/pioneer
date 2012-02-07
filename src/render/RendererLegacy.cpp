@@ -353,10 +353,10 @@ bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, Prim
 
 bool RendererLegacy::DrawSurface2D(const Surface *s)
 {
-	if (!s || !s->vertices || s->indices.size() < 3) return false;
+	if (!s || !s->GetVertices() || s->indices.size() < 3) return false;
 
-	Material *m = s->mat;
-	VertexArray *v = s->vertices;
+	Material *m = s->GetMaterial().Get();
+	VertexArray *v = s->GetVertices();
 	const bool diffuse = !v->diffuse.empty();
 	const bool textured = (m && m->texture0 && v->uv0.size() == v->position.size());
 	// no need for normals
@@ -488,8 +488,8 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 		int next = 0;
 		for (int i=0; i < t->numSurfaces; i++) {
 			for(int j=0; j<t->surfaces[i].GetNumVerts(); j++) {
-				vts[next].position = t->surfaces[i].vertices->position[j];
-				vts[next].color = t->surfaces[i].vertices->diffuse[j];
+				vts[next].position = t->surfaces[i].GetVertices()->position[j];
+				vts[next].color = t->surfaces[i].GetVertices()->diffuse[j];
 				next++;
 			}
 		}
