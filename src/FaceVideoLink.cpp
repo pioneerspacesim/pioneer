@@ -3,6 +3,7 @@
 #include "Pi.h"
 #include "LuaNameGen.h"
 #include "Texture.h"
+#include "render/Material.h"
 #include "render/Renderer.h"
 
 #define FACE_WIDTH  295

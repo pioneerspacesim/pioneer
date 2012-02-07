@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "FloatComparison.h"
 #include "Game.h"
+#include "render/Material.h"
 #include "render/Renderer.h"
 
 const double SystemView::PICK_OBJECT_RECT_SIZE = 12.0;

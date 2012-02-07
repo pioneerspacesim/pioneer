@@ -7,7 +7,10 @@
 #include "Player.h"
 #include <vector>
 #include "Game.h"
+#include "render/Material.h"
 #include "render/Renderer.h"
+#include "render/StaticMesh.h"
+#include "render/Surface.h"
 
 namespace Background
 {

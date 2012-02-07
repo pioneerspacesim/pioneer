@@ -2,8 +2,9 @@
 #include "Pi.h"
 #include "WorldView.h"
 #include "GeoSphere.h"
-#include "render/Render.h"
 #include "perlin.h"
+#include "render/Material.h"
+#include "render/Render.h"
 #include "render/Renderer.h"
 
 struct ColRangeObj_t {

@@ -12,6 +12,7 @@
 #include "StringF.h"
 #include "ShipCpanel.h"
 #include "Game.h"
+#include "render/Material.h"
 #include "render/Renderer.h"
 
 #define INNER_RADIUS (Sector::SIZE*1.5f)
