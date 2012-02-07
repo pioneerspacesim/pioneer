@@ -59,16 +59,14 @@ void Star::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 	const Color bright(col[0], col[1], col[2], 1.f);
 	const Color dark(0.f, 0.f, 0.f, 0.f);
-	va.position.push_back(vector3f(0.f, 0.f, 0.f));
-	va.diffuse.push_back(bright);
-	for (float ang=0; ang<2*M_PI; ang+=0.26183+rand.Double(0,0.4)) {
-		va.position.push_back(vector3f(rad*sin(ang), rad*cos(ang), 0));
-		va.diffuse.push_back(dark);
-	}
-	va.position.push_back(vector3f(0.f, rad, 0.f));
-	va.diffuse.push_back(dark);
-	renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
 
+	va.Add(vector3f(0.f), bright);
+	for (float ang=0; ang<2*M_PI; ang+=0.26183+rand.Double(0,0.4)) {
+		va.Add(vector3f(rad*sin(ang), rad*cos(ang), 0), dark);
+	}
+	va.Add(vector3f(0.f, rad, 0.f), dark);
+
+	renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
 	renderer->SetBlendMode(BLEND_SOLID);
 
 	glPopMatrix();

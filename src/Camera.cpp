@@ -244,11 +244,11 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 
-	//center
-	va.position.push_back(vector3f(0.f));
-	va.diffuse.push_back(Color(col));
-
+	const Color center(col[0], col[1], col[2], col[2]);
 	const Color edges(col[0], col[1], col[2], 0.f);
+
+	//center
+	va.Add(vector3f(0.f), center);
 
 	const float spikerad = float(scale*rad);
 
@@ -257,32 +257,28 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 		const vector3f p0(0,spikerad,0), p1(spikerad,0,0);
 		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
 			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			va.position.push_back(p);
-			va.diffuse.push_back(edges);
+			va.Add(p, edges);
 		}
 	}
 	{
 		const vector3f p0(spikerad,0,0), p1(0,-spikerad,0);
 		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
 			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			va.position.push_back(p);
-			va.diffuse.push_back(edges);
+			va.Add(p, edges);
 		}
 	}
 	{
 		const vector3f p0(0,-spikerad,0), p1(-spikerad,0,0);
 		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
 			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			va.position.push_back(p);
-			va.diffuse.push_back(edges);
+			va.Add(p, edges);
 		}
 	}
 	{
 		const vector3f p0(-spikerad,0,0), p1(0,spikerad,0);
 		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
 			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			va.position.push_back(p);
-			va.diffuse.push_back(edges);
+			va.Add(p, edges);
 		}
 	}
 

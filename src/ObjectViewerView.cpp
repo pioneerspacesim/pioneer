@@ -78,7 +78,6 @@ void ObjectViewerView::Draw3D()
 
 	glEnable(GL_LIGHT0);
 
-	//m_renderer->SetPerspectiveProjection(90, Pi::GetScrAspect(), 1.f, 1000000.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	glDisable(GL_DEPTH_TEST);
 	Render::State::SetZnearZfar(znear, zfar);
