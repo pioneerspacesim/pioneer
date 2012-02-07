@@ -11,13 +11,13 @@ The GNU Way...:
    was to install macports (http://www.macports.org/) and install the
    following:
 
-	pkgbuild
+	pkgconfig
 	freetype
 	libsdl
 	libsdl_image
 	libsdl_sound
 	glew
-	sigcxx2
+	libsigcxx2
 
 2. Run ./bootstrap.sh to generate your 'configure' file
 
