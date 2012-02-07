@@ -9,6 +9,7 @@
 #include "Ship.h" // for the flight state and ship animation enums
 #include "SpaceStation.h" // for the space station animation enums
 #include "TextureCache.h"
+#include "Drawables.h"
 
 static Renderer *renderer;
 
@@ -713,20 +714,9 @@ static void PollEvents()
 
 void Viewer::VisualizeBoundingRadius(matrix4x4f& trans, double radius)
 {
-	glPushMatrix();
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-	glDisable(GL_LIGHTING);
-	glDisable(GL_CULL_FACE);
-	glMultMatrixf(&trans[0]);
-	glColor4f(0.5f, 0.9f, 0.9f, 1.0f);
-	glColor3f(0,0,1);
-	glBegin(GL_LINE_LOOP);
-	for (float theta=0; theta < 2*M_PI; theta += 0.05*M_PI) {
-		glVertex3f(radius*sin(theta), radius*cos(theta), 0);
-	}
-	glEnd();
-	glPopAttrib();
-	glPopMatrix();
+	renderer->SetTransform(trans);
+	Circle circ(radius, Color(0.f, 0.f, 1.f, 1.f));
+	circ.Draw(renderer);
 }
 
 
