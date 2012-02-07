@@ -114,7 +114,7 @@ void GalacticView::Draw3D()
 	glTranslatef(-offset_x, -offset_y, 0.0f);
 
 	// galaxy image
-	VertexArray va;
+	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0);
 	const float w = 1.0;
 	const float h = 1.0;
 	// XXX 2d verts

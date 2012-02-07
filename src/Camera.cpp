@@ -243,7 +243,7 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
 	col[3] = 1.f;
 
-	VertexArray va;
+	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 
 	//center
 	va.position.push_back(vector3f(0.f));

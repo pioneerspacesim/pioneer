@@ -147,7 +147,7 @@ void HyperspaceCloud::Render(Renderer *renderer, const vector3d &viewCoords, con
 	double preciseTime = Pi::game->GetTime() + Pi::GetGameTickAlpha()*Pi::game->GetTimeStep();
 
 	float radius = 1000.0f + 200.0f*float(noise(10.0*preciseTime, 0, 0));
-	VertexArray va;
+	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 	if (m_isArrival) {
 		make_circle_thing(va, radius, Color(1.0,1.0,1.0,1.0), Color(0.0,0.0,1.0,0.0));
 	} else {

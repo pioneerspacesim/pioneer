@@ -10,6 +10,7 @@
 #include "Sector.h"
 #include "SystemPath.h"
 #include "render/Renderer.h"
+#include "render/VertexArray.h"
 
 class SectorView: public View {
 	class Line3D {
@@ -104,7 +105,7 @@ private:
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::ImageButton *m_galaxyButton;
 	Gui::TextEntry *m_searchBox;
-	VertexArray m_disk;
+	VertexArray *m_disk;
 	
 	Gui::LabelSet *m_clickableLabels;
 

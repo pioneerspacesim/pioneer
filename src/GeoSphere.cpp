@@ -1290,7 +1290,7 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 	}
 
 	/* Tri-fan above viewer */
-	VertexArray va;
+	VertexArray va(ATTRIB_POSITION);
 	va.Add(vector3f(0.f, 1.f, 0.f));
 	for (int i=0; i<=LONG_SEGS; i++) {
 		va.Add(vector3f(
@@ -1303,7 +1303,7 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 	/* and wound latitudinal strips */
 	double lat = latDiff;
 	for (int j=1; j<LAT_SEGS; j++, lat += latDiff) {
-		VertexArray v;
+		VertexArray v(ATTRIB_POSITION);
 		float cosLat = cos(lat);
 		float sinLat = sin(lat);
 		float cosLat2 = cos(lat+latDiff);

@@ -132,7 +132,7 @@ static void DrawRing(double inner, double outer, const float color[4], Renderer 
 {
 	float step = 0.1f / (Pi::detail.planets + 1);
 
-	VertexArray vts;
+	VertexArray vts(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL);
 	const vector3f normal(0.f, 1.f, 0.f);
 	const Color c(color[0], color[1], color[2], color[3]);
 	for (float ang=0; ang<2*M_PI; ang+=step) {
@@ -247,7 +247,7 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 
 	renderer->SetBlendMode(BLEND_ALPHA_ONE);
 
-	VertexArray vts;
+	VertexArray vts(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL);
 	for (float ang=0; ang<2*M_PI; ang+=float(angStep)) {
 		const vector3d norm = r1.Normalized();
 		const vector3f n = vector3f(norm.x, norm.y, norm.z);

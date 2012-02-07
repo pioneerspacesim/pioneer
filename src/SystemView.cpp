@@ -96,16 +96,16 @@ void SystemView::ResetViewpoint()
 
 void SystemView::PutOrbit(SBody *b, vector3d offset)
 {
-	std::vector<LineVertex> vts;
-	Color c = Color(0.f, 1.f, 0.f, 1.f);
+	std::vector<vector3f> vts;
+	Color green(0.f, 1.f, 0.f, 1.f);
 	int vcount = 0;
 	for (double t=0.0; t<1.0; t += 0.01) {
 		vector3d pos = b->orbit.EvenSpacedPosAtTime(t);
 		pos = offset + pos * double(m_zoom);
-		vts.push_back(LineVertex(vector3f(pos), c));
+		vts.push_back(vector3f(pos));
 		vcount++;
 	}
-	m_renderer->DrawLines(vcount-1, &vts[0], LINE_LOOP);
+	m_renderer->DrawLines(vcount-1, &vts[0], green, LINE_LOOP);
 }
 
 void SystemView::OnClickObject(SBody *b)
@@ -177,15 +177,17 @@ void SystemView::PutBody(SBody *b, vector3d offset)
 		s_invRot = s_invRot.InverseOf();
 
 		// Draw a filled circle
-		const Color white(1.f);
-		VertexArray va;
+		VertexArray va(ATTRIB_POSITION);
+		Material mat;
+		mat.unlit = true;
+		mat.diffuse = Color(1.f);
 		const double radius = b->GetRadius() * m_zoom;
 		const vector3f offsetf(offset);
 		for (float ang=0; ang<2.0f*M_PI; ang+=M_PI*0.05f) {
 			vector3f p = offsetf + s_invRot * vector3f(radius*sin(ang), -radius*cos(ang), 0);
-			va.Add(p, white);
+			va.Add(p);
 		}
-		m_renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
+		m_renderer->DrawTriangles(&va, &mat, TRIANGLE_FAN);
 
 		PutLabel(b, offset);
 	}

@@ -166,12 +166,12 @@ void FaceVideoLink::Draw() {
 	float h = float(FACE_HEIGHT) / ceil_pow2(FACE_HEIGHT);
 
 	// XXX can't use generic fillrect due to UV thing
-	VertexArray va;
+	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0);
 	Color white(1.f, 1.f, 1.f, 1.f);
-	va.Add(vector3f(0.f, 0.f, 0.f), white, vector2f(0.f, 0.f));
-	va.Add(vector3f(0.f, size[1], 0.f), white, vector2f(0.f, h));
-	va.Add(vector3f(size[0], 0.f, 0.f), white, vector2f(w, 0.f));
-	va.Add(vector3f(size[0], size[1], 0.f), white, vector2f(w, h));
+	va.Add(vector3f(0.f, 0.f, 0.f), vector2f(0.f, 0.f));
+	va.Add(vector3f(0.f, size[1], 0.f), vector2f(0.f, h));
+	va.Add(vector3f(size[0], 0.f, 0.f), vector2f(w, 0.f));
+	va.Add(vector3f(size[0], size[1], 0.f), vector2f(w, h));
 	Material mat;
 	mat.texture0 = m_texture;
 	mat.unlit = true;

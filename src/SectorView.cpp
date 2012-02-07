@@ -75,6 +75,7 @@ void SectorView::InitDefaults()
 		
 void SectorView::InitObject()
 {
+	m_disk = new VertexArray(ATTRIB_POSITION);
 	SetTransparency(true);
 
 	Gui::Screen::PushFont("OverlayFont");
@@ -104,10 +105,10 @@ void SectorView::InitObject()
 	// selection highlight disk
 	// (wound counterclockwise)
 	// color will be determined by a material
-	m_disk.Add(vector3f(0.f, 0.f, 0.f));
+	m_disk->Add(vector3f(0.f, 0.f, 0.f));
 	const float rad = 0.2f;
 	for (int i = 72; i >= 0; i--) {
-		m_disk.Add(vector3f(
+		m_disk->Add(vector3f(
 			0.f+sinf(DEG2RAD(i*5))*rad,
 			0.f+cosf(DEG2RAD(i*5))*rad,
 			0.f));
@@ -196,6 +197,7 @@ void SectorView::InitObject()
 
 SectorView::~SectorView()
 {
+	delete m_disk;
 	m_onMouseButtonDown.disconnect();
 	if (m_onKeyPressConnection.connected()) m_onKeyPressConnection.disconnect();
 }
@@ -590,28 +592,28 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 
 		float *col = StarSystem::starColors[(*i).starType[0]];
 		mat.diffuse = Color(col[0], col[1], col[2]);
-		m_renderer->DrawTriangles(&m_disk, &mat, TRIANGLE_FAN);
+		m_renderer->DrawTriangles(m_disk, &mat, TRIANGLE_FAN);
 
 		// player location indicator
 		if (m_inSystem && current == m_current) {
 			glDepthRange(0.2,1.0);
 			mat.diffuse = Color(0.f, 0.f, 0.8f);
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(3.f));
-			m_renderer->DrawTriangles(&m_disk, &mat, TRIANGLE_FAN);
+			m_renderer->DrawTriangles(m_disk, &mat, TRIANGLE_FAN);
 		}
 		// selected indicator
 		if (current == m_selected) {
 			glDepthRange(0.1,1.0);
 			mat.diffuse = Color(0.f, 0.8f, 0.0f);
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
-			m_renderer->DrawTriangles(&m_disk, &mat, TRIANGLE_FAN);
+			m_renderer->DrawTriangles(m_disk, &mat, TRIANGLE_FAN);
 		}
 		// hyperspace target indicator (if different from selection)
 		if (current == m_hyperspaceTarget && m_hyperspaceTarget != m_selected && (!m_inSystem || m_hyperspaceTarget != m_current)) {
 			glDepthRange(0.1,1.0);
 			mat.diffuse = Color(0.3f);
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
-			m_renderer->DrawTriangles(&m_disk, &mat, TRIANGLE_FAN);
+			m_renderer->DrawTriangles(m_disk, &mat, TRIANGLE_FAN);
 		}
 
 		glDepthRange(0,1);

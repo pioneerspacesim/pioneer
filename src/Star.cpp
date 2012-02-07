@@ -2,6 +2,7 @@
 #include "render/Render.h"
 #include "render/Renderer.h"
 #include "gui/Gui.h"
+#include "render/VertexArray.h"
 
 Star::Star() : TerrainBody()
 {
@@ -55,7 +56,7 @@ void Star::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x
 	renderer->SetBlendMode(BLEND_ALPHA_ONE);
 
 	//render star halo
-	VertexArray va;
+	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 	const Color bright(col[0], col[1], col[2], 1.f);
 	const Color dark(0.f, 0.f, 0.f, 0.f);
 	va.position.push_back(vector3f(0.f, 0.f, 0.f));

@@ -35,7 +35,7 @@ Starfield::~Starfield()
 void Starfield::Init()
 {
 	// reserve some space for positions, colours
-	m_stars = new VertexArray(BG_STAR_MAX, true, false);
+	m_stars = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, BG_STAR_MAX);
 	// one "surface"
 	m_model = new StaticMesh(1);
 	m_shader = new Render::Shader("bgstars");
@@ -164,8 +164,8 @@ MilkyWay::MilkyWay()
 	//data can then be thrown away (or not. If the cache is emptied the model
 	//needs to be regenerated somehow).
 
-	VertexArray *bottom = new VertexArray();
-	VertexArray *top = new VertexArray();
+	VertexArray *bottom = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE);
+	VertexArray *top = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 	m_model->surfaces[0].vertices = bottom;
 	m_model->surfaces[1].vertices = top;
 
