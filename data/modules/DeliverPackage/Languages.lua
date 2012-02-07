@@ -426,3 +426,144 @@ Translate:Add({ Spanish = {
 	"Pagarás por ese cargamento, pero con tu vida.",
   },
 }, })
+
+
+ ---- HUNGARIAN / MAGYAR ----
+
+Translate:AddFlavour('Magyar','DeliverPackage', {
+  adtext = "ÚTBAN VAGY a(z) {system} rendszerbe? Egy kis csomag elviteléért pénzt fizetek.",
+  introtext = "Helló, a nevem {name}. Fizetel neked {cash} összeget, ha elviszel egy kisebb csomagot {starport} kikötőjébe a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerben.",
+  whysomuchtext = "A múltkor, amikor a barátnőm meglátogatott, itthagyott néhány ruhát és pár régi papírkönyvet. Szeretném visszajuttatni neki.",
+  successmsg = "Köszönöm a szállítást, máris megkapod érte a fizetséget.",
+  failuremsg = "Elfogadhatatlan! Egy egyszerű szállítás ennyi ideig tartson... nem fogsz fizetséget kapni árte.",
+  urgency = 0,
+  risk = 0,
+  localdelivery = 0,
+})
+
+Translate:AddFlavour('Magyar','DeliverPackage', {
+  adtext = "KERESEK. Egy olyan személyt, aki elvinne egy csomagot a(z) {system} rendszerbe.",
+  introtext = "Helló. A nevem {name}. Fizetek {cash} kreditet, ha elszállítasz egy csomagot {starport} kikötőjébe a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerben.",
+  whysomuchtext = "Semmi különleges.",
+  successmsg = "A csomag megérkezett, így megkapod a fizetséget a szállításért.",
+  failuremsg = "A szállítási késedelmek miatt nem kapsz semmilyen fizetséget a 'munkáért'.",
+  urgency = 0.1,
+  risk = 0,
+  localdelivery = 0,
+})
+
+Translate:AddFlavour('Magyar','DeliverPackage', {
+  adtext = "SÜRGŐS. Egy gyors hajóval kellene csomagot szállítani a(z) {system} rendszerbe.",
+  introtext = "Helló, a nevem {name}. Fizetek {cash} kreditet, ha elviszel egy csomagot {starport} kikötőjébe a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerben.",
+  whysomuchtext = "Ez egy kutatási anyag, amelyet időben le kell szállítani, hogy támogatást szerezzek rá.",
+  successmsg = "A szállításért máris megkapod a fizetséget. Köszönöm.",
+  failuremsg = "Elég egyértelmű voltam a határidővel kapcsolatban, és nem sikerült tartani. Nem kapod meg a fizetséget.",
+  urgency = 0.6,
+  risk = 0,
+  localdelivery = 0,
+})
+
+Translate:AddFlavour('Magyar','DeliverPackage', {
+  adtext = "SZÁLLÍTÁS. Dokumentumok szállítása {system} rendszerbe. A tapasztalt pilóta fizetsége {cash} kredit.",
+  introtext = "Hello. A nevem {name}. Fizetek {cash} kreditet annak, aki elvisz egy csomagot {starport} kikötőjébe a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerben.",
+  whysomuchtext = "Néhány különösen titkos dokumentum került a birtokomba, és okom van azt hinni, hogy visszavezetnek hozzám a nyomok.",
+  successmsg = "Gyors és diszkrét szolgálatodat örömmel vettem, és fizettem ki.",
+  failuremsg = "Használhatatlan vagy! Soha nem fogok benned bízni, és szerintem szükségtelen mondanom, hogy semmilyen fizetséged nem kapsz ezért sem.",
+  urgency = 0.4,
+  risk = 0.75,
+  localdelivery = 0,
+})
+
+Translate:AddFlavour('Magyar','DeliverPackage', {
+  adtext = "POSTAI SZOLGÁLTATÁS. Szükségünk van egy gyors kézbesítésre a(z) {system} rendszerbe.",
+  introtext = "Üdvözlet. Ez egy automatikus üzenet a Beford és {name} postaszolgálattól. Fizetünk {cash} kreditet, ha elszállítasz valamit {starport} kikötőbe a(z)  {system} ({sectorx}, {sectory}, {sectorz}) rendszerben.",
+  whysomuchtext = "Boldogan fizetünk kevesebbet is.",
+  successmsg = "Gyorsaságodat és diszkréciódat díjazzuk, amely díjazást már át is utaltunk.",
+  failuremsg = "Megjegyeztük a hajód számát, így ne várd, hogy újra alkalmazni fog szolgálatunk téged.",
+  urgency = 0.1,
+  risk = 0.1,
+  localdelivery = 0,
+})
+
+Translate:AddFlavour('Magyar','DeliverPackage', {
+  adtext = "KÖLTÖZTETÉS. Tárgyak, alkatrészek szállítása a(z) {starport} űrkikötőbe.",
+  introtext = "Örülök, hogy találkoztunk. A nevem {name}, és hajlandó vagyok fizetni {cash} kreditet, ha segítesz elszállítani a cuccaimat {starport} kikötőjébe. Semmi fontos, csak néhány hátramaradt dolog költözésből.",
+  whysomuchtext = "Hm, ez sok pénz? Talán újra kéne gondolnom az összeget!",
+  successmsg = "Na, szuper. Már kezdek is kipakolni. Kösz ismét.",
+  failuremsg = "Mi a fenék ezek? Óh, olyan soká tartott idehozni a cuccaimat, hogy elfelejtettem, hogy én küldtem!",
+  urgency = 0.1,
+  risk = 0,
+  localdelivery = 1,
+})
+
+Translate:AddFlavour('Magyar','DeliverPackage', {
+  adtext = "RÖVID TÁVOLSÁGRA FUTÁR. Egy kis csomag szállítását kérném {starport} kikötőjébe.",
+  introtext = "Helló. A nevem {name}, és fizetek {cash} kreditet annak, aki elviszi ezt a csomagot {starport} kikötőjébe.",
+  whysomuchtext = "Szerintem nem sok ez.",
+  successmsg = "Köszönöm a csomagot, máris kifizetlek.",
+  failuremsg = "Még én is gyorsabb lettem volna. Nem fizetek neked semmit.",
+  urgency = 0.2,
+  risk = 0,
+  localdelivery = 1,
+})
+
+Translate:AddFlavour('Magyar','DeliverPackage', {
+  adtext = "BOLYGÓKÖZI SZÁLLÍTÁS. Némi rakomány szállítása {starport} kikötőjébe.",
+  introtext = "Helló. Szeretnék, ha ezeket a dobozokat elvinnéd {starport} kikötőjébe, amilyen gyorsan tudod. A szállítás szokványos fizetsége {cash} kredit.",
+  whysomuchtext = "Szokványos fizetség, a piaci árak ilyenek.",
+  successmsg = "Kitünő munka, máris átutalom a fizetséged.",
+  failuremsg = "Az ügyfeleink nem fognak ennek örülni, így ne is várj fizetséget.",
+  urgency = 0.4,
+  risk = 0,
+  localdelivery = 1,
+})
+
+Translate:AddFlavour('Magyar','DeliverPackage', {
+  adtext = "KÖZELI CÉLÁLLOMÁS. Gyors kiszállítás szükséges a(z) {starport} közeli űrkikötőbe.",
+  introtext = "A nevem {name}. Szeretném ezt a tárgyat azonnal eljuttatni egy barátomnak {starport} kikötőjébe. Fizetek a szállításért {cash} kreditet, ha elfogadható gyorsasággal végrehajtod a munkát.",
+  whysomuchtext = "Rettentően sürgős.",
+  successmsg = "Gyors és pontos szállításod pontos fizetséget is érdemel.",
+  failuremsg = "A gyors szállításért kaptál volna prémiumot! Ezt viszont nem fogom kifizetni.",
+  urgency = 0.6,
+  risk = 0,
+  localdelivery = 1,
+})
+
+Translate:AddFlavour('Magyar','DeliverPackage', {
+  adtext = "CSOMAGSZÁLLÍTÁS. Sürgős, romlandó áru szállítása {starport} kikötőjébe.",
+  introtext = "Üdvözöllek, sürgősen el szeretnénk juttatni a szállítmányunkat {starport} kikötőjébe. Fizetünk a kényelmetlenségekért {cash} kreditet.",
+  whysomuchtext = "A túlélésünk múlik rajta.",
+  successmsg = "Nagyszerű! Máris elkezdjük kipakolni. Már át is utaltam a fizetséged.",
+  failuremsg = "Mindennek annyi, már nem lehet használni ezeket! Nem tudunk és nem is akarunk ezért fizetni neked.",
+  urgency = 0.8,
+  risk = 0,
+  localdelivery = 1,
+})
+
+Translate:Add({ Magyar = {
+  ["I highly doubt it."] = "Azt erősen kétlem.",
+  ["Not any more than usual."] = "Nem több, mint általában.",
+  ["This is a valuable package, you should keep your eyes open."] = "Ez egy értékes csomag, szóval légy körültekintő.",
+  ["It could be dangerous, you should make sure you're adequately prepared."] = "Lehet, hogy veszélyes, szóval legyél nagyon felkészült.",
+  ["This is very risky, you will almost certainly run into resistance."] = "Hihetetlenül veszélyes, biztos, hogy ellenállásba fogsz ütközni.",
+  ["It must be delivered by "] = "Le kell szállítani ",
+  ["Delivery"] = "Delivery",
+  ["Excellent. I will let the recipient know you are on your way."] = "Kitünő. Tudatom a címzettel, hogy úton van a csomag.",
+  ["Why so much money?"] = "Miért ennyi a munkadíj?",
+  ["How soon must it be delivered?"] = "Mikorra kell leszállítani?",
+  ["Will I be in any danger?"] = "Fenyeget valamilyen veszély közben?",
+  ["Could you repeat the original request?"] = "Megismételnéd az eredeti feladatot?",
+  ["Ok, agreed."] = "Oké, elvállalom.",
+ PIRATE_TAUNTS = {
+  "Megbánod még, hogy {client} fizeti a munkádat!",
+	"Úgy tűnik, megjött a fizetési csekkem!",
+	"Nocsak, {client} a megbízód? Ez egy nagyon rossz ötlet volt.",
+	"A rakományod és az életed!",
+	"Úgy gondolom, ez megér némi pénzt a feketepiacon",
+	"A mai nap nem a szerencsenapod! Készülj a halálra.",
+	"Mondd meg régi barátomnak: {client}... viszlát a pokolban!",
+	"Ez a csomag nem fog ma elérni a célállomásra.",
+	"Nem fogsz eljutni {location} célodhoz!",
+	"Ezért a csomagért megfizetsz, méghozzá az életeddel.",
+  },
+}, })
