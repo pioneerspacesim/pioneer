@@ -37,3 +37,18 @@ int StaticMesh::GetNumVerts() const
 	}
 	return numvertices;
 }
+
+AttributeSet StaticMesh::GetAttributeSet() const
+{
+	//all vertices should match
+	AttributeSet set = 0;
+	for (int i=0; i < numSurfaces; i++) {
+#ifndef NDEBUG
+		if (set != 0 && set != surfaces[i].GetVertices()->GetAttributeSet()) {
+			assert(false);
+		}
+#endif
+		set = surfaces[i].GetVertices()->GetAttributeSet();
+	}
+	return set;
+}

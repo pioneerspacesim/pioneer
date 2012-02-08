@@ -1,6 +1,4 @@
 #include "Surface.h"
-#include "Material.h"
-#include "VertexArray.h"
 
 Surface::Surface() :
 	m_material(0),

@@ -1,9 +1,10 @@
 #ifndef _SURFACE_H
 #define _SURFACE_H
 
-#include "Renderer.h"
-#include "RefCounted.h"
 #include "Material.h"
+#include "RefCounted.h"
+#include "Renderer.h"
+#include "VertexArray.h"
 #include <vector>
 
 // surface with a material

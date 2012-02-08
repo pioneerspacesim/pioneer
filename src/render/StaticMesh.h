@@ -1,8 +1,9 @@
 #ifndef _STATICMESH_H
 #define _STATICMESH_H
 
-#include <vector>
 #include "Renderer.h"
+#include "VertexArray.h"
+#include <vector>
 
 class Surface;
 
@@ -21,6 +22,9 @@ public:
 	StaticMesh(int num_surfaces, PrimitiveType t);
 	~StaticMesh();
 	int GetNumVerts() const;
+
+	//blarf
+	AttributeSet GetAttributeSet() const;
 
 	int numSurfaces;
 	Surface *surfaces;

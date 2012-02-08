@@ -1,6 +1,6 @@
 #include "VertexArray.h"
 
-VertexArray::VertexArray(int attribs, int size)
+VertexArray::VertexArray(AttributeSet attribs, int size)
 {
 	m_attribs = attribs;
 
@@ -65,8 +65,15 @@ void VertexArray::Add(const vector3f &v, const Color &c, const vector2f &uv)
 	uv0.push_back(uv);
 }
 
-void VertexArray::Add(const vector3f v, const vector2f &uv)
+void VertexArray::Add(const vector3f &v, const vector2f &uv)
 {
 	position.push_back(v);
+	uv0.push_back(uv);
+}
+
+void VertexArray::Add(const vector3f &v, const vector3f &n, const vector2f &uv)
+{
+	position.push_back(v);
+	normal.push_back(n);
 	uv0.push_back(uv);
 }
