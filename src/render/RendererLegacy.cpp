@@ -97,7 +97,7 @@ bool RendererLegacy::SetOrthographicProjection(float xmin, float xmax, float ymi
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glFrustum(xmin, xmax, ymin, ymax, zmin, zmax);
+	glOrtho(xmin, xmax, ymin, ymax, zmin, zmax);
 	return true;
 }
 
@@ -207,6 +207,9 @@ bool RendererLegacy::DrawLines2D(int count, const vector2f *v, const Color &c, L
 {
 	if (count < 2 || !v) return false;
 
+	glPushAttrib(GL_LIGHTING_BIT);
+	glDisable(GL_LIGHTING);
+
 	glColor4f(c.r, c.g, c.b, c.a);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2, GL_FLOAT, sizeof(vector2f), v);
@@ -214,12 +217,17 @@ bool RendererLegacy::DrawLines2D(int count, const vector2f *v, const Color &c, L
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glColor4f(1.f, 1.f, 1.f, 1.f);
 
+	glPopAttrib();
+
 	return true;
 }
 
 bool RendererLegacy::DrawPoints(int count, const vector3f *points, const Color *colors, float size)
 {
 	if (count < 1 || !points || !colors) return false;
+
+	glPushAttrib(GL_LIGHTING_BIT);
+	glDisable(GL_LIGHTING);
 
 	glPointSize(size);
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -231,12 +239,16 @@ bool RendererLegacy::DrawPoints(int count, const vector3f *points, const Color *
 	glDisableClientState(GL_COLOR_ARRAY);
 	glPointSize(1.f); // XXX wont't be necessary
 
+	glPopAttrib();
+
 	return true;
 }
 
 bool RendererLegacy::DrawPoints2D(int count, const vector2f *points, const Color *colors, float size)
 {
 	if (count < 1 || !points || !colors) return false;
+
+	glDisable(GL_LIGHTING);
 
 	glPointSize(size);
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -255,8 +267,8 @@ bool RendererLegacy::DrawTriangles2D(const VertexArray *v, const Material *m, Pr
 {
 	if (!v || v->GetNumVerts() < 3) return false;
 
-	glPushAttrib(GL_ENABLE_BIT);
 	// XXX assuming GUI+unlit
+	glPushAttrib(GL_ENABLE_BIT);
 	glDisable(GL_LIGHTING);
 
 	const bool diffuse = !v->diffuse.empty();

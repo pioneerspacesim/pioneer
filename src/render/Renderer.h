@@ -14,6 +14,7 @@
  * create and destroy context
  * toggle between fullscreen/windowed
  * prepare/endframe/swapbuf (move from Render.h)
+ * take screenshot (at least read framebuffer)
  */
 
 class Light;
