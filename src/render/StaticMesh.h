@@ -6,6 +6,12 @@
 
 class Surface;
 
+// subclass to store renderer specific information
+struct RenderInfo {
+	RenderInfo() { }
+	virtual ~RenderInfo() { }
+};
+
 // Geometry that changes rarely or never
 // May be cached by the renderer
 // Can hold multiple surfaces
@@ -24,8 +30,7 @@ private:
 	friend class Renderer;
 	friend class RendererLegacy;
 	friend class RendererGL2;
-	// XXX gl specific hack (stores vbo id)
-	unsigned int buffy;
+	RenderInfo *m_renderInfo;
 };
 
 #endif

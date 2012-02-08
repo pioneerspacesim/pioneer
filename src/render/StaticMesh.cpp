@@ -5,7 +5,7 @@ StaticMesh::StaticMesh() :
 	numSurfaces(0),
 	surfaces(0),
 	cached(false),
-	buffy(0)
+	m_renderInfo(0)
 {
 }
 
@@ -13,7 +13,7 @@ StaticMesh::StaticMesh(int n, PrimitiveType t) :
 	numSurfaces(0),
 	surfaces(0),
 	cached(false),
-	buffy(0)
+	m_renderInfo(0)
 {
 	if (n > 0) {
 		numSurfaces = n;
@@ -25,6 +25,7 @@ StaticMesh::StaticMesh(int n, PrimitiveType t) :
 
 StaticMesh::~StaticMesh()
 {
+	delete m_renderInfo;
 	delete[] surfaces;
 }
 

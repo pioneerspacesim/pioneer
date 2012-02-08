@@ -8,6 +8,16 @@
 #include "VertexArray.h"
 #include <stddef.h> //for offsetof
 
+struct GLRenderInfo : public RenderInfo {
+	GLRenderInfo() {
+		glGenBuffers(1, &vbo);
+	}
+	virtual ~GLRenderInfo() {
+		glDeleteBuffers(1, &vbo);
+	}
+	GLuint vbo;
+};
+
 RendererLegacy::RendererLegacy(int w, int h) :
 	Renderer(w, h)
 {
@@ -478,9 +488,12 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 	glPushAttrib(GL_LIGHTING_BIT);
 	glDisable(GL_LIGHTING);
 
+	GLRenderInfo *info = 0;
 	// prepare it
 	if (!t->cached) {
-		glGenBuffers(1, &t->buffy);
+		if (t->m_renderInfo == 0)
+			t->m_renderInfo = new GLRenderInfo();
+		info = static_cast<GLRenderInfo*>(t->m_renderInfo);
 
 		const int numvertices = t->GetNumVerts();
 		assert(numvertices > 0);
@@ -496,16 +509,17 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 		}
 
 		//buffer
-		glBindBuffer(GL_ARRAY_BUFFER, t->buffy);
+		glBindBuffer(GL_ARRAY_BUFFER, info->vbo);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(UnlitVertex)*numvertices, vts, GL_STATIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		t->cached = true;
 		delete[] vts;
 	}
 	assert(t->cached == true);
+	info = static_cast<GLRenderInfo*>(t->m_renderInfo);
 
 	//draw it
-	glBindBuffer(GL_ARRAY_BUFFER, t->buffy);
+	glBindBuffer(GL_ARRAY_BUFFER, info->vbo);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(UnlitVertex), reinterpret_cast<const GLvoid *>(offsetof(UnlitVertex, position)));
