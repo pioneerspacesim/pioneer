@@ -82,7 +82,6 @@ void GalacticView::PutLabels(vector3d offset)
 	}
 
 	Gui::Screen::LeaveOrtho();
-	glDisable(GL_LIGHTING);			// what
 }
 
 
@@ -92,15 +91,11 @@ void GalacticView::Draw3D()
 	float offset_x = (pos.x*Sector::SIZE + Galaxy::SOL_OFFSET_X)/Galaxy::GALAXY_RADIUS;
 	float offset_y = (-pos.y*Sector::SIZE + Galaxy::SOL_OFFSET_Y)/Galaxy::GALAXY_RADIUS;
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-Pi::GetScrAspect(), Pi::GetScrAspect(), 1.0, -1.0, -1, 1);
-	
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	m_renderer->SetOrthographicProjection(-Pi::GetScrAspect(), Pi::GetScrAspect(), 1.f, -1.f, -1.f, 1.f);
+
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glDisable(GL_LIGHTING);
+
 	glDisable(GL_DEPTH_TEST);
 	m_renderer->SetBlendMode(BLEND_SOLID);
 
@@ -111,8 +106,11 @@ void GalacticView::Draw3D()
 	m_texture->Unbind();
 	glDisable(GL_TEXTURE_2D);
 	
-	glScalef(m_zoom, m_zoom, 0.0f);
-	glTranslatef(-offset_x, -offset_y, 0.0f);
+	//apply zoom
+	m_renderer->SetTransform(
+		matrix4x4f::Identity() *
+		matrix4x4f::ScaleMatrix(m_zoom, m_zoom, 0.f) *
+		matrix4x4f::Translation(-offset_x, -offset_y, 0.f));
 
 	// galaxy image
 	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0);
@@ -125,6 +123,7 @@ void GalacticView::Draw3D()
 	va.Add(vector3f( 1.f, 1.f, 0.f), vector2f(w,h));
 
 	Material m;
+	m.unlit = true;
 	m.texture0 = m_texture.Get();
 	m_renderer->DrawTriangles2D(&va, &m, TRIANGLE_STRIP);
 
@@ -134,7 +133,7 @@ void GalacticView::Draw3D()
 	m_renderer->DrawPoints2D(1, &offs, &green, 3.f);
 
 	// scale at the top
-	glLoadIdentity();
+	m_renderer->SetTransform(matrix4x4f::Identity());
 	Color white(1.f);
 	const vector2f vts[] = {
 		vector2f(-0.25,-0.93),
@@ -147,7 +146,6 @@ void GalacticView::Draw3D()
 	m_labels->Clear();
 	PutLabels(-vector3d(offset_x, offset_y, 0.0));
 
-	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
 }
 	

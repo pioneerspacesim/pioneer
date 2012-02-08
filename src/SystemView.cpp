@@ -259,9 +259,8 @@ void SystemView::GetTransformTo(SBody *b, vector3d &pos)
 void SystemView::Draw3D()
 {
 	m_renderer->SetPerspectiveProjection(50.f, Pi::GetScrAspect(), 1.f, 1000.f);
+	m_renderer->SetTransform(matrix4x4f::Identity());
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
@@ -278,7 +277,6 @@ void SystemView::Draw3D()
 
 	if (!m_system) m_system = StarSystem::GetCached(path);
 
-	glDisable(GL_LIGHTING);
 	glEnable(GL_FOG);
 	glFogi(GL_FOG_MODE, GL_EXP2);
 	glFogfv(GL_FOG_COLOR, fogColor);
@@ -305,7 +303,6 @@ void SystemView::Draw3D()
 		}
 	}
 
-	glEnable(GL_LIGHTING);
 	glDisable(GL_FOG);
 }
 
