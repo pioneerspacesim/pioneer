@@ -1,55 +1,9 @@
-#include "RendererGL2.h"
 #include "Material.h"
 #include "Render.h"
+#include "RendererGL2.h"
+#include "RendererGLBuffers.h"
 #include "Texture.h"
 #include "VertexArray.h"
-
-template <typename T>
-class Buffer {
-private:
-	GLuint m_buf;
-	int m_numverts;
-	int m_size;
-	unsigned int m_target;
-
-public:
-	Buffer(int size) : m_numverts(0), m_size(size) {
-		glGenBuffers(1, &m_buf);
-		m_target = GL_ARRAY_BUFFER;
-		Bind();
-		// create data storage
-		glBufferData(m_target, sizeof(T)*size, 0, GL_STREAM_DRAW);
-		Unbind();
-	}
-
-	~Buffer() {
-		glDeleteBuffers(1, &m_buf);
-	}
-
-	void Bind() {
-		glBindBuffer(m_target, m_buf);
-	}
-
-	void Unbind() {
-		glBindBuffer(m_target, 0);
-	}
-
-	void Reset() {
-		m_numverts = 0;
-	}
-
-	int BufferData(int count, const T *v) {
-		assert(m_numverts += count <= m_size);
-		glBufferSubData(m_target, m_numverts*sizeof(T), count*sizeof(T), v);
-		int start = m_numverts;
-		m_numverts += count;
-		return start;
-	}
-
-	void Draw(GLenum pt, int start, int count) {
-
-	}
-};
 
 template<> void Buffer<LineVertex>::Draw(GLenum pt, int start, int count) {
 	glVertexPointer(3, GL_FLOAT, sizeof(LineVertex), reinterpret_cast<const GLvoid *>(offsetof(LineVertex, position)));

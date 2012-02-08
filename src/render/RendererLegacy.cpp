@@ -2,6 +2,7 @@
 #include "Light.h"
 #include "Material.h"
 #include "Render.h"
+#include "RendererGLBuffers.h"
 #include "StaticMesh.h"
 #include "Surface.h"
 #include "Texture.h"
@@ -9,13 +10,20 @@
 #include <stddef.h> //for offsetof
 
 struct GLRenderInfo : public RenderInfo {
-	GLRenderInfo() {
-		glGenBuffers(1, &vbo);
+	GLRenderInfo() :
+		numIndices(0),
+		vbuf(0),
+		ibuf(0)
+	{
 	}
 	virtual ~GLRenderInfo() {
-		glDeleteBuffers(1, &vbo);
+		//don't delete, if these come from a pool!
+		delete vbuf;
+		delete ibuf;
 	}
-	GLuint vbo;
+	VertexBuffer *vbuf;
+	IndexBuffer *ibuf;
+	int numIndices;
 };
 
 RendererLegacy::RendererLegacy(int w, int h) :
@@ -486,21 +494,24 @@ bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, cons
 	return true;
 }
 
-//position, color.
-struct UnlitVertex {
-	vector3f position;
-	Color color;
-};
-
 bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 {
 	if (!t) return false;
 
-	// XXX the only static mesh is the background, so cutting some corners
-	glPushAttrib(GL_LIGHTING_BIT);
-	glDisable(GL_LIGHTING);
-
+	//Approach:
+	//on first render, buffer vertices from all surfaces to a vbo
+	//since surfaces can have different materials (but they should have the same vertex format?)
+	//bind buffer, set pointers and then draw each surface
+	//(save buffer offsets in surfaces' render info)
 	GLRenderInfo *info = 0;
+
+	AttributeSet set = t->GetAttributeSet();
+	//we only serve lmr models around here
+	if (set != (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0))
+		return false;
+
+	assert(t->numSurfaces == 1);
+
 	// prepare it
 	if (!t->cached) {
 		if (t->m_renderInfo == 0)
@@ -510,44 +521,54 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 		const int numvertices = t->GetNumVerts();
 		assert(numvertices > 0);
 
-		UnlitVertex *vts = new UnlitVertex[numvertices];
+		//determine type
+		//surfaces should have a matching vertex specification!!
+		//XXX just take vertices from the first surface
+		assert(t->numSurfaces == 1);
+		const Surface *s = &t->surfaces[0];
+		const VertexArray *va = s->GetVertices();
+
 		int next = 0;
-		for (int i=0; i < t->numSurfaces; i++) {
-			for(int j=0; j<t->surfaces[i].GetNumVerts(); j++) {
-				vts[next].position = t->surfaces[i].GetVertices()->position[j];
-				vts[next].color = t->surfaces[i].GetVertices()->diffuse[j];
-				next++;
-			}
+		int numsverts = s->GetNumVerts();
+		ScopedArray<ModelVertex> vts(new ModelVertex[numsverts]);
+		for(int j=0; j<numsverts; j++) {
+			vts[next].position = va->position[j];
+			vts[next].normal = va->normal[j];
+			vts[next].uv = va->uv0[j];
+			next++;
 		}
 
-		//buffer
-		glBindBuffer(GL_ARRAY_BUFFER, info->vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(UnlitVertex)*numvertices, vts, GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		VertexBuffer *buf = new VertexBuffer();
+		info->vbuf = buf;
+		buf->Bind();
+		buf->BufferData<ModelVertex>(numsverts, vts.Get());
+
+		//buffer indices, too
+		// XXX assumes one surface...
+		info->ibuf = new IndexBuffer();
+		info->ibuf->Bind();
+		info->numIndices = info->ibuf->BufferIndexData(s->indices.size(), &s->indices[0]);			
+
 		t->cached = true;
-		delete[] vts;
 	}
-	assert(t->cached == true);
 	info = static_cast<GLRenderInfo*>(t->m_renderInfo);
+	assert(t->cached == true);
 
 	//draw it
-	glBindBuffer(GL_ARRAY_BUFFER, info->vbo);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3, GL_FLOAT, sizeof(UnlitVertex), reinterpret_cast<const GLvoid *>(offsetof(UnlitVertex, position)));
-	glColorPointer(4, GL_FLOAT, sizeof(UnlitVertex), reinterpret_cast<const GLvoid *>(offsetof(UnlitVertex, color)));
-	int start = 0;
-	// XXX save start & numverts somewhere
-	// XXX this is not indexed
-	for (int i=0; i < t->numSurfaces; i++) {
-		glDrawArrays(t->surfaces[i].m_primitiveType, start, t->surfaces[i].GetNumVerts());
-		start += t->surfaces[i].GetNumVerts();
-	}
-	glDisableClientState(GL_COLOR_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	assert(info != 0);
+	assert(info->vbuf != 0);
 
-	glPopAttrib();
+	info->vbuf->Bind();
+	const Surface *s = &t->surfaces[0];
+
+	if (info->ibuf) {
+		info->ibuf->Bind();
+		info->vbuf->DrawIndexed(0, s->indices.size());
+		info->ibuf->Unbind();
+	} else {
+		info->vbuf->Draw(0, s->GetNumVerts());
+	}
+	info->vbuf->Unbind();
 
 	return true;
 }
