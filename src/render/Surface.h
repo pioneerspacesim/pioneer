@@ -35,8 +35,8 @@ private:
 	// multiple surfaces can be buffered in one vbo so need to
 	// save starting offset + amount to draw
 	//XXX temporary
-	int glOffset; //index start
-	int glAmount; //index count
+	int glOffset; //index start OR vertex start
+	int glAmount; //index count OR vertex amount
 };
 
 typedef std::vector<Surface*> SurfaceList;

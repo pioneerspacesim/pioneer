@@ -10,11 +10,13 @@ struct Vertex {
 };
 
 //+color
+//Users: background
 struct UnlitVertex : public Vertex {
 	Color color;
 };
 
 //+normal, uv0
+//Users: LMRModel
 struct ModelVertex : public Vertex {
 	vector3f normal;
 	vector2f uv;
@@ -135,30 +137,43 @@ public:
 		m_numstates = 3;
 	}
 
-	virtual void Draw(unsigned int start, unsigned int count) {
+	virtual void Draw(GLenum pt, unsigned int start, unsigned int count) {
 		EnableClientStates();
 		SetPointers();
-		//XXX ignores surface primitive type
-		const GLenum pt = GL_TRIANGLES;
 		glDrawArrays(pt, start, count);
 		DisableClientStates();
 	};
 
-	virtual void DrawIndexed(unsigned int start, unsigned int count) {
+	virtual void DrawIndexed(GLenum pt, unsigned int start, unsigned int count) {
 		EnableClientStates();
 		SetPointers();
-		//XXX ignores surface primitive type
-		const GLenum pt = GL_TRIANGLES;
 		//XXX use DrawRangeElements for potential performance boost
 		glDrawElements(pt, count, GL_UNSIGNED_SHORT, reinterpret_cast<const GLvoid *>(start*sizeof(GLushort)));
 		DisableClientStates();
 	}
 
+	//make things nicer to read
+	void VertexPointer(GLsizei stride, size_t pointer) {
+		glVertexPointer(3, GL_FLOAT, stride, reinterpret_cast<const GLvoid *>(pointer));
+	}
+
+	void NormalPointer(GLsizei stride, size_t pointer) {
+		glNormalPointer(GL_FLOAT, stride, reinterpret_cast<const GLvoid *>(pointer));
+	}
+
+	void TexCoordPointer(GLsizei stride, size_t pointer) {
+		glTexCoordPointer(2, GL_FLOAT, stride, reinterpret_cast<const GLvoid *>(pointer));
+	}
+
+	void ColorPointer(GLsizei stride, size_t pointer) {
+		glColorPointer(4, GL_FLOAT, stride, reinterpret_cast<const GLvoid *>(pointer));
+	}
+
 	//XXX this only supports LMR vertices!!
 	virtual void SetPointers() {
-		glVertexPointer(3, GL_FLOAT, sizeof(ModelVertex), reinterpret_cast<const GLvoid *>(offsetof(ModelVertex, position)));
-		glNormalPointer(GL_FLOAT, sizeof(ModelVertex), reinterpret_cast<const GLvoid *>(offsetof(ModelVertex, normal)));
-		glTexCoordPointer(2, GL_FLOAT, sizeof(ModelVertex), reinterpret_cast<const GLvoid *>(offsetof(ModelVertex, uv)));
+		VertexPointer(sizeof(ModelVertex), offsetof(ModelVertex, position));
+		NormalPointer(sizeof(ModelVertex), offsetof(ModelVertex, normal));
+		TexCoordPointer(sizeof(ModelVertex), offsetof(ModelVertex, uv));
 	}
 
 	virtual void EnableClientStates() {
@@ -174,6 +189,20 @@ public:
 protected:
 	GLenum m_states[3];
 	int m_numstates;
+};
+
+class UnlitVertexBuffer : public VertexBuffer {
+public:
+	UnlitVertexBuffer(unsigned int maxElements) : VertexBuffer(maxElements) {
+		m_states[0] = GL_VERTEX_ARRAY;
+		m_states[1] = GL_COLOR_ARRAY;
+		m_numstates = 2;
+	}
+
+	virtual void SetPointers() {
+		VertexPointer(sizeof(UnlitVertex), offsetof(UnlitVertex, position));
+		ColorPointer(sizeof(UnlitVertex), offsetof(UnlitVertex, color));
+	}
 };
 
 #endif
