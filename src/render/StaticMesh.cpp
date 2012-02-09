@@ -50,7 +50,8 @@ AttributeSet StaticMesh::GetAttributeSet() const
 	for (SurfaceList::const_iterator surface = m_surfaces.begin();
 		surface != m_surfaces.end(); ++surface)
 	{
-		set = (*surface)->GetVertices()->GetAttributeSet();
+		if ((*surface)->GetVertices())
+			set = (*surface)->GetVertices()->GetAttributeSet();
 	}
 	return set;
 }
