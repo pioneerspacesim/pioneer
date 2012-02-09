@@ -38,6 +38,8 @@ public:
 	virtual bool DrawStaticMesh(StaticMesh *thing);
 
 protected:
+	virtual void ApplyMaterial(const Material *mat);
+	virtual void UnApplyMaterial(const Material *mat);
 	int m_numLights;
 };
 

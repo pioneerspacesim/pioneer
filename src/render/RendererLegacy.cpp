@@ -551,9 +551,6 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 			(*surface)->glOffset = offset;
 			(*surface)->glAmount = indices.size();
 		}
-		//XXX unused
-		//info->numIndices = offset;
-
 		t->cached = true;
 	}
 	info = static_cast<GLRenderInfo*>(t->m_renderInfo);
@@ -569,9 +566,12 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 	SurfaceList &surfaces = t->m_surfaces;
 	SurfaceList::iterator surface;
 	for (surface = surfaces.begin(); surface != surfaces.end(); ++surface) {
-		if (info->ibuf)
+		if (info->ibuf) {
+			ApplyMaterial((*surface)->GetMaterial().Get());
 			info->vbuf->DrawIndexed((*surface)->glOffset, (*surface)->glAmount);
-		else {
+			UnApplyMaterial((*surface)->GetMaterial().Get());
+		} else {
+			assert(false);
 			//draw unindexed per surface
 			//info->vbuf->Draw(0, (*surface)->GetNumVerts());
 		}
@@ -581,4 +581,20 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 	info->vbuf->Unbind();
 
 	return true;
+}
+
+void RendererLegacy::ApplyMaterial(const Material *mat)
+{
+	if (mat->texture0) {
+		glEnable(GL_TEXTURE_2D);
+		mat->texture0->Bind();
+	}
+}
+
+void RendererLegacy::UnApplyMaterial(const Material *mat)
+{
+	if (mat->texture0) {
+		glDisable(GL_TEXTURE_2D);
+		mat->texture0->Unbind();
+	}
 }

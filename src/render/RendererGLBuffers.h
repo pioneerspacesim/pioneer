@@ -149,7 +149,8 @@ public:
 		SetPointers();
 		//XXX ignores surface primitive type
 		const GLenum pt = GL_TRIANGLES;
-		glDrawRangeElements(pt, start, start+count, count, GL_UNSIGNED_SHORT, 0);
+		//XXX use DrawRangeElements for potential performance boost
+		glDrawElements(pt, count, GL_UNSIGNED_SHORT, reinterpret_cast<const GLvoid *>(start*sizeof(GLushort)));
 		DisableClientStates();
 	}
 
