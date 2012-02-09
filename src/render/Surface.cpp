@@ -1,12 +1,5 @@
 #include "Surface.h"
 
-Surface::Surface() :
-	m_material(0),
-	m_primitiveType(TRIANGLES),
-	m_vertices(0)
-{
-}
-
 Surface::Surface(PrimitiveType t) :
 	m_material(0),
 	m_primitiveType(t),

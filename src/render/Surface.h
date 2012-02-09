@@ -14,6 +14,7 @@ public:
 	Surface(PrimitiveType t);
 	~Surface();
 	int GetNumVerts() const;
+	int GetNumIndices() const { return indices.size(); }
 	std::vector<unsigned short> indices;
 
 	//deletes existing, takes ownership
@@ -24,7 +25,6 @@ public:
 	RefCountedPtr<Material> GetMaterial() const { return m_material; }
 
 private:
-	Surface();
 	friend class StaticMesh;
 	friend class Renderer;
 	friend class RendererLegacy;
@@ -34,10 +34,11 @@ private:
 	VertexArray *m_vertices;
 	// multiple surfaces can be buffered in one vbo so need to
 	// save starting offset + amount to draw
-	//int startVertex;
-	//int numVertices; should be samme as vertices->GetNumVerts()
-	//int startIndex;
-	//int numIndices; should be same as indices.size()
+	//XXX temporary
+	int glOffset; //index start
+	int glAmount; //index count
 };
+
+typedef std::vector<Surface*> SurfaceList;
 
 #endif
