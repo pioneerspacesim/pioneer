@@ -6,17 +6,16 @@
  */
 
 struct Vertex {
-
+	vector3f position;
 };
 
-//position, color.
+//+color
 struct UnlitVertex : public Vertex {
-	vector3f position;
 	Color color;
 };
 
+//+normal, uv0
 struct ModelVertex : public Vertex {
-	vector3f position;
 	vector3f normal;
 	vector2f uv;
 };
@@ -67,9 +66,12 @@ public:
 	virtual void Draw(GLenum pt, int start, int count) { }
 };
 
+//array or element array buffer base class
+//(think "vertex buffer" & "index buffer")
 class BufferBase {
 public:
-	BufferBase(unsigned int target) :
+	BufferBase(GLenum target, unsigned int maxElements) :
+		m_maxSize(maxElements),
 		m_target(target),
 		m_usageHint(GL_STATIC_DRAW),
 		m_offset(0)
@@ -90,38 +92,42 @@ public:
 	}
 
 	template<typename T>
-	int BufferData(int count, const T *v) {
-		//initialise data store!!
-		glBufferData(m_target, sizeof(T)*count, v, m_usageHint);
-		//glBufferSubData(m_target, m_offset, count*sizeof(T), v);
-		m_offset += count * sizeof(T);
-		return count;
+	int BufferData(const int count, const T *v) {
+		//initialise data store on first use
+		assert(count > 0);
+		if (m_offset == 0) {
+			glBufferData(m_target, sizeof(T)*m_maxSize, 0, m_usageHint);
+		}
+		int current = m_offset;
+		glBufferSubData(m_target, sizeof(T)*m_offset, sizeof(T)*count, v);
+		m_offset += count;
+		return current;
 	}
 
 private:
-	unsigned int m_buf;
-	unsigned int m_target;
-	int m_offset;
 	GLenum m_usageHint;
+	GLenum m_target;
+	int m_offset;
+	unsigned int m_maxSize;
+	unsigned int m_buf;
 };
 
 class IndexBuffer : public BufferBase {
 public:
-	IndexBuffer() :
-		BufferBase(GL_ELEMENT_ARRAY_BUFFER)
+	IndexBuffer(unsigned int maxElements) :
+		BufferBase(GL_ELEMENT_ARRAY_BUFFER, maxElements)
 	{
 	}
 
-	int BufferIndexData(int count, const unsigned short *v) {
+	int BufferIndexData(const int count, const unsigned short *v) {
 		return BufferData<unsigned short>(count, v);
 	}
 };
 
-//vertex buffer?
 class VertexBuffer : public BufferBase {
 public:
-	VertexBuffer() :
-		BufferBase(GL_ARRAY_BUFFER)
+	VertexBuffer(unsigned int maxElements) :
+		BufferBase(GL_ARRAY_BUFFER, maxElements)
 	{
 		m_states[0] = GL_VERTEX_ARRAY;
 		m_states[1] = GL_NORMAL_ARRAY;
@@ -132,6 +138,7 @@ public:
 	virtual void Draw(unsigned int start, unsigned int count) {
 		EnableClientStates();
 		SetPointers();
+		//XXX ignores surface primitive type
 		const GLenum pt = GL_TRIANGLES;
 		glDrawArrays(pt, start, count);
 		DisableClientStates();
@@ -140,11 +147,13 @@ public:
 	virtual void DrawIndexed(unsigned int start, unsigned int count) {
 		EnableClientStates();
 		SetPointers();
+		//XXX ignores surface primitive type
 		const GLenum pt = GL_TRIANGLES;
-		glDrawElements(pt, count, GL_UNSIGNED_SHORT, 0);
+		glDrawRangeElements(pt, start, start+count, count, GL_UNSIGNED_SHORT, 0);
 		DisableClientStates();
 	}
 
+	//XXX this only supports LMR vertices!!
 	virtual void SetPointers() {
 		glVertexPointer(3, GL_FLOAT, sizeof(ModelVertex), reinterpret_cast<const GLvoid *>(offsetof(ModelVertex, position)));
 		glNormalPointer(GL_FLOAT, sizeof(ModelVertex), reinterpret_cast<const GLvoid *>(offsetof(ModelVertex, normal)));
