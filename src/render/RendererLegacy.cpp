@@ -510,9 +510,7 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 	if (set != (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0))
 		return false;
 
-	assert(t->numSurfaces == 1);
-
-	// prepare it
+	// prepare the buffer on first run
 	if (!t->cached) {
 		if (t->m_renderInfo == 0)
 			t->m_renderInfo = new GLRenderInfo();
@@ -521,11 +519,9 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 		const int numvertices = t->GetNumVerts();
 		assert(numvertices > 0);
 
-		//determine type
 		//surfaces should have a matching vertex specification!!
-		//XXX just take vertices from the first surface
-		assert(t->numSurfaces == 1);
-		const Surface *s = &t->surfaces[0];
+		//XXX just take vertices from the first surface as a LMR hack
+		const Surface *s = t->m_surfaces.at(0);
 		const VertexArray *va = s->GetVertices();
 
 		int next = 0;
@@ -538,36 +534,50 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 			next++;
 		}
 
-		VertexBuffer *buf = new VertexBuffer();
+		VertexBuffer *buf = new VertexBuffer(numsverts);
 		info->vbuf = buf;
 		buf->Bind();
 		buf->BufferData<ModelVertex>(numsverts, vts.Get());
 
-		//buffer indices, too
-		// XXX assumes one surface...
-		info->ibuf = new IndexBuffer();
+		//buffer indices from each surface
+		info->ibuf = new IndexBuffer(t->GetNumIndices());
 		info->ibuf->Bind();
-		info->numIndices = info->ibuf->BufferIndexData(s->indices.size(), &s->indices[0]);			
+		SurfaceList &surfaces = t->m_surfaces;
+		SurfaceList::iterator surface;
+		for (surface = surfaces.begin(); surface != surfaces.end(); ++surface) {
+			const std::vector<unsigned short> &indices = (*surface)->indices;
+			assert(indices.size() > 0);
+			int offset = info->ibuf->BufferIndexData(indices.size(), &indices[0]);
+			(*surface)->glOffset = offset;
+			(*surface)->glAmount = indices.size();
+		}
+		//XXX unused
+		//info->numIndices = offset;
 
 		t->cached = true;
 	}
 	info = static_cast<GLRenderInfo*>(t->m_renderInfo);
 	assert(t->cached == true);
 
-	//draw it
-	assert(info != 0);
-	assert(info->vbuf != 0);
-
+	//draw each surface
+	//XXX use a private draw_surface method to handle material switching
+	//(and use that with DrawSurface too)
 	info->vbuf->Bind();
-	const Surface *s = &t->surfaces[0];
-
 	if (info->ibuf) {
 		info->ibuf->Bind();
-		info->vbuf->DrawIndexed(0, s->indices.size());
-		info->ibuf->Unbind();
-	} else {
-		info->vbuf->Draw(0, s->GetNumVerts());
 	}
+	SurfaceList &surfaces = t->m_surfaces;
+	SurfaceList::iterator surface;
+	for (surface = surfaces.begin(); surface != surfaces.end(); ++surface) {
+		if (info->ibuf)
+			info->vbuf->DrawIndexed((*surface)->glOffset, (*surface)->glAmount);
+		else {
+			//draw unindexed per surface
+			//info->vbuf->Draw(0, (*surface)->GetNumVerts());
+		}
+	}
+	if (info->ibuf)
+		info->ibuf->Unbind();
 	info->vbuf->Unbind();
 
 	return true;
