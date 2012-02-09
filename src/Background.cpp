@@ -38,19 +38,18 @@ void Starfield::Init()
 {
 	// reserve some space for positions, colours
 	VertexArray *stars = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, BG_STAR_MAX);
-	// one "surface"
-	m_model = new StaticMesh(1, TYPE_POINTS);
+	m_model = new StaticMesh(TYPE_POINTS);
 	m_shader = new Render::Shader("bgstars");
 	RefCountedPtr<Material> mat(new Material());
 	mat->shader = m_shader;
-	m_model->surfaces[0].SetMaterial(mat);
-	m_model->surfaces[0].SetVertices(stars);
-	m_model->numSurfaces = 1;
+	Surface *s = m_model->AddSurface();
+	s->SetMaterial(mat);
+	s->SetVertices(stars);
 }
 
 void Starfield::Fill(unsigned long seed)
 {
-	VertexArray *va = m_model->surfaces[0].GetVertices();
+	VertexArray *va = m_model->GetSurface(0)->GetVertices();
 	va->Clear(); // clear if previously filled
 	// Slight colour variation to stars based on seed
 	MTRand rand(seed);
@@ -124,7 +123,7 @@ void Starfield::Draw(Renderer *renderer)
 		double hyperspaceProgress = Pi::game->GetHyperspaceProgress();
 
 		LineVertex *vtx = new LineVertex[BG_STAR_MAX * 2];
-		VertexArray *va = m_model->surfaces[0].GetVertices();
+		VertexArray *va = m_model->GetSurface(0)->GetVertices();
 		for (int i=0; i<BG_STAR_MAX; i++) {
 			
 			vector3f v(va->position[i]);
@@ -151,7 +150,7 @@ void Starfield::Draw(Renderer *renderer)
 
 MilkyWay::MilkyWay()
 {
-	m_model = new StaticMesh(2, TRIANGLE_STRIP);
+	m_model = new StaticMesh(TRIANGLE_STRIP);
 
 	//build milky way model in two strips (about 256 verts)
 	//The model is built as a generic vertex array first. The renderer
@@ -160,8 +159,6 @@ MilkyWay::MilkyWay()
 
 	VertexArray *bottom = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 	VertexArray *top = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE);
-	m_model->surfaces[0].SetVertices(bottom);
-	m_model->surfaces[1].SetVertices(top);
 
 	const Color dark(0.f);
 	const Color bright(0.05,0.05f, 0.05f, 0.05f);
@@ -199,6 +196,9 @@ MilkyWay::MilkyWay()
 	top->Add(
 		vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
 		dark);
+
+	m_model->AddSurface()->SetVertices(bottom);
+	m_model->AddSurface()->SetVertices(top);
 }
 
 MilkyWay::~MilkyWay()
