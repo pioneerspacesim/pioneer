@@ -66,7 +66,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15d.lib"
+				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15_staticd.lib zlibd.lib"
 				OutputFile="$(OutDir)\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\lib"
@@ -154,7 +154,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15.lib"
+				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15_static.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName)_release.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\lib"
@@ -243,7 +243,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15d.lib"
+				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15_staticd.lib zlibd.lib"
 				OutputFile="$(OutDir)\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\lib"
