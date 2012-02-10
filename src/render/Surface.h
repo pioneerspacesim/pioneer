@@ -24,6 +24,8 @@ public:
 	void SetMaterial(RefCountedPtr<Material> m) { m_material = m; }
 	RefCountedPtr<Material> GetMaterial() const { return m_material; }
 
+	bool IsIndexed() { return !indices.empty(); }
+
 private:
 	friend class StaticMesh;
 	friend class Renderer;

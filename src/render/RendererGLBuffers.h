@@ -1,23 +1,25 @@
 #ifndef _RENDERER_GL_BUFFERS_H
 #define _RENDERER_GL_BUFFERS_H
 
+#include "libs.h"
+
 /* OpenGL renderer data structures and bufferobject stuff.
  * This can be used by both the Legacy and GL2 renderers
  */
 
-struct Vertex {
+struct GLVertex {
 	vector3f position;
 };
 
 //+color
 //Users: background
-struct UnlitVertex : public Vertex {
+struct UnlitVertex : public GLVertex {
 	Color color;
 };
 
 //+normal, uv0
 //Users: LMRModel
-struct ModelVertex : public Vertex {
+struct ModelVertex : public GLVertex {
 	vector3f normal;
 	vector2f uv;
 };

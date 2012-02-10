@@ -521,58 +521,62 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 			t->m_renderInfo = new GLRenderInfo();
 		info = static_cast<GLRenderInfo*>(t->m_renderInfo);
 
-		const int numvertices = t->GetNumVerts();
-		assert(numvertices > 0);
+		const int totalVertices = t->GetNumVerts();
 
 		//surfaces should have a matching vertex specification!!
 		//XXX just take vertices from the first surface as a LMR hack
-		const Surface *s = t->m_surfaces.at(0);
-		const VertexArray *va = s->GetVertices();
+		bool lmrHack = false;
 
-		int next = 0;
-		int numsverts = s->GetNumVerts();
 		VertexBuffer *buf = 0;
-		if (lmr) {
-			ScopedArray<ModelVertex> vts(new ModelVertex[numsverts]);
-			for(int j=0; j<numsverts; j++) {
-				vts[next].position = va->position[j];
-				vts[next].normal = va->normal[j];
-				vts[next].uv = va->uv0[j];
-				next++;
+		SurfaceList &surfaces = t->m_surfaces;
+		SurfaceList::iterator surface;
+		for (surface = surfaces.begin(); surface != surfaces.end(); ++surface) {
+			const int numsverts = (*surface)->GetNumVerts();
+			const VertexArray *va = (*surface)->GetVertices();
+
+			int offset = 0;
+			if (lmr && !lmrHack) {
+				ScopedArray<ModelVertex> vts(new ModelVertex[numsverts]);
+				for(int j=0; j<numsverts; j++) {
+					vts[j].position = va->position[j];
+					vts[j].normal = va->normal[j];
+					vts[j].uv = va->uv0[j];
+				}
+
+				if (!buf)
+					buf = new VertexBuffer(totalVertices);
+				buf->Bind();
+				buf->BufferData<ModelVertex>(numsverts, vts.Get());
+				lmrHack = true;
+			} else if (background) {
+				ScopedArray<UnlitVertex> vts(new UnlitVertex[numsverts]);
+				for(int j=0; j<numsverts; j++) {
+					vts[j].position = va->position[j];
+					vts[j].color = va->diffuse[j];
+				}
+
+				if (!buf)
+					buf= new UnlitVertexBuffer(totalVertices);
+				buf->Bind();
+				offset = buf->BufferData<UnlitVertex>(numsverts, vts.Get());
 			}
+			(*surface)->glAmount = numsverts;
+			(*surface)->glOffset = offset;
 
-			buf = new VertexBuffer(numsverts);
-			buf->Bind();
-			buf->BufferData<ModelVertex>(numsverts, vts.Get());
-		} else if (background) {
-			ScopedArray<UnlitVertex> vts(new UnlitVertex[numsverts]);
-			for(int j=0; j<numsverts; j++) {
-				vts[next].position = va->position[j];
-				vts[next].color = va->diffuse[j];
-				next++;
-			}
-
-			buf = new UnlitVertexBuffer(numsverts);
-			buf->Bind();
-			buf->BufferData<UnlitVertex>(numsverts, vts.Get());
-		}
-		assert(buf);
-		info->vbuf = buf;
-
-		//buffer indices from each surface
-		if (t->GetNumIndices() > 0) {
-			assert(background == false);
-			info->ibuf = new IndexBuffer(t->GetNumIndices());
-			info->ibuf->Bind();
-			SurfaceList &surfaces = t->m_surfaces;
-			SurfaceList::iterator surface;
-			for (surface = surfaces.begin(); surface != surfaces.end(); ++surface) {
+			//buffer indices from each surface, if in use
+			if ((*surface)->IsIndexed()) {
+				assert(background == false);
+				if (!info->ibuf)
+					info->ibuf = new IndexBuffer(t->GetNumIndices());
+				info->ibuf->Bind();
 				const std::vector<unsigned short> &indices = (*surface)->indices;
 				const int offset = info->ibuf->BufferIndexData(indices.size(), &indices[0]);
 				(*surface)->glOffset = offset;
 				(*surface)->glAmount = indices.size();
 			}
 		}
+		assert(buf);
+		info->vbuf = buf;
 		t->cached = true;
 	}
 	info = static_cast<GLRenderInfo*>(t->m_renderInfo);
@@ -585,17 +589,19 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 	if (info->ibuf) {
 		info->ibuf->Bind();
 	}
+
 	SurfaceList &surfaces = t->m_surfaces;
 	SurfaceList::iterator surface;
 	for (surface = surfaces.begin(); surface != surfaces.end(); ++surface) {
+		ApplyMaterial((*surface)->GetMaterial().Get());
 		if (info->ibuf) {
-			ApplyMaterial((*surface)->GetMaterial().Get());
 			info->vbuf->DrawIndexed(t->m_primitiveType, (*surface)->glOffset, (*surface)->glAmount);
-			UnApplyMaterial((*surface)->GetMaterial().Get());
 		} else {
+			assert(background);
 			//draw unindexed per surface
-			info->vbuf->Draw(t->m_primitiveType, 0, (*surface)->GetNumVerts());
+			info->vbuf->Draw(t->m_primitiveType, (*surface)->glOffset, (*surface)->glAmount);
 		}
+		UnApplyMaterial((*surface)->GetMaterial().Get());
 	}
 	if (info->ibuf)
 		info->ibuf->Unbind();
@@ -606,6 +612,14 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 
 void RendererLegacy::ApplyMaterial(const Material *mat)
 {
+	glPushAttrib(GL_ENABLE_BIT);
+	if (!mat) {
+		glDisable(GL_LIGHTING);
+		return;
+	}
+	glColor3f(1.f, 1.f, 1.f);
+	
+	if (mat->unlit) glDisable(GL_LIGHTING);
 	if (mat->texture0) {
 		glEnable(GL_TEXTURE_2D);
 		mat->texture0->Bind();
@@ -614,8 +628,9 @@ void RendererLegacy::ApplyMaterial(const Material *mat)
 
 void RendererLegacy::UnApplyMaterial(const Material *mat)
 {
+	glPopAttrib();
+	if (!mat) return;
 	if (mat->texture0) {
-		glDisable(GL_TEXTURE_2D);
 		mat->texture0->Unbind();
 	}
 }
