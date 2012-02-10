@@ -21,11 +21,11 @@ local onChat = function (form, ref, option)
 		form:Close()
 		return
 	elseif option == 0 then
-		form:SetFace({ female = ad.isfemale, seed = ad.faceseed })
+		form:SetFace(ad.client)
 		local sys = ad.location:GetStarSystem()
 
 		local introtext = string.interp(ass_flavours[ad.flavour].introtext, {
-			name	= ad.client,
+			name	= ad.client.name,
 			cash	= Format.Money(ad.reward),
 			target	= ad.target,
 			system	= sys.name,
@@ -68,7 +68,7 @@ local onChat = function (form, ref, option)
 		local mission = {
 			type		= t("Assassination"),
 			backstation	= backstation,
-			boss		= ad.client,
+			boss		= ad.client.name,
 			client		= ad.shipname .. "\n(" .. ad.shipregid .. ")",
 			danger		= ad.danger,
 			due		= ad.due,
@@ -113,8 +113,7 @@ local makeAdvert = function (station)
 		nearbysystems = Game.system:GetNearbySystems(max_ass_dist, function (s) return #s:GetStationPaths() > 0 end)
 	end
 	if #nearbysystems == 0 then return end
-	local isfemale = Engine.rand:Integer(1) == 1
-	local client = NameGen.FullName(isfemale)
+	local client = Character.New()
 	local targetIsfemale = Engine.rand:Integer(1) == 1
 	local target = t('TITLE')[Engine.rand:Integer(1, #t('TITLE'))] .. " " .. NameGen.FullName(targetIsfemale)
 	local flavour = Engine.rand:Integer(1, #ass_flavours)
@@ -203,6 +202,7 @@ local _setupHooksForMission = function (mission)
 	end
 end
 
+local planets
 local onEnterSystem = function (ship)
 	if not ship:IsPlayer() then return end
 
@@ -258,6 +258,7 @@ end
 local onLeaveSystem = function (ship)
 	if ship:IsPlayer() then
 		nearbysystems = nil
+		planets = nil
 	end
 end
 
@@ -300,29 +301,31 @@ local onShipDocked = function (ship, station)
 		return
 	end
 end
-	
+
 local onShipUndocked = function (ship, station)
 	if ship:IsPlayer() then return end -- not interested in player, yet
 
 	for ref,mission in pairs(missions) do
 		if mission.status == 'ACTIVE' and
 		   mission.ship == ship then
-			local planets = Space.GetBodies(function (body) return body:isa("Planet") end)
+			planets = Space.GetBodies(function (body) return body:isa("Planet") end)
 			if #planets == 0 then
 				ship:AIFlyTo(station)
 				mission.shipstate = 'outbound'
 			else
-				local planet = planets[Engine.rand:Integer(1,#planets)]
+				local planet = Engine.rand:Integer(1,#planets)
 
-				mission.ship:AIEnterHighOrbit(planet)
+				mission.ship:AIEnterMediumOrbit(planets[planet])
 				mission.shipstate = 'flying'
+
+				table.remove(planets, planet)
 			end
 			return
 		end
 	end
 end
 
-local onAICompleted = function (ship)
+local onAICompleted = function (ship, ai_error)
 	for ref,mission in pairs(missions) do
 		if mission.status == 'ACTIVE' and
 		   mission.ship == ship then
@@ -334,16 +337,29 @@ local onAICompleted = function (ship)
 
 				mission.shipstate = 'inbound'
 				ship:HyperspaceTo(system.path)
-			elseif mission.shipstate == 'flying' then
-				Timer:CallAt(Game.time + 60 * 60 * 8, function () if mission.ship:exists() then
-				local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
-				if #stations == 0 then return end
-				local station = stations[Engine.rand:Integer(1,#stations)]
+			-- the only other states are flying and inbound, and there is no AI to complete for inbound
+			elseif ai_error == 'NONE' then
+				Timer:CallAt(Game.time + 60 * 60 * 8, function ()
+					if mission.ship:exists() then
+						local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
+						if #stations == 0 then return end
+						local station = stations[Engine.rand:Integer(1,#stations)]
 
-				mission.ship:AIDockWith(station)
-				end end)
+						mission.ship:AIDockWith(station)
+					end
+				end)
+			else
+				if #planets > 0 then
+					local planet = Engine.rand:Integer(1,#planets)
+
+					mission.ship:AIEnterMediumOrbit(planets[planet])
+
+					table.remove(planets, planet)
+				else
+					mission.ship:AIFlyTo(Space.GetBody(mission.location.bodyIndex))
+					mission.shipstate = 'outbound'
+				end
 			end
-			return
 		end
 	end
 end
