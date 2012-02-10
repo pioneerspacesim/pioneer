@@ -1,3 +1,19 @@
+Alpha 20
+
+   * New features
+     * Hungarian translation (#947, #894)
+
+   * Minor changes and tweaks
+     * LED effect on timeaccel buttons (#946, #153)
+
+   * Fixes
+     * Updated zlib and libpng DLLs for MSVC to fix screenshot crash (#942, #645)
+     * Only allow missiles to be fired in open flight (#951)
+     * Assassinations module now uses character classes for character variety
+       and consistency (#953, #948)
+     * Assassination targets will now gracefully handle an autopilot failure
+       when taking off (#955, #950)
+
 Alpha 19
 
    * New features
@@ -12,6 +28,9 @@ Alpha 19
      * Roll keys now work while using mouse control (#904, #850, #278, #914, #919)
      * Camera quick-switch using Shift+1-4 in the main view (#932)
      * Sector view now shows line from current to target system (#843, #845)
+     * Optimised nearby system lookups for scripts. Significantly improves
+       game startup time (#937)
+     * Various TradeShips optimisiations and fixes (#917)
 
    * Fixes
      * Ensure bulletin board is created before ship docks with station (#899)
@@ -24,6 +43,11 @@ Alpha 19
      * Reduce the number of nearby system searches done by scripts (#927)
      * Fixed HDR screen flicker (#928)
      * Fixed autopilot hangs related to gravpoint frames and small bodies (#935, #921)
+     * Fixed crash where missile objects were destroyed while other objects
+       were holding a reference to them (#922, #735)
+     * Fixed hang when autopilot tried to start flying around a body from stopped (#934)
+     * Make sure the ship is above the body's max feature height before
+       attempting a flyaround
 
    * Script changes
      * Removed NameGen.PlanetName and replaced with NameGen.BodyName (#896)
@@ -36,6 +60,8 @@ Alpha 19
        creation and use (#892, #900, #901)
      * Simplified autotools build system by using pkg-config for all
        dependencies (#909, #353)
+     * Additional debug checks to ensure that bodies are not removed or
+       destroyed during destruction of another body (#922)
 
 Alpha 18
 

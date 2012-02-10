@@ -732,29 +732,18 @@ static int CheckCollision(Ship *ship, const vector3d &pathdir, double pathdist, 
 static bool ParentSafetyAdjust(Ship *ship, Frame *targframe, const vector3d &posoff, vector3d &targpos)
 {
 	Body *body = 0;
-
-	// we're always interested in the static frame. rotating frames are
-	// usually far too close to the body to be useful
 	Frame *frame = targframe->IsRotatingFrame() ? targframe->m_parent : targframe;
-
 	while (frame)
 	{
-		// our position relative to the target frame
-		double sdist = ship->GetPositionRelTo(frame).Length();
-		
-		// if we're inside that frame then we have our body to consider
+		double sdist = ship->GetPositionRelTo(frame).Length();				// ship position in that frame
 		if (sdist < frame->GetRadius()) break;
 
-		// try the next frame up. m_parent is the static frame
-		frame = frame->m_parent;
-
-		// we need a frame with a body
 		while (frame && !(body = frame->GetBodyFor()))
 			frame = frame->m_parent;
+		if (!frame) return false;
 
-		// got to the root without finding a body, nothing else we can do
-		if (!body) break;
-
+		frame = body->GetFrame()->m_parent;
+		if (body->HasDoubleFrame()) frame = frame->m_parent;
 	}
 	if (!body) return false;
 
@@ -1078,7 +1067,7 @@ AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double 
 vector3d AICmdFlyAround::Targpos()
 {
 	switch (m_targmode) {
-		default: return m_ship->GetPosition() + m_ship->GetVelocity();
+		default: return m_ship->GetVelocity().NormalizedSafe()*m_ship->GetPosition().LengthSqr();
 		case 1: return GetPosInFrame(m_ship->GetFrame(), m_target->GetFrame(), m_target->GetPosition());
 		case 2: return GetPosInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
 	}
@@ -1136,6 +1125,13 @@ bool AICmdFlyAround::TimeStepUpdate()
 	if (CheckSuicide(m_ship, -obsdir)) {
 		m_ship->AIFaceDirection(m_ship->GetPosition());		// face away from planet
 		m_ship->AIMatchVel(vector3d(0.0)); return false;
+	}
+
+	// max feature avoidance check, response
+	if (obsdist < MaxFeatureRad(m_obstructor)) {
+		double ang = m_ship->AIFaceDirection(-obsdir);
+		m_ship->AIMatchVel(ang < 0.05 ? 1000.0 * -obsdir : 0.0);
+		return false;
 	}
 
 	// calculate target velocity

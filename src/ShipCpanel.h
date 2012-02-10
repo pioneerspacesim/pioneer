@@ -11,8 +11,11 @@
 
 class Body;
 class SpaceStation;
+class CameraSwitchWidget;
 
 class ShipCpanel: public Gui::Fixed {
+	friend class CameraSwitchWidget;
+
 public:
 	ShipCpanel();
     ShipCpanel(Serializer::Reader &rd);

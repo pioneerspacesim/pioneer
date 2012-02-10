@@ -57,12 +57,16 @@ void Missile::Load(Serializer::Reader &rd, Space *space)
 void Missile::TimeStepUpdate(const float timeStep)
 {
 	Ship::TimeStepUpdate(timeStep);
-
-	double dist = (GetPosition() - m_target->GetPosition()).Length();
-	if ((m_distToTarget < 150.0) && (dist > m_distToTarget)) {
+	
+	if (!m_target || !m_owner) {
 		Explode();
+	} else {
+		double dist = (GetPosition() - m_target->GetPosition()).Length();
+		if ((m_distToTarget < 150.0) && (dist > m_distToTarget)) {
+			Explode();
+		}
+		m_distToTarget = dist;
 	}
-	m_distToTarget = dist;
 }
 
 bool Missile::OnCollision(Object *o, Uint32 flags, double relVel)
@@ -105,10 +109,10 @@ void Missile::Explode()
 void Missile::NotifyRemoved(const Body* const removedBody)
 {
 	if (m_owner == removedBody) {
-		Explode();
+		m_owner = 0;
 	}
 	else if (m_target == removedBody) {
-		Explode();
+		m_target = 0;
 	}
 }
 

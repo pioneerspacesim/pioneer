@@ -326,7 +326,7 @@ void SectorView::Draw3D()
 	glEnable(GL_LINE_SMOOTH);
 
 	Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
-	vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) - playerSec->m_systems[m_current.systemIndex].p;
+	vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].p;
 
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
@@ -950,7 +950,7 @@ void SectorView::Line3D::Draw()
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, verts);
 	glColorPointer(4, GL_FLOAT, 0, col);
-	glDrawArrays(GL_LINES, 0, 6);
+	glDrawArrays(GL_LINES, 0, 2);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 	glLineWidth(1.f);
