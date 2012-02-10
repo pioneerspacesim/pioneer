@@ -11,6 +11,8 @@ Alpha 20
      * Only allow missiles to be fired in open flight (#951)
      * Assassinations module now uses character classes for character variety
        and consistency (#953, #948)
+     * Assassination targets will now gracefully handle an autopilot failure
+       when taking off (#955, #950)
 
 Alpha 19
 
