@@ -42,6 +42,7 @@ void Starfield::Init()
 	m_shader = new Render::Shader("bgstars");
 	RefCountedPtr<Material> mat(new Material());
 	mat->shader = m_shader;
+	mat->unlit = true;
 	Surface *s = m_model->AddSurface();
 	s->SetMaterial(mat);
 	s->SetVertices(stars);
