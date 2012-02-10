@@ -21,9 +21,9 @@ struct GLRenderInfo : public RenderInfo {
 		delete vbuf;
 		delete ibuf;
 	}
+	int numIndices;
 	VertexBuffer *vbuf;
 	IndexBuffer *ibuf;
-	int numIndices;
 };
 
 RendererLegacy::RendererLegacy(int w, int h) :
@@ -570,8 +570,8 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 					info->ibuf = new IndexBuffer(t->GetNumIndices());
 				info->ibuf->Bind();
 				const std::vector<unsigned short> &indices = (*surface)->indices;
-				const int offset = info->ibuf->BufferIndexData(indices.size(), &indices[0]);
-				(*surface)->glOffset = offset;
+				const int ioffset = info->ibuf->BufferIndexData(indices.size(), &indices[0]);
+				(*surface)->glOffset = ioffset;
 				(*surface)->glAmount = indices.size();
 			}
 		}

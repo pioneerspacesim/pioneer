@@ -13,13 +13,15 @@ struct GLVertex {
 
 //+color
 //Users: background
-struct UnlitVertex : public GLVertex {
+struct UnlitVertex /*: public GLVertex*/ {
+	vector3f position;
 	Color color;
 };
 
 //+normal, uv0
 //Users: LMRModel
-struct ModelVertex : public GLVertex {
+struct ModelVertex /*: public GLVertex*/ {
+	vector3f position;
 	vector3f normal;
 	vector2f uv;
 };
@@ -75,10 +77,10 @@ public:
 class BufferBase {
 public:
 	BufferBase(GLenum target, unsigned int maxElements) :
-		m_maxSize(maxElements),
 		m_target(target),
 		m_usageHint(GL_STATIC_DRAW),
-		m_offset(0)
+		m_offset(0),
+		m_maxSize(maxElements)
 	{
 		glGenBuffers(1, &m_buf);
 	}
@@ -109,11 +111,11 @@ public:
 	}
 
 private:
-	GLenum m_usageHint;
 	GLenum m_target;
+	GLenum m_usageHint;
 	int m_offset;
-	unsigned int m_maxSize;
 	unsigned int m_buf;
+	unsigned int m_maxSize;
 };
 
 class IndexBuffer : public BufferBase {
