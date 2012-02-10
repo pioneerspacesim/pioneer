@@ -22,7 +22,7 @@ VertexArray::~VertexArray()
 
 }
 
-bool VertexArray::HasAttrib(VertexAttrib v)
+bool VertexArray::HasAttrib(VertexAttrib v) const
 {
 	return (m_attribs & v) != 0;
 }

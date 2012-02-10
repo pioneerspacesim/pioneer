@@ -275,40 +275,16 @@ bool RendererLegacy::DrawTriangles2D(const VertexArray *v, const Material *m, Pr
 {
 	if (!v || v->GetNumVerts() < 3) return false;
 
+	ApplyMaterial(m);
+	EnableClientStates(v);
+
 	// XXX assuming GUI+unlit
-	glPushAttrib(GL_ENABLE_BIT);
 	glDisable(GL_LIGHTING);
 
-	const bool diffuse = !v->diffuse.empty();
-	const bool textured = (m && m->texture0 && v->uv0.size() == v->position.size());
-	const unsigned int numverts = v->position.size();
+	glDrawArrays(t, 0, v->GetNumVerts());
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->position[0]));
-	if (diffuse) {
-		assert(v->diffuse.size() == v->position.size());
-		glEnableClientState(GL_COLOR_ARRAY);
-		glColorPointer(4, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));
-	}
-	if (textured) {
-		assert(v->uv0.size() == v->position.size());
-		glEnable(GL_TEXTURE_2D);
-		m->texture0->Bind();
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glTexCoordPointer(2, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
-	}
-
-	glDrawArrays(t, 0, numverts);
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	if (diffuse)
-		glDisableClientState(GL_COLOR_ARRAY);
-	if (textured) {
-		m->texture0->Unbind();
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	}
-
-	glPopAttrib();
+	UnApplyMaterial(m);
+	DisableClientStates();
 
 	return true;
 }
@@ -317,67 +293,13 @@ bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, Prim
 {
 	if (!v || v->position.size() < 3) return false;
 
-	bool diffuse = !v->diffuse.empty();
+	ApplyMaterial(m);
+	EnableClientStates(v);
 
-	const bool textured = (m && m->texture0 && v->uv0.size() == v->position.size());
-	const bool normals = !v->normal.empty();
-	const unsigned int numverts = v->position.size();
+	glDrawArrays(t, 0, v->GetNumVerts());
 
-	glPushAttrib(GL_LIGHTING_BIT | GL_ENABLE_BIT);
-
-	if (m) {
-		if (m->unlit) {
-			glDisable(GL_LIGHTING);
-			if (!diffuse) {
-				//overall color supplied by material
-				glColor4f(m->diffuse.r, m->diffuse.g, m->diffuse.b, m->diffuse.a);
-			}
-		} else {
-			glEnable(GL_LIGHTING);
-			glMaterialfv (GL_FRONT, GL_DIFFUSE, &m->diffuse[0]);
-		}
-		if (m->twoSided) {
-			glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-			glDisable(GL_CULL_FACE);
-		}
-	} else {
-		//unlit, colours per vertex
-		glDisable(GL_LIGHTING);
-		assert(v->diffuse.size() > 0); //not a fatal mistake, but there should be some colour
-	}
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->position[0]));
-	if (diffuse) {
-		assert(v->diffuse.size() == v->position.size());
-		glEnableClientState(GL_COLOR_ARRAY);
-		glColorPointer(4, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));
-	}
-	if (normals) {
-		assert(v->normal.size() == v->position.size());
-		glEnableClientState(GL_NORMAL_ARRAY);
-		glNormalPointer(GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->normal[0]));
-	}
-	if (textured) {
-		assert(v->uv0.size() == v->position.size());
-		glEnable(GL_TEXTURE_2D);
-		m->texture0->Bind();
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glTexCoordPointer(2, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
-	}
-	glDrawArrays(t, 0, numverts);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	if (diffuse)
-		glDisableClientState(GL_COLOR_ARRAY);
-	if (normals)
-		glDisableClientState(GL_NORMAL_ARRAY);
-	if (textured) {
-		m->texture0->Unbind();
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisable(GL_TEXTURE_2D);
-	}
-
-	glPopAttrib();
+	UnApplyMaterial(m);
+	DisableClientStates();
 
 	return true;
 }
@@ -386,49 +308,23 @@ bool RendererLegacy::DrawSurface2D(const Surface *s)
 {
 	if (!s || !s->GetVertices() || s->indices.size() < 3) return false;
 
-	Material *m = s->GetMaterial().Get();
-	VertexArray *v = s->GetVertices();
-	const bool diffuse = !v->diffuse.empty();
-	const bool textured = (m && m->texture0 && v->uv0.size() == v->position.size());
-	// no need for normals
+	const Material *m = s->GetMaterial().Get();
+	const VertexArray *v = s->GetVertices();
 
-	glPushAttrib(GL_LIGHTING_BIT);
-
-	if (!m || m->unlit) glDisable(GL_LIGHTING);
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, &v->position[0]);
-	if (diffuse) {
-		assert(v->diffuse.size() == v->position.size());
-		glEnableClientState(GL_COLOR_ARRAY);
-		glColorPointer(4, GL_FLOAT, 0, &v->diffuse[0]);
-	}
-	if (textured) {
-		assert(v->uv0.size() == v->position.size());
-		glEnable(GL_TEXTURE_2D);
-		m->texture0->Bind();
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glTexCoordPointer(2, GL_FLOAT, 0, &v->uv0[0]);
-	}
+	ApplyMaterial(m);
+	EnableClientStates(v);
 
 	glDrawElements(s->m_primitiveType, s->indices.size(), GL_UNSIGNED_SHORT, &s->indices[0]);
 
-	glDisableClientState(GL_VERTEX_ARRAY);
-	if (diffuse)
-		glDisableClientState(GL_COLOR_ARRAY);
-	if (textured) {
-		m->texture0->Unbind();
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisable(GL_TEXTURE_2D);
-	}
-
-	glPopAttrib();
+	UnApplyMaterial(m);
+	DisableClientStates();
 
 	return true;
 }
 
 bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, const Material *material, float size)
 {
+	//XXX this is gimped from Render::PutPointSprites
 	if (count < 1 || !material) return false;
 
 	SetBlendMode(BLEND_ALPHA_ONE);
@@ -612,14 +508,26 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 
 void RendererLegacy::ApplyMaterial(const Material *mat)
 {
-	glPushAttrib(GL_ENABLE_BIT);
+	glPushAttrib(GL_LIGHTING_BIT | GL_ENABLE_BIT);
 	if (!mat) {
 		glDisable(GL_LIGHTING);
 		return;
 	}
-	glColor3f(1.f, 1.f, 1.f);
 	
-	if (mat->unlit) glDisable(GL_LIGHTING);
+	if (mat->unlit) {
+		glDisable(GL_LIGHTING);
+		//enable COLOR_MATERIAL?
+		//assume flat
+		//glColor4f(m->diffuse.r, m->diffuse.g, m->diffuse.b, m->diffuse.a);
+	} else {
+		glEnable(GL_LIGHTING);
+		glMaterialfv (GL_FRONT, GL_DIFFUSE, &mat->diffuse[0]);
+		//todo: the rest
+	}
+	if (mat->twoSided) {
+		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+		glDisable(GL_CULL_FACE);
+	}
 	if (mat->texture0) {
 		glEnable(GL_TEXTURE_2D);
 		mat->texture0->Bind();
@@ -633,4 +541,35 @@ void RendererLegacy::UnApplyMaterial(const Material *mat)
 	if (mat->texture0) {
 		mat->texture0->Unbind();
 	}
+}
+
+void RendererLegacy::EnableClientStates(const VertexArray *v)
+{
+	if (!v) return;
+	assert(v->position.size() > 0); //would be strange
+	m_clientStates.push_back(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->position[0]));
+
+	if (v->HasAttrib(ATTRIB_DIFFUSE)) {
+		m_clientStates.push_back(GL_COLOR_ARRAY);
+		glColorPointer(4, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));
+	}
+	if (v->HasAttrib(ATTRIB_NORMAL)) {
+		m_clientStates.push_back(GL_NORMAL_ARRAY);
+		glNormalPointer(GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->normal[0]));
+	}
+	if (v->HasAttrib(ATTRIB_UV0)) {
+		m_clientStates.push_back(GL_TEXTURE_COORD_ARRAY);
+		glTexCoordPointer(2, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
+	}
+
+	for(int i=m_clientStates.size(); i<m_clientStates.size(); i++)
+		glEnableClientState(m_clientStates[i]);
+}
+
+void RendererLegacy::DisableClientStates()
+{
+	for(int i=m_clientStates.size(); i<m_clientStates.size(); i++)
+		glDisableClientState(m_clientStates[i]);
+	m_clientStates.clear();
 }

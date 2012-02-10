@@ -27,7 +27,7 @@ struct VertexArray {
 	~VertexArray();
 
 	//check presence of an attribute
-	virtual bool HasAttrib(VertexAttrib v);
+	virtual bool HasAttrib(VertexAttrib v) const;
 	virtual unsigned int GetNumVerts() const;
 	virtual AttributeSet GetAttributeSet() const { return m_attribs; }
 

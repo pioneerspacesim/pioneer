@@ -40,7 +40,13 @@ public:
 protected:
 	virtual void ApplyMaterial(const Material *mat);
 	virtual void UnApplyMaterial(const Material *mat);
+	//figure out states from a vertex array and enable them
+	//also sets vertex pointers
+	virtual void EnableClientStates(const VertexArray *v);
+	//disable previously enabled
+	virtual void DisableClientStates();
 	int m_numLights;
+	std::vector<GLenum> m_clientStates;
 };
 
 #endif
