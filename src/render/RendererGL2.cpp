@@ -77,28 +77,6 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineTy
 	return true;
 }
 
-// XXX copypaste from legacy renderer
-bool RendererGL2::DrawTriangles(const VertexArray *v, const Material *m, PrimitiveType t)
-{
-	if (!v || v->GetNumVerts() < 3) return false;
-
-	// if no material, per vertex colours
-	// flat, if no per-vertex colours supplied
-	// unlit, if unlit
-	// textured, it texture0 set
-	// two sided, if two sided
-
-	ApplyMaterial(m);
-	EnableClientStates(v);
-
-	glDrawArrays(t, 0, v->GetNumVerts());
-
-	UnApplyMaterial(m);
-	DisableClientStates();
-
-	return true;
-}
-
 void RendererGL2::ApplyMaterial(const Material *mat)
 {
 	glPushAttrib(GL_ENABLE_BIT);

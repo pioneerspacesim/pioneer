@@ -4,12 +4,11 @@
 /*
  * OpenGL 2.x renderer
  *  - no fixed function support (shaders for everything)
+ *  The plan is: make this more like GL3/ES2
  *  - try to stick to bufferobjects
- *  - avoid glVertexPointer, glColorPointer?
- *
- *  To do: a nice buffer object class
+ *  - use glvertexattribpointer instead of glvertexpointer etc
  */
-class RendererGL2 : public RendererLegacy // XXX not really desired, just want to get up to speed
+class RendererGL2 : public RendererLegacy //XXX shares enough with legacy renderer now
 {
 public:
 	RendererGL2(int width, int height);
@@ -23,7 +22,6 @@ public:
 
 	virtual bool DrawLines(int vertCount, const LineVertex *vertices, LineType type=LINE_SINGLE);
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, LineType type=LINE_SINGLE);
-	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES);
 
 protected:
 	virtual void ApplyMaterial(const Material *mat);
