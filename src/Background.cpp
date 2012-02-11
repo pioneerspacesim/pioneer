@@ -198,8 +198,15 @@ MilkyWay::MilkyWay()
 		vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
 		dark);
 
-	m_model->AddSurface()->SetVertices(bottom);
-	m_model->AddSurface()->SetVertices(top);
+	RefCountedPtr<Material> mwmat(new Material);
+	mwmat->unlit = true;
+	mwmat->vertexColors = true;
+	Surface *s1 = m_model->AddSurface();
+	s1->SetVertices(bottom);
+	s1->SetMaterial(mwmat);
+	Surface *s2 = m_model->AddSurface();
+	s2->SetVertices(top);
+	s2->SetMaterial(mwmat);
 }
 
 MilkyWay::~MilkyWay()
