@@ -306,68 +306,11 @@ bool RendererLegacy::DrawSurface(const Surface *s)
 
 bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, const Material *material, float size)
 {
-	//XXX this is gimped from Render::PutPointSprites
-	if (count < 1 || !material) return false;
+	if (count < 1 || !material || !material->texture0) return false;
 
-	SetBlendMode(BLEND_ALPHA_ONE);
-
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_TEXTURE_2D);
 	material->texture0->Bind();
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glColor4fv(&material->diffuse[0]);
-
-	glDisable(GL_LIGHTING);
-	glDepthMask(GL_FALSE);
-
-	/*if (AreShadersEnabled()) {
-		// this is a bit dumb since it doesn't care how many lights
-		// the scene has, and this is a constant...
-		State::UseProgram(billboardShader);
-		billboardShader->set_some_texture(0);
-	}*/
-
-	// quad billboards
-	matrix4x4f rot;
-	glGetFloatv(GL_MODELVIEW_MATRIX, &rot[0]);
-	rot.ClearToRotOnly();
-	rot = rot.InverseOf();
-
-	const float sz = 0.5f*size;
-	const vector3f rotv1 = rot * vector3f(sz, sz, 0.0f);
-	const vector3f rotv2 = rot * vector3f(sz, -sz, 0.0f);
-	const vector3f rotv3 = rot * vector3f(-sz, -sz, 0.0f);
-	const vector3f rotv4 = rot * vector3f(-sz, sz, 0.0f);
-
-	glBegin(GL_QUADS);
-	for (int i=0; i<count; i++) {
-		const vector3f &pos = positions[i];
-		vector3f vert;
-
-		vert = pos+rotv4;
-		glTexCoord2f(0.0f,0.0f);
-		glVertex3f(vert.x, vert.y, vert.z);
-
-		vert = pos+rotv3;
-		glTexCoord2f(0.0f,1.0f);
-		glVertex3f(vert.x, vert.y, vert.z);
-
-		vert = pos+rotv2;
-		glTexCoord2f(1.0f,1.0f);
-		glVertex3f(vert.x, vert.y, vert.z);
-
-		vert = pos+rotv1;
-		glTexCoord2f(1.0f,0.0f);
-		glVertex3f(vert.x, vert.y, vert.z);
-	}
-	glEnd();
-
+	Render::PutPointSprites(count, const_cast<vector3f*>(positions), size, material->diffuse);
 	material->texture0->Unbind();
-	glPopAttrib();
-
-	SetBlendMode(BLEND_SOLID);
 
 	return true;
 }
