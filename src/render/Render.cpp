@@ -603,11 +603,11 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 
 //	quadratic[0] = 1; quadratic[1] = 0;
 //	glPointParameterfvARB( GL_POINT_DISTANCE_ATTENUATION_ARB, quadratic );
-
 	glDisable(GL_TEXTURE_2D);
 	glDepthMask(GL_TRUE);
 	glEnable(GL_LIGHTING);
 	glDisable(GL_BLEND);
+	State::UseProgram(0);
 }
 
 bool State::UseProgram(Shader *shader)

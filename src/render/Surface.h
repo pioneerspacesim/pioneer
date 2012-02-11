@@ -7,8 +7,10 @@
 #include "VertexArray.h"
 #include <vector>
 
-// surface with a material
-// can have indices
+/*
+ * Surface is a container for a vertex array, a material
+ * and an index array. Intended for indexed triangle drawing.
+ */
 class Surface {
 public:
 	Surface(PrimitiveType t);
@@ -36,7 +38,7 @@ private:
 	VertexArray *m_vertices;
 	// multiple surfaces can be buffered in one vbo so need to
 	// save starting offset + amount to draw
-	//XXX temporary
+	//XXX temporary - replace with RenderInfo
 	int glOffset; //index start OR vertex start
 	int glAmount; //index count OR vertex amount
 };

@@ -4,6 +4,7 @@
 #include "libs.h"
 
 //allowed minimum of GL_MAX_VERTEX_ATTRIBS is 8 on ES2
+//XXX could implement separate position2D, position3D
 enum VertexAttrib {
 	ATTRIB_POSITION  = (1u << 0),
 	ATTRIB_NORMAL    = (1u << 1),
@@ -17,10 +18,13 @@ enum VertexAttrib {
 
 typedef unsigned int AttributeSet;
 
-// this is a generic collection of vertex attributes. Renderers do
-// whatever they need to do with regards to the attribute set.
-// Presence of an attribute is checked using vector size, so users are trusted
-// to provide matching number of attributes
+/*
+ * VertexArray is a multi-purpose vertex container. Users specify
+ * the attributes they intend to use and then add vertices. Renderers
+ * do whatever they need to do with regards to the attribute set.
+ * This is not optimized for high performance drawing, but okay for simple
+ * cases.
+ */
 struct VertexArray {
 	//specify attributes to be used, additionally reserve space for vertices
 	VertexArray(AttributeSet attribs, int size=0);
@@ -31,8 +35,10 @@ struct VertexArray {
 	virtual unsigned int GetNumVerts() const;
 	virtual AttributeSet GetAttributeSet() const { return m_attribs; }
 
+	//removes vertices, does not deallocate space
 	virtual void Clear();
-	//no, I don't really like this
+
+	// don't mix these
 	virtual void Add(const vector3f &v);
 	virtual void Add(const vector3f &v, const Color &c);
 	virtual void Add(const vector3f &v, const Color &c, const vector3f &normal);
@@ -41,7 +47,8 @@ struct VertexArray {
 	virtual void Add(const vector3f &v, const vector3f &normal, const vector2f &uv); //lmr static mesh
 	//virtual void Reserve(unsigned int howmuch)
 
-	//make these private after all?
+	//could make these private, but it is nice to be able to
+	//add attributes separately...
 	std::vector<vector3f> position;
 	std::vector<vector3f> normal;
 	std::vector<Color> diffuse;

@@ -9,10 +9,13 @@ namespace Render {
 	class Shader;
 }
 
-// Materials define shading and lighting parameters
-// and shader choice for GL2 renderer
-// As a hack (at this point) it is also possible to set a custom shader,
-// set the uniforms yourself
+/*
+ * Materials define shading parameters. For example, when you
+ * want to draw unlit geometry, define a material with the
+ * 'unlit' flag set.
+ * It is possible to override the shader choice with the
+ * shader parameter (this is a hack, since Render::Shader is GL2 specific)
+ */
 class Material : public RefCounted {
 public:
 	Material();
@@ -22,6 +25,8 @@ public:
 	Color diffuse;
 	//Color ambient;
 	//Color specular;
+	//etc. Implement stuff when you need it, and also support
+	//in renderers
 
 	//this could be replaced with shade model: flat, phong etc.
 	bool unlit;
