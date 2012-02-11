@@ -362,12 +362,12 @@ void RendererLegacy::ApplyMaterial(const Material *mat)
 		glDisable(GL_LIGHTING);
 		return;
 	}
+
+	if (!mat->vertexColors)
+		glColor4f(mat->diffuse.r, mat->diffuse.g, mat->diffuse.b, mat->diffuse.a);
 	
 	if (mat->unlit) {
 		glDisable(GL_LIGHTING);
-		//enable COLOR_MATERIAL?
-		//assume flat
-		//glColor4f(m->diffuse.r, m->diffuse.g, m->diffuse.b, m->diffuse.a);
 	} else {
 		glEnable(GL_LIGHTING);
 		glMaterialfv (GL_FRONT, GL_DIFFUSE, &mat->diffuse[0]);
@@ -430,6 +430,7 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	const AttributeSet set = mesh->GetAttributeSet();
 	bool background = false;
 	bool lmr = false;
+	//XXX does this really have to support every case. I don't know.
 	if (set == (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0))
 		lmr = true;
 	else if (set == (ATTRIB_POSITION | ATTRIB_DIFFUSE))
