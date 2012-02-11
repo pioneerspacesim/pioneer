@@ -110,22 +110,22 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 	} else {
 		if (mat->shader)
 			s = mat->shader;
+		else if (!mat->vertexColors)
+			s = flatProg;
 		else
 			s = Render::simpleShader;
 	}
 	assert(s);
 	Render::State::UseProgram(s);
 
-	/*if (flat) {
-		assert(diffuse == false);
-		s->SetUniform4f("color", m->diffuse);
-	}*/
+	//set parameters
 	if (mat) {
+		if (!mat->vertexColors)
+			s->SetUniform4f("color", mat->diffuse);
 		if (mat->unlit) {
-
+			//nothing to do
 		} else {
-			//glMaterialfv (GL_FRONT, GL_DIFFUSE, &mat->diffuse[0]);
-			//todo: the rest
+			//specular etc properties
 		}
 		if (mat->twoSided) {
 			glDisable(GL_CULL_FACE);
