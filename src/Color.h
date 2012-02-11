@@ -4,7 +4,7 @@
 class Color {
 public:
 	float r,g,b,a;
-	Color() {}
+	Color() : r(0.f), g(0.f), b(0.f), a(1.f) {}
 	Color(float v_) : r(v_), g(v_), b(v_), a(v_) { }
 	Color(float r_, float g_, float b_): r(r_), g(g_), b(b_), a(1.f) {}
 	Color(float r_, float g_, float b_, float a_): r(r_), g(g_), b(b_), a(a_) {}
