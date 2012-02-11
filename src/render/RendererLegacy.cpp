@@ -548,23 +548,24 @@ void RendererLegacy::EnableClientStates(const VertexArray *v)
 	if (!v) return;
 	assert(v->position.size() > 0); //would be strange
 	m_clientStates.push_back(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->position[0]));
 
 	if (v->HasAttrib(ATTRIB_DIFFUSE)) {
 		m_clientStates.push_back(GL_COLOR_ARRAY);
+		glEnable(GL_COLOR_ARRAY);
 		glColorPointer(4, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));
 	}
 	if (v->HasAttrib(ATTRIB_NORMAL)) {
 		m_clientStates.push_back(GL_NORMAL_ARRAY);
+		glEnable(GL_NORMAL_ARRAY);
 		glNormalPointer(GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->normal[0]));
 	}
 	if (v->HasAttrib(ATTRIB_UV0)) {
 		m_clientStates.push_back(GL_TEXTURE_COORD_ARRAY);
+		glEnable(GL_TEXTURE_COORD_ARRAY);
 		glTexCoordPointer(2, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
 	}
-
-	for(int i=m_clientStates.size(); i<m_clientStates.size(); i++)
-		glEnableClientState(m_clientStates[i]);
 }
 
 void RendererLegacy::DisableClientStates()
