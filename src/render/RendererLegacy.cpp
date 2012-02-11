@@ -304,6 +304,24 @@ bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, Prim
 	return true;
 }
 
+bool RendererLegacy::DrawSurface(const Surface *s)
+{
+	if (!s || !s->GetVertices() || s->indices.size() < 3) return false;
+
+	const Material *m = s->GetMaterial().Get();
+	const VertexArray *v = s->GetVertices();
+
+	ApplyMaterial(m);
+	EnableClientStates(v);
+
+	glDrawElements(s->m_primitiveType, s->indices.size(), GL_UNSIGNED_SHORT, &s->indices[0]);
+
+	UnApplyMaterial(m);
+	DisableClientStates();
+
+	return true;
+}
+
 bool RendererLegacy::DrawSurface2D(const Surface *s)
 {
 	if (!s || !s->GetVertices() || s->indices.size() < 3) return false;
@@ -547,6 +565,7 @@ void RendererLegacy::EnableClientStates(const VertexArray *v)
 {
 	if (!v) return;
 	assert(v->position.size() > 0); //would be strange
+	// XXX could be 3D or 2D
 	m_clientStates.push_back(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->position[0]));
