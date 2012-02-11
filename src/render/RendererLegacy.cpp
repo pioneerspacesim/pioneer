@@ -271,21 +271,6 @@ bool RendererLegacy::DrawPoints2D(int count, const vector2f *points, const Color
 	return true;
 }
 
-bool RendererLegacy::DrawTriangles2D(const VertexArray *v, const Material *m, PrimitiveType t)
-{
-	if (!v || v->GetNumVerts() < 3) return false;
-
-	ApplyMaterial(m);
-	EnableClientStates(v);
-
-	glDrawArrays(t, 0, v->GetNumVerts());
-
-	UnApplyMaterial(m);
-	DisableClientStates();
-
-	return true;
-}
-
 bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, PrimitiveType t)
 {
 	if (!v || v->position.size() < 3) return false;
@@ -302,24 +287,6 @@ bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, Prim
 }
 
 bool RendererLegacy::DrawSurface(const Surface *s)
-{
-	if (!s || !s->GetVertices() || s->indices.size() < 3) return false;
-
-	const Material *m = s->GetMaterial().Get();
-	const VertexArray *v = s->GetVertices();
-
-	ApplyMaterial(m);
-	EnableClientStates(v);
-
-	glDrawElements(s->m_primitiveType, s->indices.size(), GL_UNSIGNED_SHORT, &s->indices[0]);
-
-	UnApplyMaterial(m);
-	DisableClientStates();
-
-	return true;
-}
-
-bool RendererLegacy::DrawSurface2D(const Surface *s)
 {
 	if (!s || !s->GetVertices() || s->indices.size() < 3) return false;
 
@@ -586,7 +553,7 @@ void RendererLegacy::EnableClientStates(const VertexArray *v)
 
 void RendererLegacy::DisableClientStates()
 {
-	for(int i=0; i<m_clientStates.size(); i++)
+	for(int i=0; i!=m_clientStates.size(); i++)
 		glDisableClientState(m_clientStates[i]);
 	m_clientStates.clear();
 }

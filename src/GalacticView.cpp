@@ -125,7 +125,7 @@ void GalacticView::Draw3D()
 	Material m;
 	m.unlit = true;
 	m.texture0 = m_texture.Get();
-	m_renderer->DrawTriangles2D(&va, &m, TRIANGLE_STRIP);
+	m_renderer->DrawTriangles(&va, &m, TRIANGLE_STRIP);
 
 	// "you are here" dot
 	Color green(0.f, 1.f, 0.f, 1.f);

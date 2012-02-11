@@ -32,9 +32,7 @@ public:
 	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, float pointSize=1.f);
 	virtual bool DrawPoints2D(int count, const vector2f *points, const Color *colors, float pointSize=1.f);
 	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES);
-	virtual bool DrawTriangles2D(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES);
 	virtual bool DrawSurface(const Surface *surface);
-	virtual bool DrawSurface2D(const Surface *surface);
 	virtual bool DrawPointSprites(int count, const vector3f *positions, const Material *material, float size);
 	virtual bool DrawStaticMesh(StaticMesh *thing);
 

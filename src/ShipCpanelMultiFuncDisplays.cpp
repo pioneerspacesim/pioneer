@@ -164,13 +164,14 @@ void ScannerWidget::Draw()
 	m_renderer->SetBlendMode(BLEND_ALPHA);
 	Color green(0.f, 1.f, 0.f, 0.1f);
 
+	// XXX 2d vertices
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE, 128); //reserve some space for positions & colors
 	va.Add(vector3f(m_x, m_y, 0.f), green);
 	for (float a = 0; a < 2 * M_PI; a += M_PI * 0.02) {
 		va.Add(vector3f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), 0.f), green);
 	}
 	va.Add(vector3f(m_x, m_y + SCANNER_YSHRINK * m_y, 0.f), green);
-	m_renderer->DrawTriangles2D(&va, 0, TRIANGLE_FAN);
+	m_renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
 
 	m_renderer->SetBlendMode(BLEND_SOLID);
 

@@ -173,6 +173,7 @@ void FaceVideoLink::Draw() {
 	float h = float(FACE_HEIGHT) / ceil_pow2(FACE_HEIGHT);
 
 	// XXX can't use generic fillrect due to UV thing
+	// XXX 2d vertices
 	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0);
 	Color white(1.f, 1.f, 1.f, 1.f);
 	va.Add(vector3f(0.f, 0.f, 0.f), vector2f(0.f, 0.f));
@@ -182,7 +183,7 @@ void FaceVideoLink::Draw() {
 	Material mat;
 	mat.texture0 = m_texture;
 	mat.unlit = true;
-	Pi::renderer->DrawTriangles2D(&va, &mat, TRIANGLE_STRIP);
+	Pi::renderer->DrawTriangles(&va, &mat, TRIANGLE_STRIP);
 
 	glPushMatrix();
 	glTranslatef(0.f, size[1]- size[1] * 0.16f, 0.f);
