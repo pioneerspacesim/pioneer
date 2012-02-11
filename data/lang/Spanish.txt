@@ -738,6 +738,8 @@ REAR_VIEW
     Vista trasera
 EXTERNAL_VIEW
     Vista externa
+SIDEREAL_VIEW
+    Vista sideral
 NAVIGATION_STAR_MAPS
     Navegación y mapas estelares
 COMMS
