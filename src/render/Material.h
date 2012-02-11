@@ -16,6 +16,9 @@ namespace Render {
  * It is possible to override the shader choice with the
  * shader parameter (this is a hack, since Render::Shader is GL2 specific)
  */
+//XXX I think renderer::RequestMaterial(...), renderer->RequestRenderTarget(...) style
+//style approach would be better, but not doing that yet so objects don't need knowledge
+//of renderer outside their Render() method.
 class Material : public RefCounted {
 public:
 	Material();

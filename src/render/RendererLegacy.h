@@ -46,6 +46,7 @@ protected:
 	virtual void DisableClientStates();
 	int m_numLights;
 	std::vector<GLenum> m_clientStates;
+	virtual bool BufferStaticMesh(StaticMesh *m);
 };
 
 #endif

@@ -72,8 +72,7 @@ bool RendererLegacy::SwapBuffers()
 
 bool RendererLegacy::SetTransform(const matrix4x4d &m)
 {
-	//XXX this is not the intended final state, but now it's easier to do this
-	//and rely on push/pop in objects' render functions
+	//XXX you might still need the occasional push/pop
 	//GL2+ or ES2 renderers can forego the classic matrix stuff entirely and use uniforms
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd(&m[0]);
@@ -111,7 +110,6 @@ bool RendererLegacy::SetOrthographicProjection(float xmin, float xmax, float ymi
 
 bool RendererLegacy::SetBlendMode(BlendMode m)
 {
-	//where does SRC_ALPHA, ONE fit in?
 	switch (m) {
 	case BLEND_SOLID:
 		glDisable(GL_BLEND);
@@ -324,88 +322,15 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 	//since surfaces can have different materials (but they should have the same vertex format?)
 	//bind buffer, set pointers and then draw each surface
 	//(save buffer offsets in surfaces' render info)
-	GLRenderInfo *info = 0;
-
-	AttributeSet set = t->GetAttributeSet();
-	bool background = false;
-	bool lmr = false;
-	if (set == (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0))
-		lmr = true;
-	else if (set == (ATTRIB_POSITION | ATTRIB_DIFFUSE))
-		background = true;
-	else
-		return false;
 
 	// prepare the buffer on first run
 	if (!t->cached) {
-		if (t->m_renderInfo == 0)
-			t->m_renderInfo = new GLRenderInfo();
-		info = static_cast<GLRenderInfo*>(t->m_renderInfo);
-
-		const int totalVertices = t->GetNumVerts();
-
-		//surfaces should have a matching vertex specification!!
-		//XXX just take vertices from the first surface as a LMR hack
-		bool lmrHack = false;
-
-		VertexBuffer *buf = 0;
-		SurfaceList &surfaces = t->m_surfaces;
-		SurfaceList::iterator surface;
-		for (surface = surfaces.begin(); surface != surfaces.end(); ++surface) {
-			const int numsverts = (*surface)->GetNumVerts();
-			const VertexArray *va = (*surface)->GetVertices();
-
-			int offset = 0;
-			if (lmr && !lmrHack) {
-				ScopedArray<ModelVertex> vts(new ModelVertex[numsverts]);
-				for(int j=0; j<numsverts; j++) {
-					vts[j].position = va->position[j];
-					vts[j].normal = va->normal[j];
-					vts[j].uv = va->uv0[j];
-				}
-
-				if (!buf)
-					buf = new VertexBuffer(totalVertices);
-				buf->Bind();
-				buf->BufferData<ModelVertex>(numsverts, vts.Get());
-				lmrHack = true;
-			} else if (background) {
-				ScopedArray<UnlitVertex> vts(new UnlitVertex[numsverts]);
-				for(int j=0; j<numsverts; j++) {
-					vts[j].position = va->position[j];
-					vts[j].color = va->diffuse[j];
-				}
-
-				if (!buf)
-					buf= new UnlitVertexBuffer(totalVertices);
-				buf->Bind();
-				offset = buf->BufferData<UnlitVertex>(numsverts, vts.Get());
-			}
-			(*surface)->glAmount = numsverts;
-			(*surface)->glOffset = offset;
-
-			//buffer indices from each surface, if in use
-			if ((*surface)->IsIndexed()) {
-				assert(background == false);
-				if (!info->ibuf)
-					info->ibuf = new IndexBuffer(t->GetNumIndices());
-				info->ibuf->Bind();
-				const std::vector<unsigned short> &indices = (*surface)->indices;
-				const int ioffset = info->ibuf->BufferIndexData(indices.size(), &indices[0]);
-				(*surface)->glOffset = ioffset;
-				(*surface)->glAmount = indices.size();
-			}
-		}
-		assert(buf);
-		info->vbuf = buf;
-		t->cached = true;
+		if (!BufferStaticMesh(t))
+			return false;
 	}
-	info = static_cast<GLRenderInfo*>(t->m_renderInfo);
-	assert(t->cached == true);
+	GLRenderInfo *info = static_cast<GLRenderInfo*>(t->m_renderInfo);
 
 	//draw each surface
-	//XXX use a private draw_surface method to handle material switching
-	//(and use that with DrawSurface too)
 	info->vbuf->Bind();
 	if (info->ibuf) {
 		info->ibuf->Bind();
@@ -418,7 +343,6 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 		if (info->ibuf) {
 			info->vbuf->DrawIndexed(t->m_primitiveType, (*surface)->glOffset, (*surface)->glAmount);
 		} else {
-			assert(background);
 			//draw unindexed per surface
 			info->vbuf->Draw(t->m_primitiveType, (*surface)->glOffset, (*surface)->glAmount);
 		}
@@ -499,4 +423,81 @@ void RendererLegacy::DisableClientStates()
 	for(int i=0; i!=m_clientStates.size(); i++)
 		glDisableClientState(m_clientStates[i]);
 	m_clientStates.clear();
+}
+
+bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
+{
+	const AttributeSet set = mesh->GetAttributeSet();
+	bool background = false;
+	bool lmr = false;
+	if (set == (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0))
+		lmr = true;
+	else if (set == (ATTRIB_POSITION | ATTRIB_DIFFUSE))
+		background = true;
+	else
+		return false;
+
+	if (mesh->m_renderInfo == 0)
+		mesh->m_renderInfo = new GLRenderInfo();
+	GLRenderInfo *info = static_cast<GLRenderInfo*>(mesh->m_renderInfo);
+
+	const int totalVertices = mesh->GetNumVerts();
+
+	//surfaces should have a matching vertex specification!!
+	//XXX just take vertices from the first surface as a LMR hack
+	bool lmrHack = false;
+
+	VertexBuffer *buf = 0;
+	SurfaceList &surfaces = mesh->m_surfaces;
+	SurfaceList::iterator surface;
+	for (surface = surfaces.begin(); surface != surfaces.end(); ++surface) {
+		const int numsverts = (*surface)->GetNumVerts();
+		const VertexArray *va = (*surface)->GetVertices();
+
+		int offset = 0;
+		if (lmr && !lmrHack) {
+			ScopedArray<ModelVertex> vts(new ModelVertex[numsverts]);
+			for(int j=0; j<numsverts; j++) {
+				vts[j].position = va->position[j];
+				vts[j].normal = va->normal[j];
+				vts[j].uv = va->uv0[j];
+			}
+
+			if (!buf)
+				buf = new VertexBuffer(totalVertices);
+			buf->Bind();
+			buf->BufferData<ModelVertex>(numsverts, vts.Get());
+			lmrHack = true;
+		} else if (background) {
+			ScopedArray<UnlitVertex> vts(new UnlitVertex[numsverts]);
+			for(int j=0; j<numsverts; j++) {
+				vts[j].position = va->position[j];
+				vts[j].color = va->diffuse[j];
+			}
+
+			if (!buf)
+				buf= new UnlitVertexBuffer(totalVertices);
+			buf->Bind();
+			offset = buf->BufferData<UnlitVertex>(numsverts, vts.Get());
+		}
+		(*surface)->glAmount = numsverts;
+		(*surface)->glOffset = offset;
+
+		//buffer indices from each surface, if in use
+		if ((*surface)->IsIndexed()) {
+			assert(background == false);
+			if (!info->ibuf)
+				info->ibuf = new IndexBuffer(mesh->GetNumIndices());
+			info->ibuf->Bind();
+			const std::vector<unsigned short> &indices = (*surface)->indices;
+			const int ioffset = info->ibuf->BufferIndexData(indices.size(), &indices[0]);
+			(*surface)->glOffset = ioffset;
+			(*surface)->glAmount = indices.size();
+		}
+	}
+	assert(buf);
+	info->vbuf = buf;
+	mesh->cached = true;
+
+	return true;
 }
