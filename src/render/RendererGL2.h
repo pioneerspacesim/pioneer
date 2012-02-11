@@ -24,4 +24,8 @@ public:
 	virtual bool DrawLines(int vertCount, const LineVertex *vertices, LineType type=LINE_SINGLE);
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, LineType type=LINE_SINGLE);
 	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES);
+
+protected:
+	virtual void ApplyMaterial(const Material *mat);
+	virtual void UnApplyMaterial(const Material *mat);
 };

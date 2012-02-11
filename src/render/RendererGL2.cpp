@@ -92,72 +92,71 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineTy
 // XXX copypaste from legacy renderer
 bool RendererGL2::DrawTriangles(const VertexArray *v, const Material *m, PrimitiveType t)
 {
-	if (!v || v->position.size() < 3) return false;
+	if (!v || v->GetNumVerts() < 3) return false;
 
-	const bool diffuse = !v->diffuse.empty();
-	const bool textured = (m && m->texture0 && v->uv0.size() == v->position.size());
-	const bool normals = !v->normal.empty();
-	const unsigned int numverts = v->position.size();
-	const bool twoSided = (m && m->twoSided);
-	const bool flat = (m && v->diffuse.empty());
+	// if no material, per vertex colours
+	// flat, if no per-vertex colours supplied
+	// unlit, if unlit
+	// textured, it texture0 set
+	// two sided, if two sided
 
-	if (twoSided)
-		glDisable(GL_CULL_FACE);
+	ApplyMaterial(m);
+	EnableClientStates(v);
 
-	//program choice
-	Render::Shader *s = 0;
-	if (!m)
-		s = Render::simpleShader;
-	else if (m->shader)
-		s = m->shader;
-	else if (flat)
-		s = flatProg;
-	else if (textured)
-		s = simpleTextured;
-	if (s)
-		Render::State::UseProgram(s);
+	glDrawArrays(t, 0, v->GetNumVerts());
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->position[0]));
-	if (diffuse) {
-		assert(v->diffuse.size() == v->position.size());
-		glEnableClientState(GL_COLOR_ARRAY);
-		glColorPointer(4, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));
-	}
-	if (normals) {
-		assert(v->normal.size() == v->position.size());
-		glEnableClientState(GL_NORMAL_ARRAY);
-		glNormalPointer(GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->normal[0]));
-	}
-	if (textured) {
-		assert(v->uv0.size() == v->position.size());
-		m->texture0->Bind();
-		s->SetUniform1i("texture0", 0);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glTexCoordPointer(2, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
-	}
-	if (flat) {
-		assert(diffuse == false);
-		s->SetUniform4f("color", m->diffuse);
-	}
-
-	glDrawArrays(t, 0, numverts);
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	if (diffuse)
-		glDisableClientState(GL_COLOR_ARRAY);
-	if (normals)
-		glDisableClientState(GL_NORMAL_ARRAY);
-	if (textured) {
-		m->texture0->Unbind();
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	}
-	if (twoSided)
-		glEnable(GL_CULL_FACE);
-
-	// XXX won't be necessary
-	if (s)
-		Render::State::UseProgram(0);
+	UnApplyMaterial(m);
+	DisableClientStates();
 
 	return true;
+}
+
+void RendererGL2::ApplyMaterial(const Material *mat)
+{
+	glPushAttrib(GL_ENABLE_BIT);
+
+	//choose shader
+	Render::Shader *s = 0;
+	if (!mat) {
+		s = Render::simpleShader;
+	} else {
+		if (mat->shader)
+			s = mat->shader;
+		else
+			s = Render::simpleShader;
+	}
+	assert(s);
+	Render::State::UseProgram(s);
+
+	/*if (flat) {
+		assert(diffuse == false);
+		s->SetUniform4f("color", m->diffuse);
+	}*/
+	if (mat) {
+		if (mat->unlit) {
+
+		} else {
+			//glMaterialfv (GL_FRONT, GL_DIFFUSE, &mat->diffuse[0]);
+			//todo: the rest
+		}
+		if (mat->twoSided) {
+			glDisable(GL_CULL_FACE);
+		}
+		if (mat->texture0) {
+			mat->texture0->Bind();
+			s->SetUniform1i("texture0", 0);
+		}
+	}
+}
+
+void RendererGL2::UnApplyMaterial(const Material *mat)
+{
+	glPopAttrib();
+	if (mat) {
+		if (mat->texture0) {
+			mat->texture0->Unbind();
+		}
+	}
+	// XXX won't be necessary
+	Render::State::UseProgram(0);
 }
