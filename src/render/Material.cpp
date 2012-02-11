@@ -2,7 +2,7 @@
 
 Material::Material() :
 	texture0(0),
-	diffuse(1.f, 0.f, 1.f, 1.f),
+	diffuse(1.f), //default white
 	unlit(false),
 	twoSided(false),
 	vertexColors(false),

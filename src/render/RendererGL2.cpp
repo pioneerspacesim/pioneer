@@ -7,18 +7,21 @@
 
 Render::Shader *simpleTextured;
 Render::Shader *flatProg;
+Render::Shader *flatTextured;
 
 RendererGL2::RendererGL2(int w, int h) :
 	RendererLegacy(w, h)
 {
 	simpleTextured = new Render::Shader("simpleTextured");
 	flatProg = new Render::Shader("flat");
+	flatTextured = new Render::Shader("flat", "#define TEXTURE0 1\n");
 }
 
 RendererGL2::~RendererGL2()
 {
 	delete simpleTextured;
 	delete flatProg;
+	delete flatTextured;
 }
 
 bool RendererGL2::BeginFrame()
@@ -81,37 +84,40 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 {
 	glPushAttrib(GL_ENABLE_BIT);
 
+	if (!mat) {
+		Render::State::UseProgram(Render::simpleShader);
+		return;
+	}
+
+	const bool flat = !mat->vertexColors;
+
 	//choose shader
 	Render::Shader *s = 0;
-	if (!mat) {
-		s = Render::simpleShader;
+	if (mat->shader) {
+		s = mat->shader;
 	} else {
-		if (mat->shader)
-			s = mat->shader;
-		else if (!mat->vertexColors)
-			s = flatProg;
-		else
-			s = Render::simpleShader;
+		if (flat && mat->texture0) s = flatTextured;
+		else if (flat) s = flatProg;
+		else s = Render::simpleShader;
 	}
+
 	assert(s);
 	Render::State::UseProgram(s);
 
 	//set parameters
-	if (mat) {
-		if (!mat->vertexColors)
-			s->SetUniform4f("color", mat->diffuse);
-		if (mat->unlit) {
-			//nothing to do
-		} else {
-			//specular etc properties
-		}
-		if (mat->twoSided) {
-			glDisable(GL_CULL_FACE);
-		}
-		if (mat->texture0) {
-			mat->texture0->Bind();
-			s->SetUniform1i("texture0", 0);
-		}
+	if (flat)
+		s->SetUniform4f("color", mat->diffuse);
+	if (mat->unlit) {
+		//nothing to do right now
+	} else {
+		//specular etc properties
+	}
+	if (mat->twoSided) {
+		glDisable(GL_CULL_FACE);
+	}
+	if (mat->texture0) {
+		mat->texture0->Bind();
+		s->SetUniform1i("texture0", 0);
 	}
 }
 

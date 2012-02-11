@@ -278,9 +278,6 @@ bool RendererLegacy::DrawTriangles2D(const VertexArray *v, const Material *m, Pr
 	ApplyMaterial(m);
 	EnableClientStates(v);
 
-	// XXX assuming GUI+unlit
-	glDisable(GL_LIGHTING);
-
 	glDrawArrays(t, 0, v->GetNumVerts());
 
 	UnApplyMaterial(m);
