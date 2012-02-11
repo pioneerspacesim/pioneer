@@ -164,9 +164,13 @@ void Container::Draw()
 	GetSize(size);
 	if (!m_transparent) {
 		if (m_bgcol[3] < 1.0) glEnable(GL_BLEND);
-		FillRect(
-			Rect(0.f, 0.f, size[0], size[1]),
-			Color(m_bgcol[0], m_bgcol[1], m_bgcol[2], m_bgcol[3]));
+		glBegin(GL_QUADS);
+			glColor4fv(m_bgcol);
+			glVertex2f(0, size[1]);
+			glVertex2f(size[0], size[1]);
+			glVertex2f(size[0], 0);
+			glVertex2f(0, 0);
+		glEnd();
 		glDisable(GL_BLEND);
 	}
 #ifdef GUI_DEBUG_CONTAINER
@@ -194,9 +198,6 @@ void Container::Draw()
 			glVertex2f(0, 0);
 		glEnd();
 #endif /* GUI_DEBUG_CONTAINER */
-		// XXX bad
-		// pulls renderer from parent. Or explodes.
-		(*i).w->SetRenderer(GetRenderer());
 		(*i).w->Draw();
 		glPopMatrix();
 	}

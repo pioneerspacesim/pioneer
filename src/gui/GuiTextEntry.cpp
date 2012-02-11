@@ -1,7 +1,6 @@
 #include "libs.h"
 #include "Gui.h"
 #include "TextureFont.h"
-#include "render/Renderer.h"
 
 namespace Gui {
 
@@ -177,6 +176,7 @@ void TextEntry::Draw()
 	float curs_x, curs_y;
 	Gui::Screen::MeasureCharacterPos(m_text, m_cursPos, curs_x, curs_y, m_font);
 
+	glColor3f(1,0,0);
 	if (curs_x - m_scroll > size[0]*0.75f) {
 		m_scroll += int(size[0]*0.25f);
 	} else if (curs_x - m_scroll < size[0]*0.25f) {
@@ -184,22 +184,32 @@ void TextEntry::Draw()
 		if (m_scroll < 0) m_scroll = 0;
 	}
 
-	FillRect(0.f, 0.f, size[0], size[1], Color(0.f));
-	Color c(1.f);
-	if (!IsFocused())
-		c = Color(.75f, .75f, .75f, 1.f);
-	DrawRect(0.f, 0.f, size[0], size[1], c);
+	glColor3f(0,0,0);
+	glBegin(GL_TRIANGLE_FAN);
+		glVertex2f(0,size[1]);
+		glVertex2f(size[0],size[1]);
+		glVertex2f(size[0],0);
+		glVertex2f(0,0);
+	glEnd();
+	if (IsFocused()) glColor3f(1,1,1);
+	else glColor3f(.75f, .75f, .75f);
+	glBegin(GL_LINE_LOOP);
+		glVertex2f(0,0);
+		glVertex2f(size[0],0);
+		glVertex2f(size[0],size[1]);
+		glVertex2f(0,size[1]);
+	glEnd();
+
 
 	SetClipping(size[0], size[1]);
 	Gui::Screen::RenderString(m_text, 1.0f - m_scroll, 1.0f, m_font);
 
 	/* Cursor */
-	const Color grey(0.5f, 0.5f, 0.5f, 0.5f);
-	const vector2f vts[] = {
-		vector2f(curs_x + 1.0f - m_scroll, curs_y - Gui::Screen::GetFontHeight(m_font) - 1.0f),
-		vector2f(curs_x + 1.0f - m_scroll, curs_y + 1.0f)
-	};
-	GetRenderer()->DrawLines2D(2, &vts[0], grey);
+	glColor3f(0.5f,0.5f,0.5f);
+	glBegin(GL_LINES);
+		glVertex2f(curs_x + 1.0f - m_scroll, curs_y - Gui::Screen::GetFontHeight(m_font) - 1.0f);
+		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + 1.0f);
+	glEnd();
 	
 	EndClipping();
 }

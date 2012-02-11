@@ -52,11 +52,20 @@ void ToolTip::Draw()
 	float alpha = age/float(FADE_TIME_MS); alpha = std::min(alpha, 0.75f);
 	glEnable(GL_BLEND);
 	GetSize(size);
-	//background
-	FillRect(0.f, 0.f, size[0], size[1], Color(0.2f, 0.2f, 0.6f, alpha));
-	//border
-	DrawRect(0.f, 0.f, size[0], size[1], Color(0.f, 0.f, 0.8f, alpha));
-
+	glColor4f(.2f,.2f,.6f,alpha);
+	glBegin(GL_QUADS);
+		glVertex2f(0, 0);
+		glVertex2f(0, size[1]);
+		glVertex2f(size[0], size[1]);
+		glVertex2f(size[0], 0);
+	glEnd();
+	glColor4f(0,0,.8f,alpha);
+	glBegin(GL_LINE_LOOP);
+		glVertex2f(size[0], 0);
+		glVertex2f(size[0], size[1]);
+		glVertex2f(0, size[1]);
+		glVertex2f(0, 0);
+	glEnd();
 	glPushMatrix();
 	glTranslatef(TOOLTIP_PADDING,0,0);
 	glColor4f(1,1,1,alpha);

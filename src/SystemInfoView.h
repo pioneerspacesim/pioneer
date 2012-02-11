@@ -9,6 +9,7 @@
 
 class StarSystem;
 class SBody;
+class Renderer;
 
 class SystemInfoView: public View {
 public:
@@ -23,6 +24,9 @@ private:
 		BodyIcon(const char* img);
 		virtual void Draw();
 		virtual void OnActivate();
+		void SetRenderer(Renderer *r) { m_renderer = r; }
+	private:
+		Renderer *m_renderer;
 	};
 	void SystemChanged(const SystemPath &path);
 	void UpdateEconomyTab();

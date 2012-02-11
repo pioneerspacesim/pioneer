@@ -4,16 +4,6 @@
 #include "Color.h"
 #include "GuiEvents.h"
 
-class Renderer;
-
-struct Rect {
-	Rect() : x(0.f), y(0.f), w(0.f), h(0.f) { }
-	Rect(float x_, float y_, float width, float height) :
-		x(x_), y(y_), w(width), h(height) { }
-	float x, y;
-	float w, h;
-};
-
 namespace Gui {
 	class Container;
 	class ToolTip;
@@ -73,16 +63,6 @@ namespace Gui {
 		sigc::signal<void> onMouseLeave;
 		sigc::signal<void> onSetSize;
 		sigc::signal<void> onDelete;
-
-		void SetRenderer(Renderer *r) { m_renderer = r; }
-		Renderer *GetRenderer();
-
-		// drawing utility functions
-		void FillRect(float x, float y, float w, float h, const Color &c);
-		void FillRect(const Rect &r, const Color &c);
-		void DrawRect(float x, float y, float w, float h, const Color &c);
-		void DrawRect(const Rect &r, const Color &c);
-
 	protected:
 		unsigned int m_eventMask;
 		struct {
@@ -92,7 +72,6 @@ namespace Gui {
 		
 		virtual std::string GetOverrideTooltip() { return ""; }
 		void UpdateOverriddenTooltip();
-		Renderer *m_renderer;
 	private:
 		struct {
 			float w,h;

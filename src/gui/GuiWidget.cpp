@@ -1,5 +1,4 @@
 #include "Gui.h"
-#include "render/Renderer.h"
 
 namespace Gui {
 
@@ -13,7 +12,6 @@ Widget::Widget()
 	m_tooltipWidget = 0;
 	m_shortcut.sym = SDLK_UNKNOWN;
 	m_shortcut.mod = KMOD_NONE;
-	m_renderer = 0;
 }
 
 bool Widget::IsVisible() const
@@ -175,50 +173,6 @@ Widget::~Widget()
 	}
 	Screen::RemoveShortcutWidget(this);
 	m_tooltipTimerConnection.disconnect();
-}
-
-Renderer *Widget::GetRenderer()
-{
-	// XXX this is horrible but it is late and I am tired
-	if (!m_renderer && GetParent())
-		SetRenderer(GetParent()->GetRenderer());
-	//assert(m_renderer != 0);
-	return m_renderer;
-}
-
-void Widget::FillRect(float x, float y, float w, float h, const Color &c)
-{
-	// XXX use renderer
-	glColor4f(c.r, c.g, c.b, c.a);
-	glBegin(GL_QUADS);
-		glVertex2f(x,   y);
-		glVertex2f(x,   y+h);
-		glVertex2f(x+w, y+h);
-		glVertex2f(x+w, y);
-	glEnd();
-	glColor4f(1.f, 1.f, 1.f, 1.f);
-}
-
-void Widget::FillRect(const Rect &r, const Color &c)
-{
-	FillRect(r.x, r.y, r.w, r.h, c);
-}
-
-void Widget::DrawRect(float x, float y, float w, float h, const Color &c)
-{
-	glColor4f(c.r, c.g, c.b, c.a);
-	glBegin(GL_LINE_LOOP);
-		glVertex2f(x,   y);
-		glVertex2f(x,   y+h);
-		glVertex2f(x+w, y+h);
-		glVertex2f(x+w, y);
-	glEnd();
-	glColor4f(1.f, 1.f, 1.f, 1.f);
-}
-
-void Widget::DrawRect(const Rect &r, const Color &c)
-{
-	DrawRect(r.x, r.y, r.w, r.h, c);
 }
 
 }

@@ -333,7 +333,7 @@ void Viewer::PickModel(const std::string &initial_name, const std::string &initi
 		glClearColor(0,0,0,0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		Render::PostProcess();
-		Gui::Draw(renderer);
+		Gui::Draw();
 		glError();
 		Render::SwapBuffers();
 	}
@@ -639,7 +639,7 @@ void Viewer::MainLoop()
 		}
 		
 		Render::PostProcess();
-		Gui::Draw(renderer);
+		Gui::Draw();
 		
 		glError();
 		Render::SwapBuffers();

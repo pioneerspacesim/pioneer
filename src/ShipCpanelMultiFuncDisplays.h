@@ -7,6 +7,7 @@
 #include "Object.h"
 
 class Body;
+class Renderer;
 
 enum multifuncfunc_t {
 	MFUNC_SCANNER,
@@ -67,6 +68,8 @@ public:
 
 	void Save(Serializer::Writer &wr);
 
+	void SetRenderer(Renderer *r) { m_renderer = r; }
+
 private:
 	void InitObject();
 
@@ -90,6 +93,8 @@ private:
 
 	float m_x;
 	float m_y;
+
+	Renderer *m_renderer;
 };
 
 class UseEquipWidget: public IMultiFunc, public Gui::Fixed {

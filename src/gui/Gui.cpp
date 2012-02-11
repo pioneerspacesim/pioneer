@@ -68,7 +68,7 @@ sigc::connection AddTimer(Uint32 ms, sigc::slot<void> slot)
 	return con;
 }
 
-void Draw(Renderer *r)
+void Draw()
 {
 	Uint32 t = SDL_GetTicks();
 	// also abused like an update() function...
@@ -83,7 +83,7 @@ void Draw(Renderer *r)
 	}
 //	ExpireTimers(t);
 
-	Screen::Draw(r);
+	Screen::Draw();
 }
 
 void Init(int screen_width, int screen_height, int ui_width, int ui_height)
@@ -122,7 +122,7 @@ void MainLoopIteration()
 	SDL_ShowCursor(1);
 	SDL_WM_GrabInput(SDL_GRAB_OFF);
 	Render::PostProcess();
-	Gui::Draw(0);
+	Gui::Draw();
 	Render::SwapBuffers();
 }
 

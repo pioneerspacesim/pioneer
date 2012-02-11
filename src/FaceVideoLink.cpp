@@ -148,7 +148,13 @@ void FaceVideoLink::Draw() {
 	Uint32 now = SDL_GetTicks();
 
 	if (now - m_created < 1500) {
-		FillRect(Rect(0.f, 0.f, size[0], size[1]), Color(0.f));
+		glBegin(GL_QUADS);
+			glColor3f(0,0,0);
+			glVertex2f(0,0);
+			glVertex2f(0,size[1]);
+			glVertex2f(size[0],size[1]);
+			glVertex2f(size[0],0);
+		glEnd();
 
 		m_message->SetText(Lang::VID_CONNECTING);
 		DrawMessage();
@@ -157,7 +163,6 @@ void FaceVideoLink::Draw() {
 	}
 
 	// XXX fixed function combiner
-	assert(m_renderer != 0);
 	glEnable(GL_TEXTURE_2D);
 	m_texture->Bind();
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
@@ -177,7 +182,7 @@ void FaceVideoLink::Draw() {
 	Material mat;
 	mat.texture0 = m_texture;
 	mat.unlit = true;
-	m_renderer->DrawTriangles2D(&va, &mat, TRIANGLE_STRIP);
+	Pi::renderer->DrawTriangles2D(&va, &mat, TRIANGLE_STRIP);
 
 	glPushMatrix();
 	glTranslatef(0.f, size[1]- size[1] * 0.16f, 0.f);
