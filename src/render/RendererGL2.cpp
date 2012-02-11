@@ -5,38 +5,24 @@
 #include "Texture.h"
 #include "VertexArray.h"
 
-template<> void Buffer<LineVertex>::Draw(GLenum pt, int start, int count) {
-	glVertexPointer(3, GL_FLOAT, sizeof(LineVertex), reinterpret_cast<const GLvoid *>(offsetof(LineVertex, position)));
-	glColorPointer(4, GL_FLOAT, sizeof(LineVertex), reinterpret_cast<const GLvoid *>(offsetof(LineVertex, color)));
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glDrawArrays(pt, start, count);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-}
-
 Render::Shader *simpleTextured;
 Render::Shader *flatProg;
-Buffer<LineVertex> *lineBuffer;
 
 RendererGL2::RendererGL2(int w, int h) :
 	RendererLegacy(w, h)
 {
 	simpleTextured = new Render::Shader("simpleTextured");
 	flatProg = new Render::Shader("flat");
-	lineBuffer = new Buffer<LineVertex>(1000);
 }
 
 RendererGL2::~RendererGL2()
 {
 	delete simpleTextured;
 	delete flatProg;
-	delete lineBuffer;
 }
 
 bool RendererGL2::BeginFrame()
 {
-	lineBuffer->Reset();
 	Render::PrepareFrame();
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -64,11 +50,13 @@ bool RendererGL2::DrawLines(int count, const LineVertex *v, LineType t)
 	if (count < 2 || !v) return false;
 
 	Render::State::UseProgram(Render::simpleShader);
-	lineBuffer->Bind();
-	//since it's drawn immediately, there isn't much point in having the offset
-	int offset = lineBuffer->BufferData(count, v);
-	lineBuffer->Draw(t, offset, count);
-	lineBuffer->Unbind();
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glVertexPointer(3, GL_FLOAT, sizeof(LineVertex), &v[0].position);
+	glColorPointer(4, GL_FLOAT, sizeof(LineVertex), &v[0].color);
+	glDrawArrays(t, 0, count);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
 	Render::State::UseProgram(0);
 
 	return true;

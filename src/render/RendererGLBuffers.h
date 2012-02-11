@@ -26,52 +26,6 @@ struct ModelVertex /*: public GLVertex*/ {
 	vector2f uv;
 };
 
-//under restructuring
-template <typename T>
-class Buffer {
-private:
-	GLuint m_buf;
-	int m_numverts;
-	int m_size;
-	unsigned int m_target;
-
-public:
-	Buffer(int size) : m_numverts(0), m_size(size) {
-		glGenBuffers(1, &m_buf);
-		m_target = GL_ARRAY_BUFFER;
-		Bind();
-		// create data storage
-		glBufferData(m_target, sizeof(T)*size, 0, GL_STREAM_DRAW);
-		Unbind();
-	}
-
-	virtual ~Buffer() {
-		glDeleteBuffers(1, &m_buf);
-	}
-
-	virtual void Bind() {
-		glBindBuffer(m_target, m_buf);
-	}
-
-	virtual void Unbind() {
-		glBindBuffer(m_target, 0);
-	}
-
-	void Reset() {
-		m_numverts = 0;
-	}
-
-	int BufferData(int count, const T *v) {
-		assert(m_numverts += count <= m_size);
-		glBufferSubData(m_target, m_numverts*sizeof(T), count*sizeof(T), v);
-		int start = m_numverts;
-		m_numverts += count;
-		return start;
-	}
-
-	virtual void Draw(GLenum pt, int start, int count) { }
-};
-
 //array or element array buffer base class
 //(think "vertex buffer" & "index buffer")
 class BufferBase {

@@ -553,17 +553,17 @@ void RendererLegacy::EnableClientStates(const VertexArray *v)
 
 	if (v->HasAttrib(ATTRIB_DIFFUSE)) {
 		m_clientStates.push_back(GL_COLOR_ARRAY);
-		glEnable(GL_COLOR_ARRAY);
+		glEnableClientState(GL_COLOR_ARRAY);
 		glColorPointer(4, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));
 	}
 	if (v->HasAttrib(ATTRIB_NORMAL)) {
 		m_clientStates.push_back(GL_NORMAL_ARRAY);
-		glEnable(GL_NORMAL_ARRAY);
+		glEnableClientState(GL_NORMAL_ARRAY);
 		glNormalPointer(GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->normal[0]));
 	}
 	if (v->HasAttrib(ATTRIB_UV0)) {
 		m_clientStates.push_back(GL_TEXTURE_COORD_ARRAY);
-		glEnable(GL_TEXTURE_COORD_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glTexCoordPointer(2, GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
 	}
 }
