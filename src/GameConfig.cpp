@@ -5,7 +5,6 @@ GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
 {
 	// set defaults
 	(*this)["Lang"] = "English";
-	(*this)["EnableHDR"] = "0";
 	(*this)["DisableShaders"] = "0";
 	(*this)["DisableSound"] = "0";
 	(*this)["StartFullscreen"] = "0";

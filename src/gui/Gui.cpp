@@ -102,7 +102,6 @@ void Uninit()
 
 void MainLoopIteration()
 {
-	Render::PrepareFrame();
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glMatrixMode(GL_MODELVIEW);
@@ -121,7 +120,6 @@ void MainLoopIteration()
 
 	SDL_ShowCursor(1);
 	SDL_WM_GrabInput(SDL_GRAB_OFF);
-	Render::PostProcess();
 	Gui::Draw();
 	Render::SwapBuffers();
 }

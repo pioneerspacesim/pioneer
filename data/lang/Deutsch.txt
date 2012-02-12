@@ -215,8 +215,6 @@ OTHER_GRAPHICS_SETTINGS
     Weitere Grafikeinstellungen
 USE_SHADERS
     Pixel-Shader aktivieren
-USE_HDR
-    HDR-Beleuchtung aktivieren
 SOUND_SETTINGS
     Sound-Einstellungen
 VOL_MASTER
