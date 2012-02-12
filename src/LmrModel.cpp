@@ -43,8 +43,8 @@ namespace ShipThruster {
 		vector3f pos;
 		float u;
 		float v;
-		Vertex(const vector3f &v, float _u, float _v) :
-			pos(v), u(_u), v(_v) { }
+		Vertex(const vector3f &_pos, float _u, float _v) :
+			pos(_pos), u(_u), v(_v) { }
 	};
 	static Texture *thrusTex;
 	static Texture *glowTex;
@@ -111,12 +111,12 @@ namespace ShipThruster {
 
 	struct Thruster
 	{
-		Thruster() : pos(0.0), dir(0.0), power(0) {}	// zero this shit to stop denormal-copying on resize
+		Thruster() : m_pos(0.0), m_dir(0.0), m_power(0) {}	// zero this shit to stop denormal-copying on resize
 		// cannot be used as an angular thruster
-		bool linear_only;
-		vector3f pos;
-		vector3f dir;
-		float power;
+		bool m_linear_only;
+		vector3f m_pos;
+		vector3f m_dir;
+		float m_power;
 		void Render(const RenderState *rstate, const LmrObjParams *params);
 	};
 
@@ -130,11 +130,11 @@ namespace ShipThruster {
 					vector3f(rstate->subTransform[4], rstate->subTransform[5], rstate->subTransform[6]),
 					vector3f(rstate->subTransform[8], rstate->subTransform[9], rstate->subTransform[10]));
 
-		vector3f start, end, dir = this->dir;
-		start = this->pos * scale;
+		vector3f start, end, dir = m_dir;
+		start = m_pos * scale;
 		float power = -dir.Dot(invSubModelMat * vector3f(params->linthrust));
 
-		if (!this->linear_only) {
+		if (!m_linear_only) {
 			vector3f angdir, cpos;
 			const vector3f at = invSubModelMat * vector3f(params->angthrust);
 			cpos = compos + start;
@@ -151,8 +151,8 @@ namespace ShipThruster {
 
 		if (power <= 0.001f) return;
 		power *= scale;
-		float width = sqrt(power)*this->power*0.6f;
-		float len = power*this->power;
+		float width = sqrt(power)*m_power*0.6f;
+		float len = power*m_power;
 		end = dir * len;
 		end += start;
 
@@ -199,7 +199,7 @@ namespace ShipThruster {
 		glPopMatrix ();
 
 		// linear thrusters get a secondary glow billboard
-		if (linear_only) {
+		if (m_linear_only) {
 			glowTex->Bind();
 			glow = Clamp(viewdir.Dot(cdir), 0.f, 1.f);
 			color.a = pow(glow, 2.f);
@@ -537,10 +537,10 @@ public:
 	void PushThruster(const vector3f &pos, const vector3f &dir, const float power, bool linear_only) {
 		unsigned int i = m_thrusters.size();
 		m_thrusters.resize(i+1);
-		m_thrusters[i].pos = pos;
-		m_thrusters[i].dir = dir;
-		m_thrusters[i].power = power;
-		m_thrusters[i].linear_only = linear_only;
+		m_thrusters[i].m_pos = pos;
+		m_thrusters[i].m_dir = dir;
+		m_thrusters[i].m_power = power;
+		m_thrusters[i].m_linear_only = linear_only;
 	}
 	int PushVertex(const vector3f &pos, const vector3f &normal) {
 		vector3f tex = curTexMatrix * pos;
