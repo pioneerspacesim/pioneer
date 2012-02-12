@@ -219,7 +219,7 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	vector3f dir = vector3f(_dir).Normalized();
 
 	Color color = Equip::lasers[m_type].color;
-	float base_alpha = 1.0f - m_age/Equip::lasers[m_type].lifespan;
+	float base_alpha = sqrt(1.0f - m_age/Equip::lasers[m_type].lifespan);
 	float size = Equip::lasers[m_type].psize * base_alpha;
 
 	vector3f v1, v2;
