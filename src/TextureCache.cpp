@@ -22,6 +22,18 @@ ModelTexture *TextureCache::GetModelTexture(const std::string &filename, bool pr
 	return t;
 }
 
+BillboardTexture *TextureCache::GetBillboardTexture(const std::string &filename)
+{
+	TextureCacheMap::iterator i = m_billboardTextureCache.find(filename);
+	if (i != m_billboardTextureCache.end())
+		return static_cast<BillboardTexture*>((*i).second);
+
+	BillboardTexture *t = new BillboardTexture(filename);
+	m_billboardTextureCache.insert(std::make_pair(filename, t));
+
+	return t;
+}
+
 UITexture *TextureCache::GetUITexture(const std::string &filename)
 {
 	TextureCacheMap::iterator i = m_uiTextureCache.find(filename);

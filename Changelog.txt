@@ -1,6 +1,7 @@
 Alpha 20
 
    * New features
+     * New thruster graphics (#945)
      * Hungarian translation (#947, #894)
 
    * Minor changes and tweaks
