@@ -219,7 +219,7 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	vector3f dir = vector3f(_dir).Normalized();
 
 	Color color = Equip::lasers[m_type].color;
-	float base_alpha = 1.0f - m_age/Equip::lasers[m_type].lifespan;
+	float base_alpha = sqrt(1.0f - m_age/Equip::lasers[m_type].lifespan);
 	float size = Equip::lasers[m_type].psize * base_alpha;
 
 	vector3f v1, v2;
@@ -265,19 +265,17 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &m_verts[0].u);
 	const int flare_size = 4*6;
 	glDrawArrays(GL_TRIANGLES, 0, flare_size);
-	m_sideTex->Unbind();
 
 	//fade out glow quads when facing nearly edge on
 	color.a = base_alpha * Clamp(powf(fabs(dir.Dot(cdir)), size*0.5f), 0.f, 1.f);
 
 	m_glowTex->Bind();
-	Render::State::UseProgram(m_prog);
 	m_prog->SetUniform("color", color);
 	glColor4f(color.r, color.g, color.b, color.a);
 	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_verts[0].pos);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &m_verts[0].u);
 	glDrawArrays(GL_TRIANGLES, flare_size, 3*6);
-	m_sideTex->Unbind();
+	m_glowTex->Unbind();
 
 	glPopMatrix ();
 	glDisable(GL_TEXTURE_2D);
