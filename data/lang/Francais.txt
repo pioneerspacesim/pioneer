@@ -218,8 +218,6 @@ OTHER_GRAPHICS_SETTINGS
     Autres options graphiques
 USE_SHADERS
     Utiliser les shaders
-USE_HDR
-    Utiliser HDR (plutôt joli!)
 SOUND_SETTINGS
     Réglages Son
 VOL_MASTER

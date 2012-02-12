@@ -218,8 +218,6 @@ OTHER_GRAPHICS_SETTINGS
     Inne ustawienia graficzne
 USE_SHADERS
     Użyj cieniowania
-USE_HDR
-    Użyj HDR Lighting (fajnie wygląda)
 SOUND_SETTINGS
     Ustawienia dźwięku
 VOL_MASTER

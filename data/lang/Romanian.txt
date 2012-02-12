@@ -215,8 +215,6 @@ OTHER_GRAPHICS_SETTINGS
     Alte setări grafice
 USE_SHADERS
     Folosire shaderi
-USE_HDR
-    Folosire lumini HDR (arată super)
 SOUND_SETTINGS
     Setări sunet
 VOL_MASTER
