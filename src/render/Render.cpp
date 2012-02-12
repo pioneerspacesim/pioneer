@@ -91,16 +91,6 @@ void Uninit()
 	FreeLibs();
 }
 
-void PrepareFrame()
-{
-	//glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-}
-
-void PostProcess()
-{
-	//nothing to do
-}
-
 void SwapBuffers()
 {
 	SDL_GL_SwapBuffers();
