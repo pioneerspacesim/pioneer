@@ -29,7 +29,14 @@ void Texture::CreateFromArray(const void *data, unsigned int width, unsigned int
 	glGenTextures(1, &m_glTexture);
 	glBindTexture(m_target, m_glTexture);
 
-	SetWrapMode(m_wrapMode);
+	if (m_wrapMode == CLAMP) {
+		glTexParameteri(m_target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(m_target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	}
+	else {
+		glTexParameteri(m_target, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(m_target, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	}
 
 	if (m_filterMode == NEAREST) {
 		glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -67,19 +74,6 @@ void Texture::CreateFromArray(const void *data, unsigned int width, unsigned int
 
 	m_width = width;
 	m_height = height;
-}
-
-void Texture::SetWrapMode(WrapMode mode)
-{
-	m_wrapMode = mode;
-	if (m_wrapMode == CLAMP) {
-		glTexParameteri(m_target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(m_target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	}
-	else {
-		glTexParameteri(m_target, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(m_target, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	}
 }
 
 // RGBA and RGBpixel format for converting textures

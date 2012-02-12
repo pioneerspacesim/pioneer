@@ -139,8 +139,6 @@ private:
 	// textures should not be copied as they have shared GL state
 	Texture(const Texture &) : m_format(0,0,0) {}
 
-	void SetWrapMode(WrapMode mode);
-
 	void DrawQuadArray(const GLfloat *array);
 
 	GLenum m_target;
