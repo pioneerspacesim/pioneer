@@ -183,7 +183,7 @@ namespace ShipThruster {
 		vector3f viewdir = vector3f(-mv[2], -mv[6], -mv[10]).Normalized();
 		vector3f cdir(0.f, 0.f, -1.f);
 		//fade thruster out, when directly facing it
-		color.a = 1.0 - Clamp(powf(viewdir.Dot(cdir), len*2), 0.f, 1.f);
+		color.a = 1.0 - powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len*2);
 		thrusTex->Bind();
 		Render::State::UseProgram(thrusterProg);
 		thrusterProg->SetUniform("texture0", 0);
@@ -200,7 +200,7 @@ namespace ShipThruster {
 		// linear thrusters get a secondary glow billboard
 		if (m_linear_only) {
 			glowTex->Bind();
-			color.a = Clamp(powf(viewdir.Dot(cdir), len), 0.f, 1.f);
+			color.a = powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len);
 			thrusterProg->SetUniform("color", color);
 			glColor4f(color.r, color.g, color.b, color.a);
 			glPushMatrix();
