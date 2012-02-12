@@ -50,19 +50,14 @@ namespace ShipThruster {
 	static Texture *glowTex;
 	static std::vector<Vertex> verts;
 	static Render::Shader *thrusterProg;
-	static Color color(0.8, 0.5f, 1.f, 1.f);
+	//cool purple-ish
+	static Color color(0.7f, 0.6f, 1.f, 1.f);
 
-	static void Init() {
+	static void Init(TextureCache *tcache) {
 		thrusterProg = new Render::Shader("flat", "#define TEXTURE0 1\n");
 
-		thrusTex = s_textureCache->GetModelTexture(PIONEER_DATA_DIR"/textures/thruster.png");
-		thrusTex->Bind();
-		thrusTex->SetWrapMode(Texture::CLAMP);
-
-		glowTex = s_textureCache->GetModelTexture(PIONEER_DATA_DIR"/textures/halo.png");
-		glowTex->Bind();
-		thrusTex->SetWrapMode(Texture::CLAMP);
-		glowTex->Unbind();
+		thrusTex = tcache->GetBillboardTexture(PIONEER_DATA_DIR"/textures/thruster.png");
+		glowTex = tcache->GetBillboardTexture(PIONEER_DATA_DIR"/textures/halo.png");
 
 		//zero at thruster center
 		//+x down
@@ -220,7 +215,6 @@ namespace ShipThruster {
 			const vector3f rotv2 = rot * vector3f(sz, -sz, 0.0f);
 			const vector3f rotv3 = rot * vector3f(-sz, -sz, 0.0f);
 			const vector3f rotv4 = rot * vector3f(-sz, sz, 0.0f);
-
 
 			//this might seem a bit confusing, but:
 			//update glow billboard vertices so they face the camera
@@ -661,7 +655,7 @@ public:
 		curOp.type = OP_DRAW_BILLBOARDS;
 		curOp.billboards.start = m_vertices.size();
 		curOp.billboards.count = numPoints;
-		curOp.billboards.texture = s_textureCache->GetModelTexture(buf, true);
+		curOp.billboards.texture = s_textureCache->GetBillboardTexture(buf);
 		curOp.billboards.size = size;
 		curOp.billboards.col[0] = color.x;
 		curOp.billboards.col[1] = color.y;
@@ -810,7 +804,7 @@ private:
 			struct { int material_idx; } col;
 			struct { float amount; float pos[3]; float norm[3]; } zbias;
 			struct { LmrModel *model; float transform[16]; float scale; } callmodel;
-			struct { ModelTexture *texture; int start, count; float size; float col[4]; } billboards;
+			struct { BillboardTexture *texture; int start, count; float size; float col[4]; } billboards;
 			struct { bool local; } lighting_type;
 			struct { int num; float quadratic_attenuation; float pos[4], col[4]; } light;
 		};
@@ -906,7 +900,7 @@ public:
 					m_ops[i].elems.glowmap = s_textureCache->GetModelTexture(_fread_string(f));
 			}
 			else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
-				m_ops[i].billboards.texture = s_textureCache->GetModelTexture(_fread_string(f));
+				m_ops[i].billboards.texture = s_textureCache->GetBillboardTexture(_fread_string(f));
 			}
 		}
 	}
@@ -4430,7 +4424,7 @@ void LmrModelCompilerInit(TextureCache *textureCache)
 {
 	s_textureCache = textureCache;
 
-	ShipThruster::Init();
+	ShipThruster::Init(s_textureCache);
 
 	s_cacheDir = GetPiUserDir("model_cache");
 	_detect_model_changes();
