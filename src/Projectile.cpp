@@ -75,6 +75,11 @@ Projectile::Projectile(): Body()
 	}
 }
 
+Projectile::~Projectile()
+{
+	delete m_prog;
+}
+
 void Projectile::Save(Serializer::Writer &wr, Space *space)
 {
 	Body::Save(wr, space);
