@@ -254,7 +254,7 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 
 	//fade out side quads when facing nearly edge on
 	vector3f cdir(0.f, 0.f, 1.f);
-	color.a = base_alpha * (1.f - Clamp(pow(fabs(dir.Dot(cdir)), size*size), 0.f, 1.f));
+	color.a = base_alpha * (1.f - Clamp(powf(fabs(dir.Dot(cdir)), size*size), 0.f, 1.f));
 
 	m_sideTex->Bind();
 	Render::State::UseProgram(m_prog);
@@ -268,7 +268,7 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	m_sideTex->Unbind();
 
 	//fade out glow quads when facing nearly edge on
-	color.a = base_alpha * Clamp(pow(fabs(dir.Dot(cdir)), size*0.5f), 0.f, 1.f);
+	color.a = base_alpha * Clamp(powf(fabs(dir.Dot(cdir)), size*0.5f), 0.f, 1.f);
 
 	m_glowTex->Bind();
 	Render::State::UseProgram(m_prog);

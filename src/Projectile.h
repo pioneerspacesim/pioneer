@@ -5,6 +5,8 @@
 #include "EquipType.h"
 
 class Frame;
+class Texture;
+namespace Render { class Shader; }
 
 class Projectile: public Body {
 public:
@@ -41,8 +43,8 @@ private:
 		vector3f pos;
 		float u;
 		float v;
-		Vertex(const vector3f &v, float _u, float _v) :
-			pos(v), u(_u), v(_v) { }
+		Vertex(const vector3f &_pos, float _u, float _v) :
+			pos(_pos), u(_u), v(_v) { }
 	};
 	Texture *m_sideTex;
 	Texture *m_glowTex;
