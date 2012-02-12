@@ -327,31 +327,31 @@ const LaserType Equip::lasers[] = {
 		Color(0.0f, 0.0f, 0.0f, 0.0f),
 	},{		// 1mw pulse
 		8.0f, 1000.0f, 1000.0f, 0.25f, 10.0f, 0,
-		Color(1.0f, 0.0f, 0.0f, 1.0f),
+		Color(1.0f, 0.2f, 0.2f, 1.0f),
 	},{		// 1mw df pulse
 		8.0f, 1000.0f, 1000.0f, 0.25f, 10.0f, Equip::LASER_DUAL,
-		Color(1.0f, 0.0f, 0.0f, 1.0f),
+		Color(1.0f, 0.2f, 0.2f, 1.0f),
 	},{	// 2mw pulse
 		8.0f, 1000.0f, 2000.0f, 0.25f, 10.0f, 0,
-		Color(1.0f, 0.5f, 0.0f, 1.0f),
+		Color(1.0f, 0.5f, 0.2f, 1.0f),
 	},{	// 2mw rf pulse
 		8.0f, 1000.0f, 2000.0f, 0.13f, 10.0f, 0,
-		Color(1.0f, 0.5f, 0.0f, 1.0f),
+		Color(1.0f, 0.5f, 0.2f, 1.0f),
 	},{		// 4mw pulse
 		8.0f, 1000.0f, 4000.0f, 0.25f, 10.0f, 0, 
-		Color(1.0f, 1.0f, 0.0f, 1.0f),
+		Color(1.0f, 1.0f, 0.2f, 1.0f),
 	},{		// 10mw pulse
 		8.0f, 1000.0f, 10000.0f, 0.25f, 10.0f, 0,
-		Color(0.0f, 1.0f, 0.0f, 1.0f),
+		Color(0.2f, 1.0f, 0.2f, 1.0f),
 	},{		// 20mw pulse
 		8.0f, 1000.0f, 20000.0f, 0.25f, 10.0f, 0,
-		Color(0.0f, 0.0f, 1.0f, 1.0f),
+		Color(0.1f, 0.2f, 1.0f, 1.0f),
 	},{		// 17mw mining
 		8.0f, 1000.0f, 17000.0f, 2.0f, 10.0f, Equip::LASER_MINING,
-		Color(0.0f, 0.3f, 1.0f, 1.0f),
+		Color(0.2f, 0.5f, 1.0f, 1.0f),
 	},{		// small plasma accel
 		8.0f, 1000.0f, 50000.0f, 0.3f, 14.0f, 0,
-		Color(0.0f, 1.0f, 1.0f, 1.0f),
+		Color(0.2f, 1.0f, 1.0f, 1.0f),
 	},{		// large plasma accel
 		8.0f, 1000.0f, 100000.0f, 0.3f, 18.0f, 0,
 		Color(0.5f, 1.0f, 1.0f, 1.0f),
