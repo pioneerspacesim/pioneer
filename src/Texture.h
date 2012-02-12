@@ -139,6 +139,8 @@ private:
 	// textures should not be copied as they have shared GL state
 	Texture(const Texture &) : m_format(0,0,0) {}
 
+	void SetWrapMode(WrapMode mode);
+
 	void DrawQuadArray(const GLfloat *array);
 
 	GLenum m_target;
@@ -176,6 +178,18 @@ public:
 private:
 	void Load();
 
+	std::string m_filename;
+};
+
+// a lot like model texture, but meant for billboards, particle effects, sprites
+// they are clamped and cannot be delay-loaded (they are expected to be rather small anyway)
+class BillboardTexture : public Texture {
+public:
+	BillboardTexture(const std::string &filename);
+
+	//needed for LMR caching
+	const std::string &GetFilename() const { return m_filename; }
+private:
 	std::string m_filename;
 };
 

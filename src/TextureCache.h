@@ -10,11 +10,13 @@ public:
 	~TextureCache();
 
 	ModelTexture *GetModelTexture(const std::string &filename, bool preload = false);
+	BillboardTexture *GetBillboardTexture(const std::string &filename);
 	UITexture *GetUITexture(const std::string &filename);
 
 private:
 	typedef std::map<std::string,Texture*> TextureCacheMap;
 	TextureCacheMap m_modelTextureCache;
+	TextureCacheMap m_billboardTextureCache;
 	TextureCacheMap m_uiTextureCache;
 };
 
