@@ -187,6 +187,12 @@ bool RendererLegacy::SetDepthWrite(bool enabled)
 	return true;
 }
 
+bool RendererLegacy::SetWireFrameMode(bool enabled)
+{
+	glPolygonMode(GL_FRONT_AND_BACK, enabled ? GL_LINE : GL_FILL);
+	return true;
+}
+
 bool RendererLegacy::SetLights(int numlights, const Light *lights)
 {
 	if (numlights < 1) return false;
