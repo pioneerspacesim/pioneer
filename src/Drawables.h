@@ -5,6 +5,7 @@
 #include "render/VertexArray.h"
 #include "render/Renderer.h"
 
+namespace Drawables {
 // A thing that can draw itself using renderer
 // (circles, disks, polylines etc)
 class Drawable {
@@ -27,5 +28,23 @@ private:
 	std::vector<vector3f> m_verts;
 	Color m_color;
 };
+
+//A three dimensional line between two points
+class Line3D : public Drawable {
+public:
+	Line3D();
+	void SetStart(const vector3f &);
+	void SetEnd(const vector3f &);
+	void SetColor(const Color &);
+	virtual void Draw(Renderer *r);
+private:
+	vector3f m_start;
+	vector3f m_end;
+	Color    m_startColor;
+	Color    m_endColor;
+	float    m_width;
+};
+
+}
 
 #endif

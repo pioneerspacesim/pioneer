@@ -621,7 +621,7 @@ static void PollEvents()
 void Viewer::VisualizeBoundingRadius(matrix4x4f& trans, double radius)
 {
 	renderer->SetTransform(trans);
-	Circle circ(radius, Color(0.f, 0.f, 1.f, 1.f));
+	Drawables::Circle circ(radius, Color(0.f, 0.f, 1.f, 1.f));
 	circ.Draw(renderer);
 }
 

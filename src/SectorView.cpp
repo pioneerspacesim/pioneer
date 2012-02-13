@@ -573,7 +573,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		if (current == m_selected) {
 			m_jumpLine.SetStart(vector3f(0.f, 0.f, 0.f));
 			m_jumpLine.SetEnd(playerAbsPos - sysAbsPos);
-			m_jumpLine.Draw();
+			m_jumpLine.Draw(m_renderer);
 		}
 
 		Material mat;
@@ -899,52 +899,4 @@ void SectorView::ShrinkCache()
 			iter++;
 		}
 	}
-}
-
-SectorView::Line3D::Line3D()
-{
-	m_start      = vector3f(0.f, 0.f, 0.f);
-	m_end        = vector3f(0.f, 0.f, 0.f);
-	m_startColor = Color(0.5f, 0.5f, 0.5f, 0.5f);
-	m_endColor   = m_startColor;
-	m_width      = 3.f;
-}
-
-void SectorView::Line3D::SetStart(const vector3f &s)
-{
-	m_start = s;
-}
-
-void SectorView::Line3D::SetEnd(const vector3f &e)
-{
-	m_end = e;
-}
-
-void SectorView::Line3D::SetColor(const Color &c)
-{
-	m_startColor  = c;
-	m_endColor    = m_startColor;
-	m_endColor   *= 0.5;
-}
-
-void SectorView::Line3D::Draw()
-{
-	// XXX would be nicer to draw this as a textured triangle strip
-	glLineWidth(m_width);
-	const GLfloat verts[6] = {
-		m_start.x, m_start.y, m_start.z,
-		m_end.x,   m_end.y,   m_end.z
-	};
-	const GLfloat col[8] = {
-		m_startColor.r, m_startColor.g, m_startColor.b, m_startColor.a,
-		m_endColor.r,   m_endColor.g,   m_endColor.b,   m_endColor.a
-	};
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, verts);
-	glColorPointer(4, GL_FLOAT, 0, col);
-	glDrawArrays(GL_LINES, 0, 2);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-	glLineWidth(1.f);
 }
