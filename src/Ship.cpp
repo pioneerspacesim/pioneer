@@ -994,45 +994,6 @@ bool Ship::SetWheelState(bool down)
 	return true;
 }
 
-#if 0
-bool Ship::IsFiringLasers()
-{
-	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
-		if (m_gunState[i]) return true;
-	}
-	return false;
-}
-
-/* Assumed to be at model coords */
-void Ship::RenderLaserfire()
-{
-	const ShipType &stype = GetShipType();
-	glDisable(GL_LIGHTING);
-	
-	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
-		if (!m_gunState[i]) continue;
-		glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
-		switch (m_equipment.Get(Equip::SLOT_LASER, i)) {
-			case Equip::LASER_2MW_BEAM:
-				glColor3f(1,.5,0); break;
-			case Equip::LASER_4MW_BEAM:
-				glColor3f(1,1,0); break;
-			default:
-			case Equip::LASER_1MW_BEAM:
-				glColor3f(1,0,0); break;
-		}
-		glLineWidth(2.0f);
-		glBegin(GL_LINES);
-		vector3f pos = stype.gunMount[i].pos;
-		glVertex3f(pos.x, pos.y, pos.z);
-		glVertex3fv(&((10000)*stype.gunMount[i].dir)[0]);
-		glEnd();
-		glPopAttrib();
-	}
-	glEnable(GL_LIGHTING);
-}
-#endif /* 0 */
-
 void Ship::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if ((!IsEnabled()) && !m_flightState) return;
@@ -1094,15 +1055,6 @@ void Ship::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x
 		tex->Bind();
 		Render::PutPointSprites(100, v, 50.0f, c);
 	}
-
-#if 0
-	if (IsFiringLasers()) {
-		glPushMatrix();
-		TransformToModelCoords(camFrame);
-		RenderLaserfire();
-		glPopMatrix();
-	}
-#endif /* 0 */
 }
 
 bool Ship::Jettison(Equip::Type t)
