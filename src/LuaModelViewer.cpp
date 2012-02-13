@@ -4,12 +4,14 @@
 #include "LmrModel.h"
 #include "ShipType.h"
 #include "EquipType.h"
-#include "render/Render.h"
-#include "render/Renderer.h"
 #include "Ship.h" // for the flight state and ship animation enums
 #include "SpaceStation.h" // for the space station animation enums
 #include "TextureCache.h"
 #include "Drawables.h"
+#include "render/Material.h"
+#include "render/Render.h"
+#include "render/Renderer.h"
+#include "render/VertexArray.h"
 
 static Renderer *renderer;
 
@@ -425,27 +427,24 @@ void Viewer::SetSbreParams()
 
 static void render_coll_mesh(const LmrCollMesh *m)
 {
-	glDisable(GL_LIGHTING);
-	glColor3f(1,0,1);
+	Material mat;
+	mat.unlit = true;
+	mat.diffuse = Color(1.f, 0.f, 1.f);
 	glDepthRange(0.0+g_zbias,1.0);
-	glBegin(GL_TRIANGLES);
+	VertexArray va(ATTRIB_POSITION, m->ni * 3);
 	for (int i=0; i<m->ni; i+=3) {
-		glVertex3fv(&m->pVertex[3*m->pIndex[i]]);
-		glVertex3fv(&m->pVertex[3*m->pIndex[i+1]]);
-		glVertex3fv(&m->pVertex[3*m->pIndex[i+2]]);
+		va.Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i]]));
+		va.Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i+1]]));
+		va.Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i+2]]));
 	}
-	glEnd();
-	glColor3f(1,1,1);
+	renderer->DrawTriangles(&va, &mat);
+
+	mat.diffuse = Color(1.f);
 	glDepthRange(0,1.0f-g_zbias);
-	for (int i=0; i<m->ni; i+=3) {
-		glBegin(GL_LINE_LOOP);
-		glVertex3fv(&m->pVertex[3*m->pIndex[i]]);
-		glVertex3fv(&m->pVertex[3*m->pIndex[i+1]]);
-		glVertex3fv(&m->pVertex[3*m->pIndex[i+2]]);
-		glEnd();
-	}
+	renderer->SetWireFrameMode(true);
+	renderer->DrawTriangles(&va, &mat);
+	renderer->SetWireFrameMode(false);
 	glDepthRange(0,1);
-	glEnable(GL_LIGHTING);
 }
 
 double camera_zoom = 1.0;
