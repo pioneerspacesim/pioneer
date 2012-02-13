@@ -6,6 +6,7 @@ Alpha 20
 
    * Minor changes and tweaks
      * LED effect on timeaccel buttons (#946, #153)
+     * Render projectiles out to 20km from the camera (#957)
 
    * Fixes
      * Updated zlib and libpng DLLs for MSVC to fix screenshot crash (#942, #645)

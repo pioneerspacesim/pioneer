@@ -175,13 +175,13 @@ void Camera::Draw()
 
 		// draw spikes for far objects
 		double screenrad = 500 * rad / attrs->camDist;      // approximate pixel size
-		if (!attrs->body->IsType(Object::STAR) && screenrad < 2) {
-			if (!attrs->body->IsType(Object::PLANET)) continue;
+		if (attrs->body->IsType(Object::PLANET) && screenrad < 2) {
 			// absolute bullshit
 			double spikerad = (7 + 1.5*log10(screenrad)) * rad / screenrad;
 			DrawSpike(spikerad, attrs->viewCoords, attrs->viewTransform);
 		}
-		else
+		else if (screenrad >= 2 || attrs->body->IsType(Object::STAR) ||
+					(attrs->body->IsType(Object::PROJECTILE) && screenrad > 0.25))
 			attrs->body->Render(attrs->viewCoords, attrs->viewTransform);
 	}
 
