@@ -25,10 +25,11 @@ typedef unsigned int AttributeSet;
  * This is not optimized for high performance drawing, but okay for simple
  * cases.
  */
-struct VertexArray {
+class VertexArray {
+public:
 	//specify attributes to be used, additionally reserve space for vertices
 	VertexArray(AttributeSet attribs, int size=0);
-	~VertexArray();
+	virtual ~VertexArray();
 
 	//check presence of an attribute
 	virtual bool HasAttrib(VertexAttrib v) const;
