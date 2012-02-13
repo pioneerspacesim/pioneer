@@ -257,7 +257,7 @@ void Projectile::Render(Renderer *renderer, const vector3d &viewCoords, const ma
 	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(cdir)), size*size));
 
 	m_sideTex->Bind();
-	Render::State::UseProgram(m_prog);
+	m_prog->Use();
 	m_prog->SetUniform("texture0", 0);
 	m_prog->SetUniform("color", color);
 	glColor4f(color.r, color.g, color.b, color.a);
@@ -286,6 +286,7 @@ void Projectile::Render(Renderer *renderer, const vector3d &viewCoords, const ma
 	glDisableClientState (GL_VERTEX_ARRAY);
 	glDisableClientState (GL_TEXTURE_COORD_ARRAY);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	m_prog->Unuse();
 }
 
 void Projectile::Add(Body *parent, Equip::Type type, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)

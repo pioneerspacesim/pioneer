@@ -91,6 +91,11 @@ namespace Render {
 			return glGetUniformLocation(m_program, name);
 		}
 
+		// Bind the program, returns false if the same program is already in use
+		bool Use();
+		// Unbind the program
+		void Unuse();
+
 		//uniform setters
 		void SetUniform(const char *name, int v) {
 			glUniform1i(GetLocation(name), v);
@@ -103,6 +108,8 @@ namespace Render {
 	private:
 		void PrintGLSLCompileError(const char* filename, GLuint obj);
 	};
+
+	extern Shader *m_currentShader;
 
 	void FreeLibs();
 }

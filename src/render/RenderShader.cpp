@@ -4,6 +4,7 @@ namespace Render {
 
 bool shadersEnabled;
 bool shadersAvailable;
+Shader *m_currentShader = 0;
 
 void Shader::PrintGLSLCompileError(const char *filename, GLuint obj)
 {
@@ -140,6 +141,22 @@ fail:
 
 	m_program = 0;
 	return false;
+}
+
+bool Shader::Use()
+{
+	if (!shadersEnabled || m_currentShader == this) return false;
+
+	glUseProgram(m_program);
+	set_invLogZfarPlus1(Render::State::m_invLogZfarPlus1);
+	m_currentShader = this;
+	return true;
+}
+
+void Shader::Unuse()
+{
+	glUseProgram(0);
+	m_currentShader = 0;
 }
 
 } /* namespace Render */

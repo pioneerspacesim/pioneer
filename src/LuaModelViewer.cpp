@@ -608,7 +608,6 @@ void Viewer::MainLoop()
 			vector3d up = vector3d(tran * vector3f(0.0,1.0,0.0));
 			raytraceCollMesh(vector3d(modelRot * g_campos), up, forward, m_space);
 		}
-		Render::State::UseProgram(0);
 		if (m_showBoundingRadius) {
 			matrix4x4f mo = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos);// * modelRot.InverseOf();
 			VisualizeBoundingRadius(mo, m_model->GetDrawClipRadius());

@@ -184,7 +184,7 @@ namespace ShipThruster {
 		//fade thruster out, when directly facing it
 		color.a = 1.0 - powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len*2);
 		thrusTex->Bind();
-		Render::State::UseProgram(thrusterProg);
+		thrusterProg->Use();
 		thrusterProg->SetUniform("texture0", 0);
 		thrusterProg->SetUniform("color", color);
 		glColor4f(color.r, color.g, color.b, color.a);
@@ -236,6 +236,7 @@ namespace ShipThruster {
 		}
 
 		color.a = 1.f;
+		thrusterProg->Unuse();
 	}
 }
 
@@ -283,10 +284,11 @@ void LmrNotifyScreenWidth(float width)
 
 int LmrModelGetStatsTris() { return s_numTrisRendered; }
 void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
-	
+
+//binds shader and sets lmr specific uniforms
 void UseProgram(LmrShader *shader, bool Textured = false, bool Glowmap = false) {
 	if (Render::AreShadersEnabled()) {
-		Render::State::UseProgram(shader);
+		shader->Use();
 		if (Textured) shader->set_tex(0);
 		shader->set_usetex(Textured ? 1 : 0);
 		if (Glowmap) shader->set_texGlow(1);
@@ -531,7 +533,7 @@ public:
 		glEnable(GL_CULL_FACE);
 		glDisableClientState (GL_VERTEX_ARRAY);
 		glDisableClientState (GL_TEXTURE_COORD_ARRAY);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 	void PushThruster(const vector3f &pos, const vector3f &dir, const float power, bool linear_only) {
 		unsigned int i = m_thrusters.size();
@@ -1197,7 +1199,8 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	s_curBuf = 0;
 
 	Render::UnbindAllBuffers();
-	Render::State::UseProgram(0);
+	//XXX hack
+	s_sunlightShader[0]->Unuse();
 
 	glDisable(GL_NORMALIZE);
 	glDisable(GL_BLEND);

@@ -26,7 +26,6 @@ int State::m_numLights = 1;
 float State::m_znear = 10.0f;
 float State::m_zfar = 1e6f;
 float State::m_invLogZfarPlus1;
-Shader *State::m_currentShader = 0;
 
 void BindArrayBuffer(GLuint bo)
 {
@@ -149,7 +148,7 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 	if (AreShadersEnabled()) {
 		// this is a bit dumb since it doesn't care how many lights
 		// the scene has, and this is a constant...
-		State::UseProgram(billboardShader);
+		billboardShader->Use();
 		billboardShader->set_some_texture(0);
 	}
 
@@ -214,29 +213,7 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 	glDepthMask(GL_TRUE);
 	glEnable(GL_LIGHTING);
 	glDisable(GL_BLEND);
-	State::UseProgram(0);
-}
-
-bool State::UseProgram(Shader *shader)
-{
-	if (shadersEnabled) {
-		if (shader) {
-			if (m_currentShader != shader) {
-				m_currentShader = shader;
-				glUseProgram(shader->GetProgram());
-				shader->set_invLogZfarPlus1(m_invLogZfarPlus1);
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			m_currentShader = 0;
-			glUseProgram(0);
-			return true;
-		}
-	} else {
-		return false;
-	}
+	billboardShader->Unuse();
 }
 
 void PrintGLInfo() {

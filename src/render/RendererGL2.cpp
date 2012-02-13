@@ -56,7 +56,7 @@ bool RendererGL2::DrawLines(int count, const LineVertex *v, LineType t)
 {
 	if (count < 2 || !v) return false;
 
-	Render::State::UseProgram(Render::simpleShader);
+	Render::simpleShader->Use();
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(LineVertex), &v[0].position);
@@ -64,7 +64,7 @@ bool RendererGL2::DrawLines(int count, const LineVertex *v, LineType t)
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
-	Render::State::UseProgram(0);
+	Render::simpleShader->Unuse();
 
 	return true;
 }
@@ -73,13 +73,13 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineTy
 {
 	if (count < 2 || !v) return false;
 
-	Render::State::UseProgram(flatProg);
+	flatProg->Use();
 	flatProg->SetUniform("color", c);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	Render::State::UseProgram(0);
+	flatProg->Unuse();
 
 	return true;
 }
@@ -89,7 +89,7 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 	glPushAttrib(GL_ENABLE_BIT);
 
 	if (!mat) {
-		Render::State::UseProgram(Render::simpleShader);
+		Render::simpleShader->Use();
 		return;
 	}
 
@@ -106,7 +106,7 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 	}
 
 	assert(s);
-	Render::State::UseProgram(s);
+	s->Use();
 
 	//set parameters
 	if (flat)
@@ -134,5 +134,6 @@ void RendererGL2::UnApplyMaterial(const Material *mat)
 		}
 	}
 	// XXX won't be necessary
-	Render::State::UseProgram(0);
+	Render::m_currentShader = 0;
+	glUseProgram(0);
 }

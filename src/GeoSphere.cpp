@@ -1328,6 +1328,7 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 	
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
+	GeosphereShader *shader = 0;
 
 	if (Render::AreShadersEnabled()) {
 		Color atmosCol;
@@ -1340,8 +1341,8 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 		atmosDensity *= 0.00005;
 
 		if (atmosDensity > 0.0) {
-			GeosphereShader *shader = s_geosphereSkyShader[Render::State::GetNumLights()-1];
-			Render::State::UseProgram(shader);
+			shader = s_geosphereSkyShader[Render::State::GetNumLights()-1];
+			shader->Use();
 			shader->set_geosphereScale(scale);
 			shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
 			shader->set_geosphereAtmosFogDensity(atmosDensity);
@@ -1363,12 +1364,15 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 
 		if ((m_sbody->type == SBody::TYPE_BROWN_DWARF) || 
 			(m_sbody->type == SBody::TYPE_STAR_M)){
-			GeosphereShader *shader = s_geosphereDimStarShader[Render::State::GetNumLights()-1];
-			Render::State::UseProgram(shader);
-		} else if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) Render::State::UseProgram(s_geosphereStarShader);
-		else {
-			GeosphereShader *shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
-			Render::State::UseProgram(shader);
+			shader = s_geosphereDimStarShader[Render::State::GetNumLights()-1];
+			shader->Use();
+		}
+		else if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) {
+			shader = s_geosphereStarShader;
+			shader->Use();
+		} else {
+			shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
+			shader->Use();
 			shader->set_geosphereScale(scale);
 			shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
 			shader->set_geosphereAtmosFogDensity(atmosDensity);
@@ -1423,7 +1427,7 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 	for (int i=0; i<6; i++) {
 		m_patches[i]->Render(campos, frustum);
 	}
-	Render::State::UseProgram(0);
+	if (shader) shader->Unuse();
 
 	glDisable(GL_COLOR_MATERIAL);
 	renderer->SetAmbientColor(oldAmbient);

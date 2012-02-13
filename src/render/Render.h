@@ -15,11 +15,8 @@ namespace Render {
 	private:
 		static int m_numLights;
 		static float m_znear, m_zfar;
-		static float m_invLogZfarPlus1; // for z-hack
-		static Shader *m_currentShader;
 	public:
-		/** Returns true if the shader was changed, or false if shader == m_currentShader */
-		static bool UseProgram(Shader *shader);
+		static float m_invLogZfarPlus1; // for z-hack
 		static void SetNumLights(int n) { m_numLights = n; }
 		static void SetZnearZfar(float znear, float zfar) { m_znear = znear; m_zfar = zfar;
 			m_invLogZfarPlus1 = 1.0f / (log(m_zfar+1.0f)/log(2.0f));
