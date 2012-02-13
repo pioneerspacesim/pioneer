@@ -25,7 +25,6 @@ namespace Render {
 			m_invLogZfarPlus1 = 1.0f / (log(m_zfar+1.0f)/log(2.0f));
 		}
 		static int GetNumLights() { return m_numLights; }
-		static void GetZnearZfar(float &outZnear, float &outZfar) {outZnear = m_znear; outZfar = m_zfar; }
 	};
 
 	extern Shader *simpleShader;
@@ -37,8 +36,6 @@ namespace Render {
 	void Uninit();
 	bool AreShadersEnabled();
 	void ToggleShaders();
-
-	void GetNearFarClipPlane(float &znear, float &zfar);
 
 	void UnbindAllBuffers();
 	void BindArrayBuffer(GLuint bo);

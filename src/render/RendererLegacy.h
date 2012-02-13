@@ -11,6 +11,7 @@ public:
 	virtual ~RendererLegacy();
 
 	virtual const char* GetName() { return "Legacy renderer"; }
+	virtual bool GetNearFarRange(float &near, float &far) const;
 
 	virtual bool BeginFrame();
 	virtual bool EndFrame();
@@ -47,6 +48,8 @@ protected:
 	int m_numLights;
 	std::vector<GLenum> m_clientStates;
 	virtual bool BufferStaticMesh(StaticMesh *m);
+	float m_minZNear;
+	float m_maxZFar;
 };
 
 #endif

@@ -73,7 +73,7 @@ void ObjectViewerView::Draw3D()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	float znear, zfar;
-	Render::GetNearFarClipPlane(znear, zfar);
+	m_renderer->GetNearFarRange(znear, zfar);
 	float fracH = znear / Pi::GetScrAspect();
 	glFrustum(-znear, znear, -fracH, fracH, znear, zfar);
 

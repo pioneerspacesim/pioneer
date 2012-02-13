@@ -70,7 +70,7 @@ void TerrainBody::Render(Renderer *renderer, const vector3d &viewCoords, const m
 	double rad = m_sbody->GetRadius();
 
 	float znear, zfar;
-	Render::GetNearFarClipPlane(znear, zfar);
+	renderer->GetNearFarRange(znear, zfar);
 
 	double len = fpos.Length();
 	int shrink = 0;

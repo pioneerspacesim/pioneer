@@ -11,7 +11,7 @@ public:
 	static Frustum FromGLState();
 
 	// create for specified values
-	Frustum(float width, float height, float fovAng);
+	Frustum(float width, float height, float fovAng, float nearClip, float farClip);
 
 	// apply the saved frustum
 	void Enable();

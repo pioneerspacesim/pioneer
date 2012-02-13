@@ -12,6 +12,11 @@ Render::Shader *flatTextured;
 RendererGL2::RendererGL2(int w, int h) :
 	RendererLegacy(w, h)
 {
+	//the range is very large due to a "logarithmic z-buffer" trick used
+	//http://outerra.blogspot.com/2009/08/logarithmic-z-buffer.html
+	//http://www.gamedev.net/blog/73/entry-2006307-tip-of-the-day-logarithmic-zbuffer-artifacts-fix/
+	m_minZNear = 0.0001f;
+	m_maxZFar = 10000000.0f;
 	simpleTextured = new Render::Shader("simpleTextured");
 	flatProg = new Render::Shader("flat");
 	flatTextured = new Render::Shader("flat", "#define TEXTURE0 1\n");

@@ -16,12 +16,9 @@ Frustum Frustum::FromGLState()
 
 Frustum::Frustum() {}
 
-Frustum::Frustum(float width, float height, float fovAng)
+Frustum::Frustum(float width, float height, float fovAng, float znear, float zfar)
 {
 	float fov = tan(DEG2RAD(Clamp(fovAng, FOV_MIN, FOV_MAX) / 2.0f));
-
-	float znear, zfar;
-	GetNearFarClipPlane(znear, zfar);
 
 	float left = fov * znear;
 	float top = left * height/width;

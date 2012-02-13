@@ -10,13 +10,15 @@
 #include "render/Renderer.h"
 #include "render/VertexArray.h"
 
-Camera::Camera(const Body *body, float width, float height) :
+Camera::Camera(const Body *body, float width, float height, float znear, float zfar) :
 	m_body(body),
 	m_width(width),
 	m_height(height),
 	m_fovAng(Pi::config.Float("FOV")),
+	m_zNear(znear),
+	m_zFar(zfar),
 	m_shadersEnabled(Render::AreShadersEnabled()),
-	m_frustum(m_width, m_height, m_fovAng),
+	m_frustum(m_width, m_height, m_fovAng, znear, zfar),
 	m_pose(matrix4x4d::Identity()),
 	m_camFrame(0),
 	m_renderer(0)
@@ -91,7 +93,7 @@ void Camera::Update()
 	if (!m_body) return;
 
 	if (m_shadersEnabled != Render::AreShadersEnabled()) {
-		m_frustum = Render::Frustum(m_width, m_height, m_fovAng);
+		m_frustum = Render::Frustum(m_width, m_height, m_fovAng, m_zNear, m_zFar);
 		m_shadersEnabled = !m_shadersEnabled;
 	}
 
@@ -168,7 +170,8 @@ void Camera::Draw(Renderer *renderer)
 	Render::State::SetNumLights(num_lights);
 
 	float znear, zfar;
-	Render::GetNearFarClipPlane(znear, zfar);
+	m_renderer->GetNearFarRange(znear, zfar);
+	// XXX will be set by renderer->setperspectiveprojection
 	Render::State::SetZnearZfar(znear, zfar);
 
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
@@ -214,8 +217,9 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 
 	glPushMatrix();
 
+	// XXX store znear/zfar in the camera
 	float znear, zfar;
-	Render::GetNearFarClipPlane(znear, zfar);
+	m_renderer->GetNearFarRange(znear, zfar);
 	double newdist = znear + 0.5f * (zfar - znear);
 	double scale = newdist / viewCoords.Length();
 
