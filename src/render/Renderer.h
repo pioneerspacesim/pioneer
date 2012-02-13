@@ -52,13 +52,6 @@ enum BlendMode {
 	BLEND_ALPHA_PREMULT
 };
 
-struct LineVertex {
-	LineVertex() : position(0.f, 0.f, 0.f), color(0.f) { }
-	LineVertex(const vector3f& v, const Color &c) : position(v), color(c) { }
-	vector3f position;
-	Color color;
-};
-
 // Renderer base, functions return false if
 // failed/unsupported
 class Renderer
@@ -103,8 +96,9 @@ public:
 
 	//drawing functions
 	//2d drawing is generally understood to be for gui use (unlit, ortho projection)
-	virtual bool DrawLines(int vertCount, const LineVertex *vertices, LineType type=LINE_SINGLE)  { return false; }
-	//flat colour lines (implement multicolour drawing when you need it)
+	//per-vertex colour lines
+	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, LineType type=LINE_SINGLE) { return false; }
+	//flat colour lines
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, LineType type=LINE_SINGLE) { return false; }
 	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, LineType type=LINE_SINGLE) { return false; }
 	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, float pointSize=1.f) { return false; }

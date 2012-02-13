@@ -228,19 +228,18 @@ bool RendererLegacy::SetAmbientColor(const Color &c)
 	return true;
 }
 
-bool RendererLegacy::DrawLines(int count, const LineVertex *v, LineType type)
+bool RendererLegacy::DrawLines(int count, const vector3f *v, const Color *c, LineType t)
 {
 	if (count < 2) return false;
 
 	glPushAttrib(GL_LIGHTING_BIT);
 	glDisable(GL_LIGHTING);
 
-	//this is easy to upgrade to GL3/ES2 level
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3, GL_FLOAT, sizeof(LineVertex), &v[0].position);
-	glColorPointer(4, GL_FLOAT, sizeof(LineVertex), &v[0].color);
-	glDrawArrays(type, 0, count);
+	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
+	glColorPointer(4, GL_FLOAT, sizeof(Color), c);
+	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 
