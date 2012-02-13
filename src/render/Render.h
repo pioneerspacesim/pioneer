@@ -37,7 +37,6 @@ namespace Render {
 	void Uninit();
 	bool AreShadersEnabled();
 	void ToggleShaders();
-	void ToggleHDR();
 
 	void GetNearFarClipPlane(float &znear, float &zfar);
 
@@ -46,10 +45,6 @@ namespace Render {
 	void BindElementArrayBuffer(GLuint bo);
 	bool IsArrayBufferBound(GLuint bo);
 	bool IsElementArrayBufferBound(GLuint bo);
-	bool IsHDREnabled();
-	bool IsHDRAvailable();
-	void PrepareFrame();
-	void PostProcess();
 	void SwapBuffers();
 
 	void PutPointSprites(int num, vector3f v[], float size, const float modulationCol[4], int stride = sizeof(vector3f));

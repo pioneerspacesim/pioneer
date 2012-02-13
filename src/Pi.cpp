@@ -514,7 +514,6 @@ void Pi::Init()
 	draw_progress(0.2f);
 
 //	if (config.Int("DisableShaders")) Render::ToggleShaders();
-	if (config.Int("EnableHDR")) Render::ToggleHDR();
 
 	CustomSystem::Init();
 	draw_progress(0.4f);
@@ -700,9 +699,6 @@ void Pi::HandleEvents()
 							break;
 						case SDLK_s: // Toggle Shaders
 							//Render::ToggleShaders();
-							break;
-						case SDLK_h: // Toggle HDR
-							Render::ToggleHDR();
 							break;
 						case SDLK_PRINT:	   // print
 						case SDLK_KP_MULTIPLY: // screen
@@ -941,10 +937,8 @@ void Pi::TombStoneLoop()
 		Pi::renderer->BeginFrame();
 		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
 		Pi::renderer->SetTransform(matrix4x4f::Identity());
-
 		Pi::HandleEvents();
 		Pi::SetMouseGrab(false);
-
 		draw_tombstone(_time);
 		Pi::renderer->EndFrame();
 		Gui::Draw();
@@ -1154,13 +1148,10 @@ void Pi::Start()
 	game = 0;
 	while (!menuDone) {
 		Pi::HandleEvents();
-
 		Pi::renderer->BeginFrame();
 		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
 		Pi::renderer->SetTransform(matrix4x4f::Identity());
-
 		Pi::SetMouseGrab(false);
-
 		draw_intro(background, _time);
 		Pi::renderer->EndFrame();
 		Gui::Draw();
@@ -1262,6 +1253,7 @@ void Pi::MainLoop()
 		frame_stat++;
 
 		Pi::renderer->BeginFrame();
+
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		

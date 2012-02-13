@@ -218,8 +218,6 @@ OTHER_GRAPHICS_SETTINGS
     Altre opzioni grafiche
 USE_SHADERS
     Usa shaders
-USE_HDR
-    Usa illuminazione HDR
 SOUND_SETTINGS
     Preferenze sul suono
 VOL_MASTER

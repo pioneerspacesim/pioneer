@@ -30,7 +30,7 @@ Projectile::Projectile(): Body()
 	m_sideTex = Pi::textureCache->GetBillboardTexture(PIONEER_DATA_DIR "/textures/laser.png");
 	m_glowTex = Pi::textureCache->GetBillboardTexture(PIONEER_DATA_DIR "/textures/halo.png");
 
-	//zero at projectile center
+	//zero at projectile position
 	//+x down
 	//+y right
 	//+z forwards (or projectile direction)
@@ -173,7 +173,7 @@ static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const ve
 void Projectile::StaticUpdate(const float timeStep)
 {
 	CollisionContact c;
-	vector3d vel = m_dirVel * 0.1;
+	vector3d vel = (m_baseVel+m_dirVel) * timeStep;
 	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), vel.Normalized(), vel.Length(), &c, 0);
 	
 	if (c.userData1) {
@@ -215,7 +215,7 @@ void Projectile::StaticUpdate(const float timeStep)
 void Projectile::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	vector3d _from = viewTransform * GetInterpolatedPosition();
-	vector3d _to = viewTransform * (GetInterpolatedPosition() + 0.1*m_dirVel);
+	vector3d _to = viewTransform * (GetInterpolatedPosition() + m_dirVel);
 	vector3d _dir = _to - _from;
 	vector3f from(&_from.x);
 	vector3f dir = vector3f(_dir).Normalized();
@@ -225,7 +225,6 @@ void Projectile::Render(Renderer *renderer, const vector3d &viewCoords, const ma
 	float size = Equip::lasers[m_type].psize * base_alpha;
 
 	vector3f v1, v2;
-	matrix4x4f m2;
 	matrix4x4f m = matrix4x4f::Identity();
 	v1.x = dir.y; v1.y = dir.z; v1.z = dir.x;
 	v2 = v1.Cross(dir).Normalized();
@@ -233,11 +232,10 @@ void Projectile::Render(Renderer *renderer, const vector3d &viewCoords, const ma
 	m[0] = v1.x; m[4] = v2.x; m[8] = dir.x;
 	m[1] = v1.y; m[5] = v2.y; m[9] = dir.y;
 	m[2] = v1.z; m[6] = v2.z; m[10] = dir.z;
-	m2 = m;
 
-	m2[12] = from.x;
-	m2[13] = from.y;
-	m2[14] = from.z;
+	m[12] = from.x;
+	m[13] = from.y;
+	m[14] = from.z;
 
 	glDisable(GL_LIGHTING);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
@@ -250,13 +248,13 @@ void Projectile::Render(Renderer *renderer, const vector3d &viewCoords, const ma
 	glEnable(GL_TEXTURE_2D);
 
 	glPushMatrix ();
-	glMultMatrixf (&m2[0]);
+	glMultMatrixf (&m[0]);
 
 	glScalef (size, size, size*3);
 
 	//fade out side quads when facing nearly edge on
 	vector3f cdir(0.f, 0.f, 1.f);
-	color.a = base_alpha * (1.f - Clamp(powf(fabs(dir.Dot(cdir)), size*size), 0.f, 1.f));
+	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(cdir)), size*size));
 
 	m_sideTex->Bind();
 	Render::State::UseProgram(m_prog);
@@ -269,7 +267,7 @@ void Projectile::Render(Renderer *renderer, const vector3d &viewCoords, const ma
 	glDrawArrays(GL_TRIANGLES, 0, flare_size);
 
 	//fade out glow quads when facing nearly edge on
-	color.a = base_alpha * Clamp(powf(fabs(dir.Dot(cdir)), size*0.5f), 0.f, 1.f);
+	color.a = base_alpha * powf(fabs(dir.Dot(cdir)), size*0.5f);
 
 	m_glowTex->Bind();
 	m_prog->SetUniform("color", color);
