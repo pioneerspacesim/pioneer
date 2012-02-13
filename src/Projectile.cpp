@@ -243,7 +243,7 @@ void Projectile::Render(Renderer *renderer, const vector3d &viewCoords, const ma
 	glEnableClientState (GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState (GL_NORMAL_ARRAY);
 	glEnable(GL_BLEND);
-	glDepthMask(GL_FALSE);
+	renderer->SetDepthWrite(false);
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_2D);
 
@@ -281,7 +281,7 @@ void Projectile::Render(Renderer *renderer, const vector3d &viewCoords, const ma
 	glDisable(GL_TEXTURE_2D);
 	glColor3f(1.f, 1.f, 1.f);
 	glDisable(GL_BLEND);
-	glDepthMask(GL_TRUE);
+	renderer->SetDepthWrite(true);
 	glEnable(GL_CULL_FACE);
 	glDisableClientState (GL_VERTEX_ARRAY);
 	glDisableClientState (GL_TEXTURE_COORD_ARRAY);

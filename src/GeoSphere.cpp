@@ -1352,12 +1352,12 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 			atmoMat.shader = shader;
 			
 			renderer->SetBlendMode(BLEND_ALPHA_ONE);
-			glDepthMask(GL_FALSE);
+			renderer->SetDepthWrite(false);
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
 			DrawAtmosphereSurface(renderer, campos, atmosRadius*1.01, &atmoMat);
-			glDepthMask(GL_TRUE);
+			renderer->SetDepthWrite(true);
 			renderer->SetBlendMode(BLEND_SOLID);
 		}
 

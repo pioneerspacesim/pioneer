@@ -94,6 +94,8 @@ public:
 	//render state functions
 	virtual bool SetBlendMode(BlendMode type) { return false; }
 	virtual bool SetDepthTest(bool enabled) { return false; }
+	//enable/disable writing to z buffer
+	virtual bool SetDepthWrite(bool enabled) { return false; }
 
 	virtual bool SetLights(int numlights, const Light *l) { return false; }
 	virtual bool SetAmbientColor(const Color &c) { return false; }

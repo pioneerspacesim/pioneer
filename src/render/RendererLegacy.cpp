@@ -177,6 +177,15 @@ bool RendererLegacy::SetDepthTest(bool enabled)
 	return true;
 }
 
+bool RendererLegacy::SetDepthWrite(bool enabled)
+{
+	if (enabled)
+		glDepthMask(GL_TRUE);
+	else
+		glDepthMask(GL_FALSE);
+	return true;
+}
+
 bool RendererLegacy::SetLights(int numlights, const Light *lights)
 {
 	if (numlights < 1) return false;

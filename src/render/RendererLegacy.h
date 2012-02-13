@@ -30,6 +30,7 @@ public:
 
 	virtual bool SetBlendMode(BlendMode mode);
 	virtual bool SetDepthTest(bool enabled);
+	virtual bool SetDepthWrite(bool enabled);
 
 	virtual bool SetLights(int numlights, const Light *l);
 	virtual bool SetAmbientColor(const Color &c);
