@@ -256,7 +256,7 @@ void CollisionSpace::CollideRaySphere(const vector3d &start, const vector3d &dir
 	}
 }
 
-void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, float len, CollisionContact *c, Geom *ignore)
+void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double len, CollisionContact *c, Geom *ignore)
 {
 	vector3d invDir(1.0/dir.x, 1.0/dir.y, 1.0/dir.z);
 	c->dist = len;
