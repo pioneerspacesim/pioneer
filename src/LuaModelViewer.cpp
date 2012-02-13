@@ -45,8 +45,6 @@ static bool setMouseButton(const Uint8 idx, const int value)
 	return false;
 }
 
-static GLuint mytexture;
-
 class Viewer;
 static Viewer *g_viewer;
 
@@ -332,7 +330,7 @@ void Viewer::PickModel(const std::string &initial_name, const std::string &initi
 		renderer->ClearScreen();
 		Gui::Draw();
 		glError();
-		Render::SwapBuffers();
+		renderer->SwapBuffers();
 	}
 	Gui::Screen::RemoveBaseWidget(f);
 	delete f;
@@ -450,82 +448,9 @@ static void render_coll_mesh(const LmrCollMesh *m)
 	glEnable(GL_LIGHTING);
 }
 
-#define TEXSIZE 512
-float wank[TEXSIZE][TEXSIZE];
-float aspectRatio = 1.0;
 double camera_zoom = 1.0;
 vector3f g_campos(0.0f, 0.0f, 100.0f);
 matrix4x4f g_camorient;
-extern int stat_rayTriIntersections;
-static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camera_forward, CollisionSpace *space)
-{
-	memset(wank, 0, sizeof(float)*TEXSIZE*TEXSIZE);
-
-	vector3d toPoint, xMov, yMov;
-
-	vector3d topLeft, topRight, botRight, cross;
-	topLeft = topRight = botRight = camera_forward * camera_zoom;
-	cross = camera_forward.Cross(camera_up) * aspectRatio;
-	topLeft = topLeft + camera_up - cross;
-	topRight = topRight + camera_up + cross;
-	botRight = botRight - camera_up + cross;
-
-	xMov = topRight - topLeft;
-	yMov = botRight - topRight;
-	float xstep = 1.0f / TEXSIZE;
-	float ystep = 1.0f / TEXSIZE;
-	float xpos, ypos;
-	ypos = 0.0f;
-	GeomTree::stats_rayTriIntersections = 0;
-
-	Uint32 t = SDL_GetTicks();
-	for (int y=0; y<TEXSIZE; y++, ypos += ystep) {
-		xpos = 0.0f;
-		for (int x=0; x<TEXSIZE; x++, xpos += xstep) {
-			toPoint = (topLeft + (xMov * xpos) + (yMov * ypos)).Normalized();
-			
-			CollisionContact c;
-			space->TraceRay(camPos, toPoint, 1000000.0, &c);
-
-			if (c.triIdx != -1) {
-				wank[x][y] = 100.0/(10*c.dist);
-			} else {
-				wank[x][y] = 0;
-			}
-		}
-	}
-	printf("%.3f million rays/sec, %.2f tri isect tests per ray\n", (TEXSIZE*TEXSIZE)/(1000.0*(SDL_GetTicks()-t)),
-				GeomTree::stats_rayTriIntersections/float(TEXSIZE*TEXSIZE));
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, mytexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TEXSIZE, TEXSIZE, 0, GL_LUMINANCE, GL_FLOAT, wank);
-
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_LIGHTING);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0, 1, 0, 1, -1, 1);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	
-	//glActiveTexture(GL_TEXTURE0);
-	glDisable(GL_LIGHTING);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	glBegin(GL_TRIANGLE_FAN);
-		glTexCoord2i(0,1);
-		glVertex3f(1,1,0);
-
-		glTexCoord2i(0,0);
-		glVertex3f(0,1,0);
-		
-		glTexCoord2i(1,0);
-		glVertex3f(0,0,0);
-		
-		glTexCoord2i(1,1);
-		glVertex3f(1,0,0);
-	glEnd();
-	glDisable(GL_TEXTURE_2D);
-}
 
 void Viewer::MainLoop()
 {
@@ -602,11 +527,6 @@ void Viewer::MainLoop()
 			glMultMatrixf(&m[0]);
 			render_coll_mesh(m_cmesh);
 			glPopMatrix();
-		} else {
-			matrix4x4f tran = modelRot * g_camorient;//.InverseOf();
-			vector3d forward = vector3d(tran * vector3f(0.0,0.0,-1.0));
-			vector3d up = vector3d(tran * vector3f(0.0,1.0,0.0));
-			raytraceCollMesh(vector3d(modelRot * g_campos), up, forward, m_space);
 		}
 		if (m_showBoundingRadius) {
 			matrix4x4f mo = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos);// * modelRot.InverseOf();
@@ -634,7 +554,7 @@ void Viewer::MainLoop()
 		Gui::Draw();
 		
 		glError();
-		Render::SwapBuffers();
+		renderer->SwapBuffers();
 		numFrames++;
 		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;
 		lastTurd = SDL_GetTicks();
@@ -749,15 +669,6 @@ int main(int argc, char **argv)
 		}
 	}
 	glewInit();
-
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-
-	glGenTextures(1, &mytexture);
-	glBindTexture(GL_TEXTURE_2D, mytexture);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	TextureCache *textureCache = new TextureCache;
 

@@ -39,6 +39,7 @@ namespace Render {
 	void BindElementArrayBuffer(GLuint bo);
 	bool IsArrayBufferBound(GLuint bo);
 	bool IsElementArrayBufferBound(GLuint bo);
+	//XXX keeping this because gui uses it...
 	void SwapBuffers();
 
 	void PutPointSprites(int num, vector3f v[], float size, const float modulationCol[4], int stride = sizeof(vector3f));
