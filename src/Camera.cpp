@@ -144,7 +144,7 @@ void Camera::Draw(Renderer *renderer)
 	matrix4x4d trans2bg;
 	Frame::GetFrameRenderTransform(Pi::game->GetSpace()->GetRootFrame(), m_camFrame, trans2bg);
 	trans2bg.ClearToRotOnly();
-	Pi::game->GetSpace()->GetBackground().Draw(trans2bg);
+	Pi::game->GetSpace()->GetBackground().Draw(renderer, trans2bg);
 
 	int num_lights = 0;
 	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), num_lights);

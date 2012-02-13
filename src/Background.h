@@ -46,7 +46,7 @@ namespace Background
 		// default constructor, needs Refresh with proper seed to show starfield
 		Container();
 		Container(unsigned long seed);
-		void Draw(const matrix4x4d &transform) const;
+		void Draw(Renderer *r, const matrix4x4d &transform) const;
 		void Refresh(unsigned long seed);
 
 	private:

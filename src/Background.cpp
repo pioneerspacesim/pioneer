@@ -231,12 +231,11 @@ void Container::Refresh(unsigned long seed)
 	m_starField.Fill(seed);
 }
 
-void Container::Draw(const matrix4x4d &transform) const
+void Container::Draw(Renderer *renderer, const matrix4x4d &transform) const
 {
 	//XXX not really const - renderer can modify the buffers
 	glPushMatrix();
-	Renderer *renderer = Pi::renderer;
-	Pi::renderer->SetDepthTest(false);
+	renderer->SetDepthTest(false);
 	renderer->SetTransform(transform);
 	const_cast<MilkyWay&>(m_milkyWay).Draw(renderer);
 	// squeeze the starfield a bit to get more density near horizon
