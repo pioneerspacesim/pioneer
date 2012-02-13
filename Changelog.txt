@@ -6,6 +6,7 @@ Alpha 20
 
    * Minor changes and tweaks
      * LED effect on timeaccel buttons (#946, #153)
+     * Render projectiles out to 20km from the camera (#957)
 
    * Fixes
      * Updated zlib and libpng DLLs for MSVC to fix screenshot crash (#942, #645)
@@ -15,6 +16,12 @@ Alpha 20
      * Assassination targets will now gracefully handle an autopilot failure
        when taking off (#955, #950)
      * HDR visuals removed (#939, #963)
+     * Fix projectile collision checks (#965)
+     * Various scanner range fixes (#944)
+
+   * Internal changes
+     * Silence MSVC warnings (#964)
+
 
 Alpha 19
 
