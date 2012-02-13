@@ -208,6 +208,8 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 		glEnable(GL_LIGHT0+i);
 	}
 
+	Render::State::SetNumLights(numlights);
+
 	return true;
 }
 

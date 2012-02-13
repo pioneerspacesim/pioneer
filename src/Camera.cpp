@@ -6,6 +6,7 @@
 #include "Pi.h"
 #include "Sfx.h"
 #include "Game.h"
+#include "Light.h"
 #include "render/Render.h"
 #include "render/Renderer.h"
 #include "render/VertexArray.h"
@@ -43,48 +44,30 @@ void Camera::OnBodyDeleted()
 	m_body = 0;
 }
 
-static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
+static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Light> &lights)
 {
-	if (lightNum > 3) return;
+	if (lights.size() > 3) return;
 	// not using frame->GetSBodyFor() because it snoops into parent frames,
 	// causing duplicate finds for static and rotating frame
 	SBody *body = frame->m_sbody;
 
 	if (body && (body->GetSuperType() == SBody::SUPERTYPE_STAR)) {
-		int light;
-		switch (lightNum) {
-			case 3: light = GL_LIGHT3; break;
-			case 2: light = GL_LIGHT2; break;
-			case 1: light = GL_LIGHT1; break;
-			default: light = GL_LIGHT0; break;
-		}
-		// position light at sol
 		matrix4x4d m;
 		Frame::GetFrameTransform(frame, camFrame, m);
 		vector3d lpos = (m * vector3d(0,0,0));
 		double dist = lpos.Length() / AU;
 		lpos *= 1.0/dist; // normalize
-		float lightPos[4];
-		lightPos[0] = float(lpos.x);
-		lightPos[1] = float(lpos.y);
-		lightPos[2] = float(lpos.z);
-		lightPos[3] = 0;
 
 		const float *col = StarSystem::starRealColors[body->type];
-		float lightCol[4] = { col[0], col[1], col[2], 0 };
-		float ambCol[4] = { 0,0,0,0 };
 
-		glLightfv(light, GL_POSITION, lightPos);
-		glLightfv(light, GL_DIFFUSE, lightCol);
-		glLightfv(light, GL_AMBIENT, ambCol);
-		glLightfv(light, GL_SPECULAR, lightCol);
-		glEnable(light);
-
-		lightNum++;
+		Color lightCol(col[0], col[1], col[2], 0.f);
+		Color ambCol(0.f);
+		vector3f lightpos(lpos.x, lpos.y, lpos.z);
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, lightpos, lightCol, ambCol, lightCol));
 	}
 
 	for (std::list<Frame*>::iterator i = frame->m_children.begin(); i!=frame->m_children.end(); ++i) {
-		position_system_lights(camFrame, *i, lightNum);
+		position_system_lights(camFrame, *i, lights);
 	}
 }
 
@@ -146,27 +129,20 @@ void Camera::Draw(Renderer *renderer)
 	trans2bg.ClearToRotOnly();
 	Pi::game->GetSpace()->GetBackground().Draw(renderer, trans2bg);
 
-	int num_lights = 0;
-	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), num_lights);
+	// Pick up to four suitable system light sources (stars)
+	std::vector<Light> lights;
+	lights.reserve(4);
+	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), lights);
 
-	if (num_lights == 0) {
+	if (lights.empty()) {
 		// no lights means we're somewhere weird (eg hyperspace). fake one
 		// fake one up and give a little ambient light so that we can see and
 		// so that things that need lights don't explode
-		float lightPos[4] = { 0,0,0,0 };
-		float lightCol[4] = { 1.0, 1.0, 1.0, 0 };
-		float ambCol[4] = { 1.0,1.0,1.0,0 };
-
-		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
-		glLightfv(GL_LIGHT0, GL_AMBIENT, ambCol);
-		glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
-		glEnable(GL_LIGHT0);
-
-		num_lights++;
+		Color col(1.f);
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col, col));
 	}
 
-	Render::State::SetNumLights(num_lights);
+	renderer->SetLights(lights.size(), &lights[0]);
 
 	float znear, zfar;
 	m_renderer->GetNearFarRange(znear, zfar);

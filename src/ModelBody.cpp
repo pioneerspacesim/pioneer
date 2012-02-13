@@ -169,8 +169,4 @@ void ModelBody::RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &vie
 	trans[15] = 1.0f;
 
 	m_lmrModel->Render(trans, &m_params);
-
-	glDisable(GL_BLEND);
-	glEnable(GL_LIGHTING);
-	glDisable(GL_NORMALIZE);
 }

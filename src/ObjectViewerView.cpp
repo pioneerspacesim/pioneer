@@ -7,6 +7,7 @@
 #include "GeoSphere.h"
 #include "terrain/Terrain.h"
 #include "Planet.h"
+#include "Light.h"
 #include "render/Renderer.h"
 
 #if WITH_OBJECTVIEWER
@@ -76,11 +77,11 @@ void ObjectViewerView::Draw3D()
 	float fracH = znear / Pi::GetScrAspect();
 	glFrustum(-znear, znear, -fracH, fracH, znear, zfar);
 
-	glEnable(GL_LIGHT0);
-
 	m_renderer->SetTransform(matrix4x4f::Identity());
-	m_renderer->SetDepthTest(false);
 	Render::State::SetZnearZfar(znear, zfar);
+
+	Light light;
+	light.SetType(Light::LIGHT_DIRECTIONAL);
 
 	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int m[2];
@@ -91,19 +92,15 @@ void ObjectViewerView::Draw3D()
 		
 	Body *body = Pi::player->GetNavTarget();
 	if (body) {
-		float lightPos[4];
 		if (body->IsType(Object::STAR))
-			lightPos[0] = lightPos[1] = lightPos[2] = lightPos[3] = 0;
+			light.SetPosition(vector3f(0.f));
 		else {
-			lightPos[0] = lightPos[1] = lightPos[2] = 0.577f;
-			lightPos[3] = 0;
+			light.SetPosition(vector3f(0.577f));
 		}
-		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+		m_renderer->SetLights(1, &light);
 	
 		body->Render(m_renderer, vector3d(0,0,-viewingDist), m_camRot);
 	}
-
-	//XXX restore states!
 }
 
 void ObjectViewerView::OnSwitchTo()
