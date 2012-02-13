@@ -483,7 +483,7 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 			toPoint = (topLeft + (xMov * xpos) + (yMov * ypos)).Normalized();
 			
 			CollisionContact c;
-			space->TraceRay(camPos, toPoint, 1000000.0f, &c);
+			space->TraceRay(camPos, toPoint, 1000000.0, &c);
 
 			if (c.triIdx != -1) {
 				wank[x][y] = 100.0/(10*c.dist);
