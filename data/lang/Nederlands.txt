@@ -215,8 +215,6 @@ OTHER_GRAPHICS_SETTINGS
     Andere grafische instellingen
 USE_SHADERS
     Gebruik shaders
-USE_HDR
-    Gebruik HDR-effecten (cool)
 SOUND_SETTINGS
     Geluidsinstellingen
 VOL_MASTER

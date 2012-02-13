@@ -261,6 +261,13 @@ void ModelTexture::Load()
 	CreateFromFile(m_filename, false);
 }
 
+BillboardTexture::BillboardTexture(const std::string &filename) :
+	Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, true),
+	m_filename(filename)
+{
+	CreateFromFile(filename, false);
+}
+
 
 UITexture::UITexture(SDL_Surface *s) :
     Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false)

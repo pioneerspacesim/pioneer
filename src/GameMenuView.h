@@ -73,7 +73,6 @@ private:
 	void OnChangeLanguage(std::string &lang);
 	void OnChangeVideoResolution(int res);
 	void OnToggleShaders(Gui::ToggleButton *b, bool state);
-	void OnToggleHDR(Gui::ToggleButton *b, bool state);
 	void OnToggleFullscreen(Gui::ToggleButton *b, bool state);
 	void OnToggleJoystick(Gui::ToggleButton *b, bool state);
 	void OnToggleMouseYInvert(Gui::ToggleButton *b, bool state);
@@ -89,7 +88,6 @@ private:
 	Gui::RadioGroup *m_cityDetailGroup;
 	Gui::RadioGroup *m_languageGroup;
 	Gui::ToggleButton *m_toggleShaders;
-	Gui::ToggleButton *m_toggleHDR;
 	Gui::ToggleButton *m_toggleFullscreen;
 	Gui::ToggleButton *m_toggleJoystick;
 	Gui::ToggleButton *m_toggleMouseYInvert;

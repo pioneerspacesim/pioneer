@@ -68,12 +68,6 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 		const float *col = StarSystem::starRealColors[body->type];
 		float lightCol[4] = { col[0], col[1], col[2], 0 };
 		float ambCol[4] = { 0,0,0,0 };
-		if (Render::IsHDREnabled()) {
-			for (int i=0; i<4; i++) {
-				// not too high or we overflow our float16 colorbuffer
-				lightCol[i] *= float(std::min(10.0*StarSystem::starLuminosities[body->type] / dist, 10000.0));
-			}
-		}
 
 		glLightfv(light, GL_POSITION, lightPos);
 		glLightfv(light, GL_DIFFUSE, lightCol);
@@ -181,13 +175,13 @@ void Camera::Draw()
 
 		// draw spikes for far objects
 		double screenrad = 500 * rad / attrs->camDist;      // approximate pixel size
-		if (!attrs->body->IsType(Object::STAR) && screenrad < 2) {
-			if (!attrs->body->IsType(Object::PLANET)) continue;
+		if (attrs->body->IsType(Object::PLANET) && screenrad < 2) {
 			// absolute bullshit
 			double spikerad = (7 + 1.5*log10(screenrad)) * rad / screenrad;
 			DrawSpike(spikerad, attrs->viewCoords, attrs->viewTransform);
 		}
-		else
+		else if (screenrad >= 2 || attrs->body->IsType(Object::STAR) ||
+					(attrs->body->IsType(Object::PROJECTILE) && screenrad > 0.25))
 			attrs->body->Render(attrs->viewCoords, attrs->viewTransform);
 	}
 
