@@ -222,8 +222,6 @@ OTHER_GRAPHICS_SETTINGS
     Egyéb grafikai beállítások
 USE_SHADERS
     Árnyékok használata
-USE_HDR
-    HDR megvilágítás használata (jól néz ki)
 SOUND_SETTINGS
     Hangbeállítások
 VOL_MASTER

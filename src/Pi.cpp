@@ -170,8 +170,6 @@ int Pi::CombatRating(int kills)
 static void draw_progress(float progress)
 {
 	float w, h;
-	Render::PrepareFrame();
-	Render::PostProcess();
 	Gui::Screen::EnterOrtho();
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -511,7 +509,6 @@ void Pi::Init()
 	draw_progress(0.2f);
 
 	if (config.Int("DisableShaders")) Render::ToggleShaders();
-	if (config.Int("EnableHDR")) Render::ToggleHDR();
 
 	CustomSystem::Init();
 	draw_progress(0.4f);
@@ -714,9 +711,6 @@ void Pi::HandleEvents()
 							break;
 						case SDLK_s: // Toggle Shaders
 							Render::ToggleShaders();
-							break;
-						case SDLK_h: // Toggle HDR
-							Render::ToggleHDR();
 							break;
 						case SDLK_PRINT:	   // print
 						case SDLK_KP_MULTIPLY: // screen
@@ -969,7 +963,6 @@ void Pi::TombStoneLoop()
 	cpan->HideAll();
 	currentView->HideAll();
 	do {
-		Render::PrepareFrame();
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		float fracH = 1.0f / Pi::GetScrAspect();
@@ -983,7 +976,6 @@ void Pi::TombStoneLoop()
 		Pi::SetMouseGrab(false);
 
 		draw_tombstone(_time);
-		Render::PostProcess();
 		Gui::Draw();
 		Render::SwapBuffers();
 		
@@ -1190,7 +1182,6 @@ void Pi::Start()
 	while (!menuDone) {
 		Pi::HandleEvents();
 
-		Render::PrepareFrame();
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		float fracH = 1.0f / Pi::GetScrAspect();
@@ -1203,7 +1194,6 @@ void Pi::Start()
 		Pi::SetMouseGrab(false);
 
 		draw_intro(background, _time);
-		Render::PostProcess();
 		Gui::Draw();
 		Render::SwapBuffers();
 		
@@ -1302,7 +1292,6 @@ void Pi::MainLoop()
 		}
 		frame_stat++;
 
-		Render::PrepareFrame();
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		
@@ -1323,7 +1312,6 @@ void Pi::MainLoop()
 
 		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT));
 
-		Render::PostProcess();
 		Gui::Draw();
 
 #if WITH_DEVKEYS

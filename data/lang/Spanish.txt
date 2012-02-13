@@ -222,8 +222,6 @@ OTHER_GRAPHICS_SETTINGS
     Otras opciones gráficas
 USE_SHADERS
     Usar shaders
-USE_HDR
-    Usar Iluminación HDR (looks cool)
 SOUND_SETTINGS
     Opciones de audio
 VOL_MASTER
@@ -738,6 +736,8 @@ REAR_VIEW
     Vista trasera
 EXTERNAL_VIEW
     Vista externa
+SIDEREAL_VIEW
+    Vista sideral
 NAVIGATION_STAR_MAPS
     Navegación y mapas estelares
 COMMS

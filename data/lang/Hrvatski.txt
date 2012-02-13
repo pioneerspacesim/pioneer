@@ -215,8 +215,6 @@ OTHER_GRAPHICS_SETTINGS
     Druge grafičke postavke
 USE_SHADERS
     Koristi shaders
-USE_HDR
-    Koristi HDR osvjetljavanje (izgleda super)
 SOUND_SETTINGS
     Postavke zvuka
 VOL_MASTER

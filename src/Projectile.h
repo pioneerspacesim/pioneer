@@ -5,6 +5,8 @@
 #include "EquipType.h"
 
 class Frame;
+class Texture;
+namespace Render { class Shader; }
 
 class Projectile: public Body {
 public:
@@ -13,9 +15,10 @@ public:
 	static void Add(Body *parent, Equip::Type type, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel);
 
 	Projectile();
+	virtual ~Projectile();
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition() const { return vector3d(m_orient[12], m_orient[13], m_orient[14]); }
-	virtual double GetBoundingRadius() const { return 10; }
+	virtual double GetBoundingRadius() const { return Equip::lasers[m_type].psize * 3; }
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	void TimeStepUpdate(const float timeStep);
 	void StaticUpdate(const float timeStep);
@@ -35,6 +38,18 @@ private:
 	int m_type;
 
 	int m_parentIndex; // deserialisation
+
+	struct Vertex {
+		vector3f pos;
+		float u;
+		float v;
+		Vertex(const vector3f &_pos, float _u, float _v) :
+			pos(_pos), u(_u), v(_v) { }
+	};
+	Texture *m_sideTex;
+	Texture *m_glowTex;
+	std::vector<Vertex> m_verts;
+	Render::Shader *m_prog;
 };
 
 #endif /* _PROJECTILE_H */
