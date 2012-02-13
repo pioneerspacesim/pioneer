@@ -18,6 +18,13 @@ ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, fl
 	flavour.ApplyTo(&m_params);
 	m_params.animValues[Ship::ANIM_WHEEL_STATE] = 1.0;
 	m_params.flightState = Ship::FLYING;
+
+	Color lc(0.5f, 0.5f, 0.5f, 0.f);
+	m_light.SetDiffuse(lc);
+	m_light.SetAmbient(lc);
+	m_light.SetSpecular(lc);
+	m_light.SetPosition(vector3f(1.f, 1.f, 0.f));
+	m_light.SetType(Light::LIGHT_DIRECTIONAL);
 }
 
 void ShipSpinnerWidget::Draw()
@@ -50,31 +57,16 @@ void ShipSpinnerWidget::Draw()
 		glVertex2f(m_width, 0.0f);
 	glEnd();
 
-	Render::State::SetZnearZfar(1.0f, 10000.0f);
-
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	glFrustum(-.5, .5, -.5, .5, 1.0f, 10000.0f);
-	glDepthRange (0.0, 1.0);
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
+	Pi::renderer->SetPerspectiveProjection(45.f, 1.f, 1.f, 10000.f);
+	glDepthRange (0.0, 1.0); //XXX this is the default so perhaps not necessary
+	Pi::renderer->SetTransform(matrix4x4f::Identity());
 
 	Pi::renderer->SetDepthTest(true);
 	Pi::renderer->ClearDepthBuffer();
 
-	Color lc(0.5f, 0.5f, 0.5f, 0.f);
-	Light l;
-	l.SetDiffuse(lc);
-	l.SetAmbient(lc);
-	l.SetSpecular(lc);
-	l.SetPosition(vector3f(1.f, 1.f, 0.f));
-	l.SetType(Light::LIGHT_DIRECTIONAL);
-
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-	Pi::renderer->SetLights(1, &l);
+	Pi::renderer->SetLights(1, &m_light);
 	Pi::renderer->SetViewport(
 		int(roundf(pos[0]/guiscale[0])),
 		int(roundf((Gui::Screen::GetHeight() - pos[1] - m_height)/guiscale[1])),
