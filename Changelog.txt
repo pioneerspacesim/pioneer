@@ -15,6 +15,7 @@ Alpha 20
      * Assassination targets will now gracefully handle an autopilot failure
        when taking off (#955, #950)
      * HDR visuals removed (#939, #963)
+	 * Fix projectile collision checks (#965)
 
 Alpha 19
 
