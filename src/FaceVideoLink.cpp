@@ -85,7 +85,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 
 	char filename[1024];
 
-	SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, ceil_pow2(FACE_WIDTH), ceil_pow2(FACE_HEIGHT), 32, 0xff, 0xff00, 0xff0000, 0xff000000);
+	SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, FACE_WIDTH, FACE_HEIGHT, 32, 0xff, 0xff00, 0xff0000, 0xff000000);
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/backgrounds/background_%d.png", background);
 	//printf("%s\n", filename);
@@ -163,8 +163,8 @@ void FaceVideoLink::Draw() {
 	m_texture->Bind();
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	glBegin(GL_QUADS);
-		float w = float(FACE_WIDTH) / ceil_pow2(FACE_WIDTH);
-		float h = float(FACE_HEIGHT) / ceil_pow2(FACE_HEIGHT);
+		float w = m_texture->GetTextureWidth();
+		float h = m_texture->GetTextureHeight();
 		glColor3f(0,0,0);
 		glTexCoord2f(0,h);
 		glVertex2f(0,size[1]);
