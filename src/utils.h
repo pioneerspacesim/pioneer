@@ -77,8 +77,6 @@ bool is_dir(const std::string &filename);
 /** args to callback are basename, full path */
 void foreach_file_in(const std::string &directory, void (*callback)(const std::string &, const std::string &));
 
-Uint32 ceil_pow2(Uint32 v);
-
 void Screendump(const char* destFile, const int w, const int h);
 
 // convert one multibyte (utf8) char to a widechar (utf32/ucs4)
