@@ -40,6 +40,7 @@ RendererLegacy::RendererLegacy(int w, int h) :
 	glEnable(GL_LIGHT0);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
 	SetClearColor(Color(0.f));
 	SetViewport(0, 0, m_width, m_height);
@@ -248,12 +249,17 @@ bool RendererLegacy::DrawLines(int count, const vector3f *v, const Color &c, Lin
 	glPushAttrib(GL_LIGHTING_BIT);
 	glDisable(GL_LIGHTING);
 
+	//XXX enable when multisampling is not available
+	//glEnable(GL_LINE_SMOOTH);
+
 	glColor4f(c.r, c.g, c.b, c.a);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glColor4f(1.f, 1.f, 1.f, 1.f);
+
+	//glDisable(GL_LINE_SMOOTH);
 
 	glPopAttrib();
 

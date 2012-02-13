@@ -75,6 +75,7 @@ void Camera::Update()
 {
 	if (!m_body) return;
 
+	//XXX I guess this is for updating the Render::znear/far values?
 	if (m_shadersEnabled != Render::AreShadersEnabled()) {
 		m_frustum = Render::Frustum(m_width, m_height, m_fovAng, m_zNear, m_zFar);
 		m_shadersEnabled = !m_shadersEnabled;

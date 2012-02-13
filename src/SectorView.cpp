@@ -325,9 +325,6 @@ void SectorView::Draw3D()
 	m_renderer->SetTransform(modelview);
 
 	m_renderer->SetBlendMode(BLEND_ALPHA);
-	
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-	glEnable(GL_LINE_SMOOTH);
 
 	Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
 	vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].p;
@@ -341,7 +338,6 @@ void SectorView::Draw3D()
 		}
 	}
 
-	glDisable(GL_LINE_SMOOTH);
 	m_renderer->SetBlendMode(BLEND_SOLID);
 }
 
