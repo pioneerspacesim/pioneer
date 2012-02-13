@@ -1253,9 +1253,7 @@ void Pi::MainLoop()
 		frame_stat++;
 
 		Pi::renderer->BeginFrame();
-
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
+		Pi::renderer->SetTransform(matrix4x4f::Identity());
 		
 		/* Calculate position for this rendered frame (interpolated between two physics ticks */
         // XXX should this be here? what is this anyway?

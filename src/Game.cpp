@@ -597,11 +597,12 @@ void Game::CreateViews()
 	Pi::infoView = new InfoView();
 
 	// view manager will handle setting this probably
-	Pi::worldView->SetRenderer(Pi::renderer);
 	Pi::galacticView->SetRenderer(Pi::renderer);
+	Pi::infoView->SetRenderer(Pi::renderer);
 	Pi::sectorView->SetRenderer(Pi::renderer);
-	Pi::systemView->SetRenderer(Pi::renderer);
 	Pi::systemInfoView->SetRenderer(Pi::renderer);
+	Pi::systemView->SetRenderer(Pi::renderer);
+	Pi::worldView->SetRenderer(Pi::renderer);
 
 #if WITH_OBJECTVIEWER
 	Pi::objectViewerView = new ObjectViewerView();
@@ -638,11 +639,12 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::objectViewerView->SetRenderer(Pi::renderer);
 #endif
 
-	Pi::worldView->SetRenderer(Pi::renderer);
-	Pi::sectorView->SetRenderer(Pi::renderer);
 	Pi::galacticView->SetRenderer(Pi::renderer);
-	Pi::systemView->SetRenderer(Pi::renderer);
+	Pi::infoView->SetRenderer(Pi::renderer);
+	Pi::sectorView->SetRenderer(Pi::renderer);
 	Pi::systemInfoView->SetRenderer(Pi::renderer);
+	Pi::systemView->SetRenderer(Pi::renderer);
+	Pi::worldView->SetRenderer(Pi::renderer);
 }
 
 void Game::DestroyViews()

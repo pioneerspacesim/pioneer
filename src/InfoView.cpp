@@ -319,8 +319,7 @@ void InfoView::UpdateInfo()
 
 void InfoView::Draw3D()
 {
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	m_renderer->SetTransform(matrix4x4f::Identity());
 	glClearColor(0.0f,0.2f,0.4f,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
