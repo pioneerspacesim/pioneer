@@ -13,7 +13,6 @@
 #include "Sector.h"
 #include "Projectile.h"
 #include "Sound.h"
-#include "render/Render.h"
 #include "HyperspaceCloud.h"
 #include "ShipCpanel.h"
 #include "LmrModel.h"
@@ -24,6 +23,9 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
+#include "render/Material.h"
+#include "render/Render.h"
+#include "render/Renderer.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
@@ -1051,9 +1053,12 @@ void Ship::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x
 			c.a = m_ecmRecharge / totalRechargeTime;
 		}
 
-		ModelTexture *tex = Pi::textureCache->GetModelTexture(PIONEER_DATA_DIR"/textures/ecm.png");
-		tex->Bind();
-		Render::PutPointSprites(100, v, 50.0f, c);
+		// XXX no need to recreate material every time
+		Material mat;
+		mat.texture0 = Pi::textureCache->GetModelTexture(PIONEER_DATA_DIR"/textures/ecm.png");
+		mat.unlit = true;
+		mat.diffuse = c;
+		renderer->DrawPointSprites(100, v, &mat, 50.f);
 	}
 }
 

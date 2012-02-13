@@ -170,7 +170,7 @@ void Camera::Draw(Renderer *renderer)
 			attrs->body->Render(renderer, attrs->viewCoords, attrs->viewTransform);
 	}
 
-	Sfx::RenderAll(Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
+	Sfx::RenderAll(renderer, Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
 	Render::UnbindAllBuffers();
 
 	m_body->GetFrame()->RemoveChild(m_camFrame);

@@ -6,7 +6,9 @@
 #include "Space.h"
 #include "Pi.h"
 #include "TextureCache.h"
+#include "render/Material.h"
 #include "render/Render.h"
+#include "render/Renderer.h"
 
 #define MAX_SFX_PER_FRAME 1024
 
@@ -81,11 +83,8 @@ void Sfx::TimeStepUpdate(const float timeStep)
 	}
 }
 
-void Sfx::Render(const matrix4x4d &ftransform)
+void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 {
-	Texture *smokeTex = 0;
-	float col[4];
-
 	vector3d fpos = ftransform * GetPosition();
 
 	switch (m_type) {
@@ -106,14 +105,13 @@ void Sfx::Render(const matrix4x4d &ftransform)
 			glPopMatrix();
 			break;
 		case TYPE_DAMAGE:
-			col[0] = 1.0f;
-			col[1] = 1.0f;
-			col[2] = 0.0f;
-			col[3] = 1.0f-(m_age/2.0f);
 			vector3f pos(&fpos.x);
-			smokeTex = Pi::textureCache->GetBillboardTexture(PIONEER_DATA_DIR"/textures/smoke.png");
-			smokeTex->Bind();
-			Render::PutPointSprites(1, &pos, 20.0f, col);
+			//XXX no need to recreate material every time
+			Material mat;
+			mat.unlit = true;
+			mat.texture0 = Pi::textureCache->GetBillboardTexture(PIONEER_DATA_DIR"/textures/smoke.png");
+			mat.diffuse = Color(1.f, 1.f, 0.f, 1.0f-(m_age/2.0f));
+			renderer->DrawPointSprites(1, &pos, &mat, 20.f);
 			break;
 	}
 }
@@ -162,7 +160,7 @@ void Sfx::TimeStepAll(const float timeStep, Frame *f)
 	}
 }
 
-void Sfx::RenderAll(const Frame *f, const Frame *camFrame)
+void Sfx::RenderAll(Renderer *renderer, const Frame *f, const Frame *camFrame)
 {
 	if (f->m_sfx) {
 		matrix4x4d ftran;
@@ -170,13 +168,13 @@ void Sfx::RenderAll(const Frame *f, const Frame *camFrame)
 
 		for (int i=0; i<MAX_SFX_PER_FRAME; i++) {
 			if (f->m_sfx[i].m_type != TYPE_NONE) {
-				f->m_sfx[i].Render(ftran);
+				f->m_sfx[i].Render(renderer, ftran);
 			}
 		}
 	}
 	
 	for (std::list<Frame*>::const_iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
-		RenderAll(*i, camFrame);
+		RenderAll(renderer, *i, camFrame);
 	}
 }
