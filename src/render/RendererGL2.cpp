@@ -70,7 +70,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineTy
 	if (count < 2 || !v) return false;
 
 	Render::State::UseProgram(flatProg);
-	flatProg->SetUniform4f("color", c);
+	flatProg->SetUniform("color", c);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
 	glDrawArrays(t, 0, count);
@@ -106,7 +106,7 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 
 	//set parameters
 	if (flat)
-		s->SetUniform4f("color", mat->diffuse);
+		s->SetUniform("color", mat->diffuse);
 	if (mat->unlit) {
 		//nothing to do right now
 	} else {
@@ -117,7 +117,7 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 	}
 	if (mat->texture0) {
 		mat->texture0->Bind();
-		s->SetUniform1i("texture0", 0);
+		s->SetUniform("texture0", 0);
 	}
 }
 

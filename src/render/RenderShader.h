@@ -90,11 +90,12 @@ namespace Render {
 		int GetLocation(const char *name) {
 			return glGetUniformLocation(m_program, name);
 		}
-		//some quick uniform stuff
-		void SetUniform1i(const char *name, int v) {
+
+		//uniform setters
+		void SetUniform(const char *name, int v) {
 			glUniform1i(GetLocation(name), v);
 		}
-		void SetUniform4f(const char *name, const Color &c) {
+		void SetUniform(const char *name, const Color &c) {
 			glUniform4f(GetLocation(name), c.r, c.g, c.b, c.a);
 		}
 	protected:

@@ -1,6 +1,7 @@
 Alpha 20
 
    * New features
+     * New thruster and laser graphics (#945, #962, #149, #148)
      * Hungarian translation (#947, #894)
 
    * Minor changes and tweaks
