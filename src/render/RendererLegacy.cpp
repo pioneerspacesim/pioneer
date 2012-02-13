@@ -201,12 +201,12 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 
 	for (int i=0; i < numlights; i++) {
 		const Light &l = lights[i];
-		// directional lights have the length of 1
+		// directional lights have w of 0
 		const float pos[] = {
 			l.GetPosition().x,
 			l.GetPosition().y,
 			l.GetPosition().z,
-			l.GetType() == Light::LIGHT_DIRECTIONAL ? 1.f : 0.f
+			l.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f
 		};
 		glLightfv(GL_LIGHT0+i, GL_POSITION, pos);
 		glLightfv(GL_LIGHT0+i, GL_DIFFUSE, l.GetDiffuse());
@@ -214,6 +214,7 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 		glLightfv(GL_LIGHT0+i, GL_SPECULAR, l.GetSpecular());
 		glEnable(GL_LIGHT0+i);
 	}
+	//XXX should probably disable unused lights (for legacy renderer only)
 
 	Render::State::SetNumLights(numlights);
 

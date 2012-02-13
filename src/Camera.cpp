@@ -177,11 +177,6 @@ void Camera::Draw(Renderer *renderer)
 	delete m_camFrame;
 	m_camFrame = 0;
 
-	glDisable(GL_LIGHT0);
-	glDisable(GL_LIGHT1);
-	glDisable(GL_LIGHT2);
-	glDisable(GL_LIGHT3);
-
 	glPopAttrib();
 
 	m_frustum.Disable();
