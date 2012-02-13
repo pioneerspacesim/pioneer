@@ -204,6 +204,7 @@ void ScannerWidget::Update()
 		return;
 	}
 
+	// range priority is combat target > ship/missile > nav target > other
 	enum { RANGE_MAX, RANGE_FAR_OTHER, RANGE_NAV, RANGE_FAR_SHIP, RANGE_COMBAT } range_type = RANGE_MAX;
 	float combat_dist = 0, far_ship_dist = 0, nav_dist = 0, far_other_dist = 0;
 
@@ -228,16 +229,17 @@ void ScannerWidget::Update()
 					break;
 				}
 
-				// fall through
+				// else fall through
 
 			case Object::SHIP: {
 				Ship *s = static_cast<Ship*>(*i);
 				if (s->GetFlightState() != Ship::FLYING && s->GetFlightState() != Ship::LANDED)
 					continue;
 
+				if ((*i) == Pi::player->GetCombatTarget()) c.isSpecial = true;
+
 				if (m_mode == SCANNER_MODE_AUTO && range_type != RANGE_COMBAT) {
-					if ((*i) == Pi::player->GetCombatTarget()) {
-						c.isSpecial = true;
+					if (c.isSpecial == true) {
 						combat_dist = dist;
 						range_type = RANGE_COMBAT;
 					}
@@ -253,10 +255,10 @@ void ScannerWidget::Update()
 			case Object::CARGOBODY:
 			case Object::HYPERSPACECLOUD:
 
-				// XXX could maybe add orbital stations
-				if (m_mode == SCANNER_MODE_AUTO && range_type != RANGE_NAV && range_type != RANGE_COMBAT) {
-					if ((*i) == Pi::player->GetNavTarget()) {
-						c.isSpecial = true;
+				if ((*i) == Pi::player->GetNavTarget()) c.isSpecial = true;
+
+				if (m_mode == SCANNER_MODE_AUTO && range_type < RANGE_NAV) {
+					if (c.isSpecial == true) {
 						nav_dist = dist;
 						range_type = RANGE_NAV;
 					}
@@ -283,7 +285,7 @@ void ScannerWidget::Update()
 			m_manualRange = m_currentRange;
 		m_manualRange = Clamp(m_manualRange * 1.05f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 	}
-	else if (KeyBindings::decreaseScanRange.IsActive() && m_manualRange > SCANNER_RANGE_MIN) {
+	else if (KeyBindings::decreaseScanRange.IsActive()) {
 		if (m_mode == SCANNER_MODE_AUTO) {
 			m_manualRange = m_targetRange;
 			m_mode = SCANNER_MODE_MANUAL;
@@ -293,7 +295,6 @@ void ScannerWidget::Update()
 		m_manualRange = Clamp(m_manualRange * 0.95f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 	}
 
-	// range priority is combat target > ship/missile > nav target > other
 	if (m_mode == SCANNER_MODE_AUTO) {
 		switch (range_type) {
 			case RANGE_COMBAT:
