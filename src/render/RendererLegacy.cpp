@@ -42,8 +42,7 @@ RendererLegacy::RendererLegacy(int w, int h) :
 	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 
 	SetClearColor(Color(0.f));
-
-	glViewport(0, 0, m_width, m_height);
+	SetViewport(0, 0, m_width, m_height);
 }
 
 RendererLegacy::~RendererLegacy()
@@ -93,6 +92,12 @@ bool RendererLegacy::ClearDepthBuffer()
 bool RendererLegacy::SetClearColor(const Color &c)
 {
 	glClearColor(c.r, c.g, c.b, c.a);
+	return true;
+}
+
+bool RendererLegacy::SetViewport(int x, int y, int width, int height)
+{
+	glViewport(x, y, width, height);
 	return true;
 }
 

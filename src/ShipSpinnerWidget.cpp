@@ -75,12 +75,11 @@ void ShipSpinnerWidget::Draw()
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
 	Pi::renderer->SetLights(1, &l);
-
-	glViewport(
-		GLint(roundf(pos[0]/guiscale[0])),
-		GLint(roundf((Gui::Screen::GetHeight() - pos[1] - m_height)/guiscale[1])),
-		GLsizei(m_width/guiscale[0]),
-		GLsizei(m_height/guiscale[1]));
+	Pi::renderer->SetViewport(
+		int(roundf(pos[0]/guiscale[0])),
+		int(roundf((Gui::Screen::GetHeight() - pos[1] - m_height)/guiscale[1])),
+		int(m_width/guiscale[0]),
+		int(m_height/guiscale[1]));
 	
 	matrix4x4f rot = matrix4x4f::RotateXMatrix(rot1);
 	rot.RotateY(rot2);

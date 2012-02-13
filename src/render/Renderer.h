@@ -82,6 +82,8 @@ public:
 	virtual bool ClearDepthBuffer() { return false; }
 	virtual bool SetClearColor(const Color &c) { return false; }
 
+	virtual bool SetViewport(int x, int y, int width, int height) { return false; }
+
 	//set the model view matrix
 	virtual bool SetTransform(const matrix4x4d &m) { return false; }
 	virtual bool SetTransform(const matrix4x4f &m) { return false; }

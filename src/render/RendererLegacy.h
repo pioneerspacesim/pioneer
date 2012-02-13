@@ -21,6 +21,8 @@ public:
 	virtual bool ClearDepthBuffer();
 	virtual bool SetClearColor(const Color &c);
 
+	virtual bool SetViewport(int x, int y, int width, int height);
+
 	virtual bool SetTransform(const matrix4x4d &m);
 	virtual bool SetTransform(const matrix4x4f &m);
 	virtual bool SetPerspectiveProjection(float fov, float aspect, float near, float far);
