@@ -27,3 +27,16 @@ vec2 findSphereEyeRayEntryExitDistance(in vec3 sphereCenter, in vec3 eyeTo, in f
 	return dists;
 }
 */
+
+float intensityOfOccultedLight(vec3 lightDir, vec3 v, vec3 occultCentre, float srad, float lrad, float maxOcclusion) {
+	vec3 projectedPoint = v - dot(lightDir,v)*lightDir;
+	// By our assumptions, the proportion of light blocked at this point by
+	// this sphere is the proportion of the disc of radius lrad around
+	// projectedPoint covered by the disc of radius srad around occultCentre.
+	float dist = length(projectedPoint - occultCentre);
+
+	return 1.0 - mix(0.0, maxOcclusion,
+			clamp(
+				( srad+lrad-dist ) / ( srad+lrad - abs(srad-lrad) ),
+				0.0, 1.0));
+}

@@ -14,7 +14,7 @@ void main(void)
 	
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		float nDotVP = max(0.0, dot(tnorm, normalize(vec3(gl_LightSource[i].position))));
-		diff += gl_LightSource[i].diffuse * nDotVP;
+		diff += gl_LightSource[i].diffuse * nDotVP * gl_TexCoord[2][i];
 	}
 
 	// when does the eye ray intersect atmosphere
@@ -35,7 +35,7 @@ void main(void)
 	{
 		vec3 surfaceNorm = normalize(eyepos - geosphereCenter);
 		for (int i=0; i<NUM_LIGHTS; ++i) {
-			atmosDiffuse += gl_LightSource[i].diffuse * max(0.0, dot(surfaceNorm, normalize(vec3(gl_LightSource[i].position))));
+			atmosDiffuse += gl_LightSource[i].diffuse * gl_TexCoord[2][i] * max(0.0, dot(surfaceNorm, normalize(vec3(gl_LightSource[i].position))));
 		}
 	}
 	atmosDiffuse.a = 1.0;

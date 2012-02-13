@@ -54,6 +54,8 @@ private:
 
 	Frame *m_camFrame;
 
+	void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum);
+
 	// temp attrs for sorting and drawing
 	struct BodyAttrs {
 		Body *body;
@@ -67,6 +69,9 @@ private:
 
 		// body flags. DRAW_LAST is the interesting one
 		Uint32 bodyFlags;
+
+		// effective light intensities [0-1]
+		float lightIntensities[4];
 
 		// for sorting. "should a be drawn before b?"
 		friend bool operator<(const BodyAttrs &a, const BodyAttrs &b) {
@@ -85,9 +90,15 @@ private:
 			// both in normal draw; distance order
 			return a.camDist > b.camDist;
 		}
+
+		// render, modifying lights as needed:
+		void Render();
 	};
 
+	void RenderBody(BodyAttrs *attrs);
+
 	std::list<BodyAttrs> m_sortedBodies;
+	Body *m_systemLightBodies[4];
 };
 
 #endif

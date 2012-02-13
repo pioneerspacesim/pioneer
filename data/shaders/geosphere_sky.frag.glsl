@@ -3,8 +3,15 @@ uniform vec4 atmosColor;
 // smaller the geosphere has been made
 uniform float geosphereScale;
 uniform float geosphereAtmosTopRad;
+uniform float geosphereRadius;
 uniform vec3 geosphereCenter;
 uniform float geosphereAtmosFogDensity;
+
+uniform int occultedLight;
+uniform vec3 occultCentre;
+uniform float srad;
+uniform float lrad;
+uniform float maxOcclusion;
 
 varying vec4 varyingEyepos;
 
@@ -45,7 +52,46 @@ void main(void)
 	{
 		vec3 surfaceNorm = normalize(eyepos - geosphereCenter);
 		for (int i=0; i<NUM_LIGHTS; ++i) {
-			atmosDiffuse += gl_LightSource[i].diffuse * max(0.0, dot(surfaceNorm, normalize(vec3(gl_LightSource[i].position))));
+			vec3 lightDir = normalize(vec3(gl_LightSource[i].position));
+			float uneclipsed = 1.0;
+			if (i == occultedLight)
+			{
+				// Eclipse handling:
+				// Calculate proportion of the in-atmosphere eyeline which is shadowed,
+				// weighting according to completeness of the shadow (penumbra vs umbra).
+				// This ignores variation in atmosphere density, and ignores outscatter along
+				// the eyeline, so is not very accurate. But it gives decent results.
+				vec3 dir = normalize(eyepos);
+				vec3 a = (skyNear * dir - geosphereCenter) / geosphereRadius;
+				vec3 b = (skyFar * dir - geosphereCenter) / geosphereRadius;
+				vec3 ap = a - dot(a,lightDir)*lightDir - occultCentre;
+				vec3 bp = b - dot(b,lightDir)*lightDir - occultCentre;
+
+				vec3 dirp = normalize(bp-ap);
+				float ad = dot(ap,dirp);
+				float bd = dot(bp,dirp);
+				if (bd > ad) {
+					vec3 p = ap - dot(ap,dirp)*dirp;
+					float perpsq = dot(p,p);
+
+					// We do need a gradually deepening penumbra, or we get ugly lines when the
+					// shadow is viewed side-on; a more efficient approach to this than the
+					// following loop would be nice.
+					const int pN = 12;
+					for (int pi=pN; pi>=0; pi--) {
+						float r = srad + float(pi)*lrad/float(pN);
+						float c = r*r - perpsq;
+						if (c < 0.0)
+							break;
+						float rootc = sqrt(c);
+						uneclipsed -= (maxOcclusion/float(pN+1)) *
+							(clamp(rootc,ad,bd) - clamp(-rootc,ad,bd)) / (bd-ad);
+					}
+				}
+				// Note: the shadow the planet casts on its own atmosphere is dealt with adequately
+				// by the "dot(surfaceNorm, lightDir)" term below.
+			}
+			atmosDiffuse += gl_LightSource[i].diffuse * uneclipsed * max(0.0, dot(surfaceNorm, lightDir));
 		}
 	}
 	atmosDiffuse.a = 1.0;
