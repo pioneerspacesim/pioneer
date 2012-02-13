@@ -38,11 +38,9 @@ public:
 	void SetColor(const Color &);
 	virtual void Draw(Renderer *r);
 private:
-	vector3f m_start;
-	vector3f m_end;
-	Color    m_startColor;
-	Color    m_endColor;
-	float    m_width;
+	vector3f m_points[2];
+	Color m_colors[2];
+	float m_width;
 };
 
 }

@@ -121,20 +121,22 @@ void Starfield::Draw(Renderer *renderer)
 
 		double hyperspaceProgress = Pi::game->GetHyperspaceProgress();
 
-		LineVertex *vtx = new LineVertex[BG_STAR_MAX * 2];
+		//XXX this is a lot of lines
+		vector3f *vtx = new vector3f[BG_STAR_MAX * 2];
+		Color *col = new Color[BG_STAR_MAX * 2];
 		VertexArray *va = m_model->GetSurface(0)->GetVertices();
 		for (int i=0; i<BG_STAR_MAX; i++) {
 			
 			vector3f v(va->position[i]);
 			v += vector3f(pz*hyperspaceProgress*mult);
 
-			vtx[i*2].position = va->position[i] + v;
-			vtx[i*2].color = va->diffuse[i];
+			vtx[i*2] = va->position[i] + v;
+			col[i*2] = va->diffuse[i];
 
-			vtx[i*2+1].position = v;
-			vtx[i*2+1].color = va->diffuse[i];
+			vtx[i*2+1] = v;
+			col[i*2+1] = va->diffuse[i];
 		}
-		Pi::renderer->DrawLines(BG_STAR_MAX*2, vtx);
+		Pi::renderer->DrawLines(BG_STAR_MAX*2, vtx, col);
 		delete[] vtx;
 	}
 
