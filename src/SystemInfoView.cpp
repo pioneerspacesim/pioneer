@@ -385,8 +385,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 void SystemInfoView::Draw3D()
 {
 	m_renderer->SetTransform(matrix4x4f::Identity());
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_renderer->ClearScreen();
 }
 
 void SystemInfoView::Update()

@@ -302,8 +302,7 @@ void SectorView::Draw3D()
 	m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 100.f);
 
 	matrix4x4f modelview = matrix4x4f::Identity();
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_renderer->ClearScreen();
 	
 	m_sectorLabel->SetText(stringf(Lang::SECTOR_X_Y_Z,
 		formatarg("x", int(floorf(m_pos.x))),

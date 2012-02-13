@@ -320,8 +320,10 @@ void InfoView::UpdateInfo()
 void InfoView::Draw3D()
 {
 	m_renderer->SetTransform(matrix4x4f::Identity());
-	glClearColor(0.0f,0.2f,0.4f,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//XXX just use a blue background widget
+	m_renderer->SetClearColor(Color(0.f, 0.2f, 0.4f, 0.f));
+	m_renderer->ClearScreen();
+	m_renderer->SetClearColor(Color(0.f));
 }
 
 void InfoView::Update()

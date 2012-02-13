@@ -271,9 +271,7 @@ void SystemView::Draw3D()
 {
 	m_renderer->SetPerspectiveProjection(50.f, Pi::GetScrAspect(), 1.f, 1000.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
-
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_renderer->ClearScreen();
 	
 	SystemPath path = Pi::sectorView->GetSelectedSystem();
 	if (m_system) {

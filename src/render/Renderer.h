@@ -76,6 +76,10 @@ public:
 	//traditionally gui happens between endframe and swapbuffers
 	virtual bool SwapBuffers() = 0;
 
+	//clear depth and/or color buffer
+	virtual bool ClearScreen(bool color=true, bool depth=true) { return false; }
+	virtual bool SetClearColor(const Color &c) { return false; }
+
 	//set the model view matrix
 	virtual bool SetTransform(const matrix4x4d &m) { return false; }
 	virtual bool SetTransform(const matrix4x4f &m) { return false; }

@@ -17,6 +17,9 @@ public:
 	virtual bool EndFrame();
 	virtual bool SwapBuffers();
 
+	virtual bool ClearScreen(bool color=true, bool depth=true);
+	virtual bool SetClearColor(const Color &c);
+
 	virtual bool SetTransform(const matrix4x4d &m);
 	virtual bool SetTransform(const matrix4x4f &m);
 	virtual bool SetPerspectiveProjection(float fov, float aspect, float near, float far);

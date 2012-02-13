@@ -92,10 +92,7 @@ void GalacticView::Draw3D()
 	float offset_y = (-pos.y*Sector::SIZE + Galaxy::SOL_OFFSET_Y)/Galaxy::GALAXY_RADIUS;
 
 	m_renderer->SetOrthographicProjection(-Pi::GetScrAspect(), Pi::GetScrAspect(), 1.f, -1.f, -1.f, 1.f);
-
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	m_renderer->ClearScreen();
 	glDisable(GL_DEPTH_TEST);
 	m_renderer->SetBlendMode(BLEND_SOLID);
 

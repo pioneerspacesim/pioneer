@@ -139,8 +139,7 @@ void Camera::Draw(Renderer *renderer)
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_renderer->ClearScreen();
 
 	matrix4x4d trans2bg;
 	Frame::GetFrameRenderTransform(Pi::game->GetSpace()->GetRootFrame(), m_camFrame, trans2bg);

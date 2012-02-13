@@ -41,7 +41,7 @@ RendererLegacy::RendererLegacy(int w, int h) :
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 
-	glClearColor(0,0,0,0);
+	SetClearColor(Color(0.f));
 
 	glViewport(0, 0, m_width, m_height);
 }
@@ -60,8 +60,7 @@ bool RendererLegacy::GetNearFarRange(float &near, float &far) const
 
 bool RendererLegacy::BeginFrame()
 {
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	ClearScreen(true, true);
 	return true;
 }
 
@@ -74,6 +73,25 @@ bool RendererLegacy::SwapBuffers()
 {
 	glError();
 	Render::SwapBuffers();
+	return true;
+}
+
+bool RendererLegacy::ClearScreen(bool color, bool depth)
+{
+	if (!color && !depth) return false;
+
+	GLbitfield mask = (
+		(color ? GL_COLOR_BUFFER_BIT : 0) |
+		(depth ? GL_DEPTH_BUFFER_BIT : 0)
+	);
+	glClear(mask);
+
+	return true;
+}
+
+bool RendererLegacy::SetClearColor(const Color &c)
+{
+	glClearColor(c.r, c.g, c.b, c.a);
 	return true;
 }
 

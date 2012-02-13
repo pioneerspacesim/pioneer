@@ -329,8 +329,7 @@ void Viewer::PickModel(const std::string &initial_name, const std::string &initi
 		this->Hide();
 		f->ShowAll();
 		PollEvents();
-		glClearColor(0,0,0,0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		renderer->ClearScreen();
 		Gui::Draw();
 		glError();
 		Render::SwapBuffers();
@@ -582,9 +581,7 @@ void Viewer::MainLoop()
 
 		renderer->SetPerspectiveProjection(85, g_width/float(g_height), 1.f, 10000.f);
 		renderer->SetTransform(matrix4x4f::Identity());
-
-		glClearColor(0,0,0,0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		renderer->ClearScreen();
 		
 		SetSbreParams();
 
@@ -770,7 +767,6 @@ int main(int argc, char **argv)
         glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-	glClearColor(0,0,0,0);
 	glViewport(0, 0, g_width, g_height);
 
 	TextureCache *textureCache = new TextureCache;

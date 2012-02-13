@@ -62,7 +62,7 @@ void ShipSpinnerWidget::Draw()
 	glLoadIdentity();
 
 	glEnable(GL_DEPTH_TEST);
-	glClear(GL_DEPTH_BUFFER_BIT);
+	Pi::renderer->ClearScreen(false, true);
 
 	Color lc(0.5f, 0.5f, 0.5f, 0.f);
 	Light l;
