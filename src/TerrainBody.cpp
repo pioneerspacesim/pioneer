@@ -115,7 +115,7 @@ void TerrainBody::Render(Renderer *renderer, const vector3d &viewCoords, const m
 		// if not using shader then z-buffer precision is hopeless and
 		// we can't place objects on the terrain without awful z artifacts
 		if (shrink || !Render::AreShadersEnabled()) {
-			renderer->ClearScreen(false, true);
+			renderer->ClearDepthBuffer();
 		}
 	}
 	glPopMatrix();

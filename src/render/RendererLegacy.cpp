@@ -60,7 +60,7 @@ bool RendererLegacy::GetNearFarRange(float &near, float &far) const
 
 bool RendererLegacy::BeginFrame()
 {
-	ClearScreen(true, true);
+	ClearScreen();
 	return true;
 }
 
@@ -76,15 +76,16 @@ bool RendererLegacy::SwapBuffers()
 	return true;
 }
 
-bool RendererLegacy::ClearScreen(bool color, bool depth)
+bool RendererLegacy::ClearScreen()
 {
-	if (!color && !depth) return false;
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	GLbitfield mask = (
-		(color ? GL_COLOR_BUFFER_BIT : 0) |
-		(depth ? GL_DEPTH_BUFFER_BIT : 0)
-	);
-	glClear(mask);
+	return true;
+}
+
+bool RendererLegacy::ClearDepthBuffer()
+{
+	glClear(GL_DEPTH_BUFFER_BIT);
 
 	return true;
 }
