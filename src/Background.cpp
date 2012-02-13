@@ -93,8 +93,6 @@ void Starfield::Fill(unsigned long seed)
 
 void Starfield::Draw(Renderer *renderer)
 {
-	glDisable(GL_DEPTH_TEST);
-
 	if (Render::AreShadersEnabled()) {
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 	} else {
@@ -139,8 +137,6 @@ void Starfield::Draw(Renderer *renderer)
 		Pi::renderer->DrawLines(BG_STAR_MAX*2, vtx);
 		delete[] vtx;
 	}
-
-	glEnable(GL_DEPTH_TEST);
 
 	if (Render::AreShadersEnabled()) {
 		glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
@@ -216,10 +212,8 @@ MilkyWay::~MilkyWay()
 
 void MilkyWay::Draw(Renderer *renderer)
 {
-	glDisable(GL_DEPTH_TEST);
 	assert(m_model != 0);
 	renderer->DrawStaticMesh(m_model);
-	glEnable(GL_DEPTH_TEST);
 }
 
 Container::Container()
@@ -242,12 +236,14 @@ void Container::Draw(const matrix4x4d &transform) const
 	//XXX not really const - renderer can modify the buffers
 	glPushMatrix();
 	Renderer *renderer = Pi::renderer;
+	Pi::renderer->SetDepthTest(false);
 	renderer->SetTransform(transform);
 	const_cast<MilkyWay&>(m_milkyWay).Draw(renderer);
 	// squeeze the starfield a bit to get more density near horizon
 	matrix4x4d starTrans = transform * matrix4x4d::ScaleMatrix(1.0, 0.4, 1.0);
 	renderer->SetTransform(starTrans);
 	const_cast<Starfield&>(m_starField).Draw(renderer);
+	Pi::renderer->SetDepthTest(true);
 	glPopMatrix();
 }
 

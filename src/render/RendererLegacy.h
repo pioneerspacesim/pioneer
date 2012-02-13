@@ -29,6 +29,7 @@ public:
 	virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax);
 
 	virtual bool SetBlendMode(BlendMode mode);
+	virtual bool SetDepthTest(bool enabled);
 
 	virtual bool SetLights(int numlights, const Light *l);
 	virtual bool SetAmbientColor(const Color &c);

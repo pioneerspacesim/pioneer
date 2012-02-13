@@ -151,7 +151,7 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 {
 	renderer->SetBlendMode(BLEND_ALPHA_ONE);
 	glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT );
-	glEnable(GL_DEPTH_TEST);
+	renderer->SetDepthTest(true);
 	glEnable(GL_NORMALIZE);
 
 	Material mat;

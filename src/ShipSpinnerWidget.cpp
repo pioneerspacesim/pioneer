@@ -61,7 +61,7 @@ void ShipSpinnerWidget::Draw()
 	glPushMatrix();
 	glLoadIdentity();
 
-	glEnable(GL_DEPTH_TEST);
+	Pi::renderer->SetDepthTest(true);
 	Pi::renderer->ClearDepthBuffer();
 
 	Color lc(0.5f, 0.5f, 0.5f, 0.f);
@@ -89,7 +89,7 @@ void ShipSpinnerWidget::Draw()
 
 	glPopAttrib();
 
-	glDisable(GL_DEPTH_TEST);
+	Pi::renderer->SetDepthTest(false);
 
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();

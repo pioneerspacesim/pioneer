@@ -25,7 +25,7 @@ double Star::GetClipRadius() const
 
 void Star::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	glDisable(GL_DEPTH_TEST);
+	renderer->SetDepthTest(false);
 	glPushMatrix();
 
 	double radius = GetClipRadius();
@@ -70,7 +70,7 @@ void Star::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x
 	renderer->SetBlendMode(BLEND_SOLID);
 
 	glPopMatrix();
-	glEnable(GL_DEPTH_TEST);
+	renderer->SetDepthTest(true);
 
 	TerrainBody::Render(renderer, viewCoords, viewTransform);
 }

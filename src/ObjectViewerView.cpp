@@ -79,7 +79,7 @@ void ObjectViewerView::Draw3D()
 	glEnable(GL_LIGHT0);
 
 	m_renderer->SetTransform(matrix4x4f::Identity());
-	glDisable(GL_DEPTH_TEST);
+	m_renderer->SetDepthTest(false);
 	Render::State::SetZnearZfar(znear, zfar);
 
 	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
@@ -102,6 +102,8 @@ void ObjectViewerView::Draw3D()
 	
 		body->Render(m_renderer, vector3d(0,0,-viewingDist), m_camRot);
 	}
+
+	//XXX restore states!
 }
 
 void ObjectViewerView::OnSwitchTo()

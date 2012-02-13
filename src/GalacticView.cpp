@@ -93,7 +93,7 @@ void GalacticView::Draw3D()
 
 	m_renderer->SetOrthographicProjection(-Pi::GetScrAspect(), Pi::GetScrAspect(), 1.f, -1.f, -1.f, 1.f);
 	m_renderer->ClearScreen();
-	glDisable(GL_DEPTH_TEST);
+	m_renderer->SetDepthTest(false);
 	m_renderer->SetBlendMode(BLEND_SOLID);
 
 	// XXX fixed function combiner
@@ -143,7 +143,7 @@ void GalacticView::Draw3D()
 	m_labels->Clear();
 	PutLabels(-vector3d(offset_x, offset_y, 0.0));
 
-	glEnable(GL_DEPTH_TEST);
+	m_renderer->SetDepthTest(true);
 }
 	
 void GalacticView::Update()

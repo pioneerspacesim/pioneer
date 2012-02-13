@@ -168,6 +168,15 @@ bool RendererLegacy::SetBlendMode(BlendMode m)
 	return true;
 }
 
+bool RendererLegacy::SetDepthTest(bool enabled)
+{
+	if (enabled)
+		glEnable(GL_DEPTH_TEST);
+	else
+		glDisable(GL_DEPTH_TEST);
+	return true;
+}
+
 bool RendererLegacy::SetLights(int numlights, const Light *lights)
 {
 	if (numlights < 1) return false;
