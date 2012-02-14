@@ -369,9 +369,38 @@ bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, cons
 {
 	if (count < 1 || !material || !material->texture0) return false;
 
-	material->texture0->Bind();
-	Render::PutPointSprites(count, const_cast<vector3f*>(positions), size, material->diffuse);
-	material->texture0->Unbind();
+	SetBlendMode(BLEND_ALPHA);
+	SetDepthWrite(false);
+	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0, count * 6);
+
+	matrix4x4f rot;
+	glGetFloatv(GL_MODELVIEW_MATRIX, &rot[0]);
+	rot.ClearToRotOnly();
+	rot = rot.InverseOf();
+
+	const float sz = 0.5f*size;
+	const vector3f rotv1 = rot * vector3f(sz, sz, 0.0f);
+	const vector3f rotv2 = rot * vector3f(sz, -sz, 0.0f);
+	const vector3f rotv3 = rot * vector3f(-sz, -sz, 0.0f);
+	const vector3f rotv4 = rot * vector3f(-sz, sz, 0.0f);
+
+	//do two-triangle quads. Could also do indexed surfaces.
+	//GL2 renderer should use actual point sprites
+	//(see history of Render.cpp for point code remnants)
+	for (int i=0; i<count; i++) {
+		const vector3f &pos = positions[i];
+
+		va.Add(pos+rotv4, vector2f(0.f, 0.f)); //top left
+		va.Add(pos+rotv3, vector2f(0.f, 1.f)); //bottom left
+		va.Add(pos+rotv1, vector2f(1.f, 0.f)); //top right
+
+		va.Add(pos+rotv1, vector2f(1.f, 0.f)); //top right
+		va.Add(pos+rotv3, vector2f(0.f, 1.f)); //bottom left
+		va.Add(pos+rotv2, vector2f(1.f, 1.f)); //bottom right
+	}
+	DrawTriangles(&va, material);
+	SetBlendMode(BLEND_SOLID);
+	SetDepthWrite(true);
 
 	return true;
 }
