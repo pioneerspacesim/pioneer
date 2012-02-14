@@ -67,18 +67,11 @@ ObjectViewerView::ObjectViewerView(): View()
 
 void ObjectViewerView::Draw3D()
 {
-	static float rot;
-	rot += 0.1;
 	m_renderer->ClearScreen();
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
 	float znear, zfar;
 	m_renderer->GetNearFarRange(znear, zfar);
-	float fracH = znear / Pi::GetScrAspect();
-	glFrustum(-znear, znear, -fracH, fracH, znear, zfar);
-
+	m_renderer->SetPerspectiveProjection(75.f, Pi::GetScrAspect(), znear, zfar);
 	m_renderer->SetTransform(matrix4x4f::Identity());
-	Render::State::SetZnearZfar(znear, zfar);
 
 	Light light;
 	light.SetType(Light::LIGHT_DIRECTIONAL);
