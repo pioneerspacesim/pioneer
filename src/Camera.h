@@ -49,8 +49,6 @@ private:
 	float m_zNear;
 	float m_zFar;
 
-	bool m_shadersEnabled;
-
 	Render::Frustum m_frustum;
 
 	matrix4x4d m_pose;

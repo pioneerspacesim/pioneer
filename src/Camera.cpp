@@ -19,7 +19,6 @@ Camera::Camera(const Body *body, float width, float height, float znear, float z
 	m_fovAng(Pi::config.Float("FOV")),
 	m_zNear(znear),
 	m_zFar(zfar),
-	m_shadersEnabled(Render::AreShadersEnabled()),
 	m_frustum(m_width, m_height, m_fovAng, znear, zfar),
 	m_pose(matrix4x4d::Identity()),
 	m_camFrame(0),
@@ -75,12 +74,6 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Li
 void Camera::Update()
 {
 	if (!m_body) return;
-
-	//XXX I guess this is for updating the Render::znear/far values?
-	if (m_shadersEnabled != Render::AreShadersEnabled()) {
-		m_frustum = Render::Frustum(m_width, m_height, m_fovAng, m_zNear, m_zFar);
-		m_shadersEnabled = !m_shadersEnabled;
-	}
 
 	// make temporary camera frame at the body
 	m_camFrame = new Frame(m_body->GetFrame(), "camera", Frame::TEMP_VIEWING);
