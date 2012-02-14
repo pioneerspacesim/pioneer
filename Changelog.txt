@@ -18,6 +18,7 @@ Alpha 20
      * HDR visuals removed (#939, #963)
      * Fix projectile collision checks (#965)
      * Various scanner range fixes (#944)
+     * Make sure all bodies have a minimum radius of at least 10km (#968, #321, #301)
 
    * Internal changes
      * Silence MSVC warnings (#964)
