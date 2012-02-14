@@ -32,7 +32,7 @@ Projectile::Projectile(): Body()
 	//+x down
 	//+y right
 	//+z forwards (or projectile direction)
-	const float w = 0.25f;
+	const float w = 0.5f;
 
 	vector3f one(0.f, -w, 0.f); //top left
 	vector3f two(0.f,  w, 0.f); //top right
@@ -58,7 +58,7 @@ Projectile::Projectile(): Body()
 	//create quads for viewing on end
 	//these are added in the same vertex array to avoid a
 	//vertex pointer change
-	float gw = 0.25f;
+	float gw = 0.5f;
 	float gz = -0.1f;
 
 	for (int i=0; i < 3; i++) {
@@ -70,7 +70,7 @@ Projectile::Projectile(): Body()
 		m_verts.push_back(Vertex(vector3f(gw, -gw, gz), 0.f, 0.f));
 		m_verts.push_back(Vertex(vector3f(-gw, -gw, gz), 0.f, 1.f));
 
-		gw -= 0.05f; // they get smaller
+		gw -= 0.1f; // they get smaller
 		gz -= 0.3; // as they move back
 	}
 }
@@ -223,7 +223,7 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	// increase visible size based on distance from camera, z is always negative
 	float size = Equip::lasers[m_type].psize;
 	float length = size - float(viewCoords.z / (500.f + size));
-	float width = length / 3;
+	float width = length / 6;
 
 	vector3f v1, v2;
 	matrix4x4f m = matrix4x4f::Identity();
