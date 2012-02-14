@@ -40,14 +40,16 @@ void Star::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x
 		len *= 0.25;
 	}
 
-	glTranslatef(float(fpos.x), float(fpos.y), float(fpos.z));
+	matrix4x4d trans = matrix4x4d::Identity();
+	trans.Translate(float(fpos.x), float(fpos.y), float(fpos.z));
 	
 	// face the camera dammit
 	vector3d zaxis = viewCoords.NormalizedSafe();
 	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
 	vector3d yaxis = zaxis.Cross(xaxis);
 	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
-	glMultMatrixd(&rot[0]);
+
+	renderer->SetTransform(trans * rot);
 
 	const float *col = StarSystem::starRealColors[GetSBody()->type];
 

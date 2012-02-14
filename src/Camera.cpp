@@ -10,6 +10,7 @@
 #include "render/Render.h"
 #include "render/Renderer.h"
 #include "render/VertexArray.h"
+#include "render/Material.h"
 
 Camera::Camera(const Body *body, float width, float height, float znear, float zfar) :
 	m_body(body),
@@ -186,22 +187,22 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 {
 	if (!m_renderer) return;
 
-	glPushMatrix();
-
-	// XXX store znear/zfar in the camera
+	// XXX store znear/zfar in the camera since
+	// GetNearFarRange is not necessarily the current value
 	float znear, zfar;
 	m_renderer->GetNearFarRange(znear, zfar);
-	double newdist = znear + 0.5f * (zfar - znear);
-	double scale = newdist / viewCoords.Length();
+	const double newdist = znear + 0.5f * (zfar - znear);
+	const double scale = newdist / viewCoords.Length();
 
-	glTranslatef(float(scale*viewCoords.x), float(scale*viewCoords.y), float(scale*viewCoords.z));
+	matrix4x4d trans = matrix4x4d::Identity();
+	trans.Translate(scale*viewCoords.x, scale*viewCoords.y, scale*viewCoords.z);
 
 	// face the camera dammit
 	vector3d zaxis = viewCoords.Normalized();
 	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
 	vector3d yaxis = zaxis.Cross(xaxis);
 	matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
-	glMultMatrixd(&rot[0]);
+	trans = trans * rot;
 
 	m_renderer->SetDepthTest(false);
 	m_renderer->SetBlendMode(BLEND_ALPHA_ONE);
@@ -251,8 +252,13 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 		}
 	}
 
-	m_renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
+	Material mat;
+	mat.unlit = true;
+	mat.vertexColors = true;
 
+	glPushMatrix();
+	m_renderer->SetTransform(trans);
+	m_renderer->DrawTriangles(&va, &mat, TRIANGLE_FAN);
 	m_renderer->SetBlendMode(BLEND_SOLID);
 	m_renderer->SetDepthTest(true);
 	glPopMatrix();

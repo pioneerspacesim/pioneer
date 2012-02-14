@@ -209,28 +209,32 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 
 	glPushMatrix();
 
+	//XXX pass the transform
+	matrix4x4d curTrans;
+	glGetDoublev(GL_MODELVIEW_MATRIX, &curTrans[0]);
+
 	// face the camera dammit
 	vector3d zaxis = (-camPos).Normalized();
 	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
 	vector3d yaxis = zaxis.Cross(xaxis);
 	matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
-	glMultMatrixd(&rot[0]);
+	const matrix4x4d trans = curTrans * rot;
 
-	matrix4x4f invViewRot;
-	glGetFloatv(GL_MODELVIEW_MATRIX, &invViewRot[0]);
+	matrix4x4d invViewRot = trans;
 	invViewRot.ClearToRotOnly();
 	invViewRot = invViewRot.InverseOf();
 
+	//XXX this is always 1
 	const int numLights = Pi::worldView->GetNumLights();
 	assert(numLights < 4);
-	vector3f lightDir[4];
+	vector3d lightDir[4];
 	float lightCol[4][4];
-	// only 
+	// only
 	for (int i=0; i<numLights; i++) {
 		float temp[4];
 		glGetLightfv(GL_LIGHT0 + i, GL_DIFFUSE, lightCol[i]);
 		glGetLightfv(GL_LIGHT0 + i, GL_POSITION, temp);
-		lightDir[i] = (invViewRot * vector3f(temp[0], temp[1], temp[2])).Normalized();
+		lightDir[i] = (invViewRot * vector3d(temp[0], temp[1], temp[2])).Normalized();
 	}
 
 	const double angStep = M_PI/32;
@@ -246,8 +250,6 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 	r2 = rot * r2;
 
 	rot = matrix4x4d::RotateZMatrix(angStep);
-
-	renderer->SetBlendMode(BLEND_ALPHA_ONE);
 
 	VertexArray vts(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL);
 	for (float ang=0; ang<2*M_PI; ang+=float(angStep)) {
@@ -271,6 +273,10 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 	Material mat;
 	mat.unlit = true;
 	mat.twoSided = true;
+	mat.vertexColors = true;
+
+	renderer->SetTransform(trans);
+	renderer->SetBlendMode(BLEND_ALPHA_ONE);
 	renderer->DrawTriangles(&vts, &mat, TRIANGLE_STRIP);
 	renderer->SetBlendMode(BLEND_SOLID);
 

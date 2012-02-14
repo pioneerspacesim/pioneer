@@ -90,6 +90,8 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 	switch (m_type) {
 		case TYPE_NONE: break;
 		case TYPE_EXPLOSION:
+			//XXX replace gluSphere with a lmrmodel or
+			//generate sphere geometry elswhere
 			glPushMatrix();
 			glTranslatef(fpos.x, fpos.y, fpos.z);
 			glPushAttrib(GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT);

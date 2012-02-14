@@ -1020,6 +1020,8 @@ void Ship::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x
 
 		// draw shield recharge bubble
 		if (m_stats.shield_mass_left < m_stats.shield_mass) {
+			//XXX replace gluSphere with a lmrmodel or
+			//generate sphere geometry elswhere
 			float shield = 0.01f*GetPercentShields();
 			glDisable(GL_LIGHTING);
 			glEnable(GL_BLEND);
