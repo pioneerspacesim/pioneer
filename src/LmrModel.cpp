@@ -13,6 +13,7 @@
 #include "TextureCache.h"
 #include "render/Render.h"
 #include "render/Renderer.h"
+#include "render/Material.h"
 #include <set>
 #include <algorithm>
 
@@ -409,14 +410,23 @@ public:
 					glDisable(GL_TEXTURE_2D);
 				}
 				break;
-			case OP_DRAW_BILLBOARDS:
-				// XXX not using vbo yet
+			case OP_DRAW_BILLBOARDS: {
 				Render::UnbindAllBuffers();
-				op.billboards.texture->Bind();
-				Render::PutPointSprites(op.billboards.count, &m_vertices[op.billboards.start].v, op.billboards.size,
-						op.billboards.col, sizeof(Vertex));
+				//XXX have to copy positions to a temporary array as
+				//renderer::drawpointsprites does not have a stride parameter
+				std::vector<vector3f> verts;
+				verts.reserve(op.billboards.count);
+				for (int i = 0; i < op.billboards.count; i++) {
+					verts.push_back(m_vertices[op.billboards.start + i].v);
+				}
+				Material mat;
+				mat.unlit = true;
+				mat.texture0 = op.billboards.texture;
+				mat.diffuse = Color(op.billboards.col[0], op.billboards.col[1], op.billboards.col[2], op.billboards.col[3]);
+				s_renderer->DrawPointSprites(op.billboards.count, &verts[0], &mat, op.billboards.size);
 				BindBuffers();
 				break;
+			}
 			case OP_SET_MATERIAL:
 				{
 					const LmrMaterial &m = m_model->m_materials[op.col.material_idx];
