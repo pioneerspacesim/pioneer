@@ -88,7 +88,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 
 	char filename[1024];
 
-	SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, ceil_pow2(FACE_WIDTH), ceil_pow2(FACE_HEIGHT), 32, 0xff, 0xff00, 0xff0000, 0xff000000);
+	SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, FACE_WIDTH, FACE_HEIGHT, 32, 0xff, 0xff00, 0xff0000, 0xff000000);
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/backgrounds/background_%d.png", background);
 	//printf("%s\n", filename);
@@ -169,10 +169,10 @@ void FaceVideoLink::Draw() {
 	m_texture->Unbind();
 	glDisable(GL_TEXTURE_2D);
 
-	float w = float(FACE_WIDTH) / ceil_pow2(FACE_WIDTH);
-	float h = float(FACE_HEIGHT) / ceil_pow2(FACE_HEIGHT);
+	float w = m_texture->GetTextureWidth();
+	float h = m_texture->GetTextureHeight();
 
-	// XXX can't use generic fillrect due to UV thing
+	// this is not entirely a standard quad, special uv coords
 	// XXX 2d vertices
 	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0);
 	Color white(1.f, 1.f, 1.f, 1.f);
