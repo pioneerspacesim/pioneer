@@ -221,7 +221,9 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	Color color = Equip::lasers[m_type].color;
 	float base_alpha = sqrt(1.0f - m_age/Equip::lasers[m_type].lifespan);
 	// increase visible size based on distance from camera, z is always negative
-	float size = Equip::lasers[m_type].psize - float(viewCoords.z / 600.f);
+	float size = Equip::lasers[m_type].psize;
+	float length = size - float(viewCoords.z / (500.f + size));
+	float width = length / 3;
 
 	vector3f v1, v2;
 	matrix4x4f m = matrix4x4f::Identity();
@@ -249,7 +251,7 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	glPushMatrix ();
 	glMultMatrixf (&m[0]);
 
-	glScalef (size, size, size*3);
+	glScalef (width, width, length);
 
 	//fade out side quads when facing nearly edge on
 	vector3f cdir(0.f, 0.f, 1.f);
