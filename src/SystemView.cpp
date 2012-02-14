@@ -270,7 +270,6 @@ void SystemView::GetTransformTo(SBody *b, vector3d &pos)
 void SystemView::Draw3D()
 {
 	m_renderer->SetPerspectiveProjection(50.f, Pi::GetScrAspect(), 1.f, 1000.f);
-	m_renderer->SetTransform(matrix4x4f::Identity());
 	m_renderer->ClearScreen();
 	
 	SystemPath path = Pi::sectorView->GetSelectedSystem();
@@ -286,15 +285,19 @@ void SystemView::Draw3D()
 
 	if (!m_system) m_system = StarSystem::GetCached(path);
 
+	// XXX fog is not going to be supported in renderer likely -
+	// fade the circles some other way
 	glEnable(GL_FOG);
 	glFogi(GL_FOG_MODE, GL_EXP2);
 	glFogfv(GL_FOG_COLOR, fogColor);
 	glFogf(GL_FOG_DENSITY, fogDensity);
 	glHint(GL_FOG_HINT, GL_NICEST);
 
-	glTranslatef(0,0,-ROUGH_SIZE_OF_TURD);
-	glRotatef(m_rot_x, 1, 0, 0);
-	glRotatef(m_rot_z, 0, 0, 1);
+	matrix4x4f trans = matrix4x4f::Identity();
+	trans.Translate(0,0,-ROUGH_SIZE_OF_TURD);
+	trans.Rotate(DEG2RAD(m_rot_x), 1, 0, 0);
+	trans.Rotate(DEG2RAD(m_rot_z), 0, 0, 1);
+	m_renderer->SetTransform(trans);
 	
 	vector3d pos(0,0,0);
 	if (m_selectedObject) GetTransformTo(m_selectedObject, pos);
