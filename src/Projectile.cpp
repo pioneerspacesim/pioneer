@@ -220,7 +220,8 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 
 	Color color = Equip::lasers[m_type].color;
 	float base_alpha = sqrt(1.0f - m_age/Equip::lasers[m_type].lifespan);
-	float size = Equip::lasers[m_type].psize * base_alpha;
+	// increase visible size based on distance from camera, z is always negative
+	float size = Equip::lasers[m_type].psize - float(viewCoords.z / 600.f);
 
 	vector3f v1, v2;
 	matrix4x4f m = matrix4x4f::Identity();
