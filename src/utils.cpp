@@ -329,17 +329,6 @@ void foreach_file_in(const std::string &directory, void (*callback)(const std::s
 	closedir(dir);
 }
 
-Uint32 ceil_pow2(Uint32 v) {
-	v--;
-	v |= v >> 1;
-	v |= v >> 2;
-	v |= v >> 4;
-	v |= v >> 8;
-	v |= v >> 16;
-	v++;
-	return v;
-}
-
 void Screendump(const char* destFile, const int width, const int height)
 {
 	std::string fname = join_path(GetPiUserDir("screenshots").c_str(), destFile, 0);

@@ -22,6 +22,7 @@ Alpha 20
 
    * Internal changes
      * Silence MSVC warnings (#964)
+     * Remove dependencies on Pi from Texture
 
 
 Alpha 19
