@@ -27,6 +27,10 @@ public:
 
 	friend vector2f operator*(const vector2f &v, const float &a) { return vector2f(v.x*a, v.y*a); }
 	friend vector2f operator*(const float &a, const vector2f &v) { return v*a; }
+
+	enum Component { X, Y };
+	const float &operator[](Component c) const { return c == X ? x : y; }
+	float &operator[](Component c) { return c == X ? x : y; }
 };
 
 #endif
