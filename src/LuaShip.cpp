@@ -8,6 +8,8 @@
 #include "Ship.h"
 #include "SpaceStation.h"
 #include "ShipType.h"
+#include "Sfx.h"
+#include "Sound.h"
 #include "Space.h"
 #include "Pi.h"
 #include "Player.h"
@@ -238,6 +240,8 @@ static int l_ship_explode(lua_State *l)
 	Ship *s = LuaShip::GetFromLua(1);
 	
 	Pi::game->GetSpace()->KillBody(dynamic_cast<Body*>(s));
+	Sfx::Add(s, Sfx::TYPE_EXPLOSION);
+	Sound::BodyMakeNoise(s, "Explosion_1", 1.0f);
 
 	LUA_DEBUG_END(l, 0);
 
