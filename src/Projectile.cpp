@@ -247,18 +247,18 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 
 	glDisable(GL_LIGHTING);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
-	glEnableClientState (GL_VERTEX_ARRAY);
-	glEnableClientState (GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState (GL_NORMAL_ARRAY);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
 	glEnable(GL_BLEND);
 	glDepthMask(GL_FALSE);
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_2D);
 
-	glPushMatrix ();
-	glMultMatrixf (&m[0]);
+	glPushMatrix();
+	glMultMatrixf(&m[0]);
 
-	glScalef (width, width, length);
+	glScalef(width, width, length);
 
 	//fade out side quads when facing nearly edge on
 	vector3f cdir(0.f, 0.f, 1.f);
@@ -285,14 +285,14 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	glDrawArrays(GL_TRIANGLES, flare_size, 3*6);
 	m_glowTex->Unbind();
 
-	glPopMatrix ();
+	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
 	glColor3f(1.f, 1.f, 1.f);
 	glDisable(GL_BLEND);
 	glDepthMask(GL_TRUE);
 	glEnable(GL_CULL_FACE);
-	glDisableClientState (GL_VERTEX_ARRAY);
-	glDisableClientState (GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 }
 
