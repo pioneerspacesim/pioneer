@@ -269,9 +269,9 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(view_dir)), length));
 
 	const int flare_size = 4*6;
+	Render::State::UseProgram(m_prog);
 	if (color.a > 0.01f) {
 		m_sideTex->Bind();
-		Render::State::UseProgram(m_prog);
 		m_prog->SetUniform("texture0", 0);
 		m_prog->SetUniform("color", color);
 		glColor4f(color.r, color.g, color.b, color.a);
@@ -295,6 +295,7 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 		m_glowTex->Unbind();
 	}
 
+	Render::State::UseProgram(0);
 	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
 	glColor3f(1.f, 1.f, 1.f);
