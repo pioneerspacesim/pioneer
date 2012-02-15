@@ -264,32 +264,36 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	// fade them out as they age so they don't suddenly disappear
 	// this matches the damage fall-off calculation
 	float base_alpha = sqrt(1.0f - m_age/Equip::lasers[m_type].lifespan);
-	// fade out side quads when facing nearly edge on
-	vector3f cdir(0.f, 0.f, 1.f);
-	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(cdir)), length));
+	// fade out side quads when viewing nearly edge on
+	vector3f view_dir = vector3f(viewCoords).Normalized();
+	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(view_dir)), length));
 
-	m_sideTex->Bind();
-	Render::State::UseProgram(m_prog);
-	m_prog->SetUniform("texture0", 0);
-	m_prog->SetUniform("color", color);
-	glColor4f(color.r, color.g, color.b, color.a);
-	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_verts[0].pos);
-	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &m_verts[0].u);
 	const int flare_size = 4*6;
-	glDrawArrays(GL_TRIANGLES, 0, flare_size);
+	if (color.a > 0.01f) {
+		m_sideTex->Bind();
+		Render::State::UseProgram(m_prog);
+		m_prog->SetUniform("texture0", 0);
+		m_prog->SetUniform("color", color);
+		glColor4f(color.r, color.g, color.b, color.a);
+		glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_verts[0].pos);
+		glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &m_verts[0].u);
+		glDrawArrays(GL_TRIANGLES, 0, flare_size);
+	}
 
-	// fade out glow quads when facing nearly edge on
+	// fade out glow quads when viewing nearly edge on
 	// these and the side quads fade at different rates
 	// so that they aren't both at the same alpha as that looks strange
-	color.a = base_alpha * powf(fabs(dir.Dot(cdir)), width);
+	color.a = base_alpha * powf(fabs(dir.Dot(view_dir)), width);
 
-	m_glowTex->Bind();
-	m_prog->SetUniform("color", color);
-	glColor4f(color.r, color.g, color.b, color.a);
-	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_verts[0].pos);
-	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &m_verts[0].u);
-	glDrawArrays(GL_TRIANGLES, flare_size, flare_size);
-	m_glowTex->Unbind();
+	if (color.a > 0.01f) {
+		m_glowTex->Bind();
+		m_prog->SetUniform("color", color);
+		glColor4f(color.r, color.g, color.b, color.a);
+		glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_verts[0].pos);
+		glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &m_verts[0].u);
+		glDrawArrays(GL_TRIANGLES, flare_size, flare_size);
+		m_glowTex->Unbind();
+	}
 
 	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
