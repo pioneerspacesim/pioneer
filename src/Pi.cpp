@@ -513,8 +513,6 @@ void Pi::Init()
 	Galaxy::Init();
 	draw_progress(0.2f);
 
-//	if (config.Int("DisableShaders")) Render::ToggleShaders();
-
 	CustomSystem::Init();
 	draw_progress(0.4f);
 
@@ -696,9 +694,6 @@ void Pi::HandleEvents()
 							if (Pi::game)
 								Pi::EndGame();
 							Pi::Quit();
-							break;
-						case SDLK_s: // Toggle Shaders
-							//Render::ToggleShaders();
 							break;
 						case SDLK_PRINT:	   // print
 						case SDLK_KP_MULTIPLY: // screen

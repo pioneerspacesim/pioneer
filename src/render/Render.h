@@ -32,7 +32,6 @@ namespace Render {
 	Renderer* Init(int screen_width, int screen_height, bool wantShaders);
 	void Uninit();
 	bool AreShadersEnabled();
-	void ToggleShaders();
 
 	void UnbindAllBuffers();
 	void BindArrayBuffer(GLuint bo);

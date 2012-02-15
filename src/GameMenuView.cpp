@@ -571,7 +571,6 @@ void GameMenuView::OnToggleShaders(Gui::ToggleButton *b, bool state)
 {
 	Pi::config.SetInt("DisableShaders", (state ? 0 : 1));
 	Pi::config.Save();
-	//Render::ToggleShaders();
 }
 
 void GameMenuView::OnToggleJoystick(Gui::ToggleButton *b, bool state)

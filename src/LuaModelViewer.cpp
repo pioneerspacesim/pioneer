@@ -588,9 +588,6 @@ static void PollEvents()
                     }
 				}
 				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(g_screen);
-				if (event.key.keysym.sym == SDLK_s && (g_viewer->m_model)) {
-					Render::ToggleShaders();
-				}
 				g_keyState[event.key.keysym.sym] = 1;
 				break;
 			case SDL_KEYUP:

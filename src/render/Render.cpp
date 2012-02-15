@@ -113,14 +113,6 @@ bool AreShadersEnabled()
 	return shadersEnabled;
 }
 
-void ToggleShaders()
-{
-	if (shadersAvailable) {
-		shadersEnabled = (shadersEnabled ? false : true);
-	}
-	printf("GLSL shaders %s.\n", shadersEnabled ? "on" : "off");
-}
-
 void PrintGLInfo() {
 	std::string fname = GetPiUserDir() + "opengl.txt";
 	FILE *f = fopen(fname.c_str(), "w");
