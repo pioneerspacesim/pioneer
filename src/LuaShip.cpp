@@ -194,6 +194,7 @@ static int l_ship_set_type(lua_State *l)
  *
  *  experimental
  */
+
 static int l_ship_set_hull_percent(lua_State *l)
 {
 	LUA_DEBUG_START(l);
