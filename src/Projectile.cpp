@@ -227,13 +227,6 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	vector3f from(&_from.x);
 	vector3f dir = vector3f(_dir).Normalized();
 
-	Color color = Equip::lasers[m_type].color;
-	float base_alpha = sqrt(1.0f - m_age/Equip::lasers[m_type].lifespan);
-	// increase visible size based on distance from camera, z is always negative
-	float dist_scale = float(viewCoords.z / -500);
-	float length = Equip::lasers[m_type].length + dist_scale;
-	float width = Equip::lasers[m_type].width + dist_scale;
-
 	vector3f v1, v2;
 	matrix4x4f m = matrix4x4f::Identity();
 	v1.x = dir.y; v1.y = dir.z; v1.z = dir.x;
@@ -260,9 +253,18 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	glPushMatrix();
 	glMultMatrixf(&m[0]);
 
+	// increase visible size based on distance from camera, z is always negative
+	// allows them to be smaller while maintaining visibility for game play
+	float dist_scale = float(viewCoords.z / -500);
+	float length = Equip::lasers[m_type].length + dist_scale;
+	float width = Equip::lasers[m_type].width + dist_scale;
 	glScalef(width, width, length);
 
-	//fade out side quads when facing nearly edge on
+	Color color = Equip::lasers[m_type].color;
+	// fade them out as they age so they don't suddenly disappear
+	// this matches the damage fall-off calculation
+	float base_alpha = sqrt(1.0f - m_age/Equip::lasers[m_type].lifespan);
+	// fade out side quads when facing nearly edge on
 	vector3f cdir(0.f, 0.f, 1.f);
 	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(cdir)), length));
 
@@ -276,7 +278,9 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	const int flare_size = 4*6;
 	glDrawArrays(GL_TRIANGLES, 0, flare_size);
 
-	//fade in glow quads when facing not so nearly face on
+	// fade out glow quads when facing nearly edge on
+	// these and the side quads fade at different rates
+	// so that they aren't both at the same alpha as that looks strange
 	color.a = base_alpha * powf(fabs(dir.Dot(cdir)), width);
 
 	m_glowTex->Bind();
