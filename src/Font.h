@@ -7,7 +7,7 @@
 class Font
 {
 protected:
-	Font(FontManager &fm, const std::string &config_file) : m_fontManager(fm), m_config(FontConfig(config_file)) {}
+	Font(FontManager &fm, const FontConfig &fc) : m_fontManager(fm), m_config(fc) {}
 
 	FontManager &GetFontManager() { return m_fontManager; }
 	FontConfig &GetConfig() { return m_config; }

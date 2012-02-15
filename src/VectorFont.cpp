@@ -375,7 +375,7 @@ void VectorFont::RenderMarkup(const char *str)
 	glPopMatrix();
 }
 
-VectorFont::VectorFont(FontManager &fm, const std::string &config_filename) : Font(fm, config_filename)
+VectorFont::VectorFont(FontManager &fm, const FontConfig &fc) : Font(fm, fc)
 {
 	// first time setup
 	if (!tobj) {
@@ -391,7 +391,7 @@ VectorFont::VectorFont(FontManager &fm, const std::string &config_filename) : Fo
 
 	std::string filename_ttf = GetConfig().String("FontFile");
 	if (filename_ttf.length() == 0) {
-		fprintf(stderr, "'%s' does not name a FontFile to use\n", config_filename.c_str());
+		fprintf(stderr, "'%s' does not name a FontFile to use\n", GetConfig().GetFilename().c_str());
 		abort();
 	}
 

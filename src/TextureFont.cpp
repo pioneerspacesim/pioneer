@@ -268,11 +268,11 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 	glDisable(GL_BLEND);
 }
 
-TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : Font(fm, config_filename)
+TextureFont::TextureFont(FontManager &fm, const FontConfig &fc) : Font(fm, fc)
 {
 	std::string filename_ttf = GetConfig().String("FontFile");
 	if (filename_ttf.length() == 0) {
-		fprintf(stderr, "'%s' does not name a FontFile to use\n", config_filename.c_str());
+		fprintf(stderr, "'%s' does not name a FontFile to use\n", GetConfig().GetFilename().c_str());
 		abort();
 	}
 
