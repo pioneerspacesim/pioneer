@@ -538,7 +538,7 @@ public:
 		glDisable(GL_TEXTURE_2D);
 		glColor3f(1.f, 1.f, 1.f);
 		s_renderer->SetBlendMode(BLEND_SOLID);
-		s_renderer->SetDepthWrite(false);
+		s_renderer->SetDepthWrite(true);
 		glEnable(GL_CULL_FACE);
 		glDisableClientState (GL_VERTEX_ARRAY);
 		glDisableClientState (GL_TEXTURE_COORD_ARRAY);
