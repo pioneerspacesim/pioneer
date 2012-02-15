@@ -28,6 +28,7 @@ noinst_HEADERS = \
 	EquipType.h \
 	FaceVideoLink.h \
 	FileSelectorWidget.h \
+	FileSystem.h \
 	Font.h \
 	FontManager.h \
 	Form.h \
@@ -161,6 +162,7 @@ pioneer_SOURCES	= \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
 	FileSelectorWidget.cpp \
+	FileSystem.cpp \
 	Font.cpp \
 	FontManager.cpp \
 	FormController.cpp \
