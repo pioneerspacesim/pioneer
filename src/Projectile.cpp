@@ -238,11 +238,10 @@ void Projectile::Render(Renderer *renderer, const vector3d &viewCoords, const ma
 	m[14] = from.z;
 
 	glDisable(GL_LIGHTING);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
 	glEnableClientState (GL_VERTEX_ARRAY);
 	glEnableClientState (GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState (GL_NORMAL_ARRAY);
-	glEnable(GL_BLEND);
+	renderer->SetBlendMode(BLEND_ALPHA_ONE);
 	renderer->SetDepthWrite(false);
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_2D);
@@ -280,12 +279,11 @@ void Projectile::Render(Renderer *renderer, const vector3d &viewCoords, const ma
 	glPopMatrix ();
 	glDisable(GL_TEXTURE_2D);
 	glColor3f(1.f, 1.f, 1.f);
-	glDisable(GL_BLEND);
+	renderer->SetBlendMode(BLEND_SOLID);
 	renderer->SetDepthWrite(true);
 	glEnable(GL_CULL_FACE);
 	glDisableClientState (GL_VERTEX_ARRAY);
 	glDisableClientState (GL_TEXTURE_COORD_ARRAY);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	m_prog->Unuse();
 }
 

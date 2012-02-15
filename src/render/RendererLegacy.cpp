@@ -369,7 +369,7 @@ bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, cons
 {
 	if (count < 1 || !material || !material->texture0) return false;
 
-	SetBlendMode(BLEND_ALPHA);
+	SetBlendMode(BLEND_ALPHA_ONE);
 	SetDepthWrite(false);
 	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0, count * 6);
 

@@ -435,9 +435,9 @@ public:
 					glMaterialfv (GL_FRONT, GL_EMISSION, m.emissive);
 					glMaterialf (GL_FRONT, GL_SHININESS, m.shininess);
 					if (m.diffuse[3] >= 1.0) {
-						glDisable(GL_BLEND);
+						s_renderer->SetBlendMode(BLEND_SOLID);
 					} else {
-						glEnable(GL_BLEND);
+						s_renderer->SetBlendMode(BLEND_ALPHA);
 					}
 				}
 				break;
@@ -525,12 +525,11 @@ public:
 		if (m_thrusters.empty()) return;
 
 		glDisable(GL_LIGHTING);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
+		s_renderer->SetBlendMode(BLEND_ADDITIVE);
+		s_renderer->SetDepthWrite(false);
 		glEnableClientState (GL_VERTEX_ARRAY);
 		glEnableClientState (GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState (GL_NORMAL_ARRAY);
-		glEnable(GL_BLEND);
-		glDepthMask(GL_FALSE);
 		glDisable(GL_CULL_FACE);
 		glEnable(GL_TEXTURE_2D);
 		for (unsigned int i=0; i<m_thrusters.size(); i++) {
@@ -538,12 +537,11 @@ public:
 		}
 		glDisable(GL_TEXTURE_2D);
 		glColor3f(1.f, 1.f, 1.f);
-		glDisable(GL_BLEND);
-		glDepthMask(GL_TRUE);
+		s_renderer->SetBlendMode(BLEND_SOLID);
+		s_renderer->SetDepthWrite(false);
 		glEnable(GL_CULL_FACE);
 		glDisableClientState (GL_VERTEX_ARRAY);
 		glDisableClientState (GL_TEXTURE_COORD_ARRAY);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 	void PushThruster(const vector3f &pos, const vector3f &dir, const float power, bool linear_only) {
 		unsigned int i = m_thrusters.size();
@@ -1187,7 +1185,6 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	glScalef(m_scale, m_scale, m_scale);
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_LIGHTING);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 
 	float pixrad = 0.5f * s_scrWidth * rstate->combinedScale * m_drawClipRadius / cameraPos.Length();
 	//printf("%s: %fpx\n", m_name.c_str(), pixrad);
@@ -1213,7 +1210,7 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	s_sunlightShader[0]->Unuse();
 
 	glDisable(GL_NORMALIZE);
-	glDisable(GL_BLEND);
+	s_renderer->SetBlendMode(BLEND_SOLID);
 	glPopMatrix();
 }
 

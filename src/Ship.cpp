@@ -1024,7 +1024,7 @@ void Ship::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x
 			//generate sphere geometry elswhere
 			float shield = 0.01f*GetPercentShields();
 			glDisable(GL_LIGHTING);
-			glEnable(GL_BLEND);
+			renderer->SetBlendMode(BLEND_ALPHA);
 			glColor4f((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
 			glPushMatrix();
 			glTranslatef(GLfloat(viewCoords.x), GLfloat(viewCoords.y), GLfloat(viewCoords.z));
@@ -1033,7 +1033,7 @@ void Ship::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x
 			Render::simpleShader->Unuse();
 			glPopMatrix();
 			glEnable(GL_LIGHTING);
-			glDisable(GL_BLEND);
+			renderer->SetBlendMode(BLEND_SOLID);
 		}
 	}
 	if (m_ecmRecharge > 0.0f) {

@@ -98,7 +98,7 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			glDisable(GL_LIGHTING);
 			glColor3f(1,1,0.5);
 			gluSphere(Pi::gluQuadric, 1000*m_age, 20,20);
-			glEnable(GL_BLEND);
+			renderer->SetBlendMode(BLEND_ALPHA);
 			glColor4f(1,0.5,0,0.66);
 			gluSphere(Pi::gluQuadric, 1500*m_age, 20,20);
 			glColor4f(1,0,0,0.33);
