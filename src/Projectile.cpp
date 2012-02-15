@@ -21,6 +21,7 @@ Projectile::Projectile(): Body()
 	m_type = 1;
 	m_age = 0;
 	m_parent = 0;
+	m_radius = 0;
 	m_flags |= FLAG_DRAW_LAST;
 
 	m_prog = new Render::Shader("flat", "#define TEXTURE0 1\n");
@@ -105,6 +106,7 @@ void Projectile::Load(Serializer::Reader &rd, Space *space)
 void Projectile::PostLoadFixup(Space *space)
 {
 	m_parent = space->GetBodyByIndex(m_parentIndex);
+	m_radius = GetRadius();
 }
 
 void Projectile::UpdateInterpolatedTransform(double alpha)
@@ -123,13 +125,6 @@ void Projectile::SetPosition(vector3d p)
 	m_orient[12] = p.x;
 	m_orient[13] = p.y;
 	m_orient[14] = p.z;
-}
-
-double Projectile::GetBoundingRadius() const
-{
-	float length = Equip::lasers[m_type].length;
-	float width = Equip::lasers[m_type].width;
-	return sqrt(length*length + width*width);
 }
 
 void Projectile::NotifyRemoved(const Body* const removedBody)
@@ -152,6 +147,13 @@ float Projectile::GetDamage() const
 	return dam * sqrt((lifespan - m_age)/lifespan);
 	// TEST
 //	return 0.01f;
+}
+
+double Projectile::GetRadius() const
+{
+	float length = Equip::lasers[m_type].length;
+	float width = Equip::lasers[m_type].width;
+	return sqrt(length*length + width*width);
 }
 
 static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const vector3d &pos)
@@ -307,5 +309,6 @@ void Projectile::Add(Body *parent, Equip::Type type, const vector3d &pos, const 
 	p->SetPosition(pos);
 	p->m_baseVel = baseVel;
 	p->m_dirVel = dirVel;
+	p->m_radius = p->GetRadius();
 	Pi::game->GetSpace()->AddBody(p);
 }
