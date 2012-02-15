@@ -276,7 +276,7 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	const int flare_size = 4*6;
 	glDrawArrays(GL_TRIANGLES, 0, flare_size);
 
-	//fade out glow quads when facing nearly edge on
+	//fade in glow quads when facing not so nearly face on
 	color.a = base_alpha * powf(fabs(dir.Dot(cdir)), width);
 
 	m_glowTex->Bind();
