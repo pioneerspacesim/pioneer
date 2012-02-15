@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "HyperspaceCloud.h"
 #include "LmrModel.h"
+#include "Game.h"
 
 /*
  * Class: Ship
@@ -208,6 +209,35 @@ static int l_ship_set_hull_percent(lua_State *l)
 	}
 
 	s->SetPercentHull(percent);
+
+	LUA_DEBUG_END(l, 0);
+
+	return 0;
+}
+
+/*
+ * Method: Explode
+ *
+ * Destroys the ship in an explosion
+ *
+ * > ship:Explode()
+ *
+ * Availability:
+ * 
+ * 	alpha 19
+ *
+ * Status:
+ *
+ * 	experimental
+ */
+
+static int l_ship_explode(lua_State *l)
+{
+	LUA_DEBUG_START(1);
+
+	Ship *s = LuaShip::GetFromLua(1);
+	
+	Pi::game->GetSpace()->KillBody(dynamic_cast<Body*>(s));
 
 	LUA_DEBUG_END(l, 0);
 
@@ -1223,6 +1253,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "GetStats", l_ship_get_stats },
 		{ "SetShipType", l_ship_set_type },
 		{ "SetHullPercent", l_ship_set_hull_percent },
+		{ "Explode", l_ship_explode },
 
 		{ "SetLabel",           l_ship_set_label            },
 		{ "SetPrimaryColour",   l_ship_set_primary_colour   },
