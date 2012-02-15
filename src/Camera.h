@@ -13,7 +13,7 @@ class Renderer;
 class Camera {
 public:
 	// create camera relative to the given body, for rendering to area width x height
-	Camera(const Body *body, float width, float height, float nearClip, float farClip);
+	Camera(const Body *body, float width, float height, float fovY, float nearClip, float farClip);
 	virtual ~Camera();
 
 	void Update();

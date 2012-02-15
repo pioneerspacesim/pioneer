@@ -12,11 +12,11 @@
 #include "render/VertexArray.h"
 #include "render/Material.h"
 
-Camera::Camera(const Body *body, float width, float height, float znear, float zfar) :
+Camera::Camera(const Body *body, float width, float height, float fovY, float znear, float zfar) :
 	m_body(body),
 	m_width(width),
 	m_height(height),
-	m_fovAng(Pi::config.Float("FOV")),
+	m_fovAng(fovY),
 	m_zNear(znear),
 	m_zFar(zfar),
 	m_frustum(m_width, m_height, m_fovAng, znear, zfar),
