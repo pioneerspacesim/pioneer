@@ -62,8 +62,11 @@ void MsgLogWidget::ShowNext()
 	} else {
 		// current message expired and more in queue
 		Pi::BoinkNoise();
-		Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
-		Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
+		// cancel time acceleration (but don't unpause)
+		if (Pi::game->GetTimeAccel() != Game::TIMEACCEL_PAUSED) {
+			Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
+			Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
+		}
 		message_t msg("","",NONE);
 		// use MUST_SEE messages first
 		for (std::list<message_t>::iterator i = m_msgQueue.begin();
