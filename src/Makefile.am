@@ -160,6 +160,7 @@ pioneer_SOURCES	= \
 	CommodityTradeWidget.cpp \
 	CustomSystem.cpp \
 	DeadVideoLink.cpp \
+	Drawables.cpp \
 	DynamicBody.cpp \
 	EquipType.cpp \
 	FaceVideoLink.cpp \

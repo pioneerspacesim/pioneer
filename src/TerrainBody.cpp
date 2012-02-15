@@ -1,10 +1,11 @@
 #include "TerrainBody.h"
 #include "GeoSphere.h"
 #include "Pi.h"
-#include "render/Render.h"
 #include "WorldView.h"
 #include "Frame.h"
 #include "Game.h"
+#include "render/Render.h"
+#include "render/Renderer.h"
 
 TerrainBody::TerrainBody(SBody *sbody) :
 	Body(), 

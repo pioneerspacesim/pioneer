@@ -1,8 +1,8 @@
 #include "Surface.h"
 
 Surface::Surface(PrimitiveType t) :
-	m_material(0),
 	m_primitiveType(t),
+	m_material(0),
 	m_vertices(0)
 {
 }
