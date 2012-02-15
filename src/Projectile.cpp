@@ -62,7 +62,7 @@ Projectile::Projectile(): Body()
 	float gw = 0.5f;
 	float gz = -0.1f;
 
-	for (int i=0; i < 3; i++) {
+	for (int i=0; i < 4; i++) {
 		m_verts.push_back(Vertex(vector3f(-gw, -gw, gz), 0.f, 1.f));
 		m_verts.push_back(Vertex(vector3f(-gw, gw, gz), 1.f, 1.f));
 		m_verts.push_back(Vertex(vector3f(gw, gw, gz),1.f, 0.f));
@@ -72,7 +72,7 @@ Projectile::Projectile(): Body()
 		m_verts.push_back(Vertex(vector3f(-gw, -gw, gz), 0.f, 1.f));
 
 		gw -= 0.1f; // they get smaller
-		gz -= 0.3; // as they move back
+		gz -= 0.2; // as they move back
 	}
 }
 
@@ -264,7 +264,7 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 
 	//fade out side quads when facing nearly edge on
 	vector3f cdir(0.f, 0.f, 1.f);
-	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(cdir)), length*length));
+	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(cdir)), length));
 
 	m_sideTex->Bind();
 	Render::State::UseProgram(m_prog);
@@ -284,7 +284,7 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	glColor4f(color.r, color.g, color.b, color.a);
 	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_verts[0].pos);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &m_verts[0].u);
-	glDrawArrays(GL_TRIANGLES, flare_size, 3*6);
+	glDrawArrays(GL_TRIANGLES, flare_size, flare_size);
 	m_glowTex->Unbind();
 
 	glPopMatrix();
