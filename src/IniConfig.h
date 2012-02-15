@@ -32,6 +32,8 @@ public:
 		return (*this)[key];
 	}
 
+	const std::string &GetFilename() const { return m_filename; }
+
 protected:
 	IniConfig(const std::string &filename) : m_filename(filename) {}
 
