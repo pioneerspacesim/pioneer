@@ -102,30 +102,12 @@ bool Frustum::TestPointInfinite(const vector3d &p, double radius) const
 
 bool Frustum::ProjectPoint(const vector3d &in, vector3d &out) const
 {
+	// XXX replace glut dependency
 	// fake viewport -- this is an identity transform when applied by gluProject
 	// see, e.g., http://cgit.freedesktop.org/mesa/mesa/tree/src/glu/sgi/libutil/project.c
 	// or the documentation for gluProject
 	const GLint viewport[4] = { 0, 0, 1, 1 };
 	return gluProject(in.x, in.y, in.z, m_modelMatrix.Data(), m_projMatrix.Data(), viewport, &out.x, &out.y, &out.z) == GL_TRUE;
-}
-
-void Frustum::Enable()
-{
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadMatrixd(m_projMatrix.Data());
-
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadMatrixd(m_modelMatrix.Data());
-}
-
-void Frustum::Disable()
-{
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
 }
 
 }

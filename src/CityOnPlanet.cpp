@@ -289,6 +289,7 @@ void CityOnPlanet::Render(Renderer *r, const SpaceStation *station, const vector
 	}
 
 	Render::Frustum frustum = Render::Frustum::FromGLState();
+	//modelview seems to be always identity
 
 	memset(&cityobj_params, 0, sizeof(LmrObjParams));
 	cityobj_params.time = Pi::game->GetTime();

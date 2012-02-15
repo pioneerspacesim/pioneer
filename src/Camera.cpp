@@ -86,7 +86,6 @@ void Camera::Update()
 	// make sure old orient and interpolated orient (rendering orient) are not rubbish
 	m_camFrame->ClearMovement();
 
-
 	// evaluate each body and determine if/where/how to draw it
 	m_sortedBodies.clear();
 	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
@@ -113,7 +112,11 @@ void Camera::Draw(Renderer *renderer)
 
 	m_renderer = renderer;
 
-	m_frustum.Enable();
+	// XXX temporary (possibly unneccessary even now, just being paranoid)
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
@@ -170,18 +173,21 @@ void Camera::Draw(Renderer *renderer)
 
 	glPopAttrib();
 
-	m_frustum.Disable();
+	//XXX temporary
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
 }
 
 void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
+	// draw twinkly star-thing on faraway objects
+	// XXX this seems like a good case for drawing in 2D - use projected position, then the
+	// "face the camera dammit" bits can be skipped
 	if (!m_renderer) return;
 
-	// XXX store znear/zfar in the camera since
-	// GetNearFarRange is not necessarily the current value
-	float znear, zfar;
-	m_renderer->GetNearFarRange(znear, zfar);
-	const double newdist = znear + 0.5f * (zfar - znear);
+	const double newdist = m_zNear + 0.5f * (m_zFar - m_zNear);
 	const double scale = newdist / viewCoords.Length();
 
 	matrix4x4d trans = matrix4x4d::Identity();
