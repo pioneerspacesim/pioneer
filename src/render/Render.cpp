@@ -16,12 +16,6 @@ static bool initted = false;
 Shader *simpleShader;
 Shader *planetRingsShader[4];
 
-SHADER_CLASS_BEGIN(BillboardShader)
-	SHADER_UNIFORM_SAMPLER(some_texture)
-SHADER_CLASS_END()
-
-BillboardShader *billboardShader;
-
 int State::m_numLights = 1;
 float State::m_znear = 10.0f;
 float State::m_zfar = 1e6f;
@@ -82,7 +76,6 @@ Renderer* Init(int screen_width, int screen_height, bool wantShaders)
 
 	if (shadersEnabled) {
 		simpleShader = new Shader("simple");
-		billboardShader = new BillboardShader("billboard");
 		planetRingsShader[0] = new Shader("planetrings", "#define NUM_LIGHTS 1\n");
 		planetRingsShader[1] = new Shader("planetrings", "#define NUM_LIGHTS 2\n");
 		planetRingsShader[2] = new Shader("planetrings", "#define NUM_LIGHTS 3\n");
@@ -95,7 +88,6 @@ Renderer* Init(int screen_width, int screen_height, bool wantShaders)
 void Uninit()
 {
 	delete simpleShader;
-	delete billboardShader;
 	delete planetRingsShader[0];
 	delete planetRingsShader[1];
 	delete planetRingsShader[2];
