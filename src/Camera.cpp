@@ -117,6 +117,8 @@ void Camera::Draw(Renderer *renderer)
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
+	m_renderer->SetPerspectiveProjection(m_fovAng, m_width/m_height, m_zNear, m_zFar);
+	m_renderer->SetTransform(matrix4x4f::Identity());
 	m_renderer->ClearScreen();
 
 	matrix4x4d trans2bg;
@@ -138,11 +140,6 @@ void Camera::Draw(Renderer *renderer)
 	}
 
 	renderer->SetLights(lights.size(), &lights[0]);
-
-	float znear, zfar;
-	m_renderer->GetNearFarRange(znear, zfar);
-	// XXX will be set by renderer->setperspectiveprojection
-	Render::State::SetZnearZfar(znear, zfar);
 
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
 		BodyAttrs *attrs = &(*i);
