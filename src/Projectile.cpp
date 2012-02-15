@@ -26,8 +26,8 @@ Projectile::Projectile(): Body()
 
 	m_prog = new Render::Shader("flat", "#define TEXTURE0 1\n");
 
-	m_sideTex = Pi::textureCache->GetBillboardTexture(PIONEER_DATA_DIR "/textures/laser.png");
-	m_glowTex = Pi::textureCache->GetBillboardTexture(PIONEER_DATA_DIR "/textures/halo.png");
+	m_sideTex = Pi::textureCache->GetBillboardTexture(PIONEER_DATA_DIR "/textures/projectile_l.png");
+	m_glowTex = Pi::textureCache->GetBillboardTexture(PIONEER_DATA_DIR "/textures/projectile_w.png");
 
 	//zero at projectile position
 	//+x down
