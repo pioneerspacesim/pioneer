@@ -30,7 +30,8 @@ static const int detail_edgeLen[5] = {
 SHADER_CLASS_BEGIN(GeosphereShader)
 	SHADER_UNIFORM_VEC4(atmosColor)
 	SHADER_UNIFORM_FLOAT(geosphereScale)
-	SHADER_UNIFORM_FLOAT(geosphereAtmosTopRad)
+	SHADER_UNIFORM_FLOAT(geosphereScaledRadius) // (planet radius) / scale
+	SHADER_UNIFORM_FLOAT(geosphereAtmosTopRad) // in planet radii
 	SHADER_UNIFORM_VEC3(geosphereCenter)
 	SHADER_UNIFORM_FLOAT(geosphereAtmosFogDensity)
 	SHADER_UNIFORM_FLOAT(geosphereAtmosInvScaleHeight);
@@ -1320,8 +1321,6 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	glTranslated(-campos.x, -campos.y, -campos.z);
 	Render::Frustum frustum = Render::Frustum::FromGLState();
 
-	const float atmosRadius = ATMOSPHERE_RADIUS;
-	
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
 
@@ -1333,7 +1332,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
 		
 		m_sbody->GetAtmosphereFlavor(&atmosCol, &atmosDensity);
-		atmosDensity *= 0.003;
+		atmosDensity *= 1e-5;
 
 		// calculate (inverse) atmosphere scale height
 		// XXX just use earth's composition for now
@@ -1346,17 +1345,19 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			(855.0f*(float)m_sbody->averageTemp) /
 			(atmosMolarMass*m_sbody->mass.ToDouble()/
 			 (m_sbody->radius.ToDouble()*m_sbody->radius.ToDouble()));
-		// min of 100.0 corresponds to a scale height of 1/100 of the planet's radius,
-		// which should ensure negligible density by the time the rendered atmosRadius is reached
-		const float atmosInvScaleHeight = std::max(100.0f, (float)(m_sbody->GetRadius() / atmosScaleHeight));
-		//printf("Atmosphere scale height: %f m, inv %f\n", atmosScaleHeight, atmosInvScaleHeight);
-
+		// min of 2.0 corresponds to a scale height of 1/20 of the planet's radius,
+		const float atmosInvScaleHeight = std::max(20.0f, (float)(m_sbody->GetRadius() / atmosScaleHeight));
+		// integrate atmospheric density between surface and this radius. this is 10x the scale
+		// height, which should be a height at which the atmospheric density is negligible
+		const float atmosRadius = 1.0f + (float)(10.0f*atmosScaleHeight) / m_sbody->GetRadius();
+		//printf("Atmos radius %f\n", atmosRadius);
 
 		if (atmosDensity > 0.0) {
 			GeosphereShader *shader = s_geosphereSkyShader[Render::State::GetNumLights()-1];
 			Render::State::UseProgram(shader);
 			shader->set_geosphereScale(scale);
-			shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
+			shader->set_geosphereScaledRadius(radius / scale);
+			shader->set_geosphereAtmosTopRad(atmosRadius);
 			shader->set_geosphereAtmosInvScaleHeight(atmosInvScaleHeight);
 			shader->set_geosphereAtmosFogDensity(atmosDensity);
 			shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
@@ -1382,7 +1383,8 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			GeosphereShader *shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
 			Render::State::UseProgram(shader);
 			shader->set_geosphereScale(scale);
-			shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
+			shader->set_geosphereScaledRadius(radius / scale);
+			shader->set_geosphereAtmosTopRad(atmosRadius);
 			shader->set_geosphereAtmosInvScaleHeight(atmosInvScaleHeight);
 			shader->set_geosphereAtmosFogDensity(atmosDensity);
 			shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);

@@ -36,14 +36,13 @@ float AtmosLengthDensityProduct(vec3 a, vec3 b, float surfaceDensity, float len,
 	/* 4 samples */
 	float ldprod = 0.0;
 	vec3 dir = b-a;
-	// 0.9 = 2.0 - ATMOSPHERE_RADIUS...
 	ldprod = surfaceDensity * (
-			exp(-invScaleHeight*(length(a)-0.9)) +
-			exp(-invScaleHeight*(length(a + 0.2*dir)-0.9)) +
-			exp(-invScaleHeight*(length(a + 0.4*dir)-0.9)) +
-			exp(-invScaleHeight*(length(a + 0.6*dir)-0.9)) +
-			exp(-invScaleHeight*(length(a + 0.8*dir)-0.9)) +
-			exp(-invScaleHeight*(length(b)-0.9)));
+			exp(-invScaleHeight*(length(a)-1.0)) +
+			exp(-invScaleHeight*(length(a + 0.2*dir)-1.0)) +
+			exp(-invScaleHeight*(length(a + 0.4*dir)-1.0)) +
+			exp(-invScaleHeight*(length(a + 0.6*dir)-1.0)) +
+			exp(-invScaleHeight*(length(a + 0.8*dir)-1.0)) +
+			exp(-invScaleHeight*(length(b)-1.0)));
 	ldprod *= len;
 	return ldprod;	
 }
