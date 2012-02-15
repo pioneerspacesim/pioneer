@@ -18,7 +18,7 @@ public:
 	virtual ~Projectile();
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition() const { return vector3d(m_orient[12], m_orient[13], m_orient[14]); }
-	virtual double GetBoundingRadius() const { return Equip::lasers[m_type].psize; }
+	virtual double GetBoundingRadius() const;
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	void TimeStepUpdate(const float timeStep);
 	void StaticUpdate(const float timeStep);

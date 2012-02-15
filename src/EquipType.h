@@ -144,7 +144,8 @@ struct LaserType {
 	float speed;		// m/s
 	float damage;
 	float rechargeTime;	// seconds
-	float psize;		// length in meters
+	float length;		// meters
+	float width;		// meters
 	int flags;
 	Color color;
 };

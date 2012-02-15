@@ -125,6 +125,13 @@ void Projectile::SetPosition(vector3d p)
 	m_orient[14] = p.z;
 }
 
+double Projectile::GetBoundingRadius() const
+{
+	float length = Equip::lasers[m_type].length;
+	float width = Equip::lasers[m_type].width;
+	return sqrt(length*length + width*width);
+}
+
 void Projectile::NotifyRemoved(const Body* const removedBody)
 {
 	if (m_parent == removedBody) m_parent = 0;
@@ -221,9 +228,9 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	Color color = Equip::lasers[m_type].color;
 	float base_alpha = sqrt(1.0f - m_age/Equip::lasers[m_type].lifespan);
 	// increase visible size based on distance from camera, z is always negative
-	float size = Equip::lasers[m_type].psize;
-	float length = size - float(viewCoords.z / (500.f + size));
-	float width = length / 6;
+	float dist_scale = float(viewCoords.z / -500);
+	float length = Equip::lasers[m_type].length + dist_scale;
+	float width = Equip::lasers[m_type].width + dist_scale;
 
 	vector3f v1, v2;
 	matrix4x4f m = matrix4x4f::Identity();
@@ -255,7 +262,7 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 
 	//fade out side quads when facing nearly edge on
 	vector3f cdir(0.f, 0.f, 1.f);
-	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(cdir)), size*size));
+	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(cdir)), length*length));
 
 	m_sideTex->Bind();
 	Render::State::UseProgram(m_prog);
@@ -268,7 +275,7 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	glDrawArrays(GL_TRIANGLES, 0, flare_size);
 
 	//fade out glow quads when facing nearly edge on
-	color.a = base_alpha * powf(fabs(dir.Dot(cdir)), size*0.5f);
+	color.a = base_alpha * powf(fabs(dir.Dot(cdir)), width*width);
 
 	m_glowTex->Bind();
 	m_prog->SetUniform("color", color);
