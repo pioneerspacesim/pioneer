@@ -236,7 +236,7 @@ static int l_ship_set_hull_percent(lua_State *l)
 
 static int l_ship_explode(lua_State *l)
 {
-	LUA_DEBUG_START(1);
+	LUA_DEBUG_START(l);
 
 	Ship *s = LuaShip::GetFromLua(1);
 	
