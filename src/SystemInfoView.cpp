@@ -25,7 +25,8 @@ void SystemInfoView::OnBodySelected(SBody *b)
 	}
 
 	SystemPath path = m_system->GetPathOf(b);
-	if (Pi::game->GetSpace()->GetStarSystem()->GetPath() == m_system->GetPath()) {
+	RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+	if (currentSys && currentSys->GetPath() == m_system->GetPath()) {
 		Body* body = Pi::game->GetSpace()->FindBodyForPath(&path);
 		if(body != 0)
 			Pi::player->SetNavTarget(body);
@@ -414,17 +415,20 @@ void SystemInfoView::UpdateIconSelections()
 	for (std::vector<std::pair<std::string, BodyIcon*> >::iterator it = m_bodyIcons.begin();
 		 it != m_bodyIcons.end(); ++it) {
 			 (*it).second->SetSelected(false);
-		if (Pi::game->GetSpace()->GetStarSystem()->GetPath() == m_system->GetPath() &&
+
+		RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+		if (currentSys && currentSys->GetPath() == m_system->GetPath() &&
 			Pi::player->GetNavTarget() &&
-			(*it).first == Pi::player->GetNavTarget()->GetLabel())
+			(*it).first == Pi::player->GetNavTarget()->GetLabel()) {
+
 			(*it).second->SetSelected(true);
+		}
 	}
 }
 
 SystemInfoView::BodyIcon::BodyIcon(const char *img) :
 	Gui::ImageRadioButton(0, img, img)
 {
-
 }
 
 void SystemInfoView::BodyIcon::Draw()
