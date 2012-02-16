@@ -38,6 +38,13 @@ public:
 	enum Animation { // <enum scope='Ship' name=ShipAnimation prefix=ANIM_>
 		ANIM_WHEEL_STATE
 	};
+	float thrusterFuel;
+	float GetFuel() const {
+		return thrusterFuel;
+	}
+	void SetFuel(const float f) {
+		thrusterFuel = Clamp(f, 0.f, 1.f);
+	}
 
 	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Type shipType);
@@ -49,7 +56,10 @@ public:
 	int GetDockingPort() const { return m_dockedWithPort; }
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
-	void SetThrusterState(int axis, double level) { m_thrusters[axis] = Clamp(level, -1.0, 1.0); }
+	void SetThrusterState(int axis, double level) {
+		if (thrusterFuel <= 0.f) level = 0.0;
+		m_thrusters[axis] = Clamp(level, -1.0, 1.0);
+	}
 	void SetThrusterState(const vector3d &levels);
 	vector3d GetThrusterState() const { return m_thrusters; }
 	void SetAngThrusterState(int axis, double level) { m_angThrusters[axis] = Clamp(level, -1.0, 1.0); }
@@ -72,6 +82,9 @@ public:
 	bool Undock();
 	virtual void TimeStepUpdate(const float timeStep);
 	virtual void StaticUpdate(const float timeStep);
+	virtual double GetMass() const {
+		return DynamicBody::GetMass() + GetFuel() * (GetShipType().fuelTankMass * 1000);
+	}
 
 	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);

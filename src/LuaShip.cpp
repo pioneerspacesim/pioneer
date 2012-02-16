@@ -214,6 +214,31 @@ static int l_ship_set_hull_percent(lua_State *l)
 	return 0;
 }
 
+static int l_ship_set_fuel(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	Ship *s = LuaShip::GetFromLua(1);
+
+	float fuel = 1.f;
+	if (lua_isnumber(l, 2)) {
+		fuel = float(luaL_checknumber(l, 2));
+	}
+
+	s->SetFuel(fuel);
+
+	LUA_DEBUG_END(l, 0);
+
+	return 0;
+}
+
+static int l_ship_get_fuel(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	lua_pushnumber(l, s->GetFuel());
+	return 1;
+} 
+
 /*
  * Method: SetLabel
  *
@@ -1223,6 +1248,9 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "GetStats", l_ship_get_stats },
 		{ "SetShipType", l_ship_set_type },
 		{ "SetHullPercent", l_ship_set_hull_percent },
+
+		{ "GetFuel", l_ship_get_fuel },
+		{ "SetFuel", l_ship_set_fuel },
 
 		{ "SetLabel",           l_ship_set_label            },
 		{ "SetPrimaryColour",   l_ship_set_primary_colour   },

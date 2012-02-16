@@ -157,7 +157,8 @@ void Ship::PostLoadFixup(Space *space)
 	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
 }
 
-Ship::Ship(ShipType::Type shipType): DynamicBody()
+Ship::Ship(ShipType::Type shipType): DynamicBody(),
+	thrusterFuel(1.f)
 {
 	m_flightState = FLYING;
 	m_alertState = ALERT_NONE;
@@ -317,9 +318,13 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 
 void Ship::SetThrusterState(const vector3d &levels)
 {
-	m_thrusters.x = Clamp(levels.x, -1.0, 1.0);
-	m_thrusters.y = Clamp(levels.y, -1.0, 1.0);
-	m_thrusters.z = Clamp(levels.z, -1.0, 1.0);
+	if (thrusterFuel <= 0.f) {
+		m_thrusters = vector3d(0.0);
+	} else {
+		m_thrusters.x = Clamp(levels.x, -1.0, 1.0);
+		m_thrusters.y = Clamp(levels.y, -1.0, 1.0);
+		m_thrusters.z = Clamp(levels.z, -1.0, 1.0);
+	}
 }
 
 void Ship::SetAngThrusterState(const vector3d &levels)

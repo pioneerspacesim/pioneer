@@ -65,6 +65,9 @@
 #include "TextureCache.h"
 #include "Game.h"
 #include "GameLoaderSaver.h"
+#include <sstream>
+
+std::stringstream debugString;
 
 float Pi::gameTickAlpha;
 int Pi::scrWidth;
@@ -152,6 +155,11 @@ ObjectViewerView *Pi::objectViewerView;
 #endif
 
 Sound::MusicPlayer Pi::musicPlayer;
+
+void Pi::AddDebug(const std::string &s)
+{
+	debugString << s << std::endl;
+}
 
 int Pi::CombatRating(int kills)
 {
@@ -1324,7 +1332,9 @@ void Pi::MainLoop()
 			Gui::Screen::EnterOrtho();
 			glColor3f(1,1,1);
 			Gui::Screen::PushFont("ConsoleFont");
-			Gui::Screen::RenderString(fps_readout, 0, 0);
+			//Gui::Screen::RenderString(fps_readout, 0, 0);
+			Gui::Screen::RenderString(debugString.str(), 0, 0);
+			debugString.str("");
 			Gui::Screen::PopFont();
 			Gui::Screen::LeaveOrtho();
 		}

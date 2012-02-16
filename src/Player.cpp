@@ -111,11 +111,24 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 		m_knownKillCount = m_killCount;
 
 		Pi::SetView(Pi::spaceStationView);
+		//deduct docking fee. Refuel.
+		if (Pi::cpan)
+			Pi::cpan->MsgLog()->Message("The station", "Docking fee of 5$ has been charged. Fuel tanks filled.");
+		thrusterFuel = 1.f;
+		SetMoney(GetMoney() - 5);
 	}
 }
 
 void Player::StaticUpdate(const float timeStep)
 {
+	const float fuelUse = GetShipType().thrusterFuelUse * 0.01f;
+	Pi::AddDebug(stringf("timestep %0{f}", timeStep));
+	const float zstate = GetThrusterState().z;
+	Pi::AddDebug(stringf("thruster z %0{f}", zstate));
+	SetFuel(GetFuel() - timeStep * (fabs(zstate) * fuelUse));
+	Pi::AddDebug(stringf("Fuel left %0{f}", thrusterFuel));
+	Pi::AddDebug(stringf("Mass %0{f}", GetMass()));
+
 	vector3d v;
 	matrix4x4d m;
 
