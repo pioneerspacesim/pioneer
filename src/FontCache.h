@@ -7,9 +7,6 @@
 #include "TextureFont.h"
 #include "VectorFont.h"
 
-class TextureFont;
-class VectorFont;
-
 class FontCache {
 public:
 	FontCache() {}
