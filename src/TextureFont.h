@@ -15,7 +15,7 @@ private:
 	};
 
 public:
-	TextureFont(FontManager &fm, const FontConfig &fc);
+	TextureFont(const FontConfig &fc);
 	~TextureFont();
 
 	void RenderString(const char *str, float x, float y);

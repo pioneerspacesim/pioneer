@@ -3,19 +3,22 @@
 
 #include "FontManager.h"
 #include "FontConfig.h"
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 class Font
 {
 protected:
-	Font(FontManager &fm, const FontConfig &fc) : m_fontManager(fm), m_config(fc) {}
+	Font(const FontConfig &fc);
+	virtual ~Font();
 
-	FontManager &GetFontManager() { return m_fontManager; }
-	FontConfig &GetConfig() { return m_config; }
+	FT_Library GetFreeTypeLibrary() const { return m_freeTypeLibrary; }
+	FontConfig GetConfig() const { return m_config; }
 
 	FT_Face m_face;
 
 private:
-	FontManager &m_fontManager;
+	FT_Library m_freeTypeLibrary;
 	FontConfig m_config;
 };
 

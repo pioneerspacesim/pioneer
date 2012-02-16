@@ -268,7 +268,7 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 	glDisable(GL_BLEND);
 }
 
-TextureFont::TextureFont(FontManager &fm, const FontConfig &fc) : Font(fm, fc)
+TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 {
 	std::string filename_ttf = GetConfig().String("FontFile");
 	if (filename_ttf.length() == 0) {
@@ -286,7 +286,7 @@ TextureFont::TextureFont(FontManager &fm, const FontConfig &fc) : Font(fm, fc)
 
 	int err;
 	m_pixSize = a_height;
-	if (0 != (err = FT_New_Face(GetFontManager().GetFreeTypeLibrary(), std::string(PIONEER_DATA_DIR "/fonts/" + filename_ttf).c_str(), 0, &m_face))) {
+	if (0 != (err = FT_New_Face(GetFreeTypeLibrary(), std::string(PIONEER_DATA_DIR "/fonts/" + filename_ttf).c_str(), 0, &m_face))) {
 		fprintf(stderr, "Terrible error! Couldn't load '%s'; error %d.\n", filename_ttf.c_str(), err);
 		abort();
 	}
@@ -304,7 +304,7 @@ TextureFont::TextureFont(FontManager &fm, const FontConfig &fc) : Font(fm, fc)
 
 	FT_Stroker stroker;
 	if (outline) {
-		if (FT_Stroker_New(GetFontManager().GetFreeTypeLibrary(), &stroker)) {
+		if (FT_Stroker_New(GetFreeTypeLibrary(), &stroker)) {
 			fprintf(stderr, "Freetype stroker init error\n");
 			abort();
 		}

@@ -7,7 +7,7 @@
 class VectorFont : public Font
 {
 public:
-	VectorFont(FontManager &fm, const FontConfig &fc);
+	VectorFont(const FontConfig &fc);
 	virtual ~VectorFont();
 
 	void RenderGlyph(int chr);
