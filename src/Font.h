@@ -17,6 +17,9 @@ protected:
 	FT_Face m_face;
 
 private:
+	Font(const Font &);
+	Font &operator=(const Font &);
+
 	FT_Library m_freeTypeLibrary;
 	FontConfig m_config;
 };
