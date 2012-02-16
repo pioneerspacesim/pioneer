@@ -29,7 +29,7 @@ noinst_HEADERS = \
 	FaceVideoLink.h \
 	FileSelectorWidget.h \
 	Font.h \
-	FontManager.h \
+	FontCache.h \
 	Form.h \
 	FormController.h \
 	Frame.h \
@@ -162,7 +162,7 @@ pioneer_SOURCES	= \
 	FaceVideoLink.cpp \
 	FileSelectorWidget.cpp \
 	Font.cpp \
-	FontManager.cpp \
+	FontCache.cpp \
 	FormController.cpp \
 	Frame.cpp \
 	GalacticView.cpp \
@@ -278,7 +278,7 @@ modelviewer_SOURCES = \
 	Font.cpp \
 	IniConfig.cpp \
 	FontConfig.cpp \
-	FontManager.cpp \
+	FontCache.cpp \
 	Lang.cpp \
 	LmrModel.cpp \
 	LuaModelViewer.cpp \

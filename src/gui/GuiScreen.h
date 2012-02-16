@@ -2,7 +2,7 @@
 #define _GUISCREEN_H
 
 #include "Gui.h"
-#include "FontManager.h"
+#include "FontCache.h"
 #include "TextureFont.h"
 #include "TextureCache.h"
 #include <list>
@@ -41,10 +41,10 @@ namespace Gui {
 			return w == focusedWidget;
 		}
 
-		static FontManager *GetFontManager() { return &s_fontManager; }
+		static FontCache *GetFontCache() { return &s_fontCache; }
 
 		static void PushFont(TextureFont* f) { s_fontStack.push(f); }
-		static void PushFont(std::string name) { PushFont(s_fontManager.GetTextureFont(name)); }
+		static void PushFont(std::string name) { PushFont(s_fontCache.GetTextureFont(name)); }
 		static void PopFont() { s_fontStack.pop(); };
 		static TextureFont *GetFont() { return s_fontStack.size() ? s_fontStack.top() : s_defaultFont; }
 		static TextureFont *GetDefaultFont() { return s_defaultFont; }
@@ -77,7 +77,7 @@ namespace Gui {
 		static GLdouble projMatrix[16];
 		static GLint viewport[4];
 
-		static FontManager s_fontManager;
+		static FontCache s_fontCache;
 		static std::stack<TextureFont*> s_fontStack;
 		static TextureFont *s_defaultFont;
 

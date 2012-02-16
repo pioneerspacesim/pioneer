@@ -1,13 +1,12 @@
 #ifndef _FONT_H
 #define _FONT_H
 
-#include "FontManager.h"
 #include "FontConfig.h"
+#include "RefCounted.h"
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-class Font
-{
+class Font : public RefCounted {
 protected:
 	Font(const FontConfig &fc);
 	virtual ~Font();
