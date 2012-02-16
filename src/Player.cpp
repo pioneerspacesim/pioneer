@@ -121,11 +121,21 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 
 void Player::StaticUpdate(const float timeStep)
 {
-	const float fuelUse = GetShipType().thrusterFuelUse * 0.01f;
+	const float fuelUseRate = GetShipType().thrusterFuelUse * 0.01f;
+	const vector3d &tstate = GetThrusterState();
+	//XXX arbitrary weights
+	float totalThrust = 0.f;
+	if (tstate.z > 0.0)
+		totalThrust = fabs(tstate.z) * 0.8;  //backwards
+	else
+		totalThrust = fabs(tstate.z);  //forwards
+
+	totalThrust += fabs(tstate.x) * 0.25; //left-right
+	totalThrust += fabs(tstate.y) * 0.25; //up-down
 	Pi::AddDebug(stringf("timestep %0{f}", timeStep));
-	const float zstate = GetThrusterState().z;
-	Pi::AddDebug(stringf("thruster z %0{f}", zstate));
-	SetFuel(GetFuel() - timeStep * (fabs(zstate) * fuelUse));
+	Pi::AddDebug(stringf("thruster use %0{f}", totalThrust));
+	//Pi::AddDebug(stringf("thruster xyz %0{f} %1{f} %2{f}", tstate.x, tstate.y, tstate.z));
+	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
 	Pi::AddDebug(stringf("Fuel left %0{f}", thrusterFuel));
 	Pi::AddDebug(stringf("Mass %0{f}", GetMass()));
 
