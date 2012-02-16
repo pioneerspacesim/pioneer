@@ -21,6 +21,7 @@ Alpha 20
      * Make sure all bodies have a minimum radius of at least 10km (#968, #321, #301)
      * Fix crash when requesting system information whilst in hyperspace (#975)
      * Messages no longer cause the game to un-pause when they clear (#966)
+     * Game no longer quits if you cancel loading from the main menu (#920)
 
    * Internal changes
      * Silence MSVC warnings (#964)
