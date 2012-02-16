@@ -12,7 +12,7 @@ Camera::Camera(const Body *body, float width, float height) :
 	m_body(body),
 	m_width(width),
 	m_height(height),
-	m_fovAng(Pi::config.Float("FOV")),
+	m_fovAng(Pi::config.Float("FOV_Vertical")),
 	m_shadersEnabled(Render::AreShadersEnabled()),
 	m_frustum(m_width, m_height, m_fovAng),
 	m_pose(matrix4x4d::Identity()),
