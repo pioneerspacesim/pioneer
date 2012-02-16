@@ -1080,6 +1080,11 @@ void Pi::HandleMenuKey(int n)
 			GameLoader loader;
 			loader.DialogMainLoop();
 			game = loader.GetGame();
+			if (! game) {
+				// loading screen was cancelled;
+				// return without setting menuDone so the menu is re-displayed
+				return;
+			}
 			break;
 		}
 

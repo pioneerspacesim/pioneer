@@ -7,6 +7,7 @@ Alpha 20
    * Minor changes and tweaks
      * LED effect on timeaccel buttons (#946, #153)
      * Render projectiles out to 20km from the camera (#957)
+     * FOV is now specified vertically (and correctly) (#971)
 
    * Fixes
      * Updated zlib and libpng DLLs for MSVC to fix screenshot crash (#942, #645)
@@ -19,6 +20,9 @@ Alpha 20
      * Fix projectile collision checks (#965)
      * Various scanner range fixes (#944)
      * Make sure all bodies have a minimum radius of at least 10km (#968, #321, #301)
+     * Fix crash when requesting system information whilst in hyperspace (#975)
+     * Messages no longer cause the game to un-pause when they clear (#966)
+     * Game no longer quits if you cancel loading from the main menu (#920)
 
    * Internal changes
      * Silence MSVC warnings (#964)
