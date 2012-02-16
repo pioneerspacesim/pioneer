@@ -39,7 +39,7 @@ static bool line_clip_test(float topy, float bottomy)
 	return false;
 }
 
-TextLayout::TextLayout(const char *_str, TextureFont *font, ColourMarkupMode markup)
+TextLayout::TextLayout(const char *_str, RefCountedPtr<TextureFont> font, ColourMarkupMode markup)
 {
 	// XXX ColourMarkupSkip not correctly implemented yet
 	assert(markup != ColourMarkupSkip);

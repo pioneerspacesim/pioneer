@@ -41,20 +41,18 @@ namespace Gui {
 			return w == focusedWidget;
 		}
 
-		static FontCache *GetFontCache() { return &s_fontCache; }
-
-		static void PushFont(TextureFont* f) { s_fontStack.push(f); }
+		static void PushFont(RefCountedPtr<TextureFont> font) { s_fontStack.push(font); }
 		static void PushFont(std::string name) { PushFont(s_fontCache.GetTextureFont(name)); }
 		static void PopFont() { s_fontStack.pop(); };
-		static TextureFont *GetFont() { return s_fontStack.size() ? s_fontStack.top() : s_defaultFont; }
-		static TextureFont *GetDefaultFont() { return s_defaultFont; }
+		static RefCountedPtr<TextureFont> GetFont() { return s_fontStack.size() ? s_fontStack.top() : s_defaultFont; }
+		static RefCountedPtr<TextureFont> GetDefaultFont() { return s_defaultFont; }
 
-		static float GetFontHeight(TextureFont *font = 0);
-		static void RenderString(const std::string &s, float xoff, float yoff, TextureFont *font = 0);
-		static void MeasureString(const std::string &s, float &w, float &h, TextureFont *font = 0);
-		static int PickCharacterInString(const std::string &s, float x, float y, TextureFont *font = 0);
-		static void MeasureCharacterPos(const std::string &s, int charIndex, float &x, float &y, TextureFont *font = 0);
-		static void RenderMarkup(const std::string &s, TextureFont *font = 0);
+		static float GetFontHeight(RefCountedPtr<TextureFont> font = RefCountedPtr<TextureFont>(0));
+		static void RenderString(const std::string &s, float xoff, float yoff, RefCountedPtr<TextureFont> font = RefCountedPtr<TextureFont>(0));
+		static void MeasureString(const std::string &s, float &w, float &h, RefCountedPtr<TextureFont> font = RefCountedPtr<TextureFont>(0));
+		static int PickCharacterInString(const std::string &s, float x, float y, RefCountedPtr<TextureFont> font = RefCountedPtr<TextureFont>(0));
+		static void MeasureCharacterPos(const std::string &s, int charIndex, float &x, float &y, RefCountedPtr<TextureFont> font = RefCountedPtr<TextureFont>(0));
+		static void RenderMarkup(const std::string &s, RefCountedPtr<TextureFont> font = RefCountedPtr<TextureFont>(0));
 
 		static TextureCache *GetTextureCache() { return &s_textureCache; }
 
@@ -78,8 +76,8 @@ namespace Gui {
 		static GLint viewport[4];
 
 		static FontCache s_fontCache;
-		static std::stack<TextureFont*> s_fontStack;
-		static TextureFont *s_defaultFont;
+		static std::stack< RefCountedPtr<TextureFont> > s_fontStack;
+		static RefCountedPtr<TextureFont> s_defaultFont;
 
 		static TextureCache s_textureCache;
 	};
