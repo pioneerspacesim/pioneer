@@ -123,15 +123,15 @@ void Player::StaticUpdate(const float timeStep)
 {
 	const float fuelUseRate = GetShipType().thrusterFuelUse * 0.01f;
 	const vector3d &tstate = GetThrusterState();
-	//XXX arbitrary weights
+	//weights calculated from thrust values during calcstats
 	float totalThrust = 0.f;
 	if (tstate.z > 0.0)
-		totalThrust = fabs(tstate.z) * 0.8;  //backwards
+		totalThrust = fabs(tstate.z) * fuelUseWeights[1];  //backwards
 	else
-		totalThrust = fabs(tstate.z);  //forwards
+		totalThrust = fabs(tstate.z) * fuelUseWeights[0];  //forwards (usually 1)
 
-	totalThrust += fabs(tstate.x) * 0.25; //left-right
-	totalThrust += fabs(tstate.y) * 0.25; //up-down
+	totalThrust += fabs(tstate.x) * fuelUseWeights[2]; //left-right
+	totalThrust += fabs(tstate.y) * fuelUseWeights[3]; //up-down
 	Pi::AddDebug(stringf("timestep %0{f}", timeStep));
 	Pi::AddDebug(stringf("thruster use %0{f}", totalThrust));
 	//Pi::AddDebug(stringf("thruster xyz %0{f} %1{f} %2{f}", tstate.x, tstate.y, tstate.z));

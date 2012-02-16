@@ -402,6 +402,21 @@ const shipstats_t *Ship::CalcStats()
 	} else {
 		m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 	}
+
+	//calculate thruster fuel usage weights
+	const ShipType &st = GetShipType();
+	const float fwd = fabs(st.linThrust[ShipType::THRUSTER_FORWARD]);
+	const float rev = fabs(st.linThrust[ShipType::THRUSTER_REVERSE]);
+	//left/right assumed to match
+	const float side = fabs(st.linThrust[ShipType::THRUSTER_LEFT]);
+	//up/down might not match... take average
+	const float up = (fabs(st.linThrust[ShipType::THRUSTER_UP]) +
+		fabs(st.linThrust[ShipType::THRUSTER_DOWN])) / 2.0;
+	const float max = std::max(fwd, rev);
+	fuelUseWeights[0] = fwd / max;
+	fuelUseWeights[1] = rev / max;
+	fuelUseWeights[2] = side / max;
+	fuelUseWeights[3] = up / max;
 	return &m_stats;
 }
 

@@ -45,6 +45,7 @@ public:
 	void SetFuel(const float f) {
 		thrusterFuel = Clamp(f, 0.f, 1.f);
 	}
+	float fuelUseWeights[4]; //fwd, backward, sideways, up&down
 
 	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Type shipType);
