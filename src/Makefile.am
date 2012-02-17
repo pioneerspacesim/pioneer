@@ -47,6 +47,7 @@ noinst_HEADERS = \
 	FontConfig.h \
 	KeyBindings.h \
 	Lang.h \
+	LangStrings.inc.h \
 	LmrModel.h \
 	LuaBody.h \
 	LuaCargoBody.h \

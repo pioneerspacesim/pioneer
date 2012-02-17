@@ -17,8 +17,6 @@ typedef std::map<std::string, const char*> token_map;
 
 static token_map s_tokens;
 
-}
-
 #define DECLARE_STRING(x)                           \
 	char x[MAX_STRING];                             \
 	static class _init_class_##x {                  \
@@ -27,11 +25,9 @@ static token_map s_tokens;
 			s_tokens.insert(std::make_pair(#x,x)); \
 			*x = '\0';                              \
 		}                                           \
-	} _init_##x
-
-#include "Lang.h"
-
-namespace Lang {
+	} _init_##x;
+#include "LangStrings.inc.h"
+#undef DECLARE_STRING
 
 static bool _read_pair(FILE *f, const std::string &filename, int *lineno, token_map::iterator *outIter, char **outValue)
 {
