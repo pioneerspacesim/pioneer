@@ -21,11 +21,11 @@ struct StringRange
 	const char *end;
 
 	bool Empty() const { return (begin == end); }
-	size_t Length() const { return (end - begin); }
+	size_t Size() const { return (end - begin); }
 
 	const char &operator[](size_t idx) const { return begin[idx]; }
 	const char &operator*() const { return *begin; }
-	std::string ToString() const { return begin ? std::string(begin, Length()) : std::string(); }
+	std::string ToString() const { return begin ? std::string(begin, Size()) : std::string(); }
 
 	const char *FindChar(char c) const;
 	const char *RFindChar(char c) const;
