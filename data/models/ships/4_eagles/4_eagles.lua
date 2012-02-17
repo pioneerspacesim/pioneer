@@ -1502,7 +1502,7 @@ define_model('eagle_mk4', {
 				capacity = 36,
 				hull_mass = 15,
 				fuel_tank_mass = 5,
-				thruster_fuel_use = 0.0002,
+				thruster_fuel_use = 0.00018,
 				price = 56000,
 				hyperdrive_class = 2,
 			}
