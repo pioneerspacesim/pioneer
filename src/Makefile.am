@@ -311,7 +311,10 @@ tests_SOURCES = \
 	StringF.cpp \
 	tests.cpp \
 	test_Frame.cpp \
-	test_StringF.cpp
+	test_StringF.cpp \
+	FileSystem.cpp \
+	FileSystemPosix.cpp \
+	test_FileSystem.cpp
 
 TESTS = tests
  
