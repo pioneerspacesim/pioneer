@@ -1,6 +1,8 @@
 #include "libs.h"
 #include "FileSystem.h"
 #include <cassert>
+#include <algorithm>
+#include <cerrno>
 
 namespace FileSystem {
 
@@ -62,8 +64,54 @@ namespace FileSystem {
 		}
 	}
 
-	void FileSourceFS::ReadDirectory(const std::string &path, std::vector<FileInfo> &output)
+	bool FileSourceFS::ReadDirectory(const std::string &dirpath, std::vector<FileInfo> &output)
 	{
+		const std::string fulldirpath = GetSourcePath() + "/" + dirpath;
+		DIR *dir = opendir(fulldirpath.c_str());
+		if (!dir) { return false; }
+		struct dirent *entry;
+
+		const size_t output_head_size = output.size();
+
+		while ((entry = readdir(dir))) {
+			if (strcmp(entry->d_name, ".") == 0) continue;
+			if (strcmp(entry->d_name, "..") == 0) continue;
+
+			const std::string fullpath = fulldirpath + "/" + entry->d_name;
+
+			FileInfo::FileType ty;
+			switch (entry->d_type) {
+				case DT_DIR: ty = FileInfo::FT_DIR; break;
+				case DT_REG: ty = FileInfo::FT_FILE; break;
+				case DT_LNK: case DT_UNKNOWN:
+				{
+					// if readdir() can't tell us whether we've got a file or directory then we need to stat
+					// also stat for links to traverse them
+					struct stat statinfo;
+					if (stat(fullpath.c_str(), &statinfo) == 0) {
+						if (S_ISREG(statinfo.st_mode)) {
+							ty = FileInfo::FT_FILE;
+						} else if (S_ISDIR(statinfo.st_mode)) {
+							ty = FileInfo::FT_DIR;
+						} else {
+							ty = FileInfo::FT_SPECIAL;
+						}
+					} else {
+						// XXX error out here?
+						ty = FileInfo::FT_NON_EXISTENT;
+					}
+					break;
+				}
+				default: ty = FileInfo::FT_SPECIAL; break;
+			}
+
+			output.push_back(MakeFileInfo(fullpath.substr(GetSourcePath().size() + 1), ty));
+		}
+
+		closedir(dir);
+
+		std::sort(output.begin() + output_head_size, output.end());
+		return true;
 	}
 
 	void FileSourceFS::MakeDirectory(const std::string &path)
