@@ -22,6 +22,9 @@ namespace FileSystem {
 	std::string GetUserDir();
 	std::string GetDataDir();
 
+	class FileSource;
+	class FileData;
+
 	class FileInfo {
 		friend class FileSource;
 	public:
@@ -32,27 +35,27 @@ namespace FileSystem {
 			FT_SPECIAL
 		};
 
-		bool Exists() const { return (m_fileType != FT_NON_EXISTENT); }
-		bool IsDir() const { return (m_fileType == FT_DIR); }
-		bool IsFile() const { return (m_fileType == FT_FILE); }
+		bool Exists() const { return (m_type != FT_NON_EXISTENT); }
+		bool IsDir() const { return (m_type == FT_DIR); }
+		bool IsFile() const { return (m_type == FT_FILE); }
 
 		std::string GetName() const { return m_path.substr(m_dirLen); }
 		std::string GetDir() const { return m_path.substr(0, m_dirLen); }
 		const std::string &GetPath() const { return m_path; }
-		const std::string &GetSourcePath() const { return m_fileSource->GetSourcePath(); }
+		const std::string &GetSourcePath() const;
 
-		const FileSource &GetSource() const { return *m_fileSource; }
+		const FileSource &GetSource() const { return *m_source; }
 
-		RefCountedPtr<FileData> Read(const std::string &path) { return m_source->ReadFile(m_path); }
+		RefCountedPtr<FileData> Read(const std::string &path) const;
 
 	protected:
-		FileInfo(const FileSource *source, const std::string &path, FileType type);
+		FileInfo(FileSource *source, const std::string &path, FileType type);
 
 	private:
-		const FileSource *m_source;
+		FileSource *m_source;
 		std::string m_path;
 		int m_dirLen;
-		FileType m_fileType;
+		FileType m_type;
 	};
 
 	class FileData : public RefCounted {
@@ -93,6 +96,7 @@ namespace FileSystem {
 	};
 
 	class FileSourceFS : public FileSource {
+	public:
 		explicit FileSourceFS(const std::string &root);
 		~FileSourceFS();
 
@@ -101,17 +105,16 @@ namespace FileSystem {
 		virtual void ReadDirectory(const std::string &path, std::vector<FileInfo> &output);
 
 		void MakeDirectory(const std::string &path);
-	private:
-		std::vector<FileSource*> m_sources;
 	};
 
 	class FileSourceUnion : public FileSource {
 	public:
-		FileSourceUnion(): FileSource(":union:") {}
+		FileSourceUnion();
 		~FileSourceUnion();
 
-		void PrependSource(std::auto_ptr<FileSource> fs) { m_sources.push_front(fs.release()); }
-		void AppendSource(std::auto_ptr<FileSource> fs) { m_sources.push_back(fs.release()); }
+		void PrependSource(FileSource *fs);
+		void AppendSource(FileSource *fs);
+		void RemoveSource(FileSource *fs);
 
 		virtual FileInfo Lookup(const std::string &path);
 		virtual RefCountedPtr<FileData> ReadFile(const std::string &path);
@@ -136,7 +139,7 @@ namespace FileSystem {
 
 		bool Finished() const;
 		void Next();
-		const FilePath &Current() const { return m_queue.front(); }
+		const FileInfo &Current() const { return m_queue.front(); }
 
 	private:
 		FileSource *m_source;
@@ -144,5 +147,10 @@ namespace FileSystem {
 	};
 
 } // namespace FileSystem
+
+inline const std::string &FileSystem::FileInfo::GetSourcePath() const
+{ return m_source->GetSourcePath(); }
+inline RefCountedPtr<FileSystem::FileData> FileSystem::FileInfo::Read(const std::string &path) const
+{ return m_source->ReadFile(m_path); }
 
 #endif
