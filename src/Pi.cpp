@@ -65,6 +65,7 @@
 #include "TextureCache.h"
 #include "Game.h"
 #include "GameLoaderSaver.h"
+#include "FileSystem.h"
 
 float Pi::gameTickAlpha;
 int Pi::scrWidth;
@@ -361,6 +362,8 @@ void Pi::RedirectStdio()
 
 void Pi::Init()
 {
+	FileSystem::Init();
+
 	if (config.Int("RedirectStdio"))
 		RedirectStdio();
 
@@ -651,6 +654,7 @@ void Pi::Quit()
 	delete Pi::textureCache;
 	StarSystem::ShrinkCache();
 	SDL_Quit();
+	FileSystem::Uninit();
 	exit(0);
 }
 

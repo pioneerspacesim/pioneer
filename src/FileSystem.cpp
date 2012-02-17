@@ -7,6 +7,21 @@ namespace FileSystem {
 
 	// note: GetUserDir() and GetDataDir() is in FileSystem{Posix,Win32}.cpp
 
+	static FileSourceFS dataFilesApp(GetDataDir());
+	static FileSourceFS dataFilesUser(GetUserDir() + "/data");
+	FileSourceUnion gameDataFiles;
+	FileSourceFS rawFileSystem("/");
+
+	void Init()
+	{
+		gameDataFiles.AppendSource(&dataFilesUser);
+		gameDataFiles.AppendSource(&dataFilesApp);
+	}
+
+	void Uninit()
+	{
+	}
+
 	FileInfo::FileInfo(FileSource *source, const std::string &path, FileType type):
 		m_source(source),
 		m_path(path),

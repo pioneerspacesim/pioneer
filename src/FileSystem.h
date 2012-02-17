@@ -19,11 +19,19 @@
 
 namespace FileSystem {
 
-	std::string GetUserDir();
-	std::string GetDataDir();
-
 	class FileSource;
 	class FileData;
+	class FileSourceFS;
+	class FileSourceUnion;
+
+	void Init();
+	void Uninit();
+
+	extern FileSourceUnion gameDataFiles;
+	extern FileSourceFS rawFileSystem;
+
+	std::string GetUserDir();
+	std::string GetDataDir();
 
 	class FileInfo {
 		friend class FileSource;
@@ -181,8 +189,6 @@ namespace FileSystem {
 		std::deque<FileInfo> m_queue;
 		int m_flags;
 	};
-
-	extern FileSourceFS rawFileSystem;
 
 } // namespace FileSystem
 
