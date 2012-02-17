@@ -1,7 +1,9 @@
 #ifndef _TEXTURE_H
 #define _TEXTURE_H
 
-#include "libs.h"
+#include <SDL.h>
+#include <GL/glew.h>
+#include <string>
 
 /*
  * Texture is a class to manage the details of a single texture. you can't
