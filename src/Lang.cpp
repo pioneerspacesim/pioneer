@@ -1,4 +1,5 @@
 #include "libs.h"
+#include "FileSystem.h"
 #include <map>
 
 // XXX we're allocating a whole KB for each translatable string
@@ -236,22 +237,27 @@ bool LoadStrings(const std::string &lang)
 	return true;
 }
 
-std::vector<std::string> s_availableLanguages;
+static std::vector<std::string> EnumAvailableLanguages()
+{
+	std::vector<std::string> languages;
 
-void _found_language_file_callback(const std::string &name, const std::string &fullname) {
-	size_t pos = name.find(".txt");
-	if (pos == name.npos) return;
-	if (name.length() - pos != 4) return;
-	s_availableLanguages.push_back(name.substr(0, pos));
+	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "lang"); !files.Finished(); files.Next()) {
+		assert(files.Current().IsFile());
+		const std::string &path = files.Current().GetPath();
+		if ((path.size() > 4) && (path.substr(path.size() - 4) == ".txt"))
+		{
+			const std::string name = files.Current().GetName();
+			languages.push_back(name.substr(0, name.size() - 4));
+		}
+	}
+
+	return languages;
 }
 
 const std::vector<std::string> &GetAvailableLanguages()
 {
-	s_availableLanguages.clear();
-
-	foreach_file_in(PIONEER_DATA_DIR "/lang/", _found_language_file_callback);
-
-	return s_availableLanguages;
+	static std::vector<std::string> languages = EnumAvailableLanguages();
+	return languages;
 }
 
 const std::map<std::string, const char*> &GetDictionary()
