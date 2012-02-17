@@ -186,7 +186,7 @@ define_model('ladybird', {
 				capacity = 60,
 				hull_mass = 40,
 				fuel_tank_mass = 20,
-				thruster_fuel_use = 0.0002,
+				thruster_fuel_use = 0.0004,
 				price = 87000,
 				hyperdrive_class = 3,
 			}
