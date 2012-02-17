@@ -109,6 +109,7 @@ noinst_HEADERS = \
 	StationShipViewForm.h \
 	StationShipyardForm.h \
 	StringF.h \
+	StringRange.h \
 	Sfx.h \
 	Ship.h \
 	ShipAICmd.h \
