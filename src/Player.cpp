@@ -111,11 +111,6 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 		m_knownKillCount = m_killCount;
 
 		Pi::SetView(Pi::spaceStationView);
-		//deduct docking fee. Refuel.
-		if (Pi::cpan)
-			Pi::cpan->MsgLog()->Message("The station", "Docking fee of 5$ has been charged. Fuel tanks filled.");
-		thrusterFuel = 1.f;
-		SetMoney(GetMoney() - 5*100);
 	}
 }
 
