@@ -114,7 +114,35 @@ namespace FileSystem {
 		return true;
 	}
 
-	void FileSourceFS::MakeDirectory(const std::string &path)
+	bool FileSourceFS::MakeDirectory(const std::string &path)
 	{
+		return MakeDirectory(GetSourcePath() + "/" + path);
+	}
+
+	bool FileSourceFS::MakeDirectoryRaw(const std::string &path)
+	{
+		// allow multiple tries (to build parent directories)
+		while (true) {
+			if (mkdir(path.c_str(), S_IRWXU|S_IRWXG|S_IRWXO)) {
+				switch (errno) {
+				case EEXIST:
+					{
+						struct stat statinfo;
+						stat(path.c_str(), &statinfo);
+						return S_ISDIR(statinfo.st_mode);
+					}
+				case ENOENT:
+					{
+						size_t pos = path.rfind('/');
+						const std::string dirname = path.substr(0, pos-1);
+						if (dirname.empty() || !MakeDirectoryRaw(dirname)) {
+							return false;
+						}
+					}
+				default: return false;
+				}
+			}
+		}
+		return true;
 	}
 }
