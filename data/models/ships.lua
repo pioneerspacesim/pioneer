@@ -372,7 +372,7 @@ define_model('walrus', {
 				capacity = 320,
 				hull_mass = 200,
 				fuel_tank_mass = 100, --full tank, tons in addition to hull_mass
-				thruster_fuel_use = 0.0002, --percent, per second (at max thrust, determined by strongest thruster)
+				thruster_fuel_use = 0.00015, --percent, per second (at max thrust, determined by strongest thruster)
 				price = 350000,
 				hyperdrive_class = 5,
 			}
