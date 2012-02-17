@@ -25,6 +25,16 @@ namespace FileSystem {
 		}
 	}
 
+	static std::string path_join(const std::string &a, const std::string &b) {
+		if (!b.empty()) {
+			if (b[0] == '/')
+				return b;
+			else
+				return a + "/" + b;
+		} else
+			return a;
+	}
+
 	std::string GetUserDir()
 	{
 		std::string path = getenv("HOME");
@@ -54,7 +64,7 @@ namespace FileSystem {
 
 	FileInfo FileSourceFS::Lookup(const std::string &path)
 	{
-		const std::string fullpath = GetSourcePath() + "/" + path;
+		const std::string fullpath = path_join(GetSourcePath(), path);
 		struct stat statinfo;
 		FileInfo::FileType ty;
 		if (stat(fullpath.c_str(), &statinfo) == 0) {
@@ -73,7 +83,7 @@ namespace FileSystem {
 
 	RefCountedPtr<FileData> FileSourceFS::ReadFile(const std::string &path)
 	{
-		const std::string fullpath = GetSourcePath() + "/" + path;
+		const std::string fullpath = path_join(GetSourcePath(), path);
 		FILE *fl = fopen(fullpath.c_str(), "rb");
 		if (!fl) {
 			return RefCountedPtr<FileData>(0);
@@ -100,7 +110,7 @@ namespace FileSystem {
 
 	bool FileSourceFS::ReadDirectory(const std::string &dirpath, std::vector<FileInfo> &output)
 	{
-		const std::string fulldirpath = GetSourcePath() + "/" + dirpath;
+		const std::string fulldirpath = path_join(GetSourcePath(), dirpath);
 		DIR *dir = opendir(fulldirpath.c_str());
 		if (!dir) { return false; }
 		struct dirent *entry;
@@ -150,7 +160,7 @@ namespace FileSystem {
 
 	bool FileSourceFS::MakeDirectory(const std::string &path)
 	{
-		return MakeDirectory(GetSourcePath() + "/" + path);
+		return MakeDirectory(path_join(GetSourcePath(), path));
 	}
 
 	bool FileSourceFS::MakeDirectoryRaw(const std::string &path)
