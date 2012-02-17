@@ -1,9 +1,11 @@
 #ifndef _FILESYSTEM_H
 #define _FILESYSTEM_H
 
+#include "RefCounted.h"
 #include <string>
 #include <vector>
 #include <deque>
+#include <memory>
 
 /*
  * Functionality:
@@ -19,27 +21,6 @@ namespace FileSystem {
 
 	const std::string &GetUserDir();
 	const std::string &GetDataDir();
-
-	class FileSource;
-
-	class FileData : public RefCounted {
-	public:
-		virtual ~FileData() {}
-
-		const FileInfo &GetInfo() const { return m_info; }
-		size_t GetSize() const { return m_size; }
-		const unsigned char *GetData() const { assert(m_info.IsFile()); return m_data; }
-
-	protected:
-		FileData(const FileInfo &info, size_t size, unsigned char *data):
-			m_info(info), m_data(data), m_size(size) {}
-		FileData(const FileInfo &info): m_info(info), m_data(0), m_size(0) {}
-
-	private:
-		FileInfo m_info;
-		unsigned char *m_data;
-		size_t m_size;
-	};
 
 	class FileInfo {
 		friend class FileSource;
@@ -62,7 +43,7 @@ namespace FileSystem {
 
 		const FileSource &GetSource() const { return *m_fileSource; }
 
-		RefCountedPtr<FileData> Read(const std::string &path) { return m_source->Read(m_path); }
+		RefCountedPtr<FileData> Read(const std::string &path) { return m_source->ReadFile(m_path); }
 
 	protected:
 		FileInfo(const FileSource *source, const std::string &path, FileType type);
@@ -74,15 +55,34 @@ namespace FileSystem {
 		FileType m_fileType;
 	};
 
+	class FileData : public RefCounted {
+	public:
+		virtual ~FileData() {}
+
+		const FileInfo &GetInfo() const { return m_info; }
+		size_t GetSize() const { return m_size; }
+		const unsigned char *GetData() const { assert(m_info.IsFile()); return m_data; }
+
+	protected:
+		FileData(const FileInfo &info, size_t size, unsigned char *data):
+			m_info(info), m_data(data), m_size(size) {}
+		FileData(const FileInfo &info): m_info(info), m_data(0), m_size(0) {}
+
+	private:
+		FileInfo m_info;
+		unsigned char *m_data;
+		size_t m_size;
+	};
+
 	class FileSource {
 	public:
-		FileSource(const std::string &sourcePath);
-		virtual ~FileSource();
+		explicit FileSource(const std::string &sourcePath): m_sourcePath(sourcePath) {}
+		virtual ~FileSource() {}
 
 		const std::string &GetSourcePath() const { return m_sourcePath; }
 
-		virtual RefCountedPtr<FileData> Read(const std::string &path) = 0;
 		virtual FileInfo Lookup(const std::string &path) = 0;
+		virtual RefCountedPtr<FileData> ReadFile(const std::string &path) = 0;
 		virtual void ReadDirectory(const std::string &path, std::vector<FileInfo> &output) = 0;
 
 	protected:
@@ -92,16 +92,30 @@ namespace FileSystem {
 		std::string m_sourcePath;
 	};
 
-	class FileSystem {
+	class FileSourceFS : public FileSource {
+		explicit FileSourceFS(const std::string &root);
+		~FileSourceFS();
+
+		virtual FileInfo Lookup(const std::string &path);
+		virtual RefCountedPtr<FileData> ReadFile(const std::string &path);
+		virtual void ReadDirectory(const std::string &path, std::vector<FileInfo> &output);
+
+		void MakeDirectory(const std::string &path);
+	private:
+		std::vector<FileSource*> m_sources;
+	};
+
+	class FileSourceUnion : public FileSource {
 	public:
-		FileSystem();
-		~FileSystem();
+		FileSourceUnion(): FileSource(":union:") {}
+		~FileSourceUnion();
 
-		void AddSource(std::auto_ptr<FileSource> source);
+		void PrependSource(std::auto_ptr<FileSource> fs) { m_sources.push_front(fs.release()); }
+		void AppendSource(std::auto_ptr<FileSource> fs) { m_sources.push_back(fs.release()); }
 
-		RefCountedPtr<FileData> Read(const std::string &path);
-		FileInfo Lookup(const std::string &path);
-		void ReadDirectory(const std::string &path, std::vector<FileInfo> &output);
+		virtual FileInfo Lookup(const std::string &path);
+		virtual RefCountedPtr<FileData> ReadFile(const std::string &path);
+		virtual void ReadDirectory(const std::string &path, std::vector<FileInfo> &output);
 
 	private:
 		std::vector<FileSource*> m_sources;
@@ -116,8 +130,8 @@ namespace FileSystem {
 			OnlyDirectories    = 4|8
 		};
 
-		explicit FileEnumerator(const FileSystem &fs, int flags = 0);
-		explicit FileEnumerator(const FileSystem &fs, const std::string &path, int flags = 0);
+		explicit FileEnumerator(const FileSource &fs, int flags = 0);
+		explicit FileEnumerator(const FileSource &fs, const std::string &path, int flags = 0);
 		~FileEnumerator();
 
 		bool Finished() const;
@@ -125,9 +139,10 @@ namespace FileSystem {
 		const FilePath &Current() const { return m_queue.front(); }
 
 	private:
+		FileSource *m_source;
 		std::deque<FileInfo> m_queue;
 	};
 
-}
+} // namespace FileSystem
 
 #endif
