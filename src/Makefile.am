@@ -279,6 +279,8 @@ endif
 
 modelviewer_SOURCES = \
 	Font.cpp \
+	FileSystem.cpp \
+	FileSystemPosix.cpp \
 	IniConfig.cpp \
 	FontConfig.cpp \
 	FontManager.cpp \
