@@ -34,7 +34,21 @@ namespace FileSystem {
 
 	FileInfo FileSourceFS::Lookup(const std::string &path)
 	{
-		return MakeFileInfo(path, FileInfo::FT_NON_EXISTENT);
+		const std::string fullpath = GetSourcePath() + "/" + path;
+		struct stat statinfo;
+		FileInfo::FileType ty;
+		if (stat(fullpath.c_str(), &statinfo) == 0) {
+			if (S_ISREG(statinfo.st_mode)) {
+				ty = FileInfo::FT_FILE;
+			} else if (S_ISDIR(statinfo.st_mode)) {
+				ty = FileInfo::FT_DIR;
+			} else {
+				ty = FileInfo::FT_SPECIAL;
+			}
+		} else {
+			ty = FileInfo::FT_NON_EXISTENT;
+		}
+		return MakeFileInfo(path, ty);
 	}
 
 	RefCountedPtr<FileData> FileSourceFS::ReadFile(const std::string &path)
