@@ -91,7 +91,7 @@ inline const char *StringRange::RSkipSpace() const
 {
 	const char *x = begin, *y = end;
 	while ((x != y) && isspace(*--y)) {}
-	return y;
+	return (y == end ? y : y + 1);
 }
 
 #endif
