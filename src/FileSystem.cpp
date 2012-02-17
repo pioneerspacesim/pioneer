@@ -64,39 +64,68 @@ namespace FileSystem {
 		return RefCountedPtr<FileData>();
 	}
 
-	struct FileInfoLessPathType
-		: public std::binary_function<const FileInfo&, const FileInfo&, bool>
+	static void file_union_merge(
+			std::vector<FileInfo>::const_iterator a, std::vector<FileInfo>::const_iterator aend,
+			std::vector<FileInfo>::const_iterator b, std::vector<FileInfo>::const_iterator bend,
+			std::vector<FileInfo> &output)
 	{
-		// less-than predicate
-		// this orders by path, and then by type, with directories appearing before files
-		bool operator()(const FileInfo &a, const FileInfo &b) const
-		{
-			int c = a.GetPath().compare(b.GetPath());
-			if (c != 0) { return (c < 0); }
-			return (a.IsDir() && !b.IsDir());
+		while (true) {
+			if (a == aend) {
+				std::copy(b, bend, std::back_inserter(output));
+				return;
+			}
+			if (b == bend) {
+				std::copy(a, aend, std::back_inserter(output));
+				return;
+			}
+
+			int c = a->GetPath().compare(b->GetPath());
+			int which = c;
+			if (which == 0) {
+				if (b->IsDir() && !a->IsDir()) { which = 1; }
+				else { which = -1; }
+			}
+			if (which < 0) {
+				output.push_back(*a++);
+				if (c == 0) ++b;
+			} else {
+				output.push_back(*b++);
+				if (c == 0) ++a;
+			}
 		}
-	};
+	}
 
-	struct FileInfoEqualPaths
-		: public std::binary_function<const FileInfo&, const FileInfo&, bool>
-	{
-		// equality predicate
-		// compares only the path
-		bool operator()(const FileInfo &a, const FileInfo &b) const
-		{ return (a.GetPath() == b.GetPath()); }
-	};
+	bool FileSourceUnion::ReadDirectory(const std::string &path, std::vector<FileInfo> &output) {
+		if (m_sources.empty()) {
+			return false;
+		}
+		if (m_sources.size() == 1) {
+			return m_sources.front()->ReadDirectory(path, output);
+		}
 
-	void FileSourceUnion::ReadDirectory(const std::string &path, std::vector<FileInfo> &output) {
+		bool founddir = false;
+		size_t headsize = output.size();
+
+		std::vector<FileInfo> merged;
 		for (std::vector<FileSource*>::const_iterator
 			it = m_sources.begin(); it != m_sources.end(); ++it)
 		{
-			(*it)->ReadDirectory(path, output);
+			size_t prevsize = output.size();
+			assert(prevsize >= headsize);
+			std::vector<FileInfo> temp1;
+			if ((*it)->ReadDirectory(path, temp1))
+				founddir = true;
+
+			std::vector<FileInfo> temp2;
+			temp2.swap(merged);
+			file_union_merge(
+				temp1.begin(), temp1.end(),
+				temp2.begin(), temp2.end(),
+				merged);
 		}
-		// merge
-		std::sort(output.begin(), output.end(), FileInfoLessPathType());
-		// remove duplicates
-		std::vector<FileInfo>::iterator nend = std::unique(output.begin(), output.end(), FileInfoEqualPaths());
-		output.erase(nend, output.end());
+		return founddir;
+	}
+		}
 	}
 
-}
+} // namespace FileSystem

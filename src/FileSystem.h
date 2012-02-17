@@ -119,7 +119,7 @@ namespace FileSystem {
 
 		virtual FileInfo Lookup(const std::string &path) = 0;
 		virtual RefCountedPtr<FileData> ReadFile(const std::string &path) = 0;
-		virtual void ReadDirectory(const std::string &path, std::vector<FileInfo> &output) = 0;
+		virtual bool ReadDirectory(const std::string &path, std::vector<FileInfo> &output) = 0;
 
 	protected:
 		FileInfo MakeFileInfo(const std::string &path, FileInfo::FileType entryType);
@@ -135,7 +135,7 @@ namespace FileSystem {
 
 		virtual FileInfo Lookup(const std::string &path);
 		virtual RefCountedPtr<FileData> ReadFile(const std::string &path);
-		virtual void ReadDirectory(const std::string &path, std::vector<FileInfo> &output);
+		virtual bool ReadDirectory(const std::string &path, std::vector<FileInfo> &output);
 
 		void MakeDirectory(const std::string &path);
 	};
@@ -151,7 +151,7 @@ namespace FileSystem {
 
 		virtual FileInfo Lookup(const std::string &path);
 		virtual RefCountedPtr<FileData> ReadFile(const std::string &path);
-		virtual void ReadDirectory(const std::string &path, std::vector<FileInfo> &output);
+		virtual bool ReadDirectory(const std::string &path, std::vector<FileInfo> &output);
 
 	private:
 		std::vector<FileSource*> m_sources;
