@@ -525,7 +525,7 @@ define_model('adder', {
 				capacity = 50,
 				hull_mass = 30,
 				fuel_tank_mass = 10,
-				thruster_fuel_use = 0.0002,
+				thruster_fuel_use = 0.0003,
 				price = 60000,
 				hyperdrive_class = 2,
 			}
