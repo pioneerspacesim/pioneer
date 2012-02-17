@@ -6,6 +6,25 @@
 
 namespace FileSystem {
 
+	static std::string absolute_path(const std::string &path) {
+		if (!path.empty() && path[0] == '/') { return path; }
+		else {
+			const size_t bufsize = 512;
+			ScopedMalloc<char> buf(std::malloc(bufsize));
+			char *cwd = getcwd(buf.Get(), bufsize);
+			if (!cwd) {
+				fprintf(stderr, "failed to get current working directory\n");
+				abort();
+			}
+
+			std::string abspath;
+			if (cwd) abspath = cwd;
+			abspath += '/';
+			abspath += path;
+			return abspath;
+		}
+	}
+
 	std::string GetUserDir()
 	{
 		std::string path = getenv("HOME");
@@ -24,26 +43,8 @@ namespace FileSystem {
 
 	std::string GetDataDir()
 	{
-		return std::string(PIONEER_DATA_DIR);
-	}
-
-	static std::string absolute_path(const std::string &path) {
-		if (!path.empty() && path[0] == '/') { return path; }
-		else {
-			const size_t bufsize = 512;
-			ScopedMalloc<char> buf(std::malloc(bufsize));
-			char *cwd = getcwd(buf.Get(), bufsize);
-			if (!cwd) {
-				fprintf(stderr, "failed to get current working directory\n");
-				abort();
-			}
-
-			std::string abspath;
-			if (cwd) abspath = cwd;
-			abspath += '/';
-			abspath += path;
-			return abspath;
-		}
+		static const std::string data_path = absolute_path(std::string(PIONEER_DATA_DIR));
+		return data_path;
 	}
 
 	FileSourceFS::FileSourceFS(const std::string &root):
