@@ -13,9 +13,7 @@ void IniConfig::Load()
 
 void IniConfig::Load(const FileSystem::FileData &data)
 {
-	StringRange buffer(
-		reinterpret_cast<const char*>(data.GetData()),
-		reinterpret_cast<const char*>(data.GetData()) + data.GetSize());
+	StringRange buffer = data.AsStringRange();
 
 	while (!buffer.Empty()) {
 		// skip space at the beginning of the line

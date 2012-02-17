@@ -2,6 +2,7 @@
 #define _FILESYSTEM_H
 
 #include "RefCounted.h"
+#include "StringRange.h"
 #include <string>
 #include <vector>
 #include <deque>
@@ -95,6 +96,9 @@ namespace FileSystem {
 		const FileInfo &GetInfo() const { return m_info; }
 		size_t GetSize() const { return m_size; }
 		const unsigned char *GetData() const { assert(m_info.IsFile()); return m_data; }
+		StringRange AsStringRange() const {
+			return StringRange(reinterpret_cast<const char*>(m_data), reinterpret_cast<const char*>(m_data + m_size));
+		}
 
 	protected:
 		FileData(const FileInfo &info, size_t size, unsigned char *data):
