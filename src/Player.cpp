@@ -121,17 +121,17 @@ void Player::StaticUpdate(const float timeStep)
 	//weights calculated from thrust values during calcstats
 	float totalThrust = 0.f;
 	if (tstate.z > 0.0)
-		totalThrust = fabs(tstate.z) * fuelUseWeights[1];  //backwards
+		totalThrust = fabs(tstate.z) * m_fuelUseWeights[1];  //backwards
 	else
-		totalThrust = fabs(tstate.z) * fuelUseWeights[0];  //forwards (usually 1)
+		totalThrust = fabs(tstate.z) * m_fuelUseWeights[0];  //forwards (usually 1)
 
-	totalThrust += fabs(tstate.x) * fuelUseWeights[2]; //left-right
-	totalThrust += fabs(tstate.y) * fuelUseWeights[3]; //up-down
+	totalThrust += fabs(tstate.x) * m_fuelUseWeights[2]; //left-right
+	totalThrust += fabs(tstate.y) * m_fuelUseWeights[3]; //up-down
 	Pi::AddDebug(stringf("timestep %0{f}", timeStep));
 	Pi::AddDebug(stringf("thruster use %0{f}", totalThrust));
 	//Pi::AddDebug(stringf("thruster xyz %0{f} %1{f} %2{f}", tstate.x, tstate.y, tstate.z));
 	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
-	Pi::AddDebug(stringf("Fuel left %0{f}", thrusterFuel));
+	Pi::AddDebug(stringf("Fuel left %0{f}", m_thrusterFuel));
 	Pi::AddDebug(stringf("Mass %0{f}", GetMass()));
 
 	vector3d v;

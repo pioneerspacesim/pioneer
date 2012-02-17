@@ -25,6 +25,9 @@ struct shipstats_t {
 	float hyperspace_range_max;
 	float shield_mass;
 	float shield_mass_left;
+	float fuel_tank_mass; //thruster, not hyperspace fuel
+	float fuel_tank_mass_left;
+	float fuel_use;
 };
 
 class SerializableEquipSet: public EquipSet {
@@ -38,14 +41,6 @@ public:
 	enum Animation { // <enum scope='Ship' name=ShipAnimation prefix=ANIM_>
 		ANIM_WHEEL_STATE
 	};
-	float thrusterFuel;
-	float GetFuel() const {
-		return thrusterFuel;
-	}
-	void SetFuel(const float f) {
-		thrusterFuel = Clamp(f, 0.f, 1.f);
-	}
-	float fuelUseWeights[4]; //fwd, backward, sideways, up&down
 
 	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Type shipType);
@@ -58,7 +53,7 @@ public:
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 	void SetThrusterState(int axis, double level) {
-		if (thrusterFuel <= 0.f) level = 0.0;
+		if (m_thrusterFuel <= 0.f) level = 0.0;
 		m_thrusters[axis] = Clamp(level, -1.0, 1.0);
 	}
 	void SetThrusterState(const vector3d &levels);
@@ -191,6 +186,11 @@ public:
 	float GetPercentHull() const;
 	void SetPercentHull(float);
 	float GetGunTemperature(int idx) const { return m_gunTemperature[idx]; }
+
+	//fuel left, 0.0-1.0
+	float GetFuel() const {	return m_thrusterFuel;	}
+	//0.0 - 1.0
+	void SetFuel(const float f) {	m_thrusterFuel = Clamp(f, 0.f, 1.f); }
 	
 	void EnterSystem();
 
@@ -217,6 +217,8 @@ protected:
 	float m_gunRecharge[ShipType::GUNMOUNT_MAX];
 	float m_gunTemperature[ShipType::GUNMOUNT_MAX];
 	float m_ecmRecharge;
+	float m_thrusterFuel; //remaining fuel 0.0-1.0
+	float m_fuelUseWeights[4]; //rear, front, lateral, up&down. Rear thrusters are usually 1.0
 
 private:
 	float GetECMRechargeTime();
