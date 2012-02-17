@@ -58,7 +58,9 @@ define_model('stardust', {
 				max_fuelscoop = 0,
 				max_cargoscoop = 0,
 				capacity = 100,
-				hull_mass = 100,
+				hull_mass = 65,
+				fuel_tank_mass = 35,
+				thruster_fuel_use = 0.0002,
 				price = 150000,
 				hyperdrive_class = 4,
 			}

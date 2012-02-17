@@ -322,7 +322,9 @@ define_model('asp_sparks', {
 				max_cargoscoop = 0,
 				max_fuelscoop = 1,
 				capacity = 120,
-				hull_mass = 100,
+				hull_mass = 67,
+				fuel_tank_mass = 33,
+				thruster_fuel_use = 0.0002,
 				price = 187000,
 				hyperdrive_class = 3,
 			}
