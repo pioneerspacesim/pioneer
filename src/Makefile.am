@@ -163,6 +163,7 @@ pioneer_SOURCES	= \
 	FaceVideoLink.cpp \
 	FileSelectorWidget.cpp \
 	FileSystem.cpp \
+	FileSystemPosix.cpp \
 	Font.cpp \
 	FontManager.cpp \
 	FormController.cpp \

@@ -19,8 +19,8 @@
 
 namespace FileSystem {
 
-	const std::string &GetUserDir();
-	const std::string &GetDataDir();
+	std::string GetUserDir();
+	std::string GetDataDir();
 
 	class FileInfo {
 		friend class FileSource;

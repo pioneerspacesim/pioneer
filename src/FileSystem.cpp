@@ -4,13 +4,7 @@
 
 namespace FileSystem {
 
-	std::string GetUserDir() {
-		return std::string(".pioneer/");
-	}
-
-	std::string GetDataDir() {
-		return std::string(PIONEER_DATA_DIR "/");
-	}
+	// note: GetUserDir() and GetDataDir() is in FileSystem{Posix,Win32}.cpp
 
 	FileInfo::FileInfo(const FileSource *source, const std::string &path, FileType type):
 		m_source(source),
