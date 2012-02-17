@@ -23,6 +23,8 @@ Alpha 20
      * Fix crash when requesting system information whilst in hyperspace (#975)
      * Messages no longer cause the game to un-pause when they clear (#966)
      * Game no longer quits if you cancel loading from the main menu (#920)
+     * Fix game crash if a script tries to add or remove a negative amount of
+       cargo or equipment (#982)
 
    * Internal changes
      * Silence MSVC warnings (#964)
