@@ -1,4 +1,5 @@
 #include "Gui.h"
+#include "TextSupport.h"
 
 #define LINE_SPACING      1.25f
 #define PARAGRAPH_SPACING 1.75f

@@ -2,6 +2,7 @@
 #define _SHADER_H
 
 #include "libs.h"
+#include "utils.h"
 
 #define SHADER_UNIFORM_VEC4(name) \
 	private: \

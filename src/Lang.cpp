@@ -1,4 +1,6 @@
 #include "libs.h"
+#include "utils.h"
+#include "TextSupport.h"
 #include <map>
 
 // XXX we're allocating a whole KB for each translatable string

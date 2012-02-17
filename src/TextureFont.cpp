@@ -1,5 +1,6 @@
 #include "TextureFont.h"
 #include "gui/GuiScreen.h"
+#include "TextSupport.h"
 #include "libs.h"
 
 #include FT_GLYPH_H
