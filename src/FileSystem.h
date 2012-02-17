@@ -29,9 +29,10 @@ namespace FileSystem {
 		friend class FileSource;
 	public:
 		enum FileType {
-			FT_NON_EXISTENT,
-			FT_FILE,
+			// note: order here affects sort-order of FileInfo
 			FT_DIR,
+			FT_FILE,
+			FT_NON_EXISTENT,
 			FT_SPECIAL
 		};
 
@@ -47,6 +48,27 @@ namespace FileSystem {
 		const FileSource &GetSource() const { return *m_source; }
 
 		RefCountedPtr<FileData> Read(const std::string &path) const;
+
+		friend bool operator==(const FileInfo &a, const FileInfo &b)
+		{ return (a.m_source == b.m_source && a.m_type == b.m_type && a.m_path == b.m_path); }
+		friend bool operator!=(const FileInfo &a, const FileInfo &b)
+		{ return (a.m_source != b.m_source || a.m_type != b.m_type || a.m_path != b.m_path); }
+		friend bool operator< (const FileInfo &a, const FileInfo &b)
+		{
+			int c = a.m_path.compare(b.m_path);
+			if (c != 0) { return (c < 0); }
+			if (a.m_type != b.m_type) { return (a.m_type < b.m_type); }
+			return (a.m_source < b.m_source);
+		}
+		friend bool operator<=(const FileInfo &a, const FileInfo &b)
+		{
+			int c = a.m_path.compare(b.m_path);
+			if (c != 0) { return (c < 0); }
+			if (a.m_type != b.m_type) { return (a.m_type < b.m_type); }
+			return (a.m_source <= b.m_source);
+		}
+		friend bool operator> (const FileInfo &a, const FileInfo &b) { return (b < a); }
+		friend bool operator>=(const FileInfo &a, const FileInfo &b) { return (b <= a); }
 
 	protected:
 		FileInfo(FileSource *source, const std::string &path, FileType type);
