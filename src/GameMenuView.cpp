@@ -352,7 +352,7 @@ GameMenuView::GameMenuView(): View()
 	vbox->PackEnd((new Gui::Label(Lang::LANGUAGE_SELECTION))->Color(1.0f,1.0f,0.0f));
 
 	m_languageGroup = new Gui::RadioGroup();
-	const std::list<std::string> availableLanguages = Lang::GetAvailableLanguages();
+	const std::vector<std::string> &availableLanguages = Lang::GetAvailableLanguages();
 
 	{
 		// box to put the scroll portal and its scroll bar into
@@ -368,7 +368,7 @@ GameMenuView::GameMenuView(): View()
 		Gui::VBox *vbox2 = new Gui::VBox();
 		portal->Add(vbox2);
 		
-		for (std::list<std::string>::const_iterator i = availableLanguages.begin(); i != availableLanguages.end(); i++) {
+		for (std::vector<std::string>::const_iterator i = availableLanguages.begin(); i != availableLanguages.end(); i++) {
 			Gui::RadioButton *temp = new Gui::RadioButton(m_languageGroup);
 			temp->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeLanguage), *i));
 			Gui::HBox *hbox = new Gui::HBox();

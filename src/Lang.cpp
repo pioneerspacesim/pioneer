@@ -236,7 +236,7 @@ bool LoadStrings(const std::string &lang)
 	return true;
 }
 
-std::list<std::string> s_availableLanguages;
+std::vector<std::string> s_availableLanguages;
 
 void _found_language_file_callback(const std::string &name, const std::string &fullname) {
 	size_t pos = name.find(".txt");
@@ -245,7 +245,7 @@ void _found_language_file_callback(const std::string &name, const std::string &f
 	s_availableLanguages.push_back(name.substr(0, pos));
 }
 
-const std::list<std::string> &GetAvailableLanguages()
+const std::vector<std::string> &GetAvailableLanguages()
 {
 	s_availableLanguages.clear();
 
