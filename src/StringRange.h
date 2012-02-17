@@ -39,6 +39,8 @@ struct StringRange
 
 	const char *SkipSpace() const;
 	const char *RSkipSpace() const;
+
+	StringRange StripSpace() const;
 };
 
 inline const char *StringRange::FindChar(char c) const
@@ -96,6 +98,11 @@ inline const char *StringRange::RSkipSpace() const
 	const char *x = begin, *y = end;
 	while ((x != y) && isspace(*--y)) {}
 	return (y == end ? y : y + 1);
+}
+
+inline StringRange StringRange::StripSpace() const
+{
+	return StringRange(SkipSpace(), RSkipSpace());
 }
 
 #endif
