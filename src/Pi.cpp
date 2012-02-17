@@ -131,7 +131,7 @@ GLUquadric *Pi::gluQuadric;
 bool Pi::showDebugInfo;
 #endif
 int Pi::statSceneTris;
-GameConfig Pi::config(GetPiUserDir() + "config.ini");
+GameConfig Pi::config(FileSystem::GetUserDir() + "/config.ini");
 struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
