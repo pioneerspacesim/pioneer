@@ -37,7 +37,29 @@ namespace FileSystem {
 
 	RefCountedPtr<FileData> FileSourceFS::ReadFile(const std::string &path)
 	{
-		return RefCountedPtr<FileData>();
+		const std::string fullpath = GetSourcePath() + "/" + path;
+		FILE *fl = fopen(fullpath.c_str(), "rb");
+		if (!fl) {
+			return RefCountedPtr<FileData>(0);
+		} else {
+			fseek(fl, 0, SEEK_END);
+			long sz = ftell(fl);
+			fseek(fl, 0, SEEK_SET);
+			unsigned char *data = reinterpret_cast<unsigned char*>(std::malloc(sz));
+			if (!data) {
+				// XXX handling memory allocation failure gracefully is too hard right now
+				fprintf(stderr, "failed when allocating buffer for '%s'\n", fullpath.c_str());
+				fclose(fl);
+				abort();
+			}
+			size_t read_size = fread(data, 1, sz, fl);
+			if (read_size != size_t(sz)) {
+				fprintf(stderr, "file '%s' truncated!\n", fullpath.c_str());
+				memset(data + read_size, 0xee, sz - read_size);
+			}
+			fclose(fl);
+			return RefCountedPtr<FileData>(new FileDataMalloc(MakeFileInfo(path, FileInfo::FT_FILE), sz, data));
+		}
 	}
 
 	void FileSourceFS::ReadDirectory(const std::string &path, std::vector<FileInfo> &output)
