@@ -214,30 +214,78 @@ static int l_ship_set_hull_percent(lua_State *l)
 	return 0;
 }
 
-static int l_ship_set_fuel(lua_State *l)
+/*
+ * Method: SetFuelPercent
+ *
+ * Sets the thruster fuel tank of the ship to the given precentage of its maximum.
+ *
+ * > ship:SetFuelPercent(percent)
+ *
+ * Parameters:
+ *
+ *   percent - optional. A number from 0 to 100. Less then 0 will use 0 and
+ *             greater than 100 will use 100. Defaults to 100.
+ *
+ * Example:
+ *
+ * > ship:SetFuelPercent(50)
+ *
+ * Availability:
+ *
+ *  alpha 20
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_set_fuel_percent(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
 	Ship *s = LuaShip::GetFromLua(1);
 
-	float fuel = 1.f;
+	float percent = 100;
 	if (lua_isnumber(l, 2)) {
-		fuel = float(luaL_checknumber(l, 2));
+		percent = float(luaL_checknumber(l, 2));
+		if (percent < 0.0f || percent > 100.0f) {
+			pi_lua_warn(l,
+				"argument out of range: Ship{%s}:SetFuelPercent(%g)",
+				s->GetLabel().c_str(), percent);
+		}
 	}
 
-	s->SetFuel(fuel);
+	s->SetFuel(percent/100.f);
 
 	LUA_DEBUG_END(l, 0);
 
 	return 0;
 }
 
-static int l_ship_get_fuel(lua_State *l)
+/*
+ * Method: GetFuelPercent
+ *
+ * Retrieve the current amount of thruster fuel.
+ *
+ * > fuel = player:GetFuelPercent()
+ *
+ * Return:
+ *
+ *   fuel - percentage of thruster fuel remaining.
+ *
+ * Availability:
+ *
+ *   alpha 20
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_ship_get_fuel_percent(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	lua_pushnumber(l, s->GetFuel());
+	lua_pushnumber(l, s->GetFuel() * 100.f);
 	return 1;
-} 
+}
 
 /*
  * Method: SetLabel
@@ -1249,8 +1297,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetShipType", l_ship_set_type },
 		{ "SetHullPercent", l_ship_set_hull_percent },
 
-		{ "GetFuel", l_ship_get_fuel },
-		{ "SetFuel", l_ship_set_fuel },
+		{ "SetFuelPercent", l_ship_set_fuel_percent },
+		{ "GetFuelPercent", l_ship_get_fuel_percent },
 
 		{ "SetLabel",           l_ship_set_label            },
 		{ "SetPrimaryColour",   l_ship_set_primary_colour   },
