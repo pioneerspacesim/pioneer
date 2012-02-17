@@ -125,6 +125,50 @@ namespace FileSystem {
 		}
 		return founddir;
 	}
+
+	FileEnumerator::FileEnumerator(FileSource &fs, int flags):
+		m_source(&fs), m_flags(flags)
+	{
+		Init("/");
+	}
+
+	FileEnumerator::FileEnumerator(FileSource &fs, const std::string &path, int flags):
+		m_source(&fs), m_flags(flags)
+	{
+		Init(path);
+	}
+
+	FileEnumerator::~FileEnumerator() {}
+
+	void FileEnumerator::Init(const std::string &path)
+	{
+		FileInfo fi = m_source->Lookup(path);
+		if (fi.IsDir()) {
+			m_queue.push_back(fi);
+			Next(m_flags | Recurse);
+		}
+	}
+
+	void FileEnumerator::Next(int flags)
+	{
+		if (flags & Recurse) {
+			FileInfo head = m_queue.front();
+			m_queue.pop_front();
+
+			if (head.IsDir()) {
+				std::vector<FileInfo> entries;
+				m_source->ReadDirectory(head.GetPath(), entries);
+				for (std::vector<FileInfo>::const_iterator
+					it = entries.begin(); it != entries.end(); ++it) {
+
+					if ((flags & IncludeDirectories) && it->IsDir())
+						m_queue.push_back(*it);
+					if (!(flags & ExcludeFiles) && it->IsFile())
+						m_queue.push_back(*it);
+				}
+			}
+		} else {
+			m_queue.pop_front();
 		}
 	}
 
