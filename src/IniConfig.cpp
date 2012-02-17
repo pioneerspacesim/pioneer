@@ -38,7 +38,7 @@ void IniConfig::Load(const FileSystem::FileData &data)
 		value.begin = value.SkipSpace();
 		value.end = value.RSkipSpace();
 
-		(*this)[std::string(key.begin, key.Length())] = std::string(value.begin, value.Length());
+		m_map[key] = value;
 	}
 }
 
@@ -49,7 +49,7 @@ bool IniConfig::Save()
 		// XXX do something useful here
 		return false;
 
-	for (std::map<std::string, std::string>::const_iterator i = begin(); i!=end(); ++i) {
+	for (std::map<std::string, std::string>::const_iterator i = m_map.begin(); i != m_map.end(); ++i) {
 		if ((*i).second != "") fprintf(f, "%s=%s\n", (*i).first.c_str(), (*i).second.c_str());
 	}
 

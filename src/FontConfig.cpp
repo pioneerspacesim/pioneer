@@ -14,7 +14,7 @@ FontConfig::FontConfig(const std::string &filename) : IniConfig(filename)
 void FontConfig::SetDefaults()
 {
 	// set defaults
-	(*this)["PixelWidth"] = "12";
-	(*this)["PixelHeight"] = "12";
-	(*this)["AdvanceXAdjustment"] = "0";
+	m_map["PixelWidth"] = "12";
+	m_map["PixelHeight"] = "12";
+	m_map["AdvanceXAdjustment"] = "0";
 }
