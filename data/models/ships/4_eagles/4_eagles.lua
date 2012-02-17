@@ -1069,7 +1069,7 @@ define_model('eagle_lrf', {
 				capacity = 20,
 				hull_mass = 10,
 				fuel_tank_mass = 5,
-				thruster_fuel_use = 0.0002,
+				thruster_fuel_use = 0.0001,
 				price = 38000,
 				hyperdrive_class = 1,
 			}
