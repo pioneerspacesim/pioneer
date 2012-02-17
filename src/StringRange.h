@@ -1,6 +1,7 @@
 #ifndef _STRINGRANGE_H
 #define _STRINGRANGE_H
 
+#include <string>
 #include <cassert>
 #include <cctype>
 
@@ -14,6 +15,8 @@ struct StringRange
 		assert((end_ - begin_) >= 0);
 	}
 
+	operator std::string() const { return ToString(); }
+
 	const char *begin;
 	const char *end;
 
@@ -22,6 +25,7 @@ struct StringRange
 
 	const char &operator[](size_t idx) const { return begin[idx]; }
 	const char &operator*() const { return *begin; }
+	std::string ToString() const { return begin ? std::string(begin, Length()) : std::string(); }
 
 	const char *FindChar(char c) const;
 	const char *RFindChar(char c) const;
