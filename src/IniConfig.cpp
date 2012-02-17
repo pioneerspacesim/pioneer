@@ -1,32 +1,7 @@
 #include "libs.h"
 #include "IniConfig.h"
 #include "FileSystem.h"
-
-static const char *buf_find_newline(const char *str, const char *strend)
-{
-	while ((str != strend) && (*str != '\n') && (*str != '\r')) {
-		++str;
-	}
-	return str;
-}
-
-static const char *buf_find_chr(const char *str, const char *strend, char c)
-{
-	while ((str != strend) && (*str != c)) { ++str; }
-	return str;
-}
-
-static const char *buf_skip_space(const char *str, const char *strend)
-{
-	while ((str != strend) && isspace(*str)) { ++str; }
-	return str;
-}
-
-static const char *buf_rskip_space(const char *str, const char *strend)
-{
-	while ((str != strend) && isspace(*--str));
-	return strend;
-}
+#include "StringRange.h"
 
 void IniConfig::Load()
 {
@@ -38,30 +13,32 @@ void IniConfig::Load()
 
 void IniConfig::Load(const FileSystem::FileData &data)
 {
-	const char *buf = reinterpret_cast<const char*>(data.GetData());
-	const char *bufend = buf + data.GetSize();
+	StringRange buffer(
+		reinterpret_cast<const char*>(data.GetData()),
+		reinterpret_cast<const char*>(data.GetData()) + data.GetSize());
 
-	while (buf != bufend) {
+	while (!buffer.Empty()) {
 		// skip space at the beginning of the line
-		buf = buf_skip_space(buf, bufend);
-		const char *line = buf;
+		buffer.begin = buffer.SkipSpace();
 		// find the end of the line
-		buf = buf_find_newline(buf, bufend);
+		const char *eol = buffer.FindNewline();
+		StringRange line(buffer.begin, eol);
+		buffer.begin = eol;
 
 		// if the line is a comment, skip it
 		if (line[0] == '#') continue;
-		const char *kend = buf_find_chr(line, buf, '=');
+		const char *kend = line.FindChar('=');
 		// if there's no '=' sign, skip the line
-		if (kend == buf) continue;
+		if (kend == eol) continue;
 
+		StringRange key(line.begin, kend);
+		StringRange value(kend + 1, line.end);
 		// strip whitespace
-		const char *vbegin = buf_skip_space(kend + 1, buf);
-		const char *vend = buf_rskip_space(vbegin, buf);
-		kend = buf_rskip_space(line, kend);
+		key.end = key.RSkipSpace();
+		value.begin = value.SkipSpace();
+		value.end = value.RSkipSpace();
 
-		const std::string key = std::string(line, kend - line);
-		const std::string val = std::string(vbegin, vend - vbegin);
-		(*this)[key] = val;
+		(*this)[std::string(key.begin, key.Length())] = std::string(value.begin, value.Length());
 	}
 }
 
