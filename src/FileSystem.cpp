@@ -123,6 +123,10 @@ namespace FileSystem {
 				temp2.begin(), temp2.end(),
 				merged);
 		}
+
+		output.reserve(output.size() + merged.size());
+		std::copy(merged.begin(), merged.end(), std::back_inserter(output));
+
 		return founddir;
 	}
 
