@@ -1,6 +1,7 @@
 #include "TextureFont.h"
 #include "gui/GuiScreen.h"
 #include "libs.h"
+#include "FileSystem.h"
 
 #include FT_GLYPH_H
 #include FT_STROKER_H
@@ -270,12 +271,7 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 
 TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : Font(fm, config_filename)
 {
-	std::string filename_ttf = GetConfig().String("FontFile");
-	if (filename_ttf.length() == 0) {
-		fprintf(stderr, "'%s' does not name a FontFile to use\n", config_filename.c_str());
-		abort();
-	}
-
+	int err; // used to store freetype error return codes
 	float scale[2];
 	Gui::Screen::GetCoords2Pixels(scale);
 
@@ -284,12 +280,7 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 
 	float advx_adjust = GetConfig().Float("AdvanceXAdjustment");
 
-	int err;
 	m_pixSize = a_height;
-	if (0 != (err = FT_New_Face(GetFontManager().GetFreeTypeLibrary(), std::string(PIONEER_DATA_DIR "/fonts/" + filename_ttf).c_str(), 0, &m_face))) {
-		fprintf(stderr, "Terrible error! Couldn't load '%s'; error %d.\n", filename_ttf.c_str(), err);
-		abort();
-	}
 
 	FT_Set_Pixel_Sizes(m_face, a_width, a_height);
 	int nbit = 0;

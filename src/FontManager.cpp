@@ -31,7 +31,7 @@ TextureFont *FontManager::GetTextureFont(const std::string &name)
 	if (i != m_textureFonts.end())
 		return (*i).second;
 
-	TextureFont *font = new TextureFont(*this, PIONEER_DATA_DIR "/fonts/" + name + ".ini");
+	TextureFont *font = new TextureFont(*this, "fonts/" + name + ".ini");
 	m_textureFonts.insert( std::make_pair(name, font) );
 
 	return font;
@@ -43,7 +43,7 @@ VectorFont *FontManager::GetVectorFont(const std::string &name)
 	if (i != m_vectorFonts.end())
 		return (*i).second;
 
-	VectorFont *font = new VectorFont(*this, PIONEER_DATA_DIR "/fonts/" + name + ".ini");
+	VectorFont *font = new VectorFont(*this, "fonts/" + name + ".ini");
 	m_vectorFonts.insert( std::make_pair(name, font) );
 
 	return font;
