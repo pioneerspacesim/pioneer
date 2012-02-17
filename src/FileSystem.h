@@ -93,10 +93,21 @@ namespace FileSystem {
 			m_info(info), m_data(data), m_size(size) {}
 		FileData(const FileInfo &info): m_info(info), m_data(0), m_size(0) {}
 
+		unsigned char *GetData() { return m_data; }
+
 	private:
 		FileInfo m_info;
 		unsigned char *m_data;
 		size_t m_size;
+	};
+
+	class FileDataMalloc : public FileData {
+	public:
+		FileDataMalloc(const FileInfo &info, size_t size):
+			FileData(info, size, reinterpret_cast<unsigned char*>(std::malloc(size))) {}
+		FileDataMalloc(const FileInfo &info, size_t size, unsigned char *data):
+			FileData(info, size, data) {}
+		virtual ~FileDataMalloc() { std::free(GetData()); }
 	};
 
 	class FileSource {
