@@ -6,6 +6,8 @@
 
 namespace FileSystem {
 
+	FileSourceFS rawFileSystem("/");
+
 	static std::string absolute_path(const std::string &path) {
 		if (!path.empty() && path[0] == '/') { return path; }
 		else {

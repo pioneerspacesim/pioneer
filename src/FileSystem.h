@@ -185,6 +185,8 @@ namespace FileSystem {
 		int m_flags;
 	};
 
+	extern FileSourceFS rawFileSystem;
+
 } // namespace FileSystem
 
 inline const std::string &FileSystem::FileInfo::GetSourcePath() const
