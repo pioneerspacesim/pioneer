@@ -1219,9 +1219,9 @@ define_model('eagle_mk2', {
 				max_fuelscoop = 0,
 				max_cargoscoop = 0,
 				capacity = 22,
-				hull_mass = 10,
-				fuel_tank_mass = 5,
-				thruster_fuel_use = 0.0002,
+				hull_mass = 9,
+				fuel_tank_mass = 6,
+				thruster_fuel_use = 0.0001,
 				price = 41000,
 				hyperdrive_class = 1,
 			}
