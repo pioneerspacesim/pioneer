@@ -24,7 +24,7 @@ namespace FileSystem {
 
 	std::string GetDataDir()
 	{
-		return std::string(PIONEER_DATA_DIR "/");
+		return std::string(PIONEER_DATA_DIR);
 	}
 
 	FileSourceFS::FileSourceFS(const std::string &root):
