@@ -27,8 +27,27 @@ namespace FileSystem {
 		return std::string(PIONEER_DATA_DIR);
 	}
 
+	static std::string absolute_path(const std::string &path) {
+		if (!path.empty() && path[0] == '/') { return path; }
+		else {
+			const size_t bufsize = 512;
+			ScopedMalloc<char> buf(std::malloc(bufsize));
+			char *cwd = getcwd(buf.Get(), bufsize);
+			if (!cwd) {
+				fprintf(stderr, "failed to get current working directory\n");
+				abort();
+			}
+
+			std::string abspath;
+			if (cwd) abspath = cwd;
+			abspath += '/';
+			abspath += path;
+			return abspath;
+		}
+	}
+
 	FileSourceFS::FileSourceFS(const std::string &root):
-		FileSource(root) {}
+		FileSource(absolute_path(root)) {}
 
 	FileSourceFS::~FileSourceFS() {}
 
