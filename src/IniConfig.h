@@ -6,9 +6,12 @@
 #include <map>
 #include <string>
 
+namespace FileSystem { class FileData; }
+
 class IniConfig: protected std::map<std::string, std::string> {
 public:
 	void Load();
+	void Load(const FileSystem::FileData &data);
 	bool Save();
 
 	void SetInt(const char *key, int val) {
@@ -33,7 +36,8 @@ public:
 	}
 
 protected:
-	IniConfig(const std::string &filename) : m_filename(filename) {}
+	IniConfig() {}
+	explicit IniConfig(const std::string &filename): m_filename(filename) {}
 
 private:
 	std::string m_filename;

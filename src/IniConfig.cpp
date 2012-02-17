@@ -1,30 +1,68 @@
 #include "libs.h"
 #include "IniConfig.h"
+#include "FileSystem.h"
+
+static const char *buf_find_newline(const char *str, const char *strend)
+{
+	while ((str != strend) && (*str != '\n') && (*str != '\r')) {
+		++str;
+	}
+	return str;
+}
+
+static const char *buf_find_chr(const char *str, const char *strend, char c)
+{
+	while ((str != strend) && (*str != c)) { ++str; }
+	return str;
+}
+
+static const char *buf_skip_space(const char *str, const char *strend)
+{
+	while ((str != strend) && isspace(*str)) { ++str; }
+	return str;
+}
+
+static const char *buf_rskip_space(const char *str, const char *strend)
+{
+	while ((str != strend) && isspace(*--str));
+	return strend;
+}
 
 void IniConfig::Load()
 {
-	FILE *f = fopen(m_filename.c_str(), "r");
-	if (!f) return;
-	
-	char buf[1024];
-	while (fgets(buf, sizeof(buf), f)) {
-		if (buf[0] == '#') continue;
-		char *sep = strchr(buf, '=');
-		char *kend = sep;
-		if (!sep) continue;
-		*sep = 0;
+	RefCountedPtr<FileSystem::FileData> data = FileSystem::rawFileSystem.ReadFile(m_filename);
+	if (data) {
+		Load(*data);
+	}
+}
+
+void IniConfig::Load(const FileSystem::FileData &data)
+{
+	const char *buf = reinterpret_cast<const char*>(data.GetData());
+	const char *bufend = buf + data.GetSize();
+
+	while (buf != bufend) {
+		// skip space at the beginning of the line
+		buf = buf_skip_space(buf, bufend);
+		const char *line = buf;
+		// find the end of the line
+		buf = buf_find_newline(buf, bufend);
+
+		// if the line is a comment, skip it
+		if (line[0] == '#') continue;
+		const char *kend = buf_find_chr(line, buf, '=');
+		// if there's no '=' sign, skip the line
+		if (kend == buf) continue;
+
 		// strip whitespace
-		while (isspace(*(--kend))) *kend = 0;
-		while (isspace(*(++sep))) *sep = 0;
-		// snip \r, \n
-		char *vend = sep;
-		while (*(++vend)) if ((*vend == '\r') || (*vend == '\n')) { *vend = 0; break; }
-		std::string key = std::string(buf);
-		std::string val = std::string(sep);
+		const char *vbegin = buf_skip_space(kend + 1, buf);
+		const char *vend = buf_rskip_space(vbegin, buf);
+		kend = buf_rskip_space(line, kend);
+
+		const std::string key = std::string(line, kend - line);
+		const std::string val = std::string(vbegin, vend - vbegin);
 		(*this)[key] = val;
 	}
-
-	fclose(f);
 }
 
 bool IniConfig::Save()
