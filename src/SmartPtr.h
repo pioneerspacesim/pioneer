@@ -95,6 +95,10 @@ public:
 	~ScopedPtr() { delete this->Release(); }
 
 	using base_type::Release;
+
+private:
+	ScopedPtr(const ScopedPtr&);
+	ScopedPtr &operator=(const ScopedPtr&);
 };
 
 template <typename T>
@@ -109,6 +113,10 @@ public:
 	T &operator[](std::ptrdiff_t i) const { return this->m_ptr[i]; }
 
 	using base_type::Release;
+
+private:
+	ScopedArray(const ScopedArray&);
+	ScopedArray &operator=(const ScopedArray&);
 };
 
 template <typename T>
@@ -127,6 +135,10 @@ public:
 	T &operator[](std::ptrdiff_t i) const { return this->m_ptr[i]; }
 
 	using base_type::Release;
+
+private:
+	ScopedMalloc(const ScopedMalloc&);
+	ScopedMalloc &operator=(const ScopedMalloc&);
 };
 
 #endif
