@@ -850,12 +850,12 @@ void Ship::UpdateFuel(const float timeStep)
 		//Pi::AddDebug(stringf("thruster xyz %0{f} %1{f} %2{f}", tstate.x, tstate.y, tstate.z));
 	}
 
-	float remaining = GetFuel();
-	SetFuel(remaining - timeStep * (totalThrust * fuelUseRate));
+	FuelState lastState = GetFuelState();
+	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
+	FuelState currentState = GetFuelState();
 
-	// SetFuel will clamp to 0.0f, so we can do an exact test
-	if (!float_is_zero_exact(remaining) && float_is_zero_exact(GetFuel()))
-		Pi::luaOnShipFuelEmpty->Queue(this);
+	if (currentState != lastState)
+		Pi::luaOnShipFuelChanged->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipFuelStatus", currentState));
 
 	// XXX debug hack while we test fuel
 	if (IsType(Object::PLAYER)) {
