@@ -462,6 +462,8 @@ CARGO_INVENTORY
     Cargo Inventory:
 JETTISON
     Jettison
+REFUEL
+    Refuel
 JETTISONED_1T_OF_X
     Jettisoned 1 tonne of %commodity
 COMBAT_RATING
