@@ -27,7 +27,7 @@ define_model('lrc', {
 				capacity = 15000,
 				hull_mass = 4000,
 				fuel_tank_mass = 1000,
-				thruster_fuel_use = 0.0002,
+				thruster_fuel_use = 0.0, -- These can be parked, engines running
 				price = 3.1e8,
 				hyperdrive_class = 10,
 			}
