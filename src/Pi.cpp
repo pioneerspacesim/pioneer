@@ -188,10 +188,6 @@ static void LuaInit()
 
 	lua_State *l = Pi::luaManager->GetLuaState();
 
-	// XXX kill CurrentDirectory
-	lua_pushstring(l, PIONEER_DATA_DIR);
-	lua_setglobal(l, "CurrentDirectory");
-
 	LuaBody::RegisterClass();
 	LuaShip::RegisterClass();
 	LuaSpaceStation::RegisterClass();
