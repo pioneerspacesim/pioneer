@@ -2,6 +2,7 @@
 #include "StringF.h"
 #include "gui/Gui.h"
 #include "Lang.h"
+#include "FileSystem.h"
 
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
@@ -233,19 +234,6 @@ std::string string_join(std::vector<std::string> &v, std::string sep)
 	return out;
 }
 
-std::string join_path(const char *firstbit, ...)
-{
-	const char *bit;
-	va_list ap;
-	std::string out = firstbit;
-	va_start(ap, firstbit);
-	while ((bit = va_arg(ap, const char *))) {
-		out = out + "/" + std::string(bit);
-	}
-	va_end(ap);
-	return out;
-}
-
 void Error(const char *format, ...)
 {
 	char buf[1024];
@@ -331,7 +319,7 @@ void foreach_file_in(const std::string &directory, void (*callback)(const std::s
 
 void Screendump(const char* destFile, const int width, const int height)
 {
-	std::string fname = join_path(GetPiUserDir("screenshots").c_str(), destFile, 0);
+	std::string fname = FileSystem::JoinPath(GetPiUserDir("screenshots"), destFile);
 
 	// pad rows to 4 bytes, which is the default row alignment for OpenGL
 	const int stride = (3*width + 3) & ~3;

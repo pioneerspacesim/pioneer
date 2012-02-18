@@ -12,6 +12,7 @@
 #include "EquipType.h"
 #include "ShipType.h"
 #include "TextureCache.h"
+#include "FileSystem.h"
 #include <set>
 #include <algorithm>
 
@@ -988,7 +989,7 @@ LmrModel::LmrModel(const char *model_name)
 		m_dynamicGeometry[i] = new LmrGeomBuffer(this, false);
 	}
 
-	const std::string cache_file = join_path(s_cacheDir.c_str(), model_name, 0) + ".bin";
+	const std::string cache_file = FileSystem::JoinPath(s_cacheDir, model_name) + ".bin";
 
 	if (!s_recompileAllModels) {
 		// load cached model
@@ -4390,7 +4391,7 @@ static void _detect_model_changes()
 	// do we need to rebuild the model cache?
 	foreach_file_in(PIONEER_DATA_DIR "/models", &_makeModelFilesCRC);
 
-	FILE *cache_sum_file = fopen(join_path(s_cacheDir.c_str(), "cache.sum", 0).c_str(), "rb");
+	FILE *cache_sum_file = fopen(FileSystem::JoinPath(s_cacheDir, "cache.sum").c_str(), "rb");
 	if (cache_sum_file) {
 		if ((_fread_string(cache_sum_file) == PIONEER_VERSION) &&
 		    (_fread_string(cache_sum_file) == PIONEER_EXTRAVERSION)) {
@@ -4408,7 +4409,7 @@ static void _detect_model_changes()
 static void _write_model_crc_file()
 {
 	if (s_recompileAllModels) {
-		FILE *cache_sum_file = fopen(join_path(s_cacheDir.c_str(), "cache.sum", 0).c_str(), "wb");
+		FILE *cache_sum_file = fopen(FileSystem::JoinPath(s_cacheDir, "cache.sum").c_str(), "wb");
 		if (cache_sum_file) {
 			_fwrite_string(PIONEER_VERSION, cache_sum_file);
 			_fwrite_string(PIONEER_EXTRAVERSION, cache_sum_file);

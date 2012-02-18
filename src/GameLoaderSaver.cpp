@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Lang.h"
 #include "Pi.h"
+#include "FileSystem.h"
 
 GameLoaderSaver::GameLoaderSaver(FileSelectorWidget::Type type, const std::string &title) : m_type(type), m_title(title)
 {
@@ -41,7 +42,7 @@ void GameLoaderSaver::DialogMainLoop()
 void GameLoaderSaver::OnClickLoad(std::string filename)
 {
 	if (filename.empty()) return;
-	m_filename = join_path(GetPiSavefileDir().c_str(), filename.c_str(), 0);
+	m_filename = FileSystem::JoinPath(GetPiSavefileDir(), filename);
 	if (!OnAction())
 		m_filename = "";
 	m_done = true;
