@@ -22,7 +22,6 @@
 
 #ifdef _WIN32
 #	include <malloc.h>
-
 #	ifndef __MINGW32__
 #		define alloca _alloca
 #		define strncasecmp _strnicmp
@@ -32,20 +31,7 @@
 #		ifndef isfinite
 inline int isfinite(double x) { return _finite(x); }
 #		endif
-
-#		include "win32-dirent.h"
-#	else
-#		include <dirent.h>
-#		include <sys/stat.h>
-#		include <stdexcept>
-#		define WINSHLWAPI
 #	endif /* __MINGW32__ */
-
-#else /* !_WIN32 */
-#	include <dirent.h>
-#	include <errno.h>
-#	include <sys/stat.h>
-#	include <sys/types.h>
 #endif
 
 #include "fixed.h"
