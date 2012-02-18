@@ -65,8 +65,6 @@ static inline Sint64 isqrt(Sint64 a)
 
 bool is_file(const std::string &filename);
 bool is_dir(const std::string &filename);
-/** args to callback are basename, full path */
-void foreach_file_in(const std::string &directory, void (*callback)(const std::string &, const std::string &));
 
 void Screendump(const char* destFile, const int w, const int h);
 

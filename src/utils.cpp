@@ -192,23 +192,6 @@ bool is_dir(const std::string &filename)
 	return false;
 }
 
-void foreach_file_in(const std::string &directory, void (*callback)(const std::string &, const std::string &))
-{
-	DIR *dir;
-	struct dirent *entry;
-
-	if ((dir = opendir(directory.c_str()))==NULL) {
-		Error("Could not open directory %s", directory.c_str());
-	} 
-	while ((entry = readdir(dir)) != NULL) {
-		if (entry->d_name[0] != '.') {
-			std::string filename = directory + std::string("/") + entry->d_name;
-			(*callback)(entry->d_name, filename);
-		}
-	}
-	closedir(dir);
-}
-
 void Screendump(const char* destFile, const int width, const int height)
 {
 	std::string fname = FileSystem::JoinPath(FileSystem::GetUserDir("screenshots"), destFile);
