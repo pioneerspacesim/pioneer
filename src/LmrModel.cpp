@@ -4363,41 +4363,36 @@ static int define_model(lua_State *L)
 	return 0;
 }
 
-static Uint32 s_allModelFilesCRC = 0;
-static void _makeModelFilesCRC(const std::string &dir, const std::string &filename)
-{
-	struct stat info;
-	if (stat(filename.c_str(), &info)) return;
+static Uint32 s_allModelFilesCRC;
 
-	if (S_ISDIR(info.st_mode)) {
-		foreach_file_in(filename, &_makeModelFilesCRC);
-	} else if (S_ISREG(info.st_mode) && (filename.substr(filename.size()-4) != ".png")) {
-		FILE *f = fopen(filename.c_str(), "rb");
-		if (f) {
-			fseek(f, 0, SEEK_END);
-			int size = ftell(f);
-			unsigned char *data = reinterpret_cast<unsigned char *>(malloc(size));
-			fseek(f, 0, SEEK_SET);
-			fread(data, 1, size, f);
-			for (int c=0; c<size; c++) s_allModelFilesCRC += data[c];
-			free(data);
-			fclose(f);
+static Uint32 _calculate_all_models_checksum()
+{
+	// do we need to rebuild the model cache?
+	Uint32 checksum = 0;
+	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "models", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
+	{
+		const FileSystem::FileInfo &info = files.Current();
+		if (info.IsFile() && (info.GetPath().substr(info.GetPath().size() - 4) != ".png")) {
+			RefCountedPtr<FileSystem::FileData> data = files.Current().Read();
+			const char *buf = data->GetData();
+			size_t sz = data->GetSize();
+			for (size_t i = 0; i < sz; ++i) { checksum += buf[i]; }
 		}
 	}
+	return checksum;
 }
 
 static void _detect_model_changes()
 {
-	// do we need to rebuild the model cache?
-	foreach_file_in(PIONEER_DATA_DIR "/models", &_makeModelFilesCRC);
+	s_allModelFilesCRC = _calculate_all_models_checksum();
 
 	FILE *cache_sum_file = fopen(FileSystem::JoinPath(s_cacheDir, "cache.sum").c_str(), "rb");
 	if (cache_sum_file) {
 		if ((_fread_string(cache_sum_file) == PIONEER_VERSION) &&
 		    (_fread_string(cache_sum_file) == PIONEER_EXTRAVERSION)) {
-			Uint32 crc;
-			fread_or_die(&crc, sizeof(crc), 1, cache_sum_file);
-			if (crc == s_allModelFilesCRC) {
+			Uint32 checksum;
+			fread_or_die(&checksum, sizeof(checksum), 1, cache_sum_file);
+			if (checksum == s_allModelFilesCRC) {
 				s_recompileAllModels = false;
 			}
 		}
