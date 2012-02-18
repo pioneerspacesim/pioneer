@@ -4055,49 +4055,35 @@ namespace ModelFuncs {
 } /* namespace ModelFuncs */
 
 namespace ObjLoader {
-	static void trim(char *input) {
-		char *output = input;
-		char *end = output;
-		char c;
-
-		while(*input && isspace(*input))
-			++input;
-
-		while(*input) {
-			c = *(output++) = *(input++);
-			if( !isspace(c) )
-				end = output;
-		}
-
-		*end = 0;
-	}
-
 	static std::map<std::string, std::string> load_mtl_file(lua_State *L, const char* mtl_file) {
 		std::map<std::string, std::string> mtl_map;
-		char buf[1024], name[1024] = "", file[1024];
+		char name[1024] = "", file[1024];
 
 		lua_getglobal(L, "CurrentDirectory");
-		std::string curdir = luaL_checkstring(L, -1);
+		std::string curdir = luaL_optstring(L, -1, ".");
 		lua_pop(L, 1);
 
-		snprintf(buf, sizeof(buf), "%s/%s", curdir.c_str(), mtl_file);
-		FILE *f = fopen(buf, "r");
-		if (!f) {
-			printf("Could not open %s\n", buf);
+		const std::string path = FileSystem::JoinPath(curdir, mtl_file);
+		RefCountedPtr<FileSystem::FileData> mtlfiledata = FileSystem::gameDataFiles.ReadFile(path);
+		if (!mtlfiledata) {
+			printf("Could not open %s\n", path.c_str());
 			throw LmrUnknownMaterial();
 		}
 
-		for (int line_no=1; fgets(buf, sizeof(buf), f); line_no++) {
-			trim(buf);
-			if (!strncasecmp(buf, "newmtl ", 7)) {
-				PiVerify(1 == sscanf(buf, "newmtl %s", name));
+		std::string line;
+		StringRange mtlfilerange = mtlfiledata->AsStringRange();
+		for (int line_no=1; !mtlfilerange.Empty(); line_no++) {
+			line = mtlfilerange.ReadLine().StripSpace();
+
+			if (!strncasecmp(line.c_str(), "newmtl ", 7)) {
+				PiVerify(1 == sscanf(line.c_str(), "newmtl %s", name));
 			}
-			if (!strncasecmp(buf, "map_K", 5) && strlen(name) > 0) {
-				PiVerify(1 == sscanf(buf, "map_Kd %s", file));
+			if (!strncasecmp(line.c_str(), "map_K", 5) && strlen(name) > 0) {
+				PiVerify(1 == sscanf(line.c_str(), "map_Kd %s", file));
 				mtl_map[name] = file;
 			}
 		}
-		fclose(f);
+
 		return mtl_map;
 	}
 
