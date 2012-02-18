@@ -364,6 +364,7 @@ void Pi::RedirectStdio()
 void Pi::Init()
 {
 	FileSystem::Init();
+	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
 
 	if (config.Int("RedirectStdio"))
 		RedirectStdio();
