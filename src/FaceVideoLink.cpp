@@ -3,6 +3,7 @@
 #include "Pi.h"
 #include "LuaNameGen.h"
 #include "Texture.h"
+#include "FileSystem.h"
 
 #define FACE_WIDTH  295
 #define FACE_HEIGHT 285
@@ -24,9 +25,16 @@
 
 static void _blit_image(SDL_Surface *s, const char *filename, int xoff, int yoff)
 {
-	SDL_Surface *is = IMG_Load(filename);
-	if (!is) {
+	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
+	if (!filedata) {
 		fprintf(stderr, "FaceVideoLink: couldn't load '%s'\n", filename);
+		return;
+	}
+
+	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
+	SDL_Surface *is = IMG_Load_RW(datastream, 1);
+	if (!s) {
+		fprintf(stderr, "FaceVideoLink: couldn't load: %s (%s)\n", filename, IMG_GetError());
 		return;
 	}
 
