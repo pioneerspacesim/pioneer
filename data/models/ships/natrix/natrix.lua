@@ -39,9 +39,9 @@ define_model('natrix', {
 				max_cargoscoop = 0,
 				max_fuelscoop = 0,
 				capacity = 40,
-				hull_mass = 20,
-				fuel_tank_mass = 10,
-				thruster_fuel_use = 0.0002,
+				hull_mass = 15,
+				fuel_tank_mass = 15,
+				thruster_fuel_use = 0.00015,
 				price = 50000,
 				hyperdrive_class = 2,
 			}
