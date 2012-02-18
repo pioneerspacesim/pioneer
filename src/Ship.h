@@ -187,6 +187,13 @@ public:
 	void SetPercentHull(float);
 	float GetGunTemperature(int idx) const { return m_gunTemperature[idx]; }
 
+	enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_>
+		FUEL_OK,
+		FUEL_WARNING,
+		FUEL_EMPTY,
+	};
+	FuelState GetFuelState() { return m_thrusterFuel > 0.05f ? FUEL_OK : m_thrusterFuel > 0.0f ? FUEL_WARNING : FUEL_EMPTY; }
+
 	//fuel left, 0.0-1.0
 	float GetFuel() const {	return m_thrusterFuel;	}
 	//0.0 - 1.0
@@ -217,8 +224,6 @@ protected:
 	float m_gunRecharge[ShipType::GUNMOUNT_MAX];
 	float m_gunTemperature[ShipType::GUNMOUNT_MAX];
 	float m_ecmRecharge;
-	float m_thrusterFuel; //remaining fuel 0.0-1.0
-	float m_fuelUseWeights[4]; //rear, front, lateral, up&down. Rear thrusters are usually 1.0
 
 private:
 	float GetECMRechargeTime();
@@ -227,6 +232,7 @@ private:
 	bool IsFiringLasers();
 	void TestLanded();
 	void UpdateAlertState();
+	void UpdateFuel(float timeStep);
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
 
@@ -253,6 +259,9 @@ private:
 
 	AICommand *m_curAICmd;
 	AIError m_aiMessage;
+
+	float m_thrusterFuel; //remaining fuel 0.0-1.0
+	float m_fuelUseWeights[4]; //rear, front, lateral, up&down. Rear thrusters are usually 1.0
 
 	int m_dockedWithIndex; // deserialisation
 };

@@ -125,7 +125,7 @@ define_model('caribou', {
 				capacity = 740,
 				hull_mass = 460,
 				fuel_tank_mass = 200,
-				fuel_thruster_use = 0.0002,
+				thruster_fuel_use = 0.0002,
 				price = 2.1e6,
 				hyperdrive_class = 7,
 			}

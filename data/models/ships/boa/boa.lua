@@ -128,9 +128,9 @@ define_model('boa', {
 				max_missile = 6,
 				max_cargoscoop = 0,
 				capacity = 600,
-				hull_mass = 390,
-				fuel_tank_mass = 190,
-				fuel_thruster_use = 0.0002,
+				hull_mass = 300,
+				fuel_tank_mass = 280,
+				thruster_fuel_use = 0.00025,
 				price = 2474000,
 				hyperdrive_class = 7,
 			}

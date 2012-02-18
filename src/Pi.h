@@ -128,6 +128,7 @@ public:
 	static LuaEventQueue<> *luaOnSongFinished;
 	static LuaEventQueue<Ship> *luaOnShipFlavourChanged;
 	static LuaEventQueue<Ship,const char *> *luaOnShipEquipmentChanged;
+	static LuaEventQueue<Ship,const char *> *luaOnShipFuelChanged;
 
 	static LuaNameGen *luaNameGen;
 

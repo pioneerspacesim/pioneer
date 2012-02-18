@@ -116,28 +116,8 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 
 void Player::StaticUpdate(const float timeStep)
 {
-	const float fuelUseRate = GetShipType().thrusterFuelUse * 0.01f;
-	const vector3d &tstate = GetThrusterState();
-	//weights calculated from thrust values during calcstats
-	float totalThrust = 0.f;
-	if (tstate.z > 0.0)
-		totalThrust = fabs(tstate.z) * m_fuelUseWeights[1];  //backwards
-	else
-		totalThrust = fabs(tstate.z) * m_fuelUseWeights[0];  //forwards (usually 1)
-
-	totalThrust += fabs(tstate.x) * m_fuelUseWeights[2]; //left-right
-	totalThrust += fabs(tstate.y) * m_fuelUseWeights[3]; //up-down
-	Pi::AddDebug(stringf("timestep %0{f}", timeStep));
-	Pi::AddDebug(stringf("thruster use %0{f}", totalThrust));
-	//Pi::AddDebug(stringf("thruster xyz %0{f} %1{f} %2{f}", tstate.x, tstate.y, tstate.z));
-	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
-	Pi::AddDebug(stringf("Fuel left %0{f}", m_thrusterFuel));
-	Pi::AddDebug(stringf("Mass %0{f}", GetMass()));
-
 	vector3d v;
 	matrix4x4d m;
-
-	Ship::StaticUpdate(timeStep);		// also calls autopilot AI
 
 	if (GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
@@ -168,6 +148,8 @@ void Player::StaticUpdate(const float timeStep)
 	}
 	else SetFlightControlState(CONTROL_MANUAL);
 	
+	Ship::StaticUpdate(timeStep);		// also calls autopilot AI
+
 	/* This wank probably shouldn't be in Player... */
 	/* Ship engine noise. less loud inside */
 	float v_env = (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f) * Sound::GetSfxVolume();
