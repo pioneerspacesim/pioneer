@@ -17,8 +17,8 @@ class VolumeControl : public Gui::HBox
 			fix->Add(lab, 0, 0);
 			PackEnd(fix);
 			m_muteButton = new Gui::MultiStateImageButton();
-			m_muteButton->AddState(0, PIONEER_DATA_DIR "/icons/volume_unmuted.png", "Mute");
-			m_muteButton->AddState(1, PIONEER_DATA_DIR "/icons/volume_muted.png", "Unmute");
+			m_muteButton->AddState(0, "icons/volume_unmuted.png", "Mute");
+			m_muteButton->AddState(1, "icons/volume_muted.png", "Unmute");
 			m_muteButton->SetActiveState(muted ? 1 : 0);
 			PackEnd(m_muteButton);
 			m_adjustment = new Gui::Adjustment();

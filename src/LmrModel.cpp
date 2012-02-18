@@ -57,8 +57,8 @@ namespace ShipThruster {
 	static void Init(TextureCache *tcache) {
 		thrusterProg = new Render::Shader("flat", "#define TEXTURE0 1\n");
 
-		thrusTex = tcache->GetBillboardTexture(PIONEER_DATA_DIR"/textures/thruster.png");
-		glowTex = tcache->GetBillboardTexture(PIONEER_DATA_DIR"/textures/halo.png");
+		thrusTex = tcache->GetBillboardTexture("textures/thruster.png");
+		glowTex = tcache->GetBillboardTexture("textures/halo.png");
 
 		//zero at thruster center
 		//+x down
@@ -648,7 +648,7 @@ public:
 	void PushBillboards(const char *texname, const float size, const vector3f &color, const int numPoints, const vector3f *points)
 	{
 		char buf[256];
-		snprintf(buf, sizeof(buf), PIONEER_DATA_DIR"/textures/%s", texname);
+		snprintf(buf, sizeof(buf), "textures/%s", texname);
 
 		if (curOp.type) m_ops.push_back(curOp);
 		curOp.type = OP_DRAW_BILLBOARDS;
@@ -2398,11 +2398,11 @@ namespace ModelFuncs {
 			s_curBuf->SetTexture(0);
 		} else {
 			lua_getglobal(L, "CurrentDirectory");
-			std::string dir = luaL_checkstring(L, -1);
+			std::string dir = luaL_optstring(L, -1, ".");
 			lua_pop(L, 1);
 
 			const char *texfile = luaL_checkstring(L, 1);
-			std::string t = dir + std::string("/") + texfile;
+			std::string t = FileSystem::JoinPath(dir, texfile);
 			if (nargs == 4) {
 				// texfile, pos, uaxis, vaxis
 				vector3f pos = *MyLuaVec::checkVec(L, 2);
@@ -4149,15 +4149,17 @@ namespace ObjLoader {
 		}
 
 		lua_getglobal(L, "CurrentDirectory");
-		std::string curdir = luaL_checkstring(L, -1);
+		const std::string curdir = luaL_checkstring(L, -1);
 		lua_pop(L, 1);
-	
-		char buf[1024];
-		snprintf(buf, sizeof(buf), "%s/%s", curdir.c_str(), obj_name);
-		FILE *f = fopen(buf, "r");
-		if (!f) {
-			Error("Could not open %s\n", buf);
+
+		const std::string path = FileSystem::JoinPath(curdir, obj_name);
+		RefCountedPtr<FileSystem::FileData> objdata = FileSystem::gameDataFiles.ReadFile(path);
+		if (!objdata) {
+			Error("Could not open '%s'\n", path.c_str());
 		}
+
+		StringRange objdatabuf = objdata->AsStringRange();
+
 		std::vector<vector3f> vertices;
 		std::vector<vector3f> texcoords;
 		std::vector<vector3f> normals;
@@ -4167,7 +4169,11 @@ namespace ObjLoader {
 		// maps obj file vtx_idx,norm_idx to a single GeomBuffer vertex index
 		std::map<objTriplet, int> vtxmap;
 
-		for (int line_no=1; fgets(buf, sizeof(buf), f); line_no++) {
+		std::string line;
+		for (int line_no=1; !objdatabuf.Empty(); line_no++) {
+			line = objdatabuf.ReadLine();
+			const char *buf = line.c_str();
+
 			if ((buf[0] == 'v') && buf[1] == ' ') {
 				// vertex
 				vector3f v;
@@ -4193,8 +4199,8 @@ namespace ObjLoader {
 			else if ((buf[0] == 'f') && (buf[1] == ' ')) {
 				// how many vertices in this face?
 				const int MAX_VTX_FACE = 64;
-				char *bit[MAX_VTX_FACE];
-				char *pos = &buf[2];
+				const char *bit[MAX_VTX_FACE];
+				const char *pos = &buf[2];
 				int numBits = 0;
 				while ((pos[0] != '\0') && (numBits < MAX_VTX_FACE)) {
 					bit[numBits++] = pos;
@@ -4297,7 +4303,6 @@ namespace ObjLoader {
 				}
 			}
 		}
-		fclose(f);
 		return 0;
 	}
 }
@@ -4508,20 +4513,11 @@ void LmrModelCompilerInit(TextureCache *textureCache)
 	lua_register(L, "use_light", ModelFuncs::use_light);
 
 	s_buildDynamic = false;
-	lua_pushstring(L, PIONEER_DATA_DIR);
-	lua_setglobal(L, "CurrentDirectory");
-	
-	// same as luaL_dofile, except we can pass an error handler
-	lua_pushcfunction(L, pi_lua_panic);
-	if (luaL_loadfile(L, (std::string(PIONEER_DATA_DIR) + "/pimodels.lua").c_str())) {
-		pi_lua_panic(L);
-	} else {
-		lua_pcall(L, 0, LUA_MULTRET, -2);
-	}
-	lua_pop(sLua, 1);  // remove panic func
+
+	pi_lua_dofile(L, "pimodels.lua");
 
 	LUA_DEBUG_END(sLua, 0);
-	
+
 	_write_model_crc_file();
 	s_buildDynamic = true;
 }

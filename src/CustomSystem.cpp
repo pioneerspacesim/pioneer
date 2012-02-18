@@ -27,15 +27,7 @@ void CustomSystem::Init()
 
 	lua_register(L, "load_lua", pi_load_lua);
 
-	lua_pushstring(L, PIONEER_DATA_DIR);
-	lua_setglobal(L, "CurrentDirectory");
-
-	lua_pushcfunction(L, pi_lua_panic);
-	if (luaL_loadfile(L, (std::string(PIONEER_DATA_DIR) + "/pisystems.lua").c_str())) {
-		pi_lua_panic(L);
-	} else {
-		lua_pcall(L, 0, LUA_MULTRET, -2);
-	}
+	pi_lua_dofile(L, "pisystems.lua");
 
 	lua_close(L);
 }
