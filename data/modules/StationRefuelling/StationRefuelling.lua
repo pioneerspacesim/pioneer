@@ -17,15 +17,18 @@ end
 
 
 local onShipDocked = function (ship, station)
-	if not ship:IsPlayer() then return end
+	if not ship:IsPlayer() then
+		ship:SetFuelPercent() -- refuel NPCs for free.
+		return
+	end
 	local fee = calculateFee()
-	if Game.player:GetMoney() < fee then
+	if ship:GetMoney() < fee then
 		UI.Message(t("This is {station}. You do not have enough for your docking fee of {fee}. Your fuel has been witheld."):interp({station = station.label,fee = Format.Money(fee)}))
-		Game.player:SetMoney(0)
+		ship:SetMoney(0)
 	else
 		UI.Message(t("Welcome aboard {station}. Your docking and fuelling fee of {fee} has been deducted."):interp({station = station.label,fee = Format.Money(fee)}))
-		Game.player:AddMoney(0 - fee)
-		Game.player:SetFuelPercent()
+		ship:AddMoney(0 - fee)
+		ship:SetFuelPercent()
 	end
 end
 

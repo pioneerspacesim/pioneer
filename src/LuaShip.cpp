@@ -77,7 +77,7 @@ static int l_ship_is_player(lua_State *l)
  *     hyperspaceRange - distance of furthest possible jump based on current contents (ly)
  *     maxHyperspaceRange - distance furthest possible jump under ideal conditions (ly)
  *     maxFuelTankMass - mass of internal (thruster) fuel tank, when full (t)
- *     fuelTankMassLeft - current mass of the internal fuel tank (t)
+ *     fuelMassLeft - current mass of the internal fuel tank (t)
  *     fuelUse - thruster fuel use, scaled for the strongest thrusters at full thrust (percentage points per second, e.g. 0.0003)
  *
  * Example:
