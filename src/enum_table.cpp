@@ -193,11 +193,6 @@ const struct EnumItem ENUM_ShipAlertStatus[] = {
 	{ 0, 0 },
 };
 
-const struct EnumItem ENUM_ShipError[] = {
-	{ "OUT_OF_FUEL", Ship::SHIPERROR_OUT_OF_FUEL },
-	{ 0, 0 },
-};
-
 const struct EnumItem ENUM_ShipAIError[] = {
 	{ "NONE", Ship::AIERROR_NONE },
 	{ "GRAV_TOO_HIGH", Ship::AIERROR_GRAV_TOO_HIGH },

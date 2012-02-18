@@ -17,7 +17,6 @@ extern const struct EnumItem ENUM_ShipAnimation[];
 extern const struct EnumItem ENUM_ShipFlightState[];
 extern const struct EnumItem ENUM_ShipJumpStatus[];
 extern const struct EnumItem ENUM_ShipAlertStatus[];
-extern const struct EnumItem ENUM_ShipError[];
 extern const struct EnumItem ENUM_ShipAIError[];
 extern const struct EnumItem ENUM_ShipTypeThruster[];
 extern const struct EnumItem ENUM_ShipTypeTag[];

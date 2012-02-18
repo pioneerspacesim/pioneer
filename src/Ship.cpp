@@ -855,7 +855,7 @@ void Ship::UpdateFuel(const float timeStep)
 
 	// SetFuel will clamp to 0.0f, so we can do an exact test
 	if (!float_is_zero_exact(remaining) && float_is_zero_exact(GetFuel()))
-		Pi::luaOnShipError->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipError", SHIPERROR_OUT_OF_FUEL));
+		Pi::luaOnShipFuelEmpty->Queue(this);
 
 	// XXX debug hack while we test fuel
 	if (IsType(Object::PLAYER)) {
