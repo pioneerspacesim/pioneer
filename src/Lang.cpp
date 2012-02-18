@@ -111,7 +111,7 @@ StringFileParser::StringFileParser(const std::string &filename, StringRange rang
 
 void StringFileParser::Next()
 {
-	if (!Finished()) {
+	if (!m_data.Empty()) {
 		m_token = NextLine();
 		m_tokenLine = m_lineNo;
 		m_text = NextLine();
@@ -166,12 +166,15 @@ void StringFileParser::Next()
 
 StringRange StringFileParser::NextLine()
 {
-	++m_lineNo;
-	const char *eol = m_data.FindNewline();
-	StringRange line(m_data.begin, eol);
-	m_data.begin = eol;
-	m_data.begin = m_data.SkipNewline();
-	return line.StripSpace();
+	if (!m_data.Empty()) {
+		++m_lineNo;
+		const char *eol = m_data.FindNewline();
+		StringRange line(m_data.begin, eol);
+		m_data.begin = eol;
+		m_data.begin = m_data.SkipNewline();
+		return line.StripSpace();
+	} else
+		return m_data;
 }
 
 void StringFileParser::SkipBlankLines()
@@ -180,6 +183,7 @@ void StringFileParser::SkipBlankLines()
 		StringRange line;
 		// skip empty lines and comments
 		while (!m_data.Empty() && (line.Empty() || line[0] == '#')) line = NextLine();
+		--m_lineNo;
 		m_data.begin = line.begin;
 	}
 }
