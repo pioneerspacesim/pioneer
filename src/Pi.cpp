@@ -106,6 +106,7 @@ LuaEventQueue<SpaceStation> *Pi::luaOnUpdateBB;
 LuaEventQueue<> *Pi::luaOnSongFinished;
 LuaEventQueue<Ship> *Pi::luaOnShipFlavourChanged;
 LuaEventQueue<Ship,const char *> *Pi::luaOnShipEquipmentChanged;
+LuaEventQueue<Ship,const char *> *Pi::luaOnShipError;
 LuaNameGen *Pi::luaNameGen;
 TextureCache *Pi::textureCache;
 int Pi::keyModState;
@@ -243,6 +244,7 @@ static void LuaInit()
 	Pi::luaOnSongFinished = new LuaEventQueue<>("onSongFinished");
 	Pi::luaOnShipFlavourChanged = new LuaEventQueue<Ship>("onShipFlavourChanged");
 	Pi::luaOnShipEquipmentChanged = new LuaEventQueue<Ship,const char *>("onShipEquipmentChanged");
+	Pi::luaOnShipError = new LuaEventQueue<Ship,const char *>("onShipError");
 
 	Pi::luaOnGameStart->RegisterEventQueue();
 	Pi::luaOnGameEnd->RegisterEventQueue();
@@ -265,6 +267,7 @@ static void LuaInit()
 	Pi::luaOnSongFinished->RegisterEventQueue();
 	Pi::luaOnShipFlavourChanged->RegisterEventQueue();
 	Pi::luaOnShipEquipmentChanged->RegisterEventQueue();
+	Pi::luaOnShipError->RegisterEventQueue();
 
 	LuaConstants::Register(Pi::luaManager->GetLuaState());
 	LuaLang::Register();
@@ -310,6 +313,7 @@ static void LuaUninit() {
 	delete Pi::luaOnSongFinished;
 	delete Pi::luaOnShipFlavourChanged;
 	delete Pi::luaOnShipEquipmentChanged;
+	delete Pi::luaOnShipError;
 
 	delete Pi::luaSerializer;
 	delete Pi::luaTimer;
@@ -337,6 +341,7 @@ static void LuaInitGame() {
 	Pi::luaOnSongFinished->ClearEvents();
 	Pi::luaOnShipFlavourChanged->ClearEvents();
 	Pi::luaOnShipEquipmentChanged->ClearEvents();
+	Pi::luaOnShipError->ClearEvents();
 }
 
 void Pi::RedirectStdio()

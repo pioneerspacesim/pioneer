@@ -152,6 +152,10 @@ public:
 	bool AIIsActive() { return m_curAICmd ? true : false; }
 	void AIGetStatusText(char *str);
 
+	enum ShipError { // <enum scope='Ship' name=ShipError prefix=SHIPERROR_>
+		SHIPERROR_OUT_OF_FUEL
+	};
+
 	enum AIError { // <enum scope='Ship' name=ShipAIError prefix=AIERROR_>
 		AIERROR_NONE=0,
 		AIERROR_GRAV_TOO_HIGH,

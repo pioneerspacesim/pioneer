@@ -562,6 +562,23 @@ void LuaConstants::Register(lua_State *l)
 	_create_constant_table_nonconsecutive(l, "ShipFlightState", ENUM_ShipFlightState);
 
 	/*
+	 * Constants: ShipError
+	 *
+	 * Ship warning/error code passed to EventQueue.onShipError
+	 *
+	 * OUT_OF_FUEL - ship is out of fuel
+	 *
+	 * Availability:
+	 *
+	 *   alpha 20
+	 *
+	 * Status:
+	 *
+	 *   experimental
+	 */
+	_create_constant_table_nonconsecutive(l, "ShipError", ENUM_ShipError);
+
+	/*
 	 * Constants: ShipAIError
 	 *
 	 * AI command error/result code passed to EventQueue.onAICompleted
