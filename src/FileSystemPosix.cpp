@@ -91,7 +91,7 @@ namespace FileSystem {
 			fseek(fl, 0, SEEK_END);
 			long sz = ftell(fl);
 			fseek(fl, 0, SEEK_SET);
-			unsigned char *data = reinterpret_cast<unsigned char*>(std::malloc(sz));
+			char *data = reinterpret_cast<char*>(std::malloc(sz));
 			if (!data) {
 				// XXX handling memory allocation failure gracefully is too hard right now
 				fprintf(stderr, "failed when allocating buffer for '%s'\n", fullpath.c_str());

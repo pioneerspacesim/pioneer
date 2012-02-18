@@ -20,7 +20,10 @@ Font::Font(FontManager &fm, const std::string &config_file) : m_fontManager(fm)
 	}
 
 	int err;
-	if (0 != (err = FT_New_Memory_Face(GetFontManager().GetFreeTypeLibrary(), m_fontFileData->GetData(), m_fontFileData->GetSize(), 0, &m_face))) {
+	if (0 != (err = FT_New_Memory_Face(
+			GetFontManager().GetFreeTypeLibrary(),
+			reinterpret_cast<const FT_Byte*>(m_fontFileData->GetData()),
+			m_fontFileData->GetSize(), 0, &m_face))) {
 		fprintf(stderr, "Terrible error! Couldn't understand '%s'; error %d.\n", filename_ttf.c_str(), err);
 		abort();
 	}

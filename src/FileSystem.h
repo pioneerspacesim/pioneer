@@ -95,26 +95,24 @@ namespace FileSystem {
 
 		const FileInfo &GetInfo() const { return m_info; }
 		size_t GetSize() const { return m_size; }
-		const unsigned char *GetData() const { assert(m_info.IsFile()); return m_data; }
-		StringRange AsStringRange() const {
-			return StringRange(reinterpret_cast<const char*>(m_data), reinterpret_cast<const char*>(m_data + m_size));
-		}
+		const char *GetData() const { assert(m_info.IsFile()); return m_data; }
+		StringRange AsStringRange() const { return StringRange(m_data, m_data + m_size); }
 
 	protected:
-		FileData(const FileInfo &info, size_t size, unsigned char *data):
+		FileData(const FileInfo &info, size_t size, char *data):
 			m_info(info), m_data(data), m_size(size) {}
 		FileData(const FileInfo &info): m_info(info), m_data(0), m_size(0) {}
 
 		FileInfo m_info;
-		unsigned char *m_data;
+		char *m_data;
 		size_t m_size;
 	};
 
 	class FileDataMalloc : public FileData {
 	public:
 		FileDataMalloc(const FileInfo &info, size_t size):
-			FileData(info, size, reinterpret_cast<unsigned char*>(std::malloc(size))) {}
-		FileDataMalloc(const FileInfo &info, size_t size, unsigned char *data):
+			FileData(info, size, reinterpret_cast<char*>(std::malloc(size))) {}
+		FileDataMalloc(const FileInfo &info, size_t size, char *data):
 			FileData(info, size, data) {}
 		virtual ~FileDataMalloc() { std::free(m_data); }
 	};

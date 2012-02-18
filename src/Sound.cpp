@@ -90,7 +90,7 @@ private:
 	{ return reinterpret_cast<OggFileDataStream*>(stream)->close(); }
 
 	RefCountedPtr<FileSystem::FileData> m_data;
-	const unsigned char *m_cursor;
+	const char *m_cursor;
 };
 
 const ov_callbacks OggFileDataStream::CALLBACKS = {
