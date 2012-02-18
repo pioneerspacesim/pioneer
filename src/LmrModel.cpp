@@ -303,6 +303,16 @@ static void _fwrite_string(const std::string &str, FILE *f)
 	fwrite(str.c_str(), sizeof(char), len, f);
 }
 
+static size_t fread_or_die(void* ptr, size_t size, size_t nmemb, FILE* stream)
+{
+	size_t read_count = fread(ptr, size, nmemb, stream);
+	if (read_count < nmemb) {
+		fprintf(stderr, "Error: failed to read file (%s)\n", (feof(stream) ? "truncated" : "read error"));
+		abort();
+	}
+	return read_count;
+}
+
 static std::string _fread_string(FILE *f)
 {
 	int len = 0;
@@ -313,7 +323,7 @@ static std::string _fread_string(FILE *f)
 	delete[] buf;
 	return str;
 }
-	
+
 class LmrGeomBuffer {
 public:
 	LmrGeomBuffer(LmrModel *model, bool isStatic) {

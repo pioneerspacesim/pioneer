@@ -43,8 +43,6 @@ std::string format_date_only(double time);
 std::string format_distance(double dist);
 std::string format_money(Sint64 money);
 
-size_t fread_or_die(void* ptr, size_t size, size_t nmemb, FILE* stream, bool allow_truncated = false);
-
 static inline Sint64 isqrt(Sint64 a)
 {
 	Sint64 ret=0;

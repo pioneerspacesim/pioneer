@@ -7,16 +7,6 @@
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
 
-size_t fread_or_die(void* ptr, size_t size, size_t nmemb, FILE* stream, bool allow_truncated)
-{
-	size_t read_count = fread(ptr, size, nmemb, stream);
-	if ((read_count < nmemb) && (!allow_truncated || ferror(stream))) {
-		fprintf(stderr, "Error: failed to read file (%s)\n", (feof(stream) ? "truncated" : "read error"));
-		abort();
-	}
-	return read_count;
-}
-
 std::string format_money(Sint64 money)
 {
 	char buf[32];
