@@ -417,7 +417,9 @@ define_model('viper_x', {
 				max_cargoscoop = 0,
 				max_fuelscoop = 1,
 				capacity = 55,
-				hull_mass = 40,
+				hull_mass = 25,
+				fuel_tank_mass = 15,
+				thruster_fuel_use = 0.0002,
 				price = 90000,
 				hyperdrive_class = 2,
 			}

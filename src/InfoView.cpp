@@ -136,6 +136,18 @@ public:
 			Add(new Gui::Label(buf), 300, ypos);
 			ypos += YSEP;
 		}
+
+		if (Pi::player->m_equipment.Count(Equip::SLOT_CARGO, Equip::WATER) > 0) {
+			Gui::HBox *box = new Gui::HBox();
+			box->SetSpacing(5.0f);
+			Gui::Button *b = new Gui::SolidButton();
+			b->onClick.connect(sigc::mem_fun(this, &CargoPage::Refuel));
+			box->PackEnd(b);
+			box->PackEnd(new Gui::Label(Lang::REFUEL));
+			Add(box, 300, 40);
+			box->ShowAll();
+		}
+
 		ShowChildren();
 	}
 private:
@@ -150,6 +162,18 @@ private:
 			Pi::cpan->MsgLog()->Message("", stringf(Lang::JETTISONED_1T_OF_X, formatarg("commodity", Equip::types[t].name)));
 			m_infoView->UpdateInfo();
 		}
+	}
+
+	void Refuel() {
+		float currentFuel = Pi::player->GetFuel();
+		if (float_equal_exact(currentFuel, 1.0f)) return;
+
+		Pi::player->m_equipment.Remove(Equip::WATER, 1);
+		Pi::player->UpdateMass();
+
+		Pi::player->SetFuel(currentFuel + 1.0f/Pi::player->GetShipType().fuelTankMass);
+
+		m_infoView->UpdateInfo();
 	}
 };
 

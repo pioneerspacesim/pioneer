@@ -76,6 +76,9 @@ static int l_ship_is_player(lua_State *l)
  *     shieldMassLeft - remaining shield mass. when this reaches 0, the shields are depleted and the hull is exposed (t)
  *     hyperspaceRange - distance of furthest possible jump based on current contents (ly)
  *     maxHyperspaceRange - distance furthest possible jump under ideal conditions (ly)
+ *     maxFuelTankMass - mass of internal (thruster) fuel tank, when full (t)
+ *     fuelMassLeft - current mass of the internal fuel tank (t)
+ *     fuelUse - thruster fuel use, scaled for the strongest thrusters at full thrust (percentage points per second, e.g. 0.0003)
  *
  * Example:
  *
@@ -111,6 +114,9 @@ static int l_ship_get_stats(lua_State *l)
 	pi_lua_settable(l, "maxHyperspaceRange", stats->hyperspace_range_max);
 	pi_lua_settable(l, "shieldMass",         stats->shield_mass);
 	pi_lua_settable(l, "shieldMassLeft",     stats->shield_mass_left);
+	pi_lua_settable(l, "maxFuelTankMass",    stats->fuel_tank_mass);
+	pi_lua_settable(l, "fuelUse",            stats->fuel_use);
+	pi_lua_settable(l, "fuelMassLeft",       stats->fuel_tank_mass_left);
 
 	LUA_DEBUG_END(l, 1);
 
@@ -208,6 +214,53 @@ static int l_ship_set_hull_percent(lua_State *l)
 	}
 
 	s->SetPercentHull(percent);
+
+	LUA_DEBUG_END(l, 0);
+
+	return 0;
+}
+
+/*
+ * Method: SetFuelPercent
+ *
+ * Sets the thruster fuel tank of the ship to the given precentage of its maximum.
+ *
+ * > ship:SetFuelPercent(percent)
+ *
+ * Parameters:
+ *
+ *   percent - optional. A number from 0 to 100. Less then 0 will use 0 and
+ *             greater than 100 will use 100. Defaults to 100.
+ *
+ * Example:
+ *
+ * > ship:SetFuelPercent(50)
+ *
+ * Availability:
+ *
+ *  alpha 20
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_set_fuel_percent(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	Ship *s = LuaShip::GetFromLua(1);
+
+	float percent = 100;
+	if (lua_isnumber(l, 2)) {
+		percent = float(luaL_checknumber(l, 2));
+		if (percent < 0.0f || percent > 100.0f) {
+			pi_lua_warn(l,
+				"argument out of range: Ship{%s}:SetFuelPercent(%g)",
+				s->GetLabel().c_str(), percent);
+		}
+	}
+
+	s->SetFuel(percent/100.f);
 
 	LUA_DEBUG_END(l, 0);
 
@@ -986,6 +1039,27 @@ static int l_ship_attr_ship_type(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: fuel
+ *
+ * The current amount of fuel, as a percentage of full
+ *
+ * Availability:
+ *
+ *   alpha 20
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_ship_attr_fuel(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	lua_pushnumber(l, s->GetFuel() * 100.f);
+	return 1;
+}
+
+
 /* 
  * Group: AI methods
  *
@@ -1224,6 +1298,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetShipType", l_ship_set_type },
 		{ "SetHullPercent", l_ship_set_hull_percent },
 
+		{ "SetFuelPercent", l_ship_set_fuel_percent },
+
 		{ "SetLabel",           l_ship_set_label            },
 		{ "SetPrimaryColour",   l_ship_set_primary_colour   },
 		{ "SetSecondaryColour", l_ship_set_secondary_colour },
@@ -1259,7 +1335,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 	static const luaL_reg l_attrs[] = {
 		{ "alertStatus", l_ship_attr_alert_status },
-		{ "shipType", l_ship_attr_ship_type },
+		{ "shipType",    l_ship_attr_ship_type },
+		{ "fuel",        l_ship_attr_fuel },
 		{ 0, 0 }
 	};
 

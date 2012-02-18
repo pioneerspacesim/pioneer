@@ -65,6 +65,9 @@
 #include "TextureCache.h"
 #include "Game.h"
 #include "GameLoaderSaver.h"
+#include <sstream>
+
+std::stringstream debugString;
 
 float Pi::gameTickAlpha;
 int Pi::scrWidth;
@@ -103,6 +106,7 @@ LuaEventQueue<SpaceStation> *Pi::luaOnUpdateBB;
 LuaEventQueue<> *Pi::luaOnSongFinished;
 LuaEventQueue<Ship> *Pi::luaOnShipFlavourChanged;
 LuaEventQueue<Ship,const char *> *Pi::luaOnShipEquipmentChanged;
+LuaEventQueue<Ship,const char *> *Pi::luaOnShipFuelChanged;
 LuaNameGen *Pi::luaNameGen;
 TextureCache *Pi::textureCache;
 int Pi::keyModState;
@@ -152,6 +156,11 @@ ObjectViewerView *Pi::objectViewerView;
 #endif
 
 Sound::MusicPlayer Pi::musicPlayer;
+
+void Pi::AddDebug(const std::string &s)
+{
+	debugString << s << std::endl;
+}
 
 int Pi::CombatRating(int kills)
 {
@@ -235,6 +244,7 @@ static void LuaInit()
 	Pi::luaOnSongFinished = new LuaEventQueue<>("onSongFinished");
 	Pi::luaOnShipFlavourChanged = new LuaEventQueue<Ship>("onShipFlavourChanged");
 	Pi::luaOnShipEquipmentChanged = new LuaEventQueue<Ship,const char *>("onShipEquipmentChanged");
+	Pi::luaOnShipFuelChanged = new LuaEventQueue<Ship,const char *>("onShipFuelChanged");
 
 	Pi::luaOnGameStart->RegisterEventQueue();
 	Pi::luaOnGameEnd->RegisterEventQueue();
@@ -257,6 +267,7 @@ static void LuaInit()
 	Pi::luaOnSongFinished->RegisterEventQueue();
 	Pi::luaOnShipFlavourChanged->RegisterEventQueue();
 	Pi::luaOnShipEquipmentChanged->RegisterEventQueue();
+	Pi::luaOnShipFuelChanged->RegisterEventQueue();
 
 	LuaConstants::Register(Pi::luaManager->GetLuaState());
 	LuaLang::Register();
@@ -302,6 +313,7 @@ static void LuaUninit() {
 	delete Pi::luaOnSongFinished;
 	delete Pi::luaOnShipFlavourChanged;
 	delete Pi::luaOnShipEquipmentChanged;
+	delete Pi::luaOnShipFuelChanged;
 
 	delete Pi::luaSerializer;
 	delete Pi::luaTimer;
@@ -329,6 +341,7 @@ static void LuaInitGame() {
 	Pi::luaOnSongFinished->ClearEvents();
 	Pi::luaOnShipFlavourChanged->ClearEvents();
 	Pi::luaOnShipEquipmentChanged->ClearEvents();
+	Pi::luaOnShipFuelChanged->ClearEvents();
 }
 
 void Pi::RedirectStdio()
@@ -1269,6 +1282,9 @@ void Pi::MainLoop()
 	Pi::gameTickAlpha = 0;
 
 	while (Pi::game) {
+#if WITH_DEVKEYS
+		debugString.str("");
+#endif
 		double newTime = 0.001 * double(SDL_GetTicks());
 		Pi::frameTime = newTime - currentTime;
 		if (Pi::frameTime > 0.25) Pi::frameTime = 0.25;
@@ -1324,7 +1340,8 @@ void Pi::MainLoop()
 			Gui::Screen::EnterOrtho();
 			glColor3f(1,1,1);
 			Gui::Screen::PushFont("ConsoleFont");
-			Gui::Screen::RenderString(fps_readout, 0, 0);
+			//Gui::Screen::RenderString(fps_readout, 0, 0);
+			Gui::Screen::RenderString(debugString.str(), 0, 0);
 			Gui::Screen::PopFont();
 			Gui::Screen::LeaveOrtho();
 		}
