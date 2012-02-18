@@ -43,6 +43,12 @@ struct StringRange
 	StringRange StripSpace() const;
 
 	StringRange ReadLine();
+private:
+	static bool is_space(char c) {
+		// MSVC's isspace() apparently asserts if you give it non-ASCII chars
+		// (maybe changing locale would help)
+		return (c == ' ') || (c == '\t') || (c == '\v') || (c == '\r') || (c == '\n');
+	}
 };
 
 inline StringRange StringRange::ReadLine()
@@ -99,14 +105,14 @@ inline const char *StringRange::SkipNewline() const
 inline const char *StringRange::SkipSpace() const
 {
 	const char *x = begin, *y = end;
-	while ((x != y) && isspace(*x)) ++x;
+	while ((x != y) && is_space(*x)) ++x;
 	return x;
 }
 
 inline const char *StringRange::RSkipSpace() const
 {
 	const char *x = begin, *y = end;
-	while ((x != y) && isspace(*--y)) {}
+	while ((x != y) && is_space(*--y)) {}
 	return (y == end ? y : y + 1);
 }
 
