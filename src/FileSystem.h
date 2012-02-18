@@ -40,6 +40,8 @@ namespace FileSystem {
 	class FileInfo {
 		friend class FileSource;
 	public:
+		FileInfo(): m_source(0), m_dirLen(0), m_type(FT_NON_EXISTENT) {}
+
 		enum FileType {
 			// note: order here affects sort-order of FileInfo
 			FT_DIR,
