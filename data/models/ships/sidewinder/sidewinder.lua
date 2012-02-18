@@ -673,7 +673,7 @@ define_model('rattlesnake', {
 				capacity = 30,
 				hull_mass = 20,
 				fuel_tank_mass = 10,
-				thruster_fuel_use = 0.0002,
+				thruster_fuel_use = 0.00035,
 				price = 44000,
 				hyperdrive_class = 2,
 			}
