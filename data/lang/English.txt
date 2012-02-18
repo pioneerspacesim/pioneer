@@ -1076,6 +1076,8 @@ HULL_INTEGRITY
     Hull integrity
 SHIELD_INTEGRITY
     Shield integrity
+FUEL
+    Fuel
 LAUNCH_PERMISSION_DENIED_BUSY
     Permission to launch denied: docking bay busy.
 HYPERSPACE_JUMP_ABORTED
