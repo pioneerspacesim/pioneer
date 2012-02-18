@@ -4,6 +4,9 @@
 #include <algorithm>
 #include <cerrno>
 
+// I hate macros. I just hate them. Hate hate hate.
+#undef FT_FILE
+
 #ifndef _WIN32
 #error "You should not be building this file"
 #endif
