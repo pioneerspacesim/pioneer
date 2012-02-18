@@ -348,7 +348,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\src\win32-dirent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h" />
@@ -531,7 +530,6 @@
     <ClInclude Include="..\..\src\WorldView.h" />
     <ClInclude Include="..\src\Gamma.h" />
     <ClInclude Include="..\src\pch.h" />
-    <ClInclude Include="..\src\win32-dirent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am" />

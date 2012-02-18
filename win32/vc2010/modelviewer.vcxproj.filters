@@ -24,9 +24,6 @@
     <ClCompile Include="..\src\pch.cpp">
       <Filter>win32\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\win32-dirent.cpp">
-      <Filter>win32\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\collider\BVHTree.cpp">
       <Filter>src\collider</Filter>
     </ClCompile>
@@ -189,9 +186,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\pch.h">
-      <Filter>win32\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\win32-dirent.h">
       <Filter>win32\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
