@@ -31,8 +31,8 @@ namespace FileSystem {
 	extern FileSourceUnion gameDataFiles;
 	extern FileSourceFS rawFileSystem;
 
-	std::string GetUserDir();
-	std::string GetDataDir();
+	std::string GetUserDir(const char *subdir = 0);
+	std::string GetDataDir(const char *subdir = 0);
 
 	std::string AbsolutePath(const std::string &path);
 	std::string JoinPath(const std::string &a, const std::string &b);

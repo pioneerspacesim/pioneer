@@ -25,7 +25,7 @@ namespace FileSystem {
 		}
 	}
 
-	std::string GetUserDir()
+	static std::string FindUserDir()
 	{
 		std::string path = getenv("HOME");
 		if (!path.empty() && (path[path.size()-1] != '/')) {
@@ -37,14 +37,25 @@ namespace FileSystem {
 #else
 		path += ".pioneer";
 #endif
-
 		return path;
 	}
 
-	std::string GetDataDir()
+	std::string GetUserDir(const char *subdir)
+	{
+		static const std::string user_path = FindUserDir();
+		if (subdir)
+			return JoinPath(user_path, subdir);
+		else
+			return user_path;
+	}
+
+	std::string GetDataDir(const char *subdir)
 	{
 		static const std::string data_path = AbsolutePath(std::string(PIONEER_DATA_DIR));
-		return data_path;
+		if (subdir)
+			return JoinPath(data_path, subdir);
+		else
+			return data_path;
 	}
 
 	FileSourceFS::FileSourceFS(const std::string &root):
