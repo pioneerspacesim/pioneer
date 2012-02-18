@@ -26,6 +26,7 @@ Alpha 20
      * Game no longer quits if you cancel loading from the main menu (#920)
      * Fix game crash if a script tries to add or remove a negative amount of
        cargo or equipment (#982)
+     * Fix flipped Hammerhead "neck" textures (#986)
 
    * Internal changes
      * Silence MSVC warnings (#964)
