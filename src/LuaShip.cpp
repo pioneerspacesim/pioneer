@@ -268,32 +268,6 @@ static int l_ship_set_fuel_percent(lua_State *l)
 }
 
 /*
- * Method: GetFuelPercent
- *
- * Retrieve the current amount of thruster fuel.
- *
- * > fuel = player:GetFuelPercent()
- *
- * Return:
- *
- *   fuel - percentage of thruster fuel remaining.
- *
- * Availability:
- *
- *   alpha 20
- *
- * Status:
- *
- *   experimental
- */
-static int l_ship_get_fuel_percent(lua_State *l)
-{
-	Ship *s = LuaShip::GetFromLua(1);
-	lua_pushnumber(l, s->GetFuel() * 100.f);
-	return 1;
-}
-
-/*
  * Method: SetLabel
  *
  * Changes the ship's label text. This is the text that appears beside the
@@ -1065,6 +1039,27 @@ static int l_ship_attr_ship_type(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: fuel
+ *
+ * The current amount of fuel, as a percentage of full
+ *
+ * Availability:
+ *
+ *   alpha 20
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_ship_attr_fuel(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	lua_pushnumber(l, s->GetFuel() * 100.f);
+	return 1;
+}
+
+
 /* 
  * Group: AI methods
  *
@@ -1304,7 +1299,6 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetHullPercent", l_ship_set_hull_percent },
 
 		{ "SetFuelPercent", l_ship_set_fuel_percent },
-		{ "GetFuelPercent", l_ship_get_fuel_percent },
 
 		{ "SetLabel",           l_ship_set_label            },
 		{ "SetPrimaryColour",   l_ship_set_primary_colour   },
@@ -1341,7 +1335,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 	static const luaL_reg l_attrs[] = {
 		{ "alertStatus", l_ship_attr_alert_status },
-		{ "shipType", l_ship_attr_ship_type },
+		{ "shipType",    l_ship_attr_ship_type },
+		{ "fuel",        l_ship_attr_fuel },
 		{ 0, 0 }
 	};
 
