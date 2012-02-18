@@ -1,5 +1,6 @@
 #include "Render.h"
 #include "RenderTarget.h"
+#include "FileSystem.h"
 #include <stdexcept>
 #include <sstream>
 #include <iterator>
@@ -241,7 +242,7 @@ bool State::UseProgram(Shader *shader)
 }
 
 void PrintGLInfo() {
-	std::string fname = GetPiUserDir() + "opengl.txt";
+	std::string fname = FileSystem::JoinPath(FileSystem::GetUserDir(), "opengl.txt");
 	FILE *f = fopen(fname.c_str(), "w");
 	if (!f) return;
 

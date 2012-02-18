@@ -4425,7 +4425,7 @@ void LmrModelCompilerInit(TextureCache *textureCache)
 
 	ShipThruster::Init(s_textureCache);
 
-	s_cacheDir = GetPiUserDir("model_cache");
+	s_cacheDir = FileSystem::GetUserDir("model_cache");
 	_detect_model_changes();
 
 	s_staticBufferPool = new BufferObjectPool<sizeof(Vertex)>();

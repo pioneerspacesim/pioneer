@@ -7,93 +7,6 @@
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
 
-// MinGW targets NT4 by default. We need to set some higher versions to ensure
-// that functions we need are available. Specifically, SHCreateDirectoryExA
-// requires Windows 2000 and IE5. We include w32api.h to get the symbolic
-// constants for these things.
-#ifdef __MINGW32__
-#	include <w32api.h>
-#	ifdef WINVER
-#		undef WINVER
-#	endif
-#	define WINVER Windows2000
-#	define _WIN32_IE IE5
-#endif
-
-#ifdef _WIN32
-// GetPiUserDir() needs these
-#include <shlobj.h>
-#include <shlwapi.h>
-#endif
-
-std::string GetPiUserDir(const std::string &subdir)
-{
-
-#if defined(_WIN32)
-
-	char appdata_path[MAX_PATH];
-	if (SHGetFolderPathA(0, CSIDL_PERSONAL, 0, SHGFP_TYPE_CURRENT, appdata_path) != S_OK) {
-		fprintf(stderr, "Couldn't get user documents folder path\n");
-		exit(-1);
-	}
-
-	std::string path(appdata_path);
-	path += "/Pioneer";
-
-	if (!PathFileExistsA(path.c_str())) {
-		if (SHCreateDirectoryExA(0, path.c_str(), 0) != ERROR_SUCCESS) {
-			fprintf(stderr, "Couldn't create user game folder '%s'", path.c_str());
-			exit(-1);
-		}
-	}
-
-	if (subdir.length() > 0) {
-		path += "/" + subdir;
-		if (!PathFileExistsA(path.c_str())) {
-			if (SHCreateDirectoryExA(0, path.c_str(), 0) != ERROR_SUCCESS) {
-				fprintf(stderr, "Couldn't create user game folder '%s'", path.c_str());
-				exit(-1);
-			}
-		}
-	}
-
-	return path + "/";
-
-#else
-
-	std::string path = getenv("HOME");
-
-#ifdef __APPLE__
-	path += "/Library/Application Support/Pioneer";
-#else
-	path += "/.pioneer";
-#endif
-
-	struct stat st;
-	if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str(), S_IRWXU|S_IRWXG|S_IRWXO) < 0) {
-		fprintf(stderr, "Couldn't create user dir '%s': %s\n", path.c_str(), strerror(errno));
-		exit(-1);
-	}
-
-	if (subdir.length() > 0) {
-		path += "/" + subdir;
-		if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str(), S_IRWXU|S_IRWXG|S_IRWXO) < 0) {
-			fprintf(stderr, "Couldn't create user dir '%s': %s\n", path.c_str(), strerror(errno));
-			exit(-1);
-		}
-	}
-
-	return path + "/";
-
-#endif
-
-}
-
-std::string PiGetDataDir()
-{
-	return PIONEER_DATA_DIR + std::string("/");
-}
-
 void GetDirectoryContents(const std::string &path, std::list<std::string> &files)
 {
 	DIR *dir = opendir(path.c_str());
@@ -319,7 +232,7 @@ void foreach_file_in(const std::string &directory, void (*callback)(const std::s
 
 void Screendump(const char* destFile, const int width, const int height)
 {
-	std::string fname = FileSystem::JoinPath(GetPiUserDir("screenshots"), destFile);
+	std::string fname = FileSystem::JoinPath(FileSystem::GetUserDir("screenshots"), destFile);
 
 	// pad rows to 4 bytes, which is the default row alignment for OpenGL
 	const int stride = (3*width + 3) & ~3;

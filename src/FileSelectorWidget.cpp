@@ -1,6 +1,7 @@
 #include "FileSelectorWidget.h"
 #include "Lang.h"
 #include "utils.h"
+#include "Pi.h"
 
 class SimpleLabelButton: public Gui::LabelButton
 {
@@ -28,7 +29,7 @@ void FileSelectorWidget::ShowAll()
 	PackEnd(m_tentry);
 
 	std::list<std::string> files;
-	GetDirectoryContents(GetPiSavefileDir().c_str(), files);
+	GetDirectoryContents(Pi::GetSaveDir(), files);
 
 	Gui::HBox *hbox = new Gui::HBox();
 	PackEnd(hbox);

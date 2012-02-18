@@ -131,7 +131,7 @@ GLUquadric *Pi::gluQuadric;
 bool Pi::showDebugInfo;
 #endif
 int Pi::statSceneTris;
-GameConfig Pi::config(FileSystem::GetUserDir() + "/config.ini");
+GameConfig Pi::config(FileSystem::JoinPath(FileSystem::GetUserDir(), "config.ini"));
 struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
@@ -332,10 +332,15 @@ static void LuaInitGame() {
 	Pi::luaOnShipEquipmentChanged->ClearEvents();
 }
 
+std::string Pi::GetSaveDir()
+{
+	return FileSystem::JoinPath(FileSystem::GetUserDir(), "savefiles");
+}
+
 void Pi::RedirectStdio()
 {
-	std::string stdout_file = GetPiUserDir() + "stdout.txt";
-	std::string stderr_file = GetPiUserDir() + "stderr.txt";
+	std::string stdout_file = FileSystem::JoinPath(FileSystem::GetUserDir(), "stdout.txt");
+	std::string stderr_file = FileSystem::JoinPath(FileSystem::GetUserDir(), "stderr.txt");
 
 	FILE *f;
 
@@ -802,7 +807,7 @@ void Pi::HandleEvents()
 									Pi::cpan->MsgLog()->Message("", Lang::CANT_SAVE_IN_HYPERSPACE);
 
 								else {
-									std::string name = FileSystem::JoinPath(GetPiSavefileDir(), "_quicksave");
+									std::string name = FileSystem::JoinPath(GetSaveDir(), "_quicksave");
 									GameSaver saver(Pi::game);
 									if (saver.SaveToFile(name))
 										Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+name);

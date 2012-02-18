@@ -42,7 +42,7 @@ void GameLoaderSaver::DialogMainLoop()
 void GameLoaderSaver::OnClickLoad(std::string filename)
 {
 	if (filename.empty()) return;
-	m_filename = FileSystem::JoinPath(GetPiSavefileDir(), filename);
+	m_filename = FileSystem::JoinPath(Pi::GetSaveDir(), filename);
 	if (!OnAction())
 		m_filename = "";
 	m_done = true;
