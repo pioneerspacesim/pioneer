@@ -59,7 +59,7 @@ namespace FileSystem {
 
 		const FileSource &GetSource() const { return *m_source; }
 
-		RefCountedPtr<FileData> Read(const std::string &path) const;
+		RefCountedPtr<FileData> Read() const;
 
 		friend bool operator==(const FileInfo &a, const FileInfo &b)
 		{ return (a.m_source == b.m_source && a.m_type == b.m_type && a.m_path == b.m_path); }
@@ -199,7 +199,8 @@ namespace FileSystem {
 
 inline const std::string &FileSystem::FileInfo::GetSourcePath() const
 { return m_source->GetSourcePath(); }
-inline RefCountedPtr<FileSystem::FileData> FileSystem::FileInfo::Read(const std::string &path) const
+
+inline RefCountedPtr<FileSystem::FileData> FileSystem::FileInfo::Read() const
 { return m_source->ReadFile(m_path); }
 
 #endif
