@@ -627,6 +627,15 @@
     <ClCompile Include="..\..\src\terrain\TerrainHeightMapped2.cpp">
       <Filter>src\terrain</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\FileSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\FileSystemPosix.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\FileSystemWin32.cpp">
+      <Filter>win32\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -1161,6 +1170,15 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GameLoaderSaver.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ByteRange.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\StringRange.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FileSystem.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
