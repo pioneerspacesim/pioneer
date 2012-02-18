@@ -63,11 +63,6 @@ void pi_lua_protected_call(lua_State* L, int nargs, int nresults) {
 
 static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code)
 {
-	lua_getglobal(l, "CurrentDirectory");
-	std::string currentDir = luaL_checkstring(l, -1);
-	lua_pop(l, 1);
-	fprintf(stderr, "executing '%s' (CurrentDirectory = '%s')\n", code.GetInfo().GetPath().c_str(), currentDir.c_str());
-
 	// XXX make this a proper protected call (after working out the implications -- *sigh*)
 	lua_pushcfunction(l, &pi_lua_panic);
 	if (luaL_loadbuffer(l, code.GetData(), code.GetSize(), code.GetInfo().GetPath().c_str())) {
@@ -105,30 +100,23 @@ void pi_lua_dofile_recursive(lua_State *l, const std::string &basepath)
 {
 	LUA_DEBUG_START(l);
 
-	// XXX kill CurrentDirectory
-	lua_pushstring(l, basepath.empty() ? "." : basepath.c_str());
-	lua_setglobal(l, "CurrentDirectory");
-
 	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, basepath, FileSystem::FileEnumerator::IncludeDirectories); !files.Finished(); files.Next())
 	{
 		const FileSystem::FileInfo &info = files.Current();
 		const std::string &fpath = info.GetPath();
 		if (info.IsDir()) {
 			pi_lua_dofile_recursive(l, fpath);
-			// XXX kill CurrentDirectory
-			lua_pushstring(l, basepath.empty() ? "." : basepath.c_str());
-			lua_setglobal(l, "CurrentDirectory");
 		} else if (info.IsFile()) {
 			if ((fpath.size() > 4) && (fpath.substr(fpath.size() - 4) == ".lua")) {
+				// XXX kill CurrentDirectory
+				lua_pushstring(l, basepath.empty() ? "." : basepath.c_str());
+				lua_setglobal(l, "CurrentDirectory");
+
 				RefCountedPtr<FileSystem::FileData> code = info.Read();
 				pi_lua_dofile(l, *code);
 			}
 		}
 	}
-
-	// XXX kill CurrentDirectory
-	lua_pushnil(l);
-	lua_setglobal(l, "CurrentDirectory");
 
 	LUA_DEBUG_END(l, 0);
 }
