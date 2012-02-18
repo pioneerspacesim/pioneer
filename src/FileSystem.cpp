@@ -181,7 +181,7 @@ namespace FileSystem {
 
 	void FileEnumerator::Next(int flags)
 	{
-		if (flags & Recurse) {
+		if (flags & RecurseFlag) {
 			FileInfo head = m_queue.front();
 			m_queue.pop_front();
 
