@@ -159,13 +159,7 @@ namespace FileSystem {
 		return true;
 	}
 
-	bool FileSourceFS::MakeDirectory(const std::string &path)
-	{
-		const std::string fullpath = JoinPath(GetSourcePath(), path);
-		return MakeDirectoryRaw(fullpath);
-	}
-
-	bool FileSourceFS::MakeDirectoryRaw(const std::string &path)
+	static bool make_directory_raw(const std::string &path)
 	{
 		// allow multiple tries (to build parent directories)
 		while (true) {
@@ -182,7 +176,7 @@ namespace FileSystem {
 						size_t pos = path.rfind('/');
 						if (pos != std::string::npos) {
 							const std::string dirname = path.substr(0, pos-1);
-							if (dirname.empty() || !MakeDirectoryRaw(dirname)) {
+							if (dirname.empty() || !make_directory_raw(dirname)) {
 								return false;
 							}
 						} else
@@ -194,5 +188,11 @@ namespace FileSystem {
 				return true;
 			}
 		}
+	}
+
+	bool FileSourceFS::MakeDirectory(const std::string &path)
+	{
+		const std::string fullpath = JoinPath(GetSourcePath(), path);
+		return make_directory_raw(fullpath);
 	}
 }

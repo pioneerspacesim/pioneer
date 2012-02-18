@@ -151,9 +151,6 @@ namespace FileSystem {
 		virtual bool ReadDirectory(const std::string &path, std::vector<FileInfo> &output);
 
 		bool MakeDirectory(const std::string &path);
-
-	private:
-		bool MakeDirectoryRaw(const std::string &path);
 	};
 
 	class FileSourceUnion : public FileSource {
