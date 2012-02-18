@@ -4,6 +4,7 @@
 #include "LuaConstants.h"
 #include "Polit.h"
 #include "SystemPath.h"
+#include "FileSystem.h"
 #include <map>
 
 typedef std::list<CustomSystem> SystemList;
@@ -185,7 +186,7 @@ CustomSBody::CustomSBody(std::string s, std::string stype)
 }
 
 CustomSBody* CustomSBody::l_height_map(lua_State *L, std::string f, unsigned int n) {
-	heightMapFilename = std::string(PIONEER_DATA_DIR)+"/heightmaps/"+f;
+	heightMapFilename = FileSystem::JoinPath("heightmaps", f);
 	heightMapFractal = n;
 	if (n >= 2) luaL_error(L, "invalid terrain fractal type");
 		return this; 
