@@ -3,6 +3,7 @@
 
 #include "RefCounted.h"
 #include "StringRange.h"
+#include "ByteRange.h"
 #include <string>
 #include <vector>
 #include <deque>
@@ -100,6 +101,7 @@ namespace FileSystem {
 		size_t GetSize() const { return m_size; }
 		const char *GetData() const { assert(m_info.IsFile()); return m_data; }
 		StringRange AsStringRange() const { return StringRange(m_data, m_data + m_size); }
+		ByteRange AsByteRange() const { return ByteRange(m_data, m_data + m_size); }
 
 	protected:
 		FileData(const FileInfo &info, size_t size, char *data):

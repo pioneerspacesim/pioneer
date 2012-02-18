@@ -15,6 +15,7 @@ noinst_HEADERS = \
 	BezierCurve.h \
 	Body.h \
 	BufferObject.h \
+	ByteRange.h \
 	Camera.h \
 	CargoBody.h \
 	ChatForm.h \
