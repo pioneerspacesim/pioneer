@@ -6,7 +6,7 @@
 
 namespace FileSystem {
 
-	std::string AbsolutePath(const std::string &path) {
+	static std::string absolute_path(const std::string &path) {
 		if (!path.empty() && path[0] == '/') { return path; }
 		else {
 			const size_t bufsize = 512;
@@ -51,7 +51,7 @@ namespace FileSystem {
 
 	std::string GetDataDir(const char *subdir)
 	{
-		static const std::string data_path = AbsolutePath(std::string(PIONEER_DATA_DIR));
+		static const std::string data_path = absolute_path(std::string(PIONEER_DATA_DIR));
 		if (subdir)
 			return JoinPath(data_path, subdir);
 		else
@@ -59,7 +59,7 @@ namespace FileSystem {
 	}
 
 	FileSourceFS::FileSourceFS(const std::string &root):
-		FileSource(AbsolutePath(root)) {}
+		FileSource(absolute_path(root)) {}
 
 	FileSourceFS::~FileSourceFS() {}
 

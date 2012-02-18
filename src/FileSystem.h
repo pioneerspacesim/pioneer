@@ -35,7 +35,6 @@ namespace FileSystem {
 	std::string GetUserDir(const char *subdir = 0);
 	std::string GetDataDir(const char *subdir = 0);
 
-	std::string AbsolutePath(const std::string &path);
 	std::string JoinPath(const std::string &a, const std::string &b);
 
 	class FileInfo {

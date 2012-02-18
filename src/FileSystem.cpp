@@ -10,8 +10,7 @@ namespace FileSystem {
 	FileSourceUnion gameDataFiles;
 	FileSourceFS rawFileSystem("/");
 
-	// note: some functions are in FileSystem{Posix,Win32}.cpp
-	// -- GetUserDir(), GetDataDir(), AbsolutePath()
+	// note: some functions (GetUserDir(), GetDataDir()) are in FileSystem{Posix,Win32}.cpp
 
 	std::string JoinPath(const std::string &a, const std::string &b) {
 		if (!b.empty()) {
