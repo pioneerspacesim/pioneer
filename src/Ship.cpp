@@ -829,6 +829,40 @@ void Ship::UpdateAlertState()
 		Pi::luaOnShipAlertChanged->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipAlertStatus", GetAlertState()));
 }
 
+void Ship::UpdateFuel(const float timeStep)
+{
+	const float fuelUseRate = GetShipType().thrusterFuelUse * 0.01f;
+	const vector3d &tstate = GetThrusterState();
+	//weights calculated from thrust values during calcstats
+	float totalThrust = 0.f;
+	if (tstate.z > 0.0)
+		totalThrust = fabs(tstate.z) * m_fuelUseWeights[1];  //backwards
+	else
+		totalThrust = fabs(tstate.z) * m_fuelUseWeights[0];  //forwards (usually 1)
+
+	totalThrust += fabs(tstate.x) * m_fuelUseWeights[2]; //left-right
+	totalThrust += fabs(tstate.y) * m_fuelUseWeights[3]; //up-down
+
+	// XXX debug hack while we test fuel
+	if (IsType(Object::PLAYER)) {
+		Pi::AddDebug(stringf("timestep %0{f}", timeStep));
+		Pi::AddDebug(stringf("thruster use %0{f}", totalThrust));
+		//Pi::AddDebug(stringf("thruster xyz %0{f} %1{f} %2{f}", tstate.x, tstate.y, tstate.z));
+	}
+
+	float remaining = GetFuel();
+	SetFuel(remaining - timeStep * (totalThrust * fuelUseRate));
+
+	if (!float_is_zero_general(remaining) && float_is_zero_general(GetFuel()))
+		Pi::luaOnShipError->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipError", SHIPERROR_OUT_OF_FUEL));
+
+	// XXX debug hack while we test fuel
+	if (IsType(Object::PLAYER)) {
+		Pi::AddDebug(stringf("Fuel left %0{f}", m_thrusterFuel));
+		Pi::AddDebug(stringf("Mass %0{f}", GetMass()));
+	}
+}
+
 void Ship::StaticUpdate(const float timeStep)
 {
 	AITimeStep(timeStep);		// moved to correct place, maybe
@@ -836,6 +870,8 @@ void Ship::StaticUpdate(const float timeStep)
 	if (GetHullTemperature() > 1.0) {
 		Pi::game->GetSpace()->KillBody(this);
 	}
+
+	UpdateFuel(timeStep);
 
 	UpdateAlertState();
 
