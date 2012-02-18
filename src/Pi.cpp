@@ -266,7 +266,7 @@ static void LuaInit()
 
 	LuaConsole::Register();
 
-	luaL_dofile(l, PIONEER_DATA_DIR "/pistartup.lua");
+	pi_lua_dofile(l, "pistartup.lua");
 
 	// XXX load everything. for now, just modules
 	pi_lua_dofile_recursive(l, PIONEER_DATA_DIR "/libs");
