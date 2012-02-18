@@ -816,7 +816,7 @@ define_model('conny', {
 				capacity = 90,
 				hull_mass = 60,
 				fuel_tank_mass = 30,
-				thruster_fuel_use = 0.0002,
+				thruster_fuel_use = 0.00035,
 				price = 143000,
 				hyperdrive_class = 3,
 			}
