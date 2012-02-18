@@ -139,9 +139,9 @@ define_model('fi', {
 				max_fuelscoop = 0,
 				max_cargoscoop = 0,
 				capacity = 10,
-				hull_mass = 6,
-				fuel_tank_mass = 4,
-				thruster_fuel_use = 0.0002,
+				hull_mass = 8,
+				fuel_tank_mass = 2,
+				thruster_fuel_use = 0.0001,
 				price = 33000,
 				hyperdrive_class = 1,
 			}
