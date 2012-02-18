@@ -187,6 +187,13 @@ public:
 	void SetPercentHull(float);
 	float GetGunTemperature(int idx) const { return m_gunTemperature[idx]; }
 
+	enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_>
+		FUEL_OK,
+		FUEL_WARNING,
+		FUEL_EMPTY,
+	};
+	FuelState GetFuelState() { return m_thrusterFuel > 0.05f ? FUEL_OK : m_thrusterFuel > 0.0f ? FUEL_WARNING : FUEL_EMPTY; }
+
 	//fuel left, 0.0-1.0
 	float GetFuel() const {	return m_thrusterFuel;	}
 	//0.0 - 1.0
