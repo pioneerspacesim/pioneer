@@ -24,7 +24,7 @@ void IniConfig::Load(const FileSystem::FileData &data)
 		buffer.begin = eol;
 
 		// if the line is a comment, skip it
-		if (line[0] == '#') continue;
+		if (line.Empty() || (line[0] == '#')) continue;
 		const char *kend = line.FindChar('=');
 		// if there's no '=' sign, skip the line
 		if (kend == eol) continue;
