@@ -416,8 +416,8 @@ public:
 				//renderer::drawpointsprites does not have a stride parameter
 				std::vector<vector3f> verts;
 				verts.reserve(op.billboards.count);
-				for (int i = 0; i < op.billboards.count; i++) {
-					verts.push_back(m_vertices[op.billboards.start + i].v);
+				for (int j = 0; j < op.billboards.count; j++) {
+					verts.push_back(m_vertices[op.billboards.start + j].v);
 				}
 				Material mat;
 				mat.unlit = true;
