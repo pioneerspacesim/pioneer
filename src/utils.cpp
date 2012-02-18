@@ -7,16 +7,6 @@
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
 
-FILE *fopen_or_die(const char *filename, const char *mode)
-{
-	FILE *f = fopen(filename, mode);
-	if (!f) {
-		fprintf(stderr, "Error: could not open file '%s'\n", filename);
-		abort();
-	}
-	return f;
-}
-
 size_t fread_or_die(void* ptr, size_t size, size_t nmemb, FILE* stream, bool allow_truncated)
 {
 	size_t read_count = fread(ptr, size, nmemb, stream);
