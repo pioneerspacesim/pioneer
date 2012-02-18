@@ -7,27 +7,6 @@
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
 
-void GetDirectoryContents(const std::string &path, std::list<std::string> &files)
-{
-	DIR *dir = opendir(path.c_str());
-	if (!dir) {
-		//if (-1 == mkdir(name, 0770)
-		Error("%s", stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path)).c_str());
-		return;
-	}
-	struct dirent *entry;
-
-	while ((entry = readdir(dir))) {
-		if (strcmp(entry->d_name, ".")==0) continue;
-		if (strcmp(entry->d_name, "..")==0) continue;
-		files.push_back(entry->d_name);
-	}
-
-	closedir(dir);
-
-	files.sort();
-}
-
 FILE *fopen_or_die(const char *filename, const char *mode)
 {
 	FILE *f = fopen(filename, mode);

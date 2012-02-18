@@ -37,8 +37,6 @@ void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribut
 void Warning(const char *format, ...) __attribute((format(printf,1,2)));
 void SilentWarning(const char *format, ...) __attribute((format(printf,1,2)));
 
-void GetDirectoryContents(const std::string &path, std::list<std::string> &files);
-
 std::string string_join(std::vector<std::string> &v, std::string sep);
 std::string format_date(double time);
 std::string format_date_only(double time);
