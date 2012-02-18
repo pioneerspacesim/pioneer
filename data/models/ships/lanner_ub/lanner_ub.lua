@@ -483,7 +483,7 @@ define_model('lanner_ub', {
 				capacity = 190,
 				hull_mass = 130,
 				fuel_tank_mass = 60,
-				thruster_fuel_use = 0.0002,
+				thruster_fuel_use = 0.00025,
 				price = 280000,
 				hyperdrive_class = 3,
 			}
