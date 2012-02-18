@@ -41,7 +41,17 @@ struct StringRange
 	const char *RSkipSpace() const;
 
 	StringRange StripSpace() const;
+
+	StringRange ReadLine();
 };
+
+inline StringRange StringRange::ReadLine()
+{
+	StringRange line(begin, FindNewline());
+	begin = line.end;
+	begin = SkipNewline();
+	return line;
+}
 
 inline const char *StringRange::FindChar(char c) const
 {
