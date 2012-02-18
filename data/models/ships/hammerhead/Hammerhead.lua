@@ -321,7 +321,7 @@ define_model('hh', {
 				capacity = 1220,
 				hull_mass = 666,
 				fuel_tank_mass = 337, --full tank, tons in addition to hull_mass
-				thruster_fuel_use = 0.0002, --percent, per second (at max thrust, determined by strongest thruster)
+				thruster_fuel_use = 0.0003, --percent, per second (at max thrust, determined by strongest thruster)
 				price = 3e6,
 				hyperdrive_class = 7,
 			}
