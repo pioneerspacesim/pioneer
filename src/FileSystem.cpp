@@ -2,6 +2,7 @@
 #include "FileSystem.h"
 #include <cassert>
 #include <algorithm>
+#include <iterator>
 
 namespace FileSystem {
 
