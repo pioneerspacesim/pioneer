@@ -161,14 +161,15 @@ namespace FileSystem {
 
 	bool FileSourceFS::MakeDirectory(const std::string &path)
 	{
-		return MakeDirectory(JoinPath(GetSourcePath(), path));
+		const std::string fullpath = JoinPath(GetSourcePath(), path);
+		return MakeDirectoryRaw(fullpath);
 	}
 
 	bool FileSourceFS::MakeDirectoryRaw(const std::string &path)
 	{
 		// allow multiple tries (to build parent directories)
 		while (true) {
-			if (mkdir(path.c_str(), S_IRWXU|S_IRWXG|S_IRWXO)) {
+			if (mkdir(path.c_str(), S_IRWXU|S_IRWXG|S_IRWXO) == -1) {
 				switch (errno) {
 				case EEXIST:
 					{
@@ -179,15 +180,19 @@ namespace FileSystem {
 				case ENOENT:
 					{
 						size_t pos = path.rfind('/');
-						const std::string dirname = path.substr(0, pos-1);
-						if (dirname.empty() || !MakeDirectoryRaw(dirname)) {
+						if (pos != std::string::npos) {
+							const std::string dirname = path.substr(0, pos-1);
+							if (dirname.empty() || !MakeDirectoryRaw(dirname)) {
+								return false;
+							}
+						} else
 							return false;
-						}
 					}
 				default: return false;
 				}
+			} else {
+				return true;
 			}
 		}
-		return true;
 	}
 }
