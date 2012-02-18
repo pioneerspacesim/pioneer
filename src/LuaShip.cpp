@@ -570,9 +570,9 @@ static int l_ship_add_equip(lua_State *l)
 	Ship *s = LuaShip::GetFromLua(1);
 	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
 
-	int num = 1;
-	if (lua_isnumber(l, 3))
-		num = lua_tointeger(l, 3);
+	int num = luaL_optinteger(l, 3, 1);
+	if (num < 0)
+		return luaL_error(l, "Can't add a negative number of equipment items.");
 
 	const shipstats_t *stats = s->CalcStats();
 	if (Equip::types[e].mass != 0)
@@ -617,9 +617,9 @@ static int l_ship_remove_equip(lua_State *l)
 	Ship *s = LuaShip::GetFromLua(1);
 	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
 
-	int num = 1;
-	if (lua_isnumber(l, 3))
-		num = lua_tointeger(l, 3);
+	int num = luaL_optinteger(l, 3, 1);
+	if (num < 0)
+		return luaL_error(l, "Can't remove a negative number of equipment items.");
 
 	lua_pushinteger(l, s->m_equipment.Remove(e, num));
 	s->UpdateMass();

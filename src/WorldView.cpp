@@ -181,7 +181,7 @@ void WorldView::InitObject()
 	float zfar;
 	Pi::renderer->GetNearFarRange(znear, zfar);
 
-	const float fovY = Pi::config.Float("FOV_Vertical");
+	const float fovY = Pi::config.Float("FOVVertical");
 	m_frontCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight(), fovY, znear, zfar);
 	m_rearCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight(), fovY, znear, zfar);
 	m_externalCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight(), fovY, znear, zfar);
@@ -980,6 +980,9 @@ void WorldView::UpdateCommsOptions()
 	if (!(navtarget || comtarget)) {
 		m_commsOptions->Add(new Gui::Label("#0f0"+std::string(Lang::NO_TARGET_SELECTED)), 16, float(ypos));
 	}
+
+	bool hasAutopilot = Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT;
+
 	if (navtarget) {
 		m_commsOptions->Add(new Gui::Label("#0f0"+navtarget->GetLabel()), 16, float(ypos));
 		ypos += 32;
@@ -1003,7 +1006,7 @@ void WorldView::UpdateCommsOptions()
 				ypos += 32;
 			}
 		}
-		if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
+		if (hasAutopilot) {
 			button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
 			button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_flyto), navtarget));
 			ypos += 32;
@@ -1032,7 +1035,7 @@ void WorldView::UpdateCommsOptions()
 			}
 		}
 	}
-	if (comtarget) {
+	if (comtarget && hasAutopilot) {
 		m_commsOptions->Add(new Gui::Label("#f00"+comtarget->GetLabel()), 16, float(ypos));
 		ypos += 32;
 		button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", comtarget->GetLabel())), ypos, optnum++);

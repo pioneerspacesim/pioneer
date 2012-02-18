@@ -109,7 +109,9 @@ public:
 
 class CargoPage: public InfoViewPage {
 public:
-	CargoPage(InfoView *v) : InfoViewPage(v) {};
+	CargoPage(InfoView *v) : InfoViewPage(v) {
+		Pi::game->GetPlayer()->m_equipment.onChange.connect(sigc::mem_fun(*this, &CargoPage::HandleEquipChange));
+	}
 
 	virtual void Show() {
 		InfoViewPage::Show();
@@ -138,6 +140,12 @@ public:
 		ShowChildren();
 	}
 private:
+	void HandleEquipChange(Equip::Type t) {
+		if (Equip::types[t].slot == Equip::SLOT_CARGO) {
+			UpdateInfo();
+		}
+	}
+
 	void JettisonCargo(Equip::Type t) {
 		if (Pi::player->Jettison(t)) {
 			Pi::cpan->MsgLog()->Message("", stringf(Lang::JETTISONED_1T_OF_X, formatarg("commodity", Equip::types[t].name)));
