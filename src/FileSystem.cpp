@@ -15,7 +15,7 @@ namespace FileSystem {
 
 	std::string JoinPath(const std::string &a, const std::string &b) {
 		if (!b.empty()) {
-			if (b[0] == '/')
+			if (b[0] == '/' || a.empty())
 				return b;
 			else
 				return a + "/" + b;
