@@ -5,12 +5,23 @@
 
 namespace FileSystem {
 
-	// note: GetUserDir() and GetDataDir() is in FileSystem{Posix,Win32}.cpp
-
 	static FileSourceFS dataFilesApp(GetDataDir());
 	static FileSourceFS dataFilesUser(GetUserDir() + "/data");
 	FileSourceUnion gameDataFiles;
 	FileSourceFS rawFileSystem("/");
+
+	// note: some functions are in FileSystem{Posix,Win32}.cpp
+	// -- GetUserDir(), GetDataDir(), AbsolutePath()
+
+	std::string JoinPath(const std::string &a, const std::string &b) {
+		if (!b.empty()) {
+			if (b[0] == '/')
+				return b;
+			else
+				return a + "/" + b;
+		} else
+			return a;
+	}
 
 	void Init()
 	{

@@ -6,7 +6,7 @@
 
 namespace FileSystem {
 
-	static std::string absolute_path(const std::string &path) {
+	std::string AbsolutePath(const std::string &path) {
 		if (!path.empty() && path[0] == '/') { return path; }
 		else {
 			const size_t bufsize = 512;
@@ -23,16 +23,6 @@ namespace FileSystem {
 			abspath += path;
 			return abspath;
 		}
-	}
-
-	static std::string path_join(const std::string &a, const std::string &b) {
-		if (!b.empty()) {
-			if (b[0] == '/')
-				return b;
-			else
-				return a + "/" + b;
-		} else
-			return a;
 	}
 
 	std::string GetUserDir()
@@ -53,18 +43,18 @@ namespace FileSystem {
 
 	std::string GetDataDir()
 	{
-		static const std::string data_path = absolute_path(std::string(PIONEER_DATA_DIR));
+		static const std::string data_path = AbsolutePath(std::string(PIONEER_DATA_DIR));
 		return data_path;
 	}
 
 	FileSourceFS::FileSourceFS(const std::string &root):
-		FileSource(absolute_path(root)) {}
+		FileSource(AbsolutePath(root)) {}
 
 	FileSourceFS::~FileSourceFS() {}
 
 	FileInfo FileSourceFS::Lookup(const std::string &path)
 	{
-		const std::string fullpath = path_join(GetSourcePath(), path);
+		const std::string fullpath = JoinPath(GetSourcePath(), path);
 		struct stat statinfo;
 		FileInfo::FileType ty;
 		if (stat(fullpath.c_str(), &statinfo) == 0) {
@@ -83,7 +73,7 @@ namespace FileSystem {
 
 	RefCountedPtr<FileData> FileSourceFS::ReadFile(const std::string &path)
 	{
-		const std::string fullpath = path_join(GetSourcePath(), path);
+		const std::string fullpath = JoinPath(GetSourcePath(), path);
 		FILE *fl = fopen(fullpath.c_str(), "rb");
 		if (!fl) {
 			return RefCountedPtr<FileData>(0);
@@ -110,7 +100,7 @@ namespace FileSystem {
 
 	bool FileSourceFS::ReadDirectory(const std::string &dirpath, std::vector<FileInfo> &output)
 	{
-		const std::string fulldirpath = path_join(GetSourcePath(), dirpath);
+		const std::string fulldirpath = JoinPath(GetSourcePath(), dirpath);
 		DIR *dir = opendir(fulldirpath.c_str());
 		if (!dir) { return false; }
 		struct dirent *entry;
@@ -160,7 +150,7 @@ namespace FileSystem {
 
 	bool FileSourceFS::MakeDirectory(const std::string &path)
 	{
-		return MakeDirectory(path_join(GetSourcePath(), path));
+		return MakeDirectory(JoinPath(GetSourcePath(), path));
 	}
 
 	bool FileSourceFS::MakeDirectoryRaw(const std::string &path)
