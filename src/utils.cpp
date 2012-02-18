@@ -170,28 +170,6 @@ std::string format_distance(double dist)
 	}
 }
 
-bool is_file(const std::string &filename)
-{
-	struct stat info;
-	if (!stat(filename.c_str(), &info)) {
-		if (S_ISREG(info.st_mode)) {
-			return true;
-		}
-	}
-	return false;
-}
-
-bool is_dir(const std::string &filename)
-{
-	struct stat info;
-	if (!stat(filename.c_str(), &info)) {
-		if (S_ISDIR(info.st_mode)) {
-			return true;
-		}
-	}
-	return false;
-}
-
 void Screendump(const char* destFile, const int width, const int height)
 {
 	std::string fname = FileSystem::JoinPath(FileSystem::GetUserDir("screenshots"), destFile);

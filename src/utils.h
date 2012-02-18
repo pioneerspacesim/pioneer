@@ -63,9 +63,6 @@ static inline Sint64 isqrt(Sint64 a)
 	return ret;
 }
 
-bool is_file(const std::string &filename);
-bool is_dir(const std::string &filename);
-
 void Screendump(const char* destFile, const int w, const int h);
 
 // convert one multibyte (utf8) char to a widechar (utf32/ucs4)
