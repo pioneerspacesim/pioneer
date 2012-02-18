@@ -99,6 +99,10 @@ bool GameSaver::SaveToFile(const std::string &filename)
 {
 	bool success = false;
 	try {
+		if (!FileSystem::rawFileSystem.MakeDirectory(Pi::GetSaveDir())) {
+			throw CouldNotOpenFileException();
+		}
+
 		Serializer::Writer wr;
 		m_game->Serialize(wr);
 
