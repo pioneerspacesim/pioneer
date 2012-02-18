@@ -172,9 +172,9 @@ namespace FileSystem {
 	class FileEnumerator {
 	public:
 		enum Flags {
-			Recurse            = 1,
-			IncludeDirectories = 2,
-			OnlyDirectories    = 2|4 // ExcludeFiles = 4
+			IncludeDirectories = 1,
+			OnlyDirectories    = 1|2, // ExcludeFiles = 2
+			Recurse            = 1|4  // can't recurse without including directories (sorry)
 		};
 
 		explicit FileEnumerator(FileSource &fs, int flags = 0);
@@ -186,7 +186,7 @@ namespace FileSystem {
 		const FileInfo &Current() const { return m_queue.front(); }
 
 	private:
-		static const int ExcludeFiles = 4;
+		static const int ExcludeFiles = 2;
 		void Next(int flags);
 		void Init(const std::string &path);
 		FileSource *m_source;
