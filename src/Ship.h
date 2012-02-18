@@ -221,8 +221,6 @@ protected:
 	float m_gunRecharge[ShipType::GUNMOUNT_MAX];
 	float m_gunTemperature[ShipType::GUNMOUNT_MAX];
 	float m_ecmRecharge;
-	float m_thrusterFuel; //remaining fuel 0.0-1.0
-	float m_fuelUseWeights[4]; //rear, front, lateral, up&down. Rear thrusters are usually 1.0
 
 private:
 	float GetECMRechargeTime();
@@ -231,6 +229,7 @@ private:
 	bool IsFiringLasers();
 	void TestLanded();
 	void UpdateAlertState();
+	void UpdateFuel(float timeStep);
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
 
@@ -257,6 +256,9 @@ private:
 
 	AICommand *m_curAICmd;
 	AIError m_aiMessage;
+
+	float m_thrusterFuel; //remaining fuel 0.0-1.0
+	float m_fuelUseWeights[4]; //rear, front, lateral, up&down. Rear thrusters are usually 1.0
 
 	int m_dockedWithIndex; // deserialisation
 };
