@@ -8,7 +8,9 @@ local onShipFuelChanged = function (ship, state)
 			UI.ImportantMessage(t('Your fuel tank is empty.'))
 		end
 	else
-		ship:SetFuelPercent() -- Quietly refuel NPCs, because they're stupid
+		if state == "EMPTY" then
+			print(('{label} ({type}) out of fuel'):interp({label=ship.label,type=ship.shipType}))
+		end
 	end
 end
 
