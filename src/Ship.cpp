@@ -850,7 +850,11 @@ void Ship::UpdateFuel(const float timeStep)
 		//Pi::AddDebug(stringf("thruster xyz %0{f} %1{f} %2{f}", tstate.x, tstate.y, tstate.z));
 	}
 
-	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
+	float remaining = GetFuel();
+	SetFuel(remaining - timeStep * (totalThrust * fuelUseRate));
+
+	if (!float_is_zero_general(remaining) && float_is_zero_general(GetFuel()))
+		Pi::luaOnShipError->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipError", SHIPERROR_OUT_OF_FUEL));
 
 	// XXX debug hack while we test fuel
 	if (IsType(Object::PLAYER)) {
