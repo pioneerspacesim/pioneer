@@ -559,13 +559,13 @@ void Game::RequestTimeAccel(TimeAccel t, bool force)
 void Game::CreatePlayer()
 {
 	// XXX this should probably be in lua somewhere
-	m_player.Reset(new Player("Interplanetary Shuttle"));
+	m_player.Reset(new Player("Eagle Long Range Fighter"));
 	m_player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
 	m_player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
 	m_player->m_equipment.Add(Equip::HYDROGEN, 1);
 	m_player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
-	//m_player->m_equipment.Add(Equip::MISSILE_GUIDED);
-	//m_player->m_equipment.Add(Equip::MISSILE_GUIDED);
+	m_player->m_equipment.Add(Equip::MISSILE_GUIDED);
+	m_player->m_equipment.Add(Equip::MISSILE_GUIDED);
 	m_player->m_equipment.Add(Equip::AUTOPILOT);
 	m_player->m_equipment.Add(Equip::SCANNER);
 	m_player->UpdateMass();
