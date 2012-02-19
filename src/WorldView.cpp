@@ -288,12 +288,19 @@ void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
 	Pi::BoinkNoise();
 	int newState = b->GetState();
 	if (Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL)) {
-		if (newState == Player::CONTROL_AUTOPILOT) {
-			newState = (newState + 1) % Player::CONTROL_STATE_COUNT;
+		// skip certain states
+		switch (newState) {
+			case Player::CONTROL_FIXSPEED: newState = Player::CONTROL_FIXHEADING_FORWARD; break;
+			case Player::CONTROL_AUTOPILOT: newState = Player::CONTROL_MANUAL; break;
+			default: break;
 		}
 	} else {
-		while (newState != Player::CONTROL_MANUAL && newState != Player::CONTROL_FIXSPEED) {
-			newState = (newState + 1) % Player::CONTROL_STATE_COUNT;
+		// skip certain states
+		switch (newState) {
+			case Player::CONTROL_FIXHEADING_FORWARD: // fallthrough
+			case Player::CONTROL_FIXHEADING_BACKWARD: newState = Player::CONTROL_MANUAL; break;
+			case Player::CONTROL_AUTOPILOT: newState = Player::CONTROL_MANUAL; break;
+			default: break;
 		}
 	}
 	b->SetActiveState(newState);
