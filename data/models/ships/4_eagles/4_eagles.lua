@@ -1067,7 +1067,9 @@ define_model('eagle_lrf', {
 				max_fuelscoop = 0,
 				max_cargoscoop = 0,
 				capacity = 20,
-				hull_mass = 15,
+				hull_mass = 10,
+				fuel_tank_mass = 5,
+				thruster_fuel_use = 0.0001,
 				price = 38000,
 				hyperdrive_class = 1,
 			}
@@ -1217,7 +1219,9 @@ define_model('eagle_mk2', {
 				max_fuelscoop = 0,
 				max_cargoscoop = 0,
 				capacity = 22,
-				hull_mass = 15,
+				hull_mass = 9,
+				fuel_tank_mass = 6,
+				thruster_fuel_use = 0.0001,
 				price = 41000,
 				hyperdrive_class = 1,
 			}
@@ -1350,7 +1354,9 @@ define_model('eagle_mk3', {
 				max_fuelscoop = 0,
 				max_cargoscoop = 0,
 				capacity = 22,
-				hull_mass = 15,
+				hull_mass = 10,
+				fuel_tank_mass = 5,
+				thruster_fuel_use = 0.00015,
 				price = 43000,
 				hyperdrive_class = 1,
 			}
@@ -1494,7 +1500,9 @@ define_model('eagle_mk4', {
 				max_fuelscoop = 1,
 				max_cargoscoop = 1,
 				capacity = 36,
-				hull_mass = 20,
+				hull_mass = 15,
+				fuel_tank_mass = 5,
+				thruster_fuel_use = 0.00015,
 				price = 56000,
 				hyperdrive_class = 2,
 			}

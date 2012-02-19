@@ -1,6 +1,8 @@
 Alpha 20
 
    * New features
+     * Thrusters now require fuel to operate. Refuel when you dock or buy water
+       refuel during flight (#980)
      * New thruster and laser graphics (#945, #962, #149, #148)
      * Hungarian translation (#947, #894)
 

@@ -123,7 +123,9 @@ define_model('caribou', {
 				max_missile = 20,
 				max_cargoscoop = 0,
 				capacity = 740,
-				hull_mass = 700,
+				hull_mass = 460,
+				fuel_tank_mass = 200,
+				thruster_fuel_use = 0.0002,
 				price = 2.1e6,
 				hyperdrive_class = 7,
 			}
