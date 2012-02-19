@@ -43,7 +43,7 @@ public:
 	vector3 operator-() const { return vector3(-x, -y, -z); }
 
 	bool ExactlyEqual(const vector3 &a) const {
-		return float_equal_exact(a.x, x) && float_equal_exact(a.y, y) && float_equal_exact(a.z, z);
+		return is_equal_exact(a.x, x) && is_equal_exact(a.y, y) && is_equal_exact(a.z, z);
 	}
 
 	friend vector3 operator*(const vector3 &a, const float  scalar) { return vector3(T(a.x*scalar), T(a.y*scalar), T(a.z*scalar)); }
