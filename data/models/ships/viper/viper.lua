@@ -591,7 +591,7 @@ define_model('viperpol', {
 				capacity = 60,
 				hull_mass = 40,
 				fuel_tank_mass = 20,
-				thruster_fuel_use = 0.0002,
+				thruster_fuel_use = 0.0003,
 				price = 70000,
 				hyperdrive_class = 3,
 			}
@@ -704,7 +704,7 @@ define_model('viper', {
 				capacity = 60,
 				hull_mass = 40,
 				fuel_tank_mass = 20,
-				thruster_fuel_use = 0.0002,
+				thruster_fuel_use = 0.0003,
 				price = 70000,
 				hyperdrive_class = 3,
 			}
