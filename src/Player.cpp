@@ -131,6 +131,15 @@ void Player::StaticUpdate(const float timeStep)
 			}
 			AIMatchVel(v);
 			break;
+		case CONTROL_FIXHEADING_FORWARD:
+		case CONTROL_FIXHEADING_BACKWARD:
+			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
+			if (IsAnyAngularThrusterKeyDown()) break;
+			v = GetVelocity().NormalizedSafe();
+			if (m_flightControlState == CONTROL_FIXHEADING_BACKWARD)
+				v = -v;
+			AIFaceDirection(v);
+			break;
 		case CONTROL_MANUAL:
 			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
 			break;
@@ -144,6 +153,7 @@ void Player::StaticUpdate(const float timeStep)
 			else SetFlightControlState(CONTROL_MANUAL);
 			m_setSpeed = 0.0;
 			break;
+		default: assert(0); break;
 		}
 	}
 	else SetFlightControlState(CONTROL_MANUAL);
