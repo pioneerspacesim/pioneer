@@ -843,25 +843,12 @@ void Ship::UpdateFuel(const float timeStep)
 	totalThrust += fabs(tstate.x) * m_fuelUseWeights[2]; //left-right
 	totalThrust += fabs(tstate.y) * m_fuelUseWeights[3]; //up-down
 
-	// XXX debug hack while we test fuel
-	if (IsType(Object::PLAYER)) {
-		Pi::AddDebug(stringf("timestep %0{f}", timeStep));
-		Pi::AddDebug(stringf("thruster use %0{f}", totalThrust));
-		//Pi::AddDebug(stringf("thruster xyz %0{f} %1{f} %2{f}", tstate.x, tstate.y, tstate.z));
-	}
-
 	FuelState lastState = GetFuelState();
 	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
 	FuelState currentState = GetFuelState();
 
 	if (currentState != lastState)
 		Pi::luaOnShipFuelChanged->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipFuelStatus", currentState));
-
-	// XXX debug hack while we test fuel
-	if (IsType(Object::PLAYER)) {
-		Pi::AddDebug(stringf("Fuel left %0{f}", m_thrusterFuel));
-		Pi::AddDebug(stringf("Mass %0{f}", GetMass()));
-	}
 }
 
 void Ship::StaticUpdate(const float timeStep)

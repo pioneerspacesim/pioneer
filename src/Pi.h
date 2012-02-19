@@ -55,7 +55,6 @@ class Game;
 
 class Pi {
 public:
-	static void AddDebug(const std::string &s);
 	static void Init();
 	static void RedirectStdio();
 	static void InitGame();
