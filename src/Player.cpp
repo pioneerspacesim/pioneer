@@ -354,6 +354,24 @@ void Player::SetAlertState(Ship::AlertState as)
 	Ship::SetAlertState(as);
 }
 
+bool Player::IsAnyAngularThrusterKeyDown()
+{
+	return !Pi::IsConsoleActive() && (
+		KeyBindings::thrustDown.IsActive()		||
+		KeyBindings::thrustLeft.IsActive()		||
+		KeyBindings::thrustRight.IsActive()
+	);
+}
+
+bool Player::IsAnyLinearThrusterKeyDown()
+{
+	return !Pi::IsConsoleActive() && (
+		KeyBindings::thrustForward.IsActive()	||
+		KeyBindings::thrustBackwards.IsActive()	||
+		KeyBindings::thrustUp.IsActive()
+	);
+}
+
 bool Player::IsAnyThrusterKeyDown()
 {
 	return !Pi::IsConsoleActive() && (

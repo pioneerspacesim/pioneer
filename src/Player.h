@@ -88,7 +88,10 @@ protected:
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
 private:
+	bool IsAnyAngularThrusterKeyDown();
+	bool IsAnyLinearThrusterKeyDown();
 	bool IsAnyThrusterKeyDown();
+
 	vector3d m_mouseDir;
 	double m_mouseX, m_mouseY;
 	bool m_mouseActive;
