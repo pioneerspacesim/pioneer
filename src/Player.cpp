@@ -123,7 +123,7 @@ void Player::StaticUpdate(const float timeStep)
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
 			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
-			if (IsAnyThrusterKeyDown()) break;
+			if (IsAnyLinearThrusterKeyDown()) break;
 			GetRotMatrix(m);
 			v = m * vector3d(0, 0, -m_setSpeed);
 			if (m_setSpeedTarget) {
@@ -363,22 +363,16 @@ void Player::SetAlertState(Ship::AlertState as)
 bool Player::IsAnyAngularThrusterKeyDown()
 {
 	return !Pi::IsConsoleActive() && (
-		KeyBindings::thrustDown.IsActive()		||
-		KeyBindings::thrustLeft.IsActive()		||
-		KeyBindings::thrustRight.IsActive()
+		KeyBindings::pitchUp.IsActive()   ||
+		KeyBindings::pitchDown.IsActive() ||
+		KeyBindings::yawLeft.IsActive()   ||
+		KeyBindings::yawRight.IsActive()  ||
+		KeyBindings::rollLeft.IsActive()  ||
+		KeyBindings::rollRight.IsActive()
 	);
 }
 
 bool Player::IsAnyLinearThrusterKeyDown()
-{
-	return !Pi::IsConsoleActive() && (
-		KeyBindings::thrustForward.IsActive()	||
-		KeyBindings::thrustBackwards.IsActive()	||
-		KeyBindings::thrustUp.IsActive()
-	);
-}
-
-bool Player::IsAnyThrusterKeyDown()
 {
 	return !Pi::IsConsoleActive() && (
 		KeyBindings::thrustForward.IsActive()	||
