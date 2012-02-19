@@ -48,7 +48,9 @@ define_model('lynx', {
 				max_missile = 0,
 				max_cargoscoop = 0,
 				capacity = 3500,
-				hull_mass = 1000,
+				hull_mass = 800,
+				fuel_tank_mass = 200,
+				thruster_fuel_use = 0.0, -- These can be parked, engines running
 				price = 6.5e6,
 				hyperdrive_class = 8,
 			}

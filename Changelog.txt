@@ -1,6 +1,8 @@
 Alpha 20
 
    * New features
+     * Thrusters now require fuel to operate. Refuel when you dock or buy water
+       refuel during flight (#980)
      * New thruster and laser graphics (#945, #962, #149, #148)
      * Hungarian translation (#947, #894)
 
@@ -26,6 +28,9 @@ Alpha 20
      * Game no longer quits if you cancel loading from the main menu (#920)
      * Fix game crash if a script tries to add or remove a negative amount of
        cargo or equipment (#982)
+     * Fix flipped Hammerhead "neck" textures (#986)
+     * Don't show "fly to" option for combat target if the player does not
+       have an autopilot fitted (#988)
 
    * Internal changes
      * Silence MSVC warnings (#964)

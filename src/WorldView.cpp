@@ -144,8 +144,10 @@ void WorldView::InitObject()
 	m_hudWeaponTemp = new Gui::MeterBar(100.0f, Lang::WEAPON_TEMP, Color(1.0f,0.5f,0.0f,0.8f));
 	m_hudHullIntegrity = new Gui::MeterBar(100.0f, Lang::HULL_INTEGRITY, Color(1.0f,1.0f,0.0f,0.8f));
 	m_hudShieldIntegrity = new Gui::MeterBar(100.0f, Lang::SHIELD_INTEGRITY, Color(1.0f,1.0f,0.0f,0.8f));
-	Add(m_hudHullTemp, 5.0f, Gui::Screen::GetHeight() - 104.0f);
-	Add(m_hudWeaponTemp, 5.0f, Gui::Screen::GetHeight() - 144.0f);
+	m_hudFuelGauge = new Gui::MeterBar(100.f, Lang::FUEL, Color(1.f, 1.f, 0.f, 0.8f));
+	Add(m_hudFuelGauge, 5.0f, Gui::Screen::GetHeight() - 104.0f);
+	Add(m_hudHullTemp, 5.0f, Gui::Screen::GetHeight() - 144.0f);
+	Add(m_hudWeaponTemp, 5.0f, Gui::Screen::GetHeight() - 184.0f);
 	Add(m_hudHullIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 104.0f);
 	Add(m_hudShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 144.0f);
 
@@ -600,6 +602,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_hudPressure->Hide();
 			m_hudHullTemp->Hide();
 		}
+
+		m_hudFuelGauge->SetValue(Pi::player->GetFuel());
 	}
 
 	const float activeWeaponTemp = Pi::player->GetGunTemperature(GetActiveWeapon());
@@ -1017,6 +1021,9 @@ void WorldView::UpdateCommsOptions()
 	if (!(navtarget || comtarget)) {
 		m_commsOptions->Add(new Gui::Label("#0f0"+std::string(Lang::NO_TARGET_SELECTED)), 16, float(ypos));
 	}
+
+	bool hasAutopilot = Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT;
+
 	if (navtarget) {
 		m_commsOptions->Add(new Gui::Label("#0f0"+navtarget->GetLabel()), 16, float(ypos));
 		ypos += 32;
@@ -1040,7 +1047,7 @@ void WorldView::UpdateCommsOptions()
 				ypos += 32;
 			}
 		}
-		if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
+		if (hasAutopilot) {
 			button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
 			button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_flyto), navtarget));
 			ypos += 32;
@@ -1069,7 +1076,7 @@ void WorldView::UpdateCommsOptions()
 			}
 		}
 	}
-	if (comtarget) {
+	if (comtarget && hasAutopilot) {
 		m_commsOptions->Add(new Gui::Label("#f00"+comtarget->GetLabel()), 16, float(ypos));
 		ypos += 32;
 		button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", comtarget->GetLabel())), ypos, optnum++);

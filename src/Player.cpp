@@ -119,8 +119,6 @@ void Player::StaticUpdate(const float timeStep)
 	vector3d v;
 	matrix4x4d m;
 
-	Ship::StaticUpdate(timeStep);		// also calls autopilot AI
-
 	if (GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
@@ -150,6 +148,8 @@ void Player::StaticUpdate(const float timeStep)
 	}
 	else SetFlightControlState(CONTROL_MANUAL);
 	
+	Ship::StaticUpdate(timeStep);		// also calls autopilot AI
+
 	/* This wank probably shouldn't be in Player... */
 	/* Ship engine noise. less loud inside */
 	float v_env = (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f) * Sound::GetSfxVolume();
