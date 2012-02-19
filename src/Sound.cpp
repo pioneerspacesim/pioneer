@@ -59,7 +59,7 @@ eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 
 	float len = pos.Length();
 	float v[2];
-	if (! float_is_zero_general(len)) {
+	if (! is_zero_general(len)) {
 		vol = vol / (0.002*len);
 		double dot = pos.Normalized().Dot(vector3d(vol, 0, 0));
 

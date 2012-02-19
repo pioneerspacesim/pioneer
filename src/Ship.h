@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "DynamicBody.h"
 #include "ShipType.h"
+#include "EquipSet.h"
 #include "ShipFlavour.h"
 #include "SystemPath.h"
 #include "BezierCurve.h"

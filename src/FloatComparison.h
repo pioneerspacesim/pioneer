@@ -17,21 +17,21 @@
 
 //   provides (for float & double):
 
-// bool float_equal_exact(float a, float b);
-// bool float_equal_ulps(float a, float b, int ulps = DefaultUlpTolerance);
+// bool is_equal_exact(float a, float b);
+// bool is_equal_ulps(float a, float b, int ulps = DefaultUlpTolerance);
 // int32_t float_ulp_difference(float a, float b);
-// bool float_equal_relative(float a, float b, float tolerance = DefaultRelTolerance());
-// bool float_equal_absolute(float a, float b, float tolerance = DefaultAbsTolerance());
-// bool float_equal_general(float a, float b, float tolerance = DefaultTolerance());
-// bool float_equal_general(float a, float b, float relative_tolerance, float absolute_tolerance);
+// bool is_equal_relative(float a, float b, float tolerance = DefaultRelTolerance());
+// bool is_equal_absolute(float a, float b, float tolerance = DefaultAbsTolerance());
+// bool is_equal_general(float a, float b, float tolerance = DefaultTolerance());
+// bool is_equal_general(float a, float b, float relative_tolerance, float absolute_tolerance);
 
-// bool float_is_zero_exact(float x);
-// bool float_is_zero_or_denorm(float x);
-// bool float_is_zero_general(float x, float tolerance = IEEEFloatTraits<float>::DefaultRelTolerance());
+// bool is_zero_exact(float x);
+// bool is_zero_or_denorm(float x);
+// bool is_zero_general(float x, float tolerance = IEEEFloatTraits<float>::DefaultRelTolerance());
 
-// bool float_is_nan(float x);
-// bool float_is_finite(float x);
-// bool float_is_denorm(float x);
+// bool is_nan(float x);
+// bool is_finite(float x);
+// bool is_denorm(float x);
 
 
 // ====================================================================
@@ -58,7 +58,7 @@ inline typename IEEEFloatTraits<T>::float_type float_max(T x, T y, T z)
 // --- float property helpers
 
 template <typename T>
-inline typename IEEEFloatTraits<T>::bool_type float_is_nan_bits
+inline typename IEEEFloatTraits<T>::bool_type is_nan_bits
 	(const typename IEEEFloatTraits<T>::uint_type& bits)
 {
 	typedef typename IEEEFloatTraits<T>::uint_type uint_type;
@@ -73,7 +73,7 @@ inline typename IEEEFloatTraits<T>::bool_type float_is_nan_bits
 }
 
 template <typename T>
-inline typename IEEEFloatTraits<T>::bool_type float_is_finite_bits
+inline typename IEEEFloatTraits<T>::bool_type is_finite_bits
 	(const typename IEEEFloatTraits<T>::uint_type& bits)
 {
 	typedef typename IEEEFloatTraits<T>::uint_type uint_type;
@@ -82,7 +82,7 @@ inline typename IEEEFloatTraits<T>::bool_type float_is_finite_bits
 }
 
 template <typename T>
-inline typename IEEEFloatTraits<T>::bool_type float_is_denorm_bits
+inline typename IEEEFloatTraits<T>::bool_type is_denorm_bits
 	(const typename IEEEFloatTraits<T>::uint_type& bits)
 {
 	typedef typename IEEEFloatTraits<T>::uint_type uint_type;
@@ -95,31 +95,31 @@ inline typename IEEEFloatTraits<T>::bool_type float_is_denorm_bits
 // ---- float properties (nan, finite, denormal)
 
 template <typename T>
-inline typename IEEEFloatTraits<T>::bool_type float_is_nan(T x) {
+inline typename IEEEFloatTraits<T>::bool_type is_nan(T x) {
 	typedef typename IEEEFloatTraits<T>::FloatOrInt union_type;
 	union_type fi;
 	fi.f = x;
-	return float_is_nan_bits(fi.ui);
+	return is_nan_bits(fi.ui);
 }
 
 template <typename T>
-inline typename IEEEFloatTraits<T>::bool_type float_is_finite(T x) {
+inline typename IEEEFloatTraits<T>::bool_type is_finite(T x) {
 	typedef typename IEEEFloatTraits<T>::FloatOrInt union_type;
 	union_type fi;
 	fi.f = x;
-	return float_is_finite_bits(fi.ui);
+	return is_finite_bits(fi.ui);
 }
 
 template <typename T>
-inline typename IEEEFloatTraits<T>::bool_type float_is_denorm(T x) {
+inline typename IEEEFloatTraits<T>::bool_type is_denorm(T x) {
 	typedef typename IEEEFloatTraits<T>::FloatOrInt union_type;
 	union_type fi;
 	fi.f = x;
-	return float_is_denorm_bits(fi.ui);
+	return is_denorm_bits(fi.ui);
 }
 
 template <typename T>
-inline typename IEEEFloatTraits<T>::bool_type float_is_zero_or_denorm(T x) {
+inline typename IEEEFloatTraits<T>::bool_type is_zero_or_denorm(T x) {
 	return (float_abs(x) < IEEEFloatTraits<T>::SmallestNormalisedValue());
 }
 
@@ -128,11 +128,11 @@ inline typename IEEEFloatTraits<T>::bool_type float_is_zero_or_denorm(T x) {
 #ifdef __GNUC__
 #pragma GCC diagnostic ignored "-Wfloat-equal"
 #endif
-inline bool float_equal_exact(float a, float b) { return (a == b); }
-inline bool float_equal_exact(double a, double b) { return (a == b); }
+inline bool is_equal_exact(float a, float b) { return (a == b); }
+inline bool is_equal_exact(double a, double b) { return (a == b); }
 
-inline bool float_is_zero_exact(float x) { return (x == 0.0f); }
-inline bool float_is_zero_exact(double x) { return (x == 0.0); }
+inline bool is_zero_exact(float x) { return (x == 0.0f); }
+inline bool is_zero_exact(double x) { return (x == 0.0); }
 #ifdef __GNUC__
 #pragma GCC diagnostic warning "-Wfloat-equal"
 #endif
@@ -140,35 +140,35 @@ inline bool float_is_zero_exact(double x) { return (x == 0.0); }
 // --- relative & absolute error comparisons
 
 template <typename T>
-inline typename IEEEFloatTraits<T>::bool_type float_equal_relative
+inline typename IEEEFloatTraits<T>::bool_type is_equal_relative
 	(T a, T b, T tol = IEEEFloatTraits<T>::DefaultRelTolerance())
 {
 	return (float_abs(a - b) <= tol * float_max(float_abs(a), float_abs(b)));
 }
 
 template <typename T>
-inline typename IEEEFloatTraits<T>::bool_type float_equal_absolute
+inline typename IEEEFloatTraits<T>::bool_type is_equal_absolute
 	(T a, T b, T tol = IEEEFloatTraits<T>::DefaultAbsTolerance())
 {
 	return (float_abs(a - b) <= tol);
 }
 
 template <typename T>
-inline typename IEEEFloatTraits<T>::bool_type float_equal_general
+inline typename IEEEFloatTraits<T>::bool_type is_equal_general
 	(T a, T b, T rel_tol, T abs_tol)
 {
 	return (float_abs(a - b) <= float_max(abs_tol, rel_tol * float_max(float_abs(a), float_abs(b))));
 }
 
 template <typename T>
-inline typename IEEEFloatTraits<T>::bool_type float_equal_general
+inline typename IEEEFloatTraits<T>::bool_type is_equal_general
 	(T a, T b, T tol = IEEEFloatTraits<T>::DefaultTolerance())
 {
 	return (float_abs(a - b) <= tol * float_max(T(1), float_abs(a), float_abs(b)));
 }
 
 template <typename T>
-inline typename IEEEFloatTraits<T>::bool_type float_is_zero_general
+inline typename IEEEFloatTraits<T>::bool_type is_zero_general
 	(T x, T tol = IEEEFloatTraits<T>::DefaultRelTolerance())
 {
 	return (float_abs(x) <= tol);
@@ -192,7 +192,7 @@ inline typename IEEEFloatTraits<T>::int_type float_ulp_difference(T a, T b) {
 
 // IEEEFloatTraits<T>::bool_type used for SFINAE
 template <typename T>
-inline typename IEEEFloatTraits<T>::bool_type float_equal_ulps
+inline typename IEEEFloatTraits<T>::bool_type is_equal_ulps
 	(T a, T b, typename IEEEFloatTraits<T>::int_type max_ulps
 		= IEEEFloatTraits<T>::DefaultUlpTolerance)
 {
@@ -203,12 +203,12 @@ inline typename IEEEFloatTraits<T>::bool_type float_equal_ulps
 	bfi.f = b;
 
 	// Infinities aren't close to anything except themselves
-	if (  (!float_is_finite_bits<T>(afi.ui) && float_is_finite_bits<T>(bfi.ui))
-	  || (float_is_finite_bits<T>(afi.ui) && !float_is_finite_bits<T>(bfi.ui)))
+	if (  (!is_finite_bits<T>(afi.ui) && is_finite_bits<T>(bfi.ui))
+	  || (is_finite_bits<T>(afi.ui) && !is_finite_bits<T>(bfi.ui)))
 	  return false;
 
 	// IEEE says NaNs are unequal to everything (even themselves)
-	if (float_is_nan_bits<T>(afi.ui) || float_is_nan_bits<T>(bfi.ui))
+	if (is_nan_bits<T>(afi.ui) || is_nan_bits<T>(bfi.ui))
 	  return false;
 
 	// transform from sign-magnitude to two's-complement

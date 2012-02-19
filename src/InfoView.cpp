@@ -166,7 +166,7 @@ private:
 
 	void Refuel() {
 		float currentFuel = Pi::player->GetFuel();
-		if (float_equal_exact(currentFuel, 1.0f)) return;
+		if (is_equal_exact(currentFuel, 1.0f)) return;
 
 		Pi::player->m_equipment.Remove(Equip::WATER, 1);
 		Pi::player->UpdateMass();

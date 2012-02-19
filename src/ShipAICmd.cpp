@@ -998,7 +998,7 @@ bool AICmdDock::TimeStepUpdate()
 	Frame *sframe = m_target->GetFrame();
 	double ang = sframe->GetAngVelocity().Length() * Pi::game->GetTimeStep();
 	matrix4x4d m; Frame::GetFrameTransform(sframe, m_ship->GetFrame(), m);
-	if (!float_is_zero_general(ang) && sframe != m_ship->GetFrame()) {
+	if (!is_zero_general(ang) && sframe != m_ship->GetFrame()) {
 		vector3d axis = sframe->GetAngVelocity().Normalized();
 		m = m * matrix4x4d::RotateMatrix(ang, axis.x, axis.y, axis.z);
 	}
