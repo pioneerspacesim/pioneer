@@ -10,6 +10,7 @@
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "EquipType.h"
+#include "EquipSet.h"
 #include "ShipType.h"
 #include "TextureCache.h"
 #include <set>

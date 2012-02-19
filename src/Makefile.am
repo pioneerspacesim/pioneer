@@ -25,6 +25,7 @@ noinst_HEADERS = \
 	DeadVideoLink.h \
 	DeleteEmitter.h \
 	DynamicBody.h \
+	EquipSet.h \
 	EquipType.h \
 	FaceVideoLink.h \
 	FileSelectorWidget.h \
