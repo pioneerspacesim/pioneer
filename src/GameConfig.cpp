@@ -15,7 +15,7 @@ GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
 	m_map["SfxVolume"] = "0.8";
 	m_map["EnableJoystick"] = "1";
 	m_map["InvertMouseY"] = "0";
-	m_map["FOV_Vertical"] = "65";
+	m_map["FOVVertical"] = "65";
 	m_map["MasterVolume"] = "0.8";
 	m_map["MusicVolume"] = "0.8";
 	m_map["MasterMuted"] = "0";

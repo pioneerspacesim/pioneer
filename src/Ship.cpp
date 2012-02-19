@@ -77,7 +77,6 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 	m_hyperspace.dest.Serialize(wr);
 	wr.Float(m_hyperspace.countdown);
 
-
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		wr.Int32(m_gunState[i]);
 		wr.Float(m_gunRecharge[i]);
@@ -93,6 +92,7 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 	if(m_curAICmd) { wr.Int32(1); m_curAICmd->Save(wr); }
 	else wr.Int32(0);
 	wr.Int32(int(m_aiMessage));
+	wr.Float(m_thrusterFuel);
 }
 
 void Ship::Load(Serializer::Reader &rd, Space *space)
@@ -129,6 +129,8 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	if(rd.Int32()) m_curAICmd = AICommand::Load(rd);
 	else m_curAICmd = 0;
 	m_aiMessage = AIError(rd.Int32());
+	SetFuel(rd.Float());
+	m_stats.fuel_tank_mass_left = GetShipType().fuelTankMass * GetFuel();
 
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
@@ -157,7 +159,8 @@ void Ship::PostLoadFixup(Space *space)
 	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
 }
 
-Ship::Ship(ShipType::Type shipType): DynamicBody()
+Ship::Ship(ShipType::Type shipType): DynamicBody(),
+	m_thrusterFuel(1.f)
 {
 	m_flightState = FLYING;
 	m_alertState = ALERT_NONE;
@@ -317,9 +320,13 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 
 void Ship::SetThrusterState(const vector3d &levels)
 {
-	m_thrusters.x = Clamp(levels.x, -1.0, 1.0);
-	m_thrusters.y = Clamp(levels.y, -1.0, 1.0);
-	m_thrusters.z = Clamp(levels.z, -1.0, 1.0);
+	if (m_thrusterFuel <= 0.f) {
+		m_thrusters = vector3d(0.0);
+	} else {
+		m_thrusters.x = Clamp(levels.x, -1.0, 1.0);
+		m_thrusters.y = Clamp(levels.y, -1.0, 1.0);
+		m_thrusters.z = Clamp(levels.z, -1.0, 1.0);
+	}
 }
 
 void Ship::SetAngThrusterState(const vector3d &levels)
@@ -397,6 +404,23 @@ const shipstats_t *Ship::CalcStats()
 	} else {
 		m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 	}
+
+	m_stats.fuel_tank_mass = stype.fuelTankMass;
+	m_stats.fuel_use = stype.thrusterFuelUse;
+	m_stats.fuel_tank_mass_left = m_stats.fuel_tank_mass * GetFuel();
+	//calculate thruster fuel usage weights
+	const float fwd = fabs(stype.linThrust[ShipType::THRUSTER_FORWARD]);
+	const float rev = fabs(stype.linThrust[ShipType::THRUSTER_REVERSE]);
+	//left/right assumed to match
+	const float side = fabs(stype.linThrust[ShipType::THRUSTER_LEFT]);
+	//up/down don't always match, but meh. Take average.
+	const float up = (fabs(stype.linThrust[ShipType::THRUSTER_UP]) +
+		fabs(stype.linThrust[ShipType::THRUSTER_DOWN])) / 2.0;
+	const float max = std::max(fwd, rev);
+	m_fuelUseWeights[0] = fwd / max;
+	m_fuelUseWeights[1] = rev / max;
+	m_fuelUseWeights[2] = side / max;
+	m_fuelUseWeights[3] = up / max;
 	return &m_stats;
 }
 
@@ -805,6 +829,28 @@ void Ship::UpdateAlertState()
 		Pi::luaOnShipAlertChanged->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipAlertStatus", GetAlertState()));
 }
 
+void Ship::UpdateFuel(const float timeStep)
+{
+	const float fuelUseRate = GetShipType().thrusterFuelUse * 0.01f;
+	const vector3d &tstate = GetThrusterState();
+	//weights calculated from thrust values during calcstats
+	float totalThrust = 0.f;
+	if (tstate.z > 0.0)
+		totalThrust = fabs(tstate.z) * m_fuelUseWeights[1];  //backwards
+	else
+		totalThrust = fabs(tstate.z) * m_fuelUseWeights[0];  //forwards (usually 1)
+
+	totalThrust += fabs(tstate.x) * m_fuelUseWeights[2]; //left-right
+	totalThrust += fabs(tstate.y) * m_fuelUseWeights[3]; //up-down
+
+	FuelState lastState = GetFuelState();
+	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
+	FuelState currentState = GetFuelState();
+
+	if (currentState != lastState)
+		Pi::luaOnShipFuelChanged->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipFuelStatus", currentState));
+}
+
 void Ship::StaticUpdate(const float timeStep)
 {
 	AITimeStep(timeStep);		// moved to correct place, maybe
@@ -812,6 +858,8 @@ void Ship::StaticUpdate(const float timeStep)
 	if (GetHullTemperature() > 1.0) {
 		Pi::game->GetSpace()->KillBody(this);
 	}
+
+	UpdateFuel(timeStep);
 
 	UpdateAlertState();
 

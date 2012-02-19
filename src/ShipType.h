@@ -44,6 +44,8 @@ struct ShipType {
 	int equipSlotCapacity[Equip::SLOT_MAX];
 	int capacity; // tonnes
 	int hullMass;
+	float thrusterFuelUse; //%p per second at full thrust
+	int fuelTankMass; //full fuel tank mass, on top of hullMass
 	int baseprice;
 	Equip::Type hyperdrive;
 	///////

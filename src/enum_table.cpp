@@ -201,6 +201,13 @@ const struct EnumItem ENUM_ShipAIError[] = {
 	{ 0, 0 },
 };
 
+const struct EnumItem ENUM_ShipFuelStatus[] = {
+	{ "OK", Ship::FUEL_OK },
+	{ "WARNING", Ship::FUEL_WARNING },
+	{ "EMPTY", Ship::FUEL_EMPTY },
+	{ 0, 0 },
+};
+
 const struct EnumItem ENUM_ShipTypeThruster[] = {
 	{ "REVERSE", ShipType::THRUSTER_REVERSE },
 	{ "FORWARD", ShipType::THRUSTER_FORWARD },

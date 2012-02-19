@@ -135,7 +135,9 @@ define_model('peye', {
 				max_missile = 0,
 				max_cargoscoop = 0,
 				capacity = 80,
-				hull_mass = 80,
+				hull_mass = 25,
+				fuel_tank_mass = 55,
+				thruster_fuel_use = 0.00025,
 				price = 100000,
 				hyperdrive_class = 3,
 			}
