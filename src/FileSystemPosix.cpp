@@ -3,6 +3,9 @@
 #include <cassert>
 #include <algorithm>
 #include <cerrno>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
 
 namespace FileSystem {
 

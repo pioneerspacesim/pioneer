@@ -14,6 +14,7 @@
 #include <ctime>
 #include <cstdarg>
 #include <cstdlib>
+#include <cerrno>
 
 /* on unix this would probably become $PREFIX/pioneer */
 #ifndef PIONEER_DATA_DIR
