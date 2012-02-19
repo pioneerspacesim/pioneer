@@ -186,9 +186,11 @@ namespace ShipThruster {
 		//fade thruster out, when directly facing it
 		color.a = 1.0 - powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len*2);
 		thrusTex->Bind();
-		Render::State::UseProgram(thrusterProg);
-		thrusterProg->SetUniform("texture0", 0);
-		thrusterProg->SetUniform("color", color);
+		if (Render::AreShadersEnabled()) {
+			Render::State::UseProgram(thrusterProg);
+			thrusterProg->SetUniform("texture0", 0);
+			thrusterProg->SetUniform("color", color);
+		}
 		glColor4f(color.r, color.g, color.b, color.a);
 
 		glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &verts[0].pos);
@@ -202,7 +204,8 @@ namespace ShipThruster {
 		if (m_linear_only) {
 			glowTex->Bind();
 			color.a = powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len);
-			thrusterProg->SetUniform("color", color);
+			if (Render::AreShadersEnabled())
+				thrusterProg->SetUniform("color", color);
 			glColor4f(color.r, color.g, color.b, color.a);
 			glPushMatrix();
 			matrix4x4f rot;
@@ -238,6 +241,9 @@ namespace ShipThruster {
 		}
 
 		color.a = 1.f;
+
+		if (Render::AreShadersEnabled())
+			Render::State::UseProgram(0);
 	}
 }
 
