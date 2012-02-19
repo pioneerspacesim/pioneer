@@ -51,7 +51,6 @@ public:
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	virtual bool FireMissile(int idx, Ship *target);
 	virtual void SetAlertState(Ship::AlertState as);
-	bool IsAnyThrusterKeyDown();
 	void SetNavTarget(Body* const target, bool setSpeedTo = false);
 	Body *GetNavTarget() const { return m_navTarget; }
 	void SetCombatTarget(Body* const target, bool setSpeedTo = false);
@@ -89,6 +88,7 @@ protected:
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
 private:
+	bool IsAnyThrusterKeyDown();
 	vector3d m_mouseDir;
 	double m_mouseX, m_mouseY;
 	bool m_mouseActive;
