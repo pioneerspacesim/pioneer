@@ -86,13 +86,9 @@ void Player::SetFlightControlState(enum FlightControlState s)
 {
 	if (m_flightControlState != s) {
 		m_flightControlState = s;
-		if (m_flightControlState == CONTROL_AUTOPILOT) {
-			AIClearInstructions();
-		} else if (m_flightControlState == CONTROL_FIXSPEED) {
-			AIClearInstructions();
+		AIClearInstructions();
+		if (m_flightControlState == CONTROL_FIXSPEED) {
 			m_setSpeed = m_setSpeedTarget ? GetVelocityRelTo(m_setSpeedTarget).Length() : GetVelocity().Length();
-		} else {
-			AIClearInstructions();
 		}
 		Pi::onPlayerChangeFlightControlState.emit();
 	}
