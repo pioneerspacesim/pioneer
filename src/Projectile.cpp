@@ -268,12 +268,17 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	vector3f view_dir = vector3f(viewCoords).Normalized();
 	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(view_dir)), length));
 
+	if (Render::AreShadersEnabled())
+		Render::State::UseProgram(m_prog);
+
 	const int flare_size = 4*6;
-	Render::State::UseProgram(m_prog);
+
 	if (color.a > 0.01f) {
 		m_sideTex->Bind();
-		m_prog->SetUniform("texture0", 0);
-		m_prog->SetUniform("color", color);
+		if (Render::AreShadersEnabled()) {
+			m_prog->SetUniform("texture0", 0);
+			m_prog->SetUniform("color", color);
+		}
 		glColor4f(color.r, color.g, color.b, color.a);
 		glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_verts[0].pos);
 		glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &m_verts[0].u);
@@ -287,7 +292,8 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 
 	if (color.a > 0.01f) {
 		m_glowTex->Bind();
-		m_prog->SetUniform("color", color);
+		if (Render::AreShadersEnabled())
+			m_prog->SetUniform("color", color);
 		glColor4f(color.r, color.g, color.b, color.a);
 		glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_verts[0].pos);
 		glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &m_verts[0].u);
@@ -295,7 +301,9 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 		m_glowTex->Unbind();
 	}
 
-	Render::State::UseProgram(0);
+	if (Render::AreShadersEnabled())
+		Render::State::UseProgram(0);
+
 	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
 	glColor3f(1.f, 1.f, 1.f);
