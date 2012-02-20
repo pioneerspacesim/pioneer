@@ -11,6 +11,7 @@
 #include "Lang.h"
 #include "SectorView.h"
 #include "Game.h"
+#include "TerrainBody.h"
 
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
@@ -20,6 +21,7 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	m_killCount = 0;
 	m_knownKillCount = 0;
 	m_setSpeedTarget = 0;
+	m_setAltitudeTarget = 0;
 	m_navTarget = 0;
 	m_combatTarget = 0;
 	UpdateMass();
@@ -90,6 +92,10 @@ void Player::SetFlightControlState(enum FlightControlState s)
 	} else if (m_flightControlState == CONTROL_FIXSPEED) {
 		AIClearInstructions();
 		m_setSpeed = m_setSpeedTarget ? GetVelocityRelTo(m_setSpeedTarget).Length() : GetVelocity().Length();
+    } else if (m_flightControlState == CONTROL_FIXALTITUDE) {
+        AIClearInstructions();
+        m_setAltitude = 10000.0;
+        m_setAltitudeTarget = m_navTarget;
 	} else {
 		AIClearInstructions();
 	}
@@ -131,6 +137,24 @@ void Player::StaticUpdate(const float timeStep)
 			}
 			AIMatchVel(v);
 			break;
+        case CONTROL_FIXALTITUDE:
+        {
+			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
+			if (IsAnyThrusterKeyDown()) break;
+            if (!m_setAltitudeTarget) break;
+            Frame * f = m_setAltitudeTarget->GetFrame();
+            if (!f->m_astroBody || !f->m_astroBody->IsType(Object::TERRAINBODY)) break;
+            vector3d pos = GetPositionRelTo(f->m_astroBody);
+            double altitude = pos.Length() - static_cast<TerrainBody*>(f->m_astroBody)->GetTerrainHeight(pos);
+            /*vector3d*/ v = GetVelocityRelTo(f->m_astroBody);
+            vector3d vertical_rectification = pos.Normalized();
+            vector3d orbital_direction = v - v.Dot(vertical_rectification) * vertical_rectification;
+
+            orbital_direction *= v.Length()/orbital_direction.Length();
+            vertical_rectification *= (m_setAltitude - altitude)/10.;
+            AIMatchVel(orbital_direction + vertical_rectification);
+            break;
+        }
 		case CONTROL_MANUAL:
 			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
 			break;
@@ -370,6 +394,8 @@ void Player::SetNavTarget(Body* const target, bool setSpeedTo)
 		m_setSpeedTarget = target;
 	else if (m_setSpeedTarget == m_navTarget)
 		m_setSpeedTarget = 0;
+    else
+        m_setAltitudeTarget = target;
 	m_navTarget = target;
 	Pi::onPlayerChangeTarget.emit();
 	Sound::PlaySfx("OK");

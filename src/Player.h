@@ -33,10 +33,11 @@ public:
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void SetDockedWith(SpaceStation *, int port);
 	void StaticUpdate(const float timeStep);
-	enum FlightControlState { CONTROL_MANUAL, CONTROL_FIXSPEED, CONTROL_AUTOPILOT };
+enum FlightControlState { CONTROL_MANUAL, CONTROL_FIXSPEED, CONTROL_AUTOPILOT, CONTROL_FIXALTITUDE };
 	FlightControlState GetFlightControlState() const { return m_flightControlState; }
 	void SetFlightControlState(FlightControlState s);
 	double GetSetSpeed() const { return m_setSpeed; }
+	double GetSetAltitude() const { return m_setAltitude; }
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 	virtual void OnHaveKilled(Body *guyWeKilled);
 	int GetKillCount() const { return m_knownKillCount; }
@@ -88,7 +89,9 @@ private:
 	bool polledControlsThisTurn;
 	enum FlightControlState m_flightControlState;
 	double m_setSpeed;
+    double m_setAltitude;
 	Body* m_setSpeedTarget;
+    Body* m_setAltitudeTarget;
 	int m_killCount;
 	int m_knownKillCount; // updated on docking
 	Body* m_navTarget;
