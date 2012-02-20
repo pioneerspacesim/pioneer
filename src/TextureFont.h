@@ -2,7 +2,6 @@
 #define _TEXTUREFONT_H
 
 #include "Font.h"
-#include "FontConfig.h"
 #include "Texture.h"
 
 class TextureFont : public Font {
@@ -16,7 +15,7 @@ private:
 	};
 
 public:
-	TextureFont(FontManager &fm, const std::string &config_filename);
+	TextureFont(const FontConfig &fc);
 	~TextureFont();
 
 	void RenderString(const char *str, float x, float y);

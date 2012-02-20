@@ -63,7 +63,7 @@ void LabelSet::Draw()
 			if ((*i).color.a < 1.0f) glEnable(GL_BLEND);
 			glColor4fv((*i).color);
 		}
-		Gui::Screen::RenderString((*i).text, (*i).screenx, (*i).screeny - Gui::Screen::GetFontHeight()*0.5f, m_font);
+		Gui::Screen::RenderString((*i).text, (*i).screenx, (*i).screeny - Gui::Screen::GetFontHeight()*0.5f, m_font.Get());
 	}
 	glDisable(GL_BLEND);
 }
