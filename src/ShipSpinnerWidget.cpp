@@ -82,9 +82,4 @@ void ShipSpinnerWidget::Draw()
 	glPopAttrib();
 
 	Pi::renderer->SetDepthTest(false);
-
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
 }

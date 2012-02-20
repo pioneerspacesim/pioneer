@@ -112,12 +112,6 @@ void Camera::Draw(Renderer *renderer)
 
 	m_renderer = renderer;
 
-	// XXX temporary (possibly unneccessary even now, just being paranoid)
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
 	m_renderer->SetPerspectiveProjection(m_fovAng, m_width/m_height, m_zNear, m_zFar);
@@ -172,12 +166,6 @@ void Camera::Draw(Renderer *renderer)
 	m_camFrame = 0;
 
 	glPopAttrib();
-
-	//XXX temporary
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
 }
 
 void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform)
