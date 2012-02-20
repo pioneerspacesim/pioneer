@@ -59,7 +59,7 @@ namespace Serializer {
 		float Float ();
 		double Double ();
 		std::string String();
-		char* Cstring() __attribute((malloc));
+		char* Cstring();
 		void Cstring2(char *buf, int len);
 		vector3d Vector3d();
 		Quaternionf RdQuaternionf();

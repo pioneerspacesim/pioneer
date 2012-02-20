@@ -63,9 +63,6 @@
     <ClCompile Include="..\..\src\VectorFont.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\FontManager.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\FontConfig.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -198,6 +195,9 @@
     <ClCompile Include="..\..\src\render\VertexArray.cpp">
       <Filter>src\render</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\TextSupport.cpp" />
+    <ClCompile Include="..\..\src\FontCache.cpp" />
+    <ClCompile Include="..\..\src\Font.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\pch.h">
@@ -252,9 +252,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\VectorFont.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\FontManager.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\FontConfig.h">
@@ -404,5 +401,8 @@
     <ClInclude Include="..\..\src\render\VertexArray.h">
       <Filter>src\render</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\TextSupport.h" />
+    <ClInclude Include="..\..\src\FontCache.h" />
+    <ClInclude Include="..\..\src\Font.h" />
   </ItemGroup>
 </Project>

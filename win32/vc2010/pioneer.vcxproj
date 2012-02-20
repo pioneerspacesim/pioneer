@@ -153,8 +153,8 @@
     <ClCompile Include="..\..\src\FaceVideoLink.cpp" />
     <ClCompile Include="..\..\src\FileSelectorWidget.cpp" />
     <ClCompile Include="..\..\src\Font.cpp" />
+    <ClCompile Include="..\..\src\FontCache.cpp" />
     <ClCompile Include="..\..\src\FontConfig.cpp" />
-    <ClCompile Include="..\..\src\FontManager.cpp" />
     <ClCompile Include="..\..\src\FormController.cpp" />
     <ClCompile Include="..\..\src\Frame.cpp" />
     <ClCompile Include="..\..\src\GalacticView.cpp" />
@@ -333,6 +333,7 @@
     <ClCompile Include="..\..\src\terrain\TerrainHeightRuggedLava.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightWaterSolid.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightWaterSolidCanyons.cpp" />
+    <ClCompile Include="..\..\src\TextSupport.cpp" />
     <ClCompile Include="..\..\src\Texture.cpp" />
     <ClCompile Include="..\..\src\TextureCache.cpp" />
     <ClCompile Include="..\..\src\TextureFont.cpp" />
@@ -378,8 +379,8 @@
     <ClInclude Include="..\..\src\FileSelectorWidget.h" />
     <ClInclude Include="..\..\src\fixed.h" />
     <ClInclude Include="..\..\src\Font.h" />
+    <ClInclude Include="..\..\src\FontCache.h" />
     <ClInclude Include="..\..\src\FontConfig.h" />
-    <ClInclude Include="..\..\src\FontManager.h" />
     <ClInclude Include="..\..\src\FormController.h" />
     <ClInclude Include="..\..\src\Frame.h" />
     <ClInclude Include="..\..\src\GalacticView.h" />
@@ -523,6 +524,7 @@
     <ClInclude Include="..\..\src\terrain\Terrain.h" />
     <ClInclude Include="..\..\src\terrain\TerrainFeature.h" />
     <ClInclude Include="..\..\src\terrain\TerrainNoise.h" />
+    <ClInclude Include="..\..\src\TextSupport.h" />
     <ClInclude Include="..\..\src\Texture.h" />
     <ClInclude Include="..\..\src\TextureCache.h" />
     <ClInclude Include="..\..\src\TextureFont.h" />

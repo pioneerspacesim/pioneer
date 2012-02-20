@@ -78,9 +78,6 @@
     <ClCompile Include="..\..\src\FontConfig.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\FontManager.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Frame.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -646,6 +643,12 @@
     <ClCompile Include="..\..\src\Drawables.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\FontCache.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\TextSupport.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -730,9 +733,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\FontConfig.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\FontManager.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Frame.h">
@@ -1203,6 +1203,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\render\Surface.h">
       <Filter>src\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FontCache.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\TextSupport.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
