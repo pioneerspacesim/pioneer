@@ -111,6 +111,7 @@ void WorldView::InitObject()
 	m_flightControlButton->SetShortcut(SDLK_F5, KMOD_NONE);
 	m_flightControlButton->AddState(Player::CONTROL_MANUAL, PIONEER_DATA_DIR "/icons/manual_control.png", Lang::MANUAL_CONTROL);
 	m_flightControlButton->AddState(Player::CONTROL_FIXSPEED, PIONEER_DATA_DIR "/icons/manual_control.png", Lang::COMPUTER_SPEED_CONTROL);
+	m_flightControlButton->AddState(Player::CONTROL_FIXALTITUDE, PIONEER_DATA_DIR "/icons/manual_control.png", Lang::COMPUTER_ALTITUDE_CONTROL);
 	m_flightControlButton->AddState(Player::CONTROL_AUTOPILOT, PIONEER_DATA_DIR "/icons/autopilot.png", Lang::AUTOPILOT_ON);
 	m_flightControlButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeFlightState));
 	m_rightButtonBar->Add(m_flightControlButton, 2, 2);
@@ -454,6 +455,17 @@ void WorldView::RefreshButtonStateAndVisibility()
 				switch (fstate) {
 					case Player::CONTROL_MANUAL:
 						m_flightStatus->SetText(Lang::MANUAL_CONTROL); break;
+
+					case Player::CONTROL_FIXALTITUDE: {
+						std::string msg;
+						if (Pi::player->GetSetAltitude() > 10000) {
+							msg = stringf(Lang::SET_ALTITUDE_KM, formatarg("altitude", Pi::player->GetSetAltitude()*0.001));
+						} else {
+							msg = stringf(Lang::SET_ALTITUDE_M, formatarg("altitude", Pi::player->GetSetAltitude()));
+						}
+						m_flightStatus->SetText(msg);
+						break;
+					}
 
 					case Player::CONTROL_FIXSPEED: {
 						std::string msg;

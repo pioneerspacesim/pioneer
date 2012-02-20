@@ -11,6 +11,7 @@
 #include "Lang.h"
 #include "SectorView.h"
 #include "Game.h"
+#include "TerrainBody.h"
 
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
@@ -90,6 +91,13 @@ void Player::SetFlightControlState(enum FlightControlState s)
 	} else if (m_flightControlState == CONTROL_FIXSPEED) {
 		AIClearInstructions();
 		m_setSpeed = m_setSpeedTarget ? GetVelocityRelTo(m_setSpeedTarget).Length() : GetVelocity().Length();
+	} else if (m_flightControlState == CONTROL_FIXALTITUDE) {
+		AIClearInstructions();
+		Body* body = GetFrame()->GetBodyFor();
+		if (body && body->IsType(Object::TERRAINBODY)) {
+			vector3d pos = GetPositionRelTo(body);
+			m_setAltitude = pos.Length() - static_cast<TerrainBody*>(body)->GetTerrainHeight(pos.Normalized());
+		} else SetFlightControlState(CONTROL_MANUAL);
 	} else {
 		AIClearInstructions();
 	}
@@ -131,6 +139,23 @@ void Player::StaticUpdate(const float timeStep)
 			}
 			AIMatchVel(v);
 			break;
+		case CONTROL_FIXALTITUDE:
+		{
+			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
+			if (IsAnyThrusterKeyDown()) break;
+			Body * body = GetFrame()->GetBodyFor();
+			if (!body || !(body->IsType(Object::TERRAINBODY))) break;
+			vector3d pos = GetPositionRelTo(body);
+			/*vector3d*/ v = GetVelocityRelTo(body);
+			vector3d vertical_rectification = pos.Normalized();
+			vector3d orbital_direction = v - v.Dot(vertical_rectification) * vertical_rectification;
+			double altitude = pos.Length() - static_cast<TerrainBody*>(body)->GetTerrainHeight(vertical_rectification);
+
+			orbital_direction *= v.Length()/orbital_direction.Length();
+			vertical_rectification *= (m_setAltitude - altitude)/10.;
+			AIMatchVel(orbital_direction + vertical_rectification);
+			break;
+		}
 		case CONTROL_MANUAL:
 			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
 			break;
@@ -241,15 +266,15 @@ void Player::PollControls(const float timeStep)
 			if (m_flightControlState == CONTROL_FIXSPEED) {
 				double oldSpeed = m_setSpeed;
 				if (stickySpeedKey) {
-					if (!(KeyBindings::increaseSpeed.IsActive() || KeyBindings::decreaseSpeed.IsActive())) {
+					if (!(KeyBindings::increaseAutoParameter.IsActive() || KeyBindings::decreaseAutoParameter.IsActive())) {
 						stickySpeedKey = false;
 					}
 				}
 				
 				if (!stickySpeedKey) {
-					if (KeyBindings::increaseSpeed.IsActive())
+					if (KeyBindings::increaseAutoParameter.IsActive())
 						m_setSpeed += std::max(fabs(m_setSpeed)*0.05, 1.0);
-					if (KeyBindings::decreaseSpeed.IsActive())
+					if (KeyBindings::decreaseAutoParameter.IsActive())
 						m_setSpeed -= std::max(fabs(m_setSpeed)*0.05, 1.0);
 					if ( ((oldSpeed < 0.0) && (m_setSpeed >= 0.0)) ||
 						 ((oldSpeed > 0.0) && (m_setSpeed <= 0.0)) ) {
@@ -259,6 +284,13 @@ void Player::PollControls(const float timeStep)
 						m_setSpeed = 0;
 					}
 				}
+			} else if (m_flightControlState == CONTROL_FIXALTITUDE) {
+				if (KeyBindings::increaseAutoParameter.IsActive())
+					m_setAltitude += std::max(fabs(m_setAltitude)*0.05, 1.);
+				if (KeyBindings::decreaseAutoParameter.IsActive())
+					m_setAltitude -= std::max(fabs(m_setAltitude)*0.05, 1.);
+				if (m_setAltitude < 0)
+					m_setAltitude = 0;
 			}
 
 			if (KeyBindings::thrustForward.IsActive()) SetThrusterState(2, -1.0);

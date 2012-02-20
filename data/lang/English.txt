@@ -558,10 +558,10 @@ THRUSTER_STARBOARD
     Thrust right
 SPEED_CONTROL_MODE
     Speed control mode
-INCREASE_SET_SPEED
-    Increase set speed
-DECREASE_SET_SPEED
-    Decrease set speed
+INCREASE_AUTO_PARAMETER
+    Increase set speed or altitude
+DECREASE_AUTO_PARAMETER
+    Decrease set speed or altitude
 SCANNER_CONTROL
 	Scanner control
 TOGGLE_SCAN_MODE
@@ -1058,6 +1058,8 @@ MANUAL_CONTROL
     Manual control
 COMPUTER_SPEED_CONTROL
     Computer speed control
+COMPUTER_ALTITUDE_CONTROL
+    Computer altitude control
 AUTOPILOT_ON
     Autopilot on
 SHIP_VELOCITY_BY_REFERENCE_OBJECT
@@ -1090,6 +1092,10 @@ DOCKED
     Docked
 HYPERSPACE
     Hyperspace
+SET_ALTITUDE_KM
+    Set altitude: %altitude{f.2} km
+SET_ALTITUDE_M
+    Set altitude: %altitude{f.0} m
 SET_SPEED_KM_S
     Set speed: %speed{f.2} km/s
 SET_SPEED_M_S
