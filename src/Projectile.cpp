@@ -21,18 +21,19 @@ Projectile::Projectile(): Body()
 	m_type = 1;
 	m_age = 0;
 	m_parent = 0;
+	m_radius = 0;
 	m_flags |= FLAG_DRAW_LAST;
 
 	m_prog = new Render::Shader("flat", "#define TEXTURE0 1\n");
 
-	m_sideTex = Pi::textureCache->GetBillboardTexture(PIONEER_DATA_DIR "/textures/laser.png");
-	m_glowTex = Pi::textureCache->GetBillboardTexture(PIONEER_DATA_DIR "/textures/halo.png");
+	m_sideTex = Pi::textureCache->GetBillboardTexture(PIONEER_DATA_DIR "/textures/projectile_l.png");
+	m_glowTex = Pi::textureCache->GetBillboardTexture(PIONEER_DATA_DIR "/textures/projectile_w.png");
 
 	//zero at projectile position
 	//+x down
 	//+y right
 	//+z forwards (or projectile direction)
-	const float w = 0.25f;
+	const float w = 0.5f;
 
 	vector3f one(0.f, -w, 0.f); //top left
 	vector3f two(0.f,  w, 0.f); //top right
@@ -58,10 +59,10 @@ Projectile::Projectile(): Body()
 	//create quads for viewing on end
 	//these are added in the same vertex array to avoid a
 	//vertex pointer change
-	float gw = 0.25f;
+	float gw = 0.5f;
 	float gz = -0.1f;
 
-	for (int i=0; i < 3; i++) {
+	for (int i=0; i < 4; i++) {
 		m_verts.push_back(Vertex(vector3f(-gw, -gw, gz), 0.f, 1.f));
 		m_verts.push_back(Vertex(vector3f(-gw, gw, gz), 1.f, 1.f));
 		m_verts.push_back(Vertex(vector3f(gw, gw, gz),1.f, 0.f));
@@ -70,8 +71,8 @@ Projectile::Projectile(): Body()
 		m_verts.push_back(Vertex(vector3f(gw, -gw, gz), 0.f, 0.f));
 		m_verts.push_back(Vertex(vector3f(-gw, -gw, gz), 0.f, 1.f));
 
-		gw -= 0.05f; // they get smaller
-		gz -= 0.3; // as they move back
+		gw -= 0.1f; // they get smaller
+		gz -= 0.2; // as they move back
 	}
 }
 
@@ -105,6 +106,7 @@ void Projectile::Load(Serializer::Reader &rd, Space *space)
 void Projectile::PostLoadFixup(Space *space)
 {
 	m_parent = space->GetBodyByIndex(m_parentIndex);
+	m_radius = GetRadius();
 }
 
 void Projectile::UpdateInterpolatedTransform(double alpha)
@@ -145,6 +147,13 @@ float Projectile::GetDamage() const
 	return dam * sqrt((lifespan - m_age)/lifespan);
 	// TEST
 //	return 0.01f;
+}
+
+double Projectile::GetRadius() const
+{
+	float length = Equip::lasers[m_type].length;
+	float width = Equip::lasers[m_type].width;
+	return sqrt(length*length + width*width);
 }
 
 static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const vector3d &pos)
@@ -218,10 +227,6 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	vector3f from(&_from.x);
 	vector3f dir = vector3f(_dir).Normalized();
 
-	Color color = Equip::lasers[m_type].color;
-	float base_alpha = sqrt(1.0f - m_age/Equip::lasers[m_type].lifespan);
-	float size = Equip::lasers[m_type].psize * base_alpha;
-
 	vector3f v1, v2;
 	matrix4x4f m = matrix4x4f::Identity();
 	v1.x = dir.y; v1.y = dir.z; v1.z = dir.x;
@@ -237,52 +242,68 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 
 	glDisable(GL_LIGHTING);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
-	glEnableClientState (GL_VERTEX_ARRAY);
-	glEnableClientState (GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState (GL_NORMAL_ARRAY);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
 	glEnable(GL_BLEND);
 	glDepthMask(GL_FALSE);
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_2D);
 
-	glPushMatrix ();
-	glMultMatrixf (&m[0]);
+	glPushMatrix();
+	glMultMatrixf(&m[0]);
 
-	glScalef (size, size, size*3);
+	// increase visible size based on distance from camera, z is always negative
+	// allows them to be smaller while maintaining visibility for game play
+	float dist_scale = float(viewCoords.z / -500);
+	float length = Equip::lasers[m_type].length + dist_scale;
+	float width = Equip::lasers[m_type].width + dist_scale;
+	glScalef(width, width, length);
 
-	//fade out side quads when facing nearly edge on
-	vector3f cdir(0.f, 0.f, 1.f);
-	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(cdir)), size*size));
+	Color color = Equip::lasers[m_type].color;
+	// fade them out as they age so they don't suddenly disappear
+	// this matches the damage fall-off calculation
+	float base_alpha = sqrt(1.0f - m_age/Equip::lasers[m_type].lifespan);
+	// fade out side quads when viewing nearly edge on
+	vector3f view_dir = vector3f(viewCoords).Normalized();
+	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(view_dir)), length));
 
-	m_sideTex->Bind();
-	Render::State::UseProgram(m_prog);
-	m_prog->SetUniform("texture0", 0);
-	m_prog->SetUniform("color", color);
-	glColor4f(color.r, color.g, color.b, color.a);
-	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_verts[0].pos);
-	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &m_verts[0].u);
 	const int flare_size = 4*6;
-	glDrawArrays(GL_TRIANGLES, 0, flare_size);
+	Render::State::UseProgram(m_prog);
+	if (color.a > 0.01f) {
+		m_sideTex->Bind();
+		m_prog->SetUniform("texture0", 0);
+		m_prog->SetUniform("color", color);
+		glColor4f(color.r, color.g, color.b, color.a);
+		glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_verts[0].pos);
+		glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &m_verts[0].u);
+		glDrawArrays(GL_TRIANGLES, 0, flare_size);
+	}
 
-	//fade out glow quads when facing nearly edge on
-	color.a = base_alpha * powf(fabs(dir.Dot(cdir)), size*0.5f);
+	// fade out glow quads when viewing nearly edge on
+	// these and the side quads fade at different rates
+	// so that they aren't both at the same alpha as that looks strange
+	color.a = base_alpha * powf(fabs(dir.Dot(view_dir)), width);
 
-	m_glowTex->Bind();
-	m_prog->SetUniform("color", color);
-	glColor4f(color.r, color.g, color.b, color.a);
-	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_verts[0].pos);
-	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &m_verts[0].u);
-	glDrawArrays(GL_TRIANGLES, flare_size, 3*6);
-	m_glowTex->Unbind();
+	if (color.a > 0.01f) {
+		m_glowTex->Bind();
+		m_prog->SetUniform("color", color);
+		glColor4f(color.r, color.g, color.b, color.a);
+		glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_verts[0].pos);
+		glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &m_verts[0].u);
+		glDrawArrays(GL_TRIANGLES, flare_size, flare_size);
+		m_glowTex->Unbind();
+	}
 
-	glPopMatrix ();
+	Render::State::UseProgram(0);
+	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
 	glColor3f(1.f, 1.f, 1.f);
 	glDisable(GL_BLEND);
 	glDepthMask(GL_TRUE);
 	glEnable(GL_CULL_FACE);
-	glDisableClientState (GL_VERTEX_ARRAY);
-	glDisableClientState (GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 }
 
@@ -297,5 +318,6 @@ void Projectile::Add(Body *parent, Equip::Type type, const vector3d &pos, const 
 	p->SetPosition(pos);
 	p->m_baseVel = baseVel;
 	p->m_dirVel = dirVel;
+	p->m_radius = p->GetRadius();
 	Pi::game->GetSpace()->AddBody(p);
 }
