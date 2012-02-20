@@ -193,7 +193,6 @@
 		4A6C4EA8135453E400FDD53F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EA7135453E400FDD53F /* OpenGL.framework */; };
 		4A6C55151354655000FDD53F /* data in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A6C55141354655000FDD53F /* data */; };
 		4A82AA841386969B0028CCED /* Font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA791386969B0028CCED /* Font.cpp */; };
-		4A82AA851386969B0028CCED /* FontManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA7B1386969B0028CCED /* FontManager.cpp */; };
 		4A82AA861386969B0028CCED /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA7D1386969B0028CCED /* GameConfig.cpp */; };
 		4A82AA871386969B0028CCED /* TextureFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA801386969B0028CCED /* TextureFont.cpp */; };
 		4A82AA881386969B0028CCED /* VectorFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA821386969B0028CCED /* VectorFont.cpp */; };
@@ -205,6 +204,8 @@
 		4A85A86B13C4631D00C2B986 /* LuaSystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */; };
 		4A85A86C13C4631D00C2B986 /* SoundMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86713C4631D00C2B986 /* SoundMusic.cpp */; };
 		4A8DD53B142E19B6006DD821 /* LuaConsole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A8DD539142E19B6006DD821 /* LuaConsole.cpp */; };
+		4A94CA4514F26875002CA792 /* FontCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A94CA4114F26875002CA792 /* FontCache.cpp */; };
+		4A94CA4614F26875002CA792 /* TextSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A94CA4314F26875002CA792 /* TextSupport.cpp */; };
 		4A9822A8142DF4B100B423F1 /* libpng14.14.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A671B8C1388C23200657F38 /* libpng14.14.dylib */; };
 		4A9822AC142DF97E00B423F1 /* AUTHORS.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822AA142DF93D00B423F1 /* AUTHORS.txt */; };
 		4A9822B1142E00C900B423F1 /* Quickstart.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822AD142E00B100B423F1 /* Quickstart.txt */; };
@@ -738,8 +739,6 @@
 		4A6C55141354655000FDD53F /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../data; sourceTree = "<group>"; };
 		4A82AA791386969B0028CCED /* Font.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Font.cpp; sourceTree = "<group>"; };
 		4A82AA7A1386969B0028CCED /* Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Font.h; sourceTree = "<group>"; };
-		4A82AA7B1386969B0028CCED /* FontManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FontManager.cpp; sourceTree = "<group>"; };
-		4A82AA7C1386969B0028CCED /* FontManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontManager.h; sourceTree = "<group>"; };
 		4A82AA7D1386969B0028CCED /* GameConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameConfig.cpp; sourceTree = "<group>"; };
 		4A82AA7E1386969B0028CCED /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		4A82AA7F1386969B0028CCED /* LuaObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaObject.h; sourceTree = "<group>"; };
@@ -763,6 +762,11 @@
 		4A85A86913C4631D00C2B986 /* SystemPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemPath.h; sourceTree = "<group>"; };
 		4A8DD539142E19B6006DD821 /* LuaConsole.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaConsole.cpp; sourceTree = "<group>"; };
 		4A8DD53A142E19B6006DD821 /* LuaConsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaConsole.h; sourceTree = "<group>"; };
+		4A94CA4014F26875002CA792 /* EquipSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipSet.h; sourceTree = "<group>"; };
+		4A94CA4114F26875002CA792 /* FontCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FontCache.cpp; sourceTree = "<group>"; };
+		4A94CA4214F26875002CA792 /* FontCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontCache.h; sourceTree = "<group>"; };
+		4A94CA4314F26875002CA792 /* TextSupport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextSupport.cpp; sourceTree = "<group>"; };
+		4A94CA4414F26875002CA792 /* TextSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextSupport.h; sourceTree = "<group>"; };
 		4A9822AA142DF93D00B423F1 /* AUTHORS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AUTHORS.txt; path = ../AUTHORS.txt; sourceTree = "<group>"; };
 		4A9822AD142E00B100B423F1 /* Quickstart.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Quickstart.txt; path = ../Quickstart.txt; sourceTree = "<group>"; };
 		4A9822AE142E00B100B423F1 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.txt; path = ../README.txt; sourceTree = "<group>"; };
@@ -1235,6 +1239,7 @@
 				4A6C4C2213532FC300FDD53F /* DynamicBody.h */,
 				4A84CB7B14595D850051C848 /* enum_table.cpp */,
 				4A84CB7C14595D850051C848 /* enum_table.h */,
+				4A94CA4014F26875002CA792 /* EquipSet.h */,
 				4A6C4C2313532FC300FDD53F /* EquipType.cpp */,
 				4A6C4C2413532FC300FDD53F /* EquipType.h */,
 				4A62EF29136979E000919EBB /* FaceVideoLink.cpp */,
@@ -1245,10 +1250,10 @@
 				4A1E9EBE144EEA8A009243D2 /* FloatComparison.h */,
 				4A82AA791386969B0028CCED /* Font.cpp */,
 				4A82AA7A1386969B0028CCED /* Font.h */,
+				4A94CA4114F26875002CA792 /* FontCache.cpp */,
+				4A94CA4214F26875002CA792 /* FontCache.h */,
 				4A99893C1388BCD900647BA9 /* FontConfig.cpp */,
 				4A99893D1388BCD900647BA9 /* FontConfig.h */,
-				4A82AA7B1386969B0028CCED /* FontManager.cpp */,
-				4A82AA7C1386969B0028CCED /* FontManager.h */,
 				4A24075713F5240F002A5C12 /* Form.h */,
 				4A24075813F5240F002A5C12 /* FormController.cpp */,
 				4A24075913F5240F002A5C12 /* FormController.h */,
@@ -1448,6 +1453,8 @@
 				4AB3DF8714346952001B783A /* TerrainBody.cpp */,
 				4AB3DF8814346952001B783A /* TerrainBody.h */,
 				4A6C4D6D13532FC300FDD53F /* tests.cpp */,
+				4A94CA4314F26875002CA792 /* TextSupport.cpp */,
+				4A94CA4414F26875002CA792 /* TextSupport.h */,
 				4A05F20714C6E87F00854A54 /* Texture.cpp */,
 				4A05F20814C6E87F00854A54 /* Texture.h */,
 				4A05F20914C6E87F00854A54 /* TextureCache.cpp */,
@@ -1745,7 +1752,6 @@
 				4A62EF2C136979E000919EBB /* DeadVideoLink.cpp in Sources */,
 				4A62EF2D136979E000919EBB /* FaceVideoLink.cpp in Sources */,
 				4A82AA841386969B0028CCED /* Font.cpp in Sources */,
-				4A82AA851386969B0028CCED /* FontManager.cpp in Sources */,
 				4A82AA861386969B0028CCED /* GameConfig.cpp in Sources */,
 				4A82AA871386969B0028CCED /* TextureFont.cpp in Sources */,
 				4A82AA881386969B0028CCED /* VectorFont.cpp in Sources */,
@@ -1897,6 +1903,8 @@
 				4A05F20B14C6E87F00854A54 /* Texture.cpp in Sources */,
 				4A05F20C14C6E87F00854A54 /* TextureCache.cpp in Sources */,
 				4AED721D14E1501D004D171E /* TerrainHeightMapped2.cpp in Sources */,
+				4A94CA4514F26875002CA792 /* FontCache.cpp in Sources */,
+				4A94CA4614F26875002CA792 /* TextSupport.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
