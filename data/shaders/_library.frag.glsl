@@ -1,9 +1,10 @@
 
 uniform float invLogZfarPlus1;
+varying float zhack_fsPixelZ;
 
-void SetFragDepth(float z)
+void SetFragDepth()
 {
-  	gl_FragDepth = gl_DepthRange.near + (gl_DepthRange.far * log(z + 1.0) * invLogZfarPlus1);
+  	gl_FragDepth = gl_DepthRange.near + (gl_DepthRange.far * log(zhack_fsPixelZ + 1.0) * invLogZfarPlus1);
 }
 
 void PointLight(in int i,
