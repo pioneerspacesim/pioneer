@@ -35,6 +35,8 @@ public:
 		return m_map[key];
 	}
 
+	const std::string &GetFilename() const { return m_filename; }
+
 protected:
 	IniConfig() {}
 	explicit IniConfig(const std::string &filename): m_filename(filename) {}

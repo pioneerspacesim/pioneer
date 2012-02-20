@@ -115,7 +115,7 @@ Reader::Reader(const std::string &data):
 Reader::Reader(FILE *fptr): m_pos(0) {
 	m_data = "";
 	while (!feof(fptr)) m_data.push_back(fgetc(fptr));
-	printf("%lu characters in savefile\n", m_data.size());
+	printf(SIZET_FMT " characters in savefile\n", m_data.size());
 }
 bool Reader::AtEnd() { return m_pos >= m_data.size(); }
 void Reader::Seek(int pos) { m_pos = pos; }

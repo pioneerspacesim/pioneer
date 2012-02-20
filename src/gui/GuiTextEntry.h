@@ -45,7 +45,7 @@ namespace Gui {
 		std::string m_text;
 		int m_cursPos;
 		int m_scroll;
-		TextureFont *m_font;
+		RefCountedPtr<TextureFont> m_font;
 		NewlineMode m_newlineMode;
 		int m_newlineCount;
 

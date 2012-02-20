@@ -1,5 +1,6 @@
 #include "TextureFont.h"
 #include "gui/GuiScreen.h"
+#include "TextSupport.h"
 #include "libs.h"
 #include "FileSystem.h"
 
@@ -269,7 +270,7 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 	glDisable(GL_BLEND);
 }
 
-TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : Font(fm, config_filename)
+TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 {
 	int err; // used to store freetype error return codes
 	float scale[2];
@@ -295,7 +296,7 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 
 	FT_Stroker stroker;
 	if (outline) {
-		if (FT_Stroker_New(GetFontManager().GetFreeTypeLibrary(), &stroker)) {
+		if (FT_Stroker_New(GetFreeTypeLibrary(), &stroker)) {
 			fprintf(stderr, "Freetype stroker init error\n");
 			abort();
 		}

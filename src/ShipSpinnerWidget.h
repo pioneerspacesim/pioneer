@@ -5,6 +5,7 @@
 #include "ShipFlavour.h"
 #include "LmrModel.h"
 #include "ShipType.h"
+#include "EquipSet.h"
 
 class ShipSpinnerWidget : public Gui::Widget {
 public:

@@ -198,7 +198,7 @@ void SpaceStation::Init()
 			else surfaceStationTypes.push_back(t);
 		}
 	}
-	//printf("%lu orbital station types and %lu surface station types.\n", orbitalStationTypes.size(), surfaceStationTypes.size());
+	//printf(SIZET_FMT " orbital station types and " SIZET_FMT " surface station types.\n", orbitalStationTypes.size(), surfaceStationTypes.size());
 }
 
 void SpaceStation::Uninit()

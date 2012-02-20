@@ -15,6 +15,8 @@
 #include <cstdarg>
 #include <cstdlib>
 #include <cerrno>
+#include <string>
+#include <vector>
 
 /* on unix this would probably become $PREFIX/pioneer */
 #ifndef PIONEER_DATA_DIR
@@ -42,7 +44,6 @@ inline int isfinite(double x) { return _finite(x); }
 #include "Color.h"
 #include "mtrand.h"
 
-#include "utils.h"
 #include "FloatComparison.h"
 #include "SmartPtr.h"
 #include "RefCounted.h"

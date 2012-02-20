@@ -1,15 +1,17 @@
 #include "Font.h"
 #include "FileSystem.h"
 
-Font::Font(FontManager &fm, const std::string &config_file) : m_fontManager(fm)
+Font::Font(const FontConfig &fc) : m_config(fc)
 {
-	RefCountedPtr<FileSystem::FileData> config_data = FileSystem::gameDataFiles.ReadFile(config_file);
-	m_config.Load(*config_data);
-	config_data.Reset();
+	FT_Error err = FT_Init_FreeType(&m_freeTypeLibrary);
+	if (err != 0) {
+		fprintf(stderr, "Couldn't create FreeType library context (%d)\n", err);
+		abort();
+	}
 
 	std::string filename_ttf = m_config.String("FontFile");
 	if (filename_ttf.length() == 0) {
-		fprintf(stderr, "'%s' does not name a FontFile to use\n", config_file.c_str());
+		fprintf(stderr, "'%s' does not name a FontFile to use\n", m_config.GetFilename().c_str());
 		abort();
 	}
 
@@ -19,9 +21,7 @@ Font::Font(FontManager &fm, const std::string &config_file) : m_fontManager(fm)
 		abort();
 	}
 
-	int err;
-	if (0 != (err = FT_New_Memory_Face(
-			GetFontManager().GetFreeTypeLibrary(),
+	if (0 != (err = FT_New_Memory_Face(m_freeTypeLibrary,
 			reinterpret_cast<const FT_Byte*>(m_fontFileData->GetData()),
 			m_fontFileData->GetSize(), 0, &m_face))) {
 		fprintf(stderr, "Terrible error! Couldn't understand '%s'; error %d.\n", filename_ttf.c_str(), err);
@@ -32,4 +32,5 @@ Font::Font(FontManager &fm, const std::string &config_file) : m_fontManager(fm)
 Font::~Font()
 {
 	FT_Done_Face(m_face);
+	FT_Done_FreeType(m_freeTypeLibrary);
 }

@@ -26,12 +26,13 @@ noinst_HEADERS = \
 	DeadVideoLink.h \
 	DeleteEmitter.h \
 	DynamicBody.h \
+	EquipSet.h \
 	EquipType.h \
 	FaceVideoLink.h \
 	FileSelectorWidget.h \
 	FileSystem.h \
 	Font.h \
-	FontManager.h \
+	FontCache.h \
 	Form.h \
 	FormController.h \
 	Frame.h \
@@ -134,6 +135,7 @@ noinst_HEADERS = \
 	Texture.h \
 	TextureFont.h \
 	TextureCache.h \
+	TextSupport.h \
 	VectorFont.h \
 	VideoLink.h \
 	View.h \
@@ -168,7 +170,7 @@ pioneer_SOURCES	= \
 	FileSystem.cpp \
 	FileSystemPosix.cpp \
 	Font.cpp \
-	FontManager.cpp \
+	FontCache.cpp \
 	FormController.cpp \
 	Frame.cpp \
 	GalacticView.cpp \
@@ -263,6 +265,7 @@ pioneer_SOURCES	= \
 	Texture.cpp \
 	TextureFont.cpp \
 	TextureCache.cpp \
+	TextSupport.cpp \
 	VectorFont.cpp \
 	WorldView.cpp \
 	main.cpp \
@@ -286,7 +289,7 @@ modelviewer_SOURCES = \
 	FileSystemPosix.cpp \
 	IniConfig.cpp \
 	FontConfig.cpp \
-	FontManager.cpp \
+	FontCache.cpp \
 	Lang.cpp \
 	LmrModel.cpp \
 	LuaModelViewer.cpp \
@@ -299,6 +302,7 @@ modelviewer_SOURCES = \
 	Texture.cpp \
 	TextureFont.cpp \
 	TextureCache.cpp \
+	TextSupport.cpp \
 	VectorFont.cpp \
 	perlin.cpp \
 	utils.cpp \

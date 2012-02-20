@@ -376,7 +376,7 @@ void VectorFont::RenderMarkup(const char *str)
 	glPopMatrix();
 }
 
-VectorFont::VectorFont(FontManager &fm, const std::string &config_filename) : Font(fm, config_filename)
+VectorFont::VectorFont(const FontConfig &fc) : Font(fc)
 {
 	// first time setup
 	if (!tobj) {
