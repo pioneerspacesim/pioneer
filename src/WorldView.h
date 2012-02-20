@@ -38,6 +38,8 @@ public:
 	enum CamType GetCamType() const;
 	int GetNumLights() const { return m_numLights; }
 	void ToggleTargetActions();
+	void ShowTargetActions();
+	void HideTargetActions();
 	int GetActiveWeapon() const;
 	void OnClickBlastoff();
 
