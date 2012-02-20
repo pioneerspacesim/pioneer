@@ -32,6 +32,10 @@ Alpha 20
      * Don't show "fly to" option for combat target if the player does not
        have an autopilot fitted (#988)
 
+   * Script changes
+     * New method Ship.SetFuelPercent and attribute Ship.fuel to set and get
+       ship fuel amount. New event onShipFuelChanged to report fuel status (#980)
+
    * Internal changes
      * Silence MSVC warnings (#964)
      * Remove dependencies on Pi from Texture (#969)
