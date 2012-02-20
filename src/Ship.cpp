@@ -956,7 +956,7 @@ void Ship::StaticUpdate(const float timeStep)
 	if (m_wheelTransition) {
 		m_wheelState += m_wheelTransition*0.3f*timeStep;
 		m_wheelState = Clamp(m_wheelState, 0.0f, 1.0f);
-		if (float_equal_exact(m_wheelState, 0.0f) || float_equal_exact(m_wheelState, 1.0f))
+		if (is_equal_exact(m_wheelState, 0.0f) || is_equal_exact(m_wheelState, 1.0f))
 			m_wheelTransition = 0;
 	}
 
@@ -1037,7 +1037,7 @@ void Ship::SetGunState(int idx, int state)
 bool Ship::SetWheelState(bool down)
 {
 	if (m_flightState != FLYING) return false;
-	if (float_equal_exact(m_wheelState, down ? 1.0f : 0.0f)) return false;
+	if (is_equal_exact(m_wheelState, down ? 1.0f : 0.0f)) return false;
 	m_wheelTransition = (down ? 1 : -1);
 	return true;
 }

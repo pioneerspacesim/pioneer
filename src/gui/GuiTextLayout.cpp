@@ -1,4 +1,5 @@
 #include "Gui.h"
+#include "TextSupport.h"
 
 #define LINE_SPACING      1.25f
 #define PARAGRAPH_SPACING 1.75f
@@ -39,7 +40,7 @@ static bool line_clip_test(float topy, float bottomy)
 	return false;
 }
 
-TextLayout::TextLayout(const char *_str, TextureFont *font, ColourMarkupMode markup)
+TextLayout::TextLayout(const char *_str, RefCountedPtr<TextureFont> font, ColourMarkupMode markup)
 {
 	// XXX ColourMarkupSkip not correctly implemented yet
 	assert(markup != ColourMarkupSkip);

@@ -188,7 +188,7 @@ void SystemView::PutBody(SBody *b, vector3d offset)
 
 	if (b->children.size()) for(std::vector<SBody*>::iterator kid = b->children.begin(); kid != b->children.end(); ++kid) {
 
-		if (float_is_zero_general((*kid)->orbit.semiMajorAxis)) continue;
+		if (is_zero_general((*kid)->orbit.semiMajorAxis)) continue;
 		if ((*kid)->orbit.semiMajorAxis * m_zoom < ROUGH_SIZE_OF_TURD) {
 			PutOrbit(*kid, offset);
 		}

@@ -29,7 +29,7 @@ namespace Gui {
 		::Color m_color;
 		bool m_shadow;
 		GLuint m_dlist;
-		TextureFont *m_font;
+		RefCountedPtr<TextureFont> m_font;
 		TextLayout *m_layout;
 		TextLayout::ColourMarkupMode m_colourMarkupMode;
 	};
