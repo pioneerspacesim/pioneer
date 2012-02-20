@@ -94,8 +94,13 @@ void Player::SetFlightControlState(enum FlightControlState s)
 		m_setSpeed = m_setSpeedTarget ? GetVelocityRelTo(m_setSpeedTarget).Length() : GetVelocity().Length();
     } else if (m_flightControlState == CONTROL_FIXALTITUDE) {
         AIClearInstructions();
-        m_setAltitude = 10000.0;
-        m_setAltitudeTarget = m_navTarget;
+        if (m_navTarget
+                && m_navTarget->GetFrame()->m_astroBody
+                && m_navTarget->GetFrame()->m_astroBody->IsType(Object::TERRAINBODY)) {
+            TerrainBody* body = static_cast<TerrainBody*>(m_navTarget->GetFrame()->m_astroBody);
+            m_setAltitude = GetPositionRelTo(body).Length() - body->GetTerrainHeight(GetPositionRelTo(body).Normalized());
+            m_setAltitudeTarget = m_navTarget;
+        } else SetFlightControlState(CONTROL_MANUAL);
 	} else {
 		AIClearInstructions();
 	}
