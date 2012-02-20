@@ -92,15 +92,15 @@ void Player::SetFlightControlState(enum FlightControlState s)
 	} else if (m_flightControlState == CONTROL_FIXSPEED) {
 		AIClearInstructions();
 		m_setSpeed = m_setSpeedTarget ? GetVelocityRelTo(m_setSpeedTarget).Length() : GetVelocity().Length();
-    } else if (m_flightControlState == CONTROL_FIXALTITUDE) {
-        AIClearInstructions();
-        if (m_navTarget
-                && m_navTarget->GetFrame()->m_astroBody
-                && m_navTarget->GetFrame()->m_astroBody->IsType(Object::TERRAINBODY)) {
-            TerrainBody* body = static_cast<TerrainBody*>(m_navTarget->GetFrame()->m_astroBody);
-            m_setAltitude = GetPositionRelTo(body).Length() - body->GetTerrainHeight(GetPositionRelTo(body).Normalized());
-            m_setAltitudeTarget = m_navTarget;
-        } else SetFlightControlState(CONTROL_MANUAL);
+	} else if (m_flightControlState == CONTROL_FIXALTITUDE) {
+		AIClearInstructions();
+		if (m_navTarget
+				&& m_navTarget->GetFrame()->m_astroBody
+				&& m_navTarget->GetFrame()->m_astroBody->IsType(Object::TERRAINBODY)) {
+			TerrainBody* body = static_cast<TerrainBody*>(m_navTarget->GetFrame()->m_astroBody);
+			m_setAltitude = GetPositionRelTo(body).Length() - body->GetTerrainHeight(GetPositionRelTo(body).Normalized());
+			m_setAltitudeTarget = m_navTarget;
+		} else SetFlightControlState(CONTROL_MANUAL);
 	} else {
 		AIClearInstructions();
 	}
@@ -142,24 +142,24 @@ void Player::StaticUpdate(const float timeStep)
 			}
 			AIMatchVel(v);
 			break;
-        case CONTROL_FIXALTITUDE:
-        {
+		case CONTROL_FIXALTITUDE:
+		{
 			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
 			if (IsAnyThrusterKeyDown()) break;
-            if (!m_setAltitudeTarget) break;
-            Frame * f = m_setAltitudeTarget->GetFrame();
-            if (!f->m_astroBody || !f->m_astroBody->IsType(Object::TERRAINBODY)) break;
-            vector3d pos = GetPositionRelTo(f->m_astroBody);
-            double altitude = pos.Length() - static_cast<TerrainBody*>(f->m_astroBody)->GetTerrainHeight(pos);
-            /*vector3d*/ v = GetVelocityRelTo(f->m_astroBody);
-            vector3d vertical_rectification = pos.Normalized();
-            vector3d orbital_direction = v - v.Dot(vertical_rectification) * vertical_rectification;
+			if (!m_setAltitudeTarget) break;
+			Frame * f = m_setAltitudeTarget->GetFrame();
+			if (!f->m_astroBody || !f->m_astroBody->IsType(Object::TERRAINBODY)) break;
+			vector3d pos = GetPositionRelTo(f->m_astroBody);
+			double altitude = pos.Length() - static_cast<TerrainBody*>(f->m_astroBody)->GetTerrainHeight(pos);
+			/*vector3d*/ v = GetVelocityRelTo(f->m_astroBody);
+			vector3d vertical_rectification = pos.Normalized();
+			vector3d orbital_direction = v - v.Dot(vertical_rectification) * vertical_rectification;
 
-            orbital_direction *= v.Length()/orbital_direction.Length();
-            vertical_rectification *= (m_setAltitude - altitude)/10.;
-            AIMatchVel(orbital_direction + vertical_rectification);
-            break;
-        }
+			orbital_direction *= v.Length()/orbital_direction.Length();
+			vertical_rectification *= (m_setAltitude - altitude)/10.;
+			AIMatchVel(orbital_direction + vertical_rectification);
+			break;
+		}
 		case CONTROL_MANUAL:
 			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
 			break;
@@ -399,8 +399,8 @@ void Player::SetNavTarget(Body* const target, bool setSpeedTo)
 		m_setSpeedTarget = target;
 	else if (m_setSpeedTarget == m_navTarget)
 		m_setSpeedTarget = 0;
-    else
-        m_setAltitudeTarget = target;
+	else
+		m_setAltitudeTarget = target;
 	m_navTarget = target;
 	Pi::onPlayerChangeTarget.emit();
 	Sound::PlaySfx("OK");

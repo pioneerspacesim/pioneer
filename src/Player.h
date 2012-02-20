@@ -89,9 +89,9 @@ private:
 	bool polledControlsThisTurn;
 	enum FlightControlState m_flightControlState;
 	double m_setSpeed;
-    double m_setAltitude;
+	double m_setAltitude;
 	Body* m_setSpeedTarget;
-    Body* m_setAltitudeTarget;
+	Body* m_setAltitudeTarget;
 	int m_killCount;
 	int m_knownKillCount; // updated on docking
 	Body* m_navTarget;
