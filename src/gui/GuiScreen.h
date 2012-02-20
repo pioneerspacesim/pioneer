@@ -47,12 +47,12 @@ namespace Gui {
 		static RefCountedPtr<TextureFont> GetFont() { return s_fontStack.size() ? s_fontStack.top() : s_defaultFont; }
 		static RefCountedPtr<TextureFont> GetDefaultFont() { return s_defaultFont; }
 
-		static float GetFontHeight(RefCountedPtr<TextureFont> font = RefCountedPtr<TextureFont>(0));
-		static void RenderString(const std::string &s, float xoff, float yoff, RefCountedPtr<TextureFont> font = RefCountedPtr<TextureFont>(0));
-		static void MeasureString(const std::string &s, float &w, float &h, RefCountedPtr<TextureFont> font = RefCountedPtr<TextureFont>(0));
-		static int PickCharacterInString(const std::string &s, float x, float y, RefCountedPtr<TextureFont> font = RefCountedPtr<TextureFont>(0));
-		static void MeasureCharacterPos(const std::string &s, int charIndex, float &x, float &y, RefCountedPtr<TextureFont> font = RefCountedPtr<TextureFont>(0));
-		static void RenderMarkup(const std::string &s, RefCountedPtr<TextureFont> font = RefCountedPtr<TextureFont>(0));
+		static float GetFontHeight(TextureFont *font = 0);
+		static void RenderString(const std::string &s, float xoff, float yoff, TextureFont *font = 0);
+		static void MeasureString(const std::string &s, float &w, float &h, TextureFont *font = 0);
+		static int PickCharacterInString(const std::string &s, float x, float y, TextureFont *font = 0);
+		static void MeasureCharacterPos(const std::string &s, int charIndex, float &x, float &y, TextureFont *font = 0);
+		static void RenderMarkup(const std::string &s, TextureFont *font = 0);
 
 		static TextureCache *GetTextureCache() { return &s_textureCache; }
 
