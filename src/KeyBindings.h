@@ -96,8 +96,8 @@ namespace KeyBindings {
 	extern KeyAction thrustDown;
 	extern KeyAction thrustLeft;
 	extern KeyAction thrustRight;
-	extern KeyAction increaseSpeed;
-	extern KeyAction decreaseSpeed;
+	extern KeyAction increaseAutoParameter;
+	extern KeyAction decreaseAutoParameter;
 	extern KeyAction fireLaser;
 	extern KeyAction fastRotate;
 	extern KeyAction targetObject;

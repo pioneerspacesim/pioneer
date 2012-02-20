@@ -266,15 +266,15 @@ void Player::PollControls(const float timeStep)
 			if (m_flightControlState == CONTROL_FIXSPEED) {
 				double oldSpeed = m_setSpeed;
 				if (stickySpeedKey) {
-					if (!(KeyBindings::increaseSpeed.IsActive() || KeyBindings::decreaseSpeed.IsActive())) {
+					if (!(KeyBindings::increaseAutoParameter.IsActive() || KeyBindings::decreaseAutoParameter.IsActive())) {
 						stickySpeedKey = false;
 					}
 				}
 				
 				if (!stickySpeedKey) {
-					if (KeyBindings::increaseSpeed.IsActive())
+					if (KeyBindings::increaseAutoParameter.IsActive())
 						m_setSpeed += std::max(fabs(m_setSpeed)*0.05, 1.0);
-					if (KeyBindings::decreaseSpeed.IsActive())
+					if (KeyBindings::decreaseAutoParameter.IsActive())
 						m_setSpeed -= std::max(fabs(m_setSpeed)*0.05, 1.0);
 					if ( ((oldSpeed < 0.0) && (m_setSpeed >= 0.0)) ||
 						 ((oldSpeed > 0.0) && (m_setSpeed <= 0.0)) ) {
@@ -284,6 +284,13 @@ void Player::PollControls(const float timeStep)
 						m_setSpeed = 0;
 					}
 				}
+			} else if (m_flightControlState == CONTROL_FIXALTITUDE) {
+				if (KeyBindings::increaseAutoParameter.IsActive())
+					m_setAltitude += std::max(fabs(m_setAltitude)*0.05, 1.);
+				if (KeyBindings::decreaseAutoParameter.IsActive())
+					m_setAltitude -= std::max(fabs(m_setAltitude)*0.05, 1.);
+				if (m_setAltitude < 0)
+					m_setAltitude = 0;
 			}
 
 			if (KeyBindings::thrustForward.IsActive()) SetThrusterState(2, -1.0);

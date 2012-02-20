@@ -18,8 +18,8 @@ KeyAction thrustUp;
 KeyAction thrustDown;
 KeyAction thrustLeft;
 KeyAction thrustRight;
-KeyAction increaseSpeed;
-KeyAction decreaseSpeed;
+KeyAction increaseAutoParameter;
+KeyAction decreaseAutoParameter;
 KeyAction fireLaser;
 KeyAction fastRotate;
 KeyAction targetObject;
@@ -204,8 +204,8 @@ const BindingPrototype bindingProtos[] = {
 	{ Lang::THRUSTER_PORT, "BindThrustLeft", &thrustLeft, 0 },
 	{ Lang::THRUSTER_STARBOARD, "BindThrustRight", &thrustRight, 0 },
 	{ Lang::SPEED_CONTROL_MODE, 0, 0, 0 },
-	{ Lang::INCREASE_SET_SPEED, "BindIncreaseSpeed", &increaseSpeed, 0 },
-	{ Lang::DECREASE_SET_SPEED, "BindDecreaseSpeed", &decreaseSpeed, 0 },
+	{ Lang::INCREASE_AUTO_PARAMETER, "BindIncreaseAutoParameter", &increaseAutoParameter, 0 },
+	{ Lang::DECREASE_AUTO_PARAMETER, "BindDecreaseAutoParameter", &decreaseAutoParameter, 0 },
 	{ Lang::SCANNER_CONTROL, 0, 0, 0 },
 	{ Lang::TOGGLE_SCAN_MODE, "BindToggleScanMode", &toggleScanMode, 0 },
 	{ Lang::INCREASE_SCAN_RANGE, "BindIncreaseScanRange", &increaseScanRange, 0 },
@@ -399,8 +399,8 @@ void OnKeyBindingsChanged()
 	SET_KEY_BINDING(thrustDown, "BindThrustDown");
 	SET_KEY_BINDING(thrustLeft, "BindThrustLeft");
 	SET_KEY_BINDING(thrustRight, "BindThrustRight");
-	SET_KEY_BINDING(increaseSpeed, "BindIncreaseSpeed");
-	SET_KEY_BINDING(decreaseSpeed, "BindDecreaseSpeed");
+	SET_KEY_BINDING(increaseAutoParameter, "BindIncreaseAutoParameter");
+	SET_KEY_BINDING(decreaseAutoParameter, "BindDecreaseAutoParameter");
 	SET_KEY_BINDING(fireLaser, "BindFireLaser");
 	SET_KEY_BINDING(fastRotate, "BindFastRotate");
 	SET_KEY_BINDING(targetObject, "BindTargetObject");
@@ -442,8 +442,8 @@ void SetDefaults()
 	SetSDLKeyboardBinding("BindThrustDown", SDLK_o);
 	SetSDLKeyboardBinding("BindThrustLeft", SDLK_j);
 	SetSDLKeyboardBinding("BindThrustRight", SDLK_l);
-	SetSDLKeyboardBinding("BindIncreaseSpeed", SDLK_RETURN);
-	SetSDLKeyboardBinding("BindDecreaseSpeed", SDLK_RSHIFT);
+	SetSDLKeyboardBinding("BindIncreaseAutoParameter", SDLK_RETURN);
+	SetSDLKeyboardBinding("BindDecreaseAutoParameter", SDLK_RSHIFT);
 	SetSDLKeyboardBinding("BindToggleScanMode", SDLK_BACKSLASH);
 	SetSDLKeyboardBinding("BindIncreaseScanRange", SDLK_RIGHTBRACKET);
 	SetSDLKeyboardBinding("BindDecreaseScanRange", SDLK_LEFTBRACKET);
