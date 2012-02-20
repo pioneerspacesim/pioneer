@@ -349,7 +349,7 @@ bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, Prim
 
 bool RendererLegacy::DrawSurface(const Surface *s)
 {
-	if (!s || !s->GetVertices() || s->indices.size() < 3) return false;
+	if (!s || !s->GetVertices() || s->GetNumIndices() < 3) return false;
 
 	const Material *m = s->GetMaterial().Get();
 	const VertexArray *v = s->GetVertices();
@@ -357,7 +357,7 @@ bool RendererLegacy::DrawSurface(const Surface *s)
 	ApplyMaterial(m);
 	EnableClientStates(v);
 
-	glDrawElements(s->m_primitiveType, s->indices.size(), GL_UNSIGNED_SHORT, &s->indices[0]);
+	glDrawElements(s->GetPrimtiveType(), s->GetNumIndices(), GL_UNSIGNED_SHORT, s->GetIndexPointer());
 
 	UnApplyMaterial(m);
 	DisableClientStates();
@@ -582,10 +582,9 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 			if (!info->ibuf)
 				info->ibuf = new IndexBuffer(mesh->GetNumIndices());
 			info->ibuf->Bind();
-			const std::vector<unsigned short> &indices = (*surface)->indices;
-			const int ioffset = info->ibuf->BufferIndexData(indices.size(), &indices[0]);
+			const int ioffset = info->ibuf->BufferIndexData((*surface)->GetNumIndices(), (*surface)->GetIndexPointer());
 			(*surface)->glOffset = ioffset;
-			(*surface)->glAmount = indices.size();
+			(*surface)->glAmount = (*surface)->GetNumIndices();
 		}
 	}
 	assert(buf);

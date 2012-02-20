@@ -26,7 +26,7 @@ public:
 	StaticMesh(PrimitiveType t);
 	~StaticMesh();
 
-	Surface *AddSurface();
+	void AddSurface(Surface *s);
 	Surface *GetSurface(int idx) const { return m_surfaces.at(idx); }
 
 	//useful to know for buffers

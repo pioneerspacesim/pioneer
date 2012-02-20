@@ -43,9 +43,7 @@ void Starfield::Init()
 	RefCountedPtr<Material> mat(new Material());
 	mat->shader = m_shader;
 	mat->unlit = true;
-	Surface *s = m_model->AddSurface();
-	s->SetMaterial(mat);
-	s->SetVertices(stars);
+	m_model->AddSurface(new Surface(TYPE_POINTS, stars, mat));
 }
 
 void Starfield::Fill(unsigned long seed)
@@ -199,12 +197,8 @@ MilkyWay::MilkyWay()
 	RefCountedPtr<Material> mwmat(new Material);
 	mwmat->unlit = true;
 	mwmat->vertexColors = true;
-	Surface *s1 = m_model->AddSurface();
-	s1->SetVertices(bottom);
-	s1->SetMaterial(mwmat);
-	Surface *s2 = m_model->AddSurface();
-	s2->SetVertices(top);
-	s2->SetMaterial(mwmat);
+	m_model->AddSurface(new Surface(TRIANGLE_STRIP, bottom, mwmat));
+	m_model->AddSurface(new Surface(TRIANGLE_STRIP, top, mwmat));
 }
 
 MilkyWay::~MilkyWay()

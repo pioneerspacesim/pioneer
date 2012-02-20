@@ -14,11 +14,9 @@ StaticMesh::~StaticMesh()
 	delete m_renderInfo;
 }
 
-Surface *StaticMesh::AddSurface()
+void StaticMesh::AddSurface(Surface *s)
 {
-	Surface *s = new Surface(m_primitiveType);
 	m_surfaces.push_back(s);
-	return s;
 }
 
 int StaticMesh::GetNumVerts() const

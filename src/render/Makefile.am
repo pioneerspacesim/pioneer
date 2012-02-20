@@ -30,7 +30,6 @@ librender_a_SOURCES = \
 	RenderTarget.cpp \
 	Material.cpp \
 	StaticMesh.cpp \
-	Surface.cpp \
 	VertexArray.cpp
 
 

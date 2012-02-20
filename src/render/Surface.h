@@ -13,32 +13,31 @@
  */
 class Surface {
 public:
-	Surface(PrimitiveType t);
-	~Surface();
-	int GetNumVerts() const;
-	int GetNumIndices() const { return indices.size(); }
-	std::vector<unsigned short> indices;
+	Surface(PrimitiveType primitiveType, VertexArray *vertices, RefCountedPtr<Material> material = RefCountedPtr<Material>(0)):
+		m_primitiveType(primitiveType), m_vertices(vertices), m_material(material) {}
+	virtual ~Surface() {}
 
-	//deletes existing, takes ownership
-	void SetVertices(VertexArray *v);
-	VertexArray *GetVertices() const { return m_vertices; }
-
-	void SetMaterial(RefCountedPtr<Material> m) { m_material = m; }
+	PrimitiveType GetPrimtiveType() const { return m_primitiveType; }
+	VertexArray *GetVertices() const { return m_vertices.Get(); }
 	RefCountedPtr<Material> GetMaterial() const { return m_material; }
 
-	bool IsIndexed() { return !indices.empty(); }
+	int GetNumVerts() const { return m_vertices ? m_vertices->position.size() : 0; }
+	int GetNumIndices() const { return m_indices.size(); }
+	const unsigned short *GetIndexPointer() const { return &m_indices[0]; }
+
+	bool IsIndexed() { return !m_indices.empty(); }
 
 private:
-	friend class StaticMesh;
-	friend class Renderer;
-	friend class RendererLegacy;
-	friend class RendererGL2;
 	PrimitiveType m_primitiveType;
+	ScopedPtr<VertexArray> m_vertices;
 	RefCountedPtr<Material> m_material;
-	VertexArray *m_vertices;
+
+	std::vector<unsigned short> m_indices;
+
 	// multiple surfaces can be buffered in one vbo so need to
 	// save starting offset + amount to draw
 	//XXX temporary - replace with RenderInfo
+	friend class RendererLegacy;
 	int glOffset; //index start OR vertex start
 	int glAmount; //index count OR vertex amount
 };
