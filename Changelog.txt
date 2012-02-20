@@ -34,7 +34,10 @@ Alpha 20
 
    * Internal changes
      * Silence MSVC warnings (#964)
-     * Remove dependencies on Pi from Texture
+     * Remove dependencies on Pi from Texture (#969)
+     * Move EquipSet into its own header (#991)
+     * Give float comparison functions consistent naming (#991)
+     * Use the correct size_t format specifier for the compiler (#991)
 
 
 Alpha 19

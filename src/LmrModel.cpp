@@ -10,6 +10,7 @@
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "EquipType.h"
+#include "EquipSet.h"
 #include "ShipType.h"
 #include "TextureCache.h"
 #include <set>
@@ -429,7 +430,7 @@ public:
 				}
 				break;
 			case OP_ZBIAS:
-				if (float_is_zero_general(op.zbias.amount)) {
+				if (is_zero_general(op.zbias.amount)) {
 					glDepthRange(0.0, 1.0);
 				} else {
 				//	vector3f tv = cameraPos - vector3f(op.zbias.pos);
@@ -1528,7 +1529,7 @@ namespace ModelFuncs {
 			const float rad2 = jizz[i+3];
 			const vector3f _start = *start + (*end-*start)*jizz[i];
 			const vector3f _end = *start + (*end-*start)*jizz[i+2];
-			bool shitty_normal = float_equal_absolute(jizz[i], jizz[i+2], 1e-4f);
+			bool shitty_normal = is_equal_absolute(jizz[i], jizz[i+2], 1e-4f);
 
 			const int basevtx = vtxStart + steps*i;
 			float ang = 0;
