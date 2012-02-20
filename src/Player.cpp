@@ -21,7 +21,6 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	m_killCount = 0;
 	m_knownKillCount = 0;
 	m_setSpeedTarget = 0;
-	m_setAltitudeTarget = 0;
 	m_navTarget = 0;
 	m_combatTarget = 0;
 	UpdateMass();
@@ -94,12 +93,10 @@ void Player::SetFlightControlState(enum FlightControlState s)
 		m_setSpeed = m_setSpeedTarget ? GetVelocityRelTo(m_setSpeedTarget).Length() : GetVelocity().Length();
 	} else if (m_flightControlState == CONTROL_FIXALTITUDE) {
 		AIClearInstructions();
-		if (m_navTarget
-				&& m_navTarget->GetFrame()->m_astroBody
-				&& m_navTarget->GetFrame()->m_astroBody->IsType(Object::TERRAINBODY)) {
-			TerrainBody* body = static_cast<TerrainBody*>(m_navTarget->GetFrame()->m_astroBody);
-			m_setAltitude = GetPositionRelTo(body).Length() - body->GetTerrainHeight(GetPositionRelTo(body).Normalized());
-			m_setAltitudeTarget = m_navTarget;
+		Body* body = GetFrame()->GetBodyFor();
+		if (body && body->IsType(Object::TERRAINBODY)) {
+			vector3d pos = GetPositionRelTo(body);
+			m_setAltitude = pos.Length() - static_cast<TerrainBody*>(body)->GetTerrainHeight(pos.Normalized());
 		} else SetFlightControlState(CONTROL_MANUAL);
 	} else {
 		AIClearInstructions();
@@ -146,14 +143,13 @@ void Player::StaticUpdate(const float timeStep)
 		{
 			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
 			if (IsAnyThrusterKeyDown()) break;
-			if (!m_setAltitudeTarget) break;
-			Frame * f = m_setAltitudeTarget->GetFrame();
-			if (!f->m_astroBody || !f->m_astroBody->IsType(Object::TERRAINBODY)) break;
-			vector3d pos = GetPositionRelTo(f->m_astroBody);
-			double altitude = pos.Length() - static_cast<TerrainBody*>(f->m_astroBody)->GetTerrainHeight(pos);
-			/*vector3d*/ v = GetVelocityRelTo(f->m_astroBody);
+			Body * body = GetFrame()->GetBodyFor();
+			if (!body || !(body->IsType(Object::TERRAINBODY))) break;
+			vector3d pos = GetPositionRelTo(body);
+			/*vector3d*/ v = GetVelocityRelTo(body);
 			vector3d vertical_rectification = pos.Normalized();
 			vector3d orbital_direction = v - v.Dot(vertical_rectification) * vertical_rectification;
+			double altitude = pos.Length() - static_cast<TerrainBody*>(body)->GetTerrainHeight(vertical_rectification);
 
 			orbital_direction *= v.Length()/orbital_direction.Length();
 			vertical_rectification *= (m_setAltitude - altitude)/10.;
@@ -399,8 +395,6 @@ void Player::SetNavTarget(Body* const target, bool setSpeedTo)
 		m_setSpeedTarget = target;
 	else if (m_setSpeedTarget == m_navTarget)
 		m_setSpeedTarget = 0;
-	else
-		m_setAltitudeTarget = target;
 	m_navTarget = target;
 	Pi::onPlayerChangeTarget.emit();
 	Sound::PlaySfx("OK");
