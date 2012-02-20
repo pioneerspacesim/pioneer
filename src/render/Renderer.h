@@ -4,18 +4,28 @@
 #include "libs.h"
 
 /*
- * Don't mind the mess! Experiments are happening.
+ * Renderer base class. A Renderer draws points, lines, triangles, changes blend modes
+ * and other states. Data flows mostly one way: you tell the renderer to do things, but
+ * you don't get to query the current matrix mode or number of lights
+ * - store that info elsewhere.
+ * Performance is not a big concern right now (it hasn't really decreased), to be optimized
+ * later
  *
- * Draws points, lines, polys...
- * Terrains and LMRmodels might be too special for this now
- * Would ideally also:
- * set blending modes
- * set fill modes (solid/wireframe)
- * create and destroy context
- * toggle between fullscreen/windowed
- * prepare/endframe/swapbuf (move from Render.h)
- * take screenshot (at least read framebuffer)
- * collect statistics
+ * To Do:
+ * Move statistics collection here: fps, number of triangles etc.
+ * Screenshot function (at least read framebuffer, write to file elsewhere)
+ * Move SDL video init here (pass a GraphicsSettings struct or similar to Renderer's constructor)
+ * ToggleFullscreen
+ * The 2D varieties of DrawPoints, DrawLines might have to go - it seemed
+ * like a good idea to allow the possibility for optimizing these cases but
+ * right now there isn't much of a difference.
+ * Renderer::RequestMaterial approach to Materials to get rid of the shader hack (see comments in Material.h)
+ * LMR is tricky because it's both a model compiler and renderer. The draw ops can be quite easily
+ * converted to use StaticMeshes, Materials etc. but it would lose some of the quirks
+ * like changing lighting mid-mesh (without hacks which are not useful outside LMR)
+ * Terrain: not necessarily tricky to convert, but let's see if it's going to be
+ * rewritten first... Terrain would likely get a special DrawTerrain(GeoPatch *) function.
+ * Reboot postprocessing, again
  */
 
 class Light;
