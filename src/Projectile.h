@@ -18,7 +18,7 @@ public:
 	virtual ~Projectile();
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition() const { return vector3d(m_orient[12], m_orient[13], m_orient[14]); }
-	virtual double GetBoundingRadius() const { return Equip::lasers[m_type].psize * 3; }
+	virtual double GetBoundingRadius() const { return m_radius; }
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	void TimeStepUpdate(const float timeStep);
 	void StaticUpdate(const float timeStep);
@@ -30,12 +30,14 @@ protected:
 	virtual void Load(Serializer::Reader &rd, Space *space);
 private:
 	float GetDamage() const;
+	double GetRadius() const;
 	Body *m_parent;
 	matrix4x4d m_orient;
 	vector3d m_baseVel;
 	vector3d m_dirVel;
 	float m_age;
 	int m_type;
+	double m_radius;
 
 	int m_parentIndex; // deserialisation
 
