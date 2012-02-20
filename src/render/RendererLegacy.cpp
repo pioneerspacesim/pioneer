@@ -420,7 +420,7 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 		if (!BufferStaticMesh(t))
 			return false;
 	}
-	GLRenderInfo *info = static_cast<GLRenderInfo*>(t->m_renderInfo);
+	GLRenderInfo *info = static_cast<GLRenderInfo*>(t->GetRenderInfo());
 
 	//draw each surface
 	info->vbuf->Bind();
@@ -530,9 +530,8 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	else
 		return false;
 
-	if (mesh->m_renderInfo == 0)
-		mesh->m_renderInfo = new GLRenderInfo();
-	GLRenderInfo *info = static_cast<GLRenderInfo*>(mesh->m_renderInfo);
+	GLRenderInfo *info = new GLRenderInfo();
+	mesh->SetRenderInfo(info);
 
 	const int totalVertices = mesh->GetNumVerts();
 

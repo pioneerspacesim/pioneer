@@ -128,4 +128,24 @@ protected:
 	int m_height;
 };
 
+// subclass this to store renderer specific information
+// See top of RendererLegacy.cpp
+struct RenderInfo {
+	RenderInfo() { }
+	virtual ~RenderInfo() { }
+};
+
+// baseclass for a renderable thing. so far it just means that the renderer
+// can store renderer-specific data in it (RenderInfo)
+struct Renderable {
+public:
+	Renderable(): m_renderInfo(0) {}
+
+	RenderInfo *GetRenderInfo() const { return m_renderInfo.Get(); }
+	void SetRenderInfo(RenderInfo *renderInfo) { m_renderInfo.Reset(renderInfo); }
+
+private:
+	ScopedPtr<RenderInfo> m_renderInfo;
+};
+
 #endif

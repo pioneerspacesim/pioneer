@@ -8,20 +8,13 @@
 
 class Surface;
 
-// subclass this to store renderer specific information
-// See top of RendererLegacy.cpp
-struct RenderInfo {
-	RenderInfo() { }
-	virtual ~RenderInfo() { }
-};
-
 /*
  * StaticMesh can hold multiple surfaces and is intended for complex,
  * unchanging geometry. Renderers can buffer the contents into VBOs or
  * whatever they prefer. In theory the original vertex data could be
  * thrown away... but perhaps it is better not to optimize that yet.
  */
-class StaticMesh {
+class StaticMesh : public Renderable {
 public:
 	StaticMesh(PrimitiveType t);
 	~StaticMesh();
@@ -42,7 +35,6 @@ private:
 	friend class Renderer;
 	friend class RendererLegacy;
 	friend class RendererGL2;
-	RenderInfo *m_renderInfo;
 	PrimitiveType m_primitiveType;
 	SurfaceList m_surfaces;
 };

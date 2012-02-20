@@ -2,8 +2,8 @@
 #include "Surface.h"
 
 StaticMesh::StaticMesh(PrimitiveType t) :
+	Renderable(),
 	cached(false),
-	m_renderInfo(0),
 	m_primitiveType(t)
 {
 }
@@ -11,7 +11,6 @@ StaticMesh::StaticMesh(PrimitiveType t) :
 StaticMesh::~StaticMesh()
 {
 	while (!m_surfaces.empty()) delete m_surfaces.back(), m_surfaces.pop_back();
-	delete m_renderInfo;
 }
 
 void StaticMesh::AddSurface(Surface *s)
