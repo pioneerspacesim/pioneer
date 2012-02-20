@@ -541,6 +541,25 @@ void LuaConstants::Register(lua_State *l)
 	_create_constant_table_nonconsecutive(l, "ShipAlertStatus", ENUM_ShipAlertStatus);
 
 	/*
+	 * Constants: ShipFuelStatus
+	 *
+	 * Current fuel status.
+	 *
+	 * OK - more than 5% fuel remaining
+	 * WARNING - less than 5% fuel remaining
+	 * EMPTY - no fuel remaining
+	 *
+	 * Availability:
+	 *
+	 *   alpha 20
+	 *
+	 * Status:
+	 *
+	 *   experimental
+	 */
+	_create_constant_table_nonconsecutive(l, "ShipFuelStatus", ENUM_ShipFuelStatus);
+
+	/*
 	 * Constants: ShipFlightState
 	 *
 	 * Ship flight state (used by LMR)

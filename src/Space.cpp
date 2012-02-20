@@ -642,6 +642,7 @@ void Space::TimeStep(float step)
 		Pi::luaOnUpdateBB->Emit();
 		Pi::luaOnShipFlavourChanged->Emit();
 		Pi::luaOnShipEquipmentChanged->Emit();
+		Pi::luaOnShipFuelChanged->Emit();
 
 		Pi::luaTimer->Tick();
 	}

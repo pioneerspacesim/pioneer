@@ -18,7 +18,7 @@
 #include "ObjectViewerView.h"
 #include "render/Renderer.h"
 
-static const int  s_saveVersion   = 44;
+static const int  s_saveVersion   = 45;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -371,7 +371,7 @@ void Game::SwitchToHyperspace()
 		m_hyperspaceClouds.push_back(cloud);
 	}
 
-	printf("%lu clouds brought over\n", m_hyperspaceClouds.size());
+	printf(SIZET_FMT " clouds brought over\n", m_hyperspaceClouds.size());
 
 	// remove the player from space
 	m_space->RemoveBody(m_player.Get());

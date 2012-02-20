@@ -462,6 +462,8 @@ CARGO_INVENTORY
     Cargo Inventory:
 JETTISON
     Jettison
+REFUEL
+    Refuel
 JETTISONED_1T_OF_X
     Jettisoned 1 tonne of %commodity
 COMBAT_RATING
@@ -1074,6 +1076,8 @@ HULL_INTEGRITY
     Hull integrity
 SHIELD_INTEGRITY
     Shield integrity
+FUEL
+    Fuel
 LAUNCH_PERMISSION_DENIED_BUSY
     Permission to launch denied: docking bay busy.
 HYPERSPACE_JUMP_ABORTED

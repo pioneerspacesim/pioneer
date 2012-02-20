@@ -119,8 +119,6 @@ void Player::StaticUpdate(const float timeStep)
 	vector3d v;
 	matrix4x4d m;
 
-	Ship::StaticUpdate(timeStep);		// also calls autopilot AI
-
 	if (GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
@@ -150,6 +148,8 @@ void Player::StaticUpdate(const float timeStep)
 	}
 	else SetFlightControlState(CONTROL_MANUAL);
 	
+	Ship::StaticUpdate(timeStep);		// also calls autopilot AI
+
 	/* This wank probably shouldn't be in Player... */
 	/* Ship engine noise. less loud inside */
 	float v_env = (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f) * Sound::GetSfxVolume();
@@ -229,7 +229,7 @@ void Player::PollControls(const float timeStep)
 			double mody = clipmouse(objDir.y, m_mouseY);
 			m_mouseY -= mody;
 
-			if(!float_is_zero_general(modx) || !float_is_zero_general(mody)) {
+			if(!is_zero_general(modx) || !is_zero_general(mody)) {
 				matrix4x4d mrot = matrix4x4d::RotateYMatrix(modx); mrot.RotateX(mody);
 				m_mouseDir = (rot * (mrot * objDir)).Normalized();
 			}

@@ -234,7 +234,7 @@ void DynamicBody::UpdateInterpolatedTransform(double alpha)
 	m_interpolatedTransform = m_oldOrient;
 	{
 		double len = m_oldAngDisplacement.Length() * double(alpha);
-		if (! float_is_zero_general(len)) {
+		if (! is_zero_general(len)) {
 			vector3d rotAxis = m_oldAngDisplacement.Normalized();
 			matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(len,
 					rotAxis.x, rotAxis.y, rotAxis.z);

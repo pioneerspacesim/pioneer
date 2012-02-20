@@ -140,11 +140,12 @@ struct EquipType {
 };
 
 struct LaserType {
-	float lifespan;
-	float speed;
+	float lifespan;		// seconds
+	float speed;		// m/s
 	float damage;
-	float rechargeTime;
-	float psize;
+	float rechargeTime;	// seconds
+	float length;		// meters
+	float width;		// meters
 	int flags;
 	Color color;
 };

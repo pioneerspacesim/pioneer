@@ -139,7 +139,9 @@ define_model('ip_shuttle', {
 				max_engine = 0,
 				hyperdrive_class = 0,
 				capacity = 12,
-				hull_mass = 12,
+				hull_mass = 11, --reduced this from 12
+				fuel_tank_mass = 1, --full tank, tons in addition to hull_mass
+				thruster_fuel_use = 0.00005, --percent, per second (at max thrust, determined by strongest thruster)
 				price = 14000,
 			}
 		}

@@ -132,6 +132,7 @@ private:
 	Gui::Label *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure, *m_hudHyperspaceInfo, *m_hudTargetInfo;
 	Gui::MeterBar *m_hudHullTemp, *m_hudWeaponTemp, *m_hudHullIntegrity, *m_hudShieldIntegrity;
 	Gui::MeterBar *m_hudTargetHullIntegrity, *m_hudTargetShieldIntegrity;
+	Gui::MeterBar *m_hudFuelGauge;
 
 	sigc::connection m_onHyperspaceTargetChangedCon;
 	sigc::connection m_onPlayerEquipmentChangeCon;

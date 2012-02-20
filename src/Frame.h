@@ -48,7 +48,7 @@ public:
 	void SetPlanetGeom(double radius, Body *);
 	CollisionSpace *GetCollisionSpace() const { return m_collisionSpace; }
 	void RotateInTimestep(double step);
-	bool IsRotatingFrame() const { return !float_is_zero_general(m_angVel.Length()); }
+	bool IsRotatingFrame() const { return !is_zero_general(m_angVel.Length()); }
 	bool IsStationRotFrame() const;
 	// snoops into parent frames so beware
 	SBody *GetSBodyFor() const;

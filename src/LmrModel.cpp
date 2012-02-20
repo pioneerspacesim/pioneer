@@ -1,6 +1,6 @@
 #include "libs.h"
 #include <map>
-#include "FontManager.h"
+#include "FontCache.h"
 #include "VectorFont.h"
 #include "LmrModel.h"
 #include "collider/collider.h"
@@ -9,6 +9,7 @@
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "EquipType.h"
+#include "EquipSet.h"
 #include "ShipType.h"
 #include "TextureCache.h"
 #include "render/Render.h"
@@ -254,8 +255,8 @@ static LmrShader *s_sunlightShader[4];
 static LmrShader *s_pointlightShader[4];
 static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
-static FontManager s_fontManager;
-static VectorFont *s_font;
+static FontCache s_fontCache;
+static RefCountedPtr<VectorFont> s_font;
 static float NEWMODEL_ZBIAS = 0.0002f;
 static LmrGeomBuffer *s_curBuf;
 static const LmrObjParams *s_curParams;
@@ -442,7 +443,7 @@ public:
 				}
 				break;
 			case OP_ZBIAS:
-				if (float_is_zero_general(op.zbias.amount)) {
+				if (is_zero_general(op.zbias.amount)) {
 					glDepthRange(0.0, 1.0);
 				} else {
 				//	vector3f tv = cameraPos - vector3f(op.zbias.pos);
@@ -1542,7 +1543,7 @@ namespace ModelFuncs {
 			const float rad2 = jizz[i+3];
 			const vector3f _start = *start + (*end-*start)*jizz[i];
 			const vector3f _end = *start + (*end-*start)*jizz[i+2];
-			bool shitty_normal = float_equal_absolute(jizz[i], jizz[i+2], 1e-4f);
+			bool shitty_normal = is_equal_absolute(jizz[i], jizz[i+2], 1e-4f);
 
 			const int basevtx = vtxStart + steps*i;
 			float ang = 0;
@@ -4452,7 +4453,7 @@ void LmrModelCompilerInit(Renderer *renderer, TextureCache *textureCache)
 	s_pointlightShader[2] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 3\n");
 	s_pointlightShader[3] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 4\n");
 
-	PiVerify(s_font = s_fontManager.GetVectorFont("WorldFont"));
+	PiVerify(s_font = s_fontCache.GetVectorFont("WorldFont"));
 
 	lua_State *L = lua_open();
 	sLua = L;
@@ -4551,7 +4552,7 @@ void LmrModelCompilerUninit()
 		delete s_sunlightShader[i];
 		delete s_pointlightShader[i];
 	}
-	// FontManager should be ok...
+	// FontCache should be ok...
 
 	std::map<std::string, LmrModel*>::iterator it_model;
 	for (it_model=s_models.begin(); it_model != s_models.end(); ++it_model)	{

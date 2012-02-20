@@ -22,7 +22,7 @@ public:
 	vector2f operator-() const { return vector2f(-x,-y); }
 
 	bool ExactlyEqual(const vector2f &a) const {
-		return float_equal_exact(a.x, x) && float_equal_exact(a.y, y);
+		return is_equal_exact(a.x, x) && is_equal_exact(a.y, y);
 	}
 
 	friend vector2f operator*(const vector2f &v, const float &a) { return vector2f(v.x*a, v.y*a); }

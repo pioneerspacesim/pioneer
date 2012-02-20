@@ -6,7 +6,6 @@
 #include "gui/GuiTextEntry.h"
 #include "gui/GuiLabel.h"
 #include "TextureFont.h"
-#include "FontManager.h"
 #include "KeyBindings.h"
 #include <sstream>
 
