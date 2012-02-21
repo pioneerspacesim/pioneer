@@ -1,8 +1,10 @@
 #include "ShipSpinnerWidget.h"
-#include "render/Render.h"
 #include "Pi.h"
 #include "Game.h"
 #include "Ship.h"
+#include "Light.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
 
 ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, float height) :
 	m_width(width),
@@ -16,6 +18,13 @@ ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, fl
 	flavour.ApplyTo(&m_params);
 	m_params.animValues[Ship::ANIM_WHEEL_STATE] = 1.0;
 	m_params.flightState = Ship::FLYING;
+
+	Color lc(0.5f, 0.5f, 0.5f, 0.f);
+	m_light.SetDiffuse(lc);
+	m_light.SetAmbient(lc);
+	m_light.SetSpecular(lc);
+	m_light.SetPosition(vector3f(1.f, 1.f, 0.f));
+	m_light.SetType(Light::LIGHT_DIRECTIONAL);
 }
 
 void ShipSpinnerWidget::Draw()
@@ -41,58 +50,36 @@ void ShipSpinnerWidget::Draw()
 	}
 
 	glColor3f(0,0,0);
-	glBegin(GL_QUADS); {
+	glBegin(GL_QUADS);
 		glVertex2f(0.0f, 0.0f);
 		glVertex2f(0.0f, m_height);
 		glVertex2f(m_width, m_height);
 		glVertex2f(m_width, 0.0f);
-	} glEnd();
+	glEnd();
 
-	Render::State::SetZnearZfar(1.0f, 10000.0f);
+	Pi::renderer->SetPerspectiveProjection(45.f, 1.f, 1.f, 10000.f);
+	glDepthRange (0.0, 1.0); //XXX this is the default so perhaps not necessary
+	Pi::renderer->SetTransform(matrix4x4f::Identity());
 
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	glFrustum(-.5, .5, -.5, .5, 1.0f, 10000.0f);
-	glDepthRange (0.0, 1.0);
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
-
-	glEnable(GL_DEPTH_TEST);
-	glClear(GL_DEPTH_BUFFER_BIT);
-
-	float lightCol[] = { .5,.5,.5,0 };
-	float lightDir[] = { 1,1,0,0 };
+	Pi::renderer->SetDepthTest(true);
+	Pi::renderer->ClearDepthBuffer();
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-	glLightfv(GL_LIGHT0, GL_POSITION, lightDir);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, lightCol);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
-	glEnable(GL_LIGHT0);
-
-	glViewport(
-		GLint(roundf(pos[0]/guiscale[0])),
-		GLint(roundf((Gui::Screen::GetHeight() - pos[1] - m_height)/guiscale[1])),
-		GLsizei(m_width/guiscale[0]),
-		GLsizei(m_height/guiscale[1]));
+	Pi::renderer->SetLights(1, &m_light);
+	Pi::renderer->SetViewport(
+		int(roundf(pos[0]/guiscale[0])),
+		int(roundf((Gui::Screen::GetHeight() - pos[1] - m_height)/guiscale[1])),
+		int(m_width/guiscale[0]),
+		int(m_height/guiscale[1]));
 	
 	matrix4x4f rot = matrix4x4f::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
 	rot[14] = -1.5f * m_model->GetDrawClipRadius();
 
 	m_model->Render(rot, &m_params);
-	Render::State::UseProgram(0);
-	Render::UnbindAllBuffers();
 
 	glPopAttrib();
 
-	glDisable(GL_DEPTH_TEST);
-
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
+	Pi::renderer->SetDepthTest(false);
 }

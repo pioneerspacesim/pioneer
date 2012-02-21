@@ -12,6 +12,10 @@
 #include "StringF.h"
 #include "ShipCpanel.h"
 #include "Game.h"
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
+
+using namespace Graphics;
 
 #define INNER_RADIUS (Sector::SIZE*1.5f)
 #define OUTER_RADIUS (Sector::SIZE*3.0f)
@@ -74,6 +78,7 @@ void SectorView::InitDefaults()
 		
 void SectorView::InitObject()
 {
+	m_disk = new VertexArray(ATTRIB_POSITION);
 	SetTransparency(true);
 
 	Gui::Screen::PushFont("OverlayFont");
@@ -100,10 +105,17 @@ void SectorView::InitObject()
 	m_searchBox->onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnSearchBoxKeyPress));
 	Add(m_searchBox, 700, 500);
 
-	m_gluDiskDlist = glGenLists(1);
-	glNewList(m_gluDiskDlist, GL_COMPILE);
-	gluDisk(Pi::gluQuadric, 0.0, 0.2, 40, 1);
-	glEndList();
+	// selection highlight disk
+	// (wound counterclockwise)
+	// color will be determined by a material
+	m_disk->Add(vector3f(0.f, 0.f, 0.f));
+	const float rad = 0.2f;
+	for (int i = 72; i >= 0; i--) {
+		m_disk->Add(vector3f(
+			0.f+sinf(DEG2RAD(i*5))*rad,
+			0.f+cosf(DEG2RAD(i*5))*rad,
+			0.f));
+	}
 	
 	m_infoBox = new Gui::VBox();
 	m_infoBox->SetTransparency(false);
@@ -188,7 +200,7 @@ void SectorView::InitObject()
 
 SectorView::~SectorView()
 {
-	glDeleteLists(m_gluDiskDlist, 1);
+	delete m_disk;
 	m_onMouseButtonDown.disconnect();
 	if (m_onKeyPressConnection.connected()) m_onKeyPressConnection.disconnect();
 }
@@ -289,14 +301,10 @@ void SectorView::Draw3D()
 {
 	m_clickableLabels->Clear();
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(40, Pi::GetScrAspect(), 1.0, 100.0);
-	
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 100.f);
+
+	matrix4x4f modelview = matrix4x4f::Identity();
+	m_renderer->ClearScreen();
 	
 	m_sectorLabel->SetText(stringf(Lang::SECTOR_X_Y_Z,
 		formatarg("x", int(floorf(m_pos.x))),
@@ -311,19 +319,14 @@ void SectorView::Draw3D()
 		m_distanceLabel->SetText("");
 	}
 
-	glDisable(GL_LIGHTING);
-
 	// units are lightyears, my friend
-	glTranslatef(0, 0, -10-10*m_zoom);
-	glRotatef(m_rotX, 1, 0, 0);
-	glRotatef(m_rotZ, 0, 0, 1);
-	glTranslatef(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);
+	modelview.Translate(0.f, 0.f, -10.f-10.f*m_zoom);
+	modelview.Rotate(DEG2RAD(m_rotX), 1.f, 0.f, 0.f);
+	modelview.Rotate(DEG2RAD(m_rotZ), 0.f, 0.f, 1.f);
+	modelview.Translate(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);
+	m_renderer->SetTransform(modelview);
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-	
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-	glEnable(GL_LINE_SMOOTH);
+	m_renderer->SetBlendMode(BLEND_ALPHA);
 
 	Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
 	vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].p;
@@ -331,18 +334,13 @@ void SectorView::Draw3D()
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
 			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
-				glPushMatrix();
-				glTranslatef(Sector::SIZE*sx, Sector::SIZE*sy, Sector::SIZE*sz);
-				DrawSector(int(floorf(m_pos.x))+sx, int(floorf(m_pos.y))+sy, int(floorf(m_pos.z))+sz, playerPos);
-				glPopMatrix();
+				DrawSector(int(floorf(m_pos.x))+sx, int(floorf(m_pos.y))+sy, int(floorf(m_pos.z))+sz, playerPos,
+					modelview * matrix4x4f::Translation(Sector::SIZE*sx, Sector::SIZE*sy, Sector::SIZE*sz));
 			}
 		}
 	}
 
-	glDisable(GL_LINE_SMOOTH);
-
-	glDisable(GL_BLEND);
-	glEnable(GL_LIGHTING);
+	m_renderer->SetBlendMode(BLEND_SOLID);
 }
 
 void SectorView::SetHyperspaceTarget(const SystemPath &path)
@@ -494,23 +492,25 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 		m_infoBox->ShowAll();
 }
 
-void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos)
+void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos,const matrix4x4f &trans)
 {
+	m_renderer->SetTransform(trans);
 	Sector* ps = GetCached(sx, sy, sz);
 
 	int cz = int(floor(m_pos.z+0.5f));
 
 	if (cz == sz) {
-		glColor3f(0,0.2f,0);
-		glBegin(GL_LINE_LOOP);
-			glVertex3f(0, 0, 0);
-			glVertex3f(0, Sector::SIZE, 0);
-			glVertex3f(Sector::SIZE, Sector::SIZE, 0);
-			glVertex3f(Sector::SIZE, 0, 0);
-		glEnd();
+		const Color darkgreen(0.f, 0.2f, 0.f, 1.f);
+		const vector3f vts[] = {
+			vector3f(0.f, 0.f, 0.f),
+			vector3f(0.f, Sector::SIZE, 0.f),
+			vector3f(Sector::SIZE, Sector::SIZE, 0.f),
+			vector3f(Sector::SIZE, 0.f, 0.f)
+		};
+	
+		m_renderer->DrawLines(4, vts, darkgreen, LINE_LOOP);
 	}
 
-	if (!(sx || sy)) glColor3f(1,1,0);
 	Uint32 num=0;
 	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i, ++num) {
 		SystemPath current = SystemPath(sx, sy, sz, num);
@@ -542,9 +542,11 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				}
 			}
 		}
-		
-		glPushMatrix();
-		glTranslatef((*i).p.x, (*i).p.y, (*i).p.z);
+
+		matrix4x4f systrans = trans * matrix4x4f::Translation((*i).p.x, (*i).p.y, (*i).p.z);
+		m_renderer->SetTransform(systrans);
+
+		glDisable(GL_LIGHTING);
 
 		// draw system "leg"
 		glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
@@ -573,49 +575,45 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		if (current == m_selected) {
 			m_jumpLine.SetStart(vector3f(0.f, 0.f, 0.f));
 			m_jumpLine.SetEnd(playerAbsPos - sysAbsPos);
-			m_jumpLine.Draw();
+			m_jumpLine.Draw(m_renderer);
 		}
 
+		Material mat;
+		mat.unlit = true;
+
 		// draw star blob itself
-		glColor3fv(StarSystem::starColors[(*i).starType[0]]);
-		glPushMatrix();
-		glRotatef(-m_rotZ, 0, 0, 1);
-		glRotatef(-m_rotX, 1, 0, 0);
-		glScalef((StarSystem::starScale[(*i).starType[0]]),
-			(StarSystem::starScale[(*i).starType[0]]),
-			(StarSystem::starScale[(*i).starType[0]]));
-		glCallList(m_gluDiskDlist);
-		glScalef(2,2,2);
+		systrans.Rotate(DEG2RAD(-m_rotZ), 0, 0, 1);
+		systrans.Rotate(DEG2RAD(-m_rotX), 1, 0, 0);
+		systrans.Scale((StarSystem::starScale[(*i).starType[0]]));
+		m_renderer->SetTransform(systrans);
+
+		float *col = StarSystem::starColors[(*i).starType[0]];
+		mat.diffuse = Color(col[0], col[1], col[2]);
+		m_renderer->DrawTriangles(m_disk, &mat, TRIANGLE_FAN);
 
 		// player location indicator
 		if (m_inSystem && current == m_current) {
-			glPushMatrix();
 			glDepthRange(0.2,1.0);
-			glColor3f(0,0,0.8);
-			glScalef(3,3,3);
-			glCallList(m_gluDiskDlist);
-			glPopMatrix();
+			mat.diffuse = Color(0.f, 0.f, 0.8f);
+			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(3.f));
+			m_renderer->DrawTriangles(m_disk, &mat, TRIANGLE_FAN);
 		}
 		// selected indicator
 		if (current == m_selected) {
-			glPushMatrix();
 			glDepthRange(0.1,1.0);
-			glColor3f(0,0.8,0);
-			glScalef(2,2,2);
-			glCallList(m_gluDiskDlist);
-			glPopMatrix();
+			mat.diffuse = Color(0.f, 0.8f, 0.0f);
+			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
+			m_renderer->DrawTriangles(m_disk, &mat, TRIANGLE_FAN);
 		}
 		// hyperspace target indicator (if different from selection)
 		if (current == m_hyperspaceTarget && m_hyperspaceTarget != m_selected && (!m_inSystem || m_hyperspaceTarget != m_current)) {
-			glPushMatrix();
 			glDepthRange(0.1,1.0);
-			glColor3f(0.3,0.3,0.3);
-			glScalef(2,2,2);
-			glCallList(m_gluDiskDlist);
-			glPopMatrix();
+			mat.diffuse = Color(0.3f);
+			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
+			m_renderer->DrawTriangles(m_disk, &mat, TRIANGLE_FAN);
 		}
+
 		glDepthRange(0,1);
-		glPopMatrix();
 
 		Color labelColor(0.8f,0.8f,0.8f,0.5f);
 		if ((*i).IsSetInhabited() && (*i).IsInhabited()) {
@@ -630,9 +628,6 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		}
 
 		PutClickableLabel((*i).name, labelColor, current);
-		glDisable(GL_LIGHTING);
-
-		glPopMatrix();
 	}
 }
 
@@ -906,52 +901,4 @@ void SectorView::ShrinkCache()
 			iter++;
 		}
 	}
-}
-
-SectorView::Line3D::Line3D()
-{
-	m_start      = vector3f(0.f, 0.f, 0.f);
-	m_end        = vector3f(0.f, 0.f, 0.f);
-	m_startColor = Color(0.5f, 0.5f, 0.5f, 0.5f);
-	m_endColor   = m_startColor;
-	m_width      = 3.f;
-}
-
-void SectorView::Line3D::SetStart(const vector3f &s)
-{
-	m_start = s;
-}
-
-void SectorView::Line3D::SetEnd(const vector3f &e)
-{
-	m_end = e;
-}
-
-void SectorView::Line3D::SetColor(const Color &c)
-{
-	m_startColor  = c;
-	m_endColor    = m_startColor;
-	m_endColor   *= 0.5;
-}
-
-void SectorView::Line3D::Draw()
-{
-	// XXX would be nicer to draw this as a textured triangle strip
-	glLineWidth(m_width);
-	const GLfloat verts[6] = {
-		m_start.x, m_start.y, m_start.z,
-		m_end.x,   m_end.y,   m_end.z
-	};
-	const GLfloat col[8] = {
-		m_startColor.r, m_startColor.g, m_startColor.b, m_startColor.a,
-		m_endColor.r,   m_endColor.g,   m_endColor.b,   m_endColor.a
-	};
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, verts);
-	glColorPointer(4, GL_FLOAT, 0, col);
-	glDrawArrays(GL_LINES, 0, 2);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-	glLineWidth(1.f);
 }

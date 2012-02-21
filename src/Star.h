@@ -3,6 +3,8 @@
 
 #include "TerrainBody.h"
 
+namespace Graphics { class Renderer; }
+
 class Star: public TerrainBody {
 public:
 	OBJDEF(Star, TerrainBody, STAR);
@@ -11,7 +13,7 @@ public:
 	virtual ~Star() {};
 
 	virtual double GetClipRadius() const;
-	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 };
 
 #endif /* _STAR_H */

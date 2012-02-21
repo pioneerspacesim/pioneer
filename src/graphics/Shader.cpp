@@ -1,12 +1,14 @@
-#include "RenderShader.h"
+#include "Shader.h"
+#include "Graphics.h"
 #include "FileSystem.h"
 #include "StringRange.h"
 #include <cstring>
 
-namespace Render {
+namespace Graphics {
 
 bool shadersEnabled;
 bool shadersAvailable;
+Shader *m_currentShader = 0;
 
 void Shader::PrintGLSLCompileError(const char *filename, GLuint obj)
 {
@@ -75,7 +77,7 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 	GLuint vs, ps = 0;
 	ShaderSource shader_src;
 
-	if (!Render::shadersAvailable) {
+	if (!shadersAvailable) {
 		m_program = 0;
 		return false;
 	}
@@ -144,6 +146,22 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 	}
 
 	return true;
+}
+
+bool Shader::Use()
+{
+	if (!shadersEnabled || m_currentShader == this) return false;
+
+	glUseProgram(m_program);
+	set_invLogZfarPlus1(State::m_invLogZfarPlus1);
+	m_currentShader = this;
+	return true;
+}
+
+void Shader::Unuse()
+{
+	glUseProgram(0);
+	m_currentShader = 0;
 }
 
 } /* namespace Render */

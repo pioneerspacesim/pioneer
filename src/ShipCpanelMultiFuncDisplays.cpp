@@ -12,6 +12,10 @@
 #include "StringF.h"
 #include "KeyBindings.h"
 #include "Game.h"
+#include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
+
+using namespace Graphics;
 
 #define SCANNER_RANGE_MAX	100000.0f
 #define SCANNER_RANGE_MIN	1000.0f
@@ -21,14 +25,15 @@
 
 enum ScannerBlobWeight { WEIGHT_LIGHT, WEIGHT_HEAVY };
 
-static const GLfloat scannerNavTargetColour[3]     = { 0,      1.0f,   0      };
-static const GLfloat scannerCombatTargetColour[3]  = { 1.0f,   0,      0      };
-static const GLfloat scannerStationColour[3]       = { 1.0f,   1.0f,   1.0f   };
-static const GLfloat scannerShipColour[3]          = { 0.953f, 0.929f, 0.114f };
-static const GLfloat scannerMissileColour[3]       = { 0.941f, 0.149f, 0.196f };
-static const GLfloat scannerPlayerMissileColour[3] = { 0.953f, 0.929f, 0.114f };
-static const GLfloat scannerCargoColour[3]         = { 0.65f,  0.65f,  0.65f  };
-static const GLfloat scannerCloudColour[3]         = { 0.5f,   0.5f,   1.0f   };
+// XXX target colours should be unified throughout the game
+static const Color scannerNavTargetColour     = Color( 0,      1.0f,   0      );
+static const Color scannerCombatTargetColour  = Color( 1.0f,   0,      0      );
+static const Color scannerStationColour       = Color( 1.0f,   1.0f,   1.0f   );
+static const Color scannerShipColour          = Color( 0.953f, 0.929f, 0.114f );
+static const Color scannerMissileColour       = Color( 0.941f, 0.149f, 0.196f );
+static const Color scannerPlayerMissileColour = Color( 0.953f, 0.929f, 0.114f );
+static const Color scannerCargoColour         = Color( 0.65f,  0.65f,  0.65f  );
+static const Color scannerCloudColour         = Color( 0.5f,   0.5f,   1.0f   );
 
 MsgLogWidget::MsgLogWidget()
 {
@@ -103,7 +108,8 @@ void MsgLogWidget::GetSizeRequested(float size[2])
 
 /////////////////////////////////
 
-ScannerWidget::ScannerWidget()
+ScannerWidget::ScannerWidget(Graphics::Renderer *r) :
+	m_renderer(r)
 {
 	m_mode = SCANNER_MODE_AUTO;
 	m_currentRange = m_manualRange = m_targetRange = SCANNER_RANGE_MIN;
@@ -111,7 +117,8 @@ ScannerWidget::ScannerWidget()
 	InitObject();
 }
 
-ScannerWidget::ScannerWidget(Serializer::Reader &rd)
+ScannerWidget::ScannerWidget(Graphics::Renderer *r, Serializer::Reader &rd) :
+	m_renderer(r)
 {
 	m_mode = ScannerMode(rd.Int32());
 	m_currentRange = rd.Float();
@@ -161,23 +168,26 @@ void ScannerWidget::Draw()
 	if (!m_contacts.empty()) DrawBlobs(true);
 
 	// disc
-	glEnable(GL_BLEND);
-	glColor4f(0, 1.0f, 0, 0.1f);
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex2f(m_x, m_y);
+	m_renderer->SetBlendMode(BLEND_ALPHA);
+	Color green(0.f, 1.f, 0.f, 0.1f);
+
+	// XXX 2d vertices
+	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE, 128); //reserve some space for positions & colors
+	va.Add(vector3f(m_x, m_y, 0.f), green);
 	for (float a = 0; a < 2 * M_PI; a += M_PI * 0.02) {
-		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+		va.Add(vector3f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), 0.f), green);
 	}
-	glVertex2f(m_x, m_y + SCANNER_YSHRINK * m_y);
-	glEnd();
-	glDisable(GL_BLEND);
+	va.Add(vector3f(m_x, m_y + SCANNER_YSHRINK * m_y, 0.f), green);
+	m_renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
+
+	m_renderer->SetBlendMode(BLEND_SOLID);
 
 	// circles and spokes
 	glLineWidth(1);
 	DrawRingsAndSpokes(false);
 	// draw blended in slightly different places to anti-alias
 	glPushMatrix();
-	glEnable(GL_BLEND);
+	m_renderer->SetBlendMode(BLEND_ALPHA);
 	glTranslatef(0.5f * c2p[0], 0.5f * c2p[1], 0);
 	DrawRingsAndSpokes(true);
 	glTranslatef(0, -c2p[1], 0);
@@ -187,7 +197,7 @@ void ScannerWidget::Draw()
 	glTranslatef(0, c2p[1], 0);
 	DrawRingsAndSpokes(true);
 	glPopMatrix();
-	glDisable(GL_BLEND);
+	m_renderer->SetBlendMode(BLEND_SOLID);
 
 	// objects above
 	if (!m_contacts.empty()) DrawBlobs(false);
@@ -327,55 +337,58 @@ void ScannerWidget::DrawBlobs(bool below)
 	for (std::list<Contact>::iterator i = m_contacts.begin(); i != m_contacts.end(); ++i) {
 		ScannerBlobWeight weight = WEIGHT_LIGHT;
 
+		const Color *color = 0;
+
 		switch (i->type) {
 			case Object::SHIP:
 				if (i->isSpecial)
-					glColor3fv(scannerCombatTargetColour);
+					color = &scannerCombatTargetColour;
 				else
-					glColor3fv(scannerShipColour);
+					color = &scannerShipColour;
 				weight = WEIGHT_HEAVY;
 				break;
 
 			case Object::MISSILE:
 				if (i->isSpecial)
-					glColor3fv(scannerPlayerMissileColour);
+					color = &scannerPlayerMissileColour;
 				else
-					glColor3fv(scannerMissileColour);
+					color = &scannerMissileColour;
 				break;
 
 			case Object::SPACESTATION:
 				if (i->isSpecial)
-					glColor3fv(scannerNavTargetColour);
+					color = &scannerNavTargetColour;
 				else
-					glColor3fv(scannerStationColour);
+					color = &scannerStationColour;
 				weight = WEIGHT_HEAVY;
 				break;
 
 			case Object::CARGOBODY:
 				if (i->isSpecial)
-					glColor3fv(scannerNavTargetColour);
+					color = &scannerNavTargetColour;
 				else
-					glColor3fv(scannerCargoColour);
+					color = &scannerCargoColour;
 				break;
 
 			case Object::HYPERSPACECLOUD:
 				if (i->isSpecial)
-					glColor3fv(scannerNavTargetColour);
+					color = &scannerNavTargetColour;
 				else
-					glColor3fv(scannerCloudColour);
+					color = &scannerCloudColour;
 				break;
 
 			default:
 				continue;
 		}
 
+		float pointSize = 1.f;
 		if (weight == WEIGHT_LIGHT) {
 			glLineWidth(1);
-			glPointSize(3);
+			pointSize = 3.f;
 		}
 		else {
 			glLineWidth(2);
-			glPointSize(4);
+			pointSize = 4.f;
 		}
 
 		matrix4x4d rot;
@@ -389,14 +402,14 @@ void ScannerWidget::DrawBlobs(bool below)
 		float y_base = m_y + m_y * SCANNER_YSHRINK * float(pos.z) * m_scale;
 		float y_blob = y_base - m_y * SCANNER_YSHRINK * float(pos.y) * m_scale;
 
+		glColor3f(color->r, color->g, color->b);
 		glBegin(GL_LINES);
 		glVertex2f(x, y_base);
 		glVertex2f(x, y_blob);
 		glEnd();
 
-		glBegin(GL_POINTS);
-		glVertex2f(x, y_blob);
-		glEnd();
+		vector2f blob(x, y_blob);
+		m_renderer->DrawPoints2D(1, &blob, color, pointSize);
 	}
 }
 
@@ -406,32 +419,37 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 	static const float step = float(M_PI * 0.02); // 1/100th or 3.6 degrees
 
 	/* soicles */
-	if (blend) glColor4f(0, 0.4f, 0, 0.25f);
-	else glColor3f(0, 0.4f, 0);
 	/* inner soicle */
-	glBegin(GL_LINE_LOOP);
+	Color col(0.f, 0.4f, 0.f, 0.25f);
+
+	std::vector<vector2f> vts;
 	for (float a = 0; a < circle; a += step) {
-		glVertex2f(m_x + 0.1f * m_x * sin(a), m_y + SCANNER_YSHRINK * 0.1f * m_y * cos(a));
+		vts.push_back(vector2f(
+				m_x + 0.1f * m_x * sin(a),
+				m_y + SCANNER_YSHRINK * 0.1f * m_y * cos(a)));
 	}
-	glEnd();
+	m_renderer->DrawLines2D(vts.size(), &vts[0], col, LINE_LOOP);
+
 	/* dynamic soicles */
 	for (int p = 0; p < 7; ++p) {
+		std::vector<vector2f> circ;
 		float sz = (pow(2.0f, p) * 1000.0f) / m_currentRange;
 		if (sz <= 0.1f) continue;
 		if (sz >= 1.0f) break;
-		glBegin(GL_LINE_LOOP);
 		for (float a = 0; a < circle; a += step) {
-			glVertex2f(m_x + sz * m_x * sin(a), m_y + SCANNER_YSHRINK * sz * m_y * cos(a));
+			circ.push_back(vector2f(
+				m_x + sz * m_x * sin(a),
+				m_y + SCANNER_YSHRINK * sz * m_y * cos(a)));
 		}
-		glEnd();
+		m_renderer->DrawLines2D(circ.size(), &circ[0], col, LINE_LOOP);
 	}
 	/* schpokes */
-	glBegin(GL_LINES);
+	std::vector<vector2f> spokes;
 	for (float a = 0; a < circle; a += float(M_PI * 0.25)) {
-		glVertex2f(m_x + m_x * 0.1f * sin(a), m_y + 0.1f * SCANNER_YSHRINK * m_y * cos(a));
-		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+		spokes.push_back(vector2f(m_x + m_x * 0.1f * sin(a), m_y + 0.1f * SCANNER_YSHRINK * m_y * cos(a)));
+		spokes.push_back(vector2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a)));
 	}
-	glEnd();
+	m_renderer->DrawLines2D(spokes.size(), &spokes[0], col);
 
 	/* outer range soicle */
 	float range_percent = m_currentRange / SCANNER_RANGE_MAX;
@@ -446,34 +464,31 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 	}
 
 	/* draw bright range arg */
+	col = Color(0.7f, 0.7f, 0.f, 0.25f);
 	if (m_mode == SCANNER_MODE_AUTO) {
 		/* green like the scanner to indicate that the scanner is controlling the range */
-		if (blend) glColor4f(0, 0.7f, 0, 0.25f);
-		else glColor3f(0, 0.7f, 0);
-	} else {
-		if (blend) glColor4f(0.7f, 0.7f, 0, 0.25f);
-		else glColor3f(0.7f, 0.7f, 0);
+		col = Color(0.f, 0.7f, 0.f, 0.25f);
 	}
 
-	glBegin(GL_LINE_STRIP);
+	std::vector<vector2f> bg;
 	for (float a = 0; a < range_percent * circle; a += step) {
-		glVertex2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+		bg.push_back(vector2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a)));
 	}
-	glVertex2f(arc_end_x, arc_end_y);
-	glEnd();
+	bg.push_back(vector2f(arc_end_x, arc_end_y));
+	m_renderer->DrawLines2D(bg.size(), &bg[0], col, LINE_STRIP);
 
 	/* and dim surround for the remaining segment */
 	if (range_percent < 1.0f) {
-		if (blend) glColor4f(0.2f, 0.3f, 0.2f, 0.25f);
-		else glColor3f(0.2f, 0.3f, 0.2f);
-		glBegin(GL_LINE_STRIP);
-		glVertex2f(arc_end_x, arc_end_y);
+		col = Color(0.2f, 0.3f, 0.2f, 0.25f);
+		std::vector<vector2f> v;
+		v.push_back(vector2f(arc_end_x, arc_end_y));
 		for (float a = range_percent * circle; a < circle; a += step) {
-			glVertex2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+			v.push_back(vector2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a)));
 		}
 		/* reconnect to the start */
-		glVertex2f(m_x, m_y + SCANNER_YSHRINK * m_y);
-		glEnd();
+		// XXX why is this not a LINE_LOOP?
+		v.push_back(vector2f(m_x, m_y + SCANNER_YSHRINK * m_y));
+		m_renderer->DrawLines2D(v.size(), &v[0], col, LINE_STRIP);
 	}
 }
 

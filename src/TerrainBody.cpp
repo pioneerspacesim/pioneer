@@ -1,10 +1,11 @@
 #include "TerrainBody.h"
 #include "GeoSphere.h"
 #include "Pi.h"
-#include "render/Render.h"
 #include "WorldView.h"
 #include "Frame.h"
 #include "Game.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
 
 TerrainBody::TerrainBody(SBody *sbody) :
 	Body(), 
@@ -63,14 +64,14 @@ double TerrainBody::GetBoundingRadius() const
 	return m_sbody->GetRadius() * (1.1+m_geosphere->GetMaxFeatureHeight());
 }
 
-void TerrainBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void TerrainBody::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d ftran = viewTransform;
 	vector3d fpos = viewCoords;
 	double rad = m_sbody->GetRadius();
 
 	float znear, zfar;
-	Render::GetNearFarClipPlane(znear, zfar);
+	renderer->GetNearFarRange(znear, zfar);
 
 	double len = fpos.Length();
 	int shrink = 0;
@@ -105,17 +106,17 @@ void TerrainBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTrans
 		campos = campos * (1.0/rad);		// position of camera relative to planet "model"
 
 		// translation not applied until patch render to fix jitter
-		m_geosphere->Render(-campos, m_sbody->GetRadius(), scale);
+		m_geosphere->Render(renderer, -campos, m_sbody->GetRadius(), scale);
 		glTranslated(campos.x, campos.y, campos.z);
 
-		SubRender(campos);
+		SubRender(renderer, campos);
 
 		glDisable(GL_NORMALIZE);
 		
 		// if not using shader then z-buffer precision is hopeless and
 		// we can't place objects on the terrain without awful z artifacts
-		if (shrink || !Render::AreShadersEnabled()) {
-			glClear(GL_DEPTH_BUFFER_BIT);
+		if (shrink || !Graphics::AreShadersEnabled()) {
+			renderer->ClearDepthBuffer();
 		}
 	}
 	glPopMatrix();

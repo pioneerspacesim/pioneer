@@ -8,6 +8,10 @@
 #include "Player.h"
 #include "FloatComparison.h"
 #include "Game.h"
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
+
+using namespace Graphics;
 
 const double SystemView::PICK_OBJECT_RECT_SIZE = 12.0;
 
@@ -95,14 +99,16 @@ void SystemView::ResetViewpoint()
 
 void SystemView::PutOrbit(SBody *b, vector3d offset)
 {
-	glColor3f(0,1,0);
-	glBegin(GL_LINE_LOOP);
+	std::vector<vector3f> vts;
+	Color green(0.f, 1.f, 0.f, 1.f);
+	int vcount = 0;
 	for (double t=0.0; t<1.0; t += 0.01) {
 		vector3d pos = b->orbit.EvenSpacedPosAtTime(t);
 		pos = offset + pos * double(m_zoom);
-		glVertex3dv(&pos[0]);
+		vts.push_back(vector3f(pos));
+		vcount++;
 	}
-	glEnd();
+	m_renderer->DrawLines(vcount-1, &vts[0], green, LINE_LOOP);
 }
 
 void SystemView::OnClickObject(SBody *b)
@@ -173,15 +179,18 @@ void SystemView::PutBody(SBody *b, vector3d offset)
 		s_invRot[12] = s_invRot[13] = s_invRot[14] = 0;
 		s_invRot = s_invRot.InverseOf();
 
-		glColor3f(1,1,1);
-		glBegin(GL_TRIANGLE_FAN);
-		double radius = b->GetRadius() * m_zoom;
+		// Draw a filled circle
+		VertexArray va(ATTRIB_POSITION);
+		Material mat;
+		mat.unlit = true;
+		mat.diffuse = Color(1.f);
+		const double radius = b->GetRadius() * m_zoom;
 		const vector3f offsetf(offset);
 		for (float ang=0; ang<2.0f*M_PI; ang+=M_PI*0.05f) {
 			vector3f p = offsetf + s_invRot * vector3f(radius*sin(ang), -radius*cos(ang), 0);
-			glVertex3fv(&p.x);
+			va.Add(p);
 		}
-		glEnd();
+		m_renderer->DrawTriangles(&va, &mat, TRIANGLE_FAN);
 
 		PutLabel(b, offset);
 	}
@@ -222,6 +231,7 @@ void SystemView::PutSelectionBox(const SBody *b, const vector3d &rootPos, const 
 
 void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
 {
+	// XXX EnterOrtho shouldn't be necessary after Gui uses DrawLines2D correctly
 	Gui::Screen::EnterOrtho();
 
 	vector3d screenPos;
@@ -232,17 +242,17 @@ void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
 		const float y1 = float(screenPos.y - SystemView::PICK_OBJECT_RECT_SIZE * 0.5);
 		const float y2 = float(y1 + SystemView::PICK_OBJECT_RECT_SIZE);
 
-		const GLfloat vtx[8] = {
-			x1, y1,
-			x2, y1,
-			x2, y2,
-			x1, y2
-		};
-		glColor4f(col.r, col.g, col.b, col.a);
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINE_LOOP, 0, 4);
-		glDisableClientState(GL_VERTEX_ARRAY);
+        const GLfloat vtx[8] = {
+                x1, y1,
+                x2, y1,
+                x2, y2,
+                x1, y2
+        };
+        glColor4f(col.r, col.g, col.b, col.a);
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(2, GL_FLOAT, 0, vtx);
+        glDrawArrays(GL_LINE_LOOP, 0, 4);
+        glDisableClientState(GL_VERTEX_ARRAY);
 	}
 
 	Gui::Screen::LeaveOrtho();
@@ -261,13 +271,8 @@ void SystemView::GetTransformTo(SBody *b, vector3d &pos)
 
 void SystemView::Draw3D()
 {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(50, Pi::GetScrAspect(), 1.0, 1000.0);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_renderer->SetPerspectiveProjection(50.f, Pi::GetScrAspect(), 1.f, 1000.f);
+	m_renderer->ClearScreen();
 	
 	SystemPath path = Pi::sectorView->GetSelectedSystem();
 	if (m_system) {
@@ -282,16 +287,19 @@ void SystemView::Draw3D()
 
 	if (!m_system) m_system = StarSystem::GetCached(path);
 
-	glDisable(GL_LIGHTING);
+	// XXX fog is not going to be supported in renderer likely -
+	// fade the circles some other way
 	glEnable(GL_FOG);
 	glFogi(GL_FOG_MODE, GL_EXP2);
 	glFogfv(GL_FOG_COLOR, fogColor);
 	glFogf(GL_FOG_DENSITY, fogDensity);
 	glHint(GL_FOG_HINT, GL_NICEST);
 
-	glTranslatef(0,0,-ROUGH_SIZE_OF_TURD);
-	glRotatef(m_rot_x, 1, 0, 0);
-	glRotatef(m_rot_z, 0, 0, 1);
+	matrix4x4f trans = matrix4x4f::Identity();
+	trans.Translate(0,0,-ROUGH_SIZE_OF_TURD);
+	trans.Rotate(DEG2RAD(m_rot_x), 1, 0, 0);
+	trans.Rotate(DEG2RAD(m_rot_z), 0, 0, 1);
+	m_renderer->SetTransform(trans);
 	
 	vector3d pos(0,0,0);
 	if (m_selectedObject) GetTransformTo(m_selectedObject, pos);
@@ -309,7 +317,6 @@ void SystemView::Draw3D()
 		}
 	}
 
-	glEnable(GL_LIGHTING);
 	glDisable(GL_FOG);
 }
 

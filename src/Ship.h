@@ -14,6 +14,7 @@
 class SpaceStation;
 class HyperspaceCloud;
 class AICommand;
+namespace Graphics { class Renderer; }
 
 struct shipstats_t {
 	int max_capacity;
@@ -51,7 +52,7 @@ public:
 	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }
 	int GetDockingPort() const { return m_dockedWithPort; }
-	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 	void SetThrusterState(int axis, double level) {
 		if (m_thrusterFuel <= 0.f) level = 0.0;

@@ -4,7 +4,6 @@
 #include "libs.h"
 #include "gui/Gui.h"
 #include "View.h"
-#include "render/Render.h"
 #include "Serializer.h"
 #include "Background.h"
 #include "EquipType.h"
@@ -84,13 +83,13 @@ private:
 	void HideIndicator(Indicator &indicator);
 	void SeparateLabels(Gui::Label *a, Gui::Label *b);
 
-	void DrawCrosshair(float px, float py, float sz);
-	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead);
-	void DrawTargetSquare(const Indicator &marker);
-	void DrawVelocityIndicator(const Indicator &marker);
-	void DrawCircleIndicator(const Indicator &marker);
-	void DrawImageIndicator(const Indicator &marker, const char *icon_path);
-	void DrawEdgeMarker(const Indicator &marker);
+	void DrawCrosshair(float px, float py, float sz, const Color &c);
+	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c);
+	void DrawTargetSquare(const Indicator &marker, const Color &c);
+	void DrawVelocityIndicator(const Indicator &marker, const Color &c);
+	void DrawCircleIndicator(const Indicator &marker, const Color &c);
+	void DrawImageIndicator(const Indicator &marker, const char *icon_path, const Color &c);
+	void DrawEdgeMarker(const Indicator &marker, const Color &c);
 
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
 	void AddCommsNavOption(const std::string msg, Body *target);

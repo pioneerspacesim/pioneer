@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <sstream>
 
-namespace Render {
+namespace Graphics {
 
 const char *RenderTarget::fbo_incomplete::what() const throw() {
 	switch (m_errcode) {

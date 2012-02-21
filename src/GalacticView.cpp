@@ -10,6 +10,10 @@
 #include "Galaxy.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
+
+using namespace Graphics;
 
 GalacticView::GalacticView()
 {
@@ -80,7 +84,6 @@ void GalacticView::PutLabels(vector3d offset)
 	}
 
 	Gui::Screen::LeaveOrtho();
-	glDisable(GL_LIGHTING);			// what
 }
 
 
@@ -90,62 +93,59 @@ void GalacticView::Draw3D()
 	float offset_x = (pos.x*Sector::SIZE + Galaxy::SOL_OFFSET_X)/Galaxy::GALAXY_RADIUS;
 	float offset_y = (-pos.y*Sector::SIZE + Galaxy::SOL_OFFSET_Y)/Galaxy::GALAXY_RADIUS;
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-Pi::GetScrAspect(), Pi::GetScrAspect(), 1.0, -1.0, -1, 1);
-	
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glDisable(GL_LIGHTING);
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
+	m_renderer->SetOrthographicProjection(-Pi::GetScrAspect(), Pi::GetScrAspect(), 1.f, -1.f, -1.f, 1.f);
+	m_renderer->ClearScreen();
+	m_renderer->SetDepthTest(false);
+	m_renderer->SetBlendMode(BLEND_SOLID);
 
+	// XXX fixed function combiner
 	glEnable(GL_TEXTURE_2D);
 	m_texture->Bind();
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	
-	glScalef(m_zoom, m_zoom, 0.0f);
-	glTranslatef(-offset_x, -offset_y, 0.0f);
-
-	glBegin(GL_QUADS);
-		float w = 1.0;
-		float h = 1.0;
-		glTexCoord2f(0,h);
-		glVertex2f(-1.0,1.0);
-		glTexCoord2f(w,h);
-		glVertex2f(1.0,1.0);
-		glTexCoord2f(w,0);
-		glVertex2f(1.0,-1.0);
-		glTexCoord2f(0,0);
-		glVertex2f(-1.0,-1.0);
-	glEnd();
-
 	m_texture->Unbind();
 	glDisable(GL_TEXTURE_2D);
-
-	glColor3f(0.0,1.0,0.0);
-	glPointSize(3.0);
-	glBegin(GL_POINTS);
-		glVertex2f(offset_x, offset_y);
-	glEnd();
 	
-	glLoadIdentity();
-	glColor3f(1,1,1);
-	glPointSize(1.0);
-	glBegin(GL_LINE_STRIP);
-		glVertex2f(-0.25,-0.93);
-		glVertex2f(-0.25,-0.94);
-		glVertex2f(0.25,-0.94);
-		glVertex2f(0.25,-0.93);
-	glEnd();
+	//apply zoom
+	m_renderer->SetTransform(
+		matrix4x4f::Identity() *
+		matrix4x4f::ScaleMatrix(m_zoom, m_zoom, 0.f) *
+		matrix4x4f::Translation(-offset_x, -offset_y, 0.f));
+
+	// galaxy image
+	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0);
+	const float w = 1.0;
+	const float h = 1.0;
+	// XXX 2d verts
+	va.Add(vector3f(-1.0,-1.0, 0.f), vector2f(0.f,0.f));
+	va.Add(vector3f(-1.f, 1.f, 0.f), vector2f(0.f,h));
+	va.Add(vector3f( 1.0,-1.0, 0.f), vector2f(w,0.f));
+	va.Add(vector3f( 1.f, 1.f, 0.f), vector2f(w,h));
+
+	Material m;
+	m.unlit = true;
+	m.texture0 = m_texture.Get();
+	m_renderer->DrawTriangles(&va, &m, TRIANGLE_STRIP);
+
+	// "you are here" dot
+	Color green(0.f, 1.f, 0.f, 1.f);
+	vector2f offs(offset_x, offset_y);
+	m_renderer->DrawPoints2D(1, &offs, &green, 3.f);
+
+	// scale at the top
+	m_renderer->SetTransform(matrix4x4f::Identity());
+	Color white(1.f);
+	const vector2f vts[] = {
+		vector2f(-0.25,-0.93),
+		vector2f(-0.25,-0.94),
+		vector2f(0.25,-0.94),
+		vector2f(0.25,-0.93)
+	};
+	m_renderer->DrawLines2D(4, vts, white, LINE_STRIP);
 
 	m_labels->Clear();
 	PutLabels(-vector3d(offset_x, offset_y, 0.0));
 
-	glEnable(GL_LIGHTING);
-	glEnable(GL_DEPTH_TEST);
+	m_renderer->SetDepthTest(true);
 }
 	
 void GalacticView::Update()

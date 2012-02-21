@@ -171,6 +171,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 void TextureFont::RenderString(const char *str, float x, float y)
 {
 	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	float px = x;
 	float py = y;
@@ -215,6 +216,7 @@ void TextureFont::RenderString(const char *str, float x, float y)
 void TextureFont::RenderMarkup(const char *str, float x, float y)
 {
 	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	float px = x;
 	float py = y;
