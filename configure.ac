@@ -223,5 +223,5 @@ AC_SUBST([WARN_CFLAGS])
 AC_SUBST([WARN_CXXFLAGS])
 AC_SUBST([WARN_CPPFLAGS])
 
-AC_CONFIG_FILES([Makefile data/Makefile src/Makefile src/collider/Makefile src/gui/Makefile src/render/Makefile src/terrain/Makefile contrib/Makefile contrib/lua/Makefile contrib/oolua/Makefile osx/Makefile win32/Makefile])
+AC_CONFIG_FILES([Makefile data/Makefile src/Makefile src/collider/Makefile src/gui/Makefile src/graphics/Makefile src/terrain/Makefile contrib/Makefile contrib/lua/Makefile contrib/oolua/Makefile osx/Makefile win32/Makefile])
 AC_OUTPUT

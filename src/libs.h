@@ -23,6 +23,8 @@
 #endif /* PIONEER_DATA_DIR */
 
 #ifdef _WIN32
+#   pragma warning(disable : 4244) // "conversion from x to x: possible loss of data"
+#   pragma warning(disable : 4800) // int-to-bool "performance warning"
 #	include <malloc.h>
 
 #	ifndef __MINGW32__
@@ -51,6 +53,7 @@ inline int isfinite(double x) { return _finite(x); }
 #endif
 
 #include "fixed.h"
+#include "vector2.h"
 #include "vector3.h"
 #include "Aabb.h"
 #include "matrix4x4.h"

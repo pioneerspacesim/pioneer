@@ -10,6 +10,7 @@
 class Frame;
 class ObjMesh;
 class Space;
+namespace Graphics { class Renderer; }
 
 class Body: public Object {
 public:
@@ -44,7 +45,7 @@ public:
 	// as you can't test for collisions if different objects are on different 'steps'
 	virtual void StaticUpdate(const float timeStep) {}
 	virtual void TimeStepUpdate(const float timeStep) {}
-	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform) = 0;
+	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform) = 0;
 
 	virtual void SetFrame(Frame *f) { m_frame = f; }
 	Frame *GetFrame() const { return m_frame; }
@@ -92,6 +93,7 @@ public:
 	enum { FLAG_CAN_MOVE_FRAME = (1<<0),
                FLAG_LABEL_HIDDEN = (1<<1),
 	       FLAG_DRAW_LAST = (1<<2) }; // causes the body drawn after other bodies in the z-sort
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);

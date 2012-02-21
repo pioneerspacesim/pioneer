@@ -5,13 +5,15 @@
 #include "DynamicBody.h"
 #include "EquipType.h"
 
+namespace Graphics { class Renderer; }
+
 class CargoBody: public DynamicBody {
 public:
 	OBJDEF(CargoBody, DynamicBody, CARGOBODY);
 	CargoBody(Equip::Type t);
 	CargoBody() {}
 	Equip::Type GetCargoType() const { return m_type; }
-	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 protected:

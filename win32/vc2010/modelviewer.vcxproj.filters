@@ -16,8 +16,8 @@
     <Filter Include="src\gui">
       <UniqueIdentifier>{de900c24-ff02-4a99-a7fc-10d9ce21daf0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\render">
-      <UniqueIdentifier>{6f64c905-909e-49d1-a175-b072e12acd1a}</UniqueIdentifier>
+    <Filter Include="src\graphics">
+      <UniqueIdentifier>{9055f019-4a3b-416b-b0c6-58c1848f117a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -61,9 +61,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\VectorFont.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\FontManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\FontConfig.cpp">
@@ -144,15 +141,6 @@
     <ClCompile Include="..\..\src\gui\GuiWidget.cpp">
       <Filter>src\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\render\Render.cpp">
-      <Filter>src\render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\render\RenderShader.cpp">
-      <Filter>src\render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\render\RenderTarget.cpp">
-      <Filter>src\render</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\StringF.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -173,6 +161,42 @@
     </ClCompile>
     <ClCompile Include="..\..\src\TextureCache.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\TextSupport.cpp" />
+    <ClCompile Include="..\..\src\FontCache.cpp" />
+    <ClCompile Include="..\..\src\Font.cpp" />
+    <ClCompile Include="..\..\src\graphics\Drawables.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\graphics\Frustum.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\graphics\Graphics.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\graphics\Material.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\graphics\Renderer.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\graphics\RendererGL2.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\graphics\RendererLegacy.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\graphics\RenderTarget.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\graphics\Shader.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\graphics\StaticMesh.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\graphics\VertexArray.cpp">
+      <Filter>src\graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -228,9 +252,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\VectorFont.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\FontManager.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\FontConfig.h">
@@ -320,15 +341,6 @@
     <ClInclude Include="..\..\src\gui\GuiVScrollPortal.h">
       <Filter>src\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\render\Render.h">
-      <Filter>src\render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\render\RenderShader.h">
-      <Filter>src\render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\render\RenderTarget.h">
-      <Filter>src\render</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\StringF.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -349,6 +361,51 @@
     </ClInclude>
     <ClInclude Include="..\..\src\TextureCache.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\vector2.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\TextSupport.h" />
+    <ClInclude Include="..\..\src\FontCache.h" />
+    <ClInclude Include="..\..\src\Font.h" />
+    <ClInclude Include="..\..\src\graphics\Drawables.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\Frustum.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\Graphics.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\Material.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\Renderer.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\RendererGL2.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\RendererGLBuffers.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\RendererLegacy.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\RenderTarget.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\Shader.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\StaticMesh.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\Surface.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\VertexArray.h">
+      <Filter>src\graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
