@@ -13,9 +13,10 @@
 #include "ShipType.h"
 #include "TextureCache.h"
 #include "graphics/Graphics.h"
-#include "graphics/Renderer.h"
 #include "graphics/Material.h"
+#include "graphics/Renderer.h"
 #include "graphics/Shader.h"
+#include "graphics/VertexArray.h"
 #include <set>
 #include <algorithm>
 
@@ -41,25 +42,27 @@ struct RenderState {
 struct LmrUnknownMaterial {};
 
 namespace ShipThruster {
-	struct Vertex {
-		vector3f pos;
-		float u;
-		float v;
-		Vertex(const vector3f &_pos, float _u, float _v) :
-			pos(_pos), u(_u), v(_v) { }
-	};
-	static Texture *thrusTex;
-	static Texture *glowTex;
-	static std::vector<Vertex> verts;
-	static Graphics::Shader *thrusterProg;
+	//vertices for thruster flare & glow
+	static Graphics::VertexArray *tVerts;
+	static Graphics::VertexArray *gVerts;
+	static Graphics::Material tMat;
+	static Graphics::Material glowMat;
 	//cool purple-ish
 	static Color color(0.7f, 0.6f, 1.f, 1.f);
 
 	static void Init(TextureCache *tcache) {
-		thrusterProg = new Graphics::Shader("flat", "#define TEXTURE0 1\n");
+		tVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+		gVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
-		thrusTex = tcache->GetBillboardTexture(PIONEER_DATA_DIR"/textures/thruster.png");
-		glowTex = tcache->GetBillboardTexture(PIONEER_DATA_DIR"/textures/halo.png");
+		//set up materials
+		tMat.texture0 = tcache->GetBillboardTexture(PIONEER_DATA_DIR"/textures/thruster.png");
+		tMat.unlit = true;
+		tMat.twoSided = true;
+		tMat.diffuse = color;
+		glowMat.texture0 = tcache->GetBillboardTexture(PIONEER_DATA_DIR"/textures/halo.png");
+		glowMat.unlit = true;
+		glowMat.twoSided = true;
+		glowMat.diffuse = color;
 
 		//zero at thruster center
 		//+x down
@@ -72,15 +75,21 @@ namespace ShipThruster {
 		vector3f three(0.f,  w, 1.f); //bottom right
 		vector3f four(0.f, -w, 1.f); //bottom left
 
+		//uv coords
+		const vector2f topLeft(0.f, 1.f);
+		const vector2f topRight(1.f, 1.f);
+		const vector2f botLeft(0.f, 0.f);
+		const vector2f botRight(1.f, 0.f);
+
 		//add four intersecting planes to create a volumetric effect
 		for (int i=0; i < 4; i++) {
-			verts.push_back(Vertex(one, 0.f, 1.f));
-			verts.push_back(Vertex(two, 1.f, 1.f));
-			verts.push_back(Vertex(three, 1.f, 0.f));
+			tVerts->Add(one, topLeft);
+			tVerts->Add(two, topRight);
+			tVerts->Add(three, botRight);
 
-			verts.push_back(Vertex(three, 1.f, 0.f));
-			verts.push_back(Vertex(four, 0.f, 0.f));
-			verts.push_back(Vertex(one, 0.f, 1.f));
+			tVerts->Add(three, botRight);
+			tVerts->Add(four, botLeft);
+			tVerts->Add(one, topLeft);
 
 			one.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
 			two.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
@@ -89,8 +98,6 @@ namespace ShipThruster {
 		}
 
 		//create glow billboard for linear thrusters
-		//these are added in the same vertex array to avoid a
-		//vertex pointer change
 		const float gw = 1.0f; //0.4
 
 		const vector3f gone(-gw, -gw, 0.f); //top left
@@ -98,17 +105,18 @@ namespace ShipThruster {
 		const vector3f gthree(gw, gw, 0.f); //bottom right
 		const vector3f gfour(gw, -gw, 0.f); //bottom left
 
-		verts.push_back(Vertex(gone, 0.f, 1.f));
-		verts.push_back(Vertex(gtwo, 1.f, 1.f));
-		verts.push_back(Vertex(gthree,1.f, 0.f));
+		gVerts->Add(gone, topLeft);
+		gVerts->Add(gtwo, topRight);
+		gVerts->Add(gthree, botRight);
 
-		verts.push_back(Vertex(gthree, 1.f, 0.f));
-		verts.push_back(Vertex(gfour, 0.f, 0.f));
-		verts.push_back(Vertex(gone, 0.f, 1.f));
+		gVerts->Add(gthree, botRight);
+		gVerts->Add(gfour, botLeft);
+		gVerts->Add(gone, topLeft);
 	}
 
 	static void Uninit() {
-		delete thrusterProg;
+		delete tVerts;
+		delete gVerts;
 	}
 
 	struct Thruster
@@ -119,10 +127,10 @@ namespace ShipThruster {
 		vector3f m_pos;
 		vector3f m_dir;
 		float m_power;
-		void Render(const RenderState *rstate, const LmrObjParams *params);
+		void Render(Graphics::Renderer *r, const RenderState *rstate, const LmrObjParams *params);
 	};
 
-	void Thruster::Render(const RenderState *rstate, const LmrObjParams *params)
+	void Thruster::Render(Graphics::Renderer *renderer, const RenderState *rstate, const LmrObjParams *params)
 	{
 		const float scale = 1.0;
 		// to find v(0,0,0) position of root model (when putting thrusters on sub-models)
@@ -185,26 +193,15 @@ namespace ShipThruster {
 		vector3f viewdir = vector3f(-mv[2], -mv[6], -mv[10]).Normalized();
 		vector3f cdir(0.f, 0.f, -1.f);
 		//fade thruster out, when directly facing it
-		color.a = 1.0 - powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len*2);
-		thrusTex->Bind();
-		thrusterProg->Use();
-		thrusterProg->SetUniform("texture0", 0);
-		thrusterProg->SetUniform("color", color);
-		glColor4f(color.r, color.g, color.b, color.a);
+		tMat.diffuse.a = 1.0 - powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len*2);
 
-		glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &verts[0].pos);
-		glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &verts[0].u);
-		const int flare_size = 4*6;
-		glDrawArrays(GL_TRIANGLES, 0, flare_size);
-		thrusTex->Unbind();
+		renderer->DrawTriangles(tVerts, &tMat);
 		glPopMatrix ();
 
 		// linear thrusters get a secondary glow billboard
 		if (m_linear_only) {
-			glowTex->Bind();
-			color.a = powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len);
-			thrusterProg->SetUniform("color", color);
-			glColor4f(color.r, color.g, color.b, color.a);
+			glowMat.diffuse.a = powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len);
+
 			glPushMatrix();
 			matrix4x4f rot;
 			glGetFloatv(GL_MODELVIEW_MATRIX, &rot[0]);
@@ -219,27 +216,24 @@ namespace ShipThruster {
 			//this might seem a bit confusing, but:
 			//update glow billboard vertices so they face the camera
 			vector3f vert = start+rotv4;
-			verts[flare_size+0].pos = vector3f(vert.x, vert.y, vert.z);
-			verts[flare_size+5].pos = vector3f(vert.x, vert.y, vert.z);
+
+			gVerts->position[0] = vector3f(vert.x, vert.y, vert.z);
+			gVerts->position[5] = vector3f(vert.x, vert.y, vert.z);
 
 			vert = start+rotv3;
-			verts[flare_size+1].pos = vector3f(vert.x, vert.y, vert.z);
+			gVerts->position[1] = vector3f(vert.x, vert.y, vert.z);
 
 			vert = start+rotv2;
-			verts[flare_size+2].pos = vector3f(vert.x, vert.y, vert.z);
-			verts[flare_size+3].pos = vector3f(vert.x, vert.y, vert.z);
+			gVerts->position[2] = vector3f(vert.x, vert.y, vert.z);
+			gVerts->position[3] = vector3f(vert.x, vert.y, vert.z);
 
 			vert = start+rotv1;
-			verts[flare_size+4].pos = vector3f(vert.x, vert.y, vert.z);
+			gVerts->position[4] = vector3f(vert.x, vert.y, vert.z);
 
-			glDrawArrays(GL_TRIANGLES, flare_size, 6);
+			renderer->DrawTriangles(gVerts, &glowMat);
 
 			glPopMatrix();
-			glowTex->Unbind();
 		}
-
-		color.a = 1.f;
-		thrusterProg->Unuse();
 	}
 }
 
@@ -535,7 +529,7 @@ public:
 		glDisable(GL_CULL_FACE);
 		glEnable(GL_TEXTURE_2D);
 		for (unsigned int i=0; i<m_thrusters.size(); i++) {
-			m_thrusters[i].Render(rstate, params);
+			m_thrusters[i].Render(s_renderer, rstate, params);
 		}
 		glDisable(GL_TEXTURE_2D);
 		glColor3f(1.f, 1.f, 1.f);
