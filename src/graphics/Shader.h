@@ -53,19 +53,19 @@
 	SHADER_UNIFORM_INT(name)
 
 #define SHADER_CLASS_BEGIN(name) \
-	class name: public Render::Shader { \
+	class name: public Graphics::Shader { \
 		public: \
-		name(const char *shaderFilename, const char *additional_defines): Render::Shader() { \
+		name(const char *shaderFilename, const char *additional_defines): Graphics::Shader() { \
 			memset(this, 0, sizeof(name)); \
 			Compile(shaderFilename, additional_defines); \
 		} \
-		name(const char *shaderFilename): Render::Shader() { \
+		name(const char *shaderFilename): Graphics::Shader() { \
 			memset(this, 0, sizeof(name)); \
 			Compile(shaderFilename, 0); \
 		}
 #define SHADER_CLASS_END()	};
 
-namespace Render {
+namespace Graphics {
 
 	extern bool shadersAvailable;
 	extern bool shadersEnabled;
@@ -91,6 +91,13 @@ namespace Render {
 		int GetLocation(const char *name) {
 			return glGetUniformLocation(m_program, name);
 		}
+
+		// Bind the program, returns false if the same program is already in use
+		bool Use();
+		// Unbind the program
+		void Unuse();
+
+		//uniform setters
 		void SetUniform(const char *name, int v) {
 			glUniform1i(GetLocation(name), v);
 		}
@@ -102,6 +109,8 @@ namespace Render {
 	private:
 		void PrintGLSLCompileError(const char* filename, GLuint obj);
 	};
+
+	extern Shader *m_currentShader;
 
 	void FreeLibs();
 }

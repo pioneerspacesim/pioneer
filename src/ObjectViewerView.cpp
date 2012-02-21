@@ -7,6 +7,8 @@
 #include "GeoSphere.h"
 #include "terrain/Terrain.h"
 #include "Planet.h"
+#include "Light.h"
+#include "graphics/Renderer.h"
 
 #if WITH_OBJECTVIEWER
 
@@ -65,21 +67,14 @@ ObjectViewerView::ObjectViewerView(): View()
 
 void ObjectViewerView::Draw3D()
 {
-	static float rot;
-	rot += 0.1;
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
+	m_renderer->ClearScreen();
 	float znear, zfar;
-	Render::GetNearFarClipPlane(znear, zfar);
-	float fracH = znear / Pi::GetScrAspect();
-	glFrustum(-znear, znear, -fracH, fracH, znear, zfar);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glEnable(GL_LIGHT0);
+	m_renderer->GetNearFarRange(znear, zfar);
+	m_renderer->SetPerspectiveProjection(75.f, Pi::GetScrAspect(), znear, zfar);
+	m_renderer->SetTransform(matrix4x4f::Identity());
 
-	Render::State::SetZnearZfar(znear, zfar);
+	Light light;
+	light.SetType(Light::LIGHT_DIRECTIONAL);
 
 	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int m[2];
@@ -90,16 +85,14 @@ void ObjectViewerView::Draw3D()
 		
 	Body *body = Pi::player->GetNavTarget();
 	if (body) {
-		float lightPos[4];
 		if (body->IsType(Object::STAR))
-			lightPos[0] = lightPos[1] = lightPos[2] = lightPos[3] = 0;
+			light.SetPosition(vector3f(0.f));
 		else {
-			lightPos[0] = lightPos[1] = lightPos[2] = 0.577f;
-			lightPos[3] = 0;
+			light.SetPosition(vector3f(0.577f));
 		}
-		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+		m_renderer->SetLights(1, &light);
 	
-		body->Render(vector3d(0,0,-viewingDist), m_camRot);
+		body->Render(m_renderer, vector3d(0,0,-viewingDist), m_camRot);
 	}
 }
 

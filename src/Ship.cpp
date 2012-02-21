@@ -13,7 +13,6 @@
 #include "Sector.h"
 #include "Projectile.h"
 #include "Sound.h"
-#include "render/Render.h"
 #include "HyperspaceCloud.h"
 #include "ShipCpanel.h"
 #include "LmrModel.h"
@@ -24,6 +23,10 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
+#include "graphics/Material.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
+#include "graphics/Shader.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
@@ -1042,46 +1045,7 @@ bool Ship::SetWheelState(bool down)
 	return true;
 }
 
-#if 0
-bool Ship::IsFiringLasers()
-{
-	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
-		if (m_gunState[i]) return true;
-	}
-	return false;
-}
-
-/* Assumed to be at model coords */
-void Ship::RenderLaserfire()
-{
-	const ShipType &stype = GetShipType();
-	glDisable(GL_LIGHTING);
-	
-	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
-		if (!m_gunState[i]) continue;
-		glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
-		switch (m_equipment.Get(Equip::SLOT_LASER, i)) {
-			case Equip::LASER_2MW_BEAM:
-				glColor3f(1,.5,0); break;
-			case Equip::LASER_4MW_BEAM:
-				glColor3f(1,1,0); break;
-			default:
-			case Equip::LASER_1MW_BEAM:
-				glColor3f(1,0,0); break;
-		}
-		glLineWidth(2.0f);
-		glBegin(GL_LINES);
-		vector3f pos = stype.gunMount[i].pos;
-		glVertex3f(pos.x, pos.y, pos.z);
-		glVertex3fv(&((10000)*stype.gunMount[i].dir)[0]);
-		glEnd();
-		glPopAttrib();
-	}
-	glEnable(GL_LIGHTING);
-}
-#endif /* 0 */
-
-void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if ((!IsEnabled()) && !m_flightState) return;
 	LmrObjParams &params = GetLmrObjParams();
@@ -1105,18 +1069,20 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 
 		// draw shield recharge bubble
 		if (m_stats.shield_mass_left < m_stats.shield_mass) {
+			//XXX replace gluSphere with a lmrmodel or
+			//generate sphere geometry elswhere
 			float shield = 0.01f*GetPercentShields();
 			glDisable(GL_LIGHTING);
-			glEnable(GL_BLEND);
+			renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 			glColor4f((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
 			glPushMatrix();
 			glTranslatef(GLfloat(viewCoords.x), GLfloat(viewCoords.y), GLfloat(viewCoords.z));
-			Render::State::UseProgram(Render::simpleShader);
+			Graphics::simpleShader->Use();
 			gluSphere(Pi::gluQuadric, GetLmrCollMesh()->GetBoundingRadius(), 20, 20);
-			Render::State::UseProgram(0);
+			Graphics::simpleShader->Unuse();
 			glPopMatrix();
 			glEnable(GL_LIGHTING);
-			glDisable(GL_BLEND);
+			renderer->SetBlendMode(Graphics::BLEND_SOLID);
 		}
 	}
 	if (m_ecmRecharge > 0.0f) {
@@ -1138,19 +1104,13 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 			c.a = m_ecmRecharge / totalRechargeTime;
 		}
 
-		ModelTexture *tex = Pi::textureCache->GetModelTexture(PIONEER_DATA_DIR"/textures/ecm.png");
-		tex->Bind();
-		Render::PutPointSprites(100, v, 50.0f, c);
+		// XXX no need to recreate material every time
+		Graphics::Material mat;
+		mat.texture0 = Pi::textureCache->GetModelTexture(PIONEER_DATA_DIR"/textures/ecm.png");
+		mat.unlit = true;
+		mat.diffuse = c;
+		renderer->DrawPointSprites(100, v, &mat, 50.f);
 	}
-
-#if 0
-	if (IsFiringLasers()) {
-		glPushMatrix();
-		TransformToModelCoords(camFrame);
-		RenderLaserfire();
-		glPopMatrix();
-	}
-#endif /* 0 */
 }
 
 bool Ship::Jettison(Equip::Type t)

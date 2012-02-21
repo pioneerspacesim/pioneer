@@ -9,6 +9,8 @@
 #include "HyperspaceCloud.h"
 #include "MarketAgent.h"
 
+namespace Graphics { class Renderer; }
+
 struct Mission : RefItem<Mission> {
 	enum MissionState { // <enum scope='Mission' name=MissionStatus>
 		ACTIVE,
@@ -30,7 +32,7 @@ public:
 	Player(ShipType::Type shipType);
 	Player() { m_mouseActive = false; m_invertMouse = false; }
 	void PollControls(const float timeStep);
-	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void SetDockedWith(SpaceStation *, int port);
 	void StaticUpdate(const float timeStep);
 	enum FlightControlState { CONTROL_MANUAL, CONTROL_FIXSPEED, CONTROL_AUTOPILOT };

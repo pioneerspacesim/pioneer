@@ -1,6 +1,10 @@
 #include "Star.h"
-#include "render/Render.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
 #include "gui/Gui.h"
+#include "graphics/VertexArray.h"
+
+using namespace Graphics;
 
 Star::Star() : TerrainBody()
 {
@@ -21,13 +25,10 @@ double Star::GetClipRadius() const
 	return sbody->GetRadius() * 8 * wf;
 }
 
-void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void Star::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	glDisable(GL_LIGHTING);
-	glDisable(GL_DEPTH_TEST);
+	renderer->SetDepthTest(false);
 	glPushMatrix();
-
-	Render::State::UseProgram(0);
 
 	double radius = GetClipRadius();
 	
@@ -41,47 +42,39 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		len *= 0.25;
 	}
 
-	glTranslatef(float(fpos.x), float(fpos.y), float(fpos.z));
+	matrix4x4d trans = matrix4x4d::Identity();
+	trans.Translate(float(fpos.x), float(fpos.y), float(fpos.z));
 	
 	// face the camera dammit
 	vector3d zaxis = viewCoords.NormalizedSafe();
 	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
 	vector3d yaxis = zaxis.Cross(xaxis);
 	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
-	glMultMatrixd(&rot[0]);
+
+	renderer->SetTransform(trans * rot);
 
 	const float *col = StarSystem::starRealColors[GetSBody()->type];
-	const float b = 1.0f;
 
 	MTRand(rand);
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
-	glEnable(GL_BLEND);
-	glBegin(GL_TRIANGLE_FAN);
-	glColor4f(col[0], col[1], col[2], 1);
-	glVertex3f(0,0,0);
-	glColor4f(0,0,0,0);
+	renderer->SetBlendMode(BLEND_ALPHA_ONE);
+
+	//render star halo
+	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
+	const Color bright(col[0], col[1], col[2], 1.f);
+	const Color dark(0.f, 0.f, 0.f, 0.f);
+
+	va.Add(vector3f(0.f), bright);
 	for (float ang=0; ang<2*M_PI; ang+=0.26183+rand.Double(0,0.4)) {
-		glVertex3f(rad*sin(ang), rad*cos(ang), 0);
+		va.Add(vector3f(rad*sin(ang), rad*cos(ang), 0), dark);
 	}
-	glVertex3f(0, rad, 0);
-	glEnd();
-	glDisable(GL_BLEND);
-	
-	Render::State::UseProgram(Render::simpleShader);
-	glEnable(GL_BLEND);
-	glColor4f(b*col[0],b*col[1],b*col[2],1);
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(0,0,0);
-	glColor4f(0,0,0,0);
-	glEnd();
-	
-	Render::State::UseProgram(0);
-	glDisable(GL_BLEND);
+	va.Add(vector3f(0.f, rad, 0.f), dark);
+
+	renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
+	renderer->SetBlendMode(BLEND_SOLID);
 
 	glPopMatrix();
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
+	renderer->SetDepthTest(true);
 
-	TerrainBody::Render(viewCoords, viewTransform);
+	TerrainBody::Render(renderer, viewCoords, viewTransform);
 }
