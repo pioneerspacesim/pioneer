@@ -4,13 +4,16 @@
 #include "Pi.h"
 #include "StarSystem.h"
 #include "RefCounted.h"
-#include "render/Material.h"
-#include "render/Renderer.h"
-#include "render/RenderFrustum.h"
-#include "render/Render.h"
-#include "render/VertexArray.h"
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
+#include "graphics/Frustum.h"
+#include "graphics/Graphics.h"
+#include "graphics/VertexArray.h"
+#include "graphics/Shader.h"
 #include <deque>
 #include <algorithm>
+
+using namespace Graphics;
 
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
@@ -860,7 +863,7 @@ public:
 		else return e->kids[we_are];
 	}
 	
-	void Render(vector3d &campos, const Render::Frustum &frustum) {
+	void Render(vector3d &campos, const Frustum &frustum) {
 		PiVerify(SDL_mutexP(m_kidsLock)==0);
 		if (kids[0]) {
 			for (int i=0; i<4; i++) kids[i]->Render(campos, frustum);
@@ -1322,7 +1325,7 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, const float scale) {
 	glPushMatrix();
 	glTranslated(-campos.x, -campos.y, -campos.z);
-	Render::Frustum frustum = Render::Frustum::FromGLState();
+	Frustum frustum = Frustum::FromGLState();
 
 	const float atmosRadius = ATMOSPHERE_RADIUS;
 	
@@ -1330,7 +1333,7 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 	// for each body using its GetBoundingRadius() value
 	GeosphereShader *shader = 0;
 
-	if (Render::AreShadersEnabled()) {
+	if (AreShadersEnabled()) {
 		Color atmosCol;
 		double atmosDensity;
 		matrix4x4d modelMatrix;
@@ -1341,7 +1344,7 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 		atmosDensity *= 0.00005;
 
 		if (atmosDensity > 0.0) {
-			shader = s_geosphereSkyShader[Render::State::GetNumLights()-1];
+			shader = s_geosphereSkyShader[Graphics::State::GetNumLights()-1];
 			shader->Use();
 			shader->set_geosphereScale(scale);
 			shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
@@ -1364,14 +1367,14 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 
 		if ((m_sbody->type == SBody::TYPE_BROWN_DWARF) || 
 			(m_sbody->type == SBody::TYPE_STAR_M)){
-			shader = s_geosphereDimStarShader[Render::State::GetNumLights()-1];
+			shader = s_geosphereDimStarShader[Graphics::State::GetNumLights()-1];
 			shader->Use();
 		}
 		else if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) {
 			shader = s_geosphereStarShader;
 			shader->Use();
 		} else {
-			shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
+			shader = s_geosphereSurfaceShader[Graphics::State::GetNumLights()-1];
 			shader->Use();
 			shader->set_geosphereScale(scale);
 			shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
@@ -1393,7 +1396,7 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 	Color oldAmbient;
 	glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
 
-	float b = Render::AreShadersEnabled() ? 2.0f : 1.5f; //XXX ??
+	float b = AreShadersEnabled() ? 2.0f : 1.5f; //XXX ??
 
 	if ((m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) || (m_sbody->type == SBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance

@@ -1,13 +1,16 @@
+#include "Shader.h"
 #include "Material.h"
-#include "Render.h"
+#include "Graphics.h"
 #include "RendererGL2.h"
 #include "RendererGLBuffers.h"
 #include "Texture.h"
 #include "VertexArray.h"
 
-Render::Shader *simpleTextured;
-Render::Shader *flatProg;
-Render::Shader *flatTextured;
+namespace Graphics {
+
+Shader *simpleTextured;
+Shader *flatProg;
+Shader *flatTextured;
 
 RendererGL2::RendererGL2(int w, int h) :
 	RendererLegacy(w, h)
@@ -17,9 +20,9 @@ RendererGL2::RendererGL2(int w, int h) :
 	//http://www.gamedev.net/blog/73/entry-2006307-tip-of-the-day-logarithmic-zbuffer-artifacts-fix/
 	m_minZNear = 0.0001f;
 	m_maxZFar = 10000000.0f;
-	simpleTextured = new Render::Shader("simpleTextured");
-	flatProg = new Render::Shader("flat");
-	flatTextured = new Render::Shader("flat", "#define TEXTURE0 1\n");
+	simpleTextured = new Shader("simpleTextured");
+	flatProg = new Shader("flat");
+	flatTextured = new Shader("flat", "#define TEXTURE0 1\n");
 }
 
 RendererGL2::~RendererGL2()
@@ -48,7 +51,7 @@ bool RendererGL2::SetPerspectiveProjection(float fov, float aspect, float near, 
 	glFrustum(xmin, xmax, ymin, ymax, near, far);
 
 	// update values for log-z hack
-	Render::State::SetZnearZfar(near, far);
+	State::SetZnearZfar(near, far);
 	return true;
 }
 
@@ -56,7 +59,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, LineTy
 {
 	if (count < 2 || !v) return false;
 
-	Render::simpleShader->Use();
+	simpleShader->Use();
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
@@ -64,7 +67,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, LineTy
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
-	Render::simpleShader->Unuse();
+	simpleShader->Unuse();
 
 	return true;
 }
@@ -89,20 +92,20 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 	glPushAttrib(GL_ENABLE_BIT);
 
 	if (!mat) {
-		Render::simpleShader->Use();
+		simpleShader->Use();
 		return;
 	}
 
 	const bool flat = !mat->vertexColors;
 
 	//choose shader
-	Render::Shader *s = 0;
+	Shader *s = 0;
 	if (mat->shader) {
 		s = mat->shader;
 	} else {
 		if (flat && mat->texture0) s = flatTextured;
 		else if (flat) s = flatProg;
-		else s = Render::simpleShader;
+		else s = simpleShader;
 	}
 
 	assert(s);
@@ -134,6 +137,8 @@ void RendererGL2::UnApplyMaterial(const Material *mat)
 		}
 	}
 	// XXX won't be necessary
-	Render::m_currentShader = 0;
+	m_currentShader = 0;
 	glUseProgram(0);
+}
+
 }

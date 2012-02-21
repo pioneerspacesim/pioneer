@@ -1,10 +1,10 @@
 #include "ShipSpinnerWidget.h"
-#include "render/Render.h"
 #include "Pi.h"
 #include "Game.h"
 #include "Ship.h"
 #include "Light.h"
-#include "render/Renderer.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
 
 ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, float height) :
 	m_width(width),

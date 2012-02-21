@@ -7,10 +7,12 @@
 #include "Sfx.h"
 #include "Game.h"
 #include "Light.h"
-#include "render/Render.h"
-#include "render/Renderer.h"
-#include "render/VertexArray.h"
-#include "render/Material.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
+#include "graphics/Material.h"
+
+using namespace Graphics;
 
 Camera::Camera(const Body *body, float width, float height, float fovY, float znear, float zfar) :
 	m_body(body),
@@ -159,7 +161,7 @@ void Camera::Draw(Renderer *renderer)
 	}
 
 	Sfx::RenderAll(renderer, Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
-	Render::UnbindAllBuffers();
+	UnbindAllBuffers();
 
 	m_body->GetFrame()->RemoveChild(m_camFrame);
 	delete m_camFrame;

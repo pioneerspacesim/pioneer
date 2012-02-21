@@ -7,11 +7,13 @@
 #include "Ship.h" // for the flight state and ship animation enums
 #include "SpaceStation.h" // for the space station animation enums
 #include "TextureCache.h"
-#include "Drawables.h"
-#include "render/Material.h"
-#include "render/Render.h"
-#include "render/Renderer.h"
-#include "render/VertexArray.h"
+#include "graphics/Drawables.h"
+#include "graphics/Material.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
+
+using namespace Graphics;
 
 static Renderer *renderer;
 
@@ -531,7 +533,7 @@ void Viewer::MainLoop()
 			matrix4x4f mo = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos);// * modelRot.InverseOf();
 			VisualizeBoundingRadius(mo, m_model->GetDrawClipRadius());
 		}
-		Render::UnbindAllBuffers();
+		Graphics::UnbindAllBuffers();
 
 		{
 			char buf[128];
@@ -668,7 +670,7 @@ int main(int argc, char **argv)
 
 	TextureCache *textureCache = new TextureCache;
 
-	renderer = Render::Init(g_width, g_height, true);
+	renderer = Graphics::Init(g_width, g_height, true);
 	Gui::Init(g_width, g_height, g_width, g_height);
 
 	LmrModelCompilerInit(renderer, textureCache);

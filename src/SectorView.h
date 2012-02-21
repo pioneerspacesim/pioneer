@@ -9,9 +9,7 @@
 #include "View.h"
 #include "Sector.h"
 #include "SystemPath.h"
-#include "Drawables.h"
-#include "render/Renderer.h"
-#include "render/VertexArray.h"
+#include "graphics/Drawables.h"
 
 class SectorView: public View {
 public:
@@ -92,7 +90,7 @@ private:
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::ImageButton *m_galaxyButton;
 	Gui::TextEntry *m_searchBox;
-	VertexArray *m_disk;
+	Graphics::VertexArray *m_disk;
 	
 	Gui::LabelSet *m_clickableLabels;
 
@@ -111,7 +109,7 @@ private:
 	std::map<SystemPath,Sector*> m_sectorCache;
 
 	float m_playerHyperspaceRange;
-	Drawables::Line3D m_jumpLine;
+	Graphics::Drawables::Line3D m_jumpLine;
 };
 
 #endif /* _SECTORVIEW_H */

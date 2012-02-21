@@ -16,7 +16,7 @@ class CollMeshSet;
 class Ship;
 struct Mission;
 class CityOnPlanet;
-class Renderer;
+namespace Graphics { class Renderer; }
 
 struct SpaceStationType {
 	LmrModel *model;
@@ -83,7 +83,7 @@ public:
 	virtual ~SpaceStation();
 	virtual double GetBoundingRadius() const;
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
-	virtual void Render(Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	/** You should call Ship::Undock() rather than this.
 	 * Returns true on success, false if permission denied */
 	bool LaunchShip(Ship *ship, int port);

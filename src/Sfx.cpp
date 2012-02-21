@@ -6,9 +6,11 @@
 #include "Space.h"
 #include "Pi.h"
 #include "TextureCache.h"
-#include "render/Material.h"
-#include "render/Render.h"
-#include "render/Renderer.h"
+#include "graphics/Material.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
+
+using namespace Graphics;
 
 #define MAX_SFX_PER_FRAME 1024
 

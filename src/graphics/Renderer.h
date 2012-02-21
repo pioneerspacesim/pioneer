@@ -3,6 +3,11 @@
 
 #include "libs.h"
 
+class Light;
+class Texture;
+
+namespace Graphics {
+
 /*
  * Renderer base class. A Renderer draws points, lines, triangles, changes blend modes
  * and other states. Data flows mostly one way: you tell the renderer to do things, but
@@ -28,12 +33,10 @@
  * Reboot postprocessing, again
  */
 
-class Light;
 class Material;
 class RendererLegacy;
 class StaticMesh;
 class Surface;
-class Texture;
 class VertexArray;
 
 namespace Render {
@@ -52,7 +55,7 @@ enum PrimitiveType {
 	TRIANGLES = GL_TRIANGLES,
 	TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
 	TRIANGLE_FAN = GL_TRIANGLE_FAN,
-	TYPE_POINTS = GL_POINTS
+	POINTS = GL_POINTS
 };
 
 enum BlendMode {
@@ -127,5 +130,27 @@ protected:
 	int m_width;
 	int m_height;
 };
+
+// subclass this to store renderer specific information
+// See top of RendererLegacy.cpp
+struct RenderInfo {
+	RenderInfo() { }
+	virtual ~RenderInfo() { }
+};
+
+// baseclass for a renderable thing. so far it just means that the renderer
+// can store renderer-specific data in it (RenderInfo)
+struct Renderable {
+public:
+	Renderable(): m_renderInfo(0) {}
+
+	RenderInfo *GetRenderInfo() const { return m_renderInfo.Get(); }
+	void SetRenderInfo(RenderInfo *renderInfo) { m_renderInfo.Reset(renderInfo); }
+
+private:
+	ScopedPtr<RenderInfo> m_renderInfo;
+};
+
+}
 
 #endif

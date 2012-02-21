@@ -3,6 +3,8 @@
 
 #include "libs.h"
 
+namespace Graphics {
+
 /* OpenGL renderer data structures and bufferobject stuff.
  * This can be used by both the Legacy and GL2 renderers
  */
@@ -162,5 +164,7 @@ public:
 		ColorPointer(sizeof(UnlitVertex), offsetof(UnlitVertex, color));
 	}
 };
+
+}
 
 #endif

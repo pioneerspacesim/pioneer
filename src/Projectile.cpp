@@ -13,9 +13,10 @@
 #include "TextureCache.h"
 #include "Pi.h"
 #include "Game.h"
-#include "render/Material.h"
-#include "render/Render.h"
-#include "render/Renderer.h"
+#include "graphics/Material.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
+#include "graphics/Shader.h"
 
 Projectile::Projectile(): Body()
 {
@@ -26,7 +27,7 @@ Projectile::Projectile(): Body()
 	m_radius = 0;
 	m_flags |= FLAG_DRAW_LAST;
 
-	m_prog = new Render::Shader("flat", "#define TEXTURE0 1\n");
+	m_prog = new Graphics::Shader("flat", "#define TEXTURE0 1\n");
 
 	m_sideTex = Pi::textureCache->GetBillboardTexture(PIONEER_DATA_DIR "/textures/projectile_l.png");
 	m_glowTex = Pi::textureCache->GetBillboardTexture(PIONEER_DATA_DIR "/textures/projectile_w.png");
@@ -221,7 +222,7 @@ void Projectile::StaticUpdate(const float timeStep)
 	}
 }
 
-void Projectile::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void Projectile::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	vector3d _from = viewTransform * GetInterpolatedPosition();
 	vector3d _to = viewTransform * (GetInterpolatedPosition() + m_dirVel);
@@ -246,7 +247,7 @@ void Projectile::Render(Renderer *renderer, const vector3d &viewCoords, const ma
 	glEnableClientState (GL_VERTEX_ARRAY);
 	glEnableClientState (GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState (GL_NORMAL_ARRAY);
-	renderer->SetBlendMode(BLEND_ALPHA_ONE);
+	renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
 	renderer->SetDepthWrite(false);
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_2D);
@@ -299,7 +300,7 @@ void Projectile::Render(Renderer *renderer, const vector3d &viewCoords, const ma
 	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
 	glColor3f(1.f, 1.f, 1.f);
-	renderer->SetBlendMode(BLEND_SOLID);
+	renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	renderer->SetDepthWrite(true);
 	glEnable(GL_CULL_FACE);
 	glDisableClientState (GL_VERTEX_ARRAY);

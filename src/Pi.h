@@ -31,7 +31,7 @@ class Ship;
 class GameMenuView;
 class LuaConsole;
 class LuaNameGen;
-class Renderer;
+namespace Graphics { class Renderer; }
 namespace Sound { class MusicPlayer; }
 class TextureCache;
 
@@ -156,7 +156,7 @@ public:
 	static ShipCpanel *cpan;
 	static GLUquadric *gluQuadric;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
-	static Renderer* renderer; // blargh
+	static Graphics::Renderer* renderer; // blargh
 
 #if WITH_OBJECTVIEWER
 	static ObjectViewerView *objectViewerView;

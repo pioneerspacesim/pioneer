@@ -2,10 +2,13 @@
 #define _DRAWABLES_H
 
 #include "libs.h"
-#include "render/VertexArray.h"
-#include "render/Renderer.h"
+#include "graphics/VertexArray.h"
+#include "graphics/Renderer.h"
+
+namespace Graphics {
 
 namespace Drawables {
+
 // A thing that can draw itself using renderer
 // (circles, disks, polylines etc)
 class Drawable {
@@ -42,6 +45,8 @@ private:
 	Color m_colors[2];
 	float m_width;
 };
+
+}
 
 }
 

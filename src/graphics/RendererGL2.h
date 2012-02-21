@@ -1,5 +1,7 @@
-#include "render/Renderer.h"
-#include "render/RendererLegacy.h"
+#include "Renderer.h"
+#include "RendererLegacy.h"
+
+namespace Graphics {
 
 /*
  * OpenGL 2.x renderer
@@ -27,3 +29,5 @@ protected:
 	virtual void ApplyMaterial(const Material *mat);
 	virtual void UnApplyMaterial(const Material *mat);
 };
+
+}

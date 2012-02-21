@@ -3,9 +3,11 @@
 #include "Pi.h"
 #include "LuaNameGen.h"
 #include "Texture.h"
-#include "render/Material.h"
-#include "render/Renderer.h"
-#include "render/VertexArray.h"
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
+
+using namespace Graphics;
 
 #define FACE_WIDTH  295
 #define FACE_HEIGHT 285

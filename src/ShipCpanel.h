@@ -11,15 +11,15 @@
 
 class Body;
 class SpaceStation;
-class Renderer;
+namespace Graphics { class Renderer; }
 class CameraSwitchWidget;
 
 class ShipCpanel: public Gui::Fixed {
 	friend class CameraSwitchWidget;
 
 public:
-	ShipCpanel(Renderer *r);
-    ShipCpanel(Serializer::Reader &rd, Renderer *r);
+	ShipCpanel(Graphics::Renderer *r);
+    ShipCpanel(Serializer::Reader &rd, Graphics::Renderer *r);
 	virtual ~ShipCpanel();
 	virtual void Draw();
 	void Update();

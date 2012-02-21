@@ -3,10 +3,12 @@
 #include "WorldView.h"
 #include "GeoSphere.h"
 #include "perlin.h"
-#include "render/Material.h"
-#include "render/Renderer.h"
-#include "render/Render.h"
-#include "render/VertexArray.h"
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
+#include "graphics/Graphics.h"
+#include "graphics/VertexArray.h"
+
+using namespace Graphics;
 
 struct ColRangeObj_t {
 	float baseCol[4]; float modCol[4]; float modAll;
@@ -158,7 +160,7 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 	mat.unlit = true;
 	mat.twoSided = true;
 	// XXX worldview numlights always 1!
-	mat.shader = Render::planetRingsShader[Pi::worldView->GetNumLights()-1];
+	mat.shader = Graphics::planetRingsShader[Pi::worldView->GetNumLights()-1];
 
 //	MTRand rng((int)Pi::game->GetTime());
 	MTRand rng(GetSBody()->seed+965467);
@@ -287,5 +289,5 @@ void Planet::SubRender(Renderer *r, const vector3d &camPos)
 {
 	if (GetSBody()->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings(r);
 	
-	if (!Render::AreShadersEnabled()) DrawAtmosphere(r, camPos);
+	if (!AreShadersEnabled()) DrawAtmosphere(r, camPos);
 }

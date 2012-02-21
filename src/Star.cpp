@@ -1,8 +1,10 @@
 #include "Star.h"
-#include "render/Render.h"
-#include "render/Renderer.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
 #include "gui/Gui.h"
-#include "render/VertexArray.h"
+#include "graphics/VertexArray.h"
+
+using namespace Graphics;
 
 Star::Star() : TerrainBody()
 {
@@ -23,7 +25,7 @@ double Star::GetClipRadius() const
 	return sbody->GetRadius() * 8 * wf;
 }
 
-void Star::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void Star::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	renderer->SetDepthTest(false);
 	glPushMatrix();

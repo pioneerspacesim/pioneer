@@ -5,9 +5,11 @@
 #include "EquipType.h"
 
 class Frame;
-class Renderer;
 class Texture;
-namespace Render { class Shader; }
+namespace Graphics {
+	class Renderer;
+	class Shader;
+}
 
 class Projectile: public Body {
 public:
@@ -20,7 +22,7 @@ public:
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition() const { return vector3d(m_orient[12], m_orient[13], m_orient[14]); }
 	virtual double GetBoundingRadius() const { return m_radius; }
-	virtual void Render(Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	void TimeStepUpdate(const float timeStep);
 	void StaticUpdate(const float timeStep);
 	virtual void NotifyRemoved(const Body* const removedBody);
@@ -52,7 +54,7 @@ private:
 	Texture *m_sideTex;
 	Texture *m_glowTex;
 	std::vector<Vertex> m_verts;
-	Render::Shader *m_prog;
+	Graphics::Shader *m_prog;
 };
 
 #endif /* _PROJECTILE_H */

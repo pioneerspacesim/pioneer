@@ -3,17 +3,11 @@
 
 #include "Renderer.h"
 #include "VertexArray.h"
-#include "Surface.h"
 #include <vector>
 
-class Surface;
+namespace Graphics {
 
-// subclass this to store renderer specific information
-// See top of RendererLegacy.cpp
-struct RenderInfo {
-	RenderInfo() { }
-	virtual ~RenderInfo() { }
-};
+class Surface;
 
 /*
  * StaticMesh can hold multiple surfaces and is intended for complex,
@@ -21,12 +15,14 @@ struct RenderInfo {
  * whatever they prefer. In theory the original vertex data could be
  * thrown away... but perhaps it is better not to optimize that yet.
  */
-class StaticMesh {
+class StaticMesh : public Renderable {
 public:
 	StaticMesh(PrimitiveType t);
 	~StaticMesh();
 
-	Surface *AddSurface();
+	PrimitiveType GetPrimtiveType() const { return m_primitiveType; }
+
+	void AddSurface(Surface *s);
 	Surface *GetSurface(int idx) const { return m_surfaces.at(idx); }
 
 	//useful to know for buffers
@@ -36,15 +32,17 @@ public:
 	//blarf
 	AttributeSet GetAttributeSet() const;
 
+	typedef std::vector<Surface*>::const_iterator SurfaceIterator;
+	const SurfaceIterator SurfacesBegin() const { return m_surfaces.begin(); }
+	const SurfaceIterator SurfacesEnd() const { return m_surfaces.end(); }
+
 	bool cached;
 
 private:
-	friend class Renderer;
-	friend class RendererLegacy;
-	friend class RendererGL2;
-	RenderInfo *m_renderInfo;
 	PrimitiveType m_primitiveType;
-	SurfaceList m_surfaces;
+	std::vector<Surface*> m_surfaces;
 };
+
+}
 
 #endif

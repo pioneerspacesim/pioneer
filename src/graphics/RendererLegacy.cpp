@@ -1,22 +1,25 @@
 #include "RendererLegacy.h"
 #include "Light.h"
 #include "Material.h"
-#include "Render.h"
+#include "Graphics.h"
 #include "RendererGLBuffers.h"
 #include "StaticMesh.h"
 #include "Surface.h"
 #include "Texture.h"
 #include "VertexArray.h"
 #include <stddef.h> //for offsetof
+#include "utils.h"
 
-struct GLRenderInfo : public RenderInfo {
-	GLRenderInfo() :
+namespace Graphics {
+
+struct MeshRenderInfo : public RenderInfo {
+	MeshRenderInfo() :
 		numIndices(0),
 		vbuf(0),
 		ibuf(0)
 	{
 	}
-	virtual ~GLRenderInfo() {
+	virtual ~MeshRenderInfo() {
 		//don't delete, if these come from a pool!
 		delete vbuf;
 		delete ibuf;
@@ -24,6 +27,14 @@ struct GLRenderInfo : public RenderInfo {
 	int numIndices;
 	VertexBuffer *vbuf;
 	IndexBuffer *ibuf;
+};
+
+// multiple surfaces can be buffered in one vbo so need to
+// save starting offset + amount to draw
+struct SurfaceRenderInfo : public RenderInfo {
+	SurfaceRenderInfo() : glOffset(0), glAmount(0) {}
+	int glOffset; //index start OR vertex start
+	int glAmount; //index count OR vertex amount
 };
 
 RendererLegacy::RendererLegacy(int w, int h) :
@@ -72,7 +83,7 @@ bool RendererLegacy::EndFrame()
 bool RendererLegacy::SwapBuffers()
 {
 	glError();
-	Render::SwapBuffers();
+	Graphics::SwapBuffers();
 	return true;
 }
 
@@ -216,7 +227,7 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 	}
 	//XXX should probably disable unused lights (for legacy renderer only)
 
-	Render::State::SetNumLights(numlights);
+	State::SetNumLights(numlights);
 
 	return true;
 }
@@ -349,7 +360,7 @@ bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, Prim
 
 bool RendererLegacy::DrawSurface(const Surface *s)
 {
-	if (!s || !s->GetVertices() || s->indices.size() < 3) return false;
+	if (!s || !s->GetVertices() || s->GetNumIndices() < 3) return false;
 
 	const Material *m = s->GetMaterial().Get();
 	const VertexArray *v = s->GetVertices();
@@ -357,7 +368,7 @@ bool RendererLegacy::DrawSurface(const Surface *s)
 	ApplyMaterial(m);
 	EnableClientStates(v);
 
-	glDrawElements(s->m_primitiveType, s->indices.size(), GL_UNSIGNED_SHORT, &s->indices[0]);
+	glDrawElements(s->GetPrimtiveType(), s->GetNumIndices(), GL_UNSIGNED_SHORT, s->GetIndexPointer());
 
 	UnApplyMaterial(m);
 	DisableClientStates();
@@ -420,29 +431,29 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 		if (!BufferStaticMesh(t))
 			return false;
 	}
-	GLRenderInfo *info = static_cast<GLRenderInfo*>(t->m_renderInfo);
+	MeshRenderInfo *meshInfo = static_cast<MeshRenderInfo*>(t->GetRenderInfo());
 
 	//draw each surface
-	info->vbuf->Bind();
-	if (info->ibuf) {
-		info->ibuf->Bind();
+	meshInfo->vbuf->Bind();
+	if (meshInfo->ibuf) {
+		meshInfo->ibuf->Bind();
 	}
 
-	SurfaceList &surfaces = t->m_surfaces;
-	SurfaceList::iterator surface;
-	for (surface = surfaces.begin(); surface != surfaces.end(); ++surface) {
+	for (StaticMesh::SurfaceIterator surface = t->SurfacesBegin(); surface != t->SurfacesEnd(); ++surface) {
+		SurfaceRenderInfo *surfaceInfo = static_cast<SurfaceRenderInfo*>((*surface)->GetRenderInfo());
+
 		ApplyMaterial((*surface)->GetMaterial().Get());
-		if (info->ibuf) {
-			info->vbuf->DrawIndexed(t->m_primitiveType, (*surface)->glOffset, (*surface)->glAmount);
+		if (meshInfo->ibuf) {
+			meshInfo->vbuf->DrawIndexed(t->GetPrimtiveType(), surfaceInfo->glOffset, surfaceInfo->glAmount);
 		} else {
 			//draw unindexed per surface
-			info->vbuf->Draw(t->m_primitiveType, (*surface)->glOffset, (*surface)->glAmount);
+			meshInfo->vbuf->Draw(t->GetPrimtiveType(), surfaceInfo->glOffset, surfaceInfo->glAmount);
 		}
 		UnApplyMaterial((*surface)->GetMaterial().Get());
 	}
-	if (info->ibuf)
-		info->ibuf->Unbind();
-	info->vbuf->Unbind();
+	if (meshInfo->ibuf)
+		meshInfo->ibuf->Unbind();
+	meshInfo->vbuf->Unbind();
 
 	return true;
 }
@@ -530,9 +541,8 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	else
 		return false;
 
-	if (mesh->m_renderInfo == 0)
-		mesh->m_renderInfo = new GLRenderInfo();
-	GLRenderInfo *info = static_cast<GLRenderInfo*>(mesh->m_renderInfo);
+	MeshRenderInfo *meshInfo = new MeshRenderInfo();
+	mesh->SetRenderInfo(meshInfo);
 
 	const int totalVertices = mesh->GetNumVerts();
 
@@ -541,9 +551,7 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	bool lmrHack = false;
 
 	VertexBuffer *buf = 0;
-	SurfaceList &surfaces = mesh->m_surfaces;
-	SurfaceList::iterator surface;
-	for (surface = surfaces.begin(); surface != surfaces.end(); ++surface) {
+	for (StaticMesh::SurfaceIterator surface = mesh->SurfacesBegin(); surface != mesh->SurfacesEnd(); ++surface) {
 		const int numsverts = (*surface)->GetNumVerts();
 		const VertexArray *va = (*surface)->GetVertices();
 
@@ -573,24 +581,28 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 			buf->Bind();
 			offset = buf->BufferData<UnlitVertex>(numsverts, vts.Get());
 		}
-		(*surface)->glAmount = numsverts;
-		(*surface)->glOffset = offset;
+
+		SurfaceRenderInfo *surfaceInfo = new SurfaceRenderInfo();
+		surfaceInfo->glOffset = offset;
+		surfaceInfo->glAmount = numsverts;
+		(*surface)->SetRenderInfo(surfaceInfo);
 
 		//buffer indices from each surface, if in use
 		if ((*surface)->IsIndexed()) {
 			assert(background == false);
-			if (!info->ibuf)
-				info->ibuf = new IndexBuffer(mesh->GetNumIndices());
-			info->ibuf->Bind();
-			const std::vector<unsigned short> &indices = (*surface)->indices;
-			const int ioffset = info->ibuf->BufferIndexData(indices.size(), &indices[0]);
-			(*surface)->glOffset = ioffset;
-			(*surface)->glAmount = indices.size();
+			if (!meshInfo->ibuf)
+				meshInfo->ibuf = new IndexBuffer(mesh->GetNumIndices());
+			meshInfo->ibuf->Bind();
+			const int ioffset = meshInfo->ibuf->BufferIndexData((*surface)->GetNumIndices(), (*surface)->GetIndexPointer());
+			surfaceInfo->glOffset = ioffset;
+			surfaceInfo->glAmount = (*surface)->GetNumIndices();
 		}
 	}
 	assert(buf);
-	info->vbuf = buf;
+	meshInfo->vbuf = buf;
 	mesh->cached = true;
 
 	return true;
+}
+
 }

@@ -1,5 +1,7 @@
 #include "VertexArray.h"
 
+namespace Graphics {
+
 VertexArray::VertexArray(AttributeSet attribs, int size)
 {
 	m_attribs = attribs;
@@ -76,4 +78,6 @@ void VertexArray::Add(const vector3f &v, const vector3f &n, const vector2f &uv)
 	position.push_back(v);
 	normal.push_back(n);
 	uv0.push_back(uv);
+}
+
 }

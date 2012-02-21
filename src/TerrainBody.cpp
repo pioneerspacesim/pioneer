@@ -4,8 +4,8 @@
 #include "WorldView.h"
 #include "Frame.h"
 #include "Game.h"
-#include "render/Render.h"
-#include "render/Renderer.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
 
 TerrainBody::TerrainBody(SBody *sbody) :
 	Body(), 
@@ -64,7 +64,7 @@ double TerrainBody::GetBoundingRadius() const
 	return m_sbody->GetRadius() * (1.1+m_geosphere->GetMaxFeatureHeight());
 }
 
-void TerrainBody::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void TerrainBody::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d ftran = viewTransform;
 	vector3d fpos = viewCoords;
@@ -115,7 +115,7 @@ void TerrainBody::Render(Renderer *renderer, const vector3d &viewCoords, const m
 		
 		// if not using shader then z-buffer precision is hopeless and
 		// we can't place objects on the terrain without awful z artifacts
-		if (shrink || !Render::AreShadersEnabled()) {
+		if (shrink || !Graphics::AreShadersEnabled()) {
 			renderer->ClearDepthBuffer();
 		}
 	}

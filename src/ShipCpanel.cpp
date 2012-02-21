@@ -32,18 +32,16 @@ private:
 	WorldView::CamType m_camType;
 };
 
-ShipCpanel::ShipCpanel(Renderer *r): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
+ShipCpanel::ShipCpanel(Graphics::Renderer *r): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 {
-	m_scanner = new ScannerWidget();
-	m_scanner->SetRenderer(r);
+	m_scanner = new ScannerWidget(r);
 
 	InitObject();
 }
 
-ShipCpanel::ShipCpanel(Serializer::Reader &rd, Renderer *r): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
+ShipCpanel::ShipCpanel(Serializer::Reader &rd, Graphics::Renderer *r): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 {
-	m_scanner = new ScannerWidget(rd);
-	m_scanner->SetRenderer(r);
+	m_scanner = new ScannerWidget(r, rd);
 
 	InitObject();
 }

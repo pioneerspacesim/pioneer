@@ -3,6 +3,8 @@
 
 #include "libs.h"
 
+namespace Graphics {
+
 //allowed minimum of GL_MAX_VERTEX_ATTRIBS is 8 on ES2
 //XXX could implement separate position2D, position3D
 enum VertexAttrib {
@@ -58,5 +60,7 @@ public:
 private:
 	int m_attribs;
 };
+
+}
 
 #endif

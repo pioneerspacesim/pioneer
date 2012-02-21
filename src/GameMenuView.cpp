@@ -220,7 +220,6 @@ GameMenuView::GameMenuView(): View()
 		hbox->SetSpacing(5.0f);
 		hbox->PackEnd(m_toggleShaders);
 		hbox->PackEnd(new Gui::Label(Lang::USE_SHADERS));
-		hbox->PackEnd(new Gui::Label("(Requires restart)"));
 		vbox->PackEnd(hbox);
 		
 		vbox->PackEnd((new Gui::Label(Lang::SOUND_SETTINGS))->Color(1.0f,1.0f,0.0f));

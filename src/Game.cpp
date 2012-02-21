@@ -16,7 +16,7 @@
 #include "SpaceStationView.h"
 #include "InfoView.h"
 #include "ObjectViewerView.h"
-#include "render/Renderer.h"
+#include "graphics/Renderer.h"
 
 static const int  s_saveVersion   = 45;
 static const char s_saveStart[]   = "PIONEER";

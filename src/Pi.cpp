@@ -27,7 +27,6 @@
 #include "GameMenuView.h"
 #include "Missile.h"
 #include "LmrModel.h"
-#include "render/Render.h"
 #include "AmbientSounds.h"
 #include "CustomSystem.h"
 #include "CityOnPlanet.h"
@@ -66,7 +65,8 @@
 #include "Game.h"
 #include "GameLoaderSaver.h"
 #include "Light.h"
-#include "render/Renderer.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
 
 float Pi::gameTickAlpha;
 int Pi::scrWidth;
@@ -149,7 +149,7 @@ const char * const Pi::combatRating[] = {
 	Lang::DEADLY,
 	Lang::ELITE
 };
-Renderer *Pi::renderer;
+Graphics::Renderer *Pi::renderer;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -511,7 +511,7 @@ void Pi::Init()
 	LuaInit();
 
 	bool wantShaders = (config.Int("DisableShaders") == 0);
-	Pi::renderer = Render::Init(width, height, wantShaders);
+	Pi::renderer = Graphics::Init(width, height, wantShaders);
 
 	draw_progress(0.1f);
 
@@ -635,7 +635,7 @@ void Pi::Quit()
 	GeoSphere::Uninit();
 	LmrModelCompilerUninit();
 	Galaxy::Uninit();
-	Render::Uninit();
+	Graphics::Uninit();
 	LuaUninit();
 	Gui::Uninit();
 	delete Pi::textureCache;
