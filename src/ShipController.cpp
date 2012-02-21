@@ -84,6 +84,19 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 			}
 			m_ship->AIMatchVel(v);
 			break;
+		case CONTROL_ANTIGRAV:
+		{
+			m_ship->GetRotMatrix(m);
+			double time_mass = timeStep / m_ship->GetMass();
+			v = (-m_ship->GetGravityForce()) * time_mass * m;
+			vector3d maxAccel = m_ship->GetMaxThrust(v) * time_mass;
+			vector3d thrust(v.x / maxAccel.x,
+							v.y / maxAccel.y,
+							v.z / maxAccel.z);
+			m_ship->SetThrusterState(thrust);
+			if (Pi::GetView() == Pi::worldView) PollControlsNoClearThrusters(timeStep);
+			break;
+		}
 		case CONTROL_FIXHEADING_FORWARD:
 		case CONTROL_FIXHEADING_BACKWARD:
 			PollControls(timeStep);
