@@ -2,9 +2,12 @@
 #define _BACKGROUND_H
 
 #include "libs.h"
-#include "render/Render.h"
 
-class StaticMesh;
+namespace Graphics {
+	class Renderer;
+	class StaticMesh;
+	class Shader;
+}
 
 /*
  * Classes to draw background stars and the milky way
@@ -19,14 +22,14 @@ namespace Background
 		Starfield();
 		Starfield(unsigned long seed);
 		~Starfield();
-		void Draw(Renderer *r);
+		void Draw(Graphics::Renderer *r);
 		//create or recreate the starfield
 		void Fill(unsigned long seed);
 	private:
 		void Init();
 		static const int BG_STAR_MAX = 65536;
-		StaticMesh *m_model;
-		Render::Shader *m_shader;
+		Graphics::StaticMesh *m_model;
+		Graphics::Shader *m_shader;
 	};
 	
 	class MilkyWay
@@ -34,9 +37,9 @@ namespace Background
 	public:
 		MilkyWay();
 		~MilkyWay();
-		void Draw(Renderer *r);
+		void Draw(Graphics::Renderer *r);
 	private:
-		StaticMesh *m_model;
+		Graphics::StaticMesh *m_model;
 	};
 
 	// contains starfield, milkyway, possibly other Background elements
@@ -46,7 +49,7 @@ namespace Background
 		// default constructor, needs Refresh with proper seed to show starfield
 		Container();
 		Container(unsigned long seed);
-		void Draw(Renderer *r, const matrix4x4d &transform) const;
+		void Draw(Graphics::Renderer *r, const matrix4x4d &transform) const;
 		void Refresh(unsigned long seed);
 
 	private:

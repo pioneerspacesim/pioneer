@@ -4,7 +4,8 @@
 #include "Texture.h"
 #include <exception>
 
-namespace Render {
+namespace Graphics {
+
 	/*
 	 * FBO rendertarget, only color
 	 */
@@ -37,6 +38,7 @@ namespace Render {
 		virtual void CheckCompleteness() const;
 		GLuint m_fbo;
 	};
+
 }
 
 #endif

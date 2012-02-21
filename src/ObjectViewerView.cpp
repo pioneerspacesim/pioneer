@@ -8,7 +8,7 @@
 #include "terrain/Terrain.h"
 #include "Planet.h"
 #include "Light.h"
-#include "render/Renderer.h"
+#include "graphics/Renderer.h"
 
 #if WITH_OBJECTVIEWER
 

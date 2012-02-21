@@ -23,9 +23,10 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
-#include "render/Material.h"
-#include "render/Render.h"
-#include "render/Renderer.h"
+#include "graphics/Material.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
+#include "graphics/Shader.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
@@ -1044,7 +1045,7 @@ bool Ship::SetWheelState(bool down)
 	return true;
 }
 
-void Ship::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if ((!IsEnabled()) && !m_flightState) return;
 	LmrObjParams &params = GetLmrObjParams();
@@ -1072,16 +1073,16 @@ void Ship::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x
 			//generate sphere geometry elswhere
 			float shield = 0.01f*GetPercentShields();
 			glDisable(GL_LIGHTING);
-			renderer->SetBlendMode(BLEND_ALPHA);
+			renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 			glColor4f((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
 			glPushMatrix();
 			glTranslatef(GLfloat(viewCoords.x), GLfloat(viewCoords.y), GLfloat(viewCoords.z));
-			Render::simpleShader->Use();
+			Graphics::simpleShader->Use();
 			gluSphere(Pi::gluQuadric, GetLmrCollMesh()->GetBoundingRadius(), 20, 20);
-			Render::simpleShader->Unuse();
+			Graphics::simpleShader->Unuse();
 			glPopMatrix();
 			glEnable(GL_LIGHTING);
-			renderer->SetBlendMode(BLEND_SOLID);
+			renderer->SetBlendMode(Graphics::BLEND_SOLID);
 		}
 	}
 	if (m_ecmRecharge > 0.0f) {
@@ -1104,7 +1105,7 @@ void Ship::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x
 		}
 
 		// XXX no need to recreate material every time
-		Material mat;
+		Graphics::Material mat;
 		mat.texture0 = Pi::textureCache->GetModelTexture(PIONEER_DATA_DIR"/textures/ecm.png");
 		mat.unlit = true;
 		mat.diffuse = c;

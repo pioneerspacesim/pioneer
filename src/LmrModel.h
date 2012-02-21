@@ -11,8 +11,9 @@ class LmrGeomBuffer;
 class LmrCollMesh;
 class GeomTree;
 
+namespace Graphics { class Renderer; }
+
 class EquipSet;
-class Renderer;
 
 #define LMR_MAX_LOD 4
 
@@ -86,7 +87,7 @@ private:
 };
 
 class TextureCache;
-void LmrModelCompilerInit(Renderer *r, TextureCache *textureCache);
+void LmrModelCompilerInit(Graphics::Renderer *r, TextureCache *textureCache);
 void LmrModelCompilerUninit();
 struct LmrModelNotFoundException {};
 LmrModel *LmrLookupModelByName(const char *name);

@@ -4,7 +4,7 @@
 #include "libs.h"
 #include "vector3.h"
 
-namespace Render {
+namespace Graphics {
 
 // Frustum can be used for projecting points (3D to 2D) and testing
 // if a point lies inside the visible area

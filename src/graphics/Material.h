@@ -5,9 +5,10 @@
 #include <RefCounted.h>
 
 class Texture;
-namespace Render {
-	class Shader;
-}
+
+namespace Graphics {
+
+class Shader;
 
 /*
  * Materials define shading parameters. For example, when you
@@ -39,7 +40,9 @@ public:
 	bool vertexColors;
 
 	//custom glsl prog
-	Render::Shader *shader;
+	Shader *shader;
 };
+
+}
 
 #endif

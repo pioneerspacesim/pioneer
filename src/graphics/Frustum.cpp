@@ -1,7 +1,7 @@
-#include "RenderFrustum.h"
-#include "Render.h"
+#include "Frustum.h"
+#include "Graphics.h"
 
-namespace Render {
+namespace Graphics {
 
 // min/max FOV in degrees
 static const float FOV_MAX = 170.0f;

@@ -17,7 +17,8 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
-#include "render/Renderer.h"
+#include "graphics/Renderer.h"
+#include "graphics/Frustum.h"
 #include "matrix4x4.h"
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
@@ -1108,7 +1109,7 @@ int WorldView::GetActiveWeapon() const
 	}
 }
 
-static inline bool project_to_screen(const vector3d &in, vector3d &out, const Render::Frustum &frustum, const int guiSize[2])
+static inline bool project_to_screen(const vector3d &in, vector3d &out, const Graphics::Frustum &frustum, const int guiSize[2])
 {
 	if (!frustum.ProjectPoint(in, out)) return false;
 	out.x *= guiSize[0];
@@ -1119,7 +1120,7 @@ static inline bool project_to_screen(const vector3d &in, vector3d &out, const Re
 void WorldView::UpdateProjectedObjects()
 {
 	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
-	const Render::Frustum frustum = m_activeCamera->GetFrustum();
+	const Graphics::Frustum frustum = m_activeCamera->GetFrustum();
 
 	const Frame *cam_frame = m_activeCamera->GetFrame();
 	matrix4x4d cam_rot = cam_frame->GetTransform();
@@ -1269,7 +1270,7 @@ void WorldView::UpdateProjectedObjects()
 void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpacePos)
 {
 	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
-	const Render::Frustum frustum = m_activeCamera->GetFrustum();
+	const Graphics::Frustum frustum = m_activeCamera->GetFrustum();
 
 	const float BORDER = 10.0;
 	const float BORDER_BOTTOM = 90.0;
@@ -1441,7 +1442,7 @@ void WorldView::Draw()
 	// don't draw crosshairs etc in hyperspace
 	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) return;
 
-	m_renderer->SetBlendMode(BLEND_ALPHA);
+	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 
 	glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
 	glLineWidth(2.0f);
@@ -1479,7 +1480,7 @@ void WorldView::Draw()
 
 	glPopAttrib();
 
-	m_renderer->SetBlendMode(BLEND_SOLID);
+	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 }
 
 void WorldView::DrawCrosshair(float px, float py, float sz, const Color &c)
@@ -1569,7 +1570,7 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 		vector2f(x2, y2),
 		vector2f(x1, y2)
 	};
-	m_renderer->DrawLines2D(4, vts, c, LINE_LOOP);
+	m_renderer->DrawLines2D(4, vts, c, Graphics::LINE_LOOP);
 }
 
 void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
@@ -1611,7 +1612,7 @@ void WorldView::DrawCircleIndicator(const Indicator &marker, const Color &c)
 				posx+sinf(DEG2RAD(i*5))*sz,
 				posy+cosf(DEG2RAD(i*5))*sz));
 		}
-		m_renderer->DrawLines2D(72, &vts[0], c, LINE_LOOP);
+		m_renderer->DrawLines2D(72, &vts[0], c, Graphics::LINE_LOOP);
 	} else
 		DrawEdgeMarker(marker, c);
 }

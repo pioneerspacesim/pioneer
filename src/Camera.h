@@ -1,14 +1,14 @@
 #ifndef _CAMERA_H
 #define _CAMERA_H
 
-#include "render/RenderFrustum.h"
+#include "graphics/Frustum.h"
 #include "vector3.h"
 #include "matrix4x4.h"
 #include "Background.h"
 #include "Body.h"
 
 class Frame;
-class Renderer;
+namespace Graphics { class Renderer; }
 
 class Camera {
 public:
@@ -17,7 +17,7 @@ public:
 	virtual ~Camera();
 
 	void Update();
-	void Draw(Renderer *r);
+	void Draw(Graphics::Renderer *r);
 
 	const Body *GetBody() const { return m_body; }
 
@@ -33,7 +33,7 @@ public:
 	const Frame *GetFrame() const { return m_camFrame; }
 
 	// get the frustum. use for projection
-	const Render::Frustum &GetFrustum() const { return m_frustum; }
+	const Graphics::Frustum &GetFrustum() const { return m_frustum; }
 
 private:
 	void OnBodyDeleted();
@@ -49,7 +49,7 @@ private:
 	float m_zNear;
 	float m_zFar;
 
-	Render::Frustum m_frustum;
+	Graphics::Frustum m_frustum;
 
 	matrix4x4d m_pose;
 
@@ -90,7 +90,7 @@ private:
 
 	std::list<BodyAttrs> m_sortedBodies;
 
-	Renderer *m_renderer;
+	Graphics::Renderer *m_renderer;
 };
 
 #endif

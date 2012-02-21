@@ -1,7 +1,7 @@
-#include "RenderShader.h"
-#include "Render.h"
+#include "Shader.h"
+#include "Graphics.h"
 
-namespace Render {
+namespace Graphics {
 
 bool shadersEnabled;
 bool shadersAvailable;
@@ -64,7 +64,7 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 	GLuint vs, ps = 0;
 	std::vector<const char*> shader_src;
 
-	if (!Render::shadersAvailable) {
+	if (!shadersAvailable) {
 		m_program = 0;
 		return false;
 	}
@@ -149,7 +149,7 @@ bool Shader::Use()
 	if (!shadersEnabled || m_currentShader == this) return false;
 
 	glUseProgram(m_program);
-	set_invLogZfarPlus1(Render::State::m_invLogZfarPlus1);
+	set_invLogZfarPlus1(State::m_invLogZfarPlus1);
 	m_currentShader = this;
 	return true;
 }

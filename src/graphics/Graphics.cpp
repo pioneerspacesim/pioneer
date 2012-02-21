@@ -1,4 +1,5 @@
-#include "Render.h"
+#include "Graphics.h"
+#include "Shader.h"
 #include "RenderTarget.h"
 #include <stdexcept>
 #include <sstream>
@@ -9,7 +10,7 @@
 static GLuint boundArrayBufferObject = 0;
 static GLuint boundElementArrayBufferObject = 0;
 
-namespace Render {
+namespace Graphics {
 
 static bool initted = false;
 

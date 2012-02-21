@@ -12,8 +12,10 @@
 #include "StringF.h"
 #include "KeyBindings.h"
 #include "Game.h"
-#include "render/Renderer.h"
-#include "render/VertexArray.h"
+#include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
+
+using namespace Graphics;
 
 #define SCANNER_RANGE_MAX	100000.0f
 #define SCANNER_RANGE_MIN	1000.0f
@@ -106,7 +108,8 @@ void MsgLogWidget::GetSizeRequested(float size[2])
 
 /////////////////////////////////
 
-ScannerWidget::ScannerWidget()
+ScannerWidget::ScannerWidget(Graphics::Renderer *r) :
+	m_renderer(r)
 {
 	m_mode = SCANNER_MODE_AUTO;
 	m_currentRange = m_manualRange = m_targetRange = SCANNER_RANGE_MIN;
@@ -114,7 +117,8 @@ ScannerWidget::ScannerWidget()
 	InitObject();
 }
 
-ScannerWidget::ScannerWidget(Serializer::Reader &rd)
+ScannerWidget::ScannerWidget(Graphics::Renderer *r, Serializer::Reader &rd) :
+	m_renderer(r)
 {
 	m_mode = ScannerMode(rd.Int32());
 	m_currentRange = rd.Float();

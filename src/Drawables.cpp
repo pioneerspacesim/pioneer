@@ -1,5 +1,7 @@
 #include "Drawables.h"
 
+namespace Graphics {
+
 namespace Drawables {
 
 Line3D::Line3D()
@@ -35,6 +37,8 @@ void Line3D::Draw(Renderer *renderer)
 	glLineWidth(m_width);
 	renderer->DrawLines(2, m_points, m_colors);
 	glLineWidth(1.f);
+}
+
 }
 
 }

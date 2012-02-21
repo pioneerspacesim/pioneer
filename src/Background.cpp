@@ -7,11 +7,15 @@
 #include "Player.h"
 #include <vector>
 #include "Game.h"
-#include "render/Material.h"
-#include "render/Renderer.h"
-#include "render/StaticMesh.h"
-#include "render/Surface.h"
-#include "render/VertexArray.h"
+#include "graphics/Graphics.h"
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
+#include "graphics/StaticMesh.h"
+#include "graphics/Surface.h"
+#include "graphics/VertexArray.h"
+#include "graphics/Shader.h"
+
+using namespace Graphics;
 
 namespace Background
 {
@@ -39,7 +43,7 @@ void Starfield::Init()
 	// reserve some space for positions, colours
 	VertexArray *stars = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, BG_STAR_MAX);
 	m_model = new StaticMesh(TYPE_POINTS);
-	m_shader = new Render::Shader("bgstars");
+	m_shader = new Shader("bgstars");
 	RefCountedPtr<Material> mat(new Material());
 	mat->shader = m_shader;
 	mat->unlit = true;
@@ -89,9 +93,9 @@ void Starfield::Fill(unsigned long seed)
 	}
 }
 
-void Starfield::Draw(Renderer *renderer)
+void Starfield::Draw(Graphics::Renderer *renderer)
 {
-	if (Render::AreShadersEnabled()) {
+	if (AreShadersEnabled()) {
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 	} else {
 		glDisable(GL_POINT_SMOOTH);
@@ -138,7 +142,7 @@ void Starfield::Draw(Renderer *renderer)
 		delete[] vtx;
 	}
 
-	if (Render::AreShadersEnabled()) {
+	if (AreShadersEnabled()) {
 		glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 		glDisable(GL_POINT_SMOOTH);
 	}
@@ -206,7 +210,7 @@ MilkyWay::~MilkyWay()
 	delete m_model;
 }
 
-void MilkyWay::Draw(Renderer *renderer)
+void MilkyWay::Draw(Graphics::Renderer *renderer)
 {
 	assert(m_model != 0);
 	renderer->DrawStaticMesh(m_model);
@@ -227,7 +231,7 @@ void Container::Refresh(unsigned long seed)
 	m_starField.Fill(seed);
 }
 
-void Container::Draw(Renderer *renderer, const matrix4x4d &transform) const
+void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) const
 {
 	//XXX not really const - renderer can modify the buffers
 	glPushMatrix();

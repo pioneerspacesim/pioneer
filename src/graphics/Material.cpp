@@ -1,5 +1,7 @@
 #include "Material.h"
 
+namespace Graphics {
+
 Material::Material() :
 	texture0(0),
 	diffuse(1.f), //default white
@@ -8,4 +10,6 @@ Material::Material() :
 	vertexColors(false),
 	shader(0)
 {
+}
+
 }

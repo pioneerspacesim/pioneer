@@ -3,6 +3,11 @@
 
 #include "libs.h"
 
+class Light;
+class Texture;
+
+namespace Graphics {
+
 /*
  * Renderer base class. A Renderer draws points, lines, triangles, changes blend modes
  * and other states. Data flows mostly one way: you tell the renderer to do things, but
@@ -28,12 +33,10 @@
  * Reboot postprocessing, again
  */
 
-class Light;
 class Material;
 class RendererLegacy;
 class StaticMesh;
 class Surface;
-class Texture;
 class VertexArray;
 
 namespace Render {
@@ -147,5 +150,7 @@ public:
 private:
 	ScopedPtr<RenderInfo> m_renderInfo;
 };
+
+}
 
 #endif

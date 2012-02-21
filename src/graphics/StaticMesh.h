@@ -3,8 +3,9 @@
 
 #include "Renderer.h"
 #include "VertexArray.h"
-#include "Surface.h"
 #include <vector>
+
+namespace Graphics {
 
 class Surface;
 
@@ -41,5 +42,7 @@ private:
 	PrimitiveType m_primitiveType;
 	std::vector<Surface*> m_surfaces;
 };
+
+}
 
 #endif

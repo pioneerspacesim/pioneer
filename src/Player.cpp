@@ -96,7 +96,7 @@ void Player::SetFlightControlState(enum FlightControlState s)
 	Pi::onPlayerChangeFlightControlState.emit();
 }
 
-void Player::Render(Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void Player::Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if (!IsDead()) Ship::Render(r, viewCoords, viewTransform);
 }

@@ -10,7 +10,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
-#include "render/Renderer.h"
+#include "graphics/Renderer.h"
 
 SystemInfoView::SystemInfoView()
 {
@@ -444,7 +444,7 @@ void SystemInfoView::BodyIcon::Draw()
 		vector2f(size[0], size[1]),
 		vector2f(0.f, size[1]),
 	};
-	m_renderer->DrawLines2D(4, vts, green, LINE_LOOP);
+	m_renderer->DrawLines2D(4, vts, green, Graphics::LINE_LOOP);
 }
 
 void SystemInfoView::BodyIcon::OnActivate()

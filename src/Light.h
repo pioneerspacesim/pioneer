@@ -4,8 +4,6 @@
 #include "Color.h"
 #include "vector3.h"
 
-class Renderer;
-
 class Light
 {
 public:

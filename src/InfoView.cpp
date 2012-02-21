@@ -7,8 +7,8 @@
 #include "LmrModel.h"
 #include "Lang.h"
 #include "StringF.h"
-#include "render/Render.h"
-#include "render/Renderer.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
 
 class InfoViewPage: public Gui::Fixed {
 public:

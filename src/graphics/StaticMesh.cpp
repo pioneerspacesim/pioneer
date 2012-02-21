@@ -1,6 +1,8 @@
 #include "StaticMesh.h"
 #include "Surface.h"
 
+namespace Graphics {
+
 StaticMesh::StaticMesh(PrimitiveType t) :
 	Renderable(),
 	cached(false),
@@ -42,4 +44,6 @@ AttributeSet StaticMesh::GetAttributeSet() const
 		if ((*surface)->GetVertices())
 			set = (*surface)->GetVertices()->GetAttributeSet();
 	return set;
+}
+
 }

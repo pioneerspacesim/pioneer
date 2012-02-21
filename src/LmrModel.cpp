@@ -12,9 +12,10 @@
 #include "EquipSet.h"
 #include "ShipType.h"
 #include "TextureCache.h"
-#include "render/Render.h"
-#include "render/Renderer.h"
-#include "render/Material.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
+#include "graphics/Material.h"
+#include "graphics/Shader.h"
 #include <set>
 #include <algorithm>
 
@@ -50,12 +51,12 @@ namespace ShipThruster {
 	static Texture *thrusTex;
 	static Texture *glowTex;
 	static std::vector<Vertex> verts;
-	static Render::Shader *thrusterProg;
+	static Graphics::Shader *thrusterProg;
 	//cool purple-ish
 	static Color color(0.7f, 0.6f, 1.f, 1.f);
 
 	static void Init(TextureCache *tcache) {
-		thrusterProg = new Render::Shader("flat", "#define TEXTURE0 1\n");
+		thrusterProg = new Graphics::Shader("flat", "#define TEXTURE0 1\n");
 
 		thrusTex = tcache->GetBillboardTexture(PIONEER_DATA_DIR"/textures/thruster.png");
 		glowTex = tcache->GetBillboardTexture(PIONEER_DATA_DIR"/textures/halo.png");
@@ -266,7 +267,7 @@ static int s_numTrisRendered;
 static std::string s_cacheDir;
 static bool s_recompileAllModels = true;
 static TextureCache *s_textureCache;
-static Renderer *s_renderer;
+static Graphics::Renderer *s_renderer;
 
 struct Vertex {
 	Vertex() : v(0.0), n(0.0), tex_u(0.0), tex_v(0.0) {}		// zero this shit to stop denormal-copying on resize
@@ -289,7 +290,7 @@ void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
 
 //binds shader and sets lmr specific uniforms
 void UseProgram(LmrShader *shader, bool Textured = false, bool Glowmap = false) {
-	if (Render::AreShadersEnabled()) {
+	if (Graphics::AreShadersEnabled()) {
 		shader->Use();
 		if (Textured) shader->set_tex(0);
 		shader->set_usetex(Textured ? 1 : 0);
@@ -369,7 +370,7 @@ public:
 		int activeLights = 0;
 		s_numTrisRendered += m_indices.size()/3;
 		
-		LmrShader *curShader = s_sunlightShader[Render::State::GetNumLights()-1];
+		LmrShader *curShader = s_sunlightShader[Graphics::State::GetNumLights()-1];
 
 		BindBuffers();
 
@@ -412,7 +413,7 @@ public:
 				}
 				break;
 			case OP_DRAW_BILLBOARDS: {
-				Render::UnbindAllBuffers();
+				Graphics::UnbindAllBuffers();
 				//XXX have to copy positions to a temporary array as
 				//renderer::drawpointsprites does not have a stride parameter
 				std::vector<vector3f> verts;
@@ -420,7 +421,7 @@ public:
 				for (int j = 0; j < op.billboards.count; j++) {
 					verts.push_back(m_vertices[op.billboards.start + j].v);
 				}
-				Material mat;
+				Graphics::Material mat;
 				mat.unlit = true;
 				mat.texture0 = op.billboards.texture;
 				mat.diffuse = Color(op.billboards.col[0], op.billboards.col[1], op.billboards.col[2], op.billboards.col[3]);
@@ -436,9 +437,9 @@ public:
 					glMaterialfv (GL_FRONT, GL_EMISSION, m.emissive);
 					glMaterialf (GL_FRONT, GL_SHININESS, m.shininess);
 					if (m.diffuse[3] >= 1.0) {
-						s_renderer->SetBlendMode(BLEND_SOLID);
+						s_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 					} else {
-						s_renderer->SetBlendMode(BLEND_ALPHA);
+						s_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 					}
 				}
 				break;
@@ -485,10 +486,10 @@ public:
 					}
 					activeLights = 0;
 				} else {
-					int numLights = Render::State::GetNumLights();
+					int numLights = Graphics::State::GetNumLights();
 					for (int j=0; j<numLights; j++) glEnable(GL_LIGHT0 + j);
 					for (int j=4; j<8; j++) glDisable(GL_LIGHT0 + j);
-					curShader = s_sunlightShader[Render::State::GetNumLights()-1];
+					curShader = s_sunlightShader[Graphics::State::GetNumLights()-1];
 				}
 				break;
 			case OP_USE_LIGHT:
@@ -517,7 +518,7 @@ public:
 		glDisableClientState (GL_NORMAL_ARRAY);
 		glDisableClientState (GL_TEXTURE_COORD_ARRAY);
 
-		Render::UnbindAllBuffers();
+		Graphics::UnbindAllBuffers();
 
 		RenderThrusters(rstate, cameraPos, params);
 	}
@@ -526,7 +527,7 @@ public:
 		if (m_thrusters.empty()) return;
 
 		glDisable(GL_LIGHTING);
-		s_renderer->SetBlendMode(BLEND_ADDITIVE);
+		s_renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
 		s_renderer->SetDepthWrite(false);
 		glEnableClientState (GL_VERTEX_ARRAY);
 		glEnableClientState (GL_TEXTURE_COORD_ARRAY);
@@ -538,7 +539,7 @@ public:
 		}
 		glDisable(GL_TEXTURE_2D);
 		glColor3f(1.f, 1.f, 1.f);
-		s_renderer->SetBlendMode(BLEND_SOLID);
+		s_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 		s_renderer->SetDepthWrite(true);
 		glEnable(GL_CULL_FACE);
 		glDisableClientState (GL_VERTEX_ARRAY);
@@ -773,7 +774,7 @@ private:
 		if (m_isStatic) {
 			if (m_bo) m_bo->BindBuffersForDraw();
 		} else {
-			Render::UnbindAllBuffers();
+			Graphics::UnbindAllBuffers();
 			if (m_vertices.size()) {
 				glNormalPointer(GL_FLOAT, sizeof(Vertex), &m_vertices[0].n);
 				glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_vertices[0].v);
@@ -1206,12 +1207,12 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	}
 	s_curBuf = 0;
 
-	Render::UnbindAllBuffers();
+	Graphics::UnbindAllBuffers();
 	//XXX hack
 	s_sunlightShader[0]->Unuse();
 
 	glDisable(GL_NORMALIZE);
-	s_renderer->SetBlendMode(BLEND_SOLID);
+	s_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	glPopMatrix();
 }
 
@@ -4433,7 +4434,7 @@ static void _write_model_crc_file()
 	}
 }
 
-void LmrModelCompilerInit(Renderer *renderer, TextureCache *textureCache)
+void LmrModelCompilerInit(Graphics::Renderer *renderer, TextureCache *textureCache)
 {
 	s_renderer = renderer;
 	s_textureCache = textureCache;

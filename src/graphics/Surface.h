@@ -7,6 +7,8 @@
 #include "VertexArray.h"
 #include <vector>
 
+namespace Graphics {
+
 /*
  * Surface is a container for a vertex array, a material
  * and an index array. Intended for indexed triangle drawing.
@@ -34,5 +36,7 @@ private:
 
 	std::vector<unsigned short> m_indices;
 };
+
+}
 
 #endif

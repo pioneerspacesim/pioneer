@@ -772,7 +772,7 @@ void SpaceStation::NotifyRemoved(const Body* const removedBody)
 	}
 }
 
-void SpaceStation::Render(Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void SpaceStation::Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	LmrObjParams &params = GetLmrObjParams();
 	params.label = GetLabel().c_str();

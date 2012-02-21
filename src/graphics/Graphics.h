@@ -1,15 +1,15 @@
-#ifndef _RENDER_H
-#define _RENDER_H
+#ifndef _GRAPHICS_H
+#define _GRAPHICS_H
 
 #include "libs.h"
-#include "RenderShader.h"
-
-class Renderer;
 
 /*
  * bunch of reused 3d drawy routines.
  */
-namespace Render {
+namespace Graphics {
+
+	class Renderer;
+	class Shader;
 
 	/* static */ class State {
 	private:

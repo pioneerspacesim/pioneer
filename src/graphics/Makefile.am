@@ -6,30 +6,28 @@ AM_CXXFLAGS += $(WARN_CXXFLAGS)
 
 INCLUDES = -I$(srcdir)/..
 
-noinst_LIBRARIES = librender.a
+noinst_LIBRARIES = libgraphics.a
 noinst_HEADERS = \
-	Render.h \
+	Graphics.h \
 	Renderer.h \
 	RendererGL2.h \
 	RendererLegacy.h \
-	RenderFrustum.h \
-	RenderShader.h \
+	Frustum.h \
+	Shader.h \
 	RenderTarget.h \
 	Material.h \
 	StaticMesh.h \
 	Surface.h \
 	VertexArray.h
 
-librender_a_SOURCES = \
-	Render.cpp \
+libgraphics_a_SOURCES = \
+	Graphics.cpp \
 	Renderer.cpp \
 	RendererGL2.cpp \
 	RendererLegacy.cpp \
-	RenderFrustum.cpp \
-	RenderShader.cpp \
+	Frustum.cpp \
+	Shader.cpp \
 	RenderTarget.cpp \
 	Material.cpp \
 	StaticMesh.cpp \
 	VertexArray.cpp
-
-

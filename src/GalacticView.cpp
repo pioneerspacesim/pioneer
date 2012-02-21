@@ -10,8 +10,10 @@
 #include "Galaxy.h"
 #include "Lang.h"
 #include "StringF.h"
-#include "render/Material.h"
-#include "render/Renderer.h"
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
+
+using namespace Graphics;
 
 GalacticView::GalacticView()
 {

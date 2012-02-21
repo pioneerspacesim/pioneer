@@ -5,7 +5,7 @@
 #include "Serializer.h"
 #include "gui/Gui.h"
 
-class Renderer;
+namespace Graphics { class Renderer; }
 
 /*
  * For whatever draws crap into the main area of the screen.
@@ -59,14 +59,14 @@ public:
 	virtual void Load(Serializer::Reader &rd) {}
 	virtual void OnSwitchTo() = 0;
 
-	void SetRenderer(Renderer *r) { m_renderer = r; }
+	void SetRenderer(Graphics::Renderer *r) { m_renderer = r; }
 
 protected:
 	// each view can put some buttons in the bottom right of the cpanel
 	Gui::Fixed *m_rightButtonBar;
 	Gui::Fixed *m_rightRegion1;
 	Gui::Fixed *m_rightRegion2;
-	Renderer *m_renderer;
+	Graphics::Renderer *m_renderer;
 };
 
 #endif /* _VIEW_H */

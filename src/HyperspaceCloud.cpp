@@ -8,9 +8,11 @@
 #include "perlin.h"
 #include "Lang.h"
 #include "Game.h"
-#include "render/Render.h"
-#include "render/Renderer.h"
-#include "render/VertexArray.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
+
+using namespace Graphics;
 
 HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 {

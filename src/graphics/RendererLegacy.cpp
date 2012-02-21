@@ -1,13 +1,16 @@
 #include "RendererLegacy.h"
 #include "Light.h"
 #include "Material.h"
-#include "Render.h"
+#include "Graphics.h"
 #include "RendererGLBuffers.h"
 #include "StaticMesh.h"
 #include "Surface.h"
 #include "Texture.h"
 #include "VertexArray.h"
 #include <stddef.h> //for offsetof
+#include "utils.h"
+
+namespace Graphics {
 
 struct MeshRenderInfo : public RenderInfo {
 	MeshRenderInfo() :
@@ -80,7 +83,7 @@ bool RendererLegacy::EndFrame()
 bool RendererLegacy::SwapBuffers()
 {
 	glError();
-	Render::SwapBuffers();
+	Graphics::SwapBuffers();
 	return true;
 }
 
@@ -224,7 +227,7 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 	}
 	//XXX should probably disable unused lights (for legacy renderer only)
 
-	Render::State::SetNumLights(numlights);
+	State::SetNumLights(numlights);
 
 	return true;
 }
@@ -600,4 +603,6 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	mesh->cached = true;
 
 	return true;
+}
+
 }

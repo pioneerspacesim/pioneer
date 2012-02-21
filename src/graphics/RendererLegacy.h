@@ -3,6 +3,8 @@
 
 #include "Renderer.h"
 
+namespace Graphics {
+
 // Fixed function renderer
 class RendererLegacy : public Renderer
 {
@@ -60,5 +62,7 @@ protected:
 	float m_minZNear;
 	float m_maxZFar;
 };
+
+}
 
 #endif

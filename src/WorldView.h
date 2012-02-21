@@ -4,7 +4,6 @@
 #include "libs.h"
 #include "gui/Gui.h"
 #include "View.h"
-#include "render/Render.h"
 #include "Serializer.h"
 #include "Background.h"
 #include "EquipType.h"

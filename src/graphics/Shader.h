@@ -53,19 +53,19 @@
 	SHADER_UNIFORM_INT(name)
 
 #define SHADER_CLASS_BEGIN(name) \
-	class name: public Render::Shader { \
+	class name: public Graphics::Shader { \
 		public: \
-		name(const char *shaderFilename, const char *additional_defines): Render::Shader() { \
+		name(const char *shaderFilename, const char *additional_defines): Graphics::Shader() { \
 			memset(this, 0, sizeof(name)); \
 			Compile(shaderFilename, additional_defines); \
 		} \
-		name(const char *shaderFilename): Render::Shader() { \
+		name(const char *shaderFilename): Graphics::Shader() { \
 			memset(this, 0, sizeof(name)); \
 			Compile(shaderFilename, 0); \
 		}
 #define SHADER_CLASS_END()	};
 
-namespace Render {
+namespace Graphics {
 
 	extern bool shadersAvailable;
 	extern bool shadersEnabled;
