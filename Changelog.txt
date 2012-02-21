@@ -31,6 +31,7 @@ Alpha 20
      * Fix flipped Hammerhead "neck" textures (#986)
      * Don't show "fly to" option for combat target if the player does not
        have an autopilot fitted (#988)
+     * Close comms menu on hyperspace (#996, #984)
 
    * Script changes
      * New method Ship.SetFuelPercent and attribute Ship.fuel to set and get
