@@ -42,12 +42,12 @@ void Starfield::Init()
 {
 	// reserve some space for positions, colours
 	VertexArray *stars = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, BG_STAR_MAX);
-	m_model = new StaticMesh(TYPE_POINTS);
+	m_model = new StaticMesh(POINTS);
 	m_shader = new Shader("bgstars");
 	RefCountedPtr<Material> mat(new Material());
 	mat->shader = m_shader;
 	mat->unlit = true;
-	m_model->AddSurface(new Surface(TYPE_POINTS, stars, mat));
+	m_model->AddSurface(new Surface(POINTS, stars, mat));
 }
 
 void Starfield::Fill(unsigned long seed)
