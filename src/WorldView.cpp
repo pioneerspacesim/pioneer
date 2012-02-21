@@ -11,12 +11,12 @@
 #include "Sector.h"
 #include "HyperspaceCloud.h"
 #include "KeyBindings.h"
-#include "TextureCache.h"
 #include "perlin.h"
 #include "SectorView.h"
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
+#include "gui/GuiTexture.h"
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
 #include "matrix4x4.h"
@@ -177,6 +177,8 @@ void WorldView::InitObject()
 	Add(m_navVelIndicator.label, 0, 0);
 	Add(m_combatTargetIndicator.label, 0, 0);
 	Add(m_targetLeadIndicator.label, 0, 0);
+
+	m_indicatorMousedir.Reset(new Gui::Texture(PIONEER_DATA_DIR "/icons/indicator_mousedir.png"));
 
 	//get near & far clipping distances
 	//XXX m_renderer not set yet
@@ -1463,9 +1465,7 @@ void WorldView::Draw()
 
 	glLineWidth(2.0f);
 
-	DrawImageIndicator(m_mouseDirIndicator,
-		PIONEER_DATA_DIR "/icons/indicator_mousedir.png",
-		yellow);
+	DrawImageIndicator(m_mouseDirIndicator, m_indicatorMousedir.Get(), yellow);
 
 	// combat target indicator
 	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, red);
@@ -1617,12 +1617,11 @@ void WorldView::DrawCircleIndicator(const Indicator &marker, const Color &c)
 		DrawEdgeMarker(marker, c);
 }
 
-void WorldView::DrawImageIndicator(const Indicator &marker, const char *icon_path, const Color &c)
+void WorldView::DrawImageIndicator(const Indicator &marker, Gui::Texture *tex, const Color &c)
 {
 	if (marker.side == INDICATOR_HIDDEN) return;
 
 	if (marker.side == INDICATOR_ONSCREEN) {
-		UITexture *tex = Pi::textureCache->GetUITexture(icon_path);
 		const float w = tex->GetWidth();
 		const float h = tex->GetHeight();
 		const float x = marker.pos[0] - w/2.0f;

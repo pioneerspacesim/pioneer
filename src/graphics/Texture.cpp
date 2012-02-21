@@ -2,6 +2,8 @@
 #include <SDL_image.h>
 #include <cassert>
 
+namespace Graphics {
+
 Texture::~Texture()
 {
 	if (m_glTexture)
@@ -259,37 +261,4 @@ void Texture::DrawQuadArray(const GLfloat *array)
 	glDisable(GetTarget());
 }
 
-
-ModelTexture::ModelTexture(const std::string &filename, bool preload) :
-	Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), REPEAT, LINEAR, true),
-	m_filename(filename)
-{
-	if (preload)
-		Load();
-}
-
-void ModelTexture::Load()
-{
-	assert(!IsCreated());
-	CreateFromFile(m_filename, false);
-}
-
-BillboardTexture::BillboardTexture(const std::string &filename) :
-	Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, true),
-	m_filename(filename)
-{
-	CreateFromFile(filename, false);
-}
-
-
-UITexture::UITexture(SDL_Surface *s) :
-    Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false)
-{
-	CreateFromSurface(s);
-}
-
-UITexture::UITexture(const std::string &filename) :
-    Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false)
-{
-	CreateFromFile(filename);
 }

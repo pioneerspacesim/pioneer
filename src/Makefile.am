@@ -129,13 +129,12 @@ noinst_HEADERS = \
 	SystemPath.h \
 	SystemView.h \
 	TerrainBody.h \
-	Texture.h \
 	TextureFont.h \
-	TextureCache.h \
 	TextSupport.h \
 	VectorFont.h \
 	VideoLink.h \
 	View.h \
+	WorldTexture.h \
 	WorldView.h \
 	SmartPtr.h \
 	buildopts.h \
@@ -259,11 +258,10 @@ pioneer_SOURCES	= \
 	SystemInfoView.cpp \
 	SystemView.cpp \
 	TerrainBody.cpp \
-	Texture.cpp \
 	TextureFont.cpp \
-	TextureCache.cpp \
 	TextSupport.cpp \
 	VectorFont.cpp \
+	WorldTexture.cpp \
 	WorldView.cpp \
 	main.cpp \
 	mtrand.cpp \
@@ -294,11 +292,10 @@ modelviewer_SOURCES = \
 	ShipType.cpp \
 	MyLuaMathTypes.cpp \
 	StringF.cpp \
-	Texture.cpp \
 	TextureFont.cpp \
-	TextureCache.cpp \
 	TextSupport.cpp \
 	VectorFont.cpp \
+	WorldTexture.cpp \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp

@@ -3,7 +3,7 @@
 
 #include "VideoLink.h"
 
-class Texture;
+namespace Gui { class Texture; }
 
 class CharacterInfoText : public Gui::Fixed {
 public:
@@ -57,7 +57,7 @@ private:
 	Uint32 m_seed;
 
 	Uint32 m_created;
-	Texture *m_texture;
+	Gui::Texture *m_texture;
 	Gui::ToolTip *m_message;
 	CharacterInfoText *m_characterInfo;
 };

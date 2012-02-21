@@ -4,9 +4,9 @@
 #include "GuiWidget.h"
 #include <string>
 
-class UITexture;
-
 namespace Gui {
+	class Texture;
+
 	class Image: public Widget {
 	public:
 		Image(const char *filename);
@@ -14,7 +14,7 @@ namespace Gui {
 		virtual void GetSizeRequested(float size[2]);
 		void SetModulateColor(float r, float g, float b, float a);
 	private:
-		UITexture *m_texture;
+		Texture *m_texture;
 		float m_col[4];
 	};
 }

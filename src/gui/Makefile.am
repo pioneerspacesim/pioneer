@@ -32,6 +32,7 @@ noinst_HEADERS = \
 	GuiTabbed.h \
 	GuiTextEntry.h \
 	GuiTextLayout.h \
+	GuiTexture.h \
 	GuiToggleButton.h \
 	GuiToolTip.h \
 	GuiVScrollBar.h \
@@ -60,6 +61,7 @@ libgui_a_SOURCES = \
 	GuiTabbed.cpp \
 	GuiTextEntry.cpp \
 	GuiTextLayout.cpp \
+	GuiTexture.cpp \
 	GuiToggleButton.cpp \
 	GuiToolTip.cpp \
 	GuiVScrollBar.cpp \

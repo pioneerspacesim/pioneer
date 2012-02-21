@@ -2,7 +2,7 @@
 #define _GUIGRADIENT_H
 
 #include "GuiWidget.h"
-#include "Texture.h"
+#include "graphics/Texture.h"
 #include <map>
 
 namespace Gui {
@@ -31,7 +31,7 @@ namespace Gui {
 
 	private:
 
-		class GradientTexture : public Texture {
+		class GradientTexture : public Graphics::Texture {
 		public:
 
 			GradientTexture(const Color &begin, const Color &end);
@@ -41,7 +41,7 @@ namespace Gui {
 			virtual void Bind() {
 				if (m_needGenerate)
 					GenerateGradient();
-				Texture::Bind();
+				Graphics::Texture::Bind();
 			}
 
 			void DrawGradientQuad(float w, float h, Direction direction);

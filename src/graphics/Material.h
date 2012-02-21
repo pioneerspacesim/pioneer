@@ -4,10 +4,9 @@
 #include "libs.h"
 #include <RefCounted.h>
 
-class Texture;
-
 namespace Graphics {
 
+class Texture;
 class Shader;
 
 /*

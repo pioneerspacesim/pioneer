@@ -5,6 +5,8 @@
 #include <GL/glew.h>
 #include <string>
 
+namespace Graphics {
+
 /*
  * Texture is a class to manage the details of a single texture. you can't
  * instantiate this class directly. most of the time you'll want either
@@ -160,46 +162,6 @@ private:
 	GLuint m_glTexture;
 };
 
-
-// subclass for model textures. primarily allows lazy-loaded textures, where
-// they aren't pulled from disk until the first call to Bind().
-class ModelTexture : public Texture {
-public:
-	ModelTexture(const std::string &filename, bool preload = false);
-
-	virtual void Bind() {
-		if (!IsCreated())
-			Load();
-		Texture::Bind();
-	}
-
-	const std::string &GetFilename() const { return m_filename; }
-
-private:
-	void Load();
-
-	std::string m_filename;
-};
-
-// a lot like model texture, but meant for billboards, particle effects, sprites
-// they are clamped and cannot be delay-loaded (they are expected to be rather small anyway)
-class BillboardTexture : public Texture {
-public:
-	BillboardTexture(const std::string &filename);
-
-	//needed for LMR caching
-	const std::string &GetFilename() const { return m_filename; }
-private:
-	std::string m_filename;
-};
-
-
-// subclass for UI textures. these can be constructed directly from a SDL
-// surface or loaded from disk
-class UITexture : public Texture {
-public:
-	UITexture(SDL_Surface *s);
-	UITexture(const std::string &filename);
-};
+}
 
 #endif

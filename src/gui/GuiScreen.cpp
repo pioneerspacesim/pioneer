@@ -22,8 +22,6 @@ FontCache Screen::s_fontCache;
 std::stack< RefCountedPtr<TextureFont> > Screen::s_fontStack;
 RefCountedPtr<TextureFont>Screen::s_defaultFont;
 
-TextureCache Screen::s_textureCache;
-
 void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 {
 	Screen::width = ui_width;

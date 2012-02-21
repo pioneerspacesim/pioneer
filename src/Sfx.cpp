@@ -5,7 +5,7 @@
 #include "StarSystem.h"
 #include "Space.h"
 #include "Pi.h"
-#include "TextureCache.h"
+#include "WorldTexture.h"
 #include "graphics/Material.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"

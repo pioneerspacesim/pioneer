@@ -1,12 +1,35 @@
-#include "TextureCache.h"
-#include "Texture.h"
+#include "WorldTexture.h"
+#include <cassert>
+
+ModelTexture::ModelTexture(const std::string &filename, bool preload) :
+	Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), REPEAT, LINEAR, true),
+	m_filename(filename)
+{
+	if (preload)
+		Load();
+}
+
+void ModelTexture::Load()
+{
+	assert(!IsCreated());
+	CreateFromFile(m_filename, false);
+}
+
+
+BillboardTexture::BillboardTexture(const std::string &filename) :
+	Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, true),
+	m_filename(filename)
+{
+	CreateFromFile(filename, false);
+}
+
 
 TextureCache::~TextureCache()
 {
 	for (TextureCacheMap::iterator i = m_modelTextureCache.begin(); i != m_modelTextureCache.end(); ++i)
 		delete (*i).second;
 
-	for (TextureCacheMap::iterator i = m_uiTextureCache.begin(); i != m_uiTextureCache.end(); ++i)
+	for (TextureCacheMap::iterator i = m_billboardTextureCache.begin(); i != m_billboardTextureCache.end(); ++i)
 		delete (*i).second;
 }
 
@@ -32,17 +55,4 @@ BillboardTexture *TextureCache::GetBillboardTexture(const std::string &filename)
 	m_billboardTextureCache.insert(std::make_pair(filename, t));
 
 	return t;
-}
-
-UITexture *TextureCache::GetUITexture(const std::string &filename)
-{
-	TextureCacheMap::iterator i = m_uiTextureCache.find(filename);
-	if (i != m_uiTextureCache.end())
-		return static_cast<UITexture*>((*i).second);
-	
-	UITexture *t = new UITexture(filename);
-	m_uiTextureCache.insert(std::make_pair(filename, t));
-
-	return t;
-
 }

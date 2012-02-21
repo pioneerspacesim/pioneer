@@ -2,7 +2,7 @@
 #include "Lang.h"
 #include "Pi.h"
 #include "LuaNameGen.h"
-#include "Texture.h"
+#include "gui/GuiTexture.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
@@ -132,7 +132,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 		_blit_image(s, filename, 0, 0);
 	}
 
-	m_texture = new UITexture(s);
+	m_texture = new Gui::Texture(s);
 
 	SDL_FreeSurface(s);
 }

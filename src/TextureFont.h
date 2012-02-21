@@ -2,13 +2,13 @@
 #define _TEXTUREFONT_H
 
 #include "Font.h"
-#include "Texture.h"
+#include "graphics/Texture.h"
 
 class TextureFont : public Font {
 
 private:
 
-	class GlyphTexture : public Texture {
+	class GlyphTexture : public Graphics::Texture {
 	public:
 		GlyphTexture(Uint8 *data, int width, int height);
 		virtual void Bind();

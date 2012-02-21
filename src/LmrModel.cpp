@@ -11,7 +11,7 @@
 #include "EquipType.h"
 #include "EquipSet.h"
 #include "ShipType.h"
-#include "TextureCache.h"
+#include "WorldTexture.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
@@ -4432,7 +4432,7 @@ static void _write_model_crc_file()
 void LmrModelCompilerInit(Graphics::Renderer *renderer, TextureCache *textureCache)
 {
 	s_renderer = renderer;
-	s_textureCache = textureCache;
+	s_textureCache = new TextureCache;;
 
 	ShipThruster::Init(s_textureCache);
 
@@ -4560,4 +4560,6 @@ void LmrModelCompilerUninit()
 	delete s_staticBufferPool;
 
 	ShipThruster::Uninit();
+
+	delete s_textureCache;
 }
