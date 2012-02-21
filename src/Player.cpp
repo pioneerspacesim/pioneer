@@ -457,6 +457,8 @@ void Player::OnEnterHyperspace()
 	SetNavTarget(0);
 	SetCombatTarget(0);
 
+	Pi::worldView->HideTargetActions(); // hide the comms menu
+
 	if (Pi::player->GetFlightControlState() == Player::CONTROL_AUTOPILOT)
 		Pi::player->SetFlightControlState(Player::CONTROL_MANUAL);
 

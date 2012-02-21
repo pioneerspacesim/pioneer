@@ -808,10 +808,20 @@ void WorldView::OnSwitchTo()
 void WorldView::ToggleTargetActions()
 {
 	if (Pi::game->IsHyperspace() || m_showTargetActionsTimeout)
-		m_showTargetActionsTimeout = 0;
+		HideTargetActions();
 	else
-		m_showTargetActionsTimeout = SDL_GetTicks();
+		ShowTargetActions();
+}
 
+void WorldView::ShowTargetActions()
+{
+	m_showTargetActionsTimeout = SDL_GetTicks();
+	UpdateCommsOptions();
+}
+
+void WorldView::HideTargetActions()
+{
+	m_showTargetActionsTimeout = 0;
 	UpdateCommsOptions();
 }
 
