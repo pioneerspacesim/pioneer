@@ -523,8 +523,8 @@ void RendererLegacy::EnableClientStates(const VertexArray *v)
 
 void RendererLegacy::DisableClientStates()
 {
-	for(int i=0; i!=m_clientStates.size(); i++)
-		glDisableClientState(m_clientStates[i]);
+	for (std::vector<GLenum>::const_iterator i = m_clientStates.begin(); i != m_clientStates.end(); ++i)
+		glDisableClientState(*i);
 	m_clientStates.clear();
 }
 
