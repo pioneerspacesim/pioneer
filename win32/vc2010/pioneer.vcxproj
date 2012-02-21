@@ -124,7 +124,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_release.lib;libvorbis_static_vc2010_release.lib;libvorbisfile_static_vc2010_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-2_2_8.lib;libpng15_static.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -146,7 +146,6 @@
     <ClCompile Include="..\..\src\CommodityTradeWidget.cpp" />
     <ClCompile Include="..\..\src\CustomSystem.cpp" />
     <ClCompile Include="..\..\src\DeadVideoLink.cpp" />
-    <ClCompile Include="..\..\src\Drawables.cpp" />
     <ClCompile Include="..\..\src\DynamicBody.cpp" />
     <ClCompile Include="..\..\src\enum_table.cpp" />
     <ClCompile Include="..\..\src\EquipType.cpp" />
@@ -164,6 +163,17 @@
     <ClCompile Include="..\..\src\GameLoaderSaver.cpp" />
     <ClCompile Include="..\..\src\GameMenuView.cpp" />
     <ClCompile Include="..\..\src\GeoSphere.cpp" />
+    <ClCompile Include="..\..\src\graphics\Drawables.cpp" />
+    <ClCompile Include="..\..\src\graphics\Frustum.cpp" />
+    <ClCompile Include="..\..\src\graphics\Graphics.cpp" />
+    <ClCompile Include="..\..\src\graphics\Material.cpp" />
+    <ClCompile Include="..\..\src\graphics\Renderer.cpp" />
+    <ClCompile Include="..\..\src\graphics\RendererGL2.cpp" />
+    <ClCompile Include="..\..\src\graphics\RendererLegacy.cpp" />
+    <ClCompile Include="..\..\src\graphics\RenderTarget.cpp" />
+    <ClCompile Include="..\..\src\graphics\Shader.cpp" />
+    <ClCompile Include="..\..\src\graphics\StaticMesh.cpp" />
+    <ClCompile Include="..\..\src\graphics\VertexArray.cpp" />
     <ClCompile Include="..\..\src\gui\Gui.cpp" />
     <ClCompile Include="..\..\src\gui\GuiBox.cpp" />
     <ClCompile Include="..\..\src\gui\GuiButton.cpp" />
@@ -242,17 +252,6 @@
     <ClCompile Include="..\..\src\Player.cpp" />
     <ClCompile Include="..\..\src\Polit.cpp" />
     <ClCompile Include="..\..\src\Projectile.cpp" />
-    <ClCompile Include="..\..\src\render\Material.cpp" />
-    <ClCompile Include="..\..\src\render\Render.cpp" />
-    <ClCompile Include="..\..\src\render\Renderer.cpp" />
-    <ClCompile Include="..\..\src\render\RendererGL2.cpp" />
-    <ClCompile Include="..\..\src\render\RendererLegacy.cpp" />
-    <ClCompile Include="..\..\src\render\RenderFrustum.cpp" />
-    <ClCompile Include="..\..\src\render\RenderShader.cpp" />
-    <ClCompile Include="..\..\src\render\RenderTarget.cpp" />
-    <ClCompile Include="..\..\src\render\StaticMesh.cpp" />
-    <ClCompile Include="..\..\src\render\Surface.cpp" />
-    <ClCompile Include="..\..\src\render\VertexArray.cpp" />
     <ClCompile Include="..\..\src\Sector.cpp" />
     <ClCompile Include="..\..\src\SectorView.cpp" />
     <ClCompile Include="..\..\src\Serializer.cpp" />
@@ -371,7 +370,6 @@
     <ClInclude Include="..\..\src\CustomSystem.h" />
     <ClInclude Include="..\..\src\DeadVideoLink.h" />
     <ClInclude Include="..\..\src\DeleteEmitter.h" />
-    <ClInclude Include="..\..\src\Drawables.h" />
     <ClInclude Include="..\..\src\DynamicBody.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
     <ClInclude Include="..\..\src\EquipType.h" />
@@ -391,6 +389,19 @@
     <ClInclude Include="..\..\src\GameLoaderSaver.h" />
     <ClInclude Include="..\..\src\GameMenuView.h" />
     <ClInclude Include="..\..\src\GeoSphere.h" />
+    <ClInclude Include="..\..\src\graphics\Drawables.h" />
+    <ClInclude Include="..\..\src\graphics\Frustum.h" />
+    <ClInclude Include="..\..\src\graphics\Graphics.h" />
+    <ClInclude Include="..\..\src\graphics\Material.h" />
+    <ClInclude Include="..\..\src\graphics\Renderer.h" />
+    <ClInclude Include="..\..\src\graphics\RendererGL2.h" />
+    <ClInclude Include="..\..\src\graphics\RendererGLBuffers.h" />
+    <ClInclude Include="..\..\src\graphics\RendererLegacy.h" />
+    <ClInclude Include="..\..\src\graphics\RenderTarget.h" />
+    <ClInclude Include="..\..\src\graphics\Shader.h" />
+    <ClInclude Include="..\..\src\graphics\StaticMesh.h" />
+    <ClInclude Include="..\..\src\graphics\Surface.h" />
+    <ClInclude Include="..\..\src\graphics\VertexArray.h" />
     <ClInclude Include="..\..\src\gui\Gui.h" />
     <ClInclude Include="..\..\src\gui\GuiAdjustment.h" />
     <ClInclude Include="..\..\src\gui\GuiBox.h" />
@@ -477,17 +488,6 @@
     <ClInclude Include="..\..\src\Quaternion.h" />
     <ClInclude Include="..\..\src\RefCounted.h" />
     <ClInclude Include="..\..\src\RefList.h" />
-    <ClInclude Include="..\..\src\render\Material.h" />
-    <ClInclude Include="..\..\src\render\Render.h" />
-    <ClInclude Include="..\..\src\render\Renderer.h" />
-    <ClInclude Include="..\..\src\render\RendererGL2.h" />
-    <ClInclude Include="..\..\src\render\RendererLegacy.h" />
-    <ClInclude Include="..\..\src\render\RenderFrustum.h" />
-    <ClInclude Include="..\..\src\render\RenderShader.h" />
-    <ClInclude Include="..\..\src\render\RenderTarget.h" />
-    <ClInclude Include="..\..\src\render\StaticMesh.h" />
-    <ClInclude Include="..\..\src\render\Surface.h" />
-    <ClInclude Include="..\..\src\render\VertexArray.h" />
     <ClInclude Include="..\..\src\Sector.h" />
     <ClInclude Include="..\..\src\SectorView.h" />
     <ClInclude Include="..\..\src\Serializer.h" />

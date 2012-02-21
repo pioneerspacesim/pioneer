@@ -124,7 +124,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
@@ -140,6 +140,17 @@
     <ClCompile Include="..\..\src\Font.cpp" />
     <ClCompile Include="..\..\src\FontCache.cpp" />
     <ClCompile Include="..\..\src\FontConfig.cpp" />
+    <ClCompile Include="..\..\src\graphics\Drawables.cpp" />
+    <ClCompile Include="..\..\src\graphics\Frustum.cpp" />
+    <ClCompile Include="..\..\src\graphics\Graphics.cpp" />
+    <ClCompile Include="..\..\src\graphics\Material.cpp" />
+    <ClCompile Include="..\..\src\graphics\Renderer.cpp" />
+    <ClCompile Include="..\..\src\graphics\RendererGL2.cpp" />
+    <ClCompile Include="..\..\src\graphics\RendererLegacy.cpp" />
+    <ClCompile Include="..\..\src\graphics\RenderTarget.cpp" />
+    <ClCompile Include="..\..\src\graphics\Shader.cpp" />
+    <ClCompile Include="..\..\src\graphics\StaticMesh.cpp" />
+    <ClCompile Include="..\..\src\graphics\VertexArray.cpp" />
     <ClCompile Include="..\..\src\gui\Gui.cpp" />
     <ClCompile Include="..\..\src\gui\GuiBox.cpp" />
     <ClCompile Include="..\..\src\gui\GuiButton.cpp" />
@@ -172,17 +183,6 @@
     <ClCompile Include="..\..\src\LuaUtils.cpp" />
     <ClCompile Include="..\..\src\MyLuaMathTypes.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
-    <ClCompile Include="..\..\src\render\Material.cpp" />
-    <ClCompile Include="..\..\src\render\Render.cpp" />
-    <ClCompile Include="..\..\src\render\Renderer.cpp" />
-    <ClCompile Include="..\..\src\render\RendererGL2.cpp" />
-    <ClCompile Include="..\..\src\render\RendererLegacy.cpp" />
-    <ClCompile Include="..\..\src\render\RenderFrustum.cpp" />
-    <ClCompile Include="..\..\src\render\RenderShader.cpp" />
-    <ClCompile Include="..\..\src\render\RenderTarget.cpp" />
-    <ClCompile Include="..\..\src\render\StaticMesh.cpp" />
-    <ClCompile Include="..\..\src\render\Surface.cpp" />
-    <ClCompile Include="..\..\src\render\VertexArray.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
     <ClCompile Include="..\..\src\StringF.cpp" />
     <ClCompile Include="..\..\src\TextSupport.cpp" />
@@ -205,11 +205,23 @@
     <ClInclude Include="..\..\src\collider\CollisionSpace.h" />
     <ClInclude Include="..\..\src\collider\Geom.h" />
     <ClInclude Include="..\..\src\collider\GeomTree.h" />
-    <ClInclude Include="..\..\src\Drawables.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
     <ClInclude Include="..\..\src\Font.h" />
     <ClInclude Include="..\..\src\FontCache.h" />
     <ClInclude Include="..\..\src\FontConfig.h" />
+    <ClInclude Include="..\..\src\graphics\Drawables.h" />
+    <ClInclude Include="..\..\src\graphics\Frustum.h" />
+    <ClInclude Include="..\..\src\graphics\Graphics.h" />
+    <ClInclude Include="..\..\src\graphics\Material.h" />
+    <ClInclude Include="..\..\src\graphics\Renderer.h" />
+    <ClInclude Include="..\..\src\graphics\RendererGL2.h" />
+    <ClInclude Include="..\..\src\graphics\RendererGLBuffers.h" />
+    <ClInclude Include="..\..\src\graphics\RendererLegacy.h" />
+    <ClInclude Include="..\..\src\graphics\RenderTarget.h" />
+    <ClInclude Include="..\..\src\graphics\Shader.h" />
+    <ClInclude Include="..\..\src\graphics\StaticMesh.h" />
+    <ClInclude Include="..\..\src\graphics\Surface.h" />
+    <ClInclude Include="..\..\src\graphics\VertexArray.h" />
     <ClInclude Include="..\..\src\gui\Gui.h" />
     <ClInclude Include="..\..\src\gui\GuiAdjustment.h" />
     <ClInclude Include="..\..\src\gui\GuiBox.h" />
@@ -246,17 +258,6 @@
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\MyLuaMathTypes.h" />
     <ClInclude Include="..\..\src\perlin.h" />
-    <ClInclude Include="..\..\src\render\Material.h" />
-    <ClInclude Include="..\..\src\render\Render.h" />
-    <ClInclude Include="..\..\src\render\Renderer.h" />
-    <ClInclude Include="..\..\src\render\RendererGL2.h" />
-    <ClInclude Include="..\..\src\render\RendererLegacy.h" />
-    <ClInclude Include="..\..\src\render\RenderFrustum.h" />
-    <ClInclude Include="..\..\src\render\RenderShader.h" />
-    <ClInclude Include="..\..\src\render\RenderTarget.h" />
-    <ClInclude Include="..\..\src\render\StaticMesh.h" />
-    <ClInclude Include="..\..\src\render\Surface.h" />
-    <ClInclude Include="..\..\src\render\VertexArray.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
     <ClInclude Include="..\..\src\StringF.h" />
     <ClInclude Include="..\..\src\TextSupport.h" />
