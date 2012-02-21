@@ -21,22 +21,16 @@ void StaticMesh::AddSurface(Surface *s)
 int StaticMesh::GetNumVerts() const
 {
 	int numvertices = 0;
-	for (SurfaceList::const_iterator surface = m_surfaces.begin();
-		surface != m_surfaces.end(); ++surface)
-	{
+	for (SurfaceIterator surface = SurfacesBegin(); surface != SurfacesEnd(); ++surface)
 		numvertices += (*surface)->GetNumVerts();
-	}
 	return numvertices;
 }
 
 int StaticMesh::GetNumIndices() const
 {
 	int numIndices = 0;
-	for (SurfaceList::const_iterator surface = m_surfaces.begin();
-		surface != m_surfaces.end(); ++surface)
-	{
+	for (SurfaceIterator surface = SurfacesBegin(); surface != SurfacesEnd(); ++surface)
 		numIndices += (*surface)->GetNumIndices();
-	}
 	return numIndices;
 }
 
@@ -44,11 +38,8 @@ AttributeSet StaticMesh::GetAttributeSet() const
 {
 	//all vertices should match
 	AttributeSet set = 0;
-	for (SurfaceList::const_iterator surface = m_surfaces.begin();
-		surface != m_surfaces.end(); ++surface)
-	{
+	for (SurfaceIterator surface = SurfacesBegin(); surface != SurfacesEnd(); ++surface)
 		if ((*surface)->GetVertices())
 			set = (*surface)->GetVertices()->GetAttributeSet();
-	}
 	return set;
 }

@@ -19,6 +19,8 @@ public:
 	StaticMesh(PrimitiveType t);
 	~StaticMesh();
 
+	PrimitiveType GetPrimtiveType() const { return m_primitiveType; }
+
 	void AddSurface(Surface *s);
 	Surface *GetSurface(int idx) const { return m_surfaces.at(idx); }
 
@@ -29,14 +31,15 @@ public:
 	//blarf
 	AttributeSet GetAttributeSet() const;
 
+	typedef std::vector<Surface*>::const_iterator SurfaceIterator;
+	const SurfaceIterator SurfacesBegin() const { return m_surfaces.begin(); }
+	const SurfaceIterator SurfacesEnd() const { return m_surfaces.end(); }
+
 	bool cached;
 
 private:
-	friend class Renderer;
-	friend class RendererLegacy;
-	friend class RendererGL2;
 	PrimitiveType m_primitiveType;
-	SurfaceList m_surfaces;
+	std::vector<Surface*> m_surfaces;
 };
 
 #endif

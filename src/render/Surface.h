@@ -35,6 +35,4 @@ private:
 	std::vector<unsigned short> m_indices;
 };
 
-typedef std::vector<Surface*> SurfaceList;
-
 #endif

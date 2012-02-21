@@ -436,17 +436,15 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 		meshInfo->ibuf->Bind();
 	}
 
-	SurfaceList &surfaces = t->m_surfaces;
-	SurfaceList::iterator surface;
-	for (surface = surfaces.begin(); surface != surfaces.end(); ++surface) {
+	for (StaticMesh::SurfaceIterator surface = t->SurfacesBegin(); surface != t->SurfacesEnd(); ++surface) {
 		SurfaceRenderInfo *surfaceInfo = static_cast<SurfaceRenderInfo*>((*surface)->GetRenderInfo());
 
 		ApplyMaterial((*surface)->GetMaterial().Get());
 		if (meshInfo->ibuf) {
-			meshInfo->vbuf->DrawIndexed(t->m_primitiveType, surfaceInfo->glOffset, surfaceInfo->glAmount);
+			meshInfo->vbuf->DrawIndexed(t->GetPrimtiveType(), surfaceInfo->glOffset, surfaceInfo->glAmount);
 		} else {
 			//draw unindexed per surface
-			meshInfo->vbuf->Draw(t->m_primitiveType, surfaceInfo->glOffset, surfaceInfo->glAmount);
+			meshInfo->vbuf->Draw(t->GetPrimtiveType(), surfaceInfo->glOffset, surfaceInfo->glAmount);
 		}
 		UnApplyMaterial((*surface)->GetMaterial().Get());
 	}
@@ -550,9 +548,7 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	bool lmrHack = false;
 
 	VertexBuffer *buf = 0;
-	SurfaceList &surfaces = mesh->m_surfaces;
-	SurfaceList::iterator surface;
-	for (surface = surfaces.begin(); surface != surfaces.end(); ++surface) {
+	for (StaticMesh::SurfaceIterator surface = mesh->SurfacesBegin(); surface != mesh->SurfacesEnd(); ++surface) {
 		const int numsverts = (*surface)->GetNumVerts();
 		const VertexArray *va = (*surface)->GetVertices();
 
