@@ -11,7 +11,7 @@
  * Surface is a container for a vertex array, a material
  * and an index array. Intended for indexed triangle drawing.
  */
-class Surface {
+class Surface : public Renderable {
 public:
 	Surface(PrimitiveType primitiveType, VertexArray *vertices, RefCountedPtr<Material> material = RefCountedPtr<Material>(0)):
 		m_primitiveType(primitiveType), m_vertices(vertices), m_material(material) {}
@@ -33,13 +33,6 @@ private:
 	RefCountedPtr<Material> m_material;
 
 	std::vector<unsigned short> m_indices;
-
-	// multiple surfaces can be buffered in one vbo so need to
-	// save starting offset + amount to draw
-	//XXX temporary - replace with RenderInfo
-	friend class RendererLegacy;
-	int glOffset; //index start OR vertex start
-	int glAmount; //index count OR vertex amount
 };
 
 typedef std::vector<Surface*> SurfaceList;

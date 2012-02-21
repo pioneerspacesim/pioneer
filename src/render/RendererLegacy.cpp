@@ -9,14 +9,14 @@
 #include "VertexArray.h"
 #include <stddef.h> //for offsetof
 
-struct GLRenderInfo : public RenderInfo {
-	GLRenderInfo() :
+struct MeshRenderInfo : public RenderInfo {
+	MeshRenderInfo() :
 		numIndices(0),
 		vbuf(0),
 		ibuf(0)
 	{
 	}
-	virtual ~GLRenderInfo() {
+	virtual ~MeshRenderInfo() {
 		//don't delete, if these come from a pool!
 		delete vbuf;
 		delete ibuf;
@@ -24,6 +24,14 @@ struct GLRenderInfo : public RenderInfo {
 	int numIndices;
 	VertexBuffer *vbuf;
 	IndexBuffer *ibuf;
+};
+
+// multiple surfaces can be buffered in one vbo so need to
+// save starting offset + amount to draw
+struct SurfaceRenderInfo : public RenderInfo {
+	SurfaceRenderInfo() : glOffset(0), glAmount(0) {}
+	int glOffset; //index start OR vertex start
+	int glAmount; //index count OR vertex amount
 };
 
 RendererLegacy::RendererLegacy(int w, int h) :
@@ -420,29 +428,31 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 		if (!BufferStaticMesh(t))
 			return false;
 	}
-	GLRenderInfo *info = static_cast<GLRenderInfo*>(t->GetRenderInfo());
+	MeshRenderInfo *meshInfo = static_cast<MeshRenderInfo*>(t->GetRenderInfo());
 
 	//draw each surface
-	info->vbuf->Bind();
-	if (info->ibuf) {
-		info->ibuf->Bind();
+	meshInfo->vbuf->Bind();
+	if (meshInfo->ibuf) {
+		meshInfo->ibuf->Bind();
 	}
 
 	SurfaceList &surfaces = t->m_surfaces;
 	SurfaceList::iterator surface;
 	for (surface = surfaces.begin(); surface != surfaces.end(); ++surface) {
+		SurfaceRenderInfo *surfaceInfo = static_cast<SurfaceRenderInfo*>((*surface)->GetRenderInfo());
+
 		ApplyMaterial((*surface)->GetMaterial().Get());
-		if (info->ibuf) {
-			info->vbuf->DrawIndexed(t->m_primitiveType, (*surface)->glOffset, (*surface)->glAmount);
+		if (meshInfo->ibuf) {
+			meshInfo->vbuf->DrawIndexed(t->m_primitiveType, surfaceInfo->glOffset, surfaceInfo->glAmount);
 		} else {
 			//draw unindexed per surface
-			info->vbuf->Draw(t->m_primitiveType, (*surface)->glOffset, (*surface)->glAmount);
+			meshInfo->vbuf->Draw(t->m_primitiveType, surfaceInfo->glOffset, surfaceInfo->glAmount);
 		}
 		UnApplyMaterial((*surface)->GetMaterial().Get());
 	}
-	if (info->ibuf)
-		info->ibuf->Unbind();
-	info->vbuf->Unbind();
+	if (meshInfo->ibuf)
+		meshInfo->ibuf->Unbind();
+	meshInfo->vbuf->Unbind();
 
 	return true;
 }
@@ -530,8 +540,8 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	else
 		return false;
 
-	GLRenderInfo *info = new GLRenderInfo();
-	mesh->SetRenderInfo(info);
+	MeshRenderInfo *meshInfo = new MeshRenderInfo();
+	mesh->SetRenderInfo(meshInfo);
 
 	const int totalVertices = mesh->GetNumVerts();
 
@@ -572,22 +582,25 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 			buf->Bind();
 			offset = buf->BufferData<UnlitVertex>(numsverts, vts.Get());
 		}
-		(*surface)->glAmount = numsverts;
-		(*surface)->glOffset = offset;
+
+		SurfaceRenderInfo *surfaceInfo = new SurfaceRenderInfo();
+		surfaceInfo->glOffset = offset;
+		surfaceInfo->glAmount = numsverts;
+		(*surface)->SetRenderInfo(surfaceInfo);
 
 		//buffer indices from each surface, if in use
 		if ((*surface)->IsIndexed()) {
 			assert(background == false);
-			if (!info->ibuf)
-				info->ibuf = new IndexBuffer(mesh->GetNumIndices());
-			info->ibuf->Bind();
-			const int ioffset = info->ibuf->BufferIndexData((*surface)->GetNumIndices(), (*surface)->GetIndexPointer());
-			(*surface)->glOffset = ioffset;
-			(*surface)->glAmount = (*surface)->GetNumIndices();
+			if (!meshInfo->ibuf)
+				meshInfo->ibuf = new IndexBuffer(mesh->GetNumIndices());
+			meshInfo->ibuf->Bind();
+			const int ioffset = meshInfo->ibuf->BufferIndexData((*surface)->GetNumIndices(), (*surface)->GetIndexPointer());
+			surfaceInfo->glOffset = ioffset;
+			surfaceInfo->glAmount = (*surface)->GetNumIndices();
 		}
 	}
 	assert(buf);
-	info->vbuf = buf;
+	meshInfo->vbuf = buf;
 	mesh->cached = true;
 
 	return true;
