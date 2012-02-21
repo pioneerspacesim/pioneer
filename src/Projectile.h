@@ -3,12 +3,14 @@
 
 #include "Body.h"
 #include "EquipType.h"
+#include "graphics/Material.h"
+#include "SmartPtr.h"
 
 class Frame;
 class Texture;
 namespace Graphics {
 	class Renderer;
-	class Shader;
+	class VertexArray;
 }
 
 class Projectile: public Body {
@@ -44,17 +46,10 @@ private:
 
 	int m_parentIndex; // deserialisation
 
-	struct Vertex {
-		vector3f pos;
-		float u;
-		float v;
-		Vertex(const vector3f &_pos, float _u, float _v) :
-			pos(_pos), u(_u), v(_v) { }
-	};
-	Texture *m_sideTex;
-	Texture *m_glowTex;
-	std::vector<Vertex> m_verts;
-	Graphics::Shader *m_prog;
+	ScopedPtr<Graphics::VertexArray> m_sideVerts;
+	ScopedPtr<Graphics::VertexArray> m_glowVerts;
+	Graphics::Material m_sideMat;
+	Graphics::Material m_glowMat;
 };
 
 #endif /* _PROJECTILE_H */
