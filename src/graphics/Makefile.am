@@ -18,7 +18,8 @@ noinst_HEADERS = \
 	Material.h \
 	StaticMesh.h \
 	Surface.h \
-	VertexArray.h
+	VertexArray.h \
+	Drawables.h
 
 libgraphics_a_SOURCES = \
 	Graphics.cpp \
@@ -30,4 +31,5 @@ libgraphics_a_SOURCES = \
 	RenderTarget.cpp \
 	Material.cpp \
 	StaticMesh.cpp \
-	VertexArray.cpp
+	VertexArray.cpp \
+	Drawables.cpp

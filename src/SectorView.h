@@ -9,7 +9,7 @@
 #include "View.h"
 #include "Sector.h"
 #include "SystemPath.h"
-#include "Drawables.h"
+#include "graphics/Drawables.h"
 
 class SectorView: public View {
 public:

@@ -7,7 +7,7 @@
 #include "Ship.h" // for the flight state and ship animation enums
 #include "SpaceStation.h" // for the space station animation enums
 #include "TextureCache.h"
-#include "Drawables.h"
+#include "graphics/Drawables.h"
 #include "graphics/Material.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"

@@ -25,7 +25,6 @@ noinst_HEADERS = \
 	DeadVideoLink.h \
 	DeleteEmitter.h \
 	DynamicBody.h \
-	Drawables.h \
 	EquipSet.h \
 	EquipType.h \
 	FaceVideoLink.h \
@@ -162,7 +161,6 @@ pioneer_SOURCES	= \
 	CommodityTradeWidget.cpp \
 	CustomSystem.cpp \
 	DeadVideoLink.cpp \
-	Drawables.cpp \
 	DynamicBody.cpp \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
