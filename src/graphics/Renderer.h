@@ -122,9 +122,31 @@ public:
 	//complex unchanging geometry that is worthwhile to store in VBOs etc.
 	virtual bool DrawStaticMesh(StaticMesh *thing) { return false; }
 
+	// class representing the current state of the renderer. call CaptureState
+	// to obtain one. when it goes out of scope the destructor is called and
+	// will restore the renderer to its previous state
+	class State {
+	public:
+		virtual ~State() { m_renderer->PopState(); }
+	private:
+		State(const State&);
+		State &operator=(const State&);
+
+		friend class Renderer;
+		State(Renderer *r) : m_renderer(r) { m_renderer->PushState(); }
+
+		Renderer *m_renderer;
+	};
+
+	State *CaptureState() { return new State(this); }
+	
+
 protected:
 	int m_width;
 	int m_height;
+
+	virtual void PushState() = 0;
+	virtual void PopState() = 0;
 };
 
 // subclass this to store renderer specific information
