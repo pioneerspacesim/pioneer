@@ -38,19 +38,19 @@ public:
 		m_offset(0),
 		m_maxSize(maxElements)
 	{
-		glGenBuffers(1, &m_buf);
+		glGenBuffersARB(1, &m_buf);
 	}
 
 	virtual ~BufferBase() {
-		glDeleteBuffers(1, &m_buf);
+		glDeleteBuffersARB(1, &m_buf);
 	}
 
 	void Bind() {
-		glBindBuffer(m_target, m_buf);
+		glBindBufferARB(m_target, m_buf);
 	}
 
 	void Unbind() {
-		glBindBuffer(m_target, 0);
+		glBindBufferARB(m_target, 0);
 	}
 
 	template<typename T>
@@ -58,10 +58,10 @@ public:
 		//initialise data store on first use
 		assert(count > 0);
 		if (m_offset == 0) {
-			glBufferData(m_target, sizeof(T)*m_maxSize, 0, m_usageHint);
+			glBufferDataARB(m_target, sizeof(T)*m_maxSize, 0, m_usageHint);
 		}
 		int current = m_offset;
-		glBufferSubData(m_target, sizeof(T)*m_offset, sizeof(T)*count, v);
+		glBufferSubDataARB(m_target, sizeof(T)*m_offset, sizeof(T)*count, v);
 		m_offset += count;
 		return current;
 	}
