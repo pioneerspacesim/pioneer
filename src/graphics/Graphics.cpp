@@ -71,7 +71,7 @@ Renderer* Init(int screen_width, int screen_height, bool wantShaders)
 	else
 		renderer = new RendererLegacy(screen_width, screen_height);
 
-	printf("GLSL shaders %s.\n", shadersEnabled ? "on" : "off");
+	printf("Initialized %s\n", renderer->GetName());
 	
 	initted = true;
 
