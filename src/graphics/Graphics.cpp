@@ -64,14 +64,14 @@ Renderer* Init(int screen_width, int screen_height, bool wantShaders)
 	PrintGLInfo();
 
 	shadersAvailable = glewIsSupported("GL_VERSION_2_0");
-	shadersEnabled = wantShaders;
+	shadersEnabled = wantShaders && shadersAvailable;
 
-	if (shadersAvailable && wantShaders)
+	if (shadersEnabled)
 		renderer = new RendererGL2(screen_width, screen_height);
 	else
 		renderer = new RendererLegacy(screen_width, screen_height);
 
-	printf("GLSL shaders %s.\n", shadersEnabled ? "on" : "off");
+	printf("Initialized %s\n", renderer->GetName());
 	
 	initted = true;
 
