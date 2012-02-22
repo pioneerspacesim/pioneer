@@ -49,6 +49,9 @@ public:
 	virtual bool DrawStaticMesh(StaticMesh *thing);
 
 protected:
+	virtual void PushState();
+	virtual void PopState();
+
 	virtual void ApplyMaterial(const Material *mat);
 	virtual void UnApplyMaterial(const Material *mat);
 	//figure out states from a vertex array and enable them

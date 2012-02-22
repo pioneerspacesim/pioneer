@@ -122,9 +122,25 @@ public:
 	//complex unchanging geometry that is worthwhile to store in VBOs etc.
 	virtual bool DrawStaticMesh(StaticMesh *thing) { return false; }
 
+	// take a ticket representing the current renderer state. when the ticket
+	// is deleted, the renderer state is restored
+	class StateTicket {
+	public:
+		StateTicket(Renderer *r) : m_renderer(r) { m_renderer->PushState(); }
+		virtual ~StateTicket() { m_renderer->PopState(); }
+	private:
+		StateTicket(const StateTicket&);
+		StateTicket &operator=(const StateTicket&);
+		Renderer *m_renderer;
+	};
+
+
 protected:
 	int m_width;
 	int m_height;
+
+	virtual void PushState() = 0;
+	virtual void PopState() = 0;
 };
 
 // subclass this to store renderer specific information
