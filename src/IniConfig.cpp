@@ -16,18 +16,13 @@ void IniConfig::Load(const FileSystem::FileData &data)
 	StringRange buffer = data.AsStringRange();
 
 	while (!buffer.Empty()) {
-		// skip space at the beginning of the line
-		buffer.begin = buffer.SkipSpace();
-		// find the end of the line
-		const char *eol = buffer.FindNewline();
-		StringRange line(buffer.begin, eol);
-		buffer.begin = eol;
+		StringRange line = buffer.ReadLine().StripSpace();
 
 		// if the line is a comment, skip it
 		if (line.Empty() || (line[0] == '#')) continue;
 		const char *kend = line.FindChar('=');
 		// if there's no '=' sign, skip the line
-		if (kend == eol) {
+		if (kend == line.end) {
 			fprintf(stderr, "WARNING: ignoring invalid line in config file:\n   '%.*s'\n", int(line.Size()), line.begin);
 			continue;
 		}
