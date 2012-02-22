@@ -27,7 +27,10 @@ void IniConfig::Load(const FileSystem::FileData &data)
 		if (line.Empty() || (line[0] == '#')) continue;
 		const char *kend = line.FindChar('=');
 		// if there's no '=' sign, skip the line
-		if (kend == eol) continue;
+		if (kend == eol) {
+			fprintf(stderr, "WARNING: ignoring invalid line in config file:\n   '%.*s'\n", int(line.Size()), line.begin);
+			continue;
+		}
 
 		StringRange key(line.begin, kend);
 		StringRange value(kend + 1, line.end);
