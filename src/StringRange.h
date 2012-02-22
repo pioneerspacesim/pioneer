@@ -15,8 +15,6 @@ struct StringRange
 		assert((end_ - begin_) >= 0);
 	}
 
-	operator std::string() const { return ToString(); }
-
 	const char *begin;
 	const char *end;
 

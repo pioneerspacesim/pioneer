@@ -4093,7 +4093,7 @@ namespace ObjLoader {
 		std::string line;
 		StringRange mtlfilerange = mtlfiledata->AsStringRange();
 		for (int line_no=1; !mtlfilerange.Empty(); line_no++) {
-			line = mtlfilerange.ReadLine().StripSpace();
+			line = mtlfilerange.ReadLine().StripSpace().ToString();
 
 			if (!strncasecmp(line.c_str(), "newmtl ", 7)) {
 				PiVerify(1 == sscanf(line.c_str(), "newmtl %s", name));
@@ -4177,7 +4177,7 @@ namespace ObjLoader {
 
 		std::string line;
 		for (int line_no=1; !objdatabuf.Empty(); line_no++) {
-			line = objdatabuf.ReadLine();
+			line = objdatabuf.ReadLine().ToString();
 			const char *buf = line.c_str();
 
 			if ((buf[0] == 'v') && buf[1] == ' ') {

@@ -36,7 +36,7 @@ void IniConfig::Load(const FileSystem::FileData &data)
 		value.begin = value.SkipSpace();
 		value.end = value.RSkipSpace();
 
-		m_map[key] = value;
+		m_map[key.ToString()] = value.ToString();
 	}
 }
 
