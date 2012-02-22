@@ -227,7 +227,7 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 	}
 	//XXX should probably disable unused lights (for legacy renderer only)
 
-	State::SetNumLights(numlights);
+	Graphics::State::SetNumLights(numlights);
 
 	return true;
 }
@@ -603,6 +603,24 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	mesh->cached = true;
 
 	return true;
+}
+
+void RendererLegacy::PushState()
+{
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+}
+
+void RendererLegacy::PopState()
+{
+	glPopAttrib();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
 }
 
 }
