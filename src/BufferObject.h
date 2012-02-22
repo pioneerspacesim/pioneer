@@ -1,6 +1,8 @@
 #ifndef BUFFEROBJECT_H
 #define BUFFEROBJECT_H
 
+#include "graphics/Graphics.h"
+
 // 2MiB @ 32 bytes/vertex
 #define VERTICES_IN_BUFFER 65536
 
@@ -12,9 +14,9 @@ public:
 		m_vertexPos = 0;
 		glGenBuffersARB(1, &m_vertexArrayBufferObject);
 		glGenBuffersARB(1, &m_elementArrayBufferObject);
-		Render::BindArrayBuffer(m_vertexArrayBufferObject);
+		Graphics::BindArrayBuffer(m_vertexArrayBufferObject);
 		glBufferDataARB(GL_ARRAY_BUFFER_ARB, VERTICES_IN_BUFFER * VERTEX_SIZE, 0, GL_DYNAMIC_DRAW);
-		Render::BindArrayBuffer(0);
+		Graphics::BindArrayBuffer(0);
 	}
 
 	~BufferObject() {
@@ -30,10 +32,10 @@ public:
 	int AddGeometry(int numVertices, void *vtxData, int numIndices, Uint16 *idxData) {
 		assert(GetVertexSpaceLeft() >= numVertices);
 
-		Render::BindArrayBuffer(m_vertexArrayBufferObject);
+		Graphics::BindArrayBuffer(m_vertexArrayBufferObject);
 		glBufferSubDataARB(GL_ARRAY_BUFFER_ARB, m_vertexPos*VERTEX_SIZE, 
 			numVertices * VERTEX_SIZE, vtxData);
-		Render::BindArrayBuffer(0);
+		Graphics::BindArrayBuffer(0);
 
 		const int indexBase = m_elementsTemp.size();
 		for (int i=0; i<numIndices; i++) {
@@ -46,22 +48,22 @@ public:
 
 	void BindBuffersForDraw() {
 		FlushElementsArray();
-		if ( (!Render::IsArrayBufferBound(m_vertexArrayBufferObject)) ||
-		     (!Render::IsElementArrayBufferBound(m_elementArrayBufferObject)) ) {
-			Render::BindArrayBuffer(m_vertexArrayBufferObject);
+		if ( (!Graphics::IsArrayBufferBound(m_vertexArrayBufferObject)) ||
+		     (!Graphics::IsElementArrayBufferBound(m_elementArrayBufferObject)) ) {
+			Graphics::BindArrayBuffer(m_vertexArrayBufferObject);
 			glNormalPointer(GL_FLOAT, VERTEX_SIZE, reinterpret_cast<void *>(3*sizeof(float)));
 			glVertexPointer(3, GL_FLOAT, VERTEX_SIZE, 0);
 			glTexCoordPointer(2, GL_FLOAT, VERTEX_SIZE, reinterpret_cast<void *>(2*3*sizeof(float)));
-			Render::BindElementArrayBuffer(m_elementArrayBufferObject);
+			Graphics::BindElementArrayBuffer(m_elementArrayBufferObject);
 		}
 	}
 private:
 	void FlushElementsArray() {
 		if (m_elementsTempDirty) {
-			Render::BindElementArrayBuffer(m_elementArrayBufferObject);
+			Graphics::BindElementArrayBuffer(m_elementArrayBufferObject);
 			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER_ARB, sizeof(Uint16)*m_elementsTemp.size(),
 					&m_elementsTemp[0], GL_DYNAMIC_DRAW);
-			Render::BindElementArrayBuffer(0);
+			Graphics::BindElementArrayBuffer(0);
 			m_elementsTempDirty = false;
 		}
 	}

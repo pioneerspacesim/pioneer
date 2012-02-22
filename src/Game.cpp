@@ -16,6 +16,7 @@
 #include "SpaceStationView.h"
 #include "InfoView.h"
 #include "ObjectViewerView.h"
+#include "graphics/Renderer.h"
 
 static const int  s_saveVersion   = 45;
 static const char s_saveStart[]   = "PIONEER";
@@ -586,7 +587,7 @@ void Game::CreateViews()
 	Pi::game = this;
 	Pi::player = m_player.Get();
 
-	Pi::cpan = new ShipCpanel();
+	Pi::cpan = new ShipCpanel(Pi::renderer);
 	Pi::sectorView = new SectorView();
 	Pi::worldView = new WorldView();
 	Pi::galacticView = new GalacticView();
@@ -595,8 +596,17 @@ void Game::CreateViews()
 	Pi::spaceStationView = new SpaceStationView();
 	Pi::infoView = new InfoView();
 
+	// view manager will handle setting this probably
+	Pi::galacticView->SetRenderer(Pi::renderer);
+	Pi::infoView->SetRenderer(Pi::renderer);
+	Pi::sectorView->SetRenderer(Pi::renderer);
+	Pi::systemInfoView->SetRenderer(Pi::renderer);
+	Pi::systemView->SetRenderer(Pi::renderer);
+	Pi::worldView->SetRenderer(Pi::renderer);
+
 #if WITH_OBJECTVIEWER
 	Pi::objectViewerView = new ObjectViewerView();
+	Pi::objectViewerView->SetRenderer(Pi::renderer);
 #endif
 }
 
@@ -610,7 +620,7 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::player = m_player.Get();
 
 	Serializer::Reader section = rd.RdSection("ShipCpanel");
-	Pi::cpan = new ShipCpanel(section);
+	Pi::cpan = new ShipCpanel(section, Pi::renderer);
 
 	section = rd.RdSection("SectorView");
 	Pi::sectorView = new SectorView(section);
@@ -626,7 +636,15 @@ void Game::LoadViews(Serializer::Reader &rd)
 
 #if WITH_OBJECTVIEWER
 	Pi::objectViewerView = new ObjectViewerView();
+	Pi::objectViewerView->SetRenderer(Pi::renderer);
 #endif
+
+	Pi::galacticView->SetRenderer(Pi::renderer);
+	Pi::infoView->SetRenderer(Pi::renderer);
+	Pi::sectorView->SetRenderer(Pi::renderer);
+	Pi::systemInfoView->SetRenderer(Pi::renderer);
+	Pi::systemView->SetRenderer(Pi::renderer);
+	Pi::worldView->SetRenderer(Pi::renderer);
 }
 
 void Game::DestroyViews()

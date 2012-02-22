@@ -77,7 +77,8 @@ Body *Body::Unserialize(Serializer::Reader &_rd, Space *space)
 		case Object::STAR:
 			b = new Star(); break;
 		case Object::PLANET:
-			b = new Planet(); break;
+			b = new Planet();
+			break;
 		case Object::SPACESTATION:
 			b = new SpaceStation(); break;
 		case Object::SHIP:

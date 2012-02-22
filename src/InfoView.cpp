@@ -5,9 +5,10 @@
 #include "Ship.h"
 #include "ShipCpanel.h"
 #include "LmrModel.h"
-#include "render/Render.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
 
 class InfoViewPage: public Gui::Fixed {
 public:
@@ -351,10 +352,11 @@ void InfoView::UpdateInfo()
 
 void InfoView::Draw3D()
 {
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glClearColor(0.0f,0.2f,0.4f,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_renderer->SetTransform(matrix4x4f::Identity());
+	//XXX just use a blue background widget
+	m_renderer->SetClearColor(Color(0.f, 0.2f, 0.4f, 0.f));
+	m_renderer->ClearScreen();
+	m_renderer->SetClearColor(Color(0.f));
 }
 
 void InfoView::Update()

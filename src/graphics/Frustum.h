@@ -4,14 +4,18 @@
 #include "libs.h"
 #include "vector3.h"
 
-namespace Render {
+namespace Graphics {
 
+// Frustum can be used for projecting points (3D to 2D) and testing
+// if a point lies inside the visible area
+// Its' internal projection matrix should, but does not have to, match
+// the one used for rendering
 class Frustum {
 public:
 	static Frustum FromGLState();
 
 	// create for specified values
-	Frustum(float width, float height, float fovAng);
+	Frustum(float width, float height, float fovAng, float nearClip, float farClip);
 
 	// apply the saved frustum
 	void Enable();

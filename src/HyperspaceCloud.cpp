@@ -3,12 +3,16 @@
 #include "Pi.h"
 #include "Ship.h"
 #include "Serializer.h"
-#include "render/Render.h"
 #include "Space.h"
 #include "Player.h"
 #include "perlin.h"
 #include "Lang.h"
 #include "Game.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
+
+using namespace Graphics;
 
 HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 {
@@ -110,17 +114,13 @@ Ship *HyperspaceCloud::EvictShip()
 	return s;
 }
 
-static void make_circle_thing(float radius, const Color &colCenter, const Color &colEdge)
+static void make_circle_thing(VertexArray &va, float radius, const Color &colCenter, const Color &colEdge)
 {
-	glColor4fv(colCenter);
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(0,0,0);
-	glColor4fv(colEdge);
+	va.Add(vector3f(0.f, 0.f, 0.f), colCenter);
 	for (float ang=0; ang<M_PI*2.0; ang+=0.1) {
-		glVertex3f(radius*sin(ang), radius*cos(ang), 0.0f);
+		va.Add(vector3f(radius*sin(ang), radius*cos(ang), 0.0f), colEdge);
 	}
-	glVertex3f(0, radius, 0.0f);
-	glEnd();
+	va.Add(vector3f(0.f, radius, 0.f), colEdge);
 }
 
 void HyperspaceCloud::UpdateInterpolatedTransform(double alpha)
@@ -134,30 +134,32 @@ void HyperspaceCloud::UpdateInterpolatedTransform(double alpha)
 	m_interpolatedTransform[14] = p.z;
 }
 
-void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void HyperspaceCloud::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	Render::State::UseProgram(Render::simpleShader);
-	glDisable(GL_LIGHTING);
-	glEnable(GL_BLEND);
+	renderer->SetBlendMode(BLEND_ALPHA_ONE);
 	glPushMatrix();
-	glTranslatef(float(viewCoords.x), float(viewCoords.y), float(viewCoords.z));
+
+	matrix4x4d trans = matrix4x4d::Identity();
+	trans.Translate(float(viewCoords.x), float(viewCoords.y), float(viewCoords.z));
 	
 	// face the camera dammit
 	vector3d zaxis = viewCoords.NormalizedSafe();
 	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
 	vector3d yaxis = zaxis.Cross(xaxis);
 	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
-	glMultMatrixd(&rot[0]);
+	renderer->SetTransform(trans * rot);
+
 	// precise to the rendered frame (better than PHYSICS_HZ granularity)
 	double preciseTime = Pi::game->GetTime() + Pi::GetGameTickAlpha()*Pi::game->GetTimeStep();
 
 	float radius = 1000.0f + 200.0f*float(noise(10.0*preciseTime, 0, 0));
+	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 	if (m_isArrival) {
-		make_circle_thing(radius, Color(1.0,1.0,1.0,1.0), Color(0.0,0.0,1.0,0.0));
+		make_circle_thing(va, radius, Color(1.0,1.0,1.0,1.0), Color(0.0,0.0,1.0,0.0));
 	} else {
-		make_circle_thing(radius, Color(1.0,1.0,1.0,1.0), Color(1.0,0.0,0.0,0.0));
+		make_circle_thing(va, radius, Color(1.0,1.0,1.0,1.0), Color(1.0,0.0,0.0,0.0));
 	}
+	renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
+	renderer->SetBlendMode(BLEND_SOLID);
 	glPopMatrix();
-	glDisable(GL_BLEND);
-	glEnable(GL_LIGHTING);
 }

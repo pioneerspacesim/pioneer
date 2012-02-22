@@ -10,6 +10,7 @@ class Planet;
 class SpaceStation;
 class Frame;
 class Geom;
+namespace Graphics { class Renderer; }
 
 #define CITY_ON_PLANET_RADIUS 5000.0
 
@@ -18,7 +19,7 @@ public:
 	OBJDEF(CityOnPlanet, Object, CITYONPLANET);
 	CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed);
 	virtual ~CityOnPlanet();
-	void Render(const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	void Render(Graphics::Renderer *r, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	inline Planet *GetPlanet() const { return m_planet; }
 
 	static void Init();

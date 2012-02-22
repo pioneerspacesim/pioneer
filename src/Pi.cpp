@@ -27,7 +27,6 @@
 #include "GameMenuView.h"
 #include "Missile.h"
 #include "LmrModel.h"
-#include "render/Render.h"
 #include "AmbientSounds.h"
 #include "CustomSystem.h"
 #include "CityOnPlanet.h"
@@ -65,7 +64,9 @@
 #include "TextureCache.h"
 #include "Game.h"
 #include "GameLoaderSaver.h"
-#include <sstream>
+#include "Light.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
 
 float Pi::gameTickAlpha;
 int Pi::scrWidth;
@@ -148,6 +149,7 @@ const char * const Pi::combatRating[] = {
 	Lang::DEADLY,
 	Lang::ELITE
 };
+Graphics::Renderer *Pi::renderer;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -172,15 +174,15 @@ int Pi::CombatRating(int kills)
 static void draw_progress(float progress)
 {
 	float w, h;
+	Pi::renderer->BeginFrame();
+	Pi::renderer->EndFrame();
 	Gui::Screen::EnterOrtho();
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	std::string msg = stringf(Lang::SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS, formatarg("age", progress * 13.7f));
 	Gui::Screen::MeasureString(msg, w, h);
 	glColor3f(1.0f,1.0f,1.0f);
 	Gui::Screen::RenderString(msg, 0.5f*(Gui::Screen::GetWidth()-w), 0.5f*(Gui::Screen::GetHeight()-h));
 	Gui::Screen::LeaveOrtho();
-	Render::SwapBuffers();
+	Pi::renderer->SwapBuffers();
 }
 
 static void LuaInit()
@@ -497,7 +499,7 @@ void Pi::Init()
 
 	Pi::textureCache = new TextureCache;
 
-	InitOpenGL();
+	Pi::gluQuadric = gluNewQuadric();
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
@@ -508,18 +510,18 @@ void Pi::Init()
 
 	LuaInit();
 
-	Render::Init(width, height);
+	bool wantShaders = (config.Int("DisableShaders") == 0);
+	Pi::renderer = Graphics::Init(width, height, wantShaders);
+
 	draw_progress(0.1f);
 
 	Galaxy::Init();
 	draw_progress(0.2f);
 
-	if (config.Int("DisableShaders")) Render::ToggleShaders();
-
 	CustomSystem::Init();
 	draw_progress(0.4f);
 
-	LmrModelCompilerInit(Pi::textureCache);
+	LmrModelCompilerInit(Pi::renderer, Pi::textureCache);
 	LmrNotifyScreenWidth(Pi::scrWidth);
 	draw_progress(0.5f);
 
@@ -623,24 +625,6 @@ void Pi::ToggleLuaConsole()
 	}
 }
 
-void Pi::InitOpenGL()
-{
-	glShadeModel(GL_SMOOTH);
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
-
-	glClearColor(0,0,0,0);
-	glViewport(0, 0, scrWidth, scrHeight);
-
-	gluQuadric = gluNewQuadric ();
-}
-
 void Pi::Quit()
 {
 	delete Pi::gameMenuView;
@@ -651,10 +635,11 @@ void Pi::Quit()
 	GeoSphere::Uninit();
 	LmrModelCompilerUninit();
 	Galaxy::Uninit();
-	Render::Uninit();
+	Graphics::Uninit();
 	LuaUninit();
 	Gui::Uninit();
 	delete Pi::textureCache;
+	delete Pi::renderer;
 	StarSystem::ShrinkCache();
 	SDL_Quit();
 	exit(0);
@@ -714,9 +699,6 @@ void Pi::HandleEvents()
 							if (Pi::game)
 								Pi::EndGame();
 							Pi::Quit();
-							break;
-						case SDLK_s: // Toggle Shaders
-							Render::ToggleShaders();
 							break;
 						case SDLK_PRINT:	   // print
 						case SDLK_KP_MULTIPLY: // screen
@@ -870,12 +852,6 @@ void Pi::HandleEvents()
 
 static void draw_intro(Background::Container *background, float _time)
 {
-	float lightCol[4] = { 1,1,1,0 };
-	float lightDir[4] = { 0,1,1,0 };
-	float ambient[4] = { 0.1,0.1,0.1,1 };
-
-	// defaults are dandy
-	Render::State::SetZnearZfar(1.0f, 10000.0f);
 	LmrObjParams params = {
 		"ShipAnimation", // animation namespace
 		0.0, // time
@@ -904,32 +880,25 @@ static void draw_intro(Background::Container *background, float _time)
 	// XXX all this stuff will be gone when intro uses a Camera
 	// rotate background by time, and a bit extra Z so it's not so flat
 	matrix4x4d brot = matrix4x4d::RotateXMatrix(-0.25*_time) * matrix4x4d::RotateZMatrix(0.6);
-	background->Draw(brot);
-	
+	background->Draw(Pi::renderer, brot);
+
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
-	glLightfv(GL_LIGHT0, GL_POSITION, lightDir);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, lightCol);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
-	glEnable(GL_LIGHT0);
-	
+	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
+
+	const Color lc(1.f, 1.f, 1.f, 0.f);
+	const Light light(Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
+	Pi::renderer->SetLights(1, &light);
+
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6f*_time) *
 			matrix4x4f::RotateXMatrix(_time*0.7f);
 	rot[14] = -80.0;
 	LmrLookupModelByName("lanner_ub")->Render(rot, &params);
-	Render::State::UseProgram(0);
-	Render::UnbindAllBuffers();
 	glPopAttrib();
 }
 
 static void draw_tombstone(float _time)
 {
-	float lightCol[4] = { 1,1,1,0 };
-	float lightDir[4] = { 0,1,1,0 };
-	float ambient[4] = { 0.1,0.1,0.1,1 };
-
 	LmrObjParams params = {
 		0, // animation namespace
 		0.0, // time
@@ -945,45 +914,35 @@ static void draw_tombstone(float _time)
 		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 	};
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
-	
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
-	glLightfv(GL_LIGHT0, GL_POSITION, lightDir);
-	glLightfv(GL_LIGHT0, GL_AMBIENT_AND_DIFFUSE, lightCol);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
-	glEnable(GL_LIGHT0);
-	
+
+	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
+
+	const Color lc(1.f, 1.f, 1.f, 0.f);
+	const Light light(Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
+	Pi::renderer->SetLights(1, &light);
+
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
 	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
 	LmrLookupModelByName("tombstone")->Render(rot, &params);
-	Render::State::UseProgram(0);
-	Render::UnbindAllBuffers();
 	glPopAttrib();
 }
 
 void Pi::TombStoneLoop()
 {
-	Render::State::SetZnearZfar(1.0f, 10000.0f);
-
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
 	cpan->HideAll();
 	currentView->HideAll();
 	do {
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		float fracH = 1.0f / Pi::GetScrAspect();
-		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		glClearColor(0,0,0,0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+		Pi::renderer->BeginFrame();
+		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
+		Pi::renderer->SetTransform(matrix4x4f::Identity());
 		Pi::HandleEvents();
 		Pi::SetMouseGrab(false);
-
 		draw_tombstone(_time);
+		Pi::renderer->EndFrame();
 		Gui::Draw();
-		Render::SwapBuffers();
+		Pi::renderer->SwapBuffers();
 		
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
@@ -1178,8 +1137,10 @@ void Pi::Start()
 
 	std::string version("Pioneer " PIONEER_VERSION);
 	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
+	version += "\n";
+	version += Pi::renderer->GetName();
 
-	menu->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200.0f, Gui::Screen::GetHeight()-32.0f);
+	menu->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200.0f, Gui::Screen::GetHeight()-60.0f);
 
 	Gui::Screen::PopFont();
 
@@ -1192,21 +1153,14 @@ void Pi::Start()
 	game = 0;
 	while (!menuDone) {
 		Pi::HandleEvents();
-
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		float fracH = 1.0f / Pi::GetScrAspect();
-		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		glClearColor(0,0,0,0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+		Pi::renderer->BeginFrame();
+		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
+		Pi::renderer->SetTransform(matrix4x4f::Identity());
 		Pi::SetMouseGrab(false);
-
 		draw_intro(background, _time);
+		Pi::renderer->EndFrame();
 		Gui::Draw();
-		Render::SwapBuffers();
+		Pi::renderer->SwapBuffers();
 		
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
@@ -1303,8 +1257,8 @@ void Pi::MainLoop()
 		}
 		frame_stat++;
 
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
+		Pi::renderer->BeginFrame();
+		Pi::renderer->SetTransform(matrix4x4f::Identity());
 		
 		/* Calculate position for this rendered frame (interpolated between two physics ticks */
         // XXX should this be here? what is this anyway?
@@ -1323,6 +1277,7 @@ void Pi::MainLoop()
 
 		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT));
 
+		Pi::renderer->EndFrame();
 		Gui::Draw();
 
 #if WITH_DEVKEYS
@@ -1336,10 +1291,7 @@ void Pi::MainLoop()
 		}
 #endif
 
-		glError();
-		Render::SwapBuffers();
-		//if (glGetError()) printf ("GL: %s\n", gluErrorString (glGetError ()));
-		
+		Pi::renderer->SwapBuffers();
 
 		// game exit or failed load from GameMenuView will have cleared
 		// Pi::game. we can't continue.

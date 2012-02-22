@@ -6,7 +6,7 @@
 #include "Pi.h"
 #include "Game.h"
 #include "collider/Geom.h"
-#include "render/RenderFrustum.h"
+#include "graphics/Frustum.h"
 
 #define START_SEG_SIZE CITY_ON_PLANET_RADIUS
 #define MIN_SEG_SIZE 50.0
@@ -272,7 +272,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	AddStaticGeomsToCollisionSpace();
 }
 
-void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void CityOnPlanet::Render(Graphics::Renderer *r, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d rot[4];
 	station->GetRotMatrix(rot[0]);
@@ -288,7 +288,8 @@ void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoord
 		rot[i] = rot[0] * matrix4x4d::RotateYMatrix(M_PI*0.5*double(i));
 	}
 
-	Render::Frustum frustum = Render::Frustum::FromGLState();
+	Graphics::Frustum frustum = Graphics::Frustum::FromGLState();
+	//modelview seems to be always identity
 
 	memset(&cityobj_params, 0, sizeof(LmrObjParams));
 	cityobj_params.time = Pi::game->GetTime();
