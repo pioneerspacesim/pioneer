@@ -33,10 +33,10 @@ struct StringRange
 
 	const char *FindNewline() const;
 
-	const char *SkipNewline() const;
+	const char *FindNonSpace() const;
+	const char *RFindNonSpace() const;
 
-	const char *SkipSpace() const;
-	const char *RSkipSpace() const;
+	const char *FindNextLine() const;
 
 	StringRange StripSpace() const;
 
@@ -51,9 +51,8 @@ private:
 
 inline StringRange StringRange::ReadLine()
 {
-	StringRange line(begin, FindNewline());
+	StringRange line(begin, FindNextLine());
 	begin = line.end;
-	begin = SkipNewline();
 	return line;
 }
 
@@ -92,22 +91,22 @@ inline const char *StringRange::FindNewline() const
 	return x;
 }
 
-inline const char *StringRange::SkipNewline() const
+inline const char *StringRange::FindNextLine() const
 {
-	const char *x = begin, *y = end;
+	const char *x = FindNewline(), *y = end;
 	if ((x != y) && (*x == '\r')) ++x;
 	if ((x != y) && (*x == '\n')) ++x;
 	return x;
 }
 
-inline const char *StringRange::SkipSpace() const
+inline const char *StringRange::FindNonSpace() const
 {
 	const char *x = begin, *y = end;
 	while ((x != y) && is_space(*x)) ++x;
 	return x;
 }
 
-inline const char *StringRange::RSkipSpace() const
+inline const char *StringRange::RFindNonSpace() const
 {
 	const char *x = begin, *y = end;
 	while ((x != y) && is_space(*--y)) {}
@@ -116,7 +115,12 @@ inline const char *StringRange::RSkipSpace() const
 
 inline StringRange StringRange::StripSpace() const
 {
-	return StringRange(SkipSpace(), RSkipSpace());
+	// can't just do StringRange(FindNonSpace(), RFindNonSpace())
+	// because if the string is *all* space then that will break the
+	// invariant that begin <= end
+	StringRange ss(FindNonSpace(), end);
+	ss.end = ss.RFindNonSpace();
+	return ss;
 }
 
 #endif

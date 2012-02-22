@@ -30,9 +30,8 @@ void IniConfig::Load(const FileSystem::FileData &data)
 		StringRange key(line.begin, kend);
 		StringRange value(kend + 1, line.end);
 		// strip whitespace
-		key.end = key.RSkipSpace();
-		value.begin = value.SkipSpace();
-		value.end = value.RSkipSpace();
+		key.end = key.RFindNonSpace();
+		value = value.StripSpace();
 
 		m_map[key.ToString()] = value.ToString();
 	}
