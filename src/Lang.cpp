@@ -170,10 +170,7 @@ StringRange StringFileParser::NextLine()
 {
 	if (!m_data.Empty()) {
 		++m_lineNo;
-		const char *eol = m_data.FindNewline();
-		StringRange line(m_data.begin, eol);
-		m_data.begin = eol;
-		m_data.begin = m_data.SkipNewline();
+		StringRange line = m_data.ReadLine();
 		return line.StripSpace();
 	} else
 		return m_data;
