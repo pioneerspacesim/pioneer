@@ -160,4 +160,4 @@ void Shader::Unuse()
 	m_currentShader = 0;
 }
 
-} /* namespace Render */
+}

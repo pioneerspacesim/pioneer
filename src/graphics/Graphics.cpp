@@ -138,4 +138,4 @@ void PrintGLInfo() {
 	printf("OpenGL system information saved to %s\n", fname.c_str());
 }
 
-} /* namespace Render */
+}

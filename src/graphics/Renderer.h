@@ -39,10 +39,6 @@ class StaticMesh;
 class Surface;
 class VertexArray;
 
-namespace Render {
-	class Shader;
-}
-
 // first some enums
 enum LineType {
 	LINE_SINGLE = GL_LINES, //draw one line per two vertices
