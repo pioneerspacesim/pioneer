@@ -215,13 +215,13 @@ LOAD_A_GAME
 EXIT_THIS_GAME
     Abandonar el Juego
 WINDOW_OR_FULLSCREEN
-    Ventana o Pantalla completa (Reiniciar para aplicar)
+    Ventana o Pantalla completa (Reiniciar para aplicar))
 FULL_SCREEN
     Pantalla completa
 OTHER_GRAPHICS_SETTINGS
     Otras opciones gráficas
 USE_SHADERS
-    Usar shaders
+    Usar Shaders (Reiniciar para aplicar)
 SOUND_SETTINGS
     Opciones de audio
 VOL_MASTER
