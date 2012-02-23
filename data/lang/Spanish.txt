@@ -221,7 +221,7 @@ FULL_SCREEN
 OTHER_GRAPHICS_SETTINGS
     Otras opciones gráficas
 USE_SHADERS
-    Usar shaders
+    Usar Shaders (Reiniciar para aplicar)
 SOUND_SETTINGS
     Opciones de audio
 VOL_MASTER
