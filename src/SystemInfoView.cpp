@@ -10,6 +10,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
+#include "graphics/Renderer.h"
 
 SystemInfoView::SystemInfoView()
 {
@@ -25,7 +26,8 @@ void SystemInfoView::OnBodySelected(SBody *b)
 	}
 
 	SystemPath path = m_system->GetPathOf(b);
-	if (Pi::game->GetSpace()->GetStarSystem()->GetPath() == m_system->GetPath()) {
+	RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+	if (currentSys && currentSys->GetPath() == m_system->GetPath()) {
 		Body* body = Pi::game->GetSpace()->FindBodyForPath(&path);
 		if(body != 0)
 			Pi::player->SetNavTarget(body);
@@ -186,6 +188,7 @@ void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, floa
 	if (body->type == SBody::TYPE_STARPORT_SURFACE) return;
 	if (body->type != SBody::TYPE_GRAVPOINT) {
 		BodyIcon *ib = new BodyIcon( (PIONEER_DATA_DIR "/" + std::string(body->GetIcon())).c_str() );
+		ib->SetRenderer(m_renderer);
 		m_bodyIcons.push_back(std::pair<std::string, BodyIcon*>(body->name, ib));
 		ib->GetSize(size);
 		if (prevSize < 0) prevSize = size[!dir];
@@ -382,10 +385,8 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 void SystemInfoView::Draw3D()
 {
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->ClearScreen();
 }
 
 void SystemInfoView::Update()
@@ -414,17 +415,20 @@ void SystemInfoView::UpdateIconSelections()
 	for (std::vector<std::pair<std::string, BodyIcon*> >::iterator it = m_bodyIcons.begin();
 		 it != m_bodyIcons.end(); ++it) {
 			 (*it).second->SetSelected(false);
-		if (Pi::game->GetSpace()->GetStarSystem()->GetPath() == m_system->GetPath() &&
+
+		RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+		if (currentSys && currentSys->GetPath() == m_system->GetPath() &&
 			Pi::player->GetNavTarget() &&
-			(*it).first == Pi::player->GetNavTarget()->GetLabel())
+			(*it).first == Pi::player->GetNavTarget()->GetLabel()) {
+
 			(*it).second->SetSelected(true);
+		}
 	}
 }
 
 SystemInfoView::BodyIcon::BodyIcon(const char *img) :
 	Gui::ImageRadioButton(0, img, img)
 {
-
 }
 
 void SystemInfoView::BodyIcon::Draw()
@@ -433,13 +437,14 @@ void SystemInfoView::BodyIcon::Draw()
 	if (!GetSelected()) return;
 	float size[2];
 	GetSize(size);
-	glColor3f(0.f, 1.f, 0.f);
-	glBegin(GL_LINE_LOOP);
-	glVertex2f(0.f, 0.f);
-	glVertex2f(size[0], 0.f);
-	glVertex2f(size[0], size[1]);
-	glVertex2f(0.f, size[1]);
-	glEnd();
+	Color green = Color(0.f, 1.f, 0.f, 1.f);
+	const vector2f vts[] = {
+		vector2f(0.f, 0.f),
+		vector2f(size[0], 0.f),
+		vector2f(size[0], size[1]),
+		vector2f(0.f, size[1]),
+	};
+	m_renderer->DrawLines2D(4, vts, green, Graphics::LINE_LOOP);
 }
 
 void SystemInfoView::BodyIcon::OnActivate()

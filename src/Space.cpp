@@ -14,7 +14,7 @@
 #include "collider/collider.h"
 #include "Missile.h"
 #include "HyperspaceCloud.h"
-#include "render/Render.h"
+#include "graphics/Graphics.h"
 #include "WorldView.h"
 #include "SectorView.h"
 #include "Lang.h"
@@ -642,6 +642,7 @@ void Space::TimeStep(float step)
 		Pi::luaOnUpdateBB->Emit();
 		Pi::luaOnShipFlavourChanged->Emit();
 		Pi::luaOnShipEquipmentChanged->Emit();
+		Pi::luaOnShipFuelChanged->Emit();
 
 		Pi::luaTimer->Tick();
 	}

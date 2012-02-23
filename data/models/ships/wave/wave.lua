@@ -146,7 +146,9 @@ define_model('wave', {
 				max_cargoscoop = 0,
 				max_fuelscoop = 0,
 				capacity = 30,
-				hull_mass = 20,
+				hull_mass = 13,
+				fuel_tank_mass = 7,
+				thruster_fuel_use = 0.0002,
 				price = 93000,
 				hyperdrive_class = 2,
 			}

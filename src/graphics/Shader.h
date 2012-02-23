@@ -2,6 +2,7 @@
 #define _SHADER_H
 
 #include "libs.h"
+#include "utils.h"
 
 #define SHADER_UNIFORM_VEC4(name) \
 	private: \
@@ -12,8 +13,8 @@
 	} \
 	void set_##name(float a, float b, float c, float d) { \
 		if (!loc_##name) { loc_##name = glGetUniformLocation(m_program, #name); } \
-		else if (float_equal_exact(val_##name[0], a) && float_equal_exact(val_##name[1], b) && \
-			float_equal_exact(val_##name[2], c) && float_equal_exact(val_##name[3], d)) return; \
+		else if (is_equal_exact(val_##name[0], a) && is_equal_exact(val_##name[1], b) && \
+			is_equal_exact(val_##name[2], c) && is_equal_exact(val_##name[3], d)) return; \
 		glUniform4f(loc_##name, a,b,c,d); \
 		val_##name[0]=a; val_##name[1]=b; val_##name[2]=c; val_##name[3]=d; \
 	}
@@ -26,8 +27,8 @@
 	} \
 	void set_##name(float a, float b, float c) { \
 		if (!loc_##name) { loc_##name = glGetUniformLocation(m_program, #name); } \
-		else if (float_equal_exact(val_##name[0], a) && float_equal_exact(val_##name[1], b) && \
-			float_equal_exact(val_##name[2], c)) return; \
+		else if (is_equal_exact(val_##name[0], a) && is_equal_exact(val_##name[1], b) && \
+			is_equal_exact(val_##name[2], c)) return; \
 		glUniform3f(loc_##name, a,b,c); val_##name[0]=a; val_##name[1]=b;val_##name[2]=c; \
 	}
 #define SHADER_UNIFORM_FLOAT(name) \
@@ -36,7 +37,7 @@
 	public: \
 	void set_##name(float v) { \
 		if (!loc_##name) { loc_##name = glGetUniformLocation(m_program, #name); } \
-		else if (float_equal_exact(val_##name, v)) return; \
+		else if (is_equal_exact(val_##name, v)) return; \
 		glUniform1f(loc_##name, v); val_##name = v; \
 	}
 #define SHADER_UNIFORM_INT(name) \
@@ -52,19 +53,19 @@
 	SHADER_UNIFORM_INT(name)
 
 #define SHADER_CLASS_BEGIN(name) \
-	class name: public Render::Shader { \
+	class name: public Graphics::Shader { \
 		public: \
-		name(const char *shaderFilename, const char *additional_defines): Render::Shader() { \
+		name(const char *shaderFilename, const char *additional_defines): Graphics::Shader() { \
 			memset(this, 0, sizeof(name)); \
 			Compile(shaderFilename, additional_defines); \
 		} \
-		name(const char *shaderFilename): Render::Shader() { \
+		name(const char *shaderFilename): Graphics::Shader() { \
 			memset(this, 0, sizeof(name)); \
 			Compile(shaderFilename, 0); \
 		}
 #define SHADER_CLASS_END()	};
 
-namespace Render {
+namespace Graphics {
 
 	extern bool shadersAvailable;
 	extern bool shadersEnabled;
@@ -90,6 +91,13 @@ namespace Render {
 		int GetLocation(const char *name) {
 			return glGetUniformLocation(m_program, name);
 		}
+
+		// Bind the program, returns false if the same program is already in use
+		bool Use();
+		// Unbind the program
+		void Unuse();
+
+		//uniform setters
 		void SetUniform(const char *name, int v) {
 			glUniform1i(GetLocation(name), v);
 		}
@@ -101,6 +109,8 @@ namespace Render {
 	private:
 		void PrintGLSLCompileError(const char* filename, GLuint obj);
 	};
+
+	extern Shader *m_currentShader;
 
 	void FreeLibs();
 }

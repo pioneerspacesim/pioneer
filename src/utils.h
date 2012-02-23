@@ -77,22 +77,7 @@ bool is_dir(const std::string &filename);
 /** args to callback are basename, full path */
 void foreach_file_in(const std::string &directory, void (*callback)(const std::string &, const std::string &));
 
-Uint32 ceil_pow2(Uint32 v);
-
 void Screendump(const char* destFile, const int w, const int h);
-
-// convert one multibyte (utf8) char to a widechar (utf32/ucs4)
-//  chr: pointer to output storage
-//  src: multibyte string
-//  returns: number of bytes swallowed, or 0 if end of string
-int conv_mb_to_wc(Uint32 *chr, const char *src);
-
-// encode one Unicode code-point as UTF-8
-//  chr: the Unicode code-point
-//  buf: a character buffer, which must have space for at least 4 bytes
-//       (i.e., assigning to buf[3] must be a valid operation)
-//  returns: number of bytes in the encoded character
-int conv_wc_to_mb(Uint32 chr, char buf[4]);
 
 // find string in bigger string, ignoring case
 const char *pi_strcasestr(const char *haystack, const char *needle);

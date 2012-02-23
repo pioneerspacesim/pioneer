@@ -4,7 +4,6 @@
 #include "libs.h"
 #include "gui/Gui.h"
 #include "View.h"
-#include "render/Render.h"
 #include "Serializer.h"
 #include "Background.h"
 #include "EquipType.h"
@@ -38,6 +37,8 @@ public:
 	enum CamType GetCamType() const;
 	int GetNumLights() const { return m_numLights; }
 	void ToggleTargetActions();
+	void ShowTargetActions();
+	void HideTargetActions();
 	int GetActiveWeapon() const;
 	void OnClickBlastoff();
 
@@ -82,13 +83,13 @@ private:
 	void HideIndicator(Indicator &indicator);
 	void SeparateLabels(Gui::Label *a, Gui::Label *b);
 
-	void DrawCrosshair(float px, float py, float sz);
-	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead);
-	void DrawTargetSquare(const Indicator &marker);
-	void DrawVelocityIndicator(const Indicator &marker);
-	void DrawCircleIndicator(const Indicator &marker);
-	void DrawImageIndicator(const Indicator &marker, const char *icon_path);
-	void DrawEdgeMarker(const Indicator &marker);
+	void DrawCrosshair(float px, float py, float sz, const Color &c);
+	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c);
+	void DrawTargetSquare(const Indicator &marker, const Color &c);
+	void DrawVelocityIndicator(const Indicator &marker, const Color &c);
+	void DrawCircleIndicator(const Indicator &marker, const Color &c);
+	void DrawImageIndicator(const Indicator &marker, const char *icon_path, const Color &c);
+	void DrawEdgeMarker(const Indicator &marker, const Color &c);
 
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
 	void AddCommsNavOption(const std::string msg, Body *target);
@@ -132,6 +133,7 @@ private:
 	Gui::Label *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure, *m_hudHyperspaceInfo, *m_hudTargetInfo;
 	Gui::MeterBar *m_hudHullTemp, *m_hudWeaponTemp, *m_hudHullIntegrity, *m_hudShieldIntegrity;
 	Gui::MeterBar *m_hudTargetHullIntegrity, *m_hudTargetShieldIntegrity;
+	Gui::MeterBar *m_hudFuelGauge;
 
 	sigc::connection m_onHyperspaceTargetChangedCon;
 	sigc::connection m_onPlayerEquipmentChangeCon;

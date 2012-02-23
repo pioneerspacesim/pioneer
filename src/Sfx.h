@@ -5,6 +5,7 @@
 #include "Serializer.h"
 
 class Frame;
+namespace Graphics { class Renderer; }
 
 class Sfx {
 public:
@@ -12,7 +13,7 @@ public:
 
 	static void Add(const Body *, TYPE);
 	static void TimeStepAll(const float timeStep, Frame *f);
-	static void RenderAll(const Frame *f, const Frame *camFrame);
+	static void RenderAll(Graphics::Renderer *r, const Frame *f, const Frame *camFrame);
 	static void Serialize(Serializer::Writer &wr, const Frame *f);
 	static void Unserialize(Serializer::Reader &rd, Frame *f);
 
@@ -22,7 +23,7 @@ public:
 private:
 	static Sfx *AllocSfxInFrame(Frame *f);
 
-	void Render(const matrix4x4d &transform);
+	void Render(Graphics::Renderer *r, const matrix4x4d &transform);
 	void TimeStepUpdate(const float timeStep);
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);

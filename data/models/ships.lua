@@ -184,7 +184,9 @@ define_model('ladybird', {
 				max_laser = 2,
 				max_cargoscoop = 0,
 				capacity = 60,
-				hull_mass = 60,
+				hull_mass = 40,
+				fuel_tank_mass = 20,
+				thruster_fuel_use = 0.0004,
 				price = 87000,
 				hyperdrive_class = 3,
 			}
@@ -368,7 +370,9 @@ define_model('walrus', {
 				max_missile = 6,
 				max_cargoscoop = 0,
 				capacity = 320,
-				hull_mass = 300,
+				hull_mass = 200,
+				fuel_tank_mass = 100, --full tank, tons in addition to hull_mass
+				thruster_fuel_use = 0.00015, --percent, per second (at max thrust, determined by strongest thruster)
 				price = 350000,
 				hyperdrive_class = 5,
 			}
@@ -530,7 +534,9 @@ define_model('flowerfairy', {
 				max_missile = 4,
 				max_cargoscoop = 0,
 				capacity = 500,
-				hull_mass = 500,
+				hull_mass = 350,
+				fuel_tank_mass = 150,
+				thruster_fuel_use = 0.0002,
 				price = 550000,
 				hyperdrive_class = 6,
 			}
@@ -676,7 +682,9 @@ define_model('interdictor', {
 				max_missile = 8,
 				max_cargoscoop = 0,
 				capacity = 90,
-				hull_mass = 100,
+				hull_mass = 66,
+				fuel_tank_mass = 37,
+				thruster_fuel_use = 0.0002,
 				price = 160000,
 				hyperdrive_class = 4,
 			}

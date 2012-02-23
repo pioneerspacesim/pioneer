@@ -1,7 +1,7 @@
-#include "RenderFrustum.h"
-#include "Render.h"
+#include "Frustum.h"
+#include "Graphics.h"
 
-namespace Render {
+namespace Graphics {
 
 // min/max FOV in degrees
 static const float FOV_MAX = 170.0f;
@@ -16,17 +16,18 @@ Frustum Frustum::FromGLState()
 
 Frustum::Frustum() {}
 
-Frustum::Frustum(float width, float height, float fovAng)
+Frustum::Frustum(float width, float height, float fovAng, float znear, float zfar)
 {
-	float fov = tan(DEG2RAD(Clamp(fovAng, FOV_MIN, FOV_MAX) / 2.0f));
+	//http://www.opengl.org/resources/faq/technical/transformations.htm
+	const float fov = tan(DEG2RAD(Clamp(fovAng, FOV_MIN, FOV_MAX) / 2.0f));
 
-	float znear, zfar;
-	GetNearFarClipPlane(znear, zfar);
+	const float aspect = width/height;
+	const float top = znear * fov;
+	const float bottom = -top;
+	const float left = bottom * aspect;
+	const float right = top * aspect;
 
-	float left = fov * znear;
-	float top = left * height/width;
-
-	m_projMatrix = matrix4x4d::FrustumMatrix(-left, left, -top, top, znear, zfar);
+	m_projMatrix = matrix4x4d::FrustumMatrix(left, right, bottom, top, znear, zfar);
 	m_modelMatrix = matrix4x4d::Identity();
 	InitFromMatrix(m_projMatrix);
 }
@@ -101,30 +102,12 @@ bool Frustum::TestPointInfinite(const vector3d &p, double radius) const
 
 bool Frustum::ProjectPoint(const vector3d &in, vector3d &out) const
 {
+	// XXX replace glut dependency
 	// fake viewport -- this is an identity transform when applied by gluProject
 	// see, e.g., http://cgit.freedesktop.org/mesa/mesa/tree/src/glu/sgi/libutil/project.c
 	// or the documentation for gluProject
 	const GLint viewport[4] = { 0, 0, 1, 1 };
 	return gluProject(in.x, in.y, in.z, m_modelMatrix.Data(), m_projMatrix.Data(), viewport, &out.x, &out.y, &out.z) == GL_TRUE;
-}
-
-void Frustum::Enable()
-{
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadMatrixd(m_projMatrix.Data());
-
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadMatrixd(m_modelMatrix.Data());
-}
-
-void Frustum::Disable()
-{
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
 }
 
 }

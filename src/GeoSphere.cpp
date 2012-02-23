@@ -4,11 +4,16 @@
 #include "Pi.h"
 #include "StarSystem.h"
 #include "RefCounted.h"
-#include "render/Render.h"
-#include "render/RenderFrustum.h"
-
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
+#include "graphics/Frustum.h"
+#include "graphics/Graphics.h"
+#include "graphics/VertexArray.h"
+#include "graphics/Shader.h"
 #include <deque>
 #include <algorithm>
+
+using namespace Graphics;
 
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
@@ -858,7 +863,7 @@ public:
 		else return e->kids[we_are];
 	}
 	
-	void Render(vector3d &campos, const Render::Frustum &frustum) {
+	void Render(vector3d &campos, const Frustum &frustum) {
 		PiVerify(SDL_mutexP(m_kidsLock)==0);
 		if (kids[0]) {
 			for (int i=0; i<4; i++) kids[i]->Render(campos, frustum);
@@ -1261,7 +1266,7 @@ void GeoSphere::BuildFirstPatches()
 
 static const float g_ambient[4] = { 0, 0, 0, 1.0 };
 
-static void DrawAtmosphereSurface(const vector3d &campos, float rad)
+static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, float rad, Material *mat)
 {
 	const int LAT_SEGS = 20;
 	const int LONG_SEGS = 20;
@@ -1289,42 +1294,46 @@ static void DrawAtmosphereSurface(const vector3d &campos, float rad)
 	}
 
 	/* Tri-fan above viewer */
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(0.0f, 1.0f, 0.0f);
+	VertexArray va(ATTRIB_POSITION);
+	va.Add(vector3f(0.f, 1.f, 0.f));
 	for (int i=0; i<=LONG_SEGS; i++) {
-		glVertex3f(sin(latDiff)*sinCosTable[i][0], cos(latDiff), -sin(latDiff)*sinCosTable[i][1]);
+		va.Add(vector3f(
+			sin(latDiff)*sinCosTable[i][0],
+			cos(latDiff),
+			-sin(latDiff)*sinCosTable[i][1]));
 	}
-	glEnd();
+	renderer->DrawTriangles(&va, mat, TRIANGLE_FAN);
 
 	/* and wound latitudinal strips */
 	double lat = latDiff;
 	for (int j=1; j<LAT_SEGS; j++, lat += latDiff) {
-		glBegin(GL_TRIANGLE_STRIP);
+		VertexArray v(ATTRIB_POSITION);
 		float cosLat = cos(lat);
 		float sinLat = sin(lat);
 		float cosLat2 = cos(lat+latDiff);
 		float sinLat2 = sin(lat+latDiff);
 		for (int i=0; i<=LONG_SEGS; i++) {
-			glVertex3f(sinLat*sinCosTable[i][0], cosLat, -sinLat*sinCosTable[i][1]);
-			glVertex3f(sinLat2*sinCosTable[i][0], cosLat2, -sinLat2*sinCosTable[i][1]);
+			v.Add(vector3f(sinLat*sinCosTable[i][0], cosLat, -sinLat*sinCosTable[i][1]));
+			v.Add(vector3f(sinLat2*sinCosTable[i][0], cosLat2, -sinLat2*sinCosTable[i][1]));
 		}
-		glEnd();
+		renderer->DrawTriangles(&v, mat, TRIANGLE_STRIP);
 	}
 
 	glPopMatrix();
 }
 
-void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
+void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, const float scale) {
 	glPushMatrix();
 	glTranslated(-campos.x, -campos.y, -campos.z);
-	Render::Frustum frustum = Render::Frustum::FromGLState();
+	Frustum frustum = Frustum::FromGLState();
 
 	const float atmosRadius = ATMOSPHERE_RADIUS;
 	
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
+	GeosphereShader *shader = 0;
 
-	if (Render::AreShadersEnabled()) {
+	if (AreShadersEnabled()) {
 		Color atmosCol;
 		double atmosDensity;
 		matrix4x4d modelMatrix;
@@ -1335,33 +1344,38 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		atmosDensity *= 0.00005;
 
 		if (atmosDensity > 0.0) {
-			GeosphereShader *shader = s_geosphereSkyShader[Render::State::GetNumLights()-1];
-			Render::State::UseProgram(shader);
+			shader = s_geosphereSkyShader[Graphics::State::GetNumLights()-1];
+			shader->Use();
 			shader->set_geosphereScale(scale);
 			shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
 			shader->set_geosphereAtmosFogDensity(atmosDensity);
 			shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
 			shader->set_geosphereCenter(center.x, center.y, center.z);
+
+			Material atmoMat;
+			atmoMat.shader = shader;
 			
-			glEnable(GL_BLEND);
-			glDepthMask(GL_FALSE);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+			renderer->SetBlendMode(BLEND_ALPHA_ONE);
+			renderer->SetDepthWrite(false);
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
-			DrawAtmosphereSurface(campos, atmosRadius*1.01);
-			glDepthMask(GL_TRUE);
-			glDisable(GL_BLEND);
+			DrawAtmosphereSurface(renderer, campos, atmosRadius*1.01, &atmoMat);
+			renderer->SetDepthWrite(true);
+			renderer->SetBlendMode(BLEND_SOLID);
 		}
 
 		if ((m_sbody->type == SBody::TYPE_BROWN_DWARF) || 
 			(m_sbody->type == SBody::TYPE_STAR_M)){
-			GeosphereShader *shader = s_geosphereDimStarShader[Render::State::GetNumLights()-1];
-			Render::State::UseProgram(shader);
-		} else if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) Render::State::UseProgram(s_geosphereStarShader);
-		else {
-			GeosphereShader *shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
-			Render::State::UseProgram(shader);
+			shader = s_geosphereDimStarShader[Graphics::State::GetNumLights()-1];
+			shader->Use();
+		}
+		else if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) {
+			shader = s_geosphereStarShader;
+			shader->Use();
+		} else {
+			shader = s_geosphereSurfaceShader[Graphics::State::GetNumLights()-1];
+			shader->Use();
 			shader->set_geosphereScale(scale);
 			shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
 			shader->set_geosphereAtmosFogDensity(atmosDensity);
@@ -1374,19 +1388,20 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	if (!m_patches[0]) BuildFirstPatches();
 
 	const float black[4] = { 0,0,0,0 };
-	float ambient[4];// = { 0.1, 0.1, 0.1, 1.0 };
+	Color ambient;
 	float emission[4] = { 0,0,0,0 };
 
 	// save old global ambient
-	float oldAmbient[4];
+	// XXX add GetAmbient to renderer or save ambient in scene? (Space)
+	Color oldAmbient;
 	glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
 
-	float b = Render::AreShadersEnabled() ? 2.0f : 1.5f; //XXX ??
+	float b = AreShadersEnabled() ? 2.0f : 1.5f; //XXX ??
 
 	if ((m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) || (m_sbody->type == SBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
-		ambient[0] = ambient[1] = ambient[2] = 0.2f;
-		ambient[3] = 1.0f;
+		ambient.r = ambient.g = ambient.b = 0.2f;
+		ambient.a = 1.0f;
 		emission[0] = StarSystem::starRealColors[m_sbody->type][0] * 0.5f * b;
 		emission[1] = StarSystem::starRealColors[m_sbody->type][1] * 0.5f * b;
 		emission[2] = StarSystem::starRealColors[m_sbody->type][2] * 0.5f * b;
@@ -1400,11 +1415,11 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		// why the fuck is this returning 0.1 when we are sat on the planet??
 		// JJ: Because campos is relative to a unit-radius planet - 1.0 at the surface
 		// XXX oh well, it is the value we want anyway...
-		ambient[0] = ambient[1] = ambient[2] = float(camdist);
-		ambient[3] = 1.0f;
+		ambient.r = ambient.g = ambient.b = float(camdist);
+		ambient.a = 1.0f;
 	}
 
-	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, ambient);
+	renderer->SetAmbientColor(ambient);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	glMaterialfv (GL_FRONT, GL_SPECULAR, black);
 	glMaterialfv (GL_FRONT, GL_EMISSION, emission);
@@ -1415,10 +1430,10 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	for (int i=0; i<6; i++) {
 		m_patches[i]->Render(campos, frustum);
 	}
-	Render::State::UseProgram(0);
+	if (shader) shader->Unuse();
 
 	glDisable(GL_COLOR_MATERIAL);
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
+	renderer->SetAmbientColor(oldAmbient);
 
 	// if the update thread has deleted any geopatches, destroy the vbos
 	// associated with them

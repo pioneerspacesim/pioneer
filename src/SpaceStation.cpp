@@ -198,7 +198,7 @@ void SpaceStation::Init()
 			else surfaceStationTypes.push_back(t);
 		}
 	}
-	//printf("%lu orbital station types and %lu surface station types.\n", orbitalStationTypes.size(), surfaceStationTypes.size());
+	//printf(SIZET_FMT " orbital station types and " SIZET_FMT " surface station types.\n", orbitalStationTypes.size(), surfaceStationTypes.size());
 }
 
 void SpaceStation::Uninit()
@@ -772,7 +772,7 @@ void SpaceStation::NotifyRemoved(const Body* const removedBody)
 	}
 }
 
-void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void SpaceStation::Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	LmrObjParams &params = GetLmrObjParams();
 	params.label = GetLabel().c_str();
@@ -800,7 +800,7 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 			if (!m_adjacentCity) {
 				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 			}
-			m_adjacentCity->Render(this, viewCoords, viewTransform);
+			m_adjacentCity->Render(r, this, viewCoords, viewTransform);
 		}
 	}
 }

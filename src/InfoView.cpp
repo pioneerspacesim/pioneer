@@ -5,9 +5,10 @@
 #include "Ship.h"
 #include "ShipCpanel.h"
 #include "LmrModel.h"
-#include "render/Render.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
 
 class InfoViewPage: public Gui::Fixed {
 public:
@@ -108,7 +109,9 @@ public:
 
 class CargoPage: public InfoViewPage {
 public:
-	CargoPage(InfoView *v) : InfoViewPage(v) {};
+	CargoPage(InfoView *v) : InfoViewPage(v) {
+		Pi::game->GetPlayer()->m_equipment.onChange.connect(sigc::mem_fun(*this, &CargoPage::HandleEquipChange));
+	}
 
 	virtual void Show() {
 		InfoViewPage::Show();
@@ -134,14 +137,44 @@ public:
 			Add(new Gui::Label(buf), 300, ypos);
 			ypos += YSEP;
 		}
+
+		if (Pi::player->m_equipment.Count(Equip::SLOT_CARGO, Equip::WATER) > 0) {
+			Gui::HBox *box = new Gui::HBox();
+			box->SetSpacing(5.0f);
+			Gui::Button *b = new Gui::SolidButton();
+			b->onClick.connect(sigc::mem_fun(this, &CargoPage::Refuel));
+			box->PackEnd(b);
+			box->PackEnd(new Gui::Label(Lang::REFUEL));
+			Add(box, 300, 40);
+			box->ShowAll();
+		}
+
 		ShowChildren();
 	}
 private:
+	void HandleEquipChange(Equip::Type t) {
+		if (Equip::types[t].slot == Equip::SLOT_CARGO) {
+			UpdateInfo();
+		}
+	}
+
 	void JettisonCargo(Equip::Type t) {
 		if (Pi::player->Jettison(t)) {
 			Pi::cpan->MsgLog()->Message("", stringf(Lang::JETTISONED_1T_OF_X, formatarg("commodity", Equip::types[t].name)));
 			m_infoView->UpdateInfo();
 		}
+	}
+
+	void Refuel() {
+		float currentFuel = Pi::player->GetFuel();
+		if (is_equal_exact(currentFuel, 1.0f)) return;
+
+		Pi::player->m_equipment.Remove(Equip::WATER, 1);
+		Pi::player->UpdateMass();
+
+		Pi::player->SetFuel(currentFuel + 1.0f/Pi::player->GetShipType().fuelTankMass);
+
+		m_infoView->UpdateInfo();
 	}
 };
 
@@ -319,10 +352,11 @@ void InfoView::UpdateInfo()
 
 void InfoView::Draw3D()
 {
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glClearColor(0.0f,0.2f,0.4f,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_renderer->SetTransform(matrix4x4f::Identity());
+	//XXX just use a blue background widget
+	m_renderer->SetClearColor(Color(0.f, 0.2f, 0.4f, 0.f));
+	m_renderer->ClearScreen();
+	m_renderer->SetClearColor(Color(0.f));
 }
 
 void InfoView::Update()

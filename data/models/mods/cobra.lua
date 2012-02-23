@@ -25,7 +25,9 @@ define_model('cobra_mk3', {
 					max_missile = 4,
 					max_cargoscoop = 0,
 					capacity = 80,
-					hull_mass = 60,
+					hull_mass = 40,
+					fuel_tank_mass = 20,
+					thruster_fuel_use = 0.0002,
 					price = 124000,
 					hyperdrive_class = 3,
 				}

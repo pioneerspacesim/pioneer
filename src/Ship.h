@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "DynamicBody.h"
 #include "ShipType.h"
+#include "EquipSet.h"
 #include "ShipFlavour.h"
 #include "SystemPath.h"
 #include "BezierCurve.h"
@@ -13,6 +14,7 @@
 class SpaceStation;
 class HyperspaceCloud;
 class AICommand;
+namespace Graphics { class Renderer; }
 
 struct shipstats_t {
 	int max_capacity;
@@ -25,6 +27,9 @@ struct shipstats_t {
 	float hyperspace_range_max;
 	float shield_mass;
 	float shield_mass_left;
+	float fuel_tank_mass; //thruster, not hyperspace fuel
+	float fuel_tank_mass_left;
+	float fuel_use;
 };
 
 class SerializableEquipSet: public EquipSet {
@@ -47,9 +52,12 @@ public:
 	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }
 	int GetDockingPort() const { return m_dockedWithPort; }
-	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
-	void SetThrusterState(int axis, double level) { m_thrusters[axis] = Clamp(level, -1.0, 1.0); }
+	void SetThrusterState(int axis, double level) {
+		if (m_thrusterFuel <= 0.f) level = 0.0;
+		m_thrusters[axis] = Clamp(level, -1.0, 1.0);
+	}
 	void SetThrusterState(const vector3d &levels);
 	vector3d GetThrusterState() const { return m_thrusters; }
 	void SetAngThrusterState(int axis, double level) { m_angThrusters[axis] = Clamp(level, -1.0, 1.0); }
@@ -72,6 +80,9 @@ public:
 	bool Undock();
 	virtual void TimeStepUpdate(const float timeStep);
 	virtual void StaticUpdate(const float timeStep);
+	virtual double GetMass() const {
+		return DynamicBody::GetMass() + GetFuel() * (GetShipType().fuelTankMass * 1000);
+	}
 
 	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
@@ -177,6 +188,18 @@ public:
 	float GetPercentHull() const;
 	void SetPercentHull(float);
 	float GetGunTemperature(int idx) const { return m_gunTemperature[idx]; }
+
+	enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_>
+		FUEL_OK,
+		FUEL_WARNING,
+		FUEL_EMPTY,
+	};
+	FuelState GetFuelState() { return m_thrusterFuel > 0.05f ? FUEL_OK : m_thrusterFuel > 0.0f ? FUEL_WARNING : FUEL_EMPTY; }
+
+	//fuel left, 0.0-1.0
+	float GetFuel() const {	return m_thrusterFuel;	}
+	//0.0 - 1.0
+	void SetFuel(const float f) {	m_thrusterFuel = Clamp(f, 0.f, 1.f); }
 	
 	void EnterSystem();
 
@@ -211,6 +234,7 @@ private:
 	bool IsFiringLasers();
 	void TestLanded();
 	void UpdateAlertState();
+	void UpdateFuel(float timeStep);
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
 
@@ -237,6 +261,9 @@ private:
 
 	AICommand *m_curAICmd;
 	AIError m_aiMessage;
+
+	float m_thrusterFuel; //remaining fuel 0.0-1.0
+	float m_fuelUseWeights[4]; //rear, front, lateral, up&down. Rear thrusters are usually 1.0
 
 	int m_dockedWithIndex; // deserialisation
 };

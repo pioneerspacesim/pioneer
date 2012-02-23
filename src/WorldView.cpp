@@ -17,6 +17,8 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
+#include "graphics/Renderer.h"
+#include "graphics/Frustum.h"
 #include "matrix4x4.h"
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
@@ -144,8 +146,10 @@ void WorldView::InitObject()
 	m_hudWeaponTemp = new Gui::MeterBar(100.0f, Lang::WEAPON_TEMP, Color(1.0f,0.5f,0.0f,0.8f));
 	m_hudHullIntegrity = new Gui::MeterBar(100.0f, Lang::HULL_INTEGRITY, Color(1.0f,1.0f,0.0f,0.8f));
 	m_hudShieldIntegrity = new Gui::MeterBar(100.0f, Lang::SHIELD_INTEGRITY, Color(1.0f,1.0f,0.0f,0.8f));
-	Add(m_hudHullTemp, 5.0f, Gui::Screen::GetHeight() - 104.0f);
-	Add(m_hudWeaponTemp, 5.0f, Gui::Screen::GetHeight() - 144.0f);
+	m_hudFuelGauge = new Gui::MeterBar(100.f, Lang::FUEL, Color(1.f, 1.f, 0.f, 0.8f));
+	Add(m_hudFuelGauge, 5.0f, Gui::Screen::GetHeight() - 104.0f);
+	Add(m_hudHullTemp, 5.0f, Gui::Screen::GetHeight() - 144.0f);
+	Add(m_hudWeaponTemp, 5.0f, Gui::Screen::GetHeight() - 184.0f);
 	Add(m_hudHullIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 104.0f);
 	Add(m_hudShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 144.0f);
 
@@ -174,10 +178,17 @@ void WorldView::InitObject()
 	Add(m_combatTargetIndicator.label, 0, 0);
 	Add(m_targetLeadIndicator.label, 0, 0);
 
-	m_frontCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight());
-	m_rearCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight());
-	m_externalCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight());
-	m_siderealCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight());
+	//get near & far clipping distances
+	//XXX m_renderer not set yet
+	float znear;
+	float zfar;
+	Pi::renderer->GetNearFarRange(znear, zfar);
+
+	const float fovY = Pi::config.Float("FOVVertical");
+	m_frontCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight(), fovY, znear, zfar);
+	m_rearCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight(), fovY, znear, zfar);
+	m_externalCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight(), fovY, znear, zfar);
+	m_siderealCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight(), fovY, znear, zfar);
 	
 	m_rearCamera->SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
 	
@@ -325,51 +336,6 @@ void WorldView::OnClickHyperspace()
 	}
 }
 
-static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
-{
-	if (lightNum > 3) return;
-	// not using frame->GetSBodyFor() because it snoops into parent frames,
-	// causing duplicate finds for static and rotating frame
-	SBody *body = frame->m_sbody;
-
-	if (body && (body->GetSuperType() == SBody::SUPERTYPE_STAR)) {
-		int light;
-		switch (lightNum) {
-			case 3: light = GL_LIGHT3; break;
-			case 2: light = GL_LIGHT2; break;
-			case 1: light = GL_LIGHT1; break;
-			default: light = GL_LIGHT0; break;
-		}
-		// position light at sol
-		matrix4x4d m;
-		Frame::GetFrameTransform(frame, camFrame, m);
-		vector3d lpos = (m * vector3d(0,0,0));
-		double dist = lpos.Length() / AU;
-		lpos *= 1.0/dist; // normalize
-		float lightPos[4];
-		lightPos[0] = float(lpos.x);
-		lightPos[1] = float(lpos.y);
-		lightPos[2] = float(lpos.z);
-		lightPos[3] = 0;
-
-		const float *col = StarSystem::starRealColors[body->type];
-		float lightCol[4] = { col[0], col[1], col[2], 0 };
-		float ambCol[4] = { 0,0,0,0 };
-
-		glLightfv(light, GL_POSITION, lightPos);
-		glLightfv(light, GL_DIFFUSE, lightCol);
-		glLightfv(light, GL_AMBIENT, ambCol);
-		glLightfv(light, GL_SPECULAR, lightCol);
-		glEnable(light);
-
-		lightNum++;
-	}
-
-	for (std::list<Frame*>::iterator i = frame->m_children.begin(); i!=frame->m_children.end(); ++i) {
-		position_system_lights(camFrame, *i, lightNum);
-	}
-}
-
 WorldView::CamType WorldView::GetCamType() const
 {
 	if (m_camType == CAM_EXTERNAL || m_camType == CAM_SIDEREAL) {
@@ -386,7 +352,7 @@ WorldView::CamType WorldView::GetCamType() const
 
 void WorldView::Draw3D()
 {
-	m_activeCamera->Draw();
+	m_activeCamera->Draw(m_renderer);
 }
 
 void WorldView::ShowAll()
@@ -600,6 +566,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_hudPressure->Hide();
 			m_hudHullTemp->Hide();
 		}
+
+		m_hudFuelGauge->SetValue(Pi::player->GetFuel());
 	}
 
 	const float activeWeaponTemp = Pi::player->GetGunTemperature(GetActiveWeapon());
@@ -841,10 +809,20 @@ void WorldView::OnSwitchTo()
 void WorldView::ToggleTargetActions()
 {
 	if (Pi::game->IsHyperspace() || m_showTargetActionsTimeout)
-		m_showTargetActionsTimeout = 0;
+		HideTargetActions();
 	else
-		m_showTargetActionsTimeout = SDL_GetTicks();
+		ShowTargetActions();
+}
 
+void WorldView::ShowTargetActions()
+{
+	m_showTargetActionsTimeout = SDL_GetTicks();
+	UpdateCommsOptions();
+}
+
+void WorldView::HideTargetActions()
+{
+	m_showTargetActionsTimeout = 0;
 	UpdateCommsOptions();
 }
 
@@ -1017,6 +995,9 @@ void WorldView::UpdateCommsOptions()
 	if (!(navtarget || comtarget)) {
 		m_commsOptions->Add(new Gui::Label("#0f0"+std::string(Lang::NO_TARGET_SELECTED)), 16, float(ypos));
 	}
+
+	bool hasAutopilot = Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT;
+
 	if (navtarget) {
 		m_commsOptions->Add(new Gui::Label("#0f0"+navtarget->GetLabel()), 16, float(ypos));
 		ypos += 32;
@@ -1040,7 +1021,7 @@ void WorldView::UpdateCommsOptions()
 				ypos += 32;
 			}
 		}
-		if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
+		if (hasAutopilot) {
 			button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
 			button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_flyto), navtarget));
 			ypos += 32;
@@ -1069,7 +1050,7 @@ void WorldView::UpdateCommsOptions()
 			}
 		}
 	}
-	if (comtarget) {
+	if (comtarget && hasAutopilot) {
 		m_commsOptions->Add(new Gui::Label("#f00"+comtarget->GetLabel()), 16, float(ypos));
 		ypos += 32;
 		button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", comtarget->GetLabel())), ypos, optnum++);
@@ -1128,7 +1109,7 @@ int WorldView::GetActiveWeapon() const
 	}
 }
 
-static inline bool project_to_screen(const vector3d &in, vector3d &out, const Render::Frustum &frustum, const int guiSize[2])
+static inline bool project_to_screen(const vector3d &in, vector3d &out, const Graphics::Frustum &frustum, const int guiSize[2])
 {
 	if (!frustum.ProjectPoint(in, out)) return false;
 	out.x *= guiSize[0];
@@ -1139,7 +1120,7 @@ static inline bool project_to_screen(const vector3d &in, vector3d &out, const Re
 void WorldView::UpdateProjectedObjects()
 {
 	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
-	const Render::Frustum frustum = m_activeCamera->GetFrustum();
+	const Graphics::Frustum frustum = m_activeCamera->GetFrustum();
 
 	const Frame *cam_frame = m_activeCamera->GetFrame();
 	matrix4x4d cam_rot = cam_frame->GetTransform();
@@ -1289,7 +1270,7 @@ void WorldView::UpdateProjectedObjects()
 void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpacePos)
 {
 	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
-	const Render::Frustum frustum = m_activeCamera->GetFrustum();
+	const Graphics::Frustum frustum = m_activeCamera->GetFrustum();
 
 	const float BORDER = 10.0;
 	const float BORDER_BOTTOM = 90.0;
@@ -1461,65 +1442,63 @@ void WorldView::Draw()
 	// don't draw crosshairs etc in hyperspace
 	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) return;
 
-	glEnable(GL_BLEND);
+	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 
 	glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
 	glLineWidth(2.0f);
 
+	Color white(1.f, 1.f, 1.f, 0.8f);
+	Color green(0.f, 1.f, 0.f, 0.8f);
+	Color yellow(0.9f, 0.9f, 0.3f, 1.f);
+	Color red(1.f, 0.f, 0.f, 0.5f);
+
 	// nav target square
-	glColor4f(0.0f, 1.0f, 0.0f, 0.8f);
-	DrawTargetSquare(m_navTargetIndicator);
+	DrawTargetSquare(m_navTargetIndicator, green);
 
 	glLineWidth(1.0f);
 
 	// velocity indicators
-	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
-	DrawVelocityIndicator(m_velIndicator);
-	glColor4f(0.0f, 1.0f, 0.0f, 0.8f);
-	DrawVelocityIndicator(m_navVelIndicator);
+	DrawVelocityIndicator(m_velIndicator, white);
+	DrawVelocityIndicator(m_navVelIndicator, green);
 
 	glLineWidth(2.0f);
 
-	glColor4f(0.9f, 0.9f, 0.3f, 1.0f);
-	DrawImageIndicator(m_mouseDirIndicator, PIONEER_DATA_DIR "/icons/indicator_mousedir.png");
+	DrawImageIndicator(m_mouseDirIndicator,
+		PIONEER_DATA_DIR "/icons/indicator_mousedir.png",
+		yellow);
 
 	// combat target indicator
-	glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
-	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator);
+	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, red);
 
 	glLineWidth(1.0f);
 
 	// normal crosshairs
-	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
 	if (GetCamType() == WorldView::CAM_FRONT)
-		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE);
+		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, white);
 	else if (GetCamType() == WorldView::CAM_REAR)
-		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f);
+		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f, white);
 
 	glPopAttrib();
 
-	glDisable(GL_BLEND);
+	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 }
 
-void WorldView::DrawCrosshair(float px, float py, float sz)
+void WorldView::DrawCrosshair(float px, float py, float sz, const Color &c)
 {
-	glEnableClientState(GL_VERTEX_ARRAY);
-	GLfloat vtx[16] = {
-		px-sz, py,
-		px-0.5f*sz, py,
-		px+sz, py,
-		px+0.5f*sz, py,
-		px, py-sz,
-		px, py-0.5f*sz,
-		px, py+sz,
-		px, py+0.5f*sz,
+	const vector2f vts[] = {
+		vector2f(px-sz, py),
+		vector2f(px-0.5f*sz, py),
+		vector2f(px+sz, py),
+		vector2f(px+0.5f*sz, py),
+		vector2f(px, py-sz),
+		vector2f(px, py-0.5f*sz),
+		vector2f(px, py+sz),
+		vector2f(px, py+0.5f*sz)
 	};
-	glVertexPointer(2, GL_FLOAT, 0, vtx);
-	glDrawArrays(GL_LINES, 0, 8);
-	glDisableClientState(GL_VERTEX_ARRAY);
+	m_renderer->DrawLines2D(8, vts, c);
 }
 
-void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead)
+void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c)
 {
 	if (target.side == INDICATOR_HIDDEN) return;
 
@@ -1541,31 +1520,40 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 			}
 		}
 
-		GLfloat vtx[28] = {
-			x1+10*xd, y1+10*yd,	x1+20*xd, y1+20*yd,  // target crosshairs
-			x1-10*xd, y1-10*yd,	x1-20*xd, y1-20*yd,
-			x1-10*yd, y1+10*xd,	x1-20*yd, y1+20*xd,
-			x1+10*yd, y1-10*xd,	x1+20*yd, y1-20*xd,
+		const vector2f vts[] = {
+			// target crosshairs
+			vector2f(x1+10*xd, y1+10*yd),
+			vector2f(x1+20*xd, y1+20*yd),
+			vector2f(x1-10*xd, y1-10*yd),
+			vector2f(x1-20*xd, y1-20*yd),
+			vector2f(x1-10*yd, y1+10*xd),
+			vector2f(x1-20*yd, y1+20*xd),
+			vector2f(x1+10*yd, y1-10*xd),
+			vector2f(x1+20*yd, y1-20*xd),
 
-			x2-10*xd, y2-10*yd,	x2+10*xd, y2+10*yd,  // lead crosshairs
-			x2-10*yd, y2+10*xd,	x2+10*yd, y2-10*xd,
+			// lead crosshairs
+			vector2f(x2-10*xd, y2-10*yd),
+			vector2f(x2+10*xd, y2+10*yd),  
+			vector2f(x2-10*yd, y2+10*xd),
+			vector2f(x2+10*yd, y2-10*xd),
 
-			x1+20*xd, y1+20*yd,	x2-10*xd, y2-10*yd,  // line between crosshairs
+			// line between crosshairs
+			vector2f(x1+20*xd, y1+20*yd),
+			vector2f(x2-10*xd, y2-10*yd)
 		};
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINES, 0, 8);
-		if (lead.side == INDICATOR_ONSCREEN) glDrawArrays(GL_LINES, 8, 6);
-		glDisableClientState(GL_VERTEX_ARRAY);
+		if (lead.side == INDICATOR_ONSCREEN)
+			m_renderer->DrawLines2D(14, vts, c); //draw all
+		else
+			m_renderer->DrawLines2D(8, vts, c); //only crosshair
 	} else
-		DrawEdgeMarker(target);
+		DrawEdgeMarker(target, c);
 }
 
-void WorldView::DrawTargetSquare(const Indicator &marker)
+void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 {
 	if (marker.side == INDICATOR_HIDDEN) return;
 	if (marker.side != INDICATOR_ONSCREEN)
-		DrawEdgeMarker(marker);
+		DrawEdgeMarker(marker, c);
 
 	// if the square is off-screen, draw a little square at the edge
 	const float sz = (marker.side == INDICATOR_ONSCREEN)
@@ -1576,19 +1564,16 @@ void WorldView::DrawTargetSquare(const Indicator &marker)
 	const float y1 = float(marker.pos[1] - sz);
 	const float y2 = float(marker.pos[1] + sz);
 
-	GLfloat vtx[8] = {
-		x1, y1,
-		x2, y1,
-		x2, y2,
-		x1, y2
+	const vector2f vts[] = {
+		vector2f(x1, y1),
+		vector2f(x2, y1),
+		vector2f(x2, y2),
+		vector2f(x1, y2)
 	};
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(2, GL_FLOAT, 0, vtx);
-	glDrawArrays(GL_LINE_LOOP, 0, 4);
-	glDisableClientState(GL_VERTEX_ARRAY);
+	m_renderer->DrawLines2D(4, vts, c, Graphics::LINE_LOOP);
 }
 
-void WorldView::DrawVelocityIndicator(const Indicator &marker)
+void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
 {
 	if (marker.side == INDICATOR_HIDDEN) return;
 
@@ -1596,47 +1581,43 @@ void WorldView::DrawVelocityIndicator(const Indicator &marker)
 	if (marker.side == INDICATOR_ONSCREEN) {
 		const float posx = marker.pos[0];
 		const float posy = marker.pos[1];
-		GLfloat vtx[16] = {
-			posx-sz, posy-sz,
-			posx-0.5f*sz, posy-0.5f*sz,
-			posx+sz, posy-sz,
-			posx+0.5f*sz, posy-0.5f*sz,
-			posx+sz, posy+sz,
-			posx+0.5f*sz, posy+0.5f*sz,
-			posx-sz, posy+sz,
-			posx-0.5f*sz, posy+0.5f*sz
+		const vector2f vts[] = {
+			vector2f(posx-sz, posy-sz),
+			vector2f(posx-0.5f*sz, posy-0.5f*sz),
+			vector2f(posx+sz, posy-sz),
+			vector2f(posx+0.5f*sz, posy-0.5f*sz),
+			vector2f(posx+sz, posy+sz),
+			vector2f(posx+0.5f*sz, posy+0.5f*sz),
+			vector2f(posx-sz, posy+sz),
+			vector2f(posx-0.5f*sz, posy+0.5f*sz)
 		};
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINES, 0, 8);
-		glDisableClientState(GL_VERTEX_ARRAY);
+		m_renderer->DrawLines2D(8, vts, c);
 	} else
-		DrawEdgeMarker(marker);
+		DrawEdgeMarker(marker, c);
 
 }
 
-void WorldView::DrawCircleIndicator(const Indicator &marker)
+void WorldView::DrawCircleIndicator(const Indicator &marker, const Color &c)
 {
 	if (marker.side == INDICATOR_HIDDEN) return;
 
+	// XXX implement DrawCircle
 	const float sz = HUD_CROSSHAIR_SIZE*0.5;
 	if (marker.side == INDICATOR_ONSCREEN) {
 		const float posx = marker.pos[0];
 		const float posy = marker.pos[1];
-		GLfloat vtx[72*2];
-		for (int i = 0; i < 72*2; i+=2) {
-			vtx[i]   = posx+sinf(DEG2RAD(i*5))*sz;
-			vtx[i+1] = posy+cosf(DEG2RAD(i*5))*sz;
+		std::vector<vector2f> vts;
+		for (int i = 0; i < 72; i++) {
+			vts.push_back(vector2f(
+				posx+sinf(DEG2RAD(i*5))*sz,
+				posy+cosf(DEG2RAD(i*5))*sz));
 		}
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINE_LOOP, 0, 72);
-		glDisableClientState(GL_VERTEX_ARRAY);
+		m_renderer->DrawLines2D(72, &vts[0], c, Graphics::LINE_LOOP);
 	} else
-		DrawEdgeMarker(marker);
+		DrawEdgeMarker(marker, c);
 }
 
-void WorldView::DrawImageIndicator(const Indicator &marker, const char *icon_path)
+void WorldView::DrawImageIndicator(const Indicator &marker, const char *icon_path, const Color &c)
 {
 	if (marker.side == INDICATOR_HIDDEN) return;
 
@@ -1646,12 +1627,13 @@ void WorldView::DrawImageIndicator(const Indicator &marker, const char *icon_pat
 		const float h = tex->GetHeight();
 		const float x = marker.pos[0] - w/2.0f;
 		const float y = marker.pos[1] - h/2.0f;
+		//XXX apply color to tint the image
 		tex->DrawUIQuad(x, y, w, h);
 	} else
-		DrawEdgeMarker(marker);
+		DrawEdgeMarker(marker, c);
 }
 
-void WorldView::DrawEdgeMarker(const Indicator &marker)
+void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 {
 	const float sz = HUD_CROSSHAIR_SIZE;
 
@@ -1661,15 +1643,11 @@ void WorldView::DrawEdgeMarker(const Indicator &marker)
 	float len = sqrt(dirx*dirx + diry*diry);
 	dirx *= sz/len;
 	diry *= sz/len;
-	GLfloat vtx[4] = {
-		marker.pos[0], marker.pos[1],
-		marker.pos[0] + dirx, marker.pos[1] + diry,
+	const vector2f vts[] = {
+		vector2f(marker.pos[0], marker.pos[1]),
+		vector2f(marker.pos[0] + dirx, marker.pos[1] + diry)
 	};
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(2, GL_FLOAT, 0, vtx);
-	glDrawArrays(GL_LINES, 0, 2);
-	glDisableClientState(GL_VERTEX_ARRAY);
+	m_renderer->DrawLines2D(2, vts, c);
 }
 
 void WorldView::MouseButtonDown(int button, int x, int y)
