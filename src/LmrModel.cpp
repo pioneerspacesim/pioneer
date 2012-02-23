@@ -1202,8 +1202,9 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	s_curBuf = 0;
 
 	Graphics::UnbindAllBuffers();
-	//XXX hack
-	s_sunlightShader[0]->Unuse();
+	//XXX hack. Unuse any shader. Can be removed when LMR uses Renderer.
+	if (Graphics::AreShadersEnabled())
+		s_sunlightShader[0]->Unuse();
 
 	glDisable(GL_NORMALIZE);
 	s_renderer->SetBlendMode(Graphics::BLEND_SOLID);
