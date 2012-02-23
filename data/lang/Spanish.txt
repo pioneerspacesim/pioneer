@@ -462,6 +462,8 @@ CARGO_INVENTORY
     Inventario de carga:
 JETTISON
     Tirar por la borda
+REFUEL
+    Repostar
 JETTISONED_1T_OF_X
     Arrojadas 1 ton. de %commodity
 COMBAT_RATING
@@ -1074,6 +1076,8 @@ HULL_INTEGRITY
     Integridad del casco
 SHIELD_INTEGRITY
     Integridad del escudo
+FUEL
+    Combustible
 LAUNCH_PERMISSION_DENIED_BUSY
     Permiso para despegar denegado: Bahía de atraque ocupada.
 HYPERSPACE_JUMP_ABORTED
