@@ -243,6 +243,7 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 		wr.Float(float(m_openAnimState[i]));
 		wr.Float(float(m_dockAnimState[i]));
 	}
+	wr.Bool(m_bbCreated);
 	wr.Double(m_lastUpdatedShipyard);
 	wr.Int32(space->GetIndexForSBody(m_sbody));
 	wr.Int32(m_numPoliceDocked);
@@ -277,6 +278,7 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 		m_openAnimState[i] = rd.Float();
 		m_dockAnimState[i] = rd.Float();
 	}
+	m_bbCreated = rd.Bool();
 	m_lastUpdatedShipyard = rd.Double();
 	m_sbody = space->GetSBodyByIndex(rd.Int32());
 	m_numPoliceDocked = rd.Int32();
@@ -300,6 +302,7 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 	m_sbody = sbody;
 	m_lastUpdatedShipyard = 0;
 	m_numPoliceDocked = Pi::rng.Int32(3,10);
+	m_bbCreated = false;
 
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		m_shipDocking[i].ship = 0;
@@ -329,7 +332,6 @@ void SpaceStation::InitStation()
 	// XXX the animation namespace must match that in LuaConstants
 	GetLmrObjParams().animationNamespace = "SpaceStationAnimation";
 	SetModel(m_type->modelName, true);
-	m_bbCreated = false;
 }
 
 SpaceStation::~SpaceStation()
