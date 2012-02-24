@@ -44,7 +44,6 @@ void Starfield::Init()
 	VertexArray *stars = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, BG_STAR_MAX);
 	m_model = new StaticMesh(POINTS);
 	m_shader = new Shader("bgstars");
-	m_shader->SetUniform("brightness", float(1.0));
 	RefCountedPtr<Material> mat(new Material());
 	mat->shader = m_shader;
 	mat->unlit = true;
@@ -119,13 +118,15 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 				double opticalThicknessFraction = (surfaceDensity-density)/surfaceDensity;
 				//std::min((height-s->GetRadius())/2000.0,1.0);//
 				// brightness depends on optical depth and intensity of light from all the stars
-				brightness = 1.0-Clamp(opticalThicknessFraction/**light*/,0.0,1.0);
+				brightness = Clamp(opticalThicknessFraction/**light*/,0.0,1.0);
 				static int i;
 				if (double(i)/60.0 > 1.0) {printf("br %f, height %f,at density %f,density %f, otp %f\n",brightness,height-s->GetRadius(),surfaceDensity,density,opticalThicknessFraction);i = 0;}i++;
 			}
 		}
-		brightness = 1.0;
+		//brightness = 1.0;
+		m_shader->Use();
 		m_shader->SetUniform("brightness", float(brightness));
+
 
 		
 	} else {
