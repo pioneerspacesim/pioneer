@@ -35,7 +35,14 @@ Space::Space(Game *game)
 	m_rootFrame->SetRadius(FLT_MAX);
 }
 
-Space::Space(Game *game, const SystemPath &path) : m_game(game), m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false)
+Space::Space(Game *game, const SystemPath &path)
+	: m_game(game)
+	, m_frameIndexValid(false)
+	, m_bodyIndexValid(false)
+	, m_sbodyIndexValid(false)
+#ifndef NDEBUG
+	, m_processingFinalizationQueue(false)
+#endif
 {
 	m_starSystem = StarSystem::GetCached(path);
 	m_background.Refresh(m_starSystem->m_seed);
@@ -50,7 +57,14 @@ Space::Space(Game *game, const SystemPath &path) : m_game(game), m_frameIndexVal
 	//DebugDumpFrames();
 }
 
-Space::Space(Game *game, Serializer::Reader &rd) : m_game(game), m_frameIndexValid(false), m_bodyIndexValid(false), m_sbodyIndexValid(false)
+Space::Space(Game *game, Serializer::Reader &rd)
+	: m_game(game)
+	, m_frameIndexValid(false)
+	, m_bodyIndexValid(false)
+	, m_sbodyIndexValid(false)
+#ifndef NDEBUG
+	, m_processingFinalizationQueue(false)
+#endif
 {
 	m_starSystem = StarSystem::Unserialize(rd);
 	m_background.Refresh(m_starSystem->m_seed);
