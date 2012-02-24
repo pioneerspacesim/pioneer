@@ -101,6 +101,9 @@ namespace Graphics {
 		void SetUniform(const char *name, int v) {
 			glUniform1i(GetLocation(name), v);
 		}
+		void SetUniform(const char *name, float v) {
+			glUniform1f(GetLocation(name), v);
+		}
 		void SetUniform(const char *name, const Color &c) {
 			glUniform4f(GetLocation(name), c.r, c.g, c.b, c.a);
 		}

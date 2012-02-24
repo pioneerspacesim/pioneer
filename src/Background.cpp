@@ -44,6 +44,7 @@ void Starfield::Init()
 	VertexArray *stars = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, BG_STAR_MAX);
 	m_model = new StaticMesh(POINTS);
 	m_shader = new Shader("bgstars");
+	m_shader->SetUniform("brightness", float(1.0));
 	RefCountedPtr<Material> mat(new Material());
 	mat->shader = m_shader;
 	mat->unlit = true;
@@ -97,6 +98,36 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 {
 	if (AreShadersEnabled()) {
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
+
+		double brightness=1.0;
+
+		if (Pi::player){
+			Frame *f = Pi::player->GetFrame();
+
+			if (!f->GetBodyFor()->IsType(Object::PLANET)&&(f->m_parent)) {f=f->m_parent;}
+			if (f->GetBodyFor()->IsType(Object::PLANET)){
+				SBody *s = f->GetSBodyFor();
+				double height = (Pi::player->GetPositionRelTo(f)).Length();
+
+				double pressure, density; 
+				s->plnt->GetAtmosphericState(height,&pressure, &density);
+
+				Color c; double surfaceDensity;
+				s->GetAtmosphereFlavor(&c, &surfaceDensity);
+
+				// approximate optical thickness fraction as fraction of density remaining relative to earths
+				double opticalThicknessFraction = (surfaceDensity-density)/surfaceDensity;
+				//std::min((height-s->GetRadius())/2000.0,1.0);//
+				// brightness depends on optical depth and intensity of light from all the stars
+				brightness = 1.0-Clamp(opticalThicknessFraction/**light*/,0.0,1.0);
+				static int i;
+				if (double(i)/60.0 > 1.0) {printf("br %f, height %f,at density %f,density %f, otp %f\n",brightness,height-s->GetRadius(),surfaceDensity,density,opticalThicknessFraction);i = 0;}i++;
+			}
+		}
+		brightness = 1.0;
+		m_shader->SetUniform("brightness", float(brightness));
+
+		
 	} else {
 		glDisable(GL_POINT_SMOOTH);
 		glPointSize(1.0f);
