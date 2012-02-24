@@ -35,7 +35,15 @@ public:
 	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void SetDockedWith(SpaceStation *, int port);
 	void StaticUpdate(const float timeStep);
-	enum FlightControlState { CONTROL_MANUAL, CONTROL_FIXSPEED, CONTROL_AUTOPILOT };
+	enum FlightControlState {
+		CONTROL_MANUAL,
+		CONTROL_FIXSPEED,
+		CONTROL_FIXHEADING_FORWARD,
+		CONTROL_FIXHEADING_BACKWARD,
+		CONTROL_AUTOPILOT,
+
+		CONTROL_STATE_COUNT
+	};
 	FlightControlState GetFlightControlState() const { return m_flightControlState; }
 	void SetFlightControlState(FlightControlState s);
 	double GetSetSpeed() const { return m_setSpeed; }
@@ -45,7 +53,6 @@ public:
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	virtual bool FireMissile(int idx, Ship *target);
 	virtual void SetAlertState(Ship::AlertState as);
-	bool IsAnyThrusterKeyDown();
 	void SetNavTarget(Body* const target, bool setSpeedTo = false);
 	Body *GetNavTarget() const { return m_navTarget; }
 	void SetCombatTarget(Body* const target, bool setSpeedTo = false);
@@ -83,6 +90,9 @@ protected:
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
 private:
+	bool IsAnyAngularThrusterKeyDown();
+	bool IsAnyLinearThrusterKeyDown();
+
 	vector3d m_mouseDir;
 	double m_mouseX, m_mouseY;
 	bool m_mouseActive;
