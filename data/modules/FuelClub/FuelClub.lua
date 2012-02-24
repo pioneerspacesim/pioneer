@@ -70,6 +70,7 @@ onChat = function (form, ref, option)
 			hydrogen = t('HYDROGEN'),
 			military_fuel = t('MILITARY_FUEL'),
 			radioactives = t('RADIOACTIVES'),
+			water = t('WATER'),
 			clubname = ad.flavour.clubname,
 		}))
 	end
@@ -88,6 +89,7 @@ onChat = function (form, ref, option)
 					['HYDROGEN'] = true,
 					['MILITARY_FUEL'] = true,
 					['RADIOACTIVES'] = true,
+					['WATER'] = true,
 				})[commodity]
 			end,
 			getStock = function (ref, commodity)
@@ -96,6 +98,7 @@ onChat = function (form, ref, option)
 					['HYDROGEN'] = ad.stock.HYDROGEN or (Engine.rand:Integer(2,50) + Engine.rand:Integer(3,25)),
 					-- Milfuel: Between 5 and 50 units, tending to median values
 					['MILITARY_FUEL'] = ad.stock.MILITARY_FUEL or (Engine.rand:Integer(2,25) + Engine.rand:Integer(3,25)),
+					['WATER'] = ad.stock.WATER or (Engine.rand:Integer(2,25) + Engine.rand:Integer(3,25)),
 					-- Always taken away
 					['RADIOACTIVES'] = 0,
 				})[commodity]
@@ -105,6 +108,7 @@ onChat = function (form, ref, option)
 				return ad.station:GetEquipmentPrice(commodity) * ({
 					['HYDROGEN'] = 0.5, -- half price Hydrogen
 					['MILITARY_FUEL'] = 0.80, -- 20% off Milfuel
+					['WATER'] = 0.60, -- 40% off Water
 					['RADIOACTIVES'] = 0, -- Radioactives go free
 				})[commodity]
 			end,
@@ -119,6 +123,7 @@ onChat = function (form, ref, option)
 					UI.Message(t("You must buy our {military_fuel} before we will take your {radioactives}"):interp({
 						military_fuel = t('MILITARY_FUEL'),
 						radioactives = t('RADIOACTIVES'),
+						water = t('WATER'),
 					}))
 					return false
 				end
