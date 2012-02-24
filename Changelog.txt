@@ -40,7 +40,7 @@ Alpha 20
        ship fuel amount. New event onShipFuelChanged to report fuel status (#980)
 
    * Internal changes
-     * New graphics/rendering infrastructure (#960, #913, #1001, #1002)
+     * New graphics/rendering infrastructure (#960, #913, #1001, #1002, #1013)
      * Silence MSVC warnings (#964)
      * Remove dependencies on Pi from Texture (#969) and Font (#981)
      * Move EquipSet into its own header (#991)
