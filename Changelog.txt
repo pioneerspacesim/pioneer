@@ -32,6 +32,7 @@ Alpha 20
      * Don't show "fly to" option for combat target if the player does not
        have an autopilot fitted (#988)
      * Close comms menu on hyperspace (#996, #984)
+     * Fix game crash if game is loaded over a loaded game (#1014, #1015)
 
    * Script changes
      * New method Ship.SetFuelPercent and attribute Ship.fuel to set and get
