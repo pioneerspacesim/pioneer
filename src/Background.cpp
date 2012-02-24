@@ -99,6 +99,7 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 
 		double brightness=1.0;
+		double light = 1.0; // light intensity relative to earths
 
 		if (Pi::player){
 			Frame *f = Pi::player->GetFrame();
@@ -115,10 +116,9 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 				s->GetAtmosphereFlavor(&c, &surfaceDensity);
 
 				// approximate optical thickness fraction as fraction of density remaining relative to earths
-				double opticalThicknessFraction = (surfaceDensity-density)/surfaceDensity;
-				//std::min((height-s->GetRadius())/2000.0,1.0);//
+				double opticalThicknessFraction = 1.0-(surfaceDensity-density)/surfaceDensity;
 				// brightness depends on optical depth and intensity of light from all the stars
-				brightness = Clamp(opticalThicknessFraction/**light*/,0.0,1.0);
+				brightness = Clamp(1.0-(opticalThicknessFraction*light),0.0,1.0);
 				static int i;
 				if (double(i)/60.0 > 1.0) {printf("br %f, height %f,at density %f,density %f, otp %f\n",brightness,height-s->GetRadius(),surfaceDensity,density,opticalThicknessFraction);i = 0;}i++;
 			}
@@ -136,7 +136,9 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 
 	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
+		renderer->SetBlendMode(BLEND_ALPHA);
 		renderer->DrawStaticMesh(m_model);
+		renderer->SetBlendMode(BLEND_SOLID);
 	} else {
 		/* HYPERSPACING!!!!!!!!!!!!!!!!!!! */
 		/* all this jizz isn't really necessary, since the player will

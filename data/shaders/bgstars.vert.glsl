@@ -7,6 +7,6 @@ void main(void)
 	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 #endif
 	gl_PointSize = 0.5 + 3.0*gl_Color.x*gl_Color.x*gl_Color.x;
-	gl_FrontColor = vec4(gl_Color.rgb*brightness,gl_Color.a/**brightness*/);
+	gl_FrontColor = vec4(gl_Color.rgb/**brightness*/,gl_Color.a*brightness);
 }
 
