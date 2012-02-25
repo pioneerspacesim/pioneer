@@ -81,6 +81,8 @@ onChat = function (form, ref, option)
 	local membership = memberships[ad.flavour.clubname]
 
 	if membership and (membership.joined + membership.expiry > Game.time) then
+		-- members get refuelled, whether or not the station managed to do it
+		Game.player:SetFuelPercent()
 		-- members get the trader interface
 		setMessage(ad.flavour.member_intro)
 		form:AddGoodsTrader({
