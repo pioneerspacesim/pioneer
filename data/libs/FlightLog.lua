@@ -65,3 +65,15 @@ FlightLog = {
 
 }
 
+-- onLeaveSystem
+local AddSystemToLog = function (ship)
+	if not ship:IsPlayer() then return end
+end
+
+-- onShipUndocked
+local AddStationToLog = function (ship, station)
+	if not ship:IsPlayer() then return end
+end
+
+EventQueue.onLeaveSystem:Connect(AddSystemToLog)
+EventQueue.onShipUndocked:Connect(AddStationToLog)
