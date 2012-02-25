@@ -166,6 +166,8 @@ FlightLog = {
 
 }
 
+-- LOGGING
+
 -- onLeaveSystem
 local AddSystemToLog = function (ship)
 	if not ship:IsPlayer() then return end
@@ -178,5 +180,27 @@ local AddStationToLog = function (ship, station)
 	table.insert(FlightLogStation,1,{station.path,Game.time})
 end
 
+-- LOADING AND SAVING
+
+local loaded_data
+
+local onGameStart = function ()
+	if loaded_data then
+		FlightLogSystem = loaded_data.System
+		FlightLogStation = loaded_data.Station
+	end
+	loaded_data = nil
+end
+
+local serialize = function ()
+    return { System = FlightLogSystem, Station = FlightLogStation }
+end
+
+local unserialize = function (data)
+    loaded_data = data
+end
+
 EventQueue.onLeaveSystem:Connect(AddSystemToLog)
 EventQueue.onShipUndocked:Connect(AddStationToLog)
+EventQueue.onGameStart:Connect(onGameStart)
+Serializer:Register("FlightLog", serialize, unserialize)
