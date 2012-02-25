@@ -35,16 +35,18 @@ FlightLog = {
 --
 -- Return:
 --
---   iterator: A function which will generate the paths from the log, returning
---             one each time it is called until it runs out, after which it
---             returns nil.
+--   iterator - A function which will generate the paths from the log, returning
+--              one each time it is called until it runs out, after which it
+--              returns nil. It also returns, as a secondary value, the game
+--              time at shich the system was left.
 --
 -- Example:
 --
--- Print the names of the last five systems visited by the player
+-- Print the names and departure times of the last five systems visited by
+-- the player
 --
--- > for systemp in FlightLog.GetSystemPaths(5) do
--- >   print(systemp:GetStarSystem().name)
+-- > for systemp,deptime in FlightLog.GetSystemPaths(5) do
+-- >   print(systemp:GetStarSystem().name, Format.Date(deptime))
 -- > end
 
 	GetSystemPaths = function (maximum)
@@ -65,16 +67,18 @@ FlightLog = {
 --
 -- Return:
 --
---   iterator: A function which will generate the paths from the log, returning
---             one each time it is called until it runs out, after which it
---             returns nil.
+--   iterator - A function which will generate the paths from the log, returning
+--              one each time it is called until it runs out, after which it
+--              returns nil. It also returns, as a secondary value, the game
+--              time at which the player undocked.
 --
 -- Example:
 --
--- Print the names of the last five stations visited by the player
+-- Print the names and departure times of the last five stations visited by
+-- the player
 --
--- > for systemp in FlightLog.GetStationPaths(5) do
--- >   print(systemp:GetSystemBody().name)
+-- > for systemp, deptime in FlightLog.GetStationPaths(5) do
+-- >   print(systemp:GetSystemBody().name, Format.Date(deptime))
 -- > end
 
 	GetStationPaths = function (maximum)
@@ -103,6 +107,9 @@ FlightLog = {
 --
 
 	GetPreviousSystemPath = function ()
+		if FlightLogSystem[1] then
+			return FlightLogSystem[1][1]
+		else return nil end
 	end,
 
 --
@@ -130,6 +137,9 @@ FlightLog = {
 --
 
 	GetPreviousStationPath = function ()
+		if FlightLogStation[1] then
+			return FlightLogStation[1][1]
+		else return nil end
 	end,
 
 }
@@ -137,11 +147,13 @@ FlightLog = {
 -- onLeaveSystem
 local AddSystemToLog = function (ship)
 	if not ship:IsPlayer() then return end
+	table.insert(FlightLogSystem,1,{Game.system.path,Game.time})
 end
 
 -- onShipUndocked
 local AddStationToLog = function (ship, station)
 	if not ship:IsPlayer() then return end
+	table.insert(FlightLogStation,1,{station.path,Game.time})
 end
 
 EventQueue.onLeaveSystem:Connect(AddSystemToLog)
