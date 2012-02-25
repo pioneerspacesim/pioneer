@@ -51,6 +51,7 @@ FlightLog = {
 
 	GetSystemPaths = function (maximum)
 		local counter = 0
+		local maximum = maximum or FlightLogSystemQueueLength
 		return function ()
 			if counter < maximum then
 				counter = counter + 1
@@ -94,6 +95,7 @@ FlightLog = {
 
 	GetStationPaths = function (maximum)
 		local counter = 0
+		local maximum = maximum or FlightLogStationQueueLength
 		return function ()
 			if counter < maximum then
 				counter = counter + 1
