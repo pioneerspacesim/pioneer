@@ -59,36 +59,17 @@ void Starfield::Fill(unsigned long seed)
 
 	//fill the array
 	for (int i=0; i<BG_STAR_MAX; i++) {
-		float col = float(rand.Double(0,1));
-
-		col *= col * col * 3.0;
-		col = (col > 0.725 ? 1.45-col : col);
-		col = Clamp(col, 0.00f, 0.725f);
-
-		if (i<6) {
-			col = 0.9;
-		} else if (i<21) {
-			col = 0.85;
-		} else if (i<46) {
-			col = 0.8;
-		}
+		float col = float(rand.Double(0.2,0.7));
 
 		// this is proper random distribution on a sphere's surface
 		const float theta = float(rand.Double(0.0, 2.0*M_PI));
 		const float u = float(rand.Double(-1.0, 1.0));
 
-		const double red = rand.Double(col-0.05f,col);
-
 		va->Add(vector3f(
 				1000.0f * sqrt(1.0f - u*u) * cos(theta),
 				1000.0f * u,
 				1000.0f * sqrt(1.0f - u*u) * sin(theta)
-			), Color(
-				red,
-				rand.Double(col-0.1f,red),
-				rand.Double(col-0.05f,col),
-				1.f
-			)
+			), Color(col, col, col,	1.f)
 		);
 	}
 }
@@ -98,7 +79,7 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 	if (AreShadersEnabled()) {
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 	} else {
-		glDisable(GL_POINT_SMOOTH);
+		glDisable(GL_POINT_SMOOTH); //too large if smoothing is on
 		glPointSize(1.0f);
 	}
 
@@ -144,7 +125,6 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 
 	if (AreShadersEnabled()) {
 		glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
-		glDisable(GL_POINT_SMOOTH);
 	}
 }
 

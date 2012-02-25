@@ -27,7 +27,7 @@ namespace Background
 		void Fill(unsigned long seed);
 	private:
 		void Init();
-		static const int BG_STAR_MAX = 65536;
+		static const int BG_STAR_MAX = 10000;
 		Graphics::StaticMesh *m_model;
 		Graphics::Shader *m_shader;
 	};
