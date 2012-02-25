@@ -21,6 +21,66 @@ FlightLog = {
 --
 
 --
+-- Method: GetSystemPaths
+--
+-- Returns an iterator returning a SystemPath object for each system visited
+-- by the player, backwards in turn, starting with the most recent. If count
+-- is specified, returns no more than that many systems.
+--
+-- iterator = FlightLog.GetSystemPaths(count)
+--
+-- Parameters:
+--
+--   count - Optional. The maximum number of systems to return.
+--
+-- Return:
+--
+--   iterator: A function which will generate the paths from the log, returning
+--             one each time it is called until it runs out, after which it
+--             returns nil.
+--
+-- Example:
+--
+-- Print the names of the last five systems visited by the player
+--
+-- > for systemp in FlightLog.GetSystemPaths(5) do
+-- >   print(systemp:GetStarSystem().name)
+-- > end
+
+	GetSystemPaths = function (maximum)
+	end,
+
+--
+-- Method: GetStationPaths
+--
+-- Returns an iterator returning a SystemPath object for each station visited
+-- by the player, backwards in turn, starting with the most recent. If count
+-- is specified, returns no more than that many stations.
+--
+-- iterator = FlightLog.GetStationPaths(count)
+--
+-- Parameters:
+--
+--   count - Optional. The maximum number of systems to return.
+--
+-- Return:
+--
+--   iterator: A function which will generate the paths from the log, returning
+--             one each time it is called until it runs out, after which it
+--             returns nil.
+--
+-- Example:
+--
+-- Print the names of the last five stations visited by the player
+--
+-- > for systemp in FlightLog.GetStationPaths(5) do
+-- >   print(systemp:GetSystemBody().name)
+-- > end
+
+	GetStationPaths = function (maximum)
+	end,
+
+--
 -- Method: GetPreviousSystemPath
 --
 -- Returns a SystemPath object that points to the star system where the
