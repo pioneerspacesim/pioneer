@@ -5,6 +5,15 @@
 -- player. Can be used by scripts to find out where the player has been
 -- recently.
 
+
+-- default values (private)
+local FlightLogSystemQueueLength = 100
+local FlightLogStationQueueLength = 100
+
+-- private data - the log itself
+local FlightLogSystem = {}
+local FlightLogStation = {}
+
 FlightLog = {
 
 --
