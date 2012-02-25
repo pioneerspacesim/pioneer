@@ -175,7 +175,7 @@ local AddSystemToLog = function (ship)
 	if not ship:IsPlayer() then return end
 	table.insert(FlightLogSystem,1,{Game.system.path,Game.time})
 	while #FlightSystemLog > FlightLogSystemQueueLength do
-		table.remove(FlightSystemLog,FlightLogSystemQueueLength)
+		table.remove(FlightSystemLog,FlightLogSystemQueueLength + 1)
 	end
 end
 
@@ -184,7 +184,7 @@ local AddStationToLog = function (ship, station)
 	if not ship:IsPlayer() then return end
 	table.insert(FlightLogStation,1,{station.path,Game.time})
 	while #FlightStationLog > FlightLogStationQueueLength do
-		table.remove(FlightStationLog,FlightLogStationQueueLength)
+		table.remove(FlightStationLog,FlightLogStationQueueLength + 1)
 	end
 end
 
