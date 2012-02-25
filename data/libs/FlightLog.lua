@@ -50,6 +50,17 @@ FlightLog = {
 -- > end
 
 	GetSystemPaths = function (maximum)
+		local counter = 0
+		return function ()
+			if counter < maximum then
+				counter = counter + 1
+				if FlightLogSystem[counter] then
+					return FlightLogSystem[counter][1],
+				    	   FlightLogSystem[counter][2]
+				end
+			end
+			return nil, nil
+		end
 	end,
 
 --
@@ -82,6 +93,17 @@ FlightLog = {
 -- > end
 
 	GetStationPaths = function (maximum)
+		local counter = 0
+		return function ()
+			if counter < maximum then
+				counter = counter + 1
+				if FlightLogStation[counter] then
+					return FlightLogStation[counter][1],
+				    	   FlightLogStation[counter][2]
+				end
+			end
+			return nil, nil
+		end
 	end,
 
 --
