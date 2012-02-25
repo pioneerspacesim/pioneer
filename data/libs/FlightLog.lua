@@ -34,7 +34,7 @@ FlightLog = {
 --
 
 	GetPreviousSystemPath = function ()
-	end
+	end,
 
 --
 -- Method: GetPreviousStationPath
@@ -61,7 +61,7 @@ FlightLog = {
 --
 
 	GetPreviousStationPath = function ()
-	end
+	end,
 
 }
 
