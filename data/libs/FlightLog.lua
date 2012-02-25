@@ -7,8 +7,8 @@
 
 
 -- default values (private)
-local FlightLogSystemQueueLength = 100
-local FlightLogStationQueueLength = 100
+local FlightLogSystemQueueLength = 1000
+local FlightLogStationQueueLength = 1000
 
 -- private data - the log itself
 local FlightLogSystem = {}
