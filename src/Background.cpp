@@ -36,6 +36,8 @@ Starfield::~Starfield()
 {
 	delete m_model;
 	delete m_shader;
+	delete[] m_hyperVtx;
+	delete[] m_hyperCol;
 }
 
 void Starfield::Init()
@@ -48,6 +50,9 @@ void Starfield::Init()
 	mat->shader = m_shader;
 	mat->unlit = true;
 	m_model->AddSurface(new Surface(POINTS, stars, mat));
+
+	m_hyperVtx = 0;
+	m_hyperCol = 0;
 }
 
 void Starfield::Fill(unsigned long seed)
@@ -105,22 +110,23 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 		double hyperspaceProgress = Pi::game->GetHyperspaceProgress();
 
 		//XXX this is a lot of lines
-		vector3f *vtx = new vector3f[BG_STAR_MAX * 2];
-		Color *col = new Color[BG_STAR_MAX * 2];
+		if (m_hyperVtx == 0) {
+			m_hyperVtx = new vector3f[BG_STAR_MAX * 2];
+			m_hyperCol = new Color[BG_STAR_MAX * 2];
+		}
 		VertexArray *va = m_model->GetSurface(0)->GetVertices();
 		for (int i=0; i<BG_STAR_MAX; i++) {
 			
 			vector3f v(va->position[i]);
 			v += vector3f(pz*hyperspaceProgress*mult);
 
-			vtx[i*2] = va->position[i] + v;
-			col[i*2] = va->diffuse[i];
+			m_hyperVtx[i*2] = va->position[i] + v;
+			m_hyperCol[i*2] = va->diffuse[i];
 
-			vtx[i*2+1] = v;
-			col[i*2+1] = va->diffuse[i];
+			m_hyperVtx[i*2+1] = v;
+			m_hyperCol[i*2+1] = va->diffuse[i];
 		}
-		Pi::renderer->DrawLines(BG_STAR_MAX*2, vtx, col);
-		delete[] vtx;
+		Pi::renderer->DrawLines(BG_STAR_MAX*2, m_hyperVtx, m_hyperCol);
 	}
 
 	if (AreShadersEnabled()) {
