@@ -1,13 +1,45 @@
 -- Get the translator function
 local t = Translate:GetTranslator()
 
--- don't produce missions for further than this many light years away
-local max_delivery_dist = 20
 local hourly_rate = 2000 / (24 * 30)
 local AU = 149598000000.0	-- Game uses this approximation
 
 local ads = {}
 local missions = {}
+
+local NearBySystems = {}
+
+function NearBySystems:init()
+   if not next (Game.system:GetStationPaths()) then
+      return
+   end
+   local maxSystems, radius, limit, all = 40, 30.0, 30.0
+   while true do
+      -- The initial call of GetNearbySystems is really slow if radius 60
+      all = Game.system:GetNearbySystems (radius)
+      local n = #all
+      if n > maxSystems then
+	 limit, radius = radius, radius * 0.5
+      elseif n < maxSystems then
+	 if limit - radius < 1 then
+	    break
+	 end
+	 radius = (radius + limit) * 0.5
+      else
+	 break
+      end
+   end
+   local inhabited = all and Game.system:GetNearbySystems (
+      radius, function (s) return #s:GetStationPaths() > 0 end)
+   print ("Sysinf: "..radius.." "..limit.." "..
+	  (inhabited and #inhabited or 0).."/"..(all and #all or 0))
+   if inhabited then
+      self.all, self.inhabited = all, inhabited
+      return self
+   end
+end
+
+local nearbySystems
 
 -- Shortest path, need better version like A*.
 local function spath (beg, dst, nodes, fdist)
@@ -182,8 +214,8 @@ end
 
 function LocalCtr:init (station, urgency)
    self.isLocal = true -- needed per instance for serialization
-   local nearbystations = Game.system:GetStationPaths()
-   local dest = nearbystations[Engine.rand:Integer (1, #nearbystations)]
+   local nearbyStations = Game.system:GetStationPaths()
+   local dest = nearbyStations[Engine.rand:Integer (1, #nearbyStations)]
    if dest == station.path then
       return false
    end
@@ -260,14 +292,13 @@ function ExternalCtr:initClass()
    self.initClass = nil
 end
 
-function ExternalCtr:shipCosts (ship, equip, nearbysystems, drive)
+function ExternalCtr:shipCosts (ship, equip, systems, drive)
    local ecmass = equip.mass + equip.dm_diffs[drive]
    local mass = ship.hullMass + ecmass
    local drivepval = Hyperclasses[drive]
    -- calculate path backwards
-   print (os.clock().." Checking "..#nearbysystems)
    local path = spath (
-      self.dest:GetStarSystem(), Game.system, nearbysystems,
+      self.dest:GetStarSystem(), Game.system, systems,
       function (c, n, tfuel)
 	 tfuel = tfuel or 0
 	 local fuel, dist, max = 1, c:DistanceTo (n)
@@ -287,7 +318,6 @@ function ExternalCtr:shipCosts (ship, equip, nearbysystems, drive)
 	 end
 	 return nil
       end)
-   print (os.clock().." Checked "..#nearbysystems)
    if not path then
       return
    end
@@ -314,16 +344,17 @@ function ExternalCtr:shipCosts (ship, equip, nearbysystems, drive)
 end
 
 function ExternalCtr:init (station, urgency, risk)
-   local nearbysystems = Game.system:GetNearbySystems (
-      max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
-   if #nearbysystems == 0 then
+   local systems = nearbySystems and nearbySystems.inhabited
+   if not systems then
       return false
    end
-   local nearbysystem = nearbysystems[Engine.rand:Integer (1, #nearbysystems)]
-   local nearbystations = nearbysystem:GetStationPaths()
-   self.dest = nearbystations[Engine.rand:Integer(1, #nearbystations)]
-   local dist = nearbysystem:DistanceTo (Game.system)
-   nearbysystems = Game.system:GetNearbySystems (max_delivery_dist)
+   local nearbySystem = systems[Engine.rand:Integer (1, #systems)]
+   systems = nearbySystems.all
+   do
+      local stations = nearbySystem:GetStationPaths()
+      self.dest = stations[Engine.rand:Integer(1, #stations)]
+   end
+   local dist = nearbySystem:DistanceTo (Game.system)
    local equip =
       risk >= 0.7 and self.equip07 or
       risk >= 0.4 and self.equip04 or
@@ -353,7 +384,7 @@ function ExternalCtr:init (station, urgency, risk)
       local drive =
 	 Hyperclasses[s.defaultHyperdrive] > Hyperclasses[minimal_drive]
 	 and s.defaultHyperdrive or minimal_drive
-      local t, r, p = self:shipCosts (s, equip, nearbysystems, drive)
+      local t, r, p = self:shipCosts (s, equip, systems, drive)
       if r and (not self.reward or r < self.reward) then
 	 ship, self.due, self.reward, path = s, t, r, p
       end
@@ -479,15 +510,25 @@ function Client:init()
    self.seed = Engine.rand:Integer()
 end
 
-local function makeAdvert (station)
+local function heavy_duty_check (flavours, station, bbcreate)
+   return station:DistanceTo (Game.player) > 0.02 * AU or
+      -- the spath calculation is a way too slow for lua.
+      flavours.localdelivery == 0 and
+      (bbcreate and station ~= Game.player:GetDockedWith() or
+       not bbcreate and Game.time < 2) -- strange update with the 1st second
+end
+
+local function makeAdvert (station, bbcreate)
    local flavours = Translate:GetFlavours ('DeliverPackage')
    local flavour = Engine.rand:Integer (1, #flavours)
    flavours = flavours[flavour]
+   if (heavy_duty_check (flavours, station, bbcreate)) then
+      return false
+   end
    local urgency = flavours.urgency
    local risk = flavours.risk
    local ctr = makeInst (flavours.localdelivery == 1 and LocalCtr or
 			 flavours.localdelivery ~= 1 and ExternalCtr)
-
    if not ctr:init (station, urgency, risk) then
       return
    end
@@ -506,12 +547,9 @@ local function makeAdvert (station)
 end
 
 local function onCreateBB (station)
-   if station:DistanceTo (Game.player) > 0.02 * AU then
-      return
-   end
    local num = Engine.rand:Integer(0, math.ceil(Game.system.population))
    for i = 1,num do
-      makeAdvert (station)
+      makeAdvert (station, true)
    end
 end
 
@@ -523,10 +561,7 @@ local function onUpdateBB (station)
 	 ad.board:RemoveAdvert (ref)
       end
    end
-   if station:DistanceTo (Game.player) > 0.02 * AU then
-      return
-   end
-   local ad = makeAdvert (station)
+   local ad = makeAdvert (station, false)
    if ad and station == Game.player:GetDockedWith() then
       UI.ImportantMessage (ad.ctr.isLocal and "Local" or "Non Local")
    end
@@ -568,6 +603,7 @@ local function onEnterSystem (player)
    if not player:IsPlayer() then
       return
    end
+   nearbySystems = makeInst (NearBySystems):init()
    local flavours = Translate:GetFlavours ('DeliverPackage')
    local syspath = Game.system.path
    local shiptypes
@@ -638,6 +674,7 @@ local function onGameStart ()
       LocalCtr:initClass()
       ExternalCtr:initClass()
    end
+   nearbySystems = makeInst (NearBySystems):init()
    ads, missions = {}, {}
    if not loaded_data then
       return
