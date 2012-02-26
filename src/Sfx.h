@@ -5,7 +5,12 @@
 #include "Serializer.h"
 
 class Frame;
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+	namespace Drawables {
+		class Sphere3D;
+	}
+}
 
 class Sfx {
 public:
@@ -20,6 +25,13 @@ public:
 	Sfx();
 	void SetPosition(vector3d p);
 	vector3d GetPosition() const { return m_pos; }
+
+	//create shared models
+	static void Init();
+	static void Uninit();
+	static Graphics::Drawables::Sphere3D *shieldEffect;
+	static Graphics::Drawables::Sphere3D *explosionEffect;
+
 private:
 	static Sfx *AllocSfxInFrame(Frame *f);
 

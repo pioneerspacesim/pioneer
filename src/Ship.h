@@ -14,12 +14,7 @@
 class SpaceStation;
 class HyperspaceCloud;
 class AICommand;
-namespace Graphics {
-	class Renderer;
-	namespace Drawables {
-		class Sphere3D;
-	}
-}
+namespace Graphics { class Renderer; }
 
 struct shipstats_t {
 	int max_capacity;
@@ -271,7 +266,6 @@ private:
 	float m_fuelUseWeights[4]; //rear, front, lateral, up&down. Rear thrusters are usually 1.0
 
 	int m_dockedWithIndex; // deserialisation
-	ScopedPtr<Graphics::Drawables::Sphere3D> m_shieldEffect;
 };
 
 

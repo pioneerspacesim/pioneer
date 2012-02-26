@@ -6,13 +6,16 @@
 #include "Space.h"
 #include "Pi.h"
 #include "TextureCache.h"
-#include "graphics/Material.h"
+#include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
+#include "graphics/Material.h"
 #include "graphics/Renderer.h"
 
 using namespace Graphics;
 
 #define MAX_SFX_PER_FRAME 1024
+Graphics::Drawables::Sphere3D *Sfx::shieldEffect = 0;
+Graphics::Drawables::Sphere3D *Sfx::explosionEffect = 0;
 
 Sfx::Sfx()
 {
@@ -181,4 +184,21 @@ void Sfx::RenderAll(Renderer *renderer, const Frame *f, const Frame *camFrame)
 			i != f->m_children.end(); ++i) {
 		RenderAll(renderer, *i, camFrame);
 	}
+}
+
+void Sfx::Init()
+{
+	//these are identical, but keeping separate anyway
+	RefCountedPtr<Graphics::Material> smat(new Graphics::Material);
+	smat->unlit = true;
+	shieldEffect = new Graphics::Drawables::Sphere3D(smat, 2);
+	RefCountedPtr<Graphics::Material> emat(new Graphics::Material);
+	emat->unlit = true;
+	explosionEffect = new Graphics::Drawables::Sphere3D(emat, 2);
+}
+
+void Sfx::Uninit()
+{
+	delete shieldEffect; shieldEffect = 0;
+	delete explosionEffect; explosionEffect = 0;
 }

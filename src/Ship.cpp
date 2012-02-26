@@ -1078,17 +1078,10 @@ void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 			trans.Scale(GetLmrCollMesh()->GetBoundingRadius());
 			renderer->SetTransform(trans);
 
-			//create effect on first use. It will exist until the ship is destroyed.
-			if (!m_shieldEffect.Valid()) {
-				RefCountedPtr<Graphics::Material> mat(new Graphics::Material);
-				mat->unlit = true;
-				m_shieldEffect.Reset(new Graphics::Drawables::Sphere3D(mat, 1));
-			}
-
 			//fade based on strength
-			m_shieldEffect->GetMaterial()->diffuse =
+			Sfx::shieldEffect->GetMaterial()->diffuse =
 				Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
-			m_shieldEffect->Draw(renderer);
+			Sfx::shieldEffect->Draw(renderer);
 			glPopMatrix();
 			renderer->SetBlendMode(Graphics::BLEND_SOLID);
 		}
