@@ -128,7 +128,6 @@ LuaConsole *Pi::luaConsole;
 Game *Pi::game;
 MTRand Pi::rng;
 float Pi::frameTime;
-GLUquadric *Pi::gluQuadric;
 #if WITH_DEVKEYS
 bool Pi::showDebugInfo;
 #endif
@@ -498,8 +497,6 @@ void Pi::Init()
 	Pi::rng.seed(time(NULL));
 
 	Pi::textureCache = new TextureCache;
-
-	Pi::gluQuadric = gluNewQuadric();
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
