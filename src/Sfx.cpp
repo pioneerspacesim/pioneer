@@ -94,23 +94,25 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 
 	switch (m_type) {
 		case TYPE_NONE: break;
-		case TYPE_EXPLOSION:
-			//XXX replace gluSphere with a lmrmodel or
-			//generate sphere geometry elswhere
+		case TYPE_EXPLOSION: {
+			//Explosion effect: A quick flash of three concentric coloured spheres. A bit retro.
 			glPushMatrix();
-			glTranslatef(fpos.x, fpos.y, fpos.z);
-			glPushAttrib(GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT);
-			glDisable(GL_LIGHTING);
-			glColor3f(1,1,0.5);
-			gluSphere(Pi::gluQuadric, 1000*m_age, 20,20);
+			matrix4x4f trans = trans.Identity();
+			trans.Translate(fpos.x, fpos.y, fpos.z);
+			RefCountedPtr<Material> exmat = Sfx::explosionEffect->GetMaterial();
+			exmat->diffuse = Color(1.f, 1.f, 0.5f, 1.f);
+			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(1000*m_age));
+			Sfx::explosionEffect->Draw(renderer);
 			renderer->SetBlendMode(BLEND_ALPHA);
-			glColor4f(1,0.5,0,0.66);
-			gluSphere(Pi::gluQuadric, 1500*m_age, 20,20);
-			glColor4f(1,0,0,0.33);
-			gluSphere(Pi::gluQuadric, 2000*m_age, 20,20);
-			glPopAttrib();
+			exmat->diffuse = Color(1.f, 0.5f, 0.f, 0.66f);
+			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(1500*m_age));
+			Sfx::explosionEffect->Draw(renderer);
+			exmat->diffuse = Color(1.f, 0.f, 0.f, 0.33f);
+			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(2000*m_age));
+			Sfx::explosionEffect->Draw(renderer);
 			glPopMatrix();
 			break;
+		}
 		case TYPE_DAMAGE:
 			vector3f pos(&fpos.x);
 			//XXX no need to recreate material every time
