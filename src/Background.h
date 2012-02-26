@@ -27,9 +27,15 @@ namespace Background
 		void Fill(unsigned long seed);
 	private:
 		void Init();
-		static const int BG_STAR_MAX = 65536;
+		static const int BG_STAR_MAX = 10000;
 		Graphics::StaticMesh *m_model;
 		Graphics::Shader *m_shader;
+
+		//hyperspace animation vertex data
+		//allocated when animation starts and thrown away
+		//when starfield is destroyed (on exiting hyperspace)
+		vector3f *m_hyperVtx;
+		Color *m_hyperCol;
 	};
 	
 	class MilkyWay
