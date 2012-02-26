@@ -1077,7 +1077,7 @@ HULL_INTEGRITY
 SHIELD_INTEGRITY
     Integridad del escudo
 FUEL
-    Combustible
+    Fuel
 LAUNCH_PERMISSION_DENIED_BUSY
     Permiso para despegar denegado: Bahía de atraque ocupada.
 HYPERSPACE_JUMP_ABORTED
