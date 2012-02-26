@@ -37,8 +37,8 @@ FlightLog = {
 --
 --   iterator - A function which will generate the paths from the log, returning
 --              one each time it is called until it runs out, after which it
---              returns nil. It also returns, as a secondary value, the game
---              time at shich the system was left.
+--              returns nil. It also returns, as secondary and tertiary values,
+--              the game times at shich the system was entered left.
 --
 -- Example:
 --
@@ -57,7 +57,8 @@ FlightLog = {
 				counter = counter + 1
 				if FlightLogSystem[counter] then
 					return FlightLogSystem[counter][1],
-				    	   FlightLogSystem[counter][2]
+				    	   FlightLogSystem[counter][2],
+				    	   FlightLogSystem[counter][3]
 				end
 			end
 			return nil, nil
@@ -131,8 +132,8 @@ FlightLog = {
 --
 
 	GetPreviousSystemPath = function ()
-		if FlightLogSystem[1] then
-			return FlightLogSystem[1][1]
+		if FlightLogSystem[2] then
+			return FlightLogSystem[2][1]
 		else return nil end
 	end,
 
@@ -171,9 +172,18 @@ FlightLog = {
 -- LOGGING
 
 -- onLeaveSystem
-local AddSystemToLog = function (ship)
+local AddSystemDepartureToLog = function (ship)
 	if not ship:IsPlayer() then return end
-	table.insert(FlightLogSystem,1,{Game.system.path,Game.time})
+	FlightLogSystem[1][3] = Game.time
+	while #FlightLogSystem > FlightLogSystemQueueLength do
+		table.remove(FlightSystemLog,FlightLogSystemQueueLength + 1)
+	end
+end
+
+-- onEnterSystem
+local AddSystemArrivalToLog = function (ship)
+	if not ship:IsPlayer() then return end
+	table.insert(FlightLogSystem,1,{Game.system.path,Game.time,nil})
 	while #FlightLogSystem > FlightLogSystemQueueLength do
 		table.remove(FlightSystemLog,FlightLogSystemQueueLength + 1)
 	end
@@ -196,6 +206,8 @@ local onGameStart = function ()
 	if loaded_data then
 		FlightLogSystem = loaded_data.System
 		FlightLogStation = loaded_data.Station
+	else
+		table.insert(FlightLogSystem,1,{Game.system.path,nil,nil})
 	end
 	loaded_data = nil
 end
@@ -208,7 +220,8 @@ local unserialize = function (data)
     loaded_data = data
 end
 
-EventQueue.onLeaveSystem:Connect(AddSystemToLog)
+EventQueue.onEnterSystem:Connect(AddSystemArrivalToLog)
+EventQueue.onLeaveSystem:Connect(AddSystemDepartureToLog)
 EventQueue.onShipUndocked:Connect(AddStationToLog)
 EventQueue.onGameStart:Connect(onGameStart)
 Serializer:Register("FlightLog", serialize, unserialize)
