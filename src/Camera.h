@@ -35,6 +35,8 @@ public:
 	// get the frustum. use for projection
 	const Graphics::Frustum &GetFrustum() const { return m_frustum; }
 
+	std::vector<LightBody> & GetLightBodies(){return m_lightBodies;}
+
 private:
 	void OnBodyDeleted();
 	sigc::connection m_onBodyDeletedConnection;
@@ -48,6 +50,8 @@ private:
 	float m_fovAng;
 	float m_zNear;
 	float m_zFar;
+
+	std::vector<LightBody>m_lightBodies;
 
 	Graphics::Frustum m_frustum;
 

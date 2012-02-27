@@ -93,40 +93,72 @@ void Starfield::Fill(unsigned long seed)
 	}
 }
 
-void Starfield::Draw(Graphics::Renderer *renderer)
+void Starfield::Draw(Graphics::Renderer *renderer, Camera *camera)
 {
 	if (AreShadersEnabled()) {
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 
 		double brightness=1.0;
 		double light = 1.0; // light intensity relative to earths
+		
+		if (Pi::player&&camera){ // check camera exists in case in intro screen
+			
+			if (camera->GetLightBodies()[0].distance != -1.0){ // check if light is not an artificial light in systems without lights
 
-		if (Pi::player){
 			Frame *f = Pi::player->GetFrame();
-
+			
 			if (!f->GetBodyFor()->IsType(Object::PLANET)&&(f->m_parent)) {f=f->m_parent;}
 			if (f->GetBodyFor()->IsType(Object::PLANET)){
-				SBody *s = f->GetSBodyFor();
-				double height = (Pi::player->GetPositionRelTo(f)).Length();
 
+				std::vector<LightBody> &l = camera->GetLightBodies();
+				light = 0.0;
+
+				for (std::vector<LightBody>::iterator i = l.begin(); i != l.end(); ++i) {
+					LightBody *lb = &(*i);
+
+					//light intensity proportional to: T^4 (see boltzman's law formula Power=Area sigma T^4), r^2 (area = 4 pi r^2), 1/(r^2) (attenuation with inverse square law)
+					// as a multiple of sunlight on earths' surface
+					double light_ = pow(double(lb->sbody->averageTemp)/5700.0,4.0)*(pow(double(lb->sbody->GetRadius()/SOL_RADIUS),2.0)/pow((lb->distance/1.0),2.0)); // distance in AU
+					if ((light_ >= 0.25) &&(light_<=1.0)) {light_ = 1.0;} //if light is in medium range increase as stars are still dark
+					double t2 = light_;
+
+					double sunAngle = lb->position.Normalized().Dot(-(f->GetBodyFor()->GetPositionRelTo(camera->GetFrame()).Normalized()));
+					double t = sunAngle;
+
+					if (sunAngle > 0.25) {sunAngle = 1.0;}
+					else if ((sunAngle <= 0.25)&& (sunAngle >= -0.8)) {sunAngle = ((sunAngle+0.08)/0.33);}
+					else /*if (sunAngle < -0.8)*/ {sunAngle = 0.0;}
+					
+					light += light_*sunAngle;
+					static int iii = 0;//debug
+					if (double(iii)/60.0 > 1.0) {printf("light %f,cumulative light*sunangle %f,sun angle %f\n",light_, light,sunAngle);iii=0;}iii++; 
+				}
+
+				SBody *s = f->GetSBodyFor();
+				double height = (f->GetBodyFor()->GetPositionRelTo(camera->GetFrame()).Length());
+				
 				double pressure, density; 
-				s->plnt->GetAtmosphericState(height,&pressure, &density);
+				s->planet->GetAtmosphericState(height,&pressure, &density);
 
 				Color c; double surfaceDensity;
 				s->GetAtmosphereFlavor(&c, &surfaceDensity);
 
 				// approximate optical thickness fraction as fraction of density remaining relative to earths
 				double opticalThicknessFraction = 1.0-(surfaceDensity-density)/surfaceDensity;
+				// tweak optical thickness curve - lower exponent ==> higher altitude before stars show
+				opticalThicknessFraction = pow(std::max(0.00001,opticalThicknessFraction),0.15); //max needed to avoid 0^power
 				// brightness depends on optical depth and intensity of light from all the stars
 				brightness = Clamp(1.0-(opticalThicknessFraction*light),0.0,1.0);
-				static int i;
-				if (double(i)/60.0 > 1.0) {printf("br %f, height %f,at density %f,density %f, otp %f\n",brightness,height-s->GetRadius(),surfaceDensity,density,opticalThicknessFraction);i = 0;}i++;
+				//debug
+				static int i = 0;
+				if (double(i)/60.0 > 1.0) {printf("brightness %f, height %f,surface density %f,density %f, otp %f, light %f\n",brightness,height-s->GetRadius(),surfaceDensity,density,opticalThicknessFraction,light);i = 0;}i++;
+				}
 			}
+
 		}
 		//brightness = 1.0;
 		m_shader->Use();
 		m_shader->SetUniform("brightness", float(brightness));
-
 
 		
 	} else {
@@ -265,7 +297,7 @@ void Container::Refresh(unsigned long seed)
 	m_starField.Fill(seed);
 }
 
-void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) const
+void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform, Camera *camera) const
 {
 	//XXX not really const - renderer can modify the buffers
 	glPushMatrix();
@@ -275,7 +307,7 @@ void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) 
 	// squeeze the starfield a bit to get more density near horizon
 	matrix4x4d starTrans = transform * matrix4x4d::ScaleMatrix(1.0, 0.4, 1.0);
 	renderer->SetTransform(starTrans);
-	const_cast<Starfield&>(m_starField).Draw(renderer);
+	const_cast<Starfield&>(m_starField).Draw(renderer, camera);
 	Pi::renderer->SetDepthTest(true);
 	glPopMatrix();
 }
