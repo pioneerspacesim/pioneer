@@ -65,6 +65,7 @@
 #include "Game.h"
 #include "GameLoaderSaver.h"
 #include "Light.h"
+#include "Sfx.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 
