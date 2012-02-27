@@ -221,7 +221,7 @@ FULL_SCREEN
 OTHER_GRAPHICS_SETTINGS
     Otras opciones gráficas
 USE_SHADERS
-    Usar shaders
+    Usar Shaders (Reiniciar para aplicar)
 SOUND_SETTINGS
     Opciones de audio
 VOL_MASTER
@@ -462,6 +462,8 @@ CARGO_INVENTORY
     Inventario de carga:
 JETTISON
     Tirar por la borda
+REFUEL
+    Repostar
 JETTISONED_1T_OF_X
     Arrojadas 1 ton. de %commodity
 COMBAT_RATING
@@ -1074,6 +1076,8 @@ HULL_INTEGRITY
     Integridad del casco
 SHIELD_INTEGRITY
     Integridad del escudo
+FUEL
+    Fuel
 LAUNCH_PERMISSION_DENIED_BUSY
     Permiso para despegar denegado: Bahía de atraque ocupada.
 HYPERSPACE_JUMP_ABORTED
