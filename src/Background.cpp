@@ -107,8 +107,9 @@ void Starfield::Draw(Graphics::Renderer *renderer, Camera *camera)
 
 			Frame *f = Pi::player->GetFrame();
 			
-			if (!f->GetBodyFor()->IsType(Object::PLANET)&&(f->m_parent)) {f=f->m_parent;}
-			if (f->GetBodyFor()->IsType(Object::PLANET)){
+			
+			if (f->GetBodyFor() && !f->GetBodyFor()->IsType(Object::PLANET)&&(f->m_parent)) {f=f->m_parent;}
+			if ((f->GetBodyFor()) && f->GetBodyFor()->IsType(Object::PLANET)){
 
 				std::vector<LightBody> &l = camera->GetLightBodies();
 				light = 0.0;
@@ -156,6 +157,7 @@ void Starfield::Draw(Graphics::Renderer *renderer, Camera *camera)
 			}
 
 		}
+		//}
 		//brightness = 1.0;
 		m_shader->Use();
 		m_shader->SetUniform("brightness", float(brightness));
