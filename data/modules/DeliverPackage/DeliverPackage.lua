@@ -1,14 +1,18 @@
 -- Get the translator function
 local t = Translate:GetTranslator()
 
-local hourly_rate = 2000 / (24 * 30)
+local hourlyRate = 500 / (24 * 30)
+local basePriceScale = 1 / 160
 local AU = 149598000000.0	-- Game uses this approximation
 
 local ads = {}
 local missions = {}
+local updates
 
 local NearBySystems = {}
 
+-- For given number determine the radius of a sphere containing that
+-- many systems. Store them in two tables.
 function NearBySystems:init()
    if not next (Game.system:GetStationPaths()) then
       return
@@ -123,9 +127,10 @@ local function fwdacc (ship, ecmass)
 		    (ship.hullMass + ecmass) / 1000)
 end
 
+-- Estimated intra system flight time for given way and acceleration.
 local function ftim (s, a)
    -- my tests show computer does not brake as hard as it accelerates
-   local b = 0.8
+   local b = 0.6 -- version 18 0.8
    return (1+b) * math.sqrt (s / (b*(1+b)) / (a/2)) + 3600
 end
 
@@ -142,6 +147,7 @@ local function validateCapacity (ship, slots)
    return true
 end
 
+-- Return minimal and maximal acceleration of all ships
 local function shipMinMax (ecmass, slots)
    ships = ShipType.GetShipTypes (
       "SHIP", function (ship) return validateCapacity (ship, slots) end)
@@ -161,11 +167,41 @@ local function shipMinMax (ecmass, slots)
    return minacc, maxacc
 end
 
+local function accelerationClasses (ecmass, slots)
+   local tab = {}
+   ships = ShipType.GetShipTypes (
+      "SHIP", function (ship) return validateCapacity (ship, slots) end)
+   local n = 0
+   for i, shipname in next, ships do
+      local ship = ShipType.GetShipType (shipname)
+      n = n + 1
+      tab[n] = fwdacc (ship, ecmass)
+   end
+   table.sort (tab)
+   local lo, g5 = 1, 5 * 9.81
+   for i = 2, n do
+      if tab[i] - tab[lo] > g5 then
+	 lo = lo + 1; tab[lo] = tab[i]
+      end
+   end
+   for i = lo + 1, n do
+      tab[i] = nil
+   end
+   n = #tab
+   return function (urgency)
+      return tab[urgency < 1 and math.floor (urgency * n) + 1 or n] end
+end
+
 local function makeInst (class, inst)
    inst = inst or {}
    setmetatable (inst, class)
    class.__index = class
    return inst
+end
+
+local function systemInit()
+   nearbySystems = makeInst (NearBySystems):init()
+   updates = {}
 end
 
 local EquipParms = {}
@@ -209,6 +245,8 @@ function LocalCtr:initClass()
       SCANNER = 1 }
    -- Btw, GetShipTypes does not work on file level.
    self.minacc, self.maxacc = shipMinMax (self.equip.mass, self.equip.slots)
+   self.selectAcceleration = accelerationClasses (
+      self.equip.mass, self.equip.slots)
    self.initClass = nil
 end
 
@@ -224,8 +262,9 @@ function LocalCtr:init (station, urgency)
       return false
    end
    self.dest = dest
-   local acc_f = self.minacc + (self.maxacc - self.minacc) * urgency
+   local acc_f = self.selectAcceleration (urgency)
    -- Flight time for distance and given acceleration
+   self.urgency = urgency
    self.dist = dist
    local tim_f = ftim (self.dist, acc_f)
    -- Total time
@@ -245,22 +284,28 @@ function LocalCtr:update()
 	    ftim (self.dist, fwdacc (ship, self.equip.mass)) <= tim_t and
 	    validateCapacity (ship, self.equip.slots)
       end)
-   local reward
+   local reward, name
    for i, shipname in next, potships do
       local ship = ShipType.GetShipType (shipname)
       local tim_f = ftim (self.dist, fwdacc (ship, self.equip.mass))
-      -- crew to pay (only me) at an hourly rate of:
-      local salary = (hourly_rate * 1) * tim_f / 3600
       -- Assume we get every 9 hrs a job for the same destination
       local jobs = 1 + math.floor ((tim_t - tim_f) / (3600 * 9))
-      local price = salary + self.equip.price / 100 + ship.basePrice / 1000
+      -- crew to pay (only me) at an hourly rate + daily ship costs
+      local price = tim_f / 3600 * (
+	 (hourlyRate * 1) + (
+	    self.equip.price / 250 + ship.basePrice * basePriceScale) / 24)
       -- todo competition
-      local profit = 0.3 * price
+      local profit = 0.1 * price
       local price = price / jobs + profit
       if not reward or price < reward then
-	 reward = price
+	 reward = price; name = shipname
       end
    end
+   if self.urgency then
+      print ("Local "..name.." "..self.urgency)
+      self.urgency = nil
+   end
+   self.new = nil
    self.reward = reward and roundup (reward, 10)
    return self.reward ~= nil
 end
@@ -332,14 +377,14 @@ function ExternalCtr:shipCosts (ship, equip, systems, drive)
    local acc = fwdacc (ship, ecmass)
    -- add flight time in destination system
    tim_f = tim_f + ftim (11.5 * AU, acc)
-   local salary = (hourly_rate * 1) * tim_f / 3600
    -- Adjust hyperdrive costs within equip.price and let customer pay
    -- for the non-default drive.
    local price = equip.price + equip.dp_diffs[drive] + 
       (equip.dp_diffs[ship.defaultHyperdrive] - equip.dp_diffs[drive]) * 10
-   price = salary + equip.wprice + price / 100 + ship.basePrice / 1000 
+   price =  equip.wprice + tim_f / 3600 * (
+      (hourlyRate * 1) + (price / 250 + ship.basePrice * basePriceScale) / 24)
    -- todo competition
-   local profit = 0.3 * price
+   local profit = 0.1 * price
    return tim_f, price + profit, path
 end
 
@@ -398,10 +443,10 @@ function ExternalCtr:init (station, urgency, risk)
    if verbose then
       print (ship.name.." "..Format.Date (self.due))
    end
-   for i = 1, #path - 1 do
-      local c, n, w = path[i], path[i+1]
+   for i = 2, #path do
+      local p, c, w = path[i-1], path[i]
       if verbose then
-	 print (i..":"..c.node.name.."->"..n.node.name.."("..c.state.." "..
+	 print ((i-1)..":"..p.node.name.."->"..c.node.name.."("..p.state.." "..
 		Format.Date (c.tim_f + Game.time)..")")
       end
    end
@@ -514,8 +559,7 @@ local function heavy_duty_check (flavours, station, bbcreate)
    return station:DistanceTo (Game.player) > 0.02 * AU or
       -- the spath calculation is a way too slow for lua.
       flavours.localdelivery == 0 and
-      (bbcreate and station ~= Game.player:GetDockedWith() or
-       not bbcreate and Game.time < 2) -- strange update with the 1st second
+      bbcreate and station ~= Game.player:GetDockedWith()
 end
 
 local function makeAdvert (station, bbcreate)
@@ -547,6 +591,7 @@ local function makeAdvert (station, bbcreate)
 end
 
 local function onCreateBB (station)
+   updates[station] = Game.time
    local num = Engine.rand:Integer(0, math.ceil(Game.system.population))
    for i = 1,num do
       makeAdvert (station, true)
@@ -554,6 +599,10 @@ local function onCreateBB (station)
 end
 
 local function onUpdateBB (station)
+   if not updates[station] or Game.time - updates[station] < 3600 then
+      return
+   end
+   updates[station] = Game.time
    local delivery_flavours = Translate:GetFlavours('DeliverPackage')
    for ref, ad in pairs (ads) do
       if ad.ctr.expiry < Game.time or
@@ -603,7 +652,7 @@ local function onEnterSystem (player)
    if not player:IsPlayer() then
       return
    end
-   nearbySystems = makeInst (NearBySystems):init()
+   systemInit()
    local flavours = Translate:GetFlavours ('DeliverPackage')
    local syspath = Game.system.path
    local shiptypes
@@ -674,10 +723,14 @@ local function onGameStart ()
       LocalCtr:initClass()
       ExternalCtr:initClass()
    end
-   nearbySystems = makeInst (NearBySystems):init()
+   systemInit()
    ads, missions = {}, {}
    if not loaded_data then
       return
+   end
+   station = Game.player:GetDockedWith()
+   if station then -- onCreateBB will not be called
+      updates[station] = Game.time
    end
    for k, ad in pairs (loaded_data.ads) do
       makeInst (Advert, ad)
@@ -685,6 +738,7 @@ local function onGameStart ()
       makeInst (Client, ad.client)
       local ref = ad.board:AddAdvert (ad:desc(), onChat, onDelete)
       ads[ref] = ad
+      updates[ad.board] = Game.time
    end
    for k, mission in pairs (loaded_data.missions) do
       local mref = Game.player:AddMission (mission)
