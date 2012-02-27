@@ -23,8 +23,9 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
-#include "graphics/Material.h"
+#include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
+#include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/Shader.h"
 
@@ -1069,19 +1070,19 @@ void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 
 		// draw shield recharge bubble
 		if (m_stats.shield_mass_left < m_stats.shield_mass) {
-			//XXX replace gluSphere with a lmrmodel or
-			//generate sphere geometry elswhere
-			float shield = 0.01f*GetPercentShields();
-			glDisable(GL_LIGHTING);
-			renderer->SetBlendMode(Graphics::BLEND_ALPHA);
-			glColor4f((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
+			const float shield = 0.01f*GetPercentShields();
+			renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
 			glPushMatrix();
-			glTranslatef(GLfloat(viewCoords.x), GLfloat(viewCoords.y), GLfloat(viewCoords.z));
-			Graphics::simpleShader->Use();
-			gluSphere(Pi::gluQuadric, GetLmrCollMesh()->GetBoundingRadius(), 20, 20);
-			Graphics::simpleShader->Unuse();
+			matrix4x4f trans = matrix4x4f::Identity();
+			trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
+			trans.Scale(GetLmrCollMesh()->GetBoundingRadius());
+			renderer->SetTransform(trans);
+
+			//fade based on strength
+			Sfx::shieldEffect->GetMaterial()->diffuse =
+				Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
+			Sfx::shieldEffect->Draw(renderer);
 			glPopMatrix();
-			glEnable(GL_LIGHTING);
 			renderer->SetBlendMode(Graphics::BLEND_SOLID);
 		}
 	}
