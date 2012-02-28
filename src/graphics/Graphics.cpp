@@ -1,6 +1,5 @@
 #include "Graphics.h"
 #include "Shader.h"
-#include "RenderTarget.h"
 #include <stdexcept>
 #include <sstream>
 #include <iterator>
