@@ -34,7 +34,7 @@ void Gradient::Draw()
 
 
 Gradient::GradientTexture::GradientTexture(const Color &begin, const Color &end) :
-	Texture(GL_TEXTURE_1D, Format(GL_RGBA, GL_RGBA, GL_FLOAT), CLAMP, LINEAR, false),
+	Texture(Texture::TARGET_1D, Format(Texture::Format::INTERNAL_RGBA, Texture::Format::DATA_RGBA, Texture::Format::DATA_FLOAT), CLAMP, LINEAR, false),
 	m_needGenerate(true)
 {
 	SetStop(begin, 0.0f);

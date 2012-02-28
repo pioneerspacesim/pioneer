@@ -1,8 +1,43 @@
 #include "Texture.h"
 #include <SDL_image.h>
 #include <cassert>
+#include "utils.h"
 
 namespace Graphics {
+
+inline GLenum glTarget(Texture::Target target) {
+	switch (target) {
+		case Texture::TARGET_1D: return GL_TEXTURE_1D;
+		case Texture::TARGET_2D: return GL_TEXTURE_2D;
+		default: assert(0);
+	}
+}
+
+inline GLint glInternalFormat(Texture::Format::InternalFormat format) {
+	switch (format) {
+		case Texture::Format::INTERNAL_RGBA:            return GL_RGBA;
+		case Texture::Format::INTERNAL_RGB:             return GL_RGB;
+		case Texture::Format::INTERNAL_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
+		default: assert(0);
+	}
+}
+
+inline GLint glDataFormat(Texture::Format::DataFormat format) {
+	switch (format) {
+		case Texture::Format::DATA_RGBA:            return GL_RGBA;
+		case Texture::Format::DATA_RGB:             return GL_RGB;
+		case Texture::Format::DATA_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
+		default: assert(0);
+	}
+}
+
+inline GLint glDataType(Texture::Format::DataType type) {
+	switch (type) {
+		case Texture::Format::DATA_UNSIGNED_BYTE: return GL_UNSIGNED_BYTE;
+		case Texture::Format::DATA_FLOAT:         return GL_FLOAT;
+		default: assert(0);
+	}
+}
 
 Texture::~Texture()
 {
@@ -13,12 +48,12 @@ Texture::~Texture()
 void Texture::Bind()
 {
 	assert(m_glTexture);
-	glBindTexture(m_target, m_glTexture);
+	glBindTexture(glTarget(m_target), m_glTexture);
 }
 
 void Texture::Unbind()
 {
-	glBindTexture(m_target, 0);
+	glBindTexture(glTarget(m_target), 0);
 }
 
 void Texture::CreateFromArray(const void *data, unsigned int width, unsigned int height)
@@ -28,53 +63,48 @@ void Texture::CreateFromArray(const void *data, unsigned int width, unsigned int
 		m_glTexture = 0;
 	}
 
-	glEnable(m_target);
+	glEnable(glTarget(m_target));
 
 	glGenTextures(1, &m_glTexture);
-	glBindTexture(m_target, m_glTexture);
+	glBindTexture(glTarget(m_target), m_glTexture);
 
 	if (m_wrapMode == CLAMP) {
-		glTexParameteri(m_target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(m_target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(glTarget(m_target), GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(glTarget(m_target), GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	}
 	else {
-		glTexParameteri(m_target, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(m_target, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(glTarget(m_target), GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(glTarget(m_target), GL_TEXTURE_WRAP_T, GL_REPEAT);
 	}
 
 	if (m_filterMode == NEAREST) {
-		glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, m_wantMipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+		glTexParameteri(glTarget(m_target), GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(glTarget(m_target), GL_TEXTURE_MIN_FILTER, m_wantMipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
 	}
 	else {
-		glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, m_wantMipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+		glTexParameteri(glTarget(m_target), GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(glTarget(m_target), GL_TEXTURE_MIN_FILTER, m_wantMipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
 	}
 
 	// XXX feels a bit icky
 	switch (m_target) {
-		case GL_TEXTURE_1D:
+		case TARGET_1D:
 			assert(!m_wantMipmaps);
-			glTexImage1D(GL_TEXTURE_1D, 0, m_format.internalFormat, width, 0, m_format.dataFormat, m_format.dataType, data);
+			glTexImage1D(glTarget(m_target), 0, glInternalFormat(m_format.internalFormat), width, 0, glDataFormat(m_format.dataFormat), glDataType(m_format.dataType), data);
 			break;
 
-		case GL_TEXTURE_2D:
+		case TARGET_2D:
 			if (m_wantMipmaps)
-				glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
-			glTexImage2D(GL_TEXTURE_2D, 0, m_format.internalFormat, width, height, 0, m_format.dataFormat, m_format.dataType, data);
-			break;
-
-		case GL_TEXTURE_RECTANGLE:
-			assert(!m_wantMipmaps);
-			glTexImage2D(GL_TEXTURE_RECTANGLE, 0, m_format.internalFormat, width, height, 0, m_format.dataFormat, m_format.dataType, data);
+				glTexParameteri(glTarget(m_target), GL_GENERATE_MIPMAP, GL_TRUE);
+			glTexImage2D(glTarget(m_target), 0, glInternalFormat(m_format.internalFormat), width, height, 0, glDataFormat(m_format.dataFormat), glDataType(m_format.dataType), data);
 			break;
 
 		default:
 			assert(0);
 	}
 
-	glBindTexture(m_target, 0);
-	glDisable(m_target);
+	glBindTexture(glTarget(m_target), 0);
+	glDisable(glTarget(m_target));
 
 	m_width = width;
 	m_height = height;
@@ -156,9 +186,9 @@ bool Texture::CreateFromSurface(SDL_Surface *s, bool forceRGBA)
 	}
 
 	// store incoming 24-bit as GL_RGB to save on texture memory
-	if (targetGLformat == GL_RGB && m_format.internalFormat == GL_RGBA) {
-		m_format.internalFormat = GL_RGB;
-		m_format.dataFormat = GL_RGB;
+	if (targetGLformat == GL_RGB && m_format.internalFormat == Texture::Format::INTERNAL_RGBA) {
+		m_format.internalFormat = Texture::Format::INTERNAL_RGB;
+		m_format.dataFormat = Texture::Format::DATA_RGB;
 	}
 
 	unsigned int width = s->w;
@@ -244,7 +274,7 @@ void Texture::DrawUIQuad(float x, float y, float w, float h, float tx, float ty,
 
 void Texture::DrawQuadArray(const GLfloat *array)
 {
-	glEnable(GetTarget());
+	glEnable(glTarget(m_target));
 	Bind();
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -258,7 +288,7 @@ void Texture::DrawQuadArray(const GLfloat *array)
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 	Unbind();
-	glDisable(GetTarget());
+	glDisable(glTarget(m_target));
 }
 
 }

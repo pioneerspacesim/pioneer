@@ -26,7 +26,7 @@ const char *RenderTarget::fbo_incomplete::what() const throw() {
 	}
 }
 
-RenderTarget::RenderTarget(unsigned int w, unsigned int h, GLenum target, const Texture::Format &format, bool wantMipmaps) :
+RenderTarget::RenderTarget(unsigned int w, unsigned int h, Texture::Target target, const Texture::Format &format, bool wantMipmaps) :
 	Texture(target, format, CLAMP, LINEAR, wantMipmaps),
     m_fbo(0)
 {

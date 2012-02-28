@@ -21,14 +21,43 @@ public:
 	// for glTexImage* for details. You don't need to worry about this unless
 	// you're subclassing Texture.
 	struct Format {
-		Format(GLint internalFormat_, GLenum dataFormat_, GLenum dataType_) :
+
+		// internal data format
+		// XXX advisory only. not even required? hmm.
+		enum InternalFormat {
+			INTERNAL_RGBA,
+			INTERNAL_RGB,
+			INTERNAL_LUMINANCE_ALPHA
+		};
+
+		// incoming data format
+		enum DataFormat {
+			DATA_RGBA,
+			DATA_RGB,
+			DATA_LUMINANCE_ALPHA
+		};
+
+		// incoming data type
+		enum DataType {
+			DATA_UNSIGNED_BYTE,
+			DATA_FLOAT
+		};
+
+		Format(InternalFormat internalFormat_, DataFormat dataFormat_, DataType dataType_) :
 			internalFormat(internalFormat_),
 			dataFormat(dataFormat_),
 			dataType(dataType_)
 		{}
-		GLint internalFormat; // GL_RGB8, GL_RGB8_ALPHA8 etc.
-		GLenum dataFormat;    // GL_RGB, GL_RGBA...
-		GLenum dataType;      // GL_UNSIGNED_BYTE etc.
+		InternalFormat internalFormat;
+		DataFormat dataFormat;
+		DataType dataType;
+	};
+
+	// texture type. ignore unless subclassing
+	// XXX this is possibly too GL-centric
+	enum Target {
+		TARGET_1D,
+		TARGET_2D
 	};
 
 	// wrap mode. decides what to do when the texture is not large enough to
@@ -57,7 +86,7 @@ public:
 	bool IsCreated() const { return m_glTexture != 0; }
 	
 	// get the texture target, eg GL_TEXTURE_2D. set by the subclass
-	GLenum GetTarget() const { return m_target; }
+	Target GetTarget() const { return m_target; }
 	
 	// return the pixel height/width of the texture. this usually corresponds
 	// to the size of the data that was used to create the texture (eg the
@@ -102,7 +131,7 @@ protected:
 
 	// constructor for subclasses. if wantMipmaps is true then mipmaps will be
 	// generated when the texture is created.
-	Texture(GLenum target, const Format &format, WrapMode wrapMode, FilterMode filterMode, bool wantMipmaps) :
+	Texture(Target target, const Format &format, WrapMode wrapMode, FilterMode filterMode, bool wantMipmaps) :
 		m_target(target),
 		m_format(format),
 		m_wrapMode(wrapMode),
@@ -141,12 +170,11 @@ protected:
 
 private:
 	// textures should not be copied as they have shared GL state
-	Texture(const Texture &) : m_format(0,0,0) {}
+	Texture(const Texture &);
 
 	void DrawQuadArray(const GLfloat *array);
 
-	GLenum m_target;
-	
+	Target m_target;
 	Format m_format;
 	WrapMode m_wrapMode;
 	FilterMode m_filterMode;
