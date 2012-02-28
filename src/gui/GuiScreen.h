@@ -7,10 +7,12 @@
 #include <list>
 #include <stack>
 
+namespace Graphics { class Renderer; }
+
 namespace Gui {
 	class Screen {
 	public:
-		static void Init(int real_width, int real_height, int ui_width, int ui_height);
+		static void Init(Graphics::Renderer *renderer, int real_width, int real_height, int ui_width, int ui_height);
 		static void Uninit();
 		static void Draw();
 		static void ShowBadError(const char *msg);
@@ -53,6 +55,8 @@ namespace Gui {
 		static void MeasureCharacterPos(const std::string &s, int charIndex, float &x, float &y, TextureFont *font = 0);
 		static void RenderMarkup(const std::string &s, TextureFont *font = 0);
 
+		static Graphics::Renderer *GetRenderer() { return s_renderer; }
+
 	private:
 		static void AddShortcutWidget(Widget *w);
 		static void RemoveShortcutWidget(Widget *w);
@@ -75,6 +79,8 @@ namespace Gui {
 		static FontCache s_fontCache;
 		static std::stack< RefCountedPtr<TextureFont> > s_fontStack;
 		static RefCountedPtr<TextureFont> s_defaultFont;
+
+		static Graphics::Renderer *s_renderer;
 	};
 }
 

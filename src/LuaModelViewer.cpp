@@ -671,7 +671,7 @@ int main(int argc, char **argv)
 	TextureCache *textureCache = new TextureCache;
 
 	renderer = Graphics::Init(g_width, g_height, true);
-	Gui::Init(g_width, g_height, g_width, g_height);
+	Gui::Init(renderer, g_width, g_height, g_width, g_height);
 
 	LmrModelCompilerInit(renderer, textureCache);
 	LmrNotifyScreenWidth(g_width);

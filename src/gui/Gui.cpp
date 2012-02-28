@@ -86,10 +86,10 @@ void Draw()
 	Screen::Draw();
 }
 
-void Init(int screen_width, int screen_height, int ui_width, int ui_height)
+void Init(Graphics::Renderer *renderer, int screen_width, int screen_height, int ui_width, int ui_height)
 {
 	SDL_EnableUNICODE(1);
-	Screen::Init(screen_width, screen_height, ui_width, ui_height);
+	Screen::Init(renderer, screen_width, screen_height, ui_width, ui_height);
 }
 
 void Uninit()

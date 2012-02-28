@@ -164,9 +164,9 @@ void TextLayout::_RenderRaw(float maxWidth) const
 			for (int j=0; j<num; j++) {
 				if ((*wpos).word) {
 					if (m_colourMarkup == ColourMarkupUse)
-						m_font->RenderMarkup((*wpos).word, round(px), round(py));
+						m_font->RenderMarkup(Screen::GetRenderer(), (*wpos).word, round(px), round(py));
 					else
-						m_font->RenderString((*wpos).word, round(px), round(py));
+						m_font->RenderString(Screen::GetRenderer(), (*wpos).word, round(px), round(py));
 				}
 				px += (*wpos).advx + _spaceWidth;
 				wpos++;

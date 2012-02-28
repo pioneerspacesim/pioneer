@@ -22,8 +22,12 @@ FontCache Screen::s_fontCache;
 std::stack< RefCountedPtr<TextureFont> > Screen::s_fontStack;
 RefCountedPtr<TextureFont>Screen::s_defaultFont;
 
-void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
+Graphics::Renderer *Screen::s_renderer;
+
+void Screen::Init(Graphics::Renderer *renderer, int real_width, int real_height, int ui_width, int ui_height)
 {
+    s_renderer = renderer;
+
 	Screen::width = ui_width;
 	Screen::height = ui_height;
 	Screen::realWidth = real_width;
@@ -270,7 +274,7 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff, TextureF
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-	font->RenderString(s.c_str(), 0, 0);
+	font->RenderString(s_renderer, s.c_str(), 0, 0);
 	glPopMatrix();
 }
 
@@ -287,7 +291,7 @@ void Screen::RenderMarkup(const std::string &s, TextureFont *font)
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-	font->RenderMarkup(s.c_str(), 0, 0);
+	font->RenderMarkup(s_renderer, s.c_str(), 0, 0);
 	glPopMatrix();
 }
 

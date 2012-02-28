@@ -501,17 +501,17 @@ void Pi::Init()
 
 	Pi::gluQuadric = gluNewQuadric();
 
+	bool wantShaders = (config.Int("DisableShaders") == 0);
+	Pi::renderer = Graphics::Init(width, height, wantShaders);
+
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
-	Gui::Init(scrWidth, scrHeight, 800, 600);
+	Gui::Init(renderer, scrWidth, scrHeight, 800, 600);
 	if (!glewIsSupported("GL_ARB_vertex_buffer_object")) {
 		Error("OpenGL extension ARB_vertex_buffer_object not supported. Pioneer can not run on your graphics card.");
 	}
 
 	LuaInit();
-
-	bool wantShaders = (config.Int("DisableShaders") == 0);
-	Pi::renderer = Graphics::Init(width, height, wantShaders);
 
 	draw_progress(0.1f);
 
