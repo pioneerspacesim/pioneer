@@ -154,7 +154,6 @@ public:
 	static InfoView *infoView;
 	static LuaConsole *luaConsole;
 	static ShipCpanel *cpan;
-	static GLUquadric *gluQuadric;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
 	static Graphics::Renderer* renderer; // blargh
 
