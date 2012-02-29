@@ -229,9 +229,9 @@ void TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x, 
 		if (str[i] == '#') {
 			int hexcol;
 			if (sscanf(str+i, "#%3x", &hexcol)==1) {
-				c.r = float((hexcol&0xf00)>>4)/15.0f;
-				c.g = float((hexcol&0xf0))/15.0f;
-				c.b = float((hexcol&0xf)<<4)/15.0f;
+				c.r = float((hexcol&0xf00)>>4)/255.0f;
+				c.g = float((hexcol&0xf0))/255.0f;
+				c.b = float((hexcol&0xf)<<4)/255.0f;
 				i+=4;
 				continue;
 			}
