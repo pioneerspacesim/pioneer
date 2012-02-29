@@ -605,6 +605,9 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	return true;
 }
 
+// XXX very heavy. in the future when all GL calls are made through the
+// renderer, we can probably do better by trackingn current state and
+// only restoring the things that have changed
 void RendererLegacy::PushState()
 {
 	glMatrixMode(GL_PROJECTION);
