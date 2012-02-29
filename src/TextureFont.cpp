@@ -12,7 +12,7 @@
 
 int TextureFont::s_glyphCount = 0;
 
-void TextureFont::RenderGlyph(Graphics::Renderer *r, Uint32 chr, float x, float y)
+void TextureFont::RenderGlyph(Graphics::Renderer *r, Uint32 chr, float x, float y, const Color &color)
 {
 	glfglyph_t *glyph = &m_glyphs[chr];
 
@@ -22,7 +22,7 @@ void TextureFont::RenderGlyph(Graphics::Renderer *r, Uint32 chr, float x, float 
 	const float w = m_texSize*glyph->width;
 	const float h = m_texSize*glyph->height;
 
-	glyph->quad->Draw(r, vector2f(offx,offy), vector2f(w,h), 0, vector2f(glyph->width, glyph->height));
+	glyph->quad->Draw(r, vector2f(offx,offy), vector2f(w,h), 0, vector2f(glyph->width, glyph->height), color);
 
 	s_glyphCount++;
 }
@@ -169,7 +169,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 	return i2;
 }
 
-void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, float y)
+void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, float y, const Color &color)
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -192,7 +192,7 @@ void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, 
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			if (glyph->quad) RenderGlyph(r, chr, roundf(px), py);
+			if (glyph->quad) RenderGlyph(r, chr, roundf(px), py, color);
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -214,7 +214,7 @@ void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, 
 	glDisable(GL_BLEND);
 }
 
-void TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y)
+void TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y, const Color &color)
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -222,16 +222,16 @@ void TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x, 
 	float px = x;
 	float py = y;
 
+	Color c = color;
+
 	int i = 0;
 	while (str[i]) {
 		if (str[i] == '#') {
 			int hexcol;
 			if (sscanf(str+i, "#%3x", &hexcol)==1) {
-				Uint8 col[3];
-				col[0] = (hexcol&0xf00)>>4;
-				col[1] = (hexcol&0xf0);
-				col[2] = (hexcol&0xf)<<4;
-				glColor3ubv(col);
+				c.r = float((hexcol&0xf00)>>4)/15.0f;
+				c.g = float((hexcol&0xf0))/15.0f;
+				c.b = float((hexcol&0xf)<<4)/15.0f;
 				i+=4;
 				continue;
 			}
@@ -250,7 +250,7 @@ void TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x, 
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			if (glyph->quad) RenderGlyph(r, chr, roundf(px), py);
+			if (glyph->quad) RenderGlyph(r, chr, roundf(px), py, c);
 
 			// XXX kerning doesn't skip markup
 			if (str[i]) {

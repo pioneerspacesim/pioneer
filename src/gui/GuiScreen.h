@@ -49,11 +49,11 @@ namespace Gui {
 		static RefCountedPtr<TextureFont> GetDefaultFont() { return s_defaultFont; }
 
 		static float GetFontHeight(TextureFont *font = 0);
-		static void RenderString(const std::string &s, float xoff, float yoff, TextureFont *font = 0);
+		static void RenderString(const std::string &s, float xoff, float yoff, const Color &color = Color::WHITE, TextureFont *font = 0);
 		static void MeasureString(const std::string &s, float &w, float &h, TextureFont *font = 0);
 		static int PickCharacterInString(const std::string &s, float x, float y, TextureFont *font = 0);
 		static void MeasureCharacterPos(const std::string &s, int charIndex, float &x, float &y, TextureFont *font = 0);
-		static void RenderMarkup(const std::string &s, TextureFont *font = 0);
+		static void RenderMarkup(const std::string &s, const Color &color = Color::WHITE, TextureFont *font = 0);
 
 		static Graphics::Renderer *GetRenderer() { return s_renderer; }
 

@@ -179,7 +179,6 @@ static void draw_progress(float progress)
 	Gui::Screen::EnterOrtho();
 	std::string msg = stringf(Lang::SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS, formatarg("age", progress * 13.7f));
 	Gui::Screen::MeasureString(msg, w, h);
-	glColor3f(1.0f,1.0f,1.0f);
 	Gui::Screen::RenderString(msg, 0.5f*(Gui::Screen::GetWidth()-w), 0.5f*(Gui::Screen::GetHeight()-h));
 	Gui::Screen::LeaveOrtho();
 	Pi::renderer->SwapBuffers();
@@ -1283,7 +1282,6 @@ void Pi::MainLoop()
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo) {
 			Gui::Screen::EnterOrtho();
-			glColor3f(1,1,1);
 			Gui::Screen::PushFont("ConsoleFont");
 			Gui::Screen::RenderString(fps_readout, 0, 0);
 			Gui::Screen::PopFont();

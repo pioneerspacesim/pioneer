@@ -45,7 +45,7 @@ void TexturedUIQuad::Draw(Renderer *renderer)
 	Draw(renderer, 0.0f, 1.0f);
 }
 
-void TexturedUIQuad::Draw(Renderer *renderer, const vector2f &pos, const vector2f &size, const vector2f &texPos, const vector2f &texSize)
+void TexturedUIQuad::Draw(Renderer *renderer, const vector2f &pos, const vector2f &size, const vector2f &texPos, const vector2f &texSize, const Color &tint)
 {
     VertexArray va(ATTRIB_POSITION | ATTRIB_UV0);
 
@@ -54,15 +54,17 @@ void TexturedUIQuad::Draw(Renderer *renderer, const vector2f &pos, const vector2
 	va.Add(vector3f(pos.x+size.x, pos.y,        0.0f), vector2f(texPos.x+texSize.x, texPos.y));
 	va.Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), vector2f(texPos.x+texSize.x, texPos.y+texSize.y));
 
-	Draw(renderer, &va);
+	Draw(renderer, &va, tint);
 }
 
-void TexturedUIQuad::Draw(Renderer *renderer, VertexArray *va)
+void TexturedUIQuad::Draw(Renderer *renderer, VertexArray *va, const Color &tint)
 {
-    Material m;
-    m.unlit = true;
-    m.texture0 = m_texture.Get();
-    renderer->DrawTriangles(va, &m, TRIANGLE_STRIP);
+	Material m;
+	m.unlit = true;
+	m.texture0 = m_texture.Get();
+	m.vertexColors = false;
+	m.diffuse = tint;
+	renderer->DrawTriangles(va, &m, TRIANGLE_STRIP);
 }
 
 }

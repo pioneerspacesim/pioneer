@@ -2,6 +2,7 @@
 #define _TEXTUREFONT_H
 
 #include "Font.h"
+#include "Color.h"
 #include "graphics/Texture.h"
 
 namespace Graphics {
@@ -23,8 +24,8 @@ public:
 	TextureFont(const FontConfig &fc);
 	~TextureFont();
 
-	void RenderString(Graphics::Renderer *r, const char *str, float x, float y);
-	void RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y);
+	void RenderString(Graphics::Renderer *r, const char *str, float x, float y, const Color &color = Color::WHITE);
+	void RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y, const Color &color = Color::WHITE);
 	void MeasureString(const char *str, float &w, float &h);
 	void MeasureCharacterPos(const char *str, int charIndex, float &x, float &y) const;
 	int PickCharacter(const char *str, float mouseX, float mouseY) const;
@@ -45,7 +46,7 @@ public:
 	static void ClearGlyphCount() { s_glyphCount = 0; }
 
 private:
-	void RenderGlyph(Graphics::Renderer *r, Uint32 chr, float x, float y);
+	void RenderGlyph(Graphics::Renderer *r, Uint32 chr, float x, float y, const Color &color);
 	float m_height;
 	float m_width;
 	float m_descender;
