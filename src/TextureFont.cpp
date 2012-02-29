@@ -171,8 +171,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 
 void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, float y, const Color &color)
 {
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	r->SetBlendMode(Graphics::BLEND_ALPHA);
 
 	float px = x;
 	float py = y;
@@ -210,14 +209,11 @@ void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, 
 			px += glyph->advx;
 		}
 	}
-
-	glDisable(GL_BLEND);
 }
 
 Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y, const Color &color)
 {
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	r->SetBlendMode(Graphics::BLEND_ALPHA);
 
 	float px = x;
 	float py = y;
@@ -269,8 +265,6 @@ Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x,
 			px += glyph->advx;
 		}
 	}
-
-	glDisable(GL_BLEND);
 
 	return c;
 }

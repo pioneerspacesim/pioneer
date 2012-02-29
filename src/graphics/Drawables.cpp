@@ -64,7 +64,6 @@ void TexturedUIQuad::Draw(Renderer *renderer, VertexArray *va, const Color &tint
 	m.texture0 = m_texture.Get();
 	m.vertexColors = false;
 	m.diffuse = tint;
-	renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 	renderer->DrawTriangles(va, &m, TRIANGLE_STRIP);
 }
 
