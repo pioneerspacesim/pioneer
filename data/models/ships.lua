@@ -5,35 +5,6 @@ define_model('missile', {
 		bounding_radius = 4,
 		materials={ 'body' },
 		tags = {'missile'},
-		ship_defs = {
-			{
-				name = 'MISSILE_UNGUIDED',
-				forward_thrust = -4e5,
-				hull_mass=1,
-				price=100
-			}, {
-				name = 'MISSILE_GUIDED',
-				forward_thrust = -2e5,
-				reverse_thrust = 1e5,
-				angular_thrust = 2e4,
-				hull_mass=1,
-				price=100
-			}, {
-				name = 'MISSILE_SMART',
-				forward_thrust = -3e5,
-				reverse_thrust = 1.5e5,
-				angular_thrust = 2e4,
-				hull_mass=1,
-				price=100
-			}, {
-				name = 'MISSILE_NAVAL',
-				forward_thrust = -4e5,
-				reverse_thrust = 2e5,
-				angular_thrust = 2e4,
-				hull_mass=1,
-				price=100
-			}
-		},
 	},
 	static = function(lod)
 		set_material('body', 1,1,1,1)

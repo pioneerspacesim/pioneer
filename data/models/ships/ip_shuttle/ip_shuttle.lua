@@ -115,36 +115,6 @@ define_model('ip_shuttle', {
 		bounding_radius = 25,
 		materials = {'grey', 'win', 'alu', 'anth', 'matvar0', 'text', 'hole', 'dash_lit', 'projector'},
 		tags = {'ship'},
-		ship_defs = {
-			{
-				name='Interplanetary Shuttle',
-				forward_thrust = -15e5,
-				reverse_thrust = 8e5,
-				up_thrust = 8e5,
-				down_thrust = -4e5,
-				left_thrust = -4e5,
-				right_thrust = 4e5,
-				angular_thrust = 28e5,
-				gun_mounts =
-				{
-					{ v(0,-0.3,-7.9) , v(0,0,-1) },
-					{ v(0,-0.3,7.5), v(0,0,1) },
-				},
-				max_cargo = 12,
-				max_laser = 1,
-				max_missile = 0,
-				max_fuelscoop = 0,
-				max_cargoscoop = 0,
-				max_ecm = 0,
-				max_engine = 0,
-				hyperdrive_class = 0,
-				capacity = 12,
-				hull_mass = 11, --reduced this from 12
-				fuel_tank_mass = 1, --full tank, tons in addition to hull_mass
-				thruster_fuel_use = 0.00005, --percent, per second (at max thrust, determined by strongest thruster)
-				price = 14000,
-			}
-		}
 	},
 
 	static = function(lod)
