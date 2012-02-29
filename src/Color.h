@@ -12,6 +12,9 @@ public:
 	operator float *() { return &r; }
 	operator const float *() const { return &r; }
 	Color &operator*=(const float v) { r*=v; g*=v; b*=v; a*=v; return *this; }
+
+	static const Color &BLACK;
+	static const Color &WHITE;
 };
 
 #endif /* _COLOR_H */

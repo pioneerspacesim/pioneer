@@ -155,6 +155,7 @@ pioneer_SOURCES	= \
 	Body.cpp \
 	Camera.cpp \
 	CargoBody.cpp \
+	Color.cpp \
 	ChatForm.cpp \
 	CityOnPlanet.cpp \
 	CommodityTradeWidget.cpp \
@@ -279,6 +280,7 @@ pioneer_LDADD += ../contrib/lua/liblua.a
 endif
 
 modelviewer_SOURCES = \
+	Color.cpp \
 	Font.cpp \
 	IniConfig.cpp \
 	FontConfig.cpp \
