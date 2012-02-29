@@ -56,15 +56,8 @@ void LabelSet::Clear()
 void LabelSet::Draw()
 {
 	if (!m_labelsVisible) return;
-	glColor4fv(m_labelColor);
-	if (m_labelColor.a < 1.0f) glEnable(GL_BLEND);
-	for (std::vector<LabelSetItem>::iterator i = m_items.begin(); i != m_items.end(); ++i) {
-		if ((*i).hasOwnColor) {
-			if ((*i).color.a < 1.0f) glEnable(GL_BLEND);
-		}
-		Gui::Screen::RenderString((*i).text, (*i).screenx, (*i).screeny - Gui::Screen::GetFontHeight()*0.5f, m_labelColor, m_font.Get());
-	}
-	glDisable(GL_BLEND);
+	for (std::vector<LabelSetItem>::iterator i = m_items.begin(); i != m_items.end(); ++i)
+		Gui::Screen::RenderString((*i).text, (*i).screenx, (*i).screeny - Gui::Screen::GetFontHeight()*0.5f, (*i).hasOwnColor ? (*i).color : m_labelColor, m_font.Get());
 }
 
 void LabelSet::GetSizeRequested(float size[2])

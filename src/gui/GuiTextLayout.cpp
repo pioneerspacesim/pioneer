@@ -99,7 +99,7 @@ void TextLayout::MeasureSize(const float width, float outSize[2]) const
 	outSize[1] = ceil(outSize[1] * fontScale[1]);
 }
 
-void TextLayout::Render(const float width) const
+void TextLayout::Render(const float width, const Color &color) const
 {
 	float fontScale[2];
 	Gui::Screen::GetCoords2Pixels(fontScale);
@@ -112,11 +112,11 @@ void TextLayout::Render(const float width) const
 	glTranslatef(floor(x/fontScale[0])*fontScale[0],
 			floor(y/fontScale[1])*fontScale[1], 0);
 	glScalef(fontScale[0], fontScale[1], 1);
-	_RenderRaw(width / fontScale[0]);
+	_RenderRaw(width / fontScale[0], color);
 	glPopMatrix();
 }
 
-void TextLayout::_RenderRaw(float maxWidth) const
+void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 {
 	float py = 0;
 	init_clip_test();
@@ -164,9 +164,9 @@ void TextLayout::_RenderRaw(float maxWidth) const
 			for (int j=0; j<num; j++) {
 				if ((*wpos).word) {
 					if (m_colourMarkup == ColourMarkupUse)
-						m_font->RenderMarkup(Screen::GetRenderer(), (*wpos).word, round(px), round(py));
+						m_font->RenderMarkup(Screen::GetRenderer(), (*wpos).word, round(px), round(py), color);
 					else
-						m_font->RenderString(Screen::GetRenderer(), (*wpos).word, round(px), round(py));
+						m_font->RenderString(Screen::GetRenderer(), (*wpos).word, round(px), round(py), color);
 				}
 				px += (*wpos).advx + _spaceWidth;
 				wpos++;

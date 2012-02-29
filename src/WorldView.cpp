@@ -22,7 +22,7 @@
 #include "matrix4x4.h"
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
-static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
+static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.9f);
 
 #define HUD_CROSSHAIR_SIZE	24.0f
 
@@ -163,7 +163,7 @@ void WorldView::InitObject()
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_bodyLabels = new Gui::LabelSet();
-	m_bodyLabels->SetLabelColor(Color(1.0f, 1.0f, 1.0f, 0.5f));
+	m_bodyLabels->SetLabelColor(Color(1.0f, 1.0f, 1.0f, 0.9f));
 	Add(m_bodyLabels, 0, 0);
 	Gui::Screen::PopFont();
 
