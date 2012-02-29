@@ -25,7 +25,7 @@ public:
 	~TextureFont();
 
 	void RenderString(Graphics::Renderer *r, const char *str, float x, float y, const Color &color = Color::WHITE);
-	void RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y, const Color &color = Color::WHITE);
+	Color RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y, const Color &color = Color::WHITE);
 	void MeasureString(const char *str, float &w, float &h);
 	void MeasureCharacterPos(const char *str, int charIndex, float &x, float &y) const;
 	int PickCharacter(const char *str, float mouseX, float mouseY) const;

@@ -125,6 +125,8 @@ void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 
 	const float spaceWidth = m_font->GetGlyph(' ').advx;
 
+	Color c = color;
+
 	std::list<word_t>::const_iterator wpos = this->words.begin();
 	// build lines of text
 	while (wpos != this->words.end()) {
@@ -164,9 +166,9 @@ void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 			for (int j=0; j<num; j++) {
 				if ((*wpos).word) {
 					if (m_colourMarkup == ColourMarkupUse)
-						m_font->RenderMarkup(Screen::GetRenderer(), (*wpos).word, round(px), round(py), color);
+						c = m_font->RenderMarkup(Screen::GetRenderer(), (*wpos).word, round(px), round(py), c);
 					else
-						m_font->RenderString(Screen::GetRenderer(), (*wpos).word, round(px), round(py), color);
+						m_font->RenderString(Screen::GetRenderer(), (*wpos).word, round(px), round(py), c);
 				}
 				px += (*wpos).advx + _spaceWidth;
 				wpos++;

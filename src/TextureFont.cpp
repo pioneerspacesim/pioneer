@@ -214,7 +214,7 @@ void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, 
 	glDisable(GL_BLEND);
 }
 
-void TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y, const Color &color)
+Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y, const Color &color)
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -271,6 +271,8 @@ void TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x, 
 	}
 
 	glDisable(GL_BLEND);
+
+	return c;
 }
 
 TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
