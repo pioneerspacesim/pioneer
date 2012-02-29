@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "graphics/VertexArray.h"
 #include "graphics/Renderer.h"
+#include "graphics/Texture.h"
 
 namespace Graphics {
 
@@ -12,7 +13,7 @@ namespace Drawables {
 // A thing that can draw itself using renderer
 // (circles, disks, polylines etc)
 class Drawable {
-public:
+protected:
 	virtual void Draw(Renderer *r) = 0;
 };
 
@@ -44,6 +45,18 @@ private:
 	vector3f m_points[2];
 	Color m_colors[2];
 	float m_width;
+};
+
+// a textured quad with reversed winding for the UI
+// XXX move this to Gui::Drawables
+class TexturedUIQuad : public Drawable {
+public:
+	TexturedUIQuad(Texture *texture) : m_texture(RefCountedPtr<Texture>(texture)) {}
+	virtual void Draw(Renderer *r);
+	void Draw(Renderer *r, const vector2f &pos, const vector2f &size, const vector2f &texPos = 0.0f, const vector2f &texSize = 1.0f);
+private:
+	void Draw(Renderer *r, VertexArray *va);
+	RefCountedPtr<Texture> m_texture;
 };
 
 }

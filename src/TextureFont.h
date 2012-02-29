@@ -4,6 +4,11 @@
 #include "Font.h"
 #include "graphics/Texture.h"
 
+namespace Graphics {
+	class Renderer;
+	namespace Drawables { class TexturedUIQuad; }
+}
+
 class TextureFont : public Font {
 
 private:
@@ -18,8 +23,8 @@ public:
 	TextureFont(const FontConfig &fc);
 	~TextureFont();
 
-	void RenderString(const char *str, float x, float y);
-	void RenderMarkup(const char *str, float x, float y);
+	void RenderString(Graphics::Renderer *r, const char *str, float x, float y);
+	void RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y);
 	void MeasureString(const char *str, float &w, float &h);
 	void MeasureCharacterPos(const char *str, int charIndex, float &x, float &y) const;
 	int PickCharacter(const char *str, float mouseX, float mouseY) const;
@@ -29,7 +34,7 @@ public:
 	float GetWidth() const { return m_width; }
 	float GetDescender() const { return m_descender; }
 	struct glfglyph_t {
-		GlyphTexture *texture;
+		Graphics::Drawables::TexturedUIQuad *quad;
 		float advx, advy;
 		float width, height;
 		int offx, offy;
@@ -40,7 +45,7 @@ public:
 	static void ClearGlyphCount() { s_glyphCount = 0; }
 
 private:
-	void RenderGlyph(Uint32 chr, float x, float y);
+	void RenderGlyph(Graphics::Renderer *r, Uint32 chr, float x, float y);
 	float m_height;
 	float m_width;
 	float m_descender;

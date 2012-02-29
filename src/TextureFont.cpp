@@ -1,5 +1,7 @@
 #include "TextureFont.h"
 #include "gui/GuiScreen.h"
+#include "graphics/Renderer.h"
+#include "graphics/Drawables.h"
 #include "TextSupport.h"
 #include "libs.h"
 
@@ -10,7 +12,7 @@
 
 int TextureFont::s_glyphCount = 0;
 
-void TextureFont::RenderGlyph(Uint32 chr, float x, float y)
+void TextureFont::RenderGlyph(Graphics::Renderer *r, Uint32 chr, float x, float y)
 {
 	glfglyph_t *glyph = &m_glyphs[chr];
 
@@ -20,7 +22,7 @@ void TextureFont::RenderGlyph(Uint32 chr, float x, float y)
 	const float w = m_texSize*glyph->width;
 	const float h = m_texSize*glyph->height;
 
-	glyph->texture->DrawUIQuad(offx, offy, w, h, 0, 0, glyph->width, glyph->height);
+	glyph->quad->Draw(r, vector2f(offx,offy), vector2f(w,h), 0, vector2f(glyph->width, glyph->height));
 
 	s_glyphCount++;
 }
@@ -167,7 +169,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 	return i2;
 }
 
-void TextureFont::RenderString(const char *str, float x, float y)
+void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, float y)
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -190,7 +192,7 @@ void TextureFont::RenderString(const char *str, float x, float y)
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			if (glyph->texture) RenderGlyph(chr, roundf(px), py);
+			if (glyph->quad) RenderGlyph(r, chr, roundf(px), py);
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -212,7 +214,7 @@ void TextureFont::RenderString(const char *str, float x, float y)
 	glDisable(GL_BLEND);
 }
 
-void TextureFont::RenderMarkup(const char *str, float x, float y)
+void TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y)
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -248,7 +250,7 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			if (glyph->texture) RenderGlyph(chr, roundf(px), py);
+			if (glyph->quad) RenderGlyph(r, chr, roundf(px), py);
 
 			// XXX kerning doesn't skip markup
 			if (str[i]) {
@@ -425,7 +427,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 
 		FT_Done_Glyph(glyph);
 
-		glfglyph.texture = new GlyphTexture(pixBuf, sz, sz);
+		glfglyph.quad = new Graphics::Drawables::TexturedUIQuad(new GlyphTexture(pixBuf, sz, sz));
 
 		glfglyph.advx = float(m_face->glyph->advance.x) / 64.0 + advx_adjust;
 		glfglyph.advy = float(m_face->glyph->advance.y) / 64.0;
@@ -445,8 +447,8 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 TextureFont::~TextureFont()
 {
 	for (std::map<Uint32,glfglyph_t>::const_iterator i = m_glyphs.begin(); i != m_glyphs.end(); ++i) {
-		if ((*i).second.texture)
-			delete (*i).second.texture;
+		if ((*i).second.quad)
+			delete (*i).second.quad;
 	}
 }
 

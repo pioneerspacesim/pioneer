@@ -1,4 +1,5 @@
 #include "Drawables.h"
+#include "Material.h"
 
 namespace Graphics {
 
@@ -37,6 +38,31 @@ void Line3D::Draw(Renderer *renderer)
 	glLineWidth(m_width);
 	renderer->DrawLines(2, m_points, m_colors);
 	glLineWidth(1.f);
+}
+
+void TexturedUIQuad::Draw(Renderer *renderer)
+{
+	Draw(renderer, 0.0f, 1.0f);
+}
+
+void TexturedUIQuad::Draw(Renderer *renderer, const vector2f &pos, const vector2f &size, const vector2f &texPos, const vector2f &texSize)
+{
+    VertexArray va(ATTRIB_POSITION | ATTRIB_UV0);
+
+	va.Add(vector3f(pos.x,        pos.y,        0.0f), vector2f(texPos.x,           texPos.y));
+	va.Add(vector3f(pos.x,        pos.y+size.y, 0.0f), vector2f(texPos.x,           texPos.y+texSize.y));
+	va.Add(vector3f(pos.x+size.x, pos.y,        0.0f), vector2f(texPos.x+texSize.x, texPos.y));
+	va.Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), vector2f(texPos.x+texSize.x, texPos.y+texSize.y));
+
+	Draw(renderer, &va);
+}
+
+void TexturedUIQuad::Draw(Renderer *renderer, VertexArray *va)
+{
+    Material m;
+    m.unlit = true;
+    m.texture0 = m_texture.Get();
+    renderer->DrawTriangles(va, &m, TRIANGLE_STRIP);
 }
 
 }

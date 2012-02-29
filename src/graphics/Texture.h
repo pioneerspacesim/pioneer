@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <GL/glew.h>
 #include <string>
+#include "RefCounted.h"
 
 namespace Graphics {
 
@@ -13,7 +14,7 @@ namespace Graphics {
  * UITexture or ModelTexture, which will create an appropriate texture for
  * general UI or world drawing use.
  */
-class Texture {
+class Texture : public RefCounted {
 public:
 
 	// texture format definition. holds details of how the texture is stored
