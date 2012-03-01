@@ -270,7 +270,7 @@ void DynamicBody::GetRotMatrix(matrix4x4d &m) const
 
 void DynamicBody::SetMassDistributionFromModel()
 {
-	LmrCollMesh *m = GetLmrCollMesh();
+	CollMesh *m = GetCollMesh();
 	// XXX totally arbitrarily pick to distribute mass over a half
 	// bounding sphere area
 	m_massRadius = m->GetBoundingRadius()*0.5f;

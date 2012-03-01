@@ -1281,7 +1281,6 @@ void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transfor
 
 LmrCollMesh::LmrCollMesh(LmrModel *m, const LmrObjParams *params)
 	: CollMesh()
-	, geomTree(0)
 	, pVertex(0)
 	, pIndex(0)
 	, m_numTris(0)
@@ -1292,7 +1291,7 @@ LmrCollMesh::LmrCollMesh(LmrModel *m, const LmrObjParams *params)
 {
 	m->GetCollMeshGeometry(this, matrix4x4f::Identity(), params);
 	m_radius = m_aabb.GetBoundingRadius();
-	geomTree = new GeomTree(nv, m_numTris, pVertex, pIndex, pFlag);
+	m_geomTree = new GeomTree(nv, m_numTris, pVertex, pIndex, pFlag);
 }
 
 /** returns number of tris found (up to 'num') */
@@ -1312,8 +1311,6 @@ int LmrCollMesh::GetTrisWithGeomflag(unsigned int flags, int num, vector3d *outV
 
 LmrCollMesh::~LmrCollMesh()
 {
-	// nice. mixed allocation. for the love of realloc...
-	delete geomTree;
 	free(pVertex);
 	free(pIndex);
 	free(pFlag);

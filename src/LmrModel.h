@@ -10,7 +10,6 @@
 // LMR = Lua Model Renderer
 class LmrGeomBuffer;
 class LmrCollMesh;
-class GeomTree;
 
 namespace Graphics { class Renderer; }
 
@@ -105,7 +104,7 @@ public:
 	~LmrCollMesh();
 
 	int GetTrisWithGeomflag(unsigned int flags, int num, vector3d *outVtx) const;
-	GeomTree *geomTree;
+
 	// num vertices, num indices, num flags
 	int nv, ni, nf;
 	float *pVertex;

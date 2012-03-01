@@ -26,7 +26,7 @@ public:
 	void GetAabb(Aabb &aabb) const;
 	Geom *GetGeom() { return m_geom; }
 	LmrModel *GetLmrModel() { return m_lmrModel; }
-	LmrCollMesh *GetLmrCollMesh() { return m_collMesh; }
+	CollMesh *GetCollMesh() { return m_collMesh; }
 	LmrObjParams &GetLmrObjParams() { return m_params; }
 	void SetLmrTimeParams();
 	void RebuildCollisionMesh();
@@ -42,7 +42,7 @@ protected:
 	virtual void Load(Serializer::Reader &rd, Space *space);
 private:
 	LmrModel *m_lmrModel;
-	LmrCollMesh *m_collMesh;
+	CollMesh *m_collMesh;
 	LmrObjParams m_params;
 	bool m_isStatic;
 	Geom *m_geom;

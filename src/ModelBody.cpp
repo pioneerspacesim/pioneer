@@ -62,7 +62,7 @@ void ModelBody::RebuildCollisionMesh()
 
 	m_collMesh = new LmrCollMesh(m_lmrModel, &m_params);
 	
-	m_geom = new Geom(m_collMesh->geomTree);
+	m_geom = new Geom(m_collMesh->GetGeomTree());
 	m_geom->SetUserData(static_cast<void*>(this));
 		
 	if (GetFrame()) {

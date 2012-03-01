@@ -97,8 +97,7 @@ always_divide:
 		if (height - m_planet->GetSBody()->GetRadius() <= 0.0) return;
 		cent = cent * height;
 
-		assert(cmesh);
-		Geom *geom = new Geom(cmesh->geomTree);
+		Geom *geom = new Geom(cmesh->GetGeomTree());
 		int rotTimes90 = rand.Int32(4);
 		matrix4x4d grot = rot * matrix4x4d::RotateYMatrix(M_PI*0.5*double(rotTimes90));
 		geom->MoveTo(grot, cent);
