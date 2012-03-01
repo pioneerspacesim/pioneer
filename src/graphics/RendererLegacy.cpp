@@ -239,6 +239,17 @@ bool RendererLegacy::SetAmbientColor(const Color &c)
 	return true;
 }
 
+bool RendererLegacy::SetScissor(bool enabled, const vector2f &pos, const vector2f &size)
+{
+	if (enabled) {
+		glScissor(pos.x,pos.y,size.x,size.y);
+		glEnable(GL_SCISSOR_TEST);
+	}
+	else
+		glDisable(GL_SCISSOR_TEST);
+	return true;
+}
+
 bool RendererLegacy::DrawLines(int count, const vector3f *v, const Color *c, LineType t)
 {
 	if (count < 2) return false;

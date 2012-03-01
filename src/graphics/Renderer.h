@@ -104,6 +104,8 @@ public:
 	virtual bool SetLights(int numlights, const Light *l) { return false; }
 	virtual bool SetAmbientColor(const Color &c) { return false; }
 
+	virtual bool SetScissor(bool enabled, const vector2f &pos = 0, const vector2f &size = 0) { return false; }
+
 	//drawing functions
 	//2d drawing is generally understood to be for gui use (unlit, ortho projection)
 	//per-vertex colour lines
