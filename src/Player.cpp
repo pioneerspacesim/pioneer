@@ -84,16 +84,14 @@ bool Player::OnDamage(Object *attacker, float kgDamage)
 
 void Player::SetFlightControlState(enum FlightControlState s)
 {
-	m_flightControlState = s;
-	if (m_flightControlState == CONTROL_AUTOPILOT) {
+	if (m_flightControlState != s) {
+		m_flightControlState = s;
 		AIClearInstructions();
-	} else if (m_flightControlState == CONTROL_FIXSPEED) {
-		AIClearInstructions();
-		m_setSpeed = m_setSpeedTarget ? GetVelocityRelTo(m_setSpeedTarget).Length() : GetVelocity().Length();
-	} else {
-		AIClearInstructions();
+		if (m_flightControlState == CONTROL_FIXSPEED) {
+			m_setSpeed = m_setSpeedTarget ? GetVelocityRelTo(m_setSpeedTarget).Length() : GetVelocity().Length();
+		}
+		Pi::onPlayerChangeFlightControlState.emit();
 	}
-	Pi::onPlayerChangeFlightControlState.emit();
 }
 
 void Player::Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
@@ -123,13 +121,22 @@ void Player::StaticUpdate(const float timeStep)
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
 			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
-			if (IsAnyThrusterKeyDown()) break;
+			if (IsAnyLinearThrusterKeyDown()) break;
 			GetRotMatrix(m);
 			v = m * vector3d(0, 0, -m_setSpeed);
 			if (m_setSpeedTarget) {
 				v += m_setSpeedTarget->GetVelocityRelTo(GetFrame());
 			}
 			AIMatchVel(v);
+			break;
+		case CONTROL_FIXHEADING_FORWARD:
+		case CONTROL_FIXHEADING_BACKWARD:
+			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
+			if (IsAnyAngularThrusterKeyDown()) break;
+			v = GetVelocity().NormalizedSafe();
+			if (m_flightControlState == CONTROL_FIXHEADING_BACKWARD)
+				v = -v;
+			AIFaceDirection(v);
 			break;
 		case CONTROL_MANUAL:
 			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
@@ -144,6 +151,7 @@ void Player::StaticUpdate(const float timeStep)
 			else SetFlightControlState(CONTROL_MANUAL);
 			m_setSpeed = 0.0;
 			break;
+		default: assert(0); break;
 		}
 	}
 	else SetFlightControlState(CONTROL_MANUAL);
@@ -352,7 +360,19 @@ void Player::SetAlertState(Ship::AlertState as)
 	Ship::SetAlertState(as);
 }
 
-bool Player::IsAnyThrusterKeyDown()
+bool Player::IsAnyAngularThrusterKeyDown()
+{
+	return !Pi::IsConsoleActive() && (
+		KeyBindings::pitchUp.IsActive()   ||
+		KeyBindings::pitchDown.IsActive() ||
+		KeyBindings::yawLeft.IsActive()   ||
+		KeyBindings::yawRight.IsActive()  ||
+		KeyBindings::rollLeft.IsActive()  ||
+		KeyBindings::rollRight.IsActive()
+	);
+}
+
+bool Player::IsAnyLinearThrusterKeyDown()
 {
 	return !Pi::IsConsoleActive() && (
 		KeyBindings::thrustForward.IsActive()	||
