@@ -1270,6 +1270,11 @@ void LmrModel::Build(int lod, const LmrObjParams *params)
 	}
 }
 
+CollMesh *LmrModel::CreateCollisionMesh(const LmrObjParams *params)
+{
+	return new LmrCollMesh(this, params);
+}
+
 void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params)
 {
 	// use lowest LOD

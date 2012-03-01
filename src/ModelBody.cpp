@@ -60,9 +60,7 @@ void ModelBody::RebuildCollisionMesh()
 		delete m_geom;
 	}
 	if (m_collMesh) delete m_collMesh;
-
-	//XXX replace with Model::CreateCollisionMesh
-	m_collMesh = new LmrCollMesh(static_cast<LmrModel*>(m_model), &m_params);
+	m_collMesh = m_model->CreateCollisionMesh(&m_params);
 	
 	m_geom = new Geom(m_collMesh->GetGeomTree());
 	m_geom->SetUserData(static_cast<void*>(this));

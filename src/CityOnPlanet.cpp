@@ -151,7 +151,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	int i = 0;
 	for (std::vector<LmrModel*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
 		list->buildings[i].resolvedModel = *m;
-		const LmrCollMesh *collMesh = new LmrCollMesh(*m, &cityobj_params);
+		const LmrCollMesh *collMesh = static_cast<LmrCollMesh*>((*m)->CreateCollisionMesh(&cityobj_params));
 		list->buildings[i].collMesh = collMesh;
 		double maxx = std::max(fabs(collMesh->GetAabb().max.x), fabs(collMesh->GetAabb().min.x));
 		double maxy = std::max(fabs(collMesh->GetAabb().max.z), fabs(collMesh->GetAabb().min.z));

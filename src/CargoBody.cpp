@@ -4,7 +4,6 @@
 #include "collider/collider.h"
 #include "Sfx.h"
 #include "Space.h"
-#include "LmrModel.h"
 #include "Game.h"
 
 void CargoBody::Save(Serializer::Writer &wr, Space *space)
