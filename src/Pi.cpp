@@ -65,6 +65,7 @@
 #include "GameLoaderSaver.h"
 #include "WorldTexture.h"
 #include "Light.h"
+#include "Sfx.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 
@@ -128,7 +129,6 @@ LuaConsole *Pi::luaConsole;
 Game *Pi::game;
 MTRand Pi::rng;
 float Pi::frameTime;
-GLUquadric *Pi::gluQuadric;
 #if WITH_DEVKEYS
 bool Pi::showDebugInfo;
 #endif
@@ -498,8 +498,6 @@ void Pi::Init()
 
 	Pi::textureCache = new TextureCache;
 
-	Pi::gluQuadric = gluNewQuadric();
-
 	bool wantShaders = (config.Int("DisableShaders") == 0);
 	Pi::renderer = Graphics::Init(width, height, wantShaders);
 
@@ -540,6 +538,9 @@ void Pi::Init()
 
 	SpaceStation::Init();
 	draw_progress(0.9f);
+
+	Sfx::Init();
+	draw_progress(0.95f);
 
 	if (!config.Int("DisableSound")) {
 		Sound::Init();
@@ -628,6 +629,7 @@ void Pi::Quit()
 {
 	delete Pi::gameMenuView;
 	delete Pi::luaConsole;
+	Sfx::Uninit();
 	Sound::Uninit();
 	SpaceStation::Uninit();
 	CityOnPlanet::Uninit();

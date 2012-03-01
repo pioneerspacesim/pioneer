@@ -9,7 +9,9 @@ Translate:AddFlavour('English','FuelClub',{
 	* Our own stocks of fuel, independent of the general market
 	* {hydrogen} at discount prices
 	* {military_fuel} at discount prices
+	* {water} at discount prices
 	* {radioactives}, free disposal (conditions apply)
+	* Fuel tank refilling, where necessary
 
 Join now! Annual membership costs only {membership_fee}]],
 	member_intro = [[You may purhase fuel and dispose of {radioactives} here.]],

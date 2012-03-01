@@ -2,7 +2,8 @@ Alpha 20
 
    * New features
      * Thrusters now require fuel to operate. Refuel when you dock or buy water
-       refuel during flight (#980, #993, #992)
+       refuel during flight. Fuel club will refill and sell you water cheaply.
+       (#980, #993, #992, #1018)
      * New thruster and laser graphics (#945, #962, #149, #148, #973)
      * Hungarian translation (#947, #894)
 
@@ -43,7 +44,8 @@ Alpha 20
        ship fuel amount. New event onShipFuelChanged to report fuel status (#980)
 
    * Internal changes
-     * New graphics/rendering infrastructure (#960, #913, #1001, #1002, #1013)
+     * New graphics/rendering infrastructure (#960, #913, #1001, #1002, #1013,
+       #1024, #1007)
      * Silence MSVC warnings (#964)
      * Remove dependencies on Pi from Texture (#969) and Font (#981)
      * Move EquipSet into its own header (#991)

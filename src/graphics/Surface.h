@@ -25,6 +25,7 @@ public:
 
 	int GetNumVerts() const { return m_vertices ? m_vertices->position.size() : 0; }
 	int GetNumIndices() const { return m_indices.size(); }
+	std::vector<unsigned short> &GetIndices() { return m_indices; }
 	const unsigned short *GetIndexPointer() const { return &m_indices[0]; }
 
 	bool IsIndexed() { return !m_indices.empty(); }
