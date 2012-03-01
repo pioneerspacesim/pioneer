@@ -38,14 +38,14 @@ FlightLog = {
 --   iterator - A function which will generate the paths from the log, returning
 --              one each time it is called until it runs out, after which it
 --              returns nil. It also returns, as secondary and tertiary values,
---              the game times at shich the system was entered left.
+--              the game times at shich the system was entered and left.
 --
 -- Example:
 --
 -- Print the names and departure times of the last five systems visited by
 -- the player
 --
--- > for systemp,deptime in FlightLog.GetSystemPaths(5) do
+-- > for systemp,arrtime,deptime in FlightLog.GetSystemPaths(5) do
 -- >   print(systemp:GetStarSystem().name, Format.Date(deptime))
 -- > end
 
@@ -61,7 +61,7 @@ FlightLog = {
 				    	   FlightLogSystem[counter][3]
 				end
 			end
-			return nil, nil
+			return nil, nil, nil
 		end
 	end,
 
