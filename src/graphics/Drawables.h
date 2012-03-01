@@ -74,10 +74,11 @@ private:
 class TexturedUIQuad : public Drawable {
 public:
 	TexturedUIQuad(Texture *texture) : m_texture(RefCountedPtr<Texture>(texture)) {}
-	virtual void Draw(Renderer *r);
-	void Draw(Renderer *r, const vector2f &pos, const vector2f &size, const vector2f &texPos = 0.0f, const vector2f &texSize = 1.0f, const Color &tint = Color::WHITE);
+	virtual void Draw(Renderer *r) { Draw(r, 0.0f, 1.0f); }
+	void Draw(Renderer *r, const Color &tint) { Draw(r, 0.0f, 1.0f, tint); }
+	void Draw(Renderer *r, const vector2f &pos, const vector2f &size, const Color &tint = Color::WHITE) { Draw(r, pos, size, 0.0f, vector2f(m_texture->GetTextureWidth(), m_texture->GetTextureHeight()), tint); }
+	void Draw(Renderer *r, const vector2f &pos, const vector2f &size, const vector2f &texPos, const vector2f &texSize, const Color &tint = Color::WHITE);
 private:
-	void Draw(Renderer *r, VertexArray *va, const Color &tint);
 	RefCountedPtr<Texture> m_texture;
 };
 
