@@ -3,7 +3,7 @@ Alpha 20
    * New features
      * Thrusters now require fuel to operate. Refuel when you dock or buy water
        refuel during flight. Fuel club will refill and sell you water cheaply.
-       (#980, #993, #992, #1018)
+       (#980, #993, #992, #1018, #1032, #1034)
      * New thruster and laser graphics (#945, #962, #149, #148, #973)
      * Heading-hold flight mode (press CTRL while changing flight mode) (#450, #990)
      * Hungarian translation (#947, #894)
