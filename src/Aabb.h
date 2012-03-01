@@ -5,6 +5,10 @@
 
 struct Aabb {
 	vector3d max, min;
+	Aabb()
+		: min(DBL_MAX, DBL_MAX, DBL_MAX)
+		, max(-DBL_MAX, -DBL_MAX, -DBL_MAX)
+	{ }
 	void Update(vector3d p) {
 		if (max.x < p.x) max.x = p.x;
 		if (max.y < p.y) max.y = p.y;

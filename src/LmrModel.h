@@ -5,6 +5,7 @@
 #include <vector>
 #include <sigc++/sigc++.h>
 #include "MyLuaMathTypes.h"
+#include "CollMesh.h"
 
 // LMR = Lua Model Renderer
 class LmrGeomBuffer;
@@ -97,14 +98,12 @@ void LmrNotifyScreenWidth(float width);
 void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels);
 lua_State *LmrGetLuaState();
 
-class LmrCollMesh
+class LmrCollMesh : public CollMesh
 {
 public:
 	LmrCollMesh(LmrModel *m, const LmrObjParams *params);
 	~LmrCollMesh();
 
-	const Aabb &GetAabb() const { return m_aabb; }
-	float GetBoundingRadius() const { return m_radius; }
 	int GetTrisWithGeomflag(unsigned int flags, int num, vector3d *outVtx) const;
 	GeomTree *geomTree;
 	// num vertices, num indices, num flags
@@ -115,9 +114,6 @@ public:
 	unsigned int *pFlag; // 1 per tri
 	friend class LmrModel;
 	friend class LmrGeomBuffer;
-private:
-	Aabb m_aabb;
-	float m_radius;
 };
 
 

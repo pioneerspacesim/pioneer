@@ -1280,10 +1280,16 @@ void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transfor
 }
 
 LmrCollMesh::LmrCollMesh(LmrModel *m, const LmrObjParams *params)
+	: CollMesh()
+	, geomTree(0)
+	, pVertex(0)
+	, pIndex(0)
+	, m_numTris(0)
+	, pFlag(0)
+	, nv(0)
+	, ni(0)
+	, nf(0)
 {
-	memset(this, 0, sizeof(LmrCollMesh));
-	m_aabb.min = vector3d(DBL_MAX, DBL_MAX, DBL_MAX);
-	m_aabb.max = vector3d(-DBL_MAX, -DBL_MAX, -DBL_MAX);
 	m->GetCollMeshGeometry(this, matrix4x4f::Identity(), params);
 	m_radius = m_aabb.GetBoundingRadius();
 	geomTree = new GeomTree(nv, m_numTris, pVertex, pIndex, pFlag);
