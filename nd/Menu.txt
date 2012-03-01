@@ -82,6 +82,7 @@ Group: Src  {
    }  # Group: Src
 
 File: Character  (no auto-title, /home/rob/code/pioneer/data/libs/Characters.lua)
+File: FlightLog  (/home/rob/code/pioneer/data/libs/FlightLog.lua)
 File: NameGen  (/home/rob/code/pioneer/data/libs/NameGen.lua)
 File: Translate  (/home/rob/code/pioneer/data/libs/Translate.lua)
 
