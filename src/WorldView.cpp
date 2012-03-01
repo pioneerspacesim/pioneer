@@ -743,10 +743,12 @@ void WorldView::Update()
 
 	m_bodyLabels->SetLabelsVisible(m_labelsOn);
 
+	//death animation: slowly pan out
 	if (Pi::player->IsDead()) {
 		m_camType = CAM_EXTERNAL;
-		m_externalViewRotX += 60*frameTime;
-		m_externalViewDist = 200;
+		m_externalViewRotX = 0.0;
+		m_externalViewRotY = 0.0;
+		m_externalViewDist += 80 * frameTime;
 		m_labelsOn = false;
 	} else {
 		// XXX ugly hack checking for console here

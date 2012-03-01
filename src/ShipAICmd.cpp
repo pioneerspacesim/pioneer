@@ -318,7 +318,7 @@ bool AICmdKamikaze::TimeStepUpdate()
 
 bool AICmdKill::TimeStepUpdate()
 {
-	if (!m_target) return true;
+	if (!m_target || m_target->IsDead()) return true;
 
 	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
 	else { LaunchShip(m_ship); return false; }
