@@ -9,13 +9,12 @@
 #include "MyLuaMathTypes.h"
 #include "LmrTypes.h"
 
+
 // LMR = Lua Model Renderer
+namespace Graphics { class Renderer; }
 class LmrGeomBuffer;
 class LmrCollMesh;
-
-namespace Graphics { class Renderer; }
-
-class EquipSet;
+struct RenderState;
 
 #define LMR_MAX_LOD 4
 
@@ -24,9 +23,6 @@ struct LmrLight {
 	float color[4];
 	float quadraticAttenuation;
 };
-
-struct RenderState;
-class LmrCollMesh;
 
 class LmrModel : public Model {
 public:

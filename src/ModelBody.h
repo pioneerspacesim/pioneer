@@ -27,7 +27,7 @@ public:
 	virtual void Enable();
 	void GetAabb(Aabb &aabb) const;
 	Geom *GetGeom() { return m_geom; }
-	Model *GetLmrModel() { return m_lmrModel; }
+	Model *GetModel() { return m_model; }
 	CollMesh *GetCollMesh() { return m_collMesh; }
 	LmrObjParams &GetLmrObjParams() { return m_params; }
 	void SetLmrTimeParams();
@@ -43,7 +43,7 @@ protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
 private:
-	Model *m_lmrModel;
+	Model *m_model;
 	CollMesh *m_collMesh;
 	LmrObjParams m_params;
 	bool m_isStatic;

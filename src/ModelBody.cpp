@@ -9,12 +9,13 @@
 #include "Serializer.h"
 #include "collider/collider.h"
 
-ModelBody::ModelBody(): Body()
+ModelBody::ModelBody() :
+	Body(),
+	m_model(0),
+	m_collMesh(0),
+	m_geom(0),
+	m_isStatic(false)
 {
-	m_lmrModel = 0;
-	m_collMesh = 0;
-	m_geom = 0;
-	m_isStatic = false;
 	memset(&m_params, 0, sizeof(LmrObjParams));
 }
 
@@ -61,7 +62,7 @@ void ModelBody::RebuildCollisionMesh()
 	if (m_collMesh) delete m_collMesh;
 
 	//XXX replace with Model::CreateCollisionMesh
-	m_collMesh = new LmrCollMesh(static_cast<LmrModel*>(m_lmrModel), &m_params);
+	m_collMesh = new LmrCollMesh(static_cast<LmrModel*>(m_model), &m_params);
 	
 	m_geom = new Geom(m_collMesh->GetGeomTree());
 	m_geom->SetUserData(static_cast<void*>(this));
@@ -77,7 +78,7 @@ void ModelBody::SetModel(const char *lmrModelName, bool isStatic)
 	m_isStatic = isStatic;
 
 	try {
-		m_lmrModel = LmrLookupModelByName(lmrModelName);
+		m_model = LmrLookupModelByName(lmrModelName);
 	} catch (LmrModelNotFoundException) {
 		printf("Could not find model '%s'.\n", lmrModelName);
 		Pi::Quit();
@@ -103,7 +104,7 @@ vector3d ModelBody::GetPosition() const
 
 double ModelBody::GetBoundingRadius() const
 {
-	return m_lmrModel->GetDrawClipRadius();
+	return m_model->GetDrawClipRadius();
 }
 
 void ModelBody::SetLmrTimeParams()
@@ -169,5 +170,5 @@ void ModelBody::RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &vie
 	trans[14] = viewCoords.z;
 	trans[15] = 1.0f;
 
-	m_lmrModel->Render(trans, &m_params);
+	m_model->Render(trans, &m_params);
 }
