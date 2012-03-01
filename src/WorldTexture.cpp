@@ -9,15 +9,28 @@ ModelTexture::ModelTexture(const std::string &filename, bool preload) :
 		Load();
 }
 
+static inline Uint32 ceil_pow2(Uint32 v) {
+	v--;
+	v |= v >> 1;
+	v |= v >> 2;
+	v |= v >> 4;
+	v |= v >> 8;
+	v |= v >> 16;
+	v++;
+	return v;
+}
+
 void ModelTexture::Load()
 {
 	assert(!IsCreated());
 	CreateFromFile(m_filename, false);
+	if (GetWidth() != ceil_pow2(GetWidth()) || GetHeight() != ceil_pow2(GetHeight()))
+		fprintf(stderr, "WARNING: texture '%s' is not power-of-two and may not display correctly\n", m_filename.c_str());
 }
 
 
 BillboardTexture::BillboardTexture(const std::string &filename) :
-	Texture(Texture::TARGET_2D, Format(Texture::Format::INTERNAL_RGBA, Texture::Format::DATA_RGBA, Texture::Format::DATA_UNSIGNED_BYTE), REPEAT, LINEAR, true),
+	Texture(Texture::TARGET_2D, Format(Texture::Format::INTERNAL_RGBA, Texture::Format::DATA_RGBA, Texture::Format::DATA_UNSIGNED_BYTE), REPEAT, LINEAR, true, true),
 	m_filename(filename)
 {
 	CreateFromFile(filename, false);

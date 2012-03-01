@@ -692,6 +692,8 @@ void Ship::TimeStepUpdate(const float timeStep)
 	if (m_flightState == FLYING) Enable();
 	else Disable();
 
+	if (IsDead()) Disable();
+
 	vector3d maxThrust = GetMaxThrust(m_thrusters);
 	AddRelForce(vector3d(maxThrust.x*m_thrusters.x, maxThrust.y*m_thrusters.y,
 		maxThrust.z*m_thrusters.z));
