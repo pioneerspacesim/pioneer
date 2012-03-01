@@ -159,30 +159,32 @@ bool Texture::CreateFromSurface(SDL_Surface *s, bool forceRGBA)
 		m_format.dataFormat = GL_RGB;
 	}
 
+	m_texWidth = m_texHeight = 1.0f;
+
 	unsigned int width = s->w;
 	unsigned int height = s->h;
 
-	// extend to power-of-two if necessary
-	int width2 = ceil_pow2(s->w);
-	int height2 = ceil_pow2(s->h);
-	if (s->w != width2 || s->h != height2) {
-		SDL_Surface *s2 = SDL_CreateRGBSurface(SDL_SWSURFACE, width2, height2, targetPixfmt->BitsPerPixel, targetPixfmt->Rmask, targetPixfmt->Gmask, targetPixfmt->Bmask, targetPixfmt->Amask);
+	if (m_wantPow2Resize) {
+		// extend to power-of-two if necessary
+		int width2 = ceil_pow2(s->w);
+		int height2 = ceil_pow2(s->h);
+		if (s->w != width2 || s->h != height2) {
+			SDL_Surface *s2 = SDL_CreateRGBSurface(SDL_SWSURFACE, width2, height2, targetPixfmt->BitsPerPixel, targetPixfmt->Rmask, targetPixfmt->Gmask, targetPixfmt->Bmask, targetPixfmt->Amask);
 
-		SDL_SetAlpha(s, 0, 0);
-		SDL_SetAlpha(s2, 0, 0);
-		SDL_BlitSurface(s, 0, s2, 0);
+			SDL_SetAlpha(s, 0, 0);
+			SDL_SetAlpha(s2, 0, 0);
+			SDL_BlitSurface(s, 0, s2, 0);
 
-		if (freeSurface)
-			SDL_FreeSurface(s);
+			if (freeSurface)
+				SDL_FreeSurface(s);
 
-		s = s2;
-		freeSurface = true;
+			s = s2;
+			freeSurface = true;
 
-		m_texWidth = float(width) / float(width2);
-		m_texHeight = float(height) / float(height2);
+			m_texWidth = float(width) / float(width2);
+			m_texHeight = float(height) / float(height2);
+		}
 	}
-	else
-		m_texWidth = m_texHeight = 1.0f;
 
 	SDL_LockSurface(s);
 	CreateFromArray(s->pixels, s->w, s->h);
@@ -272,10 +274,12 @@ void ModelTexture::Load()
 {
 	assert(!IsCreated());
 	CreateFromFile(m_filename, false);
+	if (GetWidth() != ceil_pow2(GetWidth()) || GetHeight() != ceil_pow2(GetHeight()))
+		fprintf(stderr, "WARNING: texture '%s' is not power-of-two and may not display correctly\n", m_filename.c_str());
 }
 
 BillboardTexture::BillboardTexture(const std::string &filename) :
-	Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, true),
+	Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, true, true),
 	m_filename(filename)
 {
 	CreateFromFile(filename, false);
@@ -283,13 +287,13 @@ BillboardTexture::BillboardTexture(const std::string &filename) :
 
 
 UITexture::UITexture(SDL_Surface *s) :
-    Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false)
+    Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false, true)
 {
 	CreateFromSurface(s);
 }
 
 UITexture::UITexture(const std::string &filename) :
-    Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false)
+    Texture(GL_TEXTURE_2D, Format(GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE), CLAMP, LINEAR, false, true)
 {
 	CreateFromFile(filename);
 }

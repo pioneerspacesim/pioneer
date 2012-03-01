@@ -41,6 +41,7 @@ Alpha 20
      * Fix bulletin boards being re-created after game load (#1017)
      * Don't allocate and deallocate hyperspace starfield every frame (#1020)
      * Stop attacking ships continuing to fire on dead player (#1033, #57)
+     * Don't extend model textures to power-of-two sizes (#923)
 
    * Script changes
      * New FlightLog class that tracks systems and starports visited by the

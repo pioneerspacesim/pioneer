@@ -60,8 +60,8 @@ public:
 	// return the pixel height/width of the texture. this usually corresponds
 	// to the size of the data that was used to create the texture (eg the
 	// on-disk image file)
-	int GetWidth() const { return m_width; }
-	int GetHeight() const { return m_height; }
+	unsigned int GetWidth() const { return m_width; }
+	unsigned int GetHeight() const { return m_height; }
 
 	// return the texel height/width of the texture. this will typically be
 	// [1.0f,1.0f] but might not be if the texture has been resized (eg for
@@ -100,12 +100,13 @@ protected:
 
 	// constructor for subclasses. if wantMipmaps is true then mipmaps will be
 	// generated when the texture is created.
-	Texture(GLenum target, const Format &format, WrapMode wrapMode, FilterMode filterMode, bool wantMipmaps) :
+	Texture(GLenum target, const Format &format, WrapMode wrapMode, FilterMode filterMode, bool wantMipmaps, bool wantPow2Resize = false) :
 		m_target(target),
 		m_format(format),
 		m_wrapMode(wrapMode),
 		m_filterMode(filterMode),
 		m_wantMipmaps(wantMipmaps),
+		m_wantPow2Resize(wantPow2Resize),
 		m_width(0),
 		m_height(0),
 		m_texWidth(0.0f),
