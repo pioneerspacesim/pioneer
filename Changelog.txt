@@ -41,6 +41,8 @@ Alpha 20
 	 * Don't allocate and deallocate hyperspace starfield every frame (#1020)
 
    * Script changes
+	 * New FlightLog class that tracks systems and starports visited by the
+	   (#1021)
      * New method Ship.SetFuelPercent and attribute Ship.fuel to set and get
        ship fuel amount. New event onShipFuelChanged to report fuel status (#980)
 
