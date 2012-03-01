@@ -23,13 +23,13 @@ local onChat = function (form, ref, option)
 	end
 
 	if option == 0 then
-		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.client })
+		form:SetFace(ad.Client)
 
 		local sys   = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
 
 		local introtext = string.interp(delivery_flavours[ad.flavour].introtext, {
-			name     = ad.client,
+			name     = ad.Client.name,
 			cash     = Format.Money(ad.reward),
 			starport = sbody.name,
 			system   = sys.name,
@@ -66,7 +66,7 @@ local onChat = function (form, ref, option)
 
 		local mission = {
 			type	 = t("Delivery"),
-			client	 = ad.client,
+			client	 = ad.Client.name,
 			location = ad.location,
 			risk	 = ad.risk,
 			reward	 = ad.reward,
@@ -92,15 +92,44 @@ local onChat = function (form, ref, option)
 end
 
 local onDelete = function (ref)
+	-- Keep the ad's character for the future
+	if ads[ref].Client.useCount > 0 or ads[ref].Client:TestRoll('notoriety',10) then
+		-- All characters that already existed, or approximately one in
+		-- five of newly created characters (with notoriety benefits, just
+		-- in case). Default notoriety is 15, +10 modifier makes 25. Chance
+		-- of successful testroll is about 19%-20%.
+		ads[ref].Client:Save()
+		ads[ref].Client.lastSavedSystemPath = ads[ref].station.path
+	end
 	ads[ref] = nil
 end
 
 local nearbysystems
 local makeAdvert = function (station)
+
+	-- Function for filtering characters
+	local characterFilter = function (character)
+		-- If they're both here and available, they can send a package!
+		return character.available and (character.lastSavedSystemPath == station.path)
+	end
+
 	local reward, due, location, nearbysystem
 	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
-	local isfemale = Engine.rand:Integer(1) == 1
-	local client = NameGen.FullName(isfemale)
+	local Client
+	for potentialclient in Character.Find(characterFilter) do
+		-- Let's select characters who aren't used often, to give them good rotation
+		if Client and Client.useCount > potentialclient.useCount then
+			-- We have found a less-used client
+			Client = potentialclient
+		else
+			-- We either don't have a client, or it was little enough used
+			Client = Client or potentialclient
+		end
+	end
+	-- If we didn't find an existing character, make a new one.
+	Client = Client or Character.New()
+	-- Mark it as exclusive (in case it was pre-existing)
+	Client:CheckOut()
 	local flavour = Engine.rand:Integer(1,#delivery_flavours)
 	local urgency = delivery_flavours[flavour].urgency
 	local risk = delivery_flavours[flavour].risk
@@ -131,14 +160,12 @@ local makeAdvert = function (station)
 	local ad = {
 		station		= station,
 		flavour		= flavour,
-		client		= client,
+		Client		= Client,
 		location	= location,
 		due		= due,
 		risk		= risk,
 		urgency		= urgency,
 		reward		= reward,
-		isfemale	= isfemale,
-		faceseed	= Engine.rand:Integer(),
 	}
 
 	local sbody = ad.location:GetSystemBody()
@@ -151,6 +178,7 @@ local makeAdvert = function (station)
 
 	local ref = station:AddAdvert(ad.desc, onChat, onDelete)
 	ads[ref] = ad
+	print(ad.station.label,' ',ad.desc,' ',ad.Client.name)
 end
 
 local onCreateBB = function (station)
