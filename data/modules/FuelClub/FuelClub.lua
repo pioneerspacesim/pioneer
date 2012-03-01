@@ -35,26 +35,6 @@ local chance_of_availability = 3
 local loaded_data -- empty unless the game is loaded
 
 
-local onGameStart = function ()
-	local ref
-	if loaded_data then
-		-- rebuild saved adverts
-		for k,ad in pairs(loaded_data.ads) do
-			ads[ad.station:AddAdvert(ad.flavour.clubname, onChat, onDelete)] = ad
-		end
-		-- load membership info
-		memberships = loaded_data.memberships
-		for k,v in pairs(memberships) do
-			for l,w in pairs(v) do
-			end
-		end
-		loaded_data = nil
-	else
-		-- Hopefully this won't be necessary after Pioneer handles Lua teardown
-		memberships = {}
-	end
-end
-
 local onDelete = function (ref)
 	-- ad has been destroyed; forget its details
 	ads[ref] = nil
@@ -201,6 +181,26 @@ local onCreateBB = function (station)
 			armour = false,
 		})
 		ads[station:AddAdvert(ad.flavour.clubname,onChat,onDelete)] = ad
+	end
+end
+
+local onGameStart = function ()
+	local ref
+	if loaded_data then
+		-- rebuild saved adverts
+		for k,ad in pairs(loaded_data.ads) do
+			ads[ad.station:AddAdvert(ad.flavour.clubname, onChat, onDelete)] = ad
+		end
+		-- load membership info
+		memberships = loaded_data.memberships
+		for k,v in pairs(memberships) do
+			for l,w in pairs(v) do
+			end
+		end
+		loaded_data = nil
+	else
+		-- Hopefully this won't be necessary after Pioneer handles Lua teardown
+		memberships = {}
 	end
 end
 
