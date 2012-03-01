@@ -16,7 +16,7 @@ struct citybuilding_t {
 	const char *modelname;
 	double xzradius;
 	LmrModel *resolvedModel;
-	const LmrCollMesh *collMesh;
+	const CollMesh *collMesh;
 };
 
 #define MAX_BUILDING_LISTS 1
@@ -47,8 +47,8 @@ void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, 
 {
 	double rad = (p1-p2).Length()*0.5;
 	LmrModel *model(0);
-	double modelRadXZ(0);
-	const LmrCollMesh *cmesh(0);
+	double modelRadXZ(0.0);
+	const CollMesh *cmesh(0);
 	vector3d cent = (p1+p2+p3+p4)*0.25;
 
 	cityflavourdef_t *flavour(0);
@@ -151,7 +151,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	int i = 0;
 	for (std::vector<LmrModel*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
 		list->buildings[i].resolvedModel = *m;
-		const LmrCollMesh *collMesh = static_cast<LmrCollMesh*>((*m)->CreateCollisionMesh(&cityobj_params));
+		const CollMesh *collMesh = (*m)->CreateCollisionMesh(&cityobj_params);
 		list->buildings[i].collMesh = collMesh;
 		double maxx = std::max(fabs(collMesh->GetAabb().max.x), fabs(collMesh->GetAabb().min.x));
 		double maxy = std::max(fabs(collMesh->GetAabb().max.z), fabs(collMesh->GetAabb().min.z));
