@@ -4,8 +4,10 @@
 #include <map>
 #include <vector>
 #include <sigc++/sigc++.h>
-#include "MyLuaMathTypes.h"
 #include "CollMesh.h"
+#include "Model.h"
+#include "MyLuaMathTypes.h"
+#include "LmrTypes.h"
 
 // LMR = Lua Model Renderer
 class LmrGeomBuffer;
@@ -17,50 +19,23 @@ class EquipSet;
 
 #define LMR_MAX_LOD 4
 
-struct LmrMaterial {
-	float diffuse[4];
-	float specular[4];
-	float emissive[4];
-	float shininess;
-	// make sure save and load routines in ShipFlavour are matching
-};
-
 struct LmrLight {
 	float position[4];
 	float color[4];
 	float quadraticAttenuation;
 };
 
-struct LmrObjParams
-{
-	enum { LMR_ANIMATION_MAX = 10 };
-
-	const char *animationNamespace; // the namespace to look up animation names in, from LuaConstants
-
-	double time;
-	int animStages[LMR_ANIMATION_MAX];
-	double animValues[LMR_ANIMATION_MAX];
-	const char *label;
-	const EquipSet *equipment; // for ships
-	int flightState;
-
-	float linthrust[3];		// 1.0 to -1.0
-	float angthrust[3];		// 1.0 to -1.0
-
-	struct LmrMaterial pMat[3];
-};
-
 struct RenderState;
 class LmrCollMesh;
 
-class LmrModel {
+class LmrModel : public Model {
 public:
 	LmrModel(const char *model_name);
 	virtual ~LmrModel();
-	void Render(const matrix4x4f &trans, const LmrObjParams *params);
+	virtual void Render(const matrix4x4f &trans, const LmrObjParams *params);
 	void Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params);
 	void GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params);
-	float GetDrawClipRadius() const { return m_drawClipRadius; }
+	virtual float GetDrawClipRadius() const { return m_drawClipRadius; }
 	float GetFloatAttribute(const char *attr_name) const;
 	int GetIntAttribute(const char *attr_name) const;
 	bool GetBoolAttribute(const char *attr_name) const;
