@@ -129,23 +129,6 @@ void Sphere3D::Subdivide(const matrix4x4f &trans, const vector3f &v1, const vect
 	Subdivide(trans, v12, v23, v31, i12, i23, i31, depth-1);
 }
 
-void TexturedUIQuad::Draw(Renderer *renderer, const vector2f &pos, const vector2f &size, const vector2f &texPos, const vector2f &texSize, const Color &tint)
-{
-    VertexArray va(ATTRIB_POSITION | ATTRIB_UV0);
-
-	va.Add(vector3f(pos.x,        pos.y,        0.0f), vector2f(texPos.x,           texPos.y));
-	va.Add(vector3f(pos.x,        pos.y+size.y, 0.0f), vector2f(texPos.x,           texPos.y+texSize.y));
-	va.Add(vector3f(pos.x+size.x, pos.y,        0.0f), vector2f(texPos.x+texSize.x, texPos.y));
-	va.Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), vector2f(texPos.x+texSize.x, texPos.y+texSize.y));
-
-	Material m;
-	m.unlit = true;
-	m.texture0 = m_texture.Get();
-	m.vertexColors = false;
-	m.diffuse = tint;
-	renderer->DrawTriangles(&va, &m, TRIANGLE_STRIP);
-}
-
 }
 
 }

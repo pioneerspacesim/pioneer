@@ -8,7 +8,7 @@ namespace Gui {
 Image::Image(const char *filename): Widget(), m_color(Color::WHITE)
 {
 	Texture *texture = new Texture(filename);
-	m_quad.Reset(new Graphics::Drawables::TexturedUIQuad(texture));
+	m_quad.Reset(new TexturedQuad(texture));
 
 	m_width = texture->GetWidth();
 	m_height = texture->GetHeight();
@@ -31,7 +31,6 @@ void Image::Draw()
 	r->SetBlendMode(Graphics::BLEND_ALPHA);
 	m_quad->Draw(r, 0, vector2f(allocSize[0],allocSize[1]), m_color);
 }
-
 
 }
 

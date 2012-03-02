@@ -423,7 +423,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 
 		FT_Done_Glyph(glyph);
 
-		glfglyph.quad = new Graphics::Drawables::TexturedUIQuad(new GlyphTexture(pixBuf, sz, sz));
+		glfglyph.quad = new Gui::TexturedQuad(new GlyphTexture(pixBuf, sz, sz));
 
 		glfglyph.advx = float(m_face->glyph->advance.x) / 64.0 + advx_adjust;
 		glfglyph.advy = float(m_face->glyph->advance.y) / 64.0;

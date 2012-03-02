@@ -5,10 +5,8 @@
 #include "Color.h"
 #include "graphics/Texture.h"
 
-namespace Graphics {
-	class Renderer;
-	namespace Drawables { class TexturedUIQuad; }
-}
+namespace Graphics { class Renderer; }
+namespace Gui { class TexturedQuad; }
 
 class TextureFont : public Font {
 
@@ -35,7 +33,7 @@ public:
 	float GetWidth() const { return m_width; }
 	float GetDescender() const { return m_descender; }
 	struct glfglyph_t {
-		Graphics::Drawables::TexturedUIQuad *quad;
+		Gui::TexturedQuad *quad;
 		float advx, advy;
 		float width, height;
 		int offx, offy;

@@ -5,7 +5,6 @@
 #include "graphics/Renderer.h"
 #include "graphics/Surface.h"
 #include "graphics/VertexArray.h"
-#include "graphics/Texture.h"
 #include "Color.h"
 
 namespace Graphics {
@@ -67,19 +66,6 @@ private:
 	void AddTriangle(int i1, int i2, int i3);
 	void Subdivide(const matrix4x4f &trans, const vector3f &v1, const vector3f &v2, const vector3f &v3,
 		int i1, int i2, int i3, int depth);
-};
-
-// a textured quad with reversed winding for the UI
-// XXX move this to Gui::Drawables
-class TexturedUIQuad : public Drawable {
-public:
-	TexturedUIQuad(Texture *texture) : m_texture(RefCountedPtr<Texture>(texture)) {}
-	virtual void Draw(Renderer *r) { Draw(r, 0.0f, 1.0f); }
-	void Draw(Renderer *r, const Color &tint) { Draw(r, 0.0f, 1.0f, tint); }
-	void Draw(Renderer *r, const vector2f &pos, const vector2f &size, const Color &tint = Color::WHITE) { Draw(r, pos, size, 0.0f, vector2f(m_texture->GetTextureWidth(), m_texture->GetTextureHeight()), tint); }
-	void Draw(Renderer *r, const vector2f &pos, const vector2f &size, const vector2f &texPos, const vector2f &texSize, const Color &tint = Color::WHITE);
-private:
-	RefCountedPtr<Texture> m_texture;
 };
 
 }

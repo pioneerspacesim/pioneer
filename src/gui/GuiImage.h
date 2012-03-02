@@ -2,7 +2,7 @@
 #define _GUIIMAGE_H
 
 #include "GuiWidget.h"
-#include "graphics/Drawables.h"
+#include "GuiTexture.h"
 #include "Color.h"
 
 namespace Gui {
@@ -15,7 +15,7 @@ namespace Gui {
 		virtual void GetSizeRequested(float size[2]);
 		void SetModulateColor(const Color &color) { m_color = color; }
 	private:
-		ScopedPtr<Graphics::Drawables::TexturedUIQuad> m_quad;
+		ScopedPtr<TexturedQuad> m_quad;
 		Color m_color;
 		float m_width, m_height;
 	};
