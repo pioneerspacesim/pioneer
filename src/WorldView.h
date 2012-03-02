@@ -13,7 +13,7 @@ class Body;
 class Frame;
 class LabelSet;
 class Ship;
-namespace Gui { class Texture; }
+namespace Gui { class TexturedQuad; }
 
 class WorldView: public View {
 public:
@@ -89,7 +89,7 @@ private:
 	void DrawTargetSquare(const Indicator &marker, const Color &c);
 	void DrawVelocityIndicator(const Indicator &marker, const Color &c);
 	void DrawCircleIndicator(const Indicator &marker, const Color &c);
-	void DrawImageIndicator(const Indicator &marker, Gui::Texture *texture, const Color &c);
+	void DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c);
 	void DrawEdgeMarker(const Indicator &marker, const Color &c);
 
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
@@ -156,7 +156,8 @@ private:
 	Indicator m_targetLeadIndicator;
 	Indicator m_mouseDirIndicator;
 
-	ScopedPtr<Gui::Texture> m_indicatorMousedir;
+	ScopedPtr<Gui::TexturedQuad> m_indicatorMousedir;
+	vector2f m_indicatorMousedirSize;
 };
 
 #endif /* _WORLDVIEW_H */

@@ -181,7 +181,9 @@ void WorldView::InitObject()
 	Add(m_combatTargetIndicator.label, 0, 0);
 	Add(m_targetLeadIndicator.label, 0, 0);
 
-	m_indicatorMousedir.Reset(new Gui::Texture(PIONEER_DATA_DIR "/icons/indicator_mousedir.png"));
+	Gui::Texture *texture = new Gui::Texture(PIONEER_DATA_DIR "/icons/indicator_mousedir.png");
+	m_indicatorMousedir.Reset(new Gui::TexturedQuad(texture));
+	m_indicatorMousedirSize = vector2f(texture->GetWidth(), texture->GetHeight());
 
 	//get near & far clipping distances
 	//XXX m_renderer not set yet
@@ -1648,17 +1650,14 @@ void WorldView::DrawCircleIndicator(const Indicator &marker, const Color &c)
 		DrawEdgeMarker(marker, c);
 }
 
-void WorldView::DrawImageIndicator(const Indicator &marker, Gui::Texture *tex, const Color &c)
+void WorldView::DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c)
 {
 	if (marker.side == INDICATOR_HIDDEN) return;
 
 	if (marker.side == INDICATOR_ONSCREEN) {
-		const float w = tex->GetWidth();
-		const float h = tex->GetHeight();
-		const float x = marker.pos[0] - w/2.0f;
-		const float y = marker.pos[1] - h/2.0f;
-		//XXX apply color to tint the image
-		tex->DrawUIQuad(x, y, w, h);
+		const float x = marker.pos[0] - m_indicatorMousedirSize.x/2.0f;
+		const float y = marker.pos[1] - m_indicatorMousedirSize.y/2.0f;
+		quad->Draw(Pi::renderer, vector2f(x,y), m_indicatorMousedirSize, c);
 	} else
 		DrawEdgeMarker(marker, c);
 }
