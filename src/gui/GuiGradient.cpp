@@ -70,6 +70,7 @@ void Gradient::GradientTexture::GenerateGradient()
 
 void Gradient::GradientTexture::DrawGradientQuad(float w, float h, Direction direction)
 {
+	/*
 	GLfloat vtx[4*2] = {
 		0, h,
 		w, h,
@@ -106,6 +107,7 @@ void Gradient::GradientTexture::DrawGradientQuad(float w, float h, Direction dir
 
 	Unbind();
 	glDisable(GetTarget());
+	*/
 }
 
 }
