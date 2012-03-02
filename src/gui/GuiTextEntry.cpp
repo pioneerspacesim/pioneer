@@ -203,7 +203,8 @@ void TextEntry::Draw()
 	glEnd();
 
 
-	SetClipping(size[0], size[1]);
+	SetScissor(true);
+
 	Gui::Screen::RenderString(m_text, 1.0f - m_scroll, 1.0f, c, m_font.Get());
 
 	/* Cursor */
@@ -213,7 +214,7 @@ void TextEntry::Draw()
 		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + 1.0f);
 	glEnd();
 	
-	EndClipping();
+	SetScissor(false);
 }
 
 } /* namespace Gui */

@@ -160,7 +160,7 @@ void ScannerWidget::Draw()
 	GetSize(size);
 	m_x = size[0] * 0.5f;
 	m_y = size[1] * 0.5f;
-	Widget::SetClipping(size[0], size[1]);
+	SetScissor(true);
 	float c2p[2];
 	Gui::Screen::GetCoords2Pixels(c2p);
 	
@@ -202,7 +202,7 @@ void ScannerWidget::Draw()
 	// objects above
 	if (!m_contacts.empty()) DrawBlobs(false);
 
-	Widget::EndClipping();
+	SetScissor(false);
 	glLineWidth(1.0f);
 	glPointSize(1.0f);
 }
