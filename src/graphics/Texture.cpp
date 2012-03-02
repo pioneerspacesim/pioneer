@@ -7,7 +7,6 @@ namespace Graphics {
 
 inline GLenum glTarget(Texture::Target target) {
 	switch (target) {
-		case Texture::TARGET_1D: return GL_TEXTURE_1D;
 		case Texture::TARGET_2D: return GL_TEXTURE_2D;
 		default: assert(0);
 	}
@@ -88,11 +87,6 @@ void Texture::CreateFromArray(const void *data, unsigned int width, unsigned int
 
 	// XXX feels a bit icky
 	switch (m_target) {
-		case TARGET_1D:
-			assert(!m_wantMipmaps);
-			glTexImage1D(glTarget(m_target), 0, glInternalFormat(m_format.internalFormat), width, 0, glDataFormat(m_format.dataFormat), glDataType(m_format.dataType), data);
-			break;
-
 		case TARGET_2D:
 			if (m_wantMipmaps)
 				glTexParameteri(glTarget(m_target), GL_GENERATE_MIPMAP, GL_TRUE);

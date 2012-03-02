@@ -57,7 +57,6 @@ public:
 	// texture type. ignore unless subclassing
 	// XXX this is possibly too GL-centric
 	enum Target {
-		TARGET_1D,
 		TARGET_2D
 	};
 
