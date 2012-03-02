@@ -185,8 +185,6 @@ bool Texture::CreateFromSurface(SDL_Surface *s, bool forceRGBA)
 		m_format.dataFormat = Texture::Format::DATA_RGB;
 	}
 
-	m_texWidth = m_texHeight = 1.0f;
-
 	unsigned int width = s->w;
 	unsigned int height = s->h;
 

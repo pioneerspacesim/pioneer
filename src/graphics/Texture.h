@@ -117,8 +117,8 @@ protected:
 		m_wantPow2Resize(wantPow2Resize),
 		m_width(0),
 		m_height(0),
-		m_texWidth(0.0f),
-		m_texHeight(0.0f),
+		m_texWidth(1.0f),
+		m_texHeight(1.0f),
 		m_glTexture(0)
 	{}
 
