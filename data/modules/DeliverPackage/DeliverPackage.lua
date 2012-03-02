@@ -547,14 +547,6 @@ function Advert:desc()
 			    starport = self.ctr.dest:GetSystemBody().name })
 end
 
-local Client = {}
-
-function Client:init()
-   self.female = Engine.rand:Integer (1) == 1
-   self.name = NameGen.FullName (self.female)
-   self.seed = Engine.rand:Integer()
-end
-
 local function heavy_duty_check (flavours, station, bbcreate)
    return station:DistanceTo (Game.player) > 0.02 * AU or
       -- the spath calculation is a way too slow for lua.
@@ -577,14 +569,13 @@ local function makeAdvert (station, bbcreate)
       return
    end
    local ad = {
-      client   = makeInst (Client),
+      client   = Character.New(),
       board    = station,
       ctr      = ctr,
       flavour  = flavour,
       risk     = risk,
       urgency  = urgency }
    ad = makeInst (Advert, ad)
-   ad.client:init()
 
    ads[station:AddAdvert (ad:desc(), onChat, onDelete)] = ad
    return ad
@@ -735,7 +726,6 @@ local function onGameStart ()
    for k, ad in pairs (loaded_data.ads) do
       makeInst (Advert, ad)
       makeInst (ad.isLocal and LocalCtr or ExternalCtr, ad.ctr)
-      makeInst (Client, ad.client)
       local ref = ad.board:AddAdvert (ad:desc(), onChat, onDelete)
       ads[ref] = ad
       updates[ad.board] = Game.time
