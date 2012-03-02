@@ -105,29 +105,6 @@ public:
 	// need to know the underlying texture format
 	const Format &GetFormat() const { return m_format; }
 
-	// convenience methods to draw a quad using this texture. it will enable
-	// the target and bind the texture, draw the quad and then unbind the
-	// texture and disbale the target. x/y/w/h are the position and size of
-	// the quad, tx/ty/tw/th are the texel position/size of the texture.
-	void DrawQuad(float x, float y, float w, float h, float tx, float ty, float tw, float th);
-	inline void DrawQuad(float x, float y, float w, float h) {
-		DrawQuad(x, y, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
-	}
-	inline void DrawQuad(float w, float h) {
-		DrawQuad(0, 0, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
-	}
-
-	// like DrawQuad, but for drawing the quad for the UI. Pioneer's UI is
-	// inverted so that the y-coord goes down the screen instead of up. this
-	// draws the quad with opposite winding so it does the right thing.
-	void DrawUIQuad(float x, float y, float w, float h, float tx, float ty, float tw, float th);
-	inline void DrawUIQuad(float x, float y, float w, float h) {
-		DrawUIQuad(x, y, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
-	}
-	inline void DrawUIQuad(float w, float h) {
-		DrawUIQuad(0, 0, w, h, 0, 0, GetTextureWidth(), GetTextureHeight());
-	}
-
 protected:
 
 	// constructor for subclasses. if wantMipmaps is true then mipmaps will be
@@ -173,8 +150,6 @@ protected:
 private:
 	// textures should not be copied as they have shared GL state
 	Texture(const Texture &);
-
-	void DrawQuadArray(const GLfloat *array);
 
 	Target m_target;
 	Format m_format;

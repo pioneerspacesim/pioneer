@@ -250,47 +250,4 @@ bool Texture::CreateFromFile(const std::string &filename, bool forceRGBA)
 	return true;
 }
 
-void Texture::DrawQuad(float x, float y, float w, float h, float tx, float ty, float tw, float th)
-{
-	GLfloat array[4*4] = {
-		x,   y+h, tx,    ty+th,
-		x,   y,   tx,    ty,
-		x+w, y,   tx+tw, ty,
-		x+w, y+h, tx+tw, ty+th
-	};
-
-	DrawQuadArray(array);
-}
-
-void Texture::DrawUIQuad(float x, float y, float w, float h, float tx, float ty, float tw, float th)
-{
-	GLfloat array[4*4] = {
-		x,   y+h, tx,    ty+th,
-		x+w, y+h, tx+tw, ty+th,
-		x+w, y,   tx+tw, ty,
-		x,   y,   tx,    ty
-	};
-
-	DrawQuadArray(array);
-}
-
-void Texture::DrawQuadArray(const GLfloat *array)
-{
-	glEnable(glTarget(m_target));
-	Bind();
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glVertexPointer(2, GL_FLOAT, sizeof(GLfloat)*4, &array[0]);
-	glTexCoordPointer(2, GL_FLOAT, sizeof(GLfloat)*4, &array[2]);
-
-	glDrawArrays(GL_QUADS, 0, 4);
-
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	Unbind();
-	glDisable(glTarget(m_target));
-}
-
 }
