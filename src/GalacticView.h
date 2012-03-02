@@ -27,7 +27,7 @@ private:
 	Gui::Label *m_scaleReadout;
 	Gui::LabelSet *m_labels;
 	float m_zoom;
-	ScopedPtr<Gui::Texture> m_texture;
+	ScopedPtr<Gui::TexturedQuad> m_quad;
 	sigc::connection m_onMouseButtonDown;
 };
 

@@ -17,7 +17,7 @@ using namespace Graphics;
 
 GalacticView::GalacticView()
 {
-	m_texture.Reset(new Gui::Texture(Galaxy::GetGalaxyBitmap()));
+	m_quad.Reset(new Gui::TexturedQuad(new Gui::Texture(Galaxy::GetGalaxyBitmap())));
 
 	SetTransparency(true);
 	m_zoom = 1.0f;
@@ -98,33 +98,14 @@ void GalacticView::Draw3D()
 	m_renderer->SetDepthTest(false);
 	m_renderer->SetBlendMode(BLEND_SOLID);
 
-	// XXX fixed function combiner
-	glEnable(GL_TEXTURE_2D);
-	m_texture->Bind();
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	m_texture->Unbind();
-	glDisable(GL_TEXTURE_2D);
-	
 	//apply zoom
 	m_renderer->SetTransform(
 		matrix4x4f::Identity() *
 		matrix4x4f::ScaleMatrix(m_zoom, m_zoom, 0.f) *
 		matrix4x4f::Translation(-offset_x, -offset_y, 0.f));
-
+	
 	// galaxy image
-	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0);
-	const float w = 1.0;
-	const float h = 1.0;
-	// XXX 2d verts
-	va.Add(vector3f(-1.0,-1.0, 0.f), vector2f(0.f,0.f));
-	va.Add(vector3f(-1.f, 1.f, 0.f), vector2f(0.f,h));
-	va.Add(vector3f( 1.0,-1.0, 0.f), vector2f(w,0.f));
-	va.Add(vector3f( 1.f, 1.f, 0.f), vector2f(w,h));
-
-	Material m;
-	m.unlit = true;
-	m.texture0 = m_texture.Get();
-	m_renderer->DrawTriangles(&va, &m, TRIANGLE_STRIP);
+	m_quad->Draw(m_renderer, vector2f(-1.0f), vector2f(2.0f));
 
 	// "you are here" dot
 	Color green(0.f, 1.f, 0.f, 1.f);
