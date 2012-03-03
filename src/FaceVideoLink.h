@@ -2,8 +2,7 @@
 #define _FACEVIDEOLINK
 
 #include "VideoLink.h"
-
-namespace Gui { class Texture; }
+#include "gui/GuiTexture.h"
 
 class CharacterInfoText : public Gui::Fixed {
 public:
@@ -57,7 +56,7 @@ private:
 	Uint32 m_seed;
 
 	Uint32 m_created;
-	Gui::Texture *m_texture;
+	ScopedPtr<Gui::TexturedQuad> m_quad;
 	Gui::ToolTip *m_message;
 	CharacterInfoText *m_characterInfo;
 };

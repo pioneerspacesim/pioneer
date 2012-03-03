@@ -132,7 +132,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 		_blit_image(s, filename, 0, 0);
 	}
 
-	m_texture = new Gui::Texture(s);
+	m_quad.Reset(new Gui::TexturedQuad(new Gui::Texture(s)));
 
 	SDL_FreeSurface(s);
 }
@@ -140,7 +140,6 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 FaceVideoLink::~FaceVideoLink() {
 	delete m_message;
 	delete m_characterInfo;
-	delete m_texture;
 }
 
 void FaceVideoLink::Draw() {
@@ -164,28 +163,7 @@ void FaceVideoLink::Draw() {
 		return;
 	}
 
-	// XXX fixed function combiner
-	glEnable(GL_TEXTURE_2D);
-	m_texture->Bind();
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	m_texture->Unbind();
-	glDisable(GL_TEXTURE_2D);
-
-	float w = m_texture->GetTextureWidth();
-	float h = m_texture->GetTextureHeight();
-
-	// this is not entirely a standard quad, special uv coords
-	// XXX 2d vertices
-	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0);
-	Color white(1.f, 1.f, 1.f, 1.f);
-	va.Add(vector3f(0.f, 0.f, 0.f), vector2f(0.f, 0.f));
-	va.Add(vector3f(0.f, size[1], 0.f), vector2f(0.f, h));
-	va.Add(vector3f(size[0], 0.f, 0.f), vector2f(w, 0.f));
-	va.Add(vector3f(size[0], size[1], 0.f), vector2f(w, h));
-	Material mat;
-	mat.texture0 = m_texture;
-	mat.unlit = true;
-	Pi::renderer->DrawTriangles(&va, &mat, TRIANGLE_STRIP);
+	m_quad->Draw(Gui::Screen::GetRenderer(), vector2f(0.0f), vector2f(size[0],size[1]));
 
 	glPushMatrix();
 	glTranslatef(0.f, size[1]- size[1] * 0.16f, 0.f);
