@@ -601,10 +601,7 @@ local function onUpdateBB (station)
 	 ad.board:RemoveAdvert (ref)
       end
    end
-   local ad = makeAdvert (station, false)
-   if ad and station == Game.player:GetDockedWith() then
-      UI.ImportantMessage (ad.ctr.isLocal and "Local" or "Non Local")
-   end
+   makeAdvert (station, false)
 end
 
 local function spawnPirates (n, ships, mission)
