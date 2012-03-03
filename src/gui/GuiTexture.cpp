@@ -8,15 +8,15 @@ using namespace Graphics;
 namespace Gui {
 
 Texture::Texture(SDL_Surface *s) :
-    Graphics::Texture(Texture::TARGET_2D, Format(Texture::Format::INTERNAL_RGBA, Texture::Format::DATA_RGBA, Texture::Format::DATA_UNSIGNED_BYTE), CLAMP, LINEAR, false, true)
+    Graphics::Texture(TARGET_2D, Format(Format::INTERNAL_RGBA, Format::DATA_RGBA, Format::DATA_UNSIGNED_BYTE), Options(Options::CLAMP, Options::LINEAR, false))
 {
-	CreateFromSurface(s);
+	CreateFromSurface(s, true);
 }
 
 Texture::Texture(const std::string &filename) :
-    Graphics::Texture(Texture::TARGET_2D, Format(Texture::Format::INTERNAL_RGBA, Texture::Format::DATA_RGBA, Texture::Format::DATA_UNSIGNED_BYTE), CLAMP, LINEAR, false, true)
+    Graphics::Texture(TARGET_2D, Format(Format::INTERNAL_RGBA, Format::DATA_RGBA, Format::DATA_UNSIGNED_BYTE), Options(Options::CLAMP, Options::LINEAR, false))
 {
-	CreateFromFile(filename);
+	CreateFromFile(filename, true);
 }
 
 

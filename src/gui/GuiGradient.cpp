@@ -24,7 +24,7 @@ void Gradient::Draw()
 
 
 Gradient::GradientTexture::GradientTexture(const Color &begin, const Color &end, Direction direction) :
-	Texture(Texture::TARGET_2D, Format(Texture::Format::INTERNAL_RGBA, Texture::Format::DATA_RGBA, Texture::Format::DATA_FLOAT), CLAMP, LINEAR, false, true)
+    Graphics::Texture(TARGET_2D, Format(Format::INTERNAL_RGBA, Format::DATA_RGBA, Format::DATA_FLOAT), Options(Options::CLAMP, Options::LINEAR, false))
 {
 	const float data[4][4] = {
 		{ begin.r, begin.g, begin.b, begin.a },

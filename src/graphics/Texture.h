@@ -55,33 +55,46 @@ public:
 			dataFormat(dataFormat_),
 			dataType(dataType_)
 		{}
+
 		InternalFormat internalFormat;
 		DataFormat dataFormat;
 		DataType dataType;
 	};
 
-	// wrap mode. decides what to do when the texture is not large enough to
-	// cover the mesh. ignore unless subclassing.
-	enum WrapMode {
-		REPEAT, // GL_REPEAT
-		CLAMP   // GL_CLAMP_TO_EDGE
-	};
+	// various options that influence how the texture is created
+	struct Options {
 
-    // filter mode. decides how texture elements are mapped to the mesh.
-    // ignore unless subclassing.
-	enum FilterMode {
-		NEAREST, // GL_NEAREST, sharp
-		LINEAR   // GL_LINEAR, smooth
+		// wrap mode. decides what to do when the texture is not large enough to
+		// cover the mesh. ignore unless subclassing.
+		enum WrapMode {
+			REPEAT, // GL_REPEAT
+			CLAMP   // GL_CLAMP_TO_EDGE
+		};
+
+		// filter mode. decides how texture elements are mapped to the mesh.
+		// ignore unless subclassing.
+		enum FilterMode {
+			NEAREST, // GL_NEAREST, sharp
+			LINEAR   // GL_LINEAR, smooth
+		};
+
+		Options(WrapMode _wrapMode, FilterMode _filterMode, bool _mipmaps):
+			wrapMode(_wrapMode),
+			filterMode(_filterMode),
+			mipmaps(_mipmaps)
+		{}
+
+		WrapMode wrapMode;
+		FilterMode filterMode;
+		bool mipmaps;
 	};
 
 	virtual ~Texture();
 
-	// get the texture target, eg GL_TEXTURE_2D. set by the subclass
+	// texture properties
 	Target GetTarget() const { return m_target; }
-
-	// return the Texture::Format definition of this texture. useful if you
-	// need to know the underlying texture format
 	const Format &GetFormat() const { return m_format; }
+	const Options &GetOptions() const { return m_options; }
 
 	// see if the texture has an underlying GL texture yet. allows subclasses
 	// to support on-demand texture loading. Bind() will assert if IsCreated()
@@ -109,13 +122,10 @@ protected:
 
 	// constructor for subclasses. if wantMipmaps is true then mipmaps will be
 	// generated when the texture is created.
-	Texture(Target target, const Format &format, WrapMode wrapMode, FilterMode filterMode, bool wantMipmaps, bool wantPow2Resize = false) :
+	Texture(Target target, const Format &format, const Options &options) :
 		m_target(target),
 		m_format(format),
-		m_wrapMode(wrapMode),
-		m_filterMode(filterMode),
-		m_wantMipmaps(wantMipmaps),
-		m_wantPow2Resize(wantPow2Resize),
+		m_options(options),
 		m_width(0),
 		m_height(0),
 		m_texWidth(1.0f),
@@ -131,17 +141,21 @@ protected:
 	// and 32-bit colour surfaces, and won't work properly if the incoming
 	// data form is something else.
 	//
+	// if potExtend is true, incoming surfaces will be extended to
+	// power-of-two dimensions. this will break UV coordinates; use
+	// GetTextureWidth() and GetTextureHeight() to scale them if necessary
+	//
 	// if forceRGBA is true, incoming surfaces will be converted to RGBA
 	// before being passed to CreateFromArray(). if its false, then 24-bit
 	// surfaces will be converted to RGB and 32-bit to RGBA and the internal
 	// data format will be adjusted appropriately. this can save texture
 	// memory but doesn't always do the right thing if the user expects the
 	// texture to always have an alpha channel (eg for UI textures)
-	bool CreateFromSurface(SDL_Surface *s, bool forceRGBA = true);
+	bool CreateFromSurface(SDL_Surface *s, bool potExtend = false, bool forceRGBA = true);
 
 	// loads the given file into a SDL surface and passes the result to
 	// CreateFromSurface()
-	bool CreateFromFile(const std::string &filename, bool forceRGBA = true);
+	bool CreateFromFile(const std::string &filename, bool potExtend = false, bool forceRGBA = true);
 
 private:
 	// textures should not be copied as they have shared GL state
@@ -149,10 +163,7 @@ private:
 
 	Target m_target;
 	Format m_format;
-	WrapMode m_wrapMode;
-	FilterMode m_filterMode;
-	bool m_wantMipmaps;
-	bool m_wantPow2Resize;
+	Options m_options;
 
 	unsigned int m_width;
 	unsigned int m_height;

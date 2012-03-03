@@ -450,7 +450,7 @@ TextureFont::~TextureFont()
 
 
 TextureFont::GlyphTexture::GlyphTexture(Uint8 *data, int width, int height) :
-	Texture(Texture::TARGET_2D, Format(Texture::Format::INTERNAL_LUMINANCE_ALPHA, Texture::Format::DATA_LUMINANCE_ALPHA, Texture::Format::DATA_UNSIGNED_BYTE), CLAMP, NEAREST, false)
+	Texture(Texture::TARGET_2D, Format(Format::INTERNAL_LUMINANCE_ALPHA, Format::DATA_LUMINANCE_ALPHA, Format::DATA_UNSIGNED_BYTE), Options(Options::CLAMP, Options::NEAREST, false))
 {
 	CreateFromArray(data, width, height);
 }

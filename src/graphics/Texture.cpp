@@ -67,7 +67,7 @@ void Texture::CreateFromArray(const void *data, unsigned int width, unsigned int
 	glGenTextures(1, &m_glTexture);
 	glBindTexture(glTarget(m_target), m_glTexture);
 
-	if (m_wrapMode == CLAMP) {
+	if (m_options.wrapMode == Options::CLAMP) {
 		glTexParameteri(glTarget(m_target), GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(glTarget(m_target), GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	}
@@ -76,19 +76,19 @@ void Texture::CreateFromArray(const void *data, unsigned int width, unsigned int
 		glTexParameteri(glTarget(m_target), GL_TEXTURE_WRAP_T, GL_REPEAT);
 	}
 
-	if (m_filterMode == NEAREST) {
+	if (m_options.filterMode == Options::NEAREST) {
 		glTexParameteri(glTarget(m_target), GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(glTarget(m_target), GL_TEXTURE_MIN_FILTER, m_wantMipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+		glTexParameteri(glTarget(m_target), GL_TEXTURE_MIN_FILTER, m_options.mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
 	}
 	else {
 		glTexParameteri(glTarget(m_target), GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(glTarget(m_target), GL_TEXTURE_MIN_FILTER, m_wantMipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+		glTexParameteri(glTarget(m_target), GL_TEXTURE_MIN_FILTER, m_options.mipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
 	}
 
 	// XXX feels a bit icky
 	switch (m_target) {
 		case TARGET_2D:
-			if (m_wantMipmaps)
+			if (m_options.mipmaps)
 				glTexParameteri(glTarget(m_target), GL_GENERATE_MIPMAP, GL_TRUE);
 			glTexImage2D(glTarget(m_target), 0, glInternalFormat(m_format.internalFormat), width, height, 0, glDataFormat(m_format.dataFormat), glDataType(m_format.dataType), data);
 			break;
@@ -164,7 +164,7 @@ static inline Uint32 ceil_pow2(Uint32 v) {
 	return v;
 }
 
-bool Texture::CreateFromSurface(SDL_Surface *s, bool forceRGBA)
+bool Texture::CreateFromSurface(SDL_Surface *s, bool potExtend, bool forceRGBA)
 {
 	bool freeSurface = false;
 
@@ -188,7 +188,7 @@ bool Texture::CreateFromSurface(SDL_Surface *s, bool forceRGBA)
 	unsigned int width = s->w;
 	unsigned int height = s->h;
 
-	if (m_wantPow2Resize) {
+	if (potExtend) {
 		// extend to power-of-two if necessary
 		int width2 = ceil_pow2(s->w);
 		int height2 = ceil_pow2(s->h);
@@ -223,7 +223,7 @@ bool Texture::CreateFromSurface(SDL_Surface *s, bool forceRGBA)
 	return true;
 }
 
-bool Texture::CreateFromFile(const std::string &filename, bool forceRGBA)
+bool Texture::CreateFromFile(const std::string &filename, bool potExtend, bool forceRGBA)
 {
 	SDL_Surface *s = IMG_Load(filename.c_str());
 	if (!s) {
@@ -231,7 +231,7 @@ bool Texture::CreateFromFile(const std::string &filename, bool forceRGBA)
 		return false;
 	}
 
-	if (!CreateFromSurface(s, forceRGBA)) {
+	if (!CreateFromSurface(s, potExtend, forceRGBA)) {
 		fprintf(stderr, "Texture::CreateFromFile: %s: creating texture from surface failed\n", filename.c_str());
 		SDL_FreeSurface(s);
 		return false;

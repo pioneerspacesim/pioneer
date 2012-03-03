@@ -2,7 +2,7 @@
 #include <cassert>
 
 ModelTexture::ModelTexture(const std::string &filename, bool preload) :
-	Texture(Texture::TARGET_2D, Format(Texture::Format::INTERNAL_RGBA, Texture::Format::DATA_RGBA, Texture::Format::DATA_UNSIGNED_BYTE), REPEAT, LINEAR, true),
+	Texture(Texture::TARGET_2D, Format(Format::INTERNAL_RGBA, Format::DATA_RGBA, Format::DATA_UNSIGNED_BYTE), Options(Options::REPEAT, Options::LINEAR, true)),
 	m_filename(filename)
 {
 	if (preload)
@@ -30,10 +30,10 @@ void ModelTexture::Load()
 
 
 BillboardTexture::BillboardTexture(const std::string &filename) :
-	Texture(Texture::TARGET_2D, Format(Texture::Format::INTERNAL_RGBA, Texture::Format::DATA_RGBA, Texture::Format::DATA_UNSIGNED_BYTE), REPEAT, LINEAR, true, true),
+	Texture(Texture::TARGET_2D, Format(Format::INTERNAL_RGBA, Format::DATA_RGBA, Format::DATA_UNSIGNED_BYTE), Options(Options::REPEAT, Options::LINEAR, true)),
 	m_filename(filename)
 {
-	CreateFromFile(filename, false);
+	CreateFromFile(filename, true, false);
 }
 
 
