@@ -17,6 +17,12 @@ namespace Graphics {
 class Texture : public RefCounted {
 public:
 
+	// texture type. ignore unless subclassing
+	// XXX this is possibly too GL-centric
+	enum Target {
+		TARGET_2D
+	};
+
 	// texture format definition. holds details of how the texture is stored
 	// internally in GL and what the incoming data looks like. see the docs
 	// for glTexImage* for details. You don't need to worry about this unless
@@ -54,12 +60,6 @@ public:
 		DataType dataType;
 	};
 
-	// texture type. ignore unless subclassing
-	// XXX this is possibly too GL-centric
-	enum Target {
-		TARGET_2D
-	};
-
 	// wrap mode. decides what to do when the texture is not large enough to
 	// cover the mesh. ignore unless subclassing.
 	enum WrapMode {
@@ -76,17 +76,17 @@ public:
 
 	virtual ~Texture();
 
-	// bind/unbind the texture to the currently active texture unit
-	virtual void Bind();
-	virtual void Unbind();
+	// get the texture target, eg GL_TEXTURE_2D. set by the subclass
+	Target GetTarget() const { return m_target; }
+
+	// return the Texture::Format definition of this texture. useful if you
+	// need to know the underlying texture format
+	const Format &GetFormat() const { return m_format; }
 
 	// see if the texture has an underlying GL texture yet. allows subclasses
 	// to support on-demand texture loading. Bind() will assert if IsCreated()
 	// is false.
 	bool IsCreated() const { return m_glTexture != 0; }
-	
-	// get the texture target, eg GL_TEXTURE_2D. set by the subclass
-	Target GetTarget() const { return m_target; }
 	
 	// return the pixel height/width of the texture. this usually corresponds
 	// to the size of the data that was used to create the texture (eg the
@@ -100,9 +100,10 @@ public:
 	float GetTextureWidth() const { return m_texWidth; }
 	float GetTextureHeight() const { return m_texHeight; }
 
-	// return the Texture::Format definition of this texture. useful if you
-	// need to know the underlying texture format
-	const Format &GetFormat() const { return m_format; }
+	// bind/unbind the texture to the currently active texture unit
+	// XXX DEPRECATED remove when LMR starts using the renderer
+	virtual void Bind();
+	virtual void Unbind();
 
 protected:
 
@@ -141,10 +142,6 @@ protected:
 	// loads the given file into a SDL surface and passes the result to
 	// CreateFromSurface()
 	bool CreateFromFile(const std::string &filename, bool forceRGBA = true);
-
-	// get the GL texture name. don't use this if you just want to bind the
-	// texture, use Bind() for that.
-	GLuint GetGLTexture() const { return m_glTexture; }
 
 private:
 	// textures should not be copied as they have shared GL state
