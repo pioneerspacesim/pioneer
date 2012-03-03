@@ -725,7 +725,7 @@ local function onGameStart ()
    end
    for k, ad in pairs (loaded_data.ads) do
       makeInst (Advert, ad)
-      makeInst (ad.isLocal and LocalCtr or ExternalCtr, ad.ctr)
+      makeInst (ad.ctr.isLocal and LocalCtr or ExternalCtr, ad.ctr)
       local ref = ad.board:AddAdvert (ad:desc(), onChat, onDelete)
       ads[ref] = ad
       updates[ad.board] = Game.time
