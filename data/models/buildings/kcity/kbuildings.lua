@@ -27,7 +27,8 @@ local building = function(name, modelname, bradius, lodpixels)
 end
 
 --define buildings
-building('kcity01', 'kbuilding', 30, {5, 60, 100})
+building('kcity01', 'kbuilding',   30, {5, 60, 100})
+building('kcity02', 'kbuilding02', 30, {5, 60, 100})
 --~ building('vbuilding02', 'newbuilding2', 250, {10, 40, 100})
 --~ building('vbuilding03', 'newbuilding3', 230, {8, 40, 100})
 --~ building('vbuilding04', 'newbuilding4', 220, {8, 40, 100})
