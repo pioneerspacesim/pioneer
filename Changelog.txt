@@ -6,7 +6,7 @@ Alpha 20
        (#980, #993, #992, #1018, #1032, #1034)
      * New thruster and laser graphics (#945, #962, #149, #148, #973)
      * Heading-hold flight mode (press CTRL while changing flight mode) (#450, #990)
-     * Rewritten DeliverPackage mission module (#1027, #1041, #1042)
+     * Rewritten DeliverPackage mission module (#1027, #1041, #1042, #1044)
      * Hungarian translation (#947, #894)
 
    * Minor changes and tweaks
