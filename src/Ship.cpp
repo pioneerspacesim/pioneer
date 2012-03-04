@@ -222,7 +222,7 @@ void Ship::SetPercentHull(float p)
 void Ship::UpdateMass()
 {
 	CalcStats();
-	SetMass(m_stats.total_mass*1000);
+	SetMass((m_stats.total_mass + GetFuel()*GetShipType().fuelTankMass)*1000);
 }
 
 bool Ship::OnDamage(Object *attacker, float kgDamage)
@@ -699,6 +699,9 @@ void Ship::TimeStepUpdate(const float timeStep)
 	AddRelTorque(GetShipType().angThrust * m_angThrusters);
 
 	DynamicBody::TimeStepUpdate(timeStep);
+
+	// fuel use decreases mass, so do this as the last thing in the frame
+	UpdateFuel(timeStep);
 }
 
 void Ship::FireWeapon(int num)
@@ -853,6 +856,8 @@ void Ship::UpdateFuel(const float timeStep)
 	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
 	FuelState currentState = GetFuelState();
 
+	UpdateMass();
+
 	if (currentState != lastState)
 		Pi::luaOnShipFuelChanged->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipFuelStatus", currentState));
 }
@@ -864,8 +869,6 @@ void Ship::StaticUpdate(const float timeStep)
 	if (GetHullTemperature() > 1.0) {
 		Pi::game->GetSpace()->KillBody(this);
 	}
-
-	UpdateFuel(timeStep);
 
 	UpdateAlertState();
 
