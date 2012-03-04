@@ -147,6 +147,9 @@ bool Texture::CreateFromSurface(Renderer *r, SDL_Surface *s, bool potExtend, boo
 	if (freeSurface)
 		SDL_FreeSurface(s);
 
+	m_width = width;
+	m_height = height;
+
 	return ret;
 }
 
