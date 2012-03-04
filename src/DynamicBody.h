@@ -29,7 +29,7 @@ public:
 	bool IsEnabled() const { return m_enabled; }
 	virtual void Disable();
 	virtual void Enable();
-	virtual double GetMass() const { return m_mass; }
+	virtual double GetMass() const { return m_mass; }	// XXX don't override this
 	virtual void TimeStepUpdate(const float timeStep);
 	void CalcExternalForce();
 	void ApplyAccel(const float timeStep);
