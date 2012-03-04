@@ -299,6 +299,7 @@ function LocalCtr:update()
       local price = price / jobs + profit
       if not reward or price < reward then
 	 reward = price; name = shipname
+	 break
       end
    end
    if self.urgency then
@@ -432,6 +433,7 @@ function ExternalCtr:init (station, urgency, risk)
       local t, r, p = self:shipCosts (s, equip, systems, drive)
       if r and (not self.reward or r < self.reward) then
 	 ship, self.due, self.reward, path = s, t, r, p
+	 break
       end
    end
    if not ship then
