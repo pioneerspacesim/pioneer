@@ -5,6 +5,7 @@
 #include <GL/glew.h>
 #include <string>
 #include "RefCounted.h"
+#include "Renderer.h"
 
 namespace Graphics {
 
@@ -14,7 +15,7 @@ namespace Graphics {
  * UITexture or ModelTexture, which will create an appropriate texture for
  * general UI or world drawing use.
  */
-class Texture : public RefCounted {
+class Texture : public RefCounted, public Renderable {
 public:
 
 	// texture type. ignore unless subclassing
@@ -89,18 +90,11 @@ public:
 		bool mipmaps;
 	};
 
-	virtual ~Texture();
-
 	// texture properties
 	Target GetTarget() const { return m_target; }
 	const Format &GetFormat() const { return m_format; }
 	const Options &GetOptions() const { return m_options; }
 
-	// see if the texture has an underlying GL texture yet. allows subclasses
-	// to support on-demand texture loading. Bind() will assert if IsCreated()
-	// is false.
-	bool IsCreated() const { return m_glTexture != 0; }
-	
 	// return the pixel height/width of the texture. this usually corresponds
 	// to the size of the data that was used to create the texture (eg the
 	// on-disk image file)
@@ -129,13 +123,12 @@ protected:
 		m_width(0),
 		m_height(0),
 		m_texWidth(1.0f),
-		m_texHeight(1.0f),
-		m_glTexture(0)
+		m_texHeight(1.0f)
 	{}
 
 	// create the underlying texture from raw data. data is expected to be of
-	// the format and type setup by the subclass in its Texture::Format
-	void CreateFromArray(const void *data, unsigned int width, unsigned int height);
+	// the format and type setup by the subclass in its
+	bool CreateFromArray(Renderer *r, const void *data, unsigned int width, unsigned int height);
 
 	// create the texture from a SDL surface. this method is designed for 24
 	// and 32-bit colour surfaces, and won't work properly if the incoming
@@ -151,11 +144,11 @@ protected:
 	// data format will be adjusted appropriately. this can save texture
 	// memory but doesn't always do the right thing if the user expects the
 	// texture to always have an alpha channel (eg for UI textures)
-	bool CreateFromSurface(SDL_Surface *s, bool potExtend = false, bool forceRGBA = true);
+	bool CreateFromSurface(Renderer *r, SDL_Surface *s, bool potExtend = false, bool forceRGBA = true);
 
 	// loads the given file into a SDL surface and passes the result to
 	// CreateFromSurface()
-	bool CreateFromFile(const std::string &filename, bool potExtend = false, bool forceRGBA = true);
+	bool CreateFromFile(Renderer *r, const std::string &filename, bool potExtend = false, bool forceRGBA = true);
 
 private:
 	// textures should not be copied as they have shared GL state
@@ -170,8 +163,6 @@ private:
 
 	float m_texWidth;
 	float m_texHeight;
-
-	GLuint m_glTexture;
 };
 
 }

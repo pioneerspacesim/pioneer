@@ -4432,7 +4432,7 @@ static void _write_model_crc_file()
 void LmrModelCompilerInit(Graphics::Renderer *renderer, TextureCache *textureCache)
 {
 	s_renderer = renderer;
-	s_textureCache = new TextureCache;;
+	s_textureCache = textureCache;
 
 	ShipThruster::Init(s_textureCache);
 
@@ -4560,6 +4560,4 @@ void LmrModelCompilerUninit()
 	delete s_staticBufferPool;
 
 	ShipThruster::Uninit();
-
-	delete s_textureCache;
 }

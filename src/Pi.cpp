@@ -496,10 +496,10 @@ void Pi::Init()
 
 	Pi::rng.seed(time(NULL));
 
-	Pi::textureCache = new TextureCache;
-
 	bool wantShaders = (config.Int("DisableShaders") == 0);
 	Pi::renderer = Graphics::Init(width, height, wantShaders);
+
+	Pi::textureCache = new TextureCache(renderer);
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)

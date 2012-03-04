@@ -5,103 +5,25 @@
 
 namespace Graphics {
 
-inline GLenum glTarget(Texture::Target target) {
-	switch (target) {
-		case Texture::TARGET_2D: return GL_TEXTURE_2D;
-		default: assert(0);
-	}
-}
-
-inline GLint glInternalFormat(Texture::Format::InternalFormat format) {
-	switch (format) {
-		case Texture::Format::INTERNAL_RGBA:            return GL_RGBA;
-		case Texture::Format::INTERNAL_RGB:             return GL_RGB;
-		case Texture::Format::INTERNAL_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
-		default: assert(0);
-	}
-}
-
-inline GLint glDataFormat(Texture::Format::DataFormat format) {
-	switch (format) {
-		case Texture::Format::DATA_RGBA:            return GL_RGBA;
-		case Texture::Format::DATA_RGB:             return GL_RGB;
-		case Texture::Format::DATA_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
-		default: assert(0);
-	}
-}
-
-inline GLint glDataType(Texture::Format::DataType type) {
-	switch (type) {
-		case Texture::Format::DATA_UNSIGNED_BYTE: return GL_UNSIGNED_BYTE;
-		case Texture::Format::DATA_FLOAT:         return GL_FLOAT;
-		default: assert(0);
-	}
-}
-
-Texture::~Texture()
-{
-	if (m_glTexture)
-		glDeleteTextures(1, &m_glTexture);
-}
-
+// XXX copied from RendererLegacy. delete when Bind and Unbind go away (ie
+// when LMR stops using them)
+struct TextureRenderInfo : public RenderInfo {
+	TextureRenderInfo();
+	virtual ~TextureRenderInfo();
+	GLenum target;
+	GLuint texture;
+};
 void Texture::Bind()
 {
-	assert(m_glTexture);
-	glBindTexture(glTarget(m_target), m_glTexture);
+	TextureRenderInfo *textureInfo = static_cast<TextureRenderInfo*>(GetRenderInfo());
+	glEnable(textureInfo->target);
+	glBindTexture(textureInfo->target, textureInfo->texture);
 }
-
 void Texture::Unbind()
 {
-	glBindTexture(glTarget(m_target), 0);
-}
-
-void Texture::CreateFromArray(const void *data, unsigned int width, unsigned int height)
-{
-	if (m_glTexture) {
-		glDeleteTextures(1, &m_glTexture);
-		m_glTexture = 0;
-	}
-
-	glEnable(glTarget(m_target));
-
-	glGenTextures(1, &m_glTexture);
-	glBindTexture(glTarget(m_target), m_glTexture);
-
-	if (m_options.wrapMode == Options::CLAMP) {
-		glTexParameteri(glTarget(m_target), GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(glTarget(m_target), GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	}
-	else {
-		glTexParameteri(glTarget(m_target), GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(glTarget(m_target), GL_TEXTURE_WRAP_T, GL_REPEAT);
-	}
-
-	if (m_options.filterMode == Options::NEAREST) {
-		glTexParameteri(glTarget(m_target), GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(glTarget(m_target), GL_TEXTURE_MIN_FILTER, m_options.mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
-	}
-	else {
-		glTexParameteri(glTarget(m_target), GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(glTarget(m_target), GL_TEXTURE_MIN_FILTER, m_options.mipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
-	}
-
-	// XXX feels a bit icky
-	switch (m_target) {
-		case TARGET_2D:
-			if (m_options.mipmaps)
-				glTexParameteri(glTarget(m_target), GL_GENERATE_MIPMAP, GL_TRUE);
-			glTexImage2D(glTarget(m_target), 0, glInternalFormat(m_format.internalFormat), width, height, 0, glDataFormat(m_format.dataFormat), glDataType(m_format.dataType), data);
-			break;
-
-		default:
-			assert(0);
-	}
-
-	glBindTexture(glTarget(m_target), 0);
-	glDisable(glTarget(m_target));
-
-	m_width = width;
-	m_height = height;
+	TextureRenderInfo *textureInfo = static_cast<TextureRenderInfo*>(GetRenderInfo());
+	glBindTexture(textureInfo->target, 0);
+	glDisable(textureInfo->target);
 }
 
 // RGBA and RGBpixel format for converting textures
@@ -164,7 +86,15 @@ static inline Uint32 ceil_pow2(Uint32 v) {
 	return v;
 }
 
-bool Texture::CreateFromSurface(SDL_Surface *s, bool potExtend, bool forceRGBA)
+bool Texture::CreateFromArray(Renderer *r, const void *data, unsigned int width, unsigned int height)
+{
+	m_width = width;
+	m_height = height;
+
+	return r->BindTextureData(this, data, width, height);
+}
+
+bool Texture::CreateFromSurface(Renderer *r, SDL_Surface *s, bool potExtend, bool forceRGBA)
 {
 	bool freeSurface = false;
 
@@ -211,19 +141,16 @@ bool Texture::CreateFromSurface(SDL_Surface *s, bool potExtend, bool forceRGBA)
 	}
 
 	SDL_LockSurface(s);
-	CreateFromArray(s->pixels, s->w, s->h);
+	bool ret = CreateFromArray(r, s->pixels, s->w, s->h);
 	SDL_UnlockSurface(s);
-
-	m_width = width;
-	m_height = height;
 
 	if (freeSurface)
 		SDL_FreeSurface(s);
 
-	return true;
+	return ret;
 }
 
-bool Texture::CreateFromFile(const std::string &filename, bool potExtend, bool forceRGBA)
+bool Texture::CreateFromFile(Renderer *r, const std::string &filename, bool potExtend, bool forceRGBA)
 {
 	SDL_Surface *s = IMG_Load(filename.c_str());
 	if (!s) {
@@ -231,7 +158,7 @@ bool Texture::CreateFromFile(const std::string &filename, bool potExtend, bool f
 		return false;
 	}
 
-	if (!CreateFromSurface(s, potExtend, forceRGBA)) {
+	if (!CreateFromSurface(r, s, potExtend, forceRGBA)) {
 		fprintf(stderr, "Texture::CreateFromFile: %s: creating texture from surface failed\n", filename.c_str());
 		SDL_FreeSurface(s);
 		return false;

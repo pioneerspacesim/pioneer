@@ -423,7 +423,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 
 		FT_Done_Glyph(glyph);
 
-		glfglyph.quad = new Gui::TexturedQuad(new GlyphTexture(pixBuf, sz, sz));
+		glfglyph.quad = new Gui::TexturedQuad(new GlyphTexture(Gui::Screen::GetRenderer(), pixBuf, sz, sz));
 
 		glfglyph.advx = float(m_face->glyph->advance.x) / 64.0 + advx_adjust;
 		glfglyph.advy = float(m_face->glyph->advance.y) / 64.0;
@@ -449,14 +449,16 @@ TextureFont::~TextureFont()
 }
 
 
-TextureFont::GlyphTexture::GlyphTexture(Uint8 *data, int width, int height) :
+TextureFont::GlyphTexture::GlyphTexture(Graphics::Renderer *r, Uint8 *data, int width, int height) :
 	Texture(Texture::TARGET_2D, Format(Format::INTERNAL_LUMINANCE_ALPHA, Format::DATA_LUMINANCE_ALPHA, Format::DATA_UNSIGNED_BYTE), Options(Options::CLAMP, Options::NEAREST, false))
 {
-	CreateFromArray(data, width, height);
+	CreateFromArray(r, data, width, height);
 }
 
+/*
 void TextureFont::GlyphTexture::Bind()
 {
 	Texture::Bind();
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 }
+*/

@@ -181,7 +181,8 @@ void WorldView::InitObject()
 	Add(m_combatTargetIndicator.label, 0, 0);
 	Add(m_targetLeadIndicator.label, 0, 0);
 
-	Gui::Texture *texture = new Gui::Texture(PIONEER_DATA_DIR "/icons/indicator_mousedir.png");
+	// XXX m_renderer not set yet
+	Gui::Texture *texture = new Gui::Texture(Pi::renderer, PIONEER_DATA_DIR "/icons/indicator_mousedir.png");
 	m_indicatorMousedir.Reset(new Gui::TexturedQuad(texture));
 	m_indicatorMousedirSize = vector2f(texture->GetWidth(), texture->GetHeight());
 

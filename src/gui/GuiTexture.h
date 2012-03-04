@@ -13,8 +13,8 @@ namespace Gui {
 // surface or loaded from disk
 class Texture : public Graphics::Texture {
 public:
-	Texture(SDL_Surface *s);
-	Texture(const std::string &filename);
+	Texture(Graphics::Renderer *r, SDL_Surface *s);
+	Texture(Graphics::Renderer *r, const std::string &filename);
 };
 
 

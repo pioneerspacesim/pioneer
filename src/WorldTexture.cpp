@@ -1,14 +1,6 @@
 #include "WorldTexture.h"
 #include <cassert>
 
-ModelTexture::ModelTexture(const std::string &filename, bool preload) :
-	Texture(Texture::TARGET_2D, Format(Format::INTERNAL_RGBA, Format::DATA_RGBA, Format::DATA_UNSIGNED_BYTE), Options(Options::REPEAT, Options::LINEAR, true)),
-	m_filename(filename)
-{
-	if (preload)
-		Load();
-}
-
 static inline Uint32 ceil_pow2(Uint32 v) {
 	v--;
 	v |= v >> 1;
@@ -20,20 +12,20 @@ static inline Uint32 ceil_pow2(Uint32 v) {
 	return v;
 }
 
-void ModelTexture::Load()
+ModelTexture::ModelTexture(Graphics::Renderer *r, const std::string &filename, bool preload) :
+	Texture(Texture::TARGET_2D, Format(Format::INTERNAL_RGBA, Format::DATA_RGBA, Format::DATA_UNSIGNED_BYTE), Options(Options::REPEAT, Options::LINEAR, true)),
+	m_filename(filename)
 {
-	assert(!IsCreated());
-	CreateFromFile(m_filename, false);
+	CreateFromFile(r, m_filename, false, false);
 	if (GetWidth() != ceil_pow2(GetWidth()) || GetHeight() != ceil_pow2(GetHeight()))
 		fprintf(stderr, "WARNING: texture '%s' is not power-of-two and may not display correctly\n", m_filename.c_str());
 }
 
-
-BillboardTexture::BillboardTexture(const std::string &filename) :
+BillboardTexture::BillboardTexture(Graphics::Renderer *r, const std::string &filename) :
 	Texture(Texture::TARGET_2D, Format(Format::INTERNAL_RGBA, Format::DATA_RGBA, Format::DATA_UNSIGNED_BYTE), Options(Options::REPEAT, Options::LINEAR, true)),
 	m_filename(filename)
 {
-	CreateFromFile(filename, true, false);
+	CreateFromFile(r, filename, true, false);
 }
 
 
@@ -52,7 +44,7 @@ ModelTexture *TextureCache::GetModelTexture(const std::string &filename, bool pr
 	if (i != m_modelTextureCache.end())
 		return static_cast<ModelTexture*>((*i).second);
 	
-	ModelTexture *t = new ModelTexture(filename, preload);
+	ModelTexture *t = new ModelTexture(m_renderer, filename, preload);
 	m_modelTextureCache.insert(std::make_pair(filename, t));
 
 	return t;
@@ -64,7 +56,7 @@ BillboardTexture *TextureCache::GetBillboardTexture(const std::string &filename)
 	if (i != m_billboardTextureCache.end())
 		return static_cast<BillboardTexture*>((*i).second);
 
-	BillboardTexture *t = new BillboardTexture(filename);
+	BillboardTexture *t = new BillboardTexture(m_renderer, filename);
 	m_billboardTextureCache.insert(std::make_pair(filename, t));
 
 	return t;

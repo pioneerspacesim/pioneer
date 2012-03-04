@@ -14,8 +14,7 @@ private:
 
 	class GlyphTexture : public Graphics::Texture {
 	public:
-		GlyphTexture(Uint8 *data, int width, int height);
-		virtual void Bind();
+		GlyphTexture(Graphics::Renderer *r, Uint8 *data, int width, int height);
 	};
 
 public:

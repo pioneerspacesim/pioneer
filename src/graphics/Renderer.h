@@ -4,7 +4,6 @@
 #include "libs.h"
 
 class Light;
-class Texture;
 
 namespace Graphics {
 
@@ -38,6 +37,7 @@ class RendererLegacy;
 class StaticMesh;
 class Surface;
 class VertexArray;
+class Texture;
 
 // first some enums
 enum LineType {
@@ -123,6 +123,9 @@ public:
 	virtual bool DrawPointSprites(int count, const vector3f *positions, const Material *material, float size) { return false; }
 	//complex unchanging geometry that is worthwhile to store in VBOs etc.
 	virtual bool DrawStaticMesh(StaticMesh *thing) { return false; }
+
+	// bind the given data to a texture
+	virtual bool BindTextureData(Texture *texture, const void *data, unsigned int width, unsigned int height) { return false; }
 
 	// take a ticket representing the current renderer state. when the ticket
 	// is deleted, the renderer state is restored

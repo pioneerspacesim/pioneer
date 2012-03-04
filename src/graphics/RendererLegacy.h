@@ -5,6 +5,8 @@
 
 namespace Graphics {
 
+class Texture;
+
 // Fixed function renderer
 class RendererLegacy : public Renderer
 {
@@ -49,6 +51,8 @@ public:
 	virtual bool DrawSurface(const Surface *surface);
 	virtual bool DrawPointSprites(int count, const vector3f *positions, const Material *material, float size);
 	virtual bool DrawStaticMesh(StaticMesh *thing);
+
+	virtual bool BindTextureData(Texture *texture, const void *data, unsigned int width, unsigned int height);
 
 protected:
 	virtual void PushState();

@@ -5,6 +5,8 @@
 #include "graphics/Texture.h"
 #include <map>
 
+namespace Graphics { class Renderer; }
+
 namespace Gui {
 
 	/*
@@ -27,7 +29,7 @@ namespace Gui {
 
 		class GradientTexture : public Graphics::Texture {
 		public:
-			GradientTexture(const Color &begin, const Color &end, Direction direction);
+			GradientTexture(Graphics::Renderer *r, const Color &begin, const Color &end, Direction direction);
 		};
 
 		ScopedPtr<TexturedQuad> m_quad;

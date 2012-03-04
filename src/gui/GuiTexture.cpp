@@ -7,16 +7,16 @@ using namespace Graphics;
 
 namespace Gui {
 
-Texture::Texture(SDL_Surface *s) :
+Texture::Texture(Renderer *r, SDL_Surface *s) :
     Graphics::Texture(TARGET_2D, Format(Format::INTERNAL_RGBA, Format::DATA_RGBA, Format::DATA_UNSIGNED_BYTE), Options(Options::CLAMP, Options::LINEAR, false))
 {
-	CreateFromSurface(s, true);
+	CreateFromSurface(r, s, true);
 }
 
-Texture::Texture(const std::string &filename) :
+Texture::Texture(Renderer *r, const std::string &filename) :
     Graphics::Texture(TARGET_2D, Format(Format::INTERNAL_RGBA, Format::DATA_RGBA, Format::DATA_UNSIGNED_BYTE), Options(Options::CLAMP, Options::LINEAR, false))
 {
-	CreateFromFile(filename, true);
+	CreateFromFile(r, filename, true);
 }
 
 

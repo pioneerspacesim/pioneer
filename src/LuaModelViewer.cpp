@@ -668,10 +668,10 @@ int main(int argc, char **argv)
 	}
 	glewInit();
 
-	TextureCache *textureCache = new TextureCache;
-
 	renderer = Graphics::Init(g_width, g_height, true);
 	Gui::Init(renderer, g_width, g_height, g_width, g_height);
+
+	TextureCache *textureCache = new TextureCache(renderer);
 
 	LmrModelCompilerInit(renderer, textureCache);
 	LmrNotifyScreenWidth(g_width);

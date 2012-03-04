@@ -7,7 +7,7 @@ namespace Gui {
 
 Image::Image(const char *filename): Widget(), m_color(Color::WHITE)
 {
-	Texture *texture = new Texture(filename);
+	Texture *texture = new Texture(Gui::Screen::GetRenderer(), filename);
 	m_quad.Reset(new TexturedQuad(texture));
 
 	m_width = texture->GetWidth();
