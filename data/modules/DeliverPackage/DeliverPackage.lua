@@ -299,6 +299,7 @@ function LocalCtr:update()
       local price = price / jobs + profit
       if not reward or price < reward then
 	 reward = price; name = shipname
+	 break
       end
    end
    if self.urgency then
@@ -432,6 +433,7 @@ function ExternalCtr:init (station, urgency, risk)
       local t, r, p = self:shipCosts (s, equip, systems, drive)
       if r and (not self.reward or r < self.reward) then
 	 ship, self.due, self.reward, path = s, t, r, p
+	 break
       end
    end
    if not ship then
@@ -601,10 +603,7 @@ local function onUpdateBB (station)
 	 ad.board:RemoveAdvert (ref)
       end
    end
-   local ad = makeAdvert (station, false)
-   if ad and station == Game.player:GetDockedWith() then
-      UI.ImportantMessage (ad.ctr.isLocal and "Local" or "Non Local")
-   end
+   makeAdvert (station, false)
 end
 
 local function spawnPirates (n, ships, mission)
@@ -725,7 +724,7 @@ local function onGameStart ()
    end
    for k, ad in pairs (loaded_data.ads) do
       makeInst (Advert, ad)
-      makeInst (ad.isLocal and LocalCtr or ExternalCtr, ad.ctr)
+      makeInst (ad.ctr.isLocal and LocalCtr or ExternalCtr, ad.ctr)
       local ref = ad.board:AddAdvert (ad:desc(), onChat, onDelete)
       ads[ref] = ad
       updates[ad.board] = Game.time
