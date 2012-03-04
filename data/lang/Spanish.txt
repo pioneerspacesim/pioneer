@@ -66,7 +66,7 @@ FIT
 REMOVE
     -
 BUY_THIS_SHIP
-    Adquirir esta nave
+    Adquirir
 SHIP_TYPE
     Tipo de nave
 REGISTRATION_ID
@@ -1073,11 +1073,11 @@ EXTERNAL_ATMOSPHERIC_PRESSURE
 HULL_TEMP
     Temp. del casco
 WEAPON_TEMP
-    Temp. del armamento
+    Temp. armamento
 HULL_INTEGRITY
-    Integridad del casco
+    Integr. casco
 SHIELD_INTEGRITY
-    Integridad del escudo
+    Integr. escudo
 FUEL
     Fuel
 LAUNCH_PERMISSION_DENIED_BUSY
@@ -1093,9 +1093,9 @@ DOCKED
 HYPERSPACE
     Hiperespacio
 HEADING_LOCK_FORWARD
-    Bloqueo direccional (progresión)
+    Bloqueo direcc. (pro)
 HEADING_LOCK_BACKWARD
-    Bloqueo direccional (retrogresión)
+    Bloqueo direcc. (retro)
 SET_SPEED_KM_S
     Velocidad: %speed{f.2} km/s
 SET_SPEED_M_S
