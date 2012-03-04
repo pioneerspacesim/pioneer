@@ -12,7 +12,7 @@ local building = function(name, modelname, bradius, lodpixels)
 			--name, diffuse rgba, spec rgb+intensity, emit rgb
 			set_material('wall', 0.7,0.7,0.8,1, .2,.2,.2,5, 0,0,0)
 			texture('diffuse.png')
-			--~ texture_glow('glowmap.png')
+			texture_glow('glow.png')
 			use_material('wall')
 			--text(modelname, v(0, bradius, 0), v(0,0,1), v(1,0,0), 8)
 			if lod == 1 then
@@ -28,14 +28,5 @@ end
 
 --define buildings
 building('kcity01', 'kbuilding',   30, {5, 60, 100})
-building('kcity02', 'kbuilding02', 30, {5, 60, 100})
---~ building('vbuilding02', 'newbuilding2', 250, {10, 40, 100})
---~ building('vbuilding03', 'newbuilding3', 230, {8, 40, 100})
---~ building('vbuilding04', 'newbuilding4', 220, {8, 40, 100})
---~ building('vbuilding05', 'newbuilding5', 130, {6, 30, 100})
---~ building('vbuilding06', 'newbuilding6', 120, {6, 30, 100})
---~ building('vbuilding07', 'newbuilding7', 100, {5, 20, 100})
---~ building('vbuilding08', 'newbuilding8', 70,  {4, 10, 100})
---~ building('vbuilding09', 'newbuilding9', 100, {5, 15, 100})
---~ building('vbuilding10', 'newbuilding10', 40, {2, 5, 100})
---~ building('vbuilding11', 'newbuilding11', 200,{10, 40, 100})
+building('kcity02', 'kbuilding02', 45, {8, 50, 100})
+building('kcity03', 'kbuilding03', 50, {12,70, 100})
