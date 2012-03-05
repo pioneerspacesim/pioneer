@@ -80,9 +80,6 @@ public:
 	bool Undock();
 	virtual void TimeStepUpdate(const float timeStep);
 	virtual void StaticUpdate(const float timeStep);
-	virtual double GetMass() const {
-		return DynamicBody::GetMass() + GetFuel() * (GetShipType().fuelTankMass * 1000);
-	}
 
 	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);

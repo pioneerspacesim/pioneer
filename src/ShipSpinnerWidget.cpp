@@ -57,16 +57,10 @@ void ShipSpinnerWidget::Draw()
 		glVertex2f(m_width, 0.0f);
 	glEnd();
 
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
+	Graphics::Renderer::StateTicket ticket(Pi::renderer);
 
 	Pi::renderer->SetPerspectiveProjection(45.f, 1.f, 1.f, 10000.f);
 	Pi::renderer->SetTransform(matrix4x4f::Identity());
-
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-	glDepthRange (0.0, 1.0); //XXX this is the default so perhaps not necessary
 
 	Pi::renderer->SetDepthTest(true);
 	Pi::renderer->ClearDepthBuffer();
@@ -83,11 +77,4 @@ void ShipSpinnerWidget::Draw()
 	rot[14] = -1.5f * m_model->GetDrawClipRadius();
 
 	m_model->Render(rot, &m_params);
-
-	glPopAttrib();
-
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
 }

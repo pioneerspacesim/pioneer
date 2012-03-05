@@ -1058,6 +1058,8 @@ MANUAL_CONTROL
     Manual control
 COMPUTER_SPEED_CONTROL
     Computer speed control
+COMPUTER_HEADING_CONTROL
+    Computer heading control
 AUTOPILOT_ON
     Autopilot on
 SHIP_VELOCITY_BY_REFERENCE_OBJECT
@@ -1090,6 +1092,10 @@ DOCKED
     Docked
 HYPERSPACE
     Hyperspace
+HEADING_LOCK_FORWARD
+    Heading Lock (fore)
+HEADING_LOCK_BACKWARD
+    Heading Lock (aft)
 SET_SPEED_KM_S
     Set speed: %speed{f.2} km/s
 SET_SPEED_M_S

@@ -2,8 +2,10 @@ Alpha 20
 
    * New features
      * Thrusters now require fuel to operate. Refuel when you dock or buy water
-       refuel during flight (#980, #993, #992)
+       refuel during flight. Fuel club will refill and sell you water cheaply.
+       (#980, #993, #992, #1018, #1032, #1034, #1043, #1045)
      * New thruster and laser graphics (#945, #962, #149, #148, #973)
+     * Heading-hold flight mode (press CTRL while changing flight mode) (#450, #990)
      * Hungarian translation (#947, #894)
 
    * Minor changes and tweaks
@@ -11,8 +13,9 @@ Alpha 20
      * Render projectiles out to 20km from the camera (#957)
      * FOV is now specified vertically (and correctly) (#971)
      * Cargo screen updates automatically when cargo changes (#982)
-	 * Fewer background stars, but brighter. Looks about the same but takes
-	   less effort to construct and draw (#1020)
+     * Fewer background stars, but brighter. Looks about the same but takes
+       less effort to construct and draw (#1020)
+     * Change death spin to a simple zoom (#916, #1033)
 
    * Fixes
      * Updated zlib and libpng DLLs for MSVC to fix screenshot crash (#942, #645)
@@ -36,14 +39,21 @@ Alpha 20
      * Close comms menu on hyperspace (#996, #984)
      * Fix game crash if game is loaded over a loaded game (#1014, #1015)
      * Fix bulletin boards being re-created after game load (#1017)
-	 * Don't allocate and deallocate hyperspace starfield every frame (#1020)
+     * Don't allocate and deallocate hyperspace starfield every frame (#1020)
+     * Stop attacking ships continuing to fire on dead player (#1033, #57)
+     * Don't extend model textures to power-of-two sizes (#923)
 
    * Script changes
+     * New FlightLog class that tracks systems and starports visited by the
+       (#1021)
      * New method Ship.SetFuelPercent and attribute Ship.fuel to set and get
        ship fuel amount. New event onShipFuelChanged to report fuel status (#980)
+     * Net method Ship.Explode to destroy the ship immediately (#974)
+	 
 
    * Internal changes
-     * New graphics/rendering infrastructure (#960, #913, #1001, #1002, #1013)
+     * New graphics/rendering infrastructure (#960, #913, #1001, #1002, #1013,
+       #1024, #1007)
      * Silence MSVC warnings (#964)
      * Remove dependencies on Pi from Texture (#969) and Font (#981)
      * Move EquipSet into its own header (#991)

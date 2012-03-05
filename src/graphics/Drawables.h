@@ -2,8 +2,9 @@
 #define _DRAWABLES_H
 
 #include "libs.h"
-#include "graphics/VertexArray.h"
 #include "graphics/Renderer.h"
+#include "graphics/Surface.h"
+#include "graphics/VertexArray.h"
 
 namespace Graphics {
 
@@ -44,6 +45,26 @@ private:
 	vector3f m_points[2];
 	Color m_colors[2];
 	float m_width;
+};
+
+//Three dimensional sphere (subdivided icosahedron) with normals
+//and spherical texture coordinates.
+class Sphere3D : public Drawable {
+public:
+	//subdivisions must be 0-4
+	Sphere3D(RefCountedPtr<Material> material, int subdivisions=0, float scale=1.f);
+	virtual void Draw(Renderer *r);
+
+	RefCountedPtr<Material> GetMaterial() { return m_surface->GetMaterial(); }
+
+private:
+	ScopedPtr<Surface> m_surface;
+	//add a new vertex, return the index
+	int AddVertex(const vector3f &v, const vector3f &n);
+	//add three vertex indices to form a triangle
+	void AddTriangle(int i1, int i2, int i3);
+	void Subdivide(const matrix4x4f &trans, const vector3f &v1, const vector3f &v2, const vector3f &v3,
+		int i1, int i2, int i3, int depth);
 };
 
 }
