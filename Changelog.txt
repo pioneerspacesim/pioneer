@@ -16,6 +16,7 @@ Alpha 20
      * Fewer background stars, but brighter. Looks about the same but takes
        less effort to construct and draw (#1020)
      * Change death spin to a simple zoom (#916, #1033)
+     * Various moons in the Sol system now appear in the right order on the map (#1050)
 
    * Fixes
      * Updated zlib and libpng DLLs for MSVC to fix screenshot crash (#942, #645)
