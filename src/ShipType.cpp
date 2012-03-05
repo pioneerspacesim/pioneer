@@ -193,11 +193,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 
 	LUA_DEBUG_START(L);
 	_get_string_attrib(L, "name", s.name, "");
-	if (s.name.empty())
-		Error("Ship has no name");
 	_get_string_attrib(L, "model", s.lmrModelName, "");
-	if (s.lmrModelName.empty())
-		Error("Missing model name in ship");
 	_get_float_attrib(L, "reverse_thrust", s.linThrust[ShipType::THRUSTER_REVERSE], 0.0f);
 	_get_float_attrib(L, "forward_thrust", s.linThrust[ShipType::THRUSTER_FORWARD], 0.0f);
 	_get_float_attrib(L, "up_thrust", s.linThrust[ShipType::THRUSTER_UP], 0.0f);
@@ -265,6 +261,21 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 	}
 	lua_pop(L, 1);
 	LUA_DEBUG_END(L, 0);
+
+	//sanity check
+	if (s.name.empty())
+		return luaL_error(L, "Ship has no name");
+
+	if (s.lmrModelName.empty())
+		return luaL_error(L, "Missing model name in ship");
+
+	//this shouldn't necessarily be a fatal problem, could just warn+mark ship unusable
+	//or replace with proxy geometry
+	try {
+		LmrLookupModelByName(s.lmrModelName.c_str());
+	} catch (LmrModelNotFoundException &) {
+		return luaL_error(L, "Model %s is not defined", s.lmrModelName.c_str());
+	}
 
 	ShipType::types[s.name] = s;
 	list->push_back(s.name);
