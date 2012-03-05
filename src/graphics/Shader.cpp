@@ -160,8 +160,9 @@ bool Shader::Use()
 
 void Shader::Unuse()
 {
-	glUseProgram(0);
+	if (shadersEnabled)
+		glUseProgram(0);
 	m_currentShader = 0;
 }
 
-} /* namespace Render */
+}

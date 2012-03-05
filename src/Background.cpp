@@ -36,6 +36,8 @@ Starfield::~Starfield()
 {
 	delete m_model;
 	delete m_shader;
+	delete[] m_hyperVtx;
+	delete[] m_hyperCol;
 }
 
 void Starfield::Init()
@@ -48,6 +50,9 @@ void Starfield::Init()
 	mat->shader = m_shader;
 	mat->unlit = true;
 	m_model->AddSurface(new Surface(POINTS, stars, mat));
+
+	m_hyperVtx = 0;
+	m_hyperCol = 0;
 }
 
 void Starfield::Fill(unsigned long seed)
@@ -59,36 +64,17 @@ void Starfield::Fill(unsigned long seed)
 
 	//fill the array
 	for (int i=0; i<BG_STAR_MAX; i++) {
-		float col = float(rand.Double(0,1));
-
-		col *= col * col * 3.0;
-		col = (col > 0.725 ? 1.45-col : col);
-		col = Clamp(col, 0.00f, 0.725f);
-
-		if (i<6) {
-			col = 0.9;
-		} else if (i<21) {
-			col = 0.85;
-		} else if (i<46) {
-			col = 0.8;
-		}
+		float col = float(rand.Double(0.2,0.7));
 
 		// this is proper random distribution on a sphere's surface
 		const float theta = float(rand.Double(0.0, 2.0*M_PI));
 		const float u = float(rand.Double(-1.0, 1.0));
 
-		const double red = rand.Double(col-0.05f,col);
-
 		va->Add(vector3f(
 				1000.0f * sqrt(1.0f - u*u) * cos(theta),
 				1000.0f * u,
 				1000.0f * sqrt(1.0f - u*u) * sin(theta)
-			), Color(
-				red,
-				rand.Double(col-0.1f,red),
-				rand.Double(col-0.05f,col),
-				1.f
-			)
+			), Color(col, col, col,	1.f)
 		);
 	}
 }
@@ -98,7 +84,7 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 	if (AreShadersEnabled()) {
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 	} else {
-		glDisable(GL_POINT_SMOOTH);
+		glDisable(GL_POINT_SMOOTH); //too large if smoothing is on
 		glPointSize(1.0f);
 	}
 
@@ -124,27 +110,27 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 		double hyperspaceProgress = Pi::game->GetHyperspaceProgress();
 
 		//XXX this is a lot of lines
-		vector3f *vtx = new vector3f[BG_STAR_MAX * 2];
-		Color *col = new Color[BG_STAR_MAX * 2];
+		if (m_hyperVtx == 0) {
+			m_hyperVtx = new vector3f[BG_STAR_MAX * 2];
+			m_hyperCol = new Color[BG_STAR_MAX * 2];
+		}
 		VertexArray *va = m_model->GetSurface(0)->GetVertices();
 		for (int i=0; i<BG_STAR_MAX; i++) {
 			
 			vector3f v(va->position[i]);
 			v += vector3f(pz*hyperspaceProgress*mult);
 
-			vtx[i*2] = va->position[i] + v;
-			col[i*2] = va->diffuse[i];
+			m_hyperVtx[i*2] = va->position[i] + v;
+			m_hyperCol[i*2] = va->diffuse[i];
 
-			vtx[i*2+1] = v;
-			col[i*2+1] = va->diffuse[i];
+			m_hyperVtx[i*2+1] = v;
+			m_hyperCol[i*2+1] = va->diffuse[i];
 		}
-		Pi::renderer->DrawLines(BG_STAR_MAX*2, vtx, col);
-		delete[] vtx;
+		Pi::renderer->DrawLines(BG_STAR_MAX*2, m_hyperVtx, m_hyperCol);
 	}
 
 	if (AreShadersEnabled()) {
 		glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
-		glDisable(GL_POINT_SMOOTH);
 	}
 }
 

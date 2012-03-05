@@ -23,8 +23,9 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
-#include "graphics/Material.h"
+#include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
+#include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/Shader.h"
 
@@ -221,7 +222,7 @@ void Ship::SetPercentHull(float p)
 void Ship::UpdateMass()
 {
 	CalcStats();
-	SetMass(m_stats.total_mass*1000);
+	SetMass((m_stats.total_mass + GetFuel()*GetShipType().fuelTankMass)*1000);
 }
 
 bool Ship::OnDamage(Object *attacker, float kgDamage)
@@ -690,12 +691,17 @@ void Ship::TimeStepUpdate(const float timeStep)
 	if (m_flightState == FLYING) Enable();
 	else Disable();
 
+	if (IsDead()) Disable();
+
 	vector3d maxThrust = GetMaxThrust(m_thrusters);
 	AddRelForce(vector3d(maxThrust.x*m_thrusters.x, maxThrust.y*m_thrusters.y,
 		maxThrust.z*m_thrusters.z));
 	AddRelTorque(GetShipType().angThrust * m_angThrusters);
 
 	DynamicBody::TimeStepUpdate(timeStep);
+
+	// fuel use decreases mass, so do this as the last thing in the frame
+	UpdateFuel(timeStep);
 }
 
 void Ship::FireWeapon(int num)
@@ -850,6 +856,8 @@ void Ship::UpdateFuel(const float timeStep)
 	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
 	FuelState currentState = GetFuelState();
 
+	UpdateMass();
+
 	if (currentState != lastState)
 		Pi::luaOnShipFuelChanged->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipFuelStatus", currentState));
 }
@@ -861,8 +869,6 @@ void Ship::StaticUpdate(const float timeStep)
 	if (GetHullTemperature() > 1.0) {
 		Pi::game->GetSpace()->KillBody(this);
 	}
-
-	UpdateFuel(timeStep);
 
 	UpdateAlertState();
 
@@ -1069,19 +1075,19 @@ void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 
 		// draw shield recharge bubble
 		if (m_stats.shield_mass_left < m_stats.shield_mass) {
-			//XXX replace gluSphere with a lmrmodel or
-			//generate sphere geometry elswhere
-			float shield = 0.01f*GetPercentShields();
-			glDisable(GL_LIGHTING);
-			renderer->SetBlendMode(Graphics::BLEND_ALPHA);
-			glColor4f((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
+			const float shield = 0.01f*GetPercentShields();
+			renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
 			glPushMatrix();
-			glTranslatef(GLfloat(viewCoords.x), GLfloat(viewCoords.y), GLfloat(viewCoords.z));
-			Graphics::simpleShader->Use();
-			gluSphere(Pi::gluQuadric, GetLmrCollMesh()->GetBoundingRadius(), 20, 20);
-			Graphics::simpleShader->Unuse();
+			matrix4x4f trans = matrix4x4f::Identity();
+			trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
+			trans.Scale(GetLmrCollMesh()->GetBoundingRadius());
+			renderer->SetTransform(trans);
+
+			//fade based on strength
+			Sfx::shieldEffect->GetMaterial()->diffuse =
+				Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
+			Sfx::shieldEffect->Draw(renderer);
 			glPopMatrix();
-			glEnable(GL_LIGHTING);
 			renderer->SetBlendMode(Graphics::BLEND_SOLID);
 		}
 	}

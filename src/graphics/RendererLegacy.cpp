@@ -227,7 +227,7 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 	}
 	//XXX should probably disable unused lights (for legacy renderer only)
 
-	State::SetNumLights(numlights);
+	Graphics::State::SetNumLights(numlights);
 
 	return true;
 }
@@ -523,8 +523,8 @@ void RendererLegacy::EnableClientStates(const VertexArray *v)
 
 void RendererLegacy::DisableClientStates()
 {
-	for(int i=0; i!=m_clientStates.size(); i++)
-		glDisableClientState(m_clientStates[i]);
+	for (std::vector<GLenum>::const_iterator i = m_clientStates.begin(); i != m_clientStates.end(); ++i)
+		glDisableClientState(*i);
 	m_clientStates.clear();
 }
 
@@ -603,6 +603,27 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	mesh->cached = true;
 
 	return true;
+}
+
+// XXX very heavy. in the future when all GL calls are made through the
+// renderer, we can probably do better by trackingn current state and
+// only restoring the things that have changed
+void RendererLegacy::PushState()
+{
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+}
+
+void RendererLegacy::PopState()
+{
+	glPopAttrib();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
 }
 
 }
