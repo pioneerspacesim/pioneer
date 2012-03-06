@@ -6,7 +6,6 @@
 #include "EquipType.h"
 #include "Ship.h" // for the flight state and ship animation enums
 #include "SpaceStation.h" // for the space station animation enums
-#include "WorldTexture.h"
 #include "graphics/Drawables.h"
 #include "graphics/Material.h"
 #include "graphics/Graphics.h"
@@ -671,9 +670,7 @@ int main(int argc, char **argv)
 	renderer = Graphics::Init(g_width, g_height, true);
 	Gui::Init(renderer, g_width, g_height, g_width, g_height);
 
-	TextureCache *textureCache = new TextureCache(renderer);
-
-	LmrModelCompilerInit(renderer, textureCache);
+	LmrModelCompilerInit(renderer);
 	LmrNotifyScreenWidth(g_width);
 
 	ShipType::Init();

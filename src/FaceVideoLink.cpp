@@ -132,7 +132,8 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 		_blit_image(s, filename, 0, 0);
 	}
 
-	m_quad.Reset(new Gui::TexturedQuad(new Gui::Texture(Gui::Screen::GetRenderer(), s)));
+	// XXX TEXTURE invalidate the old one
+	m_quad.Reset(new Gui::TexturedQuad(Gui::Screen::GetRenderer()->GetTexture(Gui::SurfaceTextureDescriptor("face", s))));
 
 	SDL_FreeSurface(s);
 }

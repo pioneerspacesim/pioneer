@@ -27,9 +27,25 @@ namespace Gui {
 
 	private:
 
-		class GradientTexture : public Graphics::Texture {
+		class GradientTextureDescriptor : public Graphics::TextureDescriptor {
 		public:
-			GradientTexture(Graphics::Renderer *r, const Color &begin, const Color &end, Direction direction);
+			GradientTextureDescriptor(const Color &beginColor, const Color &endColor, Direction direction);
+
+			virtual const Graphics::TextureDescriptor::Data *GetData() const;
+
+			virtual bool IsEqual(const TextureDescriptor &b) const {
+				if (!TextureDescriptor::IsEqual(b)) return false;
+				const GradientTextureDescriptor *bb = dynamic_cast<const GradientTextureDescriptor*>(&b);
+				return (bb && bb->direction == direction && bb->beginColor == beginColor && bb->endColor == endColor);
+			}
+
+			virtual GradientTextureDescriptor *Clone() const {
+				return new GradientTextureDescriptor(*this);
+			}
+
+			const Color beginColor;
+			const Color endColor;
+			const Direction direction;
 		};
 
 		ScopedPtr<TexturedQuad> m_quad;

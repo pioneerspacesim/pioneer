@@ -182,9 +182,9 @@ void WorldView::InitObject()
 	Add(m_targetLeadIndicator.label, 0, 0);
 
 	// XXX m_renderer not set yet
-	Gui::Texture *texture = new Gui::Texture(Pi::renderer, PIONEER_DATA_DIR "/icons/indicator_mousedir.png");
+	Graphics::Texture *texture = Pi::renderer->GetTexture(Gui::FileTextureDescriptor(PIONEER_DATA_DIR "/icons/indicator_mousedir.png"));
 	m_indicatorMousedir.Reset(new Gui::TexturedQuad(texture));
-	m_indicatorMousedirSize = vector2f(texture->GetWidth(), texture->GetHeight());
+	m_indicatorMousedirSize = texture->GetSize();
 
 	//get near & far clipping distances
 	//XXX m_renderer not set yet

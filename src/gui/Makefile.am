@@ -9,6 +9,7 @@ INCLUDES = -I$(srcdir)/..
 noinst_LIBRARIES = libgui.a
 noinst_HEADERS = \
 	Gui.h \
+	GuiTexture.h \
 	GuiAdjustment.h \
 	GuiBox.h \
 	GuiButton.h \
@@ -32,7 +33,6 @@ noinst_HEADERS = \
 	GuiTabbed.h \
 	GuiTextEntry.h \
 	GuiTextLayout.h \
-	GuiTexture.h \
 	GuiToggleButton.h \
 	GuiToolTip.h \
 	GuiVScrollBar.h \
@@ -41,6 +41,7 @@ noinst_HEADERS = \
 
 libgui_a_SOURCES = \
 	Gui.cpp \
+	GuiTexture.cpp \
 	GuiBox.cpp \
 	GuiButton.cpp \
 	GuiContainer.cpp \
@@ -61,7 +62,6 @@ libgui_a_SOURCES = \
 	GuiTabbed.cpp \
 	GuiTextEntry.cpp \
 	GuiTextLayout.cpp \
-	GuiTexture.cpp \
 	GuiToggleButton.cpp \
 	GuiToolTip.cpp \
 	GuiVScrollBar.cpp \

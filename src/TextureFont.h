@@ -3,7 +3,7 @@
 
 #include "Font.h"
 #include "Color.h"
-#include "graphics/Texture.h"
+#include "graphics/TextureDescriptor.h"
 
 namespace Graphics { class Renderer; }
 namespace Gui { class TexturedQuad; }
@@ -12,9 +12,28 @@ class TextureFont : public Font {
 
 private:
 
-	class GlyphTexture : public Graphics::Texture {
+	class GlyphTextureDescriptor : public Graphics::TextureDescriptor {
 	public:
-		GlyphTexture(Graphics::Renderer *r, Uint8 *data, int width, int height);
+		GlyphTextureDescriptor(const std::string &filename, Uint32 codePoint, const void *data, const vector2f &size);
+
+		virtual const Graphics::TextureDescriptor::Data *GetData() const;
+
+		virtual bool IsEqual(const Graphics::TextureDescriptor &b) const {
+			if (!Graphics::TextureDescriptor::IsEqual(b)) return false;
+			const GlyphTextureDescriptor *bb = dynamic_cast<const GlyphTextureDescriptor*>(&b);
+			return (bb && bb->codePoint == codePoint && bb->filename == filename);
+		}
+
+		virtual GlyphTextureDescriptor *Clone() const {
+			return new GlyphTextureDescriptor(*this);
+		}
+
+		const std::string filename;
+		const Uint32 codePoint;
+	
+	private:
+		const void *m_data;
+		const vector2f m_size;
 	};
 
 public:

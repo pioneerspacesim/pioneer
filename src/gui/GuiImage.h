@@ -6,8 +6,6 @@
 #include "Color.h"
 
 namespace Gui {
-	class Texture;
-
 	class Image: public Widget {
 	public:
 		Image(const char *filename);

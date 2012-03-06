@@ -50,16 +50,16 @@ namespace ShipThruster {
 	//cool purple-ish
 	static Color color(0.7f, 0.6f, 1.f, 1.f);
 
-	static void Init(TextureCache *tcache) {
+	static void Init(Graphics::Renderer *renderer) {
 		tVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 		gVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
 		//set up materials
-		tMat.texture0 = tcache->GetBillboardTexture(PIONEER_DATA_DIR"/textures/thruster.png");
+		tMat.texture0 = renderer->GetTexture(WorldTextureDescriptor(PIONEER_DATA_DIR"/textures/thruster.png"));
 		tMat.unlit = true;
 		tMat.twoSided = true;
 		tMat.diffuse = color;
-		glowMat.texture0 = tcache->GetBillboardTexture(PIONEER_DATA_DIR"/textures/halo.png");
+		glowMat.texture0 = renderer->GetTexture(WorldTextureDescriptor(PIONEER_DATA_DIR"/textures/halo.png"));
 		glowMat.unlit = true;
 		glowMat.twoSided = true;
 		glowMat.diffuse = color;
@@ -260,7 +260,6 @@ static lua_State *sLua;
 static int s_numTrisRendered;
 static std::string s_cacheDir;
 static bool s_recompileAllModels = true;
-static TextureCache *s_textureCache;
 static Graphics::Renderer *s_renderer;
 
 struct Vertex {
@@ -375,6 +374,7 @@ public:
 			const Op &op = m_ops[i];
 			switch (op.type) {
 			case OP_DRAW_ELEMENTS:
+				/* XXX TEXTURE
 				if (op.elems.texture != 0 ) {
 					UseProgram(curShader, true, op.elems.glowmap != 0);
 					glActiveTexture(GL_TEXTURE0);
@@ -387,6 +387,7 @@ public:
 				} else {
 					UseProgram(curShader, false);
 				}
+				*/
 				if (m_isStatic) {
 					// from static VBO
 					glDrawElements(GL_TRIANGLES, 
@@ -401,10 +402,12 @@ public:
 					// otherwise regular index vertex array
 					glDrawElements(GL_TRIANGLES, op.elems.count, GL_UNSIGNED_SHORT, &m_indices[op.elems.start]);
 				}
+				/* XXX TEXTURE
 				if ( op.elems.texture != 0 ) {
 					glActiveTexture(GL_TEXTURE0);
 					glDisable(GL_TEXTURE_2D);
 				}
+				*/
 				break;
 			case OP_DRAW_BILLBOARDS: {
 				Graphics::UnbindAllBuffers();
@@ -417,7 +420,7 @@ public:
 				}
 				Graphics::Material mat;
 				mat.unlit = true;
-				mat.texture0 = op.billboards.texture;
+				mat.texture0 = s_renderer->GetTexture(*op.billboards.texture);
 				mat.diffuse = Color(op.billboards.col[0], op.billboards.col[1], op.billboards.col[2], op.billboards.col[3]);
 				s_renderer->DrawPointSprites(op.billboards.count, &verts[0], &mat, op.billboards.size);
 				BindBuffers();
@@ -572,7 +575,7 @@ public:
 	}
 	void SetTexture(const char *tex) {
 		if (tex) {
-			curTexture = s_textureCache->GetModelTexture(tex);
+			curTexture = new WorldTextureDescriptor(tex);
 		} else {
 			curTexture = 0;
 			curGlowmap = 0; //won't have these without textures
@@ -580,7 +583,7 @@ public:
 	}
 	void SetGlowMap(const char *tex) {
 		if (tex) {
-			curGlowmap = s_textureCache->GetModelTexture(tex);
+			curGlowmap = new WorldTextureDescriptor(tex);
 		} else {
 			curGlowmap = 0;
 		}
@@ -660,7 +663,7 @@ public:
 		curOp.type = OP_DRAW_BILLBOARDS;
 		curOp.billboards.start = m_vertices.size();
 		curOp.billboards.count = numPoints;
-		curOp.billboards.texture = s_textureCache->GetBillboardTexture(buf);
+		curOp.billboards.texture = new WorldTextureDescriptor(buf);
 		curOp.billboards.size = size;
 		curOp.billboards.col[0] = color.x;
 		curOp.billboards.col[1] = color.y;
@@ -805,11 +808,11 @@ private:
 	struct Op {
 		enum OpType type;
 		union {
-			struct { ModelTexture *texture; ModelTexture *glowmap; int start, count, elemMin, elemMax; } elems;
+			struct { WorldTextureDescriptor *texture; WorldTextureDescriptor *glowmap; int start, count, elemMin, elemMax; } elems;
 			struct { int material_idx; } col;
 			struct { float amount; float pos[3]; float norm[3]; } zbias;
 			struct { LmrModel *model; float transform[16]; float scale; } callmodel;
-			struct { BillboardTexture *texture; int start, count; float size; float col[4]; } billboards;
+			struct { WorldTextureDescriptor *texture; int start, count; float size; float col[4]; } billboards;
 			struct { bool local; } lighting_type;
 			struct { int num; float quadratic_attenuation; float pos[4], col[4]; } light;
 		};
@@ -817,8 +820,8 @@ private:
 	/* this crap is only used at build time... could move this elsewhere */
 	Op curOp;
 	Uint16 curTriFlag;
-	ModelTexture *curTexture;
-	ModelTexture *curGlowmap;
+	WorldTextureDescriptor *curTexture;
+	WorldTextureDescriptor *curGlowmap;
 	matrix4x4f curTexMatrix;
 	// 
 	std::vector<Vertex> m_vertices;
@@ -855,12 +858,12 @@ public:
 					_fwrite_string(m_ops[i].callmodel.model->GetName(), f);
 				}
 				else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
-					_fwrite_string(m_ops[i].elems.texture->GetFilename(), f);
+					_fwrite_string(m_ops[i].elems.texture->filename, f);
 					if (m_ops[i].elems.glowmap)
-						_fwrite_string(m_ops[i].elems.glowmap->GetFilename(), f);
+						_fwrite_string(m_ops[i].elems.glowmap->filename, f);
 				}
 				else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
-					_fwrite_string(m_ops[i].billboards.texture->GetFilename(), f);
+					_fwrite_string(m_ops[i].billboards.texture->filename, f);
 				}
 			}
 		}
@@ -900,12 +903,12 @@ public:
 				m_ops[i].callmodel.model = s_models[_fread_string(f)];
 			}
 			else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
-				m_ops[i].elems.texture = s_textureCache->GetModelTexture(_fread_string(f));
+				m_ops[i].elems.texture = new WorldTextureDescriptor(_fread_string(f));
 				if (m_ops[i].elems.glowmap)
-					m_ops[i].elems.glowmap = s_textureCache->GetModelTexture(_fread_string(f));
+					m_ops[i].elems.glowmap = new WorldTextureDescriptor(_fread_string(f));
 			}
 			else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
-				m_ops[i].billboards.texture = s_textureCache->GetBillboardTexture(_fread_string(f));
+				m_ops[i].billboards.texture = new WorldTextureDescriptor(_fread_string(f));
 			}
 		}
 	}
@@ -4429,12 +4432,11 @@ static void _write_model_crc_file()
 	}
 }
 
-void LmrModelCompilerInit(Graphics::Renderer *renderer, TextureCache *textureCache)
+void LmrModelCompilerInit(Graphics::Renderer *renderer)
 {
 	s_renderer = renderer;
-	s_textureCache = textureCache;
 
-	ShipThruster::Init(s_textureCache);
+	ShipThruster::Init(renderer);
 
 	s_cacheDir = GetPiUserDir("model_cache");
 	_detect_model_changes();

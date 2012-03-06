@@ -17,7 +17,7 @@ using namespace Graphics;
 
 GalacticView::GalacticView()
 {
-	m_quad.Reset(new Gui::TexturedQuad(new Gui::Texture(Gui::Screen::GetRenderer(), Galaxy::GetGalaxyBitmap())));
+	m_quad.Reset(new Gui::TexturedQuad(Gui::Screen::GetRenderer()->GetTexture(Gui::SurfaceTextureDescriptor("galaxy", Galaxy::GetGalaxyBitmap()))));
 
 	SetTransparency(true);
 	m_zoom = 1.0f;

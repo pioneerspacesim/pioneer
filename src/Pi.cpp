@@ -63,7 +63,6 @@
 #include "StringF.h"
 #include "Game.h"
 #include "GameLoaderSaver.h"
-#include "WorldTexture.h"
 #include "Light.h"
 #include "Sfx.h"
 #include "graphics/Graphics.h"
@@ -108,7 +107,6 @@ LuaEventQueue<Ship> *Pi::luaOnShipFlavourChanged;
 LuaEventQueue<Ship,const char *> *Pi::luaOnShipEquipmentChanged;
 LuaEventQueue<Ship,const char *> *Pi::luaOnShipFuelChanged;
 LuaNameGen *Pi::luaNameGen;
-TextureCache *Pi::textureCache;
 int Pi::keyModState;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[6];
@@ -499,8 +497,6 @@ void Pi::Init()
 	bool wantShaders = (config.Int("DisableShaders") == 0);
 	Pi::renderer = Graphics::Init(width, height, wantShaders);
 
-	Pi::textureCache = new TextureCache(renderer);
-
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
 	Gui::Init(renderer, scrWidth, scrHeight, 800, 600);
@@ -518,7 +514,7 @@ void Pi::Init()
 	CustomSystem::Init();
 	draw_progress(0.4f);
 
-	LmrModelCompilerInit(Pi::renderer, Pi::textureCache);
+	LmrModelCompilerInit(Pi::renderer);
 	LmrNotifyScreenWidth(Pi::scrWidth);
 	draw_progress(0.5f);
 
@@ -639,7 +635,6 @@ void Pi::Quit()
 	Graphics::Uninit();
 	LuaUninit();
 	Gui::Uninit();
-	delete Pi::textureCache;
 	delete Pi::renderer;
 	StarSystem::ShrinkCache();
 	SDL_Quit();
