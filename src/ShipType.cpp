@@ -192,22 +192,19 @@ void ShipType::Init()
 
 	MyLuaVec::Vec_register(l);
 	lua_register(l, "v", MyLuaVec::Vec_new);
-	lua_register(l, "load_lua", pi_load_lua);
 	lua_register(l, "define_ship", define_ship);
 	lua_register(l, "define_static_ship", define_static_ship);
 	lua_register(l, "define_missile", define_missile);
 
 	lua_pushstring(l, PIONEER_DATA_DIR);
 	lua_setglobal(l, "CurrentDirectory");
-	lua_pushcfunction(l, pi_lua_panic);
-	if (luaL_loadfile(l, (std::string(PIONEER_DATA_DIR) + "/piships.lua").c_str())) {
-		pi_lua_panic(l);
-	} else {
-		lua_pcall(l, 0, LUA_MULTRET, -2);
-	}
+	pi_lua_dofile_recursive(l, std::string(PIONEER_DATA_DIR) + "/ships");
 
 	LUA_DEBUG_END(l, 0);
 
 	lua_close(l);
+
+	if (ShipType::player_ships.empty())
+		Warning("No playable ships have been defined! The game cannot run.");
 }
 
