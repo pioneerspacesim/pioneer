@@ -2,6 +2,8 @@
 #define _RENDERER_H
 
 #include "libs.h"
+#include <map>
+#include "TextureDescriptor.h"
 
 class Light;
 
@@ -124,9 +126,6 @@ public:
 	//complex unchanging geometry that is worthwhile to store in VBOs etc.
 	virtual bool DrawStaticMesh(StaticMesh *thing) { return false; }
 
-	// bind the given data to a texture
-	virtual bool BindTextureData(Texture *texture, const void *data, unsigned int width, unsigned int height) { return false; }
-
 	// take a ticket representing the current renderer state. when the ticket
 	// is deleted, the renderer state is restored
 	class StateTicket {
@@ -139,6 +138,11 @@ public:
 		Renderer *m_renderer;
 	};
 
+	Texture *GetTexture(const TextureDescriptor *descriptor) {
+		std::map<const TextureDescriptor*,Texture*,TextureDescriptorComparator>::iterator i = m_textures.find(descriptor);
+		if (i != m_textures.end()) return (*i).second;
+		return AddCachedTexture(descriptor);
+	}
 
 protected:
 	int m_width;
@@ -146,6 +150,18 @@ protected:
 
 	virtual void PushState() = 0;
 	virtual void PopState() = 0;
+
+	virtual bool CreateTexture(Texture *texture, const TextureDescriptor *descriptor, void *data, const vector2f &size) = 0;
+
+private:
+	struct TextureDescriptorComparator {
+		bool operator()(const TextureDescriptor *a, const TextureDescriptor *b) const {
+			return a->IsEqual(*b);
+		}
+	};
+	std::map<const TextureDescriptor*,Texture*,TextureDescriptorComparator> m_textures;
+
+	Texture *AddCachedTexture(const TextureDescriptor *descriptor);
 };
 
 // subclass this to store renderer specific information

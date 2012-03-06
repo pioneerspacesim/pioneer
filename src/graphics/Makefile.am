@@ -19,6 +19,7 @@ noinst_HEADERS = \
 	Surface.h \
 	VertexArray.h \
 	Texture.h \
+	TextureDescriptor.h \
 	Drawables.h
 
 libgraphics_a_SOURCES = \
@@ -32,4 +33,5 @@ libgraphics_a_SOURCES = \
 	StaticMesh.cpp \
 	VertexArray.cpp \
 	Texture.cpp \
+	TextureDescriptor.cpp \
 	Drawables.cpp

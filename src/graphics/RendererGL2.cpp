@@ -123,7 +123,7 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 		glDisable(GL_CULL_FACE);
 	}
 	if (mat->texture0) {
-		mat->texture0->Bind();
+		assert(0); // XXX mat->texture0->Bind();
 		s->SetUniform("texture0", 0);
 	}
 }
@@ -133,7 +133,8 @@ void RendererGL2::UnApplyMaterial(const Material *mat)
 	glPopAttrib();
 	if (mat) {
 		if (mat->texture0) {
-			mat->texture0->Unbind();
+			assert(0);
+			// XXX mat->texture0->Unbind();
 		}
 	}
 	// XXX won't be necessary

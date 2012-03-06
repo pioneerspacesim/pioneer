@@ -503,6 +503,7 @@ void RendererLegacy::ApplyMaterial(const Material *mat)
 	}
 	if (mat->texture0) {
 		TextureRenderInfo *textureInfo = static_cast<TextureRenderInfo*>(mat->texture0->GetRenderInfo());
+		assert(textureInfo);
 		glEnable(textureInfo->target);
 		glBindTexture(textureInfo->target, textureInfo->texture);
 	}
@@ -514,6 +515,7 @@ void RendererLegacy::UnApplyMaterial(const Material *mat)
 	if (!mat) return;
 	if (mat->texture0) {
 		TextureRenderInfo *textureInfo = static_cast<TextureRenderInfo*>(mat->texture0->GetRenderInfo());
+		assert(textureInfo);
 		glBindTexture(textureInfo->target, 0);
 		glDisable(textureInfo->target);
 	}
@@ -630,57 +632,55 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 }
 
 
-inline GLenum glTarget(Texture::Target target) {
+inline GLenum glTarget(TextureDescriptor::Target target) {
 	switch (target) {
-		case Texture::TARGET_2D: return GL_TEXTURE_2D;
+		case TextureDescriptor::TARGET_2D: return GL_TEXTURE_2D;
 		default: assert(0);
 	}
 }
 
-inline GLint glInternalFormat(Texture::Format::InternalFormat format) {
+inline GLint glInternalFormat(TextureDescriptor::Format::InternalFormat format) {
 	switch (format) {
-		case Texture::Format::INTERNAL_RGBA:            return GL_RGBA;
-		case Texture::Format::INTERNAL_RGB:             return GL_RGB;
-		case Texture::Format::INTERNAL_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
+		case TextureDescriptor::Format::INTERNAL_RGBA:            return GL_RGBA;
+		case TextureDescriptor::Format::INTERNAL_RGB:             return GL_RGB;
+		case TextureDescriptor::Format::INTERNAL_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
 		default: assert(0);
 	}
 }
 
-inline GLint glDataFormat(Texture::Format::DataFormat format) {
+inline GLint glDataFormat(TextureDescriptor::Format::DataFormat format) {
 	switch (format) {
-		case Texture::Format::DATA_RGBA:            return GL_RGBA;
-		case Texture::Format::DATA_RGB:             return GL_RGB;
-		case Texture::Format::DATA_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
+		case TextureDescriptor::Format::DATA_RGBA:            return GL_RGBA;
+		case TextureDescriptor::Format::DATA_RGB:             return GL_RGB;
+		case TextureDescriptor::Format::DATA_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
 		default: assert(0);
 	}
 }
 
-inline GLint glDataType(Texture::Format::DataType type) {
+inline GLint glDataType(TextureDescriptor::Format::DataType type) {
 	switch (type) {
-		case Texture::Format::DATA_UNSIGNED_BYTE: return GL_UNSIGNED_BYTE;
-		case Texture::Format::DATA_FLOAT:         return GL_FLOAT;
+		case TextureDescriptor::Format::DATA_UNSIGNED_BYTE: return GL_UNSIGNED_BYTE;
+		case TextureDescriptor::Format::DATA_FLOAT:         return GL_FLOAT;
 		default: assert(0);
 	}
 }
 
 
-bool RendererLegacy::BindTextureData(Texture *texture, const void *data, unsigned int width, unsigned int height)
+bool RendererLegacy::CreateTexture(Texture *texture, const TextureDescriptor *descriptor, void *data, const vector2f &size)
 {
 	assert(!texture->GetRenderInfo());
 
 	TextureRenderInfo *textureInfo = new TextureRenderInfo();
 	texture->SetRenderInfo(textureInfo);
 
-	textureInfo->target = glTarget(texture->GetTarget());
-	const Texture::Format format = texture->GetFormat();
-	const Texture::Options options = texture->GetOptions();
+	textureInfo->target = glTarget(descriptor->target);
 
 	glEnable(textureInfo->target);
 
 	glGenTextures(1, &textureInfo->texture);
 	glBindTexture(textureInfo->target, textureInfo->texture);
 
-	if (options.wrapMode == Texture::Options::CLAMP) {
+	if (descriptor->options.wrapMode == TextureDescriptor::Options::CLAMP) {
 		glTexParameteri(textureInfo->target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(textureInfo->target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	}
@@ -689,21 +689,21 @@ bool RendererLegacy::BindTextureData(Texture *texture, const void *data, unsigne
 		glTexParameteri(textureInfo->target, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	}
 
-	if (options.filterMode == Texture::Options::NEAREST) {
+	if (descriptor->options.filterMode == TextureDescriptor::Options::NEAREST) {
 		glTexParameteri(textureInfo->target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(textureInfo->target, GL_TEXTURE_MIN_FILTER, options.mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+		glTexParameteri(textureInfo->target, GL_TEXTURE_MIN_FILTER, descriptor->options.mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
 	}
 	else {
 		glTexParameteri(textureInfo->target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(textureInfo->target, GL_TEXTURE_MIN_FILTER, options.mipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+		glTexParameteri(textureInfo->target, GL_TEXTURE_MIN_FILTER, descriptor->options.mipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
 	}
 
 	// XXX feels a bit icky
 	switch (textureInfo->target) {
 		case GL_TEXTURE_2D:
-			if (options.mipmaps)
+			if (descriptor->options.mipmaps)
 				glTexParameteri(textureInfo->target, GL_GENERATE_MIPMAP, GL_TRUE);
-			glTexImage2D(textureInfo->target, 0, glInternalFormat(format.internalFormat), width, height, 0, glDataFormat(format.dataFormat), glDataType(format.dataType), data);
+			glTexImage2D(textureInfo->target, 0, glInternalFormat(descriptor->format.internalFormat), size.x, size.y, 0, glDataFormat(descriptor->format.dataFormat), glDataType(descriptor->format.dataType), data);
 			break;
 
 		default:
