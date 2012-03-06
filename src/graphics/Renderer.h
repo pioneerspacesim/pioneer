@@ -157,7 +157,7 @@ protected:
 private:
 	struct TextureDescriptorComparator {
 		bool operator()(const TextureDescriptor *a, const TextureDescriptor *b) const {
-			return a->IsEqual(*b);
+			return a->IsEqual(*b) ? true : a < b;
 		}
 	};
 	std::map<const TextureDescriptor*,Texture*,TextureDescriptorComparator> m_textures;
