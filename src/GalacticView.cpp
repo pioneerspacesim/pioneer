@@ -17,7 +17,13 @@ using namespace Graphics;
 
 GalacticView::GalacticView()
 {
-	m_quad.Reset(new Gui::TexturedQuad(Gui::Screen::GetRenderer()->GetTexture(Gui::SurfaceTextureDescriptor("galaxy", Galaxy::GetGalaxyBitmap()))));
+	// SurfaceTextureDescriptor will free the surface when its done, so copy it
+	SDL_Surface *galaxySurface = Galaxy::GetGalaxyBitmap();
+	SDL_Surface *quadSurface = SDL_CreateRGBSurfaceFrom(
+		galaxySurface->pixels, galaxySurface->w, galaxySurface->h,
+		galaxySurface->format->BitsPerPixel, galaxySurface->pitch,
+		galaxySurface->format->Rmask, galaxySurface->format->Gmask, galaxySurface->format->Bmask, galaxySurface->format->Amask);
+	m_quad.Reset(new Gui::TexturedQuad(Gui::Screen::GetRenderer()->GetTexture(Gui::SurfaceTextureDescriptor("galaxy", quadSurface))));
 
 	SetTransparency(true);
 	m_zoom = 1.0f;

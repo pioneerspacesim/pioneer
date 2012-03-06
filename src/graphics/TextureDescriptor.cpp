@@ -3,6 +3,25 @@
 
 namespace Graphics {
 
+class SDLData : public TextureDescriptor::Data {
+public:
+	SDLData(SDL_Surface *surface, bool freeSurface, const vector2f &_size, const vector2f &_texSize) :
+		Data(surface->pixels, _size, _texSize), m_surface(surface), m_freeSurface(freeSurface)
+	{
+		SDL_LockSurface(m_surface);
+	}
+	virtual ~SDLData()
+	{
+		SDL_UnlockSurface(m_surface);
+		if (m_freeSurface)
+			SDL_FreeSurface(m_surface);
+	}
+
+private:
+	SDL_Surface *m_surface;
+	bool m_freeSurface;
+};
+
 // RGBA and RGBpixel format for converting textures
 // XXX little-endian. if we ever have a port to a big-endian arch, invert shift and mask
 static SDL_PixelFormat pixfmtRGBA = {
@@ -65,8 +84,22 @@ static inline Uint32 ceil_pow2(Uint32 v) {
 
 const TextureDescriptor::Data *TextureDescriptor::GetDataFromSurface(SDL_Surface *s, bool potExtend, bool forceRGBA) const
 {
-	bool freeSurface = false;
+	return GetDataFromSurfaceInternal(s, potExtend, forceRGBA, true);
+}
 
+const TextureDescriptor::Data *TextureDescriptor::GetDataFromFile(const std::string &filename, bool potExtend, bool forceRGBA) const
+{
+	SDL_Surface *s = IMG_Load(filename.c_str());
+	if (!s) {
+		fprintf(stderr, "Texture::CreateFromFile: %s: %s\n", filename.c_str(), IMG_GetError());
+		return false;
+	}
+
+	return GetDataFromSurfaceInternal(s, potExtend, forceRGBA, true);
+}
+
+const TextureDescriptor::Data *TextureDescriptor::GetDataFromSurfaceInternal(SDL_Surface *s, bool potExtend, bool forceRGBA, bool freeSurface) const
+{
 	SDL_PixelFormat *pixfmt = s->format;
 
 	GLenum targetGLformat;
@@ -74,7 +107,12 @@ const TextureDescriptor::Data *TextureDescriptor::GetDataFromSurface(SDL_Surface
 	bool needConvert = !GetTargetFormat(pixfmt, &targetGLformat, &targetPixfmt, forceRGBA);
 
 	if (needConvert) {
-		s = SDL_ConvertSurface(s, targetPixfmt, SDL_SWSURFACE);
+		SDL_Surface *s2 = SDL_ConvertSurface(s, targetPixfmt, SDL_SWSURFACE);
+
+		if (freeSurface)
+			SDL_FreeSurface(s);
+
+		s = s2;
 		freeSurface = true;
 	}
 
@@ -109,33 +147,7 @@ const TextureDescriptor::Data *TextureDescriptor::GetDataFromSurface(SDL_Surface
 		}
 	}
 
-	// XXX ick
-	void *raw = malloc(s->w*s->h*4);
-	SDL_LockSurface(s);
-	memcpy(raw, s->pixels, s->w*s->h*4);
-	SDL_UnlockSurface(s);
-
-	TextureDescriptor::Data *data = new TextureDescriptor::Data(raw, vector2f(width,height), vector2f(float(vwidth)/float(width),float(vheight)/float(height)));
-
-	if (freeSurface)
-		SDL_FreeSurface(s);
-
-	return data;
-}
-
-const TextureDescriptor::Data *TextureDescriptor::GetDataFromFile(const std::string &filename, bool potExtend, bool forceRGBA) const
-{
-	SDL_Surface *s = IMG_Load(filename.c_str());
-	if (!s) {
-		fprintf(stderr, "Texture::CreateFromFile: %s: %s\n", filename.c_str(), IMG_GetError());
-		return false;
-	}
-
-	const TextureDescriptor::Data *data = GetDataFromSurface(s, potExtend, forceRGBA);
-
-	SDL_FreeSurface(s);
-
-	return data;
+	return new SDLData(s, freeSurface, vector2f(width,height), vector2f(float(vwidth)/float(vheight),float(vheight)/float(height)));
 }
 
 }

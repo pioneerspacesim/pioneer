@@ -134,8 +134,6 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 
 	// XXX TEXTURE invalidate the old one
 	m_quad.Reset(new Gui::TexturedQuad(Gui::Screen::GetRenderer()->GetTexture(Gui::SurfaceTextureDescriptor("face", s))));
-
-	SDL_FreeSurface(s);
 }
 
 FaceVideoLink::~FaceVideoLink() {

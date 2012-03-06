@@ -92,7 +92,7 @@ public:
 	// raw texture data
 	struct Data {
 		Data(const void *_data, const vector2f &_dataSize, const vector2f &_texSize = vector2f(1.0f)) : data(_data), dataSize(_dataSize), texSize(_texSize) {}
-		~Data() { free(const_cast<void*>(data)); }
+		virtual ~Data() {}
 		const void *data;     // raw texture data. format is defined elsewhere
 		vector2f    dataSize; // width/height of the raw data
 		vector2f    texSize;  // width/height of the "usable" texels (eg after POT-extension)
@@ -149,6 +149,9 @@ protected:
 	// loads the given file into a SDL surface and passes the result to
 	// CreateFromSurface()
 	const Data *GetDataFromFile(const std::string &filename, bool potExtend = false, bool forceRGBA = true) const;
+
+private:
+	const Data *GetDataFromSurfaceInternal(SDL_Surface *s, bool potExtend, bool forceRGBA, bool freeSurface) const;
 };
 
 }
