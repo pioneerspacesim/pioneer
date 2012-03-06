@@ -138,6 +138,7 @@ public:
 		Renderer *m_renderer;
 	};
 
+	Texture *GetTexture(const TextureDescriptor &descriptor) { return GetTexture(&descriptor); }
 	Texture *GetTexture(const TextureDescriptor *descriptor) {
 		std::map<const TextureDescriptor*,Texture*,TextureDescriptorComparator>::iterator i = m_textures.find(descriptor);
 		if (i != m_textures.end()) return (*i).second;
