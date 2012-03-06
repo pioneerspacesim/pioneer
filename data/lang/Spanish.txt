@@ -687,7 +687,7 @@ PLUTOCRATIC_DICTATORSHIP
 VIOLENT_ANARCHY
     Desorden - Revoluciones armadas contra el gobierno
 X_CANNOT_BE_TOLERATED_HERE
-    %crime no se tolera aquí
+    %crime no tolerado
 SECTOR_X_Y_Z
     Sector: %x,%y,%z
 CURRENT_SYSTEM
@@ -1073,7 +1073,7 @@ EXTERNAL_ATMOSPHERIC_PRESSURE
 HULL_TEMP
     Temp. del casco
 WEAPON_TEMP
-    Temp. armamento
+    Temp. armas
 HULL_INTEGRITY
     Integr. casco
 SHIELD_INTEGRITY
