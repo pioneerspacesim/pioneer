@@ -59,7 +59,6 @@ private:
 	// destroy these
 	friend class Renderer;
 	Texture(const vector2f &size, const vector2f &texSize) : m_size(size), m_texSize(texSize) {}
-	virtual ~Texture();
 
 	Texture(const Texture&);
 	Texture &operator=(const Texture&);

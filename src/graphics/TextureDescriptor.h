@@ -91,11 +91,11 @@ public:
 
 	// raw texture data
 	struct Data {
-		Data(void *_data, const vector2f &_dataSize, const vector2f &_texSize = vector2f(1.0f)) : data(_data), dataSize(_dataSize), texSize(_texSize) {}
-		~Data() { free(data); }
-		void     *data;	    // raw texture data. format is defined elsewhere
-		vector2f  dataSize; // width/height of the raw data
-		vector2f  texSize;  // width/height of the "usable" texels (eg after POT-extension)
+		Data(const void *_data, const vector2f &_dataSize, const vector2f &_texSize = vector2f(1.0f)) : data(_data), dataSize(_dataSize), texSize(_texSize) {}
+		~Data() { free(const_cast<void*>(data)); }
+		const void *data;     // raw texture data. format is defined elsewhere
+		vector2f    dataSize; // width/height of the raw data
+		vector2f    texSize;  // width/height of the "usable" texels (eg after POT-extension)
 	};
 
 protected:
@@ -144,11 +144,11 @@ protected:
 	// data format will be adjusted appropriately. this can save texture
 	// memory but doesn't always do the right thing if the user expects the
 	// texture to always have an alpha channel (eg for UI textures)
-	const Data *GetDataFromSurface(SDL_Surface *s, bool potExtend = false, bool forceRGBA = true);
+	const Data *GetDataFromSurface(SDL_Surface *s, bool potExtend = false, bool forceRGBA = true) const;
 
 	// loads the given file into a SDL surface and passes the result to
 	// CreateFromSurface()
-	const Data *GetDataFromFile(const std::string &filename, bool potExtend = false, bool forceRGBA = true);
+	const Data *GetDataFromFile(const std::string &filename, bool potExtend = false, bool forceRGBA = true) const;
 };
 
 }

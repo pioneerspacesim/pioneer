@@ -63,7 +63,7 @@ static inline Uint32 ceil_pow2(Uint32 v) {
 	return v;
 }
 
-const TextureDescriptor::Data *TextureDescriptor::GetDataFromSurface(SDL_Surface *s, bool potExtend, bool forceRGBA)
+const TextureDescriptor::Data *TextureDescriptor::GetDataFromSurface(SDL_Surface *s, bool potExtend, bool forceRGBA) const
 {
 	bool freeSurface = false;
 
@@ -123,7 +123,7 @@ const TextureDescriptor::Data *TextureDescriptor::GetDataFromSurface(SDL_Surface
 	return data;
 }
 
-const TextureDescriptor::Data *TextureDescriptor::GetDataFromFile(const std::string &filename, bool potExtend, bool forceRGBA)
+const TextureDescriptor::Data *TextureDescriptor::GetDataFromFile(const std::string &filename, bool potExtend, bool forceRGBA) const
 {
 	SDL_Surface *s = IMG_Load(filename.c_str());
 	if (!s) {
