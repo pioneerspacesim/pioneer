@@ -138,12 +138,7 @@ public:
 		Renderer *m_renderer;
 	};
 
-	Texture *GetTexture(const TextureDescriptor &descriptor) { return GetTexture(&descriptor); }
-	Texture *GetTexture(const TextureDescriptor *descriptor) {
-		std::map<const TextureDescriptor*,Texture*,TextureDescriptorComparator>::iterator i = m_textures.find(descriptor);
-		if (i != m_textures.end()) return (*i).second;
-		return AddCachedTexture(descriptor);
-	}
+	virtual Texture *Create2DTexture(const TextureDescriptor &descriptor);
 
 protected:
 	int m_width;
@@ -151,18 +146,6 @@ protected:
 
 	virtual void PushState() = 0;
 	virtual void PopState() = 0;
-
-	virtual bool CreateTexture(Texture *texture, const TextureDescriptor *descriptor, void *data, const vector2f &size) = 0;
-
-private:
-	struct TextureDescriptorComparator {
-		bool operator()(const TextureDescriptor *a, const TextureDescriptor *b) const {
-			return a->Compare(*b);
-		}
-	};
-	std::map<const TextureDescriptor*,Texture*,TextureDescriptorComparator> m_textures;
-
-	Texture *AddCachedTexture(const TextureDescriptor *descriptor);
 };
 
 // subclass this to store renderer specific information

@@ -10,29 +10,10 @@ namespace Graphics {
 class TextureDescriptor {
 public:
 
-	// descriptor types. needed for comparison of arbitrary descriptors
-	enum Type {
-		TYPE_GUISURFACE,
-		TYPE_GUIFILE,
-		TYPE_GUIGRADIENT,
-		TYPE_GLYPH,
-		TYPE_WORLD
-	};
-
-	// texture type. ignore unless subclassing
-	// XXX this is possibly too GL-centric
-	enum Target {
-		TARGET_2D
-	};
-
-	// texture format definition. holds details of how the texture is stored
-	// internally in GL and what the incoming data looks like. see the docs
-	// for glTexImage* for details. You don't need to worry about this unless
-	// you're subclassing Texture.
+	// data format
 	struct Format {
 
 		// internal data format
-		// XXX advisory only. not even required? hmm.
 		enum InternalFormat {
 			INTERNAL_RGBA,
 			INTERNAL_RGB,
@@ -61,10 +42,6 @@ public:
 		InternalFormat internalFormat;
 		DataFormat dataFormat;
 		DataType dataType;
-
-		friend bool operator<(const Format &a, const Format &b) {
-			return (a.internalFormat < b.internalFormat && a.dataFormat < b.dataFormat && a.dataType < b.dataType);
-		}
 	};
 
 	// various options that influence how the texture is created
@@ -93,50 +70,25 @@ public:
 		WrapMode wrapMode;
 		FilterMode filterMode;
 		bool mipmaps;
-
-		friend bool operator<(const Options &a, const Options &b) {
-			return (a.wrapMode < b.wrapMode && a.filterMode < b.filterMode && a.mipmaps < b.mipmaps);
-		}
 	};
 
-	// raw texture data
-	struct Data {
-		Data(const void *_data, const vector2f &_dataSize, const vector2f &_texSize = vector2f(1.0f)) : data(_data), dataSize(_dataSize), texSize(_texSize) {}
-		virtual ~Data() {}
-		const void *data;     // raw texture data. format is defined elsewhere
-		vector2f    dataSize; // width/height of the raw data
-		vector2f    texSize;  // width/height of the "usable" texels (eg after POT-extension)
-	};
+	// constructor
+	TextureDescriptor(const Format &_format, const Options &_options, const vector2f &_dataSize, const vector2f &_texSize = vector2f(1.0f)) :
+		format(_format), options(_options), dataSize(_dataSize), texSize(_texSize)
+	{}
 
-protected:
-	TextureDescriptor(Type _type, Target _target, Format _format, Options _options) : type(_type), target(_target), format(_format), options(_options) {}
-
-public:
-	const Type type;
-	const Target target;
 	const Format format;
 	const Options options;
 
-	// get the raw texture data. allocate with new, as the caller will delete
-	// when done. this will usually only be called by the renderer, and it
-	// will never call this more than once, so you should not preload this
-	// data and you need not cache it for further calls
-	// non-renderer callers should probably not use this.
-	virtual const Data *GetData() const { return 0; }
+	// width/height of the raw data array underneath the texture (eg pixels)
+	const vector2f dataSize;
 
-	// return true if this texture is "less than" the passed-in texture
-	// - baseclass Compare
-	// - construction args
-    // this is used for cache lookup, so the ordering is important
-	virtual bool Compare(const TextureDescriptor &b) const {
-		return (type < b.type && target < b.target && format < b.format && options < b.options);
-	}
+	// width/height of texture in texels
+	const vector2f texSize;
+};
 
-	// create a copy of this. should usually just invoke the copy constructor
-	virtual TextureDescriptor *Clone() const {
-		return new TextureDescriptor(*this);
-	}
 
+#if 0
 protected:
 
 	// helpers for GetData()
@@ -163,7 +115,7 @@ protected:
 
 private:
 	const Data *GetDataFromSurfaceInternal(SDL_Surface *s, bool potExtend, bool forceRGBA, bool freeSurface) const;
-};
+#endif
 
 }
 

@@ -631,7 +631,7 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	return true;
 }
 
-
+#if 0
 inline GLenum glTarget(TextureDescriptor::Target target) {
 	switch (target) {
 		case TextureDescriptor::TARGET_2D: return GL_TEXTURE_2D;
@@ -715,6 +715,7 @@ bool RendererLegacy::CreateTexture(Texture *texture, const TextureDescriptor *de
 
 	return true;
 }
+#endif
 
 
 // XXX very heavy. in the future when all GL calls are made through the

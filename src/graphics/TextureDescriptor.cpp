@@ -3,6 +3,7 @@
 
 namespace Graphics {
 
+#if 0
 class SDLData : public TextureDescriptor::Data {
 public:
 	SDLData(SDL_Surface *surface, bool freeSurface, const vector2f &_size, const vector2f &_texSize) :
@@ -151,5 +152,6 @@ const TextureDescriptor::Data *TextureDescriptor::GetDataFromSurfaceInternal(SDL
 
 	return new SDLData(s, freeSurface, vector2f(width,height), vector2f(float(vwidth)/float(vheight),float(vheight)/float(height)));
 }
+#endif
 
 }

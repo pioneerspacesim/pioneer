@@ -27,6 +27,7 @@ namespace Gui {
 
 	private:
 
+#if 0
 		class GradientTextureDescriptor : public Graphics::TextureDescriptor {
 		public:
 			GradientTextureDescriptor(const Color &beginColor, const Color &endColor, Direction direction);
@@ -47,6 +48,7 @@ namespace Gui {
 			const Color endColor;
 			const Direction direction;
 		};
+#endif
 
 		ScopedPtr<TexturedQuad> m_quad;
 	};

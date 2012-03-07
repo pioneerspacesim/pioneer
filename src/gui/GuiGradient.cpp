@@ -23,6 +23,7 @@ void Gradient::Draw()
 }
 
 
+#if 0
 Gradient::GradientTextureDescriptor::GradientTextureDescriptor(const Color &_beginColor, const Color &_endColor, Direction _direction) :
     Graphics::TextureDescriptor(TYPE_GUIGRADIENT, TARGET_2D, Format(Format::INTERNAL_RGBA, Format::DATA_RGBA, Format::DATA_FLOAT), Options(Options::CLAMP, Options::LINEAR, false)),
 	beginColor(_beginColor), endColor(_endColor), direction(_direction)
@@ -40,5 +41,6 @@ const Graphics::TextureDescriptor::Data *Gradient::GradientTextureDescriptor::Ge
 	else
 		return new Graphics::TextureDescriptor::Data(data, vector2f(1.0f,2.0f));
 }
+#endif
 
 }

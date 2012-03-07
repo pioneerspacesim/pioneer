@@ -36,35 +36,18 @@ namespace Graphics {
 // assumed to be completely interchangable
 class Texture : public Renderable {
 public:
-	// returns the data (pixel) size of the texture. this usually corresponds
-	// to the size of the data that was used to create the texture (eg the
-	// on-disk image file). if this texture's data has not been requested yet,
-	// the size will be 0
-	vector2f GetSize() const { return m_size; }
-
-	// return the texel size of the texture. this will typically be
-	// [1.0f,1.0f] but might not be if the texture has been resized (eg for
-	// power-of-two restrictions). if this texture's data has not been
-	// requested yet, the size will be 0
-	vector2f GetTextureSize() const { return m_texSize; }
-
-	// bind/unbind the texture to the currently active texture unit
-	// XXX DEPRECATED remove when LMR starts using the renderer
-	//virtual void Bind();
-	//virtual void Unbind();
+	const TextureDescriptor &GetDescriptor() const { return m_descriptor; }
 
 private:
 	// only renderer (specifically, the cache in the baseclass) can create and
 	// destroy these
 	friend class Renderer;
-	Texture(const vector2f &size, const vector2f &texSize) : m_size(size), m_texSize(texSize) {}
+	Texture(const TextureDescriptor &descriptor) : m_descriptor(descriptor) {}
 
 	Texture(const Texture&);
 	Texture &operator=(const Texture&);
 
-	vector2f m_size;
-	vector2f m_texSize;
-
+	TextureDescriptor m_descriptor;
 };
 
 }

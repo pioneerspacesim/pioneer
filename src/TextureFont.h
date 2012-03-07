@@ -12,6 +12,7 @@ class TextureFont : public Font {
 
 private:
 
+#if 0
 	class GlyphTextureDescriptor : public Graphics::TextureDescriptor {
 	public:
 		GlyphTextureDescriptor(const std::string &filename, Uint32 codePoint, const void *data, const vector2f &size);
@@ -35,6 +36,7 @@ private:
 		const void *m_data;
 		const vector2f m_size;
 	};
+#endif
 
 public:
 	TextureFont(const FontConfig &fc);

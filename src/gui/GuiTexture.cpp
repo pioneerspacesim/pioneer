@@ -7,6 +7,7 @@ using namespace Graphics;
 
 namespace Gui {
 
+#if 0
 SurfaceTextureDescriptor::SurfaceTextureDescriptor(const std::string &_name, SDL_Surface *surface) :
     Graphics::TextureDescriptor(TYPE_GUISURFACE, TARGET_2D, Format(Format::INTERNAL_RGBA, Format::DATA_RGBA, Format::DATA_UNSIGNED_BYTE), Options(Options::CLAMP, Options::LINEAR, false)),
 	name(_name), m_surface(surface)
@@ -28,6 +29,7 @@ FileTextureDescriptor::FileTextureDescriptor(const std::string &_filename) :
 const Graphics::TextureDescriptor::Data *FileTextureDescriptor::GetData() const {
 	return GetDataFromFile(filename, true);
 }
+#endif
 
 
 void TexturedQuad::Draw(Graphics::Renderer *renderer, const vector2f &pos, const vector2f &size, const vector2f &texPos, const vector2f &texSize, const Color &tint)
