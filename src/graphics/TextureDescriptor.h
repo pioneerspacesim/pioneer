@@ -9,6 +9,16 @@ namespace Graphics {
 
 class TextureDescriptor {
 public:
+
+	// descriptor types. needed for comparison of arbitrary descriptors
+	enum Type {
+		TYPE_GUISURFACE,
+		TYPE_GUIFILE,
+		TYPE_GUIGRADIENT,
+		TYPE_GLYPH,
+		TYPE_WORLD
+	};
+
 	// texture type. ignore unless subclassing
 	// XXX this is possibly too GL-centric
 	enum Target {
@@ -52,8 +62,8 @@ public:
 		DataFormat dataFormat;
 		DataType dataType;
 
-		friend bool operator==(const Format &a, const Format &b) {
-			return (a.internalFormat == b.internalFormat && a.dataFormat == b.dataFormat && a.dataType == b.dataType);
+		friend bool operator<(const Format &a, const Format &b) {
+			return (a.internalFormat < b.internalFormat && a.dataFormat < b.dataFormat && a.dataType < b.dataType);
 		}
 	};
 
@@ -84,8 +94,8 @@ public:
 		FilterMode filterMode;
 		bool mipmaps;
 
-		friend bool operator==(const Options &a, const Options &b) {
-			return (a.wrapMode == b.wrapMode && a.filterMode == b.filterMode && a.mipmaps == b.mipmaps);
+		friend bool operator<(const Options &a, const Options &b) {
+			return (a.wrapMode < b.wrapMode && a.filterMode < b.filterMode && a.mipmaps < b.mipmaps);
 		}
 	};
 
@@ -99,9 +109,10 @@ public:
 	};
 
 protected:
-	TextureDescriptor(Target _target, Format _format, Options _options) : target(_target), format(_format), options(_options) {}
+	TextureDescriptor(Type _type, Target _target, Format _format, Options _options) : type(_type), target(_target), format(_format), options(_options) {}
 
 public:
+	const Type type;
 	const Target target;
 	const Format format;
 	const Options options;
@@ -113,12 +124,12 @@ public:
 	// non-renderer callers should probably not use this.
 	virtual const Data *GetData() const { return 0; }
 
-	// return true if the passed-in texture is the same. test should include:
-	// - type check
-	// - baseclass IsEqual
+	// return true if this texture is "less than" the passed-in texture
+	// - baseclass Compare
 	// - construction args
-	virtual bool IsEqual(const TextureDescriptor &b) const {
-		return (target == b.target && format == b.format && options == b.options);
+    // this is used for cache lookup, so the ordering is important
+	virtual bool Compare(const TextureDescriptor &b) const {
+		return (type < b.type && target < b.target && format < b.format && options < b.options);
 	}
 
 	// create a copy of this. should usually just invoke the copy constructor

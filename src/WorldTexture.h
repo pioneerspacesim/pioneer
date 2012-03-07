@@ -11,10 +11,10 @@ public:
 
 	virtual const Graphics::TextureDescriptor::Data *GetData() const;
 
-	virtual bool IsEqual(const TextureDescriptor &b) const {
-		if (!TextureDescriptor::IsEqual(b)) return false;
-		const WorldTextureDescriptor *bb = dynamic_cast<const WorldTextureDescriptor*>(&b);
-		return (bb && bb->filename == filename);
+	virtual bool Compare(const TextureDescriptor &b) const {
+		if (type != b.type) return TextureDescriptor::Compare(b);
+		const WorldTextureDescriptor &bb = static_cast<const WorldTextureDescriptor&>(b);
+        return (filename < bb.filename);
 	}
 
 	virtual WorldTextureDescriptor *Clone() const {

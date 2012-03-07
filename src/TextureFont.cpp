@@ -451,7 +451,7 @@ TextureFont::~TextureFont()
 
 
 TextureFont::GlyphTextureDescriptor::GlyphTextureDescriptor(const std::string &_filename, Uint32 _codePoint, const void *data, const vector2f &size) :
-	Graphics::TextureDescriptor(TARGET_2D, Format(Format::INTERNAL_LUMINANCE_ALPHA, Format::DATA_LUMINANCE_ALPHA, Format::DATA_UNSIGNED_BYTE), Options(Options::CLAMP, Options::NEAREST, false)),
+	Graphics::TextureDescriptor(TYPE_GLYPH, TARGET_2D, Format(Format::INTERNAL_LUMINANCE_ALPHA, Format::DATA_LUMINANCE_ALPHA, Format::DATA_UNSIGNED_BYTE), Options(Options::CLAMP, Options::NEAREST, false)),
 	filename(_filename), codePoint(_codePoint), m_data(data), m_size(size)
 {
 }

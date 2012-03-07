@@ -8,7 +8,7 @@ using namespace Graphics;
 namespace Gui {
 
 SurfaceTextureDescriptor::SurfaceTextureDescriptor(const std::string &_name, SDL_Surface *surface) :
-    Graphics::TextureDescriptor(TARGET_2D, Format(Format::INTERNAL_RGBA, Format::DATA_RGBA, Format::DATA_UNSIGNED_BYTE), Options(Options::CLAMP, Options::LINEAR, false)),
+    Graphics::TextureDescriptor(TYPE_GUISURFACE, TARGET_2D, Format(Format::INTERNAL_RGBA, Format::DATA_RGBA, Format::DATA_UNSIGNED_BYTE), Options(Options::CLAMP, Options::LINEAR, false)),
 	name(_name), m_surface(surface)
 {
 }
@@ -20,7 +20,7 @@ const Graphics::TextureDescriptor::Data *SurfaceTextureDescriptor::GetData() con
 
 
 FileTextureDescriptor::FileTextureDescriptor(const std::string &_filename) :
-    Graphics::TextureDescriptor(TARGET_2D, Format(Format::INTERNAL_RGBA, Format::DATA_RGBA, Format::DATA_UNSIGNED_BYTE), Options(Options::CLAMP, Options::LINEAR, false)),
+    Graphics::TextureDescriptor(TYPE_GUIFILE, TARGET_2D, Format(Format::INTERNAL_RGBA, Format::DATA_RGBA, Format::DATA_UNSIGNED_BYTE), Options(Options::CLAMP, Options::LINEAR, false)),
 	filename(_filename)
 {
 }

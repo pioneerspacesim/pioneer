@@ -33,10 +33,10 @@ namespace Gui {
 
 			virtual const Graphics::TextureDescriptor::Data *GetData() const;
 
-			virtual bool IsEqual(const TextureDescriptor &b) const {
-				if (!TextureDescriptor::IsEqual(b)) return false;
-				const GradientTextureDescriptor *bb = dynamic_cast<const GradientTextureDescriptor*>(&b);
-				return (bb && bb->direction == direction && bb->beginColor == beginColor && bb->endColor == endColor);
+			virtual bool Compare(const TextureDescriptor &b) const {
+		        if (type != b.type) return TextureDescriptor::Compare(b);
+		        const GradientTextureDescriptor &bb = static_cast<const GradientTextureDescriptor&>(b);
+		        return (beginColor < bb.beginColor && endColor < bb.endColor && direction < bb.direction);
 			}
 
 			virtual GradientTextureDescriptor *Clone() const {

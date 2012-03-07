@@ -22,8 +22,7 @@ namespace Graphics {
 //    - GetData() returns a heap-allocated TextureDescriptor::Data object
 //      containing a pointer to the raw data and the dimensions.
 //    
-//    - IsEqual() to determine if two descriptors are the same (used by
-//      operator=)
+//    - Compare() to compare two arbitrary descriptors
 //
 // - Texture encapsulates the details of a fully-instantiated texture. The
 //   itself holds very little useful data - just the data and texture

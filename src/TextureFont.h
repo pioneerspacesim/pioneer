@@ -18,10 +18,10 @@ private:
 
 		virtual const Graphics::TextureDescriptor::Data *GetData() const;
 
-		virtual bool IsEqual(const Graphics::TextureDescriptor &b) const {
-			if (!Graphics::TextureDescriptor::IsEqual(b)) return false;
-			const GlyphTextureDescriptor *bb = dynamic_cast<const GlyphTextureDescriptor*>(&b);
-			return (bb && bb->codePoint == codePoint && bb->filename == filename);
+		virtual bool Compare(const Graphics::TextureDescriptor &b) const {
+	        if (type != b.type) return TextureDescriptor::Compare(b);
+	        const GlyphTextureDescriptor &bb = static_cast<const GlyphTextureDescriptor&>(b);
+			return (filename < bb.filename && codePoint < bb.codePoint);
 		}
 
 		virtual GlyphTextureDescriptor *Clone() const {

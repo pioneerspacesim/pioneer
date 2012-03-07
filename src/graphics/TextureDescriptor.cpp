@@ -89,6 +89,8 @@ const TextureDescriptor::Data *TextureDescriptor::GetDataFromSurface(SDL_Surface
 
 const TextureDescriptor::Data *TextureDescriptor::GetDataFromFile(const std::string &filename, bool potExtend, bool forceRGBA) const
 {
+	printf("GetDataFromFile: %s\n", filename.c_str());
+
 	SDL_Surface *s = IMG_Load(filename.c_str());
 	if (!s) {
 		fprintf(stderr, "Texture::CreateFromFile: %s: %s\n", filename.c_str(), IMG_GetError());
