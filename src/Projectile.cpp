@@ -12,11 +12,11 @@
 #include "Ship.h"
 #include "Pi.h"
 #include "Game.h"
-#include "WorldTexture.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
+#include "graphics/SDLTextureBuilder.h"
 
 Projectile::Projectile(): Body()
 {
@@ -28,12 +28,21 @@ Projectile::Projectile(): Body()
 	m_flags |= FLAG_DRAW_LAST;
 
 	//set up materials
-	m_sideMat.texture0 = Pi::renderer->GetTexture(WorldTextureDescriptor(PIONEER_DATA_DIR "/textures/projectile_l.png"));
-	m_sideMat.unlit = true;
-	m_sideMat.twoSided = true;
-	m_glowMat.texture0 = Pi::renderer->GetTexture(WorldTextureDescriptor(PIONEER_DATA_DIR "/textures/projectile_w.png"));
-	m_glowMat.unlit = true;
-	m_glowMat.twoSided = true;
+	{
+		Graphics::SDLTextureBuilder b(PIONEER_DATA_DIR"/textures/projectile_l.png");
+		m_sideMat.texture0 = Pi::renderer->CreateTexture(b.GetDescriptor());
+		b.UpdateTexture(m_sideMat.texture0);
+		m_sideMat.unlit = true;
+		m_sideMat.twoSided = true;
+	}
+
+	{
+		Graphics::SDLTextureBuilder b(PIONEER_DATA_DIR"/textures/projectile_w.png");
+		m_glowMat.texture0 = Pi::renderer->CreateTexture(b.GetDescriptor());
+		b.UpdateTexture(m_glowMat.texture0);
+		m_glowMat.unlit = true;
+		m_glowMat.twoSided = true;
+	}
 
 	//zero at projectile position
 	//+x down

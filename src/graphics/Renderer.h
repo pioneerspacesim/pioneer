@@ -3,7 +3,6 @@
 
 #include "libs.h"
 #include <map>
-#include "TextureDescriptor.h"
 
 class Light;
 
@@ -40,6 +39,7 @@ class StaticMesh;
 class Surface;
 class VertexArray;
 class Texture;
+class TextureDescriptor;
 
 // first some enums
 enum LineType {
@@ -138,7 +138,7 @@ public:
 		Renderer *m_renderer;
 	};
 
-	virtual Texture *Create2DTexture(const TextureDescriptor &descriptor);
+	virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
 
 protected:
 	int m_width;

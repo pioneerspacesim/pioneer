@@ -7,6 +7,7 @@
 #include "Surface.h"
 #include "Texture.h"
 #include "VertexArray.h"
+#include "TextureGL.h"
 #include <stddef.h> //for offsetof
 #include "utils.h"
 
@@ -501,24 +502,16 @@ void RendererLegacy::ApplyMaterial(const Material *mat)
 		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 		glDisable(GL_CULL_FACE);
 	}
-	if (mat->texture0) {
-		TextureRenderInfo *textureInfo = static_cast<TextureRenderInfo*>(mat->texture0->GetRenderInfo());
-		assert(textureInfo);
-		glEnable(textureInfo->target);
-		glBindTexture(textureInfo->target, textureInfo->texture);
-	}
+	if (mat->texture0)
+		static_cast<TextureGL*>(mat->texture0)->Bind();
 }
 
 void RendererLegacy::UnApplyMaterial(const Material *mat)
 {
 	glPopAttrib();
 	if (!mat) return;
-	if (mat->texture0) {
-		TextureRenderInfo *textureInfo = static_cast<TextureRenderInfo*>(mat->texture0->GetRenderInfo());
-		assert(textureInfo);
-		glBindTexture(textureInfo->target, 0);
-		glDisable(textureInfo->target);
-	}
+	if (mat->texture0)
+		static_cast<TextureGL*>(mat->texture0)->Unbind();
 }
 
 void RendererLegacy::EnableClientStates(const VertexArray *v)
@@ -631,91 +624,10 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	return true;
 }
 
-#if 0
-inline GLenum glTarget(TextureDescriptor::Target target) {
-	switch (target) {
-		case TextureDescriptor::TARGET_2D: return GL_TEXTURE_2D;
-		default: assert(0);
-	}
-}
-
-inline GLint glInternalFormat(TextureDescriptor::Format::InternalFormat format) {
-	switch (format) {
-		case TextureDescriptor::Format::INTERNAL_RGBA:            return GL_RGBA;
-		case TextureDescriptor::Format::INTERNAL_RGB:             return GL_RGB;
-		case TextureDescriptor::Format::INTERNAL_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
-		default: assert(0);
-	}
-}
-
-inline GLint glDataFormat(TextureDescriptor::Format::DataFormat format) {
-	switch (format) {
-		case TextureDescriptor::Format::DATA_RGBA:            return GL_RGBA;
-		case TextureDescriptor::Format::DATA_RGB:             return GL_RGB;
-		case TextureDescriptor::Format::DATA_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
-		default: assert(0);
-	}
-}
-
-inline GLint glDataType(TextureDescriptor::Format::DataType type) {
-	switch (type) {
-		case TextureDescriptor::Format::DATA_UNSIGNED_BYTE: return GL_UNSIGNED_BYTE;
-		case TextureDescriptor::Format::DATA_FLOAT:         return GL_FLOAT;
-		default: assert(0);
-	}
-}
-
-
-bool RendererLegacy::CreateTexture(Texture *texture, const TextureDescriptor *descriptor, void *data, const vector2f &size)
+Texture *RendererLegacy::CreateTexture(const TextureDescriptor &descriptor)
 {
-	assert(!texture->GetRenderInfo());
-
-	TextureRenderInfo *textureInfo = new TextureRenderInfo();
-	texture->SetRenderInfo(textureInfo);
-
-	textureInfo->target = glTarget(descriptor->target);
-
-	glEnable(textureInfo->target);
-
-	glGenTextures(1, &textureInfo->texture);
-	glBindTexture(textureInfo->target, textureInfo->texture);
-
-	if (descriptor->options.wrapMode == TextureDescriptor::Options::CLAMP) {
-		glTexParameteri(textureInfo->target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(textureInfo->target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	}
-	else {
-		glTexParameteri(textureInfo->target, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(textureInfo->target, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	}
-
-	if (descriptor->options.filterMode == TextureDescriptor::Options::NEAREST) {
-		glTexParameteri(textureInfo->target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(textureInfo->target, GL_TEXTURE_MIN_FILTER, descriptor->options.mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
-	}
-	else {
-		glTexParameteri(textureInfo->target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(textureInfo->target, GL_TEXTURE_MIN_FILTER, descriptor->options.mipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
-	}
-
-	// XXX feels a bit icky
-	switch (textureInfo->target) {
-		case GL_TEXTURE_2D:
-			if (descriptor->options.mipmaps)
-				glTexParameteri(textureInfo->target, GL_GENERATE_MIPMAP, GL_TRUE);
-			glTexImage2D(textureInfo->target, 0, glInternalFormat(descriptor->format.internalFormat), size.x, size.y, 0, glDataFormat(descriptor->format.dataFormat), glDataType(descriptor->format.dataType), data);
-			break;
-
-		default:
-			assert(0);
-	}
-
-	glBindTexture(textureInfo->target, 0);
-	glDisable(textureInfo->target);
-
-	return true;
+	return new TextureGL(descriptor);
 }
-#endif
 
 
 // XXX very heavy. in the future when all GL calls are made through the

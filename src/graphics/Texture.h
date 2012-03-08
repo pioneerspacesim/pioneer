@@ -1,52 +1,76 @@
 #ifndef _TEXTURE_H
 #define _TEXTURE_H
 
-#include "Renderer.h"
 #include "vector2.h"
 
 namespace Graphics {
 
-// There's two classes main classes
-//
-// - TextureDescriptor provides a "name" for a texture. It effectively contains
-//   all the information needed to describe a texture (type, format, build
-//   options, and any subclass-specific data), but does not contain any actual
-//   texture data. It exists primarily to be used as a way to identify items in
-//   the texture cache.
-//
-//   The base TextureDescriptor class cannot be instantiated directly.
-//   Subclasses should be created for specific use cases.
-//
-//   TextureDescriptor subclasses must provide two methods:
-//
-//    - GetData() returns a heap-allocated TextureDescriptor::Data object
-//      containing a pointer to the raw data and the dimensions.
-//    
-//    - Compare() to compare two arbitrary descriptors
-//
-// - Texture encapsulates the details of a fully-instantiated texture. The
-//   itself holds very little useful data - just the data and texture
-//   dimensions, as well as the renderer-specific RenderInfo. There can only
-//   ever be one of these per value of TextureDescriptor. They are always
-//   obtained from the cache.
+enum TextureFormat {
+	TEXTURE_RGBA,
+	TEXTURE_RGB,
+	TEXTURE_LUMINANCE_ALPHA // XXX more generic name?
+};
 
+enum ImageFormat {
+	IMAGE_RGBA,
+	IMAGE_RGB,
+	IMAGE_LUMINANCE_ALPHA // XXX more generic name?
+};
 
+enum ImageType {
+	IMAGE_UNSIGNED_BYTE,
+	IMAGE_FLOAT
+};
 
-// object describing a single texture. two textures that compare the same are
-// assumed to be completely interchangable
-class Texture : public Renderable {
+enum TextureSampler {
+	LINEAR_CLAMP,
+	NEAREST_CLAMP,
+	LINEAR_REPEAT,
+	NEAREST_REPEAT
+};
+
+class TextureDescriptor {
+public:
+	TextureDescriptor() :
+		format(TEXTURE_RGBA), dataSize(1.0f), texSize(1.0f), sampler(LINEAR_CLAMP), generateMipmaps(false)
+	{}
+
+	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, TextureSampler _sampler = LINEAR_CLAMP, bool _generateMipmaps = false) :
+		format(_format), dataSize(_dataSize), texSize(1.0f), sampler(_sampler), generateMipmaps(_generateMipmaps)
+	{}
+
+	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, const vector2f &_texSize, TextureSampler _sampler = LINEAR_CLAMP, bool _generateMipmaps = false) :
+		format(_format), dataSize(_dataSize), texSize(_texSize), sampler(_sampler), generateMipmaps(_generateMipmaps)
+	{}
+
+	const TextureFormat format;
+	const vector2f dataSize;
+	const vector2f texSize;
+	const TextureSampler sampler; // XXX perhaps this should live in Material?
+	const bool generateMipmaps;
+
+	void operator=(const TextureDescriptor &o) {
+		const_cast<TextureFormat&>(format) = o.format;
+		const_cast<vector2f&>(dataSize) = o.dataSize;
+		const_cast<vector2f&>(texSize) = o.texSize;
+		const_cast<TextureSampler&>(sampler) = o.sampler;
+		const_cast<bool&>(generateMipmaps) = o.generateMipmaps;
+	}
+};
+
+class Texture {
 public:
 	const TextureDescriptor &GetDescriptor() const { return m_descriptor; }
 
-private:
-	// only renderer (specifically, the cache in the baseclass) can create and
-	// destroy these
-	friend class Renderer;
+	// XXX include position
+	virtual void Update(const void *data, const vector2f &dataSize, ImageFormat format, ImageType type) = 0;
+
+	virtual ~Texture() {}
+
+protected:
 	Texture(const TextureDescriptor &descriptor) : m_descriptor(descriptor) {}
 
-	Texture(const Texture&);
-	Texture &operator=(const Texture&);
-
+private:
 	TextureDescriptor m_descriptor;
 };
 

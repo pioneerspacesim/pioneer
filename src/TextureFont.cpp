@@ -423,8 +423,10 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 
 		FT_Done_Glyph(glyph);
 
-		GlyphTextureDescriptor descriptor(filename_ttf, chr, pixBuf, vector2f(sz,sz));
-		glfglyph.quad = new Gui::TexturedQuad(Gui::Screen::GetRenderer()->GetTexture(&descriptor));
+		Graphics::TextureDescriptor descriptor(Graphics::TEXTURE_LUMINANCE_ALPHA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
+		Graphics::Texture *texture = Gui::Screen::GetRenderer()->CreateTexture(descriptor);
+		texture->Update(pixBuf, vector2f(sz,sz), Graphics::IMAGE_LUMINANCE_ALPHA, Graphics::IMAGE_UNSIGNED_BYTE);
+		glfglyph.quad = new Gui::TexturedQuad(texture);
 
 		glfglyph.advx = float(m_face->glyph->advance.x) / 64.0 + advx_adjust;
 		glfglyph.advy = float(m_face->glyph->advance.y) / 64.0;
@@ -447,15 +449,4 @@ TextureFont::~TextureFont()
 		if ((*i).second.quad)
 			delete (*i).second.quad;
 	}
-}
-
-
-TextureFont::GlyphTextureDescriptor::GlyphTextureDescriptor(const std::string &_filename, Uint32 _codePoint, const void *data, const vector2f &size) :
-	Graphics::TextureDescriptor(TYPE_GLYPH, TARGET_2D, Format(Format::INTERNAL_LUMINANCE_ALPHA, Format::DATA_LUMINANCE_ALPHA, Format::DATA_UNSIGNED_BYTE), Options(Options::CLAMP, Options::NEAREST, false)),
-	filename(_filename), codePoint(_codePoint), m_data(data), m_size(size)
-{
-}
-
-const Graphics::TextureDescriptor::Data *TextureFont::GlyphTextureDescriptor::GetData() const {
-	return new Data(m_data, m_size);
 }

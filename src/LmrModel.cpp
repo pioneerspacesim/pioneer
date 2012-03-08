@@ -11,12 +11,12 @@
 #include "EquipType.h"
 #include "EquipSet.h"
 #include "ShipType.h"
-#include "WorldTexture.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/Shader.h"
 #include "graphics/VertexArray.h"
+#include "graphics/SDLTextureBuilder.h"
 #include <set>
 #include <algorithm>
 
@@ -55,14 +55,23 @@ namespace ShipThruster {
 		gVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
 		//set up materials
-		tMat.texture0 = renderer->GetTexture(WorldTextureDescriptor(PIONEER_DATA_DIR"/textures/thruster.png"));
-		tMat.unlit = true;
-		tMat.twoSided = true;
-		tMat.diffuse = color;
-		glowMat.texture0 = renderer->GetTexture(WorldTextureDescriptor(PIONEER_DATA_DIR"/textures/halo.png"));
-		glowMat.unlit = true;
-		glowMat.twoSided = true;
-		glowMat.diffuse = color;
+		{
+			Graphics::SDLTextureBuilder b(PIONEER_DATA_DIR"/textures/thruster.png");
+			tMat.texture0 = renderer->CreateTexture(b.GetDescriptor());
+			b.UpdateTexture(tMat.texture0);
+			tMat.unlit = true;
+			tMat.twoSided = true;
+			tMat.diffuse = color;
+		}
+
+		{
+			Graphics::SDLTextureBuilder b(PIONEER_DATA_DIR"/textures/halo.png");
+			glowMat.texture0 = renderer->CreateTexture(b.GetDescriptor());
+			b.UpdateTexture(tMat.texture0);
+			glowMat.unlit = true;
+			glowMat.twoSided = true;
+			glowMat.diffuse = color;
+		}
 
 		//zero at thruster center
 		//+x down
@@ -420,7 +429,7 @@ public:
 				}
 				Graphics::Material mat;
 				mat.unlit = true;
-				mat.texture0 = s_renderer->GetTexture(*op.billboards.texture);
+				// XXX TEXTURE mat.texture0 = s_renderer->GetTexture(*op.billboards.texture);
 				mat.diffuse = Color(op.billboards.col[0], op.billboards.col[1], op.billboards.col[2], op.billboards.col[3]);
 				s_renderer->DrawPointSprites(op.billboards.count, &verts[0], &mat, op.billboards.size);
 				BindBuffers();
@@ -575,7 +584,7 @@ public:
 	}
 	void SetTexture(const char *tex) {
 		if (tex) {
-			curTexture = new WorldTextureDescriptor(tex);
+			curTexture = new std::string(tex);
 		} else {
 			curTexture = 0;
 			curGlowmap = 0; //won't have these without textures
@@ -583,7 +592,7 @@ public:
 	}
 	void SetGlowMap(const char *tex) {
 		if (tex) {
-			curGlowmap = new WorldTextureDescriptor(tex);
+			curGlowmap = new std::string(tex);
 		} else {
 			curGlowmap = 0;
 		}
@@ -663,7 +672,7 @@ public:
 		curOp.type = OP_DRAW_BILLBOARDS;
 		curOp.billboards.start = m_vertices.size();
 		curOp.billboards.count = numPoints;
-		curOp.billboards.texture = new WorldTextureDescriptor(buf);
+		curOp.billboards.texture = new std::string(buf);
 		curOp.billboards.size = size;
 		curOp.billboards.col[0] = color.x;
 		curOp.billboards.col[1] = color.y;
@@ -808,11 +817,11 @@ private:
 	struct Op {
 		enum OpType type;
 		union {
-			struct { WorldTextureDescriptor *texture; WorldTextureDescriptor *glowmap; int start, count, elemMin, elemMax; } elems;
+			struct { std::string *texture; std::string *glowmap; int start, count, elemMin, elemMax; } elems;
 			struct { int material_idx; } col;
 			struct { float amount; float pos[3]; float norm[3]; } zbias;
 			struct { LmrModel *model; float transform[16]; float scale; } callmodel;
-			struct { WorldTextureDescriptor *texture; int start, count; float size; float col[4]; } billboards;
+			struct { std::string *texture; int start, count; float size; float col[4]; } billboards;
 			struct { bool local; } lighting_type;
 			struct { int num; float quadratic_attenuation; float pos[4], col[4]; } light;
 		};
@@ -820,8 +829,8 @@ private:
 	/* this crap is only used at build time... could move this elsewhere */
 	Op curOp;
 	Uint16 curTriFlag;
-	WorldTextureDescriptor *curTexture;
-	WorldTextureDescriptor *curGlowmap;
+	std::string *curTexture;
+	std::string *curGlowmap;
 	matrix4x4f curTexMatrix;
 	// 
 	std::vector<Vertex> m_vertices;
@@ -858,12 +867,12 @@ public:
 					_fwrite_string(m_ops[i].callmodel.model->GetName(), f);
 				}
 				else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
-					_fwrite_string(m_ops[i].elems.texture->filename, f);
+					_fwrite_string(*m_ops[i].elems.texture, f);
 					if (m_ops[i].elems.glowmap)
-						_fwrite_string(m_ops[i].elems.glowmap->filename, f);
+						_fwrite_string(*m_ops[i].elems.glowmap, f);
 				}
 				else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
-					_fwrite_string(m_ops[i].billboards.texture->filename, f);
+					_fwrite_string(*m_ops[i].billboards.texture, f);
 				}
 			}
 		}
@@ -903,12 +912,13 @@ public:
 				m_ops[i].callmodel.model = s_models[_fread_string(f)];
 			}
 			else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
-				m_ops[i].elems.texture = new WorldTextureDescriptor(_fread_string(f));
+				m_ops[i].elems.texture = new std::string(_fread_string(f));
+
 				if (m_ops[i].elems.glowmap)
-					m_ops[i].elems.glowmap = new WorldTextureDescriptor(_fread_string(f));
+					m_ops[i].elems.glowmap = new std::string(_fread_string(f));
 			}
 			else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
-				m_ops[i].billboards.texture = new WorldTextureDescriptor(_fread_string(f));
+				m_ops[i].billboards.texture = new std::string(_fread_string(f));
 			}
 		}
 	}

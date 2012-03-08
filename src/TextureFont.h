@@ -3,7 +3,6 @@
 
 #include "Font.h"
 #include "Color.h"
-#include "graphics/TextureDescriptor.h"
 
 namespace Graphics { class Renderer; }
 namespace Gui { class TexturedQuad; }

@@ -5,12 +5,12 @@
 #include "StarSystem.h"
 #include "Space.h"
 #include "Pi.h"
-#include "WorldTexture.h"
 #include "graphics/Material.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
+#include "graphics/SDLTextureBuilder.h"
 
 using namespace Graphics;
 
@@ -118,8 +118,10 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			vector3f pos(&fpos.x);
 			//XXX no need to recreate material every time
 			Material mat;
+			Graphics::SDLTextureBuilder b(PIONEER_DATA_DIR"/textures/projectile_l.png");
+			mat.texture0 = Pi::renderer->CreateTexture(b.GetDescriptor());
+			b.UpdateTexture(mat.texture0);
 			mat.unlit = true;
-			mat.texture0 = Pi::renderer->GetTexture(WorldTextureDescriptor(PIONEER_DATA_DIR "/textures/smoke.png"));
 			mat.diffuse = Color(1.f, 1.f, 0.f, 1.0f-(m_age/2.0f));
 			renderer->DrawPointSprites(1, &pos, &mat, 20.f);
 			break;

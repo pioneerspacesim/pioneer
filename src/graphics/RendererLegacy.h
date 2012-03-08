@@ -52,7 +52,7 @@ public:
 	virtual bool DrawPointSprites(int count, const vector3f *positions, const Material *material, float size);
 	virtual bool DrawStaticMesh(StaticMesh *thing);
 
-	virtual Texture *Create2DTexture(const TextureDescriptor &descriptor);
+	virtual Texture *CreateTexture(const TextureDescriptor &descriptor);
 
 protected:
 	virtual void PushState();

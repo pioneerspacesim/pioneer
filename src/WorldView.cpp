@@ -19,6 +19,7 @@
 #include "gui/GuiTexture.h"
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
+#include "graphics/SDLTextureBuilder.h"
 #include "matrix4x4.h"
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
@@ -182,9 +183,12 @@ void WorldView::InitObject()
 	Add(m_targetLeadIndicator.label, 0, 0);
 
 	// XXX m_renderer not set yet
-	Graphics::Texture *texture = Pi::renderer->GetTexture(Gui::FileTextureDescriptor(PIONEER_DATA_DIR "/icons/indicator_mousedir.png"));
+	Graphics::SDLTextureBuilder b(PIONEER_DATA_DIR "/icons/indicator_mousedir.png");
+	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();
+	Graphics::Texture *texture = Gui::Screen::GetRenderer()->CreateTexture(descriptor);
+	b.UpdateTexture(texture);
 	m_indicatorMousedir.Reset(new Gui::TexturedQuad(texture));
-	m_indicatorMousedirSize = texture->GetSize();
+	m_indicatorMousedirSize = vector2f(descriptor.dataSize.x*descriptor.texSize.x,descriptor.dataSize.y*descriptor.texSize.y);
 
 	//get near & far clipping distances
 	//XXX m_renderer not set yet

@@ -22,13 +22,13 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
-#include "WorldTexture.h"
 #include "graphics/Material.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/Shader.h"
+#include "graphics/SDLTextureBuilder.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
@@ -1113,7 +1113,9 @@ void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 
 		// XXX no need to recreate material every time
 		Graphics::Material mat;
-		mat.texture0 = Pi::renderer->GetTexture(WorldTextureDescriptor(PIONEER_DATA_DIR "/textures/ecm.png"));
+		Graphics::SDLTextureBuilder b(PIONEER_DATA_DIR"/textures/projectile_l.png");
+		mat.texture0 = Pi::renderer->CreateTexture(b.GetDescriptor());
+		b.UpdateTexture(mat.texture0);
 		mat.unlit = true;
 		mat.diffuse = c;
 		renderer->DrawPointSprites(100, v, &mat, 50.f);

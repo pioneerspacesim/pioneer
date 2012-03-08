@@ -1,7 +1,6 @@
 #ifndef _GUITEXTURE_H
 #define _GUITEXTURE_H
 
-#include "graphics/TextureDescriptor.h"
 #include "graphics/Texture.h"
 #include "graphics/Drawables.h"
 #include "Color.h"

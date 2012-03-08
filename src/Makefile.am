@@ -134,7 +134,6 @@ noinst_HEADERS = \
 	VectorFont.h \
 	VideoLink.h \
 	View.h \
-	WorldTexture.h \
 	WorldView.h \
 	SmartPtr.h \
 	buildopts.h \
@@ -262,7 +261,6 @@ pioneer_SOURCES	= \
 	TextureFont.cpp \
 	TextSupport.cpp \
 	VectorFont.cpp \
-	WorldTexture.cpp \
 	WorldView.cpp \
 	main.cpp \
 	mtrand.cpp \
@@ -297,7 +295,6 @@ modelviewer_SOURCES = \
 	TextureFont.cpp \
 	TextSupport.cpp \
 	VectorFont.cpp \
-	WorldTexture.cpp \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp

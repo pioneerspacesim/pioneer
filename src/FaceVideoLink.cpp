@@ -6,6 +6,7 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
+#include "graphics/SDLTextureBuilder.h"
 
 using namespace Graphics;
 
@@ -132,8 +133,10 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 		_blit_image(s, filename, 0, 0);
 	}
 
-	// XXX TEXTURE invalidate the old one
-	m_quad.Reset(new Gui::TexturedQuad(Gui::Screen::GetRenderer()->GetTexture(Gui::SurfaceTextureDescriptor("face", s))));
+	Graphics::SDLTextureBuilder b(s);
+	Graphics::Texture *texture = Gui::Screen::GetRenderer()->CreateTexture(b.GetDescriptor());
+	b.UpdateTexture(texture);
+	m_quad.Reset(new Gui::TexturedQuad(texture));
 }
 
 FaceVideoLink::~FaceVideoLink() {

@@ -2,16 +2,20 @@
 #include "GuiImage.h"
 #include "GuiScreen.h"
 #include "GuiTexture.h"
+#include "graphics/SDLTextureBuilder.h"
 
 namespace Gui {
 
 Image::Image(const char *filename): Widget(), m_color(Color::WHITE)
 {
-	Graphics::Texture *texture = Gui::Screen::GetRenderer()->GetTexture(FileTextureDescriptor(filename));
+	Graphics::SDLTextureBuilder b(filename, true);
+	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();
+	Graphics::Texture *texture = Gui::Screen::GetRenderer()->CreateTexture(descriptor);
+	b.UpdateTexture(texture);
 	m_quad.Reset(new TexturedQuad(texture));
 
-	m_width = texture->GetSize().x;
-	m_height = texture->GetSize().y;
+	m_width = descriptor.dataSize.x*descriptor.texSize.x;
+	m_height = descriptor.dataSize.y*descriptor.texSize.y;
 
 	SetSize(m_width, m_height);
 }

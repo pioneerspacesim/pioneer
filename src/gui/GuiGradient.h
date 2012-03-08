@@ -20,7 +20,7 @@ namespace Gui {
 			VERTICAL
 		};
 
-		Gradient(float width, float height, const Color &begin, const Color &end, Direction direction = VERTICAL);
+		Gradient(float width, float height, const Color &beginColor, const Color &endColor, Direction direction = VERTICAL);
 
 		virtual void Draw();
 		virtual void GetSizeRequested(float size[2]);

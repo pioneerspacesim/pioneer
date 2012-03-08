@@ -12,6 +12,7 @@
 #include "StringF.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
+#include "graphics/SDLTextureBuilder.h"
 
 using namespace Graphics;
 
@@ -23,7 +24,11 @@ GalacticView::GalacticView()
 		galaxySurface->pixels, galaxySurface->w, galaxySurface->h,
 		galaxySurface->format->BitsPerPixel, galaxySurface->pitch,
 		galaxySurface->format->Rmask, galaxySurface->format->Gmask, galaxySurface->format->Bmask, galaxySurface->format->Amask);
-	m_quad.Reset(new Gui::TexturedQuad(Gui::Screen::GetRenderer()->GetTexture(Gui::SurfaceTextureDescriptor("galaxy", quadSurface))));
+
+	Graphics::SDLTextureBuilder b(quadSurface);
+	Graphics::Texture *texture = Gui::Screen::GetRenderer()->CreateTexture(b.GetDescriptor());
+	b.UpdateTexture(texture);
+	m_quad.Reset(new Gui::TexturedQuad(texture));
 
 	SetTransparency(true);
 	m_zoom = 1.0f;
