@@ -185,9 +185,7 @@ void WorldView::InitObject()
 	// XXX m_renderer not set yet
 	Graphics::SDLTextureBuilder b(PIONEER_DATA_DIR "/icons/indicator_mousedir.png");
 	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();
-	Graphics::Texture *texture = Gui::Screen::GetRenderer()->CreateTexture(descriptor);
-	b.UpdateTexture(texture);
-	m_indicatorMousedir.Reset(new Gui::TexturedQuad(texture));
+	m_indicatorMousedir.Reset(new Gui::TexturedQuad(b.CreateTexture(Gui::Screen::GetRenderer())));
 	m_indicatorMousedirSize = vector2f(descriptor.dataSize.x*descriptor.texSize.x,descriptor.dataSize.y*descriptor.texSize.y);
 
 	//get near & far clipping distances

@@ -4,6 +4,7 @@
 #include <SDL/SDL.h>
 #include <string>
 #include "Texture.h"
+#include "Renderer.h"
 
 namespace Graphics {
 
@@ -15,6 +16,12 @@ public:
 
 	const TextureDescriptor &GetDescriptor() const { return m_descriptor; }
 	void UpdateTexture(Texture *texture); // XXX pass src/dest rectangles
+
+	Texture *CreateTexture(Renderer *r) {
+		Texture *t = r->CreateTexture(m_descriptor);
+		UpdateTexture(t);
+		return t;
+	}
 
 private:
 	void PrepareSurface(bool potExtend, bool forceRGBA);

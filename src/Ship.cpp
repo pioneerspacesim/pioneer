@@ -1113,9 +1113,7 @@ void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 
 		// XXX no need to recreate material every time
 		Graphics::Material mat;
-		Graphics::SDLTextureBuilder b(PIONEER_DATA_DIR"/textures/projectile_l.png");
-		mat.texture0 = Pi::renderer->CreateTexture(b.GetDescriptor());
-		b.UpdateTexture(mat.texture0);
+		mat.texture0 = Graphics::SDLTextureBuilder(PIONEER_DATA_DIR"/textures/ecm.png").CreateTexture(Pi::renderer);
 		mat.unlit = true;
 		mat.diffuse = c;
 		renderer->DrawPointSprites(100, v, &mat, 50.f);

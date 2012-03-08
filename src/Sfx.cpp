@@ -118,9 +118,7 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			vector3f pos(&fpos.x);
 			//XXX no need to recreate material every time
 			Material mat;
-			Graphics::SDLTextureBuilder b(PIONEER_DATA_DIR"/textures/projectile_l.png");
-			mat.texture0 = Pi::renderer->CreateTexture(b.GetDescriptor());
-			b.UpdateTexture(mat.texture0);
+			mat.texture0 = Graphics::SDLTextureBuilder(PIONEER_DATA_DIR"/textures/smoke.png").CreateTexture(Pi::renderer);
 			mat.unlit = true;
 			mat.diffuse = Color(1.f, 1.f, 0.f, 1.0f-(m_age/2.0f));
 			renderer->DrawPointSprites(1, &pos, &mat, 20.f);

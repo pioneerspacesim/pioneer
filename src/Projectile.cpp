@@ -29,17 +29,13 @@ Projectile::Projectile(): Body()
 
 	//set up materials
 	{
-		Graphics::SDLTextureBuilder b(PIONEER_DATA_DIR"/textures/projectile_l.png");
-		m_sideMat.texture0 = Pi::renderer->CreateTexture(b.GetDescriptor());
-		b.UpdateTexture(m_sideMat.texture0);
+		m_sideMat.texture0 = Graphics::SDLTextureBuilder(PIONEER_DATA_DIR"/textures/projectile_l.png").CreateTexture(Pi::renderer);
 		m_sideMat.unlit = true;
 		m_sideMat.twoSided = true;
 	}
 
 	{
-		Graphics::SDLTextureBuilder b(PIONEER_DATA_DIR"/textures/projectile_w.png");
-		m_glowMat.texture0 = Pi::renderer->CreateTexture(b.GetDescriptor());
-		b.UpdateTexture(m_glowMat.texture0);
+		m_glowMat.texture0 = Graphics::SDLTextureBuilder(PIONEER_DATA_DIR"/textures/projectile_w.png").CreateTexture(Pi::renderer);
 		m_glowMat.unlit = true;
 		m_glowMat.twoSided = true;
 	}

@@ -55,23 +55,15 @@ namespace ShipThruster {
 		gVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
 		//set up materials
-		{
-			Graphics::SDLTextureBuilder b(PIONEER_DATA_DIR"/textures/thruster.png");
-			tMat.texture0 = renderer->CreateTexture(b.GetDescriptor());
-			b.UpdateTexture(tMat.texture0);
-			tMat.unlit = true;
-			tMat.twoSided = true;
-			tMat.diffuse = color;
-		}
+		tMat.texture0 = Graphics::SDLTextureBuilder(PIONEER_DATA_DIR"/textures/thruster.png").CreateTexture(renderer);
+		tMat.unlit = true;
+		tMat.twoSided = true;
+		tMat.diffuse = color;
 
-		{
-			Graphics::SDLTextureBuilder b(PIONEER_DATA_DIR"/textures/halo.png");
-			glowMat.texture0 = renderer->CreateTexture(b.GetDescriptor());
-			b.UpdateTexture(tMat.texture0);
-			glowMat.unlit = true;
-			glowMat.twoSided = true;
-			glowMat.diffuse = color;
-		}
+		glowMat.texture0 = Graphics::SDLTextureBuilder(PIONEER_DATA_DIR"/textures/halo.png").CreateTexture(renderer);
+		glowMat.unlit = true;
+		glowMat.twoSided = true;
+		glowMat.diffuse = color;
 
 		//zero at thruster center
 		//+x down
