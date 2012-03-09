@@ -1115,7 +1115,7 @@ void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 
 		// XXX no need to recreate material every time
 		Graphics::Material mat;
-		mat.texture0 = Graphics::SDLTextureBuilder(ecmTextureFilename).GetOrCreateTexture(Pi::renderer, "billboard");
+		mat.texture0 = Graphics::SDLTextureBuilder::Model(ecmTextureFilename).GetOrCreateTexture(Pi::renderer, "model");
 		mat.unlit = true;
 		mat.diffuse = c;
 		renderer->DrawPointSprites(100, v, &mat, 50.f);

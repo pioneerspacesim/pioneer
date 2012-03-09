@@ -25,7 +25,7 @@ GalacticView::GalacticView()
 		galaxySurface->format->BitsPerPixel, galaxySurface->pitch,
 		galaxySurface->format->Rmask, galaxySurface->format->Gmask, galaxySurface->format->Bmask, galaxySurface->format->Amask);
 
-	m_quad.Reset(new Gui::TexturedQuad(Graphics::SDLTextureBuilder(quadSurface).CreateTexture(Gui::Screen::GetRenderer())));
+	m_quad.Reset(new Gui::TexturedQuad(Graphics::SDLTextureBuilder(quadSurface, Graphics::LINEAR_CLAMP, true, true).CreateTexture(Gui::Screen::GetRenderer())));
 
 	SetTransparency(true);
 	m_zoom = 1.0f;

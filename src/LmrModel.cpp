@@ -59,12 +59,12 @@ namespace ShipThruster {
 		gVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
 		//set up materials
-		tMat.texture0 = Graphics::SDLTextureBuilder(thrusterTextureFilename).GetOrCreateTexture(renderer, "billboard");
+		tMat.texture0 = Graphics::SDLTextureBuilder::Billboard(thrusterTextureFilename).GetOrCreateTexture(renderer, "billboard");
 		tMat.unlit = true;
 		tMat.twoSided = true;
 		tMat.diffuse = color;
 
-		glowMat.texture0 = Graphics::SDLTextureBuilder(thrusterGlowTextureFilename).GetOrCreateTexture(renderer, "billboard");
+		glowMat.texture0 = Graphics::SDLTextureBuilder::Billboard(thrusterGlowTextureFilename).GetOrCreateTexture(renderer, "billboard");
 		glowMat.unlit = true;
 		glowMat.twoSided = true;
 		glowMat.diffuse = color;
@@ -383,11 +383,11 @@ public:
 				if (op.elems.texture) {
 					UseProgram(curShader, true, op.elems.glowmap != 0);
 					glActiveTexture(GL_TEXTURE0);
-					texture = static_cast<Graphics::TextureGL*>(Graphics::SDLTextureBuilder(*op.elems.texture, Graphics::LINEAR_REPEAT).GetOrCreateTexture(s_renderer, "model"));
+					texture = static_cast<Graphics::TextureGL*>(Graphics::SDLTextureBuilder::Model(*op.elems.texture).GetOrCreateTexture(s_renderer, "model"));
 					texture->Bind();
 					if (op.elems.glowmap) {
 						glActiveTexture(GL_TEXTURE1);
-						glowmap = static_cast<Graphics::TextureGL*>(Graphics::SDLTextureBuilder(*op.elems.glowmap, Graphics::LINEAR_REPEAT).GetOrCreateTexture(s_renderer, "model"));
+						glowmap = static_cast<Graphics::TextureGL*>(Graphics::SDLTextureBuilder::Model(*op.elems.glowmap).GetOrCreateTexture(s_renderer, "model"));
 						glowmap->Bind();
 						glActiveTexture(GL_TEXTURE0);
 					}
@@ -429,7 +429,7 @@ public:
 				}
 				Graphics::Material mat;
 				mat.unlit = true;
-				mat.texture0 = Graphics::SDLTextureBuilder(*op.billboards.texture).GetOrCreateTexture(s_renderer, "billboard");
+				mat.texture0 = Graphics::SDLTextureBuilder::Billboard(*op.billboards.texture).GetOrCreateTexture(s_renderer, "billboard");
 				mat.diffuse = Color(op.billboards.col[0], op.billboards.col[1], op.billboards.col[2], op.billboards.col[3]);
 				s_renderer->DrawPointSprites(op.billboards.count, &verts[0], &mat, op.billboards.size);
 				BindBuffers();

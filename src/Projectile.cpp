@@ -31,10 +31,10 @@ Projectile::Projectile(): Body()
 	m_flags |= FLAG_DRAW_LAST;
 
 	//set up materials
-	m_sideMat.texture0 = Graphics::SDLTextureBuilder(projectileTextureFilename).GetOrCreateTexture(Pi::renderer, "billboard");
+	m_sideMat.texture0 = Graphics::SDLTextureBuilder::Billboard(projectileTextureFilename).GetOrCreateTexture(Pi::renderer, "billboard");
 	m_sideMat.unlit = true;
 	m_sideMat.twoSided = true;
-	m_glowMat.texture0 = Graphics::SDLTextureBuilder(projectileGlowTextureFilename).GetOrCreateTexture(Pi::renderer, "billboard");
+	m_glowMat.texture0 = Graphics::SDLTextureBuilder::Billboard(projectileGlowTextureFilename).GetOrCreateTexture(Pi::renderer, "billboard");
 	m_glowMat.unlit = true;
 	m_glowMat.twoSided = true;
 

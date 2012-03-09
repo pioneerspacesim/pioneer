@@ -185,7 +185,7 @@ void WorldView::InitObject()
 	Add(m_targetLeadIndicator.label, 0, 0);
 
 	// XXX m_renderer not set yet
-	Graphics::SDLTextureBuilder b(indicatorMousedirTextureFilename, Graphics::LINEAR_CLAMP, true);
+	Graphics::SDLTextureBuilder b = Graphics::SDLTextureBuilder::UI(indicatorMousedirTextureFilename);
 	m_indicatorMousedir.Reset(new Gui::TexturedQuad(b.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
 
 	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();

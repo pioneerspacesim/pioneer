@@ -14,6 +14,17 @@ public:
 	SDLTextureBuilder(const std::string &filename, TextureSampler sampler = LINEAR_CLAMP, bool potExtend = false, bool forceRGBA = true);
 	~SDLTextureBuilder();
 
+	// convenience constructors for common texture types
+	static SDLTextureBuilder Model(const std::string &filename) {
+		return SDLTextureBuilder(filename, LINEAR_REPEAT, false, false);
+	}
+	static SDLTextureBuilder Billboard(const std::string &filename) {
+		return SDLTextureBuilder(filename, LINEAR_CLAMP, false, false);
+	}
+	static SDLTextureBuilder UI(const std::string &filename) {
+		return SDLTextureBuilder(filename, LINEAR_CLAMP, true, true);
+	}
+
 	const TextureDescriptor &GetDescriptor() { PrepareSurface(); return m_descriptor; }
 	void UpdateTexture(Texture *texture); // XXX pass src/dest rectangles
 
