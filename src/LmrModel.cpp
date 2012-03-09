@@ -17,6 +17,7 @@
 #include "graphics/Shader.h"
 #include "graphics/VertexArray.h"
 #include "graphics/SDLTextureBuilder.h"
+#include "graphics/TextureGL.h" // XXX temporary until LMR uses renderer drawing properly
 #include <set>
 #include <algorithm>
 
@@ -377,21 +378,21 @@ public:
 		for (unsigned int i=0; i<opEndIdx; i++) {
 			const Op &op = m_ops[i];
 			switch (op.type) {
-			case OP_DRAW_ELEMENTS:
-				/* XXX TEXTURE
-				if (op.elems.texture != 0 ) {
+			case OP_DRAW_ELEMENTS: {
+				Graphics::TextureGL *texture = 0, *glowmap = 0;
+				if (op.elems.texture) {
 					UseProgram(curShader, true, op.elems.glowmap != 0);
 					glActiveTexture(GL_TEXTURE0);
-					glEnable(GL_TEXTURE_2D);
-					op.elems.texture->Bind();
+					texture = static_cast<Graphics::TextureGL*>(Graphics::SDLTextureBuilder(*op.elems.texture).GetOrCreateTexture(s_renderer, "model"));
+					texture->Bind();
 					if (op.elems.glowmap != 0) {
 						glActiveTexture(GL_TEXTURE1);
-						op.elems.glowmap->Bind();
+						glowmap = static_cast<Graphics::TextureGL*>(Graphics::SDLTextureBuilder(*op.elems.glowmap).GetOrCreateTexture(s_renderer, "model"));
+						glowmap->Bind();
 					}
 				} else {
 					UseProgram(curShader, false);
 				}
-				*/
 				if (m_isStatic) {
 					// from static VBO
 					glDrawElements(GL_TRIANGLES, 
@@ -406,13 +407,16 @@ public:
 					// otherwise regular index vertex array
 					glDrawElements(GL_TRIANGLES, op.elems.count, GL_UNSIGNED_SHORT, &m_indices[op.elems.start]);
 				}
-				/* XXX TEXTURE
-				if ( op.elems.texture != 0 ) {
+				if (texture) {
 					glActiveTexture(GL_TEXTURE0);
-					glDisable(GL_TEXTURE_2D);
+					texture->Unbind();
+					if (glowmap) {
+						glActiveTexture(GL_TEXTURE1);
+						glowmap->Unbind();
+					}
 				}
-				*/
 				break;
+			}
 			case OP_DRAW_BILLBOARDS: {
 				Graphics::UnbindAllBuffers();
 				//XXX have to copy positions to a temporary array as
@@ -424,7 +428,7 @@ public:
 				}
 				Graphics::Material mat;
 				mat.unlit = true;
-				// XXX TEXTURE mat.texture0 = s_renderer->GetTexture(*op.billboards.texture);
+				mat.texture0 = Graphics::SDLTextureBuilder(*op.billboards.texture).GetOrCreateTexture(s_renderer, "billboard");
 				mat.diffuse = Color(op.billboards.col[0], op.billboards.col[1], op.billboards.col[2], op.billboards.col[3]);
 				s_renderer->DrawPointSprites(op.billboards.count, &verts[0], &mat, op.billboards.size);
 				BindBuffers();
