@@ -118,6 +118,8 @@ void SDLTextureBuilder::PrepareSurface()
 	}
 
 	m_descriptor = TextureDescriptor(targetTextureFormat, vector2f(width,height), vector2f(float(vwidth)/float(width),float(vheight)/float(height)), LINEAR_CLAMP, false);
+	
+	m_prepared = true;
 }
 
 void SDLTextureBuilder::LoadSurface()
