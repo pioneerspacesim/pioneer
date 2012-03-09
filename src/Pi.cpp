@@ -65,6 +65,7 @@
 #include "Game.h"
 #include "GameLoaderSaver.h"
 #include "Light.h"
+#include "Sfx.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 
@@ -128,7 +129,6 @@ LuaConsole *Pi::luaConsole;
 Game *Pi::game;
 MTRand Pi::rng;
 float Pi::frameTime;
-GLUquadric *Pi::gluQuadric;
 #if WITH_DEVKEYS
 bool Pi::showDebugInfo;
 #endif
@@ -499,8 +499,6 @@ void Pi::Init()
 
 	Pi::textureCache = new TextureCache;
 
-	Pi::gluQuadric = gluNewQuadric();
-
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
 	Gui::Init(scrWidth, scrHeight, 800, 600);
@@ -541,6 +539,9 @@ void Pi::Init()
 
 	SpaceStation::Init();
 	draw_progress(0.9f);
+
+	Sfx::Init();
+	draw_progress(0.95f);
 
 	if (!config.Int("DisableSound")) {
 		Sound::Init();
@@ -629,6 +630,7 @@ void Pi::Quit()
 {
 	delete Pi::gameMenuView;
 	delete Pi::luaConsole;
+	Sfx::Uninit();
 	Sound::Uninit();
 	SpaceStation::Uninit();
 	CityOnPlanet::Uninit();
