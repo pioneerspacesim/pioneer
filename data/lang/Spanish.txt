@@ -66,7 +66,7 @@ FIT
 REMOVE
     -
 BUY_THIS_SHIP
-    Adquirir esta nave
+    Adquirir
 SHIP_TYPE
     Tipo de nave
 REGISTRATION_ID
@@ -687,7 +687,7 @@ PLUTOCRATIC_DICTATORSHIP
 VIOLENT_ANARCHY
     Desorden - Revoluciones armadas contra el gobierno
 X_CANNOT_BE_TOLERATED_HERE
-    %crime no se tolera aquí
+    %crime no tolerado
 SECTOR_X_Y_Z
     Sector: %x,%y,%z
 CURRENT_SYSTEM
@@ -1058,6 +1058,8 @@ MANUAL_CONTROL
     Control manual
 COMPUTER_SPEED_CONTROL
     Navegación asistida
+COMPUTER_HEADING_CONTROL
+    Asistencia direccional
 AUTOPILOT_ON
     Piloto automático ON
 SHIP_VELOCITY_BY_REFERENCE_OBJECT
@@ -1071,11 +1073,11 @@ EXTERNAL_ATMOSPHERIC_PRESSURE
 HULL_TEMP
     Temp. del casco
 WEAPON_TEMP
-    Temp. del armamento
+    Temp. armas
 HULL_INTEGRITY
-    Integridad del casco
+    Integr. casco
 SHIELD_INTEGRITY
-    Integridad del escudo
+    Integr. escudo
 FUEL
     Fuel
 LAUNCH_PERMISSION_DENIED_BUSY
@@ -1090,6 +1092,10 @@ DOCKED
     Atracado
 HYPERSPACE
     Hiperespacio
+HEADING_LOCK_FORWARD
+    Bloqueo direcc. (pro)
+HEADING_LOCK_BACKWARD
+    Bloqueo direcc. (retro)
 SET_SPEED_KM_S
     Velocidad: %speed{f.2} km/s
 SET_SPEED_M_S

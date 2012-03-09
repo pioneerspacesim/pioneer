@@ -51,7 +51,7 @@ bool RendererGL2::SetPerspectiveProjection(float fov, float aspect, float near, 
 	glFrustum(xmin, xmax, ymin, ymax, near, far);
 
 	// update values for log-z hack
-	State::SetZnearZfar(near, far);
+	Graphics::State::SetZnearZfar(near, far);
 	return true;
 }
 
