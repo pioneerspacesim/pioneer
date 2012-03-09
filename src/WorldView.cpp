@@ -22,6 +22,8 @@
 #include "graphics/SDLTextureBuilder.h"
 #include "matrix4x4.h"
 
+static const std::string indicatorMousedirTextureFilename(PIONEER_DATA_DIR"/icons/indicator_mousedir.png");
+
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.9f);
 
@@ -183,9 +185,10 @@ void WorldView::InitObject()
 	Add(m_targetLeadIndicator.label, 0, 0);
 
 	// XXX m_renderer not set yet
-	Graphics::SDLTextureBuilder b(PIONEER_DATA_DIR "/icons/indicator_mousedir.png");
+	Graphics::SDLTextureBuilder b(indicatorMousedirTextureFilename, true);
+	m_indicatorMousedir.Reset(new Gui::TexturedQuad(b.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+
 	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();
-	m_indicatorMousedir.Reset(new Gui::TexturedQuad(b.CreateTexture(Gui::Screen::GetRenderer())));
 	m_indicatorMousedirSize = vector2f(descriptor.dataSize.x*descriptor.texSize.x,descriptor.dataSize.y*descriptor.texSize.y);
 
 	//get near & far clipping distances

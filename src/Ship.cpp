@@ -30,6 +30,8 @@
 #include "graphics/Shader.h"
 #include "graphics/SDLTextureBuilder.h"
 
+static const std::string ecmTextureFilename(PIONEER_DATA_DIR"/textures/ecm.png");
+
 #define TONS_HULL_PER_SHIELD 10.0f
 
 void SerializableEquipSet::Save(Serializer::Writer &wr)
@@ -1113,7 +1115,7 @@ void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 
 		// XXX no need to recreate material every time
 		Graphics::Material mat;
-		mat.texture0 = Graphics::SDLTextureBuilder(PIONEER_DATA_DIR"/textures/ecm.png").CreateTexture(Pi::renderer);
+		mat.texture0 = Graphics::SDLTextureBuilder(ecmTextureFilename).GetOrCreateTexture(Pi::renderer, "billboard");
 		mat.unlit = true;
 		mat.diffuse = c;
 		renderer->DrawPointSprites(100, v, &mat, 50.f);

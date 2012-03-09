@@ -9,9 +9,9 @@ namespace Gui {
 Image::Image(const char *filename): Widget(), m_color(Color::WHITE)
 {
 	Graphics::SDLTextureBuilder b(filename, true);
-	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();
-	m_quad.Reset(new TexturedQuad(b.CreateTexture(Gui::Screen::GetRenderer())));
+	m_quad.Reset(new TexturedQuad(b.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
 
+	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();
 	m_width = descriptor.dataSize.x*descriptor.texSize.x;
 	m_height = descriptor.dataSize.y*descriptor.texSize.y;
 

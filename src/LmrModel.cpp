@@ -50,17 +50,20 @@ namespace ShipThruster {
 	//cool purple-ish
 	static Color color(0.7f, 0.6f, 1.f, 1.f);
 
+	static const std::string thrusterTextureFilename(PIONEER_DATA_DIR"/textures/thruster.png");
+	static const std::string thrusterGlowTextureFilename(PIONEER_DATA_DIR"/textures/halo.png");
+
 	static void Init(Graphics::Renderer *renderer) {
 		tVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 		gVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
 		//set up materials
-		tMat.texture0 = Graphics::SDLTextureBuilder(PIONEER_DATA_DIR"/textures/thruster.png").CreateTexture(renderer);
+		tMat.texture0 = Graphics::SDLTextureBuilder(thrusterTextureFilename).GetOrCreateTexture(renderer, "billboard");
 		tMat.unlit = true;
 		tMat.twoSided = true;
 		tMat.diffuse = color;
 
-		glowMat.texture0 = Graphics::SDLTextureBuilder(PIONEER_DATA_DIR"/textures/halo.png").CreateTexture(renderer);
+		glowMat.texture0 = Graphics::SDLTextureBuilder(thrusterGlowTextureFilename).GetOrCreateTexture(renderer, "billboard");
 		glowMat.unlit = true;
 		glowMat.twoSided = true;
 		glowMat.diffuse = color;
