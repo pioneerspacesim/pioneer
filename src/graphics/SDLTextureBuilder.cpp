@@ -3,20 +3,12 @@
 
 namespace Graphics {
 
-SDLTextureBuilder::SDLTextureBuilder(SDL_Surface *surface, bool potExtend, bool forceRGBA) : m_surface(surface)
+SDLTextureBuilder::SDLTextureBuilder(SDL_Surface *surface, bool potExtend, bool forceRGBA) : m_surface(surface), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_prepared(false)
 {
-	PrepareSurface(potExtend, forceRGBA);
 }
 
-SDLTextureBuilder::SDLTextureBuilder(const std::string &filename, bool potExtend, bool forceRGBA) : m_surface(0)
+SDLTextureBuilder::SDLTextureBuilder(const std::string &filename, bool potExtend, bool forceRGBA) : m_surface(0), m_filename(filename), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_prepared(false)
 {
-	m_surface = IMG_Load(filename.c_str());
-	if (!m_surface) {
-		fprintf(stderr, "SDLTextureBuilder: couldn't load image '%s': %s\n", filename.c_str(), IMG_GetError());
-		return;
-	}
-
-	PrepareSurface(potExtend, forceRGBA);
 }
 
 SDLTextureBuilder::~SDLTextureBuilder()
@@ -87,11 +79,16 @@ static inline Uint32 ceil_pow2(Uint32 v) {
 	return v;
 }
 
-void SDLTextureBuilder::PrepareSurface(bool potExtend, bool forceRGBA)
+void SDLTextureBuilder::PrepareSurface()
 {
+	if (m_prepared) return;
+
+	if (!m_surface && m_filename.length() > 0)
+		LoadSurface();
+
 	TextureFormat targetTextureFormat;
 	SDL_PixelFormat *targetPixelFormat;
-	bool needConvert = !GetTargetFormat(m_surface->format, &targetTextureFormat, &targetPixelFormat, forceRGBA);
+	bool needConvert = !GetTargetFormat(m_surface->format, &targetTextureFormat, &targetPixelFormat, m_forceRGBA);
 
 	if (needConvert) {
 		SDL_Surface *s = SDL_ConvertSurface(m_surface, targetPixelFormat, SDL_SWSURFACE);
@@ -103,7 +100,7 @@ void SDLTextureBuilder::PrepareSurface(bool potExtend, bool forceRGBA)
 	vwidth = width = m_surface->w;
 	vheight = height = m_surface->h;
 
-	if (potExtend) {
+	if (m_potExtend) {
 		// extend to power-of-two if necessary
 		width = ceil_pow2(m_surface->w);
 		height = ceil_pow2(m_surface->h);
@@ -121,6 +118,20 @@ void SDLTextureBuilder::PrepareSurface(bool potExtend, bool forceRGBA)
 	}
 
 	m_descriptor = TextureDescriptor(targetTextureFormat, vector2f(width,height), vector2f(float(vwidth)/float(width),float(vheight)/float(height)), LINEAR_CLAMP, false);
+}
+
+void SDLTextureBuilder::LoadSurface()
+{
+	assert(!m_surface);
+
+	m_surface = IMG_Load(m_filename.c_str());
+	if (!m_surface) {
+		fprintf(stderr, "SDLTextureBuilder: couldn't load image '%s': %s\n", m_filename.c_str(), IMG_GetError());
+
+		// XXX prepare "empty" surface
+
+		return;
+	}
 }
 
 void SDLTextureBuilder::UpdateTexture(Texture *texture)

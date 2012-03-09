@@ -126,6 +126,12 @@ public:
 	//complex unchanging geometry that is worthwhile to store in VBOs etc.
 	virtual bool DrawStaticMesh(StaticMesh *thing) { return false; }
 
+	virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
+
+	Texture *GetCachedTexture(const std::string &type, const std::string &name);
+	void AddCachedTexture(const std::string &type, const std::string &name, Texture *texture);
+	void RemoveCachedTexture(const std::string &type, const std::string &name);
+
 	// take a ticket representing the current renderer state. when the ticket
 	// is deleted, the renderer state is restored
 	class StateTicket {
@@ -138,14 +144,19 @@ public:
 		Renderer *m_renderer;
 	};
 
-	virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
-
 protected:
 	int m_width;
 	int m_height;
 
 	virtual void PushState() = 0;
 	virtual void PopState() = 0;
+
+private:
+	typedef std::pair<std::string,std::string> TextureCacheKey;
+	typedef std::map<TextureCacheKey,RefCountedPtr<Texture>*> TextureCacheMap;
+	TextureCacheMap m_textures;
+
+	void RemoveAllCachedTextures();
 };
 
 // subclass this to store renderer specific information

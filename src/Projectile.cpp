@@ -18,6 +18,9 @@
 #include "graphics/VertexArray.h"
 #include "graphics/SDLTextureBuilder.h"
 
+static const std::string projectileTextureFile(PIONEER_DATA_DIR"/textures/projectile_l.png");
+static const std::string projectileGlowFile(PIONEER_DATA_DIR"/textures/projectile_w.png");
+
 Projectile::Projectile(): Body()
 {
 	m_orient = matrix4x4d::Identity();
@@ -28,17 +31,12 @@ Projectile::Projectile(): Body()
 	m_flags |= FLAG_DRAW_LAST;
 
 	//set up materials
-	{
-		m_sideMat.texture0 = Graphics::SDLTextureBuilder(PIONEER_DATA_DIR"/textures/projectile_l.png").CreateTexture(Pi::renderer);
-		m_sideMat.unlit = true;
-		m_sideMat.twoSided = true;
-	}
-
-	{
-		m_glowMat.texture0 = Graphics::SDLTextureBuilder(PIONEER_DATA_DIR"/textures/projectile_w.png").CreateTexture(Pi::renderer);
-		m_glowMat.unlit = true;
-		m_glowMat.twoSided = true;
-	}
+	m_sideMat.texture0 = Graphics::SDLTextureBuilder(projectileTextureFile).GetOrCreateTexture(Pi::renderer, "billboard");
+	m_sideMat.unlit = true;
+	m_sideMat.twoSided = true;
+	m_glowMat.texture0 = Graphics::SDLTextureBuilder(projectileGlowFile).GetOrCreateTexture(Pi::renderer, "billboard");
+	m_glowMat.unlit = true;
+	m_glowMat.twoSided = true;
 
 	//zero at projectile position
 	//+x down

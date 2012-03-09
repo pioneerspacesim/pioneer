@@ -2,6 +2,7 @@
 #define _TEXTURE_H
 
 #include "vector2.h"
+#include "RefCounted.h"
 
 namespace Graphics {
 
@@ -58,7 +59,7 @@ public:
 	}
 };
 
-class Texture {
+class Texture : public RefCounted {
 public:
 	const TextureDescriptor &GetDescriptor() const { return m_descriptor; }
 
