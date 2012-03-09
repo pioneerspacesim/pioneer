@@ -389,6 +389,7 @@ public:
 						glActiveTexture(GL_TEXTURE1);
 						glowmap = static_cast<Graphics::TextureGL*>(Graphics::SDLTextureBuilder(*op.elems.glowmap, Graphics::LINEAR_REPEAT).GetOrCreateTexture(s_renderer, "model"));
 						glowmap->Bind();
+						glActiveTexture(GL_TEXTURE0);
 					}
 				} else {
 					UseProgram(curShader, false);
