@@ -8,7 +8,7 @@ namespace Gui {
 
 Image::Image(const char *filename): Widget(), m_color(Color::WHITE)
 {
-	Graphics::SDLTextureBuilder b(filename, true);
+	Graphics::SDLTextureBuilder b(filename, Graphics::LINEAR_CLAMP, true);
 	m_quad.Reset(new TexturedQuad(b.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
 
 	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();

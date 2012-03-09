@@ -383,11 +383,11 @@ public:
 				if (op.elems.texture) {
 					UseProgram(curShader, true, op.elems.glowmap != 0);
 					glActiveTexture(GL_TEXTURE0);
-					texture = static_cast<Graphics::TextureGL*>(Graphics::SDLTextureBuilder(*op.elems.texture).GetOrCreateTexture(s_renderer, "model"));
+					texture = static_cast<Graphics::TextureGL*>(Graphics::SDLTextureBuilder(*op.elems.texture, Graphics::LINEAR_REPEAT).GetOrCreateTexture(s_renderer, "model"));
 					texture->Bind();
-					if (op.elems.glowmap != 0) {
+					if (op.elems.glowmap) {
 						glActiveTexture(GL_TEXTURE1);
-						glowmap = static_cast<Graphics::TextureGL*>(Graphics::SDLTextureBuilder(*op.elems.glowmap).GetOrCreateTexture(s_renderer, "model"));
+						glowmap = static_cast<Graphics::TextureGL*>(Graphics::SDLTextureBuilder(*op.elems.glowmap, Graphics::LINEAR_REPEAT).GetOrCreateTexture(s_renderer, "model"));
 						glowmap->Bind();
 					}
 				} else {
