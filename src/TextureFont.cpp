@@ -1,7 +1,8 @@
 #include "TextureFont.h"
 #include "gui/GuiScreen.h"
 #include "graphics/Renderer.h"
-#include "graphics/Drawables.h"
+#include "graphics/VertexArray.h"
+#include "graphics/Material.h"
 #include "TextSupport.h"
 #include "libs.h"
 
@@ -22,7 +23,20 @@ void TextureFont::RenderGlyph(Graphics::Renderer *r, Uint32 chr, float x, float 
 	const float w = m_texSize*glyph->width;
 	const float h = m_texSize*glyph->height;
 
-	Gui::TexturedQuad(glyph->texture.Get()).Draw(r, vector2f(offx,offy), vector2f(w,h), 0, vector2f(glyph->width, glyph->height), color);
+	Graphics::Material m;
+	m.unlit = true;
+	m.texture0 = glyph->texture.Get();
+	m.vertexColors = false;
+	m.diffuse = color;
+
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+	
+	va.Add(vector3f(offx,   offy,   0.0f), vector2f(0.0f,         0.0f));
+	va.Add(vector3f(offx,   offy+h, 0.0f), vector2f(0.0f,         glyph->height));
+	va.Add(vector3f(offx+w, offy,   0.0f), vector2f(glyph->width, 0.0f));
+	va.Add(vector3f(offx+w, offy+h, 0.0f), vector2f(glyph->width, glyph->height));
+
+	r->DrawTriangles(&va, &m, Graphics::TRIANGLE_STRIP);
 
 	s_glyphCount++;
 }
