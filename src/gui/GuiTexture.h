@@ -9,51 +9,6 @@ namespace Graphics { class Renderer; }
 
 namespace Gui {
 
-#if 0
-class SurfaceTextureDescriptor : public Graphics::TextureDescriptor {
-public:
-	SurfaceTextureDescriptor(const std::string &name, SDL_Surface *surface = 0);
-
-	virtual const Graphics::TextureDescriptor::Data *GetData() const;
-
-	virtual bool Compare(const TextureDescriptor &b) const {
-		if (type != b.type) return TextureDescriptor::Compare(b);
-		const SurfaceTextureDescriptor &bb = static_cast<const SurfaceTextureDescriptor&>(b);
-		return (name < bb.name);
-	}
-
-	virtual SurfaceTextureDescriptor *Clone() const {
-		return new SurfaceTextureDescriptor(*this);
-	}
-
-	const std::string name;
-
-private:
-	SDL_Surface *m_surface;
-};
-
-
-class FileTextureDescriptor : public Graphics::TextureDescriptor {
-public:
-	FileTextureDescriptor(const std::string &filename);
-
-	virtual const Graphics::TextureDescriptor::Data *GetData() const;
-
-	virtual bool Compare(const TextureDescriptor &b) const {
-		if (type != b.type) return TextureDescriptor::Compare(b);
-		const FileTextureDescriptor &bb = static_cast<const FileTextureDescriptor&>(b);
-		return (filename < bb.filename);
-	}
-
-	virtual FileTextureDescriptor *Clone() const {
-		return new FileTextureDescriptor(*this);
-	}
-
-	const std::string filename;
-};
-#endif
-
-
 // a textured quad with reversed winding for the UI
 class TexturedQuad : public Graphics::Drawables::Drawable {
 public:

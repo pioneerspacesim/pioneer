@@ -31,25 +31,4 @@ void Gradient::Draw()
 	m_quad->Draw(Gui::Screen::GetRenderer(), vector2f(0.0f), vector2f(size[0],size[1]));
 }
 
-
-#if 0
-Gradient::GradientTextureDescriptor::GradientTextureDescriptor(const Color &_beginColor, const Color &_endColor, Direction _direction) :
-    Graphics::TextureDescriptor(TYPE_GUIGRADIENT, TARGET_2D, Format(Format::INTERNAL_RGBA, Format::DATA_RGBA, Format::DATA_FLOAT), Options(Options::CLAMP, Options::LINEAR, false)),
-	beginColor(_beginColor), endColor(_endColor), direction(_direction)
-{
-}
-
-const Graphics::TextureDescriptor::Data *Gradient::GradientTextureDescriptor::GetData() const {
-	const float data[4][4] = {
-		{ beginColor.r, beginColor.g, beginColor.b, beginColor.a },
-		{ endColor.r,   endColor.g,   endColor.b,   endColor.a   },
-	};
-
-	if (direction == HORIZONTAL)
-		return new Graphics::TextureDescriptor::Data(data, vector2f(2.0f,1.0f));
-	else
-		return new Graphics::TextureDescriptor::Data(data, vector2f(1.0f,2.0f));
-}
-#endif
-
 }

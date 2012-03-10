@@ -9,34 +9,6 @@ namespace Gui { class TexturedQuad; }
 
 class TextureFont : public Font {
 
-private:
-
-#if 0
-	class GlyphTextureDescriptor : public Graphics::TextureDescriptor {
-	public:
-		GlyphTextureDescriptor(const std::string &filename, Uint32 codePoint, const void *data, const vector2f &size);
-
-		virtual const Graphics::TextureDescriptor::Data *GetData() const;
-
-		virtual bool Compare(const Graphics::TextureDescriptor &b) const {
-	        if (type != b.type) return TextureDescriptor::Compare(b);
-	        const GlyphTextureDescriptor &bb = static_cast<const GlyphTextureDescriptor&>(b);
-			return (filename < bb.filename && codePoint < bb.codePoint);
-		}
-
-		virtual GlyphTextureDescriptor *Clone() const {
-			return new GlyphTextureDescriptor(*this);
-		}
-
-		const std::string filename;
-		const Uint32 codePoint;
-	
-	private:
-		const void *m_data;
-		const vector2f m_size;
-	};
-#endif
-
 public:
 	TextureFont(const FontConfig &fc);
 	~TextureFont();
