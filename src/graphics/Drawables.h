@@ -5,7 +5,6 @@
 #include "graphics/Renderer.h"
 #include "graphics/Surface.h"
 #include "graphics/VertexArray.h"
-#include "Color.h"
 
 namespace Graphics {
 

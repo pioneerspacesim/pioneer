@@ -1,5 +1,4 @@
 #include "Drawables.h"
-#include "Material.h"
 
 namespace Graphics {
 
@@ -39,7 +38,6 @@ void Line3D::Draw(Renderer *renderer)
 	renderer->DrawLines(2, m_points, m_colors);
 	glLineWidth(1.f);
 }
-
 
 static const float ICOSX = 0.525731112119133f;
 static const float ICOSZ = 0.850650808352039f;
