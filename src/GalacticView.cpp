@@ -16,9 +16,9 @@
 
 using namespace Graphics;
 
-GalacticView::GalacticView()
+GalacticView::GalacticView() :
+	m_quad(Graphics::SDLTextureBuilder::UI(PIONEER_DATA_DIR"/galaxy.bmp").CreateTexture(Gui::Screen::GetRenderer()))
 {
-	m_quad.Reset(new Gui::TexturedQuad(Graphics::SDLTextureBuilder::UI(PIONEER_DATA_DIR"/galaxy.bmp").CreateTexture(Gui::Screen::GetRenderer())));
 
 	SetTransparency(true);
 	m_zoom = 1.0f;
@@ -106,7 +106,7 @@ void GalacticView::Draw3D()
 		matrix4x4f::Translation(-offset_x, -offset_y, 0.f));
 	
 	// galaxy image
-	m_quad->Draw(m_renderer, vector2f(-1.0f), vector2f(2.0f));
+	m_quad.Draw(m_renderer, vector2f(-1.0f), vector2f(2.0f));
 
 	// "you are here" dot
 	Color green(0.f, 1.f, 0.f, 1.f);
