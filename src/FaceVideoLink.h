@@ -2,7 +2,6 @@
 #define _FACEVIDEOLINK
 
 #include "VideoLink.h"
-#include "gui/GuiTexture.h"
 
 class CharacterInfoText : public Gui::Fixed {
 public:

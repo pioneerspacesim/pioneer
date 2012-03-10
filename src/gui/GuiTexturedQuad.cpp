@@ -1,4 +1,4 @@
-#include "GuiTexture.h"
+#include "GuiTexturedQuad.h"
 #include "graphics/Renderer.h"
 #include "graphics/Material.h"
 #include "graphics/VertexArray.h"
@@ -18,7 +18,7 @@ void TexturedQuad::Draw(Graphics::Renderer *renderer, const vector2f &pos, const
 
 	Graphics::Material m;
 	m.unlit = true;
-	m.texture0 = m_texture;
+	m.texture0 = m_texture.Get();
 	m.vertexColors = false;
 	m.diffuse = tint;
 	renderer->DrawTriangles(&va, &m, TRIANGLE_STRIP);

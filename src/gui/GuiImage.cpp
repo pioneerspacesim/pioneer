@@ -1,7 +1,6 @@
 #include "libs.h"
 #include "GuiImage.h"
 #include "GuiScreen.h"
-#include "GuiTexture.h"
 #include "graphics/SDLTextureBuilder.h"
 
 namespace Gui {

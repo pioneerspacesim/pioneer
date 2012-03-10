@@ -7,7 +7,6 @@
 #include <vector>
 #include <string>
 #include "View.h"
-#include "gui/GuiTexture.h"
 
 class GalacticView: public View {
 public:

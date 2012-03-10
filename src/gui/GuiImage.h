@@ -2,7 +2,7 @@
 #define _GUIIMAGE_H
 
 #include "GuiWidget.h"
-#include "GuiTexture.h"
+#include "GuiTexturedQuad.h"
 #include "Color.h"
 
 namespace Gui {

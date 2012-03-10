@@ -16,7 +16,6 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
-#include "gui/GuiTexture.h"
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
 #include "graphics/SDLTextureBuilder.h"

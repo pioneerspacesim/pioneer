@@ -71,5 +71,6 @@ namespace Gui {
 #include "GuiScreen.h"
 #include "GuiStack.h"
 #include "GuiGradient.h"
+#include "GuiTexturedQuad.h"
 
 #endif /* _GUI_H */

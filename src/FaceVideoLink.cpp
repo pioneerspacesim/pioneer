@@ -2,7 +2,6 @@
 #include "Lang.h"
 #include "Pi.h"
 #include "LuaNameGen.h"
-#include "gui/GuiTexture.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
