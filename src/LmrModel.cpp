@@ -381,16 +381,16 @@ public:
 			case OP_DRAW_ELEMENTS: {
 				Graphics::TextureGL *texture = 0, *glowmap = 0;
 				if (op.elems.texture) {
-					UseProgram(curShader, true, op.elems.glowmap != 0);
-					glActiveTexture(GL_TEXTURE0);
+					glEnable(GL_TEXTURE_2D);
 					texture = static_cast<Graphics::TextureGL*>(Graphics::SDLTextureBuilder::Model(*op.elems.texture).GetOrCreateTexture(s_renderer, "model"));
-					texture->Bind();
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, texture->GetTextureNum());
 					if (op.elems.glowmap) {
-						glActiveTexture(GL_TEXTURE1);
 						glowmap = static_cast<Graphics::TextureGL*>(Graphics::SDLTextureBuilder::Model(*op.elems.glowmap).GetOrCreateTexture(s_renderer, "model"));
-						glowmap->Bind();
-						glActiveTexture(GL_TEXTURE0);
+						glActiveTexture(GL_TEXTURE1);
+						glBindTexture(GL_TEXTURE_2D, glowmap->GetTextureNum());
 					}
+					UseProgram(curShader, true, op.elems.glowmap);
 				} else {
 					UseProgram(curShader, false);
 				}
@@ -409,12 +409,13 @@ public:
 					glDrawElements(GL_TRIANGLES, op.elems.count, GL_UNSIGNED_SHORT, &m_indices[op.elems.start]);
 				}
 				if (texture) {
-					glActiveTexture(GL_TEXTURE0);
-					texture->Unbind();
 					if (glowmap) {
 						glActiveTexture(GL_TEXTURE1);
-						glowmap->Unbind();
+						glBindTexture(GL_TEXTURE_2D, 0);
 					}
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, 0);
+					glDisable(GL_TEXTURE_2D);
 				}
 				break;
 			}
