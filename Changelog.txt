@@ -1,6 +1,10 @@
 Alpha 21
+
    * Minor changes and tweaks
      * Various moons in the Sol system now appear in the right order on the map (#1050)
+
+   * Internal changes
+     * configure tweaks for better optimisations and profiling support
 
 Alpha 20
 
