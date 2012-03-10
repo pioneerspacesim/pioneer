@@ -137,6 +137,8 @@ void SDLTextureBuilder::PrepareSurface()
 	m_prepared = true;
 }
 
+static const std::string unknownTextureFilename(PIONEER_DATA_DIR"/textures/unknown.png");
+
 void SDLTextureBuilder::LoadSurface()
 {
 	assert(!m_surface);
@@ -145,7 +147,7 @@ void SDLTextureBuilder::LoadSurface()
 	if (!m_surface) {
 		fprintf(stderr, "SDLTextureBuilder: couldn't load image '%s': %s\n", m_filename.c_str(), IMG_GetError());
 
-		// XXX prepare "empty" surface
+		m_surface = IMG_Load(unknownTextureFilename.c_str());
 
 		return;
 	}
