@@ -98,16 +98,16 @@ void SDLTextureBuilder::PrepareSurface()
 		m_surface = s;
 	}
 
-	unsigned int vwidth, width, vheight, height;
-	vwidth = width = m_surface->w;
-	vheight = height = m_surface->h;
+	unsigned int virtualWidth, actualWidth, virtualHeight, actualHeight;
+	virtualWidth = actualWidth = m_surface->w;
+	virtualHeight = actualHeight = m_surface->h;
 
 	if (m_potExtend) {
 		// extend to power-of-two if necessary
-		width = ceil_pow2(m_surface->w);
-		height = ceil_pow2(m_surface->h);
-		if (width != vwidth || height != vheight) {
-			SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, targetPixelFormat->BitsPerPixel,
+		actualWidth = ceil_pow2(m_surface->w);
+		actualHeight = ceil_pow2(m_surface->h);
+		if (actualWidth != virtualWidth || actualHeight != virtualHeight) {
+			SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, actualWidth, actualHeight, targetPixelFormat->BitsPerPixel,
 				targetPixelFormat->Rmask, targetPixelFormat->Gmask, targetPixelFormat->Bmask, targetPixelFormat->Amask);
 
 			SDL_SetAlpha(m_surface, 0, 0);
@@ -119,7 +119,11 @@ void SDLTextureBuilder::PrepareSurface()
 		}
 	}
 
-	m_descriptor = TextureDescriptor(targetTextureFormat, vector2f(width,height), vector2f(float(vwidth)/float(width),float(vheight)/float(height)), m_sampleMode, m_generateMipmaps);
+	m_descriptor = TextureDescriptor(
+		targetTextureFormat,
+		vector2f(actualWidth,actualHeight),
+		vector2f(float(virtualWidth)/float(actualWidth),float(virtualHeight)/float(actualHeight)),
+		m_sampleMode, m_generateMipmaps);
 	
 	m_prepared = true;
 }
