@@ -1,13 +1,13 @@
 #include "libs.h"
 #include "GuiImage.h"
 #include "GuiScreen.h"
-#include "graphics/SDLTextureBuilder.h"
+#include "graphics/TextureBuilder.h"
 
 namespace Gui {
 
 Image::Image(const char *filename): Widget(), m_color(Color::WHITE)
 {
-	Graphics::SDLTextureBuilder b = Graphics::SDLTextureBuilder::UI(filename);
+	Graphics::TextureBuilder b = Graphics::TextureBuilder::UI(filename);
 	m_quad.Reset(new TexturedQuad(b.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
 
 	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();

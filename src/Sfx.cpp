@@ -10,7 +10,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
-#include "graphics/SDLTextureBuilder.h"
+#include "graphics/TextureBuilder.h"
 
 using namespace Graphics;
 
@@ -120,7 +120,7 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			vector3f pos(&fpos.x);
 			//XXX no need to recreate material every time
 			Material mat;
-			mat.texture0 = Graphics::SDLTextureBuilder::Billboard(damageTextureFilename).GetOrCreateTexture(Pi::renderer, "billboard");
+			mat.texture0 = Graphics::TextureBuilder::Billboard(damageTextureFilename).GetOrCreateTexture(Pi::renderer, "billboard");
 			mat.unlit = true;
 			mat.diffuse = Color(1.f, 1.f, 0.f, 1.0f-(m_age/2.0f));
 			renderer->DrawPointSprites(1, &pos, &mat, 20.f);

@@ -12,12 +12,12 @@
 #include "StringF.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
-#include "graphics/SDLTextureBuilder.h"
+#include "graphics/TextureBuilder.h"
 
 using namespace Graphics;
 
 GalacticView::GalacticView() :
-	m_quad(Graphics::SDLTextureBuilder::UI(PIONEER_DATA_DIR"/galaxy.bmp").CreateTexture(Gui::Screen::GetRenderer()))
+	m_quad(Graphics::TextureBuilder::UI(PIONEER_DATA_DIR"/galaxy.bmp").CreateTexture(Gui::Screen::GetRenderer()))
 {
 
 	SetTransparency(true);

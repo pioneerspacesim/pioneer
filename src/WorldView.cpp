@@ -18,7 +18,7 @@
 #include "Game.h"
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
-#include "graphics/SDLTextureBuilder.h"
+#include "graphics/TextureBuilder.h"
 #include "matrix4x4.h"
 
 static const std::string indicatorMousedirTextureFilename(PIONEER_DATA_DIR"/icons/indicator_mousedir.png");
@@ -184,7 +184,7 @@ void WorldView::InitObject()
 	Add(m_targetLeadIndicator.label, 0, 0);
 
 	// XXX m_renderer not set yet
-	Graphics::SDLTextureBuilder b = Graphics::SDLTextureBuilder::UI(indicatorMousedirTextureFilename);
+	Graphics::TextureBuilder b = Graphics::TextureBuilder::UI(indicatorMousedirTextureFilename);
 	m_indicatorMousedir.Reset(new Gui::TexturedQuad(b.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
 
 	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();

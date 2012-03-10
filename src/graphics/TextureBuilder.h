@@ -1,5 +1,5 @@
-#ifndef _SDLTEXTUREBUILDER_H
-#define _SDLTEXTUREBUILDER_H
+#ifndef _TEXTUREBUILDER_H
+#define _TEXTUREBUILDER_H
 
 #include <SDL/SDL.h>
 #include <string>
@@ -8,21 +8,21 @@
 
 namespace Graphics {
 
-class SDLTextureBuilder {
+class TextureBuilder {
 public:
-	SDLTextureBuilder(SDL_Surface *surface, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true);
-	SDLTextureBuilder(const std::string &filename, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true);
-	~SDLTextureBuilder();
+	TextureBuilder(SDL_Surface *surface, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true);
+	TextureBuilder(const std::string &filename, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true);
+	~TextureBuilder();
 
 	// convenience constructors for common texture types
-	static SDLTextureBuilder Model(const std::string &filename) {
-		return SDLTextureBuilder(filename, LINEAR_REPEAT, true, false, false);
+	static TextureBuilder Model(const std::string &filename) {
+		return TextureBuilder(filename, LINEAR_REPEAT, true, false, false);
 	}
-	static SDLTextureBuilder Billboard(const std::string &filename) {
-		return SDLTextureBuilder(filename, LINEAR_CLAMP, true, false, false);
+	static TextureBuilder Billboard(const std::string &filename) {
+		return TextureBuilder(filename, LINEAR_CLAMP, true, false, false);
 	}
-	static SDLTextureBuilder UI(const std::string &filename) {
-		return SDLTextureBuilder(filename, LINEAR_CLAMP, false, true, true);
+	static TextureBuilder UI(const std::string &filename) {
+		return TextureBuilder(filename, LINEAR_CLAMP, false, true, true);
 	}
 
 	const TextureDescriptor &GetDescriptor() { PrepareSurface(); return m_descriptor; }

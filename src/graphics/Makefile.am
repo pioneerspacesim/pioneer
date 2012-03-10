@@ -20,7 +20,7 @@ noinst_HEADERS = \
 	VertexArray.h \
 	Texture.h \
 	TextureGL.h \
-	SDLTextureBuilder.h \
+	TextureBuilder.h \
 	Drawables.h
 
 libgraphics_a_SOURCES = \
@@ -34,5 +34,5 @@ libgraphics_a_SOURCES = \
 	StaticMesh.cpp \
 	VertexArray.cpp \
 	TextureGL.cpp \
-	SDLTextureBuilder.cpp \
+	TextureBuilder.cpp \
 	Drawables.cpp

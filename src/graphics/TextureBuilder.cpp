@@ -1,19 +1,19 @@
-#include "SDLTextureBuilder.h"
+#include "TextureBuilder.h"
 #include <SDL/SDL_image.h>
 
 namespace Graphics {
 
-SDLTextureBuilder::SDLTextureBuilder(SDL_Surface *surface, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA) :
+TextureBuilder::TextureBuilder(SDL_Surface *surface, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA) :
     m_surface(surface), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_prepared(false)
 {
 }
 
-SDLTextureBuilder::SDLTextureBuilder(const std::string &filename, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA) :
+TextureBuilder::TextureBuilder(const std::string &filename, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA) :
     m_surface(0), m_filename(filename), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_prepared(false)
 {
 }
 
-SDLTextureBuilder::~SDLTextureBuilder()
+TextureBuilder::~TextureBuilder()
 {
 	if (m_surface)
 		SDL_FreeSurface(m_surface);
@@ -81,7 +81,7 @@ static inline Uint32 ceil_pow2(Uint32 v) {
 	return v;
 }
 
-void SDLTextureBuilder::PrepareSurface()
+void TextureBuilder::PrepareSurface()
 {
 	if (m_prepared) return;
 
@@ -139,13 +139,13 @@ void SDLTextureBuilder::PrepareSurface()
 
 static const std::string unknownTextureFilename(PIONEER_DATA_DIR"/textures/unknown.png");
 
-void SDLTextureBuilder::LoadSurface()
+void TextureBuilder::LoadSurface()
 {
 	assert(!m_surface);
 
 	m_surface = IMG_Load(m_filename.c_str());
 	if (!m_surface) {
-		fprintf(stderr, "SDLTextureBuilder: couldn't load image '%s': %s\n", m_filename.c_str(), IMG_GetError());
+		fprintf(stderr, "TextureBuilder: couldn't load image '%s': %s\n", m_filename.c_str(), IMG_GetError());
 
 		m_surface = IMG_Load(unknownTextureFilename.c_str());
 
@@ -153,7 +153,7 @@ void SDLTextureBuilder::LoadSurface()
 	}
 }
 
-void SDLTextureBuilder::UpdateTexture(Texture *texture)
+void TextureBuilder::UpdateTexture(Texture *texture)
 {
 	texture->Update(m_surface->pixels, vector2f(m_surface->w,m_surface->h), m_descriptor.format == TEXTURE_RGBA ? IMAGE_RGBA : IMAGE_RGB, IMAGE_UNSIGNED_BYTE);
 }

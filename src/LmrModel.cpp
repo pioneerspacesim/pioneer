@@ -16,7 +16,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/Shader.h"
 #include "graphics/VertexArray.h"
-#include "graphics/SDLTextureBuilder.h"
+#include "graphics/TextureBuilder.h"
 #include "graphics/TextureGL.h" // XXX temporary until LMR uses renderer drawing properly
 #include <set>
 #include <algorithm>
@@ -59,12 +59,12 @@ namespace ShipThruster {
 		gVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
 		//set up materials
-		tMat.texture0 = Graphics::SDLTextureBuilder::Billboard(thrusterTextureFilename).GetOrCreateTexture(renderer, "billboard");
+		tMat.texture0 = Graphics::TextureBuilder::Billboard(thrusterTextureFilename).GetOrCreateTexture(renderer, "billboard");
 		tMat.unlit = true;
 		tMat.twoSided = true;
 		tMat.diffuse = color;
 
-		glowMat.texture0 = Graphics::SDLTextureBuilder::Billboard(thrusterGlowTextureFilename).GetOrCreateTexture(renderer, "billboard");
+		glowMat.texture0 = Graphics::TextureBuilder::Billboard(thrusterGlowTextureFilename).GetOrCreateTexture(renderer, "billboard");
 		glowMat.unlit = true;
 		glowMat.twoSided = true;
 		glowMat.diffuse = color;
@@ -382,11 +382,11 @@ public:
 				Graphics::TextureGL *texture = 0, *glowmap = 0;
 				if (op.elems.texture) {
 					glEnable(GL_TEXTURE_2D);
-					texture = static_cast<Graphics::TextureGL*>(Graphics::SDLTextureBuilder::Model(*op.elems.texture).GetOrCreateTexture(s_renderer, "model"));
+					texture = static_cast<Graphics::TextureGL*>(Graphics::TextureBuilder::Model(*op.elems.texture).GetOrCreateTexture(s_renderer, "model"));
 					glActiveTexture(GL_TEXTURE0);
 					glBindTexture(GL_TEXTURE_2D, texture->GetTextureNum());
 					if (op.elems.glowmap) {
-						glowmap = static_cast<Graphics::TextureGL*>(Graphics::SDLTextureBuilder::Model(*op.elems.glowmap).GetOrCreateTexture(s_renderer, "model"));
+						glowmap = static_cast<Graphics::TextureGL*>(Graphics::TextureBuilder::Model(*op.elems.glowmap).GetOrCreateTexture(s_renderer, "model"));
 						glActiveTexture(GL_TEXTURE1);
 						glBindTexture(GL_TEXTURE_2D, glowmap->GetTextureNum());
 					}
@@ -430,7 +430,7 @@ public:
 				}
 				Graphics::Material mat;
 				mat.unlit = true;
-				mat.texture0 = Graphics::SDLTextureBuilder::Billboard(*op.billboards.texture).GetOrCreateTexture(s_renderer, "billboard");
+				mat.texture0 = Graphics::TextureBuilder::Billboard(*op.billboards.texture).GetOrCreateTexture(s_renderer, "billboard");
 				mat.diffuse = Color(op.billboards.col[0], op.billboards.col[1], op.billboards.col[2], op.billboards.col[3]);
 				s_renderer->DrawPointSprites(op.billboards.count, &verts[0], &mat, op.billboards.size);
 				BindBuffers();
