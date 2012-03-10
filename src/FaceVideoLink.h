@@ -55,7 +55,7 @@ private:
 	Uint32 m_seed;
 
 	Uint32 m_created;
-	ScopedPtr<Gui::TexturedQuad> m_quad;
+	RefCountedPtr<Graphics::Texture> m_texture;
 	Gui::ToolTip *m_message;
 	CharacterInfoText *m_characterInfo;
 };

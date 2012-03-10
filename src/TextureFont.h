@@ -3,15 +3,14 @@
 
 #include "Font.h"
 #include "Color.h"
+#include "graphics/Texture.h"
 
 namespace Graphics { class Renderer; }
-namespace Gui { class TexturedQuad; }
 
 class TextureFont : public Font {
 
 public:
 	TextureFont(const FontConfig &fc);
-	~TextureFont();
 
 	void RenderString(Graphics::Renderer *r, const char *str, float x, float y, const Color &color = Color::WHITE);
 	Color RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y, const Color &color = Color::WHITE);
@@ -24,7 +23,7 @@ public:
 	float GetWidth() const { return m_width; }
 	float GetDescender() const { return m_descender; }
 	struct glfglyph_t {
-		Gui::TexturedQuad *quad;
+		RefCountedPtr<Graphics::Texture> texture;
 		float advx, advy;
 		float width, height;
 		int offx, offy;

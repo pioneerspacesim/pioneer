@@ -22,7 +22,7 @@ void TextureFont::RenderGlyph(Graphics::Renderer *r, Uint32 chr, float x, float 
 	const float w = m_texSize*glyph->width;
 	const float h = m_texSize*glyph->height;
 
-	glyph->quad->Draw(r, vector2f(offx,offy), vector2f(w,h), 0, vector2f(glyph->width, glyph->height), color);
+	Gui::TexturedQuad(glyph->texture.Get()).Draw(r, vector2f(offx,offy), vector2f(w,h), 0, vector2f(glyph->width, glyph->height), color);
 
 	s_glyphCount++;
 }
@@ -191,7 +191,7 @@ void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, 
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			if (glyph->quad) RenderGlyph(r, chr, roundf(px), py, color);
+			if (glyph->texture) RenderGlyph(r, chr, roundf(px), py, color);
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -246,7 +246,7 @@ Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x,
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			if (glyph->quad) RenderGlyph(r, chr, roundf(px), py, c);
+			if (glyph->texture) RenderGlyph(r, chr, roundf(px), py, c);
 
 			// XXX kerning doesn't skip markup
 			if (str[i]) {
@@ -424,9 +424,8 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 		FT_Done_Glyph(glyph);
 
 		Graphics::TextureDescriptor descriptor(Graphics::TEXTURE_LUMINANCE_ALPHA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
-		Graphics::Texture *texture = Gui::Screen::GetRenderer()->CreateTexture(descriptor);
-		texture->Update(pixBuf, vector2f(sz,sz), Graphics::IMAGE_LUMINANCE_ALPHA, Graphics::IMAGE_UNSIGNED_BYTE);
-		glfglyph.quad = new Gui::TexturedQuad(texture);
+		glfglyph.texture.Reset(Gui::Screen::GetRenderer()->CreateTexture(descriptor));
+		glfglyph.texture->Update(pixBuf, vector2f(sz,sz), Graphics::IMAGE_LUMINANCE_ALPHA, Graphics::IMAGE_UNSIGNED_BYTE);
 
 		glfglyph.advx = float(m_face->glyph->advance.x) / 64.0 + advx_adjust;
 		glfglyph.advy = float(m_face->glyph->advance.y) / 64.0;
@@ -441,12 +440,4 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	m_height = float(a_height);
 	m_width = float(a_width);
 	m_descender = -float(m_face->descender) / 64.0;
-}
-
-TextureFont::~TextureFont()
-{
-	for (std::map<Uint32,glfglyph_t>::const_iterator i = m_glyphs.begin(); i != m_glyphs.end(); ++i) {
-		if ((*i).second.quad)
-			delete (*i).second.quad;
-	}
 }
