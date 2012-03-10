@@ -119,6 +119,15 @@ void SDLTextureBuilder::PrepareSurface()
 		}
 	}
 
+	else if (m_filename.length() > 0) {
+		// power-of-to check
+		unsigned long width = ceil_pow2(m_surface->w);
+		unsigned long height = ceil_pow2(m_surface->h);
+
+		if (width != virtualWidth || height != virtualHeight)
+			fprintf(stderr, "WARNING: texture '%s' is not power-of-two and may not display correctly\n", m_filename.c_str());
+	}
+
 	m_descriptor = TextureDescriptor(
 		targetTextureFormat,
 		vector2f(actualWidth,actualHeight),
