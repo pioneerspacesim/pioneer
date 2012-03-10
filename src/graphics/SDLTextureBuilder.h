@@ -10,19 +10,19 @@ namespace Graphics {
 
 class SDLTextureBuilder {
 public:
-	SDLTextureBuilder(SDL_Surface *surface, TextureSampler sampler = LINEAR_CLAMP, bool potExtend = false, bool forceRGBA = true);
-	SDLTextureBuilder(const std::string &filename, TextureSampler sampler = LINEAR_CLAMP, bool potExtend = false, bool forceRGBA = true);
+	SDLTextureBuilder(SDL_Surface *surface, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true);
+	SDLTextureBuilder(const std::string &filename, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true);
 	~SDLTextureBuilder();
 
 	// convenience constructors for common texture types
 	static SDLTextureBuilder Model(const std::string &filename) {
-		return SDLTextureBuilder(filename, LINEAR_REPEAT, false, false);
+		return SDLTextureBuilder(filename, LINEAR_REPEAT, true, false, false);
 	}
 	static SDLTextureBuilder Billboard(const std::string &filename) {
-		return SDLTextureBuilder(filename, LINEAR_CLAMP, false, false);
+		return SDLTextureBuilder(filename, LINEAR_CLAMP, true, false, false);
 	}
 	static SDLTextureBuilder UI(const std::string &filename) {
-		return SDLTextureBuilder(filename, LINEAR_CLAMP, true, true);
+		return SDLTextureBuilder(filename, LINEAR_CLAMP, false, true, true);
 	}
 
 	const TextureDescriptor &GetDescriptor() { PrepareSurface(); return m_descriptor; }
@@ -48,7 +48,9 @@ private:
 	SDL_Surface *m_surface;
 	std::string m_filename;
 
-	TextureSampler m_sampler;
+	TextureSampleMode m_sampleMode;
+	bool m_generateMipmaps;
+
 	bool m_potExtend;
 	bool m_forceRGBA;
 

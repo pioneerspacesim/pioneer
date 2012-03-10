@@ -3,13 +3,13 @@
 
 namespace Graphics {
 
-SDLTextureBuilder::SDLTextureBuilder(SDL_Surface *surface, TextureSampler sampler, bool potExtend, bool forceRGBA) :
-    m_surface(surface), m_sampler(sampler), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_prepared(false)
+SDLTextureBuilder::SDLTextureBuilder(SDL_Surface *surface, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA) :
+    m_surface(surface), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_prepared(false)
 {
 }
 
-SDLTextureBuilder::SDLTextureBuilder(const std::string &filename, TextureSampler sampler, bool potExtend, bool forceRGBA) :
-    m_surface(0), m_filename(filename), m_sampler(sampler), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_prepared(false)
+SDLTextureBuilder::SDLTextureBuilder(const std::string &filename, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA) :
+    m_surface(0), m_filename(filename), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_prepared(false)
 {
 }
 
@@ -119,7 +119,7 @@ void SDLTextureBuilder::PrepareSurface()
 		}
 	}
 
-	m_descriptor = TextureDescriptor(targetTextureFormat, vector2f(width,height), vector2f(float(vwidth)/float(width),float(vheight)/float(height)), m_sampler, false);
+	m_descriptor = TextureDescriptor(targetTextureFormat, vector2f(width,height), vector2f(float(vwidth)/float(width),float(vheight)/float(height)), m_sampleMode, m_generateMipmaps);
 	
 	m_prepared = true;
 }
