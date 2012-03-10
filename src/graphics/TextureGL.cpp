@@ -48,7 +48,7 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor) : Texture(descriptor),
 	}
 
 	GLenum magFilter, minFilter, wrapS, wrapT;
-	switch (descriptor.sampler) {
+	switch (descriptor.sampleMode) {
 		case LINEAR_CLAMP:
 			magFilter = GL_LINEAR;
 			minFilter = descriptor.generateMipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
