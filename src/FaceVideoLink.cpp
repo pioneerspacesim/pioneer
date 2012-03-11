@@ -35,6 +35,9 @@ static void _blit_image(SDL_Surface *s, const char *filename, int xoff, int yoff
 		return;
 	}
 
+	SDL_SetAlpha(is, 0, 0);
+	SDL_SetAlpha(s, 0, 0);
+
 	SDL_Rect destrec = { ((FACE_WIDTH-is->w-1)/2)+xoff, yoff, 0, 0 };
 	SDL_BlitSurface(is, NULL, s, &destrec);
 	SDL_FreeSurface(is);
@@ -71,7 +74,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 	std::string charname = name;
 	if (charname.empty())
 		charname = Pi::luaNameGen->FullName((gender != 0), rand);
-
+	
 	m_characterInfo = new CharacterInfoText(w * 0.8f, h * 0.15f, charname, title);
 
 	int head  = rand.Int32(0,MAX_HEAD);
@@ -93,46 +96,47 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 	SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, FACE_WIDTH, FACE_HEIGHT, 32, 0xff, 0xff00, 0xff0000, 0xff000000);
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/backgrounds/background_%d.png", background);
-	//printf("%s\n", filename);
+	//printf("background: %s\n", filename);
 	_blit_image(s, filename, 0, 0);
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/head/head_%d_%d.png", race, gender, head);
-	//printf("%s\n", filename);
+	//printf("head: %s\n", filename);
 	_blit_image(s, filename, 0, 0);
 
 	if (!(flags & ARMOUR)) {
 		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/clothes/cloth_%d_%d.png", gender, clothes);
-		//printf("%s\n", filename);
+		//printf("clothes: %s\n", filename);
 		_blit_image(s, filename, 0, 135);
 	}
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/eyes/eyes_%d_%d.png", race, gender, eyes);
-	//printf("%s\n", filename);
+	//printf("eyes: %s\n", filename);
 	_blit_image(s, filename, 0, 41);
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/nose/nose_%d_%d.png", race, gender, nose);
-	//printf("%s\n", filename);
+	//printf("nose: %s\n", filename);
 	_blit_image(s, filename, 1, 89);
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/mouth/mouth_%d_%d.png", race, gender, mouth);
-	//printf("%s\n", filename);
+	//printf("mouth: %s\n", filename);
 	_blit_image(s, filename, 0, 155);
 
 	if (!(flags & ARMOUR)) {
 		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/accessories/acc_%d.png", accessories);
-		//printf("%s\n", filename);
+		//printf("accessory: %s\n", filename);
 		if (rand.Int32(0,1)>0)	_blit_image(s, filename, 0, 0);
 
 		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/hair/hair_%d_%d.png", race, gender, hair);
-		//printf("%s\n", filename);
+		//printf("hair: %s\n", filename);
 		_blit_image(s, filename, 0, 0);
 	}
 	else {
 		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/clothes/armour_%d.png", armour);
+		//printf("armour: %s\n", filename);
 		_blit_image(s, filename, 0, 0);
 	}
 
-	m_texture.Reset(Graphics::TextureBuilder(s, Graphics::LINEAR_CLAMP, false, true, true).CreateTexture(Gui::Screen::GetRenderer()));
+	m_texture.Reset(Graphics::TextureBuilder(s, Graphics::LINEAR_CLAMP, false, true, false).CreateTexture(Gui::Screen::GetRenderer()));
 }
 
 FaceVideoLink::~FaceVideoLink() {
