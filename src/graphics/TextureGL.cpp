@@ -1,5 +1,6 @@
 #include "TextureGL.h"
 #include <cassert>
+#include "utils.h"
 
 namespace Graphics {
 
@@ -109,16 +110,18 @@ TextureGL::~TextureGL()
 void TextureGL::Update(const void *data, const vector2f &dataSize, ImageFormat format, ImageType type)
 {
 	glEnable(m_target);
+	glBindTexture(m_target, m_texture);
 
 	switch (m_target) {
 		case GL_TEXTURE_2D:
-			glTexImage2D(m_target, 0, GLTextureFormat(GetDescriptor().format), dataSize.x, dataSize.y, 0, GLImageFormat(format), GLImageType(type), data);
+			glTexSubImage2D(m_target, 0, 0, 0, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(type), data);
 			break;
 
 		default:
 			assert(0);
 	}
 
+	glBindTexture(m_target, 0);
 	glDisable(m_target);
 }
 
