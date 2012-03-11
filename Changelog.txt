@@ -1,3 +1,11 @@
+Alpha 21
+
+   * Minor changes and tweaks
+     * Various moons in the Sol system now appear in the right order on the map (#1050)
+
+   * Internal changes
+     * configure tweaks for better optimisations and profiling support
+
 Alpha 20
 
    * New features
@@ -6,6 +14,7 @@ Alpha 20
        (#980, #993, #992, #1018, #1032, #1034, #1043, #1045)
      * New thruster and laser graphics (#945, #962, #149, #148, #973)
      * Heading-hold flight mode (press CTRL while changing flight mode) (#450, #990)
+     * Rewritten DeliverPackage mission module (#1027, #1041, #1042, #1044)
      * Hungarian translation (#947, #894)
 
    * Minor changes and tweaks
@@ -16,13 +25,12 @@ Alpha 20
      * Fewer background stars, but brighter. Looks about the same but takes
        less effort to construct and draw (#1020)
      * Change death spin to a simple zoom (#916, #1033)
-     * Various moons in the Sol system now appear in the right order on the map (#1050)
+     * Assassinations module now uses character classes for character variety
+       and consistency (#953, #948)
 
    * Fixes
      * Updated zlib and libpng DLLs for MSVC to fix screenshot crash (#942, #645)
      * Only allow missiles to be fired in open flight (#951)
-     * Assassinations module now uses character classes for character variety
-       and consistency (#953, #948)
      * Assassination targets will now gracefully handle an autopilot failure
        when taking off (#955, #950)
      * HDR visuals removed (#939, #963)
@@ -49,8 +57,7 @@ Alpha 20
        (#1021)
      * New method Ship.SetFuelPercent and attribute Ship.fuel to set and get
        ship fuel amount. New event onShipFuelChanged to report fuel status (#980)
-     * Net method Ship.Explode to destroy the ship immediately (#974)
-	 
+     * New method Ship.Explode to destroy the ship immediately (#974)
 
    * Internal changes
      * New graphics/rendering infrastructure (#960, #913, #1001, #1002, #1013,
