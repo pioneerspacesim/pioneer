@@ -133,7 +133,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 		_blit_image(s, filename, 0, 0);
 	}
 
-	m_texture.Reset(Graphics::TextureBuilder(s, Graphics::LINEAR_CLAMP, false, true, false).CreateTexture(Gui::Screen::GetRenderer()));
+	m_quad.Reset(new Gui::TexturedQuad(Graphics::TextureBuilder(s, Graphics::LINEAR_CLAMP, true, true).CreateTexture(Gui::Screen::GetRenderer())));
 }
 
 FaceVideoLink::~FaceVideoLink() {
@@ -162,7 +162,7 @@ void FaceVideoLink::Draw() {
 		return;
 	}
 
-	Gui::TexturedQuad(m_texture.Get()).Draw(Gui::Screen::GetRenderer(), vector2f(0.0f), vector2f(size[0],size[1]));
+	m_quad->Draw(Gui::Screen::GetRenderer(), vector2f(0.0f), vector2f(size[0],size[1]));
 
 	glPushMatrix();
 	glTranslatef(0.f, size[1]- size[1] * 0.16f, 0.f);
