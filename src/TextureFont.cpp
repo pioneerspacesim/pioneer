@@ -313,7 +313,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	sz = (64 > (1<<nbit) ? 64 : (1<<nbit));
 	m_texSize = sz;
 
-	unsigned char *pixBuf = new unsigned char[2*sz*sz];
+	unsigned char *pixBuf = new unsigned char[4*sz*sz];
 	
 	bool outline = GetConfig().Int("Outline");
 
@@ -329,7 +329,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	}
 
 	for (Uint32 chr=0x20; chr<0x1ff; chr++) {
-		memset(pixBuf, 0, 2*sz*sz);
+		memset(pixBuf, 0, 4*sz*sz);
 	
 		glfglyph_t glfglyph;
 
@@ -391,8 +391,10 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 			for (int row=0; row < bmStrokeGlyph->bitmap.rows; row++) {
 				for (int col=0; col < bmStrokeGlyph->bitmap.width; col++) {
 					//assume black outline
-					pixBuf[2*sz*row + 2*col] = 0; //lum
-					pixBuf[2*sz*row + 2*col+1] = bmStrokeGlyph->bitmap.buffer[pitch*row + col]; //alpha
+					const int d = 4*sz*row + 4*col;
+					const int s = pitch*row + col;
+					pixBuf[d]  = pixBuf[d+1] = pixBuf[d+2] = 0; //lum
+					pixBuf[d+3] = bmStrokeGlyph->bitmap.buffer[s]; //alpha
 				}
 			}
 	
@@ -400,13 +402,11 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 			int xoff = (bmStrokeGlyph->bitmap.width - bmGlyph->bitmap.width) / 2;
 			int yoff = (bmStrokeGlyph->bitmap.rows - bmGlyph->bitmap.rows) / 2;
 			pitch = bmGlyph->bitmap.pitch;
-			for (int row=0; row < bmStrokeGlyph->bitmap.rows; row++) {
-				for (int col=0; col < bmStrokeGlyph->bitmap.width; col++) {
-					bool over = (row >= bmGlyph->bitmap.rows || col >= bmGlyph->bitmap.width);
-					unsigned char value = (over) ? 0 : bmGlyph->bitmap.buffer[pitch*row + col];
-					unsigned int idx = 2*sz*(row+yoff) + 2*(col+xoff);
-					pixBuf[idx] += value;
-					assert(pixBuf[idx] < 256);
+			for (int row=0; row < bmGlyph->bitmap.rows; row++) {
+				for (int col=0; col < bmGlyph->bitmap.width; col++) {
+					const int d = 4*sz*(row+yoff) + 4*(col+xoff);
+					const int s = pitch*row + col;
+					pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = bmGlyph->bitmap.buffer[s];
 				}
 			}
 	
@@ -424,8 +424,9 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 			const int pitch = bmGlyph->bitmap.pitch;
 			for (int row=0; row < bmGlyph->bitmap.rows; row++) {
 				for (int col=0; col < bmGlyph->bitmap.width; col++) {
-					pixBuf[2*sz*row + 2*col] = bmGlyph->bitmap.buffer[pitch*row + col];
-					pixBuf[2*sz*row + 2*col+1] = bmGlyph->bitmap.buffer[pitch*row + col];
+					const int d = 4*sz*row + 4*col;
+					const int s = pitch*row + col;
+					pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = pixBuf[d+3] = bmGlyph->bitmap.buffer[s];
 				}
 			}
 	
@@ -437,9 +438,9 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 
 		FT_Done_Glyph(glyph);
 
-		Graphics::TextureDescriptor descriptor(Graphics::TEXTURE_LUMINANCE_ALPHA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
+		Graphics::TextureDescriptor descriptor(Graphics::TEXTURE_RGBA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
 		glfglyph.texture.Reset(Gui::Screen::GetRenderer()->CreateTexture(descriptor));
-		glfglyph.texture->Update(pixBuf, vector2f(sz,sz), Graphics::IMAGE_LUMINANCE_ALPHA, Graphics::IMAGE_UNSIGNED_BYTE);
+		glfglyph.texture->Update(pixBuf, vector2f(sz,sz), Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
 
 		glfglyph.advx = float(m_face->glyph->advance.x) / 64.0 + advx_adjust;
 		glfglyph.advy = float(m_face->glyph->advance.y) / 64.0;

@@ -7,7 +7,6 @@ inline GLint GLTextureFormat(TextureFormat format) {
 	switch (format) {
 		case TEXTURE_RGBA:            return GL_RGBA;
 		case TEXTURE_RGB:             return GL_RGB;
-		case TEXTURE_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
 		default: assert(0);
 	}
 }
@@ -16,7 +15,6 @@ inline GLint GLImageFormat(ImageFormat format) {
 	switch (format) {
 		case IMAGE_RGBA:            return GL_RGBA;
 		case IMAGE_RGB:             return GL_RGB;
-		case IMAGE_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
 		default: assert(0);
 	}
 }

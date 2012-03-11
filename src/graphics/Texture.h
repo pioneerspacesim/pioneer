@@ -9,13 +9,11 @@ namespace Graphics {
 enum TextureFormat {
 	TEXTURE_RGBA,
 	TEXTURE_RGB,
-	TEXTURE_LUMINANCE_ALPHA // XXX more generic name?
 };
 
 enum ImageFormat {
 	IMAGE_RGBA,
 	IMAGE_RGB,
-	IMAGE_LUMINANCE_ALPHA // XXX more generic name?
 };
 
 enum ImageType {
