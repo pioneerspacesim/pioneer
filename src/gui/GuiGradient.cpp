@@ -13,8 +13,9 @@ Gradient::Gradient(float width, float height, const Color &beginColor, const Col
 	};
 
 	vector2f size = direction == HORIZONTAL ? vector2f(2.0f,1.0f) : vector2f(1.0f,2.0f);
-	m_texture.Reset(Gui::Screen::GetRenderer()->CreateTexture(Graphics::TextureDescriptor(Graphics::TEXTURE_RGBA, size)));
-	m_texture->Update(data, size, Graphics::IMAGE_RGBA, Graphics::IMAGE_FLOAT);
+	Graphics::Texture *texture = Gui::Screen::GetRenderer()->CreateTexture(Graphics::TextureDescriptor(Graphics::TEXTURE_RGBA, size));
+	texture->Update(data, size, Graphics::IMAGE_RGBA, Graphics::IMAGE_FLOAT);
+	m_quad.Reset(new TexturedQuad(texture));
 }
 
 void Gradient::GetSizeRequested(float size[2])
@@ -27,7 +28,7 @@ void Gradient::Draw()
 	float size[2];
 	GetSize(size);
 
-	TexturedQuad(m_texture.Get()).Draw(Gui::Screen::GetRenderer(), vector2f(0.0f), vector2f(size[0],size[1]));
+	m_quad->Draw(Gui::Screen::GetRenderer(), vector2f(0.0f), vector2f(size[0],size[1]));
 }
 
 }
