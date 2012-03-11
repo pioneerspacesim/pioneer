@@ -22,7 +22,6 @@ inline GLint GLImageFormat(ImageFormat format) {
 inline GLint GLImageType(ImageType type) {
 	switch (type) {
 		case IMAGE_UNSIGNED_BYTE: return GL_UNSIGNED_BYTE;
-		case IMAGE_FLOAT:         return GL_FLOAT;
 		default: assert(0);
 	}
 }

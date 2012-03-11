@@ -18,7 +18,6 @@ enum ImageFormat {
 
 enum ImageType {
 	IMAGE_UNSIGNED_BYTE,
-	IMAGE_FLOAT
 };
 
 enum TextureSampleMode {

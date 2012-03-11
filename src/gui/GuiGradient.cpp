@@ -7,14 +7,14 @@ Gradient::Gradient(float width, float height, const Color &beginColor, const Col
 {
 	SetSize(width, height);
 
-	const float data[4][4] = {
-		{ beginColor.r, beginColor.g, beginColor.b, beginColor.a },
-		{ endColor.r,   endColor.g,   endColor.b,   endColor.a   },
+	const unsigned char data[4][4] = {
+		{ beginColor.r*255, beginColor.g*255, beginColor.b*255, beginColor.a*255 },
+		{ endColor.r*255,   endColor.g*255,   endColor.b*255,   endColor.a*255   },
 	};
 
 	vector2f size = direction == HORIZONTAL ? vector2f(2.0f,1.0f) : vector2f(1.0f,2.0f);
 	Graphics::Texture *texture = Gui::Screen::GetRenderer()->CreateTexture(Graphics::TextureDescriptor(Graphics::TEXTURE_RGBA, size));
-	texture->Update(data, size, Graphics::IMAGE_RGBA, Graphics::IMAGE_FLOAT);
+	texture->Update(data, size, Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
 	m_quad.Reset(new TexturedQuad(texture));
 }
 
