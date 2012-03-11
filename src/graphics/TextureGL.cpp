@@ -5,16 +5,16 @@ namespace Graphics {
 
 inline GLint GLTextureFormat(TextureFormat format) {
 	switch (format) {
-		case TEXTURE_RGBA:            return GL_RGBA;
-		case TEXTURE_RGB:             return GL_RGB;
+		case TEXTURE_RGBA: return GL_RGBA;
+		case TEXTURE_RGB:  return GL_RGB;
 		default: assert(0);
 	}
 }
 
 inline GLint GLImageFormat(ImageFormat format) {
 	switch (format) {
-		case IMAGE_RGBA:            return GL_RGBA;
-		case IMAGE_RGB:             return GL_RGB;
+		case IMAGE_RGBA: return GL_RGBA;
+		case IMAGE_RGB:  return GL_RGB;
 		default: assert(0);
 	}
 }
@@ -22,6 +22,22 @@ inline GLint GLImageFormat(ImageFormat format) {
 inline GLint GLImageType(ImageType type) {
 	switch (type) {
 		case IMAGE_UNSIGNED_BYTE: return GL_UNSIGNED_BYTE;
+		default: assert(0);
+	}
+}
+
+inline GLint GLImageFormatForTextureFormat(TextureFormat format) {
+	switch (format) {
+		case TEXTURE_RGBA: return GL_RGBA;
+		case TEXTURE_RGB:  return GL_RGB;
+		default: assert(0);
+	}
+}
+
+inline GLint GLImageTypeForTextureFormat(TextureFormat format) {
+	switch (format) {
+		case TEXTURE_RGBA: return GL_UNSIGNED_BYTE;
+		case TEXTURE_RGB:  return GL_UNSIGNED_BYTE;
 		default: assert(0);
 	}
 }
@@ -37,7 +53,10 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor) : Texture(descriptor),
 		case GL_TEXTURE_2D:
 			if (descriptor.generateMipmaps)
 				glTexParameteri(m_target, GL_GENERATE_MIPMAP, GL_TRUE);
-			//glTexImage2D(m_target, 0, GLTextureFormat(descriptor.format), size.x, size.y, 0, GLImageFormat(???), GLImageType(???), 0);
+			glTexImage2D(
+				m_target, 0, GLTextureFormat(descriptor.format),
+				descriptor.dataSize.x, descriptor.dataSize.y, 0,
+				GLImageFormatForTextureFormat(descriptor.format), GLImageTypeForTextureFormat(descriptor.format), 0);
 			break;
 
 		default:
