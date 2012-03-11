@@ -26,7 +26,7 @@ namespace Gui {
 		virtual void GetSizeRequested(float size[2]);
 
 	private:
-		ScopedPtr<TexturedQuad> m_quad;
+		RefCountedPtr<Graphics::Texture> m_texture;
 	};
 
 }
