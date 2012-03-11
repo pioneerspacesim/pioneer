@@ -35,9 +35,6 @@ static void _blit_image(SDL_Surface *s, const char *filename, int xoff, int yoff
 		return;
 	}
 
-	SDL_SetAlpha(is, 0, 0);
-	SDL_SetAlpha(s, 0, 0);
-
 	SDL_Rect destrec = { ((FACE_WIDTH-is->w-1)/2)+xoff, yoff, 0, 0 };
 	SDL_BlitSurface(is, NULL, s, &destrec);
 	SDL_FreeSurface(is);
@@ -93,7 +90,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 
 	char filename[1024];
 
-	SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, FACE_WIDTH, FACE_HEIGHT, 32, 0xff, 0xff00, 0xff0000, 0xff000000);
+	SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, FACE_WIDTH, FACE_HEIGHT, 24, 0xff, 0xff00, 0xff0000, 0);
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/backgrounds/background_%d.png", background);
 	//printf("background: %s\n", filename);
