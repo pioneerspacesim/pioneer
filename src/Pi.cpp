@@ -369,6 +369,26 @@ void Pi::RedirectStdio()
 	}
 }
 
+void Pi::LoadWindowIcon()
+{
+	static const std::string filename("icons/badge.png");
+
+	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
+	if (!filedata) {
+		fprintf(stderr, "LoadWindowIcon: %s: could not read file\n", filename.c_str());
+		return;
+	}
+
+	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
+	SDL_Surface *icon = IMG_Load_RW(datastream, 1);
+	if (!icon) {
+		fprintf(stderr, "LoadWindowIcon: %s: %s\n", filename.c_str(), IMG_GetError());
+		return;
+	}
+
+	SDL_WM_SetIcon(icon, 0);
+}
+
 void Pi::Init()
 {
 	FileSystem::Init();
@@ -444,8 +464,7 @@ void Pi::Init()
 	Uint32 flags = SDL_OPENGL;
 	if (config.Int("StartFullscreen")) flags |= SDL_FULLSCREEN;
 
-	SDL_Surface *icon = IMG_Load(PIONEER_DATA_DIR "/icons/badge.png");
-	SDL_WM_SetIcon(icon, 0);
+	LoadWindowIcon();
 
 	// attempt sequence is:
 	// 1- requested mode
