@@ -361,7 +361,7 @@ CustomSystem:new('Gliese 277',{'STAR_M','STAR_M'}):add_to_sector(3,-2,2,v(0.474,
 CustomSystem:new('Gliese 537',{'STAR_M','STAR_M'}):add_to_sector(-2,-3,3,v(0.391,0.282,0.310))
 CustomSystem:new('Gliese 536',{'STAR_K'}):add_to_sector(-3,-4,-1,v(0.911,0.420,0.808))
 CustomSystem:new('Gliese 309',{'STAR_K'}):add_to_sector(3,-3,-3,v(0.325,0.382,0.407))
-CustomSystem:new('NN 3622',{'STAR_M'}):add_to_sector(0,-2,-1,v(0.558,0.279,0.638))
+CustomSystem:new('LHS 292',{'STAR_M'}):add_to_sector(0,-2,-1,v(0.558,0.279,0.638))
 CustomSystem:new('Gliese 300',{'STAR_M'}):add_to_sector(1,-2,-1,v(0.867,0.780,0.119))
 CustomSystem:new('GJ 1028',{'STAR_M'}):add_to_sector(1,3,-2,v(0.081,0.721,0.731))
 CustomSystem:new('NN 3147',{'STAR_M'}):add_to_sector(1,2,2,v(0.937,0.841,0.448))
