@@ -15,7 +15,7 @@ CustomSystem:new('GJ 1206',{'WHITE_DWARF'}):add_to_sector(-3,-1,3,v(0.811,0.293,
 CustomSystem:new('Gliese 487',{'STAR_M'}):add_to_sector(-1,-2,3,v(0.643,0.356,0.798))
 CustomSystem:new('Gliese 486',{'STAR_M'}):add_to_sector(-1,-4,0,v(0.315,0.772,0.567))
 CustomSystem:new('NN 3417',{'STAR_M'}):add_to_sector(1,-1,2,v(0.421,0.633,0.799))
-CustomSystem:new('Gliese 54.1',{'STAR_M'}):add_to_sector(0,1,-1,v(0.451,0.377,0.557))
+CustomSystem:new('YZ Ceti',{'STAR_M'}):add_to_sector(0,1,-1,v(0.451,0.377,0.557))
 CustomSystem:new('Gliese 251',{'STAR_M'}):add_to_sector(1,-1,1,v(0.907,0.534,0.289))
 CustomSystem:new('GJ 1270',{'STAR_M'}):add_to_sector(-2,3,3,v(0.378,0.901,0.735))
 CustomSystem:new('GJ 1276',{'WHITE_DWARF'}):add_to_sector(-1,3,-1,v(0.071,0.124,0.613))
