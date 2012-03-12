@@ -216,7 +216,7 @@ CustomSystem:new('Gliese 117',{'STAR_K'}):add_to_sector(2,3,-1,v(0.822,0.012,0.0
 CustomSystem:new('Gliese 116',{'STAR_K'}):add_to_sector(3,3,3,v(0.271,0.504,0.281))
 CustomSystem:new('107 Piscium',{'STAR_K'}):add_to_sector(1,2,1,v(0.235,0.575,0.055))
 CustomSystem:new('Gliese 299',{'STAR_M'}):add_to_sector(2,-2,0,v(0.284,0.519,0.424))
-CustomSystem:new('Gliese 388',{'STAR_M'}):add_to_sector(0,-2,0,v(0.797,0.297,0.680))
+CustomSystem:new('AD Leonis',{'STAR_M'}):add_to_sector(0,-2,0,v(0.797,0.297,0.680))
 CustomSystem:new('Groombridge 34',{'STAR_M','STAR_M'}):add_to_sector(0,1,1,v(0.084,0.043,0.011))
 CustomSystem:new('Gliese 809',{'STAR_M'}):add_to_sector(-1,0,2,v(0.024,0.921,0.540))
 CustomSystem:new('Gliese 555',{'STAR_M'}):add_to_sector(-2,-2,-1,v(0.482,0.097,0.459))
