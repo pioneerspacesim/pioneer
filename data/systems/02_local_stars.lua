@@ -296,7 +296,7 @@ CustomSystem:new('Gliese 569',{'STAR_M'}):add_to_sector(-3,-3,1,v(0.348,0.217,0.
 CustomSystem:new('Gliese 239',{'STAR_M'}):add_to_sector(3,-1,1,v(0.776,0.382,0.211))
 CustomSystem:new('Gliese 51',{'STAR_M'}):add_to_sector(0,1,3,v(0.465,0.641,0.257))
 CustomSystem:new('Gliese 338',{'STAR_M','STAR_K'}):add_to_sector(1,-2,2,v(0.011,0.853,0.007))
-CustomSystem:new('Gliese 234',{'STAR_M','STAR_M'}):add_to_sector(1,-1,-1,v(0.663,0.786,0.918))
+CustomSystem:new('Ross 614',{'STAR_M','STAR_M'}):add_to_sector(1,-1,-1,v(0.663,0.786,0.918))
 CustomSystem:new('Gliese 54',{'STAR_K'}):add_to_sector(0,1,-4,v(0.385,0.213,0.935))
 CustomSystem:new('Proxima Centauri',{'STAR_M'}):add_to_sector(-1,-1,-1,v(0.853,0.808,0.531))
 CustomSystem:new('Gliese 628',{'STAR_M'}):add_to_sector(-2,-1,-1,v(0.432,0.353,0.619))
