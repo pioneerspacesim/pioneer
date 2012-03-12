@@ -62,7 +62,6 @@ local addFuel = function (ship)
 	count = count - ship:GetEquipCount('CARGO', 'HYDROGEN')
 
 	local added = ship:AddEquip('HYDROGEN', count)
-	ship:SetFuelPercent()
 
 	return added
 end
