@@ -168,6 +168,15 @@ doUndock = function (ship)
 	end
 end
 
+local doOrbit = function (ship)
+	local trader = trade_ships[ship]
+	local sbody = trader.starport.path:GetSystemBody()
+	local body = Space.GetBody(sbody.parent.index)
+	ship:AIEnterLowOrbit(body)
+	trader['status'] = 'orbit'
+	print(ship.label..' ordering orbit of '..body.label)
+end
+
 local getNearestStarport = function (ship, current)
 	if #starports == 0 then return nil end
 	if #starports == 1 then return starports[1] end
@@ -617,24 +626,16 @@ local onAICompleted = function (ship, ai_error)
 		end
 		-- XXX if ORBIT_IMPOSSIBLE asteroid? get parent of parent and attempt orbit?
 	elseif trader.status == 'inbound' then
-		if ai_error == 'REFUSED_PERM' then
-			local sbody = trader.starport.path:GetSystemBody()
-			local body = Space.GetBody(sbody.parent.index)
-			ship:AIEnterLowOrbit(body)
-			trader['status'] = 'orbit'
-			print(ship.label..' ordering orbit') -- ZZZ print body label
-		end
+		if ai_error == 'REFUSED_PERM' then doOrbit(ship) end
 	end
 end
 EventQueue.onAICompleted:Connect(onAICompleted)
 
 local onShipLanded = function (ship, body)
 	if trade_ships[ship] == nil then return end
-	local trader = trade_ships[ship]
-	print(ship.label..' Landed: '..trader.starport.label)
+	print(ship.label..' Landed: '..trade_ships[ship].starport.label)
 
-	-- ZZZ should really make a doOrbit
-	onAICompleted(ship, 'REFUSED_PERM')
+	doOrbit(ship)
 end
 EventQueue.onShipLanded:Connect(onShipLanded)
 
