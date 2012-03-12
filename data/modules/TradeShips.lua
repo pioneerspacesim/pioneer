@@ -62,6 +62,7 @@ local addFuel = function (ship)
 	count = count - ship:GetEquipCount('CARGO', 'HYDROGEN')
 
 	local added = ship:AddEquip('HYDROGEN', count)
+	ship:SetFuelPercent()
 
 	return added
 end
@@ -386,23 +387,17 @@ local spawnInitialShips = function (game_start)
 		-- add equipment and cargo
 		addShipEquip(ship)
 		local fuel_added = addFuel(ship)
-		local direction = 'export'
-		if trader.status ~= 'docked' then
-			direction = 'import'
-			-- remove fuel used to get here
-			if fuel_added and fuel_added > 0 then
-				ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
-			end
-		end
-		local delay = addShipCargo(ship, direction)
-
-		-- give orders
 		if trader.status == 'docked' then
+			local delay = fuel_added + addShipCargo(ship, 'export')
 			-- have ship wait 30-45 seconds per unit of cargo
 			trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
 			Timer:CallAt(trader.delay, function () doUndock(ship) end)
-		elseif trader.status == 'inbound' then
-			ship:AIDockWith(trader.starport)
+		else
+			addShipCargo(ship, 'import')
+			-- remove fuel used to get here
+			if fuel_added and fuel_added > 0 then
+				ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added)) end
+			if trader.status == 'inbound' then ship:AIDockWith(trader.starport) end
 		end
 	end
 
@@ -429,10 +424,10 @@ local spawnReplacement = function ()
 
 		addShipEquip(ship)
 		local fuel_added = addFuel(ship)
+		addShipCargo(ship, 'import')
 		if fuel_added and fuel_added > 0 then
 			ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
 		end
-		addShipCargo(ship, 'import')
 	end
 end
 
@@ -483,7 +478,8 @@ local onEnterSystem = function (ship)
 	end
 
 	if trade_ships[ship] ~= nil then
-		print(ship.label..' entered '..Game.system.name..' from '..trade_ships[ship]['from_path']:GetStarSystem().name)
+		local trader = trade_ships[ship]
+		print(ship.label..' '..trader.ship_name..' entered '..Game.system.name..' from '..trader.from_path:GetStarSystem().name)
 		if #starports == 0 then
 			-- this only happens if player has followed ship to empty system
 
@@ -605,7 +601,8 @@ EventQueue.onShipUndocked:Connect(onShipUndocked)
 local onAICompleted = function (ship, ai_error)
 	if trade_ships[ship] == nil then return end
 	local trader = trade_ships[ship]
-	print(ship.label..' AICompleted: Error: '..ai_error..' Status: '..trader.status) -- ZZZ only if not NONE
+	if ai_error ~= 'NONE' then
+		print(ship.label..' AICompleted: Error: '..ai_error..' Status: '..trader.status) end
 
 	if trader.status == 'outbound' then
 		if getSystemAndJump(ship) ~= 'OK' then
@@ -641,7 +638,8 @@ EventQueue.onShipLanded:Connect(onShipLanded)
 
 local onShipAlertChanged = function (ship, alert)
 	if trade_ships[ship] == nil then return end
-	print(ship.label..' alert changed to '..alert)
+	if alert ~= 'NONE' then
+		print(ship.label..' alert changed to '..alert) end
 	local trader = trade_ships[ship]
 	if trader.attacker == nil then return end
 
