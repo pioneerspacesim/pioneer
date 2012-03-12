@@ -22,7 +22,15 @@ namesubs = {
 "Gliese 905": "Ross 248",
 "Phad": "Phekda",
 "82 G. Eri" : "82 Gamma Eridani",
-"268 G. Cet" : "268 Gamma Ceti"
+"268 G. Cet" : "268 Gamma Ceti",
+"27 Tauri" : "Atlas",
+"20 Tauri" : "Maia",
+"23 Tauri" : "Merope",
+"28 Tauri" : "Pleione",
+"17 Tauri" : "Electra",
+"19 Tauri" : "Taygeta",
+"21 Tauri" : "Asterope",
+"22 Tauri" : "Sterope"
 }
 
 gr_let = (
