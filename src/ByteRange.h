@@ -4,6 +4,7 @@
 #include <string>
 #include <cassert>
 #include <cctype>
+#include <cstring>
 
 struct ByteRange
 {
