@@ -23,11 +23,15 @@
 #endif /* PIONEER_DATA_DIR */
 
 #ifdef _WIN32
-#   pragma warning(disable : 4244) // "conversion from x to x: possible loss of data"
-#   pragma warning(disable : 4800) // int-to-bool "performance warning"
 #	include <malloc.h>
 
+#	ifdef _MSC_VER
+#		pragma warning(disable : 4244) // "conversion from x to x: possible loss of data"
+#		pragma warning(disable : 4800) // int-to-bool "performance warning"
+#	endif
+ 
 #	ifndef __MINGW32__
+#
 #		define alloca _alloca
 #		define strncasecmp _strnicmp
 #		define strcasecmp _stricmp
