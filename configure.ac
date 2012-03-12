@@ -21,6 +21,22 @@ AC_PROG_RANLIB
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES])
 
 dnl ###########################################################################
+dnl Platform selection
+dnl ###########################################################################
+
+AC_MSG_CHECKING([platform type])
+case "$host" in
+  i686-pc-mingw32|x86_64-pc-mingw64)
+	PLATFORM=win32
+	;;
+  *)
+	PLATFORM=posix
+	;;
+esac
+AC_SUBST([PLATFORM])
+AC_MSG_RESULT($PLATFORM)
+
+dnl ###########################################################################
 dnl Flags and options
 dnl ###########################################################################
 
