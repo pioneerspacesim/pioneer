@@ -168,7 +168,7 @@ doUndock = function (ship)
 	end
 end
 
-local getNearestStarport = function (ship)
+local getNearestStarport = function (ship, current)
 	if #starports == 0 then return nil end
 	if #starports == 1 then return starports[1] end
 
@@ -176,7 +176,7 @@ local getNearestStarport = function (ship)
 	local distance = ship:DistanceTo(starport)
 	for _, next_starport in ipairs(starports) do
 		local next_distance = ship:DistanceTo(next_starport)
-		if next_distance < distance then
+		if next_distance < distance and next_starport ~= current then
 			starport, distance = next_starport, next_distance
 		end
 	end
@@ -596,7 +596,7 @@ EventQueue.onShipUndocked:Connect(onShipUndocked)
 local onAICompleted = function (ship, ai_error)
 	if trade_ships[ship] == nil then return end
 	local trader = trade_ships[ship]
-	print(ship.label..' AICompleted: Error: '..ai_error..' Status: '..trader.status)
+	print(ship.label..' AICompleted: Error: '..ai_error..' Status: '..trader.status) -- ZZZ only if not NONE
 
 	if trader.status == 'outbound' then
 		if getSystemAndJump(ship) ~= 'OK' then
@@ -608,7 +608,7 @@ local onAICompleted = function (ship, ai_error)
 			trader['delay'] = Game.time + 21600 -- 6 hours
 			Timer:CallAt(trader.delay, function ()
 				if ship:exists() then
-					trader['starport'] = getNearestStarport(ship)
+					trader['starport'] = getNearestStarport(ship, trader.starport)
 					ship:AIDockWith(trader.starport)
 					trader['status'] = 'inbound'
 					trader['delay'] = nil
@@ -622,11 +622,21 @@ local onAICompleted = function (ship, ai_error)
 			local body = Space.GetBody(sbody.parent.index)
 			ship:AIEnterLowOrbit(body)
 			trader['status'] = 'orbit'
-			print(ship.label..' ordering orbit')
+			print(ship.label..' ordering orbit') -- ZZZ print body label
 		end
 	end
 end
 EventQueue.onAICompleted:Connect(onAICompleted)
+
+local onShipLanded = function (ship, body)
+	if trade_ships[ship] == nil then return end
+	local trader = trade_ships[ship]
+	print(ship.label..' Landed: '..trader.starport.label)
+
+	-- ZZZ should really make a doOrbit
+	onAICompleted(ship, 'REFUSED_PERM')
+end
+EventQueue.onShipLanded:Connect(onShipLanded)
 
 local onShipAlertChanged = function (ship, alert)
 	if trade_ships[ship] == nil then return end
