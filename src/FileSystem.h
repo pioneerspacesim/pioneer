@@ -57,7 +57,8 @@ namespace FileSystem {
 		std::string GetName() const { return m_path.substr(m_dirLen); }
 		std::string GetDir() const { return m_path.substr(0, m_dirLen); }
 		const std::string &GetPath() const { return m_path; }
-		const std::string &GetSourcePath() const;
+		const std::string &GetAbsoluteDir() const;
+		const std::string GetAbsolutePath() const { return JoinPath(GetAbsoluteDir(), GetName()); }
 
 		const FileSource &GetSource() const { return *m_source; }
 
@@ -125,10 +126,10 @@ namespace FileSystem {
 
 	class FileSource {
 	public:
-		explicit FileSource(const std::string &sourcePath): m_sourcePath(sourcePath) {}
+		explicit FileSource(const std::string &root): m_root(root) {}
 		virtual ~FileSource() {}
 
-		const std::string &GetSourcePath() const { return m_sourcePath; }
+		const std::string &GetRoot() const { return m_root; }
 
 		virtual FileInfo Lookup(const std::string &path) = 0;
 		virtual RefCountedPtr<FileData> ReadFile(const std::string &path) = 0;
@@ -138,7 +139,7 @@ namespace FileSystem {
 		FileInfo MakeFileInfo(const std::string &path, FileInfo::FileType entryType);
 
 	private:
-		std::string m_sourcePath;
+		std::string m_root;
 	};
 
 	class FileSourceFS : public FileSource {
@@ -198,8 +199,8 @@ namespace FileSystem {
 
 } // namespace FileSystem
 
-inline const std::string &FileSystem::FileInfo::GetSourcePath() const
-{ return m_source->GetSourcePath(); }
+inline const std::string &FileSystem::FileInfo::GetAbsoluteDir() const
+{ return m_source->GetRoot(); }
 
 inline RefCountedPtr<FileSystem::FileData> FileSystem::FileInfo::Read() const
 { return m_source->ReadFile(m_path); }

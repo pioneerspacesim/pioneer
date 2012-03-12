@@ -68,7 +68,7 @@ namespace FileSystem {
 
 	FileInfo FileSourceFS::Lookup(const std::string &path)
 	{
-		const std::string fullpath = JoinPath(GetSourcePath(), path);
+		const std::string fullpath = JoinPath(GetRoot(), path);
 		struct stat statinfo;
 		FileInfo::FileType ty;
 		if (stat(fullpath.c_str(), &statinfo) == 0) {
@@ -87,7 +87,7 @@ namespace FileSystem {
 
 	RefCountedPtr<FileData> FileSourceFS::ReadFile(const std::string &path)
 	{
-		const std::string fullpath = JoinPath(GetSourcePath(), path);
+		const std::string fullpath = JoinPath(GetRoot(), path);
 		FILE *fl = fopen(fullpath.c_str(), "rb");
 		if (!fl) {
 			return RefCountedPtr<FileData>(0);
@@ -114,7 +114,7 @@ namespace FileSystem {
 
 	bool FileSourceFS::ReadDirectory(const std::string &dirpath, std::vector<FileInfo> &output)
 	{
-		const std::string fulldirpath = JoinPath(GetSourcePath(), dirpath);
+		const std::string fulldirpath = JoinPath(GetRoot(), dirpath);
 		DIR *dir = opendir(fulldirpath.c_str());
 		if (!dir) { return false; }
 		struct dirent *entry;
@@ -153,7 +153,7 @@ namespace FileSystem {
 				default: ty = FileInfo::FT_SPECIAL; break;
 			}
 
-			output.push_back(MakeFileInfo(fullpath.substr(GetSourcePath().size() + 1), ty));
+			output.push_back(MakeFileInfo(fullpath.substr(GetRoot().size() + 1), ty));
 		}
 
 		closedir(dir);
@@ -195,7 +195,7 @@ namespace FileSystem {
 
 	bool FileSourceFS::MakeDirectory(const std::string &path)
 	{
-		const std::string fullpath = JoinPath(GetSourcePath(), path);
+		const std::string fullpath = JoinPath(GetRoot(), path);
 		return make_directory_raw(fullpath);
 	}
 }

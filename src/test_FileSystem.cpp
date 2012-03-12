@@ -18,8 +18,8 @@ void test_filesystem()
 	FileSourceFS fsAppData(FileSystem::GetDataDir());
 	FileSourceFS fsUserData(FileSystem::GetUserDir() + "/data");
 
-	printf("data root is '%s'\n", fsAppData.GetSourcePath().c_str());
-	printf("user root is '%s'\n", fsUserData.GetSourcePath().c_str());
+	printf("data root is '%s'\n", fsAppData.GetRoot().c_str());
+	printf("user root is '%s'\n", fsUserData.GetRoot().c_str());
 
 	FileSourceUnion fs;
 	fs.AppendSource(&fsUserData);

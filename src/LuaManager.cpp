@@ -28,10 +28,10 @@ LuaManager::LuaManager() : m_lua(NULL) {
 	if (ret) {
 		if (ret == LUA_ERRSYNTAX) {
 			const char* message = lua_tostring(m_lua, -1);
-			fprintf(stderr, "Syntax error in '%s:\n%s\n", code->GetInfo().GetSourcePath().c_str(), message);
+			fprintf(stderr, "Syntax error in '%s:\n%s\n", code->GetInfo().GetAbsolutePath().c_str(), message);
 		}
 		else
-			fprintf(stderr, "Error while loading '%s'\n", code->GetInfo().GetSourcePath().c_str());
+			fprintf(stderr, "Error while loading '%s'\n", code->GetInfo().GetAbsolutePath().c_str());
 		abort();
 	}
 	if (lua_pcall(m_lua, 0, 1, 0)) {
