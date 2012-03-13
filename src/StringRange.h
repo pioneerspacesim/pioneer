@@ -30,6 +30,22 @@ struct StringRange
 	const char &operator*() const { return *begin; }
 	std::string ToString() const { return begin ? std::string(begin, Size()) : std::string(); }
 
+	int Compare(const char *b) const;
+
+	friend bool operator==(const StringRange &a, const char *b) const { return (a.Compare(b) == 0); }
+	friend bool operator!=(const StringRange &a, const char *b) const { return (a.Compare(b) != 0); }
+	friend bool operator<=(const StringRange &a, const char *b) const { return (a.Compare(b) <= 0); }
+	friend bool operator>=(const StringRange &a, const char *b) const { return (a.Compare(b) >= 0); }
+	friend bool operator< (const StringRange &a, const char *b) const { return (a.Compare(b) <  0); }
+	friend bool operator> (const StringRange &a, const char *b) const { return (a.Compare(b) >  0); }
+
+	friend bool operator==(const char *a, const StringRange &b) const { return (b.Compare(a) == 0); }
+	friend bool operator!=(const char *a, const StringRange &b) const { return (b.Compare(a) != 0); }
+	friend bool operator<=(const char *a, const StringRange &b) const { return (b.Compare(a) >= 0); }
+	friend bool operator>=(const char *a, const StringRange &b) const { return (b.Compare(a) <= 0); }
+	friend bool operator< (const char *a, const StringRange &b) const { return (b.Compare(a) >  0); }
+	friend bool operator> (const char *a, const StringRange &b) const { return (b.Compare(a) <  0); }
+
 	const char *FindChar(char c) const;
 	const char *RFindChar(char c) const;
 
@@ -59,6 +75,16 @@ inline StringRange StringRange::ReadLine()
 	StringRange line(begin, FindNextLine());
 	begin = line.end;
 	return line;
+}
+
+inline int StringRange::Compare(const char *b) const
+{
+	const char *a = begin;
+	while (a != end && *b && *a == *b) { ++a; ++b; }
+	if (a != end && *b) { return (*a < *b ? -1 : 1); }
+	if (a != end) { return 1; }
+	if (*b) { return -1; }
+	return 0;
 }
 
 inline const char *StringRange::FindChar(char c) const
