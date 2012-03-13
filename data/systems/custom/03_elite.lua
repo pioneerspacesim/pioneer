@@ -22,7 +22,7 @@ local diso = CustomSBody:new('Diso', 'PLANET_TERRESTRIAL')
    :atmos_density(f(11,10))
 
 local diso_station =  CustomSBody:new('Diso High','STARPORT_ORBITAL')
-	:semi_major_axis(f(150,100000))
+	:semi_major_axis(f(4,100000))
 	:rotation_period(f(1,24*60*4))
 
 s_diso:bodies(lucy, {diso, {diso_station}})
@@ -79,7 +79,7 @@ local leesti = CustomSBody:new('Leesti', 'PLANET_TERRESTRIAL')
    :rotation_period(f(36,13))
 
 local leesti_station =  CustomSBody:new('Dodec One','STARPORT_ORBITAL')
-	:semi_major_axis(f(120,100000))
+	:semi_major_axis(f(8,100000))
 	:rotation_period(f(1,24*60*2))
 
 s_leesti:bodies(lucy, {leesti, {leesti_station}})
@@ -105,7 +105,7 @@ local tortuga = CustomSBody:new('Tortuga', 'PLANET_TERRESTRIAL')
 	:rotation_period(f(25,24))
 
 local hard_harbour = CustomSBody:new('Hard Harbour', 'STARPORT_ORBITAL')
-	:semi_major_axis(f(140,100000))
+	:semi_major_axis(f(5,100000))
 	:rotation_period(f(1,24*30))
 
 s_riedquat:bodies(riedquat, {tortuga, {hard_harbour}})
