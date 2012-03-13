@@ -110,5 +110,5 @@ s_riedquat:bodies(riedquat, {tortuga, {hard_harbour}})
 
 s_diso:add_to_sector(-3,0,90,v(0.550,0.950,0.930))
 s_lave:add_to_sector(-2,1,90,v(0.001,0.001,0.910))
-s_leesti:add_to_sector(-3,0,90,v(0.650,0.650,0.960))
-s_riedquat:add_to_sector(-3,0,90,v(0.150,0.400,0.950))
+s_leesti:add_to_sector(-3,0,90,v(0.650,0.550,0.960))
+s_riedquat:add_to_sector(-3,0,90,v(0.150,0.600,0.950))
