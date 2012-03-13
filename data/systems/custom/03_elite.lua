@@ -64,7 +64,7 @@ local s_leesti = CustomSystem:new("Leesti",{'STAR_G'})
 	:long_desc([[The planet Leesti is reasonably fabled for Zero-G cricket and Leestiian evil juice.]])
 	:explored(true)
 
-local lucy = CustomSBody:new("Lucy",'STAR_G')
+local hal = CustomSBody:new("Hal",'STAR_G')
    :radius(f(11,10))
    :mass(f(11,10))
    :temp(5540)
@@ -82,7 +82,7 @@ local leesti_station =  CustomSBody:new('Dodec One','STARPORT_ORBITAL')
 	:semi_major_axis(f(8,100000))
 	:rotation_period(f(1,24*60*2))
 
-s_leesti:bodies(lucy, {leesti, {leesti_station}})
+s_leesti:bodies(hal, {leesti, {leesti_station}})
 
 local s_riedquat = CustomSystem:new("Riedquat",{'STAR_G'})
 	:govtype('DISORDER')
