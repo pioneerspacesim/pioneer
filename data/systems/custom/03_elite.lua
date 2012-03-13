@@ -251,6 +251,37 @@ local things_in_orbit = {
 
 s_tionisla:bodies(tionisla, {landfall, things_in_orbit})
 
+local s_uszaa = CustomSystem:new('Uszaa',{'STAR_G'})
+	:govtype('DISORDER')
+	:short_desc("The planet Uszaa is reasonably noted for its inhabitants' eccentric love for tourists and the Uszaaian tree grub.")
+	:long_desc("The planet Uszaa is reasonably noted for its inhabitants' eccentric love for tourists and the Uszaaian tree grub.")
+	:explored(true)
+
+local prime = CustomSBody:new('Prime','STAR_G')
+	:radius(f(95,100))
+	:mass(f(98,100))
+	:temp(6100)
+
+local uszaa = CustomSBody:new('Uszaa','PLANET_TERRESTRIAL')
+	:seed(9)
+	:radius(f(4867,6378))
+	:mass(f(7,8))
+	:temp(276)
+	:semi_major_axis(f(97,100))
+	:rotation_period(f(19,24))
+	:life(f(9,10))
+	:ocean_cover(f(7,9))
+	:ice_cover(f(2,9))
+	:atmos_density(f(12,11))
+	:atmos_oxidizing(f(99,100))
+
+local haven = CustomSBody:new('Haven','STARPORT_ORBITAL')
+	:inclination(math.deg2rad(45))
+	:semi_major_axis(f(45,1000000))
+	:rotation_period(f(1,24*60))
+
+s_uszaa:bodies(prime, {uszaa, {haven}})
+
 -- Add them to the map
 
 s_diso:add_to_sector(-3,0,90,v(0.550,0.950,0.930))
@@ -261,3 +292,4 @@ s_orrere:add_to_sector(-3,1,90,v(0.300,0.950,0.850))
 s_reorte:add_to_sector(-3,1,90,v(0.950,0.750,0.900))
 s_riedquat:add_to_sector(-3,0,90,v(0.150,0.600,0.950))
 s_tionisla:add_to_sector(-2,0,90,v(0.900,0.100,0.840))
+s_uszaa:add_to_sector(-3,1,90,v(0.150,0.800,0.890))
