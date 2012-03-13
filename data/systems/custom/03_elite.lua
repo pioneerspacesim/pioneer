@@ -206,6 +206,49 @@ local hard_harbour = CustomSBody:new('Hard Harbour', 'STARPORT_ORBITAL')
 
 s_riedquat:bodies(riedquat, {tortuga, {hard_harbour}})
 
+local s_tionisla = CustomSystem:new('Tionisla',{'STAR_M'})
+	:govtype('CISLIBDEM')
+	:short_desc("This world is very notable for its inhabitants' ingrained shyness.")
+	:long_desc("This world is very notable for its inhabitants' ingrained shyness.")
+	:explored(true)
+
+local tionisla = CustomSBody:new('Tionisla','STAR_M')
+	:radius(f(11,10))
+	:mass(f(11,10))
+	:temp(3500)
+
+local landfall = CustomSBody:new('Landfall','PLANET_TERRESTRIAL')
+	:seed(8)
+	:radius(f(4646,6378))
+	:mass(f(5,7))
+	:temp(285)
+	:semi_major_axis(f(7,10))
+	:rotation_period(f(24,1))
+	:life(f(0,1))
+	:ocean_cover(f(0,1))
+	:atmos_density(f(1,20))
+
+local things_in_orbit = {
+	CustomSBody:new('Leader','PLANET_ASTEROID')
+		:semi_major_axis(f(4,100000))
+		:mass(f(1,10000))
+		:radius(f(1,10000))
+		:rotation_period(f(1,24*60*17))
+		:orbital_offset(f(1,1000)),
+	CustomSBody:new('Central Cemetary','STARPORT_ORBITAL')
+		:semi_major_axis(f(4,100000))
+		:rotation_period(f(1,24*60*17))
+		:orbital_offset(f(2,1000)),
+	CustomSBody:new('Follower','PLANET_ASTEROID')
+		:semi_major_axis(f(4,100000))
+		:mass(f(1,10000))
+		:radius(f(1,10000))
+		:rotation_period(f(1,24*60*17))
+		:orbital_offset(f(3,1000)),
+}
+
+s_tionisla:bodies(tionisla, {landfall, things_in_orbit})
+
 -- Add them to the map
 
 s_diso:add_to_sector(-3,0,90,v(0.550,0.950,0.930))
@@ -215,3 +258,4 @@ s_orerve:add_to_sector(-3,0,90,v(0.600,0.050,0.830))
 s_orrere:add_to_sector(-3,1,90,v(0.300,0.950,0.850))
 s_reorte:add_to_sector(-3,1,90,v(0.950,0.750,0.900))
 s_riedquat:add_to_sector(-3,0,90,v(0.150,0.600,0.950))
+s_tionisla:add_to_sector(-2,0,90,v(0.900,0.100,0.840))
