@@ -44,10 +44,15 @@ local lave = CustomSBody:new('Lave', 'PLANET_TERRESTRIAL')
    :semi_major_axis(f(95,100))
    :eccentricity(f(2,100))
    :rotation_period(f(1,1))
+   :life(f(9,10))
+   :volcanicity(f(8,10))
+   :ocean_cover(f(4,10))
+   :atmos_density(f(9,10))
 
 local lave_station =  CustomSBody:new('Lave Station','STARPORT_ORBITAL')
 	:semi_major_axis(f(4,100000))
 	:rotation_period(f(1,24*60*4))
+	:seed(5)
 
 s_lave:bodies(eshe, {lave, {lave_station}})
 
