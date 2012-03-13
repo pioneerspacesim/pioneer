@@ -282,6 +282,35 @@ local haven = CustomSBody:new('Haven','STARPORT_ORBITAL')
 
 s_uszaa:bodies(prime, {uszaa, {haven}})
 
+local s_zaonce = CustomSystem:new('Zaonce',{'STAR_K'})
+	:govtype('CORPORATE')
+	:short_desc('Traditional seat of many high-tech companies')
+	:long_desc('Traditional seat of many high-tech companies')
+	:explored(true)
+
+local trieve = CustomSBody:new('Trieve','STAR_K')
+	:radius(f(1001,1000))
+	:mass(f(1001,1000))
+	:temp(5062)
+
+local zaonce = CustomSBody:new('Zaonce','PLANET_TERRESTRIAL')
+	:seed(10)
+	:radius(f(3873,6378))
+	:mass(f(11,20))
+	:temp(281)
+	:semi_major_axis(f(7,10))
+	:rotation_period(f(50,24))
+	:life(f(9,10))
+	:ocean_cover(f(1,1))
+	:atmos_density(f(34,10))
+	:atmos_oxidizing(f(16,100))
+
+local rebecca_weston = CustomSBody:new('Rebecca Weston','STARPORT_ORBITAL')
+	:semi_major_axis(f(45,1000000))
+	:rotation_period(f(1,24*60*19))
+
+s_zaonce:bodies(trieve, {zaonce, {rebecca_weston}})
+
 -- Add them to the map
 
 s_diso:add_to_sector(-3,0,90,v(0.550,0.950,0.930))
@@ -293,3 +322,4 @@ s_reorte:add_to_sector(-3,1,90,v(0.950,0.750,0.900))
 s_riedquat:add_to_sector(-3,0,90,v(0.150,0.600,0.950))
 s_tionisla:add_to_sector(-2,0,90,v(0.900,0.100,0.840))
 s_uszaa:add_to_sector(-3,1,90,v(0.150,0.800,0.890))
+s_zaonce:add_to_sector(-2,0,90,v(0.600,0.450,0.920))
