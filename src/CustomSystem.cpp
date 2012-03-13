@@ -87,6 +87,8 @@ const SystemPath CustomSystem::GetPathForCustomSystem(const char* name)
 
 CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
 {
+	want_rand_explored = true;
+
 	name = s;
 
 	numStars = 0;
@@ -174,7 +176,7 @@ void CustomSystem::l_add_to_sector(int x, int y, int z, pi_vector& v)
 }
 
 EXPORT_OOLUA_FUNCTIONS_0_CONST(CustomSystem)
-EXPORT_OOLUA_FUNCTIONS_6_NON_CONST(CustomSystem, seed, govtype, short_desc, long_desc, bodies, add_to_sector)
+EXPORT_OOLUA_FUNCTIONS_7_NON_CONST(CustomSystem, seed, explored, govtype, short_desc, long_desc, bodies, add_to_sector)
 
 CustomSBody::CustomSBody(std::string s, std::string stype)
 {
