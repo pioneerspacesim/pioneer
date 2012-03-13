@@ -14,6 +14,7 @@
 class SpaceStation;
 class HyperspaceCloud;
 class AICommand;
+class ShipController;
 namespace Graphics { class Renderer; }
 
 struct shipstats_t {
@@ -48,6 +49,7 @@ public:
 	Ship(ShipType::Type shipType);
 	Ship() {}
 	virtual ~Ship();
+	void SetController(ShipController *c);
 	virtual void SetDockedWith(SpaceStation *, int port);
 	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }
@@ -223,6 +225,8 @@ protected:
 	float m_gunRecharge[ShipType::GUNMOUNT_MAX];
 	float m_gunTemperature[ShipType::GUNMOUNT_MAX];
 	float m_ecmRecharge;
+
+	ShipController *m_controller;
 
 private:
 	float GetECMRechargeTime();

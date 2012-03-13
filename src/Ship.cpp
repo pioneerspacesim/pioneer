@@ -23,6 +23,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
+#include "ShipController.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
@@ -198,6 +199,12 @@ Ship::Ship(ShipType::Type shipType): DynamicBody(),
 Ship::~Ship()
 {
 	if (m_curAICmd) delete m_curAICmd;
+}
+
+void Ship::SetController(ShipController *c)
+{
+	m_controller = c;
+	m_controller->m_ship = this;
 }
 
 

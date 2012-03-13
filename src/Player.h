@@ -1,13 +1,14 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
-#include <list>
 #include "libs.h"
-#include "Ship.h"
-#include "StarSystem.h"
-#include "RefList.h"
+#include <list>
 #include "HyperspaceCloud.h"
 #include "MarketAgent.h"
+#include "RefList.h"
+#include "Ship.h"
+#include "ShipController.h"
+#include "StarSystem.h"
 
 namespace Graphics { class Renderer; }
 
@@ -30,23 +31,13 @@ class Player: public Ship, public MarketAgent {
 public:
 	OBJDEF(Player, Ship, PLAYER);
 	Player(ShipType::Type shipType);
-	Player() { m_mouseActive = false; m_invertMouse = false; }
-	void PollControls(const float timeStep);
+	Player() { }
 	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void SetDockedWith(SpaceStation *, int port);
 	void StaticUpdate(const float timeStep);
-	enum FlightControlState {
-		CONTROL_MANUAL,
-		CONTROL_FIXSPEED,
-		CONTROL_FIXHEADING_FORWARD,
-		CONTROL_FIXHEADING_BACKWARD,
-		CONTROL_AUTOPILOT,
-
-		CONTROL_STATE_COUNT
-	};
-	FlightControlState GetFlightControlState() const { return m_flightControlState; }
+	FlightControlState GetFlightControlState() const;
 	void SetFlightControlState(FlightControlState s);
-	double GetSetSpeed() const { return m_setSpeed; }
+	double GetSetSpeed() const;
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 	virtual void OnHaveKilled(Body *guyWeKilled);
 	int GetKillCount() const { return m_knownKillCount; }
@@ -60,14 +51,9 @@ public:
 	Body *GetSetSpeedTarget() const { return m_setSpeedTarget; }
 	virtual void NotifyRemoved(const Body* const removedBody);
 
-	// test code
-	vector3d GetAccumTorque() { return m_accumTorque; }
-	vector3d m_accumTorque;
-	void SetMouseForRearView(bool enable) { m_invertMouse = enable; }
-	bool IsMouseActive() const { return m_mouseActive; }
-	vector3d GetMouseDir() const { return m_mouseDir; }
-
-	double m_mouseAcc;
+	void SetMouseForRearView(bool enable);
+	bool IsMouseActive() const;
+	vector3d GetMouseDir() const;
 
 	RefList<Mission> missions;
 
@@ -90,16 +76,6 @@ protected:
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
 private:
-	bool IsAnyAngularThrusterKeyDown();
-	bool IsAnyLinearThrusterKeyDown();
-
-	vector3d m_mouseDir;
-	double m_mouseX, m_mouseY;
-	bool m_mouseActive;
-	bool m_invertMouse; // used for rear view, *not* for invert Y-axis option (which is Pi::IsMouseYInvert)
-	bool polledControlsThisTurn;
-	enum FlightControlState m_flightControlState;
-	double m_setSpeed;
 	Body* m_setSpeedTarget;
 	int m_killCount;
 	int m_knownKillCount; // updated on docking
@@ -107,8 +83,6 @@ private:
 	Body* m_combatTarget;
 
 	int m_combatTargetIndex, m_navTargetIndex, m_setSpeedTargetIndex; // deserialisation
-
-	float m_joystickDeadzone;
 };
 
 #endif /* _PLAYER_H */
