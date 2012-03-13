@@ -14,6 +14,11 @@ struct StringRange
 		assert(begin_ && end_);
 		assert((end_ - begin_) >= 0);
 	}
+	StringRange(const char *begin_, size_t size)
+		: begin(begin_), end(begin_ + size)
+	{
+		assert(begin_);
+	}
 
 	const char *begin;
 	const char *end;
