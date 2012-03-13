@@ -73,8 +73,34 @@ local leesti_station =  CustomSBody:new('Dodec One','STARPORT_ORBITAL')
 
 s_leesti:bodies(lucy, {leesti, {leesti_station}})
 
+local s_riedquat = CustomSystem:new("Riedquat",{'STAR_G'})
+	:govtype('DISORDER')
+	:short_desc('This planet is most notable for its fabulous cuisine but beset by occasional civil war')
+	:long_desc('This planet is most notable for its fabulous cuisine but beset by occasional civil war')
+
+local riedquat = CustomSBody:new('Riedquat', 'STAR_G')
+	:radius(f(12,10))
+	:mass(f(12,10))
+	:temp(5600)
+
+local tortuga = CustomSBody:new('Tortuga', 'PLANET_TERRESTRIAL')
+	:seed(7)
+	:radius(f(6403,6378))
+	:mass(f(21,20))
+	:temp(295)
+	:semi_major_axis(f(115,100))
+	:eccentricity(f(8,1000))
+	:rotation_period(f(25,24))
+
+local hard_harbour = CustomSBody:new('Hard Harbour', 'STARPORT_ORBITAL')
+	:semi_major_axis(f(140,100000))
+	:rotation_period(f(1,24*30))
+
+s_riedquat:bodies(riedquat, {tortuga, {hard_harbour}})
+
 -- Add them to the map
 
-s_diso:add_to_sector(-2,1,91,v(0.200,0.483,0.000))
-s_lave:add_to_sector(-2,1,91,v(0.425,0.500,0.000))
-s_leesti:add_to_sector(-2,1,91,v(0.250,0.283,0.000))
+s_diso:add_to_sector(-3,0,90,v(0.550,0.950,0.930))
+s_lave:add_to_sector(-2,1,90,v(0.001,0.001,0.910))
+s_leesti:add_to_sector(-3,0,90,v(0.650,0.650,0.960))
+s_riedquat:add_to_sector(-3,0,90,v(0.150,0.400,0.950))
