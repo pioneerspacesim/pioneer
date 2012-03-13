@@ -25,7 +25,7 @@
 #endif
 
 #ifdef _WIN32
-#include <Windows.h>
+#include <windows.h>
 // GetPiUserDir() needs these
 #include <shlobj.h>
 #include <shlwapi.h>
@@ -207,7 +207,7 @@ namespace FileSystem {
 		size_t output_head_size = output.size();
 		const std::wstring wsearchglob = transcode_utf8_to_utf16(JoinPath(GetRoot(), dirpath)) + L"/*";
 		WIN32_FIND_DATAW findinfo;
-		HANDLE dirhandle = FindFirstFile(wsearchglob.c_str(), &findinfo);
+		HANDLE dirhandle = FindFirstFileW(wsearchglob.c_str(), &findinfo);
 		DWORD err;
 
 		if (dirhandle == INVALID_HANDLE_VALUE) {
@@ -223,7 +223,7 @@ namespace FileSystem {
 				output.push_back(MakeFileInfo(JoinPath(dirpath, fname), ty));
 			}
 
-			if (! FindNextFile(dirhandle, &findinfo)) {
+			if (! FindNextFileW(dirhandle, &findinfo)) {
 				err = GetLastError();
 			} else
 				err = ERROR_SUCCESS;
@@ -246,7 +246,7 @@ namespace FileSystem {
 			if (!CreateDirectoryW(path.c_str(), 0)) {
 				DWORD err = GetLastError();
 				if (err == ERROR_ALREADY_EXISTS) {
-					DWORD attrs = GetFileAttributes(path.c_str());
+					DWORD attrs = GetFileAttributesW(path.c_str());
 					return ((attrs & FILE_ATTRIBUTE_DIRECTORY) == FILE_ATTRIBUTE_DIRECTORY);
 				} else if (err == ERROR_PATH_NOT_FOUND) {
 					if (!PathRemoveFileSpecW(&path[0]))
