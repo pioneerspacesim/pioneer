@@ -1006,7 +1006,7 @@ LmrModel::LmrModel(const char *model_name)
 		m_dynamicGeometry[i] = new LmrGeomBuffer(this, false);
 	}
 
-	const std::string cache_file = FileSystem::JoinPath(s_cacheDir, model_name) + ".bin";
+	const std::string cache_file = FileSystem::JoinPathBelow(s_cacheDir, model_name) + ".bin";
 
 	if (!s_recompileAllModels) {
 		// load cached model
@@ -2423,7 +2423,7 @@ namespace ModelFuncs {
 			lua_pop(L, 1);
 
 			const char *texfile = luaL_checkstring(L, 1);
-			std::string t = FileSystem::JoinPath(dir, texfile);
+			std::string t = FileSystem::JoinPathBelow(dir, texfile);
 			if (nargs == 4) {
 				// texfile, pos, uaxis, vaxis
 				vector3f pos = *MyLuaVec::checkVec(L, 2);
@@ -4084,7 +4084,7 @@ namespace ObjLoader {
 		std::string curdir = luaL_optstring(L, -1, ".");
 		lua_pop(L, 1);
 
-		const std::string path = FileSystem::JoinPath(curdir, mtl_file);
+		const std::string path = FileSystem::JoinPathBelow(curdir, mtl_file);
 		RefCountedPtr<FileSystem::FileData> mtlfiledata = FileSystem::gameDataFiles.ReadFile(path);
 		if (!mtlfiledata) {
 			printf("Could not open %s\n", path.c_str());
@@ -4159,7 +4159,7 @@ namespace ObjLoader {
 		const std::string curdir = luaL_checkstring(L, -1);
 		lua_pop(L, 1);
 
-		const std::string path = FileSystem::JoinPath(curdir, obj_name);
+		const std::string path = FileSystem::JoinPathBelow(curdir, obj_name);
 		RefCountedPtr<FileSystem::FileData> objdata = FileSystem::gameDataFiles.ReadFile(path);
 		if (!objdata) {
 			Error("Could not open '%s'\n", path.c_str());

@@ -47,7 +47,7 @@ namespace FileSystem {
 	{
 		static const std::string user_path = FindUserDir();
 		if (subdir)
-			return JoinPath(user_path, subdir);
+			return JoinPathBelow(user_path, subdir);
 		else
 			return user_path;
 	}
@@ -56,7 +56,7 @@ namespace FileSystem {
 	{
 		static const std::string data_path = absolute_path(std::string(PIONEER_DATA_DIR));
 		if (subdir)
-			return JoinPath(data_path, subdir);
+			return JoinPathBelow(data_path, subdir);
 		else
 			return data_path;
 	}
@@ -68,7 +68,7 @@ namespace FileSystem {
 
 	FileInfo FileSourceFS::Lookup(const std::string &path)
 	{
-		const std::string fullpath = JoinPath(GetRoot(), path);
+		const std::string fullpath = JoinPathBelow(GetRoot(), path);
 		struct stat statinfo;
 		FileInfo::FileType ty;
 		if (stat(fullpath.c_str(), &statinfo) == 0) {
@@ -87,7 +87,7 @@ namespace FileSystem {
 
 	RefCountedPtr<FileData> FileSourceFS::ReadFile(const std::string &path)
 	{
-		const std::string fullpath = JoinPath(GetRoot(), path);
+		const std::string fullpath = JoinPathBelow(GetRoot(), path);
 		FILE *fl = fopen(fullpath.c_str(), "rb");
 		if (!fl) {
 			return RefCountedPtr<FileData>(0);
@@ -114,7 +114,7 @@ namespace FileSystem {
 
 	bool FileSourceFS::ReadDirectory(const std::string &dirpath, std::vector<FileInfo> &output)
 	{
-		const std::string fulldirpath = JoinPath(GetRoot(), dirpath);
+		const std::string fulldirpath = JoinPathBelow(GetRoot(), dirpath);
 		DIR *dir = opendir(fulldirpath.c_str());
 		if (!dir) { return false; }
 		struct dirent *entry;
@@ -125,7 +125,7 @@ namespace FileSystem {
 			if (strcmp(entry->d_name, ".") == 0) continue;
 			if (strcmp(entry->d_name, "..") == 0) continue;
 
-			const std::string fullpath = fulldirpath + "/" + entry->d_name;
+			const std::string fullpath = JoinPath(fulldirpath, entry->d_name);
 
 			FileInfo::FileType ty;
 			switch (entry->d_type) {
@@ -195,7 +195,7 @@ namespace FileSystem {
 
 	bool FileSourceFS::MakeDirectory(const std::string &path)
 	{
-		const std::string fullpath = JoinPath(GetRoot(), path);
+		const std::string fullpath = JoinPathBelow(GetRoot(), path);
 		return make_directory_raw(fullpath);
 	}
 }

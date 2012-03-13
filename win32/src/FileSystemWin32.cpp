@@ -108,7 +108,7 @@ namespace FileSystem {
 	{
 		static const std::string user_path = FindUserDir();
 		if (subdir)
-			return JoinPath(user_path, subdir);
+			return JoinPathBelow(user_path, subdir);
 		else
 			return user_path;
 	}
@@ -117,7 +117,7 @@ namespace FileSystem {
 	{
 		static const std::string data_path = FindDataDir();
 		if (subdir)
-			return JoinPath(data_path, subdir);
+			return JoinPathBelow(data_path, subdir);
 		else
 			return data_path;
 	}
@@ -146,7 +146,7 @@ namespace FileSystem {
 
 	FileInfo FileSourceFS::Lookup(const std::string &path)
 	{
-		const std::string fullpath = JoinPath(GetRoot(), path);
+		const std::string fullpath = JoinPathBelow(GetRoot(), path);
 		const std::wstring wfullpath = transcode_utf8_to_utf16(fullpath);
 		DWORD attrs = GetFileAttributesW(wfullpath.c_str());
 		return MakeFileInfo(path, file_type_for_attributes(attrs));
@@ -154,7 +154,7 @@ namespace FileSystem {
 
 	RefCountedPtr<FileData> FileSourceFS::ReadFile(const std::string &path)
 	{
-		const std::string fullpath = JoinPath(GetRoot(), path);
+		const std::string fullpath = JoinPathBelow(GetRoot(), path);
 		const std::wstring wfullpath = transcode_utf8_to_utf16(fullpath);
 		HANDLE filehandle = CreateFileW(wfullpath.c_str(), GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 		if (filehandle == INVALID_HANDLE_VALUE)
@@ -203,7 +203,7 @@ namespace FileSystem {
 	bool FileSourceFS::ReadDirectory(const std::string &dirpath, std::vector<FileInfo> &output)
 	{
 		size_t output_head_size = output.size();
-		const std::wstring wsearchglob = transcode_utf8_to_utf16(JoinPath(GetRoot(), dirpath)) + L"/*";
+		const std::wstring wsearchglob = transcode_utf8_to_utf16(JoinPathBelow(GetRoot(), dirpath)) + L"/*";
 		WIN32_FIND_DATAW findinfo;
 		HANDLE dirhandle = FindFirstFileW(wsearchglob.c_str(), &findinfo);
 		DWORD err;
@@ -263,7 +263,7 @@ namespace FileSystem {
 
 	bool FileSourceFS::MakeDirectory(const std::string &path)
 	{
-		const std::string fullpath = JoinPath(GetRoot(), path);
+		const std::string fullpath = JoinPathBelow(GetRoot(), path);
 		const std::wstring wfullpath = transcode_utf8_to_utf16(fullpath);
 		return make_directory_raw(wfullpath);
 	}

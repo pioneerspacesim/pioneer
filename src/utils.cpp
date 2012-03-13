@@ -155,7 +155,7 @@ void Screendump(const char* destFile, const int width, const int height)
 {
 	std::string dir = FileSystem::GetUserDir("screenshots");
 	FileSystem::rawFileSystem.MakeDirectory(dir);
-	std::string fname = FileSystem::JoinPath(dir, destFile);
+	std::string fname = FileSystem::JoinPathBelow(dir, destFile);
 
 	// pad rows to 4 bytes, which is the default row alignment for OpenGL
 	const int stride = (3*width + 3) & ~3;
