@@ -22,7 +22,6 @@ local diso_station =  CustomSBody:new('Diso High','STARPORT_ORBITAL')
 	:rotation_period(f(1,24*60*4))
 
 s_diso:bodies(lucy, {diso, {diso_station}})
-s_diso:add_to_sector(0,-2,14,v(0.200,0.483,0.000))
 
 local s_lave = CustomSystem:new("Lave",{'STAR_K'})
 	:govtype('MILDICT1')
@@ -48,7 +47,6 @@ local lave_station =  CustomSBody:new('Lave Station','STARPORT_ORBITAL')
 	:rotation_period(f(1,24*60*4))
 
 s_lave:bodies(eshe, {lave, {lave_station}})
-s_lave:add_to_sector(0,-2,14,v(0.425,0.500,0.000))
 
 local s_leesti = CustomSystem:new("Leesti",{'STAR_G'})
 	:govtype('CORPORATE')
@@ -74,4 +72,9 @@ local leesti_station =  CustomSBody:new('Dodec One','STARPORT_ORBITAL')
 	:rotation_period(f(1,24*60*2))
 
 s_leesti:bodies(lucy, {leesti, {leesti_station}})
-s_leesti:add_to_sector(0,-2,14,v(0.250,0.283,0.000))
+
+-- Add them to the map
+
+s_diso:add_to_sector(-2,1,91,v(0.200,0.483,0.000))
+s_lave:add_to_sector(-2,1,91,v(0.425,0.500,0.000))
+s_leesti:add_to_sector(-2,1,91,v(0.250,0.283,0.000))
