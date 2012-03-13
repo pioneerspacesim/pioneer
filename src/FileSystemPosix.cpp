@@ -1,3 +1,5 @@
+#ifdef __POSIX__
+
 #include "libs.h"
 #include "FileSystem.h"
 #include <cassert>
@@ -199,3 +201,5 @@ namespace FileSystem {
 		return make_directory_raw(fullpath);
 	}
 }
+
+#endif

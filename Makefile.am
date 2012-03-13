@@ -1,5 +1,8 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = contrib src data osx win32
+if BUILD_WIN32
+    PLATFORM_SUBDIRS = win32
+endif
+SUBDIRS = contrib $(PLATFORM_SUBDIRS) src data osx
 
 include $(top_srcdir)/Makefile.common
 

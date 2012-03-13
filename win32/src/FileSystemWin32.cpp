@@ -1,3 +1,5 @@
+#ifdef _WIN32
+
 #include "libs.h"
 #include "FileSystem.h"
 #include <cassert>
@@ -6,10 +8,6 @@
 
 // I hate macros. I just hate them. Hate hate hate.
 #undef FT_FILE
-
-#ifndef _WIN32
-#error "You should not be building this file"
-#endif
 
 // MinGW targets NT4 by default. We need to set some higher versions to ensure
 // that functions we need are available. Specifically, SHCreateDirectoryExA
@@ -270,3 +268,5 @@ namespace FileSystem {
 		return make_directory_raw(wfullpath);
 	}
 }
+
+#endif /* _WIN32 */

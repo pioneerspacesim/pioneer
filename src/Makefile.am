@@ -3,6 +3,10 @@ SUBDIRS = collider gui graphics terrain
 
 include $(top_srcdir)/Makefile.common
 
+if BUILD_WIN32
+	PLATFORM_LIBS=../win32/src/libwin32.a
+endif
+
 AM_CFLAGS += $(WARN_CFLAGS)
 AM_CPPFLAGS += $(WARN_CPPFLAGS)
 AM_CXXFLAGS += $(WARN_CXXFLAGS)
@@ -278,7 +282,7 @@ pioneer_SOURCES	= \
 	enum_table.cpp
 
 pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
-		$(MINGW_LIBS) \
+		$(PLATFORM_LIBS) $(MINGW_LIBS) \
 		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
 		$(PNG_LIBS)
@@ -311,7 +315,7 @@ modelviewer_SOURCES = \
 	utils.cpp \
 	enum_table.cpp
 modelviewer_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
-		    $(MINGW_LIBS) \
+			$(PLATFORM_LIBS) $(MINGW_LIBS) \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 if !HAVE_LUA
