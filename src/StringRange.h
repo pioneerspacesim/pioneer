@@ -32,19 +32,19 @@ struct StringRange
 
 	int Compare(const char *b) const;
 
-	friend bool operator==(const StringRange &a, const char *b) const { return (a.Compare(b) == 0); }
-	friend bool operator!=(const StringRange &a, const char *b) const { return (a.Compare(b) != 0); }
-	friend bool operator<=(const StringRange &a, const char *b) const { return (a.Compare(b) <= 0); }
-	friend bool operator>=(const StringRange &a, const char *b) const { return (a.Compare(b) >= 0); }
-	friend bool operator< (const StringRange &a, const char *b) const { return (a.Compare(b) <  0); }
-	friend bool operator> (const StringRange &a, const char *b) const { return (a.Compare(b) >  0); }
+	friend bool operator==(const StringRange &a, const char *b) { return (a.Compare(b) == 0); }
+	friend bool operator!=(const StringRange &a, const char *b) { return (a.Compare(b) != 0); }
+	friend bool operator<=(const StringRange &a, const char *b) { return (a.Compare(b) <= 0); }
+	friend bool operator>=(const StringRange &a, const char *b) { return (a.Compare(b) >= 0); }
+	friend bool operator< (const StringRange &a, const char *b) { return (a.Compare(b) <  0); }
+	friend bool operator> (const StringRange &a, const char *b) { return (a.Compare(b) >  0); }
 
-	friend bool operator==(const char *a, const StringRange &b) const { return (b.Compare(a) == 0); }
-	friend bool operator!=(const char *a, const StringRange &b) const { return (b.Compare(a) != 0); }
-	friend bool operator<=(const char *a, const StringRange &b) const { return (b.Compare(a) >= 0); }
-	friend bool operator>=(const char *a, const StringRange &b) const { return (b.Compare(a) <= 0); }
-	friend bool operator< (const char *a, const StringRange &b) const { return (b.Compare(a) >  0); }
-	friend bool operator> (const char *a, const StringRange &b) const { return (b.Compare(a) <  0); }
+	friend bool operator==(const char *a, const StringRange &b) { return (b.Compare(a) == 0); }
+	friend bool operator!=(const char *a, const StringRange &b) { return (b.Compare(a) != 0); }
+	friend bool operator<=(const char *a, const StringRange &b) { return (b.Compare(a) >= 0); }
+	friend bool operator>=(const char *a, const StringRange &b) { return (b.Compare(a) <= 0); }
+	friend bool operator< (const char *a, const StringRange &b) { return (b.Compare(a) >  0); }
+	friend bool operator> (const char *a, const StringRange &b) { return (b.Compare(a) <  0); }
 
 	const char *FindChar(char c) const;
 	const char *RFindChar(char c) const;
