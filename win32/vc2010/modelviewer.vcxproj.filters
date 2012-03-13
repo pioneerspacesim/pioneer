@@ -24,9 +24,6 @@
     <ClCompile Include="..\src\pch.cpp">
       <Filter>win32\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\win32-dirent.cpp">
-      <Filter>win32\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\collider\BVHTree.cpp">
       <Filter>src\collider</Filter>
     </ClCompile>
@@ -162,6 +159,18 @@
     <ClCompile Include="..\..\src\TextureCache.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\FileSystemPosix.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\FileSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\FileSystemWin32.cpp">
+      <Filter>win32\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Font.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\TextSupport.cpp" />
     <ClCompile Include="..\..\src\FontCache.cpp" />
     <ClCompile Include="..\..\src\Font.cpp" />
@@ -201,9 +210,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\pch.h">
-      <Filter>win32\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\win32-dirent.h">
       <Filter>win32\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -360,6 +366,15 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\TextureCache.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\StringRange.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ByteRange.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FileSystem.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\vector2.h">

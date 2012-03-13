@@ -39,9 +39,6 @@
     <ClCompile Include="..\src\pch.cpp">
       <Filter>win32\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\win32-dirent.cpp">
-      <Filter>win32\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\AmbientSounds.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -646,6 +643,15 @@
     <ClCompile Include="..\..\src\graphics\VertexArray.cpp">
       <Filter>src\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\FileSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\FileSystemPosix.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\FileSystemWin32.cpp">
+      <Filter>win32\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -667,9 +673,6 @@
       <Filter>src\collider</Filter>
     </ClInclude>
     <ClInclude Include="..\src\pch.h">
-      <Filter>win32\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\win32-dirent.h">
       <Filter>win32\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -1169,6 +1172,15 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\TextSupport.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ByteRange.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\StringRange.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FileSystem.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\graphics\Drawables.h">

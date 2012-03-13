@@ -64,6 +64,7 @@
 #include "TextureCache.h"
 #include "Game.h"
 #include "GameLoaderSaver.h"
+#include "FileSystem.h"
 #include "Light.h"
 #include "Sfx.h"
 #include "graphics/Graphics.h"
@@ -133,7 +134,7 @@ float Pi::frameTime;
 bool Pi::showDebugInfo;
 #endif
 int Pi::statSceneTris;
-GameConfig Pi::config(GetPiUserDir() + "config.ini");
+GameConfig Pi::config(FileSystem::JoinPath(FileSystem::GetUserDir(), "config.ini"));
 struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
@@ -190,10 +191,6 @@ static void LuaInit()
 	Pi::luaManager = new LuaManager();
 
 	lua_State *l = Pi::luaManager->GetLuaState();
-
-	// XXX kill CurrentDirectory
-	lua_pushstring(l, PIONEER_DATA_DIR);
-	lua_setglobal(l, "CurrentDirectory");
 
 	LuaBody::RegisterClass();
 	LuaShip::RegisterClass();
@@ -275,11 +272,11 @@ static void LuaInit()
 
 	LuaConsole::Register();
 
-	luaL_dofile(l, PIONEER_DATA_DIR "/pistartup.lua");
+	pi_lua_dofile(l, "pistartup.lua");
 
 	// XXX load everything. for now, just modules
-	pi_lua_dofile_recursive(l, PIONEER_DATA_DIR "/libs");
-	pi_lua_dofile_recursive(l, PIONEER_DATA_DIR "/modules");
+	pi_lua_dofile_recursive(l, "libs");
+	pi_lua_dofile_recursive(l, "modules");
 
 	Pi::luaNameGen = new LuaNameGen(Pi::luaManager);
 }
@@ -339,10 +336,15 @@ static void LuaInitGame() {
 	Pi::luaOnShipFuelChanged->ClearEvents();
 }
 
+std::string Pi::GetSaveDir()
+{
+	return FileSystem::GetUserDir("savefiles");
+}
+
 void Pi::RedirectStdio()
 {
-	std::string stdout_file = GetPiUserDir() + "stdout.txt";
-	std::string stderr_file = GetPiUserDir() + "stderr.txt";
+	std::string stdout_file = FileSystem::JoinPath(FileSystem::GetUserDir(), "stdout.txt");
+	std::string stderr_file = FileSystem::JoinPath(FileSystem::GetUserDir(), "stderr.txt");
 
 	FILE *f;
 
@@ -367,8 +369,31 @@ void Pi::RedirectStdio()
 	}
 }
 
+void Pi::LoadWindowIcon()
+{
+	static const std::string filename("icons/badge.png");
+
+	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
+	if (!filedata) {
+		fprintf(stderr, "LoadWindowIcon: %s: could not read file\n", filename.c_str());
+		return;
+	}
+
+	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
+	SDL_Surface *icon = IMG_Load_RW(datastream, 1);
+	if (!icon) {
+		fprintf(stderr, "LoadWindowIcon: %s: %s\n", filename.c_str(), IMG_GetError());
+		return;
+	}
+
+	SDL_WM_SetIcon(icon, 0);
+}
+
 void Pi::Init()
 {
+	FileSystem::Init();
+	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
+
 	if (config.Int("RedirectStdio"))
 		RedirectStdio();
 
@@ -439,8 +464,7 @@ void Pi::Init()
 	Uint32 flags = SDL_OPENGL;
 	if (config.Int("StartFullscreen")) flags |= SDL_FULLSCREEN;
 
-	SDL_Surface *icon = IMG_Load(PIONEER_DATA_DIR "/icons/badge.png");
-	SDL_WM_SetIcon(icon, 0);
+	LoadWindowIcon();
 
 	// attempt sequence is:
 	// 1- requested mode
@@ -644,6 +668,7 @@ void Pi::Quit()
 	delete Pi::renderer;
 	StarSystem::ShrinkCache();
 	SDL_Quit();
+	FileSystem::Uninit();
 	exit(0);
 }
 
@@ -788,7 +813,7 @@ void Pi::HandleEvents()
 									Pi::cpan->MsgLog()->Message("", Lang::CANT_SAVE_IN_HYPERSPACE);
 
 								else {
-									std::string name = join_path(GetPiSavefileDir().c_str(), "_quicksave", 0);
+									std::string name = FileSystem::JoinPath(GetSaveDir(), "_quicksave");
 									GameSaver saver(Pi::game);
 									if (saver.SaveToFile(name))
 										Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+name);
