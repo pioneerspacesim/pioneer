@@ -3,13 +3,6 @@ SUBDIRS = collider gui graphics terrain
 
 include $(top_srcdir)/Makefile.common
 
-if BUILD_WIN32
-	PLATFORM_LIBS=../win32/src/libwin32.a
-endif
-if BUILD_POSIX
-	PLATFORM_FILESYSTEM=FileSystemPosix.cpp
-endif
-
 AM_CFLAGS += $(WARN_CFLAGS)
 AM_CPPFLAGS += $(WARN_CPPFLAGS)
 AM_CXXFLAGS += $(WARN_CXXFLAGS)
@@ -177,7 +170,6 @@ pioneer_SOURCES	= \
 	FaceVideoLink.cpp \
 	FileSelectorWidget.cpp \
 	FileSystem.cpp \
-	$(PLATFORM_FILESYSTEM) \
 	Font.cpp \
 	FontCache.cpp \
 	FormController.cpp \
@@ -285,7 +277,6 @@ pioneer_SOURCES	= \
 	enum_table.cpp
 
 pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
-		$(PLATFORM_LIBS) $(MINGW_LIBS) \
 		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
 		$(PNG_LIBS)
@@ -296,7 +287,6 @@ endif
 modelviewer_SOURCES = \
 	Font.cpp \
 	FileSystem.cpp \
-	$(PLATFORM_FILESYSTEM) \
 	IniConfig.cpp \
 	FontConfig.cpp \
 	FontCache.cpp \
@@ -318,7 +308,6 @@ modelviewer_SOURCES = \
 	utils.cpp \
 	enum_table.cpp
 modelviewer_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
-			$(PLATFORM_LIBS) $(MINGW_LIBS) \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 if !HAVE_LUA
@@ -343,3 +332,14 @@ INCLUDES = -isystem @top_srcdir@/contrib
 if !HAVE_LUA
 INCLUDES += -isystem @top_srcdir@/contrib/lua
 endif
+
+if BUILD_WIN32
+    pioneer_LDADD += ../win32/src/libwin32.a $(MINGW_LIBS)
+    modelviewer_LDADD += ../win32/src/libwin32.a $(MINGW_LIBS)
+endif
+
+if BUILD_POSIX
+    pioneer_SOURCES += FileSystemPosix.cpp
+    modelviewer_SOURCES += FileSystemPosix.cpp
+endif
+
