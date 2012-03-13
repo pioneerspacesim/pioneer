@@ -54,11 +54,11 @@ namespace FileSystem {
 		bool IsDir() const { return (m_type == FT_DIR); }
 		bool IsFile() const { return (m_type == FT_FILE); }
 
+		const std::string &GetPath() const { return m_path; }
 		std::string GetName() const { return m_path.substr(m_dirLen); }
 		std::string GetDir() const { return m_path.substr(0, m_dirLen); }
-		const std::string &GetPath() const { return m_path; }
-		const std::string &GetAbsoluteDir() const;
-		const std::string GetAbsolutePath() const { return JoinPath(GetAbsoluteDir(), GetName()); }
+		std::string GetAbsoluteDir() const;
+		std::string GetAbsolutePath() const;
 
 		const FileSource &GetSource() const { return *m_source; }
 
@@ -199,8 +199,11 @@ namespace FileSystem {
 
 } // namespace FileSystem
 
-inline const std::string &FileSystem::FileInfo::GetAbsoluteDir() const
-{ return m_source->GetRoot(); }
+inline std::string FileSystem::FileInfo::GetAbsoluteDir() const
+{ return JoinPath(m_source->GetRoot(), GetDir()); }
+
+inline std::string FileSystem::FileInfo::GetAbsolutePath() const
+{ return JoinPath(m_source->GetRoot(), GetPath()); }
 
 inline RefCountedPtr<FileSystem::FileData> FileSystem::FileInfo::Read() const
 { return m_source->ReadFile(m_path); }
