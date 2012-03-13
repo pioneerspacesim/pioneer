@@ -13,7 +13,8 @@ namespace FileSystem {
 
 	// note: some functions (GetUserDir(), GetDataDir()) are in FileSystem{Posix,Win32}.cpp
 
-	std::string JoinPath(const std::string &a, const std::string &b) {
+	std::string JoinPath(const std::string &a, const std::string &b)
+	{
 		if (!b.empty()) {
 			if (b[0] == '/' || a.empty())
 				return b;
@@ -37,7 +38,8 @@ namespace FileSystem {
 		m_source(source),
 		m_path(path),
 		m_dirLen(0),
-		m_type(type) {
+		m_type(type)
+	{
 		std::size_t slashpos = m_path.rfind('/');
 		if (slashpos != std::string::npos) {
 			m_dirLen = slashpos + 1;
@@ -46,31 +48,36 @@ namespace FileSystem {
 		}
 	}
 
-	FileInfo FileSource::MakeFileInfo(const std::string &path, FileInfo::FileType fileType) {
+	FileInfo FileSource::MakeFileInfo(const std::string &path, FileInfo::FileType fileType)
+	{
 		return FileInfo(this, path, fileType);
 	}
 
 	FileSourceUnion::FileSourceUnion(): FileSource(":union:") {}
 	FileSourceUnion::~FileSourceUnion() {}
 
-	void FileSourceUnion::PrependSource(FileSource *fs) {
+	void FileSourceUnion::PrependSource(FileSource *fs)
+	{
 		assert(fs);
 		RemoveSource(fs);
 		m_sources.insert(m_sources.begin(), fs);
 	}
 
-	void FileSourceUnion::AppendSource(FileSource *fs) {
+	void FileSourceUnion::AppendSource(FileSource *fs)
+	{
 		assert(fs);
 		RemoveSource(fs);
 		m_sources.push_back(fs);
 	}
 
-	void FileSourceUnion::RemoveSource(FileSource *fs) {
+	void FileSourceUnion::RemoveSource(FileSource *fs)
+	{
 		std::vector<FileSource*>::iterator nend = std::remove(m_sources.begin(), m_sources.end(), fs);
 		m_sources.erase(nend, m_sources.end());
 	}
 
-	FileInfo FileSourceUnion::Lookup(const std::string &path) {
+	FileInfo FileSourceUnion::Lookup(const std::string &path)
+	{
 		for (std::vector<FileSource*>::const_iterator
 			it = m_sources.begin(); it != m_sources.end(); ++it)
 		{
@@ -80,7 +87,8 @@ namespace FileSystem {
 		return MakeFileInfo(path, FileInfo::FT_NON_EXISTENT);
 	}
 
-	RefCountedPtr<FileData> FileSourceUnion::ReadFile(const std::string &path) {
+	RefCountedPtr<FileData> FileSourceUnion::ReadFile(const std::string &path)
+	{
 		for (std::vector<FileSource*>::const_iterator
 			it = m_sources.begin(); it != m_sources.end(); ++it)
 		{
@@ -121,7 +129,8 @@ namespace FileSystem {
 		}
 	}
 
-	bool FileSourceUnion::ReadDirectory(const std::string &path, std::vector<FileInfo> &output) {
+	bool FileSourceUnion::ReadDirectory(const std::string &path, std::vector<FileInfo> &output)
+	{
 		if (m_sources.empty()) {
 			return false;
 		}
