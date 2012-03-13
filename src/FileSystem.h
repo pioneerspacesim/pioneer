@@ -35,7 +35,22 @@ namespace FileSystem {
 	std::string GetUserDir(const char *subdir = 0);
 	std::string GetDataDir(const char *subdir = 0);
 
+	/// Create path <a>/<b>, coping with 'a' or 'b' being empty,
+	/// 'b' being an absolute path, or 'a' not having a trailing separator
 	std::string JoinPath(const std::string &a, const std::string &b);
+
+	/// Create path <base>/<path> ensuring that the result points
+	/// to a path at or below <base>
+	/// throws an exception (std::invalid_argument) if the path tries to escape
+	/// <base> must not be empty
+	std::string JoinPathBelow(const std::string &base, const std::string &path);
+
+	/// Collapse redundant path separators, and '.' and '..' components
+	/// NB: this does not interpret symlinks, so the result may refer to
+	/// an entirely different file than the input
+	/// throws std::invalid_argument if the input path resolves to a 'negative' path
+	/// (e.g., "a/../.." resolves to a negative path)
+	std::string NormalisePath(const std::string &path);
 
 	class FileInfo {
 		friend class FileSource;

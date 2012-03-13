@@ -1,8 +1,10 @@
 #include "libs.h"
 #include "FileSystem.h"
+#include "StringRange.h"
 #include <cassert>
 #include <algorithm>
 #include <iterator>
+#include <stdexcept>
 
 namespace FileSystem {
 
@@ -22,6 +24,70 @@ namespace FileSystem {
 				return a + "/" + b;
 		} else
 			return a;
+	}
+
+	static void normalise_path(std::string &result, const StringRange &path)
+	{
+		StringRange part(path.begin, path.begin);
+		const char *c = path.begin;
+		if ((c != path.end) && (*c == '/')) {
+			result += '/';
+			++c;
+			++part.begin;
+		}
+		const size_t initial_result_length = result.size();
+		while (true) {
+			if ((*c == '/') || (c == path.end)) {
+				part.end = c;
+				if (part.Empty() || (part == ".")) {
+					// skip this part
+				} else if (part == "..") {
+					// pop the last component
+					if (result.size() <= initial_result_length)
+						throw std::invalid_argument(path.ToString());
+					size_t pos = result.rfind('/', result.size()-2);
+					++pos;
+					assert(pos >= initial_result_length);
+					result.erase(pos);
+				} else {
+					// push the new component
+					if (part.end != path.end) {
+						assert(*part.end == '/');
+						++part.end;
+					}
+					result.append(part.begin, part.Size());
+				}
+				part.begin = c+1;
+			}
+			if (c == path.end) { break; }
+			++c;
+		}
+	}
+
+	std::string NormalisePath(const std::string &path)
+	{
+		std::string result;
+		result.reserve(path.size());
+		normalise_path(result, StringRange(path.c_str(), path.size()));
+		return result;
+	}
+
+	std::string JoinPathBelow(const std::string &base, const std::string &path)
+	{
+		assert(!base.empty());
+		if (!path.empty()) {
+			if (path[0] == '/')
+				throw std::invalid_argument(path);
+			else {
+				std::string result(base);
+				result.reserve(result.size() + 1 + path.size());
+				if (result[result.size()-1] != '/')
+					result += '/';
+				normalise_path(result, StringRange(path.c_str(), path.size()));
+				return result;
+			}
+		} else
+			return base;
 	}
 
 	void Init()
