@@ -6,6 +6,9 @@ include $(top_srcdir)/Makefile.common
 if BUILD_WIN32
 	PLATFORM_LIBS=../win32/src/libwin32.a
 endif
+if BUILD_POSIX
+	PLATFORM_FILESYSTEM=FileSystemPosix.cpp
+endif
 
 AM_CFLAGS += $(WARN_CFLAGS)
 AM_CPPFLAGS += $(WARN_CPPFLAGS)
@@ -174,7 +177,7 @@ pioneer_SOURCES	= \
 	FaceVideoLink.cpp \
 	FileSelectorWidget.cpp \
 	FileSystem.cpp \
-	FileSystemPosix.cpp \
+	$(PLATFORM_FILESYSTEM) \
 	Font.cpp \
 	FontCache.cpp \
 	FormController.cpp \
@@ -293,7 +296,7 @@ endif
 modelviewer_SOURCES = \
 	Font.cpp \
 	FileSystem.cpp \
-	FileSystemPosix.cpp \
+	$(PLATFORM_FILESYSTEM) \
 	IniConfig.cpp \
 	FontConfig.cpp \
 	FontCache.cpp \

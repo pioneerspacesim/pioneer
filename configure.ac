@@ -206,6 +206,7 @@ AC_SUBST([PLATFORM])
 AC_MSG_RESULT($PLATFORM)
 
 AM_CONDITIONAL([BUILD_WIN32], [test "x-$PLATFORM" = "x-win32"])
+AM_CONDITIONAL([BUILD_POSIX], [test "x-$PLATFORM" = "x-posix"])
 
 dnl ###########################################################################
 dnl System-specific stuff not covered above
