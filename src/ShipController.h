@@ -24,6 +24,10 @@ class ShipController
 public:
 	ShipController();
 	~ShipController();
+
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
+
 	void StaticUpdate(float timeStep);
 	//disallow player input (autopilot OK)
 	void LockControls();

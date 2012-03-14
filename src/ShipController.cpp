@@ -20,6 +20,18 @@ ShipController::ShipController() :
 ShipController::~ShipController()
 {
 
+} 
+
+void ShipController::Save(Serializer::Writer &wr)
+{
+	wr.Int32(static_cast<int>(m_flightControlState));
+	wr.Double(m_setSpeed);
+}
+
+void ShipController::Load(Serializer::Reader &rd)
+{
+	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
+	m_setSpeed = rd.Double();
 }
 
 void ShipController::StaticUpdate(const float timeStep)

@@ -35,9 +35,6 @@ public:
 	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void SetDockedWith(SpaceStation *, int port);
 	void StaticUpdate(const float timeStep);
-	FlightControlState GetFlightControlState() const;
-	void SetFlightControlState(FlightControlState s);
-	double GetSetSpeed() const;
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 	virtual void OnHaveKilled(Body *guyWeKilled);
 	int GetKillCount() const { return m_knownKillCount; }
@@ -51,10 +48,6 @@ public:
 	Body *GetSetSpeedTarget() const { return m_setSpeedTarget; }
 	virtual void NotifyRemoved(const Body* const removedBody);
 
-	void SetMouseForRearView(bool enable);
-	bool IsMouseActive() const;
-	vector3d GetMouseDir() const;
-
 	RefList<Mission> missions;
 
 	virtual void PostLoadFixup(Space *space);
@@ -65,6 +58,15 @@ public:
 	bool CanSell(Equip::Type t, bool verbose) const;
 	bool DoesSell(Equip::Type t) const { return true; }
 	Sint64 GetPrice(Equip::Type t) const;
+
+	//XXX temporary things
+	bool IsMouseActive() const;
+	double GetSetSpeed() const;
+	FlightControlState GetFlightControlState() const;
+	vector3d GetMouseDir() const;
+	void SetFlightControlState(FlightControlState s);
+	void SetMouseForRearView(bool enable);
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -75,6 +77,7 @@ protected:
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
+
 private:
 	Body* m_setSpeedTarget;
 	int m_killCount;

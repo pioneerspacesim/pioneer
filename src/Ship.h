@@ -50,6 +50,7 @@ public:
 	Ship() {}
 	virtual ~Ship();
 	void SetController(ShipController *c);
+	ShipController *GetController() const { return m_controller; }
 	virtual void SetDockedWith(SpaceStation *, int port);
 	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }

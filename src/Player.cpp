@@ -27,8 +27,7 @@ void Player::Save(Serializer::Writer &wr, Space *space)
 {
 	Ship::Save(wr, space);
 	MarketAgent::Save(wr);
-	//wr.Int32(static_cast<int>(m_flightControlState));
-	//wr.Double(m_setSpeed);
+	m_controller->Save(wr);
 	wr.Int32(m_killCount);
 	wr.Int32(m_knownKillCount);
 	wr.Int32(space->GetIndexForBody(m_combatTarget));
@@ -41,8 +40,7 @@ void Player::Load(Serializer::Reader &rd, Space *space)
 	Pi::player = this;
 	Ship::Load(rd, space);
 	MarketAgent::Load(rd);
-	//m_flightControlState = static_cast<FlightControlState>(rd.Int32());
-	//m_setSpeed = rd.Double();
+	m_controller->Load(rd);
 	m_killCount = rd.Int32();
 	m_knownKillCount = rd.Int32();
 	m_combatTargetIndex = rd.Int32();
@@ -270,8 +268,9 @@ void Player::OnEnterHyperspace()
 
 	Pi::worldView->HideTargetActions(); // hide the comms menu
 
-	if (Pi::player->GetFlightControlState() == CONTROL_AUTOPILOT)
-		Pi::player->SetFlightControlState(CONTROL_MANUAL);
+	if (m_controller->GetFlightControlState() == CONTROL_AUTOPILOT)
+		m_controller->SetFlightControlState(CONTROL_MANUAL);
+	m_controller->LockControls();
 
 	ClearThrusterState();
 
@@ -280,11 +279,12 @@ void Player::OnEnterHyperspace()
 
 void Player::OnEnterSystem()
 {
-	SetFlightControlState(CONTROL_MANUAL);
-
+	m_controller->SetFlightControlState(CONTROL_MANUAL);
+	m_controller->UnlockControls();
 	Pi::sectorView->ResetHyperspaceTarget();
 }
 
+#pragma region tempstuff
 void Player::SetMouseForRearView(bool enable)
 {
 	m_controller->SetMouseForRearView(enable);
@@ -314,3 +314,4 @@ double Player::GetSetSpeed() const
 {
 	return m_controller->GetSetSpeed();
 }
+#pragma endregion
