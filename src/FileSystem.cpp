@@ -84,7 +84,12 @@ namespace FileSystem {
 				result.reserve(result.size() + 1 + path.size());
 				if (result[result.size()-1] != '/')
 					result += '/';
-				normalise_path(result, StringRange(path.c_str(), path.size()));
+				StringRange rhs(path.c_str(), path.size());
+				if (path[0] == '/') {
+					assert(base == "/");
+					++rhs.begin;
+				}
+				normalise_path(result, rhs);
 				return result;
 			}
 		} else

@@ -24,6 +24,8 @@ void test_normpath()
 		"a/b/./.././c/../",
 		"a/b/c/d/../../../../",
 		"a/b/c/d/../../../../../",
+		"/a/b",
+		"/a/b/",
 		0
 	};
 	for (const char **path = TEST_PATHS; *path; ++path) {
@@ -33,6 +35,8 @@ void test_normpath()
 			printf("'%s' -> invalid\n", *path);
 		}
 	}
+
+	printf("'/' + '/a/b/' -> '%s'\n", JoinPathBelow("/", "/a/b/").c_str());
 }
 
 void test_filesystem()
