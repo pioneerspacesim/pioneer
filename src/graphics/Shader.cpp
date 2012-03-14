@@ -18,7 +18,7 @@ void Shader::PrintGLSLCompileError(const char *filename, GLuint obj)
 		glGetProgramInfoLog(obj, 1024, &infologLength, infoLog);
 
 	if (infologLength > 0) {
-		Warning("Error compiling shader: %s: %s\nOpenGL vendor: %s\nOpenGL renderer string: %s\n\nPioneer will run with shaders disabled.",
+		fprintf(stderr, "Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s\nPioneer will run with shaders disabled\n",
 				filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
 		shadersAvailable = false;
 		shadersEnabled = false;
@@ -78,7 +78,7 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 	char *allcode = load_file((name + ".all.glsl").c_str());
 
 	if (vscode == 0) {
-		Warning("Could not find shader %s.", (name + ".vert.glsl").c_str());
+		fprintf(stderr, "Could not find shader %s\n", (name + ".vert.glsl").c_str());
 		goto fail;
 	}
 
