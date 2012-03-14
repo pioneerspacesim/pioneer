@@ -1,7 +1,14 @@
 Alpha 21
 
+   * New features
+     * Elite systems (Lave etc) with a new start point (#682)
+
    * Minor changes and tweaks
      * Various moons in the Sol system now appear in the right order on the map (#1050)
+
+   * Script changes
+     * New custom system option :explored to explicitly set a system's
+       explored state (#682)
 
    * Internal changes
      * configure tweaks for better optimisations and profiling support
