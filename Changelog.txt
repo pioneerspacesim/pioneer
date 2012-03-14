@@ -5,6 +5,7 @@ Alpha 21
 
    * Minor changes and tweaks
      * Various moons in the Sol system now appear in the right order on the map (#1050)
+     * Updated TradeShips module to handle accidental landings and fuel (#1064)
 
    * Script changes
      * New custom system option :explored to explicitly set a system's
