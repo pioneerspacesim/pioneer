@@ -74,9 +74,10 @@ namespace FileSystem {
 
 	std::string JoinPathBelow(const std::string &base, const std::string &path)
 	{
-		assert(!base.empty());
+		if (base.empty())
+			return path;
 		if (!path.empty()) {
-			if (path[0] == '/')
+			if ((path[0] == '/') && (base != "/"))
 				throw std::invalid_argument(path);
 			else {
 				std::string result(base);
