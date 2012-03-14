@@ -29,14 +29,8 @@ public:
 	void Load(Serializer::Reader &rd);
 
 	void StaticUpdate(float timeStep);
-	//disallow player input (autopilot OK)
-	void LockControls();
-	//allow player input
-	void UnlockControls();
 	// Poll controls, set thruster states, gun states and target velocity
 	void PollControls(const float timeStep);
-	//temporary, calls does lock/unlock constantly
-	void CheckControlsLock();
 	bool IsMouseActive() const { return m_mouseActive; }
 	double GetSetSpeed() const { return m_setSpeed; }
 	FlightControlState GetFlightControlState() const { return m_flightControlState; }
@@ -48,6 +42,8 @@ public:
 private:
 	bool IsAnyAngularThrusterKeyDown();
 	bool IsAnyLinearThrusterKeyDown();
+	//do a variety of checks to see if input is allowed
+	void CheckControlsLock();
 	bool m_controlsLocked;
 	bool m_invertMouse; // used for rear view, *not* for invert Y-axis option (which is Pi::IsMouseYInvert)
 	bool m_mouseActive;

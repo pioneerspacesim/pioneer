@@ -65,6 +65,7 @@ public:
 
 	TimeAccel GetTimeAccel() const { return m_timeAccel; }
 	TimeAccel GetRequestedTimeAccel() const { return m_requestedTimeAccel; }
+	bool IsPaused() const { return m_timeAccel == TIMEACCEL_PAUSED; }
 
 	float GetTimeAccelRate() const { return s_timeAccelRates[m_timeAccel]; }
 	float GetTimeStep() const { return s_timeAccelRates[m_timeAccel]*(1.0f/PHYSICS_HZ); }

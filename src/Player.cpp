@@ -267,20 +267,14 @@ void Player::OnEnterHyperspace()
 	SetCombatTarget(0);
 
 	Pi::worldView->HideTargetActions(); // hide the comms menu
-
-	if (m_controller->GetFlightControlState() == CONTROL_AUTOPILOT)
-		m_controller->SetFlightControlState(CONTROL_MANUAL);
-	m_controller->LockControls();
-
+	m_controller->SetFlightControlState(CONTROL_MANUAL); //could set CONTROL_HYPERDRIVE
 	ClearThrusterState();
-
 	Pi::game->WantHyperspace();
 }
 
 void Player::OnEnterSystem()
 {
 	m_controller->SetFlightControlState(CONTROL_MANUAL);
-	m_controller->UnlockControls();
 	Pi::sectorView->ResetHyperspaceTarget();
 }
 
