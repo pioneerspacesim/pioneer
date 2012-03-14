@@ -8,7 +8,6 @@
 #include "Texture.h"
 #include "VertexArray.h"
 #include <stddef.h> //for offsetof
-#include "utils.h"
 #include <ostream>
 #include <sstream>
 #include <iterator>
@@ -85,7 +84,14 @@ bool RendererLegacy::EndFrame()
 
 bool RendererLegacy::SwapBuffers()
 {
-	glError();
+#ifdef DEBUG
+	GLenum err = glGetError();
+	while (err != GL_NO_ERROR) {
+		fprintf(stderr, "GL error: %s\n", reinterpret_cast<const char *>(gluErrorString(err)));
+		err = glGetError();
+	} 
+#endif
+
 	Graphics::SwapBuffers();
 	return true;
 }
