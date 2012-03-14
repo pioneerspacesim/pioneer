@@ -87,7 +87,7 @@ void ShipController::CheckControlsLock()
 	if (Pi::game->GetTimeAccel() == Game::TIMEACCEL_PAUSED || Pi::player->IsDead() || m_ship->GetFlightState() != Ship::FLYING)
 		return;
 	if (Pi::IsConsoleActive()) return;
-	if (Pi::GetView() == Pi::worldView) return;
+	if (Pi::GetView() != Pi::worldView) return;
 
 	m_controlsLocked = false;	
 }

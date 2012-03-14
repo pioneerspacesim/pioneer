@@ -165,7 +165,8 @@ void Ship::PostLoadFixup(Space *space)
 }
 
 Ship::Ship(ShipType::Type shipType): DynamicBody(),
-	m_thrusterFuel(1.f)
+	m_thrusterFuel(1.f),
+	m_controller(0)
 {
 	m_flightState = FLYING;
 	m_alertState = ALERT_NONE;
@@ -199,6 +200,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody(),
 Ship::~Ship()
 {
 	if (m_curAICmd) delete m_curAICmd;
+	delete m_controller;
 }
 
 void Ship::SetController(ShipController *c)

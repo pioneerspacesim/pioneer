@@ -20,6 +20,7 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	m_navTarget = 0;
 	m_combatTarget = 0;
 	UpdateMass();
+	SetController(new ShipController());
 }
 
 void Player::Save(Serializer::Writer &wr, Space *space)
