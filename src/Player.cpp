@@ -20,7 +20,7 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	m_navTarget = 0;
 	m_combatTarget = 0;
 	UpdateMass();
-	SetController(new ShipController());
+	SetController(new PlayerShipController());
 }
 
 void Player::Save(Serializer::Writer &wr, Space *space)
@@ -247,31 +247,31 @@ void Player::OnEnterSystem()
 #pragma region tempstuff
 void Player::SetMouseForRearView(bool enable)
 {
-	m_controller->SetMouseForRearView(enable);
+	static_cast<PlayerShipController*>(m_controller)->SetMouseForRearView(enable);
 }
 
 bool Player::IsMouseActive() const
 {
-	return m_controller->IsMouseActive();
+	return static_cast<PlayerShipController*>(m_controller)->IsMouseActive();
 }
 
 vector3d Player::GetMouseDir() const
 {
-	return m_controller->GetMouseDir();
+	return static_cast<PlayerShipController*>(m_controller)->GetMouseDir();
 }
 
 FlightControlState Player::GetFlightControlState() const
 {
-	return m_controller->GetFlightControlState();
+	return static_cast<PlayerShipController*>(m_controller)->GetFlightControlState();
 }
 
 void Player::SetFlightControlState(enum FlightControlState s)
 {
-	m_controller->SetFlightControlState(s);
+	static_cast<PlayerShipController*>(m_controller)->SetFlightControlState(s);
 }
 
 double Player::GetSetSpeed() const
 {
-	return m_controller->GetSetSpeed();
+	return static_cast<PlayerShipController*>(m_controller)->GetSetSpeed();
 }
 #pragma endregion

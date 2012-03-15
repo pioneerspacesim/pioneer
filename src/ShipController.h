@@ -19,25 +19,44 @@ enum FlightControlState {
 	CONTROL_STATE_COUNT
 };
 
+// only AI
 class ShipController
 {
 public:
-	ShipController();
-	~ShipController();
+	//needed for serialization
+	enum Type {
+		AI = 0,
+		PLAYER = 1
+	};
+	ShipController() { }
+	virtual ~ShipController() { }
+	virtual Type GetType() { return AI; }
+	virtual void Save(Serializer::Writer &wr) { }
+	virtual void Load(Serializer::Reader &rd) { }
+	virtual void StaticUpdate(float timeStep);
+	virtual void SetFlightControlState(FlightControlState s) { }
+	Ship *m_ship;
+};
 
+// autopilot AI + input
+class PlayerShipController : public ShipController
+{
+public:
+	PlayerShipController();
+	~PlayerShipController();
+	virtual Type GetType() { return PLAYER; }
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
 
 	void StaticUpdate(float timeStep);
 	// Poll controls, set thruster states, gun states and target velocity
-	void PollControls(const float timeStep);
+	void PollControls(float timeStep);
 	bool IsMouseActive() const { return m_mouseActive; }
 	double GetSetSpeed() const { return m_setSpeed; }
 	FlightControlState GetFlightControlState() const { return m_flightControlState; }
-	Ship *m_ship;
 	vector3d GetMouseDir() const { return m_mouseDir; }
-	void SetFlightControlState(FlightControlState s);
 	void SetMouseForRearView(bool enable) { m_invertMouse = enable; }
+	void SetFlightControlState(FlightControlState s);
 
 private:
 	bool IsAnyAngularThrusterKeyDown();

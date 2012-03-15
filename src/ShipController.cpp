@@ -2,7 +2,13 @@
 #include "KeyBindings.h"
 #include "Ship.h"
 
-ShipController::ShipController() :
+void ShipController::StaticUpdate(float timeStep)
+{
+	m_ship->AITimeStep(timeStep);
+}
+
+PlayerShipController::PlayerShipController() :
+	ShipController(),
 	m_controlsLocked(false),
 	m_invertMouse(false),
 	m_mouseActive(false),
@@ -17,24 +23,24 @@ ShipController::ShipController() :
 	m_joystickDeadzone = deadzone * deadzone;
 }
 
-ShipController::~ShipController()
+PlayerShipController::~PlayerShipController()
 {
 
 } 
 
-void ShipController::Save(Serializer::Writer &wr)
+void PlayerShipController::Save(Serializer::Writer &wr)
 {
 	wr.Int32(static_cast<int>(m_flightControlState));
 	wr.Double(m_setSpeed);
 }
 
-void ShipController::Load(Serializer::Reader &rd)
+void PlayerShipController::Load(Serializer::Reader &rd)
 {
 	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
 	m_setSpeed = rd.Double();
 }
 
-void ShipController::StaticUpdate(const float timeStep)
+void PlayerShipController::StaticUpdate(const float timeStep)
 {
 	//XXX temporary
 	Body *m_setSpeedTarget = Pi::player->GetSetSpeedTarget();
@@ -80,9 +86,12 @@ void ShipController::StaticUpdate(const float timeStep)
 		}
 	}
 	else SetFlightControlState(CONTROL_MANUAL);
+
+	//call autopilot AI, if active (also applies to set speed and heading lock modes)
+	m_ship->AITimeStep(timeStep);
 }
 
-void ShipController::CheckControlsLock()
+void PlayerShipController::CheckControlsLock()
 {
 	m_controlsLocked = (Pi::game->IsPaused())
 		|| Pi::player->IsDead()
@@ -100,7 +109,7 @@ static double clipmouse(double cur, double inp)
 	return inp;
 }
 
-void ShipController::PollControls(const float timeStep)
+void PlayerShipController::PollControls(const float timeStep)
 {
 	//XXX temporary
 	Body *m_setSpeedTarget = Pi::player->GetSetSpeedTarget();
@@ -216,7 +225,7 @@ void ShipController::PollControls(const float timeStep)
 	}
 }
 
-bool ShipController::IsAnyAngularThrusterKeyDown()
+bool PlayerShipController::IsAnyAngularThrusterKeyDown()
 {
 	return !Pi::IsConsoleActive() && (
 		KeyBindings::pitchUp.IsActive()   ||
@@ -228,7 +237,7 @@ bool ShipController::IsAnyAngularThrusterKeyDown()
 	);
 }
 
-bool ShipController::IsAnyLinearThrusterKeyDown()
+bool PlayerShipController::IsAnyLinearThrusterKeyDown()
 {
 	return !Pi::IsConsoleActive() && (
 		KeyBindings::thrustForward.IsActive()	||
@@ -240,7 +249,7 @@ bool ShipController::IsAnyLinearThrusterKeyDown()
 	);
 }
 
-void ShipController::SetFlightControlState(FlightControlState s)
+void PlayerShipController::SetFlightControlState(FlightControlState s)
 {
 	//XXX temporary
 	Body *m_setSpeedTarget = Pi::player->GetSetSpeedTarget();

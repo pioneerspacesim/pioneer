@@ -194,7 +194,8 @@ Ship::Ship(ShipType::Type shipType): DynamicBody(),
 	m_aiMessage = AIERROR_NONE;
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
-	Init();	
+	Init();
+	SetController(new ShipController());
 }
 
 Ship::~Ship()
@@ -205,6 +206,9 @@ Ship::~Ship()
 
 void Ship::SetController(ShipController *c)
 {
+	assert(c != 0);
+	//delete existing
+	if (m_controller) delete m_controller;
 	m_controller = c;
 	m_controller->m_ship = this;
 }
@@ -905,8 +909,8 @@ void Ship::UpdateFuel(const float timeStep)
 void Ship::StaticUpdate(const float timeStep)
 {
 	if (m_controller) m_controller->StaticUpdate(timeStep);
-	AITimeStep(timeStep);		// moved to correct place, maybe
 
+	//XXX this produces no explosion nor sound
 	if (GetHullTemperature() > 1.0) {
 		Pi::game->GetSpace()->KillBody(this);
 	}
