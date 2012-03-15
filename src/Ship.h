@@ -231,6 +231,7 @@ protected:
 
 private:
 	float GetECMRechargeTime();
+	void DoThrusterSounds() const;
 	void FireWeapon(int num);
 	void Init();
 	bool IsFiringLasers();

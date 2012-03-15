@@ -34,7 +34,6 @@ public:
 	Player() { }
 	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void SetDockedWith(SpaceStation *, int port);
-	void StaticUpdate(const float timeStep);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 	virtual void OnHaveKilled(Body *guyWeKilled);
 	int GetKillCount() const { return m_knownKillCount; }
@@ -79,11 +78,11 @@ protected:
 	void Sold(Equip::Type t);
 
 private:
+	Body* m_combatTarget;
+	Body* m_navTarget;
 	Body* m_setSpeedTarget;
 	int m_killCount;
 	int m_knownKillCount; // updated on docking
-	Body* m_navTarget;
-	Body* m_combatTarget;
 
 	int m_combatTargetIndex, m_navTargetIndex, m_setSpeedTargetIndex; // deserialisation
 };

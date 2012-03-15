@@ -6,9 +6,10 @@
 #include "Serializer.h"
 #include "gameconsts.h"
 
-class Space;
-class Player;
 class HyperspaceCloud;
+class Player;
+class ShipController;
+class Space;
 
 class Game {
 public:

@@ -713,6 +713,37 @@ void Ship::TimeStepUpdate(const float timeStep)
 	UpdateFuel(timeStep);
 }
 
+void Ship::DoThrusterSounds() const
+{
+	// XXX sound logic could be part of a bigger class (ship internal sounds)
+	/* Ship engine noise. less loud inside */
+	float v_env = (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f) * Sound::GetSfxVolume();
+	static Sound::Event sndev;
+	float volBoth = 0.0f;
+	volBoth += 0.5f*fabs(GetThrusterState().y);
+	volBoth += 0.5f*fabs(GetThrusterState().z);
+
+	float targetVol[2] = { volBoth, volBoth };
+	if (GetThrusterState().x > 0.0)
+		targetVol[0] += 0.5f*float(GetThrusterState().x);
+	else targetVol[1] += -0.5f*float(GetThrusterState().x);
+
+	targetVol[0] = v_env * Clamp(targetVol[0], 0.0f, 1.0f);
+	targetVol[1] = v_env * Clamp(targetVol[1], 0.0f, 1.0f);
+	float dv_dt[2] = { 4.0f, 4.0f };
+	if (!sndev.VolumeAnimate(targetVol, dv_dt)) {
+		sndev.Play("Thruster_large", 0.0f, 0.0f, Sound::OP_REPEAT);
+		sndev.VolumeAnimate(targetVol, dv_dt);
+	}
+	float angthrust = 0.1f * v_env * float(Pi::player->GetAngThrusterState().Length());
+
+	static Sound::Event angThrustSnd;
+	if (!angThrustSnd.VolumeAnimate(angthrust, angthrust, 5.0f, 5.0f)) {
+		angThrustSnd.Play("Thruster_Small", 0.0f, 0.0f, Sound::OP_REPEAT);
+		angThrustSnd.VolumeAnimate(angthrust, angthrust, 5.0f, 5.0f);
+	}
+}
+
 void Ship::FireWeapon(int num)
 {
 	const ShipType &stype = GetShipType();
@@ -873,6 +904,7 @@ void Ship::UpdateFuel(const float timeStep)
 
 void Ship::StaticUpdate(const float timeStep)
 {
+	if (m_controller) m_controller->StaticUpdate(timeStep);
 	AITimeStep(timeStep);		// moved to correct place, maybe
 
 	if (GetHullTemperature() > 1.0) {
@@ -1001,6 +1033,10 @@ void Ship::StaticUpdate(const float timeStep)
 		m_hyperspace.now = false;
 		EnterHyperspace();
 	}
+
+	// XXX any ship being the current camera body should emit sounds
+	// also, ship sounds could be split to internal and external sounds
+	if (Pi::player == this) DoThrusterSounds();
 }
 
 void Ship::NotifyRemoved(const Body* const removedBody)
