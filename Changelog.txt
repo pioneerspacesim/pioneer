@@ -13,6 +13,8 @@ Alpha 21
 
    * Internal changes
      * configure tweaks for better optimisations and profiling support
+     * New filesystem abstraction. Files under data/ can now be overriden by
+       placing an identicaly-named file under <userdir>/data (#989)
 
 Alpha 20
 

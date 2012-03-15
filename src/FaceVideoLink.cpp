@@ -6,6 +6,7 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
+#include "FileSystem.h"
 
 using namespace Graphics;
 
@@ -29,9 +30,16 @@ using namespace Graphics;
 
 static void _blit_image(SDL_Surface *s, const char *filename, int xoff, int yoff)
 {
-	SDL_Surface *is = IMG_Load(filename);
-	if (!is) {
+	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
+	if (!filedata) {
 		fprintf(stderr, "FaceVideoLink: couldn't load '%s'\n", filename);
+		return;
+	}
+
+	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
+	SDL_Surface *is = IMG_Load_RW(datastream, 1);
+	if (!s) {
+		fprintf(stderr, "FaceVideoLink: couldn't load: %s (%s)\n", filename, IMG_GetError());
 		return;
 	}
 
@@ -92,43 +100,43 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 
 	SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, FACE_WIDTH, FACE_HEIGHT, 32, 0xff, 0xff00, 0xff0000, 0xff000000);
 
-	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/backgrounds/background_%d.png", background);
+	snprintf(filename, sizeof(filename), "facegen/backgrounds/background_%d.png", background);
 	//printf("%s\n", filename);
 	_blit_image(s, filename, 0, 0);
 
-	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/head/head_%d_%d.png", race, gender, head);
+	snprintf(filename, sizeof(filename), "facegen/race_%d/head/head_%d_%d.png", race, gender, head);
 	//printf("%s\n", filename);
 	_blit_image(s, filename, 0, 0);
 
 	if (!(flags & ARMOUR)) {
-		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/clothes/cloth_%d_%d.png", gender, clothes);
+		snprintf(filename, sizeof(filename), "facegen/clothes/cloth_%d_%d.png", gender, clothes);
 		//printf("%s\n", filename);
 		_blit_image(s, filename, 0, 135);
 	}
 
-	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/eyes/eyes_%d_%d.png", race, gender, eyes);
+	snprintf(filename, sizeof(filename), "facegen/race_%d/eyes/eyes_%d_%d.png", race, gender, eyes);
 	//printf("%s\n", filename);
 	_blit_image(s, filename, 0, 41);
 
-	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/nose/nose_%d_%d.png", race, gender, nose);
+	snprintf(filename, sizeof(filename), "facegen/race_%d/nose/nose_%d_%d.png", race, gender, nose);
 	//printf("%s\n", filename);
 	_blit_image(s, filename, 1, 89);
 
-	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/mouth/mouth_%d_%d.png", race, gender, mouth);
+	snprintf(filename, sizeof(filename), "facegen/race_%d/mouth/mouth_%d_%d.png", race, gender, mouth);
 	//printf("%s\n", filename);
 	_blit_image(s, filename, 0, 155);
 
 	if (!(flags & ARMOUR)) {
-		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/accessories/acc_%d.png", accessories);
+		snprintf(filename, sizeof(filename), "facegen/accessories/acc_%d.png", accessories);
 		//printf("%s\n", filename);
 		if (rand.Int32(0,1)>0)	_blit_image(s, filename, 0, 0);
 
-		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/hair/hair_%d_%d.png", race, gender, hair);
+		snprintf(filename, sizeof(filename), "facegen/race_%d/hair/hair_%d_%d.png", race, gender, hair);
 		//printf("%s\n", filename);
 		_blit_image(s, filename, 0, 0);
 	}
 	else {
-		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/clothes/armour_%d.png", armour);
+		snprintf(filename, sizeof(filename), "facegen/clothes/armour_%d.png", armour);
 		_blit_image(s, filename, 0, 0);
 	}
 

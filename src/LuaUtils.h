@@ -57,6 +57,7 @@ void pi_lua_table_ro(lua_State *l);
 
 int  pi_lua_panic(lua_State *l) __attribute((noreturn));
 void pi_lua_protected_call(lua_State* state, int nargs, int nresults);
+void pi_lua_dofile(lua_State *l, const std::string &path);
 void pi_lua_dofile_recursive(lua_State *l, const std::string &basepath);
 int  pi_load_lua(lua_State *l);
 

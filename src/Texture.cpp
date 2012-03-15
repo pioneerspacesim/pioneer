@@ -1,5 +1,7 @@
 #include "Texture.h"
+#include "FileSystem.h"
 #include <SDL_image.h>
+#include <SDL_rwops.h>
 #include <cassert>
 
 Texture::~Texture()
@@ -201,7 +203,14 @@ bool Texture::CreateFromSurface(SDL_Surface *s, bool forceRGBA)
 
 bool Texture::CreateFromFile(const std::string &filename, bool forceRGBA)
 {
-	SDL_Surface *s = IMG_Load(filename.c_str());
+	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
+	if (!filedata) {
+		fprintf(stderr, "Texture::CreateFromFile: %s: could not read file\n", filename.c_str());
+		return false;
+	}
+
+	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
+	SDL_Surface *s = IMG_Load_RW(datastream, 1);
 	if (!s) {
 		fprintf(stderr, "Texture::CreateFromFile: %s: %s\n", filename.c_str(), IMG_GetError());
 		return false;

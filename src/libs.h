@@ -14,6 +14,7 @@
 #include <ctime>
 #include <cstdarg>
 #include <cstdlib>
+#include <cerrno>
 #include <string>
 #include <vector>
 
@@ -40,20 +41,7 @@
 #		ifndef isfinite
 inline int isfinite(double x) { return _finite(x); }
 #		endif
-
-#		include "win32-dirent.h"
-#	else
-#		include <dirent.h>
-#		include <sys/stat.h>
-#		include <stdexcept>
-#		define WINSHLWAPI
 #	endif /* __MINGW32__ */
-
-#else /* !_WIN32 */
-#	include <dirent.h>
-#	include <errno.h>
-#	include <sys/stat.h>
-#	include <sys/types.h>
 #endif
 
 #include "fixed.h"

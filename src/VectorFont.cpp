@@ -1,5 +1,6 @@
 #include "VectorFont.h"
 #include "libs.h"
+#include "FileSystem.h"
 
 #define PARAGRAPH_SPACING 1.5f
 
@@ -389,72 +390,61 @@ VectorFont::VectorFont(const FontConfig &fc) : Font(fc)
 		for (Uint16 i=0; i<65535; i++) g_index[i] = i;
 	}
 
-	std::string filename_ttf = GetConfig().String("FontFile");
-	if (filename_ttf.length() == 0) {
-		fprintf(stderr, "'%s' does not name a FontFile to use\n", GetConfig().GetFilename().c_str());
-		abort();
-	}
-
 	FT_F26Dot6 points = FT_F26Dot6(GetConfig().Float("PointSize") * 64.0);
 
-	int err;
-	if (0 != (err = FT_New_Face(GetFreeTypeLibrary(), std::string(PIONEER_DATA_DIR "/fonts/" + filename_ttf).c_str(), 0, &m_face))) {
-		fprintf(stderr, "Terrible error! Couldn't load '%s'; error %d.\n", filename_ttf.c_str(), err);
-	} else {
-		FT_Set_Char_Size(m_face, points, 0, 72, 0);
-		for (int chr=32; chr<127; chr++) {
-			if (0 != FT_Load_Char(m_face, chr, FT_LOAD_DEFAULT)) {
-				printf("Couldn't load glyph\n");
-				continue;
-			}
-			
-			assert(m_face->glyph->format == FT_GLYPH_FORMAT_OUTLINE);
-			FT_Outline *outline = &m_face->glyph->outline;
-
-			std::vector<double> temppts;
-			std::vector<Uint16> indices;
-			std::vector<double> pts;
-			int nv = 0;
-
-			TessData tessdata;
-			tessdata.pts = &pts;
-
-			gluTessNormal (tobj, 0, 0, 1);
-			gluTessProperty(tobj, GLU_TESS_WINDING_RULE, GLU_TESS_WINDING_ODD);
-			gluTessBeginPolygon (tobj, &tessdata);
-			for (int contour=0; contour < outline->n_contours; contour++)
-			{
-				gluTessBeginContour (tobj);
-				temppts.clear();
-				GenContourPoints(chr, outline, contour, BEZIER_STEPS, &temppts);
-				for (size_t i=0; i<temppts.size(); i++) pts.push_back(temppts[i]);
-				for (size_t i=0; i<temppts.size(); i+=3, nv++)
-					gluTessVertex(tobj,&pts[nv*3],&g_index[nv]);
-				gluTessEndContour(tobj);
-			}
-			tessdata.numvtx = nv;
-			gluTessEndPolygon(tobj);
-
-			glfglyph_t glyph;
-
-			nv = tessdata.numvtx;
-			glyph.numvtx = nv;
-			glyph.varray = static_cast<float *>(malloc (nv*3*sizeof(float)));
-			for (int i=0; i<nv*3; i++) glyph.varray[i] = float(pts[i]);
-
-			glyph.numidx = int(tessdata.index.size());
-			glyph.iarray = static_cast<Uint16 *>(malloc (glyph.numidx*sizeof(Uint16)));
-			for (int i=0; i<glyph.numidx; i++) glyph.iarray[i] = tessdata.index[i];
-
-			glyph.advx = float(m_face->glyph->linearHoriAdvance) / 65536.0f / 36.0f;
-			glyph.advy = float(m_face->glyph->linearVertAdvance) / 65536.0f / 36.0f;
-
-			m_glyphs[chr] = glyph;
+	FT_Set_Char_Size(m_face, points, 0, 72, 0);
+	for (int chr=32; chr<127; chr++) {
+		if (0 != FT_Load_Char(m_face, chr, FT_LOAD_DEFAULT)) {
+			printf("Couldn't load glyph\n");
+			continue;
 		}
-		
-		m_height = m_glyphs['M'].advy;
-		m_width = m_glyphs['M'].advx;
+
+		assert(m_face->glyph->format == FT_GLYPH_FORMAT_OUTLINE);
+		FT_Outline *outline = &m_face->glyph->outline;
+
+		std::vector<double> temppts;
+		std::vector<Uint16> indices;
+		std::vector<double> pts;
+		int nv = 0;
+
+		TessData tessdata;
+		tessdata.pts = &pts;
+
+		gluTessNormal (tobj, 0, 0, 1);
+		gluTessProperty(tobj, GLU_TESS_WINDING_RULE, GLU_TESS_WINDING_ODD);
+		gluTessBeginPolygon (tobj, &tessdata);
+		for (int contour=0; contour < outline->n_contours; contour++)
+		{
+			gluTessBeginContour (tobj);
+			temppts.clear();
+			GenContourPoints(chr, outline, contour, BEZIER_STEPS, &temppts);
+			for (size_t i=0; i<temppts.size(); i++) pts.push_back(temppts[i]);
+			for (size_t i=0; i<temppts.size(); i+=3, nv++)
+				gluTessVertex(tobj,&pts[nv*3],&g_index[nv]);
+			gluTessEndContour(tobj);
+		}
+		tessdata.numvtx = nv;
+		gluTessEndPolygon(tobj);
+
+		glfglyph_t glyph;
+
+		nv = tessdata.numvtx;
+		glyph.numvtx = nv;
+		glyph.varray = static_cast<float *>(malloc (nv*3*sizeof(float)));
+		for (int i=0; i<nv*3; i++) glyph.varray[i] = float(pts[i]);
+
+		glyph.numidx = int(tessdata.index.size());
+		glyph.iarray = static_cast<Uint16 *>(malloc (glyph.numidx*sizeof(Uint16)));
+		for (int i=0; i<glyph.numidx; i++) glyph.iarray[i] = tessdata.index[i];
+
+		glyph.advx = float(m_face->glyph->linearHoriAdvance) / 65536.0f / 36.0f;
+		glyph.advy = float(m_face->glyph->linearVertAdvance) / 65536.0f / 36.0f;
+
+		m_glyphs[chr] = glyph;
 	}
+
+	m_height = m_glyphs['M'].advy;
+	m_width = m_glyphs['M'].advx;
 }
 
 VectorFont::~VectorFont()
