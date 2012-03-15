@@ -652,6 +652,9 @@
     <ClCompile Include="..\src\FileSystemWin32.cpp">
       <Filter>win32\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\ShipController.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -1221,6 +1224,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\graphics\VertexArray.h">
       <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ShipController.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
