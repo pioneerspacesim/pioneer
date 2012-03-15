@@ -361,10 +361,10 @@ std::string AxisBindingToString(const AxisBinding &ab) {
 }
 
 #define SET_KEY_BINDING(var, bindname) \
-	KeyBindingFromString(Pi::config.String(bindname).c_str(), &(var.binding));
+	KeyBindingFromString(Pi::config->String(bindname).c_str(), &(var.binding));
 
 #define SET_AXIS_BINDING(var, bindname) \
-	AxisBindingFromString(Pi::config.String(bindname).c_str(), &(var));
+	AxisBindingFromString(Pi::config->String(bindname).c_str(), &(var));
 
 void DispatchSDLEvent(const SDL_Event *event) {
 	switch (event->type) {
@@ -422,7 +422,7 @@ static void SetSDLKeyboardBinding(const char *name, SDLKey key) {
 }
 
 static void SetAxisBinding(const char *function, const AxisBinding &ab) {
-	Pi::config.SetString(function, AxisBindingToString(ab).c_str());
+	Pi::config->SetString(function, AxisBindingToString(ab).c_str());
 }
 
 void SetDefaults() 

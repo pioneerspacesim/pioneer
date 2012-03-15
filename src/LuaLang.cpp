@@ -121,7 +121,7 @@ static int l_lang_get_current_language(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	std::string lang = Pi::config.String("Lang");
+	std::string lang = Pi::config->String("Lang");
 	assert(!lang.empty()); // there should always be a Lang config value set
 
 	lua_pushlstring(l, lang.c_str(), lang.size());

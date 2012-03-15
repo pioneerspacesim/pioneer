@@ -34,9 +34,5 @@ GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
 	m_map["RedirectStdio"] = "0";
 #endif
 
-	KeyBindings::SetDefaults();
-
 	Load();
-
-	KeyBindings::OnKeyBindingsChanged();
 }
