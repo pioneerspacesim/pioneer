@@ -14,6 +14,7 @@
 #include <ctime>
 #include <cstdarg>
 #include <cstdlib>
+#include <cerrno>
 #include <string>
 #include <vector>
 
@@ -23,11 +24,15 @@
 #endif /* PIONEER_DATA_DIR */
 
 #ifdef _WIN32
-#   pragma warning(disable : 4244) // "conversion from x to x: possible loss of data"
-#   pragma warning(disable : 4800) // int-to-bool "performance warning"
 #	include <malloc.h>
 
+#	ifdef _MSC_VER
+#		pragma warning(disable : 4244) // "conversion from x to x: possible loss of data"
+#		pragma warning(disable : 4800) // int-to-bool "performance warning"
+#	endif
+ 
 #	ifndef __MINGW32__
+#
 #		define alloca _alloca
 #		define strncasecmp _strnicmp
 #		define strcasecmp _stricmp
@@ -36,20 +41,7 @@
 #		ifndef isfinite
 inline int isfinite(double x) { return _finite(x); }
 #		endif
-
-#		include "win32-dirent.h"
-#	else
-#		include <dirent.h>
-#		include <sys/stat.h>
-#		include <stdexcept>
-#		define WINSHLWAPI
 #	endif /* __MINGW32__ */
-
-#else /* !_WIN32 */
-#	include <dirent.h>
-#	include <errno.h>
-#	include <sys/stat.h>
-#	include <sys/types.h>
 #endif
 
 #include "fixed.h"

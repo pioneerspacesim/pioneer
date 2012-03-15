@@ -6,6 +6,7 @@
 #include <iterator>
 #include "RendererLegacy.h"
 #include "RendererGL2.h"
+#include "FileSystem.h"
 
 static GLuint boundArrayBufferObject = 0;
 static GLuint boundElementArrayBufferObject = 0;
@@ -107,7 +108,7 @@ bool AreShadersEnabled()
 }
 
 void PrintGLInfo() {
-	std::string fname = GetPiUserDir() + "opengl.txt";
+	std::string fname = FileSystem::JoinPath(FileSystem::GetUserDir(), "opengl.txt");
 	FILE *f = fopen(fname.c_str(), "w");
 	if (!f) return;
 

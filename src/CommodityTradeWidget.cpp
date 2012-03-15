@@ -93,7 +93,7 @@ void CommodityTradeWidget::ShowAll()
 
         std::map<Equip::Type,std::string>::iterator icon_iter = s_iconMap.find(Equip::Type(i));
 		if (icon_iter != s_iconMap.end()) {
-			Gui::Image *icon = new Gui::Image((PIONEER_DATA_DIR "/icons/goods/" + (*icon_iter).second + ".png").c_str());
+			Gui::Image *icon = new Gui::Image(("icons/goods/" + (*icon_iter).second + ".png").c_str());
 			innerbox->Add(icon, 0, num*YSEP);
 		}
 

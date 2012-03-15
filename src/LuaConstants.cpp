@@ -481,10 +481,10 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 * REVERSE - front (fore) thruster
 	 * FORWARD - main/rear (aft) thruster
-	 * UP - bottom/underbelly (dorsal) thruster
-	 * DOWN - top/back (ventral) thruster
+	 * UP - bottom/underbelly (ventral) thruster
+	 * DOWN - top/back (dorsal) thruster
 	 * LEFT - right-side (starboard) thruster
-	 * RIGHT -left-side (port) thruster
+	 * RIGHT - left-side (port) thruster
 	 *
 	 * Availability:
 	 *

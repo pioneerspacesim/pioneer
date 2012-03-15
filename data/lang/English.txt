@@ -608,6 +608,8 @@ MM_START_NEW_GAME_EARTH
     New game starting on Earth
 MM_START_NEW_GAME_E_ERIDANI
     New game starting on Epsilon Eridani
+MM_START_NEW_GAME_LAVE
+    New game starting at Lave
 MM_START_NEW_GAME_DEBUG
     New game starting on debug point
 MM_LOAD_SAVED_GAME

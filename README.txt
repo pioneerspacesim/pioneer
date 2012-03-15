@@ -1,4 +1,4 @@
-Pioneer Space Simulator - alpha 19
+Pioneer Space Simulator - alpha 20
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Pioneer is a space adventure game set in the Milky Way galaxy at the turn of

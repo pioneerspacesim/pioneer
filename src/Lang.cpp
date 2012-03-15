@@ -1,13 +1,24 @@
 #include "libs.h"
+#include "Lang.h"
+#include "FileSystem.h"
+#include "StringRange.h"
 #include "utils.h"
 #include "TextSupport.h"
 #include <map>
-
-// XXX we're allocating a whole KB for each translatable string
-// that's... not very nice (though I guess it "doesn't matter" with virtual memory and multi-GB of RAM)
-#define MAX_STRING (1024)
+#include <set>
 
 namespace Lang {
+
+// XXX we're allocating half a KB for each translatable string
+// that's... not very nice (though I guess it "doesn't matter" with virtual memory and multi-GB of RAM)
+static const int STRING_RECORD_SIZE = 512;
+#define DECLARE_STRING(x) char x[STRING_RECORD_SIZE];
+#include "LangStrings.inc.h"
+#undef DECLARE_STRING
+
+}
+
+namespace {
 
 // declaring value type as const char* so that we can give out a const reference to the real
 // token map without allowing external code to modify token text
@@ -16,251 +27,311 @@ namespace Lang {
 // this could be avoided by using a custom class for the value type
 // (or std::string, but then we'd be changing the way translated text is stored)
 typedef std::map<std::string, const char*> token_map;
+static token_map s_token_map;
 
-static token_map s_tokens;
+static struct init_string_helper_class {
+	init_string_helper_class() {
+#define DECLARE_STRING(x)  s_token_map.insert(std::make_pair(#x, Lang::x)); Lang::x[0] = '\0';
+#include "LangStrings.inc.h"
+#undef DECLARE_STRING
+	}
+} init_string_helper;
 
+static bool ident_head(char c)
+{
+	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_');
 }
 
-#define DECLARE_STRING(x)                           \
-	char x[MAX_STRING];                             \
-	static class _init_class_##x {                  \
-	public:                                         \
-		_init_class_##x() {                         \
-			s_tokens.insert(std::make_pair(#x,x)); \
-			*x = '\0';                              \
-		}                                           \
-	} _init_##x
-
-#include "Lang.h"
-
-namespace Lang {
-
-static bool _read_pair(FILE *f, const std::string &filename, int *lineno, token_map::iterator *outIter, char **outValue)
+static bool ident_tail(char c)
 {
-	static char buf[1024];
-	*outValue = 0;
+	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || (c == '_');
+}
 
-	bool doing_token = true;
-
-	char *line;
-
-	errno = 0;
-	while ((line = fgets(buf, sizeof(buf), f))) {
-		(*lineno)++;
-
-		int i = 0;
-		while (buf[i]) {
-			Uint32 chr;
-			int n = conv_mb_to_wc(&chr, &buf[i]);
-			if (!n) {
-				fprintf(stderr, "invalid utf-8 character in line %d of '%s'\n", *lineno, filename.c_str());
-				return false;
-			}
-
-			i += n;
-		}
-
-		// eat leading whitespace
-		while (*line == ' ' || *line == '\t' || *line == '\r' || *line == '\n') line++;
-
-		// skip empty lines
-		if (!*line) continue;
-
-		// skip comment lines
-		if (*line == '#') continue;
-
-		// eat trailing whitespace
-		char *end = strchr(line, '\0');
-		while (*(end-1) == ' ' || *(end-1) == '\t' || *(end-1) == '\r' || *(end-1) == '\n') end--;
-		*end = '\0';
-
-		// skip empty lines
-		if (line == end) continue;
-
-		// token line
-		if (doing_token) {
-			for (char *c = line; c < end; c++) {
-				// valid token chars are A-Z0-9_
-				if (!((*c >= 'A' && *c <= 'Z') || (*c >= '0' && *c <= '9') || (*c == '_'))) {
-					fprintf(stderr, "unexpected token character '%c' in line %d of '%s'\n", *c, *lineno, filename.c_str());
-					return false;
-				}
-			}
-
-			*outIter = s_tokens.find(std::string(line));
-            if ((*outIter) == s_tokens.end()) {
-                fprintf(stderr, "unknown token '%s' at line %d of '%s'\n", line, *lineno, filename.c_str());
-                return false;
-			}
-		}
-
-		// string line
-		else {
-			// eat quotes
-			if (*line == '"' && *(end-1) == '"') {
-				line++;
-				end--;
-				*end = '\0';
-			}
-
-			// skip empty lines
-			if (line == end) continue;
-
-			*outValue = line;
-		}
-
-		if (doing_token)
-			doing_token = false;
-		else
-			break;
+static bool valid_token(StringRange tok)
+{
+	if (tok.Empty()) return false;
+	if (!ident_head(tok[0])) return false;
+	for (const char *c = tok.begin + 1; c != tok.end; ++c) {
+		if (!ident_tail(*c)) return false;
 	}
-
-	if (errno) {
-		fprintf(stderr, "error reading string file '%s': %s\n", filename.c_str(), strerror(errno));
-		return false;
-	}
-
 	return true;
 }
 
-static void _copy_string(const char *src, char *dest)
+// returns 0 on success, or a line number on error
+static int valid_utf8(StringRange data)
 {
-	// copy in one char at a time
-	int s = 0, d = 0;
-	while (src[s] != '\0' && d < MAX_STRING-1) {
+	const char *c = data.begin;
+	int line = 1;
+	while (c != data.end) {
+		Uint32 chr;
+		int n = conv_mb_to_wc(&chr, c);
+		if (!n) return line;
+		if (chr == '\n') ++line;
+		c += n;
+	}
+	return 0;
+}
 
-		// turn \n into a real newline
-		if (src[s] == '\\' && src[s+1] == 'n') {
-			dest[d++] = '\n';
-			s += 2;
-			continue;
+struct StringFileParser {
+public:
+	StringFileParser(const std::string &filename, StringRange range);
+
+	bool Finished() const { return m_data.Empty() && m_token.Empty(); }
+	void Next();
+
+	const std::string &GetFileName() const { return m_filename; }
+
+	StringRange GetToken() const { return m_token; }
+	int GetTokenLineNumber() const { return m_tokenLine; }
+	StringRange GetText() const { return m_text; }
+	int GetTextLineNumber() const { return m_textLine; }
+
+	const std::string &GetAdjustedText() const { return m_adjustedText; }
+
+private:
+	StringRange NextLine();
+	void SkipBlankLines();
+	void ScanText();
+
+	std::string m_filename;
+	StringRange m_data;
+	StringRange m_token;
+	StringRange m_text;
+	int m_lineNo;
+	int m_tokenLine;
+	int m_textLine;
+	std::string m_adjustedText;
+};
+
+StringFileParser::StringFileParser(const std::string &filename, StringRange range):
+	m_filename(filename), m_data(range), m_lineNo(0), m_tokenLine(-1), m_textLine(-1)
+{
+	assert(m_data.begin && m_data.end);
+	SkipBlankLines();
+	Next();
+}
+
+void StringFileParser::Next()
+{
+	if (!m_data.Empty()) {
+		m_token = NextLine();
+		m_tokenLine = m_lineNo;
+		m_text = NextLine();
+		m_textLine = m_lineNo;
+		SkipBlankLines();
+
+		if (!m_text.Empty() && (m_text[0] == '"') && (m_text[m_text.Size()-1] == '"')) {
+			++m_text.begin;
+			--m_text.end;
 		}
 
-		dest[d++] = src[s++];
+		// adjust for escaped newlines
+		{
+			m_adjustedText.clear();
+			m_adjustedText.reserve(m_text.Size());
+
+			const char *end1 = (m_text.end - 1);
+			const char *c;
+			for (c = m_text.begin; c < end1; ++c) {
+				if (c[0] == '\\' && c[1] == 'n') {
+					++c;
+					m_adjustedText += '\n';
+				} else {
+					m_adjustedText += *c;
+				}
+			}
+			if (c != m_text.end) {
+				m_adjustedText += *c++;
+			}
+			assert(c == m_text.end);
+		}
+
+		if (!valid_token(m_token)) {
+			fprintf(stderr, "Invalid token '%.*s' at %s:%d\n", int(m_token.Size()), m_token.begin, m_filename.c_str(), m_tokenLine);
+		}
+
+		if (m_token.Empty()) {
+			fprintf(stderr, "Blank token at %s:%d\n", m_filename.c_str(), m_tokenLine);
+		}
+
+		if (m_text.Empty()) {
+			fprintf(stderr, "Blank string for token '%.*s' (at %s:%d)\n", int(m_token.Size()), m_token.begin, m_filename.c_str(), m_textLine);
+		}
+	} else {
+		m_token.begin = m_token.end = 0;
+		m_tokenLine = m_lineNo;
+		m_text.begin = m_text.end = 0;
+		m_textLine = m_lineNo;
+		m_adjustedText.clear();
+	}
+}
+
+StringRange StringFileParser::NextLine()
+{
+	if (!m_data.Empty()) {
+		++m_lineNo;
+		StringRange line = m_data.ReadLine();
+		return line.StripSpace();
+	} else
+		return m_data;
+}
+
+void StringFileParser::SkipBlankLines()
+{
+	if (!m_data.Empty()) {
+		StringRange line;
+		// skip empty lines and comments
+		while (!m_data.Empty() && (line.Empty() || line[0] == '#')) line = NextLine();
+		--m_lineNo;
+		m_data.begin = line.begin;
+	}
+}
+
+static void ResetStringData()
+{
+	const char *badstring = "<badstring>";
+	size_t sz = strlen(badstring) + 1;
+#define DECLARE_STRING(x) memcpy(Lang::x, badstring, sz);
+#include "LangStrings.inc.h"
+#undef DECLARE_STRING
+}
+
+static std::vector<std::string> EnumAvailableLanguages()
+{
+	std::vector<std::string> languages;
+
+	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "lang"); !files.Finished(); files.Next()) {
+		assert(files.Current().IsFile());
+		const std::string &path = files.Current().GetPath();
+		if ((path.size() > 4) && (path.substr(path.size() - 4) == ".txt")) {
+			const std::string name = files.Current().GetName();
+			languages.push_back(name.substr(0, name.size() - 4));
+		}
 	}
 
-	dest[d] = '\0';
+	return languages;
 }
+
+static void copy_string(char *buf, const char *str, size_t strsize, size_t bufsize)
+{
+	size_t sz = std::min(strsize, bufsize-1);
+	memcpy(buf, str, sz);
+	buf[sz] = '\0';
+}
+
+} // anonymous namespace
+
+namespace Lang {
 
 bool LoadStrings(const std::string &lang)
 {
-	// XXX const_cast is ugly, but see note for declaration of tokens map
-	for (token_map::iterator i = s_tokens.begin(); i != s_tokens.end(); i++)
-		*const_cast<char*>((*i).second) = '\0';
-	
-	std::map<std::string,bool> seen, missing;
+	int errline;
+	std::set<std::string> seen, missing;
 
-	token_map::iterator token_iter;
-	char *value;
+	ResetStringData();
 
-	std::string filename(PIONEER_DATA_DIR "/lang/English.txt");
-
-	FILE *f = fopen(filename.c_str(), "r");
-	if (!f) {
-		fprintf(stderr, "couldn't open string file '%s': %s\n", filename.c_str(), strerror(errno));
+	std::string filename = "lang/English.txt";
+	RefCountedPtr<FileSystem::FileData> english_data = FileSystem::gameDataFiles.ReadFile(filename);
+	if (!english_data) {
+		fprintf(stderr, "couldn't open string file '%s'\n", filename.c_str());
 		return false;
 	}
 
-	int lineno = 0;
-	while (1) {
-		bool success = _read_pair(f, filename, &lineno, &token_iter, &value);
-		if (!success)
-			return false;
-
-		if (!value)
-			break;
-
-		// XXX const_cast is ugly, but see note for declaration of tokens map
-		_copy_string(value, const_cast<char*>((*token_iter).second));
-		seen.insert(std::make_pair((*token_iter).first, true));
+	errline = valid_utf8(english_data->AsStringRange());
+	if (errline) {
+		fprintf(stderr, "invalid UTF-8 code in line %d of '%s'\n", errline, filename.c_str());
+		return false;
 	}
 
-	fclose(f);
+	seen.clear();
+	for (StringFileParser parser(filename, english_data->AsStringRange()); !parser.Finished(); parser.Next()) {
+		const std::string token = parser.GetToken().ToString();
+		token_map::iterator it = s_token_map.find(token);
+		if (it != s_token_map.end()) {
+			seen.insert(token);
+			const std::string &text = parser.GetAdjustedText();
+			// XXX const_cast is ugly, but see note for declaration of tokens map
+			char *record = const_cast<char*>(it->second);
+			copy_string(record, text.c_str(), text.size(), STRING_RECORD_SIZE);
+		} else {
+			fprintf(stderr, "unknown language token '%s' at %s:%d\n", token.c_str(), parser.GetFileName().c_str(), parser.GetTokenLineNumber());
+		}
+	}
 
-	if (seen.size() != s_tokens.size()) {
+	english_data.Reset();
+
+	if (seen.size() != s_token_map.size()) {
 		fprintf(stderr, "string file '%s' has missing tokens:\n", filename.c_str());
-		for (token_map::iterator i = s_tokens.begin(); i != s_tokens.end(); i++) {
-			if (seen.find((*i).first) == seen.end()) {
-				fprintf(stderr, "  %s\n", (*i).first.c_str());
-				missing.insert(std::make_pair((*i).first, false));
+		for (token_map::iterator it = s_token_map.begin(); it != s_token_map.end(); ++it) {
+			if (!seen.count(it->first)) {
+				fprintf(stderr, "  %s\n", it->first.c_str());
+				missing.insert(it->first);
 			}
 		}
 	}
 
 	if (lang == "English")
-		return seen.size() == s_tokens.size();
-	
+		return (seen.size() == s_token_map.size());
+
+	filename = "lang/" + lang + ".txt";
+	RefCountedPtr<FileSystem::FileData> lang_data = FileSystem::gameDataFiles.ReadFile(filename);
+	if (!lang_data) {
+		fprintf(stderr, "couldn't open string file '%s'\n", filename.c_str());
+		return false;
+	}
+
+	errline = valid_utf8(lang_data->AsStringRange());
+	if (errline) {
+		fprintf(stderr, "invalid UTF-8 code in line %d of '%s'\n", errline, filename.c_str());
+		return false;
+	}
+
 	seen.clear();
-	
-	filename = std::string(PIONEER_DATA_DIR "/lang/" + lang + ".txt");
-
-	f = fopen(filename.c_str(), "r");
-	if (!f) {
-		fprintf(stderr, "couldn't open string file '%s': %s\n", filename.c_str(), strerror(errno));
-		// we failed to open/find the language file, but we've already successfully
-		// read the default language above, so we still claim success here.
-		return true;
-	}
-
-	lineno = 0;
-	while (1) {
-		bool success = _read_pair(f, filename, &lineno, &token_iter, &value);
-		if (!success)
-			return false;
-
-		if (!value)
-			break;
-
-		// XXX const_cast is ugly, but see note for declaration of tokens map
-		_copy_string(value, const_cast<char*>((*token_iter).second));
-		seen.insert(std::make_pair((*token_iter).first, true));
-		
-		std::map<std::string,bool>::iterator i = missing.find((*token_iter).first);
-		if (i != missing.end())
-			missing.erase(i);
-	}
-
-	fclose(f);
-
-	if (seen.size() != s_tokens.size()) {
-		fprintf(stderr, "string file '%s' has missing tokens:\n", filename.c_str());
-		for (token_map::iterator i = s_tokens.begin(); i != s_tokens.end(); i++) {
-			if (seen.find((*i).first) == seen.end())
-				fprintf(stderr, "  %s\n", (*i).first.c_str());
+	for (StringFileParser parser(filename, lang_data->AsStringRange()); !parser.Finished(); parser.Next()) {
+		const std::string token = parser.GetToken().ToString();
+		token_map::iterator it = s_token_map.find(token);
+		if (it != s_token_map.end()) {
+			seen.insert(token);
+			const std::string &text = parser.GetAdjustedText();
+			// XXX const_cast is ugly, but see note for declaration of tokens map
+			char *record = const_cast<char*>(it->second);
+			copy_string(record, text.c_str(), text.size(), STRING_RECORD_SIZE);
+		} else {
+			fprintf(stderr, "unknown language token '%s' at %s:%d\n", token.c_str(), parser.GetFileName().c_str(), parser.GetTokenLineNumber());
 		}
 	}
 
-	if (missing.size() > 0) {
+	if (seen.size() != s_token_map.size()) {
+		fprintf(stderr, "string file '%s' has missing tokens:\n", filename.c_str());
+		for (token_map::iterator it = s_token_map.begin(); it != s_token_map.end(); ++it) {
+			if (!seen.count(it->first)) {
+				fprintf(stderr, "  %s\n", it->first.c_str());
+			} else {
+				missing.erase(it->first);
+			}
+		}
+	}
+
+	if (!missing.empty()) {
 		fprintf(stderr, "no strings found for the following tokens:\n");
-		for (std::map<std::string,bool>::iterator i = missing.begin(); i != missing.end(); i++)
-			fprintf(stderr, "  %s\n", (*i).first.c_str());
+		for (std::set<std::string>::iterator it = missing.begin(); it != missing.end(); ++it) {
+			fprintf(stderr, "  %s\n", it->c_str());
+		}
 		return false;
 	}
 
 	return true;
 }
 
-std::list<std::string> s_availableLanguages;
-
-void _found_language_file_callback(const std::string &name, const std::string &fullname) {
-	size_t pos = name.find(".txt");
-	if (pos == name.npos) return;
-	if (name.length() - pos != 4) return;
-	s_availableLanguages.push_back(name.substr(0, pos));
-}
-
-const std::list<std::string> &GetAvailableLanguages()
+const std::vector<std::string> &GetAvailableLanguages()
 {
-	s_availableLanguages.clear();
-
-	foreach_file_in(PIONEER_DATA_DIR "/lang/", _found_language_file_callback);
-
-	return s_availableLanguages;
+	static std::vector<std::string> languages = EnumAvailableLanguages();
+	return languages;
 }
 
 const std::map<std::string, const char*> &GetDictionary()
 {
-    return s_tokens;
+    return s_token_map;
 }
 
-}
+} // namespace Lang
