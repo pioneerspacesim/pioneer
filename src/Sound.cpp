@@ -8,16 +8,100 @@
 #include <vorbis/vorbisfile.h>
 #include <vector>
 #include <string>
+#include <cerrno>
 #include "Sound.h"
 #include "Body.h"
 #include "Pi.h"
 #include "Player.h"
+#include "FileSystem.h"
 
 namespace Sound {
 
+class OggFileDataStream {
+public:
+	static const ov_callbacks CALLBACKS;
+
+	OggFileDataStream(): m_cursor(0) {}
+	explicit OggFileDataStream(const RefCountedPtr<FileSystem::FileData> &data):
+		m_data(data), m_cursor(data->GetData()) { assert(data); }
+
+	void Reset()
+	{
+		m_data.Reset();
+		m_cursor = 0;
+	}
+
+	void Reset(const RefCountedPtr<FileSystem::FileData> &data)
+	{
+		assert(data);
+		m_data = data;
+		m_cursor = m_data->GetData();
+	}
+
+	size_t read(char *buf, size_t sz, int n)
+	{
+		assert(n >= 0);
+		ptrdiff_t offset = tell();
+		// clamp to available data
+		n = std::min(n, int((m_data->GetSize() - offset) / sz));
+		size_t fullsize = sz * n;
+		assert(offset + fullsize <= m_data->GetSize());
+		memcpy(buf, m_cursor, fullsize);
+		m_cursor += fullsize;
+		return n;
+	}
+
+	int seek(ogg_int64_t offset, int whence)
+	{
+		switch (whence) {
+			case SEEK_SET: m_cursor = m_data->GetData() + offset; break;
+			case SEEK_END: m_cursor = m_data->GetData() + (m_data->GetSize() + offset); break;
+			case SEEK_CUR: m_cursor += offset; break;
+			default: return -1;
+		}
+		return 0;
+	}
+
+	long tell()
+	{
+		assert(m_data && m_cursor);
+		return long(m_cursor - m_data->GetData());
+	}
+
+	int close()
+	{
+		if (m_data) {
+			m_data.Reset();
+			m_cursor = 0;
+			return 0;
+		} else {
+			return -1;
+		}
+	}
+
+private:
+	static size_t ov_callback_read(void *buf, size_t sz, size_t n, void *stream)
+	{ return reinterpret_cast<OggFileDataStream*>(stream)->read(reinterpret_cast<char*>(buf), sz, n); }
+	static int ov_callback_seek(void *stream, ogg_int64_t offset, int whence)
+	{ return reinterpret_cast<OggFileDataStream*>(stream)->seek(offset, whence); }
+	static long ov_callback_tell(void *stream)
+	{ return reinterpret_cast<OggFileDataStream*>(stream)->tell(); }
+	static int ov_callback_close(void *stream)
+	{ return reinterpret_cast<OggFileDataStream*>(stream)->close(); }
+
+	RefCountedPtr<FileSystem::FileData> m_data;
+	const char *m_cursor;
+};
+
+const ov_callbacks OggFileDataStream::CALLBACKS = {
+	&OggFileDataStream::ov_callback_read,
+	&OggFileDataStream::ov_callback_seek,
+	&OggFileDataStream::ov_callback_close,
+	&OggFileDataStream::ov_callback_tell
+};
+
 static float m_masterVol = 1.0f;
 static float m_sfxVol = 1.0f;
-static bool m_loadingMusic = false;
 
 #define FREQ            44100
 #define BUF_SIZE	4096
@@ -77,6 +161,7 @@ eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 struct SoundEvent {
 	const Sample *sample;
 	OggVorbis_File *oggv; // if sample->buf = 0 then stream this
+	OggFileDataStream ogg_data_stream;
 	Uint32 buf_pos;
 	float volume[2]; // left and right channels
 	eventid identifier;
@@ -85,7 +170,7 @@ struct SoundEvent {
 	float targetVolume[2];
 	float rateOfChange[2]; // per sample
 	bool ascend[2];
-};	
+};
 
 static std::map<std::string, Sample> sfx_samples;
 struct SoundEvent wavstream[MAX_WAVSTREAMS];
@@ -130,6 +215,7 @@ static void DestroyEvent(SoundEvent *ev)
 		ov_clear(ev->oggv);
 		delete ev->oggv;
 		ev->oggv = 0;
+		ev->ogg_data_stream.Reset();
 	}
 	ev->sample = 0;
 }
@@ -220,8 +306,16 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 			if (!ev.oggv) {
 				// open file to start streaming
 				ev.oggv = new OggVorbis_File;
-				if (ov_fopen(const_cast<char*>(ev.sample->path.c_str()), ev.oggv) < 0) {
-					fprintf(stderr, "Vorbis could not open %s", ev.sample->path.c_str());
+				RefCountedPtr<FileSystem::FileData> oggdata = FileSystem::gameDataFiles.ReadFile(ev.sample->path);
+				if (!oggdata) {
+					fprintf(stderr, "Could not open '%s'", ev.sample->path.c_str());
+					ev.sample = 0;
+					return;
+				}
+				ev.ogg_data_stream.Reset(oggdata);
+				oggdata.Reset();
+				if (ov_open_callbacks(&ev.ogg_data_stream, ev.oggv, 0, 0, OggFileDataStream::CALLBACKS) < 0) {
+					fprintf(stderr, "Vorbis could not understand '%s'", ev.sample->path.c_str());
 					ev.sample = 0;
 					return;
 				}
@@ -349,73 +443,71 @@ void DestroyAllEvents()
 	SDL_UnlockAudio();
 }
 
-static void load_sound(const std::string &basename, const std::string &path)
+static void load_sound(const std::string &basename, const std::string &path, bool is_music)
 {
-	if (is_file(path)) {
-		if (basename.size() < 4) return;
-		if (basename.substr(basename.size()-4) != ".ogg") return;
-		//printf("Loading %s\n", path.c_str());
+	if (basename.size() < 4) return;
+	if (basename.substr(basename.size()-4) != ".ogg") return;
 
-		Sample sample;
-		OggVorbis_File oggv;
+	Sample sample;
+	OggVorbis_File oggv;
 
-		if (ov_fopen(const_cast<char*>(path.c_str()), &oggv) < 0) {
-			Error("Vorbis could not open %s", path.c_str());
-		}
-		struct vorbis_info *info;
-		info = ov_info(&oggv, -1);
-
-		if ((info->rate != FREQ) && (info->rate != (FREQ>>1))) {
-			Error("Vorbis file %s is not %dHz or %dHz. Bad!", path.c_str(), FREQ, FREQ>>1);
-		}
-		if ((info->channels < 1) || (info->channels > 2)) {
-			Error("Vorbis file %s is not mono or stereo. Bad!", path.c_str());
-		}
-		
-		int resample_multiplier = ((info->rate == (FREQ>>1)) ? 2 : 1);
-		const Sint64 num_samples = ov_pcm_total(&oggv, -1);
-		// since samples are 16 bits we have:
-		
-		sample.buf = 0;
-		sample.buf_len = num_samples * info->channels;
-		sample.channels = info->channels;
-		sample.upsample = resample_multiplier;
-		sample.path = path;
-		
-		const float seconds = num_samples/float(info->rate);
-		//printf("%f seconds\n", seconds);
-
-		// immediately decode and store as raw sample if short enough
-		if (seconds < STREAM_IF_LONGER_THAN) {
-			sample.buf = new Uint16[sample.buf_len];
-
-			int i=0;
-			for (;;) {
-				int music_section;
-				int amt = ov_read(&oggv, reinterpret_cast<char*>(sample.buf) + i,
-						2*sample.buf_len - i, 0, 2, 1, &music_section);
-				i += amt;
-				if (amt == 0) break;
-			}
-		}
-
-		//music keyed by pathname minus (datapath)/music/ and extension
-		if (m_loadingMusic) {
-			sample.isMusic = true;
-			const std::string prefix = PIONEER_DATA_DIR "/music/";
-			const std::string key = path.substr(prefix.size(), path.size()-prefix.size()-4);
-			sfx_samples[key] = sample;
-		} else {
-			// sfx keyed by basename minus the .ogg
-			sample.isMusic = false;
-			sfx_samples[basename.substr(0, basename.size()-4)] = sample;
-		}
-
-		ov_clear(&oggv);
-
-	} else if (is_dir(path)) {
-		foreach_file_in(path, &load_sound);
+	RefCountedPtr<FileSystem::FileData> oggdata = FileSystem::gameDataFiles.ReadFile(path);
+	if (!oggdata) {
+		Error("Could not read '%s'", path.c_str());
 	}
+	OggFileDataStream datastream(oggdata);
+	oggdata.Reset();
+	if (ov_open_callbacks(&datastream, &oggv, 0, 0, OggFileDataStream::CALLBACKS) < 0) {
+		Error("Vorbis could not understand '%s'", path.c_str());
+	}
+	struct vorbis_info *info;
+	info = ov_info(&oggv, -1);
+
+	if ((info->rate != FREQ) && (info->rate != (FREQ>>1))) {
+		Error("Vorbis file %s is not %dHz or %dHz. Bad!", path.c_str(), FREQ, FREQ>>1);
+	}
+	if ((info->channels < 1) || (info->channels > 2)) {
+		Error("Vorbis file %s is not mono or stereo. Bad!", path.c_str());
+	}
+
+	int resample_multiplier = ((info->rate == (FREQ>>1)) ? 2 : 1);
+	const Sint64 num_samples = ov_pcm_total(&oggv, -1);
+	// since samples are 16 bits we have:
+
+	sample.buf = 0;
+	sample.buf_len = num_samples * info->channels;
+	sample.channels = info->channels;
+	sample.upsample = resample_multiplier;
+	sample.path = path;
+
+	const float seconds = num_samples/float(info->rate);
+	//printf("%f seconds\n", seconds);
+
+	// immediately decode and store as raw sample if short enough
+	if (seconds < STREAM_IF_LONGER_THAN) {
+		sample.buf = new Uint16[sample.buf_len];
+
+		int i=0;
+		for (;;) {
+			int music_section;
+			int amt = ov_read(&oggv, reinterpret_cast<char*>(sample.buf) + i,
+					2*sample.buf_len - i, 0, 2, 1, &music_section);
+			i += amt;
+			if (amt == 0) break;
+		}
+	}
+
+	if (is_music) {
+		sample.isMusic = true;
+		// music keyed by pathname minus (datapath)/music/ and extension
+		sfx_samples[path.substr(0, path.size() - 4)] = sample;
+	} else {
+		sample.isMusic = false;
+		// sfx keyed by basename minus the .ogg
+		sfx_samples[basename.substr(0, basename.size()-4)] = sample;
+	}
+
+	ov_clear(&oggv);
 }
 
 bool Init ()
@@ -444,12 +536,20 @@ bool Init ()
 		}
 
 		// load all the wretched effects
-		foreach_file_in(PIONEER_DATA_DIR "/sounds", &load_sound);
-		//musics, too
+		for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "sounds", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
+			const FileSystem::FileInfo &info = files.Current();
+			if (info.IsFile()) {
+				load_sound(info.GetName(), info.GetPath(), false);
+			}
+		}
+
 		//I'd rather do this in MusicPlayer and store in a different map too, this will do for now
-		m_loadingMusic = true;
-		foreach_file_in(PIONEER_DATA_DIR "/music", &load_sound);
-		m_loadingMusic = false;
+		for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "music", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
+			const FileSystem::FileInfo &info = files.Current();
+			if (info.IsFile()) {
+				load_sound(info.GetName(), info.GetPath(), true);
+			}
+		}
 	}
 
 	/* silence any sound events */

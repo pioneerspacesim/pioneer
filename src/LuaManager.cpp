@@ -1,7 +1,10 @@
 #include "LuaManager.h"
-#include <stdlib.h> // for abort
+#include "FileSystem.h"
+#include <cstdlib>
 
 bool instantiated = false;
+
+const std::string luaDebugFilename("pidebug.lua");
 
 LuaManager::LuaManager() : m_lua(NULL) {
 	if (instantiated) {
@@ -15,16 +18,20 @@ LuaManager::LuaManager() : m_lua(NULL) {
 
 	lua_atpanic(m_lua, pi_lua_panic);
 
-	int ret = luaL_loadfile(m_lua, PIONEER_DATA_DIR "/pidebug.lua");
+	RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(luaDebugFilename);
+	if (!code) {
+		fprintf(stderr, "could not read Lua file '%s'\n", luaDebugFilename.c_str());
+		abort();
+	}
+
+	int ret = luaL_loadbuffer(m_lua, code->GetData(), code->GetSize(), code->GetInfo().GetPath().c_str());
 	if (ret) {
-		if (ret == LUA_ERRFILE)
-			fprintf(stderr, "Can't load '" PIONEER_DATA_DIR "/pidebug.lua'");
-		else if (ret == LUA_ERRSYNTAX) {
+		if (ret == LUA_ERRSYNTAX) {
 			const char* message = lua_tostring(m_lua, -1);
-			fprintf(stderr, "Syntax error in '" PIONEER_DATA_DIR "/pidebug.lua':\n%s\n", message);
+			fprintf(stderr, "Syntax error in '%s:\n%s\n", code->GetInfo().GetAbsolutePath().c_str(), message);
 		}
 		else
-			fprintf(stderr, "Error while loading '" PIONEER_DATA_DIR "/pidebug.lua'");
+			fprintf(stderr, "Error while loading '%s'\n", code->GetInfo().GetAbsolutePath().c_str());
 		abort();
 	}
 	if (lua_pcall(m_lua, 0, 1, 0)) {

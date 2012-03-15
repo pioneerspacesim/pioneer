@@ -1,6 +1,7 @@
 #include "Terrain.h"
 #include "perlin.h"
 #include "Pi.h"
+#include "FileSystem.h"
 
 // static instancer. selects the best height and color classes for the body
 Terrain *Terrain::InstanceTerrain(const SBody *body)
@@ -283,40 +284,56 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 	return gi(body);
 }
 
+static size_t bufread_or_die(void *ptr, size_t size, size_t nmemb, ByteRange &buf)
+{
+	size_t read_count = buf.read(reinterpret_cast<char*>(ptr), size, nmemb);
+	if (read_count < nmemb) {
+		fprintf(stderr, "Error: failed to read file (truncated)\n");
+		abort();
+	}
+	return read_count;
+}
+
 Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed), m_heightMap(0), m_heightMapScaled(0), m_heightScaling(0), m_minh(0) {
 
 	// load the heightmap
 	if (m_body->heightMapFilename) {
-		FILE *f;
-		f = fopen_or_die(m_body->heightMapFilename, "rb");
+		RefCountedPtr<FileSystem::FileData> fdata = FileSystem::gameDataFiles.ReadFile(m_body->heightMapFilename);
+		if (!fdata) {
+			fprintf(stderr, "Error: could not open file '%s'\n", m_body->heightMapFilename);
+			abort();
+		}
+
+		ByteRange databuf = fdata->AsByteRange();
+
 		// read size!
 		Uint16 v;
 
 		// XXX unify heightmap types
 		switch (m_body->heightMapFractal) {
 			case 0: {
-				fread_or_die(&v, 2, 1, f); m_heightMapSizeX = v;
-				fread_or_die(&v, 2, 1, f); m_heightMapSizeY = v;
+				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeX = v;
+				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeY = v;
 
 				m_heightMap = new Sint16[m_heightMapSizeX * m_heightMapSizeY];
-				fread_or_die(m_heightMap, sizeof(Sint16), m_heightMapSizeX * m_heightMapSizeY, f);
+				bufread_or_die(m_heightMap, sizeof(Sint16), m_heightMapSizeX * m_heightMapSizeY, databuf);
 				break;
 			}
 
 			case 1: {
 				// XXX x and y reversed from above *sigh*
-				fread_or_die(&v, 2, 1, f); m_heightMapSizeY = v;
-				fread_or_die(&v, 2, 1, f); m_heightMapSizeX = v;
+				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeY = v;
+				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeX = v;
 
 				// read height scaling and min height which are doubles
 				double te;
-				fread_or_die(&te, 8, 1, f);
+				bufread_or_die(&te, 8, 1, databuf);
 				m_heightScaling = te;
-				fread_or_die(&te, 8, 1, f);
+				bufread_or_die(&te, 8, 1, databuf);
 				m_minh = te;
 
 				m_heightMapScaled = new Uint16[m_heightMapSizeX * m_heightMapSizeY];
-				fread_or_die(m_heightMapScaled, sizeof(Uint16), m_heightMapSizeX * m_heightMapSizeY, f);
+				bufread_or_die(m_heightMapScaled, sizeof(Uint16), m_heightMapSizeX * m_heightMapSizeY, databuf);
 
 				break;
 			}
@@ -324,8 +341,6 @@ Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed), m_height
 			default:
 				assert(0);
 		}
-
-		fclose(f);
 	}
 
 	switch (Pi::detail.textures) {
