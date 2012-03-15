@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _SHIPCONTROLLER_H
+#define _SHIPCONTROLLER_H
 /*
  * Ship movement controller class
  * Controls thrusters, autopilot according to player input
@@ -73,3 +74,5 @@ private:
 	float m_joystickDeadzone;
 	vector3d m_mouseDir;
 };
+
+#endif
