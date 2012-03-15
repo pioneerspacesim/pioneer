@@ -53,11 +53,11 @@ Game::Game(const SystemPath &path, const vector3d &pos) :
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)
 {
-	CreatePlayer();
-
 	m_space.Reset(new Space(this, path));
 	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);
+
+	CreatePlayer();
 
 	m_space->AddBody(m_player.Get());
 
