@@ -191,6 +191,7 @@ void ShipType::Init()
 	LUA_DEBUG_START(l);
 
 	MyLuaVec::Vec_register(l);
+	lua_pop(l, 1);
 	lua_register(l, "v", MyLuaVec::Vec_new);
 	lua_register(l, "define_ship", define_ship);
 	lua_register(l, "define_static_ship", define_static_ship);
