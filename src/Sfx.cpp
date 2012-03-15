@@ -14,7 +14,7 @@
 
 using namespace Graphics;
 
-static const std::string damageTextureFilename(PIONEER_DATA_DIR"/textures/smoke.png");
+static const std::string damageTextureFilename("textures/smoke.png");
 
 #define MAX_SFX_PER_FRAME 1024
 Graphics::Drawables::Sphere3D *Sfx::shieldEffect = 0;

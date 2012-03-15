@@ -21,6 +21,10 @@ autom4te.cache/
 *.o
 *.a
 .deps
+/*.exe
+/*.dll
+/*.pdb
+/*.ilk
 Makefile
 Makefile.in
 .DS_Store

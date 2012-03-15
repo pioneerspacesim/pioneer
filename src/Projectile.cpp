@@ -18,8 +18,8 @@
 #include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
 
-static const std::string projectileTextureFilename(PIONEER_DATA_DIR"/textures/projectile_l.png");
-static const std::string projectileGlowTextureFilename(PIONEER_DATA_DIR"/textures/projectile_w.png");
+static const std::string projectileTextureFilename("textures/projectile_l.png");
+static const std::string projectileGlowTextureFilename("textures/projectile_w.png");
 
 Projectile::Projectile(): Body()
 {

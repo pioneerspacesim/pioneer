@@ -15,6 +15,7 @@ noinst_HEADERS = \
 	BezierCurve.h \
 	Body.h \
 	BufferObject.h \
+	ByteRange.h \
 	Camera.h \
 	CargoBody.h \
 	ChatForm.h \
@@ -29,6 +30,7 @@ noinst_HEADERS = \
 	EquipType.h \
 	FaceVideoLink.h \
 	FileSelectorWidget.h \
+	FileSystem.h \
 	Font.h \
 	FontCache.h \
 	Form.h \
@@ -47,6 +49,7 @@ noinst_HEADERS = \
 	FontConfig.h \
 	KeyBindings.h \
 	Lang.h \
+	LangStrings.inc.h \
 	Light.h \
 	LmrModel.h \
 	LuaBody.h \
@@ -110,6 +113,7 @@ noinst_HEADERS = \
 	StationShipViewForm.h \
 	StationShipyardForm.h \
 	StringF.h \
+	StringRange.h \
 	Sfx.h \
 	Ship.h \
 	ShipAICmd.h \
@@ -164,6 +168,7 @@ pioneer_SOURCES	= \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
 	FileSelectorWidget.cpp \
+	FileSystem.cpp \
 	Font.cpp \
 	FontCache.cpp \
 	FormController.cpp \
@@ -269,7 +274,6 @@ pioneer_SOURCES	= \
 	enum_table.cpp
 
 pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
-		$(MINGW_LIBS) \
 		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
 		$(PNG_LIBS)
@@ -280,6 +284,7 @@ endif
 modelviewer_SOURCES = \
 	Color.cpp \
 	Font.cpp \
+	FileSystem.cpp \
 	IniConfig.cpp \
 	FontConfig.cpp \
 	FontCache.cpp \
@@ -299,7 +304,6 @@ modelviewer_SOURCES = \
 	utils.cpp \
 	enum_table.cpp
 modelviewer_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
-		    $(MINGW_LIBS) \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 if !HAVE_LUA
@@ -311,7 +315,10 @@ tests_SOURCES = \
 	StringF.cpp \
 	tests.cpp \
 	test_Frame.cpp \
-	test_StringF.cpp
+	test_StringF.cpp \
+	FileSystem.cpp \
+	FileSystemPosix.cpp \
+	test_FileSystem.cpp
 
 TESTS = tests
  
@@ -321,3 +328,14 @@ INCLUDES = -isystem @top_srcdir@/contrib
 if !HAVE_LUA
 INCLUDES += -isystem @top_srcdir@/contrib/lua
 endif
+
+if BUILD_WIN32
+    pioneer_LDADD += ../win32/src/libwin32.a $(MINGW_LIBS)
+    modelviewer_LDADD += ../win32/src/libwin32.a $(MINGW_LIBS)
+endif
+
+if BUILD_POSIX
+    pioneer_SOURCES += FileSystemPosix.cpp
+    modelviewer_SOURCES += FileSystemPosix.cpp
+endif
+

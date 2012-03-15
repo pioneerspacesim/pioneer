@@ -1,5 +1,8 @@
 #include "Shader.h"
 #include "Graphics.h"
+#include "FileSystem.h"
+#include "StringRange.h"
+#include <cstring>
 
 namespace Graphics {
 
@@ -25,97 +28,109 @@ void Shader::PrintGLSLCompileError(const char *filename, GLuint obj)
 	}
 }
 
-static __attribute((malloc)) char *load_file(const char *filename)
-{
-	FILE *f = fopen(filename, "rb");
-	if (!f) {
-		//printf("Could not open %s.\n", filename);
-		return 0;
-	}
-	fseek(f, 0, SEEK_END);
-	size_t len = ftell(f);
-	fseek(f, 0, SEEK_SET);
-	char *buf = static_cast<char*>(malloc(sizeof(char) * (len+1)));
-	size_t len_read = fread(buf, 1, len, f);
-	if (len_read != len) {
-		fclose(f);
-		free(buf);
-		return 0;
-	}
-	fclose(f);
-	buf[len] = 0;
-	return buf;
-}
-
-static char *s_lib_fs = 0;
-static char *s_lib_vs = 0;
-static char *s_lib_all = 0;
+static RefCountedPtr<FileSystem::FileData> s_lib_fs;
+static RefCountedPtr<FileSystem::FileData> s_lib_vs;
+static RefCountedPtr<FileSystem::FileData> s_lib_all;
 
 // Render::FreeLibs
 void FreeLibs()
 {
-	if(s_lib_fs) { free(s_lib_fs); s_lib_fs = 0; }
-	if(s_lib_vs) { free(s_lib_vs); s_lib_vs = 0; }
-	if(s_lib_all) { free(s_lib_all); s_lib_all = 0; }
+	s_lib_fs.Reset();
+	s_lib_vs.Reset();
+	s_lib_all.Reset();
 }
+
+class ShaderSource {
+public:
+	void Clear()
+	{
+		blocks.clear();
+		block_sizes.clear();
+	}
+
+	void Append(const char *str)
+	{
+		blocks.push_back(str);
+		block_sizes.push_back(std::strlen(str));
+	}
+
+	void Append(StringRange str)
+	{
+		blocks.push_back(str.begin);
+		block_sizes.push_back(str.Size());
+	}
+
+	void Compile(GLuint shader_id)
+	{
+		assert(blocks.size() == block_sizes.size());
+		glShaderSource(shader_id, blocks.size(), &blocks[0], &block_sizes[0]);
+		glCompileShader(shader_id);
+	}
+
+private:
+	std::vector<const char*> blocks;
+	std::vector<GLint> block_sizes;
+};
 
 bool Shader::Compile(const char *shader_name, const char *additional_defines)
 {
 	GLuint vs, ps = 0;
-	std::vector<const char*> shader_src;
+	ShaderSource shader_src;
 
 	if (!shadersAvailable) {
 		m_program = 0;
 		return false;
 	}
-	if (!s_lib_fs) s_lib_fs = load_file(PIONEER_DATA_DIR"/shaders/_library.frag.glsl");
-	if (!s_lib_vs) s_lib_vs = load_file(PIONEER_DATA_DIR"/shaders/_library.vert.glsl");
-	if (!s_lib_all) s_lib_all = load_file(PIONEER_DATA_DIR"/shaders/_library.all.glsl");
+	if (!s_lib_fs) s_lib_fs = FileSystem::gameDataFiles.ReadFile("shaders/_library.frag.glsl");
+	if (!s_lib_vs) s_lib_vs = FileSystem::gameDataFiles.ReadFile("shaders/_library.vert.glsl");
+	if (!s_lib_all) s_lib_all = FileSystem::gameDataFiles.ReadFile("shaders/_library.all.glsl");
 
-	const std::string name = std::string(PIONEER_DATA_DIR"/shaders/") + shader_name;
-	char *vscode = load_file((name + ".vert.glsl").c_str());
-	char *pscode = load_file((name + ".frag.glsl").c_str());
-	char *allcode = load_file((name + ".all.glsl").c_str());
+	const std::string name = std::string("shaders/") + shader_name;
+	RefCountedPtr<FileSystem::FileData> vscode = FileSystem::gameDataFiles.ReadFile(name + ".vert.glsl");
+	RefCountedPtr<FileSystem::FileData> pscode = FileSystem::gameDataFiles.ReadFile(name + ".frag.glsl");
+	RefCountedPtr<FileSystem::FileData> allcode = FileSystem::gameDataFiles.ReadFile(name + ".all.glsl");
 
-	if (vscode == 0) {
-		Warning("Could not find shader %s.", (name + ".vert.glsl").c_str());
-		goto fail;
+	if (!vscode) {
+		Warning("Could not find shader '%s'.", (name + ".vert.glsl").c_str());
+		m_program = 0;
+		return false;
 	}
 
+	if (additional_defines) shader_src.Append(additional_defines);
+	shader_src.Append("#define ZHACK 1\n");
+	shader_src.Append(s_lib_all->AsStringRange());
+	shader_src.Append(s_lib_vs->AsStringRange());
+
+	if (allcode) { shader_src.Append(allcode->AsStringRange()); }
+	shader_src.Append(vscode->AsStringRange());
+
 	vs = glCreateShader(GL_VERTEX_SHADER);
-
-	if (additional_defines) shader_src.push_back(additional_defines);
-	shader_src.push_back("#define ZHACK 1\n");
-	shader_src.push_back(s_lib_all);
-	shader_src.push_back(s_lib_vs);
-	if (allcode) shader_src.push_back(allcode);
-	shader_src.push_back(vscode);
-
-	glShaderSource(vs, shader_src.size(), &shader_src[0], 0);
-	glCompileShader(vs);
+	shader_src.Compile(vs);
 	GLint status;
 	glGetShaderiv(vs, GL_COMPILE_STATUS, &status);
 	if (!status) {
 		PrintGLSLCompileError((name + ".vert.glsl").c_str(), vs);
-		goto fail;
+		m_program = 0;
+		return false;
 	}
 
 	if (pscode) {
-		shader_src.clear();
-		if (additional_defines) shader_src.push_back(additional_defines);
-		shader_src.push_back("#define ZHACK 1\n");
-		shader_src.push_back(s_lib_all);
-		shader_src.push_back(s_lib_fs);
-		if (allcode) shader_src.push_back(allcode);
-		shader_src.push_back(pscode);
+		shader_src.Clear();
+
+		if (additional_defines) { shader_src.Append(additional_defines); }
+		shader_src.Append("#define ZHACK 1\n");
+		shader_src.Append(s_lib_all->AsStringRange());
+		shader_src.Append(s_lib_fs->AsStringRange());
+		if (allcode) { shader_src.Append(allcode->AsStringRange()); }
+		shader_src.Append(pscode->AsStringRange());
 
 		ps = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(ps, shader_src.size(), &shader_src[0], 0);
-		glCompileShader(ps);
+		shader_src.Compile(ps);
 		glGetShaderiv(ps, GL_COMPILE_STATUS, &status);
 		if (!status) {
 			PrintGLSLCompileError((name + ".frag.glsl").c_str(), ps);
-			goto fail;
+			m_program = 0;
+			return false;
 		}
 	}
 
@@ -126,22 +141,11 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 	glGetProgramiv(m_program, GL_LINK_STATUS, &status);
 	if (!status) {
 		PrintGLSLCompileError(name.c_str(), m_program);
-		goto fail;
+		m_program = 0;
+		return false;
 	}
 
-	free(vscode);
-	free(pscode);
-	free(allcode);
-
 	return true;
-
-fail:
-	free(vscode);
-	free(pscode);
-	free(allcode);
-
-	m_program = 0;
-	return false;
 }
 
 bool Shader::Use()

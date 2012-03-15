@@ -30,7 +30,7 @@
 #include "graphics/Shader.h"
 #include "graphics/TextureBuilder.h"
 
-static const std::string ecmTextureFilename(PIONEER_DATA_DIR"/textures/ecm.png");
+static const std::string ecmTextureFilename("textures/ecm.png");
 
 #define TONS_HULL_PER_SHIELD 10.0f
 

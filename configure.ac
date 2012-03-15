@@ -190,6 +190,25 @@ dnl Check for libpng
 PKG_CHECK_MODULES([PNG], [libpng])
 
 dnl ###########################################################################
+dnl Platform selection
+dnl ###########################################################################
+
+AC_MSG_CHECKING([platform type])
+case "$host" in
+  i686-pc-mingw32|x86_64-pc-mingw64)
+	PLATFORM=win32
+	;;
+  *)
+	PLATFORM=posix
+	;;
+esac
+AC_SUBST([PLATFORM])
+AC_MSG_RESULT($PLATFORM)
+
+AM_CONDITIONAL([BUILD_WIN32], [test "x-$PLATFORM" = "x-win32"])
+AM_CONDITIONAL([BUILD_POSIX], [test "x-$PLATFORM" = "x-posix"])
+
+dnl ###########################################################################
 dnl System-specific stuff not covered above
 dnl ###########################################################################
 
@@ -223,5 +242,5 @@ AC_SUBST([WARN_CFLAGS])
 AC_SUBST([WARN_CXXFLAGS])
 AC_SUBST([WARN_CPPFLAGS])
 
-AC_CONFIG_FILES([Makefile data/Makefile src/Makefile src/collider/Makefile src/gui/Makefile src/graphics/Makefile src/terrain/Makefile contrib/Makefile contrib/lua/Makefile contrib/oolua/Makefile osx/Makefile win32/Makefile])
+AC_CONFIG_FILES([Makefile data/Makefile src/Makefile src/collider/Makefile src/gui/Makefile src/graphics/Makefile src/terrain/Makefile contrib/Makefile contrib/lua/Makefile contrib/oolua/Makefile osx/Makefile win32/Makefile win32/src/Makefile])
 AC_OUTPUT

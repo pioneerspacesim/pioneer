@@ -1,5 +1,7 @@
 #include "TextureBuilder.h"
-#include <SDL/SDL_image.h>
+#include "FileSystem.h"
+#include <SDL_image.h>
+#include <SDL_rwops.h>
 
 namespace Graphics {
 
@@ -137,18 +139,23 @@ void TextureBuilder::PrepareSurface()
 	m_prepared = true;
 }
 
-static const std::string unknownTextureFilename(PIONEER_DATA_DIR"/textures/unknown.png");
+static const std::string unknownTextureFilename("textures/unknown.png");
 
 void TextureBuilder::LoadSurface()
 {
 	assert(!m_surface);
 
-	m_surface = IMG_Load(m_filename.c_str());
+	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(m_filename);
+	if (!filedata) {
+		fprintf(stderr, "TextureBuilder::CreateFromFile: %s: could not read file\n", m_filename.c_str());
+		return;
+	}
+
+	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
+	m_surface = IMG_Load_RW(datastream, 1);
 	if (!m_surface) {
-		fprintf(stderr, "TextureBuilder: couldn't load image '%s': %s\n", m_filename.c_str(), IMG_GetError());
-
-		m_surface = IMG_Load(unknownTextureFilename.c_str());
-
+		fprintf(stderr, "TextureBuilder::CreateFromFile: %s: %s\n", m_filename.c_str(), IMG_GetError());
+		//m_surface = IMG_Load(unknownTextureFilename.c_str());
 		return;
 	}
 }

@@ -17,17 +17,17 @@
 using namespace Graphics;
 
 GalacticView::GalacticView() :
-	m_quad(Graphics::TextureBuilder::UI(PIONEER_DATA_DIR"/galaxy.bmp").CreateTexture(Gui::Screen::GetRenderer()))
+	m_quad(Graphics::TextureBuilder::UI("galaxy.bmp").CreateTexture(Gui::Screen::GetRenderer()))
 {
 
 	SetTransparency(true);
 	m_zoom = 1.0f;
 
-	m_zoomInButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_in.png");
+	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
 	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
 	Add(m_zoomInButton, 700, 5);
 	
-	m_zoomOutButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_out.png");
+	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	Add(m_zoomOutButton, 732, 5);
 	

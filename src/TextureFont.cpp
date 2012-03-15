@@ -5,6 +5,7 @@
 #include "graphics/Material.h"
 #include "TextSupport.h"
 #include "libs.h"
+#include "FileSystem.h"
 
 #include FT_GLYPH_H
 #include FT_STROKER_H
@@ -285,12 +286,7 @@ Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x,
 
 TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 {
-	std::string filename_ttf = GetConfig().String("FontFile");
-	if (filename_ttf.length() == 0) {
-		fprintf(stderr, "'%s' does not name a FontFile to use\n", GetConfig().GetFilename().c_str());
-		abort();
-	}
-
+	int err; // used to store freetype error return codes
 	float scale[2];
 	Gui::Screen::GetCoords2Pixels(scale);
 
@@ -299,12 +295,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 
 	float advx_adjust = GetConfig().Float("AdvanceXAdjustment");
 
-	int err;
 	m_pixSize = a_height;
-	if (0 != (err = FT_New_Face(GetFreeTypeLibrary(), std::string(PIONEER_DATA_DIR "/fonts/" + filename_ttf).c_str(), 0, &m_face))) {
-		fprintf(stderr, "Terrible error! Couldn't load '%s'; error %d.\n", filename_ttf.c_str(), err);
-		abort();
-	}
 
 	FT_Set_Pixel_Sizes(m_face, a_width, a_height);
 	int nbit = 0;
