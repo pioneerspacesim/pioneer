@@ -98,6 +98,9 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 	else wr.Int32(0);
 	wr.Int32(int(m_aiMessage));
 	wr.Float(m_thrusterFuel);
+
+	wr.Int32(static_cast<int>(m_controller->GetType()));
+	m_controller->Save(wr);
 }
 
 void Ship::Load(Serializer::Reader &rd, Space *space)
@@ -136,6 +139,14 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	m_aiMessage = AIError(rd.Int32());
 	SetFuel(rd.Float());
 	m_stats.fuel_tank_mass_left = GetShipType().fuelTankMass * GetFuel();
+
+	m_controller = 0;
+	const ShipController::Type ctype = static_cast<ShipController::Type>(rd.Int32());
+	if (ctype == ShipController::PLAYER)
+		SetController(new PlayerShipController());
+	else
+		SetController(new ShipController());
+	m_controller->Load(rd);
 
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
@@ -207,7 +218,6 @@ Ship::~Ship()
 void Ship::SetController(ShipController *c)
 {
 	assert(c != 0);
-	//delete existing
 	if (m_controller) delete m_controller;
 	m_controller = c;
 	m_controller->m_ship = this;

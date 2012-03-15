@@ -14,20 +14,19 @@
 
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
+	SetController(new PlayerShipController());
 	m_killCount = 0;
 	m_knownKillCount = 0;
 	m_setSpeedTarget = 0;
 	m_navTarget = 0;
 	m_combatTarget = 0;
 	UpdateMass();
-	SetController(new PlayerShipController());
 }
 
 void Player::Save(Serializer::Writer &wr, Space *space)
 {
 	Ship::Save(wr, space);
 	MarketAgent::Save(wr);
-	m_controller->Save(wr);
 	wr.Int32(m_killCount);
 	wr.Int32(m_knownKillCount);
 	wr.Int32(space->GetIndexForBody(m_combatTarget));
@@ -40,7 +39,6 @@ void Player::Load(Serializer::Reader &rd, Space *space)
 	Pi::player = this;
 	Ship::Load(rd, space);
 	MarketAgent::Load(rd);
-	m_controller->Load(rd);
 	m_killCount = rd.Int32();
 	m_knownKillCount = rd.Int32();
 	m_combatTargetIndex = rd.Int32();
