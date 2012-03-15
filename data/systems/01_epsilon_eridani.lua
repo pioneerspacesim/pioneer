@@ -1,7 +1,10 @@
 local s = CustomSystem:new('Epsilon Eridani', { 'STAR_K' }) 
-	:govtype('CISLIBDEM') <!-- Confederation --> 
-	:short_desc('Capital of the Confederation. First off-earth colony. Industrial world with indigenous life.')
-	:long_desc(Epsilon Eridani was the first star system beyond Sol to be colonised by humanity. The New Hope colony on the life-bearing planet of the same name was founded in 2279. Mass emigration from Earth in the 27th century drove a population explosion and today Epsilon Eridani counts itself among the most populous of inhabited systems. Epsilon Eridani declared its freedom against the Solar Federation in 2714 but the coup lasted nine months before Earth restored its power with force. Freedom was again declared eight years later. Through numerous hard fought battles this freedom was secured and the Confederation of Independent Worlds was born. Today, Epsilon Eridani is a thriving centre of industry with relaxed trade laws.)
+	:govtype('CISLIBDEM') 
+	:short_desc('Capital of the Confederation. Industrial world with indigenous life.')
+	:long_desc([[Epsilon Eridani was the first star system beyond Sol to be colonised by humanity. 
+	The New Hope colony on the planet of the same name was founded in 2279. Mass emigration from Earth in the 27th century drove a population explosion which ultimately let to Epsilon Eridani declaring its freedom against the Solar Federation in 2714. 
+	After eight years, one failed coup and numerous hard fought battles, freedom was secured at the Battle of Pritchard's Run and the Confederation of Independent Worlds was born. 
+	Today, Epsilon Eridani is a thriving centre of industry with relaxed trade laws and has one of the largest population of all inhabited systems.]])
 
 
 
@@ -11,9 +14,6 @@ local epserid = CustomSBody:new('Epsilon Eridani', 'STAR_K')
 	:mass(f(61,110))
 	:temp(4584)
 
-local pritchards_run = CustomSBody:new('Pritchard's Run', 'STARPORT_ORBITAL')
-		:semi_major_axis(f(15,1000))
-		:rotation_period(f(1,24*60*3)),
 
 local icarus = CustomSBody:new('Icarus', 'PLANET_TERRESTRIAL')
 	:seed(13)
@@ -33,6 +33,14 @@ local icarus = CustomSBody:new('Icarus', 'PLANET_TERRESTRIAL')
 	:ice_cover(f(0,100))
 	:life(f(0,1))
 
+
+
+local pritchard = CustomSBody:new('Pritchards Run', 'STARPORT_ORBITAL')
+:semi_major_axis(f(90,1000))
+:eccentricity(f(1,1000))
+:rotation_period(f(6,1))
+
+
 local atlantica = CustomSBody:new('Atlantica', 'PLANET_TERRESTRIAL')
 	:seed(8)
 	:radius(f(245,100))
@@ -50,7 +58,12 @@ local atlantica = CustomSBody:new('Atlantica', 'PLANET_TERRESTRIAL')
 	:ocean_cover(f(8,10))
 	:ice_cover(f(0,1))
 	:life(f(11,100))
-
+	
+local atlantica_starports = {
+	CustomSBody:new('Pliands Legacy', 'STARPORT_ORBITAL')
+		:semi_major_axis(f(9068,1000000))
+		:rotation_period(f(11,24)),
+		}
 
 local newhope = CustomSBody:new('New Hope', 'PLANET_TERRESTRIAL')
 	:seed(43)
@@ -64,7 +77,7 @@ local newhope = CustomSBody:new('New Hope', 'PLANET_TERRESTRIAL')
 	:metallicity(f(5,6))
 	:volcanicity(f(68,100))
 	:atmos_density(f(15,10))
-	:atmos_oxidizing(f(7,10))
+	:atmos_oxidizing(f(10,10))
 	:ocean_cover(f(45,100))
 	:ice_cover(f(6,10))
 	:life(f(9,10))
@@ -78,14 +91,13 @@ local newhope = CustomSBody:new('New Hope', 'PLANET_TERRESTRIAL')
 		:longitude(math.deg2rad(99)),
 	CustomSBody:new('Epsilon Cove', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(51))
-		:longitude(0),
+		:longitude(1),
 	CustomSBody:new('Eridani Commercial Center', 'STARPORT_ORBITAL')
 		:semi_major_axis(f(9068,100000000))
 		:rotation_period(f(11,24)),
 	}
 	
-	local hades = {
-	CustomSBody:new('Hades', 'PLANET_TERRESTRIAL')
+	local hades = CustomSBody:new('Hades', 'PLANET_TERRESTRIAL')
 		:seed(191082)
 		:radius(f(484,1000))
 		:mass(f(121,1000))
@@ -96,13 +108,13 @@ local newhope = CustomSBody:new('New Hope', 'PLANET_TERRESTRIAL')
 		:rotation_period(f(4,10))
 		:axial_tilt(math.fixed.deg2rad(f(668,100)))
 		:volcanicity(f(9,10))
-		:atmos_density(f(1,10)),
-	{
-		CustomSBody:new('Eagles Nest', 'STARPORT_ORBITAL')
+		:atmos_density(f(1,10))
+	
+	local Eagles_Nest =	CustomSBody:new('Eagles Nest', 'STARPORT_ORBITAL')
 		:semi_major_axis(f(5068,100000000))
-		:rotation_period(f(11,24)),
-	},
-	}
+		:rotation_period(f(11,24))
+	
+	
 	
 local hercules = CustomSBody:new('Hercules', 'PLANET_GAS_GIANT')
 	:radius(f(14,1))
@@ -114,8 +126,7 @@ local hercules = CustomSBody:new('Hercules', 'PLANET_GAS_GIANT')
 	:rotation_period(f(4,10))
 	:axial_tilt(math.fixed.deg2rad(f(313,100)))
 	
-	local hale = {
-	CustomSBody:new('Halee', 'PLANET_TERRESTRIAL')
+	local hale = CustomSBody:new('Halee', 'PLANET_TERRESTRIAL')
 		:seed(14782)
 		:radius(f(317,1000))
 		:mass(f(117,1000))
@@ -129,16 +140,24 @@ local hercules = CustomSBody:new('Hercules', 'PLANET_GAS_GIANT')
 		:atmos_density(f(1,15))
 		:ocean_cover(f(4,10))
 		:ice_cover(f(9,10))
-	}
+	
 	
 	s:bodies(epserid, {
-	icarus,
+	icarus,	
+	pritchard,
 	atlantica,
+		atlantica_starports,
 	newhope,
 		newhope_starports,
-		hades,
+		{
+		hades, {
+				Eagles_Nest,
+				},
+		},
 	hercules,
-		hale,
+			{
+			hale,
+			},
 	})
 
 s:add_to_sector(1,0,-1,v(0.037,0.775,0.784))
