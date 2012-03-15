@@ -15,6 +15,7 @@ Alpha 21
      * configure tweaks for better optimisations and profiling support
      * New filesystem abstraction. Files under data/ can now be overriden by
        placing an identicaly-named file under <userdir>/data (#989)
+     * Ship definitions separated from models (#1051)
 
 Alpha 20
 

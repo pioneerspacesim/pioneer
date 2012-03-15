@@ -5,35 +5,6 @@ define_model('missile', {
 		bounding_radius = 4,
 		materials={ 'body' },
 		tags = {'missile'},
-		ship_defs = {
-			{
-				name = 'MISSILE_UNGUIDED',
-				forward_thrust = -4e5,
-				hull_mass=1,
-				price=100
-			}, {
-				name = 'MISSILE_GUIDED',
-				forward_thrust = -2e5,
-				reverse_thrust = 1e5,
-				angular_thrust = 2e4,
-				hull_mass=1,
-				price=100
-			}, {
-				name = 'MISSILE_SMART',
-				forward_thrust = -3e5,
-				reverse_thrust = 1.5e5,
-				angular_thrust = 2e4,
-				hull_mass=1,
-				price=100
-			}, {
-				name = 'MISSILE_NAVAL',
-				forward_thrust = -4e5,
-				reverse_thrust = 2e5,
-				angular_thrust = 2e4,
-				hull_mass=1,
-				price=100
-			}
-		},
 	},
 	static = function(lod)
 		set_material('body', 1,1,1,1)
@@ -168,29 +139,6 @@ define_model('ladybird', {
 		materials={'white','engines','matvar0', 'matvar2',
 		'engine_inside','text'},
 		tags = {'ship'},
-		ship_defs = {
-			{
-				name='Ladybird Starfighter',
-				forward_thrust = -10e6,
-				reverse_thrust = 4e6,
-				up_thrust = 3e6,
-				down_thrust = -3e6,
-				left_thrust = -2e6,
-				right_thrust = 2e6,
-				angular_thrust = 16e6,
-				gun_mounts = { { v(0,-0.5,0), v(0,0,-1) }, { v(0,0,0), v(0,0,1) }, },
-				max_cargo = 60,
-				max_missile = 2,
-				max_laser = 2,
-				max_cargoscoop = 0,
-				capacity = 60,
-				hull_mass = 40,
-				fuel_tank_mass = 20,
-				thruster_fuel_use = 0.0004,
-				price = 87000,
-				hyperdrive_class = 3,
-			}
-		},
 	},
 	static = function(lod)
 
@@ -354,29 +302,6 @@ define_model('walrus', {
 		materials = {'matvar0', 'text'},
 		lod_pixels = {25, 50, 0},
 		tags = { 'ship' },
-		ship_defs = {
-			{
-				name='Walrus',
-				forward_thrust = -40e6,
-				reverse_thrust = 12e6,
-				up_thrust = 12e6,
-				down_thrust = -6e6,
-				left_thrust = -6e6,
-				right_thrust = 6e6,
-				angular_thrust = 70e6,
-				gun_mounts = { { v(0,-0.5,0), v(0,0,-1) }, { v(0,0,0), v(0,0,1) }, },
-				max_cargo = 320,
-				max_laser = 2,
-				max_missile = 6,
-				max_cargoscoop = 0,
-				capacity = 320,
-				hull_mass = 200,
-				fuel_tank_mass = 100, --full tank, tons in addition to hull_mass
-				thruster_fuel_use = 0.00015, --percent, per second (at max thrust, determined by strongest thruster)
-				price = 350000,
-				hyperdrive_class = 5,
-			}
-		}
 	},
 	static = function()
 		local v06 = v(-5.0, 10.0, -30.0)
@@ -518,29 +443,6 @@ define_model('flowerfairy', {
 		bounding_radius = 60,
 		materials = {'matvar0','gray','text','engine_inside'},
 		tags = {'ship'},
-		ship_defs = {
-			{
-				name='Flowerfairy Heavy Trader',
-				forward_thrust = -60e6,
-				reverse_thrust = 20e6,
-				up_thrust = 20e6,
-				down_thrust = -10e6,
-				left_thrust = -10e6,
-				right_thrust = 10e6,
-				angular_thrust = 220e6,
-				gun_mounts = { { v(0,-0.5,0), v(0,0,-1) }, { v(0,0,0), v(0,0,1) }, },
-				max_cargo = 500,
-				max_laser = 2,
-				max_missile = 4,
-				max_cargoscoop = 0,
-				capacity = 500,
-				hull_mass = 350,
-				fuel_tank_mass = 150,
-				thruster_fuel_use = 0.0002,
-				price = 550000,
-				hyperdrive_class = 6,
-			}
-		}
 	},
 	static = function(lod)
 		--	// 6, nose vertices
@@ -666,29 +568,6 @@ define_model('interdictor', {
 		bounding_radius = 54,
 		materials = {'matvar0', 'matvar2', 'engine', 'engine_inside', 'cockpit', 'text'},
 		tags = {'ship'},
-		ship_defs = {
-			{
-				name='Sirius Interdictor',
-				forward_thrust = -24e6,
-				reverse_thrust = 12e6,
-				up_thrust = 6e6,
-				down_thrust = -6e6,
-				left_thrust = -6e6,
-				right_thrust = 6e6,
-				angular_thrust = 120e6,
-				gun_mounts = { { v(0,-0.5,0), v(0,0,-1) }, { v(0,-0.5,0), v(0,0,1) }, },
-				max_cargo = 90,
-				max_laser = 2,
-				max_missile = 8,
-				max_cargoscoop = 0,
-				capacity = 90,
-				hull_mass = 66,
-				fuel_tank_mass = 37,
-				thruster_fuel_use = 0.0002,
-				price = 160000,
-				hyperdrive_class = 4,
-			}
-		}
 	},
 	static = function(lod)
 		local nose_tip = v(0.0, 0.0, -35.0)
