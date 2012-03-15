@@ -199,7 +199,7 @@ void ShipType::Init()
 
 	lua_pushstring(l, PIONEER_DATA_DIR);
 	lua_setglobal(l, "CurrentDirectory");
-	pi_lua_dofile_recursive(l, std::string(PIONEER_DATA_DIR) + "/ships");
+	pi_lua_dofile_recursive(l, "ships");
 
 	LUA_DEBUG_END(l, 0);
 
