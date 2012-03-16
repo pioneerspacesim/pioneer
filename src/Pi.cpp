@@ -394,9 +394,8 @@ void Pi::Init()
 	FileSystem::Init();
 	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
 
-	KeyBindings::SetDefaults();
-	Pi::config = new GameConfig(FileSystem::JoinPath(FileSystem::GetUserDir(), "config->ini"));
-	KeyBindings::OnKeyBindingsChanged();
+	Pi::config = new GameConfig(FileSystem::JoinPath(FileSystem::GetUserDir(), "config.ini"));
+	KeyBindings::InitBindings();
 
 	if (config->Int("RedirectStdio"))
 		RedirectStdio();

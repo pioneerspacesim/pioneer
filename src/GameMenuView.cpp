@@ -464,13 +464,13 @@ void GameMenuView::OnChangeKeyBinding(const KeyBindings::KeyBinding &kb, const c
 {
 	Pi::config->SetString(fnName, KeyBindings::KeyBindingToString(kb).c_str());
 	Pi::config->Save();
-	KeyBindings::OnKeyBindingsChanged();
+	KeyBindings::UpdateBindings();
 }
 
 void GameMenuView::OnChangeAxisBinding(const KeyBindings::AxisBinding &ab, const char *function) {
 	Pi::config->SetString(function, KeyBindings::AxisBindingToString(ab).c_str());
 	Pi::config->Save();
-	KeyBindings::OnKeyBindingsChanged();
+	KeyBindings::UpdateBindings();
 }
 
 void GameMenuView::OnChangeVolume()
