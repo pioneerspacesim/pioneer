@@ -9,7 +9,7 @@
 #include "CityOnPlanet.h"
 #include "Player.h"
 #include "Polit.h"
-#include "LmrModel.h"
+#include "lmr/LmrModel.h"
 #include "Polit.h"
 #include "Space.h"
 #include "Lang.h"

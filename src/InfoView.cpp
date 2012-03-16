@@ -4,7 +4,7 @@
 #include "WorldView.h"
 #include "Ship.h"
 #include "ShipCpanel.h"
-#include "LmrModel.h"
+#include "lmr/LmrModel.h"
 #include "Lang.h"
 #include "StringF.h"
 #include "graphics/Graphics.h"

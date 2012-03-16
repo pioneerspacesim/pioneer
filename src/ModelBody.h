@@ -4,7 +4,7 @@
 #include "Body.h"
 #include "vector3.h"
 #include "matrix4x4.h"
-#include "LmrModel.h"
+#include "lmr/LmrModel.h"
 #include <vector>
 class Geom;
 

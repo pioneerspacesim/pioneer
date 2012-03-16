@@ -1,7 +1,7 @@
 #include "libs.h"
 #include "gui/Gui.h"
 #include "collider/collider.h"
-#include "LmrModel.h"
+#include "lmr/LmrModel.h"
 #include "ShipType.h"
 #include "EquipType.h"
 #include "Ship.h" // for the flight state and ship animation enums

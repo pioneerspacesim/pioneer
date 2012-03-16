@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider gui graphics terrain
+SUBDIRS = collider gui graphics terrain lmr
 
 include $(top_srcdir)/Makefile.common
 
@@ -52,7 +52,6 @@ noinst_HEADERS = \
 	Lang.h \
 	LangStrings.inc.h \
 	Light.h \
-	LmrModel.h \
 	LuaBody.h \
 	LuaCargoBody.h \
 	LuaChatForm.h \
@@ -191,7 +190,6 @@ pioneer_SOURCES	= \
 	KeyBindings.cpp \
 	Light.cpp \
 	Lang.cpp \
-	LmrModel.cpp \
 	LuaBody.cpp \
 	LuaCargoBody.cpp \
 	LuaChatForm.cpp \
@@ -279,7 +277,7 @@ pioneer_SOURCES	= \
 	utils.cpp \
 	enum_table.cpp
 
-pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
+pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a gui/libgui.a lmr/liblmr.a graphics/libgraphics.a terrain/libterrain.a \
 		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
 		$(PNG_LIBS)
@@ -296,7 +294,6 @@ modelviewer_SOURCES = \
 	FontConfig.cpp \
 	FontCache.cpp \
 	Lang.cpp \
-	LmrModel.cpp \
 	LuaModelViewer.cpp \
 	LuaUtils.cpp \
 	LuaConstants.cpp \
@@ -310,7 +307,7 @@ modelviewer_SOURCES = \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
-modelviewer_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
+modelviewer_LDADD = collider/libcollider.a gui/libgui.a lmr/liblmr.a graphics/libgraphics.a terrain/libterrain.a \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 if !HAVE_LUA

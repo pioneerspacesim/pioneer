@@ -26,7 +26,7 @@
 #include "Galaxy.h"
 #include "GameMenuView.h"
 #include "Missile.h"
-#include "LmrModel.h"
+#include "lmr/LmrModel.h"
 #include "AmbientSounds.h"
 #include "CustomSystem.h"
 #include "CityOnPlanet.h"
