@@ -867,6 +867,7 @@ private:
 
 public:
 	void SaveToCache(FILE *f) {
+#if 0
 		int numVertices = m_vertices.size();
 		int numIndices = m_indices.size();
 		int numTriflags = m_triflags.size();
@@ -897,8 +898,10 @@ public:
 				}
 			}
 		}
+#endif
 	}
 	void LoadFromCache(FILE *f) {
+#if 0
 		int numVertices, numIndices, numTriflags, numThrusters, numOps;
 		fread_or_die(&numVertices, sizeof(numVertices), 1, f);
 		fread_or_die(&numIndices, sizeof(numIndices), 1, f);
@@ -946,6 +949,7 @@ public:
 				m_ops[i].elems.texture = 0;
 			}
 		}
+#endif
 	}
 };
 
@@ -4457,9 +4461,11 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 
 	ShipThruster::Init(renderer);
 
+#if 0
 	s_cacheDir = FileSystem::GetUserDir("model_cache");
 	FileSystem::rawFileSystem.MakeDirectory(s_cacheDir);
 	_detect_model_changes();
+#endif
 
 	s_staticBufferPool = new BufferObjectPool<sizeof(Vertex)>();
 	s_sunlightShader[0] = new LmrShader("model", "#define NUM_LIGHTS 1\n");
@@ -4550,7 +4556,9 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 
 	LUA_DEBUG_END(sLua, 0);
 
+#if 0
 	_write_model_crc_file();
+#endif
 	s_buildDynamic = true;
 }
 
