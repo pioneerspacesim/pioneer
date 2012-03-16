@@ -14,7 +14,6 @@ noinst_HEADERS = \
 	Background.h \
 	BezierCurve.h \
 	Body.h \
-	BufferObject.h \
 	ByteRange.h \
 	Camera.h \
 	CargoBody.h \
