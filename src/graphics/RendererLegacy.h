@@ -48,6 +48,8 @@ public:
 	virtual bool DrawPointSprites(int count, const vector3f *positions, const Material *material, float size);
 	virtual bool DrawStaticMesh(StaticMesh *thing);
 
+	virtual bool PrintDebugInfo(std::ostream &out);
+
 protected:
 	virtual void PushState();
 	virtual void PopState();
