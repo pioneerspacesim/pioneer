@@ -196,7 +196,7 @@ void WorldView::InitObject()
 	float zfar;
 	Pi::renderer->GetNearFarRange(znear, zfar);
 
-	const float fovY = Pi::config.Float("FOVVertical");
+	const float fovY = Pi::config->Float("FOVVertical");
 	m_frontCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight(), fovY, znear, zfar);
 	m_rearCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight(), fovY, znear, zfar);
 	m_externalCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight(), fovY, znear, zfar);

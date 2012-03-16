@@ -166,7 +166,7 @@ public:
 	static const char * const combatRating[];
 
 	static struct DetailLevel detail;
-	static GameConfig config;
+	static GameConfig *config;
 private:
 	static void HandleEvents();
 	static void InitJoysticks();

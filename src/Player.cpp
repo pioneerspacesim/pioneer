@@ -24,7 +24,7 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	m_combatTarget = 0;
 	UpdateMass();
 
-	float deadzone = Pi::config.Float("JoystickDeadzone");
+	float deadzone = Pi::config->Float("JoystickDeadzone");
 	m_joystickDeadzone = deadzone * deadzone;
 
 	m_accumTorque = vector3d(0,0,0);

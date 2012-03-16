@@ -72,8 +72,8 @@ namespace KeyBindings {
 	extern const BindingPrototype bindingProtos[];
 	extern const BindingPrototype axisBindingProtos[];
 
-	void SetDefaults();
-	void OnKeyBindingsChanged();
+	void InitBindings();
+	void UpdateBindings();
 
 	bool KeyBindingFromString(const std::string &str, KeyBinding *kb);
 	KeyBinding KeyBindingFromString(const std::string &str);

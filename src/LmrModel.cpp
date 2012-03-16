@@ -4170,7 +4170,7 @@ namespace ObjLoader {
 		}
 
 		lua_getglobal(L, "CurrentDirectory");
-		const std::string curdir = luaL_checkstring(L, -1);
+		const std::string curdir = luaL_optstring(L, -1, ".");
 		lua_pop(L, 1);
 
 		const std::string path = FileSystem::JoinPathBelow(curdir, obj_name);
