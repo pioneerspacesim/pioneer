@@ -8,6 +8,10 @@ Alpha 21
      * Updated TradeShips module to handle accidental landings and fuel (#1064)
      * More precise mouse control under different FoV settings (#1076)
 
+   * Fixes
+     * Don't take timesteps for dead ships. Stops the player firing during the
+       death screen (#1056)
+
    * Script changes
      * New custom system option :explored to explicitly set a system's
        explored state (#682)
