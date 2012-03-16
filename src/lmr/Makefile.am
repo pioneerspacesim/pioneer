@@ -8,6 +8,7 @@ INCLUDES = -I$(srcdir)/..
 
 noinst_LIBRARIES = liblmr.a
 noinst_HEADERS = \
+	BufferObject.h \
 	LmrModel.h
 
 liblmr_a_SOURCES = \
