@@ -225,7 +225,7 @@ void Player::PollControls(const float timeStep)
 			}
 			vector3d objDir = m_mouseDir * rot;
 
-			const float fovY = Pi::config.Float("FOVVertical");
+			const float fovY = Pi::config->Float("FOVVertical");
 			const double radiansPerPixel = 0.00002 * fovY;
 			const int maxMotion = std::max(abs(mouseMotion[0]), abs(mouseMotion[1]));
 			const double accel = Clamp(maxMotion / 4.0, 0.0, 90.0 / fovY);
