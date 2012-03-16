@@ -1198,6 +1198,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 		m_numStars = custom->numStars;
 		if (custom->shortDesc.length() > 0) m_shortDesc = custom->shortDesc;
 		if (custom->longDesc.length() > 0) m_longDesc = custom->longDesc;
+		if (!custom->want_rand_explored) m_unexplored = !custom->explored;
 		if (!custom->IsRandom()) {
 			m_hasCustomBodies = true;
 			GenerateFromCustom(s.m_systems[m_path.systemIndex].customSys, rand);

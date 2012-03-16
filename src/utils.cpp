@@ -3,137 +3,10 @@
 #include "StringF.h"
 #include "gui/Gui.h"
 #include "Lang.h"
+#include "FileSystem.h"
 
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
-
-// MinGW targets NT4 by default. We need to set some higher versions to ensure
-// that functions we need are available. Specifically, SHCreateDirectoryExA
-// requires Windows 2000 and IE5. We include w32api.h to get the symbolic
-// constants for these things.
-#ifdef __MINGW32__
-#	include <w32api.h>
-#	ifdef WINVER
-#		undef WINVER
-#	endif
-#	define WINVER Windows2000
-#	define _WIN32_IE IE5
-#endif
-
-#ifdef _WIN32
-// GetPiUserDir() needs these
-#include <shlobj.h>
-#include <shlwapi.h>
-#endif
-
-std::string GetPiUserDir(const std::string &subdir)
-{
-
-#if defined(_WIN32)
-
-	char appdata_path[MAX_PATH];
-	if (SHGetFolderPathA(0, CSIDL_PERSONAL, 0, SHGFP_TYPE_CURRENT, appdata_path) != S_OK) {
-		fprintf(stderr, "Couldn't get user documents folder path\n");
-		exit(-1);
-	}
-
-	std::string path(appdata_path);
-	path += "/Pioneer";
-
-	if (!PathFileExistsA(path.c_str())) {
-		if (SHCreateDirectoryExA(0, path.c_str(), 0) != ERROR_SUCCESS) {
-			fprintf(stderr, "Couldn't create user game folder '%s'", path.c_str());
-			exit(-1);
-		}
-	}
-
-	if (subdir.length() > 0) {
-		path += "/" + subdir;
-		if (!PathFileExistsA(path.c_str())) {
-			if (SHCreateDirectoryExA(0, path.c_str(), 0) != ERROR_SUCCESS) {
-				fprintf(stderr, "Couldn't create user game folder '%s'", path.c_str());
-				exit(-1);
-			}
-		}
-	}
-
-	return path + "/";
-
-#else
-
-	std::string path = getenv("HOME");
-
-#ifdef __APPLE__
-	path += "/Library/Application Support/Pioneer";
-#else
-	path += "/.pioneer";
-#endif
-
-	struct stat st;
-	if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str(), S_IRWXU|S_IRWXG|S_IRWXO) < 0) {
-		fprintf(stderr, "Couldn't create user dir '%s': %s\n", path.c_str(), strerror(errno));
-		exit(-1);
-	}
-
-	if (subdir.length() > 0) {
-		path += "/" + subdir;
-		if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str(), S_IRWXU|S_IRWXG|S_IRWXO) < 0) {
-			fprintf(stderr, "Couldn't create user dir '%s': %s\n", path.c_str(), strerror(errno));
-			exit(-1);
-		}
-	}
-
-	return path + "/";
-
-#endif
-
-}
-
-std::string PiGetDataDir()
-{
-	return PIONEER_DATA_DIR + std::string("/");
-}
-
-void GetDirectoryContents(const std::string &path, std::list<std::string> &files)
-{
-	DIR *dir = opendir(path.c_str());
-	if (!dir) {
-		//if (-1 == mkdir(name, 0770)
-		Error("%s", stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path)).c_str());
-		return;
-	}
-	struct dirent *entry;
-
-	while ((entry = readdir(dir))) {
-		if (strcmp(entry->d_name, ".")==0) continue;
-		if (strcmp(entry->d_name, "..")==0) continue;
-		files.push_back(entry->d_name);
-	}
-
-	closedir(dir);
-
-	files.sort();
-}
-
-FILE *fopen_or_die(const char *filename, const char *mode)
-{
-	FILE *f = fopen(filename, mode);
-	if (!f) {
-		fprintf(stderr, "Error: could not open file '%s'\n", filename);
-		abort();
-	}
-	return f;
-}
-
-size_t fread_or_die(void* ptr, size_t size, size_t nmemb, FILE* stream, bool allow_truncated)
-{
-	size_t read_count = fread(ptr, size, nmemb, stream);
-	if ((read_count < nmemb) && (!allow_truncated || ferror(stream))) {
-		fprintf(stderr, "Error: failed to read file (%s)\n", (feof(stream) ? "truncated" : "read error"));
-		abort();
-	}
-	return read_count;
-}
 
 std::string format_money(Sint64 money)
 {
@@ -234,19 +107,6 @@ std::string string_join(std::vector<std::string> &v, std::string sep)
 	return out;
 }
 
-std::string join_path(const char *firstbit, ...)
-{
-	const char *bit;
-	va_list ap;
-	std::string out = firstbit;
-	va_start(ap, firstbit);
-	while ((bit = va_arg(ap, const char *))) {
-		out = out + "/" + std::string(bit);
-	}
-	va_end(ap);
-	return out;
-}
-
 void Error(const char *format, ...)
 {
 	char buf[1024];
@@ -291,48 +151,11 @@ std::string format_distance(double dist)
 	}
 }
 
-bool is_file(const std::string &filename)
-{
-	struct stat info;
-	if (!stat(filename.c_str(), &info)) {
-		if (S_ISREG(info.st_mode)) {
-			return true;
-		}
-	}
-	return false;
-}
-
-bool is_dir(const std::string &filename)
-{
-	struct stat info;
-	if (!stat(filename.c_str(), &info)) {
-		if (S_ISDIR(info.st_mode)) {
-			return true;
-		}
-	}
-	return false;
-}
-
-void foreach_file_in(const std::string &directory, void (*callback)(const std::string &, const std::string &))
-{
-	DIR *dir;
-	struct dirent *entry;
-
-	if ((dir = opendir(directory.c_str()))==NULL) {
-		Error("Could not open directory %s", directory.c_str());
-	} 
-	while ((entry = readdir(dir)) != NULL) {
-		if (entry->d_name[0] != '.') {
-			std::string filename = directory + std::string("/") + entry->d_name;
-			(*callback)(entry->d_name, filename);
-		}
-	}
-	closedir(dir);
-}
-
 void Screendump(const char* destFile, const int width, const int height)
 {
-	std::string fname = join_path(GetPiUserDir("screenshots").c_str(), destFile, 0);
+	std::string dir = FileSystem::GetUserDir("screenshots");
+	FileSystem::rawFileSystem.MakeDirectory(dir);
+	std::string fname = FileSystem::JoinPathBelow(dir, destFile);
 
 	// pad rows to 4 bytes, which is the default row alignment for OpenGL
 	const int stride = (3*width + 3) & ~3;

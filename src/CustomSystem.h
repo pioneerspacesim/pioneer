@@ -115,6 +115,8 @@ public:
 	int                    sectorX, sectorY, sectorZ;
 	vector3f               pos;
 	Uint32                 seed;
+	bool                   want_rand_explored;
+	bool                   explored;
 	Polit::GovType         govType;
 	std::string            shortDesc;
 	std::string            longDesc;
@@ -125,6 +127,7 @@ public:
 	CustomSystem(std::string s, OOLUA::Lua_table t);
 
 	inline CustomSystem* l_seed(int s) { seed = s; return this; }
+	inline CustomSystem* l_explored(bool e) { explored = e; want_rand_explored = false; return this; }
 	inline CustomSystem* l_short_desc(std::string s) { shortDesc = s; return this; }
 	inline CustomSystem* l_long_desc(std::string s) { longDesc = s; return this; }
 
@@ -143,6 +146,7 @@ OOLUA_CLASS_NO_BASES(CustomSystem)
 		OOLUA_CONSTRUCTOR_2(std::string, OOLUA::Lua_table)
 	OOLUA_CONSTRUCTORS_END
 	OOLUA_MEM_FUNC_1_RENAME(seed, CustomSystem*, l_seed, int)
+	OOLUA_MEM_FUNC_1_RENAME(explored, CustomSystem*, l_explored, bool)
 	OOLUA_MEM_FUNC_1_RENAME(govtype, CustomSystem*, l_govtype, std::string)
 	OOLUA_MEM_FUNC_1_RENAME(short_desc, CustomSystem*, l_short_desc, std::string)
 	OOLUA_MEM_FUNC_1_RENAME(long_desc, CustomSystem*, l_long_desc, std::string)

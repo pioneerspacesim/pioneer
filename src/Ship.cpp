@@ -1112,7 +1112,7 @@ void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 
 		// XXX no need to recreate material every time
 		Graphics::Material mat;
-		mat.texture0 = Pi::textureCache->GetModelTexture(PIONEER_DATA_DIR"/textures/ecm.png");
+		mat.texture0 = Pi::textureCache->GetModelTexture("textures/ecm.png");
 		mat.unlit = true;
 		mat.diffuse = c;
 		renderer->DrawPointSprites(100, v, &mat, 50.f);

@@ -64,6 +64,7 @@
 #include "TextureCache.h"
 #include "Game.h"
 #include "GameLoaderSaver.h"
+#include "FileSystem.h"
 #include "Light.h"
 #include "Sfx.h"
 #include "graphics/Graphics.h"
@@ -134,7 +135,7 @@ float Pi::frameTime;
 bool Pi::showDebugInfo;
 #endif
 int Pi::statSceneTris;
-GameConfig Pi::config(GetPiUserDir() + "config.ini");
+GameConfig *Pi::config;
 struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
@@ -191,10 +192,6 @@ static void LuaInit()
 	Pi::luaManager = new LuaManager();
 
 	lua_State *l = Pi::luaManager->GetLuaState();
-
-	// XXX kill CurrentDirectory
-	lua_pushstring(l, PIONEER_DATA_DIR);
-	lua_setglobal(l, "CurrentDirectory");
 
 	LuaBody::RegisterClass();
 	LuaShip::RegisterClass();
@@ -276,11 +273,11 @@ static void LuaInit()
 
 	LuaConsole::Register();
 
-	luaL_dofile(l, PIONEER_DATA_DIR "/pistartup.lua");
+	pi_lua_dofile(l, "pistartup.lua");
 
 	// XXX load everything. for now, just modules
-	pi_lua_dofile_recursive(l, PIONEER_DATA_DIR "/libs");
-	pi_lua_dofile_recursive(l, PIONEER_DATA_DIR "/modules");
+	pi_lua_dofile_recursive(l, "libs");
+	pi_lua_dofile_recursive(l, "modules");
 
 	Pi::luaNameGen = new LuaNameGen(Pi::luaManager);
 }
@@ -340,10 +337,15 @@ static void LuaInitGame() {
 	Pi::luaOnShipFuelChanged->ClearEvents();
 }
 
+std::string Pi::GetSaveDir()
+{
+	return FileSystem::GetUserDir("savefiles");
+}
+
 void Pi::RedirectStdio()
 {
-	std::string stdout_file = GetPiUserDir() + "stdout.txt";
-	std::string stderr_file = GetPiUserDir() + "stderr.txt";
+	std::string stdout_file = FileSystem::JoinPath(FileSystem::GetUserDir(), "stdout.txt");
+	std::string stderr_file = FileSystem::JoinPath(FileSystem::GetUserDir(), "stderr.txt");
 
 	FILE *f;
 
@@ -368,21 +370,47 @@ void Pi::RedirectStdio()
 	}
 }
 
+void Pi::LoadWindowIcon()
+{
+	static const std::string filename("icons/badge.png");
+
+	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
+	if (!filedata) {
+		fprintf(stderr, "LoadWindowIcon: %s: could not read file\n", filename.c_str());
+		return;
+	}
+
+	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
+	SDL_Surface *icon = IMG_Load_RW(datastream, 1);
+	if (!icon) {
+		fprintf(stderr, "LoadWindowIcon: %s: %s\n", filename.c_str(), IMG_GetError());
+		return;
+	}
+
+	SDL_WM_SetIcon(icon, 0);
+}
+
 void Pi::Init()
 {
-	if (config.Int("RedirectStdio"))
+	FileSystem::Init();
+	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
+
+	Pi::config = new GameConfig(FileSystem::JoinPath(FileSystem::GetUserDir(), "config.ini"));
+	KeyBindings::InitBindings();
+
+	if (config->Int("RedirectStdio"))
 		RedirectStdio();
 
-	if (!Lang::LoadStrings(config.String("Lang")))
+	if (!Lang::LoadStrings(config->String("Lang")))
 		abort();
 
-	Pi::detail.planets = config.Int("DetailPlanets");
-	Pi::detail.textures = config.Int("Textures");
-	Pi::detail.fracmult = config.Int("FractalMultiple");
-	Pi::detail.cities = config.Int("DetailCities");
+	Pi::detail.planets = config->Int("DetailPlanets");
+	Pi::detail.textures = config->Int("Textures");
+	Pi::detail.fracmult = config->Int("FractalMultiple");
+	Pi::detail.cities = config->Int("DetailCities");
 
-	int width = config.Int("ScrWidth");
-	int height = config.Int("ScrHeight");
+	int width = config->Int("ScrWidth");
+	int height = config->Int("ScrHeight");
 	const SDL_VideoInfo *info = NULL;
 	Uint32 sdlInitFlags = SDL_INIT_VIDEO | SDL_INIT_JOYSTICK;
 #if defined(DEBUG) || defined(_DEBUG)
@@ -394,9 +422,9 @@ void Pi::Init()
 	}
 
 	InitJoysticks();
-	joystickEnabled = (config.Int("EnableJoystick")) ? true : false;
+	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
 
-	mouseYInvert = (config.Int("InvertMouseY")) ? true : false;
+	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
 
 	// no mode set, find an ok one
 	if ((width <= 0) || (height <= 0)) {
@@ -433,15 +461,14 @@ void Pi::Init()
 	} 
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	const int requestedSamples = config.Int("AntiAliasingMode");
+	const int requestedSamples = config->Int("AntiAliasingMode");
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, requestedSamples ? 1 : 0);
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, requestedSamples);
 
 	Uint32 flags = SDL_OPENGL;
-	if (config.Int("StartFullscreen")) flags |= SDL_FULLSCREEN;
+	if (config->Int("StartFullscreen")) flags |= SDL_FULLSCREEN;
 
-	SDL_Surface *icon = IMG_Load(PIONEER_DATA_DIR "/icons/badge.png");
-	SDL_WM_SetIcon(icon, 0);
+	LoadWindowIcon();
 
 	// attempt sequence is:
 	// 1- requested mode
@@ -509,12 +536,12 @@ void Pi::Init()
 
 	LuaInit();
 
-	bool wantShaders = (config.Int("DisableShaders") == 0);
+	bool wantShaders = (config->Int("DisableShaders") == 0);
 	Pi::renderer = Graphics::Init(width, height, wantShaders);
 
 	{
 		std::ofstream out;
-		out.open((GetPiUserDir() + "opengl.txt").c_str());
+		out.open((FileSystem::JoinPath(FileSystem::GetUserDir(), "opengl.txt")).c_str());
 		renderer->PrintDebugInfo(out);
 	}
 
@@ -550,16 +577,16 @@ void Pi::Init()
 	Sfx::Init();
 	draw_progress(0.95f);
 
-	if (!config.Int("DisableSound")) {
+	if (!config->Int("DisableSound")) {
 		Sound::Init();
-		Sound::SetMasterVolume(config.Float("MasterVolume"));
-		Sound::SetSfxVolume(config.Float("SfxVolume"));
-		GetMusicPlayer().SetVolume(config.Float("MusicVolume"));
+		Sound::SetMasterVolume(config->Float("MasterVolume"));
+		Sound::SetSfxVolume(config->Float("SfxVolume"));
+		GetMusicPlayer().SetVolume(config->Float("MusicVolume"));
 
 		Sound::Pause(0);
-		if (config.Int("MasterMuted")) Sound::Pause(1);
-		if (config.Int("SfxMuted")) Sound::SetSfxVolume(0.f);
-		if (config.Int("MusicMuted")) GetMusicPlayer().SetEnabled(false);
+		if (config->Int("MasterMuted")) Sound::Pause(1);
+		if (config->Int("SfxMuted")) Sound::SetSfxVolume(0.f);
+		if (config->Int("MusicMuted")) GetMusicPlayer().SetEnabled(false);
 	}
 	draw_progress(1.0f);
 
@@ -608,7 +635,7 @@ void Pi::Init()
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
 
 	gameMenuView = new GameMenuView();
-	config.Save();
+	config->Save();
 }
 
 bool Pi::IsConsoleActive()
@@ -651,6 +678,7 @@ void Pi::Quit()
 	delete Pi::renderer;
 	StarSystem::ShrinkCache();
 	SDL_Quit();
+	FileSystem::Uninit();
 	exit(0);
 }
 
@@ -795,7 +823,7 @@ void Pi::HandleEvents()
 									Pi::cpan->MsgLog()->Message("", Lang::CANT_SAVE_IN_HYPERSPACE);
 
 								else {
-									std::string name = join_path(GetPiSavefileDir().c_str(), "_quicksave", 0);
+									std::string name = FileSystem::JoinPath(GetSaveDir(), "_quicksave");
 									GameSaver saver(Pi::game);
 									if (saver.SaveToFile(name))
 										Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+name);
@@ -966,7 +994,7 @@ void Pi::InitGame()
 
 	Polit::Init();
 
-	if (!config.Int("DisableSound")) AmbientSounds::Init();
+	if (!config->Int("DisableSound")) AmbientSounds::Init();
 
 	LuaInitGame();
 }
@@ -1017,7 +1045,13 @@ void Pi::HandleMenuKey(int n)
 			break;
 		}
 
-		case 2: // Debug start point
+		case 2: // Lave start point
+		{
+			game = new Game(SystemPath(-2,1,90,0,2));  // Lave Station, Lave
+			break;
+		}
+
+		case 3: // Debug start point
 		{
 			game = new Game(SystemPath(1,0,-1,0,4), vector3d(0,2*EARTH_RADIUS,0));  // somewhere over New Hope
 
@@ -1089,7 +1123,7 @@ void Pi::HandleMenuKey(int n)
 			break;
 		}
 
-		case 3: // Load game
+		case 4: // Load game
 		{
 			GameLoader loader;
 			loader.DialogMainLoop();
@@ -1121,7 +1155,7 @@ void Pi::Start()
 
 	const float w = Gui::Screen::GetWidth() / 2.0f;
 	const float h = Gui::Screen::GetHeight() / 2.0f;
-	const int OPTS = 5;
+	const int OPTS = 6;
 	Gui::SolidButton *opts[OPTS];
 	opts[0] = new Gui::SolidButton(); opts[0]->SetShortcut(SDLK_1, KMOD_NONE);
 	opts[0]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 0));
@@ -1133,16 +1167,20 @@ void Pi::Start()
 	opts[3]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 3));
 	opts[4] = new Gui::SolidButton(); opts[4]->SetShortcut(SDLK_5, KMOD_NONE);
 	opts[4]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 4));
-	menu->Add(opts[0], w, h-64);
-	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_EARTH), w+32, h-64);
-	menu->Add(opts[1], w, h-32);
-	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_E_ERIDANI), w+32, h-32);
-	menu->Add(opts[2], w, h);
-	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_DEBUG), w+32, h);
-	menu->Add(opts[3], w, h+32);
-	menu->Add(new Gui::Label(Lang::MM_LOAD_SAVED_GAME), w+32, h+32);
-	menu->Add(opts[4], w, h+64);
-	menu->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+64);
+	opts[5] = new Gui::SolidButton(); opts[5]->SetShortcut(SDLK_6, KMOD_NONE);
+	opts[5]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 5));
+	menu->Add(opts[0], w, h-80);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_EARTH), w+32, h-80);
+	menu->Add(opts[1], w, h-48);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_E_ERIDANI), w+32, h-48);
+	menu->Add(opts[2], w, h-16);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_LAVE), w+32, h-16);
+	menu->Add(opts[3], w, h+16);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_DEBUG), w+32, h+16);
+	menu->Add(opts[4], w, h+48);
+	menu->Add(new Gui::Label(Lang::MM_LOAD_SAVED_GAME), w+32, h+48);
+	menu->Add(opts[5], w, h+80);
+	menu->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+80);
 
 	std::string version("Pioneer " PIONEER_VERSION);
 	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
@@ -1201,7 +1239,7 @@ void Pi::EndGame()
 	Pi::luaOnGameEnd->Signal();
 	Pi::luaManager->CollectGarbage();
 
-	if (!config.Int("DisableSound")) AmbientSounds::Uninit();
+	if (!config->Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
 
 	assert(game);
@@ -1229,7 +1267,7 @@ void Pi::MainLoop()
 	memset(fps_readout, 0, sizeof(fps_readout));
 #endif
 
-	int MAX_PHYSICS_TICKS = Pi::config.Int("MaxPhysicsCyclesPerRender");
+	int MAX_PHYSICS_TICKS = Pi::config->Int("MaxPhysicsCyclesPerRender");
 	if (MAX_PHYSICS_TICKS <= 0)
 		MAX_PHYSICS_TICKS = 4;
 
@@ -1328,7 +1366,7 @@ void Pi::MainLoop()
 			}
 		} else {
 			// this is something we need not do every turn...
-			if (!config.Int("DisableSound")) AmbientSounds::Update();
+			if (!config->Int("DisableSound")) AmbientSounds::Update();
 			StarSystem::ShrinkCache();
 		}
 		cpan->Update();

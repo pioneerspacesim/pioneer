@@ -7,6 +7,7 @@
 #include "Ship.h" // for the flight state and ship animation enums
 #include "SpaceStation.h" // for the space station animation enums
 #include "TextureCache.h"
+#include "FileSystem.h"
 #include "graphics/Drawables.h"
 #include "graphics/Material.h"
 #include "graphics/Graphics.h"
@@ -636,6 +637,8 @@ int main(int argc, char **argv)
 		g_height = 600;
 	}
 
+	FileSystem::Init();
+
 	const SDL_VideoInfo *info = NULL;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		fprintf(stderr, "Video initialization failed: %s\n", SDL_GetError());
@@ -689,7 +692,7 @@ int main(int argc, char **argv)
 	}
 
 	g_viewer->MainLoop();
-
+	FileSystem::Uninit();
 	delete renderer;
 	return 0;
 }
