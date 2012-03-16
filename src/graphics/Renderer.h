@@ -122,6 +122,9 @@ public:
 	//complex unchanging geometry that is worthwhile to store in VBOs etc.
 	virtual bool DrawStaticMesh(StaticMesh *thing) { return false; }
 
+	// output human-readable debug info to the given stream
+	virtual bool PrintDebugInfo(std::ostream &out) { return false; }
+
 	// take a ticket representing the current renderer state. when the ticket
 	// is deleted, the renderer state is restored
 	class StateTicket {
