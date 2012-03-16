@@ -84,12 +84,35 @@ bool RendererLegacy::EndFrame()
 
 bool RendererLegacy::SwapBuffers()
 {
-#ifdef DEBUG
-	GLenum err = glGetError();
+#ifndef NDEBUG
+	GLenum err;
+	err = glGetError();
 	while (err != GL_NO_ERROR) {
-		fprintf(stderr, "GL error: %s\n", reinterpret_cast<const char *>(gluErrorString(err)));
+		switch (err) {
+			case GL_INVALID_ENUM:
+				fprintf(stderr, "GL_INVALID_ENUM\n");
+				break;
+			case GL_INVALID_VALUE:
+				fprintf(stderr, "GL_INVALID_VALUE\n");
+				break;
+			case GL_INVALID_OPERATION:
+				fprintf(stderr, "GL_INVALID_OPERATION\n");
+				break;
+			case GL_OUT_OF_MEMORY:
+				fprintf(stderr, "GL_OUT_OF_MEMORY\n");
+				break;
+			case GL_STACK_OVERFLOW: //deprecated in GL3
+				fprintf(stderr, "GL_STACK_OVERFLOW\n");
+				break;
+			case GL_STACK_UNDERFLOW: //deprecated in GL3
+				fprintf(stderr, "GL_STACK_UNDERFLOW\n");
+				break;
+			case GL_INVALID_FRAMEBUFFER_OPERATION_EXT:
+				fprintf(stderr, "GL_INVALID_FRAMEBUFFER_OPERATION\n");
+				break;
+		}
 		err = glGetError();
-	} 
+	}
 #endif
 
 	Graphics::SwapBuffers();
