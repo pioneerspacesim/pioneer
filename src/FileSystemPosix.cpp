@@ -7,6 +7,11 @@
 #include <sys/stat.h>
 #include <dirent.h>
 
+#ifdef _XCODE
+#include "CoreFoundation/CoreFoundation.h"
+#import <sys/param.h> /* for MAXPATHLEN */
+#endif
+
 namespace FileSystem {
 
 	static std::string absolute_path(const std::string &path) {
@@ -22,6 +27,20 @@ namespace FileSystem {
 
 			std::string abspath;
 			if (cwd) abspath = cwd;
+#ifdef _XCODE
+            // On OSX, the data directory is located in the resources folder of the application
+            // bundle (Contents/Resources). Rather than using cwd (which is the cwd of the app.bundle
+            // folder)
+            // - This is XCode/App Bundle specific
+            char appbundlepath[MAXPATHLEN];
+            CFBundleRef mainBundle = CFBundleGetMainBundle();
+            CFURLRef resourcesURL = CFBundleCopyResourcesDirectoryURL(mainBundle);
+            if (CFURLGetFileSystemRepresentation(resourcesURL, TRUE, (UInt8 *)appbundlepath, MAXPATHLEN))
+            {
+                abspath = appbundlepath;
+            }
+            CFRelease(resourcesURL);
+#endif
 			abspath += '/';
 			abspath += path;
 			return abspath;
