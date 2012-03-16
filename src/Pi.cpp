@@ -134,7 +134,7 @@ float Pi::frameTime;
 bool Pi::showDebugInfo;
 #endif
 int Pi::statSceneTris;
-GameConfig Pi::config(FileSystem::JoinPath(FileSystem::GetUserDir(), "config.ini"));
+GameConfig *Pi::config;
 struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
@@ -394,19 +394,22 @@ void Pi::Init()
 	FileSystem::Init();
 	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
 
-	if (config.Int("RedirectStdio"))
+	Pi::config = new GameConfig(FileSystem::JoinPath(FileSystem::GetUserDir(), "config.ini"));
+	KeyBindings::InitBindings();
+
+	if (config->Int("RedirectStdio"))
 		RedirectStdio();
 
-	if (!Lang::LoadStrings(config.String("Lang")))
+	if (!Lang::LoadStrings(config->String("Lang")))
 		abort();
 
-	Pi::detail.planets = config.Int("DetailPlanets");
-	Pi::detail.textures = config.Int("Textures");
-	Pi::detail.fracmult = config.Int("FractalMultiple");
-	Pi::detail.cities = config.Int("DetailCities");
+	Pi::detail.planets = config->Int("DetailPlanets");
+	Pi::detail.textures = config->Int("Textures");
+	Pi::detail.fracmult = config->Int("FractalMultiple");
+	Pi::detail.cities = config->Int("DetailCities");
 
-	int width = config.Int("ScrWidth");
-	int height = config.Int("ScrHeight");
+	int width = config->Int("ScrWidth");
+	int height = config->Int("ScrHeight");
 	const SDL_VideoInfo *info = NULL;
 	Uint32 sdlInitFlags = SDL_INIT_VIDEO | SDL_INIT_JOYSTICK;
 #if defined(DEBUG) || defined(_DEBUG)
@@ -418,9 +421,9 @@ void Pi::Init()
 	}
 
 	InitJoysticks();
-	joystickEnabled = (config.Int("EnableJoystick")) ? true : false;
+	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
 
-	mouseYInvert = (config.Int("InvertMouseY")) ? true : false;
+	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
 
 	// no mode set, find an ok one
 	if ((width <= 0) || (height <= 0)) {
@@ -457,12 +460,12 @@ void Pi::Init()
 	} 
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	const int requestedSamples = config.Int("AntiAliasingMode");
+	const int requestedSamples = config->Int("AntiAliasingMode");
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, requestedSamples ? 1 : 0);
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, requestedSamples);
 
 	Uint32 flags = SDL_OPENGL;
-	if (config.Int("StartFullscreen")) flags |= SDL_FULLSCREEN;
+	if (config->Int("StartFullscreen")) flags |= SDL_FULLSCREEN;
 
 	LoadWindowIcon();
 
@@ -532,7 +535,7 @@ void Pi::Init()
 
 	LuaInit();
 
-	bool wantShaders = (config.Int("DisableShaders") == 0);
+	bool wantShaders = (config->Int("DisableShaders") == 0);
 	Pi::renderer = Graphics::Init(width, height, wantShaders);
 
 	draw_progress(0.1f);
@@ -567,16 +570,16 @@ void Pi::Init()
 	Sfx::Init();
 	draw_progress(0.95f);
 
-	if (!config.Int("DisableSound")) {
+	if (!config->Int("DisableSound")) {
 		Sound::Init();
-		Sound::SetMasterVolume(config.Float("MasterVolume"));
-		Sound::SetSfxVolume(config.Float("SfxVolume"));
-		GetMusicPlayer().SetVolume(config.Float("MusicVolume"));
+		Sound::SetMasterVolume(config->Float("MasterVolume"));
+		Sound::SetSfxVolume(config->Float("SfxVolume"));
+		GetMusicPlayer().SetVolume(config->Float("MusicVolume"));
 
 		Sound::Pause(0);
-		if (config.Int("MasterMuted")) Sound::Pause(1);
-		if (config.Int("SfxMuted")) Sound::SetSfxVolume(0.f);
-		if (config.Int("MusicMuted")) GetMusicPlayer().SetEnabled(false);
+		if (config->Int("MasterMuted")) Sound::Pause(1);
+		if (config->Int("SfxMuted")) Sound::SetSfxVolume(0.f);
+		if (config->Int("MusicMuted")) GetMusicPlayer().SetEnabled(false);
 	}
 	draw_progress(1.0f);
 
@@ -625,7 +628,7 @@ void Pi::Init()
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
 
 	gameMenuView = new GameMenuView();
-	config.Save();
+	config->Save();
 }
 
 bool Pi::IsConsoleActive()
@@ -984,7 +987,7 @@ void Pi::InitGame()
 
 	Polit::Init();
 
-	if (!config.Int("DisableSound")) AmbientSounds::Init();
+	if (!config->Int("DisableSound")) AmbientSounds::Init();
 
 	LuaInitGame();
 }
@@ -1229,7 +1232,7 @@ void Pi::EndGame()
 	Pi::luaOnGameEnd->Signal();
 	Pi::luaManager->CollectGarbage();
 
-	if (!config.Int("DisableSound")) AmbientSounds::Uninit();
+	if (!config->Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
 
 	assert(game);
@@ -1257,7 +1260,7 @@ void Pi::MainLoop()
 	memset(fps_readout, 0, sizeof(fps_readout));
 #endif
 
-	int MAX_PHYSICS_TICKS = Pi::config.Int("MaxPhysicsCyclesPerRender");
+	int MAX_PHYSICS_TICKS = Pi::config->Int("MaxPhysicsCyclesPerRender");
 	if (MAX_PHYSICS_TICKS <= 0)
 		MAX_PHYSICS_TICKS = 4;
 
@@ -1356,7 +1359,7 @@ void Pi::MainLoop()
 			}
 		} else {
 			// this is something we need not do every turn...
-			if (!config.Int("DisableSound")) AmbientSounds::Update();
+			if (!config->Int("DisableSound")) AmbientSounds::Update();
 			StarSystem::ShrinkCache();
 		}
 		cpan->Update();

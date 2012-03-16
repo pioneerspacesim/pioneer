@@ -16,6 +16,7 @@ Alpha 21
      * New filesystem abstraction. Files under data/ can now be overriden by
        placing an identicaly-named file under <userdir>/data (#989)
      * Ship definitions separated from models (#1051)
+     * Partial keybinding cleanup to allow a sane init order
 
 Alpha 20
 
