@@ -464,6 +464,7 @@ void Pi::Init()
 	const int requestedSamples = config->Int("AntiAliasingMode");
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, requestedSamples ? 1 : 0);
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, requestedSamples);
+	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, config->Int("VSync"));
 
 	Uint32 flags = SDL_OPENGL;
 	if (config->Int("StartFullscreen")) flags |= SDL_FULLSCREEN;
