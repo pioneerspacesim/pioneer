@@ -21,7 +21,7 @@ void Shader::PrintGLSLCompileError(const char *filename, GLuint obj)
 		glGetProgramInfoLog(obj, 1024, &infologLength, infoLog);
 
 	if (infologLength > 0) {
-		Warning("Error compiling shader: %s: %s\nOpenGL vendor: %s\nOpenGL renderer string: %s\n\nPioneer will run with shaders disabled.",
+		fprintf(stderr, "Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s\nPioneer will run with shaders disabled\n",
 				filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
 		shadersAvailable = false;
 		shadersEnabled = false;
@@ -81,6 +81,7 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 		m_program = 0;
 		return false;
 	}
+
 	if (!s_lib_fs) s_lib_fs = FileSystem::gameDataFiles.ReadFile("shaders/_library.frag.glsl");
 	if (!s_lib_vs) s_lib_vs = FileSystem::gameDataFiles.ReadFile("shaders/_library.vert.glsl");
 	if (!s_lib_all) s_lib_all = FileSystem::gameDataFiles.ReadFile("shaders/_library.all.glsl");
@@ -91,7 +92,7 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 	RefCountedPtr<FileSystem::FileData> allcode = FileSystem::gameDataFiles.ReadFile(name + ".all.glsl");
 
 	if (!vscode) {
-		Warning("Could not find shader '%s'.", (name + ".vert.glsl").c_str());
+		fprintf(stderr, "Could not find shader %s\n", (name + ".vert.glsl").c_str());
 		m_program = 0;
 		return false;
 	}
