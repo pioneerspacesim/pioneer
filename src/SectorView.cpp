@@ -69,9 +69,9 @@ SectorView::SectorView(Serializer::Reader &rd)
 
 void SectorView::InitDefaults()
 {
-	m_rotXDefault = Pi::config.Float("SectorViewXRotation");
-	m_rotZDefault = Pi::config.Float("SectorViewZRotation");
-	m_zoomDefault = Pi::config.Float("SectorViewZoom");
+	m_rotXDefault = Pi::config->Float("SectorViewXRotation");
+	m_rotZDefault = Pi::config->Float("SectorViewZRotation");
+	m_zoomDefault = Pi::config->Float("SectorViewZoom");
 	m_rotXDefault = Clamp(m_rotXDefault, -170.0f, -10.0f);
 	m_zoomDefault = Clamp(m_zoomDefault, 0.1f, 5.0f);
 }

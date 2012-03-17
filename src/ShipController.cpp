@@ -1,6 +1,11 @@
 #include "ShipController.h"
+#include "Frame.h"
+#include "Game.h"
 #include "KeyBindings.h"
+#include "Pi.h"
+#include "Player.h"
 #include "Ship.h"
+#include "WorldView.h"
 
 void ShipController::StaticUpdate(float timeStep)
 {
@@ -16,11 +21,11 @@ PlayerShipController::PlayerShipController() :
 	m_mouseY(0.0),
 	m_setSpeed(0.0),
 	m_flightControlState(CONTROL_MANUAL),
-	m_joystickDeadzone(0.0),
 	m_mouseDir(0.0)
 {
-	float deadzone = Pi::config.Float("JoystickDeadzone");
+	float deadzone = Pi::config->Float("JoystickDeadzone");
 	m_joystickDeadzone = deadzone * deadzone;
+	m_fovY = Pi::config->Float("FOVVertical");
 }
 
 PlayerShipController::~PlayerShipController()
@@ -111,9 +116,6 @@ static double clipmouse(double cur, double inp)
 
 void PlayerShipController::PollControls(const float timeStep)
 {
-	//XXX temporary
-	Body *m_setSpeedTarget = Pi::player->GetSetSpeedTarget();
-
 	static bool stickySpeedKey = false;
 
 	CheckControlsLock(); // XXX remove
@@ -141,15 +143,17 @@ void PlayerShipController::PollControls(const float timeStep)
 			}
 			vector3d objDir = m_mouseDir * rot;
 
-			const double radiansPerPixel = 0.002;
+			const double radiansPerPixel = 0.00002 * m_fovY;
+			const int maxMotion = std::max(abs(mouseMotion[0]), abs(mouseMotion[1]));
+			const double accel = Clamp(maxMotion / 4.0, 0.0, 90.0 / m_fovY);
 
-			m_mouseX += mouseMotion[0] * radiansPerPixel;
-			double modx = clipmouse(objDir.x, m_mouseX);			
+			m_mouseX += mouseMotion[0] * accel * radiansPerPixel;
+			double modx = clipmouse(objDir.x, m_mouseX);
 			m_mouseX -= modx;
 
 			const bool invertY = (Pi::IsMouseYInvert() ? !m_invertMouse : m_invertMouse);
 
-			m_mouseY += mouseMotion[1] * radiansPerPixel * (invertY ? -1 : 1);
+			m_mouseY += mouseMotion[1] * accel * radiansPerPixel * (invertY ? -1 : 1);
 			double mody = clipmouse(objDir.y, m_mouseY);
 			m_mouseY -= mody;
 
@@ -191,6 +195,7 @@ void PlayerShipController::PollControls(const float timeStep)
 		if (KeyBindings::thrustRight.IsActive()) m_ship->SetThrusterState(0, 1.0);
 
 		if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(SDL_BUTTON_LEFT) && Pi::MouseButtonState(SDL_BUTTON_RIGHT))) {
+				//XXX worldview? madness, ask from ship instead
 				m_ship->SetGunState(Pi::worldView->GetActiveWeapon(), 1);
 		}
 

@@ -1,29 +1,30 @@
 #include "Ship.h"
-#include "ShipAICmd.h"
-#include "Frame.h"
-#include "Pi.h"
-#include "WorldView.h"
-#include "Space.h"
-#include "Serializer.h"
-#include "collider/collider.h"
-#include "Sfx.h"
 #include "CargoBody.h"
-#include "Planet.h"
-#include "StarSystem.h"
-#include "Sector.h"
-#include "Projectile.h"
-#include "Sound.h"
-#include "HyperspaceCloud.h"
-#include "ShipCpanel.h"
-#include "LmrModel.h"
-#include "TextureCache.h"
-#include "Polit.h"
 #include "CityOnPlanet.h"
-#include "Missile.h"
-#include "Lang.h"
-#include "StringF.h"
+#include "collider/collider.h"
+#include "Frame.h"
 #include "Game.h"
+#include "HyperspaceCloud.h"
+#include "Lang.h"
+#include "LmrModel.h"
+#include "Missile.h"
+#include "Pi.h"
+#include "Planet.h"
+#include "Player.h"
+#include "Polit.h"
+#include "Projectile.h"
+#include "Sector.h"
+#include "Serializer.h"
+#include "Sfx.h"
+#include "ShipAICmd.h"
 #include "ShipController.h"
+#include "ShipCpanel.h"
+#include "Sound.h"
+#include "Space.h"
+#include "StarSystem.h"
+#include "StringF.h"
+#include "TextureCache.h"
+#include "WorldView.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
@@ -176,8 +177,8 @@ void Ship::PostLoadFixup(Space *space)
 }
 
 Ship::Ship(ShipType::Type shipType): DynamicBody(),
-	m_thrusterFuel(1.f),
-	m_controller(0)
+	m_controller(0),
+	m_thrusterFuel(1.f)
 {
 	m_flightState = FLYING;
 	m_alertState = ALERT_NONE;
