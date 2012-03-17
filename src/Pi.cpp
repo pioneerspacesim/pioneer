@@ -68,6 +68,7 @@
 #include "Sfx.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include <fstream>
 
 float Pi::gameTickAlpha;
 int Pi::scrWidth;
@@ -523,6 +524,12 @@ void Pi::Init()
 
 	bool wantShaders = (config->Int("DisableShaders") == 0);
 	Pi::renderer = Graphics::Init(width, height, wantShaders);
+
+	{
+		std::ofstream out;
+		out.open((FileSystem::JoinPath(FileSystem::GetUserDir(), "opengl.txt")).c_str());
+		renderer->PrintDebugInfo(out);
+	}
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)

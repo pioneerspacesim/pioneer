@@ -225,15 +225,18 @@ void Player::PollControls(const float timeStep)
 			}
 			vector3d objDir = m_mouseDir * rot;
 
-			const double radiansPerPixel = 0.002;
+			const float fovY = Pi::config->Float("FOVVertical");
+			const double radiansPerPixel = 0.00002 * fovY;
+			const int maxMotion = std::max(abs(mouseMotion[0]), abs(mouseMotion[1]));
+			const double accel = Clamp(maxMotion / 4.0, 0.0, 90.0 / fovY);
 
-			m_mouseX += mouseMotion[0] * radiansPerPixel;
+			m_mouseX += mouseMotion[0] * accel * radiansPerPixel;
 			double modx = clipmouse(objDir.x, m_mouseX);			
 			m_mouseX -= modx;
 
 			const bool invertY = (Pi::IsMouseYInvert() ? !m_invertMouse : m_invertMouse);
 
-			m_mouseY += mouseMotion[1] * radiansPerPixel * (invertY ? -1 : 1);
+			m_mouseY += mouseMotion[1] * accel * radiansPerPixel * (invertY ? -1 : 1);
 			double mody = clipmouse(objDir.y, m_mouseY);
 			m_mouseY -= mody;
 

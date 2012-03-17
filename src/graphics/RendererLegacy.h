@@ -54,6 +54,8 @@ public:
 
 	virtual Texture *CreateTexture(const TextureDescriptor &descriptor);
 
+	virtual bool PrintDebugInfo(std::ostream &out);
+
 protected:
 	virtual void PushState();
 	virtual void PopState();

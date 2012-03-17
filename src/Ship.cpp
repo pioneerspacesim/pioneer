@@ -867,6 +867,8 @@ void Ship::UpdateFuel(const float timeStep)
 
 void Ship::StaticUpdate(const float timeStep)
 {
+	if (IsDead()) return;
+
 	AITimeStep(timeStep);		// moved to correct place, maybe
 
 	if (GetHullTemperature() > 1.0) {
