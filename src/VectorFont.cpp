@@ -325,8 +325,9 @@ void VectorFont::RenderString(const char *str)
 }
 
 void VectorFont::GetStringGeometry(const char *str,
-		void (*index_callback)(int num, Uint16 *vals),
-		void (*vertex_callback)(int num, float offsetX, float offsetY, float *vals))
+		void (*index_callback)(int num, Uint16 *vals, void *callbackData),
+		void (*vertex_callback)(int num, float offsetX, float offsetY, float *vals, void *callbackData),
+		void *callbackData)
 {
 	float offX, offY;
 	offX = offY = 0;
@@ -337,8 +338,8 @@ void VectorFont::GetStringGeometry(const char *str,
 		} else {
 			glfglyph_t *glyph = &m_glyphs[str[i]];
 			if (glyph->numidx) {
-				(*index_callback)(glyph->numidx, glyph->iarray);
-				(*vertex_callback)(glyph->numvtx, offX, offY, glyph->varray);
+				(*index_callback)(glyph->numidx, glyph->iarray, callbackData);
+				(*vertex_callback)(glyph->numvtx, offX, offY, glyph->varray, callbackData);
 			}
 			offX += glyph->advx;
 		}

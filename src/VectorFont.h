@@ -16,8 +16,9 @@ public:
 	void MeasureString(const char *str, float &w, float &h);
 	//void RenderGlyph(int chr);
 	void GetStringGeometry(const char *str,
-			void (*index_callback)(int num, Uint16 *vals),
-			void (*vertex_callback)(int num, float offsetX, float offsetY, float *vals));
+			void (*index_callback)(int num, Uint16 *vals, void *callbackData),
+			void (*vertex_callback)(int num, float offsetX, float offsetY, float *vals, void *callbackData),
+			void *callbackData = 0);
 	// of Ms
 	float GetHeight() { return m_height; }
 	float GetWidth() { return m_width; }

@@ -3,6 +3,7 @@
 #include "collider/collider.h"
 #include "lmr/LmrModel.h"
 #include "lmr/GeomBuffer.h"
+#include "lmr/Compiler.h"
 #include "ShipType.h"
 #include "EquipType.h"
 #include "Ship.h" // for the flight state and ship animation enums
@@ -325,7 +326,7 @@ void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *
 	if (sym->sym == SDLK_RETURN) {
 		LmrModel *m = 0;
 		try {
-			m = LmrLookupModelByName(entry->GetText().c_str());
+			m = LMR::LookupModelByName(entry->GetText().c_str());
 		} catch (LmrModelNotFoundException) {
 			errormsg->SetText("Could not find model: " + entry->GetText());
 		}
@@ -541,9 +542,9 @@ void Viewer::MainLoop()
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
 			if (g_doBenchmark) {
-				for (int i=0; i<1000; i++) m_model->Render(m, &g_params);
+				for (int i=0; i<1000; i++) m_model->Render(renderer, m, &g_params);
 			} else {
-				m_model->Render(m, &g_params);
+				m_model->Render(renderer, m, &g_params);
 			}
 			glPopAttrib();
 		} else if (g_renderType == 1) {
@@ -733,7 +734,7 @@ int main(int argc, char **argv)
 	renderer = Graphics::Init(g_width, g_height, true);
 	Gui::Init(renderer, g_width, g_height, g_width, g_height);
 
-	LmrModelCompilerInit(renderer);
+	LMR::ModelCompilerInit();
 	LmrNotifyScreenWidth(g_width);
 
 	ShipType::Init();
@@ -741,7 +742,7 @@ int main(int argc, char **argv)
 	g_viewer = new Viewer();
 	if (argc >= 4) {
 		try {
-			LmrModel *m = LmrLookupModelByName(argv[3]);
+			LmrModel *m = LMR::LookupModelByName(argv[3]);
 			g_viewer->SetModel(m);
 		} catch (LmrModelNotFoundException) {
 			g_viewer->PickModel(argv[3], std::string("Could not find model: ") + argv[3]);

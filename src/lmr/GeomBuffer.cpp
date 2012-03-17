@@ -195,7 +195,7 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 			RenderState rstate2;
 			rstate2.subTransform = rstate->subTransform * trans;
 			rstate2.combinedScale = rstate->combinedScale * op.callmodel.scale * op.callmodel.model->m_scale;
-			op.callmodel.model->Render(&rstate2, cam_pos, trans, params);
+			op.callmodel.model->Render(r, &rstate2, cam_pos, trans, params);
 			// XXX re-binding buffer may not be necessary
 			BindBuffers();
 			}

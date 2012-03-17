@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "collider/Geom.h"
 #include "graphics/Frustum.h"
+#include "lmr/Compiler.h"
 
 #define START_SEG_SIZE CITY_ON_PLANET_RADIUS
 #define MIN_SEG_SIZE 50.0
@@ -143,7 +144,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 {
 	//const char *modelTagName;
 	std::vector<LmrModel*> models;
-	LmrGetModelsWithTag(list->modelTagName, models);
+	LMR::GetModelsWithTag(list->modelTagName, models);
 	//printf("Got %d buildings of tag %s\n", models.size(), list->modelTagName);
 	list->buildings = new citybuilding_t[models.size()];
 	list->numBuildings = models.size();
@@ -308,7 +309,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const SpaceStation *station, co
 		_rot[12] = float(pos.x);
 		_rot[13] = float(pos.y);
 		_rot[14] = float(pos.z);
-		(*i).model->Render(_rot, &cityobj_params);
+		(*i).model->Render(r, _rot, &cityobj_params);
 	}
 }
 

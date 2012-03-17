@@ -5,12 +5,13 @@
 #include "Light.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "lmr/Compiler.h"
 
 ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, float height) :
 	m_width(width),
 	m_height(height)
 {
-	m_model = LmrLookupModelByName(ShipType::types[flavour.type].lmrModelName.c_str());
+	m_model = LMR::LookupModelByName(ShipType::types[flavour.type].lmrModelName.c_str());
 
 	memset(&m_params, 0, sizeof(LmrObjParams));
 	m_params.animationNamespace = "ShipAnimation";
@@ -76,5 +77,5 @@ void ShipSpinnerWidget::Draw()
 	rot.RotateY(rot2);
 	rot[14] = -1.5f * m_model->GetDrawClipRadius();
 
-	m_model->Render(rot, &m_params);
+	m_model->Render(Pi::renderer, rot, &m_params);
 }

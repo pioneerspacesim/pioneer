@@ -56,10 +56,11 @@ class LmrCollMesh;
 
 class LmrModel {
 public:
-	LmrModel(const char *model_name);
+	LmrModel(lua_State *lua, const char *model_name);
 	virtual ~LmrModel();
-	void Render(const matrix4x4f &trans, const LmrObjParams *params);
-	void Render(const LMR::RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params);
+	lua_State *GetLua() const { return m_lua; }
+	void Render(Graphics::Renderer *r, const matrix4x4f &trans, const LmrObjParams *params);
+	void Render(Graphics::Renderer *r, const LMR::RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params);
 	void GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params);
 	float GetDrawClipRadius() const { return m_drawClipRadius; }
 	float GetFloatAttribute(const char *attr_name) const;
@@ -70,6 +71,8 @@ public:
 	bool HasTag(const char *tag) const;
 private:
 	void Build(int lod, const LmrObjParams *params);
+
+	lua_State *m_lua;
 
 	// index into m_materials
 	std::map<std::string, int> m_materialLookup;
@@ -87,13 +90,9 @@ private:
 	friend class LMR::GeomBuffer;
 };
 
-void LmrModelCompilerInit(Graphics::Renderer *r);
-void LmrModelCompilerUninit();
 struct LmrModelNotFoundException {};
-LmrModel *LmrLookupModelByName(const char *name);
 void LmrModelRender(LmrModel *m, const matrix4x4f &transform);
 void LmrNotifyScreenWidth(float width);
-void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels);
 lua_State *LmrGetLuaState();
 
 class LmrCollMesh

@@ -16,12 +16,13 @@
 #include "StringF.h"
 #include <algorithm>
 #include "Game.h"
+#include "lmr/Compiler.h"
 
 #define ARG_STATION_BAY1_STAGE 6
 #define ARG_STATION_BAY1_POS   10
 
 void SpaceStationType::_ReadStageDurations(const char *key, int *outNumStages, double **durationArray) {
-	lua_State *L = LmrGetLuaState();
+	lua_State *L = model->GetLua();
 
 	LUA_DEBUG_START(L);
 
@@ -58,7 +59,7 @@ void SpaceStationType::ReadStageDurations() {
 
 bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const
 {
-	lua_State *L = LmrGetLuaState();
+	lua_State *L = model->GetLua();
 
 	LUA_DEBUG_START(L);
 
@@ -110,7 +111,7 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 	if ((stage < 0) && ((-stage) > numUndockStages)) return false;
 	if ((stage > 0) && (stage > numDockingStages)) return false;
 
-	lua_State *L = LmrGetLuaState();
+	lua_State *L = model->GetLua();
 
 	LUA_DEBUG_START(L);
 
@@ -177,14 +178,14 @@ void SpaceStation::Init()
 	stationTypesInitted = true;
 	for (int is_orbital=0; is_orbital<2; is_orbital++) {
 		std::vector<LmrModel*> models;
-		if (is_orbital) LmrGetModelsWithTag("orbital_station", models);
-		else LmrGetModelsWithTag("surface_station", models);
+		if (is_orbital) LMR::GetModelsWithTag("orbital_station", models);
+		else LMR::GetModelsWithTag("surface_station", models);
 
 		for (std::vector<LmrModel*>::iterator i = models.begin();
 				i != models.end(); ++i) {
 			SpaceStationType t;
 			t.modelName = (*i)->GetName();
-			t.model = LmrLookupModelByName(t.modelName);
+			t.model = LMR::LookupModelByName(t.modelName);
 			t.dockMethod = SpaceStationType::DOCKMETHOD(is_orbital);
 			t.numDockingPorts = (*i)->GetIntAttribute("num_docking_ports");
 			t.dockOneAtATimePlease = (*i)->GetBoolAttribute("dock_one_at_a_time_please");
@@ -785,7 +786,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const vector3d &viewCoords, con
 		params.animValues[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stagePos;
 	}
 
-	RenderLmrModel(viewCoords, viewTransform);
+	RenderLmrModel(r, viewCoords, viewTransform);
 	
 	/* don't render city if too far away */
 	if (viewCoords.Length() > 1000000.0) return;

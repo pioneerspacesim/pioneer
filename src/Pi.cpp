@@ -69,6 +69,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "lmr/GeomBuffer.h"
+#include "lmr/Compiler.h"
 #include <fstream>
 
 float Pi::gameTickAlpha;
@@ -550,7 +551,7 @@ void Pi::Init()
 	CustomSystem::Init();
 	draw_progress(0.4f);
 
-	LmrModelCompilerInit(Pi::renderer);
+	LMR::ModelCompilerInit();
 	LmrNotifyScreenWidth(Pi::scrWidth);
 	draw_progress(0.5f);
 
@@ -666,7 +667,7 @@ void Pi::Quit()
 	SpaceStation::Uninit();
 	CityOnPlanet::Uninit();
 	GeoSphere::Uninit();
-	LmrModelCompilerUninit();
+	LMR::ModelCompilerUninit();
 	Galaxy::Uninit();
 	Graphics::Uninit();
 	LuaUninit();
@@ -926,7 +927,7 @@ static void draw_intro(Background::Container *background, float _time)
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6f*_time) *
 			matrix4x4f::RotateXMatrix(_time*0.7f);
 	rot[14] = -80.0;
-	LmrLookupModelByName("lanner_ub")->Render(rot, &params);
+	LMR::LookupModelByName("lanner_ub")->Render(Pi::renderer, rot, &params);
 	glPopAttrib();
 }
 
@@ -956,7 +957,7 @@ static void draw_tombstone(float _time)
 
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
 	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
-	LmrLookupModelByName("tombstone")->Render(rot, &params);
+	LMR::LookupModelByName("tombstone")->Render(Pi::renderer, rot, &params);
 	glPopAttrib();
 }
 

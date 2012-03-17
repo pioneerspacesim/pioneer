@@ -15,6 +15,7 @@ noinst_HEADERS = \
 	Utils.h
 
 liblmr_a_SOURCES = \
+	Compiler.cpp \
 	GeomBuffer.cpp \
 	LmrModel.cpp \
 	ShipThruster.cpp
