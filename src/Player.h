@@ -40,16 +40,9 @@ public:
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	virtual bool FireMissile(int idx, Ship *target);
 	virtual void SetAlertState(Ship::AlertState as);
-	void SetNavTarget(Body* const target, bool setSpeedTo = false);
-	Body *GetNavTarget() const { return m_navTarget; }
-	void SetCombatTarget(Body* const target, bool setSpeedTo = false);
-	Body *GetCombatTarget() const { return m_combatTarget; }
-	Body *GetSetSpeedTarget() const { return m_setSpeedTarget; }
 	virtual void NotifyRemoved(const Body* const removedBody);
 
 	RefList<Mission> missions;
-
-	virtual void PostLoadFixup(Space *space);
 
 	/* MarketAgent stuff */
 	int GetStock(Equip::Type t) const { assert(0); return 0; }
@@ -58,13 +51,20 @@ public:
 	bool DoesSell(Equip::Type t) const { return true; }
 	Sint64 GetPrice(Equip::Type t) const;
 
-	//XXX temporary things
+	//XXX temporary things to avoid causing too many changes right now
+	//to get rid of these, access controller through Game
 	bool IsMouseActive() const;
 	double GetSetSpeed() const;
 	FlightControlState GetFlightControlState() const;
 	vector3d GetMouseDir() const;
 	void SetFlightControlState(FlightControlState s);
 	void SetMouseForRearView(bool enable);
+	//targeting
+	Body *GetCombatTarget() const;
+	Body *GetNavTarget() const;
+	Body *GetSetSpeedTarget() const;
+	void SetCombatTarget(Body* const target, bool setSpeedTo = false);
+	void SetNavTarget(Body* const target, bool setSpeedTo = false);
 
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
@@ -78,9 +78,6 @@ protected:
 	void Sold(Equip::Type t);
 
 private:
-	Body* m_combatTarget;
-	Body* m_navTarget;
-	Body* m_setSpeedTarget;
 	int m_killCount;
 	int m_knownKillCount; // updated on docking
 

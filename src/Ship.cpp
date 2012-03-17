@@ -101,7 +101,7 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 	wr.Float(m_thrusterFuel);
 
 	wr.Int32(static_cast<int>(m_controller->GetType()));
-	m_controller->Save(wr);
+	m_controller->Save(wr, space);
 }
 
 void Ship::Load(Serializer::Reader &rd, Space *space)
@@ -147,7 +147,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 		SetController(new PlayerShipController());
 	else
 		SetController(new ShipController());
-	m_controller->Load(rd);
+	m_controller->Load(rd, space);
 
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }

@@ -5,6 +5,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "Ship.h"
+#include "Space.h"
 #include "WorldView.h"
 
 void ShipController::StaticUpdate(float timeStep)
@@ -14,6 +15,9 @@ void ShipController::StaticUpdate(float timeStep)
 
 PlayerShipController::PlayerShipController() :
 	ShipController(),
+	m_combatTarget(0),
+	m_navTarget(0),
+	m_setSpeedTarget(0),
 	m_controlsLocked(false),
 	m_invertMouse(false),
 	m_mouseActive(false),
@@ -33,23 +37,29 @@ PlayerShipController::~PlayerShipController()
 
 } 
 
-void PlayerShipController::Save(Serializer::Writer &wr)
+void PlayerShipController::Save(Serializer::Writer &wr, Space *space)
 {
 	wr.Int32(static_cast<int>(m_flightControlState));
 	wr.Double(m_setSpeed);
+	wr.Int32(space->GetIndexForBody(m_combatTarget));
+	wr.Int32(space->GetIndexForBody(m_navTarget));
+	wr.Int32(space->GetIndexForBody(m_setSpeedTarget));
 }
 
-void PlayerShipController::Load(Serializer::Reader &rd)
+void PlayerShipController::Load(Serializer::Reader &rd, Space *space)
 {
 	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
 	m_setSpeed = rd.Double();
+	const int combatTargetIndex = rd.Int32();
+	const int navTargetIndex = rd.Int32();
+	const int setSpeedTargetIndex = rd.Int32();
+	m_combatTarget = space->GetBodyByIndex(combatTargetIndex);
+	m_navTarget = space->GetBodyByIndex(navTargetIndex);
+	m_setSpeedTarget = space->GetBodyByIndex(setSpeedTargetIndex);
 }
 
 void PlayerShipController::StaticUpdate(const float timeStep)
 {
-	//XXX temporary
-	Body *m_setSpeedTarget = Pi::player->GetSetSpeedTarget();
-
 	vector3d v;
 	matrix4x4d m;
 
@@ -118,7 +128,7 @@ void PlayerShipController::PollControls(const float timeStep)
 {
 	static bool stickySpeedKey = false;
 
-	CheckControlsLock(); // XXX remove
+	CheckControlsLock();
 	if (m_controlsLocked) return;
 
 	// if flying 
@@ -256,9 +266,6 @@ bool PlayerShipController::IsAnyLinearThrusterKeyDown()
 
 void PlayerShipController::SetFlightControlState(FlightControlState s)
 {
-	//XXX temporary
-	Body *m_setSpeedTarget = Pi::player->GetSetSpeedTarget();
-
 	if (m_flightControlState != s) {
 		m_flightControlState = s;
 		m_ship->AIClearInstructions();
@@ -269,4 +276,37 @@ void PlayerShipController::SetFlightControlState(FlightControlState s)
 		//XXX global stuff
 		Pi::onPlayerChangeFlightControlState.emit();
 	}
+}
+
+Body *PlayerShipController::GetCombatTarget() const
+{
+	return m_combatTarget;
+}
+
+Body *PlayerShipController::GetNavTarget() const
+{
+	return m_navTarget;
+}
+
+Body *PlayerShipController::GetSetSpeedTarget() const
+{
+	return m_setSpeedTarget;
+}
+
+void PlayerShipController::SetCombatTarget(Body* const target, bool setSpeedTo)
+{
+	if (setSpeedTo)
+		m_setSpeedTarget = target;
+	else if (m_setSpeedTarget == m_combatTarget)
+		m_setSpeedTarget = 0;
+	m_combatTarget = target;
+}
+
+void PlayerShipController::SetNavTarget(Body* const target, bool setSpeedTo)
+{
+	if (setSpeedTo)
+		m_setSpeedTarget = target;
+	else if (m_setSpeedTarget == m_navTarget)
+		m_setSpeedTarget = 0;
+	m_navTarget = target;		
 }

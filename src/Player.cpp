@@ -17,9 +17,6 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	SetController(new PlayerShipController());
 	m_killCount = 0;
 	m_knownKillCount = 0;
-	m_setSpeedTarget = 0;
-	m_navTarget = 0;
-	m_combatTarget = 0;
 	UpdateMass();
 }
 
@@ -29,9 +26,6 @@ void Player::Save(Serializer::Writer &wr, Space *space)
 	MarketAgent::Save(wr);
 	wr.Int32(m_killCount);
 	wr.Int32(m_knownKillCount);
-	wr.Int32(space->GetIndexForBody(m_combatTarget));
-	wr.Int32(space->GetIndexForBody(m_navTarget));
-	wr.Int32(space->GetIndexForBody(m_setSpeedTarget));
 }
 
 void Player::Load(Serializer::Reader &rd, Space *space)
@@ -41,17 +35,6 @@ void Player::Load(Serializer::Reader &rd, Space *space)
 	MarketAgent::Load(rd);
 	m_killCount = rd.Int32();
 	m_knownKillCount = rd.Int32();
-	m_combatTargetIndex = rd.Int32();
-	m_navTargetIndex = rd.Int32();
-	m_setSpeedTargetIndex = rd.Int32();
-}
-
-void Player::PostLoadFixup(Space *space)
-{
-	Ship::PostLoadFixup(space);
-	m_combatTarget = space->GetBodyByIndex(m_combatTargetIndex);
-	m_navTarget = space->GetBodyByIndex(m_navTargetIndex);
-	m_setSpeedTarget = space->GetBodyByIndex(m_setSpeedTargetIndex);
 }
 
 void Player::OnHaveKilled(Body *guyWeKilled)
@@ -135,28 +118,6 @@ void Player::SetAlertState(Ship::AlertState as)
 	Pi::cpan->SetAlertState(as);
 
 	Ship::SetAlertState(as);
-}
-
-void Player::SetNavTarget(Body* const target, bool setSpeedTo)
-{
-	if (setSpeedTo)
-		m_setSpeedTarget = target;
-	else if (m_setSpeedTarget == m_navTarget)
-		m_setSpeedTarget = 0;
-	m_navTarget = target;
-	Pi::onPlayerChangeTarget.emit();
-	Sound::PlaySfx("OK");
-}
-
-void Player::SetCombatTarget(Body* const target, bool setSpeedTo)
-{
-	if (setSpeedTo)
-		m_setSpeedTarget = target;
-	else if (m_setSpeedTarget == m_combatTarget)
-		m_setSpeedTarget = 0;
-	m_combatTarget = target;
-	Pi::onPlayerChangeTarget.emit();
-	Sound::PlaySfx("OK");
 }
 
 void Player::NotifyRemoved(const Body* const removedBody)
@@ -271,5 +232,34 @@ void Player::SetFlightControlState(enum FlightControlState s)
 double Player::GetSetSpeed() const
 {
 	return static_cast<PlayerShipController*>(m_controller)->GetSetSpeed();
+}
+
+Body *Player::GetCombatTarget() const
+{
+	return static_cast<PlayerShipController*>(m_controller)->GetCombatTarget();
+}
+
+Body *Player::GetNavTarget() const
+{
+	return static_cast<PlayerShipController*>(m_controller)->GetNavTarget();
+}
+
+Body *Player::GetSetSpeedTarget() const
+{
+	return static_cast<PlayerShipController*>(m_controller)->GetSetSpeedTarget();
+}
+
+void Player::SetCombatTarget(Body* const target, bool setSpeedTo)
+{
+	static_cast<PlayerShipController*>(m_controller)->SetCombatTarget(target, setSpeedTo);
+	Pi::onPlayerChangeTarget.emit();
+	Sound::PlaySfx("OK");
+}
+
+void Player::SetNavTarget(Body* const target, bool setSpeedTo)
+{
+	static_cast<PlayerShipController*>(m_controller)->SetNavTarget(target, setSpeedTo);
+	Pi::onPlayerChangeTarget.emit();
+	Sound::PlaySfx("OK");
 }
 #pragma endregion
