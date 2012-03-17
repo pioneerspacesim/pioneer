@@ -1,6 +1,11 @@
 #include "ShipController.h"
+#include "Frame.h"
+#include "Game.h"
 #include "KeyBindings.h"
+#include "Pi.h"
+#include "Player.h"
 #include "Ship.h"
+#include "WorldView.h"
 
 void ShipController::StaticUpdate(float timeStep)
 {
@@ -111,9 +116,6 @@ static double clipmouse(double cur, double inp)
 
 void PlayerShipController::PollControls(const float timeStep)
 {
-	//XXX temporary
-	Body *m_setSpeedTarget = Pi::player->GetSetSpeedTarget();
-
 	static bool stickySpeedKey = false;
 
 	CheckControlsLock(); // XXX remove
@@ -191,6 +193,7 @@ void PlayerShipController::PollControls(const float timeStep)
 		if (KeyBindings::thrustRight.IsActive()) m_ship->SetThrusterState(0, 1.0);
 
 		if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(SDL_BUTTON_LEFT) && Pi::MouseButtonState(SDL_BUTTON_RIGHT))) {
+				//XXX worldview? madness, ask from ship instead
 				m_ship->SetGunState(Pi::worldView->GetActiveWeapon(), 1);
 		}
 

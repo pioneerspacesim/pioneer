@@ -6,6 +6,7 @@
  * this does "everything"
  */
 #include "libs.h"
+#include "Serializer.h"
 
 class Ship;
 
