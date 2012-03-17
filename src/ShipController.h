@@ -71,6 +71,7 @@ private:
 	double m_mouseY;
 	double m_setSpeed;
 	FlightControlState m_flightControlState;
+	float m_fovY; //for mouse acceleration adjustment
 	float m_joystickDeadzone;
 	vector3d m_mouseDir;
 };

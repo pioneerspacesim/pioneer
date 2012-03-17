@@ -21,11 +21,11 @@ PlayerShipController::PlayerShipController() :
 	m_mouseY(0.0),
 	m_setSpeed(0.0),
 	m_flightControlState(CONTROL_MANUAL),
-	m_joystickDeadzone(0.0),
 	m_mouseDir(0.0)
 {
 	float deadzone = Pi::config->Float("JoystickDeadzone");
 	m_joystickDeadzone = deadzone * deadzone;
+	m_fovY = Pi::config->Float("FOVVertical");
 }
 
 PlayerShipController::~PlayerShipController()
@@ -143,10 +143,9 @@ void PlayerShipController::PollControls(const float timeStep)
 			}
 			vector3d objDir = m_mouseDir * rot;
 
-			const float fovY = Pi::config->Float("FOVVertical");
-			const double radiansPerPixel = 0.00002 * fovY;
+			const double radiansPerPixel = 0.00002 * m_fovY;
 			const int maxMotion = std::max(abs(mouseMotion[0]), abs(mouseMotion[1]));
-			const double accel = Clamp(maxMotion / 4.0, 0.0, 90.0 / fovY);
+			const double accel = Clamp(maxMotion / 4.0, 0.0, 90.0 / m_fovY);
 
 			m_mouseX += mouseMotion[0] * accel * radiansPerPixel;
 			double modx = clipmouse(objDir.x, m_mouseX);
