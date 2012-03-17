@@ -169,6 +169,7 @@ LmrModel::LmrModel(const char *model_name)
 
 	const std::string cache_file = FileSystem::JoinPathBelow(s_cacheDir, model_name) + ".bin";
 
+#if 0
 	if (!s_recompileAllModels) {
 		// load cached model
 		FILE *f = fopen(cache_file.c_str(), "rb");
@@ -200,6 +201,7 @@ LmrModel::LmrModel(const char *model_name)
 rebuild_model:
 		// run static build for each LOD level
 		FILE *f = fopen(cache_file.c_str(), "wb");
+#endif
 		
 		for (int i=0; i<m_numLods; i++) {
 			LUA_DEBUG_START(sLua);
@@ -214,10 +216,11 @@ rebuild_model:
 			lua_pop(sLua, 1);  // remove panic func
 			s_curBuf = 0;
 			m_staticGeometry[i]->PostBuild();
-			m_staticGeometry[i]->SaveToCache(f);
+// XXX			m_staticGeometry[i]->SaveToCache(f);
 			LUA_DEBUG_END(sLua, 0);
 		}
 		
+#if 0
 		const int numMaterials = m_materials.size();
 		fwrite(&numMaterials, sizeof(numMaterials), 1, f);
 		if (numMaterials) fwrite(&m_materials[0], sizeof(LmrMaterial), numMaterials, f);
@@ -227,6 +230,7 @@ rebuild_model:
 		
 		fclose(f);
 	}
+#endif
 }
 
 LmrModel::~LmrModel()
