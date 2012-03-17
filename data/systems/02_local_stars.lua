@@ -1,4 +1,4 @@
-CustomSystem:new('GJ 1075',{'STAR_K'}):add_to_sector(2,0,-4,v(0.451,0.591,0.034))
+﻿CustomSystem:new('GJ 1075',{'STAR_K'}):add_to_sector(2,0,-4,v(0.451,0.591,0.034))
 CustomSystem:new('NN 3707',{'STAR_M'}):add_to_sector(-1,-4,-1,v(0.845,0.488,0.054))
 CustomSystem:new('NN 3253',{'STAR_M'}):add_to_sector(3,1,1,v(0.185,0.977,0.148))
 CustomSystem:new('Gliese 766',{'STAR_M','STAR_M'}):add_to_sector(-4,1,1,v(0.511,0.735,0.998))
@@ -413,7 +413,6 @@ CustomSystem:new('Wo 9492',{'STAR_M'}):add_to_sector(-2,-2,3,v(0.938,0.760,0.677
 CustomSystem:new('Gliese 611',{'STAR_G','STAR_M'}):add_to_sector(-4,-3,3,v(0.019,0.815,0.698))
 CustomSystem:new('GJ 1245',{'STAR_M','STAR_M'}):add_to_sector(-2,0,1,v(0.793,0.655,0.346))
 CustomSystem:new('Gliese 618',{'STAR_M','STAR_M'}):add_to_sector(-3,-2,-3,v(0.517,0.843,0.896))
-CustomSystem:new('Arcturus',{'STAR_K_GIANT'}):add_to_sector(-3,-4,1,v(0.582,0.404,0.508))
 CustomSystem:new('GJ 1151',{'STAR_M'}):add_to_sector(0,-3,2,v(0.086,0.779,0.503))
 CustomSystem:new('Beta Comae Berenices',{'STAR_G'}):add_to_sector(-2,-4,1,v(0.982,0.862,0.745))
 CustomSystem:new('GJ 1154',{'STAR_M'}):add_to_sector(-1,-4,0,v(0.785,0.558,0.038))

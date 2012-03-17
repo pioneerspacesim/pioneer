@@ -1,7 +1,10 @@
-local s = CustomSystem:new('Sol', { 'STAR_G' })
+local s = CustomSystem
+	:new('Sol', { 'STAR_G' }) 
 	:govtype('EARTHDEMOC')
-	:short_desc('The historical birthplace of humankind')
-	:long_desc([[Sol is a fine joint]])
+	:short_desc('The birthplace of humankind. Solar Federation Capital')
+	:long_desc([[The original 'Old' World, Sol has been shaped by war, diaspora and corporate leadership and has left an equivalent mark on the human psyche. Although Earth is still the most populated planet in human space it has lost its beauty and few outdoor cities remain. Sol is little more than an administrative capital with little industry remaining, though Privateers still regularly scoop Jupiter for hydrogen. Most humans endeavour to make the pilgrimage to Sol once in their life, but its the ageing Magma Riders of IO and Solar Collectors near Mercury that are the main tourism drawcards.  Hydroponics on the moon provide a staple, if boring, food source.]])
+
+
 
 local sol = CustomSBody:new('Sol', 'STAR_G')
 	:radius(f(1,1))
@@ -25,6 +28,12 @@ local mercury = CustomSBody:new('Mercury', 'PLANET_TERRESTRIAL')
 	:ice_cover(f(2,100))
 	:life(f(0,1))
 
+local mercury_starports = {
+	CustomSBody:new('Solar Collector 1', 'STARPORT_ORBITAL')
+		:semi_major_axis(f(100,100000))
+		:rotation_period(f(1,24*60*3)),
+}
+
 local venus = CustomSBody:new('Venus', 'PLANET_TERRESTRIAL')
 	:radius(f(95,100))
 	:mass(f(815,1000))
@@ -45,7 +54,7 @@ local venus = CustomSBody:new('Venus', 'PLANET_TERRESTRIAL')
 local earth = CustomSBody:new('Earth', 'PLANET_TERRESTRIAL')
 	:radius(f(1,1))
 	:mass(f(1,1))
-	:temp(288)
+	:temp(290)
 	:semi_major_axis(f(1,1))
 	:eccentricity(f(167,10000))
 	:rotation_period(f(1,1))
@@ -438,6 +447,7 @@ local charon = {
 
 s:bodies(sol, {
 	mercury,
+		mercury_starports,
 	venus,
 	earth,
 		earth_starports,
