@@ -37,8 +37,6 @@ static const Uint32 s_cacheVersion = 1;
  */
 
 static float s_scrWidth = 800.0f;
-static FontCache s_fontCache;
-static RefCountedPtr<VectorFont> s_font;
 static std::string s_cacheDir;
 static bool s_recompileAllModels = true;
 
