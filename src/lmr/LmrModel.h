@@ -7,9 +7,10 @@
 #include "MyLuaMathTypes.h"
 
 // LMR = Lua Model Renderer
-class LmrGeomBuffer;
 class LmrCollMesh;
 class GeomTree;
+
+namespace LMR { class GeomBuffer; }
 
 namespace Graphics { class Renderer; }
 
@@ -50,7 +51,7 @@ struct LmrObjParams
 	struct LmrMaterial pMat[3];
 };
 
-struct RenderState;
+namespace LMR { struct RenderState; }
 class LmrCollMesh;
 
 class LmrModel {
@@ -58,7 +59,7 @@ public:
 	LmrModel(const char *model_name);
 	virtual ~LmrModel();
 	void Render(const matrix4x4f &trans, const LmrObjParams *params);
-	void Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params);
+	void Render(const LMR::RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params);
 	void GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params);
 	float GetDrawClipRadius() const { return m_drawClipRadius; }
 	float GetFloatAttribute(const char *attr_name) const;
@@ -76,14 +77,14 @@ private:
 	std::vector<LmrLight> m_lights;
 	float m_lodPixelSize[LMR_MAX_LOD];
 	int m_numLods;
-	LmrGeomBuffer *m_staticGeometry[LMR_MAX_LOD];
-	LmrGeomBuffer *m_dynamicGeometry[LMR_MAX_LOD];
+	LMR::GeomBuffer *m_staticGeometry[LMR_MAX_LOD];
+	LMR::GeomBuffer *m_dynamicGeometry[LMR_MAX_LOD];
 	std::string m_name;
 	bool m_hasDynamicFunc;
 	// only used for lod pixel size at the moment
 	float m_drawClipRadius;
 	float m_scale;
-	friend class LmrGeomBuffer;
+	friend class LMR::GeomBuffer;
 };
 
 void LmrModelCompilerInit(Graphics::Renderer *r);
@@ -91,8 +92,6 @@ void LmrModelCompilerUninit();
 struct LmrModelNotFoundException {};
 LmrModel *LmrLookupModelByName(const char *name);
 void LmrModelRender(LmrModel *m, const matrix4x4f &transform);
-int LmrModelGetStatsTris();
-void LmrModelClearStatsTris();
 void LmrNotifyScreenWidth(float width);
 void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels);
 lua_State *LmrGetLuaState();
@@ -114,10 +113,10 @@ public:
 	int m_numTris; // ni/3
 	unsigned int *pFlag; // 1 per tri
 	friend class LmrModel;
-	friend class LmrGeomBuffer;
 private:
 	Aabb m_aabb;
 	float m_radius;
+	friend class LMR::GeomBuffer;
 };
 
 

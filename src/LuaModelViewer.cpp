@@ -2,6 +2,7 @@
 #include "gui/Gui.h"
 #include "collider/collider.h"
 #include "lmr/LmrModel.h"
+#include "lmr/GeomBuffer.h"
 #include "ShipType.h"
 #include "EquipType.h"
 #include "Ship.h" // for the flight state and ship animation enums
@@ -534,7 +535,7 @@ void Viewer::MainLoop()
 		
 		SetSbreParams();
 
-		int beforeDrawTriStats = LmrModelGetStatsTris();
+		int beforeDrawTriStats = LMR::GeomBuffer::GetStatsTris();
 	
 		if (g_renderType == 0) {
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -570,7 +571,7 @@ void Viewer::MainLoop()
 			Aabb aabb = m_cmesh->GetAabb();
 			snprintf(buf, sizeof(buf), "%d triangles, %d fps, %.3fm tris/sec\ncollision mesh size: %.1fx%.1fx%.1f (radius %.1f)\nClipping radius %.1f\nGrid interval: %d metres",
 					(g_renderType == 0 ? 
-						LmrModelGetStatsTris() - beforeDrawTriStats :
+						LMR::GeomBuffer::GetStatsTris() - beforeDrawTriStats :
 						m_cmesh->m_numTris),
 					fps,
 					numTris/1000000.0f,
@@ -591,11 +592,11 @@ void Viewer::MainLoop()
 		lastTurd = SDL_GetTicks();
 
 		if (SDL_GetTicks() - lastFpsReadout > 1000) {
-			numTris = LmrModelGetStatsTris();
+			numTris = LMR::GeomBuffer::GetStatsTris();
 			fps = numFrames;
 			numFrames = 0;
 			lastFpsReadout = SDL_GetTicks();
-			LmrModelClearStatsTris();
+			LMR::GeomBuffer::ClearStatsTris();
 		}
 
 		//space->Collide(onCollision);

@@ -9,10 +9,15 @@ INCLUDES = -I$(srcdir)/..
 noinst_LIBRARIES = liblmr.a
 noinst_HEADERS = \
 	BufferObject.h \
-	LmrModel.h
+	GeomBuffer.h \
+	LmrModel.h \
+	ShipThruster.h \
+	Utils.h
 
 liblmr_a_SOURCES = \
-	LmrModel.cpp
+	GeomBuffer.cpp \
+	LmrModel.cpp \
+	ShipThruster.cpp
 
 INCLUDES += -isystem @top_srcdir@/contrib
 if !HAVE_LUA

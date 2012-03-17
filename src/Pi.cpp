@@ -68,6 +68,7 @@
 #include "Sfx.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "lmr/GeomBuffer.h"
 #include <fstream>
 
 float Pi::gameTickAlpha;
@@ -1381,7 +1382,7 @@ void Pi::MainLoop()
 			int lua_memKB = int(lua_mem >> 10) % 1024;
 			int lua_memMB = int(lua_mem >> 20);
 
-			Pi::statSceneTris += LmrModelGetStatsTris();
+			Pi::statSceneTris += LMR::GeomBuffer::GetStatsTris();
 			
 			snprintf(
 				fps_readout, sizeof(fps_readout),
@@ -1399,7 +1400,7 @@ void Pi::MainLoop()
 			else last_stats += 1000;
 		}
 		Pi::statSceneTris = 0;
-		LmrModelClearStatsTris();
+		LMR::GeomBuffer::ClearStatsTris();
 #endif
 
 #ifdef MAKING_VIDEO
