@@ -27,20 +27,6 @@ namespace FileSystem {
 
 			std::string abspath;
 			if (cwd) abspath = cwd;
-#ifdef _XCODE
-            // On OSX, the data directory is located in the resources folder of the application
-            // bundle (Contents/Resources). Rather than using cwd (which is the cwd of the app.bundle
-            // folder)
-            // - This is XCode/App Bundle specific
-            char appbundlepath[MAXPATHLEN];
-            CFBundleRef mainBundle = CFBundleGetMainBundle();
-            CFURLRef resourcesURL = CFBundleCopyResourcesDirectoryURL(mainBundle);
-            if (CFURLGetFileSystemRepresentation(resourcesURL, TRUE, (UInt8 *)appbundlepath, MAXPATHLEN))
-            {
-                abspath = appbundlepath;
-            }
-            CFRelease(resourcesURL);
-#endif
 			abspath += '/';
 			abspath += path;
 			return abspath;
@@ -62,6 +48,31 @@ namespace FileSystem {
 		return path;
 	}
 
+    static std::string FindDataDir()
+    {
+#ifdef _XCODE
+        // On OSX, the data directory is located in the resources folder of the application
+        // bundle (Contents/Resources). Rather than using cwd (which is the cwd of the app.bundle
+        // folder)
+        // - This is XCode/App Bundle specific
+        std::string path;
+
+        char appbundlepath[MAXPATHLEN];
+        CFBundleRef mainBundle = CFBundleGetMainBundle();
+        CFURLRef resourcesURL = CFBundleCopyResourcesDirectoryURL(mainBundle);
+        if (CFURLGetFileSystemRepresentation(resourcesURL, TRUE, (UInt8 *)appbundlepath, MAXPATHLEN))
+        {
+            path = appbundlepath;
+            path += '/';
+            path += PIONEER_DATA_DIR;
+        }
+        CFRelease(resourcesURL);
+        return path;
+#else
+        return absolute_path(std::string(PIONEER_DATA_DIR));
+#endif
+    }
+
 	std::string GetUserDir(const char *subdir)
 	{
 		static const std::string user_path = FindUserDir();
@@ -73,7 +84,7 @@ namespace FileSystem {
 
 	std::string GetDataDir(const char *subdir)
 	{
-		static const std::string data_path = absolute_path(std::string(PIONEER_DATA_DIR));
+        static const std::string data_path = FindDataDir();
 		if (subdir)
 			return JoinPathBelow(data_path, subdir);
 		else
