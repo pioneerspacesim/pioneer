@@ -125,34 +125,6 @@ define_model('wave', {
 		bounding_radius = 31,
 		materials = {'wave', 'distant', 'text', 'glow'},
 		tags = {'ship'},
-		ship_defs = {
-			{
-				name='Wave Heavy Hypersonic Fighter',
-				forward_thrust = -6e6,
-				reverse_thrust = 2e6,
-				up_thrust = 1e6,
-				down_thrust = -1e6,
-				left_thrust = -1e6,
-				right_thrust = 1e6,
-				angular_thrust = 30e6,
-				gun_mounts =
-				{
-					{ v(0,-0.5,-10.7), v(0,0,-1) },
-					{ v(0,-0.5,0), v(0,0,1) },
-				},
-				max_cargo = 30,
-				max_laser = 2,
-				max_missile = 4,
-				max_cargoscoop = 0,
-				max_fuelscoop = 0,
-				capacity = 30,
-				hull_mass = 13,
-				fuel_tank_mass = 7,
-				thruster_fuel_use = 0.0002,
-				price = 93000,
-				hyperdrive_class = 2,
-			}
-		}
 	},
 	static = function(lod)
 		-- material specifications; diffuse r,g,b, alpha trans, specular r,g,b, shinyness, environmental r,g,b

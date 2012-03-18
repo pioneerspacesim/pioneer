@@ -1,10 +1,29 @@
 Alpha 21
 
+   * New features
+     * Elite systems (Lave etc) with a new start point (#682)
+
    * Minor changes and tweaks
      * Various moons in the Sol system now appear in the right order on the map (#1050)
+     * Updated TradeShips module to handle accidental landings and fuel (#1064)
+     * More precise mouse control under different FoV settings (#1076)
+
+   * Fixes
+     * Don't take timesteps for dead ships. Stops the player firing during the
+       death screen (#1056)
+
+   * Script changes
+     * New custom system option :explored to explicitly set a system's
+       explored state (#682)
 
    * Internal changes
      * configure tweaks for better optimisations and profiling support
+     * New filesystem abstraction. Files under data/ can now be overriden by
+       placing an identically-named file under <userdir>/data (#989, #1078,
+       #1079, #1077)
+     * Ship definitions separated from models (#1051)
+     * Partial keybinding cleanup to allow a sane init order
+     * Remove renderer dependencies on Pi and utils (#1071)
 
 Alpha 20
 

@@ -118,7 +118,7 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			//XXX no need to recreate material every time
 			Material mat;
 			mat.unlit = true;
-			mat.texture0 = Pi::textureCache->GetBillboardTexture(PIONEER_DATA_DIR"/textures/smoke.png");
+			mat.texture0 = Pi::textureCache->GetBillboardTexture("textures/smoke.png");
 			mat.diffuse = Color(1.f, 1.f, 0.f, 1.0f-(m_age/2.0f));
 			renderer->DrawPointSprites(1, &pos, &mat, 20.f);
 			break;

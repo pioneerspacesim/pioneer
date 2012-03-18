@@ -33,40 +33,40 @@ SystemView::SystemView()
 	m_infoText = (new Gui::Label(""))->Color(0.7f, 0.7f, 0.7f);
 	Add(m_infoText, 200, 0);
 	
-	m_zoomInButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_in.png");
+	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
 	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
 	Add(m_zoomInButton, 700, 5);
 	
-	m_zoomOutButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_out.png");
+	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	Add(m_zoomOutButton, 732, 5);
 
-	Gui::ImageButton *b = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/sysview_accel_r3.png", PIONEER_DATA_DIR "/icons/sysview_accel_r3_on.png");
+	Gui::ImageButton *b = new Gui::ImageButton("icons/sysview_accel_r3.png", "icons/sysview_accel_r3_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -10000000.0));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
 	m_rightRegion2->Add(b, 0, 0);
 	
-	b = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/sysview_accel_r2.png", PIONEER_DATA_DIR "/icons/sysview_accel_r2_on.png");
+	b = new Gui::ImageButton("icons/sysview_accel_r2.png", "icons/sysview_accel_r2_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -1000000.0));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
 	m_rightRegion2->Add(b, 26, 0);
 	
-	b = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/sysview_accel_r1.png", PIONEER_DATA_DIR "/icons/sysview_accel_r1_on.png");
+	b = new Gui::ImageButton("icons/sysview_accel_r1.png", "icons/sysview_accel_r1_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -100000.0));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
 	m_rightRegion2->Add(b, 45, 0);
 	
-	b = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/sysview_accel_f1.png", PIONEER_DATA_DIR "/icons/sysview_accel_f1_on.png");
+	b = new Gui::ImageButton("icons/sysview_accel_f1.png", "icons/sysview_accel_f1_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 100000.0));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
 	m_rightRegion2->Add(b, 64, 0);
 	
-	b = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/sysview_accel_f2.png", PIONEER_DATA_DIR "/icons/sysview_accel_f2_on.png");
+	b = new Gui::ImageButton("icons/sysview_accel_f2.png", "icons/sysview_accel_f2_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 1000000.0));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
 	m_rightRegion2->Add(b, 83, 0);
 
-	b = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/sysview_accel_f3.png", PIONEER_DATA_DIR "/icons/sysview_accel_f3_on.png");
+	b = new Gui::ImageButton("icons/sysview_accel_f3.png", "icons/sysview_accel_f3_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 10000000.0));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
 	m_rightRegion2->Add(b, 102, 0);

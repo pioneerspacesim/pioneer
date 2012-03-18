@@ -40,8 +40,6 @@ namespace Graphics {
 	bool IsElementArrayBufferBound(GLuint bo);
 	//XXX keeping this because gui uses it...
 	void SwapBuffers();
-
-	void PrintGLInfo();
 }
 
 #endif /* _RENDER_H */

@@ -69,9 +69,9 @@ SectorView::SectorView(Serializer::Reader &rd)
 
 void SectorView::InitDefaults()
 {
-	m_rotXDefault = Pi::config.Float("SectorViewXRotation");
-	m_rotZDefault = Pi::config.Float("SectorViewZRotation");
-	m_zoomDefault = Pi::config.Float("SectorViewZoom");
+	m_rotXDefault = Pi::config->Float("SectorViewXRotation");
+	m_rotZDefault = Pi::config->Float("SectorViewZRotation");
+	m_zoomDefault = Pi::config->Float("SectorViewZoom");
 	m_rotXDefault = Clamp(m_rotXDefault, -170.0f, -10.0f);
 	m_zoomDefault = Clamp(m_zoomDefault, 0.1f, 5.0f);
 }
@@ -92,11 +92,11 @@ void SectorView::InitObject()
 	m_distanceLabel = new Gui::Label("");
 	Add(m_distanceLabel, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
 	
-	m_zoomInButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_in.png");
+	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
 	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
 	Add(m_zoomInButton, 700, 5);
 	
-	m_zoomOutButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_out.png");
+	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	Add(m_zoomOutButton, 732, 5);
 
