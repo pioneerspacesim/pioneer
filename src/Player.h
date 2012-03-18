@@ -51,15 +51,8 @@ public:
 	bool DoesSell(Equip::Type t) const { return true; }
 	Sint64 GetPrice(Equip::Type t) const;
 
+	PlayerShipController *GetPlayerController() const;
 	//XXX temporary things to avoid causing too many changes right now
-	//to get rid of these, access controller through Game
-	bool IsMouseActive() const;
-	double GetSetSpeed() const;
-	FlightControlState GetFlightControlState() const;
-	vector3d GetMouseDir() const;
-	void SetFlightControlState(FlightControlState s);
-	void SetMouseForRearView(bool enable);
-	//targeting
 	Body *GetCombatTarget() const;
 	Body *GetNavTarget() const;
 	Body *GetSetSpeedTarget() const;

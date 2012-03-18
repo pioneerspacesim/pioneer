@@ -203,35 +203,10 @@ void Player::OnEnterSystem()
 	Pi::sectorView->ResetHyperspaceTarget();
 }
 
-#pragma region tempstuff
-void Player::SetMouseForRearView(bool enable)
+//temporary targeting stuff
+PlayerShipController *Player::GetPlayerController() const
 {
-	static_cast<PlayerShipController*>(m_controller)->SetMouseForRearView(enable);
-}
-
-bool Player::IsMouseActive() const
-{
-	return static_cast<PlayerShipController*>(m_controller)->IsMouseActive();
-}
-
-vector3d Player::GetMouseDir() const
-{
-	return static_cast<PlayerShipController*>(m_controller)->GetMouseDir();
-}
-
-FlightControlState Player::GetFlightControlState() const
-{
-	return static_cast<PlayerShipController*>(m_controller)->GetFlightControlState();
-}
-
-void Player::SetFlightControlState(enum FlightControlState s)
-{
-	static_cast<PlayerShipController*>(m_controller)->SetFlightControlState(s);
-}
-
-double Player::GetSetSpeed() const
-{
-	return static_cast<PlayerShipController*>(m_controller)->GetSetSpeed();
+	return static_cast<PlayerShipController*>(GetController());
 }
 
 Body *Player::GetCombatTarget() const
@@ -262,4 +237,5 @@ void Player::SetNavTarget(Body* const target, bool setSpeedTo)
 	Pi::onPlayerChangeTarget.emit();
 	Sound::PlaySfx("OK");
 }
+//temporary targeting stuff ends
 #pragma endregion

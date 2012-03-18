@@ -209,7 +209,7 @@ void WorldView::InitObject()
 	m_onPlayerEquipmentChangeCon =
 		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
 
-	Pi::player->SetMouseForRearView(m_camType == CAM_REAR);
+	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_REAR);
 }
 
 WorldView::~WorldView()
@@ -242,7 +242,7 @@ void WorldView::SetCamType(enum CamType c)
 {
 	if (c != m_camType) {
 		m_camType = c;
-		Pi::player->SetMouseForRearView(c == CAM_REAR);
+		Pi::player->GetPlayerController()->SetMouseForRearView(c == CAM_REAR);
 		onChangeCamType.emit();
 	}
 }
@@ -315,13 +315,13 @@ void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
 		}
 	}
 	b->SetActiveState(newState);
-	Pi::player->SetFlightControlState(static_cast<FlightControlState>(newState));
+	Pi::player->GetPlayerController()->SetFlightControlState(static_cast<FlightControlState>(newState));
 }
 
 /* This is when the flight control state actually changes... */
 void WorldView::OnPlayerChangeFlightControlState()
 {
-	m_flightControlButton->SetActiveState(Pi::player->GetFlightControlState());
+	m_flightControlButton->SetActiveState(Pi::player->GetPlayerController()->GetFlightControlState());
 }
 
 void WorldView::OnChangeLabelsState(Gui::MultiStateImageButton *b)
@@ -434,17 +434,18 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 			case Ship::FLYING:
 			default:
-				FlightControlState fstate = Pi::player->GetFlightControlState();
+				const FlightControlState fstate = Pi::player->GetPlayerController()->GetFlightControlState();
 				switch (fstate) {
 					case CONTROL_MANUAL:
 						m_flightStatus->SetText(Lang::MANUAL_CONTROL); break;
 
 					case CONTROL_FIXSPEED: {
 						std::string msg;
-						if (Pi::player->GetSetSpeed() > 1000) {
-							msg = stringf(Lang::SET_SPEED_KM_S, formatarg("speed", Pi::player->GetSetSpeed()*0.001));
+						const double setspeed = Pi::player->GetPlayerController()->GetSetSpeed();
+						if (setspeed > 1000) {
+							msg = stringf(Lang::SET_SPEED_KM_S, formatarg("speed", setspeed*0.001));
 						} else {
-							msg = stringf(Lang::SET_SPEED_M_S, formatarg("speed", Pi::player->GetSetSpeed()));
+							msg = stringf(Lang::SET_SPEED_M_S, formatarg("speed", setspeed));
 						}
 						m_flightStatus->SetText(msg);
 						break;
@@ -987,17 +988,17 @@ void WorldView::OnPlayerChangeTarget()
 
 static void autopilot_flyto(Body *b)
 {
-	Pi::player->SetFlightControlState(CONTROL_AUTOPILOT);
+	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	Pi::player->AIFlyTo(b);
 }
 static void autopilot_dock(Body *b)
 {
-	Pi::player->SetFlightControlState(CONTROL_AUTOPILOT);
+	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	Pi::player->AIDock(static_cast<SpaceStation*>(b));
 }
 static void autopilot_orbit(Body *b, double alt)
 {
-	Pi::player->SetFlightControlState(CONTROL_AUTOPILOT);
+	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	Pi::player->AIOrbit(b, alt);
 }
 
@@ -1183,8 +1184,8 @@ void WorldView::UpdateProjectedObjects()
 		HideIndicator(m_velIndicator);
 
 	// orientation according to mouse
-	if (Pi::player->IsMouseActive()) {
-		vector3d mouseDir = Pi::player->GetMouseDir() * cam_rot;
+	if (Pi::player->GetPlayerController()->IsMouseActive()) {
+		vector3d mouseDir = Pi::player->GetPlayerController()->GetMouseDir() * cam_rot;
 		if (GetCamType() == CAM_REAR)
 			mouseDir = -mouseDir;
 		UpdateIndicator(m_mouseDirIndicator, (Pi::player->GetBoundingRadius() * 1.5) * mouseDir);
