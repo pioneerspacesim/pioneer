@@ -46,16 +46,21 @@ void PlayerShipController::Save(Serializer::Writer &wr, Space *space)
 	wr.Int32(space->GetIndexForBody(m_setSpeedTarget));
 }
 
-void PlayerShipController::Load(Serializer::Reader &rd, Space *space)
+void PlayerShipController::Load(Serializer::Reader &rd)
 {
 	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
 	m_setSpeed = rd.Double();
-	const int combatTargetIndex = rd.Int32();
-	const int navTargetIndex = rd.Int32();
-	const int setSpeedTargetIndex = rd.Int32();
-	m_combatTarget = space->GetBodyByIndex(combatTargetIndex);
-	m_navTarget = space->GetBodyByIndex(navTargetIndex);
-	m_setSpeedTarget = space->GetBodyByIndex(setSpeedTargetIndex);
+	//figure out actual bodies in PostLoadFixup - after Space body index has been built
+	m_combatTargetIndex = rd.Int32();
+	m_navTargetIndex = rd.Int32();
+	m_setSpeedTargetIndex = rd.Int32();
+}
+
+void PlayerShipController::PostLoadFixup(Space *space)
+{
+	m_combatTarget = space->GetBodyByIndex(m_combatTargetIndex);
+	m_navTarget = space->GetBodyByIndex(m_navTargetIndex);
+	m_setSpeedTarget = space->GetBodyByIndex(m_setSpeedTargetIndex);
 }
 
 void PlayerShipController::StaticUpdate(const float timeStep)

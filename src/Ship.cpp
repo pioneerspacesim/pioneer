@@ -147,7 +147,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 		SetController(new PlayerShipController());
 	else
 		SetController(new ShipController());
-	m_controller->Load(rd, space);
+	m_controller->Load(rd);
 
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
@@ -174,6 +174,7 @@ void Ship::PostLoadFixup(Space *space)
 {
 	m_dockedWith = reinterpret_cast<SpaceStation*>(space->GetBodyByIndex(m_dockedWithIndex));
 	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
+	m_controller->PostLoadFixup(space);
 }
 
 Ship::Ship(ShipType::Type shipType): DynamicBody(),
