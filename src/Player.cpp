@@ -232,14 +232,11 @@ void Player::SetCombatTarget(Body* const target, bool setSpeedTo)
 {
 	static_cast<PlayerShipController*>(m_controller)->SetCombatTarget(target, setSpeedTo);
 	Pi::onPlayerChangeTarget.emit();
-	Sound::PlaySfx("OK");
 }
 
 void Player::SetNavTarget(Body* const target, bool setSpeedTo)
 {
 	static_cast<PlayerShipController*>(m_controller)->SetNavTarget(target, setSpeedTo);
 	Pi::onPlayerChangeTarget.emit();
-	Sound::PlaySfx("OK");
 }
 //temporary targeting stuff ends
-#pragma endregion

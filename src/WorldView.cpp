@@ -3,17 +3,18 @@
 #include "Frame.h"
 #include "Player.h"
 #include "Planet.h"
+#include "Sector.h"
+#include "SectorView.h"
+#include "Serializer.h"
+#include "ShipCpanel.h"
+#include "Sound.h"
 #include "Space.h"
 #include "SpaceStation.h"
-#include "ShipCpanel.h"
-#include "Serializer.h"
 #include "StarSystem.h"
-#include "Sector.h"
 #include "HyperspaceCloud.h"
 #include "KeyBindings.h"
 #include "TextureCache.h"
 #include "perlin.h"
-#include "SectorView.h"
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
@@ -978,6 +979,7 @@ void WorldView::OnPlayerChangeTarget()
 {
 	Body *b = Pi::player->GetNavTarget();
 	if (b) {
+		Sound::PlaySfx("OK");
 		Ship *s = b->IsType(Object::HYPERSPACECLOUD) ? static_cast<HyperspaceCloud*>(b)->GetShip() : 0;
 		if (!s || Pi::sectorView->GetHyperspaceTarget() != s->GetHyperspaceDest())
 			Pi::sectorView->FloatHyperspaceTarget();

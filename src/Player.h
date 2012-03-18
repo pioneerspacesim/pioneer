@@ -72,8 +72,6 @@ protected:
 private:
 	int m_killCount;
 	int m_knownKillCount; // updated on docking
-
-	int m_combatTargetIndex, m_navTargetIndex, m_setSpeedTargetIndex; // deserialisation
 };
 
 #endif /* _PLAYER_H */
