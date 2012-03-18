@@ -12,9 +12,9 @@ public:
 		ColourMarkupUse   // interprets markup tags
 	};
 	explicit TextLayout(const char *_str, RefCountedPtr<TextureFont> font = RefCountedPtr<TextureFont>(0), ColourMarkupMode markup = ColourMarkupUse);
-	void Render(float layoutWidth) const;
+	void Render(float layoutWidth, const Color &color = Color::WHITE) const;
 	void MeasureSize(const float layoutWidth, float outSize[2]) const;
-	void _RenderRaw(float layoutWidth) const;
+	void _RenderRaw(float layoutWidth, const Color &color) const;
 	void _MeasureSizeRaw(const float layoutWidth, float outSize[2]) const;
 	~TextLayout() { free(str); }
 	void SetJustified(bool v) { m_justify = v; }

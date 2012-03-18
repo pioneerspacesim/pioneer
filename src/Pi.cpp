@@ -61,7 +61,6 @@
 #include "Background.h"
 #include "Lang.h"
 #include "StringF.h"
-#include "TextureCache.h"
 #include "Game.h"
 #include "GameLoaderSaver.h"
 #include "FileSystem.h"
@@ -110,7 +109,6 @@ LuaEventQueue<Ship> *Pi::luaOnShipFlavourChanged;
 LuaEventQueue<Ship,const char *> *Pi::luaOnShipEquipmentChanged;
 LuaEventQueue<Ship,const char *> *Pi::luaOnShipFuelChanged;
 LuaNameGen *Pi::luaNameGen;
-TextureCache *Pi::textureCache;
 int Pi::keyModState;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[6];
@@ -181,7 +179,6 @@ static void draw_progress(float progress)
 	Gui::Screen::EnterOrtho();
 	std::string msg = stringf(Lang::SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS, formatarg("age", progress * 13.7f));
 	Gui::Screen::MeasureString(msg, w, h);
-	glColor3f(1.0f,1.0f,1.0f);
 	Gui::Screen::RenderString(msg, 0.5f*(Gui::Screen::GetWidth()-w), 0.5f*(Gui::Screen::GetHeight()-h));
 	Gui::Screen::LeaveOrtho();
 	Pi::renderer->SwapBuffers();
@@ -525,17 +522,6 @@ void Pi::Init()
 
 	Pi::rng.seed(time(NULL));
 
-	Pi::textureCache = new TextureCache;
-
-	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
-	// that the capability exists. (Gui does not use VBOs so far)
-	Gui::Init(scrWidth, scrHeight, 800, 600);
-	if (!glewIsSupported("GL_ARB_vertex_buffer_object")) {
-		Error("OpenGL extension ARB_vertex_buffer_object not supported. Pioneer can not run on your graphics card.");
-	}
-
-	LuaInit();
-
 	bool wantShaders = (config->Int("DisableShaders") == 0);
 	Pi::renderer = Graphics::Init(width, height, wantShaders);
 
@@ -545,6 +531,15 @@ void Pi::Init()
 		renderer->PrintDebugInfo(out);
 	}
 
+	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
+	// that the capability exists. (Gui does not use VBOs so far)
+	Gui::Init(renderer, scrWidth, scrHeight, 800, 600);
+	if (!glewIsSupported("GL_ARB_vertex_buffer_object")) {
+		Error("OpenGL extension ARB_vertex_buffer_object not supported. Pioneer can not run on your graphics card.");
+	}
+
+	LuaInit();
+
 	draw_progress(0.1f);
 
 	Galaxy::Init();
@@ -553,7 +548,7 @@ void Pi::Init()
 	CustomSystem::Init();
 	draw_progress(0.4f);
 
-	LmrModelCompilerInit(Pi::renderer, Pi::textureCache);
+	LmrModelCompilerInit(Pi::renderer);
 	LmrNotifyScreenWidth(Pi::scrWidth);
 	draw_progress(0.5f);
 
@@ -674,7 +669,6 @@ void Pi::Quit()
 	Graphics::Uninit();
 	LuaUninit();
 	Gui::Uninit();
-	delete Pi::textureCache;
 	delete Pi::renderer;
 	StarSystem::ShrinkCache();
 	SDL_Quit();
@@ -1330,7 +1324,6 @@ void Pi::MainLoop()
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo) {
 			Gui::Screen::EnterOrtho();
-			glColor3f(1,1,1);
 			Gui::Screen::PushFont("ConsoleFont");
 			Gui::Screen::RenderString(fps_readout, 0, 0);
 			Gui::Screen::PopFont();

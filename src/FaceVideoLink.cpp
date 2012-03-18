@@ -2,10 +2,10 @@
 #include "Lang.h"
 #include "Pi.h"
 #include "LuaNameGen.h"
-#include "Texture.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
+#include "graphics/TextureBuilder.h"
 #include "FileSystem.h"
 
 using namespace Graphics;
@@ -79,7 +79,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 	std::string charname = name;
 	if (charname.empty())
 		charname = Pi::luaNameGen->FullName((gender != 0), rand);
-
+	
 	m_characterInfo = new CharacterInfoText(w * 0.8f, h * 0.15f, charname, title);
 
 	int head  = rand.Int32(0,MAX_HEAD);
@@ -98,57 +98,55 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 
 	char filename[1024];
 
-	SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, FACE_WIDTH, FACE_HEIGHT, 32, 0xff, 0xff00, 0xff0000, 0xff000000);
+	SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, FACE_WIDTH, FACE_HEIGHT, 24, 0xff, 0xff00, 0xff0000, 0);
 
 	snprintf(filename, sizeof(filename), "facegen/backgrounds/background_%d.png", background);
-	//printf("%s\n", filename);
+	//printf("background: %s\n", filename);
 	_blit_image(s, filename, 0, 0);
 
 	snprintf(filename, sizeof(filename), "facegen/race_%d/head/head_%d_%d.png", race, gender, head);
-	//printf("%s\n", filename);
+	//printf("head: %s\n", filename);
 	_blit_image(s, filename, 0, 0);
 
 	if (!(flags & ARMOUR)) {
 		snprintf(filename, sizeof(filename), "facegen/clothes/cloth_%d_%d.png", gender, clothes);
-		//printf("%s\n", filename);
+		//printf("clothes: %s\n", filename);
 		_blit_image(s, filename, 0, 135);
 	}
 
 	snprintf(filename, sizeof(filename), "facegen/race_%d/eyes/eyes_%d_%d.png", race, gender, eyes);
-	//printf("%s\n", filename);
+	//printf("eyes: %s\n", filename);
 	_blit_image(s, filename, 0, 41);
 
 	snprintf(filename, sizeof(filename), "facegen/race_%d/nose/nose_%d_%d.png", race, gender, nose);
-	//printf("%s\n", filename);
+	//printf("nose: %s\n", filename);
 	_blit_image(s, filename, 1, 89);
 
 	snprintf(filename, sizeof(filename), "facegen/race_%d/mouth/mouth_%d_%d.png", race, gender, mouth);
-	//printf("%s\n", filename);
+	//printf("mouth: %s\n", filename);
 	_blit_image(s, filename, 0, 155);
 
 	if (!(flags & ARMOUR)) {
 		snprintf(filename, sizeof(filename), "facegen/accessories/acc_%d.png", accessories);
-		//printf("%s\n", filename);
+		//printf("accessory: %s\n", filename);
 		if (rand.Int32(0,1)>0)	_blit_image(s, filename, 0, 0);
 
 		snprintf(filename, sizeof(filename), "facegen/race_%d/hair/hair_%d_%d.png", race, gender, hair);
-		//printf("%s\n", filename);
+		//printf("hair: %s\n", filename);
 		_blit_image(s, filename, 0, 0);
 	}
 	else {
 		snprintf(filename, sizeof(filename), "facegen/clothes/armour_%d.png", armour);
+		//printf("armour: %s\n", filename);
 		_blit_image(s, filename, 0, 0);
 	}
 
-	m_texture = new UITexture(s);
-
-	SDL_FreeSurface(s);
+	m_quad.Reset(new Gui::TexturedQuad(Graphics::TextureBuilder(s, Graphics::LINEAR_CLAMP, true, true).CreateTexture(Gui::Screen::GetRenderer())));
 }
 
 FaceVideoLink::~FaceVideoLink() {
 	delete m_message;
 	delete m_characterInfo;
-	delete m_texture;
 }
 
 void FaceVideoLink::Draw() {
@@ -172,28 +170,7 @@ void FaceVideoLink::Draw() {
 		return;
 	}
 
-	// XXX fixed function combiner
-	glEnable(GL_TEXTURE_2D);
-	m_texture->Bind();
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	m_texture->Unbind();
-	glDisable(GL_TEXTURE_2D);
-
-	float w = m_texture->GetTextureWidth();
-	float h = m_texture->GetTextureHeight();
-
-	// this is not entirely a standard quad, special uv coords
-	// XXX 2d vertices
-	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0);
-	Color white(1.f, 1.f, 1.f, 1.f);
-	va.Add(vector3f(0.f, 0.f, 0.f), vector2f(0.f, 0.f));
-	va.Add(vector3f(0.f, size[1], 0.f), vector2f(0.f, h));
-	va.Add(vector3f(size[0], 0.f, 0.f), vector2f(w, 0.f));
-	va.Add(vector3f(size[0], size[1], 0.f), vector2f(w, h));
-	Material mat;
-	mat.texture0 = m_texture;
-	mat.unlit = true;
-	Pi::renderer->DrawTriangles(&va, &mat, TRIANGLE_STRIP);
+	m_quad->Draw(Gui::Screen::GetRenderer(), vector2f(0.0f), vector2f(size[0],size[1]));
 
 	glPushMatrix();
 	glTranslatef(0.f, size[1]- size[1] * 0.16f, 0.f);

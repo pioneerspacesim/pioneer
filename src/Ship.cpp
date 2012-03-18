@@ -16,18 +16,21 @@
 #include "HyperspaceCloud.h"
 #include "ShipCpanel.h"
 #include "LmrModel.h"
-#include "TextureCache.h"
 #include "Polit.h"
 #include "CityOnPlanet.h"
 #include "Missile.h"
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
+#include "graphics/Material.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/Shader.h"
+#include "graphics/TextureBuilder.h"
+
+static const std::string ecmTextureFilename("textures/ecm.png");
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
@@ -1114,7 +1117,7 @@ void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 
 		// XXX no need to recreate material every time
 		Graphics::Material mat;
-		mat.texture0 = Pi::textureCache->GetModelTexture("textures/ecm.png");
+		mat.texture0 = Graphics::TextureBuilder::Model(ecmTextureFilename).GetOrCreateTexture(Pi::renderer, "model");
 		mat.unlit = true;
 		mat.diffuse = c;
 		renderer->DrawPointSprites(100, v, &mat, 50.f);

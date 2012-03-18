@@ -22,8 +22,7 @@ namespace Gui {
 		void SetSize(float w, float h) { m_size.w = w; m_size.h = h; onSetSize.emit(); }
 		void ResizeRequest();
 		void SetShortcut(SDLKey key, SDLMod mod);
-		void SetClipping(float width, float height);
-		void EndClipping();
+		void SetScissor(bool enabled);
 		bool GetEnabled() { return m_enabled; }
 		void SetEnabled(bool v) { m_enabled = v; }
 		virtual void GrabFocus();
