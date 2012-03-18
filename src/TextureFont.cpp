@@ -2,7 +2,6 @@
 #include "gui/GuiScreen.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
-#include "graphics/Material.h"
 #include "TextSupport.h"
 #include "libs.h"
 #include "FileSystem.h"
@@ -21,23 +20,16 @@ void TextureFont::RenderGlyph(Graphics::Renderer *r, Uint32 chr, float x, float 
 	const float offx = x + float(glyph->offx);
 	const float offy = y + float(m_pixSize - glyph->offy);
 
-	const float w = m_texSize*glyph->width;
-	const float h = m_texSize*glyph->height;
-
-	Graphics::Material m;
-	m.unlit = true;
-	m.texture0 = glyph->texture.Get();
-	m.vertexColors = false;
-	m.diffuse = color;
+	glyph->mat.diffuse = color;
 
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 	
-	va.Add(vector3f(offx,   offy,   0.0f), vector2f(0.0f,         0.0f));
-	va.Add(vector3f(offx,   offy+h, 0.0f), vector2f(0.0f,         glyph->height));
-	va.Add(vector3f(offx+w, offy,   0.0f), vector2f(glyph->width, 0.0f));
-	va.Add(vector3f(offx+w, offy+h, 0.0f), vector2f(glyph->width, glyph->height));
+	va.Add(vector3f(offx,                 offy,                  0.0f), vector2f(0.0f,         0.0f));
+	va.Add(vector3f(offx,                 offy+glyph->texHeight, 0.0f), vector2f(0.0f,         glyph->height));
+	va.Add(vector3f(offx+glyph->texWidth, offy,                  0.0f), vector2f(glyph->width, 0.0f));
+	va.Add(vector3f(offx+glyph->texWidth, offy+glyph->texHeight, 0.0f), vector2f(glyph->width, glyph->height));
 
-	r->DrawTriangles(&va, &m, Graphics::TRIANGLE_STRIP);
+	r->DrawTriangles(&va, &glyph->mat, Graphics::TRIANGLE_STRIP);
 
 	s_glyphCount++;
 }
@@ -432,6 +424,13 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 		Graphics::TextureDescriptor descriptor(Graphics::TEXTURE_RGBA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
 		glfglyph.texture.Reset(Gui::Screen::GetRenderer()->CreateTexture(descriptor));
 		glfglyph.texture->Update(pixBuf, vector2f(sz,sz), Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
+
+		glfglyph.mat.texture0 = glfglyph.texture.Get();
+		glfglyph.mat.unlit = true;
+		glfglyph.mat.vertexColors = false;
+
+		glfglyph.texWidth = m_texSize*glfglyph.width;
+		glfglyph.texHeight = m_texSize*glfglyph.height;
 
 		glfglyph.advx = float(m_face->glyph->advance.x) / 64.0 + advx_adjust;
 		glfglyph.advy = float(m_face->glyph->advance.y) / 64.0;

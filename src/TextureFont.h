@@ -4,6 +4,7 @@
 #include "Font.h"
 #include "Color.h"
 #include "graphics/Texture.h"
+#include "graphics/Material.h"
 
 namespace Graphics { class Renderer; }
 
@@ -24,8 +25,10 @@ public:
 	float GetDescender() const { return m_descender; }
 	struct glfglyph_t {
 		RefCountedPtr<Graphics::Texture> texture;
+        Graphics::Material mat;
 		float advx, advy;
 		float width, height;
+		float texWidth, texHeight;
 		int offx, offy;
 	};
 	const glfglyph_t &GetGlyph(Uint32 ch) { return m_glyphs[ch]; }
