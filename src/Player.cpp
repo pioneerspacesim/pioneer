@@ -37,6 +37,7 @@ void Player::Load(Serializer::Reader &rd, Space *space)
 	m_knownKillCount = rd.Int32();
 }
 
+//XXX remove + move to lua
 void Player::OnHaveKilled(Body *guyWeKilled)
 {
 	if (guyWeKilled->IsType(Object::SHIP)) {
@@ -45,6 +46,7 @@ void Player::OnHaveKilled(Body *guyWeKilled)
 	}
 }
 
+//XXX perhaps remove this, the sound is very annoying
 bool Player::OnDamage(Object *attacker, float kgDamage)
 {
 	bool r = Ship::OnDamage(attacker, kgDamage);
@@ -54,11 +56,7 @@ bool Player::OnDamage(Object *attacker, float kgDamage)
 	return r;
 }
 
-void Player::Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
-{
-	if (!IsDead()) Ship::Render(r, viewCoords, viewTransform);
-}
-
+//XXX handle killcounts in lua
 void Player::SetDockedWith(SpaceStation *s, int port)
 {
 	Ship::SetDockedWith(s, port);
@@ -72,6 +70,7 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 	}
 }
 
+//XXX all ships should make this sound
 bool Player::SetWheelState(bool down)
 {
 	static Sound::Event sndev;
@@ -82,6 +81,7 @@ bool Player::SetWheelState(bool down)
 	return did;
 }
 
+//XXX all ships should make this sound
 bool Player::FireMissile(int idx, Ship *target)
 {
 	if (!Ship::FireMissile(idx, target))
@@ -91,6 +91,7 @@ bool Player::FireMissile(int idx, Ship *target)
 	return true;
 }
 
+//XXX do in lua, or use the alert concept for all ships
 void Player::SetAlertState(Ship::AlertState as)
 {
 	Ship::AlertState prev = GetAlertState();
@@ -136,6 +137,7 @@ void Player::NotifyRemoved(const Body* const removedBody)
 }
 
 /* MarketAgent shite */
+//XXX move to Player character .cpp
 void Player::Bought(Equip::Type t)
 {
 	m_equipment.Add(t);
@@ -186,6 +188,7 @@ Sint64 Player::GetPrice(Equip::Type t) const
 	}
 }
 
+//XXX ui stuff
 void Player::OnEnterHyperspace()
 {
 	SetNavTarget(0);
@@ -200,6 +203,7 @@ void Player::OnEnterHyperspace()
 void Player::OnEnterSystem()
 {
 	m_controller->SetFlightControlState(CONTROL_MANUAL);
+	//XXX don't call sectorview from here, use signals instead
 	Pi::sectorView->ResetHyperspaceTarget();
 }
 
