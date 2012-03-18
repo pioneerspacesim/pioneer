@@ -1113,7 +1113,7 @@ bool Ship::SetWheelState(bool down)
 
 void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	if ((!IsEnabled()) && !m_flightState) return;
+	if (IsDead() || (!IsEnabled()) && !m_flightState) return;
 	LmrObjParams &params = GetLmrObjParams();
 	
 	if ( (!this->IsType(Object::PLAYER)) ||

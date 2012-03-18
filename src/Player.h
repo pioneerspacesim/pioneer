@@ -32,7 +32,6 @@ public:
 	OBJDEF(Player, Ship, PLAYER);
 	Player(ShipType::Type shipType);
 	Player() { }; //default constructor used before Load
-	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void SetDockedWith(SpaceStation *, int port);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 	virtual void OnHaveKilled(Body *guyWeKilled);
