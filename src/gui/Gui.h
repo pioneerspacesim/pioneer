@@ -4,6 +4,8 @@
 #include "libs.h"
 #include "Color.h"
 
+namespace Graphics { class Renderer; }
+
 namespace Gui {
 
 	namespace Theme {
@@ -23,7 +25,7 @@ namespace Gui {
 	void Draw();
 	void MainLoopIteration();
 	sigc::connection AddTimer(Uint32 ms, sigc::slot<void> slot);
-	void Init(int screen_width, int screen_height, int ui_width, int ui_height);
+	void Init(Graphics::Renderer *renderer, int screen_width, int screen_height, int ui_width, int ui_height);
 	void Uninit();
 }
 
@@ -69,5 +71,6 @@ namespace Gui {
 #include "GuiScreen.h"
 #include "GuiStack.h"
 #include "GuiGradient.h"
+#include "GuiTexturedQuad.h"
 
 #endif /* _GUI_H */

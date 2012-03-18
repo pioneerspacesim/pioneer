@@ -1,4 +1,5 @@
 #include "Gui.h"
+#include "vector2.h"
 
 namespace Gui {
 
@@ -28,28 +29,17 @@ bool Widget::IsVisible() const
 		return false;
 }
 
-void Widget::SetClipping(float width, float height)
+void Widget::SetScissor(bool enabled)
 {
-	const GLdouble eqn1[4] = {1,0,0,0};
-	const GLdouble eqn2[4] = {0,1,0,0};
-	const GLdouble eqn3[4] = {-1,0,0,width};
-	const GLdouble eqn4[4] = {0,-1,0,height};
-	glClipPlane(GL_CLIP_PLANE0, eqn1);
-	glClipPlane(GL_CLIP_PLANE1, eqn2);
-	glClipPlane(GL_CLIP_PLANE2, eqn3);
-	glClipPlane(GL_CLIP_PLANE3, eqn4);
-	glEnable(GL_CLIP_PLANE0);
-	glEnable(GL_CLIP_PLANE1);
-	glEnable(GL_CLIP_PLANE2);
-	glEnable(GL_CLIP_PLANE3);
-}
-
-void Widget::EndClipping()
-{
-	glDisable(GL_CLIP_PLANE0);
-	glDisable(GL_CLIP_PLANE1);
-	glDisable(GL_CLIP_PLANE2);
-	glDisable(GL_CLIP_PLANE3);
+	if (enabled) {
+		float pos[2];
+		GetAbsolutePosition(pos);
+		float scale[2];
+		Gui::Screen::GetCoords2Pixels(scale);
+		Gui::Screen::GetRenderer()->SetScissor(true, vector2f(pos[0]/scale[0],(float(Gui::Screen::GetHeight())-(pos[1]+m_size.h))/scale[1]), vector2f(m_size.w/scale[0],m_size.h/scale[1]));
+	}
+	else
+		Gui::Screen::GetRenderer()->SetScissor(false);
 }
 
 void Widget::GrabFocus()

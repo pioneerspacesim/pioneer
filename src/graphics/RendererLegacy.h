@@ -5,6 +5,8 @@
 
 namespace Graphics {
 
+class Texture;
+
 // Fixed function renderer
 class RendererLegacy : public Renderer
 {
@@ -38,6 +40,8 @@ public:
 	virtual bool SetLights(int numlights, const Light *l);
 	virtual bool SetAmbientColor(const Color &c);
 
+	virtual bool SetScissor(bool enabled, const vector2f &pos = 0, const vector2f &size = 0);
+
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, LineType type=LINE_SINGLE);
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, LineType type=LINE_SINGLE);
 	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, LineType type=LINE_SINGLE);
@@ -47,6 +51,8 @@ public:
 	virtual bool DrawSurface(const Surface *surface);
 	virtual bool DrawPointSprites(int count, const vector3f *positions, const Material *material, float size);
 	virtual bool DrawStaticMesh(StaticMesh *thing);
+
+	virtual Texture *CreateTexture(const TextureDescriptor &descriptor);
 
 	virtual bool PrintDebugInfo(std::ostream &out);
 

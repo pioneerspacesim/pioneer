@@ -11,7 +11,6 @@
 #include "Sector.h"
 #include "HyperspaceCloud.h"
 #include "KeyBindings.h"
-#include "TextureCache.h"
 #include "perlin.h"
 #include "SectorView.h"
 #include "Lang.h"
@@ -19,10 +18,13 @@
 #include "Game.h"
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
+#include "graphics/TextureBuilder.h"
 #include "matrix4x4.h"
 
+static const std::string indicatorMousedirTextureFilename("icons/indicator_mousedir.png");
+
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
-static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
+static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.9f);
 
 #define HUD_CROSSHAIR_SIZE	24.0f
 
@@ -166,7 +168,7 @@ void WorldView::InitObject()
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_bodyLabels = new Gui::LabelSet();
-	m_bodyLabels->SetLabelColor(Color(1.0f, 1.0f, 1.0f, 0.5f));
+	m_bodyLabels->SetLabelColor(Color(1.0f, 1.0f, 1.0f, 0.9f));
 	Add(m_bodyLabels, 0, 0);
 	Gui::Screen::PopFont();
 
@@ -180,6 +182,13 @@ void WorldView::InitObject()
 	Add(m_navVelIndicator.label, 0, 0);
 	Add(m_combatTargetIndicator.label, 0, 0);
 	Add(m_targetLeadIndicator.label, 0, 0);
+
+	// XXX m_renderer not set yet
+	Graphics::TextureBuilder b = Graphics::TextureBuilder::UI(indicatorMousedirTextureFilename);
+	m_indicatorMousedir.Reset(new Gui::TexturedQuad(b.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+
+	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();
+	m_indicatorMousedirSize = vector2f(descriptor.dataSize.x*descriptor.texSize.x,descriptor.dataSize.y*descriptor.texSize.y);
 
 	//get near & far clipping distances
 	//XXX m_renderer not set yet
@@ -1494,8 +1503,7 @@ void WorldView::Draw()
 
 	glLineWidth(2.0f);
 
-	glColor4f(0.9f, 0.9f, 0.3f, 1.0f);
-	DrawImageIndicator(m_mouseDirIndicator, "icons/indicator_mousedir.png", yellow);
+	DrawImageIndicator(m_mouseDirIndicator, m_indicatorMousedir.Get(), yellow);
 
 	// combat target indicator
 	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, red);
@@ -1647,18 +1655,14 @@ void WorldView::DrawCircleIndicator(const Indicator &marker, const Color &c)
 		DrawEdgeMarker(marker, c);
 }
 
-void WorldView::DrawImageIndicator(const Indicator &marker, const char *icon_path, const Color &c)
+void WorldView::DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c)
 {
 	if (marker.side == INDICATOR_HIDDEN) return;
 
 	if (marker.side == INDICATOR_ONSCREEN) {
-		UITexture *tex = Pi::textureCache->GetUITexture(icon_path);
-		const float w = tex->GetWidth();
-		const float h = tex->GetHeight();
-		const float x = marker.pos[0] - w/2.0f;
-		const float y = marker.pos[1] - h/2.0f;
-		//XXX apply color to tint the image
-		tex->DrawUIQuad(x, y, w, h);
+		const float x = marker.pos[0] - m_indicatorMousedirSize.x/2.0f;
+		const float y = marker.pos[1] - m_indicatorMousedirSize.y/2.0f;
+		quad->Draw(Pi::renderer, vector2f(x,y), m_indicatorMousedirSize, c);
 	} else
 		DrawEdgeMarker(marker, c);
 }
