@@ -20,7 +20,7 @@ void TextureFont::RenderGlyph(Graphics::Renderer *r, Uint32 chr, float x, float 
 	const float offx = x + float(glyph->offx);
 	const float offy = y + float(m_pixSize - glyph->offy);
 
-	glyph->mat.diffuse = color;
+	m_mat.diffuse = color;
 
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 	
@@ -29,7 +29,7 @@ void TextureFont::RenderGlyph(Graphics::Renderer *r, Uint32 chr, float x, float 
 	va.Add(vector3f(offx+glyph->texWidth, offy,                  0.0f), vector2f(glyph->width, 0.0f));
 	va.Add(vector3f(offx+glyph->texWidth, offy+glyph->texHeight, 0.0f), vector2f(glyph->width, glyph->height));
 
-	r->DrawTriangles(&va, &glyph->mat, Graphics::TRIANGLE_STRIP);
+	r->DrawTriangles(&va, &m_mat, Graphics::TRIANGLE_STRIP);
 
 	s_glyphCount++;
 }
@@ -198,7 +198,7 @@ void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, 
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			if (glyph->texture) RenderGlyph(r, chr, roundf(px), py, color);
+			if (m_texture.Valid()) RenderGlyph(r, chr, roundf(px), py, color);
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -253,7 +253,7 @@ Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x,
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			if (glyph->texture) RenderGlyph(r, chr, roundf(px), py, c);
+			if (m_texture.Valid()) RenderGlyph(r, chr, roundf(px), py, c);
 
 			// XXX kerning doesn't skip markup
 			if (str[i]) {
@@ -297,6 +297,11 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	m_texSize = sz;
 
 	unsigned char *pixBuf = new unsigned char[4*sz*sz];
+	Graphics::TextureDescriptor descriptor(Graphics::TEXTURE_RGBA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
+	m_texture.Reset(Gui::Screen::GetRenderer()->CreateTexture(descriptor));
+	m_mat.texture0 = m_texture.Get();
+	m_mat.unlit = true;
+	m_mat.vertexColors = false;
 	
 	bool outline = GetConfig().Int("Outline");
 
@@ -421,13 +426,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 
 		FT_Done_Glyph(glyph);
 
-		Graphics::TextureDescriptor descriptor(Graphics::TEXTURE_RGBA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
-		glfglyph.texture.Reset(Gui::Screen::GetRenderer()->CreateTexture(descriptor));
-		glfglyph.texture->Update(pixBuf, vector2f(sz,sz), Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
-
-		glfglyph.mat.texture0 = glfglyph.texture.Get();
-		glfglyph.mat.unlit = true;
-		glfglyph.mat.vertexColors = false;
+		m_texture->Update(pixBuf, vector2f(sz,sz), Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
 
 		glfglyph.texWidth = m_texSize*glfglyph.width;
 		glfglyph.texHeight = m_texSize*glfglyph.height;

@@ -24,8 +24,6 @@ public:
 	float GetWidth() const { return m_width; }
 	float GetDescender() const { return m_descender; }
 	struct glfglyph_t {
-		RefCountedPtr<Graphics::Texture> texture;
-        Graphics::Material mat;
 		float advx, advy;
 		float width, height;
 		float texWidth, texHeight;
@@ -42,6 +40,8 @@ private:
 	float m_width;
 	float m_descender;
 	int m_texSize, m_pixSize;
+	RefCountedPtr<Graphics::Texture> m_texture;
+	Graphics::Material m_mat;
 
 	static int s_glyphCount;
 	std::map<Uint32,glfglyph_t> m_glyphs;
