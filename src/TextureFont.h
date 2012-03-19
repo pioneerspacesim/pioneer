@@ -28,6 +28,7 @@ public:
 		float width, height;
 		float texWidth, texHeight;
 		int offx, offy;
+		float offU, offV; //atlas UV offset
 	};
 	const glfglyph_t &GetGlyph(Uint32 ch) { return m_glyphs[ch]; }
 

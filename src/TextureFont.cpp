@@ -19,15 +19,17 @@ void TextureFont::RenderGlyph(Graphics::Renderer *r, Uint32 chr, float x, float 
 
 	const float offx = x + float(glyph->offx);
 	const float offy = y + float(m_pixSize - glyph->offy);
+	const float offU = glyph->offU;
+	const float offV = glyph->offV;
 
 	m_mat.diffuse = color;
 
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 	
-	va.Add(vector3f(offx,                 offy,                  0.0f), vector2f(0.0f,         0.0f));
-	va.Add(vector3f(offx,                 offy+glyph->texHeight, 0.0f), vector2f(0.0f,         glyph->height));
-	va.Add(vector3f(offx+glyph->texWidth, offy,                  0.0f), vector2f(glyph->width, 0.0f));
-	va.Add(vector3f(offx+glyph->texWidth, offy+glyph->texHeight, 0.0f), vector2f(glyph->width, glyph->height));
+	va.Add(vector3f(offx,                 offy,                  0.0f), vector2f(offU,         offV));
+	va.Add(vector3f(offx,                 offy+glyph->texHeight, 0.0f), vector2f(offU,         offV - glyph->height));
+	va.Add(vector3f(offx+glyph->texWidth, offy,                  0.0f), vector2f(offU + glyph->width, offV));
+	va.Add(vector3f(offx+glyph->texWidth, offy+glyph->texHeight, 0.0f), vector2f(offU + glyph->width, offV - glyph->height));
 
 	r->DrawTriangles(&va, &m_mat, Graphics::TRIANGLE_STRIP);
 
@@ -290,13 +292,23 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	m_pixSize = a_height;
 
 	FT_Set_Pixel_Sizes(m_face, a_width, a_height);
-	int nbit = 0;
-	int sz = a_height;
-	while (sz) { sz >>= 1; nbit++; }
-	sz = (64 > (1<<nbit) ? 64 : (1<<nbit));
+	//int nbit = 0;
+	//int sz = a_height;
+	//while (sz) { sz >>= 1; nbit++; }
+	//sz = (64 > (1<<nbit) ? 64 : (1<<nbit));
+	const int sz = 512;
 	m_texSize = sz;
+	const float magic = 64.f;
+
+	//offsets increase per glyph
+	int atlasU = 0;
+	int atlasV = sz;
+	int atlasVIncrement = 0;
 
 	unsigned char *pixBuf = new unsigned char[4*sz*sz];
+	//clear the pixel buffer
+	memset(pixBuf, 0, 4*sz*sz);
+
 	Graphics::TextureDescriptor descriptor(Graphics::TEXTURE_RGBA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
 	m_texture.Reset(Gui::Screen::GetRenderer()->CreateTexture(descriptor));
 	m_mat.texture0 = m_texture.Get();
@@ -304,6 +316,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	m_mat.vertexColors = false;
 	
 	bool outline = GetConfig().Int("Outline");
+	outline = false;
 
 	FT_Stroker stroker;
 	if (outline) {
@@ -317,10 +330,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	}
 
 	for (Uint32 chr=0x20; chr<0x1ff; chr++) {
-		memset(pixBuf, 0, 4*sz*sz);
-	
 		glfglyph_t glfglyph;
-
 		FT_Glyph glyph;
 
 		err = FT_Load_Char(m_face, chr, FT_LOAD_FORCE_AUTOHINT);
@@ -392,7 +402,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 			pitch = bmGlyph->bitmap.pitch;
 			for (int row=0; row < bmGlyph->bitmap.rows; row++) {
 				for (int col=0; col < bmGlyph->bitmap.width; col++) {
-					const int d = 4*sz*(row+yoff) + 4*(col+xoff);
+					const int d = 4*sz*(yoff - row) + 4*(col+xoff);
 					const int s = pitch*row + col;
 					pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = bmGlyph->bitmap.buffer[s];
 				}
@@ -407,12 +417,18 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 		}
 
 		else {
+			//don't run off atlas borders
+			atlasVIncrement = std::max(atlasVIncrement, bmGlyph->bitmap.rows);
+			if (atlasU + bmGlyph->bitmap.width > sz) {
+				atlasU = 0;
+				atlasV -= atlasVIncrement;
+			}
 			// face->glyph->bitmap
 			// copy to square buffer GL can stomach
 			const int pitch = bmGlyph->bitmap.pitch;
 			for (int row=0; row < bmGlyph->bitmap.rows; row++) {
 				for (int col=0; col < bmGlyph->bitmap.width; col++) {
-					const int d = 4*sz*row + 4*col;
+					const int d = 4*sz*(atlasV - row) + 4*(col+atlasU);
 					const int s = pitch*row + col;
 					pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = pixBuf[d+3] = bmGlyph->bitmap.buffer[s];
 				}
@@ -422,20 +438,24 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 			glfglyph.height = bmGlyph->bitmap.rows / float(sz);
 			glfglyph.offx = bmGlyph->left;
 			glfglyph.offy = bmGlyph->top;
+			glfglyph.offU = atlasU / float(sz);
+			glfglyph.offV = atlasV / float(sz);
+
+			atlasU += bmGlyph->bitmap.width;
 		}
 
 		FT_Done_Glyph(glyph);
 
-		m_texture->Update(pixBuf, vector2f(sz,sz), Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
-
 		glfglyph.texWidth = m_texSize*glfglyph.width;
 		glfglyph.texHeight = m_texSize*glfglyph.height;
 
-		glfglyph.advx = float(m_face->glyph->advance.x) / 64.0 + advx_adjust;
-		glfglyph.advy = float(m_face->glyph->advance.y) / 64.0;
+		glfglyph.advx = float(m_face->glyph->advance.x) / magic + advx_adjust;
+		glfglyph.advy = float(m_face->glyph->advance.y) / magic;
 		m_glyphs[chr] = glfglyph;
 	}
 
+	//upload atlas
+	m_texture->Update(pixBuf, vector2f(sz,sz), Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
 	delete [] pixBuf;
 
 	if (outline)
@@ -443,5 +463,5 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 
 	m_height = float(a_height);
 	m_width = float(a_width);
-	m_descender = -float(m_face->descender) / 64.0;
+	m_descender = -float(m_face->descender) / magic;
 }
