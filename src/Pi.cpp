@@ -1035,7 +1035,7 @@ void Pi::HandleMenuKey(int n)
 
 		case 1: // Epsilon Eridani start point
 		{
-			game = new Game(SystemPath(1,0,-1,0,4));  // New Hope, New Hope
+			game = new Game(SystemPath(1,-1,-1,0,4));  // New Hope, New Hope
 			break;
 		}
 

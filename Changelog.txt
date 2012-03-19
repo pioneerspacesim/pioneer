@@ -11,6 +11,7 @@ Alpha 21
    * Fixes
      * Don't take timesteps for dead ships. Stops the player firing during the
        death screen (#1056)
+     * Move all the custom stars into the right places (#1080, #1081)
 
    * Script changes
      * New custom system option :explored to explicitly set a system's
