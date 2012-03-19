@@ -1,10 +1,11 @@
 #include "TextureFont.h"
-#include "gui/GuiScreen.h"
-#include "graphics/Renderer.h"
-#include "graphics/VertexArray.h"
-#include "TextSupport.h"
 #include "libs.h"
 #include "FileSystem.h"
+#include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
+#include "gui/GuiScreen.h"
+#include "TextSupport.h"
+#include <algorithm>
 
 #include FT_GLYPH_H
 #include FT_STROKER_H
@@ -23,12 +24,12 @@ void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float 
 	const float offV = glyph->offV;
 	
 	va->Add(vector3f(offx,                 offy,                  0.0f), c, vector2f(offU, offV));
-	va->Add(vector3f(offx,                 offy+glyph->texHeight, 0.0f), c, vector2f(offU, offV - glyph->height));
+	va->Add(vector3f(offx,                 offy+glyph->texHeight, 0.0f), c, vector2f(offU, offV + glyph->height));
 	va->Add(vector3f(offx+glyph->texWidth, offy,                  0.0f), c, vector2f(offU + glyph->width, offV));
 
 	va->Add(vector3f(offx+glyph->texWidth, offy,                  0.0f), c, vector2f(offU + glyph->width, offV));
-	va->Add(vector3f(offx,                 offy+glyph->texHeight, 0.0f), c, vector2f(offU, offV - glyph->height));
-	va->Add(vector3f(offx+glyph->texWidth, offy+glyph->texHeight, 0.0f), c, vector2f(offU + glyph->width, offV - glyph->height));
+	va->Add(vector3f(offx,                 offy+glyph->texHeight, 0.0f), c, vector2f(offU, offV + glyph->height));
+	va->Add(vector3f(offx+glyph->texWidth, offy+glyph->texHeight, 0.0f), c, vector2f(offU + glyph->width, offV + glyph->height));
 
 	s_glyphCount++;
 }
@@ -302,14 +303,14 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	m_texSize = sz;
 	const float magic = 64.f; //I don't remember what this does but it was in several places
 
-	//offsets increase per glyph
+	//UV offsets for glyphs
 	int atlasU = 0;
-	int atlasV = sz; //OpenGL note: starting at top left corner
+	int atlasV = 0;
 	int atlasVIncrement = 0;
 
-	unsigned char *pixBuf = new unsigned char[4*sz*sz];
-	//clear the pixel buffer
-	memset(pixBuf, 0, 4*sz*sz);
+	//temporary RGBA pixel buffer for the glyph atlas
+	std::vector<unsigned char> pixBuf(4*sz*sz);
+	std::fill(pixBuf.begin(), pixBuf.end(), 0);
 
 	Graphics::TextureDescriptor descriptor(Graphics::TEXTURE_RGBA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
 	m_texture.Reset(Gui::Screen::GetRenderer()->CreateTexture(descriptor));
@@ -388,16 +389,16 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 			atlasVIncrement = std::max(atlasVIncrement, bmStrokeGlyph->bitmap.rows);
 			if (atlasU + bmStrokeGlyph->bitmap.width > sz) {
 				atlasU = 0;
-				atlasV -= atlasVIncrement;
+				atlasV += atlasVIncrement;
 			}
 	
-			//copy to a square luminance+alpha buffer
+			//copy to the atlas texture
 			//stroke first
 			int pitch = bmStrokeGlyph->bitmap.pitch;
 			for (int row=0; row < bmStrokeGlyph->bitmap.rows; row++) {
 				for (int col=0; col < bmStrokeGlyph->bitmap.width; col++) {
 					//assume black outline
-					const int d = 4*sz*(atlasV - row) + 4*(col+atlasU);
+					const int d = 4*sz*(row+atlasV) + 4*(col+atlasU);
 					const int s = pitch*row + col;
 					pixBuf[d]  = pixBuf[d+1] = pixBuf[d+2] = 0; //lum
 					pixBuf[d+3] = bmStrokeGlyph->bitmap.buffer[s]; //alpha
@@ -410,7 +411,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 			pitch = bmGlyph->bitmap.pitch;
 			for (int row=0; row < bmGlyph->bitmap.rows; row++) {
 				for (int col=0; col < bmGlyph->bitmap.width; col++) {
-					const int d = 4*sz*(atlasV - yoff - row) + 4*(col+xoff+atlasU);
+					const int d = 4*sz*(row+atlasV+xoff) + 4*(col+atlasU+yoff);
 					const int s = pitch*row + col;
 					pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = bmGlyph->bitmap.buffer[s];
 				}
@@ -431,16 +432,19 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 		else {
 			//don't run off atlas borders
 			atlasVIncrement = std::max(atlasVIncrement, bmGlyph->bitmap.rows);
-			if (atlasU + bmGlyph->bitmap.width > sz) {
+			if (atlasU + bmGlyph->bitmap.width >= sz) {
 				atlasU = 0;
-				atlasV -= atlasVIncrement;
+				atlasV += atlasVIncrement;
 			}
-			// face->glyph->bitmap
-			// copy to square buffer GL can stomach
+
+			//copy glyph bitmap to the atlas texture
+			//the glyphs are upside down in the texture due to how freetype stores them
+			//but it's just a matter of adjusting the texcoords
 			const int pitch = bmGlyph->bitmap.pitch;
-			for (int row=0; row < bmGlyph->bitmap.rows; row++) {
+			const int rows = bmGlyph->bitmap.rows;
+			for (int row=0; row < rows; row++) {
 				for (int col=0; col < bmGlyph->bitmap.width; col++) {
-					const int d = 4*sz*(atlasV - row) + 4*(col+atlasU);
+					const int d = 4*sz*(row+atlasV) + 4*(col+atlasU);
 					const int s = pitch*row + col;
 					pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = pixBuf[d+3] = bmGlyph->bitmap.buffer[s];
 				}
@@ -467,8 +471,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	}
 
 	//upload atlas
-	m_texture->Update(pixBuf, vector2f(sz,sz), Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
-	delete [] pixBuf;
+	m_texture->Update(&pixBuf[0], vector2f(sz,sz), Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
 
 	if (outline)
 		FT_Stroker_Done(stroker);
