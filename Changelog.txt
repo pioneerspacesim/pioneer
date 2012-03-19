@@ -24,7 +24,7 @@ Alpha 21
        #1079, #1077)
      * Ship definitions separated from models (#1051)
      * Partial keybinding cleanup to allow a sane init order
-	 * Integrate texture management into renderer (#1061)
+     * Integrate texture management into renderer (#1061)
      * Remove renderer dependencies on Pi and utils (#1071)
 
 Alpha 20
