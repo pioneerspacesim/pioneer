@@ -148,6 +148,7 @@
     <ClCompile Include="..\..\src\collider\CollisionSpace.cpp" />
     <ClCompile Include="..\..\src\collider\Geom.cpp" />
     <ClCompile Include="..\..\src\collider\GeomTree.cpp" />
+    <ClCompile Include="..\..\src\Color.cpp" />
     <ClCompile Include="..\..\src\CommodityTradeWidget.cpp" />
     <ClCompile Include="..\..\src\CustomSystem.cpp" />
     <ClCompile Include="..\..\src\DeadVideoLink.cpp" />
@@ -181,9 +182,10 @@
     <ClCompile Include="..\..\src\graphics\Renderer.cpp" />
     <ClCompile Include="..\..\src\graphics\RendererGL2.cpp" />
     <ClCompile Include="..\..\src\graphics\RendererLegacy.cpp" />
-    <ClCompile Include="..\..\src\graphics\RenderTarget.cpp" />
     <ClCompile Include="..\..\src\graphics\Shader.cpp" />
     <ClCompile Include="..\..\src\graphics\StaticMesh.cpp" />
+    <ClCompile Include="..\..\src\graphics\TextureBuilder.cpp" />
+    <ClCompile Include="..\..\src\graphics\TextureGL.cpp" />
     <ClCompile Include="..\..\src\graphics\VertexArray.cpp" />
     <ClCompile Include="..\..\src\gui\Gui.cpp" />
     <ClCompile Include="..\..\src\gui\GuiBox.cpp" />
@@ -206,6 +208,7 @@
     <ClCompile Include="..\..\src\gui\GuiTabbed.cpp" />
     <ClCompile Include="..\..\src\gui\GuiTextEntry.cpp" />
     <ClCompile Include="..\..\src\gui\GuiTextLayout.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiTexturedQuad.cpp" />
     <ClCompile Include="..\..\src\gui\GuiToggleButton.cpp" />
     <ClCompile Include="..\..\src\gui\GuiToolTip.cpp" />
     <ClCompile Include="..\..\src\gui\GuiVScrollBar.cpp" />
@@ -344,8 +347,6 @@
     <ClCompile Include="..\..\src\terrain\TerrainHeightWaterSolid.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightWaterSolidCanyons.cpp" />
     <ClCompile Include="..\..\src\TextSupport.cpp" />
-    <ClCompile Include="..\..\src\Texture.cpp" />
-    <ClCompile Include="..\..\src\TextureCache.cpp" />
     <ClCompile Include="..\..\src\TextureFont.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\..\src\VectorFont.cpp" />
@@ -410,10 +411,12 @@
     <ClInclude Include="..\..\src\graphics\RendererGL2.h" />
     <ClInclude Include="..\..\src\graphics\RendererGLBuffers.h" />
     <ClInclude Include="..\..\src\graphics\RendererLegacy.h" />
-    <ClInclude Include="..\..\src\graphics\RenderTarget.h" />
     <ClInclude Include="..\..\src\graphics\Shader.h" />
     <ClInclude Include="..\..\src\graphics\StaticMesh.h" />
     <ClInclude Include="..\..\src\graphics\Surface.h" />
+    <ClInclude Include="..\..\src\graphics\Texture.h" />
+    <ClInclude Include="..\..\src\graphics\TextureBuilder.h" />
+    <ClInclude Include="..\..\src\graphics\TextureGL.h" />
     <ClInclude Include="..\..\src\graphics\VertexArray.h" />
     <ClInclude Include="..\..\src\gui\Gui.h" />
     <ClInclude Include="..\..\src\gui\GuiAdjustment.h" />
@@ -439,6 +442,7 @@
     <ClInclude Include="..\..\src\gui\GuiTabbed.h" />
     <ClInclude Include="..\..\src\gui\GuiTextEntry.h" />
     <ClInclude Include="..\..\src\gui\GuiTextLayout.h" />
+    <ClInclude Include="..\..\src\gui\GuiTexturedQuad.h" />
     <ClInclude Include="..\..\src\gui\GuiToggleButton.h" />
     <ClInclude Include="..\..\src\gui\GuiToolTip.h" />
     <ClInclude Include="..\..\src\gui\GuiVScrollBar.h" />
@@ -539,8 +543,6 @@
     <ClInclude Include="..\..\src\terrain\TerrainFeature.h" />
     <ClInclude Include="..\..\src\terrain\TerrainNoise.h" />
     <ClInclude Include="..\..\src\TextSupport.h" />
-    <ClInclude Include="..\..\src\Texture.h" />
-    <ClInclude Include="..\..\src\TextureCache.h" />
     <ClInclude Include="..\..\src\TextureFont.h" />
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\vector2.h" />
