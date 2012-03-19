@@ -13,7 +13,7 @@
 
 int TextureFont::s_glyphCount = 0;
 
-void TextureFont::RenderGlyph(Graphics::Renderer *r, Uint32 chr, float x, float y, const Color &color)
+void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float x, float y, const Color &c)
 {
 	glfglyph_t *glyph = &m_glyphs[chr];
 
@@ -21,17 +21,14 @@ void TextureFont::RenderGlyph(Graphics::Renderer *r, Uint32 chr, float x, float 
 	const float offy = y + float(m_pixSize - glyph->offy);
 	const float offU = glyph->offU;
 	const float offV = glyph->offV;
-
-	m_mat.diffuse = color;
-
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 	
-	va.Add(vector3f(offx,                 offy,                  0.0f), vector2f(offU,         offV));
-	va.Add(vector3f(offx,                 offy+glyph->texHeight, 0.0f), vector2f(offU,         offV - glyph->height));
-	va.Add(vector3f(offx+glyph->texWidth, offy,                  0.0f), vector2f(offU + glyph->width, offV));
-	va.Add(vector3f(offx+glyph->texWidth, offy+glyph->texHeight, 0.0f), vector2f(offU + glyph->width, offV - glyph->height));
+	va->Add(vector3f(offx,                 offy,                  0.0f), c, vector2f(offU, offV));
+	va->Add(vector3f(offx,                 offy+glyph->texHeight, 0.0f), c, vector2f(offU, offV - glyph->height));
+	va->Add(vector3f(offx+glyph->texWidth, offy,                  0.0f), c, vector2f(offU + glyph->width, offV));
 
-	r->DrawTriangles(&va, &m_mat, Graphics::TRIANGLE_STRIP);
+	va->Add(vector3f(offx+glyph->texWidth, offy,                  0.0f), c, vector2f(offU + glyph->width, offV));
+	va->Add(vector3f(offx,                 offy+glyph->texHeight, 0.0f), c, vector2f(offU, offV - glyph->height));
+	va->Add(vector3f(offx+glyph->texWidth, offy+glyph->texHeight, 0.0f), c, vector2f(offU + glyph->width, offV - glyph->height));
 
 	s_glyphCount++;
 }
@@ -181,6 +178,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, float y, const Color &color)
 {
 	r->SetBlendMode(Graphics::BLEND_ALPHA);
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 
 	float px = x;
 	float py = y;
@@ -200,7 +198,7 @@ void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, 
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			if (m_texture.Valid()) RenderGlyph(r, chr, roundf(px), py, color);
+			AddGlyphGeometry(&va, chr, roundf(px), py, color);
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -218,11 +216,14 @@ void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, 
 			px += glyph->advx;
 		}
 	}
+
+	r->DrawTriangles(&va, &m_mat);
 }
 
 Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y, const Color &color)
 {
 	r->SetBlendMode(Graphics::BLEND_ALPHA);
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 
 	float px = x;
 	float py = y;
@@ -255,7 +256,7 @@ Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x,
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			if (m_texture.Valid()) RenderGlyph(r, chr, roundf(px), py, c);
+			AddGlyphGeometry(&va, chr, roundf(px), py, color);
 
 			// XXX kerning doesn't skip markup
 			if (str[i]) {
@@ -275,6 +276,7 @@ Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x,
 		}
 	}
 
+	r->DrawTriangles(&va, &m_mat);
 	return c;
 }
 
@@ -313,7 +315,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	m_texture.Reset(Gui::Screen::GetRenderer()->CreateTexture(descriptor));
 	m_mat.texture0 = m_texture.Get();
 	m_mat.unlit = true;
-	m_mat.vertexColors = false;
+	m_mat.vertexColors = true;
 	
 	bool outline = GetConfig().Int("Outline");
 	outline = false;

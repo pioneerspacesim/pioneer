@@ -36,7 +36,7 @@ public:
 	static void ClearGlyphCount() { s_glyphCount = 0; }
 
 private:
-	void RenderGlyph(Graphics::Renderer *r, Uint32 chr, float x, float y, const Color &color);
+	void AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float x, float y, const Color &color);
 	float m_height;
 	float m_width;
 	float m_descender;
