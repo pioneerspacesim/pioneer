@@ -6,7 +6,10 @@
 #include "graphics/Texture.h"
 #include "graphics/Material.h"
 
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+	class VertexArray;
+}
 
 class TextureFont : public Font {
 
