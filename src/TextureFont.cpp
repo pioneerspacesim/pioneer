@@ -298,13 +298,13 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	//int sz = a_height;
 	//while (sz) { sz >>= 1; nbit++; }
 	//sz = (64 > (1<<nbit) ? 64 : (1<<nbit));
-	const int sz = 512;
+	const int sz = 512; //current fonts use maybe 1/4 of this...
 	m_texSize = sz;
-	const float magic = 64.f;
+	const float magic = 64.f; //I don't remember what this does but it was in several places
 
 	//offsets increase per glyph
 	int atlasU = 0;
-	int atlasV = sz;
+	int atlasV = sz; //OpenGL note: starting at top left corner
 	int atlasVIncrement = 0;
 
 	unsigned char *pixBuf = new unsigned char[4*sz*sz];
@@ -318,7 +318,6 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	m_mat.vertexColors = true;
 	
 	bool outline = GetConfig().Int("Outline");
-	outline = false;
 
 	FT_Stroker stroker;
 	if (outline) {
@@ -384,6 +383,13 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 			}
 	
 			FT_BitmapGlyph bmStrokeGlyph = FT_BitmapGlyph(strokeGlyph);
+
+			//don't run off atlas borders
+			atlasVIncrement = std::max(atlasVIncrement, bmStrokeGlyph->bitmap.rows);
+			if (atlasU + bmStrokeGlyph->bitmap.width > sz) {
+				atlasU = 0;
+				atlasV -= atlasVIncrement;
+			}
 	
 			//copy to a square luminance+alpha buffer
 			//stroke first
@@ -391,7 +397,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 			for (int row=0; row < bmStrokeGlyph->bitmap.rows; row++) {
 				for (int col=0; col < bmStrokeGlyph->bitmap.width; col++) {
 					//assume black outline
-					const int d = 4*sz*row + 4*col;
+					const int d = 4*sz*(atlasV - row) + 4*(col+atlasU);
 					const int s = pitch*row + col;
 					pixBuf[d]  = pixBuf[d+1] = pixBuf[d+2] = 0; //lum
 					pixBuf[d+3] = bmStrokeGlyph->bitmap.buffer[s]; //alpha
@@ -404,7 +410,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 			pitch = bmGlyph->bitmap.pitch;
 			for (int row=0; row < bmGlyph->bitmap.rows; row++) {
 				for (int col=0; col < bmGlyph->bitmap.width; col++) {
-					const int d = 4*sz*(yoff - row) + 4*(col+xoff);
+					const int d = 4*sz*(atlasV - yoff - row) + 4*(col+xoff+atlasU);
 					const int s = pitch*row + col;
 					pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = bmGlyph->bitmap.buffer[s];
 				}
@@ -414,6 +420,10 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 			glfglyph.height = bmStrokeGlyph->bitmap.rows / float(sz);
 			glfglyph.offx = bmStrokeGlyph->left;
 			glfglyph.offy = bmStrokeGlyph->top;
+			glfglyph.offU = atlasU / float(sz);
+			glfglyph.offV = atlasV / float(sz);
+
+			atlasU += bmStrokeGlyph->bitmap.width;
 
 			FT_Done_Glyph(strokeGlyph);
 		}
