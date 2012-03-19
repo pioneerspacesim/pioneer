@@ -7,6 +7,7 @@ Alpha 21
      * Various moons in the Sol system now appear in the right order on the map (#1050)
      * Updated TradeShips module to handle accidental landings and fuel (#1064)
      * More precise mouse control under different FoV settings (#1076)
+     * Added VSync config option (#1085)
 
    * Fixes
      * Don't take timesteps for dead ships. Stops the player firing during the
