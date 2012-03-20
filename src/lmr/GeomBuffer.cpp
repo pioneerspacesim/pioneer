@@ -366,11 +366,9 @@ void GeomBuffer::PushTri(int i1, int i2, int i3) {
 	m_triflags.push_back(curTriFlag);
 }
 
-void GeomBuffer::PushZBias(float amount, const vector3f &pos, const vector3f &norm) {
+void GeomBuffer::PushZBias(float amount) {
     OpZBias *op = new OpZBias;
 	op->amount = amount;
-	memcpy(op->pos, &pos.x, 3*sizeof(float));
-	memcpy(op->norm, &norm.x, 3*sizeof(float));
 
 	if (curOp) m_ops.push_back(curOp);
     curOp = op;
@@ -405,7 +403,7 @@ void GeomBuffer::PushUseLight(int num) {
 
 void GeomBuffer::PushCallModel(LmrModel *m, const matrix4x4f &transform, float scale) {
 	OpCallModel *op = new OpCallModel;
-	memcpy(op->transform, &transform[0], 16*sizeof(float));
+	op->transform = transform;
 	op->model = m;
 	op->scale = scale;
 
@@ -423,7 +421,7 @@ void GeomBuffer::PushInvisibleTri(int i1, int i2, int i3) {
 	m_triflags.push_back(curTriFlag);
 }
 
-void GeomBuffer::PushBillboards(const char *texname, const float size, const vector3f &color, const int numPoints, const vector3f *points)
+void GeomBuffer::PushBillboards(const char *texname, const float size, const Color &color, const int numPoints, const vector3f *points)
 {
 	char buf[256];
 	snprintf(buf, sizeof(buf), "textures/%s", texname);
@@ -433,10 +431,7 @@ void GeomBuffer::PushBillboards(const char *texname, const float size, const vec
 	op->count = numPoints;
 	op->textureFile = new std::string(buf);
 	op->texture = 0;
-	op->col[0] = color.x;
-	op->col[1] = color.y;
-	op->col[2] = color.z;
-	op->col[3] = 1.0f;
+	op->col = color;
 
 	if (curOp) m_ops.push_back(curOp);
 	curOp = op;

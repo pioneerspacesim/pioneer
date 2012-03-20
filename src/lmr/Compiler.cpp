@@ -1374,20 +1374,18 @@ namespace ModelFuncs {
 	 * Fine-tune depth range. Overlapping geometry can be rendered without 
 	 * z-fighting using this parameter.
 	 *
-	 * > zbias(amount, position, normal)
+	 * > zbias(amount)
 	 *
 	 * Parameters:
 	 *
 	 *   amount - adjustment value, use 0 to restore normal operation
-	 *   position - unused
-	 *   normal - unused
 	 *
 	 * Example:
 	 *
 	 * > quad(v(-1,-0.5,0),v(1,-0.5,0),v(1,0.5,0),v(-1,0.5,0))
-	 * > zbias(1.0, v(0,0,0),v(0,0,1))
+	 * > zbias(1)
 	 * > text("Some text", v(0,0,0), v(0,0,1), v(1,0,0), .2, {center=true})
-   * > zbias(0)
+	 * > zbias(0)
 	 *
 	 * Availability:
 	 *
@@ -1403,11 +1401,9 @@ namespace ModelFuncs {
 		GeomBuffer *geomBuffer = GetCurrentGeomBuffer(L);
 		int amount = luaL_checkinteger(L, 1);
 		if (! amount) {
-			geomBuffer->PushZBias(0, vector3f(0.0), vector3f(0.0));
+			geomBuffer->PushZBias(0);
 		} else {
-			vector3f *pos = MyLuaVec::checkVec(L, 2);
-			vector3f *norm = MyLuaVec::checkVec(L, 3);
-			geomBuffer->PushZBias(float(amount), *pos, *norm);
+			geomBuffer->PushZBias(float(amount));
 		}
 		return 0;
 	}
@@ -2633,7 +2629,8 @@ namespace ModelFuncs {
 //		billboard('texname', size, color, { p1, p2, p3, p4 })
 		const char *texname = luaL_checkstring(L, 1);
 		const float size = luaL_checknumber(L, 2);
-		const vector3f color = *MyLuaVec::checkVec(L, 3);
+		const vector3f cv = *MyLuaVec::checkVec(L, 3);
+		const Color color(cv.x,cv.y,cv.z,1.0f);
 		std::vector<vector3f> points;
 
 		if (lua_istable(L, 4)) {

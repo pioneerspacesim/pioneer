@@ -55,7 +55,7 @@ public:
 
 	void SetInsideOut(bool a) { m_putGeomInsideout = a; }
 	
-	void PushZBias(float amount, const vector3f &pos, const vector3f &norm);
+	void PushZBias(float amount);
 
 	void PushSetLocalLighting(bool enable);
 
@@ -67,7 +67,7 @@ public:
 
 	void PushInvisibleTri(int i1, int i2, int i3);
 	
-	void PushBillboards(const char *texname, const float size, const vector3f &color, const int numPoints, const vector3f *points);
+	void PushBillboards(const char *texname, const float size, const Color &color, const int numPoints, const vector3f *points);
 
 	void SetMaterial(const char *mat_name, const float mat[11]);
 
@@ -125,24 +125,19 @@ private:
 	};
 
 	struct OpCallModel : public Op {
-		OpCallModel() : Op(OP_CALL_MODEL), model(0), scale(0) {
-			transform[0] = transform[1] = transform[2] = transform[3] = transform[4] = transform[5] = transform[6] = transform[7] =
-			transform[8] = transform[9] = transform[10] = transform[11] = transform[12] = transform[13] = transform[14] = transform[15] = 0.0f;
-		}
+		OpCallModel() : Op(OP_CALL_MODEL), model(0), transform(0.0f), scale(0) {}
 		LmrModel *model;
-		float transform[16];
+		matrix4x4f transform;
 		float scale;
 	};
 
 	struct OpDrawBillboards : public Op {
-		OpDrawBillboards() : Op(OP_DRAW_BILLBOARDS), textureFile(0), texture(0), start(0), count(0), size(0) {
-			col[0] = col[1] = col[2] = col[3] = 0;
-		}
+		OpDrawBillboards() : Op(OP_DRAW_BILLBOARDS), textureFile(0), texture(0), start(0), count(0), size(0), col(0.0f) {}
 		std::string *textureFile;
 		mutable Graphics::Texture *texture;
 		int start, count;
 		float size;
-		float col[4];
+		Color col;
 	};
 
 	struct OpLightingType : public Op {
@@ -151,13 +146,8 @@ private:
 	};
 
 	struct OpUseLight : public Op {
-		OpUseLight() : Op(OP_USE_LIGHT), num(0), quadratic_attenuation(0) {
-			pos[0] = pos[1] = pos[2] = pos[3] = 0;
-			col[0] = col[1] = col[2] = col[3] = 0;
-		}
+		OpUseLight() : Op(OP_USE_LIGHT), num(0) {}
 		int num;
-		float quadratic_attenuation;
-		float pos[4], col[4];
 	};
 
 	SHADER_CLASS_BEGIN(LmrShader)
