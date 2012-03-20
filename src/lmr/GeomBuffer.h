@@ -109,23 +109,6 @@ private:
 		int start, count, elemMin, elemMax;
 	};
 
-	struct OpSetMaterial : public Op {
-		OpSetMaterial() : Op(OP_SET_MATERIAL), material_idx(0) {}
-		int material_idx;
-	};
-
-	struct OpZBias : public Op {
-		OpZBias() : Op(OP_ZBIAS), amount(0) {}
-		float amount;
-	};
-
-	struct OpCallModel : public Op {
-		OpCallModel() : Op(OP_CALL_MODEL), model(0), transform(0.0f), scale(0) {}
-		LmrModel *model;
-		matrix4x4f transform;
-		float scale;
-	};
-
 	struct OpDrawBillboards : public Op {
 		OpDrawBillboards() : Op(OP_DRAW_BILLBOARDS), textureFile(0), texture(0), start(0), count(0), size(0), col(0.0f) {}
 		std::string *textureFile;
@@ -135,14 +118,31 @@ private:
 		Color col;
 	};
 
+	struct OpSetMaterial : public Op {
+		OpSetMaterial(int _material_idx) : Op(OP_SET_MATERIAL), material_idx(_material_idx) {}
+		const int material_idx;
+	};
+
+	struct OpZBias : public Op {
+		OpZBias(float _amount) : Op(OP_ZBIAS), amount(_amount) {}
+		const float amount;
+	};
+
+	struct OpCallModel : public Op {
+		OpCallModel(LmrModel *_model, const matrix4x4f &_transform, float _scale) : Op(OP_CALL_MODEL), model(_model), transform(_transform), scale(_scale) {}
+		LmrModel *model;
+		const matrix4x4f transform;
+		const float scale;
+	};
+
 	struct OpLightingType : public Op {
-		OpLightingType() : Op(OP_LIGHTING_TYPE), local(false) {}
-		bool local;
+		OpLightingType(bool _local) : Op(OP_LIGHTING_TYPE), local(_local) {}
+		const bool local;
 	};
 
 	struct OpUseLight : public Op {
-		OpUseLight() : Op(OP_USE_LIGHT), num(0) {}
-		int num;
+		OpUseLight(int _num) : Op(OP_USE_LIGHT), num(_num) {}
+		const int num;
 	};
 
 	SHADER_CLASS_BEGIN(LmrShader)

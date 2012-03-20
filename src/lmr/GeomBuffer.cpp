@@ -367,16 +367,14 @@ void GeomBuffer::PushTri(int i1, int i2, int i3) {
 }
 
 void GeomBuffer::PushZBias(float amount) {
-    OpZBias *op = new OpZBias;
-	op->amount = amount;
+    OpZBias *op = new OpZBias(amount);
 
 	if (curOp) m_ops.push_back(curOp);
     curOp = op;
 }
 
 void GeomBuffer::PushSetLocalLighting(bool enable) {
-	OpLightingType *op = new OpLightingType;
-	op->local = enable;
+	OpLightingType *op = new OpLightingType(enable);
 
 	if (curOp) m_ops.push_back(curOp);
 	curOp = op;
@@ -394,18 +392,14 @@ void GeomBuffer::SetLight(int num, float quadratic_attenuation, const vector3f &
 }
 
 void GeomBuffer::PushUseLight(int num) {
-	OpUseLight *op = new OpUseLight;
-	op->num = num;
+	OpUseLight *op = new OpUseLight(num);
 
 	if (curOp) m_ops.push_back(curOp);
 	curOp = op;
 }
 
 void GeomBuffer::PushCallModel(LmrModel *m, const matrix4x4f &transform, float scale) {
-	OpCallModel *op = new OpCallModel;
-	op->transform = transform;
-	op->model = m;
-	op->scale = scale;
+	OpCallModel *op = new OpCallModel(m, transform, scale);
 
 	if (curOp) m_ops.push_back(curOp);
 	curOp = op;
@@ -467,8 +461,7 @@ void GeomBuffer::SetMaterial(const char *mat_name, const float mat[11]) {
 void GeomBuffer::PushUseMaterial(const char *mat_name) {
 	std::map<std::string, int>::iterator i = m_model->m_materialLookup.find(mat_name);
 	if (i != m_model->m_materialLookup.end()) {
-		OpSetMaterial *op = new OpSetMaterial;
-		op->material_idx = (*i).second;
+		OpSetMaterial *op = new OpSetMaterial((*i).second);
 		if (curOp) m_ops.push_back(curOp);
 		curOp = op;
 	} else {
