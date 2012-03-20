@@ -134,9 +134,7 @@ noinst_HEADERS = \
 	SystemPath.h \
 	SystemView.h \
 	TerrainBody.h \
-	Texture.h \
 	TextureFont.h \
-	TextureCache.h \
 	TextSupport.h \
 	VectorFont.h \
 	VideoLink.h \
@@ -161,6 +159,7 @@ pioneer_SOURCES	= \
 	Body.cpp \
 	Camera.cpp \
 	CargoBody.cpp \
+	Color.cpp \
 	ChatForm.cpp \
 	CityOnPlanet.cpp \
 	CommodityTradeWidget.cpp \
@@ -266,9 +265,7 @@ pioneer_SOURCES	= \
 	SystemInfoView.cpp \
 	SystemView.cpp \
 	TerrainBody.cpp \
-	Texture.cpp \
 	TextureFont.cpp \
-	TextureCache.cpp \
 	TextSupport.cpp \
 	VectorFont.cpp \
 	WorldView.cpp \
@@ -287,6 +284,7 @@ pioneer_LDADD += ../contrib/lua/liblua.a
 endif
 
 modelviewer_SOURCES = \
+	Color.cpp \
 	Font.cpp \
 	FileSystem.cpp \
 	IniConfig.cpp \
@@ -301,9 +299,7 @@ modelviewer_SOURCES = \
 	ShipType.cpp \
 	MyLuaMathTypes.cpp \
 	StringF.cpp \
-	Texture.cpp \
 	TextureFont.cpp \
-	TextureCache.cpp \
 	TextSupport.cpp \
 	VectorFont.cpp \
 	perlin.cpp \

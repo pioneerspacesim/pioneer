@@ -22,4 +22,4 @@ local barnard_starports = {
         :rotation_period(f(1,24*60*4)),
 }
 s:bodies(barnard, barnard_starports)
-s:add_to_sector(-1,-1,0,v(0.260,0.993,0.060))
+s:add_to_sector(-1,0,0,v(0.260,0.007,0.060))

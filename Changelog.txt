@@ -7,10 +7,12 @@ Alpha 21
      * Various moons in the Sol system now appear in the right order on the map (#1050)
      * Updated TradeShips module to handle accidental landings and fuel (#1064)
      * More precise mouse control under different FoV settings (#1076)
+     * Added VSync config option (#1085)
 
    * Fixes
      * Don't take timesteps for dead ships. Stops the player firing during the
        death screen (#1056)
+     * Move all the custom stars into the right places (#1080, #1081)
 
    * Script changes
      * New custom system option :explored to explicitly set a system's
@@ -23,6 +25,7 @@ Alpha 21
        #1079, #1077)
      * Ship definitions separated from models (#1051)
      * Partial keybinding cleanup to allow a sane init order
+     * Integrate texture management into renderer (#1061)
      * Remove renderer dependencies on Pi and utils (#1071)
 
 Alpha 20

@@ -3,8 +3,6 @@
 
 #include "VideoLink.h"
 
-class Texture;
-
 class CharacterInfoText : public Gui::Fixed {
 public:
 	CharacterInfoText(float w, float h,
@@ -57,7 +55,7 @@ private:
 	Uint32 m_seed;
 
 	Uint32 m_created;
-	Texture *m_texture;
+	ScopedPtr<Gui::TexturedQuad> m_quad;
 	Gui::ToolTip *m_message;
 	CharacterInfoText *m_characterInfo;
 };

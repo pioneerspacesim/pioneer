@@ -14,11 +14,13 @@ noinst_HEADERS = \
 	RendererLegacy.h \
 	Frustum.h \
 	Shader.h \
-	RenderTarget.h \
 	Material.h \
 	StaticMesh.h \
 	Surface.h \
 	VertexArray.h \
+	Texture.h \
+	TextureGL.h \
+	TextureBuilder.h \
 	Drawables.h
 
 libgraphics_a_SOURCES = \
@@ -28,8 +30,9 @@ libgraphics_a_SOURCES = \
 	RendererLegacy.cpp \
 	Frustum.cpp \
 	Shader.cpp \
-	RenderTarget.cpp \
 	Material.cpp \
 	StaticMesh.cpp \
 	VertexArray.cpp \
+	TextureGL.cpp \
+	TextureBuilder.cpp \
 	Drawables.cpp

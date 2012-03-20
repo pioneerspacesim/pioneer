@@ -199,6 +199,7 @@ MilkyWay::~MilkyWay()
 void MilkyWay::Draw(Graphics::Renderer *renderer)
 {
 	assert(m_model != 0);
+	renderer->SetBlendMode(BLEND_SOLID);
 	renderer->DrawStaticMesh(m_model);
 }
 

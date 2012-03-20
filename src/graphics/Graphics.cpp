@@ -1,6 +1,5 @@
 #include "Graphics.h"
 #include "Shader.h"
-#include "RenderTarget.h"
 #include "RendererLegacy.h"
 #include "RendererGL2.h"
 #include "FileSystem.h"
