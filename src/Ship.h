@@ -108,6 +108,7 @@ public:
 		HYPERJUMP_NO_DRIVE,
 		HYPERJUMP_OUT_OF_RANGE,
 		HYPERJUMP_INSUFFICIENT_FUEL,
+        HYPERJUMP_DRIVE_ERROR
 	};
 	bool CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus = 0);
 	void UseHyperspaceFuel(const SystemPath *dest);
