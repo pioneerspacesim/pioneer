@@ -431,6 +431,7 @@ void GeomBuffer::PushBillboards(const char *texname, const float size, const Col
 	op->count = numPoints;
 	op->textureFile = new std::string(buf);
 	op->texture = 0;
+	op->size = size;
 	op->col = color;
 
 	if (curOp) m_ops.push_back(curOp);
