@@ -1,4 +1,4 @@
-﻿CustomSystem:new('GJ 1075',{'STAR_K'}):add_to_sector(2,0,-4,v(0.451,0.591,0.034))
+CustomSystem:new('GJ 1075',{'STAR_K'}):add_to_sector(2,0,-4,v(0.451,0.591,0.034))
 CustomSystem:new('NN 3707',{'STAR_M'}):add_to_sector(-1,-4,-1,v(0.845,0.488,0.054))
 CustomSystem:new('NN 3253',{'STAR_M'}):add_to_sector(3,1,1,v(0.185,0.977,0.148))
 CustomSystem:new('Gliese 766',{'STAR_M','STAR_M'}):add_to_sector(-4,1,1,v(0.511,0.735,0.998))
@@ -74,11 +74,29 @@ CustomSystem:new('NN 4062',{'STAR_M'}):add_to_sector(-4,0,3,v(0.124,0.544,0.364)
 CustomSystem:new('NN 3959',{'STAR_M'}):add_to_sector(-3,-2,2,v(0.144,0.836,0.667))
 CustomSystem:new('Iota Pegasi',{'STAR_F'}):add_to_sector(-3,3,2,v(0.950,0.816,0.052))
 CustomSystem:new('Gliese 867',{'STAR_M','STAR_M'}):add_to_sector(-2,3,-2,v(0.855,0.093,0.759))
-CustomSystem:new('Gliese 866',{'STAR_M'}):add_to_sector(-1,1,-1,v(0.534,0.252,0.634))
+CustomSystem:new('Gliese 866',{'STAR_M'})
+	:short_desc('Heavy Mining.  Disorder.')
+	:long_desc([[Gliese 866 is the perfect example of what can go wrong when greed is allowed to outweigh laws and regulations.  A small mining installation found a mineral vein of what is now known as Kapnan, the main component of anti hyperspace-sickness medicine.  The demand for Kapnan grew to such an extent that hundreds of mining companies arrived and began mining without the proper paperwork and services.
+	Akin to the goldrushes of old, people young and old flocked to Gliese 866 to find their fortune, followed by the criminals and pirates.  This melting pot of humanity and greed finally exploded in 3065 when the largest mine near Shih town exploded.
+	Blame was throw about, mining companies formed alliances, the more dubious with the criminal organisations, and armed skirmishes turned to system-wide anarchy.
+	The Solar Federation, keen to secure its supply of Kapnan, tried to assert control but its navy was ill-equiped to enforce control without damaging the infrastructure.  An uneasy peace existed until 3071 when Kapnan was discovered in another system.  The Solar Federation promptly left, leaving the locals to their own devices.  
+	Despite the unrest Kapnan is still mined and sold to other independent systems.
+	   ]])
+	:govtype('DISORDER')
+:add_to_sector(-1,1,-1,v(0.534,0.252,0.634))
 CustomSystem:new('Ross 128',{'STAR_M'}):add_to_sector(0,-2,0,v(0.073,0.641,0.019))
 CustomSystem:new('NN 3522',{'STAR_K'}):add_to_sector(1,-2,0,v(0.279,0.733,0.268))
 CustomSystem:new('NN 3526',{'STAR_M'}):add_to_sector(1,-2,3,v(0.082,0.891,0.847))
-CustomSystem:new('Sigma Draconis',{'STAR_K'}):add_to_sector(-1,0,2,v(0.248,0.320,0.205))
+CustomSystem:new('Sigma Draconis',{'STAR_K'})
+	:short_desc('Old World.  Renowned Shipyards')
+--	:seed(1234)
+	:govtype('EARTHDEMOC')
+	:long_desc([[The planet of Melendez's Claim was colonised in 3221 and humanity quickly spread across the globe.  The abundant wildlife was bred for meat and as draft animals and a simple argricultural society took hold.
+	Colonies spread through the system without a central government to control laws. As each colony sought its own direction, inter-system trade began and the Sigma Draconis system becase a microcosm of humanity.
+	Pollution from the Colony of Walterville began to affect the other colonies and after communication broke down, war resulted in the loss of several million colonists.
+	By the time the Solar Federation Navy arrived with hyperspace powered ships the system was in a state of anarchy.  Strict enforced rule was welcomed and the system was united under a single governor.
+	Now Sigma Draconis is a rich, highly populated system whose claim to fame are Maelstrom Avionic/'shipyards which produce The Solar Federation Navies Juggernaut class and several Privateer class ships.]])
+	:add_to_sector(-1,0,2,v(0.248,0.320,0.205))
 CustomSystem:new('GJ 2034',{'WHITE_DWARF'}):add_to_sector(1,0,-3,v(0.989,0.917,0.512))
 CustomSystem:new('GJ 2036',{'STAR_M','STAR_M'}):add_to_sector(2,0,-4,v(0.451,0.731,0.228))
 CustomSystem:new('Gliese 109',{'STAR_M'}):add_to_sector(1,2,1,v(0.825,0.095,0.327))
@@ -199,7 +217,14 @@ CustomSystem:new('Gliese 745',{'STAR_M','STAR_M'}):add_to_sector(-4,0,1,v(0.854,
 CustomSystem:new('GJ 1005',{'STAR_M'}):add_to_sector(0,2,-1,v(0.138,0.037,0.410))
 CustomSystem:new('GJ 1004',{'WHITE_DWARF'}):add_to_sector(0,2,3,v(0.153,0.859,0.465))
 CustomSystem:new('Gliese 803',{'STAR_M'}):add_to_sector(-3,2,-3,v(0.399,0.284,0.892))
-CustomSystem:new('Kapteyn\'s Star',{'STAR_M'}):add_to_sector(1,0,-2,v(0.104,0.237,0.871))
+CustomSystem:new('Kapteyn\'s Star',{'STAR_M'})
+	:short_desc('Thriving Outdoor world.  Tourism.')
+	:long_desc([[The slightly lower than standard gravity makes the searing heat of Harris Colony almost bearable to visitors.  
+	While the large cities bring a level of sophistication and comfort to the planet, the surrounding jungles are hot and humid and are filled with carnivorous predators.
+	The jungles are divided into separate 'Ranges', some for the protection of species, some for hunting and sport.  The annual hunt at Hendrixville draws punters from around the galaxy for a chance to win a lifetime of free hunts.  
+	As Harris Colony is completely given over to toursim there is little industry and most human comforts must be imported.]])
+	:govtype('EARTHDEMOC')
+	:add_to_sector(1,0,-2,v(0.104,0.237,0.871))
 CustomSystem:new('GJ 1002',{'STAR_M'}):add_to_sector(0,1,-1,v(0.056,0.899,0.749))
 CustomSystem:new('Ross 248',{'STAR_M'}):add_to_sector(-1,0,0,v(0.927,0.923,0.901))
 CustomSystem:new('Gliese 892',{'STAR_K'}):add_to_sector(-1,1,2,v(0.708,0.413,0.236))
@@ -338,7 +363,12 @@ CustomSystem:new('GJ 1001',{'STAR_M'}):add_to_sector(0,2,-3,v(0.060,0.966,0.449)
 CustomSystem:new('Gliese 835',{'STAR_M'}):add_to_sector(-3,3,2,v(0.245,0.862,0.493))
 CustomSystem:new('Gliese 831',{'STAR_M','STAR_M'}):add_to_sector(-2,2,-1,v(0.055,0.565,0.445))
 CustomSystem:new('Gliese 832',{'STAR_M'}):add_to_sector(-1,1,-2,v(0.213,0.060,0.481))
-CustomSystem:new('Gliese 406',{'STAR_M'}):add_to_sector(0,-1,0,v(0.264,0.069,0.120))
+CustomSystem:new('Gliese 406',{'STAR_M'})
+	:long_desc([[Like many systems first explored after the advent of Hyperspace, Gliese 486 is predominantly mining and industry.  
+	The abundance of raw materials on Rose's Claim  convinced Maelstrom Avionics to build a factory near Berger Town which employs nearly half the population.  
+	Acevedo Base is a renown hangout for racers and other misspent youth, which makes docking difficult, but a proposed bylaw will attempt to increase safety around the station.]])  
+	:govtype('EARTHDEMOC')
+	:add_to_sector(0,-1,0,v(0.264,0.069,0.120))
 CustomSystem:new('Gliese 402',{'STAR_M'}):add_to_sector(0,-3,0,v(0.678,0.822,0.272))
 CustomSystem:new('Gliese 373',{'STAR_M'}):add_to_sector(1,-2,3,v(0.005,0.324,0.801))
 CustomSystem:new('Gliese 408',{'STAR_M'}):add_to_sector(0,-3,1,v(0.643,0.596,0.048))
@@ -413,6 +443,7 @@ CustomSystem:new('Wo 9492',{'STAR_M'}):add_to_sector(-2,-2,3,v(0.938,0.760,0.677
 CustomSystem:new('Gliese 611',{'STAR_G','STAR_M'}):add_to_sector(-4,-3,3,v(0.019,0.815,0.698))
 CustomSystem:new('GJ 1245',{'STAR_M','STAR_M'}):add_to_sector(-2,0,1,v(0.793,0.655,0.346))
 CustomSystem:new('Gliese 618',{'STAR_M','STAR_M'}):add_to_sector(-3,-2,-3,v(0.517,0.843,0.896))
+CustomSystem:new('Arcturus',{'STAR_K_GIANT'}):add_to_sector(-3,-4,1,v(0.582,0.404,0.508))
 CustomSystem:new('GJ 1151',{'STAR_M'}):add_to_sector(0,-3,2,v(0.086,0.779,0.503))
 CustomSystem:new('Beta Comae Berenices',{'STAR_G'}):add_to_sector(-2,-4,1,v(0.982,0.862,0.745))
 CustomSystem:new('GJ 1154',{'STAR_M'}):add_to_sector(-1,-4,0,v(0.785,0.558,0.038))
