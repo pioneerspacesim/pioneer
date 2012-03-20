@@ -509,6 +509,7 @@ void LuaConstants::Register(lua_State *l)
 	 * OUT_OF_RANGE - target system is out of range
 	 * INSUFFICIENT_FUEL - target system is in range but the ship doesn't have
 	 *                     enough fuel
+     * DRIVE_ERROR - ship can't hyperdrive because if not flying
 	 *
 	 * Availability:
 	 *
