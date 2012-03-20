@@ -91,8 +91,6 @@ private:
 
 	void OpDrawElements(int numIndices);
 
-	void PushCurOp() { m_ops.push_back(curOp); }
-
 	void PushIdx(Uint16 v);
 
 	enum OpType { OP_NONE, OP_DRAW_ELEMENTS, OP_DRAW_BILLBOARDS, OP_SET_MATERIAL, OP_ZBIAS,

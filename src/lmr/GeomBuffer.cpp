@@ -51,7 +51,7 @@ void GeomBuffer::PreBuild() {
 }
 
 void GeomBuffer::PostBuild() {
-	PushCurOp();
+	if (curOp.type != OP_NONE) m_ops.push_back(curOp);
 	//printf("%d vertices, %d indices, %s\n", m_vertices.size(), m_indices.size(), m_isStatic ? "static" : "dynamic");
 	if (m_isStatic && m_indices.size()) {
 		s_staticBufferPool.AddGeometry(m_vertices.size(), &m_vertices[0], m_indices.size(), &m_indices[0],
@@ -242,7 +242,7 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 			}
 			break;
 		case OP_NONE:
-			break;
+			assert(0);
 		}
 	}
 	
