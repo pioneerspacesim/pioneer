@@ -1,7 +1,7 @@
 #ifndef _TEXTUREBUILDER_H
 #define _TEXTUREBUILDER_H
 
-#include <SDL/SDL.h>
+#include <SDL.h>
 #include <string>
 #include "Texture.h"
 #include "Renderer.h"
