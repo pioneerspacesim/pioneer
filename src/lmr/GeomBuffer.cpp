@@ -391,9 +391,9 @@ void GeomBuffer::PushCallModel(LmrModel *m, const matrix4x4f &transform, float s
 void GeomBuffer::PushInvisibleTri(int i1, int i2, int i3) {
 	if (curOp.type != OP_NONE) m_ops.push_back(curOp);
 	curOp.type = OP_NONE;
-	PushIdx(i1);
-	PushIdx(i2);
-	PushIdx(i3);
+	m_indices.push_back(i1);
+	m_indices.push_back(i2);
+	m_indices.push_back(i3);
 	m_triflags.push_back(curTriFlag);
 }
 
