@@ -115,13 +115,8 @@ private:
 	};
 
 	struct OpZBias : public Op {
-		OpZBias() : Op(OP_ZBIAS), amount(0.0f) {
-			pos[0] = pos[1] = pos[2] = 0;
-			norm[0] = norm[1] = norm[2] = 0;
-		}
+		OpZBias() : Op(OP_ZBIAS), amount(0) {}
 		float amount;
-		float pos[3];
-		float norm[3];
 	};
 
 	struct OpCallModel : public Op {
