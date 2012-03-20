@@ -34,7 +34,7 @@ void GeomBuffer::StaticInit(Graphics::Renderer *renderer)
 }
 
 GeomBuffer::GeomBuffer(LmrModel *model, bool isStatic) {
-	curOp.type = OP_NONE;
+	curOp = 0;
 	curTriFlag = 0;
 	curTexture = 0;
 	curGlowmap = 0;
@@ -51,13 +51,14 @@ void GeomBuffer::PreBuild() {
 }
 
 void GeomBuffer::PostBuild() {
-	if (curOp.type != OP_NONE) m_ops.push_back(curOp);
+	if (curOp) m_ops.push_back(curOp);
+	curOp = 0;
+
 	//printf("%d vertices, %d indices, %s\n", m_vertices.size(), m_indices.size(), m_isStatic ? "static" : "dynamic");
 	if (m_isStatic && m_indices.size()) {
 		s_staticBufferPool.AddGeometry(m_vertices.size(), &m_vertices[0], m_indices.size(), &m_indices[0],
 				&m_boIndexBase, &m_bo);
 	}
-	curOp.type = OP_NONE;
 }
 
 void GeomBuffer::FreeGeometry() {
@@ -97,43 +98,43 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 
 	glDepthRange(0.0, 1.0);
 
-	const unsigned int opEndIdx = m_ops.size();
-	for (unsigned int i=0; i<opEndIdx; i++) {
-		const Op &op = m_ops[i];
-		switch (op.type) {
-		case OP_DRAW_ELEMENTS:
-			if (op.elems.textureFile) {
+	for (std::vector<Op*>::const_iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
+		switch ((*i)->type) {
+
+		case OP_DRAW_ELEMENTS: {
+			OpDrawElements *op = static_cast<OpDrawElements*>(*i);
+			if (op->textureFile) {
 				glEnable(GL_TEXTURE_2D);
-				if (!op.elems.texture)
-					op.elems.texture = Graphics::TextureBuilder::Model(*op.elems.textureFile).GetOrCreateTexture(r, "model");
+				if (!op->texture)
+					op->texture = Graphics::TextureBuilder::Model(*op->textureFile).GetOrCreateTexture(r, "model");
 				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, static_cast<Graphics::TextureGL*>(op.elems.texture)->GetTextureNum());
-				if (op.elems.glowmapFile) {
-					if (!op.elems.glowmap)
-						op.elems.glowmap = Graphics::TextureBuilder::Model(*op.elems.glowmapFile).GetOrCreateTexture(r, "model");
+				glBindTexture(GL_TEXTURE_2D, static_cast<Graphics::TextureGL*>(op->texture)->GetTextureNum());
+				if (op->glowmapFile) {
+					if (!op->glowmap)
+						op->glowmap = Graphics::TextureBuilder::Model(*op->glowmapFile).GetOrCreateTexture(r, "model");
 					glActiveTexture(GL_TEXTURE1);
-					glBindTexture(GL_TEXTURE_2D, static_cast<Graphics::TextureGL*>(op.elems.glowmap)->GetTextureNum());
+					glBindTexture(GL_TEXTURE_2D, static_cast<Graphics::TextureGL*>(op->glowmap)->GetTextureNum());
 				}
-				UseProgram(curShader, true, op.elems.glowmapFile);
+				UseProgram(curShader, true, op->glowmapFile);
 			} else {
 				UseProgram(curShader, false);
 			}
 			if (m_isStatic) {
 				// from static VBO
 				glDrawElements(GL_TRIANGLES, 
-						op.elems.count, GL_UNSIGNED_SHORT,
-						BUFFER_OFFSET((op.elems.start+m_boIndexBase)*sizeof(Uint16)));
-				//glDrawRangeElements(GL_TRIANGLES, m_boIndexBase + op.elems.elemMin,
-				//		m_boIndexBase + op.elems.elemMax, op.elems.count, GL_UNSIGNED_SHORT,
-				//		BUFFER_OFFSET((op.elems.start+m_boIndexBase)*sizeof(Uint16)));
-			//	glDrawRangeElements(GL_TRIANGLES, op.elems.elemMin, op.elems.elemMax, 
-			//		op.elems.count, GL_UNSIGNED_SHORT, BUFFER_OFFSET(op.elems.start*sizeof(Uint16)));
+						op->count, GL_UNSIGNED_SHORT,
+						BUFFER_OFFSET((op->start+m_boIndexBase)*sizeof(Uint16)));
+				//glDrawRangeElements(GL_TRIANGLES, m_boIndexBase + op->elemMin,
+				//		m_boIndexBase + op->elemMax, op->count, GL_UNSIGNED_SHORT,
+				//		BUFFER_OFFSET((op->start+m_boIndexBase)*sizeof(Uint16)));
+			//	glDrawRangeElements(GL_TRIANGLES, op->elemMin, op->elemMax, 
+			//		op->count, GL_UNSIGNED_SHORT, BUFFER_OFFSET(op->start*sizeof(Uint16)));
 			} else {
 				// otherwise regular index vertex array
-				glDrawElements(GL_TRIANGLES, op.elems.count, GL_UNSIGNED_SHORT, &m_indices[op.elems.start]);
+				glDrawElements(GL_TRIANGLES, op->count, GL_UNSIGNED_SHORT, &m_indices[op->start]);
 			}
-			if (op.elems.texture) {
-				if (op.elems.glowmap) {
+			if (op->texture) {
+				if (op->glowmap) {
 					glActiveTexture(GL_TEXTURE1);
 					glBindTexture(GL_TEXTURE_2D, 0);
 				}
@@ -142,28 +143,33 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 				glDisable(GL_TEXTURE_2D);
 			}
 			break;
+		}
+
 		case OP_DRAW_BILLBOARDS: {
+			OpDrawBillboards *op = static_cast<OpDrawBillboards*>(*i);
 			Graphics::UnbindAllBuffers();
 			//XXX have to copy positions to a temporary array as
 			//renderer::drawpointsprites does not have a stride parameter
 			std::vector<vector3f> verts;
-			verts.reserve(op.billboards.count);
-			for (int j = 0; j < op.billboards.count; j++) {
-				verts.push_back(m_vertices[op.billboards.start + j].v);
+			verts.reserve(op->count);
+			for (int j = 0; j < op->count; j++) {
+				verts.push_back(m_vertices[op->start + j].v);
 			}
-			if (!op.billboards.texture)
-				op.billboards.texture = Graphics::TextureBuilder::Model(*op.billboards.textureFile).GetOrCreateTexture(r, "billboard");
+			if (!op->texture)
+				op->texture = Graphics::TextureBuilder::Model(*op->textureFile).GetOrCreateTexture(r, "billboard");
 			Graphics::Material mat;
 			mat.unlit = true;
-			mat.texture0 = op.billboards.texture;
-			mat.diffuse = Color(op.billboards.col[0], op.billboards.col[1], op.billboards.col[2], op.billboards.col[3]);
-			r->DrawPointSprites(op.billboards.count, &verts[0], &mat, op.billboards.size);
+			mat.texture0 = op->texture;
+			mat.diffuse = Color(op->col[0], op->col[1], op->col[2], op->col[3]);
+			r->DrawPointSprites(op->count, &verts[0], &mat, op->size);
 			BindBuffers();
 			break;
 		}
+
 		case OP_SET_MATERIAL:
 			{
-				const LmrMaterial &m = m_model->m_materials[op.col.material_idx];
+				OpSetMaterial *op = static_cast<OpSetMaterial*>(*i);
+				const LmrMaterial &m = m_model->m_materials[op->material_idx];
 				glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, m.diffuse);
 				glMaterialfv (GL_FRONT, GL_SPECULAR, m.specular);
 				glMaterialfv (GL_FRONT, GL_EMISSION, m.emissive);
@@ -175,33 +181,40 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 				}
 			}
 			break;
-		case OP_ZBIAS:
-			if (is_zero_general(op.zbias.amount)) {
+
+		case OP_ZBIAS: {
+			OpZBias *op = static_cast<OpZBias*>(*i);
+			if (is_zero_general(op->amount)) {
 				glDepthRange(0.0, 1.0);
 			} else {
-			//	vector3f tv = cameraPos - vector3f(op.zbias.pos);
-			//	if (vector3f::Dot(tv, vector3f(op.zbias.norm)) < 0.0f) {
-					glDepthRange(0.0, 1.0 - op.zbias.amount*NEWMODEL_ZBIAS);
+			//	vector3f tv = cameraPos - vector3f(op->pos);
+			//	if (vector3f::Dot(tv, vector3f(op->norm)) < 0.0f) {
+					glDepthRange(0.0, 1.0 - op->amount*NEWMODEL_ZBIAS);
 			//	} else {
 			//		glDepthRange(0.0, 1.0);
 			//	}
 			}
 			break;
+		}
+
 		case OP_CALL_MODEL:
 			{
+			OpCallModel *op = static_cast<OpCallModel*>(*i);
 			// XXX materials fucked up after this
-			const matrix4x4f trans = matrix4x4f(op.callmodel.transform);
+			const matrix4x4f trans = matrix4x4f(op->transform);
 			vector3f cam_pos = trans.InverseOf() * cameraPos;
 			RenderState rstate2;
 			rstate2.subTransform = rstate->subTransform * trans;
-			rstate2.combinedScale = rstate->combinedScale * op.callmodel.scale * op.callmodel.model->m_scale;
-			op.callmodel.model->Render(r, &rstate2, cam_pos, trans, params);
+			rstate2.combinedScale = rstate->combinedScale * op->scale * op->model->m_scale;
+			op->model->Render(r, &rstate2, cam_pos, trans, params);
 			// XXX re-binding buffer may not be necessary
 			BindBuffers();
 			}
 			break;
-		case OP_LIGHTING_TYPE:
-			if (op.lighting_type.local) {
+
+		case OP_LIGHTING_TYPE: {
+			OpLightingType *op = static_cast<OpLightingType*>(*i);
+			if (op->local) {
 				glDisable(GL_LIGHT0);
 				glDisable(GL_LIGHT1);
 				glDisable(GL_LIGHT2);
@@ -224,12 +237,15 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 				curShader = s_sunlightShader[Graphics::State::GetNumLights()-1].Get();
 			}
 			break;
+		}
+
 		case OP_USE_LIGHT:
 			{
-				if (m_model->m_lights.size() <= unsigned(op.light.num)) {
-					m_model->m_lights.resize(op.light.num+1);
+				OpUseLight *op = static_cast<OpUseLight*>(*i);
+				if (m_model->m_lights.size() <= unsigned(op->num)) {
+					m_model->m_lights.resize(op->num+1);
 				}
-				LmrLight &l = m_model->m_lights[op.light.num];
+				LmrLight &l = m_model->m_lights[op->num];
 				glEnable(GL_LIGHT0 + 4 + activeLights);
 				glLightf(GL_LIGHT0 + 4 + activeLights, GL_QUADRATIC_ATTENUATION, l.quadraticAttenuation);
 				glLightfv(GL_LIGHT0 + 4 + activeLights, GL_POSITION, l.position);
@@ -241,7 +257,8 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 				}
 			}
 			break;
-		case OP_NONE:
+
+		default:
 			assert(0);
 		}
 	}
@@ -336,7 +353,7 @@ void GeomBuffer::SetGlowMap(const char *tex) {
 }
 
 void GeomBuffer::PushTri(int i1, int i2, int i3) {
-	OpDrawElements(3);
+	ExtendDrawElements(3);
 	if (m_putGeomInsideout) {
 		PushIdx(i1);
 		PushIdx(i3);
@@ -350,17 +367,21 @@ void GeomBuffer::PushTri(int i1, int i2, int i3) {
 }
 
 void GeomBuffer::PushZBias(float amount, const vector3f &pos, const vector3f &norm) {
-	if (curOp.type) m_ops.push_back(curOp);
-	curOp.type = OP_ZBIAS;
-	curOp.zbias.amount = amount;
-	memcpy(curOp.zbias.pos, &pos.x, 3*sizeof(float));
-	memcpy(curOp.zbias.norm, &norm.x, 3*sizeof(float));
+    OpZBias *op = new OpZBias;
+	op->amount = amount;
+	memcpy(op->pos, &pos.x, 3*sizeof(float));
+	memcpy(op->norm, &norm.x, 3*sizeof(float));
+
+	if (curOp) m_ops.push_back(curOp);
+    curOp = op;
 }
 
 void GeomBuffer::PushSetLocalLighting(bool enable) {
-	if (curOp.type) m_ops.push_back(curOp);
-	curOp.type = OP_LIGHTING_TYPE;
-	curOp.lighting_type.local = enable;
+	OpLightingType *op = new OpLightingType;
+	op->local = enable;
+
+	if (curOp) m_ops.push_back(curOp);
+	curOp = op;
 }
 
 void GeomBuffer::SetLight(int num, float quadratic_attenuation, const vector3f &pos, const vector3f &col) {
@@ -375,22 +396,27 @@ void GeomBuffer::SetLight(int num, float quadratic_attenuation, const vector3f &
 }
 
 void GeomBuffer::PushUseLight(int num) {
-	if (curOp.type) m_ops.push_back(curOp);
-	curOp.type = OP_USE_LIGHT;
-	curOp.light.num = num;
+	OpUseLight *op = new OpUseLight;
+	op->num = num;
+
+	if (curOp) m_ops.push_back(curOp);
+	curOp = op;
 }
 
 void GeomBuffer::PushCallModel(LmrModel *m, const matrix4x4f &transform, float scale) {
-	if (curOp.type) m_ops.push_back(curOp);
-	curOp.type = OP_CALL_MODEL;
-	memcpy(curOp.callmodel.transform, &transform[0], 16*sizeof(float));
-	curOp.callmodel.model = m;
-	curOp.callmodel.scale = scale;
+	OpCallModel *op = new OpCallModel;
+	memcpy(op->transform, &transform[0], 16*sizeof(float));
+	op->model = m;
+	op->scale = scale;
+
+	if (curOp) m_ops.push_back(curOp);
+	curOp = op;
 }
 
 void GeomBuffer::PushInvisibleTri(int i1, int i2, int i3) {
-	if (curOp.type != OP_NONE) m_ops.push_back(curOp);
-	curOp.type = OP_NONE;
+	if (curOp) m_ops.push_back(curOp);
+	curOp = 0;
+
 	m_indices.push_back(i1);
 	m_indices.push_back(i2);
 	m_indices.push_back(i3);
@@ -402,16 +428,18 @@ void GeomBuffer::PushBillboards(const char *texname, const float size, const vec
 	char buf[256];
 	snprintf(buf, sizeof(buf), "textures/%s", texname);
 
-	if (curOp.type) m_ops.push_back(curOp);
-	curOp.type = OP_DRAW_BILLBOARDS;
-	curOp.billboards.start = m_vertices.size();
-	curOp.billboards.count = numPoints;
-	curOp.billboards.textureFile = new std::string(buf);
-	curOp.billboards.texture = 0;
-	curOp.billboards.col[0] = color.x;
-	curOp.billboards.col[1] = color.y;
-	curOp.billboards.col[2] = color.z;
-	curOp.billboards.col[3] = 1.0f;
+	OpDrawBillboards *op = new OpDrawBillboards;
+	op->start = m_vertices.size();
+	op->count = numPoints;
+	op->textureFile = new std::string(buf);
+	op->texture = 0;
+	op->col[0] = color.x;
+	op->col[1] = color.y;
+	op->col[2] = color.z;
+	op->col[3] = 1.0f;
+
+	if (curOp) m_ops.push_back(curOp);
+	curOp = op;
 
 	for (int i=0; i<numPoints; i++)
 		PushVertex(points[i], vector3f());
@@ -443,9 +471,10 @@ void GeomBuffer::SetMaterial(const char *mat_name, const float mat[11]) {
 void GeomBuffer::PushUseMaterial(const char *mat_name) {
 	std::map<std::string, int>::iterator i = m_model->m_materialLookup.find(mat_name);
 	if (i != m_model->m_materialLookup.end()) {
-		if (curOp.type) m_ops.push_back(curOp);
-		curOp.type = OP_SET_MATERIAL;
-		curOp.col.material_idx = (*i).second;
+		OpSetMaterial *op = new OpSetMaterial;
+		op->material_idx = (*i).second;
+		if (curOp) m_ops.push_back(curOp);
+		curOp = op;
 	} else {
 		throw LmrUnknownMaterial();
 	}
@@ -490,12 +519,11 @@ void GeomBuffer::GetCollMeshGeometry(LmrCollMesh *c, const matrix4x4f &transform
 	}
 	
 	// go through Ops to see if we call other models
-	const unsigned int opEndIdx = m_ops.size();
-	for (unsigned int i=0; i<opEndIdx; i++) {
-		const Op &op = m_ops[i];
-		if (op.type == OP_CALL_MODEL) {
-			matrix4x4f _trans = transform * matrix4x4f(op.callmodel.transform);
-			op.callmodel.model->GetCollMeshGeometry(c, _trans, params);
+	for (std::vector<Op*>::const_iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
+		if ((*i)->type == OP_CALL_MODEL) {
+			OpCallModel *op = static_cast<OpCallModel*>(*i);
+			matrix4x4f _trans = transform * matrix4x4f(op->transform);
+			op->model->GetCollMeshGeometry(c, _trans, params);
 		}
 	}
 }
@@ -517,25 +545,29 @@ void GeomBuffer::BindBuffers() {
 	}
 }
 
-void GeomBuffer::OpDrawElements(int numIndices) {
-	if ((curOp.type != OP_DRAW_ELEMENTS) || (curOp.elems.textureFile != curTexture)) {
-		if (curOp.type) m_ops.push_back(curOp);
-		curOp.type = OP_DRAW_ELEMENTS;
-		curOp.elems.start = m_indices.size();
-		curOp.elems.count = 0;
-		curOp.elems.elemMin = 1<<30;
-		curOp.elems.elemMax = 0;
-		curOp.elems.textureFile = curTexture;
-		curOp.elems.texture = 0;
-		curOp.elems.glowmapFile = curGlowmap;
-		curOp.elems.glowmap = 0;
+void GeomBuffer::ExtendDrawElements(int numIndices) {
+	if (!curOp || curOp->type != OP_DRAW_ELEMENTS || static_cast<OpDrawElements*>(curOp)->textureFile != curTexture) {
+		OpDrawElements *op = new OpDrawElements;
+		op->start = m_indices.size();
+		op->count = 0;
+		op->elemMin = 1<<30;
+		op->elemMax = 0;
+		op->textureFile = curTexture;
+		op->texture = 0;
+		op->glowmapFile = curGlowmap;
+		op->glowmap = 0;
+
+		if (curOp) m_ops.push_back(curOp);
+		curOp = op;
 	}
-	curOp.elems.count += numIndices;
+
+	static_cast<OpDrawElements*>(curOp)->count += numIndices;
 }
 
 void GeomBuffer::PushIdx(Uint16 v) {
-	curOp.elems.elemMin = std::min<int>(v, curOp.elems.elemMin);
-	curOp.elems.elemMax = std::max<int>(v, curOp.elems.elemMax);
+	OpDrawElements *op = static_cast<OpDrawElements*>(curOp);
+	op->elemMin = std::min<int>(v, op->elemMin);
+	op->elemMax = std::max<int>(v, op->elemMax);
 	m_indices.push_back(v);
 }
 

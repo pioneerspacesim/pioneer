@@ -89,24 +89,75 @@ public:
 private:
 	void BindBuffers();
 
-	void OpDrawElements(int numIndices);
+	void ExtendDrawElements(int numIndices);
 
 	void PushIdx(Uint16 v);
 
-	enum OpType { OP_NONE, OP_DRAW_ELEMENTS, OP_DRAW_BILLBOARDS, OP_SET_MATERIAL, OP_ZBIAS,
-			OP_CALL_MODEL, OP_LIGHTING_TYPE, OP_USE_LIGHT };
+	enum OpType { OP_NONE, OP_DRAW_ELEMENTS, OP_DRAW_BILLBOARDS, OP_SET_MATERIAL, OP_ZBIAS, OP_CALL_MODEL, OP_LIGHTING_TYPE, OP_USE_LIGHT };
 
 	struct Op {
-		enum OpType type;
-		union {
-			struct { std::string *textureFile; mutable Graphics::Texture *texture; std::string *glowmapFile; mutable Graphics::Texture *glowmap; int start, count, elemMin, elemMax; } elems;
-			struct { int material_idx; } col;
-			struct { float amount; float pos[3]; float norm[3]; } zbias;
-			struct { LmrModel *model; float transform[16]; float scale; } callmodel;
-			struct { std::string *textureFile; mutable Graphics::Texture *texture; int start, count; float size; float col[4]; } billboards;
-			struct { bool local; } lighting_type;
-			struct { int num; float quadratic_attenuation; float pos[4], col[4]; } light;
-		};
+		Op(OpType _type) : type(_type) {}
+		const OpType type;
+	};
+
+	struct OpDrawElements : public Op {
+		OpDrawElements() : Op(OP_DRAW_ELEMENTS), textureFile(0), texture(0), glowmapFile(0), glowmap(0), start(0), count(0), elemMin(0), elemMax(0) {}
+		std::string *textureFile;
+		mutable Graphics::Texture *texture;
+		std::string *glowmapFile;
+		mutable Graphics::Texture *glowmap;
+		int start, count, elemMin, elemMax;
+	};
+
+	struct OpSetMaterial : public Op {
+		OpSetMaterial() : Op(OP_SET_MATERIAL), material_idx(0) {}
+		int material_idx;
+	};
+
+	struct OpZBias : public Op {
+		OpZBias() : Op(OP_ZBIAS), amount(0.0f) {
+			pos[0] = pos[1] = pos[2] = 0;
+			norm[0] = norm[1] = norm[2] = 0;
+		}
+		float amount;
+		float pos[3];
+		float norm[3];
+	};
+
+	struct OpCallModel : public Op {
+		OpCallModel() : Op(OP_CALL_MODEL), model(0), scale(0) {
+			transform[0] = transform[1] = transform[2] = transform[3] = transform[4] = transform[5] = transform[6] = transform[7] =
+			transform[8] = transform[9] = transform[10] = transform[11] = transform[12] = transform[13] = transform[14] = transform[15] = 0.0f;
+		}
+		LmrModel *model;
+		float transform[16];
+		float scale;
+	};
+
+	struct OpDrawBillboards : public Op {
+		OpDrawBillboards() : Op(OP_DRAW_BILLBOARDS), textureFile(0), texture(0), start(0), count(0), size(0) {
+			col[0] = col[1] = col[2] = col[3] = 0;
+		}
+		std::string *textureFile;
+		mutable Graphics::Texture *texture;
+		int start, count;
+		float size;
+		float col[4];
+	};
+
+	struct OpLightingType : public Op {
+		OpLightingType() : Op(OP_LIGHTING_TYPE), local(false) {}
+		bool local;
+	};
+
+	struct OpUseLight : public Op {
+		OpUseLight() : Op(OP_USE_LIGHT), num(0), quadratic_attenuation(0) {
+			pos[0] = pos[1] = pos[2] = pos[3] = 0;
+			col[0] = col[1] = col[2] = col[3] = 0;
+		}
+		int num;
+		float quadratic_attenuation;
+		float pos[4], col[4];
 	};
 
 	SHADER_CLASS_BEGIN(LmrShader)
@@ -128,7 +179,7 @@ private:
 	static ScopedPtr<LmrShader> s_pointlightShader[4];
 
 	/* this crap is only used at build time... could move this elsewhere */
-	Op curOp;
+	Op *curOp;
 	Uint16 curTriFlag;
 	std::string *curTexture;
 	std::string *curGlowmap;
@@ -137,7 +188,7 @@ private:
 	std::vector<Vertex> m_vertices;
 	std::vector<Uint16> m_indices;
 	std::vector<Uint16> m_triflags;
-	std::vector<Op> m_ops;
+	std::vector<Op*> m_ops;
 	std::vector<ShipThruster::Thruster> m_thrusters;
 	LmrModel *m_model;
 	int m_boIndexBase;
