@@ -121,14 +121,7 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 			}
 			if (m_isStatic) {
 				// from static VBO
-				glDrawElements(GL_TRIANGLES, 
-						op->count, GL_UNSIGNED_SHORT,
-						BUFFER_OFFSET((op->start+m_boIndexBase)*sizeof(Uint16)));
-				//glDrawRangeElements(GL_TRIANGLES, m_boIndexBase + op->elemMin,
-				//		m_boIndexBase + op->elemMax, op->count, GL_UNSIGNED_SHORT,
-				//		BUFFER_OFFSET((op->start+m_boIndexBase)*sizeof(Uint16)));
-			//	glDrawRangeElements(GL_TRIANGLES, op->elemMin, op->elemMax, 
-			//		op->count, GL_UNSIGNED_SHORT, BUFFER_OFFSET(op->start*sizeof(Uint16)));
+				glDrawElements(GL_TRIANGLES, op->count, GL_UNSIGNED_SHORT, BUFFER_OFFSET((op->start+m_boIndexBase)*sizeof(Uint16)));
 			} else {
 				// otherwise regular index vertex array
 				glDrawElements(GL_TRIANGLES, op->count, GL_UNSIGNED_SHORT, &m_indices[op->start]);
@@ -355,13 +348,13 @@ void GeomBuffer::SetGlowMap(const char *tex) {
 void GeomBuffer::PushTri(int i1, int i2, int i3) {
 	ExtendDrawElements(3);
 	if (m_putGeomInsideout) {
-		PushIdx(i1);
-		PushIdx(i3);
-		PushIdx(i2);
+		m_indices.push_back(i1);
+		m_indices.push_back(i3);
+		m_indices.push_back(i2);
 	} else {
-		PushIdx(i1);
-		PushIdx(i2);
-		PushIdx(i3);
+		m_indices.push_back(i1);
+		m_indices.push_back(i2);
+		m_indices.push_back(i3);
 	}
 	m_triflags.push_back(curTriFlag);
 }
@@ -539,8 +532,6 @@ void GeomBuffer::ExtendDrawElements(int numIndices) {
 		OpDrawElements *op = new OpDrawElements;
 		op->start = m_indices.size();
 		op->count = 0;
-		op->elemMin = 1<<30;
-		op->elemMax = 0;
 		op->textureFile = curTexture;
 		op->texture = 0;
 		op->glowmapFile = curGlowmap;
@@ -551,13 +542,6 @@ void GeomBuffer::ExtendDrawElements(int numIndices) {
 	}
 
 	static_cast<OpDrawElements*>(curOp)->count += numIndices;
-}
-
-void GeomBuffer::PushIdx(Uint16 v) {
-	OpDrawElements *op = static_cast<OpDrawElements*>(curOp);
-	op->elemMin = std::min<int>(v, op->elemMin);
-	op->elemMax = std::max<int>(v, op->elemMax);
-	m_indices.push_back(v);
 }
 
 void GeomBuffer::SaveToCache(FILE *f) {

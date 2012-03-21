@@ -91,8 +91,6 @@ private:
 
 	void ExtendDrawElements(int numIndices);
 
-	void PushIdx(Uint16 v);
-
 	enum OpType { OP_NONE, OP_DRAW_ELEMENTS, OP_DRAW_BILLBOARDS, OP_SET_MATERIAL, OP_ZBIAS, OP_CALL_MODEL, OP_LIGHTING_TYPE, OP_USE_LIGHT };
 
 	struct Op {
@@ -101,12 +99,12 @@ private:
 	};
 
 	struct OpDrawElements : public Op {
-		OpDrawElements() : Op(OP_DRAW_ELEMENTS), textureFile(0), texture(0), glowmapFile(0), glowmap(0), start(0), count(0), elemMin(0), elemMax(0) {}
+		OpDrawElements() : Op(OP_DRAW_ELEMENTS), textureFile(0), texture(0), glowmapFile(0), glowmap(0), start(0), count(0) {}
 		std::string *textureFile;
 		mutable Graphics::Texture *texture;
 		std::string *glowmapFile;
 		mutable Graphics::Texture *glowmap;
-		int start, count, elemMin, elemMax;
+		int start, count;
 	};
 
 	struct OpDrawBillboards : public Op {
