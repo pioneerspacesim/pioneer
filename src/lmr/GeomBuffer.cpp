@@ -51,8 +51,7 @@ void GeomBuffer::PreBuild() {
 }
 
 void GeomBuffer::PostBuild() {
-	if (curOp) m_ops.push_back(curOp);
-	curOp = 0;
+	SetupForNextOp(0);
 
 	//printf("%d vertices, %d indices, %s\n", m_vertices.size(), m_indices.size(), m_isStatic ? "static" : "dynamic");
 	if (m_isStatic && m_indices.size()) {
@@ -360,17 +359,11 @@ void GeomBuffer::PushTri(int i1, int i2, int i3) {
 }
 
 void GeomBuffer::PushZBias(float amount) {
-    OpZBias *op = new OpZBias(amount);
-
-	if (curOp) m_ops.push_back(curOp);
-    curOp = op;
+    SetupForNextOp(new OpZBias(amount));
 }
 
 void GeomBuffer::PushSetLocalLighting(bool enable) {
-	OpLightingType *op = new OpLightingType(enable);
-
-	if (curOp) m_ops.push_back(curOp);
-	curOp = op;
+	SetupForNextOp(new OpLightingType(enable));
 }
 
 void GeomBuffer::SetLight(int num, float quadratic_attenuation, const vector3f &pos, const vector3f &col) {
@@ -385,22 +378,15 @@ void GeomBuffer::SetLight(int num, float quadratic_attenuation, const vector3f &
 }
 
 void GeomBuffer::PushUseLight(int num) {
-	OpUseLight *op = new OpUseLight(num);
-
-	if (curOp) m_ops.push_back(curOp);
-	curOp = op;
+	SetupForNextOp(new OpUseLight(num));
 }
 
 void GeomBuffer::PushCallModel(LmrModel *m, const matrix4x4f &transform, float scale) {
-	OpCallModel *op = new OpCallModel(m, transform, scale);
-
-	if (curOp) m_ops.push_back(curOp);
-	curOp = op;
+	SetupForNextOp(new OpCallModel(m, transform, scale));
 }
 
 void GeomBuffer::PushInvisibleTri(int i1, int i2, int i3) {
-	if (curOp) m_ops.push_back(curOp);
-	curOp = 0;
+	SetupForNextOp(0);
 
 	m_indices.push_back(i1);
 	m_indices.push_back(i2);
@@ -421,8 +407,7 @@ void GeomBuffer::PushBillboards(const char *texname, const float size, const Col
 	op->size = size;
 	op->col = color;
 
-	if (curOp) m_ops.push_back(curOp);
-	curOp = op;
+	SetupForNextOp(op);
 
 	for (int i=0; i<numPoints; i++)
 		PushVertex(points[i], vector3f());
@@ -454,9 +439,7 @@ void GeomBuffer::SetMaterial(const char *mat_name, const float mat[11]) {
 void GeomBuffer::PushUseMaterial(const char *mat_name) {
 	std::map<std::string, int>::iterator i = m_model->m_materialLookup.find(mat_name);
 	if (i != m_model->m_materialLookup.end()) {
-		OpSetMaterial *op = new OpSetMaterial((*i).second);
-		if (curOp) m_ops.push_back(curOp);
-		curOp = op;
+		SetupForNextOp(new OpSetMaterial((*i).second));
 	} else {
 		throw LmrUnknownMaterial();
 	}
@@ -537,11 +520,26 @@ void GeomBuffer::ExtendDrawElements(int numIndices) {
 		op->glowmapFile = curGlowmap;
 		op->glowmap = 0;
 
-		if (curOp) m_ops.push_back(curOp);
-		curOp = op;
+		SetupForNextOp(op);
 	}
 
 	static_cast<OpDrawElements*>(curOp)->count += numIndices;
+}
+
+void GeomBuffer::SetupForNextOp(Op *nextOp)
+{
+	if (!curOp) {
+		curOp = nextOp;
+		return;
+	}
+
+	switch (curOp->type) {
+		default:
+			m_ops.push_back(curOp);
+			break;
+	}
+
+	curOp = nextOp;
 }
 
 void GeomBuffer::SaveToCache(FILE *f) {

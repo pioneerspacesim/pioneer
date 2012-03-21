@@ -152,6 +152,8 @@ private:
 
 	void UseProgram(LmrShader *shader, bool Textured = false, bool Glowmap = false);
 
+	void SetupForNextOp(Op *nextOp);
+
 	static void StaticInit(Graphics::Renderer *renderer);
 
 	static BufferObjectPool<sizeof(Vertex)> s_staticBufferPool;
