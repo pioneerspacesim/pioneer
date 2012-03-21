@@ -36,9 +36,10 @@ void GeomBuffer::StaticInit(Graphics::Renderer *renderer)
 }
 
 GeomBuffer::GeomBuffer(LmrModel *model, bool isStatic) :
-	m_mesh(Graphics::TRIANGLES)
+	m_mesh(new Graphics::StaticMesh(Graphics::TRIANGLES))
 {
-	curOp = 0;
+	PrepareNewSurface();
+
 	curTriFlag = 0;
 	curTexture = 0;
 	curGlowmap = 0;
@@ -55,8 +56,6 @@ void GeomBuffer::PreBuild() {
 }
 
 void GeomBuffer::PostBuild() {
-	SetupForNextOp(0);
-
 	//printf("%d vertices, %d indices, %s\n", m_vertices.size(), m_indices.size(), m_isStatic ? "static" : "dynamic");
 	/*
 	if (m_isStatic && m_indices.size()) {
@@ -67,8 +66,7 @@ void GeomBuffer::PostBuild() {
 }
 
 void GeomBuffer::FreeGeometry() {
-	m_vertices.clear();
-	m_indices.clear();
+	m_mesh.Reset(new Graphics::StaticMesh(Graphics::TRIANGLES));
 	m_triflags.clear();
 	m_ops.clear();
 	m_thrusters.clear();
@@ -95,7 +93,7 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 	StaticInit(r);
 
 	int activeLights = 0;
-	s_numTrisRendered += m_indices.size()/3;
+	s_numTrisRendered += m_mesh->GetNumIndices()/3;
 	
 	LmrShader *curShader = s_sunlightShader[Graphics::State::GetNumLights()-1].Get();
 
@@ -103,14 +101,15 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 
 	glDepthRange(0.0, 1.0);
 
+	if (m_isStatic) // XXX hack disable dynamic draw
+		if (m_mesh->GetNumIndices() > 0)
+			r->DrawStaticMesh(m_mesh.Get());
+
 	for (std::vector<Op*>::const_iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
 		switch ((*i)->type) {
 
+		/*
 		case OP_DRAW_ELEMENTS: {
-			if (!m_isStatic) break; // XXX hack disable dynamic draw
-
-			OpDrawElements *op = static_cast<OpDrawElements*>(*i);
-			/*
 			if (op->textureFile) {
 				glEnable(GL_TEXTURE_2D);
 				if (!op->texture)
@@ -143,10 +142,9 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 				glBindTexture(GL_TEXTURE_2D, 0);
 				glDisable(GL_TEXTURE_2D);
 			}
-			*/
-			r->DrawStaticMesh(&m_mesh);
 			break;
 		}
+		*/
 
 		case OP_DRAW_BILLBOARDS: {
 			OpDrawBillboards *op = static_cast<OpDrawBillboards*>(*i);
@@ -319,19 +317,28 @@ void GeomBuffer::SetVertex(int idx, const vector3f &pos, const vector3f &normal)
 }
 
 int GeomBuffer::PushVertex(const vector3f &pos, const vector3f &normal, GLfloat tex_u, GLfloat tex_v) {
+	Graphics::VertexArray *va = m_curSurface->GetVertices();
 	if (m_putGeomInsideout) {
-		m_vertices.push_back(Vertex(pos, -normal, tex_u, tex_v));
+		va->Add(pos, -normal, vector2f(tex_u, tex_v));
 	} else {
-		m_vertices.push_back(Vertex(pos, normal, tex_u, tex_v));
+		va->Add(pos, normal, vector2f(tex_u, tex_v));
 	}
-	return m_vertices.size() - 1;
+	return va->GetNumVerts()-1;
 }
 
 void GeomBuffer::SetVertex(int idx, const vector3f &pos, const vector3f &normal, GLfloat tex_u, GLfloat tex_v) {
+	// XXX still not sure if VertexArray should be indexable or if we should
+	//     only do vertex pushes. in the mean time, we reach into VertexArray
+	//     and handle it ourselves
+	Graphics::VertexArray *va = m_curSurface->GetVertices();
 	if (m_putGeomInsideout) {
-		m_vertices[idx] = Vertex(pos, -normal, tex_u, tex_v);
+		va->position[idx] = pos;
+		va->normal[idx] = -normal;
+		va->uv0[idx] = vector2f(tex_u,tex_v);
 	} else {
-		m_vertices[idx] = Vertex(pos, normal, tex_u, tex_v);
+		va->position[idx] = pos;
+		va->normal[idx] = normal;
+		va->uv0[idx] = vector2f(tex_u,tex_v);
 	}
 }
 
@@ -353,25 +360,25 @@ void GeomBuffer::SetGlowMap(const char *tex) {
 }
 
 void GeomBuffer::PushTri(int i1, int i2, int i3) {
-	ExtendDrawElements(3);
+	std::vector<Uint16> &indices = m_curSurface->GetIndices();
 	if (m_putGeomInsideout) {
-		m_indices.push_back(i1);
-		m_indices.push_back(i3);
-		m_indices.push_back(i2);
+		indices.push_back(i1);
+		indices.push_back(i3);
+		indices.push_back(i2);
 	} else {
-		m_indices.push_back(i1);
-		m_indices.push_back(i2);
-		m_indices.push_back(i3);
+		indices.push_back(i1);
+		indices.push_back(i2);
+		indices.push_back(i3);
 	}
 	m_triflags.push_back(curTriFlag);
 }
 
 void GeomBuffer::PushZBias(float amount) {
-    SetupForNextOp(new OpZBias(amount));
+    PushOp(new OpZBias(amount));
 }
 
 void GeomBuffer::PushSetLocalLighting(bool enable) {
-	SetupForNextOp(new OpLightingType(enable));
+	PushOp(new OpLightingType(enable));
 }
 
 void GeomBuffer::SetLight(int num, float quadratic_attenuation, const vector3f &pos, const vector3f &col) {
@@ -386,20 +393,20 @@ void GeomBuffer::SetLight(int num, float quadratic_attenuation, const vector3f &
 }
 
 void GeomBuffer::PushUseLight(int num) {
-	SetupForNextOp(new OpUseLight(num));
+	PushOp(new OpUseLight(num));
 }
 
 void GeomBuffer::PushCallModel(LmrModel *m, const matrix4x4f &transform, float scale) {
-	SetupForNextOp(new OpCallModel(m, transform, scale));
+	PushOp(new OpCallModel(m, transform, scale));
 }
 
 void GeomBuffer::PushInvisibleTri(int i1, int i2, int i3) {
-	SetupForNextOp(0);
-
+	/* XXX dunno
 	m_indices.push_back(i1);
 	m_indices.push_back(i2);
 	m_indices.push_back(i3);
 	m_triflags.push_back(curTriFlag);
+	*/
 }
 
 void GeomBuffer::PushBillboards(const char *texname, const float size, const Color &color, const int numPoints, const vector3f *points)
@@ -416,7 +423,7 @@ void GeomBuffer::PushBillboards(const char *texname, const float size, const Col
 	for (int i=0; i<numPoints; i++)
 		op->positions.push_back(points[i]);	// XXX how about just dropping *points in?
 
-	SetupForNextOp(op);
+	PushOp(op);
 }
 
 void GeomBuffer::SetMaterial(const char *mat_name, const float mat[11]) {
@@ -445,19 +452,24 @@ void GeomBuffer::SetMaterial(const char *mat_name, const float mat[11]) {
 void GeomBuffer::PushUseMaterial(const char *mat_name) {
 	std::map<std::string, int>::iterator i = m_model->m_materialLookup.find(mat_name);
 	if (i != m_model->m_materialLookup.end()) {
-		SetupForNextOp(new OpSetMaterial((*i).second));
+		PushOp(new OpSetMaterial((*i).second));
 	} else {
 		throw LmrUnknownMaterial();
 	}
 }
 
 int GeomBuffer::AllocVertices(int num) {
-	int start = m_vertices.size();
-	m_vertices.resize(start + num);
+	// XXX grow VertexArray lists manually for now
+	Graphics::VertexArray *va = m_curSurface->GetVertices();
+	int start = va->GetNumVerts();
+	va->position.resize(start+num);
+	va->normal.resize(start+num);
+	va->uv0.resize(start+num);
 	return start;
 }
 
 void GeomBuffer::GetCollMeshGeometry(LmrCollMesh *c, const matrix4x4f &transform, const LmrObjParams *params) {
+#if 0
 	const int vtxBase = c->nv;
 	const int idxBase = c->ni;
 	const int flagBase = c->nf;
@@ -497,9 +509,11 @@ void GeomBuffer::GetCollMeshGeometry(LmrCollMesh *c, const matrix4x4f &transform
 			op->model->GetCollMeshGeometry(c, _trans, params);
 		}
 	}
+#endif
 }
 
 void GeomBuffer::BindBuffers() {
+#if 0
 	glEnableClientState (GL_VERTEX_ARRAY);
 	glEnableClientState (GL_NORMAL_ARRAY);
 	glEnableClientState (GL_TEXTURE_COORD_ARRAY);
@@ -514,53 +528,23 @@ void GeomBuffer::BindBuffers() {
 			glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &m_vertices[0].tex_u);
 		}
 	}
+#endif
 }
 
-void GeomBuffer::ExtendDrawElements(int numIndices) {
-	if (!curOp || curOp->type != OP_DRAW_ELEMENTS || static_cast<OpDrawElements*>(curOp)->textureFile != curTexture) {
-		OpDrawElements *op = new OpDrawElements;
-		op->start = m_indices.size();
-		op->count = 0;
-		op->textureFile = curTexture;
-		op->texture = 0;
-		op->glowmapFile = curGlowmap;
-		op->glowmap = 0;
-
-		SetupForNextOp(op);
-	}
-
-	static_cast<OpDrawElements*>(curOp)->count += numIndices;
-}
-
-void GeomBuffer::SetupForNextOp(Op *nextOp)
+void GeomBuffer::PrepareNewSurface()
 {
-	if (!curOp) {
-		curOp = nextOp;
-		return;
-	}
+	m_mesh->AddSurface(m_curSurface.Release());
+	m_curSurface.Reset(new Graphics::Surface(Graphics::TRIANGLES, new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0)));
+}
 
-	switch (curOp->type) {
-		case OP_DRAW_ELEMENTS: {
-			OpDrawElements *op = static_cast<OpDrawElements*>(curOp);
+void GeomBuffer::PushOp(Op *op)
+{
+	m_ops.push_back(op);
 
-			Graphics::VertexArray *va = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0);
-			for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i)
-				va->Add((*i).v, (*i).n, vector2f((*i).tex_u, (*i).tex_v));
-
-			Graphics::Surface *s = new Graphics::Surface(Graphics::TRIANGLES, va);
-			s->GetIndices() = m_indices;
-			m_mesh.AddSurface(s);
-
-			m_ops.push_back(curOp);
-			break;
-		}
-
-		default:
-			m_ops.push_back(curOp);
-			break;
-	}
-
-	curOp = nextOp;
+	// XXX op probably changed materials or wants to call model, so current
+	// surface is finished. add it to the mesh
+	if (m_curSurface->GetNumIndices() > 0)
+		PrepareNewSurface();
 }
 
 void GeomBuffer::SaveToCache(FILE *f) {

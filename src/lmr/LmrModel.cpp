@@ -409,12 +409,16 @@ void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transfor
 
 LmrCollMesh::LmrCollMesh(LmrModel *m, const LmrObjParams *params)
 {
+#if 0
 	memset(this, 0, sizeof(LmrCollMesh));
 	m_aabb.min = vector3d(DBL_MAX, DBL_MAX, DBL_MAX);
 	m_aabb.max = vector3d(-DBL_MAX, -DBL_MAX, -DBL_MAX);
 	m->GetCollMeshGeometry(this, matrix4x4f::Identity(), params);
-	m_radius = m_aabb.GetBoundingRadius();
 	geomTree = new GeomTree(nv, m_numTris, pVertex, pIndex, pFlag);
+#endif
+	// XXX no collision meshes until we sort out the GeomBuffer internals
+	// for now a fixed radius so the modelviewer can do something useful
+	m_radius = 1.0;
 }
 
 /** returns number of tris found (up to 'num') */

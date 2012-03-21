@@ -5,6 +5,7 @@
 #include "SmartPtr.h"
 
 #include "graphics/StaticMesh.h"
+#include "graphics/Surface.h"
 
 #include "BufferObject.h"
 #include "ShipThruster.h"
@@ -16,7 +17,7 @@ class LmrCollMesh;
 namespace Graphics {
 	class Renderer;
 	class Texture;
-	class Surface;
+	class VertexArray;
 }
 
 namespace LMR {
@@ -25,8 +26,8 @@ class GeomBuffer {
 public:
 	GeomBuffer(LmrModel *model, bool isStatic);
 
-	int GetIndicesPos() const { return m_indices.size(); }
-	int GetVerticesPos() const { return m_vertices.size(); }
+	//int GetIndicesPos() const { return m_indices.size(); }
+	int GetVerticesPos() const { return m_curSurface->GetVertices()->position.size(); } // XXX direct access again
 
 	void SetGeomFlag(Uint16 flag) { curTriFlag = flag; }
 	Uint16 GetGeomFlag() const { return curTriFlag; }
@@ -77,7 +78,8 @@ public:
 	/* return start vertex index */
 	int AllocVertices(int num);
 
-	const vector3f &GetVertex(int num) const { return m_vertices[num].v; }
+	//const vector3f &GetVertex(int num) const { return m_vertices[num].v; }
+	const vector3f &GetVertex(int num) const { return m_curSurface->GetVertices()->position[num]; } // XXX direct access again
 
 	void GetCollMeshGeometry(LmrCollMesh *c, const matrix4x4f &transform, const LmrObjParams *params);
 
@@ -90,22 +92,11 @@ public:
 private:
 	void BindBuffers();
 
-	void ExtendDrawElements(int numIndices);
-
-	enum OpType { OP_NONE, OP_DRAW_ELEMENTS, OP_DRAW_BILLBOARDS, OP_SET_MATERIAL, OP_ZBIAS, OP_CALL_MODEL, OP_LIGHTING_TYPE, OP_USE_LIGHT };
+	enum OpType { OP_DRAW_BILLBOARDS, OP_SET_MATERIAL, OP_ZBIAS, OP_CALL_MODEL, OP_LIGHTING_TYPE, OP_USE_LIGHT };
 
 	struct Op {
 		Op(OpType _type) : type(_type) {}
 		const OpType type;
-	};
-
-	struct OpDrawElements : public Op {
-		OpDrawElements() : Op(OP_DRAW_ELEMENTS), textureFile(0), texture(0), glowmapFile(0), glowmap(0), start(0), count(0) {}
-		std::string *textureFile;
-		mutable Graphics::Texture *texture;
-		std::string *glowmapFile;
-		mutable Graphics::Texture *glowmap;
-		int start, count;
 	};
 
 	struct OpDrawBillboards : public Op {
@@ -153,7 +144,8 @@ private:
 
 	void UseProgram(LmrShader *shader, bool Textured = false, bool Glowmap = false);
 
-	void SetupForNextOp(Op *nextOp);
+	void PrepareNewSurface();
+	void PushOp(Op *op);
 
 	static void StaticInit(Graphics::Renderer *renderer);
 
@@ -164,17 +156,16 @@ private:
 	static ScopedPtr<LmrShader> s_sunlightShader[4];
 	static ScopedPtr<LmrShader> s_pointlightShader[4];
 
-	Graphics::StaticMesh m_mesh;
+	ScopedPtr<Graphics::StaticMesh> m_mesh;
+
+	ScopedPtr<Graphics::Surface> m_curSurface;
 
 	/* this crap is only used at build time... could move this elsewhere */
-	Op *curOp;
 	Uint16 curTriFlag;
 	std::string *curTexture;
 	std::string *curGlowmap;
 	matrix4x4f curTexMatrix;
 
-	std::vector<Vertex> m_vertices;
-	std::vector<Uint16> m_indices;
 	std::vector<Uint16> m_triflags;
 	std::vector<Op*> m_ops;
 	std::vector<ShipThruster::Thruster> m_thrusters;
