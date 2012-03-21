@@ -3,6 +3,8 @@
 #include "graphics/Texture.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/TextureGL.h" // XXX temporary until LMR uses renderer drawing properly
+#include "graphics/Surface.h"
+#include "graphics/VertexArray.h"
 
 #include "LmrModel.h"
 #include "Utils.h"
@@ -33,7 +35,9 @@ void GeomBuffer::StaticInit(Graphics::Renderer *renderer)
 	s_initialized = true;
 }
 
-GeomBuffer::GeomBuffer(LmrModel *model, bool isStatic) {
+GeomBuffer::GeomBuffer(LmrModel *model, bool isStatic) :
+	m_mesh(Graphics::TRIANGLES)
+{
 	curOp = 0;
 	curTriFlag = 0;
 	curTexture = 0;
@@ -54,10 +58,12 @@ void GeomBuffer::PostBuild() {
 	SetupForNextOp(0);
 
 	//printf("%d vertices, %d indices, %s\n", m_vertices.size(), m_indices.size(), m_isStatic ? "static" : "dynamic");
+	/*
 	if (m_isStatic && m_indices.size()) {
 		s_staticBufferPool.AddGeometry(m_vertices.size(), &m_vertices[0], m_indices.size(), &m_indices[0],
 				&m_boIndexBase, &m_bo);
 	}
+	*/
 }
 
 void GeomBuffer::FreeGeometry() {
@@ -101,7 +107,10 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 		switch ((*i)->type) {
 
 		case OP_DRAW_ELEMENTS: {
+			if (!m_isStatic) break; // XXX hack disable dynamic draw
+
 			OpDrawElements *op = static_cast<OpDrawElements*>(*i);
+			/*
 			if (op->textureFile) {
 				glEnable(GL_TEXTURE_2D);
 				if (!op->texture)
@@ -134,6 +143,8 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 				glBindTexture(GL_TEXTURE_2D, 0);
 				glDisable(GL_TEXTURE_2D);
 			}
+			*/
+			r->DrawStaticMesh(&m_mesh);
 			break;
 		}
 
@@ -534,6 +545,21 @@ void GeomBuffer::SetupForNextOp(Op *nextOp)
 	}
 
 	switch (curOp->type) {
+		case OP_DRAW_ELEMENTS: {
+			OpDrawElements *op = static_cast<OpDrawElements*>(curOp);
+
+			Graphics::VertexArray *va = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0);
+			for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i)
+				va->Add((*i).v, (*i).n, vector2f((*i).tex_u, (*i).tex_v));
+
+			Graphics::Surface *s = new Graphics::Surface(Graphics::TRIANGLES, va);
+			s->GetIndices() = m_indices;
+			m_mesh.AddSurface(s);
+
+			m_ops.push_back(curOp);
+			break;
+		}
+
 		default:
 			m_ops.push_back(curOp);
 			break;

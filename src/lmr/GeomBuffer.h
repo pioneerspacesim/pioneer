@@ -4,6 +4,8 @@
 #include "libs.h"
 #include "SmartPtr.h"
 
+#include "graphics/StaticMesh.h"
+
 #include "BufferObject.h"
 #include "ShipThruster.h"
 #include "Utils.h"
@@ -11,11 +13,10 @@
 class LmrModel;
 class LmrObjParams;
 class LmrCollMesh;
-class ModelTexture;
-class BillboardTexture;
 namespace Graphics {
 	class Renderer;
 	class Texture;
+	class Surface;
 }
 
 namespace LMR {
@@ -162,6 +163,8 @@ private:
 	static bool s_initialized;
 	static ScopedPtr<LmrShader> s_sunlightShader[4];
 	static ScopedPtr<LmrShader> s_pointlightShader[4];
+
+	Graphics::StaticMesh m_mesh;
 
 	/* this crap is only used at build time... could move this elsewhere */
 	Op *curOp;
