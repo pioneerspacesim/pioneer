@@ -109,10 +109,10 @@ private:
 	};
 
 	struct OpDrawBillboards : public Op {
-		OpDrawBillboards() : Op(OP_DRAW_BILLBOARDS), textureFile(0), texture(0), start(0), count(0), size(0), col(0.0f) {}
+		OpDrawBillboards() : Op(OP_DRAW_BILLBOARDS), textureFile(0), texture(0), size(0), col(0.0f) {}
 		std::string *textureFile;
 		mutable Graphics::Texture *texture;
-		int start, count;
+		std::vector<vector3f> positions;
 		float size;
 		Color col;
 	};

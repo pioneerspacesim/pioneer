@@ -151,20 +151,17 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 		case OP_DRAW_BILLBOARDS: {
 			OpDrawBillboards *op = static_cast<OpDrawBillboards*>(*i);
 			Graphics::UnbindAllBuffers();
-			//XXX have to copy positions to a temporary array as
-			//renderer::drawpointsprites does not have a stride parameter
-			std::vector<vector3f> verts;
-			verts.reserve(op->count);
-			for (int j = 0; j < op->count; j++) {
-				verts.push_back(m_vertices[op->start + j].v);
-			}
+
 			if (!op->texture)
 				op->texture = Graphics::TextureBuilder::Model(*op->textureFile).GetOrCreateTexture(r, "billboard");
+
 			Graphics::Material mat;
 			mat.unlit = true;
 			mat.texture0 = op->texture;
 			mat.diffuse = Color(op->col[0], op->col[1], op->col[2], op->col[3]);
-			r->DrawPointSprites(op->count, &verts[0], &mat, op->size);
+
+			r->DrawPointSprites(op->positions.size(), &op->positions[0], &mat, op->size);
+
 			BindBuffers();
 			break;
 		}
@@ -411,17 +408,15 @@ void GeomBuffer::PushBillboards(const char *texname, const float size, const Col
 	snprintf(buf, sizeof(buf), "textures/%s", texname);
 
 	OpDrawBillboards *op = new OpDrawBillboards;
-	op->start = m_vertices.size();
-	op->count = numPoints;
 	op->textureFile = new std::string(buf);
 	op->texture = 0;
 	op->size = size;
 	op->col = color;
 
-	SetupForNextOp(op);
-
 	for (int i=0; i<numPoints; i++)
-		PushVertex(points[i], vector3f());
+		op->positions.push_back(points[i]);	// XXX how about just dropping *points in?
+
+	SetupForNextOp(op);
 }
 
 void GeomBuffer::SetMaterial(const char *mat_name, const float mat[11]) {
