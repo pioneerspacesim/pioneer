@@ -109,20 +109,20 @@ define_model('spacestation_entry1_stage3', {
 			cuboid(v(-90,198,-50),v(180,4,4))
 			texture(nil)
 			--ceiling lights-----------
-			billboard('smoke.png', 10.0, v(1,0,0), {v(-50,25,-45)})
-			billboard('smoke.png', 10.0, v(1,0,0), {v(50,25,-45)})
-			billboard('smoke.png', 10.0, v(1,0,0), {v(-50,50,-45)})
-			billboard('smoke.png', 10.0, v(1,0,0), {v(50,50,-45)})
-			billboard('smoke.png', 10.0, v(1,0,0), {v(-50,75,-45)})
-			billboard('smoke.png', 10.0, v(1,0,0), {v(50,75,-45)})
-			billboard('smoke.png', 10.0, v(1,0,0), {v(-50,100,-45)})
-			billboard('smoke.png', 10.0, v(1,0,0), {v(50,100,-45)})
-			billboard('smoke.png', 10.0, v(1,0,0), {v(-50,125,-45)})
-			billboard('smoke.png', 10.0, v(1,0,0), {v(50,125,-45)})
-			billboard('smoke.png', 10.0, v(1,0,0), {v(-50,150,-45)})
-			billboard('smoke.png', 10.0, v(1,0,0), {v(50,150,-45)})
-			billboard('smoke.png', 10.0, v(1,0,0), {v(-50,175,-45)})
-			billboard('smoke.png', 10.0, v(1,0,0), {v(50,175,-45)})
+			billboard('light.png', 10.0, v(1,0,0), {v(-50,25,-45)})
+			billboard('light.png', 10.0, v(1,0,0), {v(50,25,-45)})
+			billboard('light.png', 10.0, v(1,0,0), {v(-50,50,-45)})
+			billboard('light.png', 10.0, v(1,0,0), {v(50,50,-45)})
+			billboard('light.png', 10.0, v(1,0,0), {v(-50,75,-45)})
+			billboard('light.png', 10.0, v(1,0,0), {v(50,75,-45)})
+			billboard('light.png', 10.0, v(1,0,0), {v(-50,100,-45)})
+			billboard('light.png', 10.0, v(1,0,0), {v(50,100,-45)})
+			billboard('light.png', 10.0, v(1,0,0), {v(-50,125,-45)})
+			billboard('light.png', 10.0, v(1,0,0), {v(50,125,-45)})
+			billboard('light.png', 10.0, v(1,0,0), {v(-50,150,-45)})
+			billboard('light.png', 10.0, v(1,0,0), {v(50,150,-45)})
+			billboard('light.png', 10.0, v(1,0,0), {v(-50,175,-45)})
+			billboard('light.png', 10.0, v(1,0,0), {v(50,175,-45)})
 			--lamp housings
 			use_material('text')
 			cylinder(8,v(-50,25,-46),v(-50,25,-45.5),v(0,1,0),1)
@@ -303,20 +303,20 @@ define_model('spacestation_entry1_stage2', {
 			cuboid(v(-90,-202,46),v(180,4,4))
 			texture(nil)
 			--ceiling lights-----------
-			billboard('smoke.png', 10.0, v(1,.5,0), {v(-50,-25,-45)})
-			billboard('smoke.png', 10.0, v(1,.5,0), {v(50,-25,-45)})
-			billboard('smoke.png', 10.0, v(1,.5,0), {v(-50,-50,-45)})
-			billboard('smoke.png', 10.0, v(1,.5,0), {v(50,-50,-45)})
-			billboard('smoke.png', 10.0, v(1,.5,0), {v(-50,-75,-45)})
-			billboard('smoke.png', 10.0, v(1,.5,0), {v(50,-75,-45)})
-			billboard('smoke.png', 10.0, v(1,.5,0), {v(-50,-100,-45)})
-			billboard('smoke.png', 10.0, v(1,.5,0), {v(50,-100,-45)})
-			billboard('smoke.png', 10.0, v(1,.5,0), {v(-50,-125,-45)})
-			billboard('smoke.png', 10.0, v(1,.5,0), {v(50,-125,-45)})
-			billboard('smoke.png', 10.0, v(1,.5,0), {v(-50,-150,-45)})
-			billboard('smoke.png', 10.0, v(1,.5,0), {v(50,-150,-45)})
-			billboard('smoke.png', 10.0, v(1,.5,0), {v(-50,-175,-45)})
-			billboard('smoke.png', 10.0, v(1,.5,0), {v(50,-175,-45)})
+			billboard('light.png', 10.0, v(1,.5,0), {v(-50,-25,-45)})
+			billboard('light.png', 10.0, v(1,.5,0), {v(50,-25,-45)})
+			billboard('light.png', 10.0, v(1,.5,0), {v(-50,-50,-45)})
+			billboard('light.png', 10.0, v(1,.5,0), {v(50,-50,-45)})
+			billboard('light.png', 10.0, v(1,.5,0), {v(-50,-75,-45)})
+			billboard('light.png', 10.0, v(1,.5,0), {v(50,-75,-45)})
+			billboard('light.png', 10.0, v(1,.5,0), {v(-50,-100,-45)})
+			billboard('light.png', 10.0, v(1,.5,0), {v(50,-100,-45)})
+			billboard('light.png', 10.0, v(1,.5,0), {v(-50,-125,-45)})
+			billboard('light.png', 10.0, v(1,.5,0), {v(50,-125,-45)})
+			billboard('light.png', 10.0, v(1,.5,0), {v(-50,-150,-45)})
+			billboard('light.png', 10.0, v(1,.5,0), {v(50,-150,-45)})
+			billboard('light.png', 10.0, v(1,.5,0), {v(-50,-175,-45)})
+			billboard('light.png', 10.0, v(1,.5,0), {v(50,-175,-45)})
 			--lamp housings
 			use_material('text')
 			cylinder(8,v(-50,-25,-46),v(-50,-25,-45.5),v(0,1,0),1)
@@ -571,7 +571,7 @@ function simple_lift_docking_port(baynum, pos)
 		else
 			color = v(1,0.5,0) -- orange
 		end
-		billboard('smoke.png', 50, color, { pos+v(-50,1,50), pos+v(50,1,50), pos+v(-50,1,-50), pos+v(50,1,-50) })
+		billboard('light.png', 50, color, { pos+v(-50,1,50), pos+v(50,1,50), pos+v(-50,1,-50), pos+v(50,1,-50) })
 	end
 end
 
@@ -677,7 +677,7 @@ define_model('mushroom_station_2', {
 		simple_lift_docking_port(1, port_pos[2])
 		-- light on tower
 		local lightphase = math.fmod(get_time('SECONDS')+0.46956, 1)
-		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 228, -350) })
+		billboard('light.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 228, -350) })
 	end
 })
 
@@ -792,7 +792,7 @@ define_model('mushroom_station_4', {
 		simple_lift_docking_port(3, port_pos[4])
 		-- light on tower
 		local lightphase = math.fmod(get_time('SECONDS')+0.46956, 1)
-		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 228, -350) })
+		billboard('light.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 228, -350) })
 	end
 })
 
@@ -867,12 +867,12 @@ define_model('big_crappy_spacestation', {
 		texture('ships/4_eagles/tex2.png', v(.6,.5,0), v(.01,0,0), v(0,0,.5))
 		lathe(16, v(0,-449,0), v(0,-450,0), v(1,0,0), {0,0, 0,249, 1,249, 1,0})
 		set_local_lighting(false)
-		billboard('smoke.png', 50.0, v(0,0,1), {v(0,200,0)})
-		billboard('smoke.png', 50.0, v(1,1,0), {v(0,-300,0)})
+		billboard('light.png', 50.0, v(0,0,1), {v(0,200,0)})
+		billboard('light.png', 50.0, v(1,1,0), {v(0,-300,0)})
 		-- nav lights
-		billboard('smoke.png', 350.0, v(1,0,0), {v(-1620,0,0)})
-		billboard('smoke.png', 350.0, v(0,1,0), {v(1620,0,0)})
-		billboard('smoke.png', 350.0, v(1,1,1), {v(0,-515,0)})
+		billboard('light.png', 350.0, v(1,0,0), {v(-1620,0,0)})
+		billboard('light.png', 350.0, v(0,1,0), {v(1620,0,0)})
+		billboard('light.png', 350.0, v(1,1,1), {v(0,-515,0)})
 		-- docking trigger surface (only need to indicate surface for
 		-- port zero since this is a 'dock_one_at_a_time_please' station
 		geomflag(0x10)
@@ -898,7 +898,7 @@ define_model('big_crappy_spacestation', {
 			text("Tom Morton", textpos, v(0,-1000,0), v(-1,0,0), 10.0, {center=true})
 			zbias(0)
 		end
-		 billboard('smoke.png', 20.0, v(1,1,0), {
+		 billboard('light.png', 20.0, v(1,1,0), {
 			vlerp(get_time('SECONDS'),v(0,12,419),v(0,12,1500)),
 			vlerp(get_time('SECONDS'),v(0,12,-419),v(0,12,-1500))})
 		set_light(1, 0.00005, v(0,0+1000*math.fmod(get_time('SECONDS'),1.0),0), v(0,0,0.5))
@@ -1075,9 +1075,9 @@ define_model('nice_spacestation', {
 			call_model('ad_acme_2', v(0,-400.1,20), v(-1,0,0), v(0,0,-1), 40.0)
 		end
 		if (math.fmod(get_time('SECONDS'), 2) > 1) then
-			billboard('smoke.png', 50, v(0,1,0), { v(-150,405.5,0), v(-175,405.5,0), v(-200,405.5,0) })
+			billboard('light.png', 50, v(0,1,0), { v(-150,405.5,0), v(-175,405.5,0), v(-200,405.5,0) })
 		else
-			billboard('smoke.png', 50, v(0,1,0), { v(150,405.5,0), v(175,405.5,0), v(200,405.5,0) })
+			billboard('light.png', 50, v(0,1,0), { v(150,405.5,0), v(175,405.5,0), v(200,405.5,0) })
 		end
 	end
 })
@@ -1229,9 +1229,9 @@ define_model('hoop_spacestation', {
 			zbias(0)
 		end
 		if (math.fmod(get_time('SECONDS'), 2) > 1) then
-			billboard('smoke.png', 50, v(0,1,0), { v(-150,405.5,0), v(-175,405.5,0), v(-200,405.5,0) })
+			billboard('light.png', 50, v(0,1,0), { v(-150,405.5,0), v(-175,405.5,0), v(-200,405.5,0) })
 		else
-			billboard('smoke.png', 50, v(0,1,0), { v(150,405.5,0), v(175,405.5,0), v(200,405.5,0) })
+			billboard('light.png', 50, v(0,1,0), { v(150,405.5,0), v(175,405.5,0), v(200,405.5,0) })
 		end
 	end
 })
@@ -1283,7 +1283,6 @@ define_model('basic_groundstation', {
 	dynamic = function(lod)
 		-- light on tower
 		local lightphase = math.fmod(get_time('SECONDS')+0.620486, 1)
-		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 88, -150) })
+		billboard('light.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 88, -150) })
 	end
 })
-

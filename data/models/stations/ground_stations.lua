@@ -22,7 +22,7 @@ define_model('control_tower', {
 	end,
 	dynamic = function(lod)
 	local lightphase = math.fmod(get_time('SECONDS')+0.620486, 1)
-	billboard('smoke.png', 50, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 201, 0) })
+	billboard('light.png', 50, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 201, 0) })
 	end
 })
 
@@ -61,7 +61,7 @@ function createLandingPad(padNum, position)
 		else
 			color = v(1,0.5,0) -- orange
 		end
-		billboard('smoke.png', 50, color, { position + v(-30,1,30), position + v(30,1,30), position + v(-30,1,-30), position + v(30,1,-30) })
+		billboard('light.png', 50, color, { position + v(-30,1,30), position + v(30,1,30), position + v(-30,1,-30), position + v(30,1,-30) })
 	end
 end
 

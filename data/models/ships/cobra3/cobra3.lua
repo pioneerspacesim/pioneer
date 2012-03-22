@@ -41,22 +41,22 @@ define_model('cobra_mk3', {
             -- lights on wingtips
 			local lightphase = math.fmod(get_time('SECONDS'), 1)
 			if lightphase > .9 then
-				billboard('smoke.png', 10, v(1,1,1), { v(-25.35,-.95,11.375) })
+				billboard('light.png', 10, v(1,1,1), { v(-25.35,-.95,11.375) })
 			elseif lightphase > .8 then
-				billboard('smoke.png', 10, v(1,1,1), { v(25.35,-.95,11.375) }) -- middle number is how high vertically on the ship
+				billboard('light.png', 10, v(1,1,1), { v(25.35,-.95,11.375) }) -- middle number is how high vertically on the ship
 			elseif lightphase > .7 then
-				billboard('smoke.png', 10, v(1,1,1), { v(0,-4.95,11.375) })
+				billboard('light.png', 10, v(1,1,1), { v(0,-4.95,11.375) })
 			end
 		end
 		
 		if get_animation_position('WHEEL_STATE') == 0 then
 			local lightphase = math.fmod(get_time('SECONDS'), 1)
 			if lightphase > .9 then
-				billboard('smoke.png', 10, v(0,1,0), { v(-25.35,-.95,11.375) })
+				billboard('light.png', 10, v(0,1,0), { v(-25.35,-.95,11.375) })
 			elseif lightphase > .8 then
-				billboard('smoke.png', 10, v(1,0,0), { v(25.35,-.95,11.375) })
+				billboard('light.png', 10, v(1,0,0), { v(25.35,-.95,11.375) })
 			elseif lightphase > .7 then
-				billboard('smoke.png', 10, v(1,1,1), { v(0,4.95,11.375) })
+				billboard('light.png', 10, v(1,1,1), { v(0,4.95,11.375) })
 			end
 		end
 				

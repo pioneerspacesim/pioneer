@@ -431,8 +431,8 @@ define_model('asp_sparks', {
 
 		if lod > 2 then
 			if get_animation_position('WHEEL_STATE') ~= 0 then
-				billboard('smoke.png', .05, v(1,1,1), { v(-.299,.067,-1.687),v(-.416,.067,-1.687) })
-				billboard('smoke.png', .025, v(.6,1.2,1.2), { v(-.202,.045,-1.659) })
+				billboard('light.png', .05, v(1,1,1), { v(-.299,.067,-1.687),v(-.416,.067,-1.687) })
+				billboard('light.png', .025, v(.6,1.2,1.2), { v(-.202,.045,-1.659) })
 			end
 		end
 	end

@@ -68,12 +68,12 @@ define_model('cobra1', {
 				-- posl
 				local lightphase = math.fmod(get_time('SECONDS'), 1)
 				if lightphase < .4 then
-					billboard('smoke.png', 5, v(1,0.8,0), { v(0, -0.8, -7) })
+					billboard('light.png', 5, v(1,0.8,0), { v(0, -0.8, -7) })
 				elseif lightphase  > .4 then
 					if lightphase < .7 then
-						billboard('smoke.png', 5,  v(.3,1,0), { v(13.5, 0, 7.4) })
+						billboard('light.png', 5,  v(.3,1,0), { v(13.5, 0, 7.4) })
 					elseif lightphase > .7 then
-						billboard('smoke.png', 5, v(1,0,0), { v(-13.5, 0, 7.4) })
+						billboard('light.png', 5, v(1,0,0), { v(-13.5, 0, 7.4) })
 					end
 				end
 			end
@@ -94,12 +94,12 @@ define_model('cobra1', {
 				-- posl
 				local lightphase = math.fmod(get_time('SECONDS'), 1)
 				if lightphase < .4 then
-					billboard('smoke.png', 5, v(1,1,1), { v(0, -0.8, -7) })
+					billboard('light.png', 5, v(1,1,1), { v(0, -0.8, -7) })
 				elseif lightphase  > .4 then
 					if lightphase < .7 then
-						billboard('smoke.png', 5,  v(1,1,1), { v(13.5, 0, 7.4) })
+						billboard('light.png', 5,  v(1,1,1), { v(13.5, 0, 7.4) })
 					elseif lightphase > .7 then
-						billboard('smoke.png', 5, v(1,1,1), { v(-13.5, 0, 7.4) })
+						billboard('light.png', 5, v(1,1,1), { v(-13.5, 0, 7.4) })
 					end
 				end
 			end
