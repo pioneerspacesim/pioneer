@@ -439,10 +439,12 @@ int LmrCollMesh::GetTrisWithGeomflag(unsigned int flags, int num, vector3d *outV
 LmrCollMesh::~LmrCollMesh()
 {
 	// nice. mixed allocation. for the love of realloc...
+#if 0
 	delete geomTree;
 	free(pVertex);
 	free(pIndex);
 	free(pFlag);
+#endif
 }
 
 
