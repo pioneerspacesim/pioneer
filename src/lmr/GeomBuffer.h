@@ -144,7 +144,7 @@ private:
 
 	void UseProgram(LmrShader *shader, bool Textured = false, bool Glowmap = false);
 
-	void PrepareNewSurface();
+	void CompleteSurface();
 	void PushOp(Op *op);
 
 	static void StaticInit(Graphics::Renderer *renderer);

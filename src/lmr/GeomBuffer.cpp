@@ -38,7 +38,7 @@ void GeomBuffer::StaticInit(Graphics::Renderer *renderer)
 GeomBuffer::GeomBuffer(LmrModel *model, bool isStatic) :
 	m_mesh(new Graphics::StaticMesh(Graphics::TRIANGLES))
 {
-	PrepareNewSurface();
+	CompleteSurface();
 
 	curTriFlag = 0;
 	curTexture = 0;
@@ -56,6 +56,8 @@ void GeomBuffer::PreBuild() {
 }
 
 void GeomBuffer::PostBuild() {
+	CompleteSurface();
+
 	//printf("%d vertices, %d indices, %s\n", m_vertices.size(), m_indices.size(), m_isStatic ? "static" : "dynamic");
 	/*
 	if (m_isStatic && m_indices.size()) {
@@ -531,9 +533,11 @@ void GeomBuffer::BindBuffers() {
 #endif
 }
 
-void GeomBuffer::PrepareNewSurface()
+void GeomBuffer::CompleteSurface()
 {
-	m_mesh->AddSurface(m_curSurface.Release());
+	if (m_curSurface && m_curSurface->GetNumIndices() > 0)
+		m_mesh->AddSurface(m_curSurface.Release());
+
 	m_curSurface.Reset(new Graphics::Surface(Graphics::TRIANGLES, new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0)));
 }
 
@@ -543,8 +547,7 @@ void GeomBuffer::PushOp(Op *op)
 
 	// XXX op probably changed materials or wants to call model, so current
 	// surface is finished. add it to the mesh
-	if (m_curSurface->GetNumIndices() > 0)
-		PrepareNewSurface();
+	CompleteSurface();
 }
 
 void GeomBuffer::SaveToCache(FILE *f) {

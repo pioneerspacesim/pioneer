@@ -464,6 +464,8 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 {
 	if (!t) return false;
 
+	printf("DrawStaticMesh: mesh %p vertices %d indicies %d\n", t, t->GetNumVerts(), t->GetNumIndices());
+
 	//Approach:
 	//on first render, buffer vertices from all surfaces to a vbo
 	//since surfaces can have different materials (but they should have the same vertex format?)
