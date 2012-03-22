@@ -24,7 +24,7 @@ namespace LMR {
 
 class GeomBuffer {
 public:
-	GeomBuffer(LmrModel *model, bool isStatic);
+	GeomBuffer(LmrModel *model, bool isStatic, Graphics::Renderer *renderer);
 
 	//int GetIndicesPos() const { return m_indices.size(); }
 	int GetVerticesPos() const { return m_curSurface->GetVertices()->position.size(); } // XXX direct access again
@@ -37,8 +37,8 @@ public:
 
 	void FreeGeometry();
 
-	void Render(Graphics::Renderer *r, const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params);
-	void RenderThrusters(Graphics::Renderer *r, const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params);
+	void Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params);
+	void RenderThrusters(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params);
 
 	void PushThruster(const vector3f &pos, const vector3f &dir, const float power, bool linear_only);
 
@@ -150,6 +150,8 @@ private:
 	static bool s_initialized;
 	static ScopedPtr<LmrShader> s_sunlightShader[4];
 	static ScopedPtr<LmrShader> s_pointlightShader[4];
+
+	Graphics::Renderer *m_renderer;
 
 	ScopedPtr<Graphics::StaticMesh> m_mesh;
 

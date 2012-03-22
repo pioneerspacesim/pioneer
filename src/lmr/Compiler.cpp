@@ -33,6 +33,15 @@ static const LmrObjParams *GetCurrentObjParams(lua_State *l)
 	return objParams;
 }
 
+static Graphics::Renderer *GetRenderer(lua_State *l)
+{
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiLmrRenderer");
+	Graphics::Renderer *renderer = reinterpret_cast<Graphics::Renderer*>(lua_touserdata(l, -1));
+	lua_pop(l, 1);
+	assert(renderer);
+	return renderer;
+}
+
 namespace ModelFuncs {
 	/*
 	 * Function: call_model
@@ -3151,11 +3160,11 @@ static int define_model(lua_State *L)
 	snprintf(buf, sizeof(buf), "%s_dynamic", model_name);
 	lua_setglobal(L, buf);
 	
-	s_models[model_name] = new LmrModel(L, model_name);
+	s_models[model_name] = new LmrModel(L, model_name, GetRenderer(L));
 	return 0;
 }
 
-void ModelCompilerInit()
+void ModelCompilerInit(Graphics::Renderer *renderer)
 {
 #if 0
 	s_cacheDir = FileSystem::GetUserDir("model_cache");
@@ -3235,7 +3244,13 @@ void ModelCompilerInit()
 	lua_register(L, "set_light", ModelFuncs::set_light);
 	lua_register(L, "use_light", ModelFuncs::use_light);
 
+	lua_pushlightuserdata(L, renderer);
+	lua_setfield(L, LUA_REGISTRYINDEX, "PiLmrRenderer");
+
 	pi_lua_dofile(L, "pimodels.lua");
+
+	lua_pushnil(L);
+	lua_setfield(L, LUA_REGISTRYINDEX, "PiLmrRenderer");
 
 	LUA_DEBUG_END(L, 0);
 

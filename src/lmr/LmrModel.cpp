@@ -73,7 +73,7 @@ static std::string _fread_string(FILE *f)
 	return str;
 }
 
-LmrModel::LmrModel(lua_State *lua, const char *model_name) : m_lua(lua)
+LmrModel::LmrModel(lua_State *lua, const char *model_name, Graphics::Renderer *renderer) : m_lua(lua), m_renderer(renderer)
 {
 	m_name = model_name;
 	m_drawClipRadius = 1.0f;
@@ -153,8 +153,8 @@ LmrModel::LmrModel(lua_State *lua, const char *model_name) : m_lua(lua)
 	}
 
 	for (int i=0; i<m_numLods; i++) {
-		m_staticGeometry[i] = new LMR::GeomBuffer(this, true);
-		m_dynamicGeometry[i] = new LMR::GeomBuffer(this, false);
+		m_staticGeometry[i] = new LMR::GeomBuffer(this, true, m_renderer);
+		m_dynamicGeometry[i] = new LMR::GeomBuffer(this, false, m_renderer);
 	}
 
 	const std::string cache_file = FileSystem::JoinPathBelow(s_cacheDir, model_name) + ".bin";
@@ -328,15 +328,15 @@ bool LmrModel::HasTag(const char *tag) const
 	return has_tag;
 }
 
-void LmrModel::Render(Graphics::Renderer *r, const matrix4x4f &trans, const LmrObjParams *params)
+void LmrModel::Render(const matrix4x4f &trans, const LmrObjParams *params)
 {
 	LMR::RenderState rstate;
 	rstate.subTransform = matrix4x4f::Identity();
 	rstate.combinedScale = m_scale;
-	Render(r, &rstate, vector3f(-trans[12], -trans[13], -trans[14]), trans, params);
+	Render(&rstate, vector3f(-trans[12], -trans[13], -trans[14]), trans, params);
 }
 
-void LmrModel::Render(Graphics::Renderer *r, const LMR::RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params)
+void LmrModel::Render(const LMR::RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params)
 {
 	glPushMatrix();
 	glMultMatrixf(&trans[0]);
@@ -357,15 +357,15 @@ void LmrModel::Render(Graphics::Renderer *r, const LMR::RenderState *rstate, con
 
 	const vector3f modelRelativeCamPos = trans.InverseOf() * cameraPos;
 
-	m_staticGeometry[lod]->Render(r, rstate, modelRelativeCamPos, params);
+	m_staticGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
 	if (m_hasDynamicFunc) {
-		m_dynamicGeometry[lod]->Render(r, rstate, modelRelativeCamPos, params);
+		m_dynamicGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
 	}
 
 	Graphics::UnbindAllBuffers();
 
 	glDisable(GL_NORMALIZE);
-	r->SetBlendMode(Graphics::BLEND_SOLID);
+	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	glPopMatrix();
 }
 

@@ -170,5 +170,5 @@ void ModelBody::RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords
 	trans[14] = viewCoords.z;
 	trans[15] = 1.0f;
 
-	m_lmrModel->Render(r, trans, &m_params);
+	m_lmrModel->Render(trans, &m_params);
 }

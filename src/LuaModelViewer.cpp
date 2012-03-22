@@ -542,9 +542,9 @@ void Viewer::MainLoop()
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
 			if (g_doBenchmark) {
-				for (int i=0; i<1000; i++) m_model->Render(renderer, m, &g_params);
+				for (int i=0; i<1000; i++) m_model->Render(m, &g_params);
 			} else {
-				m_model->Render(renderer, m, &g_params);
+				m_model->Render(m, &g_params);
 			}
 			glPopAttrib();
 		} else if (g_renderType == 1) {
@@ -734,7 +734,7 @@ int main(int argc, char **argv)
 	renderer = Graphics::Init(g_width, g_height, true);
 	Gui::Init(renderer, g_width, g_height, g_width, g_height);
 
-	LMR::ModelCompilerInit();
+	LMR::ModelCompilerInit(renderer);
 	LmrNotifyScreenWidth(g_width);
 
 	ShipType::Init();

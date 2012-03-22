@@ -35,7 +35,8 @@ void GeomBuffer::StaticInit(Graphics::Renderer *renderer)
 	s_initialized = true;
 }
 
-GeomBuffer::GeomBuffer(LmrModel *model, bool isStatic) :
+GeomBuffer::GeomBuffer(LmrModel *model, bool isStatic, Graphics::Renderer *renderer) :
+	m_renderer(renderer),
 	m_mesh(new Graphics::StaticMesh(Graphics::TRIANGLES)),
 	m_curMaterialIdx(-1)
 {
@@ -92,8 +93,8 @@ void GeomBuffer::UseProgram(LmrShader *shader, bool Textured, bool Glowmap) {
 #define BUFFER_OFFSET(i) (reinterpret_cast<const GLvoid *>(i))
 static const float NEWMODEL_ZBIAS = 0.0002f;
 
-void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
-	StaticInit(r);
+void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
+	StaticInit(m_renderer);
 
 	int activeLights = 0;
 	s_numTrisRendered += m_mesh->GetNumIndices()/3;
@@ -106,7 +107,7 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 
 	if (m_isStatic) // XXX hack disable dynamic draw
 		if (m_mesh->GetNumIndices() > 0)
-			r->DrawStaticMesh(m_mesh.Get());
+			m_renderer->DrawStaticMesh(m_mesh.Get());
 
 	for (std::vector<Op*>::const_iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
 		switch ((*i)->type) {
@@ -154,14 +155,14 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 			Graphics::UnbindAllBuffers();
 
 			if (!op->texture)
-				op->texture = Graphics::TextureBuilder::Model(*op->textureFile).GetOrCreateTexture(r, "billboard");
+				op->texture = Graphics::TextureBuilder::Model(*op->textureFile).GetOrCreateTexture(m_renderer, "billboard");
 
 			Graphics::Material mat;
 			mat.unlit = true;
 			mat.texture0 = op->texture;
 			mat.diffuse = Color(op->col[0], op->col[1], op->col[2], op->col[3]);
 
-			r->DrawPointSprites(op->positions.size(), &op->positions[0], &mat, op->size);
+			m_renderer->DrawPointSprites(op->positions.size(), &op->positions[0], &mat, op->size);
 
 			BindBuffers();
 			break;
@@ -191,7 +192,7 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 			RenderState rstate2;
 			rstate2.subTransform = rstate->subTransform * trans;
 			rstate2.combinedScale = rstate->combinedScale * op->scale * op->model->m_scale;
-			op->model->Render(r, &rstate2, cam_pos, trans, params);
+			op->model->Render(&rstate2, cam_pos, trans, params);
 			// XXX re-binding buffer may not be necessary
 			BindBuffers();
 			}
@@ -254,31 +255,31 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 
 	Graphics::UnbindAllBuffers();
 
-	RenderThrusters(r, rstate, cameraPos, params);
+	RenderThrusters(rstate, cameraPos, params);
 
 	//XXX hack. Unuse any shader. Can be removed when LMR uses Renderer.
 	if (Graphics::AreShadersEnabled())
 		s_sunlightShader[0]->Unuse();
 }
 
-void GeomBuffer::RenderThrusters(Graphics::Renderer *r, const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
+void GeomBuffer::RenderThrusters(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
 	if (m_thrusters.empty()) return;
 
 	glDisable(GL_LIGHTING);
-	r->SetBlendMode(Graphics::BLEND_ADDITIVE);
-	r->SetDepthWrite(false);
+	m_renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
+	m_renderer->SetDepthWrite(false);
 	glEnableClientState (GL_VERTEX_ARRAY);
 	glEnableClientState (GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState (GL_NORMAL_ARRAY);
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_2D);
 	for (unsigned int i=0; i<m_thrusters.size(); i++) {
-		m_thrusters[i].Render(r, rstate, params);
+		m_thrusters[i].Render(m_renderer, rstate, params);
 	}
 	glDisable(GL_TEXTURE_2D);
 	glColor3f(1.f, 1.f, 1.f);
-	r->SetBlendMode(Graphics::BLEND_SOLID);
-	r->SetDepthWrite(true);
+	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
+	m_renderer->SetDepthWrite(true);
 	glEnable(GL_CULL_FACE);
 	glDisableClientState (GL_VERTEX_ARRAY);
 	glDisableClientState (GL_TEXTURE_COORD_ARRAY);
