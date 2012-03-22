@@ -141,4 +141,4 @@ local hercules = CustomSBody:new('Hercules', 'PLANET_GAS_GIANT')
 		hale,
 	})
 
-s:add_to_sector(1,0,-1,v(0.037,0.775,0.784))
+s:add_to_sector(1,-1,-1,v(0.037,0.325,0.784))

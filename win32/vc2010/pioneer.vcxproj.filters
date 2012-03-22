@@ -39,9 +39,6 @@
     <ClCompile Include="..\src\pch.cpp">
       <Filter>win32\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\win32-dirent.cpp">
-      <Filter>win32\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\AmbientSounds.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -591,16 +588,6 @@
     <ClCompile Include="..\src\Gamma.cpp">
       <Filter>win32\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\GameLoaderSaver.cpp" />
-    <ClCompile Include="..\..\src\FileSelectorWidget.cpp" />
-    <ClCompile Include="..\..\src\Game.cpp" />
-    <ClCompile Include="..\..\src\MathUtil.cpp" />
-    <ClCompile Include="..\..\src\Texture.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\TextureCache.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Light.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -634,9 +621,6 @@
     <ClCompile Include="..\..\src\graphics\RendererLegacy.cpp">
       <Filter>src\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\graphics\RenderTarget.cpp">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\graphics\Shader.cpp">
       <Filter>src\graphics</Filter>
     </ClCompile>
@@ -645,6 +629,39 @@
     </ClCompile>
     <ClCompile Include="..\..\src\graphics\VertexArray.cpp">
       <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\FileSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\FileSystemPosix.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\FileSystemWin32.cpp">
+      <Filter>win32\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Color.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiTexturedQuad.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\graphics\TextureBuilder.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\graphics\TextureGL.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\FileSelectorWidget.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Game.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GameLoaderSaver.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\MathUtil.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -667,9 +684,6 @@
       <Filter>src\collider</Filter>
     </ClInclude>
     <ClInclude Include="..\src\pch.h">
-      <Filter>win32\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\win32-dirent.h">
       <Filter>win32\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -1149,16 +1163,6 @@
     <ClInclude Include="..\..\src\SmartPtr.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GameLoaderSaver.h" />
-    <ClInclude Include="..\..\src\FileSelectorWidget.h" />
-    <ClInclude Include="..\..\src\Game.h" />
-    <ClInclude Include="..\..\src\MathUtil.h" />
-    <ClInclude Include="..\..\src\Texture.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\TextureCache.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Light.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1169,6 +1173,15 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\TextSupport.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ByteRange.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\StringRange.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FileSystem.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\graphics\Drawables.h">
@@ -1195,9 +1208,6 @@
     <ClInclude Include="..\..\src\graphics\RendererLegacy.h">
       <Filter>src\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\graphics\RenderTarget.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\graphics\Shader.h">
       <Filter>src\graphics</Filter>
     </ClInclude>
@@ -1209,6 +1219,30 @@
     </ClInclude>
     <ClInclude Include="..\..\src\graphics\VertexArray.h">
       <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiTexturedQuad.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\TextureGL.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\Texture.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\TextureBuilder.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\MathUtil.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FileSelectorWidget.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Game.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GameLoaderSaver.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

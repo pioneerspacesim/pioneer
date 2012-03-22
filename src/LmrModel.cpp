@@ -11,12 +11,14 @@
 #include "EquipType.h"
 #include "EquipSet.h"
 #include "ShipType.h"
-#include "TextureCache.h"
+#include "FileSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/Shader.h"
 #include "graphics/VertexArray.h"
+#include "graphics/TextureBuilder.h"
+#include "graphics/TextureGL.h" // XXX temporary until LMR uses renderer drawing properly
 #include <set>
 #include <algorithm>
 
@@ -50,16 +52,20 @@ namespace ShipThruster {
 	//cool purple-ish
 	static Color color(0.7f, 0.6f, 1.f, 1.f);
 
-	static void Init(TextureCache *tcache) {
+	static const std::string thrusterTextureFilename("textures/thruster.png");
+	static const std::string thrusterGlowTextureFilename("textures/halo.png");
+
+	static void Init(Graphics::Renderer *renderer) {
 		tVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 		gVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
 		//set up materials
-		tMat.texture0 = tcache->GetBillboardTexture(PIONEER_DATA_DIR"/textures/thruster.png");
+		tMat.texture0 = Graphics::TextureBuilder::Billboard(thrusterTextureFilename).GetOrCreateTexture(renderer, "billboard");
 		tMat.unlit = true;
 		tMat.twoSided = true;
 		tMat.diffuse = color;
-		glowMat.texture0 = tcache->GetBillboardTexture(PIONEER_DATA_DIR"/textures/halo.png");
+
+		glowMat.texture0 = Graphics::TextureBuilder::Billboard(thrusterGlowTextureFilename).GetOrCreateTexture(renderer, "billboard");
 		glowMat.unlit = true;
 		glowMat.twoSided = true;
 		glowMat.diffuse = color;
@@ -260,7 +266,6 @@ static lua_State *sLua;
 static int s_numTrisRendered;
 static std::string s_cacheDir;
 static bool s_recompileAllModels = true;
-static TextureCache *s_textureCache;
 static Graphics::Renderer *s_renderer;
 
 struct Vertex {
@@ -302,6 +307,16 @@ static void _fwrite_string(const std::string &str, FILE *f)
 	fwrite(str.c_str(), sizeof(char), len, f);
 }
 
+static size_t fread_or_die(void* ptr, size_t size, size_t nmemb, FILE* stream)
+{
+	size_t read_count = fread(ptr, size, nmemb, stream);
+	if (read_count < nmemb) {
+		fprintf(stderr, "Error: failed to read file (%s)\n", (feof(stream) ? "truncated" : "read error"));
+		abort();
+	}
+	return read_count;
+}
+
 static std::string _fread_string(FILE *f)
 {
 	int len = 0;
@@ -312,7 +327,7 @@ static std::string _fread_string(FILE *f)
 	delete[] buf;
 	return str;
 }
-	
+
 class LmrGeomBuffer {
 public:
 	LmrGeomBuffer(LmrModel *model, bool isStatic) {
@@ -374,16 +389,20 @@ public:
 		for (unsigned int i=0; i<opEndIdx; i++) {
 			const Op &op = m_ops[i];
 			switch (op.type) {
-			case OP_DRAW_ELEMENTS:
-				if (op.elems.texture != 0 ) {
-					UseProgram(curShader, true, op.elems.glowmap != 0);
-					glActiveTexture(GL_TEXTURE0);
+			case OP_DRAW_ELEMENTS: {
+				if (op.elems.textureFile) {
 					glEnable(GL_TEXTURE_2D);
-					op.elems.texture->Bind();
-					if (op.elems.glowmap != 0) {
+					if (!op.elems.texture)
+						op.elems.texture = Graphics::TextureBuilder::Model(*op.elems.textureFile).GetOrCreateTexture(s_renderer, "model");
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, static_cast<Graphics::TextureGL*>(op.elems.texture)->GetTextureNum());
+					if (op.elems.glowmapFile) {
+						if (!op.elems.glowmap)
+							op.elems.glowmap = Graphics::TextureBuilder::Model(*op.elems.glowmapFile).GetOrCreateTexture(s_renderer, "model");
 						glActiveTexture(GL_TEXTURE1);
-						op.elems.glowmap->Bind();
+						glBindTexture(GL_TEXTURE_2D, static_cast<Graphics::TextureGL*>(op.elems.glowmap)->GetTextureNum());
 					}
+					UseProgram(curShader, true, op.elems.glowmapFile);
 				} else {
 					UseProgram(curShader, false);
 				}
@@ -401,11 +420,17 @@ public:
 					// otherwise regular index vertex array
 					glDrawElements(GL_TRIANGLES, op.elems.count, GL_UNSIGNED_SHORT, &m_indices[op.elems.start]);
 				}
-				if ( op.elems.texture != 0 ) {
+				if (op.elems.texture) {
+					if (op.elems.glowmap) {
+						glActiveTexture(GL_TEXTURE1);
+						glBindTexture(GL_TEXTURE_2D, 0);
+					}
 					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, 0);
 					glDisable(GL_TEXTURE_2D);
 				}
 				break;
+			}
 			case OP_DRAW_BILLBOARDS: {
 				Graphics::UnbindAllBuffers();
 				//XXX have to copy positions to a temporary array as
@@ -415,6 +440,8 @@ public:
 				for (int j = 0; j < op.billboards.count; j++) {
 					verts.push_back(m_vertices[op.billboards.start + j].v);
 				}
+				if (!op.billboards.texture)
+					op.billboards.texture = Graphics::TextureBuilder::Model(*op.billboards.textureFile).GetOrCreateTexture(s_renderer, "billboard");
 				Graphics::Material mat;
 				mat.unlit = true;
 				mat.texture0 = op.billboards.texture;
@@ -572,7 +599,7 @@ public:
 	}
 	void SetTexture(const char *tex) {
 		if (tex) {
-			curTexture = s_textureCache->GetModelTexture(tex);
+			curTexture = new std::string(tex);
 		} else {
 			curTexture = 0;
 			curGlowmap = 0; //won't have these without textures
@@ -580,7 +607,7 @@ public:
 	}
 	void SetGlowMap(const char *tex) {
 		if (tex) {
-			curGlowmap = s_textureCache->GetModelTexture(tex);
+			curGlowmap = new std::string(tex);
 		} else {
 			curGlowmap = 0;
 		}
@@ -654,13 +681,14 @@ public:
 	void PushBillboards(const char *texname, const float size, const vector3f &color, const int numPoints, const vector3f *points)
 	{
 		char buf[256];
-		snprintf(buf, sizeof(buf), PIONEER_DATA_DIR"/textures/%s", texname);
+		snprintf(buf, sizeof(buf), "textures/%s", texname);
 
 		if (curOp.type) m_ops.push_back(curOp);
 		curOp.type = OP_DRAW_BILLBOARDS;
 		curOp.billboards.start = m_vertices.size();
 		curOp.billboards.count = numPoints;
-		curOp.billboards.texture = s_textureCache->GetBillboardTexture(buf);
+		curOp.billboards.textureFile = new std::string(buf);
+		curOp.billboards.texture = 0;
 		curOp.billboards.size = size;
 		curOp.billboards.col[0] = color.x;
 		curOp.billboards.col[1] = color.y;
@@ -778,15 +806,17 @@ private:
 	}
 
 	void OpDrawElements(int numIndices) {
-		if ((curOp.type != OP_DRAW_ELEMENTS) || (curOp.elems.texture != curTexture)) {
+		if ((curOp.type != OP_DRAW_ELEMENTS) || (curOp.elems.textureFile != curTexture)) {
 			if (curOp.type) m_ops.push_back(curOp);
 			curOp.type = OP_DRAW_ELEMENTS;
 			curOp.elems.start = m_indices.size();
 			curOp.elems.count = 0;
 			curOp.elems.elemMin = 1<<30;
 			curOp.elems.elemMax = 0;
-			curOp.elems.texture = curTexture;
-			curOp.elems.glowmap = curGlowmap;
+			curOp.elems.textureFile = curTexture;
+			curOp.elems.texture = 0;
+			curOp.elems.glowmapFile = curGlowmap;
+			curOp.elems.glowmap = 0;
 		}
 		curOp.elems.count += numIndices;
 	}
@@ -805,11 +835,11 @@ private:
 	struct Op {
 		enum OpType type;
 		union {
-			struct { ModelTexture *texture; ModelTexture *glowmap; int start, count, elemMin, elemMax; } elems;
+			struct { std::string *textureFile; std::string *glowmapFile; mutable Graphics::Texture *texture; mutable Graphics::Texture *glowmap; int start, count, elemMin, elemMax; } elems;
 			struct { int material_idx; } col;
 			struct { float amount; float pos[3]; float norm[3]; } zbias;
 			struct { LmrModel *model; float transform[16]; float scale; } callmodel;
-			struct { BillboardTexture *texture; int start, count; float size; float col[4]; } billboards;
+			struct { std::string *textureFile; mutable Graphics::Texture *texture; int start, count; float size; float col[4]; } billboards;
 			struct { bool local; } lighting_type;
 			struct { int num; float quadratic_attenuation; float pos[4], col[4]; } light;
 		};
@@ -817,8 +847,8 @@ private:
 	/* this crap is only used at build time... could move this elsewhere */
 	Op curOp;
 	Uint16 curTriFlag;
-	ModelTexture *curTexture;
-	ModelTexture *curGlowmap;
+	std::string *curTexture;
+	std::string *curGlowmap;
 	matrix4x4f curTexMatrix;
 	// 
 	std::vector<Vertex> m_vertices;
@@ -854,13 +884,13 @@ public:
 				if (m_ops[i].type == OP_CALL_MODEL) {
 					_fwrite_string(m_ops[i].callmodel.model->GetName(), f);
 				}
-				else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
-					_fwrite_string(m_ops[i].elems.texture->GetFilename(), f);
-					if (m_ops[i].elems.glowmap)
-						_fwrite_string(m_ops[i].elems.glowmap->GetFilename(), f);
+				else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.textureFile)) {
+					_fwrite_string(*m_ops[i].elems.textureFile, f);
+					if (m_ops[i].elems.glowmapFile)
+						_fwrite_string(*m_ops[i].elems.glowmapFile, f);
 				}
-				else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
-					_fwrite_string(m_ops[i].billboards.texture->GetFilename(), f);
+				else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.textureFile)) {
+					_fwrite_string(*m_ops[i].billboards.textureFile, f);
 				}
 			}
 		}
@@ -899,13 +929,18 @@ public:
 			if (m_ops[i].type == OP_CALL_MODEL) {
 				m_ops[i].callmodel.model = s_models[_fread_string(f)];
 			}
-			else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
-				m_ops[i].elems.texture = s_textureCache->GetModelTexture(_fread_string(f));
-				if (m_ops[i].elems.glowmap)
-					m_ops[i].elems.glowmap = s_textureCache->GetModelTexture(_fread_string(f));
+			else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.textureFile)) {
+				m_ops[i].elems.textureFile = new std::string(_fread_string(f));
+				m_ops[i].elems.texture = 0;
+
+				if (m_ops[i].elems.glowmapFile) {
+					m_ops[i].elems.glowmapFile = new std::string(_fread_string(f));
+					m_ops[i].elems.glowmap = 0;
+				}
 			}
-			else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
-				m_ops[i].billboards.texture = s_textureCache->GetBillboardTexture(_fread_string(f));
+			else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.textureFile)) {
+				m_ops[i].billboards.textureFile = new std::string(_fread_string(f));
+				m_ops[i].elems.texture = 0;
 			}
 		}
 	}
@@ -995,7 +1030,7 @@ LmrModel::LmrModel(const char *model_name)
 		m_dynamicGeometry[i] = new LmrGeomBuffer(this, false);
 	}
 
-	const std::string cache_file = join_path(s_cacheDir.c_str(), model_name, 0) + ".bin";
+	const std::string cache_file = FileSystem::JoinPathBelow(s_cacheDir, model_name) + ".bin";
 
 	if (!s_recompileAllModels) {
 		// load cached model
@@ -2408,11 +2443,11 @@ namespace ModelFuncs {
 			s_curBuf->SetTexture(0);
 		} else {
 			lua_getglobal(L, "CurrentDirectory");
-			std::string dir = luaL_checkstring(L, -1);
+			std::string dir = luaL_optstring(L, -1, ".");
 			lua_pop(L, 1);
 
 			const char *texfile = luaL_checkstring(L, 1);
-			std::string t = dir + std::string("/") + texfile;
+			std::string t = FileSystem::JoinPathBelow(dir, texfile);
 			if (nargs == 4) {
 				// texfile, pos, uaxis, vaxis
 				vector3f pos = *MyLuaVec::checkVec(L, 2);
@@ -4065,49 +4100,35 @@ namespace ModelFuncs {
 } /* namespace ModelFuncs */
 
 namespace ObjLoader {
-	static void trim(char *input) {
-		char *output = input;
-		char *end = output;
-		char c;
-
-		while(*input && isspace(*input))
-			++input;
-
-		while(*input) {
-			c = *(output++) = *(input++);
-			if( !isspace(c) )
-				end = output;
-		}
-
-		*end = 0;
-	}
-
 	static std::map<std::string, std::string> load_mtl_file(lua_State *L, const char* mtl_file) {
 		std::map<std::string, std::string> mtl_map;
-		char buf[1024], name[1024] = "", file[1024];
+		char name[1024] = "", file[1024];
 
 		lua_getglobal(L, "CurrentDirectory");
-		std::string curdir = luaL_checkstring(L, -1);
+		std::string curdir = luaL_optstring(L, -1, ".");
 		lua_pop(L, 1);
 
-		snprintf(buf, sizeof(buf), "%s/%s", curdir.c_str(), mtl_file);
-		FILE *f = fopen(buf, "r");
-		if (!f) {
-			printf("Could not open %s\n", buf);
+		const std::string path = FileSystem::JoinPathBelow(curdir, mtl_file);
+		RefCountedPtr<FileSystem::FileData> mtlfiledata = FileSystem::gameDataFiles.ReadFile(path);
+		if (!mtlfiledata) {
+			printf("Could not open %s\n", path.c_str());
 			throw LmrUnknownMaterial();
 		}
 
-		for (int line_no=1; fgets(buf, sizeof(buf), f); line_no++) {
-			trim(buf);
-			if (!strncasecmp(buf, "newmtl ", 7)) {
-				PiVerify(1 == sscanf(buf, "newmtl %s", name));
+		std::string line;
+		StringRange mtlfilerange = mtlfiledata->AsStringRange();
+		for (int line_no=1; !mtlfilerange.Empty(); line_no++) {
+			line = mtlfilerange.ReadLine().StripSpace().ToString();
+
+			if (!strncasecmp(line.c_str(), "newmtl ", 7)) {
+				PiVerify(1 == sscanf(line.c_str(), "newmtl %s", name));
 			}
-			if (!strncasecmp(buf, "map_K", 5) && strlen(name) > 0) {
-				PiVerify(1 == sscanf(buf, "map_Kd %s", file));
+			if (!strncasecmp(line.c_str(), "map_K", 5) && strlen(name) > 0) {
+				PiVerify(1 == sscanf(line.c_str(), "map_Kd %s", file));
 				mtl_map[name] = file;
 			}
 		}
-		fclose(f);
+
 		return mtl_map;
 	}
 
@@ -4159,15 +4180,17 @@ namespace ObjLoader {
 		}
 
 		lua_getglobal(L, "CurrentDirectory");
-		std::string curdir = luaL_checkstring(L, -1);
+		const std::string curdir = luaL_optstring(L, -1, ".");
 		lua_pop(L, 1);
-	
-		char buf[1024];
-		snprintf(buf, sizeof(buf), "%s/%s", curdir.c_str(), obj_name);
-		FILE *f = fopen(buf, "r");
-		if (!f) {
-			Error("Could not open %s\n", buf);
+
+		const std::string path = FileSystem::JoinPathBelow(curdir, obj_name);
+		RefCountedPtr<FileSystem::FileData> objdata = FileSystem::gameDataFiles.ReadFile(path);
+		if (!objdata) {
+			Error("Could not open '%s'\n", path.c_str());
 		}
+
+		StringRange objdatabuf = objdata->AsStringRange();
+
 		std::vector<vector3f> vertices;
 		std::vector<vector3f> texcoords;
 		std::vector<vector3f> normals;
@@ -4177,7 +4200,11 @@ namespace ObjLoader {
 		// maps obj file vtx_idx,norm_idx to a single GeomBuffer vertex index
 		std::map<objTriplet, int> vtxmap;
 
-		for (int line_no=1; fgets(buf, sizeof(buf), f); line_no++) {
+		std::string line;
+		for (int line_no=1; !objdatabuf.Empty(); line_no++) {
+			line = objdatabuf.ReadLine().ToString();
+			const char *buf = line.c_str();
+
 			if ((buf[0] == 'v') && buf[1] == ' ') {
 				// vertex
 				vector3f v;
@@ -4203,8 +4230,8 @@ namespace ObjLoader {
 			else if ((buf[0] == 'f') && (buf[1] == ' ')) {
 				// how many vertices in this face?
 				const int MAX_VTX_FACE = 64;
-				char *bit[MAX_VTX_FACE];
-				char *pos = &buf[2];
+				const char *bit[MAX_VTX_FACE];
+				const char *pos = &buf[2];
 				int numBits = 0;
 				while ((pos[0] != '\0') && (numBits < MAX_VTX_FACE)) {
 					bit[numBits++] = pos;
@@ -4307,7 +4334,6 @@ namespace ObjLoader {
 				}
 			}
 		}
-		fclose(f);
 		return 0;
 	}
 }
@@ -4373,41 +4399,36 @@ static int define_model(lua_State *L)
 	return 0;
 }
 
-static Uint32 s_allModelFilesCRC = 0;
-static void _makeModelFilesCRC(const std::string &dir, const std::string &filename)
-{
-	struct stat info;
-	if (stat(filename.c_str(), &info)) return;
+static Uint32 s_allModelFilesCRC;
 
-	if (S_ISDIR(info.st_mode)) {
-		foreach_file_in(filename, &_makeModelFilesCRC);
-	} else if (S_ISREG(info.st_mode) && (filename.substr(filename.size()-4) != ".png")) {
-		FILE *f = fopen(filename.c_str(), "rb");
-		if (f) {
-			fseek(f, 0, SEEK_END);
-			int size = ftell(f);
-			unsigned char *data = reinterpret_cast<unsigned char *>(malloc(size));
-			fseek(f, 0, SEEK_SET);
-			fread(data, 1, size, f);
-			for (int c=0; c<size; c++) s_allModelFilesCRC += data[c];
-			free(data);
-			fclose(f);
+static Uint32 _calculate_all_models_checksum()
+{
+	// do we need to rebuild the model cache?
+	Uint32 checksum = 0;
+	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "models", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
+	{
+		const FileSystem::FileInfo &info = files.Current();
+		if (info.IsFile() && (info.GetPath().substr(info.GetPath().size() - 4) != ".png")) {
+			RefCountedPtr<FileSystem::FileData> data = files.Current().Read();
+			const char *buf = data->GetData();
+			size_t sz = data->GetSize();
+			for (size_t i = 0; i < sz; ++i) { checksum += buf[i]; }
 		}
 	}
+	return checksum;
 }
 
 static void _detect_model_changes()
 {
-	// do we need to rebuild the model cache?
-	foreach_file_in(PIONEER_DATA_DIR "/models", &_makeModelFilesCRC);
+	s_allModelFilesCRC = _calculate_all_models_checksum();
 
-	FILE *cache_sum_file = fopen(join_path(s_cacheDir.c_str(), "cache.sum", 0).c_str(), "rb");
+	FILE *cache_sum_file = fopen(FileSystem::JoinPath(s_cacheDir, "cache.sum").c_str(), "rb");
 	if (cache_sum_file) {
 		if ((_fread_string(cache_sum_file) == PIONEER_VERSION) &&
 		    (_fread_string(cache_sum_file) == PIONEER_EXTRAVERSION)) {
-			Uint32 crc;
-			fread_or_die(&crc, sizeof(crc), 1, cache_sum_file);
-			if (crc == s_allModelFilesCRC) {
+			Uint32 checksum;
+			fread_or_die(&checksum, sizeof(checksum), 1, cache_sum_file);
+			if (checksum == s_allModelFilesCRC) {
 				s_recompileAllModels = false;
 			}
 		}
@@ -4419,7 +4440,7 @@ static void _detect_model_changes()
 static void _write_model_crc_file()
 {
 	if (s_recompileAllModels) {
-		FILE *cache_sum_file = fopen(join_path(s_cacheDir.c_str(), "cache.sum", 0).c_str(), "wb");
+		FILE *cache_sum_file = fopen(FileSystem::JoinPath(s_cacheDir, "cache.sum").c_str(), "wb");
 		if (cache_sum_file) {
 			_fwrite_string(PIONEER_VERSION, cache_sum_file);
 			_fwrite_string(PIONEER_EXTRAVERSION, cache_sum_file);
@@ -4429,14 +4450,14 @@ static void _write_model_crc_file()
 	}
 }
 
-void LmrModelCompilerInit(Graphics::Renderer *renderer, TextureCache *textureCache)
+void LmrModelCompilerInit(Graphics::Renderer *renderer)
 {
 	s_renderer = renderer;
-	s_textureCache = textureCache;
 
-	ShipThruster::Init(s_textureCache);
+	ShipThruster::Init(renderer);
 
-	s_cacheDir = GetPiUserDir("model_cache");
+	s_cacheDir = FileSystem::GetUserDir("model_cache");
+	FileSystem::rawFileSystem.MakeDirectory(s_cacheDir);
 	_detect_model_changes();
 
 	s_staticBufferPool = new BufferObjectPool<sizeof(Vertex)>();
@@ -4523,20 +4544,11 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer, TextureCache *textureCac
 	lua_register(L, "use_light", ModelFuncs::use_light);
 
 	s_buildDynamic = false;
-	lua_pushstring(L, PIONEER_DATA_DIR);
-	lua_setglobal(L, "CurrentDirectory");
-	
-	// same as luaL_dofile, except we can pass an error handler
-	lua_pushcfunction(L, pi_lua_panic);
-	if (luaL_loadfile(L, (std::string(PIONEER_DATA_DIR) + "/pimodels.lua").c_str())) {
-		pi_lua_panic(L);
-	} else {
-		lua_pcall(L, 0, LUA_MULTRET, -2);
-	}
-	lua_pop(sLua, 1);  // remove panic func
+
+	pi_lua_dofile(L, "pimodels.lua");
 
 	LUA_DEBUG_END(sLua, 0);
-	
+
 	_write_model_crc_file();
 	s_buildDynamic = true;
 }

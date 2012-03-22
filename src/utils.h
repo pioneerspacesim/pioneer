@@ -8,18 +8,6 @@
 #include <GL/glew.h>
 #include "libs.h"
 
-#ifdef DEBUG
-#define glError() { \
-	GLenum err = glGetError(); \
-	while (err != GL_NO_ERROR) { \
-		fprintf(stderr, "glError: %s caught at %s:%u\n", reinterpret_cast<const char *>(gluErrorString(err)), __FILE__, __LINE__); \
-		err = glGetError(); \
-	} \
-}
-#else
-#define glError() 
-#endif
-
 #ifndef __GNUC__
 #define __attribute(x)
 #endif /* __GNUC__ */
@@ -37,23 +25,11 @@ void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribut
 void Warning(const char *format, ...) __attribute((format(printf,1,2)));
 void SilentWarning(const char *format, ...) __attribute((format(printf,1,2)));
 
-std::string GetPiUserDir(const std::string &subdir = "");
-std::string GetPiDataDir();
-
-inline std::string GetPiSavefileDir() { return GetPiUserDir("savefiles"); }
-
-void GetDirectoryContents(const std::string &path, std::list<std::string> &files);
-
-// joinpath("data","models","some.def") = "data/models/some.def"
-std::string join_path(const char *firstbit, ...);
 std::string string_join(std::vector<std::string> &v, std::string sep);
 std::string format_date(double time);
 std::string format_date_only(double time);
 std::string format_distance(double dist);
 std::string format_money(Sint64 money);
-
-FILE *fopen_or_die(const char *filename, const char *mode);
-size_t fread_or_die(void* ptr, size_t size, size_t nmemb, FILE* stream, bool allow_truncated = false);
 
 static inline Sint64 isqrt(Sint64 a)
 {
@@ -71,11 +47,6 @@ static inline Sint64 isqrt(Sint64 a)
 	}
 	return ret;
 }
-
-bool is_file(const std::string &filename);
-bool is_dir(const std::string &filename);
-/** args to callback are basename, full path */
-void foreach_file_in(const std::string &directory, void (*callback)(const std::string &, const std::string &));
 
 void Screendump(const char* destFile, const int w, const int h);
 

@@ -21,8 +21,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		4A05F20B14C6E87F00854A54 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A05F20714C6E87F00854A54 /* Texture.cpp */; };
-		4A05F20C14C6E87F00854A54 /* TextureCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A05F20914C6E87F00854A54 /* TextureCache.cpp */; };
 		4A19038C138AA33300E0229C /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A190325138AA33300E0229C /* Gui.cpp */; };
 		4A19038E138AA33300E0229C /* GuiBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A190329138AA33300E0229C /* GuiBox.cpp */; };
 		4A190390138AA33300E0229C /* GuiButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A19032C138AA33300E0229C /* GuiButton.cpp */; };
@@ -108,6 +106,8 @@
 		4A24077F13F5240F002A5C12 /* StationShipyardForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24077013F5240F002A5C12 /* StationShipyardForm.cpp */; };
 		4A24078413F524E6002A5C12 /* GuiGradient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24078013F524E6002A5C12 /* GuiGradient.cpp */; };
 		4A24078513F524E6002A5C12 /* GuiStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24078213F524E6002A5C12 /* GuiStack.cpp */; };
+		4A305FD1151341170076D414 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A305FCC151341170076D414 /* FileSystem.cpp */; };
+		4A305FD2151341170076D414 /* FileSystemPosix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A305FCE151341170076D414 /* FileSystemPosix.cpp */; };
 		4A4007A41436015D004691A8 /* libGLEW.1.7.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4007A31436015D004691A8 /* libGLEW.1.7.0.dylib */; };
 		4A4007A614360180004691A8 /* libGLEW.1.7.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A4007A31436015D004691A8 /* libGLEW.1.7.0.dylib */; };
 		4A4F25D214F524D400FD14A6 /* Drawables.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25B914F524D400FD14A6 /* Drawables.cpp */; };
@@ -117,7 +117,6 @@
 		4A4F25D714F524D400FD14A6 /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25C214F524D400FD14A6 /* Renderer.cpp */; };
 		4A4F25D814F524D400FD14A6 /* RendererGL2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25C414F524D400FD14A6 /* RendererGL2.cpp */; };
 		4A4F25D914F524D400FD14A6 /* RendererLegacy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25C714F524D400FD14A6 /* RendererLegacy.cpp */; };
-		4A4F25DA14F524D400FD14A6 /* RenderTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25C914F524D400FD14A6 /* RenderTarget.cpp */; };
 		4A4F25DB14F524D400FD14A6 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25CB14F524D400FD14A6 /* Shader.cpp */; };
 		4A4F25DC14F524D400FD14A6 /* StaticMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25CD14F524D400FD14A6 /* StaticMesh.cpp */; };
 		4A4F25DD14F524D400FD14A6 /* VertexArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25D014F524D400FD14A6 /* VertexArray.cpp */; };
@@ -212,6 +211,10 @@
 		4A85A86B13C4631D00C2B986 /* LuaSystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */; };
 		4A85A86C13C4631D00C2B986 /* SoundMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86713C4631D00C2B986 /* SoundMusic.cpp */; };
 		4A8DD53B142E19B6006DD821 /* LuaConsole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A8DD539142E19B6006DD821 /* LuaConsole.cpp */; };
+		4A9174F415187B69006A15A9 /* GuiTexturedQuad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9174F215187B69006A15A9 /* GuiTexturedQuad.cpp */; };
+		4A9174FB15187B97006A15A9 /* TextureBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9174F715187B97006A15A9 /* TextureBuilder.cpp */; };
+		4A9174FC15187B97006A15A9 /* TextureGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9174F915187B97006A15A9 /* TextureGL.cpp */; };
+		4A9174FE15187C17006A15A9 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9174FD15187C17006A15A9 /* Color.cpp */; };
 		4A94CA4514F26875002CA792 /* FontCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A94CA4114F26875002CA792 /* FontCache.cpp */; };
 		4A94CA4614F26875002CA792 /* TextSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A94CA4314F26875002CA792 /* TextSupport.cpp */; };
 		4A9822A8142DF4B100B423F1 /* libpng14.14.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A671B8C1388C23200657F38 /* libpng14.14.dylib */; };
@@ -375,10 +378,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4A05F20714C6E87F00854A54 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
-		4A05F20814C6E87F00854A54 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
-		4A05F20914C6E87F00854A54 /* TextureCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureCache.cpp; sourceTree = "<group>"; };
-		4A05F20A14C6E87F00854A54 /* TextureCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureCache.h; sourceTree = "<group>"; };
 		4A190325138AA33300E0229C /* Gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gui.cpp; sourceTree = "<group>"; };
 		4A190326138AA33300E0229C /* Gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gui.h; sourceTree = "<group>"; };
 		4A190328138AA33300E0229C /* GuiAdjustment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiAdjustment.h; sourceTree = "<group>"; };
@@ -581,6 +580,12 @@
 		4A24078113F524E6002A5C12 /* GuiGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiGradient.h; sourceTree = "<group>"; };
 		4A24078213F524E6002A5C12 /* GuiStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiStack.cpp; sourceTree = "<group>"; };
 		4A24078313F524E6002A5C12 /* GuiStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiStack.h; sourceTree = "<group>"; };
+		4A305FCB151341170076D414 /* ByteRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ByteRange.h; sourceTree = "<group>"; };
+		4A305FCC151341170076D414 /* FileSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystem.cpp; sourceTree = "<group>"; };
+		4A305FCD151341170076D414 /* FileSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSystem.h; sourceTree = "<group>"; };
+		4A305FCE151341170076D414 /* FileSystemPosix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystemPosix.cpp; sourceTree = "<group>"; };
+		4A305FCF151341170076D414 /* LangStrings.inc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LangStrings.inc.h; sourceTree = "<group>"; };
+		4A305FD0151341170076D414 /* StringRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringRange.h; sourceTree = "<group>"; };
 		4A4007A31436015D004691A8 /* libGLEW.1.7.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.7.0.dylib; path = ../../../../../opt/local/lib/libGLEW.1.7.0.dylib; sourceTree = "<group>"; };
 		4A4F25B914F524D400FD14A6 /* Drawables.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Drawables.cpp; sourceTree = "<group>"; };
 		4A4F25BA14F524D400FD14A6 /* Drawables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Drawables.h; sourceTree = "<group>"; };
@@ -597,8 +602,6 @@
 		4A4F25C614F524D400FD14A6 /* RendererGLBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererGLBuffers.h; sourceTree = "<group>"; };
 		4A4F25C714F524D400FD14A6 /* RendererLegacy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RendererLegacy.cpp; sourceTree = "<group>"; };
 		4A4F25C814F524D400FD14A6 /* RendererLegacy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererLegacy.h; sourceTree = "<group>"; };
-		4A4F25C914F524D400FD14A6 /* RenderTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderTarget.cpp; sourceTree = "<group>"; };
-		4A4F25CA14F524D400FD14A6 /* RenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderTarget.h; sourceTree = "<group>"; };
 		4A4F25CB14F524D400FD14A6 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		4A4F25CC14F524D400FD14A6 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		4A4F25CD14F524D400FD14A6 /* StaticMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticMesh.cpp; sourceTree = "<group>"; };
@@ -790,6 +793,14 @@
 		4A85A86913C4631D00C2B986 /* SystemPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemPath.h; sourceTree = "<group>"; };
 		4A8DD539142E19B6006DD821 /* LuaConsole.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaConsole.cpp; sourceTree = "<group>"; };
 		4A8DD53A142E19B6006DD821 /* LuaConsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaConsole.h; sourceTree = "<group>"; };
+		4A9174F215187B69006A15A9 /* GuiTexturedQuad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiTexturedQuad.cpp; sourceTree = "<group>"; };
+		4A9174F315187B69006A15A9 /* GuiTexturedQuad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiTexturedQuad.h; sourceTree = "<group>"; };
+		4A9174F615187B97006A15A9 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
+		4A9174F715187B97006A15A9 /* TextureBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureBuilder.cpp; sourceTree = "<group>"; };
+		4A9174F815187B97006A15A9 /* TextureBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureBuilder.h; sourceTree = "<group>"; };
+		4A9174F915187B97006A15A9 /* TextureGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureGL.cpp; sourceTree = "<group>"; };
+		4A9174FA15187B97006A15A9 /* TextureGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureGL.h; sourceTree = "<group>"; };
+		4A9174FD15187C17006A15A9 /* Color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Color.cpp; sourceTree = "<group>"; };
 		4A94CA4014F26875002CA792 /* EquipSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipSet.h; sourceTree = "<group>"; };
 		4A94CA4114F26875002CA792 /* FontCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FontCache.cpp; sourceTree = "<group>"; };
 		4A94CA4214F26875002CA792 /* FontCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontCache.h; sourceTree = "<group>"; };
@@ -948,6 +959,8 @@
 		4A19030B138AA33300E0229C /* gui */ = {
 			isa = PBXGroup;
 			children = (
+				4A9174F215187B69006A15A9 /* GuiTexturedQuad.cpp */,
+				4A9174F315187B69006A15A9 /* GuiTexturedQuad.h */,
 				4A190325138AA33300E0229C /* Gui.cpp */,
 				4A190326138AA33300E0229C /* Gui.h */,
 				4A190328138AA33300E0229C /* GuiAdjustment.h */,
@@ -1142,8 +1155,8 @@
 				4A6C55141354655000FDD53F /* data */,
 				4A6C4B9F13532FC300FDD53F /* src */,
 				4A20B11213531CAF0020F43E /* Cocoa Support Files */,
-				4A9822A9142DF91B00B423F1 /* Misc TXT files */,
 				4A20B0E1135319770020F43E /* Frameworks */,
+				4A9822A9142DF91B00B423F1 /* Misc TXT files */,
 				4A20B0DF135319770020F43E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -1203,6 +1216,11 @@
 		4A4F25B814F524D400FD14A6 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				4A9174F615187B97006A15A9 /* Texture.h */,
+				4A9174F715187B97006A15A9 /* TextureBuilder.cpp */,
+				4A9174F815187B97006A15A9 /* TextureBuilder.h */,
+				4A9174F915187B97006A15A9 /* TextureGL.cpp */,
+				4A9174FA15187B97006A15A9 /* TextureGL.h */,
 				4A4F25B914F524D400FD14A6 /* Drawables.cpp */,
 				4A4F25BA14F524D400FD14A6 /* Drawables.h */,
 				4A4F25BB14F524D400FD14A6 /* Frustum.cpp */,
@@ -1218,8 +1236,6 @@
 				4A4F25C614F524D400FD14A6 /* RendererGLBuffers.h */,
 				4A4F25C714F524D400FD14A6 /* RendererLegacy.cpp */,
 				4A4F25C814F524D400FD14A6 /* RendererLegacy.h */,
-				4A4F25C914F524D400FD14A6 /* RenderTarget.cpp */,
-				4A4F25CA14F524D400FD14A6 /* RenderTarget.h */,
 				4A4F25CB14F524D400FD14A6 /* Shader.cpp */,
 				4A4F25CC14F524D400FD14A6 /* Shader.h */,
 				4A4F25CD14F524D400FD14A6 /* StaticMesh.cpp */,
@@ -1251,11 +1267,6 @@
 		4A6C4B9F13532FC300FDD53F /* src */ = {
 			isa = PBXGroup;
 			children = (
-				4A4F25DE14F524F600FD14A6 /* Light.cpp */,
-				4A4F25DF14F524F600FD14A6 /* Light.h */,
-				4A4F25E014F524F600FD14A6 /* SmartPtr.h */,
-				4A4F25E114F524F600FD14A6 /* vector2.h */,
-				4A4F25B814F524D400FD14A6 /* graphics */,
 				4A6C4BFE13532FC300FDD53F /* Aabb.h */,
 				4A6C4BFF13532FC300FDD53F /* AmbientSounds.cpp */,
 				4A6C4C0013532FC300FDD53F /* AmbientSounds.h */,
@@ -1266,6 +1277,7 @@
 				4A6C4C0313532FC300FDD53F /* Body.h */,
 				4A6C4C0413532FC300FDD53F /* BufferObject.h */,
 				4A6392C4136BD51E008352F1 /* buildopts.h */,
+				4A305FCB151341170076D414 /* ByteRange.h */,
 				4A84CB82146027DC0051C848 /* Camera.cpp */,
 				4A84CB83146027DC0051C848 /* Camera.h */,
 				4A6C4C0513532FC300FDD53F /* CargoBody.cpp */,
@@ -1275,6 +1287,7 @@
 				4A6C4C0713532FC300FDD53F /* CityOnPlanet.cpp */,
 				4A6C4C0813532FC300FDD53F /* CityOnPlanet.h */,
 				4A6C4C0913532FC300FDD53F /* collider */,
+				4A9174FD15187C17006A15A9 /* Color.cpp */,
 				4A6C4C1C13532FC300FDD53F /* Color.h */,
 				4A6C4C1D13532FC300FDD53F /* CommodityTradeWidget.cpp */,
 				4A6C4C1E13532FC300FDD53F /* CommodityTradeWidget.h */,
@@ -1295,6 +1308,9 @@
 				4A62EF2A136979E000919EBB /* FaceVideoLink.h */,
 				4AF9999B1496D51F009821AF /* FileSelectorWidget.cpp */,
 				4AF9999C1496D51F009821AF /* FileSelectorWidget.h */,
+				4A305FCC151341170076D414 /* FileSystem.cpp */,
+				4A305FCD151341170076D414 /* FileSystem.h */,
+				4A305FCE151341170076D414 /* FileSystemPosix.cpp */,
 				4A6C4C2513532FC300FDD53F /* fixed.h */,
 				4A1E9EBE144EEA8A009243D2 /* FloatComparison.h */,
 				4A82AA791386969B0028CCED /* Font.cpp */,
@@ -1323,6 +1339,7 @@
 				4A6C4C2E13532FC300FDD53F /* GameMenuView.h */,
 				4A6C4C3113532FC300FDD53F /* GeoSphere.cpp */,
 				4A6C4C3213532FC300FDD53F /* GeoSphere.h */,
+				4A4F25B814F524D400FD14A6 /* graphics */,
 				4A19030B138AA33300E0229C /* gui */,
 				4A6C4C6A13532FC300FDD53F /* HyperspaceCloud.cpp */,
 				4A6C4C6B13532FC300FDD53F /* HyperspaceCloud.h */,
@@ -1334,7 +1351,10 @@
 				4A6C4C7113532FC300FDD53F /* KeyBindings.h */,
 				4A24075A13F5240F002A5C12 /* Lang.cpp */,
 				4A24075B13F5240F002A5C12 /* Lang.h */,
+				4A305FCF151341170076D414 /* LangStrings.inc.h */,
 				4A6C4C7213532FC300FDD53F /* libs.h */,
+				4A4F25DE14F524F600FD14A6 /* Light.cpp */,
+				4A4F25DF14F524F600FD14A6 /* Light.h */,
 				4A6C4C7313532FC300FDD53F /* LmrModel.cpp */,
 				4A6C4C7413532FC300FDD53F /* LmrModel.h */,
 				4A99371B1368355400EA0EE5 /* LuaBody.cpp */,
@@ -1456,6 +1476,7 @@
 				4A24075D13F5240F002A5C12 /* ShipSpinnerWidget.h */,
 				4A6C4D5913532FC300FDD53F /* ShipType.cpp */,
 				4A6C4D5A13532FC300FDD53F /* ShipType.h */,
+				4A4F25E014F524F600FD14A6 /* SmartPtr.h */,
 				4A6C4D5B13532FC300FDD53F /* Sound.cpp */,
 				4A6C4D5C13532FC300FDD53F /* Sound.h */,
 				4A85A86713C4631D00C2B986 /* SoundMusic.cpp */,
@@ -1492,6 +1513,7 @@
 				4A24077113F5240F002A5C12 /* StationShipyardForm.h */,
 				4A6B59CA1429F14500ADC7C8 /* StringF.cpp */,
 				4A6B59CB1429F14500ADC7C8 /* StringF.h */,
+				4A305FD0151341170076D414 /* StringRange.h */,
 				4A6C4D6913532FC300FDD53F /* SystemInfoView.cpp */,
 				4A6C4D6A13532FC300FDD53F /* SystemInfoView.h */,
 				4A85A86913C4631D00C2B986 /* SystemPath.h */,
@@ -1503,14 +1525,11 @@
 				4A6C4D6D13532FC300FDD53F /* tests.cpp */,
 				4A94CA4314F26875002CA792 /* TextSupport.cpp */,
 				4A94CA4414F26875002CA792 /* TextSupport.h */,
-				4A05F20714C6E87F00854A54 /* Texture.cpp */,
-				4A05F20814C6E87F00854A54 /* Texture.h */,
-				4A05F20914C6E87F00854A54 /* TextureCache.cpp */,
-				4A05F20A14C6E87F00854A54 /* TextureCache.h */,
 				4A82AA801386969B0028CCED /* TextureFont.cpp */,
 				4A82AA811386969B0028CCED /* TextureFont.h */,
 				4A6C4D6E13532FC300FDD53F /* utils.cpp */,
 				4A6C4D6F13532FC300FDD53F /* utils.h */,
+				4A4F25E114F524F600FD14A6 /* vector2.h */,
 				4A6C4D7013532FC300FDD53F /* vector3.h */,
 				4A82AA821386969B0028CCED /* VectorFont.cpp */,
 				4A82AA831386969B0028CCED /* VectorFont.h */,
@@ -1944,8 +1963,6 @@
 				4AF999A41496D51F009821AF /* Game.cpp in Sources */,
 				4AF999A51496D51F009821AF /* GameLoaderSaver.cpp in Sources */,
 				4AF999A61496D51F009821AF /* MathUtil.cpp in Sources */,
-				4A05F20B14C6E87F00854A54 /* Texture.cpp in Sources */,
-				4A05F20C14C6E87F00854A54 /* TextureCache.cpp in Sources */,
 				4AED721D14E1501D004D171E /* TerrainHeightMapped2.cpp in Sources */,
 				4A94CA4514F26875002CA792 /* FontCache.cpp in Sources */,
 				4A94CA4614F26875002CA792 /* TextSupport.cpp in Sources */,
@@ -1956,11 +1973,16 @@
 				4A4F25D714F524D400FD14A6 /* Renderer.cpp in Sources */,
 				4A4F25D814F524D400FD14A6 /* RendererGL2.cpp in Sources */,
 				4A4F25D914F524D400FD14A6 /* RendererLegacy.cpp in Sources */,
-				4A4F25DA14F524D400FD14A6 /* RenderTarget.cpp in Sources */,
 				4A4F25DB14F524D400FD14A6 /* Shader.cpp in Sources */,
 				4A4F25DC14F524D400FD14A6 /* StaticMesh.cpp in Sources */,
 				4A4F25DD14F524D400FD14A6 /* VertexArray.cpp in Sources */,
 				4A4F25E214F524F600FD14A6 /* Light.cpp in Sources */,
+				4A305FD1151341170076D414 /* FileSystem.cpp in Sources */,
+				4A305FD2151341170076D414 /* FileSystemPosix.cpp in Sources */,
+				4A9174F415187B69006A15A9 /* GuiTexturedQuad.cpp in Sources */,
+				4A9174FB15187B97006A15A9 /* TextureBuilder.cpp in Sources */,
+				4A9174FC15187B97006A15A9 /* TextureGL.cpp in Sources */,
+				4A9174FE15187C17006A15A9 /* Color.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2026,6 +2048,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					_GNU_SOURCE,
 					DEBUG,
+					_XCODE,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
@@ -2078,7 +2101,10 @@
 				GCC_OPTIMIZATION_LEVEL = 2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pioneer/pioneer-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = _GNU_SOURCE;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					_GNU_SOURCE,
+					_XCODE,
+				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;

@@ -68,14 +68,14 @@ static void _get_int_attrib(lua_State *L, const char *key, int &output,
 	LUA_DEBUG_END(L, 0);
 }
 
-static int _define_ship(lua_State *L, const char *model_name, std::vector<ShipType::Type> &list, ShipType::Tag stag)
+int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *list)
 {
 	ShipType s;
-	s.tag = stag;
-	s.lmrModelName = model_name;
+	s.tag = tag;
 
 	LUA_DEBUG_START(L);
-	_get_string_attrib(L, "name", s.name, model_name);
+	_get_string_attrib(L, "name", s.name, "");
+	_get_string_attrib(L, "model", s.lmrModelName, "");
 	_get_float_attrib(L, "reverse_thrust", s.linThrust[ShipType::THRUSTER_REVERSE], 0.0f);
 	_get_float_attrib(L, "forward_thrust", s.linThrust[ShipType::THRUSTER_FORWARD], 0.0f);
 	_get_float_attrib(L, "up_thrust", s.linThrust[ShipType::THRUSTER_UP], 0.0f);
@@ -144,44 +144,39 @@ static int _define_ship(lua_State *L, const char *model_name, std::vector<ShipTy
 	lua_pop(L, 1);
 	LUA_DEBUG_END(L, 0);
 
+	//sanity check
+	if (s.name.empty())
+		return luaL_error(L, "Ship has no name");
+
+	if (s.lmrModelName.empty())
+		return luaL_error(L, "Missing model name in ship");
+
+	//this shouldn't necessarily be a fatal problem, could just warn+mark ship unusable
+	//or replace with proxy geometry
+	try {
+		LmrLookupModelByName(s.lmrModelName.c_str());
+	} catch (LmrModelNotFoundException &) {
+		return luaL_error(L, "Model %s is not defined", s.lmrModelName.c_str());
+	}
+
 	ShipType::types[s.name] = s;
-	list.push_back(s.name);
+	list->push_back(s.name);
 	return 0;
 }
 
-static void _define_ships(const char *tag, ShipType::Tag stag, std::vector<ShipType::Type> &list)
+int define_ship(lua_State *L)
 {
-	std::vector<LmrModel*> ship_models;
-	LmrGetModelsWithTag(tag, ship_models);
-	lua_State *L = LmrGetLuaState();
-	int num = 0;
+	return _define_ship(L, ShipType::TAG_SHIP, &ShipType::player_ships);
+}
 
-	LUA_DEBUG_START(L);
+int define_static_ship(lua_State *L)
+{
+	return _define_ship(L, ShipType::TAG_STATIC_SHIP, &ShipType::static_ships);
+}
 
-	for (std::vector<LmrModel*>::iterator i = ship_models.begin();
-			i != ship_models.end(); ++i) {
-		LmrModel *model = *i;
-		model->PushAttributeToLuaStack("ship_defs");
-		if (lua_isnil(L, -1)) {
-			Error("Model %s is tagged as ship but has no ship_defs.",
-					model->GetName());
-		} else if (lua_istable(L, -1)) {
-			// multiple ship-defs for 1 model
-			for (unsigned int j=0; j<lua_objlen(L,-1); j++) {
-				lua_pushinteger(L, j+1);
-				lua_gettable(L, -2);
-				_define_ship(L, model->GetName(), list, stag);
-				num++;
-				lua_pop(L, 1);
-			}
-		} else {
-			Error("Model %s: ships_def is malformed", model->GetName());
-		}
-		lua_pop(L, 1);
-	}
-	printf("ShipType: %d ships with tag '%s'\n", num, tag);
-
-	LUA_DEBUG_END(L, 0);
+int define_missile(lua_State *L)
+{
+	return _define_ship(L, ShipType::TAG_MISSILE, &ShipType::missile_ships);
 }
 
 void ShipType::Init()
@@ -190,8 +185,27 @@ void ShipType::Init()
 	if (isInitted) return;
 	isInitted = true;
 
-	_define_ships("ship", ShipType::TAG_SHIP, player_ships);
-	_define_ships("static_ship", ShipType::TAG_STATIC_SHIP, static_ships);
-	_define_ships("missile", ShipType::TAG_MISSILE, missile_ships);
+	lua_State *l = lua_open();
+	luaL_openlibs(l);
+
+	LUA_DEBUG_START(l);
+
+	MyLuaVec::Vec_register(l);
+	lua_pop(l, 1);
+	lua_register(l, "v", MyLuaVec::Vec_new);
+	lua_register(l, "define_ship", define_ship);
+	lua_register(l, "define_static_ship", define_static_ship);
+	lua_register(l, "define_missile", define_missile);
+
+	lua_pushstring(l, PIONEER_DATA_DIR);
+	lua_setglobal(l, "CurrentDirectory");
+	pi_lua_dofile_recursive(l, "ships");
+
+	LUA_DEBUG_END(l, 0);
+
+	lua_close(l);
+
+	if (ShipType::player_ships.empty())
+		Warning("No playable ships have been defined! The game cannot run.");
 }
 

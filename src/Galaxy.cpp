@@ -2,6 +2,7 @@
 #include "Galaxy.h"
 #include "Pi.h"
 #include "Sector.h"
+#include "FileSystem.h"
 
 namespace Galaxy {
 
@@ -12,11 +13,20 @@ const float SOL_OFFSET_Y = 0.0;
 
 static SDL_Surface *s_galaxybmp;
 
+static const std::string galaxyBitmapFilename("galaxy.bmp");
+
 void Init() 
 {
-	s_galaxybmp = SDL_LoadBMP(PIONEER_DATA_DIR"/galaxy.bmp");
+	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(galaxyBitmapFilename);
+	if (!filedata) {
+		fprintf(stderr, "Galaxy: couldn't load '%s'\n", galaxyBitmapFilename.c_str());
+		Pi::Quit();
+	}
+
+	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
+	s_galaxybmp = SDL_LoadBMP_RW(datastream, 1);
 	if (!s_galaxybmp) {
-		Error("SDL_LoadBMP: %s\n", IMG_GetError());
+		fprintf(stderr, "Galaxy: couldn't load: %s (%s)\n", galaxyBitmapFilename.c_str(), SDL_GetError());
 		Pi::Quit();
 	}
 }

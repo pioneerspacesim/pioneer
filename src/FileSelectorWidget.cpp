@@ -1,6 +1,8 @@
 #include "FileSelectorWidget.h"
 #include "Lang.h"
 #include "utils.h"
+#include "Pi.h"
+#include "FileSystem.h"
 
 class SimpleLabelButton: public Gui::LabelButton
 {
@@ -27,9 +29,6 @@ void FileSelectorWidget::ShowAll()
 	m_tentry = new Gui::TextEntry();
 	PackEnd(m_tentry);
 
-	std::list<std::string> files;
-	GetDirectoryContents(GetPiSavefileDir().c_str(), files);
-
 	Gui::HBox *hbox = new Gui::HBox();
 	PackEnd(hbox);
 
@@ -51,13 +50,15 @@ void FileSelectorWidget::ShowAll()
 	hbox->PackEnd(scroll);
 
 	Gui::Box *vbox = new Gui::VBox();
-	for (std::list<std::string>::iterator i = files.begin(); i!=files.end(); ++i) {
-		b = new SimpleLabelButton(new Gui::Label(*i));
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &FileSelectorWidget::OnClickFile), *i));
+	for (FileSystem::FileEnumerator files(FileSystem::rawFileSystem, Pi::GetSaveDir()); !files.Finished(); files.Next())
+	{
+		std::string name = files.Current().GetName();
+		b = new SimpleLabelButton(new Gui::Label(name));
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &FileSelectorWidget::OnClickFile), name));
 		vbox->PackEnd(b);
 	}
 	portal->Add(vbox);
-		
+
 	Gui::VBox::ShowAll();
 }
 

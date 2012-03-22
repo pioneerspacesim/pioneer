@@ -6,7 +6,7 @@
 #include "EquipType.h"
 #include "Ship.h" // for the flight state and ship animation enums
 #include "SpaceStation.h" // for the space station animation enums
-#include "TextureCache.h"
+#include "FileSystem.h"
 #include "graphics/Drawables.h"
 #include "graphics/Material.h"
 #include "graphics/Graphics.h"
@@ -333,7 +333,6 @@ void Viewer::PickModel(const std::string &initial_name, const std::string &initi
 		PollEvents();
 		renderer->ClearScreen();
 		Gui::Draw();
-		glError();
 		renderer->SwapBuffers();
 	}
 	Gui::Screen::RemoveBaseWidget(f);
@@ -554,7 +553,6 @@ void Viewer::MainLoop()
 		
 		Gui::Draw();
 		
-		glError();
 		renderer->SwapBuffers();
 		numFrames++;
 		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;
@@ -638,6 +636,8 @@ int main(int argc, char **argv)
 		g_height = 600;
 	}
 
+	FileSystem::Init();
+
 	const SDL_VideoInfo *info = NULL;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		fprintf(stderr, "Video initialization failed: %s\n", SDL_GetError());
@@ -668,12 +668,10 @@ int main(int argc, char **argv)
 	}
 	glewInit();
 
-	TextureCache *textureCache = new TextureCache;
-
 	renderer = Graphics::Init(g_width, g_height, true);
-	Gui::Init(g_width, g_height, g_width, g_height);
+	Gui::Init(renderer, g_width, g_height, g_width, g_height);
 
-	LmrModelCompilerInit(renderer, textureCache);
+	LmrModelCompilerInit(renderer);
 	LmrNotifyScreenWidth(g_width);
 
 	ShipType::Init();
@@ -691,7 +689,7 @@ int main(int argc, char **argv)
 	}
 
 	g_viewer->MainLoop();
-
+	FileSystem::Uninit();
 	delete renderer;
 	return 0;
 }

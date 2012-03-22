@@ -168,7 +168,16 @@ doUndock = function (ship)
 	end
 end
 
-local getNearestStarport = function (ship)
+local doOrbit = function (ship)
+	local trader = trade_ships[ship]
+	local sbody = trader.starport.path:GetSystemBody()
+	local body = Space.GetBody(sbody.parent.index)
+	ship:AIEnterLowOrbit(body)
+	trader['status'] = 'orbit'
+	print(ship.label..' ordering orbit of '..body.label)
+end
+
+local getNearestStarport = function (ship, current)
 	if #starports == 0 then return nil end
 	if #starports == 1 then return starports[1] end
 
@@ -176,7 +185,7 @@ local getNearestStarport = function (ship)
 	local distance = ship:DistanceTo(starport)
 	for _, next_starport in ipairs(starports) do
 		local next_distance = ship:DistanceTo(next_starport)
-		if next_distance < distance then
+		if next_distance < distance and next_starport ~= current then
 			starport, distance = next_starport, next_distance
 		end
 	end
@@ -377,23 +386,17 @@ local spawnInitialShips = function (game_start)
 		-- add equipment and cargo
 		addShipEquip(ship)
 		local fuel_added = addFuel(ship)
-		local direction = 'export'
-		if trader.status ~= 'docked' then
-			direction = 'import'
-			-- remove fuel used to get here
-			if fuel_added and fuel_added > 0 then
-				ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
-			end
-		end
-		local delay = addShipCargo(ship, direction)
-
-		-- give orders
 		if trader.status == 'docked' then
+			local delay = fuel_added + addShipCargo(ship, 'export')
 			-- have ship wait 30-45 seconds per unit of cargo
 			trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
 			Timer:CallAt(trader.delay, function () doUndock(ship) end)
-		elseif trader.status == 'inbound' then
-			ship:AIDockWith(trader.starport)
+		else
+			addShipCargo(ship, 'import')
+			-- remove fuel used to get here
+			if fuel_added and fuel_added > 0 then
+				ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added)) end
+			if trader.status == 'inbound' then ship:AIDockWith(trader.starport) end
 		end
 	end
 
@@ -420,10 +423,10 @@ local spawnReplacement = function ()
 
 		addShipEquip(ship)
 		local fuel_added = addFuel(ship)
+		addShipCargo(ship, 'import')
 		if fuel_added and fuel_added > 0 then
 			ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
 		end
-		addShipCargo(ship, 'import')
 	end
 end
 
@@ -474,7 +477,8 @@ local onEnterSystem = function (ship)
 	end
 
 	if trade_ships[ship] ~= nil then
-		print(ship.label..' entered '..Game.system.name..' from '..trade_ships[ship]['from_path']:GetStarSystem().name)
+		local trader = trade_ships[ship]
+		print(ship.label..' '..trader.ship_name..' entered '..Game.system.name..' from '..trader.from_path:GetStarSystem().name)
 		if #starports == 0 then
 			-- this only happens if player has followed ship to empty system
 
@@ -596,7 +600,8 @@ EventQueue.onShipUndocked:Connect(onShipUndocked)
 local onAICompleted = function (ship, ai_error)
 	if trade_ships[ship] == nil then return end
 	local trader = trade_ships[ship]
-	print(ship.label..' AICompleted: Error: '..ai_error..' Status: '..trader.status)
+	if ai_error ~= 'NONE' then
+		print(ship.label..' AICompleted: Error: '..ai_error..' Status: '..trader.status) end
 
 	if trader.status == 'outbound' then
 		if getSystemAndJump(ship) ~= 'OK' then
@@ -608,7 +613,7 @@ local onAICompleted = function (ship, ai_error)
 			trader['delay'] = Game.time + 21600 -- 6 hours
 			Timer:CallAt(trader.delay, function ()
 				if ship:exists() then
-					trader['starport'] = getNearestStarport(ship)
+					trader['starport'] = getNearestStarport(ship, trader.starport)
 					ship:AIDockWith(trader.starport)
 					trader['status'] = 'inbound'
 					trader['delay'] = nil
@@ -617,20 +622,23 @@ local onAICompleted = function (ship, ai_error)
 		end
 		-- XXX if ORBIT_IMPOSSIBLE asteroid? get parent of parent and attempt orbit?
 	elseif trader.status == 'inbound' then
-		if ai_error == 'REFUSED_PERM' then
-			local sbody = trader.starport.path:GetSystemBody()
-			local body = Space.GetBody(sbody.parent.index)
-			ship:AIEnterLowOrbit(body)
-			trader['status'] = 'orbit'
-			print(ship.label..' ordering orbit')
-		end
+		if ai_error == 'REFUSED_PERM' then doOrbit(ship) end
 	end
 end
 EventQueue.onAICompleted:Connect(onAICompleted)
 
+local onShipLanded = function (ship, body)
+	if trade_ships[ship] == nil then return end
+	print(ship.label..' Landed: '..trade_ships[ship].starport.label)
+
+	doOrbit(ship)
+end
+EventQueue.onShipLanded:Connect(onShipLanded)
+
 local onShipAlertChanged = function (ship, alert)
 	if trade_ships[ship] == nil then return end
-	print(ship.label..' alert changed to '..alert)
+	if alert ~= 'NONE' then
+		print(ship.label..' alert changed to '..alert) end
 	local trader = trade_ships[ship]
 	if trader.attacker == nil then return end
 

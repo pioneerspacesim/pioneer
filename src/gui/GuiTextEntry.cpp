@@ -177,7 +177,6 @@ void TextEntry::Draw()
 	float curs_x, curs_y;
 	Gui::Screen::MeasureCharacterPos(m_text, m_cursPos, curs_x, curs_y, m_font.Get());
 
-	glColor3f(1,0,0);
 	if (curs_x - m_scroll > size[0]*0.75f) {
 		m_scroll += int(size[0]*0.25f);
 	} else if (curs_x - m_scroll < size[0]*0.25f) {
@@ -192,8 +191,10 @@ void TextEntry::Draw()
 		glVertex2f(size[0],0);
 		glVertex2f(0,0);
 	glEnd();
-	if (IsFocused()) glColor3f(1,1,1);
-	else glColor3f(.75f, .75f, .75f);
+
+	Color c = IsFocused() ? Color::WHITE : Color(0.75f,0.75f,0.75f,1.0f);
+
+	glColor4fv(c);
 	glBegin(GL_LINE_LOOP);
 		glVertex2f(0,0);
 		glVertex2f(size[0],0);
@@ -202,8 +203,9 @@ void TextEntry::Draw()
 	glEnd();
 
 
-	SetClipping(size[0], size[1]);
-	Gui::Screen::RenderString(m_text, 1.0f - m_scroll, 1.0f, m_font.Get());
+	SetScissor(true);
+
+	Gui::Screen::RenderString(m_text, 1.0f - m_scroll, 1.0f, c, m_font.Get());
 
 	/* Cursor */
 	glColor3f(0.5f,0.5f,0.5f);
@@ -212,7 +214,7 @@ void TextEntry::Draw()
 		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + 1.0f);
 	glEnd();
 	
-	EndClipping();
+	SetScissor(false);
 }
 
 } /* namespace Gui */

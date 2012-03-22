@@ -24,9 +24,6 @@
     <ClCompile Include="..\src\pch.cpp">
       <Filter>win32\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\win32-dirent.cpp">
-      <Filter>win32\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\collider\BVHTree.cpp">
       <Filter>src\collider</Filter>
     </ClCompile>
@@ -156,15 +153,15 @@
     <ClCompile Include="..\..\src\enum_table.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Texture.cpp">
+    <ClCompile Include="..\..\src\FileSystemPosix.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\TextureCache.cpp">
+    <ClCompile Include="..\..\src\FileSystem.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\TextSupport.cpp" />
-    <ClCompile Include="..\..\src\FontCache.cpp" />
-    <ClCompile Include="..\..\src\Font.cpp" />
+    <ClCompile Include="..\src\FileSystemWin32.cpp">
+      <Filter>win32\src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\graphics\Drawables.cpp">
       <Filter>src\graphics</Filter>
     </ClCompile>
@@ -186,9 +183,6 @@
     <ClCompile Include="..\..\src\graphics\RendererLegacy.cpp">
       <Filter>src\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\graphics\RenderTarget.cpp">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\graphics\Shader.cpp">
       <Filter>src\graphics</Filter>
     </ClCompile>
@@ -198,12 +192,33 @@
     <ClCompile Include="..\..\src\graphics\VertexArray.cpp">
       <Filter>src\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\graphics\TextureBuilder.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\graphics\TextureGL.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Color.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiTexturedQuad.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Font.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\FontCache.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\TextSupport.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Font.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\pch.h">
-      <Filter>win32\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\win32-dirent.h">
       <Filter>win32\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -356,18 +371,18 @@
     <ClInclude Include="..\..\src\enum_table.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Texture.h">
+    <ClInclude Include="..\..\src\StringRange.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\TextureCache.h">
+    <ClInclude Include="..\..\src\ByteRange.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FileSystem.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\vector2.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\TextSupport.h" />
-    <ClInclude Include="..\..\src\FontCache.h" />
-    <ClInclude Include="..\..\src\Font.h" />
     <ClInclude Include="..\..\src\graphics\Drawables.h">
       <Filter>src\graphics</Filter>
     </ClInclude>
@@ -392,9 +407,6 @@
     <ClInclude Include="..\..\src\graphics\RendererLegacy.h">
       <Filter>src\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\graphics\RenderTarget.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\graphics\Shader.h">
       <Filter>src\graphics</Filter>
     </ClInclude>
@@ -406,6 +418,30 @@
     </ClInclude>
     <ClInclude Include="..\..\src\graphics\VertexArray.h">
       <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\Texture.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\TextureBuilder.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\TextureGL.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Color.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiTexturedQuad.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\TextSupport.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Font.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FontCache.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

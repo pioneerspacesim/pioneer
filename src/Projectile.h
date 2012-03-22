@@ -7,7 +7,6 @@
 #include "SmartPtr.h"
 
 class Frame;
-class Texture;
 namespace Graphics {
 	class Renderer;
 	class VertexArray;

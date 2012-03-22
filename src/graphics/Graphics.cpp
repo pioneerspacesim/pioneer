@@ -1,11 +1,8 @@
 #include "Graphics.h"
 #include "Shader.h"
-#include "RenderTarget.h"
-#include <stdexcept>
-#include <sstream>
-#include <iterator>
 #include "RendererLegacy.h"
 #include "RendererGL2.h"
+#include "FileSystem.h"
 
 static GLuint boundArrayBufferObject = 0;
 static GLuint boundElementArrayBufferObject = 0;
@@ -61,8 +58,6 @@ Renderer* Init(int screen_width, int screen_height, bool wantShaders)
 
 	Renderer *renderer = 0;
 
-	PrintGLInfo();
-
 	shadersAvailable = glewIsSupported("GL_VERSION_2_0");
 	shadersEnabled = wantShaders && shadersAvailable;
 
@@ -104,38 +99,6 @@ void SwapBuffers()
 bool AreShadersEnabled()
 {
 	return shadersEnabled;
-}
-
-void PrintGLInfo() {
-	std::string fname = GetPiUserDir() + "opengl.txt";
-	FILE *f = fopen(fname.c_str(), "w");
-	if (!f) return;
-
-	std::ostringstream ss;
-	ss << "OpenGL version " << glGetString(GL_VERSION);
-	ss << ", running on " << glGetString(GL_VENDOR);
-	ss << " " << glGetString(GL_RENDERER) << std::endl;
-
-	ss << "Available extensions:" << std::endl;
-	GLint numext = 0;
-	glGetIntegerv(GL_NUM_EXTENSIONS, &numext);
-	if (glewIsSupported("GL_VERSION_3_0")) {
-		for (int i = 0; i < numext; ++i) {
-			ss << "  " << glGetStringi(GL_EXTENSIONS, i) << std::endl;
-		}
-	}
-	else {
-		ss << "  ";
-		std::istringstream ext(reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS)));
-		std::copy(
-			std::istream_iterator<std::string>(ext),
-			std::istream_iterator<std::string>(),
-			std::ostream_iterator<std::string>(ss, "\n  "));
-	}
-
-	fprintf(f, "%s", ss.str().c_str());
-	fclose(f);
-	printf("OpenGL system information saved to %s\n", fname.c_str());
 }
 
 }

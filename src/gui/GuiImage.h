@@ -2,9 +2,8 @@
 #define _GUIIMAGE_H
 
 #include "GuiWidget.h"
-#include <string>
-
-class UITexture;
+#include "GuiTexturedQuad.h"
+#include "Color.h"
 
 namespace Gui {
 	class Image: public Widget {
@@ -12,10 +11,11 @@ namespace Gui {
 		Image(const char *filename);
 		virtual void Draw();
 		virtual void GetSizeRequested(float size[2]);
-		void SetModulateColor(float r, float g, float b, float a);
+		void SetModulateColor(const Color &color) { m_color = color; }
 	private:
-		UITexture *m_texture;
-		float m_col[4];
+		ScopedPtr<TexturedQuad> m_quad;
+		Color m_color;
+		float m_width, m_height;
 	};
 }
 

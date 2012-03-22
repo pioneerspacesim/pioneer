@@ -52,14 +52,19 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)..\..\</OutDir>
+    <TargetName>$(ProjectName)-debug</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)..\..\</OutDir>
+    <TargetName>$(ProjectName)-prerelease</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)..\..\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -79,6 +84,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">
@@ -105,6 +111,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -114,7 +121,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
@@ -143,6 +150,7 @@
     <ClCompile Include="..\..\src\collider\CollisionSpace.cpp" />
     <ClCompile Include="..\..\src\collider\Geom.cpp" />
     <ClCompile Include="..\..\src\collider\GeomTree.cpp" />
+    <ClCompile Include="..\..\src\Color.cpp" />
     <ClCompile Include="..\..\src\CommodityTradeWidget.cpp" />
     <ClCompile Include="..\..\src\CustomSystem.cpp" />
     <ClCompile Include="..\..\src\DeadVideoLink.cpp" />
@@ -151,6 +159,12 @@
     <ClCompile Include="..\..\src\EquipType.cpp" />
     <ClCompile Include="..\..\src\FaceVideoLink.cpp" />
     <ClCompile Include="..\..\src\FileSelectorWidget.cpp" />
+    <ClCompile Include="..\..\src\FileSystem.cpp" />
+    <ClCompile Include="..\..\src\FileSystemPosix.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\src\Font.cpp" />
     <ClCompile Include="..\..\src\FontCache.cpp" />
     <ClCompile Include="..\..\src\FontConfig.cpp" />
@@ -170,9 +184,10 @@
     <ClCompile Include="..\..\src\graphics\Renderer.cpp" />
     <ClCompile Include="..\..\src\graphics\RendererGL2.cpp" />
     <ClCompile Include="..\..\src\graphics\RendererLegacy.cpp" />
-    <ClCompile Include="..\..\src\graphics\RenderTarget.cpp" />
     <ClCompile Include="..\..\src\graphics\Shader.cpp" />
     <ClCompile Include="..\..\src\graphics\StaticMesh.cpp" />
+    <ClCompile Include="..\..\src\graphics\TextureBuilder.cpp" />
+    <ClCompile Include="..\..\src\graphics\TextureGL.cpp" />
     <ClCompile Include="..\..\src\graphics\VertexArray.cpp" />
     <ClCompile Include="..\..\src\gui\Gui.cpp" />
     <ClCompile Include="..\..\src\gui\GuiBox.cpp" />
@@ -195,6 +210,7 @@
     <ClCompile Include="..\..\src\gui\GuiTabbed.cpp" />
     <ClCompile Include="..\..\src\gui\GuiTextEntry.cpp" />
     <ClCompile Include="..\..\src\gui\GuiTextLayout.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiTexturedQuad.cpp" />
     <ClCompile Include="..\..\src\gui\GuiToggleButton.cpp" />
     <ClCompile Include="..\..\src\gui\GuiToolTip.cpp" />
     <ClCompile Include="..\..\src\gui\GuiVScrollBar.cpp" />
@@ -333,19 +349,17 @@
     <ClCompile Include="..\..\src\terrain\TerrainHeightWaterSolid.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightWaterSolidCanyons.cpp" />
     <ClCompile Include="..\..\src\TextSupport.cpp" />
-    <ClCompile Include="..\..\src\Texture.cpp" />
-    <ClCompile Include="..\..\src\TextureCache.cpp" />
     <ClCompile Include="..\..\src\TextureFont.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\..\src\VectorFont.cpp" />
     <ClCompile Include="..\..\src\WorldView.cpp" />
+    <ClCompile Include="..\src\FileSystemWin32.cpp" />
     <ClCompile Include="..\src\Gamma.cpp" />
     <ClCompile Include="..\src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\src\win32-dirent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h" />
@@ -355,6 +369,7 @@
     <ClInclude Include="..\..\src\Body.h" />
     <ClInclude Include="..\..\src\BufferObject.h" />
     <ClInclude Include="..\..\src\buildopts.h" />
+    <ClInclude Include="..\..\src\ByteRange.h" />
     <ClInclude Include="..\..\src\Camera.h" />
     <ClInclude Include="..\..\src\CargoBody.h" />
     <ClInclude Include="..\..\src\ChatForm.h" />
@@ -375,6 +390,7 @@
     <ClInclude Include="..\..\src\EquipType.h" />
     <ClInclude Include="..\..\src\FaceVideoLink.h" />
     <ClInclude Include="..\..\src\FileSelectorWidget.h" />
+    <ClInclude Include="..\..\src\FileSystem.h" />
     <ClInclude Include="..\..\src\fixed.h" />
     <ClInclude Include="..\..\src\Font.h" />
     <ClInclude Include="..\..\src\FontCache.h" />
@@ -397,10 +413,12 @@
     <ClInclude Include="..\..\src\graphics\RendererGL2.h" />
     <ClInclude Include="..\..\src\graphics\RendererGLBuffers.h" />
     <ClInclude Include="..\..\src\graphics\RendererLegacy.h" />
-    <ClInclude Include="..\..\src\graphics\RenderTarget.h" />
     <ClInclude Include="..\..\src\graphics\Shader.h" />
     <ClInclude Include="..\..\src\graphics\StaticMesh.h" />
     <ClInclude Include="..\..\src\graphics\Surface.h" />
+    <ClInclude Include="..\..\src\graphics\Texture.h" />
+    <ClInclude Include="..\..\src\graphics\TextureBuilder.h" />
+    <ClInclude Include="..\..\src\graphics\TextureGL.h" />
     <ClInclude Include="..\..\src\graphics\VertexArray.h" />
     <ClInclude Include="..\..\src\gui\Gui.h" />
     <ClInclude Include="..\..\src\gui\GuiAdjustment.h" />
@@ -426,6 +444,7 @@
     <ClInclude Include="..\..\src\gui\GuiTabbed.h" />
     <ClInclude Include="..\..\src\gui\GuiTextEntry.h" />
     <ClInclude Include="..\..\src\gui\GuiTextLayout.h" />
+    <ClInclude Include="..\..\src\gui\GuiTexturedQuad.h" />
     <ClInclude Include="..\..\src\gui\GuiToggleButton.h" />
     <ClInclude Include="..\..\src\gui\GuiToolTip.h" />
     <ClInclude Include="..\..\src\gui\GuiVScrollBar.h" />
@@ -518,6 +537,7 @@
     <ClInclude Include="..\..\src\StationShipViewForm.h" />
     <ClInclude Include="..\..\src\StationShipyardForm.h" />
     <ClInclude Include="..\..\src\StringF.h" />
+    <ClInclude Include="..\..\src\StringRange.h" />
     <ClInclude Include="..\..\src\SystemInfoView.h" />
     <ClInclude Include="..\..\src\SystemView.h" />
     <ClInclude Include="..\..\src\TerrainBody.h" />
@@ -525,8 +545,6 @@
     <ClInclude Include="..\..\src\terrain\TerrainFeature.h" />
     <ClInclude Include="..\..\src\terrain\TerrainNoise.h" />
     <ClInclude Include="..\..\src\TextSupport.h" />
-    <ClInclude Include="..\..\src\Texture.h" />
-    <ClInclude Include="..\..\src\TextureCache.h" />
     <ClInclude Include="..\..\src\TextureFont.h" />
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\vector2.h" />
@@ -537,7 +555,6 @@
     <ClInclude Include="..\..\src\WorldView.h" />
     <ClInclude Include="..\src\Gamma.h" />
     <ClInclude Include="..\src\pch.h" />
-    <ClInclude Include="..\src\win32-dirent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am" />

@@ -81,13 +81,13 @@ static int l_lang_get_dictionary(lua_State *l)
 static int l_lang_get_core_languages(lua_State *l)
 {
 	LUA_DEBUG_START(l);
-	const std::list<std::string> &langs = Lang::GetAvailableLanguages();
+	const std::vector<std::string> &langs = Lang::GetAvailableLanguages();
 	lua_createtable(l, langs.size(), 0);
 
 	int i = 1;
-	for (std::list<std::string>::const_iterator
+	for (std::vector<std::string>::const_iterator
 		it = langs.begin(); it != langs.end(); ++it) {
-		
+
 		lua_pushlstring(l, it->c_str(), it->size());
 		lua_rawseti(l, -2, i);
 		++i;
@@ -121,7 +121,7 @@ static int l_lang_get_current_language(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	std::string lang = Pi::config.String("Lang");
+	std::string lang = Pi::config->String("Lang");
 	assert(!lang.empty()); // there should always be a Lang config value set
 
 	lua_pushlstring(l, lang.c_str(), lang.size());

@@ -4,14 +4,15 @@
 #include "Gui.h"
 #include "FontCache.h"
 #include "TextureFont.h"
-#include "TextureCache.h"
 #include <list>
 #include <stack>
+
+namespace Graphics { class Renderer; }
 
 namespace Gui {
 	class Screen {
 	public:
-		static void Init(int real_width, int real_height, int ui_width, int ui_height);
+		static void Init(Graphics::Renderer *renderer, int real_width, int real_height, int ui_width, int ui_height);
 		static void Uninit();
 		static void Draw();
 		static void ShowBadError(const char *msg);
@@ -48,13 +49,13 @@ namespace Gui {
 		static RefCountedPtr<TextureFont> GetDefaultFont() { return s_defaultFont; }
 
 		static float GetFontHeight(TextureFont *font = 0);
-		static void RenderString(const std::string &s, float xoff, float yoff, TextureFont *font = 0);
+		static void RenderString(const std::string &s, float xoff, float yoff, const Color &color = Color::WHITE, TextureFont *font = 0);
 		static void MeasureString(const std::string &s, float &w, float &h, TextureFont *font = 0);
 		static int PickCharacterInString(const std::string &s, float x, float y, TextureFont *font = 0);
 		static void MeasureCharacterPos(const std::string &s, int charIndex, float &x, float &y, TextureFont *font = 0);
-		static void RenderMarkup(const std::string &s, TextureFont *font = 0);
+		static void RenderMarkup(const std::string &s, const Color &color = Color::WHITE, TextureFont *font = 0);
 
-		static TextureCache *GetTextureCache() { return &s_textureCache; }
+		static Graphics::Renderer *GetRenderer() { return s_renderer; }
 
 	private:
 		static void AddShortcutWidget(Widget *w);
@@ -79,7 +80,7 @@ namespace Gui {
 		static std::stack< RefCountedPtr<TextureFont> > s_fontStack;
 		static RefCountedPtr<TextureFont> s_defaultFont;
 
-		static TextureCache s_textureCache;
+		static Graphics::Renderer *s_renderer;
 	};
 }
 
