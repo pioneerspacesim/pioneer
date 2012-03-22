@@ -92,7 +92,7 @@ public:
 private:
 	void BindBuffers();
 
-	enum OpType { OP_DRAW_BILLBOARDS, OP_SET_MATERIAL, OP_ZBIAS, OP_CALL_MODEL, OP_LIGHTING_TYPE, OP_USE_LIGHT };
+	enum OpType { OP_DRAW_BILLBOARDS, OP_ZBIAS, OP_CALL_MODEL, OP_LIGHTING_TYPE, OP_USE_LIGHT };
 
 	struct Op {
 		Op(OpType _type) : type(_type) {}
@@ -106,11 +106,6 @@ private:
 		std::vector<vector3f> positions;
 		float size;
 		Color col;
-	};
-
-	struct OpSetMaterial : public Op {
-		OpSetMaterial(int _material_idx) : Op(OP_SET_MATERIAL), material_idx(_material_idx) {}
-		const int material_idx;
 	};
 
 	struct OpZBias : public Op {
@@ -159,6 +154,8 @@ private:
 	ScopedPtr<Graphics::StaticMesh> m_mesh;
 
 	ScopedPtr<Graphics::Surface> m_curSurface;
+
+	int m_curMaterialIdx;
 
 	/* this crap is only used at build time... could move this elsewhere */
 	Uint16 curTriFlag;

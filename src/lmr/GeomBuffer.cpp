@@ -36,10 +36,9 @@ void GeomBuffer::StaticInit(Graphics::Renderer *renderer)
 }
 
 GeomBuffer::GeomBuffer(LmrModel *model, bool isStatic) :
-	m_mesh(new Graphics::StaticMesh(Graphics::TRIANGLES))
+	m_mesh(new Graphics::StaticMesh(Graphics::TRIANGLES)),
+	m_curMaterialIdx(-1)
 {
-	CompleteSurface();
-
 	curTriFlag = 0;
 	curTexture = 0;
 	curGlowmap = 0;
@@ -48,6 +47,8 @@ GeomBuffer::GeomBuffer(LmrModel *model, bool isStatic) :
 	m_isStatic = isStatic;
 	m_bo = 0;
 	m_putGeomInsideout = false;
+
+	CompleteSurface();
 }
 
 void GeomBuffer::PreBuild() {
@@ -165,22 +166,6 @@ void GeomBuffer::Render(Graphics::Renderer *r, const RenderState *rstate, const 
 			BindBuffers();
 			break;
 		}
-
-		case OP_SET_MATERIAL:
-			{
-				OpSetMaterial *op = static_cast<OpSetMaterial*>(*i);
-				const LmrMaterial &m = m_model->m_materials[op->material_idx];
-				glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, m.diffuse);
-				glMaterialfv (GL_FRONT, GL_SPECULAR, m.specular);
-				glMaterialfv (GL_FRONT, GL_EMISSION, m.emissive);
-				glMaterialf (GL_FRONT, GL_SHININESS, m.shininess);
-				if (m.diffuse[3] >= 1.0) {
-					r->SetBlendMode(Graphics::BLEND_SOLID);
-				} else {
-					r->SetBlendMode(Graphics::BLEND_ALPHA);
-				}
-			}
-			break;
 
 		case OP_ZBIAS: {
 			OpZBias *op = static_cast<OpZBias*>(*i);
@@ -454,7 +439,8 @@ void GeomBuffer::SetMaterial(const char *mat_name, const float mat[11]) {
 void GeomBuffer::PushUseMaterial(const char *mat_name) {
 	std::map<std::string, int>::iterator i = m_model->m_materialLookup.find(mat_name);
 	if (i != m_model->m_materialLookup.end()) {
-		PushOp(new OpSetMaterial((*i).second));
+		m_curMaterialIdx = (*i).second;
+		CompleteSurface();
 	} else {
 		throw LmrUnknownMaterial();
 	}
@@ -538,7 +524,19 @@ void GeomBuffer::CompleteSurface()
 	if (m_curSurface && m_curSurface->GetNumIndices() > 0)
 		m_mesh->AddSurface(m_curSurface.Release());
 
-	m_curSurface.Reset(new Graphics::Surface(Graphics::TRIANGLES, new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0)));
+	// XXX prep renderer material from material/texture/shader/lights
+	Graphics::Material *mat = new Graphics::Material;
+	if (m_curMaterialIdx >= 0) {
+		const LmrMaterial &lmrMat = m_model->m_materials[m_curMaterialIdx];
+
+		mat->diffuse = lmrMat.diffuse;
+		// XXX no renderer support for these yet
+		//mat->specular = lmrMat.specular;
+		//mat->emissive = lmrMat.emissive;
+		//mat->shininess = lmrMat.shininess
+	}
+		
+	m_curSurface.Reset(new Graphics::Surface(Graphics::TRIANGLES, new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0), RefCountedPtr<Graphics::Material>(mat)));
 }
 
 void GeomBuffer::PushOp(Op *op)
