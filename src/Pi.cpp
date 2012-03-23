@@ -1146,6 +1146,14 @@ void Pi::Start()
 	Gui::Screen::AddBaseWidget(menu, 0, 0);
 	menu->SetTransparency(true);
 
+	static const float badgeWidth = 128;
+	float badgeSize[2];
+	Gui::Screen::GetCoords2Pixels(badgeSize);
+	badgeSize[0] *= badgeWidth; badgeSize[1] *= badgeWidth;
+	Gui::Fixed *badge = new Gui::Fixed(badgeSize[0], badgeSize[1]);
+	badge->Add(new Gui::Image("icons/badge.png"),0,0);
+	menu->Add(badge, 30, Gui::Screen::GetHeight()-badgeSize[1]-30);
+
 	Gui::Screen::PushFont("OverlayFont");
 
 	const float w = Gui::Screen::GetWidth() / 2.0f;
@@ -1182,7 +1190,7 @@ void Pi::Start()
 	version += "\n";
 	version += Pi::renderer->GetName();
 
-	menu->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200.0f, Gui::Screen::GetHeight()-60.0f);
+	menu->Add(new Gui::Label(version), 30+badgeSize[0]+20, Gui::Screen::GetHeight()-badgeSize[1]-10);
 
 	Gui::Screen::PopFont();
 
