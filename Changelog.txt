@@ -14,6 +14,7 @@ Alpha 21
      * Don't take timesteps for dead ships. Stops the player firing during the
        death screen (#1056)
      * Move all the custom stars into the right places (#1080, #1081)
+	 * Fix autopilot handling of fast-moving bodies (#1090)
 
    * Script changes
      * New custom system option :explored to explicitly set a system's
