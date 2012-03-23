@@ -57,7 +57,7 @@ void Star::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 
 	MTRand(rand);
 
-	renderer->SetBlendMode(BLEND_ALPHA_ONE);
+	renderer->SetBlendMode(BLEND_ALPHA);
 
 	//render star halo
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
