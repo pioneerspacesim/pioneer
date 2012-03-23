@@ -875,7 +875,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 	if (!m_tangent || !(body == m_targframe->GetBodyFor()))
 	{
 		// process path collisions with frame body
-		int coll = CheckCollision(m_ship, reldir, targdist, targpos, m_endvel, erad);
+		int coll = CheckCollision(m_ship, reldir, targdist, targpos, endvel, erad);
 		if (coll == 0) {				// no collision
 			if (m_child) { delete m_child; m_child = 0; m_state = -1; }
 		}
@@ -897,7 +897,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 		relvel += targvel;
 
 	// regenerate state to flipmode if we're off course
-	bool overshoot = CheckOvershoot(m_ship, reldir, targdist, relvel, m_endvel);
+	bool overshoot = CheckOvershoot(m_ship, reldir, targdist, relvel, endvel);
 	if (m_tangent && m_state == -4 && !overshoot) return true;			// bail out
 	if (m_state < 0) m_state = GetFlipMode(m_ship, relpos, relvel);
 
@@ -905,11 +905,11 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 	double ang, maxdecel = GetMaxDecel(m_ship, reldir, m_state, &ang);
 	maxdecel -= GetGravityAtPos(m_targframe, m_posoff);
 	if(maxdecel <= 0) { m_ship->AIMessage(Ship::AIERROR_GRAV_TOO_HIGH); return true; }
-	bool cap = m_ship->AIMatchPosVel2(reldir, targdist, relvel, m_endvel, maxdecel);
+	bool cap = m_ship->AIMatchPosVel2(reldir, targdist, relvel, endvel, maxdecel);
 
 	// path overshoot check, response
 	if (m_state < 3 && overshoot) {
-		double ispeed = calc_ivel(targdist, m_endvel, maxdecel);
+		double ispeed = calc_ivel(targdist, endvel, maxdecel);
 		m_ship->AIFaceDirection(ispeed*reldir - relvel);
 		m_state = -4; return false;
 	}
@@ -919,7 +919,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 
 	// termination conditions
 	if (m_state == 3) m_state++;					// finished last adjustment, hopefully
-	else if (m_endvel > 0.0) { if (reldir.Dot(m_reldir) < 0.9) m_state = 4; }
+	else if (endvel > 0.0) { if (reldir.Dot(m_reldir) < 0.9) m_state = 4; }
 	else if (targdist < 0.5*m_ship->GetAccelMin()*timestep*timestep) m_state = 3;
 
 	// set heading according to current state
