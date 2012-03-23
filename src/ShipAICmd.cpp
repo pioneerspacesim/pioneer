@@ -847,7 +847,8 @@ bool AICmdFlyTo::TimeStepUpdate()
 	vector3d targvel = GetVelInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
 	vector3d relvel = m_ship->GetVelocity() - targvel;
 	vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
-	ParentSafetyAdjust(m_ship, m_targframe, m_posoff, targpos);
+	bool safe = ParentSafetyAdjust(m_ship, m_targframe, m_posoff, targpos);
+	double endvel = safe ? 0.0 : m_endvel;			// don't use endvel if safety-adjusted
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
 	double targdist = relpos.Length();
@@ -859,6 +860,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	// frame switch stuff - clear children/collision state
 	if (m_frame != m_ship->GetFrame()) {
 		if (m_child) { delete m_child; m_child = 0; }
+		if (m_frame && m_tangent) return true;		// regen tangent on frame switch
 		m_frame = m_ship->GetFrame();
 		m_reldir = reldir;							// for +vel termination condition
 	}
