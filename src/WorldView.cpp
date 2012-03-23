@@ -20,7 +20,6 @@
 #include "graphics/Frustum.h"
 #include "graphics/TextureBuilder.h"
 #include "matrix4x4.h"
-#include <algorithm>
 
 static const std::string indicatorMousedirTextureFilename("icons/indicator_mousedir.png");
 
