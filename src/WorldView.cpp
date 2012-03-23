@@ -20,6 +20,7 @@
 #include "graphics/Frustum.h"
 #include "graphics/TextureBuilder.h"
 #include "matrix4x4.h"
+#include <algorithm>
 
 static const std::string indicatorMousedirTextureFilename("icons/indicator_mousedir.png");
 
@@ -891,11 +892,25 @@ void WorldView::AddCommsNavOption(std::string msg, Body *target)
 {
 	Gui::HBox *hbox = new Gui::HBox();
 	hbox->SetSpacing(5);
+	
+	std::string type = "";
+	std::string typetip = "Unknown";
+	if (target->GetType() == Object::SPACESTATION) {
+		SpaceStation* ss = static_cast<SpaceStation*>(target);
+		if (ss->IsGroundStation()) {
+			type = "G";
+			typetip = "Spaceport / Starport";
+		} else {
+			type = "S";
+			typetip = "Space station";
+		}
+	}
 
-	Gui::Label *l = new Gui::Label(msg);
+	Gui::Label *l = new Gui::Label(msg + " (" + format_distance(Pi::player->GetPositionRelTo(target).Length()) + ")");
 	hbox->PackStart(l);
-
-	Gui::Button *b = new Gui::SolidButton();
+	
+	Gui::LabelButton *b = new Gui::LabelButton(new Gui::Label(type));
+	b->SetToolTip(typetip);
 	b->onClick.connect(sigc::bind(sigc::mem_fun(this, &WorldView::OnClickCommsNavOption), target));
 	hbox->PackStart(b);
 
