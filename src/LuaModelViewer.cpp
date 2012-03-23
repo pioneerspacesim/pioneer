@@ -731,7 +731,7 @@ int main(int argc, char **argv)
 	}
 	glewInit();
 
-	renderer = Graphics::Init(g_width, g_height, true);
+	renderer = Graphics::Init(g_width, g_height, false);
 	Gui::Init(renderer, g_width, g_height, g_width, g_height);
 
 	LMR::ModelCompilerInit(renderer);
