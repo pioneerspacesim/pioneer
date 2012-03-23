@@ -456,6 +456,10 @@ void Ship::UseHyperspaceFuel(const SystemPath *dest)
 
 bool Ship::CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus) 
 {
+    if (GetFlightState() != FLYING) {
+        if (outStatus) *outStatus = HYPERJUMP_DRIVE_ERROR;
+        return false;
+    }
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	Equip::Type fuelType = GetHyperdriveFuelType();
 	int hyperclass = Equip::types[t].pval;

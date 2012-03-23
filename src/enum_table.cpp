@@ -183,6 +183,7 @@ const struct EnumItem ENUM_ShipJumpStatus[] = {
 	{ "NO_DRIVE", Ship::HYPERJUMP_NO_DRIVE },
 	{ "OUT_OF_RANGE", Ship::HYPERJUMP_OUT_OF_RANGE },
 	{ "INSUFFICIENT_FUEL", Ship::HYPERJUMP_INSUFFICIENT_FUEL },
+    { "DRIVE_ERROR", Ship::HYPERJUMP_DRIVE_ERROR },
 	{ 0, 0 },
 };
 
