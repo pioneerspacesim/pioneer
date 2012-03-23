@@ -8,6 +8,7 @@ Alpha 21
      * Updated TradeShips module to handle accidental landings and fuel (#1064)
      * More precise mouse control under different FoV settings (#1076)
      * Added VSync config option (#1085)
+     * Made background stars less visible through star halos (#1093)
 
    * Fixes
      * Don't take timesteps for dead ships. Stops the player firing during the
