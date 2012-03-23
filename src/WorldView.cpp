@@ -173,7 +173,7 @@ void WorldView::InitObject()
 
 	// XXX m_renderer not set yet
 	Graphics::TextureBuilder b = Graphics::TextureBuilder::UI(indicatorMousedirTextureFilename);
-	m_indicatorMousedir.Reset(new Gui::TexturedQuad(b.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+	m_indicatorMousedir.Reset(new Gui::TexturedQuad(b.GetOrCreateTexture(Gui::Screen::GetRenderer())));
 
 	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();
 	m_indicatorMousedirSize = vector2f(descriptor.dataSize.x*descriptor.texSize.x,descriptor.dataSize.y*descriptor.texSize.y);

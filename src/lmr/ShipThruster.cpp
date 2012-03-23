@@ -24,11 +24,11 @@ void Init(Graphics::Renderer *renderer) {
 	gVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
 	//set up materials
-	tMat.texture0 = Graphics::TextureBuilder::Billboard(thrusterTextureFilename).GetOrCreateTexture(renderer, "billboard");
+	tMat.texture0 = Graphics::TextureBuilder::Billboard(thrusterTextureFilename).GetOrCreateTexture(renderer);
 	tMat.unlit = true;
 	tMat.twoSided = true;
 	tMat.diffuse = color;
-	glowMat.texture0 = Graphics::TextureBuilder::Billboard(thrusterGlowTextureFilename).GetOrCreateTexture(renderer, "billboard");
+	glowMat.texture0 = Graphics::TextureBuilder::Billboard(thrusterGlowTextureFilename).GetOrCreateTexture(renderer);
 	glowMat.unlit = true;
 	glowMat.twoSided = true;
 	glowMat.diffuse = color;
