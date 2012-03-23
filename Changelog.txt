@@ -19,6 +19,8 @@ Alpha 21
    * Script changes
      * New custom system option :explored to explicitly set a system's
        explored state (#682)
+     * Lua serializer can now handle multiple references to the same table
+       (#1022, #1025)
 
    * Internal changes
      * configure tweaks for better optimisations and profiling support
