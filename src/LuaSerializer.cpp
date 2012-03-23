@@ -45,8 +45,10 @@
 //   fNNN.nnn - number (float)
 //   bN       - boolean. N is 0 or 1 for true/false
 //   sNNN     - string. number is length, followed by newline, then string of bytes
-//   t        - table. table contents are more pickled stuff (ie recursive)
+//   t        - table. followed by a float (fNNN.nnn) uniquely identifying the
+//            - table, then more pickled stuff (ie recursive)
 //   n        - end of table
+//   r        - reference to previously-seen table. followed by the table id
 //   uXXXX    - userdata. XXXX is type, followed by newline, followed by data
 //     Body       - data is a single stringified number for Serializer::LookupBody
 //     SystemPath - data is four stringified numbers, newline separated
@@ -131,25 +133,47 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 		}
 
 		case LUA_TTABLE: {
-			out += "t";
-			lua_pushvalue(l, idx);
-			lua_pushnil(l);
-			while (lua_next(l, -2)) {
-				if (key) {
-					pickle(l, -2, out, key);
-					pickle(l, -1, out, key);
-				}
-				else {
-					lua_pushvalue(l, -2);
-					const char *k = lua_tostring(l, -1);
-					pickle(l, -3, out, k);
-					pickle(l, -2, out, k);
+			lua_pushinteger(l, lua_Integer(lua_topointer(l, idx)));         // ptr
+
+			lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");    // ptr reftable
+			lua_pushvalue(l, -2);                                           // ptr reftable ptr
+			lua_rawget(l, -2);                                              // ptr reftable ???
+
+			if (!lua_isnil(l, -1)) {
+				out += "r";
+				pickle(l, -3, out, key);
+				lua_pop(l, 3);                                              // [empty]
+			}
+
+			else {
+				out += "t";
+
+				lua_pushvalue(l, -3);                                       // ptr reftable nil ptr
+				lua_pushvalue(l, idx);                                      // ptr reftable nil ptr table
+				lua_rawset(l, -4);                                          // ptr reftable nil
+				pickle(l, -3, out, key);
+				lua_pop(l, 3);                                              // [empty]
+
+				lua_pushvalue(l, idx);
+				lua_pushnil(l);
+				while (lua_next(l, -2)) {
+					if (key) {
+						pickle(l, -2, out, key);
+						pickle(l, -1, out, key);
+					}
+					else {
+						lua_pushvalue(l, -2);
+						const char *k = lua_tostring(l, -1);
+						pickle(l, -3, out, k);
+						pickle(l, -2, out, k);
+						lua_pop(l, 1);
+					}
 					lua_pop(l, 1);
 				}
 				lua_pop(l, 1);
+				out += "n";
 			}
-			lua_pop(l, 1);
-			out += "n";
+
 			break;
 		}
 
@@ -226,12 +250,36 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 			
 		case 't': {
 			lua_newtable(l);
+
+			lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
+			pos = unpickle(l, pos);
+			lua_pushvalue(l, -3);
+			lua_rawset(l, -3);
+			lua_pop(l, 1);
+
 			while (*pos != 'n') {
 				pos = unpickle(l, pos);
 				pos = unpickle(l, pos);
 				lua_rawset(l, -3);
 			}
 			pos++;
+
+			break;
+		}
+
+		case 'r': {
+			pos = unpickle(l, pos);
+
+			lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
+			lua_pushvalue(l, -2);
+			lua_rawget(l, -2);
+
+			if (lua_isnil(l, -1))
+				throw SavedGameCorruptException();
+
+			lua_insert(l, -3);
+			lua_pop(l, 2);
+
 			break;
 		}
 
@@ -381,12 +429,18 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 
 	lua_pop(l, 1);
 
+	lua_newtable(l);
+	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
+
 	std::string pickled;
 	pickle(l, savetable, pickled);
 
 	wr.String(pickled);
 
 	lua_pop(l, 1);
+
+	lua_pushnil(l);
+	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
 
 	LUA_DEBUG_END(l, 0);
 }
@@ -397,12 +451,18 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
 
 	LUA_DEBUG_START(l);
 
+	lua_newtable(l);
+	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
+
 	std::string pickled = rd.String();
 	const char *start = pickled.c_str();
 	const char *end = unpickle(l, start);
 	if (size_t(end - start) != pickled.length()) throw SavedGameCorruptException();
 	if (!lua_istable(l, -1)) throw SavedGameCorruptException();
 	int savetable = lua_gettop(l);
+
+	lua_pushnil(l);
+	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
 	if (lua_isnil(l, -1)) {
