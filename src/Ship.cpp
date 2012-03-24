@@ -434,6 +434,8 @@ const shipstats_t *Ship::CalcStats()
 static float distance_to_system(const SystemPath *dest)
 {
 	SystemPath here = Pi::game->GetSpace()->GetStarSystem()->GetPath();
+	assert(here.HasValidSystem());
+	assert(dest->HasValidSystem());
 	
 	Sector sec1(here.sectorX, here.sectorY, here.sectorZ);
 	Sector sec2(dest->sectorX, dest->sectorY, dest->sectorZ);
@@ -456,6 +458,9 @@ void Ship::UseHyperspaceFuel(const SystemPath *dest)
 
 bool Ship::CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus) 
 {
+	assert(dest);
+	assert(dest->HasValidSystem());
+
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	Equip::Type fuelType = GetHyperdriveFuelType();
 	int hyperclass = Equip::types[t].pval;
@@ -531,7 +536,7 @@ Ship::HyperjumpStatus Ship::StartHyperspaceCountdown(const SystemPath &dest)
 
 void Ship::ResetHyperspaceCountdown()
 {
-    m_hyperspace.countdown = 0;
+	m_hyperspace.countdown = 0;
 	m_hyperspace.now = false;
 }
 
