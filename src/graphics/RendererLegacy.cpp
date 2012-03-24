@@ -631,6 +631,7 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 		if ((*surface)->IsIndexed()) {
 			assert(background == false);
 
+			//XXX should do this adjustment in RendererGL2Buffers
 			const unsigned short *originalIndices = (*surface)->GetIndexPointer();
 			std::vector<unsigned short> adjustedIndices((*surface)->GetNumIndices());
 			for (int i = 0; i < (*surface)->GetNumIndices(); ++i)
@@ -643,7 +644,7 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 			surfaceInfo->glOffset = ioffset;
 			surfaceInfo->glAmount = (*surface)->GetNumIndices();
 
-			indexAdjustment += (*surface)->GetNumIndices();
+			indexAdjustment += (*surface)->GetNumVerts();
 		}
 	}
 	assert(buf);
