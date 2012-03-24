@@ -54,6 +54,7 @@ public:
 private:
 	void InitObject();
 
+	void RefreshHyperspaceButton();
 	void RefreshButtonStateAndVisibility();
 	void UpdateCommsOptions();
 
@@ -113,7 +114,6 @@ private:
 	matrix4x4d m_prevShipOrient;
 	
 	Gui::ImageButton *m_hyperspaceButton;
-	bool m_showHyperspaceButton;
 
 	Gui::Fixed *m_commsOptions;
 	Gui::VBox *m_commsNavOptions;
