@@ -54,9 +54,16 @@ public:
 	bool IsSystemPath() const {
 		return (systemIndex != Uint32(-1) && bodyIndex == Uint32(-1));
 	}
+	bool HasValidSystem() const {
+		return (systemIndex != Uint32(-1));
+	}
 
 	bool IsBodyPath() const {
 		return (systemIndex != Uint32(-1) && bodyIndex != Uint32(-1));
+	}
+	bool HasValidBody() const {
+		assert((bodyIndex == Uint32(-1)) || (systemIndex != Uint32(-1)));
+		return (bodyIndex != Uint32(-1));
 	}
 
 	bool IsSameSector(const SystemPath &b) const {
