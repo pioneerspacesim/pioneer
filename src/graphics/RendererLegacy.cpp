@@ -588,8 +588,8 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	const int totalVertices = mesh->GetNumVerts();
 
 	//surfaces should have a matching vertex specification!!
-	//XXX just take vertices from the first surface as a LMR hack
-	bool lmrHack = false;
+
+	int indexAdjustment = 0;
 
 	VertexBuffer *buf = 0;
 	for (StaticMesh::SurfaceIterator surface = mesh->SurfacesBegin(); surface != mesh->SurfacesEnd(); ++surface) {
@@ -597,7 +597,7 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 		const VertexArray *va = (*surface)->GetVertices();
 
 		int offset = 0;
-		if (lmr && !lmrHack) {
+		if (lmr) {
 			ScopedArray<ModelVertex> vts(new ModelVertex[numsverts]);
 			for(int j=0; j<numsverts; j++) {
 				vts[j].position = va->position[j];
@@ -609,7 +609,6 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 				buf = new VertexBuffer(totalVertices);
 			buf->Bind();
 			buf->BufferData<ModelVertex>(numsverts, vts.Get());
-			lmrHack = true;
 		} else if (background) {
 			ScopedArray<UnlitVertex> vts(new UnlitVertex[numsverts]);
 			for(int j=0; j<numsverts; j++) {
@@ -631,12 +630,20 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 		//buffer indices from each surface, if in use
 		if ((*surface)->IsIndexed()) {
 			assert(background == false);
+
+			const unsigned short *originalIndices = (*surface)->GetIndexPointer();
+			std::vector<unsigned short> adjustedIndices((*surface)->GetNumIndices());
+			for (int i = 0; i < (*surface)->GetNumIndices(); ++i)
+				adjustedIndices[i] = originalIndices[i] + indexAdjustment;
+
 			if (!meshInfo->ibuf)
 				meshInfo->ibuf = new IndexBuffer(mesh->GetNumIndices());
 			meshInfo->ibuf->Bind();
-			const int ioffset = meshInfo->ibuf->BufferIndexData((*surface)->GetNumIndices(), (*surface)->GetIndexPointer());
+			const int ioffset = meshInfo->ibuf->BufferIndexData((*surface)->GetNumIndices(), &adjustedIndices[0]);
 			surfaceInfo->glOffset = ioffset;
 			surfaceInfo->glAmount = (*surface)->GetNumIndices();
+
+			indexAdjustment += (*surface)->GetNumIndices();
 		}
 	}
 	assert(buf);
