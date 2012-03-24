@@ -10,7 +10,7 @@
 class AICommand {
 public:
 	// This enum is solely to make the serialization work
-	enum CmdName { CMD_NONE, CMD_JOURNEY, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION };
+	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION };
 
 	AICommand(Ship *ship, CmdName name) {
 	   	m_ship = ship; m_cmdName = name; 
@@ -42,27 +42,6 @@ protected:
 
 	int m_shipIndex; // deserialisation
 };
-
-/*
-class AICmdJourney : public AICommand {
-public:
-	virtual bool TimeStepUpdate();
-	AICmdJourney(Ship *ship, SBodyPath &dest) : AICommand(ship, CMD_JOURNEY) {
-		m_dest = dest;
-	}
-
-	virtual void Save(Serializer::Writer &wr) {
-		AICommand::Save(wr);
-		m_dest.Serialize(wr);
-	}
-	AICmdJourney(Serializer::Reader &rd) : AICommand(rd, CMD_JOURNEY) {
-		SBodyPath::Unserialize(rd, &m_dest);
-	}
-
-private:
-	SBodyPath m_dest;
-};
-*/
 
 class AICmdDock : public AICommand {
 public:
