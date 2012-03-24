@@ -461,6 +461,16 @@ bool Ship::CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double 
 	assert(dest);
 	assert(dest->HasValidSystem());
 
+	if (GetFlightState() == HYPERSPACE) {
+		if (outStatus) *outStatus = HYPERJUMP_DRIVE_ACTIVE;
+		return false;
+	}
+
+	if (GetFlightState() != FLYING) {
+		if (outStatus) *outStatus = HYPERJUMP_SAFETY_LOCKOUT;
+		return false;
+	}
+
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	Equip::Type fuelType = GetHyperdriveFuelType();
 	int hyperclass = Equip::types[t].pval;
