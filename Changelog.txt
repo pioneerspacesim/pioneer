@@ -12,6 +12,8 @@ Alpha 21
      * Added Pioneer badge to menu screen (#1099)
      * ObjectViewer updates: buttons to cycle/randomise seeds; don't show
        attribute for non-terrain bodies (#1100)
+     * Several stars around Sol updated to use their "traditional"
+       (non-catalogue) names (#1068)
 
    * Fixes
      * Don't take timesteps for dead ships. Stops the player firing during the
