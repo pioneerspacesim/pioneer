@@ -618,7 +618,7 @@ void Ship::Blastoff()
 	if (m_flightState != LANDED) return;
 
 	ClearThrusterState();
-	m_flightState = FLYING;
+	SetFlightState(FLYING);
 	m_testLanded = false;
 	m_dockedWith = 0;
 	m_launchLockTimeout = 2.0; // two second of applying thrusters
@@ -684,7 +684,7 @@ void Ship::TestLanded()
 				// we don't use DynamicBody::Disable because that also disables the geom, and that must still get collisions
 				DisableBodyOnly();
 				ClearThrusterState();
-				m_flightState = LANDED;
+				SetFlightState(LANDED);
 				Sound::BodyMakeNoise(this, "Rough_Landing", 1.0f);
 				Pi::luaOnShipLanded->Queue(this, GetFrame()->GetBodyFor());
 			}
@@ -1034,7 +1034,7 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 		m_dockedWith = s;
 		m_dockedWithPort = port;
 		m_wheelState = 1.0f;
-		m_flightState = DOCKED;
+		SetFlightState(DOCKED);
 		SetVelocity(vector3d(0,0,0));
 		SetAngVelocity(vector3d(0,0,0));
 		Disable();
