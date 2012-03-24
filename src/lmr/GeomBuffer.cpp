@@ -99,11 +99,13 @@ void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, co
 	int activeLights = 0;
 	s_numTrisRendered += m_mesh->GetNumIndices()/3;
 	
+#if 0
 	LmrShader *curShader = s_sunlightShader[Graphics::State::GetNumLights()-1].Get();
 
 	BindBuffers();
 
 	glDepthRange(0.0, 1.0);
+#endif
 
 	if (m_isStatic) // XXX hack disable dynamic draw
 		if (m_mesh->GetNumIndices() > 0)
@@ -169,6 +171,7 @@ void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, co
 		}
 
 		case OP_ZBIAS: {
+#if 0
 			OpZBias *op = static_cast<OpZBias*>(*i);
 			if (is_zero_general(op->amount)) {
 				glDepthRange(0.0, 1.0);
@@ -180,6 +183,7 @@ void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, co
 			//		glDepthRange(0.0, 1.0);
 			//	}
 			}
+#endif
 			break;
 		}
 
@@ -199,6 +203,7 @@ void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, co
 			break;
 
 		case OP_LIGHTING_TYPE: {
+#if 0
 			OpLightingType *op = static_cast<OpLightingType*>(*i);
 			if (op->local) {
 				glDisable(GL_LIGHT0);
@@ -222,10 +227,12 @@ void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, co
 				for (int j=4; j<8; j++) glDisable(GL_LIGHT0 + j);
 				curShader = s_sunlightShader[Graphics::State::GetNumLights()-1].Get();
 			}
+#endif
 			break;
 		}
 
 		case OP_USE_LIGHT:
+#if 0
 			{
 				OpUseLight *op = static_cast<OpUseLight*>(*i);
 				if (m_model->m_lights.size() <= unsigned(op->num)) {
@@ -242,6 +249,7 @@ void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, co
 					Error("Too many active lights in model '%s' (maximum 4)", m_model->GetName());
 				}
 			}
+#endif
 			break;
 
 		default:
@@ -249,17 +257,21 @@ void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, co
 		}
 	}
 	
+#if 0
 	glDisableClientState (GL_VERTEX_ARRAY);
 	glDisableClientState (GL_NORMAL_ARRAY);
 	glDisableClientState (GL_TEXTURE_COORD_ARRAY);
 
 	Graphics::UnbindAllBuffers();
+#endif
 
 	RenderThrusters(rstate, cameraPos, params);
 
+#if 0
 	//XXX hack. Unuse any shader. Can be removed when LMR uses Renderer.
 	if (Graphics::AreShadersEnabled())
 		s_sunlightShader[0]->Unuse();
+#endif
 }
 
 void GeomBuffer::RenderThrusters(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
