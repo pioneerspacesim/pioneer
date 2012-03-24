@@ -49,6 +49,8 @@ private:
 
 	static int s_glyphCount;
 	std::map<Uint32,glfglyph_t> m_glyphs;
+	static const Uint32 m_firstCharacter = 0x20; //32
+	static const Uint32 m_lastCharacter = 0x1ff; //511
 };
 
 #endif

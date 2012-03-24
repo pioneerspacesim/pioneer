@@ -287,21 +287,17 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	float scale[2];
 	Gui::Screen::GetCoords2Pixels(scale);
 
-	int a_width = int(GetConfig().Int("PixelWidth") / scale[0]);
-	int a_height = int(GetConfig().Int("PixelHeight") / scale[1]);
+	const int a_width = int(GetConfig().Int("PixelWidth") / scale[0]);
+	const int a_height = int(GetConfig().Int("PixelHeight") / scale[1]);
 
-	float advx_adjust = GetConfig().Float("AdvanceXAdjustment");
+	const float advx_adjust = GetConfig().Float("AdvanceXAdjustment");
 
 	m_pixSize = a_height;
 
 	FT_Set_Pixel_Sizes(m_face, a_width, a_height);
-	//int nbit = 0;
-	//int sz = a_height;
-	//while (sz) { sz >>= 1; nbit++; }
-	//sz = (64 > (1<<nbit) ? 64 : (1<<nbit));
+
 	const int sz = 512; //current fonts use maybe 1/4 of this...
 	m_texSize = sz;
-	const float magic = 64.f; //I don't remember what this does but it was in several places
 
 	//UV offsets for glyphs
 	int atlasU = 0;
@@ -316,7 +312,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	m_texture.Reset(Gui::Screen::GetRenderer()->CreateTexture(descriptor));
 	m_mat.texture0 = m_texture.Get();
 	m_mat.unlit = true;
-	m_mat.vertexColors = true;
+	m_mat.vertexColors = true; //to allow per-character colors
 	
 	bool outline = GetConfig().Int("Outline");
 
@@ -331,7 +327,8 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 		FT_Stroker_Set(stroker, 1*64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
 	}
 
-	for (Uint32 chr=0x20; chr<0x1ff; chr++) {
+	//load 479 characters
+	for (Uint32 chr=m_firstCharacter; chr<m_lastCharacter; chr++) {
 		glfglyph_t glfglyph;
 		FT_Glyph glyph;
 
@@ -357,7 +354,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 			}
 		}
 
-		FT_BitmapGlyph bmGlyph = FT_BitmapGlyph(glyph);
+		const FT_BitmapGlyph bmGlyph = FT_BitmapGlyph(glyph);
 
 		if (outline) {
 			FT_Glyph strokeGlyph;
@@ -383,7 +380,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 				}
 			}
 	
-			FT_BitmapGlyph bmStrokeGlyph = FT_BitmapGlyph(strokeGlyph);
+			const FT_BitmapGlyph bmStrokeGlyph = FT_BitmapGlyph(strokeGlyph);
 
 			//don't run off atlas borders
 			atlasVIncrement = std::max(atlasVIncrement, bmStrokeGlyph->bitmap.rows);
@@ -465,8 +462,8 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 		glfglyph.texWidth = m_texSize*glfglyph.width;
 		glfglyph.texHeight = m_texSize*glfglyph.height;
 
-		glfglyph.advx = float(m_face->glyph->advance.x) / magic + advx_adjust;
-		glfglyph.advy = float(m_face->glyph->advance.y) / magic;
+		glfglyph.advx = float(m_face->glyph->advance.x) / 64.f + advx_adjust;
+		glfglyph.advy = float(m_face->glyph->advance.y) / 64.f;
 		m_glyphs[chr] = glfglyph;
 	}
 
@@ -478,5 +475,5 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 
 	m_height = float(a_height);
 	m_width = float(a_width);
-	m_descender = -float(m_face->descender) / magic;
+	m_descender = -float(m_face->descender) / 64.f;
 }
