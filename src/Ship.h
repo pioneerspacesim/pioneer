@@ -111,8 +111,19 @@ public:
 		HYPERJUMP_INSUFFICIENT_FUEL,
 		HYPERJUMP_SAFETY_LOCKOUT
 	};
-	bool CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus = 0);
-	void UseHyperspaceFuel(const SystemPath *dest);
+
+	HyperjumpStatus GetHyperspaceDetails(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs);
+	HyperjumpStatus CheckHyperspaceTo(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs);
+	HyperjumpStatus CheckHyperspaceTo(const SystemPath &dest) {
+		int unusedFuel;
+		double unusedDuration;
+		return CheckHyperspaceTo(dest, unusedFuel, unusedDuration);
+	}
+	bool CanHyperspaceTo(const SystemPath &dest, HyperjumpStatus &status) {
+		status = CheckHyperspaceTo(dest);
+		return (status == HYPERJUMP_OK);
+	}
+	bool CanHyperspaceTo(const SystemPath &dest) { return (CheckHyperspaceTo(dest) == HYPERJUMP_OK); }
 
 	Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }

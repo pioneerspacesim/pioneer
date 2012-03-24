@@ -431,61 +431,36 @@ const shipstats_t *Ship::CalcStats()
 	return &m_stats;
 }
 
-static float distance_to_system(const SystemPath *dest)
+static float distance_to_system(const SystemPath &dest)
 {
 	SystemPath here = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 	assert(here.HasValidSystem());
-	assert(dest->HasValidSystem());
+	assert(dest.HasValidSystem());
 	
 	Sector sec1(here.sectorX, here.sectorY, here.sectorZ);
-	Sector sec2(dest->sectorX, dest->sectorY, dest->sectorZ);
+	Sector sec2(dest.sectorX, dest.sectorY, dest.sectorZ);
 
-	return Sector::DistanceBetween(&sec1, here.systemIndex, &sec2, dest->systemIndex);
+	return Sector::DistanceBetween(&sec1, here.systemIndex, &sec2, dest.systemIndex);
 }
 
-void Ship::UseHyperspaceFuel(const SystemPath *dest)
+Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs)
 {
-	int fuel_cost;
-	Equip::Type fuelType = GetHyperdriveFuelType();
-	double dur;
-	bool hscheck = CanHyperspaceTo(dest, fuel_cost, dur);
-	assert(hscheck);
-	m_equipment.Remove(fuelType, fuel_cost);
-	if (fuelType == Equip::MILITARY_FUEL) {
-		m_equipment.Add(Equip::RADIOACTIVES, fuel_cost);
-	}
-}
+	assert(dest.HasValidSystem());
 
-bool Ship::CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus) 
-{
-	assert(dest);
-	assert(dest->HasValidSystem());
-
-	if (GetFlightState() == HYPERSPACE) {
-		if (outStatus) *outStatus = HYPERJUMP_DRIVE_ACTIVE;
-		return false;
-	}
-
-	if (GetFlightState() != FLYING) {
-		if (outStatus) *outStatus = HYPERJUMP_SAFETY_LOCKOUT;
-		return false;
-	}
+	if (GetFlightState() == HYPERSPACE)
+		return HYPERJUMP_DRIVE_ACTIVE;
 
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	Equip::Type fuelType = GetHyperdriveFuelType();
 	int hyperclass = Equip::types[t].pval;
 	int fuel = m_equipment.Count(Equip::SLOT_CARGO, fuelType);
 	outFuelRequired = 0;
-	if (hyperclass == 0) {
-		if (outStatus) *outStatus = HYPERJUMP_NO_DRIVE;
-		return false;
-	}
+	if (hyperclass == 0)
+		return HYPERJUMP_NO_DRIVE;
 
 	StarSystem *s = Pi::game->GetSpace()->GetStarSystem().Get();
-	if (s && s->GetPath().IsSameSystem(*dest)) {
-		if (outStatus) *outStatus = HYPERJUMP_CURRENT_SYSTEM;
-		return false;
-	}
+	if (s && s->GetPath().IsSameSystem(dest))
+		return HYPERJUMP_CURRENT_SYSTEM;
 
 	float dist = distance_to_system(dest);
 
@@ -496,11 +471,9 @@ bool Ship::CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double 
 	if (outFuelRequired < 1) outFuelRequired = 1;
 	if (dist > m_stats.hyperspace_range_max) {
 		outFuelRequired = 0;
-		if (outStatus) *outStatus = HYPERJUMP_OUT_OF_RANGE;
-		return false;
+		return HYPERJUMP_OUT_OF_RANGE;
 	} else if (fuel < outFuelRequired) {
-		if (outStatus) *outStatus = HYPERJUMP_INSUFFICIENT_FUEL;
-		return false;
+		return HYPERJUMP_INSUFFICIENT_FUEL;
 	} else {
 		// Old comments:
 		// take at most a week. why a week? because a week is a
@@ -510,29 +483,33 @@ bool Ship::CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double 
 
 		// Now mass has more of an effect on the time taken, this is mainly
 		// for gameplay considerations for courier missions and the like.
-		outDurationSecs = ((dist * dist * 0.5) / (m_stats.hyperspace_range_max *
-			hyperclass)) * 
+		outDurationSecs = ((dist * dist * 0.5) / (m_stats.hyperspace_range_max * hyperclass)) * 
 			(60.0 * 60.0 * 24.0 * sqrt(m_totalmass));
 		//float hours = outDurationSecs * 0.0002778;
 		//printf("%f LY in %f hours OR %d seconds \n", dist, hours, outDurationSecs);
 		//printf("%d seconds\n", outDurationSecs);
 		if (outFuelRequired <= fuel) {
-			if (outStatus) *outStatus = HYPERJUMP_OK;
-			return true;
+			return HYPERJUMP_OK;
 		} else {
-			if (outStatus) *outStatus = HYPERJUMP_INSUFFICIENT_FUEL;
-			return false;
+			return HYPERJUMP_INSUFFICIENT_FUEL;
 		}
 	}
 }
 
+Ship::HyperjumpStatus Ship::CheckHyperspaceTo(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs)
+{
+	assert(dest.HasValidSystem());
+
+	if (GetFlightState() != FLYING)
+		return HYPERJUMP_SAFETY_LOCKOUT;
+
+	return GetHyperspaceDetails(dest, outFuelRequired, outDurationSecs);
+}
+
 Ship::HyperjumpStatus Ship::StartHyperspaceCountdown(const SystemPath &dest)
 {
-	int fuelUsage;
-	double duration;
-
-	HyperjumpStatus status;
-	if (!CanHyperspaceTo(&dest, fuelUsage, duration, &status))
+	HyperjumpStatus status = CheckHyperspaceTo(dest);
+	if (status != HYPERJUMP_OK)
 		return status;
 
 	m_hyperspace.dest = dest;
@@ -1214,15 +1191,20 @@ void Ship::EnterHyperspace() {
 
 	const SystemPath dest = GetHyperspaceDest();
 
-	int fuel;
-	Ship::HyperjumpStatus status;
-	if (!CanHyperspaceTo(&dest, fuel, m_hyperspace.duration, &status))
+	int fuel_cost;
+	Ship::HyperjumpStatus status = CheckHyperspaceTo(dest, fuel_cost, m_hyperspace.duration);
+	if (status != HYPERJUMP_OK) {
 		// XXX something has changed (fuel loss, mass change, whatever).
 		// could report it to the player but better would be to cancel the
 		// countdown before this is reached. either way do something
 		return;
+	}
 
-	UseHyperspaceFuel(&dest);
+	Equip::Type fuelType = GetHyperdriveFuelType();
+	m_equipment.Remove(fuelType, fuel_cost);
+	if (fuelType == Equip::MILITARY_FUEL) {
+		m_equipment.Add(Equip::RADIOACTIVES, fuel_cost);
+	}
 
 	Pi::luaOnLeaveSystem->Queue(this);
 

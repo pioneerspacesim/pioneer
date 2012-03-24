@@ -394,11 +394,7 @@ static Color get_color_for_warning_meter_bar(float v) {
 }
 
 void WorldView::RefreshHyperspaceButton() {
-	const SystemPath &path = Pi::sectorView->GetHyperspaceTarget();
-	int fuelReqd;
-	double dur;
-
-	if (Pi::player->CanHyperspaceTo(&path, fuelReqd, dur))
+	if (Pi::player->CanHyperspaceTo(Pi::sectorView->GetHyperspaceTarget()))
 		m_hyperspaceButton->Show();
 	else
 		m_hyperspaceButton->Hide();

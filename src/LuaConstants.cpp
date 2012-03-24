@@ -501,7 +501,7 @@ void LuaConstants::Register(lua_State *l)
 	 * Constants: ShipJumpStatus
 	 *
 	 * Reasons that that a hyperspace jump might succeed or fail. Returned by
-	 * <Ship.HyperspaceTo> and <Ship.CanHyperspaceTo>.
+	 * <Ship.HyperspaceTo>, <Ship.CheckHyperspaceTo> and <Ship.GetHyperspaceDetails>.
 	 *
 	 * OK - jump successful
 	 * CURRENT_SYSTEM - ship is already in the target system
