@@ -397,16 +397,12 @@ static Color get_color_for_warning_meter_bar(float v) {
 	return c;
 }
 
-static bool player_can_hyperspace() {
+void WorldView::RefreshHyperspaceButton() {
 	const SystemPath &path = Pi::sectorView->GetHyperspaceTarget();
 	int fuelReqd;
 	double dur;
-	enum Ship::HyperjumpStatus status;
-	return Pi::player->CanHyperspaceTo(&path, fuelReqd, dur, &status);
-}
 
-void WorldView::RefreshHyperspaceButton() {
-	if (player_can_hyperspace())
+	if (Pi::player->CanHyperspaceTo(&path, fuelReqd, dur))
 		m_hyperspaceButton->Show();
 	else
 		m_hyperspaceButton->Hide();
