@@ -54,6 +54,7 @@ public:
 private:
 	void InitObject();
 
+	void RefreshHyperspaceButton();
 	void RefreshButtonStateAndVisibility();
 	void UpdateCommsOptions();
 
@@ -102,7 +103,6 @@ private:
 	void OnChangeLabelsState(Gui::MultiStateImageButton *b);
 	void OnChangeFlightState(Gui::MultiStateImageButton *b);
 	void OnHyperspaceTargetChanged();
-	void OnPlayerEquipmentChange(Equip::Type e);
 	void OnPlayerDockOrUndock();
 	void OnPlayerChangeTarget();
 	void OnPlayerChangeFlightControlState();
@@ -113,7 +113,6 @@ private:
 	matrix4x4d m_prevShipOrient;
 	
 	Gui::ImageButton *m_hyperspaceButton;
-	bool m_showHyperspaceButton;
 
 	Gui::Fixed *m_commsOptions;
 	Gui::VBox *m_commsNavOptions;
@@ -137,8 +136,6 @@ private:
 	Gui::MeterBar *m_hudFuelGauge;
 
 	sigc::connection m_onHyperspaceTargetChangedCon;
-	sigc::connection m_onPlayerEquipmentChangeCon;
-
 	sigc::connection m_onPlayerChangeTargetCon;
 	sigc::connection m_onChangeFlightControlStateCon;
 	sigc::connection m_onMouseButtonDown;
