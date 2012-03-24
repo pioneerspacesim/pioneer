@@ -16,12 +16,17 @@ Alpha 21
        death screen (#1056)
      * Move all the custom stars into the right places (#1080, #1081)
 	 * Fix autopilot handling of fast-moving bodies (#1090)
+     * Fixed hyperspace checks so they work during hyperspace and don't allow
+       hyperspace to be triggered at odd times (eg docked) (#1101, #999, #1030, #1088)
 
    * Script changes
      * New custom system option :explored to explicitly set a system's
        explored state (#682)
      * Lua serializer can now handle multiple references to the same table
        (#1022, #1025)
+     * New ShipJumpStatus constants DRIVE_ACTIVE and SAFETY_LOCKOUT (#1101)
+     * New method Ship.GetHyperspaceDetails() to get hyperspace status,
+       duration and fuel use without regard to current flight state (#1101)
 
    * Internal changes
      * configure tweaks for better optimisations and profiling support
