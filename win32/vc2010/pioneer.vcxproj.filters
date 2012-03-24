@@ -588,10 +588,6 @@
     <ClCompile Include="..\src\Gamma.cpp">
       <Filter>win32\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\GameLoaderSaver.cpp" />
-    <ClCompile Include="..\..\src\FileSelectorWidget.cpp" />
-    <ClCompile Include="..\..\src\Game.cpp" />
-    <ClCompile Include="..\..\src\MathUtil.cpp" />
     <ClCompile Include="..\..\src\Light.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -643,17 +639,29 @@
     <ClCompile Include="..\src\FileSystemWin32.cpp">
       <Filter>win32\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Color.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiTexturedQuad.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\graphics\TextureBuilder.cpp">
       <Filter>src\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\graphics\TextureGL.cpp">
       <Filter>src\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Color.cpp">
+    <ClCompile Include="..\..\src\FileSelectorWidget.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiTexturedQuad.cpp">
-      <Filter>src\gui</Filter>
+    <ClCompile Include="..\..\src\Game.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GameLoaderSaver.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\MathUtil.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1155,10 +1163,6 @@
     <ClInclude Include="..\..\src\SmartPtr.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GameLoaderSaver.h" />
-    <ClInclude Include="..\..\src\FileSelectorWidget.h" />
-    <ClInclude Include="..\..\src\Game.h" />
-    <ClInclude Include="..\..\src\MathUtil.h" />
     <ClInclude Include="..\..\src\Light.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1216,17 +1220,29 @@
     <ClInclude Include="..\..\src\graphics\VertexArray.h">
       <Filter>src\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiTexturedQuad.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\TextureGL.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\graphics\Texture.h">
       <Filter>src\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\graphics\TextureBuilder.h">
       <Filter>src\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\graphics\TextureGL.h">
-      <Filter>src\graphics</Filter>
+    <ClInclude Include="..\..\src\MathUtil.h">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiTexturedQuad.h">
-      <Filter>src\gui</Filter>
+    <ClInclude Include="..\..\src\FileSelectorWidget.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Game.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GameLoaderSaver.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
