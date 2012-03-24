@@ -613,6 +613,13 @@ bool Ship::FireMissile(int idx, Ship *target)
 	return true;
 }
 
+void Ship::SetFlightState(Ship::FlightState newState)
+{
+	m_flightState = newState;
+	if (IsHyperspaceActive() && (newState != FLYING))
+		ResetHyperspaceCountdown();
+}
+
 void Ship::Blastoff()
 {
 	if (m_flightState != LANDED) return;

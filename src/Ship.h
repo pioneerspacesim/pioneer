@@ -94,7 +94,7 @@ public:
 	};
 
 	FlightState GetFlightState() const { return m_flightState; }
-	void SetFlightState(FlightState s) { m_flightState = s; }
+	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
 
