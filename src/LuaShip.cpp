@@ -1005,7 +1005,7 @@ static int l_ship_check_hyperspace_to(lua_State *l)
  *
  * Availability:
  *
- *   alpha 10
+ *   alpha 21
  *
  * Status:
  *
