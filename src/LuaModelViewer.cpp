@@ -176,8 +176,13 @@ public:
 			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"),
 					200, Gui::Screen::GetHeight()-140.0f);
 			for (int i=0; i<LMR_ARG_MAX; i++) {
-				Gui::Fixed *box = new Gui::Fixed(32.0f, 120.0f);
-				Add(box, float(200 + i*25), Gui::Screen::GetHeight()-120.0f);
+				float x = float(200+i*25);
+				float w = 32.0f;
+				if (x >= Gui::Screen::GetWidth()-w)
+					break;
+
+				Gui::Fixed *box = new Gui::Fixed(w, 120.0f);
+				Add(box, x, Gui::Screen::GetHeight()-120.0f);
 
 				m_anim[i] = new Gui::Adjustment();
 				m_anim[i]->SetValue(0);
