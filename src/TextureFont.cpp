@@ -328,7 +328,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	}
 
 	//load 479 characters
-	for (Uint32 chr=m_firstCharacter; chr<m_lastCharacter; chr++) {
+	for (Uint32 chr=s_firstCharacter; chr<s_lastCharacter; chr++) {
 		glfglyph_t glfglyph;
 		FT_Glyph glyph;
 
