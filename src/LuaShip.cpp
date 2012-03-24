@@ -968,15 +968,13 @@ static int l_ship_check_hyperspace_to(lua_State *l)
 	double duration;
 	Ship::HyperjumpStatus status = s->CheckHyperspaceTo(*dest, fuel, duration);
 
-	if (status != Ship::HYPERJUMP_OK) {
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", Ship::HYPERJUMP_OK));
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
+	if (status == Ship::HYPERJUMP_OK) {
 		lua_pushinteger(l, fuel);
 		lua_pushnumber(l, duration);
 		return 3;
-	} else {
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
-		return 1;
 	}
+	return 1;
 }
 
 /*
@@ -1022,15 +1020,13 @@ static int l_ship_get_hyperspace_details(lua_State *l)
 	double duration;
 	Ship::HyperjumpStatus status = s->GetHyperspaceDetails(*dest, fuel, duration);
 
-	if (status != Ship::HYPERJUMP_OK) {
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", Ship::HYPERJUMP_OK));
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
+	if (status == Ship::HYPERJUMP_OK) {
 		lua_pushinteger(l, fuel);
 		lua_pushnumber(l, duration);
 		return 3;
-	} else {
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
-		return 1;
 	}
+	return 1;
 }
 
 /*
@@ -1076,16 +1072,14 @@ static int l_ship_hyperspace_to(lua_State *l)
 	double duration;
 	Ship::HyperjumpStatus status = s->CheckHyperspaceTo(*dest, fuel, duration);
 
-	if (status != Ship::HYPERJUMP_OK) {
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", Ship::HYPERJUMP_OK));
-		lua_pushinteger(l, fuel);
-		lua_pushnumber(l, duration);
-		return 3;
-	} else {
-		s->StartHyperspaceCountdown(*dest);
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
+	if (status != Ship::HYPERJUMP_OK)
 		return 1;
-	}
+
+	s->StartHyperspaceCountdown(*dest);
+	lua_pushinteger(l, fuel);
+	lua_pushnumber(l, duration);
+	return 3;
 }
 
 /*
