@@ -406,7 +406,7 @@ static bool player_can_hyperspace() {
 }
 
 void WorldView::RefreshHyperspaceButton() {
-	if (Pi::player->GetFlightState() == Ship::FLYING && player_can_hyperspace())
+	if (player_can_hyperspace())
 		m_hyperspaceButton->Show();
 	else
 		m_hyperspaceButton->Hide();
