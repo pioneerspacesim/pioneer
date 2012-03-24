@@ -10,6 +10,8 @@ Alpha 21
      * Added VSync config option (#1085)
      * Made background stars less visible through star halos (#1093)
      * Added Pioneer badge to menu screen (#1099)
+     * ObjectViewer updates: buttons to cycle/randomise seeds; don't show
+       attribute for non-terrain bodies (#1100)
 
    * Fixes
      * Don't take timesteps for dead ships. Stops the player firing during the
@@ -18,6 +20,7 @@ Alpha 21
 	 * Fix autopilot handling of fast-moving bodies (#1090)
      * Fixed hyperspace checks so they work during hyperspace and don't allow
        hyperspace to be triggered at odd times (eg docked) (#1101, #999, #1030, #1088)
+     * Restore Jupiter and Neptune to their correct terrain types (#1100)
 
    * Script changes
      * New custom system option :explored to explicitly set a system's
