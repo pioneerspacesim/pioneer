@@ -447,6 +447,9 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 {
 	assert(dest.HasValidSystem());
 
+	outFuelRequired = 0;
+	outDurationSecs = 0.0;
+
 	if (GetFlightState() == HYPERSPACE)
 		return HYPERJUMP_DRIVE_ACTIVE;
 
@@ -454,7 +457,6 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 	Equip::Type fuelType = GetHyperdriveFuelType();
 	int hyperclass = Equip::types[t].pval;
 	int fuel = m_equipment.Count(Equip::SLOT_CARGO, fuelType);
-	outFuelRequired = 0;
 	if (hyperclass == 0)
 		return HYPERJUMP_NO_DRIVE;
 
@@ -499,6 +501,9 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 Ship::HyperjumpStatus Ship::CheckHyperspaceTo(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs)
 {
 	assert(dest.HasValidSystem());
+
+	outFuelRequired = 0;
+	outDurationSecs = 0.0;
 
 	if (GetFlightState() != FLYING)
 		return HYPERJUMP_SAFETY_LOCKOUT;
