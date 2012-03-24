@@ -94,7 +94,7 @@ public:
 	};
 
 	FlightState GetFlightState() const { return m_flightState; }
-	void SetFlightState(FlightState s) { m_flightState = s; }
+	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
 
@@ -106,11 +106,24 @@ public:
 		HYPERJUMP_OK,
 		HYPERJUMP_CURRENT_SYSTEM,
 		HYPERJUMP_NO_DRIVE,
+		HYPERJUMP_DRIVE_ACTIVE,
 		HYPERJUMP_OUT_OF_RANGE,
 		HYPERJUMP_INSUFFICIENT_FUEL,
+		HYPERJUMP_SAFETY_LOCKOUT
 	};
-	bool CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus = 0);
-	void UseHyperspaceFuel(const SystemPath *dest);
+
+	HyperjumpStatus GetHyperspaceDetails(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs);
+	HyperjumpStatus CheckHyperspaceTo(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs);
+	HyperjumpStatus CheckHyperspaceTo(const SystemPath &dest) {
+		int unusedFuel;
+		double unusedDuration;
+		return CheckHyperspaceTo(dest, unusedFuel, unusedDuration);
+	}
+	bool CanHyperspaceTo(const SystemPath &dest, HyperjumpStatus &status) {
+		status = CheckHyperspaceTo(dest);
+		return (status == HYPERJUMP_OK);
+	}
+	bool CanHyperspaceTo(const SystemPath &dest) { return (CheckHyperspaceTo(dest) == HYPERJUMP_OK); }
 
 	Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }

@@ -429,8 +429,8 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 		
 		int fuelRequired;
 		double dur;
-		enum Ship::HyperjumpStatus jumpStatus;
-		Pi::player->CanHyperspaceTo(&path, fuelRequired, dur, &jumpStatus);
+		enum Ship::HyperjumpStatus jumpStatus
+			= Pi::player->GetHyperspaceDetails(&path, fuelRequired, dur);
 		const double DaysNeeded = dur*(1.0 / (24*60*60)); 
 		const double HoursNeeded = (DaysNeeded - floor(DaysNeeded))*24;
 

@@ -18,7 +18,6 @@ AICommand *AICommand::Load(Serializer::Reader &rd)
 	CmdName name = CmdName(rd.Int32());
 	switch (name) {
 		case CMD_NONE: default: return 0;
-//		case CMD_JOURNEY: return new AICmdJourney(rd);
 		case CMD_DOCK: return new AICmdDock(rd);
 		case CMD_FLYTO: return new AICmdFlyTo(rd);
 		case CMD_FLYAROUND: return new AICmdFlyAround(rd);
@@ -58,101 +57,6 @@ bool AICommand::ProcessChild()
 	delete m_child; m_child = 0;
 	return true;								// child finished
 }
-
-
-/*
-bool AICmdJourney::TimeStepUpdate()
-{
-	if (!ProcessChild()) return false;
-
-	if (Pi::game->GetSpace()->GetStarSystem()->GetLocation() != (SysLoc)m_dest) {
-		// need to hyperspace there
-		int fuelRequired;
-		double duration;
-		enum Ship::HyperjumpStatus jumpStatus;
-		m_ship->CanHyperspaceTo(&m_dest, fuelRequired, duration, &jumpStatus);
-		if (jumpStatus == Ship::HYPERJUMP_OK) {
-			switch (m_ship->GetFlightState()) {
-			case Ship::FLYING:
-				m_ship->TryHyperspaceTo(&m_dest);
-				break;
-			case Ship::DOCKING:
-				// just wait
-				break;
-			case Ship::LANDED:
-				if (m_ship->GetDockedWith()) {
-					m_ship->Undock();
-				} else {
-					m_ship->Blastoff();
-				}
-				break;
-			}
-		} else {
-			printf("AICmdJourney() can't get to destination (reason %d) :-(\n", (int)jumpStatus);
-			if (!m_ship->GetDockedWith()) {
-				// if we aren't docked then there is no point trying to
-				// buy fuel, etc. just give up
-				printf("AICmdJourney() failed (not docked, HyperjumpStatus=%d)\n", (int)jumpStatus);
-				return true;
-			}
-
-			switch (jumpStatus) {		// todo: garbage that needs sorting
-			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
-				{
-					Equip::Type fuelType = m_ship->GetHyperdriveFuelType();
-
-					if (m_ship->BuyFrom(m_ship->GetDockedWith(), fuelType, false)) {
-						// good. let's see if we are able to jump next tick
-						return false;
-					} else {
-						printf("AICmdJourney() failed (docked, HyperjumpStatus=%d)\n", (int)jumpStatus);
-						return true;
-					}
-				}
-				break;
-			case Ship::HYPERJUMP_NO_DRIVE:
-			case Ship::HYPERJUMP_OUT_OF_RANGE:
-				{
-					const Equip::Type fuelType = m_ship->GetHyperdriveFuelType();
-					const Equip::Type driveType = m_ship->m_equipment.Get(Equip::SLOT_ENGINE);
-					const Equip::Type laserType = m_ship->m_equipment.Get(Equip::SLOT_LASER, 0);
-					// preserve money
-					Sint64 oldMoney = m_ship->GetMoney();
-					m_ship->SetMoney(10000000);
-					MarketAgent *trader = m_ship->GetDockedWith();
-					// need to lose some equipment and see if we get light enough
-					Equip::Type t = (Equip::Type)Pi::rng.Int32(Equip::TYPE_MAX);
-					if ((Equip::types[t].slot == Equip::SLOT_ENGINE) && trader->CanSell(t)) {
-						// try a different hyperdrive
-						m_ship->SellTo(trader, driveType);
-						if (!m_ship->BuyFrom(trader, t)) {
-							m_ship->BuyFrom(trader, driveType);
-						}
-						printf("Switched drive to a %s\n", Equip::types[t].name);
-					} else if ((t != fuelType) && (t != driveType) && (t != laserType)) {
-						m_ship->SellTo(trader, t);
-						printf("Removed a %s\n", Equip::types[t].name);
-					}
-					m_ship->SetMoney(oldMoney);
-				}
-				break;
-			case Ship::HYPERJUMP_OK:
-				break; // shouldn't reach this though
-			}
-		}
-	} else if (m_ship->GetFlightState() == Ship::LANDED) return true;	// all done
-	else {
-		// we are in the desired system. fly to the target and dock
-		// then specific instructions to get us there
-		Body *b = Space::FindBodyForSBodyPath(&m_dest);
-		if (b->IsType(Object::SPACESTATION))
-			m_child = new AICmdDock(m_ship, static_cast<SpaceStation*>(b));
-		else m_child = new AICmdFlyTo(m_ship, b);
-	}
-	return false;
-}
-
-*/
 
 /*
 // temporary evasion-test version

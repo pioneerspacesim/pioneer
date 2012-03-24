@@ -30,7 +30,6 @@ static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.9f);
 
 WorldView::WorldView(): View()
 {
-	m_showHyperspaceButton = false;
 	m_externalViewRotX = m_externalViewRotY = 0;
 	m_externalViewDist = 200;
 	m_siderealViewOrient = matrix4x4d::Identity();
@@ -50,7 +49,6 @@ WorldView::WorldView(Serializer::Reader &rd): View()
 	m_siderealViewDist = rd.Float();
 	m_prevShipOrient = Pi::player->GetTransformRelTo(Pi::game->GetSpace()->GetRootFrame());
 	m_camType = CamType(rd.Int32());
-	m_showHyperspaceButton = rd.Bool();
 
 	InitObject();
 }
@@ -206,8 +204,6 @@ void WorldView::InitObject()
 	
 	m_onHyperspaceTargetChangedCon =
 		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
-	m_onPlayerEquipmentChangeCon =
-		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
 
 	m_onPlayerChangeTargetCon =
 		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
@@ -215,8 +211,6 @@ void WorldView::InitObject()
 		Pi::onPlayerChangeFlightControlState.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeFlightControlState));
 	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));
-	m_onPlayerEquipmentChangeCon =
-		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
 
 	Pi::player->SetMouseForRearView(m_camType == CAM_REAR);
 }
@@ -229,8 +223,6 @@ WorldView::~WorldView()
 	delete m_siderealCamera;
 
 	m_onHyperspaceTargetChangedCon.disconnect();
-	m_onPlayerEquipmentChangeCon.disconnect();
-
 	m_onPlayerChangeTargetCon.disconnect();
 	m_onChangeFlightControlStateCon.disconnect();
 	m_onMouseButtonDown.disconnect();
@@ -244,7 +236,6 @@ void WorldView::Save(Serializer::Writer &wr)
 	for (int i = 0; i < 16; i++) wr.Float(float(m_siderealViewOrient[i]));
 	wr.Float(float(m_siderealViewDist));
 	wr.Int32(int(m_camType));
-	wr.Bool(bool(m_showHyperspaceButton));
 }
 
 void WorldView::SetCamType(enum CamType c)
@@ -402,6 +393,13 @@ static Color get_color_for_warning_meter_bar(float v) {
 	return c;
 }
 
+void WorldView::RefreshHyperspaceButton() {
+	if (Pi::player->CanHyperspaceTo(Pi::sectorView->GetHyperspaceTarget()))
+		m_hyperspaceButton->Show();
+	else
+		m_hyperspaceButton->Hide();
+}
+
 void WorldView::RefreshButtonStateAndVisibility()
 {
 	if (!Pi::player || Pi::player->IsDead() || !Pi::game) {
@@ -411,10 +409,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	else {
 		m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()));
 
-		if (m_showHyperspaceButton && Pi::player->GetFlightState() == Ship::FLYING)
-			m_hyperspaceButton->Show();
-		else
-			m_hyperspaceButton->Hide();
+		RefreshHyperspaceButton();
 
 		switch(Pi::player->GetFlightState()) {
 			case Ship::LANDED:
@@ -979,21 +974,6 @@ void WorldView::OnHyperspaceTargetChanged()
 
 	RefCountedPtr<StarSystem> system = StarSystem::GetCached(path);
 	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", system->GetName())));
-
-	if (Pi::game->IsHyperspace())
-		return;
-
-	int fuelReqd;
-	double dur;
-	m_showHyperspaceButton = Pi::player->CanHyperspaceTo(&path, fuelReqd, dur);
-}
-
-void WorldView::OnPlayerEquipmentChange(Equip::Type e)
-{
-	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
-	int fuelReqd;
-	double dur;
-	m_showHyperspaceButton = Pi::player->CanHyperspaceTo(&path, fuelReqd, dur);
 }
 
 void WorldView::OnPlayerChangeTarget()
