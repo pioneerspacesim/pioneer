@@ -6,7 +6,10 @@
 #include "graphics/Texture.h"
 #include "graphics/Material.h"
 
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+	class VertexArray;
+}
 
 class TextureFont : public Font {
 
@@ -24,12 +27,11 @@ public:
 	float GetWidth() const { return m_width; }
 	float GetDescender() const { return m_descender; }
 	struct glfglyph_t {
-		RefCountedPtr<Graphics::Texture> texture;
-        Graphics::Material mat;
 		float advx, advy;
 		float width, height;
 		float texWidth, texHeight;
 		int offx, offy;
+		float offU, offV; //atlas UV offset
 	};
 	const glfglyph_t &GetGlyph(Uint32 ch) { return m_glyphs[ch]; }
 
@@ -37,14 +39,19 @@ public:
 	static void ClearGlyphCount() { s_glyphCount = 0; }
 
 private:
-	void RenderGlyph(Graphics::Renderer *r, Uint32 chr, float x, float y, const Color &color);
+	void AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float x, float y, const Color &color);
 	float m_height;
 	float m_width;
 	float m_descender;
 	int m_texSize, m_pixSize;
+	RefCountedPtr<Graphics::Texture> m_texture;
+	Graphics::Material m_mat;
 
 	static int s_glyphCount;
 	std::map<Uint32,glfglyph_t> m_glyphs;
+
+	static const Uint32 s_firstCharacter = 0x20; //32
+	static const Uint32 s_lastCharacter = 0x1ff; //511
 };
 
 #endif
