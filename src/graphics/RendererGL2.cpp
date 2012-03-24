@@ -105,7 +105,8 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 		s = mat->shader;
 	} else {
 		if (flat && mat->texture0) s = flatTextured;
-		else if (flat) s = flatProg;
+		else if (flat && !mat->texture0) s = flatProg;
+		else if (!flat && mat->texture0) s = simpleTextured;
 		else s = simpleShader;
 	}
 
