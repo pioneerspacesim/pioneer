@@ -48,8 +48,6 @@ GeomBuffer::GeomBuffer(LmrModel *model, bool isStatic, Graphics::Renderer *rende
 	m_isStatic = isStatic;
 	m_bo = 0;
 	m_putGeomInsideout = false;
-
-	CompleteSurface();
 }
 
 void GeomBuffer::PreBuild() {
@@ -317,6 +315,7 @@ void GeomBuffer::SetVertex(int idx, const vector3f &pos, const vector3f &normal)
 }
 
 int GeomBuffer::PushVertex(const vector3f &pos, const vector3f &normal, GLfloat tex_u, GLfloat tex_v) {
+	EnsureSurface();
 	Graphics::VertexArray *va = m_curSurface->GetVertices();
 	if (m_putGeomInsideout) {
 		va->Add(pos, -normal, vector2f(tex_u, tex_v));
@@ -327,6 +326,7 @@ int GeomBuffer::PushVertex(const vector3f &pos, const vector3f &normal, GLfloat 
 }
 
 void GeomBuffer::SetVertex(int idx, const vector3f &pos, const vector3f &normal, GLfloat tex_u, GLfloat tex_v) {
+	EnsureSurface();
 	// XXX still not sure if VertexArray should be indexable or if we should
 	//     only do vertex pushes. in the mean time, we reach into VertexArray
 	//     and handle it ourselves
@@ -360,6 +360,7 @@ void GeomBuffer::SetGlowMap(const char *tex) {
 }
 
 void GeomBuffer::PushTri(int i1, int i2, int i3) {
+	EnsureSurface();
 	std::vector<Uint16> &indices = m_curSurface->GetIndices();
 	if (m_putGeomInsideout) {
 		indices.push_back(i1);
@@ -461,6 +462,7 @@ void GeomBuffer::PushUseMaterial(const char *mat_name) {
 
 int GeomBuffer::AllocVertices(int num) {
 	// XXX grow VertexArray lists manually for now
+	EnsureSurface();
 	Graphics::VertexArray *va = m_curSurface->GetVertices();
 	int start = va->GetNumVerts();
 	va->position.resize(start+num);
@@ -536,6 +538,13 @@ void GeomBuffer::CompleteSurface()
 {
 	if (m_curSurface && m_curSurface->GetNumIndices() > 0)
 		m_mesh->AddSurface(m_curSurface.Release());
+}
+
+void GeomBuffer::EnsureSurface()
+{
+	// XXX better to check the existing surface and take it if it has the same
+	// material, otherwise complete it and move on
+	if (m_curSurface) return;
 
 	// XXX prep renderer material from material/texture/shader/lights
 	Graphics::Material *mat = new Graphics::Material;

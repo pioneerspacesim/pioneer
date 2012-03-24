@@ -27,7 +27,7 @@ public:
 	GeomBuffer(LmrModel *model, bool isStatic, Graphics::Renderer *renderer);
 
 	//int GetIndicesPos() const { return m_indices.size(); }
-	int GetVerticesPos() const { return m_curSurface->GetVertices()->position.size(); } // XXX direct access again
+	int GetVerticesPos() const { return m_curSurface ? m_curSurface->GetVertices()->position.size() : 0; } // XXX direct access again
 
 	void SetGeomFlag(Uint16 flag) { curTriFlag = flag; }
 	Uint16 GetGeomFlag() const { return curTriFlag; }
@@ -140,6 +140,8 @@ private:
 	void UseProgram(LmrShader *shader, bool Textured = false, bool Glowmap = false);
 
 	void CompleteSurface();
+	void EnsureSurface();
+
 	void PushOp(Op *op);
 
 	static void StaticInit(Graphics::Renderer *renderer);
