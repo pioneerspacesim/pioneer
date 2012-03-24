@@ -103,7 +103,6 @@ private:
 	void OnChangeLabelsState(Gui::MultiStateImageButton *b);
 	void OnChangeFlightState(Gui::MultiStateImageButton *b);
 	void OnHyperspaceTargetChanged();
-	void OnPlayerEquipmentChange(Equip::Type e);
 	void OnPlayerDockOrUndock();
 	void OnPlayerChangeTarget();
 	void OnPlayerChangeFlightControlState();
@@ -137,8 +136,6 @@ private:
 	Gui::MeterBar *m_hudFuelGauge;
 
 	sigc::connection m_onHyperspaceTargetChangedCon;
-	sigc::connection m_onPlayerEquipmentChangeCon;
-
 	sigc::connection m_onPlayerChangeTargetCon;
 	sigc::connection m_onChangeFlightControlStateCon;
 	sigc::connection m_onMouseButtonDown;

@@ -204,8 +204,6 @@ void WorldView::InitObject()
 	
 	m_onHyperspaceTargetChangedCon =
 		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
-	m_onPlayerEquipmentChangeCon =
-		Pi::player->m_equipment.onChange.connect(sigc::mem_fun(this, &WorldView::OnPlayerEquipmentChange));
 
 	m_onPlayerChangeTargetCon =
 		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
@@ -225,8 +223,6 @@ WorldView::~WorldView()
 	delete m_siderealCamera;
 
 	m_onHyperspaceTargetChangedCon.disconnect();
-	m_onPlayerEquipmentChangeCon.disconnect();
-
 	m_onPlayerChangeTargetCon.disconnect();
 	m_onChangeFlightControlStateCon.disconnect();
 	m_onMouseButtonDown.disconnect();
@@ -968,12 +964,6 @@ void WorldView::OnHyperspaceTargetChanged()
 
 	RefCountedPtr<StarSystem> system = StarSystem::GetCached(path);
 	Pi::cpan->MsgLog()->Message("", stringf(Lang::SET_HYPERSPACE_DESTINATION_TO, formatarg("system", system->GetName())));
-}
-
-void WorldView::OnPlayerEquipmentChange(Equip::Type e) {
-	if (e == Pi::player->GetHyperdriveFuelType()) {
-		RefreshHyperspaceButton();
-	}
 }
 
 void WorldView::OnPlayerChangeTarget()
