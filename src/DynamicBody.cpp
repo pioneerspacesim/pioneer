@@ -211,32 +211,6 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 	}
 }
 
-// for timestep changes, to stop autopilot overshoot
-// either adds half of current accel or removes all of current accel 
-void DynamicBody::ApplyAccel(const float timeStep)
-{
-#ifdef DEBUG_AUTOPILOT
-if (this->IsType(Object::PLAYER))
-printf("Time accel adjustment, step = %.1f\n", (double)timeStep);
-#endif
-
-	if (!this->IsType(Object::SHIP)) return;		// only care about autopiloting ships
-	Frame *frame = static_cast<Ship *>(this)->AIGetRiskFrame();
-	if (!frame) return;
-	if (frame->IsRotatingFrame()) frame = frame->m_parent;
-	vector3d vel = GetVelocityRelTo(frame);
-
-	vector3d vdiff = double(timeStep) * m_lastForce * (1.0 / m_mass);
-	double spd = vel.LengthSqr();
-	if ((vel-2.0*vdiff).LengthSqr() < spd) m_vel -= 2.0*vdiff;
-	else if ((vel+vdiff).LengthSqr() < spd) m_vel += vdiff;
-
-	vector3d avdiff = double(timeStep) * m_lastTorque * (1.0 / m_angInertia);
-	double aspd = m_angVel.LengthSqr();
-	if ((m_angVel-2.0*avdiff).LengthSqr() < aspd) m_angVel -= 2.0*avdiff;
-	else if ((m_angVel+avdiff).LengthSqr() < aspd) m_angVel += avdiff;
-}
-
 void DynamicBody::UpdateInterpolatedTransform(double alpha)
 {
 	// interpolating matrices like this is a sure sign of madness

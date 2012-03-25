@@ -707,6 +707,32 @@ void Ship::TimeStepUpdate(const float timeStep)
 	UpdateFuel(timeStep);
 }
 
+// for timestep changes, to stop autopilot overshoot
+// either adds half of current accel or removes all of current accel 
+void Ship::ApplyAccel(const float timeStep)
+{
+#ifdef DEBUG_AUTOPILOT
+	if (this->IsType(Object::PLAYER))
+		printf("Time accel adjustment, step = %.1f\n", double(timeStep));
+#endif
+
+	Frame *frame = AIGetRiskFrame();
+	if (!frame) return;
+	if (frame->IsRotatingFrame()) frame = frame->m_parent;
+	vector3d vel = GetVelocityRelTo(frame);
+
+	vector3d vdiff = double(timeStep) * GetLastForce() * (1.0 / GetMass());
+	double spd = vel.LengthSqr();
+	if ((vel-2.0*vdiff).LengthSqr() < spd) SetVelocity(GetVelocity() - 2.0*vdiff);
+	else if ((vel+vdiff).LengthSqr() < spd) SetVelocity(GetVelocity() + vdiff);
+
+	vector3d angVel = GetAngVelocity();
+	vector3d avdiff = double(timeStep) * GetLastTorque() * (1.0 / GetAngularInertia());
+	double aspd = angVel.LengthSqr();
+	if ((angVel-2.0*avdiff).LengthSqr() < aspd) SetAngVelocity(angVel - 2.0*avdiff);
+	else if ((angVel+avdiff).LengthSqr() < aspd) SetAngVelocity(angVel += avdiff);
+}
+
 void Ship::FireWeapon(int num)
 {
 	const ShipType &stype = GetShipType();

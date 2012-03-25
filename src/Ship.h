@@ -80,6 +80,7 @@ public:
 	bool Undock();
 	virtual void TimeStepUpdate(const float timeStep);
 	virtual void StaticUpdate(const float timeStep);
+	void ApplyAccel(const float timeStep);
 
 	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
