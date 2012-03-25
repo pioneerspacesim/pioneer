@@ -227,13 +227,13 @@ void Game::Serialize(Serializer::Writer &wr)
 
 void Game::TimeStep(float step)
 {
+	m_time += step;			// otherwise planets lag time accel changes by a frame
+
 	m_space->TimeStep(step);
 
 	// XXX ui updates, not sure if they belong here
 	Pi::cpan->TimeStepUpdate(step);
 	Sfx::TimeStepAll(step, m_space->GetRootFrame());
-
-	m_time += step;
 
 	if (m_state == STATE_HYPERSPACE) {
 		if (Pi::game->GetTime() > m_hyperspaceEndTime) {
@@ -257,7 +257,7 @@ bool Game::UpdateTimeAccel()
 {
 	// don't modify the timeaccel if the game is paused
 	if (m_requestedTimeAccel == Game::TIMEACCEL_PAUSED) {
-		m_timeAccel = Game::TIMEACCEL_PAUSED;
+		SetTimeAccel(Game::TIMEACCEL_PAUSED);
 		return false;
 	}
 
@@ -313,7 +313,7 @@ bool Game::UpdateTimeAccel()
 	if (newTimeAccel == m_timeAccel)
 		return false;
 	
-	m_timeAccel = newTimeAccel;
+	SetTimeAccel(newTimeAccel);
 	return true;
 }
 
