@@ -441,7 +441,7 @@ bool Player::CanBuy(Equip::Type t, bool verbose) const
 {
 	Equip::Slot slot = Equip::types[int(t)].slot;
 	bool freespace = (m_equipment.FreeSpace(slot)!=0);
-	bool freecapacity = (m_stats.free_capacity >= Equip::types[int(t)].mass);
+	bool freecapacity = (GetStats().free_capacity >= Equip::types[int(t)].mass);
 	if (verbose) {
 		if (!freespace) {
 			Pi::Message(Lang::NO_FREE_SPACE_FOR_ITEM);

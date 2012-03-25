@@ -131,7 +131,7 @@ void StationShipEquipmentForm::FitItem(Equip::Type t)
 {
 	Equip::Slot slot = Equip::types[t].slot;
 
-	const shipstats_t *stats = Pi::player->CalcStats();
+	const shipstats_t &stats = Pi::player->GetStats();
 	int freespace = Pi::player->m_equipment.FreeSpace(slot);
 	
 	if (Pi::player->GetMoney() < m_station->GetPrice(t)) {
@@ -139,7 +139,7 @@ void StationShipEquipmentForm::FitItem(Equip::Type t)
 		return;
 	}
 
-	if (!freespace || stats->free_capacity < Equip::types[t].mass) {
+	if (!freespace || stats.free_capacity < Equip::types[t].mass) {
 		Pi::cpan->MsgLog()->Message("", Lang::NO_SPACE_ON_SHIP);
 		return;
 	}

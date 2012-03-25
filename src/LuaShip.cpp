@@ -103,23 +103,23 @@ static int l_ship_get_stats(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	Ship *s = LuaShip::GetFromLua(1);
-	const shipstats_t *stats = s->CalcStats();
+	const shipstats_t &stats = s->GetStats();
 	
 	lua_newtable(l);
     pi_lua_table_ro(l);
-	pi_lua_settable(l, "maxCapacity",        stats->max_capacity);
-	pi_lua_settable(l, "usedCapacity",       stats->used_capacity);
-	pi_lua_settable(l, "usedCargo",          stats->used_cargo);
-	pi_lua_settable(l, "freeCapacity",       stats->free_capacity);
-	pi_lua_settable(l, "totalMass",          stats->total_mass);
-	pi_lua_settable(l, "hullMassLeft",       stats->hull_mass_left);
-	pi_lua_settable(l, "hyperspaceRange",    stats->hyperspace_range);
-	pi_lua_settable(l, "maxHyperspaceRange", stats->hyperspace_range_max);
-	pi_lua_settable(l, "shieldMass",         stats->shield_mass);
-	pi_lua_settable(l, "shieldMassLeft",     stats->shield_mass_left);
-	pi_lua_settable(l, "maxFuelTankMass",    stats->fuel_tank_mass);
-	pi_lua_settable(l, "fuelUse",            stats->fuel_use);
-	pi_lua_settable(l, "fuelMassLeft",       stats->fuel_tank_mass_left);
+	pi_lua_settable(l, "maxCapacity",        stats.max_capacity);
+	pi_lua_settable(l, "usedCapacity",       stats.used_capacity);
+	pi_lua_settable(l, "usedCargo",          stats.used_cargo);
+	pi_lua_settable(l, "freeCapacity",       stats.free_capacity);
+	pi_lua_settable(l, "totalMass",          stats.total_mass);
+	pi_lua_settable(l, "hullMassLeft",       stats.hull_mass_left);
+	pi_lua_settable(l, "hyperspaceRange",    stats.hyperspace_range);
+	pi_lua_settable(l, "maxHyperspaceRange", stats.hyperspace_range_max);
+	pi_lua_settable(l, "shieldMass",         stats.shield_mass);
+	pi_lua_settable(l, "shieldMassLeft",     stats.shield_mass_left);
+	pi_lua_settable(l, "maxFuelTankMass",    stats.fuel_tank_mass);
+	pi_lua_settable(l, "fuelUse",            stats.fuel_use);
+	pi_lua_settable(l, "fuelMassLeft",       stats.fuel_tank_mass_left);
 
 	LUA_DEBUG_END(l, 1);
 
@@ -662,9 +662,9 @@ static int l_ship_add_equip(lua_State *l)
 	if (num < 0)
 		return luaL_error(l, "Can't add a negative number of equipment items.");
 
-	const shipstats_t *stats = s->CalcStats();
+	const shipstats_t &stats = s->GetStats();
 	if (Equip::types[e].mass != 0)
-		num = std::min(stats->free_capacity / (Equip::types[e].mass), num);
+		num = std::min(stats.free_capacity / (Equip::types[e].mass), num);
 
 	lua_pushinteger(l, s->m_equipment.Add(e, num));
 	s->UpdateMass();

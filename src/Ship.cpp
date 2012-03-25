@@ -224,7 +224,7 @@ void Ship::SetPercentHull(float p)
 
 void Ship::UpdateMass()
 {
-	CalcStats();
+	UpdateStats();
 	SetMass((m_stats.total_mass + GetFuel()*GetShipType().fuelTankMass)*1000);
 }
 
@@ -377,7 +377,7 @@ Equip::Type Ship::GetHyperdriveFuelType() const
 	return Equip::types[t].inputs[0];
 }
 
-const shipstats_t *Ship::CalcStats()
+void Ship::UpdateStats()
 {
 	const ShipType &stype = GetShipType();
 	m_stats.max_capacity = stype.capacity;
@@ -428,7 +428,6 @@ const shipstats_t *Ship::CalcStats()
 	m_fuelUseWeights[1] = rev / max;
 	m_fuelUseWeights[2] = side / max;
 	m_fuelUseWeights[3] = up / max;
-	return &m_stats;
 }
 
 static float distance_to_system(const SystemPath &dest)
@@ -466,7 +465,6 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 
 	float dist = distance_to_system(dest);
 
-	this->CalcStats();
 	outFuelRequired = int(ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max));
 	double m_totalmass = m_stats.total_mass;
 	if (outFuelRequired > hyperclass*hyperclass) outFuelRequired = hyperclass*hyperclass;
@@ -581,7 +579,7 @@ bool Ship::FireMissile(int idx, Ship *target)
 	}
 
 	m_equipment.Set(Equip::SLOT_MISSILE, idx, Equip::NONE);
-	CalcStats();
+	UpdateStats();
 
 	matrix4x4d m;
 	GetRotMatrix(m);

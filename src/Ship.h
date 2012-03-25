@@ -71,9 +71,11 @@ public:
 	double GetAccelUp() const { return GetShipType().linThrust[ShipType::THRUSTER_UP] / GetMass(); }
 	double GetAccelMin() const;
 
-	void SetGunState(int idx, int state);
 	const ShipType &GetShipType() const;
-	const shipstats_t *CalcStats();
+	void UpdateStats();
+	const shipstats_t &GetStats() const { return m_stats; }
+
+	void SetGunState(int idx, int state);
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	void Blastoff();
@@ -185,7 +187,6 @@ public:
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
 
 	SerializableEquipSet m_equipment;			// shouldn't be public?...
-	shipstats_t m_stats;
 
 	virtual void PostLoadFixup(Space *space);
 
@@ -249,6 +250,8 @@ private:
 	void UpdateFuel(float timeStep);
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
+
+	shipstats_t m_stats;
 
 	FlightState m_flightState;
 	bool m_testLanded;
