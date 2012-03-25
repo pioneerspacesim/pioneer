@@ -224,7 +224,6 @@ void Ship::SetPercentHull(float p)
 
 void Ship::UpdateMass()
 {
-	UpdateStats();
 	SetMass((m_stats.total_mass + GetFuel()*GetShipType().fuelTankMass)*1000);
 }
 
