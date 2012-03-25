@@ -153,7 +153,7 @@ void Ship::Init()
 	const ShipType &stype = GetShipType();
 	SetModel(stype.lmrModelName.c_str());
 	SetMassDistributionFromModel();
-	UpdateMass();
+	UpdateStats();
 	m_stats.hull_mass_left = float(stype.hullMass);
 	m_stats.shield_mass_left = 0;
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
@@ -289,12 +289,12 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 	// hitting cargo scoop surface shouldn't do damage
 	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) && b->IsType(Object::CARGOBODY) && (flags & 0x100) && m_stats.free_capacity) {
 		Equip::Type item = dynamic_cast<CargoBody*>(b)->GetCargoType();
-		m_equipment.Add(item);
 		Pi::game->GetSpace()->KillBody(dynamic_cast<Body*>(b));
+		m_equipment.Add(item);
+		UpdateEquipStats();
 		if (this->IsType(Object::PLAYER))
 			Pi::Message(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", Equip::types[item].name)));
 		// XXX Sfx::Add(this, Sfx::TYPE_SCOOP);
-		UpdateMass();
 		return true;
 	}
 
@@ -596,7 +596,7 @@ bool Ship::FireMissile(int idx, Ship *target)
 	}
 
 	m_equipment.Set(Equip::SLOT_MISSILE, idx, Equip::NONE);
-	UpdateStats();
+	UpdateEquipStats();
 
 	matrix4x4d m;
 	GetRotMatrix(m);
@@ -942,11 +942,11 @@ void Ship::StaticUpdate(const float timeStep)
 					double rate = speed*density*0.00001f;
 					if (Pi::rng.Double() < rate) {
 						m_equipment.Add(Equip::HYDROGEN);
+						UpdateEquipStats();
 						if (this->IsType(Object::PLAYER)) {
 							Pi::Message(stringf(Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
 									formatarg("quantity", m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN))));
 						}
-						UpdateMass();
 					}
 				}
 			}
@@ -1176,7 +1176,7 @@ bool Ship::Jettison(Equip::Type t)
 	Equip::Slot slot = Equip::types[int(t)].slot;
 	if (m_equipment.Count(slot, t) > 0) {
 		m_equipment.Remove(t, 1);
-		UpdateMass();
+		UpdateEquipStats();
 
 		if (m_flightState == FLYING) {
 			// create a cargo body in space

@@ -22,7 +22,6 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	m_setSpeedTarget = 0;
 	m_navTarget = 0;
 	m_combatTarget = 0;
-	UpdateMass();
 
 	float deadzone = Pi::config->Float("JoystickDeadzone");
 	m_joystickDeadzone = deadzone * deadzone;
@@ -428,13 +427,13 @@ void Player::NotifyRemoved(const Body* const removedBody)
 void Player::Bought(Equip::Type t)
 {
 	m_equipment.Add(t);
-	UpdateMass();
+	UpdateEquipStats();
 }
 
 void Player::Sold(Equip::Type t)
 {
 	m_equipment.Remove(t, 1);
-	UpdateMass();
+	UpdateEquipStats();
 }
 
 bool Player::CanBuy(Equip::Type t, bool verbose) const

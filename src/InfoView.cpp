@@ -170,9 +170,8 @@ private:
 		if (is_equal_exact(currentFuel, 1.0f)) return;
 
 		Pi::player->m_equipment.Remove(Equip::WATER, 1);
-		Pi::player->UpdateMass();
-
 		Pi::player->SetFuel(currentFuel + 1.0f/Pi::player->GetShipType().fuelTankMass);
+		Pi::player->UpdateStats();
 
 		m_infoView->UpdateInfo();
 	}

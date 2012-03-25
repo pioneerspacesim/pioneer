@@ -587,7 +587,7 @@ void Game::CreatePlayer()
 		m_player->m_equipment.Add(Equip::SCANNER);
 	}
 
-	m_player->UpdateMass();
+	m_player->UpdateStats();
 	m_player->SetMoney(10000);
 }
 

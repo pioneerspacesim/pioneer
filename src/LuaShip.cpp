@@ -166,7 +166,7 @@ static int l_ship_set_type(lua_State *l)
 
 	s->ResetFlavour(&f);
 	s->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[f.type].hyperdrive);
-	s->UpdateMass();
+	s->UpdateStats();
 
 	LUA_DEBUG_END(l, 0);
 
@@ -619,7 +619,7 @@ static int l_ship_set_equip(lua_State *l)
 	}
 
 	s->m_equipment.Set(slot, idx, e);
-	s->UpdateMass();
+	s->UpdateEquipStats();
 	return 0;
 }
 
@@ -667,7 +667,7 @@ static int l_ship_add_equip(lua_State *l)
 		num = std::min(stats.free_capacity / (Equip::types[e].mass), num);
 
 	lua_pushinteger(l, s->m_equipment.Add(e, num));
-	s->UpdateMass();
+	s->UpdateEquipStats();
 	return 1;
 }
 
@@ -710,7 +710,7 @@ static int l_ship_remove_equip(lua_State *l)
 		return luaL_error(l, "Can't remove a negative number of equipment items.");
 
 	lua_pushinteger(l, s->m_equipment.Remove(e, num));
-	s->UpdateMass();
+	s->UpdateEquipStats();
 	return 1;
 }
 
