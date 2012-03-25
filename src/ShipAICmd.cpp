@@ -866,6 +866,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	}
 
 #ifdef DEBUG_AUTOPILOT
+if (m_ship->IsType(Object::PLAYER))
 printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state = %i\n",
 	targdist, relvel.Length(), m_ship->GetThrusterState().z, reldir.Dot(m_reldir), m_state);
 #endif

@@ -195,8 +195,9 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		m_orient[14] = pos.z;
 		TriMeshUpdateLastPos(m_orient);
 
-//printf("vel = %.1f,%.1f,%.1f, force = %.1f,%.1f,%.1f, external = %.1f,%.1f,%.1f\n",
-//	m_vel.x, m_vel.y, m_vel.z, m_force.x, m_force.y, m_force.z,
+//if (this->IsType(Object::PLAYER))
+//printf("pos = %.1f,%.1f,%.1f, vel = %.1f,%.1f,%.1f, force = %.1f,%.1f,%.1f, external = %.1f,%.1f,%.1f\n",
+//	pos.x, pos.y, pos.z, m_vel.x, m_vel.y, m_vel.z, m_force.x, m_force.y, m_force.z,
 //	m_externalForce.x, m_externalForce.y, m_externalForce.z);
 
 		m_lastForce = m_force;
@@ -214,10 +215,21 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 // either adds half of current accel or removes all of current accel 
 void DynamicBody::ApplyAccel(const float timeStep)
 {
+#ifdef DEBUG_AUTOPILOT
+if (this->IsType(Object::PLAYER))
+printf("Time accel adjustment, step = %.1f\n", (double)timeStep);
+#endif
+
+	if (!this->IsType(Object::SHIP)) return;		// only care about autopiloting ships
+	Frame *frame = static_cast<Ship *>(this)->AIGetRiskFrame();
+	if (!frame) return;
+	if (frame->IsRotatingFrame()) frame = frame->m_parent;
+	vector3d vel = GetVelocityRelTo(frame);
+
 	vector3d vdiff = double(timeStep) * m_lastForce * (1.0 / m_mass);
-	double spd = m_vel.LengthSqr();
-	if ((m_vel-2.0*vdiff).LengthSqr() < spd) m_vel -= 2.0*vdiff;
-	else if ((m_vel+vdiff).LengthSqr() < spd) m_vel += vdiff;
+	double spd = vel.LengthSqr();
+	if ((vel-2.0*vdiff).LengthSqr() < spd) m_vel -= 2.0*vdiff;
+	else if ((vel+vdiff).LengthSqr() < spd) m_vel += vdiff;
 
 	vector3d avdiff = double(timeStep) * m_lastTorque * (1.0 / m_angInertia);
 	double aspd = m_angVel.LengthSqr();
