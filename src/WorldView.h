@@ -7,7 +7,7 @@
 #include "Serializer.h"
 #include "Background.h"
 #include "EquipType.h"
-#include "Camera.h"
+#include "WorldViewCamera.h"
 
 class Body;
 class Frame;
@@ -143,8 +143,8 @@ private:
 	Gui::LabelSet *m_bodyLabels;
 	std::map<Body*,vector3d> m_projectedPos;
 
-	Camera *m_frontCamera, *m_rearCamera, *m_externalCamera, *m_siderealCamera;
-	Camera *m_activeCamera;
+	WorldViewCamera *m_frontCamera, *m_rearCamera, *m_externalCamera, *m_siderealCamera;
+	WorldViewCamera *m_activeCamera;
 
 	Indicator m_velIndicator;
 	Indicator m_navVelIndicator;

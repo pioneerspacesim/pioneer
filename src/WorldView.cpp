@@ -195,12 +195,11 @@ void WorldView::InitObject()
 	Pi::renderer->GetNearFarRange(znear, zfar);
 
 	const float fovY = Pi::config->Float("FOVVertical");
-	m_frontCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight(), fovY, znear, zfar);
-	m_rearCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight(), fovY, znear, zfar);
-	m_externalCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight(), fovY, znear, zfar);
-	m_siderealCamera = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight(), fovY, znear, zfar);
-	
-	m_rearCamera->SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
+	const vector2f camSize(Pi::GetScrWidth(), Pi::GetScrHeight());
+	m_frontCamera = new FrontCamera(Pi::player, camSize, fovY, znear, zfar);
+	m_rearCamera = new RearCamera(Pi::player, camSize, fovY, znear, zfar);
+	m_externalCamera = new ExternalCamera(Pi::player, camSize, fovY, znear, zfar);
+	m_siderealCamera = new SiderealCamera(Pi::player, camSize, fovY, znear, zfar);
 	
 	m_onHyperspaceTargetChangedCon =
 		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
@@ -750,63 +749,22 @@ void WorldView::Update()
 	//death animation: slowly pan out
 	if (Pi::player->IsDead()) {
 		m_camType = CAM_EXTERNAL;
-		m_externalViewRotX = 0.0;
-		m_externalViewRotY = 0.0;
-		m_externalViewDist += 80 * frameTime;
+		static_cast<ExternalCamera*>(m_externalCamera)->SetRotationAngles(0.0, 0.0);
+		m_externalCamera->ZoomOut(frameTime * 0.4);
 		m_labelsOn = false;
 	} else {
 		// XXX ugly hack checking for console here
 		if (!Pi::IsConsoleActive()) {
-			if (GetCamType() == CAM_EXTERNAL) {
-				if (Pi::KeyState(SDLK_UP)) m_externalViewRotX -= 45*frameTime;
-				if (Pi::KeyState(SDLK_DOWN)) m_externalViewRotX += 45*frameTime;
-				if (Pi::KeyState(SDLK_LEFT)) m_externalViewRotY -= 45*frameTime;
-				if (Pi::KeyState(SDLK_RIGHT)) m_externalViewRotY += 45*frameTime;
-				if (Pi::KeyState(SDLK_EQUALS)) m_externalViewDist -= 400*frameTime;
-				if (Pi::KeyState(SDLK_MINUS)) m_externalViewDist += 400*frameTime;
-				if (Pi::KeyState(SDLK_HOME)) m_externalViewDist = 200;
-				m_externalViewDist = std::max(Pi::player->GetBoundingRadius(), m_externalViewDist);
+			if (Pi::KeyState(SDLK_UP)) m_activeCamera->RotateUp(frameTime);
+			if (Pi::KeyState(SDLK_DOWN)) m_activeCamera->RotateDown(frameTime);
+			if (Pi::KeyState(SDLK_LEFT)) m_activeCamera->RotateLeft(frameTime);
+			if (Pi::KeyState(SDLK_RIGHT)) m_activeCamera->RotateRight(frameTime);
+			if (Pi::KeyState(SDLK_EQUALS)) m_activeCamera->ZoomOut(frameTime);
+			if (Pi::KeyState(SDLK_MINUS)) m_activeCamera->ZoomIn(frameTime);
+			if (Pi::KeyState(SDLK_COMMA)) m_activeCamera->RollLeft(frameTime);
+			if (Pi::KeyState(SDLK_PERIOD)) m_activeCamera->RollRight(frameTime);
+			if (Pi::KeyState(SDLK_HOME)) m_activeCamera->Reset();
 
-				// when landed don't let external view look from below
-				if (Pi::player->GetFlightState() == Ship::LANDED || Pi::player->GetFlightState() == Ship::DOCKED)
-					m_externalViewRotX = Clamp(m_externalViewRotX, -170.0, -10.0);
-			}
-			if (GetCamType() == CAM_SIDEREAL) {
-				if (Pi::KeyState(SDLK_UP)) {
-					vector3d rotAxis = m_siderealViewOrient * vector3d(1,0,0);
-					m_siderealViewOrient = matrix4x4d::RotateMatrix(-M_PI/4 * frameTime, rotAxis.x, rotAxis.y, rotAxis.z)
-						* m_siderealViewOrient;
-				}
-				if (Pi::KeyState(SDLK_DOWN)) {
-					vector3d rotAxis = m_siderealViewOrient * vector3d(1,0,0);
-					m_siderealViewOrient = matrix4x4d::RotateMatrix(M_PI/4 * frameTime, rotAxis.x, rotAxis.y, rotAxis.z)
-						* m_siderealViewOrient;
-				}
-				if (Pi::KeyState(SDLK_LEFT)) {
-					vector3d rotAxis = m_siderealViewOrient * vector3d(0,1,0);
-					m_siderealViewOrient = matrix4x4d::RotateMatrix(-M_PI/4 * frameTime, rotAxis.x, rotAxis.y, rotAxis.z)
-						* m_siderealViewOrient;
-				}
-				if (Pi::KeyState(SDLK_RIGHT)) {
-					vector3d rotAxis = m_siderealViewOrient * vector3d(0,1,0);
-					m_siderealViewOrient = matrix4x4d::RotateMatrix(M_PI/4 * frameTime, rotAxis.x, rotAxis.y, rotAxis.z)
-						* m_siderealViewOrient;
-				}
-				if (Pi::KeyState(SDLK_PERIOD)) {
-					vector3d rotAxis = m_siderealViewOrient * vector3d(0,0,1);
-					m_siderealViewOrient = matrix4x4d::RotateMatrix(-M_PI/4 * frameTime, rotAxis.x, rotAxis.y, rotAxis.z)
-						* m_siderealViewOrient;
-				}
-				if (Pi::KeyState(SDLK_COMMA)) {
-					vector3d rotAxis = m_siderealViewOrient * vector3d(0,0,1);
-					m_siderealViewOrient = matrix4x4d::RotateMatrix(M_PI/4 * frameTime, rotAxis.x, rotAxis.y, rotAxis.z)
-						* m_siderealViewOrient;
-				}
-				if (Pi::KeyState(SDLK_EQUALS)) m_siderealViewDist -= 400*frameTime;
-				if (Pi::KeyState(SDLK_MINUS)) m_siderealViewDist += 400*frameTime;
-				if (Pi::KeyState(SDLK_HOME)) m_siderealViewDist = 200;
-				m_siderealViewDist = std::max(Pi::player->GetBoundingRadius(), m_siderealViewDist);
-			}
 			if (KeyBindings::targetObject.IsActive()) {
 				/* Hitting tab causes objects in the crosshairs to be selected */
 				Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
@@ -815,23 +773,13 @@ void WorldView::Update()
 		}
 	}
 
-	if (GetCamType() == CAM_EXTERNAL) {
-		m_externalCamera->SetPosition(GetExternalViewTranslation());
-		m_externalCamera->SetOrientation(GetExternalViewRotation());
-	}
-	
-	if (GetCamType() == CAM_SIDEREAL) {
-		UpdateSiderealView();
-		m_siderealCamera->SetPosition(GetSiderealViewTranslation());
-		m_siderealCamera->SetOrientation(GetSiderealViewRotation());
-	}
-
 	m_activeCamera =
 		GetCamType() == CAM_FRONT    ? m_frontCamera    :
 		GetCamType() == CAM_REAR     ? m_rearCamera     :
 		GetCamType() == CAM_EXTERNAL ? m_externalCamera :
 			                       m_siderealCamera;
 
+	m_activeCamera->UpdateTransform();
 	m_activeCamera->Update();
 	UpdateProjectedObjects();
 }
