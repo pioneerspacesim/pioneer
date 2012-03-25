@@ -80,6 +80,7 @@ public:
 	bool Undock();
 	virtual void TimeStepUpdate(const float timeStep);
 	virtual void StaticUpdate(const float timeStep);
+	void ApplyAccel(const float timeStep);
 
 	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
@@ -163,6 +164,7 @@ public:
 	void AIClearInstructions();
 	bool AIIsActive() { return m_curAICmd ? true : false; }
 	void AIGetStatusText(char *str);
+	Frame *AIGetRiskFrame();
 
 	enum AIError { // <enum scope='Ship' name=ShipAIError prefix=AIERROR_>
 		AIERROR_NONE=0,

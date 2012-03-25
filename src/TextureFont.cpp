@@ -257,7 +257,7 @@ Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x,
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			AddGlyphGeometry(&va, chr, roundf(px), py, color);
+			AddGlyphGeometry(&va, chr, roundf(px), py, c);
 
 			// XXX kerning doesn't skip markup
 			if (str[i]) {

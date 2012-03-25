@@ -23,6 +23,8 @@ Alpha 21
      * Fixed hyperspace checks so they work during hyperspace and don't allow
        hyperspace to be triggered at odd times (eg docked) (#1101, #999, #1030, #1088)
      * Restore Jupiter and Neptune to their correct terrain types (#1100)
+     * Fixed various old bugs around frame movement, timesteps, AI velocity
+       correction and similar (#1090)
 
    * Script changes
      * New custom system option :explored to explicitly set a system's
@@ -42,7 +44,8 @@ Alpha 21
      * Partial keybinding cleanup to allow a sane init order
      * Integrate texture management into renderer (#1061)
      * Remove renderer dependencies on Pi and utils (#1071)
-     * Pack font glyphs into a single texture for faster text rendering (#1101, #1084)
+     * Pack font glyphs into a single texture for faster text rendering (#1101,
+       #1084, #1107)
 
 Alpha 20
 

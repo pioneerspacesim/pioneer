@@ -32,7 +32,6 @@ public:
 	virtual double GetMass() const { return m_mass; }	// XXX don't override this
 	virtual void TimeStepUpdate(const float timeStep);
 	void CalcExternalForce();
-	void ApplyAccel(const float timeStep);
 	void UndoTimestep();
 	
 	void SetMass(double);
@@ -40,7 +39,8 @@ public:
 	void AddTorque(const vector3d);
 	void SetForce(const vector3d);
 	void SetTorque(const vector3d);
-	vector3d GetForce() const { return m_force; }
+	vector3d GetLastForce() const { return m_lastForce; }
+	vector3d GetLastTorque() const { return m_lastTorque; }
 	// body-relative forces
 	void AddRelForce(const vector3d);
 	void AddRelTorque(const vector3d);
