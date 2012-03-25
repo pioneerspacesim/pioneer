@@ -903,7 +903,7 @@ void Ship::UpdateFuel(const float timeStep)
 	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
 	FuelState currentState = GetFuelState();
 
-	UpdateMass();
+	UpdateFuelStats();
 
 	if (currentState != lastState)
 		Pi::luaOnShipFuelChanged->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipFuelStatus", currentState));
