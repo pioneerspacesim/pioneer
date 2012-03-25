@@ -72,6 +72,8 @@ public:
 	double GetAccelMin() const;
 
 	const ShipType &GetShipType() const;
+	void UpdateEquipStats();
+	void UpdateFuelStats();
 	void UpdateStats();
 	const shipstats_t &GetStats() const { return m_stats; }
 

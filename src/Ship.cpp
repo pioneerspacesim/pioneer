@@ -377,13 +377,13 @@ Equip::Type Ship::GetHyperdriveFuelType() const
 	return Equip::types[t].inputs[0];
 }
 
-void Ship::UpdateStats()
+void Ship::UpdateEquipStats()
 {
 	const ShipType &stype = GetShipType();
+
 	m_stats.max_capacity = stype.capacity;
 	m_stats.used_capacity = 0;
 	m_stats.used_cargo = 0;
-	Equip::Type fuelType = GetHyperdriveFuelType();
 
 	for (int i=0; i<Equip::SLOT_MAX; i++) {
 		for (int j=0; j<stype.equipSlotCapacity[i]; j++) {
@@ -396,6 +396,10 @@ void Ship::UpdateStats()
 	m_stats.total_mass = m_stats.used_capacity + stype.hullMass;
 
 	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR));
+
+	UpdateMass();
+
+	Equip::Type fuelType = GetHyperdriveFuelType();
 
 	if (stype.equipSlotCapacity[Equip::SLOT_ENGINE]) {
 		Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
@@ -411,6 +415,11 @@ void Ship::UpdateStats()
 	} else {
 		m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 	}
+}
+
+void Ship::UpdateFuelStats()
+{
+	const ShipType &stype = GetShipType();
 
 	m_stats.fuel_tank_mass = stype.fuelTankMass;
 	m_stats.fuel_use = stype.thrusterFuelUse;
@@ -428,6 +437,14 @@ void Ship::UpdateStats()
 	m_fuelUseWeights[1] = rev / max;
 	m_fuelUseWeights[2] = side / max;
 	m_fuelUseWeights[3] = up / max;
+
+	UpdateMass();
+}
+
+void Ship::UpdateStats()
+{
+	UpdateEquipStats();
+	UpdateFuelStats();
 }
 
 static float distance_to_system(const SystemPath &dest)
