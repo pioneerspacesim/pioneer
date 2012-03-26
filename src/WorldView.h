@@ -67,8 +67,6 @@ private:
 			label = 0;
 		}
 	};
-
-	void UpdateSiderealView();
 	
 	void UpdateProjectedObjects();
 	void UpdateIndicator(Indicator &indicator, const vector3d &direction);

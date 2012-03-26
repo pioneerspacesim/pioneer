@@ -139,6 +139,7 @@ noinst_HEADERS = \
 	VideoLink.h \
 	View.h \
 	WorldView.h \
+	WorldViewCamera.h \
 	SmartPtr.h \
 	buildopts.h \
 	fixed.h \
@@ -267,6 +268,7 @@ pioneer_SOURCES	= \
 	TextSupport.cpp \
 	VectorFont.cpp \
 	WorldView.cpp \
+	WorldViewCamera.cpp \
 	main.cpp \
 	mtrand.cpp \
 	perlin.cpp \

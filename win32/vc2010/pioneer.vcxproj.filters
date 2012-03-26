@@ -663,6 +663,9 @@
     <ClCompile Include="..\..\src\MathUtil.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\WorldViewCamera.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -1242,6 +1245,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GameLoaderSaver.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\WorldViewCamera.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
