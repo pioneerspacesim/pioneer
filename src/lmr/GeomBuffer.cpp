@@ -546,19 +546,21 @@ void GeomBuffer::EnsureSurface()
 
 	// XXX prep renderer material from material/texture/shader/lights
 	Graphics::Material *mat = new Graphics::Material;
+	mat->unlit = true;
+
 	if (m_curMaterialIdx >= 0) {
 		const LmrMaterial &lmrMat = m_model->m_materials[m_curMaterialIdx];
 
 		mat->diffuse = lmrMat.diffuse;
-		// XXX no renderer support for these yet
-		//mat->specular = lmrMat.specular;
-		//mat->emissive = lmrMat.emissive;
-		//mat->shininess = lmrMat.shininess
+		mat->specular = lmrMat.specular;
+		mat->emissive = lmrMat.emissive;
+		mat->shininess = lmrMat.shininess;
+		
+		mat->unlit = false;
 	}
 	if (curTexture)
 		mat->texture0 = Graphics::TextureBuilder::Model(*curTexture).GetOrCreateTexture(m_renderer);
 
-	mat->unlit = true;
 		
 	m_curSurface.Reset(new Graphics::Surface(Graphics::TRIANGLES, new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0), RefCountedPtr<Graphics::Material>(mat)));
 }
