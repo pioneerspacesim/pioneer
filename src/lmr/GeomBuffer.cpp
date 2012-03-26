@@ -104,9 +104,8 @@ void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, co
 	glDepthRange(0.0, 1.0);
 #endif
 
-	if (m_mesh->GetUsageHint() == Graphics::USAGE_STATIC) // XXX hack disable dynamic draw
-		if (m_mesh->GetNumIndices() > 0)
-			m_renderer->DrawMesh(m_mesh.Get());
+	if (m_mesh->GetNumIndices() > 0)
+		m_renderer->DrawMesh(m_mesh.Get());
 
 	for (std::vector<Op*>::const_iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
 		switch ((*i)->type) {
