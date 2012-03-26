@@ -537,7 +537,11 @@ void RendererLegacy::ApplyMaterial(const Material *mat)
 	} else {
 		glEnable(GL_LIGHTING);
 		glMaterialfv (GL_FRONT, GL_DIFFUSE, &mat->diffuse[0]);
-		//todo: the rest
+		glMaterialfv (GL_FRONT, GL_AMBIENT, &mat->ambient[0]);
+		glMaterialfv (GL_FRONT, GL_SPECULAR, &mat->specular[0]);
+		glMaterialfv (GL_FRONT, GL_EMISSION, &mat->emissive[0]);
+		glMaterialf (GL_FRONT, GL_SHININESS, mat->shininess);
+		SetBlendMode(mat->diffuse.a >= 1.0f ? Graphics::BLEND_SOLID : Graphics::BLEND_ALPHA);
 	}
 	if (mat->twoSided) {
 		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
