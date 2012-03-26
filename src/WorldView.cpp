@@ -886,25 +886,11 @@ void WorldView::AddCommsNavOption(std::string msg, Body *target)
 {
 	Gui::HBox *hbox = new Gui::HBox();
 	hbox->SetSpacing(5);
-	
-	std::string type = "";
-	std::string typetip = "Unknown";
-	if (target->GetType() == Object::SPACESTATION) {
-		SpaceStation* ss = static_cast<SpaceStation*>(target);
-		if (ss->IsGroundStation()) {
-			type = "G";
-			typetip = "Spaceport / Starport";
-		} else {
-			type = "S";
-			typetip = "Space station";
-		}
-	}
 
-	Gui::Label *l = new Gui::Label(msg + " (" + format_distance(Pi::player->GetPositionRelTo(target).Length()) + ")");
+	Gui::Label *l = new Gui::Label(msg);
 	hbox->PackStart(l);
-	
-	Gui::LabelButton *b = new Gui::LabelButton(new Gui::Label(type));
-	b->SetToolTip(typetip);
+
+	Gui::Button *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::bind(sigc::mem_fun(this, &WorldView::OnClickCommsNavOption), target));
 	hbox->PackStart(b);
 
@@ -1469,6 +1455,10 @@ void WorldView::SeparateLabels(Gui::Label *a, Gui::Label *b)
 	}
 }
 
+double unlog10(double x) {  
+	return pow(10.0, x);
+}
+
 void WorldView::Draw()
 {
 	View::Draw();
@@ -1488,6 +1478,9 @@ void WorldView::Draw()
 
 	// nav target square
 	DrawTargetSquare(m_navTargetIndicator, green);
+
+	Body *navtarget = Pi::player->GetNavTarget();
+	double dist = Pi::player->GetPositionRelTo(navtarget).Length();
 
 	glLineWidth(1.0f);
 
@@ -1595,6 +1588,24 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 	const float x2 = float(marker.pos[0] + sz);
 	const float y1 = float(marker.pos[1] - sz);
 	const float y2 = float(marker.pos[1] + sz);
+
+	const vector2f vts[] = {
+		vector2f(x1, y1),
+		vector2f(x2, y1),
+		vector2f(x2, y2),
+		vector2f(x1, y2)
+	};
+	m_renderer->DrawLines2D(4, vts, c, Graphics::LINE_LOOP);
+}
+
+void WorldView::DrawTargetGuideSquare(const Indicator &marker, const float size, const Color &c)
+{
+	if (marker.side == INDICATOR_HIDDEN) return;
+
+	const float x1 = float(marker.pos[0] - size);
+	const float x2 = float(marker.pos[0] + size);
+	const float y1 = float(marker.pos[1] - size);
+	const float y2 = float(marker.pos[1] + size);
 
 	const vector2f vts[] = {
 		vector2f(x1, y1),

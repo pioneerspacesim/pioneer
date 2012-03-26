@@ -88,6 +88,7 @@ private:
 	void DrawCrosshair(float px, float py, float sz, const Color &c);
 	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c);
 	void DrawTargetSquare(const Indicator &marker, const Color &c);
+	void DrawTargetGuideSquare(const Indicator &marker, const float size, const Color &c);
 	void DrawVelocityIndicator(const Indicator &marker, const Color &c);
 	void DrawCircleIndicator(const Indicator &marker, const Color &c);
 	void DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c);
