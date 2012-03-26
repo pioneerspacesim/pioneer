@@ -2,14 +2,13 @@
 #define _WORLDVIEWCAMERA_H
 /*
  * Front, rear, external etc. cameras used by WorldView.
- * Supports serialization of camera state.
  */
 #include "Camera.h"
 
 class WorldViewCamera : public Camera
 {
 public:
-	enum Type { //required for serialization & identification
+	enum Type { //can be used for serialization & identification
 		FRONT,
 		REAR,
 		EXTERNAL,
@@ -33,9 +32,7 @@ public:
 	virtual void Load(Serializer::Reader &rd) { }
 };
 
-// Forward facing view from the ship, with optional position offset.
-// Not necessarily cockpit camera. That might include a visible 3d cockpit
-// and head turning. Someday.
+// Forward facing view from the ship
 class FrontCamera : public WorldViewCamera {
 public:
 	FrontCamera(const Body *b, const vector2f &size, float fovY, float nearClip, float farClip) :
@@ -43,7 +40,7 @@ public:
 	Type GetType() const { return FRONT; }
 };
 
-// Rear-facing view, with optional position offset
+// Rear-facing view
 class RearCamera : public WorldViewCamera {
 public:
 	RearCamera(const Body *b, const vector2f &size, float fovY, float nearClip, float farClip);
