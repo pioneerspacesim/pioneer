@@ -464,8 +464,6 @@ bool RendererLegacy::DrawMesh(Mesh *t)
 {
 	if (!t) return false;
 
-	printf("DrawMesh: mesh %p vertices %d indicies %d\n", t, t->GetNumVerts(), t->GetNumIndices());
-
 	switch (t->GetUsageHint()) {
 		case USAGE_STATIC: return DrawStaticMesh(t);
 		case USAGE_DYNAMIC: return DrawDynamicMesh(t);
