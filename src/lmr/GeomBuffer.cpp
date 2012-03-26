@@ -37,7 +37,7 @@ void GeomBuffer::StaticInit(Graphics::Renderer *renderer)
 
 GeomBuffer::GeomBuffer(LmrModel *model, bool isStatic, Graphics::Renderer *renderer) :
 	m_renderer(renderer),
-	m_mesh(new Graphics::Mesh(Graphics::TRIANGLES)),
+	m_mesh(new Graphics::Mesh(Graphics::TRIANGLES, isStatic ? Graphics::USAGE_STATIC : Graphics::USAGE_DYNAMIC)),
 	m_curMaterialIdx(-1)
 {
 	curTriFlag = 0;
@@ -45,7 +45,6 @@ GeomBuffer::GeomBuffer(LmrModel *model, bool isStatic, Graphics::Renderer *rende
 	curGlowmap = 0;
 	curTexMatrix = matrix4x4f::Identity();
 	m_model = model;
-	m_isStatic = isStatic;
 	m_bo = 0;
 	m_putGeomInsideout = false;
 }
@@ -68,7 +67,7 @@ void GeomBuffer::PostBuild() {
 }
 
 void GeomBuffer::FreeGeometry() {
-	m_mesh.Reset(new Graphics::Mesh(Graphics::TRIANGLES));
+	m_mesh.Reset(new Graphics::Mesh(Graphics::TRIANGLES, m_mesh->GetUsageHint())); // XXX ick
 	m_triflags.clear();
 	m_ops.clear();
 	m_thrusters.clear();
@@ -105,7 +104,7 @@ void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, co
 	glDepthRange(0.0, 1.0);
 #endif
 
-	if (m_isStatic) // XXX hack disable dynamic draw
+	if (m_mesh->GetUsageHint() == Graphics::USAGE_STATIC) // XXX hack disable dynamic draw
 		if (m_mesh->GetNumIndices() > 0)
 			m_renderer->DrawMesh(m_mesh.Get());
 
