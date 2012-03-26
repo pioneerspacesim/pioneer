@@ -50,7 +50,7 @@ public:
 	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES);
 	virtual bool DrawSurface(const Surface *surface);
 	virtual bool DrawPointSprites(int count, const vector3f *positions, const Material *material, float size);
-	virtual bool DrawStaticMesh(StaticMesh *thing);
+	virtual bool DrawMesh(Mesh *thing);
 
 	virtual Texture *CreateTexture(const TextureDescriptor &descriptor);
 
@@ -69,7 +69,7 @@ protected:
 	virtual void DisableClientStates();
 	int m_numLights;
 	std::vector<GLenum> m_clientStates;
-	virtual bool BufferStaticMesh(StaticMesh *m);
+	virtual bool BufferMesh(Mesh *m);
 	float m_minZNear;
 	float m_maxZFar;
 };

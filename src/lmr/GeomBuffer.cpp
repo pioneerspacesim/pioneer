@@ -37,7 +37,7 @@ void GeomBuffer::StaticInit(Graphics::Renderer *renderer)
 
 GeomBuffer::GeomBuffer(LmrModel *model, bool isStatic, Graphics::Renderer *renderer) :
 	m_renderer(renderer),
-	m_mesh(new Graphics::StaticMesh(Graphics::TRIANGLES)),
+	m_mesh(new Graphics::Mesh(Graphics::TRIANGLES)),
 	m_curMaterialIdx(-1)
 {
 	curTriFlag = 0;
@@ -68,7 +68,7 @@ void GeomBuffer::PostBuild() {
 }
 
 void GeomBuffer::FreeGeometry() {
-	m_mesh.Reset(new Graphics::StaticMesh(Graphics::TRIANGLES));
+	m_mesh.Reset(new Graphics::Mesh(Graphics::TRIANGLES));
 	m_triflags.clear();
 	m_ops.clear();
 	m_thrusters.clear();
@@ -107,7 +107,7 @@ void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, co
 
 	if (m_isStatic) // XXX hack disable dynamic draw
 		if (m_mesh->GetNumIndices() > 0)
-			m_renderer->DrawStaticMesh(m_mesh.Get());
+			m_renderer->DrawMesh(m_mesh.Get());
 
 	for (std::vector<Op*>::const_iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
 		switch ((*i)->type) {

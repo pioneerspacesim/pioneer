@@ -1,5 +1,5 @@
-#ifndef _STATICMESH_H
-#define _STATICMESH_H
+#ifndef _MESH_H
+#define _MESH_H
 
 #include "Renderer.h"
 #include "VertexArray.h"
@@ -10,15 +10,15 @@ namespace Graphics {
 class Surface;
 
 /*
- * StaticMesh can hold multiple surfaces and is intended for complex,
+ * Mesh can hold multiple surfaces and is intended for complex,
  * unchanging geometry. Renderers can buffer the contents into VBOs or
  * whatever they prefer. In theory the original vertex data could be
  * thrown away... but perhaps it is better not to optimize that yet.
  */
-class StaticMesh : public Renderable {
+class Mesh : public Renderable {
 public:
-	StaticMesh(PrimitiveType t);
-	~StaticMesh();
+	Mesh(PrimitiveType t);
+	~Mesh();
 
 	PrimitiveType GetPrimtiveType() const { return m_primitiveType; }
 

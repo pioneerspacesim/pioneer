@@ -26,7 +26,7 @@ namespace Graphics {
  * right now there isn't much of a difference.
  * Renderer::RequestMaterial approach to Materials to get rid of the shader hack (see comments in Material.h)
  * LMR is tricky because it's both a model compiler and renderer. The draw ops can be quite easily
- * converted to use StaticMeshes, Materials etc. but it would lose some of the quirks
+ * converted to use Meshes, Materials etc. but it would lose some of the quirks
  * like changing lighting mid-mesh (without hacks which are not useful outside LMR)
  * Terrain: not necessarily tricky to convert, but let's see if it's going to be
  * rewritten first... Terrain would likely get a special DrawTerrain(GeoPatch *) function.
@@ -35,7 +35,7 @@ namespace Graphics {
 
 class Material;
 class RendererLegacy;
-class StaticMesh;
+class Mesh;
 class Surface;
 class VertexArray;
 class Texture;
@@ -124,7 +124,7 @@ public:
 	//high amount of textured quads for particles etc
 	virtual bool DrawPointSprites(int count, const vector3f *positions, const Material *material, float size) { return false; }
 	//complex unchanging geometry that is worthwhile to store in VBOs etc.
-	virtual bool DrawStaticMesh(StaticMesh *thing) { return false; }
+	virtual bool DrawMesh(Mesh *thing) { return false; }
 
 	virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
 

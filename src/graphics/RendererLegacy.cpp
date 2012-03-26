@@ -3,7 +3,7 @@
 #include "Material.h"
 #include "Graphics.h"
 #include "RendererGLBuffers.h"
-#include "StaticMesh.h"
+#include "Mesh.h"
 #include "Surface.h"
 #include "Texture.h"
 #include "VertexArray.h"
@@ -460,11 +460,11 @@ bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, cons
 	return true;
 }
 
-bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
+bool RendererLegacy::DrawMesh(Mesh *t)
 {
 	if (!t) return false;
 
-	printf("DrawStaticMesh: mesh %p vertices %d indicies %d\n", t, t->GetNumVerts(), t->GetNumIndices());
+	printf("DrawMesh: mesh %p vertices %d indicies %d\n", t, t->GetNumVerts(), t->GetNumIndices());
 
 	//Approach:
 	//on first render, buffer vertices from all surfaces to a vbo
@@ -474,7 +474,7 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 
 	// prepare the buffer on first run
 	if (!t->cached) {
-		if (!BufferStaticMesh(t))
+		if (!BufferMesh(t))
 			return false;
 	}
 	MeshRenderInfo *meshInfo = static_cast<MeshRenderInfo*>(t->GetRenderInfo());
@@ -485,7 +485,7 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 		meshInfo->ibuf->Bind();
 	}
 
-	for (StaticMesh::SurfaceIterator surface = t->SurfacesBegin(); surface != t->SurfacesEnd(); ++surface) {
+	for (Mesh::SurfaceIterator surface = t->SurfacesBegin(); surface != t->SurfacesEnd(); ++surface) {
 		SurfaceRenderInfo *surfaceInfo = static_cast<SurfaceRenderInfo*>((*surface)->GetRenderInfo());
 
 		ApplyMaterial((*surface)->GetMaterial().Get());
@@ -571,7 +571,7 @@ void RendererLegacy::DisableClientStates()
 	m_clientStates.clear();
 }
 
-bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
+bool RendererLegacy::BufferMesh(Mesh *mesh)
 {
 	const AttributeSet set = mesh->GetAttributeSet();
 	bool background = false;
@@ -594,7 +594,7 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	int indexAdjustment = 0;
 
 	VertexBuffer *buf = 0;
-	for (StaticMesh::SurfaceIterator surface = mesh->SurfacesBegin(); surface != mesh->SurfacesEnd(); ++surface) {
+	for (Mesh::SurfaceIterator surface = mesh->SurfacesBegin(); surface != mesh->SurfacesEnd(); ++surface) {
 		const int numsverts = (*surface)->GetNumVerts();
 		const VertexArray *va = (*surface)->GetVertices();
 

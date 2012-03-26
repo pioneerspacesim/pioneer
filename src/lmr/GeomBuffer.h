@@ -4,7 +4,7 @@
 #include "libs.h"
 #include "SmartPtr.h"
 
-#include "graphics/StaticMesh.h"
+#include "graphics/Mesh.h"
 #include "graphics/Surface.h"
 
 #include "BufferObject.h"
@@ -155,7 +155,7 @@ private:
 
 	Graphics::Renderer *m_renderer;
 
-	ScopedPtr<Graphics::StaticMesh> m_mesh;
+	ScopedPtr<Graphics::Mesh> m_mesh;
 
 	ScopedPtr<Graphics::Surface> m_curSurface;
 
