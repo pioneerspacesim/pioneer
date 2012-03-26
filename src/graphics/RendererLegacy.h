@@ -72,6 +72,10 @@ protected:
 	virtual bool BufferMesh(Mesh *m);
 	float m_minZNear;
 	float m_maxZFar;
+
+private:
+	bool DrawStaticMesh(Mesh *t);
+	bool DrawDynamicMesh(Mesh *t);
 };
 
 }

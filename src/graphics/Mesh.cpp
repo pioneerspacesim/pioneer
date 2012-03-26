@@ -3,10 +3,11 @@
 
 namespace Graphics {
 
-Mesh::Mesh(PrimitiveType t) :
+Mesh::Mesh(PrimitiveType t, UsageHint usageHint) :
 	Renderable(),
 	cached(false),
-	m_primitiveType(t)
+	m_primitiveType(t),
+	m_usageHint(usageHint)
 {
 }
 

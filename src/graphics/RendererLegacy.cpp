@@ -466,6 +466,15 @@ bool RendererLegacy::DrawMesh(Mesh *t)
 
 	printf("DrawMesh: mesh %p vertices %d indicies %d\n", t, t->GetNumVerts(), t->GetNumIndices());
 
+	switch (t->GetUsageHint()) {
+		case USAGE_STATIC: return DrawStaticMesh(t);
+		case USAGE_DYNAMIC: return DrawDynamicMesh(t);
+		default: assert(0); return false;
+	}
+}
+
+bool RendererLegacy::DrawStaticMesh(Mesh *t)
+{
 	//Approach:
 	//on first render, buffer vertices from all surfaces to a vbo
 	//since surfaces can have different materials (but they should have the same vertex format?)
@@ -501,6 +510,16 @@ bool RendererLegacy::DrawMesh(Mesh *t)
 		meshInfo->ibuf->Unbind();
 	meshInfo->vbuf->Unbind();
 
+	return true;
+}
+
+bool RendererLegacy::DrawDynamicMesh(Mesh *t)
+{
+	for (Mesh::SurfaceIterator surface = t->SurfacesBegin(); surface != t->SurfacesEnd(); ++surface) {
+		ApplyMaterial((*surface)->GetMaterial().Get());
+		DrawSurface(*surface);
+		UnApplyMaterial((*surface)->GetMaterial().Get());
+	}
 	return true;
 }
 

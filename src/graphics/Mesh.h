@@ -7,6 +7,11 @@
 
 namespace Graphics {
 
+enum UsageHint {
+	USAGE_STATIC, // used lots, good candidate for GPU buffering
+	USAGE_DYNAMIC // used a few (one) times and then thrown away
+};
+
 class Surface;
 
 /*
@@ -17,10 +22,11 @@ class Surface;
  */
 class Mesh : public Renderable {
 public:
-	Mesh(PrimitiveType t);
+	Mesh(PrimitiveType t, UsageHint usageHint = USAGE_STATIC);
 	~Mesh();
 
 	PrimitiveType GetPrimtiveType() const { return m_primitiveType; }
+	UsageHint GetUsageHint() const { return m_usageHint; }
 
 	void AddSurface(Surface *s);
 	Surface *GetSurface(int idx) const { return m_surfaces.at(idx); }
@@ -40,6 +46,7 @@ public:
 
 private:
 	PrimitiveType m_primitiveType;
+	UsageHint m_usageHint;
 	std::vector<Surface*> m_surfaces;
 };
 
