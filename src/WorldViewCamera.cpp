@@ -79,6 +79,20 @@ void ExternalCamera::UpdateTransform()
 	SetOrientation(m_orient);
 }
 
+void ExternalCamera::Save(Serializer::Writer &wr)
+{
+	wr.Float(float(m_rotX));
+	wr.Float(float(m_rotY));
+	wr.Float(float(m_dist));
+}
+
+void ExternalCamera::Load(Serializer::Reader &rd)
+{
+	m_rotX = rd.Float();
+	m_rotY = rd.Float();
+	m_dist = rd.Float();
+}
+
 SiderealCamera::SiderealCamera(const Ship *b, const vector2f &size, float fovY, float near, float far) :
 	WorldViewCamera(b, size, fovY, near, far),
 	m_dist(200),
@@ -118,13 +132,13 @@ void SiderealCamera::RotateRight(float frameTime)
 void SiderealCamera::ZoomIn(float frameTime)
 {
 	m_dist -= 400*frameTime;
-	//clamp dist in Update()
+	m_dist = std::max(GetBody()->GetBoundingRadius(), m_dist);
 }
 
 void SiderealCamera::ZoomOut(float frameTime)
 {
 	m_dist += 400*frameTime;
-	//clamp dist in Update()
+	m_dist = std::max(GetBody()->GetBoundingRadius(), m_dist);
 }
 
 void SiderealCamera::RollLeft(float frameTime)
@@ -148,7 +162,6 @@ void SiderealCamera::Reset()
 
 void SiderealCamera::UpdateTransform()
 {
-	m_dist = std::max(GetBody()->GetBoundingRadius(), m_dist);
 	const matrix4x4d curShipOrient = static_cast<const Ship*>(GetBody())->GetInterpolatedTransformRelTo(Pi::game->GetSpace()->GetRootFrame());
 
 	const matrix4x4d invAngDisp = curShipOrient.InverseOf() * m_prevShipOrient;
@@ -162,4 +175,17 @@ void SiderealCamera::UpdateTransform()
 	const vector3d p = m_orient * vector3d(0, 0, m_dist);
 	SetPosition(p);
 	SetOrientation(m_orient);
+}
+
+void SiderealCamera::Save(Serializer::Writer &wr)
+{
+	for (int i = 0; i < 16; i++) wr.Float(float(m_orient[i]));
+	wr.Float(float(m_dist));
+}
+
+void SiderealCamera::Load(Serializer::Reader &rd)
+{
+	for (int i = 0; i < 16; i++) m_orient[i] = rd.Float();
+	m_dist = rd.Float();
+	m_prevShipOrient = static_cast<const Ship*>(GetBody())->GetTransformRelTo(Pi::game->GetSpace()->GetRootFrame());
 }

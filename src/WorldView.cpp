@@ -30,27 +30,16 @@ static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.9f);
 
 WorldView::WorldView(): View()
 {
-	m_externalViewRotX = m_externalViewRotY = 0;
-	m_externalViewDist = 200;
-	m_siderealViewOrient = matrix4x4d::Identity();
-	m_siderealViewDist = 200;
-	m_prevShipOrient = Pi::player->GetTransformRelTo(Pi::game->GetSpace()->GetRootFrame());
 	m_camType = CAM_FRONT;
-
 	InitObject();
 }
 
 WorldView::WorldView(Serializer::Reader &rd): View()
 {
-	m_externalViewRotX = rd.Float();
-	m_externalViewRotY = rd.Float();
-	m_externalViewDist = rd.Float();
-	for (int i = 0; i < 16; i++) m_siderealViewOrient[i] = rd.Float();
-	m_siderealViewDist = rd.Float();
-	m_prevShipOrient = Pi::player->GetTransformRelTo(Pi::game->GetSpace()->GetRootFrame());
 	m_camType = CamType(rd.Int32());
-
 	InitObject();
+	m_externalCamera->Load(rd);
+	m_siderealCamera->Load(rd);
 }
 
 void WorldView::InitObject()
@@ -229,12 +218,9 @@ WorldView::~WorldView()
 
 void WorldView::Save(Serializer::Writer &wr)
 {
-	wr.Float(float(m_externalViewRotX));
-	wr.Float(float(m_externalViewRotY));
-	wr.Float(float(m_externalViewDist));
-	for (int i = 0; i < 16; i++) wr.Float(float(m_siderealViewOrient[i]));
-	wr.Float(float(m_siderealViewDist));
 	wr.Int32(int(m_camType));
+	m_externalCamera->Save(wr);
+	m_siderealCamera->Save(wr);
 }
 
 void WorldView::SetCamType(enum CamType c)
@@ -244,44 +230,6 @@ void WorldView::SetCamType(enum CamType c)
 		Pi::player->SetMouseForRearView(c == CAM_REAR);
 		onChangeCamType.emit();
 	}
-}
-
-vector3d WorldView::GetExternalViewTranslation()
-{
-	vector3d p = vector3d(0, 0, m_externalViewDist);
-	p = matrix4x4d::RotateXMatrix(-DEG2RAD(m_externalViewRotX)) * p;
-	p = matrix4x4d::RotateYMatrix(-DEG2RAD(m_externalViewRotY)) * p;
-	return p;
-}
-
-matrix4x4d WorldView::GetExternalViewRotation()
-{
-	return
-		matrix4x4d::RotateYMatrix(-DEG2RAD(m_externalViewRotY)) *
-		matrix4x4d::RotateXMatrix(-DEG2RAD(m_externalViewRotX));
-}
-
-void WorldView::UpdateSiderealView()
-{
-	matrix4x4d curShipOrient = Pi::player->GetInterpolatedTransformRelTo(Pi::game->GetSpace()->GetRootFrame());
-	
-	matrix4x4d invAngDisp = curShipOrient.InverseOf() * m_prevShipOrient;
-	m_siderealViewOrient = invAngDisp * m_siderealViewOrient;
-	
-	m_siderealViewOrient.Renormalize();
-	m_siderealViewOrient.ClearToRotOnly();
-	
-	m_prevShipOrient = curShipOrient;
-}
-
-vector3d WorldView::GetSiderealViewTranslation()
-{
-	return m_siderealViewOrient * vector3d(0, 0, m_siderealViewDist);
-}
-
-matrix4x4d WorldView::GetSiderealViewRotation()
-{
-	return m_siderealViewOrient;
 }
 
 void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
@@ -773,11 +721,19 @@ void WorldView::Update()
 		}
 	}
 
-	m_activeCamera =
-		GetCamType() == CAM_FRONT    ? m_frontCamera    :
-		GetCamType() == CAM_REAR     ? m_rearCamera     :
-		GetCamType() == CAM_EXTERNAL ? m_externalCamera :
-			                       m_siderealCamera;
+	switch(GetCamType()) {
+		case CAM_REAR:
+			m_activeCamera = m_rearCamera;
+			break;
+		case CAM_EXTERNAL:
+			m_activeCamera = m_externalCamera;
+			break;
+		case CAM_SIDEREAL:
+			m_activeCamera = m_siderealCamera;
+			break;
+		default:
+			m_activeCamera = m_frontCamera;
+	}
 
 	m_activeCamera->UpdateTransform();
 	m_activeCamera->Update();
@@ -1617,17 +1573,9 @@ void WorldView::MouseButtonDown(int button, int x, int y)
 	if (this == Pi::GetView())
 	{
 		const float ft = Pi::GetFrameTime();
-		if(GetCamType() == CAM_EXTERNAL) {
-			if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
-				m_externalViewDist += 400*ft;
-			if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
-				m_externalViewDist -= 400*ft;
-		}
-		if (GetCamType() == CAM_SIDEREAL) {
-			if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
-				m_siderealViewDist += 400*ft;
-			if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
-				m_siderealViewDist -= 400*ft;
-		}
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
+			m_activeCamera->ZoomOut(ft);
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
+			m_activeCamera->ZoomIn(ft);
 	}
 }

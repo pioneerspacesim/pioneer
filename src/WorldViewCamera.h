@@ -29,6 +29,8 @@ public:
 	virtual void Reset() { }
 	//set translation & orientation
 	virtual void UpdateTransform() { }
+	virtual void Save(Serializer::Writer &wr) { }
+	virtual void Load(Serializer::Reader &rd) { }
 };
 
 // Forward facing view from the ship, with optional position offset.
@@ -62,6 +64,8 @@ public:
 	void ZoomOut(float frameTime);
 	void Reset();
 	void UpdateTransform();
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
 	void SetRotationAngles(double x, double y) {
 		m_rotX = x;
 		m_rotY = y;
@@ -88,6 +92,8 @@ public:
 	void ZoomOut(float frameTime);
 	void Reset();
 	void UpdateTransform();
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
 private:
 	double m_dist;
 	matrix4x4d m_orient;

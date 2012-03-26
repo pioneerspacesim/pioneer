@@ -28,10 +28,6 @@ public:
 	static const double PICK_OBJECT_RECT_SIZE;
 	bool GetShowLabels() { return m_labelsOn; }
 	void DrawBgStars();
-	vector3d GetExternalViewTranslation();
-	matrix4x4d GetExternalViewRotation();
-	vector3d GetSiderealViewTranslation();
-	matrix4x4d GetSiderealViewRotation();
 	virtual void Save(Serializer::Writer &wr);
 	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL, CAM_SIDEREAL };
 	void SetCamType(enum CamType);
@@ -44,12 +40,6 @@ public:
 	void OnClickBlastoff();
 
 	sigc::signal<void> onChangeCamType;
-
-	double m_externalViewRotX, m_externalViewRotY;
-	double m_externalViewDist;
-	
-	matrix4x4d m_siderealViewOrient;
-	double m_siderealViewDist;
 
 private:
 	void InitObject();
@@ -143,8 +133,11 @@ private:
 	Gui::LabelSet *m_bodyLabels;
 	std::map<Body*,vector3d> m_projectedPos;
 
-	WorldViewCamera *m_frontCamera, *m_rearCamera, *m_externalCamera, *m_siderealCamera;
-	WorldViewCamera *m_activeCamera;
+	FrontCamera *m_frontCamera;
+	RearCamera *m_rearCamera;
+	ExternalCamera *m_externalCamera;
+	SiderealCamera *m_siderealCamera;
+	WorldViewCamera *m_activeCamera; //one of the above
 
 	Indicator m_velIndicator;
 	Indicator m_navVelIndicator;
