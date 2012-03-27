@@ -22,6 +22,7 @@ noinst_HEADERS = \
 	CityOnPlanet.h \
 	Color.h \
 	CommodityTradeWidget.h \
+	CRC32.h \
 	CustomSystem.h \
 	DeadVideoLink.h \
 	DeleteEmitter.h \
@@ -162,6 +163,7 @@ pioneer_SOURCES	= \
 	ChatForm.cpp \
 	CityOnPlanet.cpp \
 	CommodityTradeWidget.cpp \
+	CRC32.cpp \
 	CustomSystem.cpp \
 	DeadVideoLink.cpp \
 	DynamicBody.cpp \
@@ -283,6 +285,7 @@ endif
 
 modelviewer_SOURCES = \
 	Color.cpp \
+	CRC32.cpp \
 	Font.cpp \
 	FileSystem.cpp \
 	IniConfig.cpp \

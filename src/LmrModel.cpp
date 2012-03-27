@@ -12,6 +12,7 @@
 #include "EquipSet.h"
 #include "ShipType.h"
 #include "FileSystem.h"
+#include "CRC32.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
@@ -4406,18 +4407,16 @@ static Uint32 s_allModelFilesCRC;
 static Uint32 _calculate_all_models_checksum()
 {
 	// do we need to rebuild the model cache?
-	Uint32 checksum = 0;
+	CRC32 crc;
 	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "models", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
 	{
 		const FileSystem::FileInfo &info = files.Current();
 		if (info.IsFile() && (info.GetPath().substr(info.GetPath().size() - 4) != ".png")) {
 			RefCountedPtr<FileSystem::FileData> data = files.Current().Read();
-			const char *buf = data->GetData();
-			size_t sz = data->GetSize();
-			for (size_t i = 0; i < sz; ++i) { checksum += buf[i]; }
+			crc.AddData(data->GetData(), data->GetSize());
 		}
 	}
-	return checksum;
+	return crc.GetChecksum();
 }
 
 static void _detect_model_changes()
