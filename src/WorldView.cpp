@@ -1455,8 +1455,12 @@ void WorldView::SeparateLabels(Gui::Label *a, Gui::Label *b)
 	}
 }
 
-double unlog10(double x) {  
-	return pow(10.0, x);
+double getSquareDistance(double initialDist, double scalingFactor, int num) {
+	return pow(scalingFactor, num) * (num * initialDist);
+}
+		
+double getSquareHeight(double distance, double angle) {
+	return distance / tan(angle);
 }
 
 void WorldView::Draw()
@@ -1480,7 +1484,24 @@ void WorldView::Draw()
 	DrawTargetSquare(m_navTargetIndicator, green);
 
 	Body *navtarget = Pi::player->GetNavTarget();
-	double dist = Pi::player->GetPositionRelTo(navtarget).Length();
+	if (navtarget != NULL) {
+		double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
+
+		double scalingFactor = 1.1;
+		double dist = 0.0;
+		double d1 = 1.0;
+		int i = 0; 
+				
+		while (true) {
+			dist = getSquareDistance(d1, scalingFactor, i); 
+			if (dist > distToDest) {
+				break;
+			}
+			double sqh = 40.0 - getSquareHeight(dist, DEG2RAD(100)); 
+			DrawTargetGuideSquare(m_navTargetIndicator, sqh, green);
+			i++; 
+		}
+	}
 
 	glLineWidth(1.0f);
 
