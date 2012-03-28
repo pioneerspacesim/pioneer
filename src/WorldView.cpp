@@ -1145,8 +1145,10 @@ static inline bool project_to_screen(const vector3d &in, vector3d &out, const Gr
 
 static inline bool unproject_from_screen(vector3d &in, vector3d &out, const Graphics::Frustum &frustum, const int guiSize[2])
 {
-	const vector3d tempin(in.x / guiSize[0], ((Gui::Screen::GetHeight() - in.y) / guiSize[1]), in.z);
-	if (!frustum.UnProjectPoint(tempin, out)) return false;
+	// y is inverted so +y is at top of screen
+	double normX = in.x / guiSize[0];
+	double normY = 1.0 - (in.y / guiSize[1]);
+	if (!frustum.UnProjectPoint(vector3d(normX, normY, in.z), out)) return false;
 	return true;
 }
 
@@ -1469,11 +1471,11 @@ void WorldView::SeparateLabels(Gui::Label *a, Gui::Label *b)
 }
 
 double getSquareDistance(double initialDist, double scalingFactor, int num) {
-	return pow(scalingFactor, num) * (num * initialDist);
+	return pow(scalingFactor, num - 1) * num * initialDist;
 }
 		
 double getSquareHeight(double distance, double angle) {
-	return distance / tan(angle);
+	return distance * tan(angle);
 }
 
 void WorldView::Draw()
@@ -1510,8 +1512,10 @@ void WorldView::Draw()
 
 			vector3d scrvec(m_navTargetIndicator.pos[0], m_navTargetIndicator.pos[1], 0.1);
 			//scrvec = scrvec.Normalized();
+			
+			vector3d scrvec2(scrvec.x * 2.0, scrvec.y * 2.0, scrvec.z);
 
-			unproject_from_screen(scrvec, proj, m_activeCamera->GetFrustum(), guiSize);
+			unproject_from_screen(scrvec2, proj, m_activeCamera->GetFrustum(), guiSize);
 
 			vector3d up(0, 1, 0);
 			vector3d cpos = m_activeCamera->GetPosition();
@@ -1522,21 +1526,23 @@ void WorldView::Draw()
 
 			vector3d pvrot = up * playrot;
 			vector3d cvrot = up * camrot;
+			vector3d pos = Pi::player->GetPosition();
 
 			char buf[1024];
-			vector3d pos = Pi::player->GetPosition();
 			snprintf(
 				buf,
 				sizeof(buf),
 				"Pos: %.1f,%.1f,%.1f\n"
 				"rot: %.1f,%.1f,%.1f\n"
 				"scrvec: %.1f,%.1f,%.1f\n"
+				"scrvec2: %.1f,%.1f,%.1f\n"
 				"projvec: %.5f,%.5f,%.5f\n"
 				"cpos: %.5f,%.5f,%.5f\n"
 				"crot: %.1f,%.1f,%.1f\n",
 				pos.x, pos.y, pos.z,
 				pvrot.x, pvrot.y, pvrot.z,
 				scrvec.x, scrvec.y, scrvec.z,
+				scrvec2.x, scrvec2.y, scrvec2.z,
 				proj.x, proj.y, proj.z,
 				cpos.x, cpos.y, cpos.z,
 				cvrot.x, cvrot.y, cvrot.z
@@ -1557,11 +1563,11 @@ void WorldView::Draw()
 
 			glPushMatrix();
 			{
-				//RefCountedPtr<Graphics::Material> smat(new Graphics::Material);
-				//smat->unlit = false;
-				//Graphics::Drawables::Sphere3D sphere(smat, 4, 100.0f);
-				//glTranslatef(pos2.x, pos2.y, pos2.z);
-				//sphere.Draw(m_renderer);
+				RefCountedPtr<Graphics::Material> smat(new Graphics::Material);
+				smat->unlit = false;
+				Graphics::Drawables::Sphere3D sphere(smat, 4, 1.0);
+				glTranslatef(pos.x, pos.y, pos.z);
+				sphere.Draw(m_renderer);
 			}
 			glPopMatrix();
 
@@ -1569,24 +1575,23 @@ void WorldView::Draw()
 			m_altDebugInfo->SetText("No active camera");
 			m_altDebugInfo->Show();
 		}
-
-		/*
-
-		double scalingFactor = 1.1;
+		
+		double scalingFactor = 1.6;
 		double dist = 0.0;
-		double d1 = 1.0;
-		int i = 0; 
-				
+		double d1 = 10.0;
+		int i = 0;
+		int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2.0;
+		double angle = atan(maxSquareHeight / distToDest);
+		
 		while (true) {
-			dist = getSquareDistance(d1, scalingFactor, i); 
+			dist = getSquareDistance(d1, scalingFactor, i);
 			if (dist > distToDest) {
 				break;
 			}
-			double sqh = 40.0 - getSquareHeight(dist, DEG2RAD(100)); 
+			double sqh = getSquareHeight(dist, angle);
 			DrawTargetGuideSquare(m_navTargetIndicator, sqh, green);
 			i++; 
 		}
-		*/
 	} else {
 		m_altDebugInfo->SetText("No active target");
 		m_altDebugInfo->Show();
