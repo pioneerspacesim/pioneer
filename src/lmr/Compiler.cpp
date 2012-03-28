@@ -1410,9 +1410,9 @@ namespace ModelFuncs {
 		GeomBuffer *geomBuffer = GetCurrentGeomBuffer(L);
 		int amount = luaL_checkinteger(L, 1);
 		if (! amount) {
-			geomBuffer->PushZBias(0);
+			geomBuffer->SetZBias(0);
 		} else {
-			geomBuffer->PushZBias(float(amount));
+			geomBuffer->SetZBias(float(amount));
 		}
 		return 0;
 	}

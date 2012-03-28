@@ -438,7 +438,6 @@ void LmrModel::SetMaterial(const std::string &name, const Graphics::Material &ma
 	}
 }
 
-
 void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params)
 {
 	// use lowest LOD

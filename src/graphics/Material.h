@@ -40,6 +40,9 @@ public:
 
 	//custom glsl prog
 	Shader *shader;
+
+	// XXX temporary hack to support lmr zbias adjustment
+	float zbias;
 };
 
 }

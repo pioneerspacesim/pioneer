@@ -12,7 +12,8 @@ Material::Material() :
 	unlit(false),
 	twoSided(false),
 	vertexColors(false),
-	shader(0)
+	shader(0),
+	zbias(0.0f)
 {
 }
 

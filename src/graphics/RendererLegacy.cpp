@@ -549,6 +549,9 @@ void RendererLegacy::ApplyMaterial(const Material *mat)
 	}
 	if (mat->texture0)
 		static_cast<TextureGL*>(mat->texture0)->Bind();
+	
+	// XXX remove zbias when it gets removed from lmr
+	glDepthRange(0.0f, 1.0f - mat->zbias*0.0002f);
 }
 
 void RendererLegacy::UnApplyMaterial(const Material *mat)
@@ -557,6 +560,7 @@ void RendererLegacy::UnApplyMaterial(const Material *mat)
 	if (!mat) return;
 	if (mat->texture0)
 		static_cast<TextureGL*>(mat->texture0)->Unbind();
+	glDepthRange(0.0f, 1.0f);
 }
 
 void RendererLegacy::EnableClientStates(const VertexArray *v)

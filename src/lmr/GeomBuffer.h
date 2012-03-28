@@ -56,7 +56,7 @@ public:
 
 	void SetInsideOut(bool a) { m_putGeomInsideout = a; }
 	
-	void PushZBias(float amount);
+	void SetZBias(float amount);
 
 	void PushSetLocalLighting(bool enable);
 
@@ -89,7 +89,7 @@ public:
 	static void ClearStatsTris() { s_numTrisRendered = 0; }
 
 private:
-	enum OpType { OP_DRAW_BILLBOARDS, OP_ZBIAS, OP_CALL_MODEL, OP_LIGHTING_TYPE, OP_USE_LIGHT };
+	enum OpType { OP_DRAW_BILLBOARDS, OP_CALL_MODEL, OP_LIGHTING_TYPE, OP_USE_LIGHT };
 
 	struct Op {
 		Op(OpType _type) : type(_type) {}
@@ -103,11 +103,6 @@ private:
 		std::vector<vector3f> positions;
 		float size;
 		Color col;
-	};
-
-	struct OpZBias : public Op {
-		OpZBias(float _amount) : Op(OP_ZBIAS), amount(_amount) {}
-		const float amount;
 	};
 
 	struct OpCallModel : public Op {
@@ -156,6 +151,8 @@ private:
 	ScopedPtr<Graphics::Surface> m_curSurface;
 
 	std::string m_curMaterial;
+
+	float m_curZbias;
 
 	/* this crap is only used at build time... could move this elsewhere */
 	Uint16 curTriFlag;

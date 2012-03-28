@@ -35,7 +35,8 @@ void GeomBuffer::StaticInit(Graphics::Renderer *renderer)
 
 GeomBuffer::GeomBuffer(LmrModel *model, bool isStatic, Graphics::Renderer *renderer) :
 	m_renderer(renderer),
-	m_mesh(new Graphics::Mesh(Graphics::TRIANGLES, isStatic ? Graphics::USAGE_STATIC : Graphics::USAGE_DYNAMIC))
+	m_mesh(new Graphics::Mesh(Graphics::TRIANGLES, isStatic ? Graphics::USAGE_STATIC : Graphics::USAGE_DYNAMIC)),
+	m_curZbias(0.0f)
 {
 	curTriFlag = 0;
 	curTexture = 0;
@@ -79,8 +80,6 @@ void GeomBuffer::UseProgram(LmrShader *shader, bool Textured, bool Glowmap) {
 }
 #endif
 
-static const float NEWMODEL_ZBIAS = 0.0002f;
-
 void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
 	StaticInit(m_renderer);
 
@@ -114,23 +113,6 @@ void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, co
 
 			m_renderer->DrawPointSprites(op->positions.size(), &op->positions[0], &mat, op->size);
 
-			break;
-		}
-
-		case OP_ZBIAS: {
-#if 0
-			OpZBias *op = static_cast<OpZBias*>(*i);
-			if (is_zero_general(op->amount)) {
-				glDepthRange(0.0, 1.0);
-			} else {
-			//	vector3f tv = cameraPos - vector3f(op->pos);
-			//	if (vector3f::Dot(tv, vector3f(op->norm)) < 0.0f) {
-					glDepthRange(0.0, 1.0 - op->amount*NEWMODEL_ZBIAS);
-			//	} else {
-			//		glDepthRange(0.0, 1.0);
-			//	}
-			}
-#endif
 			break;
 		}
 
@@ -311,11 +293,6 @@ void GeomBuffer::PushTri(int i1, int i2, int i3) {
 	m_triflags.push_back(curTriFlag);
 }
 
-void GeomBuffer::PushZBias(float amount) {
-	// XXX material change
-    PushOp(new OpZBias(amount));
-}
-
 void GeomBuffer::PushSetLocalLighting(bool enable) {
 	// XXX material change
 	PushOp(new OpLightingType(enable));
@@ -382,6 +359,11 @@ void GeomBuffer::SetMaterial(const char *mat_name, const float mat[11]) {
 void GeomBuffer::PushUseMaterial(const char *mat_name) {
 	m_curMaterial = mat_name;
 	// XXX material change
+	NewSurface();
+}
+
+void GeomBuffer::SetZBias(float amount) {
+	m_curZbias = amount;
 	NewSurface();
 }
 
@@ -453,6 +435,8 @@ void GeomBuffer::NewSurface()
 
 	if (curTexture)
 		mat->texture0 = Graphics::TextureBuilder::Model(*curTexture).GetOrCreateTexture(m_renderer);
+	
+	mat->zbias = m_curZbias;
 		
 	m_curSurface.Reset(new Graphics::Surface(Graphics::TRIANGLES, new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0), mat));
 }
