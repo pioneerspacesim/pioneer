@@ -12,7 +12,10 @@ class GeomTree;
 
 namespace LMR { class GeomBuffer; }
 
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+	class Material;
+}
 
 class EquipSet;
 
@@ -69,15 +72,21 @@ public:
 	void PushAttributeToLuaStack(const char *attr_name) const;
 	const char *GetName() const { return m_name.c_str(); }
 	bool HasTag(const char *tag) const;
+
+	void InitMaterial(const std::string &name);
+	RefCountedPtr<Graphics::Material> AllocMaterial(const std::string &name);
+	void SetMaterial(const std::string &name, const Graphics::Material &mat);
+
 private:
 	void Build(int lod, const LmrObjParams *params);
 
 	lua_State *m_lua;
 	Graphics::Renderer *m_renderer;
 
-	// index into m_materials
-	std::map<std::string, int> m_materialLookup;
-	std::vector<LmrMaterial> m_materials;
+	typedef std::vector< RefCountedPtr<Graphics::Material> > MaterialListType;
+	typedef std::map<std::string,MaterialListType> MaterialMapType;
+	MaterialMapType m_materials;
+
 	std::vector<LmrLight> m_lights;
 	float m_lodPixelSize[LMR_MAX_LOD];
 	int m_numLods;

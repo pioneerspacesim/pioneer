@@ -159,7 +159,7 @@ private:
 
 	ScopedPtr<Graphics::Surface> m_curSurface;
 
-	int m_curMaterialIdx;
+	std::string m_curMaterial;
 
 	/* this crap is only used at build time... could move this elsewhere */
 	Uint16 curTriFlag;

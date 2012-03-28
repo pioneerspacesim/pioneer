@@ -37,8 +37,7 @@ void GeomBuffer::StaticInit(Graphics::Renderer *renderer)
 
 GeomBuffer::GeomBuffer(LmrModel *model, bool isStatic, Graphics::Renderer *renderer) :
 	m_renderer(renderer),
-	m_mesh(new Graphics::Mesh(Graphics::TRIANGLES, isStatic ? Graphics::USAGE_STATIC : Graphics::USAGE_DYNAMIC)),
-	m_curMaterialIdx(-1)
+	m_mesh(new Graphics::Mesh(Graphics::TRIANGLES, isStatic ? Graphics::USAGE_STATIC : Graphics::USAGE_DYNAMIC))
 {
 	curTriFlag = 0;
 	curTexture = 0;
@@ -426,36 +425,19 @@ void GeomBuffer::PushBillboards(const char *texname, const float size, const Col
 }
 
 void GeomBuffer::SetMaterial(const char *mat_name, const float mat[11]) {
-	std::map<std::string, int>::iterator i = m_model->m_materialLookup.find(mat_name);
-	if (i != m_model->m_materialLookup.end()) {
-		LmrMaterial &m = m_model->m_materials[(*i).second];
-		m.diffuse[0] = mat[0];
-		m.diffuse[1] = mat[1];
-		m.diffuse[2] = mat[2];
-		m.diffuse[3] = mat[3];
-		m.specular[0] = mat[4];
-		m.specular[1] = mat[5];
-		m.specular[2] = mat[6];
-		m.specular[3] = 1.0f;
-		m.shininess = Clamp(mat[7], 1.0f, 100.0f);
-		m.emissive[0] = mat[8];
-		m.emissive[1] = mat[9];
-		m.emissive[2] = mat[10];
-		m.emissive[3] = 1.0f;
-	} else {
-		fprintf(stderr, "Unknown material name '%s'", mat_name);
-		abort(); // XXX use fallback
-	}
+	Graphics::Material m;
+
+	m.diffuse = Color(mat[0],mat[1],mat[2],mat[3]);
+	m.specular = Color(mat[4],mat[5],mat[6],1.0f);
+	m.shininess = Clamp(mat[7], 1.0f, 100.0f);
+	m.emissive = Color(mat[8],mat[9],mat[10],1.0f);
+
+	m_model->SetMaterial(mat_name, m);
 }
 
 void GeomBuffer::PushUseMaterial(const char *mat_name) {
-	std::map<std::string, int>::iterator i = m_model->m_materialLookup.find(mat_name);
-	if (i != m_model->m_materialLookup.end()) {
-		m_curMaterialIdx = (*i).second;
-		CompleteSurface();
-	} else {
-		throw LmrUnknownMaterial();
-	}
+	m_curMaterial = mat_name;
+	CompleteSurface();
 }
 
 int GeomBuffer::AllocVertices(int num) {
@@ -544,25 +526,13 @@ void GeomBuffer::EnsureSurface()
 	// material, otherwise complete it and move on
 	if (m_curSurface) return;
 
-	// XXX prep renderer material from material/texture/shader/lights
-	Graphics::Material *mat = new Graphics::Material;
-	mat->unlit = true;
+	RefCountedPtr<Graphics::Material> mat(m_curMaterial.length() > 0 ? m_model->AllocMaterial(m_curMaterial) : RefCountedPtr<Graphics::Material>(new Graphics::Material));
 
-	if (m_curMaterialIdx >= 0) {
-		const LmrMaterial &lmrMat = m_model->m_materials[m_curMaterialIdx];
-
-		mat->diffuse = lmrMat.diffuse;
-		mat->specular = lmrMat.specular;
-		mat->emissive = lmrMat.emissive;
-		mat->shininess = lmrMat.shininess;
-		
-		mat->unlit = false;
-	}
 	if (curTexture)
 		mat->texture0 = Graphics::TextureBuilder::Model(*curTexture).GetOrCreateTexture(m_renderer);
 
 		
-	m_curSurface.Reset(new Graphics::Surface(Graphics::TRIANGLES, new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0), RefCountedPtr<Graphics::Material>(mat)));
+	m_curSurface.Reset(new Graphics::Surface(Graphics::TRIANGLES, new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0), mat));
 }
 
 void GeomBuffer::PushOp(Op *op)

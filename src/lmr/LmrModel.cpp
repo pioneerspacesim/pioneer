@@ -121,11 +121,8 @@ LmrModel::LmrModel(lua_State *lua, const char *model_name, Graphics::Renderer *r
 				lua_pushinteger(m_lua, i);
 				lua_gettable(m_lua, -2);
 				bool is_string = lua_isstring(m_lua, -1) != 0;
-				if (is_string) {
-					const char *mat_name = luaL_checkstring(m_lua, -1);
-					m_materialLookup[mat_name] = m_materials.size();
-					m_materials.push_back(LmrMaterial());
-				}
+				if (is_string)
+					InitMaterial(luaL_checkstring(m_lua,-1));
 				lua_pop(m_lua, 1);
 				if (!is_string) break;
 			}
@@ -397,6 +394,51 @@ void LmrModel::Build(int lod, const LmrObjParams *params)
 		LUA_DEBUG_END(m_lua, 0);
 	}
 }
+
+void LmrModel::InitMaterial(const std::string &name)
+{
+	MaterialMapType::iterator i = m_materials.find(name);
+	assert(i == m_materials.end());
+
+	MaterialListType l;
+	l.push_back(RefCountedPtr<Graphics::Material>(new Graphics::Material));
+	m_materials.insert(std::make_pair(name,l));
+}
+
+RefCountedPtr<Graphics::Material> LmrModel::AllocMaterial(const std::string &name)
+{
+	MaterialMapType::iterator i = m_materials.find(name);
+	assert(i != m_materials.end());
+
+	MaterialListType &matList = (*i).second;
+	assert(matList.size() > 0);
+
+	RefCountedPtr<Graphics::Material> mat(new Graphics::Material(*matList[0]));
+	matList.push_back(mat);
+
+	// XXX defaults here? hrm.
+	mat->unlit = false;
+
+	return mat;
+}
+
+void LmrModel::SetMaterial(const std::string &name, const Graphics::Material &mat)
+{
+	MaterialMapType::iterator i = m_materials.find(name);
+	assert(i != m_materials.end());
+
+	MaterialListType &matList = (*i).second;
+	assert(matList.size() > 0);
+
+	for (MaterialListType::iterator j = matList.begin(); j != matList.end(); ++j) {
+		// only copy attributes that are changeable from lua
+		(*j)->diffuse = mat.diffuse;
+		(*j)->specular = mat.specular;
+		(*j)->emissive = mat.emissive;
+		(*j)->shininess = mat.shininess;
+	}
+}
+
 
 void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params)
 {
