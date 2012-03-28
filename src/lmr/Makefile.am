@@ -8,7 +8,6 @@ INCLUDES = -I$(srcdir)/..
 
 noinst_LIBRARIES = liblmr.a
 noinst_HEADERS = \
-	BufferObject.h \
 	GeomBuffer.h \
 	LmrModel.h \
 	ShipThruster.h \

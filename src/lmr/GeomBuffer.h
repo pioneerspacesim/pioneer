@@ -7,7 +7,6 @@
 #include "graphics/Mesh.h"
 #include "graphics/Surface.h"
 
-#include "BufferObject.h"
 #include "ShipThruster.h"
 #include "Utils.h"
 
@@ -90,8 +89,6 @@ public:
 	static void ClearStatsTris() { s_numTrisRendered = 0; }
 
 private:
-	void BindBuffers();
-
 	enum OpType { OP_DRAW_BILLBOARDS, OP_ZBIAS, OP_CALL_MODEL, OP_LIGHTING_TYPE, OP_USE_LIGHT };
 
 	struct Op {
@@ -146,7 +143,6 @@ private:
 
 	static void StaticInit(Graphics::Renderer *renderer);
 
-	static BufferObjectPool<sizeof(Vertex)> s_staticBufferPool;
 	static int s_numTrisRendered;
 
 	static bool s_initialized;
@@ -171,8 +167,6 @@ private:
 	std::vector<Op*> m_ops;
 	std::vector<ShipThruster::Thruster> m_thrusters;
 	LmrModel *m_model;
-	int m_boIndexBase;
-	BufferObject<sizeof(Vertex)> *m_bo;
 	bool m_isStatic;
 	bool m_putGeomInsideout;
 };

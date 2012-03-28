@@ -5,7 +5,6 @@
 #include "LmrModel.h"
 #include "collider/collider.h"
 #include "perlin.h"
-#include "BufferObject.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "EquipType.h"

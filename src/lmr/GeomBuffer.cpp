@@ -11,8 +11,6 @@
 
 namespace LMR {
 
-BufferObjectPool<sizeof(Vertex)> GeomBuffer::s_staticBufferPool;
-
 bool GeomBuffer::s_initialized = false;
 ScopedPtr<GeomBuffer::LmrShader> GeomBuffer::s_sunlightShader[4];
 ScopedPtr<GeomBuffer::LmrShader> GeomBuffer::s_pointlightShader[4];
@@ -44,7 +42,6 @@ GeomBuffer::GeomBuffer(LmrModel *model, bool isStatic, Graphics::Renderer *rende
 	curGlowmap = 0;
 	curTexMatrix = matrix4x4f::Identity();
 	m_model = model;
-	m_bo = 0;
 	m_putGeomInsideout = false;
 
 	NewSurface();
@@ -57,14 +54,6 @@ void GeomBuffer::PreBuild() {
 
 void GeomBuffer::PostBuild() {
 	CompleteSurface();
-
-	//printf("%d vertices, %d indices, %s\n", m_vertices.size(), m_indices.size(), m_isStatic ? "static" : "dynamic");
-	/*
-	if (m_isStatic && m_indices.size()) {
-		s_staticBufferPool.AddGeometry(m_vertices.size(), &m_vertices[0], m_indices.size(), &m_indices[0],
-				&m_boIndexBase, &m_bo);
-	}
-	*/
 }
 
 void GeomBuffer::FreeGeometry() {
@@ -78,6 +67,7 @@ void GeomBuffer::FreeGeometry() {
 int GeomBuffer::s_numTrisRendered;
 
 //binds shader and sets lmr specific uniforms
+#if 0
 void GeomBuffer::UseProgram(LmrShader *shader, bool Textured, bool Glowmap) {
 	if (Graphics::AreShadersEnabled()) {
 		shader->Use();
@@ -87,8 +77,8 @@ void GeomBuffer::UseProgram(LmrShader *shader, bool Textured, bool Glowmap) {
 		shader->set_useglow(Glowmap ? 1 : 0);
 	}
 }
+#endif
 
-#define BUFFER_OFFSET(i) (reinterpret_cast<const GLvoid *>(i))
 static const float NEWMODEL_ZBIAS = 0.0002f;
 
 void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
@@ -111,47 +101,8 @@ void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, co
 	for (std::vector<Op*>::const_iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
 		switch ((*i)->type) {
 
-		/*
-		case OP_DRAW_ELEMENTS: {
-			if (op->textureFile) {
-				glEnable(GL_TEXTURE_2D);
-				if (!op->texture)
-					op->texture = Graphics::TextureBuilder::Model(*op->textureFile).GetOrCreateTexture(r, "model");
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, static_cast<Graphics::TextureGL*>(op->texture)->GetTextureNum());
-				if (op->glowmapFile) {
-					if (!op->glowmap)
-						op->glowmap = Graphics::TextureBuilder::Model(*op->glowmapFile).GetOrCreateTexture(r, "model");
-					glActiveTexture(GL_TEXTURE1);
-					glBindTexture(GL_TEXTURE_2D, static_cast<Graphics::TextureGL*>(op->glowmap)->GetTextureNum());
-				}
-				UseProgram(curShader, true, op->glowmapFile);
-			} else {
-				UseProgram(curShader, false);
-			}
-			if (m_isStatic) {
-				// from static VBO
-				glDrawElements(GL_TRIANGLES, op->count, GL_UNSIGNED_SHORT, BUFFER_OFFSET((op->start+m_boIndexBase)*sizeof(Uint16)));
-			} else {
-				// otherwise regular index vertex array
-				glDrawElements(GL_TRIANGLES, op->count, GL_UNSIGNED_SHORT, &m_indices[op->start]);
-			}
-			if (op->texture) {
-				if (op->glowmap) {
-					glActiveTexture(GL_TEXTURE1);
-					glBindTexture(GL_TEXTURE_2D, 0);
-				}
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, 0);
-				glDisable(GL_TEXTURE_2D);
-			}
-			break;
-		}
-		*/
-
 		case OP_DRAW_BILLBOARDS: {
 			OpDrawBillboards *op = static_cast<OpDrawBillboards*>(*i);
-			Graphics::UnbindAllBuffers();
 
 			if (!op->texture)
 				op->texture = Graphics::TextureBuilder::Model(*op->textureFile).GetOrCreateTexture(m_renderer, "billboard");
@@ -163,7 +114,6 @@ void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, co
 
 			m_renderer->DrawPointSprites(op->positions.size(), &op->positions[0], &mat, op->size);
 
-			BindBuffers();
 			break;
 		}
 
@@ -195,7 +145,6 @@ void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, co
 			rstate2.combinedScale = rstate->combinedScale * op->scale * op->model->m_scale;
 			op->model->Render(&rstate2, cam_pos, trans, params);
 			// XXX re-binding buffer may not be necessary
-			BindBuffers();
 			}
 			break;
 
@@ -254,21 +203,7 @@ void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, co
 		}
 	}
 	
-#if 0
-	glDisableClientState (GL_VERTEX_ARRAY);
-	glDisableClientState (GL_NORMAL_ARRAY);
-	glDisableClientState (GL_TEXTURE_COORD_ARRAY);
-
-	Graphics::UnbindAllBuffers();
-#endif
-
 	RenderThrusters(rstate, cameraPos, params);
-
-#if 0
-	//XXX hack. Unuse any shader. Can be removed when LMR uses Renderer.
-	if (Graphics::AreShadersEnabled())
-		s_sunlightShader[0]->Unuse();
-#endif
 }
 
 void GeomBuffer::RenderThrusters(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
@@ -499,25 +434,6 @@ void GeomBuffer::GetCollMeshGeometry(LmrCollMesh *c, const matrix4x4f &transform
 			OpCallModel *op = static_cast<OpCallModel*>(*i);
 			matrix4x4f _trans = transform * matrix4x4f(op->transform);
 			op->model->GetCollMeshGeometry(c, _trans, params);
-		}
-	}
-#endif
-}
-
-void GeomBuffer::BindBuffers() {
-#if 0
-	glEnableClientState (GL_VERTEX_ARRAY);
-	glEnableClientState (GL_NORMAL_ARRAY);
-	glEnableClientState (GL_TEXTURE_COORD_ARRAY);
-
-	if (m_isStatic) {
-		if (m_bo) m_bo->BindBuffersForDraw();
-	} else {
-		Graphics::UnbindAllBuffers();
-		if (m_vertices.size()) {
-			glNormalPointer(GL_FLOAT, sizeof(Vertex), &m_vertices[0].n);
-			glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_vertices[0].v);
-			glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &m_vertices[0].tex_u);
 		}
 	}
 #endif
