@@ -19,7 +19,9 @@
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Drawables.h"
 #include "matrix4x4.h"
+#include "Quaternion.h"
 
 static const std::string indicatorMousedirTextureFilename("icons/indicator_mousedir.png");
 
@@ -129,6 +131,11 @@ void WorldView::InitObject()
 	Add(m_debugInfo, 10, 200);
 	Gui::Screen::PopFont();
 #endif
+
+	Gui::Screen::PushFont("ConsoleFont");
+	m_altDebugInfo = (new Gui::Label(""))->Color(0.8f, 0.8f, 0.8f);
+	Add(m_altDebugInfo, Gui::Screen::GetWidth() - 400, 10);
+	Gui::Screen::PopFont();
 
 	m_hudVelocity = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_hudTargetDist = (new Gui::Label(""))->Color(s_hudTextColor);
@@ -509,7 +516,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_debugInfo->Hide();
 	}
 #endif
-
 	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) {
 		const SystemPath dest = Pi::player->GetHyperspaceDest();
 		RefCountedPtr<StarSystem> s = StarSystem::GetCached(dest);
@@ -1137,6 +1143,13 @@ static inline bool project_to_screen(const vector3d &in, vector3d &out, const Gr
 	return true;
 }
 
+static inline bool unproject_from_screen(vector3d &in, vector3d &out, const Graphics::Frustum &frustum, const int guiSize[2])
+{
+	const vector3d tempin(in.x / guiSize[0], ((Gui::Screen::GetHeight() - in.y) / guiSize[1]), in.z);
+	if (!frustum.UnProjectPoint(tempin, out)) return false;
+	return true;
+}
+
 void WorldView::UpdateProjectedObjects()
 {
 	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
@@ -1485,7 +1498,79 @@ void WorldView::Draw()
 
 	Body *navtarget = Pi::player->GetNavTarget();
 	if (navtarget != NULL) {
+		vector2f indvec = vector2f(m_navTargetIndicator.pos[0], m_navTargetIndicator.pos[1]);
+		vector3d destvec = Pi::player->GetPositionRelTo(navtarget);
 		double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
+
+		if (m_activeCamera != NULL) {
+			vector3d proj;
+			const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
+			const int w = guiSize[0];
+			const int h = guiSize[1];
+
+			vector3d scrvec(m_navTargetIndicator.pos[0], m_navTargetIndicator.pos[1], 0.1);
+			//scrvec = scrvec.Normalized();
+
+			unproject_from_screen(scrvec, proj, m_activeCamera->GetFrustum(), guiSize);
+
+			vector3d up(0, 1, 0);
+			vector3d cpos = m_activeCamera->GetPosition();
+
+			matrix4x4d playrot;
+			Pi::player->GetRotMatrix(playrot);
+			matrix4x4d camrot = m_activeCamera->GetOrientation();
+
+			vector3d pvrot = up * playrot;
+			vector3d cvrot = up * camrot;
+
+			char buf[1024];
+			vector3d pos = Pi::player->GetPosition();
+			snprintf(
+				buf,
+				sizeof(buf),
+				"Pos: %.1f,%.1f,%.1f\n"
+				"rot: %.1f,%.1f,%.1f\n"
+				"scrvec: %.1f,%.1f,%.1f\n"
+				"projvec: %.5f,%.5f,%.5f\n"
+				"cpos: %.5f,%.5f,%.5f\n"
+				"crot: %.1f,%.1f,%.1f\n",
+				pos.x, pos.y, pos.z,
+				pvrot.x, pvrot.y, pvrot.z,
+				scrvec.x, scrvec.y, scrvec.z,
+				proj.x, proj.y, proj.z,
+				cpos.x, cpos.y, cpos.z,
+				cvrot.x, cvrot.y, cvrot.z
+			);
+
+			m_altDebugInfo->SetText(buf);
+			m_altDebugInfo->Show();
+
+			const float BORDER = 10.0;
+			const float BORDER_BOTTOM = 90.0;
+			// XXX BORDER_BOTTOM is 10+the control panel height and shouldn't be needed at all
+
+			bool onscreen =
+				(proj.z < 0.0) &&
+				(proj.x >= BORDER) && (proj.x < w - BORDER) &&
+				(proj.y >= BORDER) && (proj.y < h - BORDER_BOTTOM)
+			;
+
+			glPushMatrix();
+			{
+				//RefCountedPtr<Graphics::Material> smat(new Graphics::Material);
+				//smat->unlit = false;
+				//Graphics::Drawables::Sphere3D sphere(smat, 4, 100.0f);
+				//glTranslatef(pos2.x, pos2.y, pos2.z);
+				//sphere.Draw(m_renderer);
+			}
+			glPopMatrix();
+
+		} else {
+			m_altDebugInfo->SetText("No active camera");
+			m_altDebugInfo->Show();
+		}
+
+		/*
 
 		double scalingFactor = 1.1;
 		double dist = 0.0;
@@ -1501,6 +1586,10 @@ void WorldView::Draw()
 			DrawTargetGuideSquare(m_navTargetIndicator, sqh, green);
 			i++; 
 		}
+		*/
+	} else {
+		m_altDebugInfo->SetText("No active target");
+		m_altDebugInfo->Show();
 	}
 
 	glLineWidth(1.0f);
