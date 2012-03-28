@@ -1,4 +1,4 @@
-The Pioneer team are (10 February 2012, alpha 19):
+﻿The Pioneer team are (10 February 2012, alpha 19):
 
 Project leads: Tom Morton, John Jordan
 
@@ -52,6 +52,9 @@ Translations:
   Paul Mahol
   Thierry Dupré
   Asier Basagoiti
+
+Story:
+  John Harper
 
 Thanks to those that have moved on (we hope to see you back!)
 
