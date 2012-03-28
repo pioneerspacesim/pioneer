@@ -140,7 +140,7 @@ private:
 	void UseProgram(LmrShader *shader, bool Textured = false, bool Glowmap = false);
 
 	void CompleteSurface();
-	void EnsureSurface();
+	void NewSurface();
 
 	void PushOp(Op *op);
 

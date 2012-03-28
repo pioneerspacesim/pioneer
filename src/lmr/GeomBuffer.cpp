@@ -46,6 +46,8 @@ GeomBuffer::GeomBuffer(LmrModel *model, bool isStatic, Graphics::Renderer *rende
 	m_model = model;
 	m_bo = 0;
 	m_putGeomInsideout = false;
+
+	NewSurface();
 }
 
 void GeomBuffer::PreBuild() {
@@ -312,7 +314,6 @@ void GeomBuffer::SetVertex(int idx, const vector3f &pos, const vector3f &normal)
 }
 
 int GeomBuffer::PushVertex(const vector3f &pos, const vector3f &normal, GLfloat tex_u, GLfloat tex_v) {
-	EnsureSurface();
 	Graphics::VertexArray *va = m_curSurface->GetVertices();
 	if (m_putGeomInsideout) {
 		va->Add(pos, -normal, vector2f(tex_u, tex_v));
@@ -323,7 +324,6 @@ int GeomBuffer::PushVertex(const vector3f &pos, const vector3f &normal, GLfloat 
 }
 
 void GeomBuffer::SetVertex(int idx, const vector3f &pos, const vector3f &normal, GLfloat tex_u, GLfloat tex_v) {
-	EnsureSurface();
 	// XXX still not sure if VertexArray should be indexable or if we should
 	//     only do vertex pushes. in the mean time, we reach into VertexArray
 	//     and handle it ourselves
@@ -346,6 +346,9 @@ void GeomBuffer::SetTexture(const char *tex) {
 		curTexture = 0;
 		curGlowmap = 0; //won't have these without textures
 	}
+
+	// XXX new material
+	NewSurface();
 }
 
 void GeomBuffer::SetGlowMap(const char *tex) {
@@ -354,10 +357,12 @@ void GeomBuffer::SetGlowMap(const char *tex) {
 	} else {
 		curGlowmap = 0;
 	}
+
+	// XXX new material
+	NewSurface();
 }
 
 void GeomBuffer::PushTri(int i1, int i2, int i3) {
-	EnsureSurface();
 	std::vector<Uint16> &indices = m_curSurface->GetIndices();
 	if (m_putGeomInsideout) {
 		indices.push_back(i1);
@@ -372,10 +377,12 @@ void GeomBuffer::PushTri(int i1, int i2, int i3) {
 }
 
 void GeomBuffer::PushZBias(float amount) {
+	// XXX material change
     PushOp(new OpZBias(amount));
 }
 
 void GeomBuffer::PushSetLocalLighting(bool enable) {
+	// XXX material change
 	PushOp(new OpLightingType(enable));
 }
 
@@ -391,6 +398,7 @@ void GeomBuffer::SetLight(int num, float quadratic_attenuation, const vector3f &
 }
 
 void GeomBuffer::PushUseLight(int num) {
+	// XXX material change
 	PushOp(new OpUseLight(num));
 }
 
@@ -425,6 +433,7 @@ void GeomBuffer::PushBillboards(const char *texname, const float size, const Col
 }
 
 void GeomBuffer::SetMaterial(const char *mat_name, const float mat[11]) {
+	// XXX material change
 	Graphics::Material m;
 
 	m.diffuse = Color(mat[0],mat[1],mat[2],mat[3]);
@@ -437,12 +446,12 @@ void GeomBuffer::SetMaterial(const char *mat_name, const float mat[11]) {
 
 void GeomBuffer::PushUseMaterial(const char *mat_name) {
 	m_curMaterial = mat_name;
-	CompleteSurface();
+	// XXX material change
+	NewSurface();
 }
 
 int GeomBuffer::AllocVertices(int num) {
 	// XXX grow VertexArray lists manually for now
-	EnsureSurface();
 	Graphics::VertexArray *va = m_curSurface->GetVertices();
 	int start = va->GetNumVerts();
 	va->position.resize(start+num);
@@ -520,17 +529,14 @@ void GeomBuffer::CompleteSurface()
 		m_mesh->AddSurface(m_curSurface.Release());
 }
 
-void GeomBuffer::EnsureSurface()
+void GeomBuffer::NewSurface()
 {
-	// XXX better to check the existing surface and take it if it has the same
-	// material, otherwise complete it and move on
-	if (m_curSurface) return;
+	CompleteSurface();
 
 	RefCountedPtr<Graphics::Material> mat(m_curMaterial.length() > 0 ? m_model->AllocMaterial(m_curMaterial) : RefCountedPtr<Graphics::Material>(new Graphics::Material));
 
 	if (curTexture)
 		mat->texture0 = Graphics::TextureBuilder::Model(*curTexture).GetOrCreateTexture(m_renderer);
-
 		
 	m_curSurface.Reset(new Graphics::Surface(Graphics::TRIANGLES, new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0), mat));
 }
@@ -541,7 +547,7 @@ void GeomBuffer::PushOp(Op *op)
 
 	// XXX op probably changed materials or wants to call model, so current
 	// surface is finished. add it to the mesh
-	CompleteSurface();
+	NewSurface();
 }
 
 void GeomBuffer::SaveToCache(FILE *f) {
