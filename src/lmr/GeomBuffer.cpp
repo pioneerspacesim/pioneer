@@ -5,6 +5,7 @@
 #include "graphics/TextureGL.h" // XXX temporary until LMR uses renderer drawing properly
 #include "graphics/Surface.h"
 #include "graphics/VertexArray.h"
+#include "FileSystem.h"
 
 #include "LmrModel.h"
 #include "Utils.h"
@@ -59,6 +60,7 @@ void GeomBuffer::PostBuild() {
 
 void GeomBuffer::FreeGeometry() {
 	m_mesh.Reset(new Graphics::Mesh(Graphics::TRIANGLES, m_mesh->GetUsageHint())); // XXX ick
+	m_pointSprites.clear();
 	m_triflags.clear();
 	m_ops.clear();
 	m_thrusters.clear();
@@ -96,25 +98,15 @@ void GeomBuffer::Render(const RenderState *rstate, const vector3f &cameraPos, co
 
 	if (m_mesh->GetNumIndices() > 0)
 		m_renderer->DrawMesh(m_mesh.Get());
+	
+	for (std::vector<PointSprites>::const_iterator i = m_pointSprites.begin(); i != m_pointSprites.end(); ++i)
+		m_renderer->DrawPointSprites((*i).positions.size(), &((*i).positions[0]), &((*i).mat), (*i).size);
+	
+
+
 
 	for (std::vector<Op*>::const_iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
 		switch ((*i)->type) {
-
-		case OP_DRAW_BILLBOARDS: {
-			OpDrawBillboards *op = static_cast<OpDrawBillboards*>(*i);
-
-			if (!op->texture)
-				op->texture = Graphics::TextureBuilder::Model(*op->textureFile).GetOrCreateTexture(m_renderer, "billboard");
-
-			Graphics::Material mat;
-			mat.unlit = true;
-			mat.texture0 = op->texture;
-			mat.diffuse = Color(op->col[0], op->col[1], op->col[2], op->col[3]);
-
-			m_renderer->DrawPointSprites(op->positions.size(), &op->positions[0], &mat, op->size);
-
-			break;
-		}
 
 		case OP_CALL_MODEL:
 			{
@@ -329,19 +321,17 @@ void GeomBuffer::PushInvisibleTri(int i1, int i2, int i3) {
 
 void GeomBuffer::PushBillboards(const char *texname, const float size, const Color &color, const int numPoints, const vector3f *points)
 {
-	char buf[256];
-	snprintf(buf, sizeof(buf), "textures/%s", texname);
-
-	OpDrawBillboards *op = new OpDrawBillboards;
-	op->textureFile = new std::string(buf);
-	op->texture = 0;
-	op->size = size;
-	op->col = color;
+	PointSprites sprites;
+	sprites.mat.unlit = true;
+	sprites.mat.diffuse = color;
+	sprites.mat.texture0 = Graphics::TextureBuilder::Billboard(FileSystem::JoinPathBelow("textures", texname)).GetOrCreateTexture(m_renderer, "billboard");
 
 	for (int i=0; i<numPoints; i++)
-		op->positions.push_back(points[i]);	// XXX how about just dropping *points in?
+		sprites.positions.push_back(points[i]); // XXX how about just dropping *points in?
+	
+	sprites.size = size;
 
-	PushOp(op);
+	m_pointSprites.push_back(sprites);
 }
 
 void GeomBuffer::SetMaterial(const char *mat_name, const float mat[11]) {

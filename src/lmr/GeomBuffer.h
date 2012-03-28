@@ -89,20 +89,11 @@ public:
 	static void ClearStatsTris() { s_numTrisRendered = 0; }
 
 private:
-	enum OpType { OP_DRAW_BILLBOARDS, OP_CALL_MODEL, OP_LIGHTING_TYPE, OP_USE_LIGHT };
+	enum OpType { OP_CALL_MODEL, OP_LIGHTING_TYPE, OP_USE_LIGHT };
 
 	struct Op {
 		Op(OpType _type) : type(_type) {}
 		const OpType type;
-	};
-
-	struct OpDrawBillboards : public Op {
-		OpDrawBillboards() : Op(OP_DRAW_BILLBOARDS), textureFile(0), texture(0), size(0), col(0.0f) {}
-		std::string *textureFile;
-		mutable Graphics::Texture *texture;
-		std::vector<vector3f> positions;
-		float size;
-		Color col;
 	};
 
 	struct OpCallModel : public Op {
@@ -147,6 +138,13 @@ private:
 	Graphics::Renderer *m_renderer;
 
 	ScopedPtr<Graphics::Mesh> m_mesh;
+
+	struct PointSprites {
+		Graphics::Material mat;
+		std::vector<vector3f> positions;
+		float size;
+	};
+	std::vector<PointSprites> m_pointSprites;
 
 	ScopedPtr<Graphics::Surface> m_curSurface;
 
