@@ -5,6 +5,8 @@
  */
 #include "Camera.h"
 
+class Ship;
+
 class WorldViewCamera : public Camera
 {
 public:
