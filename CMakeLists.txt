@@ -8,6 +8,7 @@
 # - Same options as automake (to be listed)
 # - Write packaging code (to create distributions ZIP or installers)
 # - Test everything, especially compared to actual build systems.
+# - Eventually write a PNG finder that handles debug builds for MSVC
 #
 # Date where build scripts have been successfully tested:
 #  Linux-gcc    32   never
@@ -85,7 +86,8 @@ if (WIN32)
 endif()
 
 if (SHIPPED_DEPENDENCIES_PATH)
-	SET(CMAKE_LIBRARY_PATH "${SHIPPED_DEPENDENCIES_PATH}" ${CMAKE_LIBRARY_PATH})
+	SET(CMAKE_LIBRARY_PATH "${SHIPPED_DEPENDENCIES_PATH}" "${SHIPPED_DEPENDENCIES_PATH}/lib" ${CMAKE_LIBRARY_PATH})
+	SET(CMAKE_INCLUDE_PATH "${SHIPPED_DEPENDENCIES_PATH}" "${SHIPPED_DEPENDENCIES_PATH}/include" ${CMAKE_INCLUDE_PATH})
 endif()
 
 # SET(Boost_USE_STATIC_LIBS OFF)
@@ -100,9 +102,10 @@ FIND_PACKAGE(SDL REQUIRED)
 FIND_PACKAGE(SDL_image REQUIRED)
 #FIND_PACKAGE(Ogg REQUIRED)			# TODO: To create
 #FIND_PACKAGE(Vorbis REQUIRED)		# TODO: To create
-#FIND_PACKAGE(libtool)				# TODO: To create - Unix-like only? Nor REQUIRED?
-FIND_PACKAGE(Lua51 REQUIRED)
+#FIND_PACKAGE(libtool)				# TODO: To create. Unix-like only. Not REQUIRED. According to jpabx: "it hides some of the differences between platforms, and deals with the .so version system so that builds can cope with multiple installed library versions"
+#FIND_PACKAGE(Lua51)					# Source is in contrib
 #FIND_PACKAGE(sigcpp2 REQUIRED)		# TODO: To create
+SET(PNG_NAMES png15_static libpng15_static)
 FIND_PACKAGE(PNG REQUIRED)
 #FIND_PACKAGE(zlib REQUIRED)		# Already called by findPNG
 
@@ -154,7 +157,7 @@ INCLUDE_DIRECTORIES(
     "${PROJECT_SOURCE_DIR}/src"
 	"${PROJECT_SOURCE_DIR}/win32/include"
 	"${PROJECT_SOURCE_DIR}/win32/src"
-	"${PROJECT_SOURCE_DIR}/contrib"
+	"${PROJECT_SOURCE_DIR}/contrib"		# For Lua/OOLua
 )
 
 #########################################################################
@@ -243,6 +246,8 @@ CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/src/Config.in" "${${PROJECT_NAME}_CO
 SET(${PROJECT_NAME}_VERSION_HEADER "${PROJECT_BINARY_DIR}/include/VersionNumber.h")
 CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/src/VersionNumber.in" "${${PROJECT_NAME}_VERSION_HEADER}")
 
+ADD_SUBDIRECTORY(contrib/lua)
+ADD_SUBDIRECTORY(contrib/oolua)
 ADD_SUBDIRECTORY(src)
 
 # IF(BUILD_UNIT_TESTS)
