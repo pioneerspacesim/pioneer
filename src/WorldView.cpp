@@ -1421,6 +1421,18 @@ void WorldView::Draw()
 			
 			char buf2[1024];
 			
+			snprintf(
+				buf2,
+				sizeof(buf2),
+				"distToDest: %.3f, distDiffX: %.3f, distDiffY: %.3f",
+				distToDest, distDiffX, distDiffY
+			);
+			
+			Gui::Screen::RenderString(
+				buf2,
+				60.0, 60.0
+			);
+			
 			while (true) {
 				dist = getSquareDistance(d1, scalingFactor, i);
 				if (dist > distToDest) {
@@ -1428,17 +1440,19 @@ void WorldView::Draw()
 				}
 				double sqh = getSquareHeight(dist, angle);
 				if (sqh >= 10) {
-					const float sqpos[2] = {
-						tpos[0] + (distDiffX * (dist / distToDest)),
-						tpos[1] + (distDiffY * (dist / distToDest))
-					};
+					float ox = ((distDiffX * 2.0) * ((dist / distToDest)));
+					float oy = ((distDiffY * 2.0) * ((dist / distToDest)));
+					
+					const float sqpos[2] = { tpos[0] + ox, tpos[1] + oy };
 					DrawTargetGuideSquare(sqpos, sqh, green);
 					
 					snprintf(
 						buf2,
 						sizeof(buf2),
-						"%.3f / %.3f / %.3f%%",
-						dist, distToDest, ((dist / distToDest) * 100.0)
+						"%.3f, %.3f%%\n" "ox: %.3f, oy: %.3f\n"
+						"x: %.3f, y: %.3f",
+						dist, ((dist / distToDest) * 100.0),
+						ox, oy, sqpos[0], sqpos[1]
 					);
 					
 					Gui::Screen::RenderString(
