@@ -1578,8 +1578,8 @@ void WorldView::Draw()
 		
 		double scalingFactor = 1.6;
 		double dist = 0.0;
-		double d1 = 10.0;
-		int i = 0;
+		double d1 = 100.0;
+		int i = 1;
 		int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2.0;
 		double angle = atan(maxSquareHeight / distToDest);
 		
@@ -1589,7 +1589,9 @@ void WorldView::Draw()
 				break;
 			}
 			double sqh = getSquareHeight(dist, angle);
-			DrawTargetGuideSquare(m_navTargetIndicator, sqh, green);
+			if (sqh >= 10) {
+				DrawTargetGuideSquare(m_navTargetIndicator, sqh, green);
+			}
 			i++; 
 		}
 	} else {
