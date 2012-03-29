@@ -14,6 +14,7 @@
 class SpaceStation;
 class HyperspaceCloud;
 class AICommand;
+class ShipController;
 namespace Graphics { class Renderer; }
 
 struct shipstats_t {
@@ -39,6 +40,8 @@ public:
 };
 
 class Ship: public DynamicBody {
+	friend class ShipController; //only controllers need access to AITimeStep
+	friend class PlayerShipController;
 public:
 	enum Animation { // <enum scope='Ship' name=ShipAnimation prefix=ANIM_>
 		ANIM_WHEEL_STATE
@@ -46,8 +49,12 @@ public:
 
 	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Type shipType);
-	Ship() {}
+	Ship() { }; //default constructor used before Load
 	virtual ~Ship();
+	void SetController(ShipController *c); //deletes existing
+	ShipController *GetController() const { return m_controller; }
+	virtual bool IsPlayerShip() const { return false; } //XXX to be replaced with an owner check
+
 	virtual void SetDockedWith(SpaceStation *, int port);
 	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }
@@ -224,7 +231,7 @@ protected:
 	virtual void Load(Serializer::Reader &rd, Space *space);
 	void RenderLaserfire();
 
-	bool AITimeStep(float timeStep);		// returns true if complete
+	bool AITimeStep(float timeStep); // Called by controller. Returns true if complete
 
 	virtual void SetAlertState(AlertState as) { m_alertState = as; }
 
@@ -239,8 +246,11 @@ protected:
 	float m_gunTemperature[ShipType::GUNMOUNT_MAX];
 	float m_ecmRecharge;
 
+	ShipController *m_controller;
+
 private:
 	float GetECMRechargeTime();
+	void DoThrusterSounds() const;
 	void FireWeapon(int num);
 	void Init();
 	bool IsFiringLasers();
@@ -250,8 +260,8 @@ private:
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
 
-	FlightState m_flightState;
 	bool m_testLanded;
+	FlightState m_flightState;
 	float m_launchLockTimeout;
 	float m_wheelState;
 	int m_wheelTransition;
