@@ -1,0 +1,120 @@
+# Locate library
+# This module defines XXX_FOUND, XXX_INCLUDE_DIRS and XXX_LIBRARIES standard variables
+#
+# $ICUDIR is an environment variable that would
+# correspond to the ./configure --prefix=$ICUDIR
+# used in building ICU.
+#
+# By Sukender (Benoit NEIL), under the terms of the WTFPL (see corresponding license file)
+
+SET(TARGET_NAME ICU)
+STRING(TOUPPER ${TARGET_NAME} TARGET_NAME_UPPER)
+
+# Try the user's environment request before anything else.
+SET(BASE_HINTS
+	$ENV{${TARGET_NAME}DIR}
+	$ENV{${TARGET_NAME}_DIR}
+	$ENV{${TARGET_NAME}_PATH}
+	$ENV{${TARGET_NAME_UPPER}_DIR}
+	$ENV{${TARGET_NAME_UPPER}_PATH}
+	#added by RP : 2/11/11 : 
+	"../extern/${LOCAL_ENV}/icu"
+)
+
+SET(BASE_PATHS
+	~/Library/Frameworks
+	/Library/Frameworks
+	/usr/local
+	/usr
+	/sw # Fink
+	/opt/local # DarwinPorts
+	/opt/csw # Blastwave
+	/opt
+)
+
+FIND_PATH(${TARGET_NAME}_INCLUDE_DIR
+	NAMES unicode/unistr.h
+	HINTS ${BASE_HINTS}
+	PATH_SUFFIXES include
+	PATHS ${BASE_PATHS}
+)
+
+SET(${TARGET_NAME}_INCLUDE_DIRS ${${TARGET_NAME}_INCLUDE_DIR})
+INCLUDE(FindPackageHandleStandardArgs)
+SET(${TARGET_NAME}_FOUND ON)
+
+MACRO(FIND_ICU_PART VARNAME)
+	set(releaseNames )
+	set(debugNames )
+	FOREACH(curname ${ARGN})
+		list(APPEND releaseNames "${curname}")
+		list(APPEND debugNames "${curname}d")
+	ENDFOREACH()
+
+	FIND_LIBRARY("${TARGET_NAME}_LIBRARY_${VARNAME}"
+		NAMES ${releaseNames}
+		HINTS ${BASE_HINTS}
+		PATH_SUFFIXES lib64 lib
+		PATHS ${BASE_PATHS}
+	)
+	FIND_LIBRARY("${TARGET_NAME}_LIBRARY_${VARNAME}_DEBUG"
+		NAMES ${debugNames}
+		HINTS ${BASE_HINTS}
+		PATH_SUFFIXES lib64 lib
+		PATHS ${BASE_PATHS}
+	)
+
+	IF("${TARGET_NAME}_LIBRARY_${VARNAME}")
+		IF("${TARGET_NAME}_LIBRARY_${VARNAME}_DEBUG")
+			SET("${TARGET_NAME}_${VARNAME}_LIBRARIES" optimized "${${TARGET_NAME}_LIBRARY_${VARNAME}}" debug "${${TARGET_NAME}_LIBRARY_${VARNAME}_DEBUG}")
+		ELSE()
+			SET("${TARGET_NAME}_${VARNAME}_LIBRARIES" "${${TARGET_NAME}_LIBRARY_${VARNAME}}")		# Could add "general" keyword, but it is optional
+		ENDIF()
+	ENDIF()
+
+	# handle the QUIETLY and REQUIRED arguments and set XXX_FOUND to TRUE if all listed variables are TRUE
+	SET(${TARGET_NAME}${VARNAME}_FIND_REQUIRED ${${TARGET_NAME}_FIND_REQUIRED})
+	SET(${TARGET_NAME}${VARNAME}_FIND_QUIETLY  ${${TARGET_NAME}_FIND_QUIETLY})
+	FIND_PACKAGE_HANDLE_STANDARD_ARGS("${TARGET_NAME}_${VARNAME}" DEFAULT_MSG "${TARGET_NAME}_${VARNAME}_LIBRARIES" ${TARGET_NAME}_INCLUDE_DIR)
+
+	LIST(APPEND ${TARGET_NAME}_LIBRARIES "${${TARGET_NAME}_${VARNAME}_LIBRARIES}")
+
+	IF(NOT "${TARGET_NAME}_${VARNAME}_FOUND")
+		SET(${TARGET_NAME}_FOUND OFF)
+	ENDIF()
+ENDMACRO()
+
+SET(${TARGET_NAME}_ALL_COMPONENTS I18N COMMON TEST IO LAYOUT LAYOUTEX STUBDATA UTIL)
+#SET(${TARGET_NAME}_ALL_NAMES icuin icuuc icutest icuio icule iculx icudt icutu)
+IF(NOT ${TARGET_NAME}_FIND_COMPONENTS)
+	SET(${TARGET_NAME}_FIND_COMPONENTS ${${TARGET_NAME}_ALL_COMPONENTS})
+ENDIF()
+
+FOREACH(COMPONENT ${${TARGET_NAME}_FIND_COMPONENTS})
+	# Code should be: if COMPONENT found in ${TARGET_NAME}_ALL_COMPONENTS, call FIND_${TARGET_NAME}_PART with corresponding name in ${TARGET_NAME}_ALL_NAMES
+	# Unfortunately I (Sukender) don't kno how to do it preperly with CMake
+	
+#ajout NB 04/08/2011 a valider avec BN
+	STRING(TOUPPER ${COMPONENT} COMPONENT_UPPER)
+
+	IF(${COMPONENT_UPPER} STREQUAL I18N)
+		FIND_ICU_PART(I18N icuin icui18n)
+	ELSEIF(${COMPONENT_UPPER} STREQUAL COMMON)
+		FIND_ICU_PART(COMMON icuuc)
+	ELSEIF(${COMPONENT_UPPER} STREQUAL TEST)
+		FIND_ICU_PART(TEST icutest)
+	ELSEIF(${COMPONENT_UPPER} STREQUAL IO)
+		FIND_ICU_PART(IO icuio)
+	ELSEIF(${COMPONENT_UPPER} STREQUAL LAYOUT)
+		FIND_ICU_PART(LAYOUT icule)
+	ELSEIF(${COMPONENT_UPPER} STREQUAL LAYOUTEX)
+		FIND_ICU_PART(LAYOUTEX iculx)
+	ELSEIF(${COMPONENT_UPPER} STREQUAL STUBDATA)
+		FIND_ICU_PART(STUBDATA icudt icudata)
+	#ELSEIF(${COMPONENT_UPPER} STREQUAL TESTPLUG)
+		#FIND_ICU_PART(TESTPLUG testplug)
+	ELSEIF(${COMPONENT_UPPER} STREQUAL UTIL)
+		FIND_ICU_PART(UTIL icutu)
+	ENDIF()
+ENDFOREACH()
+
