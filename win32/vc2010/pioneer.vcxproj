@@ -152,6 +152,7 @@
     <ClCompile Include="..\..\src\collider\GeomTree.cpp" />
     <ClCompile Include="..\..\src\Color.cpp" />
     <ClCompile Include="..\..\src\CommodityTradeWidget.cpp" />
+    <ClCompile Include="..\..\src\CRC32.cpp" />
     <ClCompile Include="..\..\src\CustomSystem.cpp" />
     <ClCompile Include="..\..\src\DeadVideoLink.cpp" />
     <ClCompile Include="..\..\src\DynamicBody.cpp" />
@@ -383,6 +384,7 @@
     <ClInclude Include="..\..\src\collider\GeomTree.h" />
     <ClInclude Include="..\..\src\Color.h" />
     <ClInclude Include="..\..\src\CommodityTradeWidget.h" />
+    <ClInclude Include="..\..\src\CRC32.h" />
     <ClInclude Include="..\..\src\CustomSystem.h" />
     <ClInclude Include="..\..\src\DeadVideoLink.h" />
     <ClInclude Include="..\..\src\DeleteEmitter.h" />
