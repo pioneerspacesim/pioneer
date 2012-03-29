@@ -1,6 +1,5 @@
 # Pioneer CMake script
-# by Sukender (Benoit Neil), from PVLE and OSG CMake scripts
-# Permission is granted freely copy and modify such script. Well, say that's both GPL v3 and public domain...
+# by Sukender (Benoit Neil), from PVLE and OSG CMake scripts, under the terms of the WTFPL ().
 
 # Current status of these CMake scripts: pre-pre-pre-pre-alpha, not functionnal yet
 # TODO:
@@ -86,8 +85,10 @@ if (WIN32)
 endif()
 
 if (SHIPPED_DEPENDENCIES_PATH)
+	#SET(CMAKE_PREFIX_PATH "${SHIPPED_DEPENDENCIES_PATH}" ${CMAKE_PREFIX_PATH})
 	SET(CMAKE_LIBRARY_PATH "${SHIPPED_DEPENDENCIES_PATH}" "${SHIPPED_DEPENDENCIES_PATH}/lib" ${CMAKE_LIBRARY_PATH})
 	SET(CMAKE_INCLUDE_PATH "${SHIPPED_DEPENDENCIES_PATH}" "${SHIPPED_DEPENDENCIES_PATH}/include" ${CMAKE_INCLUDE_PATH})
+	SET(ADDITIONAL_SEARCH_PATH "${SHIPPED_DEPENDENCIES_PATH}")
 endif()
 
 # SET(Boost_USE_STATIC_LIBS OFF)
@@ -100,8 +101,9 @@ FIND_PACKAGE(OpenGL REQUIRED)		# With GLU
 FIND_PACKAGE(Freetype REQUIRED)
 FIND_PACKAGE(SDL REQUIRED)
 FIND_PACKAGE(SDL_image REQUIRED)
-#FIND_PACKAGE(Ogg REQUIRED)			# TODO: To create
-#FIND_PACKAGE(Vorbis REQUIRED)		# TODO: To create
+FIND_PACKAGE(OGG REQUIRED)
+FIND_PACKAGE(Vorbis REQUIRED)
+FIND_PACKAGE(VorbisFile REQUIRED)
 #FIND_PACKAGE(libtool)				# TODO: To create. Unix-like only. Not REQUIRED. According to jpabx: "it hides some of the differences between platforms, and deals with the .so version system so that builds can cope with multiple installed library versions"
 #FIND_PACKAGE(Lua51)					# Source is in contrib
 #FIND_PACKAGE(sigcpp2 REQUIRED)		# TODO: To create
