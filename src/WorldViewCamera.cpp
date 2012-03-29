@@ -1,4 +1,7 @@
 #include "WorldViewCamera.h"
+#include "Ship.h"
+#include "Pi.h"
+#include "Game.h"
 
 WorldViewCamera::WorldViewCamera(const Body *b, const vector2f &size, float fovY, float near, float far) :
 	Camera(b, size.x, size.y, fovY, near, far)
@@ -15,9 +18,9 @@ RearCamera::RearCamera(const Body *b, const vector2f &size, float fovY, float ne
 ExternalCamera::ExternalCamera(const Body *b, const vector2f &size, float fovY, float near, float far) :
 	WorldViewCamera(b, size, fovY, near, far),
 	m_dist(200),
-	m_orient(matrix4x4d::Identity()),
 	m_rotX(0),
-	m_rotY(0)
+	m_rotY(0),
+	m_orient(matrix4x4d::Identity())
 {
 }
 
