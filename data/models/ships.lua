@@ -1,5 +1,3 @@
-print("REMEMBER TO PORT ship6model!!!");
-
 define_model('missile', {
 	info = {
 		bounding_radius = 4,
