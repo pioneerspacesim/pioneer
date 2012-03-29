@@ -1408,78 +1408,6 @@ void WorldView::Draw()
 			vector2f indvec = vector2f(m_navTargetIndicator.pos[0], m_navTargetIndicator.pos[1]);
 			vector3d destvec = Pi::player->GetPositionRelTo(navtarget);
 			double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
-
-			if (m_activeCamera != NULL) {
-				vector3d proj;
-				const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
-				const int w = guiSize[0];
-				const int h = guiSize[1];
-
-				vector3d scrvec(m_navTargetIndicator.pos[0], m_navTargetIndicator.pos[1], 0.1);
-				//scrvec = scrvec.Normalized();
-				
-				vector3d scrvec2(scrvec.x * 2.0, scrvec.y * 2.0, scrvec.z);
-
-				unproject_from_screen(scrvec2, proj, m_activeCamera->GetFrustum(), guiSize);
-
-				vector3d up(0, 1, 0);
-				vector3d cpos = m_activeCamera->GetPosition();
-
-				matrix4x4d playrot;
-				Pi::player->GetRotMatrix(playrot);
-				matrix4x4d camrot = m_activeCamera->GetOrientation();
-
-				vector3d pvrot = up * playrot;
-				vector3d cvrot = up * camrot;
-				vector3d pos = Pi::player->GetPosition();
-
-				char buf[1024];
-				snprintf(
-					buf,
-					sizeof(buf),
-					"Pos: %.1f,%.1f,%.1f\n"
-					"rot: %.1f,%.1f,%.1f\n"
-					"scrvec: %.1f,%.1f,%.1f\n"
-					"scrvec2: %.1f,%.1f,%.1f\n"
-					"projvec: %.5f,%.5f,%.5f\n"
-					"cpos: %.5f,%.5f,%.5f\n"
-					"crot: %.1f,%.1f,%.1f\n",
-					pos.x, pos.y, pos.z,
-					pvrot.x, pvrot.y, pvrot.z,
-					scrvec.x, scrvec.y, scrvec.z,
-					scrvec2.x, scrvec2.y, scrvec2.z,
-					proj.x, proj.y, proj.z,
-					cpos.x, cpos.y, cpos.z,
-					cvrot.x, cvrot.y, cvrot.z
-				);
-
-				m_altDebugInfo->SetText(buf);
-				m_altDebugInfo->Show();
-
-				const float BORDER = 10.0;
-				const float BORDER_BOTTOM = 90.0;
-				// XXX BORDER_BOTTOM is 10+the control panel height and shouldn't be needed at all
-
-				bool onscreen =
-					(proj.z < 0.0) &&
-					(proj.x >= BORDER) && (proj.x < w - BORDER) &&
-					(proj.y >= BORDER) && (proj.y < h - BORDER_BOTTOM)
-				;
-
-				glPushMatrix();
-				{
-					RefCountedPtr<Graphics::Material> smat(new Graphics::Material);
-					smat->unlit = false;
-					Graphics::Drawables::Sphere3D sphere(smat, 4, 1.0);
-					glTranslatef(pos.x, pos.y, pos.z);
-					sphere.Draw(m_renderer);
-				}
-				glPopMatrix();
-
-			} else {
-				m_altDebugInfo->SetText("No active camera");
-				m_altDebugInfo->Show();
-			}
 			
 			double scalingFactor = 1.6;
 			double dist = 0.0;
@@ -1490,6 +1418,8 @@ void WorldView::Draw()
 			const float tpos[2] = { m_navTargetIndicator.pos[0], m_navTargetIndicator.pos[1] };
 			const float distDiffX = tpos[0] - (Gui::Screen::GetWidth() / 2.0);
 			const float distDiffY = tpos[1] - (Gui::Screen::GetHeight() / 2.0);
+			
+			char buf2[1024];
 			
 			while (true) {
 				dist = getSquareDistance(d1, scalingFactor, i);
@@ -1503,6 +1433,19 @@ void WorldView::Draw()
 						tpos[1] + (distDiffY * (dist / distToDest))
 					};
 					DrawTargetGuideSquare(sqpos, sqh, green);
+					
+					snprintf(
+						buf2,
+						sizeof(buf2),
+						"%.3f / %.3f / %.3f%%",
+						dist, distToDest, ((dist / distToDest) * 100.0)
+					);
+					
+					Gui::Screen::RenderString(
+						buf2,
+						sqpos[0] + sqh + 1.0,
+						sqpos[1] + sqh + 1.0
+					);
 				}
 				i++; 
 			}
