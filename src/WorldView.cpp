@@ -189,6 +189,7 @@ void WorldView::InitObject()
 	m_rearCamera = new RearCamera(Pi::player, camSize, fovY, znear, zfar);
 	m_externalCamera = new ExternalCamera(Pi::player, camSize, fovY, znear, zfar);
 	m_siderealCamera = new SiderealCamera(Pi::player, camSize, fovY, znear, zfar);
+	SetCamType(m_camType); //set the active camera
 	
 	m_onHyperspaceTargetChangedCon =
 		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
@@ -230,6 +231,20 @@ void WorldView::SetCamType(enum CamType c)
 		Pi::player->SetMouseForRearView(c == CAM_REAR);
 		onChangeCamType.emit();
 	}
+	switch(m_camType) {
+		case CAM_REAR:
+			m_activeCamera = m_rearCamera;
+			break;
+		case CAM_EXTERNAL:
+			m_activeCamera = m_externalCamera;
+			break;
+		case CAM_SIDEREAL:
+			m_activeCamera = m_siderealCamera;
+			break;
+		default:
+			m_activeCamera = m_frontCamera;
+	}
+	m_activeCamera->Activate();
 }
 
 void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
@@ -696,7 +711,7 @@ void WorldView::Update()
 
 	//death animation: slowly pan out
 	if (Pi::player->IsDead()) {
-		m_camType = CAM_EXTERNAL;
+		SetCamType(CAM_EXTERNAL);
 		static_cast<ExternalCamera*>(m_externalCamera)->SetRotationAngles(0.0, 0.0);
 		m_externalCamera->ZoomOut(frameTime * 0.4);
 		m_labelsOn = false;
@@ -719,20 +734,6 @@ void WorldView::Update()
 				SelectBody(target, false);
 			}
 		}
-	}
-
-	switch(GetCamType()) {
-		case CAM_REAR:
-			m_activeCamera = m_rearCamera;
-			break;
-		case CAM_EXTERNAL:
-			m_activeCamera = m_externalCamera;
-			break;
-		case CAM_SIDEREAL:
-			m_activeCamera = m_siderealCamera;
-			break;
-		default:
-			m_activeCamera = m_frontCamera;
 	}
 
 	m_activeCamera->UpdateTransform();
