@@ -312,8 +312,7 @@ static int l_ship_explode(lua_State *l)
  *
  * Parameters:
  *
- *   newlabel - the new label. Only the first 16 characters will be available
- *              to the model. The full label will be shown in the HUD.
+ *   newlabel - the new label
  * 
  * Example:
  *
@@ -333,7 +332,7 @@ static int l_ship_set_label(lua_State *l)
 	const char *label = luaL_checkstring(l, 2);
 
 	ShipFlavour f = *(s->GetFlavour());
-	strncpy(f.regid, label, 16);
+	f.regid = label;
 	s->UpdateFlavour(&f);
 
 	s->SetLabel(label);
@@ -927,14 +926,14 @@ static int l_ship_fire_missile_at(lua_State *l)
 }
 
 /*
- * Method: CanHyperspaceTo
+ * Method: CheckHyperspaceTo
  *
  * Determine is a ship is able to hyperspace to a given system
  *
- * > status, fuel, duration = ship:CanHyperspaceTo(path)
+ * > status, fuel, duration = ship:CheckHyperspaceTo(path)
  *
  * The result is based on distance, range, available fuel, ship mass and other
- * factors.
+ * factors. If this returns a status of 'OK' then the jump is valid right now.
  *
  * Parameters:
  *
@@ -959,23 +958,73 @@ static int l_ship_fire_missile_at(lua_State *l)
  *
  *   stable
  */
-static int l_ship_can_hyperspace_to(lua_State *l)
+static int l_ship_check_hyperspace_to(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	SystemPath *dest = LuaSystemPath::GetFromLua(2);
 
 	int fuel;
 	double duration;
-	Ship::HyperjumpStatus status;
+	Ship::HyperjumpStatus status = s->CheckHyperspaceTo(*dest, fuel, duration);
 
-	if (s->CanHyperspaceTo(dest, fuel, duration, &status)) {
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", Ship::HYPERJUMP_OK));
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
+	if (status == Ship::HYPERJUMP_OK) {
 		lua_pushinteger(l, fuel);
 		lua_pushnumber(l, duration);
 		return 3;
 	}
+	return 1;
+}
+
+/*
+ * Method: GetHyperspaceDetails
+ *
+ * Compute the fuel requirement and duration of a jump.
+ *
+ * > status, fuel, duration = ship:GetHyperspaceDetails(path)
+ *
+ * The result is based on distance, range, available fuel, ship mass and other
+ * factors. It does not check flight state (that is, it can return 'OK' even if
+ * the ship is docked, docking or landed, in which case an actual jump would fail).
+ *
+ * Parameters:
+ *
+ *   path - a <SystemPath> for the destination system
+ *
+ * Result:
+ *
+ *   status - a <Constants.ShipJumpStatus> string that tells if the ship can
+ *            hyperspace and if not, describes the reason
+ *
+ *   fuel - if status is 'OK', contains the amount of fuel required to make
+ *          the jump (tonnes)
+ *
+ *   duration - if status is 'OK', contains the time that the jump will take
+ *				(seconds)
+ *
+ * Availability:
+ *
+ *   alpha 21
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_ship_get_hyperspace_details(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	SystemPath *dest = LuaSystemPath::GetFromLua(2);
+
+	int fuel;
+	double duration;
+	Ship::HyperjumpStatus status = s->GetHyperspaceDetails(*dest, fuel, duration);
 
 	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
+	if (status == Ship::HYPERJUMP_OK) {
+		lua_pushinteger(l, fuel);
+		lua_pushnumber(l, duration);
+		return 3;
+	}
 	return 1;
 }
 
@@ -999,6 +1048,12 @@ static int l_ship_can_hyperspace_to(lua_State *l)
  *   status - a <Constants.ShipJumpStatus> string for the result of the jump
  *            attempt
  *
+ *   fuel - if status is 'OK', contains the amount of fuel required to make
+ *          the jump (tonnes)
+ *
+ *   duration - if status is 'OK', contains the time that the jump will take
+ *              (seconds)
+ *
  * Availability:
  *
  *   alpha 10
@@ -1014,18 +1069,16 @@ static int l_ship_hyperspace_to(lua_State *l)
 
 	int fuel;
 	double duration;
-	Ship::HyperjumpStatus status;
+	Ship::HyperjumpStatus status = s->CheckHyperspaceTo(*dest, fuel, duration);
 
-	if (!s->CanHyperspaceTo(dest, fuel, duration, &status))
-	{
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
+	if (status != Ship::HYPERJUMP_OK)
 		return 1;
-	}
 
-	s->StartHyperspaceCountdown(dest);
-
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", Ship::HYPERJUMP_OK));
-	return 1;
+	s->StartHyperspaceCountdown(*dest);
+	lua_pushinteger(l, fuel);
+	lua_pushnumber(l, duration);
+	return 3;
 }
 
 /*
@@ -1363,7 +1416,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "AIEnterHighOrbit",   l_ship_ai_enter_high_orbit   },
 		{ "CancelAI",           l_ship_cancel_ai             },
 
-		{ "CanHyperspaceTo", l_ship_can_hyperspace_to },
+		{ "CheckHyperspaceTo", l_ship_check_hyperspace_to },
+		{ "GetHyperspaceDetails", l_ship_get_hyperspace_details },
 		{ "HyperspaceTo",    l_ship_hyperspace_to     },
 
 		{ 0, 0 }

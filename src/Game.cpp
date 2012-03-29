@@ -18,7 +18,7 @@
 #include "ObjectViewerView.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 47;
+static const int  s_saveVersion   = 49;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -227,13 +227,13 @@ void Game::Serialize(Serializer::Writer &wr)
 
 void Game::TimeStep(float step)
 {
+	m_time += step;			// otherwise planets lag time accel changes by a frame
+
 	m_space->TimeStep(step);
 
 	// XXX ui updates, not sure if they belong here
 	Pi::cpan->TimeStepUpdate(step);
 	Sfx::TimeStepAll(step, m_space->GetRootFrame());
-
-	m_time += step;
 
 	if (m_state == STATE_HYPERSPACE) {
 		if (Pi::game->GetTime() > m_hyperspaceEndTime) {
@@ -257,7 +257,7 @@ bool Game::UpdateTimeAccel()
 {
 	// don't modify the timeaccel if the game is paused
 	if (m_requestedTimeAccel == Game::TIMEACCEL_PAUSED) {
-		m_timeAccel = Game::TIMEACCEL_PAUSED;
+		SetTimeAccel(Game::TIMEACCEL_PAUSED);
 		return false;
 	}
 
@@ -313,7 +313,7 @@ bool Game::UpdateTimeAccel()
 	if (newTimeAccel == m_timeAccel)
 		return false;
 	
-	m_timeAccel = newTimeAccel;
+	SetTimeAccel(newTimeAccel);
 	return true;
 }
 
@@ -541,7 +541,7 @@ void Game::SetTimeAccel(TimeAccel t)
 	if (t < m_timeAccel)
 		for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i)
 			if ((*i)->IsType(Object::SHIP))
-				(static_cast<DynamicBody*>(*i))->ApplyAccel(0.5f * GetTimeStep());
+				(static_cast<Ship*>(*i))->ApplyAccel(0.5f * GetTimeStep());
 
 	m_timeAccel = t;
 

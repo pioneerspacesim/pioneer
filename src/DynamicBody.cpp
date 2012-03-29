@@ -195,8 +195,9 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		m_orient[14] = pos.z;
 		TriMeshUpdateLastPos(m_orient);
 
-//printf("vel = %.1f,%.1f,%.1f, force = %.1f,%.1f,%.1f, external = %.1f,%.1f,%.1f\n",
-//	m_vel.x, m_vel.y, m_vel.z, m_force.x, m_force.y, m_force.z,
+//if (this->IsType(Object::PLAYER))
+//printf("pos = %.1f,%.1f,%.1f, vel = %.1f,%.1f,%.1f, force = %.1f,%.1f,%.1f, external = %.1f,%.1f,%.1f\n",
+//	pos.x, pos.y, pos.z, m_vel.x, m_vel.y, m_vel.z, m_force.x, m_force.y, m_force.z,
 //	m_externalForce.x, m_externalForce.y, m_externalForce.z);
 
 		m_lastForce = m_force;
@@ -208,21 +209,6 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		m_oldOrient = m_orient;
 		m_oldAngDisplacement = vector3d(0.0);
 	}
-}
-
-// for timestep changes, to stop autopilot overshoot
-// either adds half of current accel or removes all of current accel 
-void DynamicBody::ApplyAccel(const float timeStep)
-{
-	vector3d vdiff = double(timeStep) * m_lastForce * (1.0 / m_mass);
-	double spd = m_vel.LengthSqr();
-	if ((m_vel-2.0*vdiff).LengthSqr() < spd) m_vel -= 2.0*vdiff;
-	else if ((m_vel+vdiff).LengthSqr() < spd) m_vel += vdiff;
-
-	vector3d avdiff = double(timeStep) * m_lastTorque * (1.0 / m_angInertia);
-	double aspd = m_angVel.LengthSqr();
-	if ((m_angVel-2.0*avdiff).LengthSqr() < aspd) m_angVel -= 2.0*avdiff;
-	else if ((m_angVel+avdiff).LengthSqr() < aspd) m_angVel += avdiff;
 }
 
 void DynamicBody::UpdateInterpolatedTransform(double alpha)

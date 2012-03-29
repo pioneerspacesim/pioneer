@@ -10,7 +10,7 @@
 class AICommand {
 public:
 	// This enum is solely to make the serialization work
-	enum CmdName { CMD_NONE, CMD_JOURNEY, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION };
+	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION };
 
 	AICommand(Ship *ship, CmdName name) {
 	   	m_ship = ship; m_cmdName = name; 
@@ -24,6 +24,10 @@ public:
 	virtual void GetStatusText(char *str) { 
 		if (m_child) m_child->GetStatusText(str);
 		else strcpy(str, "AI state unknown");
+	}
+	virtual Frame *GetRiskFrame() {
+		if (m_child) return m_child->GetRiskFrame();
+		return m_ship->GetFrame();			// or local frame?
 	}
 
 	// Serialisation functions
@@ -43,27 +47,6 @@ protected:
 	int m_shipIndex; // deserialisation
 };
 
-/*
-class AICmdJourney : public AICommand {
-public:
-	virtual bool TimeStepUpdate();
-	AICmdJourney(Ship *ship, SBodyPath &dest) : AICommand(ship, CMD_JOURNEY) {
-		m_dest = dest;
-	}
-
-	virtual void Save(Serializer::Writer &wr) {
-		AICommand::Save(wr);
-		m_dest.Serialize(wr);
-	}
-	AICmdJourney(Serializer::Reader &rd) : AICommand(rd, CMD_JOURNEY) {
-		SBodyPath::Unserialize(rd, &m_dest);
-	}
-
-private:
-	SBodyPath m_dest;
-};
-*/
-
 class AICmdDock : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
@@ -74,6 +57,10 @@ public:
 	virtual void GetStatusText(char *str) { 
 		if (m_child) m_child->GetStatusText(str);
 		else snprintf(str, 255, "Dock: target %s, state %i", m_target->GetLabel().c_str(), m_state);
+	}
+	virtual Frame *GetRiskFrame() {
+		if (m_child) return m_child->GetRiskFrame();
+		return m_target->GetFrame();
 	}
 	virtual void Save(Serializer::Writer &wr) {
         Space *space = Pi::game->GetSpace();
@@ -115,6 +102,10 @@ public:
 	virtual void GetStatusText(char *str) { 
 		if (m_child) m_child->GetStatusText(str);
 		else snprintf(str, 255, "FlyTo: endvel %.1f, state %i", m_endvel/1000.0, m_state);
+	}
+	virtual Frame *GetRiskFrame() {
+		if (m_child) return m_child->GetRiskFrame();
+		return m_targframe;
 	}
 	virtual void Save(Serializer::Writer &wr) {
         Space *space = Pi::game->GetSpace();
@@ -163,6 +154,10 @@ public:
 		if (m_child) m_child->GetStatusText(str);
 		else snprintf(str, 255, "FlyAround: alt %.1f, targmode %i", m_alt/1000.0, m_targmode);
 	}	
+	virtual Frame *GetRiskFrame() {
+		if (m_child) return m_child->GetRiskFrame();
+		return m_obstructor->GetFrame();
+	}
 	virtual void Save(Serializer::Writer &wr) {
         Space *space = Pi::game->GetSpace();
 		if (m_child) { delete m_child; m_child = 0; }
