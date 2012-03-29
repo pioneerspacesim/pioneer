@@ -16,6 +16,7 @@ using namespace Graphics;
 
 Camera::Camera(const Body *body, float width, float height, float fovY, float znear, float zfar) :
 	m_body(body),
+	m_showCameraBody(true),
 	m_width(width),
 	m_height(height),
 	m_fovAng(fovY),
@@ -143,8 +144,9 @@ void Camera::Draw(Renderer *renderer)
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
 		BodyAttrs *attrs = &(*i);
 
-		double rad = attrs->body->GetClipRadius();
+		if (attrs->body == GetBody() && !m_showCameraBody) continue;
 
+		double rad = attrs->body->GetClipRadius();
 		if (!m_frustum.TestPointInfinite((*i).viewCoords, rad))
 			continue;
 
