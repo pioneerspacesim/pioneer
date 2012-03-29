@@ -10,7 +10,7 @@ struct LmrObjParams;
 class ShipFlavour {
 public:
 	ShipType::Type type;
-	char regid[16];
+	std::string regid;
 	int price;
 	LmrMaterial primaryColor;
 	LmrMaterial secondaryColor;

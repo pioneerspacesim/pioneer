@@ -25,6 +25,7 @@ Alpha 21
      * Restore Jupiter and Neptune to their correct terrain types (#1100)
      * Fixed various old bugs around frame movement, timesteps, AI velocity
        correction and similar (#1090)
+     * Fix crash when script tries to set ship label > 16 chars (#1116, #1114)
 
    * Script changes
      * New custom system option :explored to explicitly set a system's
@@ -46,6 +47,7 @@ Alpha 21
      * Remove renderer dependencies on Pi and utils (#1071)
      * Pack font glyphs into a single texture for faster text rendering (#1106,
        #1084, #1107)
+     * Split world cameras out of WorldView (#1113)
 
 Alpha 20
 
