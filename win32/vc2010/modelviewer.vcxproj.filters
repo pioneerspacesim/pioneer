@@ -216,6 +216,9 @@
     <ClCompile Include="..\..\src\Font.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\CRC32.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\pch.h">
@@ -441,6 +444,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\FontCache.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\CRC32.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
