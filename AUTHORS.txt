@@ -53,6 +53,7 @@ Translations:
   Paul Mahol
   Thierry Dupré
   Asier Basagoiti
+  Sukender (Benoit Neil)
 
 Thanks to those that have moved on (we hope to see you back!)
 
