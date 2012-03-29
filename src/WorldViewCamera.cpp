@@ -12,7 +12,12 @@ WorldViewCamera::WorldViewCamera(const Ship *s, const vector2f &size, float fovY
 FrontCamera::FrontCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
 	WorldViewCamera(s, size, fovY, near, far)
 {
-	const vector3d &offs = s->GetFrontCameraOffset();
+	Activate();
+}
+
+void FrontCamera::Activate()
+{
+	const vector3d &offs = static_cast<const Ship*>(GetBody())->GetFrontCameraOffset();
 	SetPosition(offs);
 	//if offset is zero (unspecified) the camera would be in the middle of the model,
 	//and it would be undesirable to render the ship
@@ -24,7 +29,12 @@ RearCamera::RearCamera(const Ship *s, const vector2f &size, float fovY, float ne
 	WorldViewCamera(s, size, fovY, near, far)
 {
 	SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
-	const vector3d &offs = s->GetRearCameraOffset();
+	Activate();
+}
+
+void RearCamera::Activate()
+{
+	const vector3d &offs = static_cast<const Ship*>(GetBody())->GetRearCameraOffset();
 	SetPosition(offs);
 	if (offs.ExactlyEqual(vector3d(0.0)))
 		m_showCameraBody = false;

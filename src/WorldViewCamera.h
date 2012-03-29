@@ -33,6 +33,7 @@ public:
 	virtual void UpdateTransform() { }
 	virtual void Save(Serializer::Writer &wr) { }
 	virtual void Load(Serializer::Reader &rd) { }
+	virtual void Activate() { }
 };
 
 // Forward facing view from the ship
@@ -40,6 +41,7 @@ class FrontCamera : public WorldViewCamera {
 public:
 	FrontCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	Type GetType() const { return FRONT; }
+	void Activate();
 };
 
 // Rear-facing view
@@ -47,6 +49,7 @@ class RearCamera : public WorldViewCamera {
 public:
 	RearCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	Type GetType() const { return REAR; }
+	void Activate();
 };
 
 // Zoomable, rotatable orbit camera, always looks at the ship
