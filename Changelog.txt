@@ -49,6 +49,7 @@ Alpha 21
      * Pack font glyphs into a single texture for faster text rendering (#1106,
        #1084, #1107)
      * Split world cameras out of WorldView (#1113)
+     * Use a fixed version and proper CRC for the model cache (#1119)
 
 Alpha 20
 
