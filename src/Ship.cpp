@@ -158,6 +158,8 @@ void Ship::Init()
 	m_stats.shield_mass_left = 0;
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
 	m_hyperspaceCloud = 0;
+	m_frontCameraOffset = stype.frontCameraOffset;
+	m_rearCameraOffset = stype.rearCameraOffset;
 }
 
 void Ship::PostLoadFixup(Space *space)
@@ -167,9 +169,7 @@ void Ship::PostLoadFixup(Space *space)
 }
 
 Ship::Ship(ShipType::Type shipType): DynamicBody(),
-	m_thrusterFuel(1.f),
-	m_frontCameraOffset(0.0, 0.0, 0.0),
-	m_rearCameraOffset(0.0, 0.0, 0.0)
+	m_thrusterFuel(1.f)
 {
 	m_flightState = FLYING;
 	m_alertState = ALERT_NONE;
