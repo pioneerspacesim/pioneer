@@ -3,20 +3,35 @@
 #include "Pi.h"
 #include "Game.h"
 
-WorldViewCamera::WorldViewCamera(const Body *b, const vector2f &size, float fovY, float near, float far) :
-	Camera(b, size.x, size.y, fovY, near, far)
+WorldViewCamera::WorldViewCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
+	Camera(s, size.x, size.y, fovY, near, far)
 {
 
 }
 
-RearCamera::RearCamera(const Body *b, const vector2f &size, float fovY, float near, float far) :
-	WorldViewCamera(b, size, fovY, near, far)
+FrontCamera::FrontCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
+	WorldViewCamera(s, size, fovY, near, far)
+{
+	const vector3d &offs = s->GetFrontCameraOffset();
+	SetPosition(offs);
+	//if offset is zero (unspecified) the camera would be in the middle of the model,
+	//and it would be undesirable to render the ship
+	if (offs.ExactlyEqual(vector3d(0.0)))
+		m_showCameraBody = false;
+}
+
+RearCamera::RearCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
+	WorldViewCamera(s, size, fovY, near, far)
 {
 	SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
+	const vector3d &offs = s->GetRearCameraOffset();
+	SetPosition(offs);
+	if (offs.ExactlyEqual(vector3d(0.0)))
+		m_showCameraBody = false;
 }
 
-ExternalCamera::ExternalCamera(const Body *b, const vector2f &size, float fovY, float near, float far) :
-	WorldViewCamera(b, size, fovY, near, far),
+ExternalCamera::ExternalCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
+	WorldViewCamera(s, size, fovY, near, far),
 	m_dist(200),
 	m_rotX(0),
 	m_rotY(0),
@@ -96,12 +111,12 @@ void ExternalCamera::Load(Serializer::Reader &rd)
 	m_dist = rd.Float();
 }
 
-SiderealCamera::SiderealCamera(const Ship *b, const vector2f &size, float fovY, float near, float far) :
-	WorldViewCamera(b, size, fovY, near, far),
+SiderealCamera::SiderealCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
+	WorldViewCamera(s, size, fovY, near, far),
 	m_dist(200),
 	m_orient(matrix4x4d::Identity())
 {
-	m_prevShipOrient = b->GetTransformRelTo(Pi::game->GetSpace()->GetRootFrame());
+	m_prevShipOrient = s->GetTransformRelTo(Pi::game->GetSpace()->GetRootFrame());
 }
 
 void SiderealCamera::RotateUp(float frameTime)

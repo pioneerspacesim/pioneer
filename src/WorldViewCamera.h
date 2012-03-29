@@ -17,7 +17,8 @@ public:
 		SIDEREAL
 	};
 
-	WorldViewCamera(const Body *b, const vector2f &size, float fovY, float nearClip, float farClip);
+	//it is not strictly necessary, but WW cameras are now restricted to Ships
+	WorldViewCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	virtual Type GetType() const = 0;
 	virtual void RollLeft(float frameTime) { }
 	virtual void RollRight(float frameTime) { }
@@ -37,22 +38,21 @@ public:
 // Forward facing view from the ship
 class FrontCamera : public WorldViewCamera {
 public:
-	FrontCamera(const Body *b, const vector2f &size, float fovY, float nearClip, float farClip) :
-	  WorldViewCamera(b, size, fovY, nearClip, farClip) { }
+	FrontCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	Type GetType() const { return FRONT; }
 };
 
 // Rear-facing view
 class RearCamera : public WorldViewCamera {
 public:
-	RearCamera(const Body *b, const vector2f &size, float fovY, float nearClip, float farClip);
+	RearCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	Type GetType() const { return REAR; }
 };
 
 // Zoomable, rotatable orbit camera, always looks at the ship
 class ExternalCamera : public WorldViewCamera {
 public:
-	ExternalCamera(const Body *b, const vector2f &size, float fovY, float nearClip, float farClip);
+	ExternalCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	Type GetType() const { return EXTERNAL; }
 
 	void RotateDown(float frameTime);
@@ -79,7 +79,7 @@ private:
 // Much like external camera, but does not turn when the ship turns
 class SiderealCamera : public WorldViewCamera {
 public:
-	SiderealCamera(const Ship *b, const vector2f &size, float fovY, float nearClip, float farClip);
+	SiderealCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	Type GetType() const { return SIDEREAL; }
 	void RollLeft(float frameTime);
 	void RollRight(float frameTime);

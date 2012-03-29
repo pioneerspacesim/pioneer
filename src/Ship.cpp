@@ -167,7 +167,9 @@ void Ship::PostLoadFixup(Space *space)
 }
 
 Ship::Ship(ShipType::Type shipType): DynamicBody(),
-	m_thrusterFuel(1.f)
+	m_thrusterFuel(1.f),
+	m_frontCameraOffset(0.0, 0.0, 0.0),
+	m_rearCameraOffset(0.0, 0.0, 0.0)
 {
 	m_flightState = FLYING;
 	m_alertState = ALERT_NONE;
