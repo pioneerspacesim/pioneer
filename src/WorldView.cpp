@@ -1497,108 +1497,117 @@ void WorldView::Draw()
 
 	// nav target square
 	DrawTargetSquare(m_navTargetIndicator, green);
+	
+	if (m_navTargetIndicator.side == INDICATOR_ONSCREEN) {
+		Body *navtarget = Pi::player->GetNavTarget();
+		if (navtarget != NULL) {
+			vector2f indvec = vector2f(m_navTargetIndicator.pos[0], m_navTargetIndicator.pos[1]);
+			vector3d destvec = Pi::player->GetPositionRelTo(navtarget);
+			double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
 
-	Body *navtarget = Pi::player->GetNavTarget();
-	if (navtarget != NULL) {
-		vector2f indvec = vector2f(m_navTargetIndicator.pos[0], m_navTargetIndicator.pos[1]);
-		vector3d destvec = Pi::player->GetPositionRelTo(navtarget);
-		double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
+			if (m_activeCamera != NULL) {
+				vector3d proj;
+				const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
+				const int w = guiSize[0];
+				const int h = guiSize[1];
 
-		if (m_activeCamera != NULL) {
-			vector3d proj;
-			const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
-			const int w = guiSize[0];
-			const int h = guiSize[1];
+				vector3d scrvec(m_navTargetIndicator.pos[0], m_navTargetIndicator.pos[1], 0.1);
+				//scrvec = scrvec.Normalized();
+				
+				vector3d scrvec2(scrvec.x * 2.0, scrvec.y * 2.0, scrvec.z);
 
-			vector3d scrvec(m_navTargetIndicator.pos[0], m_navTargetIndicator.pos[1], 0.1);
-			//scrvec = scrvec.Normalized();
+				unproject_from_screen(scrvec2, proj, m_activeCamera->GetFrustum(), guiSize);
+
+				vector3d up(0, 1, 0);
+				vector3d cpos = m_activeCamera->GetPosition();
+
+				matrix4x4d playrot;
+				Pi::player->GetRotMatrix(playrot);
+				matrix4x4d camrot = m_activeCamera->GetOrientation();
+
+				vector3d pvrot = up * playrot;
+				vector3d cvrot = up * camrot;
+				vector3d pos = Pi::player->GetPosition();
+
+				char buf[1024];
+				snprintf(
+					buf,
+					sizeof(buf),
+					"Pos: %.1f,%.1f,%.1f\n"
+					"rot: %.1f,%.1f,%.1f\n"
+					"scrvec: %.1f,%.1f,%.1f\n"
+					"scrvec2: %.1f,%.1f,%.1f\n"
+					"projvec: %.5f,%.5f,%.5f\n"
+					"cpos: %.5f,%.5f,%.5f\n"
+					"crot: %.1f,%.1f,%.1f\n",
+					pos.x, pos.y, pos.z,
+					pvrot.x, pvrot.y, pvrot.z,
+					scrvec.x, scrvec.y, scrvec.z,
+					scrvec2.x, scrvec2.y, scrvec2.z,
+					proj.x, proj.y, proj.z,
+					cpos.x, cpos.y, cpos.z,
+					cvrot.x, cvrot.y, cvrot.z
+				);
+
+				m_altDebugInfo->SetText(buf);
+				m_altDebugInfo->Show();
+
+				const float BORDER = 10.0;
+				const float BORDER_BOTTOM = 90.0;
+				// XXX BORDER_BOTTOM is 10+the control panel height and shouldn't be needed at all
+
+				bool onscreen =
+					(proj.z < 0.0) &&
+					(proj.x >= BORDER) && (proj.x < w - BORDER) &&
+					(proj.y >= BORDER) && (proj.y < h - BORDER_BOTTOM)
+				;
+
+				glPushMatrix();
+				{
+					RefCountedPtr<Graphics::Material> smat(new Graphics::Material);
+					smat->unlit = false;
+					Graphics::Drawables::Sphere3D sphere(smat, 4, 1.0);
+					glTranslatef(pos.x, pos.y, pos.z);
+					sphere.Draw(m_renderer);
+				}
+				glPopMatrix();
+
+			} else {
+				m_altDebugInfo->SetText("No active camera");
+				m_altDebugInfo->Show();
+			}
 			
-			vector3d scrvec2(scrvec.x * 2.0, scrvec.y * 2.0, scrvec.z);
-
-			unproject_from_screen(scrvec2, proj, m_activeCamera->GetFrustum(), guiSize);
-
-			vector3d up(0, 1, 0);
-			vector3d cpos = m_activeCamera->GetPosition();
-
-			matrix4x4d playrot;
-			Pi::player->GetRotMatrix(playrot);
-			matrix4x4d camrot = m_activeCamera->GetOrientation();
-
-			vector3d pvrot = up * playrot;
-			vector3d cvrot = up * camrot;
-			vector3d pos = Pi::player->GetPosition();
-
-			char buf[1024];
-			snprintf(
-				buf,
-				sizeof(buf),
-				"Pos: %.1f,%.1f,%.1f\n"
-				"rot: %.1f,%.1f,%.1f\n"
-				"scrvec: %.1f,%.1f,%.1f\n"
-				"scrvec2: %.1f,%.1f,%.1f\n"
-				"projvec: %.5f,%.5f,%.5f\n"
-				"cpos: %.5f,%.5f,%.5f\n"
-				"crot: %.1f,%.1f,%.1f\n",
-				pos.x, pos.y, pos.z,
-				pvrot.x, pvrot.y, pvrot.z,
-				scrvec.x, scrvec.y, scrvec.z,
-				scrvec2.x, scrvec2.y, scrvec2.z,
-				proj.x, proj.y, proj.z,
-				cpos.x, cpos.y, cpos.z,
-				cvrot.x, cvrot.y, cvrot.z
-			);
-
-			m_altDebugInfo->SetText(buf);
-			m_altDebugInfo->Show();
-
-			const float BORDER = 10.0;
-			const float BORDER_BOTTOM = 90.0;
-			// XXX BORDER_BOTTOM is 10+the control panel height and shouldn't be needed at all
-
-			bool onscreen =
-				(proj.z < 0.0) &&
-				(proj.x >= BORDER) && (proj.x < w - BORDER) &&
-				(proj.y >= BORDER) && (proj.y < h - BORDER_BOTTOM)
-			;
-
-			glPushMatrix();
-			{
-				RefCountedPtr<Graphics::Material> smat(new Graphics::Material);
-				smat->unlit = false;
-				Graphics::Drawables::Sphere3D sphere(smat, 4, 1.0);
-				glTranslatef(pos.x, pos.y, pos.z);
-				sphere.Draw(m_renderer);
+			double scalingFactor = 1.6;
+			double dist = 0.0;
+			double d1 = 10.0;
+			int i = 1;
+			int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2.0;
+			double angle = atan(maxSquareHeight / distToDest);
+			const float tpos[2] = { m_navTargetIndicator.pos[0], m_navTargetIndicator.pos[1] };
+			const float distDiffX = tpos[0] - (Gui::Screen::GetWidth() / 2.0);
+			const float distDiffY = tpos[1] - (Gui::Screen::GetHeight() / 2.0);
+			
+			while (true) {
+				dist = getSquareDistance(d1, scalingFactor, i);
+				if (dist > distToDest) {
+					break;
+				}
+				double sqh = getSquareHeight(dist, angle);
+				if (sqh >= 10) {
+					const float sqpos[2] = {
+						tpos[0] + (distDiffX * (dist / distToDest)),
+						tpos[1] + (distDiffY * (dist / distToDest))
+					};
+					DrawTargetGuideSquare(sqpos, sqh, green);
+				}
+				i++; 
 			}
-			glPopMatrix();
-
 		} else {
-			m_altDebugInfo->SetText("No active camera");
+			m_altDebugInfo->SetText("No active target");
 			m_altDebugInfo->Show();
 		}
-		
-		double scalingFactor = 1.6;
-		double dist = 0.0;
-		double d1 = 200.0;
-		int i = 1;
-		int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2.0;
-		double angle = atan(maxSquareHeight / distToDest);
-		
-		while (true) {
-			dist = getSquareDistance(d1, scalingFactor, i);
-			if (dist > distToDest) {
-				break;
-			}
-			double sqh = getSquareHeight(dist, angle);
-			if (sqh >= 10) {
-				DrawTargetGuideSquare(m_navTargetIndicator, sqh, green);
-			}
-			i++; 
-		}
-	} else {
-		m_altDebugInfo->SetText("No active target");
-		m_altDebugInfo->Show();
 	}
-
+	
 	glLineWidth(1.0f);
 
 	// velocity indicators
@@ -1715,14 +1724,12 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 	m_renderer->DrawLines2D(4, vts, c, Graphics::LINE_LOOP);
 }
 
-void WorldView::DrawTargetGuideSquare(const Indicator &marker, const float size, const Color &c)
+void WorldView::DrawTargetGuideSquare(const float pos[2], const float size, const Color &c)
 {
-	if (marker.side == INDICATOR_HIDDEN) return;
-
-	const float x1 = float(marker.pos[0] - size);
-	const float x2 = float(marker.pos[0] + size);
-	const float y1 = float(marker.pos[1] - size);
-	const float y2 = float(marker.pos[1] + size);
+	const float x1 = float(pos[0] - size);
+	const float x2 = float(pos[0] + size);
+	const float y1 = float(pos[1] - size);
+	const float y2 = float(pos[1] + size);
 
 	const vector2f vts[] = {
 		vector2f(x1, y1),
