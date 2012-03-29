@@ -296,6 +296,7 @@
 		4AB7D62E1472A83E00158DE4 /* TerrainHeightRuggedLava.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5FE1472A83E00158DE4 /* TerrainHeightRuggedLava.cpp */; };
 		4AB7D62F1472A83E00158DE4 /* TerrainHeightWaterSolid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5FF1472A83E00158DE4 /* TerrainHeightWaterSolid.cpp */; };
 		4AB7D6301472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D6001472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp */; };
+		4ADA8B36152497AA00FCAD58 /* WorldViewCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADA8B34152497AA00FCAD58 /* WorldViewCamera.cpp */; };
 		4AE5CA3B1383E2D000B55DEB /* libSDL-1.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */; };
 		4AE5CA3C1383E2EC00B55DEB /* libSDL-1.2.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */; };
 		4AE5CA3E1383E63C00B55DEB /* libSDL_image-1.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */; };
@@ -919,6 +920,8 @@
 		4AB7D5FF1472A83E00158DE4 /* TerrainHeightWaterSolid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightWaterSolid.cpp; sourceTree = "<group>"; };
 		4AB7D6001472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightWaterSolidCanyons.cpp; sourceTree = "<group>"; };
 		4AB7D6011472A83E00158DE4 /* TerrainNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerrainNoise.h; sourceTree = "<group>"; };
+		4ADA8B34152497AA00FCAD58 /* WorldViewCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldViewCamera.cpp; sourceTree = "<group>"; };
+		4ADA8B35152497AA00FCAD58 /* WorldViewCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldViewCamera.h; sourceTree = "<group>"; };
 		4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL-1.2.0.dylib"; path = "/opt/local/lib/libSDL-1.2.0.dylib"; sourceTree = "<absolute>"; };
 		4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_image-1.2.0.dylib"; path = "/opt/local/lib/libSDL_image-1.2.0.dylib"; sourceTree = "<absolute>"; };
 		4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_sound-1.0.1.0.2.dylib"; path = "/opt/local/lib/libSDL_sound-1.0.1.0.2.dylib"; sourceTree = "<absolute>"; };
@@ -1537,6 +1540,8 @@
 				4A6C4D7113532FC300FDD53F /* View.h */,
 				4A6C4D7213532FC300FDD53F /* WorldView.cpp */,
 				4A6C4D7313532FC300FDD53F /* WorldView.h */,
+				4ADA8B34152497AA00FCAD58 /* WorldViewCamera.cpp */,
+				4ADA8B35152497AA00FCAD58 /* WorldViewCamera.h */,
 			);
 			name = src;
 			path = ../src;
@@ -1983,6 +1988,7 @@
 				4A9174FB15187B97006A15A9 /* TextureBuilder.cpp in Sources */,
 				4A9174FC15187B97006A15A9 /* TextureGL.cpp in Sources */,
 				4A9174FE15187C17006A15A9 /* Color.cpp in Sources */,
+				4ADA8B36152497AA00FCAD58 /* WorldViewCamera.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
