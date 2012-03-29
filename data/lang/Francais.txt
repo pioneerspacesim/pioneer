@@ -30,7 +30,7 @@ VID_CONNECTING
 BOUGHT_1T_OF
     Vous avez acheté 1t de %commodity.
 SOLD_1T_OF
-    Vous avez vendu 1t of %commodity.
+    Vous avez vendu 1t de %commodity.
 WELCOME_TO_MARKET
     Bienvenue sur le marché de %station
 GO_BACK
@@ -90,7 +90,7 @@ REVERSE_ACCEL_EMPTY
 REVERSE_ACCEL_LADEN
     Décélération (pleine charge)
 HYPERDRIVE_FITTED
-    Hyperdrive installé:
+    Hyperpropulsion installée :
 HYPERSPACE_RANGE_LADEN
     Rayon hyperspatial (pleine charge):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
@@ -143,19 +143,19 @@ CONTACT_LOCAL_POLICE
 COMMS_LINK
     Communications
 ZOOM_IN
-    Zoom in
+    Zoom avant
 ZOOM_OUT
-    Zoom out
+    Zoom arrière
 NORMA_ARM
-    Bras de Norma
+    Bras de la Règle
 PERSEUS_ARM
-    Bras de Perseus
+    Bras de Persée
 OUTER_ARM
     Bras externe
 SAGITTARIUS_ARM
     Bras du Sagittaire
 SCUTUM_CENTAURUS_ARM
-    Bras de Scutum-Centaurus
+    Bras Écu-Croix
 INT_LY
     %scale al
 SEARCH
@@ -174,6 +174,8 @@ CANCEL
     Annuler
 SELECT_FILENAME_TO_SAVE
     Sélectionnez le fichier à sauvegarder ou entrez un nouveau nom
+CANT_SAVE_IN_HYPERSPACE
+	Impossible de sauvegarder en hyperspace
 GAME_SAVED_TO
     "Partie sauvegardée sur"
 SELECT_FILENAME_TO_LOAD
@@ -184,6 +186,8 @@ GAME_LOAD_CORRUPT
     Cette sauvegarde ne peut être chargée car elle est corrompue.
 GAME_LOAD_CANNOT_OPEN
     Cette sauvegarde ne peut être chargée - problème de permissions ou autre...
+GAME_SAVE_CANNOT_WRITE
+	Impossible d'écrire la sauvegarde à cause d'une erreur système.
 VERY_LOW
     Très bas
 LOW
@@ -201,7 +205,7 @@ ON
 OFF
     Off
 SIGHTS_SOUNDS_SAVES
-    Sights, sounds & saving games
+    Affichage, son & sauvegardes
 PIONEER
     PIONEER
 SAVE_THE_GAME
@@ -227,17 +231,17 @@ VOL_EFFECTS
 VOL_MUSIC
     Musique:
 VIDEO_RESOLUTION
-    Résolution Vidéo (redémarrage requis)
+    Résolution vidéo (redémarrage requis)
 X_BY_X
     %{x}x%{y}
 PLANET_DETAIL_DISTANCE
-    Détails planètes:
+    Détails planètes :
 CITY_DETAIL_LEVEL
-    Détail villes:
+    Détail villes :
 PLANET_TEXTURES
-    Textures planètes:
+    Textures planètes :
 FRACTAL_DETAIL
-    Détail fractales:
+    Détail fractales :
 CONTROLS
     Contrôles
 ENABLE_JOYSTICK
@@ -253,7 +257,7 @@ LANGUAGE_SELECTION
 NONE
     Aucun
 HYDROGEN
-    Hydrogene
+    Hydrogène
 HYDROGEN_DESCRIPTION
     L'hydrogène est utilisé comme carburant de fusion
 LIQUID_OXYGEN
@@ -271,9 +275,9 @@ METAL_ALLOYS
 PLASTICS
     Plastiques
 FRUIT_AND_VEG
-    Fruit et Veg
+    Fruits & légumes
 ANIMAL_MEAT
-    Viande Animale
+    Viande animale
 LIVE_ANIMALS
     Animaux vivants
 LIQUOR
@@ -287,7 +291,7 @@ FERTILIZER
 WATER
     Eau
 MEDICINES
-    Medicaments
+    Médicaments
 CONSUMER_GOODS
     Biens de consommation
 COMPUTERS
@@ -297,7 +301,7 @@ ROBOTS
 PRECIOUS_METALS
     Métaux précieux
 INDUSTRIAL_MACHINERY
-    Machines Industrielles
+    Machines industrielles
 FARM_MACHINERY
     Machines agricoles
 MINING_MACHINERY
@@ -323,19 +327,19 @@ RADIOACTIVES
  
 # Hardware
 MISSILE_UNGUIDED
-    R40 Roquette
+    Roquette R40
 MISSILE_GUIDED
     Missile guidé                                                     
 MISSILE_SMART
     Missile intelligent                                             
 MISSILE_NAVAL
-    Missile Naval
+    Missile naval
 ATMOSPHERIC_SHIELDING
     Bouclier atmosphérique
 ATMOSPHERIC_SHIELDING_DESCRIPTION
     Protège votre vaisseau pendant une rentrée en atmosphère.
 ECM_BASIC
-    ECM système
+    Système ECM
 ECM_BASIC_DESCRIPTION
     Système de contremesures électroniques, capable de détruire certains missiles guidés.
 SCANNER
@@ -353,27 +357,27 @@ X_SHIELD_GENERATORS
 SHIELD_GENERATOR_DESCRIPTION
     Procure une protection de coque supplémentaire pour chaque unité installée.
 LASER_COOLING_BOOSTER
-    Accélérateur de refroidissement laser.
+    Accélérateur de refroidissement laser
 LASER_COOLING_BOOSTER_DESCRIPTION
     Améliore le refroidissement de vos armes.
 CARGO_LIFE_SUPPORT
-    Système de vivance de soute.
+    Soute préssurisée pour animaux
 CARGO_LIFE_SUPPORT_DESCRIPTION
-    Permet le transport d'animaux, esclaves.
+    Permet le transport d'animaux vivants et d'esclaves.
 AUTOPILOT
-    Autopilote
+    Pilote automatique
 AUTOPILOT_DESCRIPTION
-    Ordinateur de vol, pilote automatique.
+    Ordinateur de vol.
 RADAR_MAPPER
     Cartographe Radar
 RADAR_MAPPER_DESCRIPTION
     Permet d'inspecter l'équipement, le cargo et l'état des autres vaisseaux.
 FUEL_SCOOP
-    Fuel Scoop
+    Écope à carburant
 FUEL_SCOOP_DESCRIPTION
     Permet de récupérer de l'hydrogène sur les planètes géantes gazeuses.
 CARGO_SCOOP
-    Récupérateur de conteneur
+    Récupérateur de cargaison
 CARGO_SCOOP_DESCRIPTION
     Permet de récupérer des conteneurs dans l'espace.
 HYPERCLOUD_ANALYZER
@@ -449,23 +453,25 @@ CLIENT
 LOCATION
     Position
 DUE
-    A finir
+    À finir
 REWARD
     Récompense
 STATUS
     Statut
 CARGO_INVENTORY
-    Inventaire cargo:
+    Inventaire cargo :
 JETTISON
-    Ejection
+    Éjection
+REFUEL
+    Ravitailler
 JETTISONED_1T_OF_X
-    Ejection d'1 tonne de %commodity
+    Éjection d'1 tonne de %commodity
 COMBAT_RATING
     CLASSEMENT:
 CRIMINAL_RECORD
-    CASIER JUDICIAIRE:
+    CASIER JUDICIAIRE :
 SHIP_INFORMATION_HEADER
-    "INFORMATION VAISSEAU: "
+    "INFORMATION VAISSEAU : "
 HYPERDRIVE
     Hyperpropulsion
 FREE
@@ -473,7 +479,7 @@ FREE
 USED
     Utilisé
 TOTAL_WEIGHT
-    Masse totalet
+    Masse totale
 FRONT_WEAPON
     Arme avant
 REAR_WEAPON
@@ -581,7 +587,7 @@ HARMLESS
 MOSTLY_HARMLESS
     Quasi innoffensif
 POOR
-    Petit
+    Faible
 AVERAGE
     Moyen
 ABOVE_AVERAGE 
@@ -595,13 +601,15 @@ DEADLY
 ELITE
     ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
-    Simulation de l'évolution de l'univers: %age{f.1} billion years ;-)
+    Simulation de l'évolution de l'univers : %age{f.1} milliards d'années ;-)
 TOMBSTONE_EPITAPH
     Paix à ton âme!
 MM_START_NEW_GAME_EARTH
     Nouvelle partie, débute sur Terre
 MM_START_NEW_GAME_E_ERIDANI
     Nouvelle partie, débute sur Espilon Eridani
+MM_START_NEW_GAME_LAVE
+    Nouvelle partie, débute sur Lave
 MM_START_NEW_GAME_DEBUG
     Nouvelle partie, point de débogage
 MM_LOAD_SAVED_GAME
@@ -633,9 +641,9 @@ PAY_THE_FINE_NOW
 HANG_UP
     Raccrochez.
 TRADING_ILLEGAL_GOODS
-    Contrebande de produits illégaux.
+    Contrebande de produits illégaux
 UNLAWFUL_WEAPONS_DISCHARGE
-    Utilisation illégale d'armes.
+    Utilisation illégale d'armes
 PIRACY
     Piraterie
 MURDER
@@ -701,7 +709,7 @@ NOT_FOUND_BEST_MATCH_X
 NOT_FOUND
     Non trouvé
 NUMBER_HOURS
-    %hours{f.2} hrs
+    %hours{f.1}h
 NUMBER_DAYS
     %days{f.0} jours
 QUADRUPLE_SYSTEM
@@ -715,11 +723,11 @@ ENABLED_AUTOMATIC_SYSTEM_SELECTION
 DISABLED_AUTOMATIC_SYSTEM_SELECTION
     Sélection automatique de système OFF.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
-    Fuel scoop activé. Vous avez %quantity tonnes d'hydrogène.
+    Écope à carburant activée. Vous avez %quantity tonnes d'hydrogène.
 CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED
-    Récupérateur de conteneur actif: 1t de %item récupérée
+    Récupérateur de cargaison actif: 1t de %item récupérée
 CARGO_BAY_LIFE_SUPPORT_LOST
-    Les senseurs rapportent une condition critique des systèmes de vivance de soute.
+    Les capteurs indiquent une dépréssurisation de la soute de transport d'animaux.
 NO_FREE_SPACE_FOR_ITEM
     Vous n'avez pas de place pour cet objet.
 SHIP_IS_FULLY_LADEN
@@ -732,8 +740,10 @@ REAR_VIEW
     Vie arrière
 EXTERNAL_VIEW
     Vue extérieure
+SIDEREAL_VIEW
+    Vue sidérale
 NAVIGATION_STAR_MAPS
-    Navigation et cartes stellaires.
+    Navigation et cartes stellaires
 COMMS
     Comms
 GALAXY_SECTOR_VIEW
@@ -765,7 +775,7 @@ CLEARANCE_ALREADY_GRANTED_BAY_N
 CLEARANCE_GRANTED_BAY_N
     Autorisation accordée. Atterrissez sur le dock %bay.
 CLEARANCE_DENIED_NO_BAYS
-    Autorisation Refusée. Tous les docks sont occupés.
+    Autorisation refusée. Tous les docks sont occupés.
 ITEM_IS_OUT_OF_STOCK
     Nous n'avons pas cet objet en stock.
 BROWN_DWARF
@@ -935,15 +945,15 @@ THRIVING_OUTDOOR_WORLD
 INDUSTRIAL_HUB_SYSTEM
     Système industriel logistique.
 VAST_STRIP_MINE
-    Vast strip-mining colony.
+    Vaste colonie minière, extraction à ciel ouvert.
 HIGH_POPULATION_OUTDOOR_WORLD
     Monde habitable hautement peuplé.
 MASS
     Masse
 N_WHATEVER_MASSES
-    %mass{f.3} %units masses
+    %mass{f.3} masses %units
 SOLAR
-    Solaire
+    Solaires
 EARTH
     Terriennes
 SURFACE_GRAVITY
@@ -951,7 +961,7 @@ SURFACE_GRAVITY
 SURFACE_TEMPERATURE
     Température en surface
 N_CELSIUS
-    %temperature C
+    %temperature °C
 N_YEARS
     %years{f.1} années
 N_DAYS
@@ -967,9 +977,9 @@ ECCENTRICITY
 AXIAL_TILT
     Mouvement axial
 N_DEGREES
-    %angle{f.1} degres
+    %angle{f.1} degrés
 DAY_LENGTH
-    Day length
+    Durée du jour
 N_EARTH_DAYS
     %days{f.1} jours terrestres
 COUNT_STARPORTS
@@ -977,17 +987,17 @@ COUNT_STARPORTS
 STARPORTS
     Spatioports
 MAJOR_IMPORTS
-    Importations majeures:
+    Importations majeures :
 MINOR_IMPORTS
-    Importations mineures:
+    Importations mineures :
 MAJOR_EXPORTS
-    Exportations majeures:
+    Exportations majeures :
 MINOR_EXPORTS
-    Exportations mineures:
+    Exportations mineures :
 ILLEGAL_GOODS
     Contrebande:
 UNEXPLORED_SYSTEM_STAR_INFO_ONLY
-    System non-exploré. Les informations ont été réunies par un téléscope distant, mais aucune information planétaire n'est disponible.
+    Système non-exploré. Les informations ont été réunies par un téléscope distant, mais aucune information planétaire n'est disponible.
 PLANETARY_INFO
     Informations Planétaire
 ECONOMIC_INFO
@@ -995,21 +1005,21 @@ ECONOMIC_INFO
 DEMOGRAPHICS
     Démographie
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
-    Système stable avec %bodycount %{body(s)} majeurs et %portcount %{starport(s)}.
+    Système stable avec %bodycount %{body(s)} et %portcount %{starport(s)}.
 BODY
-    corps
+    corps majeur
 BODIES
-    corps
+    corps majeurs
 SYSTEM_TYPE
-    Type de système:
+    Type de système :
 GOVERNMENT_TYPE
-    Type de gouvernement:
+    Type de gouvernement :
 ECONOMY_TYPE
-    Type d'économie:
+    Type d'économie :
 ALLEGIANCE
-    Allégeance:
+    Allégeance :
 POPULATION
-    Population:
+    Population :
 OVER_N_BILLION
     Plus de %population milliards
 OVER_N_MILLION
@@ -1019,9 +1029,9 @@ A_FEW_THOUSAND
 NO_REGISTERED_INHABITANTS
     Aucun habitant enregistré
 SECTOR_COORDINATES
-    Coordonnées du secteur:
+    Coordonnées du secteur :
 SYSTEM_NUMBER
-    Numéro du système:
+    Numéro du système :
 NAME
     Nom
 ROTATIONAL_PERIOD
@@ -1031,7 +1041,7 @@ RADIUS
 SEMI_MAJOR_AXIS
     Axe demi-majeur
 TIME_POINT
-    Point temporel:
+    Point temporel :
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
     Système inconnu. Pas de vue orbitale disponible.
 WHEELS_ARE_UP
@@ -1050,6 +1060,8 @@ MANUAL_CONTROL
     Contrôle manuel
 COMPUTER_SPEED_CONTROL
     Vitesse contrôlée
+COMPUTER_HEADING_CONTROL
+    Direction contrôlée
 AUTOPILOT_ON
     Pilote automatique ON
 SHIP_VELOCITY_BY_REFERENCE_OBJECT
@@ -1061,25 +1073,31 @@ SHIP_ALTITUDE_ABOVE_TERRAIN
 EXTERNAL_ATMOSPHERIC_PRESSURE
     Pression atmosphérique extérieure
 HULL_TEMP
-    Temp coque
+    Temp. coque
 WEAPON_TEMP
-    Temp arme
+    Temp. arme
 HULL_INTEGRITY
     Intégrité coque
 SHIELD_INTEGRITY
     Boucliers
+FUEL
+    Carburant
 LAUNCH_PERMISSION_DENIED_BUSY
     Permission de décollage refusée: Occupé.
 HYPERSPACE_JUMP_ABORTED
     Saut hyperspatial avorté.
 LANDED
-    Atterri
+    Au sol
 DOCKING
-    Docking
+    Arrimage
 DOCKED
-    Docké
+    Arrimé
 HYPERSPACE
     Hyperespace
+HEADING_LOCK_FORWARD
+    Heading Lock (fore)
+HEADING_LOCK_BACKWARD
+    Heading Lock (aft)
 SET_SPEED_KM_S
     Vit. ét.: %speed{f.2} km/s
 SET_SPEED_M_S
@@ -1090,8 +1108,12 @@ M_S_RELATIVE_TO
     %speed{f.0} m/s rel-à %frame
 N_DISTANCE_TO_TARGET
     %distance à la cible
+IN_TRANSIT
+    En transit
 IN_TRANSIT_TO_N_X_X_X
     En transit vers %system [%x,%y,%z]
+PROBABILITY_OF_ARRIVAL_X_PERCENT
+    Probability of arrival: %probability%%
 ALT_IN_METRES
     Alt: %altitude{f.0}m
 PRESSURE_N_BAR
@@ -1099,15 +1121,15 @@ PRESSURE_N_BAR
 NO_HYPERDRIVE
     Pas d'hyperpropulsion
 MASS_N_TONNES
-    Masse: %{mass}t
+    Masse : %{mass}t
 SHIELD_STRENGTH_N
-    Force boucliers: %shields{f.2}
+    Force boucliers : %shields{f.2}
 CARGO_N
-    Cargo: %{mass}t
+    Cargo : %{mass}t
 HYPERSPACE_ARRIVAL_CLOUD_REMNANT
     Résidu d'arrivée hyperspatiale
 SHIP_MASS_N_TONNES
-    Masse du vaisseau: %{mass}t
+    Masse du vaisseau : %{mass}t
 DATE_DUE_N
     Date d'arrivée : %date
 SOURCE
@@ -1125,23 +1147,23 @@ FINE_PAID_N_BUT_N_REMAINING
 FINE_PAID_N
     Vous avez payé l'amende de %fine.
 SET_HYPERSPACE_DESTINATION_TO
-    "Destination hyperspatiale vers: %system"
+    "Destination hyperspatiale : %system"
 NO_TARGET_SELECTED
-    Ordinateur de Vaisseau: pas de cible
+    Ordinateur de vaisseau : pas de cible
 REQUEST_DOCKING_CLEARANCE
     Demander une autorisation d'atterrissage
 AUTOPILOT_DOCK_WITH_STATION
-    Autopilote: Docker avec la station spatiale
+    Pilote auto : Docker avec la station spatiale
 PAY_FINE_REMOTELY
     Payer l'amende par transfert à distance: (%amount)
 AUTOPILOT_FLY_TO_VICINITY_OF
-    Autopilote: Voler à proximité de %target
+    Pilote auto : Voler à proximité de %target
 AUTOPILOT_ENTER_LOW_ORBIT_AROUND
-    Autopilote: Rentrer en orbite basse autour de %target
+    Pilote auto : Rentrer en orbite basse autour de %target
 AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
-    Autopilote: Rentrer en orbite moyenne autour de %target
+    Pilote auto : Rentrer en orbite moyenne autour de %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
-    Autopilote: Rentrer en orbite haute autour de %target
+    Pilote auto : Rentrer en orbite haute autour de %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Analyseur hyperspatial: Sélectionner le système pour suivre ce départ
 FAILED
@@ -1151,13 +1173,13 @@ COMPLETED
 ACTIVE
     Active
 DISTANCE_LY
-    Distance: %distance{f.2} ly
+    Distance: %distance{f.2} al
 SYSTEM
     Système
 UNOCCUPIED_CABIN
-    Cabine de passager supp.
+    Cabine passager supp.
 X_UNOCCUPIED_CABINS
-    %quantity Cabines de passagers supp.
+    %quantity Cabines passagers supp.
 UNOCCUPIED_CABIN_DESCRIPTION
     Requis pour le transport d'un passager.
 PASSENGER_CABIN
