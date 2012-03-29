@@ -1578,7 +1578,7 @@ void WorldView::Draw()
 		
 		double scalingFactor = 1.6;
 		double dist = 0.0;
-		double d1 = 100.0;
+		double d1 = 200.0;
 		int i = 1;
 		int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2.0;
 		double angle = atan(maxSquareHeight / distToDest);
