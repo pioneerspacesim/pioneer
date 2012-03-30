@@ -85,6 +85,7 @@ private:
 	FlightControlState m_flightControlState;
 	float m_fovY; //for mouse acceleration adjustment
 	float m_joystickDeadzone;
+	float m_lowThrustPower;
 	int m_combatTargetIndex; //for PostLoadFixUp
 	int m_navTargetIndex;
 	int m_setSpeedTargetIndex;
