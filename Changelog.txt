@@ -15,6 +15,7 @@ Alpha 21
        attribute for non-terrain bodies (#1100)
      * Several stars around Sol updated to use their "traditional"
        (non-catalogue) names (#1068)
+     * Rear of Eagle ship now visible to player (#1125)
 
    * Fixes
      * Don't take timesteps for dead ships. Stops the player firing during the
@@ -36,6 +37,8 @@ Alpha 21
      * New ShipJumpStatus constants DRIVE_ACTIVE and SAFETY_LOCKOUT (#1101)
      * New method Ship.GetHyperspaceDetails() to get hyperspace status,
        duration and fuel use without regard to current flight state (#1101)
+     * New ship params 'front_camera' and 'rear_camera'. Sets the camera's
+       position on the ship, and causes the ship's body to be drawn (#1125)
 
    * Internal changes
      * configure tweaks for better optimisations and profiling support
@@ -50,6 +53,8 @@ Alpha 21
        #1084, #1107)
      * Split world cameras out of WorldView (#1113)
      * Use a fixed version and proper CRC for the model cache (#1119)
+     * Moved ship control code out of Player and Worldview into a new set of
+       ShipController classes (#1083)
 
 Alpha 20
 

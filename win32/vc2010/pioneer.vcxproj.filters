@@ -663,7 +663,13 @@
     <ClCompile Include="..\..\src\MathUtil.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\ShipController.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\WorldViewCamera.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\CRC32.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1247,7 +1253,13 @@
     <ClInclude Include="..\..\src\GameLoaderSaver.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\ShipController.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\WorldViewCamera.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\CRC32.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

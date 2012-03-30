@@ -3,16 +3,17 @@
 #include "Frame.h"
 #include "Player.h"
 #include "Planet.h"
+#include "Sector.h"
+#include "SectorView.h"
+#include "Serializer.h"
+#include "ShipCpanel.h"
+#include "Sound.h"
 #include "Space.h"
 #include "SpaceStation.h"
-#include "ShipCpanel.h"
-#include "Serializer.h"
 #include "StarSystem.h"
-#include "Sector.h"
 #include "HyperspaceCloud.h"
 #include "KeyBindings.h"
 #include "perlin.h"
-#include "SectorView.h"
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
@@ -101,11 +102,11 @@ void WorldView::InitObject()
 	m_flightControlButton = new Gui::MultiStateImageButton();
 	m_flightControlButton->SetShortcut(SDLK_F5, KMOD_NONE);
 	// these states must match Player::FlightControlState (so that the enum values match)
-	m_flightControlButton->AddState(Player::CONTROL_MANUAL, "icons/manual_control.png", Lang::MANUAL_CONTROL);
-	m_flightControlButton->AddState(Player::CONTROL_FIXSPEED, "icons/manual_control.png", Lang::COMPUTER_SPEED_CONTROL);
-	m_flightControlButton->AddState(Player::CONTROL_FIXHEADING_FORWARD, "icons/manual_control.png", Lang::COMPUTER_HEADING_CONTROL);
-	m_flightControlButton->AddState(Player::CONTROL_FIXHEADING_BACKWARD, "icons/manual_control.png", Lang::COMPUTER_HEADING_CONTROL);
-	m_flightControlButton->AddState(Player::CONTROL_AUTOPILOT, "icons/autopilot.png", Lang::AUTOPILOT_ON);
+	m_flightControlButton->AddState(CONTROL_MANUAL, "icons/manual_control.png", Lang::MANUAL_CONTROL);
+	m_flightControlButton->AddState(CONTROL_FIXSPEED, "icons/manual_control.png", Lang::COMPUTER_SPEED_CONTROL);
+	m_flightControlButton->AddState(CONTROL_FIXHEADING_FORWARD, "icons/manual_control.png", Lang::COMPUTER_HEADING_CONTROL);
+	m_flightControlButton->AddState(CONTROL_FIXHEADING_BACKWARD, "icons/manual_control.png", Lang::COMPUTER_HEADING_CONTROL);
+	m_flightControlButton->AddState(CONTROL_AUTOPILOT, "icons/autopilot.png", Lang::AUTOPILOT_ON);
 	m_flightControlButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeFlightState));
 	m_rightButtonBar->Add(m_flightControlButton, 2, 2);
 
@@ -189,6 +190,7 @@ void WorldView::InitObject()
 	m_rearCamera = new RearCamera(Pi::player, camSize, fovY, znear, zfar);
 	m_externalCamera = new ExternalCamera(Pi::player, camSize, fovY, znear, zfar);
 	m_siderealCamera = new SiderealCamera(Pi::player, camSize, fovY, znear, zfar);
+	SetCamType(m_camType); //set the active camera
 	
 	m_onHyperspaceTargetChangedCon =
 		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
@@ -200,7 +202,7 @@ void WorldView::InitObject()
 	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));
 
-	Pi::player->SetMouseForRearView(m_camType == CAM_REAR);
+	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_REAR);
 }
 
 WorldView::~WorldView()
@@ -227,9 +229,23 @@ void WorldView::SetCamType(enum CamType c)
 {
 	if (c != m_camType) {
 		m_camType = c;
-		Pi::player->SetMouseForRearView(c == CAM_REAR);
+		Pi::player->GetPlayerController()->SetMouseForRearView(c == CAM_REAR);
 		onChangeCamType.emit();
 	}
+	switch(m_camType) {
+		case CAM_REAR:
+			m_activeCamera = m_rearCamera;
+			break;
+		case CAM_EXTERNAL:
+			m_activeCamera = m_externalCamera;
+			break;
+		case CAM_SIDEREAL:
+			m_activeCamera = m_siderealCamera;
+			break;
+		default:
+			m_activeCamera = m_frontCamera;
+	}
+	m_activeCamera->Activate();
 }
 
 void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
@@ -248,27 +264,27 @@ void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
 	if (Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL)) {
 		// skip certain states
 		switch (newState) {
-			case Player::CONTROL_FIXSPEED: newState = Player::CONTROL_FIXHEADING_FORWARD; break;
-			case Player::CONTROL_AUTOPILOT: newState = Player::CONTROL_MANUAL; break;
+			case CONTROL_FIXSPEED: newState = CONTROL_FIXHEADING_FORWARD; break;
+			case CONTROL_AUTOPILOT: newState = CONTROL_MANUAL; break;
 			default: break;
 		}
 	} else {
 		// skip certain states
 		switch (newState) {
-			case Player::CONTROL_FIXHEADING_FORWARD: // fallthrough
-			case Player::CONTROL_FIXHEADING_BACKWARD: newState = Player::CONTROL_MANUAL; break;
-			case Player::CONTROL_AUTOPILOT: newState = Player::CONTROL_MANUAL; break;
+			case CONTROL_FIXHEADING_FORWARD: // fallthrough
+			case CONTROL_FIXHEADING_BACKWARD: newState = CONTROL_MANUAL; break;
+			case CONTROL_AUTOPILOT: newState = CONTROL_MANUAL; break;
 			default: break;
 		}
 	}
 	b->SetActiveState(newState);
-	Pi::player->SetFlightControlState(static_cast<Player::FlightControlState>(newState));
+	Pi::player->GetPlayerController()->SetFlightControlState(static_cast<FlightControlState>(newState));
 }
 
 /* This is when the flight control state actually changes... */
 void WorldView::OnPlayerChangeFlightControlState()
 {
-	m_flightControlButton->SetActiveState(Pi::player->GetFlightControlState());
+	m_flightControlButton->SetActiveState(Pi::player->GetPlayerController()->GetFlightControlState());
 }
 
 void WorldView::OnChangeLabelsState(Gui::MultiStateImageButton *b)
@@ -385,30 +401,31 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 			case Ship::FLYING:
 			default:
-				Player::FlightControlState fstate = Pi::player->GetFlightControlState();
+				const FlightControlState fstate = Pi::player->GetPlayerController()->GetFlightControlState();
 				switch (fstate) {
-					case Player::CONTROL_MANUAL:
+					case CONTROL_MANUAL:
 						m_flightStatus->SetText(Lang::MANUAL_CONTROL); break;
 
-					case Player::CONTROL_FIXSPEED: {
+					case CONTROL_FIXSPEED: {
 						std::string msg;
-						if (Pi::player->GetSetSpeed() > 1000) {
-							msg = stringf(Lang::SET_SPEED_KM_S, formatarg("speed", Pi::player->GetSetSpeed()*0.001));
+						const double setspeed = Pi::player->GetPlayerController()->GetSetSpeed();
+						if (setspeed > 1000) {
+							msg = stringf(Lang::SET_SPEED_KM_S, formatarg("speed", setspeed*0.001));
 						} else {
-							msg = stringf(Lang::SET_SPEED_M_S, formatarg("speed", Pi::player->GetSetSpeed()));
+							msg = stringf(Lang::SET_SPEED_M_S, formatarg("speed", setspeed));
 						}
 						m_flightStatus->SetText(msg);
 						break;
 					}
 
-					case Player::CONTROL_FIXHEADING_FORWARD:
+					case CONTROL_FIXHEADING_FORWARD:
 						m_flightStatus->SetText(Lang::HEADING_LOCK_FORWARD);
 						break;
-					case Player::CONTROL_FIXHEADING_BACKWARD:
+					case CONTROL_FIXHEADING_BACKWARD:
 						m_flightStatus->SetText(Lang::HEADING_LOCK_BACKWARD);
 						break;
 
-					case Player::CONTROL_AUTOPILOT:
+					case CONTROL_AUTOPILOT:
 						m_flightStatus->SetText(Lang::AUTOPILOT);
 						break;
 
@@ -696,7 +713,7 @@ void WorldView::Update()
 
 	//death animation: slowly pan out
 	if (Pi::player->IsDead()) {
-		m_camType = CAM_EXTERNAL;
+		SetCamType(CAM_EXTERNAL);
 		static_cast<ExternalCamera*>(m_externalCamera)->SetRotationAngles(0.0, 0.0);
 		m_externalCamera->ZoomOut(frameTime * 0.4);
 		m_labelsOn = false;
@@ -719,20 +736,6 @@ void WorldView::Update()
 				SelectBody(target, false);
 			}
 		}
-	}
-
-	switch(GetCamType()) {
-		case CAM_REAR:
-			m_activeCamera = m_rearCamera;
-			break;
-		case CAM_EXTERNAL:
-			m_activeCamera = m_externalCamera;
-			break;
-		case CAM_SIDEREAL:
-			m_activeCamera = m_siderealCamera;
-			break;
-		default:
-			m_activeCamera = m_frontCamera;
 	}
 
 	m_activeCamera->UpdateTransform();
@@ -884,6 +887,7 @@ void WorldView::OnPlayerChangeTarget()
 {
 	Body *b = Pi::player->GetNavTarget();
 	if (b) {
+		Sound::PlaySfx("OK");
 		Ship *s = b->IsType(Object::HYPERSPACECLOUD) ? static_cast<HyperspaceCloud*>(b)->GetShip() : 0;
 		if (!s || Pi::sectorView->GetHyperspaceTarget() != s->GetHyperspaceDest())
 			Pi::sectorView->FloatHyperspaceTarget();
@@ -894,17 +898,17 @@ void WorldView::OnPlayerChangeTarget()
 
 static void autopilot_flyto(Body *b)
 {
-	Pi::player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
+	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	Pi::player->AIFlyTo(b);
 }
 static void autopilot_dock(Body *b)
 {
-	Pi::player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
+	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	Pi::player->AIDock(static_cast<SpaceStation*>(b));
 }
 static void autopilot_orbit(Body *b, double alt)
 {
-	Pi::player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
+	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	Pi::player->AIOrbit(b, alt);
 }
 
@@ -1090,8 +1094,8 @@ void WorldView::UpdateProjectedObjects()
 		HideIndicator(m_velIndicator);
 
 	// orientation according to mouse
-	if (Pi::player->IsMouseActive()) {
-		vector3d mouseDir = Pi::player->GetMouseDir() * cam_rot;
+	if (Pi::player->GetPlayerController()->IsMouseActive()) {
+		vector3d mouseDir = Pi::player->GetPlayerController()->GetMouseDir() * cam_rot;
 		if (GetCamType() == CAM_REAR)
 			mouseDir = -mouseDir;
 		UpdateIndicator(m_mouseDirIndicator, (Pi::player->GetBoundingRadius() * 1.5) * mouseDir);

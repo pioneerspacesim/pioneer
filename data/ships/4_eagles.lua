@@ -8,6 +8,7 @@ define_ship {
 	left_thrust = -8e5,
 	right_thrust = 8e5,
 	angular_thrust = 64e5,
+	rear_camera = v(0,5,-10),
 	gun_mounts =
 	{
 		{ v(0,-.7,-40), v(0,0,-1) },
@@ -35,6 +36,7 @@ define_ship {
 	left_thrust = -8e5,
 	right_thrust = 8e5,
 	angular_thrust = 64e5,
+	rear_camera = v(0,5,-10),
 	gun_mounts =
 	{
 		{ v(0,-.7,-40), v(0,0,-1) },
@@ -62,6 +64,7 @@ define_ship {
 	left_thrust = -8e5,
 	right_thrust = 8e5,
 	angular_thrust = 64e5,
+	rear_camera = v(0,5,-10),
 	gun_mounts =
 	{
 		{ v(0,-.7,-40), v(0,0,-1) },
@@ -89,6 +92,7 @@ define_ship {
 	left_thrust = -12e5,
 	right_thrust = 12e5,
 	angular_thrust = 90e5,
+	rear_camera = v(0,5,-10),
 	gun_mounts =
 	{
 		{ v(0,-.7,-40), v(0,0,-1) },
