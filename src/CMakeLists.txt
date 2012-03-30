@@ -19,6 +19,7 @@ set( ${TARGETNAME}_H_base
 	"CityOnPlanet.h"
 	"Color.h"
 	"CommodityTradeWidget.h"
+	"CRC32.h"
 	"CustomSystem.h"
 	"DeadVideoLink.h"
 	"DeleteEmitter.h"
@@ -105,6 +106,7 @@ set( ${TARGETNAME}_H_base
 	"Sfx.h"
 	"Ship.h"
 	"ShipAICmd.h"
+	"ShipController.h"
 	"ShipCpanel.h"
 	"ShipCpanelMultiFuncDisplays.h"
 	"ShipFlavour.h"
@@ -142,6 +144,7 @@ set( ${TARGETNAME}_H_base
 	"VideoLink.h"
 	"View.h"
 	"WorldView.h"
+	"WorldViewCamera.h"
 )
 
 set( ${TARGETNAME}_SRC_base
@@ -154,6 +157,7 @@ set( ${TARGETNAME}_SRC_base
 	"CityOnPlanet.cpp"
 	"Color.cpp"
 	"CommodityTradeWidget.cpp"
+	"CRC32.cpp"
 	"CustomSystem.cpp"
 	"DeadVideoLink.cpp"
 	"DynamicBody.cpp"
@@ -234,6 +238,7 @@ set( ${TARGETNAME}_SRC_base
 	"Ship-AI.cpp"
 	"Ship.cpp"
 	"ShipAICmd.cpp"
+	"ShipController.cpp"
 	"ShipCpanel.cpp"
 	"ShipCpanelMultiFuncDisplays.cpp"
 	"ShipFlavour.cpp"
@@ -265,6 +270,7 @@ set( ${TARGETNAME}_SRC_base
 	"utils.cpp"
 	"VectorFont.cpp"
 	"WorldView.cpp"
+	"WorldViewCamera.cpp"
 )
 
 set( ${TARGETNAME}_H_graphics

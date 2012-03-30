@@ -5,11 +5,11 @@
 #   - For Sukender's part (new code, and code coming from PVLE): WTFPL v2
 #   - For code coming from OSG: LGPL v2
 
-# Current status of these CMake scripts: pre-pre-pre-pre-alpha, not functionnal yet
+# Current status of these CMake scripts: pre-pre-alpha (Only MSVC-Pioneer compiles and runs, lots of features are missing)
 # TODO:
 # - Write CMake tutorial/quick start
 # - Prepare scripts for ALL projects (model viewer, etc.)
-# - Test PCH
+# - Debug/Test PCH (seems not functional)
 # - Replace PIONEER_VERSION / PIONEER_EXTRAVERSION usage with Version.h.
 # 		Version.h/.cpp allow to grab versionning of VersionNumber.h without recompiling the entire project.
 # - Same options as automake (to be listed)
@@ -24,7 +24,7 @@
 #  OSX-gcc      64   never
 #  Windows-gcc  32   never
 #  Windows-gcc  64   never
-#  Windows-msvc 32   never
+#  Windows-msvc 32   2012-03-30 (Pioneer only, not modelviewer)
 #  Windows-msvc 64   never
 
 
@@ -127,6 +127,18 @@ IF(UNIX)
 	# Some Unicies need explicit linkage to the Math library or the build fails.
 	FIND_LIBRARY(MATH_LIBRARY m)
 ENDIF()
+
+if(WIN32)
+	# Adding shlwapi.lib for FileSystem32.cpp (Sukender: I'd rather use boost.filesystem!)
+	string(REGEX MATCH "shlwapi\\.lib" LIBTEST "${CMAKE_CXX_STANDARD_LIBRARIES}")
+	if(NOT LIBTEST)
+		SET(CMAKE_CXX_STANDARD_LIBRARIES "${CMAKE_CXX_STANDARD_LIBRARIES} shlwapi.lib" CACHE STRING "" FORCE)
+	endif()
+	string(REGEX MATCH "shlwapi\\.lib" LIBTEST "${CMAKE_C_STANDARD_LIBRARIES}")
+	if(NOT LIBTEST)
+		SET(CMAKE_C_STANDARD_LIBRARIES "${CMAKE_C_STANDARD_LIBRARIES} shlwapi.lib" CACHE STRING "" FORCE)
+	endif()
+endif()
 
 ADD_DEFINITIONS(-D_USE_MATH_DEFINES)		# Sukender: to get "PI" I guess?
 
