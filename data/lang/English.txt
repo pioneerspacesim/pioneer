@@ -528,8 +528,6 @@ FIRE_LASER
     Fire laser
 SHIP_ORIENTATION
     Ship orientation
-FAST_ROTATION_CONTROL
-    Fast rotational control
 PITCH_UP
     Pitch up
 PITCH_DOWN

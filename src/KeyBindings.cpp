@@ -22,7 +22,6 @@ KeyAction thrustLowPower;
 KeyAction increaseSpeed;
 KeyAction decreaseSpeed;
 KeyAction fireLaser;
-KeyAction fastRotate;
 KeyAction targetObject;
 KeyAction toggleLuaConsole;
 KeyAction toggleScanMode;
@@ -190,7 +189,6 @@ const BindingPrototype bindingProtos[] = {
 	{ Lang::TARGET_OBJECT_IN_SIGHTS, "BindTargetObject", &targetObject, 0 },
 	{ Lang::FIRE_LASER, "BindFireLaser", &fireLaser, 0 },
 	{ Lang::SHIP_ORIENTATION, 0, 0, 0 },
-	{ Lang::FAST_ROTATION_CONTROL, "BindFastRotate", &fastRotate, 0 },
 	{ Lang::PITCH_UP, "BindPitchUp", &pitchUp, 0 },
 	{ Lang::PITCH_DOWN, "BindPitchDown", &pitchDown, 0 },
 	{ Lang::YAW_LEFT, "BindYawLeft", &yawLeft, 0 },
@@ -418,7 +416,6 @@ void UpdateBindings()
 	InitKeyBinding(KeyBindings::decreaseSpeed, "BindDecreaseSpeed", SDLK_RSHIFT);
 	InitKeyBinding(KeyBindings::targetObject, "BindTargetObject", SDLK_TAB);
 	InitKeyBinding(KeyBindings::fireLaser, "BindFireLaser", SDLK_SPACE);
-	InitKeyBinding(KeyBindings::fastRotate, "BindFastRotate", SDLK_LSHIFT);
 	InitKeyBinding(KeyBindings::toggleScanMode, "BindToggleScanMode", SDLK_BACKSLASH);
 	InitKeyBinding(KeyBindings::increaseScanRange, "BindIncreaseScanRange", SDLK_RIGHTBRACKET);
 	InitKeyBinding(KeyBindings::decreaseScanRange, "BindDecreaseScanRange", SDLK_LEFTBRACKET);
