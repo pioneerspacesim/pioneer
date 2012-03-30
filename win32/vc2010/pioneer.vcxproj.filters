@@ -663,6 +663,9 @@
     <ClCompile Include="..\..\src\MathUtil.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\ShipController.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\WorldViewCamera.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -1248,6 +1251,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GameLoaderSaver.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ShipController.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\WorldViewCamera.h">
