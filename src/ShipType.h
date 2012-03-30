@@ -48,6 +48,8 @@ struct ShipType {
 	int fuelTankMass; //full fuel tank mass, on top of hullMass
 	int baseprice;
 	Equip::Type hyperdrive;
+	vector3d frontCameraOffset;
+	vector3d rearCameraOffset;
 	///////
 
 	static std::string LADYBIRD;

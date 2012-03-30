@@ -1,28 +1,17 @@
 #include "Ship.h"
-#include "ShipAICmd.h"
-#include "Frame.h"
-#include "Pi.h"
-#include "WorldView.h"
-#include "Space.h"
-#include "Serializer.h"
-#include "collider/collider.h"
-#include "Sfx.h"
-#include "CargoBody.h"
-#include "Planet.h"
-#include "StarSystem.h"
-#include "Sector.h"
-#include "Projectile.h"
-#include "Sound.h"
-#include "HyperspaceCloud.h"
-#include "ShipCpanel.h"
-#include "LmrModel.h"
-#include "Polit.h"
 #include "CityOnPlanet.h"
-#include "Missile.h"
+#include "Planet.h"
 #include "Lang.h"
-#include "StringF.h"
-#include "Game.h"
-#include "graphics/Material.h"
+#include "Missile.h"
+#include "Projectile.h"
+#include "ShipAICmd.h"
+#include "ShipController.h"
+#include "Sound.h"
+#include "Sfx.h"
+#include "Sector.h"
+#include "Frame.h"
+#include "WorldView.h"
+#include "HyperspaceCloud.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
@@ -100,6 +89,9 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 	else wr.Int32(0);
 	wr.Int32(int(m_aiMessage));
 	wr.Float(m_thrusterFuel);
+
+	wr.Int32(static_cast<int>(m_controller->GetType()));
+	m_controller->Save(wr, space);
 }
 
 void Ship::Load(Serializer::Reader &rd, Space *space)
@@ -139,6 +131,14 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	SetFuel(rd.Float());
 	m_stats.fuel_tank_mass_left = GetShipType().fuelTankMass * GetFuel();
 
+	m_controller = 0;
+	const ShipController::Type ctype = static_cast<ShipController::Type>(rd.Int32());
+	if (ctype == ShipController::PLAYER)
+		SetController(new PlayerShipController());
+	else
+		SetController(new ShipController());
+	m_controller->Load(rd);
+
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
 
@@ -158,15 +158,19 @@ void Ship::Init()
 	m_stats.shield_mass_left = 0;
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
 	m_hyperspaceCloud = 0;
+	m_frontCameraOffset = stype.frontCameraOffset;
+	m_rearCameraOffset = stype.rearCameraOffset;
 }
 
 void Ship::PostLoadFixup(Space *space)
 {
 	m_dockedWith = reinterpret_cast<SpaceStation*>(space->GetBodyByIndex(m_dockedWithIndex));
 	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
+	m_controller->PostLoadFixup(space);
 }
 
 Ship::Ship(ShipType::Type shipType): DynamicBody(),
+	m_controller(0),
 	m_thrusterFuel(1.f)
 {
 	m_flightState = FLYING;
@@ -195,12 +199,22 @@ Ship::Ship(ShipType::Type shipType): DynamicBody(),
 	m_aiMessage = AIERROR_NONE;
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
-	Init();	
+	Init();
+	SetController(new ShipController());
 }
 
 Ship::~Ship()
 {
 	if (m_curAICmd) delete m_curAICmd;
+	delete m_controller;
+}
+
+void Ship::SetController(ShipController *c)
+{
+	assert(c != 0);
+	if (m_controller) delete m_controller;
+	m_controller = c;
+	m_controller->m_ship = this;
 }
 
 
@@ -711,6 +725,37 @@ void Ship::TimeStepUpdate(const float timeStep)
 	UpdateFuel(timeStep);
 }
 
+void Ship::DoThrusterSounds() const
+{
+	// XXX sound logic could be part of a bigger class (ship internal sounds)
+	/* Ship engine noise. less loud inside */
+	float v_env = (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f) * Sound::GetSfxVolume();
+	static Sound::Event sndev;
+	float volBoth = 0.0f;
+	volBoth += 0.5f*fabs(GetThrusterState().y);
+	volBoth += 0.5f*fabs(GetThrusterState().z);
+
+	float targetVol[2] = { volBoth, volBoth };
+	if (GetThrusterState().x > 0.0)
+		targetVol[0] += 0.5f*float(GetThrusterState().x);
+	else targetVol[1] += -0.5f*float(GetThrusterState().x);
+
+	targetVol[0] = v_env * Clamp(targetVol[0], 0.0f, 1.0f);
+	targetVol[1] = v_env * Clamp(targetVol[1], 0.0f, 1.0f);
+	float dv_dt[2] = { 4.0f, 4.0f };
+	if (!sndev.VolumeAnimate(targetVol, dv_dt)) {
+		sndev.Play("Thruster_large", 0.0f, 0.0f, Sound::OP_REPEAT);
+		sndev.VolumeAnimate(targetVol, dv_dt);
+	}
+	float angthrust = 0.1f * v_env * float(GetAngThrusterState().Length());
+
+	static Sound::Event angThrustSnd;
+	if (!angThrustSnd.VolumeAnimate(angthrust, angthrust, 5.0f, 5.0f)) {
+		angThrustSnd.Play("Thruster_Small", 0.0f, 0.0f, Sound::OP_REPEAT);
+		angThrustSnd.VolumeAnimate(angthrust, angthrust, 5.0f, 5.0f);
+	}
+}
+
 // for timestep changes, to stop autopilot overshoot
 // either adds half of current accel or removes all of current accel 
 void Ship::ApplyAccel(const float timeStep)
@@ -897,10 +942,9 @@ void Ship::UpdateFuel(const float timeStep)
 
 void Ship::StaticUpdate(const float timeStep)
 {
-	if (IsDead()) return;
+	if (m_controller) m_controller->StaticUpdate(timeStep);
 
-	AITimeStep(timeStep);		// moved to correct place, maybe
-
+	//XXX this produces no explosion nor sound
 	if (GetHullTemperature() > 1.0) {
 		Pi::game->GetSpace()->KillBody(this);
 	}
@@ -1027,6 +1071,10 @@ void Ship::StaticUpdate(const float timeStep)
 		m_hyperspace.now = false;
 		EnterHyperspace();
 	}
+
+	// XXX any ship being the current camera body should emit sounds
+	// also, ship sounds could be split to internal and external sounds
+	if (IsType(Object::PLAYER)) DoThrusterSounds();
 }
 
 void Ship::NotifyRemoved(const Body* const removedBody)
@@ -1088,44 +1136,41 @@ bool Ship::SetWheelState(bool down)
 
 void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	if ((!IsEnabled()) && !m_flightState) return;
+	if (IsDead() || (!IsEnabled() && !m_flightState)) return;
 	LmrObjParams &params = GetLmrObjParams();
 	
-	if ( (!this->IsType(Object::PLAYER)) ||
-	     (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) ||
-		(Pi::worldView->GetCamType() == WorldView::CAM_SIDEREAL)) {
-		m_shipFlavour.ApplyTo(&params);
-		SetLmrTimeParams();
-		params.angthrust[0] = float(-m_angThrusters.x);
-		params.angthrust[1] = float(-m_angThrusters.y);
-		params.angthrust[2] = float(-m_angThrusters.z);
-		params.linthrust[0] = float(m_thrusters.x);
-		params.linthrust[1] = float(m_thrusters.y);
-		params.linthrust[2] = float(m_thrusters.z);
-		params.animValues[ANIM_WHEEL_STATE] = m_wheelState;
-		params.flightState = m_flightState;
+	m_shipFlavour.ApplyTo(&params);
+	SetLmrTimeParams();
+	params.angthrust[0] = float(-m_angThrusters.x);
+	params.angthrust[1] = float(-m_angThrusters.y);
+	params.angthrust[2] = float(-m_angThrusters.z);
+	params.linthrust[0] = float(m_thrusters.x);
+	params.linthrust[1] = float(m_thrusters.y);
+	params.linthrust[2] = float(m_thrusters.z);
+	params.animValues[ANIM_WHEEL_STATE] = m_wheelState;
+	params.flightState = m_flightState;
 
-		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-		RenderLmrModel(viewCoords, viewTransform);
+	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
+	RenderLmrModel(viewCoords, viewTransform);
 
-		// draw shield recharge bubble
-		if (m_stats.shield_mass_left < m_stats.shield_mass) {
-			const float shield = 0.01f*GetPercentShields();
-			renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
-			glPushMatrix();
-			matrix4x4f trans = matrix4x4f::Identity();
-			trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
-			trans.Scale(GetLmrCollMesh()->GetBoundingRadius());
-			renderer->SetTransform(trans);
+	// draw shield recharge bubble
+	if (m_stats.shield_mass_left < m_stats.shield_mass) {
+		const float shield = 0.01f*GetPercentShields();
+		renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
+		glPushMatrix();
+		matrix4x4f trans = matrix4x4f::Identity();
+		trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
+		trans.Scale(GetLmrCollMesh()->GetBoundingRadius());
+		renderer->SetTransform(trans);
 
-			//fade based on strength
-			Sfx::shieldEffect->GetMaterial()->diffuse =
-				Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
-			Sfx::shieldEffect->Draw(renderer);
-			glPopMatrix();
-			renderer->SetBlendMode(Graphics::BLEND_SOLID);
-		}
+		//fade based on strength
+		Sfx::shieldEffect->GetMaterial()->diffuse =
+			Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
+		Sfx::shieldEffect->Draw(renderer);
+		glPopMatrix();
+		renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	}
+
 	if (m_ecmRecharge > 0.0f) {
 		// pish effect
 		vector3f v[100];
