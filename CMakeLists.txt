@@ -8,6 +8,7 @@
 # Current status of these CMake scripts: pre-pre-pre-pre-alpha, not functionnal yet
 # TODO:
 # - Prepare scripts for ALL projects (model viewer, etc.)
+# - Add a Version.h/.cpp to grab versionning of VersionNumber.h without recompiling the entire project.
 # - Same options as automake (to be listed)
 # - Write packaging code (to create distributions ZIP or installers)
 # - Test everything, especially compared to actual build systems.
@@ -59,11 +60,12 @@ if (TMP_GIT_CONFIG_FILE)
 		message(STATUS "[Info] Project is detected as being a GIT working copy. Getting Git SHA...")
 		execute_process(COMMAND "${GIT_EXECUTABLE}" "log" "-n1" "--pretty=%h" "HEAD"
 			WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
-			OUTPUT_VARIABLE GIT_SHA
+			OUTPUT_VARIABLE GIT_SHA_TEMP
 			RESULT_VARIABLE GIT_SHA_RESULT
 			ERROR_VARIABLE GIT_SHA_ERROR
 		)
 		if (${GIT_SHA_RESULT} EQUAL 0)
+			string(REGEX MATCH "[0-9a-fA-F]+" GIT_SHA "${GIT_SHA_TEMP}")		# Remove potential newlines
 			message(STATUS "Git SHA: ${GIT_SHA}")
 		else()
 			set(GIT_SHA )

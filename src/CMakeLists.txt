@@ -444,13 +444,22 @@ if (WIN32)
 	)
 endif()
 
+set(${TARGETNAME}_H_OTHER
+	"${${PROJECT_NAME}_CONFIG_HEADER}"
+	"${${PROJECT_NAME}_VERSION_HEADER}"
+	Version.h
+)
+set(${TARGETNAME}_SRC_OTHER
+	Version.cpp
+)
+
 
 IF (${PROJECT_NAME}_USE_PRECOMPILED_HEADERS)
 	LIST(APPEND ${TARGETNAME}_H_base "${PCH_DEFAULT_H}")
 	LIST(APPEND ${TARGETNAME}_SRC_base "${PCH_DEFAULT_CPP}")
 ENDIF()
 
-# Add and group sources
+# Add and group sources (except "OTHER")
 SET (GROUP_NAME_HEADERS "Header files")
 SET (GROUP_NAME_SOURCE "Source Files")
 SET (TARGET_H )
@@ -462,6 +471,11 @@ foreach(group ${GROUP_LIST})
 	source_group("${GROUP_NAME_SOURCE}\\${group}" FILES ${${TARGETNAME}_SRC_${group}})
 endforeach()
 
+# Now adding "other" elements (ie. source files that don't go elsewhere)
+list(APPEND TARGET_H ${${TARGETNAME}_H_OTHER})
+list(APPEND TARGET_SRC ${${TARGETNAME}_SRC_OTHER})
+source_group("${GROUP_NAME_HEADERS}" FILES ${${TARGETNAME}_H_OTHER})
+source_group("${GROUP_NAME_SOURCE}" FILES ${${TARGETNAME}_SRC_OTHER})
 
 
 # Setup resources (executable icon)
