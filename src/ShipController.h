@@ -59,6 +59,8 @@ public:
 	vector3d GetMouseDir() const { return m_mouseDir; }
 	void SetMouseForRearView(bool enable) { m_invertMouse = enable; }
 	void SetFlightControlState(FlightControlState s);
+	float GetLowThrustPower() const { return m_lowThrustPower; }
+	void SetLowThrustPower(float power);
 
 	//targeting
 	//XXX AI should utilize one or more of these

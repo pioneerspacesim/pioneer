@@ -289,6 +289,12 @@ void PlayerShipController::SetFlightControlState(FlightControlState s)
 	}
 }
 
+void PlayerShipController::SetLowThrustPower(float power)
+{
+	assert((power >= 0.0f) && (power <= 1.0f));
+	m_lowThrustPower = power;
+}
+
 Body *PlayerShipController::GetCombatTarget() const
 {
 	return m_combatTarget;
