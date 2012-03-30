@@ -1,0 +1,31 @@
+HOW-TO Start building using CMake
+---------------------------------
+
+Let's say you have source code in "SOURCE_DIR".
+
+Prerequisites:
+- Install CMake (http://cmake.org or http://cmake.org/cmake/resources/software.html)
+- MSVC (2008, 2010) users: Nothing more to do, dependencies are in the repository.
+- Others: Install required libraries.
+
+** Quick start, using GUI **
+- Run cmake-gui.
+- Source code: SOURCE_DIR
+- Binaries: SOURCE_DIR/build
+- Click "Configure", and select the build type you want.
+- Click "Configure" until there are no more red entries.
+- If there are no errors displayed, click "Generate".
+- Go to SOURCE_DIR/build, and use your build system.
+	- MSVC users: Simply double-click the ".sln" file.
+	- Makefile-based users: run "make"
+
+** Quick start, using command-line **
+- Create and go to SOURCE_DIR/build.
+- Type "cmake .."
+- Go to SOURCE_DIR/build, and use your build system.
+	- MSVC users: Simply double-click the ".sln" file.
+	- Makefile-based users: run "make"
+
+Notes:
+	- Linux/OSX users can alternatively run ./configure as usual. This will create "build" sub-directory.
+	- MSVC users may need to run environment initialization batch (Generally "C:\Program Files\Microsoft Visual Studio xx.0\VC\vcvarsall.bat")

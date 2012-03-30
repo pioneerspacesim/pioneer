@@ -7,7 +7,6 @@
 
 # Current status of these CMake scripts: pre-pre-alpha (Only MSVC-Pioneer compiles and runs, lots of features are missing)
 # TODO:
-# - Write CMake tutorial/quick start
 # - Prepare scripts for ALL projects (model viewer, etc.)
 # - Debug/Test PCH (seems not functional)
 # - Replace PIONEER_VERSION / PIONEER_EXTRAVERSION usage with Version.h.
