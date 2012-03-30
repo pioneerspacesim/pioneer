@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		4A107C2F1525AB0D00EF9FAC /* CRC32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A107C2B1525AB0D00EF9FAC /* CRC32.cpp */; };
+		4A107C301525AB0D00EF9FAC /* ShipController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A107C2D1525AB0D00EF9FAC /* ShipController.cpp */; };
 		4A19038C138AA33300E0229C /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A190325138AA33300E0229C /* Gui.cpp */; };
 		4A19038E138AA33300E0229C /* GuiBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A190329138AA33300E0229C /* GuiBox.cpp */; };
 		4A190390138AA33300E0229C /* GuiButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A19032C138AA33300E0229C /* GuiButton.cpp */; };
@@ -379,6 +381,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4A107C2B1525AB0D00EF9FAC /* CRC32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CRC32.cpp; sourceTree = "<group>"; };
+		4A107C2C1525AB0D00EF9FAC /* CRC32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRC32.h; sourceTree = "<group>"; };
+		4A107C2D1525AB0D00EF9FAC /* ShipController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShipController.cpp; sourceTree = "<group>"; };
+		4A107C2E1525AB0D00EF9FAC /* ShipController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShipController.h; sourceTree = "<group>"; };
 		4A190325138AA33300E0229C /* Gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gui.cpp; sourceTree = "<group>"; };
 		4A190326138AA33300E0229C /* Gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gui.h; sourceTree = "<group>"; };
 		4A190328138AA33300E0229C /* GuiAdjustment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiAdjustment.h; sourceTree = "<group>"; };
@@ -1295,6 +1301,8 @@
 				4A6C4C1D13532FC300FDD53F /* CommodityTradeWidget.cpp */,
 				4A6C4C1E13532FC300FDD53F /* CommodityTradeWidget.h */,
 				4A1903C1138AA39C00E0229C /* contrib */,
+				4A107C2B1525AB0D00EF9FAC /* CRC32.cpp */,
+				4A107C2C1525AB0D00EF9FAC /* CRC32.h */,
 				4A6C4C1F13532FC300FDD53F /* CustomSystem.cpp */,
 				4A6C4C2013532FC300FDD53F /* CustomSystem.h */,
 				4A62EF27136979E000919EBB /* DeadVideoLink.cpp */,
@@ -1469,6 +1477,8 @@
 				4A6C4D5013532FC300FDD53F /* Ship.h */,
 				4A6C4D5113532FC300FDD53F /* ShipAICmd.cpp */,
 				4A6C4D5213532FC300FDD53F /* ShipAICmd.h */,
+				4A107C2D1525AB0D00EF9FAC /* ShipController.cpp */,
+				4A107C2E1525AB0D00EF9FAC /* ShipController.h */,
 				4A6C4D5313532FC300FDD53F /* ShipCpanel.cpp */,
 				4A6C4D5413532FC300FDD53F /* ShipCpanel.h */,
 				4A6C4D5513532FC300FDD53F /* ShipCpanelMultiFuncDisplays.cpp */,
@@ -1989,6 +1999,8 @@
 				4A9174FC15187B97006A15A9 /* TextureGL.cpp in Sources */,
 				4A9174FE15187C17006A15A9 /* Color.cpp in Sources */,
 				4ADA8B36152497AA00FCAD58 /* WorldViewCamera.cpp in Sources */,
+				4A107C2F1525AB0D00EF9FAC /* CRC32.cpp in Sources */,
+				4A107C301525AB0D00EF9FAC /* ShipController.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
