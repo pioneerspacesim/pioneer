@@ -724,8 +724,8 @@ void WorldView::Update()
 			if (Pi::KeyState(SDLK_DOWN)) m_activeCamera->RotateDown(frameTime);
 			if (Pi::KeyState(SDLK_LEFT)) m_activeCamera->RotateLeft(frameTime);
 			if (Pi::KeyState(SDLK_RIGHT)) m_activeCamera->RotateRight(frameTime);
-			if (Pi::KeyState(SDLK_EQUALS)) m_activeCamera->ZoomOut(frameTime);
-			if (Pi::KeyState(SDLK_MINUS)) m_activeCamera->ZoomIn(frameTime);
+			if (Pi::KeyState(SDLK_MINUS)) m_activeCamera->ZoomOut(frameTime);
+			if (Pi::KeyState(SDLK_EQUALS)) m_activeCamera->ZoomIn(frameTime);
 			if (Pi::KeyState(SDLK_COMMA)) m_activeCamera->RollLeft(frameTime);
 			if (Pi::KeyState(SDLK_PERIOD)) m_activeCamera->RollRight(frameTime);
 			if (Pi::KeyState(SDLK_HOME)) m_activeCamera->Reset();
