@@ -7,8 +7,11 @@
 
 # Current status of these CMake scripts: pre-pre-pre-pre-alpha, not functionnal yet
 # TODO:
+# - Write CMake tutorial/quick start
 # - Prepare scripts for ALL projects (model viewer, etc.)
-# - Add a Version.h/.cpp to grab versionning of VersionNumber.h without recompiling the entire project.
+# - Test PCH
+# - Replace PIONEER_VERSION / PIONEER_EXTRAVERSION usage with Version.h.
+# 		Version.h/.cpp allow to grab versionning of VersionNumber.h without recompiling the entire project.
 # - Same options as automake (to be listed)
 # - Write packaging code (to create distributions ZIP or installers)
 # - Test everything, especially compared to actual build systems.
