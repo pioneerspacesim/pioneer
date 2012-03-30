@@ -25,8 +25,8 @@ PlayerShipController::PlayerShipController() :
 	m_mouseY(0.0),
 	m_setSpeed(0.0),
 	m_flightControlState(CONTROL_MANUAL),
-	m_mouseDir(0.0),
-	m_lowThrustPower(0.5)
+	m_lowThrustPower(0.25), // note: overridden by the default value in GameConfig.cpp (DefaultLowThrustPower setting)
+	m_mouseDir(0.0)
 {
 	float deadzone = Pi::config->Float("JoystickDeadzone");
 	m_joystickDeadzone = deadzone * deadzone;
