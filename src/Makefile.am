@@ -58,6 +58,7 @@ noinst_HEADERS = \
 	LuaChatForm.h \
 	LuaConsole.h \
 	LuaConstants.h \
+	LuaDev.h \
 	LuaEngine.h \
 	LuaEquipType.h \
 	LuaEventQueue.h \
@@ -197,6 +198,7 @@ pioneer_SOURCES	= \
 	LuaChatForm.cpp \
 	LuaConsole.cpp \
 	LuaConstants.cpp \
+	LuaDev.cpp \
 	LuaEngine.cpp \
 	LuaEquipType.cpp \
 	LuaEventQueue.cpp \
@@ -345,4 +347,3 @@ if BUILD_POSIX
     pioneer_SOURCES += FileSystemPosix.cpp
     modelviewer_SOURCES += FileSystemPosix.cpp
 endif
-
