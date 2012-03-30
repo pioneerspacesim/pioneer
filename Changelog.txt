@@ -54,7 +54,7 @@ Alpha 21
      * Split world cameras out of WorldView (#1113)
      * Use a fixed version and proper CRC for the model cache (#1119)
      * Moved ship control code out of Player and Worldview into a new set of
-       ShipController classes (#1083)
+       ShipController classes (#1083, #1129)
 
 Alpha 20
 
