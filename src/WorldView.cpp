@@ -1413,11 +1413,11 @@ void WorldView::Draw()
 			double dist = 0.0;
 			double d1 = 10.0;
 			int i = 1;
-			int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2.0;
+			int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2;
 			double angle = atan(maxSquareHeight / distToDest);
 			const float tpos[2] = { m_navTargetIndicator.pos[0], m_navTargetIndicator.pos[1] };
-			const float distDiffX = tpos[0] - (Gui::Screen::GetWidth() / 2.0);
-			const float distDiffY = tpos[1] - (Gui::Screen::GetHeight() / 2.0);
+			const float distDiffX = tpos[0] - (Gui::Screen::GetWidth() / 2.0f);
+			const float distDiffY = tpos[1] - (Gui::Screen::GetHeight() / 2.0f);
 			
 			char buf2[1024];
 			
@@ -1440,12 +1440,13 @@ void WorldView::Draw()
 				}
 				double sqh = getSquareHeight(dist, angle);
 				if (sqh >= 10) {
-					float ox = ((distDiffX * 2.0) * ((dist / distToDest)));
-					float oy = ((distDiffY * 2.0) * ((dist / distToDest)));
+					float ox = distDiffX * (dist / distToDest);
+					float oy = distDiffY * (dist / distToDest);
 					
-					const float sqpos[2] = { tpos[0] + ox, tpos[1] + oy };
+					const float sqpos[2] = { tpos[0] - ox, tpos[1] - oy };
 					DrawTargetGuideSquare(sqpos, sqh, green);
 					
+					/*
 					snprintf(
 						buf2,
 						sizeof(buf2),
@@ -1460,6 +1461,7 @@ void WorldView::Draw()
 						sqpos[0] + sqh + 1.0,
 						sqpos[1] + sqh + 1.0
 					);
+					*/
 				}
 				i++; 
 			}
