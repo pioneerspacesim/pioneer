@@ -18,6 +18,7 @@ KeyAction thrustUp;
 KeyAction thrustDown;
 KeyAction thrustLeft;
 KeyAction thrustRight;
+KeyAction thrustLowPower;
 KeyAction increaseSpeed;
 KeyAction decreaseSpeed;
 KeyAction fireLaser;
@@ -203,6 +204,7 @@ const BindingPrototype bindingProtos[] = {
 	{ Lang::THRUSTER_DORSAL, "BindThrustDown", &thrustDown, 0 },
 	{ Lang::THRUSTER_PORT, "BindThrustLeft", &thrustLeft, 0 },
 	{ Lang::THRUSTER_STARBOARD, "BindThrustRight", &thrustRight, 0 },
+	{ Lang::USE_LOW_THRUST, "BindThrustLowPower", &thrustLowPower, 0 },
 	{ Lang::SPEED_CONTROL_MODE, 0, 0, 0 },
 	{ Lang::INCREASE_SET_SPEED, "BindIncreaseSpeed", &increaseSpeed, 0 },
 	{ Lang::DECREASE_SET_SPEED, "BindDecreaseSpeed", &decreaseSpeed, 0 },
@@ -411,6 +413,7 @@ void UpdateBindings()
 	InitKeyBinding(KeyBindings::thrustDown, "BindThrustDown", SDLK_o);
 	InitKeyBinding(KeyBindings::thrustLeft, "BindThrustLeft", SDLK_j);
 	InitKeyBinding(KeyBindings::thrustRight, "BindThrustRight", SDLK_l);
+	InitKeyBinding(KeyBindings::thrustLowPower, "BindThrustLowPower", SDLK_LSHIFT);
 	InitKeyBinding(KeyBindings::increaseSpeed, "BindIncreaseSpeed", SDLK_RETURN);
 	InitKeyBinding(KeyBindings::decreaseSpeed, "BindDecreaseSpeed", SDLK_RSHIFT);
 	InitKeyBinding(KeyBindings::targetObject, "BindTargetObject", SDLK_TAB);

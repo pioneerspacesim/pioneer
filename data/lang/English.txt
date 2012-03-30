@@ -556,6 +556,8 @@ THRUSTER_PORT
     Thrust left
 THRUSTER_STARBOARD
     Thrust right
+USE_LOW_THRUST
+    Use low thrust
 SPEED_CONTROL_MODE
     Speed control mode
 INCREASE_SET_SPEED
