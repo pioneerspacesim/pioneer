@@ -1,5 +1,9 @@
 # Pioneer CMake script
-# by Sukender (Benoit Neil), from PVLE and OSG CMake scripts, under the terms of the WTFPL ().
+#
+# By Sukender (Benoit Neil), from PVLE and OSG CMake scripts.
+# Licensing terms are compatible with GPL v3:
+#   - For Sukender's part (new code, and code coming from PVLE): WTFPL v2
+#   - For code coming from OSG: LGPL v2
 
 # Current status of these CMake scripts: pre-pre-pre-pre-alpha, not functionnal yet
 # TODO:
@@ -7,7 +11,7 @@
 # - Same options as automake (to be listed)
 # - Write packaging code (to create distributions ZIP or installers)
 # - Test everything, especially compared to actual build systems.
-# - Eventually write a PNG finder that handles debug builds for MSVC
+# - Eventually write a PNG+zlib finder that handles debug builds (for MSVC, actually)
 #
 # Date where build scripts have been successfully tested:
 #  Linux-gcc    32   never
@@ -97,7 +101,7 @@ endif()
 # FIND_PACKAGE(Boost 1.48.0 REQUIRED QUIET COMPONENTS filesystem program_options serialization system regex date_time iostreams unit_test_framework locale thread)
 
 FIND_PACKAGE(OpenGL REQUIRED)		# With GLU
-#FIND_PACKAGE(Glew REQUIRED)		# TODO: To create
+FIND_PACKAGE(Glew REQUIRED)
 FIND_PACKAGE(Freetype REQUIRED)
 FIND_PACKAGE(SDL REQUIRED)
 FIND_PACKAGE(SDL_image REQUIRED)
@@ -105,8 +109,8 @@ FIND_PACKAGE(OGG REQUIRED)
 FIND_PACKAGE(Vorbis REQUIRED)
 FIND_PACKAGE(VorbisFile REQUIRED)
 #FIND_PACKAGE(libtool)				# TODO: To create. Unix-like only. Not REQUIRED. According to jpabx: "it hides some of the differences between platforms, and deals with the .so version system so that builds can cope with multiple installed library versions"
-#FIND_PACKAGE(Lua51)					# Source is in contrib
-#FIND_PACKAGE(sigcpp2 REQUIRED)		# TODO: To create
+#FIND_PACKAGE(Lua51)				# Source is in contrib
+FIND_PACKAGE(SigCpp2 REQUIRED)
 SET(PNG_NAMES png15_static libpng15_static)
 FIND_PACKAGE(PNG REQUIRED)
 #FIND_PACKAGE(zlib REQUIRED)		# Already called by findPNG

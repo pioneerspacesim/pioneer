@@ -1,5 +1,6 @@
 # Locate VorbisFile
 # This module defines XXX_FOUND, XXX_INCLUDE_DIRS and XXX_LIBRARIES standard variables
+# By Sukender (Benoit NEIL), under the terms of the WTFPL
 #
 # $VORBISDIR is an environment variable that would
 # correspond to the ./configure --prefix=$VORBISDIR
