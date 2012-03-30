@@ -1052,6 +1052,10 @@ OBJECT_LABELS_ARE_ON
     Object labels are on
 OBJECT_LABELS_ARE_OFF
     Object labels are off
+SELECT_LOW_THRUST_POWER_LEVEL
+    Select low thrust power level
+SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT
+    Set low thrust power level to %power%%
 HYPERSPACE_JUMP
     Hyperspace Jump
 TAKEOFF

@@ -86,6 +86,11 @@ private:
 	void OnClickCommsNavOption(Body *target);
 	void BuildCommsNavOptions();
 
+	void HideLowThrustPowerOptions();
+	void ShowLowThrustPowerOptions();
+	void OnClickLowThrustPower();
+	void OnSelectLowThrustPower(float power);
+
 	void OnClickHyperspace();
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
 	void OnChangeLabelsState(Gui::MultiStateImageButton *b);
@@ -105,6 +110,7 @@ private:
 	Gui::Fixed *m_commsOptions;
 	Gui::VBox *m_commsNavOptions;
 	Gui::HBox *m_commsNavOptionsContainer;
+	Gui::Fixed *m_lowThrustPowerOptions;
 	Gui::Label *m_flightStatus, *m_debugText;
 	Gui::ImageButton *m_launchButton;
 	Gui::MultiStateImageButton *m_wheelsButton;
@@ -113,6 +119,7 @@ private:
 	enum CamType m_camType;
 	int m_numLights;
 	Uint32 m_showTargetActionsTimeout;
+	Uint32 m_showLowThrustPowerTimeout;
 
 #if WITH_DEVKEYS
 	Gui::Label *m_debugInfo;
