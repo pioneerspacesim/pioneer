@@ -15,8 +15,8 @@
 using namespace Graphics;
 
 Camera::Camera(const Body *body, float width, float height, float fovY, float znear, float zfar) :
-	m_body(body),
 	m_showCameraBody(true),
+	m_body(body),
 	m_width(width),
 	m_height(height),
 	m_fovAng(fovY),
