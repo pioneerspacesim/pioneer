@@ -123,7 +123,7 @@ public:
 				quotient_lo |= 1;
 			}
 		}
-		return (isneg ? fixedf(-quotient_lo) : quotient_lo);
+		return (isneg ? -Sint64(quotient_lo) : quotient_lo);
 	}
 	friend bool operator==(const fixedf a, const fixedf b) { return a.v == b.v; }
 	friend bool operator!=(const fixedf a, const fixedf b) { return a.v != b.v; }

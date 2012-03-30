@@ -5,6 +5,7 @@
 #include "graphics/VertexArray.h"
 #include "gui/GuiScreen.h"
 #include "TextSupport.h"
+#include "utils.h"
 #include <algorithm>
 
 #include FT_GLYPH_H
