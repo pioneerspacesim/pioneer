@@ -158,6 +158,8 @@ void Ship::Init()
 	m_stats.shield_mass_left = 0;
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
 	m_hyperspaceCloud = 0;
+	m_frontCameraOffset = stype.frontCameraOffset;
+	m_rearCameraOffset = stype.rearCameraOffset;
 }
 
 void Ship::PostLoadFixup(Space *space)
@@ -1137,41 +1139,38 @@ void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 	if (IsDead() || (!IsEnabled() && !m_flightState)) return;
 	LmrObjParams &params = GetLmrObjParams();
 	
-	if ( (!this->IsType(Object::PLAYER)) ||
-	     (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) ||
-		(Pi::worldView->GetCamType() == WorldView::CAM_SIDEREAL)) {
-		m_shipFlavour.ApplyTo(&params);
-		SetLmrTimeParams();
-		params.angthrust[0] = float(-m_angThrusters.x);
-		params.angthrust[1] = float(-m_angThrusters.y);
-		params.angthrust[2] = float(-m_angThrusters.z);
-		params.linthrust[0] = float(m_thrusters.x);
-		params.linthrust[1] = float(m_thrusters.y);
-		params.linthrust[2] = float(m_thrusters.z);
-		params.animValues[ANIM_WHEEL_STATE] = m_wheelState;
-		params.flightState = m_flightState;
+	m_shipFlavour.ApplyTo(&params);
+	SetLmrTimeParams();
+	params.angthrust[0] = float(-m_angThrusters.x);
+	params.angthrust[1] = float(-m_angThrusters.y);
+	params.angthrust[2] = float(-m_angThrusters.z);
+	params.linthrust[0] = float(m_thrusters.x);
+	params.linthrust[1] = float(m_thrusters.y);
+	params.linthrust[2] = float(m_thrusters.z);
+	params.animValues[ANIM_WHEEL_STATE] = m_wheelState;
+	params.flightState = m_flightState;
 
-		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-		RenderLmrModel(viewCoords, viewTransform);
+	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
+	RenderLmrModel(viewCoords, viewTransform);
 
-		// draw shield recharge bubble
-		if (m_stats.shield_mass_left < m_stats.shield_mass) {
-			const float shield = 0.01f*GetPercentShields();
-			renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
-			glPushMatrix();
-			matrix4x4f trans = matrix4x4f::Identity();
-			trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
-			trans.Scale(GetLmrCollMesh()->GetBoundingRadius());
-			renderer->SetTransform(trans);
+	// draw shield recharge bubble
+	if (m_stats.shield_mass_left < m_stats.shield_mass) {
+		const float shield = 0.01f*GetPercentShields();
+		renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
+		glPushMatrix();
+		matrix4x4f trans = matrix4x4f::Identity();
+		trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
+		trans.Scale(GetLmrCollMesh()->GetBoundingRadius());
+		renderer->SetTransform(trans);
 
-			//fade based on strength
-			Sfx::shieldEffect->GetMaterial()->diffuse =
-				Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
-			Sfx::shieldEffect->Draw(renderer);
-			glPopMatrix();
-			renderer->SetBlendMode(Graphics::BLEND_SOLID);
-		}
+		//fade based on strength
+		Sfx::shieldEffect->GetMaterial()->diffuse =
+			Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
+		Sfx::shieldEffect->Draw(renderer);
+		glPopMatrix();
+		renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	}
+
 	if (m_ecmRecharge > 0.0f) {
 		// pish effect
 		vector3f v[100];

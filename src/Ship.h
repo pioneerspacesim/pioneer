@@ -61,6 +61,9 @@ public:
 	int GetDockingPort() const { return m_dockedWithPort; }
 	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
+	const vector3d &GetFrontCameraOffset() const { return m_frontCameraOffset; }
+	const vector3d &GetRearCameraOffset() const { return m_rearCameraOffset; }
+
 	void SetThrusterState(int axis, double level) {
 		if (m_thrusterFuel <= 0.f) level = 0.0;
 		m_thrusters[axis] = Clamp(level, -1.0, 1.0);
@@ -268,6 +271,8 @@ private:
 
 	vector3d m_thrusters;
 	vector3d m_angThrusters;
+	vector3d m_frontCameraOffset;
+	vector3d m_rearCameraOffset;
 
 	AlertState m_alertState;
 	double m_lastFiringAlert;
