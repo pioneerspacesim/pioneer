@@ -68,6 +68,21 @@ static void _get_int_attrib(lua_State *L, const char *key, int &output,
 	LUA_DEBUG_END(L, 0);
 }
 
+static void _get_vec_attrib(lua_State *L, const char *key, vector3d &output,
+	const vector3d default_output)
+{
+	LUA_DEBUG_START(L);
+	lua_pushstring(L, key);
+	lua_gettable(L, -2);
+	if (lua_isnil(L, -1)) {
+		output = default_output;
+	} else {
+		output = vector3d(*MyLuaVec::checkVec(L, -1));
+	}
+	lua_pop(L, 1);
+	LUA_DEBUG_END(L, 0);
+}
+
 int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *list)
 {
 	ShipType s;
@@ -84,6 +99,8 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 	_get_float_attrib(L, "right_thrust", s.linThrust[ShipType::THRUSTER_RIGHT], 0.0f);
 	_get_float_attrib(L, "angular_thrust", s.angThrust, 0.0f);
 	s.angThrust = s.angThrust / 2;		// fudge
+	_get_vec_attrib(L, "front_camera", s.frontCameraOffset, vector3d(0.0));
+	_get_vec_attrib(L, "rear_camera", s.rearCameraOffset, vector3d(0.0));
 
 	for (int i=0; i<Equip::SLOT_MAX; i++) s.equipSlotCapacity[i] = 0;
 	_get_int_attrib(L, "max_cargo", s.equipSlotCapacity[Equip::SLOT_CARGO], 0);
