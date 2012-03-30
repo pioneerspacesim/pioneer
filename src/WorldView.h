@@ -59,6 +59,7 @@ private:
 
 	struct Indicator {
 		float pos[2];
+		float realpos[2];
 		IndicatorSide side;
 		Gui::Label *label;
 		Indicator() {

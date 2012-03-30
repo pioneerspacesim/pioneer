@@ -1227,6 +1227,9 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 		bool success = project_to_screen(cameraSpacePos, proj, frustum, guiSize);
 		if (! success)
 			proj = vector3d(w/2.0, h/2.0, 0.0);
+		
+		indicator.realpos[0] = int(proj.x);
+		indicator.realpos[1] = int(proj.y);
 
 		bool onscreen =
 			(cameraSpacePos.z < 0.0) &&
@@ -1402,7 +1405,7 @@ void WorldView::Draw()
 	// nav target square
 	DrawTargetSquare(m_navTargetIndicator, green);
 	
-	if (m_navTargetIndicator.side == INDICATOR_ONSCREEN) {
+	//if (m_navTargetIndicator.side == INDICATOR_ONSCREEN) {
 		Body *navtarget = Pi::player->GetNavTarget();
 		if (navtarget != NULL) {
 			vector2f indvec = vector2f(m_navTargetIndicator.pos[0], m_navTargetIndicator.pos[1]);
@@ -1415,7 +1418,7 @@ void WorldView::Draw()
 			int i = 1;
 			int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2;
 			double angle = atan(maxSquareHeight / distToDest);
-			const float tpos[2] = { m_navTargetIndicator.pos[0], m_navTargetIndicator.pos[1] };
+			const float tpos[2] = { m_navTargetIndicator.realpos[0], m_navTargetIndicator.realpos[1] };
 			const float distDiffX = tpos[0] - (Gui::Screen::GetWidth() / 2.0f);
 			const float distDiffY = tpos[1] - (Gui::Screen::GetHeight() / 2.0f);
 			
@@ -1469,7 +1472,7 @@ void WorldView::Draw()
 			m_altDebugInfo->SetText("No active target");
 			m_altDebugInfo->Show();
 		}
-	}
+	//}
 	
 	glLineWidth(1.0f);
 
