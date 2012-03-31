@@ -299,7 +299,7 @@ define_model('asp_sparks', {
 		scale = 8.5,
 		lod_pixels = {.1,20,50,0},
 		bounding_radius = 38,
-		materials = {'chrome', 'non_cv', 'metal', 'layer', 'win', 'glow_0', 'e_glow', 'scoop', 'text'},
+		materials = {'chrome', 'non_cv', 'metal', 'layer', 'win', 'glow_0', 'e_glow', 'scoop', 'text', 'squad_color'},
 		tags = {'ship'},
 	},
 	static = function(lod)
@@ -409,7 +409,8 @@ define_model('asp_sparks', {
 			texture(nil)
 			--use_material('text')
 			if lod > 3 then
-				call_model('squad_color',v(0,0,0),v(1,0,0),v(0,1,0),1)
+				set_squad_color('squad_color')
+				use_material('squad_color')
 				local reg = get_label()
 				zbias(1,v(1.764,.448,.453),v(.2,1,0))
 				text(reg,v(1.764,.448,.453),v(.2,1,0),v(-1,.37,-1),.2,{center = true})

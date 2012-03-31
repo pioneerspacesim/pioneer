@@ -1,34 +1,25 @@
-define_model('squad_color', {
-	info = 	{
-        	bounding_radius = 1,
-			materials = {'squad'},
-			},
-	static = function(lod)
-	end,
-	dynamic = function(lod)
-    	selector1()
-		if select1 < 201 then
-	        set_material('squad', .5,0,0,.99,.6,.6,.6,30)
-	    else
-			if select1 < 401 then
-               	set_material('squad', .45,.35,.01,.99,.6,.6,.6,30)
+function set_squad_color (matname)
+	selector1()
+	if select1 < 201 then
+		set_material(matname, .5,0,0,.99,.6,.6,.6,30)
+	else
+		if select1 < 401 then
+			set_material(matname, .45,.35,.01,.99,.6,.6,.6,30)
+		else
+			if select1 < 601 then
+				set_material(matname, 0,.15,.7,.99,.6,.6,.6,30)
 			else
-    		    if select1 < 601 then
-					set_material('squad', 0,.15,.7,.99,.6,.6,.6,30)
-   				else
-   				    if select1 < 801 then
-						set_material('squad', .06,.35,0,.99,.6,.6,.6,30)
-					else
-						if select1 > 800 then
-							set_material('squad', .2,0,.35,.99,.6,.6,.6,30)
-						end
+				if select1 < 801 then
+					set_material(matname, .06,.35,0,.99,.6,.6,.6,30)
+				else
+					if select1 > 800 then
+						set_material(matname, .2,0,.35,.99,.6,.6,.6,30)
 					end
 				end
 			end
 		end
-		use_material('squad')
 	end
-})
+end
 
 -- four different types, because i couldn't decide which i like best ;)
 
