@@ -16,6 +16,7 @@ Alpha 21
      * Several stars around Sol updated to use their "traditional"
        (non-catalogue) names (#1068)
      * Rear of Eagle ship now visible to player (#1125)
+     * Removed tech levels (#1131)
 
    * Fixes
      * Don't take timesteps for dead ships. Stops the player firing during the
