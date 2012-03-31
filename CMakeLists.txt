@@ -7,6 +7,7 @@
 
 # Current status of these CMake scripts: pre-pre-alpha (Only MSVC-Pioneer compiles and runs, lots of features are missing)
 # TODO:
+# - Fix linux linking/compiling (Filesystem...)
 # - Prepare scripts for ALL projects (model viewer, etc.)
 # - Debug/Test PCH (seems not functional)
 # - Replace PIONEER_VERSION / PIONEER_EXTRAVERSION usage with Version.h.
@@ -174,10 +175,16 @@ ENDIF()
 INCLUDE_DIRECTORIES(
     "${PROJECT_SOURCE_DIR}/include"
     "${PROJECT_SOURCE_DIR}/src"
-	"${PROJECT_SOURCE_DIR}/win32/include"
-	"${PROJECT_SOURCE_DIR}/win32/src"
 	"${PROJECT_SOURCE_DIR}/contrib"		# For Lua/OOLua
+	"${PROJECT_SOURCE_DIR}/contrib/lua"	# OOLua directly includes "lua.h" instead of "lua/lua.h"
 )
+
+if (SHIPPED_DEPENDENCIES_PATH)
+	INCLUDE_DIRECTORIES(
+		"${SHIPPED_DEPENDENCIES_PATH}/include"
+		"${SHIPPED_DEPENDENCIES_PATH}/src"
+	)
+endif()
 
 #########################################################################
 # Dependencies install

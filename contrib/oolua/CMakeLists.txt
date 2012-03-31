@@ -1,7 +1,5 @@
 set(TARGETNAME "OOLUA")		# In capital letters to stick with Lua
 
-INCLUDE_DIRECTORIES("../lua")		# OOLua directly includes "lua.h" instead of "lua/lua.h"
-
 add_library(${TARGETNAME} STATIC
 	class_from_stack.cpp
 	lua_function.cpp
