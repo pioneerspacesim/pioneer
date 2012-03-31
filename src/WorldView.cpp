@@ -1727,7 +1727,8 @@ void NavTunnelWidget::DrawTargetGuideSquare(const float pos[2], const float size
 		vector3f(x1, y2, 0.f),
 		vector3f(x1, pos[1], 0.f)
 	};
-	const Color black(0.f);
+	Color black(c);
+	black.a = c.a / 6.f;
 	const Color col[] = {
 		c,
 		black,
