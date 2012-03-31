@@ -834,10 +834,7 @@ void SpaceStation::CreateBB()
 		if (Equip::types[i].slot == Equip::SLOT_CARGO) {
 			m_equipmentStock[i] = Pi::rng.Int32(0,100) * Pi::rng.Int32(1,100);
 		} else {
-			if (Equip::types[i].techLevel <= Pi::game->GetSpace()->GetStarSystem()->m_techlevel)
-				m_equipmentStock[i] = Pi::rng.Int32(0,100);
-			else
-				m_equipmentStock[i] = 0;
+			m_equipmentStock[i] = Pi::rng.Int32(0,100);
 		}
 	}
 
