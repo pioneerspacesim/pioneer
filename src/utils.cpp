@@ -181,6 +181,7 @@ void Screendump(const char* destFile, const int width, const int height)
 	}
 
 	//http://www.libpng.org/pub/png/libpng-1.2.5-manual.html#section-3.1
+	// Sukender: !!WARNING!! setjmp is awfully dangerous in C++, due to the incompatibility with destructors. If anyone has a better solution, then use it!
 	if (setjmp(png_jmpbuf(png_ptr))) {
 		png_destroy_write_struct(&png_ptr, &info_ptr);
 		fprintf(stderr, "Couldn't set png jump buffer\n");

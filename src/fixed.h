@@ -6,7 +6,10 @@
 template <int FRAC_BITS>
 class fixedf {
 public:
-	enum { FRAC=FRAC_BITS, MASK=((Uint64(1)<<FRAC_BITS)-1), DUMMY=-1 }; // -1 to ensure signed type (signedness warning otherwise)
+	static const int FRAC = FRAC_BITS;
+	static const Uint64 MASK = (Uint64(1UL)<<FRAC_BITS)-1;
+	static const Sint64 DUMMY= -1 ;		// -1 to ensure signed type (signedness warning otherwise)
+
 	fixedf(): v(0) {}
 //	template <int bits>
 //	fixedf(fixedf<bits> f) { *this = f; }

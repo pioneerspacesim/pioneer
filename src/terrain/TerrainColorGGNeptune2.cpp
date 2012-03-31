@@ -29,7 +29,7 @@ vector3d TerrainColorFractal<TerrainColorGGNeptune2>::GetColor(const vector3d &p
 	col = interpolate_color(equatorial_region_2, col, vector3d(0, 0, .2));
 	//stripes
 	if (p.y < 0.5 && p.y > -0.5) {
-		for(float i=-1 ; i < 1; i+=0.6){
+		for(float i=-1 ; i < 1; i+=0.6f){
 			double temp = p.y - i;
 			if ( temp < .07+h && temp > -.07+h ){
 				n = 2.0*billow_octavenoise(GetFracDef(2), 0.5*m_entropy[0], 
