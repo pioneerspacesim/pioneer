@@ -3,6 +3,7 @@
 
 #include "libs.h"
 #include "gui/Gui.h"
+#include "gui/GuiWidget.h"
 #include "View.h"
 #include "Serializer.h"
 #include "Background.h"
@@ -13,10 +14,12 @@ class Body;
 class Frame;
 class LabelSet;
 class Ship;
+class NavTunnelWidget;
 namespace Gui { class TexturedQuad; }
 
 class WorldView: public View {
 public:
+	friend class NavTunnelWidget;
 	WorldView();
 	WorldView(Serializer::Reader &reader);
 	virtual ~WorldView();
@@ -99,8 +102,8 @@ private:
 	void SelectBody(Body *, bool reselectIsDeselect);
 	Body* PickBody(const double screenX, const double screenY) const;
 	void MouseButtonDown(int button, int x, int y);
-
-	matrix4x4d m_prevShipOrient;
+	
+	NavTunnelWidget *m_navTunnel;
 	
 	Gui::ImageButton *m_hyperspaceButton;
 
@@ -119,8 +122,6 @@ private:
 #if WITH_DEVKEYS
 	Gui::Label *m_debugInfo;
 #endif
-
-	Gui::Label *m_altDebugInfo;
 
 	Gui::Label *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure, *m_hudHyperspaceInfo, *m_hudTargetInfo;
 	Gui::MeterBar *m_hudHullTemp, *m_hudWeaponTemp, *m_hudHullIntegrity, *m_hudShieldIntegrity;
@@ -150,6 +151,17 @@ private:
 
 	ScopedPtr<Gui::TexturedQuad> m_indicatorMousedir;
 	vector2f m_indicatorMousedirSize;
+};
+
+class NavTunnelWidget: public Gui::Widget {
+public:
+	NavTunnelWidget(WorldView *worldview);
+	virtual ~NavTunnelWidget();
+	virtual void Draw();
+	virtual void GetSizeRequested(float size[2]);
+	void DrawTargetGuideSquare(const float pos[2], const float size, const Color &c);
+	
+	WorldView *m_worldview;
 };
 
 #endif /* _WORLDVIEW_H */
