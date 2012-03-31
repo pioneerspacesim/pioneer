@@ -166,7 +166,6 @@ set( ${TARGETNAME}_SRC_base
 	"FaceVideoLink.cpp"
 	"FileSelectorWidget.cpp"
 	"FileSystem.cpp"
-	#"FileSystemPosix.cpp"
 	"Font.cpp"
 	"FontCache.cpp"
 	"FontConfig.cpp"
@@ -447,6 +446,10 @@ if (WIN32)
 	set( ${TARGETNAME}_SRC_platformSpecific
 		"${PROJECT_SOURCE_DIR}/win32/src/FileSystemWin32.cpp"
 		"${PROJECT_SOURCE_DIR}/win32/src/Gamma.cpp"
+	)
+else()
+	list(APPEND ${TARGETNAME}_SRC_platformSpecific
+		"FileSystemPosix.cpp"
 	)
 endif()
 

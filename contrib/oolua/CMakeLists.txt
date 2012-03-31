@@ -55,3 +55,4 @@ add_library(${TARGETNAME} STATIC
 )
 
 target_link_libraries(${TARGETNAME} LUA)
+
