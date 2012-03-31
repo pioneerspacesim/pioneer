@@ -10,6 +10,7 @@ namespace FileSystem {
 
 	static FileSourceFS dataFilesApp(GetDataDir());
 	static FileSourceFS dataFilesUser(GetUserDir("data"));
+	static FileSourceFS dataFilesWorkingDir("data");
 	FileSourceUnion gameDataFiles;
 	FileSourceFS rawFileSystem("/");
 
@@ -100,6 +101,10 @@ namespace FileSystem {
 	{
 		gameDataFiles.AppendSource(&dataFilesUser);
 		gameDataFiles.AppendSource(&dataFilesApp);
+
+		// "Working dir" added by Sukender. This helps debugging from an IDE by simply setting the working dir as needed.
+		// If you feel this is too much, you may remove it.
+		gameDataFiles.AppendSource(&dataFilesWorkingDir);
 	}
 
 	void Uninit()
