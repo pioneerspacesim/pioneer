@@ -3,6 +3,7 @@
 
 #include "libs.h"
 #include "gui/Gui.h"
+#include "gui/GuiWidget.h"
 #include "View.h"
 #include "Serializer.h"
 #include "Background.h"
@@ -13,10 +14,12 @@ class Body;
 class Frame;
 class LabelSet;
 class Ship;
+class NavTunnelWidget;
 namespace Gui { class TexturedQuad; }
 
 class WorldView: public View {
 public:
+	friend class NavTunnelWidget;
 	WorldView();
 	WorldView(Serializer::Reader &reader);
 	virtual ~WorldView();
@@ -59,6 +62,7 @@ private:
 
 	struct Indicator {
 		float pos[2];
+		float realpos[2];
 		IndicatorSide side;
 		Gui::Label *label;
 		Indicator() {
@@ -76,6 +80,7 @@ private:
 	void DrawCrosshair(float px, float py, float sz, const Color &c);
 	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c);
 	void DrawTargetSquare(const Indicator &marker, const Color &c);
+	void DrawTargetGuideSquare(const float pos[2], const float size, const Color &c);
 	void DrawVelocityIndicator(const Indicator &marker, const Color &c);
 	void DrawCircleIndicator(const Indicator &marker, const Color &c);
 	void DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c);
@@ -97,8 +102,8 @@ private:
 	void SelectBody(Body *, bool reselectIsDeselect);
 	Body* PickBody(const double screenX, const double screenY) const;
 	void MouseButtonDown(int button, int x, int y);
-
-	matrix4x4d m_prevShipOrient;
+	
+	NavTunnelWidget *m_navTunnel;
 	
 	Gui::ImageButton *m_hyperspaceButton;
 
@@ -146,6 +151,17 @@ private:
 
 	ScopedPtr<Gui::TexturedQuad> m_indicatorMousedir;
 	vector2f m_indicatorMousedirSize;
+};
+
+class NavTunnelWidget: public Gui::Widget {
+public:
+	NavTunnelWidget(WorldView *worldview);
+	virtual ~NavTunnelWidget();
+	virtual void Draw();
+	virtual void GetSizeRequested(float size[2]);
+	void DrawTargetGuideSquare(const float pos[2], const float size, const Color &c);
+	
+	WorldView *m_worldview;
 };
 
 #endif /* _WORLDVIEW_H */
