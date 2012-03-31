@@ -38,6 +38,8 @@ static int g_mouseButton[MAX_MOUSE_BTN_IDX];	// inc to 6 as mouseScroll is index
 static float g_zbias;
 static bool g_doBenchmark = false;
 
+float gridInterval = 0.0f;
+
 static bool setMouseButton(const Uint8 idx, const int value)
 {
 	if( idx < MAX_MOUSE_BTN_IDX ) {
@@ -253,7 +255,17 @@ public:
 		m_showBoundingRadius = !m_showBoundingRadius;
 	}
 	void OnToggleGrid() {
-		m_showGrid = !m_showGrid;
+		if (!m_showGrid) {
+			m_showGrid = true;
+			gridInterval = 1.0f;
+		}
+		else {
+			gridInterval = powf(10, ceilf(log10f(gridInterval))+1);
+			if (gridInterval >= 10000.0f) {
+				m_showGrid = false;
+				gridInterval = 0.0f;
+			}
+		}
 	}
 
 	void MainLoop() __attribute((noreturn));
@@ -463,7 +475,6 @@ static void render_coll_mesh(const LmrCollMesh *m)
 double camera_zoom = 1.0;
 vector3f g_campos(0.0f, 0.0f, 100.0f);
 matrix4x4f g_camorient;
-float gridInterval = 1.0f;
 
 void Viewer::MainLoop()
 {
@@ -647,7 +658,6 @@ void Viewer::DrawGrid(matrix4x4f& trans, double radius)
 {
 	const float dist = abs(g_campos.z);
 
-	gridInterval = std::max(powf(10, ceilf(log10f(dist))-1), 1.0f);
 	const float max = std::min(powf(10, ceilf(log10f(dist))), ceilf(radius/gridInterval)*gridInterval);
 
 	std::vector<vector3f> points;
