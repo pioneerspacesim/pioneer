@@ -1619,6 +1619,7 @@ Widget(), m_worldview(worldview)
 void NavTunnelWidget::Draw() {
 	Body *navtarget = Pi::player->GetNavTarget();
 	if (navtarget != NULL) {
+		m_worldview->m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 		const Color green = Color(0.f, 1.f, 0.f, 0.8f);
 		
 		vector2f indvec = vector2f(m_worldview->m_navTargetIndicator.pos[0], m_worldview->m_navTargetIndicator.pos[1]);
@@ -1705,6 +1706,7 @@ void NavTunnelWidget::Draw() {
 				i++;
 			}
 		}
+		m_worldview->m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	}
 }
 
@@ -1714,14 +1716,29 @@ void NavTunnelWidget::DrawTargetGuideSquare(const float pos[2], const float size
 	const float x2 = float(pos[0] + size);
 	const float y1 = float(pos[1] - size);
 	const float y2 = float(pos[1] + size);
-	
-	const vector2f vts[] = {
-		vector2f(x1, y1),
-		vector2f(x2, y1),
-		vector2f(x2, y2),
-		vector2f(x1, y2)
+
+	const vector3f vts[] = {
+		vector3f(x1, y1, 0.f),
+		vector3f(pos[0], y1, 0.f),
+		vector3f(x2, y1, 0.f),
+		vector3f(x2, pos[1], 0.f),
+		vector3f(x2, y2, 0.f),
+		vector3f(pos[0], y2, 0.f),
+		vector3f(x1, y2, 0.f),
+		vector3f(x1, pos[1], 0.f)
 	};
-	m_worldview->m_renderer->DrawLines2D(4, vts, c, Graphics::LINE_LOOP);
+	const Color black(0.f);
+	const Color col[] = {
+		c,
+		black,
+		c,
+		black,
+		c,
+		black,
+		c,
+		black
+	};
+	m_worldview->m_renderer->DrawLines(8, vts, col, Graphics::LINE_LOOP);
 }
 
 void NavTunnelWidget::GetSizeRequested(float size[2]) {
