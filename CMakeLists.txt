@@ -11,22 +11,21 @@
 # 		Version.h/.cpp allow to grab versionning of VersionNumber.h without recompiling the entire project.
 # - Same options as automake:
 #		--enable-debug: -DDEBUG
-#		--with-no-optimise: -O0 (else -O3)
 #		------ less important
 #		--with-gprof : CXXFlags = -pg
 #		has to test for the availbility of each warning flag and use them and not use ones that aren't there for C and C++ (different sets of flags)
 # 		AC_INIT([pioneer], [alpha-21-dev], [pioneer@pioneerspacesim.net])
 # 		AC_CONFIG_HEADERS([config.h])
+# - Test everything, especially compared to actual build systems.
 # - Write packaging code (to create distributions ZIP or installers).
 #		Please note the install autodetects dependencies (.so, .dll) and install them alongside the executable if needed.
 #		The install part should be okay, except for some MSVC system DLLs (MSVCRT...) which go in "/bin" instead of "/".
-# - Test everything, especially compared to actual build systems (TODO: list all features).
 # - Eventually write a PNG+zlib finder that handles debug builds (for MSVC, actually)
 # - Add a "configure" script to create "build" subdir, and run cmake. The script should warn about an existing "build" subdir and stop processing.
 # - _USE_EXTERNAL_LUA_LIB (--with-external-liblua)
 #
 # Date where build scripts have been successfully tested:
-#  Linux-gcc    32   2012-03-31 (Brianetta)
+#  Linux-gcc    32   2012-03-31 (Brianetta - or was it 64bits???)
 #  Linux-gcc    64   never
 #  OSX-gcc      32   never
 #  OSX-gcc      64   never
@@ -200,17 +199,53 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 #########################################################################
-# -fno-inline
+# -fno-inline and -O0
+
+MACRO(ADD_FLAG FLAG)
+	IF(NOT CMAKE_CXX_FLAGS MATCHES "${FLAG}")
+		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAG}")
+	ENDIF()
+	IF(NOT CMAKE_C_FLAGS MATCHES "${FLAG}")
+		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${FLAG}")
+	ENDIF()
+ENDMACRO()
+MACRO(REMOVE_FLAG FLAG)
+	STRING(REGEX REPLACE "${FLAG}" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+	STRING(REGEX REPLACE "${FLAG}" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+ENDMACRO()
 
 if(CMAKE_COMPILER_IS_GNUCXX)
 	OPTION(${PROJECT_NAME}_USE_fno-inline "Set to ON to use -fno-inline option." OFF)
 	if (${PROJECT_NAME}_USE_fno-inline)
-		IF(NOT CMAKE_CXX_FLAGS MATCHES "-fno-inline")
-			SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-inline")
-		ENDIF()
-		IF(NOT CMAKE_C_FLAGS MATCHES "-fno-inline")
-			SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-inline")
-		ENDIF()
+		ADD_FLAG("-fno-inline")
+	endif()
+endif()
+
+#########################################################################
+# No optimise
+
+OPTION(${PROJECT_NAME}_FORCE_NO_OPTIMISE "Set to ON to force disableing optimizations, whatever the build type." OFF)
+if(${PROJECT_NAME}_FORCE_NO_OPTIMISE)
+	if(CMAKE_COMPILER_IS_GNUCXX)
+		REMOVE_FLAG("-Os")
+		REMOVE_FLAG("-Ofast")
+		REMOVE_FLAG("-O1")
+		REMOVE_FLAG("-O2")
+		REMOVE_FLAG("-O3")
+		ADD_FLAG("-O0")
+	elseif(MSVC)
+		REMOVE_FLAG("/O1")
+		REMOVE_FLAG("/O2")
+		REMOVE_FLAG("/Ob")
+		REMOVE_FLAG("/Og")
+		REMOVE_FLAG("/Oi")
+		REMOVE_FLAG("/Os")
+		REMOVE_FLAG("/Ot")
+		REMOVE_FLAG("/Ox")
+		REMOVE_FLAG("/Oy")
+		ADD_FLAG("/Od")
+	else()
+		message("Cannot apply ${PROJECT_NAME}_FORCE_NO_OPTIMISE for your compiler (not implemented)")
 	endif()
 endif()
 
