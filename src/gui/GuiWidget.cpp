@@ -36,7 +36,14 @@ void Widget::SetScissor(bool enabled)
 		GetAbsolutePosition(pos);
 		float scale[2];
 		Gui::Screen::GetCoords2Pixels(scale);
-		Gui::Screen::GetRenderer()->SetScissor(true, vector2f(pos[0]/scale[0],(float(Gui::Screen::GetHeight())-(pos[1]+m_size.h))/scale[1]), vector2f(m_size.w/scale[0],m_size.h/scale[1]));
+
+		vector2f scissorPos(pos[0]/scale[0],(float(Gui::Screen::GetHeight())-(pos[1]+m_size.h))/scale[1]);
+		vector2f scissorSize(m_size.w/scale[0],m_size.h/scale[1]);
+
+		assert(scissorPos.x >= 0.0f && scissorPos.y >= 0.0f);
+		assert(scissorSize.x >= 0.0f && scissorSize.y >= 0.0f);
+
+		Gui::Screen::GetRenderer()->SetScissor(true, scissorPos, scissorSize);
 	}
 	else
 		Gui::Screen::GetRenderer()->SetScissor(false);

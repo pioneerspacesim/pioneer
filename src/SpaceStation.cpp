@@ -478,7 +478,7 @@ void SpaceStation::DoLawAndOrder()
 			{ // blue and white thang
 				ShipFlavour f;
 				f.type = ShipType::LADYBIRD;
-				strncpy(f.regid, Lang::POLICE_SHIP_REGISTRATION, 16);
+				f.regid = Lang::POLICE_SHIP_REGISTRATION;
 				f.price = ship->GetFlavour()->price;
 				LmrMaterial m;
 				m.diffuse[0] = 0.0f; m.diffuse[1] = 0.0f; m.diffuse[2] = 1.0f; m.diffuse[3] = 1.0f;

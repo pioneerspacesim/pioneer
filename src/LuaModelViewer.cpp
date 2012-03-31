@@ -18,13 +18,11 @@ using namespace Graphics;
 static Renderer *renderer;
 
 enum ModelCategory {
-	MODEL_OTHER,
 	MODEL_SHIP,
 	MODEL_SPACESTATION
 };
 
 static const char *ANIMATION_NAMESPACES[] = {
-	0,
 	"ShipAnimation",
 	"SpaceStationAnimation",
 };
@@ -178,8 +176,13 @@ public:
 			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"),
 					200, Gui::Screen::GetHeight()-140.0f);
 			for (int i=0; i<LMR_ARG_MAX; i++) {
-				Gui::Fixed *box = new Gui::Fixed(32.0f, 120.0f);
-				Add(box, float(200 + i*25), Gui::Screen::GetHeight()-120.0f);
+				float x = float(200+i*25);
+				float w = 32.0f;
+				if (x >= Gui::Screen::GetWidth()-w)
+					break;
+
+				Gui::Fixed *box = new Gui::Fixed(w, 120.0f);
+				Add(box, x, Gui::Screen::GetHeight()-120.0f);
 
 				m_anim[i] = new Gui::Adjustment();
 				m_anim[i]->SetValue(0);
@@ -262,9 +265,8 @@ void Viewer::SetModel(LmrModel *model)
 
 	// set up model parameters
 	// inefficient (looks up and searches tags table separately for each tag)
-	bool has_ship = m_model->HasTag("ship") || m_model->HasTag("static_ship");
 	bool has_station = m_model->HasTag("surface_station") || m_model->HasTag("orbital_station");
-	if (has_ship && !has_station) {
+    if (!has_station) {
 		m_modelCategory = MODEL_SHIP;
 		const std::string name = model->GetName();
 		std::map<std::string,ShipType>::const_iterator it = ShipType::types.begin();
@@ -279,11 +281,8 @@ void Viewer::SetModel(LmrModel *model)
 		else
 			g_equipment.InitSlotSizes(ShipType::EAGLE_LRF);
 		g_params.equipment = &g_equipment;
-	} else if (has_station && !has_ship) {
-		m_modelCategory = MODEL_SPACESTATION;
-		g_params.equipment = 0;
 	} else {
-		m_modelCategory = MODEL_OTHER;
+		m_modelCategory = MODEL_SPACESTATION;
 		g_params.equipment = 0;
 	}
 

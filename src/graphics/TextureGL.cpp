@@ -1,14 +1,14 @@
 #include "TextureGL.h"
 #include <cassert>
 #include "utils.h"
-
+//warning C4715: 'Graphics::GLImageTypeForTextureFormat' : not all control paths return a value
 namespace Graphics {
 
 inline GLint GLTextureFormat(TextureFormat format) {
 	switch (format) {
 		case TEXTURE_RGBA: return GL_RGBA;
 		case TEXTURE_RGB:  return GL_RGB;
-		default: assert(0);
+		default: assert(0); return 0;
 	}
 }
 
@@ -16,14 +16,14 @@ inline GLint GLImageFormat(ImageFormat format) {
 	switch (format) {
 		case IMAGE_RGBA: return GL_RGBA;
 		case IMAGE_RGB:  return GL_RGB;
-		default: assert(0);
+		default: assert(0); return 0;
 	}
 }
 
 inline GLint GLImageType(ImageType type) {
 	switch (type) {
 		case IMAGE_UNSIGNED_BYTE: return GL_UNSIGNED_BYTE;
-		default: assert(0);
+		default: assert(0); return 0;
 	}
 }
 
@@ -31,7 +31,7 @@ inline GLint GLImageFormatForTextureFormat(TextureFormat format) {
 	switch (format) {
 		case TEXTURE_RGBA: return GL_RGBA;
 		case TEXTURE_RGB:  return GL_RGB;
-		default: assert(0);
+		default: assert(0); return 0;
 	}
 }
 
@@ -39,7 +39,7 @@ inline GLint GLImageTypeForTextureFormat(TextureFormat format) {
 	switch (format) {
 		case TEXTURE_RGBA: return GL_UNSIGNED_BYTE;
 		case TEXTURE_RGB:  return GL_UNSIGNED_BYTE;
-		default: assert(0);
+		default: assert(0); return 0;
 	}
 }
 
