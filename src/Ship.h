@@ -101,7 +101,7 @@ public:
 		DOCKING,    // in docking animation
 		DOCKED,     // docked with station
 		LANDED,     // rough landed (not docked)
-		HYPERSPACE, // in hyperspace
+		HYPERSPACE // in hyperspace
 	};
 
 	FlightState GetFlightState() const { return m_flightState; }
@@ -150,7 +150,7 @@ public:
 	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_>
 		ALERT_NONE,
 		ALERT_SHIP_NEARBY,
-		ALERT_SHIP_FIRING,
+		ALERT_SHIP_FIRING
 	};
 	AlertState GetAlertState() { return m_alertState; }
 
@@ -214,7 +214,7 @@ public:
 	enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_>
 		FUEL_OK,
 		FUEL_WARNING,
-		FUEL_EMPTY,
+		FUEL_EMPTY
 	};
 	FuelState GetFuelState() { return m_thrusterFuel > 0.05f ? FUEL_OK : m_thrusterFuel > 0.0f ? FUEL_WARNING : FUEL_EMPTY; }
 
@@ -222,7 +222,7 @@ public:
 	float GetFuel() const {	return m_thrusterFuel;	}
 	//0.0 - 1.0
 	void SetFuel(const float f) {	m_thrusterFuel = Clamp(f, 0.f, 1.f); }
-	
+
 	void EnterSystem();
 
 	HyperspaceCloud *GetHyperspaceCloud() const { return m_hyperspaceCloud; }

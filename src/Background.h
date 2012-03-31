@@ -63,6 +63,6 @@ namespace Background
 		MilkyWay m_milkyWay;
 	};
 
-}; //namespace Background
+} //namespace Background
 
 #endif

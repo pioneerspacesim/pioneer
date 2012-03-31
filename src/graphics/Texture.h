@@ -8,16 +8,16 @@ namespace Graphics {
 
 enum TextureFormat {
 	TEXTURE_RGBA,
-	TEXTURE_RGB,
+	TEXTURE_RGB
 };
 
 enum ImageFormat {
 	IMAGE_RGBA,
-	IMAGE_RGB,
+	IMAGE_RGB
 };
 
 enum ImageType {
-	IMAGE_UNSIGNED_BYTE,
+	IMAGE_UNSIGNED_BYTE
 };
 
 enum TextureSampleMode {
