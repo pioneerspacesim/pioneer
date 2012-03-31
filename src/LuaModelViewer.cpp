@@ -653,14 +653,20 @@ void Viewer::DrawGrid(matrix4x4f& trans, double radius)
 	std::vector<vector3f> points;
 
 	for (float x = -max; x <= max; x += gridInterval) {
-		for (float y = -max; y <= max; y += gridInterval) {
-			points.push_back(vector3f(x,y,-max));
-			points.push_back(vector3f(x,y,max));
-			points.push_back(vector3f(x,-max,y));
-			points.push_back(vector3f(x,max,y));
-			points.push_back(vector3f(-max,x,y));
-			points.push_back(vector3f(max,x,y));
-		}
+		points.push_back(vector3f(x,0,-max));
+		points.push_back(vector3f(x,0,max));
+		points.push_back(vector3f(0,x,-max));
+		points.push_back(vector3f(0,x,max));
+
+		points.push_back(vector3f(x,-max,0));
+		points.push_back(vector3f(x,max,0));
+		points.push_back(vector3f(0,-max,x));
+		points.push_back(vector3f(0,max,x));
+
+		points.push_back(vector3f(-max,x,0));
+		points.push_back(vector3f(max,x,0));
+		points.push_back(vector3f(-max,0,x));
+		points.push_back(vector3f(max,0,x));
 	}
 
 	renderer->SetTransform(trans);
