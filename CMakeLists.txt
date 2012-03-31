@@ -12,14 +12,6 @@
 # - Same options as automake:
 #		--enable-debug: -DDEBUG
 #		--with-no-optimise: -O0 (else -O3)
-#		--with-fno-inline:  CXXFlags =-fno-inline
-#		ALREADY IN MINSIZEREL?
-				# if(CMAKE_COMPILER_IS_GNUCXX)
-					# OPTION(${PROJECT_NAME}_USE_ccache "Set to ON to use ccache to compile." OFF)
-					# if (${PROJECT_NAME}_USE_ccache)
-					# endif()
-				# endif()
-				# #		--with-fno-inline:  CXXFlags =-fno-inline
 #		------ less important
 #		--with-gprof : CXXFlags = -pg
 #		has to test for the availbility of each warning flag and use them and not use ones that aren't there for C and C++ (different sets of flags)
@@ -34,13 +26,13 @@
 # - _USE_EXTERNAL_LUA_LIB (--with-external-liblua)
 #
 # Date where build scripts have been successfully tested:
-#  Linux-gcc    32   never (builds under Ubuntu, but running hasn't been tested yet)
+#  Linux-gcc    32   2012-03-31 (Brianetta)
 #  Linux-gcc    64   never
 #  OSX-gcc      32   never
 #  OSX-gcc      64   never
 #  Windows-gcc  32   never
 #  Windows-gcc  64   never
-#  Windows-msvc 32   2012-03-30 (Exe can be launched. No more testing.)
+#  Windows-msvc 32   2012-03-31 (Sukender)
 #  Windows-msvc 64   never
 
 
@@ -204,6 +196,21 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 		else()
 			message("ccache was requested but was not found. Build will proceed as normal")
 		endif()
+	endif()
+endif()
+
+#########################################################################
+# -fno-inline
+
+if(CMAKE_COMPILER_IS_GNUCXX)
+	OPTION(${PROJECT_NAME}_USE_fno-inline "Set to ON to use -fno-inline option." OFF)
+	if (${PROJECT_NAME}_USE_fno-inline)
+		IF(NOT CMAKE_CXX_FLAGS MATCHES "-fno-inline")
+			SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-inline")
+		ENDIF()
+		IF(NOT CMAKE_C_FLAGS MATCHES "-fno-inline")
+			SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-inline")
+		ENDIF()
 	endif()
 endif()
 
