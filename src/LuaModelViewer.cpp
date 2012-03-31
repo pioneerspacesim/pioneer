@@ -105,6 +105,7 @@ public:
 		m_geom = 0;
 		m_space = new CollisionSpace();
 		m_showBoundingRadius = false;
+		m_showGrid = false;
 		Gui::Screen::AddBaseWidget(this, 0, 0);
 		SetTransparency(true);
 
@@ -144,6 +145,13 @@ public:
 			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius));
 			Add(b, 10, 90);
 			Add(new Gui::Label("[shift-b] Visualize bounding radius"), 30, 90);
+		}
+		{
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_g, KMOD_LSHIFT);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleGrid));
+			Add(b, 10, 110);
+			Add(new Gui::Label("[shift-g] Toggle grid"), 30, 110);
 		}
 #if 0
 		{
@@ -244,13 +252,18 @@ public:
 	void OnToggleBoundingRadius() {
 		m_showBoundingRadius = !m_showBoundingRadius;
 	}
+	void OnToggleGrid() {
+		m_showGrid = !m_showGrid;
+	}
 
 	void MainLoop() __attribute((noreturn));
 	void SetSbreParams();
 private:
 	void TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg);
 	void VisualizeBoundingRadius(matrix4x4f& trans, double radius);
+	void DrawGrid(matrix4x4f& trans, double radius);
 	bool m_showBoundingRadius;
+	bool m_showGrid;
 };
 
 void Viewer::SetModel(LmrModel *model)
@@ -450,6 +463,7 @@ static void render_coll_mesh(const LmrCollMesh *m)
 double camera_zoom = 1.0;
 vector3f g_campos(0.0f, 0.0f, 100.0f);
 matrix4x4f g_camorient;
+float gridInterval = 1.0f;
 
 void Viewer::MainLoop()
 {
@@ -527,16 +541,23 @@ void Viewer::MainLoop()
 			render_coll_mesh(m_cmesh);
 			glPopMatrix();
 		}
+
 		if (m_showBoundingRadius) {
 			matrix4x4f mo = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos);// * modelRot.InverseOf();
 			VisualizeBoundingRadius(mo, m_model->GetDrawClipRadius());
 		}
+
+		if (m_showGrid) {
+			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
+			DrawGrid(m, m_model->GetDrawClipRadius());
+		}
+
 		Graphics::UnbindAllBuffers();
 
 		{
-			char buf[128];
+			char buf[256];
 			Aabb aabb = m_cmesh->GetAabb();
-			snprintf(buf, sizeof(buf), "%d triangles, %d fps, %.3fm tris/sec\ncollision mesh size: %.1fx%.1fx%.1f (radius %.1f)\nClipping radius %.1f",
+			snprintf(buf, sizeof(buf), "%d triangles, %d fps, %.3fm tris/sec\ncollision mesh size: %.1fx%.1fx%.1f (radius %.1f)\nClipping radius %.1f\nGrid interval: %d metres",
 					(g_renderType == 0 ? 
 						LmrModelGetStatsTris() - beforeDrawTriStats :
 						m_cmesh->m_numTris),
@@ -546,7 +567,8 @@ void Viewer::MainLoop()
 					aabb.max.y-aabb.min.y,
 					aabb.max.z-aabb.min.z,
 					aabb.GetBoundingRadius(),
-					m_model->GetDrawClipRadius());
+					m_model->GetDrawClipRadius(),
+					int(gridInterval));
 			m_trisReadout->SetText(buf);
 		}
 		
@@ -619,6 +641,30 @@ void Viewer::VisualizeBoundingRadius(matrix4x4f& trans, double radius)
 	renderer->SetTransform(trans);
 	Drawables::Circle circ(radius, Color(0.f, 0.f, 1.f, 1.f));
 	circ.Draw(renderer);
+}
+
+void Viewer::DrawGrid(matrix4x4f& trans, double radius)
+{
+	const float dist = abs(g_campos.z);
+
+	gridInterval = std::max(powf(10, ceilf(log10f(dist))-1), 1.0f);
+	const float max = std::min(powf(10, ceilf(log10f(dist))), ceilf(radius/gridInterval)*gridInterval);
+
+	std::vector<vector3f> points;
+
+	for (float x = -max; x <= max; x += gridInterval) {
+		for (float y = -max; y <= max; y += gridInterval) {
+			points.push_back(vector3f(x,y,-max));
+			points.push_back(vector3f(x,y,max));
+			points.push_back(vector3f(x,-max,y));
+			points.push_back(vector3f(x,max,y));
+			points.push_back(vector3f(-max,x,y));
+			points.push_back(vector3f(max,x,y));
+		}
+	}
+
+	renderer->SetTransform(trans);
+	renderer->DrawLines(points.size(), &points[0], Color(0.0f,0.2f,0.0f,1.0f));
 }
 
 
