@@ -462,104 +462,200 @@ set(${TARGETNAME}_SRC_OTHER
 	Version.cpp
 )
 
-
-IF (${PROJECT_NAME}_USE_PRECOMPILED_HEADERS)
-	LIST(APPEND ${TARGETNAME}_H_OTHER "${PCH_DEFAULT_H}")
-	LIST(APPEND ${TARGETNAME}_SRC_OTHER "${PCH_DEFAULT_CPP}")
-ENDIF()
-
-# Add and group sources (except "OTHER")
-SET (GROUP_NAME_HEADERS "Header files")
-SET (GROUP_NAME_SOURCE "Source Files")
-SET (TARGET_H )
-SET (TARGET_SRC )
-foreach(group ${GROUP_LIST})
-	list(APPEND TARGET_H ${${TARGETNAME}_H_${group}})
-	list(APPEND TARGET_SRC ${${TARGETNAME}_SRC_${group}})
-	source_group("${GROUP_NAME_HEADERS}\\${group}" FILES ${${TARGETNAME}_H_${group}})
-	source_group("${GROUP_NAME_SOURCE}\\${group}" FILES ${${TARGETNAME}_SRC_${group}})
-endforeach()
-
-# Now adding "other" elements (ie. source files that don't go elsewhere)
-list(APPEND TARGET_H ${${TARGETNAME}_H_OTHER})
-list(APPEND TARGET_SRC ${${TARGETNAME}_SRC_OTHER})
-source_group("${GROUP_NAME_HEADERS}" FILES ${${TARGETNAME}_H_OTHER})
-source_group("${GROUP_NAME_SOURCE}" FILES ${${TARGETNAME}_SRC_OTHER})
-
-
 # Setup resources (executable icon)
 SET(SETUP_${PROJECT_NAME}_EXE_RESSOURCES )
 IF(MSVC)
 	SET(SETUP_${PROJECT_NAME}_EXE_RESSOURCES "${PROJECT_SOURCE_DIR}/data/appIcon/Pioneer.rc")
 ENDIF()
 
-SET(PLATFORM_SPECIFIC_CONTROL )
-IF(WIN32 AND NOT ${PROJECT_NAME}_FORCE_CONSOLE_APPS)
-	SET(PLATFORM_SPECIFIC_CONTROL WIN32)
-ENDIF()
+INCLUDE(CMakeLists.sub.cmake)
 
-# Setup dependencies
-SET(DEPENDENCIES_NAMES )
-
-IF(UNIX)
-	LIST(APPEND DEPENDENCIES_NAMES MATH_LIBRARY X11)
-	ADD_DEFINITIONS( -D${PROJECT_NAME}_USE_X11 )
-ENDIF()
-
-LIST(APPEND DEPENDENCIES_NAMES OPENGL)
-LIST(APPEND DEPENDENCIES_NAMES GLEW)
-LIST(APPEND DEPENDENCIES_NAMES FREETYPE SDL SDLIMAGE PNG)
-LIST(APPEND DEPENDENCIES_NAMES OGG VORBIS VORBISFILE)
-LIST(APPEND DEPENDENCIES_NAMES SIGCPP)
-
-#LIST(APPEND DEPENDENCIES_NAMES Boost_DATE_TIME Boost_FILESYSTEM Boost_PROGRAM_OPTIONS Boost_SERIALIZATION Boost_SYSTEM Boost_REGEX Boost_LOCALE Boost_THREAD)
-#LIST(APPEND DEPENDENCIES_NAMES ICU)		# For boost.regex & boost.locale
-
-LINK_DIRS_WITH_VARIABLES(${TARGETNAME} ${DEPENDENCIES_NAMES})
-add_executable(${TARGETNAME} ${PLATFORM_SPECIFIC_CONTROL} ${TARGET_SRC} ${TARGET_H} ${SETUP_${PROJECT_NAME}_EXE_RESSOURCES})
-LINK_WITH_VARIABLES(${TARGETNAME} ${DEPENDENCIES_NAMES})
-
-target_link_libraries(${TARGETNAME} LUA OOLUA)
-
-# ADD_DEFINITIONS( 
-	# -DBOOST_ENABLE_ASSERT_HANDLER
-	# -DBOOST_ALL_DYN_LINK	# Tell boost to use dynamic libraries
-	# -DBOOST_ALL_NO_LIB		# No boost auto link
-# )
-
-IF (${PROJECT_NAME}_USE_PRECOMPILED_HEADERS)
-	SET_USE_PRECOMPILED_HEADER(${TARGETNAME} ${PCH_DEFAULT_H} ${PCH_DEFAULT_CPP})
-ENDIF()
-
-IF(MSVC)
-	# Ugly workaround to remove the "/debug" or "/release" in each output
-	SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES PREFIX "../")
-	SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES IMPORT_PREFIX "../")
-ENDIF()
-
-SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION})
-
-#############################################################
-# PACKAGE
-#INCLUDE(ModuleInstall)		# Installs binary in '/bin'
-set(DESTINATION_DIR ".")
-INSTALL(
-	TARGETS ${TARGETNAME}
-	RUNTIME DESTINATION "${DESTINATION_DIR}" COMPONENT mainComponent
+# Use executables explicit naming to stick with existing implementation
+set_target_properties(${TARGETNAME} PROPERTIES
+	RUNTIME_OUTPUT_NAME                "pioneer"				# Default name (lowercase), for Release, MinSizeRel, others
+	RUNTIME_OUTPUT_NAME_Debug          "pioneer-debug"
+	RUNTIME_OUTPUT_NAME_RelWithDebInfo "pioneer-prerelease"
 )
 
-IF(${PROJECT_NAME}_INSTALL_DEPENDENCIES)
-	# Install direct dependencies
-	FOREACH(CURCONFIG ${CMAKE_CONFIGURATION_TYPES})
-		GET_TARGET_PROPERTY(LOCATION_${CURCONFIG} "${TARGETNAME}" LOCATION_${CURCONFIG})
-	ENDFOREACH()
-	CONFIGURE_FILE( 
-		"${CMAKE_SOURCE_DIR}/dependencies.cmake.in"
-		"${CMAKE_CURRENT_BINARY_DIR}/dependencies.${TARGETNAME}.cmake"
-		@ONLY
+
+
+# --------------------------------------------------------------------------------
+# ModelViewer
+
+set(TARGETNAME "ModelViewer")
+
+set(GROUP_LIST base graphics gui collider platformSpecific)		# terrain
+
+set( ${TARGETNAME}_H_base
+	"ByteRange.h"
+	"Color.h"
+	"CRC32.h"
+	"enum_table.h"
+	"FileSystem.h"
+	"Font.h"
+	"FontCache.h"
+	"FontConfig.h"
+	"IniConfig.h"
+	"Lang.h"
+	"libs.h"
+	"LmrModel.h"
+	"LuaConstants.h"
+	"LuaUtils.h"
+	"matrix4x4.h"
+	"MyLuaMathTypes.h"
+	"perlin.h"
+	"ShipType.h"
+	"StringF.h"
+	"StringRange.h"
+	"TextSupport.h"
+	"TextureFont.h"
+	"utils.h"
+	"vector2.h"
+	"vector3.h"
+	"VectorFont.h"
+)
+
+set( ${TARGETNAME}_SRC_base
+	"Color.cpp"
+	"CRC32.cpp"
+	"enum_table.cpp"
+	"FileSystem.cpp"
+	"Font.cpp"
+	"FontCache.cpp"
+	"FontConfig.cpp"
+	"IniConfig.cpp"
+	"Lang.cpp"
+	"LmrModel.cpp"
+	"LuaConstants.cpp"
+	"LuaModelViewer.cpp"
+	"LuaUtils.cpp"
+	"MyLuaMathTypes.cpp"
+	"perlin.cpp"
+	"ShipType.cpp"
+	"StringF.cpp"
+	"TextSupport.cpp"
+	"TextureFont.cpp"
+	"utils.cpp"
+	"VectorFont.cpp"
+)
+
+# Same as Pioneer.
+set( ${TARGETNAME}_H_graphics
+	${Pioneer_H_graphics}
+)
+set( ${TARGETNAME}_SRC_graphics
+	${Pioneer_SRC_graphics}
+)
+
+set( ${TARGETNAME}_H_gui
+	"gui/Gui.h"
+	"gui/GuiAdjustment.h"
+	"gui/GuiBox.h"
+	"gui/GuiButton.h"
+	"gui/GuiContainer.h"
+	"gui/GuiEvents.h"
+	"gui/GuiFixed.h"
+	"gui/GuiImage.h"
+	"gui/GuiImageButton.h"
+	"gui/GuiImageRadioButton.h"
+	"gui/GuiISelectable.h"
+	"gui/GuiLabel.h"
+	"gui/GuiLabelSet.h"
+	"gui/GuiMeterBar.h"
+	"gui/GuiMultiStateImageButton.h"
+	"gui/GuiRadioButton.h"
+	"gui/GuiRadioGroup.h"
+	"gui/GuiRepeaterButton.h"
+	"gui/GuiScreen.h"
+	"gui/GuiTabbed.h"
+	"gui/GuiTextEntry.h"
+	"gui/GuiTextLayout.h"
+	"gui/GuiTexturedQuad.h"
+	"gui/GuiToggleButton.h"
+	"gui/GuiToolTip.h"
+	"gui/GuiVScrollBar.h"
+	"gui/GuiVScrollPortal.h"
+	"gui/GuiWidget.h"
+)
+set( ${TARGETNAME}_SRC_gui
+	"gui/Gui.cpp"
+	"gui/GuiBox.cpp"
+	"gui/GuiButton.cpp"
+	"gui/GuiContainer.cpp"
+	"gui/GuiFixed.cpp"
+	"gui/GuiImage.cpp"
+	"gui/GuiImageButton.cpp"
+	"gui/GuiImageRadioButton.cpp"
+	"gui/GuiLabel.cpp"
+	"gui/GuiLabelSet.cpp"
+	"gui/GuiMeterBar.cpp"
+	"gui/GuiMultiStateImageButton.cpp"
+	"gui/GuiRadioButton.cpp"
+	"gui/GuiRadioGroup.cpp"
+	"gui/GuiRepeaterButton.cpp"
+	"gui/GuiScreen.cpp"
+	"gui/GuiTabbed.cpp"
+	"gui/GuiTextEntry.cpp"
+	"gui/GuiTextLayout.cpp"
+	"gui/GuiTexturedQuad.cpp"
+	"gui/GuiToggleButton.cpp"
+	"gui/GuiToolTip.cpp"
+	"gui/GuiVScrollBar.cpp"
+	"gui/GuiVScrollPortal.cpp"
+	"gui/GuiWidget.cpp"
+)
+
+# Same as Pioneer.
+set( ${TARGETNAME}_H_collider
+	${Pioneer_H_collider}
+)
+set( ${TARGETNAME}_SRC_collider
+	${Pioneer_SRC_collider}
+)
+
+# "terrain" is not used, but we clear the variable just for safety
+set( ${TARGETNAME}_H_terrain
+)
+set( ${TARGETNAME}_SRC_terrain
+)
+
+set( ${TARGETNAME}_H_platformSpecific )
+set( ${TARGETNAME}_SRC_platformSpecific )
+
+if (WIN32)
+	set( ${TARGETNAME}_H_platformSpecific
+		#"${PROJECT_SOURCE_DIR}/win32/src/Gamma.h"
 	)
-	INCLUDE(InstallRequiredSystemLibraries REQUIRED)
-	INSTALL(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/dependencies.${TARGETNAME}.cmake")
+	set( ${TARGETNAME}_SRC_platformSpecific
+		"${PROJECT_SOURCE_DIR}/win32/src/FileSystemWin32.cpp"
+		#"${PROJECT_SOURCE_DIR}/win32/src/Gamma.cpp"
+	)
+else()
+	list(APPEND ${TARGETNAME}_SRC_platformSpecific
+		"FileSystemPosix.cpp"
+	)
+endif()
+
+set(${TARGETNAME}_H_OTHER
+	"${${PROJECT_NAME}_CONFIG_HEADER}"
+	"${${PROJECT_NAME}_VERSION_HEADER}"
+	Version.h
+)
+set(${TARGETNAME}_SRC_OTHER
+	Version.cpp
+)
+
+# Setup resources (executable icon)
+SET(SETUP_${PROJECT_NAME}_EXE_RESSOURCES )
+IF(MSVC)
+	SET(SETUP_${PROJECT_NAME}_EXE_RESSOURCES "${PROJECT_SOURCE_DIR}/data/appIcon/ModelViewer.rc")
 ENDIF()
 
-#############################################################
+INCLUDE(CMakeLists.sub.cmake)
+
+# Use executables explicit naming to stick with existing implementation
+set_target_properties(${TARGETNAME} PROPERTIES
+	RUNTIME_OUTPUT_NAME                "modelviewer"				# Default name (lowercase), for Release, MinSizeRel, others
+	RUNTIME_OUTPUT_NAME_Debug          "modelviewer-debug"
+	RUNTIME_OUTPUT_NAME_RelWithDebInfo "modelviewer-prerelease"
+)

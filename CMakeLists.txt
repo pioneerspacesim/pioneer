@@ -5,9 +5,8 @@
 #   - For Sukender's part (new code, and code coming from PVLE): WTFPL v2
 #   - For code coming from OSG: LGPL v2
 
-# Current status of these CMake scripts: pre-pre-alpha (Only MSVC-Pioneer compiles and runs, lots of features are missing)
+# Current status of these CMake scripts: pre-alpha (Linux and OSX have not been tested, lots of features are missing)
 # TODO:
-# - Prepare scripts for ALL projects (model viewer, etc.)
 # - Replace PIONEER_VERSION / PIONEER_EXTRAVERSION usage with Version.h.
 # 		Version.h/.cpp allow to grab versionning of VersionNumber.h without recompiling the entire project.
 # - Same options as automake (to be listed)
@@ -24,7 +23,7 @@
 #  OSX-gcc      64   never
 #  Windows-gcc  32   never
 #  Windows-gcc  64   never
-#  Windows-msvc 32   2012-03-30 (Pioneer only, not modelviewer)
+#  Windows-msvc 32   2012-03-30 (Exe can be launched. No more testing.)
 #  Windows-msvc 64   never
 
 
