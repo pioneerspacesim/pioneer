@@ -174,7 +174,7 @@ void ScannerWidget::Draw()
 	// XXX 2d vertices
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE, 128); //reserve some space for positions & colors
 	va.Add(vector3f(m_x, m_y, 0.f), green);
-	for (float a = 0; a < 2 * M_PI; a += M_PI * 0.02) {
+	for (float a = 0; a < 2 * static_cast<float>(M_PI); a += static_cast<float>(M_PI) * 0.02f) {
 		va.Add(vector3f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), 0.f), green);
 	}
 	va.Add(vector3f(m_x, m_y + SCANNER_YSHRINK * m_y, 0.f), green);

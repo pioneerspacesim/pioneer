@@ -46,13 +46,13 @@ LmrObjParams cityobj_params;
 void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
 {
 	double rad = (p1-p2).Length()*0.5;
-	LmrModel *model;
-	double modelRadXZ;
-	const LmrCollMesh *cmesh;
+	LmrModel *model(NULL);
+	double modelRadXZ(0);
+	const LmrCollMesh *cmesh(NULL);
 	vector3d cent = (p1+p2+p3+p4)*0.25;
 
-	cityflavourdef_t *flavour;
-	citybuildinglist_t *buildings;
+	cityflavourdef_t *flavour(NULL);
+	citybuildinglist_t *buildings(NULL);
 
 	// pick a building flavour (city, windfarm, etc)
 	for (int flv=0; flv<CITYFLAVOURS; flv++) {
@@ -97,6 +97,7 @@ always_divide:
 		if (height - m_planet->GetSBody()->GetRadius() <= 0.0) return;
 		cent = cent * height;
 
+		assert(cmesh);
 		Geom *geom = new Geom(cmesh->geomTree);
 		int rotTimes90 = rand.Int32(4);
 		matrix4x4d grot = rot * matrix4x4d::RotateYMatrix(M_PI*0.5*double(rotTimes90));
