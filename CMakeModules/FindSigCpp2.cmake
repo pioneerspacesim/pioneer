@@ -28,8 +28,16 @@ FOREACH(CURVER ${VERSIONS})
 		HINTS ${CUR_HINTS}
 		PATH_SUFFIXES include include/sigc++ "include/sigc++-${CURVER}"
 	)
-	set(${FINDNAME}_INCLUDE_DIRS ${${FINDNAME}_INCLUDE_DIR})
+	FIND_PATH(${FINDNAME}_INCLUDE_DIR_CONFIG
+		NAMES sigc++config.h
+		HINTS ${CUR_HINTS}
+		PATH_SUFFIXES include include/sigc++ "include/sigc++-${CURVER}" sigc++/include "sigc++-${CURVER}/include"
+		PATHS /usr/local/lib /usr/lib /lib
+	)
+	set(${FINDNAME}_INCLUDE_DIRS "${${FINDNAME}_INCLUDE_DIR}" "${${FINDNAME}_INCLUDE_DIR_CONFIG}")
+ENDFOREACH()
 
+FOREACH(CURVER ${VERSIONS})
 	FIND_LIBRARY(${FINDNAME}_LIBRARY 
 		NAMES "sigc-${MSVC_YEAR_NAME}-${CURVER}" "sigc-${CURVER}"
 		HINTS ${CUR_HINTS}
