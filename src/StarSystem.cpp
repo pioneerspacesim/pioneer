@@ -1741,8 +1741,6 @@ void StarSystem::Populate(bool addSpaceStations)
 
 	/* Various system-wide characteristics */
 	m_humanProx = fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));
-	m_techlevel = (m_humanProx*5).ToInt32() + rand.Int32(-2,2);
-	m_techlevel = Clamp(m_techlevel, 1, 5);
 	m_econType = ECON_INDUSTRY;
 	m_industrial = rand.Fixed();
 	m_agricultural = 0;
@@ -1750,7 +1748,6 @@ void StarSystem::Populate(bool addSpaceStations)
 	/* system attributes */
 	m_totalPop = fixed(0);
 	rootBody->PopulateStage1(this, m_totalPop);
-	if (m_totalPop == 0) m_techlevel = 0;
 	
 //	printf("Trading rates:\n");
 	// So now we have balances of trade of various commodities.
@@ -1771,7 +1768,7 @@ void StarSystem::Populate(bool addSpaceStations)
 //		const EquipType &type = Equip::types[t];
 //		printf("%s: %d%%\n", type.name, m_tradeLevel[t]);
 //	}
-//	printf("System total population %.3f billion, tech level %d\n", m_totalPop.ToFloat(), m_techlevel);
+//	printf("System total population %.3f billion\n", m_totalPop.ToFloat());
 	Polit::GetSysPolitStarSystem(this, m_totalPop, m_polit);
 
 	if (addSpaceStations) {
@@ -1850,7 +1847,6 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	for (int i=Equip::FIRST_COMMODITY; i<Equip::LAST_COMMODITY; i++) {
 		Equip::Type t = Equip::Type(i);
 		const EquipType &itype = Equip::types[t];
-		if (itype.techLevel > system->m_techlevel) continue;
 
 		fixed affinity = fixed(1,1);
 		if (itype.econType & ECON_AGRICULTURE) {

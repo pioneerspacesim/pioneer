@@ -135,7 +135,7 @@ struct EquipType {
 	int mass;
 	int pval; // hello angband. used for general 'power' attribute...
 	int econType;
-	int techLevel; /* 0-5 */
+	bool purchasable;
 	float rechargeTime;			// to be eliminated maybe
 };
 
