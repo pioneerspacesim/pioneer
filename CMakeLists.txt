@@ -1,7 +1,7 @@
 # Pioneer CMake script
 #
 # By Sukender (Benoit Neil), from PVLE and OSG CMake scripts.
-# Licensing terms are compatible with GPL v3:
+# Licensing terms of all CMake scripts in the project are compatible with GPL v3:
 #   - For Sukender's part (new code, and code coming from PVLE): WTFPL v2
 #   - For code coming from OSG: LGPL v2
 
@@ -96,7 +96,6 @@ if (SHIPPED_DEPENDENCIES_PATH)
 	#SET(CMAKE_PREFIX_PATH "${SHIPPED_DEPENDENCIES_PATH}" ${CMAKE_PREFIX_PATH})
 	SET(CMAKE_LIBRARY_PATH "${SHIPPED_DEPENDENCIES_PATH}" "${SHIPPED_DEPENDENCIES_PATH}/lib" ${CMAKE_LIBRARY_PATH})
 	SET(CMAKE_INCLUDE_PATH "${SHIPPED_DEPENDENCIES_PATH}" "${SHIPPED_DEPENDENCIES_PATH}/include" ${CMAKE_INCLUDE_PATH})
-	SET(ADDITIONAL_SEARCH_PATH "${SHIPPED_DEPENDENCIES_PATH}")
 endif()
 
 # SET(Boost_USE_STATIC_LIBS OFF)
@@ -166,10 +165,6 @@ IF(WIN32)
 	OPTION(${PROJECT_NAME}_FORCE_CONSOLE_APPS "Activate to make all apps to have a console under Windows" OFF)
 ENDIF()
 
-IF(WIN32 AND NOT ${PROJECT_NAME}_FORCE_CONSOLE_APPS)
-	MESSAGE("DEBUG MESSAGE: no console")
-endif()
-
 #########################################################################
 # Make the headers visible to everything
 IF(NOT ${PROJECT_BINARY_DIR} EQUAL ${PROJECT_SOURCE_DIR})
@@ -194,8 +189,8 @@ endif()
 # Dependencies install
 
 set(${PROJECT_NAME}_DEPENDENCIES_DIRS_DEFAULT "")
-if (WIN32)
-	set(${PROJECT_NAME}_DEPENDENCIES_DIRS_DEFAULT "{PROJECT_SOURCE_DIR}/win32")
+if (SHIPPED_DEPENDENCIES_PATH)
+	set(${PROJECT_NAME}_DEPENDENCIES_DIRS_DEFAULT "${SHIPPED_DEPENDENCIES_PATH}/lib;${SHIPPED_DEPENDENCIES_PATH}/bin")
 endif()
 
 OPTION(${PROJECT_NAME}_INSTALL_DEPENDENCIES "Set to ON to search and copy direct dependencies of executables at install/package time." ON)
