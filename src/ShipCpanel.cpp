@@ -48,7 +48,6 @@ ShipCpanel::ShipCpanel(Serializer::Reader &rd, Graphics::Renderer *r): Gui::Fixe
 
 void ShipCpanel::InitObject()
 {
-	Gui::Screen::AddBaseWidget(this, 0, Gui::Screen::GetHeight()-80);
 	SetTransparency(true);
 
 	Gui::Image *img = new Gui::Image("icons/cpanel.png");
