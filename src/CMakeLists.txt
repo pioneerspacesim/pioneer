@@ -541,5 +541,25 @@ SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION})
 
 #############################################################
 # PACKAGE
-INCLUDE(ModuleInstall)
+#INCLUDE(ModuleInstall)		# Installs binary in '/bin'
+set(DESTINATION_DIR ".")
+INSTALL(
+	TARGETS ${TARGETNAME}
+	RUNTIME DESTINATION "${DESTINATION_DIR}" COMPONENT mainComponent
+)
+
+IF(${PROJECT_NAME}_INSTALL_DEPENDENCIES)
+	# Install direct dependencies
+	FOREACH(CURCONFIG ${CMAKE_CONFIGURATION_TYPES})
+		GET_TARGET_PROPERTY(LOCATION_${CURCONFIG} "${TARGETNAME}" LOCATION_${CURCONFIG})
+	ENDFOREACH()
+	CONFIGURE_FILE( 
+		"${CMAKE_SOURCE_DIR}/dependencies.cmake.in"
+		"${CMAKE_CURRENT_BINARY_DIR}/dependencies.${TARGETNAME}.cmake"
+		@ONLY
+	)
+	INCLUDE(InstallRequiredSystemLibraries REQUIRED)
+	INSTALL(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/dependencies.${TARGETNAME}.cmake")
+ENDIF()
+
 #############################################################

@@ -7,14 +7,14 @@
 
 # Current status of these CMake scripts: pre-pre-alpha (Only MSVC-Pioneer compiles and runs, lots of features are missing)
 # TODO:
-# - Fix linux linking/compiling (Filesystem...)
 # - Prepare scripts for ALL projects (model viewer, etc.)
-# - Debug/Test PCH (seems not functional)
 # - Replace PIONEER_VERSION / PIONEER_EXTRAVERSION usage with Version.h.
 # 		Version.h/.cpp allow to grab versionning of VersionNumber.h without recompiling the entire project.
 # - Same options as automake (to be listed)
-# - Write packaging code (to create distributions ZIP or installers)
-# - Test everything, especially compared to actual build systems.
+# - Write packaging code (to create distributions ZIP or installers).
+#		Please note the install autodetects dependencies (.so, .dll) and install them alongside the executable if needed.
+#		The install part should be okay, except for some MSVC system DLLs (MSVCRT...) which go in "/bin" instead of "/".
+# - Test everything, especially compared to actual build systems (TODO: list all features).
 # - Eventually write a PNG+zlib finder that handles debug builds (for MSVC, actually)
 #
 # Date where build scripts have been successfully tested:
@@ -115,7 +115,7 @@ FIND_PACKAGE(VorbisFile REQUIRED)
 #FIND_PACKAGE(libtool)				# TODO: To create. Unix-like only. Not REQUIRED. According to jpabx: "it hides some of the differences between platforms, and deals with the .so version system so that builds can cope with multiple installed library versions"
 #FIND_PACKAGE(Lua51)				# Source is in contrib
 FIND_PACKAGE(SigCpp2 REQUIRED)
-SET(PNG_NAMES png15_static libpng15_static)
+SET(PNG_NAMES png15_static libpng15_static)		# Additional PNG names to look for
 FIND_PACKAGE(PNG REQUIRED)
 #FIND_PACKAGE(zlib REQUIRED)		# Already called by findPNG
 
@@ -139,7 +139,7 @@ if(WIN32)
 	endif()
 endif()
 
-ADD_DEFINITIONS(-D_USE_MATH_DEFINES)		# Sukender: to get "PI" I guess?
+ADD_DEFINITIONS(-D_USE_MATH_DEFINES)		# Sukender: to get "M_PI" I guess?
 
 #########################################################################
 # Precompiled headers support
@@ -340,12 +340,21 @@ IF(CMAKE_CPACK_COMMAND)
     IF(BUILD_PACKAGES)
 		INCLUDE("CMakeModules/CPackProject.cmake" REQUIRED)
 
-		# TODO Add files to pack
-		#INSTALL(FILES FilesToPack/help_condor_multiple_filesystems.cmd DESTINATION "batch")
+		# Add files to pack
+		INSTALL(FILES
+			AUTHORS.txt
+			Changelog.txt
+			COPYING.txt
+			fonts.COPYING.txt
+			lua.COPYING.txt
+			Modelviewer.txt
+			music.COPYING.txt
+			Quickstart.txt
+			README.txt
+			DESTINATION ".")
 
-		# TODO Add directories to pack
-		PACK_DATA_DIR("data/icons" ON)
-
+		# Add directories to pack
+		PACK_DATA_DIR("data" ON)
 
     ENDIF()
 ENDIF()
