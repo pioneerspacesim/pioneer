@@ -18,7 +18,7 @@
 # - Eventually write a PNG+zlib finder that handles debug builds (for MSVC, actually)
 #
 # Date where build scripts have been successfully tested:
-#  Linux-gcc    32   never
+#  Linux-gcc    32   never (builds under Ubuntu, but running hasn't been tested yet)
 #  Linux-gcc    64   never
 #  OSX-gcc      32   never
 #  OSX-gcc      64   never
@@ -58,24 +58,29 @@ set (GIT_SHA )
 find_path(TMP_GIT_CONFIG_FILE config PATHS "${PROJECT_SOURCE_DIR}/.git")		# Try finding git config file, to detect if we're in a working copy
 if (TMP_GIT_CONFIG_FILE)
 	set(IS_WORKING_COPY ON)
+	OPTION(${PROJECT_NAME}_BYPASS_REVISION_RETREIVAL "Set to ON to use skip getting the current revision from the GIT repository if you find it too slow." OFF)
 	find_package(Git)
-	if (GIT_FOUND)		# AND NOT GIT_SHA
-		message(STATUS "[Info] Project is detected as being a GIT working copy. Getting Git SHA...")
-		execute_process(COMMAND "${GIT_EXECUTABLE}" "log" "-n1" "--pretty=%h" "HEAD"
-			WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
-			OUTPUT_VARIABLE GIT_SHA_TEMP
-			RESULT_VARIABLE GIT_SHA_RESULT
-			ERROR_VARIABLE GIT_SHA_ERROR
-		)
-		if (${GIT_SHA_RESULT} EQUAL 0)
-			string(REGEX MATCH "[0-9a-fA-F]+" GIT_SHA "${GIT_SHA_TEMP}")		# Remove potential newlines
-			message(STATUS "Git SHA: ${GIT_SHA}")
+	if (NOT ${PROJECT_NAME}_BYPASS_REVISION_RETREIVAL)
+		if (GIT_FOUND)		# AND NOT GIT_SHA
+			message(STATUS "[Info] Project is detected as being a GIT working copy. Getting Git SHA...")
+			execute_process(COMMAND "${GIT_EXECUTABLE}" "log" "-n1" "--pretty=%h" "HEAD"
+				WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
+				OUTPUT_VARIABLE GIT_SHA_TEMP
+				RESULT_VARIABLE GIT_SHA_RESULT
+				ERROR_VARIABLE GIT_SHA_ERROR
+			)
+			if (${GIT_SHA_RESULT} EQUAL 0)
+				string(REGEX MATCH "[0-9a-fA-F]+" GIT_SHA "${GIT_SHA_TEMP}")		# Remove potential newlines
+				message(STATUS "Git SHA: ${GIT_SHA}")
+			else()
+				set(GIT_SHA )
+				message("Git returned error ${GIT_SHA_RESULT}: ${GIT_SHA_ERROR}")
+			endif()
 		else()
-			set(GIT_SHA )
-			message("Git returned error ${GIT_SHA_RESULT}: ${GIT_SHA_ERROR}")
+			message(STATUS "[Info] Project is detected as being a GIT working copy, but Git executable hasn't been found.")
 		endif()
 	else()
-		message(STATUS "[Info] Project is detected as being a GIT working copy, but Git executable hasn't been found.")
+		message(STATUS "[Info] Project is detected as being a GIT working copy, but ${PROJECT_NAME}_BYPASS_REVISION_RETREIVAL is enabled.")
 	endif()
 endif()
 
@@ -354,7 +359,7 @@ IF(CMAKE_CPACK_COMMAND)
 			DESTINATION ".")
 
 		# Add directories to pack
-		PACK_DATA_DIR("data" ON)
+		PACK_DATA_DIR("data" ON)		# You may comment it to speed up install process by skipping data. This helps debugging but you'll need to uncomment it afterwards :)
 
     ENDIF()
 ENDIF()
