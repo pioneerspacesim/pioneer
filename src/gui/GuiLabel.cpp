@@ -89,15 +89,11 @@ void Label::Draw()
 		glVertex2f(0, 0);
 	glEnd();*/
 	if (m_shadow) {
-		glColor3f(0,0,0);
 		glTranslatef(1,1,0);
-		m_layout->Render(size[0]);
+		m_layout->Render(size[0], Color::BLACK);
 		glTranslatef(-1,-1,0);
 	}
-	if (m_color.a < 1.0f) glEnable(GL_BLEND);
-	glColor4fv(m_color);
-	m_layout->Render(size[0]);
-	glDisable(GL_BLEND);
+	m_layout->Render(size[0], m_color);
 }
 
 void Label::GetSizeRequested(float size[2])

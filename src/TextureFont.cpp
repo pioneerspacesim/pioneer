@@ -1,7 +1,11 @@
 #include "TextureFont.h"
+#include "libs.h"
+#include "FileSystem.h"
+#include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
 #include "gui/GuiScreen.h"
 #include "TextSupport.h"
-#include "libs.h"
+#include <algorithm>
 
 #include FT_GLYPH_H
 #include FT_STROKER_H
@@ -10,17 +14,22 @@
 
 int TextureFont::s_glyphCount = 0;
 
-void TextureFont::RenderGlyph(Uint32 chr, float x, float y)
+void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float x, float y, const Color &c)
 {
 	glfglyph_t *glyph = &m_glyphs[chr];
 
 	const float offx = x + float(glyph->offx);
 	const float offy = y + float(m_pixSize - glyph->offy);
+	const float offU = glyph->offU;
+	const float offV = glyph->offV;
+	
+	va->Add(vector3f(offx,                 offy,                  0.0f), c, vector2f(offU, offV));
+	va->Add(vector3f(offx,                 offy+glyph->texHeight, 0.0f), c, vector2f(offU, offV + glyph->height));
+	va->Add(vector3f(offx+glyph->texWidth, offy,                  0.0f), c, vector2f(offU + glyph->width, offV));
 
-	const float w = m_texSize*glyph->width;
-	const float h = m_texSize*glyph->height;
-
-	glyph->texture->DrawUIQuad(offx, offy, w, h, 0, 0, glyph->width, glyph->height);
+	va->Add(vector3f(offx+glyph->texWidth, offy,                  0.0f), c, vector2f(offU + glyph->width, offV));
+	va->Add(vector3f(offx,                 offy+glyph->texHeight, 0.0f), c, vector2f(offU, offV + glyph->height));
+	va->Add(vector3f(offx+glyph->texWidth, offy+glyph->texHeight, 0.0f), c, vector2f(offU + glyph->width, offV + glyph->height));
 
 	s_glyphCount++;
 }
@@ -167,10 +176,10 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 	return i2;
 }
 
-void TextureFont::RenderString(const char *str, float x, float y)
+void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, float y, const Color &color)
 {
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	r->SetBlendMode(Graphics::BLEND_ALPHA);
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 
 	float px = x;
 	float py = y;
@@ -190,7 +199,7 @@ void TextureFont::RenderString(const char *str, float x, float y)
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			if (glyph->texture) RenderGlyph(chr, roundf(px), py);
+			AddGlyphGeometry(&va, chr, roundf(px), py, color);
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -209,27 +218,27 @@ void TextureFont::RenderString(const char *str, float x, float y)
 		}
 	}
 
-	glDisable(GL_BLEND);
+	r->DrawTriangles(&va, &m_mat);
 }
 
-void TextureFont::RenderMarkup(const char *str, float x, float y)
+Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y, const Color &color)
 {
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	r->SetBlendMode(Graphics::BLEND_ALPHA);
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 
 	float px = x;
 	float py = y;
+
+	Color c = color;
 
 	int i = 0;
 	while (str[i]) {
 		if (str[i] == '#') {
 			int hexcol;
 			if (sscanf(str+i, "#%3x", &hexcol)==1) {
-				Uint8 col[3];
-				col[0] = (hexcol&0xf00)>>4;
-				col[1] = (hexcol&0xf0);
-				col[2] = (hexcol&0xf)<<4;
-				glColor3ubv(col);
+				c.r = float((hexcol&0xf00)>>4)/255.0f;
+				c.g = float((hexcol&0xf0))/255.0f;
+				c.b = float((hexcol&0xf)<<4)/255.0f;
 				i+=4;
 				continue;
 			}
@@ -248,7 +257,7 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			if (glyph->texture) RenderGlyph(chr, roundf(px), py);
+			AddGlyphGeometry(&va, chr, roundf(px), py, c);
 
 			// XXX kerning doesn't skip markup
 			if (str[i]) {
@@ -268,40 +277,42 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 		}
 	}
 
-	glDisable(GL_BLEND);
+	r->DrawTriangles(&va, &m_mat);
+	return c;
 }
 
 TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 {
-	std::string filename_ttf = GetConfig().String("FontFile");
-	if (filename_ttf.length() == 0) {
-		fprintf(stderr, "'%s' does not name a FontFile to use\n", GetConfig().GetFilename().c_str());
-		abort();
-	}
-
+	int err; // used to store freetype error return codes
 	float scale[2];
 	Gui::Screen::GetCoords2Pixels(scale);
 
-	int a_width = int(GetConfig().Int("PixelWidth") / scale[0]);
-	int a_height = int(GetConfig().Int("PixelHeight") / scale[1]);
+	const int a_width = int(GetConfig().Int("PixelWidth") / scale[0]);
+	const int a_height = int(GetConfig().Int("PixelHeight") / scale[1]);
 
-	float advx_adjust = GetConfig().Float("AdvanceXAdjustment");
+	const float advx_adjust = GetConfig().Float("AdvanceXAdjustment");
 
-	int err;
 	m_pixSize = a_height;
-	if (0 != (err = FT_New_Face(GetFreeTypeLibrary(), std::string(PIONEER_DATA_DIR "/fonts/" + filename_ttf).c_str(), 0, &m_face))) {
-		fprintf(stderr, "Terrible error! Couldn't load '%s'; error %d.\n", filename_ttf.c_str(), err);
-		abort();
-	}
 
 	FT_Set_Pixel_Sizes(m_face, a_width, a_height);
-	int nbit = 0;
-	int sz = a_height;
-	while (sz) { sz >>= 1; nbit++; }
-	sz = (64 > (1<<nbit) ? 64 : (1<<nbit));
+
+	const int sz = 512; //current fonts use maybe 1/4 of this...
 	m_texSize = sz;
 
-	unsigned char *pixBuf = new unsigned char[2*sz*sz];
+	//UV offsets for glyphs
+	int atlasU = 0;
+	int atlasV = 0;
+	int atlasVIncrement = 0;
+
+	//temporary RGBA pixel buffer for the glyph atlas
+	std::vector<unsigned char> pixBuf(4*sz*sz);
+	std::fill(pixBuf.begin(), pixBuf.end(), 0);
+
+	Graphics::TextureDescriptor descriptor(Graphics::TEXTURE_RGBA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
+	m_texture.Reset(Gui::Screen::GetRenderer()->CreateTexture(descriptor));
+	m_mat.texture0 = m_texture.Get();
+	m_mat.unlit = true;
+	m_mat.vertexColors = true; //to allow per-character colors
 	
 	bool outline = GetConfig().Int("Outline");
 
@@ -316,11 +327,9 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 		FT_Stroker_Set(stroker, 1*64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
 	}
 
-	for (Uint32 chr=0x20; chr<0x1ff; chr++) {
-		memset(pixBuf, 0, 2*sz*sz);
-	
+	//load 479 characters
+	for (Uint32 chr=s_firstCharacter; chr<s_lastCharacter; chr++) {
 		glfglyph_t glfglyph;
-
 		FT_Glyph glyph;
 
 		err = FT_Load_Char(m_face, chr, FT_LOAD_FORCE_AUTOHINT);
@@ -345,7 +354,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 			}
 		}
 
-		FT_BitmapGlyph bmGlyph = FT_BitmapGlyph(glyph);
+		const FT_BitmapGlyph bmGlyph = FT_BitmapGlyph(glyph);
 
 		if (outline) {
 			FT_Glyph strokeGlyph;
@@ -371,16 +380,25 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 				}
 			}
 	
-			FT_BitmapGlyph bmStrokeGlyph = FT_BitmapGlyph(strokeGlyph);
+			const FT_BitmapGlyph bmStrokeGlyph = FT_BitmapGlyph(strokeGlyph);
+
+			//don't run off atlas borders
+			atlasVIncrement = std::max(atlasVIncrement, bmStrokeGlyph->bitmap.rows);
+			if (atlasU + bmStrokeGlyph->bitmap.width > sz) {
+				atlasU = 0;
+				atlasV += atlasVIncrement;
+			}
 	
-			//copy to a square luminance+alpha buffer
+			//copy to the atlas texture
 			//stroke first
 			int pitch = bmStrokeGlyph->bitmap.pitch;
 			for (int row=0; row < bmStrokeGlyph->bitmap.rows; row++) {
 				for (int col=0; col < bmStrokeGlyph->bitmap.width; col++) {
 					//assume black outline
-					pixBuf[2*sz*row + 2*col] = 0; //lum
-					pixBuf[2*sz*row + 2*col+1] = bmStrokeGlyph->bitmap.buffer[pitch*row + col]; //alpha
+					const int d = 4*sz*(row+atlasV) + 4*(col+atlasU);
+					const int s = pitch*row + col;
+					pixBuf[d]  = pixBuf[d+1] = pixBuf[d+2] = 0; //lum
+					pixBuf[d+3] = bmStrokeGlyph->bitmap.buffer[s]; //alpha
 				}
 			}
 	
@@ -388,13 +406,11 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 			int xoff = (bmStrokeGlyph->bitmap.width - bmGlyph->bitmap.width) / 2;
 			int yoff = (bmStrokeGlyph->bitmap.rows - bmGlyph->bitmap.rows) / 2;
 			pitch = bmGlyph->bitmap.pitch;
-			for (int row=0; row < bmStrokeGlyph->bitmap.rows; row++) {
-				for (int col=0; col < bmStrokeGlyph->bitmap.width; col++) {
-					bool over = (row >= bmGlyph->bitmap.rows || col >= bmGlyph->bitmap.width);
-					unsigned char value = (over) ? 0 : bmGlyph->bitmap.buffer[pitch*row + col];
-					unsigned int idx = 2*sz*(row+yoff) + 2*(col+xoff);
-					pixBuf[idx] += value;
-					assert(pixBuf[idx] < 256);
+			for (int row=0; row < bmGlyph->bitmap.rows; row++) {
+				for (int col=0; col < bmGlyph->bitmap.width; col++) {
+					const int d = 4*sz*(row+atlasV+xoff) + 4*(col+atlasU+yoff);
+					const int s = pitch*row + col;
+					pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = bmGlyph->bitmap.buffer[s];
 				}
 			}
 	
@@ -402,18 +418,32 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 			glfglyph.height = bmStrokeGlyph->bitmap.rows / float(sz);
 			glfglyph.offx = bmStrokeGlyph->left;
 			glfglyph.offy = bmStrokeGlyph->top;
+			glfglyph.offU = atlasU / float(sz);
+			glfglyph.offV = atlasV / float(sz);
+
+			atlasU += bmStrokeGlyph->bitmap.width;
 
 			FT_Done_Glyph(strokeGlyph);
 		}
 
 		else {
-			// face->glyph->bitmap
-			// copy to square buffer GL can stomach
+			//don't run off atlas borders
+			atlasVIncrement = std::max(atlasVIncrement, bmGlyph->bitmap.rows);
+			if (atlasU + bmGlyph->bitmap.width >= sz) {
+				atlasU = 0;
+				atlasV += atlasVIncrement;
+			}
+
+			//copy glyph bitmap to the atlas texture
+			//the glyphs are upside down in the texture due to how freetype stores them
+			//but it's just a matter of adjusting the texcoords
 			const int pitch = bmGlyph->bitmap.pitch;
-			for (int row=0; row < bmGlyph->bitmap.rows; row++) {
+			const int rows = bmGlyph->bitmap.rows;
+			for (int row=0; row < rows; row++) {
 				for (int col=0; col < bmGlyph->bitmap.width; col++) {
-					pixBuf[2*sz*row + 2*col] = bmGlyph->bitmap.buffer[pitch*row + col];
-					pixBuf[2*sz*row + 2*col+1] = bmGlyph->bitmap.buffer[pitch*row + col];
+					const int d = 4*sz*(row+atlasV) + 4*(col+atlasU);
+					const int s = pitch*row + col;
+					pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = pixBuf[d+3] = bmGlyph->bitmap.buffer[s];
 				}
 			}
 	
@@ -421,44 +451,29 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 			glfglyph.height = bmGlyph->bitmap.rows / float(sz);
 			glfglyph.offx = bmGlyph->left;
 			glfglyph.offy = bmGlyph->top;
+			glfglyph.offU = atlasU / float(sz);
+			glfglyph.offV = atlasV / float(sz);
+
+			atlasU += bmGlyph->bitmap.width;
 		}
 
 		FT_Done_Glyph(glyph);
 
-		glfglyph.texture = new GlyphTexture(pixBuf, sz, sz);
+		glfglyph.texWidth = m_texSize*glfglyph.width;
+		glfglyph.texHeight = m_texSize*glfglyph.height;
 
-		glfglyph.advx = float(m_face->glyph->advance.x) / 64.0 + advx_adjust;
-		glfglyph.advy = float(m_face->glyph->advance.y) / 64.0;
+		glfglyph.advx = float(m_face->glyph->advance.x) / 64.f + advx_adjust;
+		glfglyph.advy = float(m_face->glyph->advance.y) / 64.f;
 		m_glyphs[chr] = glfglyph;
 	}
 
-	delete [] pixBuf;
+	//upload atlas
+	m_texture->Update(&pixBuf[0], vector2f(sz,sz), Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
 
 	if (outline)
 		FT_Stroker_Done(stroker);
 
 	m_height = float(a_height);
 	m_width = float(a_width);
-	m_descender = -float(m_face->descender) / 64.0;
-}
-
-TextureFont::~TextureFont()
-{
-	for (std::map<Uint32,glfglyph_t>::const_iterator i = m_glyphs.begin(); i != m_glyphs.end(); ++i) {
-		if ((*i).second.texture)
-			delete (*i).second.texture;
-	}
-}
-
-
-TextureFont::GlyphTexture::GlyphTexture(Uint8 *data, int width, int height) :
-	Texture(GL_TEXTURE_2D, Format(GL_LUMINANCE_ALPHA, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE), CLAMP, NEAREST, false)
-{
-	CreateFromArray(data, width, height);
-}
-
-void TextureFont::GlyphTexture::Bind()
-{
-	Texture::Bind();
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	m_descender = -float(m_face->descender) / 64.f;
 }

@@ -4,6 +4,7 @@
 #include "LuaConstants.h"
 #include "Polit.h"
 #include "SystemPath.h"
+#include "FileSystem.h"
 #include <map>
 
 typedef std::list<CustomSystem> SystemList;
@@ -27,15 +28,7 @@ void CustomSystem::Init()
 
 	lua_register(L, "load_lua", pi_load_lua);
 
-	lua_pushstring(L, PIONEER_DATA_DIR);
-	lua_setglobal(L, "CurrentDirectory");
-
-	lua_pushcfunction(L, pi_lua_panic);
-	if (luaL_loadfile(L, (std::string(PIONEER_DATA_DIR) + "/pisystems.lua").c_str())) {
-		pi_lua_panic(L);
-	} else {
-		lua_pcall(L, 0, LUA_MULTRET, -2);
-	}
+	pi_lua_dofile(L, "pisystems.lua");
 
 	lua_close(L);
 }
@@ -87,6 +80,8 @@ const SystemPath CustomSystem::GetPathForCustomSystem(const char* name)
 
 CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
 {
+	want_rand_explored = true;
+
 	name = s;
 
 	numStars = 0;
@@ -174,7 +169,7 @@ void CustomSystem::l_add_to_sector(int x, int y, int z, pi_vector& v)
 }
 
 EXPORT_OOLUA_FUNCTIONS_0_CONST(CustomSystem)
-EXPORT_OOLUA_FUNCTIONS_6_NON_CONST(CustomSystem, seed, govtype, short_desc, long_desc, bodies, add_to_sector)
+EXPORT_OOLUA_FUNCTIONS_7_NON_CONST(CustomSystem, seed, explored, govtype, short_desc, long_desc, bodies, add_to_sector)
 
 CustomSBody::CustomSBody(std::string s, std::string stype)
 {
@@ -193,7 +188,7 @@ CustomSBody::CustomSBody(std::string s, std::string stype)
 }
 
 CustomSBody* CustomSBody::l_height_map(lua_State *L, std::string f, unsigned int n) {
-	heightMapFilename = std::string(PIONEER_DATA_DIR)+"/heightmaps/"+f;
+	heightMapFilename = FileSystem::JoinPathBelow("heightmaps", f);
 	heightMapFractal = n;
 	if (n >= 2) luaL_error(L, "invalid terrain fractal type");
 		return this; 

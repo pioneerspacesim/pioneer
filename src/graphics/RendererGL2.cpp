@@ -4,6 +4,7 @@
 #include "RendererGL2.h"
 #include "RendererGLBuffers.h"
 #include "Texture.h"
+#include "TextureGL.h"
 #include "VertexArray.h"
 
 namespace Graphics {
@@ -104,7 +105,8 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 		s = mat->shader;
 	} else {
 		if (flat && mat->texture0) s = flatTextured;
-		else if (flat) s = flatProg;
+		else if (flat && !mat->texture0) s = flatProg;
+		else if (!flat && mat->texture0) s = simpleTextured;
 		else s = simpleShader;
 	}
 
@@ -123,7 +125,7 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 		glDisable(GL_CULL_FACE);
 	}
 	if (mat->texture0) {
-		mat->texture0->Bind();
+		static_cast<TextureGL*>(mat->texture0)->Bind();
 		s->SetUniform("texture0", 0);
 	}
 }
@@ -133,7 +135,7 @@ void RendererGL2::UnApplyMaterial(const Material *mat)
 	glPopAttrib();
 	if (mat) {
 		if (mat->texture0) {
-			mat->texture0->Unbind();
+			static_cast<TextureGL*>(mat->texture0)->Unbind();
 		}
 	}
 	// XXX won't be necessary

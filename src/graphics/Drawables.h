@@ -13,7 +13,7 @@ namespace Drawables {
 // A thing that can draw itself using renderer
 // (circles, disks, polylines etc)
 class Drawable {
-public:
+protected:
 	virtual void Draw(Renderer *r) = 0;
 };
 

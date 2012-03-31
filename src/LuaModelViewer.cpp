@@ -6,7 +6,7 @@
 #include "EquipType.h"
 #include "Ship.h" // for the flight state and ship animation enums
 #include "SpaceStation.h" // for the space station animation enums
-#include "TextureCache.h"
+#include "FileSystem.h"
 #include "graphics/Drawables.h"
 #include "graphics/Material.h"
 #include "graphics/Graphics.h"
@@ -18,13 +18,11 @@ using namespace Graphics;
 static Renderer *renderer;
 
 enum ModelCategory {
-	MODEL_OTHER,
 	MODEL_SHIP,
 	MODEL_SPACESTATION
 };
 
 static const char *ANIMATION_NAMESPACES[] = {
-	0,
 	"ShipAnimation",
 	"SpaceStationAnimation",
 };
@@ -178,8 +176,13 @@ public:
 			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"),
 					200, Gui::Screen::GetHeight()-140.0f);
 			for (int i=0; i<LMR_ARG_MAX; i++) {
-				Gui::Fixed *box = new Gui::Fixed(32.0f, 120.0f);
-				Add(box, float(200 + i*25), Gui::Screen::GetHeight()-120.0f);
+				float x = float(200+i*25);
+				float w = 32.0f;
+				if (x >= Gui::Screen::GetWidth()-w)
+					break;
+
+				Gui::Fixed *box = new Gui::Fixed(w, 120.0f);
+				Add(box, x, Gui::Screen::GetHeight()-120.0f);
 
 				m_anim[i] = new Gui::Adjustment();
 				m_anim[i]->SetValue(0);
@@ -262,9 +265,8 @@ void Viewer::SetModel(LmrModel *model)
 
 	// set up model parameters
 	// inefficient (looks up and searches tags table separately for each tag)
-	bool has_ship = m_model->HasTag("ship") || m_model->HasTag("static_ship");
 	bool has_station = m_model->HasTag("surface_station") || m_model->HasTag("orbital_station");
-	if (has_ship && !has_station) {
+    if (!has_station) {
 		m_modelCategory = MODEL_SHIP;
 		const std::string name = model->GetName();
 		std::map<std::string,ShipType>::const_iterator it = ShipType::types.begin();
@@ -279,11 +281,8 @@ void Viewer::SetModel(LmrModel *model)
 		else
 			g_equipment.InitSlotSizes(ShipType::EAGLE_LRF);
 		g_params.equipment = &g_equipment;
-	} else if (has_station && !has_ship) {
-		m_modelCategory = MODEL_SPACESTATION;
-		g_params.equipment = 0;
 	} else {
-		m_modelCategory = MODEL_OTHER;
+		m_modelCategory = MODEL_SPACESTATION;
 		g_params.equipment = 0;
 	}
 
@@ -333,7 +332,6 @@ void Viewer::PickModel(const std::string &initial_name, const std::string &initi
 		PollEvents();
 		renderer->ClearScreen();
 		Gui::Draw();
-		glError();
 		renderer->SwapBuffers();
 	}
 	Gui::Screen::RemoveBaseWidget(f);
@@ -554,7 +552,6 @@ void Viewer::MainLoop()
 		
 		Gui::Draw();
 		
-		glError();
 		renderer->SwapBuffers();
 		numFrames++;
 		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;
@@ -638,6 +635,8 @@ int main(int argc, char **argv)
 		g_height = 600;
 	}
 
+	FileSystem::Init();
+
 	const SDL_VideoInfo *info = NULL;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		fprintf(stderr, "Video initialization failed: %s\n", SDL_GetError());
@@ -668,12 +667,10 @@ int main(int argc, char **argv)
 	}
 	glewInit();
 
-	TextureCache *textureCache = new TextureCache;
-
 	renderer = Graphics::Init(g_width, g_height, true);
-	Gui::Init(g_width, g_height, g_width, g_height);
+	Gui::Init(renderer, g_width, g_height, g_width, g_height);
 
-	LmrModelCompilerInit(renderer, textureCache);
+	LmrModelCompilerInit(renderer);
 	LmrNotifyScreenWidth(g_width);
 
 	ShipType::Init();
@@ -691,7 +688,7 @@ int main(int argc, char **argv)
 	}
 
 	g_viewer->MainLoop();
-
+	FileSystem::Uninit();
 	delete renderer;
 	return 0;
 }

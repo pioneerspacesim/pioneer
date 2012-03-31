@@ -37,6 +37,9 @@ public:
 
 	std::vector<LightBody> & GetLightBodies(){return m_lightBodies;}
 
+protected:
+	bool m_showCameraBody;
+
 private:
 	void OnBodyDeleted();
 	sigc::connection m_onBodyDeletedConnection;

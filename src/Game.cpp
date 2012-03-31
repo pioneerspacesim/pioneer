@@ -18,7 +18,7 @@
 #include "ObjectViewerView.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 46;
+static const int  s_saveVersion   = 49;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -30,11 +30,11 @@ Game::Game(const SystemPath &path) :
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)
 {
-	CreatePlayer();
-
 	m_space.Reset(new Space(this, path));
 	SpaceStation *station = static_cast<SpaceStation*>(m_space->FindBodyForPath(&path));
 	assert(station);
+
+	CreatePlayer();
 
 	m_space->AddBody(m_player.Get());
 
@@ -53,11 +53,11 @@ Game::Game(const SystemPath &path, const vector3d &pos) :
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)
 {
-	CreatePlayer();
-
 	m_space.Reset(new Space(this, path));
 	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);
+
+	CreatePlayer();
 
 	m_space->AddBody(m_player.Get());
 
@@ -227,13 +227,13 @@ void Game::Serialize(Serializer::Writer &wr)
 
 void Game::TimeStep(float step)
 {
+	m_time += step;			// otherwise planets lag time accel changes by a frame
+
 	m_space->TimeStep(step);
 
 	// XXX ui updates, not sure if they belong here
 	Pi::cpan->TimeStepUpdate(step);
 	Sfx::TimeStepAll(step, m_space->GetRootFrame());
-
-	m_time += step;
 
 	if (m_state == STATE_HYPERSPACE) {
 		if (Pi::game->GetTime() > m_hyperspaceEndTime) {
@@ -257,7 +257,7 @@ bool Game::UpdateTimeAccel()
 {
 	// don't modify the timeaccel if the game is paused
 	if (m_requestedTimeAccel == Game::TIMEACCEL_PAUSED) {
-		m_timeAccel = Game::TIMEACCEL_PAUSED;
+		SetTimeAccel(Game::TIMEACCEL_PAUSED);
 		return false;
 	}
 
@@ -313,7 +313,7 @@ bool Game::UpdateTimeAccel()
 	if (newTimeAccel == m_timeAccel)
 		return false;
 	
-	m_timeAccel = newTimeAccel;
+	SetTimeAccel(newTimeAccel);
 	return true;
 }
 
@@ -541,7 +541,7 @@ void Game::SetTimeAccel(TimeAccel t)
 	if (t < m_timeAccel)
 		for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i)
 			if ((*i)->IsType(Object::SHIP))
-				(static_cast<DynamicBody*>(*i))->ApplyAccel(0.5f * GetTimeStep());
+				(static_cast<Ship*>(*i))->ApplyAccel(0.5f * GetTimeStep());
 
 	m_timeAccel = t;
 
@@ -560,15 +560,33 @@ void Game::RequestTimeAccel(TimeAccel t, bool force)
 void Game::CreatePlayer()
 {
 	// XXX this should probably be in lua somewhere
-	m_player.Reset(new Player("Eagle Long Range Fighter"));
-	m_player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
-	m_player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
-	m_player->m_equipment.Add(Equip::HYDROGEN, 1);
-	m_player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
-	m_player->m_equipment.Add(Equip::MISSILE_GUIDED);
-	m_player->m_equipment.Add(Equip::MISSILE_GUIDED);
-	m_player->m_equipment.Add(Equip::AUTOPILOT);
-	m_player->m_equipment.Add(Equip::SCANNER);
+	// XXX no really, it should. per system hacks? oh my.
+
+	SystemPath startPath = m_space->GetStarSystem()->GetPath();
+
+	if (startPath.IsSameSystem(SystemPath(-2,1,90,0))) {
+		// Lave
+		m_player.Reset(new Player("Cobra Mk III"));
+		m_player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS3);
+		m_player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+		m_player->m_equipment.Add(Equip::HYDROGEN, 2);
+		m_player->m_equipment.Add(Equip::MISSILE_GUIDED);
+		m_player->m_equipment.Add(Equip::MISSILE_GUIDED);
+		m_player->m_equipment.Add(Equip::SCANNER);
+	}
+
+	else {
+		m_player.Reset(new Player("Eagle Long Range Fighter"));
+		m_player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
+		m_player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+		m_player->m_equipment.Add(Equip::HYDROGEN, 1);
+		m_player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
+		m_player->m_equipment.Add(Equip::MISSILE_GUIDED);
+		m_player->m_equipment.Add(Equip::MISSILE_GUIDED);
+		m_player->m_equipment.Add(Equip::AUTOPILOT);
+		m_player->m_equipment.Add(Equip::SCANNER);
+	}
+
 	m_player->UpdateMass();
 	m_player->SetMoney(10000);
 }

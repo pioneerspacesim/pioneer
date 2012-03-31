@@ -1,7 +1,7 @@
 #include "KeyBindings.h"
 #include "Pi.h"
 #include "Lang.h"
-
+#include <string>
 #include <sstream>
 
 namespace KeyBindings {
@@ -360,12 +360,6 @@ std::string AxisBindingToString(const AxisBinding &ab) {
 	return oss.str();
 }
 
-#define SET_KEY_BINDING(var, bindname) \
-	KeyBindingFromString(Pi::config.String(bindname).c_str(), &(var.binding));
-
-#define SET_AXIS_BINDING(var, bindname) \
-	AxisBindingFromString(Pi::config.String(bindname).c_str(), &(var));
-
 void DispatchSDLEvent(const SDL_Event *event) {
 	switch (event->type) {
 		case SDL_KEYDOWN:
@@ -385,75 +379,57 @@ void DispatchSDLEvent(const SDL_Event *event) {
 	}
 }
 
-void OnKeyBindingsChanged()
+void InitKeyBinding(KeyAction &kb, const std::string &bindName, SDLKey defaultKey) {
+	std::string keyName = Pi::config->String(bindName.c_str());
+	if (keyName.length() == 0) {
+		keyName = stringf("Key%0{u}", uint32_t(defaultKey));
+		Pi::config->SetString(bindName.c_str(), keyName.c_str());
+	}
+	KeyBindingFromString(keyName.c_str(), &(kb.binding));
+}
+
+void InitAxisBinding(AxisBinding &ab, const std::string &bindName, const std::string &defaultAxis) {
+	std::string axisName = Pi::config->String(bindName.c_str());
+	if (axisName.length() == 0) {
+		axisName = defaultAxis;
+		Pi::config->SetString(bindName.c_str(), axisName.c_str());
+	}
+	AxisBindingFromString(axisName.c_str(), &ab);
+}
+
+void UpdateBindings()
 {
-	SET_KEY_BINDING(pitchUp, "BindPitchUp");
-	SET_KEY_BINDING(pitchDown, "BindPitchDown");
-	SET_KEY_BINDING(yawLeft, "BindYawLeft");
-	SET_KEY_BINDING(yawRight, "BindYawRight");
-	SET_KEY_BINDING(rollLeft, "BindRollLeft");
-	SET_KEY_BINDING(rollRight, "BindRollRight");
-	SET_KEY_BINDING(thrustForward, "BindThrustForward");
-	SET_KEY_BINDING(thrustBackwards, "BindThrustBackwards");
-	SET_KEY_BINDING(thrustUp, "BindThrustUp");
-	SET_KEY_BINDING(thrustDown, "BindThrustDown");
-	SET_KEY_BINDING(thrustLeft, "BindThrustLeft");
-	SET_KEY_BINDING(thrustRight, "BindThrustRight");
-	SET_KEY_BINDING(increaseSpeed, "BindIncreaseSpeed");
-	SET_KEY_BINDING(decreaseSpeed, "BindDecreaseSpeed");
-	SET_KEY_BINDING(fireLaser, "BindFireLaser");
-	SET_KEY_BINDING(fastRotate, "BindFastRotate");
-	SET_KEY_BINDING(targetObject, "BindTargetObject");
-	SET_KEY_BINDING(toggleScanMode, "BindToggleScanMode");
-	SET_KEY_BINDING(increaseScanRange, "BindIncreaseScanRange");
-	SET_KEY_BINDING(decreaseScanRange, "BindDecreaseScanRange");
-	SET_KEY_BINDING(toggleLuaConsole, "BindToggleLuaConsole");
-	//SET_KEY_BINDING(key, "Bind");
+	InitKeyBinding(KeyBindings::pitchUp, "BindPitchUp", SDLK_s);
+	InitKeyBinding(KeyBindings::pitchDown, "BindPitchDown", SDLK_w);
+	InitKeyBinding(KeyBindings::yawLeft, "BindYawLeft", SDLK_a);
+	InitKeyBinding(KeyBindings::yawRight, "BindYawRight", SDLK_d);
+	InitKeyBinding(KeyBindings::rollLeft, "BindRollLeft", SDLK_q);
+	InitKeyBinding(KeyBindings::rollRight, "BindRollRight", SDLK_e);
+	InitKeyBinding(KeyBindings::thrustForward, "BindThrustForward", SDLK_i);
+	InitKeyBinding(KeyBindings::thrustBackwards, "BindThrustBackwards", SDLK_k);
+	InitKeyBinding(KeyBindings::thrustUp, "BindThrustUp", SDLK_u);
+	InitKeyBinding(KeyBindings::thrustDown, "BindThrustDown", SDLK_o);
+	InitKeyBinding(KeyBindings::thrustLeft, "BindThrustLeft", SDLK_j);
+	InitKeyBinding(KeyBindings::thrustRight, "BindThrustRight", SDLK_l);
+	InitKeyBinding(KeyBindings::increaseSpeed, "BindIncreaseSpeed", SDLK_RETURN);
+	InitKeyBinding(KeyBindings::decreaseSpeed, "BindDecreaseSpeed", SDLK_RSHIFT);
+	InitKeyBinding(KeyBindings::targetObject, "BindTargetObject", SDLK_TAB);
+	InitKeyBinding(KeyBindings::fireLaser, "BindFireLaser", SDLK_SPACE);
+	InitKeyBinding(KeyBindings::fastRotate, "BindFastRotate", SDLK_LSHIFT);
+	InitKeyBinding(KeyBindings::toggleScanMode, "BindToggleScanMode", SDLK_BACKSLASH);
+	InitKeyBinding(KeyBindings::increaseScanRange, "BindIncreaseScanRange", SDLK_RIGHTBRACKET);
+	InitKeyBinding(KeyBindings::decreaseScanRange, "BindDecreaseScanRange", SDLK_LEFTBRACKET);
+	InitKeyBinding(KeyBindings::toggleLuaConsole, "BindToggleLuaConsole", SDLK_BACKQUOTE);
 
-	SET_AXIS_BINDING(pitchAxis, "BindAxisPitch");
-	SET_AXIS_BINDING(rollAxis, "BindAxisRoll");
-	SET_AXIS_BINDING(yawAxis, "BindAxisYaw");
+	InitAxisBinding(KeyBindings::pitchAxis, "BindAxisPitch", "-Joy0Axis1");
+	InitAxisBinding(KeyBindings::rollAxis, "BindAxisRoll", "Joy0Axis2");
+	InitAxisBinding(KeyBindings::yawAxis, "BindAxisYaw", "Joy0Axis0");
 }
 
-static void SetSDLKeyboardBinding(const char *name, SDLKey key) {
-	char buffer[64];
-	snprintf(buffer, sizeof(buffer), "Key%i", int(key));
-	Pi::config.SetString(name, buffer);
-}
-
-static void SetAxisBinding(const char *function, const AxisBinding &ab) {
-	Pi::config.SetString(function, AxisBindingToString(ab).c_str());
-}
-
-void SetDefaults() 
+void InitBindings()
 {
-	SetSDLKeyboardBinding("BindTargetObject", SDLK_TAB);
-	SetSDLKeyboardBinding("BindFireLaser", SDLK_SPACE);
-	SetSDLKeyboardBinding("BindFastRotate", SDLK_LSHIFT);
-	SetSDLKeyboardBinding("BindPitchUp", SDLK_s);
-	SetSDLKeyboardBinding("BindPitchDown", SDLK_w);
-	SetSDLKeyboardBinding("BindYawLeft", SDLK_a);
-	SetSDLKeyboardBinding("BindYawRight", SDLK_d);
-	SetSDLKeyboardBinding("BindRollLeft", SDLK_q);
-	SetSDLKeyboardBinding("BindRollRight", SDLK_e);
-	SetSDLKeyboardBinding("BindThrustForward", SDLK_i);
-	SetSDLKeyboardBinding("BindThrustBackwards", SDLK_k);
-	SetSDLKeyboardBinding("BindThrustUp", SDLK_u);
-	SetSDLKeyboardBinding("BindThrustDown", SDLK_o);
-	SetSDLKeyboardBinding("BindThrustLeft", SDLK_j);
-	SetSDLKeyboardBinding("BindThrustRight", SDLK_l);
-	SetSDLKeyboardBinding("BindIncreaseSpeed", SDLK_RETURN);
-	SetSDLKeyboardBinding("BindDecreaseSpeed", SDLK_RSHIFT);
-	SetSDLKeyboardBinding("BindToggleScanMode", SDLK_BACKSLASH);
-	SetSDLKeyboardBinding("BindIncreaseScanRange", SDLK_RIGHTBRACKET);
-	SetSDLKeyboardBinding("BindDecreaseScanRange", SDLK_LEFTBRACKET);
-	SetSDLKeyboardBinding("BindToggleLuaConsole", SDLK_BACKQUOTE);
-
-	SetAxisBinding("BindAxisPitch", AxisBindingFromString("-Joy0Axis1"));
-	SetAxisBinding("BindAxisRoll", AxisBindingFromString("Joy0Axis2"));
-	SetAxisBinding("BindAxisYaw", AxisBindingFromString("Joy0Axis0"));
-
-	OnKeyBindingsChanged();
+	UpdateBindings();
+	Pi::config->Save();
 }
 
 }

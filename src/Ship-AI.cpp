@@ -107,6 +107,12 @@ void Ship::AIGetStatusText(char *str)
 	else m_curAICmd->GetStatusText(str);
 }
 
+Frame *Ship::AIGetRiskFrame()
+{
+	if (!m_curAICmd) return 0;
+	else return m_curAICmd->GetRiskFrame();
+}
+
 void Ship::AIKamikaze(Body *target)
 {
 	AIClearInstructions();

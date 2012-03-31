@@ -464,6 +464,28 @@ void LuaEventQueueBase::Emit()
  *    stable
  *
  *
+ * Event: onShipFuelChanged
+ *
+ * Triggered when a ship's fuel status changes.
+ *
+ * > local onShipFuelChanged = function (ship, fuelStatus) ... end
+ * > EventQueue.onShipFuelChanged:Connect(onShipFuelChanged)
+ *
+ * Parameters:
+ *
+ *   ship - the <Ship> whose fuel status just changed
+ *
+ *   fuelStatus - the new <Constants.ShipFuelStatus> 
+ *
+ * Availability:
+ *
+ *   alpha 20
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
  * Event: onShipEquipmentChanged
  *
  * Triggered when a ship's equipment set changes.

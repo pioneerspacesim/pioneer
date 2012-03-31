@@ -7,8 +7,11 @@
 #include "Surface.h"
 #include "Texture.h"
 #include "VertexArray.h"
+#include "TextureGL.h"
 #include <stddef.h> //for offsetof
-#include "utils.h"
+#include <ostream>
+#include <sstream>
+#include <iterator>
 
 namespace Graphics {
 
@@ -82,7 +85,37 @@ bool RendererLegacy::EndFrame()
 
 bool RendererLegacy::SwapBuffers()
 {
-	glError();
+#ifndef NDEBUG
+	GLenum err;
+	err = glGetError();
+	while (err != GL_NO_ERROR) {
+		switch (err) {
+			case GL_INVALID_ENUM:
+				fprintf(stderr, "GL_INVALID_ENUM\n");
+				break;
+			case GL_INVALID_VALUE:
+				fprintf(stderr, "GL_INVALID_VALUE\n");
+				break;
+			case GL_INVALID_OPERATION:
+				fprintf(stderr, "GL_INVALID_OPERATION\n");
+				break;
+			case GL_OUT_OF_MEMORY:
+				fprintf(stderr, "GL_OUT_OF_MEMORY\n");
+				break;
+			case GL_STACK_OVERFLOW: //deprecated in GL3
+				fprintf(stderr, "GL_STACK_OVERFLOW\n");
+				break;
+			case GL_STACK_UNDERFLOW: //deprecated in GL3
+				fprintf(stderr, "GL_STACK_UNDERFLOW\n");
+				break;
+			case GL_INVALID_FRAMEBUFFER_OPERATION_EXT:
+				fprintf(stderr, "GL_INVALID_FRAMEBUFFER_OPERATION\n");
+				break;
+		}
+		err = glGetError();
+	}
+#endif
+
 	Graphics::SwapBuffers();
 	return true;
 }
@@ -236,6 +269,17 @@ bool RendererLegacy::SetAmbientColor(const Color &c)
 {
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, c);
 
+	return true;
+}
+
+bool RendererLegacy::SetScissor(bool enabled, const vector2f &pos, const vector2f &size)
+{
+	if (enabled) {
+		glScissor(pos.x,pos.y,size.x,size.y);
+		glEnable(GL_SCISSOR_TEST);
+	}
+	else
+		glDisable(GL_SCISSOR_TEST);
 	return true;
 }
 
@@ -480,19 +524,16 @@ void RendererLegacy::ApplyMaterial(const Material *mat)
 		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 		glDisable(GL_CULL_FACE);
 	}
-	if (mat->texture0) {
-		glEnable(GL_TEXTURE_2D);
-		mat->texture0->Bind();
-	}
+	if (mat->texture0)
+		static_cast<TextureGL*>(mat->texture0)->Bind();
 }
 
 void RendererLegacy::UnApplyMaterial(const Material *mat)
 {
 	glPopAttrib();
 	if (!mat) return;
-	if (mat->texture0) {
-		mat->texture0->Unbind();
-	}
+	if (mat->texture0)
+		static_cast<TextureGL*>(mat->texture0)->Unbind();
 }
 
 void RendererLegacy::EnableClientStates(const VertexArray *v)
@@ -605,6 +646,12 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	return true;
 }
 
+Texture *RendererLegacy::CreateTexture(const TextureDescriptor &descriptor)
+{
+	return new TextureGL(descriptor);
+}
+
+
 // XXX very heavy. in the future when all GL calls are made through the
 // renderer, we can probably do better by trackingn current state and
 // only restoring the things that have changed
@@ -624,6 +671,32 @@ void RendererLegacy::PopState()
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
+}
+
+bool RendererLegacy::PrintDebugInfo(std::ostream &out)
+{
+	out << "OpenGL version " << glGetString(GL_VERSION);
+	out << ", running on " << glGetString(GL_VENDOR);
+	out << " " << glGetString(GL_RENDERER) << std::endl;
+
+	out << "Available extensions:" << std::endl;
+	GLint numext = 0;
+	glGetIntegerv(GL_NUM_EXTENSIONS, &numext);
+	if (glewIsSupported("GL_VERSION_3_0")) {
+		for (int i = 0; i < numext; ++i) {
+			out << "  " << glGetStringi(GL_EXTENSIONS, i) << std::endl;
+		}
+	}
+	else {
+		out << "  ";
+		std::istringstream ext(reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS)));
+		std::copy(
+			std::istream_iterator<std::string>(ext),
+			std::istream_iterator<std::string>(),
+			std::ostream_iterator<std::string>(out, "\n  "));
+	}
+
+	return true;
 }
 
 }

@@ -5,7 +5,10 @@
 
 class FontConfig : public IniConfig {
 public:
-	FontConfig(const std::string &filename);
+	FontConfig();
+	explicit FontConfig(const std::string &filename);
+private:
+	void SetDefaults();
 };
 
 #endif

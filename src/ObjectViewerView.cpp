@@ -21,48 +21,64 @@ ObjectViewerView::ObjectViewerView(): View()
 	m_infoLabel = new Gui::Label("");
 	Add(m_infoLabel, 2, Gui::Screen::GetHeight()-66-Gui::Screen::GetFontHeight());
 
-	Gui::VBox *vbox = new Gui::VBox();
-	Add(vbox, 580, 2);
+	m_vbox = new Gui::VBox();
+	Add(m_vbox, 580, 2);
 
-	vbox->PackEnd(new Gui::Label("Mass (earths):"));
+	m_vbox->PackEnd(new Gui::Label("Mass (earths):"));
 	m_sbodyMass = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodyMass);
+	m_vbox->PackEnd(m_sbodyMass);
 
-	vbox->PackEnd(new Gui::Label("Radius (earths):"));
+	m_vbox->PackEnd(new Gui::Label("Radius (earths):"));
 	m_sbodyRadius = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodyRadius);
+	m_vbox->PackEnd(m_sbodyRadius);
 
-	vbox->PackEnd(new Gui::Label("Integer seed:"));
+	m_vbox->PackEnd(new Gui::Label("Integer seed:"));
 	m_sbodySeed = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodySeed);
+	m_vbox->PackEnd(m_sbodySeed);
 
-	vbox->PackEnd(new Gui::Label("Volatile gases (>= 0):"));
+	m_vbox->PackEnd(new Gui::Label("Volatile gases (>= 0):"));
 	m_sbodyVolatileGas = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodyVolatileGas);
+	m_vbox->PackEnd(m_sbodyVolatileGas);
 
-	vbox->PackEnd(new Gui::Label("Volatile liquid (0-1):"));
+	m_vbox->PackEnd(new Gui::Label("Volatile liquid (0-1):"));
 	m_sbodyVolatileLiquid = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodyVolatileLiquid);
+	m_vbox->PackEnd(m_sbodyVolatileLiquid);
 
-	vbox->PackEnd(new Gui::Label("Volatile ices (0-1):"));
+	m_vbox->PackEnd(new Gui::Label("Volatile ices (0-1):"));
 	m_sbodyVolatileIces = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodyVolatileIces);
+	m_vbox->PackEnd(m_sbodyVolatileIces);
 
-	vbox->PackEnd(new Gui::Label("Life (0-1):"));
+	m_vbox->PackEnd(new Gui::Label("Life (0-1):"));
 	m_sbodyLife = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodyLife);
+	m_vbox->PackEnd(m_sbodyLife);
 
-	vbox->PackEnd(new Gui::Label("Volcanicity (0-1):"));
+	m_vbox->PackEnd(new Gui::Label("Volcanicity (0-1):"));
 	m_sbodyVolcanicity = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodyVolcanicity);
+	m_vbox->PackEnd(m_sbodyVolcanicity);
 
-	vbox->PackEnd(new Gui::Label("Crust metallicity (0-1):"));
+	m_vbox->PackEnd(new Gui::Label("Crust metallicity (0-1):"));
 	m_sbodyMetallicity = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodyMetallicity);
+	m_vbox->PackEnd(m_sbodyMetallicity);
 
 	Gui::LabelButton *b = new Gui::LabelButton(new Gui::Label("Change planet terrain type"));
 	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnChangeTerrain));
-	vbox->PackEnd(b);
+	m_vbox->PackEnd(b);
+
+	Gui::HBox *hbox = new Gui::HBox();
+
+	b = new Gui::LabelButton(new Gui::Label("Prev Seed"));
+	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnPrevSeed));
+	hbox->PackEnd(b);
+
+	b = new Gui::LabelButton(new Gui::Label("Random Seed"));
+	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnRandomSeed));
+	hbox->PackEnd(b);
+
+	b = new Gui::LabelButton(new Gui::Label("Next Seed"));
+	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnNextSeed));
+	hbox->PackEnd(b);
+
+	m_vbox->PackEnd(hbox);
 }
 
 void ObjectViewerView::Draw3D()
@@ -114,22 +130,25 @@ void ObjectViewerView::Update()
 		viewingDist = body->GetBoundingRadius() * 2.0f;
 		lastTarget = body;
 
-		if (body->IsType(Object::PLANET)) {
-			Planet *planet = static_cast<Planet*>(body);
-			const SBody *sbody = planet->GetSBody();
+		if (body->IsType(Object::TERRAINBODY)) {
+			TerrainBody *tbody = static_cast<TerrainBody*>(body);
+			const SBody *sbody = tbody->GetSBody();
 			m_sbodyVolatileGas->SetText(stringf("%0{f.3}", sbody->m_volatileGas.ToFloat()));
 			m_sbodyVolatileLiquid->SetText(stringf("%0{f.3}", sbody->m_volatileLiquid.ToFloat()));
 			m_sbodyVolatileIces->SetText(stringf("%0{f.3}", sbody->m_volatileIces.ToFloat()));
 			m_sbodyLife->SetText(stringf("%0{f.3}", sbody->m_life.ToFloat()));
 			m_sbodyVolcanicity->SetText(stringf("%0{f.3}", sbody->m_volcanicity.ToFloat()));
 			m_sbodyMetallicity->SetText(stringf("%0{f.3}", sbody->m_metallicity.ToFloat()));
-			m_sbodySeed->SetText(stringf("%0{u}", sbody->seed));
+			m_sbodySeed->SetText(stringf("%0{i}", int(sbody->seed)));
 			m_sbodyMass->SetText(stringf("%0{f}", sbody->mass.ToFloat()));
 			m_sbodyRadius->SetText(stringf("%0{f}", sbody->radius.ToFloat()));
 		}
 	}
 	snprintf(buf, sizeof(buf), "View dist: %s     Object: %s", format_distance(viewingDist).c_str(), (body ? body->GetLabel().c_str() : "<none>"));
 	m_infoLabel->SetText(buf);
+
+	if (body->IsType(Object::TERRAINBODY)) m_vbox->ShowAll();
+	else m_vbox->HideAll();
 }
 
 void ObjectViewerView::OnChangeTerrain()
@@ -161,8 +180,25 @@ void ObjectViewerView::OnChangeTerrain()
 	sbody->m_life = life;
 
 	// force reload
-	if (body->IsType(Object::TERRAINBODY))
-		static_cast<TerrainBody*>(body)->GetGeoSphere()->OnChangeDetailLevel();
+	static_cast<TerrainBody*>(body)->GetGeoSphere()->OnChangeDetailLevel();
+}
+
+void ObjectViewerView::OnRandomSeed()
+{
+	m_sbodySeed->SetText(stringf("%0{i}", int(Pi::rng.Int32())));
+	OnChangeTerrain();
+}
+
+void ObjectViewerView::OnNextSeed()
+{
+	m_sbodySeed->SetText(stringf("%0{i}", atoi(m_sbodySeed->GetText().c_str()) + 1));
+	OnChangeTerrain();
+}
+
+void ObjectViewerView::OnPrevSeed()
+{
+	m_sbodySeed->SetText(stringf("%0{i}", atoi(m_sbodySeed->GetText().c_str()) - 1));
+	OnChangeTerrain();
 }
 
 #endif

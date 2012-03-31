@@ -2,9 +2,9 @@
 #define _RENDERER_H
 
 #include "libs.h"
+#include <map>
 
 class Light;
-class Texture;
 
 namespace Graphics {
 
@@ -38,6 +38,8 @@ class RendererLegacy;
 class StaticMesh;
 class Surface;
 class VertexArray;
+class Texture;
+class TextureDescriptor;
 
 // first some enums
 enum LineType {
@@ -104,6 +106,8 @@ public:
 	virtual bool SetLights(int numlights, const Light *l) { return false; }
 	virtual bool SetAmbientColor(const Color &c) { return false; }
 
+	virtual bool SetScissor(bool enabled, const vector2f &pos = 0, const vector2f &size = 0) { return false; }
+
 	//drawing functions
 	//2d drawing is generally understood to be for gui use (unlit, ortho projection)
 	//per-vertex colour lines
@@ -122,6 +126,15 @@ public:
 	//complex unchanging geometry that is worthwhile to store in VBOs etc.
 	virtual bool DrawStaticMesh(StaticMesh *thing) { return false; }
 
+	virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
+
+	Texture *GetCachedTexture(const std::string &type, const std::string &name);
+	void AddCachedTexture(const std::string &type, const std::string &name, Texture *texture);
+	void RemoveCachedTexture(const std::string &type, const std::string &name);
+ 
+	// output human-readable debug info to the given stream
+	virtual bool PrintDebugInfo(std::ostream &out) { return false; }
+
 	// take a ticket representing the current renderer state. when the ticket
 	// is deleted, the renderer state is restored
 	class StateTicket {
@@ -134,13 +147,19 @@ public:
 		Renderer *m_renderer;
 	};
 
-
 protected:
 	int m_width;
 	int m_height;
 
 	virtual void PushState() = 0;
 	virtual void PopState() = 0;
+
+private:
+	typedef std::pair<std::string,std::string> TextureCacheKey;
+	typedef std::map<TextureCacheKey,RefCountedPtr<Texture>*> TextureCacheMap;
+	TextureCacheMap m_textures;
+
+	void RemoveAllCachedTextures();
 };
 
 // subclass this to store renderer specific information
