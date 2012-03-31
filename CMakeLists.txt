@@ -9,11 +9,6 @@
 # TODO:
 # - Replace PIONEER_VERSION / PIONEER_EXTRAVERSION usage with Version.h.
 # 		Version.h/.cpp allow to grab versionning of VersionNumber.h without recompiling the entire project.
-# - Handle ccache to speedup builds (Linux)
-#		http://stackoverflow.com/questions/1815688/how-to-use-ccache-with-cmake
-#		http://stackoverflow.com/questions/2930500/ccache-does-not-hit-cache-without-deleting-cmake-files
-#		--with-ccache: enables compiling with ccache
-#			"ccache was requested but was not found. Build will proceed as normal"
 # - Same options as automake:
 #		--enable-debug: -DDEBUG
 #		--with-no-optimise: -O0 (else -O3)
@@ -198,12 +193,17 @@ ENDIF()
 #########################################################################
 # ccache
 
-if(NOT WIN32)
+#if(NOT WIN32)
+if(CMAKE_COMPILER_IS_GNUCXX)
 	OPTION(${PROJECT_NAME}_USE_ccache "Set to ON to use ccache to compile." OFF)
 	if (${PROJECT_NAME}_USE_ccache)
-		message("ccache unsupported for now!!!")
-		#find_package("ccache")
-		#"ccache was requested but was not found. Build will proceed as normal"
+		find_package(ccache QUIET)
+		if(CCACHE_FOUND)
+			set(CMAKE_CXX_COMPILER ${CCACHE_GXX})
+			set(CMAKE_C_COMPILER ${CCACHE_GCC})
+		else()
+			message("ccache was requested but was not found. Build will proceed as normal")
+		endif()
 	endif()
 endif()
 
