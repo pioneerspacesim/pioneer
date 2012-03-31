@@ -9,12 +9,34 @@
 # TODO:
 # - Replace PIONEER_VERSION / PIONEER_EXTRAVERSION usage with Version.h.
 # 		Version.h/.cpp allow to grab versionning of VersionNumber.h without recompiling the entire project.
-# - Same options as automake (to be listed)
+# - Handle ccache to speedup builds (Linux)
+#		http://stackoverflow.com/questions/1815688/how-to-use-ccache-with-cmake
+#		http://stackoverflow.com/questions/2930500/ccache-does-not-hit-cache-without-deleting-cmake-files
+#		--with-ccache: enables compiling with ccache
+#			"ccache was requested but was not found. Build will proceed as normal"
+# - Same options as automake:
+#		--enable-debug: -DDEBUG
+#		--with-no-optimise: -O0 (else -O3)
+#		--with-fno-inline:  CXXFlags =-fno-inline
+#		ALREADY IN MINSIZEREL?
+				# if(CMAKE_COMPILER_IS_GNUCXX)
+					# OPTION(${PROJECT_NAME}_USE_ccache "Set to ON to use ccache to compile." OFF)
+					# if (${PROJECT_NAME}_USE_ccache)
+					# endif()
+				# endif()
+				# #		--with-fno-inline:  CXXFlags =-fno-inline
+#		------ less important
+#		--with-gprof : CXXFlags = -pg
+#		has to test for the availbility of each warning flag and use them and not use ones that aren't there for C and C++ (different sets of flags)
+# 		AC_INIT([pioneer], [alpha-21-dev], [pioneer@pioneerspacesim.net])
+# 		AC_CONFIG_HEADERS([config.h])
 # - Write packaging code (to create distributions ZIP or installers).
 #		Please note the install autodetects dependencies (.so, .dll) and install them alongside the executable if needed.
 #		The install part should be okay, except for some MSVC system DLLs (MSVCRT...) which go in "/bin" instead of "/".
 # - Test everything, especially compared to actual build systems (TODO: list all features).
 # - Eventually write a PNG+zlib finder that handles debug builds (for MSVC, actually)
+# - Add a "configure" script to create "build" subdir, and run cmake. The script should warn about an existing "build" subdir and stop processing.
+# - _USE_EXTERNAL_LUA_LIB (--with-external-liblua)
 #
 # Date where build scripts have been successfully tested:
 #  Linux-gcc    32   never (builds under Ubuntu, but running hasn't been tested yet)
@@ -117,16 +139,19 @@ FIND_PACKAGE(OGG REQUIRED)
 FIND_PACKAGE(Vorbis REQUIRED)
 FIND_PACKAGE(VorbisFile REQUIRED)
 #FIND_PACKAGE(libtool)				# TODO: To create. Unix-like only. Not REQUIRED. According to jpabx: "it hides some of the differences between platforms, and deals with the .so version system so that builds can cope with multiple installed library versions"
-#FIND_PACKAGE(Lua51)				# Source is in contrib
+# OPTION(${PROJECT_NAME}_USE_EXTERNAL_LUA_LIB "Set to ON to use external Lua library, instead of shipped one." OFF)
+# if(${PROJECT_NAME}_USE_EXTERNAL_LUA_LIB)
+	# FIND_PACKAGE(Lua51)
+# endif()
 FIND_PACKAGE(SigCpp2 REQUIRED)
 SET(PNG_NAMES png15_static libpng15_static)		# Additional PNG names to look for
 FIND_PACKAGE(PNG REQUIRED)
 #FIND_PACKAGE(zlib REQUIRED)		# Already called by findPNG
 
 IF(UNIX)
-	# Not sure what this will do on Cygwin and Msys
-	# Also, remember OS X X11 is a user installed option so it may not exist.
-	FIND_PACKAGE(X11)
+	# # Not sure what this will do on Cygwin and Msys
+	# # Also, remember OS X X11 is a user installed option so it may not exist.
+	# FIND_PACKAGE(X11)
 	# Some Unicies need explicit linkage to the Math library or the build fails.
 	FIND_LIBRARY(MATH_LIBRARY m)
 ENDIF()
@@ -169,6 +194,18 @@ endif()
 IF(WIN32)
 	OPTION(${PROJECT_NAME}_FORCE_CONSOLE_APPS "Activate to make all apps to have a console under Windows" OFF)
 ENDIF()
+
+#########################################################################
+# ccache
+
+if(NOT WIN32)
+	OPTION(${PROJECT_NAME}_USE_ccache "Set to ON to use ccache to compile." OFF)
+	if (${PROJECT_NAME}_USE_ccache)
+		message("ccache unsupported for now!!!")
+		#find_package("ccache")
+		#"ccache was requested but was not found. Build will proceed as normal"
+	endif()
+endif()
 
 #########################################################################
 # Make the headers visible to everything
@@ -344,6 +381,13 @@ IF(CMAKE_CPACK_COMMAND)
     IF(BUILD_PACKAGES)
 		INCLUDE("CMakeModules/CPackProject.cmake" REQUIRED)
 
+		# Data directory
+		SET(${PROJECT_NAME}_DATA_DIR "" CACHE PATH "Where Pioneer expects its data files to be [data]. Packagers MUST set this!")
+		if(NOT ${PROJECT_NAME}_DATA_DIR)
+			SET(${PROJECT_NAME}_DATA_DIR "data")
+			message("Using the default value for ${PROJECT_NAME}_DATA_DIR. Installing is NOT recommended. IF YOU ARE PACKAGING PIONEER, SET THIS VARIABLE!")
+		endif()
+
 		# Add files to pack
 		INSTALL(FILES
 			AUTHORS.txt
@@ -358,7 +402,7 @@ IF(CMAKE_CPACK_COMMAND)
 			DESTINATION ".")
 
 		# Add directories to pack
-		PACK_DATA_DIR("data" ON)		# You may comment it to speed up install process by skipping data. This helps debugging but you'll need to uncomment it afterwards :)
+		PACK_DATA_DIR("${PROJECT_NAME}_DATA_DIR" ON)		# You may comment it to speed up install process by skipping data. This helps debugging but you'll need to uncomment it afterwards :)
 
     ENDIF()
 ENDIF()

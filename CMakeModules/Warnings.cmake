@@ -63,7 +63,19 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
     # errors instead of warnings for certain issues, including superfluous
     # semicolons and commas, and the use of long long. -fpermissive seems
     # to be the workaround.
-    SET(${PROJECT_NAME}_AGGRESSIVE_WARNING_FLAGS -Wall -Wparentheses -Wno-long-long -Wno-import -pedantic -Wreturn-type -Wmissing-braces -Wunknown-pragmas -Wunused -fpermissive)
+    #SET(${PROJECT_NAME}_AGGRESSIVE_WARNING_FLAGS -Wall -Wparentheses -Wno-long-long -Wno-import -pedantic -Wreturn-type -Wmissing-braces -Wunknown-pragmas -Wunused -fpermissive)
+
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+
+	set(${PROJECT_NAME}_AGGRESSIVE_WARNING_FLAGS
+		-Wformat -Wformat-security -Wstrict-aliasing=2 -Wmissing-format-attribute -Wmissing-noreturn -Wdisabled-optimization -Wfloat-equal -Wshadow -Wcast-qual -Wcast-align
+		-Wstrict-null-sentinel -Wold-style-cast -Wsign-promo
+	)
+	set(${PROJECT_NAME}_AGGRESSIVE_WARNING_FLAGS_C
+		-Wformat -Wformat-security -Wstrict-aliasing=2 -Wmissing-format-attribute -Wmissing-noreturn -Wdisabled-optimization -Wfloat-equal -Wshadow -Wcast-qual -Wcast-align
+		-Wno-format-zero-length -Werror-implicit-function-declaration
+	)
 
     # Previous included -Wformat=2 in ${PROJECT_NAME}_AGGRESSIVE_WARNING_FLAGS but had to remove it due to standard library errors
 
@@ -106,6 +118,23 @@ IF(${PROJECT_NAME}_AGGRESSIVE_WARNING_FLAGS)
         # Remove all flags considered aggresive
         FOREACH(flag ${${PROJECT_NAME}_AGGRESSIVE_WARNING_FLAGS})
             STRING(REGEX REPLACE "${flag}" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+        ENDFOREACH()
+    ENDIF()
+ENDIF()
+
+# Handle C flags
+IF(${PROJECT_NAME}_AGGRESSIVE_WARNING_FLAGS_C)
+    IF(${PROJECT_NAME}_USE_AGGRESSIVE_WARNINGS)
+        # Add flags defined by ${PROJECT_NAME}_AGGRESSIVE_WARNING_FLAGS_C if they aren't already there
+        FOREACH(flag ${${PROJECT_NAME}_AGGRESSIVE_WARNING_FLAGS_C})
+            IF(NOT CMAKE_C_FLAGS MATCHES "${flag}")
+                SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${flag}")
+            ENDIF()
+        ENDFOREACH()
+    ELSE()
+        # Remove all flags considered aggresive
+        FOREACH(flag ${${PROJECT_NAME}_AGGRESSIVE_WARNING_FLAGS_C})
+            STRING(REGEX REPLACE "${flag}" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
         ENDFOREACH()
     ENDIF()
 ENDIF()
