@@ -30,4 +30,6 @@ Version getVersion() {
 	return Version(Pioneer_MAJOR_VERSION, Pioneer_MINOR_VERSION, Pioneer_PATCH_VERSION, Pioneer_BUILD_VERSION, qualityFromString(Pioneer_VERSION_QUALITY));
 }
 
+std::string getVersionName() { return Pioneer_VERSION_NAME; }
 std::string getRevision() { return Pioneer_REVISION; }
+

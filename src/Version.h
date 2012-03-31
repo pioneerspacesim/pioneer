@@ -61,6 +61,9 @@ public:
 /// Prefer calling this function rather than including VersioNumber.h, to avoid recompiling each time version changes.
 Version getVersion();
 
+/// Retreives current version name.
+std::string getVersionName();
+
 /// Retreives current revision string (Git HEAD SHA1).
 std::string getRevision();
 

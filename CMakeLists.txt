@@ -45,6 +45,8 @@ SET(${PROJECT_NAME}_PATCH_VERSION 0)
 SET(${PROJECT_NAME}_BUILD_VERSION 0)
 SET(${PROJECT_NAME}_VERSION_QUALITY "a")		# "dev"=Pre-alpha, "a"=Alpha, "b"=Beta, "RC"=Release Candidate, ""=Stable (No other extension is allowed, since it may be used directly in code)
 
+SET(${PROJECT_NAME}_VERSION_NAME "alpha-21-dev")	# Name of the version, if any. For now, it handles the versionning as configure.ac does.
+
 #SET(${PROJECT_NAME}_VERSION ${${PROJECT_NAME}_MAJOR_VERSION}.${${PROJECT_NAME}_MINOR_VERSION}.${${PROJECT_NAME}_PATCH_VERSION})
 SET(${PROJECT_NAME}_VERSION ${${PROJECT_NAME}_MAJOR_VERSION}.${${PROJECT_NAME}_MINOR_VERSION}.${${PROJECT_NAME}_PATCH_VERSION}.${${PROJECT_NAME}_BUILD_VERSION})
 #SET(${PROJECT_NAME}_VERSION ${${PROJECT_NAME}_MAJOR_VERSION}.${${PROJECT_NAME}_MINOR_VERSION}.${${PROJECT_NAME}_PATCH_VERSION}.${${PROJECT_NAME}_BUILD_VERSION}${${PROJECT_NAME}_VERSION_QUALITY})
@@ -224,7 +226,7 @@ endif()
 #########################################################################
 # No optimise
 
-OPTION(${PROJECT_NAME}_FORCE_NO_OPTIMISE "Set to ON to force disableing optimizations, whatever the build type." OFF)
+OPTION(${PROJECT_NAME}_FORCE_NO_OPTIMISE "Set to ON to force disabling optimizations, whatever the build type." OFF)
 if(${PROJECT_NAME}_FORCE_NO_OPTIMISE)
 	if(CMAKE_COMPILER_IS_GNUCXX)
 		REMOVE_FLAG("-Os")
