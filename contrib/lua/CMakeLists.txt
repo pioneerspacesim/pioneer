@@ -27,8 +27,9 @@ add_library(${TARGETNAME} STATIC
 	ltable.c
 	ltablib.c
 	ltm.c
-	lua.c
-	luac.c
+	# Luomu: [lua.c and luac.c] are for the lua compiler and command-line
+	#lua.c
+	#luac.c
 	lundump.c
 	lvm.c
 	lzio.c
