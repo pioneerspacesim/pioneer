@@ -161,7 +161,7 @@ public:
 	fixed axialTilt; // in radians
 	int averageTemp;
 	BodyType type;
-	Planet *planet;
+	Planet *plnt;
 
 	/* composition */
 	fixed m_metallicity; // (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)

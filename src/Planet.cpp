@@ -34,7 +34,7 @@ Planet::Planet(): TerrainBody()
 
 Planet::Planet(SBody *sbody): TerrainBody(sbody)
 {
-	sbody->planet = this;
+	sbody->plnt = this;
 	m_hasDoubleFrame = true;
 }
 

@@ -125,7 +125,7 @@ void Starfield::Draw(Graphics::Renderer *renderer, Camera *camera)
 				double height = (f->GetBodyFor()->GetPositionRelTo(camera->GetFrame()).Length());
 				
 				double pressure, density; 
-				s->planet->GetAtmosphericState(height,&pressure, &density);
+				s->plnt->GetAtmosphericState(height,&pressure, &density);
 
 				Color c; double surfaceDensity;
 				s->GetAtmosphereFlavor(&c, &surfaceDensity);
