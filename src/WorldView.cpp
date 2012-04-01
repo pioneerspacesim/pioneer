@@ -1586,26 +1586,6 @@ void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
 
 }
 
-void WorldView::DrawCircleIndicator(const Indicator &marker, const Color &c)
-{
-	if (marker.side == INDICATOR_HIDDEN) return;
-
-	// XXX implement DrawCircle
-	const float sz = HUD_CROSSHAIR_SIZE*0.5;
-	if (marker.side == INDICATOR_ONSCREEN) {
-		const float posx = marker.pos[0];
-		const float posy = marker.pos[1];
-		std::vector<vector2f> vts;
-		for (int i = 0; i < 72; i++) {
-			vts.push_back(vector2f(
-				posx+sinf(DEG2RAD(i*5))*sz,
-				posy+cosf(DEG2RAD(i*5))*sz));
-		}
-		m_renderer->DrawLines2D(72, &vts[0], c, Graphics::LINE_LOOP);
-	} else
-		DrawEdgeMarker(marker, c);
-}
-
 void WorldView::DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c)
 {
 	if (marker.side == INDICATOR_HIDDEN) return;
