@@ -495,4 +495,4 @@ double cliff_function(const fracdef_t &def, const vector3d &p)
 }
 #endif
 
-};
+}
