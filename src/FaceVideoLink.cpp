@@ -96,46 +96,54 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 
 	SDLSurfacePtr faceim = SDLSurfacePtr::WrapNew(SDL_CreateRGBSurface(SDL_SWSURFACE, FACE_WIDTH, FACE_HEIGHT, 24, 0xff, 0xff00, 0xff0000, 0));
 
+#if 0
+#define PRINT_FACEPART_PATH(part) printf("%s: %s\n", part, filename)
+#else
+#define PRINT_FACEPART_PATH(part) (void)0
+#endif
+
 	snprintf(filename, sizeof(filename), "facegen/backgrounds/background_%d.png", background);
-	//printf("background: %s\n", filename);
+	PRINT_FACEPART_PATH("background");
 	_blit_image(faceim, filename, 0, 0);
 
 	snprintf(filename, sizeof(filename), "facegen/race_%d/head/head_%d_%d.png", race, gender, head);
-	//printf("head: %s\n", filename);
+	PRINT_FACEPART_PATH("head");
 	_blit_image(faceim, filename, 0, 0);
 
 	if (!(flags & ARMOUR)) {
 		snprintf(filename, sizeof(filename), "facegen/clothes/cloth_%d_%d.png", gender, clothes);
-		//printf("clothes: %s\n", filename);
+		PRINT_FACEPART_PATH("clothes");
 		_blit_image(faceim, filename, 0, 135);
 	}
 
 	snprintf(filename, sizeof(filename), "facegen/race_%d/eyes/eyes_%d_%d.png", race, gender, eyes);
-	//printf("eyes: %s\n", filename);
+	PRINT_FACEPART_PATH("eyes");
 	_blit_image(faceim, filename, 0, 41);
 
 	snprintf(filename, sizeof(filename), "facegen/race_%d/nose/nose_%d_%d.png", race, gender, nose);
-	//printf("nose: %s\n", filename);
+	PRINT_FACEPART_PATH("nose");
 	_blit_image(faceim, filename, 1, 89);
 
 	snprintf(filename, sizeof(filename), "facegen/race_%d/mouth/mouth_%d_%d.png", race, gender, mouth);
-	//printf("mouth: %s\n", filename);
+	PRINT_FACEPART_PATH("mouth");
 	_blit_image(faceim, filename, 0, 155);
 
 	if (!(flags & ARMOUR)) {
 		snprintf(filename, sizeof(filename), "facegen/accessories/acc_%d.png", accessories);
-		//printf("accessory: %s\n", filename);
+		PRINT_FACEPART_PATH("accessory");
 		if (rand.Int32(0,1)>0)	_blit_image(faceim, filename, 0, 0);
 
 		snprintf(filename, sizeof(filename), "facegen/race_%d/hair/hair_%d_%d.png", race, gender, hair);
-		//printf("hair: %s\n", filename);
+		PRINT_FACEPART_PATH("hair");
 		_blit_image(faceim, filename, 0, 0);
 	}
 	else {
 		snprintf(filename, sizeof(filename), "facegen/clothes/armour_%d.png", armour);
-		//printf("armour: %s\n", filename);
+		PRINT_FACEPART_PATH("armour");
 		_blit_image(faceim, filename, 0, 0);
 	}
+
+#undef PRINT_FACEPART_PATH
 
 	m_quad.Reset(new Gui::TexturedQuad(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).CreateTexture(Gui::Screen::GetRenderer())));
 }
