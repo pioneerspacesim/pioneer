@@ -27,6 +27,7 @@ KeyAction toggleLuaConsole;
 KeyAction toggleScanMode;
 KeyAction increaseScanRange;
 KeyAction decreaseScanRange;
+KeyAction toggleHudMode;
 
 AxisBinding pitchAxis;
 AxisBinding rollAxis;
@@ -211,6 +212,7 @@ const BindingPrototype bindingProtos[] = {
 	{ Lang::INCREASE_SCAN_RANGE, "BindIncreaseScanRange", &increaseScanRange, 0 },
 	{ Lang::DECREASE_SCAN_RANGE, "BindDecreaseScanRange", &decreaseScanRange, 0 },
 	{ Lang::TOGGLE_LUA_CONSOLE, "BindToggleLuaConsole", &toggleLuaConsole, 0 },
+	{ Lang::TOGGLE_HUD_MODE, "BindToggleHudMode", &toggleHudMode, 0 },
 	{ 0, 0, 0, 0 },
 };
 
@@ -420,6 +422,7 @@ void UpdateBindings()
 	InitKeyBinding(KeyBindings::increaseScanRange, "BindIncreaseScanRange", SDLK_RIGHTBRACKET);
 	InitKeyBinding(KeyBindings::decreaseScanRange, "BindDecreaseScanRange", SDLK_LEFTBRACKET);
 	InitKeyBinding(KeyBindings::toggleLuaConsole, "BindToggleLuaConsole", SDLK_BACKQUOTE);
+	InitKeyBinding(KeyBindings::toggleHudMode, "BindToggleHudMode", SDLK_TAB);
 
 	InitAxisBinding(KeyBindings::pitchAxis, "BindAxisPitch", "-Joy0Axis1");
 	InitAxisBinding(KeyBindings::rollAxis, "BindAxisRoll", "Joy0Axis2");

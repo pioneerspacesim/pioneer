@@ -225,6 +225,7 @@ void WorldView::InitObject()
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));
 
 	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_REAR);
+	KeyBindings::toggleHudMode.onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
 }
 
 WorldView::~WorldView()
@@ -352,6 +353,11 @@ WorldView::CamType WorldView::GetCamType() const
 void WorldView::Draw3D()
 {
 	m_activeCamera->Draw(m_renderer);
+}
+
+void WorldView::OnToggleLabels()
+{
+	m_labelsOn = !m_labelsOn;
 }
 
 void WorldView::ShowAll()
@@ -869,6 +875,7 @@ void WorldView::ShowLowThrustPowerOptions()
 
 void WorldView::OnClickLowThrustPower()
 {
+	Pi::BoinkNoise();
 	if (m_showLowThrustPowerTimeout)
 		HideLowThrustPowerOptions();
 	else

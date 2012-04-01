@@ -105,6 +105,7 @@ namespace KeyBindings {
 	extern KeyAction toggleScanMode;
 	extern KeyAction increaseScanRange;
 	extern KeyAction decreaseScanRange;
+	extern KeyAction toggleHudMode;
 
 	extern AxisBinding pitchAxis;
 	extern AxisBinding rollAxis;

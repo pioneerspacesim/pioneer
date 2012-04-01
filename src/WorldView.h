@@ -73,6 +73,8 @@ private:
 	void HideIndicator(Indicator &indicator);
 	void SeparateLabels(Gui::Label *a, Gui::Label *b);
 
+	void OnToggleLabels();
+
 	void DrawCrosshair(float px, float py, float sz, const Color &c);
 	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c);
 	void DrawTargetSquare(const Indicator &marker, const Color &c);
