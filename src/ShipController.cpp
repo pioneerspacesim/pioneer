@@ -25,11 +25,13 @@ PlayerShipController::PlayerShipController() :
 	m_mouseY(0.0),
 	m_setSpeed(0.0),
 	m_flightControlState(CONTROL_MANUAL),
+	m_lowThrustPower(0.25), // note: overridden by the default value in GameConfig.cpp (DefaultLowThrustPower setting)
 	m_mouseDir(0.0)
 {
 	float deadzone = Pi::config->Float("JoystickDeadzone");
 	m_joystickDeadzone = deadzone * deadzone;
 	m_fovY = Pi::config->Float("FOVVertical");
+	m_lowThrustPower = Pi::config->Float("DefaultLowThrustPower");
 }
 
 PlayerShipController::~PlayerShipController()
@@ -41,6 +43,7 @@ void PlayerShipController::Save(Serializer::Writer &wr, Space *space)
 {
 	wr.Int32(static_cast<int>(m_flightControlState));
 	wr.Double(m_setSpeed);
+	wr.Float(m_lowThrustPower);
 	wr.Int32(space->GetIndexForBody(m_combatTarget));
 	wr.Int32(space->GetIndexForBody(m_navTarget));
 	wr.Int32(space->GetIndexForBody(m_setSpeedTarget));
@@ -50,6 +53,7 @@ void PlayerShipController::Load(Serializer::Reader &rd)
 {
 	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
 	m_setSpeed = rd.Double();
+	m_lowThrustPower = rd.Float();
 	//figure out actual bodies in PostLoadFixup - after Space body index has been built
 	m_combatTargetIndex = rd.Int32();
 	m_navTargetIndex = rd.Int32();
@@ -143,7 +147,9 @@ void PlayerShipController::PollControls(const float timeStep)
 		m_ship->SetGunState(1,0);
 
 		vector3d wantAngVel(0.0);
-		double angThrustSoftness = 50.0;
+		double angThrustSoftness = 10.0;
+
+		const float linearThrustPower = (KeyBindings::thrustLowPower.IsActive() ? m_lowThrustPower : 1.0f);
 
 		// have to use this function. SDL mouse position event is bugged in windows
 		int mouseMotion[2];
@@ -202,12 +208,12 @@ void PlayerShipController::PollControls(const float timeStep)
 			}
 		}
 
-		if (KeyBindings::thrustForward.IsActive()) m_ship->SetThrusterState(2, -1.0);
-		if (KeyBindings::thrustBackwards.IsActive()) m_ship->SetThrusterState(2, 1.0);
-		if (KeyBindings::thrustUp.IsActive()) m_ship->SetThrusterState(1, 1.0);
-		if (KeyBindings::thrustDown.IsActive()) m_ship->SetThrusterState(1, -1.0);
-		if (KeyBindings::thrustLeft.IsActive()) m_ship->SetThrusterState(0, -1.0);
-		if (KeyBindings::thrustRight.IsActive()) m_ship->SetThrusterState(0, 1.0);
+		if (KeyBindings::thrustForward.IsActive()) m_ship->SetThrusterState(2, -linearThrustPower);
+		if (KeyBindings::thrustBackwards.IsActive()) m_ship->SetThrusterState(2, linearThrustPower);
+		if (KeyBindings::thrustUp.IsActive()) m_ship->SetThrusterState(1, linearThrustPower);
+		if (KeyBindings::thrustDown.IsActive()) m_ship->SetThrusterState(1, -linearThrustPower);
+		if (KeyBindings::thrustLeft.IsActive()) m_ship->SetThrusterState(0, -linearThrustPower);
+		if (KeyBindings::thrustRight.IsActive()) m_ship->SetThrusterState(0, linearThrustPower);
 
 		if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(SDL_BUTTON_LEFT) && Pi::MouseButtonState(SDL_BUTTON_RIGHT))) {
 				//XXX worldview? madness, ask from ship instead
@@ -221,8 +227,8 @@ void PlayerShipController::PollControls(const float timeStep)
 		if (KeyBindings::rollLeft.IsActive()) wantAngVel.z += 1.0;
 		if (KeyBindings::rollRight.IsActive()) wantAngVel.z -= 1.0;
 
-		if (KeyBindings::fastRotate.IsActive())
-			angThrustSoftness = 10.0;
+		if (KeyBindings::thrustLowPower.IsActive())
+			angThrustSoftness = 50.0;
 
 		vector3d changeVec;
 		changeVec.x = KeyBindings::pitchAxis.GetValue();
@@ -281,6 +287,12 @@ void PlayerShipController::SetFlightControlState(FlightControlState s)
 		//XXX global stuff
 		Pi::onPlayerChangeFlightControlState.emit();
 	}
+}
+
+void PlayerShipController::SetLowThrustPower(float power)
+{
+	assert((power >= 0.0f) && (power <= 1.0f));
+	m_lowThrustPower = power;
 }
 
 Body *PlayerShipController::GetCombatTarget() const

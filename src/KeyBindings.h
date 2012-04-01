@@ -96,15 +96,16 @@ namespace KeyBindings {
 	extern KeyAction thrustDown;
 	extern KeyAction thrustLeft;
 	extern KeyAction thrustRight;
+	extern KeyAction thrustLowPower;
 	extern KeyAction increaseSpeed;
 	extern KeyAction decreaseSpeed;
 	extern KeyAction fireLaser;
-	extern KeyAction fastRotate;
 	extern KeyAction targetObject;
 	extern KeyAction toggleLuaConsole;
 	extern KeyAction toggleScanMode;
 	extern KeyAction increaseScanRange;
 	extern KeyAction decreaseScanRange;
+	extern KeyAction toggleHudMode;
 
 	extern AxisBinding pitchAxis;
 	extern AxisBinding rollAxis;
