@@ -70,7 +70,7 @@ public:
 	}
 
 
-	bool IsLocalPosInFrame(const vector3d &pos) {
+	bool IsLocalPosInFrame(const vector3d &pos) const {
 		return (pos.Length() < m_radius);
 	}
 	/* if parent is null then frame position is absolute */

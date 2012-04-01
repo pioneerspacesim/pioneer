@@ -24,7 +24,7 @@ public:
 	bool IsSuperType(SBody::BodySuperType t) const;
 	virtual const SBody *GetSBody() const { return m_sbody; }
 	GeoSphere *GetGeoSphere() const { return m_geosphere; }
-	double GetMaxFeatureRadius() {			// returns value in metres
+	double GetMaxFeatureRadius() const { // returns value in metres
 		return (m_geosphere->GetMaxFeatureHeight() + 1.0) * m_sbody->GetRadius();
 	}	
 

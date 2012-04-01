@@ -67,10 +67,10 @@ void StationShipMarketForm::UpdateShipList()
 
 	float line_height = Gui::Screen::GetFontHeight();
 
-	std::vector<ShipFlavour> &ships = m_station->GetShipsOnSale();
+	const std::vector<ShipFlavour> &ships = m_station->GetShipsOnSale();
 
 	int num = 0;
-	for (std::vector<ShipFlavour>::iterator i = ships.begin(); i!=ships.end(); ++i) {
+	for (std::vector<ShipFlavour>::const_iterator i = ships.begin(); i!=ships.end(); ++i) {
 		Gui::Fixed *f = new Gui::Fixed(450, line_height*1.5f);
 
 		Gui::Label *l = new Gui::Label(ShipType::types[(*i).type].name);

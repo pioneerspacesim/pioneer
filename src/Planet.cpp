@@ -41,7 +41,7 @@ Planet::Planet(SBody *sbody): TerrainBody(sbody)
  * dist = distance from centre
  * returns pressure in earth atmospheres
  */
-void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDensity)
+void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDensity) const
 {
 	Color c;
 	double surfaceDensity;

@@ -26,7 +26,6 @@ public:
 	virtual void Draw();
 	virtual void OnSwitchTo();
 	static const double PICK_OBJECT_RECT_SIZE;
-	bool GetShowLabels() { return m_labelsOn; }
 	void DrawBgStars();
 	virtual void Save(Serializer::Writer &wr);
 	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL, CAM_SIDEREAL };

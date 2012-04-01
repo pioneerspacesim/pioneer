@@ -55,7 +55,7 @@ public:
 	Sphere3D(RefCountedPtr<Material> material, int subdivisions=0, float scale=1.f);
 	virtual void Draw(Renderer *r);
 
-	RefCountedPtr<Material> GetMaterial() { return m_surface->GetMaterial(); }
+	RefCountedPtr<Material> GetMaterial() const { return m_surface->GetMaterial(); }
 
 private:
 	ScopedPtr<Surface> m_surface;
