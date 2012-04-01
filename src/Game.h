@@ -88,7 +88,7 @@ private:
 
 	enum State {
 		STATE_NORMAL,
-		STATE_HYPERSPACE,
+		STATE_HYPERSPACE
 	};
 	State m_state;
 

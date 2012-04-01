@@ -16,7 +16,7 @@ struct Mission : RefItem<Mission> {
 	enum MissionState { // <enum scope='Mission' name=MissionStatus>
 		ACTIVE,
 		COMPLETED,
-		FAILED,
+		FAILED
 	};
 
 	std::string  type;

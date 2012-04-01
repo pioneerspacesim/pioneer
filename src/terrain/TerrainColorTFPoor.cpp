@@ -17,7 +17,7 @@ vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, do
 	double n = m_invMaxHeight*height;
 	double flatness = pow(p.Dot(norm), 8.0);
 	//textures:
-	double tex_rock, tex_rock2, tex_mud, tex_sand, tex_sand2, tex_grass, tex_grass2;
+	double tex_rock(0), tex_rock2(0), tex_mud(0), tex_sand(0), tex_sand2(0), tex_grass(0), tex_grass2(0);
 	if (textures) {
 		tex_rock   = rock;
 		tex_rock2  = rock2;

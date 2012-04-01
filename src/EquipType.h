@@ -113,7 +113,7 @@ namespace Equip {
 		FIRST_COMMODITY = HYDROGEN, // <enum skip>
 		LAST_COMMODITY = RADIOACTIVES, // <enum skip>
 		FIRST_SHIPEQUIP = MISSILE_UNGUIDED, // <enum skip>
-		LAST_SHIPEQUIP = LARGE_PLASMA_ACCEL, // <enum skip>
+		LAST_SHIPEQUIP = LARGE_PLASMA_ACCEL // <enum skip>
 	};
 
 	const int LASER_MINING = 0x1;

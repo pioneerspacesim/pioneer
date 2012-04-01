@@ -21,7 +21,7 @@ class SBody;
 enum EconType { // <enum name=EconType prefix=ECON_>
 	ECON_MINING = 1<<0,
 	ECON_AGRICULTURE = 1<<1,
-	ECON_INDUSTRY = 1<<2,
+	ECON_INDUSTRY = 1<<2
 };
 
 class StarSystem;
@@ -93,16 +93,16 @@ public:
 		TYPE_MIN = TYPE_BROWN_DWARF, // <enum skip>
 		TYPE_MAX = TYPE_STARPORT_SURFACE, // <enum skip>
 		TYPE_STAR_MIN = TYPE_BROWN_DWARF, // <enum skip>
-		TYPE_STAR_MAX = TYPE_STAR_SM_BH, // <enum skip>
+		TYPE_STAR_MAX = TYPE_STAR_SM_BH // <enum skip>
 		// XXX need larger atmosphereless thing
 	};
-	
+
 	enum BodySuperType { // <enum scope='SBody' prefix=SUPERTYPE_>
 		SUPERTYPE_NONE = 0,
 		SUPERTYPE_STAR = 1,
 		SUPERTYPE_ROCKY_PLANET = 2,
 		SUPERTYPE_GAS_GIANT = 3,
-		SUPERTYPE_STARPORT = 4,
+		SUPERTYPE_STARPORT = 4
 	};
 
 	std::string GetAstroDescription();
@@ -256,5 +256,5 @@ private:
 	bool m_isCustom;
 	bool m_hasCustomBodies;
 };
-	
+
 #endif /* _STARSYSTEM_H */

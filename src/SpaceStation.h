@@ -74,7 +74,7 @@ public:
 		ANIM_DOCKING_BAY_1,
 		ANIM_DOCKING_BAY_2,
 		ANIM_DOCKING_BAY_3,
-		ANIM_DOCKING_BAY_4,
+		ANIM_DOCKING_BAY_4
 	};
 
 	// Should point to SBody in Pi::currentSystem

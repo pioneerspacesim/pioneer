@@ -11,7 +11,7 @@ enum VertexAttrib {
 	ATTRIB_POSITION  = (1u << 0),
 	ATTRIB_NORMAL    = (1u << 1),
 	ATTRIB_DIFFUSE   = (1u << 2),
-	ATTRIB_UV0       = (1u << 3),
+	ATTRIB_UV0       = (1u << 3)
 	//ATTRIB_UV1       = (1u << 4),
 	//ATTRIB_TANGENT   = (1u << 5),
 	//ATTRIB_BITANGENT = (1u << 6),

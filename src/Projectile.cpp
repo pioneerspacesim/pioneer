@@ -88,7 +88,7 @@ Projectile::Projectile(): Body()
 		m_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
 
 		gw -= 0.1f; // they get smaller
-		gz -= 0.2; // as they move back
+		gz -= 0.2f; // as they move back
 	}
 }
 

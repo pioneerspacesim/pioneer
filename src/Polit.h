@@ -13,7 +13,7 @@ namespace Polit {
 		CRIME_TRADING_ILLEGAL_GOODS = (1<<0),
 		CRIME_WEAPON_DISCHARGE = (1<<1),
 		CRIME_PIRACY = (1<<2),
-		CRIME_MURDER = (1<<3),
+		CRIME_MURDER = (1<<3)
 	};
 
 	enum Bloc { // <enum scope='Polit' name=PolitBloc prefix=BLOC_>
@@ -53,7 +53,7 @@ namespace Polit {
 		GOV_DISORDER,
 		GOV_MAX, // <enum skip>
 		GOV_RAND_MIN = GOV_NONE+1, // <enum skip>
-		GOV_RAND_MAX = GOV_MAX-1, // <enum skip>
+		GOV_RAND_MAX = GOV_MAX-1 // <enum skip>
 	};
 
 	void NotifyOfCrime(Ship *s, enum Crime c);
