@@ -46,7 +46,7 @@ WorldView::WorldView(Serializer::Reader &rd): View()
 void WorldView::InitObject()
 {
 	float size[2];
-	GetSize(size);
+	GetSizeRequested(size);
 	
 	m_showTargetActionsTimeout = 0;
 	m_numLights = 1;
