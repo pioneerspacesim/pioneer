@@ -275,9 +275,9 @@ static int l_spacestation_get_equipment_price(lua_State *l)
  */
 static int l_spacestation_docking_bay_count(lua_State *l)
 {
-    SpaceStation *s = LuaSpaceStation::GetFromLua(1);
-    lua_pushinteger(l, s->GetDockingPortCount());
-    return 1;
+	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
+	lua_pushinteger(l, s->GetDockingPortCount());
+	return 1;
 }
 
 static bool promotion_test(DeleteEmitter *o)
@@ -301,10 +301,10 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 	};
 
 	static luaL_reg l_attrs[] = {
-        { "numDocks", l_spacestation_docking_bay_count },
+		{ "numDocks", l_spacestation_docking_bay_count },
 
 		{ 0, 0 }
-    };
+	};
 
 	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, NULL);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
