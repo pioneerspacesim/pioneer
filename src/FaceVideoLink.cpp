@@ -7,6 +7,7 @@
 #include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
 #include "FileSystem.h"
+#include "SDLWrappers.h"
 
 using namespace Graphics;
 
@@ -30,22 +31,17 @@ using namespace Graphics;
 
 static void _blit_image(SDL_Surface *s, const char *filename, int xoff, int yoff)
 {
-	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
-	if (!filedata) {
-		fprintf(stderr, "FaceVideoLink: couldn't load '%s'\n", filename);
-		return;
-	}
-
-	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
-	SDL_Surface *is = IMG_Load_RW(datastream, 1);
-	if (!s) {
-		fprintf(stderr, "FaceVideoLink: couldn't load: %s (%s)\n", filename, IMG_GetError());
-		return;
-	}
+	SDLSurfacePtr is = LoadSurfaceFromFile(filename);
+	// XXX what should this do if the image couldn't be loaded?
+	if (! is) { return; }
 
 	SDL_Rect destrec = { ((FACE_WIDTH-is->w-1)/2)+xoff, yoff, 0, 0 };
-	SDL_BlitSurface(is, NULL, s, &destrec);
-	SDL_FreeSurface(is);
+	SDL_BlitSurface(is.Get(), NULL, s, &destrec);
+}
+
+static void _blit_image(const SDLSurfacePtr &s, const char *filename, int xoff, int yoff)
+{
+	_blit_image(s.Get(), filename, xoff, yoff);
 }
 
 FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
@@ -98,50 +94,50 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 
 	char filename[1024];
 
-	SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, FACE_WIDTH, FACE_HEIGHT, 24, 0xff, 0xff00, 0xff0000, 0);
+	SDLSurfacePtr faceim = SDLSurfacePtr::WrapNew(SDL_CreateRGBSurface(SDL_SWSURFACE, FACE_WIDTH, FACE_HEIGHT, 24, 0xff, 0xff00, 0xff0000, 0));
 
 	snprintf(filename, sizeof(filename), "facegen/backgrounds/background_%d.png", background);
 	//printf("background: %s\n", filename);
-	_blit_image(s, filename, 0, 0);
+	_blit_image(faceim, filename, 0, 0);
 
 	snprintf(filename, sizeof(filename), "facegen/race_%d/head/head_%d_%d.png", race, gender, head);
-	//printf("head: %s\n", filename);
-	_blit_image(s, filename, 0, 0);
+	//printf("head: %faceim\n", filename);
+	_blit_image(faceim, filename, 0, 0);
 
 	if (!(flags & ARMOUR)) {
 		snprintf(filename, sizeof(filename), "facegen/clothes/cloth_%d_%d.png", gender, clothes);
-		//printf("clothes: %s\n", filename);
-		_blit_image(s, filename, 0, 135);
+		//printf("clothes: %faceim\n", filename);
+		_blit_image(faceim, filename, 0, 135);
 	}
 
 	snprintf(filename, sizeof(filename), "facegen/race_%d/eyes/eyes_%d_%d.png", race, gender, eyes);
-	//printf("eyes: %s\n", filename);
-	_blit_image(s, filename, 0, 41);
+	//printf("eyes: %faceim\n", filename);
+	_blit_image(faceim, filename, 0, 41);
 
 	snprintf(filename, sizeof(filename), "facegen/race_%d/nose/nose_%d_%d.png", race, gender, nose);
-	//printf("nose: %s\n", filename);
-	_blit_image(s, filename, 1, 89);
+	//printf("nose: %faceim\n", filename);
+	_blit_image(faceim, filename, 1, 89);
 
 	snprintf(filename, sizeof(filename), "facegen/race_%d/mouth/mouth_%d_%d.png", race, gender, mouth);
-	//printf("mouth: %s\n", filename);
-	_blit_image(s, filename, 0, 155);
+	//printf("mouth: %faceim\n", filename);
+	_blit_image(faceim, filename, 0, 155);
 
 	if (!(flags & ARMOUR)) {
 		snprintf(filename, sizeof(filename), "facegen/accessories/acc_%d.png", accessories);
-		//printf("accessory: %s\n", filename);
-		if (rand.Int32(0,1)>0)	_blit_image(s, filename, 0, 0);
+		//printf("accessory: %faceim\n", filename);
+		if (rand.Int32(0,1)>0)	_blit_image(faceim, filename, 0, 0);
 
 		snprintf(filename, sizeof(filename), "facegen/race_%d/hair/hair_%d_%d.png", race, gender, hair);
-		//printf("hair: %s\n", filename);
-		_blit_image(s, filename, 0, 0);
+		//printf("hair: %faceim\n", filename);
+		_blit_image(faceim, filename, 0, 0);
 	}
 	else {
 		snprintf(filename, sizeof(filename), "facegen/clothes/armour_%d.png", armour);
-		//printf("armour: %s\n", filename);
-		_blit_image(s, filename, 0, 0);
+		//printf("armour: %faceim\n", filename);
+		_blit_image(faceim, filename, 0, 0);
 	}
 
-	m_quad.Reset(new Gui::TexturedQuad(Graphics::TextureBuilder(s, Graphics::LINEAR_CLAMP, true, true).CreateTexture(Gui::Screen::GetRenderer())));
+	m_quad.Reset(new Gui::TexturedQuad(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).CreateTexture(Gui::Screen::GetRenderer())));
 }
 
 FaceVideoLink::~FaceVideoLink() {
