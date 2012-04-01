@@ -18,7 +18,6 @@ AICommand *AICommand::Load(Serializer::Reader &rd)
 	CmdName name = CmdName(rd.Int32());
 	switch (name) {
 		case CMD_NONE: default: return 0;
-//		case CMD_JOURNEY: return new AICmdJourney(rd);
 		case CMD_DOCK: return new AICmdDock(rd);
 		case CMD_FLYTO: return new AICmdFlyTo(rd);
 		case CMD_FLYAROUND: return new AICmdFlyAround(rd);
@@ -58,101 +57,6 @@ bool AICommand::ProcessChild()
 	delete m_child; m_child = 0;
 	return true;								// child finished
 }
-
-
-/*
-bool AICmdJourney::TimeStepUpdate()
-{
-	if (!ProcessChild()) return false;
-
-	if (Pi::game->GetSpace()->GetStarSystem()->GetLocation() != (SysLoc)m_dest) {
-		// need to hyperspace there
-		int fuelRequired;
-		double duration;
-		enum Ship::HyperjumpStatus jumpStatus;
-		m_ship->CanHyperspaceTo(&m_dest, fuelRequired, duration, &jumpStatus);
-		if (jumpStatus == Ship::HYPERJUMP_OK) {
-			switch (m_ship->GetFlightState()) {
-			case Ship::FLYING:
-				m_ship->TryHyperspaceTo(&m_dest);
-				break;
-			case Ship::DOCKING:
-				// just wait
-				break;
-			case Ship::LANDED:
-				if (m_ship->GetDockedWith()) {
-					m_ship->Undock();
-				} else {
-					m_ship->Blastoff();
-				}
-				break;
-			}
-		} else {
-			printf("AICmdJourney() can't get to destination (reason %d) :-(\n", (int)jumpStatus);
-			if (!m_ship->GetDockedWith()) {
-				// if we aren't docked then there is no point trying to
-				// buy fuel, etc. just give up
-				printf("AICmdJourney() failed (not docked, HyperjumpStatus=%d)\n", (int)jumpStatus);
-				return true;
-			}
-
-			switch (jumpStatus) {		// todo: garbage that needs sorting
-			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
-				{
-					Equip::Type fuelType = m_ship->GetHyperdriveFuelType();
-
-					if (m_ship->BuyFrom(m_ship->GetDockedWith(), fuelType, false)) {
-						// good. let's see if we are able to jump next tick
-						return false;
-					} else {
-						printf("AICmdJourney() failed (docked, HyperjumpStatus=%d)\n", (int)jumpStatus);
-						return true;
-					}
-				}
-				break;
-			case Ship::HYPERJUMP_NO_DRIVE:
-			case Ship::HYPERJUMP_OUT_OF_RANGE:
-				{
-					const Equip::Type fuelType = m_ship->GetHyperdriveFuelType();
-					const Equip::Type driveType = m_ship->m_equipment.Get(Equip::SLOT_ENGINE);
-					const Equip::Type laserType = m_ship->m_equipment.Get(Equip::SLOT_LASER, 0);
-					// preserve money
-					Sint64 oldMoney = m_ship->GetMoney();
-					m_ship->SetMoney(10000000);
-					MarketAgent *trader = m_ship->GetDockedWith();
-					// need to lose some equipment and see if we get light enough
-					Equip::Type t = (Equip::Type)Pi::rng.Int32(Equip::TYPE_MAX);
-					if ((Equip::types[t].slot == Equip::SLOT_ENGINE) && trader->CanSell(t)) {
-						// try a different hyperdrive
-						m_ship->SellTo(trader, driveType);
-						if (!m_ship->BuyFrom(trader, t)) {
-							m_ship->BuyFrom(trader, driveType);
-						}
-						printf("Switched drive to a %s\n", Equip::types[t].name);
-					} else if ((t != fuelType) && (t != driveType) && (t != laserType)) {
-						m_ship->SellTo(trader, t);
-						printf("Removed a %s\n", Equip::types[t].name);
-					}
-					m_ship->SetMoney(oldMoney);
-				}
-				break;
-			case Ship::HYPERJUMP_OK:
-				break; // shouldn't reach this though
-			}
-		}
-	} else if (m_ship->GetFlightState() == Ship::LANDED) return true;	// all done
-	else {
-		// we are in the desired system. fly to the target and dock
-		// then specific instructions to get us there
-		Body *b = Space::FindBodyForSBodyPath(&m_dest);
-		if (b->IsType(Object::SPACESTATION))
-			m_child = new AICmdDock(m_ship, static_cast<SpaceStation*>(b));
-		else m_child = new AICmdFlyTo(m_ship, b);
-	}
-	return false;
-}
-
-*/
 
 /*
 // temporary evasion-test version
@@ -847,7 +751,8 @@ bool AICmdFlyTo::TimeStepUpdate()
 	vector3d targvel = GetVelInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
 	vector3d relvel = m_ship->GetVelocity() - targvel;
 	vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
-	ParentSafetyAdjust(m_ship, m_targframe, m_posoff, targpos);
+	bool safe = ParentSafetyAdjust(m_ship, m_targframe, m_posoff, targpos);
+	double endvel = safe ? 0.0 : m_endvel;			// don't use endvel if safety-adjusted
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
 	double targdist = relpos.Length();
@@ -859,11 +764,13 @@ bool AICmdFlyTo::TimeStepUpdate()
 	// frame switch stuff - clear children/collision state
 	if (m_frame != m_ship->GetFrame()) {
 		if (m_child) { delete m_child; m_child = 0; }
+		if (m_frame && m_tangent) return true;		// regen tangent on frame switch
 		m_frame = m_ship->GetFrame();
 		m_reldir = reldir;							// for +vel termination condition
 	}
 
 #ifdef DEBUG_AUTOPILOT
+if (m_ship->IsType(Object::PLAYER))
 printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state = %i\n",
 	targdist, relvel.Length(), m_ship->GetThrusterState().z, reldir.Dot(m_reldir), m_state);
 #endif
@@ -873,7 +780,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 	if (!m_tangent || !(body == m_targframe->GetBodyFor()))
 	{
 		// process path collisions with frame body
-		int coll = CheckCollision(m_ship, reldir, targdist, targpos, m_endvel, erad);
+		int coll = CheckCollision(m_ship, reldir, targdist, targpos, endvel, erad);
 		if (coll == 0) {				// no collision
 			if (m_child) { delete m_child; m_child = 0; m_state = -1; }
 		}
@@ -895,7 +802,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 		relvel += targvel;
 
 	// regenerate state to flipmode if we're off course
-	bool overshoot = CheckOvershoot(m_ship, reldir, targdist, relvel, m_endvel);
+	bool overshoot = CheckOvershoot(m_ship, reldir, targdist, relvel, endvel);
 	if (m_tangent && m_state == -4 && !overshoot) return true;			// bail out
 	if (m_state < 0) m_state = GetFlipMode(m_ship, relpos, relvel);
 
@@ -903,11 +810,11 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 	double ang, maxdecel = GetMaxDecel(m_ship, reldir, m_state, &ang);
 	maxdecel -= GetGravityAtPos(m_targframe, m_posoff);
 	if(maxdecel <= 0) { m_ship->AIMessage(Ship::AIERROR_GRAV_TOO_HIGH); return true; }
-	bool cap = m_ship->AIMatchPosVel2(reldir, targdist, relvel, m_endvel, maxdecel);
+	bool cap = m_ship->AIMatchPosVel2(reldir, targdist, relvel, endvel, maxdecel);
 
 	// path overshoot check, response
 	if (m_state < 3 && overshoot) {
-		double ispeed = calc_ivel(targdist, m_endvel, maxdecel);
+		double ispeed = calc_ivel(targdist, endvel, maxdecel);
 		m_ship->AIFaceDirection(ispeed*reldir - relvel);
 		m_state = -4; return false;
 	}
@@ -917,7 +824,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 
 	// termination conditions
 	if (m_state == 3) m_state++;					// finished last adjustment, hopefully
-	else if (m_endvel > 0.0) { if (reldir.Dot(m_reldir) < 0.9) m_state = 4; }
+	else if (endvel > 0.0) { if (reldir.Dot(m_reldir) < 0.9) m_state = 4; }
 	else if (targdist < 0.5*m_ship->GetAccelMin()*timestep*timestep) m_state = 3;
 
 	// set heading according to current state

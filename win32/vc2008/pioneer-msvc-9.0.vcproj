@@ -67,7 +67,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15_staticd.lib zlibd.lib"
-				OutputFile="$(OutDir)\$(ProjectName)_debug.exe"
+				OutputFile="$(ProjectDir)..\..\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\lib"
 				IgnoreDefaultLibraryNames="libcmt.lib"
@@ -155,7 +155,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15_static.lib zlib.lib"
-				OutputFile="$(OutDir)\$(ProjectName)_release.exe"
+				OutputFile="$(ProjectDir)..\..\$(ProjectName)_release.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\lib"
 				GenerateDebugInformation="true"
@@ -244,7 +244,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15_staticd.lib zlibd.lib"
-				OutputFile="$(OutDir)\$(ProjectName)_debug.exe"
+				OutputFile="$(ProjectDir)..\..\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\lib"
 				IgnoreDefaultLibraryNames="libcmt.lib"
@@ -322,6 +322,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Color.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\CommodityTradeWidget.cpp"
 				>
 			</File>
@@ -350,11 +354,23 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\FontConfig.cpp"
+				RelativePath="..\..\src\FileSystem.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\FontManager.cpp"
+				RelativePath="..\src\FileSystemWin32.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Font.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\FontCache.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\FontConfig.cpp"
 				>
 			</File>
 			<File
@@ -387,10 +403,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\GameMenuView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\Gamma.cpp"
 				>
 			</File>
 			<File
@@ -490,6 +502,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\gui\GuiTexturedQuad.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\gui\GuiToggleButton.cpp"
 				>
 			</File>
@@ -527,6 +543,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Lang.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Light.cpp"
 				>
 			</File>
 			<File
@@ -739,22 +759,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Projectile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\render\Render.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\render\RenderFrustum.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\render\RenderShader.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\render\RenderTarget.cpp"
 				>
 			</File>
 			<File
@@ -1078,11 +1082,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Texture.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\TextureCache.cpp"
+				RelativePath="..\..\src\TextSupport.cpp"
 				>
 			</File>
 			<File
@@ -1095,10 +1095,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\VectorFont.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\win32\src\win32-dirent.cpp"
 				>
 			</File>
 			<File
@@ -1241,10 +1237,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\GameMenuView.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\Gamma.h"
 				>
 			</File>
 			<File
@@ -3079,6 +3071,118 @@
 					>
 				</File>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="graphics"
+			>
+			<File
+				RelativePath="..\..\src\graphics\Drawables.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Drawables.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Frustum.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Frustum.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Graphics.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Graphics.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Material.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Material.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Renderer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Renderer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\RendererGL2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\RendererGL2.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\RendererGLBuffers.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\RendererLegacy.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\RendererLegacy.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Shader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Shader.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\StaticMesh.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\StaticMesh.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Surface.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Texture.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\TextureBuilder.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\TextureBuilder.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\TextureGL.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\TextureGL.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\VertexArray.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\VertexArray.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

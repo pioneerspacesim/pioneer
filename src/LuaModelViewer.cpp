@@ -18,13 +18,11 @@ using namespace Graphics;
 static Renderer *renderer;
 
 enum ModelCategory {
-	MODEL_OTHER,
 	MODEL_SHIP,
 	MODEL_SPACESTATION
 };
 
 static const char *ANIMATION_NAMESPACES[] = {
-	0,
 	"ShipAnimation",
 	"SpaceStationAnimation",
 };
@@ -39,6 +37,8 @@ static const int MAX_MOUSE_BTN_IDX = SDL_BUTTON_WHEELDOWN + 1;
 static int g_mouseButton[MAX_MOUSE_BTN_IDX];	// inc to 6 as mouseScroll is index 5
 static float g_zbias;
 static bool g_doBenchmark = false;
+
+float gridInterval = 0.0f;
 
 static bool setMouseButton(const Uint8 idx, const int value)
 {
@@ -107,6 +107,7 @@ public:
 		m_geom = 0;
 		m_space = new CollisionSpace();
 		m_showBoundingRadius = false;
+		m_showGrid = false;
 		Gui::Screen::AddBaseWidget(this, 0, 0);
 		SetTransparency(true);
 
@@ -147,6 +148,13 @@ public:
 			Add(b, 10, 90);
 			Add(new Gui::Label("[shift-b] Visualize bounding radius"), 30, 90);
 		}
+		{
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_g, KMOD_LSHIFT);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleGrid));
+			Add(b, 10, 110);
+			Add(new Gui::Label("[shift-g] Toggle grid"), 30, 110);
+		}
 #if 0
 		{
 			Gui::Button *b = new Gui::SolidButton();
@@ -178,8 +186,13 @@ public:
 			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"),
 					200, Gui::Screen::GetHeight()-140.0f);
 			for (int i=0; i<LMR_ARG_MAX; i++) {
-				Gui::Fixed *box = new Gui::Fixed(32.0f, 120.0f);
-				Add(box, float(200 + i*25), Gui::Screen::GetHeight()-120.0f);
+				float x = float(200+i*25);
+				float w = 32.0f;
+				if (x >= Gui::Screen::GetWidth()-w)
+					break;
+
+				Gui::Fixed *box = new Gui::Fixed(w, 120.0f);
+				Add(box, x, Gui::Screen::GetHeight()-120.0f);
 
 				m_anim[i] = new Gui::Adjustment();
 				m_anim[i]->SetValue(0);
@@ -241,13 +254,28 @@ public:
 	void OnToggleBoundingRadius() {
 		m_showBoundingRadius = !m_showBoundingRadius;
 	}
+	void OnToggleGrid() {
+		if (!m_showGrid) {
+			m_showGrid = true;
+			gridInterval = 1.0f;
+		}
+		else {
+			gridInterval = powf(10, ceilf(log10f(gridInterval))+1);
+			if (gridInterval >= 10000.0f) {
+				m_showGrid = false;
+				gridInterval = 0.0f;
+			}
+		}
+	}
 
 	void MainLoop() __attribute((noreturn));
 	void SetSbreParams();
 private:
 	void TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg);
 	void VisualizeBoundingRadius(matrix4x4f& trans, double radius);
+	void DrawGrid(matrix4x4f& trans, double radius);
 	bool m_showBoundingRadius;
+	bool m_showGrid;
 };
 
 void Viewer::SetModel(LmrModel *model)
@@ -262,9 +290,8 @@ void Viewer::SetModel(LmrModel *model)
 
 	// set up model parameters
 	// inefficient (looks up and searches tags table separately for each tag)
-	bool has_ship = m_model->HasTag("ship") || m_model->HasTag("static_ship");
 	bool has_station = m_model->HasTag("surface_station") || m_model->HasTag("orbital_station");
-	if (has_ship && !has_station) {
+    if (!has_station) {
 		m_modelCategory = MODEL_SHIP;
 		const std::string name = model->GetName();
 		std::map<std::string,ShipType>::const_iterator it = ShipType::types.begin();
@@ -279,11 +306,8 @@ void Viewer::SetModel(LmrModel *model)
 		else
 			g_equipment.InitSlotSizes(ShipType::EAGLE_LRF);
 		g_params.equipment = &g_equipment;
-	} else if (has_station && !has_ship) {
-		m_modelCategory = MODEL_SPACESTATION;
-		g_params.equipment = 0;
 	} else {
-		m_modelCategory = MODEL_OTHER;
+		m_modelCategory = MODEL_SPACESTATION;
 		g_params.equipment = 0;
 	}
 
@@ -528,16 +552,23 @@ void Viewer::MainLoop()
 			render_coll_mesh(m_cmesh);
 			glPopMatrix();
 		}
+
 		if (m_showBoundingRadius) {
 			matrix4x4f mo = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos);// * modelRot.InverseOf();
 			VisualizeBoundingRadius(mo, m_model->GetDrawClipRadius());
 		}
+
+		if (m_showGrid) {
+			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
+			DrawGrid(m, m_model->GetDrawClipRadius());
+		}
+
 		Graphics::UnbindAllBuffers();
 
 		{
-			char buf[128];
+			char buf[256];
 			Aabb aabb = m_cmesh->GetAabb();
-			snprintf(buf, sizeof(buf), "%d triangles, %d fps, %.3fm tris/sec\ncollision mesh size: %.1fx%.1fx%.1f (radius %.1f)\nClipping radius %.1f",
+			snprintf(buf, sizeof(buf), "%d triangles, %d fps, %.3fm tris/sec\ncollision mesh size: %.1fx%.1fx%.1f (radius %.1f)\nClipping radius %.1f\nGrid interval: %d metres",
 					(g_renderType == 0 ? 
 						LmrModelGetStatsTris() - beforeDrawTriStats :
 						m_cmesh->m_numTris),
@@ -547,7 +578,8 @@ void Viewer::MainLoop()
 					aabb.max.y-aabb.min.y,
 					aabb.max.z-aabb.min.z,
 					aabb.GetBoundingRadius(),
-					m_model->GetDrawClipRadius());
+					m_model->GetDrawClipRadius(),
+					int(gridInterval));
 			m_trisReadout->SetText(buf);
 		}
 		
@@ -620,6 +652,35 @@ void Viewer::VisualizeBoundingRadius(matrix4x4f& trans, double radius)
 	renderer->SetTransform(trans);
 	Drawables::Circle circ(radius, Color(0.f, 0.f, 1.f, 1.f));
 	circ.Draw(renderer);
+}
+
+void Viewer::DrawGrid(matrix4x4f& trans, double radius)
+{
+	const float dist = abs(g_campos.z);
+
+	const float max = std::min(powf(10, ceilf(log10f(dist))), ceilf(radius/gridInterval)*gridInterval);
+
+	std::vector<vector3f> points;
+
+	for (float x = -max; x <= max; x += gridInterval) {
+		points.push_back(vector3f(x,0,-max));
+		points.push_back(vector3f(x,0,max));
+		points.push_back(vector3f(0,x,-max));
+		points.push_back(vector3f(0,x,max));
+
+		points.push_back(vector3f(x,-max,0));
+		points.push_back(vector3f(x,max,0));
+		points.push_back(vector3f(0,-max,x));
+		points.push_back(vector3f(0,max,x));
+
+		points.push_back(vector3f(-max,x,0));
+		points.push_back(vector3f(max,x,0));
+		points.push_back(vector3f(-max,0,x));
+		points.push_back(vector3f(max,0,x));
+	}
+
+	renderer->SetTransform(trans);
+	renderer->DrawLines(points.size(), &points[0], Color(0.0f,0.2f,0.0f,1.0f));
 }
 
 
