@@ -87,7 +87,7 @@ void TextureBuilder::PrepareSurface()
 {
 	if (m_prepared) return;
 
-	if (!m_surface && m_filename.length() > 0)
+	if (!m_surface && !m_filename.empty())
 		LoadSurface();
 
 	TextureFormat targetTextureFormat;
@@ -121,7 +121,7 @@ void TextureBuilder::PrepareSurface()
 		}
 	}
 
-	else if (m_filename.length() > 0) {
+	else if (! m_filename.empty()) {
 		// power-of-to check
 		unsigned long width = ceil_pow2(m_surface->w);
 		unsigned long height = ceil_pow2(m_surface->h);
