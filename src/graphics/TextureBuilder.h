@@ -60,6 +60,7 @@ private:
 	bool m_prepared;
 
 	void LoadSurface();
+	bool TryLoadSurface(const std::string &fname);
 };
 
 }

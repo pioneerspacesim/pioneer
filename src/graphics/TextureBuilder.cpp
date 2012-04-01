@@ -139,25 +139,32 @@ void TextureBuilder::PrepareSurface()
 	m_prepared = true;
 }
 
-static const std::string unknownTextureFilename("textures/unknown.png");
-
 void TextureBuilder::LoadSurface()
 {
 	assert(!m_surface);
 
-	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(m_filename);
+	bool success = TryLoadSurface(m_filename);
+	if (! success) { success = TryLoadSurface("textures/unknown.png"); }
+
+	// XXX if we can't load the fallback texture, then what?
+}
+
+bool TextureBuilder::TryLoadSurface(const std::string &fname)
+{
+	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(fname);
 	if (!filedata) {
-		fprintf(stderr, "TextureBuilder::CreateFromFile: %s: could not read file\n", m_filename.c_str());
-		return;
+		fprintf(stderr, "TextureBuilder::CreateFromFile: %s: could not read file\n", fname.c_str());
+		return false;
 	}
 
 	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
 	m_surface = IMG_Load_RW(datastream, 1);
 	if (!m_surface) {
-		fprintf(stderr, "TextureBuilder::CreateFromFile: %s: %s\n", m_filename.c_str(), IMG_GetError());
-		//m_surface = IMG_Load(unknownTextureFilename.c_str());
-		return;
+		fprintf(stderr, "TextureBuilder::CreateFromFile: %s: %s\n", fname.c_str(), IMG_GetError());
+		return false;
 	}
+
+	return true;
 }
 
 void TextureBuilder::UpdateTexture(Texture *texture)
