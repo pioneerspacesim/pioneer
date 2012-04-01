@@ -1271,8 +1271,8 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 	const float h = Gui::Screen::GetHeight();
 
 	if (cameraSpacePos.LengthSqr() < 1e-6) { // length < 1e-3
-		indicator.pos[0] = w/2.0f;
-		indicator.pos[1] = h/2.0f;
+		indicator.pos.x = w/2.0f;
+		indicator.pos.y = h/2.0f;
 		indicator.side = INDICATOR_ONSCREEN;
 	} else {
 		vector3d proj;
@@ -1286,8 +1286,8 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 			(proj.y >= BORDER) && (proj.y < h - BORDER_BOTTOM);
 
 		if (onscreen) {
-			indicator.pos[0] = int(proj.x);
-			indicator.pos[1] = int(proj.y);
+			indicator.pos.x = int(proj.x);
+			indicator.pos.y = int(proj.y);
 			indicator.side = INDICATOR_ONSCREEN;
 
 		} else {
@@ -1299,23 +1299,23 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 			indicator.side = INDICATOR_TOP;
 
 			// this fallback is used if direction is close to (0, 0, +ve)
-			indicator.pos[0] = w/2.0;
-			indicator.pos[1] = BORDER;
+			indicator.pos.x = w/2.0;
+			indicator.pos.y = BORDER;
 
 			if (cameraSpacePos.x < -1e-3) {
 				vector3d ptLeft = lnDir.Cross(vector3d(-1.0, 0.0, BORDER));
 				ptLeft /= ptLeft.z;
 				if (ptLeft.y >= BORDER && ptLeft.y < h - BORDER_BOTTOM) {
-					indicator.pos[0] = ptLeft.x;
-					indicator.pos[1] = ptLeft.y;
+					indicator.pos.x = ptLeft.x;
+					indicator.pos.y = ptLeft.y;
 					indicator.side = INDICATOR_LEFT;
 				}
 			} else if (cameraSpacePos.x > 1e-3) {
 				vector3d ptRight = lnDir.Cross(vector3d(-1.0, 0.0,  w - BORDER));
 				ptRight /= ptRight.z;
 				if (ptRight.y >= BORDER && ptRight.y < h - BORDER_BOTTOM) {
-					indicator.pos[0] = ptRight.x;
-					indicator.pos[1] = ptRight.y;
+					indicator.pos.x = ptRight.x;
+					indicator.pos.y = ptRight.y;
 					indicator.side = INDICATOR_RIGHT;
 				}
 			}
@@ -1324,16 +1324,16 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 				vector3d ptBottom = lnDir.Cross(vector3d(0.0, -1.0, h - BORDER_BOTTOM));
 				ptBottom /= ptBottom.z;
 				if (ptBottom.x >= BORDER && ptBottom.x < w-BORDER) {
-					indicator.pos[0] = ptBottom.x;
-					indicator.pos[1] = ptBottom.y;
+					indicator.pos.x = ptBottom.x;
+					indicator.pos.y = ptBottom.y;
 					indicator.side = INDICATOR_BOTTOM;
 				}
 			} else if (cameraSpacePos.y > 1e-3) {
 				vector3d ptTop = lnDir.Cross(vector3d(0.0, -1.0, BORDER));
 				ptTop /= ptTop.z;
 				if (ptTop.x >= BORDER && ptTop.x < w - BORDER) {
-					indicator.pos[0] = ptTop.x;
-					indicator.pos[1] = ptTop.y;
+					indicator.pos.x = ptTop.x;
+					indicator.pos.y = ptTop.y;
 					indicator.side = INDICATOR_TOP;
 				}
 			}
@@ -1351,7 +1351,7 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 			case INDICATOR_HIDDEN: break;
 			case INDICATOR_ONSCREEN: // when onscreen, default to label-below unless it would clamp to be on top of the marker
 				pos[0] = -(labelSize[0]/2.0f);
-				if (indicator.pos[1] + pos[1] + labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f > h - BORDER_BOTTOM)
+				if (indicator.pos.y + pos[1] + labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f > h - BORDER_BOTTOM)
 					pos[1] = -(labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f);
 				else
 					pos[1] = HUD_CROSSHAIR_SIZE + 2.0f;
@@ -1374,8 +1374,8 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 				break;
 			}
 
-			pos[0] = Clamp(pos[0] + indicator.pos[0], BORDER, w - BORDER - labelSize[0]);
-			pos[1] = Clamp(pos[1] + indicator.pos[1], BORDER, h - BORDER_BOTTOM - labelSize[1]);
+			pos[0] = Clamp(pos[0] + indicator.pos.x, BORDER, w - BORDER - labelSize[0]);
+			pos[1] = Clamp(pos[1] + indicator.pos.y, BORDER, h - BORDER_BOTTOM - labelSize[1]);
 			MoveChild(indicator.label, pos[0], pos[1]);
 			indicator.label->Show();
 		} else {
@@ -1387,7 +1387,7 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 void WorldView::HideIndicator(Indicator &indicator)
 {
 	indicator.side = INDICATOR_HIDDEN;
-	indicator.pos[0] = indicator.pos[1] = 0;
+	indicator.pos = vector2f(0.0f, 0.0f);
 	if (indicator.label)
 		indicator.label->Hide();
 }
@@ -1492,8 +1492,8 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 	if (target.side == INDICATOR_HIDDEN) return;
 
 	if (target.side == INDICATOR_ONSCREEN) {
-		float x1 = target.pos[0], y1 = target.pos[1];
-		float x2 = lead.pos[0], y2 = lead.pos[1];
+		float x1 = target.pos.x, y1 = target.pos.y;
+		float x2 = lead.pos.x, y2 = lead.pos.y;
 
 		float xd = x2 - x1, yd = y2 - y1;
 		if (lead.side != INDICATOR_ONSCREEN) {
@@ -1548,10 +1548,10 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 	const float sz = (marker.side == INDICATOR_ONSCREEN)
 		? float(WorldView::PICK_OBJECT_RECT_SIZE * 0.5) : 3.0f;
 
-	const float x1 = float(marker.pos[0] - sz);
-	const float x2 = float(marker.pos[0] + sz);
-	const float y1 = float(marker.pos[1] - sz);
-	const float y2 = float(marker.pos[1] + sz);
+	const float x1 = float(marker.pos.x - sz);
+	const float x2 = float(marker.pos.x + sz);
+	const float y1 = float(marker.pos.y - sz);
+	const float y2 = float(marker.pos.y + sz);
 
 	const vector2f vts[] = {
 		vector2f(x1, y1),
@@ -1568,8 +1568,8 @@ void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
 
 	const float sz = HUD_CROSSHAIR_SIZE;
 	if (marker.side == INDICATOR_ONSCREEN) {
-		const float posx = marker.pos[0];
-		const float posy = marker.pos[1];
+		const float posx = marker.pos.x;
+		const float posy = marker.pos.y;
 		const vector2f vts[] = {
 			vector2f(posx-sz, posy-sz),
 			vector2f(posx-0.5f*sz, posy-0.5f*sz),
@@ -1591,9 +1591,8 @@ void WorldView::DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *q
 	if (marker.side == INDICATOR_HIDDEN) return;
 
 	if (marker.side == INDICATOR_ONSCREEN) {
-		const float x = marker.pos[0] - m_indicatorMousedirSize.x/2.0f;
-		const float y = marker.pos[1] - m_indicatorMousedirSize.y/2.0f;
-		quad->Draw(Pi::renderer, vector2f(x,y), m_indicatorMousedirSize, c);
+		vector2f pos = marker.pos - m_indicatorMousedirSize/2.0f;
+		quad->Draw(Pi::renderer, pos, m_indicatorMousedirSize, c);
 	} else
 		DrawEdgeMarker(marker, c);
 }
@@ -1602,16 +1601,11 @@ void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 {
 	const float sz = HUD_CROSSHAIR_SIZE;
 
-	// this would be easier with a vector2 class
-	float dirx = Gui::Screen::GetWidth()/2.0f - float(marker.pos[0]);
-	float diry = Gui::Screen::GetHeight()/2.0f - float(marker.pos[1]);
-	float len = sqrt(dirx*dirx + diry*diry);
-	dirx *= sz/len;
-	diry *= sz/len;
-	const vector2f vts[] = {
-		vector2f(marker.pos[0], marker.pos[1]),
-		vector2f(marker.pos[0] + dirx, marker.pos[1] + diry)
-	};
+	const vector2f screenCentre(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f);
+	vector2f dir = screenCentre - marker.pos;
+	float len = dir.Length();
+	dir *= sz/len;
+	const vector2f vts[] = { marker.pos, marker.pos + dir };
 	m_renderer->DrawLines2D(2, vts, c);
 }
 

@@ -57,14 +57,10 @@ private:
 	};
 
 	struct Indicator {
-		float pos[2];
+		vector2f pos;
 		IndicatorSide side;
 		Gui::Label *label;
-		Indicator() {
-			pos[0] = pos[1] = 0;
-			side = INDICATOR_HIDDEN;
-			label = 0;
-		}
+		Indicator(): pos(0.0f, 0.0f), side(INDICATOR_HIDDEN), label(0) {}
 	};
 	
 	void UpdateProjectedObjects();
