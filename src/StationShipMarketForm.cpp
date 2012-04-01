@@ -31,7 +31,7 @@ StationShipMarketForm::StationShipMarketForm(FormController *controller) : FaceF
 	outerbox->SetSpacing(line_height);
 
 	Gui::Fixed *heading = new Gui::Fixed(470, Gui::Screen::GetFontHeight());
-	const float *col = Gui::Theme::Colors::tableHeading;
+	const Color &col = Gui::Theme::Colors::tableHeading;
 	heading->Add((new Gui::Label(Lang::SHIP))->Color(col), 0, 0);
 	heading->Add((new Gui::Label(Lang::PRICE))->Color(col), 200, 0);
 	heading->Add((new Gui::Label(Lang::PART_EX))->Color(col), 275, 0);
