@@ -416,7 +416,7 @@ void UpdateBindings()
 	InitKeyBinding(KeyBindings::thrustLowPower, "BindThrustLowPower", SDLK_LSHIFT);
 	InitKeyBinding(KeyBindings::increaseSpeed, "BindIncreaseSpeed", SDLK_RETURN);
 	InitKeyBinding(KeyBindings::decreaseSpeed, "BindDecreaseSpeed", SDLK_RSHIFT);
-	InitKeyBinding(KeyBindings::targetObject, "BindTargetObject", SDLK_TAB);
+	InitKeyBinding(KeyBindings::targetObject, "BindTargetObject", SDLK_t);
 	InitKeyBinding(KeyBindings::fireLaser, "BindFireLaser", SDLK_SPACE);
 	InitKeyBinding(KeyBindings::toggleScanMode, "BindToggleScanMode", SDLK_BACKSLASH);
 	InitKeyBinding(KeyBindings::increaseScanRange, "BindIncreaseScanRange", SDLK_RIGHTBRACKET);
