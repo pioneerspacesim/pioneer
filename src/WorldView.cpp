@@ -357,7 +357,9 @@ void WorldView::Draw3D()
 
 void WorldView::OnToggleLabels()
 {
-	m_labelsOn = !m_labelsOn;
+	if (Pi::GetView() == this) {
+		m_labelsOn = !m_labelsOn;
+	}
 }
 
 void WorldView::ShowAll()
