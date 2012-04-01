@@ -2,6 +2,8 @@ Alpha 21
 
    * New features
      * Elite systems (Lave etc) with a new start point (#682)
+     * Manual thrust power control. Use F8 and L-shift to limit thruster power
+       finer control (#994, #129)
      * New small buildings (#1047)
 
    * Minor changes and tweaks
@@ -41,6 +43,7 @@ Alpha 21
        duration and fuel use without regard to current flight state (#1101)
      * New ship params 'front_camera' and 'rear_camera'. Sets the camera's
        position on the ship, and causes the ship's body to be drawn (#1125)
+     * New attribute SpaceStation.numDocks to get number of docking ports (#1135)
 
    * Internal changes
      * configure tweaks for better optimisations and profiling support
