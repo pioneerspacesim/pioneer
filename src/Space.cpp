@@ -695,9 +695,9 @@ static char space[256];
 
 static void DebugDumpFrame(const Frame *f, unsigned int indent)
 {
-	printf("%.*s%p (%s)", indent, space, f, f->GetLabel());
+	printf("%.*s%p (%s)", indent, space, f, f->GetLabel().c_str());
 	if (f->m_parent)
-		printf(" parent %p (%s)", f->m_parent, f->m_parent->GetLabel());
+		printf(" parent %p (%s)", f->m_parent, f->m_parent->GetLabel().c_str());
 	if (f->m_astroBody)
 		printf(" body %p (%s)", f->m_astroBody, f->m_astroBody->GetLabel().c_str());
 	if (Body *b = f->GetBodyFor())

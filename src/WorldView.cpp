@@ -490,7 +490,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		char buf[1024], aibuf[256];
 		vector3d pos = Pi::player->GetPosition();
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
-		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
+		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel().c_str() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
 		Pi::player->AIGetStatusText(aibuf); aibuf[255] = 0;
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
@@ -535,7 +535,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				rel_to = set_speed_target->GetLabel().c_str();
 				_vel = Pi::player->GetVelocityRelTo(set_speed_target).Length();
 			} else {
-				rel_to = Pi::player->GetFrame()->GetLabel();
+				rel_to = Pi::player->GetFrame()->GetLabel().c_str();
 				_vel = vel.Length();
 			}
 			if (_vel > 1000) {
