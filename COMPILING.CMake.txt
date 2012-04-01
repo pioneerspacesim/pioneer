@@ -27,5 +27,6 @@ Prerequisites:
 	- Makefile-based users: run "make"
 
 Notes:
-	- Linux/OSX users can alternatively run ./configure as usual. This will create "build" sub-directory.
+	- Linux/OSX users can alternatively run "./configure.sh". This is a shortchut to "mkdir build; cd build; cmake ..".
+		This may be renamed "configure" later on, to stick with common layout.
 	- MSVC users may need to run environment initialization batch (Generally "C:\Program Files\Microsoft Visual Studio xx.0\VC\vcvarsall.bat")

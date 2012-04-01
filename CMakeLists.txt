@@ -11,13 +11,13 @@
 # 		Version.h/.cpp allow to grab versionning of VersionNumber.h without recompiling the entire project.
 # - Same options as automake:
 #		--enable-debug: -DDEBUG
+#			Needs to think how to deal with actual (gcc/MSVC) "debug" configuration
 #		------ less important
 #		--with-gprof : CXXFlags = -pg
-#		has to test for the availbility of each warning flag and use them and not use ones that aren't there for C and C++ (different sets of flags)
-# 		AC_INIT([pioneer], [alpha-21-dev], [pioneer@pioneerspacesim.net])
-# 		AC_CONFIG_HEADERS([config.h])
+#			This can be done manually modifying the cmake cache or using cmake command line args
+#		has to test for the availbility of each warning flag (old compiler support)
 # - Test everything, especially compared to actual build systems.
-# - Write packaging code (to create distributions ZIP or installers).
+# - Write packaging code (to create distributions ZIP or installers or debian package).
 #		Please note the install autodetects dependencies (.so, .dll) and install them alongside the executable if needed.
 #		The install part should be okay, except for some MSVC system DLLs (MSVCRT...) which go in "/bin" instead of "/".
 # - Eventually write a PNG+zlib finder that handles debug builds (for MSVC, actually)
