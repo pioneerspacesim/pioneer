@@ -17,6 +17,7 @@ Alpha 21
        (non-catalogue) names (#1068)
      * Rear of Eagle ship now visible to player (#1125)
      * Removed tech levels (#1131)
+     * Added a grid to the modelviewer to help visualise model size (#1132)
 
    * Fixes
      * Don't take timesteps for dead ships. Stops the player firing during the
