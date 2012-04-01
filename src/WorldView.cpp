@@ -120,19 +120,7 @@ void WorldView::InitObject()
 	Gui::Screen::PopFont();
 #endif
 
-	m_hudVelocity = (new Gui::Label(""))->Color(s_hudTextColor);
-	m_hudTargetDist = (new Gui::Label(""))->Color(s_hudTextColor);
-	m_hudAltitude = (new Gui::Label(""))->Color(s_hudTextColor);
-	m_hudPressure = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_hudHyperspaceInfo = (new Gui::Label(""))->Color(s_hudTextColor);
-	m_hudVelocity->SetToolTip(Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);
-	m_hudTargetDist->SetToolTip(Lang::DISTANCE_FROM_SHIP_TO_NAV_TARGET);
-	m_hudAltitude->SetToolTip(Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
-	m_hudPressure->SetToolTip(Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
-	Add(m_hudVelocity, 170.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-65.0f);
-	Add(m_hudTargetDist, 500.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-65.0f);
-	Add(m_hudAltitude, 580.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-4.0f);
-	Add(m_hudPressure, 150.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-4.0f);
 	Add(m_hudHyperspaceInfo, Gui::Screen::GetWidth()*0.4f, Gui::Screen::GetHeight()*0.3f);
 
 	m_hudHullTemp = new Gui::MeterBar(100.0f, Lang::HULL_TEMP, Color(1.0f,0.0f,0.0f,0.8f));
@@ -365,6 +353,14 @@ void WorldView::RefreshHyperspaceButton() {
 
 void WorldView::RefreshButtonStateAndVisibility()
 {
+	Pi::cpan->ClearOverlay();
+	if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
+		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_LEFT,     Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);
+		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_RIGHT,    Lang::DISTANCE_FROM_SHIP_TO_NAV_TARGET);
+		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
+		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
+	}
+
 	if (!Pi::player || Pi::player->IsDead() || !Pi::game) {
 		HideAll();
 		return;
@@ -477,19 +473,15 @@ void WorldView::RefreshButtonStateAndVisibility()
 	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) {
 		const SystemPath dest = Pi::player->GetHyperspaceDest();
 		RefCountedPtr<StarSystem> s = StarSystem::GetCached(dest);
-		m_hudVelocity->SetText(stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
+
+		Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
 			formatarg("system", s->GetName()),
 			formatarg("x", dest.sectorX),
 			formatarg("y", dest.sectorY),
 			formatarg("z", dest.sectorZ)));
-		m_hudVelocity->Show();
 
-		m_hudTargetDist->SetText(stringf(Lang::PROBABILITY_OF_ARRIVAL_X_PERCENT,
+		Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, stringf(Lang::PROBABILITY_OF_ARRIVAL_X_PERCENT,
 			formatarg("probability", Pi::game->GetHyperspaceArrivalProbability()*100.0, "f3.1")));
-		m_hudTargetDist->Show();
-
-		m_hudAltitude->Hide();
-		m_hudPressure->Hide();
 	}
 
 	else {
@@ -510,17 +502,16 @@ void WorldView::RefreshButtonStateAndVisibility()
 			} else {
 				str = stringf(Lang::M_S_RELATIVE_TO, formatarg("speed", _vel), formatarg("frame", rel_to));
 			}
-			m_hudVelocity->SetText(str);
+			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, str);
 		}
 
 		if (Body *navtarget = Pi::player->GetNavTarget()) {
 			double dist = Pi::player->GetPositionRelTo(navtarget).Length();
-			m_hudTargetDist->SetText(stringf(Lang::N_DISTANCE_TO_TARGET,
+			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, stringf(Lang::N_DISTANCE_TO_TARGET,
 				formatarg("distance", format_distance(dist))));
-			m_hudTargetDist->Show();
 		}
 		else
-			m_hudTargetDist->Hide();
+			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, "");
 
 		// altitude
 		if (Pi::player->GetFrame()->m_astroBody) {
@@ -536,12 +527,11 @@ void WorldView::RefreshButtonStateAndVisibility()
 				radius = Pi::player->GetFrame()->m_astroBody->GetBoundingRadius();
 			}
 			double altitude = Pi::player->GetPosition().Length() - radius;
-			if (altitude > 9999999.0 || astro->IsType(Object::SPACESTATION)) {
-				m_hudAltitude->Hide();
-			} else {
+			if (altitude > 9999999.0 || astro->IsType(Object::SPACESTATION))
+				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+			else {
 				if (altitude < 0) altitude = 0;
-				m_hudAltitude->SetText(stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude)));
-				m_hudAltitude->Show();
+				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude)));
 			}
 
 			if (astro->IsType(Object::PLANET)) {
@@ -549,19 +539,17 @@ void WorldView::RefreshButtonStateAndVisibility()
 				double pressure, density;
 				reinterpret_cast<Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);
 
-				m_hudPressure->SetText(stringf(Lang::PRESSURE_N_BAR, formatarg("pressure", pressure)));
-				m_hudPressure->Show();
+				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_BAR, formatarg("pressure", pressure)));
 
 				m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
 				m_hudHullTemp->Show();
 			} else {
-				m_hudPressure->Hide();
+				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
 				m_hudHullTemp->Hide();
 			}
 		} else {
-			m_hudAltitude->Hide();
-			m_hudPressure->Hide();
-			m_hudHullTemp->Hide();
+			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
+			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
 		}
 
 		m_hudFuelGauge->SetValue(Pi::player->GetFuel());
