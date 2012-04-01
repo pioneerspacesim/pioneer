@@ -3,13 +3,19 @@
 
 #include "SmartPtr.h"
 
+namespace FileSystem { class FileSource; }
+
 struct SDL_Surface;
 
 class SDLSurfacePtr : public SmartPtrBase<SDLSurfacePtr, SDL_Surface> {
 	typedef SmartPtrBase<SDLSurfacePtr, SDL_Surface> base_type;
-public:
-	SDLSurfacePtr() {}
+private:
 	explicit SDLSurfacePtr(SDL_Surface *p): base_type(p) {}
+public:
+	static SDLSurfacePtr WrapNew(SDL_Surface *p) { return SDLSurfacePtr(p); }
+	static SDLSurfacePtr WrapCopy(SDL_Surface *p) { if (p) { p->refcount += 1; } return SDLSurfacePtr(p); }
+
+	SDLSurfacePtr() {}
 	SDLSurfacePtr(const SDLSurfacePtr& b): base_type(b.Get())
 	{ if (this->m_ptr) this->m_ptr->refcount += 1; }
 	~SDLSurfacePtr() { SDL_FreeSurface(this->Release()); }
@@ -18,5 +24,8 @@ public:
 
 	bool Unique() const { assert(this->m_ptr); return (this->m_ptr->refcount == 1); }
 };
+
+SDLSurfacePtr LoadSurfaceFromFile(const std::string &fname, FileSystem::FileSource &source);
+SDLSurfacePtr LoadSurfaceFromFile(const std::string &fname);
 
 #endif
