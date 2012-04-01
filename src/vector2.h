@@ -1,6 +1,7 @@
 #ifndef _VECTOR2_H
 #define _VECTOR2_H
 
+#include <cmath>
 #include "FloatComparison.h"
 
 class vector2f {
@@ -27,6 +28,20 @@ public:
 
 	friend vector2f operator*(const vector2f &v, const float &a) { return vector2f(v.x*a, v.y*a); }
 	friend vector2f operator*(const float &a, const vector2f &v) { return v*a; }
+	friend vector2f operator/(const vector2f &v, const float &a) { return vector2f(v.x/a, v.y/a); }
+
+	float Length() const { return sqrt(x*x + y*y); }
+	float LengthSqr() const { return x*x + y*y; }
+	vector2f Normalized() const { const float invlen = 1.0f / sqrt(x*x + y*y); return vector2f(x*invlen, y*invlen); }
+	vector2f NormalizedSafe() const {
+		const float lenSqr = x*x + y*y;
+		if (lenSqr < 1e-18) // sqrt(lenSqr) < 1e-9
+			return vector2f(1,0);
+		else {
+			const float invlen = sqrt(lenSqr);
+			return vector2f(x/invlen, y/invlen);
+		}
+	}
 };
 
 #endif
