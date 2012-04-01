@@ -261,9 +261,9 @@ static int l_spacestation_get_equipment_price(lua_State *l)
 }
 
 /*
- * Attribute: DockingBayCount
+ * Attribute: numDocks
  *
- * The number of docking bays a spacestation has
+ * The number of docking ports a spacestation has.
  *
  * Availability:
  *
@@ -273,7 +273,7 @@ static int l_spacestation_get_equipment_price(lua_State *l)
  *
  *   experimental
  */
-static int l_spacestation_docking_bay_count(lua_State *l)
+static int l_spacestation_attr_num_docks(lua_State *l)
 {
 	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
 	lua_pushinteger(l, s->GetDockingPortCount());
@@ -301,7 +301,7 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 	};
 
 	static luaL_reg l_attrs[] = {
-		{ "numDocks", l_spacestation_docking_bay_count },
+		{ "numDocks", l_spacestation_attr_num_docks },
 
 		{ 0, 0 }
 	};
