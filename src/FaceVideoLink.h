@@ -38,7 +38,7 @@ public:
 		GENDER_FEMALE = (1<<1),
 		GENDER_MASK   = 0x03,
 
-		ARMOUR        = (1<<2),
+		ARMOUR        = (1<<2)
 	};
 
     Uint32 GetFlags() const { return m_flags; }

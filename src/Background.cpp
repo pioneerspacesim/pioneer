@@ -210,7 +210,7 @@ Container::Container()
 Container::Container(unsigned long seed)
 {
 	Refresh(seed);
-};
+}
 
 void Container::Refresh(unsigned long seed)
 {
@@ -233,4 +233,4 @@ void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) 
 	glPopMatrix();
 }
 
-}; //namespace Background
+} //namespace Background

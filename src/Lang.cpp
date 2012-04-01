@@ -12,7 +12,7 @@ namespace Lang {
 // XXX we're allocating half a KB for each translatable string
 // that's... not very nice (though I guess it "doesn't matter" with virtual memory and multi-GB of RAM)
 static const int STRING_RECORD_SIZE = 512;
-#define DECLARE_STRING(x) char x[STRING_RECORD_SIZE];
+#define DECLARE_STRING(x) char x[STRING_RECORD_SIZE]
 #include "LangStrings.inc.h"
 #undef DECLARE_STRING
 
@@ -31,7 +31,7 @@ static token_map s_token_map;
 
 static struct init_string_helper_class {
 	init_string_helper_class() {
-#define DECLARE_STRING(x)  s_token_map.insert(std::make_pair(#x, Lang::x)); Lang::x[0] = '\0';
+#define DECLARE_STRING(x)  s_token_map.insert(std::make_pair(#x, Lang::x)); Lang::x[0] = '\0'
 #include "LangStrings.inc.h"
 #undef DECLARE_STRING
 	}
@@ -191,7 +191,7 @@ static void ResetStringData()
 {
 	const char *badstring = "<badstring>";
 	size_t sz = strlen(badstring) + 1;
-#define DECLARE_STRING(x) memcpy(Lang::x, badstring, sz);
+#define DECLARE_STRING(x) memcpy(Lang::x, badstring, sz)
 #include "LangStrings.inc.h"
 #undef DECLARE_STRING
 }

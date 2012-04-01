@@ -211,13 +211,13 @@ namespace FileSystem {
 		}
 
 		bool founddir = false;
-		//size_t headsize = output.size();
+		size_t headsize = output.size();
 
 		std::vector<FileInfo> merged;
 		for (std::vector<FileSource*>::const_iterator
 			it = m_sources.begin(); it != m_sources.end(); ++it)
 		{
-			//size_t prevsize = output.size();
+			size_t prevsize = output.size();
 			assert(prevsize >= headsize);
 			std::vector<FileInfo> temp1;
 			if ((*it)->ReadDirectory(path, temp1))
