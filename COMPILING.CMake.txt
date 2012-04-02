@@ -70,6 +70,6 @@ configure.ac             CMake variable
 ** Other notes **
 - Changing version is made by changing SET(${PROJECT_NAME}_MAJOR_VERSION ...) in CMakeLists.txt and lines following it.
 - Packaging:
-	- As a ZIP: simply make the "PACKAGE" target (to be tested)
+	- As a ZIP: simply make the "PACKAGE" target
 	- As a Debian package: NOT ready yet in CMake scripts
 	- As a Windows installer: NOT ready yet in CMake scripts

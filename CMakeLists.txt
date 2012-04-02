@@ -5,18 +5,31 @@
 #   - For Sukender's part (new code, and code coming from PVLE): WTFPL v2
 #   - For code coming from OSG: LGPL v2
 
-# Current status of these CMake scripts: pre-alpha (Linux and OSX have not been tested, lots of features are missing)
-# TODO:
-# - Replace PIONEER_VERSION / PIONEER_EXTRAVERSION usage with Version.h.
-# 		Version.h/.cpp allow to grab versionning of VersionNumber.h without recompiling the entire project.
+# Current status of these CMake scripts: alpha (OSX has not been tested, still missing features)
+# High priority tasks:
 # - Test everything, especially compared to actual build systems.
 #		Test Pioneer_FORCE_NO_OPTIMISE / _FORCE_DEBUG_BUILD with gcc
 # 		Build system has to test for the availbility of each warning flag (old compiler support). This SHOULD be done automatically by CMake, but this hasn't been tested.
-# - Write packaging code (to create distributions ZIP or installers or debian package).
-#		Please note the install autodetects dependencies (.so, .dll) and install them alongside the executable if needed.
-#		The install part should be okay, except for some MSVC system DLLs (MSVCRT...) which go in "/bin" instead of "/".
-# - Eventually write a PNG+zlib finder that handles debug builds (for MSVC, actually)
-# - _USE_EXTERNAL_LUA_LIB (--with-external-liblua)
+#		OSX configure/builds/packaging
+# - Replace PIONEER_VERSION / PIONEER_EXTRAVERSION usage with Version.h.
+# 		Version.h/.cpp allow to grab versionning of VersionNumber.h without recompiling the entire project.
+#
+# Low priority tasks:
+# - Packaging:
+#		Notes:
+#			Please note the install autodetects dependencies (.so, .dll) and install them alongside the executable if needed.
+#			ZIP packaging works
+#		Known bug(s):
+#			INSTALL copies some MSVC DLLs (MSVCRT...) in "/bin" instead of "/"
+#		To do:
+#			7z / tar.bz2 packaging, if possible
+#			Debian package
+# - Write a PNG+zlib finder that handles debug builds (for MSVC, actually)
+# - Pioneer_USE_EXTERNAL_LUA_LIB option (equivalent of --with-external-liblua)
+# - Interfacing with CDash, to report builds
+#		This should be adressed AFTER CMake scripts are stable.
+#		CDash main server is free for open source, limited to 10 daily builds and 3 users. Else you may either pay (!) or install CDash on your own server (open source/free project).
+# - Prepare unit testing projects, with CTest so that it links with CDash reprting
 #
 # Date where build scripts have been successfully tested:
 #  Linux-gcc    32   2012-03-31 (Brianetta - or was it 64bits???)
@@ -62,6 +75,7 @@ find_path(TMP_GIT_CONFIG_FILE config PATHS "${PROJECT_SOURCE_DIR}/.git")		# Try 
 if (TMP_GIT_CONFIG_FILE)
 	set(IS_WORKING_COPY ON)
 	OPTION(${PROJECT_NAME}_BYPASS_REVISION_RETREIVAL "Set to ON to use skip getting the current revision from the GIT repository if you find it too slow." OFF)
+	mark_as_advanced(${PROJECT_NAME}_BYPASS_REVISION_RETREIVAL)
 	find_package(Git)
 	if (NOT ${PROJECT_NAME}_BYPASS_REVISION_RETREIVAL)
 		if (GIT_FOUND)		# AND NOT GIT_SHA
@@ -369,7 +383,7 @@ IF (BUILD_UNIT_TESTS AND BUILD_TESTING)
 ENDIF()
 
 
-OPTION(BUILD_UNIT_TESTS "Build ${PROJECT_NAME} tests" ON)
+OPTION(BUILD_UNIT_TESTS "Build ${PROJECT_NAME} unit tests. This adds some projects to the build tree, containing unit tests." ON)
 MACRO( ADD_UNIT_TEST projectName )
 	FOREACH(CURCONFIG ${CMAKE_CONFIGURATION_TYPES})
 		GET_TARGET_PROPERTY( testExecutable ${projectName} LOCATION_${CURCONFIG} )
