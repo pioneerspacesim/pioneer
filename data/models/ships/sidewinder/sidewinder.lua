@@ -793,7 +793,7 @@ define_model('rattlesnake', {
 			texture(nil)
 			use_material('glow')
 			xref_ring(2*lod, v(2.5,0,5), v(2.5,4,5), v(0,0,1), .5)
-			billboard('smoke.png',7,v(1.2,1,.8), {v(2.5,.75,4.49), v(-2.5,.75,4.49), v(2.5,1.75,4.49), v(-2.5,1.75,4.49),
+			billboard('light.png',7,v(1.2,1,.8), {v(2.5,.75,4.49), v(-2.5,.75,4.49), v(2.5,1.75,4.49), v(-2.5,1.75,4.49),
 			v(2.5,2.75,4.49), v(-2.5,2.75,4.49)})
 
 			-- MT nazzles

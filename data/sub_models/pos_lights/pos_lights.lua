@@ -28,7 +28,7 @@ define_model('posl_green', {
 					if lod > 1 then
 						set_material('green', 0, .85, 0, 1, 0, 0, 0, 0, 0, .85, 0)
 					end
-					billboard('smoke.png', 2,  v(0,.85,0), { v(0, 0.12, 0) })
+					billboard('light.png', 2,  v(0,.85,0), { v(0, 0.12, 0) })
 				end
 			end
 		end
@@ -59,7 +59,7 @@ define_model('posl_red', {
 					if lod > 1 then
 						set_material('red', .9, 0, 0, 1, 0, 0, 0, 0, .9, 0, 0)
 					end
-					billboard('smoke.png', 2,  v(1,0,0), { v(0, 0.12, 0) })
+					billboard('light.png', 2,  v(1,0,0), { v(0, 0.12, 0) })
 				end
 			end
 		end
@@ -90,7 +90,7 @@ define_model('posl_white', {
 					if lod > 1 then
 						set_material('blue_white', .8, .85, 1, 1, 0, 0, 0, 0, .7, .75, 1)
 					end
-					billboard('smoke.png', 2,  v(.7,.75,1), { v(0, 0.12, 0) })
+					billboard('light.png', 2,  v(.7,.75,1), { v(0, 0.12, 0) })
 				end
 			end
 		end
@@ -122,7 +122,7 @@ define_model('coll_warn', {
 						if lod > 1 then
 							set_material('blue_white', .8, .85, 1, 1, 0, 0, 0, 0, .7, .75, 1)
 						end
-						billboard('smoke.png', 2,  v(.7,.75,1), { v(0, 0.12, 0) })
+						billboard('light.png', 2,  v(.7,.75,1), { v(0, 0.12, 0) })
 					end
 				end
 			end
@@ -152,7 +152,7 @@ define_model('headlight', {
 				if lod > 1 then
 					set_material('white', .9, .95, 1, 1, 0, 0, 0, 0, .8, .85, 1)
 				end
-				billboard('smoke.png', 2,  v(.8,.85,1), { v(0, 0.12, 0) })
+				billboard('light.png', 2,  v(.8,.85,1), { v(0, 0.12, 0) })
 			end
 		end
 	end

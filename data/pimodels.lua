@@ -150,7 +150,7 @@ define_model('test', {
 
 		local ang = 2*math.pi*get_animation_position('WHEEL_STATE')
 		--call_model("blob", v(0,0,-20), v(1,0,0), v(1,1,0),1.0)
-		billboard('smoke.png', 5, v(.5,.5,1), { v(0,0,0), v(10,3,0) })
+		billboard('light.png', 5, v(.5,.5,1), { v(0,0,0), v(10,3,0) })
 	end
 })
 
@@ -246,4 +246,3 @@ define_model('cargo', {
 		end
 	end
 })
-

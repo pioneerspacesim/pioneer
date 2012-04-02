@@ -56,7 +56,7 @@ define_model('eye_0', {
 			call_model('coll_warn', v(13.555,3.25,0), v(1,0,0), v(0,-1,0), 2)
 			call_model('posl_red', v(-15.9,5.2,0), v(0,1,0), v(-1,.2,0), 2)
 			call_model('coll_warn', v(-13.555,3.25,0), v(1,0,0), v(0,-1,0), 2)
-			billboard('smoke.png',10, v(.8,.9,1), {v(13.55,5.712,-4.5),v(-13.55,5.712,-4.5)})
+			billboard('light.png',10, v(.8,.9,1), {v(13.55,5.712,-4.5),v(-13.55,5.712,-4.5)})
 		end
 
 	end,

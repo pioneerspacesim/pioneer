@@ -23,7 +23,7 @@ define_model('lathed_tower', {
 					math.abs(noise(5*(i+1),0,0))*3+5)
 			end
 		end
-		billboard('smoke.png', 8, v(1,1,1), { v(0, 111, 0) })
+		billboard('light.png', 8, v(1,1,1), { v(0, 111, 0) })
 	end,
 })
 --]]
