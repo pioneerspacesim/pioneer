@@ -142,11 +142,14 @@ void Starfield::Draw(Graphics::Renderer *renderer, Camera *camera)
 				time = float(Pi::game->GetTime())*20.0;
 				
 				double temperature = double(s->averageTemp);
-				// set the amount of twinkling to decrease with height and be proportional to temp, rad, and surf den
-				effect = Clamp(pow((1.0-(std::min(height-s->GetRadius(),3000.0)/3000.0)),0.3)
-					*(surfaceDensity/1.0)*(temperature/EARTH_AVG_SURFACE_TEMPERATURE)*(s->GetRadius()/EARTH_RADIUS),0.0,1.0);
 
-				if (effect > 0.05){// turn on twinkling if effect is large enough
+				double radiusRatio = (s->GetRadius()/EARTH_RADIUS);
+
+				// set the amount of twinkling to decrease with height and be proportional to temp, rad, and surf den
+				effect = Clamp(pow((1.0-(std::min(height-s->GetRadius(),3000.0*radiusRatio)/(3000.0*radiusRatio))),0.3)
+					*(surfaceDensity/1.0)*(temperature/EARTH_AVG_SURFACE_TEMPERATURE),0.0,1.0);
+
+				if ((effect > 0.05) && (brightness > 0.1)){// turn on twinkling if effect is large enough 
 					twinkling = 1;
 				}
 				

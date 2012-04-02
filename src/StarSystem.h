@@ -10,7 +10,6 @@
 #include "DeleteEmitter.h"
 #include "RefCounted.h"
 #include "SystemPath.h"
-//#include "Planet.h"
 
 class CustomSBody;
 class CustomSystem;

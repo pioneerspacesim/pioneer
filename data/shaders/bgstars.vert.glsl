@@ -1,11 +1,16 @@
+//http://stackoverflow.com/questions/4200224/random-noise-functions-for-glsl
+
 float noise2dtrig(vec2 x){
     return abs(fract(sin(dot(x.xy ,vec2(12.9898,78.233))) * 43758.5453));
 }
+
 
 uniform float brightness;
 uniform float time;
 uniform bool twinkling;
 uniform float effect;
+
+
 
 void main(void)
 {
@@ -14,9 +19,11 @@ void main(void)
 #else
 	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 #endif
+
 	float starSize = pow(gl_Color.r,4.0);
 	float b = 1.0;
 	if (twinkling){
+		
  		//create an id for each star
 		float p = (dot(vec3(gl_Vertex),vec3((20.0/1000.0))));
 		//p = permute(p);
