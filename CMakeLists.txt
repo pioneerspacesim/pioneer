@@ -7,7 +7,9 @@
 
 # Current status of these CMake scripts: alpha (still missing features)
 # High priority tasks:
-# - XCode project does find GL/glew.h
+# - XCode project does find GL/glew.h (Dessimat0r configuration). System paths are:
+#		usr/include/GL/glew.h
+#		usr/include/GL/GL/glew.h
 # - Test everything, especially compared to actual build systems.
 #		Test Pioneer_FORCE_NO_OPTIMISE / _FORCE_DEBUG_BUILD with gcc
 # 		Build system has to test for the availbility of each warning flag (old compiler support). This SHOULD be done automatically by CMake, but this hasn't been tested.
