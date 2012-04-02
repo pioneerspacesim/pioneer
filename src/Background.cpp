@@ -84,7 +84,9 @@ void Starfield::Draw(Graphics::Renderer *renderer, Camera *camera)
 	if (AreShadersEnabled()) {
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 
-		double brightness=1.0;
+		double brightness=1.0; int twinkling = 0; 
+		float time = 0.0;
+		double effect = 0.0;
 		double light = 1.0; // light intensity relative to earths
 		
 		if (Pi::player&&camera){ // check camera exists in case in intro screen
@@ -136,16 +138,30 @@ void Starfield::Draw(Graphics::Renderer *renderer, Camera *camera)
 				opticalThicknessFraction = pow(std::max(0.00001,opticalThicknessFraction),0.15); //max needed to avoid 0^power
 				// brightness depends on optical depth and intensity of light from all the stars
 				brightness = Clamp(1.0-(opticalThicknessFraction*light),0.0,1.0);
+
+				time = float(Pi::game->GetTime())*20.0;
+				
+				double temperature = double(s->averageTemp);
+				// set the amount of twinkling to decrease with height and be proportional to temp, rad, and surf den
+				effect = Clamp(pow((1.0-(std::min(height-s->GetRadius(),3000.0)/3000.0)),0.3)
+					*(surfaceDensity/1.0)*(temperature/EARTH_AVG_SURFACE_TEMPERATURE)*(s->GetRadius()/EARTH_RADIUS),0.0,1.0);
+
+				if (effect > 0.05){// turn on twinkling if effect is large enough
+					twinkling = 1;
+				}
+				
 				//debug
 				static int i = 0;
-				if (double(i)/60.0 > 1.0) {printf("brightness %f, height %f,surface density %f,density %f, otp %f, light %f\n",brightness,height-s->GetRadius(),surfaceDensity,density,opticalThicknessFraction,light);i = 0;}i++;
+				if (double(i)/60.0 > 1.0) {printf("brightness %f, height %f,surface density %f,density %f, otp %f, light %f, time %f, effect %f\n",brightness,height-s->GetRadius(),surfaceDensity,density,opticalThicknessFraction,light,time,effect);i = 0;}i++;
 				}
 			}
 
 		}
-		//}
-		//brightness = 1.0;
+		
 		m_shader->Use();
+		m_shader->SetUniform("twinkling", int(twinkling));
+		m_shader->SetUniform("time", float(time));
+		m_shader->SetUniform("effect", float(effect));
 		m_shader->SetUniform("brightness", float(brightness));
 
 		
