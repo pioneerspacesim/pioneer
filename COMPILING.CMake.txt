@@ -1,5 +1,9 @@
+---------------------------------
 HOW-TO Start building using CMake
 ---------------------------------
+
+Quick start
+-----------
 
 Let's say you have source code in "SOURCE_DIR".
 
@@ -30,3 +34,40 @@ Notes:
 	- Linux/OSX users can alternatively run "./configure.sh". This is a shortchut to "mkdir build; cd build; cmake ..".
 		This may be renamed "configure" later on, to stick with common layout.
 	- MSVC users may need to run environment initialization batch (Generally "C:\Program Files\Microsoft Visual Studio xx.0\VC\vcvarsall.bat")
+
+
+Autotools users
+---------------
+
+If you are/were an user of "configure.ac", please read the following notes.
+
+** Configurations **
+Building a "Debug" build is not the same as using the --enable-debug option. It's more like "--enable-debug --with-no-optimise". These options have an equivalent in CMake to stick with configure.ac.
+However CMake behave a bit differently. So prefer using "configurations".
+To enable a given configuration for make-based builds (ie. not MSVC/XCode), you may either:
+	- Enter its name in CMAKE_BUILD_TYPE (empty value defaults to "Release")
+	- Invoke CMake with the appropriate option ("cmake -DCMAKE_BUILD_TYPE=Debug") TODO CHECK THIS
+Configurations are:
+	- Debug: no optimisation, debug information, debug build (-DDEBUG).
+		Closest options: --enable-debug --with-no-optimise
+	- Release: optimisation (-O3 for gcc), no debug information, release build.
+		Closest options: (none)
+	- ReleWithDebInfo: optimisation (-O2 for gcc), debug information, release build.
+		Closest options: --enable-debug
+	- MinSizeRel: optimisation for small executable (-Os), no debug information, release build.
+Please note the ReleWithDebInfo is usually *not* a debug build (-DDEBUG) withing CMake. This is specific to the Pioneer project, to stick with configure.ac.
+
+** Options equivalence table **
+configure.ac             CMake variable
+--with-no-optimise       Pioneer_FORCE_NO_OPTIMISE
+--enable-debug           Pioneer_FORCE_DEBUG_BUILD
+--with-fno-inline        Pioneer_
+--with-gprof             Add "-pg" in CMAKE_CXX_FLAGS (and optionally in CMAKE_C_FLAGS)
+--with-external-liblua   N/A (Doesn't exist yet)
+
+** Other notes **
+- Changing version is made by changing SET(${PROJECT_NAME}_MAJOR_VERSION ...) and lines following it.
+- Packaging:
+	- As a ZIP: simply make the "PACKAGE" target (to be tested)
+	- As a Debian package: NOT ready yet in CMake scripts
+	- As a Windows installer: NOT ready yet in CMake scripts

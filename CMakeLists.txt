@@ -9,19 +9,13 @@
 # TODO:
 # - Replace PIONEER_VERSION / PIONEER_EXTRAVERSION usage with Version.h.
 # 		Version.h/.cpp allow to grab versionning of VersionNumber.h without recompiling the entire project.
-# - Same options as automake:
-#		--enable-debug: -DDEBUG
-#			Needs to think how to deal with actual (gcc/MSVC) "debug" configuration
-#		------ less important
-#		--with-gprof : CXXFlags = -pg
-#			This can be done manually modifying the cmake cache or using cmake command line args
-#		has to test for the availbility of each warning flag (old compiler support)
 # - Test everything, especially compared to actual build systems.
+#		Test Pioneer_FORCE_NO_OPTIMISE / _FORCE_DEBUG_BUILD with gcc
+# 		Build system has to test for the availbility of each warning flag (old compiler support). This SHOULD be done automatically by CMake, but this hasn't been tested.
 # - Write packaging code (to create distributions ZIP or installers or debian package).
 #		Please note the install autodetects dependencies (.so, .dll) and install them alongside the executable if needed.
 #		The install part should be okay, except for some MSVC system DLLs (MSVCRT...) which go in "/bin" instead of "/".
 # - Eventually write a PNG+zlib finder that handles debug builds (for MSVC, actually)
-# - Add a "configure" script to create "build" subdir, and run cmake. The script should warn about an existing "build" subdir and stop processing.
 # - _USE_EXTERNAL_LUA_LIB (--with-external-liblua)
 #
 # Date where build scripts have been successfully tested:
@@ -200,8 +194,9 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 	endif()
 endif()
 
+
 #########################################################################
-# -fno-inline and -O0
+# Macros for compatibility options with configure.ac
 
 MACRO(ADD_FLAG FLAG)
 	IF(NOT CMAKE_CXX_FLAGS MATCHES "${FLAG}")
@@ -216,6 +211,25 @@ MACRO(REMOVE_FLAG FLAG)
 	STRING(REGEX REPLACE "${FLAG}" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 ENDMACRO()
 
+MACRO(ADD_FLAG_CONFIG CONFIG FLAG)
+	STRING(TOUPPER "${CONFIG}" CONFIG_UPPER)
+	IF(NOT CMAKE_CXX_FLAGS_${CONFIG_UPPER} MATCHES "${FLAG}")
+		SET(CMAKE_CXX_FLAGS_${CONFIG_UPPER} "${CMAKE_CXX_FLAGS_${CONFIG_UPPER}} ${FLAG}")
+	ENDIF()
+	IF(NOT CMAKE_C_FLAGS_${CONFIG_UPPER} MATCHES "${FLAG}")
+		SET(CMAKE_C_FLAGS_${CONFIG_UPPER} "${CMAKE_C_FLAGS_${CONFIG_UPPER}} ${FLAG}")
+	ENDIF()
+ENDMACRO()
+MACRO(REMOVE_FLAG_CONFIG CONFIG FLAG)
+	STRING(TOUPPER "${CONFIG}" CONFIG_UPPER)
+	STRING(REGEX REPLACE "${FLAG}" "" CMAKE_CXX_FLAGS_${CONFIG_UPPER} "${CMAKE_CXX_FLAGS_${CONFIG_UPPER}}")
+	STRING(REGEX REPLACE "${FLAG}" "" CMAKE_C_FLAGS_${CONFIG_UPPER} "${CMAKE_C_FLAGS_${CONFIG_UPPER}}")
+ENDMACRO()
+
+
+#########################################################################
+# -fno-inline
+
 if(CMAKE_COMPILER_IS_GNUCXX)
 	OPTION(${PROJECT_NAME}_USE_fno-inline "Set to ON to use -fno-inline option." OFF)
 	if (${PROJECT_NAME}_USE_fno-inline)
@@ -224,17 +238,17 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 #########################################################################
-# No optimise
+# No optimise (-O0)
 
-OPTION(${PROJECT_NAME}_FORCE_NO_OPTIMISE "Set to ON to force disabling optimizations, whatever the build type." OFF)
+OPTION(${PROJECT_NAME}_FORCE_NO_OPTIMISE "Set to ON to force disabling optimizations, whatever the build type. Compatibility option for --with-no-optimise." OFF)
 if(${PROJECT_NAME}_FORCE_NO_OPTIMISE)
 	if(CMAKE_COMPILER_IS_GNUCXX)
-		REMOVE_FLAG("-Os")
-		REMOVE_FLAG("-Ofast")
-		REMOVE_FLAG("-O1")
-		REMOVE_FLAG("-O2")
-		REMOVE_FLAG("-O3")
-		ADD_FLAG("-O0")
+		REMOVE_FLAG("\\\\-Os")
+		REMOVE_FLAG("\\\\-Ofast")
+		REMOVE_FLAG("\\\\-O1")
+		REMOVE_FLAG("\\\\-O2")
+		REMOVE_FLAG("\\\\-O3")
+		ADD_FLAG("\\\\-O0")
 	elseif(MSVC)
 		REMOVE_FLAG("/O1")
 		REMOVE_FLAG("/O2")
@@ -250,6 +264,47 @@ if(${PROJECT_NAME}_FORCE_NO_OPTIMISE)
 		message("Cannot apply ${PROJECT_NAME}_FORCE_NO_OPTIMISE for your compiler (not implemented)")
 	endif()
 endif()
+
+# message("DEBUG message - CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
+
+#########################################################################
+# Debug things
+
+# Setup default DEBUG/NDEBUG flags, as they differ from CMake's default:
+#   1. Replace NDEBUG with DEBUG for RelWithDebugInfo
+#	2. Add DEBUG for Debug (Note: MSVC has "_DEBUG" by default)
+if(CMAKE_COMPILER_IS_GNUCXX)
+	REMOVE_FLAG_CONFIG(RELWITHDEBINFO "\\\\-DNDEBUG")
+	ADD_FLAG_CONFIG(RELWITHDEBINFO "-DDEBUG")
+	ADD_FLAG_CONFIG(DEBUG "-DDEBUG")
+elseif(MSVC)
+	REMOVE_FLAG_CONFIG(RELWITHDEBINFO "/D NDEBUG")
+	ADD_FLAG_CONFIG(RELWITHDEBINFO "/D DEBUG")
+	ADD_FLAG_CONFIG(DEBUG "/D DEBUG")
+else()
+	message("Cannot setup DEBUG flags for your compiler (not implemented)")
+endif()
+
+
+# Add FORCE_DEBUG_BUILD option
+OPTION(${PROJECT_NAME}_FORCE_DEBUG_BUILD "Set to ON to force 'DEBUG' preprocessor definition. Compatibility option for --enable-debug." OFF)
+if(${PROJECT_NAME}_FORCE_DEBUG_BUILD)
+	if(CMAKE_COMPILER_IS_GNUCXX)
+		FOREACH(CURCONFIG ${CMAKE_CONFIGURATION_TYPES})
+			REMOVE_FLAG_CONFIG(CURCONFIG "\\\\-DNDEBUG")
+		ENDFOREACH()
+	elseif(MSVC)
+		FOREACH(CURCONFIG ${CMAKE_CONFIGURATION_TYPES})
+			REMOVE_FLAG_CONFIG(${CURCONFIG} "/D NDEBUG")
+		ENDFOREACH()
+	else()
+		message("Cannot ensure ${PROJECT_NAME}_FORCE_DEBUG_BUILD for your compiler (not implemented)")
+	endif()
+	ADD_DEFINITIONS("-DDEBUG")		# Adds for all targets, all configuration. Will not be visible in CMAKE_CXX_FLAGS* variables
+endif()
+
+# message("DEBUG message - CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
+# message("DEBUG message - CMAKE_CXX_FLAGS_RELWITHDEBINFO: ${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
 
 #########################################################################
 # Make the headers visible to everything
