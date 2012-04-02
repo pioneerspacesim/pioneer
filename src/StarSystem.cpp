@@ -501,7 +501,6 @@ SBody::BodySuperType SBody::GetSuperType() const
              fprintf( stderr, "Warning: Invalid SuperBody Type found.\n");
              return SUPERTYPE_NONE;
 	}
-    //return SUPERTYPE_NONE;
 }
 
 std::string SBody::GetAstroDescription()
@@ -637,7 +636,6 @@ std::string SBody::GetAstroDescription()
         fprintf( stderr, "Warning: Invalid Astro Body Description found.\n");
         return Lang::UNKNOWN;
 	}
-    //return Lang::UNKNOWN;
 }
 
 const char *SBody::GetIcon()
@@ -765,7 +763,6 @@ const char *SBody::GetIcon()
         fprintf( stderr, "Warning: Invalid body icon.\n");
 		return 0;
 	}
-    //return 0;
 }
 
 /*
