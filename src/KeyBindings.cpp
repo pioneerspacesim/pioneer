@@ -18,15 +18,16 @@ KeyAction thrustUp;
 KeyAction thrustDown;
 KeyAction thrustLeft;
 KeyAction thrustRight;
+KeyAction thrustLowPower;
 KeyAction increaseSpeed;
 KeyAction decreaseSpeed;
 KeyAction fireLaser;
-KeyAction fastRotate;
 KeyAction targetObject;
 KeyAction toggleLuaConsole;
 KeyAction toggleScanMode;
 KeyAction increaseScanRange;
 KeyAction decreaseScanRange;
+KeyAction toggleHudMode;
 
 AxisBinding pitchAxis;
 AxisBinding rollAxis;
@@ -189,7 +190,6 @@ const BindingPrototype bindingProtos[] = {
 	{ Lang::TARGET_OBJECT_IN_SIGHTS, "BindTargetObject", &targetObject, 0 },
 	{ Lang::FIRE_LASER, "BindFireLaser", &fireLaser, 0 },
 	{ Lang::SHIP_ORIENTATION, 0, 0, 0 },
-	{ Lang::FAST_ROTATION_CONTROL, "BindFastRotate", &fastRotate, 0 },
 	{ Lang::PITCH_UP, "BindPitchUp", &pitchUp, 0 },
 	{ Lang::PITCH_DOWN, "BindPitchDown", &pitchDown, 0 },
 	{ Lang::YAW_LEFT, "BindYawLeft", &yawLeft, 0 },
@@ -203,6 +203,7 @@ const BindingPrototype bindingProtos[] = {
 	{ Lang::THRUSTER_DORSAL, "BindThrustDown", &thrustDown, 0 },
 	{ Lang::THRUSTER_PORT, "BindThrustLeft", &thrustLeft, 0 },
 	{ Lang::THRUSTER_STARBOARD, "BindThrustRight", &thrustRight, 0 },
+	{ Lang::USE_LOW_THRUST, "BindThrustLowPower", &thrustLowPower, 0 },
 	{ Lang::SPEED_CONTROL_MODE, 0, 0, 0 },
 	{ Lang::INCREASE_SET_SPEED, "BindIncreaseSpeed", &increaseSpeed, 0 },
 	{ Lang::DECREASE_SET_SPEED, "BindDecreaseSpeed", &decreaseSpeed, 0 },
@@ -211,6 +212,7 @@ const BindingPrototype bindingProtos[] = {
 	{ Lang::INCREASE_SCAN_RANGE, "BindIncreaseScanRange", &increaseScanRange, 0 },
 	{ Lang::DECREASE_SCAN_RANGE, "BindDecreaseScanRange", &decreaseScanRange, 0 },
 	{ Lang::TOGGLE_LUA_CONSOLE, "BindToggleLuaConsole", &toggleLuaConsole, 0 },
+	{ Lang::TOGGLE_HUD_MODE, "BindToggleHudMode", &toggleHudMode, 0 },
 	{ 0, 0, 0, 0 },
 };
 
@@ -411,15 +413,16 @@ void UpdateBindings()
 	InitKeyBinding(KeyBindings::thrustDown, "BindThrustDown", SDLK_o);
 	InitKeyBinding(KeyBindings::thrustLeft, "BindThrustLeft", SDLK_j);
 	InitKeyBinding(KeyBindings::thrustRight, "BindThrustRight", SDLK_l);
+	InitKeyBinding(KeyBindings::thrustLowPower, "BindThrustLowPower", SDLK_LSHIFT);
 	InitKeyBinding(KeyBindings::increaseSpeed, "BindIncreaseSpeed", SDLK_RETURN);
 	InitKeyBinding(KeyBindings::decreaseSpeed, "BindDecreaseSpeed", SDLK_RSHIFT);
-	InitKeyBinding(KeyBindings::targetObject, "BindTargetObject", SDLK_TAB);
+	InitKeyBinding(KeyBindings::targetObject, "BindTargetObject", SDLK_t);
 	InitKeyBinding(KeyBindings::fireLaser, "BindFireLaser", SDLK_SPACE);
-	InitKeyBinding(KeyBindings::fastRotate, "BindFastRotate", SDLK_LSHIFT);
 	InitKeyBinding(KeyBindings::toggleScanMode, "BindToggleScanMode", SDLK_BACKSLASH);
 	InitKeyBinding(KeyBindings::increaseScanRange, "BindIncreaseScanRange", SDLK_RIGHTBRACKET);
 	InitKeyBinding(KeyBindings::decreaseScanRange, "BindDecreaseScanRange", SDLK_LEFTBRACKET);
 	InitKeyBinding(KeyBindings::toggleLuaConsole, "BindToggleLuaConsole", SDLK_BACKQUOTE);
+	InitKeyBinding(KeyBindings::toggleHudMode, "BindToggleHudMode", SDLK_TAB);
 
 	InitAxisBinding(KeyBindings::pitchAxis, "BindAxisPitch", "-Joy0Axis1");
 	InitAxisBinding(KeyBindings::rollAxis, "BindAxisRoll", "Joy0Axis2");
