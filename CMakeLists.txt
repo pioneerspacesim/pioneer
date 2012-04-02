@@ -22,8 +22,9 @@
 #		Known bug(s):
 #			INSTALL copies some MSVC DLLs (MSVCRT...) in "/bin" instead of "/"
 #		To do:
-#			7z / tar.bz2 packaging, if possible
+#			7z packaging for Windows, if possible
 #			Debian package
+#			DMG packaging
 # - Write a PNG+zlib finder that handles debug builds (for MSVC, actually)
 # - Pioneer_USE_EXTERNAL_LUA_LIB option (equivalent of --with-external-liblua)
 # - Interfacing with CDash, to report builds
