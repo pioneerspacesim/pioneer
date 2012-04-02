@@ -14,7 +14,7 @@ public:
 
 	virtual void SubRender(Graphics::Renderer *r, const vector3d &camPos);
 
-	void GetAtmosphericState(double dist, double *outPressure, double *outDensity);
+	void GetAtmosphericState(double dist, double *outPressure, double *outDensity) const;
 
 #if WITH_OBJECTVIEWER
 	friend class ObjectViewerView;

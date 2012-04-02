@@ -14,9 +14,9 @@ namespace Gui {
 		void DrawOutdent(const float size[2]);
 		void DrawHollowRect(const float size[2]);
 		namespace Colors {
-			extern const float bg[];
-			extern const float bgShadow[];
-			extern const float tableHeading[];
+			extern const Color bg;
+			extern const Color bgShadow;
+			extern const Color tableHeading;
 		}
 	}
 

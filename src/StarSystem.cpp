@@ -504,7 +504,7 @@ SBody::BodySuperType SBody::GetSuperType() const
     return SUPERTYPE_NONE;
 }
 
-std::string SBody::GetAstroDescription()
+std::string SBody::GetAstroDescription() const
 {
 	switch (type) {
 	case TYPE_BROWN_DWARF: return Lang::BROWN_DWARF;
@@ -640,7 +640,7 @@ std::string SBody::GetAstroDescription()
     return Lang::UNKNOWN;
 }
 
-const char *SBody::GetIcon()
+const char *SBody::GetIcon() const
 {
 	switch (type) {
 	case TYPE_BROWN_DWARF: return "icons/object_brown_dwarf.png";

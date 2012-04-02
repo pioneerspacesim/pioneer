@@ -19,8 +19,6 @@
 #include "graphics/Shader.h"
 #include "graphics/TextureBuilder.h"
 
-static const std::string ecmTextureFilename("textures/ecm.png");
-
 #define TONS_HULL_PER_SHIELD 10.0f
 
 void SerializableEquipSet::Save(Serializer::Writer &wr)
@@ -1192,7 +1190,7 @@ void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 
 		// XXX no need to recreate material every time
 		Graphics::Material mat;
-		mat.texture0 = Graphics::TextureBuilder::Model(ecmTextureFilename).GetOrCreateTexture(Pi::renderer, "model");
+		mat.texture0 = Graphics::TextureBuilder::Model("textures/ecm.png").GetOrCreateTexture(Pi::renderer, "model");
 		mat.unlit = true;
 		mat.diffuse = c;
 		renderer->DrawPointSprites(100, v, &mat, 50.f);

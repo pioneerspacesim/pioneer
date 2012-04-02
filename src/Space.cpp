@@ -109,28 +109,28 @@ void Space::Serialize(Serializer::Writer &wr)
 		(*i)->Serialize(wr, this);
 }
 
-Frame *Space::GetFrameByIndex(Uint32 idx)
+Frame *Space::GetFrameByIndex(Uint32 idx) const
 {
 	assert(m_frameIndexValid);
 	assert(m_frameIndex.size() > idx);
 	return m_frameIndex[idx];
 }
 
-Body *Space::GetBodyByIndex(Uint32 idx)
+Body *Space::GetBodyByIndex(Uint32 idx) const
 {
 	assert(m_bodyIndexValid);
 	assert(m_bodyIndex.size() > idx);
 	return m_bodyIndex[idx];
 }
 
-SBody *Space::GetSBodyByIndex(Uint32 idx)
+SBody *Space::GetSBodyByIndex(Uint32 idx) const
 {
 	assert(m_sbodyIndexValid);
 	assert(m_sbodyIndex.size() > idx);
 	return m_sbodyIndex[idx];
 }
 
-Uint32 Space::GetIndexForFrame(const Frame *frame)
+Uint32 Space::GetIndexForFrame(const Frame *frame) const
 {
 	assert(m_frameIndexValid);
 	for (Uint32 i = 0; i < m_frameIndex.size(); i++)
@@ -139,7 +139,7 @@ Uint32 Space::GetIndexForFrame(const Frame *frame)
 	return Uint32(-1);
 }
 
-Uint32 Space::GetIndexForBody(const Body *body)
+Uint32 Space::GetIndexForBody(const Body *body) const
 {
 	assert(m_bodyIndexValid);
 	for (Uint32 i = 0; i < m_bodyIndex.size(); i++)
@@ -148,7 +148,7 @@ Uint32 Space::GetIndexForBody(const Body *body)
 	return Uint32(-1);
 }
 
-Uint32 Space::GetIndexForSBody(const SBody *sbody)
+Uint32 Space::GetIndexForSBody(const SBody *sbody) const
 {
 	assert(m_sbodyIndexValid);
 	for (Uint32 i = 0; i < m_sbodyIndex.size(); i++)
@@ -246,7 +246,7 @@ void Space::KillBody(Body* b)
 	}
 }
 
-vector3d Space::GetHyperspaceExitPoint(const SystemPath &source)
+vector3d Space::GetHyperspaceExitPoint(const SystemPath &source) const
 {
 	assert(m_starSystem);
 	assert(source.IsSystemPath());
@@ -265,11 +265,11 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source)
 	return (sourcePos - destPos).Normalized() * 11.0*AU + MathUtil::RandomPointOnSphere(5.0,20.0)*1000.0; // "hyperspace zone": 11 AU from primary
 }
 
-Body *Space::FindNearestTo(const Body *b, Object::Type t)
+Body *Space::FindNearestTo(const Body *b, Object::Type t) const
 {
 	Body *nearest = 0;
 	double dist = FLT_MAX;
-	for (std::list<Body*>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
+	for (std::list<Body*>::const_iterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
 		if ((*i)->IsDead()) continue;
 		if ((*i)->IsType(t)) {
 			double d = (*i)->GetPositionRelTo(b).Length();
@@ -282,7 +282,7 @@ Body *Space::FindNearestTo(const Body *b, Object::Type t)
 	return nearest;
 }
 
-Body *Space::FindBodyForPath(const SystemPath *path)
+Body *Space::FindBodyForPath(const SystemPath *path) const
 {
 	// it is a bit dumb that currentSystem is not part of Space...
 	SBody *body = m_starSystem->GetBodyByPath(path);
@@ -309,7 +309,7 @@ static Frame *find_frame_with_sbody(Frame *f, const SBody *b)
 	return 0;
 }
 
-Frame *Space::GetFrameWithSBody(const SBody *b)
+Frame *Space::GetFrameWithSBody(const SBody *b) const
 {
 	return find_frame_with_sbody(m_rootFrame.Get(), b);
 }
@@ -695,9 +695,9 @@ static char space[256];
 
 static void DebugDumpFrame(const Frame *f, unsigned int indent)
 {
-	printf("%.*s%p (%s)", indent, space, f, f->GetLabel());
+	printf("%.*s%p (%s)", indent, space, f, f->GetLabel().c_str());
 	if (f->m_parent)
-		printf(" parent %p (%s)", f->m_parent, f->m_parent->GetLabel());
+		printf(" parent %p (%s)", f->m_parent, f->m_parent->GetLabel().c_str());
 	if (f->m_astroBody)
 		printf(" body %p (%s)", f->m_astroBody, f->m_astroBody->GetLabel().c_str());
 	if (Body *b = f->GetBodyFor())

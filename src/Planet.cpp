@@ -41,7 +41,7 @@ Planet::Planet(SBody *sbody): TerrainBody(sbody)
  * dist = distance from centre
  * returns pressure in earth atmospheres
  */
-void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDensity)
+void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDensity) const
 {
 	Color c;
 	double surfaceDensity;
@@ -132,19 +132,18 @@ static GasGiantDef_t ggdefs[] = {
 
 #define PLANET_AMBIENT	0.1f
 
-static void DrawRing(double inner, double outer, const float color[4], Renderer *r, const Material &mat)
+static void DrawRing(double inner, double outer, const Color &color, Renderer *r, const Material &mat)
 {
 	float step = 0.1f / (Pi::detail.planets + 1);
 
 	VertexArray vts(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL);
 	const vector3f normal(0.f, 1.f, 0.f);
-	const Color c(color[0], color[1], color[2], color[3]);
 	for (float ang=0; ang<2*M_PI; ang+=step) {
-		vts.Add(vector3f(float(inner)*sin(ang), 0.f, float(inner)*cos(ang)), c, normal);
-		vts.Add(vector3f(float(outer)*sin(ang), 0.f, float(outer)*cos(ang)), c, normal);
+		vts.Add(vector3f(float(inner)*sin(ang), 0.f, float(inner)*cos(ang)), color, normal);
+		vts.Add(vector3f(float(outer)*sin(ang), 0.f, float(outer)*cos(ang)), color, normal);
 	}
-	vts.Add(vector3f(0.f, 0.f, float(inner)), c, normal);
-	vts.Add(vector3f(0.f, 0.f, float(outer)), c, normal);
+	vts.Add(vector3f(0.f, 0.f, float(inner)), color, normal);
+	vts.Add(vector3f(0.f, 0.f, float(outer)), color, normal);
 
 	r->DrawTriangles(&vts, &mat, TRIANGLE_STRIP);
 }
@@ -164,7 +163,6 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 
 //	MTRand rng((int)Pi::game->GetTime());
 	MTRand rng(GetSBody()->seed+965467);
-	float col[4];
 
 	double noiseOffset = 256.0*rng.Double();
 	float baseCol[4];
@@ -186,10 +184,7 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 					noise(10.0*rpos, noiseOffset, 0.0) +
 					0.5*noise(20.0*rpos, noiseOffset, 0.0) +
 					0.25*noise(40.0*rpos, noiseOffset, 0.0));
-			col[0] = baseCol[0] * n;
-			col[1] = baseCol[1] * n;
-			col[2] = baseCol[2] * n;
-			col[3] = baseCol[3] * n;
+			Color col(baseCol[0] * n, baseCol[1] * n, baseCol[2] * n, baseCol[3] * n);
 			DrawRing(rpos, rpos+size, col, renderer, mat);
 			rpos += size;
 		}
@@ -266,7 +261,7 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 		}
 		for (int i=0; i<3; i++) _col[i] = _col[i] * col[i];
 		_col[3] = col[3];
-		vts.Add(vector3f(r1.x, r1.y, r1.z), Color(_col), n);
+		vts.Add(vector3f(r1.x, r1.y, r1.z), Color(_col[0], _col[1], _col[2], _col[3]), n);
 		vts.Add(vector3f(r2.x, r2.y, r2.z), Color(0.f), n);
 		r1 = rot * r1;
 		r2 = rot * r2;

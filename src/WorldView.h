@@ -26,7 +26,6 @@ public:
 	virtual void Draw();
 	virtual void OnSwitchTo();
 	static const double PICK_OBJECT_RECT_SIZE;
-	bool GetShowLabels() { return m_labelsOn; }
 	void DrawBgStars();
 	virtual void Save(Serializer::Writer &wr);
 	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL, CAM_SIDEREAL };
@@ -59,14 +58,10 @@ private:
 	};
 
 	struct Indicator {
-		float pos[2];
+		vector2f pos;
 		IndicatorSide side;
 		Gui::Label *label;
-		Indicator() {
-			pos[0] = pos[1] = 0;
-			side = INDICATOR_HIDDEN;
-			label = 0;
-		}
+		Indicator(): pos(0.0f, 0.0f), side(INDICATOR_HIDDEN), label(0) {}
 	};
 	
 	void UpdateProjectedObjects();
@@ -80,7 +75,6 @@ private:
 	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c);
 	void DrawTargetSquare(const Indicator &marker, const Color &c);
 	void DrawVelocityIndicator(const Indicator &marker, const Color &c);
-	void DrawCircleIndicator(const Indicator &marker, const Color &c);
 	void DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c);
 	void DrawEdgeMarker(const Indicator &marker, const Color &c);
 
