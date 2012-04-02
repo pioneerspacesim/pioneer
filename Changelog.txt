@@ -56,7 +56,7 @@ Alpha 21
      * Remove renderer dependencies on Pi and utils (#1071)
      * Pack font glyphs into a single texture for faster text rendering (#1106,
        #1084, #1107)
-     * Split world cameras out of WorldView (#1113)
+     * Split world cameras out of WorldView (#1113, #1145)
      * Use a fixed version and proper CRC for the model cache (#1119)
      * Moved ship control code out of Player and Worldview into a new set of
        ShipController classes (#1083, #1129)
