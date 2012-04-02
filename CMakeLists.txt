@@ -5,7 +5,7 @@
 #   - For Sukender's part (new code, and code coming from PVLE): WTFPL v2
 #   - For code coming from OSG: LGPL v2
 
-# Current status of these CMake scripts: alpha (still missing features)
+# Current status of these CMake scripts: alpha (still bugs/tests to perform/missing features)
 # High priority tasks:
 # - XCode project does find GL/glew.h (Dessimat0r's configuration). System paths are:
 #		usr/include/GL/glew.h
@@ -14,6 +14,8 @@
 #		Test Pioneer_FORCE_NO_OPTIMISE / _FORCE_DEBUG_BUILD with gcc
 # 		Build system has to test for the availbility of each warning flag (old compiler support). This SHOULD be done automatically by CMake, but this hasn't been tested.
 #		XCode builds
+#		Try the ccache thing. On my (Sukender) Ubuntu Linux, ccache comes with symlinks but I'm not 100% sure it will work everywhere.
+#		Try with an old compiler, to ensure it doesn't complain about unsupported compile flags
 # - Replace PIONEER_VERSION / PIONEER_EXTRAVERSION usage with Version.h.
 # 		Version.h/.cpp allow to grab versionning of VersionNumber.h without recompiling the entire project.
 #
@@ -30,13 +32,15 @@
 # - Interfacing with CDash, to report builds
 #		This should be adressed AFTER CMake scripts are stable.
 #		CDash main server is free for open source, limited to 10 daily builds and 3 users. Else you may either pay (!) or install CDash on your own server (open source/free project).
-# - Prepare unit testing projects, with CTest so that it links with CDash reprting
+# - Prepare unit testing projects, with CTest so that it links with CDash reporting
 #
 # Date where build scripts have been successfully tested:
 #  Linux-gcc    32   2012-03-31 (Brianetta - or was it 64bits???)
 #  Linux-gcc    64   never
 #  OSX-gcc      32   never
 #  OSX-gcc      64   2012-04-02 (Dessimat0r)
+#  OSX-XCode    32   never
+#  OSX-XCode    64   failed (Dessimat0r)
 #  Windows-gcc  32   never
 #  Windows-gcc  64   never
 #  Windows-msvc 32   2012-03-31 (Sukender)
