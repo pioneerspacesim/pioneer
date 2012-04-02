@@ -7,13 +7,13 @@
 
 # Current status of these CMake scripts: alpha (still missing features)
 # High priority tasks:
-# - XCode project does find GL/glew.h (Dessimat0r configuration). System paths are:
+# - XCode project does find GL/glew.h (Dessimat0r's configuration). System paths are:
 #		usr/include/GL/glew.h
 #		usr/include/GL/GL/glew.h
 # - Test everything, especially compared to actual build systems.
 #		Test Pioneer_FORCE_NO_OPTIMISE / _FORCE_DEBUG_BUILD with gcc
 # 		Build system has to test for the availbility of each warning flag (old compiler support). This SHOULD be done automatically by CMake, but this hasn't been tested.
-#		OSX configure/builds/packaging
+#		XCode builds
 # - Replace PIONEER_VERSION / PIONEER_EXTRAVERSION usage with Version.h.
 # 		Version.h/.cpp allow to grab versionning of VersionNumber.h without recompiling the entire project.
 #
@@ -21,9 +21,10 @@
 # - Packaging:
 #		Please note the install autodetects dependencies (.so, .dll) and install them alongside the executable if needed (option: Pioneer_INSTALL_DEPENDENCIES).
 #		To do:
-#			7z packaging for Windows, if possible
+#			7z packaging for Windows, if possible (May be useless if NSIS is available?)
 #			Debian package
 #			DMG (OSX) packaging - Work in progress
+#				Possible issue: the packager utility may not locate pioneer-logo.icns and executables
 # - Write a PNG+zlib finder that handles debug builds (for MSVC, actually)
 # - Pioneer_USE_EXTERNAL_LUA_LIB option (equivalent of --with-external-liblua)
 # - Interfacing with CDash, to report builds
@@ -35,7 +36,7 @@
 #  Linux-gcc    32   2012-03-31 (Brianetta - or was it 64bits???)
 #  Linux-gcc    64   never
 #  OSX-gcc      32   never
-#  OSX-gcc      64   never
+#  OSX-gcc      64   2012-04-02 (Dessimat0r)
 #  Windows-gcc  32   never
 #  Windows-gcc  64   never
 #  Windows-msvc 32   2012-03-31 (Sukender)
@@ -528,6 +529,11 @@ IF(CMAKE_CPACK_COMMAND)
 			Quickstart.txt
 			README.txt
 			DESTINATION ".")
+
+		if(APPLE)
+			# Not sure this is useful, even for DMG packaging
+			INSTALL(FILES "osx/pioneer-logo.icns" DESTINATION ".")
+		endif()
 
 		# Add directories to pack
 		#PACK_DATA_DIR("${${PROJECT_NAME}_DATA_DIR}" ON)		# You may comment it to speed up install process by skipping data. This helps debugging but you'll need to uncomment it afterwards :)
