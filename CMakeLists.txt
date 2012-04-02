@@ -16,15 +16,11 @@
 #
 # Low priority tasks:
 # - Packaging:
-#		Notes:
-#			Please note the install autodetects dependencies (.so, .dll) and install them alongside the executable if needed.
-#			ZIP packaging works
-#		Known bug(s):
-#			INSTALL copies some MSVC DLLs (MSVCRT...) in "/bin" instead of "/"
+#		Please note the install autodetects dependencies (.so, .dll) and install them alongside the executable if needed (option: Pioneer_INSTALL_DEPENDENCIES).
 #		To do:
 #			7z packaging for Windows, if possible
 #			Debian package
-#			DMG packaging
+#			DMG (OSX) packaging - Work in progress
 # - Write a PNG+zlib finder that handles debug builds (for MSVC, actually)
 # - Pioneer_USE_EXTERNAL_LUA_LIB option (equivalent of --with-external-liblua)
 # - Interfacing with CDash, to report builds
@@ -516,7 +512,7 @@ IF(CMAKE_CPACK_COMMAND)
 			DESTINATION ".")
 
 		# Add directories to pack
-		PACK_DATA_DIR("${${PROJECT_NAME}_DATA_DIR}" ON)		# You may comment it to speed up install process by skipping data. This helps debugging but you'll need to uncomment it afterwards :)
+		#PACK_DATA_DIR("${${PROJECT_NAME}_DATA_DIR}" ON)		# You may comment it to speed up install process by skipping data. This helps debugging but you'll need to uncomment it afterwards :)
 
     ENDIF()
 ENDIF()

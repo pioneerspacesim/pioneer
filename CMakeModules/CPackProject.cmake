@@ -10,7 +10,7 @@ if(UNIX)
 elseif(WIN32)
 	set(DEFAULT_GENERATOR "ZIP")		# Should be 7z, but not supported within CMake for now
 elseif(APPLE)
-	set(DEFAULT_GENERATOR "PackageMaker")		# Or OSXX11? Or anything else? To be tested! I (Sukender) have absolutely zero knowledge about OSX packaging.
+	set(DEFAULT_GENERATOR "OSXX11")		# PackageMaker or other stuff could be used there.
 endif()
 
 # Expose CPACK_GENERATOR to the cache
@@ -25,7 +25,20 @@ mark_as_advanced(CPACK_GENERATOR)
 #endif()
 
 # Trivial ZIP-like config:
-SET(PACKAGE_NAME ${PROJECT_NAME})
+SET(PACKAGE_NAME "${PROJECT_NAME}")
 SET(CPACK_INSTALL_CMAKE_PROJECTS "${PROJECT_BINARY_DIR};${PACKAGE_NAME};ALL;/")
 SET(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-v${${PROJECT_NAME}_VERSION}-${CMAKE_SYSTEM_NAME}")
 INCLUDE(CPack)
+
+# Installer/bundle
+if(WIN32)
+	set(CPACK_PACKAGE_ICON "data/appIcon/Pioneer.ico")
+else()
+	set(CPACK_PACKAGE_ICON "data/appIcon/Pioneer256.png")
+endif()
+
+# TODO: Bundle confirguration
+set(CPACK_BUNDLE_NAME "${PROJECT_NAME}")
+set(CPACK_BUNDLE_ICON "${CPACK_PACKAGE_ICON}")
+#set(CPACK_BUNDLE_PLIST
+set(CPACK_BUNDLE_STARTUP_COMMAND "pioneer")
