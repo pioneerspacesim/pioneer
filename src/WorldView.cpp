@@ -1598,8 +1598,8 @@ void WorldView::DrawCircleIndicator(const Indicator &marker, const Color &c)
 		std::vector<vector2f> vts;
 		for (int i = 0; i < 72; i++) {
 			vts.push_back(vector2f(
-				posx+sinf(DEG2RAD(i*5))*sz,
-				posy+cosf(DEG2RAD(i*5))*sz));
+				posx+sinf(DEG2RAD(i*5.f))*sz,
+				posy+cosf(DEG2RAD(i*5.f))*sz));
 		}
 		m_renderer->DrawLines2D(72, &vts[0], c, Graphics::LINE_LOOP);
 	} else

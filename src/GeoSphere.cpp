@@ -1327,7 +1327,7 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 	glTranslated(-campos.x, -campos.y, -campos.z);
 	Frustum frustum = Frustum::FromGLState();
 
-	const float atmosRadius = ATMOSPHERE_RADIUS;
+	const float atmosRadius = static_cast<float>(ATMOSPHERE_RADIUS);
 	
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value

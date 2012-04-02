@@ -295,6 +295,8 @@ public:
 	static inline T *CheckFromLua(int index) {
 		return dynamic_cast<T*>(LuaObject<UT>::CheckFromLua(index));
 	}
+private:
+	LuaObjectUncopyable() {}		// Avoids a compile warning
 };
 
 #endif

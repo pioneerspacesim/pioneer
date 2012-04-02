@@ -46,5 +46,5 @@ double TerrainHeightFractal<TerrainHeightHillsNormal>::GetHeight(const vector3d 
 	if (continents < 0.01) n += m * continents * 100.0f;
 	else n += m;
 	return (n > 0.0 ? n*m_maxHeight : 0.0); 
-	return 0.0;
+	//return 0.0;
 }
