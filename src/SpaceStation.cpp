@@ -557,7 +557,7 @@ void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 	}
 }
 
-int SpaceStation::GetFreeDockingPort()
+int SpaceStation::GetFreeDockingPort() const
 {
 	for (int i=0; i<m_type->numDockingPorts; i++) {
 		if (m_shipDocking[i].ship == 0) {

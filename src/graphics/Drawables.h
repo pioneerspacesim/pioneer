@@ -17,7 +17,7 @@ protected:
 	virtual void Draw(Renderer *r) = 0;
 };
 
-class Circle {
+class Circle : public Drawable {
 public:
 	Circle(float radius, const Color &c) : m_color(c) {
 		for (float theta=0; theta < 2*M_PI; theta += 0.05*M_PI) {
@@ -55,7 +55,7 @@ public:
 	Sphere3D(RefCountedPtr<Material> material, int subdivisions=0, float scale=1.f);
 	virtual void Draw(Renderer *r);
 
-	RefCountedPtr<Material> GetMaterial() { return m_surface->GetMaterial(); }
+	RefCountedPtr<Material> GetMaterial() const { return m_surface->GetMaterial(); }
 
 private:
 	ScopedPtr<Surface> m_surface;
