@@ -28,7 +28,7 @@ class LmrModel : public Model {
 public:
 	LmrModel(const char *model_name);
 	virtual ~LmrModel();
-	virtual void Render(const matrix4x4f &trans, const LmrObjParams *params);
+	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, const LmrObjParams *params);
 	void Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params);
 	virtual CollMesh *CreateCollisionMesh(const LmrObjParams *p);
 	void GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params);

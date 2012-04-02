@@ -1163,7 +1163,7 @@ void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 	params.flightState = m_flightState;
 
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-	RenderLmrModel(viewCoords, viewTransform);
+	RenderLmrModel(renderer, viewCoords, viewTransform);
 
 	// draw shield recharge bubble
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {

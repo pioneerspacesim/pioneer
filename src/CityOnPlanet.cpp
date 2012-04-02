@@ -308,7 +308,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const SpaceStation *station, co
 		_rot[12] = float(pos.x);
 		_rot[13] = float(pos.y);
 		_rot[14] = float(pos.z);
-		(*i).model->Render(_rot, &cityobj_params);
+		(*i).model->Render(r, _rot, &cityobj_params);
 	}
 }
 

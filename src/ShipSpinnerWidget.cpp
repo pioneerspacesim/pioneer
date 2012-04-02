@@ -76,5 +76,5 @@ void ShipSpinnerWidget::Draw()
 	rot.RotateY(rot2);
 	rot[14] = -1.5f * m_model->GetDrawClipRadius();
 
-	m_model->Render(rot, &m_params);
+	m_model->Render(Pi::renderer, rot, &m_params);
 }

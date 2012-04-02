@@ -1204,7 +1204,7 @@ bool LmrModel::HasTag(const char *tag) const
 	return has_tag;
 }
 
-void LmrModel::Render(const matrix4x4f &trans, const LmrObjParams *params)
+void LmrModel::Render(Graphics::Renderer *r, const matrix4x4f &trans, const LmrObjParams *params)
 {
 	RenderState rstate;
 	rstate.subTransform = matrix4x4f::Identity();

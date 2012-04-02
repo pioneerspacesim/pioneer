@@ -8,6 +8,7 @@
 #include "WorldView.h"
 #include "Serializer.h"
 #include "collider/collider.h"
+#include "graphics/Renderer.h"
 
 ModelBody::ModelBody() :
 	Body(),
@@ -158,7 +159,7 @@ void ModelBody::TriMeshUpdateLastPos(const matrix4x4d &currentTransform)
 	m_geom->MoveTo(currentTransform);
 }
 
-void ModelBody::RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void ModelBody::RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d t = viewTransform * GetInterpolatedTransform();
 	matrix4x4f trans;
@@ -168,5 +169,5 @@ void ModelBody::RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &vie
 	trans[14] = viewCoords.z;
 	trans[15] = 1.0f;
 
-	m_model->Render(trans, &m_params);
+	m_model->Render(r, trans, &m_params);
 }

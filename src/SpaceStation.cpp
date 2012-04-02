@@ -785,7 +785,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const vector3d &viewCoords, con
 		params.animValues[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stagePos;
 	}
 
-	RenderLmrModel(viewCoords, viewTransform);
+	RenderLmrModel(r, viewCoords, viewTransform);
 	
 	/* don't render city if too far away */
 	if (viewCoords.Length() > 1000000.0) return;

@@ -59,5 +59,5 @@ void CargoBody::Render(Graphics::Renderer *r, const vector3d &viewCoords, const 
 {
 	if (!IsEnabled()) return;
 	GetLmrObjParams().label = Equip::types[m_type].name;
-	RenderLmrModel(viewCoords, viewTransform);
+	RenderLmrModel(r, viewCoords, viewTransform);
 }

@@ -236,7 +236,7 @@ public:
 		delete m_cmesh;
 
 		m_cmesh = new LmrCollMesh(m_model, &g_params);
-		m_geom = new Geom(m_cmesh->geomTree);
+		m_geom = new Geom(m_cmesh->GetGeomTree());
 		m_space->AddGeom(m_geom);
 	}
 
@@ -315,7 +315,7 @@ void Viewer::SetModel(LmrModel *model)
 
 	// construct geometry
 	m_cmesh = new LmrCollMesh(m_model, &g_params);
-	m_geom = new Geom(m_cmesh->geomTree);
+	m_geom = new Geom(m_cmesh->GetGeomTree());
 	m_space->AddGeom(m_geom);
 }
 
@@ -540,9 +540,9 @@ void Viewer::MainLoop()
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
 			if (g_doBenchmark) {
-				for (int i=0; i<1000; i++) m_model->Render(m, &g_params);
+				for (int i=0; i<1000; i++) m_model->Render(renderer, m, &g_params);
 			} else {
-				m_model->Render(m, &g_params);
+				m_model->Render(renderer, m, &g_params);
 			}
 			glPopAttrib();
 		} else if (g_renderType == 1) {
