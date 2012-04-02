@@ -82,6 +82,6 @@ template<class T> inline const T& Clamp(const T& x, const T& min, const T& max) 
 //template <typename T>
 //inline T DEG2RAD(T x) { return static_cast<T>(M_PI)/static_cast<T>(180.); }
 inline double DEG2RAD(double x) { return x*(M_PI/180.); }
-inline float  DEG2RAD(float  x) { return x*(static_cast<float>(M_PI)/180.f); }
+inline float  DEG2RAD(float  x) { return x*(float(M_PI)/180.f); }
 
 #endif /* _LIBS_H */

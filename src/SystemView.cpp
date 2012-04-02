@@ -186,7 +186,7 @@ void SystemView::PutBody(SBody *b, vector3d offset)
 		mat.diffuse = Color(1.f);
 		const double radius = b->GetRadius() * m_zoom;
 		const vector3f offsetf(offset);
-		for (float ang=0; ang<2.0f*static_cast<float>(M_PI); ang+=static_cast<float>(M_PI)*0.05f) {
+		for (float ang=0; ang<2.0f*float(M_PI); ang+=float(M_PI)*0.05f) {
 			vector3f p = offsetf + s_invRot * vector3f(radius*sin(ang), -radius*cos(ang), 0);
 			va.Add(p);
 		}

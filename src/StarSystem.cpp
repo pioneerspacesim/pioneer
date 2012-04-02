@@ -1043,7 +1043,7 @@ void StarSystem::MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand)
 	a->orbit.semiMajorAxis = AU * (a->semiMajorAxis * a0).ToDouble();
 	a->orbit.period = 60*60*24*365* a->semiMajorAxis.ToDouble() * sqrt(a->semiMajorAxis.ToDouble() / m.ToDouble());
 	
-	const float rotX = -0.5f*static_cast<float>(M_PI);//(float)(rand.Double()*M_PI/2.0);
+	const float rotX = -0.5f*float(M_PI);//(float)(rand.Double()*M_PI/2.0);
 	const float rotY = static_cast<float>(rand.Double(M_PI));
 	a->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY) * matrix4x4d::RotateXMatrix(rotX);
 	b->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY-M_PI) * matrix4x4d::RotateXMatrix(rotX);

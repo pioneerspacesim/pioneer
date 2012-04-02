@@ -20,7 +20,7 @@ protected:
 class Circle {
 public:
 	Circle(float radius, const Color &c) : m_color(c) {
-		for (float theta=0; theta < 2*static_cast<float>(M_PI); theta += 0.05f*static_cast<float>(M_PI)) {
+		for (float theta=0; theta < 2*float(M_PI); theta += 0.05f*float(M_PI)) {
 			m_verts.push_back(vector3f(radius*sin(theta), radius*cos(theta), 0));
 		}
 	}
