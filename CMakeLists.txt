@@ -5,8 +5,9 @@
 #   - For Sukender's part (new code, and code coming from PVLE): WTFPL v2
 #   - For code coming from OSG: LGPL v2
 
-# Current status of these CMake scripts: alpha (OSX has not been tested, still missing features)
+# Current status of these CMake scripts: alpha (still missing features)
 # High priority tasks:
+# - XCode project does find GL/glew.h
 # - Test everything, especially compared to actual build systems.
 #		Test Pioneer_FORCE_NO_OPTIMISE / _FORCE_DEBUG_BUILD with gcc
 # 		Build system has to test for the availbility of each warning flag (old compiler support). This SHOULD be done automatically by CMake, but this hasn't been tested.
@@ -192,7 +193,10 @@ ENDIF()
 # ccache
 
 #if(NOT WIN32)
-if(CMAKE_COMPILER_IS_GNUCXX)
+if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
+	if (NOT CMAKE_COMPILER_IS_GNUCXX)
+		#message(STATUS "...warning...")
+	endif()
 	OPTION(${PROJECT_NAME}_USE_ccache "Set to ON to use ccache to compile." OFF)
 	if (${PROJECT_NAME}_USE_ccache)
 		find_package(ccache QUIET)
@@ -241,7 +245,10 @@ ENDMACRO()
 #########################################################################
 # -fno-inline
 
-if(CMAKE_COMPILER_IS_GNUCXX)
+if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
+	if (NOT CMAKE_COMPILER_IS_GNUCXX)
+		#message(STATUS "...warning...")
+	endif()
 	OPTION(${PROJECT_NAME}_USE_fno-inline "Set to ON to use -fno-inline option." OFF)
 	if (${PROJECT_NAME}_USE_fno-inline)
 		ADD_FLAG("-fno-inline")
@@ -253,7 +260,10 @@ endif()
 
 OPTION(${PROJECT_NAME}_FORCE_NO_OPTIMISE "Set to ON to force disabling optimizations, whatever the build type. Compatibility option for --with-no-optimise." OFF)
 if(${PROJECT_NAME}_FORCE_NO_OPTIMISE)
-	if(CMAKE_COMPILER_IS_GNUCXX)
+	if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
+		if (NOT CMAKE_COMPILER_IS_GNUCXX)
+			#message(STATUS "...warning...")
+		endif()
 		REMOVE_FLAG("\\\\-Os")
 		REMOVE_FLAG("\\\\-Ofast")
 		REMOVE_FLAG("\\\\-O1")
@@ -284,7 +294,10 @@ endif()
 # Setup default DEBUG/NDEBUG flags, as they differ from CMake's default:
 #   1. Replace NDEBUG with DEBUG for RelWithDebugInfo
 #	2. Add DEBUG for Debug (Note: MSVC has "_DEBUG" by default)
-if(CMAKE_COMPILER_IS_GNUCXX)
+if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
+	if (NOT CMAKE_COMPILER_IS_GNUCXX)
+		#message(STATUS "...warning...")
+	endif()
 	REMOVE_FLAG_CONFIG(RELWITHDEBINFO "\\\\-DNDEBUG")
 	ADD_FLAG_CONFIG(RELWITHDEBINFO "-DDEBUG")
 	ADD_FLAG_CONFIG(DEBUG "-DDEBUG")
@@ -300,7 +313,10 @@ endif()
 # Add FORCE_DEBUG_BUILD option
 OPTION(${PROJECT_NAME}_FORCE_DEBUG_BUILD "Set to ON to force 'DEBUG' preprocessor definition. Compatibility option for --enable-debug." OFF)
 if(${PROJECT_NAME}_FORCE_DEBUG_BUILD)
-	if(CMAKE_COMPILER_IS_GNUCXX)
+	if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
+		if (NOT CMAKE_COMPILER_IS_GNUCXX)
+			#message(STATUS "...warning...")
+		endif()
 		FOREACH(CURCONFIG ${CMAKE_CONFIGURATION_TYPES})
 			REMOVE_FLAG_CONFIG(CURCONFIG "\\\\-DNDEBUG")
 		ENDFOREACH()

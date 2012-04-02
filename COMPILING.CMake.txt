@@ -25,7 +25,7 @@ Prerequisites:
 
 ** Quick start, using command-line **
 - Create and go to SOURCE_DIR/build.
-- Type "cmake .."
+- Type "cmake ..". Alternatively, you can specify a build type (Ex: "cmake -G Xcode ..")
 - Go to SOURCE_DIR/build, and use your build system.
 	- MSVC users: Simply double-click the ".sln" file.
 	- Makefile-based users: run "make"
@@ -69,7 +69,9 @@ configure.ac             CMake variable
 
 ** Other notes **
 - Changing version is made by changing SET(${PROJECT_NAME}_MAJOR_VERSION ...) in CMakeLists.txt and lines following it.
-- Packaging:
-	- As a ZIP: simply make the "PACKAGE" target
+- Packaging (make the "PACKAGE" target for this):
+	- As a .tar.bz2 (Linux): works
+	- As a .zip (Windows): works
+	- As an OSX DMG package: This is work-in-progress and suerly require some debugging.
 	- As a Debian package: NOT ready yet in CMake scripts
 	- As a Windows installer: NOT ready yet in CMake scripts

@@ -37,8 +37,11 @@ else()
 	set(CPACK_PACKAGE_ICON "data/appIcon/Pioneer256.png")
 endif()
 
-# TODO: Bundle confirguration
+# Bundle confirguration
+set(EXECUTABLE_NAME "pioneer")
+set(PRODUCT_NAME "${PROJECT_NAME}")
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/osx/pioneer/pioneer-Info.plist.in" "${PROJECT_BINARY_DIR}/Info.plist")
 set(CPACK_BUNDLE_NAME "${PROJECT_NAME}")
 set(CPACK_BUNDLE_ICON "${CPACK_PACKAGE_ICON}")
-#set(CPACK_BUNDLE_PLIST
+set(CPACK_BUNDLE_PLIST "${PROJECT_BINARY_DIR}/Info.plist")
 set(CPACK_BUNDLE_STARTUP_COMMAND "pioneer")
