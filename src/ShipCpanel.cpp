@@ -296,8 +296,8 @@ void ShipCpanel::Draw()
 void ShipCpanel::SwitchToCamera(WorldView::CamType t)
 {
 	Pi::BoinkNoise();
-	m_camButton->SetActiveState(int(t));
 	Pi::worldView->SetCamType(t);
+	m_camButton->SetActiveState(int(Pi::worldView->GetCamType()));
 }
 
 void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)

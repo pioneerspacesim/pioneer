@@ -251,6 +251,11 @@ void WorldView::Save(Serializer::Writer &wr)
 void WorldView::SetCamType(enum CamType c)
 {
 	if (c != m_camType) {
+		//only allow front camera when docked inside space stations. External
+		//cameras would clip through the station model.
+		if (Pi::player->GetFlightState() == Ship::DOCKED && !Pi::player->GetDockedWith()->IsGroundStation()) {
+			c = CAM_FRONT;
+		}
 		m_camType = c;
 		Pi::player->GetPlayerController()->SetMouseForRearView(c == CAM_REAR);
 		onChangeCamType.emit();
@@ -333,20 +338,6 @@ void WorldView::OnClickHyperspace()
 		// Initiate hyperspace drive
 		SystemPath path = Pi::sectorView->GetHyperspaceTarget();
 		Pi::player->StartHyperspaceCountdown(path);
-	}
-}
-
-WorldView::CamType WorldView::GetCamType() const
-{
-	if (m_camType == CAM_EXTERNAL || m_camType == CAM_SIDEREAL) {
-		// don't allow external view when docked with an orbital starport
-		if (Pi::player->GetFlightState() == Ship::DOCKED && !Pi::player->GetDockedWith()->IsGroundStation()) {
-			return CAM_FRONT;
-		} else {
-			return m_camType;
-		}
-	} else {
-		return m_camType;
 	}
 }
 

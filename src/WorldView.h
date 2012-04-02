@@ -31,7 +31,8 @@ public:
 	virtual void Save(Serializer::Writer &wr);
 	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL, CAM_SIDEREAL };
 	void SetCamType(enum CamType);
-	enum CamType GetCamType() const;
+	enum CamType GetCamType() const { return m_camType; }
+	WorldViewCamera *GetActiveCamera() const { return m_activeCamera; }
 	int GetNumLights() const { return m_numLights; }
 	void ToggleTargetActions();
 	void ShowTargetActions();
