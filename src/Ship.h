@@ -14,6 +14,7 @@
 class SpaceStation;
 class HyperspaceCloud;
 class AICommand;
+class ShipController;
 namespace Graphics { class Renderer; }
 
 struct shipstats_t {
@@ -39,6 +40,8 @@ public:
 };
 
 class Ship: public DynamicBody {
+	friend class ShipController; //only controllers need access to AITimeStep
+	friend class PlayerShipController;
 public:
 	enum Animation { // <enum scope='Ship' name=ShipAnimation prefix=ANIM_>
 		ANIM_WHEEL_STATE
@@ -46,13 +49,20 @@ public:
 
 	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Type shipType);
-	Ship() {}
+	Ship() { }; //default constructor used before Load
 	virtual ~Ship();
+	void SetController(ShipController *c); //deletes existing
+	ShipController *GetController() const { return m_controller; }
+	virtual bool IsPlayerShip() const { return false; } //XXX to be replaced with an owner check
+
 	virtual void SetDockedWith(SpaceStation *, int port);
 	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }
 	int GetDockingPort() const { return m_dockedWithPort; }
 	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+
+	const vector3d &GetFrontCameraOffset() const { return m_frontCameraOffset; }
+	const vector3d &GetRearCameraOffset() const { return m_rearCameraOffset; }
 
 	void SetThrusterState(int axis, double level) {
 		if (m_thrusterFuel <= 0.f) level = 0.0;
@@ -227,7 +237,7 @@ protected:
 	virtual void Load(Serializer::Reader &rd, Space *space);
 	void RenderLaserfire();
 
-	bool AITimeStep(float timeStep);		// returns true if complete
+	bool AITimeStep(float timeStep); // Called by controller. Returns true if complete
 
 	virtual void SetAlertState(AlertState as) { m_alertState = as; }
 
@@ -242,8 +252,11 @@ protected:
 	float m_gunTemperature[ShipType::GUNMOUNT_MAX];
 	float m_ecmRecharge;
 
+	ShipController *m_controller;
+
 private:
 	float GetECMRechargeTime();
+	void DoThrusterSounds() const;
 	void FireWeapon(int num);
 	void Init();
 	bool IsFiringLasers();
@@ -263,6 +276,8 @@ private:
 
 	vector3d m_thrusters;
 	vector3d m_angThrusters;
+	vector3d m_frontCameraOffset;
+	vector3d m_rearCameraOffset;
 
 	AlertState m_alertState;
 	double m_lastFiringAlert;

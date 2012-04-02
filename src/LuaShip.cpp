@@ -312,8 +312,7 @@ static int l_ship_explode(lua_State *l)
  *
  * Parameters:
  *
- *   newlabel - the new label. Only the first 16 characters will be available
- *              to the model. The full label will be shown in the HUD.
+ *   newlabel - the new label
  * 
  * Example:
  *
@@ -333,7 +332,7 @@ static int l_ship_set_label(lua_State *l)
 	const char *label = luaL_checkstring(l, 2);
 
 	ShipFlavour f = *(s->GetFlavour());
-	strncpy(f.regid, label, 16);
+	f.regid = label;
 	s->UpdateFlavour(&f);
 
 	s->SetLabel(label);

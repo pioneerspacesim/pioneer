@@ -104,6 +104,7 @@ public:
 	std::vector<ShipFlavour> &GetShipsOnSale() { return m_shipsOnSale; }
 	virtual void PostLoadFixup(Space *space);
 	virtual void NotifyRemoved(const Body* const removedBody);
+	int GetDockingPortCount() const { return m_type->numDockingPorts; }
 	int GetFreeDockingPort(); // returns -1 if none free
 	int GetMyDockingPort(const Ship *s) const {
 		for (int i=0; i<MAX_DOCKING_PORTS; i++) {

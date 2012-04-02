@@ -478,7 +478,7 @@ void SpaceStation::DoLawAndOrder()
 			{ // blue and white thang
 				ShipFlavour f;
 				f.type = ShipType::LADYBIRD;
-				strncpy(f.regid, Lang::POLICE_SHIP_REGISTRATION, 16);
+				f.regid = Lang::POLICE_SHIP_REGISTRATION;
 				f.price = ship->GetFlavour()->price;
 				LmrMaterial m;
 				m.diffuse[0] = 0.0f; m.diffuse[1] = 0.0f; m.diffuse[2] = 1.0f; m.diffuse[3] = 1.0f;
@@ -834,10 +834,7 @@ void SpaceStation::CreateBB()
 		if (Equip::types[i].slot == Equip::SLOT_CARGO) {
 			m_equipmentStock[i] = Pi::rng.Int32(0,100) * Pi::rng.Int32(1,100);
 		} else {
-			if (Equip::types[i].techLevel <= Pi::game->GetSpace()->GetStarSystem()->m_techlevel)
-				m_equipmentStock[i] = Pi::rng.Int32(0,100);
-			else
-				m_equipmentStock[i] = 0;
+			m_equipmentStock[i] = Pi::rng.Int32(0,100);
 		}
 	}
 

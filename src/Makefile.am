@@ -22,6 +22,7 @@ noinst_HEADERS = \
 	CityOnPlanet.h \
 	Color.h \
 	CommodityTradeWidget.h \
+	CRC32.h \
 	CustomSystem.h \
 	DeadVideoLink.h \
 	DeleteEmitter.h \
@@ -117,6 +118,7 @@ noinst_HEADERS = \
 	Sfx.h \
 	Ship.h \
 	ShipAICmd.h \
+	ShipController.h \
 	ShipCpanel.h \
 	ShipCpanelMultiFuncDisplays.h \
 	ShipFlavour.h \
@@ -139,6 +141,7 @@ noinst_HEADERS = \
 	VideoLink.h \
 	View.h \
 	WorldView.h \
+	WorldViewCamera.h \
 	SmartPtr.h \
 	buildopts.h \
 	fixed.h \
@@ -162,6 +165,7 @@ pioneer_SOURCES	= \
 	ChatForm.cpp \
 	CityOnPlanet.cpp \
 	CommodityTradeWidget.cpp \
+	CRC32.cpp \
 	CustomSystem.cpp \
 	DeadVideoLink.cpp \
 	DynamicBody.cpp \
@@ -248,6 +252,7 @@ pioneer_SOURCES	= \
 	Ship-AI.cpp \
 	Ship.cpp \
 	ShipAICmd.cpp \
+	ShipController.cpp \
 	ShipCpanel.cpp \
 	ShipCpanelMultiFuncDisplays.cpp \
 	ShipFlavour.cpp \
@@ -267,6 +272,7 @@ pioneer_SOURCES	= \
 	TextSupport.cpp \
 	VectorFont.cpp \
 	WorldView.cpp \
+	WorldViewCamera.cpp \
 	main.cpp \
 	mtrand.cpp \
 	perlin.cpp \
@@ -283,6 +289,7 @@ endif
 
 modelviewer_SOURCES = \
 	Color.cpp \
+	CRC32.cpp \
 	Font.cpp \
 	FileSystem.cpp \
 	IniConfig.cpp \

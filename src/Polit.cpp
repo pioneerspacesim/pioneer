@@ -51,30 +51,29 @@ const char *s_econDesc[ECON_MAX] = {
 
 struct politDesc_t {
 	const char *description;
-	int minTechLevel;
 	int rarity;
 	Bloc bloc;
 	PolitEcon econ;
 	fixed baseLawlessness;
 };
 const politDesc_t s_govDesc[GOV_MAX] = {
-	{ "<invalid turd>", 0, 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
-	{ Lang::NO_CENTRAL_GOVERNANCE, 0, 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
-	{ Lang::EARTH_FEDERATION_COLONIAL_RULE, 0, 2, BLOC_EARTHFED, ECON_CAPITALIST, fixed(3,10) },
-	{ Lang::EARTH_FEDERATION_DEMOCRACY, 4, 3, BLOC_EARTHFED, ECON_CAPITALIST, fixed(15,100) },
-	{ Lang::IMPERIAL_RULE, 4, 3, BLOC_EMPIRE, ECON_PLANNED, fixed(15,100) },
-	{ Lang::LIBERAL_DEMOCRACY, 3, 2, BLOC_CIS, ECON_CAPITALIST, fixed(25,100) },
-	{ Lang::SOCIAL_DEMOCRACY, 3, 2, BLOC_CIS, ECON_MIXED, fixed(20,100) },
-	{ Lang::LIBERAL_DEMOCRACY, 3, 2, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
-	{ Lang::CORPORATE_SYSTEM, 1, 2, BLOC_NONE, ECON_CAPITALIST, fixed(40,100) },
-	{ Lang::SOCIAL_DEMOCRACY, 3, 2, BLOC_NONE, ECON_MIXED, fixed(25,100) },
-	{ Lang::MILITARY_DICTATORSHIP, 1, 5, BLOC_EARTHFED, ECON_CAPITALIST, fixed(40,100) },
-	{ Lang::MILITARY_DICTATORSHIP, 1, 6, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
-	{ Lang::MILITARY_DICTATORSHIP, 1, 6, BLOC_NONE, ECON_MIXED, fixed(25,100) },
-	{ Lang::MILITARY_DICTATORSHIP, 1, 5, BLOC_EMPIRE, ECON_MIXED, fixed(40,100) },
-	{ Lang::COMMUNIST, 1, 10, BLOC_NONE, ECON_PLANNED, fixed(25,100) },
-	{ Lang::PLUTOCRATIC_DICTATORSHIP, 1, 4, BLOC_NONE, ECON_VERY_CAPITALIST, fixed(45,100) },
-	{ Lang::VIOLENT_ANARCHY, 0, 2, BLOC_NONE, ECON_NONE, fixed(90,100) },
+	{ "<invalid turd>", 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
+	{ Lang::NO_CENTRAL_GOVERNANCE, 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
+	{ Lang::EARTH_FEDERATION_COLONIAL_RULE, 2, BLOC_EARTHFED, ECON_CAPITALIST, fixed(3,10) },
+	{ Lang::EARTH_FEDERATION_DEMOCRACY, 3, BLOC_EARTHFED, ECON_CAPITALIST, fixed(15,100) },
+	{ Lang::IMPERIAL_RULE, 3, BLOC_EMPIRE, ECON_PLANNED, fixed(15,100) },
+	{ Lang::LIBERAL_DEMOCRACY, 2, BLOC_CIS, ECON_CAPITALIST, fixed(25,100) },
+	{ Lang::SOCIAL_DEMOCRACY, 2, BLOC_CIS, ECON_MIXED, fixed(20,100) },
+	{ Lang::LIBERAL_DEMOCRACY, 2, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
+	{ Lang::CORPORATE_SYSTEM, 2, BLOC_NONE, ECON_CAPITALIST, fixed(40,100) },
+	{ Lang::SOCIAL_DEMOCRACY, 2, BLOC_NONE, ECON_MIXED, fixed(25,100) },
+	{ Lang::MILITARY_DICTATORSHIP, 5, BLOC_EARTHFED, ECON_CAPITALIST, fixed(40,100) },
+	{ Lang::MILITARY_DICTATORSHIP, 6, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
+	{ Lang::MILITARY_DICTATORSHIP, 6, BLOC_NONE, ECON_MIXED, fixed(25,100) },
+	{ Lang::MILITARY_DICTATORSHIP, 5, BLOC_EMPIRE, ECON_MIXED, fixed(40,100) },
+	{ Lang::COMMUNIST, 10, BLOC_NONE, ECON_PLANNED, fixed(25,100) },
+	{ Lang::PLUTOCRATIC_DICTATORSHIP, 4, BLOC_NONE, ECON_VERY_CAPITALIST, fixed(45,100) },
+	{ Lang::VIOLENT_ANARCHY, 2, BLOC_NONE, ECON_NONE, fixed(90,100) },
 };
 
 void Init()
@@ -212,10 +211,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 		if (path == SystemPath(0,0,0,0)) {
 			a = Polit::GOV_EARTHDEMOC;
 		} else if (human_infestedness > 0) {
-			for (int tries=10; tries--; ) {
-				a = static_cast<GovType>(rand.Int32(GOV_RAND_MIN, GOV_RAND_MAX));
-				if (s_govDesc[a].minTechLevel <= s->m_techlevel) break;
-			}
+			a = static_cast<GovType>(rand.Int32(GOV_RAND_MIN, GOV_RAND_MAX));
 		} else {
 			a = GOV_NONE;
 		}
