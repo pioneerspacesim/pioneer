@@ -1667,7 +1667,6 @@ Widget(), m_worldview(worldview)
 void NavTunnelWidget::Draw() {
 	Body *navtarget = Pi::player->GetNavTarget();
 	if (navtarget != NULL) {
-		m_worldview->m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 		const Color green = Color(0.f, 1.f, 0.f, 0.8f);
 		
 		vector2f indvec = vector2f(m_worldview->m_navTargetIndicator.pos[0], m_worldview->m_navTargetIndicator.pos[1]);
@@ -1754,12 +1753,13 @@ void NavTunnelWidget::Draw() {
 				i++;
 			}
 		}
-		m_worldview->m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	}
 }
 
 void NavTunnelWidget::DrawTargetGuideSquare(const float pos[2], const float size, const Color &c)
 {
+	m_worldview->m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);	
+	
 	const float x1 = float(pos[0] - size);
 	const float x2 = float(pos[0] + size);
 	const float y1 = float(pos[1] - size);
