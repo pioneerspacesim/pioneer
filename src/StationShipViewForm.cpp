@@ -130,7 +130,7 @@ void StationShipViewForm::BuyShip()
 	Pi::player->SetMoney(Pi::player->GetMoney() - cost);
 	Pi::player->ResetFlavour(&m_flavour);
 	Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[m_flavour.type].hyperdrive);
-	Pi::player->UpdateMass();
+	Pi::player->UpdateStats();
 
 	m_station->ReplaceShipOnSale(m_marketIndex, &old);
 

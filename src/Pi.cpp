@@ -795,7 +795,7 @@ void Pi::HandleEvents()
 									ship->m_equipment.Add(Equip::SCANNER);
 									ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
 									ship->m_equipment.Add(Equip::HYDROGEN, 10);
-									ship->UpdateMass();
+									ship->UpdateStats();
 									game->GetSpace()->AddBody(ship);
 								}
 							}
@@ -1060,7 +1060,7 @@ void Pi::HandleMenuKey(int n)
 			enemy->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 			enemy->m_equipment.Add(Equip::AUTOPILOT);
 			enemy->m_equipment.Add(Equip::SCANNER);
-			enemy->UpdateMass();
+			enemy->UpdateStats();
 			enemy->AIKill(player);
 			game->GetSpace()->AddBody(enemy);
 
