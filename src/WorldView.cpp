@@ -45,12 +45,15 @@ WorldView::WorldView(Serializer::Reader &rd): View()
 	m_siderealCamera->Load(rd);
 }
 
+static const float LOW_THRUST_LEVELS[] = { 0.75, 0.5, 0.25, 0.1, 0.05, 0.01 };
+
 void WorldView::InitObject()
 {
 	float size[2];
 	GetSizeRequested(size);
 	
 	m_showTargetActionsTimeout = 0;
+	m_showLowThrustPowerTimeout = 0;
 	m_numLights = 1;
 	m_labelsOn = true;
 	SetTransparency(true);
@@ -77,6 +80,26 @@ void WorldView::InitObject()
 	m_commsNavOptions->SetSpacing(5);
 	portal->Add(m_commsNavOptions);
 
+	m_lowThrustPowerOptions = new Gui::Fixed(size[0], size[1]/2);
+	m_lowThrustPowerOptions->SetTransparency(true);
+	Add(m_lowThrustPowerOptions, 10, 200);
+	for (int i = 0; i < int(sizeof(LOW_THRUST_LEVELS)/sizeof(LOW_THRUST_LEVELS[0])); ++i) {
+		assert(i < 9); // otherwise the shortcuts break
+		const int ypos = i*32;
+
+		Gui::Label *label = new Gui::Label(
+				stringf(Lang::SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT,
+					formatarg("power", 100.0f * LOW_THRUST_LEVELS[i], "f.0")));
+		m_lowThrustPowerOptions->Add(label, 50, float(ypos));
+
+		char buf[8];
+		snprintf(buf, sizeof(buf), "%d", (i + 1));
+		Gui::Button *btn = new Gui::LabelButton(new Gui::Label(buf));
+		btn->SetShortcut(SDLKey(SDLK_1 + i), KMOD_NONE);
+		m_lowThrustPowerOptions->Add(btn, 16, float(ypos));
+
+		btn->onClick.connect(sigc::bind(sigc::mem_fun(this, &WorldView::OnSelectLowThrustPower), LOW_THRUST_LEVELS[i]));
+	}
 
 	m_wheelsButton = new Gui::MultiStateImageButton();
 	m_wheelsButton->SetShortcut(SDLK_F6, KMOD_NONE);
@@ -85,12 +108,11 @@ void WorldView::InitObject()
 	m_wheelsButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeWheelsState));
 	m_rightButtonBar->Add(m_wheelsButton, 34, 2);
 
-	Gui::MultiStateImageButton *labels_button = new Gui::MultiStateImageButton();
-	labels_button->SetShortcut(SDLK_F8, KMOD_NONE);
-	labels_button->AddState(1, "icons/labels_on.png", Lang::OBJECT_LABELS_ARE_ON);
-	labels_button->AddState(0, "icons/labels_off.png", Lang::OBJECT_LABELS_ARE_OFF);
-	labels_button->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeLabelsState));
-	m_rightButtonBar->Add(labels_button, 98, 2);
+	Gui::ImageButton *set_low_thrust_power_button = new Gui::ImageButton("icons/set_low_thrust_power.png");
+	set_low_thrust_power_button->SetShortcut(SDLK_F8, KMOD_NONE);
+	set_low_thrust_power_button->SetToolTip(Lang::SELECT_LOW_THRUST_POWER_LEVEL);
+	set_low_thrust_power_button->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickLowThrustPower));
+	m_rightButtonBar->Add(set_low_thrust_power_button, 98, 2);
 
 	m_hyperspaceButton = new Gui::ImageButton("icons/hyperspace_f8.png");
 	m_hyperspaceButton->SetShortcut(SDLK_F7, KMOD_NONE);
@@ -196,6 +218,7 @@ void WorldView::InitObject()
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));
 
 	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_REAR);
+	KeyBindings::toggleHudMode.onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
 }
 
 WorldView::~WorldView()
@@ -281,12 +304,6 @@ void WorldView::OnPlayerChangeFlightControlState()
 	m_flightControlButton->SetActiveState(Pi::player->GetPlayerController()->GetFlightControlState());
 }
 
-void WorldView::OnChangeLabelsState(Gui::MultiStateImageButton *b)
-{
-	Pi::BoinkNoise();
-	m_labelsOn = b->GetState()!=0;
-}
-
 void WorldView::OnClickBlastoff()
 {
 	Pi::BoinkNoise();
@@ -330,6 +347,13 @@ WorldView::CamType WorldView::GetCamType() const
 void WorldView::Draw3D()
 {
 	m_activeCamera->Draw(m_renderer);
+}
+
+void WorldView::OnToggleLabels()
+{
+	if (Pi::GetView() == this) {
+		m_labelsOn = !m_labelsOn;
+	}
 }
 
 void WorldView::ShowAll()
@@ -453,6 +477,15 @@ void WorldView::RefreshButtonStateAndVisibility()
 	} else {
 		m_commsOptions->Hide();
 		m_commsNavOptionsContainer->Hide();
+	}
+
+	if (m_showLowThrustPowerTimeout) {
+		if (SDL_GetTicks() - m_showLowThrustPowerTimeout > 20000) {
+			m_showLowThrustPowerTimeout = 0;
+		}
+		m_lowThrustPowerOptions->Show();
+	} else {
+		m_lowThrustPowerOptions->Hide();
 	}
 #if WITH_DEVKEYS
 	if (Pi::showDebugInfo) {
@@ -753,6 +786,7 @@ void WorldView::ShowTargetActions()
 {
 	m_showTargetActionsTimeout = SDL_GetTicks();
 	UpdateCommsOptions();
+	HideLowThrustPowerOptions();
 }
 
 void WorldView::HideTargetActions()
@@ -780,6 +814,7 @@ void WorldView::OnClickCommsNavOption(Body *target)
 {
 	Pi::player->SetNavTarget(target);
 	m_showTargetActionsTimeout = SDL_GetTicks();
+	HideLowThrustPowerOptions();
 }
 
 void WorldView::AddCommsNavOption(std::string msg, Body *target)
@@ -818,6 +853,34 @@ void WorldView::BuildCommsNavOptions()
 			AddCommsNavOption((*j)->name, body);
 		}
 	}
+}
+
+void WorldView::HideLowThrustPowerOptions()
+{
+	m_showLowThrustPowerTimeout = 0;
+	m_lowThrustPowerOptions->Hide();
+}
+
+void WorldView::ShowLowThrustPowerOptions()
+{
+	m_showLowThrustPowerTimeout = SDL_GetTicks();
+	m_lowThrustPowerOptions->Show();
+	HideTargetActions();
+}
+
+void WorldView::OnClickLowThrustPower()
+{
+	Pi::BoinkNoise();
+	if (m_showLowThrustPowerTimeout)
+		HideLowThrustPowerOptions();
+	else
+		ShowLowThrustPowerOptions();
+}
+
+void WorldView::OnSelectLowThrustPower(float power)
+{
+	Pi::player->GetPlayerController()->SetLowThrustPower(power);
+	HideLowThrustPowerOptions();
 }
 
 static void PlayerRequestDockingClearance(SpaceStation *s)
@@ -1604,6 +1667,7 @@ Widget(), m_worldview(worldview)
 void NavTunnelWidget::Draw() {
 	Body *navtarget = Pi::player->GetNavTarget();
 	if (navtarget != NULL) {
+		m_worldview->m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 		const Color green = Color(0.f, 1.f, 0.f, 0.8f);
 		
 		vector2f indvec = vector2f(m_worldview->m_navTargetIndicator.pos[0], m_worldview->m_navTargetIndicator.pos[1]);
@@ -1690,6 +1754,7 @@ void NavTunnelWidget::Draw() {
 				i++;
 			}
 		}
+		m_worldview->m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	}
 }
 
@@ -1699,14 +1764,30 @@ void NavTunnelWidget::DrawTargetGuideSquare(const float pos[2], const float size
 	const float x2 = float(pos[0] + size);
 	const float y1 = float(pos[1] - size);
 	const float y2 = float(pos[1] + size);
-	
-	const vector2f vts[] = {
-		vector2f(x1, y1),
-		vector2f(x2, y1),
-		vector2f(x2, y2),
-		vector2f(x1, y2)
+
+	const vector3f vts[] = {
+		vector3f(x1, y1, 0.f),
+		vector3f(pos[0], y1, 0.f),
+		vector3f(x2, y1, 0.f),
+		vector3f(x2, pos[1], 0.f),
+		vector3f(x2, y2, 0.f),
+		vector3f(pos[0], y2, 0.f),
+		vector3f(x1, y2, 0.f),
+		vector3f(x1, pos[1], 0.f)
 	};
-	m_worldview->m_renderer->DrawLines2D(4, vts, c, Graphics::LINE_LOOP);
+	Color black(c);
+	black.a = c.a / 6.f;
+	const Color col[] = {
+		c,
+		black,
+		c,
+		black,
+		c,
+		black,
+		c,
+		black
+	};
+	m_worldview->m_renderer->DrawLines(8, vts, col, Graphics::LINE_LOOP);
 }
 
 void NavTunnelWidget::GetSizeRequested(float size[2]) {
