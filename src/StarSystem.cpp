@@ -108,42 +108,42 @@ float StarSystem::starRealColors[][3] = {
 
 double StarSystem::starLuminosities[] = {
 	0,
-	0.0003f, // brown dwarf
-	0.1f, // white dwarf
-	0.08f, // M0
-	0.38f, // K0
-	1.2f, // G0
-	5.1f, // F0
-	24.0f, // A0
-	100.0f, // B0
-	200.0f, // O5
-	1000.0f, // M0 Giant
-	2000.0f, // K0 Giant
-	4000.0f, // G0 Giant
-	6000.0f, // F0 Giant
-	8000.0f, // A0 Giant
-	9000.0f, // B0 Giant
-	12000.0f, // O5 Giant
-	12000.0f, // M0 Super Giant
-	14000.0f, // K0 Super Giant
-	18000.0f, // G0 Super Giant
-	24000.0f, // F0 Super Giant
-	30000.0f, // A0 Super Giant
-	50000.0f, // B0 Super Giant
-	100000.0f, // O5 Super Giant
-	125000.0f, // M0 Hyper Giant
-	150000.0f, // K0 Hyper Giant
-	175000.0f, // G0 Hyper Giant
-	200000.0f, // F0 Hyper Giant
-	200000.0f, // A0 Hyper Giant
-	200000.0f, // B0 Hyper Giant
-	200000.0f, // O5 Hyper Giant
-	50000.0f, // M WF
-	100000.0f, // B WF
-	200000.0f, // O WF
-	0.0003f, // Stellar Black hole
-	0.00003f, // IM Black hole
-	0.000003f, // Supermassive Black hole
+	0.0003, // brown dwarf
+	0.1, // white dwarf
+	0.08, // M0
+	0.38, // K0
+	1.2, // G0
+	5.1, // F0
+	24.0, // A0
+	100.0, // B0
+	200.0, // O5
+	1000.0, // M0 Giant
+	2000.0, // K0 Giant
+	4000.0, // G0 Giant
+	6000.0, // F0 Giant
+	8000.0, // A0 Giant
+	9000.0, // B0 Giant
+	12000.0, // O5 Giant
+	12000.0, // M0 Super Giant
+	14000.0, // K0 Super Giant
+	18000.0, // G0 Super Giant
+	24000.0, // F0 Super Giant
+	30000.0, // A0 Super Giant
+	50000.0, // B0 Super Giant
+	100000.0, // O5 Super Giant
+	125000.0, // M0 Hyper Giant
+	150000.0, // K0 Hyper Giant
+	175000.0, // G0 Hyper Giant
+	200000.0, // F0 Hyper Giant
+	200000.0, // A0 Hyper Giant
+	200000.0, // B0 Hyper Giant
+	200000.0, // O5 Hyper Giant
+	50000.0, // M WF
+	100000.0, // B WF
+	200000.0, // O WF
+	0.0003, // Stellar Black hole
+	0.00003, // IM Black hole
+	0.000003, // Supermassive Black hole
 };
 
 float StarSystem::starScale[] = {  // Used in sector view
