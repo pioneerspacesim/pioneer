@@ -28,9 +28,9 @@ struct citybuildinglist_t {
 };
 
 citybuildinglist_t s_buildingLists[MAX_BUILDING_LISTS] = {
-	{ "city_building", 800, 2000, 0, NULL },
-	//{ "city_power", 100, 250, 0, NULL },
-	//{ "city_starport_building", 300, 400, 0, NULL },
+	{ "city_building", 800, 2000, 0, 0 },
+	//{ "city_power", 100, 250, 0, 0 },
+	//{ "city_starport_building", 300, 400, 0, 0 },
 };
 
 #define CITYFLAVOURS 5
@@ -46,13 +46,13 @@ LmrObjParams cityobj_params;
 void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
 {
 	double rad = (p1-p2).Length()*0.5;
-	LmrModel *model(NULL);
+	LmrModel *model(0);
 	double modelRadXZ(0);
-	const LmrCollMesh *cmesh(NULL);
+	const LmrCollMesh *cmesh(0);
 	vector3d cent = (p1+p2+p3+p4)*0.25;
 
-	cityflavourdef_t *flavour(NULL);
-	citybuildinglist_t *buildings(NULL);
+	cityflavourdef_t *flavour(0);
+	citybuildinglist_t *buildings(0);
 
 	// pick a building flavour (city, windfarm, etc)
 	for (int flv=0; flv<CITYFLAVOURS; flv++) {
