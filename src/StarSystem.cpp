@@ -849,6 +849,17 @@ static int CalcSurfaceTemp(const SBody *primary, fixed distToPrimary, fixed albe
 	return int(isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673)));
 }
 
+
+double SBody::CalcSurfaceGravity() const
+{
+	double r = GetRadius();
+	if (r > 0.0) {
+		return G * GetMass() / pow(r, 2);
+	} else {
+		return 0.0;
+	}
+}
+
 vector3d Orbit::OrbitalPosAtTime(double t) const
 {
 	const double e = eccentricity;

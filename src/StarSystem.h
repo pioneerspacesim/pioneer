@@ -131,6 +131,7 @@ public:
 		return rotationPeriod.ToDouble()*60*60*24;
 	}
 	fixed CalcHillRadius() const;
+	double CalcSurfaceGravity() const;
 
 	double GetMaxChildOrbitalDistance() const;
 	void PopulateStage1(StarSystem *system, fixed &outTotalPop);
