@@ -32,6 +32,7 @@ public:
 	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL, CAM_SIDEREAL };
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const;
+	Camera *GetActiveCamera() const { return m_activeCamera; }
 	int GetNumLights() const { return m_numLights; }
 	void ToggleTargetActions();
 	void ShowTargetActions();

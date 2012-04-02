@@ -31,6 +31,7 @@
 #include "CustomSystem.h"
 #include "CityOnPlanet.h"
 #include "LuaManager.h"
+#include "LuaDev.h"
 #include "LuaBody.h"
 #include "LuaShip.h"
 #include "LuaSpaceStation.h"
@@ -267,7 +268,7 @@ static void LuaInit()
 	LuaFormat::Register();
 	LuaSpace::Register();
 	LuaMusic::Register();
-
+	LuaDev::Register();
 	LuaConsole::Register();
 
 	pi_lua_dofile(l, "pistartup.lua");
