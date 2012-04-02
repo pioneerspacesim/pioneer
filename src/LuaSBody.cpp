@@ -212,6 +212,27 @@ static int l_sbody_attr_mass(lua_State *l)
 }
 
 /*
+ * Attribute: gravity
+ *
+ * The gravity on the surface of the body (m/s).
+ *
+ * Availability:
+ *
+ *   alpha 22
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_sbody_attr_gravity(lua_State *l)
+{
+	SBody *sbody = LuaSBody::GetFromLua(1);
+	lua_pushnumber(l, sbody->CalcSurfaceGravity());
+	fprintf(stderr, "GRAVITY: %0f.2\n", sbody->CalcSurfaceGravity());
+	return 1;
+}
+
+/*
  * Attribute: periapsis
  *
  * The periapsis of the body's orbit, in metres (m).
@@ -365,6 +386,7 @@ template <> void LuaObject<LuaUncopyable<SBody> >::RegisterClass()
 		{ "population",     l_sbody_attr_population      },
 		{ "radius",         l_sbody_attr_radius          },
 		{ "mass",           l_sbody_attr_mass            },
+		{ "gravity",        l_sbody_attr_gravity         },
 		{ "periapsis",      l_sbody_attr_periapsis       },
 		{ "apoapsis",       l_sbody_attr_apoapsis        },
 		{ "rotationPeriod", l_sbody_attr_rotation_period },
