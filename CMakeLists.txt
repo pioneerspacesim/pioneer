@@ -501,7 +501,7 @@ IF(CMAKE_CPACK_COMMAND)
 			DESTINATION ".")
 
 		# Add directories to pack
-		PACK_DATA_DIR("${PROJECT_NAME}_DATA_DIR" ON)		# You may comment it to speed up install process by skipping data. This helps debugging but you'll need to uncomment it afterwards :)
+		PACK_DATA_DIR("${${PROJECT_NAME}_DATA_DIR}" ON)		# You may comment it to speed up install process by skipping data. This helps debugging but you'll need to uncomment it afterwards :)
 
     ENDIF()
 ENDIF()
