@@ -73,6 +73,8 @@ private:
 	void HideIndicator(Indicator &indicator);
 	void SeparateLabels(Gui::Label *a, Gui::Label *b);
 
+	void OnToggleLabels();
+
 	void DrawCrosshair(float px, float py, float sz, const Color &c);
 	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c);
 	void DrawTargetSquare(const Indicator &marker, const Color &c);
@@ -86,9 +88,13 @@ private:
 	void OnClickCommsNavOption(Body *target);
 	void BuildCommsNavOptions();
 
+	void HideLowThrustPowerOptions();
+	void ShowLowThrustPowerOptions();
+	void OnClickLowThrustPower();
+	void OnSelectLowThrustPower(float power);
+
 	void OnClickHyperspace();
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
-	void OnChangeLabelsState(Gui::MultiStateImageButton *b);
 	void OnChangeFlightState(Gui::MultiStateImageButton *b);
 	void OnHyperspaceTargetChanged();
 	void OnPlayerDockOrUndock();
@@ -105,6 +111,7 @@ private:
 	Gui::Fixed *m_commsOptions;
 	Gui::VBox *m_commsNavOptions;
 	Gui::HBox *m_commsNavOptionsContainer;
+	Gui::Fixed *m_lowThrustPowerOptions;
 	Gui::Label *m_flightStatus, *m_debugText;
 	Gui::ImageButton *m_launchButton;
 	Gui::MultiStateImageButton *m_wheelsButton;
@@ -113,6 +120,7 @@ private:
 	enum CamType m_camType;
 	int m_numLights;
 	Uint32 m_showTargetActionsTimeout;
+	Uint32 m_showLowThrustPowerTimeout;
 
 #if WITH_DEVKEYS
 	Gui::Label *m_debugInfo;
