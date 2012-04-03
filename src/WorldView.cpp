@@ -1639,7 +1639,7 @@ void NavTunnelWidget::Draw() {
 		const vector2f distDiff(tpos - vector2f(Gui::Screen::GetWidth() / 2.0f, Gui::Screen::GetHeight() / 2.0f));
 
 		double dist = 0.0;
-		const double scalingFactor = 1.6;
+		const double scalingFactor = 1.6; // scales distance between squares: closer to 1.0, more squares
 		for (int squareNum = 1; ; squareNum++) {
 			dist = getSquareDistance(10.0, scalingFactor, squareNum);
 			if (dist > distToDest)
