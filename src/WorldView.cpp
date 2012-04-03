@@ -20,7 +20,9 @@
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Drawables.h"
 #include "matrix4x4.h"
+#include "Quaternion.h"
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.9f);
@@ -54,6 +56,9 @@ void WorldView::InitObject()
 	m_labelsOn = true;
 	SetTransparency(true);
 
+	m_navTunnel = new NavTunnelWidget(this);
+	Add(m_navTunnel, 0, 0);
+	
 	m_commsOptions = new Fixed(size[0], size[1]/2);
 	m_commsOptions->SetTransparency(true);
 	Add(m_commsOptions, 10, 200);
@@ -491,7 +496,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_debugInfo->Hide();
 	}
 #endif
-
 	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) {
 		const SystemPath dest = Pi::player->GetHyperspaceDest();
 		RefCountedPtr<StarSystem> s = StarSystem::GetCached(dest);
@@ -1085,6 +1089,15 @@ static inline bool project_to_screen(const vector3d &in, vector3d &out, const Gr
 	return true;
 }
 
+static inline bool unproject_from_screen(vector3d &in, vector3d &out, const Graphics::Frustum &frustum, const int guiSize[2])
+{
+	// y is inverted so +y is at top of screen
+	double normX = in.x / guiSize[0];
+	double normY = 1.0 - (in.y / guiSize[1]);
+	if (!frustum.UnProjectPoint(vector3d(normX, normY, in.z), out)) return false;
+	return true;
+}
+
 void WorldView::UpdateProjectedObjects()
 {
 	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
@@ -1256,6 +1269,9 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 		bool success = project_to_screen(cameraSpacePos, proj, frustum, guiSize);
 		if (! success)
 			proj = vector3d(w/2.0, h/2.0, 0.0);
+		
+		indicator.realpos.x = int(proj.x);
+		indicator.realpos.y = int(proj.y);
 
 		bool onscreen =
 			(cameraSpacePos.z < 0.0) &&
@@ -1266,7 +1282,6 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 			indicator.pos.x = int(proj.x);
 			indicator.pos.y = int(proj.y);
 			indicator.side = INDICATOR_ONSCREEN;
-
 		} else {
 			// homogeneous 2D points and lines are really useful
 			const vector3d ptCentre(w/2.0, h/2.0, 1.0);
@@ -1403,6 +1418,14 @@ void WorldView::SeparateLabels(Gui::Label *a, Gui::Label *b)
 	}
 }
 
+double getSquareDistance(double initialDist, double scalingFactor, int num) {
+	return pow(scalingFactor, num - 1) * num * initialDist;
+}
+		
+double getSquareHeight(double distance, double angle) {
+	return distance * tan(angle);
+}
+
 void WorldView::Draw()
 {
 	View::Draw();
@@ -1422,7 +1445,7 @@ void WorldView::Draw()
 
 	// nav target square
 	DrawTargetSquare(m_navTargetIndicator, green);
-
+	
 	glLineWidth(1.0f);
 
 	// velocity indicators
@@ -1596,4 +1619,146 @@ void WorldView::MouseButtonDown(int button, int x, int y)
 		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
 			m_activeCamera->ZoomIn(ft);
 	}
+}
+NavTunnelWidget::NavTunnelWidget(WorldView *worldview) :
+Widget(), m_worldview(worldview)
+{
+	m_worldview = worldview;
+}
+
+void NavTunnelWidget::Draw() {
+	if (!Pi::IsNavTunnelDisplayed()) return;
+	
+	Body *navtarget = Pi::player->GetNavTarget();
+	if (navtarget != NULL) {
+		const Color green = Color(0.f, 1.f, 0.f, 0.8f);
+		
+		vector2f indvec = vector2f(m_worldview->m_navTargetIndicator.pos.x, m_worldview->m_navTargetIndicator.pos.y);
+		double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
+		
+		vector3d navpos = navtarget->GetPositionRelTo(Pi::player);
+		matrix4x4d rotmat; Pi::player->GetRotMatrix(rotmat); rotmat.ClearToRotOnly();
+		vector3d eyevec = rotmat * m_worldview->m_activeCamera->GetOrientation() * vector3d(0.0, 0.0, 1.0);
+		double dot = eyevec.Dot(navpos);
+		bool front = dot < 0.0;
+		
+		//double anglerad = acos(eyevec.Normalized().Dot(navpos.Normalized())) / (eyevec.Length() * navpos.Length());
+		
+		double scalingFactor = 1.6;
+		double dist = 0.0;
+		double d1 = 10.0;
+		int i = 1;
+		int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2;
+		double angle = atan(maxSquareHeight / distToDest);
+		const float tpos[2] = { m_worldview->m_navTargetIndicator.realpos.x, m_worldview->m_navTargetIndicator.realpos.y };
+		const float distDiffX = tpos[0] - (Gui::Screen::GetWidth() / 2.0f);
+		const float distDiffY = tpos[1] - (Gui::Screen::GetHeight() / 2.0f);
+		
+		/*
+		 char buf2[1024];
+		 
+		 snprintf(
+		 buf2,
+		 sizeof(buf2),
+		 "distToDest: %.3f, distDiffX: %.3f, distDiffY: %.3f\n"
+		 "navTgtRPosX: %.3f, navTgtRPosY: %.3f\n"
+		 "camSpacePosX: %.3f, camSpacePosY: %.3f, camSpacePosZ: %.3f\n"
+		 "dot: %.3f\n"
+		 "destvecX: %.3f, destvecY: %.3f, destvecZ: %.3f\n"
+		 "navposX: %.3f, navposY: %.3f, navPosZ: %.3f\n"
+		 "eyevecX: %.3f, eyevecY: %.3f, eyevecZ: %.3f\n"
+		 ,
+		 distToDest, distDiffX, distDiffY,
+		 m_navTargetIndicator.realpos[0], m_navTargetIndicator.realpos[1],
+		 m_cameraSpacePos.x, m_cameraSpacePos.y, m_cameraSpacePos.z,
+		 dot,
+		 destvec.x, destvec.y, destvec.z,
+		 navpos.x, navpos.y, navpos.z,
+		 eyevec.x, eyevec.y, eyevec.z
+		 );
+		 
+		 Gui::Screen::RenderString(
+		 buf2,
+		 60.0, 60.0
+		 );
+		 */
+		
+		if (front) {
+			while (true) {
+				dist = getSquareDistance(d1, scalingFactor, i);
+				if (dist > distToDest) {
+					break;
+				}
+				double sqh = getSquareHeight(dist, angle);
+				if (sqh >= 10) {
+					float ox = distDiffX * (dist / distToDest);
+					float oy = distDiffY * (dist / distToDest);
+					
+					const float sqpos[2] = { tpos[0] - ox, tpos[1] - oy };
+					DrawTargetGuideSquare(sqpos, sqh, green);
+					
+					/*
+					 snprintf(
+					 buf2,
+					 sizeof(buf2),
+					 "%.3f, %.3f%%\n" "ox: %.3f, oy: %.3f\n"
+					 "x: %.3f, y: %.3f",
+					 dist, ((dist / distToDest) * 100.0),
+					 ox, oy, sqpos[0], sqpos[1]
+					 );
+					 
+					 Gui::Screen::RenderString(
+					 buf2,
+					 sqpos[0] + sqh + 1.0,
+					 sqpos[1] + sqh + 1.0
+					 );
+					 */
+				}
+				i++;
+			}
+		}
+	}
+}
+
+void NavTunnelWidget::DrawTargetGuideSquare(const float pos[2], const float size, const Color &c)
+{
+	m_worldview->m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);	
+	
+	const float x1 = float(pos[0] - size);
+	const float x2 = float(pos[0] + size);
+	const float y1 = float(pos[1] - size);
+	const float y2 = float(pos[1] + size);
+
+	const vector3f vts[] = {
+		vector3f(x1, y1, 0.f),
+		vector3f(pos[0], y1, 0.f),
+		vector3f(x2, y1, 0.f),
+		vector3f(x2, pos[1], 0.f),
+		vector3f(x2, y2, 0.f),
+		vector3f(pos[0], y2, 0.f),
+		vector3f(x1, y2, 0.f),
+		vector3f(x1, pos[1], 0.f)
+	};
+	Color black(c);
+	black.a = c.a / 6.f;
+	const Color col[] = {
+		c,
+		black,
+		c,
+		black,
+		c,
+		black,
+		c,
+		black
+	};
+	m_worldview->m_renderer->DrawLines(8, vts, col, Graphics::LINE_LOOP);
+}
+
+void NavTunnelWidget::GetSizeRequested(float size[2]) {
+	size[0] = Gui::Screen::GetWidth();
+	size[1] = Gui::Screen::GetHeight();
+}
+
+NavTunnelWidget::~NavTunnelWidget() {
+	
 }
