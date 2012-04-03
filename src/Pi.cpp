@@ -673,6 +673,8 @@ void Pi::BoinkNoise()
 
 void Pi::SetView(View *v)
 {
+	if (cpan)
+		cpan->ClearOverlay();
 	if (currentView) currentView->HideAll();
 	currentView = v;
 	if (currentView) {
