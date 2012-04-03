@@ -1624,7 +1624,6 @@ void NavTunnelWidget::Draw() {
 	if (navtarget != NULL) {
 		const Color green = Color(0.f, 1.f, 0.f, 0.8f);
 		
-		vector2f indvec = vector2f(m_worldview->m_navTargetIndicator.pos.x, m_worldview->m_navTargetIndicator.pos.y);
 		double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
 		
 		vector3d navpos = navtarget->GetPositionRelTo(Pi::player);
@@ -1632,8 +1631,6 @@ void NavTunnelWidget::Draw() {
 		vector3d eyevec = rotmat * m_worldview->m_activeCamera->GetOrientation() * vector3d(0.0, 0.0, 1.0);
 		double dot = eyevec.Dot(navpos);
 		bool front = dot < 0.0;
-		
-		//double anglerad = acos(eyevec.Normalized().Dot(navpos.Normalized())) / (eyevec.Length() * navpos.Length());
 		
 		double scalingFactor = 1.6;
 		double dist = 0.0;
@@ -1644,35 +1641,6 @@ void NavTunnelWidget::Draw() {
 		const float tpos[2] = { m_worldview->m_navTargetIndicator.realpos.x, m_worldview->m_navTargetIndicator.realpos.y };
 		const float distDiffX = tpos[0] - (Gui::Screen::GetWidth() / 2.0f);
 		const float distDiffY = tpos[1] - (Gui::Screen::GetHeight() / 2.0f);
-		
-		/*
-		 char buf2[1024];
-		 
-		 snprintf(
-		 buf2,
-		 sizeof(buf2),
-		 "distToDest: %.3f, distDiffX: %.3f, distDiffY: %.3f\n"
-		 "navTgtRPosX: %.3f, navTgtRPosY: %.3f\n"
-		 "camSpacePosX: %.3f, camSpacePosY: %.3f, camSpacePosZ: %.3f\n"
-		 "dot: %.3f\n"
-		 "destvecX: %.3f, destvecY: %.3f, destvecZ: %.3f\n"
-		 "navposX: %.3f, navposY: %.3f, navPosZ: %.3f\n"
-		 "eyevecX: %.3f, eyevecY: %.3f, eyevecZ: %.3f\n"
-		 ,
-		 distToDest, distDiffX, distDiffY,
-		 m_navTargetIndicator.realpos[0], m_navTargetIndicator.realpos[1],
-		 m_cameraSpacePos.x, m_cameraSpacePos.y, m_cameraSpacePos.z,
-		 dot,
-		 destvec.x, destvec.y, destvec.z,
-		 navpos.x, navpos.y, navpos.z,
-		 eyevec.x, eyevec.y, eyevec.z
-		 );
-		 
-		 Gui::Screen::RenderString(
-		 buf2,
-		 60.0, 60.0
-		 );
-		 */
 		
 		if (front) {
 			while (true) {
@@ -1687,23 +1655,6 @@ void NavTunnelWidget::Draw() {
 					
 					const float sqpos[2] = { tpos[0] - ox, tpos[1] - oy };
 					DrawTargetGuideSquare(sqpos, sqh, green);
-					
-					/*
-					 snprintf(
-					 buf2,
-					 sizeof(buf2),
-					 "%.3f, %.3f%%\n" "ox: %.3f, oy: %.3f\n"
-					 "x: %.3f, y: %.3f",
-					 dist, ((dist / distToDest) * 100.0),
-					 ox, oy, sqpos[0], sqpos[1]
-					 );
-					 
-					 Gui::Screen::RenderString(
-					 buf2,
-					 sqpos[0] + sqh + 1.0,
-					 sqpos[1] + sqh + 1.0
-					 );
-					 */
 				}
 				i++;
 			}
