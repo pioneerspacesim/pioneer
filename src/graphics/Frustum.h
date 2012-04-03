@@ -31,9 +31,6 @@ public:
 	// project a point onto the near plane (typically the screen)
 	bool ProjectPoint(const vector3d &in, vector3d &out) const;
 
-	// unproject a point from the near plane into typically, the world
-	bool UnProjectPoint(const vector3d &in, vector3d &out) const;
-
 private:
 	// create from current gl state
 	Frustum();

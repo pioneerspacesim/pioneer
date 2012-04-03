@@ -110,14 +110,4 @@ bool Frustum::ProjectPoint(const vector3d &in, vector3d &out) const
 	return gluProject(in.x, in.y, in.z, m_modelMatrix.Data(), m_projMatrix.Data(), viewport, &out.x, &out.y, &out.z) == GL_TRUE;
 }
 
-bool Frustum::UnProjectPoint(const vector3d &in, vector3d &out) const
-{
-	// XXX replace glut dependency
-	// fake viewport -- this is an identity transform when applied by gluUnProject
-	// see, e.g., http://cgit.freedesktop.org/mesa/mesa/tree/src/glu/sgi/libutil/project.c
-	// or the documentation for gluUnProject
-	const GLint viewport[4] = { 0, 0, 1, 1 };
-	return gluUnProject(in.x, in.y, in.z, m_modelMatrix.Data(), m_projMatrix.Data(), viewport, &out.x, &out.y, &out.z) == GL_TRUE;
-}
-
 }

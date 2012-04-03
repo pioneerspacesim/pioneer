@@ -1089,15 +1089,6 @@ static inline bool project_to_screen(const vector3d &in, vector3d &out, const Gr
 	return true;
 }
 
-static inline bool unproject_from_screen(vector3d &in, vector3d &out, const Graphics::Frustum &frustum, const int guiSize[2])
-{
-	// y is inverted so +y is at top of screen
-	double normX = in.x / guiSize[0];
-	double normY = 1.0 - (in.y / guiSize[1]);
-	if (!frustum.UnProjectPoint(vector3d(normX, normY, in.z), out)) return false;
-	return true;
-}
-
 void WorldView::UpdateProjectedObjects()
 {
 	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
