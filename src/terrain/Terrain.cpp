@@ -366,7 +366,7 @@ Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed), m_height
 
 	const double rad = m_body->GetRadius();
 	m_maxHeightInMeters = std::max(100.0, (9000.0*rad*rad*(m_volcanic+0.5)) / (m_body->GetMass() * 6.64e-12));
-	if (!std::isfinite(m_maxHeightInMeters)) m_maxHeightInMeters = rad * 0.5;
+	if (!isfinite(m_maxHeightInMeters)) m_maxHeightInMeters = rad * 0.5;
 	//             ^^^^ max mountain height for earth-like planet (same mass, radius)
 	// and then in sphere normalized jizz
 	m_maxHeight = std::min(0.5, m_maxHeightInMeters / rad);

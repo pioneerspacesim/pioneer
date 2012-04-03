@@ -1,8 +1,8 @@
 #ifndef _VECTOR3_H
 #define _VECTOR3_H
 
-#include <cmath>
-#include <cstdio>
+#include <math.h>
+#include <stdio.h>
 #include "FloatComparison.h"
 
 // Need this pragma due to operator[] implementation.
