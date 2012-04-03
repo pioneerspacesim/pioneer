@@ -1631,18 +1631,16 @@ void NavTunnelWidget::Draw() {
 
 		double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
 
-		double scalingFactor = 1.6;
-		double dist = 0.0;
-		double d1 = 10.0;
-		int i = 1;
 		int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2;
 		double angle = atan(maxSquareHeight / distToDest);
 		const float tpos[2] = { m_worldview->m_navTargetIndicator.realpos.x, m_worldview->m_navTargetIndicator.realpos.y };
 		const float distDiffX = tpos[0] - (Gui::Screen::GetWidth() / 2.0f);
 		const float distDiffY = tpos[1] - (Gui::Screen::GetHeight() / 2.0f);
 
-		while (true) {
-			dist = getSquareDistance(d1, scalingFactor, i);
+		double dist = 0.0;
+		double scalingFactor = 1.6;
+		for (int squareNum = 1; ; squareNum++) {
+			dist = getSquareDistance(10.0, scalingFactor, squareNum);
 			if (dist > distToDest) {
 				break;
 			}
@@ -1654,7 +1652,6 @@ void NavTunnelWidget::Draw() {
 				const float sqpos[2] = { tpos[0] - ox, tpos[1] - oy };
 				DrawTargetGuideSquare(sqpos, sqh, green);
 			}
-			i++;
 		}
 	}
 }
