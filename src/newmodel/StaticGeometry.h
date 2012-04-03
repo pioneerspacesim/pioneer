@@ -14,6 +14,7 @@ class StaticGeometry : public Node
 public:
 	StaticGeometry();
 	void Render(Graphics::Renderer *r);
+	Graphics::StaticMesh *GetMesh() { return m_mesh.Get(); }
 
 protected:
 	~StaticGeometry();

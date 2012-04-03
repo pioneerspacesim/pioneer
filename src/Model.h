@@ -1,6 +1,8 @@
 #ifndef _MODEL_H
 #define _MODEL_H
-
+/*
+ * Abstract model base class.
+ */
 #include "libs.h"
 struct LmrObjParams;
 class CollMesh;
