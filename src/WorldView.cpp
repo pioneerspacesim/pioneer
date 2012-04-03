@@ -58,7 +58,7 @@ void WorldView::InitObject()
 
 	m_navTunnel = new NavTunnelWidget(this);
 	Add(m_navTunnel, 0, 0);
-	
+
 	m_commsOptions = new Fixed(size[0], size[1]/2);
 	m_commsOptions->SetTransparency(true);
 	Add(m_commsOptions, 10, 200);
@@ -1262,7 +1262,7 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 		bool success = project_to_screen(cameraSpacePos, proj, frustum, guiSize);
 		if (! success)
 			proj = vector3d(w/2.0, h/2.0, 0.0);
-		
+
 		indicator.realpos.x = int(proj.x);
 		indicator.realpos.y = int(proj.y);
 
@@ -1414,7 +1414,7 @@ void WorldView::SeparateLabels(Gui::Label *a, Gui::Label *b)
 double getSquareDistance(double initialDist, double scalingFactor, int num) {
 	return pow(scalingFactor, num - 1) * num * initialDist;
 }
-		
+
 double getSquareHeight(double distance, double angle) {
 	return distance * tan(angle);
 }
@@ -1438,7 +1438,7 @@ void WorldView::Draw()
 
 	// nav target square
 	DrawTargetSquare(m_navTargetIndicator, green);
-	
+
 	glLineWidth(1.0f);
 
 	// velocity indicators
@@ -1614,19 +1614,19 @@ void WorldView::MouseButtonDown(int button, int x, int y)
 	}
 }
 NavTunnelWidget::NavTunnelWidget(WorldView *worldview) :
-Widget(), m_worldview(worldview)
+	Widget(),
+	m_worldView(worldview)
 {
-	m_worldview = worldview;
 }
 
 void NavTunnelWidget::Draw() {
-	if (!m_worldview->IsNavTunnelDisplayed()) return;
-	
+	if (!m_worldView->IsNavTunnelDisplayed()) return;
+
 	Body *navtarget = Pi::player->GetNavTarget();
 	if (navtarget) {
 		const vector3d navpos = navtarget->GetPositionRelTo(Pi::player);
 		matrix4x4d rotmat; Pi::player->GetRotMatrix(rotmat); rotmat.ClearToRotOnly();
-		const vector3d eyevec = rotmat * m_worldview->m_activeCamera->GetOrientation() * vector3d(0.0, 0.0, 1.0);
+		const vector3d eyevec = rotmat * m_worldView->m_activeCamera->GetOrientation() * vector3d(0.0, 0.0, 1.0);
 		if (eyevec.Dot(navpos) >= 0.0) return;
 
 		const Color green = Color(0.f, 1.f, 0.f, 0.8f);
@@ -1635,7 +1635,7 @@ void NavTunnelWidget::Draw() {
 
 		const int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2;
 		const double angle = atan(maxSquareHeight / distToDest);
-		const vector2f tpos(m_worldview->m_navTargetIndicator.realpos);
+		const vector2f tpos(m_worldView->m_navTargetIndicator.realpos);
 		const vector2f distDiff(tpos - vector2f(Gui::Screen::GetWidth() / 2.0f, Gui::Screen::GetHeight() / 2.0f));
 
 		double dist = 0.0;
@@ -1657,8 +1657,8 @@ void NavTunnelWidget::Draw() {
 
 void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float size, const Color &c)
 {
-	m_worldview->m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);	
-	
+	m_worldView->m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
+
 	const float x1 = pos.x - size;
 	const float x2 = pos.x + size;
 	const float y1 = pos.y - size;
@@ -1686,14 +1686,10 @@ void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float siz
 		c,
 		black
 	};
-	m_worldview->m_renderer->DrawLines(8, vts, col, Graphics::LINE_LOOP);
+	m_worldView->m_renderer->DrawLines(8, vts, col, Graphics::LINE_LOOP);
 }
 
 void NavTunnelWidget::GetSizeRequested(float size[2]) {
 	size[0] = Gui::Screen::GetWidth();
 	size[1] = Gui::Screen::GetHeight();
-}
-
-NavTunnelWidget::~NavTunnelWidget() {
-	
 }

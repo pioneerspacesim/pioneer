@@ -457,12 +457,12 @@ GameMenuView::GameMenuView(): View()
 		mybox->PackEnd(m_toggleMouseYInvert);
 		mybox->PackEnd(new Gui::Label(Lang::INVERT_MOUSE_Y));
 		box->PackEnd(mybox);
-		
+
 		// Toggle nav tunnel
 		m_toggleNavTunnel = new Gui::ToggleButton();
 		m_toggleNavTunnel->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleNavTunnel));
 		box->PackEnd((new Gui::Label(Lang::HUD))->Color(1.0f,1.0f,0.0f));
-		
+
 		Gui::HBox *guibox = new Gui::HBox();
 		guibox->SetSpacing(5.0f);
 		guibox->PackEnd(m_toggleNavTunnel);

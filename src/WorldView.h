@@ -105,7 +105,7 @@ private:
 	void SelectBody(Body *, bool reselectIsDeselect);
 	Body* PickBody(const double screenX, const double screenY) const;
 	void MouseButtonDown(int button, int x, int y);
-	
+
 	NavTunnelWidget *m_navTunnel;
 	
 	Gui::ImageButton *m_hyperspaceButton;
@@ -162,13 +162,13 @@ private:
 
 class NavTunnelWidget: public Gui::Widget {
 public:
-	NavTunnelWidget(WorldView *worldview);
-	virtual ~NavTunnelWidget();
+	NavTunnelWidget(WorldView *worldView);
 	virtual void Draw();
 	virtual void GetSizeRequested(float size[2]);
 	void DrawTargetGuideSquare(const vector2f &pos, const float size, const Color &c);
-	
-	WorldView *m_worldview;
+
+private:
+	WorldView *m_worldView;
 };
 
 #endif /* _WORLDVIEW_H */
