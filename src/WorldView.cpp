@@ -1622,16 +1622,15 @@ void NavTunnelWidget::Draw() {
 	
 	Body *navtarget = Pi::player->GetNavTarget();
 	if (navtarget != NULL) {
-		const Color green = Color(0.f, 1.f, 0.f, 0.8f);
-		
-		double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
-		
 		vector3d navpos = navtarget->GetPositionRelTo(Pi::player);
 		matrix4x4d rotmat; Pi::player->GetRotMatrix(rotmat); rotmat.ClearToRotOnly();
 		vector3d eyevec = rotmat * m_worldview->m_activeCamera->GetOrientation() * vector3d(0.0, 0.0, 1.0);
-		double dot = eyevec.Dot(navpos);
-		bool front = dot < 0.0;
-		
+		if (eyevec.Dot(navpos) >= 0.0) return;
+
+		const Color green = Color(0.f, 1.f, 0.f, 0.8f);
+
+		double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
+
 		double scalingFactor = 1.6;
 		double dist = 0.0;
 		double d1 = 10.0;
@@ -1641,23 +1640,21 @@ void NavTunnelWidget::Draw() {
 		const float tpos[2] = { m_worldview->m_navTargetIndicator.realpos.x, m_worldview->m_navTargetIndicator.realpos.y };
 		const float distDiffX = tpos[0] - (Gui::Screen::GetWidth() / 2.0f);
 		const float distDiffY = tpos[1] - (Gui::Screen::GetHeight() / 2.0f);
-		
-		if (front) {
-			while (true) {
-				dist = getSquareDistance(d1, scalingFactor, i);
-				if (dist > distToDest) {
-					break;
-				}
-				double sqh = getSquareHeight(dist, angle);
-				if (sqh >= 10) {
-					float ox = distDiffX * (dist / distToDest);
-					float oy = distDiffY * (dist / distToDest);
-					
-					const float sqpos[2] = { tpos[0] - ox, tpos[1] - oy };
-					DrawTargetGuideSquare(sqpos, sqh, green);
-				}
-				i++;
+
+		while (true) {
+			dist = getSquareDistance(d1, scalingFactor, i);
+			if (dist > distToDest) {
+				break;
 			}
+			double sqh = getSquareHeight(dist, angle);
+			if (sqh >= 10) {
+				float ox = distDiffX * (dist / distToDest);
+				float oy = distDiffY * (dist / distToDest);
+
+				const float sqpos[2] = { tpos[0] - ox, tpos[1] - oy };
+				DrawTargetGuideSquare(sqpos, sqh, green);
+			}
+			i++;
 		}
 	}
 }
