@@ -4,9 +4,10 @@
 #include "Body.h"
 #include "vector3.h"
 #include "matrix4x4.h"
-#include "LmrModel.h"
+#include "lmr/LmrModel.h"
 #include <vector>
 class Geom;
+namespace Graphics { class Renderer; }
 
 class ModelBody: public Body {
 public:
@@ -34,7 +35,7 @@ public:
 	void TriMeshUpdateLastPos(const matrix4x4d &currentTransform);
 	void SetModel(const char *lmrModelName, bool isStatic = false);
 
-	void RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	void RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	
 	virtual void UpdateInterpolatedTransform(double alpha);
 protected:

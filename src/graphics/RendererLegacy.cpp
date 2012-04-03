@@ -3,7 +3,7 @@
 #include "Material.h"
 #include "Graphics.h"
 #include "RendererGLBuffers.h"
-#include "StaticMesh.h"
+#include "Mesh.h"
 #include "Surface.h"
 #include "Texture.h"
 #include "VertexArray.h"
@@ -460,10 +460,19 @@ bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, cons
 	return true;
 }
 
-bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
+bool RendererLegacy::DrawMesh(Mesh *t)
 {
 	if (!t) return false;
 
+	switch (t->GetUsageHint()) {
+		case USAGE_STATIC: return DrawStaticMesh(t);
+		case USAGE_DYNAMIC: return DrawDynamicMesh(t);
+		default: assert(0); return false;
+	}
+}
+
+bool RendererLegacy::DrawStaticMesh(Mesh *t)
+{
 	//Approach:
 	//on first render, buffer vertices from all surfaces to a vbo
 	//since surfaces can have different materials (but they should have the same vertex format?)
@@ -472,7 +481,7 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 
 	// prepare the buffer on first run
 	if (!t->cached) {
-		if (!BufferStaticMesh(t))
+		if (!BufferMesh(t))
 			return false;
 	}
 	MeshRenderInfo *meshInfo = static_cast<MeshRenderInfo*>(t->GetRenderInfo());
@@ -483,7 +492,7 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 		meshInfo->ibuf->Bind();
 	}
 
-	for (StaticMesh::SurfaceIterator surface = t->SurfacesBegin(); surface != t->SurfacesEnd(); ++surface) {
+	for (Mesh::SurfaceIterator surface = t->SurfacesBegin(); surface != t->SurfacesEnd(); ++surface) {
 		SurfaceRenderInfo *surfaceInfo = static_cast<SurfaceRenderInfo*>((*surface)->GetRenderInfo());
 
 		ApplyMaterial((*surface)->GetMaterial().Get());
@@ -499,6 +508,16 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 		meshInfo->ibuf->Unbind();
 	meshInfo->vbuf->Unbind();
 
+	return true;
+}
+
+bool RendererLegacy::DrawDynamicMesh(Mesh *t)
+{
+	for (Mesh::SurfaceIterator surface = t->SurfacesBegin(); surface != t->SurfacesEnd(); ++surface) {
+		ApplyMaterial((*surface)->GetMaterial().Get());
+		DrawSurface(*surface);
+		UnApplyMaterial((*surface)->GetMaterial().Get());
+	}
 	return true;
 }
 
@@ -518,7 +537,11 @@ void RendererLegacy::ApplyMaterial(const Material *mat)
 	} else {
 		glEnable(GL_LIGHTING);
 		glMaterialfv (GL_FRONT, GL_DIFFUSE, &mat->diffuse[0]);
-		//todo: the rest
+		glMaterialfv (GL_FRONT, GL_AMBIENT, &mat->ambient[0]);
+		glMaterialfv (GL_FRONT, GL_SPECULAR, &mat->specular[0]);
+		glMaterialfv (GL_FRONT, GL_EMISSION, &mat->emissive[0]);
+		glMaterialf (GL_FRONT, GL_SHININESS, mat->shininess);
+		SetBlendMode(mat->diffuse.a >= 1.0f ? Graphics::BLEND_SOLID : Graphics::BLEND_ALPHA);
 	}
 	if (mat->twoSided) {
 		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
@@ -526,6 +549,9 @@ void RendererLegacy::ApplyMaterial(const Material *mat)
 	}
 	if (mat->texture0)
 		static_cast<TextureGL*>(mat->texture0)->Bind();
+	
+	// XXX remove zbias when it gets removed from lmr
+	glDepthRange(0.0f, 1.0f - mat->zbias*0.0002f);
 }
 
 void RendererLegacy::UnApplyMaterial(const Material *mat)
@@ -534,6 +560,7 @@ void RendererLegacy::UnApplyMaterial(const Material *mat)
 	if (!mat) return;
 	if (mat->texture0)
 		static_cast<TextureGL*>(mat->texture0)->Unbind();
+	glDepthRange(0.0f, 1.0f);
 }
 
 void RendererLegacy::EnableClientStates(const VertexArray *v)
@@ -569,7 +596,7 @@ void RendererLegacy::DisableClientStates()
 	m_clientStates.clear();
 }
 
-bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
+bool RendererLegacy::BufferMesh(Mesh *mesh)
 {
 	const AttributeSet set = mesh->GetAttributeSet();
 	bool background = false;
@@ -588,16 +615,16 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	const int totalVertices = mesh->GetNumVerts();
 
 	//surfaces should have a matching vertex specification!!
-	//XXX just take vertices from the first surface as a LMR hack
-	bool lmrHack = false;
+
+	int indexAdjustment = 0;
 
 	VertexBuffer *buf = 0;
-	for (StaticMesh::SurfaceIterator surface = mesh->SurfacesBegin(); surface != mesh->SurfacesEnd(); ++surface) {
+	for (Mesh::SurfaceIterator surface = mesh->SurfacesBegin(); surface != mesh->SurfacesEnd(); ++surface) {
 		const int numsverts = (*surface)->GetNumVerts();
 		const VertexArray *va = (*surface)->GetVertices();
 
 		int offset = 0;
-		if (lmr && !lmrHack) {
+		if (lmr) {
 			ScopedArray<ModelVertex> vts(new ModelVertex[numsverts]);
 			for(int j=0; j<numsverts; j++) {
 				vts[j].position = va->position[j];
@@ -609,7 +636,6 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 				buf = new VertexBuffer(totalVertices);
 			buf->Bind();
 			buf->BufferData<ModelVertex>(numsverts, vts.Get());
-			lmrHack = true;
 		} else if (background) {
 			ScopedArray<UnlitVertex> vts(new UnlitVertex[numsverts]);
 			for(int j=0; j<numsverts; j++) {
@@ -631,12 +657,21 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 		//buffer indices from each surface, if in use
 		if ((*surface)->IsIndexed()) {
 			assert(background == false);
+
+			//XXX should do this adjustment in RendererGL2Buffers
+			const unsigned short *originalIndices = (*surface)->GetIndexPointer();
+			std::vector<unsigned short> adjustedIndices((*surface)->GetNumIndices());
+			for (int i = 0; i < (*surface)->GetNumIndices(); ++i)
+				adjustedIndices[i] = originalIndices[i] + indexAdjustment;
+
 			if (!meshInfo->ibuf)
 				meshInfo->ibuf = new IndexBuffer(mesh->GetNumIndices());
 			meshInfo->ibuf->Bind();
-			const int ioffset = meshInfo->ibuf->BufferIndexData((*surface)->GetNumIndices(), (*surface)->GetIndexPointer());
+			const int ioffset = meshInfo->ibuf->BufferIndexData((*surface)->GetNumIndices(), &adjustedIndices[0]);
 			surfaceInfo->glOffset = ioffset;
 			surfaceInfo->glAmount = (*surface)->GetNumIndices();
+
+			indexAdjustment += (*surface)->GetNumVerts();
 		}
 	}
 	assert(buf);

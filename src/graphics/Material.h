@@ -26,10 +26,10 @@ public:
 	Texture *texture0;
 	//Texture *texture1;
 	Color diffuse;
-	//Color ambient;
-	//Color specular;
-	//etc. Implement stuff when you need it, and also support
-	//in renderers
+	Color ambient;
+	Color specular;
+	Color emissive;
+	float shininess;
 
 	//this could be replaced with shade model: flat, phong etc.
 	bool unlit;
@@ -40,6 +40,9 @@ public:
 
 	//custom glsl prog
 	Shader *shader;
+
+	// XXX temporary hack to support lmr zbias adjustment
+	float zbias;
 };
 
 }

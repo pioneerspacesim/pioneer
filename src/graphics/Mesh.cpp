@@ -1,26 +1,27 @@
-#include "StaticMesh.h"
+#include "Mesh.h"
 #include "Surface.h"
 
 namespace Graphics {
 
-StaticMesh::StaticMesh(PrimitiveType t) :
+Mesh::Mesh(PrimitiveType t, UsageHint usageHint) :
 	Renderable(),
 	cached(false),
-	m_primitiveType(t)
+	m_primitiveType(t),
+	m_usageHint(usageHint)
 {
 }
 
-StaticMesh::~StaticMesh()
+Mesh::~Mesh()
 {
 	while (!m_surfaces.empty()) delete m_surfaces.back(), m_surfaces.pop_back();
 }
 
-void StaticMesh::AddSurface(Surface *s)
+void Mesh::AddSurface(Surface *s)
 {
 	m_surfaces.push_back(s);
 }
 
-int StaticMesh::GetNumVerts() const
+int Mesh::GetNumVerts() const
 {
 	int numvertices = 0;
 	for (SurfaceIterator surface = SurfacesBegin(); surface != SurfacesEnd(); ++surface)
@@ -28,7 +29,7 @@ int StaticMesh::GetNumVerts() const
 	return numvertices;
 }
 
-int StaticMesh::GetNumIndices() const
+int Mesh::GetNumIndices() const
 {
 	int numIndices = 0;
 	for (SurfaceIterator surface = SurfacesBegin(); surface != SurfacesEnd(); ++surface)
@@ -36,7 +37,7 @@ int StaticMesh::GetNumIndices() const
 	return numIndices;
 }
 
-AttributeSet StaticMesh::GetAttributeSet() const
+AttributeSet Mesh::GetAttributeSet() const
 {
 	//all vertices should match
 	AttributeSet set = 0;

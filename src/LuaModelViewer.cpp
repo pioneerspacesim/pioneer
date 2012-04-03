@@ -1,7 +1,9 @@
 #include "libs.h"
 #include "gui/Gui.h"
 #include "collider/collider.h"
-#include "LmrModel.h"
+#include "lmr/LmrModel.h"
+#include "lmr/GeomBuffer.h"
+#include "lmr/Compiler.h"
 #include "ShipType.h"
 #include "EquipType.h"
 #include "Ship.h" // for the flight state and ship animation enums
@@ -324,7 +326,7 @@ void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *
 	if (sym->sym == SDLK_RETURN) {
 		LmrModel *m = 0;
 		try {
-			m = LmrLookupModelByName(entry->GetText().c_str());
+			m = LMR::LookupModelByName(entry->GetText().c_str());
 		} catch (LmrModelNotFoundException) {
 			errormsg->SetText("Could not find model: " + entry->GetText());
 		}
@@ -534,7 +536,7 @@ void Viewer::MainLoop()
 		
 		SetSbreParams();
 
-		int beforeDrawTriStats = LmrModelGetStatsTris();
+		int beforeDrawTriStats = LMR::GeomBuffer::GetStatsTris();
 	
 		if (g_renderType == 0) {
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -570,7 +572,7 @@ void Viewer::MainLoop()
 			Aabb aabb = m_cmesh->GetAabb();
 			snprintf(buf, sizeof(buf), "%d triangles, %d fps, %.3fm tris/sec\ncollision mesh size: %.1fx%.1fx%.1f (radius %.1f)\nClipping radius %.1f\nGrid interval: %d metres",
 					(g_renderType == 0 ? 
-						LmrModelGetStatsTris() - beforeDrawTriStats :
+						LMR::GeomBuffer::GetStatsTris() - beforeDrawTriStats :
 						m_cmesh->m_numTris),
 					fps,
 					numTris/1000000.0f,
@@ -591,11 +593,11 @@ void Viewer::MainLoop()
 		lastTurd = SDL_GetTicks();
 
 		if (SDL_GetTicks() - lastFpsReadout > 1000) {
-			numTris = LmrModelGetStatsTris();
+			numTris = LMR::GeomBuffer::GetStatsTris();
 			fps = numFrames;
 			numFrames = 0;
 			lastFpsReadout = SDL_GetTicks();
-			LmrModelClearStatsTris();
+			LMR::GeomBuffer::ClearStatsTris();
 		}
 
 		//space->Collide(onCollision);
@@ -729,10 +731,10 @@ int main(int argc, char **argv)
 	}
 	glewInit();
 
-	renderer = Graphics::Init(g_width, g_height, true);
+	renderer = Graphics::Init(g_width, g_height, false);
 	Gui::Init(renderer, g_width, g_height, g_width, g_height);
 
-	LmrModelCompilerInit(renderer);
+	LMR::ModelCompilerInit(renderer);
 	LmrNotifyScreenWidth(g_width);
 
 	ShipType::Init();
@@ -740,7 +742,7 @@ int main(int argc, char **argv)
 	g_viewer = new Viewer();
 	if (argc >= 4) {
 		try {
-			LmrModel *m = LmrLookupModelByName(argv[3]);
+			LmrModel *m = LMR::LookupModelByName(argv[3]);
 			g_viewer->SetModel(m);
 		} catch (LmrModelNotFoundException) {
 			g_viewer->PickModel(argv[3], std::string("Could not find model: ") + argv[3]);

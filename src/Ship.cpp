@@ -1151,7 +1151,7 @@ void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 	params.flightState = m_flightState;
 
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-	RenderLmrModel(viewCoords, viewTransform);
+	RenderLmrModel(renderer, viewCoords, viewTransform);
 
 	// draw shield recharge bubble
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {
@@ -1192,7 +1192,7 @@ void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 
 		// XXX no need to recreate material every time
 		Graphics::Material mat;
-		mat.texture0 = Graphics::TextureBuilder::Model(ecmTextureFilename).GetOrCreateTexture(Pi::renderer, "model");
+		mat.texture0 = Graphics::TextureBuilder::Model(ecmTextureFilename).GetOrCreateTexture(Pi::renderer);
 		mat.unlit = true;
 		mat.diffuse = c;
 		renderer->DrawPointSprites(100, v, &mat, 50.f);

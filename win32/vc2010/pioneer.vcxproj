@@ -223,7 +223,10 @@
     <ClCompile Include="..\..\src\KeyBindings.cpp" />
     <ClCompile Include="..\..\src\Lang.cpp" />
     <ClCompile Include="..\..\src\Light.cpp" />
-    <ClCompile Include="..\..\src\LmrModel.cpp" />
+    <ClCompile Include="..\..\src\lmr\Compiler.cpp" />
+    <ClCompile Include="..\..\src\lmr\GeomBuffer.cpp" />
+    <ClCompile Include="..\..\src\lmr\LmrModel.cpp" />
+    <ClCompile Include="..\..\src\lmr\ShipThruster.cpp" />
     <ClCompile Include="..\..\src\LuaBody.cpp" />
     <ClCompile Include="..\..\src\LuaCargoBody.cpp" />
     <ClCompile Include="..\..\src\LuaChatForm.cpp" />
@@ -370,7 +373,6 @@
     <ClInclude Include="..\..\src\Background.h" />
     <ClInclude Include="..\..\src\BezierCurve.h" />
     <ClInclude Include="..\..\src\Body.h" />
-    <ClInclude Include="..\..\src\BufferObject.h" />
     <ClInclude Include="..\..\src\buildopts.h" />
     <ClInclude Include="..\..\src\ByteRange.h" />
     <ClInclude Include="..\..\src\Camera.h" />
@@ -460,7 +462,12 @@
     <ClInclude Include="..\..\src\KeyBindings.h" />
     <ClInclude Include="..\..\src\libs.h" />
     <ClInclude Include="..\..\src\Light.h" />
-    <ClInclude Include="..\..\src\LmrModel.h" />
+    <ClInclude Include="..\..\src\lmr\BufferObject.h" />
+    <ClInclude Include="..\..\src\lmr\Compiler.h" />
+    <ClInclude Include="..\..\src\lmr\GeomBuffer.h" />
+    <ClInclude Include="..\..\src\lmr\LmrModel.h" />
+    <ClInclude Include="..\..\src\lmr\ShipThruster.h" />
+    <ClInclude Include="..\..\src\lmr\Utils.h" />
     <ClInclude Include="..\..\src\LuaBody.h" />
     <ClInclude Include="..\..\src\LuaCargoBody.h" />
     <ClInclude Include="..\..\src\LuaChatForm.h" />

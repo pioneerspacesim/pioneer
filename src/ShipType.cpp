@@ -1,9 +1,10 @@
 #include "ShipType.h"
-#include "LmrModel.h"
+#include "lmr/LmrModel.h"
 #include "MyLuaMathTypes.h"
 #include "LuaUtils.h"
 #include "utils.h"
 #include "Lang.h"
+#include "lmr/Compiler.h"
 
 const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {
 	Lang::FRONT, Lang::REAR };
@@ -173,7 +174,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 	//this shouldn't necessarily be a fatal problem, could just warn+mark ship unusable
 	//or replace with proxy geometry
 	try {
-		LmrLookupModelByName(s.lmrModelName.c_str());
+		LMR::LookupModelByName(s.lmrModelName.c_str());
 	} catch (LmrModelNotFoundException &) {
 		return luaL_error(L, "Model %s is not defined", s.lmrModelName.c_str());
 	}

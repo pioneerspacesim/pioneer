@@ -1,5 +1,5 @@
-#ifndef _STATICMESH_H
-#define _STATICMESH_H
+#ifndef _MESH_H
+#define _MESH_H
 
 #include "Renderer.h"
 #include "VertexArray.h"
@@ -7,20 +7,26 @@
 
 namespace Graphics {
 
+enum UsageHint {
+	USAGE_STATIC, // used lots, good candidate for GPU buffering
+	USAGE_DYNAMIC // used a few (one) times and then thrown away
+};
+
 class Surface;
 
 /*
- * StaticMesh can hold multiple surfaces and is intended for complex,
+ * Mesh can hold multiple surfaces and is intended for complex,
  * unchanging geometry. Renderers can buffer the contents into VBOs or
  * whatever they prefer. In theory the original vertex data could be
  * thrown away... but perhaps it is better not to optimize that yet.
  */
-class StaticMesh : public Renderable {
+class Mesh : public Renderable {
 public:
-	StaticMesh(PrimitiveType t);
-	~StaticMesh();
+	Mesh(PrimitiveType t, UsageHint usageHint = USAGE_STATIC);
+	~Mesh();
 
 	PrimitiveType GetPrimtiveType() const { return m_primitiveType; }
+	UsageHint GetUsageHint() const { return m_usageHint; }
 
 	void AddSurface(Surface *s);
 	Surface *GetSurface(int idx) const { return m_surfaces.at(idx); }
@@ -40,6 +46,7 @@ public:
 
 private:
 	PrimitiveType m_primitiveType;
+	UsageHint m_usageHint;
 	std::vector<Surface*> m_surfaces;
 };
 

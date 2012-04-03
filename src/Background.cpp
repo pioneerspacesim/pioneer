@@ -10,7 +10,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
-#include "graphics/StaticMesh.h"
+#include "graphics/Mesh.h"
 #include "graphics/Surface.h"
 #include "graphics/VertexArray.h"
 #include "graphics/Shader.h"
@@ -44,7 +44,7 @@ void Starfield::Init()
 {
 	// reserve some space for positions, colours
 	VertexArray *stars = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, BG_STAR_MAX);
-	m_model = new StaticMesh(POINTS);
+	m_model = new Mesh(POINTS);
 	m_shader = new Shader("bgstars");
 	RefCountedPtr<Material> mat(new Material());
 	mat->shader = m_shader;
@@ -90,7 +90,7 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 
 	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-		renderer->DrawStaticMesh(m_model);
+		renderer->DrawMesh(m_model);
 	} else {
 		/* HYPERSPACING!!!!!!!!!!!!!!!!!!! */
 		/* all this jizz isn't really necessary, since the player will
@@ -137,12 +137,12 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 
 MilkyWay::MilkyWay()
 {
-	m_model = new StaticMesh(TRIANGLE_STRIP);
+	m_model = new Mesh(TRIANGLE_STRIP);
 
 	//build milky way model in two strips (about 256 verts)
 	//The model is built as a generic vertex array first. The renderer
 	//will reprocess this into buffered format as it sees fit. The old data is
-	//kept around as long as StaticMesh is alive (needed if the cache is to be regenerated)
+	//kept around as long as Mesh is alive (needed if the cache is to be regenerated)
 
 	VertexArray *bottom = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 	VertexArray *top = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE);
@@ -200,7 +200,7 @@ void MilkyWay::Draw(Graphics::Renderer *renderer)
 {
 	assert(m_model != 0);
 	renderer->SetBlendMode(BLEND_SOLID);
-	renderer->DrawStaticMesh(m_model);
+	renderer->DrawMesh(m_model);
 }
 
 Container::Container()

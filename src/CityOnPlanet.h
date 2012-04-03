@@ -4,7 +4,7 @@
 #include "libs.h"
 #include "mtrand.h"
 #include "Object.h"
-#include "LmrModel.h"
+#include "lmr/LmrModel.h"
 
 class Planet;
 class SpaceStation;

@@ -22,6 +22,9 @@
     <Filter Include="src\graphics">
       <UniqueIdentifier>{5e0ff1e9-1c28-4f26-a9ca-abb32b781cf8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\lmr">
+      <UniqueIdentifier>{6cf9424d-ff55-4de1-8990-d0cda1cf481f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\collider\BVHTree.cpp">
@@ -103,9 +106,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\KeyBindings.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LmrModel.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LuaBody.cpp">
@@ -672,6 +672,18 @@
     <ClCompile Include="..\..\src\CRC32.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\lmr\Compiler.cpp">
+      <Filter>src\lmr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lmr\GeomBuffer.cpp">
+      <Filter>src\lmr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lmr\LmrModel.cpp">
+      <Filter>src\lmr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lmr\ShipThruster.cpp">
+      <Filter>src\lmr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -708,9 +720,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Body.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\BufferObject.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\buildopts.h">
@@ -789,9 +798,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\libs.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LmrModel.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaBody.h">
@@ -1261,6 +1267,24 @@
     </ClInclude>
     <ClInclude Include="..\..\src\CRC32.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lmr\BufferObject.h">
+      <Filter>src\lmr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lmr\Compiler.h">
+      <Filter>src\lmr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lmr\GeomBuffer.h">
+      <Filter>src\lmr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lmr\LmrModel.h">
+      <Filter>src\lmr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lmr\ShipThruster.h">
+      <Filter>src\lmr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lmr\Utils.h">
+      <Filter>src\lmr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
