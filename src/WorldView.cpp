@@ -227,7 +227,6 @@ WorldView::~WorldView()
 	delete m_rearCamera;
 	delete m_externalCamera;
 	delete m_siderealCamera;
-	delete m_navTunnel;
 
 	m_onHyperspaceTargetChangedCon.disconnect();
 	m_onPlayerChangeTargetCon.disconnect();
@@ -1665,6 +1664,8 @@ Widget(), m_worldview(worldview)
 }
 
 void NavTunnelWidget::Draw() {
+	if (!Pi::IsNavTunnelDisplayed()) return;
+	
 	Body *navtarget = Pi::player->GetNavTarget();
 	if (navtarget != NULL) {
 		const Color green = Color(0.f, 1.f, 0.f, 0.8f);
