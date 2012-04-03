@@ -32,6 +32,7 @@ Alpha 21
      * Fixed various old bugs around frame movement, timesteps, AI velocity
        correction and similar (#1090)
      * Fix crash when script tries to set ship label > 16 chars (#1116, #1114)
+     * limit max engines to 0 or 1 to prevent certain forms of lunacy (#1140)
 
    * Script changes
      * New custom system option :explored to explicitly set a system's
