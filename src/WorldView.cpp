@@ -1621,59 +1621,56 @@ void NavTunnelWidget::Draw() {
 	if (!Pi::IsNavTunnelDisplayed()) return;
 	
 	Body *navtarget = Pi::player->GetNavTarget();
-	if (navtarget != NULL) {
-		vector3d navpos = navtarget->GetPositionRelTo(Pi::player);
+	if (navtarget) {
+		const vector3d navpos = navtarget->GetPositionRelTo(Pi::player);
 		matrix4x4d rotmat; Pi::player->GetRotMatrix(rotmat); rotmat.ClearToRotOnly();
-		vector3d eyevec = rotmat * m_worldview->m_activeCamera->GetOrientation() * vector3d(0.0, 0.0, 1.0);
+		const vector3d eyevec = rotmat * m_worldview->m_activeCamera->GetOrientation() * vector3d(0.0, 0.0, 1.0);
 		if (eyevec.Dot(navpos) >= 0.0) return;
 
 		const Color green = Color(0.f, 1.f, 0.f, 0.8f);
 
-		double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
+		const double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
 
-		int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2;
-		double angle = atan(maxSquareHeight / distToDest);
-		const float tpos[2] = { m_worldview->m_navTargetIndicator.realpos.x, m_worldview->m_navTargetIndicator.realpos.y };
-		const float distDiffX = tpos[0] - (Gui::Screen::GetWidth() / 2.0f);
-		const float distDiffY = tpos[1] - (Gui::Screen::GetHeight() / 2.0f);
+		const int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2;
+		const double angle = atan(maxSquareHeight / distToDest);
+		const vector2f tpos(m_worldview->m_navTargetIndicator.realpos);
+		const vector2f distDiff(tpos - vector2f(Gui::Screen::GetWidth() / 2.0f, Gui::Screen::GetHeight() / 2.0f));
 
 		double dist = 0.0;
-		double scalingFactor = 1.6;
+		const double scalingFactor = 1.6;
 		for (int squareNum = 1; ; squareNum++) {
 			dist = getSquareDistance(10.0, scalingFactor, squareNum);
-			if (dist > distToDest) {
+			if (dist > distToDest)
 				break;
-			}
-			double sqh = getSquareHeight(dist, angle);
-			if (sqh >= 10) {
-				float ox = distDiffX * (dist / distToDest);
-				float oy = distDiffY * (dist / distToDest);
 
-				const float sqpos[2] = { tpos[0] - ox, tpos[1] - oy };
+			const double sqh = getSquareHeight(dist, angle);
+			if (sqh >= 10) {
+				const vector2f off = distDiff * (dist / distToDest);
+				const vector2f sqpos(tpos-off);
 				DrawTargetGuideSquare(sqpos, sqh, green);
 			}
 		}
 	}
 }
 
-void NavTunnelWidget::DrawTargetGuideSquare(const float pos[2], const float size, const Color &c)
+void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float size, const Color &c)
 {
 	m_worldview->m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);	
 	
-	const float x1 = float(pos[0] - size);
-	const float x2 = float(pos[0] + size);
-	const float y1 = float(pos[1] - size);
-	const float y2 = float(pos[1] + size);
+	const float x1 = pos.x - size;
+	const float x2 = pos.x + size;
+	const float y1 = pos.y - size;
+	const float y2 = pos.y + size;
 
 	const vector3f vts[] = {
-		vector3f(x1, y1, 0.f),
-		vector3f(pos[0], y1, 0.f),
-		vector3f(x2, y1, 0.f),
-		vector3f(x2, pos[1], 0.f),
-		vector3f(x2, y2, 0.f),
-		vector3f(pos[0], y2, 0.f),
-		vector3f(x1, y2, 0.f),
-		vector3f(x1, pos[1], 0.f)
+		vector3f(x1,    y1,    0.f),
+		vector3f(pos.x, y1,    0.f),
+		vector3f(x2,    y1,    0.f),
+		vector3f(x2,    pos.y, 0.f),
+		vector3f(x2,    y2,    0.f),
+		vector3f(pos.x, y2,    0.f),
+		vector3f(x1,    y2,    0.f),
+		vector3f(x1,    pos.y, 0.f)
 	};
 	Color black(c);
 	black.a = c.a / 6.f;

@@ -78,7 +78,6 @@ private:
 	void DrawCrosshair(float px, float py, float sz, const Color &c);
 	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c);
 	void DrawTargetSquare(const Indicator &marker, const Color &c);
-	void DrawTargetGuideSquare(const float pos[2], const float size, const Color &c);
 	void DrawVelocityIndicator(const Indicator &marker, const Color &c);
 	void DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c);
 	void DrawEdgeMarker(const Indicator &marker, const Color &c);
@@ -162,7 +161,7 @@ public:
 	virtual ~NavTunnelWidget();
 	virtual void Draw();
 	virtual void GetSizeRequested(float size[2]);
-	void DrawTargetGuideSquare(const float pos[2], const float size, const Color &c);
+	void DrawTargetGuideSquare(const vector2f &pos, const float size, const Color &c);
 	
 	WorldView *m_worldview;
 };
