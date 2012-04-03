@@ -7,6 +7,8 @@
 #include "Ship.h" // for the flight state and ship animation enums
 #include "SpaceStation.h" // for the space station animation enums
 #include "FileSystem.h"
+#include "newmodel/Newmodel.h"
+#include "newmodel/Importer.h"
 #include "graphics/Drawables.h"
 #include "graphics/Material.h"
 #include "graphics/Graphics.h"
@@ -84,6 +86,7 @@ public:
 	Gui::Label *m_trisReadout;
 	LmrCollMesh *m_cmesh;
 	LmrModel *m_model;
+	Newmodel::NModel *m_newModel;
 	CollisionSpace *m_space;
 	Geom *m_geom;
 	ModelCategory m_modelCategory;
@@ -101,7 +104,9 @@ public:
 		return float(atof(val.c_str()));
 	}
 
-	Viewer(): Gui::Fixed(float(g_width), float(g_height)) {
+	Viewer(): Gui::Fixed(float(g_width), float(g_height)),
+		m_newModel(0) 
+	{
 		m_model = 0;
 		m_cmesh = 0;
 		m_geom = 0;
@@ -214,6 +219,10 @@ public:
 		Show();
 	}
 
+	~Viewer() {
+		delete m_newModel;
+	}
+
 	void OnAnimChange(Gui::Adjustment *a, Gui::TextEntry *e) {
 		char buf[128];
 		snprintf(buf, sizeof(buf), "%.2f", a->GetValue());
@@ -280,6 +289,9 @@ private:
 
 void Viewer::SetModel(LmrModel *model)
 {
+	Newmodel::Importer imp;
+	if (!m_newModel) m_newModel = imp.CreateDummyModel(renderer);
+
 	m_model = model;
 	// clear old geometry
 	if (m_cmesh) delete m_cmesh;
@@ -542,7 +554,8 @@ void Viewer::MainLoop()
 			if (g_doBenchmark) {
 				for (int i=0; i<1000; i++) m_model->Render(renderer, m, &g_params);
 			} else {
-				m_model->Render(renderer, m, &g_params);
+				//m_model->Render(renderer, m, &g_params);
+				m_newModel->Render(renderer, m, &g_params);
 			}
 			glPopAttrib();
 		} else if (g_renderType == 1) {
