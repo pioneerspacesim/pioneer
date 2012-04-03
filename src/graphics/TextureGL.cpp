@@ -66,9 +66,6 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor) : Texture(descriptor),
 
 	GLenum magFilter, minFilter, wrapS, wrapT;
 	switch (descriptor.sampleMode) {
-		default:
-			assert(0);
-			// No break. Going to LINEAR_CLAMP forces all values to be initalized in any case, avoiding an annoying compiler warning.
 		case LINEAR_CLAMP:
 			magFilter = GL_LINEAR;
 			minFilter = descriptor.generateMipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
@@ -92,6 +89,9 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor) : Texture(descriptor),
 			minFilter = descriptor.generateMipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST;
 			wrapS = wrapT = GL_REPEAT;
 			break;
+
+		default:
+			assert(0);
 	}
 
 	glTexParameteri(m_target, GL_TEXTURE_WRAP_S, wrapS);

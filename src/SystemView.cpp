@@ -92,7 +92,7 @@ void SystemView::ResetViewpoint()
 	m_selectedObject = 0;
 	m_rot_z = 0;
 	m_rot_x = 50;
-	m_zoom = 1.0f/static_cast<float>(AU);
+	m_zoom = 1.0f/float(AU);
 	m_timeStep = 1.0f;
 	m_time = Pi::game->GetTime();
 }

@@ -79,8 +79,6 @@ inline int isfinite(double x) { return _finite(x); }
 template<class T> inline const T& Clamp(const T& x, const T& min, const T& max) { return x > max ? max : (x < min ? min : x); }
 
 #define DEG_2_RAD	0.0174532925
-//template <typename T>
-//inline T DEG2RAD(T x) { return static_cast<T>(M_PI)/static_cast<T>(180.); }
 inline double DEG2RAD(double x) { return x*(M_PI/180.); }
 inline float  DEG2RAD(float  x) { return x*(float(M_PI)/180.f); }
 

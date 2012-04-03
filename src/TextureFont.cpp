@@ -317,7 +317,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	
 	bool outline = GetConfig().Int("Outline");
 
-	FT_Stroker stroker(NULL);
+	FT_Stroker stroker(0);
 	if (outline) {
 		if (FT_Stroker_New(GetFreeTypeLibrary(), &stroker)) {
 			fprintf(stderr, "Freetype stroker init error\n");

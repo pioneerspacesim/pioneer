@@ -369,7 +369,7 @@ static const struct StarTypeInfo {
 		45000, 60000
 	}, {
 		SBody::SUPERTYPE_STAR,  // S BH
-		{20,2000}, {0.00002,0.00004},		// Sukender: Are we storing a small float in an int??? Is there a problem with these values?
+		{20,2000}, {0.00002,0.00004},	// XXX storing floats in ints?
 		10, 24
 	}, {
 		SBody::SUPERTYPE_STAR,  // IM BH
