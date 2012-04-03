@@ -609,7 +609,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			Ship *s = static_cast<Ship*>(b);
 
 			const ShipFlavour *flavour = s->GetFlavour();
-			const shipstats_t *stats = s->CalcStats();
+			const shipstats_t &stats = s->GetStats();
 
 			float sHull = s->GetPercentHull();
 			m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(sHull));
@@ -637,12 +637,12 @@ void WorldView::RefreshButtonStateAndVisibility()
 			}
 
 			text += "\n";
-			text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats->total_mass));
+			text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.total_mass));
 			text += "\n";
 			text += stringf(Lang::SHIELD_STRENGTH_N, formatarg("shields",
 				(sShields*0.01f) * float(s->m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR))));
 			text += "\n";
-			text += stringf(Lang::CARGO_N, formatarg("mass", stats->used_cargo));
+			text += stringf(Lang::CARGO_N, formatarg("mass", stats.used_cargo));
 			text += "\n";
 
 			m_hudTargetInfo->SetText(text);
@@ -667,7 +667,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				Sector s(dest.sectorX, dest.sectorY, dest.sectorZ);
 				text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 				text += "\n";
-				text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->CalcStats()->total_mass));
+				text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().total_mass));
 				text += "\n";
 				text += (cloud->IsArrival() ? Lang::SOURCE : Lang::DESTINATION);
 				text += ": ";

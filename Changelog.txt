@@ -35,6 +35,7 @@ Alpha 21
      * Limit max engines to 0 or 1 to prevent certain forms of lunacy (#1140)
      * Fix view/panel draw order so that world elements do not draw over the
        panel (#1141)
+     * Only update ship mass, fuel and equipment stats when necessary (#1112)
 
    * Script changes
      * New custom system option :explored to explicitly set a system's

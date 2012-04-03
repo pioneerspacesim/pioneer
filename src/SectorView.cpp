@@ -841,7 +841,7 @@ void SectorView::Update()
 
 	ShrinkCache();
 
-	m_playerHyperspaceRange = Pi::player->CalcStats()->hyperspace_range;
+	m_playerHyperspaceRange = Pi::player->GetStats().hyperspace_range;
 }
 
 void SectorView::ShowAll()

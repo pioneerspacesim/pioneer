@@ -151,7 +151,7 @@ void Ship::Init()
 	const ShipType &stype = GetShipType();
 	SetModel(stype.lmrModelName.c_str());
 	SetMassDistributionFromModel();
-	UpdateMass();
+	UpdateStats();
 	m_stats.hull_mass_left = float(stype.hullMass);
 	m_stats.shield_mass_left = 0;
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
@@ -236,7 +236,6 @@ void Ship::SetPercentHull(float p)
 
 void Ship::UpdateMass()
 {
-	CalcStats();
 	SetMass((m_stats.total_mass + GetFuel()*GetShipType().fuelTankMass)*1000);
 }
 
@@ -301,12 +300,12 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 	// hitting cargo scoop surface shouldn't do damage
 	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) && b->IsType(Object::CARGOBODY) && (flags & 0x100) && m_stats.free_capacity) {
 		Equip::Type item = dynamic_cast<CargoBody*>(b)->GetCargoType();
-		m_equipment.Add(item);
 		Pi::game->GetSpace()->KillBody(dynamic_cast<Body*>(b));
+		m_equipment.Add(item);
+		UpdateEquipStats();
 		if (this->IsType(Object::PLAYER))
 			Pi::Message(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", Equip::types[item].name)));
 		// XXX Sfx::Add(this, Sfx::TYPE_SCOOP);
-		UpdateMass();
 		return true;
 	}
 
@@ -389,13 +388,13 @@ Equip::Type Ship::GetHyperdriveFuelType() const
 	return Equip::types[t].inputs[0];
 }
 
-const shipstats_t *Ship::CalcStats()
+void Ship::UpdateEquipStats()
 {
 	const ShipType &stype = GetShipType();
+
 	m_stats.max_capacity = stype.capacity;
 	m_stats.used_capacity = 0;
 	m_stats.used_cargo = 0;
-	Equip::Type fuelType = GetHyperdriveFuelType();
 
 	for (int i=0; i<Equip::SLOT_MAX; i++) {
 		for (int j=0; j<stype.equipSlotCapacity[i]; j++) {
@@ -408,6 +407,10 @@ const shipstats_t *Ship::CalcStats()
 	m_stats.total_mass = m_stats.used_capacity + stype.hullMass;
 
 	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR));
+
+	UpdateMass();
+
+	Equip::Type fuelType = GetHyperdriveFuelType();
 
 	if (stype.equipSlotCapacity[Equip::SLOT_ENGINE]) {
 		Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
@@ -423,6 +426,11 @@ const shipstats_t *Ship::CalcStats()
 	} else {
 		m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 	}
+}
+
+void Ship::UpdateFuelStats()
+{
+	const ShipType &stype = GetShipType();
 
 	m_stats.fuel_tank_mass = stype.fuelTankMass;
 	m_stats.fuel_use = stype.thrusterFuelUse;
@@ -440,7 +448,14 @@ const shipstats_t *Ship::CalcStats()
 	m_fuelUseWeights[1] = rev / max;
 	m_fuelUseWeights[2] = side / max;
 	m_fuelUseWeights[3] = up / max;
-	return &m_stats;
+
+	UpdateMass();
+}
+
+void Ship::UpdateStats()
+{
+	UpdateEquipStats();
+	UpdateFuelStats();
 }
 
 static float distance_to_system(const SystemPath &dest)
@@ -478,7 +493,6 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 
 	float dist = distance_to_system(dest);
 
-	this->CalcStats();
 	outFuelRequired = int(ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max));
 	double m_totalmass = m_stats.total_mass;
 	if (outFuelRequired > hyperclass*hyperclass) outFuelRequired = hyperclass*hyperclass;
@@ -593,7 +607,7 @@ bool Ship::FireMissile(int idx, Ship *target)
 	}
 
 	m_equipment.Set(Equip::SLOT_MISSILE, idx, Equip::NONE);
-	CalcStats();
+	UpdateEquipStats();
 
 	matrix4x4d m;
 	GetRotMatrix(m);
@@ -932,7 +946,7 @@ void Ship::UpdateFuel(const float timeStep)
 	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
 	FuelState currentState = GetFuelState();
 
-	UpdateMass();
+	UpdateFuelStats();
 
 	if (currentState != lastState)
 		Pi::luaOnShipFuelChanged->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipFuelStatus", currentState));
@@ -969,11 +983,11 @@ void Ship::StaticUpdate(const float timeStep)
 					double rate = speed*density*0.00001f;
 					if (Pi::rng.Double() < rate) {
 						m_equipment.Add(Equip::HYDROGEN);
+						UpdateEquipStats();
 						if (this->IsType(Object::PLAYER)) {
 							Pi::Message(stringf(Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
 									formatarg("quantity", m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN))));
 						}
-						UpdateMass();
 					}
 				}
 			}
@@ -1204,7 +1218,7 @@ bool Ship::Jettison(Equip::Type t)
 	Equip::Slot slot = Equip::types[int(t)].slot;
 	if (m_equipment.Count(slot, t) > 0) {
 		m_equipment.Remove(t, 1);
-		UpdateMass();
+		UpdateEquipStats();
 
 		if (m_flightState == FLYING) {
 			// create a cargo body in space
