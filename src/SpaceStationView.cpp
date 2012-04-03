@@ -10,7 +10,7 @@
 SpaceStationView::SpaceStationView(): View()
 {
 	Gui::Label *l = new Gui::Label(Lang::COMMS_LINK);
-	l->Color(1,.7,0);
+	l->Color(1,.7f,0);
 	m_rightRegion2->Add(l, 10, 0);
 
 	SetTransparency(false);

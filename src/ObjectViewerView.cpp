@@ -119,8 +119,8 @@ void ObjectViewerView::OnSwitchTo()
 
 void ObjectViewerView::Update()
 {
-	if (Pi::KeyState(SDLK_EQUALS)) viewingDist *= 0.99;
-	if (Pi::KeyState(SDLK_MINUS)) viewingDist *= 1.01;
+	if (Pi::KeyState(SDLK_EQUALS)) viewingDist *= 0.99f;
+	if (Pi::KeyState(SDLK_MINUS)) viewingDist *= 1.01f;
 	viewingDist = Clamp(viewingDist, 10.0f, 1e12f);
 
 	char buf[128];

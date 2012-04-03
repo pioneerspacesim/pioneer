@@ -53,9 +53,9 @@ namespace Gui {
 			EVENT_KEYUP = 1<<1,
 			EVENT_MOUSEDOWN = 1<<2,
 			EVENT_MOUSEUP = 1<<3,
-			EVENT_MOUSEMOTION = 1<<4, // needed for OnMouseEnter,Leave,IsMouseOver
-			EVENT_ALL = 0xffffffff
+			EVENT_MOUSEMOTION = 1<<4 // needed for OnMouseEnter,Leave,IsMouseOver
 		};
+		static const unsigned int EVENT_ALL = 0xffffffff;		// not in the enum because 0xffffffff is an unsigned int, and an enum is an int (before C++11 which allows strong-typed enums)
 		unsigned int GetEventMask() { return m_eventMask; }
 
 		sigc::signal<void> onMouseEnter;
