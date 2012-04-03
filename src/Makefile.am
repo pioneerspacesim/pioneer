@@ -273,6 +273,7 @@ pioneer_SOURCES	= \
 	TextureFont.cpp \
 	TextSupport.cpp \
 	VectorFont.cpp \
+	View.cpp \
 	WorldView.cpp \
 	WorldViewCamera.cpp \
 	main.cpp \

@@ -15,6 +15,9 @@
 #include "Lang.h"
 #include "Game.h"
 
+// XXX duplicated in WorldView. should probably be a theme variable
+static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
+
 class CameraSwitchWidget : public Gui::Widget {
 public:
 	CameraSwitchWidget(ShipCpanel *panel, WorldView::CamType camType) : m_panel(panel), m_camType(camType) {}
@@ -48,7 +51,6 @@ ShipCpanel::ShipCpanel(Serializer::Reader &rd, Graphics::Renderer *r): Gui::Fixe
 
 void ShipCpanel::InitObject()
 {
-	Gui::Screen::AddBaseWidget(this, 0, Gui::Screen::GetHeight()-80);
 	SetTransparency(true);
 
 	Gui::Image *img = new Gui::Image("icons/cpanel.png");
@@ -203,6 +205,15 @@ void ShipCpanel::InitObject()
 	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_SIDEREAL);
 	camSwitcher->SetShortcut(SDLK_4, KMOD_LSHIFT);
 	Add(camSwitcher,0,0);
+
+	m_overlay[OVERLAY_TOP_LEFT]     = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_overlay[OVERLAY_TOP_RIGHT]    = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_overlay[OVERLAY_BOTTOM_LEFT]  = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_overlay[OVERLAY_BOTTOM_RIGHT] = (new Gui::Label(""))->Color(s_hudTextColor);
+	Add(m_overlay[OVERLAY_TOP_LEFT],     170.0f, 2.0f);
+	Add(m_overlay[OVERLAY_TOP_RIGHT],    500.0f, 2.0f);
+	Add(m_overlay[OVERLAY_BOTTOM_LEFT],  150.0f, 62.0f);
+	Add(m_overlay[OVERLAY_BOTTOM_RIGHT], 580.0f, 62.0f);
 
 	m_connOnDockingClearanceExpired =
 		Pi::onDockingClearanceExpired.connect(sigc::mem_fun(this, &ShipCpanel::OnDockingClearanceExpired));
@@ -401,4 +412,26 @@ void ShipCpanel::TimeStepUpdate(float step)
 void ShipCpanel::Save(Serializer::Writer &wr)
 {
 	m_scanner->Save(wr);
+}
+
+void ShipCpanel::SetOverlayText(OverlayTextPos pos, const std::string &text)
+{
+	m_overlay[pos]->SetText(text);
+	if (text.length() == 0)
+		m_overlay[pos]->Hide();
+	else
+		m_overlay[pos]->Show();
+}
+
+void ShipCpanel::SetOverlayToolTip(OverlayTextPos pos, const std::string &text)
+{
+	m_overlay[pos]->SetToolTip(text);
+}
+
+void ShipCpanel::ClearOverlay()
+{
+	for (int i = 0; i < 4; i++) {
+		m_overlay[i]->SetText("");
+		m_overlay[i]->SetToolTip("");
+	}
 }
