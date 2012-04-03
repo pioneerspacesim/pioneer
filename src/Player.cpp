@@ -17,7 +17,6 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	SetController(new PlayerShipController());
 	m_killCount = 0;
 	m_knownKillCount = 0;
-	UpdateMass();
 }
 
 void Player::Save(Serializer::Writer &wr, Space *space)
@@ -141,20 +140,20 @@ void Player::NotifyRemoved(const Body* const removedBody)
 void Player::Bought(Equip::Type t)
 {
 	m_equipment.Add(t);
-	UpdateMass();
+	UpdateEquipStats();
 }
 
 void Player::Sold(Equip::Type t)
 {
 	m_equipment.Remove(t, 1);
-	UpdateMass();
+	UpdateEquipStats();
 }
 
 bool Player::CanBuy(Equip::Type t, bool verbose) const
 {
 	Equip::Slot slot = Equip::types[int(t)].slot;
 	bool freespace = (m_equipment.FreeSpace(slot)!=0);
-	bool freecapacity = (m_stats.free_capacity >= Equip::types[int(t)].mass);
+	bool freecapacity = (GetStats().free_capacity >= Equip::types[int(t)].mass);
 	if (verbose) {
 		if (!freespace) {
 			Pi::Message(Lang::NO_FREE_SPACE_FOR_ITEM);

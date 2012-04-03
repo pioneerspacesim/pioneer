@@ -176,7 +176,7 @@ GameMenuView::GameMenuView(): View()
 	mainTab->Add((new Gui::Label(Lang::PIONEER))->Shadow(true), 350, 10);
 	SetTransparency(false);
 	Gui::Label *l = new Gui::Label(Lang::PIONEER);
-	l->Color(1,.7,0);
+	l->Color(1,.7f,0);
 	m_rightRegion2->Add(l, 10, 0);
 	
 	{

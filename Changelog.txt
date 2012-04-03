@@ -32,6 +32,10 @@ Alpha 21
      * Fixed various old bugs around frame movement, timesteps, AI velocity
        correction and similar (#1090)
      * Fix crash when script tries to set ship label > 16 chars (#1116, #1114)
+     * Limit max engines to 0 or 1 to prevent certain forms of lunacy (#1140)
+     * Fix view/panel draw order so that world elements do not draw over the
+       panel (#1141)
+     * Only update ship mass, fuel and equipment stats when necessary (#1112)
 
    * Script changes
      * New custom system option :explored to explicitly set a system's
@@ -56,10 +60,11 @@ Alpha 21
      * Remove renderer dependencies on Pi and utils (#1071)
      * Pack font glyphs into a single texture for faster text rendering (#1106,
        #1084, #1107)
-     * Split world cameras out of WorldView (#1113)
+     * Split world cameras out of WorldView (#1113, #1145)
      * Use a fixed version and proper CRC for the model cache (#1119)
      * Moved ship control code out of Player and Worldview into a new set of
        ShipController classes (#1083, #1129)
+     * Various internal cleanups (#1139, #1142)
 
 Alpha 20
 

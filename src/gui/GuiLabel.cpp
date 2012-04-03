@@ -41,21 +41,9 @@ void Label::RecalcSize()
 	ResizeRequest();
 }
 
-Label *Label::Color(const float rgb[3])
-{
-	m_color[0] = rgb[0];
-	m_color[1] = rgb[1];
-	m_color[2] = rgb[2];
-	m_color[3] = 1.0f;
-	return this;
-}
-
 Label *Label::Color(float r, float g, float b)
 {
-	m_color[0] = r;
-	m_color[1] = g;
-	m_color[2] = b;
-	m_color[3] = 1.0f;
+	m_color = ::Color(r, g, b);
 	return this;
 }
 

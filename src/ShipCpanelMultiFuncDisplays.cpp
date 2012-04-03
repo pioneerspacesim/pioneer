@@ -174,7 +174,7 @@ void ScannerWidget::Draw()
 	// XXX 2d vertices
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE, 128); //reserve some space for positions & colors
 	va.Add(vector3f(m_x, m_y, 0.f), green);
-	for (float a = 0; a < 2 * M_PI; a += M_PI * 0.02) {
+	for (float a = 0; a < 2 * float(M_PI); a += float(M_PI) * 0.02f) {
 		va.Add(vector3f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), 0.f), green);
 	}
 	va.Add(vector3f(m_x, m_y + SCANNER_YSHRINK * m_y, 0.f), green);
@@ -485,8 +485,7 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 		for (float a = range_percent * circle; a < circle; a += step) {
 			v.push_back(vector2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a)));
 		}
-		/* reconnect to the start */
-		// XXX why is this not a LINE_LOOP?
+		/* add the final segment to connect back to the bottom centre of the scanner */
 		v.push_back(vector2f(m_x, m_y + SCANNER_YSHRINK * m_y));
 		m_renderer->DrawLines2D(v.size(), &v[0], col, LINE_STRIP);
 	}

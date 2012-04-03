@@ -12,7 +12,7 @@ public:
 	virtual void ShowAll();
 
 private:
-	int GetRepairCost(float percent);
+	int GetRepairCost(float percent) const;
 	void RepairHull(float percent);
 	void UpdateLabels();
 

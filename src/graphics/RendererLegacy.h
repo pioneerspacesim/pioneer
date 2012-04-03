@@ -14,7 +14,7 @@ public:
 	RendererLegacy(int width, int height);
 	virtual ~RendererLegacy();
 
-	virtual const char* GetName() { return "Legacy renderer"; }
+	virtual const char* GetName() const { return "Legacy renderer"; }
 	virtual bool GetNearFarRange(float &near, float &far) const;
 
 	virtual bool BeginFrame();

@@ -29,12 +29,12 @@ public:
 	virtual void Draw();
 	virtual void OnSwitchTo();
 	static const double PICK_OBJECT_RECT_SIZE;
-	bool GetShowLabels() { return m_labelsOn; }
 	void DrawBgStars();
 	virtual void Save(Serializer::Writer &wr);
 	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL, CAM_SIDEREAL };
 	void SetCamType(enum CamType);
-	enum CamType GetCamType() const;
+	enum CamType GetCamType() const { return m_camType; }
+	WorldViewCamera *GetActiveCamera() const { return m_activeCamera; }
 	int GetNumLights() const { return m_numLights; }
 	void ToggleTargetActions();
 	void ShowTargetActions();
@@ -61,15 +61,11 @@ private:
 	};
 
 	struct Indicator {
-		float pos[2];
-		float realpos[2];
+		vector2f pos;
+		vector2f realpos;
 		IndicatorSide side;
 		Gui::Label *label;
-		Indicator() {
-			pos[0] = pos[1] = 0;
-			side = INDICATOR_HIDDEN;
-			label = 0;
-		}
+		Indicator(): pos(0.0f, 0.0f), realpos(0.0f, 0.0f), side(INDICATOR_HIDDEN), label(0) {}
 	};
 	
 	void UpdateProjectedObjects();
@@ -84,7 +80,6 @@ private:
 	void DrawTargetSquare(const Indicator &marker, const Color &c);
 	void DrawTargetGuideSquare(const float pos[2], const float size, const Color &c);
 	void DrawVelocityIndicator(const Indicator &marker, const Color &c);
-	void DrawCircleIndicator(const Indicator &marker, const Color &c);
 	void DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c);
 	void DrawEdgeMarker(const Indicator &marker, const Color &c);
 

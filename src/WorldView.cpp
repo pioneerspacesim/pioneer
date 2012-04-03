@@ -24,8 +24,6 @@
 #include "matrix4x4.h"
 #include "Quaternion.h"
 
-static const std::string indicatorMousedirTextureFilename("icons/indicator_mousedir.png");
-
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.9f);
 
@@ -187,7 +185,7 @@ void WorldView::InitObject()
 	Add(m_targetLeadIndicator.label, 0, 0);
 
 	// XXX m_renderer not set yet
-	Graphics::TextureBuilder b = Graphics::TextureBuilder::UI(indicatorMousedirTextureFilename);
+	Graphics::TextureBuilder b = Graphics::TextureBuilder::UI("icons/indicator_mousedir.png");
 	m_indicatorMousedir.Reset(new Gui::TexturedQuad(b.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
 
 	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();
@@ -244,6 +242,11 @@ void WorldView::Save(Serializer::Writer &wr)
 void WorldView::SetCamType(enum CamType c)
 {
 	if (c != m_camType) {
+		//only allow front camera when docked inside space stations. External
+		//cameras would clip through the station model.
+		if (Pi::player->GetFlightState() == Ship::DOCKED && !Pi::player->GetDockedWith()->IsGroundStation()) {
+			c = CAM_FRONT;
+		}
 		m_camType = c;
 		Pi::player->GetPlayerController()->SetMouseForRearView(c == CAM_REAR);
 		onChangeCamType.emit();
@@ -326,20 +329,6 @@ void WorldView::OnClickHyperspace()
 		// Initiate hyperspace drive
 		SystemPath path = Pi::sectorView->GetHyperspaceTarget();
 		Pi::player->StartHyperspaceCountdown(path);
-	}
-}
-
-WorldView::CamType WorldView::GetCamType() const
-{
-	if (m_camType == CAM_EXTERNAL || m_camType == CAM_SIDEREAL) {
-		// don't allow external view when docked with an orbital starport
-		if (Pi::player->GetFlightState() == Ship::DOCKED && !Pi::player->GetDockedWith()->IsGroundStation()) {
-			return CAM_FRONT;
-		} else {
-			return m_camType;
-		}
-	} else {
-		return m_camType;
 	}
 }
 
@@ -491,7 +480,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		char buf[1024], aibuf[256];
 		vector3d pos = Pi::player->GetPosition();
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
-		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
+		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel().c_str() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
 		Pi::player->AIGetStatusText(aibuf); aibuf[255] = 0;
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
@@ -531,7 +520,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				rel_to = set_speed_target->GetLabel().c_str();
 				_vel = Pi::player->GetVelocityRelTo(set_speed_target).Length();
 			} else {
-				rel_to = Pi::player->GetFrame()->GetLabel();
+				rel_to = Pi::player->GetFrame()->GetLabel().c_str();
 				_vel = vel.Length();
 			}
 			if (_vel > 1000) {
@@ -624,7 +613,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			Ship *s = static_cast<Ship*>(b);
 
 			const ShipFlavour *flavour = s->GetFlavour();
-			const shipstats_t *stats = s->CalcStats();
+			const shipstats_t &stats = s->GetStats();
 
 			float sHull = s->GetPercentHull();
 			m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(sHull));
@@ -652,12 +641,12 @@ void WorldView::RefreshButtonStateAndVisibility()
 			}
 
 			text += "\n";
-			text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats->total_mass));
+			text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.total_mass));
 			text += "\n";
 			text += stringf(Lang::SHIELD_STRENGTH_N, formatarg("shields",
 				(sShields*0.01f) * float(s->m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR))));
 			text += "\n";
-			text += stringf(Lang::CARGO_N, formatarg("mass", stats->used_cargo));
+			text += stringf(Lang::CARGO_N, formatarg("mass", stats.used_cargo));
 			text += "\n";
 
 			m_hudTargetInfo->SetText(text);
@@ -682,7 +671,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				Sector s(dest.sectorX, dest.sectorY, dest.sectorZ);
 				text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 				text += "\n";
-				text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->CalcStats()->total_mass));
+				text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().total_mass));
 				text += "\n";
 				text += (cloud->IsArrival() ? Lang::SOURCE : Lang::DESTINATION);
 				text += ": ";
@@ -1272,8 +1261,8 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 	const float h = Gui::Screen::GetHeight();
 
 	if (cameraSpacePos.LengthSqr() < 1e-6) { // length < 1e-3
-		indicator.pos[0] = w/2.0f;
-		indicator.pos[1] = h/2.0f;
+		indicator.pos.x = w/2.0f;
+		indicator.pos.y = h/2.0f;
 		indicator.side = INDICATOR_ONSCREEN;
 	} else {
 		vector3d proj;
@@ -1281,8 +1270,8 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 		if (! success)
 			proj = vector3d(w/2.0, h/2.0, 0.0);
 		
-		indicator.realpos[0] = int(proj.x);
-		indicator.realpos[1] = int(proj.y);
+		indicator.realpos.x = int(proj.x);
+		indicator.realpos.y = int(proj.y);
 
 		bool onscreen =
 			(cameraSpacePos.z < 0.0) &&
@@ -1290,8 +1279,8 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 			(proj.y >= BORDER) && (proj.y < h - BORDER_BOTTOM);
 
 		if (onscreen) {
-			indicator.pos[0] = int(proj.x);
-			indicator.pos[1] = int(proj.y);
+			indicator.pos.x = int(proj.x);
+			indicator.pos.y = int(proj.y);
 			indicator.side = INDICATOR_ONSCREEN;
 		} else {
 			// homogeneous 2D points and lines are really useful
@@ -1302,23 +1291,23 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 			indicator.side = INDICATOR_TOP;
 
 			// this fallback is used if direction is close to (0, 0, +ve)
-			indicator.pos[0] = w/2.0;
-			indicator.pos[1] = BORDER;
+			indicator.pos.x = w/2.0;
+			indicator.pos.y = BORDER;
 
 			if (cameraSpacePos.x < -1e-3) {
 				vector3d ptLeft = lnDir.Cross(vector3d(-1.0, 0.0, BORDER));
 				ptLeft /= ptLeft.z;
 				if (ptLeft.y >= BORDER && ptLeft.y < h - BORDER_BOTTOM) {
-					indicator.pos[0] = ptLeft.x;
-					indicator.pos[1] = ptLeft.y;
+					indicator.pos.x = ptLeft.x;
+					indicator.pos.y = ptLeft.y;
 					indicator.side = INDICATOR_LEFT;
 				}
 			} else if (cameraSpacePos.x > 1e-3) {
 				vector3d ptRight = lnDir.Cross(vector3d(-1.0, 0.0,  w - BORDER));
 				ptRight /= ptRight.z;
 				if (ptRight.y >= BORDER && ptRight.y < h - BORDER_BOTTOM) {
-					indicator.pos[0] = ptRight.x;
-					indicator.pos[1] = ptRight.y;
+					indicator.pos.x = ptRight.x;
+					indicator.pos.y = ptRight.y;
 					indicator.side = INDICATOR_RIGHT;
 				}
 			}
@@ -1327,16 +1316,16 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 				vector3d ptBottom = lnDir.Cross(vector3d(0.0, -1.0, h - BORDER_BOTTOM));
 				ptBottom /= ptBottom.z;
 				if (ptBottom.x >= BORDER && ptBottom.x < w-BORDER) {
-					indicator.pos[0] = ptBottom.x;
-					indicator.pos[1] = ptBottom.y;
+					indicator.pos.x = ptBottom.x;
+					indicator.pos.y = ptBottom.y;
 					indicator.side = INDICATOR_BOTTOM;
 				}
 			} else if (cameraSpacePos.y > 1e-3) {
 				vector3d ptTop = lnDir.Cross(vector3d(0.0, -1.0, BORDER));
 				ptTop /= ptTop.z;
 				if (ptTop.x >= BORDER && ptTop.x < w - BORDER) {
-					indicator.pos[0] = ptTop.x;
-					indicator.pos[1] = ptTop.y;
+					indicator.pos.x = ptTop.x;
+					indicator.pos.y = ptTop.y;
 					indicator.side = INDICATOR_TOP;
 				}
 			}
@@ -1354,7 +1343,7 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 			case INDICATOR_HIDDEN: break;
 			case INDICATOR_ONSCREEN: // when onscreen, default to label-below unless it would clamp to be on top of the marker
 				pos[0] = -(labelSize[0]/2.0f);
-				if (indicator.pos[1] + pos[1] + labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f > h - BORDER_BOTTOM)
+				if (indicator.pos.y + pos[1] + labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f > h - BORDER_BOTTOM)
 					pos[1] = -(labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f);
 				else
 					pos[1] = HUD_CROSSHAIR_SIZE + 2.0f;
@@ -1377,8 +1366,8 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 				break;
 			}
 
-			pos[0] = Clamp(pos[0] + indicator.pos[0], BORDER, w - BORDER - labelSize[0]);
-			pos[1] = Clamp(pos[1] + indicator.pos[1], BORDER, h - BORDER_BOTTOM - labelSize[1]);
+			pos[0] = Clamp(pos[0] + indicator.pos.x, BORDER, w - BORDER - labelSize[0]);
+			pos[1] = Clamp(pos[1] + indicator.pos.y, BORDER, h - BORDER_BOTTOM - labelSize[1]);
 			MoveChild(indicator.label, pos[0], pos[1]);
 			indicator.label->Show();
 		} else {
@@ -1390,7 +1379,7 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 void WorldView::HideIndicator(Indicator &indicator)
 {
 	indicator.side = INDICATOR_HIDDEN;
-	indicator.pos[0] = indicator.pos[1] = 0;
+	indicator.pos = vector2f(0.0f, 0.0f);
 	if (indicator.label)
 		indicator.label->Hide();
 }
@@ -1503,8 +1492,8 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 	if (target.side == INDICATOR_HIDDEN) return;
 
 	if (target.side == INDICATOR_ONSCREEN) {
-		float x1 = target.pos[0], y1 = target.pos[1];
-		float x2 = lead.pos[0], y2 = lead.pos[1];
+		float x1 = target.pos.x, y1 = target.pos.y;
+		float x2 = lead.pos.x, y2 = lead.pos.y;
 
 		float xd = x2 - x1, yd = y2 - y1;
 		if (lead.side != INDICATOR_ONSCREEN) {
@@ -1559,10 +1548,10 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 	const float sz = (marker.side == INDICATOR_ONSCREEN)
 		? float(WorldView::PICK_OBJECT_RECT_SIZE * 0.5) : 3.0f;
 
-	const float x1 = float(marker.pos[0] - sz);
-	const float x2 = float(marker.pos[0] + sz);
-	const float y1 = float(marker.pos[1] - sz);
-	const float y2 = float(marker.pos[1] + sz);
+	const float x1 = float(marker.pos.x - sz);
+	const float x2 = float(marker.pos.x + sz);
+	const float y1 = float(marker.pos.y - sz);
+	const float y2 = float(marker.pos.y + sz);
 
 	const vector2f vts[] = {
 		vector2f(x1, y1),
@@ -1579,8 +1568,8 @@ void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
 
 	const float sz = HUD_CROSSHAIR_SIZE;
 	if (marker.side == INDICATOR_ONSCREEN) {
-		const float posx = marker.pos[0];
-		const float posy = marker.pos[1];
+		const float posx = marker.pos.x;
+		const float posy = marker.pos.y;
 		const vector2f vts[] = {
 			vector2f(posx-sz, posy-sz),
 			vector2f(posx-0.5f*sz, posy-0.5f*sz),
@@ -1597,34 +1586,13 @@ void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
 
 }
 
-void WorldView::DrawCircleIndicator(const Indicator &marker, const Color &c)
-{
-	if (marker.side == INDICATOR_HIDDEN) return;
-
-	// XXX implement DrawCircle
-	const float sz = HUD_CROSSHAIR_SIZE*0.5;
-	if (marker.side == INDICATOR_ONSCREEN) {
-		const float posx = marker.pos[0];
-		const float posy = marker.pos[1];
-		std::vector<vector2f> vts;
-		for (int i = 0; i < 72; i++) {
-			vts.push_back(vector2f(
-				posx+sinf(DEG2RAD(i*5))*sz,
-				posy+cosf(DEG2RAD(i*5))*sz));
-		}
-		m_renderer->DrawLines2D(72, &vts[0], c, Graphics::LINE_LOOP);
-	} else
-		DrawEdgeMarker(marker, c);
-}
-
 void WorldView::DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c)
 {
 	if (marker.side == INDICATOR_HIDDEN) return;
 
 	if (marker.side == INDICATOR_ONSCREEN) {
-		const float x = marker.pos[0] - m_indicatorMousedirSize.x/2.0f;
-		const float y = marker.pos[1] - m_indicatorMousedirSize.y/2.0f;
-		quad->Draw(Pi::renderer, vector2f(x,y), m_indicatorMousedirSize, c);
+		vector2f pos = marker.pos - m_indicatorMousedirSize/2.0f;
+		quad->Draw(Pi::renderer, pos, m_indicatorMousedirSize, c);
 	} else
 		DrawEdgeMarker(marker, c);
 }
@@ -1633,16 +1601,11 @@ void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 {
 	const float sz = HUD_CROSSHAIR_SIZE;
 
-	// this would be easier with a vector2 class
-	float dirx = Gui::Screen::GetWidth()/2.0f - float(marker.pos[0]);
-	float diry = Gui::Screen::GetHeight()/2.0f - float(marker.pos[1]);
-	float len = sqrt(dirx*dirx + diry*diry);
-	dirx *= sz/len;
-	diry *= sz/len;
-	const vector2f vts[] = {
-		vector2f(marker.pos[0], marker.pos[1]),
-		vector2f(marker.pos[0] + dirx, marker.pos[1] + diry)
-	};
+	const vector2f screenCentre(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f);
+	vector2f dir = screenCentre - marker.pos;
+	float len = dir.Length();
+	dir *= sz/len;
+	const vector2f vts[] = { marker.pos, marker.pos + dir };
 	m_renderer->DrawLines2D(2, vts, c);
 }
 
@@ -1670,7 +1633,7 @@ void NavTunnelWidget::Draw() {
 	if (navtarget != NULL) {
 		const Color green = Color(0.f, 1.f, 0.f, 0.8f);
 		
-		vector2f indvec = vector2f(m_worldview->m_navTargetIndicator.pos[0], m_worldview->m_navTargetIndicator.pos[1]);
+		vector2f indvec = vector2f(m_worldview->m_navTargetIndicator.pos.x, m_worldview->m_navTargetIndicator.pos.y);
 		double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
 		
 		vector3d navpos = navtarget->GetPositionRelTo(Pi::player);
@@ -1687,7 +1650,7 @@ void NavTunnelWidget::Draw() {
 		int i = 1;
 		int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2;
 		double angle = atan(maxSquareHeight / distToDest);
-		const float tpos[2] = { m_worldview->m_navTargetIndicator.realpos[0],m_worldview->m_navTargetIndicator.realpos[1] };
+		const float tpos[2] = { m_worldview->m_navTargetIndicator.realpos.x, m_worldview->m_navTargetIndicator.realpos.y };
 		const float distDiffX = tpos[0] - (Gui::Screen::GetWidth() / 2.0f);
 		const float distDiffY = tpos[1] - (Gui::Screen::GetHeight() / 2.0f);
 		
