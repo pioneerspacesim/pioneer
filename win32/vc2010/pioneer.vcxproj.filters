@@ -672,6 +672,12 @@
     <ClCompile Include="..\..\src\CRC32.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\SDLWrappers.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\View.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -1260,6 +1266,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\CRC32.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SDLWrappers.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

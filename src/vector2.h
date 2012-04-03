@@ -1,8 +1,8 @@
 #ifndef _VECTOR2_H
 #define _VECTOR2_H
 
-#include <cmath>
 #include "FloatComparison.h"
+#include <math.h>
 
 class vector2f {
 public:
