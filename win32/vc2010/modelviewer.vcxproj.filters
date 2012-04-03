@@ -19,8 +19,8 @@
     <Filter Include="src\graphics">
       <UniqueIdentifier>{9055f019-4a3b-416b-b0c6-58c1848f117a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\text">
-      <UniqueIdentifier>{199221f9-f28e-4c84-8d91-ce8bd9ea26eb}</UniqueIdentifier>
+    <Filter Include="src\newmodel">
+      <UniqueIdentifier>{7c68b9db-73c9-4cfa-a4da-6cf139029db7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +55,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LuaUtils.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\TextureFont.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VectorFont.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\FontConfig.cpp">
@@ -201,7 +207,13 @@
     <ClCompile Include="..\..\src\gui\GuiTexturedQuad.cpp">
       <Filter>src\gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Font.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\FontCache.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\TextSupport.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Font.cpp">
@@ -213,17 +225,20 @@
     <ClCompile Include="..\..\src\SDLWrappers.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\text\Font.cpp">
-      <Filter>src\text</Filter>
+    <ClCompile Include="..\..\src\newmodel\Group.cpp">
+      <Filter>src\newmodel</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\text\TextSupport.cpp">
-      <Filter>src\text</Filter>
+    <ClCompile Include="..\..\src\newmodel\Importer.cpp">
+      <Filter>src\newmodel</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\text\TextureFont.cpp">
-      <Filter>src\text</Filter>
+    <ClCompile Include="..\..\src\newmodel\Newmodel.cpp">
+      <Filter>src\newmodel</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\text\VectorFont.cpp">
-      <Filter>src\text</Filter>
+    <ClCompile Include="..\..\src\newmodel\Node.cpp">
+      <Filter>src\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\newmodel\StaticGeometry.cpp">
+      <Filter>src\newmodel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -270,6 +285,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaUtils.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\TextureFont.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\VectorFont.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\FontConfig.h">
@@ -437,6 +458,12 @@
     <ClInclude Include="..\..\src\gui\GuiTexturedQuad.h">
       <Filter>src\gui</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\TextSupport.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Font.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\FontCache.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -446,20 +473,20 @@
     <ClInclude Include="..\..\src\SDLWrappers.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\text\Font.h">
-      <Filter>src\text</Filter>
+    <ClInclude Include="..\..\src\newmodel\Group.h">
+      <Filter>src\newmodel</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\text\FontDescriptor.h">
-      <Filter>src\text</Filter>
+    <ClInclude Include="..\..\src\newmodel\Importer.h">
+      <Filter>src\newmodel</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\text\TextSupport.h">
-      <Filter>src\text</Filter>
+    <ClInclude Include="..\..\src\newmodel\Newmodel.h">
+      <Filter>src\newmodel</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\text\TextureFont.h">
-      <Filter>src\text</Filter>
+    <ClInclude Include="..\..\src\newmodel\Node.h">
+      <Filter>src\newmodel</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\text\VectorFont.h">
-      <Filter>src\text</Filter>
+    <ClInclude Include="..\..\src\newmodel\StaticGeometry.h">
+      <Filter>src\newmodel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
