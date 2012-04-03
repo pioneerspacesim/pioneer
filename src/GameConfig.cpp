@@ -27,6 +27,7 @@ GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
 	m_map["MaxPhysicsCyclesPerRender"] = "4";
 	m_map["AntiAliasingMode"] = "2";
 	m_map["JoystickDeadzone"] = "0.1";
+	m_map["DefaultLowThrustPower"] = "0.25";
 	m_map["VSync"] = "0";
 
 #ifdef _WIN32

@@ -33,7 +33,7 @@ public:
 		int offx, offy;
 		float offU, offV; //atlas UV offset
 	};
-	const glfglyph_t &GetGlyph(Uint32 ch) { return m_glyphs[ch]; }
+	const glfglyph_t &GetGlyph(Uint32 ch) const { return m_glyphs.find(ch)->second; }
 
 	static int GetGlyphCount() { return s_glyphCount; }
 	static void ClearGlyphCount() { s_glyphCount = 0; }

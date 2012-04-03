@@ -19,8 +19,6 @@
 #include "graphics/Shader.h"
 #include "graphics/TextureBuilder.h"
 
-static const std::string ecmTextureFilename("textures/ecm.png");
-
 #define TONS_HULL_PER_SHIELD 10.0f
 
 void SerializableEquipSet::Save(Serializer::Writer &wr)
@@ -729,7 +727,7 @@ void Ship::DoThrusterSounds() const
 {
 	// XXX sound logic could be part of a bigger class (ship internal sounds)
 	/* Ship engine noise. less loud inside */
-	float v_env = (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f) * Sound::GetSfxVolume();
+	float v_env = (Pi::worldView->GetActiveCamera()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 	static Sound::Event sndev;
 	float volBoth = 0.0f;
 	volBoth += 0.5f*fabs(GetThrusterState().y);
@@ -1192,7 +1190,7 @@ void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 
 		// XXX no need to recreate material every time
 		Graphics::Material mat;
-		mat.texture0 = Graphics::TextureBuilder::Model(ecmTextureFilename).GetOrCreateTexture(Pi::renderer, "model");
+		mat.texture0 = Graphics::TextureBuilder::Model("textures/ecm.png").GetOrCreateTexture(Pi::renderer, "model");
 		mat.unlit = true;
 		mat.diffuse = c;
 		renderer->DrawPointSprites(100, v, &mat, 50.f);

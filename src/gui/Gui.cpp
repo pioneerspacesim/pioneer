@@ -126,9 +126,9 @@ void MainLoopIteration()
 
 namespace Theme {
 	namespace Colors {
-		const float bg[] = { .25f,.37f,.63f };
-		const float bgShadow[] = { .08f,.12f,.21f };
-		const float tableHeading[] = { .7f,.7f,1.0f };
+		const Color bg(.25f, .37f, .63f);
+		const Color bgShadow(.08f, .12f, .21f);
+		const Color tableHeading(.7f, .7f, 1.0f);
 	}
 	static const float BORDER_WIDTH = 2.0;
 

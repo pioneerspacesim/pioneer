@@ -305,7 +305,7 @@ static int l_shiptype_get_ship_types(lua_State *l)
 				lua_pushvalue(l, 2);
 				LuaShipType::PushToLua(st);
 				if (int ret = lua_pcall(l, 1, 1, 0)) {
-					const char *errmsg;
+					const char *errmsg( "Unknown error" );
 					if (ret == LUA_ERRRUN)
 						errmsg = lua_tostring(l, -1);
 					else if (ret == LUA_ERRMEM)

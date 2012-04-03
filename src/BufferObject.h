@@ -24,7 +24,7 @@ public:
 		glDeleteBuffersARB(1, &m_elementArrayBufferObject);
 	}
 
-	int GetVertexSpaceLeft() {
+	int GetVertexSpaceLeft() const {
 		return VERTICES_IN_BUFFER - m_vertexPos;
 	}
 

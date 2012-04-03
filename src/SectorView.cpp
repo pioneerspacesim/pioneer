@@ -112,8 +112,8 @@ void SectorView::InitObject()
 	const float rad = 0.2f;
 	for (int i = 72; i >= 0; i--) {
 		m_disk->Add(vector3f(
-			0.f+sinf(DEG2RAD(i*5))*rad,
-			0.f+cosf(DEG2RAD(i*5))*rad,
+			0.f+sinf(DEG2RAD(i*5.f))*rad,
+			0.f+cosf(DEG2RAD(i*5.f))*rad,
 			0.f));
 	}
 	

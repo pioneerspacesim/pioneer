@@ -42,33 +42,33 @@ SystemView::SystemView()
 	Add(m_zoomOutButton, 732, 5);
 
 	Gui::ImageButton *b = new Gui::ImageButton("icons/sysview_accel_r3.png", "icons/sysview_accel_r3_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -10000000.0));
-	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -10000000.f));
+	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	m_rightRegion2->Add(b, 0, 0);
 	
 	b = new Gui::ImageButton("icons/sysview_accel_r2.png", "icons/sysview_accel_r2_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -1000000.0));
-	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -1000000.f));
+	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	m_rightRegion2->Add(b, 26, 0);
 	
 	b = new Gui::ImageButton("icons/sysview_accel_r1.png", "icons/sysview_accel_r1_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -100000.0));
-	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -100000.f));
+	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	m_rightRegion2->Add(b, 45, 0);
 	
 	b = new Gui::ImageButton("icons/sysview_accel_f1.png", "icons/sysview_accel_f1_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 100000.0));
-	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 100000.f));
+	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	m_rightRegion2->Add(b, 64, 0);
 	
 	b = new Gui::ImageButton("icons/sysview_accel_f2.png", "icons/sysview_accel_f2_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 1000000.0));
-	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 1000000.f));
+	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	m_rightRegion2->Add(b, 83, 0);
 
 	b = new Gui::ImageButton("icons/sysview_accel_f3.png", "icons/sysview_accel_f3_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 10000000.0));
-	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 10000000.f));
+	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	m_rightRegion2->Add(b, 102, 0);
 
 	m_onMouseButtonDown = 
@@ -92,7 +92,7 @@ void SystemView::ResetViewpoint()
 	m_selectedObject = 0;
 	m_rot_z = 0;
 	m_rot_x = 50;
-	m_zoom = 1.0f/AU;
+	m_zoom = 1.0f/float(AU);
 	m_timeStep = 1.0f;
 	m_time = Pi::game->GetTime();
 }
@@ -186,7 +186,7 @@ void SystemView::PutBody(SBody *b, vector3d offset)
 		mat.diffuse = Color(1.f);
 		const double radius = b->GetRadius() * m_zoom;
 		const vector3f offsetf(offset);
-		for (float ang=0; ang<2.0f*M_PI; ang+=M_PI*0.05f) {
+		for (float ang=0; ang<2.0f*float(M_PI); ang+=float(M_PI)*0.05f) {
 			vector3f p = offsetf + s_invRot * vector3f(radius*sin(ang), -radius*cos(ang), 0);
 			va.Add(p);
 		}
@@ -258,8 +258,8 @@ void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
 	Gui::Screen::LeaveOrtho();
 }
 
-static const GLfloat fogDensity = 0.1;
-static const GLfloat fogColor[4] = { 0,0,0,1.0 };
+static const GLfloat fogDensity = 0.1f;
+static const GLfloat fogColor[4] = { 0,0,0,1.0f };
 
 void SystemView::GetTransformTo(SBody *b, vector3d &pos)
 {

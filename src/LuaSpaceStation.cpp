@@ -260,6 +260,26 @@ static int l_spacestation_get_equipment_price(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: numDocks
+ *
+ * The number of docking ports a spacestation has.
+ *
+ * Availability:
+ *
+ *   alpha 21
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_spacestation_attr_num_docks(lua_State *l)
+{
+	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
+	lua_pushinteger(l, s->GetDockingPortCount());
+	return 1;
+}
+
 static bool promotion_test(DeleteEmitter *o)
 {
 	return dynamic_cast<SpaceStation*>(o);
@@ -276,9 +296,16 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 		{ "RemoveAdvert", l_spacestation_remove_advert },
 
 		{ "GetEquipmentPrice", l_spacestation_get_equipment_price },
+
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, NULL, NULL);
+	static luaL_reg l_attrs[] = {
+		{ "numDocks", l_spacestation_attr_num_docks },
+
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, NULL);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
 }
