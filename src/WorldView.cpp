@@ -191,6 +191,8 @@ void WorldView::InitObject()
 	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();
 	m_indicatorMousedirSize = vector2f(descriptor.dataSize.x*descriptor.texSize.x,descriptor.dataSize.y*descriptor.texSize.y);
 
+	m_navTunnelDisplayed = (Pi::config->Int("DisplayNavTunnel")) ? true : false;
+
 	//get near & far clipping distances
 	//XXX m_renderer not set yet
 	float znear;
@@ -1618,7 +1620,7 @@ Widget(), m_worldview(worldview)
 }
 
 void NavTunnelWidget::Draw() {
-	if (!Pi::IsNavTunnelDisplayed()) return;
+	if (!m_worldview->IsNavTunnelDisplayed()) return;
 	
 	Body *navtarget = Pi::player->GetNavTarget();
 	if (navtarget) {

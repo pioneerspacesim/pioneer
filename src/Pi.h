@@ -89,8 +89,6 @@ public:
 		memcpy(motion, mouseMotion, sizeof(int)*2);
 	}
 	static void SetMouseGrab(bool on);
-	static void SetNavTunnelDisplayed(bool state) { navTunnelDisplayed = state; }
-	static bool IsNavTunnelDisplayed() { return navTunnelDisplayed; }
 	static void BoinkNoise();
 	static float CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes);
 	static void Message(const std::string &message, const std::string &from = "", enum MsgLevel level = MSG_NORMAL);
@@ -206,7 +204,6 @@ private:
 	};
 	static std::vector<JoystickState> joysticks;
 	static Sound::MusicPlayer musicPlayer;
-	static bool navTunnelDisplayed;
 };
 
 #endif /* _PI_H */
