@@ -3,6 +3,7 @@
 
 #include "libs.h"
 #include "gui/Gui.h"
+#include "gui/GuiWidget.h"
 #include "View.h"
 #include "Serializer.h"
 #include "Background.h"
@@ -13,10 +14,12 @@ class Body;
 class Frame;
 class LabelSet;
 class Ship;
+class NavTunnelWidget;
 namespace Gui { class TexturedQuad; }
 
 class WorldView: public View {
 public:
+	friend class NavTunnelWidget;
 	WorldView();
 	WorldView(Serializer::Reader &reader);
 	virtual ~WorldView();
@@ -39,6 +42,9 @@ public:
 	int GetActiveWeapon() const;
 	void OnClickBlastoff();
 
+	void SetNavTunnelDisplayed(bool state) { m_navTunnelDisplayed = state; }
+	bool IsNavTunnelDisplayed() const { return m_navTunnelDisplayed; }
+
 	sigc::signal<void> onChangeCamType;
 
 private:
@@ -59,9 +65,10 @@ private:
 
 	struct Indicator {
 		vector2f pos;
+		vector2f realpos;
 		IndicatorSide side;
 		Gui::Label *label;
-		Indicator(): pos(0.0f, 0.0f), side(INDICATOR_HIDDEN), label(0) {}
+		Indicator(): pos(0.0f, 0.0f), realpos(0.0f, 0.0f), side(INDICATOR_HIDDEN), label(0) {}
 	};
 	
 	void UpdateProjectedObjects();
@@ -99,7 +106,7 @@ private:
 	Body* PickBody(const double screenX, const double screenY) const;
 	void MouseButtonDown(int button, int x, int y);
 
-	matrix4x4d m_prevShipOrient;
+	NavTunnelWidget *m_navTunnel;
 	
 	Gui::ImageButton *m_hyperspaceButton;
 
@@ -147,8 +154,21 @@ private:
 	Indicator m_targetLeadIndicator;
 	Indicator m_mouseDirIndicator;
 
+	bool m_navTunnelDisplayed;
+
 	ScopedPtr<Gui::TexturedQuad> m_indicatorMousedir;
 	vector2f m_indicatorMousedirSize;
+};
+
+class NavTunnelWidget: public Gui::Widget {
+public:
+	NavTunnelWidget(WorldView *worldView);
+	virtual void Draw();
+	virtual void GetSizeRequested(float size[2]);
+	void DrawTargetGuideSquare(const vector2f &pos, const float size, const Color &c);
+
+private:
+	WorldView *m_worldView;
 };
 
 #endif /* _WORLDVIEW_H */

@@ -457,6 +457,17 @@ GameMenuView::GameMenuView(): View()
 		mybox->PackEnd(m_toggleMouseYInvert);
 		mybox->PackEnd(new Gui::Label(Lang::INVERT_MOUSE_Y));
 		box->PackEnd(mybox);
+
+		// Toggle nav tunnel
+		m_toggleNavTunnel = new Gui::ToggleButton();
+		m_toggleNavTunnel->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleNavTunnel));
+		box->PackEnd((new Gui::Label(Lang::HUD))->Color(1.0f,1.0f,0.0f));
+
+		Gui::HBox *guibox = new Gui::HBox();
+		guibox->SetSpacing(5.0f);
+		guibox->PackEnd(m_toggleNavTunnel);
+		guibox->PackEnd(new Gui::Label(Lang::DISPLAY_NAV_TUNNEL));
+		box->PackEnd(guibox);
 	}
 }
 
@@ -586,6 +597,13 @@ void GameMenuView::OnToggleMouseYInvert(Gui::ToggleButton *b, bool state)
 	Pi::SetMouseYInvert(state);
 }
 
+void GameMenuView::OnToggleNavTunnel(Gui::ToggleButton *b, bool state) {
+	Pi::config->SetInt("DisplayNavTunnel", (state ? 1 : 0));
+	Pi::config->Save();
+	if (Pi::game && Pi::worldView)
+		Pi::worldView->SetNavTunnelDisplayed(state);
+}
+
 void GameMenuView::HideAll()
 {
 	if (m_changedDetailLevel) {
@@ -641,5 +659,6 @@ void GameMenuView::OnSwitchTo() {
 		m_toggleFullscreen->SetPressed(Pi::config->Int("StartFullscreen") != 0);
 		m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());
 		m_toggleMouseYInvert->SetPressed(Pi::IsMouseYInvert());
+		m_toggleNavTunnel->SetPressed(Pi::worldView->IsNavTunnelDisplayed());
 	}
 }

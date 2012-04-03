@@ -4,6 +4,8 @@ Alpha 21
      * Elite systems (Lave etc) with a new start point (#682)
      * Manual thrust power control. Use F8 and L-shift to limit thruster power
        finer control (#994, #129)
+     * Navtarget tunnels, a HUD feature to guide you to your destination. Enable
+       it in the "Controls" section of the settings screen (#1146, #1082)
      * New small buildings (#1047)
 
    * Minor changes and tweaks

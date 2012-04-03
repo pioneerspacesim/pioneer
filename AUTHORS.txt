@@ -25,6 +25,7 @@ Programming:
   Ae
   Benamucki
   Sukender (Benoit Neil)
+  Chris Dennett
 
 Art:
   Gernot
