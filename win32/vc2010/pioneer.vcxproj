@@ -269,6 +269,7 @@
     <ClCompile Include="..\..\src\Player.cpp" />
     <ClCompile Include="..\..\src\Polit.cpp" />
     <ClCompile Include="..\..\src\Projectile.cpp" />
+    <ClCompile Include="..\..\src\SDLWrappers.cpp" />
     <ClCompile Include="..\..\src\Sector.cpp" />
     <ClCompile Include="..\..\src\SectorView.cpp" />
     <ClCompile Include="..\..\src\Serializer.cpp" />
@@ -354,6 +355,7 @@
     <ClCompile Include="..\..\src\TextureFont.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\..\src\VectorFont.cpp" />
+    <ClCompile Include="..\..\src\View.cpp" />
     <ClCompile Include="..\..\src\WorldView.cpp" />
     <ClCompile Include="..\..\src\WorldViewCamera.cpp" />
     <ClCompile Include="..\src\FileSystemWin32.cpp" />
@@ -511,6 +513,7 @@
     <ClInclude Include="..\..\src\Quaternion.h" />
     <ClInclude Include="..\..\src\RefCounted.h" />
     <ClInclude Include="..\..\src\RefList.h" />
+    <ClInclude Include="..\..\src\SDLWrappers.h" />
     <ClInclude Include="..\..\src\Sector.h" />
     <ClInclude Include="..\..\src\SectorView.h" />
     <ClInclude Include="..\..\src\Serializer.h" />
