@@ -69,9 +69,10 @@ configure.ac             CMake variable
 
 ** Other notes **
 - Changing version is made by changing SET(${PROJECT_NAME}_MAJOR_VERSION ...) in CMakeLists.txt and lines following it.
-- Packaging (make the "PACKAGE" target for this):
+- Packaging (make the "package" target for this):
 	- As a .tar.bz2 (Linux): works
 	- As a .zip (Windows): works
 	- As an OSX DMG package: This is work-in-progress and suerly require some debugging.
 	- As a Debian package: NOT ready yet in CMake scripts
 	- As a Windows installer: NOT ready yet in CMake scripts
+
