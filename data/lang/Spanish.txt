@@ -253,7 +253,7 @@ INVERT_MOUSE_Y
 HUD
   HUD
 DISPLAY_NAV_TUNNEL
-  Display navigation tunnel 
+  Mostrar tunel de navegación 
 LANGUAGE_SELECTION
     Idioma (Reiniciar para aplicar)
  
