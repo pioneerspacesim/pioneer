@@ -1089,6 +1089,14 @@ bool SBody::hasAtmosphere() const
 	return true;
 }
 
+bool SBody::isScoopable() const
+{
+	if (GetSuperType() == SUPERTYPE_GAS_GIANT) {
+		return true;
+	}
+	return false;
+}
+
 void SBody::PickAtmosphere()
 {
 	/* Alpha value isn't real alpha. in the shader fog depth is determined

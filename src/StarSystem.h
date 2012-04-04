@@ -144,6 +144,8 @@ public:
 		*outDensity = m_atmosDensity;
 	}
 
+	bool isScoopable() const;
+
 	Uint32 id; // index into starsystem->m_bodies
 	SystemPath path;
 	int tmp;
