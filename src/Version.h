@@ -23,8 +23,8 @@ public:
 		MAX_QUALITY
 	};
 
-	Version(unsigned int majorNumber = 0, unsigned int minorNumber = 0, unsigned int revision = 0, unsigned int build = 0, EVersionQuality quality = QUALITY_STABLE)
-		: majorNumber(majorNumber), minorNumber(minorNumber), revision(revision), build(build), quality(quality)
+	Version(unsigned int majorNumber_ = 0, unsigned int minorNumber_ = 0, unsigned int revision_ = 0, unsigned int build_ = 0, EVersionQuality quality_ = QUALITY_STABLE)
+		: majorNumber(majorNumber_), minorNumber(minorNumber_), revision(revision_), build(build_), quality(quality_)
 	{}
 	Version(const Version & v) : majorNumber(v.majorNumber), minorNumber(v.minorNumber), revision(v.revision), build(v.build), quality(v.quality) {}
 

@@ -17,7 +17,8 @@
 #		XCode builds
 #		Try the ccache thing. On my (Sukender) Ubuntu Linux, ccache comes with symlinks but I'm not 100% sure it will work everywhere.
 #		Try with an old compiler, to ensure it doesn't complain about unsupported compile flags
-#		MinGW and Cygwin builds. They've never been tested.
+#		MinGW builds. They need all dependencies to be compiled with MinGW (can't mix MSVC and MinGW DLLs!). However a quick test shows that it compiles and all symbols are found. I (Sukender) assume it works.
+#		Cygwin builds. They've never been tested.
 # - Replace PIONEER_VERSION / PIONEER_EXTRAVERSION usage with Version.h.
 # 		Version.h/.cpp allow to grab versionning of VersionNumber.h without recompiling the entire project.
 #
@@ -71,6 +72,11 @@ SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
 
 include( "${PROJECT_SOURCE_DIR}/CMakeModules/AddDepend.cmake" )
 include( "${PROJECT_SOURCE_DIR}/CMakeModules/Warnings.cmake" )
+
+set(HAS_GCC_STYLE_FLAGS OFF)
+if(UNIX OR MINGW OR CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+	set(HAS_GCC_STYLE_FLAGS ON)
+endif()
 
 #########################################################################
 # Find GIT, to enable getting the head SHA (optional for compilation of course)
@@ -162,13 +168,21 @@ ENDIF()
 
 if(WIN32)
 	# Adding shlwapi.lib for FileSystem32.cpp (Sukender: I'd rather use boost.filesystem!)
-	string(REGEX MATCH "shlwapi\\.lib" LIBTEST "${CMAKE_CXX_STANDARD_LIBRARIES}")
-	if(NOT LIBTEST)
-		SET(CMAKE_CXX_STANDARD_LIBRARIES "${CMAKE_CXX_STANDARD_LIBRARIES} shlwapi.lib" CACHE STRING "" FORCE)
+	if(MSVC)
+		set(LIBREGEX "shlwapi\\.lib")
+		set(LIBNAME "shlwapi.lib")
+	else()
+		# gcc-style for MinGW
+		set(LIBREGEX "-lshlwapi")
+		set(LIBNAME "-lshlwapi")
 	endif()
-	string(REGEX MATCH "shlwapi\\.lib" LIBTEST "${CMAKE_C_STANDARD_LIBRARIES}")
+	string(REGEX MATCH "${LIBREGEX}" LIBTEST "${CMAKE_CXX_STANDARD_LIBRARIES}")
 	if(NOT LIBTEST)
-		SET(CMAKE_C_STANDARD_LIBRARIES "${CMAKE_C_STANDARD_LIBRARIES} shlwapi.lib" CACHE STRING "" FORCE)
+		SET(CMAKE_CXX_STANDARD_LIBRARIES "${CMAKE_CXX_STANDARD_LIBRARIES} ${LIBNAME}" CACHE STRING "" FORCE)
+	endif()
+	string(REGEX MATCH "${LIBREGEX}" LIBTEST "${CMAKE_C_STANDARD_LIBRARIES}")
+	if(NOT LIBTEST)
+		SET(CMAKE_C_STANDARD_LIBRARIES "${CMAKE_C_STANDARD_LIBRARIES} ${LIBNAME}" CACHE STRING "" FORCE)
 	endif()
 endif()
 
@@ -203,10 +217,7 @@ ENDIF()
 # ccache
 
 #if(NOT WIN32)
-if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
-	if (NOT CMAKE_COMPILER_IS_GNUCXX)
-		#message(STATUS "...warning...")
-	endif()
+if(HAS_GCC_STYLE_FLAGS)
 	OPTION(${PROJECT_NAME}_USE_ccache "Set to ON to use ccache to compile." OFF)
 	if (${PROJECT_NAME}_USE_ccache)
 		find_package(ccache QUIET)
@@ -271,7 +282,7 @@ ENDMACRO()
 
 # Selecting regex for optimisation flags
 set(OptimisationFlagRegex "\\\\-O[^ ]+")		# Default configuration is gcc
-if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
+if(HAS_GCC_STYLE_FLAGS)
 	# Nothing to do.
 elseif(MSVC)
 	set(OptimisationFlagRegex "/O[^b][^ ]*")		# All but inlining mode
@@ -281,7 +292,7 @@ endif()
 
 # Selecting regex for inlining flags
 set(InilineFlagRegex "\\\\-fno\\\\-inline")		# Default configuration is gcc
-if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
+if(HAS_GCC_STYLE_FLAGS)
 	# Nothing to do.
 elseif(MSVC)
 	set(InilineFlagRegex "/Ob[012]")
@@ -296,10 +307,7 @@ endif()
 # Debug must have -fno-inline in the gcc/g++.
 # Note: MSVC Debug default conig is to have no inlining enabled
 # TODO: make this appear in the cache?
-if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
-	if (NOT CMAKE_COMPILER_IS_GNUCXX)
-		#message(STATUS "...warning...")
-	endif()
+if(HAS_GCC_STYLE_FLAGS)
 	ADD_FLAG_CONFIG(Debug "-fno-inline")
 endif()
 
@@ -307,10 +315,7 @@ endif()
 # No inline
 OPTION(${PROJECT_NAME}_FORCE_NO_INLINE "Set to ON to force no inlining (-fno-inline option for gcc, /Ob0 for MSVC). Compatibility option for --with-fno-inline." OFF)
 if (${PROJECT_NAME}_FORCE_NO_INLINE)
-	if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
-		if (NOT CMAKE_COMPILER_IS_GNUCXX)
-			#message(STATUS "...warning...")
-		endif()
+	if(HAS_GCC_STYLE_FLAGS)
 		REMOVE_FLAG_REGEX_ALL_CONFIGS("${InilineFlagRegex}")
 		ADD_FLAG("-fno-inline")
 	elseif(MSVC)
@@ -338,10 +343,7 @@ endif()
 # No optimise
 OPTION(${PROJECT_NAME}_FORCE_NO_OPTIMISE "Set to ON to force disabling optimizations, whatever the build type. Compatibility option for --with-no-optimise." OFF)
 if(${PROJECT_NAME}_FORCE_NO_OPTIMISE)
-	if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
-		if (NOT CMAKE_COMPILER_IS_GNUCXX)
-			#message(STATUS "...warning...")
-		endif()
+	if(HAS_GCC_STYLE_FLAGS)
 		REMOVE_FLAG_REGEX_ALL_CONFIGS("${OptimisationFlagRegex}")
 		ADD_FLAG("-O0")
 	elseif(MSVC)
@@ -363,10 +365,7 @@ endif()
 # Setup default DEBUG/NDEBUG flags, as they differ from CMake's default:
 #   1. Replace NDEBUG with DEBUG for RelWithDebugInfo
 #	2. Add DEBUG for Debug (Note: MSVC has "_DEBUG" by default)
-if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
-	if (NOT CMAKE_COMPILER_IS_GNUCXX)
-		#message(STATUS "...warning...")
-	endif()
+if(HAS_GCC_STYLE_FLAGS)
 	REMOVE_FLAG_REGEX_CONFIG(RelWithDebInfo "\\\\-DNDEBUG")
 	ADD_FLAG_CONFIG(RelWithDebInfo "-DDEBUG")
 	ADD_FLAG_CONFIG(Debug "-DDEBUG")
@@ -382,10 +381,7 @@ endif()
 # Add FORCE_DEBUG_BUILD option
 OPTION(${PROJECT_NAME}_FORCE_DEBUG_BUILD "Set to ON to force 'DEBUG' preprocessor definition. Compatibility option for --enable-debug." OFF)
 if(${PROJECT_NAME}_FORCE_DEBUG_BUILD)
-	if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
-		if (NOT CMAKE_COMPILER_IS_GNUCXX)
-			#message(STATUS "...warning...")
-		endif()
+	if(HAS_GCC_STYLE_FLAGS)
 		REMOVE_FLAG_REGEX_ALL_CONFIGS("\\\\-DNDEBUG")
 	elseif(MSVC)
 		REMOVE_FLAG_REGEX_ALL_CONFIGS("/D NDEBUG")
