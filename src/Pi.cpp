@@ -68,6 +68,7 @@
 #include "Sfx.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "SDLWrappers.h"
 #include <fstream>
 
 float Pi::gameTickAlpha;
@@ -369,22 +370,10 @@ void Pi::RedirectStdio()
 
 void Pi::LoadWindowIcon()
 {
-	static const std::string filename("icons/badge.png");
-
-	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
-	if (!filedata) {
-		fprintf(stderr, "LoadWindowIcon: %s: could not read file\n", filename.c_str());
-		return;
+	SDLSurfacePtr surface = LoadSurfaceFromFile("icons/badge.png");
+	if (surface) {
+		SDL_WM_SetIcon(surface.Get(), 0);
 	}
-
-	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
-	SDL_Surface *icon = IMG_Load_RW(datastream, 1);
-	if (!icon) {
-		fprintf(stderr, "LoadWindowIcon: %s: %s\n", filename.c_str(), IMG_GetError());
-		return;
-	}
-
-	SDL_WM_SetIcon(icon, 0);
 }
 
 void Pi::Init()
@@ -684,6 +673,8 @@ void Pi::BoinkNoise()
 
 void Pi::SetView(View *v)
 {
+	if (cpan)
+		cpan->ClearOverlay();
 	if (currentView) currentView->HideAll();
 	currentView = v;
 	if (currentView) {
@@ -795,7 +786,7 @@ void Pi::HandleEvents()
 									ship->m_equipment.Add(Equip::SCANNER);
 									ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
 									ship->m_equipment.Add(Equip::HYDROGEN, 10);
-									ship->UpdateMass();
+									ship->UpdateStats();
 									game->GetSpace()->AddBody(ship);
 								}
 							}
@@ -1060,7 +1051,7 @@ void Pi::HandleMenuKey(int n)
 			enemy->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 			enemy->m_equipment.Add(Equip::AUTOPILOT);
 			enemy->m_equipment.Add(Equip::SCANNER);
-			enemy->UpdateMass();
+			enemy->UpdateStats();
 			enemy->AIKill(player);
 			game->GetSpace()->AddBody(enemy);
 

@@ -117,7 +117,7 @@ Ship *HyperspaceCloud::EvictShip()
 static void make_circle_thing(VertexArray &va, float radius, const Color &colCenter, const Color &colEdge)
 {
 	va.Add(vector3f(0.f, 0.f, 0.f), colCenter);
-	for (float ang=0; ang<M_PI*2.0; ang+=0.1) {
+	for (float ang=0; ang<float(M_PI)*2.f; ang+=0.1f) {
 		va.Add(vector3f(radius*sin(ang), radius*cos(ang), 0.0f), colEdge);
 	}
 	va.Add(vector3f(0.f, radius, 0.f), colEdge);

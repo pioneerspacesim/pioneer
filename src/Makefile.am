@@ -100,6 +100,7 @@ noinst_HEADERS = \
 	Quaternion.h \
 	RefCounted.h \
 	RefList.h \
+	SDLWrappers.h \
 	Sector.h \
 	SectorView.h \
 	Serializer.h \
@@ -234,6 +235,7 @@ pioneer_SOURCES	= \
 	Player.cpp \
 	Polit.cpp \
 	Projectile.cpp \
+	SDLWrappers.cpp \
 	Sector.cpp \
 	SectorView.cpp \
 	Serializer.cpp \
@@ -271,6 +273,7 @@ pioneer_SOURCES	= \
 	TextureFont.cpp \
 	TextSupport.cpp \
 	VectorFont.cpp \
+	View.cpp \
 	WorldView.cpp \
 	WorldViewCamera.cpp \
 	main.cpp \
@@ -303,6 +306,7 @@ modelviewer_SOURCES = \
 	EquipType.cpp \
 	ShipType.cpp \
 	MyLuaMathTypes.cpp \
+	SDLWrappers.cpp \
 	StringF.cpp \
 	TextureFont.cpp \
 	TextSupport.cpp \

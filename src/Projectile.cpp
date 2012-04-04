@@ -18,9 +18,6 @@
 #include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
 
-static const std::string projectileTextureFilename("textures/projectile_l.png");
-static const std::string projectileGlowTextureFilename("textures/projectile_w.png");
-
 Projectile::Projectile(): Body()
 {
 	m_orient = matrix4x4d::Identity();
@@ -31,10 +28,10 @@ Projectile::Projectile(): Body()
 	m_flags |= FLAG_DRAW_LAST;
 
 	//set up materials
-	m_sideMat.texture0 = Graphics::TextureBuilder::Billboard(projectileTextureFilename).GetOrCreateTexture(Pi::renderer, "billboard");
+	m_sideMat.texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.png").GetOrCreateTexture(Pi::renderer, "billboard");
 	m_sideMat.unlit = true;
 	m_sideMat.twoSided = true;
-	m_glowMat.texture0 = Graphics::TextureBuilder::Billboard(projectileGlowTextureFilename).GetOrCreateTexture(Pi::renderer, "billboard");
+	m_glowMat.texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.png").GetOrCreateTexture(Pi::renderer, "billboard");
 	m_glowMat.unlit = true;
 	m_glowMat.twoSided = true;
 
@@ -88,7 +85,7 @@ Projectile::Projectile(): Body()
 		m_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
 
 		gw -= 0.1f; // they get smaller
-		gz -= 0.2; // as they move back
+		gz -= 0.2f; // as they move back
 	}
 }
 

@@ -101,11 +101,11 @@ public:
 	bool DoesSell(Equip::Type t) const;
 	virtual const SBody *GetSBody() const { return m_sbody; }
 	void ReplaceShipOnSale(int idx, const ShipFlavour *with);
-	std::vector<ShipFlavour> &GetShipsOnSale() { return m_shipsOnSale; }
+	const std::vector<ShipFlavour> &GetShipsOnSale() const { return m_shipsOnSale; }
 	virtual void PostLoadFixup(Space *space);
 	virtual void NotifyRemoved(const Body* const removedBody);
 	int GetDockingPortCount() const { return m_type->numDockingPorts; }
-	int GetFreeDockingPort(); // returns -1 if none free
+	int GetFreeDockingPort() const; // returns -1 if none free
 	int GetMyDockingPort(const Ship *s) const {
 		for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 			if (s == m_shipDocking[i].ship) return i;
