@@ -2,8 +2,13 @@
 HOW-TO Start building using CMake
 ---------------------------------
 
-Quick start
------------
+Table of contents:
+1. Quick start
+2. Autotools users (migration)
+
+
+1. Quick start
+--------------
 
 Let's say you have source code in "SOURCE_DIR".
 
@@ -30,14 +35,15 @@ Prerequisites:
 	- MSVC users: Simply double-click the ".sln" file.
 	- Makefile-based users: run "make"
 
-Notes:
-	- Linux/OSX users can alternatively run "./configure.sh". This is a shortchut to "mkdir build; cd build; cmake ..".
-		This may be renamed "configure" later on, to stick with common layout.
-	- MSVC users may need to run environment initialization batch (Generally "C:\Program Files\Microsoft Visual Studio xx.0\VC\vcvarsall.bat")
+** Notes **
+- Never modify generated makefiles, MSVC or XCode projects! These will be overwritten each time CMake needs to regenerate. Any change must be applied in the CMake scripts.
+- Linux/OSX users can alternatively run "./configure.sh". This is a shortchut to "mkdir build; cd build; cmake ..".
+	This may be renamed "configure" later on, to stick with common layout.
+- MSVC users may need to run environment initialization batch (Generally "C:\Program Files\Microsoft Visual Studio xx.0\VC\vcvarsall.bat")
 
 
-Autotools users
----------------
+2. Autotools users
+------------------
 
 If you are/were an user of "configure.ac", please read the following notes.
 

@@ -7,6 +7,7 @@
 
 # Current status of these CMake scripts: alpha (still bugs/tests to perform/missing features)
 # High priority tasks:
+# - Do/test cross-building.
 # - XCode project does find GL/glew.h (Dessimat0r's configuration). System paths are:
 #		usr/include/GL/glew.h
 #		usr/include/GL/GL/glew.h
@@ -16,6 +17,7 @@
 #		XCode builds
 #		Try the ccache thing. On my (Sukender) Ubuntu Linux, ccache comes with symlinks but I'm not 100% sure it will work everywhere.
 #		Try with an old compiler, to ensure it doesn't complain about unsupported compile flags
+#		MinGW and Cygwin builds. They've never been tested.
 # - Replace PIONEER_VERSION / PIONEER_EXTRAVERSION usage with Version.h.
 # 		Version.h/.cpp allow to grab versionning of VersionNumber.h without recompiling the entire project.
 #
