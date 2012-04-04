@@ -1,4 +1,4 @@
-# This is the common part for "pioneer" and "modelviewer" executables
+# This is the common part for "pioneer" and "modelviewer" executables, and corresponding underlying static libs
 
 
 IF (${PROJECT_NAME}_USE_PRECOMPILED_HEADERS)

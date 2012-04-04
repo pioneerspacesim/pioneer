@@ -66,6 +66,8 @@
 #include "FileSystem.h"
 #include "Light.h"
 #include "Sfx.h"
+#include "Config.h"
+#include "Version.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "SDLWrappers.h"
@@ -1176,8 +1178,12 @@ void Pi::Start()
 	menu->Add(opts[5], w, h+80);
 	menu->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+80);
 
-	std::string version("Pioneer " PIONEER_VERSION);
-	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
+	// Setting version string
+	std::string version(Pioneer_NAME);
+	const std::string versionName(getVersionName());
+	const std::string revision(getRevision());
+	if (!versionName.empty()) version += " " + versionName;
+	if (!revision.empty()) version += " (" + revision + ")";
 	version += "\n";
 	version += Pi::renderer->GetName();
 

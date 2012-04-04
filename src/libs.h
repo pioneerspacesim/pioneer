@@ -1,7 +1,7 @@
 #ifndef _LIBS_H
 #define _LIBS_H
 
-#include "buildopts.h"
+#include "Config.h"
 
 #include <cassert>
 #include <cstdio>

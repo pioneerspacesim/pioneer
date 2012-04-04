@@ -9,18 +9,22 @@
 # High priority tasks:
 # - Do/test cross-building.
 #		robn: I use mingw-cross-env.nongnu.org and pass --host=i686-pc-mingw32 to configure. Everything else is "documented" in configure.ac. Mostly avoiding feature detection and just hardcoding paths and switches.
-# - XCode project does find GL/glew.h (Dessimat0r's configuration). System paths are:
+# - XCode project doesn't find GL/glew.h (Dessimat0r's configuration). System paths are:
 #		usr/include/GL/glew.h
 #		usr/include/GL/GL/glew.h
 # - Test everything, especially compared to actual build systems.
-# 		Build system has to test for the availbility of each warning flag (old compiler support). This SHOULD be done automatically by CMake, but this hasn't been tested.
 #		XCode builds
 #		Try the ccache thing. On my (Sukender) Ubuntu Linux, ccache comes with symlinks but I'm not 100% sure it will work everywhere.
-#		Try with an old compiler, to ensure it doesn't complain about unsupported compile flags
-#		MinGW builds. They need all dependencies to be compiled with MinGW (can't mix MSVC and MinGW DLLs!). However a quick test shows that it compiles and all symbols are found. I (Sukender) assume it works.
+#		Try with an old compiler, to ensure it doesn't complain about unsupported compile flags. Build system has to test for the availbility of each warning flag (old compiler support). This SHOULD be done automatically by CMake, but this hasn't been tested.
+#		MinGW builds. They need all dependencies to be compiled with MinGW (can't mix MSVC and MinGW DLLs!). However a quick test shows that it compiles and all symbols are found (using MSVC DLLs). I (Sukender) assume it works.
 #		Cygwin builds. They've never been tested.
-# - Replace PIONEER_VERSION / PIONEER_EXTRAVERSION usage with Version.h.
-# 		Version.h/.cpp allow to grab versionning of VersionNumber.h without recompiling the entire project.
+# - Make static libs for: collider gui graphics terrain
+# - Create "codedoc" target (naturaldocs) target. May doxygen be used too?
+#		naturaldocs -i src/ -i data/libs/ -xi src/data/ -o HTML codedoc/ -p nd/ -do -ro -s Default Local
+# - Create "enums" target
+#		python scripts/scan_enums.py -o src/enum_table.cpp src/*.h
+# - Create "data" target. Or not? What whould be inside?
+# - Handle extra stuff found in osx/Makefile.am
 #
 # Low priority tasks:
 # - Packaging:
@@ -45,7 +49,7 @@
 #  OSX-gcc      64   2012-04-02 (Dessimat0r)
 #  OSX-XCode    32   never
 #  OSX-XCode    64   failed (Dessimat0r)
-#  Windows-gcc  32   never
+#  Windows-gcc  32   never, but almost did with CodeBlocks+MinGW. MinGW dependencies were missing but testing with MSVC DLLs shown that symbols are found. (Sukender)
 #  Windows-gcc  64   never
 #  Windows-msvc 32   2012-03-31 (Sukender)
 #  Windows-msvc 64   never
@@ -53,10 +57,9 @@
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.5 FATAL_ERROR)
 
-SET(PROJECT_NAME Pioneer)
-project( ${PROJECT_NAME} )
+project( Pioneer )
 SET(${PROJECT_NAME}_MAJOR_VERSION 0)
-SET(${PROJECT_NAME}_MINOR_VERSION 20)
+SET(${PROJECT_NAME}_MINOR_VERSION 21)
 SET(${PROJECT_NAME}_PATCH_VERSION 0)
 SET(${PROJECT_NAME}_BUILD_VERSION 0)
 SET(${PROJECT_NAME}_VERSION_QUALITY "a")		# "dev"=Pre-alpha, "a"=Alpha, "b"=Beta, "RC"=Release Candidate, ""=Stable (No other extension is allowed, since it may be used directly in code)
@@ -74,7 +77,7 @@ include( "${PROJECT_SOURCE_DIR}/CMakeModules/AddDepend.cmake" )
 include( "${PROJECT_SOURCE_DIR}/CMakeModules/Warnings.cmake" )
 
 set(HAS_GCC_STYLE_FLAGS OFF)
-if(UNIX OR MINGW OR CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+if(UNIX OR MINGW OR CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
 	set(HAS_GCC_STYLE_FLAGS ON)
 endif()
 
@@ -88,7 +91,7 @@ set (GIT_SHA )
 find_path(TMP_GIT_CONFIG_FILE config PATHS "${PROJECT_SOURCE_DIR}/.git")		# Try finding git config file, to detect if we're in a working copy
 if (TMP_GIT_CONFIG_FILE)
 	set(IS_WORKING_COPY ON)
-	OPTION(${PROJECT_NAME}_BYPASS_REVISION_RETREIVAL "Set to ON to use skip getting the current revision from the GIT repository if you find it too slow." OFF)
+	OPTION(${PROJECT_NAME}_BYPASS_REVISION_RETREIVAL "Set to ON to use skip getting the current revision from the GIT repository if you find it too slow, or don't want the code to know about it." OFF)
 	mark_as_advanced(${PROJECT_NAME}_BYPASS_REVISION_RETREIVAL)
 	find_package(Git)
 	if (NOT ${PROJECT_NAME}_BYPASS_REVISION_RETREIVAL)
@@ -116,8 +119,9 @@ if (TMP_GIT_CONFIG_FILE)
 endif()
 
 if (NOT GIT_SHA)
-	set (GIT_SHA "Unknown revision")
-	message("Couldn't get Git SHA. Value will be defined to '${GIT_SHA}'.")
+	#set(GIT_SHA "Unknown revision")
+	#message("Couldn't get Git SHA. Value will be defined to '${GIT_SHA}'.")
+	message("Couldn't get Git SHA. Value will be an empty string.")
 endif()
 
 #########################################################################
@@ -125,7 +129,7 @@ endif()
 
 # Setup for finding shipped dependencies
 set(SHIPPED_DEPENDENCIES_PATH )
-if (WIN32)
+if (MSVC)		# MinGW/Cygwin dependencies are not available as shipped ones, hence not testing "if(WIN32)"
 	set(SHIPPED_DEPENDENCIES_PATH "${PROJECT_SOURCE_DIR}/win32")
 endif()
 
@@ -496,6 +500,26 @@ SET(CMAKE_DEBUG_POSTFIX "d" CACHE STRING "add a postfix, usually d on windows")
 ################################################################################
 # Set Config and Version file
 
+macro(SET01 VARNAME VALUE)
+	if(${VALUE})
+		set(${VARNAME} 1)
+	else()
+		set(${VARNAME} 0)
+	endif()
+endmacro()
+
+OPTION(${PROJECT_NAME}_WITH_OBJECTVIEWER "" ON)
+SET01(WITH_OBJECTVIEWER ${${PROJECT_NAME}_WITH_OBJECTVIEWER})
+OPTION(${PROJECT_NAME}_WITH_DEVKEYS "" ON)
+SET01(WITH_DEVKEYS ${${PROJECT_NAME}_WITH_DEVKEYS})
+
+# Data directory
+SET(${PROJECT_NAME}_DATA_DIR "" CACHE PATH "Where Pioneer expects its data files to be [data]. Packagers MUST set this!")
+if(NOT ${PROJECT_NAME}_DATA_DIR)
+	SET(${PROJECT_NAME}_DATA_DIR "data")
+	message("Using the default value for ${PROJECT_NAME}_DATA_DIR. Installing is NOT recommended. IF YOU ARE PACKAGING PIONEER, SET THIS VARIABLE!")
+endif()
+
 SET(${PROJECT_NAME}_CONFIG_HEADER "${PROJECT_BINARY_DIR}/include/Config.h")
 CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/src/Config.in" "${${PROJECT_NAME}_CONFIG_HEADER}")
 
@@ -570,16 +594,10 @@ IF(CMAKE_CPACK_COMMAND)
     IF(BUILD_PACKAGES)
 		INCLUDE("CMakeModules/CPackProject.cmake" REQUIRED)
 
-		# Data directory
-		SET(${PROJECT_NAME}_DATA_DIR "" CACHE PATH "Where Pioneer expects its data files to be [data]. Packagers MUST set this!")
-		if(NOT ${PROJECT_NAME}_DATA_DIR)
-			SET(${PROJECT_NAME}_DATA_DIR "data")
-			message("Using the default value for ${PROJECT_NAME}_DATA_DIR. Installing is NOT recommended. IF YOU ARE PACKAGING PIONEER, SET THIS VARIABLE!")
-		endif()
-
 		# Add files to pack
 		INSTALL(FILES
 			AUTHORS.txt
+			#COMPILING.OSX.txt
 			Changelog.txt
 			COPYING.txt
 			fonts.COPYING.txt
@@ -588,6 +606,11 @@ IF(CMAKE_CPACK_COMMAND)
 			music.COPYING.txt
 			Quickstart.txt
 			README.txt
+			#bootstrap
+			#generic-exec
+			#Makefile.common
+			#modelviewer
+			#pioneer
 			DESTINATION ".")
 
 		if(APPLE)

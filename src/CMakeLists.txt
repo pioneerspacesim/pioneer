@@ -1,5 +1,3 @@
-# Note: Luomu proposed to split the project into (static) libraries (gui, collider, etc.). This may be a good idea.
-
 set(TARGETNAME "Pioneer")
 
 set(GROUP_LIST base graphics gui collider terrain platformSpecific)
@@ -11,7 +9,6 @@ set( ${TARGETNAME}_H_base
 	"BezierCurve.h"
 	"Body.h"
 	"BufferObject.h"
-	"buildopts.h"
 	"ByteRange.h"
 	"Camera.h"
 	"CargoBody.h"
