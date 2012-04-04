@@ -35,7 +35,9 @@ static void _blit_image(SDL_Surface *s, const char *filename, int xoff, int yoff
 	// XXX what should this do if the image couldn't be loaded?
 	if (! is) { return; }
 
-	SDL_Rect destrec = { ((FACE_WIDTH-is->w-1)/2)+xoff, yoff, 0, 0 };
+	SDL_Rect destrec = { 0, 0, 0, 0 };
+	destrec.x = ((FACE_WIDTH-is->w-1)/2)+xoff;
+	destrec.y = yoff;
 	SDL_BlitSurface(is.Get(), NULL, s, &destrec);
 }
 
