@@ -1079,19 +1079,12 @@ SBody::SBody()
 
 bool SBody::HasAtmosphere() const
 {
-	if (m_volatileGas < fixed(1,100))
-	{
-		return false;
-	}
-	return true;
+	return (m_volatileGas > fixed(1,100));
 }
 
 bool SBody::IsScoopable() const
 {
-	if (GetSuperType() == SUPERTYPE_GAS_GIANT) {
-		return true;
-	}
-	return false;
+	return (GetSuperType() == SUPERTYPE_GAS_GIANT);
 }
 
 void SBody::PickAtmosphere()
