@@ -24,6 +24,7 @@ public:
 			m_verts.push_back(vector3f(radius*sin(theta), radius*cos(theta), 0));
 		}
 	}
+	virtual ~Circle() {}
 	virtual void Draw(Renderer *renderer) {
 		renderer->DrawLines(m_verts.size(), &m_verts[0], m_color, LINE_LOOP);
 	}
@@ -37,6 +38,7 @@ private:
 class Line3D : public Drawable {
 public:
 	Line3D();
+	virtual ~Line3D() {}
 	void SetStart(const vector3f &);
 	void SetEnd(const vector3f &);
 	void SetColor(const Color &);
@@ -53,6 +55,7 @@ class Sphere3D : public Drawable {
 public:
 	//subdivisions must be 0-4
 	Sphere3D(RefCountedPtr<Material> material, int subdivisions=0, float scale=1.f);
+	virtual ~Sphere3D() {}
 	virtual void Draw(Renderer *r);
 
 	RefCountedPtr<Material> GetMaterial() const { return m_surface->GetMaterial(); }
