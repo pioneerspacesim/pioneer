@@ -1077,7 +1077,7 @@ SBody::SBody()
 	heightMapFractal = 0;
 }
 
-bool SBody::hasAtmosphere() const
+bool SBody::HasAtmosphere() const
 {
 	if (m_volatileGas < fixed(1,100))
 	{
@@ -1086,7 +1086,7 @@ bool SBody::hasAtmosphere() const
 	return true;
 }
 
-bool SBody::isScoopable() const
+bool SBody::IsScoopable() const
 {
 	if (GetSuperType() == SUPERTYPE_GAS_GIANT) {
 		return true;

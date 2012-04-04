@@ -137,14 +137,14 @@ public:
 	void PopulateStage1(StarSystem *system, fixed &outTotalPop);
 	void PopulateAddStations(StarSystem *system);
 
-	bool hasAtmosphere() const;
+	bool HasAtmosphere() const;
 	void PickAtmosphere();
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
 		*outColor = m_atmosColor;
 		*outDensity = m_atmosDensity;
 	}
 
-	bool isScoopable() const;
+	bool IsScoopable() const;
 
 	Uint32 id; // index into starsystem->m_bodies
 	SystemPath path;

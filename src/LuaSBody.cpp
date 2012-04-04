@@ -228,7 +228,6 @@ static int l_sbody_attr_gravity(lua_State *l)
 {
 	SBody *sbody = LuaSBody::GetFromLua(1);
 	lua_pushnumber(l, sbody->CalcSurfaceGravity());
-	fprintf(stderr, "GRAVITY: %0f.2\n", sbody->CalcSurfaceGravity());
 	return 1;
 }
 
@@ -389,7 +388,7 @@ static int l_sbody_attr_average_temp(lua_State *l)
 static int l_sbody_attr_has_atmosphere(lua_State *l)
 {
 	SBody * sbody = LuaSBody::GetFromLua(1);
-	lua_pushboolean(l, sbody->hasAtmosphere());
+	lua_pushboolean(l, sbody->HasAtmosphere());
 	return 1;
 }
 
@@ -410,7 +409,7 @@ static int l_sbody_attr_has_atmosphere(lua_State *l)
 static int l_sbody_attr_is_scoopable(lua_State *l)
 {
 	SBody * sbody = LuaSBody::GetFromLua(1);
-	lua_pushboolean(l, sbody->isScoopable());
+	lua_pushboolean(l, sbody->IsScoopable());
 	return 1;
 }
 
