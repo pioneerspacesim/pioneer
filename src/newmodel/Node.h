@@ -18,9 +18,6 @@ public:
 	Node() { }
 	Node *m_parent;
 
-	//Render is used for the generic draw traversal, even if the
-	//node does not actually render anything.
-	virtual void Render(Graphics::Renderer *r) { }
 	virtual void Accept(NodeVisitor &v);
 protected:
 	//can only to be deleted using DecRefCount

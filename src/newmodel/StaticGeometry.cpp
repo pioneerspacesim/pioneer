@@ -13,11 +13,6 @@ StaticGeometry::~StaticGeometry()
 {
 }
 
-void StaticGeometry::Render(Graphics::Renderer *renderer)
-{
-	renderer->DrawStaticMesh(m_mesh.Get());
-}
-
 void StaticGeometry::Accept(NodeVisitor &nv)
 {
 	nv.ApplyStaticGeometry(*this);

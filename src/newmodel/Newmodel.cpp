@@ -1,5 +1,6 @@
 #include "Newmodel.h"
 #include "CollisionVisitor.h"
+#include "DrawVisitor.h"
 #include "graphics/Renderer.h"
 
 namespace Newmodel {
@@ -16,7 +17,8 @@ NModel::~NModel()
 void NModel::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, const LmrObjParams *params)
 {
 	renderer->SetTransform(trans);
-	m_root->Render(renderer);
+	DrawVisitor vis(renderer);
+	m_root->Accept(vis);
 }
 
 CollMesh *NModel::CreateCollisionMesh(const LmrObjParams *p)

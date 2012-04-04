@@ -36,7 +36,7 @@ void CollisionVisitor::ApplyStaticGeometry(StaticGeometry &g)
 		}
 	}
 	//cheat some collision flags
-	for(int i = 0; i < m_indices.size()/3; i++) {
+	for(unsigned int i = 0; i < m_indices.size()/3; i++) {
 		m_flags.push_back(0);
 	}
 	assert(m_flags.size() == m_indices.size()/3);

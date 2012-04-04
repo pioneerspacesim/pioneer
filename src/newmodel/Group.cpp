@@ -19,16 +19,6 @@ void Group::AddChild(Node *child)
 	m_children.push_back(child);
 }
 
-void Group::Render(Graphics::Renderer *r)
-{
-	for(std::vector<Node*>::iterator itr = m_children.begin();
-		itr != m_children.end();
-		++itr)
-	{
-		(*itr)->Render(r);
-	}
-}
-
 void Group::Accept(NodeVisitor &nv)
 {
 	nv.ApplyGroup(*this);
