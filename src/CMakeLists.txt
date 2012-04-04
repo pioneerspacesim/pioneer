@@ -477,6 +477,23 @@ set_target_properties(${TARGETNAME} PROPERTIES
 	RUNTIME_OUTPUT_NAME_RelWithDebInfo "pioneer-prerelease"
 )
 
+# Dependencies install
+IF(${PROJECT_NAME}_INSTALL_DEPENDENCIES)
+	# Install direct dependencies
+	GET_TARGET_PROPERTY(LOCATION "${TARGETNAME}" LOCATION)
+	FOREACH(CURCONFIG ${CMAKE_CONFIGURATION_TYPES})
+		GET_TARGET_PROPERTY(LOCATION_${CURCONFIG} "${TARGETNAME}" LOCATION_${CURCONFIG})
+	ENDFOREACH()
+	CONFIGURE_FILE( 
+		"${CMAKE_SOURCE_DIR}/dependencies.cmake.in"
+		"${CMAKE_CURRENT_BINARY_DIR}/dependencies.${TARGETNAME}.cmake"
+		@ONLY
+	)
+	SET(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION ".")
+	INCLUDE(InstallRequiredSystemLibraries REQUIRED)
+	INSTALL(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/dependencies.${TARGETNAME}.cmake")
+ENDIF()
+
 
 
 # --------------------------------------------------------------------------------
@@ -659,3 +676,21 @@ set_target_properties(${TARGETNAME} PROPERTIES
 	RUNTIME_OUTPUT_NAME_Debug          "modelviewer-debug"
 	RUNTIME_OUTPUT_NAME_RelWithDebInfo "modelviewer-prerelease"
 )
+
+# Dependencies install
+IF(${PROJECT_NAME}_INSTALL_DEPENDENCIES)
+	# Install direct dependencies
+	GET_TARGET_PROPERTY(LOCATION "${TARGETNAME}" LOCATION)
+	FOREACH(CURCONFIG ${CMAKE_CONFIGURATION_TYPES})
+		GET_TARGET_PROPERTY(LOCATION_${CURCONFIG} "${TARGETNAME}" LOCATION_${CURCONFIG})
+	ENDFOREACH()
+	CONFIGURE_FILE( 
+		"${CMAKE_SOURCE_DIR}/dependencies.cmake.in"
+		"${CMAKE_CURRENT_BINARY_DIR}/dependencies.${TARGETNAME}.cmake"
+		@ONLY
+	)
+	SET(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION ".")
+	INCLUDE(InstallRequiredSystemLibraries REQUIRED)
+	INSTALL(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/dependencies.${TARGETNAME}.cmake")
+ENDIF()
+

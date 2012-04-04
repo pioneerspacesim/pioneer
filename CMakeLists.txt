@@ -29,6 +29,7 @@
 #			Debian package
 #			DMG (OSX) packaging - Work in progress
 #				Possible issue: the packager utility may not locate pioneer-logo.icns and executables
+# - Do source packaging. To be defined.
 # - Write a PNG+zlib finder that handles debug builds (for MSVC, actually)
 # - Pioneer_USE_EXTERNAL_LUA_LIB option (equivalent of --with-external-liblua)
 # - Interfacing with CDash, to report builds
@@ -542,7 +543,7 @@ IF(CMAKE_CPACK_COMMAND)
 		endif()
 
 		# Add directories to pack
-		#PACK_DATA_DIR("${${PROJECT_NAME}_DATA_DIR}" ON)		# You may comment it to speed up install process by skipping data. This helps debugging but you'll need to uncomment it afterwards :)
+		PACK_DATA_DIR("${${PROJECT_NAME}_DATA_DIR}" ON)		# You may comment it to speed up install process by skipping data. This helps debugging but you'll need to uncomment it afterwards :)
 
     ENDIF()
 ENDIF()
