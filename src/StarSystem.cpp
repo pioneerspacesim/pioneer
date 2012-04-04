@@ -1177,7 +1177,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	m_seed = s.m_systems[m_path.systemIndex].seed;
 	m_name = s.m_systems[m_path.systemIndex].name;
 
-	unsigned long _init[6] = { m_path.systemIndex, m_path.sectorX, m_path.sectorY, m_path.sectorZ, UNIVERSE_SEED, m_seed };
+	unsigned long _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, Uint32(m_seed) };
 	MTRand rand(_init, 6);
 
 	/*
@@ -1732,7 +1732,7 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 
 void StarSystem::Populate(bool addSpaceStations)
 {
-	unsigned long _init[5] = { m_path.systemIndex, m_path.sectorX, m_path.sectorY, m_path.sectorZ, UNIVERSE_SEED };
+	unsigned long _init[5] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED };
 	MTRand rand;
 	rand.seed(_init, 5);
 
@@ -1791,8 +1791,8 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		return;
 	}
 
-	unsigned long _init[6] = { system->m_path.systemIndex, system->m_path.sectorX,
-			system->m_path.sectorY, system->m_path.sectorZ, UNIVERSE_SEED, this->seed };
+	unsigned long _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
+			Uint32(system->m_path.sectorY), Uint32(system->m_path.sectorZ), UNIVERSE_SEED, Uint32(this->seed) };
 
 	MTRand rand, namerand;
 	rand.seed(_init, 6);
@@ -1904,8 +1904,8 @@ void SBody::PopulateAddStations(StarSystem *system)
 		children[i]->PopulateAddStations(system);
 	}
 
-	unsigned long _init[6] = { system->m_path.systemIndex, system->m_path.sectorX,
-			system->m_path.sectorY, system->m_path.sectorZ, this->seed, UNIVERSE_SEED };
+	unsigned long _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
+			Uint32(system->m_path.sectorY), Uint32(system->m_path.sectorZ), this->seed, UNIVERSE_SEED };
 
 	MTRand rand, namerand;
 	rand.seed(_init, 6);

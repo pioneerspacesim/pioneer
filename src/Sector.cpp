@@ -37,7 +37,7 @@ void Sector::GetCustomSystems()
 //////////////////////// Sector
 Sector::Sector(int x, int y, int z)
 {
-	unsigned long _init[4] = { x, y, z, UNIVERSE_SEED };
+	unsigned long _init[4] = { Uint32(x), Uint32(y), Uint32(z), UNIVERSE_SEED };
 	sx = x; sy = y; sz = z;
 	MTRand rng(_init, 4);
 	MTRand rand(UNIVERSE_SEED);
