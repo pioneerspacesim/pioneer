@@ -369,15 +369,15 @@ static const struct StarTypeInfo {
 		45000, 60000
 	}, {
 		SBody::SUPERTYPE_STAR,  // S BH
-		{20,2000}, {0.00002,0.00004},	// XXX storing floats in ints?
+		{20,2000}, {0,0},	// XXX black holes are < 1 Sol radii big; this is clamped to a non-zero value later
 		10, 24
 	}, {
 		SBody::SUPERTYPE_STAR,  // IM BH
-		{9e5,1e6}, {100,500},
+		{900000,1000000}, {100,500},
 		1, 10
 	}, {
 		SBody::SUPERTYPE_STAR,  // SM BH
-		{2e6,5e6}, {10000,20000},
+		{2000000,5000000}, {10000,20000},
 		10, 24
 	}
 /*	}, {
