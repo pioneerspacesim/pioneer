@@ -1,6 +1,34 @@
+# Macro setting the common dependencies list, for this directory and subdirs
+macro(SETUP_DEFAULT_DEPENDENCIES_LIST VARNAME)
+	# Setup dependencies
+	SET(${VARNAME} )
+
+	IF(UNIX)
+		LIST(APPEND ${VARNAME} MATH_LIBRARY X11)
+		ADD_DEFINITIONS( -D${PROJECT_NAME}_USE_X11 )
+	ENDIF()
+
+	LIST(APPEND ${VARNAME} OPENGL)
+	LIST(APPEND ${VARNAME} GLEW)
+	LIST(APPEND ${VARNAME} FREETYPE SDL SDLIMAGE PNG)
+	LIST(APPEND ${VARNAME} OGG VORBIS VORBISFILE)
+	LIST(APPEND ${VARNAME} SIGCPP)
+
+	#LIST(APPEND ${VARNAME} Boost_DATE_TIME Boost_FILESYSTEM Boost_PROGRAM_OPTIONS Boost_SERIALIZATION Boost_SYSTEM Boost_REGEX Boost_LOCALE Boost_THREAD)
+	#LIST(APPEND ${VARNAME} ICU)		# For boost.regex & boost.locale
+endmacro()
+
+# --------------------------------------------------------------------------------
+# Setup of libraries
+add_subdirectory(graphics)
+#add_subdirectory(gui)			# To be discussed
+add_subdirectory(collider)
+#add_subdirectory(terrain)		# To be discussed
+
+# --------------------------------------------------------------------------------
 set(TARGETNAME "Pioneer")
 
-set(GROUP_LIST base graphics gui collider terrain platformSpecific)
+set(GROUP_LIST base gui terrain platformSpecific)
 
 set( ${TARGETNAME}_H_base
 	"Aabb.h"
@@ -272,38 +300,6 @@ set( ${TARGETNAME}_SRC_base
 	"WorldViewCamera.cpp"
 )
 
-set( ${TARGETNAME}_H_graphics
-	"graphics/Drawables.h"
-	"graphics/Frustum.h"
-	"graphics/Graphics.h"
-	"graphics/Material.h"
-	"graphics/Renderer.h"
-	"graphics/RendererGL2.h"
-	"graphics/RendererGLBuffers.h"
-	"graphics/RendererLegacy.h"
-	"graphics/Shader.h"
-	"graphics/StaticMesh.h"
-	"graphics/Surface.h"
-	"graphics/Texture.h"
-	"graphics/TextureBuilder.h"
-	"graphics/TextureGL.h"
-	"graphics/VertexArray.h"
-)
-set( ${TARGETNAME}_SRC_graphics
-	"graphics/Drawables.cpp"
-	"graphics/Frustum.cpp"
-	"graphics/Graphics.cpp"
-	"graphics/Material.cpp"
-	"graphics/Renderer.cpp"
-	"graphics/RendererGL2.cpp"
-	"graphics/RendererLegacy.cpp"
-	"graphics/Shader.cpp"
-	"graphics/StaticMesh.cpp"
-	"graphics/TextureBuilder.cpp"
-	"graphics/TextureGL.cpp"
-	"graphics/VertexArray.cpp"
-)
-
 set( ${TARGETNAME}_H_gui
 	"gui/Gui.h"
 	"gui/GuiAdjustment.h"
@@ -364,21 +360,6 @@ set( ${TARGETNAME}_SRC_gui
 	"gui/GuiVScrollBar.cpp"
 	"gui/GuiVScrollPortal.cpp"
 	"gui/GuiWidget.cpp"
-)
-
-set( ${TARGETNAME}_H_collider
-	"collider/BVHTree.h"
-	"collider/collider.h"
-	"collider/CollisionContact.h"
-	"collider/CollisionSpace.h"
-	"collider/Geom.h"
-	"collider/GeomTree.h"
-)
-set( ${TARGETNAME}_SRC_collider
-	"collider/BVHTree.cpp"
-	"collider/CollisionSpace.cpp"
-	"collider/Geom.cpp"
-	"collider/GeomTree.cpp"
 )
 
 set( ${TARGETNAME}_H_terrain
@@ -501,7 +482,7 @@ ENDIF()
 
 set(TARGETNAME "ModelViewer")
 
-set(GROUP_LIST base graphics gui collider platformSpecific)		# terrain
+set(GROUP_LIST base gui platformSpecific)		# terrain
 
 set( ${TARGETNAME}_H_base
 	"ByteRange.h"
@@ -556,14 +537,6 @@ set( ${TARGETNAME}_SRC_base
 	"TextureFont.cpp"
 	"utils.cpp"
 	"VectorFont.cpp"
-)
-
-# Same as Pioneer.
-set( ${TARGETNAME}_H_graphics
-	${Pioneer_H_graphics}
-)
-set( ${TARGETNAME}_SRC_graphics
-	${Pioneer_SRC_graphics}
 )
 
 set( ${TARGETNAME}_H_gui
@@ -622,14 +595,6 @@ set( ${TARGETNAME}_SRC_gui
 	"gui/GuiVScrollBar.cpp"
 	"gui/GuiVScrollPortal.cpp"
 	"gui/GuiWidget.cpp"
-)
-
-# Same as Pioneer.
-set( ${TARGETNAME}_H_collider
-	${Pioneer_H_collider}
-)
-set( ${TARGETNAME}_SRC_collider
-	${Pioneer_SRC_collider}
 )
 
 # "terrain" is not used, but we clear the variable just for safety

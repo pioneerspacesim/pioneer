@@ -18,9 +18,11 @@
 #		Try with an old compiler, to ensure it doesn't complain about unsupported compile flags. Build system has to test for the availbility of each warning flag (old compiler support). This SHOULD be done automatically by CMake, but this hasn't been tested.
 #		MinGW builds. They need all dependencies to be compiled with MinGW (can't mix MSVC and MinGW DLLs!). However a quick test shows that it compiles and all symbols are found (using MSVC DLLs). I (Sukender) assume it works.
 #		Cygwin builds. They've never been tested.
-# - Make static libs for: collider gui graphics terrain
+# - Make static libs for graphics & terrain?
+#		This has to be discussed since modelviewer doesn't use as much .cpp as pioneer does. modelviewer doesn't use terrain, and only a subset of graphics.
 # - Create "codedoc" target (naturaldocs) target. May doxygen be used too?
 #		naturaldocs -i src/ -i data/libs/ -xi src/data/ -o HTML codedoc/ -p nd/ -do -ro -s Default Local
+#		Please note that CMake comes with a Doxygen finder but nothing for naturaldocs.
 # - Create "enums" target
 #		python scripts/scan_enums.py -o src/enum_table.cpp src/*.h
 # - Create "data" target. Or not? What whould be inside?

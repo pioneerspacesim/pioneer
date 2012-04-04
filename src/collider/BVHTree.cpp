@@ -1,5 +1,5 @@
 #include "BVHTree.h"
-#include "../Config.h"
+#include "Config.h"
 #include <stdio.h>
 #include <float.h>
 
