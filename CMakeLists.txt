@@ -18,12 +18,9 @@
 #		Try with an old compiler, to ensure it doesn't complain about unsupported compile flags. Build system has to test for the availbility of each warning flag (old compiler support). This SHOULD be done automatically by CMake, but this hasn't been tested.
 #		MinGW builds. They need all dependencies to be compiled with MinGW (can't mix MSVC and MinGW DLLs!). However a quick test shows that it compiles and all symbols are found (using MSVC DLLs). I (Sukender) assume it works.
 #		Cygwin builds. They've never been tested.
-# - Make static libs for graphics & terrain?
-#		This has to be discussed since modelviewer doesn't use as much .cpp as pioneer does. modelviewer doesn't use terrain, and only a subset of graphics.
-# - Create "codedoc" target (naturaldocs) target. May doxygen be used too?
+# - Create "codedoc" target (naturaldocs) target. Same way the "enum" target works.
 #		naturaldocs -i src/ -i data/libs/ -xi src/data/ -o HTML codedoc/ -p nd/ -do -ro -s Default Local
 #		Please note that CMake comes with a Doxygen finder but nothing for naturaldocs.
-# - Create "data" target. Or not? What whould be inside?
 # - Handle extra stuff found in osx/Makefile.am
 #
 # Low priority tasks:
@@ -32,6 +29,7 @@
 #		To do:
 #			7z packaging for Windows, if possible (May be useless if NSIS is available?)
 #			Debian package
+#				Previously, there was a "data" target to prepare data. Should not be necessary anymore.
 #			DMG (OSX) packaging - Work in progress
 #				Possible issue: the packager utility may not locate pioneer-logo.icns and executables
 # - Do source packaging. To be defined.
@@ -41,6 +39,7 @@
 #		This should be adressed AFTER CMake scripts are stable.
 #		CDash main server is free for open source, limited to 10 daily builds and 3 users. Else you may either pay (!) or install CDash on your own server (open source/free project).
 # - Prepare unit testing projects, with CTest so that it links with CDash reporting
+# - Create a doxygen target
 #
 # Date where build scripts have been successfully tested:
 #  Linux-gcc    32   2012-03-31 (Brianetta - or was it 64bits???)

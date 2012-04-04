@@ -22,14 +22,14 @@ endmacro()
 # --------------------------------------------------------------------------------
 # Setup of libraries
 add_subdirectory(graphics)
-#add_subdirectory(gui)			# To be discussed
+add_subdirectory(gui)
 add_subdirectory(collider)
-#add_subdirectory(terrain)		# To be discussed
+add_subdirectory(terrain)
 
 # --------------------------------------------------------------------------------
 set(TARGETNAME "Pioneer")
 
-set(GROUP_LIST base gui terrain platformSpecific)
+set(GROUP_LIST base platformSpecific)
 
 set( ${TARGETNAME}_H_base
 	"Aabb.h"
@@ -301,123 +301,6 @@ set( ${TARGETNAME}_SRC_base
 	"WorldViewCamera.cpp"
 )
 
-set( ${TARGETNAME}_H_gui
-	"gui/Gui.h"
-	"gui/GuiAdjustment.h"
-	"gui/GuiBox.h"
-	"gui/GuiButton.h"
-	"gui/GuiContainer.h"
-	"gui/GuiEvents.h"
-	"gui/GuiFixed.h"
-	"gui/GuiGradient.h"
-	"gui/GuiImage.h"
-	"gui/GuiImageButton.h"
-	"gui/GuiImageRadioButton.h"
-	"gui/GuiISelectable.h"
-	"gui/GuiLabel.h"
-	"gui/GuiLabelSet.h"
-	"gui/GuiMeterBar.h"
-	"gui/GuiMultiStateImageButton.h"
-	"gui/GuiRadioButton.h"
-	"gui/GuiRadioGroup.h"
-	"gui/GuiRepeaterButton.h"
-	"gui/GuiScreen.h"
-	"gui/GuiStack.h"
-	"gui/GuiTabbed.h"
-	"gui/GuiTextEntry.h"
-	"gui/GuiTextLayout.h"
-	"gui/GuiTexturedQuad.h"
-	"gui/GuiToggleButton.h"
-	"gui/GuiToolTip.h"
-	"gui/GuiVScrollBar.h"
-	"gui/GuiVScrollPortal.h"
-	"gui/GuiWidget.h"
-)
-set( ${TARGETNAME}_SRC_gui
-	"gui/Gui.cpp"
-	"gui/GuiBox.cpp"
-	"gui/GuiButton.cpp"
-	"gui/GuiContainer.cpp"
-	"gui/GuiFixed.cpp"
-	"gui/GuiGradient.cpp"
-	"gui/GuiImage.cpp"
-	"gui/GuiImageButton.cpp"
-	"gui/GuiImageRadioButton.cpp"
-	"gui/GuiLabel.cpp"
-	"gui/GuiLabelSet.cpp"
-	"gui/GuiMeterBar.cpp"
-	"gui/GuiMultiStateImageButton.cpp"
-	"gui/GuiRadioButton.cpp"
-	"gui/GuiRadioGroup.cpp"
-	"gui/GuiRepeaterButton.cpp"
-	"gui/GuiScreen.cpp"
-	"gui/GuiStack.cpp"
-	"gui/GuiTabbed.cpp"
-	"gui/GuiTextEntry.cpp"
-	"gui/GuiTextLayout.cpp"
-	"gui/GuiTexturedQuad.cpp"
-	"gui/GuiToggleButton.cpp"
-	"gui/GuiToolTip.cpp"
-	"gui/GuiVScrollBar.cpp"
-	"gui/GuiVScrollPortal.cpp"
-	"gui/GuiWidget.cpp"
-)
-
-set( ${TARGETNAME}_H_terrain
-	"terrain/Terrain.h"
-	"terrain/TerrainFeature.h"
-	"terrain/TerrainNoise.h"
-)
-set( ${TARGETNAME}_SRC_terrain
-	"terrain/Terrain.cpp"
-	"terrain/TerrainColorAsteroid.cpp"
-	"terrain/TerrainColorBandedRock.cpp"
-	"terrain/TerrainColorDeadWithWater.cpp"
-	"terrain/TerrainColorDesert.cpp"
-	"terrain/TerrainColorEarthLike.cpp"
-	"terrain/TerrainColorGGJupiter.cpp"
-	"terrain/TerrainColorGGNeptune.cpp"
-	"terrain/TerrainColorGGNeptune2.cpp"
-	"terrain/TerrainColorGGSaturn.cpp"
-	"terrain/TerrainColorGGSaturn2.cpp"
-	"terrain/TerrainColorGGUranus.cpp"
-	"terrain/TerrainColorIce.cpp"
-	"terrain/TerrainColorMethane.cpp"
-	"terrain/TerrainColorRock.cpp"
-	"terrain/TerrainColorRock2.cpp"
-	"terrain/TerrainColorSolid.cpp"
-	"terrain/TerrainColorStarBrownDwarf.cpp"
-	"terrain/TerrainColorStarG.cpp"
-	"terrain/TerrainColorStarK.cpp"
-	"terrain/TerrainColorStarM.cpp"
-	"terrain/TerrainColorStarWhiteDwarf.cpp"
-	"terrain/TerrainColorTFGood.cpp"
-	"terrain/TerrainColorTFPoor.cpp"
-	"terrain/TerrainColorVolcanic.cpp"
-	"terrain/TerrainFeature.cpp"
-	"terrain/TerrainHeightAsteroid.cpp"
-	"terrain/TerrainHeightFlat.cpp"
-	"terrain/TerrainHeightHillsCraters.cpp"
-	"terrain/TerrainHeightHillsCraters2.cpp"
-	"terrain/TerrainHeightHillsDunes.cpp"
-	"terrain/TerrainHeightHillsNormal.cpp"
-	"terrain/TerrainHeightHillsRidged.cpp"
-	"terrain/TerrainHeightHillsRivers.cpp"
-	"terrain/TerrainHeightMapped.cpp"
-	"terrain/TerrainHeightMapped2.cpp"
-	"terrain/TerrainHeightMountainsCraters.cpp"
-	"terrain/TerrainHeightMountainsCraters2.cpp"
-	"terrain/TerrainHeightMountainsNormal.cpp"
-	"terrain/TerrainHeightMountainsRidged.cpp"
-	"terrain/TerrainHeightMountainsRivers.cpp"
-	"terrain/TerrainHeightMountainsRiversVolcano.cpp"
-	"terrain/TerrainHeightMountainsVolcano.cpp"
-	"terrain/TerrainHeightRuggedDesert.cpp"
-	"terrain/TerrainHeightRuggedLava.cpp"
-	"terrain/TerrainHeightWaterSolid.cpp"
-	"terrain/TerrainHeightWaterSolidCanyons.cpp"
-)
-
 set( ${TARGETNAME}_H_platformSpecific )
 set( ${TARGETNAME}_SRC_platformSpecific )
 
@@ -451,6 +334,7 @@ IF(MSVC)
 ENDIF()
 
 INCLUDE(CMakeLists.sub.cmake)
+target_link_libraries(${TARGETNAME} terrain)
 
 # Use executables explicit naming to stick with existing implementation
 set_target_properties(${TARGETNAME} PROPERTIES
@@ -483,7 +367,7 @@ ENDIF()
 
 set(TARGETNAME "ModelViewer")
 
-set(GROUP_LIST base gui platformSpecific)		# terrain
+set(GROUP_LIST base platformSpecific)
 
 set( ${TARGETNAME}_H_base
 	"ByteRange.h"
@@ -538,70 +422,6 @@ set( ${TARGETNAME}_SRC_base
 	"TextureFont.cpp"
 	"utils.cpp"
 	"VectorFont.cpp"
-)
-
-set( ${TARGETNAME}_H_gui
-	"gui/Gui.h"
-	"gui/GuiAdjustment.h"
-	"gui/GuiBox.h"
-	"gui/GuiButton.h"
-	"gui/GuiContainer.h"
-	"gui/GuiEvents.h"
-	"gui/GuiFixed.h"
-	"gui/GuiImage.h"
-	"gui/GuiImageButton.h"
-	"gui/GuiImageRadioButton.h"
-	"gui/GuiISelectable.h"
-	"gui/GuiLabel.h"
-	"gui/GuiLabelSet.h"
-	"gui/GuiMeterBar.h"
-	"gui/GuiMultiStateImageButton.h"
-	"gui/GuiRadioButton.h"
-	"gui/GuiRadioGroup.h"
-	"gui/GuiRepeaterButton.h"
-	"gui/GuiScreen.h"
-	"gui/GuiTabbed.h"
-	"gui/GuiTextEntry.h"
-	"gui/GuiTextLayout.h"
-	"gui/GuiTexturedQuad.h"
-	"gui/GuiToggleButton.h"
-	"gui/GuiToolTip.h"
-	"gui/GuiVScrollBar.h"
-	"gui/GuiVScrollPortal.h"
-	"gui/GuiWidget.h"
-)
-set( ${TARGETNAME}_SRC_gui
-	"gui/Gui.cpp"
-	"gui/GuiBox.cpp"
-	"gui/GuiButton.cpp"
-	"gui/GuiContainer.cpp"
-	"gui/GuiFixed.cpp"
-	"gui/GuiImage.cpp"
-	"gui/GuiImageButton.cpp"
-	"gui/GuiImageRadioButton.cpp"
-	"gui/GuiLabel.cpp"
-	"gui/GuiLabelSet.cpp"
-	"gui/GuiMeterBar.cpp"
-	"gui/GuiMultiStateImageButton.cpp"
-	"gui/GuiRadioButton.cpp"
-	"gui/GuiRadioGroup.cpp"
-	"gui/GuiRepeaterButton.cpp"
-	"gui/GuiScreen.cpp"
-	"gui/GuiTabbed.cpp"
-	"gui/GuiTextEntry.cpp"
-	"gui/GuiTextLayout.cpp"
-	"gui/GuiTexturedQuad.cpp"
-	"gui/GuiToggleButton.cpp"
-	"gui/GuiToolTip.cpp"
-	"gui/GuiVScrollBar.cpp"
-	"gui/GuiVScrollPortal.cpp"
-	"gui/GuiWidget.cpp"
-)
-
-# "terrain" is not used, but we clear the variable just for safety
-set( ${TARGETNAME}_H_terrain
-)
-set( ${TARGETNAME}_SRC_terrain
 )
 
 set( ${TARGETNAME}_H_platformSpecific )

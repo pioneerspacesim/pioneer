@@ -38,7 +38,7 @@ LINK_WITH_VARIABLES(${TARGETNAME} ${DEPENDENCIES_NAMES})
 
 MAKE_ENUM_DEPEND(${TARGETNAME})
 target_link_libraries(${TARGETNAME} LUA OOLUA)
-target_link_libraries(${TARGETNAME} graphics collider)
+target_link_libraries(${TARGETNAME} graphics collider gui)
 
 # ADD_DEFINITIONS( 
 	# -DBOOST_ENABLE_ASSERT_HANDLER
