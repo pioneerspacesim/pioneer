@@ -23,8 +23,6 @@
 # - Create "codedoc" target (naturaldocs) target. May doxygen be used too?
 #		naturaldocs -i src/ -i data/libs/ -xi src/data/ -o HTML codedoc/ -p nd/ -do -ro -s Default Local
 #		Please note that CMake comes with a Doxygen finder but nothing for naturaldocs.
-# - Create "enums" target
-#		python scripts/scan_enums.py -o src/enum_table.cpp src/*.h
 # - Create "data" target. Or not? What whould be inside?
 # - Handle extra stuff found in osx/Makefile.am
 #
@@ -522,6 +520,22 @@ if(NOT ${PROJECT_NAME}_DATA_DIR)
 	message("Using the default value for ${PROJECT_NAME}_DATA_DIR. Installing is NOT recommended. IF YOU ARE PACKAGING PIONEER, SET THIS VARIABLE!")
 endif()
 
+
+set(Python_ADDITIONAL_VERSIONS 3.3 3.2 3.1 3.0 2.9 2.8)		# Sukender: not sure, but harmless, as far as I know
+find_package(PythonInterp)
+if (NOT PYTHONINTERP_FOUND)
+	message("Python interpreter not found. enum table cannot be automatically generated/updated.")
+else()
+	OPTION(${PROJECT_NAME}_BUILD_ENUM_AUTO "Enables/disable building 'enum' target automatically, using python. It will be built every time you build the project. This ensures enum_table is always up-to-date, but slows down a bit building." OFF)
+	ADD_SUBDIRECTORY(scripts)
+endif()
+
+macro(MAKE_ENUM_DEPEND TARGETNAME)
+	if (PYTHONINTERP_FOUND AND ${PROJECT_NAME}_BUILD_ENUM_AUTO)
+		add_dependencies(${TARGETNAME} enum)
+	endif()
+endmacro()
+
 SET(${PROJECT_NAME}_CONFIG_HEADER "${PROJECT_BINARY_DIR}/include/Config.h")
 CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/src/Config.in" "${${PROJECT_NAME}_CONFIG_HEADER}")
 
@@ -532,15 +546,9 @@ ADD_SUBDIRECTORY(contrib/lua)
 ADD_SUBDIRECTORY(contrib/oolua)
 ADD_SUBDIRECTORY(src)
 
-# IF(BUILD_UNIT_TESTS)
+# IF(${PROJECT_NAME}_UNIT_TESTS)
 	# ADD_SUBDIRECTORY(tests)
 # ENDIF()
-
-# OPTION(BUILD_APPLICATIONS "Build applications" ON)
-# IF(BUILD_APPLICATIONS)
-	# ADD_SUBDIRECTORY(Applications)
-# ENDIF()
-
 
 
 ################################################################################

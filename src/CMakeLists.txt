@@ -18,6 +18,7 @@ macro(SETUP_DEFAULT_DEPENDENCIES_LIST VARNAME)
 	#LIST(APPEND ${VARNAME} ICU)		# For boost.regex & boost.locale
 endmacro()
 
+
 # --------------------------------------------------------------------------------
 # Setup of libraries
 add_subdirectory(graphics)
