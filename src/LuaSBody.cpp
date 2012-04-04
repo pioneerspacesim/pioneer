@@ -218,7 +218,7 @@ static int l_sbody_attr_mass(lua_State *l)
  *
  * Availability:
  *
- *   alpha 22
+ *   alpha 21
  *
  * Status:
  *
@@ -379,7 +379,7 @@ static int l_sbody_attr_average_temp(lua_State *l)
  *
  * Availability:
  *
- *  alpha 22
+ *   alpha 21
  *
  * Status:
  *
