@@ -1080,6 +1080,15 @@ SBody::SBody()
 	heightMapFractal = 0;
 }
 
+bool SBody::hasAtmosphere() const
+{
+	if (m_volatileGas < fixed(1,100))
+	{
+		return false;
+	}
+	return true;
+}
+
 void SBody::PickAtmosphere()
 {
 	/* Alpha value isn't real alpha. in the shader fog depth is determined

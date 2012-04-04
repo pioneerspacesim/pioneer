@@ -372,6 +372,27 @@ static int l_sbody_attr_average_temp(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: hasAtmosphere
+ *
+ * Returns true if an atmosphere is present, false if not
+ *
+ * Availability:
+ *
+ *  alpha 22
+ *
+ * Status:
+ *
+ *  experimental
+ */
+
+static int l_sbody_attr_has_atmosphere(lua_State *l)
+{
+	SBody * sbody = LuaSBody::GetFromLua(1);
+	lua_pushboolean(l, sbody->hasAtmosphere());
+	return 1;
+}
+
 template <> const char *LuaObject<LuaUncopyable<SBody> >::s_type = "SystemBody";
 
 template <> void LuaObject<LuaUncopyable<SBody> >::RegisterClass()
@@ -394,6 +415,7 @@ template <> void LuaObject<LuaUncopyable<SBody> >::RegisterClass()
 		{ "eccentricity",   l_sbody_attr_eccentricty     },
 		{ "axialTilt",      l_sbody_attr_axial_tilt      },
 		{ "averageTemp",    l_sbody_attr_average_temp    },
+		{ "hasAtmosphere",  l_sbody_attr_has_atmosphere  },
 		{ 0, 0 }
 	};
 
