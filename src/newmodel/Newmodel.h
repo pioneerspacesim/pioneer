@@ -29,7 +29,7 @@ public:
 	//Render begins the graph traversal. Only geometry nodes actually render something.
 	//might be worthwhile to implement Visitors (DrawVisitor, CreateCollisionMeshVisitor)
 	void Render(Graphics::Renderer *r, const matrix4x4f &trans, const LmrObjParams *params);
-	CollMesh *CreateCollisionMesh(const LmrObjParams *p) { return 0; }
+	CollMesh *CreateCollisionMesh(const LmrObjParams *p);
 	RefCountedPtr<Group> m_root;
 	//materials used in the nodes should be accessible from here for convenience
 };

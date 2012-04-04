@@ -10,9 +10,10 @@ public:
 	virtual ~CollMesh() {
 		delete m_geomTree;
 	}
-	virtual const Aabb &GetAabb() const { return m_aabb; }
+	virtual Aabb &GetAabb() { return m_aabb; }
 	virtual float GetBoundingRadius() const { return m_radius; }
 	virtual GeomTree *GetGeomTree() const { return m_geomTree; }
+	void SetGeomTree(GeomTree *t) { m_geomTree = t; }
 protected:
 	GeomTree *m_geomTree;
 	Aabb m_aabb;

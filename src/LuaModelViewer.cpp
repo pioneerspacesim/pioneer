@@ -87,6 +87,7 @@ public:
 	LmrCollMesh *m_cmesh;
 	LmrModel *m_model;
 	Newmodel::NModel *m_newModel;
+	CollMesh *m_newCollMesh;
 	CollisionSpace *m_space;
 	Geom *m_geom;
 	ModelCategory m_modelCategory;
@@ -105,7 +106,8 @@ public:
 	}
 
 	Viewer(): Gui::Fixed(float(g_width), float(g_height)),
-		m_newModel(0) 
+		m_newModel(0),
+		m_newCollMesh(0)
 	{
 		m_model = 0;
 		m_cmesh = 0;
@@ -291,6 +293,7 @@ void Viewer::SetModel(LmrModel *model)
 {
 	Newmodel::Importer imp;
 	if (!m_newModel) m_newModel = imp.CreateDummyModel(renderer);
+	if (!m_newCollMesh) m_newCollMesh = m_newModel->CreateCollisionMesh(0);
 
 	m_model = model;
 	// clear old geometry

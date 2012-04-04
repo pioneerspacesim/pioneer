@@ -1,15 +1,16 @@
 #include "Group.h"
+#include "NodeVisitor.h"
 
 namespace Newmodel {
 
 Group::~Group()
 {
-    for(std::vector<Node*>::iterator itr = m_children.begin();
-        itr != m_children.end();
-        ++itr)
-    {
-        (*itr)->DecRefCount();
-    }
+	for(std::vector<Node*>::iterator itr = m_children.begin();
+		itr != m_children.end();
+		++itr)
+	{
+		(*itr)->DecRefCount();
+	}
 }
 
 void Group::AddChild(Node *child)
@@ -20,12 +21,23 @@ void Group::AddChild(Node *child)
 
 void Group::Render(Graphics::Renderer *r)
 {
-    for(std::vector<Node*>::iterator itr = m_children.begin();
-        itr != m_children.end();
-        ++itr)
-    {
-        (*itr)->Render(r);
-    }
+	for(std::vector<Node*>::iterator itr = m_children.begin();
+		itr != m_children.end();
+		++itr)
+	{
+		(*itr)->Render(r);
+	}
+}
+
+void Group::Accept(NodeVisitor &nv)
+{
+	nv.ApplyGroup(*this);
+	for(std::vector<Node*>::iterator itr = m_children.begin();
+		itr != m_children.end();
+		++itr)
+	{
+		(*itr)->Accept(nv);
+	}
 }
 
 }

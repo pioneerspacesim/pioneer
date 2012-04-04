@@ -13,6 +13,7 @@ public:
 	Group() { }
 	virtual void AddChild(Node *child);
 	virtual void Render(Graphics::Renderer *r);
+	virtual void Accept(NodeVisitor &v);
 protected:
 	virtual ~Group();
 	std::vector<Node *> m_children;
