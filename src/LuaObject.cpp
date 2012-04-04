@@ -103,10 +103,7 @@ static inline void _instantiate() {
 		registry = new std::map<lid, LuaObjectBase*>;
 		promotions = new std::map< std::string, std::map<std::string,PromotionTest> >;
 
-		// XXX I want to do this, because its good to clean up at end of
-		// program if you can. doing it reintroduces the crash though, as this
-		// gets called before all our objects are destroyed. I'm not sure what
-		// the solution is at this time
+		// XXX atexit is not a very nice way to deal with this in C++
 		atexit(_teardown);
 
 		instantiated = true;

@@ -200,6 +200,7 @@
     <ClCompile Include="..\..\src\LuaUtils.cpp" />
     <ClCompile Include="..\..\src\MyLuaMathTypes.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
+    <ClCompile Include="..\..\src\SDLWrappers.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
     <ClCompile Include="..\..\src\StringF.cpp" />
     <ClCompile Include="..\..\src\TextSupport.cpp" />
@@ -280,6 +281,7 @@
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\MyLuaMathTypes.h" />
     <ClInclude Include="..\..\src\perlin.h" />
+    <ClInclude Include="..\..\src\SDLWrappers.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
     <ClInclude Include="..\..\src\StringF.h" />
     <ClInclude Include="..\..\src\StringRange.h" />

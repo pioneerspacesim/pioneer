@@ -98,12 +98,12 @@ void MusicPlayer::Update()
 	}
 }
 
-const std::string MusicPlayer::GetCurrentSongName()
+const std::string MusicPlayer::GetCurrentSongName() const
 {
 	return m_currentSongName;
 }
 
-const std::vector<std::string> MusicPlayer::GetSongList()
+const std::vector<std::string> MusicPlayer::GetSongList() const
 {
 	using std::string;
 	using std::pair;
@@ -118,7 +118,7 @@ const std::vector<std::string> MusicPlayer::GetSongList()
 	return songs;
 }
 
-bool MusicPlayer::IsPlaying()
+bool MusicPlayer::IsPlaying() const
 {
 	return (m_eventOne.IsPlaying() || m_eventTwo.IsPlaying());
 }

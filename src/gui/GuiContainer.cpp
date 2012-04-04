@@ -261,17 +261,14 @@ void Container::HideAll()
 	Hide();
 }
 
-void Container::SetBgColor(const float rgb[3])
+void Container::SetBgColor(const Color &col)
 {
-	SetBgColor(rgb[0], rgb[1], rgb[2], 1.0);
+	m_bgcol = col;
 }
 
 void Container::SetBgColor(float r, float g, float b, float a)
 {
-	m_bgcol[0] = r;
-	m_bgcol[1] = g;
-	m_bgcol[2] = b;
-	m_bgcol[3] = a;
+	m_bgcol = Color(r, g, b, a);
 }
 
 }

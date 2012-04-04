@@ -105,8 +105,8 @@ public:
 		SUPERTYPE_STARPORT = 4,
 	};
 
-	std::string GetAstroDescription();
-	const char *GetIcon();
+	std::string GetAstroDescription() const;
+	const char *GetIcon() const;
 	BodySuperType GetSuperType() const;
 	double GetRadius() const {
 		if (GetSuperType() <= SUPERTYPE_STAR)

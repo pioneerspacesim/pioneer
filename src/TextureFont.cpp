@@ -5,6 +5,7 @@
 #include "graphics/VertexArray.h"
 #include "gui/GuiScreen.h"
 #include "TextSupport.h"
+#include "utils.h"
 #include <algorithm>
 
 #include FT_GLYPH_H
@@ -316,7 +317,7 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	
 	bool outline = GetConfig().Int("Outline");
 
-	FT_Stroker stroker;
+	FT_Stroker stroker(0);
 	if (outline) {
 		if (FT_Stroker_New(GetFreeTypeLibrary(), &stroker)) {
 			fprintf(stderr, "Freetype stroker init error\n");

@@ -177,19 +177,6 @@ void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 	}
 }
 
-const char *GetGovernmentDesc(StarSystem *s)
-{
-	return s_govDesc[s->GetSysPolit().govType].description;
-}
-const char *GetEconomicDesc(StarSystem *s)
-{
-	return s_econDesc [ s_govDesc[s->GetSysPolit().govType].econ ];
-}
-const char *GetAllegianceDesc(StarSystem *s)
-{
-	return s_blocDesc [ s_govDesc[s->GetSysPolit().govType].bloc ];
-}
-
 #define POLIT_SEED 0x1234abcd
 
 void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit)
@@ -263,5 +250,20 @@ bool IsCommodityLegal(const StarSystem *s, Equip::Type t)
 	}
 }
 
+}
+
+const char *SysPolit::GetGovernmentDesc() const
+{
+	return Polit::s_govDesc[govType].description;
+}
+
+const char *SysPolit::GetEconomicDesc() const
+{
+	return Polit::s_econDesc[ Polit::s_govDesc[govType].econ ];
+}
+
+const char *SysPolit::GetAllegianceDesc() const
+{
+	return Polit::s_blocDesc[ Polit::s_govDesc[govType].bloc ];
 }
 
