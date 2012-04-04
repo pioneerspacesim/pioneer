@@ -8,11 +8,11 @@
 # Current status of these CMake scripts: alpha (still bugs/tests to perform/missing features)
 # High priority tasks:
 # - Do/test cross-building.
+#		robn: I use mingw-cross-env.nongnu.org and pass --host=i686-pc-mingw32 to configure. Everything else is "documented" in configure.ac. Mostly avoiding feature detection and just hardcoding paths and switches.
 # - XCode project does find GL/glew.h (Dessimat0r's configuration). System paths are:
 #		usr/include/GL/glew.h
 #		usr/include/GL/GL/glew.h
 # - Test everything, especially compared to actual build systems.
-#		Test Pioneer_FORCE_NO_OPTIMISE / _FORCE_DEBUG_BUILD with gcc
 # 		Build system has to test for the availbility of each warning flag (old compiler support). This SHOULD be done automatically by CMake, but this hasn't been tested.
 #		XCode builds
 #		Try the ccache thing. On my (Sukender) Ubuntu Linux, ccache comes with symlinks but I'm not 100% sure it will work everywhere.
@@ -221,8 +221,9 @@ endif()
 
 
 #########################################################################
-# Macros for compatibility options with configure.ac
+# Macros & values for compatibility options with configure.ac
 
+# Adds a C/C++ flag
 MACRO(ADD_FLAG FLAG)
 	IF(NOT CMAKE_CXX_FLAGS MATCHES "${FLAG}")
 		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAG}")
@@ -231,11 +232,13 @@ MACRO(ADD_FLAG FLAG)
 		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${FLAG}")
 	ENDIF()
 ENDMACRO()
-MACRO(REMOVE_FLAG FLAG)
+# Removes a C/C++ flag using a regex
+MACRO(REMOVE_FLAG_REGEX FLAG)
 	STRING(REGEX REPLACE "${FLAG}" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 	STRING(REGEX REPLACE "${FLAG}" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 ENDMACRO()
 
+# Adds a C/C++ flag, for a given configuration
 MACRO(ADD_FLAG_CONFIG CONFIG FLAG)
 	STRING(TOUPPER "${CONFIG}" CONFIG_UPPER)
 	IF(NOT CMAKE_CXX_FLAGS_${CONFIG_UPPER} MATCHES "${FLAG}")
@@ -245,51 +248,104 @@ MACRO(ADD_FLAG_CONFIG CONFIG FLAG)
 		SET(CMAKE_C_FLAGS_${CONFIG_UPPER} "${CMAKE_C_FLAGS_${CONFIG_UPPER}} ${FLAG}")
 	ENDIF()
 ENDMACRO()
-MACRO(REMOVE_FLAG_CONFIG CONFIG FLAG)
+# Removes a C/C++ flag using a regex, for a given configuration
+MACRO(REMOVE_FLAG_REGEX_CONFIG CONFIG FLAG)
 	STRING(TOUPPER "${CONFIG}" CONFIG_UPPER)
 	STRING(REGEX REPLACE "${FLAG}" "" CMAKE_CXX_FLAGS_${CONFIG_UPPER} "${CMAKE_CXX_FLAGS_${CONFIG_UPPER}}")
 	STRING(REGEX REPLACE "${FLAG}" "" CMAKE_C_FLAGS_${CONFIG_UPPER} "${CMAKE_C_FLAGS_${CONFIG_UPPER}}")
 ENDMACRO()
 
+# Removes a C/C++ flag using a regex, for all configurations
+MACRO(REMOVE_FLAG_REGEX_ALL_CONFIGS FLAG)
+	REMOVE_FLAG_REGEX("${FLAG}")
+	FOREACH(CURCONFIG ${CMAKE_CONFIGURATION_TYPES})
+		REMOVE_FLAG_REGEX_CONFIG("${CURCONFIG}" "${FLAG}")
+	ENDFOREACH()
+ENDMACRO()
+
+
+# Notes:
+# gcc optimisation flags (-O) are: s, fast, 0, 1, 2, 3
+# MSVC optimisation flags (/O) are: 1, 2, d, x. Potentially: g (global optimisations), i (intrinsics), s (small code), t (favor speed), y (frame pointer)
+# MSVC inlining flags: /Ob{0|1|2}
+
+# Selecting regex for optimisation flags
+set(OptimisationFlagRegex "\\\\-O[^ ]+")		# Default configuration is gcc
+if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
+	# Nothing to do.
+elseif(MSVC)
+	set(OptimisationFlagRegex "/O[^b][^ ]*")		# All but inlining mode
+else()
+	# No warning here
+endif()
+
+# Selecting regex for inlining flags
+set(InilineFlagRegex "\\\\-fno\\\\-inline")		# Default configuration is gcc
+if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
+	# Nothing to do.
+elseif(MSVC)
+	set(InilineFlagRegex "/Ob[012]")
+else()
+	# No warning here
+endif()
+
 
 #########################################################################
-# -fno-inline
+# Inlining (-fno-inline)
 
+# Debug must have -fno-inline in the gcc/g++.
+# Note: MSVC Debug default conig is to have no inlining enabled
+# TODO: make this appear in the cache?
 if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
 	if (NOT CMAKE_COMPILER_IS_GNUCXX)
 		#message(STATUS "...warning...")
 	endif()
-	OPTION(${PROJECT_NAME}_USE_fno-inline "Set to ON to use -fno-inline option." OFF)
-	if (${PROJECT_NAME}_USE_fno-inline)
+	ADD_FLAG_CONFIG(Debug "-fno-inline")
+endif()
+
+
+# No inline
+OPTION(${PROJECT_NAME}_FORCE_NO_INLINE "Set to ON to force no inlining (-fno-inline option for gcc, /Ob0 for MSVC). Compatibility option for --with-fno-inline." OFF)
+if (${PROJECT_NAME}_FORCE_NO_INLINE)
+	if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
+		if (NOT CMAKE_COMPILER_IS_GNUCXX)
+			#message(STATUS "...warning...")
+		endif()
+		REMOVE_FLAG_REGEX_ALL_CONFIGS("${InilineFlagRegex}")
 		ADD_FLAG("-fno-inline")
+	elseif(MSVC)
+		REMOVE_FLAG_REGEX_ALL_CONFIGS("${InilineFlagRegex}")
+		ADD_FLAG("/Ob0")
+	else()
+		message("Cannot apply ${PROJECT_NAME}_FORCE_NO_INLINE for your compiler (not implemented)")
 	endif()
 endif()
 
 #########################################################################
-# No optimise (-O0)
+# Default opimisations, and "No optimise" option (-O0)
 
+# RelWithDebInfo must use the same -On as Release
+# TODO: make this appear in the cache?
+STRING(REGEX MATCH "${OptimisationFlagRegex}" ReleaseOptimisationFlag "${CMAKE_CXX_FLAGS_RELEASE}")
+if (ReleaseOptimisationFlag)
+	REMOVE_FLAG_REGEX_CONFIG(RelWithDebInfo "${OptimisationFlagRegex}")
+	ADD_FLAG_CONFIG(RelWithDebInfo "${ReleaseOptimisationFlag}")
+else()
+	message("Cannot change RelWithDebInfo optimisation flags for your compiler (not implemented)")
+endif()
+
+
+# No optimise
 OPTION(${PROJECT_NAME}_FORCE_NO_OPTIMISE "Set to ON to force disabling optimizations, whatever the build type. Compatibility option for --with-no-optimise." OFF)
 if(${PROJECT_NAME}_FORCE_NO_OPTIMISE)
 	if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
 		if (NOT CMAKE_COMPILER_IS_GNUCXX)
 			#message(STATUS "...warning...")
 		endif()
-		REMOVE_FLAG("\\\\-Os")
-		REMOVE_FLAG("\\\\-Ofast")
-		REMOVE_FLAG("\\\\-O1")
-		REMOVE_FLAG("\\\\-O2")
-		REMOVE_FLAG("\\\\-O3")
-		ADD_FLAG("\\\\-O0")
+		REMOVE_FLAG_REGEX_ALL_CONFIGS("${OptimisationFlagRegex}")
+		ADD_FLAG("-O0")
 	elseif(MSVC)
-		REMOVE_FLAG("/O1")
-		REMOVE_FLAG("/O2")
-		REMOVE_FLAG("/Ob")
-		REMOVE_FLAG("/Og")
-		REMOVE_FLAG("/Oi")
-		REMOVE_FLAG("/Os")
-		REMOVE_FLAG("/Ot")
-		REMOVE_FLAG("/Ox")
-		REMOVE_FLAG("/Oy")
+		REMOVE_FLAG_REGEX_ALL_CONFIGS("${OptimisationFlagRegex}")
 		ADD_FLAG("/Od")
 	else()
 		message("Cannot apply ${PROJECT_NAME}_FORCE_NO_OPTIMISE for your compiler (not implemented)")
@@ -297,6 +353,9 @@ if(${PROJECT_NAME}_FORCE_NO_OPTIMISE)
 endif()
 
 # message("DEBUG message - CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
+# message("DEBUG message - CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
+# message("DEBUG message - CMAKE_CXX_FLAGS_RELWITHDEBINFO: ${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
+# message("DEBUG message - CMAKE_CXX_FLAGS_DEBUG: ${CMAKE_CXX_FLAGS_DEBUG}")
 
 #########################################################################
 # Debug things
@@ -308,13 +367,13 @@ if(UNIX OR CMAKE_COMPILER_IS_GNUCXX)
 	if (NOT CMAKE_COMPILER_IS_GNUCXX)
 		#message(STATUS "...warning...")
 	endif()
-	REMOVE_FLAG_CONFIG(RELWITHDEBINFO "\\\\-DNDEBUG")
-	ADD_FLAG_CONFIG(RELWITHDEBINFO "-DDEBUG")
-	ADD_FLAG_CONFIG(DEBUG "-DDEBUG")
+	REMOVE_FLAG_REGEX_CONFIG(RelWithDebInfo "\\\\-DNDEBUG")
+	ADD_FLAG_CONFIG(RelWithDebInfo "-DDEBUG")
+	ADD_FLAG_CONFIG(Debug "-DDEBUG")
 elseif(MSVC)
-	REMOVE_FLAG_CONFIG(RELWITHDEBINFO "/D NDEBUG")
-	ADD_FLAG_CONFIG(RELWITHDEBINFO "/D DEBUG")
-	ADD_FLAG_CONFIG(DEBUG "/D DEBUG")
+	REMOVE_FLAG_REGEX_CONFIG(RelWithDebInfo "/D NDEBUG")
+	ADD_FLAG_CONFIG(RelWithDebInfo "/D DEBUG")
+	ADD_FLAG_CONFIG(Debug "/D DEBUG")
 else()
 	message("Cannot setup DEBUG flags for your compiler (not implemented)")
 endif()
@@ -327,21 +386,19 @@ if(${PROJECT_NAME}_FORCE_DEBUG_BUILD)
 		if (NOT CMAKE_COMPILER_IS_GNUCXX)
 			#message(STATUS "...warning...")
 		endif()
-		FOREACH(CURCONFIG ${CMAKE_CONFIGURATION_TYPES})
-			REMOVE_FLAG_CONFIG(CURCONFIG "\\\\-DNDEBUG")
-		ENDFOREACH()
+		REMOVE_FLAG_REGEX_ALL_CONFIGS("\\\\-DNDEBUG")
 	elseif(MSVC)
-		FOREACH(CURCONFIG ${CMAKE_CONFIGURATION_TYPES})
-			REMOVE_FLAG_CONFIG(${CURCONFIG} "/D NDEBUG")
-		ENDFOREACH()
+		REMOVE_FLAG_REGEX_ALL_CONFIGS("/D NDEBUG")
 	else()
 		message("Cannot ensure ${PROJECT_NAME}_FORCE_DEBUG_BUILD for your compiler (not implemented)")
 	endif()
 	ADD_DEFINITIONS("-DDEBUG")		# Adds for all targets, all configuration. Will not be visible in CMAKE_CXX_FLAGS* variables
 endif()
 
+# message("DEBUG message - CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 # message("DEBUG message - CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
 # message("DEBUG message - CMAKE_CXX_FLAGS_RELWITHDEBINFO: ${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
+# message("DEBUG message - CMAKE_CXX_FLAGS_DEBUG: ${CMAKE_CXX_FLAGS_DEBUG}")
 
 #########################################################################
 # Make the headers visible to everything

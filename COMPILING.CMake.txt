@@ -69,7 +69,7 @@ Please note the RelWithDebInfo is usually *not* a debug build (-DDEBUG) within C
 configure.ac             CMake variable
 --with-no-optimise       Pioneer_FORCE_NO_OPTIMISE
 --enable-debug           Pioneer_FORCE_DEBUG_BUILD
---with-fno-inline        Pioneer_USE_fno-inline
+--with-fno-inline        Pioneer_FORCE_NO_INLINE
 --with-gprof             Add "-pg" in CMAKE_CXX_FLAGS (and optionally in CMAKE_C_FLAGS)
 --with-external-liblua   N/A (Doesn't exist yet)
 
