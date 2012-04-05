@@ -5,7 +5,6 @@ import sys
 import os
 from optparse import OptionParser
 import re
-import fileinput
 
 # splice lines (std: lex.phase -- Phases of translation: 2.1.1.2)
 def splice_lines(lines):
