@@ -131,16 +131,20 @@ public:
 		return rotationPeriod.ToDouble()*60*60*24;
 	}
 	fixed CalcHillRadius() const;
+	double CalcSurfaceGravity() const;
 
 	double GetMaxChildOrbitalDistance() const;
 	void PopulateStage1(StarSystem *system, fixed &outTotalPop);
 	void PopulateAddStations(StarSystem *system);
 
+	bool HasAtmosphere() const;
 	void PickAtmosphere();
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
 		*outColor = m_atmosColor;
 		*outDensity = m_atmosDensity;
 	}
+
+	bool IsScoopable() const;
 
 	Uint32 id; // index into starsystem->m_bodies
 	SystemPath path;
