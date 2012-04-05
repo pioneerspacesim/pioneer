@@ -299,6 +299,8 @@
 		4AB7D62F1472A83E00158DE4 /* TerrainHeightWaterSolid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5FF1472A83E00158DE4 /* TerrainHeightWaterSolid.cpp */; };
 		4AB7D6301472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D6001472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp */; };
 		4ADA8B36152497AA00FCAD58 /* WorldViewCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADA8B34152497AA00FCAD58 /* WorldViewCamera.cpp */; };
+		4ADC7B82152C703200E359B5 /* SDLWrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC7B7F152C703200E359B5 /* SDLWrappers.cpp */; };
+		4ADC7B83152C703200E359B5 /* View.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC7B81152C703200E359B5 /* View.cpp */; };
 		4AE5CA3B1383E2D000B55DEB /* libSDL-1.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */; };
 		4AE5CA3C1383E2EC00B55DEB /* libSDL-1.2.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */; };
 		4AE5CA3E1383E63C00B55DEB /* libSDL_image-1.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */; };
@@ -928,6 +930,9 @@
 		4AB7D6011472A83E00158DE4 /* TerrainNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerrainNoise.h; sourceTree = "<group>"; };
 		4ADA8B34152497AA00FCAD58 /* WorldViewCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldViewCamera.cpp; sourceTree = "<group>"; };
 		4ADA8B35152497AA00FCAD58 /* WorldViewCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldViewCamera.h; sourceTree = "<group>"; };
+		4ADC7B7F152C703200E359B5 /* SDLWrappers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SDLWrappers.cpp; sourceTree = "<group>"; };
+		4ADC7B80152C703200E359B5 /* SDLWrappers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLWrappers.h; sourceTree = "<group>"; };
+		4ADC7B81152C703200E359B5 /* View.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = View.cpp; sourceTree = "<group>"; };
 		4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL-1.2.0.dylib"; path = "/opt/local/lib/libSDL-1.2.0.dylib"; sourceTree = "<absolute>"; };
 		4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_image-1.2.0.dylib"; path = "/opt/local/lib/libSDL_image-1.2.0.dylib"; sourceTree = "<absolute>"; };
 		4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_sound-1.0.1.0.2.dylib"; path = "/opt/local/lib/libSDL_sound-1.0.1.0.2.dylib"; sourceTree = "<absolute>"; };
@@ -1464,6 +1469,8 @@
 				4A6C4D4313532FC300FDD53F /* Quaternion.h */,
 				4A99374E1368355500EA0EE5 /* RefCounted.h */,
 				4A99374F1368355500EA0EE5 /* RefList.h */,
+				4ADC7B7F152C703200E359B5 /* SDLWrappers.cpp */,
+				4ADC7B80152C703200E359B5 /* SDLWrappers.h */,
 				4A6C4D4613532FC300FDD53F /* Sector.cpp */,
 				4A6C4D4713532FC300FDD53F /* Sector.h */,
 				4A6C4D4813532FC300FDD53F /* SectorView.cpp */,
@@ -1547,6 +1554,7 @@
 				4A82AA821386969B0028CCED /* VectorFont.cpp */,
 				4A82AA831386969B0028CCED /* VectorFont.h */,
 				4A62EF2B136979E000919EBB /* VideoLink.h */,
+				4ADC7B81152C703200E359B5 /* View.cpp */,
 				4A6C4D7113532FC300FDD53F /* View.h */,
 				4A6C4D7213532FC300FDD53F /* WorldView.cpp */,
 				4A6C4D7313532FC300FDD53F /* WorldView.h */,
@@ -2001,6 +2009,8 @@
 				4ADA8B36152497AA00FCAD58 /* WorldViewCamera.cpp in Sources */,
 				4A107C2F1525AB0D00EF9FAC /* CRC32.cpp in Sources */,
 				4A107C301525AB0D00EF9FAC /* ShipController.cpp in Sources */,
+				4ADC7B82152C703200E359B5 /* SDLWrappers.cpp in Sources */,
+				4ADC7B83152C703200E359B5 /* View.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

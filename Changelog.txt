@@ -66,6 +66,7 @@ Alpha 21
      * Use a fixed version and proper CRC for the model cache (#1119)
      * Moved ship control code out of Player and Worldview into a new set of
        ShipController classes (#1083, #1129)
+     * Silence warnings when building with GCC 4.7 (#1152)
      * Various internal cleanups (#1139, #1142)
 
 Alpha 20
