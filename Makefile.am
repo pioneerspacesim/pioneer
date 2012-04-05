@@ -12,7 +12,7 @@ codedoc:
 
 .PHONY: enums
 enums:
-	python scripts/scan_enums.py -o src/enum_table.cpp src/*.h
+	python scripts/scan_enums.py -r --pattern=*.h -o src/enum_table.cpp src
 
 EXTRA_DIST = \
 	AUTHORS.txt \
