@@ -2,7 +2,7 @@
 #include "Ship.h"
 #include "Planet.h"
 #include "gameconsts.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Serializer.h"
 #include "Frame.h"
 #include "Pi.h"

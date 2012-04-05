@@ -3,7 +3,7 @@
 #include "Space.h"
 #include "collider/collider.h"
 #include "Sfx.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Pi.h"
 #include "Game.h"
 

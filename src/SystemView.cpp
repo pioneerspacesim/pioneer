@@ -1,7 +1,7 @@
 #include "SystemView.h"
 #include "Pi.h"
 #include "SectorView.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Lang.h"
 #include "StringF.h"
 #include "Space.h"

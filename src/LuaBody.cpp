@@ -3,7 +3,7 @@
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "Body.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Pi.h"
 #include "Frame.h"
 

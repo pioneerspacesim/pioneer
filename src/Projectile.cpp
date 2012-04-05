@@ -2,7 +2,7 @@
 #include "Pi.h"
 #include "Projectile.h"
 #include "Frame.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Space.h"
 #include "Serializer.h"
 #include "collider/collider.h"

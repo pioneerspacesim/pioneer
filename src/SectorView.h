@@ -7,8 +7,8 @@
 #include <vector>
 #include <string>
 #include "View.h"
-#include "Sector.h"
-#include "SystemPath.h"
+#include "galaxy/Sector.h"
+#include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
 
 class SectorView: public View {

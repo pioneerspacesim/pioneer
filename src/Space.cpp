@@ -8,7 +8,7 @@
 #include <functional>
 #include "Pi.h"
 #include "Player.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "SpaceStation.h"
 #include "Serializer.h"
 #include "collider/collider.h"

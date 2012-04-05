@@ -8,7 +8,7 @@
 #include "ShipController.h"
 #include "Sound.h"
 #include "Sfx.h"
-#include "Sector.h"
+#include "galaxy/Sector.h"
 #include "Frame.h"
 #include "WorldView.h"
 #include "HyperspaceCloud.h"

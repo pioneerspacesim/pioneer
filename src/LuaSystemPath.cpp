@@ -3,9 +3,9 @@
 #include "LuaUtils.h"
 #include "LuaStarSystem.h"
 #include "LuaSBody.h"
-#include "SystemPath.h"
-#include "StarSystem.h"
-#include "Sector.h"
+#include "galaxy/SystemPath.h"
+#include "galaxy/StarSystem.h"
+#include "galaxy/Sector.h"
 
 /*
  * Class: SystemPath

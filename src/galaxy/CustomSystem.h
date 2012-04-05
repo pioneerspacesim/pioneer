@@ -1,7 +1,7 @@
 #ifndef _CUSTOMSYSTEM_H
 #define _CUSTOMSYSTEM_H
 
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Polit.h"
 #include "vector3.h"
 #include "fixed.h"

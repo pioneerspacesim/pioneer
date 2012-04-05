@@ -4,8 +4,8 @@
 #include "libs.h"
 #include <string>
 #include <vector>
-#include "StarSystem.h"
-#include "CustomSystem.h"
+#include "galaxy/StarSystem.h"
+#include "galaxy/CustomSystem.h"
 
 class Sector {
 public:

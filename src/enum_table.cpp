@@ -8,7 +8,7 @@
 #include "Ship.h"
 #include "ShipType.h"
 #include "SpaceStation.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 
 const struct EnumItem ENUM_EquipSlot[] = {
 	{ "CARGO", Equip::SLOT_CARGO },

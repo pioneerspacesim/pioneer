@@ -9,7 +9,7 @@
 #include <string>
 #include "DeleteEmitter.h"
 #include "RefCounted.h"
-#include "SystemPath.h"
+#include "galaxy/SystemPath.h"
 
 class CustomSBody;
 class CustomSystem;

@@ -2,7 +2,7 @@
 #define _LUASBODY_H
 
 #include "LuaObject.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 
 // this specialisation clears out the copied SBody parent and children list,
 // which right now points to other SBodys in a StarSystem somewhere, and will

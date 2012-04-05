@@ -2,7 +2,7 @@
 #include "LuaSBody.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 
 /*
  * Class: SystemBody

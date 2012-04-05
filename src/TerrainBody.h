@@ -2,7 +2,7 @@
 #define _TERRAINBODY_H
 
 #include "Body.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "GeoSphere.h"
 
 class Frame;

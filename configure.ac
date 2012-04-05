@@ -249,6 +249,7 @@ AC_CONFIG_FILES([
 	src/collider/Makefile
 	src/gui/Makefile
 	src/graphics/Makefile
+	src/galaxy/Makefile
 	src/terrain/Makefile
 	src/text/Makefile
 	contrib/Makefile

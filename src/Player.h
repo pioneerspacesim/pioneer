@@ -8,7 +8,7 @@
 #include "RefList.h"
 #include "Ship.h"
 #include "ShipController.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 
 namespace Graphics { class Renderer; }
 

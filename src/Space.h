@@ -6,7 +6,7 @@
 #include "vector3.h"
 #include "Serializer.h"
 #include "RefCounted.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Background.h"
 
 class Body;
