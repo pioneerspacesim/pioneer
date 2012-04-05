@@ -1,4 +1,4 @@
-﻿#ifndef _WORLDVIEWCAMERA_H
+#ifndef _WORLDVIEWCAMERA_H
 #define _WORLDVIEWCAMERA_H
 /*
  * Front, rear, external etc. cameras used by WorldView.
