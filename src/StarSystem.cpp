@@ -846,6 +846,17 @@ static int CalcSurfaceTemp(const SBody *primary, fixed distToPrimary, fixed albe
 	return int(isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673)));
 }
 
+
+double SBody::CalcSurfaceGravity() const
+{
+	double r = GetRadius();
+	if (r > 0.0) {
+		return G * GetMass() / pow(r, 2);
+	} else {
+		return 0.0;
+	}
+}
+
 vector3d Orbit::OrbitalPosAtTime(double t) const
 {
 	const double e = eccentricity;
@@ -1064,6 +1075,16 @@ SBody::SBody()
 {
 	heightMapFilename = 0;
 	heightMapFractal = 0;
+}
+
+bool SBody::HasAtmosphere() const
+{
+	return (m_volatileGas > fixed(1,100));
+}
+
+bool SBody::IsScoopable() const
+{
+	return (GetSuperType() == SUPERTYPE_GAS_GIANT);
 }
 
 void SBody::PickAtmosphere()

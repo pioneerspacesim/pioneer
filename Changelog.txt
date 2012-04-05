@@ -51,6 +51,8 @@ Alpha 21
      * New ship params 'front_camera' and 'rear_camera'. Sets the camera's
        position on the ship, and causes the ship's body to be drawn (#1125)
      * New attribute SpaceStation.numDocks to get number of docking ports (#1135)
+     * New SystemBody attributes gravity, hasAtmosphere and isScoopable (#1150,
+       #859)
 
    * Internal changes
      * configure tweaks for better optimisations and profiling support
