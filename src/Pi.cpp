@@ -370,7 +370,12 @@ void Pi::RedirectStdio()
 
 void Pi::LoadWindowIcon()
 {
+#ifdef WIN32
+	// SDL doc says "Win32 icons must be 32x32".
+	SDLSurfacePtr surface = LoadSurfaceFromFile("icons/badge32-8b.png");
+#else
 	SDLSurfacePtr surface = LoadSurfaceFromFile("icons/badge.png");
+#endif
 	if (surface) {
 		SDL_WM_SetIcon(surface.Get(), 0);
 	}

@@ -38,6 +38,7 @@ Alpha 21
      * Fix view/panel draw order so that world elements do not draw over the
        panel (#1141)
      * Only update ship mass, fuel and equipment stats when necessary (#1112)
+     * Fixed huge mixer icon on Win32 (#1158, #860)
 
    * Script changes
      * New custom system option :explored to explicitly set a system's
