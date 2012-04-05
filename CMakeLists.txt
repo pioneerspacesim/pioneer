@@ -18,9 +18,6 @@
 #		Try with an old compiler, to ensure it doesn't complain about unsupported compile flags. Build system has to test for the availbility of each warning flag (old compiler support). This SHOULD be done automatically by CMake, but this hasn't been tested.
 #		MinGW builds. They need all dependencies to be compiled with MinGW (can't mix MSVC and MinGW DLLs!). However a quick test shows that it compiles and all symbols are found (using MSVC DLLs). I (Sukender) assume it works.
 #		Cygwin builds. They've never been tested.
-# - Create "codedoc" target (naturaldocs) target. Same way the "enum" target works.
-#		naturaldocs -i src/ -i data/libs/ -xi src/data/ -o HTML codedoc/ -p nd/ -do -ro -s Default Local
-#		Please note that CMake comes with a Doxygen finder but nothing for naturaldocs.
 # - Handle extra stuff found in osx/Makefile.am
 #
 # Low priority tasks:
@@ -551,6 +548,24 @@ ADD_SUBDIRECTORY(src)
 
 
 ################################################################################
+# Code documentation
+
+# NaturalDocs ("codedoc" target)
+find_package(NaturalDocs)
+option(${PROJECT_NAME}_BUILD_DOCUMENTATION "Build reference documentation using NaturalDocs" ${NaturalDocs_FOUND})
+mark_as_advanced(${PROJECT_NAME}_BUILD_DOCUMENTATION)
+if (${PROJECT_NAME}_BUILD_DOCUMENTATION)
+	if(NOT NaturalDocs_FOUND)
+		message("NaturalDocs not found. Skipping code documentation generation.")
+	else()
+		add_custom_target(codedoc
+			"${NaturalDocs}" "-i" "src/" "-i" "data/libs/" "-xi" "src/data/" "-o" "HTML" "codedoc/" "-p" "nd/" "-do" "-ro" "-s" "Default" "Local"
+			WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
+			COMMENT "Generating code documentation (NaturalDocs)...")
+		#INSTALL(DIRECTORY "codedoc" DESTINATION ".")
+	endif()
+endif()
+
 # Doxygen
 
 # INCLUDE(${CMAKE_ROOT}/Modules/Documentation.cmake OPTIONAL)
@@ -580,7 +595,7 @@ ADD_SUBDIRECTORY(src)
 # CPack
 # present the packaging option only if we have the cpack command defined (effectively >= 2.6.0)
 FUNCTION(PACK_DATA_DIR DIR_TO_PACK RECURSE)
-	# TODO See if INSTALL(DIRECTORY ...) could be nicer
+	# INSTALL(DIRECTORY ...) is always recursive...
 	SET(DIR_PATH "${PROJECT_SOURCE_DIR}/${DIR_TO_PACK}")
 	FILE(GLOB FILES_TO_PACK_RELATIVE RELATIVE "${DIR_PATH}" "${DIR_PATH}/*")
 	LIST(REMOVE_ITEM FILES_TO_PACK_RELATIVE ".svn")		#remove '.svn'
