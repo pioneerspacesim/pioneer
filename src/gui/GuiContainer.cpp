@@ -163,7 +163,10 @@ void Container::Draw()
 	float size[2];
 	GetSize(size);
 	if (!m_transparent) {
-		if (m_bgcol[3] < 1.0) glEnable(GL_BLEND);
+		if (m_bgcol[3] < 1.0) {
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		}
 		glBegin(GL_QUADS);
 			glColor4fv(m_bgcol);
 			glVertex2f(0, size[1]);
@@ -171,7 +174,10 @@ void Container::Draw()
 			glVertex2f(size[0], 0);
 			glVertex2f(0, 0);
 		glEnd();
-		glDisable(GL_BLEND);
+		if (m_bgcol[3] < 1.0) {
+			glBlendFunc(GL_ONE, GL_ZERO);
+			glDisable(GL_BLEND);
+		}
 	}
 #ifdef GUI_DEBUG_CONTAINER
 	glBegin(GL_LINE_LOOP);
