@@ -1293,6 +1293,7 @@ void Ship::EnterHyperspace() {
 	if (fuelType == Equip::MILITARY_FUEL) {
 		m_equipment.Add(Equip::RADIOACTIVES, fuel_cost);
 	}
+	UpdateEquipStats();
 
 	Pi::luaOnLeaveSystem->Queue(this);
 
