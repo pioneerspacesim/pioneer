@@ -24,6 +24,8 @@ static char g_keyState[SDLK_LAST];
 static const int MAX_MOUSE_BTN_IDX = SDL_BUTTON_WHEELDOWN + 1;
 static int g_mouseButton[MAX_MOUSE_BTN_IDX];	// inc to 6 as mouseScroll is index 5
 static bool g_doBenchmark = false;
+static vector3f g_campos(0.0f, 0.0f, 100.0f);
+static matrix4x4f g_camorient;
 
 float gridInterval = 0.0f;
 
@@ -52,6 +54,8 @@ public:
 	Gui::Label *m_trisReadout;
 	//Newmodel::NModel *m_model;
 	Model *m_model;
+
+	void ResetCamera();
 
 	void SetModel(Model *);
 
@@ -153,38 +157,41 @@ private:
 	bool m_showGrid;
 };
 
+void Viewer::ResetCamera()
+{
+	g_campos = vector3f(0.0f, 0.0f, 10.f);
+	g_camorient = matrix4x4f::Identity();
+	matrix4x4f modelRot = matrix4x4f::Identity();
+}
+
 void Viewer::SetModel(Model *model)
 {
-	//Newmodel::Importer imp;
-	//if (!m_model) m_model = imp.CreateDummyModel(renderer);
-	//if (!m_cmesh) m_cmesh = m_model->CreateCollisionMesh(0);
-
-	m_model = model;
 	// clear old geometry
+	if (m_model) delete m_model;
 	if (m_cmesh) delete m_cmesh;
 	if (m_geom) {
 		m_space->RemoveGeom(m_geom);
 		delete m_geom;
 	}
 
+	m_model = model;
+	m_cmesh = m_model->CreateCollisionMesh(0);
 	m_geom = new Geom(m_cmesh->GetGeomTree());
 	m_space->AddGeom(m_geom);
+	ResetCamera();
 }
 
 void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg)
 {
-	//XXX go through models folder and try to find a file
-/*
 	if (sym->sym == SDLK_RETURN) {
-		LmrModel *m = 0;
+		Newmodel::Loader load(renderer);
 		try {
-			m = LmrLookupModelByName(entry->GetText().c_str());
-		} catch (LmrModelNotFoundException) {
+			Model *mo = load.LoadModel(entry->GetText());
+			SetModel(mo);
+		} catch (Newmodel::LoadingError &) {
 			errormsg->SetText("Could not find model: " + entry->GetText());
-		}
-		if (m) SetModel(m);
+		}	
 	}
-*/
 }
 
 void Viewer::PickModel(const std::string &initial_name, const std::string &initial_errormsg)
@@ -243,10 +250,6 @@ static void render_coll_mesh(const LmrCollMesh *m)
 }
 #endif
 
-double camera_zoom = 1.0;
-vector3f g_campos(0.0f, 0.0f, 100.0f);
-matrix4x4f g_camorient;
-
 void Viewer::MainLoop()
 {
 	Uint32 lastTurd = SDL_GetTicks();
@@ -254,7 +257,7 @@ void Viewer::MainLoop()
 	Uint32 t = SDL_GetTicks();
 	int numFrames = 0, fps = 0, numTris = 0;
 	Uint32 lastFpsReadout = SDL_GetTicks();
-	g_campos = vector3f(0.0f, 0.0f, m_cmesh->GetBoundingRadius());
+	//g_campos = vector3f(0.0f, 0.0f, m_cmesh->GetBoundingRadius());
 	g_camorient = matrix4x4f::Identity();
 	matrix4x4f modelRot = matrix4x4f::Identity();
 
@@ -493,17 +496,13 @@ int main(int argc, char **argv)
 	renderer = Graphics::Init(g_width, g_height, true);
 	Gui::Init(renderer, g_width, g_height, g_width, g_height);
 
-	Newmodel::Loader::Init();
-
 	g_viewer = new Viewer();
 	if (argc >= 4) {
-#if 0
 		try {
-			LmrModel *m = LmrLookupModelByName(argv[3]);
-			g_viewer->SetModel(m);
-		} catch (LmrModelNotFoundException)
-#endif
-		{
+			Newmodel::Loader loader(renderer);
+			Model *mo = loader.LoadModel(argv[3]);
+			g_viewer->SetModel(mo);
+		} catch (Newmodel::LoadingError &) {
 			g_viewer->PickModel(argv[3], std::string("Could not find model: ") + argv[3]);
 		}
 	} else {
