@@ -1,12 +1,8 @@
 #include "libs.h"
 #include "gui/Gui.h"
 #include "collider/collider.h"
-#include "Ship.h" // for the flight state and ship animation enums
-#include "SpaceStation.h" // for the space station animation enums
 #include "FileSystem.h"
 #include "newmodel/Newmodel.h"
-#include "newmodel/Importer.h"
-#include "newmodel/Loader.h"
 #include "graphics/Drawables.h"
 #include "graphics/Material.h"
 #include "graphics/Graphics.h"
