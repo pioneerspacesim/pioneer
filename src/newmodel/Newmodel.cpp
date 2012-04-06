@@ -5,7 +5,8 @@
 
 namespace Newmodel {
 
-NModel::NModel() : Model()
+NModel::NModel(const std::string &name) : Model(),
+	m_name(name)
 {
 	m_root.Reset(new Group());
 }

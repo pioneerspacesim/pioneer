@@ -4,7 +4,7 @@
  * Geometry node containing one StaticMesh. Nothing fancy.
  */
 #include "Node.h"
-#include "graphics\StaticMesh.h"
+#include "graphics/StaticMesh.h"
 #include "SmartPtr.h"
 
 namespace Newmodel {

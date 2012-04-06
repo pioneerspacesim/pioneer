@@ -14,24 +14,34 @@
  */
 #include "Model.h"
 #include "Group.h"
+#include "libs.h"
+#include <stdexcept>
 
 namespace Graphics { class Renderer; }
 
 namespace Newmodel
 {
 
+struct LoadingError : public std::runtime_error {
+	LoadingError() : std::runtime_error("NewModel::LoadingError") { }
+};
+
 class NModel : public Model
 {
 public:
-	NModel();
+	NModel(const std::string &name);
 	~NModel();
 	float GetDrawClipRadius() const { return 10.f; }
 	//Render begins the graph traversal. Only geometry nodes actually render something.
 	//might be worthwhile to implement Visitors (DrawVisitor, CreateCollisionMeshVisitor)
 	void Render(Graphics::Renderer *r, const matrix4x4f &trans, const LmrObjParams *params);
 	CollMesh *CreateCollisionMesh(const LmrObjParams *p);
+	RefCountedPtr<Group> GetRoot() { return m_root; }
 	RefCountedPtr<Group> m_root;
 	//materials used in the nodes should be accessible from here for convenience
+
+private:
+	std::string m_name;
 };
 
 }
