@@ -15,9 +15,9 @@ public:
 	virtual GeomTree *GetGeomTree() const { return m_geomTree; }
 	void SetGeomTree(GeomTree *t) { m_geomTree = t; }
 protected:
-	GeomTree *m_geomTree;
 	Aabb m_aabb;
 	float m_radius;
+	GeomTree *m_geomTree;
 };
 
 #endif

@@ -4,8 +4,8 @@
  * Abstract model base class.
  */
 #include "libs.h"
+#include "CollMesh.h"
 struct LmrObjParams;
-class CollMesh;
 namespace Graphics { class Renderer; }
 
 class Model {

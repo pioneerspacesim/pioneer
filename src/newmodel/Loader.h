@@ -3,6 +3,8 @@
 /*
  * Load models using the model config files under data/newmodels/
  */
+#include "libs.h"
+class lua_State;
 namespace Graphics { class Renderer; }
 namespace Newmodel {
 

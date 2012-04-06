@@ -1,6 +1,7 @@
 #include "CollisionVisitor.h"
 #include "StaticGeometry.h"
 #include "graphics/StaticMesh.h"
+#include "graphics/Surface.h"
 #include "CollMesh.h"
 #include "Group.h"
 

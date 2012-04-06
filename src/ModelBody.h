@@ -44,11 +44,11 @@ protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
 private:
-	Model *m_model;
-	CollMesh *m_collMesh;
-	LmrObjParams m_params;
 	bool m_isStatic;
+	CollMesh *m_collMesh;
 	Geom *m_geom;
+	LmrObjParams m_params;
+	Model *m_model;
 };
 
 #endif /* _MODELBODY_H */

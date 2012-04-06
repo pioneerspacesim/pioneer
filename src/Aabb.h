@@ -1,10 +1,10 @@
 #ifndef _AABB_H
 #define _AABB_H
 
-#include "vector3.h"
+#include "libs.h"
 
 struct Aabb {
-	vector3d max, min;
+	vector3d min, max;
 	Aabb()
 		: min(DBL_MAX, DBL_MAX, DBL_MAX)
 		, max(-DBL_MAX, -DBL_MAX, -DBL_MAX)

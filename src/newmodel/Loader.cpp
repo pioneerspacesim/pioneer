@@ -3,10 +3,12 @@
 #include "Newmodel.h"
 #include "FileSystem.h"
 #include <assimp/Importer.hpp>
-#include <assimp/PostProcess.h>
-#include <assimp/Scene.h>
+#include <assimp/postprocess.h>
+#include <assimp/scene.h>
 #include <assimp/material.h>
 #include "StaticGeometry.h"
+#include "graphics/Material.h"
+#include "graphics/Surface.h"
 
 namespace Newmodel {
 
@@ -165,8 +167,8 @@ Node *Loader::LoadMesh(const std::string &filename)
 		//note: index offsets are not adjusted, StaticMesh should do that for us
 		for (unsigned int f = 0; f < mesh->mNumFaces; f++) {
 			const aiFace *face = &mesh->mFaces[f];
-			for (unsigned int i = 0; i < face->mNumIndices; i++) {
-				indices.push_back(face->mIndices[i]);
+			for (unsigned int j = 0; j < face->mNumIndices; j++) {
+				indices.push_back(face->mIndices[j]);
 			}
 		}
 

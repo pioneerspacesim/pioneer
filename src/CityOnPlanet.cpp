@@ -151,10 +151,11 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	int i = 0;
 	for (std::vector<LmrModel*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
 		list->buildings[i].resolvedModel = *m;
-		const CollMesh *collMesh = (*m)->CreateCollisionMesh(&cityobj_params);
+		CollMesh *collMesh = (*m)->CreateCollisionMesh(&cityobj_params);
 		list->buildings[i].collMesh = collMesh;
-		double maxx = std::max(fabs(collMesh->GetAabb().max.x), fabs(collMesh->GetAabb().min.x));
-		double maxy = std::max(fabs(collMesh->GetAabb().max.z), fabs(collMesh->GetAabb().min.z));
+		const Aabb &aabb = collMesh->GetAabb();
+		const double maxx = std::max(fabs(aabb.max.x), fabs(aabb.min.x));
+		const double maxy = std::max(fabs(aabb.max.z), fabs(aabb.min.z));
 		list->buildings[i].xzradius = sqrt(maxx*maxx + maxy*maxy);
 		//printf("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
 	}
@@ -311,4 +312,3 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const SpaceStation *station, co
 		(*i).model->Render(r, _rot, &cityobj_params);
 	}
 }
-

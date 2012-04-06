@@ -1,21 +1,22 @@
-#include "libs.h"
 #include "ModelBody.h"
-#include "Space.h"
-#include "matrix4x4.h"
+#include "libs.h"
+#include "collider/collider.h"
 #include "Frame.h"
 #include "Game.h"
-#include "Pi.h"
-#include "WorldView.h"
-#include "Serializer.h"
-#include "collider/collider.h"
 #include "graphics/Renderer.h"
+#include "LmrModel.h"
+#include "matrix4x4.h"
+#include "Pi.h"
+#include "Serializer.h"
+#include "Space.h"
+#include "WorldView.h"
 
 ModelBody::ModelBody() :
 	Body(),
-	m_model(0),
+	m_isStatic(false),
 	m_collMesh(0),
 	m_geom(0),
-	m_isStatic(false)
+	m_model(0)
 {
 	memset(&m_params, 0, sizeof(LmrObjParams));
 }

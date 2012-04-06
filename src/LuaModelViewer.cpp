@@ -297,9 +297,9 @@ void Viewer::MainLoop()
 		renderer->SetPerspectiveProjection(85, g_width/float(g_height), 1.f, 10000.f);
 		renderer->SetTransform(matrix4x4f::Identity());
 		renderer->ClearScreen();
-
+#if 0
 		int beforeDrawTriStats = LmrModelGetStatsTris();
-	
+#endif
 		if (g_renderType == 0) {
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
@@ -356,7 +356,7 @@ void Viewer::MainLoop()
 		numFrames++;
 		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;
 		lastTurd = SDL_GetTicks();
-
+#if 0
 		if (SDL_GetTicks() - lastFpsReadout > 1000) {
 			numTris = LmrModelGetStatsTris();
 			fps = numFrames;
@@ -364,6 +364,7 @@ void Viewer::MainLoop()
 			lastFpsReadout = SDL_GetTicks();
 			LmrModelClearStatsTris();
 		}
+#endif
 	}
 }
 
