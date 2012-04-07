@@ -284,16 +284,16 @@ Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x,
 	return c;
 }
 
-TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
+TextureFont::TextureFont(const FontDescriptor &descriptor) : Font(descriptor)
 {
 	int err; // used to store freetype error return codes
 	float scale[2];
 	Gui::Screen::GetCoords2Pixels(scale);
 
-	const int a_width = int(GetConfig().Int("PixelWidth") / scale[0]);
-	const int a_height = int(GetConfig().Int("PixelHeight") / scale[1]);
+	const int a_width = int(GetDescriptor().pixelWidth / scale[0]);
+	const int a_height = int(GetDescriptor().pixelHeight / scale[1]);
 
-	const float advx_adjust = GetConfig().Float("AdvanceXAdjustment");
+	const float advx_adjust = GetDescriptor().advanceXAdjustment;
 
 	m_pixSize = a_height;
 
@@ -311,13 +311,13 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	std::vector<unsigned char> pixBuf(4*sz*sz);
 	std::fill(pixBuf.begin(), pixBuf.end(), 0);
 
-	Graphics::TextureDescriptor descriptor(Graphics::TEXTURE_RGBA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
-	m_texture.Reset(Gui::Screen::GetRenderer()->CreateTexture(descriptor));
+	Graphics::TextureDescriptor textureDescriptor(Graphics::TEXTURE_RGBA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
+	m_texture.Reset(Gui::Screen::GetRenderer()->CreateTexture(textureDescriptor));
 	m_mat.texture0 = m_texture.Get();
 	m_mat.unlit = true;
 	m_mat.vertexColors = true; //to allow per-character colors
 	
-	bool outline = GetConfig().Int("Outline");
+	bool outline = GetDescriptor().outline;
 
 	FT_Stroker stroker(0);
 	if (outline) {

@@ -20,7 +20,7 @@ RefCountedPtr<TextureFont> FontCache::GetTextureFont(const std::string &name)
 	if (i != m_textureFonts.end())
 		return (*i).second;
 
-	RefCountedPtr<TextureFont> font(new TextureFont(font_config("fonts/" + name + ".ini")));
+	RefCountedPtr<TextureFont> font(new TextureFont(font_config("fonts/" + name + ".ini").GetDescriptor()));
 	m_textureFonts.insert(std::pair< std::string,RefCountedPtr<TextureFont> >(name, font));
 
 	return font;
@@ -32,7 +32,7 @@ RefCountedPtr<VectorFont> FontCache::GetVectorFont(const std::string &name)
 	if (i != m_vectorFonts.end())
 		return (*i).second;
 
-	RefCountedPtr<VectorFont> font(new VectorFont(font_config("fonts/" + name + ".ini")));
+	RefCountedPtr<VectorFont> font(new VectorFont(font_config("fonts/" + name + ".ini").GetDescriptor()));
 	m_vectorFonts.insert(std::pair< std::string,RefCountedPtr<VectorFont> >(name, font));
 
 	return font;

@@ -1,6 +1,8 @@
 #ifndef _TEXT_FONTDESCRIPTOR_H
 #define _TEXT_FONTDESCRIPTOR_H
 
+#include <string>
+
 namespace Text {
 
 struct FontDescriptor {

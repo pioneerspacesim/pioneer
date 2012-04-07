@@ -3,13 +3,14 @@
 
 #include "Font.h"
 #include <SDL_stdinc.h>
+#include <map>
 
 namespace Text {
 
 class VectorFont : public Font
 {
 public:
-	VectorFont(const FontConfig &fc);
+	VectorFont(const FontDescriptor &descriptor);
 	virtual ~VectorFont();
 
 	void RenderGlyph(int chr);

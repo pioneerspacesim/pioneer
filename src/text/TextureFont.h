@@ -5,6 +5,7 @@
 #include "Color.h"
 #include "graphics/Texture.h"
 #include "graphics/Material.h"
+#include <map>
 
 namespace Graphics {
 	class Renderer;
@@ -16,7 +17,7 @@ namespace Text {
 class TextureFont : public Font {
 
 public:
-	TextureFont(const FontConfig &fc);
+	TextureFont(const FontDescriptor &descriptor);
 
 	void RenderString(Graphics::Renderer *r, const char *str, float x, float y, const Color &color = Color::WHITE);
 	Color RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y, const Color &color = Color::WHITE);
