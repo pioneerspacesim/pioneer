@@ -10,6 +10,7 @@ noinst_LIBRARIES = libtext.a
 noinst_HEADERS = \
 	FontCache.h \
 	FontConfig.h \
+	FontDescriptor.h \
 	Font.h \
 	TextSupport.h \
 	TextureFont.h \
