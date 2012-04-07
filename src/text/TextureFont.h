@@ -17,10 +17,10 @@ namespace Text {
 class TextureFont : public Font {
 
 public:
-	TextureFont(const FontDescriptor &descriptor);
+	TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *renderer);
 
-	void RenderString(Graphics::Renderer *r, const char *str, float x, float y, const Color &color = Color::WHITE);
-	Color RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y, const Color &color = Color::WHITE);
+	void RenderString(const char *str, float x, float y, const Color &color = Color::WHITE);
+	Color RenderMarkup(const char *str, float x, float y, const Color &color = Color::WHITE);
 	void MeasureString(const char *str, float &w, float &h);
 	void MeasureCharacterPos(const char *str, int charIndex, float &x, float &y) const;
 	int PickCharacter(const char *str, float mouseX, float mouseY) const;
@@ -42,6 +42,8 @@ public:
 	static void ClearGlyphCount() { s_glyphCount = 0; }
 
 private:
+	Graphics::Renderer *m_renderer;
+
 	void AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float x, float y, const Color &color);
 	float m_height;
 	float m_width;

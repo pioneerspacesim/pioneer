@@ -1,9 +1,7 @@
 #include "TextureFont.h"
 #include "libs.h"
-#include "FileSystem.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
-#include "gui/GuiScreen.h"
 #include "TextSupport.h"
 #include "utils.h"
 #include <algorithm>
@@ -179,9 +177,9 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 	return i2;
 }
 
-void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, float y, const Color &color)
+void TextureFont::RenderString(const char *str, float x, float y, const Color &color)
 {
-	r->SetBlendMode(Graphics::BLEND_ALPHA);
+	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 
 	float px = x;
@@ -221,12 +219,12 @@ void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, 
 		}
 	}
 
-	r->DrawTriangles(&va, &m_mat);
+	m_renderer->DrawTriangles(&va, &m_mat);
 }
 
-Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y, const Color &color)
+Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &color)
 {
-	r->SetBlendMode(Graphics::BLEND_ALPHA);
+	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 
 	float px = x;
@@ -280,11 +278,11 @@ Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x,
 		}
 	}
 
-	r->DrawTriangles(&va, &m_mat);
+	m_renderer->DrawTriangles(&va, &m_mat);
 	return c;
 }
 
-TextureFont::TextureFont(const FontDescriptor &descriptor) : Font(descriptor)
+TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *renderer) : Font(descriptor), m_renderer(renderer)
 {
 	int err; // used to store freetype error return codes
 	const int a_width = GetDescriptor().pixelWidth;
@@ -309,7 +307,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor) : Font(descriptor)
 	std::fill(pixBuf.begin(), pixBuf.end(), 0);
 
 	Graphics::TextureDescriptor textureDescriptor(Graphics::TEXTURE_RGBA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
-	m_texture.Reset(Gui::Screen::GetRenderer()->CreateTexture(textureDescriptor));
+	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
 	m_mat.texture0 = m_texture.Get();
 	m_mat.unlit = true;
 	m_mat.vertexColors = true; //to allow per-character colors

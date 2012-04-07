@@ -26,7 +26,7 @@ RefCountedPtr<Text::TextureFont> FontCache::GetTextureFont(const std::string &na
 	fc.SetInt("PixelWidth", fc.Int("PixelWidth") / scale[0]);
 	fc.SetInt("PixelHeight", fc.Int("PixelHeight") / scale[1]);
 
-	RefCountedPtr<Text::TextureFont> font(new Text::TextureFont(fc.GetDescriptor()));
+	RefCountedPtr<Text::TextureFont> font(new Text::TextureFont(fc.GetDescriptor(), Gui::Screen::GetRenderer()));
 	m_textureFonts.insert(std::pair< std::string,RefCountedPtr<Text::TextureFont> >(name, font));
 
 	return font;

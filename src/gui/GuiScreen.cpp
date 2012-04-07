@@ -274,7 +274,7 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff, const Co
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-	font->RenderString(s_renderer, s.c_str(), 0, 0, color);
+	font->RenderString(s.c_str(), 0, 0, color);
 	glPopMatrix();
 }
 
@@ -291,7 +291,7 @@ void Screen::RenderMarkup(const std::string &s, const Color &color, Text::Textur
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-	font->RenderMarkup(s_renderer, s.c_str(), 0, 0, color);
+	font->RenderMarkup(s.c_str(), 0, 0, color);
 	glPopMatrix();
 }
 
