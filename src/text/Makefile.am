@@ -9,7 +9,6 @@ INCLUDES = -I$(srcdir)/..
 noinst_LIBRARIES = libtext.a
 noinst_HEADERS = \
 	FontCache.h \
-	FontConfig.h \
 	FontDescriptor.h \
 	Font.h \
 	TextSupport.h \
@@ -18,7 +17,6 @@ noinst_HEADERS = \
 
 libtext_a_SOURCES = \
 	FontCache.cpp \
-	FontConfig.cpp \
 	Font.cpp \
 	TextSupport.cpp \
 	TextureFont.cpp \

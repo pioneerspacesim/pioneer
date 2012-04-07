@@ -1,9 +1,7 @@
-#ifndef _TEXT_FONTCONFIG_H
-#define _TEXT_FONTCONFIG_H
+#ifndef _FONTCONFIG_H
+#define _FONTCONFIG_H
 
 #include "IniConfig.h"
-
-namespace Text {
 
 class FontConfig : public IniConfig {
 public:
@@ -12,7 +10,5 @@ public:
 private:
 	void SetDefaults();
 };
-
-}
 
 #endif

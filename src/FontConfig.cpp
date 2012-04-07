@@ -1,7 +1,5 @@
 #include "FontConfig.h"
 
-namespace Text {
-
 FontConfig::FontConfig()
 {
 	SetDefaults();
@@ -19,6 +17,4 @@ void FontConfig::SetDefaults()
 	m_map["PixelWidth"] = "12";
 	m_map["PixelHeight"] = "12";
 	m_map["AdvanceXAdjustment"] = "0";
-}
-
 }

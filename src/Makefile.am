@@ -32,6 +32,7 @@ noinst_HEADERS = \
 	FaceVideoLink.h \
 	FileSelectorWidget.h \
 	FileSystem.h \
+	FontConfig.h \
 	Form.h \
 	FormController.h \
 	Frame.h \
@@ -168,6 +169,7 @@ pioneer_SOURCES	= \
 	FaceVideoLink.cpp \
 	FileSelectorWidget.cpp \
 	FileSystem.cpp \
+	FontConfig.cpp \
 	FormController.cpp \
 	Frame.cpp \
 	GalacticView.cpp \
@@ -282,6 +284,7 @@ modelviewer_SOURCES = \
 	Color.cpp \
 	CRC32.cpp \
 	FileSystem.cpp \
+	FontConfig.cpp \
 	IniConfig.cpp \
 	Lang.cpp \
 	LmrModel.cpp \
