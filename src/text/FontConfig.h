@@ -1,5 +1,5 @@
-#ifndef _FONTCONFIG_H
-#define _FONTCONFIG_H
+#ifndef _TEXT_FONTCONFIG_H
+#define _TEXT_FONTCONFIG_H
 
 #include "IniConfig.h"
 

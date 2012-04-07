@@ -1,5 +1,5 @@
-#ifndef _TEXTSUPPORT_H
-#define _TEXTSUPPORT_H
+#ifndef _TEXT_TEXTSUPPORT_H
+#define _TEXT_TEXTSUPPORT_H
 
 #include <SDL_stdinc.h>
 

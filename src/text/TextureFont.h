@@ -1,5 +1,5 @@
-#ifndef _TEXTUREFONT_H
-#define _TEXTUREFONT_H
+#ifndef _TEXT_TEXTUREFONT_H
+#define _TEXT_TEXTUREFONT_H
 
 #include "Font.h"
 #include "Color.h"

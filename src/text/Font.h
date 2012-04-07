@@ -1,5 +1,5 @@
-#ifndef _FONT_H
-#define _FONT_H
+#ifndef _TEXT_FONT_H
+#define _TEXT_FONT_H
 
 #include "FontConfig.h"
 #include "RefCounted.h"

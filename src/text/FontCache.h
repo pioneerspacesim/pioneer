@@ -1,5 +1,5 @@
-#ifndef _FONTCACHE_H
-#define _FONTCACHE_H
+#ifndef _TEXT_FONTCACHE_H
+#define _TEXT_FONTCACHE_H
 
 #include <map>
 #include <string>

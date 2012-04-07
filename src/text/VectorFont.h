@@ -1,5 +1,5 @@
-#ifndef _VECTORFONT_H
-#define _VECTORFONT_H
+#ifndef _TEXT_VECTORFONT_H
+#define _TEXT_VECTORFONT_H
 
 #include "Font.h"
 #include <SDL_stdinc.h>
