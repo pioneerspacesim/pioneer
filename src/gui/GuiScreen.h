@@ -2,7 +2,7 @@
 #define _GUISCREEN_H
 
 #include "Gui.h"
-#include "text/FontCache.h"
+#include "FontCache.h"
 #include "text/TextureFont.h"
 #include <list>
 #include <stack>
@@ -76,7 +76,7 @@ namespace Gui {
 		static GLdouble projMatrix[16];
 		static GLint viewport[4];
 
-		static Text::FontCache s_fontCache;
+		static FontCache s_fontCache;
 		static std::stack< RefCountedPtr<Text::TextureFont> > s_fontStack;
 		static RefCountedPtr<Text::TextureFont> s_defaultFont;
 

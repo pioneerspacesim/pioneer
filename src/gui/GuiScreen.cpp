@@ -18,7 +18,7 @@ GLdouble Screen::modelMatrix[16];
 GLdouble Screen::projMatrix[16];
 GLint Screen::viewport[4];
 
-Text::FontCache Screen::s_fontCache;
+FontCache Screen::s_fontCache;
 std::stack< RefCountedPtr<Text::TextureFont> > Screen::s_fontStack;
 RefCountedPtr<Text::TextureFont>Screen::s_defaultFont;
 

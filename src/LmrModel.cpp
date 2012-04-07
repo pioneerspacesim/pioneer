@@ -1,6 +1,6 @@
 #include "libs.h"
 #include <map>
-#include "text/FontCache.h"
+#include "FontCache.h"
 #include "text/VectorFont.h"
 #include "LmrModel.h"
 #include "collider/collider.h"
@@ -256,7 +256,7 @@ static LmrShader *s_sunlightShader[4];
 static LmrShader *s_pointlightShader[4];
 static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
-static Text::FontCache s_fontCache;
+static FontCache s_fontCache;
 static RefCountedPtr<Text::VectorFont> s_font;
 static float NEWMODEL_ZBIAS = 0.0002f;
 static LmrGeomBuffer *s_curBuf;
