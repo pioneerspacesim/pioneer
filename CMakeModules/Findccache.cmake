@@ -12,6 +12,10 @@ FIND_PROGRAM(${FINDNAME}_GXX "ccache/g++" /usr/local/lib64 /usr/lib64 /lib64 /us
 INCLUDE(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(${FINDNAME} DEFAULT_MSG ${FINDNAME}_GCC ${FINDNAME}_GXX)
 
+# Handle upper-case conversion of FIND_PACKAGE_HANDLE_STANDARD_ARGS
+string(TOUPPER "${FINDNAME}" UPPERNAME)
+set(${FINDNAME}_FOUND ${${UPPERNAME}_FOUND})
+
 #if (${FINDNAME})
 #	set(${FINDNAME}_GCC "${${FINDNAME}}")
 #	set(${FINDNAME}_GXX "${${FINDNAME}}")

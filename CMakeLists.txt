@@ -281,7 +281,7 @@ ENDMACRO()
 # MSVC inlining flags: /Ob{0|1|2}
 
 # Selecting regex for optimisation flags
-set(OptimisationFlagRegex "\\\\-O[^ ]+")		# Default configuration is gcc
+set(OptimisationFlagRegex "-O[^ ]+")		# Default configuration is gcc
 if(HAS_GCC_STYLE_FLAGS)
 	# Nothing to do.
 elseif(MSVC)
@@ -291,7 +291,7 @@ else()
 endif()
 
 # Selecting regex for inlining flags
-set(InilineFlagRegex "\\\\-fno\\\\-inline")		# Default configuration is gcc
+set(InilineFlagRegex "-fno-inline")		# Default configuration is gcc
 if(HAS_GCC_STYLE_FLAGS)
 	# Nothing to do.
 elseif(MSVC)
@@ -366,7 +366,7 @@ endif()
 #   1. Replace NDEBUG with DEBUG for RelWithDebugInfo
 #	2. Add DEBUG for Debug (Note: MSVC has "_DEBUG" by default)
 if(HAS_GCC_STYLE_FLAGS)
-	REMOVE_FLAG_REGEX_CONFIG(RelWithDebInfo "\\\\-DNDEBUG")
+	REMOVE_FLAG_REGEX_CONFIG(RelWithDebInfo "-DNDEBUG")
 	ADD_FLAG_CONFIG(RelWithDebInfo "-DDEBUG")
 	ADD_FLAG_CONFIG(Debug "-DDEBUG")
 elseif(MSVC)
@@ -382,7 +382,7 @@ endif()
 OPTION(${PROJECT_NAME}_FORCE_DEBUG_BUILD "Set to ON to force 'DEBUG' preprocessor definition. Compatibility option for --enable-debug." OFF)
 if(${PROJECT_NAME}_FORCE_DEBUG_BUILD)
 	if(HAS_GCC_STYLE_FLAGS)
-		REMOVE_FLAG_REGEX_ALL_CONFIGS("\\\\-DNDEBUG")
+		REMOVE_FLAG_REGEX_ALL_CONFIGS("-DNDEBUG")
 	elseif(MSVC)
 		REMOVE_FLAG_REGEX_ALL_CONFIGS("/D NDEBUG")
 	else()
