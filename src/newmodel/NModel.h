@@ -10,7 +10,13 @@
  *            StaticGeometry_med
  *            StaticGeometry_hi
  *
- * Animation: to be specified. Something to do with bones (even if meshes are rigid)
+ * It's not supposed to be too complex. For example there are no "Material" nodes.
+ * Geometry nodes can contain multiple separate meshes.
+ * Animation: To Be Specified. Something to do with bones (even if meshes are rigid).
+ * 		animated geometries are likely smaller, separate nodes so it's not necessary
+ * 		to avoid software skinning huge models
+ * Attaching models to other models (guns etc. to ships): TBS
+ * Space stations might be "Scenes" consisting of multiple models. And lights and stuff.
  */
 #include "Model.h"
 #include "Group.h"
