@@ -7,14 +7,14 @@
 
 namespace Newmodel {
 
-CollisionVisitor::CollisionVisitor()
+CollisionVisitor::CollisionVisitor() :
+	m_offset(0)
 {
 	m_collMesh = new CollMesh();
 }
 
 void CollisionVisitor::ApplyStaticGeometry(StaticGeometry &g)
 {
-	//XXX assumes one surface
 	const Graphics::StaticMesh *mesh = g.GetMesh();
 	for (Graphics::StaticMesh::SurfaceIterator surface = mesh->SurfacesBegin();
 		surface != mesh->SurfacesEnd();
@@ -33,12 +33,13 @@ void CollisionVisitor::ApplyStaticGeometry(StaticGeometry &g)
 			it != indices.end();
 			++it)
 		{
-			m_indices.push_back((*it));
+			m_indices.push_back(m_offset + (*it));
 		}
-	}
-	//cheat some collision flags
-	for(unsigned int i = 0; i < m_indices.size()/3; i++) {
-		m_flags.push_back(0);
+		//XXX cheat some collision flags
+		for(unsigned int i = 0; i < indices.size()/3; i++) {
+			m_flags.push_back(0);
+		}
+		m_offset += m_vertices.size();
 	}
 	assert(m_flags.size() == m_indices.size()/3);
 }

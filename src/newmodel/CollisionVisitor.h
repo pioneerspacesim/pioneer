@@ -27,6 +27,7 @@ private:
 	//geomtree is not built until all nodes are visited and
 	//BuildCollMesh called
 	CollMesh *m_collMesh;
+	int m_offset; //growing index offset for multiple surfaces
 };
 
 }
