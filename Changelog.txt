@@ -22,6 +22,7 @@ Alpha 21
      * Rear of Eagle ship now visible to player (#1125)
      * Removed tech levels (#1131)
      * Added a grid to the modelviewer to help visualise model size (#1132)
+     * Reverted DeliverPackage module to pre-Alpha 20 (#1162)
 
    * Fixes
      * Don't take timesteps for dead ships. Stops the player firing during the
