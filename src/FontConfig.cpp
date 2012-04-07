@@ -23,14 +23,13 @@ Text::FontDescriptor FontConfig::GetDescriptor()
 {
 	std::string filename(String("FontFile"));
 
-	int pixelWidth = Int("PixelWidth");
-	if (pixelWidth) {
-		int pixelHeight = Int("PixelHeight");
-		bool outline = Int("Outline") ? true : false;
-		float advanceXAdjustment = Float("AdvanceXAdjustment");
-		return Text::FontDescriptor(filename, pixelWidth, pixelHeight, outline, advanceXAdjustment);
-	}
-
 	float pointSize = Float("PointSize");
-	return Text::FontDescriptor(filename, pointSize);
+    if (!is_zero_general(pointSize))
+		return Text::FontDescriptor(filename, pointSize);
+
+	int pixelWidth = Int("PixelWidth");
+	int pixelHeight = Int("PixelHeight");
+	bool outline = Int("Outline") ? true : false;
+	float advanceXAdjustment = Float("AdvanceXAdjustment");
+	return Text::FontDescriptor(filename, pixelWidth, pixelHeight, outline, advanceXAdjustment);
 }
