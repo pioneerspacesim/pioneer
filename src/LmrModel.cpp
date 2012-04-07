@@ -1,7 +1,7 @@
 #include "libs.h"
 #include <map>
-#include "FontCache.h"
-#include "VectorFont.h"
+#include "text/FontCache.h"
+#include "text/VectorFont.h"
 #include "LmrModel.h"
 #include "collider/collider.h"
 #include "perlin.h"

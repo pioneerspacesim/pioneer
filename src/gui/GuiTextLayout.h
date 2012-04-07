@@ -1,7 +1,7 @@
 #ifndef _GUITEXTLAYOUT_H
 #define _GUITEXTLAYOUT_H
 
-#include "TextureFont.h"
+#include "text/TextureFont.h"
 
 namespace Gui {
 class TextLayout {

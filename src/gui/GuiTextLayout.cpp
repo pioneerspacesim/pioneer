@@ -1,5 +1,5 @@
 #include "Gui.h"
-#include "TextSupport.h"
+#include "text/TextSupport.h"
 #include "utils.h"
 
 #define LINE_SPACING      1.25f

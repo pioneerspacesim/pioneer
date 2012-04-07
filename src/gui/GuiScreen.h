@@ -2,8 +2,8 @@
 #define _GUISCREEN_H
 
 #include "Gui.h"
-#include "FontCache.h"
-#include "TextureFont.h"
+#include "text/FontCache.h"
+#include "text/TextureFont.h"
 #include <list>
 #include <stack>
 

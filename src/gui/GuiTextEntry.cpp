@@ -1,7 +1,7 @@
 #include "libs.h"
 #include "Gui.h"
-#include "TextureFont.h"
-#include "TextSupport.h"
+#include "text/TextureFont.h"
+#include "text/TextSupport.h"
 
 namespace Gui {
 

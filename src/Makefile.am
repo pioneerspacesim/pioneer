@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider gui graphics terrain
+SUBDIRS = collider gui graphics terrain text
 
 include $(top_srcdir)/Makefile.common
 
@@ -32,8 +32,6 @@ noinst_HEADERS = \
 	FaceVideoLink.h \
 	FileSelectorWidget.h \
 	FileSystem.h \
-	Font.h \
-	FontCache.h \
 	Form.h \
 	FormController.h \
 	Frame.h \
@@ -47,7 +45,6 @@ noinst_HEADERS = \
 	InfoView.h \
 	IniConfig.h \
 	GameConfig.h \
-	FontConfig.h \
 	KeyBindings.h \
 	Lang.h \
 	LangStrings.inc.h \
@@ -136,9 +133,6 @@ noinst_HEADERS = \
 	SystemPath.h \
 	SystemView.h \
 	TerrainBody.h \
-	TextureFont.h \
-	TextSupport.h \
-	VectorFont.h \
 	VideoLink.h \
 	View.h \
 	WorldView.h \
@@ -174,8 +168,6 @@ pioneer_SOURCES	= \
 	FaceVideoLink.cpp \
 	FileSelectorWidget.cpp \
 	FileSystem.cpp \
-	Font.cpp \
-	FontCache.cpp \
 	FormController.cpp \
 	Frame.cpp \
 	GalacticView.cpp \
@@ -188,7 +180,6 @@ pioneer_SOURCES	= \
 	InfoView.cpp \
 	IniConfig.cpp \
 	GameConfig.cpp \
-	FontConfig.cpp \
 	KeyBindings.cpp \
 	Light.cpp \
 	Lang.cpp \
@@ -270,9 +261,6 @@ pioneer_SOURCES	= \
 	SystemInfoView.cpp \
 	SystemView.cpp \
 	TerrainBody.cpp \
-	TextureFont.cpp \
-	TextSupport.cpp \
-	VectorFont.cpp \
 	View.cpp \
 	WorldView.cpp \
 	WorldViewCamera.cpp \
@@ -282,7 +270,7 @@ pioneer_SOURCES	= \
 	utils.cpp \
 	enum_table.cpp
 
-pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
+pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
 		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
 		$(PNG_LIBS)
@@ -293,11 +281,8 @@ endif
 modelviewer_SOURCES = \
 	Color.cpp \
 	CRC32.cpp \
-	Font.cpp \
 	FileSystem.cpp \
 	IniConfig.cpp \
-	FontConfig.cpp \
-	FontCache.cpp \
 	Lang.cpp \
 	LmrModel.cpp \
 	LuaModelViewer.cpp \
@@ -308,13 +293,10 @@ modelviewer_SOURCES = \
 	MyLuaMathTypes.cpp \
 	SDLWrappers.cpp \
 	StringF.cpp \
-	TextureFont.cpp \
-	TextSupport.cpp \
-	VectorFont.cpp \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
-modelviewer_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
+modelviewer_LDADD = collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 if !HAVE_LUA

@@ -5,7 +5,7 @@
 #include "gui/GuiScreen.h"
 #include "gui/GuiTextEntry.h"
 #include "gui/GuiLabel.h"
-#include "TextureFont.h"
+#include "text/TextureFont.h"
 #include "KeyBindings.h"
 #include <sstream>
 

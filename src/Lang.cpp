@@ -3,7 +3,7 @@
 #include "FileSystem.h"
 #include "StringRange.h"
 #include "utils.h"
-#include "TextSupport.h"
+#include "text/TextSupport.h"
 #include <map>
 #include <set>
 
