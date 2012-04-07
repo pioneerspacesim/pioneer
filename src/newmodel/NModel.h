@@ -22,6 +22,7 @@
 #include "Group.h"
 #include "libs.h"
 #include <stdexcept>
+#include "graphics/Material.h"
 
 namespace Graphics { class Renderer; }
 
@@ -32,9 +33,12 @@ struct LoadingError : public std::runtime_error {
 	LoadingError() : std::runtime_error("NewModel::LoadingError") { }
 };
 
+typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > > MaterialContainer;
+
 class NModel : public Model
 {
 public:
+	friend class Loader;
 	NModel(const std::string &name);
 	~NModel();
 	float GetDrawClipRadius() const { return 10.f; }
@@ -45,9 +49,12 @@ public:
 	RefCountedPtr<Group> GetRoot() { return m_root; }
 	RefCountedPtr<Group> m_root;
 	//materials used in the nodes should be accessible from here for convenience
-
+	RefCountedPtr<Graphics::Material> GetMaterialByName(const std::string &name) const;
+	RefCountedPtr<Graphics::Material> GetMaterialByIndex(int) const;
 private:
 	std::string m_name;
+	//materials are shared throughout the model graph
+	MaterialContainer m_materials;
 };
 
 }

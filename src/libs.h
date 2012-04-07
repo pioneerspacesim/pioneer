@@ -17,6 +17,7 @@
 #include <cerrno>
 #include <string>
 #include <vector>
+#include <map>
 
 /* on unix this would probably become $PREFIX/pioneer */
 #ifndef PIONEER_DATA_DIR

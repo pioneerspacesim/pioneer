@@ -4,11 +4,13 @@
  * Load models using the model config files under data/newmodels/
  */
 #include "libs.h"
+#include "NModel.h"
+#include "graphics/Material.h"
+
 class lua_State;
 namespace Graphics { class Renderer; }
 namespace Newmodel {
 
-class NModel;
 class Node;
 
 struct MaterialDefinition {
@@ -32,10 +34,11 @@ public:
 private:
 	NModel *CreateModel(const ModelDefinition &def);
 	//load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
-	Node *LoadMesh(const std::string &filename);
+	Node *LoadMesh(const std::string &filename, const NModel *model);
 	std::string m_curPath;
 private:
 	lua_State *m_luaState;
+	Graphics::Renderer *m_renderer;
 };
 
 }

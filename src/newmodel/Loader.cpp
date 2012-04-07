@@ -1,14 +1,20 @@
 #include "Loader.h"
+#include "FileSystem.h"
 #include "LuaUtils.h"
 #include "Newmodel.h"
-#include "FileSystem.h"
+#include "StaticGeometry.h"
+#include "graphics/Renderer.h"
+#include "graphics/Surface.h"
+#include "graphics/TextureBuilder.h"
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 #include <assimp/material.h>
-#include "StaticGeometry.h"
-#include "graphics/Material.h"
-#include "graphics/Surface.h"
+
+//debugging
+#include <iostream>
+using std::cout;
+using std::endl;
 
 namespace Newmodel {
 
@@ -72,7 +78,8 @@ static int define_model(lua_State *L)
 	return 0;
 }
 
-Loader::Loader(Graphics::Renderer *r)
+Loader::Loader(Graphics::Renderer *r) :
+	m_renderer(r)
 {
 	m_luaState = lua_open();
 	luaL_openlibs(m_luaState);
@@ -105,7 +112,6 @@ NModel *Loader::LoadModel(const std::string &filename)
 				g_curModel = 0;
 				//XXX hmm
 				m_curPath = info.GetDir();
-				m_curPath = FileSystem::JoinPath("data", m_curPath);
 				return CreateModel(modelDefinition);
 			}
 		}
@@ -116,15 +122,30 @@ NModel *Loader::LoadModel(const std::string &filename)
 
 NModel *Loader::CreateModel(const ModelDefinition &def)
 {
+	using Graphics::Material;
+	if (def.matDefs.empty()) return 0;
 	if (def.meshNames.empty()) return 0;
 
 	NModel *model = new NModel(def.name);
+
+	//create materials
+	for(std::vector<MaterialDefinition>::const_iterator it = def.matDefs.begin();
+		it != def.matDefs.end(); ++it)
+	{
+		assert(!(*it).name.empty());
+		const std::string &texfilename = FileSystem::JoinPathBelow(m_curPath, (*it).diffuseTexture);
+		RefCountedPtr<Material> mat(new Material());
+		mat->texture0 = Graphics::TextureBuilder::Model(texfilename).GetOrCreateTexture(m_renderer, "model");
+		model->m_materials.push_back(std::make_pair<std::string, RefCountedPtr<Material> >((*it).name, mat));
+	}
+	//printf("Loaded %d materials\n", int(model->m_materials.size()));
+
 	//load meshes
 	for(std::vector<std::string>::const_iterator it = def.meshNames.begin();
 		it != def.meshNames.end(); ++it)
 	{
 		try {
-			Node *mesh = LoadMesh(FileSystem::JoinPathBelow(m_curPath, *(it)));
+			Node *mesh = LoadMesh(FileSystem::JoinPathBelow(m_curPath, *(it)), model);
 			model->GetRoot()->AddChild(mesh);
 		} catch (LoadingError &) {
 			delete model;
@@ -134,18 +155,17 @@ NModel *Loader::CreateModel(const ModelDefinition &def)
 	return model;
 }
 
-Node *Loader::LoadMesh(const std::string &filename)
+Node *Loader::LoadMesh(const std::string &filename, const NModel *model)
 {
 	Assimp::Importer importer;
-	const aiScene *scene = importer.ReadFile(filename, aiProcess_OptimizeGraph | aiProcess_Triangulate | aiProcess_SortByPType | aiProcess_GenSmoothNormals );
+	//assimp needs the data dir too...
+	const aiScene *scene = importer.ReadFile(FileSystem::JoinPath("data", filename), aiProcess_OptimizeGraph | aiProcess_Triangulate | aiProcess_SortByPType | aiProcess_GenSmoothNormals );
 
 	if(!scene)
 		throw LoadingError();
 
 	StaticGeometry *geom = new StaticGeometry();
 
-	//dummy material
-	RefCountedPtr<Graphics::Material> mat(new Graphics::Material());
 	Graphics::StaticMesh *smesh = geom->GetMesh();
 
 	//turn meshes into surfaces
@@ -153,6 +173,11 @@ Node *Loader::LoadMesh(const std::string &filename)
 		aiMesh *mesh = scene->mMeshes[i];
 		assert(mesh->HasNormals());
 		assert(mesh->HasTextureCoords(0));
+
+		//try to figure out a material
+		//try name first, if that fails use index
+		const int index = mesh->mMaterialIndex-1; //XXX what the heck, obj loader
+		RefCountedPtr<Graphics::Material> mat = model->GetMaterialByIndex(index);
 
 		Graphics::VertexArray *vts =
 			new Graphics::VertexArray(
