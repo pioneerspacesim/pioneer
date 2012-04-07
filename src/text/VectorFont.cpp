@@ -15,6 +15,8 @@ typedef GLvoid (APIENTRY *_GLUfuncptr)();
 typedef GLvoid (*_GLUfuncptr)();
 #endif
 
+namespace Text {
+
 static GLUtesselator *tobj = 0;
 
 static inline double fac(int n)
@@ -454,4 +456,6 @@ VectorFont::~VectorFont()
 		free ((*i).second.varray);
 		free ((*i).second.iarray);
 	}
+}
+
 }

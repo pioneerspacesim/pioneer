@@ -1,6 +1,8 @@
 #include "TextSupport.h"
 #include <cassert>
 
+namespace Text {
+
 // returns num bytes consumed, or 0 for end/bogus
 int conv_mb_to_wc(Uint32 *chr, const char *src)
 {
@@ -60,4 +62,6 @@ int conv_wc_to_mb(Uint32 chr, char buf[4])
 		assert(0 && "Invalid Unicode code-point.");
 		return 0;
 	}
+}
+
 }

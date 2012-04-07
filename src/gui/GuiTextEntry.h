@@ -4,7 +4,7 @@
 #include "GuiWidget.h"
 #include <string>
 
-class TextureFont;
+namespace Text { class TextureFont; }
 
 namespace Gui {
 	class TextEntry: public Widget {
@@ -45,7 +45,7 @@ namespace Gui {
 		std::string m_text;
 		int m_cursPos;
 		int m_scroll;
-		RefCountedPtr<TextureFont> m_font;
+		RefCountedPtr<Text::TextureFont> m_font;
 		NewlineMode m_newlineMode;
 		int m_newlineCount;
 

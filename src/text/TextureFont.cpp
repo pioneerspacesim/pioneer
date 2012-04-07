@@ -13,6 +13,8 @@
 
 #define PARAGRAPH_SPACING 1.5f
 
+namespace Text {
+
 int TextureFont::s_glyphCount = 0;
 
 void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float x, float y, const Color &c)
@@ -477,4 +479,6 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	m_height = float(a_height);
 	m_width = float(a_width);
 	m_descender = -float(m_face->descender) / 64.f;
+}
+
 }

@@ -1384,12 +1384,12 @@ void Pi::MainLoop()
 				"%d fps, %d phys updates, %d triangles, %.3f M tris/sec, %d terrain vtx/sec, %d glyphs/sec\n"
 				"Lua mem usage: %d MB + %d KB + %d bytes",
 				frame_stat, phys_stat, Pi::statSceneTris, Pi::statSceneTris*frame_stat*1e-6,
-				GeoSphere::GetVtxGenCount(), TextureFont::GetGlyphCount(),
+				GeoSphere::GetVtxGenCount(), Text::TextureFont::GetGlyphCount(),
 				lua_memMB, lua_memKB, lua_memB
 			);
 			frame_stat = 0;
 			phys_stat = 0;
-			TextureFont::ClearGlyphCount();
+			Text::TextureFont::ClearGlyphCount();
 			GeoSphere::ClearVtxGenCount();
 			if (SDL_GetTicks() - last_stats > 1200) last_stats = SDL_GetTicks();
 			else last_stats += 1000;

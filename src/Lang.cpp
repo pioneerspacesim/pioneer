@@ -64,7 +64,7 @@ static int valid_utf8(StringRange data)
 	int line = 1;
 	while (c != data.end) {
 		Uint32 chr;
-		int n = conv_mb_to_wc(&chr, c);
+		int n = Text::conv_mb_to_wc(&chr, c);
 		if (!n) return line;
 		if (chr == '\n') ++line;
 		c += n;

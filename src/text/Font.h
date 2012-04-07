@@ -8,6 +8,8 @@
 
 namespace FileSystem { class FileData; }
 
+namespace Text {
+
 class Font : public RefCounted {
 protected:
 	Font(const FontConfig &fc);
@@ -27,5 +29,7 @@ private:
 	FT_Library m_freeTypeLibrary;
 	FontConfig m_config;
 };
+
+}
 
 #endif

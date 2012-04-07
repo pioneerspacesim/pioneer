@@ -4,6 +4,8 @@
 #include "Font.h"
 #include <SDL_stdinc.h>
 
+namespace Text {
+
 class VectorFont : public Font
 {
 public:
@@ -33,5 +35,7 @@ private:
 	};
 	std::map<int,glfglyph_t> m_glyphs;
 };
+
+}
 
 #endif

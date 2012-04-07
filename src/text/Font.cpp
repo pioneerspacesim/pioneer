@@ -1,6 +1,8 @@
 #include "Font.h"
 #include "FileSystem.h"
 
+namespace Text {
+
 Font::Font(const FontConfig &fc) : m_config(fc)
 {
 	FT_Error err = FT_Init_FreeType(&m_freeTypeLibrary);
@@ -33,4 +35,6 @@ Font::~Font()
 {
 	FT_Done_Face(m_face);
 	FT_Done_FreeType(m_freeTypeLibrary);
+}
+
 }

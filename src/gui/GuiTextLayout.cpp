@@ -41,7 +41,7 @@ static bool line_clip_test(float topy, float bottomy)
 	return false;
 }
 
-TextLayout::TextLayout(const char *_str, RefCountedPtr<TextureFont> font, ColourMarkupMode markup)
+TextLayout::TextLayout(const char *_str, RefCountedPtr<Text::TextureFont> font, ColourMarkupMode markup)
 {
 	// XXX ColourMarkupSkip not correctly implemented yet
 	assert(markup != ColourMarkupSkip);
@@ -72,11 +72,11 @@ TextLayout::TextLayout(const char *_str, RefCountedPtr<TextureFont> font, Colour
 			}
 
 			Uint32 chr;
-			int n = conv_mb_to_wc(&chr, &str[i]);
+			int n = Text::conv_mb_to_wc(&chr, &str[i]);
 			assert(n);
 			i += n;
 
-			const TextureFont::glfglyph_t &glyph = m_font->GetGlyph(chr);
+			const Text::TextureFont::glfglyph_t &glyph = m_font->GetGlyph(chr);
 			wordWidth += glyph.advx;
 
 			// XXX this should do kerning

@@ -4,6 +4,8 @@
 #include "VectorFont.h"
 #include "FileSystem.h"
 
+namespace Text {
+
 static FontConfig font_config(const std::string &path) {
 	RefCountedPtr<FileSystem::FileData> config_data = FileSystem::gameDataFiles.ReadFile(path);
 	FontConfig fc;
@@ -34,4 +36,6 @@ RefCountedPtr<VectorFont> FontCache::GetVectorFont(const std::string &name)
 	m_vectorFonts.insert(std::pair< std::string,RefCountedPtr<VectorFont> >(name, font));
 
 	return font;
+}
+
 }

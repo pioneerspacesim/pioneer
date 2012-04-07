@@ -3,6 +3,8 @@
 
 #include <SDL_stdinc.h>
 
+namespace Text {
+
 // various text-related functions. a proper home needs to be found for them.
 
 // convert one multibyte (utf8) char to a widechar (utf32/ucs4)
@@ -17,5 +19,7 @@ int conv_mb_to_wc(Uint32 *chr, const char *src);
 //       (i.e., assigning to buf[3] must be a valid operation)
 //  returns: number of bytes in the encoded character
 int conv_wc_to_mb(Uint32 chr, char buf[4]);
+
+}
 
 #endif

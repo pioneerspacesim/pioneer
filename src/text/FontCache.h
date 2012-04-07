@@ -7,6 +7,8 @@
 #include "TextureFont.h"
 #include "VectorFont.h"
 
+namespace Text {
+
 class FontCache {
 public:
 	FontCache() {}
@@ -21,6 +23,8 @@ private:
 	std::map< std::string,RefCountedPtr<TextureFont> > m_textureFonts;
 	std::map< std::string,RefCountedPtr<VectorFont> > m_vectorFonts;
 };
+
+}
 
 #endif
 

@@ -3,6 +3,8 @@
 
 #include "IniConfig.h"
 
+namespace Text {
+
 class FontConfig : public IniConfig {
 public:
 	FontConfig();
@@ -10,5 +12,7 @@ public:
 private:
 	void SetDefaults();
 };
+
+}
 
 #endif

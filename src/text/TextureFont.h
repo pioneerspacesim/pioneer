@@ -11,6 +11,8 @@ namespace Graphics {
 	class VertexArray;
 }
 
+namespace Text {
+
 class TextureFont : public Font {
 
 public:
@@ -53,5 +55,7 @@ private:
 	static const Uint32 s_firstCharacter = 0x20; //32
 	static const Uint32 s_lastCharacter = 0x1ff; //511
 };
+
+}
 
 #endif
