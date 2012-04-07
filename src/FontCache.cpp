@@ -3,6 +3,7 @@
 #include "text/TextureFont.h"
 #include "text/VectorFont.h"
 #include "FileSystem.h"
+#include "gui/GuiScreen.h"
 
 static FontConfig font_config(const std::string &path) {
 	RefCountedPtr<FileSystem::FileData> config_data = FileSystem::gameDataFiles.ReadFile(path);
@@ -17,8 +18,15 @@ RefCountedPtr<Text::TextureFont> FontCache::GetTextureFont(const std::string &na
 	std::map< std::string,RefCountedPtr<Text::TextureFont> >::iterator i = m_textureFonts.find(name);
 	if (i != m_textureFonts.end())
 		return (*i).second;
+	
+	float scale[2];
+	Gui::Screen::GetCoords2Pixels(scale);
 
-	RefCountedPtr<Text::TextureFont> font(new Text::TextureFont(font_config("fonts/" + name + ".ini").GetDescriptor()));
+	FontConfig fc = font_config("fonts/" + name + ".ini");
+	fc.SetInt("PixelWidth", fc.Int("PixelWidth") / scale[0]);
+	fc.SetInt("PixelHeight", fc.Int("PixelHeight") / scale[1]);
+
+	RefCountedPtr<Text::TextureFont> font(new Text::TextureFont(fc.GetDescriptor()));
 	m_textureFonts.insert(std::pair< std::string,RefCountedPtr<Text::TextureFont> >(name, font));
 
 	return font;

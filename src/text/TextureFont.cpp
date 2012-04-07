@@ -287,11 +287,8 @@ Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x,
 TextureFont::TextureFont(const FontDescriptor &descriptor) : Font(descriptor)
 {
 	int err; // used to store freetype error return codes
-	float scale[2];
-	Gui::Screen::GetCoords2Pixels(scale);
-
-	const int a_width = int(GetDescriptor().pixelWidth / scale[0]);
-	const int a_height = int(GetDescriptor().pixelHeight / scale[1]);
+	const int a_width = GetDescriptor().pixelWidth;
+	const int a_height = GetDescriptor().pixelHeight;
 
 	const float advx_adjust = GetDescriptor().advanceXAdjustment;
 
