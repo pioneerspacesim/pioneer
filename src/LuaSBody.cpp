@@ -212,6 +212,26 @@ static int l_sbody_attr_mass(lua_State *l)
 }
 
 /*
+ * Attribute: gravity
+ *
+ * The gravity on the surface of the body (m/s).
+ *
+ * Availability:
+ *
+ *   alpha 21
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_sbody_attr_gravity(lua_State *l)
+{
+	SBody *sbody = LuaSBody::GetFromLua(1);
+	lua_pushnumber(l, sbody->CalcSurfaceGravity());
+	return 1;
+}
+
+/*
  * Attribute: periapsis
  *
  * The periapsis of the body's orbit, in metres (m).
@@ -351,6 +371,48 @@ static int l_sbody_attr_average_temp(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: hasAtmosphere
+ *
+ * Returns true if an atmosphere is present, false if not
+ *
+ * Availability:
+ *
+ *   alpha 21
+ *
+ * Status:
+ *
+ *  experimental
+ */
+
+static int l_sbody_attr_has_atmosphere(lua_State *l)
+{
+	SBody * sbody = LuaSBody::GetFromLua(1);
+	lua_pushboolean(l, sbody->HasAtmosphere());
+	return 1;
+}
+
+/*
+ * Attribute: isScoopable
+ *
+ * Returns true if the system body can be scoopable, false if not
+ *
+ * Availablility:
+ *
+ *   alpha 21
+ *
+ * Status:
+ *
+ *  experimental
+ */
+
+static int l_sbody_attr_is_scoopable(lua_State *l)
+{
+	SBody * sbody = LuaSBody::GetFromLua(1);
+	lua_pushboolean(l, sbody->IsScoopable());
+	return 1;
+}
+
 template <> const char *LuaObject<LuaUncopyable<SBody> >::s_type = "SystemBody";
 
 template <> void LuaObject<LuaUncopyable<SBody> >::RegisterClass()
@@ -365,6 +427,7 @@ template <> void LuaObject<LuaUncopyable<SBody> >::RegisterClass()
 		{ "population",     l_sbody_attr_population      },
 		{ "radius",         l_sbody_attr_radius          },
 		{ "mass",           l_sbody_attr_mass            },
+		{ "gravity",        l_sbody_attr_gravity         },
 		{ "periapsis",      l_sbody_attr_periapsis       },
 		{ "apoapsis",       l_sbody_attr_apoapsis        },
 		{ "rotationPeriod", l_sbody_attr_rotation_period },
@@ -372,6 +435,8 @@ template <> void LuaObject<LuaUncopyable<SBody> >::RegisterClass()
 		{ "eccentricity",   l_sbody_attr_eccentricty     },
 		{ "axialTilt",      l_sbody_attr_axial_tilt      },
 		{ "averageTemp",    l_sbody_attr_average_temp    },
+		{ "hasAtmosphere",  l_sbody_attr_has_atmosphere  },
+		{ "isScoopable",    l_sbody_attr_is_scoopable    },
 		{ 0, 0 }
 	};
 

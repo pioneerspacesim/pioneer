@@ -968,7 +968,7 @@ void Ship::StaticUpdate(const float timeStep)
 		Body *astro = GetFrame()->m_astroBody;
 		if (astro && astro->IsType(Object::PLANET)) {
 			Planet *p = static_cast<Planet*>(astro);
-			if (p->IsSuperType(SBody::SUPERTYPE_GAS_GIANT)) {
+			if (p->Body::GetSBody()->IsScoopable()) {
 				double dist = GetPosition().Length();
 				double pressure, density;
 				p->GetAtmosphericState(dist, &pressure, &density);
@@ -1293,6 +1293,7 @@ void Ship::EnterHyperspace() {
 	if (fuelType == Equip::MILITARY_FUEL) {
 		m_equipment.Add(Equip::RADIOACTIVES, fuel_cost);
 	}
+	UpdateEquipStats();
 
 	Pi::luaOnLeaveSystem->Queue(this);
 

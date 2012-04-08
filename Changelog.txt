@@ -22,6 +22,7 @@ Alpha 21
      * Rear of Eagle ship now visible to player (#1125)
      * Removed tech levels (#1131)
      * Added a grid to the modelviewer to help visualise model size (#1132)
+     * Reverted DeliverPackage module to pre-Alpha 20 (#1162)
 
    * Fixes
      * Don't take timesteps for dead ships. Stops the player firing during the
@@ -36,8 +37,9 @@ Alpha 21
      * Fix crash when script tries to set ship label > 16 chars (#1116, #1114)
      * Limit max engines to 0 or 1 to prevent certain forms of lunacy (#1140)
      * Fix view/panel draw order so that world elements do not draw over the
-       panel (#1141)
-     * Only update ship mass, fuel and equipment stats when necessary (#1112)
+       panel (#1141, #1161, #1160)
+     * Only update ship mass, fuel and equipment stats when necessary (#1112, #1155)
+     * Fixed huge mixer icon on Win32 (#1158, #860)
 
    * Script changes
      * New custom system option :explored to explicitly set a system's
@@ -50,6 +52,8 @@ Alpha 21
      * New ship params 'front_camera' and 'rear_camera'. Sets the camera's
        position on the ship, and causes the ship's body to be drawn (#1125)
      * New attribute SpaceStation.numDocks to get number of docking ports (#1135)
+     * New SystemBody attributes gravity, hasAtmosphere and isScoopable (#1150,
+       #859)
 
    * Internal changes
      * configure tweaks for better optimisations and profiling support
