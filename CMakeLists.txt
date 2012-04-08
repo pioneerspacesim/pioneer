@@ -21,6 +21,7 @@
 # - Handle extra stuff found in osx/Makefile.am
 #
 # Low priority tasks:
+# - Create a static library (libwin32) from FileSystemWin32.cpp, to stick with configure.ac/Makefile.am.
 # - Packaging:
 #		Please note the install autodetects dependencies (.so, .dll) and install them alongside the executable if needed (option: Pioneer_INSTALL_DEPENDENCIES).
 #		To do:
@@ -55,12 +56,12 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8.5 FATAL_ERROR)
 
 project( Pioneer )
 SET(${PROJECT_NAME}_MAJOR_VERSION 0)
-SET(${PROJECT_NAME}_MINOR_VERSION 21)
+SET(${PROJECT_NAME}_MINOR_VERSION 22)
 SET(${PROJECT_NAME}_PATCH_VERSION 0)
 SET(${PROJECT_NAME}_BUILD_VERSION 0)
 SET(${PROJECT_NAME}_VERSION_QUALITY "a")		# "dev"=Pre-alpha, "a"=Alpha, "b"=Beta, "RC"=Release Candidate, ""=Stable (No other extension is allowed, since it may be used directly in code)
 
-SET(${PROJECT_NAME}_VERSION_NAME "alpha-21-dev")	# Name of the version, if any. For now, it handles the versionning as configure.ac does.
+SET(${PROJECT_NAME}_VERSION_NAME "alpha-${${PROJECT_NAME}_MINOR_VERSION}-dev")	# Name of the version, if any. For now, it handles the versionning as configure.ac does.
 
 #SET(${PROJECT_NAME}_VERSION ${${PROJECT_NAME}_MAJOR_VERSION}.${${PROJECT_NAME}_MINOR_VERSION}.${${PROJECT_NAME}_PATCH_VERSION})
 SET(${PROJECT_NAME}_VERSION ${${PROJECT_NAME}_MAJOR_VERSION}.${${PROJECT_NAME}_MINOR_VERSION}.${${PROJECT_NAME}_PATCH_VERSION}.${${PROJECT_NAME}_BUILD_VERSION})
