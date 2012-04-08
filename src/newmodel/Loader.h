@@ -7,15 +7,19 @@
 #include "NModel.h"
 #include "graphics/Material.h"
 
-class lua_State;
 namespace Graphics { class Renderer; }
-namespace Newmodel {
 
-class Node;
+namespace Newmodel {
 
 struct MaterialDefinition {
 	std::string name;
-	std::string diffuseTexture;
+	std::string tex_diff;
+	std::string tex_spec;
+	Color diffuse;
+	Color specular;
+	Color ambient;
+	Color emissive;
+	int power; //specular power, 0-128
 };
 
 struct ModelDefinition {
@@ -29,16 +33,15 @@ public:
 	//renderer needed for texture loading...
 	Loader(Graphics::Renderer *r);
 	~Loader();
-	//find & attempt to load a model, based on filename (without path or .lua suffix)
+	//find & attempt to load a model, based on filename (without path or .model suffix)
 	NModel *LoadModel(const std::string &name);
+
 private:
 	NModel *CreateModel(const ModelDefinition &def);
 	//load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
 	Node *LoadMesh(const std::string &filename, const NModel *model);
-	std::string m_curPath;
-private:
-	lua_State *m_luaState;
 	Graphics::Renderer *m_renderer;
+	std::string m_curPath;
 };
 
 }

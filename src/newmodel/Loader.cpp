@@ -1,11 +1,12 @@
 #include "Loader.h"
 #include "FileSystem.h"
-#include "LuaUtils.h"
 #include "Newmodel.h"
 #include "StaticGeometry.h"
 #include "graphics/Renderer.h"
 #include "graphics/Surface.h"
 #include "graphics/TextureBuilder.h"
+#include <sstream>
+#include <fstream>
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
@@ -13,82 +14,155 @@
 
 //debugging
 #include <iostream>
-using std::cout;
-using std::endl;
 
 namespace Newmodel {
 
-static ModelDefinition *g_curModel; //XXX any better way?
-static std::string g_curName;
-
-//XXX copied from ShipType
-static void _get_string_attrib(lua_State *L, const char *key, std::string &output,
-		const char *default_output)
+#if 1 //begin parser
+class Parser
 {
-	LUA_DEBUG_START(L);
-	lua_pushstring(L, key);
-	lua_gettable(L, -2);
-	if (lua_isnil(L, -1)) {
-		output = default_output;
-	} else {
-		output = lua_tostring(L,-1);
+public:
+	Parser(const std::string &filename) :
+		m_isMaterial(false),
+		m_curMat(0),
+		m_model(0)
+	{
+		m_file.open(filename.c_str(), std::ifstream::in);
+		if (!m_file) throw std::string("Could not open " + filename);
 	}
-	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0);
-}
 
-static int define_model(lua_State *L)
-{
-	//get material definitions
-	lua_pushstring(L, "materials");
-	lua_gettable(L, -2);
-	if (lua_istable(L, -1)) {
-		//each definition is a table
-		for (unsigned int i=0; i<lua_objlen(L, -1); i++) {
-			MaterialDefinition matdef;
-			lua_pushinteger(L, i+1);
-			lua_gettable(L, -2);
-			if(lua_istable(L, -1)) {
-				_get_string_attrib(L, "name", matdef.name, "");
-				if (matdef.name.empty()) luaL_error(L, "Material has no name");
-				_get_string_attrib(L, "diffuse", matdef.diffuseTexture, "");
+	void parse(ModelDefinition *m) {
+		m_model = m;
+		char line[1024];
+		int lineno = 0;
+		while (m_file.good()) {
+			lineno++;
+			m_file.getline(line, 1023);
+			try {
+				if (!parseLine(std::string(line)))
+					throw std::string("Mystery fail");
+			} catch (const std::string &s) {
+				std::stringstream ss;
+				ss << "Error parsing line " << lineno << ":" << std::endl;
+				ss << line << std::endl;
+				ss << s;
+				throw ss.str();
 			}
-			lua_pop(L, 1);
-			g_curModel->matDefs.push_back(matdef);
 		}
 	}
-	lua_pop(L, 1);
-	//printf("Defined %d materials\n", g_curModel->matDefs.size());
+	~Parser() {
+		m_file.close();
+	}
 
-	//get mesh names
-	lua_pushstring(L, "meshes");
-	lua_gettable(L, -2);
-	if (lua_istable(L, -1)) {
-		for (unsigned int i=0; i<lua_objlen(L,-1); i++) {
-			lua_pushinteger(L, i+1);
-			lua_gettable(L, -2);
-			std::string mesh = luaL_checkstring(L,-1);
-			if (!mesh.empty())
-				g_curModel->meshNames.push_back(mesh);
-			lua_pop(L, 1);
+private:
+	bool m_isMaterial;
+	MaterialDefinition *m_curMat;
+	ModelDefinition *m_model;
+	std::ifstream m_file;
+
+	bool isComment(const std::string &s) {
+		assert(!s.empty());
+		return (s[0] == '#');
+	}
+
+	//check if string matches completely
+	bool match(const std::string &s, const std::string &what) {
+		return (s.compare(what) == 0);
+	}
+
+	bool checkTexture(std::stringstream &ss, std::string &out) {
+		if (ss >> out == 0) throw std::string("Expected file name, got nothing");
+		if (isComment(out)) throw std::string("Expected file name, got comment");
+		return true;
+	}
+
+	inline bool checkMesh(std::stringstream &ss, std::string &out) {
+		return checkTexture(ss, out);
+	}
+
+	inline bool checkMaterialName(std::stringstream &ss, std::string &out) {
+		return checkTexture(ss, out);
+	}
+
+	bool checkColor(std::stringstream &ss, Color &color) {
+		float r, g, b;
+		ss >> r >> g >> b;
+		color.r = Clamp(r, 0.f, 1.f);
+		color.g = Clamp(g, 0.f, 1.f);
+		color.b = Clamp(b, 0.f, 1.f);
+		color.a = 1.f; //yeah, we don't support alpha
+		return true;
+	}
+
+	bool parseLine(const std::string &line) {
+		using std::stringstream;
+		using std::string;
+		stringstream ss(stringstream::in | stringstream::out);
+		ss.str(line);
+		if (ss.fail()) return false;
+		string token;
+		if ((ss >> token) != 0) {
+			//line contains something
+			if (isComment(token))
+				return true; //skip comments
+			if (match(token, "material")) {
+				//beginning of a new material definition,
+				//expect a name and then parameters on following lines
+				m_isMaterial = true;
+				string matname;
+				checkMaterialName(ss, matname);
+				m_model->matDefs.push_back(MaterialDefinition());
+				m_curMat = &m_model->matDefs.back();
+				m_curMat->name = matname;
+				return true;
+			} else if(match(token, "mesh")) {
+				//mesh definitionss only contain a filename
+				m_isMaterial = false;
+				m_curMat = 0;
+				string meshname;
+				checkMesh(ss, meshname);
+				m_model->meshNames.push_back(meshname);
+				return true;
+			} else {
+				if (m_isMaterial) {
+					//material definition in progress, check known parameters
+					if (match(token, "tex_diff"))
+						return checkTexture(ss, m_curMat->tex_diff);
+					else if (match(token, "tex_spec"))
+						return checkTexture(ss, m_curMat->tex_spec);
+					else if (match(token, "diffuse"))
+						return checkColor(ss, m_curMat->diffuse);
+					else if (match(token, "specular"))
+						return checkColor(ss, m_curMat->specular);
+					else if (match(token, "ambient"))
+						return checkColor(ss, m_curMat->ambient);
+					else if (match(token, "emissive"))
+						return checkColor(ss, m_curMat->emissive);
+					else if (match(token, "power")) {
+						int power;
+						ss >> power;
+						m_curMat->power = Clamp(power, 0, 128);
+						return true;
+					}
+					else //unknown instruction
+						return false;
+				}
+				return false;
+			}
+		} else {
+			//empty line, skip
+			return true;
 		}
 	}
-	lua_pop(L, 1);
-	//printf("Defined %d meshes\n", g_curModel->meshNames.size());
-	return 0;
-}
+};
+#endif //end parser
 
 Loader::Loader(Graphics::Renderer *r) :
 	m_renderer(r)
 {
-	m_luaState = lua_open();
-	luaL_openlibs(m_luaState);
-	lua_register(m_luaState, "model", define_model);
 }
 
 Loader::~Loader()
 {
-	lua_close(m_luaState);
 }
 
 NModel *Loader::LoadModel(const std::string &filename)
@@ -98,18 +172,22 @@ NModel *Loader::LoadModel(const std::string &filename)
 	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, basepath, FileSystem::FileEnumerator::IncludeDirectories); !files.Finished(); files.Next())
 	{
 		const FileSystem::FileInfo &info = files.Current();
-		const std::string &fpath = info.GetPath();
+		const std::string &fpath = info.GetAbsolutePath();
 		//check it's the expected type
 		if (info.IsFile() && (fpath.substr(fpath.find_last_of(".")+1) == "model")) {
 			//check it's the wanted name & load it
 			const std::string name = info.GetName();
 			if (filename == name.substr(0, name.length()-6)) {
 				ModelDefinition modelDefinition;
-				g_curModel = &modelDefinition;
-				g_curName = name.substr(0, name.length()-6);
-				pi_lua_dofile(m_luaState, fpath);
-				g_curName.clear();
-				g_curModel = 0;
+				try {
+					//XXX use filesystem and load the file as a string
+					Parser p(fpath);
+					p.parse(&modelDefinition);
+				} catch (const std::string &str) {
+					std::cerr << str << std::endl;
+					throw LoadingError();
+				}
+				modelDefinition.name = name.substr(0, name.length()-6);
 				//XXX hmm
 				m_curPath = info.GetDir();
 				return CreateModel(modelDefinition);
@@ -128,12 +206,12 @@ NModel *Loader::CreateModel(const ModelDefinition &def)
 
 	NModel *model = new NModel(def.name);
 
-	//create materials
+	//create materials from definitions
 	for(std::vector<MaterialDefinition>::const_iterator it = def.matDefs.begin();
 		it != def.matDefs.end(); ++it)
 	{
 		assert(!(*it).name.empty());
-		const std::string &texfilename = FileSystem::JoinPathBelow(m_curPath, (*it).diffuseTexture);
+		const std::string &texfilename = FileSystem::JoinPathBelow(m_curPath, (*it).tex_diff);
 		RefCountedPtr<Material> mat(new Material());
 		mat->texture0 = Graphics::TextureBuilder::Model(texfilename).GetOrCreateTexture(m_renderer, "model");
 		model->m_materials.push_back(std::make_pair<std::string, RefCountedPtr<Material> >((*it).name, mat));
@@ -159,7 +237,14 @@ Node *Loader::LoadMesh(const std::string &filename, const NModel *model)
 {
 	Assimp::Importer importer;
 	//assimp needs the data dir too...
-	const aiScene *scene = importer.ReadFile(FileSystem::JoinPath("data", filename), aiProcess_OptimizeGraph | aiProcess_Triangulate | aiProcess_SortByPType | aiProcess_GenSmoothNormals );
+	//XXX check user dir first
+	//XXX x2 the greater goal is not to use ReadFile but the other assimp data read functions + FileSystem. See assimp docs.
+	const aiScene *scene = importer.ReadFile(
+		FileSystem::JoinPath(FileSystem::GetDataDir(), filename),
+		aiProcess_OptimizeGraph |
+		aiProcess_Triangulate   |
+		aiProcess_SortByPType   |
+		aiProcess_GenSmoothNormals);
 
 	if(!scene)
 		throw LoadingError();
@@ -178,6 +263,12 @@ Node *Loader::LoadMesh(const std::string &filename, const NModel *model)
 		//try name first, if that fails use index
 		const int index = mesh->mMaterialIndex-1; //XXX what the heck, obj loader
 		RefCountedPtr<Graphics::Material> mat = model->GetMaterialByIndex(index);
+		//Material names are not consistent throughout formats...
+		//const aiMaterial *amat = scene->mMaterials[mesh->mMaterialIndex];
+		//aiString s;
+		//if(AI_SUCCESS == amat->Get(AI_MATKEY_NAME,s)) {
+		//	std::cout << std::string(s.data,s.length) << std::endl;
+		//}
 
 		Graphics::VertexArray *vts =
 			new Graphics::VertexArray(
