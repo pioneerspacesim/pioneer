@@ -76,7 +76,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <StructMemberAlignment>4Bytes</StructMemberAlignment>
+      <StructMemberAlignment>Default</StructMemberAlignment>
       <BufferSecurityCheck>true</BufferSecurityCheck>
     </ClCompile>
     <Link>
@@ -97,7 +97,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <StructMemberAlignment>4Bytes</StructMemberAlignment>
+      <StructMemberAlignment>Default</StructMemberAlignment>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -126,8 +126,8 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <StructMemberAlignment>4Bytes</StructMemberAlignment>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -260,10 +260,13 @@
     <ClCompile Include="..\..\src\ModelBody.cpp" />
     <ClCompile Include="..\..\src\mtrand.cpp" />
     <ClCompile Include="..\..\src\MyLuaMathTypes.cpp" />
+    <ClCompile Include="..\..\src\newmodel\CollisionVisitor.cpp" />
+    <ClCompile Include="..\..\src\newmodel\DrawVisitor.cpp" />
     <ClCompile Include="..\..\src\newmodel\Group.cpp" />
-    <ClCompile Include="..\..\src\newmodel\Importer.cpp" />
-    <ClCompile Include="..\..\src\newmodel\Newmodel.cpp" />
+    <ClCompile Include="..\..\src\newmodel\Loader.cpp" />
+    <ClCompile Include="..\..\src\newmodel\NModel.cpp" />
     <ClCompile Include="..\..\src\newmodel\Node.cpp" />
+    <ClCompile Include="..\..\src\newmodel\NodeVisitor.cpp" />
     <ClCompile Include="..\..\src\newmodel\StaticGeometry.cpp" />
     <ClCompile Include="..\..\src\ObjectViewerView.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
@@ -504,10 +507,14 @@
     <ClInclude Include="..\..\src\ModelBody.h" />
     <ClInclude Include="..\..\src\mtrand.h" />
     <ClInclude Include="..\..\src\MyLuaMathTypes.h" />
+    <ClInclude Include="..\..\src\newmodel\CollisionVisitor.h" />
+    <ClInclude Include="..\..\src\newmodel\DrawVisitor.h" />
     <ClInclude Include="..\..\src\newmodel\Group.h" />
-    <ClInclude Include="..\..\src\newmodel\Importer.h" />
+    <ClInclude Include="..\..\src\newmodel\Loader.h" />
     <ClInclude Include="..\..\src\newmodel\Newmodel.h" />
+    <ClInclude Include="..\..\src\newmodel\NModel.h" />
     <ClInclude Include="..\..\src\newmodel\Node.h" />
+    <ClInclude Include="..\..\src\newmodel\NodeVisitor.h" />
     <ClInclude Include="..\..\src\newmodel\StaticGeometry.h" />
     <ClInclude Include="..\..\src\Object.h" />
     <ClInclude Include="..\..\src\ObjectViewerView.h" />

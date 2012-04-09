@@ -23,7 +23,7 @@
       <UniqueIdentifier>{5e0ff1e9-1c28-4f26-a9ca-abb32b781cf8}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\newmodel">
-      <UniqueIdentifier>{14348ced-dc1d-4d6b-861a-9c45f9531d66}</UniqueIdentifier>
+      <UniqueIdentifier>{5e15d652-46c8-470b-afe1-a41532864a5e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -684,16 +684,25 @@
     <ClCompile Include="..\..\src\newmodel\Group.cpp">
       <Filter>src\newmodel</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\newmodel\Importer.cpp">
-      <Filter>src\newmodel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\newmodel\Newmodel.cpp">
-      <Filter>src\newmodel</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\newmodel\Node.cpp">
       <Filter>src\newmodel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\newmodel\StaticGeometry.cpp">
+      <Filter>src\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\newmodel\NodeVisitor.cpp">
+      <Filter>src\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\newmodel\NModel.cpp">
+      <Filter>src\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\newmodel\Loader.cpp">
+      <Filter>src\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\newmodel\DrawVisitor.cpp">
+      <Filter>src\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\newmodel\CollisionVisitor.cpp">
       <Filter>src\newmodel</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1292,9 +1301,6 @@
     <ClInclude Include="..\..\src\newmodel\Group.h">
       <Filter>src\newmodel</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\newmodel\Importer.h">
-      <Filter>src\newmodel</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\newmodel\Newmodel.h">
       <Filter>src\newmodel</Filter>
     </ClInclude>
@@ -1302,6 +1308,21 @@
       <Filter>src\newmodel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\newmodel\StaticGeometry.h">
+      <Filter>src\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\newmodel\NodeVisitor.h">
+      <Filter>src\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\newmodel\NModel.h">
+      <Filter>src\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\newmodel\Loader.h">
+      <Filter>src\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\newmodel\DrawVisitor.h">
+      <Filter>src\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\newmodel\CollisionVisitor.h">
       <Filter>src\newmodel</Filter>
     </ClInclude>
   </ItemGroup>
