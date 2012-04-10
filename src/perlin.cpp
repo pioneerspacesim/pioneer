@@ -49,10 +49,10 @@
  * Eliot
  */
 
-static int fastfloor( const double x ) { return int(x > 0 ? x : x - 1); }
+static inline int fastfloor( const double x ) { return int(x > 0 ? x : x - 1); }
 
 //static double dot( const int* g, const double x, const double y ) { return g[0]*x + g[1]*y; }
-static double dot( const double* g, const double x, const double y, const double z ) { return g[0]*x + g[1]*y + g[2]*z; }
+static inline double dot( const double* g, const double x, const double y, const double z ) { return g[0]*x + g[1]*y + g[2]*z; }
 //static double dot( const int* g, const double x, const double y, const double z, const double w ) { return g[0]*x + g[1]*y + g[2]*z + g[3]*w; }
 
 // The gradients are the midpoints of the vertices of a cube.
