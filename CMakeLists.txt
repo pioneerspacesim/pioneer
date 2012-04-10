@@ -7,6 +7,9 @@
 
 # Current status of these CMake scripts: alpha (still bugs/tests to perform/missing features)
 # High priority tasks:
+# - Discuss about the binary output directory:
+#		1. source dir ("/", as MSVC projects in "/win32")
+#		2. specific dir, with install/packaging moving files where necesarry
 # - Do/test cross-building.
 #		robn: I use mingw-cross-env.nongnu.org and pass --host=i686-pc-mingw32 to configure. Everything else is "documented" in configure.ac. Mostly avoiding feature detection and just hardcoding paths and switches.
 # - XCode project doesn't find GL/glew.h (Dessimat0r's configuration). System paths are:
@@ -19,6 +22,7 @@
 #		MinGW builds. They need all dependencies to be compiled with MinGW (can't mix MSVC and MinGW DLLs!). However a quick test shows that it compiles and all symbols are found (using MSVC DLLs). I (Sukender) assume it works.
 #		Cygwin builds. They've never been tested.
 # - Handle extra stuff found in osx/Makefile.am
+# - Remove release/debug output subdirs for MSVC.
 #
 # Low priority tasks:
 # - Create a static library (libwin32) from FileSystemWin32.cpp, to stick with configure.ac/Makefile.am.
@@ -460,7 +464,7 @@ IF (BUILD_UNIT_TESTS AND BUILD_TESTING)
 ENDIF()
 
 
-OPTION(BUILD_UNIT_TESTS "Build ${PROJECT_NAME} unit tests. This adds some projects to the build tree, containing unit tests." ON)
+OPTION(BUILD_UNIT_TESTS "Build ${PROJECT_NAME} unit tests. This adds some projects to the build tree, containing unit tests." OFF)
 MACRO( ADD_UNIT_TEST projectName )
 	FOREACH(CURCONFIG ${CMAKE_CONFIGURATION_TYPES})
 		GET_TARGET_PROPERTY( testExecutable ${projectName} LOCATION_${CURCONFIG} )
@@ -593,8 +597,7 @@ endif()
 # ENDIF(BUILD_DOCUMENTATION)
 
 ################################################################################
-# CPack
-# present the packaging option only if we have the cpack command defined (effectively >= 2.6.0)
+# CPack / Install
 FUNCTION(PACK_DATA_DIR DIR_TO_PACK RECURSE)
 	# INSTALL(DIRECTORY ...) is always recursive...
 	SET(DIR_PATH "${PROJECT_SOURCE_DIR}/${DIR_TO_PACK}")
@@ -614,38 +617,37 @@ FUNCTION(PACK_DATA_DIR DIR_TO_PACK RECURSE)
 	INSTALL(FILES ${FILES_TO_PACK} DESTINATION "${DIR_TO_PACK}")
 ENDFUNCTION()
 
+# Add files to pack
+INSTALL(FILES
+	AUTHORS.txt
+	#COMPILING.OSX.txt
+	Changelog.txt
+	COPYING.txt
+	fonts.COPYING.txt
+	lua.COPYING.txt
+	Modelviewer.txt
+	music.COPYING.txt
+	Quickstart.txt
+	README.txt
+	#bootstrap
+	#generic-exec
+	#Makefile.common
+	#modelviewer
+	#pioneer
+	DESTINATION ".")
+
+if(APPLE)
+	# Not sure this is useful, even for DMG packaging
+	INSTALL(FILES "osx/pioneer-logo.icns" DESTINATION ".")
+endif()
+
+# Add directories to pack
+PACK_DATA_DIR("${${PROJECT_NAME}_DATA_DIR}" ON)		# You may comment it to speed up install process by skipping data. This helps debugging but you'll need to uncomment it afterwards :)
+
 IF(CMAKE_CPACK_COMMAND)
-    OPTION(BUILD_PACKAGES "Set to ON to generate CPack configuration files and packaging targets" ON)
+    OPTION(BUILD_PACKAGES "Set to ON to generate CPack configuration files and packaging targets" OFF)
     IF(BUILD_PACKAGES)
 		INCLUDE("CMakeModules/CPackProject.cmake" REQUIRED)
-
-		# Add files to pack
-		INSTALL(FILES
-			AUTHORS.txt
-			#COMPILING.OSX.txt
-			Changelog.txt
-			COPYING.txt
-			fonts.COPYING.txt
-			lua.COPYING.txt
-			Modelviewer.txt
-			music.COPYING.txt
-			Quickstart.txt
-			README.txt
-			#bootstrap
-			#generic-exec
-			#Makefile.common
-			#modelviewer
-			#pioneer
-			DESTINATION ".")
-
-		if(APPLE)
-			# Not sure this is useful, even for DMG packaging
-			INSTALL(FILES "osx/pioneer-logo.icns" DESTINATION ".")
-		endif()
-
-		# Add directories to pack
-		PACK_DATA_DIR("${${PROJECT_NAME}_DATA_DIR}" ON)		# You may comment it to speed up install process by skipping data. This helps debugging but you'll need to uncomment it afterwards :)
-
     ENDIF()
 ENDIF()
 
