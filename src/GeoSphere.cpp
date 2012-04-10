@@ -1000,6 +1000,7 @@ static std::vector<GeoSphere*> s_allGeospheres;
 static std::deque<GeoSphere*> s_geosphereUpdateQueue;
 static GeoSphere* s_currentlyUpdatingGeoSphere = 0;
 static SDL_mutex *s_geosphereUpdateQueueLock = 0;
+static SDL_cond *s_geosphereUpdateQueueCondition = 0;		///< Condition variable for s_geosphereUpdateQueue and s_exitFlag. Allows waking up the thread when useful.
 static SDL_Thread *s_updateThread = 0;
 
 static bool s_exitFlag = false;
@@ -1046,9 +1047,8 @@ int GeoSphere::UpdateLODThread(void *data)
 			SDL_mutexV(gs->m_updateLock);
 		} else {
 			// if there's nothing in the update queue, just sleep for a bit before checking it again
-			// XXX could use a semaphore instead, but polling is probably ok
-			SDL_mutexV(s_geosphereUpdateQueueLock);
-			SDL_Delay(10);
+			SDL_CondWait(s_geosphereUpdateQueueCondition, s_geosphereUpdateQueueLock);		// Unlocks s_geosphereUpdateQueueLock
+			SDL_mutexV(s_geosphereUpdateQueueLock);				// Even if SDL doc doesn't say it, SDL_CondWait re-locks the mutex on exit
 		}
 	}
 
@@ -1071,6 +1071,7 @@ void GeoSphere::Init()
 	s_geosphereDimStarShader[2] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 3\n");
 	s_geosphereDimStarShader[3] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 4\n");
 	s_geosphereUpdateQueueLock = SDL_CreateMutex();
+	s_geosphereUpdateQueueCondition = SDL_CreateCond();
 
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
@@ -1088,6 +1089,7 @@ void GeoSphere::Uninit()
 	SDL_mutexP(s_geosphereUpdateQueueLock);
 	s_exitFlag = true;
 	SDL_mutexV(s_geosphereUpdateQueueLock);
+	SDL_CondBroadcast(s_geosphereUpdateQueueCondition);
 
 	SDL_WaitThread(s_updateThread, 0);
 #endif /* GEOSPHERE_USE_THREADING */
@@ -1095,6 +1097,7 @@ void GeoSphere::Uninit()
 	assert (s_patchContext.Unique());
 	s_patchContext.Reset();
 
+	SDL_DestroyCond(s_geosphereUpdateQueueCondition);
 	SDL_DestroyMutex(s_geosphereUpdateQueueLock);
 	for (int i=0; i<4; i++) delete s_geosphereDimStarShader[i];
 	delete s_geosphereStarShader;
@@ -1442,6 +1445,7 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 		UpdateLODThread(this);
 		return;*/
 
+	bool added(false);		// Tells if something has been queued.
 	SDL_mutexP(s_geosphereUpdateQueueLock);
 	bool onQueue =
 		(std::find(s_geosphereUpdateQueue.begin(), s_geosphereUpdateQueue.end(), this)
@@ -1450,8 +1454,10 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 	if (!onQueue && (s_currentlyUpdatingGeoSphere != this)) {
 		this->m_tempCampos = campos;
 		s_geosphereUpdateQueue.push_back(this);
+		added = true;
 	}
 	SDL_mutexV(s_geosphereUpdateQueueLock);
+	if (added) SDL_CondBroadcast(s_geosphereUpdateQueueCondition);
 
 #ifndef GEOSPHERE_USE_THREADING
 	m_tempCampos = campos;
