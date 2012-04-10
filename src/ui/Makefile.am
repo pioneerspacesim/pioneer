@@ -1,0 +1,38 @@
+include $(top_srcdir)/Makefile.common
+
+AM_CFLAGS += $(WARN_CFLAGS)
+AM_CPPFLAGS += $(WARN_CPPFLAGS)
+AM_CXXFLAGS += $(WARN_CXXFLAGS)
+
+INCLUDES = -I$(srcdir)/..
+
+noinst_LIBRARIES = libui.a
+noinst_HEADERS = \
+	Background.h \
+	Box.h \
+	Button.h \
+	Container.h \
+	Context.h \
+	Event.h \
+	Image.h \
+	Label.h \
+	Margin.h \
+	Screen.h \
+	Single.h \
+	TextLayout.h \
+	Widget.h
+
+libui_a_SOURCES = \
+	Background.cpp \
+	Box.cpp \
+	Button.cpp \
+	Container.cpp \
+	Context.cpp \
+	Event.cpp \
+	Image.cpp \
+	Label.cpp \
+	Margin.cpp \
+	Screen.cpp \
+	Single.cpp \
+	TextLayout.cpp \
+	Widget.cpp
