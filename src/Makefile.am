@@ -309,7 +309,7 @@ if !HAVE_LUA
 modelviewer_LDADD += ../contrib/lua/liblua.a
 endif
 
-check_PROGRAMS = tests
+check_PROGRAMS = tests uitest
 tests_SOURCES = \
 	StringF.cpp \
 	tests.cpp \
@@ -318,10 +318,18 @@ tests_SOURCES = \
 	FileSystem.cpp \
 	FileSystemPosix.cpp \
 	test_FileSystem.cpp
+tests_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a
+uitest_SOURCES = \
+	uitest.cpp \
+	Color.cpp \
+	FileSystem.cpp \
+	FileSystemPosix.cpp \
+	SDLWrappers.cpp
+uitest_LDADD = ui/libui.a gui/libgui.a text/libtext.a graphics/libgraphics.a \
+	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
+	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 
 TESTS = tests
- 
-tests_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a
 
 INCLUDES = -isystem @top_srcdir@/contrib
 if !HAVE_LUA
