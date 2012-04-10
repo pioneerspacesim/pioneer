@@ -4,6 +4,7 @@
 #include "LuaUtils.h"
 #include "utils.h"
 #include "Lang.h"
+#include "Config.h"
 
 const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {
 	Lang::FRONT, Lang::REAR };
