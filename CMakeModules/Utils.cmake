@@ -1,18 +1,5 @@
 # Utility functions and macros for finders
 
-MACRO(SET_DEFAULT_HARDCODED_PATHS VARNAME)
-	SET(${VARNAME}
-		~/Library/Frameworks
-		/Library/Frameworks
-		/usr/local
-		/usr
-		/sw # Fink
-		/opt/local # DarwinPorts
-		/opt/csw # Blastwave
-		/opt
-	)
-ENDMACRO()
-
 # Defines ${TARGETNAME}_CONFIG_FILE with path to config file
 FUNCTION(FIND_CONFIG_FILE TARGETNAME)
 	STRING(TOLOWER ${TARGETNAME} TARGETNAME_LOWER)
