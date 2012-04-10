@@ -19,8 +19,8 @@ using namespace Graphics;
 
 #define INNER_RADIUS (Sector::SIZE*1.5f)
 #define OUTER_RADIUS (Sector::SIZE*3.0f)
-static const float ZOOM_SPEED = 10;
-static const float WHEEL_SENSITIVITY = .2f;		// Should be a variable in user settings.
+static const float ZOOM_SPEED = 15;
+static const float WHEEL_SENSITIVITY = .03f;		// Should be a variable in user settings.
 
 SectorView::SectorView()
 {
@@ -858,11 +858,6 @@ void SectorView::MouseButtonDown(int button, int x, int y)
 			m_zoomMovingTo += ZOOM_SPEED * WHEEL_SENSITIVITY * Pi::GetMoveSpeedShiftModifier();
 		else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
 			m_zoomMovingTo -= ZOOM_SPEED * WHEEL_SENSITIVITY * Pi::GetMoveSpeedShiftModifier();
-		//const float ft = Pi::GetFrameTime() * Pi::GetMoveSpeedShiftModifier();
-		//if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN)) 
-		//		m_zoomMovingTo += 10.0*ft;
-		//if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP)) 
-		//		m_zoomMovingTo -= 10.0*ft;
 	}
 }
 
