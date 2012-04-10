@@ -11,6 +11,7 @@ bin_PROGRAMS = pioneer modelviewer
 noinst_HEADERS = \
 	Aabb.h \
 	AmbientSounds.h \
+	Animation.h \
 	Background.h \
 	BezierCurve.h \
 	Body.h \
