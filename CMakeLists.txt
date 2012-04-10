@@ -464,7 +464,12 @@ IF (BUILD_UNIT_TESTS AND BUILD_TESTING)
 ENDIF()
 
 
-OPTION(BUILD_UNIT_TESTS "Build ${PROJECT_NAME} unit tests. This adds some projects to the build tree, containing unit tests." OFF)
+SET(BUILD_UNIT_TESTS_DEFAULT ON)
+if(MSVC)	# OR XCODE?
+	SET(BUILD_UNIT_TESTS_DEFAULT OFF)
+endif()
+OPTION(BUILD_UNIT_TESTS "Build ${PROJECT_NAME} unit tests. This adds some projects to the build tree, containing unit tests." ${BUILD_UNIT_TESTS_DEFAULT})
+
 MACRO( ADD_UNIT_TEST projectName )
 	FOREACH(CURCONFIG ${CMAKE_CONFIGURATION_TYPES})
 		GET_TARGET_PROPERTY( testExecutable ${projectName} LOCATION_${CURCONFIG} )
@@ -645,7 +650,7 @@ endif()
 PACK_DATA_DIR("${${PROJECT_NAME}_DATA_DIR}" ON)		# You may comment it to speed up install process by skipping data. This helps debugging but you'll need to uncomment it afterwards :)
 
 IF(CMAKE_CPACK_COMMAND)
-    OPTION(BUILD_PACKAGES "Set to ON to generate CPack configuration files and packaging targets" OFF)
+    OPTION(BUILD_PACKAGES "Set to ON to generate CPack configuration files and packaging targets" ON)
     IF(BUILD_PACKAGES)
 		INCLUDE("CMakeModules/CPackProject.cmake" REQUIRED)
     ENDIF()
