@@ -26,6 +26,8 @@
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.9f);
+static const float ZOOM_SPEED = 1.f;
+static const float WHEEL_SENSITIVITY = .2f;		// Should be a variable in user settings.
 
 #define HUD_CROSSHAIR_SIZE	24.0f
 
@@ -740,11 +742,12 @@ void WorldView::Update()
 			if (Pi::KeyState(SDLK_DOWN)) m_activeCamera->RotateDown(frameTime);
 			if (Pi::KeyState(SDLK_LEFT)) m_activeCamera->RotateLeft(frameTime);
 			if (Pi::KeyState(SDLK_RIGHT)) m_activeCamera->RotateRight(frameTime);
-			if (Pi::KeyState(SDLK_MINUS)) m_activeCamera->ZoomOut(frameTime);
-			if (Pi::KeyState(SDLK_EQUALS)) m_activeCamera->ZoomIn(frameTime);
+			if (Pi::KeyState(SDLK_MINUS)) m_activeCamera->ZoomEvent(ZOOM_SPEED*frameTime);		// Zoom out
+			if (Pi::KeyState(SDLK_EQUALS)) m_activeCamera->ZoomEvent(-ZOOM_SPEED*frameTime);
 			if (Pi::KeyState(SDLK_COMMA)) m_activeCamera->RollLeft(frameTime);
 			if (Pi::KeyState(SDLK_PERIOD)) m_activeCamera->RollRight(frameTime);
 			if (Pi::KeyState(SDLK_HOME)) m_activeCamera->Reset();
+			m_activeCamera->ZoomEventUpdate(frameTime);
 
 			if (KeyBindings::targetObject.IsActive()) {
 				/* Hitting tab causes objects in the crosshairs to be selected */
@@ -1606,11 +1609,10 @@ void WorldView::MouseButtonDown(int button, int x, int y)
 {
 	if (this == Pi::GetView())
 	{
-		const float ft = Pi::GetFrameTime();
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
-			m_activeCamera->ZoomOut(ft);
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
-			m_activeCamera->ZoomIn(ft);
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))		// Zoom out
+			m_activeCamera->ZoomEvent( ZOOM_SPEED * WHEEL_SENSITIVITY);
+		else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
+			m_activeCamera->ZoomEvent(-ZOOM_SPEED * WHEEL_SENSITIVITY);
 	}
 }
 NavTunnelWidget::NavTunnelWidget(WorldView *worldview) :
