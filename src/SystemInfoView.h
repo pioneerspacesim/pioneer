@@ -7,6 +7,9 @@
 #include "View.h"
 #include <vector>
 
+#define COMM_SELF "#fffCommodity trade analysis of #ff0%s#fff:"
+#define COMM_COMP "#fffCommodity trade analysis of #ff0%s#fff against #ff0%s#fff (current system):"
+
 class StarSystem;
 class SBody;
 namespace Graphics { class Renderer; }
@@ -41,6 +44,8 @@ private:
 	Gui::Fixed *m_econMajExport, *m_econMinExport;
 	Gui::Fixed *m_econIllegal;
 	Gui::Fixed *m_sbodyInfoTab, *m_econInfoTab;
+	
+	Gui::Label *m_commodityTradeLabel;
 	Gui::Tabbed *m_tabs;
 	RefCountedPtr<StarSystem> m_system;
 	bool m_refresh;

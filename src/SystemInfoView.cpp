@@ -134,6 +134,17 @@ void SystemInfoView::UpdateEconomyTab()
 	const std::string awesome   = "#afa";
 	const std::string illegal   = "#744";
 	
+	char buf[100];
+	if (hs && (!m_system->GetPath().IsSameSystem(hspath))) {
+		// different system selected
+		snprintf(buf, 100, COMM_COMP, m_system->GetName().c_str(), hs->GetName().c_str());
+	} else {
+		// same system as current selected
+		snprintf(buf, 100, COMM_SELF, m_system->GetName().c_str());
+	}
+	
+	m_commodityTradeLabel->SetText(buf);
+	
 	const int sep = 18;
 	int num = 0;
 	m_econMajImport->DeleteAllChildren();
@@ -163,6 +174,9 @@ void SystemInfoView::UpdateEconomyTab()
 	}
 	m_econMajImport->SetSize(500, num * sep);
 	m_econMajImport->ShowAll();
+	if (num < 2) {
+		m_econMajImport->Add(new Gui::Label(meh + "None"), 5, num++ * sep);
+	}
 	
 	num = 0;
 	
@@ -191,6 +205,9 @@ void SystemInfoView::UpdateEconomyTab()
 			m_econMinImport->Add(label, 5, num++ * sep);
 		}
 	}
+	if (num < 2) {
+		m_econMinImport->Add(new Gui::Label(meh + "None"), 5, num++ * sep);
+	}	
 	m_econMinImport->SetSize(500, num * sep);
 	m_econMinImport->ShowAll();
 		
@@ -220,6 +237,9 @@ void SystemInfoView::UpdateEconomyTab()
 			label->SetToolTip(tooltip);
 			m_econMajExport->Add(label, 5, num++ * sep);
 		}
+	}
+	if (num < 2) {
+		m_econMajExport->Add(new Gui::Label(meh + "None"), 5, num++ * sep);
 	}
 	m_econMajExport->SetSize(500, num * sep);
 	m_econMajExport->ShowAll();
@@ -251,6 +271,9 @@ void SystemInfoView::UpdateEconomyTab()
 			m_econMinExport->Add(label, 5, num++ * sep);
 		}
 	}
+	if (num < 2) {
+		m_econMinExport->Add(new Gui::Label(meh + "None"), 5, num++ * sep);
+	}
 	m_econMinExport->SetSize(500, num * sep);
 	m_econMinExport->ShowAll();
 	
@@ -267,6 +290,9 @@ void SystemInfoView::UpdateEconomyTab()
 			Gui::Label *label = new Gui::Label(illegal+Equip::types[i].name);
 			m_econIllegal->Add(label, 5, num++ * sep);
 		}
+	}
+	if (num < 2) {
+		m_econIllegal->Add(new Gui::Label(illegal + "None"), 5, num++ * sep);
 	}
 	m_econIllegal->SetSize(500, num * sep);
 	m_econIllegal->ShowAll();
@@ -419,14 +445,21 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 	{
 		// economy tab
+		Gui::VBox *econbox = new Gui::VBox();
+		econbox->SetSpacing(5);
+		
 		Gui::HBox *scrollBox2 = new Gui::HBox();
 		scrollBox2->SetSpacing(5);
-		m_econInfoTab->Add(scrollBox2, 35, 300);
+		m_econInfoTab->Add(econbox, 35, 300);
 		Gui::VScrollBar *scroll2 = new Gui::VScrollBar();
 		Gui::VScrollPortal *portal2 = new Gui::VScrollPortal(730);
 		scroll2->SetAdjustment(&portal2->vscrollAdjust);
 		scrollBox2->PackStart(scroll2);
 		scrollBox2->PackStart(portal2);
+		
+		m_commodityTradeLabel = new Gui::Label("Commodity trade analysis of selected system:");
+		econbox->PackEnd(m_commodityTradeLabel);
+		econbox->PackEnd(scrollBox2);
 
 		m_econInfo = new Gui::Fixed();
 		m_econInfoTab->Add(m_econInfo, 35, 250);
