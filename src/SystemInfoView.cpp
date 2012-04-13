@@ -131,7 +131,7 @@ void SystemInfoView::UpdateEconomyTab()
 	const std::string meh       = "#999";
 	const std::string ok        = "#fff";
 	const std::string good      = "#7c7";
-	const std::string awesome   = "#afa";
+	const std::string awesome   = "#7f7";
 	const std::string illegal   = "#744";
 	
 	char buf[100];
