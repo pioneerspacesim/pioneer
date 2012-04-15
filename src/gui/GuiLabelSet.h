@@ -13,21 +13,14 @@ class LabelSet: public Widget {
 public:
 	class LabelSetItem {
 	public:
-		LabelSetItem(std::string text_, sigc::slot<void> onClick_, float screenx_, float screeny_) {
-			this->text = text_;
-			this->onClick = onClick_;
-			this->screenx = screenx_;
-			this->screeny = screeny_;
-			this->hasOwnColor = false;
-		}
-		LabelSetItem(std::string text_, sigc::slot<void> onClick_, float screenx_, float screeny_, const Color &c) {
-			this->text = text_;
-			this->onClick = onClick_;
-			this->screenx = screenx_;
-			this->screeny = screeny_;
-			this->color = c;
-			this->hasOwnColor = true;
-		}
+		LabelSetItem(std::string text_, sigc::slot<void> onClick_, float screenx_, float screeny_) :
+			text(text_), onClick(onClick_), screenx(screenx_), screeny(screeny_), hasOwnColor(false)
+		{}
+
+		LabelSetItem(std::string text_, sigc::slot<void> onClick_, float screenx_, float screeny_, const Color &c) :
+			text(text_), onClick(onClick_), screenx(screenx_), screeny(screeny_), hasOwnColor(true), color(c)
+		{}
+
 		std::string text;
 		Color color;
 		bool hasOwnColor;

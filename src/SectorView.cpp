@@ -511,12 +511,27 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		m_renderer->DrawLines(4, vts, darkgreen, LINE_LOOP);
 	}
 
+	RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+	SystemPath currentSysPath = currentSys->GetPath();
+
 	Uint32 num=0;
 	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i, ++num) {
 		SystemPath current = SystemPath(sx, sy, sz, num);
 
 		const vector3f sysAbsPos = Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + (*i).p;
 		const vector3f toCentreOfView = m_pos*Sector::SIZE - sysAbsPos;
+
+		bool minExpMajImp = false; // i+
+		bool majExpMajImp = false; // i++
+		bool minImpMajExp = false; // e+
+		bool majImpMajExp = false; // e++
+
+		bool minExpMinImp = false; // i
+		bool majExpMinImp = false; // i+
+		bool minImpMinExp = false; // e
+		bool majImpMinExp = false; // e+
+
+		std::string extra = "";
 
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
 
@@ -540,6 +555,63 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				{
 					(*i).SetInhabited(false);
 				}
+			}
+		}
+
+		if ((*i).IsInhabited()) {
+			RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
+			if (!currentSysPath.IsSameSystem(current)) {
+				// work out econ info
+				for (int i=1; i<Equip::TYPE_MAX; i++) {
+					if (currentSys->GetCommodityBasePriceModPercent(i) < -10) {
+						// major export (curr)
+						if ((pSS->GetCommodityBasePriceModPercent(i) > 2) && (pSS->GetCommodityBasePriceModPercent(i) <= 10)) {
+							majExpMinImp = true;
+						} else if (pSS->GetCommodityBasePriceModPercent(i) > 10) {
+							majExpMajImp = true;
+						}					
+					} else if ((currentSys->GetCommodityBasePriceModPercent(i) < -2) && (currentSys->GetCommodityBasePriceModPercent(i) <= 10)) {
+						// minor export (curr)
+						if ((pSS->GetCommodityBasePriceModPercent(i) > 2) && (pSS->GetCommodityBasePriceModPercent(i) <= 10)) {
+							majExpMinImp = true;
+						} else if (pSS->GetCommodityBasePriceModPercent(i) > 10) {
+							majExpMajImp = true;
+						}
+					} else if ((currentSys->GetCommodityBasePriceModPercent(i) > 2) && (currentSys->GetCommodityBasePriceModPercent(i) <= 10)) {
+						// minor import (curr)
+						if ((pSS->GetCommodityBasePriceModPercent(i) < -2) && (pSS->GetCommodityBasePriceModPercent(i) <= 10)) {
+							minImpMinExp = true;
+						} else if (pSS->GetCommodityBasePriceModPercent(i) < -10) {
+							minImpMajExp = true;
+						}
+					} else if (currentSys->GetCommodityBasePriceModPercent(i) > 10) {
+						// major import (curr)
+						if ((pSS->GetCommodityBasePriceModPercent(i) < -2) && (pSS->GetCommodityBasePriceModPercent(i) <= 10)) {
+							majImpMinExp = true;
+						} else if (pSS->GetCommodityBasePriceModPercent(i) < -10) {
+							majImpMajExp = true;
+						}
+					}
+				}
+			}
+
+			if (majExpMajImp || majExpMinImp || majImpMajExp || majImpMinExp || minExpMajImp || minExpMinImp || minImpMajExp || minImpMinExp) {
+				if (majExpMajImp) {
+					extra += "i++";
+				} else if (majExpMinImp || minExpMajImp) {
+					extra += "i+";
+				} else if (minExpMinImp) {
+					extra += "i";
+				}
+				if (!extra.empty() && (majImpMajExp || majImpMinExp || minImpMajExp || minImpMinExp)) extra += ",";
+				if (majImpMajExp) {
+					extra += "e++";
+				} else if (majImpMinExp || minImpMajExp) {
+					extra += "e+";
+				} else if (minImpMinExp) {
+					extra += "e";
+				}
+				extra = " (" + extra + ")";
 			}
 		}
 
@@ -627,7 +699,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				labelColor.a = 1.0f;
 		}
 
-		PutClickableLabel((*i).name, labelColor, current);
+		PutClickableLabel((*i).name + extra, labelColor, current);
 	}
 }
 
