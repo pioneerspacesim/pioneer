@@ -979,8 +979,11 @@ LmrModel::LmrModel(const char *model_name)
 				lua_pop(sLua, 1);
 				if (!is_num) break;
 				if (i > LMR_MAX_LOD) {
-					luaL_error(sLua, "Too many LODs (maximum %d)", LMR_MAX_LOD);
+					luaL_error(sLua, "Too many LODs (lod_pixels table should have between 1 and %d entries)", LMR_MAX_LOD);
 				}
+			}
+			if (m_numLods < 1) {
+				luaL_error(sLua, "Not enough LODs (lod_pixels table should have between 1 and %d entries)", LMR_MAX_LOD);
 			}
 		} else {
 			m_numLods = 1;
