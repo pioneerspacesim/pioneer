@@ -7,13 +7,15 @@ Uint32 CRC32::s_lookupTable[256];
 
 CRC32::CRC32() : m_checksum(0xffffffff)
 {
-	if (s_lookupTableGenerated) return;
+	if (! s_lookupTableGenerated) {
+		for (int i = 0; i <= 0xff; i++) {
+			s_lookupTable[i] = Reflect(i,8) << 24;
+			for (int j = 0; j < 8; j++)
+				s_lookupTable[i] = (s_lookupTable[i] << 1) ^ (s_lookupTable[i] & (1 << 31) ? s_polynomial : 0);
+			s_lookupTable[i] = Reflect(s_lookupTable[i], 32);
+		}
 
-	for (int i = 0; i <= 0xff; i++) { 
-		s_lookupTable[i] = Reflect(i,8) << 24; 
-		for (int j = 0; j < 8; j++) 
-			s_lookupTable[i] = (s_lookupTable[i] << 1) ^ (s_lookupTable[i] & (1 << 31) ? s_polynomial : 0); 
-		s_lookupTable[i] = Reflect(s_lookupTable[i], 32); 
+		s_lookupTableGenerated = true;
 	}
 }
 
