@@ -198,6 +198,11 @@ NModel *Loader::LoadModel(const std::string &filename)
 	throw LoadingError();
 }
 
+Graphics::Texture *Loader::GetWhiteTexture() const
+{
+	return Graphics::TextureBuilder::Model("textures/white.png").GetOrCreateTexture(m_renderer, "model");
+}
+
 NModel *Loader::CreateModel(const ModelDefinition &def)
 {
 	using Graphics::Material;
@@ -211,9 +216,21 @@ NModel *Loader::CreateModel(const ModelDefinition &def)
 		it != def.matDefs.end(); ++it)
 	{
 		assert(!(*it).name.empty());
-		const std::string &texfilename = FileSystem::JoinPathBelow(m_curPath, (*it).tex_diff);
-		RefCountedPtr<Material> mat(new Material());
-		mat->texture0 = Graphics::TextureBuilder::Model(texfilename).GetOrCreateTexture(m_renderer, "model");
+		//XXX fix pathnames beforehand
+		const std::string &diffTex = FileSystem::JoinPathBelow(m_curPath, (*it).tex_diff);
+		const std::string &specTex = FileSystem::JoinPathBelow(m_curPath, (*it).tex_spec);
+		RefCountedPtr<Material> mat(m_renderer->CreateMaterial());
+		mat->diffuse = (*it).diffuse;
+		mat->specular = (*it).specular;
+		//XXX sort of a workaround when all textures are not specified
+		if (!diffTex.empty())
+			mat->texture0 = Graphics::TextureBuilder::Model(diffTex).GetOrCreateTexture(m_renderer, "model");
+		else
+			mat->texture0 = GetWhiteTexture();
+		if (!specTex.empty())
+			mat->texture1 = Graphics::TextureBuilder::Model(specTex).GetOrCreateTexture(m_renderer, "model");
+		else
+			mat->texture1 = GetWhiteTexture();
 		model->m_materials.push_back(std::make_pair<std::string, RefCountedPtr<Material> >((*it).name, mat));
 	}
 	//printf("Loaded %d materials\n", int(model->m_materials.size()));
@@ -228,6 +245,10 @@ NModel *Loader::CreateModel(const ModelDefinition &def)
 		} catch (LoadingError &) {
 			delete model;
 			throw;
+		} catch (const std::string &s) {
+			delete model;
+			std::cout << s << std::endl;
+			throw LoadingError();
 		}
 	}
 	return model;
@@ -244,31 +265,38 @@ Node *Loader::LoadMesh(const std::string &filename, const NModel *model)
 		aiProcess_OptimizeGraph |
 		aiProcess_Triangulate   |
 		aiProcess_SortByPType   |
+		aiProcess_GenUVCoords   |
 		aiProcess_GenSmoothNormals);
 
 	if(!scene)
-		throw LoadingError();
+		throw std::string("Couldn't load " + filename);
 
 	StaticGeometry *geom = new StaticGeometry();
 
 	Graphics::StaticMesh *smesh = geom->GetMesh();
 
+	//XXX sigh, workaround for obj loader
+	int matIdxOffs = 0;
+	if (scene->mNumMaterials > scene->mNumMeshes)
+		matIdxOffs = 1;
+
 	//turn meshes into surfaces
 	for (unsigned int i=0; i<scene->mNumMeshes; i++) {
 		aiMesh *mesh = scene->mMeshes[i];
 		assert(mesh->HasNormals());
-		assert(mesh->HasTextureCoords(0));
+		if (!mesh->HasTextureCoords(0))
+			throw std::string("Mesh has no uv coordinates");
 
 		//try to figure out a material
 		//try name first, if that fails use index
-		const int index = mesh->mMaterialIndex-1; //XXX what the heck, obj loader
-		RefCountedPtr<Graphics::Material> mat = model->GetMaterialByIndex(index);
+		std::cout << mesh->mMaterialIndex << std::endl;
+		RefCountedPtr<Graphics::Material> mat = model->GetMaterialByIndex(mesh->mMaterialIndex - matIdxOffs);
 		//Material names are not consistent throughout formats...
-		//const aiMaterial *amat = scene->mMaterials[mesh->mMaterialIndex];
-		//aiString s;
-		//if(AI_SUCCESS == amat->Get(AI_MATKEY_NAME,s)) {
-		//	std::cout << std::string(s.data,s.length) << std::endl;
-		//}
+		/*const aiMaterial *amat = scene->mMaterials[mesh->mMaterialIndex];
+		aiString s;
+		if(AI_SUCCESS == amat->Get(AI_MATKEY_NAME,s)) {
+			std::cout << std::string(s.data,s.length) << std::endl;
+		}*/
 
 		Graphics::VertexArray *vts =
 			new Graphics::VertexArray(

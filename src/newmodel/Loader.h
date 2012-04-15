@@ -37,10 +37,11 @@ public:
 	NModel *LoadModel(const std::string &name);
 
 private:
+	Graphics::Renderer *m_renderer;
+	Graphics::Texture *GetWhiteTexture() const;
 	NModel *CreateModel(const ModelDefinition &def);
 	//load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
 	Node *LoadMesh(const std::string &filename, const NModel *model);
-	Graphics::Renderer *m_renderer;
 	std::string m_curPath;
 };
 
