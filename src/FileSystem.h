@@ -65,6 +65,7 @@ namespace FileSystem {
 			FT_SPECIAL
 		};
 
+		enum FileType GetType() const { return m_type; }
 		bool Exists() const { return (m_type != FT_NON_EXISTENT); }
 		bool IsDir() const { return (m_type == FT_DIR); }
 		bool IsFile() const { return (m_type == FT_FILE); }
