@@ -538,17 +538,15 @@ bool Init ()
 		// load all the wretched effects
 		for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "sounds", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
 			const FileSystem::FileInfo &info = files.Current();
-			if (info.IsFile()) {
-				load_sound(info.GetName(), info.GetPath(), false);
-			}
+			assert(info.IsFile());
+			load_sound(info.GetName(), info.GetPath(), false);
 		}
 
 		//I'd rather do this in MusicPlayer and store in a different map too, this will do for now
 		for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "music", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
 			const FileSystem::FileInfo &info = files.Current();
-			if (info.IsFile()) {
-				load_sound(info.GetName(), info.GetPath(), true);
-			}
+			assert(info.IsFile());
+			load_sound(info.GetName(), info.GetPath(), true);
 		}
 	}
 

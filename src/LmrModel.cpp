@@ -4408,7 +4408,8 @@ static Uint32 _calculate_all_models_checksum()
 	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "models", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
 	{
 		const FileSystem::FileInfo &info = files.Current();
-		if (info.IsFile() && (info.GetPath().substr(info.GetPath().size() - 4) != ".png")) {
+		assert(info.IsFile());
+		if (info.GetPath().substr(info.GetPath().size() - 4) != ".png") {
 			RefCountedPtr<FileSystem::FileData> data = files.Current().Read();
 			crc.AddData(data->GetData(), data->GetSize());
 		}

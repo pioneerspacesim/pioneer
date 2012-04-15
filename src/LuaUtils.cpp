@@ -106,7 +106,8 @@ void pi_lua_dofile_recursive(lua_State *l, const std::string &basepath)
 		const std::string &fpath = info.GetPath();
 		if (info.IsDir()) {
 			pi_lua_dofile_recursive(l, fpath);
-		} else if (info.IsFile()) {
+		} else {
+			assert(info.IsFile());
 			if ((fpath.size() > 4) && (fpath.substr(fpath.size() - 4) == ".lua")) {
 				// XXX kill CurrentDirectory
 				lua_pushstring(l, basepath.empty() ? "." : basepath.c_str());
