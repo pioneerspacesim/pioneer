@@ -14,8 +14,6 @@ public:
 private:
 	Uint32 m_checksum;
 
-	Uint32 Reflect(Uint32 value, const int bits);
-
 	static const Uint32 s_polynomial;
 	static bool s_lookupTableGenerated;
 	static Uint32 s_lookupTable[256];
