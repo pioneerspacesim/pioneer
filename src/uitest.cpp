@@ -10,14 +10,14 @@
 #include "FileSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include <typeinfo>
 
 static const int WIDTH  = 1024;
 static const int HEIGHT = 768;
 
-static bool click_handler(const UI::MouseButtonEvent &event)
+static void click_handler(UI::Widget *w)
 {
-	printf("click: %f,%f\n", event.pos.x, event.pos.y);
-	return true;
+	printf("click: %p %s\n", w, typeid(*w).name());
 }
 
 static bool move_handler(const UI::MouseMotionEvent &event)
@@ -113,8 +113,8 @@ int main(int argc, char **argv)
 		)
 	);
 
-	image->onMouseUp.connect(sigc::ptr_fun(&click_handler));
-	image->onMouseMove.connect(sigc::ptr_fun(&move_handler));
+	image->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), image));
+	//image->onMouseMove.connect(sigc::ptr_fun(&move_handler));
 
 	while (1) {
 		bool done = false;

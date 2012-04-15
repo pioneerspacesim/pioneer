@@ -1,7 +1,7 @@
 #include "EventDispatcher.h"
 #include "Widget.h"
 #include "Container.h"
-#include <typeinfo>
+
 
 namespace UI {
 
@@ -53,8 +53,17 @@ bool EventDispatcher::Dispatch(const Event &event)
 		case Event::MOUSE_BUTTON: {
 			const MouseButtonEvent mouseButtonEvent = static_cast<const MouseButtonEvent&>(event);
 			switch (mouseButtonEvent.action) {
-				case MouseButtonEvent::BUTTON_DOWN: return m_baseContainer->HandleMouseDown(mouseButtonEvent);
-				case MouseButtonEvent::BUTTON_UP:   return m_baseContainer->HandleMouseUp(mouseButtonEvent);
+				case MouseButtonEvent::BUTTON_DOWN: {
+					assert(!m_mouseDownReceiver);
+					m_mouseDownReceiver = m_baseContainer->GetWidgetAt(mouseButtonEvent.pos);
+					return m_baseContainer->HandleMouseDown(mouseButtonEvent);
+				}
+				case MouseButtonEvent::BUTTON_UP: {
+					if (m_mouseDownReceiver && m_mouseDownReceiver == m_baseContainer->GetWidgetAt(mouseButtonEvent.pos))
+						m_mouseDownReceiver->HandleClick();
+					m_mouseDownReceiver = 0;
+					return m_baseContainer->HandleMouseUp(mouseButtonEvent);
+				}
 			}
 			return false;
 		}

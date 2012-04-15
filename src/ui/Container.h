@@ -32,6 +32,8 @@ public:
 
 	virtual bool IsContainer() const { return true; }
 
+	virtual Widget *GetWidgetAt(const vector2f &pos);
+
 	typedef std::list<Widget*>::const_iterator WidgetIterator;
 	const WidgetIterator WidgetsBegin() const { return m_widgets.begin(); }
 	const WidgetIterator WidgetsEnd() const { return m_widgets.end(); }
@@ -46,6 +48,7 @@ protected:
 	// EventDispatcher needs to give us events
 	friend class EventDispatcher;
 
+	// event handlers. these fire the event handler signal for this widget
 	virtual bool HandleKeyDown(const KeyboardEvent &event);
 	virtual bool HandleKeyUp(const KeyboardEvent &event);
 	virtual bool HandleMouseDown(const MouseButtonEvent &event);

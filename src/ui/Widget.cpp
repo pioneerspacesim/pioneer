@@ -1,6 +1,5 @@
 #include "Widget.h"
 #include "Container.h"
-#include <typeinfo>
 
 namespace UI {
 
@@ -77,6 +76,11 @@ bool Widget::HandleMouseMove(const MouseMotionEvent &event)
 bool Widget::HandleMouseWheel(const MouseWheelEvent &event)
 {
 	return onMouseWheel.emit(event);
+}
+
+void Widget::HandleClick()
+{
+	onClick.emit();
 }
 
 }

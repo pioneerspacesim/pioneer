@@ -158,7 +158,7 @@ public:
 
 	// click - primary mouse button press/release over widget. also
 	// synthesised when keyboard shortcut is used
-	sigc::signal<bool>::accumulated<EventHandlerResultAccumulator> onClick;
+	sigc::signal<void> onClick;
 
 
 protected:
@@ -172,13 +172,18 @@ protected:
 	// appropriate casting
 	void SetStyle(Style *style) { m_style.Reset(style); }
 
-	// gui event handlers. these fire the event handler signal for this widget
+	// EventDispatcher needs to give us events
+	friend class EventDispatcher;
+
+	// event handlers. these fire the event handler signal for this widget
 	virtual bool HandleKeyDown(const KeyboardEvent &event);
 	virtual bool HandleKeyUp(const KeyboardEvent &event);
 	virtual bool HandleMouseDown(const MouseButtonEvent &event);
 	virtual bool HandleMouseUp(const MouseButtonEvent &event);
 	virtual bool HandleMouseMove(const MouseMotionEvent &event);
 	virtual bool HandleMouseWheel(const MouseWheelEvent &event);
+
+	virtual void HandleClick();
 
 private:
 

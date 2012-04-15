@@ -71,6 +71,23 @@ void Container::SetWidgetDimensions(Widget *widget, const vector2f &position, co
 	widget->SetDimensions(position, size);
 }
 
+Widget *Container::GetWidgetAt(const vector2f &pos)
+{
+	if (!Contains(pos)) return 0;
+
+	for (WidgetIterator i = WidgetsBegin(); i != WidgetsEnd(); ++i) {
+		Widget *widget = *i;
+		if (widget->Contains(pos)) {
+			if (widget->IsContainer())
+				return static_cast<Container*>(widget)->GetWidgetAt(pos);
+			else
+				return widget;
+		}
+	}
+	
+	return this;
+}
+
 bool Container::HandleKeyDown(const KeyboardEvent &event)
 {
 	return Widget::HandleKeyDown(event);
