@@ -80,7 +80,6 @@ int main(int argc, char **argv)
 	UI::Context *c = new UI::Context(r);
 	UI::Screen *screen = new UI::Screen(c, WIDTH, HEIGHT);
 
-#if 0
 	UI::Button *button;
 	screen->SetInnerWidget(
 		c->Margin(10.0f)->SetInnerWidget(
@@ -88,10 +87,10 @@ int main(int argc, char **argv)
 		)
 	);
 
-	button->onMouseUp.connect(sigc::ptr_fun(&click_handler));
+	button->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), button));
 	button->onMouseMove.connect(sigc::ptr_fun(&move_handler));
-#endif
 
+#if 0
 	UI::Image *image;
 	screen->SetInnerWidget(
 		c->Background(Color(0.4f, 0.2f, 0.4f, 1.0f))->SetInnerWidget(
@@ -115,6 +114,7 @@ int main(int argc, char **argv)
 
 	image->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), image));
 	image->onMouseMove.connect(sigc::ptr_fun(&move_handler));
+#endif
 
 	while (1) {
 		bool done = false;

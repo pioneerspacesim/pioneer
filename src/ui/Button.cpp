@@ -1,4 +1,6 @@
 #include "Button.h"
+#include "Context.h"
+#include "Skin.h"
 
 namespace UI {
 
@@ -18,24 +20,11 @@ Metrics Button::GetMetrics(const vector2f &hint)
 
 void Button::Draw()
 {
-	// XXX STYLE
-	
 	vector2f drawSize(buttonSize);
 	if (GetInnerWidget()) drawSize += GetInnerWidget()->GetSize();
 
-	GLfloat array[4*2] = {
-		0,          drawSize.y,
-		drawSize.x, drawSize.y,
-		drawSize.x, 0,
-		0,          0
-	};
-
-	glColor4f(0.8f,0.8f,0.3f,1.0f);
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(2, GL_FLOAT, sizeof(GLfloat)*2, &array[0]);
-	glDrawArrays(GL_QUADS, 0, 4);
-	glDisableClientState(GL_VERTEX_ARRAY);
+	// XXX STYLE
+	GetContext()->GetSkin().DrawButtonNormal(vector2f(0.0f), drawSize);
 
 	Container::Draw();
 }

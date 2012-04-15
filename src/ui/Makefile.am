@@ -20,6 +20,7 @@ noinst_HEADERS = \
 	Margin.h \
 	Screen.h \
 	Single.h \
+	Skin.h \
 	TextLayout.h \
 	Widget.h
 
@@ -35,5 +36,6 @@ libui_a_SOURCES = \
 	Margin.cpp \
 	Screen.cpp \
 	Single.cpp \
+	Skin.cpp \
 	TextLayout.cpp \
 	Widget.cpp

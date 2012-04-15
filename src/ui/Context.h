@@ -4,6 +4,8 @@
 #include "RefCounted.h"
 #include "text/TextureFont.h"
 
+#include "Skin.h"
+
 #include "Margin.h"
 #include "Background.h"
 #include "Box.h"
@@ -39,10 +41,12 @@ public:
 	UI::Button *Button() { return new UI::Button(this); }
 
 	Graphics::Renderer *GetRenderer() const { return m_renderer; }
+	const Skin &GetSkin() const { return m_skin; }
 	RefCountedPtr<Text::TextureFont> GetFont() const { return m_font; }
 
 private:
 	Graphics::Renderer *m_renderer;
+	Skin m_skin;
 	RefCountedPtr<Text::TextureFont> m_font;
 };
 
