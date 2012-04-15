@@ -189,26 +189,27 @@ namespace FileSystem {
 	};
 
 	class FileEnumerator {
-		static const int ExcludeFiles = 2;
-		static const int RecurseFlag = 4;
 	public:
 		enum Flags {
-			IncludeDirectories = 1,
-			OnlyDirectories    = IncludeDirectories | ExcludeFiles,
-			Recurse            = IncludeDirectories | RecurseFlag
+			IncludeDirs      = 1,
+			IncludeSpecials  = 2,
+			ExcludeFiles     = 4,
+			Recurse          = 8
 		};
 
 		explicit FileEnumerator(FileSource &fs, int flags = 0);
 		explicit FileEnumerator(FileSource &fs, const std::string &path, int flags = 0);
 		~FileEnumerator();
 
+		void AddSearchRoot(const std::string &path);
+
 		bool Finished() const { return m_queue.empty(); }
-		void Next() { Next(m_flags); }
+		void Next();
 		const FileInfo &Current() const { return m_queue.front(); }
 
 	private:
-		void Next(int flags);
-		void Init(const std::string &path);
+		void QueueDirectoryContents(const FileInfo &info);
+
 		FileSource *m_source;
 		std::deque<FileInfo> m_queue;
 		int m_flags;

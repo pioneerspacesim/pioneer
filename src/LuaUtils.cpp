@@ -100,7 +100,7 @@ void pi_lua_dofile_recursive(lua_State *l, const std::string &basepath)
 {
 	LUA_DEBUG_START(l);
 
-	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, basepath, FileSystem::FileEnumerator::IncludeDirectories); !files.Finished(); files.Next())
+	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, basepath, FileSystem::FileEnumerator::IncludeDirs); !files.Finished(); files.Next())
 	{
 		const FileSystem::FileInfo &info = files.Current();
 		const std::string &fpath = info.GetPath();
