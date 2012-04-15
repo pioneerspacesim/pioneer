@@ -69,6 +69,7 @@ namespace FileSystem {
 		bool Exists() const { return (m_type != FT_NON_EXISTENT); }
 		bool IsDir() const { return (m_type == FT_DIR); }
 		bool IsFile() const { return (m_type == FT_FILE); }
+		bool IsSpecial() const { return (m_type == FT_SPECIAL); }
 
 		const std::string &GetPath() const { return m_path; }
 		std::string GetName() const { return m_path.substr(m_dirLen); }
