@@ -18,6 +18,11 @@ Metrics Button::GetMetrics(const vector2f &hint)
 	return metrics;
 }
 
+void Button::Update()
+{
+	SetActiveArea(vector2f(buttonSize));
+}
+
 void Button::Draw()
 {
 	vector2f drawSize(buttonSize);
