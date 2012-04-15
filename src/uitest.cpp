@@ -114,7 +114,7 @@ int main(int argc, char **argv)
 	);
 
 	image->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), image));
-	//image->onMouseMove.connect(sigc::ptr_fun(&move_handler));
+	image->onMouseMove.connect(sigc::ptr_fun(&move_handler));
 
 	while (1) {
 		bool done = false;

@@ -39,7 +39,8 @@ void Widget::Detach()
 void Widget::SetDimensions(const vector2f &position, const vector2f &size)
 {
 	m_position = position;
-	m_size = size;
+	SetSize(size);
+	SetActiveArea(size);
 }
 
 bool Widget::HandleKeyDown(const KeyboardEvent &event)

@@ -100,15 +100,20 @@ public:
 	// position relative to top container
 	vector2f GetAbsolutePosition() const;
 
+	// active area of the widget. the widget may only want to use part of its
+	// allocated space. events that fall outside the active area should will
+	// be ignored.
+	const vector2f &GetActiveArea() const { return m_activeArea; }
+
 	// determine if a point is inside a widget's bounds
 	bool Contains(const vector2f &point) const {
-		return (point.x >= m_position.x && point.y >= m_position.y && point.x < m_position.x+m_size.x && point.y < m_position.y+m_size.y);
+		return (point.x >= m_position.x && point.y >= m_position.y && point.x < m_position.x+m_activeArea.x && point.y < m_position.y+m_activeArea.y);
 	}
 
 	// deterine if an absolute point is inside a widget's bounds
 	bool ContainsAbsolute(const vector2f &point) const {
 		vector2f pos = GetAbsolutePosition();
-		return (point.x >= pos.x && point.y >= pos.y && point.x < pos.x+m_size.x && point.y < pos.y+m_size.y);
+		return (point.x >= pos.x && point.y >= pos.y && point.x < pos.x+m_activeArea.x && point.y < pos.y+m_activeArea.y);
 	}
 
 	// fast way to determine if the widget is a container
@@ -163,6 +168,9 @@ public:
 
 protected:
 
+	// set the active area. defaults to the size allocated by the container
+	void SetActiveArea(const vector2f &activeArea) { m_activeArea = activeArea; }
+
 	// get the style. protected as it only returns the baseclass style. if a
 	// widget wants to expose its own style it should implement a public
 	// version that casts it to the correct type
@@ -200,12 +208,13 @@ private:
 	// Screen is the top-level container and needs to set its own context
 	// and size directly
 	friend class Screen;
-	void SetSize(const vector2f &size) { m_size = size; }
+	void SetSize(const vector2f &size) { m_size = size; SetActiveArea(size); }
 
 	Context *m_context;
 	Container *m_container;
 	vector2f m_position;
 	vector2f m_size;
+	vector2f m_activeArea;
 
 	ScopedPtr<Style> m_style;
 };

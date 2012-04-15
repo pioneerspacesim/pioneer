@@ -51,6 +51,8 @@ void Image::Update()
 		default:
 			assert(0);
 	}
+
+	SetActiveArea(m_scaledSize);
 }
 
 void Image::Draw()
