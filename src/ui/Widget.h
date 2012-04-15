@@ -174,7 +174,7 @@ protected:
 
 
 	// gui event handlers. these fire the event handler signal for this widget
-	friend class Event;
+	friend class EventDispatcher;
 
 	virtual bool HandleKeyDown(const KeyboardEvent &event);
 	virtual bool HandleKeyUp(const KeyboardEvent &event);

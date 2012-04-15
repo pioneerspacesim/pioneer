@@ -3,6 +3,7 @@
 namespace UI {
 
 Screen::Screen(Context *context, int width, int height) : Single(context),
+	m_eventDispatcher(this),
 	m_width(float(width)),
 	m_height(float(height))
 {

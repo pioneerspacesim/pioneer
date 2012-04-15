@@ -13,6 +13,7 @@ class MouseButtonEvent;
 class MouseMotionEvent;
 class MouseWheelEvent;
 
+// base event. can't be instantiated directly
 class Event {
 public:
 	enum Type {
@@ -24,19 +25,8 @@ public:
 	};
 	const Type type;
 
-	static bool Dispatch(const Event &event, Widget *target);
-	static bool DispatchSDLEvent(const SDL_Event &event, Widget *target);
-
 protected:
 	Event(Type _type) : type(_type) {}
-
-private:
-	static bool KeyDownDispatch(const KeyboardEvent &event, Widget *target);
-	static bool KeyUpDispatch(const KeyboardEvent &event, Widget *target);
-	static bool MouseDownDispatch(const MouseButtonEvent &event, Widget *target);
-	static bool MouseUpDispatch(const MouseButtonEvent &event, Widget *target);
-	static bool MouseMoveDispatch(const MouseMotionEvent &event, Widget *target);
-	static bool MouseWheelDispatch(const MouseWheelEvent &event, Widget *target);
 };
 
 // data for various events
