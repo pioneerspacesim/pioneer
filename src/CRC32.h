@@ -9,7 +9,7 @@ public:
 	CRC32();
 
 	void AddData(const char *data, int length);
-	Uint32 GetChecksum() const;
+	Uint32 GetChecksum() const { return m_checksum; }
 
 private:
 	Uint32 m_checksum;

@@ -34,8 +34,3 @@ void CRC32::AddData(const char *data, int length)
 	while (length--)
 		m_checksum = (m_checksum >> 8) ^ s_lookupTable[(m_checksum & 0xff) ^ *buf++];
 }
-
-Uint32 CRC32::GetChecksum() const
-{
-	return m_checksum & 0xffffffff;
-}
