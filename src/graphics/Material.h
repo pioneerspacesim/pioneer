@@ -22,12 +22,14 @@ class Shader;
 class Material : public RefCounted {
 public:
 	Material();
+	virtual ~Material() { }
 
 	Texture *texture0;
+	Texture *texture1;
 	//Texture *texture1;
 	Color diffuse;
 	//Color ambient;
-	//Color specular;
+	Color specular;
 	//etc. Implement stuff when you need it, and also support
 	//in renderers
 
@@ -40,6 +42,8 @@ public:
 
 	//custom glsl prog
 	Shader *shader;
+
+	bool newStyleHack;
 };
 
 }

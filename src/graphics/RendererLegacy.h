@@ -54,6 +54,8 @@ public:
 
 	virtual Texture *CreateTexture(const TextureDescriptor &descriptor);
 
+	virtual Material *CreateMaterial();
+
 	virtual bool PrintDebugInfo(std::ostream &out);
 
 protected:

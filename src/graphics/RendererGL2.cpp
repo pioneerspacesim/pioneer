@@ -1,5 +1,5 @@
 #include "Shader.h"
-#include "Material.h"
+#include "MaterialGL2.h"
 #include "Graphics.h"
 #include "RendererGL2.h"
 #include "RendererGLBuffers.h"
@@ -12,6 +12,7 @@ namespace Graphics {
 Shader *simpleTextured;
 Shader *flatProg;
 Shader *flatTextured;
+Shader *nmProg;
 
 RendererGL2::RendererGL2(int w, int h) :
 	RendererLegacy(w, h)
@@ -24,6 +25,7 @@ RendererGL2::RendererGL2(int w, int h) :
 	simpleTextured = new Shader("simpleTextured");
 	flatProg = new Shader("flat");
 	flatTextured = new Shader("flat", "#define TEXTURE0 1\n");
+	nmProg = new Shader("gl2/nm", "#define TEXTURE0 1\n#define MAP_SPECULAR 1\n");
 }
 
 RendererGL2::~RendererGL2()
@@ -31,6 +33,7 @@ RendererGL2::~RendererGL2()
 	delete simpleTextured;
 	delete flatProg;
 	delete flatTextured;
+	delete nmProg;
 }
 
 bool RendererGL2::BeginFrame()
@@ -88,14 +91,27 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineTy
 	return true;
 }
 
+Material *RendererGL2::CreateMaterial()
+{
+	MaterialGL2 *mat = new MaterialGL2;
+	mat->newStyleHack = true;
+	mat->shader = nmProg;
+	return mat;
+}
+
 void RendererGL2::ApplyMaterial(const Material *mat)
 {
-	glPushAttrib(GL_ENABLE_BIT);
-
 	if (!mat) {
 		simpleShader->Use();
 		return;
 	}
+	//XXX hack, obviously
+	else if (mat->newStyleHack) {
+		//XXX const will not make sense
+		static_cast<const MaterialGL2*>(mat)->Apply();
+		return;
+	}
+	glPushAttrib(GL_ENABLE_BIT);
 
 	const bool flat = !mat->vertexColors;
 
@@ -132,12 +148,18 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 
 void RendererGL2::UnApplyMaterial(const Material *mat)
 {
-	glPopAttrib();
 	if (mat) {
+		//XXX hack, obviously
+		if (mat->newStyleHack) {
+			//XXX const will not make sense
+			static_cast<const MaterialGL2*>(mat)->Unapply();
+			return;
+		}
 		if (mat->texture0) {
 			static_cast<TextureGL*>(mat->texture0)->Unbind();
 		}
 	}
+	glPopAttrib();
 	// XXX won't be necessary
 	m_currentShader = 0;
 	glUseProgram(0);

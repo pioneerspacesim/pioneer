@@ -659,6 +659,11 @@ Texture *RendererLegacy::CreateTexture(const TextureDescriptor &descriptor)
 	return new TextureGL(descriptor);
 }
 
+Material *RendererLegacy::CreateMaterial()
+{
+	return new Material();
+}
+
 
 // XXX very heavy. in the future when all GL calls are made through the
 // renderer, we can probably do better by trackingn current state and

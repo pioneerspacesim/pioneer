@@ -37,9 +37,9 @@ class Material;
 class RendererLegacy;
 class StaticMesh;
 class Surface;
-class VertexArray;
 class Texture;
 class TextureDescriptor;
+class VertexArray;
 
 // first some enums
 enum LineType {
@@ -131,6 +131,8 @@ public:
 	Texture *GetCachedTexture(const std::string &type, const std::string &name);
 	void AddCachedTexture(const std::string &type, const std::string &name, Texture *texture);
 	void RemoveCachedTexture(const std::string &type, const std::string &name);
+
+	virtual Material *CreateMaterial() = 0;
  
 	// output human-readable debug info to the given stream
 	virtual bool PrintDebugInfo(std::ostream &out) { return false; }
