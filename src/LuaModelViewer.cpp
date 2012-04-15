@@ -287,14 +287,17 @@ void Viewer::MainLoop()
 				modelRot = modelRot * matrix4x4f::RotateYMatrix(ry);
 			}
 		}
-		float rate = 1.f;
-		if (g_keyState[SDLK_LSHIFT]) rate = 10.f;
+		float rate = 5.f * g_frameTime;
+		if (g_keyState[SDLK_LSHIFT]) rate = 20.f * g_frameTime;
 		if (g_keyState[SDLK_EQUALS] || g_keyState[SDLK_KP_PLUS]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,1.f) * rate;
 		if (g_keyState[SDLK_MINUS] || g_keyState[SDLK_KP_MINUS]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,1.f) * rate;
 		if (g_keyState[SDLK_PAGEUP]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,0.5f);
 		if (g_keyState[SDLK_PAGEDOWN]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,0.5f);
 
-		renderer->SetPerspectiveProjection(85, g_width/float(g_height), 1.f, 10000.f);
+		float znear;
+		float zfar;
+		renderer->GetNearFarRange(znear, zfar);
+		renderer->SetPerspectiveProjection(85, g_width/float(g_height), znear, zfar);
 		renderer->SetTransform(matrix4x4f::Identity());
 		renderer->ClearScreen();
 #if 0
