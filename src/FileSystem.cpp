@@ -175,30 +175,24 @@ namespace FileSystem {
 			std::vector<FileInfo>::const_iterator b, std::vector<FileInfo>::const_iterator bend,
 			std::vector<FileInfo> &output)
 	{
-		while (true) {
-			if (a == aend) {
-				std::copy(b, bend, std::back_inserter(output));
-				return;
-			}
-			if (b == bend) {
-				std::copy(a, aend, std::back_inserter(output));
-				return;
-			}
-
-			int c = a->GetPath().compare(b->GetPath());
-			int which = c;
+		while ((a != aend) && (b != bend)) {
+			int order = a->GetPath().compare(b->GetPath());
+			int which = order;
 			if (which == 0) {
 				if (b->IsDir() && !a->IsDir()) { which = 1; }
 				else { which = -1; }
 			}
 			if (which < 0) {
 				output.push_back(*a++);
-				if (c == 0) ++b;
+				if (order == 0) ++b;
 			} else {
 				output.push_back(*b++);
-				if (c == 0) ++a;
+				if (order == 0) ++a;
 			}
 		}
+
+		if (a != aend) { std::copy(a, aend, std::back_inserter(output)); }
+		if (b != bend) { std::copy(b, bend, std::back_inserter(output)); }
 	}
 
 	bool FileSourceUnion::ReadDirectory(const std::string &path, std::vector<FileInfo> &output)
