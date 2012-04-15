@@ -247,27 +247,23 @@ namespace FileSystem {
 		const FileInfo fi = m_source->Lookup(path);
 		if (fi.IsDir()) {
 			QueueDirectoryContents(fi);
+			ExpandDirQueue();
 		}
 	}
 
 	void FileEnumerator::Next()
 	{
 		m_queue.pop_front();
+		ExpandDirQueue();
+	}
 
-		while (! m_queue.empty()) {
-			const FileInfo &head = m_queue.front();
-			if (head.IsDir()) {
-				if (m_flags & Recurse)
-					QueueDirectoryContents(head);
-				if (!(m_flags & IncludeDirs)) {
-					m_queue.pop_front();
-					continue;
-				}
-			} else {
-				assert((head.IsFile() && !(m_flags & ExcludeFiles))
-				    || (head.IsSpecial() && (m_flags & IncludeSpecials)));
-			}
-			break;
+	void FileEnumerator::ExpandDirQueue()
+	{
+		while (m_queue.empty() && !m_dirQueue.empty()) {
+			const FileInfo &nextDir = m_dirQueue.front();
+			assert(nextDir.IsDir());
+			QueueDirectoryContents(nextDir);
+			m_dirQueue.pop_front();
 		}
 	}
 
@@ -282,7 +278,8 @@ namespace FileSystem {
 
 			switch (it->GetType()) {
 				case FileInfo::FT_DIR:
-					if (m_flags & (IncludeDirs | Recurse)) { m_queue.push_back(*it); }
+					if (m_flags & IncludeDirs) { m_queue.push_back(*it); }
+					if (m_flags & Recurse) { m_dirQueue.push_back(*it); }
 					break;
 				case FileInfo::FT_FILE:
 					if (!(m_flags & ExcludeFiles)) { m_queue.push_back(*it); }

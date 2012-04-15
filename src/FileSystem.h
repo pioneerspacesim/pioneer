@@ -208,10 +208,12 @@ namespace FileSystem {
 		const FileInfo &Current() const { return m_queue.front(); }
 
 	private:
+		void ExpandDirQueue();
 		void QueueDirectoryContents(const FileInfo &info);
 
 		FileSource *m_source;
 		std::deque<FileInfo> m_queue;
+		std::deque<FileInfo> m_dirQueue;
 		int m_flags;
 	};
 
