@@ -5,17 +5,17 @@
 
 namespace UI {
 
-class Widget;
+class Container;
 
 class EventDispatcher {
 public:
-	EventDispatcher(Widget *baseWidget) : m_baseWidget(baseWidget) {}
+	EventDispatcher(Container *baseContainer) : m_baseContainer(baseContainer) {}
 
 	bool Dispatch(const Event &event);
 	bool DispatchSDLEvent(const SDL_Event &event);
 
 private:
-	Widget *m_baseWidget;
+	Container *m_baseContainer;
 };
 
 }

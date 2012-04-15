@@ -44,8 +44,8 @@ bool EventDispatcher::Dispatch(const Event &event)
 		case Event::KEYBOARD: {
 			const KeyboardEvent keyEvent = static_cast<const KeyboardEvent&>(event);
 			switch (keyEvent.action) {
-				case KeyboardEvent::KEY_DOWN: return m_baseWidget->HandleKeyDown(keyEvent);
-				case KeyboardEvent::KEY_UP:   return m_baseWidget->HandleKeyUp(keyEvent);
+				case KeyboardEvent::KEY_DOWN: return m_baseContainer->HandleKeyDown(keyEvent);
+				case KeyboardEvent::KEY_UP:   return m_baseContainer->HandleKeyUp(keyEvent);
 			}
 			return false;
 		}
@@ -53,20 +53,20 @@ bool EventDispatcher::Dispatch(const Event &event)
 		case Event::MOUSE_BUTTON: {
 			const MouseButtonEvent mouseButtonEvent = static_cast<const MouseButtonEvent&>(event);
 			switch (mouseButtonEvent.action) {
-				case MouseButtonEvent::BUTTON_DOWN: return m_baseWidget->HandleMouseDown(mouseButtonEvent);
-				case MouseButtonEvent::BUTTON_UP:   return m_baseWidget->HandleMouseUp(mouseButtonEvent);
+				case MouseButtonEvent::BUTTON_DOWN: return m_baseContainer->HandleMouseDown(mouseButtonEvent);
+				case MouseButtonEvent::BUTTON_UP:   return m_baseContainer->HandleMouseUp(mouseButtonEvent);
 			}
 			return false;
 		}
 
 		case Event::MOUSE_MOTION: {
 			const MouseMotionEvent mouseMotionEvent = static_cast<const MouseMotionEvent&>(event);
-			return m_baseWidget->HandleMouseMove(mouseMotionEvent);
+			return m_baseContainer->HandleMouseMove(mouseMotionEvent);
 		}
 
 		case Event::MOUSE_WHEEL: {
 			const MouseWheelEvent mouseWheelEvent = static_cast<const MouseWheelEvent&>(event);
-			return m_baseWidget->HandleMouseWheel(mouseWheelEvent);
+			return m_baseContainer->HandleMouseWheel(mouseWheelEvent);
 		}
 
 		default:

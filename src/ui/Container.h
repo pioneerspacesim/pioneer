@@ -43,6 +43,9 @@ protected:
 	void RemoveWidget(Widget *);
 	void SetWidgetDimensions(Widget *widget, const vector2f &position, const vector2f &size);
 
+	// EventDispatcher needs to give us events
+	friend class EventDispatcher;
+
 	virtual bool HandleKeyDown(const KeyboardEvent &event);
 	virtual bool HandleKeyUp(const KeyboardEvent &event);
 	virtual bool HandleMouseDown(const MouseButtonEvent &event);

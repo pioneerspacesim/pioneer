@@ -172,10 +172,7 @@ protected:
 	// appropriate casting
 	void SetStyle(Style *style) { m_style.Reset(style); }
 
-
 	// gui event handlers. these fire the event handler signal for this widget
-	friend class EventDispatcher;
-
 	virtual bool HandleKeyDown(const KeyboardEvent &event);
 	virtual bool HandleKeyUp(const KeyboardEvent &event);
 	virtual bool HandleMouseDown(const MouseButtonEvent &event);
