@@ -1581,7 +1581,7 @@ namespace ModelFuncs {
 			bool shitty_normal = is_equal_absolute(jizz[i], jizz[i+2], 1e-4f);
 
 			const int basevtx = vtxStart + steps*i;
-			float ang = 0.5*inc;
+			float ang = 0.5f*inc;
 			for (int j=0; j<steps; j++, ang += inc) {
 				const vector3f p1 = rad1 * (sin(ang)*axis1 + cos(ang)*axis2);
 				const vector3f p2 = rad2 * (sin(ang)*axis1 + cos(ang)*axis2);
