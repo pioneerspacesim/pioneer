@@ -72,7 +72,7 @@ TextLayout::TextLayout(const char *_str, RefCountedPtr<Text::TextureFont> font, 
 			}
 
 			Uint32 chr;
-			int n = Text::conv_mb_to_wc(&chr, &str[i]);
+			int n = Text::utf8_decode_char(&chr, &str[i]);
 			assert(n);
 			i += n;
 

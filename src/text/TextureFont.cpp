@@ -53,7 +53,7 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 		
 		else {
 			Uint32 chr;
-			int n = conv_mb_to_wc(&chr, &str[i]);
+			int n = utf8_decode_char(&chr, &str[i]);
 			assert(n);
 			i += n;
 
@@ -61,7 +61,7 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 
 			if (str[i]) {
 				Uint32 chr2;
-				n = conv_mb_to_wc(&chr2, &str[i]);
+				n = utf8_decode_char(&chr2, &str[i]);
 				assert(n);
 
 				FT_UInt a = FT_Get_Char_Index(m_face, chr);
@@ -86,11 +86,11 @@ void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &cha
 	float x = 0.0f, y = GetHeight();
 	int i = 0;
 	Uint32 chr;
-	int len = conv_mb_to_wc(&chr, &str[i]);
+	int len = utf8_decode_char(&chr, &str[i]);
 	while (str[i] && (i < charIndex)) {
 		Uint32 nextChar;
 		i += len;
-		len = conv_mb_to_wc(&nextChar, &str[i]);
+		len = utf8_decode_char(&nextChar, &str[i]);
 		assert(!str[i] || len); // assert valid encoding
 
 		if (chr == '\n') {
@@ -143,7 +143,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 
 		// read the next character
 		i2 += charBytes;
-		charBytes = conv_mb_to_wc(&chr2, &str[i2]);
+		charBytes = utf8_decode_char(&chr2, &str[i2]);
 		assert(!str[i2] || charBytes); // assert valid encoding
 
 		float right;
@@ -195,7 +195,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 		
 		else {
 			Uint32 chr;
-			int n = conv_mb_to_wc(&chr, &str[i]);
+			int n = utf8_decode_char(&chr, &str[i]);
 			assert(n);
 			i += n;
 
@@ -204,7 +204,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 
 			if (str[i]) {
 				Uint32 chr2;
-				n = conv_mb_to_wc(&chr2, &str[i]);
+				n = utf8_decode_char(&chr2, &str[i]);
 				assert(n);
 
 				FT_UInt a = FT_Get_Char_Index(m_face, chr);
@@ -253,7 +253,7 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 		
 		else {
 			Uint32 chr;
-			int n = conv_mb_to_wc(&chr, &str[i]);
+			int n = utf8_decode_char(&chr, &str[i]);
 			assert(n);
 			i += n;
 
@@ -263,7 +263,7 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 			// XXX kerning doesn't skip markup
 			if (str[i]) {
 				Uint32 chr2;
-				n = conv_mb_to_wc(&chr2, &str[i]);
+				n = utf8_decode_char(&chr2, &str[i]);
 				assert(n);
 
 				FT_UInt a = FT_Get_Char_Index(m_face, chr);
