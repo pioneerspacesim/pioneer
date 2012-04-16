@@ -1,4 +1,5 @@
 #include "libs.h"
+#include <sstream>
 #include "gui/Gui.h"
 #include "Pi.h"
 #include "SectorView.h"
@@ -14,6 +15,7 @@
 #include "Game.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
+
 
 using namespace Graphics;
 
@@ -521,17 +523,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		const vector3f sysAbsPos = Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + (*i).p;
 		const vector3f toCentreOfView = m_pos*Sector::SIZE - sysAbsPos;
 
-		bool minExpMajImp = false; // i+
-		bool majExpMajImp = false; // i++
-		bool minImpMajExp = false; // e+
-		bool majImpMajExp = false; // e++
-
-		bool minExpMinImp = false; // i
-		bool majExpMinImp = false; // i+
-		bool minImpMinExp = false; // e
-		bool majImpMinExp = false; // e+
-
-		std::string extra = "";
+		unsigned char impLevel = 0, expLevel = 0;
 
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
 
@@ -558,6 +550,8 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 			}
 		}
 
+		std::string extrastr;
+
 		if ((*i).IsInhabited()) {
 			RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
 			if (!currentSysPath.IsSameSystem(current)) {
@@ -566,52 +560,58 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 					if (currentSys->GetCommodityBasePriceModPercent(i) < -10) {
 						// major export (curr)
 						if ((pSS->GetCommodityBasePriceModPercent(i) > 2) && (pSS->GetCommodityBasePriceModPercent(i) <= 10)) {
-							majExpMinImp = true;
+							expLevel = 2;
 						} else if (pSS->GetCommodityBasePriceModPercent(i) > 10) {
-							majExpMajImp = true;
+							expLevel = 3;
 						}					
-					} else if ((currentSys->GetCommodityBasePriceModPercent(i) < -2) && (currentSys->GetCommodityBasePriceModPercent(i) <= 10)) {
+					} else if ((currentSys->GetCommodityBasePriceModPercent(i) < -2) && (currentSys->GetCommodityBasePriceModPercent(i) >= -10)) {
 						// minor export (curr)
 						if ((pSS->GetCommodityBasePriceModPercent(i) > 2) && (pSS->GetCommodityBasePriceModPercent(i) <= 10)) {
-							majExpMinImp = true;
+							expLevel = 1;
 						} else if (pSS->GetCommodityBasePriceModPercent(i) > 10) {
-							majExpMajImp = true;
+							expLevel = 2;
 						}
 					} else if ((currentSys->GetCommodityBasePriceModPercent(i) > 2) && (currentSys->GetCommodityBasePriceModPercent(i) <= 10)) {
 						// minor import (curr)
-						if ((pSS->GetCommodityBasePriceModPercent(i) < -2) && (pSS->GetCommodityBasePriceModPercent(i) <= 10)) {
-							minImpMinExp = true;
+						if ((pSS->GetCommodityBasePriceModPercent(i) < -2) && (pSS->GetCommodityBasePriceModPercent(i) >= -10)) {
+							impLevel = 1;
 						} else if (pSS->GetCommodityBasePriceModPercent(i) < -10) {
-							minImpMajExp = true;
+							impLevel = 2;
 						}
 					} else if (currentSys->GetCommodityBasePriceModPercent(i) > 10) {
 						// major import (curr)
-						if ((pSS->GetCommodityBasePriceModPercent(i) < -2) && (pSS->GetCommodityBasePriceModPercent(i) <= 10)) {
-							majImpMinExp = true;
+						if ((pSS->GetCommodityBasePriceModPercent(i) < -2) && (pSS->GetCommodityBasePriceModPercent(i) >= -10)) {
+							impLevel = 2;
 						} else if (pSS->GetCommodityBasePriceModPercent(i) < -10) {
-							majImpMajExp = true;
+							impLevel = 3;
 						}
 					}
 				}
 			}
-
-			if (majExpMajImp || majExpMinImp || majImpMajExp || majImpMinExp || minExpMajImp || minExpMinImp || minImpMajExp || minImpMinExp) {
-				if (majExpMajImp) {
-					extra += "i++";
-				} else if (majExpMinImp || minExpMajImp) {
-					extra += "i+";
-				} else if (minExpMinImp) {
-					extra += "i";
+			std::vector<std::string> extra;
+			if (impLevel > 0) {
+				std::ostringstream ss = std::ostringstream();
+				ss << "i";
+				for (int i = 0; i < impLevel - 1; i++) ss << "+";
+				extra.push_back(ss.str());
+			}
+			if (expLevel > 0) {
+				std::ostringstream ss = std::ostringstream();
+				ss << "e";
+				for (int i = 0; i < expLevel - 1; i++) ss << "+";
+				extra.push_back(ss.str());
+			}
+			if (!extra.empty()) {
+				std::ostringstream ss = std::ostringstream();
+				ss << " (";
+				bool first = true;
+				for (unsigned int i = 0; i < extra.size(); i++) {
+					if (!first) ss << ',';
+					else first = false;
+					ss << extra[i];
 				}
-				if (!extra.empty() && (majImpMajExp || majImpMinExp || minImpMajExp || minImpMinExp)) extra += ",";
-				if (majImpMajExp) {
-					extra += "e++";
-				} else if (majImpMinExp || minImpMajExp) {
-					extra += "e+";
-				} else if (minImpMinExp) {
-					extra += "e";
-				}
-				extra = " (" + extra + ")";
+				ss << ')';
+				extrastr = ss.str();
 			}
 		}
 
@@ -699,7 +699,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				labelColor.a = 1.0f;
 		}
 
-		PutClickableLabel((*i).name + extra, labelColor, current);
+		PutClickableLabel((*i).name + extrastr, labelColor, current);
 	}
 }
 
