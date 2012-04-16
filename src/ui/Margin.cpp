@@ -16,7 +16,7 @@ Metrics Margin::GetMetrics(const vector2f &hint)
 void Margin::Layout()
 {
 	if (!GetInnerWidget()) return;
-	SetWidgetDimensions(GetInnerWidget(), GetPosition() + vector2f(m_margin,m_margin), vector2f(std::max(GetSize().x-m_margin*2.0f,0.0f), std::max(GetSize().y-m_margin*2.0f,0.0f)));
+	SetWidgetDimensions(GetInnerWidget(), vector2f(m_margin,m_margin), vector2f(std::max(GetSize().x-m_margin*2.0f,0.0f), std::max(GetSize().y-m_margin*2.0f,0.0f)));
 	GetInnerWidget()->Layout();
 }
 
