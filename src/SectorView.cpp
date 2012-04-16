@@ -523,7 +523,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		const vector3f sysAbsPos = Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + (*i).p;
 		const vector3f toCentreOfView = m_pos*Sector::SIZE - sysAbsPos;
 
-		unsigned char impLevel = 0, expLevel = 0;
+		int impLevel = 0, expLevel = 0;
 
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
 
@@ -539,14 +539,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
 			if( !(*i).IsSetInhabited() && diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f ) {
 				RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
-				if( (!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0) ) 
-				{
-					(*i).SetInhabited(true);
-				}
-				else
-				{
-					(*i).SetInhabited(false);
-				}
+				(*i).SetInhabited((!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0));
 			}
 		}
 
@@ -557,33 +550,36 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 			if (!currentSysPath.IsSameSystem(current)) {
 				// work out econ info
 				for (int i=1; i<Equip::TYPE_MAX; i++) {
-					if (currentSys->GetCommodityBasePriceModPercent(i) < -10) {
+					int ourprice   = currentSys->GetCommodityBasePriceModPercent(i);
+					int theirprice = pSS->GetCommodityBasePriceModPercent(i);
+
+					if (ourprice < -10) {
 						// major export (curr)
-						if ((pSS->GetCommodityBasePriceModPercent(i) > 2) && (pSS->GetCommodityBasePriceModPercent(i) <= 10)) {
-							expLevel = 2;
-						} else if (pSS->GetCommodityBasePriceModPercent(i) > 10) {
-							expLevel = 3;
+						if ((theirprice > 2) && (theirprice <= 10)) {
+							expLevel = std::max(expLevel, 2);
+						} else if (theirprice > 10) {
+							expLevel = std::max(expLevel, 3);
 						}					
-					} else if ((currentSys->GetCommodityBasePriceModPercent(i) < -2) && (currentSys->GetCommodityBasePriceModPercent(i) >= -10)) {
+					} else if ((ourprice < -2) && (ourprice >= -10)) {
 						// minor export (curr)
-						if ((pSS->GetCommodityBasePriceModPercent(i) > 2) && (pSS->GetCommodityBasePriceModPercent(i) <= 10)) {
-							expLevel = 1;
-						} else if (pSS->GetCommodityBasePriceModPercent(i) > 10) {
-							expLevel = 2;
+						if ((theirprice > 2) && (theirprice <= 10)) {
+							expLevel = std::max(expLevel, 1);
+						} else if (theirprice > 10) {
+							expLevel = std::max(expLevel, 2);
 						}
-					} else if ((currentSys->GetCommodityBasePriceModPercent(i) > 2) && (currentSys->GetCommodityBasePriceModPercent(i) <= 10)) {
+					} else if ((ourprice > 2) && (ourprice <= 10)) {
 						// minor import (curr)
-						if ((pSS->GetCommodityBasePriceModPercent(i) < -2) && (pSS->GetCommodityBasePriceModPercent(i) >= -10)) {
-							impLevel = 1;
-						} else if (pSS->GetCommodityBasePriceModPercent(i) < -10) {
-							impLevel = 2;
+						if ((theirprice < -2) && (theirprice >= -10)) {
+							impLevel = std::max(impLevel, 1);
+						} else if (theirprice < -10) {
+							impLevel = std::max(impLevel, 2);
 						}
-					} else if (currentSys->GetCommodityBasePriceModPercent(i) > 10) {
+					} else if (ourprice > 10) {
 						// major import (curr)
-						if ((pSS->GetCommodityBasePriceModPercent(i) < -2) && (pSS->GetCommodityBasePriceModPercent(i) >= -10)) {
-							impLevel = 2;
-						} else if (pSS->GetCommodityBasePriceModPercent(i) < -10) {
-							impLevel = 3;
+						if ((theirprice < -2) && (theirprice >= -10)) {
+							impLevel = std::max(impLevel, 2);
+						} else if (theirprice < -10) {
+							impLevel = std::max(impLevel, 3);
 						}
 					}
 				}
