@@ -13,8 +13,10 @@ public:
 	Group() { }
 	virtual void AddChild(Node *child);
 	virtual void Accept(NodeVisitor &v);
+	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans);
 protected:
 	virtual ~Group();
+	virtual void RenderChildren(Graphics::Renderer *r, const matrix4x4f &trans);
 	std::vector<Node *> m_children;
 };
 

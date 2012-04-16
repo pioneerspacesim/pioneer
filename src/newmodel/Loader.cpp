@@ -1,5 +1,6 @@
 #include "Loader.h"
 #include "FileSystem.h"
+#include "MatrixTransform.h"
 #include "Newmodel.h"
 #include "StaticGeometry.h"
 #include "graphics/Renderer.h"
@@ -298,7 +299,7 @@ Node *Loader::LoadMesh(const std::string &filename, const NModel *model)
 
 		//try to figure out a material
 		//try name first, if that fails use index
-		std::cout << mesh->mMaterialIndex << std::endl;
+		//std::cout << mesh->mMaterialIndex << std::endl;
 		RefCountedPtr<Graphics::Material> mat = model->GetMaterialByIndex(mesh->mMaterialIndex - matIdxOffs);
 		//Material names are not consistent throughout formats...
 		/*const aiMaterial *amat = scene->mMaterials[mesh->mMaterialIndex];
