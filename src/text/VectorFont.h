@@ -1,13 +1,16 @@
-#ifndef _VECTORFONT_H
-#define _VECTORFONT_H
+#ifndef _TEXT_VECTORFONT_H
+#define _TEXT_VECTORFONT_H
 
 #include "Font.h"
 #include <SDL_stdinc.h>
+#include <map>
+
+namespace Text {
 
 class VectorFont : public Font
 {
 public:
-	VectorFont(const FontConfig &fc);
+	VectorFont(const FontDescriptor &descriptor);
 	virtual ~VectorFont();
 
 	void RenderGlyph(int chr);
@@ -33,5 +36,7 @@ private:
 	};
 	std::map<int,glfglyph_t> m_glyphs;
 };
+
+}
 
 #endif

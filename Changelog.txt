@@ -8,6 +8,8 @@ Alpha 22
      * Better support for file enumeration across multiple directories (#1182)
      * Model cache CRC32 calculation now includes files under data/sub_models
        (#1182, #1181)
+     * Restructured text and font classes; decoupled font classes from font
+       config files (#1165)
 
 Alpha 21
 

@@ -19,8 +19,8 @@ GLdouble Screen::projMatrix[16];
 GLint Screen::viewport[4];
 
 FontCache Screen::s_fontCache;
-std::stack< RefCountedPtr<TextureFont> > Screen::s_fontStack;
-RefCountedPtr<TextureFont>Screen::s_defaultFont;
+std::stack< RefCountedPtr<Text::TextureFont> > Screen::s_fontStack;
+RefCountedPtr<Text::TextureFont>Screen::s_defaultFont;
 
 Graphics::Renderer *Screen::s_renderer;
 
@@ -221,14 +221,14 @@ void Screen::OnKeyUp(const SDL_keysym *sym)
 {
 }
 
-float Screen::GetFontHeight(TextureFont *font)
+float Screen::GetFontHeight(Text::TextureFont *font)
 {
     if (!font) font = GetFont().Get();
 
 	return font->GetHeight() * fontScale[1];
 }
 
-void Screen::MeasureString(const std::string &s, float &w, float &h, TextureFont *font)
+void Screen::MeasureString(const std::string &s, float &w, float &h, Text::TextureFont *font)
 {
 	if (!font) font = GetFont().Get();
 	assert(font);
@@ -238,7 +238,7 @@ void Screen::MeasureString(const std::string &s, float &w, float &h, TextureFont
 	h *= fontScale[1];
 }
 
-void Screen::MeasureCharacterPos(const std::string &s, int charIndex, float &x, float &y, TextureFont *font)
+void Screen::MeasureCharacterPos(const std::string &s, int charIndex, float &x, float &y, Text::TextureFont *font)
 {
 	assert((charIndex >= 0) && (charIndex <= int(s.size())));
 
@@ -250,7 +250,7 @@ void Screen::MeasureCharacterPos(const std::string &s, int charIndex, float &x, 
 	y *= fontScale[1];
 }
 
-int Screen::PickCharacterInString(const std::string &s, float x, float y, TextureFont *font)
+int Screen::PickCharacterInString(const std::string &s, float x, float y, Text::TextureFont *font)
 {
 	if (!font) font = GetFont().Get();
 	assert(font);
@@ -261,7 +261,7 @@ int Screen::PickCharacterInString(const std::string &s, float x, float y, Textur
 	return font->PickCharacter(s.c_str(), x, y);
 }
 
-void Screen::RenderString(const std::string &s, float xoff, float yoff, const Color &color, TextureFont *font)
+void Screen::RenderString(const std::string &s, float xoff, float yoff, const Color &color, Text::TextureFont *font)
 {
     if (!font) font = GetFont().Get();
 
@@ -274,11 +274,11 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff, const Co
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-	font->RenderString(s_renderer, s.c_str(), 0, 0, color);
+	font->RenderString(s.c_str(), 0, 0, color);
 	glPopMatrix();
 }
 
-void Screen::RenderMarkup(const std::string &s, const Color &color, TextureFont *font)
+void Screen::RenderMarkup(const std::string &s, const Color &color, Text::TextureFont *font)
 {
     if (!font) font = GetFont().Get();
 
@@ -291,7 +291,7 @@ void Screen::RenderMarkup(const std::string &s, const Color &color, TextureFont 
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-	font->RenderMarkup(s_renderer, s.c_str(), 0, 0, color);
+	font->RenderMarkup(s.c_str(), 0, 0, color);
 	glPopMatrix();
 }
 
