@@ -41,7 +41,14 @@ public:
 	const SDL_keysym keysym;
 };
 
-class MouseButtonEvent : public Event {
+class MouseEvent : public Event {
+public:
+	const vector2f pos; // relative to widget
+protected:
+	MouseEvent(Event::Type _type, const vector2f &_pos) : Event(_type), pos(_pos) {}
+};
+
+class MouseButtonEvent : public MouseEvent {
 public:
 	enum Action {
 		BUTTON_DOWN,
@@ -52,25 +59,23 @@ public:
 		BUTTON_MIDDLE,
 		BUTTON_RIGHT
 	};
-	MouseButtonEvent(Action _action, ButtonType _button, const vector2f &_pos) : Event(Event::MOUSE_BUTTON), action(_action), button(_button), pos(_pos) {}
+	MouseButtonEvent(Action _action, ButtonType _button, const vector2f &_pos) : MouseEvent(Event::MOUSE_BUTTON, _pos), action(_action), button(_button) {}
 	const Action action;
 	const ButtonType button;
-	const vector2f pos; // relative to widget
 };
 
-class MouseMotionEvent : public Event {
+class MouseMotionEvent : public MouseEvent {
 public:
-	MouseMotionEvent(const vector2f &_pos) : Event(Event::MOUSE_MOTION), pos(_pos) {}
-	const vector2f pos; // relative to widget
+	MouseMotionEvent(const vector2f &_pos) : MouseEvent(Event::MOUSE_MOTION, _pos) {}
 };
 
-class MouseWheelEvent : public Event {
+class MouseWheelEvent : public MouseEvent {
 public:
 	enum WheelDirection {
 		WHEEL_UP,
 		WHEEL_DOWN
 	};
-	MouseWheelEvent(WheelDirection _direction) : Event(Event::MOUSE_WHEEL), direction(_direction) {}
+	MouseWheelEvent(WheelDirection _direction, const vector2f &_pos) : MouseEvent(Event::MOUSE_WHEEL, _pos), direction(_direction) {}
 	WheelDirection direction;
 };
 
