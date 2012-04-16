@@ -112,7 +112,7 @@ bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 		if (unicode == '\n')
 			++m_newlineCount;
 		char buf[4];
-		int len = Text::conv_wc_to_mb(unicode, buf);
+		int len = Text::utf8_encode_char(unicode, buf);
 		m_text.insert(m_cursPos, buf, len);
 		SetCursorPos(m_cursPos+len);
 		changed = true;

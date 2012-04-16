@@ -1,3 +1,16 @@
+Alpha 22
+
+   * Script changes
+     * LMR "lathe" function radius and up vector now interpreted the same as
+       "cylinder" etc (#1185, #1037)
+
+   * Internal changes
+     * Better support for file enumeration across multiple directories (#1182)
+     * Model cache CRC32 calculation now includes files under data/sub_models
+       (#1182, #1181)
+     * Restructured text and font classes; decoupled font classes from font
+       config files (#1165)
+
 Alpha 21
 
    * New features
@@ -22,12 +35,13 @@ Alpha 21
      * Rear of Eagle ship now visible to player (#1125)
      * Removed tech levels (#1131)
      * Added a grid to the modelviewer to help visualise model size (#1132)
+     * Reverted DeliverPackage module to pre-Alpha 20 (#1162)
 
    * Fixes
      * Don't take timesteps for dead ships. Stops the player firing during the
        death screen (#1056)
      * Move all the custom stars into the right places (#1080, #1081)
-	 * Fix autopilot handling of fast-moving bodies (#1090)
+     * Fix autopilot handling of fast-moving bodies (#1090)
      * Fixed hyperspace checks so they work during hyperspace and don't allow
        hyperspace to be triggered at odd times (eg docked) (#1101, #999, #1030, #1088)
      * Restore Jupiter and Neptune to their correct terrain types (#1100)

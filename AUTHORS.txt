@@ -2,7 +2,7 @@ The Pioneer team are (13 April 2012, alpha 21):
 
 Project leads: Tom Morton, John Jordan
 
-Maintainer: Robert Norris
+Coordinator: Robert Norris
 
 Testing and bug triage: Brian Ronald
 

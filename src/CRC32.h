@@ -9,15 +9,12 @@ public:
 	CRC32();
 
 	void AddData(const char *data, int length);
-	Uint32 GetChecksum() const;
+	Uint32 GetChecksum() const { return m_checksum; }
 
 private:
 	Uint32 m_checksum;
 
-	Uint32 Reflect(Uint32 value, const int bits);
-
 	static const Uint32 s_polynomial;
-
 	static bool s_lookupTableGenerated;
 	static Uint32 s_lookupTable[256];
 };

@@ -24,7 +24,7 @@ Text::FontDescriptor FontConfig::GetDescriptor()
 	std::string filename(String("FontFile"));
 
 	float pointSize = Float("PointSize");
-    if (!is_zero_general(pointSize))
+	if (!is_zero_general(pointSize))
 		return Text::FontDescriptor(filename, pointSize);
 
 	int pixelWidth = Int("PixelWidth");
