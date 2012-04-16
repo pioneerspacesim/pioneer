@@ -82,7 +82,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -181,6 +181,7 @@
     <ClCompile Include="..\..\src\graphics\Frustum.cpp" />
     <ClCompile Include="..\..\src\graphics\Graphics.cpp" />
     <ClCompile Include="..\..\src\graphics\Material.cpp" />
+    <ClCompile Include="..\..\src\graphics\MaterialGL2.cpp" />
     <ClCompile Include="..\..\src\graphics\Renderer.cpp" />
     <ClCompile Include="..\..\src\graphics\RendererGL2.cpp" />
     <ClCompile Include="..\..\src\graphics\RendererLegacy.cpp" />
@@ -264,6 +265,7 @@
     <ClCompile Include="..\..\src\newmodel\DrawVisitor.cpp" />
     <ClCompile Include="..\..\src\newmodel\Group.cpp" />
     <ClCompile Include="..\..\src\newmodel\Loader.cpp" />
+    <ClCompile Include="..\..\src\newmodel\MatrixTransform.cpp" />
     <ClCompile Include="..\..\src\newmodel\NModel.cpp" />
     <ClCompile Include="..\..\src\newmodel\Node.cpp" />
     <ClCompile Include="..\..\src\newmodel\NodeVisitor.cpp" />
@@ -422,6 +424,7 @@
     <ClInclude Include="..\..\src\graphics\Frustum.h" />
     <ClInclude Include="..\..\src\graphics\Graphics.h" />
     <ClInclude Include="..\..\src\graphics\Material.h" />
+    <ClInclude Include="..\..\src\graphics\MaterialGL2.h" />
     <ClInclude Include="..\..\src\graphics\Renderer.h" />
     <ClInclude Include="..\..\src\graphics\RendererGL2.h" />
     <ClInclude Include="..\..\src\graphics\RendererGLBuffers.h" />
@@ -511,6 +514,7 @@
     <ClInclude Include="..\..\src\newmodel\DrawVisitor.h" />
     <ClInclude Include="..\..\src\newmodel\Group.h" />
     <ClInclude Include="..\..\src\newmodel\Loader.h" />
+    <ClInclude Include="..\..\src\newmodel\MatrixTransform.h" />
     <ClInclude Include="..\..\src\newmodel\Newmodel.h" />
     <ClInclude Include="..\..\src\newmodel\NModel.h" />
     <ClInclude Include="..\..\src\newmodel\Node.h" />

@@ -249,6 +249,15 @@
     <ClCompile Include="..\..\src\newmodel\CollisionVisitor.cpp">
       <Filter>src\newmodel</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\graphics\MaterialGL2.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\newmodel\MatrixTransform.cpp">
+      <Filter>src\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\newmodel\AnimatedGeometry.cpp">
+      <Filter>src\newmodel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\pch.h">
@@ -507,6 +516,15 @@
       <Filter>src\newmodel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\newmodel\CollisionVisitor.h">
+      <Filter>src\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\MaterialGL2.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\newmodel\MatrixTransform.h">
+      <Filter>src\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\newmodel\AnimatedGeometry.h">
       <Filter>src\newmodel</Filter>
     </ClInclude>
   </ItemGroup>
