@@ -26,10 +26,12 @@ public:
 
 	Texture *texture0;
 	Texture *texture1;
-	//Texture *texture1;
+	Texture *texture2;
 	Color diffuse;
 	//Color ambient;
 	Color specular;
+	Color emissive;
+	int shininess;
 	//etc. Implement stuff when you need it, and also support
 	//in renderers
 

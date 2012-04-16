@@ -21,10 +21,11 @@ namespace Newmodel {
 class Parser
 {
 public:
-	Parser(const std::string &filename) :
+	Parser(const std::string &filename, const std::string &path) :
 		m_isMaterial(false),
 		m_curMat(0),
-		m_model(0)
+		m_model(0),
+		m_path(path)
 	{
 		m_file.open(filename.c_str(), std::ifstream::in);
 		if (!m_file) throw std::string("Could not open " + filename);
@@ -58,6 +59,7 @@ private:
 	MaterialDefinition *m_curMat;
 	ModelDefinition *m_model;
 	std::ifstream m_file;
+	std::string m_path;
 
 	bool isComment(const std::string &s) {
 		assert(!s.empty());
@@ -72,6 +74,8 @@ private:
 	bool checkTexture(std::stringstream &ss, std::string &out) {
 		if (ss >> out == 0) throw std::string("Expected file name, got nothing");
 		if (isComment(out)) throw std::string("Expected file name, got comment");
+		//add newmodels/some_model/ to path
+		out = FileSystem::JoinPathBelow(m_path, out);
 		return true;
 	}
 
@@ -80,7 +84,9 @@ private:
 	}
 
 	inline bool checkMaterialName(std::stringstream &ss, std::string &out) {
-		return checkTexture(ss, out);
+		if (ss >> out == 0) throw std::string("Expected material name, got nothing");
+		if (isComment(out)) throw std::string("Expected material name, got comment");
+		return true;
 	}
 
 	bool checkColor(std::stringstream &ss, Color &color) {
@@ -137,10 +143,10 @@ private:
 						return checkColor(ss, m_curMat->ambient);
 					else if (match(token, "emissive"))
 						return checkColor(ss, m_curMat->emissive);
-					else if (match(token, "power")) {
-						int power;
-						ss >> power;
-						m_curMat->power = Clamp(power, 0, 128);
+					else if (match(token, "shininess")) {
+						int shininess;
+						ss >> shininess;
+						m_curMat->shininess = std::max(shininess, 0);
 						return true;
 					}
 					else //unknown instruction
@@ -177,19 +183,19 @@ NModel *Loader::LoadModel(const std::string &filename)
 		if (info.IsFile() && (fpath.substr(fpath.find_last_of(".")+1) == "model")) {
 			//check it's the wanted name & load it
 			const std::string name = info.GetName();
+			//XXX hmm
+			m_curPath = info.GetDir();
 			if (filename == name.substr(0, name.length()-6)) {
 				ModelDefinition modelDefinition;
 				try {
 					//XXX use filesystem and load the file as a string
-					Parser p(fpath);
+					Parser p(fpath, m_curPath);
 					p.parse(&modelDefinition);
 				} catch (const std::string &str) {
 					std::cerr << str << std::endl;
 					throw LoadingError();
 				}
 				modelDefinition.name = name.substr(0, name.length()-6);
-				//XXX hmm
-				m_curPath = info.GetDir();
 				return CreateModel(modelDefinition);
 			}
 		}
@@ -217,11 +223,14 @@ NModel *Loader::CreateModel(const ModelDefinition &def)
 	{
 		assert(!(*it).name.empty());
 		//XXX fix pathnames beforehand
-		const std::string &diffTex = FileSystem::JoinPathBelow(m_curPath, (*it).tex_diff);
-		const std::string &specTex = FileSystem::JoinPathBelow(m_curPath, (*it).tex_spec);
+		const std::string &diffTex = (*it).tex_diff;
+		const std::string &specTex = (*it).tex_spec;
 		RefCountedPtr<Material> mat(m_renderer->CreateMaterial());
 		mat->diffuse = (*it).diffuse;
 		mat->specular = (*it).specular;
+		mat->emissive = (*it).emissive;
+		mat->shininess = (*it).shininess;
+
 		//XXX sort of a workaround when all textures are not specified
 		if (!diffTex.empty())
 			mat->texture0 = Graphics::TextureBuilder::Model(diffTex).GetOrCreateTexture(m_renderer, "model");
@@ -240,7 +249,7 @@ NModel *Loader::CreateModel(const ModelDefinition &def)
 		it != def.meshNames.end(); ++it)
 	{
 		try {
-			Node *mesh = LoadMesh(FileSystem::JoinPathBelow(m_curPath, *(it)), model);
+			Node *mesh = LoadMesh(*(it), model);
 			model->GetRoot()->AddChild(mesh);
 		} catch (LoadingError &) {
 			delete model;

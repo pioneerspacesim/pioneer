@@ -12,6 +12,16 @@ namespace Graphics { class Renderer; }
 namespace Newmodel {
 
 struct MaterialDefinition {
+	MaterialDefinition() :
+		name(""),
+		tex_diff(""),
+		tex_spec(""),
+		diffuse(Color(1.f)),
+		specular(Color(1.f)),
+		ambient(Color(0.f)),
+		emissive(Color(0.f)),
+		shininess(0)
+	{ }
 	std::string name;
 	std::string tex_diff;
 	std::string tex_spec;
@@ -19,7 +29,7 @@ struct MaterialDefinition {
 	Color specular;
 	Color ambient;
 	Color emissive;
-	int power; //specular power, 0-128
+	int shininess; //specular power, 0+
 };
 
 struct ModelDefinition {
