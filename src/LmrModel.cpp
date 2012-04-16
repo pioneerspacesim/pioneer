@@ -23,7 +23,7 @@
 #include <set>
 #include <algorithm>
 
-static const Uint32 s_cacheVersion = 1;
+static const Uint32 s_cacheVersion = 2;
 
 /*
  * Interface: LMR
@@ -1571,16 +1571,17 @@ namespace ModelFuncs {
 		const vector3f axis1 = updir->Normalized();
 		const vector3f axis2 = updir->Cross(dir).Normalized();
 		const float inc = 2.0f*M_PI / float(steps);
+		const float radmod = 1.0f / cosf(0.5f*inc);
 
 		for (int i=0; i<num-3; i+=2) {
-			const float rad1 = jizz[i+1];
-			const float rad2 = jizz[i+3];
+			const float rad1 = jizz[i+1] * radmod;
+			const float rad2 = jizz[i+3] * radmod;
 			const vector3f _start = *start + (*end-*start)*jizz[i];
 			const vector3f _end = *start + (*end-*start)*jizz[i+2];
 			bool shitty_normal = is_equal_absolute(jizz[i], jizz[i+2], 1e-4f);
 
 			const int basevtx = vtxStart + steps*i;
-			float ang = 0;
+			float ang = 0.5*inc;
 			for (int j=0; j<steps; j++, ang += inc) {
 				const vector3f p1 = rad1 * (sin(ang)*axis1 + cos(ang)*axis2);
 				const vector3f p2 = rad2 * (sin(ang)*axis1 + cos(ang)*axis2);
