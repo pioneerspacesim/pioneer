@@ -163,7 +163,7 @@ public:
 
 	// click - primary mouse button press/release over widget. also
 	// synthesised when keyboard shortcut is used
-	sigc::signal<void> onClick;
+	sigc::signal<bool>::accumulated<EventHandlerResultAccumulator> onClick;
 
 
 protected:
@@ -191,7 +191,7 @@ protected:
 	virtual bool HandleMouseMove(const MouseMotionEvent &event);
 	virtual bool HandleMouseWheel(const MouseWheelEvent &event);
 
-	virtual void HandleClick();
+	virtual bool HandleClick();
 
 private:
 

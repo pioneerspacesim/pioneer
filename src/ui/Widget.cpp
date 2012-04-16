@@ -79,9 +79,15 @@ bool Widget::HandleMouseWheel(const MouseWheelEvent &event)
 	return onMouseWheel.emit(event);
 }
 
-void Widget::HandleClick()
+bool Widget::HandleClick()
 {
-	onClick.emit();
+	if (onClick.emit())
+		return true;
+
+	if (GetContainer())
+		return GetContainer()->HandleClick();
+	
+	return false;
 }
 
 }

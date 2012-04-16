@@ -15,9 +15,10 @@
 static const int WIDTH  = 1024;
 static const int HEIGHT = 768;
 
-static void click_handler(UI::Widget *w)
+static bool click_handler(UI::Widget *w)
 {
 	printf("click: %p %s\n", w, typeid(*w).name());
+	return true;
 }
 
 static bool move_handler(const UI::MouseMotionEvent &event)
@@ -87,6 +88,7 @@ int main(int argc, char **argv)
 		)
 	);
 
+	screen->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), screen));
 	button->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), button));
 	button->onMouseMove.connect(sigc::ptr_fun(&move_handler));
 
