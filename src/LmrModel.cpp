@@ -4409,13 +4409,18 @@ static Uint32 _calculate_all_models_checksum()
 {
 	// do we need to rebuild the model cache?
 	CRC32 crc;
-	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "models", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
-	{
+	FileSystem::FileEnumerator files(FileSystem::gameDataFiles, FileSystem::FileEnumerator::Recurse);
+	files.AddSearchRoot("models");
+	files.AddSearchRoot("sub_models");
+	while (!files.Finished()) {
 		const FileSystem::FileInfo &info = files.Current();
-		if (info.IsFile() && (info.GetPath().substr(info.GetPath().size() - 4) != ".png")) {
+		assert(info.IsFile());
+		if (info.GetPath().substr(info.GetPath().size() - 4) != ".png") {
 			RefCountedPtr<FileSystem::FileData> data = files.Current().Read();
 			crc.AddData(data->GetData(), data->GetSize());
 		}
+
+		files.Next();
 	}
 	return crc.GetChecksum();
 }

@@ -4,6 +4,11 @@ Alpha 22
      * LMR "lathe" function radius and up vector now interpreted the same as
        "cylinder" etc (#1185, #1037)
 
+   * Internal changes
+     * Better support for file enumeration across multiple directories (#1182)
+     * Model cache CRC32 calculation now includes files under data/sub_models
+       (#1182, #1181)
+
 Alpha 21
 
    * New features
