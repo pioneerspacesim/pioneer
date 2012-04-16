@@ -21,9 +21,21 @@ static bool click_handler(UI::Widget *w)
 	return true;
 }
 
-static bool move_handler(const UI::MouseMotionEvent &event)
+static bool move_handler(const UI::MouseMotionEvent &event, UI::Widget *w)
 {
-	printf("move: %f,%f\n", event.pos.x, event.pos.y);
+	printf("move: %p %s %f,%f\n", w, typeid(*w).name(), event.pos.x, event.pos.y);
+	return true;
+}
+
+static bool over_handler(UI::Widget *w)
+{
+	printf("over: %p %s\n", w, typeid(*w).name());
+	return true;
+}
+
+static bool out_handler(UI::Widget *w)
+{
+	printf("out: %p %s\n", w, typeid(*w).name());
 	return true;
 }
 
@@ -95,7 +107,9 @@ int main(int argc, char **argv)
 
 	screen->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), screen));
 	button->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), button));
-	button->onMouseMove.connect(sigc::ptr_fun(&move_handler));
+	//button->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), button));
+	button->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), button));
+	button->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), button));
 
 #if 0
 	UI::Image *image;
@@ -120,7 +134,7 @@ int main(int argc, char **argv)
 	);
 
 	image->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), image));
-	image->onMouseMove.connect(sigc::ptr_fun(&move_handler));
+	image->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), image));
 #endif
 
 	while (1) {

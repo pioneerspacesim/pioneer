@@ -77,6 +77,16 @@ bool Widget::HandleMouseWheel(const MouseWheelEvent &event)
 	return onMouseWheel.emit(translatedEvent) || (GetContainer() && GetContainer()->HandleMouseWheel(translatedEvent));
 }
 
+bool Widget::HandleMouseOver()
+{
+	return onMouseOver.emit() || (GetContainer() && GetContainer()->HandleMouseOver());
+}
+
+bool Widget::HandleMouseOut()
+{
+	return onMouseOut.emit() || (GetContainer() && GetContainer()->HandleMouseOut());
+}
+
 bool Widget::HandleClick()
 {
 	return onClick.emit() || (GetContainer() && GetContainer()->HandleClick());

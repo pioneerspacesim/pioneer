@@ -73,6 +73,11 @@ bool EventDispatcher::Dispatch(const Event &event)
 		case Event::MOUSE_MOTION: {
 			const MouseMotionEvent mouseMotionEvent = static_cast<const MouseMotionEvent&>(event);
 			Widget *target = m_baseContainer->GetWidgetAt(mouseMotionEvent.pos);
+			if (target != m_mouseMoveReceiver) {
+				if (m_mouseMoveReceiver) m_mouseMoveReceiver->HandleMouseOut();
+				m_mouseMoveReceiver = target;
+				m_mouseMoveReceiver->HandleMouseOver();
+			}
 			return target->HandleMouseMove(mouseMotionEvent);
 		}
 

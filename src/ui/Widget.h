@@ -191,6 +191,9 @@ protected:
 	virtual bool HandleMouseMove(const MouseMotionEvent &event);
 	virtual bool HandleMouseWheel(const MouseWheelEvent &event);
 
+	virtual bool HandleMouseOver();
+	virtual bool HandleMouseOut();
+
 	virtual bool HandleClick();
 
 private:
