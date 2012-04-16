@@ -1,8 +1,10 @@
 #include "TextSupport.h"
 #include <cassert>
 
+namespace Text {
+
 // returns num bytes consumed, or 0 for end/bogus
-int conv_mb_to_wc(Uint32 *chr, const char *src)
+int utf8_decode_char(Uint32 *chr, const char *src)
 {
 	unsigned int c = *(reinterpret_cast<const unsigned char*>(src));
 	if (!c) { *chr = c; return 0; }
@@ -35,7 +37,7 @@ int conv_mb_to_wc(Uint32 *chr, const char *src)
 //  buf: a character buffer, which must have space for at least 4 bytes
 //       (i.e., assigning to buf[3] must be a valid operation)
 //  returns: number of bytes in the encoded character
-int conv_wc_to_mb(Uint32 chr, char buf[4])
+int utf8_encode_char(Uint32 chr, char buf[4])
 {
 	unsigned char *ubuf = reinterpret_cast<unsigned char*>(buf);
 	if (chr <= 0x7f) {
@@ -60,4 +62,6 @@ int conv_wc_to_mb(Uint32 chr, char buf[4])
 		assert(0 && "Invalid Unicode code-point.");
 		return 0;
 	}
+}
+
 }

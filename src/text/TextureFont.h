@@ -1,23 +1,26 @@
-#ifndef _TEXTUREFONT_H
-#define _TEXTUREFONT_H
+#ifndef _TEXT_TEXTUREFONT_H
+#define _TEXT_TEXTUREFONT_H
 
 #include "Font.h"
 #include "Color.h"
 #include "graphics/Texture.h"
 #include "graphics/Material.h"
+#include <map>
 
 namespace Graphics {
 	class Renderer;
 	class VertexArray;
 }
 
+namespace Text {
+
 class TextureFont : public Font {
 
 public:
-	TextureFont(const FontConfig &fc);
+	TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *renderer);
 
-	void RenderString(Graphics::Renderer *r, const char *str, float x, float y, const Color &color = Color::WHITE);
-	Color RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y, const Color &color = Color::WHITE);
+	void RenderString(const char *str, float x, float y, const Color &color = Color::WHITE);
+	Color RenderMarkup(const char *str, float x, float y, const Color &color = Color::WHITE);
 	void MeasureString(const char *str, float &w, float &h);
 	void MeasureCharacterPos(const char *str, int charIndex, float &x, float &y) const;
 	int PickCharacter(const char *str, float mouseX, float mouseY) const;
@@ -39,6 +42,8 @@ public:
 	static void ClearGlyphCount() { s_glyphCount = 0; }
 
 private:
+	Graphics::Renderer *m_renderer;
+
 	void AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float x, float y, const Color &color);
 	float m_height;
 	float m_width;
@@ -53,5 +58,7 @@ private:
 	static const Uint32 s_firstCharacter = 0x20; //32
 	static const Uint32 s_lastCharacter = 0x1ff; //511
 };
+
+}
 
 #endif
