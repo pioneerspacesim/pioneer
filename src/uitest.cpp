@@ -83,8 +83,13 @@ int main(int argc, char **argv)
 
 	UI::Button *button;
 	screen->SetInnerWidget(
-		c->Margin(10.0f)->SetInnerWidget(
-			(button = c->Button())
+		c->VBox()->PackEnd(UI::WidgetSet(
+			c->Margin(10.0f)->SetInnerWidget(
+				(button = c->Button())
+			),
+			c->Margin(10.0f)->SetInnerWidget(
+				c->Button()
+			)), UI::Box::ChildAttrs(false, false)
 		)
 	);
 
