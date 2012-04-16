@@ -52,17 +52,19 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 		case Event::MOUSE_BUTTON: {
 			const MouseButtonEvent mouseButtonEvent = static_cast<const MouseButtonEvent&>(event);
+			Widget *target = m_baseContainer->GetWidgetAt(mouseButtonEvent.pos);
+
 			switch (mouseButtonEvent.action) {
 				case MouseButtonEvent::BUTTON_DOWN: {
 					assert(!m_mouseDownReceiver);
-					m_mouseDownReceiver = m_baseContainer->GetWidgetAt(mouseButtonEvent.pos);
-					return m_baseContainer->HandleMouseDown(mouseButtonEvent);
+					m_mouseDownReceiver = target;
+					return target->HandleMouseDown(mouseButtonEvent);
 				}
 				case MouseButtonEvent::BUTTON_UP: {
-					if (m_mouseDownReceiver && m_mouseDownReceiver == m_baseContainer->GetWidgetAt(mouseButtonEvent.pos))
+					if (m_mouseDownReceiver && m_mouseDownReceiver == target)
 						m_mouseDownReceiver->HandleClick();
 					m_mouseDownReceiver = 0;
-					return m_baseContainer->HandleMouseUp(mouseButtonEvent);
+					return target->HandleMouseUp(mouseButtonEvent);
 				}
 			}
 			return false;
@@ -70,12 +72,14 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 		case Event::MOUSE_MOTION: {
 			const MouseMotionEvent mouseMotionEvent = static_cast<const MouseMotionEvent&>(event);
-			return m_baseContainer->HandleMouseMove(mouseMotionEvent);
+			Widget *target = m_baseContainer->GetWidgetAt(mouseMotionEvent.pos);
+			return target->HandleMouseMove(mouseMotionEvent);
 		}
 
 		case Event::MOUSE_WHEEL: {
 			const MouseWheelEvent mouseWheelEvent = static_cast<const MouseWheelEvent&>(event);
-			return m_baseContainer->HandleMouseWheel(mouseWheelEvent);
+			Widget *target = m_baseContainer->GetWidgetAt(mouseWheelEvent.pos);
+			return target->HandleMouseWheel(mouseWheelEvent);
 		}
 
 		default:

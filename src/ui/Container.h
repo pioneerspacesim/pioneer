@@ -45,17 +45,6 @@ protected:
 	void RemoveWidget(Widget *);
 	void SetWidgetDimensions(Widget *widget, const vector2f &position, const vector2f &size);
 
-	// EventDispatcher needs to give us events
-	friend class EventDispatcher;
-
-	// event handlers. these fire the event handler signal for this widget
-	virtual bool HandleKeyDown(const KeyboardEvent &event);
-	virtual bool HandleKeyUp(const KeyboardEvent &event);
-	virtual bool HandleMouseDown(const MouseButtonEvent &event);
-	virtual bool HandleMouseUp(const MouseButtonEvent &event);
-	virtual bool HandleMouseMove(const MouseMotionEvent &event);
-	virtual bool HandleMouseWheel(const MouseWheelEvent &event);
-
 private:
 	std::list<Widget*> m_widgets;
 };

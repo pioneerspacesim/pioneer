@@ -45,49 +45,41 @@ void Widget::SetDimensions(const vector2f &position, const vector2f &size)
 
 bool Widget::HandleKeyDown(const KeyboardEvent &event)
 {
-	return onKeyDown.emit(event);
+	return onKeyDown.emit(event) || (GetContainer() && GetContainer()->HandleKeyDown(event));
 }
 
 bool Widget::HandleKeyUp(const KeyboardEvent &event)
 {
-	return onKeyUp.emit(event);
+	return onKeyUp.emit(event) || (GetContainer() && GetContainer()->HandleKeyUp(event));
 }
 
 bool Widget::HandleMouseDown(const MouseButtonEvent &event)
 {
-	if (!Contains(event.pos)) return false;
 	MouseButtonEvent translatedEvent = MouseButtonEvent(event.action, event.button, event.pos-GetPosition());
-	return onMouseDown.emit(translatedEvent);
+	return onMouseDown.emit(translatedEvent) || (GetContainer() && GetContainer()->HandleMouseUp(translatedEvent));
 }
 
 bool Widget::HandleMouseUp(const MouseButtonEvent &event)
 {
-	if (!Contains(event.pos)) return false;
 	MouseButtonEvent translatedEvent = MouseButtonEvent(event.action, event.button, event.pos-GetPosition());
-	return onMouseUp.emit(translatedEvent);
+	return onMouseUp.emit(translatedEvent) || (GetContainer() && GetContainer()->HandleMouseUp(translatedEvent));
 }
 
 bool Widget::HandleMouseMove(const MouseMotionEvent &event)
 {
-	if (!Contains(event.pos)) return false;
 	MouseMotionEvent translatedEvent = MouseMotionEvent(event.pos-GetPosition());
-	return onMouseMove.emit(translatedEvent);
+	return onMouseMove.emit(translatedEvent) || (GetContainer() && GetContainer()->HandleMouseMove(translatedEvent));
 }
 
 bool Widget::HandleMouseWheel(const MouseWheelEvent &event)
 {
-	return onMouseWheel.emit(event);
+	MouseWheelEvent translatedEvent = MouseWheelEvent(event.direction, event.pos-GetPosition());
+	return onMouseWheel.emit(translatedEvent) || (GetContainer() && GetContainer()->HandleMouseWheel(translatedEvent));
 }
 
 bool Widget::HandleClick()
 {
-	if (onClick.emit())
-		return true;
-
-	if (GetContainer())
-		return GetContainer()->HandleClick();
-	
-	return false;
+	return onClick.emit() || (GetContainer() && GetContainer()->HandleClick());
 }
 
 }
