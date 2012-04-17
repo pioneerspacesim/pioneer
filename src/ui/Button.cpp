@@ -21,6 +21,7 @@ Metrics Button::GetMetrics(const vector2f &hint)
 void Button::Update()
 {
 	SetActiveArea(vector2f(buttonSize));
+	Single::Update();
 }
 
 void Button::Draw()
@@ -34,19 +35,19 @@ void Button::Draw()
 	else
 		GetContext()->GetSkin().DrawButtonNormal(vector2f(0.0f), drawSize);
 
-	Container::Draw();
+	Single::Draw();
 }
 
 void Button::Activate()
 {
 	m_active = true;
-	Widget::Activate();
+	Single::Activate();
 }
 
 void Button::Deactivate()
 {
 	m_active = false;
-	Widget::Deactivate();
+	Single::Deactivate();
 }
 
 }
