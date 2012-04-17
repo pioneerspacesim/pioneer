@@ -6,6 +6,8 @@
 #include <iterator>
 #include <stdexcept>
 
+#undef FT_FILE // XXX FileInfo::FT_FILE is conflicting with a FreeType def; undefine it for now
+
 namespace FileSystem {
 
 	static FileSourceFS dataFilesApp(GetDataDir());
