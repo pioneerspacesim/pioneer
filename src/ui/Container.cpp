@@ -71,15 +71,15 @@ void Container::SetWidgetDimensions(Widget *widget, const vector2f &position, co
 	widget->SetDimensions(position, size);
 }
 
-Widget *Container::GetWidgetAt(const vector2f &pos)
+Widget *Container::GetWidgetAtAbsolute(const vector2f &pos)
 {
-	if (!Contains(pos)) return 0;
+	if (!ContainsAbsolute(pos)) return 0;
 
 	for (WidgetIterator i = WidgetsBegin(); i != WidgetsEnd(); ++i) {
 		Widget *widget = *i;
-		if (widget->Contains(pos)) {
+		if (widget->ContainsAbsolute(pos)) {
 			if (widget->IsContainer())
-				return static_cast<Container*>(widget)->GetWidgetAt(pos);
+				return static_cast<Container*>(widget)->GetWidgetAtAbsolute(pos);
 			else
 				return widget;
 		}

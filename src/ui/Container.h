@@ -32,7 +32,7 @@ public:
 
 	virtual bool IsContainer() const { return true; }
 
-	virtual Widget *GetWidgetAt(const vector2f &pos);
+	Widget *GetWidgetAtAbsolute(const vector2f &pos);
 
 	typedef std::list<Widget*>::const_iterator WidgetIterator;
 	const WidgetIterator WidgetsBegin() const { return m_widgets.begin(); }

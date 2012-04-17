@@ -52,7 +52,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 		case Event::MOUSE_BUTTON: {
 			const MouseButtonEvent mouseButtonEvent = static_cast<const MouseButtonEvent&>(event);
-			Widget *target = m_baseContainer->GetWidgetAt(mouseButtonEvent.pos);
+			Widget *target = m_baseContainer->GetWidgetAtAbsolute(mouseButtonEvent.pos);
 
 			switch (mouseButtonEvent.action) {
 				case MouseButtonEvent::BUTTON_DOWN: {
@@ -76,7 +76,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 		case Event::MOUSE_MOTION: {
 			const MouseMotionEvent mouseMotionEvent = static_cast<const MouseMotionEvent&>(event);
-			Widget *target = m_baseContainer->GetWidgetAt(mouseMotionEvent.pos);
+			Widget *target = m_baseContainer->GetWidgetAtAbsolute(mouseMotionEvent.pos);
 			if (target != m_mouseMoveReceiver) {
 				if (m_mouseMoveReceiver) m_mouseMoveReceiver->HandleMouseOut();
 				m_mouseMoveReceiver = target;
@@ -87,7 +87,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 		case Event::MOUSE_WHEEL: {
 			const MouseWheelEvent mouseWheelEvent = static_cast<const MouseWheelEvent&>(event);
-			Widget *target = m_baseContainer->GetWidgetAt(mouseWheelEvent.pos);
+			Widget *target = m_baseContainer->GetWidgetAtAbsolute(mouseWheelEvent.pos);
 			return target->HandleMouseWheel(mouseWheelEvent);
 		}
 
