@@ -23,17 +23,26 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
 	m_material->diffuse = Color::WHITE;
 }
 
+static void AddRectToVertexArray(Graphics::VertexArray &va, const vector2f &pos, const vector2f &size, const vector2f &texPos, const vector2f &texSize)
+{
+	va.Add(vector3f(pos.x,        pos.y,        0.0f), vector2f(texPos.x,           texPos.y));
+	va.Add(vector3f(pos.x,        pos.y+size.y, 0.0f), vector2f(texPos.x,           texPos.y+texSize.y));
+	va.Add(vector3f(pos.x+size.x, pos.y,        0.0f), vector2f(texPos.x+texSize.x, texPos.y));
+	va.Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), vector2f(texPos.x+texSize.x, texPos.y+texSize.y));
+}
+
+void Skin::DrawRectElement(const RectElement &element, const vector2f &pos, const vector2f &size) const
+{
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+	AddRectToVertexArray(va, pos, size, element.pos, element.size);
+	m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
+}
+
 void Skin::DrawBorderedRectElement(const BorderedRectElement &element, const vector2f &pos, const vector2f &size) const
 {
 	// XXX this actually does nothing with borders
-
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
-
-	va.Add(vector3f(pos.x,        pos.y,        0.0f), vector2f(element.pos.x,                element.pos.y));
-	va.Add(vector3f(pos.x,        pos.y+size.y, 0.0f), vector2f(element.pos.x,                element.pos.y+element.size.y));
-	va.Add(vector3f(pos.x+size.x, pos.y,        0.0f), vector2f(element.pos.x+element.size.x, element.pos.y));
-	va.Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), vector2f(element.pos.x+element.size.x, element.pos.y+element.size.y));
-
+	AddRectToVertexArray(va, pos, size, element.pos, element.size);
 	m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
 }
 

@@ -35,6 +35,7 @@ private:
 		const float borderWidth;
 	};
 
+	void DrawRectElement(const RectElement &element, const vector2f &pos, const vector2f &size) const;
 	void DrawBorderedRectElement(const BorderedRectElement &element, const vector2f &pos, const vector2f &size) const;
 
 	static BorderedRectElement s_buttonNormal;
