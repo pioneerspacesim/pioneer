@@ -203,6 +203,13 @@ protected:
 
 	virtual bool HandleClick(bool emit = true);
 
+	// internal synthesized events to indicate that a widget is being
+	// activated or deactivateded. very much like MouseDown/MouseUp except you
+	// get a guarantee that you will get a Deactivate() call for every
+	// Activate(). mouse clicks and keyboard shortcuts trigger this
+	virtual void Activate();
+	virtual void Deactivate();
+
 private:
 
 	// let container set our attributes. none of them make any sense if

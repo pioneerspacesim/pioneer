@@ -110,4 +110,14 @@ bool Widget::HandleClick(bool emit)
 	return emit;
 }
 
+void Widget::Activate()
+{
+	if (GetContainer()) GetContainer()->Activate();
+}
+
+void Widget::Deactivate()
+{
+	if (GetContainer()) GetContainer()->Deactivate();
+}
+
 }

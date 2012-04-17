@@ -58,11 +58,15 @@ bool EventDispatcher::Dispatch(const Event &event)
 				case MouseButtonEvent::BUTTON_DOWN: {
 					assert(!m_mouseDownReceiver);
 					m_mouseDownReceiver = target;
+					target->Activate();
 					return target->HandleMouseDown(mouseButtonEvent);
 				}
 				case MouseButtonEvent::BUTTON_UP: {
-					if (m_mouseDownReceiver && m_mouseDownReceiver == target)
-						m_mouseDownReceiver->HandleClick();
+					if (m_mouseDownReceiver) {
+						m_mouseDownReceiver->Deactivate();
+						if (m_mouseDownReceiver == target)
+							m_mouseDownReceiver->HandleClick();
+					}
 					m_mouseDownReceiver = 0;
 					return target->HandleMouseUp(mouseButtonEvent);
 				}
