@@ -20,9 +20,11 @@ public:
 
 	struct ChildAttrs {
 		ChildAttrs(bool _expand = true, bool _fill = true) : expand(_expand), fill(_fill) {}
-		bool  expand;
-		bool  fill;
+		const bool expand; // if true, give this child a share of the leftover space
+		const bool fill;   // if true, extra space will be given to the child.
+                           // if false, extra space will be added as padding around the child
 	};
+
 	Box *PackStart(Widget *child, const ChildAttrs &attrs = ChildAttrs());
 	Box *PackStart(const WidgetSet &set, const ChildAttrs &attrs = ChildAttrs());
 	Box *PackEnd(Widget *child, const ChildAttrs &attrs = ChildAttrs());
