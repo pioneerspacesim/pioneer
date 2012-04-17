@@ -11,6 +11,7 @@ class TextLayout;
 class Label: public Widget {
 public:
 	virtual Metrics GetMetrics(const vector2f &hint);
+	virtual void Layout();
 	virtual void Draw();
 
 protected:

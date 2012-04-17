@@ -19,7 +19,7 @@ Metrics Image::GetMetrics(const vector2f &hint)
 	return Metrics(m_initialSize);
 }
 
-void Image::Update()
+void Image::Layout()
 {
 	vector2f size = GetSize();
 

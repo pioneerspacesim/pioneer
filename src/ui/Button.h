@@ -8,7 +8,7 @@ namespace UI {
 class Button: public Single {
 public:
 	virtual Metrics GetMetrics(const vector2f &hint);
-	virtual void Update();
+	virtual void Layout();
 	virtual void Draw();
 
 protected:

@@ -100,8 +100,11 @@ int main(int argc, char **argv)
 				(button = c->Button())
 			),
 			c->Margin(10.0f)->SetInnerWidget(
-				c->Button()
-			)), UI::Box::ChildAttrs(false, false)
+				c->Button()->SetInnerWidget(c->Image("icons/object_star_m.png"))
+			),
+            c->Margin(10.0f)->SetInnerWidget(
+                c->Button()->SetInnerWidget(c->Label("PEW PEW"))
+            )), UI::Box::ChildAttrs(false, false)
 		)
 	);
 

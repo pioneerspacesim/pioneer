@@ -28,10 +28,15 @@
 // More advanced widgets can implement Layout() and Draw() to do more advanced
 // things.
 //
-// - Layout() will usually only be implemented by container widgets. Its job is
-//   to ask its children for the wanted size, position and size them according
-//   to its layout strategy, and then get them to lay out their children. See
-//   Container.h for more information about implementing a container.
+// - Layout() is called immediately after a widget receives its final size. It
+//   will usually only be implemented by container widgets or widgets that
+//   don't intend to use the entire area they've been allocated. Its job is to
+//   ask its children for the wanted size, position and size them according to
+//   its layout strategy, and then get them to lay out their children. See
+//   Container.h for more information about implementing a container. For
+//   widgets that aren't containers but don't intend to use their entire
+//   allocation, they should implement Layout() and call SetActiveArea() from
+//   within it.
 //
 // - Update() will be called after Layout() but before Draw(). The widget may
 //   get its allocated size by calling GetSize(), and can do any preparation
@@ -101,8 +106,9 @@ public:
 	vector2f GetAbsolutePosition() const;
 
 	// active area of the widget. the widget may only want to use part of its
-	// allocated space. events that fall outside the active area should will
-	// be ignored.
+	// allocated space. drawing will be clipped to the active area, and events
+	// that fall outside of the active area will be ignored. if a widget
+	// doesn't set its active area it defaults to its allocated space.
 	const vector2f &GetActiveArea() const { return m_activeArea; }
 
 	// determine if a point is inside a widget's bounds
