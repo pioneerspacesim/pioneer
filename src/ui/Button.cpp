@@ -4,7 +4,14 @@
 
 namespace UI {
 
-static const float MIN_BUTTON_INNER_SIZE = 24.0f;
+// XXX this should probably be the font height
+static const float MIN_BUTTON_INNER_SIZE = 16.0f;
+
+static inline void growToMinimum(vector2f &v)
+{
+	if (v.x < MIN_BUTTON_INNER_SIZE || v.y < MIN_BUTTON_INNER_SIZE)
+		v = vector2f(std::max(v.x,MIN_BUTTON_INNER_SIZE),std::max(v.y,MIN_BUTTON_INNER_SIZE));
+}
 
 Metrics Button::GetMetrics(const vector2f &hint)
 {
@@ -12,12 +19,9 @@ Metrics Button::GetMetrics(const vector2f &hint)
 	Metrics metrics = Single::GetMetrics(hint - vector2f(Skin::s_buttonNormal.borderWidth*2));
 
 	// grow to minimum size if necessary
-	if (metrics.minimum.x < MIN_BUTTON_INNER_SIZE || metrics.minimum.y < MIN_BUTTON_INNER_SIZE)
-		metrics.minimum = vector2f(std::max(metrics.minimum.x,MIN_BUTTON_INNER_SIZE),std::max(metrics.minimum.y,MIN_BUTTON_INNER_SIZE));
-	if (metrics.ideal.x < MIN_BUTTON_INNER_SIZE || metrics.ideal.y < MIN_BUTTON_INNER_SIZE)
-		metrics.ideal = vector2f(std::max(metrics.ideal.x,MIN_BUTTON_INNER_SIZE),std::max(metrics.ideal.y,MIN_BUTTON_INNER_SIZE));
-	if (metrics.maximum.x < MIN_BUTTON_INNER_SIZE || metrics.maximum.y < MIN_BUTTON_INNER_SIZE)
-		metrics.maximum = vector2f(std::max(metrics.maximum.x,MIN_BUTTON_INNER_SIZE),std::max(metrics.maximum.y,MIN_BUTTON_INNER_SIZE));
+	growToMinimum(metrics.minimum);
+	growToMinimum(metrics.ideal);
+	growToMinimum(metrics.maximum);
 
 	// add borders
 	metrics.minimum += vector2f(Skin::s_buttonNormal.borderWidth*2);
@@ -38,7 +42,10 @@ void Button::Layout()
 	SetWidgetDimensions(GetInnerWidget(), vector2f(Skin::s_buttonNormal.borderWidth), innerSize);
 	GetInnerWidget()->Layout();
 
-	SetActiveArea(GetInnerWidget()->GetActiveArea() + vector2f(Skin::s_buttonNormal.borderWidth*2));
+	vector2f innerActiveArea(GetInnerWidget()->GetActiveArea());
+	growToMinimum(innerActiveArea);
+
+	SetActiveArea(innerActiveArea + vector2f(Skin::s_buttonNormal.borderWidth*2));
 }
 
 void Button::Draw()
