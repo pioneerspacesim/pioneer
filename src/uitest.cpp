@@ -93,6 +93,7 @@ int main(int argc, char **argv)
 	UI::Context *c = new UI::Context(r);
 	UI::Screen *screen = new UI::Screen(c, WIDTH, HEIGHT);
 
+#if 0
 	UI::Button *button;
 	screen->SetInnerWidget(
 		c->VBox()->PackEnd(UI::WidgetSet(
@@ -113,8 +114,8 @@ int main(int argc, char **argv)
 	button->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), button));
 	button->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), button));
 	button->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), button));
+#endif
 
-#if 0
 	UI::Image *image;
 	screen->SetInnerWidget(
 		c->Background(Color(0.4f, 0.2f, 0.4f, 1.0f))->SetInnerWidget(
@@ -129,7 +130,12 @@ int main(int argc, char **argv)
 						c->Background(Color(1.0f, 0.0f, 0.0f, 1.0f)),
 						c->Background(Color(0.0f, 1.0f, 0.0f, 1.0f)),
 						c->Background(Color(0.0f, 0.0f, 1.0f, 1.0f)),
-						c->Image("icons/cpanel.png")
+						c->Image("icons/cpanel.png"),
+						c->HBox()->PackEnd(UI::WidgetSet(
+							c->Button()->SetInnerWidget(c->Label("Load game")),
+							c->Button()->SetInnerWidget(c->Label("Save game")),
+							c->Button()->SetInnerWidget(c->Label("Win game"))
+						), UI::Box::ChildAttrs(true, true))
 					))
 				)
 			)
@@ -138,7 +144,6 @@ int main(int argc, char **argv)
 
 	image->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), image));
 	image->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), image));
-#endif
 
 	while (1) {
 		bool done = false;
