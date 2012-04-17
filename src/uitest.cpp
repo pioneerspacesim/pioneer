@@ -107,7 +107,7 @@ int main(int argc, char **argv)
 
 	screen->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), screen));
 	button->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), button));
-	//button->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), button));
+	button->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), button));
 	button->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), button));
 	button->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), button));
 

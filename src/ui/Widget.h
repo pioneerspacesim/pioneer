@@ -183,18 +183,25 @@ protected:
 	// EventDispatcher needs to give us events
 	friend class EventDispatcher;
 
-	// event handlers. these fire the event handler signal for this widget
-	virtual bool HandleKeyDown(const KeyboardEvent &event);
-	virtual bool HandleKeyUp(const KeyboardEvent &event);
-	virtual bool HandleMouseDown(const MouseButtonEvent &event);
-	virtual bool HandleMouseUp(const MouseButtonEvent &event);
-	virtual bool HandleMouseMove(const MouseMotionEvent &event);
-	virtual bool HandleMouseWheel(const MouseWheelEvent &event);
+	// event handlers. if emit is true the corresponding signal will be
+	// fired and the value of emit will be updated with its return value. then
+	// our container's Handle* method will be called with that emit value.
+	// what this means in practice is that Handle* will be called for every
+	// widget here to the root, whereas signals will only be emitted as long
+	// as the signals continue to return false (unhandled). as such, if you
+	// need to respond to an event inside a widget such that it is never
+	// blocked, override the Handle* method instead of attaching to the signal
+	virtual bool HandleKeyDown(const KeyboardEvent &event, bool emit = true);
+	virtual bool HandleKeyUp(const KeyboardEvent &event, bool emit = true);
+	virtual bool HandleMouseDown(const MouseButtonEvent &event, bool emit = true);
+	virtual bool HandleMouseUp(const MouseButtonEvent &event, bool emit = true);
+	virtual bool HandleMouseMove(const MouseMotionEvent &event, bool emit = true);
+	virtual bool HandleMouseWheel(const MouseWheelEvent &event, bool emit = true);
 
-	virtual bool HandleMouseOver();
-	virtual bool HandleMouseOut();
+	virtual bool HandleMouseOver(bool emit = true);
+	virtual bool HandleMouseOut(bool emit = true);
 
-	virtual bool HandleClick();
+	virtual bool HandleClick(bool emit = true);
 
 private:
 

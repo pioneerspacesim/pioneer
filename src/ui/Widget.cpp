@@ -43,53 +43,71 @@ void Widget::SetDimensions(const vector2f &position, const vector2f &size)
 	SetActiveArea(size);
 }
 
-bool Widget::HandleKeyDown(const KeyboardEvent &event)
+bool Widget::HandleKeyDown(const KeyboardEvent &event, bool emit)
 {
-	return onKeyDown.emit(event) || (GetContainer() && GetContainer()->HandleKeyDown(event));
+	if (emit) emit = !onKeyDown.emit(event);
+	if (GetContainer()) GetContainer()->HandleKeyDown(event, emit);
+	return emit;
 }
 
-bool Widget::HandleKeyUp(const KeyboardEvent &event)
+bool Widget::HandleKeyUp(const KeyboardEvent &event, bool emit)
 {
-	return onKeyUp.emit(event) || (GetContainer() && GetContainer()->HandleKeyUp(event));
+	if (emit) emit = !onKeyUp.emit(event);
+	if (GetContainer()) GetContainer()->HandleKeyUp(event, emit);
+	return emit;
 }
 
-bool Widget::HandleMouseDown(const MouseButtonEvent &event)
-{
-	MouseButtonEvent translatedEvent = MouseButtonEvent(event.action, event.button, event.pos-GetPosition());
-	return onMouseDown.emit(translatedEvent) || (GetContainer() && GetContainer()->HandleMouseUp(translatedEvent));
-}
-
-bool Widget::HandleMouseUp(const MouseButtonEvent &event)
+bool Widget::HandleMouseDown(const MouseButtonEvent &event, bool emit)
 {
 	MouseButtonEvent translatedEvent = MouseButtonEvent(event.action, event.button, event.pos-GetPosition());
-	return onMouseUp.emit(translatedEvent) || (GetContainer() && GetContainer()->HandleMouseUp(translatedEvent));
+	if (emit) emit = !onMouseDown.emit(translatedEvent);
+	if (GetContainer()) GetContainer()->HandleMouseDown(translatedEvent, emit);
+	return emit;
 }
 
-bool Widget::HandleMouseMove(const MouseMotionEvent &event)
+bool Widget::HandleMouseUp(const MouseButtonEvent &event, bool emit)
+{
+	MouseButtonEvent translatedEvent = MouseButtonEvent(event.action, event.button, event.pos-GetPosition());
+	if (emit) emit = !onMouseUp.emit(translatedEvent);
+	if (GetContainer()) GetContainer()->HandleMouseUp(translatedEvent, emit);
+	return emit;
+}
+
+bool Widget::HandleMouseMove(const MouseMotionEvent &event, bool emit)
 {
 	MouseMotionEvent translatedEvent = MouseMotionEvent(event.pos-GetPosition());
-	return onMouseMove.emit(translatedEvent) || (GetContainer() && GetContainer()->HandleMouseMove(translatedEvent));
+	if (emit) emit = !onMouseMove.emit(translatedEvent);
+	if (GetContainer()) GetContainer()->HandleMouseMove(translatedEvent, emit);
+	return emit;
 }
 
-bool Widget::HandleMouseWheel(const MouseWheelEvent &event)
+bool Widget::HandleMouseWheel(const MouseWheelEvent &event, bool emit)
 {
 	MouseWheelEvent translatedEvent = MouseWheelEvent(event.direction, event.pos-GetPosition());
-	return onMouseWheel.emit(translatedEvent) || (GetContainer() && GetContainer()->HandleMouseWheel(translatedEvent));
+	if (emit) emit = !onMouseWheel.emit(translatedEvent);
+	if (GetContainer()) GetContainer()->HandleMouseWheel(translatedEvent, emit);
+	return emit;
 }
 
-bool Widget::HandleMouseOver()
+bool Widget::HandleMouseOver(bool emit)
 {
-	return onMouseOver.emit() || (GetContainer() && GetContainer()->HandleMouseOver());
+	if (emit) emit = !onMouseOver.emit();
+	if (GetContainer()) GetContainer()->HandleMouseOver(emit);
+	return emit;
 }
 
-bool Widget::HandleMouseOut()
+bool Widget::HandleMouseOut(bool emit)
 {
-	return onMouseOut.emit() || (GetContainer() && GetContainer()->HandleMouseOut());
+	if (emit) emit = !onMouseOut.emit();
+	if (GetContainer()) GetContainer()->HandleMouseOut(emit);
+	return emit;
 }
 
-bool Widget::HandleClick()
+bool Widget::HandleClick(bool emit)
 {
-	return onClick.emit() || (GetContainer() && GetContainer()->HandleClick());
+	if (emit) emit = !onClick.emit();
+	if (GetContainer()) GetContainer()->HandleClick(emit);
+	return emit;
 }
 
 }
