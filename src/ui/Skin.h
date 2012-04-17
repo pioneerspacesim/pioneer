@@ -19,13 +19,8 @@ public:
 		DrawBorderedRectElement(s_buttonActive, pos, size);
 	}
 
-private:
-	Graphics::Renderer *m_renderer;
-	RefCountedPtr<Graphics::Texture> m_texture;
-	RefCountedPtr<Graphics::Material> m_material;
-
 	struct RectElement {
-		RectElement(float x, float y, float w, float h);
+		RectElement(float x, float y, float w, float h) : pos(x,y), size(w,h) {}
 		const vector2f pos;
 		const vector2f size;
 	};
@@ -35,11 +30,16 @@ private:
 		const float borderWidth;
 	};
 
+	static const BorderedRectElement s_buttonNormal;
+	static const BorderedRectElement s_buttonActive;
+
+private:
+	Graphics::Renderer *m_renderer;
+	RefCountedPtr<Graphics::Texture> m_texture;
+	RefCountedPtr<Graphics::Material> m_material;
+
 	void DrawRectElement(const RectElement &element, const vector2f &pos, const vector2f &size) const;
 	void DrawBorderedRectElement(const BorderedRectElement &element, const vector2f &pos, const vector2f &size) const;
-
-	static BorderedRectElement s_buttonNormal;
-	static BorderedRectElement s_buttonActive;
 };
 
 }

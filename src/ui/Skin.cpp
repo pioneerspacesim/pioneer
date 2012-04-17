@@ -6,10 +6,8 @@ namespace UI {
 
 static const float SKIN_SIZE = 512.0f;
 
-Skin::BorderedRectElement Skin::s_buttonNormal(0.0f, 0.0f, 23.0f, 23.0f, 4.0f);
-Skin::BorderedRectElement Skin::s_buttonActive(0.0f, 24.0f, 23.0f, 23.0f, 4.0f);
-
-Skin::RectElement::RectElement(float x, float y, float w, float h) : pos(vector2f(x,y) * 1.0f/SKIN_SIZE), size(vector2f(w,h) * 1.0f/SKIN_SIZE) {}
+const Skin::BorderedRectElement Skin::s_buttonNormal(0.0f, 0.0f, 23.0f, 23.0f, 4.0f);
+const Skin::BorderedRectElement Skin::s_buttonActive(0.0f, 24.0f, 23.0f, 23.0f, 4.0f);
 
 Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
 	m_renderer(renderer)
@@ -25,10 +23,13 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
 
 static void AddRectToVertexArray(Graphics::VertexArray &va, const vector2f &pos, const vector2f &size, const vector2f &texPos, const vector2f &texSize)
 {
-	va.Add(vector3f(pos.x,        pos.y,        0.0f), vector2f(texPos.x,           texPos.y));
-	va.Add(vector3f(pos.x,        pos.y+size.y, 0.0f), vector2f(texPos.x,           texPos.y+texSize.y));
-	va.Add(vector3f(pos.x+size.x, pos.y,        0.0f), vector2f(texPos.x+texSize.x, texPos.y));
-	va.Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), vector2f(texPos.x+texSize.x, texPos.y+texSize.y));
+	const vector2f scaledTexPos(texPos * 1.0f/SKIN_SIZE);
+	const vector2f scaledTexSize(texSize * 1.0f/SKIN_SIZE);
+
+	va.Add(vector3f(pos.x,        pos.y,        0.0f), vector2f(scaledTexPos.x,                 scaledTexPos.y));
+	va.Add(vector3f(pos.x,        pos.y+size.y, 0.0f), vector2f(scaledTexPos.x,                 scaledTexPos.y+scaledTexSize.y));
+	va.Add(vector3f(pos.x+size.x, pos.y,        0.0f), vector2f(scaledTexPos.x+scaledTexSize.x, scaledTexPos.y));
+	va.Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), vector2f(scaledTexPos.x+scaledTexSize.x, scaledTexPos.y+scaledTexSize.y));
 }
 
 void Skin::DrawRectElement(const RectElement &element, const vector2f &pos, const vector2f &size) const
