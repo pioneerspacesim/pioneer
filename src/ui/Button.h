@@ -13,7 +13,15 @@ public:
 
 protected:
 	friend class Context;
-	Button(Context *context): Single(context) {}
+	Button(Context *context): Single(context), m_active(false) {}
+
+	friend class EventDispatcher;
+
+	virtual void Activate();
+	virtual void Deactivate();
+
+private:
+	bool m_active;
 };
 
 }

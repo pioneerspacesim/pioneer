@@ -29,9 +29,24 @@ void Button::Draw()
 	if (GetInnerWidget()) drawSize += GetInnerWidget()->GetSize();
 
 	// XXX STYLE
-	GetContext()->GetSkin().DrawButtonNormal(vector2f(0.0f), drawSize);
+	if (m_active)
+		GetContext()->GetSkin().DrawButtonActive(vector2f(0.0f), drawSize);
+	else
+		GetContext()->GetSkin().DrawButtonNormal(vector2f(0.0f), drawSize);
 
 	Container::Draw();
+}
+
+void Button::Activate()
+{
+	m_active = true;
+	Widget::Activate();
+}
+
+void Button::Deactivate()
+{
+	m_active = false;
+	Widget::Deactivate();
 }
 
 }
