@@ -219,7 +219,7 @@ void Screendump(const char* destFile, const int width, const int height)
 // strcasestr() adapted from gnulib
 // (c) 2005 FSF. GPL2+
 
-#define TOLOWER(c) (isupper(c) ? tolower(c) : (c))
+#define TOLOWER(c) (isupper((unsigned char)c) ? tolower(c) : (c))
 
 const char *pi_strcasestr (const char *haystack, const char *needle)
 {
