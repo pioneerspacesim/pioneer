@@ -4,7 +4,7 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightFlat>::GetHeightFractalName() const { return "Flat"; }
 
 template <>
-TerrainHeightFractal<TerrainHeightFlat>::TerrainHeightFractal(const SBody *body) : Terrain(body)
+TerrainHeightFractal<TerrainHeightFlat>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
 {
 }
 

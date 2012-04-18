@@ -2,7 +2,7 @@
 #include "LuaSystemPath.h"
 #include "LuaUtils.h"
 #include "LuaStarSystem.h"
-#include "LuaSBody.h"
+#include "LuaSystemBody.h"
 #include "galaxy/SystemPath.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/Sector.h"
@@ -318,8 +318,8 @@ static int l_sbodypath_get_system_body(lua_State *l)
 	// (note: this may change if it becomes possible to remove systems during the game)
 	assert(size_t(path->bodyIndex) < sys->m_bodies.size());
 
-	SBody *sbody = sys->GetBodyByPath(path);
-	LuaSBody::PushToLua(sbody);
+	SystemBody *sbody = sys->GetBodyByPath(path);
+	LuaSystemBody::PushToLua(sbody);
 	return 1;
 }
 

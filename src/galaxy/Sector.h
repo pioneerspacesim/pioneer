@@ -31,7 +31,7 @@ public:
 		std::string name;
 		vector3f p;
 		int numStars;
-		SBody::BodyType starType[4];
+		SystemBody::BodyType starType[4];
 		Uint32 seed;
 		const CustomSystem *customSys;
 

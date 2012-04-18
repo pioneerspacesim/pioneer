@@ -22,7 +22,7 @@ template <typename,typename> class TerrainGenerator;
 
 class Terrain {
 public:
-	static Terrain *InstanceTerrain(const SBody *body);
+	static Terrain *InstanceTerrain(const SystemBody *body);
 
 	virtual ~Terrain();
 
@@ -39,19 +39,19 @@ public:
 
 private:
 	template <typename HeightFractal, typename ColorFractal>
-	static Terrain *InstanceGenerator(const SBody *body) { return new TerrainGenerator<HeightFractal,ColorFractal>(body); }
+	static Terrain *InstanceGenerator(const SystemBody *body) { return new TerrainGenerator<HeightFractal,ColorFractal>(body); }
 
-	typedef Terrain* (*GeneratorInstancer)(const SBody *);
+	typedef Terrain* (*GeneratorInstancer)(const SystemBody *);
 
 
 protected:
-	Terrain(const SBody *body);
+	Terrain(const SystemBody *body);
 
 	bool textures;
 	int m_fracnum;
 	double m_fracmult;
 
-	const SBody *m_body;
+	const SystemBody *m_body;
 
 	Uint32 m_seed;
 	MTRand m_rand;
@@ -107,7 +107,7 @@ public:
 	virtual double GetHeight(const vector3d &p);
 	virtual const char *GetHeightFractalName() const;
 protected:
-	TerrainHeightFractal(const SBody *body);
+	TerrainHeightFractal(const SystemBody *body);
 private:
 	TerrainHeightFractal() {}
 };
@@ -118,7 +118,7 @@ public:
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm);
 	virtual const char *GetColorFractalName() const;
 protected:
-	TerrainColorFractal(const SBody *body);
+	TerrainColorFractal(const SystemBody *body);
 private:
 	TerrainColorFractal() {}
 };
@@ -127,7 +127,7 @@ private:
 template <typename HeightFractal, typename ColorFractal>
 class TerrainGenerator : public TerrainHeightFractal<HeightFractal>, public TerrainColorFractal<ColorFractal> {
 public:
-	TerrainGenerator(const SBody *body) : Terrain(body), TerrainHeightFractal<HeightFractal>(body), TerrainColorFractal<ColorFractal>(body) {}
+	TerrainGenerator(const SystemBody *body) : Terrain(body), TerrainHeightFractal<HeightFractal>(body), TerrainColorFractal<ColorFractal>(body) {}
 
 private:
 	TerrainGenerator() {}

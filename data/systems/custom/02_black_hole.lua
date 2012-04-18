@@ -4,12 +4,12 @@ local s = CustomSystem:new('Black Hole', { 'STAR_SM_BH' })
 	:long_desc([[This is what holds it all together baby, Yeah!]])
 
 
-local agamemnon = CustomSBody:new('Agamemnon', 'STAR_SM_BH')
+local agamemnon = CustomSystemBody:new('Agamemnon', 'STAR_SM_BH')
 	:radius(f(10000,1))
 	:mass(f(999999999,1))
 
 
-local terminus = CustomSBody:new('Terminus', 'PLANET_TERRESTRIAL')
+local terminus = CustomSystemBody:new('Terminus', 'PLANET_TERRESTRIAL')
 	:seed(142)
 	:radius(f(14,3))
 	:mass(f(24,4))
@@ -26,16 +26,16 @@ local terminus = CustomSBody:new('Terminus', 'PLANET_TERRESTRIAL')
 	:life(f(0,10))
 	
 	local terminus_starports = {
-	CustomSBody:new('End of the Line', 'STARPORT_ORBITAL')
+	CustomSystemBody:new('End of the Line', 'STARPORT_ORBITAL')
 		:semi_major_axis(f(5,100))
 		:rotation_period(f(11,24)),
-	CustomSBody:new('Tom Morton Research Institute', 'STARPORT_ORBITAL')
+	CustomSystemBody:new('Tom Morton Research Institute', 'STARPORT_ORBITAL')
 		:semi_major_axis(f(6,100))
 		:rotation_period(f(11,24)),
 	}
 	
 	local melon = {
-	CustomSBody:new('Melon', 'PLANET_TERRESTRIAL')
+	CustomSystemBody:new('Melon', 'PLANET_TERRESTRIAL')
 		:seed(191082)
 		:radius(f(12,10))
 		:mass(f(24,10))
@@ -51,7 +51,7 @@ local terminus = CustomSBody:new('Terminus', 'PLANET_TERRESTRIAL')
 		:ice_cover(f(9,10))
 		:life(f(4,10)),
 	{
-		CustomSBody:new('Strawberry Base', 'STARPORT_ORBITAL')
+		CustomSystemBody:new('Strawberry Base', 'STARPORT_ORBITAL')
 		:semi_major_axis(f(1,10000))
 		:rotation_period(f(11,24)),
 	},

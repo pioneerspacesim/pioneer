@@ -190,7 +190,7 @@ public:
 
 	void AIKamikaze(Body *target);
 	void AIKill(Ship *target);
-	//void AIJourney(SBodyPath &dest);
+	//void AIJourney(SystemBodyPath &dest);
 	void AIDock(SpaceStation *target);
 	void AIFlyTo(Body *target);
 	void AIOrbit(Body *target, double alt);

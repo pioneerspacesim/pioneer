@@ -61,7 +61,7 @@ struct BBAdvert {
 };
 
 
-class SBody;
+class SystemBody;
 
 class SpaceStation: public ModelBody, public MarketAgent {
 public:
@@ -77,8 +77,8 @@ public:
 		ANIM_DOCKING_BAY_4,
 	};
 
-	// Should point to SBody in Pi::currentSystem
-	SpaceStation(const SBody *);
+	// Should point to SystemBody in Pi::currentSystem
+	SpaceStation(const SystemBody *);
 	SpaceStation() {}
 	virtual ~SpaceStation();
 	virtual double GetBoundingRadius() const;
@@ -99,7 +99,7 @@ public:
 	bool CanBuy(Equip::Type t, bool verbose) const;
 	bool CanSell(Equip::Type t, bool verbose) const;
 	bool DoesSell(Equip::Type t) const;
-	virtual const SBody *GetSBody() const { return m_sbody; }
+	virtual const SystemBody *GetSystemBody() const { return m_sbody; }
 	void ReplaceShipOnSale(int idx, const ShipFlavour *with);
 	const std::vector<ShipFlavour> &GetShipsOnSale() const { return m_shipsOnSale; }
 	virtual void PostLoadFixup(Space *space);
@@ -164,7 +164,7 @@ private:
 	void PositionDockedShip(Ship *ship, int port);
 	void UpdateShipyard();
 	const SpaceStationType *m_type;
-	const SBody *m_sbody;
+	const SystemBody *m_sbody;
 	int m_equipmentStock[Equip::TYPE_MAX];
 	std::vector<ShipFlavour> m_shipsOnSale;
 	double m_lastUpdatedShipyard;

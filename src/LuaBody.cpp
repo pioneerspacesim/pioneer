@@ -59,7 +59,7 @@ static int l_body_attr_seed(lua_State *l)
 {
 	Body *b = LuaBody::GetFromLua(1);
 
-	const SBody *sbody = b->GetSBody();
+	const SystemBody *sbody = b->GetSystemBody();
 	assert(sbody);
 
 	lua_pushinteger(l, sbody->seed);
@@ -86,7 +86,7 @@ static int l_body_attr_path(lua_State *l)
 {
 	Body *b = LuaBody::GetFromLua(1);
 
-	const SBody *sbody = b->GetSBody();
+	const SystemBody *sbody = b->GetSystemBody();
 	if (!sbody) {
 		lua_pushnil(l);
 		return 1;
@@ -116,7 +116,7 @@ static int l_body_attr_path(lua_State *l)
 static int l_body_attr_type(lua_State *l)
 {
 	Body *b = LuaBody::GetFromLua(1);
-	const SBody *sbody = b->GetSBody();
+	const SystemBody *sbody = b->GetSystemBody();
 	if (!sbody) {
 		lua_pushnil(l);
 		return 1;
@@ -144,7 +144,7 @@ static int l_body_attr_type(lua_State *l)
 static int l_body_attr_super_type(lua_State *l)
 {
 	Body *b = LuaBody::GetFromLua(1);
-	const SBody *sbody = b->GetSBody();
+	const SystemBody *sbody = b->GetSystemBody();
 	if (!sbody) {
 		lua_pushnil(l);
 		return 1;

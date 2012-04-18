@@ -245,7 +245,7 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 	}
 	wr.Bool(m_bbCreated);
 	wr.Double(m_lastUpdatedShipyard);
-	wr.Int32(space->GetIndexForSBody(m_sbody));
+	wr.Int32(space->GetIndexForSystemBody(m_sbody));
 	wr.Int32(m_numPoliceDocked);
 }
 
@@ -280,7 +280,7 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 	}
 	m_bbCreated = rd.Bool();
 	m_lastUpdatedShipyard = rd.Double();
-	m_sbody = space->GetSBodyByIndex(rd.Int32());
+	m_sbody = space->GetSystemBodyByIndex(rd.Int32());
 	m_numPoliceDocked = rd.Int32();
 	InitStation();
 }
@@ -297,7 +297,7 @@ double SpaceStation::GetBoundingRadius() const
 	return ModelBody::GetBoundingRadius() + CITY_ON_PLANET_RADIUS;
 }
 
-SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
+SpaceStation::SpaceStation(const SystemBody *sbody): ModelBody()
 {
 	m_sbody = sbody;
 	m_lastUpdatedShipyard = 0;
@@ -321,7 +321,7 @@ void SpaceStation::InitStation()
 	m_adjacentCity = 0;
 	for(int i=0; i<4; i++) m_staticSlot[i] = false;
 	MTRand rand(m_sbody->seed);
-	if (m_sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
+	if (m_sbody->type == SystemBody::TYPE_STARPORT_ORBITAL) {
 		m_type = &orbitalStationTypes[ rand.Int32(orbitalStationTypes.size()) ];
 		m_hasDoubleFrame = true;
 	} else {

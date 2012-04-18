@@ -29,7 +29,7 @@ void Frame::Serialize(Serializer::Writer &wr, Frame *f, Space *space)
 	wr.String(f->m_label);
 	for (int i=0; i<16; i++) wr.Double(f->m_orient[i]);
 	wr.Vector3d(f->m_angVel);
-	wr.Int32(space->GetIndexForSBody(f->m_sbody));
+	wr.Int32(space->GetIndexForSystemBody(f->m_sbody));
 	wr.Int32(space->GetIndexForBody(f->m_astroBody));
 	wr.Int32(f->m_children.size());
 	for (std::list<Frame*>::iterator i = f->m_children.begin();
@@ -52,7 +52,7 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Space *space, Frame *parent)
 		vector3d pos = rd.Vector3d();
 		f->m_orient.SetTranslate(pos);
 	}
-	f->m_sbody = space->GetSBodyByIndex(rd.Int32());
+	f->m_sbody = space->GetSystemBodyByIndex(rd.Int32());
 	f->m_astroBodyIndex = rd.Int32();
 	f->m_vel = vector3d(0.0);
 	for (int i=rd.Int32(); i>0; --i) {
@@ -221,7 +221,7 @@ bool Frame::IsStationRotFrame() const
 
 // Find system body this frame is for.
 
-SBody *Frame::GetSBodyFor() const
+SystemBody *Frame::GetSystemBodyFor() const
 {
 	if (m_sbody) return m_sbody;
 	if (m_parent) return m_parent->m_sbody; // rotating frame of planet
@@ -233,7 +233,7 @@ SBody *Frame::GetSBodyFor() const
 Body *Frame::GetBodyFor() const
 {
 	if (m_astroBody) return m_astroBody;
-	if (m_sbody && m_sbody->type != SBody::TYPE_GRAVPOINT && !m_children.empty())
+	if (m_sbody && m_sbody->type != SystemBody::TYPE_GRAVPOINT && !m_children.empty())
 		return (*m_children.begin())->m_astroBody;
 	return 0;
 }

@@ -135,7 +135,7 @@ void SpaceStationView::RefreshForForm(Form *f)
 			FaceForm *form = static_cast<FaceForm*>(f);
 
 			if (!form->GetFaceSeed())
-				form->SetFaceSeed(Pi::player->GetDockedWith()->GetSBody()->seed);
+				form->SetFaceSeed(Pi::player->GetDockedWith()->GetSystemBody()->seed);
 
 			if (!m_videoLink || form->GetFaceFlags() != m_videoLink->GetFlags() ||
 				form->GetFaceSeed() != m_videoLink->GetSeed()) {

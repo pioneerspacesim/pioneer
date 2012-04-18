@@ -11,9 +11,9 @@
 #include "RefCounted.h"
 #include "galaxy/SystemPath.h"
 
-class CustomSBody;
+class CustomSystemBody;
 class CustomSystem;
-class SBody;
+class SystemBody;
 
 // doubles - all masses in Kg, all lengths in meters
 // fixed - any mad scheme
@@ -30,7 +30,7 @@ struct Orbit {
 	vector3d OrbitalPosAtTime(double t) const;
 	// 0.0 <= t <= 1.0. Not for finding orbital pos
 	vector3d EvenSpacedPosAtTime(double t) const;
-	/* duplicated from SBody... should remove probably */
+	/* duplicated from SystemBody... should remove probably */
 	double eccentricity;
 	double semiMajorAxis;
 	/* dup " " --------------------------------------- */
@@ -38,16 +38,16 @@ struct Orbit {
 	matrix4x4d rotMatrix;
 };
 
-class SBody {
+class SystemBody {
 public:
-	SBody();
-	~SBody();
+	SystemBody();
+	~SystemBody();
 	void PickPlanetType(MTRand &rand);
-	const SBody *FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax);
-	SBody *parent;
-	std::vector<SBody*> children;
+	const SystemBody *FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax);
+	SystemBody *parent;
+	std::vector<SystemBody*> children;
 
-	enum BodyType { // <enum scope='SBody' prefix=TYPE_>
+	enum BodyType { // <enum scope='SystemBody' prefix=TYPE_>
 		TYPE_GRAVPOINT = 0,
 		TYPE_BROWN_DWARF = 1, //  L+T Class Brown Dwarfs
 		TYPE_WHITE_DWARF = 2,
@@ -97,7 +97,7 @@ public:
 		// XXX need larger atmosphereless thing
 	};
 	
-	enum BodySuperType { // <enum scope='SBody' prefix=SUPERTYPE_>
+	enum BodySuperType { // <enum scope='SystemBody' prefix=SUPERTYPE_>
 		SUPERTYPE_NONE = 0,
 		SUPERTYPE_STAR = 1,
 		SUPERTYPE_ROCKY_PLANET = 2,
@@ -186,14 +186,14 @@ private:
 
 class StarSystem : public DeleteEmitter, public RefCounted {
 public:
-	friend class SBody;
+	friend class SystemBody;
 
 	static RefCountedPtr<StarSystem> GetCached(const SystemPath &path);
 	static void ShrinkCache();
 
 	const std::string &GetName() const { return m_name; }
-	SystemPath GetPathOf(const SBody *sbody) const;
-	SBody *GetBodyByPath(const SystemPath &path) const;
+	SystemPath GetPathOf(const SystemBody *sbody) const;
+	SystemBody *GetBodyByPath(const SystemPath &path) const;
 	static void Serialize(Serializer::Writer &wr, StarSystem *);
 	static RefCountedPtr<StarSystem> Unserialize(Serializer::Reader &rd);
 	void Dump();
@@ -209,10 +209,10 @@ public:
 	static float starScale[];
 	static fixed starMetallicities[];
 
-	SBody *rootBody;
-	std::vector<SBody*> m_spaceStations;
-	// index into this will be the SBody ID used by SystemPath
-	std::vector<SBody*> m_bodies;
+	SystemBody *rootBody;
+	std::vector<SystemBody*> m_spaceStations;
+	// index into this will be the SystemBody ID used by SystemPath
+	std::vector<SystemBody*> m_bodies;
 	
 	fixed m_metallicity;
 	fixed m_industrial;
@@ -234,20 +234,20 @@ private:
 	StarSystem(const SystemPath &path);
 	~StarSystem();
 
-	SBody *NewBody() {
-		SBody *body = new SBody;
+	SystemBody *NewBody() {
+		SystemBody *body = new SystemBody;
 		body->path = m_path;
 		body->path.bodyIndex = m_bodies.size();
 		m_bodies.push_back(body);
 		return body;
 	}
 	void MakeShortDescription(MTRand &rand);
-	void MakePlanetsAround(SBody *primary, MTRand &rand);
-	void MakeRandomStar(SBody *sbody, MTRand &rand);
-	void MakeStarOfType(SBody *sbody, SBody::BodyType type, MTRand &rand);
-	void MakeStarOfTypeLighterThan(SBody *sbody, SBody::BodyType type, fixed maxMass, MTRand &rand);
-	void MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand);
-	void CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *children, int *outHumanInfestedness, MTRand &rand);
+	void MakePlanetsAround(SystemBody *primary, MTRand &rand);
+	void MakeRandomStar(SystemBody *sbody, MTRand &rand);
+	void MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type, MTRand &rand);
+	void MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::BodyType type, fixed maxMass, MTRand &rand);
+	void MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, MTRand &rand);
+	void CustomGetKidsOf(SystemBody *parent, const std::list<CustomSystemBody> *children, int *outHumanInfestedness, MTRand &rand);
 	void GenerateFromCustom(const CustomSystem *, MTRand &rand);
 	void Populate(bool addSpaceStations);
 

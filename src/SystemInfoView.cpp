@@ -18,7 +18,7 @@ SystemInfoView::SystemInfoView()
 	m_refresh = false;
 }
 
-void SystemInfoView::OnBodySelected(SBody *b)
+void SystemInfoView::OnBodySelected(SystemBody *b)
 {
 	{
 		printf("\n");
@@ -36,7 +36,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 	UpdateIconSelections();
 }
 
-void SystemInfoView::OnBodyViewed(SBody *b)
+void SystemInfoView::OnBodyViewed(SystemBody *b)
 {
 	std::string desc, data;
 
@@ -63,9 +63,9 @@ void SystemInfoView::OnBodyViewed(SBody *b)
 	}
 
 	_add_label_and_value(Lang::MASS, stringf(Lang::N_WHATEVER_MASSES, formatarg("mass", b->mass.ToDouble()), 
-		formatarg("units", std::string(b->GetSuperType() == SBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH))));
+		formatarg("units", std::string(b->GetSuperType() == SystemBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH))));
 
-	if (b->type != SBody::TYPE_STARPORT_ORBITAL) {
+	if (b->type != SystemBody::TYPE_STARPORT_ORBITAL) {
 		_add_label_and_value(Lang::SURFACE_TEMPERATURE, stringf(Lang::N_CELSIUS, formatarg("temperature", b->averageTemp-273)));
 		_add_label_and_value(Lang::SURFACE_GRAVITY, stringf("%0{f.3} m/s^2", b->CalcSurfaceGravity()));
 	}
@@ -81,7 +81,7 @@ void SystemInfoView::OnBodyViewed(SBody *b)
 		_add_label_and_value(Lang::PERIAPSIS_DISTANCE, stringf("%0{f.3} AU", b->orbMin.ToDouble()));
 		_add_label_and_value(Lang::APOAPSIS_DISTANCE, stringf("%0{f.3} AU", b->orbMax.ToDouble()));
 		_add_label_and_value(Lang::ECCENTRICITY, stringf("%0{f.2}", b->orbit.eccentricity));
-		if (b->type != SBody::TYPE_STARPORT_ORBITAL) {
+		if (b->type != SystemBody::TYPE_STARPORT_ORBITAL) {
 			_add_label_and_value(Lang::AXIAL_TILT, stringf(Lang::N_DEGREES, formatarg("angle", b->axialTilt.ToDouble() * (180.0/M_PI))));
 			if (b->rotationPeriod != 0) {
 				_add_label_and_value(
@@ -91,8 +91,8 @@ void SystemInfoView::OnBodyViewed(SBody *b)
 		}
 		int numSurfaceStarports = 0;
 		std::string nameList;
-		for (std::vector<SBody*>::iterator i = b->children.begin(); i != b->children.end(); ++i) {
-			if ((*i)->type == SBody::TYPE_STARPORT_SURFACE) {
+		for (std::vector<SystemBody*>::iterator i = b->children.begin(); i != b->children.end(); ++i) {
+			if ((*i)->type == SystemBody::TYPE_STARPORT_SURFACE) {
 				nameList += (numSurfaceStarports ? ", " : "") + (*i)->name;
 				numSurfaceStarports++;
 			}
@@ -178,15 +178,15 @@ void SystemInfoView::UpdateEconomyTab()
 	m_econInfoTab->ResizeRequest();
 }
 
-void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, float &prevSize)
+void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, float &prevSize)
 {
 	float size[2];
 	float myPos[2];
 	myPos[0] = pos[0];
 	myPos[1] = pos[1];
-	if (body->GetSuperType() == SBody::SUPERTYPE_STARPORT) starports++;
-	if (body->type == SBody::TYPE_STARPORT_SURFACE) return;
-	if (body->type != SBody::TYPE_GRAVPOINT) {
+	if (body->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) starports++;
+	if (body->type == SystemBody::TYPE_STARPORT_SURFACE) return;
+	if (body->type != SystemBody::TYPE_GRAVPOINT) {
 		BodyIcon *ib = new BodyIcon(body->GetIcon());
 		ib->SetRenderer(m_renderer);
 		m_bodyIcons.push_back(std::pair<std::string, BodyIcon*>(body->name, ib));
@@ -199,7 +199,7 @@ void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, floa
 		myPos[1] += (!dir ? prevSize*0.5 - size[1]*0.5 : 0);
 		container->Add(ib, myPos[0], myPos[1]);
 
-		if (body->GetSuperType() != SBody::SUPERTYPE_STARPORT) majorBodies++;
+		if (body->GetSuperType() != SystemBody::SUPERTYPE_STARPORT) majorBodies++;
 		pos[dir] += size[dir];
 		dir = !dir;
 		myPos[dir] += size[dir];
@@ -210,7 +210,7 @@ void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, floa
 	}
 
 	float prevSizeForKids = size[!dir];
-	for (std::vector<SBody*>::iterator i = body->children.begin();
+	for (std::vector<SystemBody*>::iterator i = body->children.begin();
 	     i != body->children.end(); ++i) {
 		PutBodies(*i, container, dir, myPos, majorBodies, starports, prevSizeForKids);
 	}

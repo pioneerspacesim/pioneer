@@ -7,7 +7,7 @@ template <>
 const char *TerrainColorFractal<TerrainColorEarthLike>::GetColorFractalName() const { return "EarthLike"; }
 
 template <>
-TerrainColorFractal<TerrainColorEarthLike>::TerrainColorFractal(const SBody *body) : Terrain(body)
+TerrainColorFractal<TerrainColorEarthLike>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
 {
 	// crappy water
 	//double height = m_maxHeightInMeters*0.5;

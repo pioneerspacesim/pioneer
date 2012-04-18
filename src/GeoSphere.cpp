@@ -355,7 +355,7 @@ public:
 		for (int i=0; i<4; i++) {
 			clipRadius = std::max(clipRadius, (v[i]-clipCentroid).Length());
 		}
-		if (geosphere->m_sbody->type < SBody::TYPE_PLANET_ASTEROID) {
+		if (geosphere->m_sbody->type < SystemBody::TYPE_PLANET_ASTEROID) {
  			m_distMult = 10 / Clamp(depth, 1, 10);
  		} else {
  			m_distMult = 5 / Clamp(depth, 1, 5);
@@ -1102,7 +1102,7 @@ void GeoSphere::Uninit()
 	for (int i=0; i<4; i++) delete s_geosphereSurfaceShader[i];
 }
 
-static void print_info(const SBody *sbody, const Terrain *terrain)
+static void print_info(const SystemBody *sbody, const Terrain *terrain)
 {
 	printf(
 		"%s:\n"
@@ -1162,7 +1162,7 @@ void GeoSphere::OnChangeDetailLevel()
 
 #define GEOSPHERE_TYPE	(m_sbody->type)
 
-GeoSphere::GeoSphere(const SBody *body)
+GeoSphere::GeoSphere(const SystemBody *body)
 {
 	m_terrain = Terrain::InstanceTerrain(body);
 	print_info(body, m_terrain);
@@ -1365,12 +1365,12 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 			renderer->SetBlendMode(BLEND_SOLID);
 		}
 
-		if ((m_sbody->type == SBody::TYPE_BROWN_DWARF) || 
-			(m_sbody->type == SBody::TYPE_STAR_M)){
+		if ((m_sbody->type == SystemBody::TYPE_BROWN_DWARF) || 
+			(m_sbody->type == SystemBody::TYPE_STAR_M)){
 			shader = s_geosphereDimStarShader[Graphics::State::GetNumLights()-1];
 			shader->Use();
 		}
-		else if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) {
+		else if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 			shader = s_geosphereStarShader;
 			shader->Use();
 		} else {
@@ -1398,7 +1398,7 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 
 	float b = AreShadersEnabled() ? 2.0f : 1.5f; //XXX ??
 
-	if ((m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) || (m_sbody->type == SBody::TYPE_BROWN_DWARF)) {
+	if ((m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (m_sbody->type == SystemBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
 		ambient.r = ambient.g = ambient.b = 0.2f;
 		ambient.a = 1.0f;

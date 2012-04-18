@@ -40,7 +40,7 @@
 #include "LuaCargoBody.h"
 #include "LuaStarSystem.h"
 #include "LuaSystemPath.h"
-#include "LuaSBody.h"
+#include "LuaSystemBody.h"
 #include "LuaShipType.h"
 #include "LuaEquipType.h"
 #include "LuaChatForm.h"
@@ -201,7 +201,7 @@ static void LuaInit()
 	LuaCargoBody::RegisterClass();
 	LuaStarSystem::RegisterClass();
 	LuaSystemPath::RegisterClass();
-	LuaSBody::RegisterClass();
+	LuaSystemBody::RegisterClass();
 	LuaShipType::RegisterClass();
 	LuaEquipType::RegisterClass();
 	LuaRand::RegisterClass();
