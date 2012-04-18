@@ -4,6 +4,9 @@ Alpha 22
      * LMR "lathe" function radius and up vector now interpreted the same as
        "cylinder" etc (#1185, #1037)
 
+   * Fixes
+     * Fixed crash when near planets with fuel scoop attached (#1200, #1201)
+
    * Internal changes
      * Better support for file enumeration across multiple directories (#1182)
      * Model cache CRC32 calculation now includes files under data/sub_models
