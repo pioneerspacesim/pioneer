@@ -13,22 +13,18 @@ static inline void growToMinimum(vector2f &v)
 		v = vector2f(std::max(v.x,MIN_BUTTON_INNER_SIZE),std::max(v.y,MIN_BUTTON_INNER_SIZE));
 }
 
-Metrics Button::GetMetrics(const vector2f &hint)
+vector2f Button::PreferredSize()
 {
-	// reserve space for the borders
-	Metrics metrics = Single::GetMetrics(hint - vector2f(Skin::s_buttonNormal.borderWidth*2));
+    // child's preferred size
+	vector2f preferredSize(Single::PreferredSize());
 
 	// grow to minimum size if necessary
-	growToMinimum(metrics.minimum);
-	growToMinimum(metrics.ideal);
-	growToMinimum(metrics.maximum);
+	growToMinimum(preferredSize);
 
 	// add borders
-	metrics.minimum += vector2f(Skin::s_buttonNormal.borderWidth*2);
-	metrics.ideal += vector2f(Skin::s_buttonNormal.borderWidth*2);
-	metrics.maximum += vector2f(Skin::s_buttonNormal.borderWidth*2);
+	preferredSize += vector2f(Skin::s_buttonNormal.borderWidth*2);
 
-	return metrics;
+	return preferredSize;;
 }
 
 void Button::Layout()

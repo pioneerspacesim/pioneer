@@ -9,10 +9,9 @@ Label::Label(Context *context, const std::string &text) : Widget(context), m_tex
 	m_layout.Reset(new TextLayout(GetContext()->GetFont(), m_text));
 }
 
-Metrics Label::GetMetrics(const vector2f &hint)
+vector2f Label::PreferredSize()
 {
-	vector2f want(m_layout->ComputeSize(hint));
-	return Metrics(want, want, vector2f(FLT_MAX,FLT_MAX));
+	return m_layout->ComputeSize(0);
 }
 
 void Label::Layout()

@@ -2,10 +2,10 @@
 
 namespace UI {
 
-Metrics Single::GetMetrics(const vector2f &hint)
+vector2f Single::PreferredSize()
 {
-	if (!m_innerWidget) return Metrics();
-	return m_innerWidget->GetMetrics(hint);
+	if (!m_innerWidget) return vector2f();
+	return m_innerWidget->PreferredSize();
 }
 
 void Single::Layout()

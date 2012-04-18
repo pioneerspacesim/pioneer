@@ -8,9 +8,11 @@ namespace UI {
 
 class TextLayout;
 
+// XXX make into a generic text widget with layout options (direction,
+// multiline, etc). make Label subclass that
 class Label: public Widget {
 public:
-	virtual Metrics GetMetrics(const vector2f &hint);
+	virtual vector2f PreferredSize();
 	virtual void Layout();
 	virtual void Draw();
 

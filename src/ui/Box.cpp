@@ -4,8 +4,7 @@ namespace UI {
 
 Box::Box(Context *context, BoxOrientation orient) : Container(context),
 	m_orient(orient),
-	m_countExpanded(0),
-	m_needMetricsRecalc(true)
+	m_countExpanded(0)
 {
 }
 
@@ -21,48 +20,21 @@ static inline void GetComponentsForOrient(bool horiz, vector2f::Component &varia
 	}
 }
 
-void Box::CalculateMetrics(const vector2f &hint)
+vector2f Box::PreferredSize()
 {
-	if (!m_needMetricsRecalc) return;
-
-	// interrogate children and determine metrics as follows
-	// - minimum: sum(min[orient]),   max(min[non-orient])
-	// - ideal:   sum(ideal[orient]), max(ideal[non-orient])
-	// - maximum: sum(max[orient]),   max(max[non-orient)
-	
 	vector2f::Component vc, fc;
 	GetComponentsForOrient(m_orient == BOX_HORIZONTAL, vc, fc);
 	
-	m_metrics = Metrics(0,0,0);
+	m_preferredSize = vector2f(0);
 
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		const Metrics childMetrics = (*i).metrics = (*i).widget->GetMetrics(hint);
+		const vector2f childPreferredSize = (*i).preferredSize = (*i).widget->PreferredSize();
 
-		m_metrics.minimum[vc] = std::min(m_metrics.minimum[vc]+childMetrics.minimum[vc], FLT_MAX);
-		m_metrics.minimum[fc] = std::max(m_metrics.minimum[fc], childMetrics.minimum[fc]);
-
-		m_metrics.ideal[vc] = std::min(m_metrics.ideal[vc]+childMetrics.ideal[vc], FLT_MAX);
-		m_metrics.ideal[fc] = std::max(m_metrics.ideal[fc], childMetrics.ideal[fc]);
-
-		m_metrics.maximum[vc] = std::min(m_metrics.maximum[vc]+childMetrics.maximum[vc], FLT_MAX);
-		m_metrics.maximum[fc] = std::max(m_metrics.maximum[fc], childMetrics.maximum[fc]);
-
-		//printf("%-15s offered %g,%g   requested ideal %g,%g min %g,%g max %g,%g   box ideal %g,%g min %g,%g max %g,%g\n", typeid(*((*i).widget)).name(), hint.x, hint.y, childMetrics.ideal.x, childMetrics.ideal.y, childMetrics.minimum.x, childMetrics.minimum.y, childMetrics.maximum.x, childMetrics.maximum.y, m_metrics.ideal.x, m_metrics.ideal.y, m_metrics.minimum.x, m_metrics.minimum.y, m_metrics.maximum.x, m_metrics.maximum.y);
+		m_preferredSize[vc] = std::min(m_preferredSize[vc]+childPreferredSize[vc], FLT_MAX);
+		m_preferredSize[fc] = std::max(m_preferredSize[fc], childPreferredSize[fc]);
 	}
 
-	m_needMetricsRecalc = false;
-}
-
-Metrics Box::GetMetrics(const vector2f &hint)
-{
-	vector2f::Component vc, fc;
-	GetComponentsForOrient(m_orient == BOX_HORIZONTAL, vc, fc);
-
-	vector2f boxHint = hint;
-	boxHint[vc] = 0;
-
-	CalculateMetrics(boxHint);
-	return m_metrics;
+	return m_preferredSize;
 }
 
 void Box::Layout()
@@ -71,10 +43,6 @@ void Box::Layout()
 
 	vector2f::Component vc, fc;
 	GetComponentsForOrient(m_orient == BOX_HORIZONTAL, vc, fc);
-
-	vector2f boxHint = boxSize;
-	boxHint[vc] = 0;
-	CalculateMetrics(boxHint);
 
 	float sizeRemaining = boxSize[vc];
 
@@ -85,8 +53,8 @@ void Box::Layout()
 
 		float childSize = 0;
 
-		if (boxSize[vc] >= m_metrics.ideal[vc])
-			childSize = (*i).metrics.ideal[vc];
+		if (boxSize[vc] >= m_preferredSize[vc])
+			childSize = (*i).preferredSize[vc];
 		else
 			childSize = boxSize[vc]/m_children.size();
 
@@ -115,11 +83,6 @@ void Box::Layout()
 					(*i).padding += allocation * 0.5;
 					amountAdded = allocation;
 				}
-				else if ((*i).size[vc] + allocation > (*i).metrics.maximum[vc]) {
-					candidates--;
-					amountAdded = (*i).metrics.maximum[vc] - (*i).size[vc];
-					(*i).size[vc] = (*i).metrics.maximum[vc];
-				}
 				else {
 					(*i).size[vc] += allocation;
 					amountAdded = allocation;
@@ -140,8 +103,6 @@ void Box::Layout()
 	}
 
 	LayoutChildren();
-
-	m_needMetricsRecalc = true;
 }
 
 Box *Box::PackStart(Widget *widget, const ChildAttrs &attrs)

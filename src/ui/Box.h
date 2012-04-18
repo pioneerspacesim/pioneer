@@ -15,7 +15,7 @@ protected:
 	Box(Context *context, BoxOrientation orient);
 
 public:
-	virtual Metrics GetMetrics(const vector2f &hint);
+	virtual vector2f PreferredSize();
 	virtual void Layout();
 
 	struct ChildAttrs {
@@ -39,7 +39,7 @@ private:
 		Child(Widget *_widget, const ChildAttrs &_attrs) : widget(_widget), attrs(_attrs) {}
 		Widget           *widget;
 		const ChildAttrs attrs;
-		Metrics          metrics;
+		vector2f         preferredSize;
 		vector2f         size;
 		float            padding;
 	};
@@ -47,9 +47,7 @@ private:
 	std::list<Child> m_children;
 	int m_countExpanded;
 
-	void CalculateMetrics(const vector2f &hint);
-	Metrics m_metrics;
-	bool m_needMetricsRecalc;
+	vector2f m_preferredSize;
 };
 
 class VBox: public Box {

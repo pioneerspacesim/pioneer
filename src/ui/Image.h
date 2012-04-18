@@ -14,7 +14,7 @@ public:
 		STRETCH_MAX         // stretch to entire area allocated by container
 	};
 
-	virtual Metrics GetMetrics(const vector2f &hint);
+	virtual vector2f PreferredSize();
 	virtual void Layout();
 	virtual void Draw();
 

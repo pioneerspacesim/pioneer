@@ -14,9 +14,9 @@ Image::Image(Context *context, const std::string &filename, StretchMode stretchM
 	m_initialSize = vector2f(descriptor.dataSize.x*descriptor.texSize.x,descriptor.dataSize.y*descriptor.texSize.y);
 }
 
-Metrics Image::GetMetrics(const vector2f &hint)
+vector2f Image::PreferredSize()
 {
-	return Metrics(m_initialSize);
+    return m_initialSize;
 }
 
 void Image::Layout()

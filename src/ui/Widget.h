@@ -9,21 +9,20 @@
 // must implement, and a few more it might want to implement if it wants to do
 // something fancy.
 //
-// At minimum, a widget must implement GetMetrics() and Draw().
+// At minimum, a widget must implement PreferredSize() and Draw().
 //
-// - GetMetrics() returns a Metrics object that tells the layout manager
-//   how much space the widget wants/needs. It takes a single vector2 offering
-//   a hint at how much space the widget might be allocated. A value of 0 in
-//   one of the vector2 components means that the container has nothing useful
-//   to say about that axis. Note that the container is under absolutely no
-//   obligation to allocate that amount of space to the widget, and the widget
-//   should not expect it. If the widget has a more concrete idea of the
-//   space it needs it should use that, even if it would be larger than the
-//   hint.
+
+// - PreferredSize() returns a vector2 that tells the layout manager the ideal
+//   size the widget would like to receive to do its job. The container is
+//   under absolutely no obligation to allocate that amount of space to the
+//   widget, and the widget should be prepared for that. In the worst case the
+//   widget will not handle this and will draw something that either doesn't
+//   use enough of its allocated space or uses too much and gets clipped.
 //
-// - Draw() actually draws the widget, using regular GL calls. The GL state
-//   will be set such that widget's top-left corner is at [0,0] with a scissor
-//   region to prevent drawing outside of the widget's allocated space.
+// - Draw() actually draws the widget, using regular renderer calls. The
+//   renderer state will be set such that the widget's top-left corner is at
+//   [0,0] with a scissor region to prevent drawing outside of the widget's
+//   allocated space.
 //
 // More advanced widgets can implement Layout() and Draw() to do more advanced
 // things.
@@ -31,8 +30,8 @@
 // - Layout() is called immediately after a widget receives its final size. It
 //   will usually only be implemented by container widgets or widgets that
 //   don't intend to use the entire area they've been allocated. Its job is to
-//   ask its children for the wanted size, position and size them according to
-//   its layout strategy, and then get them to lay out their children. See
+//   ask its children for the preffered size, position and size them according
+//   to its layout strategy, and then get them to lay out their children. See
 //   Container.h for more information about implementing a container. For
 //   widgets that aren't containers but don't intend to use their entire
 //   allocation, they should implement Layout() and call SetActiveArea() from
@@ -46,7 +45,7 @@
 // The GUI mainloop runs in the following order:
 //
 //  - input handlers
-//  - Layout() (calls GetMetrics())
+//  - Layout() (calls PreferredSize())
 //  - Update()
 //  - Draw()
 //
@@ -75,7 +74,6 @@ namespace UI {
 class Context;
 class Container;
 class Metrics;
-class Style;
 	
 class Widget {
 protected:
@@ -85,7 +83,7 @@ protected:
 public:
 	virtual ~Widget();
 
-	virtual Metrics GetMetrics(const vector2f &hint) = 0;
+	virtual vector2f PreferredSize() = 0;
 	virtual void Layout() {}
 	virtual void Update() {}
 	virtual void Draw() = 0;
@@ -177,15 +175,6 @@ protected:
 	// set the active area. defaults to the size allocated by the container
 	void SetActiveArea(const vector2f &activeArea) { m_activeArea = activeArea; }
 
-	// get the style. protected as it only returns the baseclass style. if a
-	// widget wants to expose its own style it should implement a public
-	// version that casts it to the correct type
-	Style *GetStyle() const { return m_style.Get(); }
-
-	// style setter. again, a widget must expose its own version with
-	// appropriate casting
-	void SetStyle(Style *style) { m_style.Reset(style); }
-
 	// EventDispatcher needs to give us events
 	friend class EventDispatcher;
 
@@ -238,45 +227,6 @@ private:
 	vector2f m_position;
 	vector2f m_size;
 	vector2f m_activeArea;
-
-	ScopedPtr<Style> m_style;
-};
-
-
-// A widget's GetMetrics() method returns a Metrics object. It tells the
-// calling container what size the widget wants to be when drawn.
-class Metrics {
-public:
-	Metrics() : maximum(FLT_MAX) {}
-	Metrics(const vector2f &_ideal) : ideal(_ideal), maximum(FLT_MAX) {}
-	Metrics(const vector2f &_ideal, const vector2f &_minimum) : ideal(_ideal), minimum(_minimum), maximum(FLT_MAX) {}
-	Metrics(const vector2f &_ideal, const vector2f &_minimum, const vector2f &_maximum) : ideal(_ideal), minimum(_minimum), maximum(_maximum) {}
-	
-	// ideal dimensions   (widget functions optimally in this space)
-	vector2f ideal;
-
-	// minimum dimensions (widget needs at least this much to function)
-	vector2f minimum;;
-	
-	// maximum dimensions (please don't give me more than this)
-	vector2f maximum;
-};
-
-
-// Style is the baseclass for element styles. Styles directly influence how a
-// widget is drawn, and are used to modify and animate an already-existing
-// element (which is normally immutable). They don't change the metrics or the
-// function of an element.
-//
-// Each widget class has it own corresponding style class.
-class Style {
-public:
-	virtual ~Style() {}
-
-	float padding;
-
-protected:
-	Style(): padding(0) {}
 };
 
 

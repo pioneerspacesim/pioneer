@@ -6,10 +6,10 @@
 
 // Container is the base class for all UI containers. Containers must
 // provide a Layout() method that implements its layout strategy. Layout()
-// will typically call GetMetrics() on its children to request their sizings,
-// then call SetSize() on its children to set their size appropriately.
-// Containers should then call LayoutChildren() to make its children do their
-// layout.
+// will typically call PreferredSize() on its children to request their
+// desired sizings then call SetSize() on its children to set their sizes
+// appropriately. Containers should then call LayoutChildren() to make its
+// children do their layout.
 //
 // Containers don't have provide Update() or Draw(). If they do they should
 // make sure that they call the baseclass methods so that child widgets will

@@ -10,9 +10,9 @@ Screen::Screen(Context *context, int width, int height) : Single(context),
 	SetSize(vector2f(m_width,m_height));
 }
 
-Metrics Screen::GetMetrics(const vector2f &hint)
+vector2f Screen::PreferredSize()
 {
-	return Metrics(vector2f(m_width,m_height), vector2f(m_width,m_height), vector2f(m_width,m_height));
+	return vector2f(m_width,m_height);
 }
 
 }

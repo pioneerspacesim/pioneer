@@ -7,7 +7,7 @@ namespace UI {
 
 class Single : public Container {
 public:
-	virtual Metrics GetMetrics(const vector2f &hint);
+	virtual vector2f PreferredSize();
 	virtual void Layout();
 
 	Single *SetInnerWidget(Widget *widget);

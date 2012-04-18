@@ -3,7 +3,7 @@
 
 namespace UI {
 
-Widget::Widget(Context *context) : m_context(context), m_container(0), m_position(0), m_size(0), m_style(0)
+Widget::Widget(Context *context) : m_context(context), m_container(0), m_position(0), m_size(0)
 {
 	assert(m_context);
 }

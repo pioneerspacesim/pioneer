@@ -7,7 +7,7 @@ namespace UI {
 
 class Margin : public Single {
 public:
-	virtual Metrics GetMetrics(const vector2f &hint);
+	virtual vector2f PreferredSize();
 	virtual void Layout();
 
 protected:

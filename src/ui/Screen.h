@@ -22,7 +22,7 @@ class Screen : public Single {
 public:
 	Screen(Context *context, int width, int height);
 
-	virtual Metrics GetMetrics(const vector2f &hint);
+	virtual vector2f PreferredSize();
 
 	bool Dispatch(const Event &event) { return m_eventDispatcher.Dispatch(event); }
 	bool DispatchSDLEvent(const SDL_Event &event) { return m_eventDispatcher.DispatchSDLEvent(event); }
