@@ -6,6 +6,7 @@ Alpha 22
 
    * Fixes
      * Fixed crash when near planets with fuel scoop attached (#1200, #1201)
+     * Fixed timer setup for trade ships after game load (#1205, #1204)
 
    * Internal changes
      * Better support for file enumeration across multiple directories (#1182)

@@ -635,7 +635,7 @@ EventQueue.onShipLanded:Connect(onShipLanded)
 
 local onShipAlertChanged = function (ship, alert)
 	if trade_ships[ship] == nil then return end
-	if alert ~= 'NONE' then
+	if alert == 'SHIP_FIRING' then
 		print(ship.label..' alert changed to '..alert) end
 	local trader = trade_ships[ship]
 	if trader.attacker == nil then return end
@@ -818,8 +818,8 @@ local onGameStart = function ()
 		end
 
 		-- check if any trade ships were waiting on a timer
-		for ship, trader in ipairs(trade_ships) do
-			if trader.delay > Game.time then
+		for ship, trader in pairs(trade_ships) do
+			if ship ~= 'interval' and trader.delay and trader.delay > Game.time then
 				if trader.status == 'docked' then
 					Timer:CallAt(trader.delay, function () doUndock(ship) end)
 				elseif trader.status == 'orbit' then
