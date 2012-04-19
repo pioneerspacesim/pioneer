@@ -635,7 +635,7 @@ EventQueue.onShipLanded:Connect(onShipLanded)
 
 local onShipAlertChanged = function (ship, alert)
 	if trade_ships[ship] == nil then return end
-	if alert ~= 'NONE' then
+	if alert == 'SHIP_FIRING' then
 		print(ship.label..' alert changed to '..alert) end
 	local trader = trade_ships[ship]
 	if trader.attacker == nil then return end
