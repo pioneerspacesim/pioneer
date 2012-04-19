@@ -20,13 +20,11 @@ TextLayout::TextLayout(const RefCountedPtr<Text::TextureFont> &font, const std::
 	}
 }
 
-// XXX using the old TextureFont methods for now. they should be moved here.
-// TextureFont should only handle individual glyph functions (I think)
-vector2f TextLayout::ComputeSize(const vector2f &hint)
+vector2f TextLayout::ComputeSize(const vector2f &maxArea)
 {
-	if (hint.ExactlyEqual(0)) return 0;
+	if (maxArea.ExactlyEqual(0)) return 0;
 
-	if (hint.ExactlyEqual(m_lastRequested))
+	if (maxArea.ExactlyEqual(m_lastRequested))
 		return m_lastSize;
 	
 	float spaceWidth = m_font->GetGlyph(' ').advx;
@@ -44,7 +42,7 @@ vector2f TextLayout::ComputeSize(const vector2f &hint)
 		// - the word does not go past the right edge of the box
 		bool wordAdded = false;
 		while (!wordAdded) {
-			if (is_zero_exact(pos.x) || pos.x + wordSize.x < hint.x) {
+			if (is_zero_exact(pos.x) || pos.x + wordSize.x < maxArea.x) {
 				(*i).pos = pos;
 
 				// move to the end of the word
@@ -65,17 +63,16 @@ vector2f TextLayout::ComputeSize(const vector2f &hint)
 		pos.x += spaceWidth;
 	}
 
-	m_lastRequested = hint;
+	m_lastRequested = maxArea;
 	m_lastSize = bounds;
 
 	return bounds;
 }
 
-void TextLayout::Draw(const vector2f &size)
+void TextLayout::Draw(const vector2f &maxArea)
 {
-	ComputeSize(size);
+	ComputeSize(maxArea);
 
-	// XXX STYLE
 	for (std::vector<Word>::iterator i = m_words.begin(); i != m_words.end(); ++i)
 		m_font->RenderString((*i).text.c_str(), (*i).pos.x, (*i).pos.y, Color::WHITE);
 }

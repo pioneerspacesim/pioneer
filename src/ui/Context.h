@@ -11,6 +11,7 @@
 #include "Box.h"
 #include "Image.h"
 #include "Label.h"
+#include "MultiLineText.h"
 #include "Button.h"
 
 namespace Graphics { class Renderer; }
@@ -37,6 +38,8 @@ public:
 	// visual elements
 	UI::Image *Image(const std::string &filename, Image::StretchMode stretchMode = Image::STRETCH_PRESERVE) { return new UI::Image(this, filename, stretchMode); }
 	UI::Label *Label(const std::string &text) { return new UI::Label(this, text); }
+
+	UI::MultiLineText *MultiLineText(const std::string &text) { return new UI::MultiLineText(this, text); }
 
 	UI::Button *Button() { return new UI::Button(this); }
 

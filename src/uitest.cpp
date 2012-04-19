@@ -6,6 +6,7 @@
 #include "ui/Box.h"
 #include "ui/Image.h"
 #include "ui/Label.h"
+#include "ui/MultiLineText.h"
 #include "ui/Margin.h"
 #include "FileSystem.h"
 #include "graphics/Graphics.h"
@@ -123,7 +124,7 @@ int main(int argc, char **argv)
 				c->Background(Color(0.1f, 0.4f, 0.4f, 1.0f))->SetInnerWidget(
 					c->VBox()->PackEnd(UI::WidgetSet(
 						c->HBox()->PackEnd(UI::WidgetSet(
-							c->Label("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+							c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
 							(image = c->Image("icons/object_star_g.png")),
 							c->Image("icons/object_star_m.png")
 						)),

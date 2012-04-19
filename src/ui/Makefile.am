@@ -18,6 +18,7 @@ noinst_HEADERS = \
 	Image.h \
 	Label.h \
 	Margin.h \
+	MultiLineText.h \
 	Screen.h \
 	Single.h \
 	Skin.h \
@@ -34,6 +35,7 @@ libui_a_SOURCES = \
 	Image.cpp \
 	Label.cpp \
 	Margin.cpp \
+	MultiLineText.cpp \
 	Screen.cpp \
 	Single.cpp \
 	Skin.cpp \
