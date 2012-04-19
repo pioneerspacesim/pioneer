@@ -4,12 +4,10 @@
 #include "Widget.h"
 #include "SmartPtr.h"
 
+// single line of text
+
 namespace UI {
 
-class TextLayout;
-
-// XXX make into a generic text widget with layout options (direction,
-// multiline, etc). make Label subclass that
 class Label: public Widget {
 public:
 	virtual vector2f PreferredSize();
@@ -18,11 +16,11 @@ public:
 
 protected:
 	friend class Context;
-	Label(Context *context, const std::string &text);
+	Label(Context *context, const std::string &text) : Widget(context), m_text(text) {}
 
 private:
 	std::string m_text;
-	ScopedPtr<TextLayout> m_layout;
+	vector2f m_preferredSize;
 };
 
 }
