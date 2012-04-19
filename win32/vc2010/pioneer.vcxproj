@@ -166,7 +166,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\src\Font.cpp" />
     <ClCompile Include="..\..\src\FontCache.cpp" />
     <ClCompile Include="..\..\src\FontConfig.cpp" />
     <ClCompile Include="..\..\src\FormController.cpp" />
@@ -351,10 +350,11 @@
     <ClCompile Include="..\..\src\terrain\TerrainHeightRuggedLava.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightWaterSolid.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightWaterSolidCanyons.cpp" />
-    <ClCompile Include="..\..\src\TextSupport.cpp" />
-    <ClCompile Include="..\..\src\TextureFont.cpp" />
+    <ClCompile Include="..\..\src\text\Font.cpp" />
+    <ClCompile Include="..\..\src\text\TextSupport.cpp" />
+    <ClCompile Include="..\..\src\text\TextureFont.cpp" />
+    <ClCompile Include="..\..\src\text\VectorFont.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
-    <ClCompile Include="..\..\src\VectorFont.cpp" />
     <ClCompile Include="..\..\src\View.cpp" />
     <ClCompile Include="..\..\src\WorldView.cpp" />
     <ClCompile Include="..\..\src\WorldViewCamera.cpp" />
@@ -398,7 +398,6 @@
     <ClInclude Include="..\..\src\FileSelectorWidget.h" />
     <ClInclude Include="..\..\src\FileSystem.h" />
     <ClInclude Include="..\..\src\fixed.h" />
-    <ClInclude Include="..\..\src\Font.h" />
     <ClInclude Include="..\..\src\FontCache.h" />
     <ClInclude Include="..\..\src\FontConfig.h" />
     <ClInclude Include="..\..\src\FormController.h" />
@@ -552,12 +551,14 @@
     <ClInclude Include="..\..\src\terrain\Terrain.h" />
     <ClInclude Include="..\..\src\terrain\TerrainFeature.h" />
     <ClInclude Include="..\..\src\terrain\TerrainNoise.h" />
-    <ClInclude Include="..\..\src\TextSupport.h" />
-    <ClInclude Include="..\..\src\TextureFont.h" />
+    <ClInclude Include="..\..\src\text\Font.h" />
+    <ClInclude Include="..\..\src\text\FontDescriptor.h" />
+    <ClInclude Include="..\..\src\text\TextSupport.h" />
+    <ClInclude Include="..\..\src\text\TextureFont.h" />
+    <ClInclude Include="..\..\src\text\VectorFont.h" />
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\vector2.h" />
     <ClInclude Include="..\..\src\vector3.h" />
-    <ClInclude Include="..\..\src\VectorFont.h" />
     <ClInclude Include="..\..\src\VideoLink.h" />
     <ClInclude Include="..\..\src\View.h" />
     <ClInclude Include="..\..\src\WorldView.h" />
