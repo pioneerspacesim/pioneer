@@ -39,6 +39,8 @@ vector2f Box::PreferredSize()
 
 void Box::Layout()
 {
+	PreferredSize();
+
 	const vector2f boxSize = GetSize();
 
 	vector2f::Component vc, fc;
