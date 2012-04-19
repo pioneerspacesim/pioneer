@@ -73,6 +73,11 @@ private:
 	EventDispatcher m_eventDispatcher;
 	Skin m_skin;
 	RefCountedPtr<Text::TextureFont> m_font;
+
+	// used by Container::Draw to set the keep widget drawing in its bounds
+	friend class Container;
+	void SetScissor(bool enabled, const vector2f &pos = 0, const vector2f &size = 0);
+
 };
 
 }

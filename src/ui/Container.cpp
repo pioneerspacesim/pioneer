@@ -21,15 +21,16 @@ void Container::Update()
 
 void Container::Draw()
 {
-	// XXX set scissor region
-
 	Graphics::Renderer *r = GetContext()->GetRenderer();
 
 	for (std::list<Widget*>::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
 		const vector2f &pos = (*i)->GetAbsolutePosition();
+		GetContext()->SetScissor(true, pos, (*i)->GetSize());
 		r->SetTransform(matrix4x4f::Translation(pos.x,pos.y,0));
 		(*i)->Draw();
 	}
+
+	GetContext()->SetScissor(false);
 }
 
 void Container::LayoutChildren()

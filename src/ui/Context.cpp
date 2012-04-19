@@ -15,4 +15,15 @@ Context::Context(Graphics::Renderer *renderer, int width, int height) : Single(t
 	SetSize(vector2f(m_width,m_height));
 }
 
+void Context::SetScissor(bool enabled, const vector2f &pos, const vector2f &size)
+{
+	if (enabled) {
+		vector2f flippedPos(pos.x, m_height-pos.y-size.y);
+		m_renderer->SetScissor(true, flippedPos, size);
+	}
+	else
+		m_renderer->SetScissor(false);
+
+}
+
 }
