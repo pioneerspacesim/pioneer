@@ -4,6 +4,7 @@
 #include "RefCounted.h"
 #include "text/TextureFont.h"
 
+#include "EventDispatcher.h"
 #include "Skin.h"
 
 #include "Margin.h"
@@ -18,14 +19,29 @@ namespace Graphics { class Renderer; }
 
 namespace UI {
 
-// The UI context holds resources that are shared by all widgets. Examples of
+// The UI context is the top-level container, and covers the entire screen.
+// Typically you will have one UI context per renderer context. Its slightly
+// different to other containers internally to allow it to be a "live" widget
+// without a parent container of its own.
+//
+// It has the simplest layout manager possible - it will only accept a single
+// container widget and will override its metrics to force it to be the full
+// size of the screen.
+//
+// The context holds resources that are shared by all widgets. Examples of
 // such resources are fonts, default styles, textures and so on. New widgets
 // are created from a context, and can access their context by calling their
 // GetContext() method.
+//
+// It also holds an event dispatcher for distributing events to its widgets.
 
-class Context {
+class Context : public Single {
 public:
-	Context(Graphics::Renderer *renderer);
+	Context(Graphics::Renderer *renderer, int width, int height);
+
+	// event dispatch delegates
+	bool Dispatch(const Event &event) { return m_eventDispatcher.Dispatch(event); }
+	bool DispatchSDLEvent(const SDL_Event &event) { return m_eventDispatcher.DispatchSDLEvent(event); }
 
 	// general purpose containers
 	UI::HBox *HBox(float spacing = 0.0f) { return new UI::HBox(this, spacing); }
@@ -48,7 +64,13 @@ public:
 	RefCountedPtr<Text::TextureFont> GetFont() const { return m_font; }
 
 private:
+	virtual vector2f PreferredSize() { return 0; }
+
 	Graphics::Renderer *m_renderer;
+	float m_width;
+	float m_height;
+
+	EventDispatcher m_eventDispatcher;
 	Skin m_skin;
 	RefCountedPtr<Text::TextureFont> m_font;
 };

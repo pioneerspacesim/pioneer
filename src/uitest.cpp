@@ -1,7 +1,6 @@
 #include <cstdlib>
 #include "SDL.h"
 #include "ui/Context.h"
-#include "ui/Screen.h"
 #include "ui/Background.h"
 #include "ui/Box.h"
 #include "ui/Image.h"
@@ -91,12 +90,11 @@ int main(int argc, char **argv)
 	// but I'm not quite ready to do it yet.
 	glDisable(GL_LIGHTING);
 
-	UI::Context *c = new UI::Context(r);
-	UI::Screen *screen = new UI::Screen(c, WIDTH, HEIGHT);
+	UI::Context *c = new UI::Context(r, WIDTH, HEIGHT);
 
 #if 0
 	UI::Button *button;
-	screen->SetInnerWidget(
+	c->SetInnerWidget(
 		c->VBox()->PackEnd(UI::WidgetSet(
 			c->Margin(10.0f)->SetInnerWidget(
 				(button = c->Button())
@@ -110,7 +108,7 @@ int main(int argc, char **argv)
 		)
 	);
 
-	screen->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), screen));
+	c->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), c));
 	button->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), button));
 	button->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), button));
 	button->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), button));
@@ -118,7 +116,7 @@ int main(int argc, char **argv)
 #endif
 
 	UI::Image *image;
-	screen->SetInnerWidget(
+	c->SetInnerWidget(
 		c->Background(Color(0.4f, 0.2f, 0.4f, 1.0f))->SetInnerWidget(
 			c->Margin(10.0f)->SetInnerWidget(
 				c->Background(Color(0.1f, 0.4f, 0.4f, 1.0f))->SetInnerWidget(
@@ -146,6 +144,8 @@ int main(int argc, char **argv)
 	image->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), image));
 	image->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), image));
 
+	c->Layout();
+
 	while (1) {
 		bool done = false;
 
@@ -154,21 +154,19 @@ int main(int argc, char **argv)
 			if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
 				done = true;
 			else
-				screen->DispatchSDLEvent(event);
+				c->DispatchSDLEvent(event);
 		}
 
 		if (done)
 			break;
 
-		screen->Layout();
-		screen->Update();
+		c->Update();
 
 		r->ClearScreen();
-		screen->Draw();
+		c->Draw();
 		r->SwapBuffers();
 	}
 
-	delete screen;
 	delete c;
 	delete r;
 
