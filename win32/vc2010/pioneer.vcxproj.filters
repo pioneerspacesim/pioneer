@@ -22,6 +22,9 @@
     <Filter Include="src\graphics">
       <UniqueIdentifier>{5e0ff1e9-1c28-4f26-a9ca-abb32b781cf8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\text">
+      <UniqueIdentifier>{4355f088-f937-4b81-ab33-f12c9d91feac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\collider\BVHTree.cpp">
@@ -67,9 +70,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\FaceVideoLink.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Font.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\FontConfig.cpp">
@@ -285,13 +285,7 @@
     <ClCompile Include="..\..\src\SystemView.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\TextureFont.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\utils.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\VectorFont.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\WorldView.cpp">
@@ -597,9 +591,6 @@
     <ClCompile Include="..\..\src\FontCache.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\TextSupport.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\graphics\Drawables.cpp">
       <Filter>src\graphics</Filter>
     </ClCompile>
@@ -678,6 +669,18 @@
     <ClCompile Include="..\..\src\View.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\text\Font.cpp">
+      <Filter>src\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\text\TextSupport.cpp">
+      <Filter>src\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\text\TextureFont.cpp">
+      <Filter>src\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\text\VectorFont.cpp">
+      <Filter>src\text</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -753,9 +756,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\fixed.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Font.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\FontConfig.h">
@@ -989,16 +989,10 @@
     <ClInclude Include="..\..\src\SystemView.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\TextureFont.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\utils.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\vector3.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\VectorFont.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\VideoLink.h">
@@ -1187,9 +1181,6 @@
     <ClInclude Include="..\..\src\FontCache.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\TextSupport.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\ByteRange.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1270,6 +1261,21 @@
     </ClInclude>
     <ClInclude Include="..\..\src\SDLWrappers.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\text\Font.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\text\FontDescriptor.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\text\TextSupport.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\text\TextureFont.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\text\VectorFont.h">
+      <Filter>src\text</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
