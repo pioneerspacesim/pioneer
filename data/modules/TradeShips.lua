@@ -818,7 +818,7 @@ local onGameStart = function ()
 		end
 
 		-- check if any trade ships were waiting on a timer
-		for ship, trader in ipairs(trade_ships) do
+		for ship, trader in pairs(trade_ships) do
 			if trader.delay > Game.time then
 				if trader.status == 'docked' then
 					Timer:CallAt(trader.delay, function () doUndock(ship) end)
