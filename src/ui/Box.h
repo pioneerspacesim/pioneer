@@ -12,7 +12,7 @@ protected:
 		BOX_VERTICAL
 	};
 
-	Box(Context *context, BoxOrientation orient);
+	Box(Context *context, BoxOrientation orient, float spacing) : Container(context), m_orient(orient), m_spacing(spacing), m_countExpanded(0) {}
 
 public:
 	virtual vector2f PreferredSize();
@@ -53,13 +53,13 @@ private:
 class VBox: public Box {
 protected:
 	friend class Context;
-	VBox(Context *context): Box(context, BOX_VERTICAL) {}
+	VBox(Context *context, float spacing): Box(context, BOX_VERTICAL, spacing) {}
 };
 	
 class HBox: public Box {
 protected:
 	friend class Context;
-	HBox(Context *context): Box(context, BOX_HORIZONTAL) {}
+	HBox(Context *context, float spacing): Box(context, BOX_HORIZONTAL, spacing) {}
 };
 
 }

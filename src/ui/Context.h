@@ -28,8 +28,8 @@ public:
 	Context(Graphics::Renderer *renderer);
 
 	// general purpose containers
-	UI::HBox *HBox() { return new UI::HBox(this); }
-	UI::VBox *VBox() { return new UI::VBox(this); }
+	UI::HBox *HBox(float spacing = 0.0f) { return new UI::HBox(this, spacing); }
+	UI::VBox *VBox(float spacing = 0.0f) { return new UI::VBox(this, spacing); }
 
 	// single containers
 	UI::Background *Background(const Color &color) { return new UI::Background(this, color); }

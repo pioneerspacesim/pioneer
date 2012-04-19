@@ -2,12 +2,6 @@
 
 namespace UI {
 
-Box::Box(Context *context, BoxOrientation orient) : Container(context),
-	m_orient(orient),
-	m_countExpanded(0)
-{
-}
-
 static inline void GetComponentsForOrient(bool horiz, vector2f::Component &variableComponent, vector2f::Component &fixedComponent)
 {
 	if (horiz) {
@@ -22,6 +16,8 @@ static inline void GetComponentsForOrient(bool horiz, vector2f::Component &varia
 
 vector2f Box::PreferredSize()
 {
+	if (m_children.size() == 0) return 0;
+
 	vector2f::Component vc, fc;
 	GetComponentsForOrient(m_orient == BOX_HORIZONTAL, vc, fc);
 	
@@ -34,11 +30,16 @@ vector2f Box::PreferredSize()
 		m_preferredSize[fc] = std::max(m_preferredSize[fc], childPreferredSize[fc]);
 	}
 
+	if (m_children.size() > 1)
+		m_preferredSize[vc] += m_spacing * (m_children.size()-1);
+
 	return m_preferredSize;
 }
 
 void Box::Layout()
 {
+	if (m_children.size() == 0) return;
+
 	PreferredSize();
 
 	const vector2f boxSize = GetSize();
@@ -63,15 +64,18 @@ void Box::Layout()
 		(*i).size[vc] = childSize;
 		(*i).size[fc] = boxSize[fc];
 
-		sizeRemaining -= childSize;
+		sizeRemaining -= childSize - m_spacing;
 
 		if (m_countExpanded == 0) {
 			SetWidgetDimensions((*i).widget, childPos, (*i).size);
-			childPos[vc] += childSize;
+			childPos[vc] += childSize + m_spacing;
 		}
 	}
 
 	if (m_countExpanded > 0) {
+		if (m_children.size() > 1)
+			sizeRemaining -= m_spacing * (m_children.size()-1);
+
 		int candidates = m_countExpanded;
 
 		while (candidates > 0 && sizeRemaining > 0) {
@@ -100,7 +104,7 @@ void Box::Layout()
 
 			SetWidgetDimensions((*i).widget, pos, (*i).size);
 
-			childPos[vc] = pos[vc] + (*i).size[vc] + (*i).padding;
+			childPos[vc] = pos[vc] + (*i).size[vc] + (*i).padding + m_spacing;
 		}
 	}
 

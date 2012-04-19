@@ -132,11 +132,11 @@ int main(int argc, char **argv)
 						c->Background(Color(0.0f, 1.0f, 0.0f, 1.0f)),
 						c->Background(Color(0.0f, 0.0f, 1.0f, 1.0f)),
 						c->Image("icons/cpanel.png"),
-						c->HBox()->PackEnd(UI::WidgetSet(
+						c->HBox(5.0f)->PackEnd(UI::WidgetSet(
 							c->Button()->SetInnerWidget(c->Label("Load game")),
 							c->Button()->SetInnerWidget(c->Label("Save game")),
 							c->Button()->SetInnerWidget(c->Label("Win game"))
-						), UI::Box::ChildAttrs(true, true))
+						), UI::Box::ChildAttrs(false, true))
 					))
 				)
 			)
