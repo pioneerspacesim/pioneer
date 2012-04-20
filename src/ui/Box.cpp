@@ -47,7 +47,7 @@ void Box::Layout()
 	vector2f::Component vc, fc;
 	GetComponentsForOrient(m_orient == BOX_HORIZONTAL, vc, fc);
 
-	float sizeRemaining = boxSize[vc];
+	float sizeRemaining = boxSize[vc] - (m_spacing * (m_children.size()-1));
 
 	vector2f childPos(0);
 
@@ -64,7 +64,7 @@ void Box::Layout()
 		(*i).size[vc] = childSize;
 		(*i).size[fc] = boxSize[fc];
 
-		sizeRemaining -= childSize - m_spacing;
+		sizeRemaining -= childSize;
 
 		if (m_countExpanded == 0) {
 			SetWidgetDimensions((*i).widget, childPos, (*i).size);
@@ -73,9 +73,6 @@ void Box::Layout()
 	}
 
 	if (m_countExpanded > 0) {
-		if (m_children.size() > 1)
-			sizeRemaining -= m_spacing * (m_children.size()-1);
-
 		int candidates = m_countExpanded;
 
 		while (candidates > 0 && sizeRemaining > 0) {
