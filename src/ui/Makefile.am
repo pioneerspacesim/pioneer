@@ -21,6 +21,7 @@ noinst_HEADERS = \
 	MultiLineText.h \
 	Single.h \
 	Skin.h \
+	Slider.h \
 	TextLayout.h \
 	Widget.h
 
@@ -37,5 +38,6 @@ libui_a_SOURCES = \
 	MultiLineText.cpp \
 	Single.cpp \
 	Skin.cpp \
+	Slider.cpp \
 	TextLayout.cpp \
 	Widget.cpp

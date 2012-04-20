@@ -7,6 +7,7 @@
 #include "ui/Label.h"
 #include "ui/MultiLineText.h"
 #include "ui/Margin.h"
+#include "ui/Slider.h"
 #include "FileSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
@@ -116,6 +117,7 @@ int main(int argc, char **argv)
 #endif
 
 	UI::Image *image;
+	UI::Slider *slider;
 	c->SetInnerWidget(
 		c->Background(Color(0.4f, 0.2f, 0.4f, 1.0f))->SetInnerWidget(
 			c->Margin(10.0f)->SetInnerWidget(
@@ -134,7 +136,9 @@ int main(int argc, char **argv)
 							c->Button()->SetInnerWidget(c->Label("Load game")),
 							c->Button()->SetInnerWidget(c->Label("Save game")),
 							c->Button()->SetInnerWidget(c->Label("Win game"))
-						), UI::Box::ChildAttrs(false, true))
+						), UI::Box::ChildAttrs(false, true))->PackEnd(
+							(slider = c->HSlider()), UI::Box::ChildAttrs(true, true)
+						)
 					))
 				)
 			)
@@ -143,6 +147,18 @@ int main(int argc, char **argv)
 
 	image->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), image));
 	image->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), image));
+
+#if 0
+	c->SetInnerWidget(
+		c->HBox(5.0f)->PackEnd(UI::WidgetSet(
+			c->Button()->SetInnerWidget(c->Label("Load game")),
+			c->Button()->SetInnerWidget(c->Label("Save game")),
+			c->Button()->SetInnerWidget(c->Label("Win game"))
+		), UI::Box::ChildAttrs(false, true))->PackEnd(
+			c->HSlider(), UI::Box::ChildAttrs(true, true)
+		)
+	);
+#endif
 
 	c->Layout();
 
@@ -165,6 +181,8 @@ int main(int argc, char **argv)
 		r->ClearScreen();
 		c->Draw();
 		r->SwapBuffers();
+
+		slider->SetValue(slider->GetValue() + 0.01);
 	}
 
 	delete c;

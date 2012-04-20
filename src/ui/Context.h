@@ -14,6 +14,7 @@
 #include "Label.h"
 #include "MultiLineText.h"
 #include "Button.h"
+#include "Slider.h"
 
 namespace Graphics { class Renderer; }
 
@@ -58,6 +59,8 @@ public:
 	UI::MultiLineText *MultiLineText(const std::string &text) { return new UI::MultiLineText(this, text); }
 
 	UI::Button *Button() { return new UI::Button(this); }
+	UI::HSlider *HSlider() { return new UI::HSlider(this); }
+	UI::VSlider *VSlider() { return new UI::VSlider(this); }
 
 	Graphics::Renderer *GetRenderer() const { return m_renderer; }
 	const Skin &GetSkin() const { return m_skin; }

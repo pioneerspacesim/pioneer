@@ -19,6 +19,12 @@ public:
 		DrawBorderedRectElement(s_buttonActive, pos, size);
 	}
 
+#if 0
+	void DrawHSlider(const vector2f &pos, const vector2f &size) const {
+		DrawBorderedRectElement(s_hSlider, pos, size);
+	}
+#endif
+
 	struct RectElement {
 		RectElement(float x, float y, float w, float h) : pos(x,y), size(w,h) {}
 		const vector2f pos;
