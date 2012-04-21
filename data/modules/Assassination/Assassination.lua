@@ -395,6 +395,10 @@ local onGameStart = function ()
 	loaded_data = nil
 end
 
+local onGameEnd = function ()
+	nearbysystems = nil
+end
+
 local serialize = function ()
 	return { ads = ads, missions = missions }
 end
@@ -421,5 +425,7 @@ EventQueue.onAICompleted:Connect(onAICompleted)
 EventQueue.onShipDocked:Connect(onShipDocked)
 EventQueue.onShipHit:Connect(onShipHit)
 EventQueue.onUpdateBB:Connect(onUpdateBB)
+EventQueue.onGameEnd:Connect(onGameEnd)
+
 
 Serializer:Register("Assassination", serialize, unserialize)
