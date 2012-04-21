@@ -323,6 +323,10 @@ local onGameStart = function ()
 	loaded_data = nil
 end
 
+local onGameEnd = function ()
+	nearbysystems = nil
+end
+
 local serialize = function ()
 	return { ads = ads, missions = missions, passengers = passengers }
 end
@@ -338,5 +342,6 @@ EventQueue.onLeaveSystem:Connect(onLeaveSystem)
 EventQueue.onShipUndocked:Connect(onShipUndocked)
 EventQueue.onShipDocked:Connect(onShipDocked)
 EventQueue.onGameStart:Connect(onGameStart)
+EventQueue.onGameEnd:Connect(onGameEnd)
 
 Serializer:Register("Taxi", serialize, unserialize)
