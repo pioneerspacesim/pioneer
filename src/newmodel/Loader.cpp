@@ -136,6 +136,8 @@ private:
 						return checkTexture(ss, m_curMat->tex_diff);
 					else if (match(token, "tex_spec"))
 						return checkTexture(ss, m_curMat->tex_spec);
+					else if (match(token, "tex_glow"))
+						return checkTexture(ss, m_curMat->tex_glow);
 					else if (match(token, "diffuse"))
 						return checkColor(ss, m_curMat->diffuse);
 					else if (match(token, "specular"))
@@ -223,16 +225,16 @@ NModel *Loader::CreateModel(const ModelDefinition &def)
 		it != def.matDefs.end(); ++it)
 	{
 		assert(!(*it).name.empty());
-		//XXX fix pathnames beforehand
 		const std::string &diffTex = (*it).tex_diff;
 		const std::string &specTex = (*it).tex_spec;
+		const std::string &glowTex = (*it).tex_glow;
 		RefCountedPtr<Material> mat(m_renderer->CreateMaterial());
 		mat->diffuse = (*it).diffuse;
 		mat->specular = (*it).specular;
 		mat->emissive = (*it).emissive;
 		mat->shininess = (*it).shininess;
 
-		//XXX sort of a workaround when all textures are not specified
+		//XXX white texture is sort of a workaround when all textures are not specified
 		if (!diffTex.empty())
 			mat->texture0 = Graphics::TextureBuilder::Model(diffTex).GetOrCreateTexture(m_renderer, "model");
 		else
@@ -241,6 +243,10 @@ NModel *Loader::CreateModel(const ModelDefinition &def)
 			mat->texture1 = Graphics::TextureBuilder::Model(specTex).GetOrCreateTexture(m_renderer, "model");
 		else
 			mat->texture1 = GetWhiteTexture();
+		if (!glowTex.empty())
+			mat->texture2 = Graphics::TextureBuilder::Model(glowTex).GetOrCreateTexture(m_renderer, "model");
+		else
+			mat->texture2 = GetWhiteTexture();
 		model->m_materials.push_back(std::make_pair<std::string, RefCountedPtr<Material> >((*it).name, mat));
 	}
 	//printf("Loaded %d materials\n", int(model->m_materials.size()));
