@@ -17,13 +17,14 @@ protected:
 	virtual void Draw(Renderer *r) = 0;
 };
 
-class Circle {
+class Circle : public Drawable {
 public:
 	Circle(float radius, const Color &c) : m_color(c) {
-		for (float theta=0; theta < 2*M_PI; theta += 0.05*M_PI) {
+		for (float theta=0; theta < 2*float(M_PI); theta += 0.05f*float(M_PI)) {
 			m_verts.push_back(vector3f(radius*sin(theta), radius*cos(theta), 0));
 		}
 	}
+	virtual ~Circle() {}
 	virtual void Draw(Renderer *renderer) {
 		renderer->DrawLines(m_verts.size(), &m_verts[0], m_color, LINE_LOOP);
 	}
@@ -37,6 +38,7 @@ private:
 class Line3D : public Drawable {
 public:
 	Line3D();
+	virtual ~Line3D() {}
 	void SetStart(const vector3f &);
 	void SetEnd(const vector3f &);
 	void SetColor(const Color &);
@@ -53,9 +55,10 @@ class Sphere3D : public Drawable {
 public:
 	//subdivisions must be 0-4
 	Sphere3D(RefCountedPtr<Material> material, int subdivisions=0, float scale=1.f);
+	virtual ~Sphere3D() {}
 	virtual void Draw(Renderer *r);
 
-	RefCountedPtr<Material> GetMaterial() { return m_surface->GetMaterial(); }
+	RefCountedPtr<Material> GetMaterial() const { return m_surface->GetMaterial(); }
 
 private:
 	ScopedPtr<Surface> m_surface;

@@ -190,7 +190,7 @@ static int l_equiptype_get_equip_types(lua_State *l)
 				lua_pushstring(l, name);
 				LuaEquipType::PushToLua(et);
 				if (int ret = lua_pcall(l, 2, 1, 0)) {
-					const char *errmsg;
+					const char *errmsg( "Unknown error" );
 					if (ret == LUA_ERRRUN)
 						errmsg = lua_tostring(l, -1);
 					else if (ret == LUA_ERRMEM)

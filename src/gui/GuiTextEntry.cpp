@@ -1,7 +1,7 @@
 #include "libs.h"
 #include "Gui.h"
-#include "TextureFont.h"
-#include "TextSupport.h"
+#include "text/TextureFont.h"
+#include "text/TextSupport.h"
 
 namespace Gui {
 
@@ -112,7 +112,7 @@ bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 		if (unicode == '\n')
 			++m_newlineCount;
 		char buf[4];
-		int len = conv_wc_to_mb(unicode, buf);
+		int len = Text::utf8_encode_char(unicode, buf);
 		m_text.insert(m_cursPos, buf, len);
 		SetCursorPos(m_cursPos+len);
 		changed = true;
@@ -130,7 +130,7 @@ bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 
 void TextEntry::GetSizeRequested(float size[2])
 {
-	// XXX this 1.5f should be PARAGRAPH_SPACING (currently #define'd in TextureFont.h)
+	// XXX this 1.5f should be PARAGRAPH_SPACING (currently #define'd in Text::TextureFont.h)
 	size[1] = (m_newlineCount*1.5f+1.0f)*Gui::Screen::GetFontHeight(m_font.Get()) + 2.0f;
 }
 

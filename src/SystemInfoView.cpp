@@ -67,7 +67,7 @@ void SystemInfoView::OnBodyViewed(SBody *b)
 
 	if (b->type != SBody::TYPE_STARPORT_ORBITAL) {
 		_add_label_and_value(Lang::SURFACE_TEMPERATURE, stringf(Lang::N_CELSIUS, formatarg("temperature", b->averageTemp-273)));
-		_add_label_and_value(Lang::SURFACE_GRAVITY, stringf("%0{f.3} m/s^2", G * b->GetMass()/pow(b->GetRadius(), 2)));
+		_add_label_and_value(Lang::SURFACE_GRAVITY, stringf("%0{f.3} m/s^2", b->CalcSurfaceGravity()));
 	}
 
 	if (b->parent) {
@@ -300,7 +300,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
 		Gui::VScrollPortal *portal = new Gui::VScrollPortal(730);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
-		
+
 		Gui::Label *l = (new Gui::Label(_info))->Color(1.0f,1.0f,0.0f);
 		m_infoBox->PackStart(l);
 		portal->Add(m_infoBox);
@@ -348,20 +348,20 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		demographicsTab->Add(col1, 200, 350);
 		Gui::Fixed *col2 = new Gui::Fixed();
 		demographicsTab->Add(col2, 400, 350);
-	
+
 		const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
 
 		col1->Add((new Gui::Label(Lang::SYSTEM_TYPE))->Color(1,1,0), 0, 0);
 		col2->Add(new Gui::Label(m_system->GetShortDescription()), 0, 0);
 		
 		col1->Add((new Gui::Label(Lang::GOVERNMENT_TYPE))->Color(1,1,0), 0, YSEP);
-		col2->Add(new Gui::Label(Polit::GetGovernmentDesc(m_system.Get())), 0, YSEP);
+		col2->Add(new Gui::Label(m_system->GetSysPolit().GetGovernmentDesc()), 0, YSEP);
 		
 		col1->Add((new Gui::Label(Lang::ECONOMY_TYPE))->Color(1,1,0), 0, 2*YSEP);
-		col2->Add(new Gui::Label(Polit::GetEconomicDesc(m_system.Get())), 0, 2*YSEP);
+		col2->Add(new Gui::Label(m_system->GetSysPolit().GetEconomicDesc()), 0, 2*YSEP);
 		
 		col1->Add((new Gui::Label(Lang::ALLEGIANCE))->Color(1,1,0), 0, 3*YSEP);
-		col2->Add(new Gui::Label(Polit::GetAllegianceDesc(m_system.Get())), 0, 3*YSEP);
+		col2->Add(new Gui::Label(m_system->GetSysPolit().GetAllegianceDesc()), 0, 3*YSEP);
 		
 		col1->Add((new Gui::Label(Lang::POPULATION))->Color(1,1,0), 0, 4*YSEP);
 		std::string popmsg;

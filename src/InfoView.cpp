@@ -170,9 +170,8 @@ private:
 		if (is_equal_exact(currentFuel, 1.0f)) return;
 
 		Pi::player->m_equipment.Remove(Equip::WATER, 1);
-		Pi::player->UpdateMass();
-
 		Pi::player->SetFuel(currentFuel + 1.0f/Pi::player->GetShipType().fuelTankMass);
+		Pi::player->UpdateStats();
 
 		m_infoView->UpdateInfo();
 	}
@@ -252,13 +251,12 @@ public:
 		Equip::Type e = Pi::player->m_equipment.Get(Equip::SLOT_ENGINE);
 		col2 += std::string(Equip::types[e].name);
 
-		const shipstats_t *stats;
-		stats = Pi::player->CalcStats();
+		const shipstats_t &stats = Pi::player->GetStats();
 		snprintf(buf, sizeof(buf), "\n\n%dt\n"
 					       "%dt\n"
 					       "%dt\n"
-					       "%dt", stats->max_capacity,
-				stats->free_capacity, stats->used_capacity, stats->total_mass);
+					       "%dt", stats.max_capacity,
+				stats.free_capacity, stats.used_capacity, stats.total_mass);
 		col2 += std::string(buf);
 
 		int numLasers = Pi::player->m_equipment.GetSlotSize(Equip::SLOT_LASER);
@@ -279,8 +277,8 @@ public:
 
 		col2 += "\n\n";
 		col2 += stringf(Lang::N_LIGHT_YEARS_N_MAX,
-			formatarg("distance", stats->hyperspace_range),
-			formatarg("maxdistance", stats->hyperspace_range_max));
+			formatarg("distance", stats.hyperspace_range),
+			formatarg("maxdistance", stats.hyperspace_range_max));
 
 		for (int i=Equip::FIRST_SHIPEQUIP; i<=Equip::LAST_SHIPEQUIP; i++) {
 			Equip::Type t = Equip::Type(i) ;

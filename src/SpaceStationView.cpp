@@ -10,7 +10,7 @@
 SpaceStationView::SpaceStationView(): View()
 {
 	Gui::Label *l = new Gui::Label(Lang::COMMS_LINK);
-	l->Color(1,.7,0);
+	l->Color(1,.7f,0);
 	m_rightRegion2->Add(l, 10, 0);
 
 	SetTransparency(false);
@@ -88,14 +88,14 @@ void SpaceStationView::Update()
 	char buf[64];
 	m_money->SetText(format_money(Pi::player->GetMoney()));
 
-	const shipstats_t *stats = Pi::player->CalcStats();
-	snprintf(buf, sizeof(buf), "%dt", stats->used_capacity - stats->used_cargo);
+	const shipstats_t &stats = Pi::player->GetStats();
+	snprintf(buf, sizeof(buf), "%dt", stats.used_capacity - stats.used_cargo);
 	m_equipmentMass->SetText(buf);
 	
-	snprintf(buf, sizeof(buf), "%dt", stats->used_cargo);
+	snprintf(buf, sizeof(buf), "%dt", stats.used_cargo);
 	m_cargoSpaceUsed->SetText(buf);
 		
-	snprintf(buf, sizeof(buf), "%dt", stats->free_capacity);
+	snprintf(buf, sizeof(buf), "%dt", stats.free_capacity);
 	m_cargoSpaceFree->SetText(buf);
 
 	snprintf(buf, sizeof(buf), "%d", Pi::player->m_equipment.Count(Equip::SLOT_CABIN, Equip::PASSENGER_CABIN));

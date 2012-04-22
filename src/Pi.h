@@ -3,7 +3,6 @@
 
 #include "utils.h"
 #include "gui/Gui.h"
-#include "View.h"
 #include "mtrand.h"
 #include "gameconsts.h"
 #include "GameConfig.h"
@@ -17,6 +16,7 @@
 #include <vector>
 
 class Player;
+class View;
 class SectorView;
 class SystemView;
 class WorldView;

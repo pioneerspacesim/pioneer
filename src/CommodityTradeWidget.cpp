@@ -129,7 +129,7 @@ void CommodityTradeWidget::ShowAll()
 	portal->ShowAll();
 
 	Gui::Fixed *heading = new Gui::Fixed(470, Gui::Screen::GetFontHeight());
-	const float *col = Gui::Theme::Colors::tableHeading;
+	const Color &col = Gui::Theme::Colors::tableHeading;
 	heading->Add((new Gui::Label(Lang::ITEM))->Color(col), 0, 0);
 	heading->Add((new Gui::Label(Lang::PRICE))->Color(col), 200, 0);
 	heading->Add((new Gui::Label(Lang::BUY))->Color(col), 380, 0);

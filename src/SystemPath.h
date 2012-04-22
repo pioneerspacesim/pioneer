@@ -6,12 +6,12 @@
 class SystemPath {
 public:
 	SystemPath() :
-		sectorX(0), sectorY(0), sectorZ(0), systemIndex(-1), bodyIndex(-1) {}
+		sectorX(0), sectorY(0), sectorZ(0), systemIndex(Uint32(-1)), bodyIndex(Uint32(-1)) {}
 
 	SystemPath(Sint32 x, Sint32 y, Sint32 z) :
-		sectorX(x), sectorY(y), sectorZ(z), systemIndex(-1), bodyIndex(-1) {}
+		sectorX(x), sectorY(y), sectorZ(z), systemIndex(Uint32(-1)), bodyIndex(Uint32(-1)) {}
 	SystemPath(Sint32 x, Sint32 y, Sint32 z, Uint32 si) : 
-		sectorX(x), sectorY(y), sectorZ(z), systemIndex(si), bodyIndex(-1) {}
+		sectorX(x), sectorY(y), sectorZ(z), systemIndex(si), bodyIndex(Uint32(-1)) {}
 	SystemPath(Sint32 x, Sint32 y, Sint32 z, Uint32 si, Uint32 bi) : 
 		sectorX(x), sectorY(y), sectorZ(z), systemIndex(si), bodyIndex(bi) {}
 	

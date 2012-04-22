@@ -5,7 +5,7 @@
 static const char *ftype_name(const FileSystem::FileInfo &info) {
 	if (info.IsDir()) { return "directory"; }
 	else if (info.IsFile()) { return "file"; }
-	else if (info.Exists()) { return "special"; }
+	else if (info.IsSpecial()) { return "special"; }
 	else { return "non-existent"; }
 }
 
@@ -49,7 +49,7 @@ void test_filesystem()
 	printf("user dir is '%s'\n", FileSystem::GetUserDir().c_str());
 
 	FileSourceFS fsAppData(FileSystem::GetDataDir());
-	FileSourceFS fsUserData(FileSystem::GetUserDir() + "/data");
+	FileSourceFS fsUserData(FileSystem::JoinPath(FileSystem::GetUserDir(), "/data"));
 
 	printf("data root is '%s'\n", fsAppData.GetRoot().c_str());
 	printf("user root is '%s'\n", fsUserData.GetRoot().c_str());
@@ -61,11 +61,15 @@ void test_filesystem()
 	FileInfo info = fsAppData.Lookup("models");
 	printf("models is: '%s' (%s)\n", info.GetPath().c_str(), ftype_name(info));
 
-#if 0
-	printf("enumerating models:\n");
-	for (FileEnumerator files(fs, "models", FileEnumerator::Recurse | FileEnumerator::IncludeDirectories); !files.Finished(); files.Next()) {
-		const FileInfo &info = files.Current();
-		printf("  %s (%s)\n", info.GetPath().c_str(), ftype_name(info));
+#if 1
+	printf("enumerating models and sub-models:\n");
+	FileEnumerator files(fs, FileEnumerator::Recurse);
+	files.AddSearchRoot("models");
+	files.AddSearchRoot("sub_models");
+	while (!files.Finished()) {
+		const FileInfo &fi = files.Current();
+		printf("  %s (%s)\n", fi.GetPath().c_str(), ftype_name(fi));
+		files.Next();
 	}
 #endif
 }

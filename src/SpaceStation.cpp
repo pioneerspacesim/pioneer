@@ -495,7 +495,7 @@ void SpaceStation::DoLawAndOrder()
 			ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
 			ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
 			ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
-			ship->UpdateMass();
+			ship->UpdateStats();
 		}
 	}
 }
@@ -557,7 +557,7 @@ void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 	}
 }
 
-int SpaceStation::GetFreeDockingPort()
+int SpaceStation::GetFreeDockingPort() const
 {
 	for (int i=0; i<m_type->numDockingPorts; i++) {
 		if (m_shipDocking[i].ship == 0) {
@@ -834,10 +834,7 @@ void SpaceStation::CreateBB()
 		if (Equip::types[i].slot == Equip::SLOT_CARGO) {
 			m_equipmentStock[i] = Pi::rng.Int32(0,100) * Pi::rng.Int32(1,100);
 		} else {
-			if (Equip::types[i].techLevel <= Pi::game->GetSpace()->GetStarSystem()->m_techlevel)
-				m_equipmentStock[i] = Pi::rng.Int32(0,100);
-			else
-				m_equipmentStock[i] = 0;
+			m_equipmentStock[i] = Pi::rng.Int32(0,100);
 		}
 	}
 

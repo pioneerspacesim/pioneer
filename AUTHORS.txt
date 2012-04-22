@@ -1,8 +1,8 @@
-The Pioneer team are (9 March 2012, alpha 20):
+The Pioneer team are (13 April 2012, alpha 21):
 
 Project leads: Tom Morton, John Jordan
 
-Maintainer: Robert Norris
+Coordinator: Robert Norris
 
 Testing and bug triage: Brian Ronald
 
@@ -24,6 +24,8 @@ Programming:
   Craig Thomson
   Ae
   Benamucki
+  Sukender (Benoit Neil)
+  Chris Dennett
 
 Art:
   Gernot
@@ -53,6 +55,7 @@ Translations:
   Paul Mahol
   Thierry Dupré
   Asier Basagoiti
+  Sukender (Benoit Neil)
 
 Thanks to those that have moved on (we hope to see you back!)
 

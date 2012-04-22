@@ -27,83 +27,83 @@ static const fixed AU_EARTH_RADIUS = fixed(3, 65536);
 // indexed by enum type turd  
 float StarSystem::starColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
-	{ 0.5, 0.0, 0.0 }, // brown dwarf
-	{ 0.4, 0.4, 0.8 }, // white dwarf
-	{ 1.0, 0.2, 0.0 }, // M
-	{ 1.0, 0.6, 0.1 }, // K
-	{ 1.0, 1.0, 0.4 }, // G
-	{ 1.0, 1.0, 0.8 }, // F
-	{ 1.0, 1.0, 1.0 }, // A
-	{ 0.7, 0.7, 1.0 }, // B
-	{ 1.0, 0.7, 1.0 }, // O
-	{ 1.0, 0.2, 0.0 }, // M Giant
-	{ 1.0, 0.6, 0.1 }, // K Giant
-	{ 1.0, 1.0, 0.4 }, // G Giant
-	{ 1.0, 1.0, 0.8 }, // F Giant
-	{ 1.0, 1.0, 1.0 }, // A Giant
-	{ 0.7, 0.7, 1.0 }, // B Giant
-	{ 1.0, 0.7, 1.0 }, // O Giant
-	{ 1.0, 0.2, 0.0 }, // M Super Giant
-	{ 1.0, 0.6, 0.1 }, // K Super Giant
-	{ 1.0, 1.0, 0.4 }, // G Super Giant
-	{ 1.0, 1.0, 0.8 }, // F Super Giant
-	{ 1.0, 1.0, 1.0 }, // A Super Giant
-	{ 0.7, 0.7, 1.0 }, // B Super Giant
-	{ 1.0, 0.7, 1.0 }, // O Super Giant
-	{ 1.0, 0.2, 0.0 }, // M Hyper Giant
-	{ 1.0, 0.6, 0.1 }, // K Hyper Giant
-	{ 1.0, 1.0, 0.4 }, // G Hyper Giant
-	{ 1.0, 1.0, 0.8 }, // F Hyper Giant
-	{ 1.0, 1.0, 1.0 }, // A Hyper Giant
-	{ 0.7, 0.7, 1.0 }, // B Hyper Giant
-	{ 1.0, 0.7, 1.0 }, // O Hyper Giant
-	{ 1.0, 0.2, 0.0 }, // Red/M Wolf Rayet Star
-	{ 0.7, 0.7, 1.0 }, // Blue/B Wolf Rayet Star
-	{ 1.0, 0.7, 1.0 }, // Purple-Blue/O Wolf Rayet Star
-	{ 0.3, 0.7, 0.3 }, // Stellar Blackhole
-	{ 0.2, 0.9, 0.2 }, // Intermediate mass Black-hole
-	{ 0.0, 1.0, 0.0 }, // Super massive black hole
+	{ 0.5f, 0.0f, 0.0f }, // brown dwarf
+	{ 0.4f, 0.4f, 0.8f }, // white dwarf
+	{ 1.0f, 0.2f, 0.0f }, // M
+	{ 1.0f, 0.6f, 0.1f }, // K
+	{ 1.0f, 1.0f, 0.4f }, // G
+	{ 1.0f, 1.0f, 0.8f }, // F
+	{ 1.0f, 1.0f, 1.0f }, // A
+	{ 0.7f, 0.7f, 1.0f }, // B
+	{ 1.0f, 0.7f, 1.0f }, // O
+	{ 1.0f, 0.2f, 0.0f }, // M Giant
+	{ 1.0f, 0.6f, 0.1f }, // K Giant
+	{ 1.0f, 1.0f, 0.4f }, // G Giant
+	{ 1.0f, 1.0f, 0.8f }, // F Giant
+	{ 1.0f, 1.0f, 1.0f }, // A Giant
+	{ 0.7f, 0.7f, 1.0f }, // B Giant
+	{ 1.0f, 0.7f, 1.0f }, // O Giant
+	{ 1.0f, 0.2f, 0.0f }, // M Super Giant
+	{ 1.0f, 0.6f, 0.1f }, // K Super Giant
+	{ 1.0f, 1.0f, 0.4f }, // G Super Giant
+	{ 1.0f, 1.0f, 0.8f }, // F Super Giant
+	{ 1.0f, 1.0f, 1.0f }, // A Super Giant
+	{ 0.7f, 0.7f, 1.0f }, // B Super Giant
+	{ 1.0f, 0.7f, 1.0f }, // O Super Giant
+	{ 1.0f, 0.2f, 0.0f }, // M Hyper Giant
+	{ 1.0f, 0.6f, 0.1f }, // K Hyper Giant
+	{ 1.0f, 1.0f, 0.4f }, // G Hyper Giant
+	{ 1.0f, 1.0f, 0.8f }, // F Hyper Giant
+	{ 1.0f, 1.0f, 1.0f }, // A Hyper Giant
+	{ 0.7f, 0.7f, 1.0f }, // B Hyper Giant
+	{ 1.0f, 0.7f, 1.0f }, // O Hyper Giant
+	{ 1.0f, 0.2f, 0.0f }, // Red/M Wolf Rayet Star
+	{ 0.7f, 0.7f, 1.0f }, // Blue/B Wolf Rayet Star
+	{ 1.0f, 0.7f, 1.0f }, // Purple-Blue/O Wolf Rayet Star
+	{ 0.3f, 0.7f, 0.3f }, // Stellar Blackhole
+	{ 0.2f, 0.9f, 0.2f }, // Intermediate mass Black-hole
+	{ 0.0f, 1.0f, 0.0f }, // Super massive black hole
 };
 
 // indexed by enum type turd  
 float StarSystem::starRealColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
-	{ 0.5, 0.0, 0.0 }, // brown dwarf
-	{ 1.0, 1.0, 1.0 }, // white dwarf
-	{ 1.0, 0.5, 0.2 }, // M
-	{ 1.0, 1.0, 0.4 }, // K
-	{ 1.0, 1.0, 0.95 }, // G
-	{ 1.0, 1.0, 1.0 }, // F
-	{ 1.0, 1.0, 1.0 }, // A
-	{ 0.8, 0.8, 1.0 }, // B
-	{ 1.0, 0.8, 1.0 },  // O
-	{ 1.0, 0.5, 0.2 }, // M Giant
-	{ 1.0, 1.0, 0.4 }, // K Giant
-	{ 1.0, 1.0, 0.95 }, // G Giant
-	{ 1.0, 1.0, 1.0 }, // F Giant
-	{ 1.0, 1.0, 1.0 }, // A Giant
-	{ 0.8, 0.8, 1.0 }, // B Giant
-	{ 1.0, 0.8, 1.0 },  // O Giant
-	{ 1.0, 0.5, 0.2 }, // M Super Giant
-	{ 1.0, 1.0, 0.4 }, // K Super Giant
-	{ 1.0, 1.0, 0.95 }, // G Super Giant
-	{ 1.0, 1.0, 1.0 }, // F Super Giant
-	{ 1.0, 1.0, 1.0 }, // A Super Giant
-	{ 0.8, 0.8, 1.0 }, // B Super Giant
-	{ 1.0, 0.8, 1.0 },  // O Super Giant
-	{ 1.0, 0.5, 0.2 }, // M Hyper Giant
-	{ 1.0, 1.0, 0.4 }, // K Hyper Giant
-	{ 1.0, 1.0, 0.95 }, // G Hyper Giant
-	{ 1.0, 1.0, 1.0 }, // F Hyper Giant
-	{ 1.0, 1.0, 1.0 }, // A Hyper Giant
-	{ 0.8, 0.8, 1.0 }, // B Hyper Giant
-	{ 1.0, 0.8, 1.0 },  // O Hyper Giant
-	{ 1.0, 0.6, 0.6 }, // M WF
-	{ 0.8, 0.8, 1.0 }, // B WF
-	{ 1.0, 0.8, 1.0 },  // O WF
-	{ 1.0, 1.0, 1.0 },  // small Black hole
-	{ 0.06, 0.0, 0.08 }, // med BH
-	{ 0.04, 0.0, 0.06 }, // massive BH
+	{ 0.5f, 0.0f, 0.0f }, // brown dwarf
+	{ 1.0f, 1.0f, 1.0f }, // white dwarf
+	{ 1.0f, 0.5f, 0.2f }, // M
+	{ 1.0f, 1.0f, 0.4f }, // K
+	{ 1.0f, 1.0f, 0.95f }, // G
+	{ 1.0f, 1.0f, 1.0f }, // F
+	{ 1.0f, 1.0f, 1.0f }, // A
+	{ 0.8f, 0.8f, 1.0f }, // B
+	{ 1.0f, 0.8f, 1.0f },  // O
+	{ 1.0f, 0.5f, 0.2f }, // M Giant
+	{ 1.0f, 1.0f, 0.4f }, // K Giant
+	{ 1.0f, 1.0f, 0.95f }, // G Giant
+	{ 1.0f, 1.0f, 1.0f }, // F Giant
+	{ 1.0f, 1.0f, 1.0f }, // A Giant
+	{ 0.8f, 0.8f, 1.0f }, // B Giant
+	{ 1.0f, 0.8f, 1.0f },  // O Giant
+	{ 1.0f, 0.5f, 0.2f }, // M Super Giant
+	{ 1.0f, 1.0f, 0.4f }, // K Super Giant
+	{ 1.0f, 1.0f, 0.95f }, // G Super Giant
+	{ 1.0f, 1.0f, 1.0f }, // F Super Giant
+	{ 1.0f, 1.0f, 1.0f }, // A Super Giant
+	{ 0.8f, 0.8f, 1.0f }, // B Super Giant
+	{ 1.0f, 0.8f, 1.0f },  // O Super Giant
+	{ 1.0f, 0.5f, 0.2f }, // M Hyper Giant
+	{ 1.0f, 1.0f, 0.4f }, // K Hyper Giant
+	{ 1.0f, 1.0f, 0.95f }, // G Hyper Giant
+	{ 1.0f, 1.0f, 1.0f }, // F Hyper Giant
+	{ 1.0f, 1.0f, 1.0f }, // A Hyper Giant
+	{ 0.8f, 0.8f, 1.0f }, // B Hyper Giant
+	{ 1.0f, 0.8f, 1.0f },  // O Hyper Giant
+	{ 1.0f, 0.6f, 0.6f }, // M WF
+	{ 0.8f, 0.8f, 1.0f }, // B WF
+	{ 1.0f, 0.8f, 1.0f },  // O WF
+	{ 1.0f, 1.0f, 1.0f },  // small Black hole
+	{ 0.06f, 0.0f, 0.08f }, // med BH
+	{ 0.04f, 0.0f, 0.06f }, // massive BH
 };
 
 double StarSystem::starLuminosities[] = {
@@ -148,42 +148,42 @@ double StarSystem::starLuminosities[] = {
 
 float StarSystem::starScale[] = {  // Used in sector view
 	0,
-	0.6, // brown dwarf
-	0.5, // white dwarf
-	0.7, // M
-	0.8, // K
-	0.8, // G
-	0.9, // F
-	1.0, // A
-	1.1, // B
-	1.1, // O
-	1.3, // M Giant
-	1.2, // K G
-	1.2, // G G
-	1.2, // F G
-	1.1, // A G
-	1.1, // B G 
-	1.2, // O G
-	1.8, // M Super Giant
-	1.6, // K SG
-	1.5, // G SG
-	1.5, // F SG
-	1.4, // A SG
-	1.3, // B SG
-	1.3, // O SG
-	2.5, // M Hyper Giant
-	2.2, // K HG
-	2.2, // G HG
-	2.1, // F HG
-	2.1, // A HG
-	2.0, // B HG
-	1.9, // O HG
-	1.1, // M WF
-	1.3, // B WF
-	1.6, // O WF
-	1.0, // Black hole
-	2.5, // Intermediate-mass blackhole
-	4.0  // Supermassive blackhole
+	0.6f, // brown dwarf
+	0.5f, // white dwarf
+	0.7f, // M
+	0.8f, // K
+	0.8f, // G
+	0.9f, // F
+	1.0f, // A
+	1.1f, // B
+	1.1f, // O
+	1.3f, // M Giant
+	1.2f, // K G
+	1.2f, // G G
+	1.2f, // F G
+	1.1f, // A G
+	1.1f, // B G 
+	1.2f, // O G
+	1.8f, // M Super Giant
+	1.6f, // K SG
+	1.5f, // G SG
+	1.5f, // F SG
+	1.4f, // A SG
+	1.3f, // B SG
+	1.3f, // O SG
+	2.5f, // M Hyper Giant
+	2.2f, // K HG
+	2.2f, // G HG
+	2.1f, // F HG
+	2.1f, // A HG
+	2.0f, // B HG
+	1.9f, // O HG
+	1.1f, // M WF
+	1.3f, // B WF
+	1.6f, // O WF
+	1.0f, // Black hole
+	2.5f, // Intermediate-mass blackhole
+	4.0f  // Supermassive blackhole
 };
 
 fixed StarSystem::starMetallicities[] = {
@@ -369,15 +369,15 @@ static const struct StarTypeInfo {
 		45000, 60000
 	}, {
 		SBody::SUPERTYPE_STAR,  // S BH
-		{20,2000}, {0.00002,0.00004},
+		{20,2000}, {0,0},	// XXX black holes are < 1 Sol radii big; this is clamped to a non-zero value later
 		10, 24
 	}, {
 		SBody::SUPERTYPE_STAR,  // IM BH
-		{9e5,1e6}, {100,500},
+		{900000,1000000}, {100,500},
 		1, 10
 	}, {
 		SBody::SUPERTYPE_STAR,  // SM BH
-		{2e6,5e6}, {10000,20000},
+		{2000000,5000000}, {10000,20000},
 		10, 24
 	}
 /*	}, {
@@ -501,10 +501,9 @@ SBody::BodySuperType SBody::GetSuperType() const
              fprintf( stderr, "Warning: Invalid SuperBody Type found.\n");
              return SUPERTYPE_NONE;
 	}
-    return SUPERTYPE_NONE;
 }
 
-std::string SBody::GetAstroDescription()
+std::string SBody::GetAstroDescription() const
 {
 	switch (type) {
 	case TYPE_BROWN_DWARF: return Lang::BROWN_DWARF;
@@ -637,10 +636,9 @@ std::string SBody::GetAstroDescription()
         fprintf( stderr, "Warning: Invalid Astro Body Description found.\n");
         return Lang::UNKNOWN;
 	}
-    return Lang::UNKNOWN;
 }
 
-const char *SBody::GetIcon()
+const char *SBody::GetIcon() const
 {
 	switch (type) {
 	case TYPE_BROWN_DWARF: return "icons/object_brown_dwarf.png";
@@ -765,7 +763,6 @@ const char *SBody::GetIcon()
         fprintf( stderr, "Warning: Invalid body icon.\n");
 		return 0;
 	}
-    return 0;
 }
 
 /*
@@ -847,6 +844,17 @@ static int CalcSurfaceTemp(const SBody *primary, fixed distToPrimary, fixed albe
 	}
 	const fixed surface_temp_pow4 = energy_per_meter2*(1-albedo)/(1-greenhouse);
 	return int(isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673)));
+}
+
+
+double SBody::CalcSurfaceGravity() const
+{
+	double r = GetRadius();
+	if (r > 0.0) {
+		return G * GetMass() / pow(r, 2);
+	} else {
+		return 0.0;
+	}
 }
 
 vector3d Orbit::OrbitalPosAtTime(double t) const
@@ -1046,8 +1054,8 @@ void StarSystem::MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand)
 	a->orbit.semiMajorAxis = AU * (a->semiMajorAxis * a0).ToDouble();
 	a->orbit.period = 60*60*24*365* a->semiMajorAxis.ToDouble() * sqrt(a->semiMajorAxis.ToDouble() / m.ToDouble());
 	
-	const float rotX = -0.5*M_PI;//(float)(rand.Double()*M_PI/2.0);
-	const float rotY = float(rand.Double(M_PI));
+	const float rotX = -0.5f*float(M_PI);//(float)(rand.Double()*M_PI/2.0);
+	const float rotY = static_cast<float>(rand.Double(M_PI));
 	a->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY) * matrix4x4d::RotateXMatrix(rotX);
 	b->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY-M_PI) * matrix4x4d::RotateXMatrix(rotX);
 
@@ -1067,6 +1075,16 @@ SBody::SBody()
 {
 	heightMapFilename = 0;
 	heightMapFractal = 0;
+}
+
+bool SBody::HasAtmosphere() const
+{
+	return (m_volatileGas > fixed(1,100));
+}
+
+bool SBody::IsScoopable() const
+{
+	return (GetSuperType() == SUPERTYPE_GAS_GIANT);
 }
 
 void SBody::PickAtmosphere()
@@ -1180,7 +1198,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	m_seed = s.m_systems[m_path.systemIndex].seed;
 	m_name = s.m_systems[m_path.systemIndex].name;
 
-	unsigned long _init[6] = { m_path.systemIndex, m_path.sectorX, m_path.sectorY, m_path.sectorZ, UNIVERSE_SEED, m_seed };
+	unsigned long _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, Uint32(m_seed) };
 	MTRand rand(_init, 6);
 
 	/*
@@ -1207,7 +1225,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	}
 
 	SBody *star[4];
-	SBody *centGrav1, *centGrav2;
+	SBody *centGrav1(NULL), *centGrav2(NULL);
 
 	const int numStars = s.m_systems[m_path.systemIndex].numStars;
 	assert((numStars >= 1) && (numStars <= 4));
@@ -1735,14 +1753,12 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 
 void StarSystem::Populate(bool addSpaceStations)
 {
-	unsigned long _init[5] = { m_path.systemIndex, m_path.sectorX, m_path.sectorY, m_path.sectorZ, UNIVERSE_SEED };
+	unsigned long _init[5] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED };
 	MTRand rand;
 	rand.seed(_init, 5);
 
 	/* Various system-wide characteristics */
 	m_humanProx = fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));
-	m_techlevel = (m_humanProx*5).ToInt32() + rand.Int32(-2,2);
-	m_techlevel = Clamp(m_techlevel, 1, 5);
 	m_econType = ECON_INDUSTRY;
 	m_industrial = rand.Fixed();
 	m_agricultural = 0;
@@ -1750,7 +1766,6 @@ void StarSystem::Populate(bool addSpaceStations)
 	/* system attributes */
 	m_totalPop = fixed(0);
 	rootBody->PopulateStage1(this, m_totalPop);
-	if (m_totalPop == 0) m_techlevel = 0;
 	
 //	printf("Trading rates:\n");
 	// So now we have balances of trade of various commodities.
@@ -1771,7 +1786,7 @@ void StarSystem::Populate(bool addSpaceStations)
 //		const EquipType &type = Equip::types[t];
 //		printf("%s: %d%%\n", type.name, m_tradeLevel[t]);
 //	}
-//	printf("System total population %.3f billion, tech level %d\n", m_totalPop.ToFloat(), m_techlevel);
+//	printf("System total population %.3f billion\n", m_totalPop.ToFloat());
 	Polit::GetSysPolitStarSystem(this, m_totalPop, m_polit);
 
 	if (addSpaceStations) {
@@ -1797,8 +1812,8 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		return;
 	}
 
-	unsigned long _init[6] = { system->m_path.systemIndex, system->m_path.sectorX,
-			system->m_path.sectorY, system->m_path.sectorZ, UNIVERSE_SEED, this->seed };
+	unsigned long _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
+			Uint32(system->m_path.sectorY), Uint32(system->m_path.sectorZ), UNIVERSE_SEED, Uint32(this->seed) };
 
 	MTRand rand, namerand;
 	rand.seed(_init, 6);
@@ -1850,7 +1865,6 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	for (int i=Equip::FIRST_COMMODITY; i<Equip::LAST_COMMODITY; i++) {
 		Equip::Type t = Equip::Type(i);
 		const EquipType &itype = Equip::types[t];
-		if (itype.techLevel > system->m_techlevel) continue;
 
 		fixed affinity = fixed(1,1);
 		if (itype.econType & ECON_AGRICULTURE) {
@@ -1911,8 +1925,8 @@ void SBody::PopulateAddStations(StarSystem *system)
 		children[i]->PopulateAddStations(system);
 	}
 
-	unsigned long _init[6] = { system->m_path.systemIndex, system->m_path.sectorX,
-			system->m_path.sectorY, system->m_path.sectorZ, this->seed, UNIVERSE_SEED };
+	unsigned long _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
+			Uint32(system->m_path.sectorY), Uint32(system->m_path.sectorZ), this->seed, UNIVERSE_SEED };
 
 	MTRand rand, namerand;
 	rand.seed(_init, 6);

@@ -486,7 +486,7 @@ static int l_space_get_bodies(lua_State *l)
 			lua_pushvalue(l, 1);
 			LuaBody::PushToLua(b);
 			if (int ret = lua_pcall(l, 1, 1, 0)) {
-				const char *errmsg;
+				const char *errmsg( "Unknown error" );
 				if (ret == LUA_ERRRUN)
 					errmsg = lua_tostring(l, -1);
 				else if (ret == LUA_ERRMEM)

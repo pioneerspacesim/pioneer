@@ -16,6 +16,7 @@ GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
 	m_map["EnableJoystick"] = "1";
 	m_map["InvertMouseY"] = "0";
 	m_map["FOVVertical"] = "65";
+	m_map["DisplayNavTunnel"] = "1";
 	m_map["MasterVolume"] = "0.8";
 	m_map["MusicVolume"] = "0.8";
 	m_map["MasterMuted"] = "0";
@@ -27,6 +28,7 @@ GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
 	m_map["MaxPhysicsCyclesPerRender"] = "4";
 	m_map["AntiAliasingMode"] = "2";
 	m_map["JoystickDeadzone"] = "0.1";
+	m_map["DefaultLowThrustPower"] = "0.25";
 	m_map["VSync"] = "0";
 
 #ifdef _WIN32

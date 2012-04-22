@@ -5,7 +5,7 @@ dnl Setup
 dnl ###########################################################################
 AC_PREREQ(2.59)
 
-AC_INIT([pioneer], [alpha-21-dev], [pioneer@pioneerspacesim.net])
+AC_INIT([pioneer], [alpha-22-dev], [pioneer@pioneerspacesim.net])
 dnl AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 dist-xz dist-zip])
@@ -242,5 +242,19 @@ AC_SUBST([WARN_CFLAGS])
 AC_SUBST([WARN_CXXFLAGS])
 AC_SUBST([WARN_CPPFLAGS])
 
-AC_CONFIG_FILES([Makefile data/Makefile src/Makefile src/collider/Makefile src/gui/Makefile src/graphics/Makefile src/terrain/Makefile contrib/Makefile contrib/lua/Makefile contrib/oolua/Makefile osx/Makefile win32/Makefile win32/src/Makefile])
+AC_CONFIG_FILES([
+	Makefile
+	data/Makefile
+	src/Makefile
+	src/collider/Makefile
+	src/gui/Makefile
+	src/graphics/Makefile
+	src/terrain/Makefile
+	src/text/Makefile
+	contrib/Makefile
+	contrib/lua/Makefile
+	contrib/oolua/Makefile
+	osx/Makefile
+	win32/Makefile
+	win32/src/Makefile])
 AC_OUTPUT

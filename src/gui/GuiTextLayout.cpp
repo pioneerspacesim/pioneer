@@ -1,5 +1,6 @@
 #include "Gui.h"
-#include "TextSupport.h"
+#include "text/TextSupport.h"
+#include "utils.h"
 
 #define LINE_SPACING      1.25f
 #define PARAGRAPH_SPACING 1.75f
@@ -40,7 +41,7 @@ static bool line_clip_test(float topy, float bottomy)
 	return false;
 }
 
-TextLayout::TextLayout(const char *_str, RefCountedPtr<TextureFont> font, ColourMarkupMode markup)
+TextLayout::TextLayout(const char *_str, RefCountedPtr<Text::TextureFont> font, ColourMarkupMode markup)
 {
 	// XXX ColourMarkupSkip not correctly implemented yet
 	assert(markup != ColourMarkupSkip);
@@ -71,11 +72,11 @@ TextLayout::TextLayout(const char *_str, RefCountedPtr<TextureFont> font, Colour
 			}
 
 			Uint32 chr;
-			int n = conv_mb_to_wc(&chr, &str[i]);
+			int n = Text::utf8_decode_char(&chr, &str[i]);
 			assert(n);
 			i += n;
 
-			const TextureFont::glfglyph_t &glyph = m_font->GetGlyph(chr);
+			const Text::TextureFont::glfglyph_t &glyph = m_font->GetGlyph(chr);
 			wordWidth += glyph.advx;
 
 			// XXX this should do kerning
@@ -166,9 +167,9 @@ void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 			for (int j=0; j<num; j++) {
 				if ((*wpos).word) {
 					if (m_colourMarkup == ColourMarkupUse)
-						c = m_font->RenderMarkup(Screen::GetRenderer(), (*wpos).word, round(px), round(py), c);
+						c = m_font->RenderMarkup((*wpos).word, round(px), round(py), c);
 					else
-						m_font->RenderString(Screen::GetRenderer(), (*wpos).word, round(px), round(py), c);
+						m_font->RenderString((*wpos).word, round(px), round(py), c);
 				}
 				px += (*wpos).advx + _spaceWidth;
 				wpos++;

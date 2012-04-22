@@ -33,12 +33,12 @@ public:
 	// frame/body/sbody indexing for save/load. valid after
 	// construction/Serialize(), invalidated by TimeStep(). they will assert
 	// if called while invalid
-	Frame *GetFrameByIndex(Uint32 idx);
-	Body  *GetBodyByIndex(Uint32 idx);
-	SBody *GetSBodyByIndex(Uint32 idx);
-	Uint32 GetIndexForFrame(const Frame *frame);
-	Uint32 GetIndexForBody(const Body *body);
-	Uint32 GetIndexForSBody(const SBody *sbody);
+	Frame *GetFrameByIndex(Uint32 idx) const;
+	Body  *GetBodyByIndex(Uint32 idx) const;
+	SBody *GetSBodyByIndex(Uint32 idx) const;
+	Uint32 GetIndexForFrame(const Frame *frame) const;
+	Uint32 GetIndexForBody(const Body *body) const;
+	Uint32 GetIndexForSBody(const SBody *sbody) const;
 
 	RefCountedPtr<StarSystem> GetStarSystem() const { return m_starSystem; }
 
@@ -50,10 +50,10 @@ public:
 
 	void TimeStep(float step);
 
-	vector3d GetHyperspaceExitPoint(const SystemPath &source);
+	vector3d GetHyperspaceExitPoint(const SystemPath &source) const;
 
-	Body *FindNearestTo(const Body *b, Object::Type t);
-	Body *FindBodyForPath(const SystemPath *path);
+	Body *FindNearestTo(const Body *b, Object::Type t) const;
+	Body *FindBodyForPath(const SystemPath *path) const;
 
 	typedef std::list<Body*>::const_iterator BodyIterator;
 	const BodyIterator BodiesBegin() const { return m_bodies.begin(); }
@@ -64,7 +64,7 @@ public:
 private:
 	void GenBody(SBody *b, Frame *f);
 	// make sure SBody* is in Pi::currentSystem
-	Frame *GetFrameWithSBody(const SBody *b);
+	Frame *GetFrameWithSBody(const SBody *b) const;
 
 	void UpdateBodies();
 

@@ -49,10 +49,11 @@ StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) :
 
 	for (int i=Equip::FIRST_SHIPEQUIP, num=0; i<=Equip::LAST_SHIPEQUIP; i++) {
 		Equip::Type type = static_cast<Equip::Type>(i);
-		if (!m_station->GetStock(type) &&
-			!(Pi::player->m_equipment.Count(Equip::types[i].slot, type) &&
-			Equip::types[i].techLevel <= Pi::game->GetSpace()->GetStarSystem()->m_techlevel))
+
+		// must be purchasable and at least one available somewhere
+		if ((!Equip::types[i].purchasable) && (m_station->GetStock(type) || Pi::player->m_equipment.Count(Equip::types[i].slot, type) > 0))
 			continue;
+
 		Gui::Label *l = new Gui::Label(Equip::types[i].name);
 		if (Equip::types[i].description) {
 			l->SetToolTip(Equip::types[i].description);
@@ -85,7 +86,7 @@ StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) :
 	portal->Add(innerbox);
 
 	Gui::Fixed *heading = new Gui::Fixed(470, Gui::Screen::GetFontHeight());
-	const float *col = Gui::Theme::Colors::tableHeading;
+	const Color &col = Gui::Theme::Colors::tableHeading;
 	heading->Add((new Gui::Label(Lang::ITEM))->Color(col), 0, 0);
 	heading->Add((new Gui::Label(Lang::PRICE_TO_FIT))->Color(col), 200, 0);
 	heading->Add((new Gui::Label(Lang::PRICE_TO_REMOVE))->Color(col), 275, 0);
@@ -131,7 +132,7 @@ void StationShipEquipmentForm::FitItem(Equip::Type t)
 {
 	Equip::Slot slot = Equip::types[t].slot;
 
-	const shipstats_t *stats = Pi::player->CalcStats();
+	const shipstats_t &stats = Pi::player->GetStats();
 	int freespace = Pi::player->m_equipment.FreeSpace(slot);
 	
 	if (Pi::player->GetMoney() < m_station->GetPrice(t)) {
@@ -139,7 +140,7 @@ void StationShipEquipmentForm::FitItem(Equip::Type t)
 		return;
 	}
 
-	if (!freespace || stats->free_capacity < Equip::types[t].mass) {
+	if (!freespace || stats.free_capacity < Equip::types[t].mass) {
 		Pi::cpan->MsgLog()->Message("", Lang::NO_SPACE_ON_SHIP);
 		return;
 	}
@@ -175,7 +176,7 @@ void StationShipEquipmentForm::FitItemForce(Equip::Type t, int pos) {
 	else
 		Pi::player->m_equipment.Set(Equip::types[t].slot, pos, t);
 
-	Pi::player->UpdateMass();
+	Pi::player->UpdateEquipStats();
 	Pi::player->SetMoney(Pi::player->GetMoney() - m_station->GetPrice(t));
 	Pi::cpan->MsgLog()->Message("", Lang::FITTING+std::string(Equip::types[t].name));
 
@@ -188,7 +189,7 @@ void StationShipEquipmentForm::RemoveItemForce(Equip::Type t, int pos) {
 	else
 		Pi::player->m_equipment.Set(Equip::types[t].slot, pos, Equip::NONE);
 
-	Pi::player->UpdateMass();
+	Pi::player->UpdateEquipStats();
 	Pi::player->SetMoney(Pi::player->GetMoney() + m_station->GetPrice(t) * REMOVAL_VALUE_PERCENT / 100);
 	m_station->AddEquipmentStock(t, 1);
 	Pi::cpan->MsgLog()->Message("", Lang::REMOVING+std::string(Equip::types[t].name));

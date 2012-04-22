@@ -1,16 +1,17 @@
 #include "TextureFont.h"
 #include "libs.h"
-#include "FileSystem.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
-#include "gui/GuiScreen.h"
 #include "TextSupport.h"
+#include "utils.h"
 #include <algorithm>
 
 #include FT_GLYPH_H
 #include FT_STROKER_H
 
 #define PARAGRAPH_SPACING 1.5f
+
+namespace Text {
 
 int TextureFont::s_glyphCount = 0;
 
@@ -52,7 +53,7 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 		
 		else {
 			Uint32 chr;
-			int n = conv_mb_to_wc(&chr, &str[i]);
+			int n = utf8_decode_char(&chr, &str[i]);
 			assert(n);
 			i += n;
 
@@ -60,7 +61,7 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 
 			if (str[i]) {
 				Uint32 chr2;
-				n = conv_mb_to_wc(&chr2, &str[i]);
+				n = utf8_decode_char(&chr2, &str[i]);
 				assert(n);
 
 				FT_UInt a = FT_Get_Char_Index(m_face, chr);
@@ -85,11 +86,11 @@ void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &cha
 	float x = 0.0f, y = GetHeight();
 	int i = 0;
 	Uint32 chr;
-	int len = conv_mb_to_wc(&chr, &str[i]);
+	int len = utf8_decode_char(&chr, &str[i]);
 	while (str[i] && (i < charIndex)) {
 		Uint32 nextChar;
 		i += len;
-		len = conv_mb_to_wc(&nextChar, &str[i]);
+		len = utf8_decode_char(&nextChar, &str[i]);
 		assert(!str[i] || len); // assert valid encoding
 
 		if (chr == '\n') {
@@ -142,7 +143,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 
 		// read the next character
 		i2 += charBytes;
-		charBytes = conv_mb_to_wc(&chr2, &str[i2]);
+		charBytes = utf8_decode_char(&chr2, &str[i2]);
 		assert(!str[i2] || charBytes); // assert valid encoding
 
 		float right;
@@ -176,9 +177,9 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 	return i2;
 }
 
-void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, float y, const Color &color)
+void TextureFont::RenderString(const char *str, float x, float y, const Color &color)
 {
-	r->SetBlendMode(Graphics::BLEND_ALPHA);
+	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 
 	float px = x;
@@ -194,7 +195,7 @@ void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, 
 		
 		else {
 			Uint32 chr;
-			int n = conv_mb_to_wc(&chr, &str[i]);
+			int n = utf8_decode_char(&chr, &str[i]);
 			assert(n);
 			i += n;
 
@@ -203,7 +204,7 @@ void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, 
 
 			if (str[i]) {
 				Uint32 chr2;
-				n = conv_mb_to_wc(&chr2, &str[i]);
+				n = utf8_decode_char(&chr2, &str[i]);
 				assert(n);
 
 				FT_UInt a = FT_Get_Char_Index(m_face, chr);
@@ -218,12 +219,12 @@ void TextureFont::RenderString(Graphics::Renderer *r, const char *str, float x, 
 		}
 	}
 
-	r->DrawTriangles(&va, &m_mat);
+	m_renderer->DrawTriangles(&va, &m_mat);
 }
 
-Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x, float y, const Color &color)
+Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &color)
 {
-	r->SetBlendMode(Graphics::BLEND_ALPHA);
+	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 
 	float px = x;
@@ -252,7 +253,7 @@ Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x,
 		
 		else {
 			Uint32 chr;
-			int n = conv_mb_to_wc(&chr, &str[i]);
+			int n = utf8_decode_char(&chr, &str[i]);
 			assert(n);
 			i += n;
 
@@ -262,7 +263,7 @@ Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x,
 			// XXX kerning doesn't skip markup
 			if (str[i]) {
 				Uint32 chr2;
-				n = conv_mb_to_wc(&chr2, &str[i]);
+				n = utf8_decode_char(&chr2, &str[i]);
 				assert(n);
 
 				FT_UInt a = FT_Get_Char_Index(m_face, chr);
@@ -277,20 +278,17 @@ Color TextureFont::RenderMarkup(Graphics::Renderer *r, const char *str, float x,
 		}
 	}
 
-	r->DrawTriangles(&va, &m_mat);
+	m_renderer->DrawTriangles(&va, &m_mat);
 	return c;
 }
 
-TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
+TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *renderer) : Font(descriptor), m_renderer(renderer)
 {
 	int err; // used to store freetype error return codes
-	float scale[2];
-	Gui::Screen::GetCoords2Pixels(scale);
+	const int a_width = GetDescriptor().pixelWidth;
+	const int a_height = GetDescriptor().pixelHeight;
 
-	const int a_width = int(GetConfig().Int("PixelWidth") / scale[0]);
-	const int a_height = int(GetConfig().Int("PixelHeight") / scale[1]);
-
-	const float advx_adjust = GetConfig().Float("AdvanceXAdjustment");
+	const float advx_adjust = GetDescriptor().advanceXAdjustment;
 
 	m_pixSize = a_height;
 
@@ -308,15 +306,15 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	std::vector<unsigned char> pixBuf(4*sz*sz);
 	std::fill(pixBuf.begin(), pixBuf.end(), 0);
 
-	Graphics::TextureDescriptor descriptor(Graphics::TEXTURE_RGBA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
-	m_texture.Reset(Gui::Screen::GetRenderer()->CreateTexture(descriptor));
+	Graphics::TextureDescriptor textureDescriptor(Graphics::TEXTURE_RGBA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
+	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
 	m_mat.texture0 = m_texture.Get();
 	m_mat.unlit = true;
 	m_mat.vertexColors = true; //to allow per-character colors
 	
-	bool outline = GetConfig().Int("Outline");
+	bool outline = GetDescriptor().outline;
 
-	FT_Stroker stroker;
+	FT_Stroker stroker(0);
 	if (outline) {
 		if (FT_Stroker_New(GetFreeTypeLibrary(), &stroker)) {
 			fprintf(stderr, "Freetype stroker init error\n");
@@ -476,4 +474,6 @@ TextureFont::TextureFont(const FontConfig &fc) : Font(fc)
 	m_height = float(a_height);
 	m_width = float(a_width);
 	m_descender = -float(m_face->descender) / 64.f;
+}
+
 }

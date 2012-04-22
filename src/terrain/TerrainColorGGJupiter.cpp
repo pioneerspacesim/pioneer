@@ -30,7 +30,7 @@ vector3d TerrainColorFractal<TerrainColorGGJupiter>::GetColor(const vector3d &p,
 	col = interpolate_color(equatorial_region_2, col, vector3d(.45, .3, .0));
 	//top stripe
 	if (p.y < 0.5 && p.y > 0.1) {
-		for(float i=-1 ; i < 1; i+=0.6){
+		for(float i=-1 ; i < 1; i+=0.6f){
 			double temp = p.y - i;
 			if ( temp < .15+h && temp > -.15+h ){
 				n = billow_octavenoise(GetFracDef(2), 0.7*m_entropy[0], 
@@ -67,7 +67,7 @@ vector3d TerrainColorFractal<TerrainColorGGJupiter>::GetColor(const vector3d &p,
 			}
 		} // bottom stripe
 	} else if (p.y < -0.1 && p.y > -0.5) { 
-		for(float i=-1 ; i < 1; i+=0.6){
+		for(float i=-1 ; i < 1; i+=0.6f){
 			double temp = p.y - i;
 			if ( temp < .15+h && temp > -.15+h ){
 				n = billow_octavenoise(GetFracDef(2), 0.6*m_entropy[0], 
@@ -104,7 +104,7 @@ vector3d TerrainColorFractal<TerrainColorGGJupiter>::GetColor(const vector3d &p,
 			}
 		}
 	} else {  //small stripes
-		for(float i=-1 ; i < 1; i+=0.3){
+		for(float i=-1 ; i < 1; i+=0.3f){
 			double temp = p.y - i;
 			if ( temp < .1+h && temp > -.0+h ){
 				n = billow_octavenoise(GetFracDef(2), 0.6*m_entropy[0], 

@@ -28,7 +28,7 @@ public:
 	std::vector<unsigned short> &GetIndices() { return m_indices; }
 	const unsigned short *GetIndexPointer() const { return &m_indices[0]; }
 
-	bool IsIndexed() { return !m_indices.empty(); }
+	bool IsIndexed() const { return !m_indices.empty(); }
 
 private:
 	PrimitiveType m_primitiveType;

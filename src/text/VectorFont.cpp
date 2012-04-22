@@ -15,6 +15,8 @@ typedef GLvoid (APIENTRY *_GLUfuncptr)();
 typedef GLvoid (*_GLUfuncptr)();
 #endif
 
+namespace Text {
+
 static GLUtesselator *tobj = 0;
 
 static inline double fac(int n)
@@ -376,7 +378,7 @@ void VectorFont::RenderMarkup(const char *str)
 	glPopMatrix();
 }
 
-VectorFont::VectorFont(const FontConfig &fc) : Font(fc)
+VectorFont::VectorFont(const FontDescriptor &descriptor) : Font(descriptor)
 {
 	// first time setup
 	if (!tobj) {
@@ -390,7 +392,7 @@ VectorFont::VectorFont(const FontConfig &fc) : Font(fc)
 		for (Uint16 i=0; i<65535; i++) g_index[i] = i;
 	}
 
-	FT_F26Dot6 points = FT_F26Dot6(GetConfig().Float("PointSize") * 64.0);
+	FT_F26Dot6 points = FT_F26Dot6(GetDescriptor().pointSize * 64.0);
 
 	FT_Set_Char_Size(m_face, points, 0, 72, 0);
 	for (int chr=32; chr<127; chr++) {
@@ -454,4 +456,6 @@ VectorFont::~VectorFont()
 		free ((*i).second.varray);
 		free ((*i).second.iarray);
 	}
+}
+
 }

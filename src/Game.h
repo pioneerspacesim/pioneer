@@ -6,9 +6,10 @@
 #include "Serializer.h"
 #include "gameconsts.h"
 
-class Space;
-class Player;
 class HyperspaceCloud;
+class Player;
+class ShipController;
+class Space;
 
 class Game {
 public:
@@ -65,6 +66,7 @@ public:
 
 	TimeAccel GetTimeAccel() const { return m_timeAccel; }
 	TimeAccel GetRequestedTimeAccel() const { return m_requestedTimeAccel; }
+	bool IsPaused() const { return m_timeAccel == TIMEACCEL_PAUSED; }
 
 	float GetTimeAccelRate() const { return s_timeAccelRates[m_timeAccel]; }
 	float GetTimeStep() const { return s_timeAccelRates[m_timeAccel]*(1.0f/PHYSICS_HZ); }

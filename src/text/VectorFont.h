@@ -1,13 +1,16 @@
-#ifndef _VECTORFONT_H
-#define _VECTORFONT_H
+#ifndef _TEXT_VECTORFONT_H
+#define _TEXT_VECTORFONT_H
 
 #include "Font.h"
 #include <SDL_stdinc.h>
+#include <map>
+
+namespace Text {
 
 class VectorFont : public Font
 {
 public:
-	VectorFont(const FontConfig &fc);
+	VectorFont(const FontDescriptor &descriptor);
 	virtual ~VectorFont();
 
 	void RenderGlyph(int chr);
@@ -19,8 +22,8 @@ public:
 			void (*index_callback)(int num, Uint16 *vals),
 			void (*vertex_callback)(int num, float offsetX, float offsetY, float *vals));
 	// of Ms
-	float GetHeight() { return m_height; }
-	float GetWidth() { return m_width; }
+	float GetHeight() const { return m_height; }
+	float GetWidth() const { return m_width; }
 private:
 	float m_height;
 	float m_width;
@@ -33,5 +36,7 @@ private:
 	};
 	std::map<int,glfglyph_t> m_glyphs;
 };
+
+}
 
 #endif

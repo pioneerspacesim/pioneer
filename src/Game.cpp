@@ -18,7 +18,7 @@
 #include "ObjectViewerView.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 49;
+static const int  s_saveVersion   = 50;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -587,7 +587,7 @@ void Game::CreatePlayer()
 		m_player->m_equipment.Add(Equip::SCANNER);
 	}
 
-	m_player->UpdateMass();
+	m_player->UpdateStats();
 	m_player->SetMoney(10000);
 }
 

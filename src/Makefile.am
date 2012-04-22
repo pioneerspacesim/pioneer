@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider gui graphics terrain
+SUBDIRS = collider gui graphics terrain text
 
 include $(top_srcdir)/Makefile.common
 
@@ -22,6 +22,7 @@ noinst_HEADERS = \
 	CityOnPlanet.h \
 	Color.h \
 	CommodityTradeWidget.h \
+	CRC32.h \
 	CustomSystem.h \
 	DeadVideoLink.h \
 	DeleteEmitter.h \
@@ -31,8 +32,8 @@ noinst_HEADERS = \
 	FaceVideoLink.h \
 	FileSelectorWidget.h \
 	FileSystem.h \
-	Font.h \
 	FontCache.h \
+	FontConfig.h \
 	Form.h \
 	FormController.h \
 	Frame.h \
@@ -46,7 +47,6 @@ noinst_HEADERS = \
 	InfoView.h \
 	IniConfig.h \
 	GameConfig.h \
-	FontConfig.h \
 	KeyBindings.h \
 	Lang.h \
 	LangStrings.inc.h \
@@ -99,6 +99,7 @@ noinst_HEADERS = \
 	Quaternion.h \
 	RefCounted.h \
 	RefList.h \
+	SDLWrappers.h \
 	Sector.h \
 	SectorView.h \
 	Serializer.h \
@@ -117,6 +118,7 @@ noinst_HEADERS = \
 	Sfx.h \
 	Ship.h \
 	ShipAICmd.h \
+	ShipController.h \
 	ShipCpanel.h \
 	ShipCpanelMultiFuncDisplays.h \
 	ShipFlavour.h \
@@ -133,12 +135,10 @@ noinst_HEADERS = \
 	SystemPath.h \
 	SystemView.h \
 	TerrainBody.h \
-	TextureFont.h \
-	TextSupport.h \
-	VectorFont.h \
 	VideoLink.h \
 	View.h \
 	WorldView.h \
+	WorldViewCamera.h \
 	SmartPtr.h \
 	buildopts.h \
 	fixed.h \
@@ -162,6 +162,7 @@ pioneer_SOURCES	= \
 	ChatForm.cpp \
 	CityOnPlanet.cpp \
 	CommodityTradeWidget.cpp \
+	CRC32.cpp \
 	CustomSystem.cpp \
 	DeadVideoLink.cpp \
 	DynamicBody.cpp \
@@ -169,8 +170,8 @@ pioneer_SOURCES	= \
 	FaceVideoLink.cpp \
 	FileSelectorWidget.cpp \
 	FileSystem.cpp \
-	Font.cpp \
 	FontCache.cpp \
+	FontConfig.cpp \
 	FormController.cpp \
 	Frame.cpp \
 	GalacticView.cpp \
@@ -183,7 +184,6 @@ pioneer_SOURCES	= \
 	InfoView.cpp \
 	IniConfig.cpp \
 	GameConfig.cpp \
-	FontConfig.cpp \
 	KeyBindings.cpp \
 	Light.cpp \
 	Lang.cpp \
@@ -230,6 +230,7 @@ pioneer_SOURCES	= \
 	Player.cpp \
 	Polit.cpp \
 	Projectile.cpp \
+	SDLWrappers.cpp \
 	Sector.cpp \
 	SectorView.cpp \
 	Serializer.cpp \
@@ -248,6 +249,7 @@ pioneer_SOURCES	= \
 	Ship-AI.cpp \
 	Ship.cpp \
 	ShipAICmd.cpp \
+	ShipController.cpp \
 	ShipCpanel.cpp \
 	ShipCpanelMultiFuncDisplays.cpp \
 	ShipFlavour.cpp \
@@ -263,17 +265,16 @@ pioneer_SOURCES	= \
 	SystemInfoView.cpp \
 	SystemView.cpp \
 	TerrainBody.cpp \
-	TextureFont.cpp \
-	TextSupport.cpp \
-	VectorFont.cpp \
+	View.cpp \
 	WorldView.cpp \
+	WorldViewCamera.cpp \
 	main.cpp \
 	mtrand.cpp \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
 
-pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
+pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
 		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
 		$(PNG_LIBS)
@@ -283,11 +284,11 @@ endif
 
 modelviewer_SOURCES = \
 	Color.cpp \
-	Font.cpp \
+	CRC32.cpp \
 	FileSystem.cpp \
-	IniConfig.cpp \
-	FontConfig.cpp \
 	FontCache.cpp \
+	FontConfig.cpp \
+	IniConfig.cpp \
 	Lang.cpp \
 	LmrModel.cpp \
 	LuaModelViewer.cpp \
@@ -296,14 +297,12 @@ modelviewer_SOURCES = \
 	EquipType.cpp \
 	ShipType.cpp \
 	MyLuaMathTypes.cpp \
+	SDLWrappers.cpp \
 	StringF.cpp \
-	TextureFont.cpp \
-	TextSupport.cpp \
-	VectorFont.cpp \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
-modelviewer_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
+modelviewer_LDADD = collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 if !HAVE_LUA

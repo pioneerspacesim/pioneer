@@ -1,36 +1,23 @@
 #include "Ship.h"
-#include "ShipAICmd.h"
-#include "Frame.h"
-#include "Pi.h"
-#include "WorldView.h"
-#include "Space.h"
-#include "Serializer.h"
-#include "collider/collider.h"
-#include "Sfx.h"
-#include "CargoBody.h"
-#include "Planet.h"
-#include "StarSystem.h"
-#include "Sector.h"
-#include "Projectile.h"
-#include "Sound.h"
-#include "HyperspaceCloud.h"
-#include "ShipCpanel.h"
-#include "LmrModel.h"
-#include "Polit.h"
 #include "CityOnPlanet.h"
-#include "Missile.h"
+#include "Planet.h"
 #include "Lang.h"
-#include "StringF.h"
-#include "Game.h"
-#include "graphics/Material.h"
+#include "Missile.h"
+#include "Projectile.h"
+#include "ShipAICmd.h"
+#include "ShipController.h"
+#include "Sound.h"
+#include "Sfx.h"
+#include "Sector.h"
+#include "Frame.h"
+#include "WorldView.h"
+#include "HyperspaceCloud.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/Shader.h"
 #include "graphics/TextureBuilder.h"
-
-static const std::string ecmTextureFilename("textures/ecm.png");
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
@@ -100,6 +87,9 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 	else wr.Int32(0);
 	wr.Int32(int(m_aiMessage));
 	wr.Float(m_thrusterFuel);
+
+	wr.Int32(static_cast<int>(m_controller->GetType()));
+	m_controller->Save(wr, space);
 }
 
 void Ship::Load(Serializer::Reader &rd, Space *space)
@@ -139,6 +129,14 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	SetFuel(rd.Float());
 	m_stats.fuel_tank_mass_left = GetShipType().fuelTankMass * GetFuel();
 
+	m_controller = 0;
+	const ShipController::Type ctype = static_cast<ShipController::Type>(rd.Int32());
+	if (ctype == ShipController::PLAYER)
+		SetController(new PlayerShipController());
+	else
+		SetController(new ShipController());
+	m_controller->Load(rd);
+
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
 
@@ -153,20 +151,24 @@ void Ship::Init()
 	const ShipType &stype = GetShipType();
 	SetModel(stype.lmrModelName.c_str());
 	SetMassDistributionFromModel();
-	UpdateMass();
+	UpdateStats();
 	m_stats.hull_mass_left = float(stype.hullMass);
 	m_stats.shield_mass_left = 0;
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
 	m_hyperspaceCloud = 0;
+	m_frontCameraOffset = stype.frontCameraOffset;
+	m_rearCameraOffset = stype.rearCameraOffset;
 }
 
 void Ship::PostLoadFixup(Space *space)
 {
 	m_dockedWith = reinterpret_cast<SpaceStation*>(space->GetBodyByIndex(m_dockedWithIndex));
 	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
+	m_controller->PostLoadFixup(space);
 }
 
 Ship::Ship(ShipType::Type shipType): DynamicBody(),
+	m_controller(0),
 	m_thrusterFuel(1.f)
 {
 	m_flightState = FLYING;
@@ -195,12 +197,22 @@ Ship::Ship(ShipType::Type shipType): DynamicBody(),
 	m_aiMessage = AIERROR_NONE;
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
-	Init();	
+	Init();
+	SetController(new ShipController());
 }
 
 Ship::~Ship()
 {
 	if (m_curAICmd) delete m_curAICmd;
+	delete m_controller;
+}
+
+void Ship::SetController(ShipController *c)
+{
+	assert(c != 0);
+	if (m_controller) delete m_controller;
+	m_controller = c;
+	m_controller->m_ship = this;
 }
 
 
@@ -224,7 +236,6 @@ void Ship::SetPercentHull(float p)
 
 void Ship::UpdateMass()
 {
-	CalcStats();
 	SetMass((m_stats.total_mass + GetFuel()*GetShipType().fuelTankMass)*1000);
 }
 
@@ -289,12 +300,12 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 	// hitting cargo scoop surface shouldn't do damage
 	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) && b->IsType(Object::CARGOBODY) && (flags & 0x100) && m_stats.free_capacity) {
 		Equip::Type item = dynamic_cast<CargoBody*>(b)->GetCargoType();
-		m_equipment.Add(item);
 		Pi::game->GetSpace()->KillBody(dynamic_cast<Body*>(b));
+		m_equipment.Add(item);
+		UpdateEquipStats();
 		if (this->IsType(Object::PLAYER))
 			Pi::Message(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", Equip::types[item].name)));
 		// XXX Sfx::Add(this, Sfx::TYPE_SCOOP);
-		UpdateMass();
 		return true;
 	}
 
@@ -377,13 +388,13 @@ Equip::Type Ship::GetHyperdriveFuelType() const
 	return Equip::types[t].inputs[0];
 }
 
-const shipstats_t *Ship::CalcStats()
+void Ship::UpdateEquipStats()
 {
 	const ShipType &stype = GetShipType();
+
 	m_stats.max_capacity = stype.capacity;
 	m_stats.used_capacity = 0;
 	m_stats.used_cargo = 0;
-	Equip::Type fuelType = GetHyperdriveFuelType();
 
 	for (int i=0; i<Equip::SLOT_MAX; i++) {
 		for (int j=0; j<stype.equipSlotCapacity[i]; j++) {
@@ -396,6 +407,10 @@ const shipstats_t *Ship::CalcStats()
 	m_stats.total_mass = m_stats.used_capacity + stype.hullMass;
 
 	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR));
+
+	UpdateMass();
+
+	Equip::Type fuelType = GetHyperdriveFuelType();
 
 	if (stype.equipSlotCapacity[Equip::SLOT_ENGINE]) {
 		Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
@@ -411,6 +426,11 @@ const shipstats_t *Ship::CalcStats()
 	} else {
 		m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 	}
+}
+
+void Ship::UpdateFuelStats()
+{
+	const ShipType &stype = GetShipType();
 
 	m_stats.fuel_tank_mass = stype.fuelTankMass;
 	m_stats.fuel_use = stype.thrusterFuelUse;
@@ -428,7 +448,14 @@ const shipstats_t *Ship::CalcStats()
 	m_fuelUseWeights[1] = rev / max;
 	m_fuelUseWeights[2] = side / max;
 	m_fuelUseWeights[3] = up / max;
-	return &m_stats;
+
+	UpdateMass();
+}
+
+void Ship::UpdateStats()
+{
+	UpdateEquipStats();
+	UpdateFuelStats();
 }
 
 static float distance_to_system(const SystemPath &dest)
@@ -466,7 +493,6 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 
 	float dist = distance_to_system(dest);
 
-	this->CalcStats();
 	outFuelRequired = int(ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max));
 	double m_totalmass = m_stats.total_mass;
 	if (outFuelRequired > hyperclass*hyperclass) outFuelRequired = hyperclass*hyperclass;
@@ -581,7 +607,7 @@ bool Ship::FireMissile(int idx, Ship *target)
 	}
 
 	m_equipment.Set(Equip::SLOT_MISSILE, idx, Equip::NONE);
-	CalcStats();
+	UpdateEquipStats();
 
 	matrix4x4d m;
 	GetRotMatrix(m);
@@ -709,6 +735,37 @@ void Ship::TimeStepUpdate(const float timeStep)
 
 	// fuel use decreases mass, so do this as the last thing in the frame
 	UpdateFuel(timeStep);
+}
+
+void Ship::DoThrusterSounds() const
+{
+	// XXX sound logic could be part of a bigger class (ship internal sounds)
+	/* Ship engine noise. less loud inside */
+	float v_env = (Pi::worldView->GetActiveCamera()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
+	static Sound::Event sndev;
+	float volBoth = 0.0f;
+	volBoth += 0.5f*fabs(GetThrusterState().y);
+	volBoth += 0.5f*fabs(GetThrusterState().z);
+
+	float targetVol[2] = { volBoth, volBoth };
+	if (GetThrusterState().x > 0.0)
+		targetVol[0] += 0.5f*float(GetThrusterState().x);
+	else targetVol[1] += -0.5f*float(GetThrusterState().x);
+
+	targetVol[0] = v_env * Clamp(targetVol[0], 0.0f, 1.0f);
+	targetVol[1] = v_env * Clamp(targetVol[1], 0.0f, 1.0f);
+	float dv_dt[2] = { 4.0f, 4.0f };
+	if (!sndev.VolumeAnimate(targetVol, dv_dt)) {
+		sndev.Play("Thruster_large", 0.0f, 0.0f, Sound::OP_REPEAT);
+		sndev.VolumeAnimate(targetVol, dv_dt);
+	}
+	float angthrust = 0.1f * v_env * float(GetAngThrusterState().Length());
+
+	static Sound::Event angThrustSnd;
+	if (!angThrustSnd.VolumeAnimate(angthrust, angthrust, 5.0f, 5.0f)) {
+		angThrustSnd.Play("Thruster_Small", 0.0f, 0.0f, Sound::OP_REPEAT);
+		angThrustSnd.VolumeAnimate(angthrust, angthrust, 5.0f, 5.0f);
+	}
 }
 
 // for timestep changes, to stop autopilot overshoot
@@ -889,7 +946,7 @@ void Ship::UpdateFuel(const float timeStep)
 	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
 	FuelState currentState = GetFuelState();
 
-	UpdateMass();
+	UpdateFuelStats();
 
 	if (currentState != lastState)
 		Pi::luaOnShipFuelChanged->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipFuelStatus", currentState));
@@ -897,10 +954,9 @@ void Ship::UpdateFuel(const float timeStep)
 
 void Ship::StaticUpdate(const float timeStep)
 {
-	if (IsDead()) return;
+	if (m_controller) m_controller->StaticUpdate(timeStep);
 
-	AITimeStep(timeStep);		// moved to correct place, maybe
-
+	//XXX this produces no explosion nor sound
 	if (GetHullTemperature() > 1.0) {
 		Pi::game->GetSpace()->KillBody(this);
 	}
@@ -908,15 +964,15 @@ void Ship::StaticUpdate(const float timeStep)
 	UpdateAlertState();
 
 	/* FUEL SCOOPING!!!!!!!!! */
-	if (m_equipment.Get(Equip::SLOT_FUELSCOOP) != Equip::NONE) {
+	if ((m_flightState == FLYING) && (m_equipment.Get(Equip::SLOT_FUELSCOOP) != Equip::NONE)) {
 		Body *astro = GetFrame()->m_astroBody;
 		if (astro && astro->IsType(Object::PLANET)) {
 			Planet *p = static_cast<Planet*>(astro);
-			if (p->IsSuperType(SBody::SUPERTYPE_GAS_GIANT)) {
+			if (p->GetSBody()->IsScoopable()) {
 				double dist = GetPosition().Length();
 				double pressure, density;
 				p->GetAtmosphericState(dist, &pressure, &density);
-			
+
 				double speed = GetVelocity().Length();
 				vector3d vdir = GetVelocity().Normalized();
 				matrix4x4d rot;
@@ -927,11 +983,11 @@ void Ship::StaticUpdate(const float timeStep)
 					double rate = speed*density*0.00001f;
 					if (Pi::rng.Double() < rate) {
 						m_equipment.Add(Equip::HYDROGEN);
+						UpdateEquipStats();
 						if (this->IsType(Object::PLAYER)) {
 							Pi::Message(stringf(Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
 									formatarg("quantity", m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN))));
 						}
-						UpdateMass();
 					}
 				}
 			}
@@ -1027,6 +1083,10 @@ void Ship::StaticUpdate(const float timeStep)
 		m_hyperspace.now = false;
 		EnterHyperspace();
 	}
+
+	// XXX any ship being the current camera body should emit sounds
+	// also, ship sounds could be split to internal and external sounds
+	if (IsType(Object::PLAYER)) DoThrusterSounds();
 }
 
 void Ship::NotifyRemoved(const Body* const removedBody)
@@ -1088,44 +1148,41 @@ bool Ship::SetWheelState(bool down)
 
 void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	if ((!IsEnabled()) && !m_flightState) return;
+	if (IsDead() || (!IsEnabled() && !m_flightState)) return;
 	LmrObjParams &params = GetLmrObjParams();
 	
-	if ( (!this->IsType(Object::PLAYER)) ||
-	     (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) ||
-		(Pi::worldView->GetCamType() == WorldView::CAM_SIDEREAL)) {
-		m_shipFlavour.ApplyTo(&params);
-		SetLmrTimeParams();
-		params.angthrust[0] = float(-m_angThrusters.x);
-		params.angthrust[1] = float(-m_angThrusters.y);
-		params.angthrust[2] = float(-m_angThrusters.z);
-		params.linthrust[0] = float(m_thrusters.x);
-		params.linthrust[1] = float(m_thrusters.y);
-		params.linthrust[2] = float(m_thrusters.z);
-		params.animValues[ANIM_WHEEL_STATE] = m_wheelState;
-		params.flightState = m_flightState;
+	m_shipFlavour.ApplyTo(&params);
+	SetLmrTimeParams();
+	params.angthrust[0] = float(-m_angThrusters.x);
+	params.angthrust[1] = float(-m_angThrusters.y);
+	params.angthrust[2] = float(-m_angThrusters.z);
+	params.linthrust[0] = float(m_thrusters.x);
+	params.linthrust[1] = float(m_thrusters.y);
+	params.linthrust[2] = float(m_thrusters.z);
+	params.animValues[ANIM_WHEEL_STATE] = m_wheelState;
+	params.flightState = m_flightState;
 
-		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-		RenderLmrModel(viewCoords, viewTransform);
+	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
+	RenderLmrModel(viewCoords, viewTransform);
 
-		// draw shield recharge bubble
-		if (m_stats.shield_mass_left < m_stats.shield_mass) {
-			const float shield = 0.01f*GetPercentShields();
-			renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
-			glPushMatrix();
-			matrix4x4f trans = matrix4x4f::Identity();
-			trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
-			trans.Scale(GetLmrCollMesh()->GetBoundingRadius());
-			renderer->SetTransform(trans);
+	// draw shield recharge bubble
+	if (m_stats.shield_mass_left < m_stats.shield_mass) {
+		const float shield = 0.01f*GetPercentShields();
+		renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
+		glPushMatrix();
+		matrix4x4f trans = matrix4x4f::Identity();
+		trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
+		trans.Scale(GetLmrCollMesh()->GetBoundingRadius());
+		renderer->SetTransform(trans);
 
-			//fade based on strength
-			Sfx::shieldEffect->GetMaterial()->diffuse =
-				Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
-			Sfx::shieldEffect->Draw(renderer);
-			glPopMatrix();
-			renderer->SetBlendMode(Graphics::BLEND_SOLID);
-		}
+		//fade based on strength
+		Sfx::shieldEffect->GetMaterial()->diffuse =
+			Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
+		Sfx::shieldEffect->Draw(renderer);
+		glPopMatrix();
+		renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	}
+
 	if (m_ecmRecharge > 0.0f) {
 		// pish effect
 		vector3f v[100];
@@ -1147,7 +1204,7 @@ void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 
 		// XXX no need to recreate material every time
 		Graphics::Material mat;
-		mat.texture0 = Graphics::TextureBuilder::Model(ecmTextureFilename).GetOrCreateTexture(Pi::renderer, "model");
+		mat.texture0 = Graphics::TextureBuilder::Model("textures/ecm.png").GetOrCreateTexture(Pi::renderer, "model");
 		mat.unlit = true;
 		mat.diffuse = c;
 		renderer->DrawPointSprites(100, v, &mat, 50.f);
@@ -1161,7 +1218,7 @@ bool Ship::Jettison(Equip::Type t)
 	Equip::Slot slot = Equip::types[int(t)].slot;
 	if (m_equipment.Count(slot, t) > 0) {
 		m_equipment.Remove(t, 1);
-		UpdateMass();
+		UpdateEquipStats();
 
 		if (m_flightState == FLYING) {
 			// create a cargo body in space
@@ -1236,6 +1293,7 @@ void Ship::EnterHyperspace() {
 	if (fuelType == Equip::MILITARY_FUEL) {
 		m_equipment.Add(Equip::RADIOACTIVES, fuel_cost);
 	}
+	UpdateEquipStats();
 
 	Pi::luaOnLeaveSystem->Queue(this);
 

@@ -68,6 +68,7 @@
 #include "Sfx.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "SDLWrappers.h"
 #include <fstream>
 
 float Pi::gameTickAlpha;
@@ -369,22 +370,15 @@ void Pi::RedirectStdio()
 
 void Pi::LoadWindowIcon()
 {
-	static const std::string filename("icons/badge.png");
-
-	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
-	if (!filedata) {
-		fprintf(stderr, "LoadWindowIcon: %s: could not read file\n", filename.c_str());
-		return;
+#ifdef WIN32
+	// SDL doc says "Win32 icons must be 32x32".
+	SDLSurfacePtr surface = LoadSurfaceFromFile("icons/badge32-8b.png");
+#else
+	SDLSurfacePtr surface = LoadSurfaceFromFile("icons/badge.png");
+#endif
+	if (surface) {
+		SDL_WM_SetIcon(surface.Get(), 0);
 	}
-
-	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
-	SDL_Surface *icon = IMG_Load_RW(datastream, 1);
-	if (!icon) {
-		fprintf(stderr, "LoadWindowIcon: %s: %s\n", filename.c_str(), IMG_GetError());
-		return;
-	}
-
-	SDL_WM_SetIcon(icon, 0);
 }
 
 void Pi::Init()
@@ -684,6 +678,8 @@ void Pi::BoinkNoise()
 
 void Pi::SetView(View *v)
 {
+	if (cpan)
+		cpan->ClearOverlay();
 	if (currentView) currentView->HideAll();
 	currentView = v;
 	if (currentView) {
@@ -795,7 +791,7 @@ void Pi::HandleEvents()
 									ship->m_equipment.Add(Equip::SCANNER);
 									ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
 									ship->m_equipment.Add(Equip::HYDROGEN, 10);
-									ship->UpdateMass();
+									ship->UpdateStats();
 									game->GetSpace()->AddBody(ship);
 								}
 							}
@@ -1060,7 +1056,7 @@ void Pi::HandleMenuKey(int n)
 			enemy->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 			enemy->m_equipment.Add(Equip::AUTOPILOT);
 			enemy->m_equipment.Add(Equip::SCANNER);
-			enemy->UpdateMass();
+			enemy->UpdateStats();
 			enemy->AIKill(player);
 			game->GetSpace()->AddBody(enemy);
 
@@ -1388,12 +1384,12 @@ void Pi::MainLoop()
 				"%d fps, %d phys updates, %d triangles, %.3f M tris/sec, %d terrain vtx/sec, %d glyphs/sec\n"
 				"Lua mem usage: %d MB + %d KB + %d bytes",
 				frame_stat, phys_stat, Pi::statSceneTris, Pi::statSceneTris*frame_stat*1e-6,
-				GeoSphere::GetVtxGenCount(), TextureFont::GetGlyphCount(),
+				GeoSphere::GetVtxGenCount(), Text::TextureFont::GetGlyphCount(),
 				lua_memMB, lua_memKB, lua_memB
 			);
 			frame_stat = 0;
 			phys_stat = 0;
-			TextureFont::ClearGlyphCount();
+			Text::TextureFont::ClearGlyphCount();
 			GeoSphere::ClearVtxGenCount();
 			if (SDL_GetTicks() - last_stats > 1200) last_stats = SDL_GetTicks();
 			else last_stats += 1000;

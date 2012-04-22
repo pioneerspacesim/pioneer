@@ -105,8 +105,8 @@ public:
 		SUPERTYPE_STARPORT = 4,
 	};
 
-	std::string GetAstroDescription();
-	const char *GetIcon();
+	std::string GetAstroDescription() const;
+	const char *GetIcon() const;
 	BodySuperType GetSuperType() const;
 	double GetRadius() const {
 		if (GetSuperType() <= SUPERTYPE_STAR)
@@ -131,16 +131,20 @@ public:
 		return rotationPeriod.ToDouble()*60*60*24;
 	}
 	fixed CalcHillRadius() const;
+	double CalcSurfaceGravity() const;
 
 	double GetMaxChildOrbitalDistance() const;
 	void PopulateStage1(StarSystem *system, fixed &outTotalPop);
 	void PopulateAddStations(StarSystem *system);
 
+	bool HasAtmosphere() const;
 	void PickAtmosphere();
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
 		*outColor = m_atmosColor;
 		*outDensity = m_atmosDensity;
 	}
+
+	bool IsScoopable() const;
 
 	Uint32 id; // index into starsystem->m_bodies
 	SystemPath path;
@@ -219,7 +223,6 @@ public:
 	// percent price alteration
 	int m_tradeLevel[Equip::TYPE_MAX];
 	int m_econType;
-	int m_techlevel; /* 0-5 like in EquipType.h */
 	int m_seed;
 
 	bool m_unexplored;

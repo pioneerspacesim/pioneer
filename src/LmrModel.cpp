@@ -1,7 +1,7 @@
 #include "libs.h"
 #include <map>
 #include "FontCache.h"
-#include "VectorFont.h"
+#include "text/VectorFont.h"
 #include "LmrModel.h"
 #include "collider/collider.h"
 #include "perlin.h"
@@ -12,6 +12,7 @@
 #include "EquipSet.h"
 #include "ShipType.h"
 #include "FileSystem.h"
+#include "CRC32.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
@@ -21,6 +22,8 @@
 #include "graphics/TextureGL.h" // XXX temporary until LMR uses renderer drawing properly
 #include <set>
 #include <algorithm>
+
+static const Uint32 s_cacheVersion = 2;
 
 /*
  * Interface: LMR
@@ -52,20 +55,17 @@ namespace ShipThruster {
 	//cool purple-ish
 	static Color color(0.7f, 0.6f, 1.f, 1.f);
 
-	static const std::string thrusterTextureFilename("textures/thruster.png");
-	static const std::string thrusterGlowTextureFilename("textures/halo.png");
-
 	static void Init(Graphics::Renderer *renderer) {
 		tVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 		gVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
 		//set up materials
-		tMat.texture0 = Graphics::TextureBuilder::Billboard(thrusterTextureFilename).GetOrCreateTexture(renderer, "billboard");
+		tMat.texture0 = Graphics::TextureBuilder::Billboard("textures/thruster.png").GetOrCreateTexture(renderer, "billboard");
 		tMat.unlit = true;
 		tMat.twoSided = true;
 		tMat.diffuse = color;
 
-		glowMat.texture0 = Graphics::TextureBuilder::Billboard(thrusterGlowTextureFilename).GetOrCreateTexture(renderer, "billboard");
+		glowMat.texture0 = Graphics::TextureBuilder::Billboard("textures/halo.png").GetOrCreateTexture(renderer, "billboard");
 		glowMat.unlit = true;
 		glowMat.twoSided = true;
 		glowMat.diffuse = color;
@@ -257,7 +257,7 @@ static LmrShader *s_pointlightShader[4];
 static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
 static FontCache s_fontCache;
-static RefCountedPtr<VectorFont> s_font;
+static RefCountedPtr<Text::VectorFont> s_font;
 static float NEWMODEL_ZBIAS = 0.0002f;
 static LmrGeomBuffer *s_curBuf;
 static const LmrObjParams *s_curParams;
@@ -979,8 +979,11 @@ LmrModel::LmrModel(const char *model_name)
 				lua_pop(sLua, 1);
 				if (!is_num) break;
 				if (i > LMR_MAX_LOD) {
-					luaL_error(sLua, "Too many LODs (maximum %d)", LMR_MAX_LOD);
+					luaL_error(sLua, "Too many LODs (lod_pixels table should have between 1 and %d entries)", LMR_MAX_LOD);
 				}
+			}
+			if (m_numLods < 1) {
+				luaL_error(sLua, "Not enough LODs (lod_pixels table should have between 1 and %d entries)", LMR_MAX_LOD);
 			}
 		} else {
 			m_numLods = 1;
@@ -1568,16 +1571,17 @@ namespace ModelFuncs {
 		const vector3f axis1 = updir->Normalized();
 		const vector3f axis2 = updir->Cross(dir).Normalized();
 		const float inc = 2.0f*M_PI / float(steps);
+		const float radmod = 1.0f / cosf(0.5f*inc);
 
 		for (int i=0; i<num-3; i+=2) {
-			const float rad1 = jizz[i+1];
-			const float rad2 = jizz[i+3];
+			const float rad1 = jizz[i+1] * radmod;
+			const float rad2 = jizz[i+3] * radmod;
 			const vector3f _start = *start + (*end-*start)*jizz[i];
 			const vector3f _end = *start + (*end-*start)*jizz[i+2];
 			bool shitty_normal = is_equal_absolute(jizz[i], jizz[i+2], 1e-4f);
 
 			const int basevtx = vtxStart + steps*i;
-			float ang = 0;
+			float ang = 0.5f*inc;
 			for (int j=0; j<steps; j++, ang += inc) {
 				const vector3f p1 = rad1 * (sin(ang)*axis1 + cos(ang)*axis2);
 				const vector3f p2 = rad2 * (sin(ang)*axis1 + cos(ang)*axis2);
@@ -4404,18 +4408,21 @@ static Uint32 s_allModelFilesCRC;
 static Uint32 _calculate_all_models_checksum()
 {
 	// do we need to rebuild the model cache?
-	Uint32 checksum = 0;
-	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "models", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
-	{
+	CRC32 crc;
+	FileSystem::FileEnumerator files(FileSystem::gameDataFiles, FileSystem::FileEnumerator::Recurse);
+	files.AddSearchRoot("models");
+	files.AddSearchRoot("sub_models");
+	while (!files.Finished()) {
 		const FileSystem::FileInfo &info = files.Current();
-		if (info.IsFile() && (info.GetPath().substr(info.GetPath().size() - 4) != ".png")) {
+		assert(info.IsFile());
+		if (info.GetPath().substr(info.GetPath().size() - 4) != ".png") {
 			RefCountedPtr<FileSystem::FileData> data = files.Current().Read();
-			const char *buf = data->GetData();
-			size_t sz = data->GetSize();
-			for (size_t i = 0; i < sz; ++i) { checksum += buf[i]; }
+			crc.AddData(data->GetData(), data->GetSize());
 		}
+
+		files.Next();
 	}
-	return checksum;
+	return crc.GetChecksum();
 }
 
 static void _detect_model_changes()
@@ -4424,8 +4431,9 @@ static void _detect_model_changes()
 
 	FILE *cache_sum_file = fopen(FileSystem::JoinPath(s_cacheDir, "cache.sum").c_str(), "rb");
 	if (cache_sum_file) {
-		if ((_fread_string(cache_sum_file) == PIONEER_VERSION) &&
-		    (_fread_string(cache_sum_file) == PIONEER_EXTRAVERSION)) {
+		Uint32 version;
+		fread_or_die(&version, sizeof(version), 1, cache_sum_file);
+		if (version == s_cacheVersion) {
 			Uint32 checksum;
 			fread_or_die(&checksum, sizeof(checksum), 1, cache_sum_file);
 			if (checksum == s_allModelFilesCRC) {
@@ -4442,8 +4450,7 @@ static void _write_model_crc_file()
 	if (s_recompileAllModels) {
 		FILE *cache_sum_file = fopen(FileSystem::JoinPath(s_cacheDir, "cache.sum").c_str(), "wb");
 		if (cache_sum_file) {
-			_fwrite_string(PIONEER_VERSION, cache_sum_file);
-			_fwrite_string(PIONEER_EXTRAVERSION, cache_sum_file);
+			fwrite(&s_cacheVersion, sizeof(s_cacheVersion), 1, cache_sum_file);
 			fwrite(&s_allModelFilesCRC, sizeof(s_allModelFilesCRC), 1, cache_sum_file);
 			fclose(cache_sum_file);
 		}
