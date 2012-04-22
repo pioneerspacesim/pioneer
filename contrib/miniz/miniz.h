@@ -176,7 +176,10 @@
 // ------------------- zlib-style API Definitions.
 
 // For more compatibility with zlib, miniz.c uses unsigned long for some parameters/struct members.
-typedef unsigned long mz_ulong;
+// XXX PIONEER: Changed to unsigned int, otherwise CRC checks fail on x86_64
+// XXX PIONEER: See http://code.google.com/p/miniz/issues/detail?id=4
+//typedef unsigned long mz_ulong;
+typedef unsigned int mz_ulong;
 
 // Heap allocation callbacks.
 // Note that mz_alloc_func parameter types purpsosely differ from zlib's: items/size is size_t, not unsigned long.
