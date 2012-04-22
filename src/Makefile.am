@@ -86,6 +86,7 @@ noinst_HEADERS = \
 	MathUtil.h \
 	Missile.h \
 	ModelBody.h \
+	ModManager.h \
 	MyLuaMathTypes.h \
 	Object.h \
 	ObjectViewerView.h \
@@ -223,6 +224,7 @@ pioneer_SOURCES	= \
 	MathUtil.cpp \
 	Missile.cpp \
 	ModelBody.cpp \
+	ModManager.cpp \
 	MyLuaMathTypes.cpp \
 	ObjectViewerView.cpp \
 	Pi.cpp \
@@ -296,6 +298,7 @@ modelviewer_SOURCES = \
 	LuaModelViewer.cpp \
 	LuaUtils.cpp \
 	LuaConstants.cpp \
+	ModManager.cpp \
 	EquipType.cpp \
 	ShipType.cpp \
 	MyLuaMathTypes.cpp \
