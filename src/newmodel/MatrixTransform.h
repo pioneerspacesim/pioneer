@@ -13,6 +13,9 @@ public:
 	MatrixTransform(const matrix4x4f &m);
 	void Render(Graphics::Renderer *r, const matrix4x4f &trans);
 
+protected:
+	virtual ~MatrixTransform() { }
+
 private:
 	matrix4x4f m_transform;
 };
