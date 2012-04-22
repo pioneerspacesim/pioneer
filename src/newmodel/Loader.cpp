@@ -176,14 +176,24 @@ Loader::~Loader()
 
 NModel *Loader::LoadModel(const std::string &filename)
 {
-	//XXX not recursive
-	static const std::string basepath("newmodels");
+	NModel *m = LoadModel(filename, "newmodels");
+	if (m) return m;
+	throw LoadingError();
+}
+
+NModel *Loader::LoadModel(const std::string &filename, const std::string &basepath)
+{
 	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, basepath, FileSystem::FileEnumerator::IncludeDirectories); !files.Finished(); files.Next())
 	{
 		const FileSystem::FileInfo &info = files.Current();
 		const std::string &fpath = info.GetAbsolutePath();
+
+		if (info.IsDir()) {
+			NModel *m = LoadModel(filename, info.GetPath());
+			if (m) return m;
+		}
 		//check it's the expected type
-		if (info.IsFile() && (fpath.substr(fpath.find_last_of(".")+1) == "model")) {
+		else if (info.IsFile() && (fpath.substr(fpath.find_last_of(".")+1) == "model")) {
 			//check it's the wanted name & load it
 			const std::string name = info.GetName();
 			//XXX hmm
@@ -204,7 +214,7 @@ NModel *Loader::LoadModel(const std::string &filename)
 		}
 		
 	}
-	throw LoadingError();
+	return 0;
 }
 
 Graphics::Texture *Loader::GetWhiteTexture() const

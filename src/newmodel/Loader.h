@@ -47,6 +47,7 @@ public:
 	~Loader();
 	//find & attempt to load a model, based on filename (without path or .model suffix)
 	NModel *LoadModel(const std::string &name);
+	NModel *LoadModel(const std::string &name, const std::string &basepath);
 
 private:
 	Graphics::Renderer *m_renderer;
