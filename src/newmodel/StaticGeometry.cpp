@@ -4,7 +4,8 @@
 
 namespace Newmodel {
 
-StaticGeometry::StaticGeometry()
+StaticGeometry::StaticGeometry() :
+	Node()
 {
 	m_mesh.Reset(new Graphics::StaticMesh(Graphics::TRIANGLES));
 }

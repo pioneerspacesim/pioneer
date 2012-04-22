@@ -37,9 +37,9 @@ RefCountedPtr<Graphics::Material> NModel::GetMaterialByName(const std::string &n
 		it != m_materials.end();
 		++it)
 	{
-		return (*it).second;
+		if ((*it).first == name) return (*it).second;
 	}
-	return (*m_materials.begin()).second;
+	return RefCountedPtr<Graphics::Material>(); //return invalid
 }
 
 RefCountedPtr<Graphics::Material> NModel::GetMaterialByIndex(const int i) const

@@ -292,6 +292,7 @@ Node *Loader::LoadMesh(const std::string &filename, const NModel *model)
 		aiProcess_Triangulate   |
 		aiProcess_SortByPType   |
 		aiProcess_GenUVCoords   |
+		aiProcess_FlipUVs		|
 		aiProcess_GenSmoothNormals);
 
 	if(!scene)
@@ -313,16 +314,22 @@ Node *Loader::LoadMesh(const std::string &filename, const NModel *model)
 		if (!mesh->HasTextureCoords(0))
 			throw std::string("Mesh has no uv coordinates");
 
+		//Material names are not consistent throughout formats...
 		//try to figure out a material
 		//try name first, if that fails use index
-		//std::cout << mesh->mMaterialIndex << std::endl;
-		RefCountedPtr<Graphics::Material> mat = model->GetMaterialByIndex(mesh->mMaterialIndex - matIdxOffs);
-		//Material names are not consistent throughout formats...
-		/*const aiMaterial *amat = scene->mMaterials[mesh->mMaterialIndex];
+		RefCountedPtr<Graphics::Material> mat;
+		const aiMaterial *amat = scene->mMaterials[mesh->mMaterialIndex];
 		aiString s;
 		if(AI_SUCCESS == amat->Get(AI_MATKEY_NAME,s)) {
-			std::cout << std::string(s.data,s.length) << std::endl;
-		}*/
+			//std::cout << "Looking for " << std::string(s.data,s.length) << std::endl;
+			mat = model->GetMaterialByName(std::string(s.data, s.length));
+		}
+
+		if (!mat.Valid()) {
+			mat = model->GetMaterialByIndex(mesh->mMaterialIndex - matIdxOffs);
+		}
+
+		assert(mat.Valid());
 
 		Graphics::VertexArray *vts =
 			new Graphics::VertexArray(
@@ -350,6 +357,7 @@ Node *Loader::LoadMesh(const std::string &filename, const NModel *model)
 			vts->Add(vector3f(vtx.x, vtx.y, vtx.z),
 				vector3f(norm.x, norm.y, norm.z),
 				vector2f(uv0.x, uv0.y));
+			geom->m_boundingBox.Update(vtx.x, vtx.y, vtx.z);
 		}
 
 		smesh->AddSurface(surface);

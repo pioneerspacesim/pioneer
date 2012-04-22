@@ -17,6 +17,14 @@ struct Aabb {
 		if (min.y > p.y) min.y = p.y;
 		if (min.z > p.z) min.z = p.z;
 	}
+	void Update(float x, float y, float z) {
+		if (max.x < x) max.x = x;
+		if (max.y < y) max.y = y;
+		if (max.z < z) max.z = z;
+		if (min.x > x) min.x = x;
+		if (min.y > y) min.y = y;
+		if (min.z > z) min.z = z;
+	}
 	template <typename T>
 	bool IsIn (const vector3<T> p) const {
 		return ((p.x >= min.x) && (p.x <= max.x) &&

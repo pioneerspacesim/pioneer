@@ -4,6 +4,7 @@
  * Geometry node containing one StaticMesh. Nothing fancy.
  */
 #include "Node.h"
+#include "Aabb.h"
 #include "graphics/StaticMesh.h"
 #include "SmartPtr.h"
 
@@ -18,6 +19,7 @@ public:
 	Graphics::StaticMesh *GetMesh() { return m_mesh.Get(); }
 	virtual void Accept(NodeVisitor &nv);
 	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans);
+	Aabb m_boundingBox;
 
 protected:
 	~StaticGeometry();
