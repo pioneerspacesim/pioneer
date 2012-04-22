@@ -169,6 +169,7 @@ pioneer_SOURCES	= \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
 	FileSelectorWidget.cpp \
+	FileSourceZip.cpp \
 	FileSystem.cpp \
 	FontCache.cpp \
 	FontConfig.cpp \
@@ -274,7 +275,7 @@ pioneer_SOURCES	= \
 	utils.cpp \
 	enum_table.cpp
 
-pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
+pioneer_LDADD = ../contrib/oolua/liboolua.a ../contrib/miniz/libminiz.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
 		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
 		$(PNG_LIBS)
@@ -285,6 +286,7 @@ endif
 modelviewer_SOURCES = \
 	Color.cpp \
 	CRC32.cpp \
+	FileSourceZip.cpp \
 	FileSystem.cpp \
 	FontCache.cpp \
 	FontConfig.cpp \
@@ -302,7 +304,7 @@ modelviewer_SOURCES = \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
-modelviewer_LDADD = collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
+modelviewer_LDADD = ../contrib/miniz/libminiz.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 if !HAVE_LUA
@@ -323,7 +325,7 @@ TESTS = tests
  
 tests_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a
 
-INCLUDES = -isystem @top_srcdir@/contrib
+INCLUDES = -isystem @top_srcdir@/contrib -isystem @top_srcdir@/contrib/miniz
 if !HAVE_LUA
 INCLUDES += -isystem @top_srcdir@/contrib/lua
 endif
