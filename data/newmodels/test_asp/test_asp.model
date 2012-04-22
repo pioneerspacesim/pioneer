@@ -1,0 +1,21 @@
+material 04___Default
+tex_diff asp_diff.png
+diffuse 0.8 0.8 0.8
+specular 0.8 0.9 0.8
+shininess 200
+
+material 03___Default
+tex_diff engine_cone_diff.png
+diffuse 1.0 0.6 0.6
+specular 0.5 0.5 0.5
+shininess 200
+
+material 05___Default
+tex_diff asp_g1.png
+tex_glow asp_g1.png
+diffuse 0.8 0.7 0.5
+specular 0 0 0
+
+mesh test_asp_body.obj
+mesh test_asp_nozzles.obj
+mesh test_asp_exhFace.obj
