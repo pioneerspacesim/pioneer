@@ -330,7 +330,35 @@ void Viewer::MainLoop()
 
 		if (m_showGrid) {
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
-			DrawGrid(m, m_model->GetDrawClipRadius());
+			const float rad = m_model->GetDrawClipRadius();
+			DrawGrid(m, rad);
+			const int numAxVerts = 6;
+			const vector3f vts[numAxVerts] = {
+				//X
+				vector3f(0.f, 0.f, 0.f),
+				vector3f(rad, 0.f, 0.f),
+
+				//Y
+				vector3f(0.f, 0.f, 0.f),
+				vector3f(0.f, rad, 0.f),
+
+				//Z
+				vector3f(0.f, 0.f, 0.f),
+				vector3f(0.f, 0.f, rad),
+			};
+			const Color col[numAxVerts] = {
+				Color(1.f, 0.f, 0.f),
+				Color(1.f, 0.f, 0.f),
+
+				Color(0.f, 0.f, 1.f),
+				Color(0.f, 0.f, 1.f),
+
+				Color(0.f, 1.f, 0.f),
+				Color(0.f, 1.f, 0.f)
+			};
+			renderer->SetDepthTest(false);
+			renderer->DrawLines(numAxVerts, &vts[0], &col[0]);
+			renderer->SetDepthTest(true);
 		}
 
 		{
