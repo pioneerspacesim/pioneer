@@ -6,7 +6,8 @@
 namespace Newmodel {
 
 NModel::NModel(const std::string &name) : Model(),
-	m_name(name)
+	m_name(name),
+	m_boundingRadius(10.f)
 {
 	m_root.Reset(new Group());
 }
@@ -28,7 +29,9 @@ CollMesh *NModel::CreateCollisionMesh(const LmrObjParams *p)
 {
 	CollisionVisitor cv;
 	m_root->Accept(cv);
-	return cv.CreateCollisionMesh();
+	CollMesh *m = cv.CreateCollisionMesh();
+	m_boundingRadius = cv.m_boundingRadius;
+	return m;
 }
 
 RefCountedPtr<Graphics::Material> NModel::GetMaterialByName(const std::string &name) const

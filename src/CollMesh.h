@@ -14,6 +14,10 @@ public:
 	virtual float GetBoundingRadius() const { return m_radius; }
 	virtual GeomTree *GetGeomTree() const { return m_geomTree; }
 	void SetGeomTree(GeomTree *t) { m_geomTree = t; }
+
+	std::vector<vector3f> m_vertices;
+	std::vector<int> m_indices;
+	std::vector<unsigned int> m_flags; //1 per triangle
 protected:
 	Aabb m_aabb;
 	float m_radius;

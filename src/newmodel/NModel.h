@@ -41,7 +41,7 @@ public:
 	friend class Loader;
 	NModel(const std::string &name);
 	~NModel();
-	float GetDrawClipRadius() const { return 10.f; }
+	float GetDrawClipRadius() const { return m_boundingRadius; }
 	//Render begins the graph traversal. Only geometry nodes actually render something.
 	//might be worthwhile to implement Visitors (DrawVisitor, CreateCollisionMeshVisitor)
 	void Render(Graphics::Renderer *r, const matrix4x4f &trans, const LmrObjParams *params);
@@ -55,6 +55,7 @@ private:
 	std::string m_name;
 	//materials are shared throughout the model graph
 	MaterialContainer m_materials;
+	float m_boundingRadius;
 };
 
 }
