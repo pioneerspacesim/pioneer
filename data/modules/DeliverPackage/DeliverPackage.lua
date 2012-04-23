@@ -291,6 +291,10 @@ local onGameStart = function ()
 	loaded_data = nil
 end
 
+local onGameEnd = function ()
+	nearbysystems = nil
+end
+
 local serialize = function ()
 	return { ads = ads, missions = missions }
 end
@@ -305,5 +309,6 @@ EventQueue.onEnterSystem:Connect(onEnterSystem)
 EventQueue.onLeaveSystem:Connect(onLeaveSystem)
 EventQueue.onShipDocked:Connect(onShipDocked)
 EventQueue.onGameStart:Connect(onGameStart)
+EventQueue.onGameEnd:Connect(onGameEnd)
 
 Serializer:Register("DeliverPackage", serialize, unserialize)
