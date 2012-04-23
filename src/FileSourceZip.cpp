@@ -8,11 +8,6 @@ extern "C" {
 
 namespace FileSystem {
 
-class FileInfoZip : public FileInfo {
-public:
-	FileInfoZip(FileSourceZip *source, const std::string &path, FileType type) : FileInfo(source, path, type) {}
-};
-
 FileSourceZip::FileSourceZip(const std::string &zipPath) : FileSource(zipPath), m_archive(0)
 {
 	mz_zip_archive *zip = reinterpret_cast<mz_zip_archive*>(std::calloc(1, sizeof(mz_zip_archive)));
@@ -29,7 +24,7 @@ FileSourceZip::FileSourceZip(const std::string &zipPath) : FileSource(zipPath), 
 		if (mz_zip_reader_file_stat(zip, i, &zipStat)) {
 			bool is_dir = mz_zip_reader_is_file_a_directory(zip, i);
 			if (!mz_zip_reader_is_file_encrypted(zip, i))
-				m_index.insert(std::make_pair(zipStat.m_filename, FileStat(i, zipStat.m_uncomp_size, FileInfoZip(this, zipStat.m_filename, is_dir ? FileInfo::FT_DIR : FileInfo::FT_FILE))));
+				m_index.insert(std::make_pair(zipStat.m_filename, FileStat(i, zipStat.m_uncomp_size, MakeFileInfo(zipStat.m_filename, is_dir ? FileInfo::FT_DIR : FileInfo::FT_FILE))));
 		}
 	}
 
@@ -46,7 +41,7 @@ FileSourceZip::~FileSourceZip()
 FileInfo FileSourceZip::Lookup(const std::string &path)
 {
 	FileMap::iterator i = m_index.find(path);
-	if (i == m_index.end()) return FileInfoZip(this, path, FileInfo::FT_NON_EXISTENT);
+	if (i == m_index.end()) return MakeFileInfo(path, FileInfo::FT_NON_EXISTENT);
 	return (*i).second.info;
 }
 
