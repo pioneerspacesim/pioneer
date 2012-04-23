@@ -67,10 +67,10 @@ bool EventDispatcher::Dispatch(const Event &event)
 							m_mouseActiveReceiver->HandleClick();
 						bool ret = target->HandleMouseUp(mouseButtonEvent);
 						m_mouseActiveReceiver = 0;
-						if (m_mouseMoveReceiver && target != m_mouseMoveReceiver) {
-							m_mouseMoveReceiver->HandleMouseOut();
-							m_mouseMoveReceiver = target;
-							m_mouseMoveReceiver->HandleMouseOver();
+						if (target != m_lastMouseOverTarget) {
+							if (m_lastMouseOverTarget) m_lastMouseOverTarget->HandleMouseOut(mouseButtonEvent.pos);
+							m_lastMouseOverTarget = target;
+							m_lastMouseOverTarget->HandleMouseOver(mouseButtonEvent.pos);
 						}
 						return ret;
 					}
@@ -86,11 +86,11 @@ bool EventDispatcher::Dispatch(const Event &event)
 				return m_mouseActiveReceiver->HandleMouseMove(mouseMotionEvent);
 
 			Widget *target = m_baseContainer->GetWidgetAtAbsolute(mouseMotionEvent.pos);
-			if (target != m_mouseMoveReceiver) {
-				printf("target %p receiver %p\n", target, m_mouseMoveReceiver);
-				if (m_mouseMoveReceiver) m_mouseMoveReceiver->HandleMouseOut();
-				m_mouseMoveReceiver = target;
-				m_mouseMoveReceiver->HandleMouseOver();
+			if (target != m_lastMouseOverTarget) {
+				//printf("\ntarget change\n");
+				if (m_lastMouseOverTarget) m_lastMouseOverTarget->HandleMouseOut(mouseMotionEvent.pos);
+				m_lastMouseOverTarget = target;
+				m_lastMouseOverTarget->HandleMouseOver(mouseMotionEvent.pos);
 			}
 			return target->HandleMouseMove(mouseMotionEvent);
 		}

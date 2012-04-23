@@ -10,7 +10,7 @@ class Container;
 
 class EventDispatcher {
 public:
-	EventDispatcher(Container *baseContainer) : m_baseContainer(baseContainer), m_mouseActiveReceiver(0), m_mouseMoveReceiver(0) {}
+	EventDispatcher(Container *baseContainer) : m_baseContainer(baseContainer), m_mouseActiveReceiver(0), m_lastMouseOverTarget(0) {}
 
 	bool Dispatch(const Event &event);
 	bool DispatchSDLEvent(const SDL_Event &event);
@@ -18,7 +18,7 @@ public:
 private:
 	Container *m_baseContainer;
 	Widget *m_mouseActiveReceiver;;
-	Widget *m_mouseMoveReceiver;
+	Widget *m_lastMouseOverTarget;
 };
 
 }

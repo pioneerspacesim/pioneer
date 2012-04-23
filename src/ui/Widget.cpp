@@ -1,9 +1,10 @@
 #include "Widget.h"
 #include "Container.h"
+#include <typeinfo>
 
 namespace UI {
 
-Widget::Widget(Context *context) : m_context(context), m_container(0), m_position(0), m_size(0), m_activeArea(0), m_mouseActive(false)
+Widget::Widget(Context *context) : m_context(context), m_container(0), m_position(0), m_size(0), m_activeArea(0), m_mouseOver(false), m_mouseActive(false)
 {
 	assert(m_context);
 }
@@ -89,17 +90,27 @@ bool Widget::HandleMouseWheel(const MouseWheelEvent &event, bool emit)
 	return emit;
 }
 
-bool Widget::HandleMouseOver(bool emit)
+bool Widget::HandleMouseOver(const vector2f &pos, bool emit)
 {
-	if (emit) emit = !onMouseOver.emit();
-	if (GetContainer()) GetContainer()->HandleMouseOver(emit);
+	//printf("HandleMouseOver: %p %s pos %f,%f\n", this, typeid(*this).name(), pos.x, pos.y);
+	if (!m_mouseOver && Contains(pos)) {
+		//printf("    switching over\n");
+		m_mouseOver = true;
+		if (emit) emit = !onMouseOver.emit();
+	}
+	if (GetContainer()) GetContainer()->HandleMouseOver(pos-GetPosition(), emit);
 	return emit;
 }
 
-bool Widget::HandleMouseOut(bool emit)
+bool Widget::HandleMouseOut(const vector2f &pos, bool emit)
 {
-	if (emit) emit = !onMouseOut.emit();
-	if (GetContainer()) GetContainer()->HandleMouseOut(emit);
+	//printf("HandleMouseOut: %p %s pos %f,%f\n", this, typeid(*this).name(), pos.x, pos.y);
+	if (GetContainer()) GetContainer()->HandleMouseOut(pos-GetPosition(), emit);
+	if (m_mouseOver && !Contains(pos)) {
+		//printf("    switching out\n");
+		if (emit) emit = !onMouseOut.emit();
+		m_mouseOver = false;
+	}
 	return emit;
 }
 

@@ -193,10 +193,12 @@ protected:
 	virtual bool HandleMouseMove(const MouseMotionEvent &event, bool emit = true);
 	virtual bool HandleMouseWheel(const MouseWheelEvent &event, bool emit = true);
 
-	virtual bool HandleMouseOver(bool emit = true);
-	virtual bool HandleMouseOut(bool emit = true);
-
 	virtual bool HandleClick(bool emit = true);
+
+	bool IsMouseOver() const { return m_mouseOver; }
+
+	virtual bool HandleMouseOver(const vector2f &pos, bool emit = true);
+	virtual bool HandleMouseOut(const vector2f &pos, bool emit = true);
 
 
 	// mouse active. if a widget is mouse-active, it receives all mouse events
@@ -209,6 +211,10 @@ protected:
 	// MouseActivate(). mouse clicks trigger this
 	virtual void MouseActivate();
 	virtual void MouseDeactivate();
+
+
+
+
 
 private:
 
@@ -232,6 +238,8 @@ private:
 	vector2f m_position;
 	vector2f m_size;
 	vector2f m_activeArea;
+
+	bool m_mouseOver;
 	bool m_mouseActive;
 };
 
