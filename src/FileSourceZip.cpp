@@ -40,7 +40,7 @@ FileSourceZip::~FileSourceZip()
 
 FileInfo FileSourceZip::Lookup(const std::string &path)
 {
-	FileMap::iterator i = m_index.find(path);
+	FileMap::iterator i = m_index.find(NormalisePath(path));
 	if (i == m_index.end()) return MakeFileInfo(path, FileInfo::FT_NON_EXISTENT);
 	return (*i).second.info;
 }
@@ -50,7 +50,7 @@ RefCountedPtr<FileData> FileSourceZip::ReadFile(const std::string &path)
 	if (!m_archive) return RefCountedPtr<FileData>();
 	mz_zip_archive *zip = reinterpret_cast<mz_zip_archive*>(m_archive);
 
-	FileMap::iterator i = m_index.find(path);
+	FileMap::iterator i = m_index.find(NormalisePath(path));
 	if (i == m_index.end()) return RefCountedPtr<FileData>();
 
 	FileStat st = (*i).second;
@@ -66,7 +66,7 @@ RefCountedPtr<FileData> FileSourceZip::ReadFile(const std::string &path)
 
 bool FileSourceZip::ReadDirectory(const std::string &path, std::vector<FileInfo> &output)
 {
-	const std::string base(path+"/");
+	const std::string base(NormalisePath(path)+"/");
 	if (m_index.find(base) == m_index.end()) return false;
 
 	for (FileMap::iterator i = m_index.begin(); i != m_index.end(); ++i)
