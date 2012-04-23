@@ -84,6 +84,9 @@ Pioneer includes the following third-party software:
   Copyright (C) 2009-2010 Liam Devine
   Licensed under the MIT licence (see lua.COPYING.txt)
 
+  miniz by Rich Geldreich
+  Public domain (see contrib/miniz/miniz.h)
+
   Cousine font
   Copyright (C) 2010 Google, Inc
   Licensed under the SIL Open Font Licence v1.1 (see fonts.COPYING.txt)

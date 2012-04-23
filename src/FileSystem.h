@@ -102,10 +102,10 @@ namespace FileSystem {
 		friend bool operator> (const FileInfo &a, const FileInfo &b) { return (b < a); }
 		friend bool operator>=(const FileInfo &a, const FileInfo &b) { return (b <= a); }
 
-	protected:
+	private:
+		// use FileSource::MakeFileInfo to create your FileInfos
 		FileInfo(FileSource *source, const std::string &path, FileType type);
 
-	private:
 		FileSource *m_source;
 		std::string m_path;
 		int m_dirLen;
