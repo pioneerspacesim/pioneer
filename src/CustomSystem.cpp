@@ -26,9 +26,8 @@ void CustomSystem::Init()
 	OOLUA::register_class<CustomSystem>(L);
 	OOLUA::register_class<CustomSBody>(L);
 
-	lua_register(L, "load_lua", pi_load_lua);
-
-	pi_lua_dofile(L, "pisystems.lua");
+	pi_lua_dofile(L, "pistartup.lua");
+	pi_lua_dofile_recursive(L, "systems");
 
 	lua_close(L);
 }

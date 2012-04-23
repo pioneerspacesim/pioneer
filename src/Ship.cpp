@@ -964,15 +964,15 @@ void Ship::StaticUpdate(const float timeStep)
 	UpdateAlertState();
 
 	/* FUEL SCOOPING!!!!!!!!! */
-	if (m_equipment.Get(Equip::SLOT_FUELSCOOP) != Equip::NONE) {
+	if ((m_flightState == FLYING) && (m_equipment.Get(Equip::SLOT_FUELSCOOP) != Equip::NONE)) {
 		Body *astro = GetFrame()->m_astroBody;
 		if (astro && astro->IsType(Object::PLANET)) {
 			Planet *p = static_cast<Planet*>(astro);
-			if (p->Body::GetSBody()->IsScoopable()) {
+			if (p->GetSBody()->IsScoopable()) {
 				double dist = GetPosition().Length();
 				double pressure, density;
 				p->GetAtmosphericState(dist, &pressure, &density);
-			
+
 				double speed = GetVelocity().Length();
 				vector3d vdir = GetVelocity().Normalized();
 				matrix4x4d rot;
