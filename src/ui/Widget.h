@@ -111,7 +111,7 @@ public:
 
 	// determine if a point is inside a widget's bounds
 	bool Contains(const vector2f &point) const {
-		return (point.x >= m_position.x && point.y >= m_position.y && point.x < m_position.x+m_activeArea.x && point.y < m_position.y+m_activeArea.y);
+		return (point.x >= 0.0f && point.y >= 0.0f && point.x < m_activeArea.x && point.y < m_activeArea.y);
 	}
 
 	// deterine if an absolute point is inside a widget's bounds
