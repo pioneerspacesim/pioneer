@@ -3,6 +3,8 @@
 #include "FileSourceZip.h"
 
 void ModManager::Init() {
+	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir("mods"));
+
 	FileSystem::FileSourceFS modFiles(FileSystem::GetUserDir("mods"));
 	for (FileSystem::FileEnumerator files(modFiles, "", 0); !files.Finished(); files.Next()) {
 		const FileSystem::FileInfo &info = files.Current();
