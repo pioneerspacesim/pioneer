@@ -247,6 +247,9 @@
 		4A9937691368355500EA0EE5 /* LuaUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99374A1368355500EA0EE5 /* LuaUI.cpp */; };
 		4A99376A1368355500EA0EE5 /* LuaUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99374C1368355500EA0EE5 /* LuaUtils.cpp */; };
 		4A99893E1388BCD900647BA9 /* FontConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99893C1388BCD900647BA9 /* FontConfig.cpp */; };
+		4AAC9FE215458FE400116131 /* miniz.c in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FDE15458FE400116131 /* miniz.c */; };
+		4AAC9FE91545901D00116131 /* FileSourceZip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FE51545901D00116131 /* FileSourceZip.cpp */; };
+		4AAC9FEA1545901D00116131 /* ModManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FE71545901D00116131 /* ModManager.cpp */; };
 		4AB3DF8914346952001B783A /* TerrainBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB3DF8714346952001B783A /* TerrainBody.cpp */; };
 		4AB7D6031472A83E00158DE4 /* Terrain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5D11472A83E00158DE4 /* Terrain.cpp */; };
 		4AB7D6041472A83E00158DE4 /* TerrainColorAsteroid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5D31472A83E00158DE4 /* TerrainColorAsteroid.cpp */; };
@@ -869,6 +872,12 @@
 		4A99374F1368355500EA0EE5 /* RefList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefList.h; sourceTree = "<group>"; };
 		4A99893C1388BCD900647BA9 /* FontConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FontConfig.cpp; sourceTree = "<group>"; };
 		4A99893D1388BCD900647BA9 /* FontConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontConfig.h; sourceTree = "<group>"; };
+		4AAC9FDE15458FE400116131 /* miniz.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = miniz.c; sourceTree = "<group>"; };
+		4AAC9FDF15458FE400116131 /* miniz.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = miniz.h; sourceTree = "<group>"; };
+		4AAC9FE51545901D00116131 /* FileSourceZip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSourceZip.cpp; sourceTree = "<group>"; };
+		4AAC9FE61545901D00116131 /* FileSourceZip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSourceZip.h; sourceTree = "<group>"; };
+		4AAC9FE71545901D00116131 /* ModManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModManager.cpp; sourceTree = "<group>"; };
+		4AAC9FE81545901D00116131 /* ModManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModManager.h; sourceTree = "<group>"; };
 		4AB3DF8714346952001B783A /* TerrainBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainBody.cpp; sourceTree = "<group>"; };
 		4AB3DF8814346952001B783A /* TerrainBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerrainBody.h; sourceTree = "<group>"; };
 		4AB7D5D11472A83E00158DE4 /* Terrain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Terrain.cpp; sourceTree = "<group>"; };
@@ -1038,6 +1047,7 @@
 		4A1903C1138AA39C00E0229C /* contrib */ = {
 			isa = PBXGroup;
 			children = (
+				4AAC9FDC15458FE400116131 /* miniz */,
 				4A1903C2138AA39C00E0229C /* lua */,
 				4A19043E138AA39C00E0229C /* oolua */,
 			);
@@ -1282,6 +1292,10 @@
 		4A6C4B9F13532FC300FDD53F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				4AAC9FE51545901D00116131 /* FileSourceZip.cpp */,
+				4AAC9FE61545901D00116131 /* FileSourceZip.h */,
+				4AAC9FE71545901D00116131 /* ModManager.cpp */,
+				4AAC9FE81545901D00116131 /* ModManager.h */,
 				4A6C4BFE13532FC300FDD53F /* Aabb.h */,
 				4A6C4BFF13532FC300FDD53F /* AmbientSounds.cpp */,
 				4A6C4C0013532FC300FDD53F /* AmbientSounds.h */,
@@ -1589,6 +1603,15 @@
 				4A9822AA142DF93D00B423F1 /* AUTHORS.txt */,
 			);
 			name = "Misc TXT files";
+			sourceTree = "<group>";
+		};
+		4AAC9FDC15458FE400116131 /* miniz */ = {
+			isa = PBXGroup;
+			children = (
+				4AAC9FDE15458FE400116131 /* miniz.c */,
+				4AAC9FDF15458FE400116131 /* miniz.h */,
+			);
+			path = miniz;
 			sourceTree = "<group>";
 		};
 		4AB7D5CF1472A83E00158DE4 /* terrain */ = {
@@ -2021,6 +2044,9 @@
 				4ACC6D1E15401E7000C59914 /* TextSupport.cpp in Sources */,
 				4ACC6D1F15401E7000C59914 /* TextureFont.cpp in Sources */,
 				4ACC6D2015401E7000C59914 /* VectorFont.cpp in Sources */,
+				4AAC9FE215458FE400116131 /* miniz.c in Sources */,
+				4AAC9FE91545901D00116131 /* FileSourceZip.cpp in Sources */,
+				4AAC9FEA1545901D00116131 /* ModManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
