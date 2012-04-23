@@ -253,6 +253,7 @@ AC_CONFIG_FILES([
 	src/text/Makefile
 	contrib/Makefile
 	contrib/lua/Makefile
+	contrib/miniz/Makefile
 	contrib/oolua/Makefile
 	osx/Makefile
 	win32/Makefile
