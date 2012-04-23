@@ -4,8 +4,10 @@
 #include <cstdlib>
 
 extern "C" {
-#include "miniz.h"
+#include "miniz/miniz.h"
 }
+
+#undef FT_FILE // TODO FileInfo::FT_FILE is conflicting with a FreeType def; undefine it for now
 
 namespace FileSystem {
 
