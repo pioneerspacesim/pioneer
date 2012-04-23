@@ -1909,7 +1909,9 @@ void *tdefl_write_image_to_png_file_in_memory(const void *pImage, int w, int h, 
 #else
   #include <stdio.h>
   #include <sys/stat.h>
-  #if defined(_MSC_VER) || defined(__MINGW32__) || defined(__MINGW64__)
+// XXX PIONEER: assumes that MSVC-internal functions exist on MinGW, which is not a given
+//#if defined(_MSC_VER) || defined(__MINGW32__) || defined(__MINGW64__)
+  #if defined(_MSC_VER)
     #include <sys/utime.h>
     #define MZ_FILE FILE
     #define MZ_FOPEN fopen
@@ -1930,8 +1932,15 @@ void *tdefl_write_image_to_png_file_in_memory(const void *pImage, int w, int h, 
     #define MZ_FCLOSE fclose
     #define MZ_FREAD fread
     #define MZ_FWRITE fwrite
-    #define MZ_FTELL64 ftello
-    #define MZ_FSEEK64 fseeko
+// XXX PIONEER: MinGW does not currently have 64-bit ftell/fseek. Shouldn't be
+// XXX PIONEER: a problem and eventually we won't use miniz lowlevel IO ops anyway
+    #if defined(__MINGW32__)
+      #define MZ_FTELL64 ftell
+      #define MZ_FSEEK64 fseek
+    #else
+      #define MZ_FTELL64 ftello
+      #define MZ_FSEEK64 fseeko
+    #endif
     #define MZ_FILE_STAT_STRUCT stat
     #define MZ_FILE_STAT stat
     #define MZ_FFLUSH fflush
