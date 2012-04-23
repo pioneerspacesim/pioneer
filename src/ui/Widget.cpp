@@ -1,6 +1,5 @@
 #include "Widget.h"
 #include "Container.h"
-#include <typeinfo>
 
 namespace UI {
 
@@ -92,25 +91,21 @@ bool Widget::HandleMouseWheel(const MouseWheelEvent &event, bool emit)
 
 bool Widget::HandleMouseOver(const vector2f &pos, bool emit)
 {
-	//printf("HandleMouseOver: %p %s pos %f,%f\n", this, typeid(*this).name(), pos.x, pos.y);
 	if (!m_mouseOver && Contains(pos)) {
-		//printf("    switching over\n");
 		m_mouseOver = true;
 		if (emit) emit = !onMouseOver.emit();
 	}
-	if (GetContainer()) GetContainer()->HandleMouseOver(pos-GetPosition(), emit);
+	if (GetContainer()) GetContainer()->HandleMouseOver(pos+GetPosition(), emit);
 	return emit;
 }
 
 bool Widget::HandleMouseOut(const vector2f &pos, bool emit)
 {
-	//printf("HandleMouseOut: %p %s pos %f,%f\n", this, typeid(*this).name(), pos.x, pos.y);
-	if (GetContainer()) GetContainer()->HandleMouseOut(pos-GetPosition(), emit);
 	if (m_mouseOver && !Contains(pos)) {
-		//printf("    switching out\n");
 		if (emit) emit = !onMouseOut.emit();
 		m_mouseOver = false;
 	}
+	if (GetContainer()) GetContainer()->HandleMouseOut(pos+GetPosition(), emit);
 	return emit;
 }
 
