@@ -1,4 +1,5 @@
 #include "FileSourceZip.h"
+#include <algorithm>
 #include <cstdio>
 #include <cstdlib>
 
@@ -72,6 +73,8 @@ bool FileSourceZip::ReadDirectory(const std::string &path, std::vector<FileInfo>
 	for (FileMap::iterator i = m_index.begin(); i != m_index.end(); ++i)
 		if ((*i).first.size() > base.size() && (*i).first.substr(0, base.size()) == base)
 			output.push_back((*i).second.info);
+
+	std::sort(output.begin(), output.end());
 
 	return true;
 }
