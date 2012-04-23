@@ -54,26 +54,41 @@ bool EventDispatcher::Dispatch(const Event &event)
 			Widget *target = m_baseContainer->GetWidgetAtAbsolute(mouseButtonEvent.pos);
 
 			switch (mouseButtonEvent.action) {
+
 				case MouseButtonEvent::BUTTON_DOWN: {
+					// activate widget and remember it
 					assert(!m_mouseActiveReceiver);
 					m_mouseActiveReceiver = target;
 					target->MouseActivate();
+
 					return target->HandleMouseDown(mouseButtonEvent);
 				}
+
 				case MouseButtonEvent::BUTTON_UP: {
+
+					// if there's an active widget, deactivate it
 					if (m_mouseActiveReceiver) {
 						m_mouseActiveReceiver->MouseDeactivate();
+
+						// if we released over the active widget, then we clicked it
 						if (m_mouseActiveReceiver == target)
 							m_mouseActiveReceiver->HandleClick();
-						bool ret = target->HandleMouseUp(mouseButtonEvent);
+
 						m_mouseActiveReceiver = 0;
+
+						// send the straight up event too
+						bool ret = target->HandleMouseUp(mouseButtonEvent);
+
+						// do over/out handling for wherever the mouse is right now
 						if (target != m_lastMouseOverTarget) {
 							if (m_lastMouseOverTarget) m_lastMouseOverTarget->HandleMouseOut(mouseButtonEvent.pos-m_lastMouseOverTarget->GetAbsolutePosition());
 							m_lastMouseOverTarget = target;
 							m_lastMouseOverTarget->HandleMouseOver(mouseButtonEvent.pos-m_lastMouseOverTarget->GetAbsolutePosition());
 						}
+
 						return ret;
 					}
+
 					return target->HandleMouseUp(mouseButtonEvent);
 				}
 			}
@@ -82,15 +97,21 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 		case Event::MOUSE_MOTION: {
 			const MouseMotionEvent mouseMotionEvent = static_cast<const MouseMotionEvent&>(event);
+
+			// if there's a mouse-active widget, just send motion events directly into it
 			if (m_mouseActiveReceiver)
 				return m_mouseActiveReceiver->HandleMouseMove(mouseMotionEvent);
 
+			// widget directly under the mouse
 			Widget *target = m_baseContainer->GetWidgetAtAbsolute(mouseMotionEvent.pos);
+
+			// over/out handling if its not the same widget as last time
 			if (target != m_lastMouseOverTarget) {
 				if (m_lastMouseOverTarget) m_lastMouseOverTarget->HandleMouseOut(mouseMotionEvent.pos-m_lastMouseOverTarget->GetAbsolutePosition());
 				m_lastMouseOverTarget = target;
 				m_lastMouseOverTarget->HandleMouseOver(mouseMotionEvent.pos-m_lastMouseOverTarget->GetAbsolutePosition());
 			}
+
 			return target->HandleMouseMove(mouseMotionEvent);
 		}
 

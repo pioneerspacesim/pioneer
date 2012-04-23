@@ -91,6 +91,7 @@ bool Widget::HandleMouseWheel(const MouseWheelEvent &event, bool emit)
 
 bool Widget::HandleMouseOver(const vector2f &pos, bool emit)
 {
+	// only send external events on state change
 	if (!m_mouseOver && Contains(pos)) {
 		m_mouseOver = true;
 		if (emit) emit = !onMouseOver.emit();
@@ -101,6 +102,7 @@ bool Widget::HandleMouseOver(const vector2f &pos, bool emit)
 
 bool Widget::HandleMouseOut(const vector2f &pos, bool emit)
 {
+	// only send external events on state change
 	if (m_mouseOver && !Contains(pos)) {
 		if (emit) emit = !onMouseOut.emit();
 		m_mouseOver = false;
