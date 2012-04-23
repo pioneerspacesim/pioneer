@@ -20,17 +20,13 @@ protected:
 		SLIDER_VERTICAL
 	};
 
-	Slider(Context *context, SliderOrientation orient) : Widget(context), m_orient(orient), m_value(0.0f), m_active(false) {}
-
-	virtual void Activate();
-	virtual void Deactivate();
+	Slider(Context *context, SliderOrientation orient) : Widget(context), m_orient(orient), m_value(0.0f) {}
 
 private:
 	void UpdateButton();
 
 	SliderOrientation m_orient;
 	float m_value;
-	bool m_active;
 	vector2f m_buttonPos, m_buttonSize;
 };
 

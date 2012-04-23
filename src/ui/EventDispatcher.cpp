@@ -2,7 +2,6 @@
 #include "Widget.h"
 #include "Container.h"
 
-
 namespace UI {
 
 static inline MouseButtonEvent::ButtonType MouseButtonFromSDLButton(Uint8 sdlButton) {
@@ -56,18 +55,25 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 			switch (mouseButtonEvent.action) {
 				case MouseButtonEvent::BUTTON_DOWN: {
-					assert(!m_mouseDownReceiver);
-					m_mouseDownReceiver = target;
-					target->Activate();
+					assert(!m_mouseActiveReceiver);
+					m_mouseActiveReceiver = target;
+					target->MouseActivate();
 					return target->HandleMouseDown(mouseButtonEvent);
 				}
 				case MouseButtonEvent::BUTTON_UP: {
-					if (m_mouseDownReceiver) {
-						m_mouseDownReceiver->Deactivate();
-						if (m_mouseDownReceiver == target)
-							m_mouseDownReceiver->HandleClick();
+					if (m_mouseActiveReceiver) {
+						m_mouseActiveReceiver->MouseDeactivate();
+						if (m_mouseActiveReceiver == target)
+							m_mouseActiveReceiver->HandleClick();
+						bool ret = target->HandleMouseUp(mouseButtonEvent);
+						m_mouseActiveReceiver = 0;
+						if (m_mouseMoveReceiver && target != m_mouseMoveReceiver) {
+							m_mouseMoveReceiver->HandleMouseOut();
+							m_mouseMoveReceiver = target;
+							m_mouseMoveReceiver->HandleMouseOver();
+						}
+						return ret;
 					}
-					m_mouseDownReceiver = 0;
 					return target->HandleMouseUp(mouseButtonEvent);
 				}
 			}
@@ -76,8 +82,12 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 		case Event::MOUSE_MOTION: {
 			const MouseMotionEvent mouseMotionEvent = static_cast<const MouseMotionEvent&>(event);
+			if (m_mouseActiveReceiver)
+				return m_mouseActiveReceiver->HandleMouseMove(mouseMotionEvent);
+
 			Widget *target = m_baseContainer->GetWidgetAtAbsolute(mouseMotionEvent.pos);
 			if (target != m_mouseMoveReceiver) {
+				printf("target %p receiver %p\n", target, m_mouseMoveReceiver);
 				if (m_mouseMoveReceiver) m_mouseMoveReceiver->HandleMouseOut();
 				m_mouseMoveReceiver = target;
 				m_mouseMoveReceiver->HandleMouseOver();

@@ -46,24 +46,12 @@ void Button::Layout()
 
 void Button::Draw()
 {
-	if (m_active)
+	if (IsMouseActive())
 		GetContext()->GetSkin().DrawButtonActive(vector2f(0.0f), GetActiveArea());
 	else
 		GetContext()->GetSkin().DrawButtonNormal(vector2f(0.0f), GetActiveArea());
 
 	Single::Draw();
-}
-
-void Button::Activate()
-{
-	m_active = true;
-	Single::Activate();
-}
-
-void Button::Deactivate()
-{
-	m_active = false;
-	Single::Deactivate();
 }
 
 }

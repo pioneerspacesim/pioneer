@@ -46,16 +46,4 @@ void Slider::SetValue(float v)
 	UpdateButton();
 }
 
-void Slider::Activate()
-{
-	m_active = true;
-	Widget::Activate();
-}
-
-void Slider::Deactivate()
-{
-	m_active = false;
-	Widget::Deactivate();
-}
-
 }

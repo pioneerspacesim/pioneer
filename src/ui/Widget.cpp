@@ -3,7 +3,7 @@
 
 namespace UI {
 
-Widget::Widget(Context *context) : m_context(context), m_container(0), m_position(0), m_size(0)
+Widget::Widget(Context *context) : m_context(context), m_container(0), m_position(0), m_size(0), m_activeArea(0), m_mouseActive(false)
 {
 	assert(m_context);
 }
@@ -110,14 +110,16 @@ bool Widget::HandleClick(bool emit)
 	return emit;
 }
 
-void Widget::Activate()
+void Widget::MouseActivate()
 {
-	if (GetContainer()) GetContainer()->Activate();
+	m_mouseActive = true;
+	if (GetContainer()) GetContainer()->MouseActivate();
 }
 
-void Widget::Deactivate()
+void Widget::MouseDeactivate()
 {
-	if (GetContainer()) GetContainer()->Deactivate();
+	if (GetContainer()) GetContainer()->MouseDeactivate();
+	m_mouseActive = false;
 }
 
 }

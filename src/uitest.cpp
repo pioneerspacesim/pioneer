@@ -93,29 +93,35 @@ int main(int argc, char **argv)
 
 	UI::Context *c = new UI::Context(r, WIDTH, HEIGHT);
 
-#if 0
-	UI::Button *button;
+	UI::Button *b1, *b2, *b3;
 	c->SetInnerWidget(
 		c->VBox()->PackEnd(UI::WidgetSet(
 			c->Margin(10.0f)->SetInnerWidget(
-				(button = c->Button())
+				(b1 = c->Button())
 			),
 			c->Margin(10.0f)->SetInnerWidget(
-				c->Button()->SetInnerWidget(c->Image("icons/object_star_m.png"))
+				(b2 = c->Button())->SetInnerWidget(c->Image("icons/object_star_m.png"))
 			),
             c->Margin(10.0f)->SetInnerWidget(
-                c->Button()->SetInnerWidget(c->Label("PEW PEW"))
+                (b3 = c->Button())->SetInnerWidget(c->Label("PEW PEW"))
             )), UI::Box::ChildAttrs(false, false)
 		)
 	);
 
-	c->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), c));
-	button->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), button));
-	button->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), button));
-	button->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), button));
-	button->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), button));
-#endif
+	b1->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), b1));
+//	b1->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), b1));
+	b1->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b1));
+	b1->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b1));
+	b2->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), b2));
+//	b2->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), b2));
+	b2->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b2));
+	b2->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b2));
+	b3->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), b3));
+//	b3->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), b3));
+	b3->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b3));
+	b3->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b3));
 
+#if 0
 	UI::Image *image;
 	UI::Slider *slider;
 	c->SetInnerWidget(
@@ -147,6 +153,7 @@ int main(int argc, char **argv)
 
 	image->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), image));
 	image->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), image));
+#endif
 
 #if 0
 	c->SetInnerWidget(
@@ -182,7 +189,7 @@ int main(int argc, char **argv)
 		c->Draw();
 		r->SwapBuffers();
 
-		slider->SetValue(slider->GetValue() + 0.01);
+//		slider->SetValue(slider->GetValue() + 0.01);
 	}
 
 	delete c;
