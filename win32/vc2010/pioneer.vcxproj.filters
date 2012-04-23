@@ -681,6 +681,12 @@
     <ClCompile Include="..\..\src\text\VectorFont.cpp">
       <Filter>src\text</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\FileSourceZip.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ModManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -1276,6 +1282,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\text\VectorFont.h">
       <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FileSourceZip.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ModManager.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
