@@ -38,6 +38,10 @@ typedef unsigned char mz_validate_uint64[sizeof(mz_uint64)==8 ? 1 : -1];
     #define __forceinline
   #endif
 #endif
+// XXX PIONEER: above assumes that MinGW has __forceinline, which it does not
+#if !defined(__forceinline)
+  #define __forceinline
+#endif
 
 #ifdef __cplusplus
   extern "C" {

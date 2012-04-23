@@ -124,6 +124,8 @@
 #define MINIZ_HEADER_INCLUDED
 
 #include <stdlib.h>
+// XXX PIONEER: include time.h to get time_t on MinGW
+#include <time.h>
 
 // Defines to completely disable specific portions of miniz.c:
 // If all macros here are defined the only functionality remaining will be CRC-32, adler-32, tinfl, and tdefl.
