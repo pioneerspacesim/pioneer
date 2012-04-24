@@ -49,9 +49,7 @@ public:
 	UI::HBox *HBox(float spacing = 0.0f) { return new UI::HBox(this, spacing); }
 	UI::VBox *VBox(float spacing = 0.0f) { return new UI::VBox(this, spacing); }
 
-	UI::Grid *Grid(const UI::Grid::HCellSet &hCellSet) { return new UI::Grid(this, hCellSet); }
-	UI::Grid *Grid(const UI::Grid::VCellSet &vCellSet) { return new UI::Grid(this, vCellSet); }
-	UI::Grid *Grid(const UI::Grid::HCellSet &hCellSet, const UI::Grid::VCellSet &vCellSet) { return new UI::Grid(this, hCellSet, vCellSet); }
+	UI::Grid *Grid(const UI::CellSpec &rowSpec, const UI::CellSpec &colSpec) { return new UI::Grid(this, rowSpec, colSpec); }
 
 	// single containers
 	UI::Background *Background(const Color &color) { return new UI::Background(this, color); }

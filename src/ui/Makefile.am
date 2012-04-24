@@ -11,6 +11,7 @@ noinst_HEADERS = \
 	Background.h \
 	Box.h \
 	Button.h \
+	CellSpec.h \
 	Container.h \
 	Context.h \
 	Event.h \
