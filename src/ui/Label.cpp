@@ -12,6 +12,9 @@ vector2f Label::PreferredSize()
 
 void Label::Layout()
 {
+	if (m_preferredSize.ExactlyEqual(0))
+		GetContext()->GetFont()->MeasureString(m_text.c_str(), m_preferredSize.x, m_preferredSize.y);
+
 	const vector2f size = GetSize();
 	SetActiveArea(vector2f(std::min(m_preferredSize.x,size.x), std::min(m_preferredSize.y,size.y)));
 }
