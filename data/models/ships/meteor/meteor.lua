@@ -1,8 +1,8 @@
 define_model('meteor', {
 	info = {
 		scale = 1.2,
-		bounding_radius = 40,
-		lod_pixels = {60 , 200, 0},
+		bounding_radius = 13,
+		lod_pixels = {40 , 150, 0},
 		materials = {'default'},
 		tags = {'ship'},
 	},
