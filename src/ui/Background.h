@@ -10,6 +10,8 @@ class Background : public Single {
 public:
 	virtual void Draw();
 
+	void SetColor(const Color &color) { m_color = color; }
+
 protected:
 	friend class Context;
 	Background(Context *context, const Color &color) : Single(context), m_color(color) {}
