@@ -15,6 +15,7 @@ noinst_HEADERS = \
 	Context.h \
 	Event.h \
 	EventDispatcher.h \
+	Grid.h \
 	Image.h \
 	Label.h \
 	Margin.h \
@@ -32,6 +33,7 @@ libui_a_SOURCES = \
 	Container.cpp \
 	Context.cpp \
 	EventDispatcher.cpp \
+	Grid.cpp \
 	Image.cpp \
 	Label.cpp \
 	Margin.cpp \
