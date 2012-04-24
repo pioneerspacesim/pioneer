@@ -46,6 +46,7 @@ void Slider::Draw()
 void Slider::SetValue(float v)
 {
 	m_value = Clamp(v, 0.0f, 1.0f);
+	onValueChanged.emit(m_value);
 	UpdateButton();
 }
 

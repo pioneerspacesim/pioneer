@@ -14,6 +14,8 @@ public:
 	float GetValue() const { return m_value; }
 	void SetValue(float v);
 
+	sigc::signal<void,float> onValueChanged;
+
 protected:
 	enum SliderOrientation {
 		SLIDER_HORIZONTAL,
