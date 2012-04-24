@@ -4,6 +4,27 @@ namespace UI {
 
 void Grid::Layout()
 {
+	const vector2f size = GetSize();
+
+	vector2f childPos, childSize;
+	for (int rowNum = 0; rowNum < m_colSpec.numCells; rowNum++) {
+		childSize.y = m_colSpec.cellPercent[rowNum]*size.y;
+
+		childPos.x = 0;
+		for (int colNum = 0; colNum < m_rowSpec.numCells; colNum++) {
+			childSize.x = m_rowSpec.cellPercent[colNum]*size.x;
+
+			const int n = rowNum*m_colSpec.numCells+colNum;
+			if (m_widgets[n])
+				SetWidgetDimensions(m_widgets[n], childPos, childSize);
+
+			childPos.x += childSize.x;
+		}
+
+		childPos.y += childSize.y;
+	}
+
+	LayoutChildren();
 }
 
 Grid *Grid::SetRow(int rowNum, const WidgetSet &set)

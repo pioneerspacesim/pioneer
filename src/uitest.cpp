@@ -1,13 +1,6 @@
 #include <cstdlib>
 #include "SDL.h"
 #include "ui/Context.h"
-#include "ui/Background.h"
-#include "ui/Box.h"
-#include "ui/Image.h"
-#include "ui/Label.h"
-#include "ui/MultiLineText.h"
-#include "ui/Margin.h"
-#include "ui/Slider.h"
 #include "FileSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
@@ -162,6 +155,7 @@ int main(int argc, char **argv)
 	image->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), image));
 #endif
 
+#if 0
 	UI::Slider *red, *green, *blue;
 	UI::Background *back;
 	c->SetInnerWidget(
@@ -175,6 +169,19 @@ int main(int argc, char **argv)
 	red->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
 	green->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
 	blue->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
+#endif
+
+	c->SetInnerWidget(
+		c->Grid(UI::CellSpec(0.5f,0.5f), UI::CellSpec(0.5f,0.5f))
+			->SetRow(0, UI::WidgetSet(
+				c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+				c->Image("icons/object_star_g.png")
+			))
+			->SetRow(1, UI::WidgetSet(
+				c->Image("icons/object_star_m.png"),
+				c->Button()->SetInnerWidget(c->Label("Wear monocle"))
+			))
+	);
 
 	c->Layout();
 
