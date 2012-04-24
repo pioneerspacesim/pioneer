@@ -9,7 +9,7 @@ namespace UI {
 class Grid : public Container {
 protected:
 	friend class Context;
-	Grid(Context *context, const CellSpec &rowSpec, const CellSpec &colSpec) : Container(context), m_rowSpec(rowSpec), m_colSpec(colSpec) {}
+	Grid(Context *context, const CellSpec &rowSpec, const CellSpec &colSpec) : Container(context), m_rowSpec(rowSpec), m_colSpec(colSpec), m_widgets(m_rowSpec.numCells*m_colSpec.numCells) {}
 
 public:
 	virtual vector2f PreferredSize();
@@ -17,9 +17,11 @@ public:
 
 	Grid *SetRow(int rowNum, const WidgetSet &set);
 	Grid *SetColumn(int colNum, const WidgetSet &set);
+	Grid *SetCell(int colNum, int rowNum, Widget *widget);
 
 private:
 	CellSpec m_rowSpec, m_colSpec;
+	std::vector<Widget*> m_widgets;
 };
 
 }
