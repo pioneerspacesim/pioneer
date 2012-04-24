@@ -29,16 +29,18 @@ vector2f Button::PreferredSize()
 
 void Button::Layout()
 {
-	if (!GetInnerWidget()) {
+	Widget *innerWidget = GetInnerWidget();
+
+	if (!innerWidget) {
 		SetActiveArea(vector2f(MIN_BUTTON_INNER_SIZE) + vector2f(Skin::s_buttonNormal.borderWidth*2));
 		return;
 	}
 
 	const vector2f innerSize = GetSize() - vector2f(Skin::s_buttonNormal.borderWidth*2);
-	SetWidgetDimensions(GetInnerWidget(), vector2f(Skin::s_buttonNormal.borderWidth), innerSize);
-	GetInnerWidget()->Layout();
+	SetWidgetDimensions(innerWidget, vector2f(Skin::s_buttonNormal.borderWidth), innerSize);
+	innerWidget->Layout();
 
-	vector2f innerActiveArea(GetInnerWidget()->GetActiveArea());
+	vector2f innerActiveArea(innerWidget->GetActiveArea());
 	growToMinimum(innerActiveArea);
 
 	SetActiveArea(innerActiveArea + vector2f(Skin::s_buttonNormal.borderWidth*2));
