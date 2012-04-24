@@ -93,6 +93,7 @@ int main(int argc, char **argv)
 
 	UI::Context *c = new UI::Context(r, WIDTH, HEIGHT);
 
+#if 0
 	UI::Button *b1, *b2, *b3;
 	c->SetInnerWidget(
 		c->VBox()->PackEnd(UI::WidgetSet(
@@ -120,8 +121,8 @@ int main(int argc, char **argv)
 //	b3->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), b3));
 	b3->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b3));
 	b3->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b3));
+#endif
 
-#if 0
 	UI::Image *image;
 	UI::Slider *slider;
 	c->SetInnerWidget(
@@ -153,7 +154,6 @@ int main(int argc, char **argv)
 
 	image->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), image));
 	image->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), image));
-#endif
 
 #if 0
 	c->SetInnerWidget(

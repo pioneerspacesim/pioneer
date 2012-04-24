@@ -59,33 +59,41 @@ bool Widget::HandleKeyUp(const KeyboardEvent &event, bool emit)
 
 bool Widget::HandleMouseDown(const MouseButtonEvent &event, bool emit)
 {
-	MouseButtonEvent translatedEvent = MouseButtonEvent(event.action, event.button, event.pos-GetPosition());
-	if (emit) emit = !onMouseDown.emit(translatedEvent);
-	if (GetContainer()) GetContainer()->HandleMouseDown(translatedEvent, emit);
+	if (emit) emit = !onMouseDown.emit(event);
+	if (GetContainer()) {
+		MouseButtonEvent translatedEvent = MouseButtonEvent(event.action, event.button, event.pos+GetPosition());
+		GetContainer()->HandleMouseDown(translatedEvent, emit);
+	}
 	return emit;
 }
 
 bool Widget::HandleMouseUp(const MouseButtonEvent &event, bool emit)
 {
-	MouseButtonEvent translatedEvent = MouseButtonEvent(event.action, event.button, event.pos-GetPosition());
-	if (emit) emit = !onMouseUp.emit(translatedEvent);
-	if (GetContainer()) GetContainer()->HandleMouseUp(translatedEvent, emit);
+	if (emit) emit = !onMouseUp.emit(event);
+	if (GetContainer()) {
+		MouseButtonEvent translatedEvent = MouseButtonEvent(event.action, event.button, event.pos+GetPosition());
+		GetContainer()->HandleMouseUp(translatedEvent, emit);
+	}
 	return emit;
 }
 
 bool Widget::HandleMouseMove(const MouseMotionEvent &event, bool emit)
 {
-	MouseMotionEvent translatedEvent = MouseMotionEvent(event.pos-GetPosition());
-	if (emit) emit = !onMouseMove.emit(translatedEvent);
-	if (GetContainer()) GetContainer()->HandleMouseMove(translatedEvent, emit);
+	if (emit) emit = !onMouseMove.emit(event);
+	if (GetContainer()) {
+		MouseMotionEvent translatedEvent = MouseMotionEvent(event.pos+GetPosition());
+		GetContainer()->HandleMouseMove(translatedEvent, emit);
+	}
 	return emit;
 }
 
 bool Widget::HandleMouseWheel(const MouseWheelEvent &event, bool emit)
 {
-	MouseWheelEvent translatedEvent = MouseWheelEvent(event.direction, event.pos-GetPosition());
-	if (emit) emit = !onMouseWheel.emit(translatedEvent);
-	if (GetContainer()) GetContainer()->HandleMouseWheel(translatedEvent, emit);
+	if (emit) emit = !onMouseWheel.emit(event);
+	if (GetContainer()) {
+		MouseWheelEvent translatedEvent = MouseWheelEvent(event.direction, event.pos+GetPosition());
+		GetContainer()->HandleMouseWheel(translatedEvent, emit);
+	}
 	return emit;
 }
 
