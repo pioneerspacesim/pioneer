@@ -29,7 +29,7 @@ void Grid::Layout()
 
 Grid *Grid::SetRow(int rowNum, const WidgetSet &set)
 {
-	assert(set.numWidgets == m_rowSpec.numCells);
+	assert(set.numWidgets <= m_rowSpec.numCells);
 	assert(rowNum >= 0 && rowNum < m_colSpec.numCells);
 
 	for (int i = 0; i < set.numWidgets; i++) {
@@ -47,7 +47,7 @@ Grid *Grid::SetRow(int rowNum, const WidgetSet &set)
 
 Grid *Grid::SetColumn(int colNum, const WidgetSet &set)
 {
-	assert(set.numWidgets == m_colSpec.numCells);
+	assert(set.numWidgets <= m_colSpec.numCells);
 	assert(colNum >= 0 && colNum < m_rowSpec.numCells);
 
 	for (int i = 0; i < set.numWidgets; i++) {
