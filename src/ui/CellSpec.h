@@ -2,6 +2,11 @@ namespace UI {
 
 class CellSpec {
 public:
+	CellSpec(int n) : numCells(n) {
+		assert(n >= 0 && n < 8);
+		for (int i = 0; i < 8; i++) cellPercent[i] = 1.0f/n;
+	}
+
 	inline CellSpec(float cp0, float cp1) : numCells(2) {
 		cellPercent[0] = cp0; cellPercent[1] = cp1;
 		ClampCells();
