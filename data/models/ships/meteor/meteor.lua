@@ -46,8 +46,8 @@ define_model('meteor', {
 		thruster(v( 2.000,-0.200, -6.800), v(1.000, 0.000, 0.000), 1, false)
 		thruster(v(-2.000,-0.200, -6.800), v(-1.000, 0.000, 0.000), 1, false)
 		--flank aft
-		thruster(v( 1.800, 0.000, 4.600), v(1.000, 0.000, 0.000), 2, false)
-		thruster(v(-1.800, 0.000, 4.600), v(-1.000, 0.000, 0.000), 2, false)
+		thruster(v( 1.800, 0.000, 4.600), v(1.000, 0.000,-0.500), 2, false)
+		thruster(v(-1.800, 0.000, 4.600), v(-1.000, 0.000,-0.500), 2, false)
 
 	end,
 	dynamic = function(lod)
