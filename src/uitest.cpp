@@ -40,6 +40,11 @@ static bool out_handler(UI::Widget *w)
 	return true;
 }
 
+static void colour_change(float v, UI::Background *back, UI::Slider *r, UI::Slider *g, UI::Slider *b)
+{
+	back->SetColor(Color(r->GetValue(), g->GetValue(), b->GetValue()));
+}
+
 int main(int argc, char **argv)
 {
 	FileSystem::Init();
@@ -123,6 +128,7 @@ int main(int argc, char **argv)
 	b3->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b3));
 #endif
 
+#if 0
 	UI::Image *image;
 	UI::Slider *slider;
 	c->SetInnerWidget(
@@ -154,18 +160,21 @@ int main(int argc, char **argv)
 
 	image->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), image));
 	image->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), image));
-
-#if 0
-	c->SetInnerWidget(
-		c->HBox(5.0f)->PackEnd(UI::WidgetSet(
-			c->Button()->SetInnerWidget(c->Label("Load game")),
-			c->Button()->SetInnerWidget(c->Label("Save game")),
-			c->Button()->SetInnerWidget(c->Label("Win game"))
-		), UI::Box::ChildAttrs(false, true))->PackEnd(
-			c->HSlider(), UI::Box::ChildAttrs(true, true)
-		)
-	);
 #endif
+
+	UI::Slider *red, *green, *blue;
+	UI::Background *back;
+	c->SetInnerWidget(
+		c->VBox(5.0f)->PackEnd(UI::WidgetSet(
+			c->HBox(5.0f)->PackEnd(c->Label("Red"), UI::Box::ChildAttrs(false))->PackEnd(red = c->HSlider()),
+			c->HBox(5.0f)->PackEnd(c->Label("Green"), UI::Box::ChildAttrs(false))->PackEnd(green = c->HSlider()),
+			c->HBox(5.0f)->PackEnd(c->Label("Blue"), UI::Box::ChildAttrs(false))->PackEnd(blue = c->HSlider())
+		), UI::Box::ChildAttrs(false))->PackEnd(back = c->Background(Color()))
+	);
+
+	red->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
+	green->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
+	blue->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
 
 	c->Layout();
 
