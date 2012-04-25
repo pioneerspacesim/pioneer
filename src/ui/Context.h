@@ -36,6 +36,10 @@ namespace UI {
 // GetContext() method.
 //
 // It also holds an event dispatcher for distributing events to its widgets.
+//
+// The context also manages floating widgets. Floating widgets are drawn last
+// over the top of everything else. Events given to a floating widget or its
+// children will not propogate to a non-floating widget.
 
 class Context : public Single {
 public:
@@ -65,6 +69,17 @@ public:
 	UI::HSlider *HSlider() { return new UI::HSlider(this); }
 	UI::VSlider *VSlider() { return new UI::VSlider(this); }
 
+	// add a floating widget
+	Context *AddFloatingWidget(Widget *w, const vector2f &pos, const vector2f &size);
+	Context *RemoveFloatingWidget(Widget *w);
+
+	// considers floating widgets also
+	virtual Widget *GetWidgetAtAbsolute(const vector2f &pos);
+
+	virtual void Layout();
+	virtual void Update();
+	virtual void Draw();
+
 	Graphics::Renderer *GetRenderer() const { return m_renderer; }
 	const Skin &GetSkin() const { return m_skin; }
 	RefCountedPtr<Text::TextureFont> GetFont() const { return m_font; }
@@ -76,6 +91,8 @@ private:
 	float m_width;
 	float m_height;
 
+	std::vector<Widget*> m_floatWidgets;
+
 	EventDispatcher m_eventDispatcher;
 	Skin m_skin;
 	RefCountedPtr<Text::TextureFont> m_font;
@@ -83,7 +100,6 @@ private:
 	// used by Container::Draw to set the keep widget drawing in its bounds
 	friend class Container;
 	void SetScissor(bool enabled, const vector2f &pos = 0, const vector2f &size = 0);
-
 };
 
 }

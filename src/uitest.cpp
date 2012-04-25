@@ -171,6 +171,7 @@ int main(int argc, char **argv)
 	blue->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
 #endif
 
+#if 0
 	c->SetInnerWidget(
 		//c->Grid(UI::CellSpec(0.2f,0.8f), UI::CellSpec(0.7f,0.3f))
 		c->Grid(3,3)
@@ -183,6 +184,33 @@ int main(int argc, char **argv)
 				c->Button()->SetInnerWidget(c->Label("Wear monocle"))
 			))
 	);
+#endif
+
+	UI::Background *back[4];
+	UI::Button *b;
+	c->SetInnerWidget(
+		c->Grid(2,2)
+			->SetRow(0, UI::WidgetSet(
+				(back[0] = c->Background(Color(0.8f,0.2f,0.2f))),
+				(back[1] = c->Background(Color(0.2f,0.8f,0.2f)))))
+			->SetRow(1, UI::WidgetSet(
+				(back[2] = c->Background(Color(0.2f,0.2f,0.8f))),
+				(back[3] = c->Background(Color(0.8f,0.8f,0.2f)))))
+	);
+	c->AddFloatingWidget(
+		(b = c->Button())->SetInnerWidget(c->Image("icons/object_star_m.png")), vector2f(472.0f, 344.f), vector2f(80.0f)
+	);
+
+	for (int i = 0; i < 4; i++) {
+		back[i]->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), back[i]));
+		back[i]->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), back[i]));
+		back[i]->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), back[i]));
+		back[i]->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), back[i]));
+	}
+	b->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), b));
+	b->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), b));
+	b->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b));
+	b->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b));
 
 	c->Layout();
 

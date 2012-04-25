@@ -123,6 +123,9 @@ public:
 	// fast way to determine if the widget is a container
 	virtual bool IsContainer() const { return false; }
 
+	// are we floating
+	bool IsFloating() const { return m_floating; }
+
 
 protected:
 	// this sigc accumulator calls all the handlers for an event. if any of
@@ -212,10 +215,6 @@ protected:
 	virtual void MouseActivate();
 	virtual void MouseDeactivate();
 
-
-
-
-
 private:
 
 	// let container set our attributes. none of them make any sense if
@@ -233,11 +232,15 @@ private:
 	friend class Context;
 	void SetSize(const vector2f &size) { m_size = size; SetActiveArea(size); }
 
+	void SetFloating(bool floating) { m_floating = floating; }
+
 	Context *m_context;
 	Container *m_container;
 	vector2f m_position;
 	vector2f m_size;
 	vector2f m_activeArea;
+
+	bool m_floating;
 
 	bool m_mouseOver;
 	bool m_mouseActive;
