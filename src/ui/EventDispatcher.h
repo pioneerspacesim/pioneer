@@ -16,6 +16,8 @@ public:
 	bool DispatchSDLEvent(const SDL_Event &event);
 
 private:
+	void DispatchMouseOverOut(Widget *target, const vector2f &mousePos);
+
 	Container *m_baseContainer;
 	Widget *m_mouseActiveReceiver;;
 	Widget *m_lastMouseOverTarget;

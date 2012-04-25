@@ -187,7 +187,7 @@ int main(int argc, char **argv)
 #endif
 
 	UI::Background *back[4];
-	UI::Button *b;
+	UI::Button *button[5];
 	c->SetInnerWidget(
 		c->Grid(2,2)
 			->SetRow(0, UI::WidgetSet(
@@ -198,19 +198,29 @@ int main(int argc, char **argv)
 				(back[3] = c->Background(Color(0.8f,0.8f,0.2f)))))
 	);
 	c->AddFloatingWidget(
-		(b = c->Button())->SetInnerWidget(c->Image("icons/object_star_m.png")), vector2f(472.0f, 344.f), vector2f(80.0f)
+		(button[0] = c->Button())->SetInnerWidget(c->Image("icons/object_star_m.png")), vector2f(472.0f, 344.f), vector2f(80.0f)
+	)->AddFloatingWidget(
+		(button[1] = c->Button())->SetInnerWidget(c->Image("icons/object_star_a.png")), vector2f(216.0f, 344.f), vector2f(80.0f)
+	)->AddFloatingWidget(
+		(button[2] = c->Button())->SetInnerWidget(c->Image("icons/object_star_f.png")), vector2f(728.0f, 344.f), vector2f(80.0f)
+	)->AddFloatingWidget(
+		(button[3] = c->Button())->SetInnerWidget(c->Image("icons/object_star_g.png")), vector2f(472.0f, 152.f), vector2f(80.0f)
+	)->AddFloatingWidget(
+		(button[4] = c->Button())->SetInnerWidget(c->Image("icons/object_star_k.png")), vector2f(472.0f, 536.f), vector2f(80.0f)
 	);
 
 	for (int i = 0; i < 4; i++) {
 		back[i]->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), back[i]));
-		back[i]->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), back[i]));
+//		back[i]->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), back[i]));
 		back[i]->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), back[i]));
 		back[i]->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), back[i]));
 	}
-	b->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), b));
-	b->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), b));
-	b->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b));
-	b->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b));
+	for (int i = 0; i < 5; i++) {
+		button[i]->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), button[i]));
+//		button[i]->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), button[i]));
+		button[i]->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), button[i]));
+		button[i]->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), button[i]));
+	}
 
 	c->Layout();
 
