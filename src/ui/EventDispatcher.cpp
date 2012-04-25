@@ -43,8 +43,8 @@ bool EventDispatcher::Dispatch(const Event &event)
 		case Event::KEYBOARD: {
 			const KeyboardEvent keyEvent = static_cast<const KeyboardEvent&>(event);
 			switch (keyEvent.action) {
-				case KeyboardEvent::KEY_DOWN: return m_baseContainer->HandleKeyDown(keyEvent);
-				case KeyboardEvent::KEY_UP:   return m_baseContainer->HandleKeyUp(keyEvent);
+				case KeyboardEvent::KEY_DOWN: return m_baseContainer->TriggerKeyDown(keyEvent);
+				case KeyboardEvent::KEY_UP:   return m_baseContainer->TriggerKeyUp(keyEvent);
 			}
 			return false;
 		}
@@ -59,40 +59,40 @@ bool EventDispatcher::Dispatch(const Event &event)
 					// activate widget and remember it
 					assert(!m_mouseActiveReceiver);
 					m_mouseActiveReceiver = target;
-					target->MouseActivate();
+					target->TriggerMouseActivate();
 
 					MouseButtonEvent translatedEvent = MouseButtonEvent(mouseButtonEvent.action, mouseButtonEvent.button, mouseButtonEvent.pos-target->GetAbsolutePosition());
-					return target->HandleMouseDown(translatedEvent);
+					return target->TriggerMouseDown(translatedEvent);
 				}
 
 				case MouseButtonEvent::BUTTON_UP: {
 
 					// if there's an active widget, deactivate it
 					if (m_mouseActiveReceiver) {
-						m_mouseActiveReceiver->MouseDeactivate();
+						m_mouseActiveReceiver->TriggerMouseDeactivate();
 
 						// if we released over the active widget, then we clicked it
 						if (m_mouseActiveReceiver == target)
-							m_mouseActiveReceiver->HandleClick();
+							m_mouseActiveReceiver->TriggerClick();
 
 						m_mouseActiveReceiver = 0;
 
 						// send the straight up event too
 						MouseButtonEvent translatedEvent = MouseButtonEvent(mouseButtonEvent.action, mouseButtonEvent.button, mouseButtonEvent.pos-target->GetAbsolutePosition());
-						bool ret = target->HandleMouseUp(translatedEvent);
+						bool ret = target->TriggerMouseUp(translatedEvent);
 
 						// do over/out handling for wherever the mouse is right now
 						if (target != m_lastMouseOverTarget) {
-							if (m_lastMouseOverTarget) m_lastMouseOverTarget->HandleMouseOut(mouseButtonEvent.pos-m_lastMouseOverTarget->GetAbsolutePosition());
+							if (m_lastMouseOverTarget) m_lastMouseOverTarget->TriggerMouseOut(mouseButtonEvent.pos-m_lastMouseOverTarget->GetAbsolutePosition());
 							m_lastMouseOverTarget = target;
-							m_lastMouseOverTarget->HandleMouseOver(mouseButtonEvent.pos-m_lastMouseOverTarget->GetAbsolutePosition());
+							m_lastMouseOverTarget->TriggerMouseOver(mouseButtonEvent.pos-m_lastMouseOverTarget->GetAbsolutePosition());
 						}
 
 						return ret;
 					}
 
 					MouseButtonEvent translatedEvent = MouseButtonEvent(mouseButtonEvent.action, mouseButtonEvent.button, mouseButtonEvent.pos-target->GetAbsolutePosition());
-					return target->HandleMouseUp(translatedEvent);
+					return target->TriggerMouseUp(translatedEvent);
 				}
 
 				default:
@@ -106,7 +106,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 			// if there's a mouse-active widget, just send motion events directly into it
 			if (m_mouseActiveReceiver) {
 				MouseMotionEvent translatedEvent = MouseMotionEvent(mouseMotionEvent.pos-m_mouseActiveReceiver->GetAbsolutePosition());
-				return m_mouseActiveReceiver->HandleMouseMove(translatedEvent);
+				return m_mouseActiveReceiver->TriggerMouseMove(translatedEvent);
 			}
 
 			// widget directly under the mouse
@@ -114,19 +114,19 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 			// over/out handling if its not the same widget as last time
 			if (target != m_lastMouseOverTarget) {
-				if (m_lastMouseOverTarget) m_lastMouseOverTarget->HandleMouseOut(mouseMotionEvent.pos-m_lastMouseOverTarget->GetAbsolutePosition());
+				if (m_lastMouseOverTarget) m_lastMouseOverTarget->TriggerMouseOut(mouseMotionEvent.pos-m_lastMouseOverTarget->GetAbsolutePosition());
 				m_lastMouseOverTarget = target;
-				m_lastMouseOverTarget->HandleMouseOver(mouseMotionEvent.pos-m_lastMouseOverTarget->GetAbsolutePosition());
+				m_lastMouseOverTarget->TriggerMouseOver(mouseMotionEvent.pos-m_lastMouseOverTarget->GetAbsolutePosition());
 			}
 
 			MouseMotionEvent translatedEvent = MouseMotionEvent(mouseMotionEvent.pos-target->GetAbsolutePosition());
-			return target->HandleMouseMove(translatedEvent);
+			return target->TriggerMouseMove(translatedEvent);
 		}
 
 		case Event::MOUSE_WHEEL: {
 			const MouseWheelEvent mouseWheelEvent = static_cast<const MouseWheelEvent&>(event);
 			Widget *target = m_baseContainer->GetWidgetAtAbsolute(mouseWheelEvent.pos);
-			return target->HandleMouseWheel(mouseWheelEvent);
+			return target->TriggerMouseWheel(mouseWheelEvent);
 		}
 
 		default:

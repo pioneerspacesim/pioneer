@@ -178,44 +178,66 @@ protected:
 	// set the active area. defaults to the size allocated by the container
 	void SetActiveArea(const vector2f &activeArea) { m_activeArea = activeArea; }
 
-	// EventDispatcher needs to give us events
-	friend class EventDispatcher;
-
-	// event handlers. if emit is true the corresponding signal will be
-	// fired and the value of emit will be updated with its return value. then
-	// our container's Handle* method will be called with that emit value.
-	// what this means in practice is that Handle* will be called for every
-	// widget here to the root, whereas signals will only be emitted as long
-	// as the signals continue to return false (unhandled). as such, if you
-	// need to respond to an event inside a widget such that it is never
-	// blocked, override the Handle* method instead of attaching to the signal
-	virtual bool HandleKeyDown(const KeyboardEvent &event, bool emit = true);
-	virtual bool HandleKeyUp(const KeyboardEvent &event, bool emit = true);
-	virtual bool HandleMouseDown(const MouseButtonEvent &event, bool emit = true);
-	virtual bool HandleMouseUp(const MouseButtonEvent &event, bool emit = true);
-	virtual bool HandleMouseMove(const MouseMotionEvent &event, bool emit = true);
-	virtual bool HandleMouseWheel(const MouseWheelEvent &event, bool emit = true);
-
-	virtual bool HandleClick(bool emit = true);
-
-	bool IsMouseOver() const { return m_mouseOver; }
-
-	virtual bool HandleMouseOver(const vector2f &pos, bool emit = true);
-	virtual bool HandleMouseOut(const vector2f &pos, bool emit = true);
-
-
 	// mouse active. if a widget is mouse-active, it receives all mouse events
 	// regardless of mouse position
 	bool IsMouseActive() const { return m_mouseActive; }
+
+	// internal event handlers. override to handle events. unlike the external
+	// on* signals, every widget in the stack is guaranteed to receive a call
+	// - there's no facility for stopping propogation up the stack
+    //
+	// as such, if you need to respond to an event inside a widget always
+    // without worrying about it being blocked, you should override the
+    // Handle* method instead of attaching to the signal.
+	virtual void HandleKeyDown(const KeyboardEvent &event) {}
+	virtual void HandleKeyUp(const KeyboardEvent &event) {}
+	virtual void HandleMouseDown(const MouseButtonEvent &event) {}
+	virtual void HandleMouseUp(const MouseButtonEvent &event) {}
+	virtual void HandleMouseMove(const MouseMotionEvent &event) {}
+	virtual void HandleMouseWheel(const MouseWheelEvent &event) {}
+
+	virtual void HandleClick() {}
+
+	virtual void HandleMouseOver() {}
+	virtual void HandleMouseOut() {}
 
 	// internal synthesized events to indicate that a widget is being mouse
 	// activated or deactivated. very much like MouseDown/MouseUp except you
 	// get a guarantee that you will get a MouseDeactivate() call for every
 	// MouseActivate(). mouse clicks trigger this
-	virtual void MouseActivate();
-	virtual void MouseDeactivate();
+	virtual void HandleMouseActivate() {}
+	virtual void HandleMouseDeactivate() {}
+
 
 private:
+
+	// EventDispatcher needs to give us events
+	friend class EventDispatcher;
+
+	// event triggers. when called:
+	//  - calls the corresponding Handle* method on this widget (always)
+	//  - fires the corresponding on* signal on this widget (iff emit is true)
+	//  - calls the container Trigger* method with the new emit value returned
+	//    by the on* signal
+	//
+	// what this means in practic is that Handle* will be called for every
+	// widget from here to the root, whereas signals will only be fired as
+	// long as the signals continue to return false (unhandled).
+	bool TriggerKeyDown(const KeyboardEvent &event, bool emit = true);
+	bool TriggerKeyUp(const KeyboardEvent &event, bool emit = true);
+	bool TriggerMouseDown(const MouseButtonEvent &event, bool emit = true);
+	bool TriggerMouseUp(const MouseButtonEvent &event, bool emit = true);
+	bool TriggerMouseMove(const MouseMotionEvent &event, bool emit = true);
+	bool TriggerMouseWheel(const MouseWheelEvent &event, bool emit = true);
+
+	bool TriggerClick(bool emit = true);
+
+	bool TriggerMouseOver(const vector2f &pos, bool emit = true);
+	bool TriggerMouseOut(const vector2f &pos, bool emit = true);
+
+	void TriggerMouseActivate();
+	void TriggerMouseDeactivate();
+
 
 	// let container set our attributes. none of them make any sense if
 	// we're not in a container

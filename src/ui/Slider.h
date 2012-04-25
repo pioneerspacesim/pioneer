@@ -24,9 +24,9 @@ protected:
 
 	Slider(Context *context, SliderOrientation orient) : Widget(context), m_orient(orient), m_value(0.0f), m_buttonDown(false) {}
 
-	virtual bool HandleMouseDown(const MouseButtonEvent &event, bool emit);
-	virtual bool HandleMouseUp(const MouseButtonEvent &event, bool emit);
-	virtual bool HandleMouseMove(const MouseMotionEvent &event, bool emit);
+	virtual void HandleMouseDown(const MouseButtonEvent &event);
+	virtual void HandleMouseUp(const MouseButtonEvent &event);
+	virtual void HandleMouseMove(const MouseMotionEvent &event);
 
 private:
 	void UpdateButton();

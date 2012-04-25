@@ -44,99 +44,110 @@ void Widget::SetDimensions(const vector2f &position, const vector2f &size)
 	SetActiveArea(size);
 }
 
-bool Widget::HandleKeyDown(const KeyboardEvent &event, bool emit)
+bool Widget::TriggerKeyDown(const KeyboardEvent &event, bool emit)
 {
+	HandleKeyDown(event);
 	if (emit) emit = !onKeyDown.emit(event);
-	if (GetContainer() && !IsFloating()) GetContainer()->HandleKeyDown(event, emit);
+	if (GetContainer() && !IsFloating()) GetContainer()->TriggerKeyDown(event, emit);
 	return emit;
 }
 
-bool Widget::HandleKeyUp(const KeyboardEvent &event, bool emit)
+bool Widget::TriggerKeyUp(const KeyboardEvent &event, bool emit)
 {
+	HandleKeyUp(event);
 	if (emit) emit = !onKeyUp.emit(event);
-	if (GetContainer() && !IsFloating()) GetContainer()->HandleKeyUp(event, emit);
+	if (GetContainer() && !IsFloating()) GetContainer()->TriggerKeyUp(event, emit);
 	return emit;
 }
 
-bool Widget::HandleMouseDown(const MouseButtonEvent &event, bool emit)
+bool Widget::TriggerMouseDown(const MouseButtonEvent &event, bool emit)
 {
+	HandleMouseDown(event);
 	if (emit) emit = !onMouseDown.emit(event);
 	if (GetContainer() && !IsFloating()) {
 		MouseButtonEvent translatedEvent = MouseButtonEvent(event.action, event.button, event.pos+GetPosition());
-		GetContainer()->HandleMouseDown(translatedEvent, emit);
+		GetContainer()->TriggerMouseDown(translatedEvent, emit);
 	}
 	return emit;
 }
 
-bool Widget::HandleMouseUp(const MouseButtonEvent &event, bool emit)
+bool Widget::TriggerMouseUp(const MouseButtonEvent &event, bool emit)
 {
+	HandleMouseUp(event);
 	if (emit) emit = !onMouseUp.emit(event);
 	if (GetContainer() && !IsFloating()) {
 		MouseButtonEvent translatedEvent = MouseButtonEvent(event.action, event.button, event.pos+GetPosition());
-		GetContainer()->HandleMouseUp(translatedEvent, emit);
+		GetContainer()->TriggerMouseUp(translatedEvent, emit);
 	}
 	return emit;
 }
 
-bool Widget::HandleMouseMove(const MouseMotionEvent &event, bool emit)
+bool Widget::TriggerMouseMove(const MouseMotionEvent &event, bool emit)
 {
+	HandleMouseMove(event);
 	if (emit) emit = !onMouseMove.emit(event);
 	if (GetContainer() && !IsFloating()) {
 		MouseMotionEvent translatedEvent = MouseMotionEvent(event.pos+GetPosition());
-		GetContainer()->HandleMouseMove(translatedEvent, emit);
+		GetContainer()->TriggerMouseMove(translatedEvent, emit);
 	}
 	return emit;
 }
 
-bool Widget::HandleMouseWheel(const MouseWheelEvent &event, bool emit)
+bool Widget::TriggerMouseWheel(const MouseWheelEvent &event, bool emit)
 {
+	HandleMouseWheel(event);
 	if (emit) emit = !onMouseWheel.emit(event);
 	if (GetContainer() && !IsFloating()) {
 		MouseWheelEvent translatedEvent = MouseWheelEvent(event.direction, event.pos+GetPosition());
-		GetContainer()->HandleMouseWheel(translatedEvent, emit);
+		GetContainer()->TriggerMouseWheel(translatedEvent, emit);
 	}
 	return emit;
 }
 
-bool Widget::HandleMouseOver(const vector2f &pos, bool emit)
+bool Widget::TriggerMouseOver(const vector2f &pos, bool emit)
 {
 	// only send external events on state change
 	if (!m_mouseOver && Contains(pos)) {
 		m_mouseOver = true;
+		HandleMouseOver();
 		if (emit) emit = !onMouseOver.emit();
 	}
-	if (GetContainer() && !IsFloating()) GetContainer()->HandleMouseOver(pos+GetPosition(), emit);
+	if (GetContainer() && !IsFloating()) GetContainer()->TriggerMouseOver(pos+GetPosition(), emit);
 	return emit;
 }
 
-bool Widget::HandleMouseOut(const vector2f &pos, bool emit)
+bool Widget::TriggerMouseOut(const vector2f &pos, bool emit)
 {
 	// only send external events on state change
 	if (m_mouseOver && !Contains(pos)) {
+		HandleMouseOut();
 		if (emit) emit = !onMouseOut.emit();
 		m_mouseOver = false;
 	}
-	if (GetContainer() && !IsFloating()) GetContainer()->HandleMouseOut(pos+GetPosition(), emit);
+	if (GetContainer() && !IsFloating()) GetContainer()->TriggerMouseOut(pos+GetPosition(), emit);
 	return emit;
 }
 
-bool Widget::HandleClick(bool emit)
+bool Widget::TriggerClick(bool emit)
 {
+	HandleClick();
 	if (emit) emit = !onClick.emit();
-	if (GetContainer() && !IsFloating()) GetContainer()->HandleClick(emit);
+	if (GetContainer() && !IsFloating()) GetContainer()->TriggerClick(emit);
 	return emit;
 }
 
-void Widget::MouseActivate()
+void Widget::TriggerMouseActivate()
 {
 	m_mouseActive = true;
-	if (GetContainer() && !IsFloating()) GetContainer()->MouseActivate();
+	HandleMouseActivate();
+	if (GetContainer() && !IsFloating()) GetContainer()->TriggerMouseActivate();
 }
 
-void Widget::MouseDeactivate()
+void Widget::TriggerMouseDeactivate()
 {
-	if (GetContainer() && !IsFloating()) GetContainer()->MouseDeactivate();
 	m_mouseActive = false;
+	HandleMouseDeactivate();
+	if (GetContainer() && !IsFloating()) GetContainer()->TriggerMouseDeactivate();
 }
 
 }

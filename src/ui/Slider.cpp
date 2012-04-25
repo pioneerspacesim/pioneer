@@ -50,23 +50,23 @@ void Slider::SetValue(float v)
 	UpdateButton();
 }
 
-bool Slider::HandleMouseDown(const MouseButtonEvent &event, bool emit)
+void Slider::HandleMouseDown(const MouseButtonEvent &event)
 {
 	m_buttonDown = event.pos.x >= m_buttonPos.x && event.pos.y >= m_buttonPos.y && event.pos.x < m_buttonPos.x+m_buttonSize.x && event.pos.y < m_buttonPos.y+m_buttonSize.y;
-	return Widget::HandleMouseDown(event, emit);
+	Widget::HandleMouseDown(event);
 }
 
-bool Slider::HandleMouseUp(const MouseButtonEvent &event, bool emit)
+void Slider::HandleMouseUp(const MouseButtonEvent &event)
 {
 	m_buttonDown = false;
-	return Widget::HandleMouseUp(event, emit);
+	Widget::HandleMouseUp(event);
 }
 
-bool Slider::HandleMouseMove(const MouseMotionEvent &event, bool emit)
+void Slider::HandleMouseMove(const MouseMotionEvent &event)
 {
 	if (m_buttonDown && IsMouseActive())
 		SetValue(m_orient == SLIDER_HORIZONTAL ? Clamp(event.pos.x, 0.0f, GetActiveArea().x) / GetActiveArea().x : Clamp(event.pos.y, 0.0f, GetActiveArea().y) / GetActiveArea().y);
-	return Widget::HandleMouseMove(event, emit);
+	Widget::HandleMouseMove(event);
 }
 
 }
