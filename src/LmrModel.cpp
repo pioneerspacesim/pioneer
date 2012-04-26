@@ -982,7 +982,7 @@ public:
 	}
 };
 
-LmrModel::LmrModel(const char *model_name)
+LmrModel::LmrModel(const char *model_name) : m_dumped(false)
 {
 	m_name = model_name;
 	m_drawClipRadius = 1.0f;
@@ -1317,6 +1317,9 @@ void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transfor
 
 void LmrModel::Dump()
 {
+	if (m_dumped) return;
+	m_dumped = true;
+
 	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir("model_dump"));
 
 	for (int lod = 0; lod < m_numLods; lod++) {

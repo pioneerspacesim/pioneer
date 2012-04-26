@@ -85,6 +85,8 @@ private:
 	float m_drawClipRadius;
 	float m_scale;
 	friend class LmrGeomBuffer;
+
+	bool m_dumped;
 };
 
 void LmrModelCompilerInit(Graphics::Renderer *r);
