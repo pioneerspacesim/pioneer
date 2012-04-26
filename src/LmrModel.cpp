@@ -814,6 +814,10 @@ public:
 			out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[i++]+1);
 			out << std::endl;
 		}
+
+		for (std::vector<Op>::iterator i = m_ops.begin(); i != m_ops.end(); ++i)
+			if ((*i).type == OP_CALL_MODEL)
+				(*i).callmodel.model->Dump();
 	}
 
 private:
@@ -1125,8 +1129,6 @@ rebuild_model:
 		
 		fclose(f);
 	}
-
-	Dump();
 }
 
 LmrModel::~LmrModel()
@@ -1322,6 +1324,8 @@ void LmrModel::Dump()
 
 		std::ofstream out;
 		out.open((FileSystem::JoinPath(FileSystem::GetUserDir("model_dump"), prefix+".obj")).c_str());
+
+		printf("Dumping model '%s' LOD %d\n", m_name.c_str(), lod);
 
 		out << stringf("# Dump of LMR model '%0' LOD %1{d}", m_name, lod) << std::endl;
 

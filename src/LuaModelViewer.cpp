@@ -318,6 +318,9 @@ void Viewer::SetModel(LmrModel *model)
 	m_cmesh = new LmrCollMesh(m_model, &g_params);
 	m_geom = new Geom(m_cmesh->geomTree);
 	m_space->AddGeom(m_geom);
+
+	// dump
+	m_model->Dump();
 }
 
 void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg)
