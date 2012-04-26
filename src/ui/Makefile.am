@@ -14,6 +14,7 @@ noinst_HEADERS = \
 	CellSpec.h \
 	Container.h \
 	Context.h \
+	DropDown.h \
 	Event.h \
 	EventDispatcher.h \
 	Grid.h \
@@ -33,6 +34,7 @@ libui_a_SOURCES = \
 	Button.cpp \
 	Container.cpp \
 	Context.cpp \
+	DropDown.cpp \
 	EventDispatcher.cpp \
 	Grid.cpp \
 	Image.cpp \

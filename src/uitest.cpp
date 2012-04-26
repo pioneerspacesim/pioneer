@@ -186,6 +186,7 @@ int main(int argc, char **argv)
 	);
 #endif
 
+#if 0
 	UI::Background *back[4];
 	UI::Button *button[5];
 	c->SetInnerWidget(
@@ -221,6 +222,16 @@ int main(int argc, char **argv)
 		button[i]->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), button[i]));
 		button[i]->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), button[i]));
 	}
+#endif
+
+	c->SetInnerWidget(
+		c->HBox()->PackEnd(
+			c->DropDown()
+				->AddOption("foo")
+				->AddOption("bar")
+				->AddOption("baz")
+		)
+	);
 
 	c->Layout();
 

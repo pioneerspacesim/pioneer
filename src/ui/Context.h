@@ -16,6 +16,7 @@
 #include "MultiLineText.h"
 #include "Button.h"
 #include "Slider.h"
+#include "DropDown.h"
 
 namespace Graphics { class Renderer; }
 
@@ -68,6 +69,8 @@ public:
 	UI::Button *Button() { return new UI::Button(this); }
 	UI::HSlider *HSlider() { return new UI::HSlider(this); }
 	UI::VSlider *VSlider() { return new UI::VSlider(this); }
+
+	UI::DropDown *DropDown() { return new UI::DropDown(this); }
 
 	// add a floating widget
 	Context *AddFloatingWidget(Widget *w, const vector2f &pos, const vector2f &size);
