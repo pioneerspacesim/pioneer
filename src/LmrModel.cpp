@@ -599,7 +599,9 @@ public:
 	}
 	void SetTexture(const char *tex) {
 		if (tex) {
-			curTexture = new std::string(tex);
+			if (!curTexture || (*curTexture != tex)) {
+				curTexture = new std::string(tex);
+			}
 		} else {
 			curTexture = 0;
 			curGlowmap = 0; //won't have these without textures
@@ -607,7 +609,9 @@ public:
 	}
 	void SetGlowMap(const char *tex) {
 		if (tex) {
-			curGlowmap = new std::string(tex);
+			if (!curGlowmap || (*curGlowmap != tex)) {
+				curGlowmap = new std::string(tex);
+			}
 		} else {
 			curGlowmap = 0;
 		}
