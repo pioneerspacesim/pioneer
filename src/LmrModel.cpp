@@ -805,8 +805,6 @@ public:
 		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i)
 			out << stringf("vn %0{f.6} %1{f.6} %2{f.6}", (*i).n.x, (*i).n.y, (*i).n.z) << std::endl;
 
-		out << "s 1" << std::endl;
-
 		for (unsigned int i = 0; i < m_indices.size();) {
 			out << "f";
 			out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[i++]+1);
