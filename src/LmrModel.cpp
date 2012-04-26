@@ -4109,8 +4109,15 @@ namespace ModelFuncs {
 } /* namespace ModelFuncs */
 
 namespace ObjLoader {
-	static std::map<std::string, std::string> load_mtl_file(lua_State *L, const char* mtl_file) {
-		std::map<std::string, std::string> mtl_map;
+	struct MtlMaterial {
+		std::string diffuse;
+		std::string emission;
+	};
+
+	typedef std::map<std::string, MtlMaterial> MtlLibrary;
+
+	static MtlLibrary load_mtl_file(lua_State *L, const char* mtl_file) {
+		MtlLibrary mtl_map;
 		char name[1024] = "", file[1024];
 
 		lua_getglobal(L, "CurrentDirectory");
@@ -4124,6 +4131,8 @@ namespace ObjLoader {
 			throw LmrUnknownMaterial();
 		}
 
+		MtlMaterial *currentMat = 0;
+
 		std::string line;
 		StringRange mtlfilerange = mtlfiledata->AsStringRange();
 		for (int line_no=1; !mtlfilerange.Empty(); line_no++) {
@@ -4131,10 +4140,17 @@ namespace ObjLoader {
 
 			if (!strncasecmp(line.c_str(), "newmtl", 6)) {
 				PiVerify(1 == sscanf(line.c_str(), "newmtl %s", name));
+				currentMat = 0;
 			}
-			if (!strncasecmp(line.c_str(), "map_Kd", 6) && strlen(name) > 0) {
+			if (!strncasecmp(line.c_str(), "map_Kd", 6) && (currentMat || strlen(name))) {
 				PiVerify(1 == sscanf(line.c_str(), "map_Kd %s", file));
-				mtl_map[name] = file;
+				if (! currentMat) { currentMat = &mtl_map[name]; }
+				currentMat->diffuse = file;
+			}
+			if (!strncasecmp(line.c_str(), "map_Ke", 6) && (currentMat || strlen(name))) {
+				PiVerify(1 == sscanf(line.c_str(), "map_Ke %s", file));
+				if (! currentMat) { currentMat = &mtl_map[name]; }
+				currentMat->emission = file;
 			}
 		}
 
@@ -4203,8 +4219,7 @@ namespace ObjLoader {
 		std::vector<vector3f> vertices;
 		std::vector<vector3f> texcoords;
 		std::vector<vector3f> normals;
-		std::map<std::string, std::string> mtl_map;
-		std::string texture;
+		MtlLibrary mtl_map;
 
 		// maps obj file vtx_idx,norm_idx to a single GeomBuffer vertex index
 		std::map<objTriplet, int> vtxmap;
@@ -4286,7 +4301,6 @@ namespace ObjLoader {
 							s_curBuf->SetVertex(vtxStart+1, b, n, texcoords[ti[i+1]].x, texcoords[ti[i+1]].y);
 							s_curBuf->SetVertex(vtxStart+2, c, n, texcoords[ti[i+2]].x, texcoords[ti[i+2]].y);
 						}
-						if (texture.size()) s_curBuf->SetTexture(texture.c_str());
 						s_curBuf->PushTri(vtxStart, vtxStart+1, vtxStart+2);
 					}
 				} else {
@@ -4309,7 +4323,6 @@ namespace ObjLoader {
 							realVtxIdx[i] = (*it).second;
 						}
 					}
-					if (texture.size()) s_curBuf->SetTexture(texture.c_str());
 					if (numBits == 3) {
 						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2]);
 					} else if (numBits == 4) {
@@ -4323,20 +4336,36 @@ namespace ObjLoader {
 			else if (strncmp("mtllib ", buf, 7) == 0) {
 				char lib_name[128];
 				if (1 == sscanf(buf, "mtllib %s", lib_name)) {
-					mtl_map = load_mtl_file(L, lib_name);
+					try {
+						mtl_map = load_mtl_file(L, lib_name);
+					} catch (LmrUnknownMaterial) {
+						printf(".mtl file '%s' could not be found\n", lib_name);
+						mtl_map.clear();
+					}
 				}
 			}
 			else if (strncmp("usemtl ", buf, 7) == 0) {
 				char mat_name[128];
 				if (1 == sscanf(buf, "usemtl %s", mat_name)) {
-					if ( mtl_map.find(mat_name) != mtl_map.end() ) {
-						try {
-							char texfile[256];
-							snprintf(texfile, sizeof(texfile), "%s/%s", curdir.c_str(), mtl_map[mat_name].c_str());
-							texture = texfile;
-						} catch (LmrUnknownMaterial) {
-							printf("Warning: Missing material %s (%s) in %s\n", mtl_map[mat_name].c_str(), mat_name, obj_name);
+					MtlLibrary::const_iterator mat_iter = mtl_map.find(mat_name);
+					if ( mat_iter != mtl_map.end() ) {
+						const MtlMaterial &mat_info = mat_iter->second;
+						if (!mat_info.diffuse.empty()) {
+							const std::string diffuse_path = FileSystem::JoinPath(curdir, mat_info.diffuse);
+							s_curBuf->SetTexture(diffuse_path.c_str());
+							printf("set diffuse map to '%s'\n", diffuse_path.c_str());
+							if (!mat_info.emission.empty()) {
+								const std::string emission_path = FileSystem::JoinPath(curdir, mat_info.emission);
+								s_curBuf->SetGlowMap(emission_path.c_str());
+								printf("set glow map to '%s'\n", emission_path.c_str());
+							}
+						} else {
+							s_curBuf->SetTexture(0);
+							s_curBuf->SetGlowMap(0);
 						}
+					} else {
+						s_curBuf->SetTexture(0);
+						s_curBuf->SetGlowMap(0);
 					}
 				} else {
 					Error("Obj file has no normals or is otherwise too weird at line %d\n", line_no);
