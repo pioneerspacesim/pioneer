@@ -4363,9 +4363,6 @@ namespace ObjLoader {
 
 						s_curBuf->SetTexture(diffuse_path.empty() ? 0 : diffuse_path.c_str());
 						s_curBuf->SetGlowMap(emission_path.empty() ? 0 : emission_path.c_str());
-					} else {
-						s_curBuf->SetTexture(0);
-						s_curBuf->SetGlowMap(0);
 					}
 				} else {
 					Error("Obj file has no normals or is otherwise too weird at line %d\n", line_no);
