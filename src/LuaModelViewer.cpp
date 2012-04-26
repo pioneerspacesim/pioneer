@@ -156,6 +156,13 @@ public:
 			Add(b, 10, 110);
 			Add(new Gui::Label("[shift-g] Toggle grid"), 30, 110);
 		}
+		{
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_d, KMOD_LSHIFT);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnDumpModel));
+			Add(b, 10, 130);
+			Add(new Gui::Label("[shift-d] Dump model to .obj"), 30, 130);
+		}
 #if 0
 		{
 			Gui::Button *b = new Gui::SolidButton();
@@ -268,6 +275,10 @@ public:
 			}
 		}
 	}
+	
+	void OnDumpModel() {
+		m_model->Dump();
+	}
 
 	void MainLoop() __attribute((noreturn));
 	void SetSbreParams();
@@ -318,9 +329,6 @@ void Viewer::SetModel(LmrModel *model)
 	m_cmesh = new LmrCollMesh(m_model, &g_params);
 	m_geom = new Geom(m_cmesh->geomTree);
 	m_space->AddGeom(m_geom);
-
-	// dump
-	m_model->Dump();
 }
 
 void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg)

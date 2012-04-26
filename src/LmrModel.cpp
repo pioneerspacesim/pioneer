@@ -1323,14 +1323,14 @@ void LmrModel::Dump()
 	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir("model_dump"));
 
 	for (int lod = 0; lod < m_numLods; lod++) {
-		const std::string prefix(stringf("%0_lod%1{d}", m_name, lod));
+		const std::string prefix(stringf("%0_lod%1{d}", m_name, lod+1));
 
 		std::ofstream out;
 		out.open((FileSystem::JoinPath(FileSystem::GetUserDir("model_dump"), prefix+".obj")).c_str());
 
-		printf("Dumping model '%s' LOD %d\n", m_name.c_str(), lod);
+		printf("Dumping model '%s' LOD %d\n", m_name.c_str(), lod+1);
 
-		out << stringf("# Dump of LMR model '%0' LOD %1{d}", m_name, lod) << std::endl;
+		out << stringf("# Dump of LMR model '%0' LOD %1{d}", m_name, lod+1) << std::endl;
 
 		m_staticGeometry[lod]->Dump(out, prefix);
 	}
