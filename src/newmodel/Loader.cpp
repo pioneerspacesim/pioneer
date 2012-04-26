@@ -1,5 +1,6 @@
 #include "Loader.h"
 #include "FileSystem.h"
+
 #include "MatrixTransform.h"
 #include "Newmodel.h"
 #include "StaticGeometry.h"
@@ -183,7 +184,7 @@ NModel *Loader::LoadModel(const std::string &filename)
 
 NModel *Loader::LoadModel(const std::string &filename, const std::string &basepath)
 {
-	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, basepath, FileSystem::FileEnumerator::IncludeDirectories); !files.Finished(); files.Next())
+	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, basepath, FileSystem::FileEnumerator::IncludeDirs); !files.Finished(); files.Next())
 	{
 		const FileSystem::FileInfo &info = files.Current();
 		const std::string &fpath = info.GetAbsolutePath();
