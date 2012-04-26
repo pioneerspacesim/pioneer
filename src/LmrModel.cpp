@@ -810,7 +810,9 @@ private:
 	}
 
 	void OpDrawElements(int numIndices) {
-		if ((curOp.type != OP_DRAW_ELEMENTS) || (curOp.elems.textureFile != curTexture)) {
+		if ((curOp.type != OP_DRAW_ELEMENTS) ||
+				(curOp.elems.textureFile != curTexture) ||
+				(curOp.elems.glowmapFile != curGlowmap)) {
 			if (curOp.type) m_ops.push_back(curOp);
 			curOp.type = OP_DRAW_ELEMENTS;
 			curOp.elems.start = m_indices.size();
