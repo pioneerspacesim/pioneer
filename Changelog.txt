@@ -9,10 +9,13 @@ Alpha 22
      * Fixed timer setup for trade ships after game load (#1205, #1204)
      * Fixed mission modules remembering nearby systems across game restarts
        (#1212, #1211)
+     * Fixed bug where .obj model loader would create a new draw operation for
+       every triangle/quad (#1223)
 
-   * Script changes
+   * Script and model changes
      * LMR "lathe" function radius and up vector now interpreted the same as
        "cylinder" etc (#1185, #1037)
+     * Added support for emission (glow) maps in .obj files (#1223)
 
    * Internal changes
      * Better support for file enumeration across multiple directories (#1182)
