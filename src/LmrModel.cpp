@@ -4147,8 +4147,8 @@ namespace ObjLoader {
 	 * Load a Wavefront OBJ model file.
 	 * 
 	 * If an associated .mtl material definition file is found, Pioneer will
-	 * attempt to interpret it the best it can, including texture usage. Note that
-	 * Pioneer supports only one texture per .obj file.
+	 * use the diffuse texture (map_Kd) settings from that file. Other material
+	 * settings in the .mtl file are currently ignored.
 	 *
 	 * > load_obj(modelname, transform)
 	 *
