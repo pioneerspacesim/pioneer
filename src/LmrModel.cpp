@@ -4348,19 +4348,23 @@ namespace ObjLoader {
 					MtlLibrary::const_iterator mat_iter = mtl_map.find(mat_name);
 					if ( mat_iter != mtl_map.end() ) {
 						const MtlMaterial &mat_info = mat_iter->second;
+						std::string diffuse_path, emission_path;
+
 						if (!mat_info.diffuse.empty()) {
-							const std::string diffuse_path = FileSystem::JoinPath(curdir, mat_info.diffuse);
-							s_curBuf->SetTexture(diffuse_path.c_str());
-							printf("set diffuse map to '%s'\n", diffuse_path.c_str());
-							if (!mat_info.emission.empty()) {
-								const std::string emission_path = FileSystem::JoinPath(curdir, mat_info.emission);
-								s_curBuf->SetGlowMap(emission_path.c_str());
-								printf("set glow map to '%s'\n", emission_path.c_str());
-							}
-						} else {
-							s_curBuf->SetTexture(0);
-							s_curBuf->SetGlowMap(0);
+							diffuse_path = FileSystem::JoinPath(curdir, mat_info.diffuse);
 						}
+						if (!mat_info.emission.empty()) {
+							emission_path = FileSystem::JoinPath(curdir, mat_info.emission);
+						}
+
+						// not allowed to have a glow map with no diffuse map
+						// (I don't know why, maybe it would be fine... who knows with LMR?)
+						if (diffuse_path.empty()) { emission_path.clear(); }
+
+						printf("set diffuse map to '%s'\n", diffuse_path.c_str());
+						printf("set glow map to '%s'\n", emission_path.c_str());
+						s_curBuf->SetTexture(diffuse_path.empty() ? 0 : diffuse_path.c_str());
+						s_curBuf->SetGlowMap(emission_path.empty() ? 0 : emission_path.c_str());
 					} else {
 						s_curBuf->SetTexture(0);
 						s_curBuf->SetGlowMap(0);
