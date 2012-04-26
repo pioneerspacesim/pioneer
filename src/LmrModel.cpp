@@ -4133,8 +4133,6 @@ namespace ObjLoader {
 			throw LmrUnknownMaterial();
 		}
 
-		MtlMaterial *currentMat = 0;
-
 		std::string line;
 		StringRange mtlfilerange = mtlfiledata->AsStringRange();
 		for (int line_no=1; !mtlfilerange.Empty(); line_no++) {
@@ -4142,17 +4140,15 @@ namespace ObjLoader {
 
 			if (!strncasecmp(line.c_str(), "newmtl", 6)) {
 				PiVerify(1 == sscanf(line.c_str(), "newmtl %s", name));
-				currentMat = 0;
+				mtl_map[name] = MtlMaterial();
 			}
-			if (!strncasecmp(line.c_str(), "map_Kd", 6) && (currentMat || strlen(name))) {
+			if (!strncasecmp(line.c_str(), "map_Kd", 6) && strlen(name)) {
 				PiVerify(1 == sscanf(line.c_str(), "map_Kd %s", file));
-				if (! currentMat) { currentMat = &mtl_map[name]; }
-				currentMat->diffuse = file;
+				mtl_map[name].diffuse = file;
 			}
-			if (!strncasecmp(line.c_str(), "map_Ke", 6) && (currentMat || strlen(name))) {
+			if (!strncasecmp(line.c_str(), "map_Ke", 6) && strlen(name)) {
 				PiVerify(1 == sscanf(line.c_str(), "map_Ke %s", file));
-				if (! currentMat) { currentMat = &mtl_map[name]; }
-				currentMat->emission = file;
+				mtl_map[name].emission = file;
 			}
 		}
 
