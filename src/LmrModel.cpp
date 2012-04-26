@@ -869,6 +869,7 @@ public:
 		int numTriflags = m_triflags.size();
 		int numThrusters = m_thrusters.size();
 		int numOps = m_ops.size();
+		assert(numOps < 1000);
 		fwrite(&numVertices, sizeof(numVertices), 1, f);
 		fwrite(&numIndices, sizeof(numIndices), 1, f);
 		fwrite(&numTriflags, sizeof(numTriflags), 1, f);
