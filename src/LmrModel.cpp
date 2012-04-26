@@ -4361,8 +4361,6 @@ namespace ObjLoader {
 						// (I don't know why, maybe it would be fine... who knows with LMR?)
 						if (diffuse_path.empty()) { emission_path.clear(); }
 
-						printf("set diffuse map to '%s'\n", diffuse_path.c_str());
-						printf("set glow map to '%s'\n", emission_path.c_str());
 						s_curBuf->SetTexture(diffuse_path.empty() ? 0 : diffuse_path.c_str());
 						s_curBuf->SetGlowMap(emission_path.empty() ? 0 : emission_path.c_str());
 					} else {
