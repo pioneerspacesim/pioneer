@@ -20,8 +20,10 @@
 #include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/TextureGL.h" // XXX temporary until LMR uses renderer drawing properly
+#include "StringF.h"
 #include <set>
 #include <algorithm>
+#include <fstream>
 
 static const Uint32 s_cacheVersion = 2;
 
@@ -791,6 +793,33 @@ public:
 		}
 	}
 
+	void Dump() {
+		std::ofstream out;
+		out.open((FileSystem::JoinPath(FileSystem::GetUserDir(), "dump.obj")).c_str());
+
+		out << "# LMR dump" << std::endl;
+		out << "o dump" << std::endl;
+
+		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i)
+			out << stringf("v %0{f.6} %1{f.6} %2{f.6}", (*i).v.x, (*i).v.y, (*i).v.z) << std::endl;
+
+		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i)
+			out << stringf("vt %0{f.6} %1{f.6}", (*i).tex_u, (*i).tex_v) << std::endl;
+
+		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i)
+			out << stringf("vn %0{f.6} %1{f.6} %2{f.6}", (*i).n.x, (*i).n.y, (*i).n.z) << std::endl;
+
+		out << "s 1" << std::endl;
+
+		for (unsigned int i = 0; i < m_indices.size();) {
+			out << "f";
+			out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[i++]+1);
+			out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[i++]+1);
+			out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[i++]+1);
+			out << std::endl;
+		}
+	}
+
 private:
 	void BindBuffers() {
 		glEnableClientState (GL_VERTEX_ARRAY);
@@ -1284,6 +1313,16 @@ void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transfor
 	matrix4x4f m = transform * matrix4x4f::ScaleMatrix(m_scale);
 	m_staticGeometry[0]->GetCollMeshGeometry(mesh, m, params);
 	if (m_hasDynamicFunc) m_dynamicGeometry[0]->GetCollMeshGeometry(mesh, m, params);
+}
+
+void LmrModel::Dump(int lod, bool wantStatic)
+{
+	assert(lod >= 0 && lod < LMR_MAX_LOD);
+	printf("dumping lod %d %s mesh\n", lod, wantStatic ? "static" : "dynamic");
+	if (wantStatic)
+		m_staticGeometry[lod]->Dump();
+	else
+		m_dynamicGeometry[lod]->Dump();
 }
 
 LmrCollMesh::LmrCollMesh(LmrModel *m, const LmrObjParams *params)

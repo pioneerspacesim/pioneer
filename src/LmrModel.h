@@ -67,6 +67,7 @@ public:
 	void PushAttributeToLuaStack(const char *attr_name) const;
 	const char *GetName() const { return m_name.c_str(); }
 	bool HasTag(const char *tag) const;
+	void Dump(int lod, bool wantStatic);
 private:
 	void Build(int lod, const LmrObjParams *params);
 
