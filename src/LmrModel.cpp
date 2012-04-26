@@ -793,12 +793,8 @@ public:
 		}
 	}
 
-	void Dump() {
-		std::ofstream out;
-		out.open((FileSystem::JoinPath(FileSystem::GetUserDir(), "dump.obj")).c_str());
-
-		out << "# LMR dump" << std::endl;
-		out << "o dump" << std::endl;
+	void Dump(std::ofstream &out, const std::string &prefix) {
+		out << "o "+prefix << std::endl;
 
 		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i)
 			out << stringf("v %0{f.6} %1{f.6} %2{f.6}", (*i).v.x, (*i).v.y, (*i).v.z) << std::endl;
@@ -1129,6 +1125,8 @@ rebuild_model:
 		
 		fclose(f);
 	}
+
+	Dump();
 }
 
 LmrModel::~LmrModel()
@@ -1315,14 +1313,20 @@ void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transfor
 	if (m_hasDynamicFunc) m_dynamicGeometry[0]->GetCollMeshGeometry(mesh, m, params);
 }
 
-void LmrModel::Dump(int lod, bool wantStatic)
+void LmrModel::Dump()
 {
-	assert(lod >= 0 && lod < LMR_MAX_LOD);
-	printf("dumping lod %d %s mesh\n", lod, wantStatic ? "static" : "dynamic");
-	if (wantStatic)
-		m_staticGeometry[lod]->Dump();
-	else
-		m_dynamicGeometry[lod]->Dump();
+	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir("model_dump"));
+
+	for (int lod = 0; lod < m_numLods; lod++) {
+		const std::string prefix(stringf("%0_lod%1{d}", m_name, lod));
+
+		std::ofstream out;
+		out.open((FileSystem::JoinPath(FileSystem::GetUserDir("model_dump"), prefix+".obj")).c_str());
+
+		out << stringf("# Dump of LMR model '%0' LOD %1{d}", m_name, lod) << std::endl;
+
+		m_staticGeometry[lod]->Dump(out, prefix);
+	}
 }
 
 LmrCollMesh::LmrCollMesh(LmrModel *m, const LmrObjParams *params)
