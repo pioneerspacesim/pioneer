@@ -4125,10 +4125,10 @@ namespace ObjLoader {
 		for (int line_no=1; !mtlfilerange.Empty(); line_no++) {
 			line = mtlfilerange.ReadLine().StripSpace().ToString();
 
-			if (!strncasecmp(line.c_str(), "newmtl ", 7)) {
+			if (!strncasecmp(line.c_str(), "newmtl", 6)) {
 				PiVerify(1 == sscanf(line.c_str(), "newmtl %s", name));
 			}
-			if (!strncasecmp(line.c_str(), "map_K", 5) && strlen(name) > 0) {
+			if (!strncasecmp(line.c_str(), "map_Kd", 6) && strlen(name) > 0) {
 				PiVerify(1 == sscanf(line.c_str(), "map_Kd %s", file));
 				mtl_map[name] = file;
 			}
