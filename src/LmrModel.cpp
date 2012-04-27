@@ -877,6 +877,8 @@ public:
 						out << std::endl;
 					}
 
+					out << "s 1" << std::endl;
+
 					break;
 				}
 
