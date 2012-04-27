@@ -793,25 +793,137 @@ public:
 		}
 	}
 
-	void Dump(std::ofstream &out, const std::string &prefix) {
+private:
+	struct WavefrontMaterial {
+		WavefrontMaterial() :
+			diffuse(0.8f,0.8f,0.8f,1.0f),         // OpenGL default material values
+			specular(0.0f,0.0f,0.0f,1.0f),
+			emissive(0.0f,0.0f,0.0f,1.0f),
+			specularExponent(0.0f)
+			{}
+		Color diffuse;
+		Color specular;
+		Color emissive;
+		float specularExponent;
+		std::string diffuseMap;
+		std::string emissiveMap;
+
+		bool operator==(const WavefrontMaterial &a) {
+			return
+				diffuse == a.diffuse &&
+				specular == a.specular &&
+				emissive == a.emissive &&
+				is_equal_general(specularExponent, a.specularExponent) &&
+				diffuseMap == a.diffuseMap &&
+				emissiveMap == a.emissiveMap;
+		}
+	};
+
+public:
+	void Dump(const std::string &name, int lod) {
+		const std::string prefix(stringf("%0_lod%1{d}", name, lod+1));
+
+		std::ofstream out;
+		out.open((FileSystem::JoinPath(FileSystem::GetUserDir("model_dump"), prefix+".obj")).c_str());
+
+		printf("Dumping model '%s' LOD %d\n", name.c_str(), lod+1);
+
+		out << stringf("# Dump of LMR model '%0' LOD %1{d}", name, lod+1) << std::endl;
+
+		out << stringf("mtllib %0.mtl", prefix) << std::endl;
+
 		out << "o "+prefix << std::endl;
 
+		// positons
 		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i)
 			out << stringf("v %0{f.6} %1{f.6} %2{f.6}", (*i).v.x, (*i).v.y, (*i).v.z) << std::endl;
 
+		// texture coords
 		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i)
 			out << stringf("vt %0{f.6} %1{f.6}", (*i).tex_u, (*i).tex_v) << std::endl;
 
+		// normals
 		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i)
 			out << stringf("vn %0{f.6} %1{f.6} %2{f.6}", (*i).n.x, (*i).n.y, (*i).n.z) << std::endl;
 
-		for (unsigned int i = 0; i < m_indices.size();) {
-			out << "f";
-			out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[i++]+1);
-			out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[i++]+1);
-			out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[i++]+1);
-			out << std::endl;
+		std::vector<WavefrontMaterial> materials;
+		WavefrontMaterial material;
+
+		for (std::vector<Op>::iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
+			const Op &op = (*i);
+			switch (op.type) {
+				case OP_DRAW_ELEMENTS: {
+					out << stringf("# draw elements %0{d}-%1{d} (%2{d} tris)", op.elems.start, op.elems.start+op.elems.count-1, op.elems.count/3) << std::endl;
+
+					if (op.elems.textureFile)
+						material.diffuseMap = *op.elems.textureFile;
+					else
+						material.diffuseMap.clear();
+					if (op.elems.glowmapFile)
+						material.emissiveMap = *op.elems.glowmapFile;
+					else
+						material.emissiveMap.clear();
+
+					if (materials.size() == 0 || !(material == materials.back())) {
+						materials.push_back(material);
+						out << stringf("usemtl %0_mat%1{u}", prefix, materials.size()-1) << std::endl;
+					}
+
+					for (int idx = op.elems.start; idx < op.elems.start+op.elems.count;) {
+						out << "f";
+						out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx++]+1);
+						out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx++]+1);
+						out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx++]+1);
+						out << std::endl;
+					}
+
+					break;
+				}
+
+				case OP_SET_MATERIAL: {
+					const LmrMaterial &m = m_model->m_materials[op.col.material_idx];
+					material.diffuse = Color(m.diffuse[0], m.diffuse[1], m.diffuse[2], m.diffuse[3]);
+					material.specular = Color(m.specular[0], m.specular[1], m.specular[2], m.specular[3]);
+					material.emissive = Color(m.emissive[0], m.emissive[1], m.emissive[2], m.emissive[3]);
+					material.specularExponent = m.shininess;
+					break;
+				}
+
+				default:
+					break;
+			}
 		}
+
+		out.close();
+
+
+		out.open((FileSystem::JoinPath(FileSystem::GetUserDir("model_dump"), prefix+".mtl")).c_str());
+
+		out << stringf("# Materials LMR model '%0' LOD %1{d}", name, lod+1) << std::endl;
+			
+		for (unsigned int i = 0; i < materials.size(); i++) {
+			out << stringf("newmtl %0_mat%1{u}", prefix, i) << std::endl;
+
+			const WavefrontMaterial &m = materials[i];
+			// XXX alpha?
+			out << stringf("Ka %0{f.4} %0{f.4} %0{f.4}", m.diffuse.r, m.diffuse.g, m.diffuse.b) << std::endl;
+			out << stringf("Kd %0{f.4} %0{f.4} %0{f.4}", m.diffuse.r, m.diffuse.g, m.diffuse.b) << std::endl;
+			out << stringf("Ks %0{f.4} %0{f.4} %0{f.4}", m.specular.r, m.specular.g, m.specular.b) << std::endl;
+			out << stringf("Ke %0{f.4} %0{f.4} %0{f.4}", m.emissive.r, m.emissive.g, m.emissive.b) << std::endl;
+			out << stringf("Ns %0{f.4}", m.specularExponent) << std::endl;
+
+			out << "illum 2" << std::endl;
+
+			if (m.diffuseMap.size() > 0) {
+				out << stringf("map_Ka %0", m.diffuseMap) << std::endl;
+				out << stringf("map_Kd %0", m.diffuseMap) << std::endl;
+			}
+			if (m.emissiveMap.size() > 0)
+				out << stringf("map_Ke %0", m.emissiveMap) << std::endl;
+		}
+
+		out.close();
+
 
 		for (std::vector<Op>::iterator i = m_ops.begin(); i != m_ops.end(); ++i)
 			if ((*i).type == OP_CALL_MODEL)
@@ -1321,16 +1433,7 @@ void LmrModel::Dump()
 	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir("model_dump"));
 
 	for (int lod = 0; lod < m_numLods; lod++) {
-		const std::string prefix(stringf("%0_lod%1{d}", m_name, lod+1));
-
-		std::ofstream out;
-		out.open((FileSystem::JoinPath(FileSystem::GetUserDir("model_dump"), prefix+".obj")).c_str());
-
-		printf("Dumping model '%s' LOD %d\n", m_name.c_str(), lod+1);
-
-		out << stringf("# Dump of LMR model '%0' LOD %1{d}", m_name, lod+1) << std::endl;
-
-		m_staticGeometry[lod]->Dump(out, prefix);
+		m_staticGeometry[lod]->Dump(m_name, lod);
 	}
 }
 
