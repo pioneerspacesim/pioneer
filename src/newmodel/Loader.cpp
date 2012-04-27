@@ -4,6 +4,7 @@
 #include "MatrixTransform.h"
 #include "Newmodel.h"
 #include "StaticGeometry.h"
+#include "LOD.h"
 #include "graphics/Renderer.h"
 #include "graphics/Surface.h"
 #include "graphics/TextureBuilder.h"
@@ -268,7 +269,12 @@ NModel *Loader::CreateModel(const ModelDefinition &def)
 	{
 		try {
 			Node *mesh = LoadMesh(*(it), model);
-			model->GetRoot()->AddChild(mesh);
+			LOD *lod = new LOD();
+			lod->AddLevel(500, mesh);
+			MatrixTransform *mat = new MatrixTransform(matrix4x4f::ScaleMatrix(1.f, 0.1f, 1.f));
+			mat->AddChild(mesh);
+			lod->AddLevel(200, mat);
+			model->GetRoot()->AddChild(lod);
 		} catch (LoadingError &) {
 			delete model;
 			throw;

@@ -22,7 +22,10 @@ void NModel::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, const
 	renderer->SetTransform(trans);
 	/*DrawVisitor vis(renderer);
 	m_root->Accept(vis);*/
-	m_root->Render(renderer, trans);
+	RenderData renderData;
+	renderData.scrWidth = 1024;
+	renderData.boundingRadius = GetDrawClipRadius();
+	m_root->Render(renderer, trans, &renderData);
 }
 
 CollMesh *NModel::CreateCollisionMesh(const LmrObjParams *p)

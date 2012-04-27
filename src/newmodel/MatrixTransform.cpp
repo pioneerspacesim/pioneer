@@ -7,11 +7,11 @@ MatrixTransform::MatrixTransform(const matrix4x4f &m) :
 {
 }
 
-void MatrixTransform::Render(Graphics::Renderer *renderer, const matrix4x4f &trans)
+void MatrixTransform::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, RenderData *rd)
 {
 	const matrix4x4f t = trans * m_transform;
 	renderer->SetTransform(t);
-	RenderChildren(renderer, t);
+	RenderChildren(renderer, t, rd);
 }
 
 }

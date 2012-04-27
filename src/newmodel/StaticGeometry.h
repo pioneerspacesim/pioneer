@@ -18,7 +18,7 @@ public:
 	StaticGeometry();
 	Graphics::StaticMesh *GetMesh() { return m_mesh.Get(); }
 	virtual void Accept(NodeVisitor &nv);
-	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans);
+	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd);
 	Aabb m_boundingBox;
 
 protected:

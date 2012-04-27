@@ -12,7 +12,7 @@ class NModel;
 class ModelNode : public Node {
 public:
 	ModelNode(Model *m);
-	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans);
+	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd);
 
 protected:
 	virtual ~ModelNode() { }

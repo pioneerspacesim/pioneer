@@ -9,7 +9,7 @@ ModelNode::ModelNode(Model *m) :
 {
 }
 
-void ModelNode::Render(Graphics::Renderer *r, const matrix4x4f &trans)
+void ModelNode::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
 {
 	m_model->Render(r, trans, 0);
 }

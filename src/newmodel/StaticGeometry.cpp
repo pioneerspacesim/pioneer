@@ -21,7 +21,7 @@ void StaticGeometry::Accept(NodeVisitor &nv)
 	nv.ApplyStaticGeometry(*this);
 }
 
-void StaticGeometry::Render(Graphics::Renderer *r, const matrix4x4f &trans)
+void StaticGeometry::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
 {
 	r->DrawStaticMesh(GetMesh());
 

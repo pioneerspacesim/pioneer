@@ -30,18 +30,18 @@ void Group::Accept(NodeVisitor &nv)
 	}
 }
 
-void Group::Render(Graphics::Renderer *renderer, const matrix4x4f &trans)
+void Group::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, RenderData *rd)
 {
-	RenderChildren(renderer, trans);
+	RenderChildren(renderer, trans, rd);
 }
 
-void Group::RenderChildren(Graphics::Renderer *r, const matrix4x4f &trans)
+void Group::RenderChildren(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
 {
 	for(std::vector<Node*>::iterator itr = m_children.begin();
 		itr != m_children.end();
 		++itr)
 	{
-		(*itr)->Render(r, trans);
+		(*itr)->Render(r, trans, rd);
 	}
 }
 

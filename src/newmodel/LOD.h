@@ -10,7 +10,8 @@ namespace Newmodel {
 class LOD : public Group {
 public:
 	LOD();
-	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans);
+	void AddLevel(float pixelRadius, Node *child);
+	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd);
 protected:
 	virtual ~LOD() { }
 	std::vector<unsigned int> m_pixelSizes; //same amount as children
