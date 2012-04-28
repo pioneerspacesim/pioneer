@@ -18,3 +18,4 @@ For more information, see http://creativecommons.org/licenses/by-sa/3.0/
 
 This license applies to the following models:
 data/models/buildings/kcity/*
+data/models/ships/meteor/*
