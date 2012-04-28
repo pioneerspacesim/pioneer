@@ -1,21 +1,28 @@
-material 04___Default
+material Asp_body
 tex_diff asp_diff.png
+tex_glow asp_emit.png
+tex_spec asp_spec.png
 diffuse 0.8 0.8 0.8
 specular 0.8 0.9 0.8
 shininess 200
 
-material 03___Default
+material Asp_exhaust
 tex_diff engine_cone_diff.png
 diffuse 1.0 0.6 0.6
 specular 0.5 0.5 0.5
 shininess 200
 
-material 05___Default
-tex_diff asp_g1.png
-tex_glow asp_g1.png
+material Asp_exhaust_face
+tex_diff glow_spot.png
+tex_glow glow_spot.png
 diffuse 0.8 0.7 0.5
 specular 0 0 0
 
-mesh test_asp_body.obj
-mesh test_asp_nozzles.obj
-mesh test_asp_exhFace.obj
+lod 100
+mesh asp_lod1.obj
+
+lod 200
+mesh asp_lod2.obj
+
+lod 1000
+mesh asp_lod3.obj
