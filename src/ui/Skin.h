@@ -12,6 +12,13 @@ class Skin {
 public:
 	Skin(const std::string &filename, Graphics::Renderer *renderer);
 
+	void DrawBackgroundNormal(const vector2f &pos, const vector2f &size) const {
+		DrawBorderedRectElement(s_backgroundNormal, pos, size);
+	}
+	void DrawBackgroundActive(const vector2f &pos, const vector2f &size) const {
+		DrawBorderedRectElement(s_backgroundActive, pos, size);
+	}
+
 	void DrawButtonNormal(const vector2f &pos, const vector2f &size) const {
 		DrawBorderedRectElement(s_buttonNormal, pos, size);
 	}
@@ -35,6 +42,9 @@ public:
 		BorderedRectElement(float x, float y, float w, float h, float _borderWidth) : RectElement(x, y, w, h), borderWidth(_borderWidth) {}
 		const float borderWidth;
 	};
+
+	static const BorderedRectElement s_backgroundNormal;
+	static const BorderedRectElement s_backgroundActive;
 
 	static const BorderedRectElement s_buttonNormal;
 	static const BorderedRectElement s_buttonActive;

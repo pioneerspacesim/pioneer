@@ -6,8 +6,11 @@ namespace UI {
 
 static const float SKIN_SIZE = 512.0f;
 
-const Skin::BorderedRectElement Skin::s_buttonNormal(0.0f, 0.0f, 23.0f, 23.0f, 4.0f);
-const Skin::BorderedRectElement Skin::s_buttonActive(0.0f, 24.0f, 23.0f, 23.0f, 4.0f);
+const Skin::BorderedRectElement Skin::s_backgroundNormal(0.0f, 0.0f, 23.0f, 23.0f, 2.0f);
+const Skin::BorderedRectElement Skin::s_backgroundActive(0.0f, 24.0f, 23.0f, 23.0f, 2.0f);
+
+const Skin::BorderedRectElement Skin::s_buttonNormal(24.0f, 0.0f, 23.0f, 23.0f, 4.0f);
+const Skin::BorderedRectElement Skin::s_buttonActive(24.0f, 24.0f, 23.0f, 23.0f, 4.0f);
 
 Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
 	m_renderer(renderer)
