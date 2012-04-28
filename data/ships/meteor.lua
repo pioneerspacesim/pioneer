@@ -8,11 +8,9 @@ define_ship {
 	left_thrust = -5e5,
 	right_thrust = 5e5,
 	angular_thrust = 10e5,
-	rear_camera = v(0,5,-10),
 	gun_mounts =
 	{
-		{ v(1.5,-0.3,-7.9) , v(0,0,-1) },
-	--	{ v(1.5,-0.3,7.5), v(0,0,-1) },
+		{ v(0,0,-25), v(0,0,-1) },
 	},
 	max_cargo = 5,
 	max_laser = 1,
