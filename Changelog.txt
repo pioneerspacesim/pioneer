@@ -4,6 +4,9 @@ Alpha 22
      * Support for attaching .zip files to the data directory. Allows users to
        add mods to the game by putting a single file in <userdir>/mods (#1214)
 
+   * Minor changes and tweaks
+     * Removed 'Walrus' ship (#1219)
+
    * Fixes
      * Fixed crash when near planets with fuel scoop attached (#1200, #1201)
      * Fixed timer setup for trade ships after game load (#1205, #1204)
