@@ -1098,7 +1098,7 @@ void SBody::PickAtmosphere()
 	 */
 	switch (type) {
 		case SBody::TYPE_PLANET_GAS_GIANT:
-			m_atmosColor = Color(1.0f, 1.0f, 1.0f, 0.005f);
+			m_atmosColor = Color(1.0f, 1.0f, 1.0f, 0.0005f);
 			m_atmosDensity = 14.0;
 			break;
 		case SBody::SUPERTYPE_STAR:
