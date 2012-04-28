@@ -1,7 +1,7 @@
 define_ship {
 	name='Meteor',
 	model='meteor',
-	forward_thrust = -30e5,
+	forward_thrust = -28e5,
 	reverse_thrust = 2e5,
 	up_thrust = 5e5,
 	down_thrust = -5e5,
@@ -12,11 +12,11 @@ define_ship {
 	gun_mounts =
 	{
 		{ v(1.5,-0.3,-7.9) , v(0,0,-1) },
-		{ v(1.5,-0.3,7.5), v(0,0,-1) },
+	--	{ v(1.5,-0.3,7.5), v(0,0,-1) },
 	},
 	max_cargo = 5,
 	max_laser = 1,
-	max_missile = 6,
+	max_missile = 4,
 	max_fuelscoop = 1,
 	max_cargoscoop = 0,
 	max_ecm = 0,
