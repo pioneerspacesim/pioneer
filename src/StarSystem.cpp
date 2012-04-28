@@ -187,7 +187,7 @@ float StarSystem::starScale[] = {  // Used in sector view
 };
 
 fixed StarSystem::starMetallicities[] = {
-	fixed(0,1),
+	fixed(1,1), // GRAVPOINT - for planets that orbit them
 	fixed(9,10), // brown dwarf
 	fixed(5,10), // white dwarf
 	fixed(7,10), // M0
@@ -221,9 +221,9 @@ fixed StarSystem::starMetallicities[] = {
 	fixed(1,1), // M WF
 	fixed(8,10), // B WF
 	fixed(6,10), // O WF
-	fixed(1,1), // Blackholes  /give them high metallicity, so any rocks that happen to be there will be mining hotspots. FUN :)
-	fixed(1,1), // "
-	fixed(1,1)  // "
+	fixed(1,1), //  S BH	Blackholes, give them high metallicity,
+	fixed(1,1), // IM BH	so any rocks that happen to be there
+	fixed(1,1)  // SM BH	may be mining hotspots. FUN :)
 };
 
 static const struct StarTypeInfo {
@@ -1323,6 +1323,8 @@ try_that_again_guvnah:
 		}
 	}
 
+	// used in MakeShortDescription
+	// XXX except this does not reflect the actual mining happening in this system
 	m_metallicity = starMetallicities[rootBody->type];
 
 	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i], rand);
@@ -1570,7 +1572,7 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 			snprintf(buf, sizeof(buf), " %d", 1+idx);
 		}
 		(*i)->name = primary->name+buf;
-		(*i)->PickPlanetType(this, rand);
+		(*i)->PickPlanetType(rand);
 		if (make_moons) MakePlanetsAround(*i, rand);
 		idx++;
 	}
@@ -1597,7 +1599,7 @@ const SBody *SBody::FindStarAndTrueOrbitalRange(fixed &orbMin_, fixed &orbMax_)
 	return star;
 }
 
-void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
+void SBody::PickPlanetType(MTRand &rand)
 {
 	fixed albedo = fixed(0);
 	fixed greenhouse = fixed(0);
@@ -1621,7 +1623,12 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 	// enforce minimum size of 10km
 	radius = std::max(radius, fixed(1,630));
 
-	m_metallicity = system->m_metallicity * rand.Fixed();
+	if (parent->type > TYPE_STAR_MAX)
+		m_metallicity = parent->m_metallicity * rand.Fixed();
+	else
+		// get it from the table now rather than setting it on stars/gravpoints as
+		// currently nothing else needs them to have metallicity
+		m_metallicity = StarSystem::starMetallicities[parent->type] * rand.Fixed();
 	// harder to be volcanic when you are tiny (you cool down)
 	m_volcanicity = std::min(fixed(1,1), mass) * rand.Fixed();
 	m_atmosOxidizing = rand.Fixed();
@@ -1844,6 +1851,7 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		system->m_agricultural += 1*m_agricultural;
 	} else {
 		// don't bother populating crap planets
+		// XXX this should maybe consider m_humanProx
 		if (m_metallicity < fixed(5,10)) return;
 	}
 

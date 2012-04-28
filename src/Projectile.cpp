@@ -185,6 +185,7 @@ static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const ve
 	CargoBody *cargo = new CargoBody(t);
 	cargo->SetFrame(f);
 	cargo->SetPosition(pos);
+	// XXX this is rather likely to send the cargo body inside the asteroid
 	cargo->SetVelocity(Pi::rng.Double(100.0,200.0)*vector3d(Pi::rng.Double()-.5, Pi::rng.Double()-.5, Pi::rng.Double()-.5));
 	Pi::game->GetSpace()->AddBody(cargo);
 }
