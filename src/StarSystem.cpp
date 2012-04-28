@@ -1765,6 +1765,8 @@ void StarSystem::Populate(bool addSpaceStations)
 	rand.seed(_init, 5);
 
 	/* Various system-wide characteristics */
+	// This is 1 in sector (0,0,0) and approaches 0 farther out
+	// (1,0,0) ~ .688, (1,1,0) ~ .557, (1,1,1) ~ .48
 	m_humanProx = fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));
 	m_econType = ECON_INDUSTRY;
 	m_industrial = rand.Fixed();
