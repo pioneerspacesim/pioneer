@@ -123,13 +123,27 @@ private:
 				m_curMat = &m_model->matDefs.back();
 				m_curMat->name = matname;
 				return true;
+			} else if(match(token, "lod")) {
+				m_isMaterial = false;
+				m_curMat = 0;
+				float featuresize;
+				if (ss >> featuresize == 0)
+					throw std::string("Detail level must specify a pixel size");
+				if (is_zero_general(featuresize))
+					throw std::string("Detail level pixel size must be greater than 0");
+				m_model->lodDefs.push_back(LodDefinition(featuresize));
+				return true;
 			} else if(match(token, "mesh")) {
 				//mesh definitionss only contain a filename
 				m_isMaterial = false;
 				m_curMat = 0;
 				string meshname;
 				checkMesh(ss, meshname);
-				m_model->meshNames.push_back(meshname);
+				//model might not have specified lods at all.
+				if (m_model->lodDefs.empty()) {
+					m_model->lodDefs.push_back(LodDefinition(100.f));
+				}
+				m_model->lodDefs.back().meshNames.push_back(meshname);
 				return true;
 			} else {
 				if (m_isMaterial) {
@@ -228,7 +242,7 @@ NModel *Loader::CreateModel(const ModelDefinition &def)
 {
 	using Graphics::Material;
 	if (def.matDefs.empty()) return 0;
-	if (def.meshNames.empty()) return 0;
+	if (def.lodDefs.empty()) return 0;
 
 	NModel *model = new NModel(def.name);
 
@@ -264,24 +278,50 @@ NModel *Loader::CreateModel(const ModelDefinition &def)
 	//printf("Loaded %d materials\n", int(model->m_materials.size()));
 
 	//load meshes
-	for(std::vector<std::string>::const_iterator it = def.meshNames.begin();
-		it != def.meshNames.end(); ++it)
+	std::map<std::string, Node*> meshCache;
+	LOD *lodNode = 0;
+	//lodDefs should be sorted by feature size
+	if (def.lodDefs.size() > 1) { //don't bother with a lod node if only one level
+		lodNode = new LOD();
+		model->GetRoot()->AddChild(lodNode);
+	}
+	for(std::vector<LodDefinition>::const_iterator lod = def.lodDefs.begin();
+		lod != def.lodDefs.end(); ++lod)
 	{
-		try {
-			Node *mesh = LoadMesh(*(it), model);
-			LOD *lod = new LOD();
-			lod->AddLevel(500, mesh);
-			MatrixTransform *mat = new MatrixTransform(matrix4x4f::ScaleMatrix(1.f, 0.1f, 1.f));
-			mat->AddChild(mesh);
-			lod->AddLevel(200, mat);
-			model->GetRoot()->AddChild(lod);
-		} catch (LoadingError &) {
-			delete model;
-			throw;
-		} catch (const std::string &s) {
-			delete model;
-			std::cout << s << std::endl;
-			throw LoadingError();
+		//does a detail level have multiple meshes? If so, we need a Group.
+		Group *group = 0;
+		if ((*lod).meshNames.size() > 1) {
+			group = new Group();
+			lodNode->AddLevel((*lod).pixelSize, group);
+		}
+		for(std::vector<std::string>::const_iterator it = (*lod).meshNames.begin();
+			it != (*lod).meshNames.end(); ++it)
+		{
+			try {
+				//multiple lods might use the same mesh
+				Node *mesh = 0;
+				std::map<std::string, Node*>::iterator cacheIt = meshCache.find((*it));
+				if (cacheIt != meshCache.end())
+					mesh = (*cacheIt).second;
+				else {
+					mesh = LoadMesh(*(it), model);
+					meshCache[*(it)] = mesh;
+				}
+
+				if (group)
+					group->AddChild(mesh);
+				else if(lodNode)
+					lodNode->AddLevel((*lod).pixelSize, mesh);
+				else
+					model->GetRoot()->AddChild(mesh);
+			} catch (LoadingError &) {
+				delete model;
+				throw;
+			} catch (const std::string &s) {
+				delete model;
+				std::cout << s << std::endl;
+				throw LoadingError();
+			}
 		}
 	}
 	return model;

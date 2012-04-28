@@ -34,9 +34,15 @@ struct MaterialDefinition {
 	int shininess; //specular power, 0+
 };
 
+struct LodDefinition {
+	LodDefinition(float size) : pixelSize(size) { }
+	float pixelSize;
+	std::vector<std::string> meshNames;
+};
+
 struct ModelDefinition {
 	std::string name;
-	std::vector<std::string> meshNames;
+	std::vector<LodDefinition> lodDefs;
 	std::vector<MaterialDefinition> matDefs;
 };
 
