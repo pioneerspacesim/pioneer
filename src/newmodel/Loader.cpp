@@ -21,6 +21,11 @@
 namespace Newmodel {
 
 #if 1 //begin parser
+bool LodSortPredicate(const LodDefinition &a, const LodDefinition &b)
+{
+	return a.pixelSize > b.pixelSize;
+}
+
 class Parser
 {
 public:
@@ -52,6 +57,8 @@ public:
 				throw ss.str();
 			}
 		}
+		//sort lods by feature size
+		std::sort(m->lodDefs.begin(), m->lodDefs.end(), LodSortPredicate);
 	}
 	~Parser() {
 		m_file.close();
@@ -280,7 +287,6 @@ NModel *Loader::CreateModel(const ModelDefinition &def)
 	//load meshes
 	std::map<std::string, Node*> meshCache;
 	LOD *lodNode = 0;
-	//lodDefs should be sorted by feature size
 	if (def.lodDefs.size() > 1) { //don't bother with a lod node if only one level
 		lodNode = new LOD();
 		model->GetRoot()->AddChild(lodNode);
