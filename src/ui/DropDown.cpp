@@ -122,9 +122,11 @@ bool DropDown::HandlePopupOptionClick(unsigned int selected)
 	GetContext()->RemoveFloatingWidget(m_popup);
 	m_popupActive = false;
 
-	m_selected = selected;
+	if (m_selected != selected) {
+		m_selected = selected;
+		onOptionSelected.emit(m_options[selected]);
+	}
 
-	onOptionSelected.emit(m_options[selected]);
 	return true;
 }
 
