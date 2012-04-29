@@ -1,13 +1,14 @@
 #include "libs.h"
-#include "gui/Gui.h"
 #include "collider/collider.h"
 #include "FileSystem.h"
-#include "newmodel/Newmodel.h"
 #include "graphics/Drawables.h"
-#include "graphics/Material.h"
 #include "graphics/Graphics.h"
+#include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
+#include "gui/Gui.h"
+#include "ModManager.h"
+#include "newmodel/Newmodel.h"
 #include "ui/Context.h"
 
 using namespace Graphics;
@@ -510,6 +511,8 @@ int main(int argc, char **argv)
 	}
 
 	FileSystem::Init();
+	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
+	ModManager::Init();
 
 	const SDL_VideoInfo *info = NULL;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {

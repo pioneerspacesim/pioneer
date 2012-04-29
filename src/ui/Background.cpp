@@ -1,31 +1,27 @@
 #include "Background.h"
 #include "Context.h"
-#include "graphics/Renderer.h"
-#include "graphics/VertexArray.h"
-#include "graphics/Material.h"
+#include "Skin.h"
 
 namespace UI {
 
+vector2f Background::PreferredSize()
+{
+	const vector2f borderSize(Skin::s_backgroundNormal.borderWidth*2);
+	if (!GetInnerWidget()) return borderSize;
+	return GetInnerWidget()->PreferredSize() + borderSize;
+}
+
+void Background::Layout()
+{
+	if (!GetInnerWidget()) return;
+	SetWidgetDimensions(GetInnerWidget(), vector2f(Skin::s_backgroundNormal.borderWidth), GetSize()-vector2f(Skin::s_backgroundNormal.borderWidth*2));
+	return GetInnerWidget()->Layout();
+}
+
 void Background::Draw()
 {
-	const vector2f &size = GetSize();
-
-	// XXX I'd prefer a "clear region" method on the renderer, but I need to
-	// look up what's possible at the GL/D3D level to support it
-
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
-	va.Add(vector3f(0,      0,      0));
-	va.Add(vector3f(0,      size.y, 0));
-	va.Add(vector3f(size.x, 0,      0));
-	va.Add(vector3f(size.x, size.y, 0));
-
-	Graphics::Material mat;
-	mat.diffuse = m_color;
-	mat.unlit = true;
-
-	GetContext()->GetRenderer()->DrawTriangles(&va, &mat, Graphics::TRIANGLE_STRIP);
-
-	Container::Draw();
+	GetContext()->GetSkin().DrawBackgroundNormal(0, GetSize());
+	Single::Draw();
 }
 
 }

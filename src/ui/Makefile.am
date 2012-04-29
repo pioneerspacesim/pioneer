@@ -12,6 +12,7 @@ noinst_HEADERS = \
 	Box.h \
 	Button.h \
 	CellSpec.h \
+	ColorBackground.h \
 	Container.h \
 	Context.h \
 	DropDown.h \
@@ -32,6 +33,7 @@ libui_a_SOURCES = \
 	Background.cpp \
 	Box.cpp \
 	Button.cpp \
+	ColorBackground.cpp \
 	Container.cpp \
 	Context.cpp \
 	DropDown.cpp \

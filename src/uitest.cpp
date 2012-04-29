@@ -33,9 +33,14 @@ static bool out_handler(UI::Widget *w)
 	return true;
 }
 
-static void colour_change(float v, UI::Background *back, UI::Slider *r, UI::Slider *g, UI::Slider *b)
+static void colour_change(float v, UI::ColorBackground *back, UI::Slider *r, UI::Slider *g, UI::Slider *b)
 {
 	back->SetColor(Color(r->GetValue(), g->GetValue(), b->GetValue()));
+}
+
+static void option_selected(const std::string &option)
+{
+	printf("option selected: %s\n", option.c_str());
 }
 
 int main(int argc, char **argv)
@@ -84,7 +89,7 @@ int main(int argc, char **argv)
 	r->SetDepthTest(false);
 
 	// XXX GL renderer enables lighting by default. if all draws use materials
-	// that's ok, but for filled regions (ie Background) its not right. a
+	// that's ok, but for filled regions (ie ColorBackground) its not right. a
 	// scissored version of Renderer::ClearScreen would be the most efficient,
 	// but I'm not quite ready to do it yet.
 	glDisable(GL_LIGHTING);
@@ -125,18 +130,18 @@ int main(int argc, char **argv)
 	UI::Image *image;
 	UI::Slider *slider;
 	c->SetInnerWidget(
-		c->Background(Color(0.4f, 0.2f, 0.4f, 1.0f))->SetInnerWidget(
+		c->ColorBackground(Color(0.4f, 0.2f, 0.4f, 1.0f))->SetInnerWidget(
 			c->Margin(10.0f)->SetInnerWidget(
-				c->Background(Color(0.1f, 0.4f, 0.4f, 1.0f))->SetInnerWidget(
+				c->ColorBackground(Color(0.1f, 0.4f, 0.4f, 1.0f))->SetInnerWidget(
 					c->VBox()->PackEnd(UI::WidgetSet(
 						c->HBox()->PackEnd(UI::WidgetSet(
 							c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
 							(image = c->Image("icons/object_star_g.png")),
 							c->Image("icons/object_star_m.png")
 						)),
-						c->Background(Color(1.0f, 0.0f, 0.0f, 1.0f)),
-						c->Background(Color(0.0f, 1.0f, 0.0f, 1.0f)),
-						c->Background(Color(0.0f, 0.0f, 1.0f, 1.0f)),
+						c->ColorBackground(Color(1.0f, 0.0f, 0.0f, 1.0f)),
+						c->ColorBackground(Color(0.0f, 1.0f, 0.0f, 1.0f)),
+						c->ColorBackground(Color(0.0f, 0.0f, 1.0f, 1.0f)),
 						c->Image("icons/cpanel.png"),
 						c->HBox(5.0f)->PackEnd(UI::WidgetSet(
 							c->Button()->SetInnerWidget(c->Label("Load game")),
@@ -157,13 +162,13 @@ int main(int argc, char **argv)
 
 #if 0
 	UI::Slider *red, *green, *blue;
-	UI::Background *back;
+	UI::ColorBackground *back;
 	c->SetInnerWidget(
 		c->VBox(5.0f)->PackEnd(UI::WidgetSet(
 			c->HBox(5.0f)->PackEnd(c->Label("Red"), UI::Box::ChildAttrs(false))->PackEnd(red = c->HSlider()),
 			c->HBox(5.0f)->PackEnd(c->Label("Green"), UI::Box::ChildAttrs(false))->PackEnd(green = c->HSlider()),
 			c->HBox(5.0f)->PackEnd(c->Label("Blue"), UI::Box::ChildAttrs(false))->PackEnd(blue = c->HSlider())
-		), UI::Box::ChildAttrs(false))->PackEnd(back = c->Background(Color()))
+		), UI::Box::ChildAttrs(false))->PackEnd(back = c->ColorBackground(Color()))
 	);
 
 	red->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
@@ -187,16 +192,16 @@ int main(int argc, char **argv)
 #endif
 
 #if 0
-	UI::Background *back[4];
+	UI::ColorBackground *back[4];
 	UI::Button *button[5];
 	c->SetInnerWidget(
 		c->Grid(2,2)
 			->SetRow(0, UI::WidgetSet(
-				(back[0] = c->Background(Color(0.8f,0.2f,0.2f))),
-				(back[1] = c->Background(Color(0.2f,0.8f,0.2f)))))
+				(back[0] = c->ColorBackground(Color(0.8f,0.2f,0.2f))),
+				(back[1] = c->ColorBackground(Color(0.2f,0.8f,0.2f)))))
 			->SetRow(1, UI::WidgetSet(
-				(back[2] = c->Background(Color(0.2f,0.2f,0.8f))),
-				(back[3] = c->Background(Color(0.8f,0.8f,0.2f)))))
+				(back[2] = c->ColorBackground(Color(0.2f,0.2f,0.8f))),
+				(back[3] = c->ColorBackground(Color(0.8f,0.8f,0.2f)))))
 	);
 	c->AddFloatingWidget(
 		(button[0] = c->Button())->SetInnerWidget(c->Image("icons/object_star_m.png")), vector2f(472.0f, 344.f), vector2f(80.0f)
@@ -224,14 +229,17 @@ int main(int argc, char **argv)
 	}
 #endif
 
+	UI::DropDown *dropdown;
 	c->SetInnerWidget(
 		c->HBox()->PackEnd(
-			c->DropDown()
-				->AddOption("foo")
-				->AddOption("bar")
-				->AddOption("baz")
+			(dropdown = c->DropDown()
+				->AddOption("watermelon")
+				->AddOption("banana")
+				->AddOption("ox tongue")
+			)
 		)
 	);
+	dropdown->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 
 	c->Layout();
 

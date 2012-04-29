@@ -599,7 +599,9 @@ public:
 	}
 	void SetTexture(const char *tex) {
 		if (tex) {
-			curTexture = new std::string(tex);
+			if (!curTexture || (*curTexture != tex)) {
+				curTexture = new std::string(tex);
+			}
 		} else {
 			curTexture = 0;
 			curGlowmap = 0; //won't have these without textures
@@ -607,7 +609,9 @@ public:
 	}
 	void SetGlowMap(const char *tex) {
 		if (tex) {
-			curGlowmap = new std::string(tex);
+			if (!curGlowmap || (*curGlowmap != tex)) {
+				curGlowmap = new std::string(tex);
+			}
 		} else {
 			curGlowmap = 0;
 		}
@@ -806,7 +810,9 @@ private:
 	}
 
 	void OpDrawElements(int numIndices) {
-		if ((curOp.type != OP_DRAW_ELEMENTS) || (curOp.elems.textureFile != curTexture)) {
+		if ((curOp.type != OP_DRAW_ELEMENTS) ||
+				(curOp.elems.textureFile != curTexture) ||
+				(curOp.elems.glowmapFile != curGlowmap)) {
 			if (curOp.type) m_ops.push_back(curOp);
 			curOp.type = OP_DRAW_ELEMENTS;
 			curOp.elems.start = m_indices.size();
@@ -869,6 +875,7 @@ public:
 		int numTriflags = m_triflags.size();
 		int numThrusters = m_thrusters.size();
 		int numOps = m_ops.size();
+		assert(numOps < 1000);
 		fwrite(&numVertices, sizeof(numVertices), 1, f);
 		fwrite(&numIndices, sizeof(numIndices), 1, f);
 		fwrite(&numTriflags, sizeof(numTriflags), 1, f);
@@ -4112,8 +4119,15 @@ namespace ModelFuncs {
 } /* namespace ModelFuncs */
 
 namespace ObjLoader {
-	static std::map<std::string, std::string> load_mtl_file(lua_State *L, const char* mtl_file) {
-		std::map<std::string, std::string> mtl_map;
+	struct MtlMaterial {
+		std::string diffuse;
+		std::string emission;
+	};
+
+	typedef std::map<std::string, MtlMaterial> MtlLibrary;
+
+	static MtlLibrary load_mtl_file(lua_State *L, const char* mtl_file) {
+		MtlLibrary mtl_map;
 		char name[1024] = "", file[1024];
 
 		lua_getglobal(L, "CurrentDirectory");
@@ -4132,12 +4146,17 @@ namespace ObjLoader {
 		for (int line_no=1; !mtlfilerange.Empty(); line_no++) {
 			line = mtlfilerange.ReadLine().StripSpace().ToString();
 
-			if (!strncasecmp(line.c_str(), "newmtl ", 7)) {
+			if (!strncasecmp(line.c_str(), "newmtl", 6)) {
 				PiVerify(1 == sscanf(line.c_str(), "newmtl %s", name));
+				mtl_map[name] = MtlMaterial();
 			}
-			if (!strncasecmp(line.c_str(), "map_K", 5) && strlen(name) > 0) {
+			if (!strncasecmp(line.c_str(), "map_Kd", 6) && strlen(name)) {
 				PiVerify(1 == sscanf(line.c_str(), "map_Kd %s", file));
-				mtl_map[name] = file;
+				mtl_map[name].diffuse = file;
+			}
+			if (!strncasecmp(line.c_str(), "map_Ke", 6) && strlen(name)) {
+				PiVerify(1 == sscanf(line.c_str(), "map_Ke %s", file));
+				mtl_map[name].emission = file;
 			}
 		}
 
@@ -4150,8 +4169,8 @@ namespace ObjLoader {
 	 * Load a Wavefront OBJ model file.
 	 * 
 	 * If an associated .mtl material definition file is found, Pioneer will
-	 * attempt to interpret it the best it can, including texture usage. Note that
-	 * Pioneer supports only one texture per .obj file.
+	 * use the diffuse and emission textures (map_Kd and map_Ke) from that file.
+	 * Other material settings in the .mtl file are currently ignored.
 	 *
 	 * > load_obj(modelname, transform)
 	 *
@@ -4206,8 +4225,7 @@ namespace ObjLoader {
 		std::vector<vector3f> vertices;
 		std::vector<vector3f> texcoords;
 		std::vector<vector3f> normals;
-		std::map<std::string, std::string> mtl_map;
-		std::string texture;
+		MtlLibrary mtl_map;
 
 		// maps obj file vtx_idx,norm_idx to a single GeomBuffer vertex index
 		std::map<objTriplet, int> vtxmap;
@@ -4289,7 +4307,6 @@ namespace ObjLoader {
 							s_curBuf->SetVertex(vtxStart+1, b, n, texcoords[ti[i+1]].x, texcoords[ti[i+1]].y);
 							s_curBuf->SetVertex(vtxStart+2, c, n, texcoords[ti[i+2]].x, texcoords[ti[i+2]].y);
 						}
-						if (texture.size()) s_curBuf->SetTexture(texture.c_str());
 						s_curBuf->PushTri(vtxStart, vtxStart+1, vtxStart+2);
 					}
 				} else {
@@ -4312,7 +4329,6 @@ namespace ObjLoader {
 							realVtxIdx[i] = (*it).second;
 						}
 					}
-					if (texture.size()) s_curBuf->SetTexture(texture.c_str());
 					if (numBits == 3) {
 						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2]);
 					} else if (numBits == 4) {
@@ -4326,20 +4342,35 @@ namespace ObjLoader {
 			else if (strncmp("mtllib ", buf, 7) == 0) {
 				char lib_name[128];
 				if (1 == sscanf(buf, "mtllib %s", lib_name)) {
-					mtl_map = load_mtl_file(L, lib_name);
+					try {
+						mtl_map = load_mtl_file(L, lib_name);
+					} catch (LmrUnknownMaterial) {
+						printf(".mtl file '%s' could not be found\n", lib_name);
+						mtl_map.clear();
+					}
 				}
 			}
 			else if (strncmp("usemtl ", buf, 7) == 0) {
 				char mat_name[128];
 				if (1 == sscanf(buf, "usemtl %s", mat_name)) {
-					if ( mtl_map.find(mat_name) != mtl_map.end() ) {
-						try {
-							char texfile[256];
-							snprintf(texfile, sizeof(texfile), "%s/%s", curdir.c_str(), mtl_map[mat_name].c_str());
-							texture = texfile;
-						} catch (LmrUnknownMaterial) {
-							printf("Warning: Missing material %s (%s) in %s\n", mtl_map[mat_name].c_str(), mat_name, obj_name);
+					MtlLibrary::const_iterator mat_iter = mtl_map.find(mat_name);
+					if ( mat_iter != mtl_map.end() ) {
+						const MtlMaterial &mat_info = mat_iter->second;
+						std::string diffuse_path, emission_path;
+
+						if (!mat_info.diffuse.empty()) {
+							diffuse_path = FileSystem::JoinPath(curdir, mat_info.diffuse);
 						}
+						if (!mat_info.emission.empty()) {
+							emission_path = FileSystem::JoinPath(curdir, mat_info.emission);
+						}
+
+						// not allowed to have a glow map with no diffuse map
+						// (I don't know why, maybe it would be fine... who knows with LMR?)
+						if (diffuse_path.empty()) { emission_path.clear(); }
+
+						s_curBuf->SetTexture(diffuse_path.empty() ? 0 : diffuse_path.c_str());
+						s_curBuf->SetGlowMap(emission_path.empty() ? 0 : emission_path.c_str());
 					}
 				} else {
 					Error("Obj file has no normals or is otherwise too weird at line %d\n", line_no);
