@@ -1853,8 +1853,8 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		system->m_agricultural += 1*m_agricultural;
 	} else {
 		// don't bother populating crap planets
-		// XXX this should maybe consider m_humanProx
-		if (m_metallicity < fixed(5,10)) return;
+		if (m_metallicity < fixed(5,10) &&
+			m_metallicity < (fixed(1,1) - system->m_humanProx)) return;
 	}
 
 	const int NUM_CONSUMABLES = 10;
