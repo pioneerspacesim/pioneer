@@ -16,6 +16,8 @@ public:
 
 	DropDown *AddOption(const std::string &text);
 
+	sigc::signal<void,const std::string &> onOptionSelected;
+
 protected:
 	friend class Context;
 	DropDown(Context *context);
@@ -42,6 +44,7 @@ private:
 
 	bool HandlePopupOptionMouseOver(UI::ColorBackground *background);
 	bool HandlePopupOptionMouseOut(UI::ColorBackground *background);
+	bool HandlePopupOptionClick(const std::string &option);
 };
 
 }

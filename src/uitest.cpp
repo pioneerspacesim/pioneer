@@ -38,6 +38,11 @@ static void colour_change(float v, UI::ColorBackground *back, UI::Slider *r, UI:
 	back->SetColor(Color(r->GetValue(), g->GetValue(), b->GetValue()));
 }
 
+static void option_selected(const std::string &option)
+{
+	printf("option selected: %s\n", option.c_str());
+}
+
 int main(int argc, char **argv)
 {
 	FileSystem::Init();
@@ -224,14 +229,17 @@ int main(int argc, char **argv)
 	}
 #endif
 
+	UI::DropDown *dropdown;
 	c->SetInnerWidget(
 		c->HBox()->PackEnd(
-			c->DropDown()
+			(dropdown = c->DropDown()
 				->AddOption("watermelon")
 				->AddOption("banana")
 				->AddOption("ox tongue")
+			)
 		)
 	);
+	dropdown->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 
 	c->Layout();
 

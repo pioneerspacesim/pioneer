@@ -76,6 +76,7 @@ void DropDown::BuildPopup()
 
 		background->onMouseOver.connect(sigc::bind(sigc::mem_fun(this, &DropDown::HandlePopupOptionMouseOver), background));
 		background->onMouseOut.connect(sigc::bind(sigc::mem_fun(this, &DropDown::HandlePopupOptionMouseOut), background));
+		background->onClick.connect(sigc::bind(sigc::mem_fun(this, &DropDown::HandlePopupOptionClick), (*i)));
 
 		m_backgrounds.push_back(background);
 	}
@@ -112,6 +113,15 @@ bool DropDown::HandlePopupOptionMouseOver(UI::ColorBackground *background)
 bool DropDown::HandlePopupOptionMouseOut(UI::ColorBackground *background)
 {
 	background->SetColor(Color(0,0,0,0));
+	return true;
+}
+
+bool DropDown::HandlePopupOptionClick(const std::string &option)
+{
+	GetContext()->RemoveFloatingWidget(m_popup);
+	m_popupActive = false;
+
+	onOptionSelected.emit(option);
 	return true;
 }
 
