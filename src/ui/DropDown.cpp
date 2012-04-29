@@ -81,7 +81,7 @@ void DropDown::BuildPopup()
 	}
 }
 
-void DropDown::HandleMouseDown(const MouseButtonEvent &event)
+void DropDown::HandleClick()
 {
 	Context *c = GetContext();
 
@@ -100,7 +100,7 @@ void DropDown::HandleMouseDown(const MouseButtonEvent &event)
 		m_popupActive = true;
 	}
 
-	Widget::HandleMouseDown(event);
+	Widget::HandleClick();
 }
 
 bool DropDown::HandlePopupOptionMouseOver(UI::ColorBackground *background)

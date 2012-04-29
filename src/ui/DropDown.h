@@ -20,7 +20,7 @@ protected:
 	friend class Context;
 	DropDown(Context *context);
 
-	void HandleMouseDown(const MouseButtonEvent &event);
+	void HandleClick();
 
 private:
 	void CalcSizePos();
