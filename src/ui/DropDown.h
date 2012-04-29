@@ -21,8 +21,15 @@ protected:
 	DropDown(Context *context);
 
 private:
-	Background *m_mainContainer;
-	Background *m_optionList;
+	void CalcSizePos();
+
+	vector2f m_textPos, m_textSize;
+	vector2f m_backgroundPos, m_backgroundSize;
+	vector2f m_buttonPos, m_buttonSize;
+	vector2f m_preferredSize;
+
+	std::vector<std::string> m_options;
+	unsigned int m_selected;
 };
 
 }

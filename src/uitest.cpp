@@ -227,9 +227,9 @@ int main(int argc, char **argv)
 	c->SetInnerWidget(
 		c->HBox()->PackEnd(
 			c->DropDown()
-				->AddOption("foo")
-				->AddOption("bar")
-				->AddOption("baz")
+				->AddOption("watermelon")
+				->AddOption("banana")
+				->AddOption("ox tongue")
 		)
 	);
 
