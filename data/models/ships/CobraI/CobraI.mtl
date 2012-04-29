@@ -41,3 +41,4 @@ newmtl CobraI_exhaust
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
 	map_Kd engine_cone_diff.png
+	map_Ke engine_cone_emit.png
