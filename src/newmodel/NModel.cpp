@@ -23,7 +23,7 @@ void NModel::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, const
 	/*DrawVisitor vis(renderer);
 	m_root->Accept(vis);*/
 	RenderData renderData;
-	renderData.scrWidth = 1024;
+	renderData.scrWidth = params->screenWidth;
 	renderData.boundingRadius = GetDrawClipRadius();
 	m_root->Render(renderer, trans, &renderData);
 }

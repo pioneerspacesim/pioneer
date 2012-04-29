@@ -5,7 +5,7 @@
  */
 #include "libs.h"
 #include "CollMesh.h"
-struct LmrObjParams;
+#include "LmrTypes.h"
 namespace Graphics { class Renderer; }
 
 class Model {

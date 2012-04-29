@@ -29,6 +29,9 @@ struct LmrObjParams
 	float angthrust[3];		// 1.0 to -1.0
 
 	struct LmrMaterial pMat[3];
+
+	int screenWidth;
 };
+typedef LmrObjParams ModelParams;
 
 #endif

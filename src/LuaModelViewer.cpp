@@ -151,6 +151,7 @@ private:
 	void DrawGrid(matrix4x4f& trans, double radius);
 	bool m_showBoundingRadius;
 	bool m_showGrid;
+	ModelParams m_modelParams;
 };
 
 void Viewer::ResetCamera()
@@ -256,6 +257,7 @@ void Viewer::MainLoop()
 	//g_campos = vector3f(0.0f, 0.0f, m_cmesh->GetBoundingRadius());
 	g_camorient = matrix4x4f::Identity();
 	matrix4x4f modelRot = matrix4x4f::Identity();
+	m_modelParams.screenWidth = g_width;
 
 	for (;;) {
 		PollEvents();
@@ -307,10 +309,9 @@ void Viewer::MainLoop()
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
 			if (g_doBenchmark) {
-				for (int i=0; i<1000; i++) m_model->Render(renderer, m, 0);
+				for (int i=0; i<1000; i++) m_model->Render(renderer, m, &m_modelParams);
 			} else {
-				//m_model->Render(renderer, m, &g_params);
-				m_model->Render(renderer, m, 0);
+				m_model->Render(renderer, m, &m_modelParams);
 			}
 			glPopAttrib();
 		} else if (g_renderType == 1) {
