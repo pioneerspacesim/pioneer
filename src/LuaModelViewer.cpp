@@ -42,7 +42,18 @@ static Viewer *g_viewer;
 static int g_renderType = 0;
 static float g_frameTime;
 
+struct Options {
+	bool showBoundingBoxes;
+
+	Options()
+	: showBoundingBoxes(false)
+	{ }
+};
+
 class Viewer: public Gui::Fixed {
+private:
+	Options m_drawOptions;
+
 public:
 	CollisionSpace *m_space;
 	CollMesh *m_cmesh;
@@ -68,10 +79,26 @@ public:
 	{
 		m_ui = new UI::Context(renderer, g_width, g_height);
 		UI::Context *c = m_ui;
-		/*c->SetInnerWidget(c->VBox()->PackEnd(UI::WidgetSet(
-			c->Button()->SetInnerWidget(c->Label("Woo")),
-			c->Label("Foo")
-		)));*/
+		UI::Button *b1, *b2, *b3;
+		c->SetInnerWidget(
+			c->VBox()->PackEnd(UI::WidgetSet(
+				c->Margin(50.0f)->SetInnerWidget(
+					c->HBox()->PackEnd(
+						UI::WidgetSet(
+							(b1 = c->Button()),
+							c->Label("Show bounding radius")
+						), UI::Box::ChildAttrs(false, false)
+					)
+				)),
+				/*c->Margin(10.0f)->SetInnerWidget(
+					(b2 = c->Button())->SetInnerWidget(c->Image("icons/object_star_m.png"))
+				),
+				c->Margin(10.0f)->SetInnerWidget(
+					(b3 = c->Button())->SetInnerWidget(c->Label("PEW PEW"))
+				)),*/ UI::Box::ChildAttrs(false, false)
+			)
+		);
+		b1->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius));
 		c->Layout();
 
 		m_space = new CollisionSpace();
@@ -99,7 +126,7 @@ public:
 		{
 			Gui::Button *b = new Gui::SolidButton();
 			b->SetShortcut(SDLK_b, KMOD_LSHIFT);
-			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius));
+			//b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius));
 			Add(b, 10, 90);
 			Add(new Gui::Label("[shift-b] Visualize bounding radius"), 30, 90);
 		}
@@ -136,8 +163,9 @@ public:
 		if (g_renderType > 1) g_renderType = 0;
 	}
 
-	void OnToggleBoundingRadius() {
+	bool OnToggleBoundingRadius() {
 		m_showBoundingRadius = !m_showBoundingRadius;
+		return true;
 	}
 	void OnToggleGrid() {
 		if (!m_showGrid) {
