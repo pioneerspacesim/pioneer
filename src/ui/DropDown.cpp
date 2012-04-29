@@ -4,7 +4,7 @@
 
 namespace UI {
 
-DropDown::DropDown(Context *context) : Widget(context), m_selected(0)
+DropDown::DropDown(Context *context) : Widget(context), m_selected(0), m_popup(0), m_popupActive(false)
 {
 }
 
@@ -59,6 +59,34 @@ void DropDown::Draw()
 	if (m_selected < m_options.size())
 		// XXX scissor
 		GetContext()->GetFont()->RenderString(m_options[m_selected].c_str(), m_textPos.x, m_textPos.y);
+}
+
+void DropDown::HandleMouseDown(const MouseButtonEvent &event)
+{
+	Context *c = GetContext();
+
+	if (m_popupActive) {
+		c->RemoveFloatingWidget(m_popup);
+		m_popupActive = false;
+	}
+
+	else {
+		if (!m_popup) {
+			VBox *vbox;
+			m_popup = c->Background()->SetInnerWidget(
+				(vbox = c->VBox())
+			);
+			for (std::vector<std::string>::const_iterator i = m_options.begin(); i != m_options.end(); ++i)
+				vbox->PackEnd(c->Label((*i)));
+		}
+
+		const vector2f pos(GetAbsolutePosition() + vector2f(0, m_backgroundSize.y));
+		c->AddFloatingWidget(m_popup, pos, m_popup->PreferredSize());
+
+		m_popupActive = true;
+	}
+
+	Widget::HandleMouseDown(event);
 }
 
 DropDown *DropDown::AddOption(const std::string &text)

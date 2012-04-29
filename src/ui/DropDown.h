@@ -20,6 +20,8 @@ protected:
 	friend class Context;
 	DropDown(Context *context);
 
+	void HandleMouseDown(const MouseButtonEvent &event);
+
 private:
 	void CalcSizePos();
 
@@ -30,6 +32,9 @@ private:
 
 	std::vector<std::string> m_options;
 	unsigned int m_selected;
+
+	Widget *m_popup;
+	bool m_popupActive;
 };
 
 }
