@@ -44,7 +44,7 @@ private:
 
 	bool HandlePopupOptionMouseOver(UI::ColorBackground *background);
 	bool HandlePopupOptionMouseOut(UI::ColorBackground *background);
-	bool HandlePopupOptionClick(const std::string &option);
+	bool HandlePopupOptionClick(unsigned int selected);
 };
 
 }

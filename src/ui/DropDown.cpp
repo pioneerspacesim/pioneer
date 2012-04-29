@@ -70,13 +70,14 @@ void DropDown::BuildPopup()
 	m_popup = c->Background()->SetInnerWidget(
 		(vbox = c->VBox())
 	);
-	for (std::vector<std::string>::const_iterator i = m_options.begin(); i != m_options.end(); ++i) {
+
+	for (unsigned int i = 0; i < m_options.size(); i++) {
 		ColorBackground *background = c->ColorBackground(Color(0,0,0,0));
-		vbox->PackEnd(background->SetInnerWidget(c->Label((*i))));
+		vbox->PackEnd(background->SetInnerWidget(c->Label(m_options[i])));
 
 		background->onMouseOver.connect(sigc::bind(sigc::mem_fun(this, &DropDown::HandlePopupOptionMouseOver), background));
 		background->onMouseOut.connect(sigc::bind(sigc::mem_fun(this, &DropDown::HandlePopupOptionMouseOut), background));
-		background->onClick.connect(sigc::bind(sigc::mem_fun(this, &DropDown::HandlePopupOptionClick), (*i)));
+		background->onClick.connect(sigc::bind(sigc::mem_fun(this, &DropDown::HandlePopupOptionClick), i));
 
 		m_backgrounds.push_back(background);
 	}
@@ -116,12 +117,14 @@ bool DropDown::HandlePopupOptionMouseOut(UI::ColorBackground *background)
 	return true;
 }
 
-bool DropDown::HandlePopupOptionClick(const std::string &option)
+bool DropDown::HandlePopupOptionClick(unsigned int selected)
 {
 	GetContext()->RemoveFloatingWidget(m_popup);
 	m_popupActive = false;
 
-	onOptionSelected.emit(option);
+	m_selected = selected;
+
+	onOptionSelected.emit(m_options[selected]);
 	return true;
 }
 
