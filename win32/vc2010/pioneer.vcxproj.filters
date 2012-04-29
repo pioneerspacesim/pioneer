@@ -711,6 +711,12 @@
     <ClCompile Include="..\..\src\newmodel\MatrixTransform.cpp">
       <Filter>src\newmodel</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\FileSourceZip.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ModManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -1336,6 +1342,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\newmodel\MatrixTransform.h">
       <Filter>src\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FileSourceZip.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ModManager.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

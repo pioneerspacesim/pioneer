@@ -69,6 +69,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "SDLWrappers.h"
+#include "ModManager.h"
 #include <fstream>
 
 float Pi::gameTickAlpha;
@@ -385,6 +386,8 @@ void Pi::Init()
 {
 	FileSystem::Init();
 	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
+
+	ModManager::Init();
 
 	Pi::config = new GameConfig(FileSystem::JoinPath(FileSystem::GetUserDir(), "config.ini"));
 	KeyBindings::InitBindings();

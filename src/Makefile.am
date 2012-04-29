@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider gui graphics terrain newmodel
+SUBDIRS = collider gui graphics terrain text ui
 
 include $(top_srcdir)/Makefile.common
 
@@ -32,8 +32,8 @@ noinst_HEADERS = \
 	FaceVideoLink.h \
 	FileSelectorWidget.h \
 	FileSystem.h \
-	Font.h \
 	FontCache.h \
+	FontConfig.h \
 	Form.h \
 	FormController.h \
 	Frame.h \
@@ -47,7 +47,6 @@ noinst_HEADERS = \
 	InfoView.h \
 	IniConfig.h \
 	GameConfig.h \
-	FontConfig.h \
 	KeyBindings.h \
 	Lang.h \
 	LangStrings.inc.h \
@@ -87,6 +86,7 @@ noinst_HEADERS = \
 	MathUtil.h \
 	Missile.h \
 	ModelBody.h \
+	ModManager.h \
 	MyLuaMathTypes.h \
 	Object.h \
 	ObjectViewerView.h \
@@ -136,9 +136,6 @@ noinst_HEADERS = \
 	SystemPath.h \
 	SystemView.h \
 	TerrainBody.h \
-	TextureFont.h \
-	TextSupport.h \
-	VectorFont.h \
 	VideoLink.h \
 	View.h \
 	WorldView.h \
@@ -173,9 +170,10 @@ pioneer_SOURCES	= \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
 	FileSelectorWidget.cpp \
+	FileSourceZip.cpp \
 	FileSystem.cpp \
-	Font.cpp \
 	FontCache.cpp \
+	FontConfig.cpp \
 	FormController.cpp \
 	Frame.cpp \
 	GalacticView.cpp \
@@ -188,7 +186,6 @@ pioneer_SOURCES	= \
 	InfoView.cpp \
 	IniConfig.cpp \
 	GameConfig.cpp \
-	FontConfig.cpp \
 	KeyBindings.cpp \
 	Light.cpp \
 	Lang.cpp \
@@ -227,6 +224,7 @@ pioneer_SOURCES	= \
 	MathUtil.cpp \
 	Missile.cpp \
 	ModelBody.cpp \
+	ModManager.cpp \
 	MyLuaMathTypes.cpp \
 	ObjectViewerView.cpp \
 	Pi.cpp \
@@ -270,9 +268,6 @@ pioneer_SOURCES	= \
 	SystemInfoView.cpp \
 	SystemView.cpp \
 	TerrainBody.cpp \
-	TextureFont.cpp \
-	TextSupport.cpp \
-	VectorFont.cpp \
 	View.cpp \
 	WorldView.cpp \
 	WorldViewCamera.cpp \
@@ -282,7 +277,7 @@ pioneer_SOURCES	= \
 	utils.cpp \
 	enum_table.cpp
 
-pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a newmodel/libnewmodel.a \
+pioneer_LDADD = ../contrib/oolua/liboolua.a ../contrib/miniz/libminiz.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a ui/libui.a \
 		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
 		$(PNG_LIBS)
@@ -293,36 +288,33 @@ endif
 modelviewer_SOURCES = \
 	Color.cpp \
 	CRC32.cpp \
-	Font.cpp \
+	FileSourceZip.cpp \
 	FileSystem.cpp \
-	IniConfig.cpp \
-	FontConfig.cpp \
 	FontCache.cpp \
+	FontConfig.cpp \
+	IniConfig.cpp \
 	Lang.cpp \
 	LmrModel.cpp \
 	LuaModelViewer.cpp \
 	LuaUtils.cpp \
 	LuaConstants.cpp \
+	ModManager.cpp \
 	EquipType.cpp \
 	ShipType.cpp \
 	MyLuaMathTypes.cpp \
 	SDLWrappers.cpp \
 	StringF.cpp \
-	TextureFont.cpp \
-	TextSupport.cpp \
-	VectorFont.cpp \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
-modelviewer_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a newmodel/libnewmodel.a \
+modelviewer_LDADD = ../contrib/miniz/libminiz.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a ui/libui.a \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 if !HAVE_LUA
 modelviewer_LDADD += ../contrib/lua/liblua.a
 endif
-modelviewer_LDADD += -lassimp
 
-check_PROGRAMS = tests
+check_PROGRAMS = tests uitest
 tests_SOURCES = \
 	StringF.cpp \
 	tests.cpp \
@@ -331,10 +323,18 @@ tests_SOURCES = \
 	FileSystem.cpp \
 	FileSystemPosix.cpp \
 	test_FileSystem.cpp
+tests_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a
+uitest_SOURCES = \
+	uitest.cpp \
+	Color.cpp \
+	FileSystem.cpp \
+	FileSystemPosix.cpp \
+	SDLWrappers.cpp
+uitest_LDADD = ui/libui.a gui/libgui.a text/libtext.a graphics/libgraphics.a \
+	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
+	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 
 TESTS = tests
- 
-tests_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a
 
 INCLUDES = -isystem @top_srcdir@/contrib
 if !HAVE_LUA
@@ -350,3 +350,4 @@ if BUILD_POSIX
     pioneer_SOURCES += FileSystemPosix.cpp
     modelviewer_SOURCES += FileSystemPosix.cpp
 endif
+
