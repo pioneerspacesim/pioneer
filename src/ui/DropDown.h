@@ -15,6 +15,7 @@ public:
 	virtual void Draw();
 
 	DropDown *AddOption(const std::string &text);
+	const std::string &GetSelectedOption() const { return m_options[m_selected]; }
 
 	sigc::signal<void,const std::string &> onOptionSelected;
 
