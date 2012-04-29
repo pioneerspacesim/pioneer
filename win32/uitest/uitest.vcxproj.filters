@@ -144,6 +144,12 @@
     <ClCompile Include="..\..\src\gui\GuiTexturedQuad.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\graphics\MaterialGL2.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\DropDown.cpp">
+      <Filter>Source Files\ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\ui\Background.h">
@@ -271,6 +277,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\gui\GuiTexturedQuad.h">
       <Filter>Source Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\MaterialGL2.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\DropDown.h">
+      <Filter>Source Files\ui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

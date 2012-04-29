@@ -87,6 +87,7 @@
     <ClCompile Include="..\..\src\graphics\Frustum.cpp" />
     <ClCompile Include="..\..\src\graphics\Graphics.cpp" />
     <ClCompile Include="..\..\src\graphics\Material.cpp" />
+    <ClCompile Include="..\..\src\graphics\MaterialGL2.cpp" />
     <ClCompile Include="..\..\src\graphics\Renderer.cpp" />
     <ClCompile Include="..\..\src\graphics\RendererGL2.cpp" />
     <ClCompile Include="..\..\src\graphics\RendererLegacy.cpp" />
@@ -107,6 +108,7 @@
     <ClCompile Include="..\..\src\ui\Button.cpp" />
     <ClCompile Include="..\..\src\ui\Container.cpp" />
     <ClCompile Include="..\..\src\ui\Context.cpp" />
+    <ClCompile Include="..\..\src\ui\DropDown.cpp" />
     <ClCompile Include="..\..\src\ui\EventDispatcher.cpp" />
     <ClCompile Include="..\..\src\ui\Grid.cpp" />
     <ClCompile Include="..\..\src\ui\Image.cpp" />
@@ -127,6 +129,7 @@
     <ClInclude Include="..\..\src\graphics\Frustum.h" />
     <ClInclude Include="..\..\src\graphics\Graphics.h" />
     <ClInclude Include="..\..\src\graphics\Material.h" />
+    <ClInclude Include="..\..\src\graphics\MaterialGL2.h" />
     <ClInclude Include="..\..\src\graphics\Renderer.h" />
     <ClInclude Include="..\..\src\graphics\RendererGL2.h" />
     <ClInclude Include="..\..\src\graphics\RendererGLBuffers.h" />
@@ -151,6 +154,7 @@
     <ClInclude Include="..\..\src\ui\CellSpec.h" />
     <ClInclude Include="..\..\src\ui\Container.h" />
     <ClInclude Include="..\..\src\ui\Context.h" />
+    <ClInclude Include="..\..\src\ui\DropDown.h" />
     <ClInclude Include="..\..\src\ui\Event.h" />
     <ClInclude Include="..\..\src\ui\EventDispatcher.h" />
     <ClInclude Include="..\..\src\ui\Grid.h" />

@@ -72,9 +72,6 @@
     <ClCompile Include="..\..\src\FaceVideoLink.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Font.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\FontConfig.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -288,13 +285,7 @@
     <ClCompile Include="..\..\src\SystemView.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\TextureFont.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\utils.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\VectorFont.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\WorldView.cpp">
@@ -600,9 +591,6 @@
     <ClCompile Include="..\..\src\FontCache.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\TextSupport.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\graphics\Drawables.cpp">
       <Filter>src\graphics</Filter>
     </ClCompile>
@@ -711,10 +699,20 @@
     <ClCompile Include="..\..\src\newmodel\MatrixTransform.cpp">
       <Filter>src\newmodel</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\FileSourceZip.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\..\src\text\Font.cpp" />
+    <ClCompile Include="..\..\src\text\TextSupport.cpp" />
+    <ClCompile Include="..\..\src\text\TextureFont.cpp" />
+    <ClCompile Include="..\..\src\text\VectorFont.cpp" />
+    <ClCompile Include="..\..\src\newmodel\ModelNode.cpp">
+      <Filter>src\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\newmodel\LOD.cpp">
+      <Filter>src\newmodel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\ModManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\FileSourceZip.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -792,9 +790,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\fixed.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Font.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\FontConfig.h">
@@ -1028,16 +1023,10 @@
     <ClInclude Include="..\..\src\SystemView.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\TextureFont.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\utils.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\vector3.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\VectorFont.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\VideoLink.h">
@@ -1226,9 +1215,6 @@
     <ClInclude Include="..\..\src\FontCache.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\TextSupport.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\ByteRange.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1343,10 +1329,21 @@
     <ClInclude Include="..\..\src\newmodel\MatrixTransform.h">
       <Filter>src\newmodel</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\FileSourceZip.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\..\src\text\Font.h" />
+    <ClInclude Include="..\..\src\text\FontDescriptor.h" />
+    <ClInclude Include="..\..\src\text\TextSupport.h" />
+    <ClInclude Include="..\..\src\text\TextureFont.h" />
+    <ClInclude Include="..\..\src\text\VectorFont.h" />
+    <ClInclude Include="..\..\src\newmodel\ModelNode.h">
+      <Filter>src\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\newmodel\LOD.h">
+      <Filter>src\newmodel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ModManager.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FileSourceZip.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
