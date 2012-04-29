@@ -7,6 +7,8 @@
 #include "NModel.h"
 #include "graphics/Material.h"
 
+struct aiNode;
+
 namespace Graphics { class Renderer; }
 
 namespace Newmodel {
@@ -40,10 +42,19 @@ struct LodDefinition {
 	std::vector<std::string> meshNames;
 };
 
+struct TagDefinition {
+	TagDefinition(const std::string &tagname, const vector3f &pos) :
+		name(tagname), position(pos) { }
+	std::string name;
+	vector3f position;
+};
+typedef std::vector<TagDefinition> TagList;
+
 struct ModelDefinition {
 	std::string name;
 	std::vector<LodDefinition> lodDefs;
 	std::vector<MaterialDefinition> matDefs;
+	TagList tagDefs;
 };
 
 class Loader {
@@ -57,11 +68,12 @@ public:
 
 private:
 	Graphics::Renderer *m_renderer;
-	Graphics::Texture *GetWhiteTexture() const;
-	NModel *CreateModel(const ModelDefinition &def);
-	//load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
-	Node *LoadMesh(const std::string &filename, const NModel *model);
 	std::string m_curPath;
+	Graphics::Texture *GetWhiteTexture() const;
+	NModel *CreateModel(ModelDefinition &def);
+	void FindTags(const aiNode *node, TagList &output); //locate tags from assimp structure
+	//load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
+	Node *LoadMesh(const std::string &filename, const NModel *model, TagList &modelTags);
 };
 
 }

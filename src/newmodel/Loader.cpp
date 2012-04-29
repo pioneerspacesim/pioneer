@@ -245,7 +245,7 @@ Graphics::Texture *Loader::GetWhiteTexture() const
 	return Graphics::TextureBuilder::Model("textures/white.png").GetOrCreateTexture(m_renderer, "model");
 }
 
-NModel *Loader::CreateModel(const ModelDefinition &def)
+NModel *Loader::CreateModel(ModelDefinition &def)
 {
 	using Graphics::Material;
 	if (def.matDefs.empty()) return 0;
@@ -310,7 +310,7 @@ NModel *Loader::CreateModel(const ModelDefinition &def)
 				if (cacheIt != meshCache.end())
 					mesh = (*cacheIt).second;
 				else {
-					mesh = LoadMesh(*(it), model);
+					mesh = LoadMesh(*(it), model, def.tagDefs);
 					meshCache[*(it)] = mesh;
 				}
 
@@ -332,12 +332,33 @@ NModel *Loader::CreateModel(const ModelDefinition &def)
 	}
 
 	//add some dummy tag points
-	model->AddTag("tag_gun_left", new MatrixTransform(matrix4x4f::Translation( -5.f, 0.f, -2.f)));
-	model->AddTag("tag_gun_right", new MatrixTransform(matrix4x4f::Translation( 5.f, 0.f, -2.f)));
+	for(TagList::const_iterator it = def.tagDefs.begin();
+		it != def.tagDefs.end();
+		++it)
+	{
+		const vector3f &pos = (*it).position;
+		model->AddTag((*it).name, new MatrixTransform(matrix4x4f::Translation(pos.x, pos.y, pos.z)));
+	}
 	return model;
 }
 
-Node *Loader::LoadMesh(const std::string &filename, const NModel *model)
+void Loader::FindTags(const aiNode *node, TagList &output)
+{
+	const std::string nodename(node->mName.C_Str());
+	static const std::string tagIdentifier("tag_");
+	if (nodename.compare(0, tagIdentifier.length(), tagIdentifier) == 0) {
+		aiVector3D position;
+		aiQuaternion rotation;
+		node->mTransformation.DecomposeNoScaling(rotation, position);
+		output.push_back(TagDefinition(nodename, vector3f(position.x, position.y, position.z)));
+	}
+	for(unsigned int i = 0; i < node->mNumChildren; i++) {
+		aiNode *child = node->mChildren[i];
+		FindTags(child, output);
+	}
+}
+
+Node *Loader::LoadMesh(const std::string &filename, const NModel *model, TagList &modelTags)
 {
 	Assimp::Importer importer;
 	//assimp needs the data dir too...
@@ -345,12 +366,11 @@ Node *Loader::LoadMesh(const std::string &filename, const NModel *model)
 	//XXX x2 the greater goal is not to use ReadFile but the other assimp data read functions + FileSystem. See assimp docs.
 	const aiScene *scene = importer.ReadFile(
 		FileSystem::JoinPath(FileSystem::GetDataDir(), filename),
-		aiProcess_OptimizeGraph |
 		aiProcess_Triangulate   |
-		aiProcess_SortByPType   |
-		aiProcess_GenUVCoords   |
+		aiProcess_SortByPType   | //ignore point, line primitive types (collada dummy nodes seem to be fine)
+		aiProcess_GenUVCoords   | //only if they don't exist
 		aiProcess_FlipUVs		|
-		aiProcess_GenSmoothNormals);
+		aiProcess_GenSmoothNormals); //only if normals not specified
 
 	if(!scene)
 		throw std::string("Couldn't load " + filename);
@@ -419,6 +439,10 @@ Node *Loader::LoadMesh(const std::string &filename, const NModel *model)
 
 		smesh->AddSurface(surface);
 	}
+
+	//try to figure out tag points, in case we happen to use an
+	//advanced file format (collada)
+	FindTags(scene->mRootNode, modelTags);
 
 	return geom;
 }
