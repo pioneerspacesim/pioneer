@@ -1,5 +1,5 @@
 define_ship {
-	name='Cobra Mk I',
+	name='Cobra Mk II',
 	model='CobraI',
 	forward_thrust = -12e6,
 	reverse_thrust = 5e6,
