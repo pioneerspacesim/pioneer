@@ -330,6 +330,10 @@ NModel *Loader::CreateModel(const ModelDefinition &def)
 			}
 		}
 	}
+
+	//add some dummy tag points
+	model->AddTag("tag_gun_left", new MatrixTransform(matrix4x4f::Translation( -5.f, 0.f, -2.f)));
+	model->AddTag("tag_gun_right", new MatrixTransform(matrix4x4f::Translation( 5.f, 0.f, -2.f)));
 	return model;
 }
 

@@ -11,7 +11,10 @@ ModelNode::ModelNode(Model *m) :
 
 void ModelNode::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
 {
-	m_model->Render(r, trans, 0);
+	//XXX argh
+	ModelParams par;
+	par.screenWidth = rd->scrWidth;
+	m_model->Render(r, trans, &par);
 }
 
 }

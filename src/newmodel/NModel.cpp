@@ -53,4 +53,29 @@ RefCountedPtr<Graphics::Material> NModel::GetMaterialByIndex(const int i) const
 	return m_materials.at(Clamp(i, 0, int(m_materials.size())-1)).second;
 }
 
+Group * const NModel::GetTagByIndex(const unsigned int i) const
+{
+	if (i > m_tags.size()-1) return 0;
+	return m_tags.at(i);
+}
+
+Group * const NModel::FindTagByName(const std::string &name) const
+{
+	for (TagContainer::const_iterator it = m_tags.begin();
+		it != m_tags.end();
+		++it)
+	{
+		assert(!(*it)->GetName().empty()); //tags must have a name
+		if ((*it)->GetName() == name) return (*it);
+	}
+	return 0;
+}
+
+void NModel::AddTag(const std::string &name, Group *node)
+{
+	node->SetName(name);
+	m_root->AddChild(node);
+	m_tags.push_back(node);
+}
+
 }
