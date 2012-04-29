@@ -1,3 +1,9 @@
+--cloned from 'cobra'
+-- a favorite for limited trading and outpost raids 
+-- low sensor strength if implemented.  Fuel tank on the small side
+-- turns like a shark, average speed
+
+
 define_ship {
 	name='Cobra Mk II',
 	model='CobraI',

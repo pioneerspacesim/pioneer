@@ -35,22 +35,22 @@ define_model('Asp_scout', {
 		xref_thruster(v(1.97, 0.000, 4.8), v(0.000, 0.000, 1.000), 4.50, true)
 		--backward top
 		thruster(v(1.65, 1.08, 0.9), v(0.3, 0.3, -1.000), 2.25, true)
-		thruster(v(1.23, 1.18, 0.9), v(0.3, 0.3, -1.000), 2.25, false)
+		thruster(v(1.23, 1.18, 0.9), v(0.3, 0.3, -1.000), 2.25, true)
 		thruster(v(-1.65, 1.08, 0.9), v(-0.3, 0.3, -1.000), 2.25, true)
-		thruster(v(-1.23, 1.18, 0.9), v(-0.3, 0.3, -1.000), 2.25, false)
+		thruster(v(-1.23, 1.18, 0.9), v(-0.3, 0.3, -1.000), 2.25, true)
 		--backward bottom
 		thruster(v(1.65, -1.08, 0.9), v(0.3, -0.3, -1.000), 2.25, true)
-		thruster(v(1.23, -1.18, 0.9), v(0.3, -0.3, -1.000), 2.25, false)
+		thruster(v(1.23, -1.18, 0.9), v(0.3, -0.3, -1.000), 2.25, true)
 		thruster(v(-1.65, -1.08, 0.9), v(-0.3, -0.3, -1.000), 2.25, true)
-		thruster(v(-1.23, -1.18, 0.9), v(-0.3, -0.3, -1.000), 2.25, false)
+		thruster(v(-1.23, -1.18, 0.9), v(-0.3, -0.3, -1.000), 2.25, true)
 		--sideslip left
-		thruster(v(5, 0, 0), v(1, 0, 0), 2.25, true)
+		--thruster(v(5, 0, 0), v(1, 0, 0), 2.25, true)
 		--side right
-		thruster(v(-5, 0, 0), v(-1, 0, 0), 2.25, true)
+		--thruster(v(-5, 0, 0), v(-1, 0, 0), 2.25, true)
 		--up
-		thruster(v(0, -1.7, 0), v(0, -1, 0), 2.25, true)
+		--thruster(v(0, -1.7, 0), v(0, -1, 0), 2.25, true)
 		--down
-		thruster(v(0, 1.7, 0), v(0, 1, 0), 2.25, true)
+		--thruster(v(0, 1.7, 0), v(0, 1, 0), 2.25, true)
 		--pitch up
 		thruster(v(0, -0.2, -3.8), v(0, -1, 0), 2.25, false)
 		thruster(v(-2.26, 0.36, 3.86), v(0, 1, 0), 2.25, false)
