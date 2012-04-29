@@ -25,6 +25,8 @@ Context *Context::AddFloatingWidget(Widget *w, const vector2f &pos, const vector
 
 	w->SetDimensions(pos, size);
 
+	w->Layout();
+
 	return this;
 }
 
