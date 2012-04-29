@@ -24,8 +24,12 @@ void StaticGeometry::Accept(NodeVisitor &nv)
 void StaticGeometry::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
 {
 	r->DrawStaticMesh(GetMesh());
+	if (rd->drawBoundingBoxes)
+		DrawBoundingBox(r, m_boundingBox);
+}
 
-	const Aabb &bb = m_boundingBox;
+void StaticGeometry::DrawBoundingBox(Graphics::Renderer *r, const Aabb &bb)
+{
 	vector3f min(bb.min.x, bb.min.y, bb.min.z);
 	vector3f max(bb.max.x, bb.max.y, bb.max.z);
 	vector3f fbl(min.x, min.y, min.z); //front bottom left
@@ -37,40 +41,6 @@ void StaticGeometry::Render(Graphics::Renderer *r, const matrix4x4f &trans, Rend
 	vector3f rbl(min.x, min.y, max.z); //rear bottom left
 	vector3f rbr(max.x, min.y, max.z); //rear bottom right
 
-#if 0
-	std::vector<vector3f> vts;
-	//lateral lines
-	vts.push_back(fbl);
-	vts.push_back(fbr);
-	vts.push_back(ftl);
-	vts.push_back(ftr);
-	vts.push_back(rbl);
-	vts.push_back(rbr);
-	vts.push_back(rtl);
-	vts.push_back(rtr);
-
-	//vertical lines
-	vts.push_back(ftl);
-	vts.push_back(fbl);
-	vts.push_back(ftr);
-	vts.push_back(fbr);
-	vts.push_back(rtl);
-	vts.push_back(rbl);
-	vts.push_back(rtr);
-	vts.push_back(rbr);
-
-	//directional lines
-	vts.push_back(rtl);
-	vts.push_back(ftl);
-	vts.push_back(rbl);
-	vts.push_back(fbl);
-	vts.push_back(rtr);
-	vts.push_back(ftr);
-	vts.push_back(rbr);
-	vts.push_back(fbr);
-
-	r->DrawLines(vts.size(), &vts[0], Color(1.f, 0.f, 0.f, 1.f));
-#else
 	Graphics::VertexArray *vts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
 	Color c(Color::WHITE);
 	//vertices
@@ -148,7 +118,6 @@ void StaticGeometry::Render(Graphics::Renderer *r, const matrix4x4f &trans, Rend
 	r->SetWireFrameMode(true);
 	r->DrawSurface(&surf);
 	r->SetWireFrameMode(false);
-#endif
 }
 
 }

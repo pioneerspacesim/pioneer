@@ -23,6 +23,7 @@ public:
 
 protected:
 	~StaticGeometry();
+	void DrawBoundingBox(Graphics::Renderer *r, const Aabb &bb);
 	ScopedPtr<Graphics::StaticMesh> m_mesh;
 };
 

@@ -22,6 +22,8 @@ void NModel::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, const
 	renderer->SetTransform(trans);
 	/*DrawVisitor vis(renderer);
 	m_root->Accept(vis);*/
+	//using the entire model bounding radius for all nodes. 
+	//BR could also be a property of Node.
 	RenderData renderData;
 	renderData.scrWidth = params->screenWidth;
 	renderData.boundingRadius = GetDrawClipRadius();

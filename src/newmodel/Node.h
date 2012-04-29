@@ -29,6 +29,13 @@ protected:
 struct RenderData {
 	int scrWidth;
 	float boundingRadius;
+	bool drawBoundingBoxes;
+
+	RenderData()
+	: scrWidth(800)
+	, boundingRadius(0.f)
+	, drawBoundingBoxes(false)
+	{ }
 };
 
 }
