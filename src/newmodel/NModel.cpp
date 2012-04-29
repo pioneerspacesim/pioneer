@@ -73,6 +73,7 @@ Group * const NModel::FindTagByName(const std::string &name) const
 
 void NModel::AddTag(const std::string &name, Group *node)
 {
+	if (FindTagByName(name)) return;
 	node->SetName(name);
 	m_root->AddChild(node);
 	m_tags.push_back(node);
