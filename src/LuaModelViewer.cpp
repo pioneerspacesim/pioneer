@@ -8,6 +8,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
+#include "ui/Context.h"
 
 using namespace Graphics;
 
@@ -37,8 +38,6 @@ static bool setMouseButton(const Uint8 idx, const int value)
 class Viewer;
 static Viewer *g_viewer;
 
-static void PollEvents();
-
 static int g_renderType = 0;
 static float g_frameTime;
 
@@ -66,6 +65,14 @@ public:
 		m_cmesh(0),
 		m_geom(0)
 	{
+		m_ui = new UI::Context(renderer, g_width, g_height);
+		UI::Context *c = m_ui;
+		/*c->SetInnerWidget(c->VBox()->PackEnd(UI::WidgetSet(
+			c->Button()->SetInnerWidget(c->Label("Woo")),
+			c->Label("Foo")
+		)));*/
+		c->Layout();
+
 		m_space = new CollisionSpace();
 		m_showBoundingRadius = false;
 		m_showGrid = false;
@@ -109,6 +116,7 @@ public:
 
 	~Viewer() {
 		delete m_model;
+		delete m_ui;
 	}
 
 	void OnAnimChange(Gui::Adjustment *a, Gui::TextEntry *e) {
@@ -146,12 +154,14 @@ public:
 
 	void MainLoop() __attribute((noreturn));
 private:
+	void DrawGrid(matrix4x4f& trans, double radius);
+	void PollEvents();
 	void TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg);
 	void VisualizeBoundingRadius(matrix4x4f& trans, double radius);
-	void DrawGrid(matrix4x4f& trans, double radius);
 	bool m_showBoundingRadius;
 	bool m_showGrid;
 	ModelParams m_modelParams;
+	UI::Context *m_ui;
 };
 
 void Viewer::ResetCamera()
@@ -302,6 +312,7 @@ void Viewer::MainLoop()
 		renderer->SetPerspectiveProjection(85, g_width/float(g_height), znear, zfar);
 		renderer->SetTransform(matrix4x4f::Identity());
 		renderer->ClearScreen();
+		renderer->SetDepthTest(true);
 #if 0
 		int beforeDrawTriStats = LmrModelGetStatsTris();
 #endif
@@ -383,7 +394,13 @@ void Viewer::MainLoop()
 		}
 		
 		Gui::Draw();
-		
+		m_ui->Update();
+		renderer->SetDepthTest(false);
+		renderer->SetOrthographicProjection(0, g_width, g_height, 0, -1, 1);
+		renderer->SetTransform(matrix4x4f::Identity());
+		renderer->SetClearColor(Color::BLACK);
+		renderer->SetDepthTest(false);
+		m_ui->Draw();
 		renderer->SwapBuffers();
 		numFrames++;
 		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;
@@ -400,13 +417,14 @@ void Viewer::MainLoop()
 	}
 }
 
-static void PollEvents()
+void Viewer::PollEvents()
 {
 	SDL_Event event;
 
 	g_mouseMotion[0] = g_mouseMotion[1] = 0;
 	while (SDL_PollEvent(&event)) {
 		Gui::HandleSDLEvent(&event);
+		m_ui->DispatchSDLEvent(event);
 		switch (event.type) {
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_ESCAPE) {
@@ -531,6 +549,18 @@ int main(int argc, char **argv)
 			Newmodel::Loader loader(renderer);
 			Model *mo = loader.LoadModel(argv[3]);
 			g_viewer->SetModel(mo);
+			//attach some guns
+			if(0)
+			{
+				Newmodel::NModel *parent = static_cast<Newmodel::NModel*>(mo);
+				Newmodel::NModel *gun = loader.LoadModel("test_gun");
+				Newmodel::Group *tag = parent->FindTagByName("tag_gun_left");
+				if (tag && gun)
+					tag->AddChild(new Newmodel::ModelNode(gun));
+				tag = parent->FindTagByName("tag_gun_right");
+				if (tag && gun)
+					tag->AddChild(new Newmodel::ModelNode(gun));
+			}
 		} catch (Newmodel::LoadingError &) {
 			g_viewer->PickModel(argv[3], std::string("Could not find model: ") + argv[3]);
 		}
