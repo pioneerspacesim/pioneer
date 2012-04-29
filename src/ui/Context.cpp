@@ -90,9 +90,6 @@ void Context::Draw()
 	}
 
 	SetScissor(false);
-	for (std::vector<Widget*>::iterator i = m_floatWidgets.begin(); i != m_floatWidgets.end(); ++i)
-	{
-	}
 }
 
 void Context::SetScissor(bool enabled, const vector2f &pos, const vector2f &size)
