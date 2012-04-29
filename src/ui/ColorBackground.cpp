@@ -1,4 +1,4 @@
-#include "Background.h"
+#include "ColorBackground.h"
 #include "Context.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
@@ -6,7 +6,7 @@
 
 namespace UI {
 
-void Background::Draw()
+void ColorBackground::Draw()
 {
 	const vector2f &size = GetSize();
 

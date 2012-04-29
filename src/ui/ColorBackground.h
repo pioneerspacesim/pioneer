@@ -1,12 +1,12 @@
-#ifndef _UI_BACKGROUND_H
-#define _UI_BACKGROUND_H
+#ifndef _UI_COLORBACKGROUND_H
+#define _UI_COLORBACKGROUND_H
 
 #include "Single.h"
 #include "Color.h"
 
 namespace UI {
 
-class Background : public Single {
+class ColorBackground : public Single {
 public:
 	virtual void Draw();
 
@@ -14,7 +14,7 @@ public:
 
 protected:
 	friend class Context;
-	Background(Context *context, const Color &color) : Single(context), m_color(color) {}
+	ColorBackground(Context *context, const Color &color) : Single(context), m_color(color) {}
 
 private:
 	Color m_color;

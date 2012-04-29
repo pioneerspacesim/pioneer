@@ -8,7 +8,7 @@
 #include "Skin.h"
 
 #include "Margin.h"
-#include "Background.h"
+#include "ColorBackground.h"
 #include "Box.h"
 #include "Grid.h"
 #include "Image.h"
@@ -57,7 +57,7 @@ public:
 	UI::Grid *Grid(const UI::CellSpec &rowSpec, const UI::CellSpec &colSpec) { return new UI::Grid(this, rowSpec, colSpec); }
 
 	// single containers
-	UI::Background *Background(const Color &color) { return new UI::Background(this, color); }
+	UI::ColorBackground *ColorBackground(const Color &color) { return new UI::ColorBackground(this, color); }
 	UI::Margin *Margin(float margin) { return new UI::Margin(this, margin); };
 
 	// visual elements
