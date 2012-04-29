@@ -1,5 +1,6 @@
 #include "DropDown.h"
 #include "Context.h"
+#include "ColorBackground.h"
 #include "text/TextureFont.h"
 
 namespace UI {
@@ -61,6 +62,25 @@ void DropDown::Draw()
 		GetContext()->GetFont()->RenderString(m_options[m_selected].c_str(), m_textPos.x, m_textPos.y);
 }
 
+void DropDown::BuildPopup()
+{
+	Context *c = GetContext();
+
+	VBox *vbox;
+	m_popup = c->Background()->SetInnerWidget(
+		(vbox = c->VBox())
+	);
+	for (std::vector<std::string>::const_iterator i = m_options.begin(); i != m_options.end(); ++i) {
+		ColorBackground *background = c->ColorBackground(Color(0,0,0,0));
+		vbox->PackEnd(background->SetInnerWidget(c->Label((*i))));
+
+		background->onMouseOver.connect(sigc::bind(sigc::mem_fun(this, &DropDown::HandlePopupOptionMouseOver), background));
+		background->onMouseOut.connect(sigc::bind(sigc::mem_fun(this, &DropDown::HandlePopupOptionMouseOut), background));
+
+		m_backgrounds.push_back(background);
+	}
+}
+
 void DropDown::HandleMouseDown(const MouseButtonEvent &event)
 {
 	Context *c = GetContext();
@@ -71,14 +91,8 @@ void DropDown::HandleMouseDown(const MouseButtonEvent &event)
 	}
 
 	else {
-		if (!m_popup) {
-			VBox *vbox;
-			m_popup = c->Background()->SetInnerWidget(
-				(vbox = c->VBox())
-			);
-			for (std::vector<std::string>::const_iterator i = m_options.begin(); i != m_options.end(); ++i)
-				vbox->PackEnd(c->Label((*i)));
-		}
+		if (!m_popup)
+			BuildPopup();
 
 		const vector2f pos(GetAbsolutePosition() + vector2f(0, m_backgroundSize.y));
 		c->AddFloatingWidget(m_popup, pos, m_popup->PreferredSize());
@@ -87,6 +101,18 @@ void DropDown::HandleMouseDown(const MouseButtonEvent &event)
 	}
 
 	Widget::HandleMouseDown(event);
+}
+
+bool DropDown::HandlePopupOptionMouseOver(UI::ColorBackground *background)
+{
+	background->SetColor(Color(0,0,0,0.5f));
+	return true;
+}
+
+bool DropDown::HandlePopupOptionMouseOut(UI::ColorBackground *background)
+{
+	background->SetColor(Color(0,0,0,0));
+	return true;
 }
 
 DropDown *DropDown::AddOption(const std::string &text)

@@ -6,7 +6,7 @@
 namespace UI {
 
 class Context;
-class Background;
+class ColorBackground;
 
 class DropDown : public Widget {
 public:
@@ -33,8 +33,15 @@ private:
 	std::vector<std::string> m_options;
 	unsigned int m_selected;
 
+	void BuildPopup();
+
 	Widget *m_popup;
 	bool m_popupActive;
+
+	std::vector<ColorBackground*> m_backgrounds;
+
+	bool HandlePopupOptionMouseOver(UI::ColorBackground *background);
+	bool HandlePopupOptionMouseOut(UI::ColorBackground *background);
 };
 
 }
