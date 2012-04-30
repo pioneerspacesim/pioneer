@@ -12,6 +12,9 @@ const Skin::BorderedRectElement Skin::s_backgroundActive(0.0f, 24.0f, 23.0f, 23.
 const Skin::BorderedRectElement Skin::s_buttonNormal(24.0f, 0.0f, 23.0f, 23.0f, 4.0f);
 const Skin::BorderedRectElement Skin::s_buttonActive(24.0f, 24.0f, 23.0f, 23.0f, 4.0f);
 
+const Skin::RectElement Skin::s_checkboxNormal(48.0f, 0.0f, 23.0f, 23.0f);
+const Skin::RectElement Skin::s_checkboxChecked(48.0f, 24.0f, 23.0f, 23.0f);
+
 Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
 	m_renderer(renderer)
 {

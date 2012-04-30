@@ -26,6 +26,13 @@ public:
 		DrawBorderedRectElement(s_buttonActive, pos, size);
 	}
 
+	void DrawCheckboxNormal(const vector2f &pos, const vector2f &size) const {
+		DrawRectElement(s_checkboxNormal, pos, size);
+	}
+	void DrawCheckboxChecked(const vector2f &pos, const vector2f &size) const {
+		DrawRectElement(s_checkboxChecked, pos, size);
+	}
+
 #if 0
 	void DrawHSlider(const vector2f &pos, const vector2f &size) const {
 		DrawBorderedRectElement(s_hSlider, pos, size);
@@ -48,6 +55,9 @@ public:
 
 	static const BorderedRectElement s_buttonNormal;
 	static const BorderedRectElement s_buttonActive;
+
+	static const RectElement s_checkboxNormal;
+	static const RectElement s_checkboxChecked;
 
 private:
 	Graphics::Renderer *m_renderer;
