@@ -44,13 +44,13 @@ List *List::AddOption(const std::string &text)
 bool List::HandleOptionMouseOver(unsigned int index)
 {
 	m_optionBackgrounds[index]->SetColor(Color(0,0,0,0.4f));
-	return true;
+	return false;
 }
 
 bool List::HandleOptionMouseOut(unsigned int index)
 {
 	m_optionBackgrounds[index]->SetColor(Color(0,0,0, m_selected == index ? 0.6f : 0));
-	return true;
+	return false;
 }
 
 bool List::HandleOptionClick(unsigned int index)
@@ -61,7 +61,7 @@ bool List::HandleOptionClick(unsigned int index)
 		onOptionSelected.emit(m_options[index]);
 	}
 
-	return true;
+	return false;
 }
 
 }
