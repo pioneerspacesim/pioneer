@@ -1623,12 +1623,13 @@ void SBody::PickPlanetType(MTRand &rand)
 	// enforce minimum size of 10km
 	radius = std::max(radius, fixed(1,630));
 
-	if (parent->type > TYPE_STAR_MAX)
-		m_metallicity = parent->m_metallicity * rand.Fixed();
-	else
+	if (parent->type <= TYPE_STAR_MAX)
 		// get it from the table now rather than setting it on stars/gravpoints as
 		// currently nothing else needs them to have metallicity
 		m_metallicity = StarSystem::starMetallicities[parent->type] * rand.Fixed();
+	else
+		// this assumes the parent's parent is a star/gravpoint, which is currently always true
+		m_metallicity = StarSystem::starMetallicities[parent->parent->type] * rand.Fixed();
 	// harder to be volcanic when you are tiny (you cool down)
 	m_volcanicity = std::min(fixed(1,1), mass) * rand.Fixed();
 	m_atmosOxidizing = rand.Fixed();
