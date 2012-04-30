@@ -25,6 +25,7 @@ noinst_HEADERS = \
 	List.h \
 	Margin.h \
 	MultiLineText.h \
+	Scroller.h \
 	Single.h \
 	Skin.h \
 	Slider.h \
@@ -47,6 +48,7 @@ libui_a_SOURCES = \
 	List.cpp \
 	Margin.cpp \
 	MultiLineText.cpp \
+	Scroller.cpp \
 	Single.cpp \
 	Skin.cpp \
 	Slider.cpp \
