@@ -3,7 +3,7 @@
 
 namespace UI {
 
-Widget::Widget(Context *context) : m_context(context), m_container(0), m_position(0), m_size(0), m_activeArea(0), m_floating(false), m_mouseOver(false), m_mouseActive(false)
+Widget::Widget(Context *context) : m_context(context), m_container(0), m_position(0), m_size(0), m_activeArea(0), m_transform(matrix4x4f::Identity()), m_floating(false), m_mouseOver(false), m_mouseActive(false)
 {
 	assert(m_context);
 }

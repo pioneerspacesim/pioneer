@@ -27,7 +27,7 @@ void Container::Draw()
 	for (std::list<Widget*>::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
 		const vector2f &pos = (*i)->GetAbsolutePosition();
 		c->SetScissor(true, pos, (*i)->GetSize());
-		r->SetTransform(matrix4x4f::Translation(pos.x,pos.y,0));
+		r->SetTransform(matrix4x4f::Translation(pos.x,pos.y,0) * (*i)->GetTransform());
 		(*i)->Draw();
 	}
 

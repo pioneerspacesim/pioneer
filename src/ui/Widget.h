@@ -126,6 +126,10 @@ public:
 	// are we floating
 	bool IsFloating() const { return m_floating; }
 
+	// set/get the current draw transform. useful for animations, special effects
+	void SetTransform(const matrix4x4f &transform) { m_transform = transform; }
+	const matrix4x4f &GetTransform() const { return m_transform; }
+
 
 protected:
 	// this sigc accumulator calls all the handlers for an event. if any of
@@ -261,6 +265,7 @@ private:
 	vector2f m_position;
 	vector2f m_size;
 	vector2f m_activeArea;
+	matrix4x4f m_transform;
 
 	bool m_floating;
 
