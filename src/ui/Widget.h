@@ -176,7 +176,7 @@ public:
 protected:
 
 	// set the active area. defaults to the size allocated by the container
-	void SetActiveArea(const vector2f &activeArea) { m_activeArea = activeArea; }
+	void SetActiveArea(const vector2f &activeArea);
 
 	// mouse active. if a widget is mouse-active, it receives all mouse events
 	// regardless of mouse position

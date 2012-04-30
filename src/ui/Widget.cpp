@@ -44,6 +44,11 @@ void Widget::SetDimensions(const vector2f &position, const vector2f &size)
 	SetActiveArea(size);
 }
 
+void Widget::SetActiveArea(const vector2f &activeArea)
+{
+	m_activeArea = vector2f(Clamp(activeArea.x, 0.0f, GetSize().x), Clamp(activeArea.y, 0.0f, GetSize().y));
+}
+
 bool Widget::TriggerKeyDown(const KeyboardEvent &event, bool emit)
 {
 	HandleKeyDown(event);
