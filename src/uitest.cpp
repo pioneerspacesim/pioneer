@@ -231,13 +231,19 @@ int main(int argc, char **argv)
 
 	UI::DropDown *dropdown;
 	c->SetInnerWidget(
-		c->HBox()->PackEnd(
-			(dropdown = c->DropDown()
-				->AddOption("watermelon")
-				->AddOption("banana")
-				->AddOption("ox tongue")
-			)
-		)
+		c->VBox()->PackEnd(UI::WidgetSet(
+			c->HBox()->PackEnd(
+				(dropdown = c->DropDown()
+					->AddOption("watermelon")
+					->AddOption("banana")
+					->AddOption("ox tongue")
+				)
+			),
+			c->HBox()->PackEnd(UI::WidgetSet(
+				c->Checkbox(),
+				c->Label("Please add me to your mailing list")
+			), UI::Box::ChildAttrs(false, false))
+		), UI::Box::ChildAttrs(false, false))
 	);
 	dropdown->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 

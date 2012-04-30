@@ -16,6 +16,7 @@
 #include "Label.h"
 #include "MultiLineText.h"
 #include "Button.h"
+#include "Checkbox.h"
 #include "Slider.h"
 #include "DropDown.h"
 
@@ -69,6 +70,8 @@ public:
 	UI::MultiLineText *MultiLineText(const std::string &text) { return new UI::MultiLineText(this, text); }
 
 	UI::Button *Button() { return new UI::Button(this); }
+	UI::Checkbox *Checkbox() { return new UI::Checkbox(this); }
+
 	UI::HSlider *HSlider() { return new UI::HSlider(this); }
 	UI::VSlider *VSlider() { return new UI::VSlider(this); }
 
