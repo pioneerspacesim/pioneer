@@ -21,6 +21,7 @@ protected:
 private:
 	std::string m_text;
 	ScopedPtr<TextLayout> m_layout;
+	vector2f m_preferredSize;
 };
 
 }
