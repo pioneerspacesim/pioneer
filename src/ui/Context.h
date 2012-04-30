@@ -12,6 +12,7 @@
 #include "ColorBackground.h"
 #include "Box.h"
 #include "Grid.h"
+#include "Scroller.h"
 #include "Image.h"
 #include "Label.h"
 #include "MultiLineText.h"
@@ -63,6 +64,7 @@ public:
 	UI::Background *Background() { return new UI::Background(this); }
 	UI::ColorBackground *ColorBackground(const Color &color) { return new UI::ColorBackground(this, color); }
 	UI::Margin *Margin(float margin) { return new UI::Margin(this, margin); };
+	UI::Scroller *Scroller() { return new UI::Scroller(this); }
 
 	// visual elements
 	UI::Image *Image(const std::string &filename, Image::StretchMode stretchMode = Image::STRETCH_PRESERVE) { return new UI::Image(this, filename, stretchMode); }
