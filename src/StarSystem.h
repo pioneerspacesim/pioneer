@@ -42,7 +42,7 @@ class SBody {
 public:
 	SBody();
 	~SBody();
-	void PickPlanetType(StarSystem *, MTRand &rand);
+	void PickPlanetType(MTRand &rand);
 	const SBody *FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax);
 	SBody *parent;
 	std::vector<SBody*> children;
