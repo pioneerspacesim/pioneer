@@ -22,6 +22,7 @@ noinst_HEADERS = \
 	Grid.h \
 	Image.h \
 	Label.h \
+	List.h \
 	Margin.h \
 	MultiLineText.h \
 	Single.h \
@@ -43,6 +44,7 @@ libui_a_SOURCES = \
 	Grid.cpp \
 	Image.cpp \
 	Label.cpp \
+	List.cpp \
 	Margin.cpp \
 	MultiLineText.cpp \
 	Single.cpp \

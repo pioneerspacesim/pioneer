@@ -18,6 +18,7 @@
 #include "Button.h"
 #include "Checkbox.h"
 #include "Slider.h"
+#include "List.h"
 #include "DropDown.h"
 
 namespace Graphics { class Renderer; }
@@ -75,6 +76,7 @@ public:
 	UI::HSlider *HSlider() { return new UI::HSlider(this); }
 	UI::VSlider *VSlider() { return new UI::VSlider(this); }
 
+	UI::List *List() { return new UI::List(this); }
 	UI::DropDown *DropDown() { return new UI::DropDown(this); }
 
 	// add a floating widget

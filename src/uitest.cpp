@@ -230,6 +230,7 @@ int main(int argc, char **argv)
 #endif
 
 	UI::DropDown *dropdown;
+	UI::List *list;
 	c->SetInnerWidget(
 		c->VBox()->PackEnd(UI::WidgetSet(
 			c->HBox()->PackEnd(
@@ -242,10 +243,18 @@ int main(int argc, char **argv)
 			c->HBox()->PackEnd(UI::WidgetSet(
 				c->Checkbox(),
 				c->Label("Please add me to your mailing list")
-			), UI::Box::ChildAttrs(false, false))
+			), UI::Box::ChildAttrs(false, false)),
+			c->Margin(10.0f)->SetInnerWidget(
+				(list = c->List()
+					->AddOption("foo")
+					->AddOption("bar")
+					->AddOption("baz")
+					->AddOption("qwop"))
+			)
 		), UI::Box::ChildAttrs(false, false))
 	);
 	dropdown->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
+	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 
 	c->Layout();
 
