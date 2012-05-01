@@ -11,6 +11,8 @@ Alpha 22
      * Add possibility of starports/cities being generated on asteroids (#1236)
      * Give mined cargo a velocity away from the asteroid so they float out
        into space (#1236)
+     * Changed hyperspace entry point calculation to consider star radius and
+       position (#1207)
 
    * Fixes
      * Fixed crash when near planets with fuel scoop attached (#1200, #1201)
