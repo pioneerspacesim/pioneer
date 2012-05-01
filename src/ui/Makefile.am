@@ -12,6 +12,7 @@ noinst_HEADERS = \
 	Box.h \
 	Button.h \
 	CellSpec.h \
+	Checkbox.h \
 	ColorBackground.h \
 	Container.h \
 	Context.h \
@@ -21,8 +22,10 @@ noinst_HEADERS = \
 	Grid.h \
 	Image.h \
 	Label.h \
+	List.h \
 	Margin.h \
 	MultiLineText.h \
+	Scroller.h \
 	Single.h \
 	Skin.h \
 	Slider.h \
@@ -33,6 +36,7 @@ libui_a_SOURCES = \
 	Background.cpp \
 	Box.cpp \
 	Button.cpp \
+	Checkbox.cpp \
 	ColorBackground.cpp \
 	Container.cpp \
 	Context.cpp \
@@ -41,8 +45,10 @@ libui_a_SOURCES = \
 	Grid.cpp \
 	Image.cpp \
 	Label.cpp \
+	List.cpp \
 	Margin.cpp \
 	MultiLineText.cpp \
+	Scroller.cpp \
 	Single.cpp \
 	Skin.cpp \
 	Slider.cpp \

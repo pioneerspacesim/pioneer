@@ -12,11 +12,14 @@
 #include "ColorBackground.h"
 #include "Box.h"
 #include "Grid.h"
+#include "Scroller.h"
 #include "Image.h"
 #include "Label.h"
 #include "MultiLineText.h"
 #include "Button.h"
+#include "Checkbox.h"
 #include "Slider.h"
+#include "List.h"
 #include "DropDown.h"
 
 namespace Graphics { class Renderer; }
@@ -61,6 +64,7 @@ public:
 	UI::Background *Background() { return new UI::Background(this); }
 	UI::ColorBackground *ColorBackground(const Color &color) { return new UI::ColorBackground(this, color); }
 	UI::Margin *Margin(float margin) { return new UI::Margin(this, margin); };
+	UI::Scroller *Scroller() { return new UI::Scroller(this); }
 
 	// visual elements
 	UI::Image *Image(const std::string &filename, Image::StretchMode stretchMode = Image::STRETCH_PRESERVE) { return new UI::Image(this, filename, stretchMode); }
@@ -69,9 +73,12 @@ public:
 	UI::MultiLineText *MultiLineText(const std::string &text) { return new UI::MultiLineText(this, text); }
 
 	UI::Button *Button() { return new UI::Button(this); }
+	UI::Checkbox *Checkbox() { return new UI::Checkbox(this); }
+
 	UI::HSlider *HSlider() { return new UI::HSlider(this); }
 	UI::VSlider *VSlider() { return new UI::VSlider(this); }
 
+	UI::List *List() { return new UI::List(this); }
 	UI::DropDown *DropDown() { return new UI::DropDown(this); }
 
 	// add a floating widget
