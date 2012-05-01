@@ -9,12 +9,37 @@ namespace UI {
 TextLayout::TextLayout(const RefCountedPtr<Text::TextureFont> &font, const std::string &text) :
 	m_font(font)
 {
+	if (!text.size())
+		return;
+
+	// split text on space/newline into words
+	const std::string delim(" \n");
+
 	size_t start = 0, end = 0;
-
 	while (end != std::string::npos) {
-		start = text.find_first_not_of(' ', end);
-		end = text.find_first_of(' ', start);
 
+		// start where we left off last time
+		start = end;
+
+		// skip over delimeter chars
+		while (start < text.size() && delim.find_first_of(text[start]) != std::string::npos) {
+			// if we found a newline, push an empty "word". the layout will
+			// handle this specially
+			if (text[start] == '\n')
+				m_words.push_back(Word(""));
+
+			// eat
+			start++;
+		}
+
+		// reached the end, no more to do
+		if (start == text.size())
+			break;
+
+		// find the end - next delim or end of string
+		end = text.find_first_of(delim, start);
+
+		// extract the word and remember it
 		std::string word = text.substr(start, (end == std::string::npos) ? std::string::npos : end - start);
 		m_words.push_back(Word(word));
 	}
@@ -34,6 +59,13 @@ vector2f TextLayout::ComputeSize(const vector2f &maxArea)
 	vector2f bounds;
 
 	for (std::vector<Word>::iterator i = m_words.begin(); i != m_words.end(); ++i) {
+
+		// newline. move to start of next line
+		if (!(*i).text.size()) {
+			pos = vector2f(0, std::max(bounds.y,pos.y+lineHeight));
+			continue;
+		}
+
 		vector2f wordSize;
 		m_font->MeasureString((*i).text.c_str(), wordSize.x, wordSize.y);
 
