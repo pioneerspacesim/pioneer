@@ -25,6 +25,8 @@ Alpha 22
      * Fixed planet metallicity calculation based on star type (#1236)
      * Fixed crash when crosshair-targetting an object that no longer exists
        (#1232, #1210)
+     * Fixed crash when mission display is opened with lots of missions
+       (#1233, #1196)
 
    * Script and model changes
      * LMR "lathe" function radius and up vector now interpreted the same as
