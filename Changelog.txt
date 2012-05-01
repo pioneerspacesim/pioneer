@@ -7,6 +7,10 @@ Alpha 22
 
    * Minor changes and tweaks
      * Removed 'Walrus' ship (#1219)
+     * Increase probability of mining populations near Sol (#1236)
+     * Add possibility of starports/cities being generated on asteroids (#1236)
+     * Give mined cargo a velocity away from the asteroid so they float out
+       into space (#1236)
 
    * Fixes
      * Fixed crash when near planets with fuel scoop attached (#1200, #1201)
@@ -15,6 +19,8 @@ Alpha 22
        (#1212, #1211)
      * Fixed bug where .obj model loader would create a new draw operation for
        every triangle/quad (#1223)
+     * Fixed system metallicity in multiple-star systems (#1236, #1222)
+     * Fixed planet metallicity calculation based on star type (#1236)
 
    * Script and model changes
      * LMR "lathe" function radius and up vector now interpreted the same as
