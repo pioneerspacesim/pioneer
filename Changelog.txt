@@ -23,6 +23,8 @@ Alpha 22
        every triangle/quad (#1223)
      * Fixed system metallicity in multiple-star systems (#1236, #1222)
      * Fixed planet metallicity calculation based on star type (#1236)
+     * Fixed crash when crosshair-targetting an object that no longer exists
+       (#1232, #1210)
 
    * Script and model changes
      * LMR "lathe" function radius and up vector now interpreted the same as
