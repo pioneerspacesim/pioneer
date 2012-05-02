@@ -1,7 +1,7 @@
 #ifndef _LIBS_H
 #define _LIBS_H
 
-#include "buildopts.h"
+#include "Config.h"
 
 #include <cassert>
 #include <cstdio>
@@ -17,11 +17,6 @@
 #include <cerrno>
 #include <string>
 #include <vector>
-
-/* on unix this would probably become $PREFIX/pioneer */
-#ifndef PIONEER_DATA_DIR
-#define PIONEER_DATA_DIR "data"
-#endif /* PIONEER_DATA_DIR */
 
 #ifdef _WIN32
 #	include <malloc.h>

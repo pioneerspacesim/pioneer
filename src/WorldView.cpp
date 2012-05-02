@@ -43,7 +43,7 @@ WorldView::WorldView(Serializer::Reader &rd): View()
 	m_siderealCamera->Load(rd);
 }
 
-static const float LOW_THRUST_LEVELS[] = { 0.75, 0.5, 0.25, 0.1, 0.05, 0.01 };
+static const float LOW_THRUST_LEVELS[] = { 0.75f, 0.5f, 0.25f, 0.1f, 0.05f, 0.01f };
 
 void WorldView::InitObject()
 {

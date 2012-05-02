@@ -1,0 +1,45 @@
+# Variables from CMakeLists.txt
+SET(EXE_PATH "@LOCATION_Release@")
+#SET(EXE_PATH_DEBUG "@LOCATION_Debug@")
+if(NOT EXE_PATH)
+	SET(EXE_PATH "@LOCATION@")
+endif()
+
+#get_target_property(EXE_PATH @TARGETNAME@ RUNTIME_OUTPUT_DIRECTORY_Release)
+#if(NOT EXE_PATH)
+#	get_target_property(EXE_PATH @TARGETNAME@ RUNTIME_OUTPUT_DIRECTORY)
+#	if(NOT EXE_PATH)
+#		message("[Warning] Problem in dependencies installation.")
+#	endif()
+#endif()
+
+if(EXE_PATH)
+
+	SET(PREREQ_DIRS @PREREQ_DIRS@)
+
+	# SET(DEPENDENCIES_FULL_PATHS )
+	# macro(gp_resolve_item_override context item exepath dirs resolved_item resolved)
+		# if(${resolved})
+			# #message("=====1 ${${resolved_item}}")
+			# # LIST(APPEND DEPENDENCIES_FULL_PATHS ${${resolved_item}})
+			# # SET(DEPENDENCIES_FULL_PATHS ${DEPENDENCIES_FULL_PATHS} ${${resolved_item}} PARENT_SCOPE)
+			# set(${item} "${${resolved_item}}")
+		# endif()
+	# endmacro()
+
+	# Check for prerequisistes
+	INCLUDE(GetPrerequisites REQUIRED)
+	GET_PREREQUISITES("${EXE_PATH}" DEPENDENCIES 1 1 "${EXE_PATH}" "${PREREQ_DIRS}")
+
+	#MESSAGE("Installing dependencies into: ${CMAKE_INSTALL_PREFIX}/${DESTINATION_DIR}")
+	FOREACH(DEPENDENCY ${DEPENDENCIES}) 
+	#FOREACH(DEPENDENCY ${DEPENDENCIES_FULL_PATHS}) 
+		GP_RESOLVE_ITEM("${EXE_PATH}" "${DEPENDENCY}" "${EXE_PATH}" "${PREREQ_DIRS}" ${DEPENDENCY_NAME}_REAL_PATH)
+		IF(@DEPENDENCIES_VERBOSE@)
+			MESSAGE("DEPENDENCY_REAL_PATH: ${${DEPENDENCY_NAME}_REAL_PATH}") 
+		ENDIF()
+		FILE(COPY ${${DEPENDENCY_NAME}_REAL_PATH} DESTINATION "${CMAKE_INSTALL_PREFIX}/${DESTINATION_DIR}")
+		#INSTALL(FILES "${DEPENDENCY}" DESTINATION ${DESTINATION_DIR})
+	ENDFOREACH()
+endif()
+

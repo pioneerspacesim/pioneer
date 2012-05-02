@@ -1,0 +1,84 @@
+---------------------------------
+HOW-TO Start building using CMake
+---------------------------------
+
+Table of contents:
+1. Quick start
+2. Autotools users (migration)
+
+
+1. Quick start
+--------------
+
+Let's say you have source code in "SOURCE_DIR".
+
+Prerequisites:
+- Install CMake (http://cmake.org or http://cmake.org/cmake/resources/software.html)
+- MSVC (2008, 2010) users: Nothing more to do, dependencies are in the repository.
+- Others: Install required libraries.
+
+** Quick start, using GUI **
+- Run cmake-gui.
+- Source code: SOURCE_DIR
+- Binaries: SOURCE_DIR/build
+- Click "Configure", and select the build type you want.
+- Click "Configure" until there are no more red entries.
+- If there are no errors displayed, click "Generate".
+- Go to SOURCE_DIR/build, and use your build system.
+	- MSVC users: Simply double-click the ".sln" file.
+	- Makefile-based users: run "make"
+
+** Quick start, using command-line **
+- Create and go to SOURCE_DIR/build.
+- Type "cmake ..". Alternatively, you can specify a build type (Ex: "cmake -G Xcode ..")
+- Go to SOURCE_DIR/build, and use your build system.
+	- MSVC users: Simply double-click the ".sln" file.
+	- Makefile-based users: run "make"
+
+** Notes **
+- Never modify generated makefiles, MSVC or XCode projects! These will be overwritten each time CMake needs to regenerate. Any change must be applied in the CMake scripts.
+- Linux/OSX users can alternatively run "./configure.sh". This is a shortchut to "mkdir build; cd build; cmake ..".
+	This may be renamed "configure" later on, to stick with common layout.
+- MSVC users may need to run environment initialization batch (Generally "C:\Program Files\Microsoft Visual Studio xx.0\VC\vcvarsall.bat")
+
+
+2. Autotools users
+------------------
+
+If you are/were an user of "configure.ac", please read the following notes.
+
+** Configurations **
+Building a "Debug" build is not the same as using the --enable-debug option. It's more like "--enable-debug --with-no-optimise". These options have an equivalent in CMake to stick with configure.ac.
+
+However CMake behave a bit differently. So prefer using "configurations".
+To enable a given configuration for make-based builds (ie. not MSVC/XCode), you may either:
+	- Enter its name in CMAKE_BUILD_TYPE (empty value defaults to "Release")
+	- Invoke CMake with the appropriate option ("cmake -DCMAKE_BUILD_TYPE=Debug")
+Configurations are:
+	- Release: optimisation (-O3 for gcc), no debug information, release build.
+		Closest options: (none)
+	- RelWithDebInfo: optimisation (-O2 for gcc), debug information, debug build (-DDEBUG).
+		Closest options: --enable-debug
+	- Debug: no optimisation, debug information, debug build (-DDEBUG).
+		Closest options: --enable-debug --with-no-optimise
+	- MinSizeRel: optimisation for small executable (-Os), no debug information, release build.
+		Closest options: Looks much like a release (ie. no options)
+Please note the RelWithDebInfo is usually *not* a debug build (-DDEBUG) within CMake. This is specific to the Pioneer project, to stick with configure.ac.
+
+** Options equivalence table **
+configure.ac             CMake variable
+--with-no-optimise       Pioneer_FORCE_NO_OPTIMISE
+--enable-debug           Pioneer_FORCE_DEBUG_BUILD
+--with-fno-inline        Pioneer_FORCE_NO_INLINE
+--with-gprof             Add "-pg" in CMAKE_CXX_FLAGS (and optionally in CMAKE_C_FLAGS)
+--with-external-liblua   N/A (Doesn't exist yet)
+
+** Other notes **
+- Changing version is made by changing SET(${PROJECT_NAME}_MAJOR_VERSION ...) in CMakeLists.txt and lines following it.
+- Packaging (make the "package" target for this):
+	- As a .tar.bz2 (Linux): works
+	- As a .zip (Windows): works
+	- As an OSX DMG package: This is work-in-progress and suerly require some debugging.
+	- As a Debian package: NOT ready yet in CMake scripts
+	- As a Windows installer: NOT ready yet in CMake scripts
+

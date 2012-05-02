@@ -1,0 +1,62 @@
+#include <Config.h>
+#include <VersionNumber.h>
+
+OSG_ICON ICON DISCARDABLE "ModelViewer.ico"
+MODELVIEWER_ICON ICON DISCARDABLE "ModelViewer.ico"
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+#define BOOST_STRINGIZE(X) BOOST_DO_STRINGIZE(X)
+#define BOOST_DO_STRINGIZE(X) #X
+
+#define VERSION_STR BOOST_STRINGIZE(Pioneer_MAJOR_VERSION) "." BOOST_STRINGIZE(Pioneer_MINOR_VERSION) "." BOOST_STRINGIZE(Pioneer_PATCH_VERSION) "." BOOST_STRINGIZE(Pioneer_BUILD_VERSION) "\0"
+
+// http://msdn.microsoft.com/en-us/library/aa381058(VS.85).aspx
+1 VERSIONINFO
+ FILEVERSION    Pioneer_MAJOR_VERSION,Pioneer_MINOR_VERSION,Pioneer_PATCH_VERSION,Pioneer_BUILD_VERSION
+ PRODUCTVERSION Pioneer_MAJOR_VERSION,Pioneer_MINOR_VERSION,Pioneer_PATCH_VERSION,Pioneer_BUILD_VERSION
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+		// Codepage is 0x04E4 (1252)
+        BLOCK "040904E4"		// U.S. English
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", Pioneer_COMPANY "\0"
+            VALUE "FileDescription", "\0"
+            VALUE "FileVersion", VERSION_STR
+            VALUE "InternalName", "\0"
+            VALUE "LegalCopyright", Pioneer_COPYRIGHT "\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", Pioneer_NAME " ModelViewer" "\0"
+            VALUE "ProductVersion", VERSION_STR
+            VALUE "SpecialBuild", "\0"
+        END
+		BLOCK "040C04E4"		// French
+		BEGIN
+			VALUE "Comments", "\0"
+			VALUE "CompanyName", Pioneer_COMPANY "\0"
+			VALUE "FileDescription", "\0"
+			VALUE "FileVersion", VERSION_STR
+			VALUE "InternalName", "\0"
+			VALUE "LegalCopyright", Pioneer_COPYRIGHT "\0"
+			VALUE "LegalTrademarks", "\0"
+			VALUE "OriginalFilename", "\0"
+			VALUE "PrivateBuild", "\0"
+			VALUE "ProductName", Pioneer_NAME " ModelViewer" "\0"
+			VALUE "ProductVersion", VERSION_STR
+			VALUE "SpecialBuild", "\0"
+		END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252, 0x040C, 1252
+    END
+END
+
+#endif    // !_MAC
