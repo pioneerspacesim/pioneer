@@ -40,14 +40,14 @@ public:
 #endif
 
 	struct RectElement {
-		RectElement(float x, float y, float w, float h) : pos(x,y), size(w,h) {}
+		RectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h) : pos(x,y), size(w,h) {}
 		const vector2f pos;
 		const vector2f size;
 	};
 
 	struct BorderedRectElement : public RectElement {
-		BorderedRectElement(float x, float y, float w, float h, float _borderWidth) : RectElement(x, y, w, h), borderWidth(_borderWidth) {}
-		const float borderWidth;
+		BorderedRectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned int _borderWidth) : RectElement(x, y, w, h), borderWidth(_borderWidth) {}
+		const unsigned int borderWidth;
 	};
 
 	static const BorderedRectElement s_backgroundNormal;
