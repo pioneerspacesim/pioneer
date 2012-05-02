@@ -328,8 +328,6 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	SpaceStation *station = LuaSpaceStation::GetFromLua(2);
 
 	int slot;
-	if (!station->AllocateStaticSlot(slot))
-		return 0;
 
 	Ship *ship = new Ship(type);
 	assert(ship);
@@ -338,28 +336,25 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	matrix4x4d rot = matrix4x4d::Identity();
 
 	if (station->GetSBody()->type == SBody::TYPE_STARPORT_SURFACE) {
-		vel = vector3d(0.0);
+		if (station->GetSBody()->parent->type == SBody::TYPE_PLANET_ASTEROID)
+			return 0;
 
-		// XXX on tiny planets eg asteroids force this to be larger so the
-		// are out of the docking path
+		if (!station->AllocateStaticSlot(slot))
+			return 0;
+		double dist = 300 + 2*ship->GetLmrCollMesh()->GetBoundingRadius();
+		double xpos = (slot == 0 || slot == 3) ? -dist : dist;
+		double zpos = (slot == 0 || slot == 1) ? -dist : dist;
+
 		pos = station->GetPosition() * 1.1;
+		pos = pos + vector3d(xpos,0,zpos);
+		vel = vector3d(0.0);
 		station->GetRotMatrix(rot);
-
-		vector3d axis1, axis2;
-
-		axis1 = pos.Cross(vector3d(0.0,1.0,0.0));
-		axis2 = pos.Cross(axis1);
-
-		double ang = atan((140 + ship->GetLmrCollMesh()->GetBoundingRadius()) / pos.Length());
-		if (slot<2) ang = -ang;
-
-		vector3d axis = (slot == 0 || slot == 3) ? axis1 : axis2;
-
-		pos.ArbRotate(axis, ang);
 	}
 
 	else {
-		double dist = 100 + ship->GetLmrCollMesh()->GetBoundingRadius();
+		if (!station->AllocateStaticSlot(slot))
+			return 0;
+		double dist = 100 + 2*ship->GetLmrCollMesh()->GetBoundingRadius();
 		double xpos = (slot == 0 || slot == 3) ? -dist : dist;
 		double zpos = (slot == 0 || slot == 1) ? -dist : dist;
 
