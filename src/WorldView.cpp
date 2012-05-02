@@ -727,6 +727,8 @@ void WorldView::Update()
 
 	m_bodyLabels->SetLabelsVisible(m_labelsOn);
 
+	bool targetObject = false;
+
 	//death animation: slowly pan out
 	if (Pi::player->IsDead()) {
 		SetCamType(CAM_EXTERNAL);
@@ -746,17 +748,22 @@ void WorldView::Update()
 			if (Pi::KeyState(SDLK_PERIOD)) m_activeCamera->RollRight(frameTime);
 			if (Pi::KeyState(SDLK_HOME)) m_activeCamera->Reset();
 
-			if (KeyBindings::targetObject.IsActive()) {
-				/* Hitting tab causes objects in the crosshairs to be selected */
-				Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
-				SelectBody(target, false);
-			}
+			// note if we have to target the object in the crosshairs
+			targetObject = KeyBindings::targetObject.IsActive();
 		}
 	}
 
 	m_activeCamera->UpdateTransform();
 	m_activeCamera->Update();
 	UpdateProjectedObjects();
+
+	// target object under the crosshairs. must be done after
+	// UpdateProjectedObjects() to be sure that m_projectedPos does not have
+	// contain references to deleted objects
+	if (targetObject) {
+		Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
+		SelectBody(target, false);
+	}
 }
 
 void WorldView::OnSwitchTo()

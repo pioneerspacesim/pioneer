@@ -64,7 +64,7 @@ public:
 		scroll->SetAdjustment(&portal->vscrollAdjust);
 
 		const std::list<const Mission*> &missions = Pi::player->missions.GetAll();
-		Gui::Fixed *innerbox = new Gui::Fixed(760, YSEP*3 * missions.size());
+		Gui::Fixed *innerbox = new Gui::Fixed(760, missions.size());
 
 		float ypos = 0;
 		for (std::list<const Mission*>::const_iterator i = missions.begin(); i != missions.end(); ++i) {
@@ -99,11 +99,13 @@ public:
 
 			ypos += YSEP*3;
 		}
-		Add(portal, 20, 20 + YSEP*3);
-		Add(scroll, 780, 20 + YSEP*3);
-		scroll->ShowAll();
 		portal->Add(innerbox);
-		portal->ShowAll();
+
+		Gui::HBox *body = new Gui::HBox();
+		body->PackEnd(portal);
+		body->PackEnd(scroll);
+		body->ShowAll();
+		Add(body, 20, 20+YSEP*3);
 	}
 };
 
