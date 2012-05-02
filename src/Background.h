@@ -8,6 +8,7 @@ namespace Graphics {
 	class StaticMesh;
 	class Shader;
 }
+class Camera;
 
 /*
  * Classes to draw background stars and the milky way
@@ -22,7 +23,7 @@ namespace Background
 		Starfield();
 		Starfield(unsigned long seed);
 		~Starfield();
-		void Draw(Graphics::Renderer *r);
+		void Draw(Graphics::Renderer *r, Camera *camera);
 		//create or recreate the starfield
 		void Fill(unsigned long seed);
 	private:
@@ -55,7 +56,7 @@ namespace Background
 		// default constructor, needs Refresh with proper seed to show starfield
 		Container();
 		Container(unsigned long seed);
-		void Draw(Graphics::Renderer *r, const matrix4x4d &transform) const;
+		void Draw(Graphics::Renderer *r, const matrix4x4d &transform, Camera *camera) const;
 		void Refresh(unsigned long seed);
 
 	private:

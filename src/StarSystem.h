@@ -14,6 +14,7 @@
 class CustomSBody;
 class CustomSystem;
 class SBody;
+class Planet;
 
 // doubles - all masses in Kg, all lengths in meters
 // fixed - any mad scheme
@@ -163,6 +164,7 @@ public:
 	fixed axialTilt; // in radians
 	int averageTemp;
 	BodyType type;
+	Planet *plnt;
 
 	/* composition */
 	fixed m_metallicity; // (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)

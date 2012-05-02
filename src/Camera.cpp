@@ -47,7 +47,7 @@ void Camera::OnBodyDeleted()
 	m_body = 0;
 }
 
-static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Light> &lights)
+static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Light> &lights, std::vector<LightBody> &lightBodies)
 {
 	if (lights.size() > 3) return;
 	// not using frame->GetSBodyFor() because it snoops into parent frames,
@@ -59,6 +59,9 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Li
 		Frame::GetFrameTransform(frame, camFrame, m);
 		vector3d lpos = (m * vector3d(0,0,0));
 		double dist = lpos.Length() / AU;
+
+		lightBodies.push_back(LightBody(lpos, dist, body));
+
 		lpos *= 1.0/dist; // normalize
 
 		const float *col = StarSystem::starRealColors[body->type];
@@ -70,7 +73,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Li
 	}
 
 	for (std::list<Frame*>::iterator i = frame->m_children.begin(); i!=frame->m_children.end(); ++i) {
-		position_system_lights(camFrame, *i, lights);
+		position_system_lights(camFrame, *i, lights, lightBodies);
 	}
 }
 
@@ -124,12 +127,14 @@ void Camera::Draw(Renderer *renderer)
 	matrix4x4d trans2bg;
 	Frame::GetFrameRenderTransform(Pi::game->GetSpace()->GetRootFrame(), m_camFrame, trans2bg);
 	trans2bg.ClearToRotOnly();
-	Pi::game->GetSpace()->GetBackground().Draw(renderer, trans2bg);
 
 	// Pick up to four suitable system light sources (stars)
 	std::vector<Light> lights;
 	lights.reserve(4);
-	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), lights);
+
+	m_lightBodies.clear();
+	
+	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), lights, m_lightBodies);
 
 	if (lights.empty()) {
 		// no lights means we're somewhere weird (eg hyperspace). fake one
@@ -137,9 +142,15 @@ void Camera::Draw(Renderer *renderer)
 		// so that things that need lights don't explode
 		Color col(1.f);
 		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col, col));
+		double d = -1.0;
+		m_lightBodies.push_back(LightBody(vector3d(0.0,0.0,0.0), d, NULL));
 	}
 
+	Pi::game->GetSpace()->GetBackground().Draw(renderer, trans2bg, this);
+	
 	renderer->SetLights(lights.size(), &lights[0]);
+
+
 
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
 		BodyAttrs *attrs = &(*i);
@@ -251,4 +262,3 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	m_renderer->SetDepthTest(true);
 	glPopMatrix();
 }
-

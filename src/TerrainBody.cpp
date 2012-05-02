@@ -40,6 +40,7 @@ void TerrainBody::InitTerrainBody(SBody *sbody)
 	m_mass = m_sbody->GetMass();
 	if (!m_geosphere)
 		m_geosphere = new GeoSphere(sbody);
+	m_sbody->plnt = dynamic_cast<Planet *>(this);
 }
 
 void TerrainBody::Save(Serializer::Writer &wr, Space *space)
