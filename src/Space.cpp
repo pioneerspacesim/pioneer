@@ -262,7 +262,21 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source) const
 	const vector3d sourcePos = vector3d(source_sys.p) + vector3d(source.sectorX, source.sectorY, source.sectorZ);
 	const vector3d destPos = vector3d(dest_sys.p) + vector3d(dest.sectorX, dest.sectorY, dest.sectorZ);
 
-	return (sourcePos - destPos).Normalized() * 11.0*AU + MathUtil::RandomPointOnSphere(5.0,20.0)*1000.0; // "hyperspace zone": 11 AU from primary
+	// find the first non-gravpoint. should be the primary star
+	Body *primary = 0;
+	for (BodyIterator i = BodiesBegin(); i != BodiesEnd(); ++i)
+		if ((*i)->GetSBody()->type != SBody::TYPE_GRAVPOINT) {
+			primary = *i;
+			break;
+		}
+	assert(primary);
+
+	// point along the line between source and dest, a reasonable distance
+	// away based on the radius (don't want to end up inside black holes, and
+	// then mix it up so that ships don't end up on top of each other
+	vector3d pos = (sourcePos - destPos).Normalized() * (primary->GetSBody()->GetRadius()/AU+1.0)*11.0*AU*Pi::rng.Double(0.95,1.2) + MathUtil::RandomPointOnSphere(5.0,20.0)*1000.0;
+	assert(pos.Length() > primary->GetSBody()->GetRadius());
+	return pos + primary->GetPositionRelTo(GetRootFrame());
 }
 
 Body *Space::FindNearestTo(const Body *b, Object::Type t) const
