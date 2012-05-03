@@ -26,10 +26,10 @@ public:
 		DrawBorderedRectElement(s_buttonActive, pos, size);
 	}
 
-	void DrawCheckboxNormal(const vector2f &pos, const vector2f &size) const {
+	void DrawCheckBoxNormal(const vector2f &pos, const vector2f &size) const {
 		DrawRectElement(s_checkboxNormal, pos, size);
 	}
-	void DrawCheckboxChecked(const vector2f &pos, const vector2f &size) const {
+	void DrawCheckBoxChecked(const vector2f &pos, const vector2f &size) const {
 		DrawRectElement(s_checkboxChecked, pos, size);
 	}
 

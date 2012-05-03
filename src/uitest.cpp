@@ -250,7 +250,7 @@ int main(int argc, char **argv)
 				)
 			),
 			c->HBox()->PackEnd(UI::WidgetSet(
-				c->Checkbox(),
+				c->CheckBox(),
 				c->Label("Please add me to your mailing list")
 			), UI::Box::ChildAttrs(false, false)),
 			c->Margin(10.0f)->SetInnerWidget(

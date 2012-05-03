@@ -5,7 +5,7 @@
 
 namespace UI {
 
-class Checkbox: public Widget {
+class CheckBox: public Widget {
 public:
 	virtual vector2f PreferredSize();
 	virtual void Layout();
@@ -13,7 +13,7 @@ public:
 
 protected:
 	friend class Context;
-	Checkbox(Context *context): Widget(context), m_checked(false) {}
+	CheckBox(Context *context): Widget(context), m_checked(false) {}
 
 	void HandleClick();
 
