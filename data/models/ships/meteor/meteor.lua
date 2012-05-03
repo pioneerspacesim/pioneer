@@ -17,13 +17,13 @@ define_model('meteor', {
 	info = {
 		scale = 1.2,
 		bounding_radius = 13,
-		lod_pixels = {40 , 150, 0},
+		lod_pixels = {10, 30, 500},
 		materials = {'default'},
 		tags = {'ship'},
 	},
 	static = function(lod)
 		--name, diffuse rgba, spec rgb+intensity, emit rgb
-		set_material('default', 0.8,0.8,0.8,1, .3,.3,.3,5, 0,0,0)
+		set_material('default', 0.8,0.8,0.8,1, .8,.8,.8,100, 0,0,0)
 		use_material('default')
 		texture('ramjetcraft.png')
 		texture_glow('glowmap.png')
