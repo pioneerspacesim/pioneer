@@ -128,7 +128,7 @@ define_model('wave', {
 	},
 	static = function(lod)
 		-- material specifications; diffuse r,g,b, alpha trans, specular r,g,b, shinyness, environmental r,g,b
-		set_material('wave', 1,1,1, 1, 0.6,0.6,0.6,100,0,0,0)
+		set_material('wave', 1,1,1, 1, 0.6,0.6,0.6,128,0,0,0)
 		set_material('text', .6,.6,.6,1,.3,.3,.3,5)
 		use_material('wave')
 		texture('wave.png')
