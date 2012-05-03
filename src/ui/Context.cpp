@@ -100,7 +100,7 @@ void Context::Draw()
 void Context::SetScissor(bool enabled, const vector2f &pos, const vector2f &size)
 {
 	if (enabled) {
-		vector2f flippedPos(pos.x, m_height-pos.y-size.y);
+		vector2f flippedPos(pos.x, m_height-pos.y-floorf(size.y));
 		m_renderer->SetScissor(true, flippedPos, size);
 	}
 	else
