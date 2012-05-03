@@ -1,75 +1,47 @@
-The Pioneer team are (4 May 2012, alpha 22):
+The Pioneer team, past and present, as at 11 May 2012 (alpha 22):
 
-Project leads: Tom Morton, John Jordan
-
-Coordinator: Robert Norris
-
-Testing and bug triage: Brian Ronald
-
-Programming:
-  John Jordan
-  Tom Morton
-  Dan Bennett
-  Robert Norris
-  Phil Howlett
-  Darren Salt
-  Kimmo Kotajärvi
-  Andrew Copland
-  Paul Mahol
-  John Bartholomew
-  Benjamin Hodgetts
-  Sean Bailey
-  Brian Ronald
-  Taiki Kim
-  Craig Thomson
+  Aaron Lewis
+  Aaron Senese
   Ae
+  Alessandro Giachi
+  Andrew Copland
+  Asier Basagoiti
   Benamucki
-  Sukender (Benoit Neil)
-  Chris Dennett
-
-Art:
-  Gernot
-  John Jordan
-  Tom Morton
-  Dan Bennett
+  Benjamin Hodgetts
+  Blaga Cosmin
   Brian Ronald
-  Tim Jones
-  Ulf Pettersson
+  C de Craen
+  Chris Dennett
+  Craig Thomson
+  Dan Bennett
+  Darren Salt
+  Fran Morton
+  Gareth Allnutt
+  Gernot
+  John Bartholomew
+  John Jordan
+  Kimmo Kotajärvi
   Konrad Mruk
+  Leonardo Manna
   Marcel Tulloh
   Michele Botticelli
-  Gareth Allnutt
-  C de Craen
-  Aaron Senese
-
-Music:
-  Dan Bennett
-  Aaron Lewis
-  Leonardo Manna
-
-Translations:
-  Brian Ronald
-  Piotr Gredka
-  Blaga Cosmin
-  Vincent Teerling
-  Alessandro Giachi
-  Paul Mahol
-  Thierry Dupré
-  Asier Basagoiti
-  Sukender (Benoit Neil)
-
-Thanks to those that have moved on (we hope to see you back!)
-
-Programming:
   Nic
+  Paul Mahol
   Paul Roberts
-
-Art:
   Peter Kurucz
-  Fran Morton
+  Phil Howlett
+  Piotr Gredka
+  Robert Norris
+  Sean Bailey
   Steve Tyler
+  Sukender (Benoit Neil)
+  Taiki Kim
+  Thierry Dupré
+  Tim Jones
+  Tom Morton
+  Ulf Pettersson
   Uncle Bob
-
+  Vincent Teerling
 
 Thanks also to the ever-enthusiastic inhabitants of the SpaceSimCentral
 forums. You drive us crazy, but we still love you :)
