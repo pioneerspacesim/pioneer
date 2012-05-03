@@ -24,6 +24,7 @@ The Pioneer team, past and present, as at 11 May 2012 (alpha 22):
   Konrad Mruk
   Leonardo Manna
   Marcel Tulloh
+  Marcus de Roos
   Michele Botticelli
   Nic
   Paul Mahol
