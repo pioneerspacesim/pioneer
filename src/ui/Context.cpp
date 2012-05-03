@@ -64,6 +64,7 @@ Widget *Context::GetWidgetAtAbsolute(const vector2f &pos) {
 	return Single::GetWidgetAtAbsolute(pos);
 }
 
+// XXX and this
 void Context::Layout()
 {
 	for (std::vector<Widget*>::iterator i = m_floatWidgets.begin(); i != m_floatWidgets.end(); ++i)
@@ -72,6 +73,7 @@ void Context::Layout()
 	Single::Layout();
 }
 
+// XXX and this
 void Context::Update()
 {
 	for (std::vector<Widget*>::iterator i = m_floatWidgets.begin(); i != m_floatWidgets.end(); ++i)
@@ -80,6 +82,7 @@ void Context::Update()
 	Single::Update();
 }
 
+// XXX and this
 void Context::Draw()
 {
 	Single::Draw();
