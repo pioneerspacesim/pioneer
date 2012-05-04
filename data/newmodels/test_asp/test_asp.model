@@ -19,7 +19,7 @@ diffuse 0.8 0.7 0.5
 specular 0 0 0
 
 lod 100
-mesh asp_lod1.obj
+mesh asp_lod1.dae
 
 lod 200
 mesh asp_lod2.obj
