@@ -1,6 +1,6 @@
 #include "ShipType.h"
 #include "LmrModel.h"
-#include "MyLuaMathTypes.h"
+#include "LuaMathTypes.h"
 #include "LuaUtils.h"
 #include "utils.h"
 #include "Lang.h"

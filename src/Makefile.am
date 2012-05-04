@@ -61,6 +61,7 @@ noinst_HEADERS = \
 	LuaFormat.h \
 	LuaGame.h \
 	LuaLang.h \
+	LuaMathTypes.h \
 	LuaManager.h \
 	LuaMusic.h \
 	LuaNameGen.h \
@@ -85,7 +86,6 @@ noinst_HEADERS = \
 	Missile.h \
 	ModelBody.h \
 	ModManager.h \
-	MyLuaMathTypes.h \
 	Object.h \
 	ObjectViewerView.h \
 	PersistSystemData.h \
@@ -194,6 +194,7 @@ pioneer_SOURCES	= \
 	LuaFormat.cpp \
 	LuaGame.cpp \
 	LuaLang.cpp \
+	LuaMathTypes.cpp \
 	LuaManager.cpp \
 	LuaMusic.cpp \
 	LuaNameGen.cpp \
@@ -218,7 +219,6 @@ pioneer_SOURCES	= \
 	Missile.cpp \
 	ModelBody.cpp \
 	ModManager.cpp \
-	MyLuaMathTypes.cpp \
 	ObjectViewerView.cpp \
 	Pi.cpp \
 	PiLuaClasses.cpp \
@@ -296,6 +296,7 @@ modelviewer_SOURCES = \
 	FontConfig.cpp \
 	IniConfig.cpp \
 	Lang.cpp \
+	LuaMathTypes.cpp \
 	LmrModel.cpp \
 	LuaModelViewer.cpp \
 	LuaUtils.cpp \
@@ -303,7 +304,6 @@ modelviewer_SOURCES = \
 	ModManager.cpp \
 	EquipType.cpp \
 	ShipType.cpp \
-	MyLuaMathTypes.cpp \
 	SDLWrappers.cpp \
 	StringF.cpp \
 	perlin.cpp \

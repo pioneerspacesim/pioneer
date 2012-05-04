@@ -1,5 +1,5 @@
 #include "libs.h"
-#include "MyLuaMathTypes.h"
+#include "LuaMathTypes.h"
 #include "LuaUtils.h"
 
 

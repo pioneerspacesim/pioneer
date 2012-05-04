@@ -1,5 +1,5 @@
-#ifndef _MYLUAMATHTYPES_H
-#define _MYLUAMATHTYPES_H
+#ifndef _LUAMATHTYPES_H
+#define _LUAMATHTYPES_H
 
 /*
  * Old Lua classes for fixed, vector and matrix types. Do not use these unless

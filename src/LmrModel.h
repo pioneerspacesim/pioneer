@@ -4,7 +4,7 @@
 #include <map>
 #include <vector>
 #include <sigc++/sigc++.h>
-#include "MyLuaMathTypes.h"
+#include "LuaMathTypes.h"
 
 // LMR = Lua Model Renderer
 class LmrGeomBuffer;
