@@ -14,6 +14,8 @@ public:
 	virtual void Layout();
 	virtual void Draw();
 
+	Label *SetText(const std::string &text);
+
 protected:
 	friend class Context;
 	Label(Context *context, const std::string &text) : Widget(context), m_text(text) {}

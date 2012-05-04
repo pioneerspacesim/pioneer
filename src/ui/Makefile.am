@@ -12,7 +12,7 @@ noinst_HEADERS = \
 	Box.h \
 	Button.h \
 	CellSpec.h \
-	Checkbox.h \
+	CheckBox.h \
 	ColorBackground.h \
 	Container.h \
 	Context.h \
@@ -36,7 +36,7 @@ libui_a_SOURCES = \
 	Background.cpp \
 	Box.cpp \
 	Button.cpp \
-	Checkbox.cpp \
+	CheckBox.cpp \
 	ColorBackground.cpp \
 	Container.cpp \
 	Context.cpp \

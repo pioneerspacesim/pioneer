@@ -21,7 +21,7 @@ class Container: public Widget {
 
 protected:
 	// can't instantiate a base container directly
-	Container(Context *context) : Widget(context) {}
+	Container(Context *context) : Widget(context), m_needsLayout(false) {}
 
 public:
 	virtual ~Container();
@@ -31,6 +31,8 @@ public:
 	virtual void Draw();
 
 	virtual bool IsContainer() const { return true; }
+
+	void RequestLayout() { m_needsLayout = true; }
 
 	virtual Widget *GetWidgetAtAbsolute(const vector2f &pos);
 
@@ -46,6 +48,7 @@ protected:
 	void SetWidgetDimensions(Widget *widget, const vector2f &position, const vector2f &size);
 
 private:
+	bool m_needsLayout;
 	std::list<Widget*> m_widgets;
 };
 

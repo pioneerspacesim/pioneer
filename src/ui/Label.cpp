@@ -24,4 +24,11 @@ void Label::Draw()
 	GetContext()->GetFont()->RenderString(m_text.c_str(), 0.0f, 0.0f);
 }
 
+Label *Label::SetText(const std::string &text)
+{
+	m_text = text;
+	GetContainer()->RequestLayout();
+	return this;
+}
+
 }

@@ -3,10 +3,17 @@ Alpha 22
    * New features
      * Support for attaching .zip files to the data directory. Allows users to
        add mods to the game by putting a single file in <userdir>/mods (#1214)
-     * New 'Meteor' ship (#1219)
+     * New 'Meteor' ship (#1219, #1239)
 
    * Minor changes and tweaks
      * Removed 'Walrus' ship (#1219)
+     * Updated 'Wave' ship textures (#1239, #1231)
+     * Increase probability of mining populations near Sol (#1236)
+     * Add possibility of starports/cities being generated on asteroids (#1236)
+     * Give mined cargo a velocity away from the asteroid so they float out
+       into space (#1236)
+     * Changed hyperspace entry point calculation to consider star radius and
+       position (#1207)
 
    * Fixes
      * Fixed crash when near planets with fuel scoop attached (#1200, #1201)
@@ -15,6 +22,12 @@ Alpha 22
        (#1212, #1211)
      * Fixed bug where .obj model loader would create a new draw operation for
        every triangle/quad (#1223)
+     * Fixed system metallicity in multiple-star systems (#1236, #1222)
+     * Fixed planet metallicity calculation based on star type (#1236)
+     * Fixed crash when crosshair-targetting an object that no longer exists
+       (#1232, #1210)
+     * Fixed crash when mission display is opened with lots of missions
+       (#1233, #1196)
 
    * Script and model changes
      * LMR "lathe" function radius and up vector now interpreted the same as

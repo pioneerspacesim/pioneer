@@ -15,6 +15,11 @@ Container::~Container()
 
 void Container::Update()
 {
+	if (m_needsLayout) {
+		Layout();
+		m_needsLayout = false;
+	}
+
 	for (std::list<Widget*>::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
 		(*i)->Update();
 }

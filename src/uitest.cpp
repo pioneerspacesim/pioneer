@@ -43,6 +43,14 @@ static void option_selected(const std::string &option)
 	printf("option selected: %s\n", option.c_str());
 }
 
+static void fill_label(float v, UI::Label *label)
+{
+	std::string s;
+	for (int i = 0; i < int(v*100.0f); i++)
+		s += "x";
+	label->SetText(s);
+}
+
 int main(int argc, char **argv)
 {
 	FileSystem::Init();
@@ -242,7 +250,7 @@ int main(int argc, char **argv)
 				)
 			),
 			c->HBox()->PackEnd(UI::WidgetSet(
-				c->Checkbox(),
+				c->CheckBox(),
 				c->Label("Please add me to your mailing list")
 			), UI::Box::ChildAttrs(false, false)),
 			c->Margin(10.0f)->SetInnerWidget(
@@ -258,6 +266,7 @@ int main(int argc, char **argv)
 	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 #endif
 
+#if 0
 	c->SetInnerWidget(
 		c->Scroller()->SetInnerWidget(
 			c->MultiLineText(
@@ -284,6 +293,14 @@ int main(int argc, char **argv)
 			)
 		)
 	);
+#endif
+
+	UI::Label *label;
+	UI::Slider *slider;
+	c->SetInnerWidget(
+		c->HBox(5.0f)->PackEnd(label = c->Label(""), UI::Box::ChildAttrs(false))->PackEnd(slider = c->HSlider())
+	);
+	slider->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&fill_label), label));
 
 	c->Layout();
 
