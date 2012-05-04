@@ -108,7 +108,7 @@
     <ClCompile Include="..\..\src\ui\Background.cpp" />
     <ClCompile Include="..\..\src\ui\Box.cpp" />
     <ClCompile Include="..\..\src\ui\Button.cpp" />
-    <ClCompile Include="..\..\src\ui\Checkbox.cpp" />
+    <ClCompile Include="..\..\src\ui\CheckBox.cpp" />
     <ClCompile Include="..\..\src\ui\ColorBackground.cpp" />
     <ClCompile Include="..\..\src\ui\Container.cpp" />
     <ClCompile Include="..\..\src\ui\Context.cpp" />
@@ -158,7 +158,7 @@
     <ClInclude Include="..\..\src\ui\Box.h" />
     <ClInclude Include="..\..\src\ui\Button.h" />
     <ClInclude Include="..\..\src\ui\CellSpec.h" />
-    <ClInclude Include="..\..\src\ui\Checkbox.h" />
+    <ClInclude Include="..\..\src\ui\CheckBox.h" />
     <ClInclude Include="..\..\src\ui\ColorBackground.h" />
     <ClInclude Include="..\..\src\ui\Container.h" />
     <ClInclude Include="..\..\src\ui\Context.h" />

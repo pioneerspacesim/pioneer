@@ -150,9 +150,6 @@
     <ClCompile Include="..\..\src\ui\DropDown.cpp">
       <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\ui\Checkbox.cpp">
-      <Filter>Source Files\ui</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\ui\ColorBackground.cpp">
       <Filter>Source Files\ui</Filter>
     </ClCompile>
@@ -160,6 +157,9 @@
       <Filter>Source Files\ui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\ui\Scroller.cpp">
+      <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\CheckBox.cpp">
       <Filter>Source Files\ui</Filter>
     </ClCompile>
   </ItemGroup>
@@ -296,9 +296,6 @@
     <ClInclude Include="..\..\src\ui\DropDown.h">
       <Filter>Source Files\ui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\ui\Checkbox.h">
-      <Filter>Source Files\ui</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\ui\ColorBackground.h">
       <Filter>Source Files\ui</Filter>
     </ClInclude>
@@ -306,6 +303,9 @@
       <Filter>Source Files\ui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ui\Scroller.h">
+      <Filter>Source Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\CheckBox.h">
       <Filter>Source Files\ui</Filter>
     </ClInclude>
   </ItemGroup>
