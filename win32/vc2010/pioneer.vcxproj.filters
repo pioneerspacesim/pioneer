@@ -25,6 +25,9 @@
     <Filter Include="src\newmodel">
       <UniqueIdentifier>{5e15d652-46c8-470b-afe1-a41532864a5e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\text">
+      <UniqueIdentifier>{e3412b58-3aab-48f1-a239-619e64d1d514}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\collider\BVHTree.cpp">
@@ -699,10 +702,6 @@
     <ClCompile Include="..\..\src\newmodel\MatrixTransform.cpp">
       <Filter>src\newmodel</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\text\Font.cpp" />
-    <ClCompile Include="..\..\src\text\TextSupport.cpp" />
-    <ClCompile Include="..\..\src\text\TextureFont.cpp" />
-    <ClCompile Include="..\..\src\text\VectorFont.cpp" />
     <ClCompile Include="..\..\src\newmodel\ModelNode.cpp">
       <Filter>src\newmodel</Filter>
     </ClCompile>
@@ -714,6 +713,18 @@
     </ClCompile>
     <ClCompile Include="..\..\src\FileSourceZip.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\text\Font.cpp">
+      <Filter>src\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\text\TextSupport.cpp">
+      <Filter>src\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\text\TextureFont.cpp">
+      <Filter>src\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\text\VectorFont.cpp">
+      <Filter>src\text</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1329,11 +1340,6 @@
     <ClInclude Include="..\..\src\newmodel\MatrixTransform.h">
       <Filter>src\newmodel</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\text\Font.h" />
-    <ClInclude Include="..\..\src\text\FontDescriptor.h" />
-    <ClInclude Include="..\..\src\text\TextSupport.h" />
-    <ClInclude Include="..\..\src\text\TextureFont.h" />
-    <ClInclude Include="..\..\src\text\VectorFont.h" />
     <ClInclude Include="..\..\src\newmodel\ModelNode.h">
       <Filter>src\newmodel</Filter>
     </ClInclude>
@@ -1345,6 +1351,21 @@
     </ClInclude>
     <ClInclude Include="..\..\src\FileSourceZip.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\text\VectorFont.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\text\Font.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\text\FontDescriptor.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\text\TextSupport.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\text\TextureFont.h">
+      <Filter>src\text</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

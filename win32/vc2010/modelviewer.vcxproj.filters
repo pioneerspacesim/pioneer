@@ -22,6 +22,12 @@
     <Filter Include="src\newmodel">
       <UniqueIdentifier>{7c68b9db-73c9-4cfa-a4da-6cf139029db7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\text">
+      <UniqueIdentifier>{6f831fee-8974-4f99-9458-ec0aa2eeaa74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ui">
+      <UniqueIdentifier>{44991280-91a3-46ea-8a0b-ad4c85ebf92e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\pch.cpp">
@@ -204,9 +210,6 @@
     <ClCompile Include="..\..\src\FontCache.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Font.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\CRC32.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -243,15 +246,90 @@
     <ClCompile Include="..\..\src\newmodel\MatrixTransform.cpp">
       <Filter>src\newmodel</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\text\Font.cpp" />
-    <ClCompile Include="..\..\src\text\TextSupport.cpp" />
-    <ClCompile Include="..\..\src\text\TextureFont.cpp" />
-    <ClCompile Include="..\..\src\text\VectorFont.cpp" />
     <ClCompile Include="..\..\src\newmodel\ModelNode.cpp">
       <Filter>src\newmodel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\newmodel\LOD.cpp">
       <Filter>src\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\text\Font.cpp">
+      <Filter>src\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\text\TextSupport.cpp">
+      <Filter>src\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\text\TextureFont.cpp">
+      <Filter>src\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\text\VectorFont.cpp">
+      <Filter>src\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\Background.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\Box.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\Button.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\Container.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\Context.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\DropDown.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\EventDispatcher.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\Grid.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\Image.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\Label.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\Margin.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\MultiLineText.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\Single.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\Skin.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\Slider.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\TextLayout.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\Widget.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ModManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\FileSourceZip.cpp" />
+    <ClCompile Include="..\..\src\ui\ColorBackground.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\Checkbox.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\List.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ui\Scroller.cpp">
+      <Filter>src\ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -507,11 +585,6 @@
     <ClInclude Include="..\..\src\newmodel\MatrixTransform.h">
       <Filter>src\newmodel</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\text\Font.h" />
-    <ClInclude Include="..\..\src\text\FontDescriptor.h" />
-    <ClInclude Include="..\..\src\text\TextSupport.h" />
-    <ClInclude Include="..\..\src\text\TextureFont.h" />
-    <ClInclude Include="..\..\src\text\VectorFont.h" />
     <ClInclude Include="..\..\src\newmodel\ModelNode.h">
       <Filter>src\newmodel</Filter>
     </ClInclude>
@@ -523,6 +596,94 @@
     </ClInclude>
     <ClInclude Include="..\..\src\CollMesh.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\text\VectorFont.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\text\Font.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\text\FontDescriptor.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\text\TextSupport.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\text\TextureFont.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\Background.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\Box.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\Button.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\CellSpec.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\Container.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\Context.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\DropDown.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\Event.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\EventDispatcher.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\Grid.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\Image.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\Label.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\Margin.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\MultiLineText.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\Single.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\Skin.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\Slider.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\TextLayout.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\Widget.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ModManager.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FileSourceZip.h" />
+    <ClInclude Include="..\..\src\ui\ColorBackground.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\Checkbox.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\List.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\Scroller.h">
+      <Filter>src\ui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

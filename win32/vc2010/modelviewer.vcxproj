@@ -83,7 +83,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;assimp.lib;miniz.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -146,6 +146,7 @@
     <ClCompile Include="..\..\src\Color.cpp" />
     <ClCompile Include="..\..\src\CRC32.cpp" />
     <ClCompile Include="..\..\src\enum_table.cpp" />
+    <ClCompile Include="..\..\src\FileSourceZip.cpp" />
     <ClCompile Include="..\..\src\FileSystem.cpp" />
     <ClCompile Include="..\..\src\FileSystemPosix.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">true</ExcludedFromBuild>
@@ -198,6 +199,7 @@
     <ClCompile Include="..\..\src\LuaConstants.cpp" />
     <ClCompile Include="..\..\src\LuaModelViewer.cpp" />
     <ClCompile Include="..\..\src\LuaUtils.cpp" />
+    <ClCompile Include="..\..\src\ModManager.cpp" />
     <ClCompile Include="..\..\src\MyLuaMathTypes.cpp" />
     <ClCompile Include="..\..\src\newmodel\CollisionVisitor.cpp" />
     <ClCompile Include="..\..\src\newmodel\DrawVisitor.cpp" />
@@ -218,6 +220,27 @@
     <ClCompile Include="..\..\src\text\TextSupport.cpp" />
     <ClCompile Include="..\..\src\text\TextureFont.cpp" />
     <ClCompile Include="..\..\src\text\VectorFont.cpp" />
+    <ClCompile Include="..\..\src\ui\Background.cpp" />
+    <ClCompile Include="..\..\src\ui\Box.cpp" />
+    <ClCompile Include="..\..\src\ui\Button.cpp" />
+    <ClCompile Include="..\..\src\ui\Checkbox.cpp" />
+    <ClCompile Include="..\..\src\ui\ColorBackground.cpp" />
+    <ClCompile Include="..\..\src\ui\Container.cpp" />
+    <ClCompile Include="..\..\src\ui\Context.cpp" />
+    <ClCompile Include="..\..\src\ui\DropDown.cpp" />
+    <ClCompile Include="..\..\src\ui\EventDispatcher.cpp" />
+    <ClCompile Include="..\..\src\ui\Grid.cpp" />
+    <ClCompile Include="..\..\src\ui\Image.cpp" />
+    <ClCompile Include="..\..\src\ui\Label.cpp" />
+    <ClCompile Include="..\..\src\ui\List.cpp" />
+    <ClCompile Include="..\..\src\ui\Margin.cpp" />
+    <ClCompile Include="..\..\src\ui\MultiLineText.cpp" />
+    <ClCompile Include="..\..\src\ui\Scroller.cpp" />
+    <ClCompile Include="..\..\src\ui\Single.cpp" />
+    <ClCompile Include="..\..\src\ui\Skin.cpp" />
+    <ClCompile Include="..\..\src\ui\Slider.cpp" />
+    <ClCompile Include="..\..\src\ui\TextLayout.cpp" />
+    <ClCompile Include="..\..\src\ui\Widget.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\src\FileSystemWin32.cpp" />
     <ClCompile Include="..\src\pch.cpp">
@@ -238,6 +261,7 @@
     <ClInclude Include="..\..\src\Color.h" />
     <ClInclude Include="..\..\src\CRC32.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
+    <ClInclude Include="..\..\src\FileSourceZip.h" />
     <ClInclude Include="..\..\src\FileSystem.h" />
     <ClInclude Include="..\..\src\FontCache.h" />
     <ClInclude Include="..\..\src\FontConfig.h" />
@@ -293,6 +317,7 @@
     <ClInclude Include="..\..\src\LuaUtils.h" />
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\Model.h" />
+    <ClInclude Include="..\..\src\ModManager.h" />
     <ClInclude Include="..\..\src\MyLuaMathTypes.h" />
     <ClInclude Include="..\..\src\newmodel\CollisionVisitor.h" />
     <ClInclude Include="..\..\src\newmodel\DrawVisitor.h" />
@@ -316,6 +341,29 @@
     <ClInclude Include="..\..\src\text\TextSupport.h" />
     <ClInclude Include="..\..\src\text\TextureFont.h" />
     <ClInclude Include="..\..\src\text\VectorFont.h" />
+    <ClInclude Include="..\..\src\ui\Background.h" />
+    <ClInclude Include="..\..\src\ui\Box.h" />
+    <ClInclude Include="..\..\src\ui\Button.h" />
+    <ClInclude Include="..\..\src\ui\CellSpec.h" />
+    <ClInclude Include="..\..\src\ui\Checkbox.h" />
+    <ClInclude Include="..\..\src\ui\ColorBackground.h" />
+    <ClInclude Include="..\..\src\ui\Container.h" />
+    <ClInclude Include="..\..\src\ui\Context.h" />
+    <ClInclude Include="..\..\src\ui\DropDown.h" />
+    <ClInclude Include="..\..\src\ui\Event.h" />
+    <ClInclude Include="..\..\src\ui\EventDispatcher.h" />
+    <ClInclude Include="..\..\src\ui\Grid.h" />
+    <ClInclude Include="..\..\src\ui\Image.h" />
+    <ClInclude Include="..\..\src\ui\Label.h" />
+    <ClInclude Include="..\..\src\ui\List.h" />
+    <ClInclude Include="..\..\src\ui\Margin.h" />
+    <ClInclude Include="..\..\src\ui\MultiLineText.h" />
+    <ClInclude Include="..\..\src\ui\Scroller.h" />
+    <ClInclude Include="..\..\src\ui\Single.h" />
+    <ClInclude Include="..\..\src\ui\Skin.h" />
+    <ClInclude Include="..\..\src\ui\Slider.h" />
+    <ClInclude Include="..\..\src\ui\TextLayout.h" />
+    <ClInclude Include="..\..\src\ui\Widget.h" />
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\vector2.h" />
     <ClInclude Include="..\..\src\vector3.h" />
