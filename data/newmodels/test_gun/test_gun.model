@@ -1,0 +1,7 @@
+material GunMaterial_white.png
+tex_diff white.png
+diffuse 0.6 0.8 0.6
+specular 1.0 1.0 1.0
+shininess 200
+
+mesh test_gun.obj
