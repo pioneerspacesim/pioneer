@@ -19,6 +19,31 @@ void Group::AddChild(Node *child)
 	m_children.push_back(child);
 }
 
+bool Group::RemoveChild(Node *node)
+{
+	if (!node) return false;
+	for(std::vector<Node*>::const_iterator itr = m_children.begin();
+		itr != m_children.end();
+		++itr)
+	{
+		if((*itr) == node) {
+			itr = m_children.erase(itr);
+			node->DecRefCount();
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Group::RemoveChildAt(unsigned int idx)
+{
+	if (m_children.empty() || idx > m_children.size() - 1) return false;
+	Node *node = m_children.at(idx);
+	node->DecRefCount();
+	m_children.erase(m_children.begin() + idx);
+	return true;
+}
+
 void Group::Accept(NodeVisitor &nv)
 {
 	nv.ApplyGroup(*this);
