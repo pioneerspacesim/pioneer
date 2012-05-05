@@ -208,15 +208,15 @@ void ShipType::Init()
 
 	LUA_DEBUG_START(l);
 
-	luaopen_debug(l); // pushes the debug library table
-	lua_pop(l, 1);
+	pi_lua_openlib(l, LUA_DBLIBNAME, &luaopen_base);
+	pi_lua_openlib(l, LUA_DBLIBNAME, &luaopen_debug);
+	pi_lua_openlib(l, LUA_MATHLIBNAME, &luaopen_math);
+
+	LuaVector::Register(l);
 	LUA_DEBUG_CHECK(l, 0);
 
-	luaopen_math(l); // pushes the math library table
-	LUA_DEBUG_CHECK(l, 1);
-	LuaVector::Register(l);
-	LUA_DEBUG_CHECK(l, 1);
 	// provide shortcut vector constructor: _G.v = _G.math.vector
+	lua_getglobal(l, LUA_MATHLIBNAME);
 	lua_getfield(l, -1, "vector");
 	assert(lua_iscfunction(l, -1));
 	lua_setglobal(l, "v");
