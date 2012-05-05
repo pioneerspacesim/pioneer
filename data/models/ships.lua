@@ -187,8 +187,8 @@ define_model('ladybird', {
 		local cpoint_leadingedge2 = leadingedge_mid + tmp
 		-- body flat side piece
 		texture('ships/default_ship_textures/lbside_l.png', v(.5,.5,0), v(0,0,.5), v(0,.1,0))
-		local normal = ((v29-v09):cross(v30-v09)):norm()
-		local cpoint_bodycurve = 0.5*(v29+v30) + 3.0*(v29-v30):cross(normal):norm()
+		local normal = ((v29-v09):cross(v30-v09)):normalised()
+		local cpoint_bodycurve = 0.5*(v29+v30) + 3.0*(v29-v30):cross(normal):normalised()
 		xref_flat(divs, normal,
 		{ v09 },
 		{ v29 },
@@ -399,58 +399,58 @@ define_model('interdictor', {
 	static = function(lod)
 		local nose_tip = v(0.0, 0.0, -35.0)
 		--f } },			// 6, nose point
-		local v07 = norm(0.0, 1.0, -0.2)
+		local v07 = unitv(0.0, 1.0, -0.2)
 		--} },			// nose normal
 		local front_lateral = v(-6.0, 0.0, -18.0)
 		--} },			// 8, r edge forward mid
-		local v09 = norm(-0.2, 1.0, -0.1)
-		--} },			// norm
+		local v09 = unitv(-0.2, 1.0, -0.1)
+		--} },
 		local v10 = v(-12.0, 0.0, 2.0)
 		--} },		// 10, r edge back mid
-		local v11 = norm(-0.2, 1.0, -0.1)
-		--} },			// norm
+		local v11 = unitv(-0.2, 1.0, -0.1)
+		--} },
 		local v12 = v(-7.5, 0.0, 25.0)
 		--} },		// 12, r edge back
-		local v13 = norm(0.0, 1.0, 0.2)
-		--} },			// norm
+		local v13 = unitv(0.0, 1.0, 0.2)
+		--} },
 		local v14 = v(0.0, 3.0, -15.0)
 		--} },			// 14, cockpit front
-		local v15 = norm(0.0, 1.0, 0.08)
-		--} },		// norm
+		local v15 = unitv(0.0, 1.0, 0.08)
+		--} },
 		local v16 = v(-1.5, 3.0, -13.5)
 		--} },			// 16, cockpit right
-		local v17 = norm(0.0, 1.0, 0.08)
-		--} },		// norm
+		local v17 = unitv(0.0, 1.0, 0.08)
+		--} },
 		local v18 = v(0.0, 3.0, -10.0)
 		--} },			// 18, cockpit back
-		local v19 = norm(0.0, 1.0, 0.08)
-		--} },		// norm
+		local v19 = unitv(0.0, 1.0, 0.08)
+		--} },
 		local v20 = v(1.5, 3.0, -13.5)
 		--} },		// 20, cockpit left
-		local v21 = norm(0.0, 1.0, 0.08)
-		--} },		// norm
+		local v21 = unitv(0.0, 1.0, 0.08)
+		--} },
 
 		local v22 = v(-6.0, 3.0, 5.0)
 		--} },			// 22, inner right
-		local v23 = norm(-0.2, 1.0, -0.2)
-		--} },			// norm
+		local v23 = unitv(-0.2, 1.0, -0.2)
+		--} },
 		local v24 = v(0.0, 3.0, 5.0)
 		--} },			// 24, inner mid
-		local v25 = norm(0.2, 1.0, -0.2)
-		--} },		// norm
+		local v25 = unitv(0.2, 1.0, -0.2)
+		--} },
 
 		local v26 = v(-2.0, 2.0, -23.0)
 		--} },			// 26, fwd midpoint
-		local v27 = norm(0.0, 1.0, -0.1)
-		--} },		// norm
+		local v27 = unitv(0.0, 1.0, -0.1)
+		--} },
 		local v28 = v(-5.0, 2.5, -5.0)
 		--} },			// 28, right midpoint
-		local v29 = norm(-0.08, 1.0, -0.04)
-		--} },		// norm
+		local v29 = unitv(-0.08, 1.0, -0.04)
+		--} },
 		local v30 = v(-7.0, 2.0, 14.0)
 		--} },		// 30, rear right midpoint
-		local v31 = norm(-0.04, 1.0, 0.1)
-		--} },		// norm
+		local v31 = unitv(-0.04, 1.0, 0.1)
+		--} },
 
 		local v32 = v(-3.0, 3.0, -5.0)
 		--} },			// 32, central midpoint
@@ -628,7 +628,7 @@ define_model('interdictor', {
 			use_material('engine_inside')
 			xref_circle(lvl, v72, v(0,0,1), v(0,1,0), 2.0)
 
-			local retro_norm = ((v80-v78):cross(v77-v78)):norm()
+			local retro_norm = ((v80-v78):cross(v77-v78)):normalised()
 			zbias(1, v77, retro_norm)
 			xref_quad(v77, v78, v80, v79)
 			zbias(0)
@@ -669,8 +669,8 @@ define_model('interdictor', {
 	end,
 	dynamic = function(lod)
 		-- text norms
-		local v95 = norm(-2.0, -2.5, 0.0)
-		local v96 = norm(2.0, -2.5, 0.0)
+		local v95 = unitv(-2.0, -2.5, 0.0)
+		local v96 = unitv(2.0, -2.5, 0.0)
 		local v97 = v(5.0, -2.0, 13.5)
 		local v98 = v(-5.0, -2.0, 13.5)
 

@@ -95,7 +95,7 @@ define_model('test', {
 			)
 		zbias(1, v(0,5,0), v(0,0,1))
 		geomflag(0x8000)
-		text("LOD: " .. tostring(lod), v(0,5,0), v(0,0,1), v(1,1,0):norm(), 1.0)
+		text("LOD: " .. tostring(lod), v(0,5,0), v(0,0,1), v(1,1,0):normalised(), 1.0)
 		geomflag(0)
 		zbias(0)
 		use_material("red")
