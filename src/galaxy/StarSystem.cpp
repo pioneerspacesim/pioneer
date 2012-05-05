@@ -910,10 +910,10 @@ SystemPath StarSystem::GetPathOf(const SystemBody *sbody) const
 	return sbody->path;
 }
 
-void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::list<CustomSystemBody> *children, int *outHumanInfestedness, MTRand &rand)
+void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, MTRand &rand)
 {
-	for (std::list<CustomSystemBody>::const_iterator i = children->begin(); i != children->end(); i++) {
-		const CustomSystemBody *csbody = &(*i);
+	for (std::vector<CustomSystemBody*>::const_iterator i = children.begin(); i != children.end(); i++) {
+		const CustomSystemBody *csbody = *i;
 
 		SystemBody *kid = NewBody();
 		kid->type = csbody->type;
@@ -969,14 +969,14 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::list<CustomSyste
 
 		kid->PickAtmosphere();
 
-		CustomGetKidsOf(kid, &csbody->children, outHumanInfestedness, rand);
+		CustomGetKidsOf(kid, csbody->children, outHumanInfestedness, rand);
 	}
 
 }
 
 void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 {
-	const CustomSystemBody *csbody = &customSys->sBody;
+	const CustomSystemBody *csbody = customSys->sBody;
 
 	rootBody = NewBody();
 	rootBody->type = csbody->type;
@@ -989,7 +989,7 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 	rootBody->name = csbody->name;
 
 	int humanInfestedness = 0;
-	CustomGetKidsOf(rootBody, &csbody->children, &humanInfestedness, rand);
+	CustomGetKidsOf(rootBody, csbody->children, &humanInfestedness, rand);
 	Populate(false);
 
 }

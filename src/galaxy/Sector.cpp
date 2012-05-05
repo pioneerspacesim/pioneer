@@ -14,11 +14,11 @@ const float Sector::SIZE = 8;
 
 void Sector::GetCustomSystems()
 {
-	const std::list<CustomSystem> &systems = CustomSystem::GetCustomSystemsForSector(sx, sy, sz);
+	const std::vector<CustomSystem*> &systems = CustomSystem::GetCustomSystemsForSector(sx, sy, sz);
 	if (systems.size() == 0) return;
 
-	for (std::list<CustomSystem>::const_iterator i = systems.begin(); i != systems.end(); i++) {
-		const CustomSystem *cs = &(*i);
+	for (std::vector<CustomSystem*>::const_iterator it = systems.begin(); it != systems.end(); it++) {
+		const CustomSystem *cs = *it;
 		System s;
 		s.p = SIZE*cs->pos;
 		s.name = cs->name;
