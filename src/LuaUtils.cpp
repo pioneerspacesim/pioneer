@@ -77,6 +77,7 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code)
 void pi_lua_dofile(lua_State *l, const std::string &path)
 {
 	assert(l);
+	LUA_DEBUG_START(l);
 
 	RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(path);
 	if (!code) {
@@ -94,6 +95,8 @@ void pi_lua_dofile(lua_State *l, const std::string &path)
 	// XXX kill CurrentDirectory
 	lua_pushnil(l);
 	lua_setglobal(l, "CurrentDirectory");
+
+	LUA_DEBUG_END(l, 0);
 }
 
 void pi_lua_dofile_recursive(lua_State *l, const std::string &basepath)
@@ -117,6 +120,7 @@ void pi_lua_dofile_recursive(lua_State *l, const std::string &basepath)
 				pi_lua_dofile(l, *code);
 			}
 		}
+		LUA_DEBUG_CHECK(l, 0);
 	}
 
 	LUA_DEBUG_END(l, 0);
