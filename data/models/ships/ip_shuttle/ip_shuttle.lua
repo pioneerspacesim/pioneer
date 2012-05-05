@@ -203,7 +203,7 @@ define_model('ip_shuttle', {
 		else
 			quad(v00,v04,v05,v01) -- upper front when far
 		end
-		texture('shut08.png', v(0.5,0.5,0), v(0,0.12,0), v(0.2,0.0))
+		texture('shut08.png', v(0.5,0.5,0), v(0,0.12,0), v(0.2,0.0,0.0))
 		quad(v07,v06,v02,v03) -- upper back
 		texture(nil)
 		if lod > 1 then

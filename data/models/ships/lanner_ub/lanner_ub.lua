@@ -308,7 +308,7 @@ define_model('lub_flap_br_r', {
 		set_material('matte', .5,.52,.55,1,.2,.2,.2,10)
 		use_material('matte')
 		texture('klappe_h_g.png')
-		load_obj('klappe_hr_r.obj', Matrix.rotate(0.5*math.pi, v(0,1.0)))
+		load_obj('klappe_hr_r.obj', Matrix.rotate(0.5*math.pi, v(0,1,0)))
 	end
 })
 
