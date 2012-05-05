@@ -103,8 +103,22 @@ static int l_fixed_tonumber(lua_State *L)
 	return 1;
 }
 
+static int l_fixed_deg2rad(lua_State *L)
+{
+	if (lua_isnumber(L, 1)) {
+		double deg = lua_tonumber(L, 1);
+		lua_pushnumber(L, deg * (M_PI/180.0));
+	} else {
+		const fixed *v = LuaFixed::CheckFromLua(L, 1);
+		LuaFixed::PushToLua(L, (*v) * fixed(31416,1800000));
+	}
+	return 1;
+}
+
 static luaL_Reg LuaFixed_lib[] = {
 	{ "fixed", &l_fixed_new },
+	{ "rad", &l_fixed_deg2rad },
+	{ "deg2rad", &l_fixed_deg2rad },
 	{ 0, 0 }
 };
 
