@@ -46,7 +46,7 @@ define_model('eye_0', {
 
 			use_material('e_glow')
 			texture('eye5.png')
-			load_obj('thrust5.obj', Matrix.rotate(.5*math.pi, v(0,-1,0)) * Matrix.orient(v(1,0,0),v(0,0,1),v(0,1,0)) * Matrix.translate(v(0,0,1)))
+			load_obj('thrust5.obj', Matrix.rotate(.5*math.pi, v(0,-1,0)) * Matrix.pose(v(1,0,0),v(0,0,1),v(0,1,0)) * Matrix.translate(v(0,0,1)))
 
 			-- poslights
 			call_model('posl_white', v(0,9.9,0), v(1,0,0), v(0,1,0), 2)

@@ -55,7 +55,7 @@ static int l_matrix_new_translate(lua_State *L)
 	return 1;
 }
 
-static int l_matrix_new_orient(lua_State *L)
+static int l_matrix_new_pose(lua_State *L)
 {
 	const vector3f pos = LuaVector::CheckFromLuaF(L, 1);
 	const vector3f _xaxis = LuaVector::CheckFromLuaF(L, 2);
@@ -186,7 +186,7 @@ static const luaL_Reg l_matrix_lib[] = {
 	{ "rotate", &l_matrix_new_rotate },
 	{ "scale", &l_matrix_new_scale },
 	{ "translate", &l_matrix_new_translate },
-	{ "orient", &l_matrix_new_orient },
+	{ "pose", &l_matrix_new_pose },
 	{ "inverse", &l_matrix_inverse },
 	{ 0, 0 }
 };

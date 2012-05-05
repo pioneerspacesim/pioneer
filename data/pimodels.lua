@@ -84,7 +84,7 @@ define_model('test', {
 		set_material("shinyred", 1,0,0,1, 1,1,1,50)
 		use_material("red")
 		sphere(4, Matrix.translate(v(-2,0,0)))
-		sphere_slice(20,10,3.141*0.1,3.141*0.9, Matrix.translate(v(0,4,0)) * Matrix.orient(v(0,0,0), v(-1,0,0), v(0,-1,0)))
+		sphere_slice(20,10,3.141*0.1,3.141*0.9, Matrix.translate(v(0,4,0)) * Matrix.pose(v(0,0,0), v(-1,0,0), v(0,-1,0)))
 --		texture("concrete.png", v(0.25,0.25,0), v(0.2,0,0), v(0,-0.5,0))
 		xref_flat(16, v(0,0,1),
 			{v(4,0,0)}, -- straight line bit
