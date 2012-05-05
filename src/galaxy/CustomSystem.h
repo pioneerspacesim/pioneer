@@ -103,7 +103,7 @@ OOLUA_CLASS_END
 class CustomSystem {
 public:
 	static void Init();
-	static const std::list<const CustomSystem*> GetCustomSystemsForSector(int sectorX, int sectorY, int sectorZ);
+	static const std::list<CustomSystem> &GetCustomSystemsForSector(int sectorX, int sectorY, int sectorZ);
 
 	std::string            name;
     CustomSystemBody            sBody;

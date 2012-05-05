@@ -14,6 +14,7 @@ typedef std::map<SystemPath,SystemList> SectorMap;
 static lua_State *csLua;
 
 static SectorMap sector_map;
+static const SystemList s_emptySystemList; // see: Null Object pattern
 
 void CustomSystem::Init()
 {
@@ -33,21 +34,11 @@ void CustomSystem::Init()
 	lua_close(L);
 }
 
-const std::list<const CustomSystem*> CustomSystem::GetCustomSystemsForSector(int x, int y, int z)
+const std::list<CustomSystem> &CustomSystem::GetCustomSystemsForSector(int x, int y, int z)
 {
 	SystemPath path(x,y,z);
-
-	SectorMap::iterator map_i = sector_map.find(path);
-
-	std::list<const CustomSystem*> sector_systems;
-	if (map_i != sector_map.end()) {
-		for (SystemList::iterator i = (*map_i).second.begin(); i != (*map_i).second.end(); ++i) {
-			CustomSystem *cs = &(*i);
-			sector_systems.push_back(cs);
-		}
-	}
-
-	return sector_systems;
+	SectorMap::const_iterator it = sector_map.find(path);
+	return (it != sector_map.end()) ? it->second : s_emptySystemList;
 }
 
 CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
