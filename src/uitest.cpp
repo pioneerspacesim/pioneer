@@ -38,9 +38,9 @@ static void colour_change(float v, UI::ColorBackground *back, UI::Slider *r, UI:
 	back->SetColor(Color(r->GetValue(), g->GetValue(), b->GetValue()));
 }
 
-static void option_selected(const std::string &option)
+static void option_selected(unsigned int index, const std::string &option)
 {
-	printf("option selected: %s\n", option.c_str());
+	printf("option selected: %d %s\n", index, option.c_str());
 }
 
 static void fill_label(float v, UI::Label *label)
@@ -237,7 +237,6 @@ int main(int argc, char **argv)
 	}
 #endif
 
-#if 0
 	UI::DropDown *dropdown;
 	UI::List *list;
 	c->SetInnerWidget(
@@ -264,7 +263,6 @@ int main(int argc, char **argv)
 	);
 	dropdown->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
-#endif
 
 #if 0
 	c->SetInnerWidget(
@@ -295,12 +293,14 @@ int main(int argc, char **argv)
 	);
 #endif
 
+#if 0
 	UI::Label *label;
 	UI::Slider *slider;
 	c->SetInnerWidget(
 		c->HBox(5.0f)->PackEnd(label = c->Label(""), UI::Box::ChildAttrs(false))->PackEnd(slider = c->HSlider())
 	);
 	slider->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&fill_label), label));
+#endif
 
 	c->Layout();
 

@@ -64,7 +64,7 @@ bool List::HandleOptionClick(unsigned int index)
 	if (m_selected != index) {
 		m_optionBackgrounds[m_selected]->SetColor(Color(0,0,0, ALPHA_NORMAL));
 		m_selected = index;
-		onOptionSelected.emit(m_options[index]);
+		onOptionSelected.emit(index, m_options[index]);
 	}
 
 	return false;
