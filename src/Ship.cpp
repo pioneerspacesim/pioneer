@@ -955,6 +955,8 @@ void Ship::UpdateFuel(const float timeStep)
 
 void Ship::StaticUpdate(const float timeStep)
 {
+	if (IsDead()) return;
+
 	if (m_controller) m_controller->StaticUpdate(timeStep);
 
 	//XXX this produces no explosion nor sound

@@ -3,10 +3,11 @@ Alpha 22
    * New features
      * Support for attaching .zip files to the data directory. Allows users to
        add mods to the game by putting a single file in <userdir>/mods (#1214)
-     * New 'Meteor' ship (#1219)
+     * New 'Meteor' ship (#1219, #1239)
 
    * Minor changes and tweaks
      * Removed 'Walrus' ship (#1219)
+     * Updated 'Wave' ship textures (#1239, #1231)
      * Increase probability of mining populations near Sol (#1236)
      * Add possibility of starports/cities being generated on asteroids (#1236)
      * Give mined cargo a velocity away from the asteroid so they float out
@@ -27,6 +28,8 @@ Alpha 22
        (#1232, #1210)
      * Fixed crash when mission display is opened with lots of missions
        (#1233, #1196)
+     * Don't take timesteps for dead ships. Stops the player firing during the
+       death screen (regression) (#1243, #1103, #1056)
 
    * Script and model changes
      * LMR "lathe" function radius and up vector now interpreted the same as
