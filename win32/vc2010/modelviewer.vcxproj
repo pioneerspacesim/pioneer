@@ -196,10 +196,12 @@
     <ClCompile Include="..\..\src\Lang.cpp" />
     <ClCompile Include="..\..\src\LmrModel.cpp" />
     <ClCompile Include="..\..\src\LuaConstants.cpp" />
+    <ClCompile Include="..\..\src\LuaFixed.cpp" />
+    <ClCompile Include="..\..\src\LuaMathTypes.cpp" />
     <ClCompile Include="..\..\src\LuaModelViewer.cpp" />
     <ClCompile Include="..\..\src\LuaUtils.cpp" />
+    <ClCompile Include="..\..\src\LuaVector.cpp" />
     <ClCompile Include="..\..\src\ModManager.cpp" />
-    <ClCompile Include="..\..\src\MyLuaMathTypes.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\SDLWrappers.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
@@ -279,10 +281,12 @@
     <ClInclude Include="..\..\src\libs.h" />
     <ClInclude Include="..\..\src\LmrModel.h" />
     <ClInclude Include="..\..\src\LuaConstants.h" />
+    <ClInclude Include="..\..\src\LuaFixed.h" />
+    <ClInclude Include="..\..\src\LuaMathTypes.h" />
     <ClInclude Include="..\..\src\LuaUtils.h" />
+    <ClInclude Include="..\..\src\LuaVector.h" />
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\ModManager.h" />
-    <ClInclude Include="..\..\src\MyLuaMathTypes.h" />
     <ClInclude Include="..\..\src\perlin.h" />
     <ClInclude Include="..\..\src\SDLWrappers.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
