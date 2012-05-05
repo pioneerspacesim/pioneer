@@ -9,9 +9,9 @@ math.clamp = function(v, min, max)
 end
 
 function cuboid(pos, size)
-	local sx = v(size:x(),0,0)
-	local sy = v(0,size:y(),0)
-	local sz = v(0,0,size:z())
+	local sx = v(size.x,0,0)
+	local sy = v(0,size.y,0)
+	local sz = v(0,0,size.z)
 	quad(pos, pos+sy, pos+sy+sx, pos+sx)
 	quad(pos+sy, pos+sy+sz, pos+sy+sx+sz, pos+sy+sx)
 	quad(pos, pos+sz, pos+sz+sy, pos+sy)
