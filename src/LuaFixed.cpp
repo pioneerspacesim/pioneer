@@ -150,7 +150,7 @@ void LuaFixed::PushToLua(lua_State *L, const fixed &v)
 	LUA_DEBUG_START(L);
 	fixed *ptr = reinterpret_cast<fixed*>(lua_newuserdata(L, sizeof(fixed)));
 	*ptr = v;
-	lua_getfield(L, LUA_REGISTRYINDEX, LuaFixed_TypeName);
+	luaL_getmetatable(L, LuaFixed_TypeName);
 	lua_setmetatable(L, -2);
 	LUA_DEBUG_END(L, 1);
 }

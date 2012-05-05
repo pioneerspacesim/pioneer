@@ -201,7 +201,7 @@ void LuaVector::PushToLua(lua_State *L, const vector3d &v)
 	LUA_DEBUG_START(L);
 	vector3d *ptr = reinterpret_cast<vector3d*>(lua_newuserdata(L, sizeof(vector3d)));
 	*ptr = v;
-	lua_getfield(L, LUA_REGISTRYINDEX, LuaVector_TypeName);
+	luaL_getmetatable(L, LuaVector_TypeName);
 	lua_setmetatable(L, -2);
 	LUA_DEBUG_END(L, 1);
 }
