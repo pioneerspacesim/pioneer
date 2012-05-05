@@ -202,14 +202,14 @@ void LuaVector::Register(lua_State *L)
 	LUA_DEBUG_END(L, 0);
 }
 
-void LuaVector::PushToLua(lua_State *L, const vector3d &v)
+vector3d *LuaVector::PushNewToLua(lua_State *L)
 {
 	LUA_DEBUG_START(L);
 	vector3d *ptr = reinterpret_cast<vector3d*>(lua_newuserdata(L, sizeof(vector3d)));
-	*ptr = v;
 	luaL_getmetatable(L, LuaVector::TypeName);
 	lua_setmetatable(L, -2);
 	LUA_DEBUG_END(L, 1);
+	return ptr;
 }
 
 const vector3d *LuaVector::GetFromLua(lua_State *L, int idx)

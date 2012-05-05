@@ -10,7 +10,8 @@ namespace LuaVector {
 	extern const char TypeName[];
 
 	void Register(lua_State *L);
-	void PushToLua(lua_State *L, const vector3d &v);
+	vector3d *PushNewToLua(lua_State *L);
+	inline void PushToLua(lua_State *L, const vector3d &v) { *PushNewToLua(L) = v; }
 	const vector3d *GetFromLua(lua_State *L, int idx);
 	const vector3d *CheckFromLua(lua_State *L, int idx);
 
