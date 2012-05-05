@@ -204,7 +204,7 @@ void LuaVector::Register(lua_State *L)
 vector3d *LuaVector::PushNewToLua(lua_State *L)
 {
 	LUA_DEBUG_START(L);
-	vector3d *ptr = reinterpret_cast<vector3d*>(lua_newuserdata(L, sizeof(vector3d)));
+	vector3d *ptr = static_cast<vector3d*>(lua_newuserdata(L, sizeof(vector3d)));
 	luaL_getmetatable(L, LuaVector::TypeName);
 	lua_setmetatable(L, -2);
 	LUA_DEBUG_END(L, 1);
@@ -219,10 +219,10 @@ const vector3d *LuaVector::GetFromLua(lua_State *L, int idx)
 	bool eq = lua_rawequal(L, -1, -2);
 	lua_pop(L, 2);
 	if (!eq) { return 0; }
-	return reinterpret_cast<vector3d*>(lua_touserdata(L, idx));
+	return static_cast<vector3d*>(lua_touserdata(L, idx));
 }
 
 const vector3d *LuaVector::CheckFromLua(lua_State *L, int idx)
 {
-	return reinterpret_cast<vector3d*>(luaL_checkudata(L, idx, LuaVector::TypeName));
+	return static_cast<vector3d*>(luaL_checkudata(L, idx, LuaVector::TypeName));
 }

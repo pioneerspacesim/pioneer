@@ -155,7 +155,7 @@ void LuaFixed::Register(lua_State *L)
 void LuaFixed::PushToLua(lua_State *L, const fixed &v)
 {
 	LUA_DEBUG_START(L);
-	fixed *ptr = reinterpret_cast<fixed*>(lua_newuserdata(L, sizeof(fixed)));
+	fixed *ptr = static_cast<fixed*>(lua_newuserdata(L, sizeof(fixed)));
 	*ptr = v;
 	luaL_getmetatable(L, LuaFixed::TypeName);
 	lua_setmetatable(L, -2);
@@ -170,10 +170,10 @@ const fixed *LuaFixed::GetFromLua(lua_State *L, int idx)
 	bool eq = lua_rawequal(L, -1, -2);
 	lua_pop(L, 2);
 	if (!eq) { return 0; }
-	return reinterpret_cast<fixed*>(lua_touserdata(L, idx));
+	return static_cast<fixed*>(lua_touserdata(L, idx));
 }
 
 const fixed *LuaFixed::CheckFromLua(lua_State *L, int idx)
 {
-	return reinterpret_cast<fixed*>(luaL_checkudata(L, idx, LuaFixed::TypeName));
+	return static_cast<fixed*>(luaL_checkudata(L, idx, LuaFixed::TypeName));
 }

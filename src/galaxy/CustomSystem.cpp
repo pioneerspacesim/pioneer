@@ -19,7 +19,7 @@ static const CustomSystem::SystemList s_emptySystemList; // see: Null Object pat
 static const char LuaCustomSystemBody_TypeName[] = "CustomSystemBody";
 
 static CustomSystemBody **l_csb_check_ptr(lua_State *L, int idx) {
-	CustomSystemBody **csbptr = reinterpret_cast<CustomSystemBody**>(
+	CustomSystemBody **csbptr = static_cast<CustomSystemBody**>(
 			luaL_checkudata(L, idx, LuaCustomSystemBody_TypeName));
 	if (!(*csbptr)) {
 		abort();
@@ -40,7 +40,8 @@ static int l_csb_new(lua_State *L)
 		return luaL_error(L, "body '%s' does not have a valid type", name);
 	}
 
-	CustomSystemBody **csbptr = reinterpret_cast<CustomSystemBody**>(lua_newuserdata(L, sizeof(CustomSystemBody*)));
+	CustomSystemBody **csbptr = static_cast<CustomSystemBody**>(
+			lua_newuserdata(L, sizeof(CustomSystemBody*)));
 	*csbptr = new CustomSystemBody;
 	luaL_getmetatable(L, LuaCustomSystemBody_TypeName);
 	lua_setmetatable(L, -2);
@@ -130,7 +131,8 @@ static int l_csb_height_map(lua_State *L)
 
 static int l_csb_gc(lua_State *L)
 {
-	CustomSystemBody **csbptr = reinterpret_cast<CustomSystemBody**>(luaL_checkudata(L, 1, LuaCustomSystemBody_TypeName));
+	CustomSystemBody **csbptr = static_cast<CustomSystemBody**>(
+			luaL_checkudata(L, 1, LuaCustomSystemBody_TypeName));
 	delete *csbptr; // does nothing if *csbptr is null
 	*csbptr = 0;
 	return 0;
@@ -167,7 +169,7 @@ static luaL_Reg LuaCustomSystemBody_meta[] = {
 static const char LuaCustomSystem_TypeName[] = "CustomSystem";
 
 static CustomSystem **l_csys_check_ptr(lua_State *L, int idx) {
-	CustomSystem **csptr = reinterpret_cast<CustomSystem**>(
+	CustomSystem **csptr = static_cast<CustomSystem**>(
 			luaL_checkudata(L, idx, LuaCustomSystem_TypeName));
 	if (!(*csptr)) {
 		abort();
@@ -214,7 +216,8 @@ static int l_csys_new(lua_State *L)
 	int starTypes[4];
 	int numStars = interpret_star_types(starTypes, L, 3);
 
-	CustomSystem **csptr = reinterpret_cast<CustomSystem**>(lua_newuserdata(L, sizeof(CustomSystem*)));
+	CustomSystem **csptr = static_cast<CustomSystem**>(
+			lua_newuserdata(L, sizeof(CustomSystem*)));
 	*csptr = new CustomSystem;
 	luaL_getmetatable(L, LuaCustomSystem_TypeName);
 	lua_setmetatable(L, -2);
@@ -354,7 +357,8 @@ static int l_csys_add_to_sector(lua_State *L)
 
 static int l_csys_gc(lua_State *L)
 {
-	CustomSystem **csptr = reinterpret_cast<CustomSystem**>(luaL_checkudata(L, 1, LuaCustomSystem_TypeName));
+	CustomSystem **csptr = static_cast<CustomSystem**>(
+			luaL_checkudata(L, 1, LuaCustomSystem_TypeName));
 	delete *csptr;
 	*csptr = 0;
 	return 0;
