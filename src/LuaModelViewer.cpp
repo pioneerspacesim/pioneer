@@ -27,6 +27,7 @@ static matrix4x4f g_camorient;
 
 float gridInterval = 0.0f;
 
+//some utility functions
 static bool setMouseButton(const Uint8 idx, const int value)
 {
 	if( idx < MAX_MOUSE_BTN_IDX ) {
@@ -35,6 +36,17 @@ static bool setMouseButton(const Uint8 idx, const int value)
 	}
 	return false;
 }
+
+static vector3f azElToDir(float yaw, float pitch)
+{
+	//0,0 points to "right" (1,0,0)
+	vector3f v;
+	v.x = cos(DEG2RAD(yaw)) * cos(DEG2RAD(pitch));
+	v.y = sin(DEG2RAD(pitch));
+	v.z = sin(DEG2RAD(yaw)) * cos(DEG2RAD(pitch));
+	return v;
+}
+//end utility funcs
 
 class Viewer;
 static Viewer *g_viewer;
@@ -51,55 +63,43 @@ struct Options {
 };
 
 class Viewer: public Gui::Fixed {
-private:
-	Options m_drawOptions;
-
-public:
+private: //data members
+	bool m_showBoundingRadius;
+	bool m_showGrid;
 	CollisionSpace *m_space;
 	CollMesh *m_cmesh;
 	Geom *m_geom;
 	Gui::Label *m_trisReadout;
-	//Newmodel::NModel *m_model;
+	int m_lightPreset;
 	Model *m_model;
+	ModelParams m_modelParams;
+	Options m_drawOptions;
+	UI::Context *m_ui;
 
+private: //methods
+	void SetupUI();
+	void UpdateLights();
+	void OnLightPresetChanged(const std::string &option);
+
+public:
 	void ResetCamera();
-
 	void SetModel(Model *);
-
 	void PickModel(const std::string &initial_name, const std::string &initial_errormsg);
-
 	void PickModel() {
 		PickModel("", "");
+	}
+	bool PickAnotherModel() {
+		PickModel();
+		return true;
 	}
 
 	Viewer(): Gui::Fixed(float(g_width), float(g_height)),
 		m_model(0),
 		m_cmesh(0),
-		m_geom(0)
+		m_geom(0),
+		m_lightPreset(0)
 	{
-		m_ui = new UI::Context(renderer, g_width, g_height);
-		UI::Context *c = m_ui;
-		UI::Button *b1, *b2, *b3;
-		c->SetInnerWidget(
-			c->VBox()->PackEnd(UI::WidgetSet(
-				c->Margin(50.0f)->SetInnerWidget(
-					c->HBox()->PackEnd(
-						UI::WidgetSet(
-							(b1 = c->Button()),
-							c->Label("Show bounding radius")
-						), UI::Box::ChildAttrs(false, false)
-					)
-				)),
-				/*c->Margin(10.0f)->SetInnerWidget(
-					(b2 = c->Button())->SetInnerWidget(c->Image("icons/object_star_m.png"))
-				),
-				c->Margin(10.0f)->SetInnerWidget(
-					(b3 = c->Button())->SetInnerWidget(c->Label("PEW PEW"))
-				)),*/ UI::Box::ChildAttrs(false, false)
-			)
-		);
-		b1->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius));
-		c->Layout();
+		SetupUI();
 
 		m_space = new CollisionSpace();
 		m_showBoundingRadius = false;
@@ -111,29 +111,29 @@ public:
 		Add(m_trisReadout, 500, 0);
 		{
 			Gui::Button *b = new Gui::SolidButton();
-			b->SetShortcut(SDLK_c, KMOD_NONE);
-			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickChangeView));
+			//b->SetShortcut(SDLK_c, KMOD_NONE);
+			//b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickChangeView));
 			Add(b, 10, 10);
 			Add(new Gui::Label("[c] Change view (normal, collision mesh"), 30, 10);
 		}
 		{
 			Gui::Button *b = new Gui::SolidButton();
-			b->SetShortcut(SDLK_p, KMOD_NONE);
-			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickToggleBenchmark));
+			//b->SetShortcut(SDLK_p, KMOD_NONE);
+			//b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickToggleBenchmark));
 			Add(b, 10, 70);
 			Add(new Gui::Label("[p] Toggle performance test (renders models 1000 times per frame)"), 30, 70);
 		}
 		{
 			Gui::Button *b = new Gui::SolidButton();
-			b->SetShortcut(SDLK_b, KMOD_LSHIFT);
+			//b->SetShortcut(SDLK_b, KMOD_LSHIFT);
 			//b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius));
 			Add(b, 10, 90);
 			Add(new Gui::Label("[shift-b] Visualize bounding radius"), 30, 90);
 		}
 		{
 			Gui::Button *b = new Gui::SolidButton();
-			b->SetShortcut(SDLK_g, KMOD_LSHIFT);
-			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleGrid));
+			//b->SetShortcut(SDLK_g, KMOD_LSHIFT);
+			//b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleGrid));
 			Add(b, 10, 110);
 			Add(new Gui::Label("[shift-g] Toggle grid"), 30, 110);
 		}
@@ -165,9 +165,9 @@ public:
 
 	bool OnToggleBoundingRadius() {
 		m_showBoundingRadius = !m_showBoundingRadius;
-		return true;
+		return m_showBoundingRadius;
 	}
-	void OnToggleGrid() {
+	bool OnToggleGrid(UI::Button *b) {
 		if (!m_showGrid) {
 			m_showGrid = true;
 			gridInterval = 1.0f;
@@ -179,19 +179,145 @@ public:
 				gridInterval = 0.0f;
 			}
 		}
+		b->RemoveInnerWidget();
+		b->SetInnerWidget(m_ui->Label(
+			m_showGrid
+			? stringf("Grid: %0{d}", int(gridInterval))
+			: "Grid: off"
+		));
+		b->Layout();
+		return m_showGrid;
 	}
 
 	void MainLoop() __attribute((noreturn));
+
 private:
 	void DrawGrid(matrix4x4f& trans, double radius);
 	void PollEvents();
 	void TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg);
 	void VisualizeBoundingRadius(matrix4x4f& trans, double radius);
-	bool m_showBoundingRadius;
-	bool m_showGrid;
-	ModelParams m_modelParams;
-	UI::Context *m_ui;
 };
+
+static UI::Button *AddButton(UI::Context *c, UI::Box *box, const std::string &label)
+{
+	UI::Button *button = 0;
+	const UI::Box::ChildAttrs attrs(false, false);
+	box->PackEnd(((button = c->Button())->SetInnerWidget(c->Label(label))), attrs);
+	return button;
+}
+
+static UI::CheckBox *AddCheckbox(UI::Context *c, UI::Box *box, const std::string &label)
+{
+	UI::CheckBox *button = 0;
+	const UI::Box::ChildAttrs attrs(false, false);
+	box->PackEnd(
+		c->HBox()->PackEnd(
+			(button = c->CheckBox()), attrs
+		)->PackEnd(c->Label(label), attrs)
+		, attrs
+	);
+	return button;
+}
+
+//widget-label pair
+static void AddPair(UI::Context *c, UI::Box *parent, UI::Widget *widget, const std::string &label)
+{
+	UI::Box::ChildAttrs a(false, false);
+	parent->PackEnd(
+		c->HBox(5.f)->PackEnd(widget, a)->PackEnd(c->Label(label), a)
+	);
+}
+
+void Viewer::SetupUI()
+{
+	/* Components
+	Reload model
+	Cycle grid mode
+	Toggle bounding radius
+	Draw collision mesh
+
+	Toggle guns
+
+	Select pattern
+	3x3 colour sliders
+
+	Light presets (dropdown)
+
+	Message area
+
+	Stats:
+	fps + ms/frame
+	triangles
+	*/
+	m_ui = new UI::Context(renderer, g_width, g_height);
+	UI::Context *c = m_ui;
+	UI::Box *box;
+	UI::Box *buttBox;
+	UI::Button *b1;
+	//UI::Checkbox *c1, *c2, *c3;
+	
+	c->SetInnerWidget((box = c->VBox(5.f)));
+
+	//buttons
+	/*c1 = AddCheckbox(c, buttonBox, "Toggle bounding radius");
+	b1 = AddButton(c, buttonBox, "Cycle grid mode");
+
+	c1->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius));
+	b1->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleGrid), b1));*/
+	box->PackEnd((buttBox = c->VBox(5.f)));
+	AddPair(c, buttBox, (b1 = c->Button()), "Pick another model");
+	AddPair(c, buttBox, (c->Button()), "Reload model");
+	AddPair(c, buttBox, (c->Button()), "Grid mode");
+	AddPair(c, buttBox, (c->CheckBox()), "Show bounding radius");
+	AddPair(c, buttBox, (c->CheckBox()), "Attach guns");
+	AddPair(c, buttBox, (c->CheckBox()), "Draw collision mesh");
+
+	UI::DropDown *ddown;
+	buttBox->PackEnd(c->DropDown()->AddOption("Pattern"));
+	buttBox->PackEnd((ddown = c->DropDown()
+		->AddOption("1  Front white")
+		->AddOption("2  Two-point")
+		->AddOption("3  Backlight"))
+	);
+	ddown->onOptionSelected.connect(sigc::mem_fun(*this, &Viewer::OnLightPresetChanged));
+
+	box->PackEnd(c->MultiLineText("01 Messages go here\n02 Messages go here\n03 Messages go here"));
+
+	b1->onClick.connect(sigc::mem_fun(*this, &Viewer::PickAnotherModel));
+	c->Layout();
+}
+
+void Viewer::UpdateLights()
+{
+	Light lights[2];
+
+	switch(m_lightPreset) {
+	case 0:
+		//Front white
+		lights[0] = Light(Light::LIGHT_DIRECTIONAL, azElToDir(90,0), Color(1.0f, 1.0f, 1.0f), Color(0.f), Color(1.f));
+		lights[1] = Light(Light::LIGHT_DIRECTIONAL, azElToDir(0,-90), Color(0.05, 0.05f, 0.1f), Color(0.f), Color(1.f));
+		break;
+	case 1:
+		//Two-point
+		lights[0] = Light(Light::LIGHT_DIRECTIONAL, azElToDir(120,0), Color(0.9f, 0.8f, 0.8f), Color(0.f), Color(1.f));
+		lights[1] = Light(Light::LIGHT_DIRECTIONAL, azElToDir(-30,-90), Color(0.7f, 0.5f, 0.0f), Color(0.f), Color(1.f));
+		break;
+	case 2:
+		//Backlight
+		lights[0] = Light(Light::LIGHT_DIRECTIONAL, azElToDir(-75,20), Color(1.f), Color(0.f), Color(1.f));
+		lights[1] = Light(Light::LIGHT_DIRECTIONAL, azElToDir(0,-90), Color(0.05, 0.05f, 0.1f), Color(0.f), Color(1.f));
+		break;
+	};
+
+	renderer->SetLights(2, &lights[0]);
+}
+
+void Viewer::OnLightPresetChanged(const std::string &presetname)
+{
+	if(presetname[0] == '1') m_lightPreset = 0;
+	else if(presetname[0] == '2') m_lightPreset = 1;
+	else if(presetname[0] == '3') m_lightPreset = 2;
+}
 
 void Viewer::ResetCamera()
 {
@@ -236,7 +362,7 @@ void Viewer::PickModel(const std::string &initial_name, const std::string &initi
 	f->SetSizeRequest(Gui::Screen::GetWidth()*0.5f, Gui::Screen::GetHeight()*0.5);
 	Gui::Screen::AddBaseWidget(f, Gui::Screen::GetWidth()*0.25f, Gui::Screen::GetHeight()*0.25f);
 
-	f->Add(new Gui::Label("Enter the name of the model you want to view:"), 0, 0);
+	f->Add(new Gui::Label("Enter the name of the model you want to view (esc to quit app):"), 0, 0);
 
 	Gui::Label *errormsg = new Gui::Label(initial_errormsg);
 	f->Add(errormsg, 0, 64);
@@ -342,6 +468,7 @@ void Viewer::MainLoop()
 		renderer->SetTransform(matrix4x4f::Identity());
 		renderer->ClearScreen();
 		renderer->SetDepthTest(true);
+		UpdateLights();
 #if 0
 		int beforeDrawTriStats = LmrModelGetStatsTris();
 #endif
@@ -422,7 +549,7 @@ void Viewer::MainLoop()
 #endif
 		}
 		
-		Gui::Draw();
+		//Gui::Draw();
 		m_ui->Update();
 		renderer->SetDepthTest(false);
 		renderer->SetOrthographicProjection(0, g_width, g_height, 0, -1, 1);
@@ -589,8 +716,9 @@ int main(int argc, char **argv)
 				if (tag && gun)
 					tag->AddChild(new Newmodel::ModelNode(gun));
 				tag = parent->FindTagByName("tag_gun_right");
-				if (tag && gun)
+				if (tag && gun) {
 					tag->AddChild(new Newmodel::ModelNode(gun));
+				}
 			}
 		} catch (Newmodel::LoadingError &) {
 			g_viewer->PickModel(argv[3], std::string("Could not find model: ") + argv[3]);
