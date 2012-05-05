@@ -215,12 +215,12 @@ void ShipType::Init()
 	LuaVector::Register(l);
 	LUA_DEBUG_CHECK(l, 0);
 
-	// provide shortcut vector constructor: _G.v = _G.math.vector
-	lua_getglobal(l, LUA_MATHLIBNAME);
-	lua_getfield(l, -1, "vector");
+	// provide shortcut vector constructor: v = vector.new
+	lua_getglobal(l, LuaVector::LibName);
+	lua_getfield(l, -1, "new");
 	assert(lua_iscfunction(l, -1));
 	lua_setglobal(l, "v");
-	lua_pop(l, 1); // pop the math library table
+	lua_pop(l, 1); // pop the vector library table
 
 	LUA_DEBUG_CHECK(l, 0);
 

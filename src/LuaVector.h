@@ -6,6 +6,9 @@
 struct lua_State;
 
 namespace LuaVector {
+	extern const char LibName[];
+	extern const char TypeName[];
+
 	void Register(lua_State *L);
 	void PushToLua(lua_State *L, const vector3d &v);
 	const vector3d *GetFromLua(lua_State *L, int idx);

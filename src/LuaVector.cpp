@@ -8,8 +8,6 @@ extern "C" {
 #include "lua/lualib.h"
 }
 
-static const char LuaVector_TypeName[] = "vector";
-
 static int l_vector_new(lua_State *L)
 {
 	LUA_DEBUG_START(L);
@@ -153,8 +151,8 @@ static int l_vector_cross(lua_State *L)
 }
 
 static luaL_Reg LuaVector_lib[] = {
-	{ "vector", &l_vector_new },
-	{ "unit_vector", &l_vector_new_normalised },
+	{ "new", &l_vector_new },
+	{ "unit", &l_vector_new_normalised },
 	{ "cross", &l_vector_cross },
 	{ "dot", &l_vector_dot },
 	{ "length", &l_vector_length },
@@ -177,14 +175,16 @@ static luaL_Reg LuaVector_meta[] = {
 	{ 0, 0 }
 };
 
+const char LuaVector::LibName[] = "vector";
+const char LuaVector::TypeName[] = "vector";
+
 void LuaVector::Register(lua_State *L)
 {
 	LUA_DEBUG_START(L);
 
-	// put the 'math' table on the top of the stack
-	luaL_register(L, LUA_MATHLIBNAME, LuaVector_lib);
+	luaL_register(L, LuaVector::LibName, LuaVector_lib);
 
-	luaL_newmetatable(L, LuaVector_TypeName);
+	luaL_newmetatable(L, LuaVector::TypeName);
 	luaL_register(L, 0, LuaVector_meta);
 	// hide the metatable to thwart crazy exploits
 	lua_pushstring(L, "__metatable");
@@ -201,7 +201,7 @@ void LuaVector::PushToLua(lua_State *L, const vector3d &v)
 	LUA_DEBUG_START(L);
 	vector3d *ptr = reinterpret_cast<vector3d*>(lua_newuserdata(L, sizeof(vector3d)));
 	*ptr = v;
-	luaL_getmetatable(L, LuaVector_TypeName);
+	luaL_getmetatable(L, LuaVector::TypeName);
 	lua_setmetatable(L, -2);
 	LUA_DEBUG_END(L, 1);
 }
@@ -210,7 +210,7 @@ const vector3d *LuaVector::GetFromLua(lua_State *L, int idx)
 {
 	if (lua_type(L, idx) != LUA_TUSERDATA) { return 0; }
 	if (!lua_getmetatable(L, idx)) { return 0; }
-	lua_getfield(L, LUA_REGISTRYINDEX, LuaVector_TypeName);
+	luaL_getmetatable(L, LuaVector::TypeName);
 	bool eq = lua_rawequal(L, -1, -2);
 	lua_pop(L, 2);
 	if (!eq) { return 0; }
@@ -219,5 +219,5 @@ const vector3d *LuaVector::GetFromLua(lua_State *L, int idx)
 
 const vector3d *LuaVector::CheckFromLua(lua_State *L, int idx)
 {
-	return reinterpret_cast<vector3d*>(luaL_checkudata(L, idx, LuaVector_TypeName));
+	return reinterpret_cast<vector3d*>(luaL_checkudata(L, idx, LuaVector::TypeName));
 }

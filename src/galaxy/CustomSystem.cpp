@@ -420,13 +420,15 @@ void CustomSystem::Init()
 	lua_getfield(L, -1, "fixed");
 	assert(lua_iscfunction(L, -1));
 	lua_setglobal(L, "f");
+	lua_pop(L, 1); // pop the math table
 
-	// provide shortcut vector constructor: _G.v = _G.math.vector
-	lua_getfield(L, -1, "vector");
+	// provide shortcut vector constructor: v = vector.new
+	lua_getglobal(L, LuaVector::LibName);
+	lua_getfield(L, -1, "new");
 	assert(lua_iscfunction(L, -1));
 	lua_setglobal(L, "v");
+	lua_pop(L, 1);
 
-	lua_pop(L, 1); // pop the math table
 	LUA_DEBUG_CHECK(L, 0);
 
 	RegisterCustomSystemsAPI(L);
