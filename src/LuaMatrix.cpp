@@ -3,235 +3,245 @@
 #include "LuaVector.h"
 #include "LuaUtils.h"
 
-
-namespace MyLuaMatrix {
-	matrix4x4f *checkMatrix (lua_State *L, int index)
-	{
-		matrix4x4f *v;
-		luaL_checktype(L, index, LUA_TUSERDATA);
-		v = static_cast<matrix4x4f *>(luaL_checkudata(L, index, MYLUA_MATRIX));
-		if (v == NULL) luaL_typerror(L, index, MYLUA_MATRIX);
-		return v;
-	}
-
-
-	matrix4x4f *pushMatrix(lua_State *L)
-	{
-		matrix4x4f *v = static_cast<matrix4x4f *>(lua_newuserdata(L, sizeof(matrix4x4f)));
-		luaL_getmetatable(L, MYLUA_MATRIX);
-		lua_setmetatable(L, -2);
-		return v;
-	}
-
-	int Matrix_new_identity(lua_State *L)
-	{
-		matrix4x4f *v = pushMatrix(L);
-		*v = matrix4x4f::Identity();
-		return 1;
-	}
-
-	static int Matrix_inverse(lua_State *L)
-	{
-		matrix4x4f *v = checkMatrix(L, 1);
-		matrix4x4f *w = pushMatrix(L);
-		*w = v->InverseOf();
-		return 1;
-	}
-
-	static int Matrix_rotate(lua_State *L)
-	{
-		float ang = luaL_checknumber(L, 1);
-		vector3f v = LuaVector::CheckFromLuaF(L, 2);
-		v = v.Normalized();
-		matrix4x4f *out = pushMatrix(L);
-		*out = matrix4x4f::RotateMatrix(ang, v.x, v.y, v.z);
-		return 1;
-	}
-
-	static int Matrix_translate(lua_State *L)
-	{
-		const vector3f v = LuaVector::CheckFromLuaF(L, 1);
-		matrix4x4f *out = pushMatrix(L);
-		*out = matrix4x4f::Translation(v.x, v.y, v.z);
-		return 1;
-	}
-
-	static int Matrix_orient(lua_State *L)
-	{
-		const vector3f pos = LuaVector::CheckFromLuaF(L, 1);
-		const vector3f _xaxis = LuaVector::CheckFromLuaF(L, 2);
-		const vector3f _yaxis = LuaVector::CheckFromLuaF(L, 3);
-
-		vector3f zaxis = _xaxis.Cross(_yaxis).Normalized();
-		vector3f xaxis = _yaxis.Cross(zaxis).Normalized();
-		vector3f yaxis = zaxis.Cross(xaxis);
-
-		matrix4x4f *out = pushMatrix(L);
-		*out = matrix4x4f::MakeInvRotMatrix(xaxis, yaxis, zaxis);
-		(*out)[12] = pos.x;
-		(*out)[13] = pos.y;
-		(*out)[14] = pos.z;
-		return 1;
-	}
-
-	static int Matrix_scale(lua_State *L)
-	{
-		const vector3f v = LuaVector::CheckFromLuaF(L, 1);
-		matrix4x4f *out = pushMatrix(L);
-		*out = matrix4x4f::ScaleMatrix(v.x, v.y, v.z);
-		return 1;
-	}
-
-	static int Matrix_new(lua_State *L)
-	{
-		int n = lua_gettop(L);
-		matrix4x4f *v = pushMatrix(L);
-		if (n == 0) {
-			*v = matrix4x4f(0.0);
-		} else if (n == 3) {
-			vector3f v1 = LuaVector::CheckFromLuaF(L, 1);
-			vector3f v2 = LuaVector::CheckFromLuaF(L, 2);
-			vector3f v3 = LuaVector::CheckFromLuaF(L, 3);
-			*v = matrix4x4f::MakeRotMatrix(v1, v2, v3);
-		} else if (n == 4) {
-			vector3f v1 = LuaVector::CheckFromLuaF(L, 1);
-			vector3f v2 = LuaVector::CheckFromLuaF(L, 2);
-			vector3f v3 = LuaVector::CheckFromLuaF(L, 3);
-			vector3f v4 = LuaVector::CheckFromLuaF(L, 4);
-			*v = matrix4x4f::MakeRotMatrix(v1, v2, v3);
-			(*v)[12] = v4.x;
-			(*v)[13] = v4.y;
-			(*v)[14] = v4.z;
-		} else if (n == 16) {
-			for (int i=0; i<16; i++) {
-				(*v)[i] = luaL_checknumber(L, i+1);
-			}
-		} else {
-			luaL_error(L, "bad arguments to mat4x4:new()");
+static int l_matrix_new(lua_State *L)
+{
+	int n = lua_gettop(L);
+	matrix4x4f *out = LuaMatrix::PushNewToLua(L);
+	if (n == 0) {
+		*out = matrix4x4f(0.0);
+	} else if (n == 3) {
+		vector3f v1 = LuaVector::CheckFromLuaF(L, 1);
+		vector3f v2 = LuaVector::CheckFromLuaF(L, 2);
+		vector3f v3 = LuaVector::CheckFromLuaF(L, 3);
+		*out = matrix4x4f::MakeRotMatrix(v1, v2, v3);
+	} else if (n == 4) {
+		vector3f v1 = LuaVector::CheckFromLuaF(L, 1);
+		vector3f v2 = LuaVector::CheckFromLuaF(L, 2);
+		vector3f v3 = LuaVector::CheckFromLuaF(L, 3);
+		vector3f v4 = LuaVector::CheckFromLuaF(L, 4);
+		*out = matrix4x4f::MakeRotMatrix(v1, v2, v3);
+		(*out)[12] = v4.x;
+		(*out)[13] = v4.y;
+		(*out)[14] = v4.z;
+	} else if (n == 16) {
+		for (int i=0; i<16; i++) {
+			(*out)[i] = luaL_checknumber(L, i+1);
 		}
+	} else {
+		luaL_error(L, "bad arguments to matrix.new");
+	}
+	return 1;
+}
+
+static int l_matrix_new_identity(lua_State *L)
+{
+	LuaMatrix::PushToLua(L, matrix4x4f::Identity());
+	return 1;
+}
+
+static int l_matrix_new_rotate(lua_State *L)
+{
+	float ang = luaL_checknumber(L, 1);
+	vector3f v = LuaVector::CheckFromLuaF(L, 2);
+	v = v.Normalized();
+	LuaMatrix::PushToLua(L, matrix4x4f::RotateMatrix(ang, v.x, v.y, v.z));
+	return 1;
+}
+
+static int l_matrix_new_translate(lua_State *L)
+{
+	const vector3f v = LuaVector::CheckFromLuaF(L, 1);
+	LuaMatrix::PushToLua(L, matrix4x4f::Translation(v));
+	return 1;
+}
+
+static int l_matrix_new_orient(lua_State *L)
+{
+	const vector3f pos = LuaVector::CheckFromLuaF(L, 1);
+	const vector3f _xaxis = LuaVector::CheckFromLuaF(L, 2);
+	const vector3f _yaxis = LuaVector::CheckFromLuaF(L, 3);
+
+	vector3f zaxis = _xaxis.Cross(_yaxis).Normalized();
+	vector3f xaxis = _yaxis.Cross(zaxis).Normalized();
+	vector3f yaxis = zaxis.Cross(xaxis);
+
+	matrix4x4f *out = LuaMatrix::PushNewToLua(L);
+	*out = matrix4x4f::MakeInvRotMatrix(xaxis, yaxis, zaxis);
+	(*out)[12] = pos.x;
+	(*out)[13] = pos.y;
+	(*out)[14] = pos.z;
+	return 1;
+}
+
+static int l_matrix_new_scale(lua_State *L)
+{
+	if (lua_isnumber(L, 1)) {
+		double s = lua_tonumber(L, 1);
+		LuaMatrix::PushToLua(L, matrix4x4f::ScaleMatrix(s));
+	} else {
+		const vector3f v = LuaVector::CheckFromLuaF(L, 1);
+		LuaMatrix::PushToLua(L, matrix4x4f::ScaleMatrix(v.x, v.y, v.z));
+	}
+	return 1;
+}
+
+#if 0
+static int l_matrix_print(lua_State *L)
+{
+	matrix4x4f *v = checkMatrix(L, 1);
+	printf("[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n\n",
+			(*v)[0], (*v)[1], (*v)[2], (*v)[3],
+			(*v)[4], (*v)[5], (*v)[6], (*v)[7],
+			(*v)[8], (*v)[9], (*v)[10], (*v)[11],
+			(*v)[12], (*v)[13], (*v)[14], (*v)[15]);
+	return 0;
+}
+#endif
+
+static int l_matrix_add (lua_State *L)
+{
+	const matrix4x4f *a = LuaMatrix::CheckFromLua(L, 1);
+	const matrix4x4f *b = LuaMatrix::CheckFromLua(L, 2);
+	LuaMatrix::PushToLua(L, *a + *b);
+	return 1;
+}
+
+static int l_matrix_sub (lua_State *L)
+{
+	const matrix4x4f *a = LuaMatrix::CheckFromLua(L, 1);
+	const matrix4x4f *b = LuaMatrix::CheckFromLua(L, 2);
+	LuaMatrix::PushToLua(L, *a - *b);
+	return 1;
+}
+
+static int l_matrix_unm (lua_State *L)
+{
+	const matrix4x4f *m = LuaMatrix::CheckFromLua(L, 1);
+	LuaMatrix::PushToLua(L, -(*m));
+	return 1;
+}
+
+static int l_matrix_mul (lua_State *L)
+{
+	if (lua_isnumber(L,1)) {
+		double scale = lua_tonumber(L, 1);
+		const matrix4x4f *m = LuaMatrix::CheckFromLua(L, 2);
+		LuaMatrix::PushToLua(L, scale * *m);
 		return 1;
-	}
-
-	static int Matrix_print(lua_State *L)
-	{
-		matrix4x4f *v = checkMatrix(L, 1);
-		printf("[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n\n",
-				(*v)[0], (*v)[1], (*v)[2], (*v)[3],
-				(*v)[4], (*v)[5], (*v)[6], (*v)[7],
-				(*v)[8], (*v)[9], (*v)[10], (*v)[11],
-				(*v)[12], (*v)[13], (*v)[14], (*v)[15]);
-		return 0;
-	}
-
-	static int Matrix_add (lua_State *L)
-	{
-		matrix4x4f *v1 = checkMatrix(L, 1);
-		matrix4x4f *v2 = checkMatrix(L, 2);
-		matrix4x4f *sum = pushMatrix(L);
-		*sum = (*v1) + (*v2);
+	} else if (lua_isnumber(L, 2)) {
+		const matrix4x4f *m = LuaMatrix::CheckFromLua(L, 1);
+		double scale = lua_tonumber(L, 2);
+		LuaMatrix::PushToLua(L, *m * scale);
 		return 1;
-	}
+	} else {
+		const matrix4x4f *a = LuaMatrix::CheckFromLua(L, 1);
+		luaL_checktype(L, 2, LUA_TUSERDATA);
 
-	static int Matrix_sub (lua_State *L)
-	{
-		matrix4x4f *v1 = checkMatrix(L, 1);
-		matrix4x4f *v2 = checkMatrix(L, 2);
-		matrix4x4f *sum = pushMatrix(L);
-		*sum = (*v1) - (*v2);
-		return 1;
-	}
+		void *bp = lua_touserdata(L, 2);
+		if (!bp) { luaL_argerror(L, 2, "invalid object passed to matrix multiply"); }
 
-	static int Matrix_mul (lua_State *L)
-	{
-		matrix4x4f *m;
-		vector3f *v;
-		float num;
-		if (lua_isnumber(L,1)) {
-			// number * mat4x4
-			num = lua_tonumber(L, 1);
-			m = checkMatrix(L, 2);
+		LUA_DEBUG_START(L);
 
-			matrix4x4f *out = pushMatrix(L);
-			*out = num * (*m);
-			return 1;
-		} else if (lua_isnumber(L, 2)) {
-			// mat4x4 * number
-			m = checkMatrix(L, 1);
-			num = lua_tonumber(L, 2);
+		lua_getmetatable(L, 2);
+		assert(lua_istable(L, -1));
 
-			matrix4x4f *out = pushMatrix(L);
-			*out = num * (*m);
-			return 1;
+		luaL_getmetatable(L, LuaVector::TypeName);
+		bool isvector = lua_rawequal(L, -1, -2);
+		lua_pop(L, 2);
+
+		if (isvector) {
+			// matrix * vector
+			const vector3f b = LuaVector::CheckFromLuaF(L, 2);
+			LuaVector::PushToLuaF(L, (*a) * b);
 		} else {
-			m = checkMatrix(L, 1);
-			luaL_checktype(L, 2, LUA_TUSERDATA);
-
-			void *p = lua_touserdata(L, 2);
-			assert(p);
-
-			LUA_DEBUG_START(L);
-
-			lua_getmetatable(L, 2);
-			assert(lua_istable(L, -1));
-
-			luaL_getmetatable(L, LuaVector::TypeName);
-			bool vector = lua_rawequal(L, -1, -2);
-			lua_pop(L, 2);
-
-			if (vector) {
-				v = static_cast<vector3f*>(p);
-				// mat4x4 * vec
-				LuaVector::PushToLuaF(L, (*m) * (*v));
-			} else {
-				// mat4x4 * mat4x4
-				matrix4x4f *m2 = static_cast<matrix4x4f*>(luaL_checkudata(L, 2, MYLUA_MATRIX));
-				if (!m2) luaL_typerror(L, 2, MYLUA_MATRIX);
-				matrix4x4f *out = pushMatrix(L);
-				*out = (*m) * (*m2);
-			}
-
-			LUA_DEBUG_END(L, 1);
-
-			return 1;
+			// matrix * matrix
+			const matrix4x4f *b = LuaMatrix::CheckFromLua(L, 2);
+			LuaMatrix::PushToLua(L, (*a) * (*b));
 		}
+
+		LUA_DEBUG_END(L, 1);
+
+		return 1;
 	}
+}
 
-	static const luaL_reg Matrix_methods[] = {
-		{ "new", Matrix_new },
-		{ "identity", Matrix_new_identity },
-		{ "inverse", Matrix_inverse },
-		{ "rotate", Matrix_rotate },
-		{ "scale", Matrix_scale },
-		{ "translate", Matrix_translate },
-		{ "orient", Matrix_orient },
-		{ "print", Matrix_print },
-		{ 0, 0 }
-	};
+static int l_matrix_div (lua_State *L)
+{
+	const matrix4x4f *a = LuaMatrix::CheckFromLua(L, 1);
+	double scale = luaL_checknumber(L, 2);
+	LuaMatrix::PushToLua(L, *a * (1.0 / scale));
+	return 1;
+}
 
-	static const luaL_reg Matrix_meta[] = {
-		//  {"__gc",       Foo_gc},
-		//  {"__tostring", Foo_tostring},
-		{"__add",      Matrix_add},
-		{"__sub",      Matrix_sub},
-		{"__mul",      Matrix_mul},
-		{0, 0}
-	};
+static int l_matrix_inverse(lua_State *L)
+{
+	const matrix4x4f *m = LuaMatrix::CheckFromLua(L, 1);
+	LuaMatrix::PushToLua(L, m->InverseOf());
+	return 1;
+}
 
-	int Matrix_register (lua_State *L)
-	{
-		luaL_openlib(L, MYLUA_MATRIX, Matrix_methods, 0);  /* create methods table,
-						    add it to the globals */
-		luaL_newmetatable(L, MYLUA_MATRIX);          /* create metatable for Matrix,
-						 and add it to the Lua registry */
-		luaL_openlib(L, 0, Matrix_meta, 0);    /* fill metatable */
-		lua_pushliteral(L, "__index");
-		lua_pushvalue(L, -3);               /* dup methods table*/
-		lua_rawset(L, -3);                  /* metatable.__index = methods */
-		lua_pushliteral(L, "__metatable");
-		lua_pushvalue(L, -3);               /* dup methods table*/
-		lua_rawset(L, -3);                  /* hide metatable:
-						 metatable.__metatable = methods */
-		lua_pop(L, 1);                      /* drop metatable */
-		return 1;                           /* return methods on the stack */
-	}
-} /* namespace MyLuaMatrix */
+static const luaL_Reg l_matrix_lib[] = {
+	{ "new", &l_matrix_new },
+	{ "identity", &l_matrix_new_identity },
+	{ "rotate", &l_matrix_new_rotate },
+	{ "scale", &l_matrix_new_scale },
+	{ "translate", &l_matrix_new_translate },
+	{ "orient", &l_matrix_new_orient },
+	{ "inverse", &l_matrix_inverse },
+	{ 0, 0 }
+};
+
+static const luaL_Reg l_matrix_meta[] = {
+	//{ "__tostring", &l_matrix_tostring },
+	{ "__add", &l_matrix_add },
+	{ "__sub", &l_matrix_sub },
+	{ "__mul", &l_matrix_mul },
+	{ "__div", &l_matrix_div },
+	{ "__unm", &l_matrix_unm },
+	{ "inverse", &l_matrix_inverse },
+	{ 0, 0 }
+};
+
+const char LuaMatrix::LibName[] = "Matrix";
+const char LuaMatrix::TypeName[] = "Matrix";
+
+void LuaMatrix::Register(lua_State *L)
+{
+	luaL_register(L, LuaMatrix::LibName, l_matrix_lib);
+
+	luaL_newmetatable(L, LuaMatrix::TypeName);
+	luaL_register(L, 0, l_matrix_meta);
+
+	// map index back to the metatable
+	lua_pushvalue(L, -2);
+	lua_setfield(L, -2, "__index");
+
+	// hide the metatable to thwart crazy exploits
+	lua_pushboolean(L, 0);
+	lua_setfield(L, -2, "__metatable");
+	lua_pop(L, 2);
+}
+
+matrix4x4f *LuaMatrix::PushNewToLua(lua_State *L)
+{
+	matrix4x4f *v = static_cast<matrix4x4f*>(lua_newuserdata(L, sizeof(matrix4x4f)));
+	luaL_getmetatable(L, LuaMatrix::TypeName);
+	lua_setmetatable(L, -2);
+	return v;
+}
+
+const matrix4x4f *LuaMatrix::GetFromLua(lua_State *L, int idx)
+{
+	if (lua_type(L, idx) != LUA_TUSERDATA) { return 0; }
+	if (!lua_getmetatable(L, idx)) { return 0; }
+	luaL_getmetatable(L, LuaMatrix::TypeName);
+	bool eq = lua_rawequal(L, -1, -2);
+	lua_pop(L, 2);
+	if (!eq) { return 0; }
+	return static_cast<matrix4x4f*>(lua_touserdata(L, idx));
+}
+
+const matrix4x4f *LuaMatrix::CheckFromLua(lua_State *L, int idx)
+{
+	return static_cast<matrix4x4f*>(luaL_checkudata(L, idx, LuaMatrix::TypeName));
+}

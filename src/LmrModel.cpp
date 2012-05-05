@@ -3952,7 +3952,7 @@ namespace ModelFuncs {
 		if ((lua_gettop(l) < stackpos) || lua_isnil(l, stackpos)) {
 			trans = matrix4x4f::Identity();
 		} else {
-			trans = *MyLuaMatrix::checkMatrix(l, stackpos);
+			trans = *LuaMatrix::CheckFromLua(l, stackpos);
 		}
 	}
 
@@ -4200,9 +4200,9 @@ namespace ObjLoader {
 	{
 		const char *obj_name = luaL_checkstring(L, 1);
 		int numArgs = lua_gettop(L);
-		matrix4x4f *transform = 0;
+		const matrix4x4f *transform = 0;
 		if (numArgs > 1) {
-			transform = MyLuaMatrix::checkMatrix(L, 2);
+			transform = LuaMatrix::CheckFromLua(L, 2);
 		}
 
 		lua_getglobal(L, "CurrentDirectory");
@@ -4530,8 +4530,7 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 	lua_pop(L, 1);
 	LUA_DEBUG_CHECK(L, 0);
 
-	MyLuaMatrix::Matrix_register(L);
-	lua_pop(L, 1); // why again?
+	LuaMatrix::Register(L);
 
 	lua_register(L, "define_model", define_model);
 	lua_register(L, "set_material", ModelFuncs::set_material);
