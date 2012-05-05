@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Polit.h"
 #include "LmrModel.h"
+#include "LuaVector.h"
 #include "Polit.h"
 #include "Space.h"
 #include "Lang.h"
@@ -79,17 +80,17 @@ bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOri
 		gotOrient = true;
 		lua_pushinteger(L, 1);
 		lua_gettable(L, -2);
-		outPosOrient.pos = vector3d(*MyLuaVec::checkVec(L, -1));
+		outPosOrient.pos = *LuaVector::CheckFromLua(L, -1);
 		lua_pop(L, 1);
 
 		lua_pushinteger(L, 2);
 		lua_gettable(L, -2);
-		outPosOrient.xaxis = vector3d(*MyLuaVec::checkVec(L, -1));
+		outPosOrient.xaxis = *LuaVector::CheckFromLua(L, -1);
 		lua_pop(L, 1);
 
 		lua_pushinteger(L, 3);
 		lua_gettable(L, -2);
-		outPosOrient.yaxis = vector3d(*MyLuaVec::checkVec(L, -1));
+		outPosOrient.yaxis = *LuaVector::CheckFromLua(L, -1);
 		lua_pop(L, 1);
 	} else {
 		gotOrient = false;
@@ -123,18 +124,15 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 	lua_pushinteger(L, port+1);
 	lua_pushinteger(L, stage);
 	lua_pushnumber(L, double(t));
-	vector3f *_from = MyLuaVec::pushVec(L);
-	*_from = vector3f(from);
+	LuaVector::PushToLua(L, from);
 	// push model aabb as lua table: { min: vec3, max: vec3 }
 	{
 		Aabb aabb;
 		ship->GetAabb(aabb);
 		lua_createtable (L, 0, 2);
-		vector3f *v = MyLuaVec::pushVec(L);
-		*v = vector3f(aabb.max);
+		LuaVector::PushToLua(L, aabb.max);
 		lua_setfield(L, -2, "max");
-		v = MyLuaVec::pushVec(L);
-		*v = vector3f(aabb.min);
+		LuaVector::PushToLua(L, aabb.min);
 		lua_setfield(L, -2, "min");
 	}
 
@@ -144,17 +142,17 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 		gotOrient = true;
 		lua_pushinteger(L, 1);
 		lua_gettable(L, -2);
-		outPosOrient.pos = vector3d(*MyLuaVec::checkVec(L, -1));
+		outPosOrient.pos = *LuaVector::CheckFromLua(L, -1);
 		lua_pop(L, 1);
 
 		lua_pushinteger(L, 2);
 		lua_gettable(L, -2);
-		outPosOrient.xaxis = vector3d(*MyLuaVec::checkVec(L, -1));
+		outPosOrient.xaxis = *LuaVector::CheckFromLua(L, -1);
 		lua_pop(L, 1);
 
 		lua_pushinteger(L, 3);
 		lua_gettable(L, -2);
-		outPosOrient.yaxis = vector3d(*MyLuaVec::checkVec(L, -1));
+		outPosOrient.yaxis = *LuaVector::CheckFromLua(L, -1);
 		lua_pop(L, 1);
 	} else {
 		gotOrient = false;
