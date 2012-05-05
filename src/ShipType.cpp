@@ -1,6 +1,6 @@
 #include "ShipType.h"
 #include "LmrModel.h"
-#include "LuaMathTypes.h"
+#include "LuaVector.h"
 #include "LuaUtils.h"
 #include "utils.h"
 #include "Lang.h"
@@ -77,7 +77,7 @@ static void _get_vec_attrib(lua_State *L, const char *key, vector3d &output,
 	if (lua_isnil(L, -1)) {
 		output = default_output;
 	} else {
-		output = vector3d(*MyLuaVec::checkVec(L, -1));
+		output = *LuaVector::CheckFromLua(L, -1);
 	}
 	lua_pop(L, 1);
 	LUA_DEBUG_END(L, 0);
@@ -150,11 +150,11 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 			if (lua_istable(L, -1) && lua_objlen(L,-1) == 2)	{
 				lua_pushinteger(L, 1);
 				lua_gettable(L, -2);
-				s.gunMount[i].pos = *MyLuaVec::checkVec(L, -1);
+				s.gunMount[i].pos = vector3f(*LuaVector::CheckFromLua(L, -1));
 				lua_pop(L, 1);
 				lua_pushinteger(L, 2);
 				lua_gettable(L, -2);
-				s.gunMount[i].dir = *MyLuaVec::checkVec(L, -1);
+				s.gunMount[i].dir = vector3f(*LuaVector::CheckFromLua(L, -1));
 				lua_pop(L, 1);
 			}
 			lua_pop(L, 1);
@@ -204,18 +204,34 @@ void ShipType::Init()
 	if (isInitted) return;
 	isInitted = true;
 
-	lua_State *l = lua_open();
-	luaL_openlibs(l);
+	lua_State *l = luaL_newstate();
 
 	LUA_DEBUG_START(l);
 
-	MyLuaVec::Vec_register(l);
+	luaopen_debug(l); // pushes the debug library table
 	lua_pop(l, 1);
-	lua_register(l, "v", MyLuaVec::Vec_new);
+	LUA_DEBUG_CHECK(l, 0);
+
+	luaopen_math(l); // pushes the math library table
+	LUA_DEBUG_CHECK(l, 1);
+	LuaVector::Register(l);
+	LUA_DEBUG_CHECK(l, 1);
+	// provide shortcut vector constructor: _G.v = _G.math.vector
+	lua_getfield(l, -1, "vector");
+	assert(lua_iscfunction(l, -1));
+	lua_setglobal(l, "v");
+	lua_pop(l, 1); // pop the math library table
+
+	LUA_DEBUG_CHECK(l, 0);
+
+	// register ship definition functions
 	lua_register(l, "define_ship", define_ship);
 	lua_register(l, "define_static_ship", define_static_ship);
 	lua_register(l, "define_missile", define_missile);
 
+	LUA_DEBUG_CHECK(l, 0);
+
+	// load all ship definitions
 	lua_pushstring(l, PIONEER_DATA_DIR);
 	lua_setglobal(l, "CurrentDirectory");
 	pi_lua_dofile_recursive(l, "ships");
