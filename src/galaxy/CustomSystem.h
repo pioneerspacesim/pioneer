@@ -118,7 +118,7 @@ public:
 	std::string            shortDesc;
 	std::string            longDesc;
 
-	bool IsRandom() const { return sBody.name.length() == 0; }
+	bool IsRandom() const { return sBody.name.empty(); }
 
 	// lua interface
 	CustomSystem(std::string s, OOLUA::Lua_table t);
