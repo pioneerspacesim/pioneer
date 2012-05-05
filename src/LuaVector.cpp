@@ -19,14 +19,19 @@ static int l_vector_new(lua_State *L)
 	return 1;
 }
 
-static int l_vector_new_normalised(lua_State *L)
+static int l_vector_unit(lua_State *L)
 {
 	LUA_DEBUG_START(L);
-	double x = luaL_checknumber(L, 1);
-	double y = luaL_checknumber(L, 2);
-	double z = luaL_checknumber(L, 3);
-	const vector3d v = vector3d(x, y, z);
-	LuaVector::PushToLua(L, v.NormalizedSafe());
+	if (lua_isnumber(L, 1)) {
+		double x = luaL_checknumber(L, 1);
+		double y = luaL_checknumber(L, 2);
+		double z = luaL_checknumber(L, 3);
+		const vector3d v = vector3d(x, y, z);
+		LuaVector::PushToLua(L, v.NormalizedSafe());
+	} else {
+		const vector3d *v = LuaVector::CheckFromLua(L, 1);
+		LuaVector::PushToLua(L, v->NormalizedSafe());
+	}
 	LUA_DEBUG_END(L, 1);
 	return 1;
 }
@@ -152,7 +157,7 @@ static int l_vector_cross(lua_State *L)
 
 static luaL_Reg LuaVector_lib[] = {
 	{ "new", &l_vector_new },
-	{ "unit", &l_vector_new_normalised },
+	{ "unit", &l_vector_unit },
 	{ "cross", &l_vector_cross },
 	{ "dot", &l_vector_dot },
 	{ "length", &l_vector_length },
@@ -169,6 +174,7 @@ static luaL_Reg LuaVector_meta[] = {
 	{ "__index", &l_vector_index },
 	{ "normalised", &l_vector_normalised },
 	{ "normalized", &l_vector_normalised },
+	{ "unit", &l_vector_unit },
 	{ "length", &l_vector_length },
 	{ "cross", &l_vector_cross },
 	{ "dot", &l_vector_dot },
