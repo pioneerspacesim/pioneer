@@ -25,7 +25,8 @@ vec4 specular;
 
 void ads(int lightNum, vec3 pos, vec3 n)
 {
-	vec3 s = normalize(vec3(gl_LightSource[lightNum].position) - pos);
+	//vec3 s = normalize(vec3(gl_LightSource[lightNum].position) - pos);
+	vec3 s = normalize(vec3(gl_LightSource[lightNum].position)); //directional light
 	vec3 v = normalize(vec3(-pos));
 	vec3 h = normalize(v + s);
 	light += gl_LightSource[lightNum].diffuse * material.diffuse * max(dot(s, n), 0.0);
@@ -36,7 +37,6 @@ void ads(int lightNum, vec3 pos, vec3 n)
 #endif
 }
 
-
 void main(void)
 {
 	light = scene.ambient +
@@ -45,8 +45,12 @@ void main(void)
 #else
 		material.emissive; //just emissive parameter
 #endif
+
+	light = vec4(0.0);
 	specular = vec4(0.0);
 	ads(0, ecPos, norm);
+	ads(1, ecPos, norm);
+
 #ifdef TEXTURE0
 	gl_FragColor = texture2D(texture0, uv0) * light + specular;
 #else
