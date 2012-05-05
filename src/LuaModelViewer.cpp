@@ -264,7 +264,9 @@ void Viewer::SetupUI()
 
 	c1->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius));
 	b1->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleGrid), b1));*/
-	box->PackEnd((buttBox = c->VBox(5.f)));
+	UI::Box::ChildAttrs attrs(false, false);
+
+	box->PackEnd((buttBox = c->VBox(5.f)), attrs);
 	AddPair(c, buttBox, (b1 = c->Button()), "Pick another model");
 	AddPair(c, buttBox, (c->Button()), "Reload model");
 	AddPair(c, buttBox, (c->Button()), "Grid mode");
@@ -273,15 +275,19 @@ void Viewer::SetupUI()
 	AddPair(c, buttBox, (c->CheckBox()), "Draw collision mesh");
 
 	UI::DropDown *ddown;
-	buttBox->PackEnd(c->DropDown()->AddOption("Pattern"));
+	buttBox->PackEnd(c->Label("Pattern:"));
+	buttBox->PackEnd(c->DropDown()->AddOption("Default"));
+	buttBox->PackEnd(c->Label("Lights:"));
 	buttBox->PackEnd((ddown = c->DropDown()
 		->AddOption("1  Front white")
 		->AddOption("2  Two-point")
-		->AddOption("3  Backlight"))
+		->AddOption("3  Backlight")
+		)
 	);
 	ddown->onOptionSelected.connect(sigc::mem_fun(*this, &Viewer::OnLightPresetChanged));
 
-	box->PackEnd(c->MultiLineText("01 Messages go here\n02 Messages go here\n03 Messages go here"));
+	c->AddFloatingWidget(c->MultiLineText("01 Messages go here\n02 Messages go here\n03 Messages go here"),
+		vector2f(0.f, g_height-300.f), vector2f(500.f, 300.f));
 
 	b1->onClick.connect(sigc::mem_fun(*this, &Viewer::PickAnotherModel));
 	c->Layout();
