@@ -50,17 +50,6 @@ const std::list<const CustomSystem*> CustomSystem::GetCustomSystemsForSector(int
 	return sector_systems;
 }
 
-const CustomSystem* CustomSystem::GetCustomSystem(const char *name)
-{
-	for (SectorMap::iterator map_i = sector_map.begin(); map_i != sector_map.end(); ++map_i) {
-		for (SystemList::iterator i = (*map_i).second.begin(); i != (*map_i).second.end(); ++i) {
-			CustomSystem *cs = &(*i);
-			if (cs->name != name) return cs;
-		}
-	}
-	return NULL;
-}
-
 CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
 {
 	want_rand_explored = true;
