@@ -1,6 +1,5 @@
 define_model('Asp_gear', {
 	info = {
-		scale = 1.0,
 		bounding_radius = 5,
 		lod_pixels = {100},
 		materials = {'default'},
@@ -13,7 +12,6 @@ define_model('Asp_gear', {
 
 define_model('Asp_scout', {
 	info = {
-		scale = 3.5,
 		bounding_radius = 20,
 		lod_pixels = {100, 250, 500},
 		materials = {'default'},
@@ -31,64 +29,57 @@ define_model('Asp_scout', {
 		
 
 		--forward
-		xref_thruster(v(1.37, 0.000, 5.2), v(0.000, 0.000, 1.000), 4.50, true)
-		xref_thruster(v(1.97, 0.000, 4.8), v(0.000, 0.000, 1.000), 4.50, true)
+		xref_thruster(v(4.8, 0.000, 18.2), v(0.000, 0.000, 1.000), 4.50, true)
+		xref_thruster(v(6.9, 0.000, 16.8), v(0.000, 0.000, 1.000), 4.50, true)
 		--backward top
-		thruster(v(1.65, 1.08, 0.9), v(0.3, 0.3, -1.000), 2.25, true)
-		thruster(v(1.23, 1.18, 0.9), v(0.3, 0.3, -1.000), 2.25, true)
-		thruster(v(-1.65, 1.08, 0.9), v(-0.3, 0.3, -1.000), 2.25, true)
-		thruster(v(-1.23, 1.18, 0.9), v(-0.3, 0.3, -1.000), 2.25, true)
+		thruster(v(5.77, 3.78, 3.15), v(0.3, 0.3, -1.000), 2.25, true)
+		thruster(v(4.30, 4.13, 3.15), v(0.3, 0.3, -1.000), 2.25, true)
+		thruster(v(-5.77, 3.78, 3.15), v(-0.3, 0.3, -1.000), 2.25, true)
+		thruster(v(-4.30, 4.13, 3.15), v(-0.3, 0.3, -1.000), 2.25, true)
 		--backward bottom
-		thruster(v(1.65, -1.08, 0.9), v(0.3, -0.3, -1.000), 2.25, true)
-		thruster(v(1.23, -1.18, 0.9), v(0.3, -0.3, -1.000), 2.25, true)
-		thruster(v(-1.65, -1.08, 0.9), v(-0.3, -0.3, -1.000), 2.25, true)
-		thruster(v(-1.23, -1.18, 0.9), v(-0.3, -0.3, -1.000), 2.25, true)
-		--sideslip left
-		--thruster(v(5, 0, 0), v(1, 0, 0), 2.25, true)
-		--side right
-		--thruster(v(-5, 0, 0), v(-1, 0, 0), 2.25, true)
-		--up
-		--thruster(v(0, -1.7, 0), v(0, -1, 0), 2.25, true)
-		--down
-		--thruster(v(0, 1.7, 0), v(0, 1, 0), 2.25, true)
+		thruster(v(5.77, -3.78, 3.15), v(0.3, -0.3, -1.000), 2.25, true)
+		thruster(v(4.30, -4.13, 3.15), v(0.3, -0.3, -1.000), 2.25, true)
+		thruster(v(-5.77, -3.78, 3.15), v(-0.3, -0.3, -1.000), 2.25, true)
+		thruster(v(-4.30, -4.13, 3.15), v(-0.3, -0.3, -1.000), 2.25, true)
+
 		--pitch up
-		thruster(v(0, -0.2, -3.8), v(0, -1, 0), 2.25, false)
-		thruster(v(-2.26, 0.36, 3.86), v(0, 1, 0), 2.25, false)
-		thruster(v(2.26, 0.36, 3.86), v(0, 1, 0), 2.25, false)
+		thruster(v(0, -0.7, -13.3), v(0, -1, 0), 2.25, false)
+		thruster(v(-7.91, 1.26, 13.3), v(0, 1, 0), 2.25, false)
+		thruster(v(7.91, 1.26, 13.3), v(0, 1, 0), 2.25, false)
 		--pitch down
-		thruster(v(0, 0.2, -3.8), v(0, 1, 0), 2.25, false)
-		thruster(v(-2.26, -0.36, 3.86), v(0, -1, 0), 2.25, false)
-		thruster(v(2.26, -0.36, 3.86), v(0, -1, 0), 2.25, false)
+		thruster(v(0, 0.7, -13.3), v(0, 1, 0), 2.25, false)
+		thruster(v(-7.91, -1.26, 13.3), v(0, -1, 0), 2.25, false)
+		thruster(v(7.91, -1.26, 13.3), v(0, -1, 0), 2.25, false)
 		--roll left
-		thruster(v(-4.3, 0.5, 0), v(0, 1, 0), 2.25, false)
-		thruster(v(4.3, -0.5, 0), v(0, -1, 0), 2.25, false)
+		thruster(v(-15.05, 1.75, 0), v(0, 1, 0), 2.25, false)
+		thruster(v(15.05, -1.75, 0), v(0, -1, 0), 2.25, false)
 		--roll right
-		thruster(v(-4.3, -0.5, 0), v(0, -1, 0), 2.25, false)
-		thruster(v(4.3, 0.5, 0), v(0, 1, 0), 2.25, false)
+		thruster(v(-15.05, -1.75, 0), v(0, -1, 0), 2.25, false)
+		thruster(v(15.05, 1.75, 0), v(0, 1, 0), 2.25, false)
 		--yaw left
-		thruster(v(0.3, 0, -4.2), v(1, 0, 0), 2.25, false)
-		thruster(v(-2.8, 0, 3.9), v(-1, 0, 0), 2.25, false)
+		thruster(v(1.05, 0, -14.7), v(1, 0, 0), 2.25, false)
+		thruster(v(-9.8, 0, 13.65), v(-1, 0, 0), 2.25, false)
 		--yaw right
-		thruster(v(-0.3, 0, -4.2), v(-1, 0, 0), 2.25, false)
-		thruster(v(2.8, 0, 3.9), v(1, 0, 0), 2.25, false)
+		thruster(v(-1.05, 0, -14.7), v(-1, 0, 0), 2.25, false)
+		thruster(v(9.8, 0, 13.65), v(1, 0, 0), 2.25, false)
 
 	end,
 	dynamic = function(lod)
 		--no point in visible gear on lowest lod
 		if lod > 1 then
-			--gear animation. In Blender we have determined that the gear
-			--should be translated 0.5 units downwards.
+			--gear animation. 
+			--should be translated some units downwards.
 			local gearpos = get_animation_position('WHEEL_STATE')
-			call_model('Asp_gear', v(0,-1.05 * gearpos,0), v(1,0,0), v(0,1,0), 1.0)
+			call_model('Asp_gear', v(0,-3.675 * gearpos,0), v(1,0,0), v(0,1,0), 1.0)
 		end
 
 		--lights visible when the craft is docking, landing
 		--or landing gear is down
 		-- (white, red, green)
 		navigation_lights(
-			{v(4.8, 0, 0), v(-4.8, 0, 0), v(0, 0, -4.2), v(0, -0.45, 4.1), },
-			{v(-1.6, 0, -4.2), v(-2.8, 0, 3.8), },
-			{v(1.6, 0, -4.2), v(2.8, 0, 3.8), }
+			{v(16.65, 0, 0), v(-16.65, 0, 0), v(0, 0, -14.5), v(0, -1.45, 14.15), },
+			{v(-5.5, 0, -14.5), v(-9, 0, 12.9), },
+			{v(5.5, 0, -14.5), v(9, 0, 12.9), }
 		)
 	end,
 })
