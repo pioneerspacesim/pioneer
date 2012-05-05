@@ -13,7 +13,7 @@ define_model('Asp_gear', {
 define_model('Asp_scout', {
 	info = {
 		bounding_radius = 20,
-		lod_pixels = {100, 250, 500},
+		lod_pixels = {20, 60, 100},
 		materials = {'default'},
 		tags = {'ship'},
 	},

@@ -25,7 +25,7 @@ define_model('CobraI_rear_gear', {
 define_model('CobraI', {
 	info = {
 		bounding_radius = 15,
-		lod_pixels = {100, 250, 500},
+		lod_pixels = {20, 60, 100},
 		materials = {'default'},
 		tags = {'ship'},
 	},
@@ -72,8 +72,7 @@ define_model('CobraI', {
 	dynamic = function(lod)
 		--no point in visible gear on lowest lod
 		if lod > 1 then
-			--gear animation. In Blender we have determined that the gear
-			--should be translated 0.5 units downwards.
+			--gear animation. 
 			local gearpos = get_animation_position('WHEEL_STATE')
 			call_model('CobraI_front_gear', v(0,-3.5 * gearpos,-3.5 * gearpos), v(1,0,0), v(0,1,0), 1.0)
 			call_model('CobraI_rear_gear', v(0,-1.8 * gearpos,0), v(1,0,0), v(0,1,0), 1.0)
