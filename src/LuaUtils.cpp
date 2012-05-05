@@ -63,15 +63,37 @@ void pi_lua_protected_call(lua_State* L, int nargs, int nresults) {
 
 static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code)
 {
+	assert(l);
+	LUA_DEBUG_START(l);
 	// XXX make this a proper protected call (after working out the implications -- *sigh*)
 	lua_pushcfunction(l, &pi_lua_panic);
 	if (luaL_loadbuffer(l, code.GetData(), code.GetSize(), code.GetInfo().GetPath().c_str())) {
 		pi_lua_panic(l);
 	} else {
-		lua_pcall(l, 0, 0, -2);
+		int ret = lua_pcall(l, 0, 0, -2);
+		if (ret) {
+			const char *emsg = lua_tostring(l, -1);
+			if (emsg) { fprintf(stderr, "lua error: %s\n", emsg); }
+			switch (ret) {
+				case LUA_ERRRUN:
+					fprintf(stderr, "Lua runtime error in pi_lua_dofile('%s')\n",
+							code.GetInfo().GetAbsolutePath().c_str());
+					break;
+				case LUA_ERRMEM:
+					fprintf(stderr, "Memory allocation error in Lua pi_lua_dofile('%s')\n",
+							code.GetInfo().GetAbsolutePath().c_str());
+					break;
+				case LUA_ERRERR:
+					fprintf(stderr, "Error running error handler in pi_lua_dofile('%s')\n",
+							code.GetInfo().GetAbsolutePath().c_str());
+					break;
+				default: abort();
+			}
+			lua_pop(l, 1);
+		}
 	}
 	lua_pop(l, 1);
-
+	LUA_DEBUG_END(l, 0);
 }
 
 void pi_lua_dofile(lua_State *l, const std::string &path)
