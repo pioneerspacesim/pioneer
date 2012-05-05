@@ -910,18 +910,6 @@ SystemPath StarSystem::GetPathOf(const SystemBody *sbody) const
 	return sbody->path;
 }
 
-/*
-struct CustomSystemBody {
-	const char *name; // null to end system
-	SystemBody::BodyType type;
-	int primaryIdx;  // -1 for primary
-	fixed radius; // in earth radii for planets, sol radii for stars
-	fixed mass; // earth masses or sol masses
-	int averageTemp; // kelvin
-	fixed semiMajorAxis; // in AUs
-	fixed eccentricity;
-};
-*/
 void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::list<CustomSystemBody> *children, int *outHumanInfestedness, MTRand &rand)
 {
 	for (std::list<CustomSystemBody>::const_iterator i = children->begin(); i != children->end(); i++) {
