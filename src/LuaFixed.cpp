@@ -141,13 +141,11 @@ void LuaFixed::Register(lua_State *L)
 	luaL_newmetatable(L, LuaFixed::TypeName);
 	luaL_register(L, 0, LuaFixed_meta);
 	// hide the metatable to thwart crazy exploits
-	lua_pushstring(L, "__metatable");
 	lua_pushboolean(L, 0);
-	lua_rawset(L, -3);
+	lua_setfield(L, -2, "__metatable");
 	// map index back to the metatable
-	lua_pushstring(L, "__index");
 	lua_pushvalue(L, -2);
-	lua_rawset(L, -3);
+	lua_setfield(L, -2, "__index");
 
 	lua_pop(L, 2); // pop the metatable and the math library table
 
