@@ -13,6 +13,9 @@ namespace LuaVector {
 	void PushToLua(lua_State *L, const vector3d &v);
 	const vector3d *GetFromLua(lua_State *L, int idx);
 	const vector3d *CheckFromLua(lua_State *L, int idx);
+
+	inline void PushToLuaF(lua_State *L, const vector3f &v) { PushToLua(L, vector3d(v)); }
+	inline vector3f CheckFromLuaF(lua_State *L, int idx) { return vector3f(*CheckFromLua(L, idx)); }
 }
 
 #endif
