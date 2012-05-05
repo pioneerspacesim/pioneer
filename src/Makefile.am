@@ -271,7 +271,6 @@ pioneer_SOURCES	= \
 	enum_table.cpp
 
 pioneer_LDADD = \
-	../contrib/oolua/liboolua.a \
 	../contrib/miniz/libminiz.a \
 	collider/libcollider.a \
 	text/libtext.a \
