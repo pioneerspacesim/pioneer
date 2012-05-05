@@ -150,11 +150,11 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 			if (lua_istable(L, -1) && lua_objlen(L,-1) == 2)	{
 				lua_pushinteger(L, 1);
 				lua_gettable(L, -2);
-				s.gunMount[i].pos = vector3f(*LuaVector::CheckFromLua(L, -1));
+				s.gunMount[i].pos = LuaVector::CheckFromLuaF(L, -1);
 				lua_pop(L, 1);
 				lua_pushinteger(L, 2);
 				lua_gettable(L, -2);
-				s.gunMount[i].dir = vector3f(*LuaVector::CheckFromLua(L, -1));
+				s.gunMount[i].dir = LuaVector::CheckFromLuaF(L, -1);
 				lua_pop(L, 1);
 			}
 			lua_pop(L, 1);
