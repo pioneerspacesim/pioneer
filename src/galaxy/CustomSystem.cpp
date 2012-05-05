@@ -61,23 +61,6 @@ const CustomSystem* CustomSystem::GetCustomSystem(const char *name)
 	return NULL;
 }
 
-const SystemPath CustomSystem::GetPathForCustomSystem(const CustomSystem* cs)
-{
-	const std::list<const CustomSystem*> cslist = GetCustomSystemsForSector(cs->sectorX, cs->sectorY, cs->sectorZ);
-	int idx = 0;
-	for (std::list<const CustomSystem*>::const_iterator i = cslist.begin(); i != cslist.end(); ++i) {
-		if (!(*i)->name.compare(cs->name)) break;
-		idx++;
-	}
-	assert(idx < static_cast<int>(cslist.size()));
-	return SystemPath(cs->sectorX, cs->sectorY, cs->sectorZ, idx);
-}
-
-const SystemPath CustomSystem::GetPathForCustomSystem(const char* name)
-{
-	return GetPathForCustomSystem(GetCustomSystem(name));
-}
-
 CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
 {
 	want_rand_explored = true;

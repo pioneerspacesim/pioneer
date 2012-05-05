@@ -105,8 +105,6 @@ public:
 	static void Init();
 	static const std::list<const CustomSystem*> GetCustomSystemsForSector(int sectorX, int sectorY, int sectorZ);
 	static const CustomSystem* GetCustomSystem(const char* name);
-	static const SystemPath GetPathForCustomSystem(const CustomSystem* cs);
-	static const SystemPath GetPathForCustomSystem(const char* name);
 
 	std::string            name;
     CustomSystemBody            sBody;
