@@ -8,19 +8,9 @@
  */
 
 #include "LuaUtils.h"
-#include "vector3.h"
 #include "matrix4x4.h"
 
-#define MYLUA_VEC "Vec"
 #define MYLUA_MATRIX "Matrix"
-
-namespace MyLuaVec {
-	int Vec_new(lua_State *L);
-	int Vec_newNormalized(lua_State *L);
-	vector3f *checkVec (lua_State *L, int index);
-	vector3f *pushVec(lua_State *L);
-	int Vec_register (lua_State *L);
-} /* namespace MyLuaVec */
 
 namespace MyLuaMatrix {
 	matrix4x4f *checkMatrix (lua_State *L, int index);
