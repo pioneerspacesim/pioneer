@@ -8,8 +8,6 @@ extern "C" {
 #include "lua/lualib.h"
 }
 
-static const char LuaFixed_TypeName[] = "fixed";
-
 static int l_fixed_new(lua_State *L)
 {
 	LUA_DEBUG_START(L);
@@ -105,19 +103,13 @@ static int l_fixed_tonumber(lua_State *L)
 
 static int l_fixed_deg2rad(lua_State *L)
 {
-	if (lua_isnumber(L, 1)) {
-		double deg = lua_tonumber(L, 1);
-		lua_pushnumber(L, deg * (M_PI/180.0));
-	} else {
-		const fixed *v = LuaFixed::CheckFromLua(L, 1);
-		LuaFixed::PushToLua(L, (*v) * fixed(31416,1800000));
-	}
+	const fixed *v = LuaFixed::CheckFromLua(L, 1);
+	LuaFixed::PushToLua(L, (*v) * fixed(31416,1800000));
 	return 1;
 }
 
 static luaL_Reg LuaFixed_lib[] = {
-	{ "fixed", &l_fixed_new },
-	{ "rad", &l_fixed_deg2rad },
+	{ "new", &l_fixed_new },
 	{ "deg2rad", &l_fixed_deg2rad },
 	{ 0, 0 }
 };
@@ -136,14 +128,17 @@ static luaL_Reg LuaFixed_meta[] = {
 	{ 0, 0 }
 };
 
+const char LuaFixed::LibName[] = "fixed";
+const char LuaFixed::TypeName[] = "fixed";
+
 void LuaFixed::Register(lua_State *L)
 {
 	LUA_DEBUG_START(L);
 
 	// put the 'math' table on the top of the stack
-	luaL_register(L, LUA_MATHLIBNAME, LuaFixed_lib);
+	luaL_register(L, LuaFixed::LibName, LuaFixed_lib);
 
-	luaL_newmetatable(L, LuaFixed_TypeName);
+	luaL_newmetatable(L, LuaFixed::TypeName);
 	luaL_register(L, 0, LuaFixed_meta);
 	// hide the metatable to thwart crazy exploits
 	lua_pushstring(L, "__metatable");
@@ -164,7 +159,7 @@ void LuaFixed::PushToLua(lua_State *L, const fixed &v)
 	LUA_DEBUG_START(L);
 	fixed *ptr = reinterpret_cast<fixed*>(lua_newuserdata(L, sizeof(fixed)));
 	*ptr = v;
-	luaL_getmetatable(L, LuaFixed_TypeName);
+	luaL_getmetatable(L, LuaFixed::TypeName);
 	lua_setmetatable(L, -2);
 	LUA_DEBUG_END(L, 1);
 }
@@ -173,7 +168,7 @@ const fixed *LuaFixed::GetFromLua(lua_State *L, int idx)
 {
 	if (lua_type(L, idx) != LUA_TUSERDATA) { return 0; }
 	if (!lua_getmetatable(L, idx)) { return 0; }
-	lua_getfield(L, LUA_REGISTRYINDEX, LuaFixed_TypeName);
+	lua_getfield(L, LUA_REGISTRYINDEX, LuaFixed::TypeName);
 	bool eq = lua_rawequal(L, -1, -2);
 	lua_pop(L, 2);
 	if (!eq) { return 0; }
@@ -182,5 +177,5 @@ const fixed *LuaFixed::GetFromLua(lua_State *L, int idx)
 
 const fixed *LuaFixed::CheckFromLua(lua_State *L, int idx)
 {
-	return reinterpret_cast<fixed*>(luaL_checkudata(L, idx, LuaFixed_TypeName));
+	return reinterpret_cast<fixed*>(luaL_checkudata(L, idx, LuaFixed::TypeName));
 }

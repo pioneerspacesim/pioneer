@@ -410,24 +410,26 @@ void CustomSystem::Init()
 	LuaFixed::Register(L);
 	LuaConstants::Register(L);
 
-	lua_getglobal(L, "math");
-
 	// create an alias math.deg2rad = math.rad
+	lua_getglobal(L, LUA_MATHLIBNAME);
 	lua_getfield(L, -1, "rad");
+	assert(lua_isfunction(L, -1));
 	lua_setfield(L, -2, "deg2rad");
+	lua_pop(L, 1); // pop the math table
 
-	// create a shortcut _G.f = _G.math.fixed
-	lua_getfield(L, -1, "fixed");
+	// create a shortcut f = fixed.new
+	lua_getglobal(L, LuaFixed::LibName);
+	lua_getfield(L, -1, "new");
 	assert(lua_iscfunction(L, -1));
 	lua_setglobal(L, "f");
-	lua_pop(L, 1); // pop the math table
+	lua_pop(L, 1); // pop the fixed table
 
 	// provide shortcut vector constructor: v = vector.new
 	lua_getglobal(L, LuaVector::LibName);
 	lua_getfield(L, -1, "new");
 	assert(lua_iscfunction(L, -1));
 	lua_setglobal(L, "v");
-	lua_pop(L, 1);
+	lua_pop(L, 1); // pop the vector table
 
 	LUA_DEBUG_CHECK(L, 0);
 
