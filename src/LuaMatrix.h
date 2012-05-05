@@ -1,12 +1,6 @@
 #ifndef _LUAMATRIX_H
 #define _LUAMATRIX_H
 
-/*
- * Old Lua classes for fixed, vector and matrix types. Do not use these unless
- * you absolutely have to (and if you're not sure if you have to, then you
- * don't). Instead use the OOLua classes from PiLuaClasses.h
- */
-
 #include "LuaUtils.h"
 #include "matrix4x4.h"
 
