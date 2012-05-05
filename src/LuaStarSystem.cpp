@@ -4,6 +4,7 @@
 #include "LuaSpaceStation.h"
 #include "LuaStarSystem.h"
 #include "LuaSystemPath.h"
+#include "LuaConstants.h"
 #include "LuaUtils.h"
 #include "galaxy/StarSystem.h"
 #include "EquipType.h"

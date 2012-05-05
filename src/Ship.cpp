@@ -2,6 +2,7 @@
 #include "CityOnPlanet.h"
 #include "Planet.h"
 #include "Lang.h"
+#include "LuaConstants.h"
 #include "Missile.h"
 #include "Projectile.h"
 #include "ShipAICmd.h"
