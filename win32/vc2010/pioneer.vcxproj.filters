@@ -684,7 +684,7 @@
     <ClCompile Include="..\..\src\LuaFixed.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LuaMathTypes.cpp">
+    <ClCompile Include="..\..\src\LuaMatrix.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LuaVector.cpp">
@@ -1295,7 +1295,7 @@
     <ClInclude Include="..\..\src\LuaFixed.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\LuaMathTypes.h">
+    <ClInclude Include="..\..\src\LuaMatrix.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaSystemBody.h">
