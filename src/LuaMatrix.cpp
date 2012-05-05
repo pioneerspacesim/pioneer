@@ -202,8 +202,8 @@ static const luaL_Reg l_matrix_meta[] = {
 	{ 0, 0 }
 };
 
-const char LuaMatrix::LibName[] = "Matrix";
-const char LuaMatrix::TypeName[] = "Matrix";
+const char LuaMatrix::LibName[] = "matrix";
+const char LuaMatrix::TypeName[] = "matrix";
 
 void LuaMatrix::Register(lua_State *L)
 {

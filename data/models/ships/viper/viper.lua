@@ -16,52 +16,52 @@ define_model('viper_pol_body', {
 			if lod > 3 then
 				use_material('col1')
 				texture('viper_pol1.png')
-				load_obj('viper.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
-				load_obj('viper_cockpit.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_cockpit.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 				use_material('dark')
 				--texture(nil)
-				load_obj('viper_intakepart1.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_intakepart1.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 
 				set_light(1, 0.00000000008, v(0,0.19,-1.43), v(1,1,1))
 				set_local_lighting(true)
 				use_material('inside')
 				texture('viper_pol1.png')
-				load_obj('viper_inside.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_inside.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 				call_model('pilot1', v(0,0.18,-1.45),v(1,0,0),v(0,1,0),0.012)
 				set_local_lighting(false)
 
 				--texture(nil)
 				use_material('glass')
-				load_obj('viper_window.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_window.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 
 			elseif lod > 2 then
 				use_material('col1')
 				texture('viper_pol1.png')
-				load_obj('viper.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
-				load_obj('viper_cockpit.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_cockpit.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 				use_material('dark')
 				--texture(nil)
-				load_obj('viper_intakepart1.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_intakepart1.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 
 				--set_light(1, 0.00000000008, v(0,1.533,0.23), v(1,1,1))
 				--set_local_lighting(true)
 				--use_material('inside')
 				--texture('viper.png')
-				--load_obj('viper_inside.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				--load_obj('viper_inside.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 				--call_model('pilot1', v(0,0.18,-1.46,v(1,0,0),v(0,1,0),0.012))
 				--set_local_lighting(false)
 
 				--texture(nil)
 				use_material('col1')
-				load_obj('viper_window.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_window.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 			else
 				use_material('col1')
 				texture('viper_pol1.png')
-				load_obj('viper_lod.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
-				load_obj('viper_window.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_lod.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_window.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 			end
 		else
-			load_obj('viper_col.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			load_obj('viper_col.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 		end
 	end
 })
@@ -92,53 +92,53 @@ define_model('viper_body', {
 
 				use_material('col1')
 				texture('viper_a1.png')
-				load_obj('viper.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
-				load_obj('viper_cockpit.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_cockpit.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 				use_material('dark')
 				--texture(nil)
-				load_obj('viper_intakepart1.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_intakepart1.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 
 				set_light(1, 0.00000000008, v(0,0.19,-1.44), v(1,1,1))
 				set_local_lighting(true)
 				use_material('inside')
 				--texture('viper_pol1.png')
-				load_obj('viper_inside.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_inside.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 				call_model('pilot1', v(0,0.18,-1.45),v(1,0,0),v(0,1,0),0.012)
 				set_local_lighting(false)
 
 				--texture(nil)
 				use_material('glass')
-				load_obj('viper_window.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_window.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 
 			elseif lod > 2 then
 
 				use_material('col1')
 				texture('viper_a1.png')
-				load_obj('viper.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
-				load_obj('viper_cockpit.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_cockpit.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 				use_material('dark')
 				--texture(nil)
-				load_obj('viper_intakepart1.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_intakepart1.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 
 				--set_light(1, 0.00000000008, v(0,1.533,0.23), v(1,1,1))
 				--set_local_lighting(true)
 				--use_material('inside')
 				--texture('viper.png')
-				--load_obj('viper_inside.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				--load_obj('viper_inside.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 				--call_model('pilot1', v(0,0.18,-1.46,v(1,0,0),v(0,1,0),0.012))
 				--set_local_lighting(false)
 
 				--texture(nil)
 				use_material('col1')
-				load_obj('viper_window.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_window.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 			else
 				use_material('col1')
 				texture('viper_a1.png')
-				load_obj('viper_lod.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
-				load_obj('viper_window.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_lod.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
+				load_obj('viper_window.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 			end
 		else
-			load_obj('viper_col.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			load_obj('viper_col.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 		end
 	end
 })
@@ -147,147 +147,147 @@ define_model('viperpol_gear20', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear20.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear20.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear19', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear19.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear19.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear18', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear18.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear18.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear17', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear17.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear17.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear16', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear16.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear16.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear15', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear15.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear15.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear14', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear14.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear14.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear13', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear13.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear13.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear12', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear12.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear12.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear11', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear11.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear11.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear10', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear10.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear10.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear09', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear9.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear9.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear08', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear8.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear8.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear07', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear7.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear7.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear06', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear6.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear6.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear05', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear5.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear5.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear04', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear4.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear4.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear03', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear3.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear3.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear02', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear2.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear2.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear01', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear1.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear1.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viperpol_gear00', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_pol1.png')
-		load_obj('gear.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 
@@ -356,147 +356,147 @@ define_model('viper_gear20', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear20.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear20.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear19', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear19.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear19.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear18', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear18.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear18.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear17', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear17.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear17.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear16', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear16.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear16.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear15', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear15.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear15.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear14', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear14.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear14.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear13', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear13.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear13.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear12', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear12.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear12.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear11', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear11.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear11.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear10', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear10.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear10.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear09', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear9.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear9.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear08', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear8.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear8.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear07', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear7.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear7.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear06', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear6.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear6.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear05', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear5.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear5.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear04', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear4.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear4.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear03', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear3.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear3.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear02', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear2.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear2.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear01', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear1.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear1.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 define_model('viper_gear00', {
 	info = { bounding_radius = 5, },
 	static = function(lod)
 		texture('viper_a1.png')
-		load_obj('gear.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+		load_obj('gear.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 	end,
 })
 
@@ -594,7 +594,7 @@ define_model('viperpol', {
 			thruster(vBottomThruster, v(0,-1,0), 1)
 		else
 			--load_obj('viper_col.obj')
-			load_obj('viper_col.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			load_obj('viper_col.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 		end
 	end,
 	dynamic = function(lod)
@@ -680,7 +680,7 @@ define_model('viper', {
 			thruster(vBottomThruster, v(0,-1,0), 1)
 		else
 			--load_obj('viper_col.obj')
-			load_obj('viper_col.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			load_obj('viper_col.obj', matrix.rotate(0.5*math.pi,v(-1,0,0)))
 		end
 	end,
 

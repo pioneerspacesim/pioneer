@@ -10,7 +10,7 @@ define_model('cobra_mk3', {
 	    set_material('text', .6,.6,.6,1,.3,.3,.3,5)
 		use_material('default')
 	    texture('cobra3_redux.png')
-		load_obj('cobra3_redux.obj', Matrix.new(v(-39,0,0),v(0,33,0),v(0,0,-35)))
+		load_obj('cobra3_redux.obj', matrix.new(v(-39,0,0),v(0,33,0),v(0,0,-35)))
 	end,
 	dynamic = function(lod)
 		

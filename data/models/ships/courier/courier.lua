@@ -683,7 +683,7 @@ define_model('courier_flap_ll', {  -- left flap1 all models
 		set_material('courier', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('courier')
 		texture('c_shell_al.png')
-		load_obj('c_flap_ll.obj', Matrix.rotate(0.5*math.pi, v(-1,0,0)))
+		load_obj('c_flap_ll.obj', matrix.rotate(0.5*math.pi, v(-1,0,0)))
 	end
 })
 
@@ -698,7 +698,7 @@ define_model('courier_flap_lr', {  -- left flap2 all models
 		set_material('courier', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('courier')
 		texture('c_shell_al.png')
-		load_obj('c_flap_lr.obj', Matrix.rotate(0.5*math.pi, v(1,0,0)))
+		load_obj('c_flap_lr.obj', matrix.rotate(0.5*math.pi, v(1,0,0)))
 	end
 })
 
@@ -713,7 +713,7 @@ define_model('courier_flap_rr', {  -- right flap1 all models
 		set_material('courier', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('courier')
 		texture('c_shell_al.png')
-		load_obj('c_flap_rr.obj', Matrix.rotate(0.5*math.pi, v(1,0,0)))
+		load_obj('c_flap_rr.obj', matrix.rotate(0.5*math.pi, v(1,0,0)))
 	end
 })
 
@@ -728,7 +728,7 @@ define_model('courier_flap_rl', {  -- right flap2 all models
 		set_material('courier', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('courier')
 		texture('c_shell_al.png')
-		load_obj('c_flap_rl.obj', Matrix.rotate(0.5*math.pi, v(-1,0,0)))
+		load_obj('c_flap_rl.obj', matrix.rotate(0.5*math.pi, v(-1,0,0)))
 	end
 })
 

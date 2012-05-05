@@ -286,8 +286,8 @@ define_model('ip_shuttle', {
 
 		if lod > 1 then
 			use_material('projector')
-			sphere_slice(4*lod,lod, 0, 0.5*math.pi, Matrix.translate(v(0,-1.2,0)) * Matrix.rotate(math.pi,v(0,0,1)) * Matrix.scale(v(0.7,0.3,0.7)))
-			sphere_slice(4*lod,lod, 0, 0.5*math.pi, Matrix.translate(v(0,2.5,0)) * Matrix.scale(v(0.7,0.3,0.7)))
+			sphere_slice(4*lod,lod, 0, 0.5*math.pi, matrix.translate(v(0,-1.2,0)) * matrix.rotate(math.pi,v(0,0,1)) * matrix.scale(v(0.7,0.3,0.7)))
+			sphere_slice(4*lod,lod, 0, 0.5*math.pi, matrix.translate(v(0,2.5,0)) * matrix.scale(v(0.7,0.3,0.7)))
 
 			call_model('headlight', v(0,-0.9,-6.95), v(1,0,0), v(0,-0.5,-1),1.2)
 			call_model('posl_red', v(-3.64,0.2,1), v(0,0,1), v(-1,0.27,0),1)
@@ -443,7 +443,7 @@ define_model('ip_shuttle', {
 				if get_equipment('LASER', 1) then
 					use_material('alu')
 					cylinder(2*lod, v(0,-0.3,-7), v(0,-0.3,-7.9), v(0,1,0),0.08) -- laser
-					sphere_slice(2*lod,lod, 0, 0.5*math.pi, Matrix.translate(v(0,-0.3,-7.2)) * Matrix.rotate(0.5*math.pi,v(-1,0,0)) * Matrix.scale(v(0.2,0.3,0.2)))
+					sphere_slice(2*lod,lod, 0, 0.5*math.pi, matrix.translate(v(0,-0.3,-7.2)) * matrix.rotate(0.5*math.pi,v(-1,0,0)) * matrix.scale(v(0.2,0.3,0.2)))
 					set_material('hole', .1,.1,.1,1)
 					use_material('hole')
 					circle(2*lod, v(0,-0.3,-7.901), v(0,0,-1), v(0,1,0), 0.06)

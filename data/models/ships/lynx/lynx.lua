@@ -12,12 +12,12 @@ define_model('lx_bulk', {
 			texture('body1.png')
 			use_material('n_cv')
 		end
-		load_obj('lx_bulk0.obj',Matrix.rotate(.15*math.pi,v(0,0,-1)))
+		load_obj('lx_bulk0.obj',matrix.rotate(.15*math.pi,v(0,0,-1)))
 
 		if lod > 1 then
 			use_material('bulk')
 		end
-		load_obj('lx_bulk1.obj',Matrix.rotate(.15*math.pi,v(0,0,-1)))
+		load_obj('lx_bulk1.obj',matrix.rotate(.15*math.pi,v(0,0,-1)))
 	end
 })
 
