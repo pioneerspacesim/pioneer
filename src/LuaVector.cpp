@@ -155,7 +155,7 @@ static int l_vector_cross(lua_State *L)
 	return 1;
 }
 
-static luaL_Reg LuaVector_lib[] = {
+static luaL_Reg l_vector_lib[] = {
 	{ "new", &l_vector_new },
 	{ "unit", &l_vector_unit },
 	{ "cross", &l_vector_cross },
@@ -164,7 +164,7 @@ static luaL_Reg LuaVector_lib[] = {
 	{ 0, 0 }
 };
 
-static luaL_Reg LuaVector_meta[] = {
+static luaL_Reg l_vector_meta[] = {
 	{ "__tostring", &l_vector_tostring },
 	{ "__add", &l_vector_add },
 	{ "__sub", &l_vector_sub },
@@ -188,10 +188,10 @@ void LuaVector::Register(lua_State *L)
 {
 	LUA_DEBUG_START(L);
 
-	luaL_register(L, LuaVector::LibName, LuaVector_lib);
+	luaL_register(L, LuaVector::LibName, l_vector_lib);
 
 	luaL_newmetatable(L, LuaVector::TypeName);
-	luaL_register(L, 0, LuaVector_meta);
+	luaL_register(L, 0, l_vector_meta);
 	// hide the metatable to thwart crazy exploits
 	lua_pushboolean(L, 0);
 	lua_setfield(L, -2, "__metatable");

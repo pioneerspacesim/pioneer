@@ -108,13 +108,13 @@ static int l_fixed_deg2rad(lua_State *L)
 	return 1;
 }
 
-static luaL_Reg LuaFixed_lib[] = {
+static luaL_Reg l_fixed_lib[] = {
 	{ "new", &l_fixed_new },
 	{ "deg2rad", &l_fixed_deg2rad },
 	{ 0, 0 }
 };
 
-static luaL_Reg LuaFixed_meta[] = {
+static luaL_Reg l_fixed_meta[] = {
 	{ "__tostring", &l_fixed_tostring },
 	{ "__add", &l_fixed_add },
 	{ "__sub", &l_fixed_sub },
@@ -136,10 +136,10 @@ void LuaFixed::Register(lua_State *L)
 	LUA_DEBUG_START(L);
 
 	// put the 'math' table on the top of the stack
-	luaL_register(L, LuaFixed::LibName, LuaFixed_lib);
+	luaL_register(L, LuaFixed::LibName, l_fixed_lib);
 
 	luaL_newmetatable(L, LuaFixed::TypeName);
-	luaL_register(L, 0, LuaFixed_meta);
+	luaL_register(L, 0, l_fixed_meta);
 	// hide the metatable to thwart crazy exploits
 	lua_pushboolean(L, 0);
 	lua_setfield(L, -2, "__metatable");
