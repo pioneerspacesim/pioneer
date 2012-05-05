@@ -1,5 +1,5 @@
-#ifndef _LUAMATHTYPES_H
-#define _LUAMATHTYPES_H
+#ifndef _LUAMATRIX_H
+#define _LUAMATRIX_H
 
 /*
  * Old Lua classes for fixed, vector and matrix types. Do not use these unless
@@ -18,4 +18,4 @@ namespace MyLuaMatrix {
 	int Matrix_register (lua_State *L);
 } /* namespace MyLuaMatrix */
 
-#endif /* _MYLUAMATHTYPES_H */
+#endif

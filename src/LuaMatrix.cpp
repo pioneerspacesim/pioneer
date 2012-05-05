@@ -1,5 +1,5 @@
 #include "libs.h"
-#include "LuaMathTypes.h"
+#include "LuaMatrix.h"
 #include "LuaVector.h"
 #include "LuaUtils.h"
 

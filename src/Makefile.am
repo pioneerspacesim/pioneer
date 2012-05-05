@@ -61,7 +61,7 @@ noinst_HEADERS = \
 	LuaFormat.h \
 	LuaGame.h \
 	LuaLang.h \
-	LuaMathTypes.h \
+	LuaMatrix.h \
 	LuaVector.h \
 	LuaFixed.h \
 	LuaManager.h \
@@ -195,7 +195,7 @@ pioneer_SOURCES	= \
 	LuaFormat.cpp \
 	LuaGame.cpp \
 	LuaLang.cpp \
-	LuaMathTypes.cpp \
+	LuaMatrix.cpp \
 	LuaVector.cpp \
 	LuaFixed.cpp \
 	LuaManager.cpp \
@@ -297,7 +297,7 @@ modelviewer_SOURCES = \
 	FontConfig.cpp \
 	IniConfig.cpp \
 	Lang.cpp \
-	LuaMathTypes.cpp \
+	LuaMatrix.cpp \
 	LuaVector.cpp \
 	LuaFixed.cpp \
 	LmrModel.cpp \

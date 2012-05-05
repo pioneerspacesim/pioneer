@@ -8,7 +8,7 @@
 #include "BufferObject.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
-#include "LuaMathTypes.h"
+#include "LuaMatrix.h"
 #include "LuaVector.h"
 #include "EquipType.h"
 #include "EquipSet.h"
