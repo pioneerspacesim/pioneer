@@ -13,7 +13,7 @@ typedef std::map<SystemPath,SystemList> SectorMap;
 
 static lua_State *csLua;
 
-static SectorMap sector_map;
+static SectorMap s_sectorMap;
 static const SystemList s_emptySystemList; // see: Null Object pattern
 
 void CustomSystem::Init()
@@ -37,8 +37,8 @@ void CustomSystem::Init()
 const std::list<CustomSystem> &CustomSystem::GetCustomSystemsForSector(int x, int y, int z)
 {
 	SystemPath path(x,y,z);
-	SectorMap::const_iterator it = sector_map.find(path);
-	return (it != sector_map.end()) ? it->second : s_emptySystemList;
+	SectorMap::const_iterator it = s_sectorMap.find(path);
+	return (it != s_sectorMap.end()) ? it->second : s_emptySystemList;
 }
 
 CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
@@ -128,7 +128,7 @@ void CustomSystem::l_add_to_sector(int x, int y, int z, pi_vector& v)
 	sectorZ = z;
 	pos = v;
 
-	sector_map[path].push_back(*this);
+	s_sectorMap[path].push_back(*this);
 }
 
 EXPORT_OOLUA_FUNCTIONS_0_CONST(CustomSystem)
