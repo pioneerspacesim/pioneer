@@ -75,9 +75,11 @@ void pi_lua_warn(lua_State *l, const char *format, ...) __attribute((format(prin
 			abort(); \
 		} \
 	} while (0)
+# define LUA_DEBUG_CHECK(luaptr, expectedStackDiff) LUA_DEBUG_END(luaptr, expectedStackDiff)
 #else
 # define LUA_DEBUG_START(luaptr)
 # define LUA_DEBUG_END(luaptr, expectedStackDiff)
+# define LUA_DEBUG_CHECK(luaptr, expectedStackDiff)
 #endif
 
 #endif
