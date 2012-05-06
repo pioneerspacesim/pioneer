@@ -63,6 +63,8 @@ int  pi_load_lua(lua_State *l);
 
 void pi_lua_warn(lua_State *l, const char *format, ...) __attribute((format(printf,2,3)));
 
+void pi_lua_openlib(lua_State *l, const char *name, lua_CFunction openf);
+
 #ifdef DEBUG
 #include <stdlib.h> // for abort()
 # define LUA_DEBUG_START(luaptr) const int __luaStartStackDepth = lua_gettop(luaptr)
@@ -75,9 +77,11 @@ void pi_lua_warn(lua_State *l, const char *format, ...) __attribute((format(prin
 			abort(); \
 		} \
 	} while (0)
+# define LUA_DEBUG_CHECK(luaptr, expectedStackDiff) LUA_DEBUG_END(luaptr, expectedStackDiff)
 #else
 # define LUA_DEBUG_START(luaptr)
 # define LUA_DEBUG_END(luaptr, expectedStackDiff)
+# define LUA_DEBUG_CHECK(luaptr, expectedStackDiff)
 #endif
 
 #endif

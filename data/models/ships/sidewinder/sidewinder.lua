@@ -245,8 +245,8 @@ define_model('rattle', {
 			xref_ring(3*lod, v(4,0,12.5), v(15,0,12.5), v(0,1,0), .2)
 			xref_cylinder(3*lod, v(4,0,12.71), v(4,0,12), v(1,0,0), .2)
 
-			sphere_slice(3*lod,lod, 0, .3*math.pi, Matrix.translate(v(4,0,11.3)) * Matrix.rotate(.5*math.pi,v(1,0,0)) * Matrix.scale(v(1.1,1.1,1.1)))
-			sphere_slice(3*lod,lod, 0, .3*math.pi, Matrix.translate(v(-4,0,11.3)) * Matrix.rotate(.5*math.pi,v(1,0,0)) * Matrix.scale(v(1.1,1.1,1.1)))
+			sphere_slice(3*lod,lod, 0, .3*math.pi, matrix.translate(v(4,0,11.3)) * matrix.rotate(.5*math.pi,v(1,0,0)) * matrix.scale(v(1.1,1.1,1.1)))
+			sphere_slice(3*lod,lod, 0, .3*math.pi, matrix.translate(v(-4,0,11.3)) * matrix.rotate(.5*math.pi,v(1,0,0)) * matrix.scale(v(1.1,1.1,1.1)))
 		end
 
 
@@ -403,7 +403,7 @@ define_model('rattle_pad_br', {
 		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('chrome')
 		texture('tex0.png')
-		sphere_slice(3*lod,2*lod, 0, .5*math.pi, Matrix.translate(v(0,.3,0)) * Matrix.scale(v(.4,.4,.4)))
+		sphere_slice(3*lod,2*lod, 0, .5*math.pi, matrix.translate(v(0,.3,0)) * matrix.scale(v(.4,.4,.4)))
 		use_material('pad')
 		texture('pad_br.png',v(.49,.5,0), v(.4,-.02,0), v(0,0,-1.15))
 		cylinder(6, v(0,0,0), v(0,.3,0), v(.5,0,1), 1.05)
@@ -435,7 +435,7 @@ define_model('rattle_pad_bl', {
 		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('chrome')
 		texture('tex0.png')
-		sphere_slice(3*lod,2*lod, 0, .5*math.pi, Matrix.translate(v(0,.3,0)) * Matrix.scale(v(.4,.4,.4)))
+		sphere_slice(3*lod,2*lod, 0, .5*math.pi, matrix.translate(v(0,.3,0)) * matrix.scale(v(.4,.4,.4)))
 		use_material('pad')
 		texture('pad_bl.png',v(.49,.5,0), v(.4,-.02,0), v(0,0,-1.15))
 		cylinder(6, v(0,0,0), v(0,.3,0), v(.5,0,1), 1.05)
@@ -468,7 +468,7 @@ define_model('rattle_pad_f', {
 		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('chrome')
 		texture('tex0.png')
-		sphere_slice(3*lod,2*lod, 0, .5*math.pi, Matrix.translate(v(0,.3,0)) * Matrix.scale(v(.4,.4,.4)))
+		sphere_slice(3*lod,2*lod, 0, .5*math.pi, matrix.translate(v(0,.3,0)) * matrix.scale(v(.4,.4,.4)))
 		use_material('pad')
 		texture('pad_f.png',v(.49,.5,0), v(.4,-.02,0), v(0,0,-1.15))
 		cylinder(6, v(0,0,0), v(0,.3,0), v(.5,0,1), 1.05)

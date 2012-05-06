@@ -126,7 +126,7 @@ void Ship::AIKill(Ship *target)
 }
 
 /*
-void Ship::AIJourney(SBodyPath &dest)
+void Ship::AIJourney(SystemBodyPath &dest)
 {
 	AIClearInstructions();
 //	m_curAICmd = new AICmdJourney(this, dest);

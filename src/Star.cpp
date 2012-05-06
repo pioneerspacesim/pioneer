@@ -10,7 +10,7 @@ Star::Star() : TerrainBody()
 {
 }
 
-Star::Star(SBody *sbody): TerrainBody(sbody)
+Star::Star(SystemBody *sbody): TerrainBody(sbody)
 {
 	m_hasDoubleFrame = false;
 }
@@ -18,10 +18,10 @@ Star::Star(SBody *sbody): TerrainBody(sbody)
 double Star::GetClipRadius() const
 {
 
-	const SBody *sbody = GetSBody();
+	const SystemBody *sbody = GetSystemBody();
 
 	// if star is wolf-rayet it gets a very large halo effect
-	const float wf = (sbody->type < SBody::TYPE_STAR_S_BH && sbody->type > SBody::TYPE_STAR_O_HYPER_GIANT) ? 100.0f : 1.0f;
+	const float wf = (sbody->type < SystemBody::TYPE_STAR_S_BH && sbody->type > SystemBody::TYPE_STAR_O_HYPER_GIANT) ? 100.0f : 1.0f;
 	return sbody->GetRadius() * 8 * wf;
 }
 
@@ -53,7 +53,7 @@ void Star::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 
 	renderer->SetTransform(trans * rot);
 
-	const float *col = StarSystem::starRealColors[GetSBody()->type];
+	const float *col = StarSystem::starRealColors[GetSystemBody()->type];
 
 	MTRand(rand);
 

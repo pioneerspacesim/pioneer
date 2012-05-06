@@ -1,5 +1,5 @@
 #include "EquipType.h"
-#include "StarSystem.h" // for ECON_* enum
+#include "galaxy/StarSystem.h" // for ECON_* enum
 #include "Lang.h"
 
 const EquipType Equip::types[Equip::TYPE_MAX] = {
