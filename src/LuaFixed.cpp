@@ -21,13 +21,7 @@ static int l_fixed_new(lua_State *L)
 static int l_fixed_tostring(lua_State *L)
 {
 	const fixed *v = LuaFixed::CheckFromLua(L, 1);
-	luaL_Buffer buf;
-	luaL_buffinit(L, &buf);
-	char *bufstr = luaL_prepbuffer(&buf);
-	int len = snprintf(bufstr, LUAL_BUFFERSIZE, "fixed(%g)", v->ToDouble());
-	assert(len < LUAL_BUFFERSIZE); // XXX should handle this condition more gracefully
-	luaL_addsize(&buf, len);
-	luaL_pushresult(&buf);
+	lua_pushfstring(L, "fixed(%f)", lua_Number(v->ToDouble()));
 	return 1;
 }
 
