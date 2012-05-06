@@ -54,6 +54,7 @@ static int g_renderType = 0;
 static float g_frameTime;
 
 struct Options {
+	bool attachGuns;
 	bool showBoundingBoxes;
 	bool showBoundingRadius;
 	bool showGrid;
@@ -61,7 +62,8 @@ struct Options {
 	int lightPreset;
 
 	Options()
-	: showBoundingBoxes(false)
+	: attachGuns(false)
+	, showBoundingBoxes(false)
 	, showBoundingRadius(false)
 	, showGrid(false)
 	, gridInterval(0.f)
@@ -84,12 +86,15 @@ private: //data members
 	UI::Context *m_ui;
 	UI::DropDown *m_patternSelector;
 	UI::Slider *m_sliders[3*3]; //color sliders 3*rgb
+	ScopedPtr<Model> m_gunModel;
+	RefCountedPtr<Newmodel::ModelNode> m_gunModelNode;
 
 private: //methods
 	void SetupUI();
 	bool OnReloadModel(UI::Widget *w);
 	bool OnToggleBoundingRadius(UI::Widget *w);
 	bool OnToggleGrid(UI::Widget *w);
+	bool OnToggleGuns(UI::CheckBox *w);
 	void OnLightPresetChanged(unsigned int index, const std::string &);
 	void OnModelColorsChanged(float v=0.f);
 	void OnPatternChanged(unsigned int index, const std::string &);
@@ -119,6 +124,18 @@ public:
 		m_modelName("")
 	{
 		SetupUI();
+
+		//load gun model for attachment test
+		{
+			Newmodel::Loader loader(renderer);
+			try {
+				Newmodel::NModel *m = loader.LoadModel("test_gun");
+				m_gunModel.Reset(m);
+				m_gunModelNode.Reset(new Newmodel::ModelNode(m_gunModel.Get()));
+			} catch (Newmodel::LoadingError &) {
+				AddLog("Could not load test_gun model");
+			}
+		}
 
 		m_space = new CollisionSpace();
 		Gui::Screen::AddBaseWidget(this, 0, 0);
@@ -246,7 +263,7 @@ void Viewer::SetupUI()
 	UI::Box *box;
 	UI::Box *buttBox;
 	UI::Button *b1, *gridBtn, *reloadBtn;
-	UI::CheckBox *radiusCheck;
+	UI::CheckBox *radiusCheck, *gunsCheck;
 	
 	c->SetInnerWidget((box = c->VBox(5.f)));
 
@@ -263,13 +280,14 @@ void Viewer::SetupUI()
 	AddPair(c, buttBox, (reloadBtn = c->Button()), "Reload model");
 	AddPair(c, buttBox, (gridBtn = c->Button()), "Grid mode");
 	AddPair(c, buttBox, (radiusCheck = c->CheckBox()), "Show bounding radius");
-	AddPair(c, buttBox, (c->CheckBox()), "Attach guns");
+	AddPair(c, buttBox, (gunsCheck = c->CheckBox()), "Attach guns");
 	AddPair(c, buttBox, (c->CheckBox()), "Draw collision mesh");
 
 	b1->onClick.connect(sigc::mem_fun(*this, &Viewer::PickAnotherModel));
 	reloadBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnReloadModel), reloadBtn));
 	gridBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleGrid), gridBtn));
 	radiusCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius), radiusCheck));
+	gunsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleGuns), gunsCheck));
 
 	UI::DropDown *ddown;
 	buttBox->PackEnd(c->Label("Pattern:"));
@@ -468,7 +486,34 @@ bool Viewer::OnToggleGrid(UI::Widget *w)
 	return m_options.showGrid;
 }
 
-bool Viewer::OnToggleBoundingRadius(UI::Widget *w) {
+bool Viewer::OnToggleGuns(UI::CheckBox *w)
+{
+	if (!m_gunModel.Valid() || !m_gunModelNode.Valid()) {
+		AddLog("test_gun.model not available");
+		return false;
+	}
+	Newmodel::NModel *model = dynamic_cast<Newmodel::NModel*>(m_model);
+	if (!model) return false;
+	m_options.attachGuns = !m_options.attachGuns;
+	Newmodel::Group *tagL = model->FindTagByName("tag_gun_left");
+	Newmodel::Group *tagR = model->FindTagByName("tag_gun_right");
+	if (!tagL || !tagR) {
+		AddLog("Missing tags gun_left and gun_right in model");
+		return false;
+	}
+	if (m_options.attachGuns) {
+		tagL->AddChild(m_gunModelNode.Get());
+		tagR->AddChild(m_gunModelNode.Get());
+	} else { //detach
+		//we know there's nothing else
+		tagL->RemoveChildAt(0);
+		tagR->RemoveChildAt(0);
+	}
+	return true;
+}
+
+bool Viewer::OnToggleBoundingRadius(UI::Widget *w)
+{
 	m_options.showBoundingRadius = !m_options.showBoundingRadius;
 	return m_options.showBoundingRadius;
 }

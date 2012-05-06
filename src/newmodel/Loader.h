@@ -23,7 +23,8 @@ struct MaterialDefinition {
 		specular(Color(1.f)),
 		ambient(Color(0.f)),
 		emissive(Color(0.f)),
-		shininess(200)
+		shininess(200),
+		use_pattern(false)
 	{ }
 	std::string name;
 	std::string tex_diff;
