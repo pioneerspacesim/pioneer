@@ -1,3 +1,16 @@
+Alpha 23
+
+   * Script and model changes
+     * Renamed Matrix and Vec classes to matrix and vector (#1245)
+     * Renamed CustomSBody to CustomSystemBody (#1245)
+
+   * Internal changes
+     * Fixed configure compiler warning tests for gcc and clang
+     * Removed OOLua. Replaced uses of it with explicit Lua calls. Various
+     * other Lua-related cleanups and consistency fixes (#1245)
+     * Move system generation and related classes under galaxy/ (#1245)
+     * Renamed SBody to SystemBody, CustomSBody to CustomSystemBody (#1245)
+
 Alpha 22
 
    * New features
@@ -28,6 +41,8 @@ Alpha 22
        (#1232, #1210)
      * Fixed crash when mission display is opened with lots of missions
        (#1233, #1196)
+     * Don't take timesteps for dead ships. Stops the player firing during the
+       death screen (regression) (#1243, #1103, #1056)
 
    * Script and model changes
      * LMR "lathe" function radius and up vector now interpreted the same as

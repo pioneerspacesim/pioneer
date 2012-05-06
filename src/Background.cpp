@@ -1,7 +1,7 @@
 #include "Background.h"
 #include "perlin.h"
 #include "Pi.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Space.h"
 #include "Frame.h"
 #include "Player.h"

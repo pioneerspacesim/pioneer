@@ -4,15 +4,16 @@
 #include "LuaSpaceStation.h"
 #include "LuaStarSystem.h"
 #include "LuaSystemPath.h"
+#include "LuaConstants.h"
 #include "LuaUtils.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "EquipType.h"
 #include "Pi.h"
 #include "Space.h"
 #include "Star.h"
 #include "Planet.h"
 #include "SpaceStation.h"
-#include "Sector.h"
+#include "galaxy/Sector.h"
 
 /*
  * Class: StarSystem
@@ -58,7 +59,7 @@ static int l_starsystem_get_station_paths(lua_State *l)
 	lua_newtable(l);
 	pi_lua_table_ro(l);
 
-	for (std::vector<SBody*>::const_iterator i = s->m_spaceStations.begin(); i != s->m_spaceStations.end(); i++)
+	for (std::vector<SystemBody*>::const_iterator i = s->m_spaceStations.begin(); i != s->m_spaceStations.end(); i++)
 	{
 		lua_pushinteger(l, lua_objlen(l, -1)+1);
 		LuaSystemPath::PushToLua(&(*i)->path);
@@ -98,7 +99,7 @@ static int l_starsystem_get_body_paths(lua_State *l)
 	lua_newtable(l);
 	pi_lua_table_ro(l);
 
-	for (std::vector<SBody*>::const_iterator i = s->m_bodies.begin(); i != s->m_bodies.end(); i++)
+	for (std::vector<SystemBody*>::const_iterator i = s->m_bodies.begin(); i != s->m_bodies.end(); i++)
 	{
 		lua_pushinteger(l, lua_objlen(l, -1)+1);
 		LuaSystemPath::PushToLua(&(*i)->path);

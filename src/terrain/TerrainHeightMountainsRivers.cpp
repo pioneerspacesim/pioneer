@@ -9,7 +9,7 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightMountainsRivers>::GetHeightFractalName() const { return "MountainsRivers"; }
 
 template <>
-TerrainHeightFractal<TerrainHeightMountainsRivers>::TerrainHeightFractal(const SBody *body) : Terrain(body)
+TerrainHeightFractal<TerrainHeightMountainsRivers>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
 {
 	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6, 2e6), 10*m_fracmult);
 	SetFracDef(1, m_maxHeightInMeters, 15e6, 100.0*m_fracmult);

@@ -25,8 +25,22 @@
  * > end
  */
 
-int LuaConstants::GetConstant(lua_State *l, const char *ns, const char *name)
+int LuaConstants::GetConstantFromArg(lua_State *l, const char *ns, int idx)
 {
+	LUA_DEBUG_START(l);
+	if (lua_type(l, idx) != LUA_TSTRING) {
+		// heuristic assumption that positive (absolute) stack indexes refer to function args
+		if (idx > 0) {
+			const char *emsg = lua_pushfstring(l, "expected a constant from namespace '%s'", idx, ns);
+			return luaL_argerror(l, idx, emsg);
+		} else {
+			return luaL_error(l, "value (stack #%d) is invalid (expected a constant in namespace '%s')", idx, ns);
+		}
+	}
+
+	// copy the value to top-of-stack so we know where it is
+	lua_pushvalue(l, idx);
+
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiConstants");
 	assert(lua_istable(l, -1));
 
@@ -34,17 +48,33 @@ int LuaConstants::GetConstant(lua_State *l, const char *ns, const char *name)
 	lua_rawget(l, -2);
 	assert(lua_istable(l, -1));
 
-	lua_pushstring(l, name);
+	// stack: arg-value, PiConstants, ConstTable
+	lua_replace(l, -2);
+	// stack: arg-value, ConstTable
+	lua_pushvalue(l, -2);
+	// stack: arg-value, ConstTable, arg-value
 	lua_rawget(l, -2);
-	if (lua_isnil(l, -1))
+	// stack: arg-value, ConstTable, const-value
+
+	if (lua_isnil(l, -1)) {
+		const char *name = lua_tostring(l, -3);
 		luaL_error(l, "couldn't find constant with name '%s' in namespace '%s'\n", name, ns);
+	}
 	assert(lua_isnumber(l, -1));
 
 	int value = lua_tointeger(l, -1);
 
 	lua_pop(l, 3);
-
+	LUA_DEBUG_END(l, 0);
 	return value;
+}
+
+int LuaConstants::GetConstant(lua_State *l, const char *ns, const char *name)
+{
+	lua_pushstring(l, name);
+	int val = GetConstantFromArg(l, ns, -1);
+	lua_pop(l, 1);
+	return val;
 }
 
 const char *LuaConstants::GetConstantString(lua_State *l, const char *ns, int value)

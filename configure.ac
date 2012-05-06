@@ -44,11 +44,11 @@ dnl Add a flag, if supported by the compiler or preprocessor
 dnl Assumes that -Werror works
 AC_DEFUN([_PIONEER_COMPILER_FLAG], dnl Language, prefix (EXTRA), flags variable 'foo' (EXTRA_fooFLAGS), flag, $CC/$CXX/$CPP/similar, if yes, if no
     [AC_LANG_PUSH([$1])
-     saved_flags="$][$2][_][$3][FLAGS"
-     ][$2][FLAGS="$][$2][_][$3][FLAGS $4 -Werror $][$3][FLAGS"
+     saved_flags="$][$3][FLAGS"
+     ][$3][FLAGS="$saved_flags -Werror $4"
      AC_MSG_CHECKING([to see if $5 supports $4])
      AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[return 0;]])], [][$2][_][$3][FLAGS="$][$2][_][$3][FLAGS $4"; AC_MSG_RESULT([yes])]m4_default([; $6], []), [AC_MSG_RESULT([no])]m4_default([; $7], []))
-     ][$2][_][$3][FLAGS="$saved_flags $4"
+     ][$3][FLAGS="$saved_flags"
      AC_LANG_POP([$1])
     ])
 
@@ -87,7 +87,6 @@ AC_ARG_WITH([extra-warnings], AS_HELP_STRING([--without-extra-warnings], [Disabl
 if test "x$with_extra_warnings" != xno; then
   for warn_opt in \
 -Wformat				\
--Wformat-security			\
 -Wstrict-aliasing=2			\
 -Wmissing-format-attribute		\
 -Wmissing-noreturn			\
@@ -99,6 +98,10 @@ if test "x$with_extra_warnings" != xno; then
   ; do
     PIONEER_WARN_C_CXX_FLAG([$warn_opt])
   done
+  dnl -Wformat-security requires -Wformat first, so it needs a slightly customised test
+  dnl we assume that if this test passes then the test (above) for -Wformat passed
+  dnl and therefore -Wformat should already be in WARN_CXXFLAGS
+  _PIONEER_COMPILER_FLAG([C], [WARN], [C], [-Wformat -Wformat-security], [$CC/$CXX], [WARN_CXXFLAGS="$WARN_CXXFLAGS -Wformat-security"])
   for warn_opt in \
 -Wno-format-zero-length			\
 -Werror-implicit-function-declaration	\
@@ -249,12 +252,12 @@ AC_CONFIG_FILES([
 	src/collider/Makefile
 	src/gui/Makefile
 	src/graphics/Makefile
+	src/galaxy/Makefile
 	src/terrain/Makefile
 	src/text/Makefile
 	contrib/Makefile
 	contrib/lua/Makefile
 	contrib/miniz/Makefile
-	contrib/oolua/Makefile
 	osx/Makefile
 	win32/Makefile
 	win32/src/Makefile])

@@ -232,6 +232,11 @@ class matrix4x4 {
 		for (int i=0; i<16; i++) m.cell[i] = a.cell[i] - b.cell[i];
 		return m;
 	}
+	friend matrix4x4 operator- (const matrix4x4 &a) {
+		matrix4x4 m;
+		for (int i = 0; i < 16; ++i) { m.cell[i] = -a.cell[i]; }
+		return m;
+	}
 	friend matrix4x4 operator* (const matrix4x4 &a, const matrix4x4 &b) {
 		matrix4x4 m;
 		m.cell[0] = a.cell[0]*b.cell[0] + a.cell[4]*b.cell[1] + a.cell[8]*b.cell[2] + a.cell[12]*b.cell[3];

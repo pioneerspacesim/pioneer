@@ -7,7 +7,7 @@
 #include "LuaStar.h"
 #include "LuaPlayer.h"
 #include "LuaSystemPath.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Body.h"
 #include "Ship.h"
 #include "SpaceStation.h"
