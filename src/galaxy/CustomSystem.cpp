@@ -390,7 +390,7 @@ static void register_class(lua_State *L, const char *tname, luaL_Reg *meta)
 	lua_setfield(L, -2, "__index");
 
 	// publish the metatable
-	lua_setfield(L, LUA_GLOBALSINDEX, tname);
+	lua_setglobal(L, tname);
 
 	LUA_DEBUG_END(L, 0);
 }

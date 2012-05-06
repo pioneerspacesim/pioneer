@@ -187,8 +187,14 @@ static int dispatch_index(lua_State *l)
 	// sanity check. it should be a userdatum
 	assert(lua_isuserdata(l, 1));
 
+	// ensure we have enough stack space
+	luaL_checkstack(l, 8, 0);
+
+	// each type has a global method table, which we need access to
+	lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
+
 	// everything we need is in the metatable, so lets start with that
-	lua_getmetatable(l, 1);             // object, key, metatable
+	lua_getmetatable(l, 1);             // object, key, globals, metatable
 
 	// loop until we find what we're looking for or we run out of metatables
 	while (!lua_isnil(l, -1)) {
@@ -196,27 +202,27 @@ static int dispatch_index(lua_State *l)
 		// first is method lookup. we get the object type from the metatable and
 		// use it to look up the method table and from there, the method itself
 		lua_pushstring(l, "type");
-		lua_rawget(l, -2);                  // object, key, metatable, type
+		lua_rawget(l, -2);                  // object, key, globals, metatable, type
 
-		lua_rawget(l, LUA_GLOBALSINDEX);    // object, key, metatable, method table
+		lua_rawget(l, -3);                  // object, key, globals, metatable, method table
 
 		lua_pushvalue(l, 2);
-		lua_rawget(l, -2);                  // object, key, metatable, method table, method
+		lua_rawget(l, -2);                  // object, key, globals, metatable, method table, method
     
 		// found something, return it
 		if (!lua_isnil(l, -1))
 			return 1;
 
-		lua_pop(l, 2);                      // object, key, metatable
+		lua_pop(l, 2);                      // object, key, globals, metatable
 
 		// didn't find a method, so now we go looking for an attribute handler in
 		// the attribute table
 		lua_pushstring(l, "attrs");
-		lua_rawget(l, -2);                  // object, key, metatable, attr table
+		lua_rawget(l, -2);                  // object, key, globals, metatable, attr table
 
 		if (lua_istable(l, -1)) {
 			lua_pushvalue(l, 2);
-			lua_rawget(l, -2);              // object, key, metatable, attr table, attr handler
+			lua_rawget(l, -2);              // object, key, globals, metatable, attr table, attr handler
 
 			// found something. since its likely a regular attribute lookup and not a
 			// method call we have to do the call ourselves
@@ -226,25 +232,25 @@ static int dispatch_index(lua_State *l)
 				return 1;
 			}
 
-			lua_pop(l, 2);                  // object, key, metatable
+			lua_pop(l, 2);                  // object, key, globals, metatable
 		}
 		else
-			lua_pop(l, 1);                  // object, key, metatable
+			lua_pop(l, 1);                  // object, key, globals, metatable
 
 		// didn't find anything. if the object has a parent object then we look
 		// there instead
 		lua_pushstring(l, "parent");
-		lua_rawget(l, -2);                  // object, key, metatable, parent type
+		lua_rawget(l, -2);                  // object, key, globals, metatable, parent type
 
 		// not found means we have no parents and we can't search any further
 		if (lua_isnil(l, -1))
 			break;
 
 		// clean up the stack
-		lua_remove(l, -2);                  // object, key, parent type
+		lua_remove(l, -2);                  // object, key, globals, parent type
 
 		// get the parent metatable
-		lua_rawget(l, LUA_REGISTRYINDEX);   // object, key, parent metatable
+		lua_rawget(l, LUA_REGISTRYINDEX);   // object, key, globals, parent metatable
 	}
 
 	luaL_error(l, "unable to resolve method or attribute '%s'", lua_tostring(l, 2));

@@ -95,7 +95,7 @@ void LuaGame::Register()
 
 	lua_setmetatable(l, -2);
 
-	lua_setfield(l, LUA_GLOBALSINDEX, "Game");
+	lua_setglobal(l, "Game");
 	
 	LUA_DEBUG_END(l, 0);
 }

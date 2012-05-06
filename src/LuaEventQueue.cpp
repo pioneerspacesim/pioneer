@@ -14,12 +14,12 @@ void LuaEventQueueBase::RegisterEventQueue()
 	LUA_DEBUG_START(l);
 
 	// get the eventqueue table, or create it if it doesn't exist
-	lua_getfield(l, LUA_GLOBALSINDEX, "EventQueue");
+	lua_getglobal(l, "EventQueue");
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 		lua_newtable(l);
 		lua_pushvalue(l, -1);
-		lua_setfield(l, LUA_GLOBALSINDEX, "EventQueue");
+		lua_setglobal(l, "EventQueue");
 	}
 
 	lua_pushstring(l, m_name);
