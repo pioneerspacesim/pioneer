@@ -8,7 +8,7 @@ namespace Graphics { class Renderer; }
 class Planet: public TerrainBody {
 public:
 	OBJDEF(Planet, TerrainBody, PLANET);
-	Planet(SBody*);
+	Planet(SystemBody*);
 	Planet();
 	virtual ~Planet() {}
 

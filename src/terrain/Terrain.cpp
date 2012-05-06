@@ -4,7 +4,7 @@
 #include "FileSystem.h"
 
 // static instancer. selects the best height and color classes for the body
-Terrain *Terrain::InstanceTerrain(const SBody *body)
+Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 {
 	// special case for heightmaps
 	// XXX this is terrible but will do for now until we get a unified
@@ -25,18 +25,18 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 
 	switch (body->type) {
 
-		case SBody::TYPE_BROWN_DWARF:
+		case SystemBody::TYPE_BROWN_DWARF:
 			gi = InstanceGenerator<TerrainHeightFlat,TerrainColorStarBrownDwarf>;
 			break;
 
-		case SBody::TYPE_WHITE_DWARF:
+		case SystemBody::TYPE_WHITE_DWARF:
 			gi = InstanceGenerator<TerrainHeightFlat,TerrainColorStarWhiteDwarf>;
 			break;
 
-		case SBody::TYPE_STAR_M:
-		case SBody::TYPE_STAR_M_GIANT:
-		case SBody::TYPE_STAR_M_SUPER_GIANT:
-		case SBody::TYPE_STAR_M_HYPER_GIANT: {
+		case SystemBody::TYPE_STAR_M:
+		case SystemBody::TYPE_STAR_M_GIANT:
+		case SystemBody::TYPE_STAR_M_SUPER_GIANT:
+		case SystemBody::TYPE_STAR_M_HYPER_GIANT: {
 			const GeneratorInstancer choices[] = {
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarM>,
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarM>,
@@ -47,10 +47,10 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 			break;
 		}
 
-		case SBody::TYPE_STAR_K:
-		case SBody::TYPE_STAR_K_GIANT:
-		case SBody::TYPE_STAR_K_SUPER_GIANT:
-		case SBody::TYPE_STAR_K_HYPER_GIANT: {
+		case SystemBody::TYPE_STAR_K:
+		case SystemBody::TYPE_STAR_K_GIANT:
+		case SystemBody::TYPE_STAR_K_SUPER_GIANT:
+		case SystemBody::TYPE_STAR_K_HYPER_GIANT: {
 			const GeneratorInstancer choices[] = {
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarM>,
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarK>,
@@ -61,10 +61,10 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 			break;
 		}
 
-		case SBody::TYPE_STAR_G:
-		case SBody::TYPE_STAR_G_GIANT:
-		case SBody::TYPE_STAR_G_SUPER_GIANT:
-		case SBody::TYPE_STAR_G_HYPER_GIANT: {
+		case SystemBody::TYPE_STAR_G:
+		case SystemBody::TYPE_STAR_G_GIANT:
+		case SystemBody::TYPE_STAR_G_SUPER_GIANT:
+		case SystemBody::TYPE_STAR_G_HYPER_GIANT: {
 			const GeneratorInstancer choices[] = {
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarWhiteDwarf>,
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarG>
@@ -73,7 +73,7 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 			break;
 		}
 
-		case SBody::TYPE_PLANET_GAS_GIANT: {
+		case SystemBody::TYPE_PLANET_GAS_GIANT: {
 			const GeneratorInstancer choices[] = {
 				InstanceGenerator<TerrainHeightFlat,TerrainColorGGJupiter>,
 				InstanceGenerator<TerrainHeightFlat,TerrainColorGGSaturn>,
@@ -87,11 +87,11 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 			break;
 		}
 
-		case SBody::TYPE_PLANET_ASTEROID:
+		case SystemBody::TYPE_PLANET_ASTEROID:
 			gi = InstanceGenerator<TerrainHeightAsteroid,TerrainColorAsteroid>;
 			break;
 
-		case SBody::TYPE_PLANET_TERRESTRIAL: {
+		case SystemBody::TYPE_PLANET_TERRESTRIAL: {
 
 			// Earth-like world
 			if ((body->m_life > fixed(7,10)) && (body->m_volatileGas > fixed(2,10))) {
@@ -294,7 +294,7 @@ static size_t bufread_or_die(void *ptr, size_t size, size_t nmemb, ByteRange &bu
 	return read_count;
 }
 
-Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed), m_heightMap(0), m_heightMapScaled(0), m_heightScaling(0), m_minh(0) {
+Terrain::Terrain(const SystemBody *body) : m_body(body), m_rand(body->seed), m_heightMap(0), m_heightMapScaled(0), m_heightScaling(0), m_minh(0) {
 
 	// load the heightmap
 	if (m_body->heightMapFilename) {

@@ -337,7 +337,7 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	vector3d pos, vel;
 	matrix4x4d rot = matrix4x4d::Identity();
 
-	if (station->GetSBody()->type == SBody::TYPE_STARPORT_SURFACE) {
+	if (station->GetSystemBody()->type == SystemBody::TYPE_STARPORT_SURFACE) {
 		vel = vector3d(0.0);
 
 		// XXX on tiny planets eg asteroids force this to be larger so the

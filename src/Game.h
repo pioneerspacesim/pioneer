@@ -2,7 +2,7 @@
 #define _GAME_H
 
 #include "vector3.h"
-#include "SystemPath.h"
+#include "galaxy/SystemPath.h"
 #include "Serializer.h"
 #include "gameconsts.h"
 

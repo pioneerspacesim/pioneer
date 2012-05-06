@@ -1,7 +1,7 @@
 #include "LuaNameGen.h"
 #include "LuaObject.h"
 #include "LuaRand.h"
-#include "LuaSBody.h"
+#include "LuaSystemBody.h"
 #include "mtrand.h"
 
 static const std::string DEFAULT_FULL_NAME_MALE("Tom Morton");
@@ -66,14 +66,14 @@ std::string LuaNameGen::Surname(MTRand &rng)
 	return surname;
 }
 
-std::string LuaNameGen::BodyName(SBody *body, MTRand &rng)
+std::string LuaNameGen::BodyName(SystemBody *body, MTRand &rng)
 {
 	lua_State *l = m_luaManager->GetLuaState();
 
 	if (!GetNameGenFunc(l, "BodyName"))
 		return DEFAULT_BODY_NAME;
 
-	LuaSBody::PushToLua(body);
+	LuaSystemBody::PushToLua(body);
 	LuaRand::PushToLua(&rng);
 	pi_lua_protected_call(l, 2, 1);
 

@@ -132,7 +132,7 @@ void ObjectViewerView::Update()
 
 		if (body->IsType(Object::TERRAINBODY)) {
 			TerrainBody *tbody = static_cast<TerrainBody*>(body);
-			const SBody *sbody = tbody->GetSBody();
+			const SystemBody *sbody = tbody->GetSystemBody();
 			m_sbodyVolatileGas->SetText(stringf("%0{f.3}", sbody->m_volatileGas.ToFloat()));
 			m_sbodyVolatileLiquid->SetText(stringf("%0{f.3}", sbody->m_volatileLiquid.ToFloat()));
 			m_sbodyVolatileIces->SetText(stringf("%0{f.3}", sbody->m_volatileIces.ToFloat()));
@@ -167,7 +167,7 @@ void ObjectViewerView::OnChangeTerrain()
 	// sbody. one day objectviewer should be far more contained and not
 	// actually modify the space
 	Body *body = Pi::player->GetNavTarget();
-	SBody *sbody = const_cast<SBody*>(body->GetSBody());
+	SystemBody *sbody = const_cast<SystemBody*>(body->GetSystemBody());
 
 	sbody->seed = atoi(m_sbodySeed->GetText().c_str());
 	sbody->radius = radius;

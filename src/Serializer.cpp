@@ -1,4 +1,4 @@
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Serializer.h"
 #include "Pi.h"
 #include "Frame.h"

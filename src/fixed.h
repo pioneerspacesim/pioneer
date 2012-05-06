@@ -53,6 +53,7 @@ public:
 	fixedf &operator>>=(const int a) { v >>= a; return (*this); }
 	fixedf &operator<<=(const int a) { v <<= a; return (*this); }
 
+	friend fixedf operator-(const fixedf a) { return fixedf(-a.v); }
 	friend fixedf operator+(const fixedf a, const fixedf b) { return fixedf(a.v+b.v); }
 	friend fixedf operator-(const fixedf a, const fixedf b) { return fixedf(a.v-b.v); }
 	friend fixedf operator*(const fixedf a, const fixedf b) {

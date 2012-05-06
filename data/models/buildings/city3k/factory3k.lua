@@ -187,12 +187,12 @@ define_model('f3k_thing', {
 	},
 	static = function(lod)
 		texture('wtr.png',v(.5,.5,0), v(.2,0,0),v(0,1,0))
-		sphere_slice(4*lod,2*lod,0,.5*math.pi, Matrix.rotate(.5*math.pi,v(1,0,0)))
+		sphere_slice(4*lod,2*lod,0,.5*math.pi, matrix.rotate(.5*math.pi,v(1,0,0)))
 	end,
 	dynamic = function(lod)
 		local trans = get_time('SECONDS')*.1
 		texture('models/buildings/city3k/wtr.png',v(trans,.5,0), v(.2,0,0),v(0,1,0))
-		sphere_slice(4*lod,2*lod,0,.5*math.pi, Matrix.rotate(.5*math.pi,v(1,0,0)))
+		sphere_slice(4*lod,2*lod,0,.5*math.pi, matrix.rotate(.5*math.pi,v(1,0,0)))
 	end
 })
 
@@ -297,9 +297,9 @@ define_model('factory_3k_1', {
 
 			texture('win0.png')
 			use_material('win_on')
-			load_obj('f3k_win_on.obj',Matrix.scale(v(1.011,1,.995)))
+			load_obj('f3k_win_on.obj',matrix.scale(v(1.011,1,.995)))
 			use_material('win_off')
-			load_obj('f3k_win_off.obj',Matrix.scale(v(1.011,1,.995)))
+			load_obj('f3k_win_off.obj',matrix.scale(v(1.011,1,.995)))
 			use_material('glow1')
 			call_model('f3k_thang', v(0,0,0),v(1,0,0),v(0,1,0),1)
    		end
@@ -375,9 +375,9 @@ define_model('factory_3k_2', {
 			--wins
 			texture('win0.png')
 			use_material('win_on')
-			load_obj('f3k_win_on.obj',Matrix.scale(v(1.011,1,.995)))
+			load_obj('f3k_win_on.obj',matrix.scale(v(1.011,1,.995)))
 			use_material('win_off')
-			load_obj('f3k_win_off.obj',Matrix.scale(v(1.011,1,.995)))
+			load_obj('f3k_win_off.obj',matrix.scale(v(1.011,1,.995)))
 
    	  		use_material('glow2')
 			call_model('f3k_thing', v(6.3,3.3,4.3),v(1.2,0,-1),v(0,1,0),1.2)
@@ -423,10 +423,10 @@ define_model('factory_3k_3', {
 				texture('wtr_s.png',v(.5,.5,0), v(.5,0,0),v(0,0,1))
 			end
 			use_material('fce_glow')
-			sphere_slice(3*lod,2*lod,0,math.pi,Matrix.translate(v(3.5,4.8,-6))*Matrix.scale(v(.6,.2,.6)))
-			sphere_slice(3*lod,2*lod,0,math.pi,Matrix.translate(v(-3.5,4.8,-6))*Matrix.scale(v(.6,.2,.6)))
-			sphere_slice(3*lod,2*lod,0,math.pi,Matrix.translate(v(3.5,4.8,6))*Matrix.scale(v(.6,.2,.6)))
-			sphere_slice(3*lod,2*lod,0,math.pi,Matrix.translate(v(-3.5,4.8,6))*Matrix.scale(v(.6,.2,.6)))
+			sphere_slice(3*lod,2*lod,0,math.pi,matrix.translate(v(3.5,4.8,-6))*matrix.scale(v(.6,.2,.6)))
+			sphere_slice(3*lod,2*lod,0,math.pi,matrix.translate(v(-3.5,4.8,-6))*matrix.scale(v(.6,.2,.6)))
+			sphere_slice(3*lod,2*lod,0,math.pi,matrix.translate(v(3.5,4.8,6))*matrix.scale(v(.6,.2,.6)))
+			sphere_slice(3*lod,2*lod,0,math.pi,matrix.translate(v(-3.5,4.8,6))*matrix.scale(v(.6,.2,.6)))
 		end
 
 		use_material('default')
@@ -440,12 +440,12 @@ define_model('factory_3k_3', {
 		if lod > 1 then
 			texture('win0.png')
 			use_material('win_on')
-			load_obj('f3k_win_on.obj',Matrix.scale(v(1.011,1,.995)))
-			load_obj('f3k_win4_0.obj',Matrix.scale(v(1.011,1,.995)))
+			load_obj('f3k_win_on.obj',matrix.scale(v(1.011,1,.995)))
+			load_obj('f3k_win4_0.obj',matrix.scale(v(1.011,1,.995)))
 
 			use_material('win_off')
-			load_obj('f3k_win_off.obj',Matrix.scale(v(1.011,1,.995)))
-			load_obj('f3k_win4_1.obj',Matrix.scale(v(1.011,1,.995)))
+			load_obj('f3k_win_off.obj',matrix.scale(v(1.011,1,.995)))
+			load_obj('f3k_win4_1.obj',matrix.scale(v(1.011,1,.995)))
 
 			--use_material('glow1')
 			--call_model('bld_base_fce',v(0,-.5,0),v(1,0,0),v(0,1,0),1.4)
@@ -499,12 +499,12 @@ define_model('factory_3k_4', {
 		if lod > 1 then
 			texture('win0.png')
 			use_material('win_on')
-			load_obj('f3k_win_on.obj',Matrix.scale(v(1.011,1,.995)))
-			load_obj('f3k_win4_0.obj',Matrix.scale(v(1.011,1,.995)))
+			load_obj('f3k_win_on.obj',matrix.scale(v(1.011,1,.995)))
+			load_obj('f3k_win4_0.obj',matrix.scale(v(1.011,1,.995)))
 
 			use_material('win_off')
-			load_obj('f3k_win_off.obj',Matrix.scale(v(1.011,1,.995)))
-			load_obj('f3k_win4_1.obj',Matrix.scale(v(1.011,1,.995)))
+			load_obj('f3k_win_off.obj',matrix.scale(v(1.011,1,.995)))
+			load_obj('f3k_win4_1.obj',matrix.scale(v(1.011,1,.995)))
 
 			--use_material('glow2')
 			--call_model('bld_base_fce',v(0,-.5,0),v(1,0,0),v(0,1,0),1.4)
