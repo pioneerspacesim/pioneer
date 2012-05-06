@@ -20,8 +20,8 @@ void LOD::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, RenderDa
 	assert(m_children.size() == m_pixelSizes.size());
 	if (m_pixelSizes.empty()) return;
 	unsigned int lod = m_children.size() - 1;
-	for (unsigned int i=0; i != m_pixelSizes.size(); i++) {
-		if (pixrad < m_pixelSizes[i]) lod = i;
+	for (unsigned int i=m_pixelSizes.size(); i > 0; i--) {
+		if (pixrad < m_pixelSizes[i-1]) lod = i-1;
 	}
 	m_children[lod]->Render(renderer, trans, rd);
 }

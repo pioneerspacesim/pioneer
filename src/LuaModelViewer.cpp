@@ -431,16 +431,22 @@ static Color4ub GetColor(UI::Slider *r, UI::Slider *g, UI::Slider *b)
 void Viewer::OnModelColorsChanged(float)
 {
 	Newmodel::NModel *model = dynamic_cast<Newmodel::NModel*>(m_model);
-	std::vector<Color4ub> colors;
-	colors.push_back(GetColor(m_sliders[0], m_sliders[1], m_sliders[2]));
-	colors.push_back(GetColor(m_sliders[3], m_sliders[4], m_sliders[5]));
-	colors.push_back(GetColor(m_sliders[6], m_sliders[7], m_sliders[8]));
-	model->SetColors(renderer, colors);
+	if (model) {
+		std::vector<Color4ub> colors;
+		colors.push_back(GetColor(m_sliders[0], m_sliders[1], m_sliders[2]));
+		colors.push_back(GetColor(m_sliders[3], m_sliders[4], m_sliders[5]));
+		colors.push_back(GetColor(m_sliders[6], m_sliders[7], m_sliders[8]));
+		model->SetColors(renderer, colors);
+	}
 }
 
 void Viewer::OnPatternChanged(unsigned int index, const std::string &)
 {
-
+	Newmodel::NModel *model = dynamic_cast<Newmodel::NModel*>(m_model);
+	if (model) {
+		assert(index < model->GetPatterns().size());
+		model->SetPattern(index);
+	}
 }
 
 bool Viewer::OnToggleGrid(UI::Widget *w)

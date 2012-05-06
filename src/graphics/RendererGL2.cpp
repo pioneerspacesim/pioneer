@@ -29,7 +29,7 @@ RendererGL2::RendererGL2(int w, int h) :
 		"#define TEXTURE0 1\n"
 		"#define MAP_SPECULAR 1\n"
 		"#define MAP_EMISSIVE 1\n"
-		//"#define MAP_COLOR 1\n"
+		"#define MAP_COLOR 1\n"
 		);
 }
 

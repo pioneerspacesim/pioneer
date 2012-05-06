@@ -23,7 +23,7 @@ namespace Newmodel {
 #if 1 //begin parser
 bool LodSortPredicate(const LodDefinition &a, const LodDefinition &b)
 {
-	return a.pixelSize > b.pixelSize;
+	return a.pixelSize < b.pixelSize;
 }
 
 class Parser
@@ -359,6 +359,7 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		colors.push_back(Color4ub(0, 255, 0, 0));
 		colors.push_back(Color4ub(0, 0, 255, 0));
 		model->SetColors(m_renderer, colors);
+		model->SetPattern(0);
 	}	
 	return model;
 }

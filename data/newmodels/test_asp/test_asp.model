@@ -1,6 +1,6 @@
 material Asp_body
 tex_diff asp_diff.png
-#tex_glow asp_emit.png #the glow is a bit overdone
+tex_glow asp_emit.png #the glow is a bit overdone
 tex_spec asp_spec.png
 diffuse 0.8 0.8 0.8
 specular 0.8 0.9 0.8

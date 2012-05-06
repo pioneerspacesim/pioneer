@@ -42,7 +42,7 @@ void main(void)
 {
 	light = scene.ambient +
 #ifdef MAP_EMISSIVE
-		texture2D(texture2, uv0) * material.emissive; //glow map
+		texture2D(texture2, uv0); //glow map
 #else
 		material.emissive; //just emissive parameter
 #endif
@@ -53,7 +53,7 @@ void main(void)
 
 #ifdef MAP_COLOR
 	float pat = texture2D(texture3, uv0).r;
-	vec4 mapColor = texture2D(texture4, r, 0.0);
+	vec4 mapColor = texture2D(texture4, vec2(pat, 0.0));
 	vec4 base = texture2D(texture0, uv0) * mapColor;
 #else
 	vec4 base = texture2D(texture0, uv0);
