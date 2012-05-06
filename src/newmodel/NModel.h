@@ -38,10 +38,9 @@ typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > >
 
 struct Pattern {
 	std::string name;
-	Graphics::Texture *texture; //note: owns the texture
-	Pattern(const std::string &n, Graphics::Texture *t)
-	: name(n), texture(t) { }
-	~Pattern() { delete texture; }
+	Graphics::Texture *texture;
+	Pattern() : name(""), texture(0) { }
+	Pattern(const std::string &n, Graphics::Texture *t) : name(n), texture(t) { }
 };
 typedef std::vector<Pattern> PatternContainer;
 

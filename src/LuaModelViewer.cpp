@@ -77,6 +77,7 @@ private: //data members
 	Model *m_model;
 	ModelParams m_modelParams;
 	Options m_options;
+	std::string m_modelName;
 	UI::Context *m_ui;
 	UI::DropDown *m_patternSelector;
 
@@ -87,12 +88,13 @@ private: //methods
 	bool OnToggleGrid(UI::Widget *w);
 	void OnLightPresetChanged(unsigned int index, const std::string &);
 	void OnPatternChanged(unsigned int index, const std::string &);
+	void ClearModel();
 	void UpdateLights();
 	void UpdatePatternList();
 
 public:
 	void ResetCamera();
-	void SetModel(Model *);
+	void SetModel(Model *, const std::string &modelname);
 	void PickModel(const std::string &initial_name, const std::string &initial_errormsg);
 	void PickModel() {
 		PickModel("", "");
@@ -149,7 +151,8 @@ public:
 	}
 
 	~Viewer() {
-		delete m_model;
+		ClearModel();
+		delete m_space;
 		delete m_ui;
 	}
 
@@ -233,7 +236,7 @@ void Viewer::SetupUI()
 	UI::Context *c = m_ui;
 	UI::Box *box;
 	UI::Box *buttBox;
-	UI::Button *b1, *gridBtn;
+	UI::Button *b1, *gridBtn, *reloadBtn;
 	UI::CheckBox *radiusCheck;
 	
 	c->SetInnerWidget((box = c->VBox(5.f)));
@@ -248,13 +251,14 @@ void Viewer::SetupUI()
 
 	box->PackEnd((buttBox = c->VBox(5.f)), attrs);
 	AddPair(c, buttBox, (b1 = c->Button()), "Pick another model");
-	AddPair(c, buttBox, (c->Button()), "Reload model");
+	AddPair(c, buttBox, (reloadBtn = c->Button()), "Reload model");
 	AddPair(c, buttBox, (gridBtn = c->Button()), "Grid mode");
 	AddPair(c, buttBox, (radiusCheck = c->CheckBox()), "Show bounding radius");
 	AddPair(c, buttBox, (c->CheckBox()), "Attach guns");
 	AddPair(c, buttBox, (c->CheckBox()), "Draw collision mesh");
 
 	b1->onClick.connect(sigc::mem_fun(*this, &Viewer::PickAnotherModel));
+	reloadBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnReloadModel), reloadBtn));
 	gridBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleGrid), gridBtn));
 	radiusCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius), radiusCheck));
 
@@ -299,6 +303,36 @@ void Viewer::SetupUI()
 	, vector2f(0.f, g_height-200.f), vector2f(500.f, 300.f));
 
 	c->Layout();
+}
+
+bool Viewer::OnReloadModel(UI::Widget *w)
+{
+	try {
+		Newmodel::Loader loader(renderer);
+		Model *mo = loader.LoadModel(m_modelName);
+		SetModel(mo, m_modelName);
+	} catch (Newmodel::LoadingError &) {
+		PickModel(m_modelName, std::string("Could not find model: ") + m_modelName);
+	}
+	return true;
+}
+
+void Viewer::ClearModel()
+{
+	// clear old geometry
+	if (m_model) {
+		delete m_model;
+		m_model = 0;
+	}
+	if (m_cmesh) {
+		delete m_cmesh;
+		m_cmesh = 0;
+	}
+	if (m_geom) {
+		m_space->RemoveGeom(m_geom);
+		delete m_geom;
+		m_geom = 0;
+	}
 }
 
 void Viewer::UpdateLights()
@@ -384,16 +418,11 @@ void Viewer::ResetCamera()
 	matrix4x4f modelRot = matrix4x4f::Identity();
 }
 
-void Viewer::SetModel(Model *model)
+void Viewer::SetModel(Model *model, const std::string &name)
 {
-	// clear old geometry
-	if (m_model) delete m_model;
-	if (m_cmesh) delete m_cmesh;
-	if (m_geom) {
-		m_space->RemoveGeom(m_geom);
-		delete m_geom;
-	}
+	ClearModel();
 
+	m_modelName = name;
 	m_model = model;
 	m_cmesh = m_model->CreateCollisionMesh(0);
 	m_geom = new Geom(m_cmesh->GetGeomTree());
@@ -406,18 +435,22 @@ void Viewer::SetModel(Model *model)
 void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg)
 {
 	if (sym->sym == SDLK_RETURN) {
+		const std::string &name = entry->GetText();
 		Newmodel::Loader load(renderer);
 		try {
-			Model *mo = load.LoadModel(entry->GetText());
-			SetModel(mo);
+			Model *mo = load.LoadModel(name);
+			SetModel(mo, name);
 		} catch (Newmodel::LoadingError &) {
-			errormsg->SetText("Could not find model: " + entry->GetText());
+			errormsg->SetText("Could not find model: " + name);
 		}	
 	}
 }
 
 void Viewer::PickModel(const std::string &initial_name, const std::string &initial_errormsg)
 {
+	//delete old
+	ClearModel();
+
 	Gui::Fixed *f = new Gui::Fixed();
 	f->SetSizeRequest(Gui::Screen::GetWidth()*0.5f, Gui::Screen::GetHeight()*0.5);
 	Gui::Screen::AddBaseWidget(f, Gui::Screen::GetWidth()*0.25f, Gui::Screen::GetHeight()*0.25f);
@@ -432,8 +465,6 @@ void Viewer::PickModel(const std::string &initial_name, const std::string &initi
 	entry->onKeyPress.connect(sigc::bind(sigc::mem_fun(this, &Viewer::TryModel), entry, errormsg));
 	entry->Show();
 	f->Add(entry, 0, 32);
-
-	m_model = 0;
 
 	while (!m_model) {
 		this->Hide();
@@ -764,9 +795,10 @@ int main(int argc, char **argv)
 	g_viewer = new Viewer();
 	if (argc >= 4) {
 		try {
+			const std::string &name(argv[3]);
 			Newmodel::Loader loader(renderer);
-			Model *mo = loader.LoadModel(argv[3]);
-			g_viewer->SetModel(mo);
+			Model *mo = loader.LoadModel(name);
+			g_viewer->SetModel(mo, name);
 			//attach some guns
 			if(0)
 			{
