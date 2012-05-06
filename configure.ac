@@ -87,7 +87,6 @@ AC_ARG_WITH([extra-warnings], AS_HELP_STRING([--without-extra-warnings], [Disabl
 if test "x$with_extra_warnings" != xno; then
   for warn_opt in \
 -Wformat				\
--Wformat-security			\
 -Wstrict-aliasing=2			\
 -Wmissing-format-attribute		\
 -Wmissing-noreturn			\
@@ -99,6 +98,10 @@ if test "x$with_extra_warnings" != xno; then
   ; do
     PIONEER_WARN_C_CXX_FLAG([$warn_opt])
   done
+  dnl -Wformat-security requires -Wformat first, so it needs a slightly customised test
+  dnl we assume that if this test passes then the test (above) for -Wformat passed
+  dnl and therefore -Wformat should already be in WARN_CXXFLAGS
+  _PIONEER_COMPILER_FLAG([C], [WARN], [C], [-Wformat -Wformat-security], [$CC/$CXX], [WARN_CXXFLAGS="$WARN_CXXFLAGS -Wformat-security"])
   for warn_opt in \
 -Wno-format-zero-length			\
 -Werror-implicit-function-declaration	\
