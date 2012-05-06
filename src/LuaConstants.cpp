@@ -110,7 +110,7 @@ static void _create_constant_table(lua_State *l, const char *ns, const EnumItem 
 	    pi_lua_table_ro(l);
 		lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
 		lua_pushstring(l, "Constants");
-		lua_pushvalue(l, -2);
+		lua_pushvalue(l, -3);
 		lua_rawset(l, -3);
 		lua_pop(l, 1);
 	}
