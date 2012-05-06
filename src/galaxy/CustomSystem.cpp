@@ -405,9 +405,10 @@ void CustomSystem::Init()
 	lua_State *L = luaL_newstate();
 	LUA_DEBUG_START(L);
 
-	pi_lua_openlib(L, LUA_DBLIBNAME, &luaopen_base);
-	pi_lua_openlib(L, LUA_DBLIBNAME, &luaopen_debug);
-	pi_lua_openlib(L, LUA_MATHLIBNAME, &luaopen_math);
+	luaL_requiref(L, "_G", &luaopen_base, 1);
+	luaL_requiref(L, LUA_DBLIBNAME, &luaopen_debug, 1);
+	luaL_requiref(L, LUA_MATHLIBNAME, &luaopen_math, 1);
+	lua_pop(L, 3);
 
 	LuaVector::Register(L);
 	LuaFixed::Register(L);

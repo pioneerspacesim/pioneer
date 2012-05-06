@@ -208,9 +208,10 @@ void ShipType::Init()
 
 	LUA_DEBUG_START(l);
 
-	pi_lua_openlib(l, LUA_DBLIBNAME, &luaopen_base);
-	pi_lua_openlib(l, LUA_DBLIBNAME, &luaopen_debug);
-	pi_lua_openlib(l, LUA_MATHLIBNAME, &luaopen_math);
+	luaL_requiref(l, "_G", &luaopen_base, 1);
+	luaL_requiref(l, LUA_DBLIBNAME, &luaopen_debug, 1);
+	luaL_requiref(l, LUA_MATHLIBNAME, &luaopen_math, 1);
+	lua_pop(l, 3);
 
 	LuaVector::Register(l);
 	LUA_DEBUG_CHECK(l, 0);
