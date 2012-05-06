@@ -2,12 +2,6 @@
 #include "LuaFixed.h"
 #include "LuaUtils.h"
 
-extern "C" {
-#include "lua/lua.h"
-#include "lua/lauxlib.h"
-#include "lua/lualib.h"
-}
-
 static int l_fixed_new(lua_State *L)
 {
 	LUA_DEBUG_START(L);
