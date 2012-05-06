@@ -32,7 +32,7 @@ public:
 
 	virtual bool IsContainer() const { return true; }
 
-	void RequestLayout() { m_needsLayout = true; }
+	virtual void RequestResize();
 
 	virtual Widget *GetWidgetAtAbsolute(const vector2f &pos);
 

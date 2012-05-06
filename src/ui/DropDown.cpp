@@ -36,8 +36,7 @@ vector2f DropDown::PreferredSize()
 
 void DropDown::Layout()
 {
-	if (m_preferredSize.ExactlyEqual(0))
-		CalcSizePos();
+	CalcSizePos();
 
 	const vector2f size(GetSize());
 	SetActiveArea(vector2f(std::min(m_preferredSize.x,size.x), std::min(m_preferredSize.y,size.y)));
@@ -94,6 +93,8 @@ DropDown *DropDown::AddOption(const std::string &text)
 	if (m_textWidth < w) m_textWidth = w;
 
 	m_popup->AddOption(text);
+	if (GetContainer()) GetContainer()->RequestResize();
+
 	return this;
 }
 

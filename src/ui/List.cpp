@@ -25,6 +25,11 @@ void List::Layout() {
 	m_container->Layout();
 }
 
+void List::RequestResize()
+{
+    if (GetContainer()) GetContainer()->RequestResize();
+}
+
 List *List::AddOption(const std::string &text)
 {
 	m_options.push_back(text);

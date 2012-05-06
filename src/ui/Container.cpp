@@ -39,6 +39,11 @@ void Container::Draw()
 	c->SetScissor(false);
 }
 
+void Container::RequestResize()
+{
+	m_needsLayout = true;
+}
+
 void Container::LayoutChildren()
 {
 	for (std::list<Widget*>::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)

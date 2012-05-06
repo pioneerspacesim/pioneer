@@ -13,6 +13,8 @@ public:
 	virtual vector2f PreferredSize();
 	virtual void Layout();
 
+	virtual void RequestResize();
+
 	List *AddOption(const std::string &text);
 	const std::string &GetSelectedOption() const { return m_options[m_selected]; }
 

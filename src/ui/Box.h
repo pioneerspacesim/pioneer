@@ -18,6 +18,8 @@ public:
 	virtual vector2f PreferredSize();
 	virtual void Layout();
 
+	virtual void RequestResize();
+
 	struct ChildAttrs {
 		ChildAttrs(bool _expand = true, bool _fill = true) : expand(_expand), fill(_fill) {}
 		const bool expand; // if true, give this child a share of the leftover space
