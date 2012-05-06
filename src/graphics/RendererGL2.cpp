@@ -27,8 +27,10 @@ RendererGL2::RendererGL2(int w, int h) :
 	flatTextured = new Shader("flat", "#define TEXTURE0 1\n");
 	nmProg = new Shader("gl2/nm",
 		"#define TEXTURE0 1\n"
-		"#define MAP_SPECULAR 1\n");
-		//"#define MAP_EMISSIVE 1");
+		"#define MAP_SPECULAR 1\n"
+		"#define MAP_EMISSIVE 1\n"
+		//"#define MAP_COLOR 1\n"
+		);
 }
 
 RendererGL2::~RendererGL2()

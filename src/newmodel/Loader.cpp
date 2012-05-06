@@ -175,6 +175,10 @@ private:
 						m_curMat->shininess = std::max(shininess, 0);
 						return true;
 					}
+					else if (match(token, "use_patterns")) {
+						m_curMat->use_pattern = true;
+						return true;
+					}
 					else //unknown instruction
 						return false;
 				}
@@ -252,6 +256,7 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 	if (def.lodDefs.empty()) return 0;
 
 	NModel *model = new NModel(def.name);
+	bool patternsUsed = false;
 
 	//create materials from definitions
 	for(std::vector<MaterialDefinition>::const_iterator it = def.matDefs.begin();
@@ -266,6 +271,11 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		mat->specular = (*it).specular;
 		mat->emissive = (*it).emissive;
 		mat->shininess = (*it).shininess;
+
+		if ((*it).use_pattern) {
+			patternsUsed = true;
+			mat->usePatterns = true;
+		}
 
 		//XXX white texture is sort of a workaround when all textures are not specified
 		if (!diffTex.empty())
@@ -339,6 +349,11 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		const vector3f &pos = (*it).position;
 		model->AddTag((*it).name, new MatrixTransform(matrix4x4f::Translation(pos.x, pos.y, pos.z)));
 	}
+
+	//find usable pattern textures from the model directory
+	if (patternsUsed) {
+		FindPatterns(model->m_patterns);
+	}
 	return model;
 }
 
@@ -356,6 +371,27 @@ void Loader::FindTags(const aiNode *node, TagList &output)
 		aiNode *child = node->mChildren[i];
 		FindTags(child, output);
 	}
+}
+
+void Loader::FindPatterns(PatternContainer &output)
+{
+	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, m_curPath); !files.Finished(); files.Next()) {
+		const FileSystem::FileInfo &info = files.Current();
+		if (info.IsFile()) {
+			const std::string &name = info.GetName();
+			if (name.substr(name.find_last_of(".")+1) == "png") { //correct type?
+				if(name.compare(0, 7, "pattern") == 0) { //acceptable name?
+					//load as a pattern
+					const std::string &patternPath = FileSystem::JoinPathBelow(m_curPath, name);
+					Graphics::Texture *pat = Graphics::TextureBuilder::Model(patternPath).CreateTexture(m_renderer);
+					output.push_back(Pattern(name, pat));
+				}
+			}
+			//std::cout << files.Current().GetName() << std::endl;
+		}
+	}
+	//std::cout << m_curPath << std::endl;
+	
 }
 
 Node *Loader::LoadMesh(const std::string &filename, const NModel *model, TagList &modelTags)

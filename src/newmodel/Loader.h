@@ -34,6 +34,7 @@ struct MaterialDefinition {
 	Color ambient;
 	Color emissive;
 	int shininess; //specular power, 0+
+	bool use_pattern;
 };
 
 struct LodDefinition {
@@ -72,6 +73,7 @@ private:
 	Graphics::Texture *GetWhiteTexture() const;
 	NModel *CreateModel(ModelDefinition &def);
 	void FindTags(const aiNode *node, TagList &output); //locate tags from assimp structure
+	void FindPatterns(PatternContainer &output); //find pattern texture files from the model directory
 	//load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
 	Node *LoadMesh(const std::string &filename, const NModel *model, TagList &modelTags);
 };

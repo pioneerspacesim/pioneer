@@ -27,6 +27,8 @@ public:
 	Texture *texture0;
 	Texture *texture1;
 	Texture *texture2;
+	Texture *texture3;
+	Texture *texture4;
 	Color diffuse;
 	//Color ambient;
 	Color specular;
@@ -46,6 +48,7 @@ public:
 	Shader *shader;
 
 	bool newStyleHack;
+	bool usePatterns;
 };
 
 }

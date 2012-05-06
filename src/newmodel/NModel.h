@@ -36,6 +36,15 @@ struct LoadingError : public std::runtime_error {
 
 typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > > MaterialContainer;
 
+struct Pattern {
+	std::string name;
+	Graphics::Texture *texture; //note: owns the texture
+	Pattern(const std::string &n, Graphics::Texture *t)
+	: name(n), texture(t) { }
+	~Pattern() { delete texture; }
+};
+typedef std::vector<Pattern> PatternContainer;
+
 class NModel : public Model
 {
 public:
@@ -58,11 +67,16 @@ public:
 	Group * const FindTagByName(const std::string &name) const;
 	void AddTag(const std::string &name, Group *node);
 
+	void SetRenderData(RenderData *d) { m_renderData = d; }
+	const PatternContainer &GetPatterns() const { return m_patterns; }
+
 private:
 	float m_boundingRadius;
 	MaterialContainer m_materials; //materials are shared throughout the model graph
 	RefCountedPtr<Group> m_root;
+	RenderData *m_renderData;
 	std::string m_name;
+	PatternContainer m_patterns;
 	std::vector<Group *> m_tags; //named attachment points
 	typedef std::vector<Group *> TagContainer;
 };

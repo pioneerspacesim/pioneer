@@ -17,14 +17,24 @@ void MaterialGL2::Apply() const
 		shader->SetUniform("texture0", 0);
 	}
 	if (texture1) {
-		glActiveTexture(GL_TEXTURE1);
+		glActiveTexture(GL_TEXTURE0 + 1);
 		static_cast<TextureGL*>(texture1)->Bind();
 		shader->SetUniform("texture1", 1);
 	}
 	if (texture2) {
-		glActiveTexture(GL_TEXTURE2);
+		glActiveTexture(GL_TEXTURE0 + 2);
 		static_cast<TextureGL*>(texture2)->Bind();
 		shader->SetUniform("texture2", 2);
+	}
+	if (texture3) {
+		glActiveTexture(GL_TEXTURE0 + 3);
+		static_cast<TextureGL*>(texture3)->Bind();
+		shader->SetUniform("texture3", 3);
+	}
+	if (texture4) {
+		glActiveTexture(GL_TEXTURE0 + 4);
+		static_cast<TextureGL*>(texture4)->Bind();
+		shader->SetUniform("texture4", 4);
 	}
 }
 
