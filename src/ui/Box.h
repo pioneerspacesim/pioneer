@@ -18,6 +18,8 @@ public:
 	virtual vector2f PreferredSize();
 	virtual void Layout();
 
+	virtual void RequestResize();
+
 	struct ChildAttrs {
 		ChildAttrs(bool _expand = true, bool _fill = true) : expand(_expand), fill(_fill) {}
 		const bool expand; // if true, give this child a share of the leftover space
@@ -29,7 +31,9 @@ public:
 	Box *PackStart(const WidgetSet &set, const ChildAttrs &attrs = ChildAttrs());
 	Box *PackEnd(Widget *child, const ChildAttrs &attrs = ChildAttrs());
 	Box *PackEnd(const WidgetSet &set, const ChildAttrs &attrs = ChildAttrs());
+
 	void Remove(Widget *child);
+	void Clear();
 
 private:
 	BoxOrientation m_orient;

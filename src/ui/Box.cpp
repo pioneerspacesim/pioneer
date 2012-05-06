@@ -108,11 +108,18 @@ void Box::Layout()
 	LayoutChildren();
 }
 
+void Box::RequestResize()
+{
+	if (GetContainer()) GetContainer()->RequestResize();
+	Container::RequestResize();
+}
+
 Box *Box::PackStart(Widget *widget, const ChildAttrs &attrs)
 {
 	AddWidget(widget);
 	m_children.push_front(Child(widget, attrs));
 	if (attrs.expand) m_countExpanded++;
+	if (GetContainer()) GetContainer()->RequestResize();
 	return this;
 }
 
@@ -120,6 +127,7 @@ Box *Box::PackStart(const WidgetSet &set, const ChildAttrs &attrs)
 {
 	for (int i = 0; i < set.numWidgets; ++i)
 		PackStart(set.widgets[i], attrs);
+	if (GetContainer()) GetContainer()->RequestResize();
 	return this;
 }
 
@@ -128,6 +136,7 @@ Box *Box::PackEnd(Widget *widget, const ChildAttrs &attrs)
 	AddWidget(widget);
 	m_children.push_back(Child(widget, attrs));
 	if (attrs.expand) m_countExpanded++;
+	if (GetContainer()) GetContainer()->RequestResize();
 	return this;
 }
 
@@ -135,18 +144,26 @@ Box *Box::PackEnd(const WidgetSet &set, const ChildAttrs &attrs)
 {
 	for (int i = 0; i < set.numWidgets; ++i)
 		PackEnd(set.widgets[i], attrs);
+	if (GetContainer()) GetContainer()->RequestResize();
 	return this;
 }
 
 void Box::Remove(Widget *widget)
 {
-	RemoveWidget(widget);
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i)
 		if ((*i).widget == widget) {
 			m_children.erase(i);
+			RemoveWidget(widget);
+			if (GetContainer()) GetContainer()->RequestResize();
 			return;
 		}
-	assert(0);
+}
+
+void Box::Clear()
+{
+	m_children.clear();
+	Container::RemoveAllWidgets();
+	if (GetContainer()) GetContainer()->RequestResize();
 }
 
 }

@@ -39,6 +39,11 @@ void Container::Draw()
 	c->SetScissor(false);
 }
 
+void Container::RequestResize()
+{
+	m_needsLayout = true;
+}
+
 void Container::LayoutChildren()
 {
 	for (std::list<Widget*>::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
@@ -65,10 +70,22 @@ void Container::RemoveWidget(Widget *widget)
 	std::list<Widget*>::iterator i;
 	for (i = m_widgets.begin(); i != m_widgets.end(); ++i)
 		if (*i == widget) break;
-	assert(i != m_widgets.end());
+	if (i == m_widgets.end())
+		return;
 
 	widget->Detach();
 	m_widgets.erase(i);
+}
+
+void Container::RemoveAllWidgets()
+{
+	std::list<Widget*>::iterator i = m_widgets.begin();
+	while (i != m_widgets.end()) {
+		Widget *widget = *i;
+		widget->Detach();
+		delete widget;
+		i = m_widgets.erase(i);
+	}
 }
 
 void Container::SetWidgetDimensions(Widget *widget, const vector2f &position, const vector2f &size)
