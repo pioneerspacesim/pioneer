@@ -336,7 +336,7 @@ template <> const char *LuaObject<LuaUncopyable<ShipType> >::s_type = "ShipType"
 
 template <> void LuaObject<LuaUncopyable<ShipType> >::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "GetLinearThrust",      l_shiptype_get_linear_thrust       },
 		{ "GetEquipSlotCapacity", l_shiptype_get_equip_slot_capacity },
 
@@ -345,7 +345,7 @@ template <> void LuaObject<LuaUncopyable<ShipType> >::RegisterClass()
 		{ 0, 0 }
 	};
 
-	static const luaL_reg l_attrs[] = {
+	static const luaL_Reg l_attrs[] = {
 		{ "name",              l_shiptype_attr_name               },
 		{ "angularThrust",     l_shiptype_attr_angular_thrust     },
 		{ "capacity",          l_shiptype_attr_capacity           },

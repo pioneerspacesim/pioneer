@@ -518,7 +518,7 @@ void LuaSpace::Register()
 
 	LUA_DEBUG_START(l);
 
-	static const luaL_reg methods[] = {
+	static const luaL_Reg methods[] = {
 		{ "SpawnShip",       l_space_spawn_ship        },
 		{ "SpawnShipNear",   l_space_spawn_ship_near   },
 		{ "SpawnShipDocked", l_space_spawn_ship_docked },

@@ -110,7 +110,7 @@ void LuaFormat::Register()
 
 	LUA_DEBUG_START(l);
 
-	static const luaL_reg methods[] = {
+	static const luaL_Reg methods[] = {
 		{ "Date",     l_format_date     },
 		{ "Distance", l_format_distance },
 		{ "Money",    l_format_money    },

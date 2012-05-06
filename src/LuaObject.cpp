@@ -251,11 +251,11 @@ static int dispatch_index(lua_State *l)
 	return 0;
 }
 
-static const luaL_reg no_methods[] = {
+static const luaL_Reg no_methods[] = {
 	{ 0, 0 }
 };
 
-void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL_reg *methods, const luaL_reg *attrs, const luaL_reg *meta)
+void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta)
 {
 	assert(type);
 

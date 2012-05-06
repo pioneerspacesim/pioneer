@@ -413,7 +413,7 @@ template <> const char *LuaObject<StarSystem>::s_type = "StarSystem";
 
 template <> void LuaObject<StarSystem>::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "GetStationPaths", l_starsystem_get_station_paths },
 		{ "GetBodyPaths", l_starsystem_get_body_paths },
 
@@ -427,7 +427,7 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	static const luaL_reg l_attrs[] = {
+	static const luaL_Reg l_attrs[] = {
 		{ "name", l_starsystem_attr_name },
 		{ "path", l_starsystem_attr_path },
 

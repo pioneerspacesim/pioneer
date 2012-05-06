@@ -790,7 +790,7 @@ template <> const char *LuaObject<LuaEventQueueBase>::s_type = "EventQueue";
 
 template <> void LuaObject<LuaEventQueueBase>::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "Connect",    LuaEventQueueBase::l_connect     },
 		{ "Disconnect", LuaEventQueueBase::l_disconnect  },
 		{ "DebugTimer", LuaEventQueueBase::l_debug_timer },

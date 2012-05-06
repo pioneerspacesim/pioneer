@@ -239,7 +239,7 @@ template <> const char *LuaObject<LuaTimer>::s_type = "Timer";
 
 template <> void LuaObject<LuaTimer>::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "CallAt",    l_timer_call_at    },
 		{ "CallEvery", l_timer_call_every },
 		{ 0, 0 }

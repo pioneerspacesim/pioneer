@@ -291,7 +291,7 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 {
 	const char *l_parent = "Body";
 
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "AddAdvert",    l_spacestation_add_advert    },
 		{ "RemoveAdvert", l_spacestation_remove_advert },
 
@@ -300,7 +300,7 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	static luaL_reg l_attrs[] = {
+	static luaL_Reg l_attrs[] = {
 		{ "numDocks", l_spacestation_attr_num_docks },
 
 		{ 0, 0 }

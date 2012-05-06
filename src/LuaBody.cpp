@@ -288,13 +288,13 @@ template <> const char *LuaObject<Body>::s_type = "Body";
 
 template <> void LuaObject<Body>::RegisterClass()
 {
-	static luaL_reg l_methods[] = {
+	static luaL_Reg l_methods[] = {
 		{ "IsDynamic",  l_body_is_dynamic  },
 		{ "DistanceTo", l_body_distance_to },
 		{ 0, 0 }
 	};
 
-	static luaL_reg l_attrs[] = {
+	static luaL_Reg l_attrs[] = {
 		{ "label",         l_body_attr_label          },
 		{ "seed",          l_body_attr_seed           },
 		{ "path",          l_body_attr_path           },

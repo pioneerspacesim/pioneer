@@ -539,7 +539,7 @@ template <> const char *LuaObject<LuaSerializer>::s_type = "Serializer";
 
 template <> void LuaObject<LuaSerializer>::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "Register", LuaSerializer::l_register },
 		{ 0, 0 }
 	};

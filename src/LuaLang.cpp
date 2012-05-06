@@ -136,7 +136,7 @@ void LuaLang::Register()
 
 	LUA_DEBUG_START(l);
 
-	static const luaL_reg methods[] = {
+	static const luaL_Reg methods[] = {
 		{ "GetDictionary",   l_lang_get_dictionary   },
 		{ "GetCoreLanguages",    l_lang_get_core_languages     },
 		{ "GetCurrentLanguage", l_lang_get_current_language },

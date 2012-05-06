@@ -288,7 +288,7 @@ void LuaConsole::Register()
 
 	LUA_DEBUG_START(l);
 
-	static const luaL_reg methods[] = {
+	static const luaL_Reg methods[] = {
 		{ "AddLine", l_console_addline },
 		{ 0, 0 }
 	};

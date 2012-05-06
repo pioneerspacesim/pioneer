@@ -749,7 +749,7 @@ template <> const char *LuaObject<LuaChatForm>::s_type = "ChatForm";
 
 template <> void LuaObject<LuaChatForm>::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "SetTitle",            l_luachatform_set_title                     },
 		{ "SetFace",             l_luachatform_set_face                      },
 		{ "SetMessage",          LuaChatForm::l_luachatform_set_message      },

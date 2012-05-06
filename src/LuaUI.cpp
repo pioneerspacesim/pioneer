@@ -99,7 +99,7 @@ void LuaUI::Register()
 
 	LUA_DEBUG_START(l);
 
-	static const luaL_reg methods[] = {
+	static const luaL_Reg methods[] = {
 		{ "Message",          l_ui_message           },
 		{ "ImportantMessage", l_ui_important_message },
 		{ 0, 0 }

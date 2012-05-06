@@ -221,14 +221,14 @@ template <> const char *LuaObject<LuaUncopyable<EquipType> >::s_type = "EquipTyp
 
 template <> void LuaObject<LuaUncopyable<EquipType> >::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
         { "GetEquipType",  l_equiptype_get_equip_type  },
 		{ "GetEquipTypes", l_equiptype_get_equip_types },
 
 		{ 0, 0 }
 	};
 
-	static const luaL_reg l_attrs[] = {
+	static const luaL_Reg l_attrs[] = {
 		{ "name",      l_equiptype_attr_name       },
 		{ "slot",      l_equiptype_attr_slot       },
 		{ "basePrice", l_equiptype_attr_base_price },
