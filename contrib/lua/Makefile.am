@@ -3,7 +3,9 @@
 if !HAVE_LUA
 
 include $(top_srcdir)/Makefile.common
-AM_CPPFLAGS += $(LUA_CFLAGS)
+# cancel the VERSION define, which conflicts with an internal #define in lundump.c
+# (Lua doesn't need to know Pioneer's version number anyway)
+AM_CPPFLAGS += $(LUA_CFLAGS) -UVERSION
 
 noinst_LIBRARIES = liblua.a
 liblua_a_SOURCES = \
