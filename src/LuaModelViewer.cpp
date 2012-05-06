@@ -10,6 +10,7 @@
 #include "ModManager.h"
 #include "newmodel/Newmodel.h"
 #include "ui/Context.h"
+#include <sstream>
 
 using namespace Graphics;
 
@@ -77,6 +78,8 @@ private: //data members
 	Model *m_model;
 	ModelParams m_modelParams;
 	Options m_options;
+	std::list<std::string> m_logLines;
+	std::string m_logString;
 	std::string m_modelName;
 	UI::Context *m_ui;
 	UI::DropDown *m_patternSelector;
@@ -87,8 +90,11 @@ private: //methods
 	bool OnToggleBoundingRadius(UI::Widget *w);
 	bool OnToggleGrid(UI::Widget *w);
 	void OnLightPresetChanged(unsigned int index, const std::string &);
+	void OnModelColorsChanged();
 	void OnPatternChanged(unsigned int index, const std::string &);
+	void AddLog(const std::string &message);
 	void ClearModel();
+	void DrawLog();
 	void UpdateLights();
 	void UpdatePatternList();
 
@@ -107,7 +113,9 @@ public:
 	Viewer(): Gui::Fixed(float(g_width), float(g_height)),
 		m_model(0),
 		m_cmesh(0),
-		m_geom(0)
+		m_geom(0),
+		m_logString(""),
+		m_modelName("")
 	{
 		SetupUI();
 
@@ -276,9 +284,6 @@ void Viewer::SetupUI()
 	m_patternSelector->onOptionSelected.connect(sigc::mem_fun(*this, &Viewer::OnPatternChanged));
 	ddown->onOptionSelected.connect(sigc::mem_fun(*this, &Viewer::OnLightPresetChanged));
 
-	c->AddFloatingWidget(c->MultiLineText("01 Messages go here\n02 Messages go here\n03 Messages go here"),
-		vector2f(0.f, g_height-300.f), vector2f(500.f, 300.f));
-
 	//3x3 colour sliders
 	c->AddFloatingWidget(
 		c->HBox()->PackEnd( //three columns
@@ -308,13 +313,30 @@ void Viewer::SetupUI()
 bool Viewer::OnReloadModel(UI::Widget *w)
 {
 	try {
+		AddLog("Reloading model...");
 		Newmodel::Loader loader(renderer);
 		Model *mo = loader.LoadModel(m_modelName);
 		SetModel(mo, m_modelName);
+		AddLog("Model loaded");
 	} catch (Newmodel::LoadingError &) {
 		PickModel(m_modelName, std::string("Could not find model: ") + m_modelName);
 	}
 	return true;
+}
+
+void Viewer::AddLog(const std::string &line)
+{
+	m_logLines.push_back(line);
+	if (m_logLines.size() > 8) m_logLines.pop_front();
+
+	std::stringstream ss;
+	for(std::list<std::string>::const_iterator it = m_logLines.begin();
+		it != m_logLines.end();
+		++it)
+	{
+		ss << *it << std::endl;
+	}
+	m_logString = ss.str();
 }
 
 void Viewer::ClearModel()
@@ -333,6 +355,15 @@ void Viewer::ClearModel()
 		delete m_geom;
 		m_geom = 0;
 	}
+}
+
+void Viewer::DrawLog()
+{
+	Gui::Screen::EnterOrtho();
+	Gui::Screen::PushFont("ConsoleFont");
+	Gui::Screen::RenderString(m_logString, 10, 400);
+	Gui::Screen::PopFont();
+	Gui::Screen::LeaveOrtho();
 }
 
 void Viewer::UpdateLights()
@@ -378,6 +409,16 @@ void Viewer::OnLightPresetChanged(unsigned int index, const std::string &)
 	m_options.lightPreset = std::min<unsigned int>(index, 2);
 }
 
+void Viewer::OnModelColorsChanged()
+{
+	Newmodel::NModel *model = dynamic_cast<Newmodel::NModel*>(m_model);
+	std::vector<Color> colors;
+	colors.push_back(Color(1.f, 0.f, 0.f, 1.f));
+	colors.push_back(Color(0.f, 1.f, 0.f, 1.f));
+	colors.push_back(Color(0.f, 0.f, 1.f, 1.f));
+	model->SetColors(colors);
+}
+
 void Viewer::OnPatternChanged(unsigned int index, const std::string &)
 {
 
@@ -396,13 +437,9 @@ bool Viewer::OnToggleGrid(UI::Widget *w)
 			m_options.gridInterval = 0.0f;
 		}
 	}
-	/*b->RemoveInnerWidget();
-	b->SetInnerWidget(m_ui->Label(
-		m_showGrid
-		? stringf("Grid: %0{d}", int(gridInterval))
-		: "Grid: off"
-	));
-	b->Layout();*/
+	AddLog(m_options.showGrid
+		? stringf("Grid: %0{d}", int(m_options.gridInterval))
+		: "Grid: off");
 	return m_options.showGrid;
 }
 
@@ -430,6 +467,7 @@ void Viewer::SetModel(Model *model, const std::string &name)
 	ResetCamera();
 
 	UpdatePatternList();
+	OnModelColorsChanged();
 }
 
 void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg)
@@ -641,6 +679,7 @@ void Viewer::MainLoop()
 		}
 		
 		//Gui::Draw();
+		DrawLog();
 		m_ui->Update();
 		renderer->SetDepthTest(false);
 		renderer->SetOrthographicProjection(0, g_width, g_height, 0, -1, 1);

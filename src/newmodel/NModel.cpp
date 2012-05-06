@@ -79,4 +79,9 @@ void NModel::AddTag(const std::string &name, Group *node)
 	m_tags.push_back(node);
 }
 
+void NModel::SetColors(const std::vector<Color> &colors)
+{
+	assert(colors.size() == 3); //primary, seconday, trim
+}
+
 }

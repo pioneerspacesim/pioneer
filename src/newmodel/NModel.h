@@ -68,6 +68,7 @@ public:
 
 	void SetRenderData(RenderData *d) { m_renderData = d; }
 	const PatternContainer &GetPatterns() const { return m_patterns; }
+	void SetColors(const std::vector<Color> &colors);
 
 private:
 	float m_boundingRadius;
