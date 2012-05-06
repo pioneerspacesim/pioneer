@@ -25,8 +25,6 @@ static bool g_doBenchmark = false;
 static vector3f g_campos(0.0f, 0.0f, 100.0f);
 static matrix4x4f g_camorient;
 
-float gridInterval = 0.0f;
-
 //some utility functions
 static bool setMouseButton(const Uint8 idx, const int value)
 {
@@ -56,34 +54,39 @@ static float g_frameTime;
 
 struct Options {
 	bool showBoundingBoxes;
+	bool showBoundingRadius;
+	bool showGrid;
+	float gridInterval;
 	int lightPreset;
 
 	Options()
 	: showBoundingBoxes(false)
+	, showBoundingRadius(false)
+	, showGrid(false)
+	, gridInterval(0.f)
 	, lightPreset(0)
 	{ }
 };
 
 class Viewer: public Gui::Fixed {
 private: //data members
-	bool m_showBoundingRadius;
-	bool m_showGrid;
 	CollisionSpace *m_space;
 	CollMesh *m_cmesh;
 	Geom *m_geom;
 	Gui::Label *m_trisReadout;
 	Model *m_model;
 	ModelParams m_modelParams;
-	Options m_drawOptions;
+	Options m_options;
 	UI::Context *m_ui;
 	UI::DropDown *m_patternSelector;
 
 private: //methods
 	void SetupUI();
+	bool OnReloadModel(UI::Widget *w);
+	bool OnToggleBoundingRadius(UI::Widget *w);
+	bool OnToggleGrid(UI::Widget *w);
 	void OnLightPresetChanged(unsigned int index, const std::string &);
 	void OnPatternChanged(unsigned int index, const std::string &);
-	bool OnToggleGrid(UI::Widget *w);
-	bool OnToggleBoundingRadius(UI::Widget *w);
 	void UpdateLights();
 	void UpdatePatternList();
 
@@ -107,8 +110,6 @@ public:
 		SetupUI();
 
 		m_space = new CollisionSpace();
-		m_showBoundingRadius = false;
-		m_showGrid = false;
 		Gui::Screen::AddBaseWidget(this, 0, 0);
 		SetTransparency(true);
 
@@ -304,7 +305,7 @@ void Viewer::UpdateLights()
 {
 	Light lights[2];
 
-	switch(m_drawOptions.lightPreset) {
+	switch(m_options.lightPreset) {
 	case 0:
 		//Front white
 		lights[0] = Light(Light::LIGHT_DIRECTIONAL, azElToDir(90,0), Color(1.0f, 1.0f, 1.0f), Color(0.f), Color(1.f));
@@ -340,7 +341,7 @@ void Viewer::UpdatePatternList()
 
 void Viewer::OnLightPresetChanged(unsigned int index, const std::string &)
 {
-	m_drawOptions.lightPreset = std::min<unsigned int>(index, 2);
+	m_options.lightPreset = std::min<unsigned int>(index, 2);
 }
 
 void Viewer::OnPatternChanged(unsigned int index, const std::string &)
@@ -350,15 +351,15 @@ void Viewer::OnPatternChanged(unsigned int index, const std::string &)
 
 bool Viewer::OnToggleGrid(UI::Widget *w)
 {
-	if (!m_showGrid) {
-		m_showGrid = true;
-		gridInterval = 1.0f;
+	if (!m_options.showGrid) {
+		m_options.showGrid = true;
+		m_options.gridInterval = 1.0f;
 	}
 	else {
-		gridInterval = powf(10, ceilf(log10f(gridInterval))+1);
-		if (gridInterval >= 10000.0f) {
-			m_showGrid = false;
-			gridInterval = 0.0f;
+		m_options.gridInterval = powf(10, ceilf(log10f(m_options.gridInterval))+1);
+		if (m_options.gridInterval >= 10000.0f) {
+			m_options.showGrid = false;
+			m_options.gridInterval = 0.0f;
 		}
 	}
 	/*b->RemoveInnerWidget();
@@ -368,12 +369,12 @@ bool Viewer::OnToggleGrid(UI::Widget *w)
 		: "Grid: off"
 	));
 	b->Layout();*/
-	return m_showGrid;
+	return m_options.showGrid;
 }
 
 bool Viewer::OnToggleBoundingRadius(UI::Widget *w) {
-	m_showBoundingRadius = !m_showBoundingRadius;
-	return m_showBoundingRadius;
+	m_options.showBoundingRadius = !m_options.showBoundingRadius;
+	return m_options.showBoundingRadius;
 }
 
 void Viewer::ResetCamera()
@@ -550,12 +551,12 @@ void Viewer::MainLoop()
 			glPopMatrix();
 		}
 
-		if (m_showBoundingRadius) {
+		if (m_options.showBoundingRadius) {
 			matrix4x4f mo = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos);// * modelRot.InverseOf();
 			VisualizeBoundingRadius(mo, m_model->GetDrawClipRadius());
 		}
 
-		if (m_showGrid) {
+		if (m_options.showGrid) {
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
 			const float rad = m_model->GetDrawClipRadius();
 			DrawGrid(m, rad);
@@ -685,11 +686,11 @@ void Viewer::DrawGrid(matrix4x4f& trans, double radius)
 {
 	const float dist = abs(g_campos.z);
 
-	const float max = std::min(powf(10, ceilf(log10f(dist))), ceilf(radius/gridInterval)*gridInterval);
+	const float max = std::min(powf(10, ceilf(log10f(dist))), ceilf(radius/m_options.gridInterval)*m_options.gridInterval);
 
 	std::vector<vector3f> points;
 
-	for (float x = -max; x <= max; x += gridInterval) {
+	for (float x = -max; x <= max; x += m_options.gridInterval) {
 		points.push_back(vector3f(x,0,-max));
 		points.push_back(vector3f(x,0,max));
 		points.push_back(vector3f(0,x,-max));
