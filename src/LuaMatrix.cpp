@@ -228,8 +228,7 @@ void LuaMatrix::Register(lua_State *L)
 matrix4x4f *LuaMatrix::PushNewToLua(lua_State *L)
 {
 	matrix4x4f *v = static_cast<matrix4x4f*>(lua_newuserdata(L, sizeof(matrix4x4f)));
-	luaL_getmetatable(L, LuaMatrix::TypeName);
-	lua_setmetatable(L, -2);
+	luaL_setmetatable(L, LuaMatrix::TypeName);
 	return v;
 }
 

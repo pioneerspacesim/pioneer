@@ -43,8 +43,7 @@ static int l_csb_new(lua_State *L)
 	CustomSystemBody **csbptr = static_cast<CustomSystemBody**>(
 			lua_newuserdata(L, sizeof(CustomSystemBody*)));
 	*csbptr = new CustomSystemBody;
-	luaL_getmetatable(L, LuaCustomSystemBody_TypeName);
-	lua_setmetatable(L, -2);
+	luaL_setmetatable(L, LuaCustomSystemBody_TypeName);
 
 	(*csbptr)->name = name;
 	(*csbptr)->type = static_cast<SystemBody::BodyType>(type);
@@ -219,8 +218,7 @@ static int l_csys_new(lua_State *L)
 	CustomSystem **csptr = static_cast<CustomSystem**>(
 			lua_newuserdata(L, sizeof(CustomSystem*)));
 	*csptr = new CustomSystem;
-	luaL_getmetatable(L, LuaCustomSystem_TypeName);
-	lua_setmetatable(L, -2);
+	luaL_setmetatable(L, LuaCustomSystem_TypeName);
 
 	(*csptr)->name = name;
 	(*csptr)->numStars = numStars;

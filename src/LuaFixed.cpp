@@ -157,8 +157,7 @@ void LuaFixed::PushToLua(lua_State *L, const fixed &v)
 	LUA_DEBUG_START(L);
 	fixed *ptr = static_cast<fixed*>(lua_newuserdata(L, sizeof(fixed)));
 	*ptr = v;
-	luaL_getmetatable(L, LuaFixed::TypeName);
-	lua_setmetatable(L, -2);
+	luaL_setmetatable(L, LuaFixed::TypeName);
 	LUA_DEBUG_END(L, 1);
 }
 

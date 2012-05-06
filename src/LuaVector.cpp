@@ -203,11 +203,8 @@ void LuaVector::Register(lua_State *L)
 
 vector3d *LuaVector::PushNewToLua(lua_State *L)
 {
-	LUA_DEBUG_START(L);
 	vector3d *ptr = static_cast<vector3d*>(lua_newuserdata(L, sizeof(vector3d)));
-	luaL_getmetatable(L, LuaVector::TypeName);
-	lua_setmetatable(L, -2);
-	LUA_DEBUG_END(L, 1);
+	luaL_setmetatable(L, LuaVector::TypeName);
 	return ptr;
 }
 
