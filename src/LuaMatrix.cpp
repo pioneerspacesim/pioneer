@@ -135,32 +135,15 @@ static int l_matrix_mul (lua_State *L)
 		return 1;
 	} else {
 		const matrix4x4f *a = LuaMatrix::CheckFromLua(L, 1);
-		luaL_checktype(L, 2, LUA_TUSERDATA);
-
-		void *bp = lua_touserdata(L, 2);
-		if (!bp) { luaL_argerror(L, 2, "invalid object passed to matrix multiply"); }
-
-		LUA_DEBUG_START(L);
-
-		lua_getmetatable(L, 2);
-		assert(lua_istable(L, -1));
-
-		luaL_getmetatable(L, LuaVector::TypeName);
-		bool isvector = lua_rawequal(L, -1, -2);
-		lua_pop(L, 2);
-
-		if (isvector) {
+		const vector3d *bvec = LuaVector::GetFromLua(L, 2);
+		if (bvec) {
 			// matrix * vector
-			const vector3f b = LuaVector::CheckFromLuaF(L, 2);
-			LuaVector::PushToLuaF(L, (*a) * b);
+			LuaVector::PushToLuaF(L, (*a) * vector3f(*bvec));
 		} else {
 			// matrix * matrix
 			const matrix4x4f *b = LuaMatrix::CheckFromLua(L, 2);
 			LuaMatrix::PushToLua(L, (*a) * (*b));
 		}
-
-		LUA_DEBUG_END(L, 1);
-
 		return 1;
 	}
 }
