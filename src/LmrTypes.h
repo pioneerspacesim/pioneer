@@ -30,8 +30,18 @@ struct LmrObjParams
 
 	struct LmrMaterial pMat[3];
 
-	int screenWidth;
+	//stuff added after newmodel
+	int scrWidth;
+	float boundingRadius; //updated by model and passed to submodels
+	bool drawBoundingBoxes;
+
+	LmrObjParams()
+	: scrWidth(800)
+	, boundingRadius(0.f)
+	, drawBoundingBoxes(false)
+	{ }
 };
 typedef LmrObjParams ModelParams;
+typedef LmrObjParams RenderData;
 
 #endif

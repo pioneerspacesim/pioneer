@@ -4,6 +4,7 @@
  * Generic node for the model scenegraph
  */
 #include "RefCounted.h"
+#include "LmrTypes.h" //for renderdata
 
 namespace Graphics { class Renderer; }
 
@@ -11,7 +12,6 @@ namespace Newmodel
 {
 
 class NodeVisitor;
-struct RenderData;
 
 class Node : public RefCounted
 {
@@ -24,18 +24,6 @@ public:
 protected:
 	//can only to be deleted using DecRefCount
 	virtual ~Node() { }
-};
-
-struct RenderData {
-	int scrWidth;
-	float boundingRadius;
-	bool drawBoundingBoxes;
-
-	RenderData()
-	: scrWidth(800)
-	, boundingRadius(0.f)
-	, drawBoundingBoxes(false)
-	{ }
 };
 
 }
