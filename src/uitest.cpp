@@ -51,9 +51,12 @@ static void fill_label(float v, UI::Label *label)
 	label->SetText(s);
 }
 
+static const char *options[] = { "foo", "bar", "baz", "qwop" };
 static bool add_dropdown_option(UI::DropDown *dropdown)
 {
-	dropdown->AddOption("foo");
+	static int i = 0;
+	dropdown->AddOption(options[i++]);
+	i = i % 4;
 	return true;
 }
 

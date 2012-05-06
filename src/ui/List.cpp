@@ -63,6 +63,7 @@ const std::string &List::GetSelectedOption()
 
 void List::Clear()
 {
+	m_options.clear();
 	m_optionBackgrounds.clear();
 	static_cast<VBox*>(m_container->GetInnerWidget())->Clear();
 	m_selected = -1;
