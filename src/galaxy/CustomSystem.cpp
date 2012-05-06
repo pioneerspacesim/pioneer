@@ -147,7 +147,8 @@ static luaL_Reg LuaCustomSystemBody_meta[] = {
 	{ "eccentricity", &l_csb_eccentricity },
 	{ "orbital_offset", &l_csb_orbital_offset },
 	{ "latitude", &l_csb_latitude },
-	{ "inclination", &l_csb_latitude }, // uses the same field as latitude
+	// latitude is for surface bodies, inclination is for orbiting bodies (but they're the same field)
+	{ "inclination", &l_csb_latitude },
 	{ "longitude", &l_csb_longitude },
 	{ "rotation_period", &l_csb_rotation_period },
 	{ "axial_tilt", &l_csb_axial_tilt },
