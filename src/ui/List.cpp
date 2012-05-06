@@ -8,7 +8,7 @@ static const float ALPHA_NORMAL = 0.0f;
 static const float ALPHA_HOVER  = 0.4f;
 static const float ALPHA_SELECT = 0.6f;
 
-List::List(Context *context) : Container(context), m_selected(0)
+List::List(Context *context) : Container(context), m_selected(-1)
 {
 	Context *c = GetContext();
 	m_container = c->Background();
@@ -33,12 +33,13 @@ void List::RequestResize()
 List *List::AddOption(const std::string &text)
 {
 	m_options.push_back(text);
+	if (m_selected < 0) m_selected = 0;
 
 	Context *c = GetContext();
 
 	VBox *vbox = static_cast<VBox*>(m_container->GetInnerWidget());
 
-	unsigned int index = m_optionBackgrounds.size();
+	int index = m_optionBackgrounds.size();
 
 	ColorBackground *background = c->ColorBackground(Color(0,0,0, m_selected == index ? ALPHA_SELECT : ALPHA_NORMAL));
 	vbox->PackEnd(background->SetInnerWidget(c->Label(text)));
@@ -52,22 +53,38 @@ List *List::AddOption(const std::string &text)
 	return this;
 }
 
-bool List::HandleOptionMouseOver(unsigned int index)
+const std::string &List::GetSelectedOption()
+{
+	static const std::string empty;
+	if (m_selected < 0)
+		return empty;
+	return m_options[m_selected];
+}
+
+void List::Clear()
+{
+	m_optionBackgrounds.clear();
+	static_cast<VBox*>(m_container->GetInnerWidget())->Clear();
+	m_selected = -1;
+}
+
+bool List::HandleOptionMouseOver(int index)
 {
 	m_optionBackgrounds[index]->SetColor(Color(0,0,0, ALPHA_HOVER));
 	return false;
 }
 
-bool List::HandleOptionMouseOut(unsigned int index)
+bool List::HandleOptionMouseOut(int index)
 {
 	m_optionBackgrounds[index]->SetColor(Color(0,0,0, m_selected == index ? ALPHA_SELECT : ALPHA_NORMAL));
 	return false;
 }
 
-bool List::HandleOptionClick(unsigned int index)
+bool List::HandleOptionClick(int index)
 {
 	if (m_selected != index) {
-		m_optionBackgrounds[m_selected]->SetColor(Color(0,0,0, ALPHA_NORMAL));
+		if (m_selected >= 0)
+			m_optionBackgrounds[m_selected]->SetColor(Color(0,0,0, ALPHA_NORMAL));
 		m_selected = index;
 		onOptionSelected.emit(index, m_options[index]);
 	}

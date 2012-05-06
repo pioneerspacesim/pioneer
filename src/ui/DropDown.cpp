@@ -103,4 +103,11 @@ const std::string &DropDown::GetSelectedOption() const
 	return m_popup->GetSelectedOption();
 }
 
+void DropDown::Clear()
+{
+	m_popup->Clear();
+	m_textWidth = 0.0f;
+	if (GetContainer()) GetContainer()->RequestResize();
+}
+
 }

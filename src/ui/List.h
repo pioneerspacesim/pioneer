@@ -16,7 +16,8 @@ public:
 	virtual void RequestResize();
 
 	List *AddOption(const std::string &text);
-	const std::string &GetSelectedOption() const { return m_options[m_selected]; }
+	const std::string &GetSelectedOption();
+	void Clear();
 
 	sigc::signal<void,unsigned int,const std::string &> onOptionSelected;
 
@@ -26,14 +27,14 @@ protected:
 
 private:
 	std::vector<std::string> m_options;
-	unsigned int m_selected;
+	int m_selected;
 
 	Background *m_container;
 	std::vector<ColorBackground*> m_optionBackgrounds;
 
-	bool HandleOptionMouseOver(unsigned int index);
-	bool HandleOptionMouseOut(unsigned int index);
-	bool HandleOptionClick(unsigned int index);
+	bool HandleOptionMouseOver(int index);
+	bool HandleOptionMouseOut(int index);
+	bool HandleOptionClick(int index);
 };
 
 }

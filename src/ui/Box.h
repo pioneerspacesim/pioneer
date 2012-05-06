@@ -31,7 +31,9 @@ public:
 	Box *PackStart(const WidgetSet &set, const ChildAttrs &attrs = ChildAttrs());
 	Box *PackEnd(Widget *child, const ChildAttrs &attrs = ChildAttrs());
 	Box *PackEnd(const WidgetSet &set, const ChildAttrs &attrs = ChildAttrs());
+
 	void Remove(Widget *child);
+	void Clear();
 
 private:
 	BoxOrientation m_orient;

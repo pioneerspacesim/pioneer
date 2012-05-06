@@ -45,6 +45,8 @@ protected:
 
 	void AddWidget(Widget *);
 	void RemoveWidget(Widget *);
+	void RemoveAllWidgets();
+
 	void SetWidgetDimensions(Widget *widget, const vector2f &position, const vector2f &size);
 
 private:
