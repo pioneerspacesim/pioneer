@@ -197,7 +197,7 @@ void LuaMatrix::Register(lua_State *L)
 	luaL_setfuncs(L, l_matrix_meta, 0);
 
 	// map index back to the metatable
-	lua_pushvalue(L, -2);
+	lua_pushvalue(L, -1);
 	lua_setfield(L, -2, "__index");
 
 	// hide the metatable to thwart crazy exploits

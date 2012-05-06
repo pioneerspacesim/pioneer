@@ -138,7 +138,7 @@ void LuaFixed::Register(lua_State *L)
 	lua_pushboolean(L, 0);
 	lua_setfield(L, -2, "__metatable");
 	// map index back to the metatable
-	lua_pushvalue(L, -2);
+	lua_pushvalue(L, -1);
 	lua_setfield(L, -2, "__index");
 	// pop the metatable
 	lua_pop(L, 1);
