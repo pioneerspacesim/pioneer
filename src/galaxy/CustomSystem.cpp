@@ -383,7 +383,7 @@ static void register_class(lua_State *L, const char *tname, luaL_Reg *meta)
 {
 	LUA_DEBUG_START(L);
 	luaL_newmetatable(L, tname);
-	luaL_register(L, 0, meta);
+	luaL_setfuncs(L, meta, 0);
 
 	// map the metatable to its own __index
 	lua_pushvalue(L, -1);

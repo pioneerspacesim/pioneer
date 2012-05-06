@@ -105,8 +105,8 @@ void LuaUI::Register()
 		{ 0, 0 }
 	};
 
-	luaL_register(l, "UI", methods);
-	lua_pop(l, 1);
+	luaL_newlib(l, methods);
+	lua_setglobal(l, "UI");
 
 	LUA_DEBUG_END(l, 0);
 }

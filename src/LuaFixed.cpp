@@ -135,19 +135,19 @@ void LuaFixed::Register(lua_State *L)
 {
 	LUA_DEBUG_START(L);
 
-	// put the 'math' table on the top of the stack
-	luaL_register(L, LuaFixed::LibName, l_fixed_lib);
+	luaL_newlib(L, l_fixed_lib);
+	lua_setglobal(L, LuaFixed::LibName);
 
 	luaL_newmetatable(L, LuaFixed::TypeName);
-	luaL_register(L, 0, l_fixed_meta);
+	luaL_setfuncs(L, l_fixed_meta, 0);
 	// hide the metatable to thwart crazy exploits
 	lua_pushboolean(L, 0);
 	lua_setfield(L, -2, "__metatable");
 	// map index back to the metatable
 	lua_pushvalue(L, -2);
 	lua_setfield(L, -2, "__index");
-
-	lua_pop(L, 2); // pop the metatable and the math library table
+	// pop the metatable
+	lua_pop(L, 1);
 
 	LUA_DEBUG_END(L, 0);
 }

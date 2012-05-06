@@ -291,7 +291,8 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	lua_pop(l, 1);
 
 	// create table, attach methods to it, leave it on the stack
-	luaL_register(l, type, methods ? methods : no_methods);
+	lua_newtable(l);
+	luaL_setfuncs(l, methods ? methods : no_methods, 0);
 
 	// add the exists method
 	lua_pushstring(l, "exists");
@@ -303,10 +304,13 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	lua_pushcfunction(l, LuaObjectBase::l_isa);
 	lua_rawset(l, -3);
 
+	// publish the method table as a global (and pop it from the stack)
+	lua_setglobal(l, type);
+
 	// create the metatable, leave it on the stack
 	luaL_newmetatable(l, type);
 	// attach metamethods to it
-	if (meta) luaL_register(l, 0, meta);
+	if (meta) luaL_setfuncs(l, meta, 0);
 
 	// add a generic garbage collector
 	lua_pushstring(l, "__gc");
@@ -338,14 +342,14 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 		lua_pushstring(l, "attrs");
 		
 		lua_newtable(l);
-		luaL_register(l, 0, attrs);
+		luaL_setfuncs(l, attrs, 0);
 
 		lua_rawset(l, -3);
 
 	}
 
-	// remove the metatable and the method table from the stack
-	lua_pop(l, 2);
+	// pop the metatable
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 }

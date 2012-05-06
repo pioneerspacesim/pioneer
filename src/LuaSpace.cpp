@@ -527,8 +527,8 @@ void LuaSpace::Register()
 		{ 0, 0 }
 	};
 
-	luaL_register(l, "Space", methods);
-	lua_pop(l, 1);
+	luaL_newlib(l, methods);
+	lua_setglobal(l, "Space");
 
 	LUA_DEBUG_END(l, 0);
 }

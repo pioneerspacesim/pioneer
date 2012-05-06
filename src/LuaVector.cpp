@@ -188,15 +188,15 @@ void LuaVector::Register(lua_State *L)
 {
 	LUA_DEBUG_START(L);
 
-	luaL_register(L, LuaVector::LibName, l_vector_lib);
+	luaL_newlib(L, l_vector_lib);
+	lua_setglobal(L, LuaVector::LibName);
 
 	luaL_newmetatable(L, LuaVector::TypeName);
-	luaL_register(L, 0, l_vector_meta);
+	luaL_setfuncs(L, l_vector_meta, 0);
 	// hide the metatable to thwart crazy exploits
 	lua_pushboolean(L, 0);
 	lua_setfield(L, -2, "__metatable");
-
-	lua_pop(L, 2); // pop the metatable and the math library table
+	lua_pop(L, 1);
 
 	LUA_DEBUG_END(L, 0);
 }

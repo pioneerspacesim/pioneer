@@ -207,10 +207,11 @@ const char LuaMatrix::TypeName[] = "matrix";
 
 void LuaMatrix::Register(lua_State *L)
 {
-	luaL_register(L, LuaMatrix::LibName, l_matrix_lib);
+	luaL_newlib(L, l_matrix_lib);
+	lua_setglobal(L, LuaMatrix::LibName);
 
 	luaL_newmetatable(L, LuaMatrix::TypeName);
-	luaL_register(L, 0, l_matrix_meta);
+	luaL_setfuncs(L, l_matrix_meta, 0);
 
 	// map index back to the metatable
 	lua_pushvalue(L, -2);
@@ -219,7 +220,9 @@ void LuaMatrix::Register(lua_State *L)
 	// hide the metatable to thwart crazy exploits
 	lua_pushboolean(L, 0);
 	lua_setfield(L, -2, "__metatable");
-	lua_pop(L, 2);
+
+	// pop the metatable
+	lua_pop(L, 1);
 }
 
 matrix4x4f *LuaMatrix::PushNewToLua(lua_State *L)
