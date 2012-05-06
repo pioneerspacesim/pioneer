@@ -289,8 +289,7 @@ static int l_shiptype_get_ship_types(lua_State *l)
 
 	bool filter = false;
 	if (lua_gettop(l) >= 2) {
-		if (!lua_isfunction(l, 2))
-			luaL_typerror(l, 2, lua_typename(l, LUA_TFUNCTION));
+		luaL_checktype(l, 2, LUA_TFUNCTION); // any type of function
 		filter = true;
 	}
 	

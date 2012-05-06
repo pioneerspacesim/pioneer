@@ -225,8 +225,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 
 	bool filter = false;
 	if (lua_gettop(l) >= 3) {
-		if (!lua_isfunction(l, 3))
-			luaL_typerror(l, 3, lua_typename(l, LUA_TFUNCTION));
+		luaL_checktype(l, 3, LUA_TFUNCTION); // any type of function
 		filter = true;
 	}
 

@@ -497,11 +497,9 @@ int LuaSerializer::l_register(lua_State *l)
 
 	std::string key = luaL_checkstring(l, 2);
 
-	if (!lua_isfunction(l, 3))
-		luaL_typerror(l, 3, lua_typename(l, LUA_TFUNCTION));
-	if (!lua_isfunction(l, 4))
-		luaL_typerror(l, 4, lua_typename(l, LUA_TFUNCTION));
-	
+	luaL_checktype(l, 3, LUA_TFUNCTION); // any type of function
+	luaL_checktype(l, 4, LUA_TFUNCTION); // any type of function
+
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);

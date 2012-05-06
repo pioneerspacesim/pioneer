@@ -409,9 +409,8 @@ static int l_luachatform_set_face(lua_State *l)
 {
 	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
 
-	if (!lua_istable(l, 2))
-		luaL_typerror(l, 2, lua_typename(l, LUA_TTABLE));
-	
+	luaL_checktype(l, 2, LUA_TTABLE);
+
 	LUA_DEBUG_START(l);
 
 	Uint32 flags = 0;
@@ -636,8 +635,7 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 
 	LUA_DEBUG_START(l);
 
-	if(!lua_istable(l, 2))
-		luaL_typerror(l, 2, lua_typename(l, LUA_TTABLE));
+	luaL_checktype(l, 2, LUA_TTABLE);
 
 	// check that the provided table contains all the functions we need
 	int old_top = lua_gettop(l);

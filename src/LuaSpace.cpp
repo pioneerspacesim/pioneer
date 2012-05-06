@@ -26,9 +26,8 @@ static void _unpack_hyperspace_args(lua_State *l, int index, SystemPath* &path, 
 {
 	if (lua_isnone(l, index)) return;
 
-	if (!lua_istable(l, index))
-		luaL_typerror(l, index, lua_typename(l, LUA_TTABLE));
-	
+	luaL_checktype(l, index, LUA_TTABLE);
+
 	LUA_DEBUG_START(l);
 
 	lua_pushinteger(l, 1);
@@ -471,8 +470,7 @@ static int l_space_get_bodies(lua_State *l)
 
 	bool filter = false;
 	if (lua_gettop(l) >= 1) {
-		if (!lua_isfunction(l, 1))
-			luaL_typerror(l, 1, lua_typename(l, LUA_TFUNCTION));
+		luaL_checktype(l, 1, LUA_TFUNCTION); // any type of function
 		filter = true;
 	}
 

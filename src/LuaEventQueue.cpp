@@ -687,8 +687,7 @@ int LuaEventQueueBase::l_connect(lua_State *l)
 
 	LuaEventQueueBase *q = LuaObject<LuaEventQueueBase>::GetFromLua(1);
 
-	if (!lua_isfunction(l, 2))
-		luaL_typerror(l, 2, lua_typename(l, LUA_TFUNCTION));
+	luaL_checktype(l, 2, LUA_TFUNCTION); // any type of function
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
 	lua_getfield(l, -1, q->m_name);
@@ -733,8 +732,7 @@ int LuaEventQueueBase::l_disconnect(lua_State *l)
 
 	LuaEventQueueBase *q = LuaObject<LuaEventQueueBase>::GetFromLua(1);
 
-	if (!lua_isfunction(l, 2))
-		luaL_typerror(l, 2, lua_typename(l, LUA_TFUNCTION));
+	luaL_checktype(l, 2, LUA_TFUNCTION); // any type of function
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
 	lua_getfield(l, -1, q->m_name);

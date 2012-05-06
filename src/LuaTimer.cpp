@@ -152,9 +152,8 @@ static int l_timer_call_at(lua_State *l)
 		luaL_error(l, "Game is not started");
 
 	double at = luaL_checknumber(l, 2);
-	if (!lua_isfunction(l, 3))
-		luaL_typerror(l, 3, lua_typename(l, LUA_TFUNCTION));
-	
+	luaL_checktype(l, 3, LUA_TFUNCTION); // any type of function
+
 	if (at <= Pi::game->GetTime())
 		luaL_error(l, "Specified time is in the past");
 	
@@ -216,9 +215,8 @@ static int l_timer_call_every(lua_State *l)
 		luaL_error(l, "Game is not started");
 
 	double every = luaL_checknumber(l, 2);
-	if (!lua_isfunction(l, 3))
-		luaL_typerror(l, 3, lua_typename(l, LUA_TFUNCTION));
-	
+	luaL_checktype(l, 3, LUA_TFUNCTION); // any type of function
+
 	if (every <= 0)
 		luaL_error(l, "Specified interval must be greater than zero");
 	
