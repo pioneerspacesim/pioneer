@@ -210,13 +210,7 @@ vector3d *LuaVector::PushNewToLua(lua_State *L)
 
 const vector3d *LuaVector::GetFromLua(lua_State *L, int idx)
 {
-	if (lua_type(L, idx) != LUA_TUSERDATA) { return 0; }
-	if (!lua_getmetatable(L, idx)) { return 0; }
-	luaL_getmetatable(L, LuaVector::TypeName);
-	bool eq = lua_rawequal(L, -1, -2);
-	lua_pop(L, 2);
-	if (!eq) { return 0; }
-	return static_cast<vector3d*>(lua_touserdata(L, idx));
+	return static_cast<vector3d*>(luaL_testudata(L, idx, LuaVector::TypeName));
 }
 
 const vector3d *LuaVector::CheckFromLua(lua_State *L, int idx)
