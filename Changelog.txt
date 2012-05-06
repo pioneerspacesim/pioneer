@@ -1,3 +1,8 @@
+Alpha 23
+
+   * Internal changes
+     * Fixed configure compiler warning tests for gcc and clang
+
 Alpha 22
 
    * New features
