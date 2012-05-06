@@ -82,6 +82,8 @@ private: //methods
 	void SetupUI();
 	void OnLightPresetChanged(unsigned int index, const std::string &);
 	void OnPatternChanged(unsigned int index, const std::string &);
+	bool OnToggleGrid(UI::Widget *w);
+	bool OnToggleBoundingRadius(UI::Widget *w);
 	void UpdateLights();
 	void UpdatePatternList();
 
@@ -166,32 +168,6 @@ public:
 		if (g_renderType > 1) g_renderType = 0;
 	}
 
-	bool OnToggleBoundingRadius() {
-		m_showBoundingRadius = !m_showBoundingRadius;
-		return m_showBoundingRadius;
-	}
-	bool OnToggleGrid(UI::Button *b) {
-		if (!m_showGrid) {
-			m_showGrid = true;
-			gridInterval = 1.0f;
-		}
-		else {
-			gridInterval = powf(10, ceilf(log10f(gridInterval))+1);
-			if (gridInterval >= 10000.0f) {
-				m_showGrid = false;
-				gridInterval = 0.0f;
-			}
-		}
-		b->RemoveInnerWidget();
-		b->SetInnerWidget(m_ui->Label(
-			m_showGrid
-			? stringf("Grid: %0{d}", int(gridInterval))
-			: "Grid: off"
-		));
-		b->Layout();
-		return m_showGrid;
-	}
-
 	void MainLoop() __attribute((noreturn));
 
 private:
@@ -256,8 +232,8 @@ void Viewer::SetupUI()
 	UI::Context *c = m_ui;
 	UI::Box *box;
 	UI::Box *buttBox;
-	UI::Button *b1;
-	//UI::Checkbox *c1, *c2, *c3;
+	UI::Button *b1, *gridBtn;
+	UI::CheckBox *radiusCheck;
 	
 	c->SetInnerWidget((box = c->VBox(5.f)));
 
@@ -272,12 +248,14 @@ void Viewer::SetupUI()
 	box->PackEnd((buttBox = c->VBox(5.f)), attrs);
 	AddPair(c, buttBox, (b1 = c->Button()), "Pick another model");
 	AddPair(c, buttBox, (c->Button()), "Reload model");
-	AddPair(c, buttBox, (c->Button()), "Grid mode");
-	AddPair(c, buttBox, (c->CheckBox()), "Show bounding radius");
+	AddPair(c, buttBox, (gridBtn = c->Button()), "Grid mode");
+	AddPair(c, buttBox, (radiusCheck = c->CheckBox()), "Show bounding radius");
 	AddPair(c, buttBox, (c->CheckBox()), "Attach guns");
 	AddPair(c, buttBox, (c->CheckBox()), "Draw collision mesh");
 
 	b1->onClick.connect(sigc::mem_fun(*this, &Viewer::PickAnotherModel));
+	gridBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleGrid), gridBtn));
+	radiusCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius), radiusCheck));
 
 	UI::DropDown *ddown;
 	buttBox->PackEnd(c->Label("Pattern:"));
@@ -349,6 +327,7 @@ void Viewer::UpdateLights()
 
 void Viewer::UpdatePatternList()
 {
+	m_patternSelector->Clear();
 	Newmodel::NModel *model = dynamic_cast<Newmodel::NModel*>(m_model);
 	if (model) {
 		const Newmodel::PatternContainer &pats = model->GetPatterns();
@@ -367,6 +346,34 @@ void Viewer::OnLightPresetChanged(unsigned int index, const std::string &)
 void Viewer::OnPatternChanged(unsigned int index, const std::string &)
 {
 
+}
+
+bool Viewer::OnToggleGrid(UI::Widget *w)
+{
+	if (!m_showGrid) {
+		m_showGrid = true;
+		gridInterval = 1.0f;
+	}
+	else {
+		gridInterval = powf(10, ceilf(log10f(gridInterval))+1);
+		if (gridInterval >= 10000.0f) {
+			m_showGrid = false;
+			gridInterval = 0.0f;
+		}
+	}
+	/*b->RemoveInnerWidget();
+	b->SetInnerWidget(m_ui->Label(
+		m_showGrid
+		? stringf("Grid: %0{d}", int(gridInterval))
+		: "Grid: off"
+	));
+	b->Layout();*/
+	return m_showGrid;
+}
+
+bool Viewer::OnToggleBoundingRadius(UI::Widget *w) {
+	m_showBoundingRadius = !m_showBoundingRadius;
+	return m_showBoundingRadius;
 }
 
 void Viewer::ResetCamera()
