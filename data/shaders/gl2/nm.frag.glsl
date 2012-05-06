@@ -4,7 +4,8 @@ varying vec2 uv0;
 uniform sampler2D texture0; //diffuse
 uniform sampler2D texture1; //specular
 uniform sampler2D texture2; //glow
-uniform sampler2D texture3;
+uniform sampler2D texture3; //pattern
+uniform sampler2D texture4; //color
 
 struct Scene {
 	vec4 ambient; //scene global ambient
@@ -46,13 +47,20 @@ void main(void)
 		material.emissive; //just emissive parameter
 #endif
 
-	light = vec4(0.0);
 	specular = vec4(0.0);
 	ads(0, ecPos, norm);
 	ads(1, ecPos, norm);
 
+#ifdef MAP_COLOR
+	float pat = texture2D(texture3, uv0).r;
+	vec4 mapColor = texture2D(texture4, r, 0.0);
+	vec4 base = texture2D(texture0, uv0) * mapColor;
+#else
+	vec4 base = texture2D(texture0, uv0);
+#endif
+
 #ifdef TEXTURE0
-	gl_FragColor = texture2D(texture0, uv0) * light + specular;
+	gl_FragColor = base * light + specular;
 #else
 	gl_FragColor = light + specular;
 #endif
