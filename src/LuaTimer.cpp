@@ -108,7 +108,7 @@ static void _finish_timer_create(lua_State *l)
 	}
 
 	lua_insert(l, -2);
-	lua_pushinteger(l, lua_objlen(l, -2) + 1);
+	lua_pushinteger(l, lua_rawlen(l, -2) + 1);
 	lua_insert(l, -2);
 	lua_settable(l, -3);
 

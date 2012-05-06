@@ -144,7 +144,7 @@ static void _create_constant_table(lua_State *l, const char *ns, const EnumItem 
 		pi_lua_settable(l, value, c->name);
 		++value;
 
-		lua_pushinteger(l, lua_objlen(l, -3)+1);
+		lua_pushinteger(l, lua_rawlen(l, -3)+1);
 		lua_pushstring(l, c->name);
 		lua_rawset(l, -5);
 	}

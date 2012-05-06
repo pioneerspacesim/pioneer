@@ -29,7 +29,7 @@ void SpaceStationType::_ReadStageDurations(const char *key, int *outNumStages, d
 	model->PushAttributeToLuaStack(key);
 	assert(lua_istable(L, -1));
 
-	int num = lua_objlen(L, -1);
+	int num = lua_rawlen(L, -1);
 	*outNumStages = num;
 	if (num == 0) {
 		*durationArray = 0;

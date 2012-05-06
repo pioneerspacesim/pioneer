@@ -206,7 +206,7 @@ static int l_equiptype_get_equip_types(lua_State *l)
 				lua_pop(l, 1);
 			}
 
-			lua_pushinteger(l, lua_objlen(l, -1)+1);
+			lua_pushinteger(l, lua_rawlen(l, -1)+1);
 			lua_pushstring(l, name);
 			lua_rawset(l, -3);
 		}
