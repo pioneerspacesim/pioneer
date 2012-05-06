@@ -4513,7 +4513,7 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 
 	PiVerify(s_font = s_fontCache.GetVectorFont("WorldFont"));
 
-	lua_State *L = lua_open();
+	lua_State *L = luaL_newstate();
 	sLua = L;
 	luaL_openlibs(L);
 
