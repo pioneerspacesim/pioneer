@@ -56,9 +56,11 @@ static float g_frameTime;
 
 struct Options {
 	bool showBoundingBoxes;
+	int lightPreset;
 
 	Options()
 	: showBoundingBoxes(false)
+	, lightPreset(0)
 	{ }
 };
 
@@ -70,7 +72,6 @@ private: //data members
 	CollMesh *m_cmesh;
 	Geom *m_geom;
 	Gui::Label *m_trisReadout;
-	int m_lightPreset;
 	Model *m_model;
 	ModelParams m_modelParams;
 	Options m_drawOptions;
@@ -96,8 +97,7 @@ public:
 	Viewer(): Gui::Fixed(float(g_width), float(g_height)),
 		m_model(0),
 		m_cmesh(0),
-		m_geom(0),
-		m_lightPreset(0)
+		m_geom(0)
 	{
 		SetupUI();
 
@@ -297,7 +297,7 @@ void Viewer::UpdateLights()
 {
 	Light lights[2];
 
-	switch(m_lightPreset) {
+	switch(m_drawOptions.lightPreset) {
 	case 0:
 		//Front white
 		lights[0] = Light(Light::LIGHT_DIRECTIONAL, azElToDir(90,0), Color(1.0f, 1.0f, 1.0f), Color(0.f), Color(1.f));
@@ -320,9 +320,9 @@ void Viewer::UpdateLights()
 
 void Viewer::OnLightPresetChanged(const std::string &presetname)
 {
-	if(presetname[0] == '1') m_lightPreset = 0;
-	else if(presetname[0] == '2') m_lightPreset = 1;
-	else if(presetname[0] == '3') m_lightPreset = 2;
+	if(presetname[0] == '1') m_drawOptions.lightPreset = 0;
+	else if(presetname[0] == '2') m_drawOptions.lightPreset = 1;
+	else if(presetname[0] == '3') m_drawOptions.lightPreset = 2;
 }
 
 void Viewer::ResetCamera()
@@ -428,7 +428,7 @@ void Viewer::MainLoop()
 	//g_campos = vector3f(0.0f, 0.0f, m_cmesh->GetBoundingRadius());
 	g_camorient = matrix4x4f::Identity();
 	matrix4x4f modelRot = matrix4x4f::Identity();
-	m_modelParams.screenWidth = g_width;
+	m_modelParams.scrWidth = g_width;
 
 	for (;;) {
 		PollEvents();
