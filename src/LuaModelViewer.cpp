@@ -76,11 +76,14 @@ private: //data members
 	ModelParams m_modelParams;
 	Options m_drawOptions;
 	UI::Context *m_ui;
+	UI::DropDown *m_patternSelector;
 
 private: //methods
 	void SetupUI();
+	void OnLightPresetChanged(unsigned int index, const std::string &);
+	void OnPatternChanged(unsigned int index, const std::string &);
 	void UpdateLights();
-	void OnLightPresetChanged(const std::string &option);
+	void UpdatePatternList();
 
 public:
 	void ResetCamera();
@@ -274,9 +277,11 @@ void Viewer::SetupUI()
 	AddPair(c, buttBox, (c->CheckBox()), "Attach guns");
 	AddPair(c, buttBox, (c->CheckBox()), "Draw collision mesh");
 
+	b1->onClick.connect(sigc::mem_fun(*this, &Viewer::PickAnotherModel));
+
 	UI::DropDown *ddown;
 	buttBox->PackEnd(c->Label("Pattern:"));
-	buttBox->PackEnd(c->DropDown()->AddOption("Default"));
+	buttBox->PackEnd((m_patternSelector = c->DropDown()->AddOption("Default")));
 	buttBox->PackEnd(c->Label("Lights:"));
 	buttBox->PackEnd((ddown = c->DropDown()
 		->AddOption("1  Front white")
@@ -284,12 +289,36 @@ void Viewer::SetupUI()
 		->AddOption("3  Backlight")
 		)
 	);
+
+	m_patternSelector->onOptionSelected.connect(sigc::mem_fun(*this, &Viewer::OnPatternChanged));
 	ddown->onOptionSelected.connect(sigc::mem_fun(*this, &Viewer::OnLightPresetChanged));
 
 	c->AddFloatingWidget(c->MultiLineText("01 Messages go here\n02 Messages go here\n03 Messages go here"),
 		vector2f(0.f, g_height-300.f), vector2f(500.f, 300.f));
 
-	b1->onClick.connect(sigc::mem_fun(*this, &Viewer::PickAnotherModel));
+	//3x3 colour sliders
+	c->AddFloatingWidget(
+		c->HBox()->PackEnd( //three columns
+			c->VBox()->PackEnd(UI::WidgetSet( //three rows
+				c->HBox(5.0f)->PackEnd(c->Label("R"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider()),
+				c->HBox(5.0f)->PackEnd(c->Label("G"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider()),
+				c->HBox(5.0f)->PackEnd(c->Label("B"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider())
+				), UI::Box::ChildAttrs(false))
+		)->PackEnd(
+			c->VBox()->PackEnd(UI::WidgetSet( //three rows
+				c->HBox(5.0f)->PackEnd(c->Label("R"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider()),
+				c->HBox(5.0f)->PackEnd(c->Label("G"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider()),
+				c->HBox(5.0f)->PackEnd(c->Label("B"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider())
+				), UI::Box::ChildAttrs(false))
+		)->PackEnd(
+			c->VBox()->PackEnd(UI::WidgetSet( //three rows
+				c->HBox(5.0f)->PackEnd(c->Label("R"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider()),
+				c->HBox(5.0f)->PackEnd(c->Label("G"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider()),
+				c->HBox(5.0f)->PackEnd(c->Label("B"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider())
+				), UI::Box::ChildAttrs(false))
+		)
+	, vector2f(0.f, g_height-200.f), vector2f(500.f, 300.f));
+
 	c->Layout();
 }
 
@@ -318,11 +347,26 @@ void Viewer::UpdateLights()
 	renderer->SetLights(2, &lights[0]);
 }
 
-void Viewer::OnLightPresetChanged(const std::string &presetname)
+void Viewer::UpdatePatternList()
 {
-	if(presetname[0] == '1') m_drawOptions.lightPreset = 0;
-	else if(presetname[0] == '2') m_drawOptions.lightPreset = 1;
-	else if(presetname[0] == '3') m_drawOptions.lightPreset = 2;
+	Newmodel::NModel *model = dynamic_cast<Newmodel::NModel*>(m_model);
+	if (model) {
+		const Newmodel::PatternContainer &pats = model->GetPatterns();
+		for(unsigned int i=0; i<pats.size(); i++) {
+			m_patternSelector->AddOption(pats[i].name);
+		}
+		m_ui->Layout();
+	}
+}
+
+void Viewer::OnLightPresetChanged(unsigned int index, const std::string &)
+{
+	m_drawOptions.lightPreset = std::min<unsigned int>(index, 2);
+}
+
+void Viewer::OnPatternChanged(unsigned int index, const std::string &)
+{
+
 }
 
 void Viewer::ResetCamera()
@@ -347,6 +391,8 @@ void Viewer::SetModel(Model *model)
 	m_geom = new Geom(m_cmesh->GetGeomTree());
 	m_space->AddGeom(m_geom);
 	ResetCamera();
+
+	UpdatePatternList();
 }
 
 void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg)
