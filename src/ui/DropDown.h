@@ -16,7 +16,7 @@ public:
 	DropDown *AddOption(const std::string &text);
 	const std::string &GetSelectedOption() const;
 
-	sigc::signal<void,const std::string &> onOptionSelected;
+	sigc::signal<void,unsigned int,const std::string &> onOptionSelected;
 
 protected:
 	friend class Context;

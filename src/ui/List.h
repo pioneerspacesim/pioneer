@@ -16,7 +16,7 @@ public:
 	List *AddOption(const std::string &text);
 	const std::string &GetSelectedOption() const { return m_options[m_selected]; }
 
-	sigc::signal<void,const std::string &> onOptionSelected;
+	sigc::signal<void,unsigned int,const std::string &> onOptionSelected;
 
 protected:
 	friend class Context;

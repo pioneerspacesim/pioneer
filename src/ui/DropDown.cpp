@@ -8,7 +8,7 @@ namespace UI {
 DropDown::DropDown(Context *context) : Widget(context), m_textWidth(0.0f), m_popupActive(false)
 {
 	m_popup = GetContext()->List();
-	m_popup->onOptionSelected.connect(sigc::mem_fun(onOptionSelected, &sigc::signal<void,const std::string &>::emit));
+	m_popup->onOptionSelected.connect(sigc::mem_fun(onOptionSelected, &sigc::signal<void,unsigned int,const std::string &>::emit));
 	m_popup->onClick.connect(sigc::mem_fun(this, &DropDown::HandlePopupClick));
 }
 
