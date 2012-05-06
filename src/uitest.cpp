@@ -51,6 +51,18 @@ static void fill_label(float v, UI::Label *label)
 	label->SetText(s);
 }
 
+static bool add_dropdown_option(UI::DropDown *dropdown)
+{
+	dropdown->AddOption("foo");
+	return true;
+}
+
+static bool clear_dropdown(UI::DropDown *dropdown)
+{
+	dropdown->Clear();
+	return true;
+}
+
 int main(int argc, char **argv)
 {
 	FileSystem::Init();
@@ -237,6 +249,7 @@ int main(int argc, char **argv)
 	}
 #endif
 
+#if 0
 	UI::DropDown *dropdown;
 	UI::List *list;
 	c->SetInnerWidget(
@@ -263,6 +276,7 @@ int main(int argc, char **argv)
 	);
 	dropdown->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
+#endif
 
 #if 0
 	c->SetInnerWidget(
@@ -301,6 +315,26 @@ int main(int argc, char **argv)
 	);
 	slider->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&fill_label), label));
 #endif
+
+	UI::DropDown *dropdown;
+	UI::Button *add, *clear;
+	c->SetInnerWidget(
+		c->Margin(10.0f)->SetInnerWidget(
+			c->VBox()->PackEnd(UI::WidgetSet(
+				c->HBox()->PackEnd(UI::WidgetSet(
+					(add = c->Button()),
+					c->Label("Add")
+				), UI::Box::ChildAttrs(false, false)),
+				c->HBox()->PackEnd(UI::WidgetSet(
+					(clear = c->Button()),
+					c->Label("Clear")
+				), UI::Box::ChildAttrs(false, false)),
+				(dropdown = c->DropDown())
+			), UI::Box::ChildAttrs(false, false))
+		)
+	);
+	add->onClick.connect(sigc::bind(sigc::ptr_fun(&add_dropdown_option), dropdown));
+	clear->onClick.connect(sigc::bind(sigc::ptr_fun(&clear_dropdown), dropdown));
 
 	c->Layout();
 
