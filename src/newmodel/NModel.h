@@ -24,6 +24,7 @@
 #include "libs.h"
 #include <stdexcept>
 #include "graphics/Material.h"
+#include "ColorMap.h"
 
 namespace Graphics { class Renderer; }
 
@@ -68,7 +69,7 @@ public:
 
 	void SetRenderData(RenderData *d) { m_renderData = d; }
 	const PatternContainer &GetPatterns() const { return m_patterns; }
-	void SetColors(const std::vector<Color> &colors);
+	void SetColors(Graphics::Renderer *r, const std::vector<Color4ub> &colors); //renderer needed for texture creation
 
 private:
 	float m_boundingRadius;
@@ -79,6 +80,7 @@ private:
 	PatternContainer m_patterns;
 	std::vector<Group *> m_tags; //named attachment points
 	typedef std::vector<Group *> TagContainer;
+	ColorMap m_colorMap;
 };
 
 }

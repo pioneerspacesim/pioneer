@@ -412,11 +412,11 @@ void Viewer::OnLightPresetChanged(unsigned int index, const std::string &)
 void Viewer::OnModelColorsChanged()
 {
 	Newmodel::NModel *model = dynamic_cast<Newmodel::NModel*>(m_model);
-	std::vector<Color> colors;
-	colors.push_back(Color(1.f, 0.f, 0.f, 1.f));
-	colors.push_back(Color(0.f, 1.f, 0.f, 1.f));
-	colors.push_back(Color(0.f, 0.f, 1.f, 1.f));
-	model->SetColors(colors);
+	std::vector<Color4ub> colors;
+	colors.push_back(Color4ub(255, 0, 0, 0));
+	colors.push_back(Color4ub(0, 255, 0, 0));
+	colors.push_back(Color4ub(0, 0, 255, 0));
+	model->SetColors(renderer, colors);
 }
 
 void Viewer::OnPatternChanged(unsigned int index, const std::string &)
@@ -467,7 +467,7 @@ void Viewer::SetModel(Model *model, const std::string &name)
 	ResetCamera();
 
 	UpdatePatternList();
-	OnModelColorsChanged();
+	//OnModelColorsChanged();
 }
 
 void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg)

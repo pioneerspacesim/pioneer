@@ -353,7 +353,13 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 	//find usable pattern textures from the model directory
 	if (patternsUsed) {
 		FindPatterns(model->m_patterns);
-	}
+		//set up some noticeable default colors
+		std::vector<Color4ub> colors;
+		colors.push_back(Color4ub(255, 0, 0, 0));
+		colors.push_back(Color4ub(0, 255, 0, 0));
+		colors.push_back(Color4ub(0, 0, 255, 0));
+		model->SetColors(m_renderer, colors);
+	}	
 	return model;
 }
 

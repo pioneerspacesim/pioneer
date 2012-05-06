@@ -79,9 +79,19 @@ void NModel::AddTag(const std::string &name, Group *node)
 	m_tags.push_back(node);
 }
 
-void NModel::SetColors(const std::vector<Color> &colors)
+void NModel::SetColors(Graphics::Renderer *r, const std::vector<Color4ub> &colors)
 {
 	assert(colors.size() == 3); //primary, seconday, trim
+	m_colorMap.Generate(r, colors.at(0), colors.at(1), colors.at(2));
+	for (MaterialContainer::const_iterator it = m_materials.begin();
+		it != m_materials.end();
+		++it)
+	{
+		//XXX ahh hacks
+		if ((*it).second->usePatterns) {
+			(*it).second->texture0 = m_colorMap.GetTexture();
+		}
+	}
 }
 
 }
