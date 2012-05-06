@@ -1,3 +1,8 @@
+Alpha 23
+
+   * Internal changes
+     * Fixed configure compiler warning tests for gcc and clang
+
 Alpha 22
 
    * New features
@@ -28,6 +33,8 @@ Alpha 22
        (#1232, #1210)
      * Fixed crash when mission display is opened with lots of missions
        (#1233, #1196)
+     * Don't take timesteps for dead ships. Stops the player firing during the
+       death screen (regression) (#1243, #1103, #1056)
 
    * Script and model changes
      * LMR "lathe" function radius and up vector now interpreted the same as
