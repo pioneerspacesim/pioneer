@@ -83,6 +83,7 @@ private: //data members
 	std::string m_modelName;
 	UI::Context *m_ui;
 	UI::DropDown *m_patternSelector;
+	UI::Slider *m_sliders[3*3]; //color sliders 3*rgb
 
 private: //methods
 	void SetupUI();
@@ -90,7 +91,7 @@ private: //methods
 	bool OnToggleBoundingRadius(UI::Widget *w);
 	bool OnToggleGrid(UI::Widget *w);
 	void OnLightPresetChanged(unsigned int index, const std::string &);
-	void OnModelColorsChanged();
+	void OnModelColorsChanged(float v=0.f);
 	void OnPatternChanged(unsigned int index, const std::string &);
 	void AddLog(const std::string &message);
 	void ClearModel();
@@ -255,9 +256,9 @@ void Viewer::SetupUI()
 
 	c1->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius));
 	b1->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleGrid), b1));*/
-	UI::Box::ChildAttrs attrs(false, false);
+	UI::Box::ChildAttrs battrs(false, false);
 
-	box->PackEnd((buttBox = c->VBox(5.f)), attrs);
+	box->PackEnd((buttBox = c->VBox(5.f)), battrs);
 	AddPair(c, buttBox, (b1 = c->Button()), "Pick another model");
 	AddPair(c, buttBox, (reloadBtn = c->Button()), "Reload model");
 	AddPair(c, buttBox, (gridBtn = c->Button()), "Grid mode");
@@ -285,27 +286,40 @@ void Viewer::SetupUI()
 	ddown->onOptionSelected.connect(sigc::mem_fun(*this, &Viewer::OnLightPresetChanged));
 
 	//3x3 colour sliders
+	UI::Box::ChildAttrs attrs(false);
+	const float spacing = 5.f;
 	c->AddFloatingWidget(
 		c->HBox()->PackEnd( //three columns
 			c->VBox()->PackEnd(UI::WidgetSet( //three rows
-				c->HBox(5.0f)->PackEnd(c->Label("R"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider()),
-				c->HBox(5.0f)->PackEnd(c->Label("G"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider()),
-				c->HBox(5.0f)->PackEnd(c->Label("B"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider())
-				), UI::Box::ChildAttrs(false))
+				c->HBox(spacing)->PackEnd(c->Label("R"), attrs)->PackEnd(m_sliders[0] = c->HSlider()),
+				c->HBox(spacing)->PackEnd(c->Label("G"), attrs)->PackEnd(m_sliders[1] = c->HSlider()),
+				c->HBox(spacing)->PackEnd(c->Label("B"), attrs)->PackEnd(m_sliders[2] = c->HSlider())
+				), attrs)
 		)->PackEnd(
 			c->VBox()->PackEnd(UI::WidgetSet( //three rows
-				c->HBox(5.0f)->PackEnd(c->Label("R"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider()),
-				c->HBox(5.0f)->PackEnd(c->Label("G"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider()),
-				c->HBox(5.0f)->PackEnd(c->Label("B"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider())
-				), UI::Box::ChildAttrs(false))
+				c->HBox(spacing)->PackEnd(c->Label("R"), attrs)->PackEnd(m_sliders[3] = c->HSlider()),
+				c->HBox(spacing)->PackEnd(c->Label("G"), attrs)->PackEnd(m_sliders[4] = c->HSlider()),
+				c->HBox(spacing)->PackEnd(c->Label("B"), attrs)->PackEnd(m_sliders[5] = c->HSlider())
+				), attrs)
 		)->PackEnd(
 			c->VBox()->PackEnd(UI::WidgetSet( //three rows
-				c->HBox(5.0f)->PackEnd(c->Label("R"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider()),
-				c->HBox(5.0f)->PackEnd(c->Label("G"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider()),
-				c->HBox(5.0f)->PackEnd(c->Label("B"), UI::Box::ChildAttrs(false))->PackEnd(c->HSlider())
+				c->HBox(spacing)->PackEnd(c->Label("R"), attrs)->PackEnd(m_sliders[6] = c->HSlider()),
+				c->HBox(spacing)->PackEnd(c->Label("G"), attrs)->PackEnd(m_sliders[7] = c->HSlider()),
+				c->HBox(spacing)->PackEnd(c->Label("B"), attrs)->PackEnd(m_sliders[8] = c->HSlider())
 				), UI::Box::ChildAttrs(false))
 		)
 	, vector2f(0.f, g_height-200.f), vector2f(500.f, 300.f));
+
+	//connect slider signals, set initial values
+	const float values[] = {
+		1.f, 0.f, 0.f,
+		0.f, 1.f, 0.f,
+		0.f, 0.f, 1.f
+	};
+	for(unsigned int i=0; i<3*3; i++) {
+		m_sliders[i]->SetValue(values[i]);
+		m_sliders[i]->onValueChanged.connect(sigc::mem_fun(*this, &Viewer::OnModelColorsChanged));
+	}
 
 	c->Layout();
 }
@@ -409,13 +423,18 @@ void Viewer::OnLightPresetChanged(unsigned int index, const std::string &)
 	m_options.lightPreset = std::min<unsigned int>(index, 2);
 }
 
-void Viewer::OnModelColorsChanged()
+static Color4ub GetColor(UI::Slider *r, UI::Slider *g, UI::Slider *b)
+{
+	return Color4ub(r->GetValue() * 255.f, g->GetValue() * 255.f, b->GetValue() * 255.f);
+}
+
+void Viewer::OnModelColorsChanged(float)
 {
 	Newmodel::NModel *model = dynamic_cast<Newmodel::NModel*>(m_model);
 	std::vector<Color4ub> colors;
-	colors.push_back(Color4ub(255, 0, 0, 0));
-	colors.push_back(Color4ub(0, 255, 0, 0));
-	colors.push_back(Color4ub(0, 0, 255, 0));
+	colors.push_back(GetColor(m_sliders[0], m_sliders[1], m_sliders[2]));
+	colors.push_back(GetColor(m_sliders[3], m_sliders[4], m_sliders[5]));
+	colors.push_back(GetColor(m_sliders[6], m_sliders[7], m_sliders[8]));
 	model->SetColors(renderer, colors);
 }
 
@@ -467,7 +486,7 @@ void Viewer::SetModel(Model *model, const std::string &name)
 	ResetCamera();
 
 	UpdatePatternList();
-	//OnModelColorsChanged();
+	OnModelColorsChanged();
 }
 
 void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg)

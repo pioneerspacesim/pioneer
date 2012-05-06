@@ -17,9 +17,9 @@ void ColorMap::Generate(Graphics::Renderer *r, const Color4ub &a, const Color4ub
 		c.r, c.g, c.b
 	};
 	vector2f size(4,1);
-	Graphics::Texture *texture = r->CreateTexture(Graphics::TextureDescriptor(Graphics::TEXTURE_RGB, size));
-	texture->Update(data, size, Graphics::IMAGE_RGB, Graphics::IMAGE_UNSIGNED_BYTE);
-	m_texture.Reset(texture);
+	Graphics::Texture *texture = r->CreateTexture(Graphics::TextureDescriptor(Graphics::TEXTURE_RGB, size, Graphics::NEAREST_CLAMP));
+	if (!m_texture.Valid()) m_texture.Reset(texture);
+	m_texture->Update(data, size, Graphics::IMAGE_RGB, Graphics::IMAGE_UNSIGNED_BYTE);
 }
 
 }
