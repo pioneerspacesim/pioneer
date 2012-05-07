@@ -11,15 +11,13 @@ class Shader;
 
 class MaterialDescriptor {
 public:
+	bool glowMap;
 	bool usePatterns; //colour customization system
 
-	MaterialDescriptor() : usePatterns(false) { }
+	MaterialDescriptor() : glowMap(false), usePatterns(false) { }
 
-	friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b) {
-		return (a.usePatterns == b.usePatterns);
-	}
 	friend bool operator<(const MaterialDescriptor &a, const MaterialDescriptor &b) {
-		return (a.usePatterns != b.usePatterns);
+		return (a.usePatterns != b.usePatterns || a.glowMap != b.glowMap);
 	}
 };
 

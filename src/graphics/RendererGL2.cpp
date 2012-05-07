@@ -102,10 +102,11 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &desc)
 	if (it == progMap.end()) { //new
 		std::stringstream ss;
 		ss << "#define TEXTURE0 1\n"
-			  "#define MAP_SPECULAR 1\n"
-			  "#define MAP_EMISSIVE 1\n";
+			  "#define MAP_SPECULAR 1\n";
+		if (desc.glowMap)
+			ss << "#define MAP_EMISSIVE 1" << std::endl;
 		if (desc.usePatterns)
-			ss << "#define MAP_COLOR 1\n";
+			ss << "#define MAP_COLOR 1" << std::endl;
 		s = new Shader("gl2/nm", ss.str().c_str());
 	} else {
 		s = (*it).second.Get();

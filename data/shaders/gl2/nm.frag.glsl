@@ -42,7 +42,7 @@ void main(void)
 {
 	light = scene.ambient +
 #ifdef MAP_EMISSIVE
-		texture2D(texture2, uv0); //glow map
+		texture2D(texture2, uv0) * material.emissive; //glow map
 #else
 		material.emissive; //just emissive parameter
 #endif

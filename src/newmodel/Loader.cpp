@@ -263,14 +263,17 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		it != def.matDefs.end(); ++it)
 	{
 		assert(!(*it).name.empty());
+		const std::string &diffTex = (*it).tex_diff;
+		const std::string &specTex = (*it).tex_spec;
+		const std::string &glowTex = (*it).tex_glow;
+
 		Graphics::MaterialDescriptor matDesc;
 		if ((*it).use_pattern) {
 			patternsUsed = true;
 			matDesc.usePatterns = true;
 		}
-		const std::string &diffTex = (*it).tex_diff;
-		const std::string &specTex = (*it).tex_spec;
-		const std::string &glowTex = (*it).tex_glow;
+		matDesc.glowMap = !glowTex.empty();
+
 		RefCountedPtr<Material> mat(m_renderer->CreateMaterial(matDesc));
 		mat->diffuse = (*it).diffuse;
 		mat->specular = (*it).specular;
@@ -288,8 +291,7 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 			mat->texture1 = GetWhiteTexture();
 		if (!glowTex.empty())
 			mat->texture2 = Graphics::TextureBuilder::Model(glowTex).GetOrCreateTexture(m_renderer, "model");
-		else
-			mat->texture2 = GetWhiteTexture();
+
 		model->m_materials.push_back(std::make_pair<std::string, RefCountedPtr<Material> >((*it).name, mat));
 	}
 	//printf("Loaded %d materials\n", int(model->m_materials.size()));
