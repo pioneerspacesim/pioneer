@@ -2,12 +2,6 @@
 #include "LuaFixed.h"
 #include "LuaUtils.h"
 
-extern "C" {
-#include "lua/lua.h"
-#include "lua/lauxlib.h"
-#include "lua/lualib.h"
-}
-
 static int l_fixed_new(lua_State *L)
 {
 	LUA_DEBUG_START(L);
@@ -21,13 +15,7 @@ static int l_fixed_new(lua_State *L)
 static int l_fixed_tostring(lua_State *L)
 {
 	const fixed *v = LuaFixed::CheckFromLua(L, 1);
-	luaL_Buffer buf;
-	luaL_buffinit(L, &buf);
-	char *bufstr = luaL_prepbuffer(&buf);
-	int len = snprintf(bufstr, LUAL_BUFFERSIZE, "fixed(%g)", v->ToDouble());
-	assert(len < LUAL_BUFFERSIZE); // XXX should handle this condition more gracefully
-	luaL_addsize(&buf, len);
-	luaL_pushresult(&buf);
+	lua_pushfstring(L, "fixed(%f)", lua_Number(v->ToDouble()));
 	return 1;
 }
 
@@ -135,19 +123,19 @@ void LuaFixed::Register(lua_State *L)
 {
 	LUA_DEBUG_START(L);
 
-	// put the 'math' table on the top of the stack
-	luaL_register(L, LuaFixed::LibName, l_fixed_lib);
+	luaL_newlib(L, l_fixed_lib);
+	lua_setglobal(L, LuaFixed::LibName);
 
 	luaL_newmetatable(L, LuaFixed::TypeName);
-	luaL_register(L, 0, l_fixed_meta);
+	luaL_setfuncs(L, l_fixed_meta, 0);
 	// hide the metatable to thwart crazy exploits
 	lua_pushboolean(L, 0);
 	lua_setfield(L, -2, "__metatable");
 	// map index back to the metatable
-	lua_pushvalue(L, -2);
+	lua_pushvalue(L, -1);
 	lua_setfield(L, -2, "__index");
-
-	lua_pop(L, 2); // pop the metatable and the math library table
+	// pop the metatable
+	lua_pop(L, 1);
 
 	LUA_DEBUG_END(L, 0);
 }
@@ -157,20 +145,13 @@ void LuaFixed::PushToLua(lua_State *L, const fixed &v)
 	LUA_DEBUG_START(L);
 	fixed *ptr = static_cast<fixed*>(lua_newuserdata(L, sizeof(fixed)));
 	*ptr = v;
-	luaL_getmetatable(L, LuaFixed::TypeName);
-	lua_setmetatable(L, -2);
+	luaL_setmetatable(L, LuaFixed::TypeName);
 	LUA_DEBUG_END(L, 1);
 }
 
 const fixed *LuaFixed::GetFromLua(lua_State *L, int idx)
 {
-	if (lua_type(L, idx) != LUA_TUSERDATA) { return 0; }
-	if (!lua_getmetatable(L, idx)) { return 0; }
-	lua_getfield(L, LUA_REGISTRYINDEX, LuaFixed::TypeName);
-	bool eq = lua_rawequal(L, -1, -2);
-	lua_pop(L, 2);
-	if (!eq) { return 0; }
-	return static_cast<fixed*>(lua_touserdata(L, idx));
+	return static_cast<fixed*>(luaL_testudata(L, idx, LuaFixed::TypeName));
 }
 
 const fixed *LuaFixed::CheckFromLua(lua_State *L, int idx)

@@ -13,7 +13,7 @@ static bool GetNameGenFunc(lua_State *l, const char *func)
 {
 	LUA_DEBUG_START(l);
 
-	lua_getfield(l, LUA_GLOBALSINDEX, "NameGen");
+	lua_getglobal(l, "NameGen");
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 		LUA_DEBUG_END(l, 0);

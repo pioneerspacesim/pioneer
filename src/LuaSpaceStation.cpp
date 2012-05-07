@@ -117,13 +117,11 @@ static int l_spacestation_add_advert(lua_State *l)
 	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
 	std::string description = luaL_checkstring(l, 2);
 
-	if (!lua_isfunction(l, 3))
-		luaL_typerror(l, 3, lua_typename(l, LUA_TFUNCTION));
-	
+	luaL_checktype(l, 3, LUA_TFUNCTION); // any type of function
+
 	bool have_delete = false;
 	if (lua_gettop(l) >= 4) {
-		if (!lua_isnil(l, 4) && !lua_isfunction(l, 4))
-			luaL_typerror(l, 4, lua_typename(l, LUA_TFUNCTION));
+		luaL_checktype(l, 4, LUA_TFUNCTION); // any type of function
 		have_delete = true;
 	}
 
@@ -291,7 +289,7 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 {
 	const char *l_parent = "Body";
 
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "AddAdvert",    l_spacestation_add_advert    },
 		{ "RemoveAdvert", l_spacestation_remove_advert },
 
@@ -300,7 +298,7 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	static luaL_reg l_attrs[] = {
+	static luaL_Reg l_attrs[] = {
 		{ "numDocks", l_spacestation_attr_num_docks },
 
 		{ 0, 0 }

@@ -1,13 +1,14 @@
 Alpha 23
 
    * Script and model changes
+     * Lua updated to 5.2.0 (#1247)
      * Renamed Matrix and Vec classes to matrix and vector (#1245)
      * Renamed CustomSBody to CustomSystemBody (#1245)
 
    * Internal changes
      * Fixed configure compiler warning tests for gcc and clang
      * Removed OOLua. Replaced uses of it with explicit Lua calls. Various
-     * other Lua-related cleanups and consistency fixes (#1245)
+     * other Lua-related cleanups and consistency fixes (#1245, #1247)
      * Move system generation and related classes under galaxy/ (#1245)
      * Renamed SBody to SystemBody, CustomSBody to CustomSystemBody (#1245)
 

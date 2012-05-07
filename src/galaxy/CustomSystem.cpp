@@ -43,8 +43,7 @@ static int l_csb_new(lua_State *L)
 	CustomSystemBody **csbptr = static_cast<CustomSystemBody**>(
 			lua_newuserdata(L, sizeof(CustomSystemBody*)));
 	*csbptr = new CustomSystemBody;
-	luaL_getmetatable(L, LuaCustomSystemBody_TypeName);
-	lua_setmetatable(L, -2);
+	luaL_setmetatable(L, LuaCustomSystemBody_TypeName);
 
 	(*csbptr)->name = name;
 	(*csbptr)->type = static_cast<SystemBody::BodyType>(type);
@@ -148,7 +147,8 @@ static luaL_Reg LuaCustomSystemBody_meta[] = {
 	{ "eccentricity", &l_csb_eccentricity },
 	{ "orbital_offset", &l_csb_orbital_offset },
 	{ "latitude", &l_csb_latitude },
-	{ "inclination", &l_csb_latitude }, // uses the same field as latitude
+	// latitude is for surface bodies, inclination is for orbiting bodies (but they're the same field)
+	{ "inclination", &l_csb_latitude },
 	{ "longitude", &l_csb_longitude },
 	{ "rotation_period", &l_csb_rotation_period },
 	{ "axial_tilt", &l_csb_axial_tilt },
@@ -219,8 +219,7 @@ static int l_csys_new(lua_State *L)
 	CustomSystem **csptr = static_cast<CustomSystem**>(
 			lua_newuserdata(L, sizeof(CustomSystem*)));
 	*csptr = new CustomSystem;
-	luaL_getmetatable(L, LuaCustomSystem_TypeName);
-	lua_setmetatable(L, -2);
+	luaL_setmetatable(L, LuaCustomSystem_TypeName);
 
 	(*csptr)->name = name;
 	(*csptr)->numStars = numStars;
@@ -383,14 +382,14 @@ static void register_class(lua_State *L, const char *tname, luaL_Reg *meta)
 {
 	LUA_DEBUG_START(L);
 	luaL_newmetatable(L, tname);
-	luaL_register(L, 0, meta);
+	luaL_setfuncs(L, meta, 0);
 
 	// map the metatable to its own __index
 	lua_pushvalue(L, -1);
 	lua_setfield(L, -2, "__index");
 
 	// publish the metatable
-	lua_setfield(L, LUA_GLOBALSINDEX, tname);
+	lua_setglobal(L, tname);
 
 	LUA_DEBUG_END(L, 0);
 }
@@ -406,9 +405,10 @@ void CustomSystem::Init()
 	lua_State *L = luaL_newstate();
 	LUA_DEBUG_START(L);
 
-	pi_lua_openlib(L, LUA_DBLIBNAME, &luaopen_base);
-	pi_lua_openlib(L, LUA_DBLIBNAME, &luaopen_debug);
-	pi_lua_openlib(L, LUA_MATHLIBNAME, &luaopen_math);
+	luaL_requiref(L, "_G", &luaopen_base, 1);
+	luaL_requiref(L, LUA_DBLIBNAME, &luaopen_debug, 1);
+	luaL_requiref(L, LUA_MATHLIBNAME, &luaopen_math, 1);
+	lua_pop(L, 3);
 
 	LuaVector::Register(L);
 	LuaFixed::Register(L);
