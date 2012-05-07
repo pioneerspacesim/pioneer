@@ -147,7 +147,7 @@ void ObjectViewerView::Update()
 	snprintf(buf, sizeof(buf), "View dist: %s     Object: %s", format_distance(viewingDist).c_str(), (body ? body->GetLabel().c_str() : "<none>"));
 	m_infoLabel->SetText(buf);
 
-	if (body->IsType(Object::TERRAINBODY)) m_vbox->ShowAll();
+	if (body && body->IsType(Object::TERRAINBODY)) m_vbox->ShowAll();
 	else m_vbox->HideAll();
 }
 
