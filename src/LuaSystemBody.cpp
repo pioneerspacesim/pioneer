@@ -417,7 +417,7 @@ template <> const char *LuaObject<LuaUncopyable<SystemBody> >::s_type = "SystemB
 
 template <> void LuaObject<LuaUncopyable<SystemBody> >::RegisterClass()
 {
-	static const luaL_reg l_attrs[] = {
+	static const luaL_Reg l_attrs[] = {
 		{ "index",          l_sbody_attr_index           },
 		{ "name",           l_sbody_attr_name            },
 		{ "type",           l_sbody_attr_type            },

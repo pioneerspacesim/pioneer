@@ -103,14 +103,16 @@ static void _create_constant_table(lua_State *l, const char *ns, const EnumItem 
 {
 	LUA_DEBUG_START(l);
 
-	lua_getfield(l, LUA_GLOBALSINDEX, "Constants");
+	lua_getglobal(l, "Constants");
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 		lua_newtable(l);
 	    pi_lua_table_ro(l);
+		lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
 		lua_pushstring(l, "Constants");
-		lua_pushvalue(l, -2);
-		lua_rawset(l, LUA_GLOBALSINDEX);
+		lua_pushvalue(l, -3);
+		lua_rawset(l, -3);
+		lua_pop(l, 1);
 	}
 	assert(lua_istable(l, -1));
 
@@ -144,7 +146,7 @@ static void _create_constant_table(lua_State *l, const char *ns, const EnumItem 
 		pi_lua_settable(l, value, c->name);
 		++value;
 
-		lua_pushinteger(l, lua_objlen(l, -3)+1);
+		lua_pushinteger(l, lua_rawlen(l, -3)+1);
 		lua_pushstring(l, c->name);
 		lua_rawset(l, -5);
 	}

@@ -135,32 +135,15 @@ static int l_matrix_mul (lua_State *L)
 		return 1;
 	} else {
 		const matrix4x4f *a = LuaMatrix::CheckFromLua(L, 1);
-		luaL_checktype(L, 2, LUA_TUSERDATA);
-
-		void *bp = lua_touserdata(L, 2);
-		if (!bp) { luaL_argerror(L, 2, "invalid object passed to matrix multiply"); }
-
-		LUA_DEBUG_START(L);
-
-		lua_getmetatable(L, 2);
-		assert(lua_istable(L, -1));
-
-		luaL_getmetatable(L, LuaVector::TypeName);
-		bool isvector = lua_rawequal(L, -1, -2);
-		lua_pop(L, 2);
-
-		if (isvector) {
+		const vector3d *bvec = LuaVector::GetFromLua(L, 2);
+		if (bvec) {
 			// matrix * vector
-			const vector3f b = LuaVector::CheckFromLuaF(L, 2);
-			LuaVector::PushToLuaF(L, (*a) * b);
+			LuaVector::PushToLuaF(L, (*a) * vector3f(*bvec));
 		} else {
 			// matrix * matrix
 			const matrix4x4f *b = LuaMatrix::CheckFromLua(L, 2);
 			LuaMatrix::PushToLua(L, (*a) * (*b));
 		}
-
-		LUA_DEBUG_END(L, 1);
-
 		return 1;
 	}
 }
@@ -207,38 +190,34 @@ const char LuaMatrix::TypeName[] = "matrix";
 
 void LuaMatrix::Register(lua_State *L)
 {
-	luaL_register(L, LuaMatrix::LibName, l_matrix_lib);
+	luaL_newlib(L, l_matrix_lib);
+	lua_setglobal(L, LuaMatrix::LibName);
 
 	luaL_newmetatable(L, LuaMatrix::TypeName);
-	luaL_register(L, 0, l_matrix_meta);
+	luaL_setfuncs(L, l_matrix_meta, 0);
 
 	// map index back to the metatable
-	lua_pushvalue(L, -2);
+	lua_pushvalue(L, -1);
 	lua_setfield(L, -2, "__index");
 
 	// hide the metatable to thwart crazy exploits
 	lua_pushboolean(L, 0);
 	lua_setfield(L, -2, "__metatable");
-	lua_pop(L, 2);
+
+	// pop the metatable
+	lua_pop(L, 1);
 }
 
 matrix4x4f *LuaMatrix::PushNewToLua(lua_State *L)
 {
 	matrix4x4f *v = static_cast<matrix4x4f*>(lua_newuserdata(L, sizeof(matrix4x4f)));
-	luaL_getmetatable(L, LuaMatrix::TypeName);
-	lua_setmetatable(L, -2);
+	luaL_setmetatable(L, LuaMatrix::TypeName);
 	return v;
 }
 
 const matrix4x4f *LuaMatrix::GetFromLua(lua_State *L, int idx)
 {
-	if (lua_type(L, idx) != LUA_TUSERDATA) { return 0; }
-	if (!lua_getmetatable(L, idx)) { return 0; }
-	luaL_getmetatable(L, LuaMatrix::TypeName);
-	bool eq = lua_rawequal(L, -1, -2);
-	lua_pop(L, 2);
-	if (!eq) { return 0; }
-	return static_cast<matrix4x4f*>(lua_touserdata(L, idx));
+	return static_cast<matrix4x4f*>(luaL_testudata(L, idx, LuaMatrix::TypeName));
 }
 
 const matrix4x4f *LuaMatrix::CheckFromLua(lua_State *L, int idx)

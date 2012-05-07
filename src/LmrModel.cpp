@@ -1082,7 +1082,7 @@ rebuild_model:
 			s_curBuf = m_staticGeometry[i];
 			lua_pushcfunction(sLua, pi_lua_panic);
 			// call model static building function
-			lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_static").c_str());
+			lua_getglobal(sLua, (m_name+"_static").c_str());
 			// lod as first argument
 			lua_pushnumber(sLua, i+1);
 			lua_pcall(sLua, 1, 0, -3);
@@ -1267,7 +1267,7 @@ void LmrModel::Build(int lod, const LmrObjParams *params)
 		s_curParams = params;
 		lua_pushcfunction(sLua, pi_lua_panic);
 		// call model dynamic bits
-		lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_dynamic").c_str());
+		lua_getglobal(sLua, (m_name+"_dynamic").c_str());
 		// lod as first argument
 		lua_pushnumber(sLua, lod+1);
 		lua_pcall(sLua, 1, 0, -3);
@@ -1560,7 +1560,7 @@ namespace ModelFuncs {
 			luaL_error(L, "lathe() takes a table of distance, radius numbers");
 		}
 
-		int num = lua_objlen(L, 5);
+		int num = lua_rawlen(L, 5);
 		if (num % 2) luaL_error(L, "lathe() passed list with unpaired distance, radius element");
 		if (num < 4) luaL_error(L, "lathe() passed list with insufficient distance, radius pairs");
 
@@ -4513,7 +4513,7 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 
 	PiVerify(s_font = s_fontCache.GetVectorFont("WorldFont"));
 
-	lua_State *L = lua_open();
+	lua_State *L = luaL_newstate();
 	sLua = L;
 	luaL_openlibs(L);
 

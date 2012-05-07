@@ -2,12 +2,6 @@
 #include "LuaVector.h"
 #include "LuaUtils.h"
 
-extern "C" {
-#include "lua/lua.h"
-#include "lua/lauxlib.h"
-#include "lua/lualib.h"
-}
-
 static int l_vector_new(lua_State *L)
 {
 	LUA_DEBUG_START(L);
@@ -188,38 +182,29 @@ void LuaVector::Register(lua_State *L)
 {
 	LUA_DEBUG_START(L);
 
-	luaL_register(L, LuaVector::LibName, l_vector_lib);
+	luaL_newlib(L, l_vector_lib);
+	lua_setglobal(L, LuaVector::LibName);
 
 	luaL_newmetatable(L, LuaVector::TypeName);
-	luaL_register(L, 0, l_vector_meta);
+	luaL_setfuncs(L, l_vector_meta, 0);
 	// hide the metatable to thwart crazy exploits
 	lua_pushboolean(L, 0);
 	lua_setfield(L, -2, "__metatable");
-
-	lua_pop(L, 2); // pop the metatable and the math library table
+	lua_pop(L, 1);
 
 	LUA_DEBUG_END(L, 0);
 }
 
 vector3d *LuaVector::PushNewToLua(lua_State *L)
 {
-	LUA_DEBUG_START(L);
 	vector3d *ptr = static_cast<vector3d*>(lua_newuserdata(L, sizeof(vector3d)));
-	luaL_getmetatable(L, LuaVector::TypeName);
-	lua_setmetatable(L, -2);
-	LUA_DEBUG_END(L, 1);
+	luaL_setmetatable(L, LuaVector::TypeName);
 	return ptr;
 }
 
 const vector3d *LuaVector::GetFromLua(lua_State *L, int idx)
 {
-	if (lua_type(L, idx) != LUA_TUSERDATA) { return 0; }
-	if (!lua_getmetatable(L, idx)) { return 0; }
-	luaL_getmetatable(L, LuaVector::TypeName);
-	bool eq = lua_rawequal(L, -1, -2);
-	lua_pop(L, 2);
-	if (!eq) { return 0; }
-	return static_cast<vector3d*>(lua_touserdata(L, idx));
+	return static_cast<vector3d*>(luaL_testudata(L, idx, LuaVector::TypeName));
 }
 
 const vector3d *LuaVector::CheckFromLua(lua_State *L, int idx)
