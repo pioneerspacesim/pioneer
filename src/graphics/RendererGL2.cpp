@@ -14,8 +14,8 @@ Shader *simpleTextured;
 Shader *flatProg;
 Shader *flatTextured;
 
-static std::map<MaterialDescriptor, ScopedPtr<Shader> > progMap;
-typedef std::map<MaterialDescriptor, ScopedPtr<Shader> >::const_iterator ProgramMapIterator;
+static std::vector<std::pair<MaterialDescriptor, Graphics::Shader *> > progMap;
+typedef std::vector<std::pair<MaterialDescriptor, Graphics::Shader *> >::const_iterator ProgramMapIterator;
 
 RendererGL2::RendererGL2(int w, int h) :
 	RendererLegacy(w, h)
@@ -97,19 +97,27 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &desc)
 	MaterialGL2 *mat = new MaterialGL2;
 	mat->newStyleHack = true;
 
-	ProgramMapIterator it = progMap.find(desc);
 	Shader *s = 0;
-	if (it == progMap.end()) { //new
+	for(ProgramMapIterator it = progMap.begin();
+		it != progMap.end();
+		++it)
+	{
+		if ((*it).first == desc) {
+			s = (*it).second;
+			break;
+		}
+	}
+	if (!s) { //new
 		std::stringstream ss;
-		ss << "#define TEXTURE0 1\n"
-			  "#define MAP_SPECULAR 1\n";
+		ss << "#define TEXTURE0 1" << std::endl;
+		if (desc.specularMap)
+			ss << "#define MAP_SPECULAR 1" << std::endl;
 		if (desc.glowMap)
 			ss << "#define MAP_EMISSIVE 1" << std::endl;
 		if (desc.usePatterns)
 			ss << "#define MAP_COLOR 1" << std::endl;
 		s = new Shader("gl2/nm", ss.str().c_str());
-	} else {
-		s = (*it).second.Get();
+		progMap.push_back(std::make_pair<MaterialDescriptor, Shader *>(desc, s));
 	}
 	mat->shader = s;
 	mat->descriptor = desc;

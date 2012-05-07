@@ -273,6 +273,7 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 			matDesc.usePatterns = true;
 		}
 		matDesc.glowMap = !glowTex.empty();
+		matDesc.specularMap = !specTex.empty();
 
 		RefCountedPtr<Material> mat(m_renderer->CreateMaterial(matDesc));
 		mat->diffuse = (*it).diffuse;
@@ -287,8 +288,6 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 			mat->texture0 = GetWhiteTexture();
 		if (!specTex.empty())
 			mat->texture1 = Graphics::TextureBuilder::Model(specTex).GetOrCreateTexture(m_renderer, "model");
-		else
-			mat->texture1 = GetWhiteTexture();
 		if (!glowTex.empty())
 			mat->texture2 = Graphics::TextureBuilder::Model(glowTex).GetOrCreateTexture(m_renderer, "model");
 

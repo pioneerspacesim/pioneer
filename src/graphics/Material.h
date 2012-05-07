@@ -12,12 +12,16 @@ class Shader;
 class MaterialDescriptor {
 public:
 	bool glowMap;
+	bool specularMap;
 	bool usePatterns; //colour customization system
 
-	MaterialDescriptor() : glowMap(false), usePatterns(false) { }
+	MaterialDescriptor()
+	: glowMap(false)
+	, specularMap(false)
+	, usePatterns(false) { }
 
-	friend bool operator<(const MaterialDescriptor &a, const MaterialDescriptor &b) {
-		return (a.usePatterns != b.usePatterns || a.glowMap != b.glowMap);
+	friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b) {
+		return (a.usePatterns == b.usePatterns && a.glowMap == b.glowMap && a.specularMap == b.specularMap);
 	}
 };
 
@@ -59,7 +63,7 @@ public:
 	//custom glsl prog
 	Shader *shader;
 
-	bool newStyleHack;
+	bool newStyleHack; //material will be requested with Renderer::CreateMaterial(desciptor)
 	const MaterialDescriptor &GetDescriptor() const { return descriptor; }
 	MaterialDescriptor descriptor;
 };
