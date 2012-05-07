@@ -81,7 +81,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			const char *cl = lua_tostring(l, -1);
 			snprintf(buf, sizeof(buf), "o%s\n", cl);
 
-			lua_getfield(l, LUA_GLOBALSINDEX, cl);
+			lua_getglobal(l, cl);
 			if (lua_isnil(l, -1))
 				luaL_error(l, "No Serialize method found for class '%s'\n", cl);
 
@@ -365,12 +365,15 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 
 			const char *cl = pos;
 
-			lua_pushlstring(l, pos, len);
-
+			// unpickle the object, and insert it beneath the method table value
 			pos = unpickle(l, end);
-			lua_insert(l, -2);
 
-			lua_gettable(l, LUA_GLOBALSINDEX);
+			// get _G[typename]
+			lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
+			lua_pushlstring(l, cl, len);
+			lua_gettable(l, -2);
+			lua_remove(l, -2);
+
 			if (lua_isnil(l, -1)) {
 				lua_pop(l, 2);
 				break;
@@ -497,11 +500,9 @@ int LuaSerializer::l_register(lua_State *l)
 
 	std::string key = luaL_checkstring(l, 2);
 
-	if (!lua_isfunction(l, 3))
-		luaL_typerror(l, 3, lua_typename(l, LUA_TFUNCTION));
-	if (!lua_isfunction(l, 4))
-		luaL_typerror(l, 4, lua_typename(l, LUA_TFUNCTION));
-	
+	luaL_checktype(l, 3, LUA_TFUNCTION); // any type of function
+	luaL_checktype(l, 4, LUA_TFUNCTION); // any type of function
+
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
@@ -539,7 +540,7 @@ template <> const char *LuaObject<LuaSerializer>::s_type = "Serializer";
 
 template <> void LuaObject<LuaSerializer>::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "Register", LuaSerializer::l_register },
 		{ 0, 0 }
 	};

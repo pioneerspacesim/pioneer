@@ -288,13 +288,13 @@ void LuaConsole::Register()
 
 	LUA_DEBUG_START(l);
 
-	static const luaL_reg methods[] = {
+	static const luaL_Reg methods[] = {
 		{ "AddLine", l_console_addline },
 		{ 0, 0 }
 	};
 
-	luaL_register(l, "Console", methods);
-	lua_pop(l, 1);
+	luaL_newlib(l, methods);
+	lua_setglobal(l, "Console");
 
 	// override the base library 'print' function
 	lua_register(l, "print", &l_console_print);

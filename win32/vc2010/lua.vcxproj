@@ -18,7 +18,10 @@
     <ClCompile Include="..\..\contrib\lua\lapi.c" />
     <ClCompile Include="..\..\contrib\lua\lauxlib.c" />
     <ClCompile Include="..\..\contrib\lua\lbaselib.c" />
+    <ClCompile Include="..\..\contrib\lua\lbitlib.c" />
     <ClCompile Include="..\..\contrib\lua\lcode.c" />
+    <ClCompile Include="..\..\contrib\lua\lcorolib.c" />
+    <ClCompile Include="..\..\contrib\lua\lctype.c" />
     <ClCompile Include="..\..\contrib\lua\ldblib.c" />
     <ClCompile Include="..\..\contrib\lua\ldebug.c" />
     <ClCompile Include="..\..\contrib\lua\ldo.c" />
@@ -44,12 +47,12 @@
     <ClCompile Include="..\..\contrib\lua\lundump.c" />
     <ClCompile Include="..\..\contrib\lua\lvm.c" />
     <ClCompile Include="..\..\contrib\lua\lzio.c" />
-    <ClCompile Include="..\..\contrib\lua\print.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\contrib\lua\lapi.h" />
     <ClInclude Include="..\..\contrib\lua\lauxlib.h" />
     <ClInclude Include="..\..\contrib\lua\lcode.h" />
+    <ClInclude Include="..\..\contrib\lua\lctype.h" />
     <ClInclude Include="..\..\contrib\lua\ldebug.h" />
     <ClInclude Include="..\..\contrib\lua\ldo.h" />
     <ClInclude Include="..\..\contrib\lua\lfunc.h" />
@@ -65,6 +68,7 @@
     <ClInclude Include="..\..\contrib\lua\ltable.h" />
     <ClInclude Include="..\..\contrib\lua\ltm.h" />
     <ClInclude Include="..\..\contrib\lua\lua.h" />
+    <ClInclude Include="..\..\contrib\lua\lua.hpp" />
     <ClInclude Include="..\..\contrib\lua\luaconf.h" />
     <ClInclude Include="..\..\contrib\lua\lualib.h" />
     <ClInclude Include="..\..\contrib\lua\lundump.h" />

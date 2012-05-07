@@ -61,7 +61,7 @@ static int l_starsystem_get_station_paths(lua_State *l)
 
 	for (std::vector<SystemBody*>::const_iterator i = s->m_spaceStations.begin(); i != s->m_spaceStations.end(); i++)
 	{
-		lua_pushinteger(l, lua_objlen(l, -1)+1);
+		lua_pushinteger(l, lua_rawlen(l, -1)+1);
 		LuaSystemPath::PushToLua(&(*i)->path);
 		lua_rawset(l, -3);
 	}
@@ -101,7 +101,7 @@ static int l_starsystem_get_body_paths(lua_State *l)
 
 	for (std::vector<SystemBody*>::const_iterator i = s->m_bodies.begin(); i != s->m_bodies.end(); i++)
 	{
-		lua_pushinteger(l, lua_objlen(l, -1)+1);
+		lua_pushinteger(l, lua_rawlen(l, -1)+1);
 		LuaSystemPath::PushToLua(&(*i)->path);
 		lua_rawset(l, -3);
 	}
@@ -225,8 +225,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 
 	bool filter = false;
 	if (lua_gettop(l) >= 3) {
-		if (!lua_isfunction(l, 3))
-			luaL_typerror(l, 3, lua_typename(l, LUA_TFUNCTION));
+		luaL_checktype(l, 3, LUA_TFUNCTION); // any type of function
 		filter = true;
 	}
 
@@ -267,7 +266,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 						lua_pop(l, 1);
 					}
 
-					lua_pushinteger(l, lua_objlen(l, -1)+1);
+					lua_pushinteger(l, lua_rawlen(l, -1)+1);
 					LuaStarSystem::PushToLua(sys.Get());
 					lua_rawset(l, -3);
 				}
@@ -413,7 +412,7 @@ template <> const char *LuaObject<StarSystem>::s_type = "StarSystem";
 
 template <> void LuaObject<StarSystem>::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "GetStationPaths", l_starsystem_get_station_paths },
 		{ "GetBodyPaths", l_starsystem_get_body_paths },
 
@@ -427,7 +426,7 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	static const luaL_reg l_attrs[] = {
+	static const luaL_Reg l_attrs[] = {
 		{ "name", l_starsystem_attr_name },
 		{ "path", l_starsystem_attr_path },
 

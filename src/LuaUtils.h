@@ -2,13 +2,7 @@
 #define _LUAUTILS_H
 
 #include <string>
-
-extern "C" {
-#include "lua/lua.h"
-#include "lua/lauxlib.h"
-#include "lua/lualib.h"
-}
-
+#include "lua/lua.hpp"
 #include "utils.h"
 
 inline void pi_lua_settable(lua_State *l, const char *key, int value)
@@ -62,8 +56,6 @@ void pi_lua_dofile_recursive(lua_State *l, const std::string &basepath);
 int  pi_load_lua(lua_State *l);
 
 void pi_lua_warn(lua_State *l, const char *format, ...) __attribute((format(printf,2,3)));
-
-void pi_lua_openlib(lua_State *l, const char *name, lua_CFunction openf);
 
 #ifdef DEBUG
 #include <stdlib.h> // for abort()

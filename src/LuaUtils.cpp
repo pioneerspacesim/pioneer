@@ -197,12 +197,3 @@ void pi_lua_warn(lua_State *l, const char *format, ...)
 		++level;
 	}
 }
-
-void pi_lua_openlib(lua_State *L, const char *name, lua_CFunction openf)
-{
-	LUA_DEBUG_START(L);
-	lua_pushcfunction(L, openf);
-	lua_pushstring(L, name);
-	lua_call(L, 1, 0);
-	LUA_DEBUG_END(L, 0);
-}

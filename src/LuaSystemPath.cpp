@@ -465,7 +465,7 @@ template <> const char *LuaObject<LuaUncopyable<SystemPath> >::s_type = "SystemP
 
 template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "New", l_sbodypath_new },
 
 		{ "IsSameSystem", l_sbodypath_is_same_system },
@@ -482,7 +482,7 @@ template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
 		{ 0, 0 }
 	};
 
-	static const luaL_reg l_attrs[] = {
+	static const luaL_Reg l_attrs[] = {
 		{ "sectorX",     l_sbodypath_attr_sector_x     },
 		{ "sectorY",     l_sbodypath_attr_sector_y     },
 		{ "sectorZ",     l_sbodypath_attr_sector_z     },
@@ -491,7 +491,7 @@ template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
 		{ 0, 0 }
 	};
 
-	static const luaL_reg l_meta[] = {
+	static const luaL_Reg l_meta[] = {
 		{ "__eq",  l_sbodypath_meta_eq },
 		{ "__tostring", l_sbodypath_meta_tostring },
 		{ 0, 0 }
