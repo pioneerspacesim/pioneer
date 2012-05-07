@@ -825,7 +825,7 @@ define_model('courier_eng_l', {      -- engine part left all models
 		set_material('e_glow2', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
 
 		if lod > 1 then
-			call_model('posl_red', v(-34,-11.16,7), v(0,0,1), v(-1,0.0),2.5)
+			call_model('posl_red', v(-34,-11.16,7), v(0,0,1), v(-1,0,0),2.5)
 			call_model('coll_warn', v(-31.58,-13.6,7), v(1,0,0), v(0,-1,0),2.5)
 		end
 
@@ -889,7 +889,7 @@ define_model('courier_eng_r', {      -- engine part right all models
 		set_material('e_glow2', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
 
 		if lod > 1 then
-			call_model('posl_green', v(34,-11.16,7), v(0,0,1), v(1,0.0),2.5)
+			call_model('posl_green', v(34,-11.16,7), v(0,0,1), v(1,0,0),2.5)
 			call_model('coll_warn', v(31.58,-13.6,7), v(1,0,0), v(0,-1,0),2.5)
 		end
 
