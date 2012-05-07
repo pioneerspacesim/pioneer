@@ -6,13 +6,16 @@
 #include "Texture.h"
 #include "TextureGL.h"
 #include "VertexArray.h"
+#include <sstream>
 
 namespace Graphics {
 
 Shader *simpleTextured;
 Shader *flatProg;
 Shader *flatTextured;
-Shader *nmProg;
+
+static std::map<MaterialDescriptor, ScopedPtr<Shader> > progMap;
+typedef std::map<MaterialDescriptor, ScopedPtr<Shader> >::const_iterator ProgramMapIterator;
 
 RendererGL2::RendererGL2(int w, int h) :
 	RendererLegacy(w, h)
@@ -25,12 +28,6 @@ RendererGL2::RendererGL2(int w, int h) :
 	simpleTextured = new Shader("simpleTextured");
 	flatProg = new Shader("flat");
 	flatTextured = new Shader("flat", "#define TEXTURE0 1\n");
-	nmProg = new Shader("gl2/nm",
-		"#define TEXTURE0 1\n"
-		"#define MAP_SPECULAR 1\n"
-		"#define MAP_EMISSIVE 1\n"
-		"#define MAP_COLOR 1\n"
-		);
 }
 
 RendererGL2::~RendererGL2()
@@ -38,7 +35,6 @@ RendererGL2::~RendererGL2()
 	delete simpleTextured;
 	delete flatProg;
 	delete flatTextured;
-	delete nmProg;
 }
 
 bool RendererGL2::BeginFrame()
@@ -96,11 +92,26 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineTy
 	return true;
 }
 
-Material *RendererGL2::CreateMaterial()
+Material *RendererGL2::CreateMaterial(const MaterialDescriptor &desc)
 {
 	MaterialGL2 *mat = new MaterialGL2;
 	mat->newStyleHack = true;
-	mat->shader = nmProg;
+
+	ProgramMapIterator it = progMap.find(desc);
+	Shader *s = 0;
+	if (it == progMap.end()) { //new
+		std::stringstream ss;
+		ss << "#define TEXTURE0 1\n"
+			  "#define MAP_SPECULAR 1\n"
+			  "#define MAP_EMISSIVE 1\n";
+		if (desc.usePatterns)
+			ss << "#define MAP_COLOR 1\n";
+		s = new Shader("gl2/nm", ss.str().c_str());
+	} else {
+		s = (*it).second.Get();
+	}
+	mat->shader = s;
+	mat->descriptor = desc;
 	return mat;
 }
 

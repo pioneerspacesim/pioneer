@@ -9,6 +9,20 @@ namespace Graphics {
 class Texture;
 class Shader;
 
+class MaterialDescriptor {
+public:
+	bool usePatterns; //colour customization system
+
+	MaterialDescriptor() : usePatterns(false) { }
+
+	friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b) {
+		return (a.usePatterns == b.usePatterns);
+	}
+	friend bool operator<(const MaterialDescriptor &a, const MaterialDescriptor &b) {
+		return (a.usePatterns != b.usePatterns);
+	}
+};
+
 /*
  * Materials define shading parameters. For example, when you
  * want to draw unlit geometry, define a material with the
@@ -48,7 +62,8 @@ public:
 	Shader *shader;
 
 	bool newStyleHack;
-	bool usePatterns;
+	const MaterialDescriptor &GetDescriptor() const { return descriptor; }
+	MaterialDescriptor descriptor;
 };
 
 }

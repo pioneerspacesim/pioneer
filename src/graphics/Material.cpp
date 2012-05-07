@@ -14,8 +14,7 @@ Material::Material() :
 	twoSided(false),
 	vertexColors(false),
 	shader(0),
-	newStyleHack(false),
-	usePatterns(false)
+	newStyleHack(false)
 {
 }
 

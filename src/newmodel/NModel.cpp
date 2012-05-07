@@ -86,7 +86,7 @@ void NModel::SetPattern(unsigned int index)
 		++it)
 	{
 		//XXX ahh hacks
-		if ((*it).second->usePatterns) {
+		if ((*it).second->GetDescriptor().usePatterns) {
 			(*it).second->texture3 = m_patterns.at(index).texture;
 		}
 	}
@@ -101,7 +101,7 @@ void NModel::SetColors(Graphics::Renderer *r, const std::vector<Color4ub> &color
 		++it)
 	{
 		//XXX ahh hacks
-		if ((*it).second->usePatterns) {
+		if ((*it).second->GetDescriptor().usePatterns) {
 			(*it).second->texture4 = m_colorMap.GetTexture();
 		}
 	}

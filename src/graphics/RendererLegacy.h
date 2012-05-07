@@ -53,8 +53,7 @@ public:
 	virtual bool DrawStaticMesh(StaticMesh *thing);
 
 	virtual Texture *CreateTexture(const TextureDescriptor &descriptor);
-
-	virtual Material *CreateMaterial();
+	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor);
 
 	virtual bool PrintDebugInfo(std::ostream &out);
 

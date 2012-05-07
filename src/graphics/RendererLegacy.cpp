@@ -659,7 +659,7 @@ Texture *RendererLegacy::CreateTexture(const TextureDescriptor &descriptor)
 	return new TextureGL(descriptor);
 }
 
-Material *RendererLegacy::CreateMaterial()
+Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &)
 {
 	return new Material();
 }

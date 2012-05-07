@@ -263,19 +263,19 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		it != def.matDefs.end(); ++it)
 	{
 		assert(!(*it).name.empty());
+		Graphics::MaterialDescriptor matDesc;
+		if ((*it).use_pattern) {
+			patternsUsed = true;
+			matDesc.usePatterns = true;
+		}
 		const std::string &diffTex = (*it).tex_diff;
 		const std::string &specTex = (*it).tex_spec;
 		const std::string &glowTex = (*it).tex_glow;
-		RefCountedPtr<Material> mat(m_renderer->CreateMaterial());
+		RefCountedPtr<Material> mat(m_renderer->CreateMaterial(matDesc));
 		mat->diffuse = (*it).diffuse;
 		mat->specular = (*it).specular;
 		mat->emissive = (*it).emissive;
 		mat->shininess = (*it).shininess;
-
-		if ((*it).use_pattern) {
-			patternsUsed = true;
-			mat->usePatterns = true;
-		}
 
 		//XXX white texture is sort of a workaround when all textures are not specified
 		if (!diffTex.empty())

@@ -25,7 +25,7 @@ public:
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, LineType type=LINE_SINGLE);
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, LineType type=LINE_SINGLE);
 
-	virtual Material *CreateMaterial();
+	virtual Material *CreateMaterial(const MaterialDescriptor &);
 
 protected:
 	virtual void ApplyMaterial(const Material *mat);
