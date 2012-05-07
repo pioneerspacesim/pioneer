@@ -44,6 +44,7 @@ Alpha 22
        (#1233, #1196)
      * Don't take timesteps for dead ships. Stops the player firing during the
        death screen (regression) (#1243, #1103, #1056)
+     * Fix crash when objectviewer activated with no target set (#1248)
 
    * Script and model changes
      * LMR "lathe" function radius and up vector now interpreted the same as
