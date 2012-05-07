@@ -1293,13 +1293,13 @@ void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transfor
 
 LmrCollMesh::LmrCollMesh(LmrModel *m, const LmrObjParams *params)
 	: CollMesh()
+	, nv(0)
+	, ni(0)
+	, nf(0)
 	, pVertex(0)
 	, pIndex(0)
 	, m_numTris(0)
 	, pFlag(0)
-	, nv(0)
-	, ni(0)
-	, nf(0)
 {
 	m->GetCollMeshGeometry(this, matrix4x4f::Identity(), params);
 	m_radius = m_aabb.GetBoundingRadius();

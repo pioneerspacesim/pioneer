@@ -14,6 +14,7 @@ noinst_HEADERS = \
 	RendererLegacy.h \
 	Frustum.h \
 	Shader.h \
+	MaterialGL2.h \
 	Material.h \
 	StaticMesh.h \
 	Surface.h \
@@ -31,6 +32,7 @@ libgraphics_a_SOURCES = \
 	Frustum.cpp \
 	Shader.cpp \
 	Material.cpp \
+	MaterialGL2.cpp \
 	StaticMesh.cpp \
 	VertexArray.cpp \
 	TextureGL.cpp \

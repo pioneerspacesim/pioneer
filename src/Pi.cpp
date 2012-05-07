@@ -842,20 +842,23 @@ void Pi::HandleEvents()
 
 static void draw_intro(Background::Container *background, float _time)
 {
-	LmrObjParams params = {
-		"ShipAnimation", // animation namespace
-		0.0, // time
-		{ }, // animation stages
-		{ 0.0, 1.0 }, // animation positions
-		Lang::PIONEER, // label
-		0, // equipment
-		Ship::FLYING, // flightState
-		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f }, // thrust
-		{	// pColor[3]
-		{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
-		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.8f, 0.8f, 0.8f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-	};
+	LmrMaterial m0 = { { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 };
+	LmrMaterial m1 = { { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+	LmrMaterial m2 = { { 0.8f, 0.8f, 0.8f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+
+	LmrObjParams params;
+	params.animationNamespace = "ShipAnimation";
+	params.time = 0.0;
+	params.animValues[1] = 0.0;
+	params.label = Lang::PIONEER;
+	params.equipment = 0;
+	params.flightState = Ship::FLYING;
+	params.linthrust[0] = 0.0f; params.linthrust[1] = 0.0f; params.linthrust[2] = -1.0f;
+	params.angthrust[0] = 0.0f; params.angthrust[1] = 0.0f; params.angthrust[2] = 0.0f;
+	params.pMat[0] = m0;
+	params.pMat[1] = m1;
+	params.pMat[2] = m2;
+
 	EquipSet equipment;
 	// The finest parts that money can buy!
 	params.equipment = &equipment;
@@ -889,20 +892,16 @@ static void draw_intro(Background::Container *background, float _time)
 
 static void draw_tombstone(float _time)
 {
-	LmrObjParams params = {
-		0, // animation namespace
-		0.0, // time
-		{}, // animation stages
-		{}, // animation positions
-		Lang::TOMBSTONE_EPITAPH, // label
-		0, // equipment
-		0, // flightState
-		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
-		{	// pColor[3]
-		{ { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-	};
+	LmrMaterial m0 = { { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+	LmrMaterial m1 = { { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+	LmrMaterial m2 = { { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+
+	LmrObjParams params;
+	params.label = Lang::TOMBSTONE_EPITAPH;
+	params.pMat[0] = m0;
+	params.pMat[1] = m1;
+	params.pMat[2] = m2;
+
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
 	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
