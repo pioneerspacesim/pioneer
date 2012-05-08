@@ -3,6 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C++ Express 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pioneer", "pioneer.vcxproj", "{65A1BBFB-7A42-497C-BF65-A0A06664A204}"
 	ProjectSection(ProjectDependencies) = postProject
+		{869EEE1B-C824-4EEF-8AB0-2C95507406DE} = {869EEE1B-C824-4EEF-8AB0-2C95507406DE}
 		{5085B12D-F9AC-4878-9672-1FD4EB0EFB67} = {5085B12D-F9AC-4878-9672-1FD4EB0EFB67}
 	EndProjectSection
 EndProject
@@ -10,6 +11,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lua", "lua.vcxproj", "{5085
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "modelviewer", "modelviewer.vcxproj", "{BD7B420B-07C1-43F2-A987-F9A4915005E5}"
 	ProjectSection(ProjectDependencies) = postProject
+		{869EEE1B-C824-4EEF-8AB0-2C95507406DE} = {869EEE1B-C824-4EEF-8AB0-2C95507406DE}
 		{5085B12D-F9AC-4878-9672-1FD4EB0EFB67} = {5085B12D-F9AC-4878-9672-1FD4EB0EFB67}
 	EndProjectSection
 EndProject
