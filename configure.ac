@@ -176,6 +176,9 @@ PKG_CHECK_MODULES([FREETYPE], [freetype2])
 dnl Check for libvorbis
 PKG_CHECK_MODULES([VORBIS], [vorbisfile])
 
+dnl Check for assimp
+PKG_CHECK_MODULES([ASSIMP], [assimp])
+
 dnl Optionally use external liblua
 AC_ARG_WITH([external-liblua], AS_HELP_STRING([--with-external-liblua], [Use external liblua in place of our internal copy]), [], [with_external_liblua=no; HAVE_LUA=no])
 if test "$with_external_liblua" = yes; then
@@ -252,6 +255,7 @@ AC_CONFIG_FILES([
 	src/collider/Makefile
 	src/gui/Makefile
 	src/graphics/Makefile
+	src/newmodel/Makefile
 	src/terrain/Makefile
 	src/text/Makefile
 	src/ui/Makefile
