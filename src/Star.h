@@ -8,7 +8,7 @@ namespace Graphics { class Renderer; }
 class Star: public TerrainBody {
 public:
 	OBJDEF(Star, TerrainBody, STAR);
-	Star(SBody *sbody);
+	Star(SystemBody *sbody);
 	Star();
 	virtual ~Star() {};
 

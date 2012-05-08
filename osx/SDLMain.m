@@ -138,7 +138,7 @@ int main (int argc, char * argv[])
         gFinderLaunch = NO;
     }
 
-    NSApplicationMain (argc, argv);
+    NSApplicationMain (argc, (const char **)argv);
     return 0;
 }
 

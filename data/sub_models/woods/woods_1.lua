@@ -1,13 +1,13 @@
 function gelati(pos,rot,scale)  -- pos=position, rot=rotation value, scale=scale x,y,z,
 	use_material('pine')
 	texture('pine_01.png')
-	load_obj('pine_01.obj', Matrix.translate(pos) * Matrix.rotate(rot*math.pi,v(0,1,0)) * Matrix.scale(scale))
+	load_obj('pine_01.obj', matrix.translate(pos) * matrix.rotate(rot*math.pi,v(0,1,0)) * matrix.scale(scale))
 end
 
 function broccoli(pos,rot,scale) -- pos=position, rot=rotation value, scale=scale x,y,z,
     use_material('oak')
 	texture('oak_01.png')
-	load_obj('oak_01.obj', Matrix.translate(pos) * Matrix.rotate(rot*math.pi,v(0,1,0)) * Matrix.scale(scale))
+	load_obj('oak_01.obj', matrix.translate(pos) * matrix.rotate(rot*math.pi,v(0,1,0)) * matrix.scale(scale))
 end
 
 define_model('woods_0', {

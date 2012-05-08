@@ -14,12 +14,12 @@ void LuaEventQueueBase::RegisterEventQueue()
 	LUA_DEBUG_START(l);
 
 	// get the eventqueue table, or create it if it doesn't exist
-	lua_getfield(l, LUA_GLOBALSINDEX, "EventQueue");
+	lua_getglobal(l, "EventQueue");
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 		lua_newtable(l);
 		lua_pushvalue(l, -1);
-		lua_setfield(l, LUA_GLOBALSINDEX, "EventQueue");
+		lua_setglobal(l, "EventQueue");
 	}
 
 	lua_pushstring(l, m_name);
@@ -687,8 +687,7 @@ int LuaEventQueueBase::l_connect(lua_State *l)
 
 	LuaEventQueueBase *q = LuaObject<LuaEventQueueBase>::GetFromLua(1);
 
-	if (!lua_isfunction(l, 2))
-		luaL_typerror(l, 2, lua_typename(l, LUA_TFUNCTION));
+	luaL_checktype(l, 2, LUA_TFUNCTION); // any type of function
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
 	lua_getfield(l, -1, q->m_name);
@@ -733,8 +732,7 @@ int LuaEventQueueBase::l_disconnect(lua_State *l)
 
 	LuaEventQueueBase *q = LuaObject<LuaEventQueueBase>::GetFromLua(1);
 
-	if (!lua_isfunction(l, 2))
-		luaL_typerror(l, 2, lua_typename(l, LUA_TFUNCTION));
+	luaL_checktype(l, 2, LUA_TFUNCTION); // any type of function
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
 	lua_getfield(l, -1, q->m_name);
@@ -790,7 +788,7 @@ template <> const char *LuaObject<LuaEventQueueBase>::s_type = "EventQueue";
 
 template <> void LuaObject<LuaEventQueueBase>::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "Connect",    LuaEventQueueBase::l_connect     },
 		{ "Disconnect", LuaEventQueueBase::l_disconnect  },
 		{ "DebugTimer", LuaEventQueueBase::l_debug_timer },

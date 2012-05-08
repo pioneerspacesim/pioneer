@@ -2,13 +2,14 @@
 #include "CityOnPlanet.h"
 #include "Planet.h"
 #include "Lang.h"
+#include "LuaConstants.h"
 #include "Missile.h"
 #include "Projectile.h"
 #include "ShipAICmd.h"
 #include "ShipController.h"
 #include "Sound.h"
 #include "Sfx.h"
-#include "Sector.h"
+#include "galaxy/Sector.h"
 #include "Frame.h"
 #include "WorldView.h"
 #include "HyperspaceCloud.h"
@@ -970,7 +971,7 @@ void Ship::StaticUpdate(const float timeStep)
 		Body *astro = GetFrame()->m_astroBody;
 		if (astro && astro->IsType(Object::PLANET)) {
 			Planet *p = static_cast<Planet*>(astro);
-			if (p->GetSBody()->IsScoopable()) {
+			if (p->GetSystemBody()->IsScoopable()) {
 				double dist = GetPosition().Length();
 				double pressure, density;
 				p->GetAtmosphericState(dist, &pressure, &density);

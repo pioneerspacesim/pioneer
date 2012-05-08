@@ -1,7 +1,7 @@
 #include "SystemView.h"
 #include "Pi.h"
 #include "SectorView.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Lang.h"
 #include "StringF.h"
 #include "Space.h"
@@ -97,7 +97,7 @@ void SystemView::ResetViewpoint()
 	m_time = Pi::game->GetTime();
 }
 
-void SystemView::PutOrbit(SBody *b, vector3d offset)
+void SystemView::PutOrbit(SystemBody *b, vector3d offset)
 {
 	std::vector<vector3f> vts;
 	Color green(0.f, 1.f, 0.f, 1.f);
@@ -111,7 +111,7 @@ void SystemView::PutOrbit(SBody *b, vector3d offset)
 	m_renderer->DrawLines(vcount-1, &vts[0], green, LINE_LOOP);
 }
 
-void SystemView::OnClickObject(SBody *b)
+void SystemView::OnClickObject(SystemBody *b)
 {
 	m_selectedObject = b;
 	std::string desc;
@@ -152,7 +152,7 @@ void SystemView::OnClickObject(SBody *b)
 	}
 }
 
-void SystemView::PutLabel(SBody *b, vector3d offset)
+void SystemView::PutLabel(SystemBody *b, vector3d offset)
 {
 	Gui::Screen::EnterOrtho();
 
@@ -171,10 +171,10 @@ void SystemView::PutLabel(SBody *b, vector3d offset)
 
 matrix4x4f s_invRot;
 
-void SystemView::PutBody(SBody *b, vector3d offset)
+void SystemView::PutBody(SystemBody *b, vector3d offset)
 {
-	if (b->type == SBody::TYPE_STARPORT_SURFACE) return;
-	if (b->type != SBody::TYPE_GRAVPOINT) {
+	if (b->type == SystemBody::TYPE_STARPORT_SURFACE) return;
+	if (b->type != SystemBody::TYPE_GRAVPOINT) {
 		glGetFloatv (GL_MODELVIEW_MATRIX, &s_invRot[0]);
 		s_invRot[12] = s_invRot[13] = s_invRot[14] = 0;
 		s_invRot = s_invRot.InverseOf();
@@ -195,7 +195,7 @@ void SystemView::PutBody(SBody *b, vector3d offset)
 		PutLabel(b, offset);
 	}
 
-	if (b->children.size()) for(std::vector<SBody*>::iterator kid = b->children.begin(); kid != b->children.end(); ++kid) {
+	if (b->children.size()) for(std::vector<SystemBody*>::iterator kid = b->children.begin(); kid != b->children.end(); ++kid) {
 
 		if (is_zero_general((*kid)->orbit.semiMajorAxis)) continue;
 		if ((*kid)->orbit.semiMajorAxis * m_zoom < ROUGH_SIZE_OF_TURD) {
@@ -211,16 +211,16 @@ void SystemView::PutBody(SBody *b, vector3d offset)
 	}
 }
 
-void SystemView::PutSelectionBox(const SBody *b, const vector3d &rootPos, const Color &col)
+void SystemView::PutSelectionBox(const SystemBody *b, const vector3d &rootPos, const Color &col)
 {
 	// surface starports just show the planet as being selected,
 	// because SystemView doesn't render terrains anyway
-	if (b->type == SBody::TYPE_STARPORT_SURFACE)
+	if (b->type == SystemBody::TYPE_STARPORT_SURFACE)
 		b = b->parent;
 	assert(b);
 
 	vector3d pos = rootPos;
-	// while (b->parent), not while (b) because the root SBody is defined to be at (0,0,0)
+	// while (b->parent), not while (b) because the root SystemBody is defined to be at (0,0,0)
 	while (b->parent) {
 		pos += b->orbit.OrbitalPosAtTime(m_time) * double(m_zoom);
 		b = b->parent;
@@ -261,7 +261,7 @@ void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
 static const GLfloat fogDensity = 0.1f;
 static const GLfloat fogColor[4] = { 0,0,0,1.0f };
 
-void SystemView::GetTransformTo(SBody *b, vector3d &pos)
+void SystemView::GetTransformTo(SystemBody *b, vector3d &pos)
 {
 	if (b->parent) {
 		GetTransformTo(b->parent, pos);
@@ -311,9 +311,9 @@ void SystemView::Draw3D()
 		PutBody(m_system->rootBody, pos);
 		if (Pi::game->GetSpace()->GetStarSystem() == m_system) {
 			const Body *navTarget = Pi::player->GetNavTarget();
-			const SBody *navTargetSBody = navTarget ? navTarget->GetSBody() : 0;
-			if (navTargetSBody)
-				PutSelectionBox(navTargetSBody, pos, Color(0.0, 1.0, 0.0, 1.0));
+			const SystemBody *navTargetSystemBody = navTarget ? navTarget->GetSystemBody() : 0;
+			if (navTargetSystemBody)
+				PutSelectionBox(navTargetSystemBody, pos, Color(0.0, 1.0, 0.0, 1.0));
 		}
 	}
 

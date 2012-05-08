@@ -76,15 +76,15 @@ define_model('ground_station_1', {
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)
 			local port_pos = { v(-150,50,0) }
 			if stage == 2 then
-				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
 			end
 		end,
 		ship_approach_waypoints = function(port, stage)
 			local port_pos = { v(-150,50,0) }
 			if stage == 1 then
-				return { v(port_pos[port]:x(), port_pos[port]:y()+1000, port_pos[port]:z()), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y+1000, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			elseif stage == 2 then
-				return { v(port_pos[port]:x(), port_pos[port]:y(), port_pos[port]:z()), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			end
 		end,	
 	},
@@ -109,15 +109,15 @@ define_model('ground_station_2', {
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)
 			local port_pos = { v(-150,50,0), v(150,50,0) }
 			if stage == 2 then
-				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
 			end
 		end,
 		ship_approach_waypoints = function(port, stage)
 			local port_pos = { v(-150,50,0), v(150,50,0) }
 			if stage == 1 then
-				return { v(port_pos[port]:x(), port_pos[port]:y()+1000, port_pos[port]:z()), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y+1000, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			elseif stage == 2 then
-				return { v(port_pos[port]:x(), port_pos[port]:y(), port_pos[port]:z()), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			end
 		end,	
 	},
@@ -143,15 +143,15 @@ define_model('ground_station_3', {
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)
 			local port_pos = { v(-150,50,0), v(150,50,0), v(0,50,-150) }
 			if stage == 2 then
-				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
 			end
 		end,
 		ship_approach_waypoints = function(port, stage)
 			local port_pos = { v(-150,50,0), v(150,50,0), v(0,50,-150) }
 			if stage == 1 then
-				return { v(port_pos[port]:x(), port_pos[port]:y()+1000, port_pos[port]:z()), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y+1000, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			elseif stage == 2 then
-				return { v(port_pos[port]:x(), port_pos[port]:y(), port_pos[port]:z()), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			end
 		end,	
 	},
@@ -177,15 +177,15 @@ define_model('ground_station_4', {
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)
 			local port_pos = { v(-150,50,0), v(150,50,0), v(0,50,-150), v(0,50,150) }
 			if stage == 2 then
-				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
 			end
 		end,
 		ship_approach_waypoints = function(port, stage)
 			local port_pos = { v(-150,50,0), v(150,50,0), v(0,50,-150), v(0,50,150) }
 			if stage == 1 then
-				return { v(port_pos[port]:x(), port_pos[port]:y()+1000, port_pos[port]:z()), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y+1000, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			elseif stage == 2 then
-				return { v(port_pos[port]:x(), port_pos[port]:y(), port_pos[port]:z()), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			end
 		end,	
 	},

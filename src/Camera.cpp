@@ -1,6 +1,6 @@
 #include "Camera.h"
 #include "Frame.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Space.h"
 #include "Player.h"
 #include "Pi.h"
@@ -50,11 +50,11 @@ void Camera::OnBodyDeleted()
 static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Light> &lights)
 {
 	if (lights.size() > 3) return;
-	// not using frame->GetSBodyFor() because it snoops into parent frames,
+	// not using frame->GetSystemBodyFor() because it snoops into parent frames,
 	// causing duplicate finds for static and rotating frame
-	SBody *body = frame->m_sbody;
+	SystemBody *body = frame->m_sbody;
 
-	if (body && (body->GetSuperType() == SBody::SUPERTYPE_STAR)) {
+	if (body && (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)) {
 		matrix4x4d m;
 		Frame::GetFrameTransform(frame, camFrame, m);
 		vector3d lpos = (m * vector3d(0,0,0));

@@ -33,7 +33,7 @@ define_model('asps_flap_r_0', {
 		if lod > 1 then
 			texture('asps_skin.png')
 		end
-		load_obj('asps_flap_r.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+		load_obj('asps_flap_r.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 	end
 })
 
@@ -46,7 +46,7 @@ define_model('asps_flap_l_0', {
 		if lod > 1 then
 			texture('asps_skin.png')
 		end
-		load_obj('asps_flap_l.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+		load_obj('asps_flap_l.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 	end
 })
 
@@ -97,15 +97,15 @@ define_model('asps_wheel_r_r', {
 	},
 	static = function(lod)
 		if lod == 1 then
-			load_obj('asps_wrr_coll.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wrr_coll.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 		else
 			texture('asps_skin.png')
 			use_material('cv_0')
-			load_obj('asps_wheel_r_r_1.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wheel_r_r_1.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 
 			set_material('non_cv', .63,.7,.83,1,.83,.9,1.03,30)
 			use_material('non_cv')
-			load_obj('asps_wheel_r_r_0.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wheel_r_r_0.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 		end
 	end,
 	dynamic = function(lod)
@@ -128,15 +128,15 @@ define_model('asps_wheel_r_l', {
 	},
 	static = function(lod)
 		if lod == 1 then
-			load_obj('asps_wrl_coll.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wrl_coll.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 		else
 			texture('asps_skin.png')
 			use_material('cv_0')
-			load_obj('asps_wheel_r_l_1.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wheel_r_l_1.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 
 			set_material('non_cv',.63,.7,.83,1,.83,.9,1.03,30)
 			use_material('non_cv')
-			load_obj('asps_wheel_r_l_0.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wheel_r_l_0.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 		end
 	end,
 	dynamic = function(lod)

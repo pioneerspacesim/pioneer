@@ -41,7 +41,7 @@ template <> void LuaObject<CargoBody>::RegisterClass()
 {
 	const char *l_parent = "Body";
 
-	static const luaL_reg l_attrs[] = {
+	static const luaL_Reg l_attrs[] = {
 		{ "type", l_cargobody_attr_type },
 		{ 0, 0 }
 	};
