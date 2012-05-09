@@ -15,6 +15,7 @@ public:
 
 private:
 	RefCountedPtr<Graphics::Texture> m_texture;
+	void AddColor(int width, const Color4ub &c, std::vector<unsigned char> &out);
 };
 
 }
