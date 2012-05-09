@@ -73,6 +73,7 @@ struct Options {
 
 class Viewer: public Gui::Fixed {
 private: //data members
+	bool m_screenshotQueued;
 	CollisionSpace *m_space;
 	CollMesh *m_cmesh;
 	Geom *m_geom;
@@ -80,14 +81,14 @@ private: //data members
 	Model *m_model;
 	ModelParams m_modelParams;
 	Options m_options;
+	RefCountedPtr<Newmodel::ModelNode> m_gunModelNode;
+	ScopedPtr<Model> m_gunModel;
 	std::list<std::string> m_logLines;
 	std::string m_logString;
 	std::string m_modelName;
 	UI::Context *m_ui;
 	UI::DropDown *m_patternSelector;
 	UI::Slider *m_sliders[3*3]; //color sliders 3*rgb
-	ScopedPtr<Model> m_gunModel;
-	RefCountedPtr<Newmodel::ModelNode> m_gunModelNode;
 
 private: //methods
 	void SetupUI();
@@ -101,6 +102,7 @@ private: //methods
 	void AddLog(const std::string &message);
 	void ClearModel();
 	void DrawLog();
+	void Screenshot();
 	void UpdateLights();
 	void UpdatePatternList();
 
@@ -117,6 +119,7 @@ public:
 	}
 
 	Viewer(): Gui::Fixed(float(g_width), float(g_height)),
+		m_screenshotQueued(false),
 		m_model(0),
 		m_cmesh(0),
 		m_geom(0),
@@ -398,6 +401,16 @@ void Viewer::DrawLog()
 	Gui::Screen::LeaveOrtho();
 }
 
+void Viewer::Screenshot()
+{
+	char buf[256];
+	const time_t t = time(0);
+	struct tm *_tm = localtime(&t);
+	strftime(buf, sizeof(buf), "modelviewer-%Y%m%d-%H%M%S.png", _tm);
+	Screendump(buf, g_width, g_height);
+	AddLog("Screenshot saved");
+}
+
 void Viewer::UpdateLights()
 {
 	Light lights[2];
@@ -520,7 +533,7 @@ bool Viewer::OnToggleBoundingRadius(UI::Widget *w)
 
 void Viewer::ResetCamera()
 {
-	g_campos = vector3f(0.0f, 0.0f, 10.f);
+	g_campos = vector3f(0.0f, 0.0f, m_model->GetDrawClipRadius());
 	g_camorient = matrix4x4f::Identity();
 	matrix4x4f modelRot = matrix4x4f::Identity();
 }
@@ -749,15 +762,21 @@ void Viewer::MainLoop()
 		}
 		
 		//Gui::Draw();
-		DrawLog();
 		m_ui->Update();
-		renderer->SetDepthTest(false);
-		renderer->SetOrthographicProjection(0, g_width, g_height, 0, -1, 1);
-		renderer->SetTransform(matrix4x4f::Identity());
-		renderer->SetClearColor(Color::BLACK);
-		renderer->SetDepthTest(false);
-		m_ui->Draw();
+		if (!m_screenshotQueued) {
+			renderer->SetDepthTest(false);
+			renderer->SetOrthographicProjection(0, g_width, g_height, 0, -1, 1);
+			renderer->SetTransform(matrix4x4f::Identity());
+			renderer->SetClearColor(Color::BLACK);
+			renderer->SetDepthTest(false);
+			m_ui->Draw();
+			DrawLog();
+		}
 		renderer->SwapBuffers();
+		if (m_screenshotQueued) {
+			m_screenshotQueued = false;
+			Screenshot();
+		}
 		numFrames++;
 		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;
 		lastTurd = SDL_GetTicks();
@@ -792,6 +811,7 @@ void Viewer::PollEvents()
                     }
 				}
 				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(g_screen);
+				if (event.key.keysym.sym == SDLK_PRINT) m_screenshotQueued = true;
 				g_keyState[event.key.keysym.sym] = 1;
 				break;
 			case SDL_KEYUP:
