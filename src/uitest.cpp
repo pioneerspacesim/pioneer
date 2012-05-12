@@ -106,17 +106,6 @@ int main(int argc, char **argv)
 	SDL_WM_SetCaption("uitest", "uitest");
 
 	Graphics::Renderer *r = Graphics::Init(WIDTH, HEIGHT, true);
-	r->SetOrthographicProjection(0, WIDTH, HEIGHT, 0, -1, 1);
-	r->SetTransform(matrix4x4f::Identity());
-	r->SetClearColor(Color::BLACK);
-	r->SetDepthTest(false);
-
-	// XXX GL renderer enables lighting by default. if all draws use materials
-	// that's ok, but for filled regions (ie ColorBackground) its not right. a
-	// scissored version of Renderer::ClearScreen would be the most efficient,
-	// but I'm not quite ready to do it yet.
-	glDisable(GL_LIGHTING);
-
 	UI::Context *c = new UI::Context(r, WIDTH, HEIGHT);
 
 #if 0
