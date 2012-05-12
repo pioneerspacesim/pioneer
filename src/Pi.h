@@ -33,6 +33,7 @@ class LuaConsole;
 class LuaNameGen;
 namespace Graphics { class Renderer; }
 namespace Sound { class MusicPlayer; }
+namespace UI { class Context; }
 
 #if WITH_OBJECTVIEWER
 class ObjectViewerView;
@@ -65,7 +66,7 @@ public:
 	static void Start();
 	static void MainLoop();
 	static void TombStoneLoop();
-	static void HandleMenuKey(int n);
+	static bool HandleMenuOption(int n);
 	static void OnChangeDetailLevel();
 	static void ToggleLuaConsole();
 	static void Quit() __attribute((noreturn));
@@ -132,6 +133,8 @@ public:
 	static LuaEventQueue<Ship,const char *> *luaOnShipFuelChanged;
 
 	static LuaNameGen *luaNameGen;
+
+	static UI::Context *ui;
 
 	static MTRand rng;
 	static int statSceneTris;

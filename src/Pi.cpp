@@ -68,6 +68,7 @@
 #include "Sfx.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "ui/Context.h"
 #include "SDLWrappers.h"
 #include "ModManager.h"
 #include <fstream>
@@ -152,6 +153,7 @@ const char * const Pi::combatRating[] = {
 	Lang::ELITE
 };
 Graphics::Renderer *Pi::renderer;
+UI::Context *Pi::ui;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -526,6 +528,8 @@ void Pi::Init()
 		out.open((FileSystem::JoinPath(FileSystem::GetUserDir(), "opengl.txt")).c_str());
 		renderer->PrintDebugInfo(out);
 	}
+
+	Pi::ui = new UI::Context(Pi::renderer, scrWidth, scrHeight);
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
@@ -1015,7 +1019,7 @@ void Pi::StartGame()
 }
 
 bool Pi::menuDone = false;
-void Pi::HandleMenuKey(int n)
+bool Pi::HandleMenuOption(int n)
 {
 	switch (n) {
 
@@ -1123,7 +1127,7 @@ void Pi::HandleMenuKey(int n)
 			if (! game) {
 				// loading screen was cancelled;
 				// return without setting menuDone so the menu is re-displayed
-				return;
+				return true;
 			}
 			break;
 		}
@@ -1133,12 +1137,46 @@ void Pi::HandleMenuKey(int n)
 	}
 
 	menuDone = true;
+
+	return true;
 }
 
 void Pi::Start()
 {
+	std::string version(PIONEER_VERSION);
+	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
+
 	Background::Container *background = new Background::Container(UNIVERSE_SEED);
 
+	static const int NUM_OPTIONS = 6;
+	UI::Button *buttons[NUM_OPTIONS];
+
+	ui->SetInnerWidget(
+		ui->Margin(10.0f)->SetInnerWidget(
+			ui->VBox()->PackEnd(UI::WidgetSet(
+				ui->HBox()->PackEnd(UI::WidgetSet(
+					ui->Image("icons/badge.png"),
+					ui->VBox()->PackEnd(UI::WidgetSet(
+						ui->Label("Pioneer"),
+						ui->Label(version)
+					), UI::Box::ChildAttrs(false, false))
+				), UI::Box::ChildAttrs(false, false)),
+				ui->VBox()->PackEnd(UI::WidgetSet(
+					ui->HBox()->PackEnd(UI::WidgetSet(buttons[0] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_EARTH)), UI::Box::ChildAttrs(false, false)),
+					ui->HBox()->PackEnd(UI::WidgetSet(buttons[1] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_E_ERIDANI)), UI::Box::ChildAttrs(false, false)),
+					ui->HBox()->PackEnd(UI::WidgetSet(buttons[2] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_LAVE)), UI::Box::ChildAttrs(false, false)),
+					ui->HBox()->PackEnd(UI::WidgetSet(buttons[3] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_DEBUG)), UI::Box::ChildAttrs(false, false)),
+					ui->HBox()->PackEnd(UI::WidgetSet(buttons[4] = ui->Button(), ui->Label(Lang::MM_LOAD_SAVED_GAME)), UI::Box::ChildAttrs(false, false)),
+					ui->HBox()->PackEnd(UI::WidgetSet(buttons[5] = ui->Button(), ui->Label(Lang::MM_QUIT)), UI::Box::ChildAttrs(false, false))
+				), UI::Box::ChildAttrs(false, false))
+			), UI::Box::ChildAttrs(false, false))
+		)
+	);
+
+	for (int i = 0; i < NUM_OPTIONS; i++)
+		buttons[i]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuOption), i));
+
+#if 0
 	Gui::Fixed *menu = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 	Gui::Screen::AddBaseWidget(menu, 0, 0);
 	menu->SetTransparency(true);
@@ -1182,8 +1220,6 @@ void Pi::Start()
 	menu->Add(opts[5], w, h+80);
 	menu->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+80);
 
-	std::string version("Pioneer " PIONEER_VERSION);
-	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
 	version += "\n";
 	version += Pi::renderer->GetName();
 
@@ -1192,6 +1228,9 @@ void Pi::Start()
 	Gui::Screen::PopFont();
 
 	menu->ShowAll();
+#endif
+
+	ui->Layout();
 	
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
@@ -1199,25 +1238,37 @@ void Pi::Start()
 	menuDone = false;
 	game = 0;
 	while (!menuDone) {
-		Pi::HandleEvents();
+		SDL_Event event;
+		while (SDL_PollEvent(&event)) {
+			if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
+				menuDone = true;
+			else
+				ui->DispatchSDLEvent(event);
+		}
+
 		Pi::renderer->BeginFrame();
 		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
 		Pi::renderer->SetTransform(matrix4x4f::Identity());
-		Pi::SetMouseGrab(false);
 		draw_intro(background, _time);
 		Pi::renderer->EndFrame();
-		Gui::Draw();
+
+		ui->Update();
+		ui->Draw();
+
 		Pi::renderer->SwapBuffers();
 		
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
 	}
+
+#if 0
 	menu->HideAll();
 	
 	Gui::Screen::RemoveBaseWidget(menu);
 	delete menu;
 	delete background;
+#endif
 
 	// game is set by HandleMenuKey if any game-starting option (start or
 	// load) is selected
