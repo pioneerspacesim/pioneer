@@ -1,6 +1,8 @@
-material GunMaterial_white.png
-tex_diff white.png
-diffuse 0.6 0.8 0.6
+material laser
+tex_diff laser_diff.png
+tex_glow laser_emit.png
+tex_spec laser_spec.png
+emissive 1.0 1.0 1.0
 specular 1.0 1.0 1.0
 shininess 200
 
