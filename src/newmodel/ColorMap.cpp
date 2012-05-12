@@ -1,4 +1,5 @@
 #include "ColorMap.h"
+#include "graphics/Renderer.h"
 
 namespace Newmodel {
 

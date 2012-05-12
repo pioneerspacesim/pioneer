@@ -22,7 +22,7 @@ void Group::AddChild(Node *child)
 bool Group::RemoveChild(Node *node)
 {
 	if (!node) return false;
-	for(std::vector<Node*>::const_iterator itr = m_children.begin();
+	for(std::vector<Node*>::iterator itr = m_children.begin();
 		itr != m_children.end();
 		++itr)
 	{

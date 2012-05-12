@@ -277,7 +277,7 @@ pioneer_SOURCES	= \
 	utils.cpp \
 	enum_table.cpp
 
-pioneer_LDADD = ../contrib/oolua/liboolua.a ../contrib/miniz/libminiz.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a ui/libui.a \
+pioneer_LDADD = ../contrib/oolua/liboolua.a ../contrib/miniz/libminiz.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a ui/libui.a newmodel/libnewmodel.a \
 		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
 		$(PNG_LIBS) $(ASSIMP_LIBS)
@@ -294,10 +294,11 @@ modelviewer_SOURCES = \
 	FontConfig.cpp \
 	IniConfig.cpp \
 	Lang.cpp \
+	Light.cpp \
 	LmrModel.cpp \
+	LuaConstants.cpp \
 	LuaModelViewer.cpp \
 	LuaUtils.cpp \
-	LuaConstants.cpp \
 	ModManager.cpp \
 	EquipType.cpp \
 	ShipType.cpp \
@@ -307,7 +308,7 @@ modelviewer_SOURCES = \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
-modelviewer_LDADD = ../contrib/miniz/libminiz.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a ui/libui.a \
+modelviewer_LDADD = ../contrib/miniz/libminiz.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a ui/libui.a newmodel/libnewmodel.a \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS) $(ASSIMP_LIBS)
 if !HAVE_LUA
@@ -350,4 +351,3 @@ if BUILD_POSIX
     pioneer_SOURCES += FileSystemPosix.cpp
     modelviewer_SOURCES += FileSystemPosix.cpp
 endif
-

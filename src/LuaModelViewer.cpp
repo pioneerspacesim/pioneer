@@ -10,6 +10,9 @@
 #include "ModManager.h"
 #include "newmodel/Newmodel.h"
 #include "ui/Context.h"
+#include "utils.h"
+#include "Light.h"
+#include "StringF.h"
 #include <sstream>
 
 using namespace Graphics;

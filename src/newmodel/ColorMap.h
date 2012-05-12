@@ -6,6 +6,8 @@
 #include "libs.h"
 #include "graphics/Texture.h"
 
+namespace Graphics { class Renderer; }
+
 namespace Newmodel {
 
 class ColorMap {

@@ -9,9 +9,13 @@ INCLUDES = -I$(srcdir)/..
 noinst_LIBRARIES = libnewmodel.a
 noinst_HEADERS = \
 	CollisionVisitor.h \
+	ColorMap.h \
 	DrawVisitor.h \
 	Group.h \
+	LOD.h \
 	Loader.h \
+	MatrixTransform.h \
+	ModelNode.h \
 	Newmodel.h \
 	NModel.h \
 	Node.h \
@@ -21,9 +25,13 @@ noinst_HEADERS = \
 
 libnewmodel_a_SOURCES = \
 	CollisionVisitor.cpp \
+	ColorMap.cpp \
 	DrawVisitor.cpp \
 	Group.cpp \
+	LOD.cpp \
 	Loader.cpp \
+	MatrixTransform.cpp \
+	ModelNode.cpp \
 	NModel.cpp \
 	Node.cpp \
 	NodeVisitor.cpp \

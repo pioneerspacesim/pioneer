@@ -4,10 +4,9 @@
  *	Use another model as a submodel
  */
 #include "Node.h"
+#include "Model.h"
 
 namespace Newmodel {
-
-class NModel;
 
 class ModelNode : public Node {
 public:

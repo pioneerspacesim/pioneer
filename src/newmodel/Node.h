@@ -3,6 +3,7 @@
 /*
  * Generic node for the model scenegraph
  */
+#include "libs.h"
 #include "RefCounted.h"
 #include "LmrTypes.h" //for renderdata
 
