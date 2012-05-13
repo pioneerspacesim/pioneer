@@ -6,7 +6,7 @@
 
 class CollMesh {
 public:
-	CollMesh() : m_radius(0.f), m_geomTree(0) { }
+	CollMesh() : m_geomTree(0), m_radius(0.f) { }
 	virtual ~CollMesh() {
 		delete m_geomTree;
 	}
