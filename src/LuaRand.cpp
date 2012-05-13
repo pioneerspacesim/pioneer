@@ -151,7 +151,7 @@ template <> const char *LuaObject<MTRand>::s_type = "Rand";
 
 template <> void LuaObject<MTRand>::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "New",     l_rand_new     },
 		{ "Number",  l_rand_number  },
 		{ "Integer", l_rand_integer },

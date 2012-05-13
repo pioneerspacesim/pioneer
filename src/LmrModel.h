@@ -6,15 +6,14 @@
 #include <sigc++/sigc++.h>
 #include "CollMesh.h"
 #include "Model.h"
-#include "MyLuaMathTypes.h"
 #include "LmrTypes.h"
-
 
 // LMR = Lua Model Renderer
 namespace Graphics { class Renderer; }
 class LmrGeomBuffer;
 class LmrCollMesh;
 struct RenderState;
+struct lua_State;
 
 #define LMR_MAX_LOD 4
 

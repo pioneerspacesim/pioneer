@@ -76,14 +76,14 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
-      <StructMemberAlignment>Default</StructMemberAlignment>
+      <StructMemberAlignment>4Bytes</StructMemberAlignment>
       <BufferSecurityCheck>true</BufferSecurityCheck>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua.lib;miniz.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua.lib;miniz.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -97,7 +97,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
-      <StructMemberAlignment>Default</StructMemberAlignment>
+      <StructMemberAlignment>4Bytes</StructMemberAlignment>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -126,7 +126,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
-      <StructMemberAlignment>Default</StructMemberAlignment>
+      <StructMemberAlignment>4Bytes</StructMemberAlignment>
       <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <Link>
@@ -135,7 +135,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua.lib;miniz.lib;shlwapi.lib;libogg_static_vc2010_release.lib;libvorbis_static_vc2010_release.lib;libvorbisfile_static_vc2010_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-2_2_8.lib;libpng15_static.lib;zlib.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua.lib;miniz.lib;shlwapi.lib;libogg_static_vc2010_release.lib;libvorbis_static_vc2010_release.lib;libvorbisfile_static_vc2010_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-2_2_8.lib;libpng15_static.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -159,7 +159,6 @@
     <ClCompile Include="..\..\src\graphics\Frustum.cpp" />
     <ClCompile Include="..\..\src\graphics\Graphics.cpp" />
     <ClCompile Include="..\..\src\graphics\Material.cpp" />
-    <ClCompile Include="..\..\src\graphics\MaterialGL2.cpp" />
     <ClCompile Include="..\..\src\graphics\Renderer.cpp" />
     <ClCompile Include="..\..\src\graphics\RendererGL2.cpp" />
     <ClCompile Include="..\..\src\graphics\RendererLegacy.cpp" />
@@ -197,21 +196,12 @@
     <ClCompile Include="..\..\src\Lang.cpp" />
     <ClCompile Include="..\..\src\LmrModel.cpp" />
     <ClCompile Include="..\..\src\LuaConstants.cpp" />
+    <ClCompile Include="..\..\src\LuaFixed.cpp" />
+    <ClCompile Include="..\..\src\LuaMatrix.cpp" />
     <ClCompile Include="..\..\src\LuaModelViewer.cpp" />
     <ClCompile Include="..\..\src\LuaUtils.cpp" />
+    <ClCompile Include="..\..\src\LuaVector.cpp" />
     <ClCompile Include="..\..\src\ModManager.cpp" />
-    <ClCompile Include="..\..\src\MyLuaMathTypes.cpp" />
-    <ClCompile Include="..\..\src\newmodel\CollisionVisitor.cpp" />
-    <ClCompile Include="..\..\src\newmodel\DrawVisitor.cpp" />
-    <ClCompile Include="..\..\src\newmodel\Group.cpp" />
-    <ClCompile Include="..\..\src\newmodel\Loader.cpp" />
-    <ClCompile Include="..\..\src\newmodel\LOD.cpp" />
-    <ClCompile Include="..\..\src\newmodel\MatrixTransform.cpp" />
-    <ClCompile Include="..\..\src\newmodel\ModelNode.cpp" />
-    <ClCompile Include="..\..\src\newmodel\NModel.cpp" />
-    <ClCompile Include="..\..\src\newmodel\Node.cpp" />
-    <ClCompile Include="..\..\src\newmodel\NodeVisitor.cpp" />
-    <ClCompile Include="..\..\src\newmodel\StaticGeometry.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\SDLWrappers.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
@@ -220,27 +210,6 @@
     <ClCompile Include="..\..\src\text\TextSupport.cpp" />
     <ClCompile Include="..\..\src\text\TextureFont.cpp" />
     <ClCompile Include="..\..\src\text\VectorFont.cpp" />
-    <ClCompile Include="..\..\src\ui\Background.cpp" />
-    <ClCompile Include="..\..\src\ui\Box.cpp" />
-    <ClCompile Include="..\..\src\ui\Button.cpp" />
-    <ClCompile Include="..\..\src\ui\CheckBox.cpp" />
-    <ClCompile Include="..\..\src\ui\ColorBackground.cpp" />
-    <ClCompile Include="..\..\src\ui\Container.cpp" />
-    <ClCompile Include="..\..\src\ui\Context.cpp" />
-    <ClCompile Include="..\..\src\ui\DropDown.cpp" />
-    <ClCompile Include="..\..\src\ui\EventDispatcher.cpp" />
-    <ClCompile Include="..\..\src\ui\Grid.cpp" />
-    <ClCompile Include="..\..\src\ui\Image.cpp" />
-    <ClCompile Include="..\..\src\ui\Label.cpp" />
-    <ClCompile Include="..\..\src\ui\List.cpp" />
-    <ClCompile Include="..\..\src\ui\Margin.cpp" />
-    <ClCompile Include="..\..\src\ui\MultiLineText.cpp" />
-    <ClCompile Include="..\..\src\ui\Scroller.cpp" />
-    <ClCompile Include="..\..\src\ui\Single.cpp" />
-    <ClCompile Include="..\..\src\ui\Skin.cpp" />
-    <ClCompile Include="..\..\src\ui\Slider.cpp" />
-    <ClCompile Include="..\..\src\ui\TextLayout.cpp" />
-    <ClCompile Include="..\..\src\ui\Widget.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\src\FileSystemWin32.cpp" />
     <ClCompile Include="..\src\pch.cpp">
@@ -268,7 +237,6 @@
     <ClInclude Include="..\..\src\graphics\Frustum.h" />
     <ClInclude Include="..\..\src\graphics\Graphics.h" />
     <ClInclude Include="..\..\src\graphics\Material.h" />
-    <ClInclude Include="..\..\src\graphics\MaterialGL2.h" />
     <ClInclude Include="..\..\src\graphics\Renderer.h" />
     <ClInclude Include="..\..\src\graphics\RendererGL2.h" />
     <ClInclude Include="..\..\src\graphics\RendererGLBuffers.h" />
@@ -313,22 +281,12 @@
     <ClInclude Include="..\..\src\libs.h" />
     <ClInclude Include="..\..\src\LmrModel.h" />
     <ClInclude Include="..\..\src\LuaConstants.h" />
+    <ClInclude Include="..\..\src\LuaFixed.h" />
+    <ClInclude Include="..\..\src\LuaMatrix.h" />
     <ClInclude Include="..\..\src\LuaUtils.h" />
+    <ClInclude Include="..\..\src\LuaVector.h" />
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\ModManager.h" />
-    <ClInclude Include="..\..\src\MyLuaMathTypes.h" />
-    <ClInclude Include="..\..\src\newmodel\CollisionVisitor.h" />
-    <ClInclude Include="..\..\src\newmodel\DrawVisitor.h" />
-    <ClInclude Include="..\..\src\newmodel\Group.h" />
-    <ClInclude Include="..\..\src\newmodel\Loader.h" />
-    <ClInclude Include="..\..\src\newmodel\LOD.h" />
-    <ClInclude Include="..\..\src\newmodel\MatrixTransform.h" />
-    <ClInclude Include="..\..\src\newmodel\ModelNode.h" />
-    <ClInclude Include="..\..\src\newmodel\Newmodel.h" />
-    <ClInclude Include="..\..\src\newmodel\NModel.h" />
-    <ClInclude Include="..\..\src\newmodel\Node.h" />
-    <ClInclude Include="..\..\src\newmodel\NodeVisitor.h" />
-    <ClInclude Include="..\..\src\newmodel\StaticGeometry.h" />
     <ClInclude Include="..\..\src\perlin.h" />
     <ClInclude Include="..\..\src\SDLWrappers.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
@@ -339,29 +297,6 @@
     <ClInclude Include="..\..\src\text\TextSupport.h" />
     <ClInclude Include="..\..\src\text\TextureFont.h" />
     <ClInclude Include="..\..\src\text\VectorFont.h" />
-    <ClInclude Include="..\..\src\ui\Background.h" />
-    <ClInclude Include="..\..\src\ui\Box.h" />
-    <ClInclude Include="..\..\src\ui\Button.h" />
-    <ClInclude Include="..\..\src\ui\CellSpec.h" />
-    <ClInclude Include="..\..\src\ui\CheckBox.h" />
-    <ClInclude Include="..\..\src\ui\ColorBackground.h" />
-    <ClInclude Include="..\..\src\ui\Container.h" />
-    <ClInclude Include="..\..\src\ui\Context.h" />
-    <ClInclude Include="..\..\src\ui\DropDown.h" />
-    <ClInclude Include="..\..\src\ui\Event.h" />
-    <ClInclude Include="..\..\src\ui\EventDispatcher.h" />
-    <ClInclude Include="..\..\src\ui\Grid.h" />
-    <ClInclude Include="..\..\src\ui\Image.h" />
-    <ClInclude Include="..\..\src\ui\Label.h" />
-    <ClInclude Include="..\..\src\ui\List.h" />
-    <ClInclude Include="..\..\src\ui\Margin.h" />
-    <ClInclude Include="..\..\src\ui\MultiLineText.h" />
-    <ClInclude Include="..\..\src\ui\Scroller.h" />
-    <ClInclude Include="..\..\src\ui\Single.h" />
-    <ClInclude Include="..\..\src\ui\Skin.h" />
-    <ClInclude Include="..\..\src\ui\Slider.h" />
-    <ClInclude Include="..\..\src\ui\TextLayout.h" />
-    <ClInclude Include="..\..\src\ui\Widget.h" />
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\vector2.h" />
     <ClInclude Include="..\..\src\vector3.h" />

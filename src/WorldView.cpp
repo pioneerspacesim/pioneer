@@ -3,14 +3,14 @@
 #include "Frame.h"
 #include "Player.h"
 #include "Planet.h"
-#include "Sector.h"
+#include "galaxy/Sector.h"
 #include "SectorView.h"
 #include "Serializer.h"
 #include "ShipCpanel.h"
 #include "Sound.h"
 #include "Space.h"
 #include "SpaceStation.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "HyperspaceCloud.h"
 #include "KeyBindings.h"
 #include "perlin.h"
@@ -831,20 +831,20 @@ void WorldView::AddCommsNavOption(std::string msg, Body *target)
 
 void WorldView::BuildCommsNavOptions()
 {
-	std::map< Uint32,std::vector<SBody*> > groups;
+	std::map< Uint32,std::vector<SystemBody*> > groups;
 
 	m_commsNavOptions->PackEnd(new Gui::Label(std::string("#ff0")+std::string(Lang::NAVIGATION_TARGETS_IN_THIS_SYSTEM)+std::string("\n")));
 
-	for ( std::vector<SBody*>::const_iterator i = Pi::game->GetSpace()->GetStarSystem()->m_spaceStations.begin();
+	for ( std::vector<SystemBody*>::const_iterator i = Pi::game->GetSpace()->GetStarSystem()->m_spaceStations.begin();
 	      i != Pi::game->GetSpace()->GetStarSystem()->m_spaceStations.end(); ++i) {
 
 		groups[(*i)->parent->path.bodyIndex].push_back(*i);
 	}
 
-	for ( std::map< Uint32,std::vector<SBody*> >::const_iterator i = groups.begin(); i != groups.end(); ++i ) {
+	for ( std::map< Uint32,std::vector<SystemBody*> >::const_iterator i = groups.begin(); i != groups.end(); ++i ) {
 		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + Pi::game->GetSpace()->GetStarSystem()->m_bodies[(*i).first]->name));
 
-		for ( std::vector<SBody*>::const_iterator j = (*i).second.begin(); j != (*i).second.end(); ++j) {
+		for ( std::vector<SystemBody*>::const_iterator j = (*i).second.begin(); j != (*i).second.end(); ++j) {
 			SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPathOf(*j);
 			Body *body = Pi::game->GetSpace()->FindBodyForPath(&path);
 			AddCommsNavOption((*j)->name, body);

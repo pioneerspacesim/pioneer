@@ -519,7 +519,7 @@ template <> void LuaObject<Player>::RegisterClass()
 {
 	static const char *l_parent = "Ship";
 
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "IsPlayer", l_player_is_player },
 
 		{ "AddMission",    l_player_add_mission    },

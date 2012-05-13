@@ -8,7 +8,7 @@ define_model('caribou_eng_l', {
 		if lod > 1 then
 			texture('caribou_leg.png')
 		end
-		load_obj('caribou_eng.obj', Matrix.rotate(math.pi,v(0,0,1)))
+		load_obj('caribou_eng.obj', matrix.rotate(math.pi,v(0,0,1)))
 	end
 })
 

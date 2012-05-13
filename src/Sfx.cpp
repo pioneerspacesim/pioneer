@@ -2,7 +2,7 @@
 #include "Pi.h"
 #include "Sfx.h"
 #include "Frame.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Space.h"
 #include "Pi.h"
 #include "graphics/Material.h"
