@@ -123,9 +123,9 @@ public:
 
 	Viewer(): Gui::Fixed(float(g_width), float(g_height)),
 		m_screenshotQueued(false),
-		m_model(0),
 		m_cmesh(0),
 		m_geom(0),
+		m_model(0),
 		m_logString(""),
 		m_modelName("")
 	{

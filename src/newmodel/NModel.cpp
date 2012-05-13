@@ -6,8 +6,8 @@
 namespace Newmodel {
 
 NModel::NModel(const std::string &name) : Model(),
-	m_name(name),
-	m_boundingRadius(10.f)
+	m_boundingRadius(10.f),
+	m_name(name)
 {
 	m_root.Reset(new Group());
 }
