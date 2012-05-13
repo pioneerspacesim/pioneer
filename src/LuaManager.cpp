@@ -12,7 +12,7 @@ LuaManager::LuaManager() : m_lua(NULL) {
 		abort();
 	}
 
-	m_lua = lua_open();
+	m_lua = luaL_newstate();
 
 	luaL_openlibs(m_lua);
 

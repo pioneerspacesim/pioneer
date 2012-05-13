@@ -32,7 +32,7 @@ Planet::Planet(): TerrainBody()
 {
 }
 
-Planet::Planet(SBody *sbody): TerrainBody(sbody)
+Planet::Planet(SystemBody *sbody): TerrainBody(sbody)
 {
 	m_hasDoubleFrame = true;
 }
@@ -45,9 +45,9 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 {
 	Color c;
 	double surfaceDensity;
-	double atmosDist = dist/(GetSBody()->GetRadius()*ATMOSPHERE_RADIUS);
+	double atmosDist = dist/(GetSystemBody()->GetRadius()*ATMOSPHERE_RADIUS);
 	
-	GetSBody()->GetAtmosphereFlavor(&c, &surfaceDensity);
+	GetSystemBody()->GetAtmosphereFlavor(&c, &surfaceDensity);
 	// kg / m^3
 	// exp term should be the same as in AtmosLengthDensityProduct GLSL function
 	*outDensity = 1.15*surfaceDensity * exp(-500.0 * (atmosDist - (2.0 - ATMOSPHERE_RADIUS)));
@@ -56,7 +56,7 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	const double GAS_CONSTANT = 8.314;
 	const double KPA_2_ATMOS = 1.0 / 101.325;
 	// atmospheres
-	*outPressure = KPA_2_ATMOS*(*outDensity/GAS_MOLAR_MASS)*GAS_CONSTANT*double(GetSBody()->averageTemp);
+	*outPressure = KPA_2_ATMOS*(*outDensity/GAS_MOLAR_MASS)*GAS_CONSTANT*double(GetSystemBody()->averageTemp);
 }
 
 struct GasGiantDef_t {
@@ -162,7 +162,7 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 	mat.shader = Graphics::planetRingsShader[Pi::worldView->GetNumLights()-1];
 
 //	MTRand rng((int)Pi::game->GetTime());
-	MTRand rng(GetSBody()->seed+965467);
+	MTRand rng(GetSystemBody()->seed+965467);
 
 	double noiseOffset = 256.0*rng.Double();
 	float baseCol[4];
@@ -199,7 +199,7 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 	//this is the non-shadered atmosphere rendering
 	Color col;
 	double density;
-	GetSBody()->GetAtmosphereFlavor(&col, &density);
+	GetSystemBody()->GetAtmosphereFlavor(&col, &density);
 	
 	const double rad1 = 0.999;
 	const double rad2 = 1.05;
@@ -282,7 +282,7 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 
 void Planet::SubRender(Renderer *r, const vector3d &camPos)
 {
-	if (GetSBody()->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings(r);
+	if (GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings(r);
 	
 	if (!AreShadersEnabled()) DrawAtmosphere(r, camPos);
 }

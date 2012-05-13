@@ -6,7 +6,7 @@
 #include "Player.h"
 #include "Missile.h"
 #include "HyperspaceCloud.h"
-#include "Sector.h"
+#include "galaxy/Sector.h"
 #include "Sound.h"
 #include "Lang.h"
 #include "StringF.h"

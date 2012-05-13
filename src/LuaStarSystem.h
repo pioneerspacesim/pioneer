@@ -2,7 +2,7 @@
 #define _LUASTARSYSTEM_H
 
 #include "LuaObject.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 
 // this is a specialisation for the starsystem acquirer. it modifies the
 // refcount so that it doesn't get removed from the system cache while we're

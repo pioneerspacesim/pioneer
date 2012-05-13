@@ -182,7 +182,7 @@ PKG_CHECK_MODULES([ASSIMP], [assimp])
 dnl Optionally use external liblua
 AC_ARG_WITH([external-liblua], AS_HELP_STRING([--with-external-liblua], [Use external liblua in place of our internal copy]), [], [with_external_liblua=no; HAVE_LUA=no])
 if test "$with_external_liblua" = yes; then
-  PKG_CHECK_MODULES([LUA], [lua5.1], [HAVE_LUA=yes], [AC_MSG_ERROR([External liblua was requested but is not available])])
+  PKG_CHECK_MODULES([LUA], [lua >= 5.2], [HAVE_LUA=yes], [AC_MSG_ERROR([External liblua was requested but is not available])])
 fi
 AM_CONDITIONAL([HAVE_LUA], [test "$HAVE_LUA" = yes])
 case "$host" in
@@ -256,13 +256,13 @@ AC_CONFIG_FILES([
 	src/gui/Makefile
 	src/graphics/Makefile
 	src/newmodel/Makefile
+	src/galaxy/Makefile
 	src/terrain/Makefile
 	src/text/Makefile
 	src/ui/Makefile
 	contrib/Makefile
 	contrib/lua/Makefile
 	contrib/miniz/Makefile
-	contrib/oolua/Makefile
 	osx/Makefile
 	win32/Makefile
 	win32/src/Makefile

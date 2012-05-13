@@ -257,19 +257,47 @@ static int l_console_addline(lua_State *L) {
 	return 0;
 }
 
+static int l_console_print(lua_State *L) {
+	int nargs = lua_gettop(L);
+	LUA_DEBUG_START(L);
+	std::string line;
+	lua_getglobal(L, "tostring");
+	for (int i = 1; i <= nargs; ++i) {
+		lua_pushvalue(L, -1);
+		lua_pushvalue(L, i);
+		lua_call(L, 1, 1);
+		size_t len;
+		const char *str = lua_tolstring(L, -1, &len);
+		if (!str) { return luaL_error(L, "'tostring' must return a string to 'print'"); }
+		if (i > 1) { line += '\t'; }
+		line.append(str, len);
+		lua_pop(L, 1);
+	}
+	lua_pop(L, 1);
+	printf("%s\n", line.c_str());
+	if (Pi::luaConsole) {
+		Pi::luaConsole->AddOutput(line);
+	}
+	LUA_DEBUG_END(L, 0);
+	return 0;
+}
+
 void LuaConsole::Register()
 {
 	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
-	static const luaL_reg methods[] = {
+	static const luaL_Reg methods[] = {
 		{ "AddLine", l_console_addline },
 		{ 0, 0 }
 	};
 
-	luaL_register(l, "Console", methods);
-	lua_pop(l, 1);
+	luaL_newlib(l, methods);
+	lua_setglobal(l, "Console");
+
+	// override the base library 'print' function
+	lua_register(l, "print", &l_console_print);
 
 	LUA_DEBUG_END(l, 0);
 }
