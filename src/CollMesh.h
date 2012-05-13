@@ -22,8 +22,8 @@ public:
 
 protected:
 	Aabb m_aabb;
-	GeomTree *m_geomTree;
 	float m_radius;
+	GeomTree *m_geomTree;
 };
 
 #endif

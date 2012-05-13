@@ -73,15 +73,15 @@ public:
 	void SetColors(Graphics::Renderer *r, const std::vector<Color4ub> &colors); //renderer needed for texture creation
 
 private:
+	ColorMap m_colorMap;
 	float m_boundingRadius;
 	MaterialContainer m_materials; //materials are shared throughout the model graph
+	PatternContainer m_patterns;
 	RefCountedPtr<Group> m_root;
 	RenderData *m_renderData;
 	std::string m_name;
-	PatternContainer m_patterns;
 	std::vector<Group *> m_tags; //named attachment points
 	typedef std::vector<Group *> TagContainer;
-	ColorMap m_colorMap;
 };
 
 }
