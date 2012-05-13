@@ -135,6 +135,7 @@ CollMesh *CollisionVisitor::CreateCollisionMesh()
 	GeomTree *t = new GeomTree(
 		vts.size(), ind.size()/3, reinterpret_cast<float*>(&vts[0]), &ind[0], &m_collMesh->m_flags[0]);
 	m_collMesh->SetGeomTree(t);
+	m_collMesh->SetBoundingRadius(bb.GetBoundingRadius());
 	return m_collMesh;
 }
 
