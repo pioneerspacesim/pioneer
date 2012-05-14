@@ -348,7 +348,15 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		++it)
 	{
 		const vector3f &pos = (*it).position;
-		model->AddTag((*it).name, new MatrixTransform(matrix4x4f::Translation(pos.x, pos.y, pos.z)));
+		MatrixTransform *tagTrans = new MatrixTransform(matrix4x4f::Translation(pos.x, pos.y, pos.z));
+		//add a test animation for the tag (which is silly)
+		Animation *anim = new Animation("spin");
+		anim->channels.push_back(AnimationChannel(tagTrans));
+		AnimationChannel &chan = anim->channels.back();
+		chan.rotationKeys.push_back(RotationKey(0.0, Quaternionf(1.f, 0.f, 0.f, 0.f)));
+		chan.rotationKeys.push_back(RotationKey(100.0, Quaternionf(1.5707f, vector3f(1.f, 0.f, 0.f))));
+		model->m_animations.push_back(anim);
+		model->AddTag((*it).name, tagTrans);
 	}
 
 	//find usable pattern textures from the model directory

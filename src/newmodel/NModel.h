@@ -19,12 +19,13 @@
  * named hardpoints, known as "tags" (term from Q3). Users can query tags by name or index.
  * Space stations might be "Scenes" consisting of multiple models. And lights and stuff.
  */
+#include "libs.h"
 #include "Model.h"
 #include "Group.h"
-#include "libs.h"
-#include <stdexcept>
-#include "graphics/Material.h"
 #include "ColorMap.h"
+#include "Animation.h"
+#include "graphics/Material.h"
+#include <stdexcept>
 
 namespace Graphics { class Renderer; }
 
@@ -72,17 +73,23 @@ public:
 	void SetPattern(unsigned int index);
 	void SetColors(Graphics::Renderer *r, const std::vector<Color4ub> &colors); //renderer needed for texture creation
 
+	void UpdateAnimations(double time); //change this to timestep or something
+	void PlayAnimation(const std::string &name); //immediately play an animation (forward), if found
+
 private:
 	ColorMap m_colorMap;
 	float m_boundingRadius;
+	double m_animTime;
 	MaterialContainer m_materials; //materials are shared throughout the model graph
 	PatternContainer m_patterns;
 	RefCountedPtr<Group> m_root;
 	RenderData *m_renderData;
 	std::string m_name;
 	std::vector<Group *> m_tags; //named attachment points
-	typedef std::vector<Group *> TagContainer;
+	std::vector<Animation *> m_animations;
 };
+
+typedef std::vector<Group *> TagContainer;
 
 }
 

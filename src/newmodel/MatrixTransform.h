@@ -12,6 +12,8 @@ class MatrixTransform : public Group {
 public:
 	MatrixTransform(const matrix4x4f &m);
 	void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd);
+	const matrix4x4f &GetTransform() const { return m_transform; }
+	void SetTransform(const matrix4x4f &m) { m_transform = m; }
 
 protected:
 	virtual ~MatrixTransform() { }
