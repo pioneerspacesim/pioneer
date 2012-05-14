@@ -8,6 +8,9 @@ INCLUDES = -I$(srcdir)/..
 
 noinst_LIBRARIES = libnewmodel.a
 noinst_HEADERS = \
+	Animation.h \
+	AnimationChannel.h \
+	AnimationKey.h \
 	CollisionVisitor.h \
 	ColorMap.h \
 	DrawVisitor.h \
