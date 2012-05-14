@@ -12,9 +12,16 @@
  *
  * It's not supposed to be too complex. For example there are no "Material" nodes.
  * Geometry nodes can contain multiple separate meshes.
- * Animation: To Be Specified. Something to do with bones (even if meshes are rigid).
- * 		animated geometries are likely smaller, separate nodes so it's not necessary
- * 		to avoid software skinning huge models
+ * 
+ * Animation: keyframe animation affecting MatrixTransforms, and subsequently nodes
+ * attached to them. Animations can be played by name, and play commands should propagate
+ * to submodels (e.g. "anim_shoot" would activate recoil animation on gun submodels). 
+ * Animation challenges:
+ * 	- Skeletal animation. I guess this will have to wait. Anyway, Bones are hierarchical
+ *  MatrixTransforms. Skinning will be software-based, because it must work with Legacy renderer. 
+ * 	- Combining & blending animations. Might just cut corners there, spaceships shouldn't be that animated...
+ *  - Animating other properties than pos/rot (material props for example)
+ * 
  * Attaching models to other models (guns etc. to ships): models may specify a nunber of
  * named hardpoints, known as "tags" (term from Q3). Users can query tags by name or index.
  * Space stations might be "Scenes" consisting of multiple models. And lights and stuff.
