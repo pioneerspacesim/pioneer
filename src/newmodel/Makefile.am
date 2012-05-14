@@ -24,12 +24,13 @@ noinst_HEADERS = \
 	
 
 libnewmodel_a_SOURCES = \
+	Animation.cpp \
 	CollisionVisitor.cpp \
 	ColorMap.cpp \
 	DrawVisitor.cpp \
 	Group.cpp \
-	LOD.cpp \
 	Loader.cpp \
+	LOD.cpp \
 	MatrixTransform.cpp \
 	ModelNode.cpp \
 	NModel.cpp \

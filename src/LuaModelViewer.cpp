@@ -79,6 +79,7 @@ private: //data members
 	bool m_screenshotQueued;
 	CollisionSpace *m_space;
 	CollMesh *m_cmesh;
+	double m_currentTime;
 	Geom *m_geom;
 	Gui::Label *m_trisReadout;
 	Model *m_model;
@@ -108,6 +109,7 @@ private: //methods
 	void Screenshot();
 	void UpdateLights();
 	void UpdatePatternList();
+	void UpdateTime();
 
 public:
 	void ResetCamera();
@@ -124,6 +126,7 @@ public:
 	Viewer(): Gui::Fixed(float(g_width), float(g_height)),
 		m_screenshotQueued(false),
 		m_cmesh(0),
+		m_currentTime(0.001 * SDL_GetTicks()),
 		m_geom(0),
 		m_model(0),
 		m_logString(""),
@@ -213,6 +216,7 @@ private:
 	void VisualizeBoundingRadius(matrix4x4f& trans, double radius);
 };
 
+#if 0
 static UI::Button *AddButton(UI::Context *c, UI::Box *box, const std::string &label)
 {
 	UI::Button *button = 0;
@@ -233,6 +237,7 @@ static UI::CheckBox *AddCheckbox(UI::Context *c, UI::Box *box, const std::string
 	);
 	return button;
 }
+#endif
 
 //widget-label pair
 static void AddPair(UI::Context *c, UI::Box *parent, UI::Widget *widget, const std::string &label)
@@ -452,6 +457,12 @@ void Viewer::UpdatePatternList()
 	}
 }
 
+void Viewer::UpdateTime()
+{
+	const double newtime = 0.001 * SDL_GetTicks();
+	m_currentTime = newtime;
+}
+
 void Viewer::OnLightPresetChanged(unsigned int index, const std::string &)
 {
 	m_options.lightPreset = std::min<unsigned int>(index, 2);
@@ -538,7 +549,7 @@ void Viewer::ResetCamera()
 {
 	g_campos = vector3f(0.0f, 0.0f, m_model->GetDrawClipRadius());
 	g_camorient = matrix4x4f::Identity();
-	matrix4x4f modelRot = matrix4x4f::Identity();
+	//matrix4x4f modelRot = matrix4x4f::Identity();
 }
 
 void Viewer::SetModel(Model *model, const std::string &name)
@@ -641,6 +652,7 @@ void Viewer::MainLoop()
 
 	for (;;) {
 		PollEvents();
+		UpdateTime();
 
 		if (g_keyState[SDLK_LSHIFT] || g_keyState[SDLK_RSHIFT]) {
 			if (g_keyState[SDLK_UP]) g_camorient = g_camorient * matrix4x4f::RotateXMatrix(g_frameTime);
@@ -684,6 +696,7 @@ void Viewer::MainLoop()
 		renderer->ClearScreen();
 		renderer->SetDepthTest(true);
 		UpdateLights();
+		static_cast<Newmodel::NModel*>(m_model)->UpdateAnimations(m_currentTime);
 #if 0
 		int beforeDrawTriStats = LmrModelGetStatsTris();
 #endif
