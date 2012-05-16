@@ -149,7 +149,7 @@ AC_ARG_WITH([thirdparty], AS_HELP_STRING([--with-thirdparty], [Location of pione
 	PKG_CONFIG_PATH="$withval/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
 	export PKG_CONFIG_PATH
 	CFLAGS="-I$withval/usr/include"
-	LIBS="-L$withval/usr/lib"
+	LIBS="-L$withval/usr/lib -Wl,-rpath=$withval/usr/lib"
 ])
 
 dnl Check for sigc++
