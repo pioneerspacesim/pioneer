@@ -693,6 +693,9 @@
     <ClCompile Include="..\..\src\LuaSystemBody.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\graphics\MaterialGL2.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -1300,6 +1303,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\LuaSystemBody.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\graphics\MaterialGL2.h">
+      <Filter>src\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
