@@ -10,7 +10,7 @@ dnl AC_CONFIG_HEADERS([config.h])
 
 AC_DEFUN([MXE_SETUP], [
     AC_ARG_WITH([mxe], AS_HELP_STRING([--with-mxe], [Path to MXE MinGW environment for cross-building]), [MXE_BASE=$withval], [MXE_BASE=])
-	MXE_CROSS=0
+	MXE_CROSS=
 	MXE_CMAKE_TOOLCHAIN_FILE=""
 	if test "x$MXE_BASE" != "x" ; then
 		if test "x$host" != "x" ; then
@@ -23,7 +23,7 @@ AC_DEFUN([MXE_SETUP], [
 			AC_MSG_ERROR([MXE not found in $MXE_BASE])
 		fi
 		AC_MSG_RESULT([$MXE_BASE])
-		MXE_CROSS=1
+		MXE_CROSS=yes
 		MXE_PATH="$MXE_BASE/usr/bin"
 		PATH="$MXE_PATH:$PATH"
 		host_alias=i686-pc-mingw32
@@ -175,34 +175,19 @@ AC_DEFUN([PIONEER_CHECK_LIB],
 
 AC_ARG_WITH([thirdparty], AS_HELP_STRING([--with-thirdparty], [Location of pioneer-thirdparty repository]), [
 	AC_MSG_NOTICE([using pioneer-thirdparty repository in $withval])
-	PKG_CONFIG_PATH="$withval/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
-	export PKG_CONFIG_PATH
+    if test "x$MXE_CROSS" = "xyes" ; then
+	    PKG_CONFIG_PATH_i686_pc_mingw32="$withval/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
+	    export PKG_CONFIG_PATH_i686_pc_mingw32
+    else
+	    PKG_CONFIG_PATH="$withval/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
+	    export PKG_CONFIG_PATH
+    fi
 	CFLAGS="-I$withval/usr/include"
 	LIBS="-L$withval/usr/lib -Wl,-rpath=$withval/usr/lib"
 ])
 
 dnl Check for sigc++
 PKG_CHECK_MODULES([SIGC], [sigc++-2.0])
-
-dnl Check for OpenGL libs
-case "$host" in
-  i686-pc-mingw32)
-	AC_SUBST([GL_CFLAGS], [])
-	AC_SUBST([GL_LIBS], [-lopengl32])
-	AC_SUBST([GLU_CFLAGS], [])
-	AC_SUBST([GLU_LIBS], [-lglu32])
-	AC_SUBST([GLEW_CFLAGS], [-DGLEW_BUILD])
-	AC_SUBST([GLEW_LIBS], [-lglew32s])
-	;;
-  x86_64-pc-mingw64)
-	AC_MSG_ERROR([x86-64 on MINGW is not yet supported])
-	;;
-  *)
-	PIONEER_CHECK_LIB([GL],   [gl],   [GL],   [glBegin])
-	PIONEER_CHECK_LIB([GLU],  [glu],  [GLU],  [gluSphere])
-	PIONEER_CHECK_LIB([GLEW], [glew], [GLEW], [glewInit])
-	;;
-esac
 
 dnl Check for SDL
 PKG_CHECK_MODULES([SDL], [sdl SDL_image])
@@ -212,6 +197,9 @@ PKG_CHECK_MODULES([FREETYPE], [freetype2])
 
 dnl Check for libvorbis
 PKG_CHECK_MODULES([VORBIS], [vorbisfile])
+
+dnl Check for libpng
+PKG_CHECK_MODULES([PNG], [libpng])
 
 dnl Optionally use external liblua
 AC_ARG_WITH([external-liblua], AS_HELP_STRING([--with-external-liblua], [Use external liblua in place of our internal copy]), [], [with_external_liblua=no; HAVE_LUA=no])
@@ -226,8 +214,19 @@ case "$host" in
 	LUA_CFLAGS="$LUA_CFLAGS -DLUA_USE_POSIX"
 esac
 
-dnl Check for libpng
-PKG_CHECK_MODULES([PNG], [libpng])
+dnl Check for OpenGL libs
+if test "x$MXE_CROSS" = "xyes" ; then
+	AC_SUBST([GL_CFLAGS], [])
+	AC_SUBST([GL_LIBS], [-lopengl32])
+	AC_SUBST([GLU_CFLAGS], [])
+	AC_SUBST([GLU_LIBS], [-lglu32])
+	AC_SUBST([GLEW_CFLAGS], [-DGLEW_BUILD])
+	AC_SUBST([GLEW_LIBS], [-lglew32s])
+else
+	PIONEER_CHECK_LIB([GL],   [gl],   [GL],   [glBegin])
+	PIONEER_CHECK_LIB([GLU],  [glu],  [GLU],  [gluSphere])
+	PIONEER_CHECK_LIB([GLEW], [glew], [GLEW], [glewInit])
+fi
 
 dnl ###########################################################################
 dnl Platform selection
