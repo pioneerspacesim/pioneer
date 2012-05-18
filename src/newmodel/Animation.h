@@ -17,7 +17,8 @@ public:
 
 private:
 	std::string m_name;
-	double fps;
+	double m_ticksPerSecond;
+	double m_duration;
 };
 
 }
