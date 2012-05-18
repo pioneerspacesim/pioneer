@@ -28,6 +28,7 @@ AC_DEFUN([MXE_SETUP], [
 		PATH="$MXE_PATH:$PATH"
 		host_alias=i686-pc-mingw32
 		ac_tool_prefix=$host_alias-
+		cross_compiling=yes
 	fi
 	AC_SUBST(MXE_BASE)
 	AC_SUBST(MXE_CROSS)
