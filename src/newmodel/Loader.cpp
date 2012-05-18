@@ -355,6 +355,8 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		AnimationChannel &chan = anim->channels.back();
 		chan.rotationKeys.push_back(RotationKey(0.0, Quaternionf(1.f, 0.f, 0.f, 0.f)));
 		chan.rotationKeys.push_back(RotationKey(100.0, Quaternionf(1.5707f, vector3f(1.f, 0.f, 0.f))));
+		chan.positionKeys.push_back(PositionKey(0.0, pos));
+		chan.positionKeys.push_back(PositionKey(100.0, pos + vector3f(0.f, 10.f, 0.f)));
 		model->m_animations.push_back(anim);
 		model->AddTag((*it).name, tagTrans);
 	}
