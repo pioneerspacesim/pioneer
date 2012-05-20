@@ -130,6 +130,21 @@ public:
 	void SetTransform(const matrix4x4f &transform) { m_transform = transform; }
 	const matrix4x4f &GetTransform() const { return m_transform; }
 
+	// font size. obviously used for text size but also sometimes used for
+	// general widget size (eg space size). might do nothing, depends on the
+	// widget
+	enum FontSize {
+		FONT_SIZE_XSMALL,
+		FONT_SIZE_SMALL,
+		FONT_SIZE_NORMAL,
+		FONT_SIZE_LARGE,
+		FONT_SIZE_XLARGE,
+		FONT_SIZE_MAX
+	};
+
+	virtual Widget *SetFontSize(FontSize fontSize);
+	FontSize GetFontSize() const { return m_fontSize; }
+
 
 protected:
 	// this sigc accumulator calls all the handlers for an event. if any of
@@ -266,6 +281,7 @@ private:
 	vector2f m_size;
 	vector2f m_activeArea;
 	matrix4x4f m_transform;
+	FontSize m_fontSize;
 
 	bool m_floating;
 

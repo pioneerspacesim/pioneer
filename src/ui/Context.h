@@ -7,6 +7,8 @@
 #include "EventDispatcher.h"
 #include "Skin.h"
 
+#include "Widget.h"
+
 #include "Margin.h"
 #include "Background.h"
 #include "ColorBackground.h"
@@ -94,7 +96,9 @@ public:
 
 	Graphics::Renderer *GetRenderer() const { return m_renderer; }
 	const Skin &GetSkin() const { return m_skin; }
-	RefCountedPtr<Text::TextureFont> GetFont() const { return m_font; }
+
+	RefCountedPtr<Text::TextureFont> GetFont() const { return GetFont(Widget::FONT_SIZE_NORMAL); }
+	RefCountedPtr<Text::TextureFont> GetFont(Widget::FontSize fontSize) const { return m_font[fontSize]; }
 
 private:
 	virtual vector2f PreferredSize() { return 0; }
@@ -107,7 +111,8 @@ private:
 
 	EventDispatcher m_eventDispatcher;
 	Skin m_skin;
-	RefCountedPtr<Text::TextureFont> m_font;
+
+	RefCountedPtr<Text::TextureFont> m_font[FONT_SIZE_MAX];
 
 	// used by Container::Draw to set the keep widget drawing in its bounds
 	friend class Container;

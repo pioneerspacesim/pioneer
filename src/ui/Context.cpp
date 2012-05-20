@@ -9,10 +9,16 @@ Context::Context(Graphics::Renderer *renderer, int width, int height) : Single(t
 	m_width(float(width)),
 	m_height(float(height)),
 	m_eventDispatcher(this),
-	m_skin("textures/widgets.png", renderer),
-	m_font(RefCountedPtr<Text::TextureFont>(new Text::TextureFont(Text::FontDescriptor("TitilliumText22L004.otf", 14, 14, false, -1.0f), renderer)))
+	m_skin("textures/widgets.png", renderer)
 {
 	SetSize(vector2f(m_width,m_height));
+
+	// XXX should do point sizes, but we need display DPI first
+	// XXX TextureFont could load multiple sizes into the same object/atlas
+	for (int i = FONT_SIZE_XSMALL; i < FONT_SIZE_MAX; i++) {
+		int pixelSize = i*3 + 14;
+		m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(Text::FontDescriptor("TitilliumText22L004.otf", pixelSize, pixelSize, false, -1.0f), renderer));
+	}
 }
 
 Context *Context::AddFloatingWidget(Widget *w, const vector2f &pos, const vector2f &size)
