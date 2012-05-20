@@ -208,7 +208,7 @@ dnl assimp's pkg-config file has a broken include path. Until upstream fixes
 dnl it we work around it here
 ASSIMP_CFLAGS=`echo $ASSIMP_CFLAGS | sed -e 's/\/assimp$//'`
 
-if test "x$MXE_CROSS" = "x" ; then
+if test "x$cross_compiling" = "xno" ; then
 
 	dnl Extra version checks for assimp. Last release was 2.0, we need 3.0+ (git
 	dnl version). Unfortunately the pkg-config version has not yet been updated
@@ -222,15 +222,15 @@ if test "x$MXE_CROSS" = "x" ; then
 	LIBS="$ASSIMP_LIBS $assimp_rpath"
 	AC_LANG_PUSH([C++])
 	AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <assimp/defs.h>
-									#include <assimp/version.h>]],
-								[[do {
-										if (aiGetVersionMajor() >= 3 && aiGetVersionMinor() >= 0)
-											return 0;
-										return 1;
-									} while(0)]])],
-								[AC_MSG_RESULT(yes)
-									have_assimp_version=yes],
-								[AC_MSG_RESULT(no)])
+	                                 #include <assimp/version.h>]],
+	                            [[do {
+	                                if (aiGetVersionMajor() >= 3 && aiGetVersionMinor() >= 0)
+	                                    return 0;
+	                                return 1;
+	                              } while(0)]])],
+	                            [AC_MSG_RESULT(yes)
+	                                have_assimp_version=yes],
+	                            [AC_MSG_RESULT(no)])
 	AC_LANG_POP
 	if test "x$have_assimp_version" != "xyes" ; then
 		AC_MSG_ERROR("assimp version >= 3.0 not found. Get it from https://github.com/assimp/assimp")
@@ -240,7 +240,6 @@ if test "x$MXE_CROSS" = "x" ; then
 
 fi
 
->>>>>>> Stashed changes
 dnl Optionally use external liblua
 AC_ARG_WITH([external-liblua], AS_HELP_STRING([--with-external-liblua], [Use external liblua in place of our internal copy]), [], [with_external_liblua=no; HAVE_LUA=no])
 if test "$with_external_liblua" = yes; then
