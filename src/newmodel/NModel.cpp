@@ -15,6 +15,7 @@ NModel::NModel(const std::string &name) : Model(),
 
 NModel::~NModel()
 {
+	while(!m_animations.empty()) delete m_animations.back(), m_animations.pop_back();
 }
 
 void NModel::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, const LmrObjParams *params)
@@ -110,16 +111,26 @@ void NModel::SetColors(Graphics::Renderer *r, const std::vector<Color4ub> &color
 
 void NModel::UpdateAnimations(const double time) //change this to use timestep or something
 {
-	m_animTime = time;
-
-	for(unsigned int i=0; i<m_animations.size(); i++) {
-		m_animations[i]->Evaluate(m_animTime);
+	for (unsigned int i=0; i<m_animations.size(); i++) {
+		Animation *anim = m_animations[i];
+		anim->Evaluate(time);
 	}
 }
 
 void NModel::PlayAnimation(const std::string &name)
 {
 	//should also go through submodels
+	for (unsigned int i=0; i<m_animations.size(); i++) {
+		if (m_animations[i]->GetName() == name)
+			m_animations[i]->Play();
+	}
+}
+
+void NModel::StopAnimations()
+{
+	for (unsigned int i=0; i<m_animations.size(); i++) {
+		m_animations[i]->Stop();
+	}
 }
 
 }

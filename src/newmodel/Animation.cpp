@@ -3,22 +3,41 @@
 namespace Newmodel {
 
 Animation::Animation(const std::string &name)
-: m_name(name)
-, m_ticksPerSecond(25.0)
+: m_paused(true)
+, m_currentTime(0.0)
 , m_duration(100.0)
+, m_lastTime(0.0)
+, m_ticksPerSecond(25.0)
+, m_name(name)
 {
 
 }
 
+void Animation::Play()
+{
+	m_paused = false;
+}
+
+void Animation::Pause()
+{
+	m_paused = true;
+}
+
+void Animation::Stop()
+{
+	m_paused = true;
+	m_currentTime = 0;
+}
+
 void Animation::Evaluate(const double time)
 {
-	const double ptime = time * m_ticksPerSecond;
+	if (!m_paused && m_duration > 0.0)
+	{
+		m_currentTime += (time - m_lastTime) * m_ticksPerSecond;
+	}
 
 	//map into anim duration
-	double mtime = 0.0;
-	if (m_duration > 0.0)
-		mtime = fmod(ptime, m_duration);
-
+	const double mtime = fmod(m_currentTime, m_duration);
 
 	//go through channels and calculate transforms
 	for(unsigned int i = 0; i < channels.size(); i++) {
@@ -76,6 +95,8 @@ void Animation::Evaluate(const double time)
 
 		chan.node->SetTransform(trans);
 	}
+
+	m_lastTime = time;
 }
 
 }

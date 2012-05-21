@@ -82,6 +82,7 @@ public:
 
 	void UpdateAnimations(double time); //change this to timestep or something
 	void PlayAnimation(const std::string &name); //immediately play an animation (forward), if found
+	void StopAnimations(); //stop all animation
 
 private:
 	ColorMap m_colorMap;
