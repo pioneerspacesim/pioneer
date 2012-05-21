@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "vector2.h"
 #include "Event.h"
+#include "RefCounted.h"
 
 // Widget is the base class for all UI elements. There's a couple of things it
 // must implement, and a few more it might want to implement if it wants to do
@@ -75,7 +76,7 @@ class Context;
 class Container;
 class Metrics;
 	
-class Widget {
+class Widget : public RefCounted {
 protected:
 	// can't instantiate a base widget directly
 	Widget(Context *context);
