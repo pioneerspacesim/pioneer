@@ -14,7 +14,7 @@ DropDown::DropDown(Context *context) : Widget(context), m_textWidth(0.0f), m_pop
 
 void DropDown::CalcSizePos()
 {
-	const float textHeight = GetContext()->GetFont()->GetHeight() + GetContext()->GetFont()->GetDescender();
+	const float textHeight = GetContext()->GetFont(GetFontSize())->GetHeight() + GetContext()->GetFont(GetFontSize())->GetDescender();
 
 	m_textPos = vector2f(Skin::s_backgroundNormal.borderWidth);
 	m_textSize = vector2f(m_textWidth,textHeight);
@@ -54,7 +54,7 @@ void DropDown::Draw()
 	}
 
 	// XXX scissor
-	GetContext()->GetFont()->RenderString(m_popup->GetSelectedOption().c_str(), m_textPos.x, m_textPos.y);
+	GetContext()->GetFont(GetFontSize())->RenderString(m_popup->GetSelectedOption().c_str(), m_textPos.x, m_textPos.y);
 }
 
 void DropDown::HandleClick()
@@ -89,7 +89,7 @@ void DropDown::TogglePopup()
 DropDown *DropDown::AddOption(const std::string &text)
 {
 	float w, h;
-	GetContext()->GetFont()->MeasureString(text.c_str(), w, h);
+	GetContext()->GetFont(GetFontSize())->MeasureString(text.c_str(), w, h);
 	if (m_textWidth < w) m_textWidth = w;
 
 	m_popup->AddOption(text);

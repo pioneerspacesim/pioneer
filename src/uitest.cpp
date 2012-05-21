@@ -308,6 +308,7 @@ int main(int argc, char **argv)
 	slider->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&fill_label), label));
 #endif
 
+#if 0
 	UI::DropDown *dropdown;
 	UI::Button *add, *clear;
 	c->SetInnerWidget(
@@ -327,6 +328,17 @@ int main(int argc, char **argv)
 	);
 	add->onClick.connect(sigc::bind(sigc::ptr_fun(&add_dropdown_option), dropdown));
 	clear->onClick.connect(sigc::bind(sigc::ptr_fun(&clear_dropdown), dropdown));
+#endif
+
+	c->SetInnerWidget(
+		c->VBox()->PackEnd(UI::WidgetSet(
+			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_XSMALL),
+			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_SMALL),
+			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_NORMAL),
+			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_LARGE),
+			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_XLARGE)
+		), UI::Box::ChildAttrs(false, false))
+	);
 
 	c->Layout();
 
