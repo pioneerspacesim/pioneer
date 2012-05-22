@@ -47,17 +47,11 @@ static void SplitPath(const std::string &path, std::vector<std::string> &output)
 
 	size_t start = 0, end = 0;
 	while (end != std::string::npos) {
-		// start where we left off last time
-		start = end;
+		// get to the first non-delim char
+		start = path.find_first_not_of(delim, end);
 
-		// skip over delimeter chars
-		while (start < path.size() && delim.find_first_of(path[start]) != std::string::npos) {
-			// eat
-			start++;
-		}
-
-		// reached the end, no more to do
-		if (start == path.size())
+		// read the end, no more to do
+		if (start == std::string::npos)
 			break;
 
 		// find the end - next delim or end of string
