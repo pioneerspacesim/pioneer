@@ -894,13 +894,15 @@ const std::list<const BBAdvert*> SpaceStation::GetBBAdverts()
 
 vector3d SpaceStation::GetTargetIndicatorPosition(const Frame *relTo) const
 {
-	//return the docking point's position, if permission has been granted for player
+	// return the next waypoint if permission has been granted for player,
+	// and the docking point's position once the docking anim starts
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		if (i >= m_type->numDockingPorts) break;
 		if ((m_shipDocking[i].ship == Pi::player) && (m_shipDocking[i].stage > 0)) {
 
 			SpaceStationType::positionOrient_t dport;
-			PiVerify(m_type->GetDockAnimPositionOrient(i, m_type->numDockingStages,
+			if (!m_type->GetShipApproachWaypoints(i, m_shipDocking[i].stage+1, dport))
+				PiVerify(m_type->GetDockAnimPositionOrient(i, m_type->numDockingStages,
 				1.0f, vector3d(0.0), dport, m_shipDocking[i].ship));
 			matrix4x4d rot;
 			GetRotMatrix(rot);
