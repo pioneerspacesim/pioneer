@@ -472,7 +472,6 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 		FT_Stroker_Done(stroker);
 
 	m_height = float(a_height);
-	m_width = float(a_width);
 	m_descender = -float(m_face->descender) / 64.f;
 }
 
