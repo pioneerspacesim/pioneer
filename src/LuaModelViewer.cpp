@@ -76,6 +76,7 @@ struct Options {
 
 class Viewer: public Gui::Fixed {
 private: //data members
+	bool m_playing;
 	bool m_screenshotQueued;
 	CollisionSpace *m_space;
 	CollMesh *m_cmesh;
@@ -96,6 +97,8 @@ private: //data members
 
 private: //methods
 	void SetupUI();
+	bool OnAnimPlay(UI::Widget *w);
+	bool OnAnimStop(UI::Widget *w);
 	bool OnReloadModel(UI::Widget *w);
 	bool OnToggleBoundingRadius(UI::Widget *w);
 	bool OnToggleGrid(UI::Widget *w);
@@ -124,6 +127,7 @@ public:
 	}
 
 	Viewer(): Gui::Fixed(float(g_width), float(g_height)),
+		m_playing(false),
 		m_screenshotQueued(false),
 		m_cmesh(0),
 		m_currentTime(0.001 * SDL_GetTicks()),
@@ -273,7 +277,9 @@ void Viewer::SetupUI()
 	UI::Context *c = m_ui;
 	UI::Box *box;
 	UI::Box *buttBox;
+	UI::Box *animBox;
 	UI::Button *b1, *gridBtn, *reloadBtn;
+	UI::Button *playBtn, *stopBtn;
 	UI::CheckBox *radiusCheck, *gunsCheck;
 	
 	c->SetInnerWidget((box = c->VBox(5.f)));
@@ -294,11 +300,19 @@ void Viewer::SetupUI()
 	AddPair(c, buttBox, (gunsCheck = c->CheckBox()), "Attach guns");
 	AddPair(c, buttBox, (c->CheckBox()), "Draw collision mesh");
 
+	box->PackEnd(animBox = c->VBox(5.f), battrs);
+	animBox->PackEnd(c->Label("Animation test:"));
+	AddPair(c, animBox, playBtn = c->Button(), "Play/Pause");
+	AddPair(c, animBox, stopBtn = c->Button(), "Stop");
+
 	b1->onClick.connect(sigc::mem_fun(*this, &Viewer::PickAnotherModel));
 	reloadBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnReloadModel), reloadBtn));
 	gridBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleGrid), gridBtn));
 	radiusCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius), radiusCheck));
 	gunsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleGuns), gunsCheck));
+
+	playBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnAnimPlay), playBtn));
+	stopBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnAnimStop), stopBtn));
 
 	UI::DropDown *ddown;
 	buttBox->PackEnd(c->Label("Pattern:"));
@@ -351,6 +365,31 @@ void Viewer::SetupUI()
 	}
 
 	c->Layout();
+}
+
+bool Viewer::OnAnimPlay(UI::Widget *w)
+{
+	m_playing = !m_playing;
+	if (m_playing) {
+		int success = static_cast<Newmodel::NModel*>(m_model)->PlayAnimation("wiggle");
+		if (success)
+			AddLog("Playing animation \"wiggle\"");
+		else {
+			AddLog("Model does not have animation \"wiggle\"");
+			m_playing = false;
+		}
+	} else {
+		AddLog("Animation paused");
+	}
+	return m_playing;
+}
+
+bool Viewer::OnAnimStop(UI::Widget *w)
+{
+	if (m_playing) AddLog("Animation stopped");
+	m_playing = false;
+	static_cast<Newmodel::NModel*>(m_model)->StopAnimations();
+	return false;
 }
 
 bool Viewer::OnReloadModel(UI::Widget *w)
@@ -459,8 +498,12 @@ void Viewer::UpdatePatternList()
 
 void Viewer::UpdateTime()
 {
+	static double lastTime = 0;
 	const double newtime = 0.001 * SDL_GetTicks();
-	m_currentTime = newtime;
+	if (m_playing) {
+		m_currentTime += newtime - lastTime;
+	}
+	lastTime = newtime;
 }
 
 void Viewer::OnLightPresetChanged(unsigned int index, const std::string &)
