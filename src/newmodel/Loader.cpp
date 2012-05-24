@@ -443,6 +443,8 @@ Node *Loader::LoadMesh(const std::string &filename, const NModel *model, TagList
 	ConvertAiMeshesToSurfaces(surfaces, scene, model);
 
 	//XXX putting everything in one static mesh
+	//XXX the plan: if scene has animation, go through the assimp node structure and
+	//create the appropriate nodes (staticgeometry parented to matrixtransforms for animated nodes)
 	StaticGeometry *geom = new StaticGeometry();
 	Graphics::StaticMesh *smesh = geom->GetMesh();
 
