@@ -8,10 +8,14 @@
 #include "graphics/Material.h"
 
 struct aiNode;
+struct aiMesh;
+struct aiScene;
 
 namespace Graphics { class Renderer; }
 
 namespace Newmodel {
+
+class StaticGeometry;
 
 struct MaterialDefinition {
 	MaterialDefinition() :
@@ -77,6 +81,8 @@ private:
 	void FindPatterns(PatternContainer &output); //find pattern texture files from the model directory
 	//load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
 	Node *LoadMesh(const std::string &filename, const NModel *model, TagList &modelTags);
+	//scene and model are for material lookup
+	StaticGeometry *CreateStaticGeometry(unsigned int numMeshes, aiMesh**, const aiScene *, const NModel *);
 };
 
 }

@@ -434,8 +434,30 @@ Node *Loader::LoadMesh(const std::string &filename, const NModel *model, TagList
 	if(!scene)
 		throw std::string("Couldn't load " + filename);
 
-	StaticGeometry *geom = new StaticGeometry();
+	if(scene->mNumMeshes == 0)
+		throw std::string(filename + " has no geometry. How odd!");
 
+	StaticGeometry *geom = 0;
+
+	if (!scene->HasAnimations()) {
+		//just pack all the meshes under one StaticGeometry (disregarding possible hierarchy)
+		geom = CreateStaticGeometry(scene->mNumMeshes, scene->mMeshes, scene, model);
+	} else {
+		geom = CreateStaticGeometry(scene->mNumMeshes, scene->mMeshes, scene, model);
+	}
+
+	//try to figure out tag points, in case we happen to use an
+	//advanced file format (collada)
+	FindTags(scene->mRootNode, modelTags);
+
+	return geom;
+}
+
+StaticGeometry *Loader::CreateStaticGeometry(unsigned int numMeshes, aiMesh** meshes, const aiScene *scene, const NModel *model)
+{
+	if (numMeshes == 0 || !meshes) return 0;
+
+	StaticGeometry *geom = new StaticGeometry();
 	Graphics::StaticMesh *smesh = geom->GetMesh();
 
 	//XXX sigh, workaround for obj loader
@@ -498,10 +520,6 @@ Node *Loader::LoadMesh(const std::string &filename, const NModel *model, TagList
 
 		smesh->AddSurface(surface);
 	}
-
-	//try to figure out tag points, in case we happen to use an
-	//advanced file format (collada)
-	FindTags(scene->mRootNode, modelTags);
 
 	return geom;
 }
