@@ -17,14 +17,18 @@ class NodeVisitor;
 class Node : public RefCounted
 {
 public:
-	Node() { }
+	Node();
 	Node *m_parent;
 
 	virtual void Accept(NodeVisitor &v);
 	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd) { }
+	void SetName(const std::string &name) { m_name = name; }
+	const std::string &GetName() { return m_name; }
+
 protected:
 	//can only to be deleted using DecRefCount
 	virtual ~Node() { }
+	std::string m_name;
 };
 
 }
