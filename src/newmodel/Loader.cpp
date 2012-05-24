@@ -437,13 +437,24 @@ Node *Loader::LoadMesh(const std::string &filename, const NModel *model, TagList
 	if(scene->mNumMeshes == 0)
 		throw std::string(filename + " has no geometry. How odd!");
 
-	StaticGeometry *geom = 0;
+	//turn all scene aiMeshes into Surfaces
+	//Index matches assimp index.
+	std::vector<Graphics::Surface*> surfaces;
+	ConvertAiMeshesToSurfaces(surfaces, scene, model);
 
-	if (!scene->HasAnimations()) {
-		//just pack all the meshes under one StaticGeometry (disregarding possible hierarchy)
-		geom = CreateStaticGeometry(scene->mNumMeshes, scene->mMeshes, scene, model);
-	} else {
-		geom = CreateStaticGeometry(scene->mNumMeshes, scene->mMeshes, scene, model);
+	//XXX putting everything in one static mesh
+	StaticGeometry *geom = new StaticGeometry();
+	Graphics::StaticMesh *smesh = geom->GetMesh();
+
+	//update bounding box
+	for (unsigned int i=0; i<surfaces.size(); i++) {
+		Graphics::Surface *surf = surfaces[i];
+		Graphics::VertexArray *vts = surf->GetVertices();
+		for (unsigned int j=0; j<vts->position.size(); j++) {
+			const vector3f &vtx = vts->position[j];
+			geom->m_boundingBox.Update(vtx.x, vtx.y, vtx.z);
+		}
+		smesh->AddSurface(surf);
 	}
 
 	//try to figure out tag points, in case we happen to use an
@@ -453,13 +464,8 @@ Node *Loader::LoadMesh(const std::string &filename, const NModel *model, TagList
 	return geom;
 }
 
-StaticGeometry *Loader::CreateStaticGeometry(unsigned int numMeshes, aiMesh** meshes, const aiScene *scene, const NModel *model)
+void Loader::ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*> &surfaces, const aiScene *scene, const NModel *model)
 {
-	if (numMeshes == 0 || !meshes) return 0;
-
-	StaticGeometry *geom = new StaticGeometry();
-	Graphics::StaticMesh *smesh = geom->GetMesh();
-
 	//XXX sigh, workaround for obj loader
 	int matIdxOffs = 0;
 	if (scene->mNumMaterials > scene->mNumMeshes)
@@ -515,13 +521,10 @@ StaticGeometry *Loader::CreateStaticGeometry(unsigned int numMeshes, aiMesh** me
 			vts->Add(vector3f(vtx.x, vtx.y, vtx.z),
 				vector3f(norm.x, norm.y, norm.z),
 				vector2f(uv0.x, uv0.y));
-			geom->m_boundingBox.Update(vtx.x, vtx.y, vtx.z);
 		}
 
-		smesh->AddSurface(surface);
+		surfaces.push_back(surface);
 	}
-
-	return geom;
 }
 
 }
