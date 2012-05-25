@@ -4,6 +4,9 @@ Alpha 23
      * Show target indicator on docking waypoints when clearance has been
        granted to assist with manual docking (#1260)
 
+   * Fixes
+     * Work around sector view crash on Radeon 
+
    * Script and model changes
      * Lua updated to 5.2.0 (#1247)
      * Renamed Matrix and Vec classes to matrix and vector (#1245)
