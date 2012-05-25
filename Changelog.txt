@@ -5,7 +5,7 @@ Alpha 23
        granted to assist with manual docking (#1260)
 
    * Fixes
-     * Work around sector view crash on Radeon 
+     * Work around sector view crash on Radeon (#1062)
 
    * Script and model changes
      * Lua updated to 5.2.0 (#1247)
