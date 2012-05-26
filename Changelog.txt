@@ -7,11 +7,13 @@ Alpha 23
    * Fixes
      * Work around sector view crash on Radeon (#1062)
      * Fix handling of deep folders in zip files (#1270)
+     * Fix redscreen hang
 
    * Script and model changes
-     * Lua updated to 5.2.0 (#1247)
+     * Lua updated to 5.2.0 (#1247, #1270)
      * Renamed Matrix and Vec classes to matrix and vector (#1245)
      * Renamed CustomSBody to CustomSystemBody (#1245)
+     * Removed global data from Lua crash dump
 
    * Internal changes
      * Fixed configure compiler warning tests for gcc and clang
