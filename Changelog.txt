@@ -6,6 +6,7 @@ Alpha 23
 
    * Fixes
      * Work around sector view crash on Radeon (#1062)
+     * Fix handling of deep folders in zip files (#1270)
 
    * Script and model changes
      * Lua updated to 5.2.0 (#1247)
