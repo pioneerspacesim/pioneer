@@ -140,7 +140,7 @@ local function dumpStack(top_level)
 		end
 
 		-- print up-values
-		if finfo.nups > 0 then
+		if finfo.nups > 1 then
 			local func = finfo.func
 
 			lines[#lines + 1] = 'Up-values:'
@@ -148,16 +148,12 @@ local function dumpStack(top_level)
 			local varidx = 1
 			local varname, varval = debug.getupvalue(func, varidx)
 			while varname ~= nil do
-				lines[#lines + 1] = string.format('  %s = %s', varname, parseableValue(varval, true))
+				if varname ~= '_ENV' or varval ~= _G then
+					lines[#lines + 1] = string.format('  %s = %s', varname, parseableValue(varval, true))
+				end
 				varidx = varidx + 1
 				varname, varval = debug.getupvalue(func, varidx)
 			end
-		end
-
-		local fenv = debug.getfenv(finfo.func)
-		if fenv ~= _G then
-			lines[#lines + 1] = 'Environment (' .. tostring(fenv) .. '):'
-			lines[#lines + 1] = dumpEnv(fenv)
 		end
 
 		level = level + 1
