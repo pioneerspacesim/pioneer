@@ -81,9 +81,8 @@ void Screen::ClearFocus()
 
 void Screen::ShowBadError(const char *msg)
 {
-	fprintf(stderr, "%s", msg);
 	baseContainer->HideChildren();
-	
+
 	Gui::Fixed *f = new Gui::Fixed(6*GetWidth()/8.0f, 6*GetHeight()/8.0f);
 	Gui::Screen::AddBaseWidget(f, GetWidth()/8, GetHeight()/8);
 	f->SetTransparency(false);
@@ -103,7 +102,6 @@ void Screen::ShowBadError(const char *msg)
 
 	Gui::Screen::RemoveBaseWidget(f);
 	delete f;
-	baseContainer->ShowAll();
 }
 
 bool Screen::Project(const vector3d &in, vector3d &out)
