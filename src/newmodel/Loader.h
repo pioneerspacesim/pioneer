@@ -6,6 +6,7 @@
 #include "libs.h"
 #include "NModel.h"
 #include "graphics/Material.h"
+#include "graphics/Surface.h"
 
 struct aiNode;
 struct aiMesh;
