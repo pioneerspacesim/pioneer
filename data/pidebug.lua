@@ -176,10 +176,7 @@ return {
 			fl:write('\n\n')
 			fl:write('### STACK TRACE\n')
 			fl:write(dumpStack(2)) -- dump from level 2 (0 is dumpStack, 1 is error_handler)
-			fl:write('\n\n')
-			fl:write('### GLOBALS\n')
-			fl:write(dumpEnv(_G))
-			fl:write('\n\n')
+			fl:write('\n')
 			fl:close()
 			return (trace)
 		end
