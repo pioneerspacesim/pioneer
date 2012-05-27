@@ -557,10 +557,18 @@ void Loader::ConvertAnimations(const aiScene* scene, NModel *model)
 			assert(trans);
 			animation->channels.push_back(AnimationChannel(trans));
 			AnimationChannel &chan = animation->channels.back();
+
 			for(unsigned int k=0; k<aichan->mNumPositionKeys; k++) {
 				const aiVectorKey &aikey = aichan->mPositionKeys[k];
 				const aiVector3D &aipos = aikey.mValue;
 				chan.positionKeys.push_back(PositionKey(aikey.mTime, vector3f(aipos.x, aipos.y, aipos.z)));
+			}
+
+			if (aichan->mNumRotationKeys < 2) continue;
+			for(unsigned int k=0; k<aichan->mNumRotationKeys; k++) {
+				const aiQuatKey &aikey = aichan->mRotationKeys[k];
+				const aiQuaternion &airot = aikey.mValue;
+				chan.rotationKeys.push_back(RotationKey(aikey.mTime, Quaternionf(airot.x, airot.y, airot.z, airot.w)));
 			}
 		}
 		animations.push_back(animation);
