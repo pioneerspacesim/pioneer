@@ -130,8 +130,9 @@ bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 
 void TextEntry::GetSizeRequested(float size[2])
 {
-	// XXX this 1.5f should be PARAGRAPH_SPACING (currently #define'd in Text::TextureFont.h)
-	size[1] = (m_newlineCount*1.5f+1.0f)*Gui::Screen::GetFontHeight(m_font.Get()) + 2.0f;
+	const float textHeightMs = (m_newlineCount * m_font->GetLineSpacing()) + 1.0f;
+	const float textHeightPx = textHeightMs * Gui::Screen::GetFontHeight(m_font.Get());
+	size[1] = textHeightPx + 2.0f;
 }
 
 bool TextEntry::OnMouseDown(MouseButtonEvent *e)
