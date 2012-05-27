@@ -16,7 +16,11 @@
  * Animation: keyframe animation affecting MatrixTransforms, and subsequently nodes
  * attached to them. Animations can be played by name, and play commands should propagate
  * to submodels (e.g. "anim_shoot" would activate recoil animation on gun submodels). 
+ * There could be some generic animation related sigc events.
  * Animation challenges:
+ *  - Assimp & several formats (.dae, .x) support multiple animations per file, but the
+ *    Blender exporters don't (because they suck). Might have to ask users to supply all animations
+ *    in one file and define animation names & ranges in the .model.
  * 	- Skeletal animation. I guess this will have to wait. Anyway, Bones are hierarchical
  *  MatrixTransforms. Skinning will be software-based, because it must work with Legacy renderer. 
  * 	- Combining & blending animations. Might just cut corners there, spaceships shouldn't be that animated...
