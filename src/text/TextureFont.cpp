@@ -18,7 +18,7 @@ void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float 
 	glfglyph_t *glyph = &m_glyphs[chr];
 
 	const float offx = x + float(glyph->offx);
-	const float offy = y + float(m_pixSize) - glyph->offy;
+	const float offy = y + float(m_pixSize - glyph->offy);
 	const float offU = glyph->offU;
 	const float offV = glyph->offV;
 	
