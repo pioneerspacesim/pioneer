@@ -442,28 +442,37 @@ Node *Loader::LoadMesh(const std::string &filename, const NModel *model, TagList
 	std::vector<Graphics::Surface*> surfaces;
 	ConvertAiMeshesToSurfaces(surfaces, scene, model);
 
-	//XXX putting everything in one static mesh
-	//XXX the plan: if scene has animation, go through the assimp node structure and
-	//create the appropriate nodes (staticgeometry parented to matrixtransforms for animated nodes)
-	StaticGeometry *geom = new StaticGeometry();
-	Graphics::StaticMesh *smesh = geom->GetMesh();
+	Node *node = 0;
 
-	//update bounding box
-	for (unsigned int i=0; i<surfaces.size(); i++) {
-		Graphics::Surface *surf = surfaces[i];
-		Graphics::VertexArray *vts = surf->GetVertices();
-		for (unsigned int j=0; j<vts->position.size(); j++) {
-			const vector3f &vtx = vts->position[j];
-			geom->m_boundingBox.Update(vtx.x, vtx.y, vtx.z);
+	if (!scene->HasAnimations()) {
+		//XXX putting everything in one static mesh
+		//XXX the plan: if scene has animation, go through the assimp node structure and
+		//create the appropriate nodes (staticgeometry parented to matrixtransforms for animated nodes)
+		StaticGeometry *geom = new StaticGeometry();
+		Graphics::StaticMesh *smesh = geom->GetMesh();
+
+		//update bounding box
+		for (unsigned int i=0; i<surfaces.size(); i++) {
+			Graphics::Surface *surf = surfaces[i];
+			Graphics::VertexArray *vts = surf->GetVertices();
+			for (unsigned int j=0; j<vts->position.size(); j++) {
+				const vector3f &vtx = vts->position[j];
+				geom->m_boundingBox.Update(vtx.x, vtx.y, vtx.z);
+			}
+			smesh->AddSurface(surf);
 		}
-		smesh->AddSurface(surf);
+		node = geom;
+	} else {
+		Group *group = new Group;
+		ConvertNodes(scene->mRootNode, group, surfaces);
+		node = group;
 	}
 
 	//try to figure out tag points, in case we happen to use an
 	//advanced file format (collada)
 	FindTags(scene->mRootNode, modelTags);
 
-	return geom;
+	return node;
 }
 
 void Loader::ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*> &surfaces, const aiScene *scene, const NModel *model)
@@ -526,6 +535,72 @@ void Loader::ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*> &surfaces
 		}
 
 		surfaces.push_back(surface);
+	}
+}
+
+matrix4x4f Loader::ConvertMatrix(const aiMatrix4x4& trans) const
+{
+	matrix4x4f m;
+	m[0] = trans.a1;
+	m[1] = trans.b1;
+	m[2] = trans.c1;
+	m[3] = trans.d1;
+
+	m[4] = trans.a2;
+	m[5] = trans.b2;
+	m[6] = trans.c2;
+	m[7] = trans.d2;
+
+	m[8] = trans.a3;
+	m[9] = trans.b3;
+	m[10] = trans.c3;
+	m[11] = trans.d3;
+
+	m[12] = trans.a4;
+	m[13] = trans.b4;
+	m[14] = trans.c4;
+	m[15] = trans.d4;
+	return m;
+}
+
+void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Surface*>& surfaces)
+{
+	//XXX could ignore nodes without children and meshes, or could check
+	//if they are tags (lights, cameras are out of scope at the moment)
+	Group *parent = _parent;
+	const std::string nodename(node->mName.C_Str());
+	const aiMatrix4x4& trans = node->mTransformation;
+	matrix4x4f m = ConvertMatrix(trans);
+
+	//if the transform is identity and the node is not animated,
+	//could just add a group
+	parent = new MatrixTransform(m);
+	_parent->AddChild(parent);
+	parent->SetName(nodename);
+
+	if (node->mNumMeshes > 0) {
+		//is this node animated? add a transform
+		//does this node have children? Add a group
+		StaticGeometry *geom = new StaticGeometry();
+		Graphics::StaticMesh *smesh = geom->GetMesh();
+
+		for(unsigned int i=0; i<node->mNumMeshes; i++) {
+			Graphics::Surface *surf = surfaces[node->mMeshes[i]];
+			//update bounding box
+			Graphics::VertexArray *vts = surf->GetVertices();
+			for (unsigned int j=0; j<vts->position.size(); j++) {
+				const vector3f &vtx = m * vts->position[j];
+				geom->m_boundingBox.Update(vtx.x, vtx.y, vtx.z);
+			}
+			smesh->AddSurface(surf);
+		}
+
+		parent->AddChild(geom);
+	}
+
+	for(unsigned int i=0; i<node->mNumChildren; i++) {
+		aiNode *child = node->mChildren[i];
+		ConvertNodes(child, parent, surfaces);
 	}
 }
 

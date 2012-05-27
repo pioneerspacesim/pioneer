@@ -7,6 +7,7 @@
 #include "NModel.h"
 #include "graphics/Material.h"
 #include "graphics/Surface.h"
+#include "assimp/types.h"
 
 struct aiNode;
 struct aiMesh;
@@ -77,13 +78,13 @@ private:
 	Graphics::Renderer *m_renderer;
 	std::string m_curPath;
 	Graphics::Texture *GetWhiteTexture() const;
+	matrix4x4f ConvertMatrix(const aiMatrix4x4&) const;
 	NModel *CreateModel(ModelDefinition &def);
-	void FindTags(const aiNode *node, TagList &output); //locate tags from assimp structure
+	Node *LoadMesh(const std::string &filename, const NModel *model, TagList &modelTags); //load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
+	void ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*>&, const aiScene*, const NModel*); //model is only for material lookup
+	void ConvertNodes(aiNode *node, Group *parent, std::vector<Graphics::Surface*>& meshes);
 	void FindPatterns(PatternContainer &output); //find pattern texture files from the model directory
-	//load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
-	Node *LoadMesh(const std::string &filename, const NModel *model, TagList &modelTags);
-	//model is only for material lookup
-	void ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*>&, const aiScene*, const NModel*);
+	void FindTags(const aiNode *node, TagList &output); //locate tags from assimp structure
 };
 
 }
