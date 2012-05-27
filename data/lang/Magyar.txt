@@ -127,7 +127,7 @@ WELCOME_TO_SOMEWHERE
 # write anything you like here.  It will appear in every space station
 # in the whole galaxy.
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Helló, utazó. Üdvözöllek a kikötőnkben, ahol a felsorolt lehetőségek közül választhatsz, vagyis hajót, felszerelést vásárolhatsz, árukkal kereskedhetsz, vagy munkát vállalhatsz. Reméljük, gyümölcsöző lesz az ittléted.\n\nA játék magyar nyelvű fordítását Sunsetjoy végezte. A játék honlapja http://pioneerspacesim.net/
+    Helló, utazó. Üdvözöllek a kikötőnkben, ahol a felsorolt lehetőségek közül választhatsz, vagyis hajót, felszerelést vásárolhatsz, árukkal kereskedhetsz, vagy munkát vállalhatsz. Reméljük, gyümölcsöző lesz az ittléted.\nA játék magyar nyelvű fordítását Sunsetjoy végezte. A játék honlapja http://pioneerspacesim.net/
 REQUEST_LAUNCH
     Felszállási engedély kérése
 SHIPYARD

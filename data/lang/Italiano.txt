@@ -127,7 +127,7 @@ WELCOME_TO_SOMEWHERE
 # blank
 # blank
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Benvenuto a bordo della nostra Stazione Spaziale. Abbiamo riscontrato episodi di vandalismo e attacchi di graffitari. Se trova che qualcuno dei nostri annunci pubblicitari sia deviante, errato o semplicemente mancante, La preghiamo di avvertire il personale di sicurezza.\n\nL'aria che respirate è, al momento, fornita gratuitamente.
+    Benvenuto a bordo della nostra Stazione Spaziale. Abbiamo riscontrato episodi di vandalismo e attacchi di graffitari. Se trova che qualcuno dei nostri annunci pubblicitari sia deviante, errato o semplicemente mancante, La preghiamo di avvertire il personale di sicurezza.\nL'aria che respirate è, al momento, fornita gratuitamente.
 REQUEST_LAUNCH
     Richiesta autorizzazione al lancio
 SHIPYARD
