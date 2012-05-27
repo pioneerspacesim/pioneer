@@ -127,7 +127,7 @@ WELCOME_TO_SOMEWHERE
 # write anything you like here. It will appear in every space station
 # in the whole galaxy.
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Saludos viajero.Y Bienvenido. Si es su primera visita no dude en conocer a los residentes. Esperamos que disfrute de su estancia. \n\nRecuerde que hay reformas en marcha, probablemente percibirá cambios entre visitas.
+    Saludos viajero.Y Bienvenido. Si es su primera visita no dude en conocer a los residentes. Esperamos que disfrute de su estancia.\nRecuerde que hay reformas en marcha, probablemente percibirá cambios entre visitas.
 REQUEST_LAUNCH
     Solicitar permiso para despegar
 SHIPYARD
