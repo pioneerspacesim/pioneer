@@ -10,15 +10,15 @@ Alpha 23
      * Fix redscreen hang
 
    * Script and model changes
-     * Lua updated to 5.2.0 (#1247, #1270)
+     * Lua updated to 5.2.0 (#1246)
      * Renamed Matrix and Vec classes to matrix and vector (#1245)
      * Renamed CustomSBody to CustomSystemBody (#1245)
-     * Removed global data from Lua crash dump
+     * Removed global data from Lua crash dump (#1272)
 
    * Internal changes
      * Fixed configure compiler warning tests for gcc and clang
      * Removed OOLua. Replaced uses of it with explicit Lua calls. Various
-     * other Lua-related cleanups and consistency fixes (#1245, #1247)
+     * other Lua-related cleanups and consistency fixes (#1245, #1246)
      * Move system generation and related classes under galaxy/ (#1245)
      * Renamed SBody to SystemBody, CustomSBody to CustomSystemBody (#1245)
 
