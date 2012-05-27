@@ -27,7 +27,6 @@ public:
 
 	// of Ms
 	float GetHeight() const { return m_height; }
-	float GetWidth() const { return m_width; }
 	float GetDescender() const { return m_descender; }
 	struct glfglyph_t {
 		float advx, advy;
@@ -46,7 +45,6 @@ private:
 
 	void AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float x, float y, const Color &color);
 	float m_height;
-	float m_width;
 	float m_descender;
 	int m_texSize, m_pixSize;
 	RefCountedPtr<Graphics::Texture> m_texture;

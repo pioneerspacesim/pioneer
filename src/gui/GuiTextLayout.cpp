@@ -2,8 +2,8 @@
 #include "text/TextSupport.h"
 #include "utils.h"
 
-#define LINE_SPACING      1.25f
-#define PARAGRAPH_SPACING 1.75f
+#define LINE_SPACING      1.5f
+#define PARAGRAPH_SPACING 2.0f
 
 namespace Gui {
 

@@ -9,7 +9,7 @@
 #include FT_GLYPH_H
 #include FT_STROKER_H
 
-#define PARAGRAPH_SPACING 1.5f
+#define PARAGRAPH_SPACING 2.0f;
 
 namespace Text {
 
@@ -20,7 +20,7 @@ void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float 
 	glfglyph_t *glyph = &m_glyphs[chr];
 
 	const float offx = x + float(glyph->offx);
-	const float offy = y + float(m_pixSize - glyph->offy);
+	const float offy = y + float(m_pixSize) - glyph->offy;
 	const float offU = glyph->offU;
 	const float offV = glyph->offV;
 	
@@ -37,17 +37,16 @@ void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float 
 
 void TextureFont::MeasureString(const char *str, float &w, float &h)
 {
-	w = 0;
-	h = GetHeight();
+	w = h = 0.0f;
 
-	float line_width = 0;
+	float line_width = 0.0f, line_height = 0.0f;
 
 	int i = 0;
 	while (str[i]) {
 		if (str[i] == '\n') {
 			if (line_width > w) w = line_width;
-			line_width = 0;
-			h += GetHeight()*PARAGRAPH_SPACING;
+			h += line_height;
+			line_width = line_height = 0.0f;
 			i++;
 		}
 		
@@ -57,7 +56,10 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 			assert(n);
 			i += n;
 
-			line_width += m_glyphs[chr].advx;
+			const glfglyph_t &glyph = m_glyphs[chr];
+
+			line_width += glyph.advx;
+			line_height = std::max(line_height, float(m_pixSize) - glyph.offy + glyph.texHeight);
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -75,7 +77,7 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 	}
 
 	if (line_width > w) w = line_width;
-	h += m_descender;
+	h += line_height;
 }
 
 void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &charX, float &charY) const
@@ -471,8 +473,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	if (outline)
 		FT_Stroker_Done(stroker);
 
-	m_height = float(a_height);
-	m_width = float(a_width);
+	m_height = float(m_face->height) / 64.f;
 	m_descender = -float(m_face->descender) / 64.f;
 }
 
