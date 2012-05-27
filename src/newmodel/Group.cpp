@@ -44,6 +44,23 @@ bool Group::RemoveChildAt(unsigned int idx)
 	return true;
 }
 
+Node* Group::FindNode(const std::string &name)
+{
+	if (m_name == name)
+		return this;
+
+	Node* result = 0;
+	for(std::vector<Node*>::iterator itr = m_children.begin();
+		itr != m_children.end();
+		++itr)
+	{
+		result = (*itr)->FindNode(name);
+		if (result) break;
+	}
+
+	return result;
+}
+
 void Group::Accept(NodeVisitor &nv)
 {
 	nv.ApplyGroup(*this);

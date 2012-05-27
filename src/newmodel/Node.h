@@ -25,6 +25,8 @@ public:
 	void SetName(const std::string &name) { m_name = name; }
 	const std::string &GetName() { return m_name; }
 
+	virtual Node* FindNode(const std::string &);
+
 protected:
 	//can only to be deleted using DecRefCount
 	virtual ~Node() { }
