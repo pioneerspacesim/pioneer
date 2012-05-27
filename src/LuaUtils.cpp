@@ -23,6 +23,15 @@ void pi_lua_table_ro(lua_State *l)
 	lua_setmetatable(l, -2);
 }
 
+static int l_handle_error(lua_State *L)
+{
+	lua_getfield(L, LUA_REGISTRYINDEX, "PiDebug");
+	lua_getfield(L, -1, "error_handler");
+	lua_pushvalue(L, 1);
+	lua_pcall(L, 1, 1, 0);
+	return 1;
+}
+
 int pi_lua_panic(lua_State *L)
 {
 	luaL_where(L, 0);
@@ -48,10 +57,8 @@ int pi_lua_panic(lua_State *L)
 
 void pi_lua_protected_call(lua_State* L, int nargs, int nresults) {
 	int handleridx = lua_gettop(L) - nargs;
-	lua_getfield(L, LUA_REGISTRYINDEX, "PiDebug");
-	lua_getfield(L, -1, "error_handler");
+	lua_pushcfunction(L, &l_handle_error);
 	lua_insert(L, handleridx);
-	lua_pop(L, 1); // pop PiDebug table
 	int ret = lua_pcall(L, nargs, nresults, handleridx);
 	lua_remove(L, handleridx); // pop error_handler
 	if (ret) {
