@@ -10,7 +10,7 @@ Line3D::Line3D()
 	m_points[1] = vector3f(0.f);
 	m_colors[0] = Color(0.f);
 	m_colors[1] = Color(1.f);
-	m_width     = 3.f;
+	m_width     = 2.f; // XXX bug in Radeon drivers will cause crash in glLineWidth if width >= 3
 }
 
 void Line3D::SetStart(const vector3f &s)
