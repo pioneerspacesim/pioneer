@@ -417,7 +417,7 @@ void Loader::FindPatterns(PatternContainer &output)
 	
 }
 
-Node *Loader::LoadMesh(const std::string &filename, const NModel *model, TagList &modelTags)
+Node *Loader::LoadMesh(const std::string &filename, NModel *model, TagList &modelTags)
 {
 	Assimp::Importer importer;
 	//assimp needs the data dir too...
@@ -442,7 +442,7 @@ Node *Loader::LoadMesh(const std::string &filename, const NModel *model, TagList
 	std::vector<Graphics::Surface*> surfaces;
 	ConvertAiMeshesToSurfaces(surfaces, scene, model);
 
-	Node *node = 0;
+	Node *node = 0; //XXX don't return a node, pass in the root (of the current LOD, not model root)
 
 	if (!scene->HasAnimations()) {
 		//XXX putting everything in one static mesh
@@ -467,6 +467,10 @@ Node *Loader::LoadMesh(const std::string &filename, const NModel *model, TagList
 		ConvertNodes(scene->mRootNode, group, surfaces);
 		node = group;
 	}
+
+	m_root = node;
+
+	ConvertAnimations(scene, model);
 
 	//try to figure out tag points, in case we happen to use an
 	//advanced file format (collada)
@@ -535,6 +539,31 @@ void Loader::ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*> &surfaces
 		}
 
 		surfaces.push_back(surface);
+	}
+}
+
+void Loader::ConvertAnimations(const aiScene* scene, NModel *model)
+{
+	std::vector<Animation*> &animations = model->m_animations;
+
+	for (unsigned int i=0; i<scene->mNumAnimations; i++) {
+		const aiAnimation* aianim = scene->mAnimations[i];
+		const std::string animname(aianim->mName.C_Str());
+		Animation *animation = new Animation(animname.empty() ? "wiggle" : animname);
+		for (unsigned int j=0; j<aianim->mNumChannels; j++) {
+			aiNodeAnim *aichan = aianim->mChannels[j];
+			const std::string channame(aichan->mNodeName.C_Str());
+			MatrixTransform *trans = dynamic_cast<MatrixTransform*>(m_root->FindNode(channame));
+			assert(trans);
+			animation->channels.push_back(AnimationChannel(trans));
+			AnimationChannel &chan = animation->channels.back();
+			for(unsigned int k=0; k<aichan->mNumPositionKeys; k++) {
+				const aiVectorKey &aikey = aichan->mPositionKeys[k];
+				const aiVector3D &aipos = aikey.mValue;
+				chan.positionKeys.push_back(PositionKey(aikey.mTime, vector3f(aipos.x, aipos.y, aipos.z)));
+			}
+		}
+		animations.push_back(animation);
 	}
 }
 
