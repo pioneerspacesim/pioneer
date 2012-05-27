@@ -9,8 +9,6 @@
 #include FT_GLYPH_H
 #include FT_STROKER_H
 
-#define PARAGRAPH_SPACING 2.0f;
-
 namespace Text {
 
 int TextureFont::s_glyphCount = 0;
@@ -20,7 +18,7 @@ void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float 
 	glfglyph_t *glyph = &m_glyphs[chr];
 
 	const float offx = x + float(glyph->offx);
-	const float offy = y + float(m_pixSize) - glyph->offy;
+	const float offy = y + float(m_pixSize - glyph->offy);
 	const float offU = glyph->offU;
 	const float offV = glyph->offV;
 	
@@ -84,7 +82,7 @@ void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &cha
 {
 	assert(str && (charIndex >= 0));
 
-	const float lineSpacing = GetHeight()*PARAGRAPH_SPACING;
+	const float lineSpacing = GetHeight()*GetLineSpacing();
 	float x = 0.0f, y = GetHeight();
 	int i = 0;
 	Uint32 chr;
@@ -135,7 +133,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 	// chr1: the Unicode value of the character being tested
 	// chr2: the Unicode value of the next character
 
-	const float lineSpacing = GetHeight()*PARAGRAPH_SPACING;
+	const float lineSpacing = GetHeight()*GetLineSpacing();
 	Uint32 chr2 = '\n'; // pretend we've just had a new line
 	float bottom = GetHeight() - lineSpacing, x = 0.0f;
 	int i2 = 0, charBytes = 0;
@@ -191,7 +189,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 	while (str[i]) {
 		if (str[i] == '\n') {
 			px = x;
-			py += GetHeight()*PARAGRAPH_SPACING;
+			py += GetHeight()*GetLineSpacing();
 			i++;
 		}
 		
@@ -249,7 +247,7 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 
 		if (str[i] == '\n') {
 			px = x;
-			py += GetHeight()*PARAGRAPH_SPACING;
+			py += GetHeight()*GetLineSpacing();
 			i++;
 		}
 		
