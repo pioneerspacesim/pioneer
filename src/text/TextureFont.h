@@ -25,6 +25,9 @@ public:
 	void MeasureCharacterPos(const char *str, int charIndex, float &x, float &y) const;
 	int PickCharacter(const char *str, float mouseX, float mouseY) const;
 
+	// line spacing in M heights
+	float GetLineSpacing() const { return 1.5f; }
+
 	// of Ms
 	float GetHeight() const { return m_height; }
 	float GetDescender() const { return m_descender; }
