@@ -9,7 +9,7 @@
 #include FT_GLYPH_H
 #include FT_STROKER_H
 
-#define PARAGRAPH_SPACING 1.5f
+#define PARAGRAPH_SPACING 2.0f;
 
 namespace Text {
 
