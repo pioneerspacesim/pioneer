@@ -20,7 +20,7 @@ void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float 
 	glfglyph_t *glyph = &m_glyphs[chr];
 
 	const float offx = x + float(glyph->offx);
-	const float offy = y + float(m_pixSize - glyph->offy);
+	const float offy = y + float(m_pixSize) - glyph->offy;
 	const float offU = glyph->offU;
 	const float offV = glyph->offV;
 	
@@ -59,7 +59,7 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 			const glfglyph_t &glyph = m_glyphs[chr];
 
 			line_width += glyph.advx;
-			line_height = std::max(line_height, glyph.offy + glyph.texHeight);
+			line_height = std::max(line_height, float(m_pixSize) - glyph.offy + glyph.texHeight);
 
 			if (str[i]) {
 				Uint32 chr2;
