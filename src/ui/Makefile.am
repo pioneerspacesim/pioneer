@@ -19,6 +19,7 @@ noinst_HEADERS = \
 	DropDown.h \
 	Event.h \
 	EventDispatcher.h \
+	FloatContainer.h \
 	Grid.h \
 	Image.h \
 	Label.h \
@@ -42,6 +43,7 @@ libui_a_SOURCES = \
 	Context.cpp \
 	DropDown.cpp \
 	EventDispatcher.cpp \
+	FloatContainer.cpp \
 	Grid.cpp \
 	Image.cpp \
 	Label.cpp \

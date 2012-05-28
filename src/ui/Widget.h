@@ -274,6 +274,8 @@ private:
 	friend class Context;
 	void SetSize(const vector2f &size) { m_size = size; SetActiveArea(size); }
 
+	// FloatContainer needs to change floating state
+	friend class FloatContainer;
 	void SetFloating(bool floating) { m_floating = floating; }
 
 	Context *m_context;

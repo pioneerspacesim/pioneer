@@ -8,6 +8,7 @@
 #include "Skin.h"
 
 #include "Widget.h"
+#include "FloatContainer.h"
 
 #include "Margin.h"
 #include "Background.h"
@@ -84,8 +85,8 @@ public:
 	UI::DropDown *DropDown() { return new UI::DropDown(this); }
 
 	// add a floating widget
-	Context *AddFloatingWidget(Widget *w, const vector2f &pos, const vector2f &size);
-	Context *RemoveFloatingWidget(Widget *w);
+	Context *AddFloatingWidget(Widget *w, const vector2f &pos, const vector2f &size) { m_float->AddWidget(w, pos, size); return this; }
+	Context *RemoveFloatingWidget(Widget *w) { m_float->RemoveWidget(w); return this; }
 
 	// considers floating widgets also
 	virtual Widget *GetWidgetAtAbsolute(const vector2f &pos);
@@ -107,7 +108,7 @@ private:
 	float m_width;
 	float m_height;
 
-	std::vector<Widget*> m_floatWidgets;
+	ScopedPtr<FloatContainer> m_float;
 
 	EventDispatcher m_eventDispatcher;
 	Skin m_skin;

@@ -241,7 +241,6 @@ int main(int argc, char **argv)
 	}
 #endif
 
-#if 0
 	UI::DropDown *dropdown;
 	UI::List *list;
 	c->SetInnerWidget(
@@ -268,7 +267,6 @@ int main(int argc, char **argv)
 	);
 	dropdown->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
-#endif
 
 #if 0
 	c->SetInnerWidget(
@@ -330,6 +328,7 @@ int main(int argc, char **argv)
 	clear->onClick.connect(sigc::bind(sigc::ptr_fun(&clear_dropdown), dropdown));
 #endif
 
+#if 0
 	c->SetInnerWidget(
 		c->VBox()->PackEnd(UI::WidgetSet(
 			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_XSMALL),
@@ -339,6 +338,7 @@ int main(int argc, char **argv)
 			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_XLARGE)
 		), UI::Box::ChildAttrs(false, false))
 	);
+#endif
 
 	c->Layout();
 
