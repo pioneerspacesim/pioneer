@@ -38,7 +38,7 @@ private:
 	bool HandlePopupClick();
 	void TogglePopup();
 
-	List *m_popup;
+	RefCountedPtr<List> m_popup;
 	bool m_popupActive;
 };
 

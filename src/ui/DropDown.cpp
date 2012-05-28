@@ -7,7 +7,7 @@ namespace UI {
 
 DropDown::DropDown(Context *context) : Widget(context), m_textWidth(0.0f), m_popupActive(false)
 {
-	m_popup = GetContext()->List();
+	m_popup.Reset(GetContext()->List());
 	m_popup->onOptionSelected.connect(sigc::mem_fun(onOptionSelected, &sigc::signal<void,unsigned int,const std::string &>::emit));
 	m_popup->onClick.connect(sigc::mem_fun(this, &DropDown::HandlePopupClick));
 }
@@ -74,13 +74,13 @@ void DropDown::TogglePopup()
 	Context *c = GetContext();
 
 	if (m_popupActive) {
-		c->RemoveFloatingWidget(m_popup);
+		c->RemoveFloatingWidget(m_popup.Get());
 		m_popupActive = false;
 	}
 
 	else {
 		const vector2f pos(GetAbsolutePosition() + vector2f(0, m_backgroundSize.y));
-		c->AddFloatingWidget(m_popup, pos, m_popup->PreferredSize());
+		c->AddFloatingWidget(m_popup.Get(), pos, m_popup->PreferredSize());
 		m_popupActive = true;
 	}
 
