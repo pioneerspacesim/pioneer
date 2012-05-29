@@ -307,7 +307,7 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 	{
 		//does a detail level have multiple meshes? If so, we need a Group.
 		Group *group = 0;
-		if ((*lod).meshNames.size() > 1) {
+		if (lodNode && (*lod).meshNames.size() > 1) {
 			group = new Group();
 			lodNode->AddLevel((*lod).pixelSize, group);
 		}
