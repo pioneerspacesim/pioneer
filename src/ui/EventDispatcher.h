@@ -2,6 +2,7 @@
 #define _UI_EVENTDISPATCHER_H
 
 #include "Event.h"
+#include <map>
 
 namespace UI {
 
@@ -15,12 +16,19 @@ public:
 	bool Dispatch(const Event &event);
 	bool DispatchSDLEvent(const SDL_Event &event);
 
+	void AddShortcut(const KeySym &keysym, Widget *target);
+	void RemoveShortcut(const KeySym &keysym);
+	void ClearShortcuts();
+
 private:
 	void DispatchMouseOverOut(Widget *target, const vector2f &mousePos);
 
 	Container *m_baseContainer;
 	Widget *m_mouseActiveReceiver;;
 	Widget *m_lastMouseOverTarget;
+
+	typedef std::map<KeySym,Widget*> ShortcutMap;
+	ShortcutMap m_shortcuts;
 };
 
 }

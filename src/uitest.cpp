@@ -203,7 +203,6 @@ int main(int argc, char **argv)
 	);
 #endif
 
-#if 0
 	UI::ColorBackground *back[4];
 	UI::Button *button[5];
 	c->SetInnerWidget(
@@ -239,8 +238,9 @@ int main(int argc, char **argv)
 		button[i]->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), button[i]));
 		button[i]->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), button[i]));
 	}
-#endif
+    c->AddShortcut(UI::KeySym(SDLK_a, KMOD_LCTRL), button[0]);
 
+#if 0
 	UI::DropDown *dropdown;
 	UI::List *list;
 	c->SetInnerWidget(
@@ -267,6 +267,7 @@ int main(int argc, char **argv)
 	);
 	dropdown->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
+#endif
 
 #if 0
 	c->SetInnerWidget(

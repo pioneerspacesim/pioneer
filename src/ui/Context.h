@@ -53,10 +53,6 @@ class Context : public Single {
 public:
 	Context(Graphics::Renderer *renderer, int width, int height);
 
-	// event dispatch delegates
-	bool Dispatch(const Event &event) { return m_eventDispatcher.Dispatch(event); }
-	bool DispatchSDLEvent(const SDL_Event &event) { return m_eventDispatcher.DispatchSDLEvent(event); }
-
 	// general purpose containers
 	UI::HBox *HBox(float spacing = 0.0f) { return new UI::HBox(this, spacing); }
 	UI::VBox *VBox(float spacing = 0.0f) { return new UI::VBox(this, spacing); }
@@ -90,6 +86,14 @@ public:
 
 	// considers floating widgets also
 	virtual Widget *GetWidgetAtAbsolute(const vector2f &pos);
+
+	// event dispatch delegates
+	bool Dispatch(const Event &event) { return m_eventDispatcher.Dispatch(event); }
+	bool DispatchSDLEvent(const SDL_Event &event) { return m_eventDispatcher.DispatchSDLEvent(event); }
+
+	void AddShortcut(const KeySym &keysym, Widget *target) { m_eventDispatcher.AddShortcut(keysym, target); }
+	void RemoveShortcut(const KeySym &keysym) { m_eventDispatcher.RemoveShortcut(keysym); }
+	void ClearShortcuts() { m_eventDispatcher.ClearShortcuts(); }
 
 	virtual void Layout();
 	virtual void Update();

@@ -29,6 +29,19 @@ protected:
 	Event(Type _type) : type(_type) {}
 };
 
+struct KeySym {
+	KeySym(const SDLKey &_sym, const SDLMod &_mod, const Uint16 _unicode) : sym(_sym), mod(_mod), unicode(_unicode) {}
+	KeySym(const SDLKey &_sym, const SDLMod &_mod) : sym(_sym), mod(_mod), unicode(0) {}
+	KeySym(const SDLKey &_sym) : sym(_sym), mod(KMOD_NONE), unicode(0) {}
+	const SDLKey sym;
+	const SDLMod mod;
+	const Uint16 unicode;
+
+	bool operator<(const KeySym &b) const {
+		return sym < b.sym || (sym == b.sym && mod < b.mod);
+	}
+};
+
 // data for various events
 class KeyboardEvent : public Event {
 public:
@@ -36,9 +49,9 @@ public:
 		KEY_DOWN,
 		KEY_UP
 	};
-	KeyboardEvent(Action _action, SDL_keysym _keysym) : Event(Event::KEYBOARD), action(_action), keysym(_keysym) {}
+	KeyboardEvent(Action _action, const KeySym &_keysym) : Event(Event::KEYBOARD), action(_action), keysym(_keysym) {}
 	const Action action;
-	const SDL_keysym keysym;
+	const KeySym keysym;
 };
 
 class MouseEvent : public Event {
