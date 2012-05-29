@@ -450,6 +450,16 @@ Node *Loader::LoadMesh(const std::string &filename, NModel *model, TagList &mode
 		//create the appropriate nodes (staticgeometry parented to matrixtransforms for animated nodes)
 		StaticGeometry *geom = new StaticGeometry();
 		Graphics::StaticMesh *smesh = geom->GetMesh();
+		node = geom;
+
+		//the entire mesh might be translated, the usual case is 90 deg X rotation
+		MatrixTransform *trans = 0;
+		if (!scene->mRootNode->mTransformation.IsIdentity()) {
+			matrix4x4f m = ConvertMatrix(scene->mRootNode->mTransformation);
+			trans = new MatrixTransform(m);
+			trans->AddChild(geom);
+			node = trans;
+		}
 
 		//update bounding box
 		for (unsigned int i=0; i<surfaces.size(); i++) {
@@ -461,7 +471,6 @@ Node *Loader::LoadMesh(const std::string &filename, NModel *model, TagList &mode
 			}
 			smesh->AddSurface(surf);
 		}
-		node = geom;
 	} else {
 		Group *group = new Group;
 		ConvertNodes(scene->mRootNode, group, surfaces);

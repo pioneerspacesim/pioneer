@@ -23,6 +23,7 @@ void StaticGeometry::Accept(NodeVisitor &nv)
 
 void StaticGeometry::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
 {
+	r->SetTransform(trans);
 	r->DrawStaticMesh(GetMesh());
 	if (rd->drawBoundingBoxes)
 		DrawBoundingBox(r, m_boundingBox);
