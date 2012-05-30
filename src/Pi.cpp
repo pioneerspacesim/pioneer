@@ -1173,8 +1173,10 @@ void Pi::Start()
 		)
 	);
 
-	for (int i = 0; i < NUM_OPTIONS; i++)
+	for (int i = 0; i < NUM_OPTIONS; i++) {
 		buttons[i]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuOption), i));
+		ui->AddShortcut(SDLKey(SDLK_1+i), buttons[i]);
+	}
 
 #if 0
 	Gui::Fixed *menu = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
