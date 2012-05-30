@@ -1159,17 +1159,17 @@ void Pi::Start()
 					ui->VBox()->PackEnd(UI::WidgetSet(
 						ui->Label("Pioneer"),
 						ui->Label(version)
-					), UI::Box::ChildAttrs(false, false))
-				), UI::Box::ChildAttrs(false, false)),
+					))
+				)),
 				ui->VBox()->PackEnd(UI::WidgetSet(
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[0] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_EARTH)), UI::Box::ChildAttrs(false, false)),
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[1] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_E_ERIDANI)), UI::Box::ChildAttrs(false, false)),
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[2] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_LAVE)), UI::Box::ChildAttrs(false, false)),
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[3] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_DEBUG)), UI::Box::ChildAttrs(false, false)),
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[4] = ui->Button(), ui->Label(Lang::MM_LOAD_SAVED_GAME)), UI::Box::ChildAttrs(false, false)),
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[5] = ui->Button(), ui->Label(Lang::MM_QUIT)), UI::Box::ChildAttrs(false, false))
-				), UI::Box::ChildAttrs(false, false))
-			), UI::Box::ChildAttrs(false, false))
+					ui->HBox()->PackEnd(UI::WidgetSet(buttons[0] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_EARTH))),
+					ui->HBox()->PackEnd(UI::WidgetSet(buttons[1] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_E_ERIDANI))),
+					ui->HBox()->PackEnd(UI::WidgetSet(buttons[2] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_LAVE))),
+					ui->HBox()->PackEnd(UI::WidgetSet(buttons[3] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_DEBUG))),
+					ui->HBox()->PackEnd(UI::WidgetSet(buttons[4] = ui->Button(), ui->Label(Lang::MM_LOAD_SAVED_GAME))),
+					ui->HBox()->PackEnd(UI::WidgetSet(buttons[5] = ui->Button(), ui->Label(Lang::MM_QUIT)))
+				))
+			))
 		)
 	);
 

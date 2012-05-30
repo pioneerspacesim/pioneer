@@ -79,10 +79,10 @@ void Box::Layout()
 			float allocation = sizeRemaining / candidates;
 
 			for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-				if (!(*i).attrs.expand) continue;
+				if (!(*i).flags & BOX_EXPAND) continue;
 
 				float amountAdded;
-				if (!(*i).attrs.fill) {
+				if (!(*i).flags & BOX_FILL) {
 					(*i).padding += allocation * 0.5;
 					amountAdded = allocation;
 				}
@@ -114,36 +114,36 @@ void Box::RequestResize()
 	Container::RequestResize();
 }
 
-Box *Box::PackStart(Widget *widget, const ChildAttrs &attrs)
+Box *Box::PackStart(Widget *widget, Uint32 flags)
 {
 	AddWidget(widget);
-	m_children.push_front(Child(widget, attrs));
-	if (attrs.expand) m_countExpanded++;
+	m_children.push_front(Child(widget, flags));
+	if (flags & BOX_EXPAND) m_countExpanded++;
 	if (GetContainer()) GetContainer()->RequestResize();
 	return this;
 }
 
-Box *Box::PackStart(const WidgetSet &set, const ChildAttrs &attrs)
+Box *Box::PackStart(const WidgetSet &set, Uint32 flags)
 {
 	for (int i = 0; i < set.numWidgets; ++i)
-		PackStart(set.widgets[i], attrs);
+		PackStart(set.widgets[i], flags);
 	if (GetContainer()) GetContainer()->RequestResize();
 	return this;
 }
 
-Box *Box::PackEnd(Widget *widget, const ChildAttrs &attrs)
+Box *Box::PackEnd(Widget *widget, Uint32 flags)
 {
 	AddWidget(widget);
-	m_children.push_back(Child(widget, attrs));
-	if (attrs.expand) m_countExpanded++;
+	m_children.push_back(Child(widget, flags));
+	if (flags & BOX_EXPAND) m_countExpanded++;
 	if (GetContainer()) GetContainer()->RequestResize();
 	return this;
 }
 
-Box *Box::PackEnd(const WidgetSet &set, const ChildAttrs &attrs)
+Box *Box::PackEnd(const WidgetSet &set, Uint32 flags)
 {
 	for (int i = 0; i < set.numWidgets; ++i)
-		PackEnd(set.widgets[i], attrs);
+		PackEnd(set.widgets[i], flags);
 	if (GetContainer()) GetContainer()->RequestResize();
 	return this;
 }

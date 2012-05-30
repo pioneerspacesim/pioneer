@@ -120,8 +120,8 @@ int main(int argc, char **argv)
 			),
             c->Margin(10.0f)->SetInnerWidget(
                 (b3 = c->Button())->SetInnerWidget(c->Label("PEW PEW"))
-            )), UI::Box::ChildAttrs(false, false)
-		)
+            )
+		))
 	);
 
 	b1->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), b1));
@@ -150,7 +150,7 @@ int main(int argc, char **argv)
 							c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
 							(image = c->Image("icons/object_star_g.png")),
 							c->Image("icons/object_star_m.png")
-						)),
+						), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL),
 						c->ColorBackground(Color(1.0f, 0.0f, 0.0f, 1.0f)),
 						c->ColorBackground(Color(0.0f, 1.0f, 0.0f, 1.0f)),
 						c->ColorBackground(Color(0.0f, 0.0f, 1.0f, 1.0f)),
@@ -159,10 +159,10 @@ int main(int argc, char **argv)
 							c->Button()->SetInnerWidget(c->Label("Load game")),
 							c->Button()->SetInnerWidget(c->Label("Save game")),
 							c->Button()->SetInnerWidget(c->Label("Win game"))
-						), UI::Box::ChildAttrs(false, true))->PackEnd(
-							(slider = c->HSlider()), UI::Box::ChildAttrs(true, true)
+						))->PackEnd(
+							(slider = c->HSlider()), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL
 						)
-					))
+					), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
 				)
 			)
 		)
@@ -177,10 +177,10 @@ int main(int argc, char **argv)
 	UI::ColorBackground *back;
 	c->SetInnerWidget(
 		c->VBox(5.0f)->PackEnd(UI::WidgetSet(
-			c->HBox(5.0f)->PackEnd(c->Label("Red"), UI::Box::ChildAttrs(false))->PackEnd(red = c->HSlider()),
-			c->HBox(5.0f)->PackEnd(c->Label("Green"), UI::Box::ChildAttrs(false))->PackEnd(green = c->HSlider()),
-			c->HBox(5.0f)->PackEnd(c->Label("Blue"), UI::Box::ChildAttrs(false))->PackEnd(blue = c->HSlider())
-		), UI::Box::ChildAttrs(false))->PackEnd(back = c->ColorBackground(Color()))
+			c->HBox(5.0f)->PackEnd(c->Label("Red"))->PackEnd(red = c->HSlider(), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL),
+			c->HBox(5.0f)->PackEnd(c->Label("Green"))->PackEnd(green = c->HSlider(), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL),
+			c->HBox(5.0f)->PackEnd(c->Label("Blue"))->PackEnd(blue = c->HSlider(), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
+		))->PackEnd(back = c->ColorBackground(Color()), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
 	);
 
 	red->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
@@ -203,6 +203,7 @@ int main(int argc, char **argv)
 	);
 #endif
 
+#if 0
 	UI::ColorBackground *back[4];
 	UI::Button *button[5];
 	c->SetInnerWidget(
@@ -239,6 +240,7 @@ int main(int argc, char **argv)
 		button[i]->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), button[i]));
 	}
     c->AddShortcut(UI::KeySym(SDLK_a, KMOD_LCTRL), button[0]);
+#endif
 
 #if 0
 	UI::DropDown *dropdown;
@@ -255,7 +257,7 @@ int main(int argc, char **argv)
 			c->HBox()->PackEnd(UI::WidgetSet(
 				c->CheckBox(),
 				c->Label("Please add me to your mailing list")
-			), UI::Box::ChildAttrs(false, false)),
+			)),
 			c->Margin(10.0f)->SetInnerWidget(
 				(list = c->List()
 					->AddOption("foo")
@@ -263,7 +265,7 @@ int main(int argc, char **argv)
 					->AddOption("baz")
 					->AddOption("qwop"))
 			)
-		), UI::Box::ChildAttrs(false, false))
+		))
 	);
 	dropdown->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
@@ -302,7 +304,7 @@ int main(int argc, char **argv)
 	UI::Label *label;
 	UI::Slider *slider;
 	c->SetInnerWidget(
-		c->HBox(5.0f)->PackEnd(label = c->Label(""), UI::Box::ChildAttrs(false))->PackEnd(slider = c->HSlider())
+		c->HBox(5.0f)->PackEnd(label = c->Label(""))->PackEnd(slider = c->HSlider(), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
 	);
 	slider->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&fill_label), label));
 #endif
@@ -316,20 +318,19 @@ int main(int argc, char **argv)
 				c->HBox()->PackEnd(UI::WidgetSet(
 					(add = c->Button()),
 					c->Label("Add")
-				), UI::Box::ChildAttrs(false, false)),
+				)),
 				c->HBox()->PackEnd(UI::WidgetSet(
 					(clear = c->Button()),
 					c->Label("Clear")
-				), UI::Box::ChildAttrs(false, false)),
+				)),
 				(dropdown = c->DropDown())
-			), UI::Box::ChildAttrs(false, false))
+			))
 		)
 	);
 	add->onClick.connect(sigc::bind(sigc::ptr_fun(&add_dropdown_option), dropdown));
 	clear->onClick.connect(sigc::bind(sigc::ptr_fun(&clear_dropdown), dropdown));
 #endif
 
-#if 0
 	c->SetInnerWidget(
 		c->VBox()->PackEnd(UI::WidgetSet(
 			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_XSMALL),
@@ -337,9 +338,8 @@ int main(int argc, char **argv)
 			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_NORMAL),
 			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_LARGE),
 			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_XLARGE)
-		), UI::Box::ChildAttrs(false, false))
+		))
 	);
-#endif
 
 	c->Layout();
 
