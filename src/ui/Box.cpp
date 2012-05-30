@@ -152,6 +152,7 @@ void Box::Remove(Widget *widget)
 {
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i)
 		if ((*i).widget == widget) {
+			if ((*i).flags & BOX_EXPAND) m_countExpanded--;
 			m_children.erase(i);
 			RemoveWidget(widget);
 			if (GetContainer()) GetContainer()->RequestResize();
@@ -162,6 +163,7 @@ void Box::Remove(Widget *widget)
 void Box::Clear()
 {
 	m_children.clear();
+	m_countExpanded = 0;
 	Container::RemoveAllWidgets();
 	if (GetContainer()) GetContainer()->RequestResize();
 }
