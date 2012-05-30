@@ -78,7 +78,7 @@ void LuaEngine::Register()
 
 	lua_setmetatable(l, -2);
 
-	lua_setfield(l, LUA_GLOBALSINDEX, "Engine");
+	lua_setglobal(l, "Engine");
 	
 	LUA_DEBUG_END(l, 0);
 }

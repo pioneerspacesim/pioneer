@@ -13,7 +13,7 @@
 #include "SystemInfoView.h"
 #include "WorldView.h"
 #include "ObjectViewerView.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "SpaceStation.h"
 #include "SpaceStationView.h"
 #include "CargoBody.h"
@@ -23,12 +23,12 @@
 #include "Sound.h"
 #include "Polit.h"
 #include "GalacticView.h"
-#include "Galaxy.h"
+#include "galaxy/Galaxy.h"
 #include "GameMenuView.h"
 #include "Missile.h"
 #include "LmrModel.h"
 #include "AmbientSounds.h"
-#include "CustomSystem.h"
+#include "galaxy/CustomSystem.h"
 #include "CityOnPlanet.h"
 #include "LuaManager.h"
 #include "LuaBody.h"
@@ -40,7 +40,7 @@
 #include "LuaCargoBody.h"
 #include "LuaStarSystem.h"
 #include "LuaSystemPath.h"
-#include "LuaSBody.h"
+#include "LuaSystemBody.h"
 #include "LuaShipType.h"
 #include "LuaEquipType.h"
 #include "LuaChatForm.h"
@@ -69,6 +69,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "SDLWrappers.h"
+#include "ModManager.h"
 #include <fstream>
 
 float Pi::gameTickAlpha;
@@ -200,7 +201,7 @@ static void LuaInit()
 	LuaCargoBody::RegisterClass();
 	LuaStarSystem::RegisterClass();
 	LuaSystemPath::RegisterClass();
-	LuaSBody::RegisterClass();
+	LuaSystemBody::RegisterClass();
 	LuaShipType::RegisterClass();
 	LuaEquipType::RegisterClass();
 	LuaRand::RegisterClass();
@@ -270,8 +271,6 @@ static void LuaInit()
 	LuaMusic::Register();
 
 	LuaConsole::Register();
-
-	pi_lua_dofile(l, "pistartup.lua");
 
 	// XXX load everything. for now, just modules
 	pi_lua_dofile_recursive(l, "libs");
@@ -385,6 +384,8 @@ void Pi::Init()
 {
 	FileSystem::Init();
 	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
+
+	ModManager::Init();
 
 	Pi::config = new GameConfig(FileSystem::JoinPath(FileSystem::GetUserDir(), "config.ini"));
 	KeyBindings::InitBindings();

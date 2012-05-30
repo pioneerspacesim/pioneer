@@ -124,7 +124,7 @@ BULLETIN_BOARD
 WELCOME_TO_SOMEWHERE
     Willkommen auf %station
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Willkommen Reisende. Es gibt Vorfälle von Vandalismus und Schmierereien an Bord unserer Station. Falls die Beschilderung irreführend oder fehlerhaft beschriftet ist oder schlicht fehlt, wenden Sie sich bitte an das Stationspersonal. Wir halten zahlreiche Dienstleistungsangebote für Sie bereit.\n\nDie Atemluft ist zurzeit kostenlos.
+    Willkommen Reisende. Es gibt Vorfälle von Vandalismus und Schmierereien an Bord unserer Station. Falls die Beschilderung irreführend oder fehlerhaft beschriftet ist oder schlicht fehlt, wenden Sie sich bitte an das Stationspersonal. Wir halten zahlreiche Dienstleistungsangebote für Sie bereit.\nDie Atemluft ist zurzeit kostenlos.
 REQUEST_LAUNCH
     Starterlaubnis anfordern
 SHIPYARD

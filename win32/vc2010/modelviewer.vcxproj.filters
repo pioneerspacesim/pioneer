@@ -45,9 +45,6 @@
     <ClCompile Include="..\..\src\LuaModelViewer.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\MyLuaMathTypes.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\perlin.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -204,9 +201,6 @@
     <ClCompile Include="..\..\src\FontCache.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Font.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\CRC32.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -224,6 +218,21 @@
     </ClCompile>
     <ClCompile Include="..\..\src\text\VectorFont.cpp">
       <Filter>src\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ModManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\FileSourceZip.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaFixed.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaMatrix.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaVector.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -255,9 +264,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\matrix4x4.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\MyLuaMathTypes.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\perlin.h">
@@ -460,6 +466,21 @@
     </ClInclude>
     <ClInclude Include="..\..\src\text\VectorFont.h">
       <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ModManager.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FileSourceZip.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaVector.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaFixed.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaMatrix.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

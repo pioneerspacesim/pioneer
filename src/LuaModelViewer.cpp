@@ -7,6 +7,7 @@
 #include "Ship.h" // for the flight state and ship animation enums
 #include "SpaceStation.h" // for the space station animation enums
 #include "FileSystem.h"
+#include "ModManager.h"
 #include "graphics/Drawables.h"
 #include "graphics/Material.h"
 #include "graphics/Graphics.h"
@@ -185,7 +186,10 @@ public:
 			
 			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"),
 					200, Gui::Screen::GetHeight()-140.0f);
+
 			for (int i=0; i<LMR_ARG_MAX; i++) {
+				m_anim[i] = 0;
+
 				float x = float(200+i*25);
 				float w = 32.0f;
 				if (x >= Gui::Screen::GetWidth()-w)
@@ -221,7 +225,10 @@ public:
 	}
 
 	void OnResetAdjustments() {
-		for (int i=0; i<LMR_ARG_MAX; i++) m_anim[i]->SetValue(0);
+		for (int i=0; i<LMR_ARG_MAX; i++) {
+			if(m_anim[i])
+				m_anim[i]->SetValue(0);
+		}
 		for (int i=0; i<3; i++) {
 			m_linthrust[i]->SetValue(0.5);
 			m_angthrust[i]->SetValue(0.5);
@@ -698,6 +705,8 @@ int main(int argc, char **argv)
 	}
 
 	FileSystem::Init();
+	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
+	ModManager::Init();
 
 	const SDL_VideoInfo *info = NULL;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {

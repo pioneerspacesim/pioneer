@@ -8,6 +8,8 @@
 #include "BufferObject.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
+#include "LuaMatrix.h"
+#include "LuaVector.h"
 #include "EquipType.h"
 #include "EquipSet.h"
 #include "ShipType.h"
@@ -599,7 +601,9 @@ public:
 	}
 	void SetTexture(const char *tex) {
 		if (tex) {
-			curTexture = new std::string(tex);
+			if (!curTexture || (*curTexture != tex)) {
+				curTexture = new std::string(tex);
+			}
 		} else {
 			curTexture = 0;
 			curGlowmap = 0; //won't have these without textures
@@ -607,7 +611,9 @@ public:
 	}
 	void SetGlowMap(const char *tex) {
 		if (tex) {
-			curGlowmap = new std::string(tex);
+			if (!curGlowmap || (*curGlowmap != tex)) {
+				curGlowmap = new std::string(tex);
+			}
 		} else {
 			curGlowmap = 0;
 		}
@@ -806,7 +812,9 @@ private:
 	}
 
 	void OpDrawElements(int numIndices) {
-		if ((curOp.type != OP_DRAW_ELEMENTS) || (curOp.elems.textureFile != curTexture)) {
+		if ((curOp.type != OP_DRAW_ELEMENTS) ||
+				(curOp.elems.textureFile != curTexture) ||
+				(curOp.elems.glowmapFile != curGlowmap)) {
 			if (curOp.type) m_ops.push_back(curOp);
 			curOp.type = OP_DRAW_ELEMENTS;
 			curOp.elems.start = m_indices.size();
@@ -869,6 +877,7 @@ public:
 		int numTriflags = m_triflags.size();
 		int numThrusters = m_thrusters.size();
 		int numOps = m_ops.size();
+		assert(numOps < 1000);
 		fwrite(&numVertices, sizeof(numVertices), 1, f);
 		fwrite(&numIndices, sizeof(numIndices), 1, f);
 		fwrite(&numTriflags, sizeof(numTriflags), 1, f);
@@ -1073,7 +1082,7 @@ rebuild_model:
 			s_curBuf = m_staticGeometry[i];
 			lua_pushcfunction(sLua, pi_lua_panic);
 			// call model static building function
-			lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_static").c_str());
+			lua_getglobal(sLua, (m_name+"_static").c_str());
 			// lod as first argument
 			lua_pushnumber(sLua, i+1);
 			lua_pcall(sLua, 1, 0, -3);
@@ -1258,7 +1267,7 @@ void LmrModel::Build(int lod, const LmrObjParams *params)
 		s_curParams = params;
 		lua_pushcfunction(sLua, pi_lua_panic);
 		// call model dynamic bits
-		lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_dynamic").c_str());
+		lua_getglobal(sLua, (m_name+"_dynamic").c_str());
 		// lod as first argument
 		lua_pushnumber(sLua, lod+1);
 		lua_pcall(sLua, 1, 0, -3);
@@ -1362,19 +1371,19 @@ namespace ModelFuncs {
 		if (!m) {
 			luaL_error(L, "call_model() to undefined model '%s'. Referenced model must be registered before calling model", obj_name);
 		} else {
-			const vector3f *pos = MyLuaVec::checkVec(L, 2);
-			const vector3f *_xaxis = MyLuaVec::checkVec(L, 3);
-			const vector3f *_yaxis = MyLuaVec::checkVec(L, 4);
+			const vector3f pos = LuaVector::CheckFromLuaF(L, 2);
+			const vector3f _xaxis = LuaVector::CheckFromLuaF(L, 3);
+			const vector3f _yaxis = LuaVector::CheckFromLuaF(L, 4);
 			float scale = luaL_checknumber(L, 5);
 
-			vector3f zaxis = _xaxis->Cross(*_yaxis).Normalized();
-			vector3f xaxis = _yaxis->Cross(zaxis).Normalized();
+			vector3f zaxis = _xaxis.Cross(_yaxis).Normalized();
+			vector3f xaxis = _yaxis.Cross(zaxis).Normalized();
 			vector3f yaxis = zaxis.Cross(xaxis);
 
 			matrix4x4f trans = matrix4x4f::MakeInvRotMatrix(scale*xaxis, scale*yaxis, scale*zaxis);
-			trans[12] = pos->x;
-			trans[13] = pos->y;
-			trans[14] = pos->z;
+			trans[12] = pos.x;
+			trans[13] = pos.y;
+			trans[14] = pos.z;
 
 			s_curBuf->PushCallModel(m, trans, scale);
 		}
@@ -1417,9 +1426,9 @@ namespace ModelFuncs {
 			luaL_error(L, "set_light should have light number from 1 to 4.");
 		}
 		const float quadratic_attenuation = luaL_checknumber(L, 2);
-		const vector3f *pos = MyLuaVec::checkVec(L, 3);
-		const vector3f *col = MyLuaVec::checkVec(L, 4);
-		s_curBuf->SetLight(num, quadratic_attenuation, *pos, *col);
+		const vector3f pos = LuaVector::CheckFromLuaF(L, 3);
+		const vector3f col = LuaVector::CheckFromLuaF(L, 4);
+		s_curBuf->SetLight(num, quadratic_attenuation, pos, col);
 		return 0;
 	}
 
@@ -1543,15 +1552,15 @@ namespace ModelFuncs {
 	static int lathe(lua_State *L)
 	{
 		const int steps = luaL_checkinteger(L, 1);
-		const vector3f *start = MyLuaVec::checkVec(L, 2);
-		const vector3f *end = MyLuaVec::checkVec(L, 3);
-		const vector3f *updir = MyLuaVec::checkVec(L, 4);
+		const vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		const vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 
 		if (!lua_istable(L, 5)) {
 			luaL_error(L, "lathe() takes a table of distance, radius numbers");
 		}
 
-		int num = lua_objlen(L, 5);
+		int num = lua_rawlen(L, 5);
 		if (num % 2) luaL_error(L, "lathe() passed list with unpaired distance, radius element");
 		if (num < 4) luaL_error(L, "lathe() passed list with insufficient distance, radius pairs");
 
@@ -1567,17 +1576,17 @@ namespace ModelFuncs {
 
 		const int vtxStart = s_curBuf->AllocVertices(steps*(num-2));
 
-		const vector3f dir = (*end-*start).Normalized();
-		const vector3f axis1 = updir->Normalized();
-		const vector3f axis2 = updir->Cross(dir).Normalized();
+		const vector3f dir = (end-start).Normalized();
+		const vector3f axis1 = updir.Normalized();
+		const vector3f axis2 = updir.Cross(dir).Normalized();
 		const float inc = 2.0f*M_PI / float(steps);
 		const float radmod = 1.0f / cosf(0.5f*inc);
 
 		for (int i=0; i<num-3; i+=2) {
 			const float rad1 = jizz[i+1] * radmod;
 			const float rad2 = jizz[i+3] * radmod;
-			const vector3f _start = *start + (*end-*start)*jizz[i];
-			const vector3f _end = *start + (*end-*start)*jizz[i+2];
+			const vector3f _start = start + (end-start)*jizz[i];
+			const vector3f _end = start + (end-start)*jizz[i+2];
 			bool shitty_normal = is_equal_absolute(jizz[i], jizz[i+2], 1e-4f);
 
 			const int basevtx = vtxStart + steps*i;
@@ -1636,9 +1645,9 @@ namespace ModelFuncs {
 	 */
 	static int extrusion(lua_State *L)
 	{
-		const vector3f *start = MyLuaVec::checkVec(L, 1);
-		const vector3f *end = MyLuaVec::checkVec(L, 2);
-		const vector3f *updir = MyLuaVec::checkVec(L, 3);
+		const vector3f start = LuaVector::CheckFromLuaF(L, 1);
+		const vector3f end = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f updir = LuaVector::CheckFromLuaF(L, 3);
 		const float radius = luaL_checknumber(L, 4);
 
 #define EXTRUSION_MAX_VTX 32
@@ -1649,14 +1658,14 @@ namespace ModelFuncs {
 		vector3f evtx[EXTRUSION_MAX_VTX];
 
 		for (int i=0; i<steps; i++) {
-			evtx[i] = *MyLuaVec::checkVec(L, i+5);
+			evtx[i] = LuaVector::CheckFromLuaF(L, i+5);
 		}
 
 		const int vtxStart = s_curBuf->AllocVertices(6*steps);
 
-		vector3f yax = *updir;
+		vector3f yax = updir;
 		vector3f xax, zax;
-		zax = ((*end) - (*start)).Normalized();
+		zax = (end - start).Normalized();
 		xax = yax.Cross(zax);
 
 		for (int i=0; i<steps; i++) {
@@ -1666,8 +1675,8 @@ namespace ModelFuncs {
 			norm = norm + tv;
 
 			vector3f p1 = norm * radius;
-			s_curBuf->SetVertex(vtxStart + i, (*start) + p1, -zax);
-			s_curBuf->SetVertex(vtxStart + i + steps, (*end) + p1, zax);
+			s_curBuf->SetVertex(vtxStart + i, start + p1, -zax);
+			s_curBuf->SetVertex(vtxStart + i + steps, end + p1, zax);
 		}
 
 		for (int i=0; i<steps-1; i++) {
@@ -1724,12 +1733,12 @@ namespace ModelFuncs {
 	static int _flat(lua_State *L, bool xref)
 	{
 		const int divs = luaL_checkinteger(L, 1);
-		const vector3f *normal = MyLuaVec::checkVec(L, 2);
+		const vector3f normal = LuaVector::CheckFromLuaF(L, 2);
 		vector3f xrefnorm(0.0f);
-		if (xref) xrefnorm = vector3f(-normal->x, normal->y, normal->z);
+		if (xref) xrefnorm = vector3f(-normal.x, normal.y, normal.z);
 #define FLAT_MAX_SEG 32
 		struct {
-			const vector3f *v[3];
+			vector3f v[3];
 			int nv;
 		} segvtx[FLAT_MAX_SEG];
 
@@ -1756,7 +1765,7 @@ namespace ModelFuncs {
 						lua_pop(L, 1);
 						break;
 					} else {
-						segvtx[seg].v[nv++] = MyLuaVec::checkVec(L, -1);
+						segvtx[seg].v[nv++] = LuaVector::CheckFromLuaF(L, -1);
 						lua_pop(L, 1);
 					}
 				}
@@ -1779,27 +1788,27 @@ namespace ModelFuncs {
 		const int vtxStart = s_curBuf->AllocVertices(xref ? 2*numPoints : numPoints);
 		int vtxPos = vtxStart;
 
-		const vector3f *prevSegEnd = segvtx[seg-1].v[ segvtx[seg-1].nv-1 ];
+		vector3f prevSegEnd = segvtx[seg-1].v[ segvtx[seg-1].nv-1 ];
 		// evaluate segments
 		int maxSeg = seg;
 		for (seg=0; seg<maxSeg; seg++) {
 			if (segvtx[seg].nv == 1) {
 				if (xref) {
-					vector3f p = *segvtx[seg].v[0]; p.x = -p.x;
+					vector3f p = segvtx[seg].v[0]; p.x = -p.x;
 					s_curBuf->SetVertex(vtxPos + numPoints, p, xrefnorm);
 				}
-				s_curBuf->SetVertex(vtxPos++, *segvtx[seg].v[0], *normal);
+				s_curBuf->SetVertex(vtxPos++, segvtx[seg].v[0], normal);
 				prevSegEnd = segvtx[seg].v[0];
 			} else if (segvtx[seg].nv == 2) {
 				vector3f _p[3];
-				_p[0] = *prevSegEnd;
-				_p[1] = *segvtx[seg].v[0];
-				_p[2] = *segvtx[seg].v[1];
+				_p[0] = prevSegEnd;
+				_p[1] = segvtx[seg].v[0];
+				_p[2] = segvtx[seg].v[1];
 				float inc = 1.0f / float(divs);
 				float u = inc;
 				for (int i=1; i<=divs; i++, u+=inc) {
 					vector3f p = eval_quadric_bezier_u(_p, u);
-					s_curBuf->SetVertex(vtxPos, p, *normal);
+					s_curBuf->SetVertex(vtxPos, p, normal);
 					if (xref) {
 						p.x = -p.x;
 						s_curBuf->SetVertex(vtxPos+numPoints, p, xrefnorm);
@@ -1809,15 +1818,15 @@ namespace ModelFuncs {
 				prevSegEnd = segvtx[seg].v[1];
 			} else if (segvtx[seg].nv == 3) {
 				vector3f _p[4];
-				_p[0] = *prevSegEnd;
-				_p[1] = *segvtx[seg].v[0];
-				_p[2] = *segvtx[seg].v[1];
-				_p[3] = *segvtx[seg].v[2];
+				_p[0] = prevSegEnd;
+				_p[1] = segvtx[seg].v[0];
+				_p[2] = segvtx[seg].v[1];
+				_p[3] = segvtx[seg].v[2];
 				float inc = 1.0f / float(divs);
 				float u = inc;
 				for (int i=1; i<=divs; i++, u+=inc) {
 					vector3f p = eval_cubic_bezier_u(_p, u);
-					s_curBuf->SetVertex(vtxPos, p, *normal);
+					s_curBuf->SetVertex(vtxPos, p, normal);
 					if (xref) {
 						p.x = -p.x;
 						s_curBuf->SetVertex(vtxPos+numPoints, p, xrefnorm);
@@ -1906,6 +1915,7 @@ namespace ModelFuncs {
 		}
 		return out;
 	}
+
 	template <int BEZIER_ORDER>
 	static void _bezier_triangle(lua_State *L, bool xref)
 	{
@@ -1914,11 +1924,11 @@ namespace ModelFuncs {
 		assert(divs > 0);
 		if (BEZIER_ORDER == 2) {
 			for (int i=0; i<6; i++) {
-				pts[i] = *MyLuaVec::checkVec(L, i+2);
+				pts[i] = LuaVector::CheckFromLuaF(L, i+2);
 			}
 		} else if (BEZIER_ORDER == 3) {
 			for (int i=0; i<10; i++) {
-				pts[i] = *MyLuaVec::checkVec(L, i+2);
+				pts[i] = LuaVector::CheckFromLuaF(L, i+2);
 			}
 		}
 
@@ -2091,7 +2101,7 @@ namespace ModelFuncs {
 		const int divs_u = luaL_checkinteger(L, 1);
 		const int divs_v = luaL_checkinteger(L, 2);
 		for (int i=0; i<9; i++) {
-			pts[i] = *MyLuaVec::checkVec(L, i+3);
+			pts[i] = LuaVector::CheckFromLuaF(L, i+3);
 		}
 
 		const int numVertsInPatch = (divs_u+1)*(divs_v+1);
@@ -2214,12 +2224,12 @@ namespace ModelFuncs {
 			for (int i=0; i<16; i++) {
 				lua_pushinteger(L, i+1);
 				lua_gettable(L, 3);
-				pts[i] = *MyLuaVec::checkVec(L, -1);
+				pts[i] = LuaVector::CheckFromLuaF(L, -1);
 				lua_pop(L, 1);
 			}
 		} else {
 			for (int i=0; i<16; i++) {
-				pts[i] = *MyLuaVec::checkVec(L, i+3);
+				pts[i] = LuaVector::CheckFromLuaF(L, i+3);
 			}
 		}
 
@@ -2454,9 +2464,9 @@ namespace ModelFuncs {
 			std::string t = FileSystem::JoinPathBelow(dir, texfile);
 			if (nargs == 4) {
 				// texfile, pos, uaxis, vaxis
-				vector3f pos = *MyLuaVec::checkVec(L, 2);
-				vector3f uaxis = *MyLuaVec::checkVec(L, 3);
-				vector3f vaxis = *MyLuaVec::checkVec(L, 4);
+				vector3f pos = LuaVector::CheckFromLuaF(L, 2);
+				vector3f uaxis = LuaVector::CheckFromLuaF(L, 3);
+				vector3f vaxis = LuaVector::CheckFromLuaF(L, 4);
 				vector3f waxis = uaxis.Cross(vaxis);
 
 				matrix4x4f trans = matrix4x4f::MakeInvRotMatrix(uaxis, vaxis, waxis);
@@ -2558,12 +2568,12 @@ namespace ModelFuncs {
 	static int text(lua_State *L)
 	{
 		const char *str = luaL_checkstring(L, 1);
-		vector3f pos = *MyLuaVec::checkVec(L, 2);
-		vector3f *norm = MyLuaVec::checkVec(L, 3);
-		vector3f *textdir = MyLuaVec::checkVec(L, 4);
+		vector3f pos = LuaVector::CheckFromLuaF(L, 2);
+		vector3f norm = LuaVector::CheckFromLuaF(L, 3);
+		vector3f textdir = LuaVector::CheckFromLuaF(L, 4);
 		float scale = luaL_checknumber(L, 5);
-		vector3f yaxis = norm->Cross(*textdir).Normalized();
-		vector3f zaxis = textdir->Cross(yaxis).Normalized();
+		vector3f yaxis = norm.Cross(textdir).Normalized();
+		vector3f zaxis = textdir.Cross(yaxis).Normalized();
 		vector3f xaxis = yaxis.Cross(zaxis);
 		_textTrans = matrix4x4f::MakeInvRotMatrix(scale*xaxis, scale*yaxis, scale*zaxis);
 		
@@ -2594,7 +2604,7 @@ namespace ModelFuncs {
 		_textTrans[12] = pos.x;
 		_textTrans[13] = pos.y;
 		_textTrans[14] = pos.z;
-		_textNorm = *norm;
+		_textNorm = norm;
 		s_font->GetStringGeometry(str, &_text_index_callback, &_text_vertex_callback);
 //text("some literal string", vector pos, vector norm, vector textdir, [xoff=, yoff=, scale=, onflag=])
 		return 0;
@@ -2677,9 +2687,9 @@ namespace ModelFuncs {
 		if (! amount) {
 			s_curBuf->PushZBias(0, vector3f(0.0), vector3f(0.0));
 		} else {
-			vector3f *pos = MyLuaVec::checkVec(L, 2);
-			vector3f *norm = MyLuaVec::checkVec(L, 3);
-			s_curBuf->PushZBias(float(amount), *pos, *norm);
+			vector3f pos = LuaVector::CheckFromLuaF(L, 2);
+			vector3f norm = LuaVector::CheckFromLuaF(L, 3);
+			s_curBuf->PushZBias(float(amount), pos, norm);
 		}
 		return 0;
 	}
@@ -2735,11 +2745,11 @@ namespace ModelFuncs {
 	static int circle(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
-		const vector3f *center = MyLuaVec::checkVec(L, 2);
-		const vector3f *normal = MyLuaVec::checkVec(L, 3);
-		const vector3f *updir = MyLuaVec::checkVec(L, 4);
+		const vector3f center = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f normal = LuaVector::CheckFromLuaF(L, 3);
+		const vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float radius = lua_tonumber(L, 5);
-		_circle(steps, *center, *normal, *updir, radius);
+		_circle(steps, center, normal, updir, radius);
 		return 0;
 	}
 
@@ -2763,9 +2773,9 @@ namespace ModelFuncs {
 	static int xref_circle(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
-		vector3f center = *MyLuaVec::checkVec(L, 2);
-		vector3f normal = *MyLuaVec::checkVec(L, 3);
-		vector3f updir = *MyLuaVec::checkVec(L, 4);
+		vector3f center = LuaVector::CheckFromLuaF(L, 2);
+		vector3f normal = LuaVector::CheckFromLuaF(L, 3);
+		vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float radius = lua_tonumber(L, 5);
 		_circle(steps, center, normal, updir, radius);
 		center.x = -center.x;
@@ -2865,12 +2875,12 @@ namespace ModelFuncs {
 	static int tube(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
-		const vector3f *start = MyLuaVec::checkVec(L, 2);
-		const vector3f *end = MyLuaVec::checkVec(L, 3);
-		const vector3f *updir = MyLuaVec::checkVec(L, 4);
+		const vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		const vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float inner_radius = lua_tonumber(L, 5);
 		float outer_radius = lua_tonumber(L, 6);
-		_tube(steps, *start, *end, *updir, inner_radius, outer_radius);
+		_tube(steps, start, end, updir, inner_radius, outer_radius);
 		return 0;
 	}
 
@@ -2894,9 +2904,9 @@ namespace ModelFuncs {
 	static int xref_tube(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
-		vector3f start = *MyLuaVec::checkVec(L, 2);
-		vector3f end = *MyLuaVec::checkVec(L, 3);
-		vector3f updir = *MyLuaVec::checkVec(L, 4);
+		vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float inner_radius = lua_tonumber(L, 5);
 		float outer_radius = lua_tonumber(L, 6);
 		_tube(steps, start, end, updir, inner_radius, outer_radius);
@@ -2978,12 +2988,12 @@ namespace ModelFuncs {
 	static int tapered_cylinder(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
-		const vector3f *start = MyLuaVec::checkVec(L, 2);
-		const vector3f *end = MyLuaVec::checkVec(L, 3);
-		const vector3f *updir = MyLuaVec::checkVec(L, 4);
+		const vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		const vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float radius1 = lua_tonumber(L, 5);
 		float radius2 = lua_tonumber(L, 6);
-		_tapered_cylinder(steps, *start, *end, *updir, radius1, radius2);
+		_tapered_cylinder(steps, start, end, updir, radius1, radius2);
 		return 0;
 	}
 
@@ -3006,9 +3016,9 @@ namespace ModelFuncs {
 	{
 		/* could optimise for x-reflection but fuck it */
 		int steps = luaL_checkinteger(L, 1);
-		vector3f start = *MyLuaVec::checkVec(L, 2);
-		vector3f end = *MyLuaVec::checkVec(L, 3);
-		vector3f updir = *MyLuaVec::checkVec(L, 4);
+		vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float radius1 = lua_tonumber(L, 5);
 		float radius2 = lua_tonumber(L, 6);
 		_tapered_cylinder(steps, start, end, updir, radius1, radius2);
@@ -3086,11 +3096,11 @@ namespace ModelFuncs {
 	static int cylinder(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
-		const vector3f *start = MyLuaVec::checkVec(L, 2);
-		const vector3f *end = MyLuaVec::checkVec(L, 3);
-		const vector3f *updir = MyLuaVec::checkVec(L, 4);
+		const vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		const vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float radius = lua_tonumber(L, 5);
-		_cylinder(steps, *start, *end, *updir, radius);
+		_cylinder(steps, start, end, updir, radius);
 		return 0;
 	}
 
@@ -3113,9 +3123,9 @@ namespace ModelFuncs {
 	{
 		/* could optimise for x-reflection but fuck it */
 		int steps = luaL_checkinteger(L, 1);
-		vector3f start = *MyLuaVec::checkVec(L, 2);
-		vector3f end = *MyLuaVec::checkVec(L, 3);
-		vector3f updir = *MyLuaVec::checkVec(L, 4);
+		vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float radius = lua_tonumber(L, 5);
 		_cylinder(steps, start, end, updir, radius);
 		start.x = -start.x;
@@ -3184,11 +3194,11 @@ namespace ModelFuncs {
 	static int ring(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
-		const vector3f *start = MyLuaVec::checkVec(L, 2);
-		const vector3f *end = MyLuaVec::checkVec(L, 3);
-		const vector3f *updir = MyLuaVec::checkVec(L, 4);
+		const vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		const vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float radius = lua_tonumber(L, 5);
-		_ring(steps, *start, *end, *updir, radius);
+		_ring(steps, start, end, updir, radius);
 		return 0;
 	}
 
@@ -3210,9 +3220,9 @@ namespace ModelFuncs {
 	static int xref_ring(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
-		vector3f start = *MyLuaVec::checkVec(L, 2);
-		vector3f end = *MyLuaVec::checkVec(L, 3);
-		vector3f updir = *MyLuaVec::checkVec(L, 4);
+		vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float radius = lua_tonumber(L, 5);
 		_ring(steps, start, end, updir, radius);
 		start.x = -start.x;
@@ -3250,14 +3260,14 @@ namespace ModelFuncs {
 	 */
 	static int invisible_tri(lua_State *L)
 	{
-		const vector3f *v1 = MyLuaVec::checkVec(L, 1);
-		const vector3f *v2 = MyLuaVec::checkVec(L, 2);
-		const vector3f *v3 = MyLuaVec::checkVec(L, 3);
+		const vector3f v1 = LuaVector::CheckFromLuaF(L, 1);
+		const vector3f v2 = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f v3 = LuaVector::CheckFromLuaF(L, 3);
 		
-		vector3f n = ((*v1)-(*v2)).Cross((*v1)-(*v3)).Normalized();
-		int i1 = s_curBuf->PushVertex(*v1, n);
-		int i2 = s_curBuf->PushVertex(*v2, n);
-		int i3 = s_curBuf->PushVertex(*v3, n);
+		vector3f n = (v1-v2).Cross(v1-v3).Normalized();
+		int i1 = s_curBuf->PushVertex(v1, n);
+		int i2 = s_curBuf->PushVertex(v2, n);
+		int i3 = s_curBuf->PushVertex(v3, n);
 		s_curBuf->PushInvisibleTri(i1, i2, i3);
 		return 0;
 	}
@@ -3290,14 +3300,14 @@ namespace ModelFuncs {
 	 */
 	static int tri(lua_State *L)
 	{
-		const vector3f *v1 = MyLuaVec::checkVec(L, 1);
-		const vector3f *v2 = MyLuaVec::checkVec(L, 2);
-		const vector3f *v3 = MyLuaVec::checkVec(L, 3);
+		const vector3f v1 = LuaVector::CheckFromLuaF(L, 1);
+		const vector3f v2 = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f v3 = LuaVector::CheckFromLuaF(L, 3);
 		
-		vector3f n = ((*v1)-(*v2)).Cross((*v1)-(*v3)).Normalized();
-		int i1 = s_curBuf->PushVertex(*v1, n);
-		int i2 = s_curBuf->PushVertex(*v2, n);
-		int i3 = s_curBuf->PushVertex(*v3, n);
+		vector3f n = (v1-v2).Cross(v1-v3).Normalized();
+		int i1 = s_curBuf->PushVertex(v1, n);
+		int i2 = s_curBuf->PushVertex(v2, n);
+		int i3 = s_curBuf->PushVertex(v3, n);
 		s_curBuf->PushTri(i1, i2, i3);
 		return 0;
 	}
@@ -3319,9 +3329,9 @@ namespace ModelFuncs {
 	 */
 	static int xref_tri(lua_State *L)
 	{
-		vector3f v1 = *MyLuaVec::checkVec(L, 1);
-		vector3f v2 = *MyLuaVec::checkVec(L, 2);
-		vector3f v3 = *MyLuaVec::checkVec(L, 3);
+		vector3f v1 = LuaVector::CheckFromLuaF(L, 1);
+		vector3f v2 = LuaVector::CheckFromLuaF(L, 2);
+		vector3f v3 = LuaVector::CheckFromLuaF(L, 3);
 		
 		vector3f n = (v1-v2).Cross(v1-v3).Normalized();
 		int i1 = s_curBuf->PushVertex(v1, n);
@@ -3365,16 +3375,16 @@ namespace ModelFuncs {
 	 */
 	static int quad(lua_State *L)
 	{
-		const vector3f *v1 = MyLuaVec::checkVec(L, 1);
-		const vector3f *v2 = MyLuaVec::checkVec(L, 2);
-		const vector3f *v3 = MyLuaVec::checkVec(L, 3);
-		const vector3f *v4 = MyLuaVec::checkVec(L, 4);
+		const vector3f v1 = LuaVector::CheckFromLuaF(L, 1);
+		const vector3f v2 = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f v3 = LuaVector::CheckFromLuaF(L, 3);
+		const vector3f v4 = LuaVector::CheckFromLuaF(L, 4);
 		
-		vector3f n = ((*v1)-(*v2)).Cross((*v1)-(*v3)).Normalized();
-		int i1 = s_curBuf->PushVertex(*v1, n);
-		int i2 = s_curBuf->PushVertex(*v2, n);
-		int i3 = s_curBuf->PushVertex(*v3, n);
-		int i4 = s_curBuf->PushVertex(*v4, n);
+		vector3f n = (v1-v2).Cross(v1-v3).Normalized();
+		int i1 = s_curBuf->PushVertex(v1, n);
+		int i2 = s_curBuf->PushVertex(v2, n);
+		int i3 = s_curBuf->PushVertex(v3, n);
+		int i4 = s_curBuf->PushVertex(v4, n);
 		s_curBuf->PushTri(i1, i2, i3);
 		s_curBuf->PushTri(i1, i3, i4);
 		return 0;
@@ -3397,10 +3407,10 @@ namespace ModelFuncs {
 	 */
 	static int xref_quad(lua_State *L)
 	{
-		vector3f v1 = *MyLuaVec::checkVec(L, 1);
-		vector3f v2 = *MyLuaVec::checkVec(L, 2);
-		vector3f v3 = *MyLuaVec::checkVec(L, 3);
-		vector3f v4 = *MyLuaVec::checkVec(L, 4);
+		vector3f v1 = LuaVector::CheckFromLuaF(L, 1);
+		vector3f v2 = LuaVector::CheckFromLuaF(L, 2);
+		vector3f v3 = LuaVector::CheckFromLuaF(L, 3);
+		vector3f v4 = LuaVector::CheckFromLuaF(L, 4);
 		
 		vector3f n = (v1-v2).Cross(v1-v3).Normalized();
 		int i1 = s_curBuf->PushVertex(v1, n);
@@ -3452,14 +3462,14 @@ namespace ModelFuncs {
 	 */
 	static int thruster(lua_State *L)
 	{
-		const vector3f *pos = MyLuaVec::checkVec(L, 1);
-		const vector3f *dir = MyLuaVec::checkVec(L, 2);
+		const vector3f pos = LuaVector::CheckFromLuaF(L, 1);
+		const vector3f dir = LuaVector::CheckFromLuaF(L, 2);
 		const float power = luaL_checknumber(L, 3);
 		bool linear_only = false;
 		if (lua_isboolean(L, 4)) {
 			linear_only = lua_toboolean(L, 4) != 0;
 		}
-		s_curBuf->PushThruster(*pos, *dir, power, linear_only);
+		s_curBuf->PushThruster(pos, dir, power, linear_only);
 		return 0;
 	}
 
@@ -3480,16 +3490,16 @@ namespace ModelFuncs {
 	 */
 	static int xref_thruster(lua_State *L)
 	{
-		vector3f pos = *MyLuaVec::checkVec(L, 1);
-		const vector3f *dir = MyLuaVec::checkVec(L, 2);
+		vector3f pos = LuaVector::CheckFromLuaF(L, 1);
+		const vector3f dir = LuaVector::CheckFromLuaF(L, 2);
 		const float power = luaL_checknumber(L, 3);
 		bool linear_only = false;
 		if (lua_isboolean(L, 4)) {
 			linear_only = lua_toboolean(L, 4) != 0;
 		}
-		s_curBuf->PushThruster(pos, *dir, power, linear_only);
+		s_curBuf->PushThruster(pos, dir, power, linear_only);
 		pos.x = -pos.x;
-		s_curBuf->PushThruster(pos, *dir, power, linear_only);
+		s_curBuf->PushThruster(pos, dir, power, linear_only);
 		return 0;
 	}
 
@@ -3882,7 +3892,7 @@ namespace ModelFuncs {
 //		billboard('texname', size, color, { p1, p2, p3, p4 })
 		const char *texname = luaL_checkstring(L, 1);
 		const float size = luaL_checknumber(L, 2);
-		const vector3f color = *MyLuaVec::checkVec(L, 3);
+		const vector3f color = LuaVector::CheckFromLuaF(L, 3);
 		std::vector<vector3f> points;
 
 		if (lua_istable(L, 4)) {
@@ -3893,7 +3903,7 @@ namespace ModelFuncs {
 					lua_pop(L, 1);
 					break;
 				}
-				points.push_back(*MyLuaVec::checkVec(L, -1));
+				points.push_back(LuaVector::CheckFromLuaF(L, -1));
 				lua_pop(L, 1);
 			}
 		}
@@ -3942,7 +3952,7 @@ namespace ModelFuncs {
 		if ((lua_gettop(l) < stackpos) || lua_isnil(l, stackpos)) {
 			trans = matrix4x4f::Identity();
 		} else {
-			trans = *MyLuaMatrix::checkMatrix(l, stackpos);
+			trans = *LuaMatrix::CheckFromLua(l, stackpos);
 		}
 	}
 
@@ -4104,8 +4114,15 @@ namespace ModelFuncs {
 } /* namespace ModelFuncs */
 
 namespace ObjLoader {
-	static std::map<std::string, std::string> load_mtl_file(lua_State *L, const char* mtl_file) {
-		std::map<std::string, std::string> mtl_map;
+	struct MtlMaterial {
+		std::string diffuse;
+		std::string emission;
+	};
+
+	typedef std::map<std::string, MtlMaterial> MtlLibrary;
+
+	static MtlLibrary load_mtl_file(lua_State *L, const char* mtl_file) {
+		MtlLibrary mtl_map;
 		char name[1024] = "", file[1024];
 
 		lua_getglobal(L, "CurrentDirectory");
@@ -4124,12 +4141,17 @@ namespace ObjLoader {
 		for (int line_no=1; !mtlfilerange.Empty(); line_no++) {
 			line = mtlfilerange.ReadLine().StripSpace().ToString();
 
-			if (!strncasecmp(line.c_str(), "newmtl ", 7)) {
+			if (!strncasecmp(line.c_str(), "newmtl", 6)) {
 				PiVerify(1 == sscanf(line.c_str(), "newmtl %s", name));
+				mtl_map[name] = MtlMaterial();
 			}
-			if (!strncasecmp(line.c_str(), "map_K", 5) && strlen(name) > 0) {
+			if (!strncasecmp(line.c_str(), "map_Kd", 6) && strlen(name)) {
 				PiVerify(1 == sscanf(line.c_str(), "map_Kd %s", file));
-				mtl_map[name] = file;
+				mtl_map[name].diffuse = file;
+			}
+			if (!strncasecmp(line.c_str(), "map_Ke", 6) && strlen(name)) {
+				PiVerify(1 == sscanf(line.c_str(), "map_Ke %s", file));
+				mtl_map[name].emission = file;
 			}
 		}
 
@@ -4142,8 +4164,8 @@ namespace ObjLoader {
 	 * Load a Wavefront OBJ model file.
 	 * 
 	 * If an associated .mtl material definition file is found, Pioneer will
-	 * attempt to interpret it the best it can, including texture usage. Note that
-	 * Pioneer supports only one texture per .obj file.
+	 * use the diffuse and emission textures (map_Kd and map_Ke) from that file.
+	 * Other material settings in the .mtl file are currently ignored.
 	 *
 	 * > load_obj(modelname, transform)
 	 *
@@ -4178,9 +4200,9 @@ namespace ObjLoader {
 	{
 		const char *obj_name = luaL_checkstring(L, 1);
 		int numArgs = lua_gettop(L);
-		matrix4x4f *transform = 0;
+		const matrix4x4f *transform = 0;
 		if (numArgs > 1) {
-			transform = MyLuaMatrix::checkMatrix(L, 2);
+			transform = LuaMatrix::CheckFromLua(L, 2);
 		}
 
 		lua_getglobal(L, "CurrentDirectory");
@@ -4198,8 +4220,7 @@ namespace ObjLoader {
 		std::vector<vector3f> vertices;
 		std::vector<vector3f> texcoords;
 		std::vector<vector3f> normals;
-		std::map<std::string, std::string> mtl_map;
-		std::string texture;
+		MtlLibrary mtl_map;
 
 		// maps obj file vtx_idx,norm_idx to a single GeomBuffer vertex index
 		std::map<objTriplet, int> vtxmap;
@@ -4281,7 +4302,6 @@ namespace ObjLoader {
 							s_curBuf->SetVertex(vtxStart+1, b, n, texcoords[ti[i+1]].x, texcoords[ti[i+1]].y);
 							s_curBuf->SetVertex(vtxStart+2, c, n, texcoords[ti[i+2]].x, texcoords[ti[i+2]].y);
 						}
-						if (texture.size()) s_curBuf->SetTexture(texture.c_str());
 						s_curBuf->PushTri(vtxStart, vtxStart+1, vtxStart+2);
 					}
 				} else {
@@ -4304,7 +4324,6 @@ namespace ObjLoader {
 							realVtxIdx[i] = (*it).second;
 						}
 					}
-					if (texture.size()) s_curBuf->SetTexture(texture.c_str());
 					if (numBits == 3) {
 						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2]);
 					} else if (numBits == 4) {
@@ -4318,20 +4337,35 @@ namespace ObjLoader {
 			else if (strncmp("mtllib ", buf, 7) == 0) {
 				char lib_name[128];
 				if (1 == sscanf(buf, "mtllib %s", lib_name)) {
-					mtl_map = load_mtl_file(L, lib_name);
+					try {
+						mtl_map = load_mtl_file(L, lib_name);
+					} catch (LmrUnknownMaterial) {
+						printf(".mtl file '%s' could not be found\n", lib_name);
+						mtl_map.clear();
+					}
 				}
 			}
 			else if (strncmp("usemtl ", buf, 7) == 0) {
 				char mat_name[128];
 				if (1 == sscanf(buf, "usemtl %s", mat_name)) {
-					if ( mtl_map.find(mat_name) != mtl_map.end() ) {
-						try {
-							char texfile[256];
-							snprintf(texfile, sizeof(texfile), "%s/%s", curdir.c_str(), mtl_map[mat_name].c_str());
-							texture = texfile;
-						} catch (LmrUnknownMaterial) {
-							printf("Warning: Missing material %s (%s) in %s\n", mtl_map[mat_name].c_str(), mat_name, obj_name);
+					MtlLibrary::const_iterator mat_iter = mtl_map.find(mat_name);
+					if ( mat_iter != mtl_map.end() ) {
+						const MtlMaterial &mat_info = mat_iter->second;
+						std::string diffuse_path, emission_path;
+
+						if (!mat_info.diffuse.empty()) {
+							diffuse_path = FileSystem::JoinPath(curdir, mat_info.diffuse);
 						}
+						if (!mat_info.emission.empty()) {
+							emission_path = FileSystem::JoinPath(curdir, mat_info.emission);
+						}
+
+						// not allowed to have a glow map with no diffuse map
+						// (I don't know why, maybe it would be fine... who knows with LMR?)
+						if (diffuse_path.empty()) { emission_path.clear(); }
+
+						s_curBuf->SetTexture(diffuse_path.empty() ? 0 : diffuse_path.c_str());
+						s_curBuf->SetGlowMap(emission_path.empty() ? 0 : emission_path.c_str());
 					}
 				} else {
 					Error("Obj file has no normals or is otherwise too weird at line %d\n", line_no);
@@ -4351,7 +4385,7 @@ namespace UtilFuncs {
 			v.y = lua_tonumber(L, 2);
 			v.z = lua_tonumber(L, 3);
 		} else {
-			v = vector3d(*MyLuaVec::checkVec(L, 1));
+			v = *LuaVector::CheckFromLua(L, 1);
 		}
 		lua_pushnumber(L, noise(v));
 		return 1;
@@ -4479,7 +4513,7 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 
 	PiVerify(s_font = s_fontCache.GetVectorFont("WorldFont"));
 
-	lua_State *L = lua_open();
+	lua_State *L = luaL_newstate();
 	sLua = L;
 	luaL_openlibs(L);
 
@@ -4487,13 +4521,17 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 
 	LuaConstants::Register(L);
 
-	MyLuaVec::Vec_register(L);
-	lua_pop(L, 1); // why again?
-	MyLuaMatrix::Matrix_register(L);
-	lua_pop(L, 1); // why again?
-	// shorthand for Vec.new(x,y,z)
-	lua_register(L, "v", MyLuaVec::Vec_new);
-	lua_register(L, "norm", MyLuaVec::Vec_newNormalized);
+	LuaVector::Register(L);
+	lua_getglobal(L, LuaVector::LibName);
+	lua_getfield(L, -1, "new");
+	lua_setglobal(L, "v"); // alias v = vector.new
+	lua_getfield(L, -1, "unit");
+	lua_setglobal(L, "unitv"); // alias unitv = vector.unit
+	lua_pop(L, 1);
+	LUA_DEBUG_CHECK(L, 0);
+
+	LuaMatrix::Register(L);
+
 	lua_register(L, "define_model", define_model);
 	lua_register(L, "set_material", ModelFuncs::set_material);
 	lua_register(L, "use_material", ModelFuncs::use_material);

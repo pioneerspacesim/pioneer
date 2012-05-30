@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider gui graphics terrain text
+SUBDIRS = collider gui graphics galaxy terrain text
 
 include $(top_srcdir)/Makefile.common
 
@@ -23,7 +23,6 @@ noinst_HEADERS = \
 	Color.h \
 	CommodityTradeWidget.h \
 	CRC32.h \
-	CustomSystem.h \
 	DeadVideoLink.h \
 	DeleteEmitter.h \
 	DynamicBody.h \
@@ -38,7 +37,6 @@ noinst_HEADERS = \
 	FormController.h \
 	Frame.h \
 	GalacticView.h \
-	Galaxy.h \
 	Game.h \
 	GameLoaderSaver.h \
 	GameMenuView.h \
@@ -63,6 +61,9 @@ noinst_HEADERS = \
 	LuaFormat.h \
 	LuaGame.h \
 	LuaLang.h \
+	LuaMatrix.h \
+	LuaVector.h \
+	LuaFixed.h \
 	LuaManager.h \
 	LuaMusic.h \
 	LuaNameGen.h \
@@ -70,7 +71,7 @@ noinst_HEADERS = \
 	LuaPlanet.h \
 	LuaPlayer.h \
 	LuaRand.h \
-	LuaSBody.h \
+	LuaSystemBody.h \
 	LuaSystemPath.h \
 	LuaSerializer.h \
 	LuaShip.h \
@@ -86,12 +87,11 @@ noinst_HEADERS = \
 	MathUtil.h \
 	Missile.h \
 	ModelBody.h \
-	MyLuaMathTypes.h \
+	ModManager.h \
 	Object.h \
 	ObjectViewerView.h \
 	PersistSystemData.h \
 	Pi.h \
-	PiLuaClasses.h \
 	Planet.h \
 	Player.h \
 	Polit.h \
@@ -100,7 +100,6 @@ noinst_HEADERS = \
 	RefCounted.h \
 	RefList.h \
 	SDLWrappers.h \
-	Sector.h \
 	SectorView.h \
 	Serializer.h \
 	StationAdvertForm.h \
@@ -130,9 +129,7 @@ noinst_HEADERS = \
 	SpaceStation.h \
 	SpaceStationView.h \
 	Star.h \
-	StarSystem.h \
 	SystemInfoView.h \
-	SystemPath.h \
 	SystemView.h \
 	TerrainBody.h \
 	VideoLink.h \
@@ -163,19 +160,18 @@ pioneer_SOURCES	= \
 	CityOnPlanet.cpp \
 	CommodityTradeWidget.cpp \
 	CRC32.cpp \
-	CustomSystem.cpp \
 	DeadVideoLink.cpp \
 	DynamicBody.cpp \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
 	FileSelectorWidget.cpp \
+	FileSourceZip.cpp \
 	FileSystem.cpp \
 	FontCache.cpp \
 	FontConfig.cpp \
 	FormController.cpp \
 	Frame.cpp \
 	GalacticView.cpp \
-	Galaxy.cpp \
 	Game.cpp \
 	GameLoaderSaver.cpp \
 	GameMenuView.cpp \
@@ -199,6 +195,9 @@ pioneer_SOURCES	= \
 	LuaFormat.cpp \
 	LuaGame.cpp \
 	LuaLang.cpp \
+	LuaMatrix.cpp \
+	LuaVector.cpp \
+	LuaFixed.cpp \
 	LuaManager.cpp \
 	LuaMusic.cpp \
 	LuaNameGen.cpp \
@@ -206,7 +205,7 @@ pioneer_SOURCES	= \
 	LuaPlanet.cpp \
 	LuaPlayer.cpp \
 	LuaRand.cpp \
-	LuaSBody.cpp \
+	LuaSystemBody.cpp \
 	LuaSystemPath.cpp \
 	LuaSerializer.cpp \
 	LuaShip.cpp \
@@ -222,16 +221,14 @@ pioneer_SOURCES	= \
 	MathUtil.cpp \
 	Missile.cpp \
 	ModelBody.cpp \
-	MyLuaMathTypes.cpp \
+	ModManager.cpp \
 	ObjectViewerView.cpp \
 	Pi.cpp \
-	PiLuaClasses.cpp \
 	Planet.cpp \
 	Player.cpp \
 	Polit.cpp \
 	Projectile.cpp \
 	SDLWrappers.cpp \
-	Sector.cpp \
 	SectorView.cpp \
 	Serializer.cpp \
 	StationAdvertForm.cpp \
@@ -261,7 +258,6 @@ pioneer_SOURCES	= \
 	SpaceStation.cpp \
 	SpaceStationView.cpp \
 	Star.cpp \
-	StarSystem.cpp \
 	SystemInfoView.cpp \
 	SystemView.cpp \
 	TerrainBody.cpp \
@@ -274,10 +270,20 @@ pioneer_SOURCES	= \
 	utils.cpp \
 	enum_table.cpp
 
-pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
-		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
-		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
-		$(PNG_LIBS)
+pioneer_LDADD = \
+	../contrib/miniz/libminiz.a \
+	collider/libcollider.a \
+	text/libtext.a \
+	gui/libgui.a \
+	graphics/libgraphics.a \
+	galaxy/libgalaxy.a \
+	terrain/libterrain.a
+
+pioneer_LDADD += \
+	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
+	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
+	$(PNG_LIBS)
+
 if !HAVE_LUA
 pioneer_LDADD += ../contrib/lua/liblua.a
 endif
@@ -285,24 +291,28 @@ endif
 modelviewer_SOURCES = \
 	Color.cpp \
 	CRC32.cpp \
+	FileSourceZip.cpp \
 	FileSystem.cpp \
 	FontCache.cpp \
 	FontConfig.cpp \
 	IniConfig.cpp \
 	Lang.cpp \
+	LuaMatrix.cpp \
+	LuaVector.cpp \
+	LuaFixed.cpp \
 	LmrModel.cpp \
 	LuaModelViewer.cpp \
 	LuaUtils.cpp \
 	LuaConstants.cpp \
+	ModManager.cpp \
 	EquipType.cpp \
 	ShipType.cpp \
-	MyLuaMathTypes.cpp \
 	SDLWrappers.cpp \
 	StringF.cpp \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
-modelviewer_LDADD = collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
+modelviewer_LDADD = ../contrib/miniz/libminiz.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 if !HAVE_LUA

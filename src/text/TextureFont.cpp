@@ -9,8 +9,6 @@
 #include FT_GLYPH_H
 #include FT_STROKER_H
 
-#define PARAGRAPH_SPACING 1.5f
-
 namespace Text {
 
 int TextureFont::s_glyphCount = 0;
@@ -37,17 +35,16 @@ void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float 
 
 void TextureFont::MeasureString(const char *str, float &w, float &h)
 {
-	w = 0;
-	h = GetHeight();
+	w = h = 0.0f;
 
-	float line_width = 0;
+	float line_width = 0.0f, line_height = 0.0f;
 
 	int i = 0;
 	while (str[i]) {
 		if (str[i] == '\n') {
 			if (line_width > w) w = line_width;
-			line_width = 0;
-			h += GetHeight()*PARAGRAPH_SPACING;
+			h += line_height;
+			line_width = line_height = 0.0f;
 			i++;
 		}
 		
@@ -57,7 +54,10 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 			assert(n);
 			i += n;
 
-			line_width += m_glyphs[chr].advx;
+			const glfglyph_t &glyph = m_glyphs[chr];
+
+			line_width += glyph.advx;
+			line_height = std::max(line_height, float(m_pixSize) - glyph.offy + glyph.texHeight);
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -75,14 +75,14 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 	}
 
 	if (line_width > w) w = line_width;
-	h += m_descender;
+	h += line_height;
 }
 
 void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &charX, float &charY) const
 {
 	assert(str && (charIndex >= 0));
 
-	const float lineSpacing = GetHeight()*PARAGRAPH_SPACING;
+	const float lineSpacing = GetHeight()*GetLineSpacing();
 	float x = 0.0f, y = GetHeight();
 	int i = 0;
 	Uint32 chr;
@@ -133,7 +133,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 	// chr1: the Unicode value of the character being tested
 	// chr2: the Unicode value of the next character
 
-	const float lineSpacing = GetHeight()*PARAGRAPH_SPACING;
+	const float lineSpacing = GetHeight()*GetLineSpacing();
 	Uint32 chr2 = '\n'; // pretend we've just had a new line
 	float bottom = GetHeight() - lineSpacing, x = 0.0f;
 	int i2 = 0, charBytes = 0;
@@ -189,7 +189,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 	while (str[i]) {
 		if (str[i] == '\n') {
 			px = x;
-			py += GetHeight()*PARAGRAPH_SPACING;
+			py += GetHeight()*GetLineSpacing();
 			i++;
 		}
 		
@@ -247,7 +247,7 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 
 		if (str[i] == '\n') {
 			px = x;
-			py += GetHeight()*PARAGRAPH_SPACING;
+			py += GetHeight()*GetLineSpacing();
 			i++;
 		}
 		
@@ -471,8 +471,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	if (outline)
 		FT_Stroker_Done(stroker);
 
-	m_height = float(a_height);
-	m_width = float(a_width);
+	m_height = float(m_face->height) / 64.f;
 	m_descender = -float(m_face->descender) / 64.f;
 }
 

@@ -3,14 +3,14 @@
 #include "Frame.h"
 #include "Player.h"
 #include "Planet.h"
-#include "Sector.h"
+#include "galaxy/Sector.h"
 #include "SectorView.h"
 #include "Serializer.h"
 #include "ShipCpanel.h"
 #include "Sound.h"
 #include "Space.h"
 #include "SpaceStation.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "HyperspaceCloud.h"
 #include "KeyBindings.h"
 #include "perlin.h"
@@ -727,6 +727,8 @@ void WorldView::Update()
 
 	m_bodyLabels->SetLabelsVisible(m_labelsOn);
 
+	bool targetObject = false;
+
 	//death animation: slowly pan out
 	if (Pi::player->IsDead()) {
 		SetCamType(CAM_EXTERNAL);
@@ -746,17 +748,22 @@ void WorldView::Update()
 			if (Pi::KeyState(SDLK_PERIOD)) m_activeCamera->RollRight(frameTime);
 			if (Pi::KeyState(SDLK_HOME)) m_activeCamera->Reset();
 
-			if (KeyBindings::targetObject.IsActive()) {
-				/* Hitting tab causes objects in the crosshairs to be selected */
-				Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
-				SelectBody(target, false);
-			}
+			// note if we have to target the object in the crosshairs
+			targetObject = KeyBindings::targetObject.IsActive();
 		}
 	}
 
 	m_activeCamera->UpdateTransform();
 	m_activeCamera->Update();
 	UpdateProjectedObjects();
+
+	// target object under the crosshairs. must be done after
+	// UpdateProjectedObjects() to be sure that m_projectedPos does not have
+	// contain references to deleted objects
+	if (targetObject) {
+		Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
+		SelectBody(target, false);
+	}
 }
 
 void WorldView::OnSwitchTo()
@@ -824,20 +831,20 @@ void WorldView::AddCommsNavOption(std::string msg, Body *target)
 
 void WorldView::BuildCommsNavOptions()
 {
-	std::map< Uint32,std::vector<SBody*> > groups;
+	std::map< Uint32,std::vector<SystemBody*> > groups;
 
 	m_commsNavOptions->PackEnd(new Gui::Label(std::string("#ff0")+std::string(Lang::NAVIGATION_TARGETS_IN_THIS_SYSTEM)+std::string("\n")));
 
-	for ( std::vector<SBody*>::const_iterator i = Pi::game->GetSpace()->GetStarSystem()->m_spaceStations.begin();
+	for ( std::vector<SystemBody*>::const_iterator i = Pi::game->GetSpace()->GetStarSystem()->m_spaceStations.begin();
 	      i != Pi::game->GetSpace()->GetStarSystem()->m_spaceStations.end(); ++i) {
 
 		groups[(*i)->parent->path.bodyIndex].push_back(*i);
 	}
 
-	for ( std::map< Uint32,std::vector<SBody*> >::const_iterator i = groups.begin(); i != groups.end(); ++i ) {
+	for ( std::map< Uint32,std::vector<SystemBody*> >::const_iterator i = groups.begin(); i != groups.end(); ++i ) {
 		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + Pi::game->GetSpace()->GetStarSystem()->m_bodies[(*i).first]->name));
 
-		for ( std::vector<SBody*>::const_iterator j = (*i).second.begin(); j != (*i).second.end(); ++j) {
+		for ( std::vector<SystemBody*>::const_iterator j = (*i).second.begin(); j != (*i).second.end(); ++j) {
 			SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPathOf(*j);
 			Body *body = Pi::game->GetSpace()->FindBodyForPath(&path);
 			AddCommsNavOption((*j)->name, body);
