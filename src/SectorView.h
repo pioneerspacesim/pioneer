@@ -26,6 +26,7 @@ public:
 	void SetHyperspaceTarget(const SystemPath &path);
 	void FloatHyperspaceTarget();
 	void ResetHyperspaceTarget();
+	void GotoSector(const SystemPath &path);
 	void GotoSystem(const SystemPath &path);
 	void GotoCurrentSystem() { GotoSystem(m_current); }
 	void GotoSelectedSystem() { GotoSystem(m_selected); }
@@ -107,6 +108,7 @@ private:
 	sigc::connection m_onKeyPressConnection;
 
 	std::map<SystemPath,Sector*> m_sectorCache;
+	std::string m_previousSearch;
 
 	float m_playerHyperspaceRange;
 	Graphics::Drawables::Line3D m_jumpLine;

@@ -3,6 +3,8 @@ Alpha 23
    * Minor changes and tweaks
      * Show target indicator on docking waypoints when clearance has been
        granted to assist with manual docking (#1260)
+     * Jump to sector by entering sector coordinates in search box (#1274, #1253)
+     * Optimised earthlike colour fractal when terrain textures enabled (#1277)
 
    * Fixes
      * Work around sector view crash on Radeon (#1062)
