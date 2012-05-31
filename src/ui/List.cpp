@@ -67,6 +67,8 @@ void List::Clear()
 	m_optionBackgrounds.clear();
 	static_cast<VBox*>(m_container->GetInnerWidget())->Clear();
 	m_selected = -1;
+
+	if (GetContainer()) GetContainer()->RequestResize();
 }
 
 bool List::HandleOptionMouseOver(int index)
