@@ -2145,6 +2145,7 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							UsePrecompiledHeader="0"
+							WarnAsError="false"
 							ForcedIncludeFiles="$(NOINHERIT)"
 						/>
 					</FileConfiguration>
@@ -2207,6 +2208,7 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							UsePrecompiledHeader="0"
+							WarnAsError="false"
 							ForcedIncludeFiles="$(NOINHERIT)"
 						/>
 					</FileConfiguration>
