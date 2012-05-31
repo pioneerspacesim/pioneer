@@ -34,10 +34,8 @@ Grid *Grid::SetRow(int rowNum, const WidgetSet &set)
 
 	for (int i = 0; i < set.numWidgets; i++) {
 		const int n = rowNum*m_colSpec.numCells+i;
-		if (m_widgets[n]) {
+		if (m_widgets[n])
 			RemoveWidget(m_widgets[n]);
-			delete m_widgets[n]; // XXX widget deletion
-		}
 		m_widgets[n] = set.widgets[i];
 		AddWidget(m_widgets[n]);
 	}
@@ -52,10 +50,8 @@ Grid *Grid::SetColumn(int colNum, const WidgetSet &set)
 
 	for (int i = 0; i < set.numWidgets; i++) {
 		const int n = i*m_colSpec.numCells+colNum;
-		if (m_widgets[n]) {
+		if (m_widgets[n])
 			RemoveWidget(m_widgets[n]);
-			delete m_widgets[n]; // XXX widget deletion
-		}
 		m_widgets[n] = set.widgets[i];
 		AddWidget(m_widgets[n]);
 	}
@@ -69,10 +65,8 @@ Grid *Grid::SetCell(int colNum, int rowNum, Widget *widget)
 	assert(rowNum > 0 && rowNum < m_colSpec.numCells);
 
 	const int n = rowNum*m_colSpec.numCells+colNum;
-	if (m_widgets[n]) {
+	if (m_widgets[n])
 		RemoveWidget(m_widgets[n]);
-		delete m_widgets[n]; // XXX widget deletion
-	}
 	m_widgets[n] = widget;
 	AddWidget(m_widgets[n]);
 
