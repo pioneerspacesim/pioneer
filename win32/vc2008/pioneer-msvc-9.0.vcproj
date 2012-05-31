@@ -330,7 +330,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\CustomSystem.cpp"
+				RelativePath="..\..\src\CRC32.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\galaxy\CustomSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\DeadVideoLink.cpp"
 				>
 			</File>
 			<File
@@ -354,6 +362,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\FileSourceZip.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\FileSystem.cpp"
 				>
 			</File>
@@ -362,7 +374,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Font.cpp"
+				RelativePath="..\..\src\text\Font.cpp"
 				>
 			</File>
 			<File
@@ -386,7 +398,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Galaxy.cpp"
+				RelativePath="..\..\src\galaxy\Galaxy.cpp"
 				>
 			</File>
 			<File
@@ -586,6 +598,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaFixed.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaFormat.cpp"
 				>
 			</File>
@@ -599,6 +615,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaMatrix.cpp"
 				>
 			</File>
 			<File
@@ -623,10 +643,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaRand.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaSBody.cpp"
 				>
 			</File>
 			<File
@@ -658,6 +674,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaSystemBody.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaSystemPath.cpp"
 				>
 			</File>
@@ -671,6 +691,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaUtils.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaVector.cpp"
 				>
 			</File>
 			<File
@@ -694,11 +718,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\mtrand.cpp"
+				RelativePath="..\..\src\ModManager.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\MyLuaMathTypes.cpp"
+				RelativePath="..\..\src\mtrand.cpp"
 				>
 			</File>
 			<File
@@ -742,10 +766,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\PiLuaClasses.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Planet.cpp"
 				>
 			</File>
@@ -762,7 +782,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Sector.cpp"
+				RelativePath="..\..\src\SDLWrappers.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\galaxy\Sector.cpp"
 				>
 			</File>
 			<File
@@ -787,6 +811,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ShipAICmd.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ShipController.cpp"
 				>
 			</File>
 			<File
@@ -834,7 +862,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\StarSystem.cpp"
+				RelativePath="..\..\src\galaxy\StarSystem.cpp"
 				>
 			</File>
 			<File
@@ -1082,11 +1110,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\TextSupport.cpp"
+				RelativePath="..\..\src\text\TextSupport.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\TextureFont.cpp"
+				RelativePath="..\..\src\text\TextureFont.cpp"
 				>
 			</File>
 			<File
@@ -1094,11 +1122,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\VectorFont.cpp"
+				RelativePath="..\..\src\text\VectorFont.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\View.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\WorldView.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\WorldViewCamera.cpp"
 				>
 			</File>
 		</Filter>
@@ -1116,6 +1152,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Background.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\BezierCurve.h"
 				>
 			</File>
@@ -1128,7 +1168,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\buildopts.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\collider\BVHTree.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ByteRange.h"
 				>
 			</File>
 			<File
@@ -1168,11 +1216,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\CRC32.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\custom_starsystems.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\CustomSystem.h"
+				RelativePath="..\..\src\galaxy\CustomSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\DeadVideoLink.h"
 				>
 			</File>
 			<File
@@ -1188,6 +1244,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\EquipSet.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\EquipType.h"
 				>
 			</File>
@@ -1196,11 +1256,39 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\FileSelectorWidget.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\FileSourceZip.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\FileSystem.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\fixed.h"
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\FloatComparison.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\Font.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\FontCache.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\FontConfig.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\FontDescriptor.h"
 				>
 			</File>
 			<File
@@ -1224,7 +1312,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Galaxy.h"
+				RelativePath="..\..\src\galaxy\Galaxy.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Game.h"
 				>
 			</File>
 			<File
@@ -1233,6 +1325,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\gameconsts.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\GameLoaderSaver.h"
 				>
 			</File>
 			<File
@@ -1352,6 +1448,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\gui\GuiTexturedQuad.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\gui\GuiToggleButton.h"
 				>
 			</File>
@@ -1392,7 +1492,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LangStrings.inc.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\libs.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Light.h"
 				>
 			</File>
 			<File
@@ -1432,6 +1540,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaFixed.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaFormat.h"
 				>
 			</File>
@@ -1445,6 +1557,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaMatrix.h"
 				>
 			</File>
 			<File
@@ -1504,6 +1620,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaSystemBody.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaSystemPath.h"
 				>
 			</File>
@@ -1520,7 +1640,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaVector.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\MarketAgent.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\MathUtil.h"
 				>
 			</File>
 			<File
@@ -1540,15 +1668,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ModManager.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\mtrand.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\mylua.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\MyLuaMathTypes.h"
 				>
 			</File>
 			<File
@@ -1584,10 +1712,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\PiLuaClasses.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\PiLuaConstants.h"
 				>
 			</File>
@@ -1616,7 +1740,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Quaternion.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\RefCounted.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\RefList.h"
 				>
 			</File>
 			<File
@@ -1640,7 +1772,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Sector.h"
+				RelativePath="..\..\src\SDLWrappers.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\galaxy\Sector.h"
 				>
 			</File>
 			<File
@@ -1661,6 +1797,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ShipAICmd.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ShipController.h"
 				>
 			</File>
 			<File
@@ -1712,7 +1852,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\StarSystem.h"
+				RelativePath="..\..\src\galaxy\StarSystem.h"
 				>
 			</File>
 			<File
@@ -1760,7 +1900,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\StringRange.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\SystemInfoView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\galaxy\SystemPath.h"
 				>
 			</File>
 			<File
@@ -1784,7 +1932,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\TextureFont.h"
+				RelativePath="..\..\src\text\TextSupport.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\TextureFont.h"
 				>
 			</File>
 			<File
@@ -1796,11 +1948,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\vector2.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\vector3.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\VectorFont.h"
+				RelativePath="..\..\src\text\VectorFont.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\VideoLink.h"
 				>
 			</File>
 			<File
@@ -1813,6 +1973,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\WorldView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\WorldViewCamera.h"
 				>
 			</File>
 		</Filter>
@@ -1832,6 +1996,13 @@
 				<File
 					RelativePath="..\..\contrib\lua\lapi.h"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\contrib\lua\lauxlib.h"
@@ -1839,6 +2010,10 @@
 				</File>
 				<File
 					RelativePath="..\..\contrib\lua\lcode.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\contrib\lua\lctype.h"
 					>
 				</File>
 				<File
@@ -1899,6 +2074,10 @@
 				</File>
 				<File
 					RelativePath="..\..\contrib\lua\lua.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\contrib\lua\lua.hpp"
 					>
 				</File>
 				<File
@@ -2020,7 +2199,100 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\contrib\lua\lbitlib.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="PreRelease|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\contrib\lua\lcode.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="PreRelease|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\contrib\lua\lcorolib.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="PreRelease|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\contrib\lua\lctype.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -2825,8 +3097,17 @@
 						/>
 					</FileConfiguration>
 				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="miniz"
+			>
+			<Filter
+				Name="source"
+				Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+				>
 				<File
-					RelativePath="..\..\contrib\lua\print.c"
+					RelativePath="..\..\contrib\miniz\miniz.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -2844,6 +3125,7 @@
 							Name="VCCLCompilerTool"
 							UsePrecompiledHeader="0"
 							ForcedIncludeFiles="$(NOINHERIT)"
+							ForcedUsingFiles=""
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2857,217 +3139,12 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-		</Filter>
-		<Filter
-			Name="oolua"
-			>
 			<Filter
 				Name="headers"
 				Filter="h;hpp;hxx;hm;inl;inc;xsd"
 				>
 				<File
-					RelativePath="..\..\contrib\oolua\base_checker.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\class_from_stack.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\class_public_member.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\cpp_constructor.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\cpp_member_func.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\determin_qualifier.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\export_func_to_lua.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\fwd_push_pull.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\lua_function.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\lua_includes.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\lua_operator.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\lua_ref.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\lua_stack_dump.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\lua_table.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\lvd_types.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\member_func_helper.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_c_func.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_char_arrays.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_check_result.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_config.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_error.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_exception.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_member_function.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_paramater_macros.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_parameter_helper.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_push_pull.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_registration.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_storage.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_typedefs.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_userdata.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_va_args.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_version.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\param_traits.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\platform_check.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\proxy_caller.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\proxy_class.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\push_pointer_internal.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\type_list.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\typelist_structs.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="source"
-				Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-				>
-				<File
-					RelativePath="..\..\contrib\oolua\class_from_stack.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\lua_function.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\lua_stack_dump.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\lua_table.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_check_result.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_error.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_push_pull.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\oolua_storage.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\oolua\push_pointer_internal.cpp"
+					RelativePath="..\..\contrib\miniz\miniz.h"
 					>
 				</File>
 			</Filter>
