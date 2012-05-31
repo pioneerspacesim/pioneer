@@ -2,7 +2,7 @@
 #include "text/TextSupport.h"
 #include "utils.h"
 
-static const float PARAGRAPH_SPACING = 2.0f;
+static const float PARAGRAPH_SPACING = 1.5f;
 
 namespace Gui {
 
