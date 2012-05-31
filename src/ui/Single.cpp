@@ -34,10 +34,10 @@ Single *Single::SetInnerWidget(Widget *widget)
 
 void Single::RemoveInnerWidget()
 {
-	assert(m_innerWidget);
-
-	RemoveWidget(m_innerWidget);
-	m_innerWidget = 0;
+	if (m_innerWidget) {
+		RemoveWidget(m_innerWidget);
+		m_innerWidget = 0;
+	}
 }
 
 }
