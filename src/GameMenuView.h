@@ -76,6 +76,7 @@ private:
 	void OnToggleFullscreen(Gui::ToggleButton *b, bool state);
 	void OnToggleJoystick(Gui::ToggleButton *b, bool state);
 	void OnToggleMouseYInvert(Gui::ToggleButton *b, bool state);
+	void OnToggleNavTunnel(Gui::ToggleButton *b, bool state);
 	bool m_changedDetailLevel;
 	View *m_subview;
 	VolumeControl *m_masterVolume;
@@ -91,6 +92,7 @@ private:
 	Gui::ToggleButton *m_toggleFullscreen;
 	Gui::ToggleButton *m_toggleJoystick;
 	Gui::ToggleButton *m_toggleMouseYInvert;
+	Gui::ToggleButton *m_toggleNavTunnel;
 };
 
 #endif /* _GAMEMENUVIEW_H */

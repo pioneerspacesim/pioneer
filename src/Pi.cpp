@@ -13,7 +13,7 @@
 #include "SystemInfoView.h"
 #include "WorldView.h"
 #include "ObjectViewerView.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "SpaceStation.h"
 #include "SpaceStationView.h"
 #include "CargoBody.h"
@@ -23,12 +23,12 @@
 #include "Sound.h"
 #include "Polit.h"
 #include "GalacticView.h"
-#include "Galaxy.h"
+#include "galaxy/Galaxy.h"
 #include "GameMenuView.h"
 #include "Missile.h"
 #include "LmrModel.h"
 #include "AmbientSounds.h"
-#include "CustomSystem.h"
+#include "galaxy/CustomSystem.h"
 #include "CityOnPlanet.h"
 #include "LuaManager.h"
 #include "LuaBody.h"
@@ -40,7 +40,7 @@
 #include "LuaCargoBody.h"
 #include "LuaStarSystem.h"
 #include "LuaSystemPath.h"
-#include "LuaSBody.h"
+#include "LuaSystemBody.h"
 #include "LuaShipType.h"
 #include "LuaEquipType.h"
 #include "LuaChatForm.h"
@@ -68,6 +68,8 @@
 #include "Sfx.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "SDLWrappers.h"
+#include "ModManager.h"
 #include <fstream>
 
 float Pi::gameTickAlpha;
@@ -199,7 +201,7 @@ static void LuaInit()
 	LuaCargoBody::RegisterClass();
 	LuaStarSystem::RegisterClass();
 	LuaSystemPath::RegisterClass();
-	LuaSBody::RegisterClass();
+	LuaSystemBody::RegisterClass();
 	LuaShipType::RegisterClass();
 	LuaEquipType::RegisterClass();
 	LuaRand::RegisterClass();
@@ -269,8 +271,6 @@ static void LuaInit()
 	LuaMusic::Register();
 
 	LuaConsole::Register();
-
-	pi_lua_dofile(l, "pistartup.lua");
 
 	// XXX load everything. for now, just modules
 	pi_lua_dofile_recursive(l, "libs");
@@ -369,28 +369,23 @@ void Pi::RedirectStdio()
 
 void Pi::LoadWindowIcon()
 {
-	static const std::string filename("icons/badge.png");
-
-	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
-	if (!filedata) {
-		fprintf(stderr, "LoadWindowIcon: %s: could not read file\n", filename.c_str());
-		return;
+#ifdef WIN32
+	// SDL doc says "Win32 icons must be 32x32".
+	SDLSurfacePtr surface = LoadSurfaceFromFile("icons/badge32-8b.png");
+#else
+	SDLSurfacePtr surface = LoadSurfaceFromFile("icons/badge.png");
+#endif
+	if (surface) {
+		SDL_WM_SetIcon(surface.Get(), 0);
 	}
-
-	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
-	SDL_Surface *icon = IMG_Load_RW(datastream, 1);
-	if (!icon) {
-		fprintf(stderr, "LoadWindowIcon: %s: %s\n", filename.c_str(), IMG_GetError());
-		return;
-	}
-
-	SDL_WM_SetIcon(icon, 0);
 }
 
 void Pi::Init()
 {
 	FileSystem::Init();
 	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
+
+	ModManager::Init();
 
 	Pi::config = new GameConfig(FileSystem::JoinPath(FileSystem::GetUserDir(), "config.ini"));
 	KeyBindings::InitBindings();
@@ -684,6 +679,8 @@ void Pi::BoinkNoise()
 
 void Pi::SetView(View *v)
 {
+	if (cpan)
+		cpan->ClearOverlay();
 	if (currentView) currentView->HideAll();
 	currentView = v;
 	if (currentView) {
@@ -795,7 +792,7 @@ void Pi::HandleEvents()
 									ship->m_equipment.Add(Equip::SCANNER);
 									ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
 									ship->m_equipment.Add(Equip::HYDROGEN, 10);
-									ship->UpdateMass();
+									ship->UpdateStats();
 									game->GetSpace()->AddBody(ship);
 								}
 							}
@@ -1060,7 +1057,7 @@ void Pi::HandleMenuKey(int n)
 			enemy->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 			enemy->m_equipment.Add(Equip::AUTOPILOT);
 			enemy->m_equipment.Add(Equip::SCANNER);
-			enemy->UpdateMass();
+			enemy->UpdateStats();
 			enemy->AIKill(player);
 			game->GetSpace()->AddBody(enemy);
 
@@ -1388,12 +1385,12 @@ void Pi::MainLoop()
 				"%d fps, %d phys updates, %d triangles, %.3f M tris/sec, %d terrain vtx/sec, %d glyphs/sec\n"
 				"Lua mem usage: %d MB + %d KB + %d bytes",
 				frame_stat, phys_stat, Pi::statSceneTris, Pi::statSceneTris*frame_stat*1e-6,
-				GeoSphere::GetVtxGenCount(), TextureFont::GetGlyphCount(),
+				GeoSphere::GetVtxGenCount(), Text::TextureFont::GetGlyphCount(),
 				lua_memMB, lua_memKB, lua_memB
 			);
 			frame_stat = 0;
 			phys_stat = 0;
-			TextureFont::ClearGlyphCount();
+			Text::TextureFont::ClearGlyphCount();
 			GeoSphere::ClearVtxGenCount();
 			if (SDL_GetTicks() - last_stats > 1200) last_stats = SDL_GetTicks();
 			else last_stats += 1000;

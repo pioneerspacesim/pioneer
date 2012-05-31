@@ -83,7 +83,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua.lib;miniz.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -110,7 +110,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua.lib;miniz.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -135,7 +135,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_release.lib;libvorbis_static_vc2010_release.lib;libvorbisfile_static_vc2010_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-2_2_8.lib;libpng15_static.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua.lib;miniz.lib;shlwapi.lib;libogg_static_vc2010_release.lib;libvorbis_static_vc2010_release.lib;libvorbisfile_static_vc2010_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-2_2_8.lib;libpng15_static.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -146,13 +146,13 @@
     <ClCompile Include="..\..\src\Color.cpp" />
     <ClCompile Include="..\..\src\CRC32.cpp" />
     <ClCompile Include="..\..\src\enum_table.cpp" />
+    <ClCompile Include="..\..\src\FileSourceZip.cpp" />
     <ClCompile Include="..\..\src\FileSystem.cpp" />
     <ClCompile Include="..\..\src\FileSystemPosix.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\src\Font.cpp" />
     <ClCompile Include="..\..\src\FontCache.cpp" />
     <ClCompile Include="..\..\src\FontConfig.cpp" />
     <ClCompile Include="..\..\src\graphics\Drawables.cpp" />
@@ -196,16 +196,21 @@
     <ClCompile Include="..\..\src\Lang.cpp" />
     <ClCompile Include="..\..\src\LmrModel.cpp" />
     <ClCompile Include="..\..\src\LuaConstants.cpp" />
+    <ClCompile Include="..\..\src\LuaFixed.cpp" />
+    <ClCompile Include="..\..\src\LuaMatrix.cpp" />
     <ClCompile Include="..\..\src\LuaModelViewer.cpp" />
     <ClCompile Include="..\..\src\LuaUtils.cpp" />
-    <ClCompile Include="..\..\src\MyLuaMathTypes.cpp" />
+    <ClCompile Include="..\..\src\LuaVector.cpp" />
+    <ClCompile Include="..\..\src\ModManager.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
+    <ClCompile Include="..\..\src\SDLWrappers.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
     <ClCompile Include="..\..\src\StringF.cpp" />
-    <ClCompile Include="..\..\src\TextSupport.cpp" />
-    <ClCompile Include="..\..\src\TextureFont.cpp" />
+    <ClCompile Include="..\..\src\text\Font.cpp" />
+    <ClCompile Include="..\..\src\text\TextSupport.cpp" />
+    <ClCompile Include="..\..\src\text\TextureFont.cpp" />
+    <ClCompile Include="..\..\src\text\VectorFont.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
-    <ClCompile Include="..\..\src\VectorFont.cpp" />
     <ClCompile Include="..\src\FileSystemWin32.cpp" />
     <ClCompile Include="..\src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -224,8 +229,8 @@
     <ClInclude Include="..\..\src\Color.h" />
     <ClInclude Include="..\..\src\CRC32.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
+    <ClInclude Include="..\..\src\FileSourceZip.h" />
     <ClInclude Include="..\..\src\FileSystem.h" />
-    <ClInclude Include="..\..\src\Font.h" />
     <ClInclude Include="..\..\src\FontCache.h" />
     <ClInclude Include="..\..\src\FontConfig.h" />
     <ClInclude Include="..\..\src\graphics\Drawables.h" />
@@ -276,19 +281,25 @@
     <ClInclude Include="..\..\src\libs.h" />
     <ClInclude Include="..\..\src\LmrModel.h" />
     <ClInclude Include="..\..\src\LuaConstants.h" />
+    <ClInclude Include="..\..\src\LuaFixed.h" />
+    <ClInclude Include="..\..\src\LuaMatrix.h" />
     <ClInclude Include="..\..\src\LuaUtils.h" />
+    <ClInclude Include="..\..\src\LuaVector.h" />
     <ClInclude Include="..\..\src\matrix4x4.h" />
-    <ClInclude Include="..\..\src\MyLuaMathTypes.h" />
+    <ClInclude Include="..\..\src\ModManager.h" />
     <ClInclude Include="..\..\src\perlin.h" />
+    <ClInclude Include="..\..\src\SDLWrappers.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
     <ClInclude Include="..\..\src\StringF.h" />
     <ClInclude Include="..\..\src\StringRange.h" />
-    <ClInclude Include="..\..\src\TextSupport.h" />
-    <ClInclude Include="..\..\src\TextureFont.h" />
+    <ClInclude Include="..\..\src\text\Font.h" />
+    <ClInclude Include="..\..\src\text\FontDescriptor.h" />
+    <ClInclude Include="..\..\src\text\TextSupport.h" />
+    <ClInclude Include="..\..\src\text\TextureFont.h" />
+    <ClInclude Include="..\..\src\text\VectorFont.h" />
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\vector2.h" />
     <ClInclude Include="..\..\src\vector3.h" />
-    <ClInclude Include="..\..\src\VectorFont.h" />
     <ClInclude Include="..\src\pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

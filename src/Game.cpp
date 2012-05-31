@@ -18,7 +18,7 @@
 #include "ObjectViewerView.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 49;
+static const int  s_saveVersion   = 51;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -487,14 +487,14 @@ void Game::SwitchToNormalSpace()
 					// flyto command in onEnterSystem so it should sort it
 					// itself out long before the player can get near
 					
-					SBody *sbody = m_space->GetStarSystem()->GetBodyByPath(&sdest);
-					if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
+					SystemBody *sbody = m_space->GetStarSystem()->GetBodyByPath(&sdest);
+					if (sbody->type == SystemBody::TYPE_STARPORT_ORBITAL) {
 						ship->SetFrame(target_body->GetFrame());
 						ship->SetPosition(MathUtil::RandomPointOnSphere(1000.0)*1000.0); // somewhere 1000km out
 					}
 
 					else {
-						if (sbody->type == SBody::TYPE_STARPORT_SURFACE) {
+						if (sbody->type == SystemBody::TYPE_STARPORT_SURFACE) {
 							sbody = sbody->parent;
 							SystemPath path = m_space->GetStarSystem()->GetPathOf(sbody);
 							target_body = m_space->FindBodyForPath(&path);
@@ -587,7 +587,7 @@ void Game::CreatePlayer()
 		m_player->m_equipment.Add(Equip::SCANNER);
 	}
 
-	m_player->UpdateMass();
+	m_player->UpdateStats();
 	m_player->SetMoney(10000);
 }
 

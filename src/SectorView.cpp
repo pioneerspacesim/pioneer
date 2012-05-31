@@ -2,11 +2,11 @@
 #include "gui/Gui.h"
 #include "Pi.h"
 #include "SectorView.h"
-#include "Sector.h"
+#include "galaxy/Sector.h"
 #include "SystemInfoView.h"
 #include "Player.h"
 #include "Serializer.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "GalacticView.h"
 #include "Lang.h"
 #include "StringF.h"
@@ -112,8 +112,8 @@ void SectorView::InitObject()
 	const float rad = 0.2f;
 	for (int i = 72; i >= 0; i--) {
 		m_disk->Add(vector3f(
-			0.f+sinf(DEG2RAD(i*5))*rad,
-			0.f+cosf(DEG2RAD(i*5))*rad,
+			0.f+sinf(DEG2RAD(i*5.f))*rad,
+			0.f+cosf(DEG2RAD(i*5.f))*rad,
 			0.f));
 	}
 	
@@ -841,7 +841,7 @@ void SectorView::Update()
 
 	ShrinkCache();
 
-	m_playerHyperspaceRange = Pi::player->CalcStats()->hyperspace_range;
+	m_playerHyperspaceRange = Pi::player->GetStats().hyperspace_range;
 }
 
 void SectorView::ShowAll()

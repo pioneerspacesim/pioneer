@@ -127,7 +127,7 @@ WELCOME_TO_SOMEWHERE
 # write anything you like here.  It will appear in every space station
 # in the whole galaxy.
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Hello, traveller.  Welcome to our little blue play-pen.  If it's your first time here, feel free to get acquainted with the residents.  We hope you enjoy your stay.\n\nPlease remember that renovations are under way, and that scenery may change between visits.
+    Hello, traveller.  Welcome to our little blue play-pen.  If it's your first time here, feel free to get acquainted with the residents.  We hope you enjoy your stay.\nPlease remember that renovations are under way, and that scenery may change between visits.
 REQUEST_LAUNCH
     Request Launch
 SHIPYARD
@@ -250,6 +250,10 @@ MOUSE_INPUT
     Mouse Input
 INVERT_MOUSE_Y
     Invert MouseY
+HUD
+	HUD
+DISPLAY_NAV_TUNNEL
+	Display navigation tunnel
 LANGUAGE_SELECTION
     Language (restart game to apply)
  
@@ -528,8 +532,6 @@ FIRE_LASER
     Fire laser
 SHIP_ORIENTATION
     Ship orientation
-FAST_ROTATION_CONTROL
-    Fast rotational control
 PITCH_UP
     Pitch up
 PITCH_DOWN
@@ -556,6 +558,8 @@ THRUSTER_PORT
     Thrust left
 THRUSTER_STARBOARD
     Thrust right
+USE_LOW_THRUST
+    Use low thrust
 SPEED_CONTROL_MODE
     Speed control mode
 INCREASE_SET_SPEED
@@ -572,6 +576,8 @@ DECREASE_SCAN_RANGE
 	Decrease scanner range
 TOGGLE_LUA_CONSOLE
     Toggle Lua console
+TOGGLE_HUD_MODE
+    Toggle HUD mode
 JOYSTICK_INPUT
     Joystick input
 PITCH
@@ -1052,6 +1058,10 @@ OBJECT_LABELS_ARE_ON
     Object labels are on
 OBJECT_LABELS_ARE_OFF
     Object labels are off
+SELECT_LOW_THRUST_POWER_LEVEL
+    Select low thrust power level
+SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT
+    Set low thrust power level to %power%%
 HYPERSPACE_JUMP
     Hyperspace Jump
 TAKEOFF

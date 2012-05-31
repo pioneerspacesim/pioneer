@@ -55,7 +55,7 @@ void StationShipRepairForm::ShowAll()
 	UpdateLabels();
 }
 
-int StationShipRepairForm::GetRepairCost(float percent)
+int StationShipRepairForm::GetRepairCost(float percent) const
 {
 	return int(Pi::player->GetFlavour()->price * 0.001 * percent);
 }

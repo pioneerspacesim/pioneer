@@ -57,13 +57,13 @@ public:
 	vector3d GetPositionRelTo(const Body *) const;
 	
 	// Should return pointer in Pi::currentSystem
-	virtual const SBody *GetSBody() const { return 0; }
+	virtual const SystemBody *GetSystemBody() const { return 0; }
 	// for putting on planet surface, oriented +y up
 	void OrientOnSurface(double radius, double latitude, double longitude);
 
 	void SetLabel(const std::string &label) { m_label = label; }
 	const std::string &GetLabel() const { return m_label; }
-	unsigned int GetFlags() { return m_flags; }
+	unsigned int GetFlags() const { return m_flags; }
 	// Only Space::KillBody() should call this method.
 	void MarkDead() { m_dead = true; }
 	bool IsDead() const { return m_dead; }

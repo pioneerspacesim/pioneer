@@ -119,8 +119,8 @@ void ObjectViewerView::OnSwitchTo()
 
 void ObjectViewerView::Update()
 {
-	if (Pi::KeyState(SDLK_EQUALS)) viewingDist *= 0.99;
-	if (Pi::KeyState(SDLK_MINUS)) viewingDist *= 1.01;
+	if (Pi::KeyState(SDLK_EQUALS)) viewingDist *= 0.99f;
+	if (Pi::KeyState(SDLK_MINUS)) viewingDist *= 1.01f;
 	viewingDist = Clamp(viewingDist, 10.0f, 1e12f);
 
 	char buf[128];
@@ -132,7 +132,7 @@ void ObjectViewerView::Update()
 
 		if (body->IsType(Object::TERRAINBODY)) {
 			TerrainBody *tbody = static_cast<TerrainBody*>(body);
-			const SBody *sbody = tbody->GetSBody();
+			const SystemBody *sbody = tbody->GetSystemBody();
 			m_sbodyVolatileGas->SetText(stringf("%0{f.3}", sbody->m_volatileGas.ToFloat()));
 			m_sbodyVolatileLiquid->SetText(stringf("%0{f.3}", sbody->m_volatileLiquid.ToFloat()));
 			m_sbodyVolatileIces->SetText(stringf("%0{f.3}", sbody->m_volatileIces.ToFloat()));
@@ -147,7 +147,7 @@ void ObjectViewerView::Update()
 	snprintf(buf, sizeof(buf), "View dist: %s     Object: %s", format_distance(viewingDist).c_str(), (body ? body->GetLabel().c_str() : "<none>"));
 	m_infoLabel->SetText(buf);
 
-	if (body->IsType(Object::TERRAINBODY)) m_vbox->ShowAll();
+	if (body && body->IsType(Object::TERRAINBODY)) m_vbox->ShowAll();
 	else m_vbox->HideAll();
 }
 
@@ -167,7 +167,7 @@ void ObjectViewerView::OnChangeTerrain()
 	// sbody. one day objectviewer should be far more contained and not
 	// actually modify the space
 	Body *body = Pi::player->GetNavTarget();
-	SBody *sbody = const_cast<SBody*>(body->GetSBody());
+	SystemBody *sbody = const_cast<SystemBody*>(body->GetSystemBody());
 
 	sbody->seed = atoi(m_sbodySeed->GetText().c_str());
 	sbody->radius = radius;

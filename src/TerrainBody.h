@@ -2,7 +2,7 @@
 #define _TERRAINBODY_H
 
 #include "Body.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "GeoSphere.h"
 
 class Frame;
@@ -21,25 +21,25 @@ public:
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel) { return true; }
 	virtual double GetMass() const { return m_mass; }
 	double GetTerrainHeight(const vector3d pos) const;
-	bool IsSuperType(SBody::BodySuperType t) const;
-	virtual const SBody *GetSBody() const { return m_sbody; }
+	bool IsSuperType(SystemBody::BodySuperType t) const;
+	virtual const SystemBody *GetSystemBody() const { return m_sbody; }
 	GeoSphere *GetGeoSphere() const { return m_geosphere; }
-	double GetMaxFeatureRadius() {			// returns value in metres
+	double GetMaxFeatureRadius() const { // returns value in metres
 		return (m_geosphere->GetMaxFeatureHeight() + 1.0) * m_sbody->GetRadius();
 	}	
 
 protected:
-	TerrainBody(SBody*);
+	TerrainBody(SystemBody*);
 	TerrainBody();
 	virtual ~TerrainBody();
 
-	void InitTerrainBody(SBody *);
+	void InitTerrainBody(SystemBody *);
 
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
 
 private:
-	SBody *m_sbody;
+	SystemBody *m_sbody;
 	vector3d m_pos;
 	double m_mass;
 	GeoSphere *m_geosphere;

@@ -2,7 +2,7 @@
 #include "Pi.h"
 #include "Projectile.h"
 #include "Frame.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Space.h"
 #include "Serializer.h"
 #include "collider/collider.h"
@@ -18,9 +18,6 @@
 #include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
 
-static const std::string projectileTextureFilename("textures/projectile_l.png");
-static const std::string projectileGlowTextureFilename("textures/projectile_w.png");
-
 Projectile::Projectile(): Body()
 {
 	m_orient = matrix4x4d::Identity();
@@ -31,10 +28,10 @@ Projectile::Projectile(): Body()
 	m_flags |= FLAG_DRAW_LAST;
 
 	//set up materials
-	m_sideMat.texture0 = Graphics::TextureBuilder::Billboard(projectileTextureFilename).GetOrCreateTexture(Pi::renderer, "billboard");
+	m_sideMat.texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.png").GetOrCreateTexture(Pi::renderer, "billboard");
 	m_sideMat.unlit = true;
 	m_sideMat.twoSided = true;
-	m_glowMat.texture0 = Graphics::TextureBuilder::Billboard(projectileGlowTextureFilename).GetOrCreateTexture(Pi::renderer, "billboard");
+	m_glowMat.texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.png").GetOrCreateTexture(Pi::renderer, "billboard");
 	m_glowMat.unlit = true;
 	m_glowMat.twoSided = true;
 
@@ -88,7 +85,7 @@ Projectile::Projectile(): Body()
 		m_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
 
 		gw -= 0.1f; // they get smaller
-		gz -= 0.2; // as they move back
+		gz -= 0.2f; // as they move back
 	}
 }
 
@@ -171,7 +168,7 @@ double Projectile::GetRadius() const
 	return sqrt(length*length + width*width);
 }
 
-static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const vector3d &pos)
+static void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, const vector3d &pos)
 {
 	Equip::Type t;
 	if (20*Pi::rng.Fixed() < asteroid->m_metallicity) {
@@ -188,7 +185,10 @@ static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const ve
 	CargoBody *cargo = new CargoBody(t);
 	cargo->SetFrame(f);
 	cargo->SetPosition(pos);
-	cargo->SetVelocity(Pi::rng.Double(100.0,200.0)*vector3d(Pi::rng.Double()-.5, Pi::rng.Double()-.5, Pi::rng.Double()-.5));
+	const double x = Pi::rng.Double();
+	vector3d dir = pos.Normalized();
+	dir.ArbRotate(vector3d(x, 1-x, 0), Pi::rng.Double()-.5);
+	cargo->SetVelocity(Pi::rng.Double(100.0,200.0) * dir);
 	Pi::game->GetSpace()->AddBody(cargo);
 }
 
@@ -218,12 +218,12 @@ void Projectile::StaticUpdate(const float timeStep)
 		// need to test for terrain hit
 		if (GetFrame()->m_astroBody && GetFrame()->m_astroBody->IsType(Object::PLANET)) {
 			Planet *const planet = static_cast<Planet*>(GetFrame()->m_astroBody);
-			const SBody *b = planet->GetSBody();
+			const SystemBody *b = planet->GetSystemBody();
 			vector3d pos = GetPosition();
 			double terrainHeight = planet->GetTerrainHeight(pos.Normalized());
 			if (terrainHeight > pos.Length()) {
 				// hit the fucker
-				if (b->type == SBody::TYPE_PLANET_ASTEROID) {
+				if (b->type == SystemBody::TYPE_PLANET_ASTEROID) {
 					vector3d n = GetPosition().Normalized();
 					MiningLaserSpawnTastyStuff(planet->GetFrame(), b, n*terrainHeight + 5.0*n);
 					Sfx::Add(this, Sfx::TYPE_EXPLOSION);

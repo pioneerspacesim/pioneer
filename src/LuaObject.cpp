@@ -103,10 +103,7 @@ static inline void _instantiate() {
 		registry = new std::map<lid, LuaObjectBase*>;
 		promotions = new std::map< std::string, std::map<std::string,PromotionTest> >;
 
-		// XXX I want to do this, because its good to clean up at end of
-		// program if you can. doing it reintroduces the crash though, as this
-		// gets called before all our objects are destroyed. I'm not sure what
-		// the solution is at this time
+		// XXX atexit is not a very nice way to deal with this in C++
 		atexit(_teardown);
 
 		instantiated = true;
@@ -190,8 +187,14 @@ static int dispatch_index(lua_State *l)
 	// sanity check. it should be a userdatum
 	assert(lua_isuserdata(l, 1));
 
+	// ensure we have enough stack space
+	luaL_checkstack(l, 8, 0);
+
+	// each type has a global method table, which we need access to
+	lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
+
 	// everything we need is in the metatable, so lets start with that
-	lua_getmetatable(l, 1);             // object, key, metatable
+	lua_getmetatable(l, 1);             // object, key, globals, metatable
 
 	// loop until we find what we're looking for or we run out of metatables
 	while (!lua_isnil(l, -1)) {
@@ -199,27 +202,27 @@ static int dispatch_index(lua_State *l)
 		// first is method lookup. we get the object type from the metatable and
 		// use it to look up the method table and from there, the method itself
 		lua_pushstring(l, "type");
-		lua_rawget(l, -2);                  // object, key, metatable, type
+		lua_rawget(l, -2);                  // object, key, globals, metatable, type
 
-		lua_rawget(l, LUA_GLOBALSINDEX);    // object, key, metatable, method table
+		lua_rawget(l, -3);                  // object, key, globals, metatable, method table
 
 		lua_pushvalue(l, 2);
-		lua_rawget(l, -2);                  // object, key, metatable, method table, method
+		lua_rawget(l, -2);                  // object, key, globals, metatable, method table, method
     
 		// found something, return it
 		if (!lua_isnil(l, -1))
 			return 1;
 
-		lua_pop(l, 2);                      // object, key, metatable
+		lua_pop(l, 2);                      // object, key, globals, metatable
 
 		// didn't find a method, so now we go looking for an attribute handler in
 		// the attribute table
 		lua_pushstring(l, "attrs");
-		lua_rawget(l, -2);                  // object, key, metatable, attr table
+		lua_rawget(l, -2);                  // object, key, globals, metatable, attr table
 
 		if (lua_istable(l, -1)) {
 			lua_pushvalue(l, 2);
-			lua_rawget(l, -2);              // object, key, metatable, attr table, attr handler
+			lua_rawget(l, -2);              // object, key, globals, metatable, attr table, attr handler
 
 			// found something. since its likely a regular attribute lookup and not a
 			// method call we have to do the call ourselves
@@ -229,36 +232,36 @@ static int dispatch_index(lua_State *l)
 				return 1;
 			}
 
-			lua_pop(l, 2);                  // object, key, metatable
+			lua_pop(l, 2);                  // object, key, globals, metatable
 		}
 		else
-			lua_pop(l, 1);                  // object, key, metatable
+			lua_pop(l, 1);                  // object, key, globals, metatable
 
 		// didn't find anything. if the object has a parent object then we look
 		// there instead
 		lua_pushstring(l, "parent");
-		lua_rawget(l, -2);                  // object, key, metatable, parent type
+		lua_rawget(l, -2);                  // object, key, globals, metatable, parent type
 
 		// not found means we have no parents and we can't search any further
 		if (lua_isnil(l, -1))
 			break;
 
 		// clean up the stack
-		lua_remove(l, -2);                  // object, key, parent type
+		lua_remove(l, -2);                  // object, key, globals, parent type
 
 		// get the parent metatable
-		lua_rawget(l, LUA_REGISTRYINDEX);   // object, key, parent metatable
+		lua_rawget(l, LUA_REGISTRYINDEX);   // object, key, globals, parent metatable
 	}
 
 	luaL_error(l, "unable to resolve method or attribute '%s'", lua_tostring(l, 2));
 	return 0;
 }
 
-static const luaL_reg no_methods[] = {
+static const luaL_Reg no_methods[] = {
 	{ 0, 0 }
 };
 
-void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL_reg *methods, const luaL_reg *attrs, const luaL_reg *meta)
+void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta)
 {
 	assert(type);
 
@@ -288,7 +291,8 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	lua_pop(l, 1);
 
 	// create table, attach methods to it, leave it on the stack
-	luaL_register(l, type, methods ? methods : no_methods);
+	lua_newtable(l);
+	luaL_setfuncs(l, methods ? methods : no_methods, 0);
 
 	// add the exists method
 	lua_pushstring(l, "exists");
@@ -300,10 +304,13 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	lua_pushcfunction(l, LuaObjectBase::l_isa);
 	lua_rawset(l, -3);
 
+	// publish the method table as a global (and pop it from the stack)
+	lua_setglobal(l, type);
+
 	// create the metatable, leave it on the stack
 	luaL_newmetatable(l, type);
 	// attach metamethods to it
-	if (meta) luaL_register(l, 0, meta);
+	if (meta) luaL_setfuncs(l, meta, 0);
 
 	// add a generic garbage collector
 	lua_pushstring(l, "__gc");
@@ -335,14 +342,14 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 		lua_pushstring(l, "attrs");
 		
 		lua_newtable(l);
-		luaL_register(l, 0, attrs);
+		luaL_setfuncs(l, attrs, 0);
 
 		lua_rawset(l, -3);
 
 	}
 
-	// remove the metatable and the method table from the stack
-	lua_pop(l, 2);
+	// pop the metatable
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 }

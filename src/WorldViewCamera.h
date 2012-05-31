@@ -1,4 +1,4 @@
-﻿#ifndef _WORLDVIEWCAMERA_H
+#ifndef _WORLDVIEWCAMERA_H
 #define _WORLDVIEWCAMERA_H
 /*
  * Front, rear, external etc. cameras used by WorldView.
@@ -34,6 +34,7 @@ public:
 	virtual void Save(Serializer::Writer &wr) { }
 	virtual void Load(Serializer::Reader &rd) { }
 	virtual void Activate() { }
+	virtual bool IsExternal() const { return false; }
 };
 
 // Forward facing view from the ship
@@ -68,6 +69,7 @@ public:
 	void UpdateTransform();
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
+	bool IsExternal() const { return true; }
 	void SetRotationAngles(double x, double y) {
 		m_rotX = x;
 		m_rotY = y;
@@ -94,6 +96,7 @@ public:
 	void ZoomOut(float frameTime);
 	void Reset();
 	void UpdateTransform();
+	bool IsExternal() const { return true; }
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
 private:

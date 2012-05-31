@@ -124,7 +124,7 @@ BULLETIN_BOARD
 WELCOME_TO_SOMEWHERE
     Welkom op %station
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Hallo reiziger, welkom op dit station. We hebben berichten over vandalisme en graffiti ontvangen. Als u in de bewegwijzering fouten of omissies ontdekt, informeert u dan alstublieft een medewerker.\n\nZuurstof is momenteel gratis.
+    Hallo reiziger, welkom op dit station. We hebben berichten over vandalisme en graffiti ontvangen. Als u in de bewegwijzering fouten of omissies ontdekt, informeert u dan alstublieft een medewerker.\nZuurstof is momenteel gratis.
 REQUEST_LAUNCH
     Verzoek om toestemming om te vertrekken
 SHIPYARD

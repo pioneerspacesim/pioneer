@@ -7,7 +7,7 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightHillsNormal>::GetHeightFractalName() const { return "HillsNormal"; }
 
 template <>
-TerrainHeightFractal<TerrainHeightHillsNormal>::TerrainHeightFractal(const SBody *body) : Terrain(body)
+TerrainHeightFractal<TerrainHeightHillsNormal>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
 {
 	//textures
 	if (textures) {
@@ -45,6 +45,7 @@ double TerrainHeightFractal<TerrainHeightHillsNormal>::GetHeight(const vector3d 
 	// cliffs at shore
 	if (continents < 0.01) n += m * continents * 100.0f;
 	else n += m;
-	return (n > 0.0 ? n*m_maxHeight : 0.0); 
-	return 0.0;
+
+	if (n > 0.0) return n*m_maxHeight;
+    return 0.0;
 }

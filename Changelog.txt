@@ -1,7 +1,83 @@
+Alpha 23
+
+   * Minor changes and tweaks
+     * Show target indicator on docking waypoints when clearance has been
+       granted to assist with manual docking (#1260)
+
+   * Fixes
+     * Work around sector view crash on Radeon (#1062)
+     * Fix handling of deep folders in zip files (#1270)
+     * Fix redscreen hang (#1272)
+     * Fix text metrics code to calculate text height properly (#1273)
+
+   * Script and model changes
+     * Lua updated to 5.2.0 (#1246)
+     * Renamed Matrix and Vec classes to matrix and vector (#1245)
+     * Renamed CustomSBody to CustomSystemBody (#1245)
+     * Removed global data from Lua crash dump (#1272)
+
+   * Internal changes
+     * Fixed configure compiler warning tests for gcc and clang
+     * Removed OOLua. Replaced uses of it with explicit Lua calls. Various
+       other Lua-related cleanups and consistency fixes (#1245, #1246)
+     * Move system generation and related classes under galaxy/ (#1245)
+     * Renamed SBody to SystemBody, CustomSBody to CustomSystemBody (#1245)
+
+Alpha 22
+
+   * New features
+     * Support for attaching .zip files to the data directory. Allows users to
+       add mods to the game by putting a single file in <userdir>/mods (#1214)
+     * New 'Meteor' ship (#1219, #1239)
+
+   * Minor changes and tweaks
+     * Removed 'Walrus' ship (#1219)
+     * Updated 'Wave' ship textures (#1239, #1231)
+     * Increase probability of mining populations near Sol (#1236)
+     * Add possibility of starports/cities being generated on asteroids (#1236)
+     * Give mined cargo a velocity away from the asteroid so they float out
+       into space (#1236)
+     * Changed hyperspace entry point calculation to consider star radius and
+       position (#1207)
+
+   * Fixes
+     * Fixed crash when near planets with fuel scoop attached (#1200, #1201)
+     * Fixed timer setup for trade ships after game load (#1205, #1204)
+     * Fixed mission modules remembering nearby systems across game restarts
+       (#1212, #1211)
+     * Fixed bug where .obj model loader would create a new draw operation for
+       every triangle/quad (#1223)
+     * Fixed system metallicity in multiple-star systems (#1236, #1222)
+     * Fixed planet metallicity calculation based on star type (#1236)
+     * Fixed crash when crosshair-targetting an object that no longer exists
+       (#1232, #1210)
+     * Fixed crash when mission display is opened with lots of missions
+       (#1233, #1196)
+     * Don't take timesteps for dead ships. Stops the player firing during the
+       death screen (regression) (#1243, #1103, #1056)
+     * Fix crash when objectviewer activated with no target set (#1248)
+     * Fix modelviewer crash when animation sliders do not fit on screen (#1256)
+
+   * Script and model changes
+     * LMR "lathe" function radius and up vector now interpreted the same as
+       "cylinder" etc (#1185, #1037)
+     * Added support for emission (glow) maps in .obj files (#1223)
+
+   * Internal changes
+     * Better support for file enumeration across multiple directories (#1182)
+     * Model cache CRC32 calculation now includes files under data/sub_models
+       (#1182, #1181)
+     * Restructured text and font classes; decoupled font classes from font
+       config files (#1165)
+
 Alpha 21
 
    * New features
      * Elite systems (Lave etc) with a new start point (#682)
+     * Manual thrust power control. Use F8 and L-shift to limit thruster power
+       for finer control (#994, #129)
+     * Navtarget tunnels, a HUD feature to guide you to your destination. Enable
+       it in the "Controls" section of the settings screen (#1146, #1082)
      * New small buildings (#1047)
 
    * Minor changes and tweaks
@@ -16,18 +92,26 @@ Alpha 21
      * Several stars around Sol updated to use their "traditional"
        (non-catalogue) names (#1068)
      * Rear of Eagle ship now visible to player (#1125)
+     * Removed tech levels (#1131)
+     * Added a grid to the modelviewer to help visualise model size (#1132)
+     * Reverted DeliverPackage module to pre-Alpha 20 (#1162)
 
    * Fixes
      * Don't take timesteps for dead ships. Stops the player firing during the
        death screen (#1056)
      * Move all the custom stars into the right places (#1080, #1081)
-	 * Fix autopilot handling of fast-moving bodies (#1090)
+     * Fix autopilot handling of fast-moving bodies (#1090)
      * Fixed hyperspace checks so they work during hyperspace and don't allow
        hyperspace to be triggered at odd times (eg docked) (#1101, #999, #1030, #1088)
      * Restore Jupiter and Neptune to their correct terrain types (#1100)
      * Fixed various old bugs around frame movement, timesteps, AI velocity
        correction and similar (#1090)
      * Fix crash when script tries to set ship label > 16 chars (#1116, #1114)
+     * Limit max engines to 0 or 1 to prevent certain forms of lunacy (#1140)
+     * Fix view/panel draw order so that world elements do not draw over the
+       panel (#1141, #1161, #1160)
+     * Only update ship mass, fuel and equipment stats when necessary (#1112, #1155)
+     * Fixed huge mixer icon on Win32 (#1158, #860)
 
    * Script changes
      * New custom system option :explored to explicitly set a system's
@@ -39,6 +123,9 @@ Alpha 21
        duration and fuel use without regard to current flight state (#1101)
      * New ship params 'front_camera' and 'rear_camera'. Sets the camera's
        position on the ship, and causes the ship's body to be drawn (#1125)
+     * New attribute SpaceStation.numDocks to get number of docking ports (#1135)
+     * New SystemBody attributes gravity, hasAtmosphere and isScoopable (#1150,
+       #859)
 
    * Internal changes
      * configure tweaks for better optimisations and profiling support
@@ -51,10 +138,12 @@ Alpha 21
      * Remove renderer dependencies on Pi and utils (#1071)
      * Pack font glyphs into a single texture for faster text rendering (#1106,
        #1084, #1107)
-     * Split world cameras out of WorldView (#1113)
+     * Split world cameras out of WorldView (#1113, #1145)
      * Use a fixed version and proper CRC for the model cache (#1119)
      * Moved ship control code out of Player and Worldview into a new set of
        ShipController classes (#1083, #1129)
+     * Silence warnings when building with GCC 4.7 (#1152)
+     * Various internal cleanups (#1139, #1142)
 
 Alpha 20
 

@@ -4,6 +4,8 @@ if BUILD_WIN32
 endif
 SUBDIRS = contrib $(PLATFORM_SUBDIRS) src data osx
 
+PATH := @MXE_PATH@:$(PATH)
+
 include $(top_srcdir)/Makefile.common
 
 .PHONY: codedoc
@@ -12,7 +14,7 @@ codedoc:
 
 .PHONY: enums
 enums:
-	python scripts/scan_enums.py -o src/enum_table.cpp src/*.h
+	python scripts/scan_enums.py -r --pattern=*.h -o src/enum_table.cpp src
 
 EXTRA_DIST = \
 	AUTHORS.txt \

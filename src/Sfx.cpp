@@ -2,7 +2,7 @@
 #include "Pi.h"
 #include "Sfx.h"
 #include "Frame.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Space.h"
 #include "Pi.h"
 #include "graphics/Material.h"
@@ -13,8 +13,6 @@
 #include "graphics/TextureBuilder.h"
 
 using namespace Graphics;
-
-static const std::string damageTextureFilename("textures/smoke.png");
 
 #define MAX_SFX_PER_FRAME 1024
 Graphics::Drawables::Sphere3D *Sfx::shieldEffect = 0;
@@ -120,7 +118,7 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			vector3f pos(&fpos.x);
 			//XXX no need to recreate material every time
 			Material mat;
-			mat.texture0 = Graphics::TextureBuilder::Billboard(damageTextureFilename).GetOrCreateTexture(Pi::renderer, "billboard");
+			mat.texture0 = Graphics::TextureBuilder::Billboard("textures/smoke.png").GetOrCreateTexture(Pi::renderer, "billboard");
 			mat.unlit = true;
 			mat.diffuse = Color(1.f, 1.f, 0.f, 1.0f-(m_age/2.0f));
 			renderer->DrawPointSprites(1, &pos, &mat, 20.f);

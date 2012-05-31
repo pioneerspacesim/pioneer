@@ -5,12 +5,13 @@
 #include <string>
 #include "Texture.h"
 #include "Renderer.h"
+#include "SDLWrappers.h"
 
 namespace Graphics {
 
 class TextureBuilder {
 public:
-	TextureBuilder(SDL_Surface *surface, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true);
+	TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true);
 	TextureBuilder(const std::string &filename, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true);
 	~TextureBuilder();
 
@@ -45,7 +46,7 @@ public:
 	}
 
 private:
-	SDL_Surface *m_surface;
+	SDLSurfacePtr m_surface;
 	std::string m_filename;
 
 	TextureSampleMode m_sampleMode;

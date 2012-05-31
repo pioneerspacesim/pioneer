@@ -22,7 +22,6 @@
 #endif
 
 void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribute((noreturn));
-void Warning(const char *format, ...) __attribute((format(printf,1,2)));
 void SilentWarning(const char *format, ...) __attribute((format(printf,1,2)));
 
 std::string string_join(std::vector<std::string> &v, std::string sep);
@@ -57,7 +56,7 @@ const char *pi_strcasestr(const char *haystack, const char *needle);
 #ifdef _MSC_VER
 
 // round & roundf. taken from http://cgit.freedesktop.org/mesa/mesa/tree/src/gallium/auxiliary/util/u_math.h
-static double round(double x)
+static inline double round(double x)
 {
    return x >= 0.0 ? floor(x + 0.5) : ceil(x - 0.5);
 }

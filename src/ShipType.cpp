@@ -1,6 +1,6 @@
 #include "ShipType.h"
 #include "LmrModel.h"
-#include "MyLuaMathTypes.h"
+#include "LuaVector.h"
 #include "LuaUtils.h"
 #include "utils.h"
 #include "Lang.h"
@@ -77,7 +77,7 @@ static void _get_vec_attrib(lua_State *L, const char *key, vector3d &output,
 	if (lua_isnil(L, -1)) {
 		output = default_output;
 	} else {
-		output = vector3d(*MyLuaVec::checkVec(L, -1));
+		output = *LuaVector::CheckFromLua(L, -1);
 	}
 	lua_pop(L, 1);
 	LUA_DEBUG_END(L, 0);
@@ -129,6 +129,8 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 	_get_int_attrib(L, "price", s.baseprice, 0);
 	s.baseprice *= 100; // in hundredths of credits
 
+	s.equipSlotCapacity[Equip::SLOT_ENGINE] = Clamp(s.equipSlotCapacity[Equip::SLOT_ENGINE], 0, 1);
+
 	{
 		int hyperclass;
 		_get_int_attrib(L, "hyperdrive_class", hyperclass, 1);
@@ -142,17 +144,17 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 	lua_pushstring(L, "gun_mounts");
 	lua_gettable(L, -2);
 	if (lua_istable(L, -1)) {
-		for (unsigned int i=0; i<lua_objlen(L,-1); i++) {
+		for (unsigned int i=0; i<lua_rawlen(L,-1); i++) {
 			lua_pushinteger(L, i+1);
 			lua_gettable(L, -2);
-			if (lua_istable(L, -1) && lua_objlen(L,-2) == 2)	{
+			if (lua_istable(L, -1) && lua_rawlen(L,-1) == 2)	{
 				lua_pushinteger(L, 1);
 				lua_gettable(L, -2);
-				s.gunMount[i].pos = *MyLuaVec::checkVec(L, -1);
+				s.gunMount[i].pos = LuaVector::CheckFromLuaF(L, -1);
 				lua_pop(L, 1);
 				lua_pushinteger(L, 2);
 				lua_gettable(L, -2);
-				s.gunMount[i].dir = *MyLuaVec::checkVec(L, -1);
+				s.gunMount[i].dir = LuaVector::CheckFromLuaF(L, -1);
 				lua_pop(L, 1);
 			}
 			lua_pop(L, 1);
@@ -202,18 +204,35 @@ void ShipType::Init()
 	if (isInitted) return;
 	isInitted = true;
 
-	lua_State *l = lua_open();
-	luaL_openlibs(l);
+	lua_State *l = luaL_newstate();
 
 	LUA_DEBUG_START(l);
 
-	MyLuaVec::Vec_register(l);
-	lua_pop(l, 1);
-	lua_register(l, "v", MyLuaVec::Vec_new);
+	luaL_requiref(l, "_G", &luaopen_base, 1);
+	luaL_requiref(l, LUA_DBLIBNAME, &luaopen_debug, 1);
+	luaL_requiref(l, LUA_MATHLIBNAME, &luaopen_math, 1);
+	lua_pop(l, 3);
+
+	LuaVector::Register(l);
+	LUA_DEBUG_CHECK(l, 0);
+
+	// provide shortcut vector constructor: v = vector.new
+	lua_getglobal(l, LuaVector::LibName);
+	lua_getfield(l, -1, "new");
+	assert(lua_iscfunction(l, -1));
+	lua_setglobal(l, "v");
+	lua_pop(l, 1); // pop the vector library table
+
+	LUA_DEBUG_CHECK(l, 0);
+
+	// register ship definition functions
 	lua_register(l, "define_ship", define_ship);
 	lua_register(l, "define_static_ship", define_static_ship);
 	lua_register(l, "define_missile", define_missile);
 
+	LUA_DEBUG_CHECK(l, 0);
+
+	// load all ship definitions
 	lua_pushstring(l, PIONEER_DATA_DIR);
 	lua_setglobal(l, "CurrentDirectory");
 	pi_lua_dofile_recursive(l, "ships");
@@ -223,6 +242,6 @@ void ShipType::Init()
 	lua_close(l);
 
 	if (ShipType::player_ships.empty())
-		Warning("No playable ships have been defined! The game cannot run.");
+		Error("No playable ships have been defined! The game cannot run.");
 }
 

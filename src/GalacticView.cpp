@@ -6,8 +6,8 @@
 #include "Player.h"
 #include "Serializer.h"
 #include "SectorView.h"
-#include "Sector.h"
-#include "Galaxy.h"
+#include "galaxy/Sector.h"
+#include "galaxy/Galaxy.h"
 #include "Lang.h"
 #include "StringF.h"
 #include "graphics/Material.h"
@@ -117,10 +117,10 @@ void GalacticView::Draw3D()
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	Color white(1.f);
 	const vector2f vts[] = {
-		vector2f(-0.25,-0.93),
-		vector2f(-0.25,-0.94),
-		vector2f(0.25,-0.94),
-		vector2f(0.25,-0.93)
+		vector2f(-0.25f,-0.93f),
+		vector2f(-0.25f,-0.94f),
+		vector2f(0.25f,-0.94f),
+		vector2f(0.25f,-0.93f)
 	};
 	m_renderer->DrawLines2D(4, vts, white, LINE_STRIP);
 

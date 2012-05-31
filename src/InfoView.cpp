@@ -64,7 +64,7 @@ public:
 		scroll->SetAdjustment(&portal->vscrollAdjust);
 
 		const std::list<const Mission*> &missions = Pi::player->missions.GetAll();
-		Gui::Fixed *innerbox = new Gui::Fixed(760, YSEP*3 * missions.size());
+		Gui::Fixed *innerbox = new Gui::Fixed(760, missions.size());
 
 		float ypos = 0;
 		for (std::list<const Mission*>::const_iterator i = missions.begin(); i != missions.end(); ++i) {
@@ -99,11 +99,13 @@ public:
 
 			ypos += YSEP*3;
 		}
-		Add(portal, 20, 20 + YSEP*3);
-		Add(scroll, 780, 20 + YSEP*3);
-		scroll->ShowAll();
 		portal->Add(innerbox);
-		portal->ShowAll();
+
+		Gui::HBox *body = new Gui::HBox();
+		body->PackEnd(portal);
+		body->PackEnd(scroll);
+		body->ShowAll();
+		Add(body, 20, 20+YSEP*3);
 	}
 };
 
@@ -170,9 +172,8 @@ private:
 		if (is_equal_exact(currentFuel, 1.0f)) return;
 
 		Pi::player->m_equipment.Remove(Equip::WATER, 1);
-		Pi::player->UpdateMass();
-
 		Pi::player->SetFuel(currentFuel + 1.0f/Pi::player->GetShipType().fuelTankMass);
+		Pi::player->UpdateStats();
 
 		m_infoView->UpdateInfo();
 	}
@@ -252,13 +253,12 @@ public:
 		Equip::Type e = Pi::player->m_equipment.Get(Equip::SLOT_ENGINE);
 		col2 += std::string(Equip::types[e].name);
 
-		const shipstats_t *stats;
-		stats = Pi::player->CalcStats();
+		const shipstats_t &stats = Pi::player->GetStats();
 		snprintf(buf, sizeof(buf), "\n\n%dt\n"
 					       "%dt\n"
 					       "%dt\n"
-					       "%dt", stats->max_capacity,
-				stats->free_capacity, stats->used_capacity, stats->total_mass);
+					       "%dt", stats.max_capacity,
+				stats.free_capacity, stats.used_capacity, stats.total_mass);
 		col2 += std::string(buf);
 
 		int numLasers = Pi::player->m_equipment.GetSlotSize(Equip::SLOT_LASER);
@@ -279,8 +279,8 @@ public:
 
 		col2 += "\n\n";
 		col2 += stringf(Lang::N_LIGHT_YEARS_N_MAX,
-			formatarg("distance", stats->hyperspace_range),
-			formatarg("maxdistance", stats->hyperspace_range_max));
+			formatarg("distance", stats.hyperspace_range),
+			formatarg("maxdistance", stats.hyperspace_range_max));
 
 		for (int i=Equip::FIRST_SHIPEQUIP; i<=Equip::LAST_SHIPEQUIP; i++) {
 			Equip::Type t = Equip::Type(i) ;

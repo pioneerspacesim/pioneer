@@ -6,7 +6,7 @@
 #include "ShipType.h"
 #include "EquipSet.h"
 #include "ShipFlavour.h"
-#include "SystemPath.h"
+#include "galaxy/SystemPath.h"
 #include "BezierCurve.h"
 #include "Serializer.h"
 #include <list>
@@ -49,7 +49,7 @@ public:
 
 	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Type shipType);
-	Ship() { }; //default constructor used before Load
+	Ship() {} //default constructor used before Load
 	virtual ~Ship();
 	void SetController(ShipController *c); //deletes existing
 	ShipController *GetController() const { return m_controller; }
@@ -81,9 +81,13 @@ public:
 	double GetAccelUp() const { return GetShipType().linThrust[ShipType::THRUSTER_UP] / GetMass(); }
 	double GetAccelMin() const;
 
-	void SetGunState(int idx, int state);
 	const ShipType &GetShipType() const;
-	const shipstats_t *CalcStats();
+	void UpdateEquipStats();
+	void UpdateFuelStats();
+	void UpdateStats();
+	const shipstats_t &GetStats() const { return m_stats; }
+
+	void SetGunState(int idx, int state);
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	void Blastoff();
@@ -186,7 +190,7 @@ public:
 
 	void AIKamikaze(Body *target);
 	void AIKill(Ship *target);
-	//void AIJourney(SBodyPath &dest);
+	//void AIJourney(SystemBodyPath &dest);
 	void AIDock(SpaceStation *target);
 	void AIFlyTo(Body *target);
 	void AIOrbit(Body *target, double alt);
@@ -195,7 +199,6 @@ public:
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
 
 	SerializableEquipSet m_equipment;			// shouldn't be public?...
-	shipstats_t m_stats;
 
 	virtual void PostLoadFixup(Space *space);
 
@@ -263,8 +266,10 @@ private:
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
 
-	bool m_testLanded;
+	shipstats_t m_stats;
+
 	FlightState m_flightState;
+	bool m_testLanded;
 	float m_launchLockTimeout;
 	float m_wheelState;
 	int m_wheelTransition;

@@ -6,6 +6,8 @@
 #include <iterator>
 #include <stdexcept>
 
+#undef FT_FILE // XXX FileInfo::FT_FILE is conflicting with a FreeType def; undefine it for now
+
 namespace FileSystem {
 
 	static FileSourceFS dataFilesApp(GetDataDir());
@@ -175,30 +177,24 @@ namespace FileSystem {
 			std::vector<FileInfo>::const_iterator b, std::vector<FileInfo>::const_iterator bend,
 			std::vector<FileInfo> &output)
 	{
-		while (true) {
-			if (a == aend) {
-				std::copy(b, bend, std::back_inserter(output));
-				return;
-			}
-			if (b == bend) {
-				std::copy(a, aend, std::back_inserter(output));
-				return;
-			}
-
-			int c = a->GetPath().compare(b->GetPath());
-			int which = c;
+		while ((a != aend) && (b != bend)) {
+			int order = a->GetPath().compare(b->GetPath());
+			int which = order;
 			if (which == 0) {
 				if (b->IsDir() && !a->IsDir()) { which = 1; }
 				else { which = -1; }
 			}
 			if (which < 0) {
 				output.push_back(*a++);
-				if (c == 0) ++b;
+				if (order == 0) ++b;
 			} else {
 				output.push_back(*b++);
-				if (c == 0) ++a;
+				if (order == 0) ++a;
 			}
 		}
+
+		if (a != aend) { std::copy(a, aend, std::back_inserter(output)); }
+		if (b != bend) { std::copy(b, bend, std::back_inserter(output)); }
 	}
 
 	bool FileSourceUnion::ReadDirectory(const std::string &path, std::vector<FileInfo> &output)
@@ -238,48 +234,63 @@ namespace FileSystem {
 	}
 
 	FileEnumerator::FileEnumerator(FileSource &fs, int flags):
-		m_source(&fs), m_flags(flags)
-	{
-		Init("/");
-	}
+		m_source(&fs), m_flags(flags) {}
 
 	FileEnumerator::FileEnumerator(FileSource &fs, const std::string &path, int flags):
 		m_source(&fs), m_flags(flags)
 	{
-		Init(path);
+		AddSearchRoot(path);
 	}
 
 	FileEnumerator::~FileEnumerator() {}
 
-	void FileEnumerator::Init(const std::string &path)
+	void FileEnumerator::AddSearchRoot(const std::string &path)
 	{
-		FileInfo fi = m_source->Lookup(path);
+		const FileInfo fi = m_source->Lookup(path);
 		if (fi.IsDir()) {
-			m_queue.push_back(fi);
-			Next(m_flags | Recurse);
+			QueueDirectoryContents(fi);
+			ExpandDirQueue();
 		}
 	}
 
-	void FileEnumerator::Next(int flags)
+	void FileEnumerator::Next()
 	{
-		if (flags & RecurseFlag) {
-			FileInfo head = m_queue.front();
-			m_queue.pop_front();
+		m_queue.pop_front();
+		ExpandDirQueue();
+	}
 
-			if (head.IsDir()) {
-				std::vector<FileInfo> entries;
-				m_source->ReadDirectory(head.GetPath(), entries);
-				for (std::vector<FileInfo>::const_iterator
-					it = entries.begin(); it != entries.end(); ++it) {
+	void FileEnumerator::ExpandDirQueue()
+	{
+		while (m_queue.empty() && !m_dirQueue.empty()) {
+			const FileInfo &nextDir = m_dirQueue.front();
+			assert(nextDir.IsDir());
+			QueueDirectoryContents(nextDir);
+			m_dirQueue.pop_front();
+		}
+	}
 
-					if ((flags & IncludeDirectories) && it->IsDir())
-						m_queue.push_back(*it);
-					if (!(flags & ExcludeFiles) && it->IsFile())
-						m_queue.push_back(*it);
-				}
+	void FileEnumerator::QueueDirectoryContents(const FileInfo &info)
+	{
+		assert(info.IsDir());
+
+		std::vector<FileInfo> entries;
+		m_source->ReadDirectory(info.GetPath(), entries);
+		for (std::vector<FileInfo>::const_iterator
+			it = entries.begin(); it != entries.end(); ++it) {
+
+			switch (it->GetType()) {
+				case FileInfo::FT_DIR:
+					if (m_flags & IncludeDirs) { m_queue.push_back(*it); }
+					if (m_flags & Recurse) { m_dirQueue.push_back(*it); }
+					break;
+				case FileInfo::FT_FILE:
+					if (!(m_flags & ExcludeFiles)) { m_queue.push_back(*it); }
+					break;
+				case FileInfo::FT_SPECIAL:
+					if (m_flags & IncludeSpecials) { m_queue.push_back(*it); }
+					break;
+				default: assert(0); break;
 			}
-		} else {
-			m_queue.pop_front();
 		}
 	}
 

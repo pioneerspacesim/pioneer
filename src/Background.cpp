@@ -1,7 +1,7 @@
 #include "Background.h"
 #include "perlin.h"
 #include "Pi.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Space.h"
 #include "Frame.h"
 #include "Player.h"
@@ -148,11 +148,11 @@ MilkyWay::MilkyWay()
 	VertexArray *top = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 
 	const Color dark(0.f);
-	const Color bright(0.05,0.05f, 0.05f, 0.05f);
+	const Color bright(0.05f, 0.05f, 0.05f, 0.05f);
 
 	//bottom
 	float theta;
-	for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
+	for (theta=0.0; theta < 2.f*float(M_PI); theta+=0.1f) {
 		bottom->Add(
 				vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta)),
 				dark);
@@ -160,7 +160,7 @@ MilkyWay::MilkyWay()
 			vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
 			bright);
 	}
-	theta = 2.0*M_PI;
+	theta = 2.f*float(M_PI);
 	bottom->Add(
 		vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta)),
 		dark);
@@ -168,7 +168,7 @@ MilkyWay::MilkyWay()
 		vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
 		bright);
 	//top
-	for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
+	for (theta=0; theta < 2.f*float(M_PI); theta+=0.1f) {
 		top->Add(
 			vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
 			bright);
@@ -176,7 +176,7 @@ MilkyWay::MilkyWay()
 			vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
 			dark);
 	}
-	theta = 2.0*M_PI;
+	theta = 2.f*float(M_PI);
 	top->Add(
 		vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
 		bright);

@@ -1,7 +1,7 @@
 #ifndef _GUITEXTLAYOUT_H
 #define _GUITEXTLAYOUT_H
 
-#include "TextureFont.h"
+#include "text/TextureFont.h"
 
 namespace Gui {
 class TextLayout {
@@ -11,7 +11,7 @@ public:
 		ColourMarkupSkip, // skips markup tags
 		ColourMarkupUse   // interprets markup tags
 	};
-	explicit TextLayout(const char *_str, RefCountedPtr<TextureFont> font = RefCountedPtr<TextureFont>(0), ColourMarkupMode markup = ColourMarkupUse);
+	explicit TextLayout(const char *_str, RefCountedPtr<Text::TextureFont> font = RefCountedPtr<Text::TextureFont>(0), ColourMarkupMode markup = ColourMarkupUse);
 	void Render(float layoutWidth, const Color &color = Color::WHITE) const;
 	void MeasureSize(const float layoutWidth, float outSize[2]) const;
 	void _RenderRaw(float layoutWidth, const Color &color) const;
@@ -29,7 +29,7 @@ private:
 	bool m_justify;
 	ColourMarkupMode m_colourMarkup;
 
-	RefCountedPtr<TextureFont> m_font;
+	RefCountedPtr<Text::TextureFont> m_font;
 };
 }
 

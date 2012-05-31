@@ -7,7 +7,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 
-TerrainBody::TerrainBody(SBody *sbody) :
+TerrainBody::TerrainBody(SystemBody *sbody) :
 	Body(), 
 	m_sbody(0), 
 	m_pos(vector3d(0,0,0)), 
@@ -33,7 +33,7 @@ TerrainBody::~TerrainBody()
 }
 
 
-void TerrainBody::InitTerrainBody(SBody *sbody)
+void TerrainBody::InitTerrainBody(SystemBody *sbody)
 {
 	assert(!m_sbody);
 	m_sbody = sbody;
@@ -46,14 +46,14 @@ void TerrainBody::Save(Serializer::Writer &wr, Space *space)
 {
 	Body::Save(wr, space);
 	wr.Vector3d(m_pos);
-	wr.Int32(space->GetIndexForSBody(m_sbody));
+	wr.Int32(space->GetIndexForSystemBody(m_sbody));
 }
 
 void TerrainBody::Load(Serializer::Reader &rd, Space *space)
 {
 	Body::Load(rd, space);
 	m_pos = rd.Vector3d();
-	SBody *sbody = space->GetSBodyByIndex(rd.Int32());
+	SystemBody *sbody = space->GetSystemBodyByIndex(rd.Int32());
 	InitTerrainBody(sbody);
 }
 
@@ -144,7 +144,7 @@ double TerrainBody::GetTerrainHeight(const vector3d pos_) const
 	}
 }
 
-bool TerrainBody::IsSuperType(SBody::BodySuperType t) const
+bool TerrainBody::IsSuperType(SystemBody::BodySuperType t) const
 {
 	if (!m_sbody) return false;
 	else return m_sbody->GetSuperType() == t;

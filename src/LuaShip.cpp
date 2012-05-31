@@ -103,23 +103,23 @@ static int l_ship_get_stats(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	Ship *s = LuaShip::GetFromLua(1);
-	const shipstats_t *stats = s->CalcStats();
+	const shipstats_t &stats = s->GetStats();
 	
 	lua_newtable(l);
     pi_lua_table_ro(l);
-	pi_lua_settable(l, "maxCapacity",        stats->max_capacity);
-	pi_lua_settable(l, "usedCapacity",       stats->used_capacity);
-	pi_lua_settable(l, "usedCargo",          stats->used_cargo);
-	pi_lua_settable(l, "freeCapacity",       stats->free_capacity);
-	pi_lua_settable(l, "totalMass",          stats->total_mass);
-	pi_lua_settable(l, "hullMassLeft",       stats->hull_mass_left);
-	pi_lua_settable(l, "hyperspaceRange",    stats->hyperspace_range);
-	pi_lua_settable(l, "maxHyperspaceRange", stats->hyperspace_range_max);
-	pi_lua_settable(l, "shieldMass",         stats->shield_mass);
-	pi_lua_settable(l, "shieldMassLeft",     stats->shield_mass_left);
-	pi_lua_settable(l, "maxFuelTankMass",    stats->fuel_tank_mass);
-	pi_lua_settable(l, "fuelUse",            stats->fuel_use);
-	pi_lua_settable(l, "fuelMassLeft",       stats->fuel_tank_mass_left);
+	pi_lua_settable(l, "maxCapacity",        stats.max_capacity);
+	pi_lua_settable(l, "usedCapacity",       stats.used_capacity);
+	pi_lua_settable(l, "usedCargo",          stats.used_cargo);
+	pi_lua_settable(l, "freeCapacity",       stats.free_capacity);
+	pi_lua_settable(l, "totalMass",          stats.total_mass);
+	pi_lua_settable(l, "hullMassLeft",       stats.hull_mass_left);
+	pi_lua_settable(l, "hyperspaceRange",    stats.hyperspace_range);
+	pi_lua_settable(l, "maxHyperspaceRange", stats.hyperspace_range_max);
+	pi_lua_settable(l, "shieldMass",         stats.shield_mass);
+	pi_lua_settable(l, "shieldMassLeft",     stats.shield_mass_left);
+	pi_lua_settable(l, "maxFuelTankMass",    stats.fuel_tank_mass);
+	pi_lua_settable(l, "fuelUse",            stats.fuel_use);
+	pi_lua_settable(l, "fuelMassLeft",       stats.fuel_tank_mass_left);
 
 	LUA_DEBUG_END(l, 1);
 
@@ -166,7 +166,7 @@ static int l_ship_set_type(lua_State *l)
 
 	s->ResetFlavour(&f);
 	s->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[f.type].hyperdrive);
-	s->UpdateMass();
+	s->UpdateStats();
 
 	LUA_DEBUG_END(l, 0);
 
@@ -618,7 +618,7 @@ static int l_ship_set_equip(lua_State *l)
 	}
 
 	s->m_equipment.Set(slot, idx, e);
-	s->UpdateMass();
+	s->UpdateEquipStats();
 	return 0;
 }
 
@@ -661,12 +661,12 @@ static int l_ship_add_equip(lua_State *l)
 	if (num < 0)
 		return luaL_error(l, "Can't add a negative number of equipment items.");
 
-	const shipstats_t *stats = s->CalcStats();
+	const shipstats_t &stats = s->GetStats();
 	if (Equip::types[e].mass != 0)
-		num = std::min(stats->free_capacity / (Equip::types[e].mass), num);
+		num = std::min(stats.free_capacity / (Equip::types[e].mass), num);
 
 	lua_pushinteger(l, s->m_equipment.Add(e, num));
-	s->UpdateMass();
+	s->UpdateEquipStats();
 	return 1;
 }
 
@@ -709,7 +709,7 @@ static int l_ship_remove_equip(lua_State *l)
 		return luaL_error(l, "Can't remove a negative number of equipment items.");
 
 	lua_pushinteger(l, s->m_equipment.Remove(e, num));
-	s->UpdateMass();
+	s->UpdateEquipStats();
 	return 1;
 }
 
@@ -1273,7 +1273,7 @@ static int l_ship_ai_enter_low_orbit(lua_State *l)
 	Ship *s = LuaShip::GetFromLua(1);
 	Body *target = LuaBody::GetFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
-		luaL_typerror(l, 2, "Planet or Star");
+		luaL_argerror(l, 2, "expected a Planet or a Star");
 	s->AIOrbit(target, 1.1);
 	return 0;
 }
@@ -1302,7 +1302,7 @@ static int l_ship_ai_enter_medium_orbit(lua_State *l)
 	Ship *s = LuaShip::GetFromLua(1);
 	Body *target = LuaBody::GetFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
-		luaL_typerror(l, 2, "Planet or Star");
+		luaL_argerror(l, 2, "expected a Planet or a Star");
 	s->AIOrbit(target, 2.0);
 	return 0;
 }
@@ -1331,7 +1331,7 @@ static int l_ship_ai_enter_high_orbit(lua_State *l)
 	Ship *s = LuaShip::GetFromLua(1);
 	Body *target = LuaBody::GetFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
-		luaL_typerror(l, 2, "Planet or Star");
+		luaL_argerror(l, 2, "expected a Planet or a Star");
 	s->AIOrbit(target, 5.0);
 	return 0;
 }
@@ -1379,7 +1379,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 {
 	static const char *l_parent = "Body";
 
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "IsPlayer", l_ship_is_player },
 
 		{ "GetStats", l_ship_get_stats },
@@ -1423,7 +1423,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	static const luaL_reg l_attrs[] = {
+	static const luaL_Reg l_attrs[] = {
 		{ "alertStatus", l_ship_attr_alert_status },
 		{ "shipType",    l_ship_attr_ship_type },
 		{ "fuel",        l_ship_attr_fuel },

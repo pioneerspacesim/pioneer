@@ -8,13 +8,13 @@ namespace Graphics { class Renderer; }
 class Planet: public TerrainBody {
 public:
 	OBJDEF(Planet, TerrainBody, PLANET);
-	Planet(SBody*);
+	Planet(SystemBody*);
 	Planet();
 	virtual ~Planet() {}
 
 	virtual void SubRender(Graphics::Renderer *r, const vector3d &camPos);
 
-	void GetAtmosphericState(double dist, double *outPressure, double *outDensity);
+	void GetAtmosphericState(double dist, double *outPressure, double *outDensity) const;
 
 #if WITH_OBJECTVIEWER
 	friend class ObjectViewerView;

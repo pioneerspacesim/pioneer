@@ -16,7 +16,7 @@ public:
 	RendererGL2(int width, int height);
 	virtual ~RendererGL2();
 
-	virtual const char* GetName() { return "GL2 renderer"; }
+	virtual const char* GetName() const { return "GL2 renderer"; }
 
 	virtual bool BeginFrame();
 

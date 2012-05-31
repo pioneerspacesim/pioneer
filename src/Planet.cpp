@@ -32,7 +32,7 @@ Planet::Planet(): TerrainBody()
 {
 }
 
-Planet::Planet(SBody *sbody): TerrainBody(sbody)
+Planet::Planet(SystemBody *sbody): TerrainBody(sbody)
 {
 	m_hasDoubleFrame = true;
 }
@@ -41,13 +41,13 @@ Planet::Planet(SBody *sbody): TerrainBody(sbody)
  * dist = distance from centre
  * returns pressure in earth atmospheres
  */
-void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDensity)
+void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDensity) const
 {
 	Color c;
 	double surfaceDensity;
-	double atmosDist = dist/(GetSBody()->GetRadius()*ATMOSPHERE_RADIUS);
+	double atmosDist = dist/(GetSystemBody()->GetRadius()*ATMOSPHERE_RADIUS);
 	
-	GetSBody()->GetAtmosphereFlavor(&c, &surfaceDensity);
+	GetSystemBody()->GetAtmosphereFlavor(&c, &surfaceDensity);
 	// kg / m^3
 	// exp term should be the same as in AtmosLengthDensityProduct GLSL function
 	*outDensity = 1.15*surfaceDensity * exp(-500.0 * (atmosDist - (2.0 - ATMOSPHERE_RADIUS)));
@@ -56,7 +56,7 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	const double GAS_CONSTANT = 8.314;
 	const double KPA_2_ATMOS = 1.0 / 101.325;
 	// atmospheres
-	*outPressure = KPA_2_ATMOS*(*outDensity/GAS_MOLAR_MASS)*GAS_CONSTANT*double(GetSBody()->averageTemp);
+	*outPressure = KPA_2_ATMOS*(*outDensity/GAS_MOLAR_MASS)*GAS_CONSTANT*double(GetSystemBody()->averageTemp);
 }
 
 struct GasGiantDef_t {
@@ -78,7 +78,7 @@ static GasGiantDef_t ggdefs[] = {
 	20, 30,
 	0, 0,
 	0.5,
-	{ { .61f,.48f,.384f,.4f }, {0,0,0,.2}, 0.3f },
+	{ { .61f,.48f,.384f,.4f }, {0,0,0,.2f}, 0.3f },
 	{ { .99f,.76f,.62f,1 }, { 0,.1f,.1f,0 }, 0.3f },
 	{ { .99f,.76f,.62f,.5f }, { 0,.1f,.1f,0 }, 0.3f },
 	{ { .99f,.76f,.62f,1 }, { 0,.1f,.1f,0 }, 0.7f },
@@ -89,11 +89,11 @@ static GasGiantDef_t ggdefs[] = {
 	8, 20, // blob range
 	0.2f, 0.2f, // pole size
 	0.5,
-	{ { .61f,.48f,.384f,.75f }, {0,0,0,.2}, 0.3f },
-	{ { .87f, .68f, .39f, 1 }, { .2,0,0,.3 }, 0.1f },
-	{ { .87f, .68f, .39f, 1 }, { 0,0,.2,.1 }, 0.1f },
-	{ { .87f, .68f, .39f, 1 }, { .1,0,0,.1 }, 0.1f },
-	{ { .77f, .58f, .29f, 1 }, { .1,.1,0,.2 }, 0.2f },
+	{ { .61f,.48f,.384f,.75f }, {0,0,0,.2f}, 0.3f },
+	{ { .87f, .68f, .39f, 1 }, { .2f,0,0,.3f }, 0.1f },
+	{ { .87f, .68f, .39f, 1 }, { 0,0,.2f,.1f }, 0.1f },
+	{ { .87f, .68f, .39f, 1 }, { .1f,0,0,.1f }, 0.1f },
+	{ { .77f, .58f, .29f, 1 }, { .1f,.1f,0,.2f }, 0.2f },
 }, {
 	/* neptunish */
 	3, 6, 0.25f,
@@ -132,19 +132,18 @@ static GasGiantDef_t ggdefs[] = {
 
 #define PLANET_AMBIENT	0.1f
 
-static void DrawRing(double inner, double outer, const float color[4], Renderer *r, const Material &mat)
+static void DrawRing(double inner, double outer, const Color &color, Renderer *r, const Material &mat)
 {
 	float step = 0.1f / (Pi::detail.planets + 1);
 
 	VertexArray vts(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL);
 	const vector3f normal(0.f, 1.f, 0.f);
-	const Color c(color[0], color[1], color[2], color[3]);
 	for (float ang=0; ang<2*M_PI; ang+=step) {
-		vts.Add(vector3f(float(inner)*sin(ang), 0.f, float(inner)*cos(ang)), c, normal);
-		vts.Add(vector3f(float(outer)*sin(ang), 0.f, float(outer)*cos(ang)), c, normal);
+		vts.Add(vector3f(float(inner)*sin(ang), 0.f, float(inner)*cos(ang)), color, normal);
+		vts.Add(vector3f(float(outer)*sin(ang), 0.f, float(outer)*cos(ang)), color, normal);
 	}
-	vts.Add(vector3f(0.f, 0.f, float(inner)), c, normal);
-	vts.Add(vector3f(0.f, 0.f, float(outer)), c, normal);
+	vts.Add(vector3f(0.f, 0.f, float(inner)), color, normal);
+	vts.Add(vector3f(0.f, 0.f, float(outer)), color, normal);
 
 	r->DrawTriangles(&vts, &mat, TRIANGLE_STRIP);
 }
@@ -163,8 +162,7 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 	mat.shader = Graphics::planetRingsShader[Pi::worldView->GetNumLights()-1];
 
 //	MTRand rng((int)Pi::game->GetTime());
-	MTRand rng(GetSBody()->seed+965467);
-	float col[4];
+	MTRand rng(GetSystemBody()->seed+965467);
 
 	double noiseOffset = 256.0*rng.Double();
 	float baseCol[4];
@@ -186,10 +184,7 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 					noise(10.0*rpos, noiseOffset, 0.0) +
 					0.5*noise(20.0*rpos, noiseOffset, 0.0) +
 					0.25*noise(40.0*rpos, noiseOffset, 0.0));
-			col[0] = baseCol[0] * n;
-			col[1] = baseCol[1] * n;
-			col[2] = baseCol[2] * n;
-			col[3] = baseCol[3] * n;
+			Color col(baseCol[0] * n, baseCol[1] * n, baseCol[2] * n, baseCol[3] * n);
 			DrawRing(rpos, rpos+size, col, renderer, mat);
 			rpos += size;
 		}
@@ -204,7 +199,7 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 	//this is the non-shadered atmosphere rendering
 	Color col;
 	double density;
-	GetSBody()->GetAtmosphereFlavor(&col, &density);
+	GetSystemBody()->GetAtmosphereFlavor(&col, &density);
 	
 	const double rad1 = 0.999;
 	const double rad2 = 1.05;
@@ -266,7 +261,7 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 		}
 		for (int i=0; i<3; i++) _col[i] = _col[i] * col[i];
 		_col[3] = col[3];
-		vts.Add(vector3f(r1.x, r1.y, r1.z), Color(_col), n);
+		vts.Add(vector3f(r1.x, r1.y, r1.z), Color(_col[0], _col[1], _col[2], _col[3]), n);
 		vts.Add(vector3f(r2.x, r2.y, r2.z), Color(0.f), n);
 		r1 = rot * r1;
 		r2 = rot * r2;
@@ -287,7 +282,7 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 
 void Planet::SubRender(Renderer *r, const vector3d &camPos)
 {
-	if (GetSBody()->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings(r);
+	if (GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings(r);
 	
 	if (!AreShadersEnabled()) DrawAtmosphere(r, camPos);
 }

@@ -2,11 +2,15 @@
 #define _FIXED_H
 
 #include <SDL_stdinc.h>
+#include <cassert>
 
 template <int FRAC_BITS>
 class fixedf {
 public:
-	enum { FRAC=FRAC_BITS, MASK=((Uint64(1)<<FRAC_BITS)-1), DUMMY=-1 }; // -1 to ensure signed type (signedness warning otherwise)
+	static const int FRAC = FRAC_BITS;
+	static const Uint64 MASK = (Uint64(1UL)<<FRAC_BITS)-1;
+	static const Sint64 DUMMY= -1 ;		// -1 to ensure signed type (signedness warning otherwise)
+
 	fixedf(): v(0) {}
 //	template <int bits>
 //	fixedf(fixedf<bits> f) { *this = f; }
@@ -49,6 +53,7 @@ public:
 	fixedf &operator>>=(const int a) { v >>= a; return (*this); }
 	fixedf &operator<<=(const int a) { v <<= a; return (*this); }
 
+	friend fixedf operator-(const fixedf a) { return fixedf(-a.v); }
 	friend fixedf operator+(const fixedf a, const fixedf b) { return fixedf(a.v+b.v); }
 	friend fixedf operator-(const fixedf a, const fixedf b) { return fixedf(a.v-b.v); }
 	friend fixedf operator*(const fixedf a, const fixedf b) {
@@ -123,7 +128,7 @@ public:
 				quotient_lo |= 1;
 			}
 		}
-		return (isneg ? fixedf(-quotient_lo) : quotient_lo);
+		return (isneg ? -Sint64(quotient_lo) : quotient_lo);
 	}
 	friend bool operator==(const fixedf a, const fixedf b) { return a.v == b.v; }
 	friend bool operator!=(const fixedf a, const fixedf b) { return a.v != b.v; }

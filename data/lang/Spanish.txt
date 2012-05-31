@@ -127,7 +127,7 @@ WELCOME_TO_SOMEWHERE
 # write anything you like here. It will appear in every space station
 # in the whole galaxy.
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Saludos viajero.Y Bienvenido. Si es su primera visita no dude en conocer a los residentes. Esperamos que disfrute de su estancia. \n\nRecuerde que hay reformas en marcha, probablemente percibirá cambios entre visitas.
+    Saludos viajero.Y Bienvenido. Si es su primera visita no dude en conocer a los residentes. Esperamos que disfrute de su estancia.\nRecuerde que hay reformas en marcha, probablemente percibirá cambios entre visitas.
 REQUEST_LAUNCH
     Solicitar permiso para despegar
 SHIPYARD
@@ -250,6 +250,10 @@ MOUSE_INPUT
     Mouse/Ratón
 INVERT_MOUSE_Y
     Invertir MouseY
+HUD
+  HUD
+DISPLAY_NAV_TUNNEL
+  Mostrar tunel de navegación 
 LANGUAGE_SELECTION
     Idioma (Reiniciar para aplicar)
  
@@ -528,8 +532,6 @@ FIRE_LASER
     Disparar laser
 SHIP_ORIENTATION
     Orientación
-FAST_ROTATION_CONTROL
-    Control rotacional rápido
 PITCH_UP
     Cabecear arriba
 PITCH_DOWN
@@ -556,6 +558,8 @@ THRUSTER_PORT
     Impulso izquierda
 THRUSTER_STARBOARD
     Impulso derecha
+USE_LOW_THRUST
+    Usar impulso de baja potencia
 SPEED_CONTROL_MODE
     Control de velocidad
 INCREASE_SET_SPEED
@@ -572,6 +576,8 @@ DECREASE_SCAN_RANGE
     Reducir rango del Scanner
 TOGGLE_LUA_CONSOLE
     ON/OFF Lua Console
+TOGGLE_HUD_MODE
+    HUD ON/OFF
 JOYSTICK_INPUT
     Joystick 
 PITCH
@@ -1052,6 +1058,10 @@ OBJECT_LABELS_ARE_ON
     Etiquetas activas
 OBJECT_LABELS_ARE_OFF
     Etiquetas desactivadas
+SELECT_LOW_THRUST_POWER_LEVEL
+    Selecionar impulso de baja potencia
+SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT
+    Nivel de impulso de baja potencia al %power%%
 HYPERSPACE_JUMP
     Salto hiperespacial
 TAKEOFF
