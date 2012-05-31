@@ -18,7 +18,7 @@ void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float 
 	glfglyph_t *glyph = &m_glyphs[chr];
 
 	const float offx = x + float(glyph->offx);
-	const float offy = y + float(m_pixSize - glyph->offy);
+	const float offy = y + GetHeight() - float(glyph->offy);
 	const float offU = glyph->offU;
 	const float offV = glyph->offV;
 	
@@ -37,14 +37,14 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 {
 	w = h = 0.0f;
 
-	float line_width = 0.0f, line_height = 0.0f;
+	float line_width = 0.0f;
 
 	int i = 0;
 	while (str[i]) {
 		if (str[i] == '\n') {
 			if (line_width > w) w = line_width;
-			h += line_height;
-			line_width = line_height = 0.0f;
+			line_width = 0.0f;
+			h += GetHeight();
 			i++;
 		}
 		
@@ -57,7 +57,6 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 			const glfglyph_t &glyph = m_glyphs[chr];
 
 			line_width += glyph.advx;
-			line_height = std::max(line_height, float(m_pixSize) - glyph.offy + glyph.texHeight);
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -75,14 +74,13 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 	}
 
 	if (line_width > w) w = line_width;
-	h += line_height;
+	h += GetHeight() + GetDescender();
 }
 
 void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &charX, float &charY) const
 {
 	assert(str && (charIndex >= 0));
 
-	const float lineSpacing = GetHeight()*GetLineSpacing();
 	float x = 0.0f, y = GetHeight();
 	int i = 0;
 	Uint32 chr;
@@ -95,7 +93,7 @@ void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &cha
 
 		if (chr == '\n') {
 			x = 0.0f;
-			y += lineSpacing;
+			y += GetHeight();
 		} else {
 			std::map<Uint32,glfglyph_t>::const_iterator it = m_glyphs.find(chr);
 			assert(it != m_glyphs.end());
@@ -133,9 +131,8 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 	// chr1: the Unicode value of the character being tested
 	// chr2: the Unicode value of the next character
 
-	const float lineSpacing = GetHeight()*GetLineSpacing();
 	Uint32 chr2 = '\n'; // pretend we've just had a new line
-	float bottom = GetHeight() - lineSpacing, x = 0.0f;
+	float bottom = 0.0f, x = 0.0f;
 	int i2 = 0, charBytes = 0;
 	do {
 		int i1 = i2;
@@ -171,7 +168,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 			return i1;
 
 		if (chr1 == '\n')
-			bottom += lineSpacing;
+			bottom += GetHeight();
 	} while (charBytes);
 
 	return i2;
@@ -189,7 +186,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 	while (str[i]) {
 		if (str[i] == '\n') {
 			px = x;
-			py += GetHeight()*GetLineSpacing();
+			py += GetHeight();
 			i++;
 		}
 		
@@ -247,7 +244,7 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 
 		if (str[i] == '\n') {
 			px = x;
-			py += GetHeight()*GetLineSpacing();
+			py += GetHeight();
 			i++;
 		}
 		
@@ -289,8 +286,6 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	const int a_height = GetDescriptor().pixelHeight;
 
 	const float advx_adjust = GetDescriptor().advanceXAdjustment;
-
-	m_pixSize = a_height;
 
 	FT_Set_Pixel_Sizes(m_face, a_width, a_height);
 
@@ -471,8 +466,8 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	if (outline)
 		FT_Stroker_Done(stroker);
 
-	m_height = float(m_face->height) / 64.f;
-	m_descender = -float(m_face->descender) / 64.f;
+	m_height = float(m_face->height) / 64.f * float(m_face->size->metrics.y_scale) / 65536.f;
+	m_descender = -float(m_face->descender) / 64.f * float(m_face->size->metrics.y_scale) / 65536.f;
 }
 
 }
