@@ -130,9 +130,7 @@ bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 
 void TextEntry::GetSizeRequested(float size[2])
 {
-	const float textHeightMs = (m_newlineCount * m_font->GetLineSpacing()) + 1.0f;
-	const float textHeightPx = textHeightMs * Gui::Screen::GetFontHeight(m_font.Get());
-	size[1] = textHeightPx + 2.0f;
+	size[1] = m_font->GetHeight() * (m_newlineCount+1);
 }
 
 bool TextEntry::OnMouseDown(MouseButtonEvent *e)
@@ -211,8 +209,8 @@ void TextEntry::Draw()
 	/* Cursor */
 	glColor3f(0.5f,0.5f,0.5f);
 	glBegin(GL_LINES);
-		glVertex2f(curs_x + 1.0f - m_scroll, curs_y - Gui::Screen::GetFontHeight(m_font.Get()) - 1.0f);
-		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + 1.0f);
+		glVertex2f(curs_x + 1.0f - m_scroll, m_font->GetHeight());
+		glVertex2f(curs_x + 1.0f - m_scroll, 0.0f);
 	glEnd();
 	
 	SetScissor(false);
