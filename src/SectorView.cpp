@@ -14,6 +14,8 @@
 #include "Game.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
+#include <algorithm>
+#include <sstream>
 
 using namespace Graphics;
 
@@ -74,6 +76,7 @@ void SectorView::InitDefaults()
 	m_zoomDefault = Pi::config->Float("SectorViewZoom");
 	m_rotXDefault = Clamp(m_rotXDefault, -170.0f, -10.0f);
 	m_zoomDefault = Clamp(m_zoomDefault, 0.1f, 5.0f);
+	m_previousSearch = "";
 }
 		
 void SectorView::InitObject()
@@ -222,14 +225,47 @@ void SectorView::Save(Serializer::Writer &wr)
 	wr.Bool(m_infoBoxVisible);
 }
 
+static void RemoveChar(std::string &str, const char c)
+{
+	str.erase(std::remove(str.begin(), str.end(), c), str.end());
+}
+
+//collect ints from a string into a vector
+static void GetInts(const std::string &str, const char delim, std::vector<int> &out)
+{
+	std::stringstream ss(str);
+	int i;
+	while(ss >> i) {
+		out.push_back(i);
+		if(ss.peek() == delim) ss.ignore();
+	}
+}
+
 void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 {
+	//remember the last search text, hotkey: up
+	if (m_searchBox->GetText().empty() && keysym->sym == SDLK_UP && !m_previousSearch.empty())
+		m_searchBox->SetText(m_previousSearch);
+
 	if (keysym->sym != SDLK_RETURN)
 		return;
 
-	const std::string search = m_searchBox->GetText();
+	std::string search = m_searchBox->GetText();
 	if (!search.size())
 		return;
+
+	m_previousSearch = search;
+
+	//Try to detect if user entered a sector address, comma or space separated, strip parentheses
+	//system index is unreliable, so it is not supported
+	RemoveChar(search, '(');
+	RemoveChar(search, ')');
+	std::vector<int> ints;
+	GetInts(search, ',', ints);
+	if (ints.size() == 3) {
+		GotoSector(SystemPath(ints[0], ints[1], ints[2]));
+		return;
+	}
 	
 	bool gotMatch = false, gotStartMatch = false;
 	SystemPath bestMatch;
@@ -375,6 +411,11 @@ void SectorView::ResetHyperspaceTarget()
 		onHyperspaceTargetChanged.emit();
 		UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 	}
+}
+
+void SectorView::GotoSector(const SystemPath &path)
+{
+	m_posMovingTo = vector3f(path.sectorX, path.sectorY, path.sectorZ);
 }
 
 void SectorView::GotoSystem(const SystemPath &path)
