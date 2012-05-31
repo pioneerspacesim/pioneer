@@ -14,6 +14,7 @@ public:
 	virtual void Layout();
 
 	Scroller *SetInnerWidget(Widget *widget);
+	void RemoveInnerWidget();
 	Widget *GetInnerWidget() const { return m_innerWidget; }
 
 protected:

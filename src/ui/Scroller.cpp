@@ -45,13 +45,22 @@ void Scroller::HandleScroll(float value)
 
 Scroller *Scroller::SetInnerWidget(Widget *widget)
 {
-	assert(!m_innerWidget);
+	assert(widget);
+
+	RemoveAllWidgets();
 
 	AddWidget(widget);
-
 	m_innerWidget = widget;
 
 	return this;
+}
+
+void Scroller::RemoveInnerWidget()
+{
+	if (m_innerWidget) {
+		RemoveWidget(m_innerWidget);
+		m_innerWidget = 0;
+	}
 }
 
 }
