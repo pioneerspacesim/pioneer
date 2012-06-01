@@ -130,7 +130,7 @@ bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 
 void TextEntry::GetSizeRequested(float size[2])
 {
-	size[1] = m_font->GetHeight() * (m_newlineCount+1);
+	size[1] = m_font->GetHeight() * (m_newlineCount+1) + m_font->GetDescender();
 }
 
 bool TextEntry::OnMouseDown(MouseButtonEvent *e)
