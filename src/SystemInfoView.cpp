@@ -349,7 +349,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		Gui::Fixed *col2 = new Gui::Fixed();
 		demographicsTab->Add(col2, 400, 350);
 
-		const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
+		const float YSEP = Gui::Screen::GetFontHeight() * 1.2f;
 
 		col1->Add((new Gui::Label(Lang::SYSTEM_TYPE))->Color(1,1,0), 0, 0);
 		col2->Add(new Gui::Label(m_system->GetShortDescription()), 0, 0);

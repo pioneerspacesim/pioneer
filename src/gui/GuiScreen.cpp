@@ -226,6 +226,13 @@ float Screen::GetFontHeight(Text::TextureFont *font)
 	return font->GetHeight() * fontScale[1];
 }
 
+float Screen::GetFontDescender(Text::TextureFont *font)
+{
+    if (!font) font = GetFont().Get();
+
+	return font->GetDescender() * fontScale[1];
+}
+
 void Screen::MeasureString(const std::string &s, float &w, float &h, Text::TextureFont *font)
 {
 	if (!font) font = GetFont().Get();

@@ -20,7 +20,7 @@ StationShipMarketForm::StationShipMarketForm(FormController *controller) : FaceF
 	float line_height = Gui::Screen::GetFontHeight();
 
 	m_shiplistBox = new Gui::VBox();
-	m_shiplistBox->SetSpacing(line_height*0.5f);
+	m_shiplistBox->SetSpacing(line_height);
 	UpdateShipList();
 	m_shiplistBox->ShowAll();
 
@@ -71,7 +71,7 @@ void StationShipMarketForm::UpdateShipList()
 
 	int num = 0;
 	for (std::vector<ShipFlavour>::const_iterator i = ships.begin(); i!=ships.end(); ++i) {
-		Gui::Fixed *f = new Gui::Fixed(450, line_height*1.5f);
+		Gui::Fixed *f = new Gui::Fixed(450, line_height);
 
 		Gui::Label *l = new Gui::Label(ShipType::types[(*i).type].name);
 		f->Add(l,0,0);

@@ -2,7 +2,7 @@
 #include "text/TextSupport.h"
 #include "utils.h"
 
-static const float PARAGRAPH_SPACING = 2.0f;
+static const float PARAGRAPH_SPACING = 1.5f;
 
 namespace Gui {
 
@@ -176,7 +176,7 @@ void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 		} else {
 			for (int j=0; j<num; j++) wpos++;
 		}
-		py += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : m_font->GetLineSpacing());
+		py += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f);
 	}
 	glPopMatrix();
 }
@@ -229,7 +229,7 @@ void TextLayout::_MeasureSizeRaw(const float layoutWidth, float outSize[2]) cons
 			wpos++;
 		}
 		if (lineLen > outSize[0]) outSize[0] = lineLen;
-		outSize[1] += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : m_font->GetLineSpacing());
+		outSize[1] += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f);
 	}
 	if (outSize[1] > 0.0f)
 		outSize[1] += m_font->GetDescender();
