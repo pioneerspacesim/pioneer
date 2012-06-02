@@ -1,4 +1,4 @@
-The Pioneer team, past and present, as at 11 May 2012 (alpha 22):
+The Pioneer team, past and present, as at 8 June 2012 (alpha 23):
 
   Aaron Lewis
   Aaron Senese
@@ -50,8 +50,8 @@ forums. You drive us crazy, but we still love you :)
 
 Pioneer includes the following third-party software:
 
-  Lua 5.1.4 by R. Ierusalimschy, L. H. de Figueiredo & W. Celes,
-  Copyright (C) 1994-2008 Lua.org, PUC-Rio
+  Lua 5.2.0 by R. Ierusalimschy, L. H. de Figueiredo & W. Celes,
+  Copyright (C) 1994-2011 Lua.org, PUC-Rio
   Licensed under the MIT licence (see lua.COPYING.txt)
 
   miniz by Rich Geldreich

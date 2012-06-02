@@ -10,7 +10,7 @@ Alpha 23
      * Work around sector view crash on Radeon (#1062)
      * Fix handling of deep folders in zip files (#1270)
      * Fix redscreen hang (#1272)
-     * Fix text metrics code to calculate text height properly (#1273)
+     * Fix text metrics code to calculate text height properly (#1273, #1276)
 
    * Script and model changes
      * Lua updated to 5.2.0 (#1246)
