@@ -1,14 +1,17 @@
 #include "Animation.h"
+#include <iostream>
 
 namespace Newmodel {
 
-Animation::Animation(const std::string &name, double duration)
-: m_paused(true)
+Animation::Animation(const std::string &name, double duration, AnimBehavior behavior)
+: m_behavior(behavior)
+, m_paused(true)
 , m_currentTime(0.0)
 , m_duration(duration)
 , m_lastTime(0.0)
 , m_ticksPerSecond(25.0)
 , m_name(name)
+, m_prevMTime(0.0)
 {
 
 }
@@ -16,6 +19,7 @@ Animation::Animation(const std::string &name, double duration)
 void Animation::Play()
 {
 	m_paused = false;
+	m_prevMTime = 0.0;
 }
 
 void Animation::Pause()
@@ -27,6 +31,7 @@ void Animation::Stop()
 {
 	m_paused = true;
 	m_currentTime = 0;
+	m_prevMTime = 0.0;
 }
 
 void Animation::Evaluate(const double time)
@@ -37,7 +42,12 @@ void Animation::Evaluate(const double time)
 	}
 
 	//map into anim duration
-	const double mtime = fmod(m_currentTime, m_duration);
+	double mtime = fmod(m_currentTime, m_duration);
+	if (m_behavior == ONCE && m_prevMTime > mtime) {
+		Stop();
+		mtime = m_duration;
+	}
+	m_prevMTime = mtime;
 
 	//go through channels and calculate transforms
 	for(unsigned int i = 0; i < channels.size(); i++) {

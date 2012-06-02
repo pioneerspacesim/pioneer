@@ -349,7 +349,7 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		it != def.tagDefs.end();
 		++it)
 	{
-		if (!anim) anim = new Animation("wiggle", 100.0);
+		if (!anim) anim = new Animation("wiggle", 100.0, Animation::ONCE);
 		const vector3f &pos = (*it).position;
 		MatrixTransform *tagTrans = new MatrixTransform(matrix4x4f::Translation(pos.x, pos.y, pos.z));
 		//add a test animation for the tag (which is silly)
@@ -559,7 +559,7 @@ void Loader::ConvertAnimations(const aiScene* scene, NModel *model)
 	for (unsigned int i=0; i<scene->mNumAnimations; i++) {
 		const aiAnimation* aianim = scene->mAnimations[i];
 		const std::string animname(aianim->mName.C_Str());
-		Animation *animation = new Animation(animname.empty() ? "wiggle" : animname, aianim->mDuration);
+		Animation *animation = new Animation(animname.empty() ? "wiggle" : animname, aianim->mDuration, Animation::LOOP);
 		for (unsigned int j=0; j<aianim->mNumChannels; j++) {
 			aiNodeAnim *aichan = aianim->mChannels[j];
 			const std::string channame(aichan->mNodeName.C_Str());
