@@ -6,7 +6,8 @@ namespace UI {
 
 MultiLineText::MultiLineText(Context *context, const std::string &text) : Widget(context), m_text(text)
 {
-	m_layout.Reset(new TextLayout(GetContext()->GetFont(), m_text));
+    // XXX hook SetFontSize and update to remake TextLayout
+	m_layout.Reset(new TextLayout(GetContext()->GetFont(GetFontSize()), m_text));
 }
 
 vector2f MultiLineText::PreferredSize()

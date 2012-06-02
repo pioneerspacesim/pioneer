@@ -36,7 +36,7 @@ public:
 
 	virtual Widget *GetWidgetAtAbsolute(const vector2f &pos);
 
-	typedef std::list<Widget*>::const_iterator WidgetIterator;
+	typedef std::vector< RefCountedPtr<Widget> >::const_iterator WidgetIterator;
 	const WidgetIterator WidgetsBegin() const { return m_widgets.begin(); }
 	const WidgetIterator WidgetsEnd() const { return m_widgets.end(); }
 
@@ -51,7 +51,7 @@ protected:
 
 private:
 	bool m_needsLayout;
-	std::list<Widget*> m_widgets;
+	std::vector< RefCountedPtr<Widget> > m_widgets;
 };
 
 }

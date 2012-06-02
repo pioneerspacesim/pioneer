@@ -19,6 +19,10 @@ public:
 	Grid *SetColumn(int colNum, const WidgetSet &set);
 	Grid *SetCell(int colNum, int rowNum, Widget *widget);
 
+	void ClearRow(int rowNum);
+	void ClearColumn(int colNum);
+	void Clear();
+
 private:
 	CellSpec m_rowSpec, m_colSpec;
 	std::vector<Widget*> m_widgets;

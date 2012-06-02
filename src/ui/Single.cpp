@@ -23,7 +23,8 @@ void Single::RequestResize()
 Single *Single::SetInnerWidget(Widget *widget)
 {
 	assert(widget);
-	assert(!m_innerWidget);
+
+	RemoveAllWidgets();
 
 	AddWidget(widget);
 	m_innerWidget = widget;
@@ -33,10 +34,10 @@ Single *Single::SetInnerWidget(Widget *widget)
 
 void Single::RemoveInnerWidget()
 {
-	assert(m_innerWidget);
-
-	RemoveWidget(m_innerWidget);
-	m_innerWidget = 0;
+	if (m_innerWidget) {
+		RemoveWidget(m_innerWidget);
+		m_innerWidget = 0;
+	}
 }
 
 }

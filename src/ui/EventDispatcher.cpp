@@ -15,10 +15,10 @@ bool EventDispatcher::DispatchSDLEvent(const SDL_Event &event)
 {
 	switch (event.type) {
 		case SDL_KEYDOWN:
-			return Dispatch(KeyboardEvent(KeyboardEvent::KEY_DOWN, event.key.keysym));
+			return Dispatch(KeyboardEvent(KeyboardEvent::KEY_DOWN, KeySym(event.key.keysym.sym, event.key.keysym.mod, event.key.keysym.unicode)));
 
 		case SDL_KEYUP:
-			return Dispatch(KeyboardEvent(KeyboardEvent::KEY_UP, event.key.keysym));
+			return Dispatch(KeyboardEvent(KeyboardEvent::KEY_UP, KeySym(event.key.keysym.sym, event.key.keysym.mod, event.key.keysym.unicode)));
 
 		case SDL_MOUSEBUTTONDOWN:
 			if (event.button.button == SDL_BUTTON_WHEELUP || event.button.button == SDL_BUTTON_WHEELDOWN)
@@ -44,7 +44,14 @@ bool EventDispatcher::Dispatch(const Event &event)
 			const KeyboardEvent keyEvent = static_cast<const KeyboardEvent&>(event);
 			switch (keyEvent.action) {
 				case KeyboardEvent::KEY_DOWN: return m_baseContainer->TriggerKeyDown(keyEvent);
-				case KeyboardEvent::KEY_UP:   return m_baseContainer->TriggerKeyUp(keyEvent);
+				case KeyboardEvent::KEY_UP: {
+					ShortcutMap::iterator i = m_shortcuts.find(keyEvent.keysym);
+					if (i != m_shortcuts.end()) {
+						(*i).second->TriggerClick();
+						return true;
+					}
+					return m_baseContainer->TriggerKeyUp(keyEvent);
+				}
 			}
 			return false;
 		}
@@ -152,6 +159,23 @@ void EventDispatcher::DispatchMouseOverOut(Widget *target, const vector2f &mouse
 		m_lastMouseOverTarget = target;
 		m_lastMouseOverTarget->TriggerMouseOver(mousePos-m_lastMouseOverTarget->GetAbsolutePosition());
 	}
+}
+
+void EventDispatcher::AddShortcut(const KeySym &keysym, Widget *target)
+{
+	m_shortcuts[keysym] = target;
+}
+
+void EventDispatcher::RemoveShortcut(const KeySym &keysym)
+{
+	ShortcutMap::iterator i = m_shortcuts.find(keysym);
+	if (i != m_shortcuts.end())
+		m_shortcuts.erase(i);
+}
+
+void EventDispatcher::ClearShortcuts()
+{
+	m_shortcuts.clear();
 }
 
 }

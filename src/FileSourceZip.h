@@ -27,8 +27,15 @@ private:
 		const FileInfo info;
 	};
 
-	typedef std::map<std::string,FileStat> FileMap;
-	FileMap m_index;
+	struct Directory {
+		std::map<std::string,Directory> subdirs;
+		std::map<std::string,FileStat> files;
+	};
+
+	Directory m_root;
+
+	bool FindDirectoryAndFile(const std::string &path, const Directory* &dir, std::string &filename);
+	void AddFile(const std::string &path, const FileStat &fileStat);
 };
 
 }

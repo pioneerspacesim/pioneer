@@ -20,17 +20,16 @@ public:
 
 	virtual void RequestResize();
 
-	struct ChildAttrs {
-		ChildAttrs(bool _expand = true, bool _fill = true) : expand(_expand), fill(_fill) {}
-		const bool expand; // if true, give this child a share of the leftover space
-		const bool fill;   // if true, extra space will be given to the child.
-                           // if false, extra space will be added as padding around the child
+	enum {
+		BOX_EXPAND = 0x1,   // if true, give this child a share of the leftover space
+		BOX_FILL   = 0x2    // if true, extra space will be given to the child.
+		                    // if false, extra space will be added as padding around the child
 	};
 
-	Box *PackStart(Widget *child, const ChildAttrs &attrs = ChildAttrs());
-	Box *PackStart(const WidgetSet &set, const ChildAttrs &attrs = ChildAttrs());
-	Box *PackEnd(Widget *child, const ChildAttrs &attrs = ChildAttrs());
-	Box *PackEnd(const WidgetSet &set, const ChildAttrs &attrs = ChildAttrs());
+	Box *PackStart(Widget *child, Uint32 flags = 0);
+	Box *PackStart(const WidgetSet &set, Uint32 flags = 0);
+	Box *PackEnd(Widget *child, Uint32 flags = 0);
+	Box *PackEnd(const WidgetSet &set, Uint32 flags = 0);
 
 	void Remove(Widget *child);
 	void Clear();
@@ -40,12 +39,12 @@ private:
 	float m_spacing;
 
 	struct Child {
-		Child(Widget *_widget, const ChildAttrs &_attrs) : widget(_widget), attrs(_attrs) {}
-		Widget           *widget;
-		const ChildAttrs attrs;
-		vector2f         preferredSize;
-		vector2f         size;
-		float            padding;
+		Child(Widget *_widget, Uint32 _flags) : widget(_widget), flags(_flags) {}
+		Widget   *widget;
+		Uint32    flags;
+		vector2f  preferredSize;
+		vector2f  size;
+		float     padding;
 	};
 
 	std::list<Child> m_children;

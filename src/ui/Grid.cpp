@@ -34,10 +34,8 @@ Grid *Grid::SetRow(int rowNum, const WidgetSet &set)
 
 	for (int i = 0; i < set.numWidgets; i++) {
 		const int n = rowNum*m_colSpec.numCells+i;
-		if (m_widgets[n]) {
+		if (m_widgets[n])
 			RemoveWidget(m_widgets[n]);
-			delete m_widgets[n]; // XXX widget deletion
-		}
 		m_widgets[n] = set.widgets[i];
 		AddWidget(m_widgets[n]);
 	}
@@ -52,10 +50,8 @@ Grid *Grid::SetColumn(int colNum, const WidgetSet &set)
 
 	for (int i = 0; i < set.numWidgets; i++) {
 		const int n = i*m_colSpec.numCells+colNum;
-		if (m_widgets[n]) {
+		if (m_widgets[n])
 			RemoveWidget(m_widgets[n]);
-			delete m_widgets[n]; // XXX widget deletion
-		}
 		m_widgets[n] = set.widgets[i];
 		AddWidget(m_widgets[n]);
 	}
@@ -69,14 +65,57 @@ Grid *Grid::SetCell(int colNum, int rowNum, Widget *widget)
 	assert(rowNum > 0 && rowNum < m_colSpec.numCells);
 
 	const int n = rowNum*m_colSpec.numCells+colNum;
-	if (m_widgets[n]) {
+	if (m_widgets[n])
 		RemoveWidget(m_widgets[n]);
-		delete m_widgets[n]; // XXX widget deletion
-	}
 	m_widgets[n] = widget;
 	AddWidget(m_widgets[n]);
 
 	return this;
+}
+
+void Grid::ClearRow(int rowNum)
+{
+	assert(rowNum >= 0 && rowNum < m_colSpec.numCells);
+
+	bool removedWidgets = false;
+	for (int i = 0; i < m_rowSpec.numCells; i++) {
+		const int n = rowNum*m_colSpec.numCells+i;
+		if (m_widgets[n]) {
+			RemoveWidget(m_widgets[n]);
+			m_widgets[n] = 0;
+			removedWidgets = true;
+		}
+	}
+
+	if (removedWidgets)
+		if (GetContainer()) GetContainer()->RequestResize();
+}
+
+void Grid::ClearColumn(int colNum)
+{
+	assert(colNum >= 0 && colNum < m_rowSpec.numCells);
+
+	bool removedWidgets = false;
+	for (int i = 0; i < m_colSpec.numCells; i++) {
+		const int n = i*m_colSpec.numCells+colNum;
+		if (m_widgets[n]) {
+			RemoveWidget(m_widgets[n]);
+			m_widgets[n] = 0;
+			removedWidgets = true;
+		}
+	}
+
+	if (removedWidgets)
+		if (GetContainer()) GetContainer()->RequestResize();
+}
+
+void Grid::Clear()
+{
+	for (size_t i = 0; i < m_widgets.size(); i++)
+		m_widgets[i] = 0;
+
+	RemoveAllWidgets();
+	if (GetContainer()) GetContainer()->RequestResize();
 }
 
 }

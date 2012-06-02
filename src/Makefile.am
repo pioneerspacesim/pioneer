@@ -278,7 +278,8 @@ pioneer_LDADD = \
 	graphics/libgraphics.a \
 	galaxy/libgalaxy.a \
 	newmodel/libnewmodel.a \
-	terrain/libterrain.a
+	terrain/libterrain.a \
+	ui/libui.a
 
 pioneer_LDADD += \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \

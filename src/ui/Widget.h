@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "vector2.h"
 #include "Event.h"
+#include "RefCounted.h"
 
 // Widget is the base class for all UI elements. There's a couple of things it
 // must implement, and a few more it might want to implement if it wants to do
@@ -75,7 +76,7 @@ class Context;
 class Container;
 class Metrics;
 	
-class Widget {
+class Widget : public RefCounted {
 protected:
 	// can't instantiate a base widget directly
 	Widget(Context *context);
@@ -129,6 +130,21 @@ public:
 	// set/get the current draw transform. useful for animations, special effects
 	void SetTransform(const matrix4x4f &transform) { m_transform = transform; }
 	const matrix4x4f &GetTransform() const { return m_transform; }
+
+	// font size. obviously used for text size but also sometimes used for
+	// general widget size (eg space size). might do nothing, depends on the
+	// widget
+	enum FontSize {
+		FONT_SIZE_XSMALL,
+		FONT_SIZE_SMALL,
+		FONT_SIZE_NORMAL,
+		FONT_SIZE_LARGE,
+		FONT_SIZE_XLARGE,
+		FONT_SIZE_MAX
+	};
+
+	virtual Widget *SetFontSize(FontSize fontSize);
+	FontSize GetFontSize() const { return m_fontSize; }
 
 
 protected:
@@ -258,6 +274,8 @@ private:
 	friend class Context;
 	void SetSize(const vector2f &size) { m_size = size; SetActiveArea(size); }
 
+	// FloatContainer needs to change floating state
+	friend class FloatContainer;
 	void SetFloating(bool floating) { m_floating = floating; }
 
 	Context *m_context;
@@ -266,6 +284,7 @@ private:
 	vector2f m_size;
 	vector2f m_activeArea;
 	matrix4x4f m_transform;
+	FontSize m_fontSize;
 
 	bool m_floating;
 

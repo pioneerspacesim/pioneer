@@ -242,6 +242,6 @@ void ShipType::Init()
 	lua_close(l);
 
 	if (ShipType::player_ships.empty())
-		Warning("No playable ships have been defined! The game cannot run.");
+		Error("No playable ships have been defined! The game cannot run.");
 }
 

@@ -119,17 +119,6 @@ void Error(const char *format, ...)
 	abort();
 }
 
-void Warning(const char *format, ...)
-{
-	char buf[1024];
-	va_list ap;
-	va_start(ap, format);
-	vsnprintf(buf, sizeof(buf), format, ap);
-	va_end(ap);
-	fprintf(stderr, "%s\n", buf);
-	Gui::Screen::ShowBadError(buf);
-}
-
 void SilentWarning(const char *format, ...)
 {
 	fputs("Warning: ", stderr);

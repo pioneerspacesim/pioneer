@@ -7,6 +7,9 @@
 #include "EventDispatcher.h"
 #include "Skin.h"
 
+#include "Widget.h"
+#include "FloatContainer.h"
+
 #include "Margin.h"
 #include "Background.h"
 #include "ColorBackground.h"
@@ -50,10 +53,6 @@ class Context : public Single {
 public:
 	Context(Graphics::Renderer *renderer, int width, int height);
 
-	// event dispatch delegates
-	bool Dispatch(const Event &event) { return m_eventDispatcher.Dispatch(event); }
-	bool DispatchSDLEvent(const SDL_Event &event) { return m_eventDispatcher.DispatchSDLEvent(event); }
-
 	// general purpose containers
 	UI::HBox *HBox(float spacing = 0.0f) { return new UI::HBox(this, spacing); }
 	UI::VBox *VBox(float spacing = 0.0f) { return new UI::VBox(this, spacing); }
@@ -82,11 +81,19 @@ public:
 	UI::DropDown *DropDown() { return new UI::DropDown(this); }
 
 	// add a floating widget
-	Context *AddFloatingWidget(Widget *w, const vector2f &pos, const vector2f &size);
-	Context *RemoveFloatingWidget(Widget *w);
+	Context *AddFloatingWidget(Widget *w, const vector2f &pos, const vector2f &size) { m_float->AddWidget(w, pos, size); return this; }
+	Context *RemoveFloatingWidget(Widget *w) { m_float->RemoveWidget(w); return this; }
 
 	// considers floating widgets also
 	virtual Widget *GetWidgetAtAbsolute(const vector2f &pos);
+
+	// event dispatch delegates
+	bool Dispatch(const Event &event) { return m_eventDispatcher.Dispatch(event); }
+	bool DispatchSDLEvent(const SDL_Event &event) { return m_eventDispatcher.DispatchSDLEvent(event); }
+
+	void AddShortcut(const KeySym &keysym, Widget *target) { m_eventDispatcher.AddShortcut(keysym, target); }
+	void RemoveShortcut(const KeySym &keysym) { m_eventDispatcher.RemoveShortcut(keysym); }
+	void ClearShortcuts() { m_eventDispatcher.ClearShortcuts(); }
 
 	virtual void Layout();
 	virtual void Update();
@@ -94,7 +101,9 @@ public:
 
 	Graphics::Renderer *GetRenderer() const { return m_renderer; }
 	const Skin &GetSkin() const { return m_skin; }
-	RefCountedPtr<Text::TextureFont> GetFont() const { return m_font; }
+
+	RefCountedPtr<Text::TextureFont> GetFont() const { return GetFont(Widget::FONT_SIZE_NORMAL); }
+	RefCountedPtr<Text::TextureFont> GetFont(Widget::FontSize fontSize) const { return m_font[fontSize]; }
 
 private:
 	virtual vector2f PreferredSize() { return 0; }
@@ -103,11 +112,12 @@ private:
 	float m_width;
 	float m_height;
 
-	std::vector<Widget*> m_floatWidgets;
+	ScopedPtr<FloatContainer> m_float;
 
 	EventDispatcher m_eventDispatcher;
 	Skin m_skin;
-	RefCountedPtr<Text::TextureFont> m_font;
+
+	RefCountedPtr<Text::TextureFont> m_font[FONT_SIZE_MAX];
 
 	// used by Container::Draw to set the keep widget drawing in its bounds
 	friend class Container;

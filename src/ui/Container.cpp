@@ -7,10 +7,8 @@ namespace UI {
 
 Container::~Container()
 {
-	for (std::list<Widget*>::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
+	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
 		(*i)->Detach();
-		delete (*i);
-	}
 }
 
 void Container::Update()
@@ -20,7 +18,7 @@ void Container::Update()
 		m_needsLayout = false;
 	}
 
-	for (std::list<Widget*>::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
+	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
 		(*i)->Update();
 }
 
@@ -29,7 +27,7 @@ void Container::Draw()
 	Context *c = GetContext();
 	Graphics::Renderer *r = c->GetRenderer();
 
-	for (std::list<Widget*>::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
+	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
 		const vector2f &pos = (*i)->GetAbsolutePosition();
 		c->SetScissor(true, pos, (*i)->GetSize());
 		r->SetTransform(matrix4x4f::Translation(pos.x,pos.y,0) * (*i)->GetTransform());
@@ -46,7 +44,7 @@ void Container::RequestResize()
 
 void Container::LayoutChildren()
 {
-	for (std::list<Widget*>::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
+	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
 		(*i)->Layout();
 }
 
@@ -54,22 +52,22 @@ void Container::AddWidget(Widget *widget)
 {
 	assert(!widget->GetContainer());
 
-	std::list<Widget*>::iterator i;
+	std::vector< RefCountedPtr<Widget> >::iterator i;
 	for (i = m_widgets.begin(); i != m_widgets.end(); ++i)
-		if (*i == widget) break;
+		if ((*i).Get() == widget) break;
 	assert(i == m_widgets.end());
 
 	widget->Attach(this);
-	m_widgets.push_back(widget);
+	m_widgets.push_back(RefCountedPtr<Widget>(widget));
 }
 
 void Container::RemoveWidget(Widget *widget)
 {
 	assert(widget->GetContainer() == this);
 
-	std::list<Widget*>::iterator i;
+	std::vector< RefCountedPtr<Widget> >::iterator i;
 	for (i = m_widgets.begin(); i != m_widgets.end(); ++i)
-		if (*i == widget) break;
+		if ((*i).Get() == widget) break;
 	if (i == m_widgets.end())
 		return;
 
@@ -79,11 +77,9 @@ void Container::RemoveWidget(Widget *widget)
 
 void Container::RemoveAllWidgets()
 {
-	std::list<Widget*>::iterator i = m_widgets.begin();
+	std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin();
 	while (i != m_widgets.end()) {
-		Widget *widget = *i;
-		widget->Detach();
-		delete widget;
+        (*i)->Detach();
 		i = m_widgets.erase(i);
 	}
 }
@@ -100,7 +96,7 @@ Widget *Container::GetWidgetAtAbsolute(const vector2f &pos)
 	if (!ContainsAbsolute(pos)) return 0;
 
 	for (WidgetIterator i = WidgetsBegin(); i != WidgetsEnd(); ++i) {
-		Widget *widget = *i;
+		Widget *widget = (*i).Get();
 		if (widget->ContainsAbsolute(pos)) {
 			if (widget->IsContainer())
 				return static_cast<Container*>(widget)->GetWidgetAtAbsolute(pos);
