@@ -234,6 +234,7 @@
     <ClCompile Include="..\..\src\ui\Context.cpp" />
     <ClCompile Include="..\..\src\ui\DropDown.cpp" />
     <ClCompile Include="..\..\src\ui\EventDispatcher.cpp" />
+    <ClCompile Include="..\..\src\ui\FloatContainer.cpp" />
     <ClCompile Include="..\..\src\ui\Grid.cpp" />
     <ClCompile Include="..\..\src\ui\Image.cpp" />
     <ClCompile Include="..\..\src\ui\Label.cpp" />
@@ -362,6 +363,7 @@
     <ClInclude Include="..\..\src\ui\DropDown.h" />
     <ClInclude Include="..\..\src\ui\Event.h" />
     <ClInclude Include="..\..\src\ui\EventDispatcher.h" />
+    <ClInclude Include="..\..\src\ui\FloatContainer.h" />
     <ClInclude Include="..\..\src\ui\Grid.h" />
     <ClInclude Include="..\..\src\ui\Image.h" />
     <ClInclude Include="..\..\src\ui\Label.h" />

@@ -348,6 +348,9 @@
     <ClCompile Include="..\..\src\graphics\MaterialGL2.cpp">
       <Filter>src\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\ui\FloatContainer.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\pch.h">
@@ -718,6 +721,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\graphics\MaterialGL2.h">
       <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ui\FloatContainer.h">
+      <Filter>src\ui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

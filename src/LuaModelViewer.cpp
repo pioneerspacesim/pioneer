@@ -246,9 +246,9 @@ static UI::CheckBox *AddCheckbox(UI::Context *c, UI::Box *box, const std::string
 //widget-label pair
 static void AddPair(UI::Context *c, UI::Box *parent, UI::Widget *widget, const std::string &label)
 {
-	UI::Box::ChildAttrs a(false, false);
+	const Uint32 flags = 0;
 	parent->PackEnd(
-		c->HBox(5.f)->PackEnd(widget, a)->PackEnd(c->Label(label), a)
+		c->HBox(5.f)->PackEnd(widget, flags)->PackEnd(c->Label(label), flags)
 	);
 }
 
@@ -290,7 +290,7 @@ void Viewer::SetupUI()
 
 	c1->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius));
 	b1->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleGrid), b1));*/
-	UI::Box::ChildAttrs battrs(false, false);
+	Uint32 battrs = 0;
 
 	box->PackEnd((buttBox = c->VBox(5.f)), battrs);
 	AddPair(c, buttBox, (b1 = c->Button()), "Pick another model");
@@ -329,27 +329,28 @@ void Viewer::SetupUI()
 	ddown->onOptionSelected.connect(sigc::mem_fun(*this, &Viewer::OnLightPresetChanged));
 
 	//3x3 colour sliders
-	UI::Box::ChildAttrs attrs(false);
+	const Uint32 all = UI::Box::BOX_FILL | UI::Box::BOX_EXPAND;
+	const Uint32 expand = UI::Box::BOX_EXPAND;
 	const float spacing = 5.f;
 	c->AddFloatingWidget(
 		c->HBox()->PackEnd( //three columns
 			c->VBox()->PackEnd(UI::WidgetSet( //three rows
-				c->HBox(spacing)->PackEnd(c->Label("R"), attrs)->PackEnd(m_sliders[0] = c->HSlider()),
-				c->HBox(spacing)->PackEnd(c->Label("G"), attrs)->PackEnd(m_sliders[1] = c->HSlider()),
-				c->HBox(spacing)->PackEnd(c->Label("B"), attrs)->PackEnd(m_sliders[2] = c->HSlider())
-				), attrs)
+				c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(m_sliders[0] = c->HSlider(), expand),
+				c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(m_sliders[1] = c->HSlider(), expand),
+				c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(m_sliders[2] = c->HSlider(), expand)
+				)), all
 		)->PackEnd(
 			c->VBox()->PackEnd(UI::WidgetSet( //three rows
-				c->HBox(spacing)->PackEnd(c->Label("R"), attrs)->PackEnd(m_sliders[3] = c->HSlider()),
-				c->HBox(spacing)->PackEnd(c->Label("G"), attrs)->PackEnd(m_sliders[4] = c->HSlider()),
-				c->HBox(spacing)->PackEnd(c->Label("B"), attrs)->PackEnd(m_sliders[5] = c->HSlider())
-				), attrs)
+				c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(m_sliders[3] = c->HSlider(), expand),
+				c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(m_sliders[4] = c->HSlider(), expand),
+				c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(m_sliders[5] = c->HSlider(), expand)
+				)), all
 		)->PackEnd(
 			c->VBox()->PackEnd(UI::WidgetSet( //three rows
-				c->HBox(spacing)->PackEnd(c->Label("R"), attrs)->PackEnd(m_sliders[6] = c->HSlider()),
-				c->HBox(spacing)->PackEnd(c->Label("G"), attrs)->PackEnd(m_sliders[7] = c->HSlider()),
-				c->HBox(spacing)->PackEnd(c->Label("B"), attrs)->PackEnd(m_sliders[8] = c->HSlider())
-				), UI::Box::ChildAttrs(false))
+				c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(m_sliders[6] = c->HSlider(), expand),
+				c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(m_sliders[7] = c->HSlider(), expand),
+				c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(m_sliders[8] = c->HSlider(), expand)
+				)), all
 		)
 	, vector2f(0.f, g_height-200.f), vector2f(500.f, 300.f));
 
