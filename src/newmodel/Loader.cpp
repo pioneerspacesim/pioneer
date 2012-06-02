@@ -578,7 +578,7 @@ void Loader::ConvertAnimations(const aiScene* scene, NModel *model)
 			for(unsigned int k=0; k<aichan->mNumRotationKeys; k++) {
 				const aiQuatKey &aikey = aichan->mRotationKeys[k];
 				const aiQuaternion &airot = aikey.mValue;
-				chan.rotationKeys.push_back(RotationKey(aikey.mTime, Quaternionf(airot.x, airot.y, airot.z, airot.w)));
+				chan.rotationKeys.push_back(RotationKey(aikey.mTime, Quaternionf(airot.w, airot.x, airot.y, airot.z)));
 			}
 		}
 		animations.push_back(animation);
