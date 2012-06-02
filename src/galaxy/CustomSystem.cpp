@@ -120,7 +120,7 @@ static int l_csb_height_map(lua_State *L)
 	CustomSystemBody *csb = l_csb_check(L, 1);
 	const char *fname = luaL_checkstring(L, 2);
 	int fractal = luaL_checkinteger(L, 3);
-	if (fractal >= 2) { return luaL_error(L, "invalid terrain fractal type"); }
+	if (fractal >= 3) { return luaL_error(L, "invalid terrain fractal type"); }
 
 	csb->heightMapFilename = FileSystem::JoinPathBelow("heightmaps", fname);
 	csb->heightMapFractal = fractal;

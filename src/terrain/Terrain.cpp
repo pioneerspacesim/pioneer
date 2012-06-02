@@ -13,9 +13,10 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 	if (body->heightMapFilename) {
 		const GeneratorInstancer choices[] = {
 			InstanceGenerator<TerrainHeightMapped,TerrainColorEarthLike>,
-			InstanceGenerator<TerrainHeightMapped2,TerrainColorRock>
+			InstanceGenerator<TerrainHeightMapped2,TerrainColorRock>,
+			InstanceGenerator<TerrainHeightMapped3,TerrainColorAsteroid>
 		};
-		assert(body->heightMapFractal < 2);
+		assert(body->heightMapFractal < 3);
 		return choices[body->heightMapFractal](body);
 	}
 
@@ -336,6 +337,32 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_rand(body->seed), m_h
 				bufread_or_die(m_heightMapScaled, sizeof(Uint16), m_heightMapSizeX * m_heightMapSizeY, databuf);
 
 				break;
+			}
+
+			case 2: {
+				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeY = v;
+				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeX = v;
+
+				// read height scaling and min height which are doubles
+				double te;
+				bufread_or_die(&te, 8, 1, databuf);
+				m_heightScaling = te;
+				bufread_or_die(&te, 8, 1, databuf);
+				m_minh = te;
+
+				//m_roughMin and m_roughnessScaling
+				bufread_or_die(m_roughMin, 8, 3, databuf); /*m_custom = temp;*/ bufread_or_die(m_roughnessScaling, 8, 3, databuf);
+				
+				// data point format: {height, roughness scale 9.2km, roughness scale 2.4 km, roughness scale 0.6 km}
+				// Pioneer reads points past the end of x/y limits
+				// in it's interpolation so the map contain 3 extra rows/columns to avoid a clip related seam
+				m_heightMapScaled = new Uint16[4*(m_heightMapSizeX+3) * (m_heightMapSizeY+3)];
+				// data is in uint16s
+				bufread_or_die(m_heightMapScaled, sizeof(Uint16), 4*(m_heightMapSizeX+3) * (m_heightMapSizeY+3), databuf);
+				
+
+				break;
+
 			}
 
 			default:
