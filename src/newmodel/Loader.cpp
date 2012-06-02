@@ -349,7 +349,7 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		it != def.tagDefs.end();
 		++it)
 	{
-		if (!anim) anim = new Animation("wiggle");
+		if (!anim) anim = new Animation("wiggle", 100.0);
 		const vector3f &pos = (*it).position;
 		MatrixTransform *tagTrans = new MatrixTransform(matrix4x4f::Translation(pos.x, pos.y, pos.z));
 		//add a test animation for the tag (which is silly)
@@ -444,7 +444,8 @@ Node *Loader::LoadMesh(const std::string &filename, NModel *model, TagList &mode
 
 	Node *node = 0; //XXX don't return a node, pass in the root (of the current LOD, not model root)
 
-	if (!scene->HasAnimations()) {
+	//XXX importing everything through the ConvertNodes scheme
+	if (false && !scene->HasAnimations()) {
 		//XXX putting everything in one static mesh
 		//XXX the plan: if scene has animation, go through the assimp node structure and
 		//create the appropriate nodes (staticgeometry parented to matrixtransforms for animated nodes)
@@ -558,7 +559,7 @@ void Loader::ConvertAnimations(const aiScene* scene, NModel *model)
 	for (unsigned int i=0; i<scene->mNumAnimations; i++) {
 		const aiAnimation* aianim = scene->mAnimations[i];
 		const std::string animname(aianim->mName.C_Str());
-		Animation *animation = new Animation(animname.empty() ? "wiggle" : animname);
+		Animation *animation = new Animation(animname.empty() ? "wiggle" : animname, aianim->mDuration);
 		for (unsigned int j=0; j<aianim->mNumChannels; j++) {
 			aiNodeAnim *aichan = aianim->mChannels[j];
 			const std::string channame(aichan->mNodeName.C_Str());

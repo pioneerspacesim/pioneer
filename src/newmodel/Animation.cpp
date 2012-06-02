@@ -2,10 +2,10 @@
 
 namespace Newmodel {
 
-Animation::Animation(const std::string &name)
+Animation::Animation(const std::string &name, double duration)
 : m_paused(true)
 , m_currentTime(0.0)
-, m_duration(100.0)
+, m_duration(duration)
 , m_lastTime(0.0)
 , m_ticksPerSecond(25.0)
 , m_name(name)

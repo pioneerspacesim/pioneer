@@ -11,7 +11,7 @@ namespace Newmodel {
 
 class Animation {
 public:
-	Animation(const std::string &name);
+	Animation(const std::string &name, double duration);
 	void Play();
 	void Pause(); //pause or resume playback
 	void Stop(); //abort playback and rewind
