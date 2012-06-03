@@ -98,7 +98,7 @@ private: //data members
 
 private: //methods
 	void SetupUI();
-	bool OnAnimPlay(UI::Widget *w);
+	bool OnAnimPlay(UI::Widget *w, bool reverse);
 	bool OnAnimStop(UI::Widget *w);
 	bool OnReloadModel(UI::Widget *w);
 	bool OnToggleBoundingRadius(UI::Widget *w);
@@ -281,7 +281,7 @@ void Viewer::SetupUI()
 	UI::Box *buttBox;
 	UI::Box *animBox;
 	UI::Button *b1, *gridBtn, *reloadBtn;
-	UI::Button *playBtn, *stopBtn;
+	UI::Button *playBtn, *stopBtn, *revBtn;
 	UI::CheckBox *radiusCheck, *gunsCheck;
 	
 	c->SetInnerWidget((box = c->VBox(5.f)));
@@ -306,6 +306,7 @@ void Viewer::SetupUI()
 	animBox->PackEnd(c->Label("Animation:"));
 	animBox->PackEnd(m_animSelector = c->DropDown()->AddOption("None"));
 	AddPair(c, animBox, playBtn = c->Button(), "Play/Pause");
+	AddPair(c, animBox, revBtn = c->Button(), "Play reverse");
 	AddPair(c, animBox, stopBtn = c->Button(), "Stop");
 
 	b1->onClick.connect(sigc::mem_fun(*this, &Viewer::PickAnotherModel));
@@ -314,7 +315,8 @@ void Viewer::SetupUI()
 	radiusCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius), radiusCheck));
 	gunsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleGuns), gunsCheck));
 
-	playBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnAnimPlay), playBtn));
+	playBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnAnimPlay), playBtn, false));
+	revBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnAnimPlay), revBtn, true));
 	stopBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnAnimStop), stopBtn));
 
 	UI::DropDown *ddown;
@@ -371,12 +373,13 @@ void Viewer::SetupUI()
 	c->Layout();
 }
 
-bool Viewer::OnAnimPlay(UI::Widget *w)
+bool Viewer::OnAnimPlay(UI::Widget *w, bool reverse)
 {
+	Newmodel::Animation::Direction dir = reverse ? Newmodel::Animation::REVERSE : Newmodel::Animation::FORWARD;
 	const std::string animname = m_animSelector->GetSelectedOption();
 	m_playing = !m_playing;
 	if (m_playing) {
-		int success = static_cast<Newmodel::NModel*>(m_model)->PlayAnimation(animname);
+		int success = static_cast<Newmodel::NModel*>(m_model)->PlayAnimation(animname, dir);
 		if (success)
 			AddLog(stringf("Playing animation \"%0\"", animname));
 		else {
