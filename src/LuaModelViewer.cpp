@@ -92,6 +92,7 @@ private: //data members
 	std::string m_logString;
 	std::string m_modelName;
 	UI::Context *m_ui;
+	UI::DropDown *m_animSelector;
 	UI::DropDown *m_patternSelector;
 	UI::Slider *m_sliders[3*3]; //color sliders 3*rgb
 
@@ -110,6 +111,7 @@ private: //methods
 	void ClearModel();
 	void DrawLog();
 	void Screenshot();
+	void UpdateAnimList();
 	void UpdateLights();
 	void UpdatePatternList();
 	void UpdateTime();
@@ -301,7 +303,8 @@ void Viewer::SetupUI()
 	AddPair(c, buttBox, (c->CheckBox()), "Draw collision mesh");
 
 	box->PackEnd(animBox = c->VBox(5.f), battrs);
-	animBox->PackEnd(c->Label("Animation test:"));
+	animBox->PackEnd(c->Label("Animation:"));
+	animBox->PackEnd(m_animSelector = c->DropDown()->AddOption("None"));
 	AddPair(c, animBox, playBtn = c->Button(), "Play/Pause");
 	AddPair(c, animBox, stopBtn = c->Button(), "Stop");
 
@@ -370,13 +373,14 @@ void Viewer::SetupUI()
 
 bool Viewer::OnAnimPlay(UI::Widget *w)
 {
+	const std::string animname = m_animSelector->GetSelectedOption();
 	m_playing = !m_playing;
 	if (m_playing) {
-		int success = static_cast<Newmodel::NModel*>(m_model)->PlayAnimation("wiggle");
+		int success = static_cast<Newmodel::NModel*>(m_model)->PlayAnimation(animname);
 		if (success)
-			AddLog("Playing animation \"wiggle\"");
+			AddLog(stringf("Playing animation \"%0\"", animname));
 		else {
-			AddLog("Model does not have animation \"wiggle\"");
+			AddLog(stringf("Model does not have animation \"%0\"", animname));
 			m_playing = false;
 		}
 	} else {
@@ -457,6 +461,19 @@ void Viewer::Screenshot()
 	strftime(buf, sizeof(buf), "modelviewer-%Y%m%d-%H%M%S.png", _tm);
 	Screendump(buf, g_width, g_height);
 	AddLog("Screenshot saved");
+}
+
+void Viewer::UpdateAnimList()
+{
+	m_animSelector->Clear();
+	Newmodel::NModel *model = dynamic_cast<Newmodel::NModel*>(m_model);
+	if (model) {
+		const std::vector<Newmodel::Animation*> &anims = model->GetAnimations();
+		for(unsigned int i=0; i<anims.size(); i++) {
+			m_animSelector->AddOption(anims[i]->GetName());
+		}
+	}
+	m_animSelector->Layout();
 }
 
 void Viewer::UpdateLights()
@@ -607,6 +624,7 @@ void Viewer::SetModel(Model *model, const std::string &name)
 	m_space->AddGeom(m_geom);
 	ResetCamera();
 
+	UpdateAnimList();
 	UpdatePatternList();
 	OnModelColorsChanged();
 }
