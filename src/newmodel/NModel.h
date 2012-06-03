@@ -87,6 +87,7 @@ public:
 	void UpdateAnimations(double time); //change this to timestep or something
 	int PlayAnimation(const std::string &name); //immediately play an animation (forward), if found, returns count of animations triggered
 	void StopAnimations(); //stop all animation
+	const std::vector<Animation *> GetAnimations() const { return m_animations; }
 
 private:
 	ColorMap m_colorMap;
