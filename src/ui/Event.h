@@ -30,15 +30,22 @@ protected:
 };
 
 struct KeySym {
-	KeySym(const SDLKey &_sym, const SDLMod &_mod, const Uint16 _unicode) : sym(_sym), mod(_mod), unicode(_unicode) {}
-	KeySym(const SDLKey &_sym, const SDLMod &_mod) : sym(_sym), mod(_mod), unicode(0) {}
-	KeySym(const SDLKey &_sym) : sym(_sym), mod(KMOD_NONE), unicode(0) {}
+	KeySym(const SDLKey &_sym, const SDLMod &_mod, const Uint16 _unicode) : sym(_sym), mod(_mod), unicode(_unicode) { Init(); }
+	KeySym(const SDLKey &_sym, const SDLMod &_mod) : sym(_sym), mod(_mod), unicode(0) { Init(); }
+	KeySym(const SDLKey &_sym) : sym(_sym), mod(KMOD_NONE), unicode(0) { Init(); }
 	const SDLKey sym;
 	const SDLMod mod;
 	const Uint16 unicode;
 
 	bool operator<(const KeySym &b) const {
 		return sym < b.sym || (sym == b.sym && mod < b.mod);
+	}
+
+private:
+	void Init() {
+		// mask off stuff like caps/numlock
+		// XXX I don't want to live in this world anymore
+		*(reinterpret_cast<Uint32*>(const_cast<SDLMod*>(&mod))) &= KMOD_CTRL | KMOD_SHIFT | KMOD_ALT | KMOD_META;
 	}
 };
 
