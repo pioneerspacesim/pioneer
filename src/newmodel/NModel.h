@@ -85,7 +85,7 @@ public:
 	void SetColors(Graphics::Renderer *r, const std::vector<Color4ub> &colors); //renderer needed for texture creation
 
 	void UpdateAnimations(double time); //change this to timestep or something
-	int PlayAnimation(const std::string &name); //immediately play an animation (forward), if found, returns count of animations triggered
+	int PlayAnimation(const std::string &name, Animation::Direction = Animation::FORWARD); //immediately play an animation (forward), if found, returns count of animations triggered
 	void StopAnimations(); //stop all animation
 	const std::vector<Animation *> GetAnimations() const { return m_animations; }
 

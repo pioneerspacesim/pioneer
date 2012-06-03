@@ -3,9 +3,10 @@
 
 namespace Newmodel {
 
-Animation::Animation(const std::string &name, double duration, AnimBehavior behavior)
+Animation::Animation(const std::string &name, double duration, Behavior behavior)
 : m_behavior(behavior)
 , m_paused(true)
+, m_dir(FORWARD)
 , m_currentTime(0.0)
 , m_duration(duration)
 , m_lastTime(0.0)
@@ -16,10 +17,11 @@ Animation::Animation(const std::string &name, double duration, AnimBehavior beha
 
 }
 
-void Animation::Play()
+void Animation::Play(Direction dir)
 {
 	m_paused = false;
 	m_prevMTime = 0.0;
+	m_dir = dir;
 }
 
 void Animation::Pause()
@@ -48,6 +50,7 @@ void Animation::Evaluate(const double time)
 		mtime = m_duration;
 	}
 	m_prevMTime = mtime;
+	if (m_dir == REVERSE) mtime = m_duration - mtime;
 
 	//go through channels and calculate transforms
 	for(unsigned int i = 0; i < channels.size(); i++) {

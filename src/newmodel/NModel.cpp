@@ -117,13 +117,13 @@ void NModel::UpdateAnimations(const double time) //change this to use timestep o
 	}
 }
 
-int NModel::PlayAnimation(const std::string &name)
+int NModel::PlayAnimation(const std::string &name, Animation::Direction dir)
 {
 	bool success = 0;
 	//should also go through submodels
 	for (unsigned int i=0; i<m_animations.size(); i++) {
 		if (m_animations[i]->GetName() == name) {
-			m_animations[i]->Play();
+			m_animations[i]->Play(dir);
 			success++;
 		}
 	}
