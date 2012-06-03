@@ -1,3 +1,8 @@
+Alpha 24
+
+   * Fixes
+     * Fix flipped vbuilding glowmap (#1280, #1279)
+
 Alpha 23
 
    * Minor changes and tweaks
