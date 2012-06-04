@@ -161,6 +161,16 @@ void EventDispatcher::DispatchMouseOverOut(Widget *target, const vector2f &mouse
 	}
 }
 
+void EventDispatcher::WidgetAdded(Widget *widget)
+{
+    printf("EventDispatcher adding widget %p\n", widget);
+}
+
+void EventDispatcher::WidgetRemoved(Widget *widget)
+{
+    printf("EventDispatcher removing widget %p\n", widget);
+}
+
 void EventDispatcher::AddShortcut(const KeySym &keysym, Widget *target)
 {
 	m_shortcuts[keysym] = target;

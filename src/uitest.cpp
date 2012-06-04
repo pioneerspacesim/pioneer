@@ -66,6 +66,12 @@ static bool clear_dropdown(UI::DropDown *dropdown)
 	return true;
 }
 
+static bool remove_widget(UI::VBox *box, UI::Widget *widget)
+{
+	box->Remove(widget);
+	return true;
+}
+
 int main(int argc, char **argv)
 {
 	FileSystem::Init();
@@ -331,6 +337,7 @@ int main(int argc, char **argv)
 	clear->onClick.connect(sigc::bind(sigc::ptr_fun(&clear_dropdown), dropdown));
 #endif
 
+#if 0
 	c->SetInnerWidget(
 		c->VBox()->PackEnd(UI::WidgetSet(
 			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_XSMALL),
@@ -340,6 +347,26 @@ int main(int argc, char **argv)
 			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_XLARGE)
 		))
 	);
+#endif
+
+	UI::VBox *box;
+	UI::Button *b1, *b2, *b3;
+	c->SetInnerWidget(
+		(box = c->VBox())->PackEnd(UI::WidgetSet(
+			(b1 = c->Button())->SetInnerWidget(c->Label("remove other")),
+			(b2 = c->Button())->SetInnerWidget(c->Label("other")),
+			(b3 = c->Button())->SetInnerWidget(c->Label("remove me"))
+		))
+	);
+	b1->onClick.connect(sigc::bind(sigc::ptr_fun(&remove_widget), box, b2));
+	b2->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b2));
+	b2->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b2));
+	b3->onClick.connect(sigc::bind(sigc::ptr_fun(&remove_widget), box, b3));
+	b3->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b3));
+	b3->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b3));
+
+	c->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), c));
+	c->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), c));
 
 	c->Layout();
 

@@ -16,6 +16,9 @@ public:
 	bool Dispatch(const Event &event);
 	bool DispatchSDLEvent(const SDL_Event &event);
 
+	void WidgetAdded(Widget *widget);
+	void WidgetRemoved(Widget *widget);
+
 	void AddShortcut(const KeySym &keysym, Widget *target);
 	void RemoveShortcut(const KeySym &keysym);
 	void ClearShortcuts();

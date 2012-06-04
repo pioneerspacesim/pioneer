@@ -122,6 +122,11 @@ private:
 	// used by Container::Draw to set the keep widget drawing in its bounds
 	friend class Container;
 	void SetScissor(bool enabled, const vector2f &pos = 0, const vector2f &size = 0);
+
+	// used by Container::(Add|Remove)Widget to tell event system to fire
+	// appropriate events for the new widget
+	void WidgetAdded(Widget *widget) { m_eventDispatcher.WidgetAdded(widget); }
+	void WidgetRemoved(Widget *widget) { m_eventDispatcher.WidgetRemoved(widget); }
 };
 
 }
