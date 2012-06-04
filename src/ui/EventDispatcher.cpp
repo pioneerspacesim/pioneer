@@ -58,7 +58,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 		case Event::MOUSE_BUTTON: {
 			const MouseButtonEvent mouseButtonEvent = static_cast<const MouseButtonEvent&>(event);
-			Widget *target = m_baseContainer->GetWidgetAtAbsolute(mouseButtonEvent.pos);
+			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAtAbsolute(mouseButtonEvent.pos));
 
 			switch (mouseButtonEvent.action) {
 
@@ -79,16 +79,16 @@ bool EventDispatcher::Dispatch(const Event &event)
 						m_mouseActiveReceiver->TriggerMouseDeactivate();
 
 						// if we released over the active widget, then we clicked it
-						if (m_mouseActiveReceiver == target)
+						if (m_mouseActiveReceiver.Get() == target)
 							m_mouseActiveReceiver->TriggerClick();
 
-						m_mouseActiveReceiver = 0;
+						m_mouseActiveReceiver.Reset();
 
 						// send the straight up event too
 						MouseButtonEvent translatedEvent = MouseButtonEvent(mouseButtonEvent.action, mouseButtonEvent.button, mouseButtonEvent.pos-target->GetAbsolutePosition());
 						bool ret = target->TriggerMouseUp(translatedEvent);
 
-						DispatchMouseOverOut(target, mouseButtonEvent.pos);
+						DispatchMouseOverOut(target.Get(), mouseButtonEvent.pos);
 
 						return ret;
 					}
@@ -112,9 +112,9 @@ bool EventDispatcher::Dispatch(const Event &event)
 			}
 
 			// widget directly under the mouse
-			Widget *target = m_baseContainer->GetWidgetAtAbsolute(mouseMotionEvent.pos);
+			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAtAbsolute(mouseMotionEvent.pos));
 
-			DispatchMouseOverOut(target, mouseMotionEvent.pos);
+			DispatchMouseOverOut(target.Get(), mouseMotionEvent.pos);
 
 			MouseMotionEvent translatedEvent = MouseMotionEvent(mouseMotionEvent.pos-target->GetAbsolutePosition());
 			return target->TriggerMouseMove(translatedEvent);
@@ -122,7 +122,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 		case Event::MOUSE_WHEEL: {
 			const MouseWheelEvent mouseWheelEvent = static_cast<const MouseWheelEvent&>(event);
-			Widget *target = m_baseContainer->GetWidgetAtAbsolute(mouseWheelEvent.pos);
+			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAtAbsolute(mouseWheelEvent.pos));
 			return target->TriggerMouseWheel(mouseWheelEvent);
 		}
 
@@ -136,7 +136,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 void EventDispatcher::DispatchMouseOverOut(Widget *target, const vector2f &mousePos)
 {
 	// do over/out handling for wherever the mouse is right now
-	if (target != m_lastMouseOverTarget) {
+	if (target != m_lastMouseOverTarget.Get()) {
 
 		if (m_lastMouseOverTarget) {
 
@@ -146,7 +146,7 @@ void EventDispatcher::DispatchMouseOverOut(Widget *target, const vector2f &mouse
 			// XXX this is doing too much work. should we flag this on the widget somewhere?
 			Widget *targetBase = target;
 			while (!targetBase->IsFloating() && targetBase->GetContainer()) targetBase = targetBase->GetContainer();
-			Widget *lastTargetBase = m_lastMouseOverTarget;
+			Widget *lastTargetBase = m_lastMouseOverTarget.Get();
 			while (!lastTargetBase->IsFloating() && lastTargetBase->GetContainer()) lastTargetBase = lastTargetBase->GetContainer();
 
 			// if we're moving from float->non-float or non-float->float,
@@ -156,7 +156,7 @@ void EventDispatcher::DispatchMouseOverOut(Widget *target, const vector2f &mouse
 			m_lastMouseOverTarget->TriggerMouseOut(outPos);
 		}
 
-		m_lastMouseOverTarget = target;
+		m_lastMouseOverTarget.Reset(target);
 		m_lastMouseOverTarget->TriggerMouseOver(mousePos-m_lastMouseOverTarget->GetAbsolutePosition());
 	}
 }
@@ -166,9 +166,26 @@ void EventDispatcher::WidgetAdded(Widget *widget)
     printf("EventDispatcher adding widget %p\n", widget);
 }
 
+static bool IsEqualOrAncestorOf(Widget *widget, Widget *check)
+{
+	while (check) {
+		if (widget == check)
+			return true;
+		check = check->GetContainer();
+	}
+	return false;
+}
+
 void EventDispatcher::WidgetRemoved(Widget *widget)
 {
-    printf("EventDispatcher removing widget %p\n", widget);
+	if (!widget->GetContainer())
+		return;
+
+	if (IsEqualOrAncestorOf(widget, m_lastMouseOverTarget.Get()))
+		m_lastMouseOverTarget.Reset(widget->GetContainer());
+
+	else if (widget == m_mouseActiveReceiver.Get())
+		m_mouseActiveReceiver.Reset();
 }
 
 void EventDispatcher::AddShortcut(const KeySym &keysym, Widget *target)
