@@ -72,6 +72,12 @@ static bool remove_widget(UI::VBox *box, UI::Widget *widget)
 	return true;
 }
 
+static bool remove_floating_widget(UI::Context *c, UI::Widget *widget)
+{
+	c->RemoveFloatingWidget(widget);
+	return true;
+}
+
 int main(int argc, char **argv)
 {
 	FileSystem::Init();
@@ -350,7 +356,7 @@ int main(int argc, char **argv)
 #endif
 
 	UI::VBox *box;
-	UI::Button *b1, *b2, *b3;
+	UI::Button *b1, *b2, *b3, *b4;
 	c->SetInnerWidget(
 		(box = c->VBox())->PackEnd(UI::WidgetSet(
 			(b1 = c->Button())->SetInnerWidget(c->Label("remove other")),
@@ -358,12 +364,18 @@ int main(int argc, char **argv)
 			(b3 = c->Button())->SetInnerWidget(c->Label("remove me"))
 		))
 	);
+	
+	c->AddFloatingWidget( (b4 = c->Button())->SetInnerWidget(c->Label("remove me (float)")), 300, 300);
+
 	b1->onClick.connect(sigc::bind(sigc::ptr_fun(&remove_widget), box, b2));
 	b2->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b2));
 	b2->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b2));
 	b3->onClick.connect(sigc::bind(sigc::ptr_fun(&remove_widget), box, b3));
 	b3->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b3));
 	b3->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b3));
+	b4->onClick.connect(sigc::bind(sigc::ptr_fun(&remove_floating_widget), c, b4));
+	b4->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b4));
+	b4->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b4));
 
 	c->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), c));
 	c->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), c));
