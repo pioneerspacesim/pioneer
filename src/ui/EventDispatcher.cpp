@@ -58,7 +58,9 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 		case Event::MOUSE_BUTTON: {
 			const MouseButtonEvent mouseButtonEvent = static_cast<const MouseButtonEvent&>(event);
-			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAtAbsolute(mouseButtonEvent.pos));
+			m_lastMousePosition = mouseButtonEvent.pos;
+
+			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAtAbsolute(m_lastMousePosition));
 
 			switch (mouseButtonEvent.action) {
 
@@ -68,7 +70,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 					m_mouseActiveReceiver = target;
 					target->TriggerMouseActivate();
 
-					MouseButtonEvent translatedEvent = MouseButtonEvent(mouseButtonEvent.action, mouseButtonEvent.button, mouseButtonEvent.pos-target->GetAbsolutePosition());
+					MouseButtonEvent translatedEvent = MouseButtonEvent(mouseButtonEvent.action, mouseButtonEvent.button, m_lastMousePosition-target->GetAbsolutePosition());
 					return target->TriggerMouseDown(translatedEvent);
 				}
 
@@ -85,15 +87,15 @@ bool EventDispatcher::Dispatch(const Event &event)
 						m_mouseActiveReceiver.Reset();
 
 						// send the straight up event too
-						MouseButtonEvent translatedEvent = MouseButtonEvent(mouseButtonEvent.action, mouseButtonEvent.button, mouseButtonEvent.pos-target->GetAbsolutePosition());
+						MouseButtonEvent translatedEvent = MouseButtonEvent(mouseButtonEvent.action, mouseButtonEvent.button, m_lastMousePosition-target->GetAbsolutePosition());
 						bool ret = target->TriggerMouseUp(translatedEvent);
 
-						DispatchMouseOverOut(target.Get(), mouseButtonEvent.pos);
+						DispatchMouseOverOut(target.Get(), m_lastMousePosition);
 
 						return ret;
 					}
 
-					MouseButtonEvent translatedEvent = MouseButtonEvent(mouseButtonEvent.action, mouseButtonEvent.button, mouseButtonEvent.pos-target->GetAbsolutePosition());
+					MouseButtonEvent translatedEvent = MouseButtonEvent(mouseButtonEvent.action, mouseButtonEvent.button, m_lastMousePosition-target->GetAbsolutePosition());
 					return target->TriggerMouseUp(translatedEvent);
 				}
 
@@ -104,25 +106,28 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 		case Event::MOUSE_MOTION: {
 			const MouseMotionEvent mouseMotionEvent = static_cast<const MouseMotionEvent&>(event);
+			m_lastMousePosition = mouseMotionEvent.pos;
 
 			// if there's a mouse-active widget, just send motion events directly into it
 			if (m_mouseActiveReceiver) {
-				MouseMotionEvent translatedEvent = MouseMotionEvent(mouseMotionEvent.pos-m_mouseActiveReceiver->GetAbsolutePosition());
+				MouseMotionEvent translatedEvent = MouseMotionEvent(m_lastMousePosition-m_mouseActiveReceiver->GetAbsolutePosition());
 				return m_mouseActiveReceiver->TriggerMouseMove(translatedEvent);
 			}
 
 			// widget directly under the mouse
-			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAtAbsolute(mouseMotionEvent.pos));
+			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAtAbsolute(m_lastMousePosition));
 
-			DispatchMouseOverOut(target.Get(), mouseMotionEvent.pos);
+			DispatchMouseOverOut(target.Get(), m_lastMousePosition);
 
-			MouseMotionEvent translatedEvent = MouseMotionEvent(mouseMotionEvent.pos-target->GetAbsolutePosition());
+			MouseMotionEvent translatedEvent = MouseMotionEvent(m_lastMousePosition-target->GetAbsolutePosition());
 			return target->TriggerMouseMove(translatedEvent);
 		}
 
 		case Event::MOUSE_WHEEL: {
 			const MouseWheelEvent mouseWheelEvent = static_cast<const MouseWheelEvent&>(event);
-			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAtAbsolute(mouseWheelEvent.pos));
+			m_lastMousePosition = mouseWheelEvent.pos;
+
+			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAtAbsolute(m_lastMousePosition));
 			return target->TriggerMouseWheel(mouseWheelEvent);
 		}
 

@@ -27,8 +27,10 @@ private:
 	void DispatchMouseOverOut(Widget *target, const vector2f &mousePos);
 
 	Container *m_baseContainer;
+
 	RefCountedPtr<Widget> m_mouseActiveReceiver;
 	RefCountedPtr<Widget> m_lastMouseOverTarget;
+	vector2f m_lastMousePosition;
 
 	typedef std::map<KeySym,Widget*> ShortcutMap;
 	ShortcutMap m_shortcuts;
