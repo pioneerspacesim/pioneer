@@ -112,7 +112,7 @@ private:
 	float m_width;
 	float m_height;
 
-	ScopedPtr<FloatContainer> m_float;
+	RefCountedPtr<FloatContainer> m_float;
 
 	EventDispatcher m_eventDispatcher;
 	Skin m_skin;
