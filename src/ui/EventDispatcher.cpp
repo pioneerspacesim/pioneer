@@ -186,8 +186,17 @@ void EventDispatcher::WidgetRemoved(Widget *widget)
 	if (!widget->GetContainer())
 		return;
 
-	if (IsEqualOrAncestorOf(widget, m_lastMouseOverTarget.Get()))
-		m_lastMouseOverTarget.Reset(widget->GetContainer());
+	if (IsEqualOrAncestorOf(widget, m_lastMouseOverTarget.Get())) {
+		Widget *target = widget->GetContainer();
+		// XXX hack. if the target is not floating when the widget is, then
+		// the target is the float container and we need to skip over it.
+		// calling GetWidgetAtAbsolute on m_baseContainer (the context) will
+		// find the widget that is about to be removed (its still in the
+		// layout), so we go directly to Container::, which knows nothing of
+		// the float container
+		if (target && target->IsFloating() != widget->IsFloating()) target = m_baseContainer->Container::GetWidgetAtAbsolute(m_lastMousePosition);
+		DispatchMouseOverOut(target, m_lastMousePosition);
+	}
 
 	else if (widget == m_mouseActiveReceiver.Get())
 		m_mouseActiveReceiver.Reset();
