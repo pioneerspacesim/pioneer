@@ -45,6 +45,7 @@ void Widget::Detach()
 	m_container = 0;
 	m_position = 0;
 	m_size = 0;
+	m_floating = false;
 }
 
 void Widget::SetDimensions(const vector2f &position, const vector2f &size)

@@ -31,7 +31,6 @@ void FloatContainer::RemoveWidget(Widget *w)
 	assert(w->GetContainer());
 
 	Container::RemoveWidget(w);
-	w->SetFloating(false);
 }
 
 }
