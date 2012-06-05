@@ -13,7 +13,9 @@ Context::Context(Graphics::Renderer *renderer, int width, int height) : Single(t
 	m_skin("textures/widgets.png", renderer)
 {
 	SetSize(vector2f(m_width,m_height));
+
 	m_float->SetSize(vector2f(m_width,m_height));
+	m_float->Attach(this);
 
 	// XXX should do point sizes, but we need display DPI first
 	// XXX TextureFont could load multiple sizes into the same object/atlas
