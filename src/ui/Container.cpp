@@ -60,7 +60,7 @@ void Container::AddWidget(Widget *widget)
 	widget->Attach(this);
 	m_widgets.push_back(RefCountedPtr<Widget>(widget));
 
-	GetContext()->WidgetAdded(widget);
+	GetContext()->LayoutUpdated();
 }
 
 void Container::RemoveWidget(Widget *widget)
@@ -73,20 +73,21 @@ void Container::RemoveWidget(Widget *widget)
 	if (i == m_widgets.end())
 		return;
 	
-	GetContext()->WidgetRemoved(widget);
-
 	widget->Detach();
 	m_widgets.erase(i);
+
+	GetContext()->LayoutUpdated();
 }
 
 void Container::RemoveAllWidgets()
 {
 	std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin();
 	while (i != m_widgets.end()) {
-		GetContext()->WidgetRemoved((*i).Get());
         (*i)->Detach();
 		i = m_widgets.erase(i);
 	}
+
+	GetContext()->LayoutUpdated();
 }
 
 void Container::SetWidgetDimensions(Widget *widget, const vector2f &position, const vector2f &size)

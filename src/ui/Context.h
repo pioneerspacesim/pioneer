@@ -125,8 +125,7 @@ private:
 
 	// used by Container::(Add|Remove)Widget to tell event system to fire
 	// appropriate events for the new widget
-	void WidgetAdded(Widget *widget) { m_eventDispatcher.WidgetAdded(widget); }
-	void WidgetRemoved(Widget *widget) { m_eventDispatcher.WidgetRemoved(widget); }
+	void LayoutUpdated() { m_eventDispatcher.LayoutUpdated(); }
 };
 
 }
