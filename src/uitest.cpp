@@ -118,7 +118,7 @@ int main(int argc, char **argv)
 	SDL_WM_SetCaption("uitest", "uitest");
 
 	Graphics::Renderer *r = Graphics::Init(WIDTH, HEIGHT, true);
-	UI::Context *c = new UI::Context(r, WIDTH, HEIGHT);
+	RefCountedPtr<UI::Context> c(new UI::Context(r, WIDTH, HEIGHT));
 
 #if 0
 	UI::Button *b1, *b2, *b3;
@@ -373,12 +373,12 @@ int main(int argc, char **argv)
 	b3->onClick.connect(sigc::bind(sigc::ptr_fun(&remove_widget), box, b3));
 	b3->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b3));
 	b3->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b3));
-	b4->onClick.connect(sigc::bind(sigc::ptr_fun(&remove_floating_widget), c, b4));
+	b4->onClick.connect(sigc::bind(sigc::ptr_fun(&remove_floating_widget), c.Get(), b4));
 	b4->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b4));
 	b4->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b4));
 
-	c->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), c));
-	c->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), c));
+	c->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), c.Get()));
+	c->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), c.Get()));
 
 	c->Layout();
 
@@ -405,7 +405,7 @@ int main(int argc, char **argv)
 //		slider->SetValue(slider->GetValue() + 0.01);
 	}
 
-	delete c;
+	c.Reset();
 	delete r;
 
 	SDL_Quit();
