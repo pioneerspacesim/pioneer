@@ -84,7 +84,7 @@ protected:
 public:
 	virtual ~Widget();
 
-	virtual vector2f PreferredSize() = 0;
+	virtual vector2f PreferredSize() { return 0; }
 	virtual void Layout() {}
 	virtual void Update() {}
 	virtual void Draw() = 0;

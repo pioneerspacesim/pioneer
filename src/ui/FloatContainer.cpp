@@ -2,11 +2,6 @@
 
 namespace UI {
 
-vector2f FloatContainer::PreferredSize()
-{
-	return vector2f(FLT_MAX, FLT_MAX);
-}
-
 void FloatContainer::Layout()
 {
 	LayoutChildren();

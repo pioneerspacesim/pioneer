@@ -12,7 +12,6 @@ protected:
 	Grid(Context *context, const CellSpec &rowSpec, const CellSpec &colSpec) : Container(context), m_rowSpec(rowSpec), m_colSpec(colSpec), m_widgets(m_rowSpec.numCells*m_colSpec.numCells) {}
 
 public:
-	virtual vector2f PreferredSize() { return 0; }
 	virtual void Layout();
 
 	Grid *SetRow(int rowNum, const WidgetSet &set);
