@@ -8,6 +8,7 @@ Context::Context(Graphics::Renderer *renderer, int width, int height) : Single(t
 	m_renderer(renderer),
 	m_width(float(width)),
 	m_height(float(height)),
+	m_needsLayout(false),
 	m_float(new FloatContainer(this)),
 	m_eventDispatcher(this),
 	m_skin("textures/widgets.png", renderer)
@@ -36,10 +37,15 @@ void Context::Layout()
 {
 	m_float->Layout();
 	Single::Layout();
+	m_eventDispatcher.LayoutUpdated();
+	m_needsLayout = false;
 }
 
 void Context::Update()
 {
+	if (m_needsLayout)
+		Layout();
+
 	m_float->Update();
 	Single::Update();
 }

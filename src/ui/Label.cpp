@@ -27,7 +27,7 @@ void Label::Draw()
 Label *Label::SetText(const std::string &text)
 {
 	m_text = text;
-	if (GetContainer()) GetContainer()->RequestResize();
+	GetContext()->RequestLayout();
 	return this;
 }
 

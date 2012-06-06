@@ -13,11 +13,6 @@ Container::~Container()
 
 void Container::Update()
 {
-	if (m_needsLayout) {
-		Layout();
-		m_needsLayout = false;
-	}
-
 	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
 		(*i)->Update();
 }
@@ -35,11 +30,6 @@ void Container::Draw()
 	}
 
 	c->SetScissor(false);
-}
-
-void Container::RequestResize()
-{
-	m_needsLayout = true;
 }
 
 void Container::LayoutChildren()
@@ -60,7 +50,7 @@ void Container::AddWidget(Widget *widget)
 	widget->Attach(this);
 	m_widgets.push_back(RefCountedPtr<Widget>(widget));
 
-	GetContext()->LayoutUpdated();
+	GetContext()->RequestLayout();
 }
 
 void Container::RemoveWidget(Widget *widget)
@@ -76,7 +66,7 @@ void Container::RemoveWidget(Widget *widget)
 	widget->Detach();
 	m_widgets.erase(i);
 
-	GetContext()->LayoutUpdated();
+	GetContext()->RequestLayout();
 }
 
 void Container::RemoveAllWidgets()
@@ -87,7 +77,7 @@ void Container::RemoveAllWidgets()
 		i = m_widgets.erase(i);
 	}
 
-	GetContext()->LayoutUpdated();
+	GetContext()->RequestLayout();
 }
 
 void Container::SetWidgetDimensions(Widget *widget, const vector2f &position, const vector2f &size)

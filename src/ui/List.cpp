@@ -25,11 +25,6 @@ void List::Layout() {
 	m_container->Layout();
 }
 
-void List::RequestResize()
-{
-    if (GetContainer()) GetContainer()->RequestResize();
-}
-
 List *List::AddOption(const std::string &text)
 {
 	m_options.push_back(text);
@@ -50,6 +45,8 @@ List *List::AddOption(const std::string &text)
 
 	m_optionBackgrounds.push_back(background);
 
+	GetContext()->RequestLayout();
+
 	return this;
 }
 
@@ -68,7 +65,7 @@ void List::Clear()
 	static_cast<VBox*>(m_container->GetInnerWidget())->Clear();
 	m_selected = -1;
 
-	if (GetContainer()) GetContainer()->RequestResize();
+	GetContext()->RequestLayout();
 }
 
 bool List::HandleOptionMouseOver(int index)

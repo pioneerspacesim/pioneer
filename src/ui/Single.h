@@ -10,8 +10,6 @@ public:
 	virtual vector2f PreferredSize();
 	virtual void Layout();
 
-	virtual void RequestResize();
-
 	Single *SetInnerWidget(Widget *widget);
 	void RemoveInnerWidget();
 	Widget *GetInnerWidget() const { return m_innerWidget; }

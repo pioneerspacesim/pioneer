@@ -32,8 +32,6 @@ public:
 
 	virtual bool IsContainer() const { return true; }
 
-	virtual void RequestResize();
-
 	virtual Widget *GetWidgetAtAbsolute(const vector2f &pos);
 
 	typedef std::vector< RefCountedPtr<Widget> >::const_iterator WidgetIterator;

@@ -380,7 +380,7 @@ int main(int argc, char **argv)
 	c->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), c.Get()));
 	c->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), c.Get()));
 
-	c->Layout();
+    int count = 0;
 
 	while (1) {
 		bool done = false;
@@ -403,6 +403,16 @@ int main(int argc, char **argv)
 		r->SwapBuffers();
 
 //		slider->SetValue(slider->GetValue() + 0.01);
+
+		if (++count == 400) {
+			UI::Background *b;
+			c->AddFloatingWidget((b = c->Background())->SetInnerWidget(c->Margin(100.0f)), 100.0f, 100.0f);
+			b->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b));
+			b->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b));
+			c->Layout();
+		}
+		else if (count < 400 && count % 10 == 0)
+			printf("%d\n", count);
 	}
 
 	c.Reset();

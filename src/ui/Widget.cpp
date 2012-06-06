@@ -1,5 +1,6 @@
 #include "Widget.h"
 #include "Container.h"
+#include "Context.h"
 
 namespace UI {
 
@@ -62,9 +63,9 @@ void Widget::SetActiveArea(const vector2f &activeArea)
 
 Widget *Widget::SetFontSize(FontSize fontSize)
 {
-    m_fontSize = fontSize;
-	if (GetContainer()) GetContainer()->RequestResize();
-    return this;
+	m_fontSize = fontSize;
+	GetContext()->RequestLayout();
+	return this;
 }
 
 bool Widget::TriggerKeyDown(const KeyboardEvent &event, bool emit)

@@ -77,36 +77,26 @@ void Grid::ClearRow(int rowNum)
 {
 	assert(rowNum >= 0 && rowNum < m_colSpec.numCells);
 
-	bool removedWidgets = false;
 	for (int i = 0; i < m_rowSpec.numCells; i++) {
 		const int n = rowNum*m_colSpec.numCells+i;
 		if (m_widgets[n]) {
 			RemoveWidget(m_widgets[n]);
 			m_widgets[n] = 0;
-			removedWidgets = true;
 		}
 	}
-
-	if (removedWidgets)
-		if (GetContainer()) GetContainer()->RequestResize();
 }
 
 void Grid::ClearColumn(int colNum)
 {
 	assert(colNum >= 0 && colNum < m_rowSpec.numCells);
 
-	bool removedWidgets = false;
 	for (int i = 0; i < m_colSpec.numCells; i++) {
 		const int n = i*m_colSpec.numCells+colNum;
 		if (m_widgets[n]) {
 			RemoveWidget(m_widgets[n]);
 			m_widgets[n] = 0;
-			removedWidgets = true;
 		}
 	}
-
-	if (removedWidgets)
-		if (GetContainer()) GetContainer()->RequestResize();
 }
 
 void Grid::Clear()
@@ -115,7 +105,6 @@ void Grid::Clear()
 		m_widgets[i] = 0;
 
 	RemoveAllWidgets();
-	if (GetContainer()) GetContainer()->RequestResize();
 }
 
 }

@@ -95,6 +95,8 @@ public:
 	void RemoveShortcut(const KeySym &keysym) { m_eventDispatcher.RemoveShortcut(keysym); }
 	void ClearShortcuts() { m_eventDispatcher.ClearShortcuts(); }
 
+	void RequestLayout() { m_needsLayout = true; }
+
 	virtual void Layout();
 	virtual void Update();
 	virtual void Draw();
@@ -112,6 +114,8 @@ private:
 	float m_width;
 	float m_height;
 
+	bool m_needsLayout;
+
 	RefCountedPtr<FloatContainer> m_float;
 
 	EventDispatcher m_eventDispatcher;
@@ -122,10 +126,6 @@ private:
 	// used by Container::Draw to set the keep widget drawing in its bounds
 	friend class Container;
 	void SetScissor(bool enabled, const vector2f &pos = 0, const vector2f &size = 0);
-
-	// used by Container::(Add|Remove)Widget to tell event system to fire
-	// appropriate events for the new widget
-	void LayoutUpdated() { m_eventDispatcher.LayoutUpdated(); }
 };
 
 }
