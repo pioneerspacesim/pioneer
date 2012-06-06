@@ -222,35 +222,13 @@ private:
 	void VisualizeBoundingRadius(matrix4x4f& trans, double radius);
 };
 
-#if 0
-static UI::Button *AddButton(UI::Context *c, UI::Box *box, const std::string &label)
-{
-	UI::Button *button = 0;
-	const UI::Box::ChildAttrs attrs(false, false);
-	box->PackEnd(((button = c->Button())->SetInnerWidget(c->Label(label))), attrs);
-	return button;
-}
-
-static UI::CheckBox *AddCheckbox(UI::Context *c, UI::Box *box, const std::string &label)
-{
-	UI::CheckBox *button = 0;
-	const UI::Box::ChildAttrs attrs(false, false);
-	box->PackEnd(
-		c->HBox()->PackEnd(
-			(button = c->CheckBox()), attrs
-		)->PackEnd(c->Label(label), attrs)
-		, attrs
-	);
-	return button;
-}
-#endif
-
 //widget-label pair
 static void AddPair(UI::Context *c, UI::Box *parent, UI::Widget *widget, const std::string &label)
 {
 	const Uint32 flags = 0;
 	parent->PackEnd(
-		c->HBox(5.f)->PackEnd(widget, flags)->PackEnd(c->Label(label), flags)
+		c->HBox(5.f)->PackEnd(widget, flags)->PackEnd(c->Label(label)
+		->SetFontSize(UI::Widget::FONT_SIZE_SMALL), flags)
 	);
 }
 
@@ -357,7 +335,7 @@ void Viewer::SetupUI()
 				c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(m_sliders[8] = c->HSlider(), expand)
 				)), all
 		)
-	, vector2f(0.f, g_height-200.f), vector2f(500.f, 300.f));
+	, vector2f(g_width-520.f, g_height-100.f), vector2f(500.f, 300.f));
 
 	//connect slider signals, set initial values
 	const float values[] = {
