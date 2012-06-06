@@ -94,6 +94,21 @@ namespace TerrainNoise {
 		}
 		return (n+1.0)*0.5;
 	}
+
+	// Octavenoise with start amplitude specified. 
+	// Amplitude changes with each octave according to a linear relationship given by specified delta.
+	// Start spatial frequency is specified. Delta must correspond to specified lacunarity.
+	inline double octavenoiseInterpRoughness(int octaves, double startOctaveAmplitude, double lacunarity,double startSpatFreq,double delta, const vector3d &p) {
+		double n = 0;
+		double octaveAmplitude = startOctaveAmplitude;
+		double jizm = startSpatFreq;
+		while (octaves--) {
+			n += octaveAmplitude * noise(jizm*p);
+			octaveAmplitude += delta;
+			jizm *= lacunarity;
+		}
+		return n;
+	}
 	
 	inline double river_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p) {
 		double n = 0;
@@ -107,6 +122,21 @@ namespace TerrainNoise {
 		return n;
 	}
 	
+	// Ridged octave noise with start spatial frequency specified.
+	inline double ridged_octavenoise(int octaves, double roughness, double lacunarity,double startSpatFreq, const vector3d &p) {
+		double n = 0;
+		double octaveAmplitude = roughness;
+		double jizm = startSpatFreq;
+		while (octaves--) {
+			n += octaveAmplitude * noise(jizm*p);
+			octaveAmplitude *= roughness;
+			jizm *= lacunarity;
+		}
+		n = 1.0 - fabs(n);
+		n *= n;
+		return n;
+	}
+
 	inline double ridged_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p) {
 		double n = 0;
 		double octaveAmplitude = roughness;

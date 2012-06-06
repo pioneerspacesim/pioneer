@@ -14,7 +14,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 		const GeneratorInstancer choices[] = {
 			InstanceGenerator<TerrainHeightMapped,TerrainColorEarthLike>,
 			InstanceGenerator<TerrainHeightMapped2,TerrainColorRock>,
-			InstanceGenerator<TerrainHeightMapped3,TerrainColorAsteroid>
+			InstanceGenerator<TerrainHeightMapped3,TerrainColorDesert>
 		};
 		assert(body->heightMapFractal < 3);
 		return choices[body->heightMapFractal](body);

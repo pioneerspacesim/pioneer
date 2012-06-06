@@ -52,9 +52,9 @@ double TerrainHeightFractal<TerrainHeightMapped3>::GetHeight(const vector3d &p)
 
 
 			// convert from map format
-			pp[1+x][1+y][3] = (pp[1+x][1+y][3]*m_roughnessScaling[2])+m_roughMin[2];
-			pp[1+x][1+y][2] = (pp[1+x][1+y][2]*m_roughnessScaling[1])+m_roughMin[1];
-			pp[1+x][1+y][1] = (pp[1+x][1+y][1]*m_roughnessScaling[0])+m_roughMin[0];
+			pp[1+x][1+y][3] = (pp[1+x][1+y][3]*m_roughnessScaling[2]);//+m_roughMin[2]; // min is ignored to get values starting from 0
+			pp[1+x][1+y][2] = (pp[1+x][1+y][2]*m_roughnessScaling[1]);//+m_roughMin[1];
+			pp[1+x][1+y][1] = (pp[1+x][1+y][1]*m_roughnessScaling[0]);//+m_roughMin[0];
 			pp[1+x][1+y][0] = (pp[1+x][1+y][0]*m_heightScaling);//+m_minh;
 
 		}
@@ -89,14 +89,62 @@ double TerrainHeightFractal<TerrainHeightMapped3>::GetHeight(const vector3d &p)
 		v[j] = a0 + a1*dy + a2*dy*dy + a3*dy*dy*dy;
 	}
 
+	// 2^16*scaling gives range of the desired quantity, add to min value to get maximum. easy to print out and check
+	// e.g. height has a range of 44.224 km a lot of it due to tharsis bulge and olympus mons 
+	// generally it's around 0.005 radius (16 km) with variation of +-0.002 (7 km) (very rougly speaking)
 
 	//v[0] has height, v[1] to v[3] has roughness
 	//terrain code here
-	v[0]/=m_planetRadius;
-	//double h = v[0]/(double(2^32)*m_heightScaling);//expression for height on a scale of 0 to 1
-	v[0] = (v[0]<0 ? 0 : v[0]);
+
+	// scale roughness and height by planet radius
+	v[3]/=m_planetRadius; // 0.6 km
+	v[2]/=m_planetRadius; // 2.4 km
+	v[1]/=m_planetRadius; // 9.6 km
+	v[0]/=m_planetRadius; // height
+
+	// Value Ranges:
+	// 1. roughness data 0.6,2.4,9.6 km:  mostly 0.0 +-0.000003 i.e. +-9m given radius of 3376m
+	// 2. height data : generally 0.005 +- 0.002 (16km+-7km) Limits: 0.0-44.225km
+
+	double h = v[0];
+	h = 0.0;
+
+	//1. map has details roughly upto spatial frequency (jizm in the code) 1/avg grid displacement 
+	// map size: x (longitude) 2881, y (latitude) 1441 . Avg grid displacement (radii) ~= degrees per point/360 * 2pi r = (360/2881)/360*2pi*1.0 radii = 0.00275
+	// Max spatial frequency (jizm) in heightmap = 1/avg grid displacement = 363.2 
+	// octaves in height map = log base 2 (363.2) = 8.5 (can go easy on the first 8 octaves - unless part of additional features layered etc.)
+	
+
+	//2. spatial freqs 1/9200 to 1/2400 m corresponding to 9.2km to 2.4km 
+	// jizm from m_planetRadius/9200(369.1) to m_planetRadius/9200 (1415) ==> 3 octaves 	
+	// 9.2km spatial freq 369.1 is basically at the scale of the grid (363.2)
+
+	//3. spatial freqs 1/2400 to 1/600 corresponding to 2.4km to 0.6km 
+	// jizm from m_planetRadius/2400 (1415) to m_planetRadius/600 (5660) ==> 3 octaves
+
+	// 4. the roughness data (range 0.0+-0.000003) needs to be used to manipulate fractals
+	
+
+	const double r1 = (v[1]+0.3*v[2]); // measure of roughness to affect fractals
+
+	h = r1*r1*r1*ridged_octavenoise(10, 4.0, 4.0, 363.2, p);
+
+
+	//double h = 1.5*r*r*r*ridged_octavenoise(10, 4.0*v[1], 4.0, 363.2, p);
+	//h += 30000.0*v*v*v*v*v*v*v*ridged_octavenoise(16, 5.0*v, 20.0*v, p);
+
+
+	//h = abs(h);
+
+	//h = (h<0 ? 0 : h);
+
+	//printf(" h %f, v[0] %f, v[1] %f,v[2] %f    ",h, v[0],v[1],v[2]);
+	//hprintf("range %f, radius %f   ",double(pow(2.0,16.0))*m_heightScaling, m_planetRadius);
+	//printf("x: %f,y: %i",double(m_heightMapSizeX),m_heightMapSizeY);
+
 	return v[0];
 	//(v[0])/30.0;//log10(log10(v[0]+10)*200+10)*100000-1000;
 
 
 }
+
