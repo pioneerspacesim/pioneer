@@ -26,6 +26,10 @@ Context::Context(Graphics::Renderer *renderer, int width, int height) : Single(t
 	}
 }
 
+Context::~Context() {
+    m_float->Detach();
+}
+
 Widget *Context::GetWidgetAtAbsolute(const vector2f &pos) {
 	Widget *w = m_float->GetWidgetAtAbsolute(pos);
 	if (!w || w == m_float.Get())

@@ -52,6 +52,7 @@ namespace UI {
 class Context : public Single {
 public:
 	Context(Graphics::Renderer *renderer, int width, int height);
+	virtual ~Context();
 
 	// general purpose containers
 	UI::HBox *HBox(float spacing = 0.0f) { return new UI::HBox(this, spacing); }
