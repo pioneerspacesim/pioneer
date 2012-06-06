@@ -1,5 +1,6 @@
 #include "Loader.h"
 #include "FileSystem.h"
+#include "StringF.h"
 
 #include "MatrixTransform.h"
 #include "Newmodel.h"
@@ -81,9 +82,15 @@ private:
 		return (s.compare(what) == 0);
 	}
 
+	//check for a string, but don't accept comments
+	bool checkString(std::stringstream &ss, std::string &out, const std::string &what) {
+		if (ss >> out == 0) throw stringf("Expected %0, got nothing", what);
+		if (isComment(out)) throw stringf("Expected %0, got comment", what);
+		return true;
+	}
+
 	bool checkTexture(std::stringstream &ss, std::string &out) {
-		if (ss >> out == 0) throw std::string("Expected file name, got nothing");
-		if (isComment(out)) throw std::string("Expected file name, got comment");
+		checkString(ss, out, "file name");
 		//add newmodels/some_model/ to path
 		out = FileSystem::JoinPathBelow(m_path, out);
 		return true;
@@ -94,9 +101,7 @@ private:
 	}
 
 	inline bool checkMaterialName(std::stringstream &ss, std::string &out) {
-		if (ss >> out == 0) throw std::string("Expected material name, got nothing");
-		if (isComment(out)) throw std::string("Expected material name, got comment");
-		return true;
+		return checkString(ss, out, "material name");
 	}
 
 	bool checkColor(std::stringstream &ss, Color &color) {
@@ -151,6 +156,20 @@ private:
 					m_model->lodDefs.push_back(LodDefinition(100.f));
 				}
 				m_model->lodDefs.back().meshNames.push_back(meshname);
+				return true;
+			} else if(match(token, "anim")) {
+				//anims should only affect the previously defined mesh but eh
+				if (m_isMaterial || m_model->lodDefs.empty() || m_model->lodDefs.back().meshNames.empty())
+					throw std::string("Animation definition must come after a mesh definition");
+				std::string animName;
+				double startFrame;
+				double endFrame;
+				bool loopMode = false;
+				std::string loop;
+				checkString(ss, animName, "animation name");
+				if (ss >> startFrame == 0) throw std::string("Animation start frame not defined");
+				if (ss >> endFrame == 0) throw std::string("Animation end frame not defined");
+				if (ss >> loop && match(loop, "loop")) loopMode = true;
 				return true;
 			} else {
 				if (m_isMaterial) {

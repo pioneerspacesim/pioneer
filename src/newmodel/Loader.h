@@ -58,6 +58,14 @@ struct TagDefinition {
 };
 typedef std::vector<TagDefinition> TagList;
 
+struct AnimDefinition {
+	std::string name;
+	double start;
+	double end;
+	bool loop;
+};
+typedef std::vector<AnimDefinition> AnimList;
+
 struct ModelDefinition {
 	std::string name;
 	std::vector<LodDefinition> lodDefs;
