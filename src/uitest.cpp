@@ -283,7 +283,6 @@ int main(int argc, char **argv)
 	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 #endif
 
-#if 0
 	c->SetInnerWidget(
 		c->Scroller()->SetInnerWidget(
 			c->MultiLineText(
@@ -310,7 +309,6 @@ int main(int argc, char **argv)
 			)
 		)
 	);
-#endif
 
 #if 0
 	UI::Label *label;
@@ -355,6 +353,7 @@ int main(int argc, char **argv)
 	);
 #endif
 
+#if 0
 	UI::VBox *box;
 	UI::Button *b1, *b2, *b3, *b4;
 	c->SetInnerWidget(
@@ -379,6 +378,7 @@ int main(int argc, char **argv)
 
 	c->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), c.Get()));
 	c->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), c.Get()));
+#endif
 
     int count = 0;
 
@@ -404,6 +404,7 @@ int main(int argc, char **argv)
 
 //		slider->SetValue(slider->GetValue() + 0.01);
 
+#if 0
 		if (++count == 400) {
 			UI::Background *b;
 			c->AddFloatingWidget((b = c->Background())->SetInnerWidget(c->Margin(100.0f)), 100.0f, 100.0f);
@@ -413,6 +414,7 @@ int main(int argc, char **argv)
 		}
 		else if (count < 400 && count % 10 == 0)
 			printf("%d\n", count);
+#endif
 	}
 
 	c.Reset();

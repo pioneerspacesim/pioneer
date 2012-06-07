@@ -47,7 +47,8 @@ Scroller *Scroller::SetInnerWidget(Widget *widget)
 {
 	assert(widget);
 
-	RemoveAllWidgets();
+	if (m_innerWidget)
+		RemoveWidget(m_innerWidget);
 
 	AddWidget(widget);
 	m_innerWidget = widget;
