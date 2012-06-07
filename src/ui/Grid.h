@@ -9,7 +9,7 @@ namespace UI {
 class Grid : public Container {
 protected:
 	friend class Context;
-	Grid(Context *context, const CellSpec &rowSpec, const CellSpec &colSpec) : Container(context), m_rowSpec(rowSpec), m_colSpec(colSpec), m_widgets(m_rowSpec.numCells*m_colSpec.numCells) {}
+	Grid(Context *context, const CellSpec &rowSpec, const CellSpec &colSpec);
 
 public:
 	virtual void Layout();

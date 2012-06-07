@@ -2,6 +2,14 @@
 
 namespace UI {
 
+Grid::Grid(Context *context, const CellSpec &rowSpec, const CellSpec &colSpec) : Container(context),
+	m_rowSpec(rowSpec),
+	m_colSpec(colSpec),
+	m_widgets(m_rowSpec.numCells*m_colSpec.numCells)
+{
+	Clear();
+}
+
 void Grid::Layout()
 {
 	const vector2f size = GetSize();
