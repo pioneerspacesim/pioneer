@@ -5,6 +5,8 @@ namespace UI {
 Grid::Grid(Context *context, const CellSpec &rowSpec, const CellSpec &colSpec) : Container(context),
 	m_rowSpec(rowSpec),
 	m_colSpec(colSpec),
+	m_numRows(colSpec.numCells),
+	m_numCols(rowSpec.numCells),
 	m_widgets(m_rowSpec.numCells*m_colSpec.numCells)
 {
 	Clear();
@@ -15,14 +17,14 @@ void Grid::Layout()
 	const vector2f size = GetSize();
 
 	vector2f childPos, childSize;
-	for (int rowNum = 0; rowNum < m_colSpec.numCells; rowNum++) {
+	for (int rowNum = 0; rowNum < m_numRows; rowNum++) {
 		childSize.y = m_colSpec.cellPercent[rowNum]*size.y;
 
 		childPos.x = 0;
-		for (int colNum = 0; colNum < m_rowSpec.numCells; colNum++) {
+		for (int colNum = 0; colNum < m_numCols; colNum++) {
 			childSize.x = m_rowSpec.cellPercent[colNum]*size.x;
 
-			const int n = rowNum*m_colSpec.numCells+colNum;
+			const int n = rowNum*m_numCols+colNum;
 			if (m_widgets[n])
 				SetWidgetDimensions(m_widgets[n], childPos, childSize);
 
@@ -38,10 +40,10 @@ void Grid::Layout()
 Grid *Grid::SetRow(int rowNum, const WidgetSet &set)
 {
 	assert(set.numWidgets <= m_rowSpec.numCells);
-	assert(rowNum >= 0 && rowNum < m_colSpec.numCells);
+	assert(rowNum >= 0 && rowNum < m_numRows);
 
 	for (int i = 0; i < set.numWidgets; i++) {
-		const int n = rowNum*m_colSpec.numCells+i;
+		const int n = rowNum*m_numCols+i;
 		if (m_widgets[n])
 			RemoveWidget(m_widgets[n]);
 		m_widgets[n] = set.widgets[i];
@@ -54,10 +56,10 @@ Grid *Grid::SetRow(int rowNum, const WidgetSet &set)
 Grid *Grid::SetColumn(int colNum, const WidgetSet &set)
 {
 	assert(set.numWidgets <= m_colSpec.numCells);
-	assert(colNum >= 0 && colNum < m_rowSpec.numCells);
+	assert(colNum >= 0 && colNum < m_numCols);
 
 	for (int i = 0; i < set.numWidgets; i++) {
-		const int n = i*m_colSpec.numCells+colNum;
+		const int n = i*m_numCols+colNum;
 		if (m_widgets[n])
 			RemoveWidget(m_widgets[n]);
 		m_widgets[n] = set.widgets[i];
@@ -69,10 +71,10 @@ Grid *Grid::SetColumn(int colNum, const WidgetSet &set)
 
 Grid *Grid::SetCell(int colNum, int rowNum, Widget *widget)
 {
-	assert(colNum > 0 && colNum < m_rowSpec.numCells);
-	assert(rowNum > 0 && rowNum < m_colSpec.numCells);
+	assert(colNum > 0 && colNum < m_numCols);
+	assert(rowNum > 0 && rowNum < m_numRows);
 
-	const int n = rowNum*m_colSpec.numCells+colNum;
+	const int n = rowNum*m_numCols+colNum;
 	if (m_widgets[n])
 		RemoveWidget(m_widgets[n]);
 	m_widgets[n] = widget;
@@ -83,10 +85,10 @@ Grid *Grid::SetCell(int colNum, int rowNum, Widget *widget)
 
 void Grid::ClearRow(int rowNum)
 {
-	assert(rowNum >= 0 && rowNum < m_colSpec.numCells);
+	assert(rowNum >= 0 && rowNum < m_numRows);
 
-	for (int i = 0; i < m_rowSpec.numCells; i++) {
-		const int n = rowNum*m_colSpec.numCells+i;
+	for (int i = 0; i < m_numCols; i++) {
+		const int n = rowNum*m_numCols+i;
 		if (m_widgets[n]) {
 			RemoveWidget(m_widgets[n]);
 			m_widgets[n] = 0;
@@ -96,10 +98,10 @@ void Grid::ClearRow(int rowNum)
 
 void Grid::ClearColumn(int colNum)
 {
-	assert(colNum >= 0 && colNum < m_rowSpec.numCells);
+	assert(colNum >= 0 && colNum < m_numRows);
 
-	for (int i = 0; i < m_colSpec.numCells; i++) {
-		const int n = i*m_colSpec.numCells+colNum;
+	for (int i = 0; i < m_numRows; i++) {
+		const int n = i*m_numCols+colNum;
 		if (m_widgets[n]) {
 			RemoveWidget(m_widgets[n]);
 			m_widgets[n] = 0;
@@ -109,7 +111,7 @@ void Grid::ClearColumn(int colNum)
 
 void Grid::Clear()
 {
-	for (size_t i = 0; i < m_widgets.size(); i++)
+	for (int i = 0; i < m_numRows*m_numCols; i++)
 		m_widgets[i] = 0;
 
 	RemoveAllWidgets();

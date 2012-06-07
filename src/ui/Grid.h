@@ -24,6 +24,7 @@ public:
 
 private:
 	CellSpec m_rowSpec, m_colSpec;
+	int m_numRows, m_numCols;
 	std::vector<Widget*> m_widgets;
 };
 
