@@ -72,17 +72,18 @@ void Context::Draw()
 	Single::Draw();
     m_float->Draw();
 
-	SetScissor(false);
+	DisableScissor();
 }
 
-void Context::SetScissor(bool enabled, const vector2f &pos, const vector2f &size)
+void Context::EnableScissor(const vector2f &pos, const vector2f &size)
 {
-	if (enabled) {
-		vector2f flippedPos(pos.x, m_height-pos.y-floorf(size.y));
-		m_renderer->SetScissor(true, flippedPos, size);
-	}
-	else
-		m_renderer->SetScissor(false);
+	vector2f flippedPos(pos.x, m_height-pos.y-floorf(size.y));
+	m_renderer->SetScissor(true, flippedPos, size);
+}
+
+void Context::DisableScissor()
+{
+	m_renderer->SetScissor(false);
 }
 
 }

@@ -126,7 +126,8 @@ private:
 
 	// used by Container::Draw to set the keep widget drawing in its bounds
 	friend class Container;
-	void SetScissor(bool enabled, const vector2f &pos = 0, const vector2f &size = 0);
+	void EnableScissor(const vector2f &pos = 0, const vector2f &size = 0);
+	void DisableScissor();
 };
 
 }

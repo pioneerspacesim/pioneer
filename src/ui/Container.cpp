@@ -24,12 +24,12 @@ void Container::Draw()
 
 	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
 		const vector2f &pos = (*i)->GetAbsolutePosition();
-		c->SetScissor(true, pos, (*i)->GetSize());
+		c->EnableScissor(pos, (*i)->GetSize());
 		r->SetTransform(matrix4x4f::Translation(pos.x,pos.y,0) * (*i)->GetTransform());
 		(*i)->Draw();
 	}
 
-	c->SetScissor(false);
+    c->DisableScissor();
 }
 
 void Container::LayoutChildren()
