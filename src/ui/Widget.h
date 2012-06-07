@@ -10,9 +10,16 @@
 // must implement, and a few more it might want to implement if it wants to do
 // something fancy.
 //
-// At minimum, a widget must implement PreferredSize() and Draw().
+// At minimum, a widget must implement Draw().
 //
-
+// - Draw() actually draws the widget, using regular renderer calls. The
+//   renderer state will be set such that the widget's top-left corner is at
+//   [0,0] with a scissor region to prevent drawing outside of the widget's
+//   allocated space.
+//
+// Widgets can implement PreferredSize(), Layout() and Draw() to do more
+// advanced things.
+//
 // - PreferredSize() returns a vector2 that tells the layout manager the ideal
 //   size the widget would like to receive to do its job. The container is
 //   under absolutely no obligation to allocate that amount of space to the
@@ -20,52 +27,51 @@
 //   widget will not handle this and will draw something that either doesn't
 //   use enough of its allocated space or uses too much and gets clipped.
 //
-// - Draw() actually draws the widget, using regular renderer calls. The
-//   renderer state will be set such that the widget's top-left corner is at
-//   [0,0] with a scissor region to prevent drawing outside of the widget's
-//   allocated space.
+// - Layout() is called to tell a container widget (or a widget that does not
+//   intend to use its entire allocated area) to ask its children for their
+//   preferred size, position and size them according to its layout strategy,
+//   and then ask them to lay out their children. As such, when Layout is called
+//   a widget can assume that its size and position have been set. It is only
+//   called occassionally when the layout becomes invalid, typically after a
+//   widget is added or removed. See Container.h for more information about
+//   implementing a container. Widgets that aren't containers but don't intend
+//   to use their entire allocation should implement Layout() and call
+//   SetActiveArea() from it.
+//   
+// - Update() is called every frame before Draw(). The widget may get its
+//   allocated size by calling GetSize() and can do any preparation for the
+//   actual draw at this point.
 //
-// More advanced widgets can implement Layout() and Draw() to do more advanced
-// things.
+// Each frame a widget will receive calls in the following order:
 //
-// - Layout() is called immediately after a widget receives its final size. It
-//   will usually only be implemented by container widgets or widgets that
-//   don't intend to use the entire area they've been allocated. Its job is to
-//   ask its children for the preffered size, position and size them according
-//   to its layout strategy, and then get them to lay out their children. See
-//   Container.h for more information about implementing a container. For
-//   widgets that aren't containers but don't intend to use their entire
-//   allocation, they should implement Layout() and call SetActiveArea() from
-//   within it.
-//
-// - Update() will be called after Layout() but before Draw(). The widget may
-//   get its allocated size by calling GetSize(), and can do any preparation
-//   for the actual draw at this point. Update() will always be called even if
-//   if the widget is disabled.
-//
-// The GUI mainloop runs in the following order:
-//
-//  - input handlers
-//  - Layout() (calls PreferredSize())
+//  - event handlers (user input)
+//  - Layout() (if layout needs recalculating)
+//  - event handlers (from layout changes)
 //  - Update()
 //  - Draw()
 //
-// Container widgets will call Layout()/Update()/Draw() for their children.
-// Thus, the GUI is a hierarchy of widgets.
+// Input is fed into the context's event dispatcher and used to generate the
+// various events in the Widget class. A widget must connect to any event
+// singlas that it is interested in. External users may also connect to
+// signals to do things (eg register button click handlers).
 //
-// Input is handled via the various signals in the Widget class. A widget must
-// connect to any input signals that it is interested in. External users may
-// also connect to signals so they can do things (eg register button click
-// handlers).
+// Event handlers for events generated from user input are called before
+// Layout(). Layout() may also generate events (such as mouse over/out events)
+// as widgets move.
 //
-// Input handlers are called before Layout(), which gives a widget an
+// Event handlers from user input are called before Layout(), which gives a
+// widget an opportunity to modify the layout based on input. If a widget
+// wants to change its size it must call GetContext()->RequestLayout() to
+// force a layout change to occur.
+//
 // opportunity to modify its metrics based on input. Handlers return a bool to
 // indicate if the event was "handled" or not.
 //
-// Input handlers are called against the "leaf" widgets first. If that widget
-// has no handlers for the event, or they all return false, then handlers for
-// the widget's parent widget are called, and so on until either a handler
-// returns true or the root widget is reached. Note that no guarantees are
+// Event handlers are called against the "leaf" widgets first. Handlers return
+// a bool to indicate if the event was "handled" or not. If a widget has no
+// handlers for the event, or they all return false, then handlers for the
+// widget's container are called, and so on until either a handler returns
+// true or the root widget (context) is reached. Note that no guarantees are
 // made about the order that multiple handlers attached to a single widget
 // event will be called, so attaching more than one handler to an individual
 // widget event is highly discouraged.
