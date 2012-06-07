@@ -25,7 +25,10 @@ private:
 	Widget *m_innerWidget;
 	VSlider *m_slider;
 
-	void HandleScroll(float value);
+	sigc::connection m_onMouseWheelConn;
+
+	void OnScroll(float value);
+	bool OnMouseWheel(const MouseWheelEvent &event);
 };
 
 }

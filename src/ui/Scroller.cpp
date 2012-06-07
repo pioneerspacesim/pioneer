@@ -8,7 +8,8 @@ Scroller::Scroller(Context *context) : Container(context), m_innerWidget(0)
 	m_slider = GetContext()->VSlider();
 	AddWidget(m_slider);
 
-	m_slider->onValueChanged.connect(sigc::mem_fun(this, &Scroller::HandleScroll));
+	m_slider->onValueChanged.connect(sigc::mem_fun(this, &Scroller::OnScroll));
+	m_slider->onMouseWheel.connect(sigc::mem_fun(this, &Scroller::OnMouseWheel));
 }
 
 vector2f Scroller::PreferredSize()
@@ -36,22 +37,32 @@ void Scroller::Layout()
 	}
 }
 
-void Scroller::HandleScroll(float value)
+void Scroller::OnScroll(float value)
 {
 	if (!m_innerWidget) return;
 
 	m_innerWidget->SetTransform(matrix4x4f::Translation(0, -(m_innerWidget->PreferredSize().y-GetSize().y)*value, 0));
 }
 
+bool Scroller::OnMouseWheel(const MouseWheelEvent &event)
+{
+	m_slider->SetValue(m_slider->GetValue() + (event.direction == MouseWheelEvent::WHEEL_UP ? -0.01f : 0.01f));
+	return true;
+}
+
 Scroller *Scroller::SetInnerWidget(Widget *widget)
 {
 	assert(widget);
 
-	if (m_innerWidget)
+	if (m_innerWidget) {
+		m_onMouseWheelConn.disconnect();
 		RemoveWidget(m_innerWidget);
+	}
 
 	AddWidget(widget);
 	m_innerWidget = widget;
+
+	m_onMouseWheelConn = m_innerWidget->onMouseWheel.connect(sigc::mem_fun(this, &Scroller::OnMouseWheel));
 
 	return this;
 }
