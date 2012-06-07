@@ -8,9 +8,12 @@
 #include "text/TextureFont.h"
 #include "KeyBindings.h"
 #include <sstream>
+#include <stack>
 
 LuaConsole::LuaConsole(int displayedOutputLines):
-	m_maxOutputLines(displayedOutputLines) {
+	m_maxOutputLines(displayedOutputLines),
+	m_precompletionStatement(),
+	m_completionList() {
 
 	m_historyPosition = -1;
 
@@ -86,9 +89,93 @@ void LuaConsole::OnKeyPressed(const SDL_keysym *sym) {
 		ResizeRequest();
 	}
 
+	if (sym->sym == SDLK_TAB) {
+		if (m_completionList.empty()) {
+			UpdateCompletion(m_entryField->GetText());
+		}
+		if (!m_completionList.empty()) { // We still need to test whether it failed or not.
+			if (false /* TODO sym->mod & SDLK_SHIFT */) {
+				if (m_currentCompletion == m_completionList.begin())
+					m_currentCompletion = m_completionList.end();
+				m_currentCompletion--;
+			} else {
+				m_currentCompletion++;
+				if (m_currentCompletion == m_completionList.end())
+					m_currentCompletion = m_completionList.begin();
+			}
+			m_entryField->SetText(m_precompletionStatement + (*m_currentCompletion));
+			ResizeRequest();
+		}
+	} else if (!m_completionList.empty()) {
+		m_completionList.clear();
+	}
+
+
 	if (((sym->unicode == '\n') || (sym->unicode == '\r')) && ((sym->mod & KMOD_CTRL) == 0)) {
 		ExecOrContinue();
 	}
+}
+
+static bool is_alphanumunderscore(char c) {
+	// Underscore or digit or CAPS or normal letter.
+	return (c == 0x5F || (c >= 0x30 && c <= 0x39) || (c  >= 0x41 && c <= 0x5A) || (c >= 0x61 && c <= 0x7A));
+}
+
+void LuaConsole::UpdateCompletion(const std::string & statement) {
+	// First, split the statement into chunks.
+	m_completionList.clear();
+	std::stack<std::string> chunks;
+	bool method = false;
+	std::string::const_iterator current_end = statement.end();
+	std::string::const_iterator current_begin = statement.begin(); // To keep record when breaking off the loop.
+	for (std::string::const_reverse_iterator r_str_it = statement.rbegin();
+			r_str_it != statement.rend(); r_str_it++) {
+		if(is_alphanumunderscore(*r_str_it))
+			continue;
+		if(*r_str_it != 0x2E && (!chunks.empty() || *r_str_it != 0x3A)) { // We are out of the expression.
+			current_begin = r_str_it.base(); // Flag the symbol marking the beginning of the expression.
+			break;
+		}
+		chunks.push(std::string(r_str_it.base(), current_end));
+		if (*r_str_it == 0x3A) // If it is a colon, we know chunks is empty so it is incomplete.
+			method = true;		// it must mean that we want to call a method.
+		current_end = (r_str_it+1).base(); // +1 in order to point on the CURRENT character.
+	}
+	if (current_begin != current_end)
+		chunks.push(std::string(current_begin, current_end));
+
+	if (chunks.empty()) {
+		return;
+	}
+
+	lua_State * l = Pi::luaManager->GetLuaState();
+	int stackheight = lua_gettop(l);
+	lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
+	// Loading the tables in which to do the name lookup
+	while (chunks.size() > 1) {
+		if (!lua_istable(l, -1))
+			return;
+		lua_pushstring(l, chunks.top().c_str());
+		lua_rawget(l, -2);
+		chunks.pop();
+	}
+	if (!lua_istable(l, -1))
+		return;
+	lua_pushnil(l);
+	while(lua_next(l, -2)) {
+		if (lua_isstring(l, -2) && (!method || lua_isfunction(l, -1))) {
+			std::string candidate(lua_tostring(l, -2));
+			if (candidate.substr(0, chunks.top().size()) == chunks.top())
+				m_completionList.push_back(candidate.substr(chunks.top().size()));
+		}
+		lua_pop(l, 1);
+	}
+	if(!m_completionList.empty()) {
+		m_completionList.push_front("");
+		m_currentCompletion = m_completionList.begin();
+		m_precompletionStatement = statement;
+	}
+	lua_pop(l, lua_gettop(l)-stackheight);
 }
 
 void LuaConsole::AddOutput(const std::string &line) {

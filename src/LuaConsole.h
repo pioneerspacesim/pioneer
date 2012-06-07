@@ -25,6 +25,7 @@ public:
 private:
 	bool OnFilterKeys(const SDL_keysym*);
 	void OnKeyPressed(const SDL_keysym*);
+	void UpdateCompletion(const std::string & statement);
 	void ExecOrContinue();
 
 	std::deque<std::string> m_statementHistory;
@@ -34,6 +35,10 @@ private:
 	std::vector<Gui::Label*> m_outputLines;
 	int m_nextOutputLine;
 	const int m_maxOutputLines;
+
+	std::string m_precompletionStatement;
+	std::list<std::string> m_completionList;
+	std::list<std::string>::const_iterator m_currentCompletion;
 };
 
 #endif /* _LUACHATFORM_H */
