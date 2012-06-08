@@ -429,7 +429,7 @@ void Viewer::DrawLog()
 {
 	Gui::Screen::EnterOrtho();
 	Gui::Screen::PushFont("ConsoleFont");
-	Gui::Screen::RenderString(m_logString, 10, 400);
+	Gui::Screen::RenderString(m_logString, 300, 20);
 	Gui::Screen::PopFont();
 	Gui::Screen::LeaveOrtho();
 }
