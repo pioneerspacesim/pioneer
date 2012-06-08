@@ -121,6 +121,19 @@ static bool is_alphanumunderscore(char c) {
 	return (c == 0x5F || (c >= 0x30 && c <= 0x39) || (c  >= 0x41 && c <= 0x5A) || (c >= 0x61 && c <= 0x7A));
 }
 
+static void fetch_keys_from_table(lua_State * l, int table_index, const std::string & chunk, std::list<std::string> & completion_list, bool only_functions) {
+	table_index = lua_absindex(l, table_index);
+	lua_pushnil(l);
+	while(lua_next(l, table_index)) {
+		if (lua_isstring(l, -2) && (!only_functions || lua_isfunction(l, -1))) {
+			std::string candidate(lua_tostring(l, -2));
+			if (candidate.substr(0, chunk.size()) == chunk)
+				completion_list.push_back(candidate.substr(chunk.size()));
+		}
+		lua_pop(l, 1);
+	}
+}
+
 void LuaConsole::UpdateCompletion(const std::string & statement) {
 	// First, split the statement into chunks.
 	m_completionList.clear();
@@ -159,23 +172,15 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 		lua_rawget(l, -2);
 		chunks.pop();
 	}
-	if (!lua_istable(l, -1))
-		return;
-	lua_pushnil(l);
-	while(lua_next(l, -2)) {
-		if (lua_isstring(l, -2) && (!method || lua_isfunction(l, -1))) {
-			std::string candidate(lua_tostring(l, -2));
-			if (candidate.substr(0, chunks.top().size()) == chunks.top())
-				m_completionList.push_back(candidate.substr(chunks.top().size()));
-		}
-		lua_pop(l, 1);
+	if (lua_istable(l, -1))
+		fetch_keys_from_table(l, -1, chunks.top(), m_completionList, method);
 	}
 	if(!m_completionList.empty()) {
 		m_completionList.push_front("");
 		m_currentCompletion = m_completionList.begin();
 		m_precompletionStatement = statement;
 	}
-	lua_pop(l, lua_gettop(l)-stackheight);
+	lua_pop(l, lua_gettop(l)-stackheight); // Clean the whole stack.
 }
 
 void LuaConsole::AddOutput(const std::string &line) {
