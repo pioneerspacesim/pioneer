@@ -346,7 +346,7 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 				if (cacheIt != meshCache.end())
 					mesh = (*cacheIt).second;
 				else {
-					mesh = LoadMesh(*(it), model, def.tagDefs);
+					mesh = LoadMesh(*(it), model, def.animDefs, def.tagDefs);
 					meshCache[*(it)] = mesh;
 				}
 
@@ -442,7 +442,7 @@ void Loader::FindPatterns(PatternContainer &output)
 	
 }
 
-Node *Loader::LoadMesh(const std::string &filename, NModel *model, TagList &modelTags)
+Node *Loader::LoadMesh(const std::string &filename, NModel *model, const AnimList &animDefs, TagList &modelTags)
 {
 	Assimp::Importer importer;
 	//assimp needs the data dir too...
@@ -505,13 +505,32 @@ Node *Loader::LoadMesh(const std::string &filename, NModel *model, TagList &mode
 
 	m_root = node;
 
-	ConvertAnimations(scene, model);
+	ConvertAnimations(scene, animDefs, model);
 
 	//try to figure out tag points, in case we happen to use an
 	//advanced file format (collada)
 	FindTags(scene->mRootNode, modelTags);
 
 	return node;
+}
+
+//check animation channel has at least two position or two rotation keys within time range
+bool Loader::CheckKeysInRange(const aiNodeAnim *chan, double start, double end)
+{
+	int posKeysInRange = 0;
+	int rotKeysInRange = 0;
+
+	for(unsigned int k=0; k<chan->mNumPositionKeys; k++) {
+		const aiVectorKey &aikey = chan->mPositionKeys[k];
+		if (aikey.mTime >= start && aikey.mTime <= end) posKeysInRange++;
+	}
+
+	for(unsigned int k=0; k<chan->mNumRotationKeys; k++) {
+		const aiQuatKey &aikey = chan->mRotationKeys[k];
+		if (aikey.mTime >= start && aikey.mTime <= end) rotKeysInRange++;
+	}
+
+	return (posKeysInRange > 1 || rotKeysInRange > 1);
 }
 
 void Loader::ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*> &surfaces, const aiScene *scene, const NModel *model)
@@ -577,10 +596,56 @@ void Loader::ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*> &surfaces
 	}
 }
 
-void Loader::ConvertAnimations(const aiScene* scene, NModel *model)
+void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, NModel *model)
 {
+	if (animDefs.empty() || scene->mNumAnimations == 0) return;
+
+	if (scene->mNumAnimations > 1) throw std::string("More than one animation in file! Your exporter is too good");
+
+	//Blender .X exporter exports only one animation (without a name!) so
+	//we read only one animation from the scene and split it according to animDefs
 	std::vector<Animation*> &animations = model->m_animations;
 
+	const aiAnimation* aianim = scene->mAnimations[0];
+	for (AnimList::const_iterator def = animDefs.begin();
+		def != animDefs.end();
+		++def)
+	{
+		//XXX for assimp duration of frames 0 to 39 seems to be 39. Odd.
+		Animation *animation = new Animation(def->name, def->end - def->start, def->loop ? Animation::LOOP : Animation::ONCE);
+		for (unsigned int j=0; j<aianim->mNumChannels; j++) {
+			const aiNodeAnim *aichan = aianim->mChannels[j];
+			if (!CheckKeysInRange(aichan, def->start, def->end))
+				continue;
+
+			const std::string channame(aichan->mNodeName.C_Str());
+			MatrixTransform *trans = dynamic_cast<MatrixTransform*>(m_root->FindNode(channame));
+			assert(trans);
+			animation->channels.push_back(AnimationChannel(trans));
+			AnimationChannel &chan = animation->channels.back();
+
+			for(unsigned int k=0; k<aichan->mNumPositionKeys; k++) {
+				const aiVectorKey &aikey = aichan->mPositionKeys[k];
+				const aiVector3D &aipos = aikey.mValue;
+				if (aikey.mTime >= def->start && aikey.mTime <= def->end)
+					chan.positionKeys.push_back(PositionKey(aikey.mTime - def->start, vector3f(aipos.x, aipos.y, aipos.z)));
+			}
+
+			if (aichan->mNumRotationKeys < 2) continue;
+			for(unsigned int k=0; k<aichan->mNumRotationKeys; k++) {
+				const aiQuatKey &aikey = aichan->mRotationKeys[k];
+				const aiQuaternion &airot = aikey.mValue;
+				if (aikey.mTime >= def->start && aikey.mTime <= def->end)
+					chan.rotationKeys.push_back(RotationKey(aikey.mTime - def->start, Quaternionf(airot.w, airot.x, airot.y, airot.z)));
+			}
+		}
+
+		if (animation->channels.empty())
+			delete animation;
+		else
+			animations.push_back(animation);
+	}
+#if 0
 	for (unsigned int i=0; i<scene->mNumAnimations; i++) {
 		const aiAnimation* aianim = scene->mAnimations[i];
 		const std::string animname(aianim->mName.C_Str());
@@ -608,6 +673,7 @@ void Loader::ConvertAnimations(const aiScene* scene, NModel *model)
 		}
 		animations.push_back(animation);
 	}
+#endif
 }
 
 matrix4x4f Loader::ConvertMatrix(const aiMatrix4x4& trans) const

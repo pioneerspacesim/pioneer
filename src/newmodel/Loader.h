@@ -12,6 +12,7 @@
 struct aiNode;
 struct aiMesh;
 struct aiScene;
+struct aiNodeAnim;
 
 namespace Graphics { class Renderer; }
 
@@ -96,13 +97,13 @@ private:
 	Graphics::Texture *GetWhiteTexture() const;
 	matrix4x4f ConvertMatrix(const aiMatrix4x4&) const;
 	NModel *CreateModel(ModelDefinition &def);
-	Node *LoadMesh(const std::string &filename, NModel *model, TagList &modelTags); //load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
+	Node *LoadMesh(const std::string &filename, NModel *model, const AnimList &animDefs, TagList &modelTags); //load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
+	bool CheckKeysInRange(const aiNodeAnim *, double start, double end);
 	void ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*>&, const aiScene*, const NModel*); //model is only for material lookup
-	void ConvertAnimations(const aiScene*, NModel *model);
+	void ConvertAnimations(const aiScene *, const AnimList &, NModel *);
 	void ConvertNodes(aiNode *node, Group *parent, std::vector<Graphics::Surface*>& meshes);
 	void FindPatterns(PatternContainer &output); //find pattern texture files from the model directory
 	void FindTags(const aiNode *node, TagList &output); //locate tags from assimp structure
-
 	Node *m_root; //XXX temporary junk
 };
 
