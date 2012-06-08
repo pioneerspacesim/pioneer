@@ -134,6 +134,40 @@ static void fetch_keys_from_table(lua_State * l, int table_index, const std::str
 	}
 }
 
+static void fetch_keys_from_metatable(lua_State * l, int metatable_index, const std::string & chunk, std::list<std::string> & completion_list, bool only_functions) {
+	metatable_index = lua_absindex(l, metatable_index);
+
+	//First, determin whether where are stored the methods and attributes
+	lua_pushstring(l, "__index");
+	lua_rawget(l, metatable_index);
+	if (lua_istable(l, -1))
+		fetch_keys_from_table(l, -1, chunk, completion_list, only_functions);
+	else if (lua_iscfunction(l, -1)) {
+	// Deal with the specifics of LuaObject stuff.
+		lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
+		lua_pushstring(l, "type");
+		lua_rawget(l, metatable_index);	// stuff, global, type
+		lua_rawget(l, -2);	// stuff, global, methods
+		fetch_keys_from_table(l, -1, chunk, completion_list, false);
+		lua_pop(l, 1);	// Kick out the methods.
+		if (!only_functions) {
+			lua_pushstring(l, "attrs");
+			lua_rawget(l, metatable_index);
+			if (lua_istable(l, -1))
+				fetch_keys_from_table(l, -1, chunk, completion_list, false);
+			lua_pop(l, 1);
+		}
+		// Do the same for the parent
+		lua_pushstring(l, "parent");
+		lua_rawget(l, metatable_index);
+		if (!lua_isnil(l, -1)) {
+			lua_rawget(l, LUA_REGISTRYINDEX);
+			fetch_keys_from_metatable(l, -1, chunk, completion_list, only_functions);
+			lua_pop(l, 1); // Clean the parent meta table.
+		}
+	}
+}
+
 void LuaConsole::UpdateCompletion(const std::string & statement) {
 	// First, split the statement into chunks.
 	m_completionList.clear();
@@ -174,6 +208,8 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 	}
 	if (lua_istable(l, -1))
 		fetch_keys_from_table(l, -1, chunks.top(), m_completionList, method);
+	if (lua_getmetatable(l, -1)) {
+		fetch_keys_from_metatable(l, -1, chunks.top(), m_completionList, method);
 	}
 	if(!m_completionList.empty()) {
 		m_completionList.push_front("");
