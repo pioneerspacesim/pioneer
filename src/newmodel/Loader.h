@@ -45,20 +45,27 @@ struct MaterialDefinition {
 };
 
 struct LodDefinition {
-	LodDefinition(float size) : pixelSize(size) { }
+	LodDefinition(float size) : pixelSize(size)
+	{ }
 	float pixelSize;
 	std::vector<std::string> meshNames;
 };
 
 struct TagDefinition {
-	TagDefinition(const std::string &tagname, const vector3f &pos) :
-		name(tagname), position(pos) { }
+	TagDefinition(const std::string &tagname, const vector3f &pos) : name(tagname), position(pos)
+	{ }
 	std::string name;
 	vector3f position;
 };
 typedef std::vector<TagDefinition> TagList;
 
 struct AnimDefinition {
+	AnimDefinition(const std::string &name_, double start_, double end_, bool loop_) :
+		name(name_),
+		start(start_),
+		end(end_),
+		loop(loop_)
+	{ }
 	std::string name;
 	double start;
 	double end;
@@ -70,6 +77,7 @@ struct ModelDefinition {
 	std::string name;
 	std::vector<LodDefinition> lodDefs;
 	std::vector<MaterialDefinition> matDefs;
+	AnimList animDefs;
 	TagList tagDefs;
 };
 

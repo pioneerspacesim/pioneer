@@ -40,7 +40,7 @@ public:
 		if (!m_file) throw std::string("Could not open " + filename);
 	}
 
-	void parse(ModelDefinition *m) {
+	void Parse(ModelDefinition *m) {
 		m_model = m;
 		char line[1024];
 		int lineno = 0;
@@ -167,9 +167,15 @@ private:
 				bool loopMode = false;
 				std::string loop;
 				checkString(ss, animName, "animation name");
-				if (ss >> startFrame == 0) throw std::string("Animation start frame not defined");
-				if (ss >> endFrame == 0) throw std::string("Animation end frame not defined");
-				if (ss >> loop && match(loop, "loop")) loopMode = true;
+				if (ss >> startFrame == 0)
+					throw std::string("Animation start frame not defined");
+				if (ss >> endFrame == 0)
+					throw std::string("Animation end frame not defined");
+				if (ss >> loop && match(loop, "loop"))
+					loopMode = true;
+				if (startFrame < 0 || endFrame < startFrame)
+					throw std::string("Animation start/end frames seem wrong");
+				m_model->animDefs.push_back(AnimDefinition(animName, startFrame, endFrame, loopMode));
 				return true;
 			} else {
 				if (m_isMaterial) {
@@ -249,7 +255,7 @@ NModel *Loader::LoadModel(const std::string &filename, const std::string &basepa
 				try {
 					//XXX use filesystem and load the file as a string
 					Parser p(fpath, m_curPath);
-					p.parse(&modelDefinition);
+					p.Parse(&modelDefinition);
 				} catch (const std::string &str) {
 					std::cerr << str << std::endl;
 					throw LoadingError();
