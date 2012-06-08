@@ -166,10 +166,10 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 	lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
 	// Loading the tables in which to do the name lookup
 	while (chunks.size() > 1) {
-		if (!lua_istable(l, -1))
+		if (!lua_istable(l, -1) && !lua_isuserdata(l, -1))
 			return;
 		lua_pushstring(l, chunks.top().c_str());
-		lua_rawget(l, -2);
+		lua_gettable(l, -2);
 		chunks.pop();
 	}
 	if (lua_istable(l, -1))
