@@ -92,7 +92,7 @@ public:
 private:
 	ColorMap m_colorMap;
 	float m_boundingRadius;
-	double m_animTime;
+	double m_lastTime;
 	MaterialContainer m_materials; //materials are shared throughout the model graph
 	PatternContainer m_patterns;
 	RefCountedPtr<Group> m_root;
@@ -100,6 +100,7 @@ private:
 	std::string m_name;
 	std::vector<Group *> m_tags; //named attachment points
 	std::vector<Animation *> m_animations;
+	std::vector<Animation *> m_activeAnimations;
 };
 
 typedef std::vector<Group *> TagContainer;

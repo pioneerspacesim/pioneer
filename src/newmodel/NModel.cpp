@@ -7,7 +7,7 @@ namespace Newmodel {
 
 NModel::NModel(const std::string &name) : Model(),
 	m_boundingRadius(10.f),
-	m_animTime(0.0),
+	m_lastTime(0.0),
 	m_name(name)
 {
 	m_root.Reset(new Group());
@@ -111,19 +111,22 @@ void NModel::SetColors(Graphics::Renderer *r, const std::vector<Color4ub> &color
 
 void NModel::UpdateAnimations(const double time) //change this to use timestep or something
 {
-	for (unsigned int i=0; i<m_animations.size(); i++) {
-		Animation *anim = m_animations[i];
-		anim->Evaluate(time);
+	for (unsigned int i=0; i<m_activeAnimations.size(); i++) {
+		m_activeAnimations[i]->Evaluate(time - m_lastTime);
 	}
+	m_lastTime =  time;
 }
 
 int NModel::PlayAnimation(const std::string &name, Animation::Direction dir)
 {
 	bool success = 0;
+	m_activeAnimations.clear();
 	//should also go through submodels
 	for (unsigned int i=0; i<m_animations.size(); i++) {
-		if (m_animations[i]->GetName() == name) {
-			m_animations[i]->Play(dir);
+		Animation *anim = m_animations[i];
+		if (anim->GetName() == name) {
+			anim->Play(dir);
+			m_activeAnimations.push_back(anim);
 			success++;
 		}
 	}

@@ -3,14 +3,13 @@
 
 namespace Newmodel {
 
-Animation::Animation(const std::string &name, double duration, Behavior behavior)
+Animation::Animation(const std::string &name, double duration, Behavior behavior, double tps)
 : m_behavior(behavior)
 , m_paused(true)
 , m_dir(FORWARD)
 , m_currentTime(0.0)
 , m_duration(duration)
-, m_lastTime(0.0)
-, m_ticksPerSecond(25.0)
+, m_ticksPerSecond(tps)
 , m_name(name)
 , m_prevMTime(0.0)
 {
@@ -32,7 +31,7 @@ void Animation::Pause()
 void Animation::Stop()
 {
 	m_paused = true;
-	m_currentTime = 0;
+	m_currentTime = 0.0;
 	m_prevMTime = 0.0;
 }
 
@@ -40,11 +39,12 @@ void Animation::Evaluate(const double time)
 {
 	if (!m_paused && m_duration > 0.0)
 	{
-		m_currentTime += (time - m_lastTime) * m_ticksPerSecond;
+		m_currentTime += time * m_ticksPerSecond;
 	}
 
 	//map into anim duration
 	double mtime = fmod(m_currentTime, m_duration);
+
 	if (m_behavior == ONCE && m_prevMTime > mtime) {
 		Stop();
 		mtime = m_duration;
@@ -108,8 +108,6 @@ void Animation::Evaluate(const double time)
 
 		chan.node->SetTransform(trans);
 	}
-
-	m_lastTime = time;
 }
 
 }

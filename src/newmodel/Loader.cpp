@@ -612,7 +612,10 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 		++def)
 	{
 		//XXX for assimp duration of frames 0 to 39 seems to be 39. Odd.
-		Animation *animation = new Animation(def->name, def->end - def->start, def->loop ? Animation::LOOP : Animation::ONCE);
+		Animation *animation = new Animation(
+			def->name, def->end - def->start,
+			def->loop ? Animation::LOOP : Animation::ONCE,
+			aianim->mTicksPerSecond > 0.0 ? aianim->mTicksPerSecond : 24.0);
 		for (unsigned int j=0; j<aianim->mNumChannels; j++) {
 			const aiNodeAnim *aichan = aianim->mChannels[j];
 			if (!CheckKeysInRange(aichan, def->start, def->end))
