@@ -283,6 +283,7 @@ int main(int argc, char **argv)
 	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 #endif
 
+#if 0
 	c->SetInnerWidget(
 		c->Scroller()->SetInnerWidget(
 			c->MultiLineText(
@@ -309,6 +310,7 @@ int main(int argc, char **argv)
 			)
 		)
 	);
+#endif
 
 #if 0
 	UI::Label *label;
@@ -379,6 +381,23 @@ int main(int argc, char **argv)
 	c->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), c.Get()));
 	c->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), c.Get()));
 #endif
+
+	c->SetInnerWidget(
+		c->Grid(3,3)
+			->SetRow(0, UI::WidgetSet(
+				c->ColorBackground(Color(0.8f,0.2f,0.2f))->SetInnerWidget(c->Align(UI::Align::TOP_LEFT)->SetInnerWidget(c->Image("icons/object_star_m.png"))),
+				c->ColorBackground(Color(0.2f,0.8f,0.2f))->SetInnerWidget(c->Align(UI::Align::TOP)->SetInnerWidget(c->Image("icons/object_star_m.png"))),
+				c->ColorBackground(Color(0.2f,0.2f,0.8f))->SetInnerWidget(c->Align(UI::Align::TOP_RIGHT)->SetInnerWidget(c->Image("icons/object_star_m.png")))
+			))->SetRow(1, UI::WidgetSet(
+				c->ColorBackground(Color(0.8f,0.8f,0.2f))->SetInnerWidget(c->Align(UI::Align::LEFT)->SetInnerWidget(c->Image("icons/object_star_m.png"))),
+				c->ColorBackground(Color(0.8f,0.2f,0.8f))->SetInnerWidget(c->Align(UI::Align::MIDDLE)->SetInnerWidget(c->Image("icons/object_star_m.png"))),
+				c->ColorBackground(Color(0.2f,0.8f,0.8f))->SetInnerWidget(c->Align(UI::Align::RIGHT)->SetInnerWidget(c->Image("icons/object_star_m.png")))
+			))->SetRow(2, UI::WidgetSet(
+				c->ColorBackground(Color(0.5f,0.2f,0.8f))->SetInnerWidget(c->Align(UI::Align::BOTTOM_LEFT)->SetInnerWidget(c->Image("icons/object_star_m.png"))),
+				c->ColorBackground(Color(0.8f,0.5f,0.2f))->SetInnerWidget(c->Align(UI::Align::BOTTOM)->SetInnerWidget(c->Image("icons/object_star_m.png"))),
+				c->ColorBackground(Color(0.2f,0.8f,0.5f))->SetInnerWidget(c->Align(UI::Align::BOTTOM_RIGHT)->SetInnerWidget(c->Image("icons/object_star_m.png")))
+			))
+	);
 
     int count = 0;
 

@@ -8,6 +8,7 @@ INCLUDES = -I$(srcdir)/..
 
 noinst_LIBRARIES = libui.a
 noinst_HEADERS = \
+	Align.h \
 	Background.h \
 	Box.h \
 	Button.h \
@@ -34,6 +35,7 @@ noinst_HEADERS = \
 	Widget.h
 
 libui_a_SOURCES = \
+	Align.cpp \
 	Background.cpp \
 	Box.cpp \
 	Button.cpp \

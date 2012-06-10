@@ -11,6 +11,7 @@
 #include "FloatContainer.h"
 
 #include "Margin.h"
+#include "Align.h"
 #include "Background.h"
 #include "ColorBackground.h"
 #include "Box.h"
@@ -64,6 +65,7 @@ public:
 	UI::Background *Background() { return new UI::Background(this); }
 	UI::ColorBackground *ColorBackground(const Color &color) { return new UI::ColorBackground(this, color); }
 	UI::Margin *Margin(float margin) { return new UI::Margin(this, margin); };
+	UI::Align *Align(UI::Align::Direction direction) { return new UI::Align(this, direction); }
 	UI::Scroller *Scroller() { return new UI::Scroller(this); }
 
 	// visual elements
