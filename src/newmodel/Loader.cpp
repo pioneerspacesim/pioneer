@@ -1,7 +1,6 @@
 #include "Loader.h"
 #include "FileSystem.h"
 #include "LOD.h"
-#include "MatrixTransform.h"
 #include "Newmodel.h"
 #include "Parser.h"
 #include "StaticGeometry.h"
@@ -515,6 +514,15 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 
 	//lights, and possibly other special nodes should be leaf nodes (without meshes)
 	if (node->mNumChildren == 0 && node->mNumMeshes == 0) {
+		std::vector<vector3f> points;
+		points.push_back(m.GetTranslate());
+		RefCountedPtr<Graphics::Material> mat(new Graphics::Material());
+		mat->texture0 = Graphics::TextureBuilder::Billboard("textures/halo.png").GetOrCreateTexture(m_renderer, "billboard");
+		mat->twoSided = true;
+		mat->unlit = true;
+		mat->diffuse = Color(1.f, 0.f, 0.f, 1.f);
+		Billboard *bill = new Billboard(points, mat, 1.f);
+		parent->AddChild(bill);
 		return;
 	}
 

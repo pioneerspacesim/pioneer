@@ -4,4 +4,5 @@
 #include "Loader.h"
 #include "MatrixTransform.h"
 #include "ModelNode.h"
+#include "Billboard.h"
 #endif
