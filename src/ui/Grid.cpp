@@ -71,8 +71,8 @@ Grid *Grid::SetColumn(int colNum, const WidgetSet &set)
 
 Grid *Grid::SetCell(int colNum, int rowNum, Widget *widget)
 {
-	assert(colNum > 0 && colNum < m_numCols);
-	assert(rowNum > 0 && rowNum < m_numRows);
+	assert(colNum >= 0 && colNum < m_numCols);
+	assert(rowNum >= 0 && rowNum < m_numRows);
 
 	const int n = rowNum*m_numCols+colNum;
 	if (m_widgets[n])
