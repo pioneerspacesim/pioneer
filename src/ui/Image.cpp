@@ -59,7 +59,7 @@ void Image::Draw()
 {
 	Graphics::Renderer *r = GetContext()->GetRenderer();
 	r->SetBlendMode(Graphics::BLEND_ALPHA);
-	m_quad->Draw(r, 0, m_scaledSize);
+	m_quad->Draw(r, GetActiveOffset(), GetActiveArea());
 }
 
 }

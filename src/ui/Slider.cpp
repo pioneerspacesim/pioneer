@@ -36,11 +36,11 @@ void Slider::UpdateButton()
 
 void Slider::Draw()
 {
-	GetContext()->GetSkin().DrawButtonActive(0, GetActiveArea());        // XXX gutter
+	GetContext()->GetSkin().DrawButtonActive(GetActiveOffset(), GetActiveArea());        // XXX gutter
 	if (m_buttonDown && IsMouseActive())
-		GetContext()->GetSkin().DrawButtonActive(m_buttonPos, m_buttonSize); // XXX button
+		GetContext()->GetSkin().DrawButtonActive(GetActiveOffset()+m_buttonPos, m_buttonSize); // XXX button
 	else
-		GetContext()->GetSkin().DrawButtonNormal(m_buttonPos, m_buttonSize); // XXX button
+		GetContext()->GetSkin().DrawButtonNormal(GetActiveOffset()+m_buttonPos, m_buttonSize); // XXX button
 }
 
 void Slider::SetValue(float v)

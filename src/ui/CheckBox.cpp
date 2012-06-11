@@ -17,9 +17,9 @@ void CheckBox::Layout()
 void CheckBox::Draw()
 {
 	if (m_checked)
-		GetContext()->GetSkin().DrawCheckBoxChecked(vector2f(0.0f), GetActiveArea());
+		GetContext()->GetSkin().DrawCheckBoxChecked(GetActiveOffset(), GetActiveArea());
 	else
-		GetContext()->GetSkin().DrawCheckBoxNormal(vector2f(0.0f), GetActiveArea());
+		GetContext()->GetSkin().DrawCheckBoxNormal(GetActiveOffset(), GetActiveArea());
 }
 
 void CheckBox::HandleClick()

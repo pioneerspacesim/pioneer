@@ -114,16 +114,17 @@ public:
 	// allocated space. drawing will be clipped to the active area, and events
 	// that fall outside of the active area will be ignored. if a widget
 	// doesn't set its active area it defaults to its allocated space.
+	const vector2f &GetActiveOffset() const { return m_activeOffset; }
 	const vector2f &GetActiveArea() const { return m_activeArea; }
 
 	// determine if a point is inside a widget's bounds
 	bool Contains(const vector2f &point) const {
-		return (point.x >= 0.0f && point.y >= 0.0f && point.x < m_activeArea.x && point.y < m_activeArea.y);
+		return (point.x >= m_activeOffset.x && point.y >= m_activeOffset.y && point.x < m_activeOffset.x+m_activeArea.x && point.y < m_activeOffset.y+m_activeArea.y);
 	}
 
 	// deterine if an absolute point is inside a widget's bounds
 	bool ContainsAbsolute(const vector2f &point) const {
-		vector2f pos = GetAbsolutePosition();
+		vector2f pos = GetAbsolutePosition() + m_activeOffset;
 		return (point.x >= pos.x && point.y >= pos.y && point.x < pos.x+m_activeArea.x && point.y < pos.y+m_activeArea.y);
 	}
 
@@ -202,7 +203,7 @@ public:
 protected:
 
 	// set the active area. defaults to the size allocated by the container
-	void SetActiveArea(const vector2f &activeArea);
+	void SetActiveArea(const vector2f &activeArea, const vector2f &activeOffset = 0);
 
 	// mouse active. if a widget is mouse-active, it receives all mouse events
 	// regardless of mouse position
@@ -288,7 +289,10 @@ private:
 	Container *m_container;
 	vector2f m_position;
 	vector2f m_size;
+
+	vector2f m_activeOffset;
 	vector2f m_activeArea;
+
 	matrix4x4f m_transform;
 	FontSize m_fontSize;
 

@@ -9,6 +9,7 @@ Widget::Widget(Context *context) :
 	m_container(0),
 	m_position(0),
 	m_size(0),
+	m_activeOffset(0),
 	m_activeArea(0),
 	m_transform(matrix4x4f::Identity()),
 	m_fontSize(FONT_SIZE_NORMAL),
@@ -56,9 +57,10 @@ void Widget::SetDimensions(const vector2f &position, const vector2f &size)
 	SetActiveArea(size);
 }
 
-void Widget::SetActiveArea(const vector2f &activeArea)
+void Widget::SetActiveArea(const vector2f &activeArea, const vector2f &activeOffset)
 {
 	m_activeArea = vector2f(Clamp(activeArea.x, 0.0f, GetSize().x), Clamp(activeArea.y, 0.0f, GetSize().y));
+	m_activeOffset = activeOffset;
 }
 
 Widget *Widget::SetFontSize(FontSize fontSize)
