@@ -1153,9 +1153,9 @@ void Pi::Start()
 
 	ui->SetInnerWidget(
 		ui->Margin(10.0f)->SetInnerWidget(
-			ui->Grid(UI::CellSpec(0.25f,0.5f,0.25f), UI::CellSpec(0.25f,0.5f,0.25f))
+			ui->Grid(1, UI::CellSpec(0.25f,0.5f,0.25f))
 				->SetCell(0,2,
-					ui->HBox()->PackEnd(UI::WidgetSet(
+					ui->Grid(UI::CellSpec(0.2f,0.8f), 1)->SetRow(0, UI::WidgetSet(
 						ui->Image("icons/badge.png"),
 						ui->Align(UI::Align::LEFT)->SetInnerWidget(
 							ui->Margin(10.0f)->SetInnerWidget(
@@ -1167,7 +1167,7 @@ void Pi::Start()
 						)
 					))
 				)
-				->SetCell(1,1, ui->Align(UI::Align::MIDDLE)->SetInnerWidget(
+				->SetCell(0,1, ui->Align(UI::Align::MIDDLE)->SetInnerWidget(
 					ui->VBox()->PackEnd(UI::WidgetSet(
 						ui->HBox()->PackEnd(UI::WidgetSet(buttons[0] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_EARTH))),
 						ui->HBox()->PackEnd(UI::WidgetSet(buttons[1] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_E_ERIDANI))),
