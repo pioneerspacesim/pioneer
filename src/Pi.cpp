@@ -1158,10 +1158,12 @@ void Pi::Start()
 					ui->HBox()->PackEnd(UI::WidgetSet(
 						ui->Image("icons/badge.png"),
 						ui->Align(UI::Align::LEFT)->SetInnerWidget(
-							ui->VBox()->PackEnd(UI::WidgetSet(
-								ui->Label("Pioneer"),
-								ui->Label(version)
-							))
+							ui->Margin(10.0f)->SetInnerWidget(
+								ui->VBox()->PackEnd(UI::WidgetSet(
+									ui->Label("Pioneer")->SetFontSize(UI::Widget::FONT_SIZE_XLARGE),
+									ui->Label(version)
+								))
+							)
 						)
 					))
 				)
