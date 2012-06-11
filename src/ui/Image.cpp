@@ -23,9 +23,11 @@ void Image::Layout()
 {
 	vector2f size = GetSize();
 
+	vector2f activeArea;
+
 	switch (m_stretchMode) {
 		case STRETCH_MAX:
-			m_scaledSize = size;
+			activeArea = size;
 			break;
 
 		case STRETCH_PRESERVE: {
@@ -35,14 +37,14 @@ void Image::Layout()
 
 			// more room on X than Y, use full X, scale Y
 			if (wantRatio < originalRatio) {
-				m_scaledSize.x = size.x;
-				m_scaledSize.y = size.x / originalRatio;
+				activeArea.x = size.x;
+				activeArea.y = size.x / originalRatio;
 			}
 
 			// more room on Y than X, use full Y, scale X
 			else {
-				m_scaledSize.x = size.y * originalRatio;
-				m_scaledSize.y = size.y;
+				activeArea.x = size.y * originalRatio;
+				activeArea.y = size.y;
 			}
 
 			break;
@@ -52,7 +54,9 @@ void Image::Layout()
 			assert(0);
 	}
 
-	SetActiveArea(m_scaledSize);
+	vector2f activeOffset(std::max(0.0f, (size.x-activeArea.x)/2.0f), std::max(0.0f, (size.y-activeArea.y)/2.0f));
+
+	SetActiveArea(activeArea, activeOffset);
 }
 
 void Image::Draw()

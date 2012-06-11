@@ -26,7 +26,6 @@ private:
 	ScopedPtr<Gui::TexturedQuad> m_quad;
 	StretchMode m_stretchMode;
 	vector2f m_initialSize;
-	vector2f m_scaledSize;
 };
 
 }
