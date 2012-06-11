@@ -1153,23 +1153,28 @@ void Pi::Start()
 
 	ui->SetInnerWidget(
 		ui->Margin(10.0f)->SetInnerWidget(
-			ui->VBox()->PackEnd(UI::WidgetSet(
-				ui->HBox()->PackEnd(UI::WidgetSet(
-					ui->Image("icons/badge.png"),
-					ui->VBox()->PackEnd(UI::WidgetSet(
-						ui->Label("Pioneer"),
-						ui->Label(version)
+			ui->Grid(UI::CellSpec(0.25f,0.5f,0.25f), UI::CellSpec(0.25f,0.5f,0.25f))
+				->SetCell(0,2,
+					ui->HBox()->PackEnd(UI::WidgetSet(
+						ui->Image("icons/badge.png"),
+						ui->Align(UI::Align::LEFT)->SetInnerWidget(
+							ui->VBox()->PackEnd(UI::WidgetSet(
+								ui->Label("Pioneer"),
+								ui->Label(version)
+							))
+						)
 					))
-				)),
-				ui->VBox()->PackEnd(UI::WidgetSet(
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[0] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_EARTH))),
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[1] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_E_ERIDANI))),
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[2] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_LAVE))),
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[3] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_DEBUG))),
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[4] = ui->Button(), ui->Label(Lang::MM_LOAD_SAVED_GAME))),
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[5] = ui->Button(), ui->Label(Lang::MM_QUIT)))
+				)
+				->SetCell(1,1, ui->Align(UI::Align::MIDDLE)->SetInnerWidget(
+					ui->VBox()->PackEnd(UI::WidgetSet(
+						ui->HBox()->PackEnd(UI::WidgetSet(buttons[0] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_EARTH))),
+						ui->HBox()->PackEnd(UI::WidgetSet(buttons[1] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_E_ERIDANI))),
+						ui->HBox()->PackEnd(UI::WidgetSet(buttons[2] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_LAVE))),
+						ui->HBox()->PackEnd(UI::WidgetSet(buttons[3] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_DEBUG))),
+						ui->HBox()->PackEnd(UI::WidgetSet(buttons[4] = ui->Button(), ui->Label(Lang::MM_LOAD_SAVED_GAME))),
+						ui->HBox()->PackEnd(UI::WidgetSet(buttons[5] = ui->Button(), ui->Label(Lang::MM_QUIT)))
+					))
 				))
-			))
 		)
 	);
 
