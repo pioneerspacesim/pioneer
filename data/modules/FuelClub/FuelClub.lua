@@ -102,7 +102,7 @@ onChat = function (form, ref, option)
 			end,
 			onClickSell = function (ref, commodity)
 				if (commodity == 'RADIOACTIVES' and membership.milrads < 1) then
-					UI.Message(t("You must buy our {military_fuel} before we will take your {radioactives}"):interp({
+					Comms.Message(t("You must buy our {military_fuel} before we will take your {radioactives}"):interp({
 						military_fuel = t('MILITARY_FUEL'),
 						radioactives = t('RADIOACTIVES'),
 						water = t('WATER'),

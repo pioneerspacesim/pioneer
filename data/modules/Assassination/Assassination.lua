@@ -272,7 +272,7 @@ local onShipDocked = function (ship, station)
 					target	= mission.target,
 					cash	= Format.Money(mission.reward),
 				})
-				UI.ImportantMessage(text, mission.boss)
+				Comms.ImportantMessage(text, mission.boss)
 				ship:AddMoney(mission.reward)
 				ship:RemoveMission(ref)
 				missions[ref] = nil
@@ -288,7 +288,7 @@ local onShipDocked = function (ship, station)
 						target	= mission.target,
 					})
 				end
-				UI.ImportantMessage(text, mission.boss)
+				Comms.ImportantMessage(text, mission.boss)
 				ship:RemoveMission(ref)
 				missions[ref] = nil
 			end

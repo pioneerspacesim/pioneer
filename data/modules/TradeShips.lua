@@ -716,7 +716,7 @@ local onShipHit = function (ship, attacker)
 		end
 		if cargo_type and ship:Jettison(cargo_type) then
 			trader.cargo[cargo_type] = trader.cargo[cargo_type] - 1
-			UI.ImportantMessage(attacker.label..', take this and leave us be, you filthy pirate!', ship.label)
+			Comms.ImportantMessage(attacker.label..', take this and leave us be, you filthy pirate!', ship.label)
 			trader['chance'] = trader.chance - 0.1
 		end
 	end
