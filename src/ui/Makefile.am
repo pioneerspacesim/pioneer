@@ -53,7 +53,6 @@ libui_a_SOURCES = \
 	Image.cpp \
 	Label.cpp \
 	List.cpp \
-	LuaContext.cpp \
 	Margin.cpp \
 	MultiLineText.cpp \
 	Scroller.cpp \
@@ -61,4 +60,23 @@ libui_a_SOURCES = \
 	Skin.cpp \
 	Slider.cpp \
 	TextLayout.cpp \
-	Widget.cpp
+	Widget.cpp \
+	LuaAlign.cpp \
+	LuaBackground.cpp \
+	LuaBox.cpp \
+	LuaButton.cpp \
+	LuaCheckBox.cpp \
+	LuaColorBackground.cpp \
+	LuaContainer.cpp \
+	LuaContext.cpp \
+	LuaDropDown.cpp \
+	LuaGrid.cpp \
+	LuaImage.cpp \
+	LuaLabel.cpp \
+	LuaList.cpp \
+	LuaMargin.cpp \
+	LuaMultiLineText.cpp \
+	LuaScroller.cpp \
+	LuaSingle.cpp \
+	LuaSlider.cpp \
+	LuaWidget.cpp

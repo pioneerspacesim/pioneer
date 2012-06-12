@@ -77,12 +77,19 @@ public:
 
 }
 
+static bool promotion_test(DeleteEmitter *o)
+{
+	return dynamic_cast<UI::Context*>(o);
+}
+
 using namespace UI;
 
 template <> const char *LuaObject<UI::Context>::s_type = "UI.Context";
 
 template <> void LuaObject<UI::Context>::RegisterClass()
 {
+	static const char *l_parent = "UI.Single";
+
 	static const luaL_Reg l_methods[] = {
 		{ "HBox",            LuaContext::l_hbox            },
 		{ "VBox",            LuaContext::l_vbox            },
@@ -105,5 +112,6 @@ template <> void LuaObject<UI::Context>::RegisterClass()
         { 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, 0, l_methods, 0, 0);
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
 }
