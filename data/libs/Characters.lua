@@ -592,7 +592,7 @@ Character = {
 --
 -- Example:
 --
--- > if (player:TestRoll('lawfulness',20)) then UI.Message('A fellow criminal!')
+-- > if (player:TestRoll('lawfulness',20)) then Comms.Message('A fellow criminal!')
 --
 	TestRoll = function (self,attribute,modifier)
 		local modifier = modifier or 0
@@ -640,7 +640,7 @@ Character = {
 --
 -- Example:
 --
--- > if (player:SafeRoll('lawfulness',20)) then UI.Message('A fellow criminal!')
+-- > if (player:SafeRoll('lawfulness',20)) then Comms.Message('A fellow criminal!')
 --
 	SafeRoll = function (self,attribute,modifier)
 		local modifier = modifier or 0
