@@ -4,7 +4,10 @@ AM_CFLAGS += $(WARN_CFLAGS)
 AM_CPPFLAGS += $(WARN_CPPFLAGS)
 AM_CXXFLAGS += $(WARN_CXXFLAGS)
 
-INCLUDES = -I$(srcdir)/..
+INCLUDES = -isystem $(top_srcdir)/contrib -I$(srcdir)/..
+if !HAVE_LUA
+INCLUDES += -isystem $(top_srcdir)/contrib/lua
+endif
 
 noinst_LIBRARIES = libui.a
 noinst_HEADERS = \
@@ -50,6 +53,7 @@ libui_a_SOURCES = \
 	Image.cpp \
 	Label.cpp \
 	List.cpp \
+	LuaContext.cpp \
 	Margin.cpp \
 	MultiLineText.cpp \
 	Scroller.cpp \

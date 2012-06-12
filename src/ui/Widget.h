@@ -82,7 +82,7 @@ class Context;
 class Container;
 class Metrics;
 	
-class Widget : public RefCounted {
+class Widget : public RefCounted, public DeleteEmitter {
 protected:
 	// can't instantiate a base widget directly
 	Widget(Context *context);
