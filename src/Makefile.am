@@ -53,6 +53,7 @@ noinst_HEADERS = \
 	LuaBody.h \
 	LuaCargoBody.h \
 	LuaChatForm.h \
+	LuaComms.h \
 	LuaConsole.h \
 	LuaConstants.h \
 	LuaEngine.h \
@@ -81,7 +82,6 @@ noinst_HEADERS = \
 	LuaStar.h \
 	LuaStarSystem.h \
 	LuaTimer.h \
-	LuaUI.h \
 	LuaUtils.h \
 	MarketAgent.h \
 	MathUtil.h \
@@ -187,6 +187,7 @@ pioneer_SOURCES	= \
 	LuaBody.cpp \
 	LuaCargoBody.cpp \
 	LuaChatForm.cpp \
+	LuaComms.cpp \
 	LuaConsole.cpp \
 	LuaConstants.cpp \
 	LuaEngine.cpp \
@@ -215,7 +216,6 @@ pioneer_SOURCES	= \
 	LuaStar.cpp \
 	LuaStarSystem.cpp \
 	LuaTimer.cpp \
-	LuaUI.cpp \
 	LuaUtils.cpp \
 	MarketAgent.cpp \
 	MathUtil.cpp \

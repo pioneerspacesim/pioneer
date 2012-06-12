@@ -1,13 +1,13 @@
-#include "LuaUI.h"
+#include "LuaComms.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Pi.h"
 #include "ShipCpanel.h"
 
 /*
- * Interface: UI
+ * Interface: Comms
  *
- * User interface functions.
+ * Player communication functions.
  */
 
 /*
@@ -15,7 +15,7 @@
  *
  * Post a message to the player's control panel.
  *
- * > UI.Message(message, from)
+ * > Comms.Message(message, from)
  *
  * Parameters:
  *
@@ -25,7 +25,7 @@
  *
  * Example:
  *
- * > UI.Message("Please repair my ship.", "Gary Jones")
+ * > Comms.Message("Please repair my ship.", "Gary Jones")
  *
  * Availability:
  *
@@ -35,7 +35,7 @@
  *
  *   experimental
  */
-static int l_ui_message(lua_State *l)
+static int l_comms_message(lua_State *l)
 {
 	if (!Pi::cpan)
 		luaL_error(l, "Control panel does not exist.");
@@ -55,7 +55,7 @@ static int l_ui_message(lua_State *l)
  *
  * Post an important message to the player's control panel.
  *
- * > UI.ImportantMessage(message, from)
+ * > Comms.ImportantMessage(message, from)
  *
  * The only difference between this and <Message> is that if multiple messages
  * arrive at the same time, the important ones will be shown first.
@@ -68,7 +68,7 @@ static int l_ui_message(lua_State *l)
  *
  * Example:
  *
- * > UI.ImportantMessage("Prepare to die!", "AB-1234")
+ * > Comms.ImportantMessage("Prepare to die!", "AB-1234")
  *
  * Availability:
  *
@@ -78,7 +78,7 @@ static int l_ui_message(lua_State *l)
  *
  *   experimental
  */
-static int l_ui_important_message(lua_State *l)
+static int l_comms_important_message(lua_State *l)
 {
 	if (!Pi::cpan)
 		luaL_error(l, "Control panel does not exist.");
@@ -93,20 +93,20 @@ static int l_ui_important_message(lua_State *l)
 	return 0;
 }
 
-void LuaUI::Register()
+void LuaComms::Register()
 {
 	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
 	static const luaL_Reg methods[] = {
-		{ "Message",          l_ui_message           },
-		{ "ImportantMessage", l_ui_important_message },
+		{ "Message",          l_comms_message           },
+		{ "ImportantMessage", l_comms_important_message },
 		{ 0, 0 }
 	};
 
 	luaL_newlib(l, methods);
-	lua_setglobal(l, "UI");
+	lua_setglobal(l, "Comms");
 
 	LUA_DEBUG_END(l, 0);
 }
