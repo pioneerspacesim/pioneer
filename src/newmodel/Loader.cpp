@@ -514,6 +514,9 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 
 	//lights, and possibly other special nodes should be leaf nodes (without meshes)
 	if (node->mNumChildren == 0 && node->mNumMeshes == 0) {
+		static const std::string tagIdentifier("light_");
+		if (nodename.compare(0, tagIdentifier.length(), tagIdentifier) != 0)
+			return;
 		std::vector<vector3f> points;
 		points.push_back(m.GetTranslate());
 		RefCountedPtr<Graphics::Material> mat(new Graphics::Material());
