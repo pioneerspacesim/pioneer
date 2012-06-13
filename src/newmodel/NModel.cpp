@@ -26,8 +26,11 @@ void NModel::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, LmrOb
 	m_root->Accept(vis);*/
 	//using the entire model bounding radius for all nodes at the moment. 
 	//BR could also be a property of Node.
-	const_cast<RenderData*>(params)->boundingRadius = GetDrawClipRadius();
-	m_root->Render(renderer, trans, const_cast<RenderData*>(params));
+	params->boundingRadius = GetDrawClipRadius();
+	params->nodemask = 0x1;
+	m_root->Render(renderer, trans, params);
+	params->nodemask = 0x2;
+	m_root->Render(renderer, trans, params);
 }
 
 CollMesh *NModel::CreateCollisionMesh(const LmrObjParams *p)
