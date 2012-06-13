@@ -274,6 +274,9 @@ static void LuaInit()
 
 	LuaConsole::Register();
 
+	// XXX sigh
+	UI::Context::LuaInit();
+
 	// XXX load everything. for now, just modules
 	pi_lua_dofile_recursive(l, "libs");
 	pi_lua_dofile_recursive(l, "modules");

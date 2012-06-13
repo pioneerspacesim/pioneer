@@ -110,6 +110,9 @@ public:
 	RefCountedPtr<Text::TextureFont> GetFont() const { return GetFont(Widget::FONT_SIZE_NORMAL); }
 	RefCountedPtr<Text::TextureFont> GetFont(Widget::FontSize fontSize) const { return m_font[fontSize]; }
 
+	// XXX not sure where this belongs
+	static void LuaInit();
+
 private:
 	virtual vector2f PreferredSize() { return 0; }
 
