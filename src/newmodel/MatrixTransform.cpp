@@ -2,8 +2,9 @@
 #include "graphics/Renderer.h"
 namespace Newmodel {
 
-MatrixTransform::MatrixTransform(const matrix4x4f &m) :
-	m_transform(m)
+MatrixTransform::MatrixTransform(const matrix4x4f &m)
+: Group()
+, m_transform(m)
 {
 }
 

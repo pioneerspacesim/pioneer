@@ -10,7 +10,7 @@ namespace Newmodel
 class Group : public Node
 {
 public:
-	Group() { }
+	Group();
 	virtual void AddChild(Node *child);
 	virtual bool RemoveChild(Node *node); //true on success
 	virtual bool RemoveChildAt(unsigned int position); //true on success

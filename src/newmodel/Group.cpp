@@ -3,6 +3,11 @@
 
 namespace Newmodel {
 
+Group::Group()
+: Node(NODE_SOLID | NODE_TRANSPARENT)
+{
+}
+
 Group::~Group()
 {
 	for(std::vector<Node*>::iterator itr = m_children.begin();
@@ -83,7 +88,8 @@ void Group::RenderChildren(Graphics::Renderer *r, const matrix4x4f &trans, Rende
 		itr != m_children.end();
 		++itr)
 	{
-		(*itr)->Render(r, trans, rd);
+		if((*itr)->GetNodeMask() & rd->nodemask)
+			(*itr)->Render(r, trans, rd);
 	}
 }
 

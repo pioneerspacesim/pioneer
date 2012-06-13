@@ -5,6 +5,13 @@ namespace Newmodel {
 
 Node::Node()
 : m_name("")
+, m_nodeMask(NODE_SOLID)
+{
+}
+
+Node::Node(unsigned int nodemask)
+: m_name("")
+, m_nodeMask(nodemask)
 {
 }
 

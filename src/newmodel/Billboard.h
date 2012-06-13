@@ -9,8 +9,11 @@ namespace Newmodel {
 
 class Billboard : public Node {
 public:
+	Billboard(RefCountedPtr<Graphics::Material>, float size);
 	Billboard(const std::vector<vector3f>&, RefCountedPtr<Graphics::Material>, float size);
 	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd);
+
+	void AddPoint(const vector3f &pt);
 
 private:
 	std::vector<vector3f> m_points;

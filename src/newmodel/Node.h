@@ -14,10 +14,16 @@ namespace Newmodel
 
 class NodeVisitor;
 
+enum NodeMask {
+	NODE_SOLID = 0x1,
+	NODE_TRANSPARENT = 0x2
+};
+
 class Node : public RefCounted
 {
 public:
 	Node();
+	Node(unsigned int nodemask);
 	Node *m_parent;
 
 	virtual void Accept(NodeVisitor &v);
@@ -27,10 +33,14 @@ public:
 
 	virtual Node* FindNode(const std::string &);
 
+	unsigned int GetNodeMask() const { return m_nodeMask; }
+	void SetNodeMask(unsigned int m) { m_nodeMask = m; }
+
 protected:
 	//can only to be deleted using DecRefCount
 	virtual ~Node() { }
 	std::string m_name;
+	unsigned int m_nodeMask;
 };
 
 }

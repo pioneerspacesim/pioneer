@@ -34,11 +34,13 @@ struct LmrObjParams
 	int scrWidth;
 	float boundingRadius; //updated by model and passed to submodels
 	bool drawBoundingBoxes;
+	unsigned int nodemask;
 
 	LmrObjParams()
 	: scrWidth(800)
 	, boundingRadius(0.f)
 	, drawBoundingBoxes(false)
+	, nodemask(0xff) //draw everything
 	{ }
 };
 typedef LmrObjParams ModelParams;
