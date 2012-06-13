@@ -377,7 +377,7 @@ public:
 		m_putGeomInsideout = false;
 	}
 
-	void Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
+	void Render(const RenderState *rstate, const vector3f &cameraPos, LmrObjParams *params) {
 		int activeLights = 0;
 		s_numTrisRendered += m_indices.size()/3;
 		
@@ -1213,7 +1213,7 @@ bool LmrModel::HasTag(const char *tag) const
 	return has_tag;
 }
 
-void LmrModel::Render(Graphics::Renderer *r, const matrix4x4f &trans, const LmrObjParams *params)
+void LmrModel::Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjParams *params)
 {
 	RenderState rstate;
 	rstate.subTransform = matrix4x4f::Identity();
@@ -1221,7 +1221,7 @@ void LmrModel::Render(Graphics::Renderer *r, const matrix4x4f &trans, const LmrO
 	Render(&rstate, vector3f(-trans[12], -trans[13], -trans[14]), trans, params);
 }
 
-void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params)
+void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, LmrObjParams *params)
 {
 	glPushMatrix();
 	glMultMatrixf(&trans[0]);

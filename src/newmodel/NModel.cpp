@@ -18,7 +18,7 @@ NModel::~NModel()
 	while(!m_animations.empty()) delete m_animations.back(), m_animations.pop_back();
 }
 
-void NModel::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, const LmrObjParams *params)
+void NModel::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, LmrObjParams *params)
 {
 	renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	renderer->SetTransform(trans);
