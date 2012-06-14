@@ -154,7 +154,7 @@ const char * const Pi::combatRating[] = {
 	Lang::ELITE
 };
 Graphics::Renderer *Pi::renderer;
-UI::Context *Pi::ui;
+RefCountedPtr<UI::Context> Pi::ui;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -533,7 +533,7 @@ void Pi::Init()
 		renderer->PrintDebugInfo(out);
 	}
 
-	Pi::ui = new UI::Context(Pi::renderer, scrWidth, scrHeight);
+	Pi::ui.Reset(new UI::Context(Pi::renderer, scrWidth, scrHeight));
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)

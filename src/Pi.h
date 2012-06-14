@@ -134,7 +134,7 @@ public:
 
 	static LuaNameGen *luaNameGen;
 
-	static UI::Context *ui;
+	static RefCountedPtr<UI::Context> ui;
 
 	static MTRand rng;
 	static int statSceneTris;

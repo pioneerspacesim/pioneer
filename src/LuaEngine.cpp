@@ -73,7 +73,7 @@ static int l_engine_meta_index(lua_State *l)
 	 *   experimental
 	 */
 	if (strcmp(key, "ui") == 0) {
-		LuaObject<UI::Context>::PushToLua(Pi::ui);
+		LuaObject<UI::Context>::PushToLua(Pi::ui.Get());
 		return 1;
 	}
 
