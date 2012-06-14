@@ -26,6 +26,8 @@
 #include "List.h"
 #include "DropDown.h"
 
+#include "Lua.h"
+
 namespace Graphics { class Renderer; }
 
 namespace UI {
