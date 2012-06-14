@@ -235,6 +235,11 @@ public:
 		return dynamic_cast<T *>(LuaObjectBase::CheckFromLua(index, s_type));
 	}
 
+	// convenience promotion test
+	static inline bool DynamicCastPromotionTest(DeleteEmitter *o) {
+		return dynamic_cast<T *>(o);
+	}
+
 protected:
 	// hook up the appropriate acquirer for the wrapped object.
 	virtual void Acquire(DeleteEmitter *o) { this->LuaAcquirer<T>::OnAcquire(dynamic_cast<T*>(o)); }
