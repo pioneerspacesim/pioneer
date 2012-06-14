@@ -10,11 +10,6 @@ public:
 
 }
 
-static bool promotion_test(DeleteEmitter *o)
-{
-	return dynamic_cast<UI::List*>(o);
-}
-
 using namespace UI;
 
 template <> const char *LuaObject<UI::List>::s_type = "UI.List";
@@ -29,5 +24,5 @@ template <> void LuaObject<UI::List>::RegisterClass()
 	};
 
 	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
-	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<UI::List>::DynamicCastPromotionTest);
 }
