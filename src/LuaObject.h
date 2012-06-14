@@ -205,6 +205,17 @@ public:
 	virtual void OnRelease(T *) {}
 };
 
+// acquirer baseclass for RefCounted types. subclass this when you need Lua to
+// take a reference to an object
+class LuaAcquirerRefCounted {
+public:
+	virtual void OnAcquire(RefCounted *o) {
+		o->IncRefCount();
+	}
+	virtual void OnRelease(RefCounted *o) {
+		o->DecRefCount();
+	}
+};
 
 // template for a wrapper class
 template <typename T>
@@ -233,6 +244,11 @@ public:
 
 	static inline T *CheckFromLua(int index) {
 		return dynamic_cast<T *>(LuaObjectBase::CheckFromLua(index, s_type));
+	}
+
+	// convenience promotion test
+	static inline bool DynamicCastPromotionTest(DeleteEmitter *o) {
+		return dynamic_cast<T *>(o);
 	}
 
 protected:
