@@ -92,6 +92,8 @@ void Context::LuaInit()
 	LuaObject<UI::Align>::RegisterClass();
 	LuaObject<UI::Background>::RegisterClass();
 	LuaObject<UI::Box>::RegisterClass();
+	LuaObject<UI::HBox>::RegisterClass();
+	LuaObject<UI::VBox>::RegisterClass();
 	LuaObject<UI::Button>::RegisterClass();
 	LuaObject<UI::CheckBox>::RegisterClass();
 	LuaObject<UI::ColorBackground>::RegisterClass();
@@ -107,6 +109,8 @@ void Context::LuaInit()
 	LuaObject<UI::Scroller>::RegisterClass();
 	LuaObject<UI::Single>::RegisterClass();
 	LuaObject<UI::Slider>::RegisterClass();
+	LuaObject<UI::HSlider>::RegisterClass();
+	LuaObject<UI::VSlider>::RegisterClass();
 	LuaObject<UI::Widget>::RegisterClass();
 }
 
