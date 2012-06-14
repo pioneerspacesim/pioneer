@@ -69,6 +69,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "ui/Context.h"
+#include "ui/Lua.h"
 #include "SDLWrappers.h"
 #include "ModManager.h"
 #include <fstream>
@@ -275,7 +276,7 @@ static void LuaInit()
 	LuaConsole::Register();
 
 	// XXX sigh
-	UI::Context::LuaInit();
+	UI::LuaInit();
 
 	// XXX load everything. for now, just modules
 	pi_lua_dofile_recursive(l, "libs");

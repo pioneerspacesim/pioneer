@@ -28,6 +28,7 @@ noinst_HEADERS = \
 	Image.h \
 	Label.h \
 	List.h \
+	Lua.h \
 	Margin.h \
 	MultiLineText.h \
 	Scroller.h \
@@ -61,6 +62,7 @@ libui_a_SOURCES = \
 	Slider.cpp \
 	TextLayout.cpp \
 	Widget.cpp \
+	Lua.cpp \
 	LuaAlign.cpp \
 	LuaBackground.cpp \
 	LuaBox.cpp \
