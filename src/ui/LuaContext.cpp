@@ -1,5 +1,6 @@
 #include "Context.h"
 #include "LuaObject.h"
+#include "LuaConstants.h"
 
 namespace UI {
 
@@ -52,7 +53,10 @@ public:
 	}
 	
 	static int l_align(lua_State *l) {
-		return 0;
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		UI::Align::Direction dir = static_cast<UI::Align::Direction>(LuaConstants::GetConstantFromArg(l, "UIAlignDirection", 2));
+		LuaObject<UI::Align>::PushToLua(c->Align(dir));
+		return 1;
 	}
 	
 	static int l_scroller(lua_State *l) {
@@ -62,7 +66,13 @@ public:
 	}
 	
 	static int l_image(lua_State *l) {
-		return 0;
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		const std::string filename(luaL_checkstring(l, 2));
+		UI::Image::StretchMode stretchMode = UI::Image::STRETCH_PRESERVE;
+		if (lua_gettop(l) > 2)
+			stretchMode = static_cast<UI::Image::StretchMode>(LuaConstants::GetConstantFromArg(l, "UIImageStretchMode", 3));
+		LuaObject<UI::Image>::PushToLua(c->Image(filename, stretchMode));
+		return 1;
 	}
 	
 	static int l_label(lua_State *l) {
