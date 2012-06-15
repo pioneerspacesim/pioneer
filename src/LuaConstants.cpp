@@ -691,6 +691,10 @@ void LuaConstants::Register(lua_State *l)
 	 */
 	_create_constant_table_nonconsecutive(l, "MissionStatus", ENUM_MissionStatus);
 
+	// XXX document these
+	_create_constant_table_nonconsecutive(l, "UIAlignDirection", ENUM_UIAlignDirection);
+	_create_constant_table_nonconsecutive(l, "UIImageStretchMode", ENUM_UIImageStretchMode);
+	_create_constant_table_nonconsecutive(l, "UIFontSize", ENUM_UIFontSize);
 
 	LUA_DEBUG_END(l, 0);
 }

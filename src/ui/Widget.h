@@ -141,13 +141,13 @@ public:
 	// font size. obviously used for text size but also sometimes used for
 	// general widget size (eg space size). might do nothing, depends on the
 	// widget
-	enum FontSize {
+	enum FontSize { // <enum scope='UI::Widget' name=UIFontSize prefix=FONT_SIZE_>
 		FONT_SIZE_XSMALL,
 		FONT_SIZE_SMALL,
 		FONT_SIZE_NORMAL,
 		FONT_SIZE_LARGE,
 		FONT_SIZE_XLARGE,
-		FONT_SIZE_MAX
+		FONT_SIZE_MAX       // <enum skip>
 	};
 
 	virtual Widget *SetFontSize(FontSize fontSize);

@@ -10,7 +10,7 @@ public:
 	virtual vector2f PreferredSize();
 	virtual void Layout();
 
-	enum Direction {
+	enum Direction { // <enum scope='UI::Align' name=UIAlignDirection>
 		TOP_LEFT,
 		TOP,
 		TOP_RIGHT,
