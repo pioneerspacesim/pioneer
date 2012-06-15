@@ -505,18 +505,9 @@ matrix4x4f Loader::ConvertMatrix(const aiMatrix4x4& trans) const
 	return m;
 }
 
-void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Surface*>& surfaces)
+//temporary junk
+static void create_light(Group* parent, matrix4x4f &m, Graphics::Renderer *m_renderer)
 {
-	Group *parent = _parent;
-	const std::string nodename(node->mName.C_Str());
-	const aiMatrix4x4& trans = node->mTransformation;
-	matrix4x4f m = ConvertMatrix(trans);
-
-	//lights, and possibly other special nodes should be leaf nodes (without meshes)
-	if (node->mNumChildren == 0 && node->mNumMeshes == 0) {
-		static const std::string tagIdentifier("light_");
-		if (nodename.compare(0, tagIdentifier.length(), tagIdentifier) != 0)
-			return;
 		std::vector<vector3f> points;
 		points.push_back(m.GetTranslate());
 		RefCountedPtr<Graphics::Material> mat(new Graphics::Material());
@@ -526,6 +517,35 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 		mat->diffuse = Color(1.f, 0.f, 0.f, 1.f);
 		Billboard *bill = new Billboard(points, mat, 1.f);
 		parent->AddChild(bill);
+}
+
+static void create_thruster(Group* parent, matrix4x4f &m, Graphics::Renderer *m_renderer)
+{
+	//not supposed to create a new thruster node every time since they contain their geometry
+	//it is fine to create one thruster node and add that to various parents
+	//(it wouldn't really matter, it's a tiny amount of geometry)
+	MatrixTransform *trans = new MatrixTransform(m);
+	Thruster *thruster = new Thruster(m_renderer);
+	trans->AddChild(thruster);
+	parent->AddChild(trans);
+}
+
+void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Surface*>& surfaces)
+{
+	Group *parent = _parent;
+	const std::string nodename(node->mName.C_Str());
+	const aiMatrix4x4& trans = node->mTransformation;
+	matrix4x4f m = ConvertMatrix(trans);
+
+	//lights, and possibly other special nodes should be leaf nodes (without meshes)
+	if (node->mNumChildren == 0 && node->mNumMeshes == 0) {
+		static const std::string lightIdentifier("navlight_");
+		static const std::string thrusterIdentifier("thruster_");
+		if (nodename.compare(0, lightIdentifier.length(), lightIdentifier) == 0) {
+			create_light(parent, m, m_renderer);
+		} else if (nodename.compare(0, thrusterIdentifier.length(), thrusterIdentifier) == 0) {
+			create_thruster(parent, m, m_renderer);
+		}
 		return;
 	}
 
