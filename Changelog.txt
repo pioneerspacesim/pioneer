@@ -2,6 +2,7 @@ Alpha 24
 
    * Fixes
      * Fix flipped vbuilding glowmap (#1280, #1279)
+     * Fix scrolling in the mission list (#1292, #1291)
 
    * Script and model changes
      * Renamed UI to Comms (#1288)
