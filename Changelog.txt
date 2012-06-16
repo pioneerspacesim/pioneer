@@ -6,10 +6,12 @@ Alpha 24
 
    * Script and model changes
      * Renamed UI to Comms (#1288)
+     * Limited libraries available to LMR to debug, string and math (#1289)
 
    * Internal changes
      * Abstracted out the normal Lua object type promotion test, and Lua
        ownership of refcounted objects (#1290)
+     * Stop a broken Lua error handler triggering an infinite loop (#1289)
 
 Alpha 23
 
