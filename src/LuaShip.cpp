@@ -1368,11 +1368,6 @@ static int l_ship_cancel_ai(lua_State *l)
 	return 0;
 }
 
-static bool promotion_test(DeleteEmitter *o)
-{
-	return dynamic_cast<Ship*>(o);
-}
-
 template <> const char *LuaObject<Ship>::s_type = "Ship";
 
 template <> void LuaObject<Ship>::RegisterClass()
@@ -1431,5 +1426,5 @@ template <> void LuaObject<Ship>::RegisterClass()
 	};
 
 	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, NULL);
-	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Ship>::DynamicCastPromotionTest);
 }

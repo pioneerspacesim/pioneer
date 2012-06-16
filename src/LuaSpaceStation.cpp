@@ -278,11 +278,6 @@ static int l_spacestation_attr_num_docks(lua_State *l)
 	return 1;
 }
 
-static bool promotion_test(DeleteEmitter *o)
-{
-	return dynamic_cast<SpaceStation*>(o);
-}
-
 template <> const char *LuaObject<SpaceStation>::s_type = "SpaceStation";
 
 template <> void LuaObject<SpaceStation>::RegisterClass()
@@ -305,5 +300,5 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 	};
 
 	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, NULL);
-	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<SpaceStation>::DynamicCastPromotionTest);
 }

@@ -15,11 +15,6 @@ void Single::Layout()
 	m_innerWidget->Layout();
 }
 
-void Single::RequestResize()
-{
-	if (GetContainer()) GetContainer()->RequestResize();
-}
-
 Single *Single::SetInnerWidget(Widget *widget)
 {
 	assert(widget);

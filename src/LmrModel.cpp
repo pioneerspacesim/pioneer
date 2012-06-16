@@ -4523,9 +4523,14 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 
 	lua_State *L = luaL_newstate();
 	sLua = L;
-	luaL_openlibs(L);
 
 	LUA_DEBUG_START(sLua);
+
+	luaL_requiref(L, "_G", &luaopen_base, 1);
+	luaL_requiref(L, LUA_MATHLIBNAME, &luaopen_math, 1);
+	luaL_requiref(L, LUA_DBLIBNAME, &luaopen_debug, 1);
+	luaL_requiref(L, LUA_STRLIBNAME, &luaopen_string, 1); // only used by data/models/selector.lua
+	lua_settop(L, 0);
 
 	LuaConstants::Register(L);
 
@@ -4535,8 +4540,7 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 	lua_setglobal(L, "v"); // alias v = vector.new
 	lua_getfield(L, -1, "unit");
 	lua_setglobal(L, "unitv"); // alias unitv = vector.unit
-	lua_pop(L, 1);
-	LUA_DEBUG_CHECK(L, 0);
+	lua_settop(L, 0);
 
 	LuaMatrix::Register(L);
 

@@ -5,6 +5,7 @@
 #include "Pi.h"
 #include "utils.h"
 #include "FileSystem.h"
+#include "ui/Context.h"
 
 /*
  * Interface: Engine
@@ -54,6 +55,25 @@ static int l_engine_meta_index(lua_State *l)
 	if (strcmp(key, "userdir") == 0) {
 		const std::string &userdir = FileSystem::GetUserDir();
 		lua_pushlstring(l, userdir.c_str(), userdir.size());
+		return 1;
+	}
+
+	/*
+	 * Attribute: ui
+	 *
+	 * The global <UI.Context> object. New UI widgets are created through this
+	 * object.
+	 *
+	 * Availability:
+	 *
+	 *   alpha 25
+	 *
+	 * Status:
+	 *
+	 *   experimental
+	 */
+	if (strcmp(key, "ui") == 0) {
+		LuaObject<UI::Context>::PushToLua(Pi::ui.Get());
 		return 1;
 	}
 

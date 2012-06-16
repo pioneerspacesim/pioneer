@@ -11,6 +11,7 @@
 #include "FloatContainer.h"
 
 #include "Margin.h"
+#include "Align.h"
 #include "Background.h"
 #include "ColorBackground.h"
 #include "Box.h"
@@ -24,6 +25,8 @@
 #include "Slider.h"
 #include "List.h"
 #include "DropDown.h"
+
+#include "Lua.h"
 
 namespace Graphics { class Renderer; }
 
@@ -52,6 +55,7 @@ namespace UI {
 class Context : public Single {
 public:
 	Context(Graphics::Renderer *renderer, int width, int height);
+	virtual ~Context();
 
 	// general purpose containers
 	UI::HBox *HBox(float spacing = 0.0f) { return new UI::HBox(this, spacing); }
@@ -63,6 +67,7 @@ public:
 	UI::Background *Background() { return new UI::Background(this); }
 	UI::ColorBackground *ColorBackground(const Color &color) { return new UI::ColorBackground(this, color); }
 	UI::Margin *Margin(float margin) { return new UI::Margin(this, margin); };
+	UI::Align *Align(UI::Align::Direction direction) { return new UI::Align(this, direction); }
 	UI::Scroller *Scroller() { return new UI::Scroller(this); }
 
 	// visual elements
@@ -95,6 +100,8 @@ public:
 	void RemoveShortcut(const KeySym &keysym) { m_eventDispatcher.RemoveShortcut(keysym); }
 	void ClearShortcuts() { m_eventDispatcher.ClearShortcuts(); }
 
+	void RequestLayout() { m_needsLayout = true; }
+
 	virtual void Layout();
 	virtual void Update();
 	virtual void Draw();
@@ -112,7 +119,9 @@ private:
 	float m_width;
 	float m_height;
 
-	ScopedPtr<FloatContainer> m_float;
+	bool m_needsLayout;
+
+	RefCountedPtr<FloatContainer> m_float;
 
 	EventDispatcher m_eventDispatcher;
 	Skin m_skin;
@@ -121,7 +130,8 @@ private:
 
 	// used by Container::Draw to set the keep widget drawing in its bounds
 	friend class Container;
-	void SetScissor(bool enabled, const vector2f &pos = 0, const vector2f &size = 0);
+	void EnableScissor(const vector2f &pos = 0, const vector2f &size = 0);
+	void DisableScissor();
 };
 
 }

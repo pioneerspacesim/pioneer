@@ -66,6 +66,18 @@ static bool clear_dropdown(UI::DropDown *dropdown)
 	return true;
 }
 
+static bool remove_widget(UI::VBox *box, UI::Widget *widget)
+{
+	box->Remove(widget);
+	return true;
+}
+
+static bool remove_floating_widget(UI::Context *c, UI::Widget *widget)
+{
+	c->RemoveFloatingWidget(widget);
+	return true;
+}
+
 int main(int argc, char **argv)
 {
 	FileSystem::Init();
@@ -106,7 +118,7 @@ int main(int argc, char **argv)
 	SDL_WM_SetCaption("uitest", "uitest");
 
 	Graphics::Renderer *r = Graphics::Init(WIDTH, HEIGHT, true);
-	UI::Context *c = new UI::Context(r, WIDTH, HEIGHT);
+	RefCountedPtr<UI::Context> c(new UI::Context(r, WIDTH, HEIGHT));
 
 #if 0
 	UI::Button *b1, *b2, *b3;
@@ -331,6 +343,7 @@ int main(int argc, char **argv)
 	clear->onClick.connect(sigc::bind(sigc::ptr_fun(&clear_dropdown), dropdown));
 #endif
 
+#if 0
 	c->SetInnerWidget(
 		c->VBox()->PackEnd(UI::WidgetSet(
 			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_XSMALL),
@@ -340,8 +353,53 @@ int main(int argc, char **argv)
 			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_XLARGE)
 		))
 	);
+#endif
 
-	c->Layout();
+#if 0
+	UI::VBox *box;
+	UI::Button *b1, *b2, *b3, *b4;
+	c->SetInnerWidget(
+		(box = c->VBox())->PackEnd(UI::WidgetSet(
+			(b1 = c->Button())->SetInnerWidget(c->Label("remove other")),
+			(b2 = c->Button())->SetInnerWidget(c->Label("other")),
+			(b3 = c->Button())->SetInnerWidget(c->Label("remove me"))
+		))
+	);
+	
+	c->AddFloatingWidget( (b4 = c->Button())->SetInnerWidget(c->Label("remove me (float)")), 300, 300);
+
+	b1->onClick.connect(sigc::bind(sigc::ptr_fun(&remove_widget), box, b2));
+	b2->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b2));
+	b2->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b2));
+	b3->onClick.connect(sigc::bind(sigc::ptr_fun(&remove_widget), box, b3));
+	b3->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b3));
+	b3->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b3));
+	b4->onClick.connect(sigc::bind(sigc::ptr_fun(&remove_floating_widget), c.Get(), b4));
+	b4->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b4));
+	b4->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b4));
+
+	c->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), c.Get()));
+	c->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), c.Get()));
+#endif
+
+	c->SetInnerWidget(
+		c->Grid(3,3)
+			->SetRow(0, UI::WidgetSet(
+				c->ColorBackground(Color(0.8f,0.2f,0.2f))->SetInnerWidget(c->Align(UI::Align::TOP_LEFT)->SetInnerWidget(c->Image("icons/object_star_m.png"))),
+				c->ColorBackground(Color(0.2f,0.8f,0.2f))->SetInnerWidget(c->Align(UI::Align::TOP)->SetInnerWidget(c->Image("icons/object_star_m.png"))),
+				c->ColorBackground(Color(0.2f,0.2f,0.8f))->SetInnerWidget(c->Align(UI::Align::TOP_RIGHT)->SetInnerWidget(c->Image("icons/object_star_m.png")))
+			))->SetRow(1, UI::WidgetSet(
+				c->ColorBackground(Color(0.8f,0.8f,0.2f))->SetInnerWidget(c->Align(UI::Align::LEFT)->SetInnerWidget(c->Image("icons/object_star_m.png"))),
+				c->ColorBackground(Color(0.8f,0.2f,0.8f))->SetInnerWidget(c->Align(UI::Align::MIDDLE)->SetInnerWidget(c->Image("icons/object_star_m.png"))),
+				c->ColorBackground(Color(0.2f,0.8f,0.8f))->SetInnerWidget(c->Align(UI::Align::RIGHT)->SetInnerWidget(c->Image("icons/object_star_m.png")))
+			))->SetRow(2, UI::WidgetSet(
+				c->ColorBackground(Color(0.5f,0.2f,0.8f))->SetInnerWidget(c->Align(UI::Align::BOTTOM_LEFT)->SetInnerWidget(c->Image("icons/object_star_m.png"))),
+				c->ColorBackground(Color(0.8f,0.5f,0.2f))->SetInnerWidget(c->Align(UI::Align::BOTTOM)->SetInnerWidget(c->Image("icons/object_star_m.png"))),
+				c->ColorBackground(Color(0.2f,0.8f,0.5f))->SetInnerWidget(c->Align(UI::Align::BOTTOM_RIGHT)->SetInnerWidget(c->Image("icons/object_star_m.png")))
+			))
+	);
+
+    int count = 0;
 
 	while (1) {
 		bool done = false;
@@ -364,9 +422,21 @@ int main(int argc, char **argv)
 		r->SwapBuffers();
 
 //		slider->SetValue(slider->GetValue() + 0.01);
+
+#if 0
+		if (++count == 400) {
+			UI::Background *b;
+			c->AddFloatingWidget((b = c->Background())->SetInnerWidget(c->Margin(100.0f)), 100.0f, 100.0f);
+			b->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), b));
+			b->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b));
+			c->Layout();
+		}
+		else if (count < 400 && count % 10 == 0)
+			printf("%d\n", count);
+#endif
 	}
 
-	delete c;
+	c.Reset();
 	delete r;
 
 	SDL_Quit();

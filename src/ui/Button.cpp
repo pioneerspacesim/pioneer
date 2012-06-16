@@ -49,9 +49,9 @@ void Button::Layout()
 void Button::Draw()
 {
 	if (IsMouseActive())
-		GetContext()->GetSkin().DrawButtonActive(vector2f(0.0f), GetActiveArea());
+		GetContext()->GetSkin().DrawButtonActive(GetActiveOffset(), GetActiveArea());
 	else
-		GetContext()->GetSkin().DrawButtonNormal(vector2f(0.0f), GetActiveArea());
+		GetContext()->GetSkin().DrawButtonNormal(GetActiveOffset(), GetActiveArea());
 
 	Single::Draw();
 }

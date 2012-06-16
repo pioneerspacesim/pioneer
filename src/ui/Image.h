@@ -9,7 +9,7 @@ namespace UI {
 
 class Image: public Widget {
 public:
-	enum StretchMode {
+	enum StretchMode { // <enum scope='UI::Image' name=UIImageStretchMode prefix=STRETCH_>
 		STRETCH_PRESERVE,   // preserve ratio
 		STRETCH_MAX         // stretch to entire area allocated by container
 	};
@@ -26,7 +26,6 @@ private:
 	ScopedPtr<Gui::TexturedQuad> m_quad;
 	StretchMode m_stretchMode;
 	vector2f m_initialSize;
-	vector2f m_scaledSize;
 };
 
 }

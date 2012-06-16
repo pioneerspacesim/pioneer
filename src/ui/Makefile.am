@@ -4,10 +4,14 @@ AM_CFLAGS += $(WARN_CFLAGS)
 AM_CPPFLAGS += $(WARN_CPPFLAGS)
 AM_CXXFLAGS += $(WARN_CXXFLAGS)
 
-INCLUDES = -I$(srcdir)/..
+INCLUDES = -isystem $(top_srcdir)/contrib -I$(srcdir)/..
+if !HAVE_LUA
+INCLUDES += -isystem $(top_srcdir)/contrib/lua
+endif
 
 noinst_LIBRARIES = libui.a
 noinst_HEADERS = \
+	Align.h \
 	Background.h \
 	Box.h \
 	Button.h \
@@ -24,6 +28,7 @@ noinst_HEADERS = \
 	Image.h \
 	Label.h \
 	List.h \
+	Lua.h \
 	Margin.h \
 	MultiLineText.h \
 	Scroller.h \
@@ -34,6 +39,7 @@ noinst_HEADERS = \
 	Widget.h
 
 libui_a_SOURCES = \
+	Align.cpp \
 	Background.cpp \
 	Box.cpp \
 	Button.cpp \
@@ -55,4 +61,24 @@ libui_a_SOURCES = \
 	Skin.cpp \
 	Slider.cpp \
 	TextLayout.cpp \
-	Widget.cpp
+	Widget.cpp \
+	Lua.cpp \
+	LuaAlign.cpp \
+	LuaBackground.cpp \
+	LuaBox.cpp \
+	LuaButton.cpp \
+	LuaCheckBox.cpp \
+	LuaColorBackground.cpp \
+	LuaContainer.cpp \
+	LuaContext.cpp \
+	LuaDropDown.cpp \
+	LuaGrid.cpp \
+	LuaImage.cpp \
+	LuaLabel.cpp \
+	LuaList.cpp \
+	LuaMargin.cpp \
+	LuaMultiLineText.cpp \
+	LuaScroller.cpp \
+	LuaSingle.cpp \
+	LuaSlider.cpp \
+	LuaWidget.cpp

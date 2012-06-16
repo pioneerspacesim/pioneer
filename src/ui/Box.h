@@ -18,8 +18,6 @@ public:
 	virtual vector2f PreferredSize();
 	virtual void Layout();
 
-	virtual void RequestResize();
-
 	enum {
 		BOX_EXPAND = 0x1,   // if true, give this child a share of the leftover space
 		BOX_FILL   = 0x2    // if true, extra space will be given to the child.

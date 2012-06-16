@@ -25,5 +25,8 @@ extern const struct EnumItem ENUM_SpaceStationAnimation[];
 extern const struct EnumItem ENUM_EconType[];
 extern const struct EnumItem ENUM_BodyType[];
 extern const struct EnumItem ENUM_BodySuperType[];
+extern const struct EnumItem ENUM_UIAlignDirection[];
+extern const struct EnumItem ENUM_UIImageStretchMode[];
+extern const struct EnumItem ENUM_UIFontSize[];
 
 #endif

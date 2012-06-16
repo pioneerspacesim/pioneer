@@ -49,7 +49,7 @@
 #include "LuaLang.h"
 #include "LuaGame.h"
 #include "LuaEngine.h"
-#include "LuaUI.h"
+#include "LuaComms.h"
 #include "LuaFormat.h"
 #include "LuaSpace.h"
 #include "LuaTimer.h"
@@ -69,6 +69,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "ui/Context.h"
+#include "ui/Lua.h"
 #include "SDLWrappers.h"
 #include "ModManager.h"
 #include <fstream>
@@ -153,7 +154,7 @@ const char * const Pi::combatRating[] = {
 	Lang::ELITE
 };
 Graphics::Renderer *Pi::renderer;
-UI::Context *Pi::ui;
+RefCountedPtr<UI::Context> Pi::ui;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -267,12 +268,15 @@ static void LuaInit()
 	LuaLang::Register();
 	LuaEngine::Register();
 	LuaGame::Register();
-	LuaUI::Register();
+	LuaComms::Register();
 	LuaFormat::Register();
 	LuaSpace::Register();
 	LuaMusic::Register();
 
 	LuaConsole::Register();
+
+	// XXX sigh
+	UI::LuaInit();
 
 	// XXX load everything. for now, just modules
 	pi_lua_dofile_recursive(l, "libs");
@@ -529,7 +533,7 @@ void Pi::Init()
 		renderer->PrintDebugInfo(out);
 	}
 
-	Pi::ui = new UI::Context(Pi::renderer, scrWidth, scrHeight);
+	Pi::ui.Reset(new UI::Context(Pi::renderer, scrWidth, scrHeight));
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
@@ -1111,23 +1115,30 @@ void Pi::Start()
 
 	ui->SetInnerWidget(
 		ui->Margin(10.0f)->SetInnerWidget(
-			ui->VBox()->PackEnd(UI::WidgetSet(
-				ui->HBox()->PackEnd(UI::WidgetSet(
-					ui->Image("icons/badge.png"),
-					ui->VBox()->PackEnd(UI::WidgetSet(
-						ui->Label("Pioneer"),
-						ui->Label(version)
+			ui->Grid(1, UI::CellSpec(0.25f,0.5f,0.25f))
+				->SetCell(0,2,
+					ui->Grid(UI::CellSpec(0.2f,0.8f), 1)->SetRow(0, UI::WidgetSet(
+						ui->Image("icons/badge.png"),
+						ui->Align(UI::Align::LEFT)->SetInnerWidget(
+							ui->Margin(10.0f)->SetInnerWidget(
+								ui->VBox()->PackEnd(UI::WidgetSet(
+									ui->Label("Pioneer")->SetFontSize(UI::Widget::FONT_SIZE_XLARGE),
+									ui->Label(version)
+								))
+							)
+						)
 					))
-				)),
-				ui->VBox()->PackEnd(UI::WidgetSet(
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[0] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_EARTH))),
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[1] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_E_ERIDANI))),
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[2] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_LAVE))),
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[3] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_DEBUG))),
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[4] = ui->Button(), ui->Label(Lang::MM_LOAD_SAVED_GAME))),
-					ui->HBox()->PackEnd(UI::WidgetSet(buttons[5] = ui->Button(), ui->Label(Lang::MM_QUIT)))
+				)
+				->SetCell(0,1, ui->Align(UI::Align::MIDDLE)->SetInnerWidget(
+					ui->VBox()->PackEnd(UI::WidgetSet(
+						ui->HBox()->PackEnd(UI::WidgetSet(buttons[0] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_EARTH))),
+						ui->HBox()->PackEnd(UI::WidgetSet(buttons[1] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_E_ERIDANI))),
+						ui->HBox()->PackEnd(UI::WidgetSet(buttons[2] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_LAVE))),
+						ui->HBox()->PackEnd(UI::WidgetSet(buttons[3] = ui->Button(), ui->Label(Lang::MM_START_NEW_GAME_DEBUG))),
+						ui->HBox()->PackEnd(UI::WidgetSet(buttons[4] = ui->Button(), ui->Label(Lang::MM_LOAD_SAVED_GAME))),
+						ui->HBox()->PackEnd(UI::WidgetSet(buttons[5] = ui->Button(), ui->Label(Lang::MM_QUIT)))
+					))
 				))
-			))
 		)
 	);
 

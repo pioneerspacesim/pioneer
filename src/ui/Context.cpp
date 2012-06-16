@@ -1,6 +1,7 @@
 #include "Context.h"
 #include "FileSystem.h"
 #include "text/FontDescriptor.h"
+#include "LuaObject.h"
 
 namespace UI {
 
@@ -8,12 +9,15 @@ Context::Context(Graphics::Renderer *renderer, int width, int height) : Single(t
 	m_renderer(renderer),
 	m_width(float(width)),
 	m_height(float(height)),
+	m_needsLayout(false),
 	m_float(new FloatContainer(this)),
 	m_eventDispatcher(this),
 	m_skin("textures/widgets.png", renderer)
 {
 	SetSize(vector2f(m_width,m_height));
+
 	m_float->SetSize(vector2f(m_width,m_height));
+	m_float->Attach(this);
 
 	// XXX should do point sizes, but we need display DPI first
 	// XXX TextureFont could load multiple sizes into the same object/atlas
@@ -21,6 +25,10 @@ Context::Context(Graphics::Renderer *renderer, int width, int height) : Single(t
 		int pixelSize = i*3 + 14;
 		m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(Text::FontDescriptor("TitilliumText22L004.otf", pixelSize, pixelSize, false, -1.0f), renderer));
 	}
+}
+
+Context::~Context() {
+    m_float->Detach();
 }
 
 Widget *Context::GetWidgetAtAbsolute(const vector2f &pos) {
@@ -34,10 +42,15 @@ void Context::Layout()
 {
 	m_float->Layout();
 	Single::Layout();
+	m_eventDispatcher.LayoutUpdated();
+	m_needsLayout = false;
 }
 
 void Context::Update()
 {
+	if (m_needsLayout)
+		Layout();
+
 	m_float->Update();
 	Single::Update();
 }
@@ -60,17 +73,18 @@ void Context::Draw()
 	Single::Draw();
     m_float->Draw();
 
-	SetScissor(false);
+	DisableScissor();
 }
 
-void Context::SetScissor(bool enabled, const vector2f &pos, const vector2f &size)
+void Context::EnableScissor(const vector2f &pos, const vector2f &size)
 {
-	if (enabled) {
-		vector2f flippedPos(pos.x, m_height-pos.y-floorf(size.y));
-		m_renderer->SetScissor(true, flippedPos, size);
-	}
-	else
-		m_renderer->SetScissor(false);
+	vector2f flippedPos(pos.x, m_height-pos.y-floorf(size.y));
+	m_renderer->SetScissor(true, flippedPos, size);
+}
+
+void Context::DisableScissor()
+{
+	m_renderer->SetScissor(false);
 }
 
 }

@@ -9,6 +9,9 @@
 #include "ShipType.h"
 #include "SpaceStation.h"
 #include "galaxy/StarSystem.h"
+#include "ui/Align.h"
+#include "ui/Image.h"
+#include "ui/Widget.h"
 
 const struct EnumItem ENUM_EquipSlot[] = {
 	{ "CARGO", Equip::SLOT_CARGO },
@@ -295,6 +298,34 @@ const struct EnumItem ENUM_BodySuperType[] = {
 	{ "ROCKY_PLANET", SystemBody::SUPERTYPE_ROCKY_PLANET },
 	{ "GAS_GIANT", SystemBody::SUPERTYPE_GAS_GIANT },
 	{ "STARPORT", SystemBody::SUPERTYPE_STARPORT },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UIAlignDirection[] = {
+	{ "TOP_LEFT", UI::Align::TOP_LEFT },
+	{ "TOP", UI::Align::TOP },
+	{ "TOP_RIGHT", UI::Align::TOP_RIGHT },
+	{ "LEFT", UI::Align::LEFT },
+	{ "MIDDLE", UI::Align::MIDDLE },
+	{ "RIGHT", UI::Align::RIGHT },
+	{ "BOTTOM_LEFT", UI::Align::BOTTOM_LEFT },
+	{ "BOTTOM", UI::Align::BOTTOM },
+	{ "BOTTOM_RIGHT", UI::Align::BOTTOM_RIGHT },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UIImageStretchMode[] = {
+	{ "PRESERVE", UI::Image::STRETCH_PRESERVE },
+	{ "MAX", UI::Image::STRETCH_MAX },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UIFontSize[] = {
+	{ "XSMALL", UI::Widget::FONT_SIZE_XSMALL },
+	{ "SMALL", UI::Widget::FONT_SIZE_SMALL },
+	{ "NORMAL", UI::Widget::FONT_SIZE_NORMAL },
+	{ "LARGE", UI::Widget::FONT_SIZE_LARGE },
+	{ "XLARGE", UI::Widget::FONT_SIZE_XLARGE },
 	{ 0, 0 },
 };
 

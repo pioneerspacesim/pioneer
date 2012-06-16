@@ -2,11 +2,6 @@
 
 namespace UI {
 
-vector2f FloatContainer::PreferredSize()
-{
-	return vector2f(FLT_MAX, FLT_MAX);
-}
-
 void FloatContainer::Layout()
 {
 	LayoutChildren();
@@ -31,7 +26,6 @@ void FloatContainer::RemoveWidget(Widget *w)
 	assert(w->GetContainer());
 
 	Container::RemoveWidget(w);
-	w->SetFloating(false);
 }
 
 }

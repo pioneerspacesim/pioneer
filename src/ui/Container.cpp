@@ -13,11 +13,6 @@ Container::~Container()
 
 void Container::Update()
 {
-	if (m_needsLayout) {
-		Layout();
-		m_needsLayout = false;
-	}
-
 	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
 		(*i)->Update();
 }
@@ -29,17 +24,12 @@ void Container::Draw()
 
 	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
 		const vector2f &pos = (*i)->GetAbsolutePosition();
-		c->SetScissor(true, pos, (*i)->GetSize());
+		c->EnableScissor(pos, (*i)->GetSize());
 		r->SetTransform(matrix4x4f::Translation(pos.x,pos.y,0) * (*i)->GetTransform());
 		(*i)->Draw();
 	}
 
-	c->SetScissor(false);
-}
-
-void Container::RequestResize()
-{
-	m_needsLayout = true;
+    c->DisableScissor();
 }
 
 void Container::LayoutChildren()
@@ -59,6 +49,8 @@ void Container::AddWidget(Widget *widget)
 
 	widget->Attach(this);
 	m_widgets.push_back(RefCountedPtr<Widget>(widget));
+
+	GetContext()->RequestLayout();
 }
 
 void Container::RemoveWidget(Widget *widget)
@@ -70,9 +62,11 @@ void Container::RemoveWidget(Widget *widget)
 		if ((*i).Get() == widget) break;
 	if (i == m_widgets.end())
 		return;
-
+	
 	widget->Detach();
 	m_widgets.erase(i);
+
+	GetContext()->RequestLayout();
 }
 
 void Container::RemoveAllWidgets()
@@ -82,6 +76,8 @@ void Container::RemoveAllWidgets()
         (*i)->Detach();
 		i = m_widgets.erase(i);
 	}
+
+	GetContext()->RequestLayout();
 }
 
 void Container::SetWidgetDimensions(Widget *widget, const vector2f &position, const vector2f &size)

@@ -1,3 +1,18 @@
+Alpha 24
+
+   * Fixes
+     * Fix flipped vbuilding glowmap (#1280, #1279)
+     * Fix scrolling in the mission list (#1292, #1291)
+
+   * Script and model changes
+     * Renamed UI to Comms (#1288)
+     * Limited libraries available to LMR to debug, string and math (#1289)
+
+   * Internal changes
+     * Abstracted out the normal Lua object type promotion test, and Lua
+       ownership of refcounted objects (#1290)
+     * Stop a broken Lua error handler triggering an infinite loop (#1289)
+
 Alpha 23
 
    * Minor changes and tweaks
@@ -10,7 +25,7 @@ Alpha 23
      * Work around sector view crash on Radeon (#1062)
      * Fix handling of deep folders in zip files (#1270)
      * Fix redscreen hang (#1272)
-     * Fix text metrics code to calculate text height properly (#1273)
+     * Fix text metrics code to calculate text height properly (#1273, #1276)
 
    * Script and model changes
      * Lua updated to 5.2.0 (#1246)

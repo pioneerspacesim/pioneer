@@ -1,4 +1,5 @@
 #include "Box.h"
+#include "Context.h"
 
 namespace UI {
 
@@ -108,18 +109,12 @@ void Box::Layout()
 	LayoutChildren();
 }
 
-void Box::RequestResize()
-{
-	if (GetContainer()) GetContainer()->RequestResize();
-	Container::RequestResize();
-}
-
 Box *Box::PackStart(Widget *widget, Uint32 flags)
 {
 	AddWidget(widget);
 	m_children.push_front(Child(widget, flags));
 	if (flags & BOX_EXPAND) m_countExpanded++;
-	if (GetContainer()) GetContainer()->RequestResize();
+	GetContext()->RequestLayout();
 	return this;
 }
 
@@ -127,7 +122,7 @@ Box *Box::PackStart(const WidgetSet &set, Uint32 flags)
 {
 	for (int i = 0; i < set.numWidgets; ++i)
 		PackStart(set.widgets[i], flags);
-	if (GetContainer()) GetContainer()->RequestResize();
+	GetContext()->RequestLayout();
 	return this;
 }
 
@@ -136,7 +131,7 @@ Box *Box::PackEnd(Widget *widget, Uint32 flags)
 	AddWidget(widget);
 	m_children.push_back(Child(widget, flags));
 	if (flags & BOX_EXPAND) m_countExpanded++;
-	if (GetContainer()) GetContainer()->RequestResize();
+	GetContext()->RequestLayout();
 	return this;
 }
 
@@ -144,7 +139,7 @@ Box *Box::PackEnd(const WidgetSet &set, Uint32 flags)
 {
 	for (int i = 0; i < set.numWidgets; ++i)
 		PackEnd(set.widgets[i], flags);
-	if (GetContainer()) GetContainer()->RequestResize();
+	GetContext()->RequestLayout();
 	return this;
 }
 
@@ -155,7 +150,7 @@ void Box::Remove(Widget *widget)
 			if ((*i).flags & BOX_EXPAND) m_countExpanded--;
 			m_children.erase(i);
 			RemoveWidget(widget);
-			if (GetContainer()) GetContainer()->RequestResize();
+			GetContext()->RequestLayout();
 			return;
 		}
 }
@@ -165,7 +160,7 @@ void Box::Clear()
 	m_children.clear();
 	m_countExpanded = 0;
 	Container::RemoveAllWidgets();
-	if (GetContainer()) GetContainer()->RequestResize();
+	GetContext()->RequestLayout();
 }
 
 }
