@@ -148,7 +148,8 @@ static void fetch_keys_from_metatable(lua_State * l, int metatable_index, const 
 		lua_pushstring(l, "type");
 		lua_rawget(l, metatable_index);	// stuff, global, type
 		lua_rawget(l, -2);	// stuff, global, methods
-		fetch_keys_from_table(l, -1, chunk, completion_list, false);
+        if (lua_istable(l, -1))
+            fetch_keys_from_table(l, -1, chunk, completion_list, false);
 		lua_pop(l, 1);	// Kick out the methods.
 		if (!only_functions) {
 			lua_pushstring(l, "attrs");
