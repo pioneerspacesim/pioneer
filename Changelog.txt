@@ -7,6 +7,10 @@ Alpha 24
    * Script and model changes
      * Renamed UI to Comms (#1288)
 
+   * Internal changes
+     * Abstracted out the normal Lua object type promotion test, and Lua
+       ownership of refcounted objects (#1290)
+
 Alpha 23
 
    * Minor changes and tweaks
