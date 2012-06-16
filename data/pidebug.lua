@@ -74,7 +74,7 @@ local function parseableValue(value, onlyReadable, pretty)
 			if onlyReadable or finfo.nups ~= 0 then
 				return string.format('%q', functionEntryString(value))
 			else
-				return string.format('loadstring(%q)', string.dump(value))
+				return string.format('load(%q)', string.dump(value))
 			end
 		elseif ty == 'thread' then
 			-- might be able to give more info than this with debug.getinfo()
