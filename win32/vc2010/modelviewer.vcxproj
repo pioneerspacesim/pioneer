@@ -205,6 +205,7 @@
     <ClCompile Include="..\..\src\LuaVector.cpp" />
     <ClCompile Include="..\..\src\ModManager.cpp" />
     <ClCompile Include="..\..\src\newmodel\Animation.cpp" />
+    <ClCompile Include="..\..\src\newmodel\Billboard.cpp" />
     <ClCompile Include="..\..\src\newmodel\CollisionVisitor.cpp" />
     <ClCompile Include="..\..\src\newmodel\ColorMap.cpp" />
     <ClCompile Include="..\..\src\newmodel\DrawVisitor.cpp" />
@@ -216,7 +217,9 @@
     <ClCompile Include="..\..\src\newmodel\NModel.cpp" />
     <ClCompile Include="..\..\src\newmodel\Node.cpp" />
     <ClCompile Include="..\..\src\newmodel\NodeVisitor.cpp" />
+    <ClCompile Include="..\..\src\newmodel\Parser.cpp" />
     <ClCompile Include="..\..\src\newmodel\StaticGeometry.cpp" />
+    <ClCompile Include="..\..\src\newmodel\Thruster.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\SDLWrappers.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
@@ -319,16 +322,19 @@
     <ClInclude Include="..\..\src\libs.h" />
     <ClInclude Include="..\..\src\Light.h" />
     <ClInclude Include="..\..\src\LmrModel.h" />
+    <ClInclude Include="..\..\src\LmrTypes.h" />
     <ClInclude Include="..\..\src\LuaConstants.h" />
     <ClInclude Include="..\..\src\LuaFixed.h" />
     <ClInclude Include="..\..\src\LuaMatrix.h" />
     <ClInclude Include="..\..\src\LuaUtils.h" />
     <ClInclude Include="..\..\src\LuaVector.h" />
     <ClInclude Include="..\..\src\matrix4x4.h" />
+    <ClInclude Include="..\..\src\Model.h" />
     <ClInclude Include="..\..\src\ModManager.h" />
     <ClInclude Include="..\..\src\newmodel\Animation.h" />
     <ClInclude Include="..\..\src\newmodel\AnimationChannel.h" />
     <ClInclude Include="..\..\src\newmodel\AnimationKey.h" />
+    <ClInclude Include="..\..\src\newmodel\Billboard.h" />
     <ClInclude Include="..\..\src\newmodel\CollisionVisitor.h" />
     <ClInclude Include="..\..\src\newmodel\ColorMap.h" />
     <ClInclude Include="..\..\src\newmodel\DrawVisitor.h" />
@@ -341,7 +347,9 @@
     <ClInclude Include="..\..\src\newmodel\NModel.h" />
     <ClInclude Include="..\..\src\newmodel\Node.h" />
     <ClInclude Include="..\..\src\newmodel\NodeVisitor.h" />
+    <ClInclude Include="..\..\src\newmodel\Parser.h" />
     <ClInclude Include="..\..\src\newmodel\StaticGeometry.h" />
+    <ClInclude Include="..\..\src\newmodel\Thruster.h" />
     <ClInclude Include="..\..\src\perlin.h" />
     <ClInclude Include="..\..\src\SDLWrappers.h" />
     <ClInclude Include="..\..\src\ShipType.h" />

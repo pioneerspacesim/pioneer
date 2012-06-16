@@ -351,6 +351,15 @@
     <ClCompile Include="..\..\src\ui\FloatContainer.cpp">
       <Filter>src\ui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\newmodel\Parser.cpp">
+      <Filter>src\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\newmodel\Billboard.cpp">
+      <Filter>src\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\newmodel\Thruster.cpp">
+      <Filter>src\newmodel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\pch.h">
@@ -724,6 +733,21 @@
     </ClInclude>
     <ClInclude Include="..\..\src\ui\FloatContainer.h">
       <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\newmodel\Parser.h">
+      <Filter>src\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\newmodel\Billboard.h">
+      <Filter>src\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LmrTypes.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Model.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\newmodel\Thruster.h">
+      <Filter>src\newmodel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
