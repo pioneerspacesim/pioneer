@@ -25,7 +25,36 @@ public:
 	}
 	
 	static int l_grid(lua_State *l) {
-		return 0;
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+
+		UI::CellSpec rowSpec(0), colSpec(0);
+
+		float cellPercent[8];
+
+		if (lua_istable(l, 2)) {
+			for (size_t i = 0; i < 8 && i < lua_rawlen(l, 2); i++) {
+				lua_rawgeti(l, 2, i+1);
+				cellPercent[i] = luaL_checknumber(l, -1);
+				lua_pop(l, 1);
+			}
+			rowSpec = UI::CellSpec(cellPercent, lua_rawlen(l, 2));
+		}
+		else
+			rowSpec = UI::CellSpec(luaL_checkinteger(l, 2));
+
+		if (lua_istable(l, 3)) {
+			for (size_t i = 0; i < 8 && i < lua_rawlen(l, 3); i++) {
+				lua_rawgeti(l, 3, i+1);
+				cellPercent[i] = luaL_checknumber(l, -1);
+				lua_pop(l, 1);
+			}
+			colSpec = UI::CellSpec(cellPercent, lua_rawlen(l, 3));
+		}
+		else
+			colSpec = UI::CellSpec(luaL_checkinteger(l, 3));
+
+		LuaObject<UI::Grid>::PushToLua(c->Grid(rowSpec, colSpec));
+		return 1;
 	}
 	
 	static int l_background(lua_State *l) {

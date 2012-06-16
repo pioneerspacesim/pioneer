@@ -36,6 +36,12 @@ public:
 		ClampCells();
 	}
 
+	inline CellSpec(const float cp[], int n) : numCells(n) {
+		assert(n >= 0 && n <= 8);
+		for (int i = 0; i < 8; i++) cellPercent[i] = cp[i];
+		ClampCells();
+	}
+
 	int numCells;
 	float cellPercent[8];
 
