@@ -28,6 +28,7 @@ public:
 	Color diffuse;
 	//Color ambient;
 	//Color specular;
+	Color emissive;
 	//etc. Implement stuff when you need it, and also support
 	//in renderers
 
