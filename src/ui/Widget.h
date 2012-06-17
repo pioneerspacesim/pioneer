@@ -332,6 +332,11 @@ public:
 		widgets[0] = w0; widgets[1] = w1; widgets[2] = w2; widgets[3] = w3; widgets[4] = w4; widgets[5] = w5; widgets[6] = w6; widgets[7] = w7;
 	}
 
+	inline WidgetSet(Widget *w[], int n) : numWidgets(n) {
+		assert(n >= 0 && n <= 8);
+		for (int i = 0; i < 8; i++) widgets[n] = w[n];
+	}
+
 	int numWidgets;
 	Widget *widgets[8];
 };
