@@ -19,7 +19,9 @@ public:
 		}
 
 		g->SetRow(rowNum, WidgetSet(widgets, lua_rawlen(l, 3)));
-		return 0;
+
+		lua_pushvalue(l, 1);
+		return 1;
 	}
 
 	static int l_set_column(lua_State *l) {
@@ -35,7 +37,9 @@ public:
 		}
 
 		g->SetColumn(colNum, WidgetSet(widgets, lua_rawlen(l, 3)));
-		return 0;
+
+		lua_pushvalue(l, 1);
+		return 1;
 	}
 
 	static int l_set_cell(lua_State *l) {
@@ -43,8 +47,11 @@ public:
 		int colNum = luaL_checkinteger(l, 2);
 		int rowNum = luaL_checkinteger(l, 3);
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(4);
+
 		g->SetCell(colNum, rowNum, w);
-		return 0;
+
+		lua_pushvalue(l, 1);
+		return 1;
 	}
 
 	static int l_clear_row(lua_State *l) {

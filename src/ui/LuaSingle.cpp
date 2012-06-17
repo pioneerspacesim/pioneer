@@ -10,7 +10,8 @@ public:
 		Single *s = LuaObject<UI::Single>::CheckFromLua(1);
 		Widget *w = LuaObject<UI::Widget>::CheckFromLua(2);
 		s->SetInnerWidget(w);
-		return 0;
+		lua_pushvalue(l, 1);
+		return 1;
 	}
 
 	static int l_remove_inner_widget(lua_State *l) {
