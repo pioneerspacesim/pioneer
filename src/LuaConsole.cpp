@@ -9,6 +9,7 @@
 #include "KeyBindings.h"
 #include <sstream>
 #include <stack>
+#include <algorithm>
 
 LuaConsole::LuaConsole(int displayedOutputLines):
 	m_maxOutputLines(displayedOutputLines),
@@ -218,6 +219,7 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 		fetch_keys_from_metatable(l, -1, chunks.top(), m_completionList, method);
 	}
 	if(!m_completionList.empty()) {
+		std::sort(m_completionList.begin(), m_completionList.end());
 		// Add blank completion at the end of the list and point to it.
 		m_currentCompletion = m_completionList.size();
 		m_completionList.push_back("");
