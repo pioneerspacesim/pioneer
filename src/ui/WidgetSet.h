@@ -13,6 +13,7 @@ class Widget;
 // container in a single call
 class WidgetSet {
 public:
+	inline WidgetSet() : numWidgets(0) { }
 	inline WidgetSet(Widget *w0) : numWidgets(1) {
 		widgets[0] = w0;
 	}
