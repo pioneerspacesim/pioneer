@@ -96,6 +96,7 @@ private: //data members
 	UI::DropDown *m_animSelector;
 	UI::DropDown *m_patternSelector;
 	UI::Slider *m_sliders[3*3]; //color sliders 3*rgb
+	UI::Slider *m_tSliders[2*3]; //thruster sliders 2*xyz (linear & angular)
 
 private: //methods
 	void SetupUI();
@@ -108,6 +109,7 @@ private: //methods
 	void OnLightPresetChanged(unsigned int index, const std::string &);
 	void OnModelColorsChanged(float v=0.f);
 	void OnPatternChanged(unsigned int index, const std::string &);
+	void OnThrustChanged(float v);
 	void AddLog(const std::string &message);
 	void ClearModel();
 	void DrawLog();
@@ -235,25 +237,9 @@ static void AddPair(UI::Context *c, UI::Box *parent, UI::Widget *widget, const s
 
 void Viewer::SetupUI()
 {
-	/* Components
-	Reload model
-	Cycle grid mode
-	Toggle bounding radius
-	Draw collision mesh
-
-	Toggle guns
-
-	Select pattern
-	3x3 colour sliders
-
-	Light presets (dropdown)
-
-	Message area
-
-	Stats:
-	fps + ms/frame
-	triangles
-	*/
+	/*
+	 * To do: stats display
+	 */
 	m_ui = new UI::Context(renderer, g_width, g_height);
 	UI::Context *c = m_ui;
 	UI::Box *box;
@@ -265,12 +251,6 @@ void Viewer::SetupUI()
 	
 	c->SetInnerWidget((box = c->VBox(5.f)));
 
-	//buttons
-	/*c1 = AddCheckbox(c, buttonBox, "Toggle bounding radius");
-	b1 = AddButton(c, buttonBox, "Cycle grid mode");
-
-	c1->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius));
-	b1->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleGrid), b1));*/
 	Uint32 battrs = 0;
 
 	box->PackEnd((buttBox = c->VBox(5.f)), battrs);
@@ -349,6 +329,37 @@ void Viewer::SetupUI()
 		m_sliders[i]->onValueChanged.connect(sigc::mem_fun(*this, &Viewer::OnModelColorsChanged));
 	}
 
+	// Thrust sliders
+	UI::Box *thrustSliderBox =
+	c->HBox(spacing)->PackEnd(
+		// Column 1, Linear thrust sliders
+		c->VBox()->PackEnd(
+			// Rows X,Y,Z
+			UI::WidgetSet(
+				c->Label("Linear"),
+				c->HBox()->PackEnd(c->Label("X"))->PackEnd(m_tSliders[0] = c->HSlider(), expand),
+				c->HBox()->PackEnd(c->Label("Y"))->PackEnd(m_tSliders[1] = c->HSlider(), expand),
+				c->HBox()->PackEnd(c->Label("Z"))->PackEnd(m_tSliders[2] = c->HSlider(), expand)
+			)
+		), expand
+	)->PackEnd(
+		//Column 2, Angular thrust sliders
+		c->VBox()->PackEnd(
+			// Rows X,Y,Z
+			UI::WidgetSet(
+				c->Label("Angular"),
+				c->HBox()->PackEnd(c->Label("X"))->PackEnd(m_tSliders[3] = c->HSlider(), expand),
+				c->HBox()->PackEnd(c->Label("Y"))->PackEnd(m_tSliders[4] = c->HSlider(), expand),
+				c->HBox()->PackEnd(c->Label("Z"))->PackEnd(m_tSliders[5] = c->HSlider(), expand)
+			)
+		), expand
+	);
+	for(unsigned int i=0; i<2*3; i++) {
+		m_tSliders[i]->SetValue(0.5f);
+		m_tSliders[i]->onValueChanged.connect(sigc::mem_fun(*this, &Viewer::OnThrustChanged));
+	}
+
+	box->PackEnd(thrustSliderBox);
 	c->Layout();
 }
 
@@ -535,6 +546,22 @@ void Viewer::OnPatternChanged(unsigned int index, const std::string &)
 		assert(index < model->GetPatterns().size());
 		model->SetPattern(index);
 	}
+}
+
+inline float GetThrust(const UI::Slider *s)
+{
+	return 1.f - (2.f * s->GetValue());
+}
+
+void Viewer::OnThrustChanged(float)
+{
+	m_modelParams.linthrust[0] = GetThrust(m_tSliders[0]);
+	m_modelParams.linthrust[1] = GetThrust(m_tSliders[1]);
+	m_modelParams.linthrust[2] = GetThrust(m_tSliders[2]);
+
+	m_modelParams.angthrust[0] = GetThrust(m_tSliders[3]);
+	m_modelParams.angthrust[1] = GetThrust(m_tSliders[4]);
+	m_modelParams.angthrust[2] = GetThrust(m_tSliders[5]);
 }
 
 bool Viewer::OnToggleGrid(UI::Widget *w)

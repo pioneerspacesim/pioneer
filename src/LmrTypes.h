@@ -27,6 +27,8 @@ struct LmrObjParams
 
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0
+	//vector3f linthrust;
+	//vector3f angthrust;
 
 	struct LmrMaterial pMat[3];
 
@@ -41,7 +43,10 @@ struct LmrObjParams
 	, boundingRadius(0.f)
 	, drawBoundingBoxes(false)
 	, nodemask(0xff) //draw everything
-	{ }
+	{
+		std::fill(linthrust, linthrust+3, 0.f);
+		std::fill(angthrust, angthrust+3, 0.f);
+	}
 };
 typedef LmrObjParams ModelParams;
 typedef LmrObjParams RenderData;
