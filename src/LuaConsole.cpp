@@ -117,8 +117,7 @@ void LuaConsole::OnKeyPressed(const SDL_keysym *sym) {
 }
 
 static bool is_alphanumunderscore(char c) {
-	// Underscore or digit or CAPS or normal letter.
-	return (c == 0x5F || (c >= 0x30 && c <= 0x39) || (c  >= 0x41 && c <= 0x5A) || (c >= 0x61 && c <= 0x7A));
+	return (c == '_' || (c >= '0' && c <= '9') || (c  >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
 
 static void fetch_keys_from_table(lua_State * l, int table_index, const std::string & chunk, std::list<std::string> & completion_list, bool only_functions) {
