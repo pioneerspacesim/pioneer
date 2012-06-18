@@ -43,6 +43,7 @@ libui_a_SOURCES = \
 	Background.cpp \
 	Box.cpp \
 	Button.cpp \
+	CellSpec.cpp \
 	CheckBox.cpp \
 	ColorBackground.cpp \
 	Container.cpp \

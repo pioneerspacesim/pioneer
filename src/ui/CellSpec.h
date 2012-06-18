@@ -1,3 +1,10 @@
+#ifndef _UI_CELLSPEC_H
+#define _UI_CELLSPEC_H
+
+#include <cassert>
+
+struct lua_State;
+
 namespace UI {
 
 class CellSpec {
@@ -42,6 +49,8 @@ public:
 		ClampCells();
 	}
 
+	static CellSpec FromLuaTable(lua_State *l, int idx);
+
 	int numCells;
 	float cellPercent[8];
 
@@ -57,3 +66,5 @@ private:
 };
 
 }
+
+#endif
