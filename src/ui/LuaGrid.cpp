@@ -11,14 +11,7 @@ public:
 		int rowNum = luaL_checkinteger(l, 2);
 		luaL_checktype(l, 3, LUA_TTABLE);
 
-		Widget *widgets[8];
-		for (size_t i = 0; i < 8 && i < lua_rawlen(l, 3); i++) {
-			lua_rawgeti(l, 3, i+1);
-			widgets[i] = LuaObject<UI::Widget>::CheckFromLua(-1);
-			lua_pop(l, 1);
-		}
-
-		g->SetRow(rowNum, WidgetSet(widgets, lua_rawlen(l, 3)));
+		g->SetRow(rowNum, WidgetSet::FromLuaTable(l, 3));
 
 		lua_pushvalue(l, 1);
 		return 1;
@@ -29,14 +22,7 @@ public:
 		int colNum = luaL_checkinteger(l, 2);
 		luaL_checktype(l, 3, LUA_TTABLE);
 
-		Widget *widgets[8];
-		for (size_t i = 0; i < 8 && i < lua_rawlen(l, 3); i++) {
-			lua_rawgeti(l, 3, i+1);
-			widgets[i] = LuaObject<UI::Widget>::CheckFromLua(-1);
-			lua_pop(l, 1);
-		}
-
-		g->SetColumn(colNum, WidgetSet(widgets, lua_rawlen(l, 3)));
+		g->SetColumn(colNum, WidgetSet::FromLuaTable(l, 3));
 
 		lua_pushvalue(l, 1);
 		return 1;
