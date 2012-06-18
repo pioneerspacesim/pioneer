@@ -139,9 +139,15 @@ static void fetch_keys_from_metatable(lua_State * l, int metatable_index, const 
 	//First, determin whether where are stored the methods and attributes
 	lua_pushstring(l, "__index");
 	lua_rawget(l, metatable_index);
-	if (lua_istable(l, -1))
+	if (lua_istable(l, -1)) {
+		// Deal with inheritance first
+		if (lua_getmetatable(l, -1)) {
+			fetch_keys_from_metatable(l, -1, chunk, completion_list, only_functions);
+			lua_pop(l, 1);
+		}
 		fetch_keys_from_table(l, -1, chunk, completion_list, only_functions);
-	else if (lua_iscfunction(l, -1)) {
+
+	} else if (lua_iscfunction(l, -1)) {
 	// Deal with the specifics of LuaObject stuff.
 		lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
 		lua_pushstring(l, "type");
