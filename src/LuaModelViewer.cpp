@@ -83,6 +83,7 @@ private: //data members
 	double m_currentTime;
 	Geom *m_geom;
 	Gui::Label *m_trisReadout;
+	matrix4x4f m_modelRot;
 	Model *m_model;
 	ModelParams m_modelParams;
 	Options m_options;
@@ -589,9 +590,9 @@ bool Viewer::OnToggleBoundingRadius(UI::Widget *w)
 
 void Viewer::ResetCamera()
 {
-	g_campos = vector3f(0.0f, 0.0f, m_model->GetDrawClipRadius());
+	g_campos = vector3f(0.0f, 0.0f, m_model->GetDrawClipRadius() * 1.5f);
 	g_camorient = matrix4x4f::Identity();
-	//matrix4x4f modelRot = matrix4x4f::Identity();
+	m_modelRot = matrix4x4f::Identity();
 }
 
 void Viewer::SetModel(Model *model, const std::string &name)
@@ -689,8 +690,6 @@ void Viewer::MainLoop()
 	int numFrames = 0, fps = 0, numTris = 0;
 	Uint32 lastFpsReadout = SDL_GetTicks();
 	//g_campos = vector3f(0.0f, 0.0f, m_cmesh->GetBoundingRadius());
-	g_camorient = matrix4x4f::Identity();
-	matrix4x4f modelRot = matrix4x4f::Identity();
 	m_modelParams.scrWidth = g_width;
 
 	for (;;) {
@@ -713,15 +712,15 @@ void Viewer::MainLoop()
 				}
 			}
 		} else {
-			if (g_keyState[SDLK_UP]) modelRot = modelRot * matrix4x4f::RotateXMatrix(g_frameTime);
-			if (g_keyState[SDLK_DOWN]) modelRot = modelRot * matrix4x4f::RotateXMatrix(-g_frameTime);
-			if (g_keyState[SDLK_LEFT]) modelRot = modelRot * matrix4x4f::RotateYMatrix(-g_frameTime);
-			if (g_keyState[SDLK_RIGHT]) modelRot = modelRot * matrix4x4f::RotateYMatrix(g_frameTime);
+			if (g_keyState[SDLK_UP]) m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(g_frameTime);
+			if (g_keyState[SDLK_DOWN]) m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(-g_frameTime);
+			if (g_keyState[SDLK_LEFT]) m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(-g_frameTime);
+			if (g_keyState[SDLK_RIGHT]) m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(g_frameTime);
 			if (g_mouseButton[3]) {
 				float rx = 0.01f*g_mouseMotion[1];
 				float ry = 0.01f*g_mouseMotion[0];
-				modelRot = modelRot * matrix4x4f::RotateXMatrix(rx);
-				modelRot = modelRot * matrix4x4f::RotateYMatrix(ry);
+				m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(rx);
+				m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(ry);
 			}
 		}
 		float rate = 5.f * g_frameTime;
@@ -745,7 +744,7 @@ void Viewer::MainLoop()
 #endif
 		if (g_renderType == 0) {
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
-			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
+			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * m_modelRot.InverseOf();
 			if (g_doBenchmark) {
 				for (int i=0; i<1000; i++) m_model->Render(renderer, m, &m_modelParams);
 			} else {
@@ -754,7 +753,7 @@ void Viewer::MainLoop()
 			glPopAttrib();
 		} else if (g_renderType == 1) {
 			glPushMatrix();
-			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
+			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * m_modelRot.InverseOf();
 			glMultMatrixf(&m[0]);
 #if 0
 			render_coll_mesh(m_cmesh);
@@ -768,7 +767,7 @@ void Viewer::MainLoop()
 		}
 
 		if (m_options.showGrid) {
-			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
+			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * m_modelRot.InverseOf();
 			const float rad = m_model->GetDrawClipRadius();
 			DrawGrid(m, rad);
 			const int numAxVerts = 6;
@@ -871,6 +870,7 @@ void Viewer::PollEvents()
 				}
 				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(g_screen);
 				if (event.key.keysym.sym == SDLK_PRINT) m_screenshotQueued = true;
+				if (event.key.keysym.sym == SDLK_SPACE) ResetCamera();
 				g_keyState[event.key.keysym.sym] = 1;
 				break;
 			case SDL_KEYUP:
