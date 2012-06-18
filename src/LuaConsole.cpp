@@ -95,15 +95,15 @@ void LuaConsole::OnKeyPressed(const SDL_keysym *sym) {
 		}
 		if (!m_completionList.empty()) { // We still need to test whether it failed or not.
 			if (false /* TODO sym->mod & SDLK_SHIFT */) {
-				if (m_currentCompletion == m_completionList.begin())
-					m_currentCompletion = m_completionList.end();
+				if (m_currentCompletion == 0)
+					m_currentCompletion = m_completionList.size();
 				m_currentCompletion--;
 			} else {
 				m_currentCompletion++;
-				if (m_currentCompletion == m_completionList.end())
-					m_currentCompletion = m_completionList.begin();
+				if (m_currentCompletion == m_completionList.size())
+					m_currentCompletion = 0;
 			}
-			m_entryField->SetText(m_precompletionStatement + (*m_currentCompletion));
+			m_entryField->SetText(m_precompletionStatement + m_completionList[m_currentCompletion]);
 			ResizeRequest();
 		}
 	} else if (!m_completionList.empty()) {
@@ -120,7 +120,7 @@ static bool is_alphanumunderscore(char c) {
 	return (c == '_' || (c >= '0' && c <= '9') || (c  >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
 
-static void fetch_keys_from_table(lua_State * l, int table_index, const std::string & chunk, std::list<std::string> & completion_list, bool only_functions) {
+static void fetch_keys_from_table(lua_State * l, int table_index, const std::string & chunk, std::vector<std::string> & completion_list, bool only_functions) {
 	table_index = lua_absindex(l, table_index);
 	lua_pushnil(l);
 	while(lua_next(l, table_index)) {
@@ -133,7 +133,7 @@ static void fetch_keys_from_table(lua_State * l, int table_index, const std::str
 	}
 }
 
-static void fetch_keys_from_metatable(lua_State * l, int metatable_index, const std::string & chunk, std::list<std::string> & completion_list, bool only_functions) {
+static void fetch_keys_from_metatable(lua_State * l, int metatable_index, const std::string & chunk, std::vector<std::string> & completion_list, bool only_functions) {
 	metatable_index = lua_absindex(l, metatable_index);
 
 	//First, determin whether where are stored the methods and attributes
@@ -218,8 +218,10 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 		fetch_keys_from_metatable(l, -1, chunks.top(), m_completionList, method);
 	}
 	if(!m_completionList.empty()) {
-		m_completionList.push_front("");
-		m_currentCompletion = m_completionList.begin();
+		// Add blank completion at the end of the list and point to it.
+		m_currentCompletion = m_completionList.size();
+		m_completionList.push_back("");
+
 		m_precompletionStatement = statement;
 	}
 	lua_pop(l, lua_gettop(l)-stackheight); // Clean the whole stack.

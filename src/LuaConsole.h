@@ -37,8 +37,8 @@ private:
 	const int m_maxOutputLines;
 
 	std::string m_precompletionStatement;
-	std::list<std::string> m_completionList;
-	std::list<std::string>::const_iterator m_currentCompletion;
+	std::vector<std::string> m_completionList;
+	unsigned int m_currentCompletion;
 };
 
 #endif /* _LUACHATFORM_H */
