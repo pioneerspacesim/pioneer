@@ -40,7 +40,7 @@ public:
 
 	inline WidgetSet(Widget *w[], int n) : numWidgets(n) {
 		assert(n >= 0 && n <= 8);
-		for (int i = 0; i < 8; i++) widgets[n] = w[n];
+		for (int i = 0; i < n; i++) widgets[i] = w[i];
 	}
 
 	static WidgetSet FromLuaTable(lua_State *l, int idx);
