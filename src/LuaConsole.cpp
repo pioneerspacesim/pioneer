@@ -95,7 +95,7 @@ void LuaConsole::OnKeyPressed(const SDL_keysym *sym) {
 			UpdateCompletion(m_entryField->GetText());
 		}
 		if (!m_completionList.empty()) { // We still need to test whether it failed or not.
-			if (false /* TODO sym->mod & SDLK_SHIFT */) {
+			if (sym->mod & KMOD_SHIFT) {
 				if (m_currentCompletion == 0)
 					m_currentCompletion = m_completionList.size();
 				m_currentCompletion--;
@@ -107,7 +107,7 @@ void LuaConsole::OnKeyPressed(const SDL_keysym *sym) {
 			m_entryField->SetText(m_precompletionStatement + m_completionList[m_currentCompletion]);
 			ResizeRequest();
 		}
-	} else if (!m_completionList.empty()) {
+	} else if (!m_completionList.empty() && sym->sym != SDLK_RSHIFT && sym->sym != SDLK_LSHIFT) {
 		m_completionList.clear();
 	}
 
