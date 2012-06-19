@@ -315,7 +315,7 @@ void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs,
 
 	// note that this is a typeless object for the dispatcher
 	lua_pushstring(l, "typeless");
-	lua_pushinteger(l, 1);
+	lua_pushboolean(l, true);
 	lua_rawset(l, -3);
 
 	// apply the metatable
