@@ -58,10 +58,19 @@ Thruster::Thruster(Graphics::Renderer *r)
 
 void Thruster::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
 {
+	vector3f linthrust(rd->linthrust);
+	const float power = -dir.Dot(linthrust);
+	if (power < 0.001f) return;
+
 	//TODO: a horrible mess of operations
 	r->SetBlendMode(Graphics::BLEND_ADDITIVE);
 	r->SetDepthWrite(false);
 	r->SetTransform(trans);
+
+	m_tMat->diffuse.a = power;
+	/*vector3f cdir(0.f, 0.f, -1.f);
+	vector3f vdir(-trans[2], -trans[6], -trans[10]);
+	m_tMat->diffuse.a = 1.f - Clamp(vdir.Dot(cdir), 0.f, 1.f);*/
 	r->DrawTriangles(m_tVerts.Get(), m_tMat.Get());
 	r->SetBlendMode(Graphics::BLEND_SOLID);
 }
