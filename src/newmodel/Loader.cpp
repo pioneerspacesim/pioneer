@@ -46,7 +46,7 @@ NModel *Loader::LoadModel(const std::string &filename, const std::string &basepa
 			if (m) return m;
 		}
 		//check it's the expected type
-		else if (info.IsFile() && (fpath.substr(fpath.find_last_of(".")+1) == "model")) {
+		else if (info.IsFile() && ends_with(fpath, ".model")) {
 			//check it's the wanted name & load it
 			const std::string name = info.GetName();
 			//XXX hmm
@@ -209,8 +209,7 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 void Loader::FindTags(const aiNode *node, TagList &output)
 {
 	const std::string nodename(node->mName.C_Str());
-	static const std::string tagIdentifier("tag_");
-	if (nodename.compare(0, tagIdentifier.length(), tagIdentifier) == 0) {
+	if (starts_with(nodename, "tag_")) {
 		aiVector3D position;
 		aiQuaternion rotation;
 		node->mTransformation.DecomposeNoScaling(rotation, position);
@@ -228,7 +227,7 @@ void Loader::FindPatterns(PatternContainer &output)
 		const FileSystem::FileInfo &info = files.Current();
 		if (info.IsFile()) {
 			const std::string &name = info.GetName();
-			if (name.substr(name.find_last_of(".")+1) == "png") { //correct type?
+			if (ends_with(name, ".png")) { //correct type?
 				if(name.compare(0, 7, "pattern") == 0) { //acceptable name?
 					//load as a pattern
 					const std::string &patternPath = FileSystem::JoinPathBelow(m_curPath, name);
@@ -539,11 +538,9 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 
 	//lights, and possibly other special nodes should be leaf nodes (without meshes)
 	if (node->mNumChildren == 0 && node->mNumMeshes == 0) {
-		static const std::string lightIdentifier("navlight_");
-		static const std::string thrusterIdentifier("thruster_");
-		if (nodename.compare(0, lightIdentifier.length(), lightIdentifier) == 0) {
+		if (starts_with(nodename, "navlight_")) {
 			create_light(parent, m, m_renderer);
-		} else if (nodename.compare(0, thrusterIdentifier.length(), thrusterIdentifier) == 0) {
+		} else if (starts_with(nodename, "thruster_")) {
 			create_thruster(parent, m, m_renderer);
 		}
 		return;
