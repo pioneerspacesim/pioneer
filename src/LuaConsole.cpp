@@ -220,6 +220,7 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 	}
 	if(!m_completionList.empty()) {
 		std::sort(m_completionList.begin(), m_completionList.end());
+		m_completionList.erase(std::unique(m_completionList.begin(), m_completionList.end()), m_completionList.end());
 		// Add blank completion at the end of the list and point to it.
 		m_currentCompletion = m_completionList.size();
 		m_completionList.push_back("");
