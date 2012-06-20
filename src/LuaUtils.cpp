@@ -204,3 +204,25 @@ void pi_lua_warn(lua_State *l, const char *format, ...)
 		++level;
 	}
 }
+
+
+void pi_lua_copy_table(lua_State *l, int src, int dst)
+{
+	assert(src != dst);
+	assert(lua_istable(l, src));
+	assert(lua_istable(l, dst));
+
+	int si = src > 0 ? src : lua_gettop(l)+src+1;
+	int di = dst > 0 ? dst : lua_gettop(l)+dst+1;
+
+	LUA_DEBUG_START(l);
+
+	lua_pushnil(l);
+	while (lua_next(l, si)) { // key, value
+		lua_pushvalue(l, -2); // key, value, key
+		lua_insert(l, -2);    // key, key, value
+		lua_rawset(l, di);    // key
+	}
+
+	LUA_DEBUG_END(l, 0);
+}
