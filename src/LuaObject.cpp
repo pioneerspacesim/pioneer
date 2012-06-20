@@ -195,13 +195,8 @@ static int dispatch_index(lua_State *l)
 		lua_pushstring(l, "typeless");
 		lua_rawget(l, -2);
 
-		// not a typeless object, so they're peeking inside the method table
-		// directly (non-object call, currying, etc) and we should just mimic
-		// the standard lookup behaviour
-		if (lua_isnil(l, -1)) {
-			lua_rawget(l, 1);
-			return 1;
-		}
+		// not a typeless object?
+		assert(!lua_isnil(l, -1));
 
 		// its a typeless object
 		typeless = true;
