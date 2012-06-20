@@ -12,6 +12,7 @@ static Color color(0.7f, 0.6f, 1.f, 1.f);
 
 Thruster::Thruster(Graphics::Renderer *r)
 : Node(NODE_TRANSPARENT)
+, dir(0.f, 0.f, -1.f)
 {
 	m_tVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0));
 
@@ -23,8 +24,8 @@ Thruster::Thruster(Graphics::Renderer *r)
 
 	vector3f one(0.f, -w, 0.f); //top left
 	vector3f two(0.f,  w, 0.f); //top right
-	vector3f three(0.f,  w, 1.f); //bottom right
-	vector3f four(0.f, -w, 1.f); //bottom left
+	vector3f three(0.f,  w, -1.f); //bottom right
+	vector3f four(0.f, -w, -1.f); //bottom left
 
 	//uv coords
 	const vector2f topLeft(0.f, 1.f);
@@ -68,6 +69,7 @@ void Thruster::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData
 	r->SetTransform(trans);
 
 	m_tMat->diffuse.a = power;
+	//directional fade
 	/*vector3f cdir(0.f, 0.f, -1.f);
 	vector3f vdir(-trans[2], -trans[6], -trans[10]);
 	m_tMat->diffuse.a = 1.f - Clamp(vdir.Dot(cdir), 0.f, 1.f);*/

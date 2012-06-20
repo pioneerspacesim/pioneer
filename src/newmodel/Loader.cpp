@@ -270,6 +270,7 @@ Node *Loader::LoadMesh(const std::string &filename, NModel *model, const AnimLis
 	Node *node = 0; //XXX don't return a node, pass in the root (of the current LOD, not model root)
 
 	//XXX importing everything through the ConvertNodes scheme
+#if 0
 	if (false && !scene->HasAnimations()) {
 		//XXX putting everything in one static mesh
 		//XXX the plan: if scene has animation, go through the assimp node structure and
@@ -297,9 +298,12 @@ Node *Loader::LoadMesh(const std::string &filename, NModel *model, const AnimLis
 			}
 			smesh->AddSurface(surf);
 		}
-	} else {
+	}
+	else
+#endif
+	{
 		Group *group = new Group;
-		ConvertNodes(scene->mRootNode, group, surfaces);
+		ConvertNodes(scene->mRootNode, group, surfaces, matrix4x4f::Identity());
 		node = group;
 	}
 
@@ -505,7 +509,7 @@ matrix4x4f Loader::ConvertMatrix(const aiMatrix4x4& trans) const
 }
 
 //temporary junk
-static void create_light(Group* parent, matrix4x4f &m, Graphics::Renderer *m_renderer)
+static void create_light(Group* parent, const matrix4x4f &m, Graphics::Renderer *m_renderer)
 {
 		std::vector<vector3f> points;
 		points.push_back(m.GetTranslate());
@@ -518,18 +522,21 @@ static void create_light(Group* parent, matrix4x4f &m, Graphics::Renderer *m_ren
 		parent->AddChild(bill);
 }
 
-static void create_thruster(Group* parent, matrix4x4f &m, Graphics::Renderer *m_renderer)
+static void create_thruster(Group* parent, const matrix4x4f &m, Graphics::Renderer *m_renderer, const matrix4x4f& accum)
 {
 	//not supposed to create a new thruster node every time since they contain their geometry
 	//it is fine to create one thruster node and add that to various parents
 	//(it wouldn't really matter, it's a tiny amount of geometry)
+
 	MatrixTransform *trans = new MatrixTransform(m);
 	Thruster *thruster = new Thruster(m_renderer);
+	//need the accumulated transform or the direction is off
+	thruster->dir = (m * accum).Back();
 	trans->AddChild(thruster);
 	parent->AddChild(trans);
 }
 
-void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Surface*>& surfaces)
+void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Surface*>& surfaces, const matrix4x4f &accum)
 {
 	Group *parent = _parent;
 	const std::string nodename(node->mName.C_Str());
@@ -541,7 +548,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 		if (starts_with(nodename, "navlight_")) {
 			create_light(parent, m, m_renderer);
 		} else if (starts_with(nodename, "thruster_")) {
-			create_thruster(parent, m, m_renderer);
+			create_thruster(parent, m, m_renderer, accum);
 		}
 		return;
 	}
@@ -574,7 +581,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 
 	for(unsigned int i=0; i<node->mNumChildren; i++) {
 		aiNode *child = node->mChildren[i];
-		ConvertNodes(child, parent, surfaces);
+		ConvertNodes(child, parent, surfaces, m * accum);
 	}
 }
 

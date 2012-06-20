@@ -101,7 +101,7 @@ private:
 	bool CheckKeysInRange(const aiNodeAnim *, double start, double end);
 	void ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*>&, const aiScene*, const NModel*); //model is only for material lookup
 	void ConvertAnimations(const aiScene *, const AnimList &, NModel *);
-	void ConvertNodes(aiNode *node, Group *parent, std::vector<Graphics::Surface*>& meshes);
+	void ConvertNodes(aiNode *node, Group *parent, std::vector<Graphics::Surface*>& meshes, const matrix4x4f&);
 	void FindPatterns(PatternContainer &output); //find pattern texture files from the model directory
 	void FindTags(const aiNode *node, TagList &output); //locate tags from assimp structure
 	Node *m_root; //XXX temporary junk
