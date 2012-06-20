@@ -154,6 +154,9 @@ public:
 	virtual Widget *SetFontSize(FontSize fontSize);
 	FontSize GetFontSize() const { return m_fontSize; }
 
+	// widget id. used for queries/searches
+	const std::string &GetId() const { return m_id; }
+	Widget *SetId(const std::string &id) { m_id = id; return this; }
 
 protected:
 	// this sigc accumulator calls all the handlers for an event. if any of
@@ -301,6 +304,8 @@ private:
 
 	bool m_mouseOver;
 	bool m_mouseActive;
+
+	std::string m_id;
 };
 
 }
