@@ -531,7 +531,9 @@ static void create_thruster(Group* parent, const matrix4x4f &m, Graphics::Render
 	MatrixTransform *trans = new MatrixTransform(m);
 	Thruster *thruster = new Thruster(m_renderer);
 	//need the accumulated transform or the direction is off
-	thruster->dir = (m * accum).Back();
+	const matrix4x4f transform = m * accum;
+	thruster->dir = transform.Back();
+	thruster->pos = vector3f(transform[12], transform[14], transform[13]);
 	trans->AddChild(thruster);
 	parent->AddChild(trans);
 }

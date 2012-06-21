@@ -59,11 +59,28 @@ Thruster::Thruster(Graphics::Renderer *r)
 
 void Thruster::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
 {
-	vector3f linthrust(rd->linthrust);
-	const float power = -dir.Dot(linthrust);
+	float power = 0.f;
+	power = -dir.Dot(rd->linthrust);
+	{
+		// pitch X
+		// yaw   Y
+		// roll  Z
+		//model center is at 0,0,0, no need for invSubModelMat stuff
+		const vector3f at = vector3f(rd->angthrust);
+		const vector3f angdir = pos.Cross(dir);
+
+		const float xp = angdir.x * at.x;
+		const float yp = angdir.y * at.y;
+		const float zp = angdir.z * at.z;
+
+		if (xp+yp+zp > 0) {
+			if (xp > yp && xp > zp && fabs(at.x) > power) power = fabs(at.x);
+			else if (yp > xp && yp > zp && fabs(at.y) > power) power = fabs(at.y);
+			else if (zp > xp && zp > yp && fabs(at.z) > power) power = fabs(at.z);
+		}
+	}
 	if (power < 0.001f) return;
 
-	//TODO: a horrible mess of operations
 	r->SetBlendMode(Graphics::BLEND_ADDITIVE);
 	r->SetDepthWrite(false);
 	r->SetTransform(trans);

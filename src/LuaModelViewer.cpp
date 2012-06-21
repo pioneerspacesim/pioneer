@@ -110,6 +110,7 @@ private: //methods
 	void OnModelColorsChanged(float v=0.f);
 	void OnPatternChanged(unsigned int index, const std::string &);
 	void OnThrustChanged(float v);
+	void ResetSliders();
 	void AddLog(const std::string &message);
 	void ClearModel();
 	void DrawLog();
@@ -348,9 +349,9 @@ void Viewer::SetupUI()
 			// Rows X,Y,Z
 			UI::WidgetSet(
 				c->Label("Angular"),
-				c->HBox()->PackEnd(c->Label("X"))->PackEnd(m_tSliders[3] = c->HSlider(), expand),
-				c->HBox()->PackEnd(c->Label("Y"))->PackEnd(m_tSliders[4] = c->HSlider(), expand),
-				c->HBox()->PackEnd(c->Label("Z"))->PackEnd(m_tSliders[5] = c->HSlider(), expand)
+				c->HBox()->PackEnd(c->Label("Pitch"))->PackEnd(m_tSliders[3] = c->HSlider(), expand),
+				c->HBox()->PackEnd(c->Label("Yaw"))->PackEnd(m_tSliders[4] = c->HSlider(), expand),
+				c->HBox()->PackEnd(c->Label("Roll"))->PackEnd(m_tSliders[5] = c->HSlider(), expand)
 			)
 		), expand
 	);
@@ -559,9 +560,17 @@ void Viewer::OnThrustChanged(float)
 	m_modelParams.linthrust[1] = GetThrust(m_tSliders[1]);
 	m_modelParams.linthrust[2] = GetThrust(m_tSliders[2]);
 
-	m_modelParams.angthrust[0] = GetThrust(m_tSliders[3]);
-	m_modelParams.angthrust[1] = GetThrust(m_tSliders[4]);
-	m_modelParams.angthrust[2] = GetThrust(m_tSliders[5]);
+	// angthrusts are negated in ship.cpp for some reason
+	m_modelParams.angthrust[0] = -GetThrust(m_tSliders[3]);
+	m_modelParams.angthrust[1] = -GetThrust(m_tSliders[4]);
+	m_modelParams.angthrust[2] = -GetThrust(m_tSliders[5]);
+}
+
+void Viewer::ResetSliders()
+{
+	for (unsigned int i=0; i<2*3; i++) {
+		m_tSliders[i]->SetValue(0.5f);
+	}
 }
 
 bool Viewer::OnToggleGrid(UI::Widget *w)
@@ -897,7 +906,10 @@ void Viewer::PollEvents()
 				}
 				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(g_screen);
 				if (event.key.keysym.sym == SDLK_PRINT) m_screenshotQueued = true;
-				if (event.key.keysym.sym == SDLK_SPACE) ResetCamera();
+				if (event.key.keysym.sym == SDLK_SPACE) {
+					ResetCamera();
+					ResetSliders();
+				}
 				g_keyState[event.key.keysym.sym] = 1;
 				break;
 			case SDL_KEYUP:

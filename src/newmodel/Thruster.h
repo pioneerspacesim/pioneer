@@ -20,6 +20,7 @@ public:
 	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd);
 
 	vector3f dir;
+	vector3f pos;
 
 private:
 	ScopedPtr<Graphics::Material> m_tMat;
