@@ -268,10 +268,6 @@ static int dispatch_index(lua_State *l)
 	return 0;
 }
 
-static const luaL_Reg no_methods[] = {
-	{ 0, 0 }
-};
-
 void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta)
 {
 	lua_State *l = Pi::luaManager->GetLuaState();
@@ -280,7 +276,7 @@ void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs,
 
 	// create "object"
 	lua_newtable(l);
-	luaL_setfuncs(l, methods ? methods : no_methods, 0);
+	if (methods) luaL_setfuncs(l, methods, 0);
 
 	// create metatable for it
 	lua_newtable(l);
@@ -340,7 +336,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 
 	// create table, attach methods to it, leave it on the stack
 	lua_newtable(l);
-	luaL_setfuncs(l, methods ? methods : no_methods, 0);
+    if (methods) luaL_setfuncs(l, methods, 0);
 
 	// add the exists method
 	lua_pushstring(l, "exists");
