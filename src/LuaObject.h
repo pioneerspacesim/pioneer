@@ -110,6 +110,12 @@ typedef bool (*PromotionTest)(DeleteEmitter *o);
 class LuaObjectBase {
 	friend class LuaSerializer;
 
+public:
+	// creates a single "typeless" object and attaches the listed methods,
+	// attributes and metamethods to it. leaves the created object on the
+	// stack
+	static void CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta);
+
 protected:
 	// base class constructor, called by the wrapper Push* methods
 	LuaObjectBase(DeleteEmitter *o, const char *type) : m_object(o), m_type(type) {};

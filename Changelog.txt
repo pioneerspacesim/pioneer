@@ -13,6 +13,7 @@ Alpha 24
      * Abstracted out the normal Lua object type promotion test, and Lua
        ownership of refcounted objects (#1290)
      * Stop a broken Lua error handler triggering an infinite loop (#1289)
+     * Changed LuaGame and LuaEngine to use the LuaObject system (#1296)
 
 Alpha 23
 
