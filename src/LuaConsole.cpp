@@ -107,7 +107,7 @@ void LuaConsole::OnKeyPressed(const SDL_keysym *sym) {
 			m_entryField->SetText(m_precompletionStatement + m_completionList[m_currentCompletion]);
 			ResizeRequest();
 		}
-	} else if (!m_completionList.empty() && sym->sym != SDLK_RSHIFT && sym->sym != SDLK_LSHIFT) {
+	} else if (!m_completionList.empty() && (sym->sym < SDLK_NUMLOCK || sym->sym > SDLK_COMPOSE)) {
 		m_completionList.clear();
 	}
 
