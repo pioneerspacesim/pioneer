@@ -186,25 +186,8 @@ int LuaObjectBase::l_tostring(lua_State *l)
 
 static int dispatch_index(lua_State *l)
 {
-	bool typeless = false;
-
-	// tables get special treatment
-	if (lua_istable(l, 1)) {
-		// look for a typeless object
-		lua_getmetatable(l, 1);
-		lua_pushstring(l, "typeless");
-		lua_rawget(l, -2);
-
-		// not a typeless object?
-		assert(!lua_isnil(l, -1));
-
-		// its a typeless object
-		typeless = true;
-
-		lua_pop(l, 2);
-	}
-
-	// sanity check. it should be a userdatum
+	// userdata are typed, tables are not
+	bool typeless = lua_istable(l, 1);
 	assert(typeless || lua_isuserdata(l, 1));
 
 	// ensure we have enough stack space
@@ -317,11 +300,6 @@ void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs,
 
 		lua_rawset(l, -3);
 	}
-
-	// note that this is a typeless object for the dispatcher
-	lua_pushstring(l, "typeless");
-	lua_pushboolean(l, true);
-	lua_rawset(l, -3);
 
 	// apply the metatable
 	lua_setmetatable(l, -2);
