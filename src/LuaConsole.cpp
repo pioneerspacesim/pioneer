@@ -186,12 +186,12 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 			r_str_it != statement.rend(); r_str_it++) {
 		if(is_alphanumunderscore(*r_str_it))
 			continue;
-		if(*r_str_it != 0x2E && (!chunks.empty() || *r_str_it != 0x3A)) { // We are out of the expression.
+		if(*r_str_it != '.' && (!chunks.empty() || *r_str_it != ':')) { // We are out of the expression.
 			current_begin = r_str_it.base(); // Flag the symbol marking the beginning of the expression.
 			break;
 		}
 		chunks.push(std::string(r_str_it.base(), current_end));
-		if (*r_str_it == 0x3A) // If it is a colon, we know chunks is empty so it is incomplete.
+		if (*r_str_it == ':') // If it is a colon, we know chunks is empty so it is incomplete.
 			method = true;		// it must mean that we want to call a method.
 		current_end = (r_str_it+1).base(); // +1 in order to point on the CURRENT character.
 	}
