@@ -522,18 +522,19 @@ static void create_light(Group* parent, const matrix4x4f &m, Graphics::Renderer 
 		parent->AddChild(bill);
 }
 
-static void create_thruster(Group* parent, const matrix4x4f &m, Graphics::Renderer *m_renderer, const matrix4x4f& accum)
+static void create_thruster(Group* parent, const matrix4x4f &m, Graphics::Renderer *m_renderer, const matrix4x4f& accum, bool linear)
 {
 	//not supposed to create a new thruster node every time since they contain their geometry
 	//it is fine to create one thruster node and add that to various parents
 	//(it wouldn't really matter, it's a tiny amount of geometry)
 
 	MatrixTransform *trans = new MatrixTransform(m);
-	Thruster *thruster = new Thruster(m_renderer);
+	
 	//need the accumulated transform or the direction is off
 	const matrix4x4f transform = m * accum;
-	thruster->dir = transform.Back();
-	thruster->pos = vector3f(transform[12], transform[14], transform[13]);
+	// note YZ swap. To be investigated...
+	Thruster *thruster = new Thruster(m_renderer, linear,
+		vector3f(transform[12], transform[14], transform[13]), transform.Back());
 	trans->AddChild(thruster);
 	parent->AddChild(trans);
 }
@@ -550,7 +551,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 		if (starts_with(nodename, "navlight_")) {
 			create_light(parent, m, m_renderer);
 		} else if (starts_with(nodename, "thruster_")) {
-			create_thruster(parent, m, m_renderer, accum);
+			create_thruster(parent, m, m_renderer, accum, starts_with(nodename, "thruster_linear"));
 		}
 		return;
 	}

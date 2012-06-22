@@ -10,9 +10,11 @@ static const std::string thrusterTextureFilename("textures/thruster.png");
 static const std::string thrusterGlowTextureFilename("textures/halo.png");
 static Color color(0.7f, 0.6f, 1.f, 1.f);
 
-Thruster::Thruster(Graphics::Renderer *r)
+Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, const vector3f &_dir)
 : Node(NODE_TRANSPARENT)
-, dir(0.f, 0.f, -1.f)
+, linearOnly(_linear)
+, dir(_dir)
+, pos(_pos)
 {
 	m_tVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0));
 
@@ -61,7 +63,8 @@ void Thruster::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData
 {
 	float power = 0.f;
 	power = -dir.Dot(rd->linthrust);
-	{
+
+	if (!linearOnly) {
 		// pitch X
 		// yaw   Y
 		// roll  Z
@@ -92,6 +95,7 @@ void Thruster::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData
 	m_tMat->diffuse.a = 1.f - Clamp(vdir.Dot(cdir), 0.f, 1.f);*/
 	r->DrawTriangles(m_tVerts.Get(), m_tMat.Get());
 	r->SetBlendMode(Graphics::BLEND_SOLID);
+	r->SetDepthWrite(true);
 }
 
 }

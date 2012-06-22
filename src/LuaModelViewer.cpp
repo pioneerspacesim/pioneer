@@ -568,7 +568,7 @@ void Viewer::OnThrustChanged(float)
 
 void Viewer::ResetSliders()
 {
-	for (unsigned int i=0; i<2*3; i++) {
+	for (unsigned int i=0; i<6; i++) {
 		m_tSliders[i]->SetValue(0.5f);
 	}
 }

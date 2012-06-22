@@ -16,15 +16,15 @@ namespace Newmodel {
 
 class Thruster : public Node {
 public:
-	Thruster(Graphics::Renderer *);
+	Thruster(Graphics::Renderer *, bool linear, const vector3f &pos, const vector3f &dir);
 	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd);
-
-	vector3f dir;
-	vector3f pos;
 
 private:
 	ScopedPtr<Graphics::Material> m_tMat;
 	ScopedPtr<Graphics::VertexArray> m_tVerts;
+	vector3f dir;
+	vector3f pos;
+	bool linearOnly;
 };
 
 }
