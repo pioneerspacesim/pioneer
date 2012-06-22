@@ -373,7 +373,7 @@ Character = {
 -- Returns a new character sheet, inheriting from Character, based on an
 -- optional template.
 --
--- character = Character.New(template)
+-- character = Character.New(template,rand)
 --
 -- Return:
 --
@@ -382,6 +382,7 @@ Character = {
 -- Parameters:
 --
 --   template - (optional) a table containing default values
+--   rand     - (optional) the Rand object to use to generate values. If omitted, Engine.rand will be used
 --
 -- Example:
 --
@@ -397,10 +398,14 @@ Character = {
 --
 --   experimental
 --
-	New = function (template)
+	New = function (template,rand)
 		if template and (type(template) ~= 'table') then
 			error("Character template must be a table")
 		end
+		if rand and (type(rand) ~= 'userdata') then
+			error("Character's Rand isn't correct")
+		end
+		local rand = rand or Engine.rand
 		local test = getmetatable(template)
 		if(test and (test.class == 'Character')) then
 			error("Won't use a character as a template.  use Clone() instead.")
@@ -415,9 +420,9 @@ Character = {
 		-- set inherited characteristics (inherit from class only, not self)
 		setmetatable(newCharacter,Character.meta)
 		-- initialize face characteristics if they weren't fully specified
-		if newCharacter.female == nil then newCharacter.female = (Engine.rand:Integer(1) ==1) end
+		if newCharacter.female == nil then newCharacter.female = (rand:Integer(1) ==1) end
 		newCharacter.name = newCharacter.name or NameGen.FullName(newCharacter.female)
-		newCharacter.seed = newCharacter.seed or Engine.rand:Integer()
+		newCharacter.seed = newCharacter.seed or rand:Integer()
 		newCharacter.armour = newCharacter.armour or false
 		newCharacter.player = false -- Explicitly set this, if you need it.
 		return newCharacter
