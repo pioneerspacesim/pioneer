@@ -421,7 +421,7 @@ Character = {
 		setmetatable(newCharacter,Character.meta)
 		-- initialize face characteristics if they weren't fully specified
 		if newCharacter.female == nil then newCharacter.female = (rand:Integer(1) ==1) end
-		newCharacter.name = newCharacter.name or NameGen.FullName(newCharacter.female)
+		newCharacter.name = newCharacter.name or NameGen.FullName(newCharacter.female,rand)
 		newCharacter.seed = newCharacter.seed or rand:Integer()
 		newCharacter.armour = newCharacter.armour or false
 		newCharacter.player = false -- Explicitly set this, if you need it.
