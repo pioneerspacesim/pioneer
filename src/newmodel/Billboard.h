@@ -4,6 +4,7 @@
  * One or more billboard sprites, meant for lights mostly
  */
 #include "Node.h"
+#include "graphics/Material.h"
 
 namespace Newmodel {
 

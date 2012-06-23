@@ -1,5 +1,7 @@
 #include "Parser.h"
 #include <sstream>
+#include "StringF.h"
+#include "FileSystem.h"
 
 namespace Newmodel {
 

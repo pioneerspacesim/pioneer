@@ -11,6 +11,7 @@ noinst_HEADERS = \
 	Animation.h \
 	AnimationChannel.h \
 	AnimationKey.h \
+	Billboard.h \
 	CollisionVisitor.h \
 	ColorMap.h \
 	DrawVisitor.h \
@@ -23,11 +24,14 @@ noinst_HEADERS = \
 	NModel.h \
 	Node.h \
 	NodeVisitor.h \
-	StaticGeometry.h
+	Parser.h \
+	StaticGeometry.h \
+	Thruster.h
 	
 
 libnewmodel_a_SOURCES = \
 	Animation.cpp \
+	Billboard.cpp \
 	CollisionVisitor.cpp \
 	ColorMap.cpp \
 	DrawVisitor.cpp \
@@ -39,7 +43,9 @@ libnewmodel_a_SOURCES = \
 	NModel.cpp \
 	Node.cpp \
 	NodeVisitor.cpp \
-	StaticGeometry.cpp
+	Parser.cpp \
+	StaticGeometry.cpp \
+	Thruster.cpp
 
 INCLUDES += -isystem @top_srcdir@/contrib
 if !HAVE_LUA

@@ -1,4 +1,5 @@
 #include "Billboard.h"
+#include "graphics/Renderer.h"
 
 namespace Newmodel {
 
