@@ -259,7 +259,10 @@ void LuaConsole::ExecOrContinue() {
 	int result;
 	lua_State *L = Pi::luaManager->GetLuaState();
 
-	result = luaL_loadbuffer(L, stmt.c_str(), stmt.size(), "console");
+    // If the statement is an expression, print its final value.
+	result = luaL_loadbuffer(L, ("return " + stmt).c_str(), stmt.size()+7, "console");
+	if (result == LUA_ERRSYNTAX)
+		result = luaL_loadbuffer(L, stmt.c_str(), stmt.size(), "console");
 
 	// check for an incomplete statement
 	// (follows logic from the official Lua interpreter lua.c:incomplete())
