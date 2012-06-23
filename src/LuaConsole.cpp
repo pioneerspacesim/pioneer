@@ -313,6 +313,17 @@ void LuaConsole::ExecOrContinue() {
 	} else if (result == LUA_ERRMEM) {
 		AddOutput("memory allocation failure");
 	} else {
+		std::istringstream stmt_stream(stmt);
+		std::string string_buffer;
+
+		std::getline(stmt_stream, string_buffer);
+		AddOutput("> " + string_buffer);
+
+		while(!stmt_stream.eof()) {
+			std::getline(stmt_stream, string_buffer);
+			AddOutput("  " + string_buffer);
+		}
+
 		int nresults = lua_gettop(L) - top;
 		if (nresults) {
 			std::ostringstream ss;
