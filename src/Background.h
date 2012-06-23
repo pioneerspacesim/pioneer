@@ -7,6 +7,7 @@ namespace Graphics {
 	class Renderer;
 	class StaticMesh;
 	class Shader;
+	class Material;
 }
 
 /*
