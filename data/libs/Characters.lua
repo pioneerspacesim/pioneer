@@ -1,3 +1,5 @@
+local VERSION = 1 -- Integer versioning; bump this up if the saved game format changes.
+
 --
 -- Class: Character
 --
@@ -919,11 +921,32 @@ local onGameStart = function ()
 end
 
 local serialize = function ()
-    return { PersistentCharacters = PersistentCharacters}
+    return {
+		VERSION = VERSION,
+		PersistentCharacters = PersistentCharacters,
+	}
 end
 
 local unserialize = function (data)
     loaded_data = data
+	if data.VERSION then
+		if data.VERSION < VERSION then
+			print('Old Characters data loaded, converting...')
+			-- No upgrade code yet
+			print(('Characters data converted to internal version {newversion}'):interp({newversion=VERSION}))
+			return
+		end
+		if data.VERSION > VERSION then
+			error(([[Characters load error - saved game is more recent than installed files
+			Saved game internal version: {saveversion}
+			Installed internal version: {ourversion}]]):interp({saveversion=data.VERSION,ourversion=VERSION}))
+		end
+	else
+		-- Hopefully, a few engine save-game bumps from now,
+		-- there will be no instance where this is acceptable,
+		-- and we can error() out of here.
+		print('Pre-versioning Characters data loaded')
+	end
 end
 
 --
