@@ -5,6 +5,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
+#include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
 #include "gui/Gui.h"
 #include "ModManager.h"
@@ -97,6 +98,7 @@ private: //data members
 	UI::DropDown *m_patternSelector;
 	UI::Slider *m_sliders[3*3]; //color sliders 3*rgb
 	UI::Slider *m_tSliders[2*3]; //thruster sliders 2*xyz (linear & angular)
+	Graphics::Texture *m_decalTexture;
 
 private: //methods
 	void SetupUI();
@@ -155,6 +157,12 @@ public:
 				AddLog("Could not load test_gun model");
 			}
 		}
+
+		// sweet pioneer badge for decal testing
+		m_decalTexture = Graphics::TextureBuilder(
+			"icons/badge.png",
+			Graphics::LINEAR_CLAMP,
+			true, true, false).GetOrCreateTexture(renderer, "model");
 
 		m_space = new CollisionSpace();
 		Gui::Screen::AddBaseWidget(this, 0, 0);
@@ -244,7 +252,7 @@ void Viewer::SetupUI()
 	m_ui = new UI::Context(renderer, g_width, g_height);
 	UI::Context *c = m_ui;
 	UI::Box *box;
-	UI::Box *buttBox;
+	UI::Box *buttBox; //it was for buttons...
 	UI::Box *animBox;
 	UI::Button *b1, *gridBtn, *reloadBtn;
 	UI::Button *playBtn, *stopBtn, *revBtn;
@@ -645,6 +653,7 @@ void Viewer::SetModel(Model *model, const std::string &name)
 	UpdateAnimList();
 	UpdatePatternList();
 	OnModelColorsChanged();
+	static_cast<Newmodel::NModel*>(m_model)->SetDecalTexture(m_decalTexture, 0);
 }
 
 void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg)
@@ -722,9 +731,11 @@ void Viewer::MainLoop()
 {
 	Uint32 lastTurd = SDL_GetTicks();
 
-	Uint32 t = SDL_GetTicks();
-	int numFrames = 0, fps = 0, numTris = 0;
-	Uint32 lastFpsReadout = SDL_GetTicks();
+	//Uint32 t = SDL_GetTicks();
+	int numFrames = 0;
+	//int fps = 0
+	//int numTris = 0;
+	//Uint32 lastFpsReadout = SDL_GetTicks();
 	//g_campos = vector3f(0.0f, 0.0f, m_cmesh->GetBoundingRadius());
 	m_modelParams.scrWidth = g_width;
 
@@ -861,8 +872,6 @@ void Viewer::MainLoop()
 			renderer->SetDepthTest(false);
 			renderer->SetOrthographicProjection(0, g_width, g_height, 0, -1, 1);
 			renderer->SetTransform(matrix4x4f::Identity());
-			renderer->SetClearColor(Color::BLACK);
-			renderer->SetDepthTest(false);
 			m_ui->Draw();
 			DrawLog();
 		}
