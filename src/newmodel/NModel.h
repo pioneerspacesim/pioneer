@@ -12,23 +12,34 @@
  *
  * It's not supposed to be too complex. For example there are no "Material" nodes.
  * Geometry nodes can contain multiple separate meshes.
- * 
+ *
+ * Models are defined in a simple .model text file, which describes materials,
+ * detail levels, meshes to import to each detail level and animations.
+ *
+ * Loading all the models can be quite slow, so there should be a system to
+ * compile them into a more game-friendly binary format, which would be supplied
+ * with game releases.
+ *
  * Animation: keyframe animation affecting MatrixTransforms, and subsequently nodes
  * attached to them. Animations can be played by name, and play commands should propagate
- * to submodels (e.g. "anim_shoot" would activate recoil animation on gun submodels). 
+ * to submodels (e.g. "anim_shoot" would activate recoil animation on gun submodels).
  * There could be some generic animation related sigc events.
- * Animation challenges:
- *  - Assimp & several formats (.dae, .x) support multiple animations per file, but the
- *    Blender exporters don't (because they suck). Might have to ask users to supply all animations
- *    in one file and define animation names & ranges in the .model.
- * 	- Skeletal animation. I guess this will have to wait. Anyway, Bones are hierarchical
- *  MatrixTransforms. Skinning will be software-based, because it must work with Legacy renderer. 
- * 	- Combining & blending animations. Might just cut corners there, spaceships shouldn't be that animated...
- *  - Animating other properties than pos/rot (material props for example)
- * 
+ * Due to format & exporter limitations, animations need to be combined into one timeline
+ * and then split into new animations using frame ranges.
+ *
  * Attaching models to other models (guns etc. to ships): models may specify a nunber of
  * named hardpoints, known as "tags" (term from Q3). Users can query tags by name or index.
  * Space stations might be "Scenes" consisting of multiple models. And lights and stuff.
+ * The actual logic to handle equipment attachments is to be done separately from new-model.
+ *
+ * Minor features:
+ *  - pattern + customizable colour system (one pattern per model). Patterns can be
+ *    dropped into the model directory.
+ *  - dynamic textures (logos on spaceships, advertisements on stations)
+ *
+ * Other stuff to do:
+ * 	- Collisions are very limited. Not entirely in scope of new-model, but someone's got to do it
+ *  - scenegraph optimizer. Group untranslated geometry nodes into one etc.
  */
 #include "libs.h"
 #include "Model.h"
