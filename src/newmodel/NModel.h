@@ -90,17 +90,21 @@ public:
 	const std::vector<Animation *> GetAnimations() const { return m_animations; }
 
 private:
+	static const unsigned int MAX_DECAL_MATERIALS = 4;
 	ColorMap m_colorMap;
-	float m_boundingRadius;
 	double m_lastTime;
+	float m_boundingRadius;
 	MaterialContainer m_materials; //materials are shared throughout the model graph
 	PatternContainer m_patterns;
+	RefCountedPtr<Graphics::Material> m_decalMaterials[MAX_DECAL_MATERIALS]; //spaceship insignia, advertising billboards
 	RefCountedPtr<Group> m_root;
 	RenderData *m_renderData;
 	std::string m_name;
-	std::vector<Group *> m_tags; //named attachment points
-	std::vector<Animation *> m_animations;
 	std::vector<Animation *> m_activeAnimations;
+	std::vector<Animation *> m_animations;
+	std::vector<Group *> m_tags; //named attachment points
+
+	RefCountedPtr<Graphics::Material> GetDecalMaterial(unsigned int index);
 };
 
 typedef std::vector<Group *> TagContainer;

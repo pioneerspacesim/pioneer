@@ -338,7 +338,7 @@ bool Loader::CheckKeysInRange(const aiNodeAnim *chan, double start, double end)
 	return (posKeysInRange > 1 || rotKeysInRange > 1);
 }
 
-void Loader::ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*> &surfaces, const aiScene *scene, const NModel *model)
+void Loader::ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*> &surfaces, const aiScene *scene, NModel *model)
 {
 	//XXX sigh, workaround for obj loader
 	int matIdxOffs = 0;
@@ -360,7 +360,11 @@ void Loader::ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*> &surfaces
 		aiString s;
 		if(AI_SUCCESS == amat->Get(AI_MATKEY_NAME,s)) {
 			//std::cout << "Looking for " << std::string(s.data,s.length) << std::endl;
-			mat = model->GetMaterialByName(std::string(s.data, s.length));
+			const std::string aiMatName = std::string(s.data, s.length);
+			if (starts_with(aiMatName, "decal_")) //support one decal...
+				mat = model->GetDecalMaterial(0);
+			else
+				mat = model->GetMaterialByName(aiMatName);
 		}
 
 		if (!mat.Valid()) {

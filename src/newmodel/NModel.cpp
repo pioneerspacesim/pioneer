@@ -5,10 +5,11 @@
 
 namespace Newmodel {
 
-NModel::NModel(const std::string &name) : Model(),
-	m_boundingRadius(10.f),
-	m_lastTime(0.0),
-	m_name(name)
+NModel::NModel(const std::string &name)
+: Model()
+, m_lastTime(0.0)
+, m_boundingRadius(10.f)
+, m_name(name)
 {
 	m_root.Reset(new Group());
 }
@@ -141,6 +142,19 @@ void NModel::StopAnimations()
 	for (unsigned int i=0; i<m_animations.size(); i++) {
 		m_animations[i]->Stop();
 	}
+}
+
+RefCountedPtr<Graphics::Material> NModel::GetDecalMaterial(unsigned int idx)
+{
+	const unsigned int index = std::min(idx, MAX_DECAL_MATERIALS-1);
+	RefCountedPtr<Graphics::Material> mat = m_decalMaterials[index];
+	if (!mat.Valid()) {
+		//new decal material. Texture will be set by model render parameters.
+		mat.Reset(new Graphics::Material());
+		mat->diffuse = Color4f::RED;
+		mat->unlit = true;
+	}
+	return mat;
 }
 
 }

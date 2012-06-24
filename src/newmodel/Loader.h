@@ -99,7 +99,7 @@ private:
 	NModel *CreateModel(ModelDefinition &def);
 	Node *LoadMesh(const std::string &filename, NModel *model, const AnimList &animDefs, TagList &modelTags); //load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
 	bool CheckKeysInRange(const aiNodeAnim *, double start, double end);
-	void ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*>&, const aiScene*, const NModel*); //model is only for material lookup
+	void ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*>&, const aiScene*, NModel*); //model is only for material lookup
 	void ConvertAnimations(const aiScene *, const AnimList &, NModel *);
 	void ConvertNodes(aiNode *node, Group *parent, std::vector<Graphics::Surface*>& meshes, const matrix4x4f&);
 	void FindPatterns(PatternContainer &output); //find pattern texture files from the model directory
