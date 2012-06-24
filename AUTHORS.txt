@@ -34,6 +34,7 @@ The Pioneer team, past and present, as at 8 June 2012 (alpha 23):
   Piotr Gredka
   Robert Norris
   Sean Bailey
+  Simon Chopin
   Steve Tyler
   Sukender (Benoit Neil)
   Taiki Kim

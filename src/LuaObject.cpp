@@ -229,16 +229,31 @@ static void SplitTablePath(lua_State *l, const std::string &path)
 
 static int dispatch_index(lua_State *l)
 {
-	// if its a table then they're peeking inside the method table directly
-	// (non-object call, curreying, etc) and we should just mimic the standard
-	// lookup behaviour
+	bool typeless = false;
+
+	// tables get special treatment
 	if (lua_istable(l, 1)) {
-		lua_rawget(l, 1);
-		return 1;
+		// look for a typeless object
+		lua_getmetatable(l, 1);
+		lua_pushstring(l, "typeless");
+		lua_rawget(l, -2);
+
+		// not a typeless object, so they're peeking inside the method table
+		// directly (non-object call, currying, etc) and we should just mimic
+		// the standard lookup behaviour
+		if (lua_isnil(l, -1)) {
+			lua_rawget(l, 1);
+			return 1;
+		}
+
+		// its a typeless object
+		typeless = true;
+
+		lua_pop(l, 2);
 	}
 
 	// sanity check. it should be a userdatum
-	assert(lua_isuserdata(l, 1));
+	assert(typeless || lua_isuserdata(l, 1));
 
 	// ensure we have enough stack space
 	luaL_checkstack(l, 8, 0);
@@ -249,16 +264,24 @@ static int dispatch_index(lua_State *l)
 	// loop until we find what we're looking for or we run out of metatables
 	while (!lua_isnil(l, -1)) {
 
-		// first is method lookup. we get the object type from the metatable and
-		// use it to look up the method table and from there, the method itself
-		lua_pushstring(l, "type");
-		lua_rawget(l, -2);                  // object, key, metatable, type
+		// get the method table
+		if (typeless) {
+			// the object is the method table
+			lua_pushvalue(l, 1);            // object, key, metatable, method table
+		}
 
-		std::string type(lua_tostring(l, -1));
-		lua_pop(l, 1);                      // object, key, metatable
-		SplitTablePath(l, type);            // object, key, metatable, "global" table, leaf type name
-		lua_rawget(l, -2);                  // object, key, metatable, "global" table, method table
-		lua_remove(l, -2);                  // object, key, metatable, method table
+		else {
+			// first is method lookup. we get the object type from the metatable and
+			// use it to look up the method table and from there, the method itself
+			lua_pushstring(l, "type");
+			lua_rawget(l, -2);                  // object, key, metatable, type
+
+			std::string type(lua_tostring(l, -1));
+			lua_pop(l, 1);                      // object, key, metatable
+			SplitTablePath(l, type);            // object, key, metatable, "global" table, leaf type name
+			lua_rawget(l, -2);                  // object, key, metatable, "global" table, method table
+			lua_remove(l, -2);                  // object, key, metatable, method table
+		}
 
 		lua_pushvalue(l, 2);
 		lua_rawget(l, -2);                  // object, key, metatable, method table, method
@@ -314,6 +337,48 @@ static int dispatch_index(lua_State *l)
 static const luaL_Reg no_methods[] = {
 	{ 0, 0 }
 };
+
+void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta)
+{
+	lua_State *l = Pi::luaManager->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
+	// create "object"
+	lua_newtable(l);
+	luaL_setfuncs(l, methods ? methods : no_methods, 0);
+
+	// create metatable for it
+	lua_newtable(l);
+	if (meta) luaL_setfuncs(l, meta, 0);
+
+	// index function
+	lua_pushstring(l, "__index");
+	lua_pushcfunction(l, dispatch_index);
+	lua_rawset(l, -3);
+
+	// if they passed attributes hook them up too
+	if (attrs) {
+		lua_pushstring(l, "attrs");
+		
+		lua_newtable(l);
+		luaL_setfuncs(l, attrs, 0);
+
+		lua_rawset(l, -3);
+	}
+
+	// note that this is a typeless object for the dispatcher
+	lua_pushstring(l, "typeless");
+	lua_pushboolean(l, true);
+	lua_rawset(l, -3);
+
+	// apply the metatable
+	lua_setmetatable(l, -2);
+
+	// leave the finished object on the stack
+
+	LUA_DEBUG_END(l, 1);
+}
 
 void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta)
 {
