@@ -113,6 +113,13 @@ void NModel::SetColors(Graphics::Renderer *r, const std::vector<Color4ub> &color
 	}
 }
 
+void NModel::SetDecalTexture(Graphics::Texture *t, unsigned int index)
+{
+	index = std::min(index, MAX_DECAL_MATERIALS-1);
+	if (m_decalMaterials[index].Valid())
+		m_decalMaterials[index]->texture0 = t;
+}
+
 void NModel::UpdateAnimations(const double time) //change this to use timestep or something
 {
 	for (unsigned int i=0; i<m_activeAnimations.size(); i++) {
@@ -147,12 +154,12 @@ void NModel::StopAnimations()
 RefCountedPtr<Graphics::Material> NModel::GetDecalMaterial(unsigned int idx)
 {
 	const unsigned int index = std::min(idx, MAX_DECAL_MATERIALS-1);
-	RefCountedPtr<Graphics::Material> mat = m_decalMaterials[index];
+	RefCountedPtr<Graphics::Material> &mat = m_decalMaterials[index];
 	if (!mat.Valid()) {
 		//new decal material. Texture will be set by model render parameters.
 		mat.Reset(new Graphics::Material());
-		mat->diffuse = Color4f::RED;
 		mat->unlit = true;
+		mat->blend = true;
 	}
 	return mat;
 }

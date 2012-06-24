@@ -59,6 +59,8 @@ public:
 	bool twoSided;
 	// ignore material color and use vertex colors instead
 	bool vertexColors;
+	// alpha blend
+	bool blend;
 
 	//custom glsl prog
 	Shader *shader;

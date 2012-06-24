@@ -105,6 +105,7 @@ private:
 	void FindPatterns(PatternContainer &output); //find pattern texture files from the model directory
 	void FindTags(const aiNode *node, TagList &output); //locate tags from assimp structure
 	Node *m_root; //XXX temporary junk
+	NModel *m_model;
 };
 
 }

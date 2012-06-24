@@ -83,6 +83,7 @@ public:
 	const PatternContainer &GetPatterns() const { return m_patterns; }
 	void SetPattern(unsigned int index);
 	void SetColors(Graphics::Renderer *r, const std::vector<Color4ub> &colors); //renderer needed for texture creation
+	void SetDecalTexture(Graphics::Texture *t, unsigned int index = 0);
 
 	void UpdateAnimations(double time); //change this to timestep or something
 	int PlayAnimation(const std::string &name, Animation::Direction = Animation::FORWARD); //immediately play an animation (forward), if found, returns count of animations triggered

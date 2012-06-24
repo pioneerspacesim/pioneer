@@ -22,9 +22,9 @@ public:
 private:
 	ScopedPtr<Graphics::Material> m_tMat;
 	ScopedPtr<Graphics::VertexArray> m_tVerts;
+	bool linearOnly;
 	vector3f dir;
 	vector3f pos;
-	bool linearOnly;
 };
 
 }

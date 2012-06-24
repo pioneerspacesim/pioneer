@@ -169,6 +169,9 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 		static_cast<TextureGL*>(mat->texture0)->Bind();
 		s->SetUniform("texture0", 0);
 	}
+	if (mat->blend) {
+		SetBlendMode(BLEND_ALPHA);
+	}
 }
 
 void RendererGL2::UnApplyMaterial(const Material *mat)

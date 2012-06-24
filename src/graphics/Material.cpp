@@ -13,6 +13,7 @@ Material::Material() :
 	unlit(false),
 	twoSided(false),
 	vertexColors(false),
+	blend(false),
 	shader(0),
 	newStyleHack(false)
 {

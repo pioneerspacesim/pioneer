@@ -20,7 +20,8 @@
 namespace Newmodel {
 
 Loader::Loader(Graphics::Renderer *r) :
-	m_renderer(r)
+	m_renderer(r),
+	m_model(0)
 {
 }
 
@@ -245,6 +246,8 @@ void Loader::FindPatterns(PatternContainer &output)
 
 Node *Loader::LoadMesh(const std::string &filename, NModel *model, const AnimList &animDefs, TagList &modelTags)
 {
+	m_model = model;
+
 	Assimp::Importer importer;
 	//assimp needs the data dir too...
 	//XXX check user dir first
@@ -361,10 +364,7 @@ void Loader::ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*> &surfaces
 		if(AI_SUCCESS == amat->Get(AI_MATKEY_NAME,s)) {
 			//std::cout << "Looking for " << std::string(s.data,s.length) << std::endl;
 			const std::string aiMatName = std::string(s.data, s.length);
-			if (starts_with(aiMatName, "decal_")) //support one decal...
-				mat = model->GetDecalMaterial(0);
-			else
-				mat = model->GetMaterialByName(aiMatName);
+			mat = model->GetMaterialByName(aiMatName);
 		}
 
 		if (!mat.Valid()) {
@@ -572,9 +572,14 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 		//does this node have children? Add a group
 		StaticGeometry *geom = new StaticGeometry();
 		Graphics::StaticMesh *smesh = geom->GetMesh();
+		bool decal = starts_with(nodename, "decal_");
+		if (decal)
+			geom->SetNodeMask(NODE_TRANSPARENT);
 
 		for(unsigned int i=0; i<node->mNumMeshes; i++) {
 			Graphics::Surface *surf = surfaces[node->mMeshes[i]];
+			if (decal) //XXX support one decal...
+				surf->SetMaterial(m_model->GetDecalMaterial(0));
 			//update bounding box
 			Graphics::VertexArray *vts = surf->GetVertices();
 			for (unsigned int j=0; j<vts->position.size(); j++) {
