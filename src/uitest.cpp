@@ -382,6 +382,7 @@ int main(int argc, char **argv)
 	c->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), c.Get()));
 #endif
 
+#if 0
 	c->SetInnerWidget(
 		c->Grid(3,3)
 			->SetRow(0, UI::WidgetSet(
@@ -398,6 +399,15 @@ int main(int argc, char **argv)
 				c->ColorBackground(Color(0.2f,0.8f,0.5f))->SetInnerWidget(c->Align(UI::Align::BOTTOM_RIGHT)->SetInnerWidget(c->Image("icons/object_star_m.png")))
 			))
 	);
+#endif
+
+    c->SetInnerWidget(
+        c->VBox()->PackEnd(
+            c->Grid(2,2)
+                ->SetRow(0, UI::WidgetSet(c->Label("one"), c->Label("two")))
+                ->SetRow(1, UI::WidgetSet(c->Label("three"), c->Label("four")))
+        )->PackEnd(c->ColorBackground(Color(0.8f,0.2f,0.2f)), UI::Box::BOX_EXPAND)
+    );
 
     int count = 0;
 
